@@ -501,6 +501,60 @@
 		52875E081E66DE8000BA28A4 /* JsonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563581B197CF90039F2BC /* JsonUtils.cpp */; };
 		52875E091E66DE8000BA28A4 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785635C1B197CF90039F2BC /* jsoncpp.cpp */; };
 		52875E0A1E66DF9400BA28A4 /* glew.c in Sources */ = {isa = PBXBuildFile; fileRef = 52875DFE1E66D68C00BA28A4 /* glew.c */; };
+		52A288AA1E9260B300093EBE /* GL2Debug.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A288841E9260B300093EBE /* GL2Debug.h */; };
+		52A288AB1E9260B300093EBE /* GL2FresnelColourMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288851E9260B300093EBE /* GL2FresnelColourMaterial.cpp */; };
+		52A288AC1E9260B300093EBE /* GL2FresnelColourMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A288861E9260B300093EBE /* GL2FresnelColourMaterial.h */; };
+		52A288AD1E9260B300093EBE /* GL2GasGiantMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288871E9260B300093EBE /* GL2GasGiantMaterial.cpp */; };
+		52A288AE1E9260B300093EBE /* GL2GasGiantMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A288881E9260B300093EBE /* GL2GasGiantMaterial.h */; };
+		52A288AF1E9260B300093EBE /* GL2GeoSphereMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288891E9260B300093EBE /* GL2GeoSphereMaterial.cpp */; };
+		52A288B01E9260B300093EBE /* GL2GeoSphereMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A2888A1E9260B300093EBE /* GL2GeoSphereMaterial.h */; };
+		52A288B11E9260B300093EBE /* GL2Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A2888B1E9260B300093EBE /* GL2Material.cpp */; };
+		52A288B21E9260B300093EBE /* GL2Material.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A2888C1E9260B300093EBE /* GL2Material.h */; };
+		52A288B31E9260B300093EBE /* GL2MultiMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A2888D1E9260B300093EBE /* GL2MultiMaterial.cpp */; };
+		52A288B41E9260B300093EBE /* GL2MultiMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A2888E1E9260B300093EBE /* GL2MultiMaterial.h */; };
+		52A288B51E9260B300093EBE /* GL2Program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A2888F1E9260B300093EBE /* GL2Program.cpp */; };
+		52A288B61E9260B300093EBE /* GL2Program.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A288901E9260B300093EBE /* GL2Program.h */; };
+		52A288B71E9260B300093EBE /* GL2Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288911E9260B300093EBE /* GL2Renderer.cpp */; };
+		52A288B81E9260B300093EBE /* GL2Renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A288921E9260B300093EBE /* GL2Renderer.h */; };
+		52A288B91E9260B300093EBE /* GL2RenderState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288931E9260B300093EBE /* GL2RenderState.cpp */; };
+		52A288BA1E9260B300093EBE /* GL2RenderState.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A288941E9260B300093EBE /* GL2RenderState.h */; };
+		52A288BB1E9260B300093EBE /* GL2RenderTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288951E9260B300093EBE /* GL2RenderTarget.cpp */; };
+		52A288BC1E9260B300093EBE /* GL2RenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A288961E9260B300093EBE /* GL2RenderTarget.h */; };
+		52A288BD1E9260B300093EBE /* GL2RingMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288971E9260B300093EBE /* GL2RingMaterial.cpp */; };
+		52A288BE1E9260B300093EBE /* GL2RingMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A288981E9260B300093EBE /* GL2RingMaterial.h */; };
+		52A288BF1E9260B300093EBE /* GL2ShieldMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288991E9260B300093EBE /* GL2ShieldMaterial.cpp */; };
+		52A288C01E9260B300093EBE /* GL2ShieldMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A2889A1E9260B300093EBE /* GL2ShieldMaterial.h */; };
+		52A288C11E9260B300093EBE /* GL2SkyboxMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A2889B1E9260B300093EBE /* GL2SkyboxMaterial.h */; };
+		52A288C21E9260B300093EBE /* GL2SphereImpostorMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A2889C1E9260B300093EBE /* GL2SphereImpostorMaterial.h */; };
+		52A288C31E9260B300093EBE /* GL2StarfieldMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A2889D1E9260B300093EBE /* GL2StarfieldMaterial.h */; };
+		52A288C41E9260B300093EBE /* GL2Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A2889E1E9260B300093EBE /* GL2Texture.cpp */; };
+		52A288C51E9260B300093EBE /* GL2Texture.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A2889F1E9260B300093EBE /* GL2Texture.h */; };
+		52A288C61E9260B300093EBE /* GL2UIMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288A01E9260B300093EBE /* GL2UIMaterial.cpp */; };
+		52A288C71E9260B300093EBE /* GL2UIMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A288A11E9260B300093EBE /* GL2UIMaterial.h */; };
+		52A288C81E9260B300093EBE /* GL2Uniform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288A21E9260B300093EBE /* GL2Uniform.cpp */; };
+		52A288C91E9260B300093EBE /* GL2Uniform.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A288A31E9260B300093EBE /* GL2Uniform.h */; };
+		52A288CA1E9260B300093EBE /* GL2VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288A41E9260B300093EBE /* GL2VertexBuffer.cpp */; };
+		52A288CB1E9260B300093EBE /* GL2VertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A288A51E9260B300093EBE /* GL2VertexBuffer.h */; };
+		52A288CC1E9260B300093EBE /* GL2VtxColorMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288A61E9260B300093EBE /* GL2VtxColorMaterial.cpp */; };
+		52A288CD1E9260B300093EBE /* GL2VtxColorMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A288A71E9260B300093EBE /* GL2VtxColorMaterial.h */; };
+		52A288CE1E9260B300093EBE /* OpenGLLibs.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A288A91E9260B300093EBE /* OpenGLLibs.h */; };
+		52A288CF1E92615800093EBE /* GL2FresnelColourMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288851E9260B300093EBE /* GL2FresnelColourMaterial.cpp */; };
+		52A288D01E92615800093EBE /* GL2GasGiantMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288871E9260B300093EBE /* GL2GasGiantMaterial.cpp */; };
+		52A288D11E92615800093EBE /* GL2GeoSphereMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288891E9260B300093EBE /* GL2GeoSphereMaterial.cpp */; };
+		52A288D21E92615800093EBE /* GL2Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A2888B1E9260B300093EBE /* GL2Material.cpp */; };
+		52A288D31E92615800093EBE /* GL2MultiMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A2888D1E9260B300093EBE /* GL2MultiMaterial.cpp */; };
+		52A288D41E92615800093EBE /* GL2Program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A2888F1E9260B300093EBE /* GL2Program.cpp */; };
+		52A288D51E92615800093EBE /* GL2Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288911E9260B300093EBE /* GL2Renderer.cpp */; };
+		52A288D61E92615800093EBE /* GL2RenderState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288931E9260B300093EBE /* GL2RenderState.cpp */; };
+		52A288D71E92615800093EBE /* GL2RenderTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288951E9260B300093EBE /* GL2RenderTarget.cpp */; };
+		52A288D81E92615800093EBE /* GL2RingMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288971E9260B300093EBE /* GL2RingMaterial.cpp */; };
+		52A288D91E92615800093EBE /* GL2ShieldMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288991E9260B300093EBE /* GL2ShieldMaterial.cpp */; };
+		52A288DA1E92615800093EBE /* GL2Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A2889E1E9260B300093EBE /* GL2Texture.cpp */; };
+		52A288DB1E92615800093EBE /* GL2UIMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288A01E9260B300093EBE /* GL2UIMaterial.cpp */; };
+		52A288DC1E92615800093EBE /* GL2Uniform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288A21E9260B300093EBE /* GL2Uniform.cpp */; };
+		52A288DD1E92615800093EBE /* GL2VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288A41E9260B300093EBE /* GL2VertexBuffer.cpp */; };
+		52A288DE1E92615800093EBE /* GL2VtxColorMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52A288A61E9260B300093EBE /* GL2VtxColorMaterial.cpp */; };
+		52A288DF1E92653200093EBE /* imgui_impl_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F1C3771E52263D00302D5A /* imgui_impl_sdl.cpp */; };
 		52B054A11C184CAE00BAAE57 /* LuaOverlayStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B0549E1C184CAE00BAAE57 /* LuaOverlayStack.cpp */; };
 		52B054A21C184CAE00BAAE57 /* OverlayStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B0549F1C184CAE00BAAE57 /* OverlayStack.cpp */; };
 		52B054A81C184D0800BAAE57 /* GalaxyMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B054A31C184D0800BAAE57 /* GalaxyMap.cpp */; };
@@ -1481,6 +1535,44 @@
 		52875E001E66D68C00BA28A4 /* glxew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glxew.h; sourceTree = "<group>"; };
 		52875E011E66D68C00BA28A4 /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
 		52875E021E66D68C00BA28A4 /* wglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wglew.h; sourceTree = "<group>"; };
+		52A288841E9260B300093EBE /* GL2Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2Debug.h; sourceTree = "<group>"; };
+		52A288851E9260B300093EBE /* GL2FresnelColourMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2FresnelColourMaterial.cpp; sourceTree = "<group>"; };
+		52A288861E9260B300093EBE /* GL2FresnelColourMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2FresnelColourMaterial.h; sourceTree = "<group>"; };
+		52A288871E9260B300093EBE /* GL2GasGiantMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2GasGiantMaterial.cpp; sourceTree = "<group>"; };
+		52A288881E9260B300093EBE /* GL2GasGiantMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2GasGiantMaterial.h; sourceTree = "<group>"; };
+		52A288891E9260B300093EBE /* GL2GeoSphereMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2GeoSphereMaterial.cpp; sourceTree = "<group>"; };
+		52A2888A1E9260B300093EBE /* GL2GeoSphereMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2GeoSphereMaterial.h; sourceTree = "<group>"; };
+		52A2888B1E9260B300093EBE /* GL2Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2Material.cpp; sourceTree = "<group>"; };
+		52A2888C1E9260B300093EBE /* GL2Material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2Material.h; sourceTree = "<group>"; };
+		52A2888D1E9260B300093EBE /* GL2MultiMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2MultiMaterial.cpp; sourceTree = "<group>"; };
+		52A2888E1E9260B300093EBE /* GL2MultiMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2MultiMaterial.h; sourceTree = "<group>"; };
+		52A2888F1E9260B300093EBE /* GL2Program.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2Program.cpp; sourceTree = "<group>"; };
+		52A288901E9260B300093EBE /* GL2Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2Program.h; sourceTree = "<group>"; };
+		52A288911E9260B300093EBE /* GL2Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2Renderer.cpp; sourceTree = "<group>"; };
+		52A288921E9260B300093EBE /* GL2Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2Renderer.h; sourceTree = "<group>"; };
+		52A288931E9260B300093EBE /* GL2RenderState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2RenderState.cpp; sourceTree = "<group>"; };
+		52A288941E9260B300093EBE /* GL2RenderState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2RenderState.h; sourceTree = "<group>"; };
+		52A288951E9260B300093EBE /* GL2RenderTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2RenderTarget.cpp; sourceTree = "<group>"; };
+		52A288961E9260B300093EBE /* GL2RenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2RenderTarget.h; sourceTree = "<group>"; };
+		52A288971E9260B300093EBE /* GL2RingMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2RingMaterial.cpp; sourceTree = "<group>"; };
+		52A288981E9260B300093EBE /* GL2RingMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2RingMaterial.h; sourceTree = "<group>"; };
+		52A288991E9260B300093EBE /* GL2ShieldMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2ShieldMaterial.cpp; sourceTree = "<group>"; };
+		52A2889A1E9260B300093EBE /* GL2ShieldMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2ShieldMaterial.h; sourceTree = "<group>"; };
+		52A2889B1E9260B300093EBE /* GL2SkyboxMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2SkyboxMaterial.h; sourceTree = "<group>"; };
+		52A2889C1E9260B300093EBE /* GL2SphereImpostorMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2SphereImpostorMaterial.h; sourceTree = "<group>"; };
+		52A2889D1E9260B300093EBE /* GL2StarfieldMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2StarfieldMaterial.h; sourceTree = "<group>"; };
+		52A2889E1E9260B300093EBE /* GL2Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2Texture.cpp; sourceTree = "<group>"; };
+		52A2889F1E9260B300093EBE /* GL2Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2Texture.h; sourceTree = "<group>"; };
+		52A288A01E9260B300093EBE /* GL2UIMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2UIMaterial.cpp; sourceTree = "<group>"; };
+		52A288A11E9260B300093EBE /* GL2UIMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2UIMaterial.h; sourceTree = "<group>"; };
+		52A288A21E9260B300093EBE /* GL2Uniform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2Uniform.cpp; sourceTree = "<group>"; };
+		52A288A31E9260B300093EBE /* GL2Uniform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2Uniform.h; sourceTree = "<group>"; };
+		52A288A41E9260B300093EBE /* GL2VertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2VertexBuffer.cpp; sourceTree = "<group>"; };
+		52A288A51E9260B300093EBE /* GL2VertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2VertexBuffer.h; sourceTree = "<group>"; };
+		52A288A61E9260B300093EBE /* GL2VtxColorMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2VtxColorMaterial.cpp; sourceTree = "<group>"; };
+		52A288A71E9260B300093EBE /* GL2VtxColorMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2VtxColorMaterial.h; sourceTree = "<group>"; };
+		52A288A81E9260B300093EBE /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		52A288A91E9260B300093EBE /* OpenGLLibs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLLibs.h; sourceTree = "<group>"; };
 		52B0549E1C184CAE00BAAE57 /* LuaOverlayStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaOverlayStack.cpp; sourceTree = "<group>"; };
 		52B0549F1C184CAE00BAAE57 /* OverlayStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OverlayStack.cpp; sourceTree = "<group>"; };
 		52B054A01C184CAE00BAAE57 /* OverlayStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverlayStack.h; sourceTree = "<group>"; };
@@ -2015,6 +2107,7 @@
 		4A4F25B814F524D400FD14A6 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				52A288831E9260B300093EBE /* gl2 */,
 				378563D51B197E600039F2BC /* dummy */,
 				378563DE1B197E600039F2BC /* opengl */,
 				378564081B197E600039F2BC /* RenderState.h */,
@@ -2721,6 +2814,51 @@
 			path = glew;
 			sourceTree = "<group>";
 		};
+		52A288831E9260B300093EBE /* gl2 */ = {
+			isa = PBXGroup;
+			children = (
+				52A288841E9260B300093EBE /* GL2Debug.h */,
+				52A288851E9260B300093EBE /* GL2FresnelColourMaterial.cpp */,
+				52A288861E9260B300093EBE /* GL2FresnelColourMaterial.h */,
+				52A288871E9260B300093EBE /* GL2GasGiantMaterial.cpp */,
+				52A288881E9260B300093EBE /* GL2GasGiantMaterial.h */,
+				52A288891E9260B300093EBE /* GL2GeoSphereMaterial.cpp */,
+				52A2888A1E9260B300093EBE /* GL2GeoSphereMaterial.h */,
+				52A2888B1E9260B300093EBE /* GL2Material.cpp */,
+				52A2888C1E9260B300093EBE /* GL2Material.h */,
+				52A2888D1E9260B300093EBE /* GL2MultiMaterial.cpp */,
+				52A2888E1E9260B300093EBE /* GL2MultiMaterial.h */,
+				52A2888F1E9260B300093EBE /* GL2Program.cpp */,
+				52A288901E9260B300093EBE /* GL2Program.h */,
+				52A288911E9260B300093EBE /* GL2Renderer.cpp */,
+				52A288921E9260B300093EBE /* GL2Renderer.h */,
+				52A288931E9260B300093EBE /* GL2RenderState.cpp */,
+				52A288941E9260B300093EBE /* GL2RenderState.h */,
+				52A288951E9260B300093EBE /* GL2RenderTarget.cpp */,
+				52A288961E9260B300093EBE /* GL2RenderTarget.h */,
+				52A288971E9260B300093EBE /* GL2RingMaterial.cpp */,
+				52A288981E9260B300093EBE /* GL2RingMaterial.h */,
+				52A288991E9260B300093EBE /* GL2ShieldMaterial.cpp */,
+				52A2889A1E9260B300093EBE /* GL2ShieldMaterial.h */,
+				52A2889B1E9260B300093EBE /* GL2SkyboxMaterial.h */,
+				52A2889C1E9260B300093EBE /* GL2SphereImpostorMaterial.h */,
+				52A2889D1E9260B300093EBE /* GL2StarfieldMaterial.h */,
+				52A2889E1E9260B300093EBE /* GL2Texture.cpp */,
+				52A2889F1E9260B300093EBE /* GL2Texture.h */,
+				52A288A01E9260B300093EBE /* GL2UIMaterial.cpp */,
+				52A288A11E9260B300093EBE /* GL2UIMaterial.h */,
+				52A288A21E9260B300093EBE /* GL2Uniform.cpp */,
+				52A288A31E9260B300093EBE /* GL2Uniform.h */,
+				52A288A41E9260B300093EBE /* GL2VertexBuffer.cpp */,
+				52A288A51E9260B300093EBE /* GL2VertexBuffer.h */,
+				52A288A61E9260B300093EBE /* GL2VtxColorMaterial.cpp */,
+				52A288A71E9260B300093EBE /* GL2VtxColorMaterial.h */,
+				52A288A81E9260B300093EBE /* Makefile.am */,
+				52A288A91E9260B300093EBE /* OpenGLLibs.h */,
+			);
+			path = gl2;
+			sourceTree = "<group>";
+		};
 		52F1C3711E52263D00302D5A /* imgui */ = {
 			isa = PBXGroup;
 			children = (
@@ -2818,6 +2956,27 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52A288AE1E9260B300093EBE /* GL2GasGiantMaterial.h in Headers */,
+				52A288CE1E9260B300093EBE /* OpenGLLibs.h in Headers */,
+				52A288C11E9260B300093EBE /* GL2SkyboxMaterial.h in Headers */,
+				52A288BC1E9260B300093EBE /* GL2RenderTarget.h in Headers */,
+				52A288B41E9260B300093EBE /* GL2MultiMaterial.h in Headers */,
+				52A288CD1E9260B300093EBE /* GL2VtxColorMaterial.h in Headers */,
+				52A288C71E9260B300093EBE /* GL2UIMaterial.h in Headers */,
+				52A288C31E9260B300093EBE /* GL2StarfieldMaterial.h in Headers */,
+				52A288B61E9260B300093EBE /* GL2Program.h in Headers */,
+				52A288AA1E9260B300093EBE /* GL2Debug.h in Headers */,
+				52A288CB1E9260B300093EBE /* GL2VertexBuffer.h in Headers */,
+				52A288B21E9260B300093EBE /* GL2Material.h in Headers */,
+				52A288C51E9260B300093EBE /* GL2Texture.h in Headers */,
+				52A288C21E9260B300093EBE /* GL2SphereImpostorMaterial.h in Headers */,
+				52A288B01E9260B300093EBE /* GL2GeoSphereMaterial.h in Headers */,
+				52A288AC1E9260B300093EBE /* GL2FresnelColourMaterial.h in Headers */,
+				52A288B81E9260B300093EBE /* GL2Renderer.h in Headers */,
+				52A288BA1E9260B300093EBE /* GL2RenderState.h in Headers */,
+				52A288C01E9260B300093EBE /* GL2ShieldMaterial.h in Headers */,
+				52A288BE1E9260B300093EBE /* GL2RingMaterial.h in Headers */,
+				52A288C91E9260B300093EBE /* GL2Uniform.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3178,6 +3337,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52A288DF1E92653200093EBE /* imgui_impl_sdl.cpp in Sources */,
+				52A288CF1E92615800093EBE /* GL2FresnelColourMaterial.cpp in Sources */,
+				52A288D01E92615800093EBE /* GL2GasGiantMaterial.cpp in Sources */,
+				52A288D11E92615800093EBE /* GL2GeoSphereMaterial.cpp in Sources */,
+				52A288D21E92615800093EBE /* GL2Material.cpp in Sources */,
+				52A288D31E92615800093EBE /* GL2MultiMaterial.cpp in Sources */,
+				52A288D41E92615800093EBE /* GL2Program.cpp in Sources */,
+				52A288D51E92615800093EBE /* GL2Renderer.cpp in Sources */,
+				52A288D61E92615800093EBE /* GL2RenderState.cpp in Sources */,
+				52A288D71E92615800093EBE /* GL2RenderTarget.cpp in Sources */,
+				52A288D81E92615800093EBE /* GL2RingMaterial.cpp in Sources */,
+				52A288D91E92615800093EBE /* GL2ShieldMaterial.cpp in Sources */,
+				52A288DA1E92615800093EBE /* GL2Texture.cpp in Sources */,
+				52A288DB1E92615800093EBE /* GL2UIMaterial.cpp in Sources */,
+				52A288DC1E92615800093EBE /* GL2Uniform.cpp in Sources */,
+				52A288DD1E92615800093EBE /* GL2VertexBuffer.cpp in Sources */,
+				52A288DE1E92615800093EBE /* GL2VtxColorMaterial.cpp in Sources */,
 				52875E0A1E66DF9400BA28A4 /* glew.c in Sources */,
 				52F08A7F1E5744FE00D4AAE6 /* GenGasGiantColourMaterial.cpp in Sources */,
 				5206392B1E561CF800818943 /* imgui_impl_sdl_gl3.cpp in Sources */,
@@ -3674,7 +3850,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52A288AB1E9260B300093EBE /* GL2FresnelColourMaterial.cpp in Sources */,
+				52A288CA1E9260B300093EBE /* GL2VertexBuffer.cpp in Sources */,
+				52A288AD1E9260B300093EBE /* GL2GasGiantMaterial.cpp in Sources */,
 				52F404301C9495320082B1F3 /* Profiler.cpp in Sources */,
+				52A288CC1E9260B300093EBE /* GL2VtxColorMaterial.cpp in Sources */,
+				52A288BD1E9260B300093EBE /* GL2RingMaterial.cpp in Sources */,
+				52A288AF1E9260B300093EBE /* GL2GeoSphereMaterial.cpp in Sources */,
+				52A288BB1E9260B300093EBE /* GL2RenderTarget.cpp in Sources */,
+				52A288B71E9260B300093EBE /* GL2Renderer.cpp in Sources */,
+				52A288BF1E9260B300093EBE /* GL2ShieldMaterial.cpp in Sources */,
+				52A288B51E9260B300093EBE /* GL2Program.cpp in Sources */,
+				52A288B31E9260B300093EBE /* GL2MultiMaterial.cpp in Sources */,
+				52A288C61E9260B300093EBE /* GL2UIMaterial.cpp in Sources */,
+				52A288B91E9260B300093EBE /* GL2RenderState.cpp in Sources */,
+				52A288C81E9260B300093EBE /* GL2Uniform.cpp in Sources */,
+				52A288B11E9260B300093EBE /* GL2Material.cpp in Sources */,
+				52A288C41E9260B300093EBE /* GL2Texture.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3909,7 +4101,10 @@
 					"$(PROJECT_DIR)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				OTHER_LDFLAGS = "-headerpad_max_install_names";
+				OTHER_LDFLAGS = (
+					"-headerpad_max_install_names",
+					"-v",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "net.pioneerspacesim.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
@@ -3968,7 +4163,10 @@
 				);
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				OTHER_LDFLAGS = "-headerpad_max_install_names";
+				OTHER_LDFLAGS = (
+					"-headerpad_max_install_names",
+					"-v",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "net.pioneerspacesim.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
