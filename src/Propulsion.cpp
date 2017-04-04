@@ -2,16 +2,15 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Propulsion.h"
-#include "Pi.h"
-#include "Game.h"
 #include "Object.h" // <- here only for comment in AIFaceDirection (line 320)
 #include "KeyBindings.h" // <- same here
+#include "scenegraph/FindNodeVisitor.h"
 
 void Propulsion::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	//Json::Value PropulsionObj(Json::objectValue); // Create JSON object to contain propulsion data.
-	VectorToJson(jsonObj, m_angThrusters, "ang_thrusters");
-	VectorToJson(jsonObj, m_thrusters, "thrusters");
+	VectorToJson(jsonObj, m_angLevels, "ang_thrusters");
+	VectorToJson(jsonObj, m_linLevels, "thrusters");
 	jsonObj["thruster_fuel"] = DoubleToStr( m_thrusterFuel );
 	jsonObj["reserve_fuel"] = DoubleToStr( m_reserveFuel );
 	// !!! These are commented to avoid savegame bumps:
@@ -46,47 +45,133 @@ Propulsion::Propulsion()
 	m_fuelTankMass = 1;
 	for ( int i=0; i< Thruster::THRUSTER_MAX; i++) m_linThrust[i]=0.0;
 	m_angThrust = 0.0;
-	m_effectiveExhaustVelocity = 100000.0;
+	m_effectiveExhaustVelocity = 1000.0; // This should have an impact on game...
 	m_thrusterFuel= 0.0;	// remaining fuel 0.0-1.0
 	m_reserveFuel= 0.0;
 	m_FuelStateChange = false;
-	m_thrusters = vector3d(0,0,0);
-	m_angThrusters = vector3d(0,0,0);
+	m_linLevels = vector3d(0,0,0);
+	m_angLevels = vector3d(0,0,0);
 	m_smodel = nullptr;
 	m_dBody = nullptr;
+	m_nacellesTotalThrust = 0;
+	m_maxMassFlow = 0;
+	m_nacRest = vector3f(0.0,1.0,0.0);
 }
 
 void Propulsion::Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass, const double effExVel, const float lin_Thrust[], const float ang_Thrust )
 {
-		m_fuelTankMass = tank_mass;
-		m_effectiveExhaustVelocity = effExVel;
-		for (int i=0; i<Thruster::THRUSTER_MAX; i++ ) m_linThrust[i] = lin_Thrust[i];
-		m_angThrust = ang_Thrust;
-		m_smodel = m;
-		m_dBody = b;
-		b->AddFeature( DynamicBody::PROPULSION );
+	m_fuelTankMass = tank_mass;
+	m_effectiveExhaustVelocity = effExVel;
+	for (int i=0; i<Thruster::THRUSTER_MAX; i++ ) m_linThrust[i] = lin_Thrust[i];
+	m_angThrust = ang_Thrust;
+	m_smodel = m;
+	for (unsigned int i=0; i<m->GetRoot()->GetNumChildren(); i++) {
+		// Find thruster group...
+		SceneGraph::Node* n = m->GetRoot()->GetChildAt(i);
+		if (n->GetName().find("thrusters")!=std::string::npos) {
+			// Found
+			SceneGraph::Group* g = dynamic_cast<SceneGraph::Group*>(m->GetRoot()->GetChildAt(i));
+			m_gThrusters = static_cast<SceneGraph::Group*>(g->Clone());
+			assert(m_gThrusters);
+			m->GetRoot()->RemoveChildAt(i);
+			break;
+		};
+	}
+	RecalculateMaxMassFlow();
+	m_dBody = b;
+	b->AddFeature( DynamicBody::PROPULSION );
+}
+
+void Propulsion::AddNacelles(const vecThrustersMap_t& vThrusters)
+{
+	assert(m_smodel!=nullptr);
+	m_vectThVector.reserve(vThrusters.size());
+	m_nacellesTotalThrust = 0;
+	for (vecThrustersMap_t::const_iterator it=vThrusters.begin(); it!=vThrusters.end(); ++it) {
+		vectThruster_t vectTh;
+		const VectThruster_t* vThruster = &(it->second);
+		// Search geometry for vectorial thruster in model tree
+		SceneGraph::FindNodeVisitor thFinder(SceneGraph::FindNodeVisitor::MATCH_NAME_FULL, vThruster->model_tag);
+		m_smodel->GetRoot()->Accept(thFinder);
+		const std::vector<SceneGraph::Node*> &results = thFinder.GetResults();
+		if (results.size()==0) {
+			Output("Strange: cannot find \"%s\" geometry in model \"%s\"...\n", vThruster->model_tag.c_str(), m_smodel->GetName().c_str());
+			throw;
+		} else {
+			vectTh.mtNacelle = static_cast<SceneGraph::MatrixTransform*>(results[0]);
+		}
+		// Search (local) thrusters looking for the correct one:
+		for (unsigned int i=0; i<m_gThrusters->GetNumChildren(); i++) {
+			SceneGraph::MatrixTransform* g = static_cast<SceneGraph::MatrixTransform*>(m_gThrusters->GetChildAt(i));
+			SceneGraph::Node* node = g->GetChildAt(0);
+			if (node->GetName().find(vThruster->thruster_tag)!=std::string::npos) {
+				vector3f nacelle_pos = vectTh.mtNacelle->GetTransform().GetTranslate();
+				// Detach matrix of thruster from thrusters and attach it to a list for vectorial thrusters
+				SceneGraph::Thruster* new_th = new SceneGraph::Thruster(m_smodel->GetRenderer(), true, vector3f(0.0), vector3f(0.0,-1.0,0.0));
+				// Scaling matrix for vectorial thruster
+				// Note: position is the difference btw nacelle and thruster position, this allow to easy
+				// placement of thruster exhausts
+				matrix4x4f new_thTrans_matrix = g->GetTransform();
+				new_thTrans_matrix.SetTranslate(g->GetTransform().GetTranslate()-nacelle_pos*matrix4x4f::RotateXMatrix(-3.14159/2));
+				SceneGraph::MatrixTransform* new_thTrans = new SceneGraph::MatrixTransform(m_smodel->GetRenderer(), new_thTrans_matrix);
+				new_thTrans->AddChild(new_th);
+				// Rotation matrix for vectorial thruster (used for rotating and placing vect thruster)
+				matrix4x4f mtrans_vthruster = matrix4x4f::Identity();
+				mtrans_vthruster.SetTranslate(nacelle_pos*matrix4x4f::RotateXMatrix(-3.14159/2));
+				SceneGraph::MatrixTransform* mt = new SceneGraph::MatrixTransform(m_smodel->GetRenderer(), mtrans_vthruster);
+				mt->AddChild(new_thTrans);
+				// Save the new vectorial thruster
+				vectTh.mtThruster = mt;
+				m_gThrusters->RemoveChildAt(i);
+				break;
+			}
+		}
+		vectTh.vThruster = vThruster;
+		// Precompute total nacelle thrust
+		m_nacellesTotalThrust += vThruster->thrust;
+		m_vectThVector.push_back(vectTh);
+	}
+	RecalculateMaxMassFlow();
 }
 
 void Propulsion::SetAngThrusterState(const vector3d &levels)
 {
 	if (m_thrusterFuel <= 0.f) {
-		m_angThrusters = vector3d(0.0);
+		m_angLevels = vector3d(0.0);
 	} else {
-		m_angThrusters.x = Clamp(levels.x, -1.0, 1.0);
-		m_angThrusters.y = Clamp(levels.y, -1.0, 1.0);
-		m_angThrusters.z = Clamp(levels.z, -1.0, 1.0);
+		m_angLevels.x = Clamp(levels.x, -1.0, 1.0);
+		m_angLevels.y = Clamp(levels.y, -1.0, 1.0);
+		m_angLevels.z = Clamp(levels.z, -1.0, 1.0);
 	}
 }
 
 void Propulsion::SetThrusterState(const vector3d &levels)
 {
 	if (m_thrusterFuel <= 0.f) {
-		m_thrusters = vector3d(0.0);
+		m_linLevels = vector3d(0.0);
 	} else {
-		m_thrusters.x = Clamp(levels.x, -1.0, 1.0);
-		m_thrusters.y = Clamp(levels.y, -1.0, 1.0);
-		m_thrusters.z = Clamp(levels.z, -1.0, 1.0);
+		m_linLevels.x = Clamp(levels.x, -1.0, 1.0);
+		m_linLevels.y = Clamp(levels.y, -1.0, 1.0);
+		m_linLevels.z = Clamp(levels.z, -1.0, 1.0);
 	}
+}
+
+double Propulsion::GetThrustFwd() const {
+	double th = -m_linThrust[THRUSTER_FORWARD] * m_power_mul;
+	th += m_nacellesTotalThrust * m_power_mul;
+	return th;
+}
+
+double Propulsion::GetThrustRev() const {
+	double th = m_linThrust[THRUSTER_REVERSE] * m_power_mul;
+	th += m_nacellesTotalThrust * m_power_mul;
+	return th;
+}
+
+double Propulsion::GetThrustUp() const {
+	double th = m_linThrust[THRUSTER_UP] * m_power_mul;
+	th += m_nacellesTotalThrust * m_power_mul;
+	return th;
 }
 
 vector3d Propulsion::GetThrustMax(const vector3d &dir) const
@@ -95,6 +180,9 @@ vector3d Propulsion::GetThrustMax(const vector3d &dir) const
 	maxThrust.x = ((dir.x > 0) ? m_linThrust[THRUSTER_RIGHT] * m_power_mul : -m_linThrust[THRUSTER_LEFT] * m_power_mul );
 	maxThrust.y = ((dir.y > 0) ? m_linThrust[THRUSTER_UP] * m_power_mul : -m_linThrust[THRUSTER_DOWN] * m_power_mul );
 	maxThrust.z = ((dir.z > 0) ? m_linThrust[THRUSTER_REVERSE] * m_power_mul : -m_linThrust[THRUSTER_FORWARD] * m_power_mul );
+	maxThrust.y += m_nacellesTotalThrust * m_power_mul;
+	maxThrust.z += m_nacellesTotalThrust * m_power_mul;
+
 	return maxThrust;
 }
 
@@ -106,20 +194,43 @@ double Propulsion::GetThrustMin() const
 	return val;
 }
 
-float Propulsion::GetFuelUseRate()
+void Propulsion::RecalculateMaxMassFlow()
 {
-	const float denominator = m_fuelTankMass * m_effectiveExhaustVelocity * 10;
-	return denominator > 0 ? -(m_linThrust[THRUSTER_FORWARD] * m_power_mul)/denominator : 1e9;
+	//const float denominator = m_fuelTankMass * m_effectiveExhaustVelocity * 10;
+	//return denominator > 0 ? -(m_linThrust[THRUSTER_FORWARD] * m_power_mul)/denominator : 1e9;
+	m_maxMassFlow = 0;
+	assert(m_effectiveExhaustVelocity>0.0);
+	m_maxMassFlow -= (m_linThrust[THRUSTER_FORWARD] * m_power_mul);
+	m_maxMassFlow += (m_linThrust[THRUSTER_UP] * m_power_mul);
+	m_maxMassFlow += (m_linThrust[THRUSTER_RIGHT] * m_power_mul);
+	m_maxMassFlow /= m_effectiveExhaustVelocity;
+	for (unsigned int i=0; i<m_vectThVector.size();i++) {
+		assert(m_vectThVector[i].vThruster->eev>0.0);
+		m_maxMassFlow += (m_vectThVector[i].vThruster->thrust * m_power_mul)/ m_vectThVector[i].vThruster->eev;
+	}
+	// Factor of 1000 because eev is m/s and fuel is t (1000Kg)
+	m_maxMassFlow/=1000.0; // [t/sec]
+}
+
+double Propulsion::GetActualMassFlow()
+{
+	double massFlow = 0;
+	massFlow += m_linLevels.x*((m_linLevels.x > 0) ? m_linThrust[THRUSTER_RIGHT] * m_power_mul : m_linThrust[THRUSTER_LEFT] * m_power_mul );
+	massFlow += m_linLevels.y*((m_linLevels.y > 0) ? m_linThrust[THRUSTER_UP] * m_power_mul : m_linThrust[THRUSTER_DOWN] * m_power_mul );
+	massFlow += m_linLevels.z*((m_linLevels.z > 0) ? m_linThrust[THRUSTER_REVERSE] * m_power_mul : m_linThrust[THRUSTER_FORWARD] * m_power_mul );
+	massFlow /= m_effectiveExhaustVelocity;
+	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
+		massFlow += (m_vectThVector[i].powLevel * m_vectThVector[i].vThruster->thrust * m_power_mul) / m_vectThVector[i].vThruster->eev;
+	}
+	// Factor of 1000 because eev is m/s and fuel is t (1000Kg)
+	return massFlow/1000.0;
 }
 
 void Propulsion::UpdateFuel(const float timeStep)
 {
-	const double fuelUseRate = GetFuelUseRate() * 0.01;
-	double totalThrust = (fabs( m_thrusters.x) + fabs(m_thrusters.y) + fabs(m_thrusters.z));
 	FuelState lastState = GetFuelState();
-	m_thrusterFuel -= timeStep * (totalThrust * fuelUseRate);
+	m_thrusterFuel -= (timeStep * GetActualMassFlow())/m_fuelTankMass;
 	FuelState currentState = GetFuelState();
-
 	if (currentState != lastState) m_FuelStateChange = true;
 	else m_FuelStateChange = false;
 }
@@ -127,21 +238,90 @@ void Propulsion::UpdateFuel(const float timeStep)
 // returns speed that can be reached using fuel minus reserve according to the Tsiolkovsky equation
 double Propulsion::GetSpeedReachedWithFuel() const
 {
+	/* TODO: Find how to use Tsiolkovsky equation
+	 * in case we have different exhaust velocity
+	 * for each thruster
+	*/
 	const double mass = m_dBody->GetMass();
 	const double fuelmass = 1000 * m_fuelTankMass * ( m_thrusterFuel - m_reserveFuel );
 	if (fuelmass < 0) return 0.0;
 	return m_effectiveExhaustVelocity * log( mass/( mass-fuelmass ));
 }
 
-void Propulsion::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Propulsion::Update( const float timeStep )
 {
-	/* TODO: allow Propulsion to know SceneGraph::Thruster and
-	 * to work directly with it (this could lead to movable
-	 * thruster and so on)... this code is :-/
-	*/
-	//angthrust negated, for some reason
-	if (m_smodel != nullptr ) m_smodel->SetThrust(vector3f( GetThrusterState() ), -vector3f( GetAngThrusterState() ));
+	// Update fuel stuffs
+	UpdateFuel(timeStep);
+	// Update nacelle pos
+	float rot, dot, rotAmount;
+
+	vector3f wantRot=m_nacRest;
+	float power = vector2f(m_linLevels.y,m_linLevels.z).Length();
+	if (power>0.001) {
+		vector3f dir(GetActualLinThrust());
+		wantRot = vector3f(dir.Normalized());
+	}
+
+	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
+		// set nacelle rotation to be as requested
+		rotAmount = m_vectThVector[i].vThruster->rot_speed*timeStep;
+		const matrix4x4f& m = m_vectThVector[i].mtNacelle->GetTransform();
+		matrix3x3f orient = m.GetOrient();
+		dot = orient.VectorZ().Dot(wantRot);
+		if (dot<-rotAmount) rot = rotAmount;
+		else if (dot>rotAmount) rot = -rotAmount;
+		// Avoid nan in asin...
+		else if (dot>0.999995) rot = 1;
+		else if (dot<-0.999995) rot = -1;
+		else rot = -asin(dot);
+		// Avoid nacelle not rotating if it's exactly opposite
+		if (orient.VectorY().Dot(wantRot)<-0.999) rot = rotAmount;
+		orient = matrix3x3f::RotateX(rot)*orient;
+		matrix4x4f new_m(orient);
+		new_m.SetTranslate(m.GetTranslate());
+		m_vectThVector[i].mtNacelle->SetTransform(new_m);
+		// Place thruster exhaust
+		matrix4x4f mth = m_vectThVector[i].mtThruster->GetTransform();
+		mth = mth*matrix4x4f::RotateXMatrix(rot);
+		m_vectThVector[i].mtThruster->SetTransform(mth);
+		// Set vectorial thrusters power level
+		if (dot<0.05&&dot>-0.05) m_vectThVector[i].powLevel = Clamp(power,0.0f,1.0f);
+		else m_vectThVector[i].powLevel = 0.0;
+		// NOTE: forces needs to be applied outside Propulsion...
+	}
 }
+
+void Propulsion::Render(const matrix4x4f &trans)
+{
+	if (m_gThrusters == nullptr ) return;
+	SceneGraph::RenderData rd;
+	rd.angthrust[0] = m_angLevels.x;
+	rd.angthrust[1] = m_angLevels.y;
+	rd.angthrust[2] = m_angLevels.z;
+	rd.linthrust[0] = m_linLevels.x;
+	rd.linthrust[1] = m_linLevels.y;
+	rd.linthrust[2] = m_linLevels.z;
+	rd.boundingRadius = m_dBody->GetAabb().GetRadius();
+	rd.nodemask = SceneGraph::NodeMask::NODE_TRANSPARENT;
+	m_gThrusters->Render(trans, &rd );
+	// Reset unused values
+	rd.angthrust[0] = 0.0;
+	rd.angthrust[1] = 0.0;
+	rd.angthrust[2] = 0.0;
+	rd.linthrust[0] = 0.0;
+	rd.linthrust[2] = 0.0;
+	for (unsigned int i=0; i< m_vectThVector.size(); i++ ) {
+		rd.linthrust[1] = m_vectThVector[i].powLevel; // <- Power level of vectorial thrusters
+		m_vectThVector[i].mtThruster->Render(trans, &rd);
+	}
+}
+
+/* NOTE: following code was in Ship-AI.cpp file,
+ * no changes were made, except those needed
+ * to make it compatible with actual Propulsion
+ * class (and yes: it's only a copy-paste,
+ * including comments :) )
+*/
 
 void Propulsion::AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness)
 {
@@ -179,13 +359,6 @@ void Propulsion::AIAccelToModelRelativeVelocity(const vector3d &v)
 	SetThrusterState(1, is_zero_exact(maxFrameAccel.y) ? 0.0 : difVel.y / maxFrameAccel.y);
 	SetThrusterState(2, is_zero_exact(maxFrameAccel.z) ? 0.0 : difVel.z / maxFrameAccel.z);	// use clamping
 }
-
-/* NOTE: following code were in Ship-AI.cpp file,
- * no changes were made, except those needed
- * to make it compatible with actual Propulsion
- * class (and yes: it's only a copy-paste,
- * including comments :) )
-*/
 
 // Because of issues when reducing timestep, must do parts of this as if 1x accel
 // final frame has too high velocity to correct if timestep is reduced

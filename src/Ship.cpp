@@ -230,6 +230,7 @@ void Ship::Init()
 
 	// Init of Propulsion:
 	Propulsion::Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
+	Propulsion::AddNacelles(m_type->vec_thrusters);
 
 	p.Set("shipName", m_shipName);
 
@@ -793,11 +794,17 @@ void Ship::TimeStepUpdate(const float timeStep)
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);
 	m_dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * (1.0 + 0.25 * m_wheelState);
-	DynamicBody::TimeStepUpdate(timeStep);
+
+	if (m_wheelState<0.5) Propulsion::SetNacelleRest(NacelleRest::NACELLE_HOR);
+	else Propulsion::SetNacelleRest(NacelleRest::NACELLE_VERT);
 
 	// fuel use decreases mass, so do this as the last thing in the frame
-	UpdateFuel( timeStep );
+	Propulsion::Update(timeStep);
 
+	DynamicBody::TimeStepUpdate(timeStep);
+
+	// Ship fuel should be updated after propulsion update
+	Ship::UpdateFuel(timeStep);
 	if ( IsFuelStateChanged() )
 		LuaEvent::Queue("onShipFuelChanged", this, EnumStrings::GetString("ShipFuelStatus", GetFuelState() ));
 
@@ -986,7 +993,6 @@ void Ship::UpdateAlertState()
 
 void Ship::UpdateFuel(const float timeStep )
 {
-	Propulsion::UpdateFuel( timeStep );
 	UpdateFuelStats();
 	Properties().Set("fuel", GetFuel()*100); // XXX to match SetFuelPercent
 
@@ -1205,8 +1211,6 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 {
 	if (IsDead()) return;
 
-	Propulsion::Render( renderer, camera, viewCoords, viewTransform );
-
 	matrix3x3f mt;
 	matrix3x3dtof(viewTransform.Inverse().GetOrient(), mt);
 	s_heatGradientParams.heatingMatrix = mt;
@@ -1218,8 +1222,10 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	GetShields()->SetEnabled(shieldsVisible);
 	GetShields()->Update(m_shieldCooldown, 0.01f*GetPercentShields());
 
-	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-	RenderModel(renderer, camera, viewCoords, viewTransform);
+	matrix4x4f trans = RenderModel(renderer, camera, viewCoords, viewTransform);
+
+	Propulsion::Render(trans);
+
 	m_navLights->Render(renderer);
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_SHIPS, 1);
 
