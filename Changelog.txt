@@ -1,6 +1,7 @@
 April 2017
    * Internal Changes
      * Updated Xcode project for Mac OSX build (#3960)
+     * Update libassimp version requirement in COMPILING.txt (#3958)
 
 March 2017
    * New Features
