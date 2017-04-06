@@ -381,6 +381,68 @@ void Model::AddTag(const std::string &name, MatrixTransform *node)
 	m_tags.push_back(node);
 }
 
+std::tuple<MatrixTransform*,MatrixTransform*> Model::LinkNacelle(const std::string model_tag, const std::string thruster_tag)
+{
+	// Used to return nacelle geometry
+	MatrixTransform* mtNacelle=nullptr;
+	// Used to return thruster of nacelle
+	MatrixTransform* thTrans=nullptr;
+	// Used to temporarly store model group of thrusters
+	Group* thGroup=nullptr;
+
+	// Search nacelle geometry
+	FindNodeVisitor naFinder(FindNodeVisitor::MATCH_NAME_FULL, model_tag);
+	m_root->Accept(naFinder);
+	const std::vector<Node*> &results = naFinder.GetResults();
+	if (results.size()!=1) {
+		Output("Strange: Number of \"%s\" geometry in model \"%s\" is not 1...\n", model_tag.c_str(), m_name.c_str());
+		throw;
+	} else {
+		// Found geometry of nacelle
+		mtNacelle = static_cast<MatrixTransform*>(results[0]);
+		assert(mtNacelle!=nullptr);
+	}
+	// Search thrusters group
+	for (unsigned int i=0; i<m_root->GetNumChildren(); i++) {
+		Node* child = m_root->GetChildAt(i);
+		if (child->GetName().find("thrusters")!=std::string::npos) {
+			thGroup = static_cast<Group*>(child);
+			break;
+		}
+	}
+	assert(thGroup!=nullptr);
+	// Search for nacelle thruster
+	for (unsigned int i=0; i<thGroup->GetNumChildren(); i++) {
+		MatrixTransform* g = static_cast<MatrixTransform*>(thGroup->GetChildAt(i));
+		Node* node = g->GetChildAt(0);
+		if (node->GetName().find(thruster_tag)!=std::string::npos) {
+			vector3f nacelle_pos = mtNacelle->GetTransform().GetTranslate();
+			/* Reuse scaling matrix for vectorial thruster
+			 * and reposition thruster to be rotated around
+			 * nacelle, also adding a MatrixTransform to be
+			 * used for rotation (eg: from Propulsion class)
+			*/
+			SceneGraph::Thruster* new_th = new Thruster(GetRenderer(), true, vector3f(0.0), vector3f(0.0,-1.0,0.0));
+			matrix4x4f new_thTrans_matrix = g->GetTransform();
+			new_thTrans_matrix.SetTranslate(g->GetTransform().GetTranslate()-nacelle_pos*matrix4x4f::RotateXMatrix(-3.14159/2));
+			MatrixTransform* new_thTrans = new MatrixTransform(GetRenderer(), new_thTrans_matrix);
+			new_thTrans->AddChild(new_th);
+			// Rotation matrix for vectorial thruster (used for rotating and placing vect thruster)
+			matrix4x4f mtrans_vthruster = matrix4x4f::Identity();
+			mtrans_vthruster.SetTranslate(nacelle_pos*matrix4x4f::RotateXMatrix(-3.14159/2));
+			MatrixTransform* mt = new SceneGraph::MatrixTransform(GetRenderer(), mtrans_vthruster);
+			mt->AddChild(new_thTrans);
+			// Remove old thruster
+			thGroup->RemoveChildAt(i);
+			// Add vectorial thruster stuff
+			thGroup->AddChild(mt);
+			thTrans = mt;
+			break;
+		}
+	}
+	return std::make_tuple(mtNacelle,thTrans);
+}
+
 void Model::SetPattern(unsigned int index)
 {
 	if (m_patterns.empty() || index > m_patterns.size() - 1) return;

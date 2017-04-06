@@ -26,6 +26,7 @@ public:
 	virtual void Accept(NodeVisitor &v) override;
 	virtual const char *GetTypeName() const override { return "Thruster"; }
 	virtual void Render(const matrix4x4f &trans, const RenderData *rd) override;
+
 	virtual void Save(NodeDatabase&) override;
 	static Thruster *Load(NodeDatabase&);
 
@@ -37,9 +38,9 @@ private:
 	RefCountedPtr<Graphics::VertexBuffer> m_tBuffer;
 	RefCountedPtr<Graphics::VertexBuffer> m_glowBuffer;
 	Graphics::RenderState *m_renderState;
-	bool linearOnly;
-	vector3f dir;
-	vector3f pos;
+	bool m_linearOnly;
+	vector3f m_dir;
+	vector3f m_pos;
 };
 
 }

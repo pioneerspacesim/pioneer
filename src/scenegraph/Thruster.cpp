@@ -19,9 +19,9 @@ static Color baseColor(178, 153, 255, 255);
 
 Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, const vector3f &_dir)
 : Node(r, NODE_TRANSPARENT)
-, linearOnly(_linear)
-, dir(_dir)
-, pos(_pos)
+, m_linearOnly(_linear)
+, m_dir(_dir)
+, m_pos(_pos)
 {
 	//set up materials
 	Graphics::MaterialDescriptor desc;
@@ -46,9 +46,9 @@ Thruster::Thruster(const Thruster &thruster, NodeCopyCache *cache)
 : Node(thruster, cache)
 , m_tMat(thruster.m_tMat)
 , m_renderState(thruster.m_renderState)
-, linearOnly(thruster.linearOnly)
-, dir(thruster.dir)
-, pos(thruster.pos)
+, m_linearOnly(thruster.m_linearOnly)
+, m_dir(thruster.m_dir)
+, m_pos(thruster.m_pos)
 {
 }
 
@@ -65,15 +65,15 @@ void Thruster::Accept(NodeVisitor &nv)
 void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 {
 	PROFILE_SCOPED()
-	float power = -dir.Dot(vector3f(rd->linthrust));
+	float power = -m_dir.Dot(vector3f(rd->linthrust));
 
-	if (!linearOnly) {
+	if (!m_linearOnly) {
 		// pitch X
 		// yaw   Y
 		// roll  Z
 		//model center is at 0,0,0, no need for invSubModelMat stuff
 		const vector3f at = vector3f(rd->angthrust);
-		const vector3f angdir = pos.Cross(dir);
+		const vector3f angdir = m_pos.Cross(m_dir);
 
 		const float xp = angdir.x * at.x;
 		const float yp = angdir.y * at.y;
@@ -90,7 +90,7 @@ void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 	m_tMat->diffuse = m_glowMat->diffuse = baseColor * power;
 
 	//directional fade
-	vector3f cdir = vector3f(trans * -dir).Normalized();
+	vector3f cdir = vector3f(trans * -m_dir).Normalized();
 	vector3f vdir = vector3f(trans[2], trans[6], -trans[10]).Normalized();
 	// XXX check this for transition to new colors.
 	m_glowMat->diffuse.a = Easing::Circ::EaseIn(Clamp(vdir.Dot(cdir), 0.f, 1.f), 0.f, 1.f, 1.f) * 255;
@@ -110,9 +110,9 @@ void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 void Thruster::Save(NodeDatabase &db)
 {
 	Node::Save(db);
-	db.wr->Bool(linearOnly);
-	db.wr->Vector3f(dir);
-	db.wr->Vector3f(pos);
+	db.wr->Bool(m_linearOnly);
+	db.wr->Vector3f(m_dir);
+	db.wr->Vector3f(m_pos);
 }
 
 Thruster *Thruster::Load(NodeDatabase &db)

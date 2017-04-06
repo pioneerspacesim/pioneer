@@ -66,12 +66,16 @@
 #include "Label3D.h"
 #include "Pattern.h"
 #include "CollMesh.h"
+#include "Thruster.h"
+#include "MatrixTransform.h"
 #include "graphics/Material.h"
 #include "graphics/Drawables.h"
 #include "Serializer.h"
 #include "DeleteEmitter.h"
 #include "json/json.h"
+#include "FindNodeVisitor.h"
 #include <stdexcept>
+#include <tuple>
 
 namespace Graphics {
 	class Renderer;
@@ -129,6 +133,9 @@ public:
 	typedef std::vector<MatrixTransform *> TVecMT;
 	void FindTagsByStartOfName(const std::string &name, TVecMT &outNameMTs) const;
 	void AddTag(const std::string &name, MatrixTransform *node);
+
+	// Search for geometry and thruster and return pointers to them
+	std::tuple<MatrixTransform*,MatrixTransform*> LinkNacelle(const std::string model_tag, const std::string thruster_tag);
 
 	const PatternContainer &GetPatterns() const { return m_patterns; }
 	unsigned int GetNumPatterns() const { return m_patterns.size(); }

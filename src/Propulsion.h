@@ -15,6 +15,7 @@
 #include "scenegraph/Thruster.h"
 #include "DynamicBody.h"
 #include <vector>
+#include <tuple>
 
 // Struct to be filled and passed to Propulsion
 struct VectThruster_t {
@@ -153,8 +154,6 @@ class Propulsion
 		double m_power_mul;
 		DynamicBody *m_dBody;
 		SceneGraph::Model *m_smodel;
-		// Detached tree of normal thrusters:
-		SceneGraph::Group *m_gThrusters;
 
 		struct vectThruster_t {
 			vectThruster_t():
@@ -163,9 +162,9 @@ class Propulsion
 				vThruster(0),
 				powLevel(0)
 			{}
-			// Pointer to the transform node of model containing the nacelles:
+			// Pointer to the transform node of model containing nacelle geometry:
 			SceneGraph::MatrixTransform* mtNacelle;
-			// Pointer to the transform node of detached tree containing vectorial thrusters:
+			// Pointer to the transform node of model containing vectorial thruster:
 			SceneGraph::MatrixTransform* mtThruster;
 			// Data coming from JSon file:
 			const VectThruster_t* vThruster;
