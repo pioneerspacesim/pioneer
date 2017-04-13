@@ -3,6 +3,9 @@ April 2017
      * Updated Xcode project for Mac OSX build (#3960)
      * Update libassimp version requirement in COMPILING.txt (#3958)
 
+   * Fixes
+     * Bugfix for issue #3967 related to PR #3948 (#3968)
+
 March 2017
    * New Features
      * Orthographic view in modelviewer (#3936)
