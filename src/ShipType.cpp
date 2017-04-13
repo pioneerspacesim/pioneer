@@ -118,7 +118,7 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	}
 	if (error==true) {
 		Output("In file \"%s.json\" global thrusters custom color must be \"r\",\"g\" and \"b\"\n", modelName.c_str());
-	} else if (parse>0&&parse<3) {
+	} else if (parse>0 && parse<3) {
 		Output("In file \"%s.json\" global thrusters custom color is malformed\n", modelName.c_str());
 	} else if (parse==3) {
 		globalThrusterColor.a = 255;
