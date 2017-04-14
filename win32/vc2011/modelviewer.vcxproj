@@ -1,0 +1,307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="PreRelease|Win32">
+      <Configuration>PreRelease</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BD7B420B-07C1-43F2-A987-F9A4915005E5}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>modelviewer</RootNamespace>
+    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\..\</OutDir>
+    <TargetName>$(ProjectName)-debug</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\..\</OutDir>
+    <TargetName>$(ProjectName)-prerelease</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\..\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
+      <StructMemberAlignment>4Bytes</StructMemberAlignment>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua.lib;miniz.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2011-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
+      <StructMemberAlignment>4Bytes</StructMemberAlignment>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua.lib;miniz.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2011-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
+      <StructMemberAlignment>4Bytes</StructMemberAlignment>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua.lib;miniz.lib;shlwapi.lib;libogg_static_vc2010_release.lib;libvorbis_static_vc2010_release.lib;libvorbisfile_static_vc2010_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2011-2_2_8.lib;libpng15_static.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\collider\BVHTree.cpp" />
+    <ClCompile Include="..\..\src\collider\CollisionSpace.cpp" />
+    <ClCompile Include="..\..\src\collider\Geom.cpp" />
+    <ClCompile Include="..\..\src\collider\GeomTree.cpp" />
+    <ClCompile Include="..\..\src\Color.cpp" />
+    <ClCompile Include="..\..\src\CRC32.cpp" />
+    <ClCompile Include="..\..\src\enum_table.cpp" />
+    <ClCompile Include="..\..\src\FileSourceZip.cpp" />
+    <ClCompile Include="..\..\src\FileSystem.cpp" />
+    <ClCompile Include="..\..\src\FileSystemPosix.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FontCache.cpp" />
+    <ClCompile Include="..\..\src\FontConfig.cpp" />
+    <ClCompile Include="..\..\src\graphics\Drawables.cpp" />
+    <ClCompile Include="..\..\src\graphics\Frustum.cpp" />
+    <ClCompile Include="..\..\src\graphics\Graphics.cpp" />
+    <ClCompile Include="..\..\src\graphics\Material.cpp" />
+    <ClCompile Include="..\..\src\graphics\Renderer.cpp" />
+    <ClCompile Include="..\..\src\graphics\RendererGL2.cpp" />
+    <ClCompile Include="..\..\src\graphics\RendererLegacy.cpp" />
+    <ClCompile Include="..\..\src\graphics\Shader.cpp" />
+    <ClCompile Include="..\..\src\graphics\StaticMesh.cpp" />
+    <ClCompile Include="..\..\src\graphics\TextureBuilder.cpp" />
+    <ClCompile Include="..\..\src\graphics\TextureGL.cpp" />
+    <ClCompile Include="..\..\src\graphics\VertexArray.cpp" />
+    <ClCompile Include="..\..\src\gui\Gui.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiBox.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiContainer.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiFixed.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiImage.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiImageButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiImageRadioButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiLabel.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiLabelSet.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiMeterBar.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiMultiStateImageButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiRadioButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiRadioGroup.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiRepeaterButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiScreen.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiTabbed.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiTextEntry.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiTextLayout.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiTexturedQuad.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiToggleButton.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiToolTip.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiVScrollBar.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiVScrollPortal.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiWidget.cpp" />
+    <ClCompile Include="..\..\src\IniConfig.cpp" />
+    <ClCompile Include="..\..\src\Lang.cpp" />
+    <ClCompile Include="..\..\src\LmrModel.cpp" />
+    <ClCompile Include="..\..\src\LuaConstants.cpp" />
+    <ClCompile Include="..\..\src\LuaModelViewer.cpp" />
+    <ClCompile Include="..\..\src\LuaUtils.cpp" />
+    <ClCompile Include="..\..\src\ModManager.cpp" />
+    <ClCompile Include="..\..\src\MyLuaMathTypes.cpp" />
+    <ClCompile Include="..\..\src\perlin.cpp" />
+    <ClCompile Include="..\..\src\SDLWrappers.cpp" />
+    <ClCompile Include="..\..\src\ShipType.cpp" />
+    <ClCompile Include="..\..\src\StringF.cpp" />
+    <ClCompile Include="..\..\src\text\Font.cpp" />
+    <ClCompile Include="..\..\src\text\TextSupport.cpp" />
+    <ClCompile Include="..\..\src\text\TextureFont.cpp" />
+    <ClCompile Include="..\..\src\text\VectorFont.cpp" />
+    <ClCompile Include="..\..\src\utils.cpp" />
+    <ClCompile Include="..\src\FileSystemWin32.cpp" />
+    <ClCompile Include="..\src\pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\ByteRange.h" />
+    <ClInclude Include="..\..\src\collider\BVHTree.h" />
+    <ClInclude Include="..\..\src\collider\collider.h" />
+    <ClInclude Include="..\..\src\collider\CollisionContact.h" />
+    <ClInclude Include="..\..\src\collider\CollisionSpace.h" />
+    <ClInclude Include="..\..\src\collider\Geom.h" />
+    <ClInclude Include="..\..\src\collider\GeomTree.h" />
+    <ClInclude Include="..\..\src\Color.h" />
+    <ClInclude Include="..\..\src\CRC32.h" />
+    <ClInclude Include="..\..\src\enum_table.h" />
+    <ClInclude Include="..\..\src\FileSourceZip.h" />
+    <ClInclude Include="..\..\src\FileSystem.h" />
+    <ClInclude Include="..\..\src\FontCache.h" />
+    <ClInclude Include="..\..\src\FontConfig.h" />
+    <ClInclude Include="..\..\src\graphics\Drawables.h" />
+    <ClInclude Include="..\..\src\graphics\Frustum.h" />
+    <ClInclude Include="..\..\src\graphics\Graphics.h" />
+    <ClInclude Include="..\..\src\graphics\Material.h" />
+    <ClInclude Include="..\..\src\graphics\Renderer.h" />
+    <ClInclude Include="..\..\src\graphics\RendererGL2.h" />
+    <ClInclude Include="..\..\src\graphics\RendererGLBuffers.h" />
+    <ClInclude Include="..\..\src\graphics\RendererLegacy.h" />
+    <ClInclude Include="..\..\src\graphics\Shader.h" />
+    <ClInclude Include="..\..\src\graphics\StaticMesh.h" />
+    <ClInclude Include="..\..\src\graphics\Surface.h" />
+    <ClInclude Include="..\..\src\graphics\Texture.h" />
+    <ClInclude Include="..\..\src\graphics\TextureBuilder.h" />
+    <ClInclude Include="..\..\src\graphics\TextureGL.h" />
+    <ClInclude Include="..\..\src\graphics\VertexArray.h" />
+    <ClInclude Include="..\..\src\gui\Gui.h" />
+    <ClInclude Include="..\..\src\gui\GuiAdjustment.h" />
+    <ClInclude Include="..\..\src\gui\GuiBox.h" />
+    <ClInclude Include="..\..\src\gui\GuiButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiContainer.h" />
+    <ClInclude Include="..\..\src\gui\GuiEvents.h" />
+    <ClInclude Include="..\..\src\gui\GuiFixed.h" />
+    <ClInclude Include="..\..\src\gui\GuiImage.h" />
+    <ClInclude Include="..\..\src\gui\GuiImageButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiImageRadioButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiISelectable.h" />
+    <ClInclude Include="..\..\src\gui\GuiLabel.h" />
+    <ClInclude Include="..\..\src\gui\GuiLabelSet.h" />
+    <ClInclude Include="..\..\src\gui\GuiMeterBar.h" />
+    <ClInclude Include="..\..\src\gui\GuiMultiStateImageButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiRadioButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiRadioGroup.h" />
+    <ClInclude Include="..\..\src\gui\GuiRepeaterButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiScreen.h" />
+    <ClInclude Include="..\..\src\gui\GuiTabbed.h" />
+    <ClInclude Include="..\..\src\gui\GuiTextEntry.h" />
+    <ClInclude Include="..\..\src\gui\GuiTextLayout.h" />
+    <ClInclude Include="..\..\src\gui\GuiTexturedQuad.h" />
+    <ClInclude Include="..\..\src\gui\GuiToggleButton.h" />
+    <ClInclude Include="..\..\src\gui\GuiToolTip.h" />
+    <ClInclude Include="..\..\src\gui\GuiVScrollBar.h" />
+    <ClInclude Include="..\..\src\gui\GuiVScrollPortal.h" />
+    <ClInclude Include="..\..\src\gui\GuiWidget.h" />
+    <ClInclude Include="..\..\src\IniConfig.h" />
+    <ClInclude Include="..\..\src\Lang.h" />
+    <ClInclude Include="..\..\src\libs.h" />
+    <ClInclude Include="..\..\src\LmrModel.h" />
+    <ClInclude Include="..\..\src\LuaConstants.h" />
+    <ClInclude Include="..\..\src\LuaUtils.h" />
+    <ClInclude Include="..\..\src\matrix4x4.h" />
+    <ClInclude Include="..\..\src\ModManager.h" />
+    <ClInclude Include="..\..\src\MyLuaMathTypes.h" />
+    <ClInclude Include="..\..\src\perlin.h" />
+    <ClInclude Include="..\..\src\SDLWrappers.h" />
+    <ClInclude Include="..\..\src\ShipType.h" />
+    <ClInclude Include="..\..\src\StringF.h" />
+    <ClInclude Include="..\..\src\StringRange.h" />
+    <ClInclude Include="..\..\src\text\Font.h" />
+    <ClInclude Include="..\..\src\text\TextSupport.h" />
+    <ClInclude Include="..\..\src\text\TextureFont.h" />
+    <ClInclude Include="..\..\src\text\VectorFont.h" />
+    <ClInclude Include="..\..\src\utils.h" />
+    <ClInclude Include="..\..\src\vector2.h" />
+    <ClInclude Include="..\..\src\vector3.h" />
+    <ClInclude Include="..\src\pch.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
