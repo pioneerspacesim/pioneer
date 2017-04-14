@@ -2,6 +2,7 @@ April 2017
    * Internal Changes
      * Updated Xcode project for Mac OSX build (#3960)
      * Update libassimp version requirement in COMPILING.txt (#3958)
+     * Update to full (correct) Creative Commons Attribution-shareAlike 3.0 (#3971)
 
    * Fixes
      * Bugfix for issue #3967 related to PR #3948 (#3968)
