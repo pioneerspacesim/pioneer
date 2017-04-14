@@ -28,6 +28,7 @@
     <ProjectGuid>{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}</ProjectGuid>
     <RootNamespace>profiler</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
