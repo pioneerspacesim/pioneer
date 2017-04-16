@@ -312,7 +312,7 @@ if test "x$cross_compiling" = "xno" ; then
 fi
 
 dnl Check for libcurl
-AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-serveragent], [Compile in our server agent, adding libcurl as a dependency]), [], [with_server_agent=no; WITH_SERVER_AGENT=no])
+AC_ARG_WITH([server-agent], AS_HELP_STRING([--with-server-agent], [Compile in our server agent, adding libcurl as a dependency]), [], [with_server_agent=no])
 if test "$with_server_agent" = yes; then
   EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DENABLE_SERVER_AGENT"
   PKG_CHECK_MODULES([CURL], [libcurl])
