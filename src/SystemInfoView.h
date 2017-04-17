@@ -32,6 +32,7 @@ private:
 		bool HasStarport() { return m_hasStarport; }
 		void SetHasStarport() { m_hasStarport = true; }
 		void SetSelectColor(const Color& color) { m_selectColor = color; }
+		bool canSelect;
 	private:
 		Graphics::Renderer *m_renderer;
 		Graphics::RenderState *m_renderState;
@@ -53,7 +54,7 @@ private:
 	void OnBodyViewed(SystemBody *b);
 	void OnBodySelected(SystemBody *b);
 	void OnClickBackground(Gui::MouseButtonEvent *e);
-	void PutBodies(SystemBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, int &onSurface, float &prevSize);
+	void PutBodies(SystemBody *body, Gui::Fixed *container, int dir, float pos[2], int canSelect, int &majorBodies, int &starports, int &onSurface, float &prevSize);
 	void UpdateIconSelections();
 
 	Game* m_game;

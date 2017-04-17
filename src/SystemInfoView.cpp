@@ -19,6 +19,10 @@
 #include "Factions.h"
 #include <functional>
 
+#define CANSELECT_ANY		2
+#define CANSELECT_STARS		3
+#define CANSELECT_NOTHING	4
+
 SystemInfoView::SystemInfoView(Game* game) : UIView(), m_game(game)
 {
 	SetTransparency(true);
@@ -279,7 +283,7 @@ void SystemInfoView::UpdateEconomyTab()
 	m_econInfoTab->ResizeRequest();
 }
 
-void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, int &onSurface, float &prevSize)
+void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir, float pos[2], int canSelect, int &majorBodies, int &starports, int &onSurface, float &prevSize)
 {
 	float size[2];
 	float myPos[2];
@@ -292,6 +296,13 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 	}
 	if (body->GetType() != SystemBody::TYPE_GRAVPOINT) {
 		BodyIcon *ib = new BodyIcon(body->GetIcon(), m_renderer);
+		// only show target box in current system and in remote systems with alternative jump targets
+		// dont confuse canSelect (function parameter) with ib->canSelect (object property)
+		if (canSelect == CANSELECT_ANY || (canSelect == CANSELECT_STARS && body->GetSuperType() == SystemBody::SUPERTYPE_STAR))
+			ib->canSelect = true;
+		else
+			ib->canSelect = false;
+		//
 		if (body->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET) {
 			for (const SystemBody* kid : body->GetChildren()) {
 				if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
@@ -322,7 +333,7 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 
 	float prevSizeForKids = size[!dir];
 	for (SystemBody* kid : body->GetChildren()) {
-		PutBodies(kid, container, dir, myPos, majorBodies, starports, onSurface, prevSizeForKids);
+		PutBodies(kid, container, dir, myPos, canSelect, majorBodies, starports, onSurface, prevSizeForKids);
 	}
 }
 
@@ -373,22 +384,53 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 	m_sbodyInfoTab->onMouseButtonEvent.connect(sigc::mem_fun(this, &SystemInfoView::OnClickBackground));
 
+	// this code looks to see if there are more than one star in system
+	int canSelect = CANSELECT_ANY;
+	RefCountedPtr<StarSystem> currentSys = m_game->GetSpace()->GetStarSystem();
+	if (currentSys && currentSys->GetPath() != m_system->GetPath())
+	{
+		if (m_system->GetNumStars() > 1)
+			canSelect = CANSELECT_STARS;
+		else
+		{
+			// check deeper, have to account for brown dwarfs not included in getnumstars
+			int hyperPoints = 0;
+			SystemBody* rootbody = m_system->GetRootBody().Get();
+			if (rootbody->GetSuperType() == SystemBody::SUPERTYPE_STAR)
+				hyperPoints++;
+			for (SystemBody* kid : rootbody->GetChildren()) {
+				if (kid->GetSuperType() == SystemBody::SUPERTYPE_STAR)
+					hyperPoints++;
+				// recurse one more level just to be sure
+				// if: rootpoint = gravpoint, kid = star, kidkid = brown dwarf
+				for (SystemBody* kidkid : kid->GetChildren()) {
+					if (kidkid->GetSuperType() == SystemBody::SUPERTYPE_STAR)
+						hyperPoints++;
+				}
+			}
+			if (hyperPoints > 1)
+				canSelect = CANSELECT_STARS;
+			else
+				canSelect = CANSELECT_NOTHING;
+		}
+	}
+
 	int majorBodies, starports, onSurface;
 	{
 		float pos[2] = { 0, 0 };
 		float psize = -1;
 		majorBodies = starports = onSurface = 0;
-		PutBodies(m_system->GetRootBody().Get(), m_econInfoTab, 1, pos, majorBodies, starports, onSurface, psize);
+		PutBodies(m_system->GetRootBody().Get(), m_econInfoTab, 1, pos, CANSELECT_NOTHING, majorBodies, starports, onSurface, psize);
 
 		majorBodies = starports = onSurface = 0;
 		pos[0] = pos[1] = 0;
 		psize = -1;
-		PutBodies(m_system->GetRootBody().Get(), m_sbodyInfoTab, 1, pos, majorBodies, starports, onSurface, psize);
+		PutBodies(m_system->GetRootBody().Get(), m_sbodyInfoTab, 1, pos, canSelect, majorBodies, starports, onSurface, psize);
 
 		majorBodies = starports = onSurface = 0;
 		pos[0] = pos[1] = 0;
 		psize = -1;
-		PutBodies(m_system->GetRootBody().Get(), demographicsTab, 1, pos, majorBodies, starports, onSurface, psize);
+		PutBodies(m_system->GetRootBody().Get(), demographicsTab, 1, pos, CANSELECT_NOTHING, majorBodies, starports, onSurface, psize);
 	}
 
 	std::string _info = stringf(
@@ -665,7 +707,7 @@ void SystemInfoView::BodyIcon::Draw()
 	if (HasStarport()) {
 		m_circle->Draw(m_renderer);
 	}
-	if (GetSelected()) {
+	if (canSelect && GetSelected()) {
 		m_selectBox.Draw(m_renderer, m_renderState, Graphics::LINE_LOOP);
 	}
 }
