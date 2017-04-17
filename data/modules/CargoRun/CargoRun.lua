@@ -22,6 +22,8 @@ local NavButton = import("ui/NavButton")
 local l = Lang.GetResource("module-cargorun")
 local l_ui_core = Lang.GetResource("ui-core")
 
+import ("libs/PublicFunctions.lua")
+
 -- Get the UI class
 local ui = Engine.ui
 
@@ -613,27 +615,14 @@ local onEnterSystem = function (player)
 				and def.hyperdriveClass > 0 and (def.roles.pirate or def.roles.mercenary) end, pairs(ShipDef)))
 			if #shipdefs == 0 then return end
 
-			local pirate
+			local ship
 
 			while pirates > 0 do
 				pirates = pirates - 1
-
+				local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
 				if Engine.rand:Number(1) <= risk then
-					local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
-					local default_drive = Equipment.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
-
-					local max_laser_size = shipdef.capacity - default_drive.capabilities.mass
-					local laserdefs = utils.build_array(utils.filter(
-						function (k,l) return l:IsValidSlot('laser_front') and l.capabilities.mass <= max_laser_size and l.l10n_key:find("PULSECANNON") end,
-						pairs(Equipment.laser)
-					))
-					local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
-
-					pirate = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
-					pirate:SetLabel(Ship.MakeRandomLabel())
-					pirate:AddEquip(default_drive)
-					pirate:AddEquip(laserdef)
-					pirate:AIKill(Game.player)
+					SpawnPirate(risk, shipdefs);
+					ship:AIKill(Game.player)
 					table.insert(pirate_ships, pirate)
 				end
 			end
