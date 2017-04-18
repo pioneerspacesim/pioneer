@@ -11,8 +11,8 @@
 #undef fastcall
 
 //#define USE_CHRONO
-#if !defined(USE_CHRONO) && (defined(__arm__) || defined(__aarch64__))
-// this isn't optional for __arm__ builds
+#if !defined(USE_CHRONO) && (defined(__arm__) || defined(__aarch64__) || defined(_M_AMD64) || defined(_WIN64) || defined(_M_X64))
+// this isn't optional for __arm__ or x64 builds
 #define USE_CHRONO
 #endif
 
@@ -133,7 +133,7 @@ namespace Profiler {
 		inline void Unpause( u64 curticks ) { started = curticks; paused = false; }
 		inline void Unpause() { Unpause( getticks() ); }
 		inline void Pause( u64 curticks ) { ticks += ( curticks - started ); paused = true; }
-		inline void Pause() { Pause( getticks() ); }		
+		inline void Pause() { Pause( getticks() ); }
 		inline void Start() { ++calls; started = getticks(); }
 		inline void Stop() { ticks += ( getticks() - started ); }
 		inline void Reset() { ticks = started = calls = 0; paused = false; }
