@@ -328,6 +328,8 @@ bool Game::UpdateTimeAccel()
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1000X);
 					} else if (dist < std::min(rad+0.1*AU, rad*1000.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10000X);
+					} else if (dist < std::min(rad+1.0*AU, rad*10000.0)) {
+						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_100000X);
 					}
 				}
 			}
@@ -343,6 +345,8 @@ bool Game::UpdateTimeAccel()
 					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_100X);
 				} else if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_10000X]) {
 					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1000X);
+				} else if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_100000X]) {
+					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10000X);
 				}
 			}
 		}
@@ -577,17 +581,19 @@ const float Game::s_timeAccelRates[] = {
 	100.0f,     // 100x
 	1000.0f,    // 1000x
 	10000.0f,   // 10000x
-	100000.0f   // hyperspace
+	100000.0f,  // 100000x
+	1000000.0f  // hyperspace
 };
 
 const float Game::s_timeInvAccelRates[] = {
-	0.0f,       // paused
-	1.0f,       // 1x
+	0.0f,      // paused
+	1.0f,      // 1x
 	0.1f,      // 10x
 	0.01f,     // 100x
 	0.001f,    // 1000x
 	0.0001f,   // 10000x
-	0.00001f   // hyperspace
+	0.00001f,  // 100000x
+	0.000001f  // hyperspace
 };
 
 void Game::SetTimeAccel(TimeAccel t)

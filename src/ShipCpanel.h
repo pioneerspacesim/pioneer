@@ -83,7 +83,7 @@ private:
 	Gui::MultiStateImageButton *m_camButton;
 	Gui::MultiStateImageButton *m_radarEquipButton;
 	Gui::RadioGroup *m_leftButtonGroup, *m_rightButtonGroup;
-	Gui::ImageRadioButton *m_timeAccelButtons[6];
+	Gui::ImageRadioButton *m_timeAccelButtons[7];
 	Gui::Widget *m_mapViewButtons[4];
 	Gui::MultiStateImageButton *m_rotationDampingButton;
 	Gui::Image *m_alertLights[3];

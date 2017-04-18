@@ -112,6 +112,13 @@ void ShipCpanel::InitObject()
 	Add(b, 110, 34);
 	m_timeAccelButtons[5] = b;
 
+	b = new Gui::ImageRadioButton(0, "icons/timeaccel6.png", "icons/timeaccel6_on.png");
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_100000X));
+	b->SetShortcut(SDLK_F5, KMOD_LSHIFT);
+	b->SetRenderDimensions(22, 18);
+	Add(b, 132, 34);
+	m_timeAccelButtons[6] = b;
+
 	m_leftButtonGroup = new Gui::RadioGroup();
 	m_camButton = new Gui::MultiStateImageButton();
 	m_leftButtonGroup->Add(m_camButton);
@@ -287,7 +294,7 @@ void ShipCpanel::Update()
 	}
 	// make requested but not selected icon blink
 	if (timeAccel != requested) {
-		m_timeAccelButtons[Clamp(requested,0,5)]->SetSelected((SDL_GetTicks() & 0x200) != 0);
+		m_timeAccelButtons[Clamp(requested,0,6)]->SetSelected((SDL_GetTicks() & 0x200) != 0);
 	}
 
 	m_radar->Update();
