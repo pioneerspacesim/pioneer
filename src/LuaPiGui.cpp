@@ -42,7 +42,7 @@ void *pi_lua_checklightuserdata(lua_State *l, int index) {
 	if(lua_islightuserdata(l, index))
 		return lua_touserdata(l, index);
 	else
-		Error("Expected light user data at %d", index);
+		Error("Expected light user data at index %d, but got %s", index, lua_typename(l, index));
 	return nullptr;
 }
 
@@ -66,6 +66,23 @@ void pi_lua_generic_pull(lua_State *l, int index, ImColor &color) {
 	color.Value.y = c.Get<int>("g") * sc;
 	color.Value.z = c.Get<int>("b") * sc;
 	color.Value.w = c.Get<int>("a", 255) * sc;
+}
+
+int pushOnScreenPositionDirection(lua_State *l, vector3d position)
+{
+	const int width = Graphics::GetScreenWidth();
+	const int height = Graphics::GetScreenHeight();
+	vector3d direction = (position - vector3d(width / 2, height / 2, 0)).Normalized();
+	if(vector3d(0,0,0) == position || position.x < 0 || position.y < 0 || position.x > width || position.y > height || position.z > 0) {
+		LuaPush<bool>(l, false);
+		LuaPush<vector3d>(l, vector3d(0, 0, 0));
+		LuaPush<vector3d>(l, direction * (position.z > 0 ? -1 : 1)); // reverse direction if behind camera
+	} else {
+		LuaPush<bool>(l, true);
+		LuaPush<vector3d>(l, vector3d(position.x, position.y, 0));
+		LuaPush<vector3d>(l, direction);
+	}
+	return 3;
 }
 
 static std::map<std::string, ImGuiSelectableFlags_> imguiSelectableFlagsTable
@@ -212,6 +229,7 @@ void pi_lua_generic_pull(lua_State *l, int index, ImGuiWindowFlags_ &theflags) {
 }
 
 static void pi_lua_pushVector(lua_State *l, double x, double y, double z) {
+	const int n = lua_gettop(l);
 	lua_getfield(l, LUA_REGISTRYINDEX, "Imports");
 	lua_getfield(l, -1, "libs/Vector.lua"); // is there a better way to get at the lua Vector than this?
 	LuaPush<double>(l, x);
@@ -220,10 +238,16 @@ static void pi_lua_pushVector(lua_State *l, double x, double y, double z) {
 	if(lua_pcall(l, 3, 1, 0) != 0) {
 		Error("error running Vector\n");
 	}
+	lua_remove(l, -2);
+	assert(lua_gettop(l) == n + 1);
 }
 
 static void pi_lua_generic_push(lua_State *l, const ImVec2 &v) {
 	pi_lua_pushVector(l, v.x, v.y, 0);
+}
+
+void pi_lua_generic_push(lua_State *l, const vector3d &v) {
+	pi_lua_pushVector(l, v.x, v.y, v.z);
 }
 
 /* ****************************** Lua imgui functions ****************************** */
@@ -551,21 +575,21 @@ static int l_pigui_add_image(lua_State *l) {
 	return 0;
 }
 
-// static int l_pigui_add_image_quad(lua_State *l) {
-// 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
-// 	ImTextureID id = (ImTextureID)LuaPull<int>(l, 1);
-// 	ImVec2 a = LuaPull<ImVec2>(l, 2);
-// 	ImVec2 b = LuaPull<ImVec2>(l, 3);
-// 	ImVec2 c = LuaPull<ImVec2>(l, 4);
-// 	ImVec2 d = LuaPull<ImVec2>(l, 5);
-// 	ImVec2 uva = LuaPull<ImVec2>(l, 6);
-// 	ImVec2 uvb = LuaPull<ImVec2>(l, 7);
-// 	ImVec2 uvc = LuaPull<ImVec2>(l, 8);
-// 	ImVec2 uvd = LuaPull<ImVec2>(l, 9);
-// 	ImColor col = LuaPull<ImColor>(l, 10);
-// 	draw_list->AddImageQuad(id, a, b, c, d, uva, uvb, uvc, uvd, col);
-// 	return 0;
-// }
+static int l_pigui_add_image_quad(lua_State *l) {
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	ImTextureID id = pi_lua_checklightuserdata(l, 1);
+	ImVec2 a = LuaPull<ImVec2>(l, 2);
+	ImVec2 b = LuaPull<ImVec2>(l, 3);
+	ImVec2 c = LuaPull<ImVec2>(l, 4);
+	ImVec2 d = LuaPull<ImVec2>(l, 5);
+	ImVec2 uva = LuaPull<ImVec2>(l, 6);
+	ImVec2 uvb = LuaPull<ImVec2>(l, 7);
+	ImVec2 uvc = LuaPull<ImVec2>(l, 8);
+	ImVec2 uvd = LuaPull<ImVec2>(l, 9);
+	ImColor col = LuaPull<ImColor>(l, 10);
+	draw_list->AddImageQuad(id, a, b, c, d, uva, uvb, uvc, uvd, col);
+	return 0;
+}
 
 static int l_pigui_add_rect_filled(lua_State *l) {
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
@@ -660,58 +684,40 @@ static int l_pigui_end_child(lua_State *l) {
 }
 
 static int l_pigui_is_item_hovered(lua_State *l) {
-	LuaPush<bool>(l, ImGui::IsItemHovered());
+	LuaPush(l, ImGui::IsItemHovered());
 	return 1;
 }
 
 static int l_pigui_is_item_clicked(lua_State *l) {
 	int button = LuaPull<int>(l, 1);
-	LuaPush<bool>(l, ImGui::IsItemClicked(button));
+	LuaPush(l, ImGui::IsItemClicked(button));
 	return 1;
 }
 
 static int l_pigui_is_mouse_released(lua_State *l) {
 	int button = LuaPull<int>(l, 1);
-	LuaPush<bool>(l, ImGui::IsMouseReleased(button));
+	LuaPush(l, ImGui::IsMouseReleased(button));
 	return 1;
 }
 
 static int l_pigui_is_mouse_clicked(lua_State *l) {
 	int button = LuaPull<int>(l, 1);
-	LuaPush<bool>(l, ImGui::IsMouseClicked(button));
+	LuaPush(l, ImGui::IsMouseClicked(button));
 	return 1;
 }
 
-static ImFont *get_font(std::string fontname, int size) {
-	ImFont *font;
-	if(!fontname.compare("pionillium")) {
-		switch(size) {
-		case 12: font = PiGui::pionillium12; break;
-		case 15: font = PiGui::pionillium15; break;
-		case 18: font = PiGui::pionillium18; break;
-		case 30: font = PiGui::pionillium30; break;
-		case 36: font = PiGui::pionillium36; break;
-		default:
-			Error("Pionillium at size %d not found.\n", size);
-		}
-	} else if(!fontname.compare("orbiteer")) {
-		switch(size) {
-		case 18: font = PiGui::orbiteer18; break;
-		case 30: font = PiGui::orbiteer30; break;
-		default:
-			Error("Orbiteer at size %d not found.\n", size);
-		}
-	} else
-		Error("Unknown font %s\n", fontname.c_str());
-	return font;
-}
-
 static int l_pigui_push_font(lua_State *l) {
-	std::string fontname = LuaPull<std::string>(l, 1);
-	int size = LuaPull<int>(l, 2);
-	ImFont *font = get_font(fontname, size);
-	ImGui::PushFont(font);
-	return 0;
+	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
+	std::string fontname = LuaPull<std::string>(l, 2);
+	int size = LuaPull<int>(l, 3);
+	ImFont *font = pigui->GetFont(fontname, size);
+	if(!font) {
+		LuaPush(l, false);
+	} else {
+		LuaPush(l, true);
+		ImGui::PushFont(font);
+	}
+	return 1;
 }
 
 static int l_pigui_pop_font(lua_State *l) {
@@ -899,6 +905,11 @@ static int l_pigui_radial_menu(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_should_draw_ui(lua_State *l) {
+	LuaPush(l, Pi::DrawGUI);
+	return 1;
+}
+
 static int l_pigui_is_mouse_hovering_rect(lua_State *l) {
 	ImVec2 r_min = LuaPull<ImVec2>(l, 1);
 	ImVec2 r_max = LuaPull<ImVec2>(l, 2);
@@ -1025,14 +1036,14 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "AddRect",                l_pigui_add_rect },
 		{ "AddRectFilled",          l_pigui_add_rect_filled },
 		{ "AddImage",               l_pigui_add_image },
-		//		{ "AddImageQuad",           l_pigui_add_image_quad },
+		{ "AddImageQuad",           l_pigui_add_image_quad },
 		{ "AddBezierCurve",         l_pigui_add_bezier_curve },
 		{ "SetNextWindowPos",       l_pigui_set_next_window_pos },
 		{ "SetNextWindowSize",      l_pigui_set_next_window_size },
 		{ "SetNextWindowFocus",     l_pigui_set_next_window_focus },
 		{ "SetWindowFocus",         l_pigui_set_window_focus },
 		//		{ "GetHUDMarker",           l_pigui_get_hud_marker },
-		//		{ "GetVelocity",            l_pigui_get_velocity },
+		//    { "GetVelocity",            l_pigui_get_velocity },
 		{ "PushStyleColor",         l_pigui_push_style_color },
 		{ "PopStyleColor",          l_pigui_pop_style_color },
 		{ "PushStyleVar",           l_pigui_push_style_var },
@@ -1086,6 +1097,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "ProgressBar",            l_pigui_progress_bar },
 		{ "LoadTextureFromSVG",     l_pigui_load_texture_from_svg },
 		{ "DataDirPath",            l_pigui_data_dir_path },
+		{ "ShouldDrawUI",           l_pigui_should_draw_ui },
 		// { "DisableMouseFacing",     l_pigui_disable_mouse_facing },
 		// { "SetMouseButtonState",    l_pigui_set_mouse_button_state },
 		{ 0, 0 }

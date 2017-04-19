@@ -13,6 +13,12 @@
 #include "WorldView.h"
 #include "DeathView.h"
 #include "galaxy/Galaxy.h"
+#include "DateTime.h"
+#include "SectorView.h"
+#include "SystemView.h"
+#include "SystemInfoView.h"
+#include "ShipCpanel.h"
+#include "LuaPiGui.h"
 
 /*
  * Interface: Game
@@ -312,6 +318,38 @@ static int l_game_attr_paused(lua_State *l)
 	return 1;
 }
 
+static int l_game_in_hyperspace(lua_State *l)
+{
+	LuaPush(l, Pi::game->IsHyperspace() || Pi::player->GetFlightState() == Ship::HYPERSPACE);
+	return 1;
+}
+
+static int l_game_current_view(lua_State *l)
+{
+	const View *view = Pi::GetView();
+	if(view == Pi::game->GetWorldView())
+		LuaPush(l, "world");
+	else if(view == Pi::game->GetSpaceStationView())
+		LuaPush(l, "space_station");
+	else if(view == Pi::game->GetInfoView())
+		LuaPush(l, "info");
+	else if(Pi::GetView() == Pi::game->GetSectorView())
+		LuaPush(l, "sector");
+	else if(view == Pi::game->GetSystemView())
+		LuaPush(l, "system");
+	else if(view == Pi::game->GetSystemInfoView())
+		LuaPush(l, "system_info");
+	else if(view == Pi::game->GetDeathView())
+		LuaPush(l, "death");
+	else if(view == Pi::game->GetGalacticView())
+		LuaPush(l, "galaxy");
+	else if(view == Pi::game->GetSettingsView())
+		LuaPush(l, "settings");
+	else
+		lua_pushnil(l);
+	return 1;
+}
+
 // XXX temporary to support StationView "Launch" button
 // remove once WorldView has been converted to the new UI
 static int l_game_switch_view(lua_State *l)
@@ -337,6 +375,8 @@ void LuaGame::Register()
 		{ "CanLoadGame",    l_game_can_load_game    },
 		{ "SaveGame",       l_game_save_game        },
 		{ "EndGame",        l_game_end_game         },
+		{ "CurrentView",    l_game_current_view     },
+		{ "InHyperspace",   l_game_in_hyperspace    },
 
 		{ "SwitchView", l_game_switch_view },
 

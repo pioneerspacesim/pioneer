@@ -44,6 +44,7 @@ class Propulsion
 		inline double GetAccelRev() const { return GetThrustRev() / m_dBody->GetMass(); }
 		inline double GetAccelUp() const { return GetThrustUp() / m_dBody->GetMass(); }
 		inline double GetAccelMin() const { return GetThrustMin() / m_dBody->GetMass(); };
+		inline double GetAccel(Thruster thruster) const { return fabs(m_linThrust[thruster] * m_power_mul / m_dBody->GetMass()); }
 
 		inline void SetThrusterState(int axis, double level) {
 			if (m_thrusterFuel <= 0.f) level = 0.0;

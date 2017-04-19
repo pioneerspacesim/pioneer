@@ -775,7 +775,7 @@ vector3d SpaceStation::GetTargetIndicatorPosition(const Frame *relTo) const
 	// and the docking point's position once the docking anim starts
 	for (Uint32 i=0; i<m_shipDocking.size(); i++) {
 		if (i >= m_type->NumDockingPorts()) break;
-		if ((m_shipDocking[i].ship == Pi::player) && (m_shipDocking[i].stage > 0)) {
+		if ((m_shipDocking[i].ship == Pi::player) && (m_shipDocking[i].stage > 0) && (m_shipDocking[i].stage != m_type->NumDockingStages() + 1)) { // last part is "not currently docked"
 
 			SpaceStationType::positionOrient_t dport;
 			if (!m_type->GetShipApproachWaypoints(i, m_shipDocking[i].stage+1, dport))

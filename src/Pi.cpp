@@ -310,7 +310,9 @@ static void LuaInit()
 	lua_State *l = Lua::manager->GetLuaState();
 	pi_lua_dofile(l, "libs/autoload.lua");
 	pi_lua_dofile_recursive(l, "ui");
-	pi_lua_dofile_recursive(l, "pigui");
+	pi_lua_dofile(l, "pigui/pigui.lua");
+	pi_lua_dofile(l, "pigui/game.lua");
+	pi_lua_dofile(l, "pigui/init.lua");
 	pi_lua_dofile_recursive(l, "modules");
 
 	Pi::luaNameGen = new LuaNameGen(Lua::manager);
@@ -567,6 +569,8 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	Gui::Init(renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 800, 600);
 
+	// twice, to initialize the font correctly
+	draw_progress(0.0f);
 	draw_progress(0.0f);
 
 	Output("GalaxyGenerator::Init()\n");
@@ -1484,8 +1488,14 @@ void Pi::MainLoop()
 		Pi::DrawRenderTarget();
 
 		if(Pi::game && !Pi::player->IsDead()) {
+			if(Pi::GetView() == Pi::game->GetWorldView()) {
+				Pi::game->GetWorldView()->BeginCameraFrame();
+			}
 			PiGui::NewFrame(Pi::renderer->GetWindow()->GetSDLWindow());
 			DrawPiGui(Pi::frameTime);
+			if(Pi::GetView() == Pi::game->GetWorldView()) {
+				Pi::game->GetWorldView()->EndCameraFrame();
+			}
 		}
 
 		Pi::renderer->SwapBuffers();

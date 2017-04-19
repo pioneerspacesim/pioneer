@@ -14,15 +14,7 @@
 #define NANOSVGRAST_IMPLEMENTATION
 #include "nanosvg/nanosvgrast.h"
 
-std::vector<std::pair<std::string,Graphics::Texture*>> PiGui::m_svg_textures;
-
-ImFont *PiGui::pionillium12 = nullptr;
-ImFont *PiGui::pionillium15 = nullptr;
-ImFont *PiGui::pionillium18 = nullptr;
-ImFont *PiGui::pionillium30 = nullptr;
-ImFont *PiGui::pionillium36 = nullptr;
-ImFont *PiGui::orbiteer18 = nullptr;
-ImFont *PiGui::orbiteer30 = nullptr;
+std::vector<Graphics::Texture*> PiGui::m_svg_textures;
 
 static int to_keycode(int key) {
 	if(key & SDLK_SCANCODE_MASK) {
@@ -33,42 +25,42 @@ static int to_keycode(int key) {
 
 static std::vector<std::pair<std::string,int>> keycodes
 = { {"left", to_keycode(SDLK_LEFT) },
-	{"right", to_keycode(SDLK_RIGHT)},
-	{"up", to_keycode(SDLK_UP)},
-	{"down", to_keycode(SDLK_DOWN)},
-	{"escape", to_keycode(SDLK_ESCAPE)},
-	{"f1", to_keycode(SDLK_F1)},
-	{"f2", to_keycode(SDLK_F2)},
-	{"f3", to_keycode(SDLK_F3)},
-	{"f4", to_keycode(SDLK_F4)},
-	{"f5", to_keycode(SDLK_F5)},
-	{"f6", to_keycode(SDLK_F6)},
-	{"f7", to_keycode(SDLK_F7)},
-	{"f8", to_keycode(SDLK_F8)},
-	{"f9", to_keycode(SDLK_F9)},
-	{"f10", to_keycode(SDLK_F10)},
-	{"f11", to_keycode(SDLK_F11)},
-	{"f12", to_keycode(SDLK_F12)}
+		{"right", to_keycode(SDLK_RIGHT)},
+		{"up", to_keycode(SDLK_UP)},
+		{"down", to_keycode(SDLK_DOWN)},
+		{"escape", to_keycode(SDLK_ESCAPE)},
+		{"f1", to_keycode(SDLK_F1)},
+		{"f2", to_keycode(SDLK_F2)},
+		{"f3", to_keycode(SDLK_F3)},
+		{"f4", to_keycode(SDLK_F4)},
+		{"f5", to_keycode(SDLK_F5)},
+		{"f6", to_keycode(SDLK_F6)},
+		{"f7", to_keycode(SDLK_F7)},
+		{"f8", to_keycode(SDLK_F8)},
+		{"f9", to_keycode(SDLK_F9)},
+		{"f10", to_keycode(SDLK_F10)},
+		{"f11", to_keycode(SDLK_F11)},
+		{"f12", to_keycode(SDLK_F12)}
 };
 
 ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height) {
 	Output("nanosvg: %s %dx%d\n", svgFilename.c_str(), width, height);
 
-	// re-use existing texture if already loaded
-	for(auto strTex : m_svg_textures) {
-		if(strTex.first == svgFilename) {
-			// nasty bit as I invoke the TextureGL
-			Graphics::OGL::TextureGL *pGLTex = reinterpret_cast<Graphics::OGL::TextureGL*>(strTex.second);
-			Uint32 result = pGLTex->GetTextureID();
- 			Output("Re-used existing texture with id: %i\n", result);
-			return reinterpret_cast<void*>(result);
-		}
-	}
+	// // re-use existing texture if already loaded
+	// for(auto strTex : m_svg_textures) {
+	// 	if(strTex.first == svgFilename) {
+	// 		// nasty bit as I invoke the TextureGL
+	// 		Graphics::TextureGL *pGLTex = reinterpret_cast<Graphics::TextureGL*>(strTex.second);
+	// 		Uint32 result = pGLTex->GetTexture();
+	// 		Output("Re-used existing texture with id: %i\n", result);
+	// 		return reinterpret_cast<void*>(result);
+	// 	}
+	// }
 
 	NSVGimage *image = NULL;
 	NSVGrasterizer *rast = NULL;
 	unsigned char* img = NULL;
-	int w, h;
+	int w;
 	// size of each icon
 	//	int size = 64;
 	// 16 columns
@@ -84,7 +76,6 @@ ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height) {
 		Error("Could not open SVG image.\n");
 	}
 	w = static_cast<int>(image->width);
-	h = static_cast<int>(image->height);
 
 	rast = nsvgCreateRasterizer();
 	if (rast == NULL) {
@@ -102,7 +93,68 @@ ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height) {
 	}
 	nsvgDeleteRasterizer(rast);
 	nsvgDelete(image);
-	return makeTexture(svgFilename, img, W, H);
+	return makeTexture(img, W, H);
+}
+
+ImFont *PiGui::GetFont(const std::string &name, int size) {
+	auto iter = m_fonts.find(std::make_pair(name, size));
+	if(iter != m_fonts.end())
+		return iter->second;
+	//	Output("GetFont: adding font %s at %i on demand\n", name.c_str(), size);
+	ImFont *font = AddFont(name, size);
+
+	return font;
+}
+
+void PiGui::AddGlyph(ImFont *font, unsigned short glyph) {
+	// range glyph..glyph
+	auto iter = m_im_fonts.find(font);
+	if(iter == m_im_fonts.end()) {
+		Error("Cannot find font instance for ImFont %p\n", font);
+		assert(false);
+	}
+	auto pifont_iter = m_pi_fonts.find(iter->second);
+	if(pifont_iter == m_pi_fonts.end()) {
+		Error("No registered PiFont for name %s size %i\n", iter->second.first.c_str(), iter->second.second);
+		assert(false);
+	}
+	PiFont &pifont = pifont_iter->second;
+	for(PiFace &face : pifont.faces()) {
+		if(face.containsGlyph(glyph)) {
+			face.addGlyph(glyph);
+			m_should_bake_fonts = true;
+			return;
+		}
+	}
+	Error("No face in font %s handles glyph %i\n", pifont.name().c_str(), glyph);
+}
+
+ImFont *PiGui::AddFont(const std::string &name, int size) {
+	auto iter = m_font_definitions.find(name);
+	if(iter == m_font_definitions.end()) {
+		Error("No font definition with name %s\n", name.c_str());
+		assert(false);
+	}
+	auto existing = m_fonts.find(std::make_pair(name,size));
+	if(existing != m_fonts.end()) {
+		Error("Font %s already exists at size %i\n", name.c_str(), size);
+		assert(false);
+	}
+
+	PiFont &pifont = iter->second;
+	pifont.setPixelsize(size);
+	pifont.faces().back().addGlyph(0x20); // only add space
+	m_pi_fonts[std::make_pair(name,size)] = pifont;
+
+	m_should_bake_fonts = true;
+
+	return m_fonts[std::make_pair(name,size)];
+}
+
+void PiGui::RefreshFontsTexture() {
+	// TODO: fix this, do the right thing, don't just re-create *everything* :)
+	ImGui::GetIO().Fonts->Build();
+	ImGui_ImplSdlGL3_CreateDeviceObjects();
 }
 
 void PiGui::Init(SDL_Window *window) {
@@ -120,18 +172,18 @@ void PiGui::Init(SDL_Window *window) {
 	}
 
 	switch(Pi::renderer->GetRendererType())
-	{
-	default:
-	case Graphics::RENDERER_DUMMY:
-		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
-		return;
-	case Graphics::RENDERER_OPENGL_21:
-		ImGui_ImplSdl_Init(window);
-		break;
-	case Graphics::RENDERER_OPENGL_3x:
-		ImGui_ImplSdlGL3_Init(window);
-		break;
-	}
+		{
+		default:
+		case Graphics::RENDERER_DUMMY:
+			Error("RENDERER_DUMMY is not a valid renderer, aborting.");
+			return;
+		case Graphics::RENDERER_OPENGL_21:
+			ImGui_ImplSdl_Init(window);
+			break;
+		case Graphics::RENDERER_OPENGL_3x:
+			ImGui_ImplSdlGL3_Init(window);
+			break;
+		}
 
 	ImGuiIO &io = ImGui::GetIO();
 
@@ -141,14 +193,6 @@ void PiGui::Init(SDL_Window *window) {
 	std::strncpy(ioIniFilename, imguiIni.c_str(), imguiIni.size() + 1);
 	io.IniFilename = ioIniFilename;
 
-	static unsigned short glyph_ranges[] = { 0x1, 0x3c0, 0x0, 0x0 };
-	pionillium12 = io.Fonts->AddFontFromFileTTF(FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), "PionilliumText22L-Medium.ttf").c_str(), 12.0f, nullptr, glyph_ranges);
-	pionillium15 = io.Fonts->AddFontFromFileTTF(FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), "PionilliumText22L-Medium.ttf").c_str(), 15.0f, nullptr, glyph_ranges);
-	pionillium18 = io.Fonts->AddFontFromFileTTF(FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), "PionilliumText22L-Medium.ttf").c_str(), 18.0f, nullptr, glyph_ranges);
-	pionillium30 = io.Fonts->AddFontFromFileTTF(FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), "PionilliumText22L-Medium.ttf").c_str(), 30.0f, nullptr, glyph_ranges);
-	pionillium36 = io.Fonts->AddFontFromFileTTF(FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), "PionilliumText22L-Medium.ttf").c_str(), 36.0f, nullptr, glyph_ranges);
-	orbiteer18 = io.Fonts->AddFontFromFileTTF(FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), "Orbiteer-Bold.ttf").c_str(), 18.0f, nullptr, glyph_ranges);
-	orbiteer30 = io.Fonts->AddFontFromFileTTF(FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), "Orbiteer-Bold.ttf").c_str(), 30.0f, nullptr, glyph_ranges);
 }
 
 int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std::vector<ImTextureID> tex_ids, std::vector<std::pair<ImVec2,ImVec2>> uvs, unsigned int size, std::vector<std::string> tooltips)
@@ -212,8 +256,8 @@ int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std
 			}
 			ImVec2 text_size = ImVec2(size, size);
 			ImVec2 text_pos = ImVec2(
-									 center.x + cosf((item_inner_ang_min + item_inner_ang_max) * 0.5f) * (RADIUS_MIN + RADIUS_MAX) * 0.5f - text_size.x * 0.5f,
-									 center.y + sinf((item_inner_ang_min + item_inner_ang_max) * 0.5f) * (RADIUS_MIN + RADIUS_MAX) * 0.5f - text_size.y * 0.5f);
+															 center.x + cosf((item_inner_ang_min + item_inner_ang_max) * 0.5f) * (RADIUS_MIN + RADIUS_MAX) * 0.5f - text_size.x * 0.5f,
+															 center.y + sinf((item_inner_ang_min + item_inner_ang_max) * 0.5f) * (RADIUS_MIN + RADIUS_MAX) * 0.5f - text_size.y * 0.5f);
 			draw_list->AddImage(tex_id, text_pos, ImVec2(text_pos.x+size,text_pos.y+size), uvs[item_n].first, uvs[item_n].second); ImGui::SameLine();
 			if (hovered) {
 				item_hovered = item_n;
@@ -250,82 +294,242 @@ bool PiGui::CircularSlider(const ImVec2 &center, float *v, float v_min, float v_
 bool PiGui::ProcessEvent(SDL_Event *event)
 {
 	switch(Pi::renderer->GetRendererType())
-	{
-	default:
-	case Graphics::RENDERER_DUMMY:
-		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
-		break;
-	case Graphics::RENDERER_OPENGL_21:
-		ImGui_ImplSdl_ProcessEvent(event);
-		break;
-	case Graphics::RENDERER_OPENGL_3x:
-		ImGui_ImplSdlGL3_ProcessEvent(event);
-		break;
-	}
+		{
+		default:
+		case Graphics::RENDERER_DUMMY:
+			Error("RENDERER_DUMMY is not a valid renderer, aborting.");
+			break;
+		case Graphics::RENDERER_OPENGL_21:
+			ImGui_ImplSdl_ProcessEvent(event);
+			break;
+		case Graphics::RENDERER_OPENGL_3x:
+			ImGui_ImplSdlGL3_ProcessEvent(event);
+			break;
+		}
 	return false;
 }
 
-void *PiGui::makeTexture(const std::string &filename, unsigned char *pixels, int width, int height)
+void *PiGui::makeTexture(unsigned char *pixels, int width, int height)
 {
 	// this is not very pretty code and uses the Graphics::TextureGL class directly
 	// Texture descriptor defines the size, type.
 	// Gone for LINEAR_CLAMP here and RGBA like the original code
 	const vector2f texSize(1.0f, 1.0f);
 	const vector2f dataSize(width, height);
-	const Graphics::TextureDescriptor texDesc(
-		Graphics::TEXTURE_RGBA_8888,
-		dataSize, texSize, Graphics::LINEAR_CLAMP,
-		false, false, false, 0, Graphics::TEXTURE_2D);
+	const Graphics::TextureDescriptor texDesc(Graphics::TEXTURE_RGBA_8888,
+																						dataSize, texSize, Graphics::LINEAR_CLAMP,
+																						false, false, false, 0, Graphics::TEXTURE_2D);
 	// Create the texture, calling it via renderer directly avoids the caching call of TextureBuilder
 	// However interestingly this gets called twice which would have been a WIN for the TextureBuilder :/
 	Graphics::Texture *pTex = Pi::renderer->CreateTexture(texDesc);
 	// Update it with the actual pixels, this is a two step process due to legacy code
 	pTex->Update(pixels, dataSize, Graphics::TEXTURE_RGBA_8888);
-	Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 	// nasty bit as I invoke the TextureGL
 	Graphics::OGL::TextureGL *pGLTex = reinterpret_cast<Graphics::OGL::TextureGL*>(pTex);
 	Uint32 result = pGLTex->GetTextureID();
- 	Output("texture id: %i\n", result);
-	m_svg_textures.push_back( std::make_pair(filename,pTex) );	// store for cleanup later
- 	return reinterpret_cast<void*>(result);
+	m_svg_textures.push_back( pTex ); // store for cleanup later
+	return reinterpret_cast<void*>(result);
+}
+
+void PiGui::EndFrame() {
+	ImGui::EndFrame();
 }
 
 void PiGui::NewFrame(SDL_Window *window) {
 	switch(Pi::renderer->GetRendererType())
-	{
-	default:
-	case Graphics::RENDERER_DUMMY:
-		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
-		return;
-	case Graphics::RENDERER_OPENGL_21:
-		ImGui_ImplSdl_NewFrame(window);
-		break;
-	case Graphics::RENDERER_OPENGL_3x:
-		ImGui_ImplSdlGL3_NewFrame(window);
-		break;
-	}
+		{
+		default:
+		case Graphics::RENDERER_DUMMY:
+			Error("RENDERER_DUMMY is not a valid renderer, aborting.");
+			return;
+		case Graphics::RENDERER_OPENGL_21:
+			ImGui_ImplSdl_NewFrame(window);
+			break;
+		case Graphics::RENDERER_OPENGL_3x:
+			ImGui_ImplSdlGL3_NewFrame(window);
+			break;
+		}
 	Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 	ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
 	if(Pi::DoingMouseGrab())
-	{
-		ImGui::GetIO().MouseDrawCursor = false;
-	}
+		{
+			ImGui::GetIO().MouseDrawCursor = false;
+		}
 	else
-	{
-		ImGui::GetIO().MouseDrawCursor = true;
-	}
+		{
+			ImGui::GetIO().MouseDrawCursor = true;
+		}
 }
-
-void PiGui::Cleanup() {
-	for(auto strTex : m_svg_textures) {
-		delete strTex.second;
-	}
-}
-
 void PiGui::Render(double delta, std::string handler) {
 	ScopedTable t(m_handlers);
 	if(t.Get<bool>(handler)) {
 		t.Call<bool>(handler, delta);
 		Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 	}
+	// Explicitly end frame, to show tooltips. Otherwise, they are shown at the next NextFrame,
+	// which might crash because the font atlas was rebuilt, and the old fonts were cached inside imgui.
+	EndFrame();
+	for(auto &iter : m_fonts) {
+		ImFont *font = iter.second;
+		// font might be nullptr, if it wasn't baked yet
+		if(font && font->AreGlyphsMissing()) {
+			//			Output("%s %i is missing glyphs.\n", iter.first.first.c_str(), iter.first.second);
+			for(auto &glyph : font->MissingGlyphs()) {
+				AddGlyph(font, glyph);
+			}
+			font->ResetMissingGlyphs();
+		}
+	}
+	// Bake fonts *after* a frame is done, so the font atlas is not needed any longer
+	if(m_should_bake_fonts) {
+		BakeFonts();
+	}
+}
+
+void PiGui::ClearFonts() {
+	ImGuiIO &io = ImGui::GetIO();
+	// TODO: should also release all glyph_ranges...
+	m_fonts.clear();
+	m_im_fonts.clear();
+	io.Fonts->Clear();
+}
+
+void PiGui::BakeFont(const PiFont &font) {
+	ImGuiIO &io = ImGui::GetIO();
+	ImFont *imfont = nullptr;
+	for(const PiFace &face : font.faces()) {
+		ImFontConfig config;
+		config.MergeMode = true;
+		float size = font.pixelsize() * face.sizefactor();
+		const std::string path = FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), face.ttfname());
+		//		Output("- baking face %s at size %f\n", path.c_str(), size);
+		face.sortUsedRanges();
+		if(face.used_ranges().size() > 0) {
+			unsigned short *glyph_ranges = new unsigned short[face.used_ranges().size() * 2 + 2];
+			unsigned short *gr = glyph_ranges;
+			for(auto &range : face.used_ranges()) {
+				// 				Output("  - 0x%x .. 0x%x\n", range.first, range.second);
+				*gr++ = range.first;
+				*gr++ = range.second;
+			}
+			*gr++ = 0;
+			*gr = 0;
+			ImFont *f = io.Fonts->AddFontFromFileTTF(path.c_str(), size, imfont == nullptr ? nullptr : &config, glyph_ranges);
+			assert(f);
+			if(imfont != nullptr)
+				assert(f == imfont);
+			imfont = f;
+		}
+	}
+	m_im_fonts[imfont] = std::make_pair(font.name(), font.pixelsize());
+	// 	Output("setting %s %i to %p\n", font.name(), font.pixelsize(), imfont);
+	m_fonts[std::make_pair(font.name(), font.pixelsize())] = imfont;
+	if(imfont->AreGlyphsMissing()) {
+		Output("WARNING: glyphs missing in shiny new font\n");
+	}
+	imfont->ResetMissingGlyphs();
+}
+
+void PiGui::BakeFonts() {
+	//	Output("Baking fonts\n");
+
+	m_should_bake_fonts = false;
+
+	if(m_pi_fonts.size() == 0) {
+		//		Output("No fonts to bake.\n");
+		return;
+	}
+
+	ClearFonts();
+
+	// first bake tooltip/default font
+	BakeFont(m_pi_fonts[std::make_pair("pionillium", 14)]);
+
+	for(auto &iter : m_pi_fonts) {
+		// don't bake tooltip/default font again
+		if(!(iter.first.first == "pionillium" && iter.first.second == 14))
+			BakeFont(iter.second);
+		//		Output("Fonts registered: %i\n", io.Fonts->Fonts.Size);
+	}
+
+	RefreshFontsTexture();
+}
+
+void PiGui::Cleanup() {
+	for(auto tex : m_svg_textures) {
+		delete tex;
+	}
+}
+
+PiGui::PiGui() : m_should_bake_fonts(true) {
+	PiFont uiheading("orbiteer",
+									 { PiFace("DejaVuSans.ttf", /*18.0/20.0*/ 1.2, {{0x400, 0x4ff}, {0x500, 0x527}}),
+											 PiFace("wqy-microhei.ttc", 1.0, {{0x4e00, 0x9fff},{0x3400,0x4dff}}),
+											 PiFace("Orbiteer-Bold.ttf", 1.0, {{0, 0xffff}}) // imgui only supports 0xffff, not 0x10ffff
+											 });
+	PiFont guifont("pionillium",
+								 {
+									 PiFace("DejaVuSans.ttf", 13.0/14.0, {{0x400, 0x4ff}, {0x500, 0x527}}),
+										 PiFace("wqy-microhei.ttc", 1.0, {{0x4e00, 0x9fff},{0x3400,0x4dff}}),
+										 PiFace("PionilliumText22L-Medium.ttf", 1.0, {{0, 0xffff}})
+										 });
+	AddFontDefinition(uiheading);
+	AddFontDefinition(guifont);
+
+	Output("Fonts:\n");
+	for(auto entry : m_font_definitions) {
+		//		Output("  entry %s:\n", entry.first.c_str());
+		entry.second.describe();
+	}
+
+	// ensure the tooltip font exists
+	GetFont("pionillium", 14);
+
+};
+
+const bool PiFace::containsGlyph(unsigned short glyph) const {
+	for(auto range : m_ranges) {
+		if(range.first <= glyph && glyph <= range.second)
+			return true;
+	}
+	return false;
+}
+
+void PiFace::addGlyph(unsigned short glyph) {
+	// Output("- PiFace %s adding glyph 0x%x\n", ttfname().c_str(), glyph);
+	for(auto &range : m_used_ranges) {
+		if(range.first <= glyph && glyph <= range.second) {
+			// Output(" - already added, not adding again\n");
+			return;
+		}
+	}
+	//	Output(" - added\n");
+	m_used_ranges.push_back(std::make_pair(glyph, glyph));
+}
+
+void PiFace::sortUsedRanges() const {
+	// sort by ascending lower end of range
+	std::sort(m_used_ranges.begin(), m_used_ranges.end(), [](const std::pair<unsigned short, unsigned short> &a, const std::pair<unsigned short, unsigned short> &b) { return a.first < b.first; });
+	// merge adjacent ranges
+	std::vector<std::pair<unsigned short, unsigned short>> merged;
+	std::pair<unsigned short, unsigned short> current(0xffff,0xffff);
+	for(auto &range : m_used_ranges) {
+		//		Output("> checking 0x%x-0x%x\n", range.first, range.second);
+		if(current.first == 0xffff && current.second == 0xffff)
+			current = range;
+		else {
+			// if only a few are missing in range, just merge nontheless. +5 is 4 missing
+			if(current.second + 5 >= range.first) { // (current.second + 1 == range.first)
+				//				Output("> merging 0x%x-0x%x and 0x%x-0x%x\n", current.first, current.second, range.first, range.second);
+				current.second = range.second;
+			} else {
+				//				Output("> pushing 0x%x-0x%x\n", current.first, current.second);
+				merged.push_back(current);
+				current = range;
+			}
+		}
+	}
+	if(current.first != 0xffff && current.second != 0xffff)
+		merged.push_back(current);
+	m_used_ranges.assign(merged.begin(), merged.end());
 }
