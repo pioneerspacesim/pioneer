@@ -21,6 +21,11 @@ file_filter = data/lang/quitconfirmation-core/<lang>.json
 source_file = data/lang/quitconfirmation-core/en.json
 source_lang = en
 
+[pioneer.module-advice]
+file_filter = data/lang/module-advice/<lang>.json
+source_file = data/lang/module-advice/en.json
+source_lang = en
+
 [pioneer.module-aiwarning]
 file_filter = data/lang/module-aiwarning/<lang>.json
 source_file = data/lang/module-aiwarning/en.json
