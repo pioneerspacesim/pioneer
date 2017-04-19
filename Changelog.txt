@@ -8,6 +8,7 @@ April 2017
    * Fixes
      * Bugfix for issue #3967 related to PR #3948 (#3968)
      * Ever damage ship when docking (#3953)
+     * Add screenshot support for OpenGL 2.1 renderer (#3977)
 
 March 2017
    * New Features
