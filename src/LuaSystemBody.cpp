@@ -62,6 +62,31 @@ static int l_sbody_attr_name(lua_State *l)
 }
 
 /*
+ * Attribute: icon
+ *
+ * The icon of the body, as a string
+ *
+ * Availability:
+ *
+ *  alpha XX
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_sbody_attr_icon(lua_State *l)
+{
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	if (sbody == nullptr) {
+		Output("Warning: lua SystemBody:GetIcon called with parameter that is not a SystemBody.\n");
+		return 0;
+	} else {
+		lua_pushstring(l, sbody->GetIcon());
+		return 1;
+	}
+}
+
+/*
  * Attribute: type
  *
  * The type of the body, as a <Constants.BodyType> constant
@@ -425,6 +450,7 @@ template <> void LuaObject<SystemBody>::RegisterClass()
 	static const luaL_Reg l_attrs[] = {
 		{ "index",          l_sbody_attr_index           },
 		{ "name",           l_sbody_attr_name            },
+		{ "icon",           l_sbody_attr_icon            },
 		{ "type",           l_sbody_attr_type            },
 		{ "superType",      l_sbody_attr_super_type      },
 		{ "seed",           l_sbody_attr_seed            },
