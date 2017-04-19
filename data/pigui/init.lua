@@ -13,10 +13,12 @@ local utils = import("utils")
 local base = Color(0,1,33)
 local highlight = Color(0,63,112)
 
+local logo = ui.loadTextureFromSVG(ui.dataDirPath({"icons", "logo.svg"}), 512, 512)
+
 ui.registerHandler(
 	'init',
 	function(progress)
-		ui.setNextWindowPos(Vector(0, ui.screenHeight/2), "Always")
+		ui.setNextWindowPos(Vector(0, ui.screenHeight/3*2), "Always")
 		ui.withFont("orbiteer", 18, function()
 									ui.window("test", {"NoTitleBar", "NoResize", "NoMove"}, function()
 															local age = string.format("%.1f", 13.7 * progress)
@@ -32,8 +34,18 @@ ui.registerHandler(
 															ui.dummy(Vector(ui.screenWidth/4,0))
 															ui.sameLine()
 															ui.withStyleColors({ ["PlotHistogram"] = highlight, ["FrameBg"] = base }, function()
-																	ui.progressBar(progress, Vector(ui.screenWidth / 2, 25), "")
+																	ui.progressBar(progress, Vector(ui.screenWidth / 2, ui.screenHeight / 43), "") -- 1080 / 43 -> 25
 															end)
 									end)
+		end)
+		local logosize = (ui.screenHeight / 2.5)
+		local leftup = Vector(ui.screenWidth/2 - logosize/2, ui.screenHeight/7)
+		ui.setNextWindowPos(leftup, "Always")
+		ui.setNextWindowSize(Vector(logosize, logosize), "Always")
+		ui.window("logo", {"NoTitleBar", "NoResize", "NoMove"}, function ()
+								local size = Vector(logosize,logosize)
+								local pos = Vector(0,0) -- Vector(ui.screenWidth / 2, ui.screenHeight / 3 * 2)
+								local offset = ui.getWindowPos()
+								ui.addImage(logo, pos + offset, pos + size + offset, Vector(0.0, 0.0), Vector(1.0, 1.0), Color(255,255,255))
 		end)
 end)

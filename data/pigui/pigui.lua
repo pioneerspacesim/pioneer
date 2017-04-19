@@ -365,7 +365,12 @@ ui.isMouseClicked = pigui.IsMouseClicked
 ui.getMousePos = pigui.GetMousePos
 ui.setTooltip = pigui.SetTooltip
 ui.shouldDrawUI = pigui.ShouldDrawUI
-
+ui.getWindowPos = pigui.GetWindowPos
+ui.loadTextureFromSVG = function(a, b, c)
+	return pigui:LoadTextureFromSVG(a, b, c)
+end
+ui.dataDirPath = pigui.DataDirPath
+ui.addImage = pigui.AddImage
 local defaultTheme = import("themes/default")
 ui.theme = defaultTheme
 
