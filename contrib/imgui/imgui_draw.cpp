@@ -972,6 +972,22 @@ void ImDrawList::AddImage(ImTextureID user_texture_id, const ImVec2& a, const Im
         PopTextureID();
 }
 
+void ImDrawList::AddImageQuad(ImTextureID user_texture_id, const ImVec2& a, const ImVec2& b, const ImVec2& c, const ImVec2& d, const ImVec2& uva, const ImVec2& uvb, const ImVec2& uvc, const ImVec2& uvd, ImU32 col)
+{
+  if ((col >> 24) == 0)
+    return;
+
+  // FIXME-OPT: This is wasting draw calls.
+  const bool push_texture_id = _TextureIdStack.empty() || user_texture_id != _TextureIdStack.back();
+  if (push_texture_id)
+    PushTextureID(user_texture_id);
+
+  PrimReserve(6, 4);
+  PrimQuadUV(a, b, c, d, uva, uvb, uvc, uvd, col);
+
+  if (push_texture_id)
+    PopTextureID();
+}
 //-----------------------------------------------------------------------------
 // ImDrawData
 //-----------------------------------------------------------------------------
@@ -1143,8 +1159,8 @@ ImFont* ImFontAtlas::AddFont(const ImFontConfig* font_cfg)
 
     ConfigData.push_back(*font_cfg);
     ImFontConfig& new_font_cfg = ConfigData.back();
-	if (!new_font_cfg.DstFont)
-	    new_font_cfg.DstFont = Fonts.back();
+  if (!new_font_cfg.DstFont)
+      new_font_cfg.DstFont = Fonts.back();
     if (!new_font_cfg.FontDataOwnedByAtlas)
     {
         new_font_cfg.FontData = ImGui::MemAlloc(new_font_cfg.FontDataSize);
@@ -1694,6 +1710,7 @@ ImFont::ImFont()
 {
     Scale = 1.0f;
     FallbackChar = (ImWchar)'?';
+    GlyphsMissing = false;
     Clear();
 }
 
@@ -1800,15 +1817,31 @@ void ImFont::AddRemapChar(ImWchar dst, ImWchar src, bool overwrite_dst)
     IndexXAdvance[dst] = (src < index_size) ? IndexXAdvance.Data[src] : 1.0f;
 }
 
-const ImFont::Glyph* ImFont::FindGlyph(unsigned short c) const
+const ImFont::Glyph* ImFont::FindGlyph(unsigned short c, bool report_missing) const
 {
-    if (c < IndexLookup.Size)
+  if (c < IndexLookup.Size)
     {
-        const unsigned short i = IndexLookup[c];
-        if (i != (unsigned short)-1)
-            return &Glyphs.Data[i];
+      const unsigned short i = IndexLookup[c];
+      if (i != (unsigned short)-1) {
+        // printf("imgui: found glyph 0x%x\n", c);
+        // fflush(stdout);
+        return &Glyphs.Data[i];
+      }
+    } // else {
+    // printf("imgui: IndexLookup.size is smaller than 0x%x: %i\n", c, IndexLookup.Size);
+    // fflush(stdout);
+    // }
+  if(report_missing) {
+    GlyphsMissing = true;
+    for(unsigned int glyph : MissingGlyphsVector) {
+      if(glyph == c)
+        return FallbackGlyph;
     }
-    return FallbackGlyph;
+    MissingGlyphsVector.push_back(c);
+    // printf("imgui: missing glyph 0x%x\n", c);
+    // fflush(stdout);
+  }
+  return FallbackGlyph;
 }
 
 const char* ImFont::CalcWordWrapPositionA(float scale, const char* text, const char* text_end, float wrap_width) const
@@ -2006,7 +2039,7 @@ void ImFont::RenderChar(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col
 {
     if (c == ' ' || c == '\t' || c == '\n' || c == '\r') // Match behavior of RenderText(), those 4 codepoints are hard-coded.
         return;
-    if (const Glyph* glyph = FindGlyph(c))
+    if (const Glyph* glyph = FindGlyph(c, true))
     {
         float scale = (size >= 0.0f) ? (size / FontSize) : 1.0f;
         pos.x = (float)(int)pos.x + DisplayOffset.x;
@@ -2112,7 +2145,7 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col
         }
 
         float char_width = 0.0f;
-        if (const Glyph* glyph = FindGlyph((unsigned short)c))
+        if (const Glyph* glyph = FindGlyph((unsigned short)c, true))
         {
             char_width = glyph->XAdvance * scale;
 
