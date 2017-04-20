@@ -6,7 +6,6 @@
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/CollisionGeometry.h"
-#include "Ship.h"
 #include "Pi.h"
 #include "json/JsonUtils.h"
 #include <sstream>

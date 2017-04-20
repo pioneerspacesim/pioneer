@@ -9,7 +9,6 @@
 #include "Pi.h"
 #include "Sfx.h"
 #include "Game.h"
-#include "Planet.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"

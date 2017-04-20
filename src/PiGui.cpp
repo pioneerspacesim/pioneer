@@ -68,7 +68,6 @@ ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height) {
 	NSVGimage *image = NULL;
 	NSVGrasterizer *rast = NULL;
 	unsigned char* img = NULL;
-	int w, h;
 	// size of each icon
 	//	int size = 64;
 	// 16 columns
@@ -83,8 +82,7 @@ ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height) {
 	if (image == NULL) {
 		Error("Could not open SVG image.\n");
 	}
-	w = static_cast<int>(image->width);
-	h = static_cast<int>(image->height);
+	int w = static_cast<int>(image->width);
 
 	rast = nsvgCreateRasterizer();
 	if (rast == NULL) {
