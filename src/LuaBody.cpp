@@ -91,6 +91,7 @@ static int l_body_attr_seed(lua_State *l)
  *
  *   stable
  */
+
 static int l_body_attr_path(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -107,6 +108,26 @@ static int l_body_attr_path(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetVelocityRelTo
+ *
+ * Get the body's velocity relative to another body as a Vector
+ *
+ * > body:GetVelocityRelTo(otherBody)
+ *
+ * Parameters:
+ *
+ *   other - the other body
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
 static int l_body_get_velocity_rel_to(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -116,6 +137,26 @@ static int l_body_get_velocity_rel_to(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetPositionRelTo
+ *
+ * Get the body's position relative to another body as a Vector
+ *
+ * > body:GetPositionRelTo(otherBody)
+ *
+ * Parameters:
+ *
+ *   other - the other body
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
 static int l_body_get_position_rel_to(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -124,6 +165,26 @@ static int l_body_get_position_rel_to(lua_State *l)
 	LuaPush(l, velocity);
 	return 1;
 }
+
+/*
+ * Method: GetAltitudeRelTo
+ *
+ * Get the body's altitude relative to another body
+ *
+ * > body:GetAltitudeRelTo(otherBody)
+ *
+ * Parameters:
+ *
+ *   other - the other body
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
 
 static int l_body_get_altitude_rel_to(lua_State *l)
 {
@@ -437,12 +498,44 @@ static int l_body_find_nearest_to(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetPhysRadius
+ *
+ * Get the body's physical radius
+ *
+ * > body:GetPhysRadius()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
 static int l_body_get_phys_radius(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
 	LuaPush(l, b->GetPhysRadius());
 	return 1;
 }
+
+/*
+ * Method: GetProjectedScreenPosition
+ *
+ * Get the body's position projected to screen space as a Vector
+ *
+ * > body:GetProjectedScreenPosition()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
 
 static int l_body_get_projected_screen_position(lua_State *l)
 {

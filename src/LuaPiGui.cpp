@@ -250,7 +250,24 @@ void pi_lua_generic_push(lua_State *l, const vector3d &v) {
 	pi_lua_pushVector(l, v.x, v.y, v.z);
 }
 
+/*
+ * Interface: PiGui
+ *
+ * Various functions for the imgui UI. Do *not* use these directly, use the interface that import('pigui') provides.
+ */
+
 /* ****************************** Lua imgui functions ****************************** */
+/*
+ * Function: Begin
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_pigui_begin(lua_State *l) {
 	const std::string name = LuaPull<std::string>(l, 1);
 	ImGuiWindowFlags theflags = LuaPull<ImGuiWindowFlags_>(l, 2);

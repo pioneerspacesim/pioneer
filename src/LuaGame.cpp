@@ -318,11 +318,51 @@ static int l_game_attr_paused(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: InHyperspace
+ *
+ * Return true if the game is in hyperspace mode
+ *
+ * > hyperspace = Game.InHyperspace()
+ *
+ * Return:
+ *
+ *   hyperspace - true if the game is currently in hyperspace
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
 static int l_game_in_hyperspace(lua_State *l)
 {
 	LuaPush(l, Pi::game->IsHyperspace() || Pi::player->GetFlightState() == Ship::HYPERSPACE);
 	return 1;
 }
+
+/*
+ * Function: CurrentView
+ *
+ * Return the currently active game view
+ *
+ * > current_view = Game.CurrentView()
+ *
+ * Return:
+ *
+ *   view - a string describing the game view: "world", "space_station", "info", "sector", "system", "system_info", "death", "galaxy", "settings"
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
 
 static int l_game_current_view(lua_State *l)
 {

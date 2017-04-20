@@ -215,12 +215,44 @@ static int l_get_mouse_direction(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: IsMouseActive
+ *
+ * Return true if the player is using the mouse to rotate the ship (typically RMB held)
+ *
+ * > player:IsMouseActive()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
 static int l_get_is_mouse_active(lua_State *l)
 {
 		Player *player = LuaObject<Player>::CheckFromLua(1);
 		LuaPush(l, player->GetPlayerController()->IsMouseActive());
 		return 1;
 }
+
+/*
+ * Method: GetMaxDeltaV
+ *
+ * Get the player's ship's maximum Δv (excluding hydrogen in cargo space)
+ *
+ * > player:GetMaxDeltaV()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
 
 static int l_get_max_delta_v(lua_State *l)
 {
@@ -230,12 +262,44 @@ static int l_get_max_delta_v(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetCurrentDeltaV
+ *
+ * Get the player's ship's current Δv capacity (excluding hydrogen in cargo space)
+ *
+ * > player:GetCurrentDeltaV()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
 static int l_get_current_delta_v(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
 	LuaPush(l, player->GetVelocityRelTo(player->GetFrame()).Length());
 	return 1;
 }
+
+/*
+ * Method: GetRemainingDeltaV
+ *
+ * Get the player's ship's remaining Δv capacity (excluding hydrogen in cargo space)
+ *
+ * > player:GetRemainingDeltaV()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
 
 static int l_get_remaining_delta_v(lua_State *l)
 {
@@ -247,8 +311,28 @@ static int l_get_remaining_delta_v(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetAcceleration
+ *
+ * Get the player's ship's current acceleration in a direction.
+ *
+ * > player:GetAcceleration
+ *
+ * Parameters:
+ *
+ *   thruster - a string specifying which thruster's acceleration to return. One of "forward", "reverse"
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
 static std::map<std::string, Thruster> thrusters_map = { { "forward", THRUSTER_FORWARD },
-																   { "reverse", THRUSTER_REVERSE } ,
+																												 { "reverse", THRUSTER_REVERSE } ,
 };
 
 static int l_get_acceleration(lua_State *l)
@@ -259,6 +343,27 @@ static int l_get_acceleration(lua_State *l)
 	LuaPush(l, acceleration);
 	return 1;
 }
+
+/*
+ * Method: GetDistanceToZeroV
+ *
+ * Get the distance the player's ship needs to decelerate with thruster from speed
+ *
+ * > player:GetDistanceToZeroV(15000, "forward")
+ *
+ * Parameters:
+ *
+ *   speed - speed in m/s
+ *   thruster - a string specifying which thruster to user for deceleration. One of "forward", "reverse"
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
 
 static int l_get_distance_to_zero_v(lua_State *l)
 {
@@ -271,12 +376,44 @@ static int l_get_distance_to_zero_v(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetManeuverTime
+ *
+ * Get the time remaining until start of maneuver in seconds
+ *
+ * > player:GetManeuverTime()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
 static int l_get_maneuver_time(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
 	LuaPush(l, player->GetManeuverTime());
 	return 1;
 }
+
+/*
+ * Method: GetManeuverVelocity
+ *
+ * Get the current maneuver velocity in m/s
+ *
+ * > player:GetManeuverVelocity()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
 
 static int l_get_maneuver_velocity(lua_State *l)
 {
@@ -285,6 +422,26 @@ static int l_get_maneuver_velocity(lua_State *l)
 	LuaPush(l, pos);
 	return 1;
 }
+
+/*
+ * Method: GetHeadingPitchRoll
+ *
+ * Get the player's ship's current heading, pitch and roll (all in radians)
+ *
+ * > heading,pitch,roll = player:GetHeadingPitchRoll("planet")
+ *
+ * Parameters:
+ *
+ *   type - "system-wide" or "planet"
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
 
 static int l_get_heading_pitch_roll(lua_State *l)
 {
