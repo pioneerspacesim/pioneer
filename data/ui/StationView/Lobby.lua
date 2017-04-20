@@ -57,7 +57,7 @@ local lobby = function (tab)
 			connections.updateDeltaVCargo:Disconnect()
 			return
 		end
-		local dv = shipDef.effectiveExhaustVelocity * math.log((Game.player.staticMass + Game.player.fuelMassLeft) / Game.player.staticMass)
+		local dv = Game.player:GetRemainingDeltaV()
 		deltaV:SetText(string.format("%d km/s", dv/1000))
 	end
 	updateDeltaV()
