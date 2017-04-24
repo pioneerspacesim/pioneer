@@ -11,6 +11,7 @@
 #include "TerrainBody.h"
 #include "Pi.h"
 #include "Game.h"
+#include "LuaPiGui.h"
 
 #include "ModelBody.h"
 #include "Ship.h"
@@ -90,6 +91,7 @@ static int l_body_attr_seed(lua_State *l)
  *
  *   stable
  */
+
 static int l_body_attr_path(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -104,6 +106,108 @@ static int l_body_attr_path(lua_State *l)
 	LuaObject<SystemPath>::PushToLua(path);
 
 	return 1;
+}
+
+/*
+ * Method: GetVelocityRelTo
+ *
+ * Get the body's velocity relative to another body as a Vector
+ *
+ * > body:GetVelocityRelTo(otherBody)
+ *
+ * Parameters:
+ *
+ *   other - the other body
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_body_get_velocity_rel_to(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	const Body *other = LuaObject<Body>::CheckFromLua(2);
+	vector3d velocity = b->GetVelocityRelTo(other);
+	LuaPush(l, velocity);
+	return 1;
+}
+
+/*
+ * Method: GetPositionRelTo
+ *
+ * Get the body's position relative to another body as a Vector
+ *
+ * > body:GetPositionRelTo(otherBody)
+ *
+ * Parameters:
+ *
+ *   other - the other body
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_body_get_position_rel_to(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	const Body *other = LuaObject<Body>::CheckFromLua(2);
+	vector3d velocity = b->GetPositionRelTo(other);
+	LuaPush(l, velocity);
+	return 1;
+}
+
+/*
+ * Method: GetAltitudeRelTo
+ *
+ * Get the body's altitude relative to another body
+ *
+ * > body:GetAltitudeRelTo(otherBody)
+ *
+ * Parameters:
+ *
+ *   other - the other body
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_body_get_altitude_rel_to(lua_State *l)
+{
+	const Body *other = LuaObject<Body>::CheckFromLua(2);
+	vector3d pos = Pi::player->GetPositionRelTo(other);
+	double center_dist = pos.Length();
+	if(other && other->IsType(Object::TERRAINBODY)) {
+		const TerrainBody* terrain = static_cast<const TerrainBody*>(other);
+		vector3d surface_pos = pos.Normalized();
+		double radius = 0.0;
+		if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
+			radius = terrain->GetTerrainHeight(surface_pos);
+		}
+		double altitude = center_dist - radius;
+		if (altitude < 0)
+			altitude = 0;
+		LuaPush(l, altitude);
+		return 1;
+	} else {
+		LuaPush(l, center_dist);
+		return 1;
+	}
+
 }
 
 /*
@@ -394,6 +498,61 @@ static int l_body_find_nearest_to(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetPhysRadius
+ *
+ * Get the body's physical radius
+ *
+ * > body:GetPhysRadius()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_body_get_phys_radius(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	LuaPush(l, b->GetPhysRadius());
+	return 1;
+}
+
+/*
+ * Method: GetProjectedScreenPosition
+ *
+ * Get the body's position projected to screen space as a Vector
+ *
+ * > body:GetProjectedScreenPosition()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_body_get_projected_screen_position(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	WorldView *wv = Pi::game->GetWorldView();
+	vector3d p = wv->WorldSpaceToScreenSpace(b);
+	return pushOnScreenPositionDirection(l, p);
+}
+
+static int l_body_get_target_indicator_screen_position(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	WorldView *wv = Pi::game->GetWorldView();
+	vector3d p = wv->GetTargetIndicatorScreenPosition(b);
+	return pushOnScreenPositionDirection(l, p);
+}
+
 static std::string _body_serializer(LuaWrappable *o)
 {
 	static char buf[256];
@@ -411,35 +570,35 @@ static bool _body_deserializer(const char *pos, const char **next)
 	Body *body = Pi::game->GetSpace()->GetBodyByIndex(n);
 
 	switch (body->GetType()) {
-		case Object::BODY:
-			LuaObject<Body>::PushToLua(body);
-			break;
-		case Object::MODELBODY:
-			LuaObject<Body>::PushToLua(dynamic_cast<ModelBody*>(body));
-			break;
-		case Object::SHIP:
-			LuaObject<Ship>::PushToLua(dynamic_cast<Ship*>(body));
-			break;
-		case Object::PLAYER:
-			LuaObject<Player>::PushToLua(dynamic_cast<Player*>(body));
-			break;
-		case Object::SPACESTATION:
-			LuaObject<SpaceStation>::PushToLua(dynamic_cast<SpaceStation*>(body));
-			break;
-		case Object::PLANET:
-			LuaObject<Planet>::PushToLua(dynamic_cast<Planet*>(body));
-			break;
-		case Object::STAR:
-			LuaObject<Star>::PushToLua(dynamic_cast<Star*>(body));
-			break;
-		case Object::CARGOBODY:
-			LuaObject<Star>::PushToLua(dynamic_cast<CargoBody*>(body));
-			break;
-		case Object::MISSILE:
-			LuaObject<Missile>::PushToLua(dynamic_cast<Missile*>(body));
-			break;
-		default:
-			return false;
+	case Object::BODY:
+		LuaObject<Body>::PushToLua(body);
+		break;
+	case Object::MODELBODY:
+		LuaObject<Body>::PushToLua(dynamic_cast<ModelBody*>(body));
+		break;
+	case Object::SHIP:
+		LuaObject<Ship>::PushToLua(dynamic_cast<Ship*>(body));
+		break;
+	case Object::PLAYER:
+		LuaObject<Player>::PushToLua(dynamic_cast<Player*>(body));
+		break;
+	case Object::SPACESTATION:
+		LuaObject<SpaceStation>::PushToLua(dynamic_cast<SpaceStation*>(body));
+		break;
+	case Object::PLANET:
+		LuaObject<Planet>::PushToLua(dynamic_cast<Planet*>(body));
+		break;
+	case Object::STAR:
+		LuaObject<Star>::PushToLua(dynamic_cast<Star*>(body));
+		break;
+	case Object::CARGOBODY:
+		LuaObject<Star>::PushToLua(dynamic_cast<CargoBody*>(body));
+		break;
+	case Object::MISSILE:
+		LuaObject<Missile>::PushToLua(dynamic_cast<Missile*>(body));
+		break;
+	default:
+		return false;
 	}
 
 	return true;
@@ -456,6 +615,12 @@ template <> void LuaObject<Body>::RegisterClass()
 		{ "DistanceTo", l_body_distance_to },
 		{ "GetGroundPosition", l_body_get_ground_position },
 		{ "FindNearestTo", l_body_find_nearest_to },
+		{ "GetVelocityRelTo",  l_body_get_velocity_rel_to },
+		{ "GetPositionRelTo",  l_body_get_position_rel_to },
+		{ "GetAltitudeRelTo",  l_body_get_altitude_rel_to },
+		{ "GetProjectedScreenPosition", l_body_get_projected_screen_position },
+		{ "GetTargetIndicatorScreenPosition", l_body_get_target_indicator_screen_position },
+		{ "GetPhysicalRadius", l_body_get_phys_radius },
 		{ 0, 0 }
 	};
 

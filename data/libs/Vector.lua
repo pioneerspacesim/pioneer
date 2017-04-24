@@ -6,9 +6,9 @@ local Vector = {}
 local function binaryOp(a, b, op)
 	local typ = type(b)
 	if(typ == "number") then
-		return Vector(a.x + b, a.y + b, a.z + b)
+		return Vector(op(a.x, b), op(a.y, b), op(a.z, b))
 	elseif(typ == "table") then
-		return Vector(a.x + b.x, a.y + b.y, a.z + b.z)
+		return Vector(op(a.x, b.x), op(a.y, b.y), op(a.z, b.z))
 	else
 		error("operand to binary op in Vector not number or table but " .. typ)
 	end

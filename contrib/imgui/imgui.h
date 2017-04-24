@@ -1189,6 +1189,7 @@ struct ImDrawList
     IMGUI_API void  AddText(const ImVec2& pos, ImU32 col, const char* text_begin, const char* text_end = NULL);
     IMGUI_API void  AddText(const ImFont* font, float font_size, const ImVec2& pos, ImU32 col, const char* text_begin, const char* text_end = NULL, float wrap_width = 0.0f, const ImVec4* cpu_fine_clip_rect = NULL);
     IMGUI_API void  AddImage(ImTextureID user_texture_id, const ImVec2& a, const ImVec2& b, const ImVec2& uv0 = ImVec2(0,0), const ImVec2& uv1 = ImVec2(1,1), ImU32 col = 0xFFFFFFFF);
+    IMGUI_API void  AddImageQuad(ImTextureID user_texture_id, const ImVec2& a, const ImVec2& b, const ImVec2& c, const ImVec2& d, const ImVec2& uva = ImVec2(0,0), const ImVec2& uvb = ImVec2(1,0), const ImVec2& uvc = ImVec2(1,1), const ImVec2& uvd = ImVec2(0,1), ImU32 col = 0xFFFFFFFF);
     IMGUI_API void  AddPolyline(const ImVec2* points, const int num_points, ImU32 col, bool closed, float thickness, bool anti_aliased);
     IMGUI_API void  AddConvexPolyFilled(const ImVec2* points, const int num_points, ImU32 col, bool anti_aliased);
     IMGUI_API void  AddBezierCurve(const ImVec2& pos0, const ImVec2& cp0, const ImVec2& cp1, const ImVec2& pos1, ImU32 col, float thickness, int num_segments = 0);
@@ -1353,16 +1354,21 @@ struct ImFont
     ImFontConfig*               ConfigData;         //              // Pointer within ContainerAtlas->ConfigData
     ImFontAtlas*                ContainerAtlas;     //              // What we has been loaded into
     float                       Ascent, Descent;    //              // Ascent: distance from top to bottom of e.g. 'A' [0..FontSize]
+    mutable bool                GlyphsMissing;
+    mutable ImVector<unsigned int>      MissingGlyphsVector;
 
     // Methods
     IMGUI_API ImFont();
     IMGUI_API ~ImFont();
     IMGUI_API void              Clear();
     IMGUI_API void              BuildLookupTable();
-    IMGUI_API const Glyph*      FindGlyph(ImWchar c) const;
+    IMGUI_API const Glyph*      FindGlyph(ImWchar c, bool report_missing = false) const;
     IMGUI_API void              SetFallbackChar(ImWchar c);
     float                       GetCharAdvance(ImWchar c) const     { return ((int)c < IndexXAdvance.Size) ? IndexXAdvance[(int)c] : FallbackXAdvance; }
     bool                        IsLoaded() const                    { return ContainerAtlas != NULL; }
+    bool                        AreGlyphsMissing() const            { return GlyphsMissing; }
+    const ImVector<unsigned int> &MissingGlyphs() const             { return MissingGlyphsVector; }
+    void                        ResetMissingGlyphs()                { GlyphsMissing = false; MissingGlyphsVector.clear(); }
 
     // 'max_width' stops rendering after a certain width (could be turned into a 2d size). FLT_MAX to disable.
     // 'wrap_width' enable automatic word-wrapping across multiple lines to fit into given width. 0.0f to disable.

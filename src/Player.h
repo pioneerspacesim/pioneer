@@ -46,7 +46,9 @@ public:
 
 	virtual void StaticUpdate(const float timeStep) override;
 	sigc::signal<void> onChangeEquipment;
-
+	virtual vector3d GetManeuverVelocity() const;
+	virtual int GetManeuverTime() const;
+	
 protected:
 	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
 	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;

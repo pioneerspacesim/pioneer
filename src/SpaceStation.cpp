@@ -385,7 +385,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 		if (IsPortLocked(port)) {
 			return DoShipDamage(s, flags, relVel);
 		}
-		if (m_shipDocking[port].stage != 1) return false;	// already docking?
+		if (m_shipDocking[port].stage != 1) return DoShipDamage(s, flags, relVel);	// already docking?
 
 		SpaceStationType::positionOrient_t dport;
 
@@ -401,7 +401,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			float dist = (s->GetPosition() - GetPosition() - GetOrient()*dport.pos).LengthSqr();
 			// docking allowed only if inside a circle 70% greater than pad itself (*1.7)
 			float maxDist = static_cast<float>(m_type->FindPortByBay(port)->maxShipSize/2)*1.7;
-			if (dist > (maxDist*maxDist)) return false;
+			if (dist > (maxDist*maxDist)) return DoShipDamage(s, flags, relVel);
 		}
 
 		// why stage 2? Because stage 1 is permission to dock
@@ -426,7 +426,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			s->SetDockedWith(this, port);				// bounces back to SS::SetDocked()
 			LuaEvent::Queue("onShipDocked", s, this);
 		}
-		return false;
+		return DoShipDamage(s, flags, relVel);
 	} else {
 		return true;
 	}
@@ -775,7 +775,7 @@ vector3d SpaceStation::GetTargetIndicatorPosition(const Frame *relTo) const
 	// and the docking point's position once the docking anim starts
 	for (Uint32 i=0; i<m_shipDocking.size(); i++) {
 		if (i >= m_type->NumDockingPorts()) break;
-		if ((m_shipDocking[i].ship == Pi::player) && (m_shipDocking[i].stage > 0)) {
+		if ((m_shipDocking[i].ship == Pi::player) && (m_shipDocking[i].stage > 0) && (m_shipDocking[i].stage != m_type->NumDockingStages() + 1)) { // last part is "not currently docked"
 
 			SpaceStationType::positionOrient_t dport;
 			if (!m_type->GetShipApproachWaypoints(i, m_shipDocking[i].stage+1, dport))

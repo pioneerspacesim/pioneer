@@ -1062,6 +1062,17 @@ static int l_ship_get_position(lua_State *l)
 	return 1;
 }
 
+static int l_ship_is_docked(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushboolean(l, s->IsDocked());
+	return 1;
+}
+
+static int l_ship_is_landed(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushboolean(l, s->IsLanded());
+	return 1;
+}
 
 template <> const char *LuaObject<Ship>::s_type = "Ship";
 
@@ -1112,6 +1123,9 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "GetVelocity", l_ship_get_velocity },
  		{ "GetPosition", l_ship_get_position },
+
+		{ "IsDocked",    l_ship_is_docked },
+		{ "IsLanded",    l_ship_is_landed },
 
 		{ 0, 0 }
 	};

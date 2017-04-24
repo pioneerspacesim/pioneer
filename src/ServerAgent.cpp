@@ -7,6 +7,10 @@
 #define NOMINMAX
 #endif
 
+#ifdef WIN32
+#pragma comment(lib, "libcurl.lib")
+#endif
+
 #include "ServerAgent.h"
 #include "StringF.h"
 #include <curl/curl.h>

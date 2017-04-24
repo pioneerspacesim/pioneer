@@ -1,7 +1,7 @@
 {
    "ABOVE_AVERAGE" : {
       "description" : "",
-      "message" : "Above Average"
+      "message" : "فوق المتوسط"
    },
    "ACTIVE" : {
       "description" : "",
@@ -9,23 +9,23 @@
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "After trade-in"
+      "message" : "بعد المتجارة"
    },
    "ALLEGIANCE" : {
       "description" : "",
-      "message" : "ولاء"
+      "message" : "الولاء:"
    },
    "ALL_UP_WEIGHT" : {
       "description" : "",
-      "message" : "All-up weight"
+      "message" : "الوزن الإجمالي"
    },
    "AMOUNT" : {
       "description" : "",
-      "message" : "Amount"
+      "message" : "الكمية"
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
-      "message" : "حدث خلل"
+      "message" : "هناك خطأ قد حدث"
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
@@ -33,23 +33,23 @@
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "Attempt to repair hull"
+      "message" : "محاولة إصلاح درع السفينة"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
-      "message" : "Available for purchase"
+      "message" : "متوفر للشراء"
    },
    "AVERAGE" : {
       "description" : "",
-      "message" : "Average"
+      "message" : "متوسط"
    },
    "BACKWARD_ACCEL" : {
       "description" : "",
-      "message" : "Backward acceleration"
+      "message" : "التسارع للخلف"
    },
    "BULLETIN_BOARD" : {
       "description" : "",
-      "message" : "Bulletin Board"
+      "message" : "نشرة المجلس"
    },
    "BUY" : {
       "description" : "Commodities and equipment prices",
@@ -57,11 +57,11 @@
    },
    "BUY_SHIP" : {
       "description" : "",
-      "message" : "Buy Ship"
+      "message" : "إشتري سفينة"
    },
    "CABINS" : {
       "description" : "For passengers",
-      "message" : "الكبائن"
+      "message" : "قمرات"
    },
    "CABIN_FREE" : {
       "description" : "Free capacity for passengers",
@@ -73,15 +73,15 @@
    },
    "CANCEL" : {
       "description" : "",
-      "message" : "Cancel"
+      "message" : "إلغاء"
    },
    "CAPACITY" : {
       "description" : "Capacity of ship to fit more equipment",
-      "message" : "Capacity"
+      "message" : "السعة"
    },
    "CAPACITY_USED" : {
       "description" : "",
-      "message" : "Capacity used"
+      "message" : "السعة المستخدمة"
    },
    "CARGO" : {
       "description" : "",
@@ -89,7 +89,7 @@
    },
    "CARGO_SPACE" : {
       "description" : "",
-      "message" : "Cargo space"
+      "message" : "حجم المخزن"
    },
    "CARGO_SPACE_USED" : {
       "description" : "",
@@ -105,11 +105,11 @@
    },
    "CASH" : {
       "description" : "",
-      "message" : "مال"
+      "message" : "نقود"
    },
    "CASH_N" : {
       "description" : "",
-      "message" : "Cash: {money}"
+      "message" : "النقود: "
    },
    "CHANGE_BINDING" : {
       "description" : "Key binding option",
@@ -117,11 +117,11 @@
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
-      "message" : "Chief Mechanic"
+      "message" : "رئيس الميكانيكين"
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
-      "message" : "Circular orbit speed"
+      "message" : "سرعة المدار الدائري"
    },
    "CITY_DETAIL_LEVEL" : {
       "description" : "Game graphics option",
@@ -129,11 +129,11 @@
    },
    "CLEAN" : {
       "description" : "Legal status of player",
-      "message" : "Clean"
+      "message" : "نظيف"
    },
    "CLEAR" : {
       "description" : "Clear an option in game settings/options menu",
-      "message" : "Clear"
+      "message" : "خالي"
    },
    "CLIENT" : {
       "description" : "",
@@ -141,15 +141,15 @@
    },
    "COMBAT" : {
       "description" : "Headline for kills and combat rating",
-      "message" : "Combat"
+      "message" : "معركة"
    },
    "COMMANDER" : {
       "description" : "",
-      "message" : "Commander"
+      "message" : "القائد"
    },
    "COMMODITY_MARKET" : {
       "description" : "",
-      "message" : "Commodity Market"
+      "message" : "متجر السلع"
    },
    "COMPACT_RADAR" : {
       "description" : "Game settings option",
@@ -161,11 +161,11 @@
    },
    "COMPLETED" : {
       "description" : "",
-      "message" : "Completed"
+      "message" : "مكتملة"
    },
    "COMPRESS_TEXTURES" : {
       "description" : "graphics option in game settings menu ",
-      "message" : "Compress Textures"
+      "message" : "تركيب البوصلة"
    },
    "CONFIRM_PURCHASE" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "CONSTABLE" : {
       "description" : "",
-      "message" : "Constable"
+      "message" : "مسؤل أمني"
    },
    "CONTINUE_GAME" : {
       "description" : "",
@@ -189,11 +189,11 @@
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
-      "message" : "اعدادات التحكم"
+      "message" : "إعدادات التحكم"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
-      "message" : "لا يمكن حفظ اللعبة:"
+      "message" : "لا يمكن تحميل اللعبة:"
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
@@ -209,11 +209,11 @@
    },
    "CRIMINAL_RECORD" : {
       "description" : "Past crimes / crime history of character",
-      "message" : "Criminal record"
+      "message" : "سجل مجرم"
    },
    "DANGEROUS" : {
       "description" : "Player combat rating",
-      "message" : "Dangerous"
+      "message" : "خطير"
    },
    "DEADLY" : {
       "description" : "Player combat rating",
@@ -221,7 +221,7 @@
    },
    "DELTA_V" : {
       "description" : "",
-      "message" : "Delta-v"
+      "message" : "دلتا-v"
    },
    "DELTA_V_EMPTY" : {
       "description" : "Delta-v capacity of a ship with no cargo or upgrades",
@@ -245,7 +245,7 @@
    },
    "DISMISS" : {
       "description" : "Terminate crew memeber's contract",
-      "message" : "Dismiss"
+      "message" : "إنصراف"
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
@@ -257,15 +257,15 @@
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "Settings option: effect when travelling in space",
-      "message" : "Display speed lines"
+      "message" : "أظهر خطوط السرعة"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
-      "message" : "Dock at current target"
+      "message" : "أرسو علي الهدف الحالي"
    },
    "DUE" : {
       "description" : "mission deadline date",
-      "message" : "Due"
+      "message" : "مناسب"
    },
    "DUMPING" : {
       "description" : "The illegal act of dumping waste",
@@ -277,19 +277,19 @@
    },
    "ECONOMY_TRADE" : {
       "description" : "",
-      "message" : "الاقتصاد و التجارة"
+      "message" : "الإقتصاد و التجارة"
    },
    "EFFECTS" : {
       "description" : "",
-      "message" : "الاعراض:"
+      "message" : "تأثيرات:"
    },
    "ELITE" : {
       "description" : "Player combat rating",
-      "message" : "ELITE"
+      "message" : "النخبة"
    },
    "EMPLOYMENT" : {
       "description" : "",
-      "message" : "Employment"
+      "message" : "التوظيف"
    },
    "ENABLE_ANISOTROPIC_FILTERING" : {
       "description" : "Use Anisotropic Filtering",
@@ -313,19 +313,19 @@
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "Equipment"
+      "message" : "المعدات"
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
-      "message" : "Equipment Market"
+      "message" : "متجر المعدات"
    },
    "EQUIPPED" : {
       "description" : "",
-      "message" : "Equipped"
+      "message" : "مُجهز"
    },
    "ERROR" : {
       "description" : "",
-      "message" : "خلل"
+      "message" : "خطأ"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
@@ -333,7 +333,7 @@
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
-      "message" : "Exit this game"
+      "message" : "أخرج من اللعبة"
    },
    "EXPERIENCED" : {
       "description" : "For player reputation",
@@ -349,19 +349,19 @@
    },
    "FEMALE" : {
       "description" : "",
-      "message" : "Female"
+      "message" : "أنثي"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
-      "message" : "Forward acceleration"
+      "message" : "التسارع الأمامي"
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Forward accel (empty)"
+      "message" : "التسارع الأمامي (فارغ)"
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Forward accel (full)"
+      "message" : "التسارع الأمامي (ممتلئ)"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
@@ -369,7 +369,7 @@
    },
    "FREE" : {
       "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
-      "message" : "free"
+      "message" : "مجاني"
    },
    "FRONT_WEAPON" : {
       "description" : "",
@@ -381,7 +381,7 @@
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
-      "message" : "خزان الوقود ممتلاء."
+      "message" : "خزان الوقود ممتلئ."
    },
    "FUEL_WEIGHT" : {
       "description" : "",
@@ -389,7 +389,7 @@
    },
    "FULL_SCREEN" : {
       "description" : "",
-      "message" : "Full screen"
+      "message" : "شاشة كاملة"
    },
    "GENERAL_CREW" : {
       "description" : "",
@@ -397,19 +397,19 @@
    },
    "GIVE_ORDERS_TO_CREW" : {
       "description" : "",
-      "message" : "Give orders to crew"
+      "message" : "أعطي الأوامر إلي الفريق"
    },
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
-      "message" : "خلاص سعيد لك كذلك"
+      "message" : "خلاص سعيد لك، كذلك."
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "مُعلق."
    },
    "HARMLESS" : {
       "description" : "Player combat rating",
-      "message" : "Harmless"
+      "message" : "غير مؤذي"
    },
    "HEAVY_CARGO_SHUTTLE" : {
       "description" : "",
@@ -437,7 +437,7 @@
    },
    "HIGH" : {
       "description" : "Game settings option: for graphics resolution",
-      "message" : "عالي"
+      "message" : "مرتفع"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
@@ -449,15 +449,15 @@
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
-      "message" : "Hull repaired by {name}, now at {repairPercent}%"
+      "message" : "الدرع صُلح بواسطة {name}، الأن في {repairPercent}%"
    },
    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
       "description" : "",
-      "message" : "محاولة تصليح الدرع فشلت. الدرع تعرض الى اضرار ضفيفة."
+      "message" : "محاولة تصليح الدرع فشلت. الدرع تعرض الى اضرار طفيفة."
    },
    "HYPERDRIVE" : {
       "description" : "",
-      "message" : "جهاز القذف"
+      "message" : "جهاز الإطلاق الضوئي"
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
@@ -465,7 +465,7 @@
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "بعد القذف"
+      "message" : "مدي الفضاء الفائق"
    },
    "ILLEGAL_JUMP" : {
       "description" : "A finable crime",
@@ -473,11 +473,11 @@
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
-      "message" : "I'm tired of working for nothing. Don't you know what a contract is?"
+      "message" : "أنا متعب من العمل من أجل لا شئ. هل تعرف ما هو العقد؟"
    },
    "INACTIVE" : {
       "description" : "",
-      "message" : "Inactive"
+      "message" : "غير نشط"
    },
    "INCOMPETENT" : {
       "description" : "For player reputation",
@@ -493,7 +493,7 @@
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
-      "message" : "عكس الفائرة Y"
+      "message" : "عكس الماوس علي المحور Y"
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
@@ -509,15 +509,15 @@
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
-      "message" : "It's been great working for you. If you need me again, I'll be here a while."
+      "message" : "إنه لمن العظيم العمل تحت إمرتك. إذا أردتني مجدداً، أنا سوف أكون موجوداً هنا لبعض الوقت."
    },
    "JETTISON" : {
       "description" : "",
-      "message" : "Jettison"
+      "message" : "تخفيف الحمولة"
    },
    "KILLS" : {
       "description" : "",
-      "message" : "قتل:"
+      "message" : "قتلي:"
    },
    "LANGUAGE" : {
       "description" : "",
@@ -525,7 +525,7 @@
    },
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Language (restart game to apply)"
+      "message" : "اللغة (أعد تشغيل اللعبة لكي تطبقها)"
    },
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
@@ -585,7 +585,7 @@
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
-      "message" : "متواجد {distance}km بعيدا عن مركز {name}:"
+      "message" : "متواجد {distance}كم بعيداً عن مركز {name}:"
    },
    "LOCATION" : {
       "description" : "",
@@ -593,11 +593,11 @@
    },
    "LOW" : {
       "description" : "",
-      "message" : "Low"
+      "message" : "منخفض"
    },
    "LY" : {
       "description" : "Light year",
-      "message" : "ly"
+      "message" : "س/ض"
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
@@ -621,7 +621,7 @@
    },
    "MASTER" : {
       "description" : "For player reputation",
-      "message" : "Master"
+      "message" : "الرئيس"
    },
    "MASTER_VOL" : {
       "description" : "Master sound in settings option",
@@ -673,7 +673,7 @@
    },
    "MINIMUM_CREW" : {
       "description" : "",
-      "message" : "Minimum crew"
+      "message" : "الطاقم الأدني"
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
@@ -681,7 +681,7 @@
    },
    "MISSIONS" : {
       "description" : "",
-      "message" : "Missions"
+      "message" : "المهمات"
    },
    "MISSION_DETAILS" : {
       "description" : "",
@@ -693,11 +693,11 @@
    },
    "MOSTLY_HARMLESS" : {
       "description" : "",
-      "message" : "Mostly Harmless"
+      "message" : "معظم الوقت غير مؤذي"
    },
    "MULTISAMPLING" : {
       "description" : "",
-      "message" : "Multisampling"
+      "message" : "تنعيم الحواف"
    },
    "MURDER" : {
       "description" : "",
@@ -705,11 +705,11 @@
    },
    "MUSIC" : {
       "description" : "",
-      "message" : "Music:"
+      "message" : "موسيقي:"
    },
    "MUTE" : {
       "description" : "",
-      "message" : "Mute"
+      "message" : "تصميت"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
@@ -721,7 +721,7 @@
    },
    "NAVIGATION" : {
       "description" : "",
-      "message" : "Navigation:"
+      "message" : "الملاحة:"
    },
    "NAVIGATOR" : {
       "description" : "",
@@ -729,7 +729,7 @@
    },
    "NEGOTIATE" : {
       "description" : "",
-      "message" : "Negotiate"
+      "message" : "تفاوض"
    },
    "NEXT_PAID" : {
       "description" : "",
@@ -745,7 +745,7 @@
    },
    "NONE" : {
       "description" : "",
-      "message" : "None"
+      "message" : "لا شئ"
    },
    "NONE_FOR_SALE_IN_THIS_STATION" : {
       "description" : "",
@@ -757,11 +757,11 @@
    },
    "NOTES" : {
       "description" : "",
-      "message" : "مدونات:"
+      "message" : "ملاحظات:"
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
-      "message" : "ليس هناك كفاية {alloy} ليتم التصليح"
+      "message" : "ليس هناك {alloy} كافية لبدء الإصلاح"
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
@@ -769,7 +769,7 @@
    },
    "NO_MISSIONS" : {
       "description" : "",
-      "message" : "No missions."
+      "message" : "لا مهمات."
    },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
@@ -777,23 +777,23 @@
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} كبينة ركاب محتلة"
+      "message" : "{quantity} قمرة ركاب محتلة"
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
-      "message" : "{quantity} Shield Generators"
+      "message" : "{quantity} مولدات الدرع"
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} Unoccupied Passenger Cabins"
+      "message" : "{quantity} قمرة ركاب غير مُحتلة"
    },
    "OFF" : {
       "description" : "",
-      "message" : "مطفأ"
+      "message" : "مغلق"
    },
    "OK" : {
       "description" : "",
-      "message" : "Ok"
+      "message" : "حسناً"
    },
    "OPEN_USER_FOLDER" : {
       "description" : "",
@@ -801,7 +801,7 @@
    },
    "OPTIONS" : {
       "description" : "",
-      "message" : "Options"
+      "message" : "الإعدادات"
    },
    "ORBIT" : {
       "description" : "",
@@ -825,7 +825,7 @@
    },
    "OWED" : {
       "description" : "Player owing money to crew members",
-      "message" : "Owed"
+      "message" : "المُستحق"
    },
    "PAY_FINE_OF_N" : {
       "description" : "",
@@ -849,7 +849,7 @@
    },
    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
       "description" : "",
-      "message" : "Pilot seat is now occupied by {name}"
+      "message" : "مقعد الطيار مُحتل بواسطة "
    },
    "PIRACY" : {
       "description" : "",
@@ -857,7 +857,7 @@
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
-      "message" : "Planet detail distance"
+      "message" : "تفاصيل بعد الكوكب"
    },
    "PLANET_TEXTURES" : {
       "description" : "",
@@ -869,7 +869,7 @@
    },
    "POOR" : {
       "description" : "Player combat rating",
-      "message" : "Poor"
+      "message" : "فقير"
    },
    "POSITION" : {
       "description" : "The job title/position of crew memeber",
@@ -877,7 +877,7 @@
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
-      "message" : "Press a key or controller button"
+      "message" : "إضغط علي مفتاح أو زر تحكم"
    },
    "PRICE" : {
       "description" : "",
@@ -893,11 +893,11 @@
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
-      "message" : "نقاط التئهيل"
+      "message" : "نقاط التأهيل"
    },
    "QUIT" : {
       "description" : "",
-      "message" : "Quit"
+      "message" : "خروج"
    },
    "QUIT_CONFIRMATION" : {
       "description" : "For the checkbox in settings window",
@@ -905,7 +905,7 @@
    },
    "RANK" : {
       "description" : "",
-      "message" : "الرتبة"
+      "message" : "الرتبة:"
    },
    "RATING" : {
       "description" : "",
@@ -913,11 +913,11 @@
    },
    "REAR_WEAPON" : {
       "description" : "",
-      "message" : "Rear weapon"
+      "message" : "سلاح جانبي"
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "اعادة شحن الوقود"
+      "message" : "إعادة شحن الوقود"
    },
    "REFUEL_FULL" : {
       "description" : "",
@@ -961,7 +961,7 @@
    },
    "REWARD" : {
       "description" : "",
-      "message" : "الجائزة"
+      "message" : "مكافأة"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -985,11 +985,11 @@
    },
    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
       "description" : "",
-      "message" : "Select a file to save to or enter a new filename"
+      "message" : "إختر ملف للحفظ إليه أو أدخل إسم ملف جديد"
    },
    "SELECT_FILE" : {
       "description" : "",
-      "message" : "Select file..."
+      "message" : "حدد ملف..."
    },
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
@@ -1057,15 +1057,15 @@
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
-      "message" : "Start at Barnard's Star"
+      "message" : "إبدأ علي نجمة برنارد"
    },
    "START_AT_EARTH" : {
       "description" : "",
-      "message" : "Start at Earth"
+      "message" : "إبدا في الأرض"
    },
    "START_AT_NEW_HOPE" : {
       "description" : "New Hope is an in game location",
-      "message" : "البداية على New Hope"
+      "message" : "البداية على أمل جديد"
    },
    "STAR_FIELD_DENSITY" : {
       "description" : "",
@@ -1093,11 +1093,11 @@
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
-      "message" : "لا يوجد احد اخر على المركب لقيادة السفينة."
+      "message" : "لا يوجد أحد أخر على المركب لقيادة السفينة."
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
-      "message" : "السفينة تحت تحكم المحطة, ايها القئد."
+      "message" : "السفينة تحت تحكم المحطة, أيها القائد."
    },
    "THREE_KPC_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1105,7 +1105,7 @@
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
-      "message" : "Toggle male/female"
+      "message" : "تبديل ذكر/أنثي"
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
@@ -1133,7 +1133,7 @@
    },
    "TYPE" : {
       "description" : "",
-      "message" : "Type"
+      "message" : "النوع"
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
@@ -1145,27 +1145,27 @@
    },
    "UP_ACCEL" : {
       "description" : "",
-      "message" : "Up acceleration"
+      "message" : "التسارع للإعلي"
    },
    "USED" : {
       "description" : "",
-      "message" : "Used"
+      "message" : "مستخدم"
    },
    "VERY_HIGH" : {
       "description" : "Game settings option: graphic resolution",
-      "message" : "Very high"
+      "message" : "عالي جداً"
    },
    "VERY_LOW" : {
       "description" : "Game settings option: graphic resolution",
-      "message" : "منخفض جدا"
+      "message" : "منخفض جداً"
    },
    "VIDEO" : {
       "description" : "",
-      "message" : "العرض"
+      "message" : "فيديو"
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "اعدادات العرض (قم باعادة تشغيل اللعبة للتطبيق)"
+      "message" : "إعدادات الفيديو (أعد تشغيل اللعبة للتطبيق)"
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",
@@ -1177,7 +1177,7 @@
    },
    "WAGE" : {
       "description" : "Salary of crew shown in crew roster",
-      "message" : "اجور"
+      "message" : "أجر"
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
@@ -1189,7 +1189,7 @@
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
-      "message" : "We are in hyperspace, Commander."
+      "message" : "نحن في الفضاء العميق، أيها القائد."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "Said by the police to law abiding player",
@@ -1205,7 +1205,7 @@
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
-      "message" : "لن تهب لهفتي!"
+      "message" : "أنت سوف تندم علي إقالتي!"
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
@@ -1221,19 +1221,19 @@
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "You must first select a combat target, Commander."
+      "message" : "يجب عليك أن تختار هدف معركة أولاً، أيها القائد."
    },
    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "You must first select a suitable navigation target, Commander."
+      "message" : "يجب عليك أولاً أن تختار هدف ملاحة مناسب، أيها القائد."
    },
    "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "You must launch first, Commander."
+      "message" : "يجب عليك الإنطلاق أولاً، أيها القائد."
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "You must request launch clearance first, Commander."
+      "message" : "يجب عليك أن تطلب إذن الإنطلاق أولاً، أيها القائد."
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
