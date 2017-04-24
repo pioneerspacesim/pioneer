@@ -85,6 +85,10 @@
 #include <algorithm>
 #include <sstream>
 
+#ifdef PROFILE_LUA_TIME
+#include <time.h>
+#endif
+
 #if defined(_MSC_VER) || defined(__MINGW32__)
 	// RegisterClassA and RegisterClassW are defined as macros in WinUser.h
 	#ifdef RegisterClass
@@ -1704,6 +1708,13 @@ float Pi::GetMoveSpeedShiftModifier() {
 }
 
 void Pi::DrawPiGui(double delta, std::string handler) {
+	#ifdef PROFILE_LUA_TIME
+	auto before = clock();
+	#endif
 	Pi::pigui->Render(delta, handler);
+	#ifdef PROFILE_LUA_TIME
+	auto after = clock();
+  Output("Lua PiGUI took %f\n", double(after - before) / CLOCKS_PER_SEC);
+	#endif
 	PiGui::RenderImGui();
 }

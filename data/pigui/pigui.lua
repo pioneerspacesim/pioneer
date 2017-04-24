@@ -23,6 +23,7 @@ local pi_2 = pi / 2
 local pi_4 = pi / 4
 local two_pi = pi * 2
 local standard_gravity = 9.80665
+local one_over_sqrt_two = 1 / math.sqrt(2)
 
 local ui = { }
 
@@ -38,6 +39,13 @@ function ui.group(fun)
 	pigui.BeginGroup()
 	fun()
 	pigui.EndGroup()
+end
+
+function ui.popup(name, fun)
+	if pigui.BeginPopup(name) then
+		fun()
+		pigui.EndPopup()
+	end
 end
 
 function ui.withFont(name, size, fun)
@@ -351,9 +359,11 @@ ui.setNextWindowSize = pigui.SetNextWindowSize
 ui.dummy = pigui.Dummy
 ui.sameLine = pigui.SameLine
 ui.text = pigui.Text
+ui.selectable = pigui.Selectable
 ui.progressBar = pigui.ProgressBar
 ui.calcTextSize = pigui.CalcTextSize
 ui.addCircle = pigui.AddCircle
+ui.addCircleFilled = pigui.AddCircleFilled
 ui.addLine = pigui.AddLine
 ui.pathArcTo = pigui.PathArcTo
 ui.pathStroke = pigui.PathStroke
@@ -361,11 +371,17 @@ ui.twoPi = two_pi
 ui.pi_2 = pi_2
 ui.pi_4 = pi_4
 ui.pi = pi
+ui.oneOverSqrtTwo = one_over_sqrt_two
 ui.isMouseClicked = pigui.IsMouseClicked
 ui.getMousePos = pigui.GetMousePos
+ui.getMouseWheel = pigui.GetMouseWheel
 ui.setTooltip = pigui.SetTooltip
 ui.shouldDrawUI = pigui.ShouldDrawUI
 ui.getWindowPos = pigui.GetWindowPos
+ui.getTargetsNearby = pigui.GetTargetsNearby
+ui.isMouseReleased = pigui.IsMouseReleased
+ui.isMouseHoveringRect = pigui.IsMouseHoveringRect
+ui.openPopup = pigui.OpenPopup
 ui.loadTextureFromSVG = function(a, b, c)
 	return pigui:LoadTextureFromSVG(a, b, c)
 end
