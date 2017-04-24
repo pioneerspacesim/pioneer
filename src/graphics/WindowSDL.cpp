@@ -107,7 +107,7 @@ WindowSDL::WindowSDL(Graphics::Settings &vs, const std::string &name) {
 
 	if (!ok && vs.rendererType != Graphics::RENDERER_OPENGL_21)
 	{
-		Output("Retrying all previous modes using an OpenGL 2.1 context\n", SDL_GetError());
+		Output("Retrying all previous modes using an OpenGL 2.1 context: %s\n", SDL_GetError());
 		vs.rendererType = Graphics::RENDERER_OPENGL_21;
 
 		// attempt sequence is:

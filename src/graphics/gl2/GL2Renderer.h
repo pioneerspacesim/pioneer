@@ -132,7 +132,7 @@ protected:
 	void DisableVertexAttributes(const VertexBuffer*);
 	void DisableVertexAttributes();
 	int m_numLights;
-	int m_numDirLights;
+	unsigned int m_numDirLights;
 	std::vector<GLuint> m_vertexAttribsSet;
 	float m_minZNear;
 	float m_maxZFar;
