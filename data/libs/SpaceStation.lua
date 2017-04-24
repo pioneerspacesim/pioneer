@@ -441,7 +441,8 @@ SpaceStation.adverts = {}
 --
 --   description - text to display in the bulletin board
 --
---   icon - (option) filename of an icon to display alongside the advert
+--   icon - optional, filename of an icon to display alongside the advert.
+--          Defaults to bullet (data/icons/bbs/default).
 --
 --   onChat - function to call when the ad is activated. The function is
 --            passed three parameters: a <ChatForm> object for the ad

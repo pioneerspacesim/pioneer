@@ -1,6 +1,7 @@
 April 2017
    * New Features
      * New imgui-driven GUI reticule (#3868)
+     * New Advice/rumour module for BBS (#3978)
 
    * Internal Changes
      * Updated Xcode project for Mac OSX build (#3960)
@@ -13,6 +14,7 @@ April 2017
      * Ever damage ship when docking (#3953)
      * Add screenshot support for OpenGL 2.1 renderer (#3977)
      * Initialise the TextureFont to 0 (#3980)
+     * Fix minor error in buildfiles (#3973)
 
 March 2017
    * New Features
