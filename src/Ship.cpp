@@ -57,7 +57,7 @@ void Ship::SaveToJson(Json::Value &jsonObj, Space *space)
 	shipObj["hyperspace_destination"] = hyperspaceDestObj; // Add hyperspace destination object to ship object.
 	shipObj["hyperspace_countdown"] = FloatToStr(m_hyperspace.countdown);
 
-	FixedGuns::SaveToJson( shipObj );
+	FixedGuns::SaveToJson( shipObj, space );
 
 	shipObj["ecm_recharge"] = FloatToStr(m_ecmRecharge);
 	shipObj["ship_type_id"] = m_type->id;
@@ -131,7 +131,7 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_hyperspace.countdown = StrToFloat(shipObj["hyperspace_countdown"].asString());
 	m_hyperspace.duration = 0;
 
-	FixedGuns::LoadFromJson( shipObj );
+	FixedGuns::LoadFromJson( shipObj, space );
 
 	m_ecmRecharge = StrToFloat(shipObj["ecm_recharge"].asString());
 	SetShipId(shipObj["ship_type_id"].asString()); // XXX handle missing thirdparty ship

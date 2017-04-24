@@ -241,12 +241,13 @@ protected:
 	LuaObject() : LuaObjectBase(s_type) {}
 
 private:
-
 	// initial lua type string. defined in a specialisation in the appropriate
 	// .cpp file
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundefined-var-template"
 	static const char *s_type;
+#pragma clang diagnostic pop
 };
-
 
 // wrapper for a "core" object - one owned by c++ (eg Body).
 // Lua needs to know when the object is deleted so that it can handle
