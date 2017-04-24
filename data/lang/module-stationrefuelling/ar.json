@@ -1,10 +1,10 @@
 {
    "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
       "description" : "",
-      "message" : "This is {station}. You do not have enough money for your docking fee of {fee}."
+      "message" : "هذه هي {station}. أنت ليس لديك مال كافي لسعر الرسو من {fee}."
    },
    "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
       "description" : "",
-      "message" : "Welcome aboard {station}. Your docking fee of {fee} has been deducted."
+      "message" : "مرحبا بكم على متن {station}. سعر الرسو من {fee} قد تم خصمه."
    }
 }
