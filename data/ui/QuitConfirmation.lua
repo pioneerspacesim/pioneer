@@ -7,7 +7,7 @@ local Lang = import("Lang")
 local ui = Engine.ui
 local l = Lang.GetResource("quitconfirmation-core")
 
-local max_flavours = 18
+local max_flavours = 19
 
 ui.templates.QuitConfirmation = function (args)
 	local title        = l.QUIT
