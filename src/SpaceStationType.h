@@ -5,6 +5,7 @@
 #define _SPACESTATIONTYPE_H
 
 #include "libs.h"
+#include <tuple>
 
 //Space station definition, loaded from data/stations
 
@@ -55,6 +56,10 @@ private:
 	PortPathMap m_portPaths;
 	TPorts m_ports;
 	float padOffset;
+	float central_hole_dia;
+	float central_hole_min;
+	float central_hole_max;
+	bool  central_hole_dock;
 
 	static std::vector<SpaceStationType> surfaceTypes;
 	static std::vector<SpaceStationType> orbitalTypes;
@@ -88,6 +93,10 @@ public:
 	float ParkingDistance() const { return parkingDistance; }
 	float ParkingGapSize() const { return parkingGapSize; }
 	const TPorts& Ports() const { return m_ports; }
+
+	std::tuple<float,float,float,bool> GetCentralHoleData() const {
+		return std::make_tuple(central_hole_dia,central_hole_min,central_hole_max, central_hole_dock);
+	}
 
 	static void Init();
 

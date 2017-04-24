@@ -130,8 +130,16 @@ void ModelBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
 void ModelBody::SetColliding(bool colliding)
 {
 	m_colliding = colliding;
-	if(colliding) m_geom->Enable();
-	else m_geom->Disable();
+	if(colliding) {
+		m_geom->Enable();
+		for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
+			(*it)->Enable();
+	}
+	else {
+		m_geom->Disable();
+		for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
+			(*it)->Enable();
+	}
 }
 
 void ModelBody::RebuildCollisionMesh()
@@ -279,6 +287,26 @@ void ModelBody::MoveGeoms(const matrix4x4d &m, const vector3d &p)
 
 		(*it)->MoveTo(s_tempMat * (*it)->m_animTransform);
 	}
+}
+
+void ModelBody::AddNotCollidingChild(ModelBody* mb) {
+	assert(mb!=nullptr);
+    m_geom->AddChild(mb->m_geom);
+	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it) {
+		(*it)->AddChild(mb->m_geom);
+	}
+}
+
+void ModelBody::RemoveNotCollidingChild(ModelBody* mb) {
+	assert(mb!=nullptr);
+	m_geom->RemoveChild(mb->m_geom);
+	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it) {
+		(*it)->RemoveChild(mb->m_geom);
+	}
+}
+
+void ModelBody::SetCentralHole(float diameter, float min, float max, bool dock) {
+	m_geom->SetCentralHole(diameter,min,max,dock);
 }
 
 // Calculates the ambiently and directly lit portions of the lighting model taking into account the atmosphere and sun positions at a given location

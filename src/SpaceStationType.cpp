@@ -28,6 +28,10 @@ SpaceStationType::SpaceStationType(const std::string &id_, const std::string &pa
 	, shipLaunchStage(3)
 	, parkingDistance(0)
 	, parkingGapSize(0)
+	, central_hole_dia(0)
+	, central_hole_min(0)
+	, central_hole_max(0)
+	, central_hole_dock(false)
 {
 	Json::Reader reader;
 	Json::Value data;
@@ -61,6 +65,11 @@ SpaceStationType::SpaceStationType(const std::string &id_, const std::string &pa
 	parkingGapSize = data.get("parking_gap_size", 0.0f).asFloat();
 
 	padOffset = data.get("pad_offset", 150.f).asFloat();
+
+	central_hole_dia = data.get("central_hole_diameter", -0.1f).asFloat();
+	central_hole_min = data.get("central_hole_min", 0.0f).asFloat();
+	central_hole_max = data.get("central_hole_max", 0.0f).asFloat();
+	central_hole_dock = data.get("central_hole_dock", 0.0f).asBool();
 
 	model = Pi::FindModel(modelName);
 	assert(model);

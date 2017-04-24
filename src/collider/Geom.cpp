@@ -16,7 +16,11 @@ Geom::Geom(const GeomTree *geomtree) :
 	m_active(true),
 	m_geomtree(geomtree),
 	m_data(nullptr),
-	m_group(0)
+	m_group(0),
+	m_old_group(0),
+	m_central_hole_diameter(0),
+	m_have_central_hole(false),
+	m_central_hole_dock(false)
 {
 }
 
@@ -73,6 +77,33 @@ void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*))
 		return;
 	}
 }
+
+bool Geom::CheckInsideHole(Geom* b, void (*callback)(CollisionContact*))
+{
+	PROFILE_SCOPED();
+	float max_dist = m_central_hole_diameter/2-b->GetGeomTree()->GetRadius();
+	vector3d pos2 = b->GetPosition();
+	// "Hole" is in z axis in spacestation
+	// err...: seems models are rotated: rotation axis is y
+	vector2d pos2xy(pos2.x, pos2.z);
+	float dist_sqr = pos2xy.LengthSqr();
+
+	if (dist_sqr<(max_dist*max_dist)&&(pos2.y<m_central_hole_maxz)&&(pos2.y>m_central_hole_minz)) {
+			if (m_central_hole_dock) {
+				CollisionContact contact;
+				contact.pos = GetPosition();
+				contact.normal = vector3d(0.0);
+				contact.depth = 0.1;
+				contact.triIdx = 0;
+				contact.userData1 = this->m_data;
+				contact.userData2 = b->m_data;
+				contact.geomFlag = 0x10;
+				callback(&contact);
+			}
+			return true;
+	}
+	return false;
+};
 
 /*
  * This geom has moved, causing a possible collision with geom b.
@@ -236,3 +267,16 @@ void Geom::CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const mat
 	}
 }
 
+void Geom::SetCentralHole(float diameter, int minz, int maxz, bool dock) {
+	if (diameter<0.1) {
+			m_have_central_hole=false;
+			m_central_hole_diameter = -1.0;
+			m_central_hole_dock=false;
+			return;
+	};
+	m_central_hole_diameter = diameter;
+	m_central_hole_minz = minz;
+	m_central_hole_maxz = maxz;
+	m_central_hole_dock = dock;
+	m_have_central_hole=true;
+}

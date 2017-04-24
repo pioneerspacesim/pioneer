@@ -700,7 +700,7 @@ void Ship::SetFlightState(Ship::FlightState newState)
 		case DOCKING:		SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
 		case UNDOCKING:	SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
 // TODO: set collision index? dynamic stations... use landed for open-air?
-		case DOCKED:		SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
+		case DOCKED:		SetMoving(false);	SetColliding(true);	SetStatic(false);	break;
 		case LANDED:		SetMoving(false);	SetColliding(true);		SetStatic(true);	break;
 		case JUMPING:		SetMoving(true);	SetColliding(false);	SetStatic(false);	break;
 		case HYPERSPACE:	SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
@@ -1332,6 +1332,12 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	if (IsType(Object::PLAYER))
 		Pi::game->GetWorldView()->SetCamType(Pi::game->GetWorldView()->GetCamType());
 	InitEquipSet();
+
+	/* TODO: if a new ship change its size, you
+	 * would change pad to match new dimension
+	 * (this comment is here because when a new
+	 * game begin, player ship is changed)
+	*/
 
 	LuaEvent::Queue("onShipTypeChanged", this);
 }

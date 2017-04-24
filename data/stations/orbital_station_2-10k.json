@@ -4,5 +4,9 @@
 "angular_velocity" : 0.041,
 "parking_distance" : 3000.0,
 "parking_gap_size" : 500.0,
-"pad_offset" : 150
+"pad_offset" : 150,
+"central_hole_diameter" : 130.0,
+"central_hole_min" : -400,
+"central_hole_max" : 550,
+"central_hole_dock" : 1
 }
