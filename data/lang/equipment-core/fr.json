@@ -309,7 +309,7 @@
    },
    "THRUSTERS_MEDIUM_DESCRIPTION" : {
       "description" : "",
-      "message" : "Propulseurs qui ont été optimisé afin d'augmenter leur efficacité et d'améliorer leur puissance."
+      "message" : "Les réacteurs qui ont été optimisés afin de réduire les inéfficacités et améliorer la consommation d'énergie."
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",

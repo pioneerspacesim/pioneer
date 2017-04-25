@@ -39,6 +39,10 @@
       "description" : "Catch phrase of 2016?",
       "message" : "Rendi Pioneer di nuovo grande! Solo i perdenti abbandonano, sei sicuro di farlo?"
    },
+   "MSG_19" : {
+      "description" : "Alluding to / inviting the player to contribute content to the game",
+      "message" : "Testing completato, ora di contribuire?"
+   },
    "MSG_2" : {
       "description" : "",
       "message" : "Non andartene ora, c'è un pirata in agguato nell'altro programma."

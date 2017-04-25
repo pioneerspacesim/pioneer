@@ -309,7 +309,7 @@
    },
    "THRUSTERS_MEDIUM_DESCRIPTION" : {
       "description" : "",
-      "message" : "Silniki które poddano optymalizacji mającej na celu redukcję niewydolności oraz poprawę mocy."
+      "message" : "Thrusters that have been optimised to reduce inefficiencies and improve power output."
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",

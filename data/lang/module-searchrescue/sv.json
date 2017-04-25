@@ -77,7 +77,7 @@
    },
    "ENTITY_GENERAL_1" : {
       "description" : "",
-      "message" : "the {locality} General Prospectors Inc"
+      "message" : "[locality] General Prospectors Inc"
    },
    "ENTITY_GENERAL_10" : {
       "description" : "",
@@ -85,11 +85,11 @@
    },
    "ENTITY_GENERAL_2" : {
       "description" : "",
-      "message" : "the {locality} Society for Ecological Preservation"
+      "message" : "[locality] förening för ekologiskt bevarande"
    },
    "ENTITY_GENERAL_3" : {
       "description" : "",
-      "message" : "the Interest Rights Groups for {locality}"
+      "message" : "Intressegruppen för [locality]"
    },
    "ENTITY_GENERAL_4" : {
       "description" : "",
@@ -117,43 +117,43 @@
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
-      "message" : "the {locality} Biological Society"
+      "message" : "[locality] biologiska förening"
    },
    "ENTITY_RESEARCH_10" : {
       "description" : "",
-      "message" : "the {locality} Center of Zoological Research"
+      "message" : "[locality] center för zoologisk forskning"
    },
    "ENTITY_RESEARCH_2" : {
       "description" : "",
-      "message" : "the {locality} Microbiological Society"
+      "message" : "[locality] mikrobilogiska förening"
    },
    "ENTITY_RESEARCH_3" : {
       "description" : "",
-      "message" : "the {locality} Chemical Society"
+      "message" : "[locality] kemiförening"
    },
    "ENTITY_RESEARCH_4" : {
       "description" : "",
-      "message" : "the {locality} Astrobiological Society"
+      "message" : "[locality] astrobiologiska förening"
    },
    "ENTITY_RESEARCH_5" : {
       "description" : "",
-      "message" : "the {locality} Geological Society"
+      "message" : "[locality] geologiska förening"
    },
    "ENTITY_RESEARCH_6" : {
       "description" : "",
-      "message" : "the {locality} Society for Astropaleontology"
+      "message" : "[locality] förening för astropaleontologi"
    },
    "ENTITY_RESEARCH_7" : {
       "description" : "",
-      "message" : "the {locality} Astrophysics Research Center"
+      "message" : "[locality] astrofysiska forskningscenter"
    },
    "ENTITY_RESEARCH_8" : {
       "description" : "",
-      "message" : "the {locality} Astrochemistry Research Center"
+      "message" : "[locality] astrokemiska forskningscenter"
    },
    "ENTITY_RESEARCH_9" : {
       "description" : "",
-      "message" : "the {locality} Center for Botany"
+      "message" : "[locality] botaniska center"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "FLAVOUR_4_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full pay the pilot expects you to deliver the fuel by {due}."
+      "message" : "För full betalning förväntar sig piloten att du levererar bränsle till och med [due]."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is asking for {unit} tons of {cargo}."
+      "message" : "Piloten frågar efter [unit] ton av [cargo]."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -297,19 +297,19 @@
    },
    "FLAVOUR_5_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Please complete refueling by {due}."
+      "message" : "Var god slutför tankning till [due]"
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+      "message" : "Flygledningen på [starport} har identifierat ett rymdskepp med ID [shiplabel] drivandes utan bränsle i närheten. Vi betalar [cach] till den som vill tanka skeppet så att de kan lämna [starport]. "
    },
    "FLAVOUR_5_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+      "message" : "Målskeppet driver för närvarande inom [dist]km härifrån. Du måste leta reda på den exakta positionen själv."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "We will make record of your timely completion of the task."
+      "message" : "Vi kommer att registrera ditt snabba slutförande av uppgiften."
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
@@ -317,11 +317,11 @@
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We request the delivery of {unit} tons of {cargo} to the ship."
+      "message" : "Vi kräver leverans av [unit] ton [cargo] till skeppet."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "VESSEL UNRESPONSIVE in the {system} system."
+      "message" : "SKEPPET SVARAR INTE i [system] systemet"
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
@@ -333,11 +333,11 @@
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+      "message" : "Mitt namn är [name]. Vi förlorade kontakten med vårt skepp [ship] [shiplabel] efter [problem]. Vi är beredda att betala [cach] för omedelbar undsättning."
    },
    "FLAVOUR_6_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+      "message" : "Den senaste kända positionen var i närheten av [planet] i  {system} [{sectorx},{sectory},{sectorz}] systemet, [dist] ly härifrån."
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
@@ -349,7 +349,7 @@
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
+      "message" : "Jag behöver någon som är villig att åka och hämta tillbaka våra kollegor, om de är vid liv, till [starport]  omedelbart. Skeppet hade [crew] besättningsmän och [pass] passagerare ombord."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
@@ -361,27 +361,27 @@
    },
    "FLAVOUR_7_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The replacement crew has to reach the ship by {due}."
+      "message" : "Utbytesbesättningen har nått fram till skeppet till [due]."
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
+      "message" : "Mitt namn är [name] från [entity]. Vårt enda skepp, [ship] [shiplabel] driver omkring med en besättning på [crew] efter [problem]. Jag är beredd att betala [cash] för omedelbar hjälp."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+      "message" : "Du kommer att hitta skeppet i  {system} [{sectorx},{sectory},{sectorz}] systemet, [dist] ly härifrån. Det hålls i omlopp kring [planet]."
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you! I have been authorized to transmit the full payment."
+      "message" : "Tack! Jag har blivit tillåten att skicka över full betalning."
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has transferred to the target ship."
+      "message" : "[unit] har flyttats över till målskeppet."
    },
    "FLAVOUR_7_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
+      "message" : "Vi kan inte skicka tillbaka skeppet utan att minimal besättning finns tillgänglig. Jag letar efter någon som är beredd att transportera en utbytesbesättning på [deliver_crew] till vårt rymdskepp omedelbart."
    },
    "FULL_CARGO" : {
       "description" : "",
@@ -485,7 +485,7 @@
    },
    "PROBLEM_CREW_1" : {
       "description" : "",
-      "message" : "a deadly fight among the crew members"
+      "message" : "ett dödligt slagsmål mellan bestättningsmän"
    },
    "PROBLEM_CREW_10" : {
       "description" : "",
@@ -493,35 +493,35 @@
    },
    "PROBLEM_CREW_2" : {
       "description" : "",
-      "message" : "the crew had to chase a deadly {locality} snake found loose on the ship"
+      "message" : "besättningen blev tvungna att jag en dödlig [locality] orm som hittats på skeppet"
    },
    "PROBLEM_CREW_3" : {
       "description" : "",
-      "message" : "a {locality} spider killed all the others"
+      "message" : "en [locality] spindel dödade alla andra"
    },
    "PROBLEM_CREW_4" : {
       "description" : "",
-      "message" : "what it seems like a {locality} scorpion got into the crew quarters at night"
+      "message" : "vad som ser ut att vara en [locality] skorpion kom in i besättningens rum på natten"
    },
    "PROBLEM_CREW_5" : {
       "description" : "",
-      "message" : "a severe form of {locality} fever killed the others"
+      "message" : "en alvarlig typ av [locality] feber dödade de andra"
    },
    "PROBLEM_CREW_6" : {
       "description" : "",
-      "message" : "the other crew members did not return from a space walk"
+      "message" : "de andra besättningsmännen kom inte tillbaka från en rymdpromenad"
    },
    "PROBLEM_CREW_7" : {
       "description" : "",
-      "message" : "a severe form of food poisoning on the ship"
+      "message" : "en allvarlig form av matförgiftning på skeppet"
    },
    "PROBLEM_CREW_8" : {
       "description" : "",
-      "message" : "a terrible accident that lead to the ejection of the others into space"
+      "message" : "en fruktansvärd olycka som ledde till att de andra skickades ut i rymden"
    },
    "PROBLEM_CREW_9" : {
       "description" : "",
-      "message" : "a circumstance that I can't comment on publicly"
+      "message" : "en anledning jag inte kan kommentera publikt"
    },
    "PROBLEM_GENERAL_1" : {
       "description" : "",
@@ -529,11 +529,11 @@
    },
    "PROBLEM_GENERAL_10" : {
       "description" : "",
-      "message" : "the receipt of a distress call from within {locality}"
+      "message" : "mottagandet av en nödsignal från [locality]"
    },
    "PROBLEM_GENERAL_2" : {
       "description" : "",
-      "message" : "a power failure in the engine core"
+      "message" : "ett kraftbortfall i mororkärnan"
    },
    "PROBLEM_GENERAL_3" : {
       "description" : "",
@@ -541,11 +541,11 @@
    },
    "PROBLEM_GENERAL_4" : {
       "description" : "",
-      "message" : "a severe form of food poisoning involving all personnel on board the ship"
+      "message" : "en allvarlig form av matförgiftning och innefattar all personal på skeppet"
    },
    "PROBLEM_GENERAL_5" : {
       "description" : "",
-      "message" : "a small meteor impact"
+      "message" : "en träff av en liten meteor"
    },
    "PROBLEM_GENERAL_6" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "PROBLEM_GENERAL_8" : {
       "description" : "",
-      "message" : "a dispute with a competitor's vessel"
+      "message" : "en dispyt med en konkurrents farkost"
    },
    "PROBLEM_GENERAL_9" : {
       "description" : "",
@@ -569,11 +569,11 @@
    },
    "PROBLEM_RESEARCH_10" : {
       "description" : "",
-      "message" : "a major discovery at {locality} that I am not at liberty to disclose at this time"
+      "message" : "en stor upptäckt vid [locality] som jag inte kan diskutera just nu"
    },
    "PROBLEM_RESEARCH_2" : {
       "description" : "",
-      "message" : "an infection of a crew member with a pathogen local to {locality}"
+      "message" : "en besättningsman som blivit infekterad av en patogen hemmahörande i [locality]"
    },
    "PROBLEM_RESEARCH_3" : {
       "description" : "",
@@ -581,7 +581,7 @@
    },
    "PROBLEM_RESEARCH_4" : {
       "description" : "",
-      "message" : "crew exposure to a specimen collected at {locality}"
+      "message" : "besättningen utsattes för ett insamlat exemplar vid [locality]"
    },
    "PROBLEM_RESEARCH_5" : {
       "description" : "",
@@ -589,7 +589,7 @@
    },
    "PROBLEM_RESEARCH_6" : {
       "description" : "",
-      "message" : "an experimental recreation of {locality} atmospheric gases"
+      "message" : "en experimentellt återskapande av [locality] atmosfära gaser"
    },
    "PROBLEM_RESEARCH_7" : {
       "description" : "",
@@ -597,11 +597,11 @@
    },
    "PROBLEM_RESEARCH_8" : {
       "description" : "",
-      "message" : "the sudden disappearance of a lead investigator on board the ship"
+      "message" : "det plötsliga försvinnandet av den ledande utredaren ombord på skeppet"
    },
    "PROBLEM_RESEARCH_9" : {
       "description" : "",
-      "message" : "the accidental combination of incompatible specimens from {locality}"
+      "message" : "av misstag kombinerat oförenliga prov från [locality]"
    },
    "RESULT_DELIVERY_COMM" : {
       "description" : "",

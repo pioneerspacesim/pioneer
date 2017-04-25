@@ -309,7 +309,7 @@
    },
    "THRUSTERS_MEDIUM_DESCRIPTION" : {
       "description" : "",
-      "message" : "Putairean a chaidh a phiseachadh ach am bi iad nas èifeachdaiche agus a' putadh le barrachd cumhachd."
+      "message" : "Thrusters that have been optimised to reduce inefficiencies and improve power output."
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",

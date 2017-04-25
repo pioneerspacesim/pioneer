@@ -1,11 +1,11 @@
 {
    "ADVANCED_TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Advanced target scanner"
+      "message" : "Avancerad målscanner"
    },
    "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range target scanner with system wide coverage."
+      "message" : "Målscanner med lång räckvidd som täcker hela systemet."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Passenger cabin"
+      "message" : "Passagerarhytt"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
@@ -281,7 +281,7 @@
    },
    "TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Target Scanner"
+      "message" : "Målscanner"
    },
    "TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
@@ -289,31 +289,31 @@
    },
    "THRUSTERS_BASIC" : {
       "description" : "",
-      "message" : "Modified Thrusters"
+      "message" : "Modifierade styrraketer"
    },
    "THRUSTERS_BASIC_DESCRIPTION" : {
       "description" : "",
-      "message" : "A modified type of thrusters approved for your ship."
+      "message" : "En modifierad typ av styrraketer godkända för ditt skepp."
    },
    "THRUSTERS_BEST" : {
       "description" : "",
-      "message" : "Bespoke Thrusters"
+      "message" : "Specialbeställda styrraketer"
    },
    "THRUSTERS_BEST_DESCRIPTION" : {
       "description" : "",
-      "message" : "Custom made thrusters that provide the best possible output."
+      "message" : "Speciellt tillverkade styrraketer som ger bäst möjliga effekt."
    },
    "THRUSTERS_MEDIUM" : {
       "description" : "",
-      "message" : "Optimised Thrusters"
+      "message" : "Optimerade styrraketer"
    },
    "THRUSTERS_MEDIUM_DESCRIPTION" : {
       "description" : "",
-      "message" : "Thrusters that have been optimised to reduce inneficienies and improve power output."
+      "message" : "Styrraketer som har blivit optimerade till att reducera effektbortfall och öka kraftutslag."
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade Computer"
+      "message" : "Handelsdator"
    },
    "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",

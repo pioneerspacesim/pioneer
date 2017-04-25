@@ -15,14 +15,6 @@
       "description" : "Alt key on keyboard",
       "message" : "Alt"
    },
-   "ALT_IN_KM" : {
-      "description" : "",
-      "message" : "Alt: %altitude{f.0}km (%vspeed{f.1}kms/s)"
-   },
-   "ALT_IN_METRES" : {
-      "description" : "",
-      "message" : "Alt: %altitude{f.0}m (%vspeed{f.1}m/s)"
-   },
    "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
       "description" : "",
       "message" : "\" et un écosystème extrêmement complexe\""
@@ -223,6 +215,38 @@
       "description" : "",
       "message" : "Communiste"
    },
+   "COMPASS_E" : {
+      "description" : "Abbreviation for compass direction: East",
+      "message" : "E"
+   },
+   "COMPASS_N" : {
+      "description" : "Abbreviation for compass direction: North",
+      "message" : "N"
+   },
+   "COMPASS_NE" : {
+      "description" : "Abbreviation for compass direction: North East",
+      "message" : "NE"
+   },
+   "COMPASS_NW" : {
+      "description" : "Abbreviation for compass direction: North West",
+      "message" : "NO"
+   },
+   "COMPASS_S" : {
+      "description" : "Abbreviation for compass direction: South",
+      "message" : "S"
+   },
+   "COMPASS_SE" : {
+      "description" : "Abbreviation for compass direction: South East",
+      "message" : "SE"
+   },
+   "COMPASS_SW" : {
+      "description" : "Abbreviation for compass direction: South West",
+      "message" : "SO"
+   },
+   "COMPASS_W" : {
+      "description" : "Abbreviation for compass direction: West",
+      "message" : "O"
+   },
    "COMPUTERS" : {
       "description" : "",
       "message" : "Ordinateurs"
@@ -302,10 +326,6 @@
    "DIRECTION" : {
       "description" : "Direction",
       "message" : "\" Doc \""
-   },
-   "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
-      "description" : "",
-      "message" : "Distance du vaisseau à la cible de navigation"
    },
    "DISTANCE_LY" : {
       "description" : "",
@@ -651,10 +671,6 @@
       "description" : "",
       "message" : "Saut complété à %percent% %"
    },
-   "KM_S_RELATIVE_TO" : {
-      "description" : "",
-      "message" : "%speed{f.2} km/s rel-à %frame"
-   },
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
       "message" : "Afficher/Cacher les points Lagrange L4/L5."
@@ -931,10 +947,6 @@
       "description" : "",
       "message" : "Sept"
    },
-   "M_S_RELATIVE_TO" : {
-      "description" : "",
-      "message" : "%speed{f.0} m/s rel-à %frame"
-   },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
       "message" : "Nom"
@@ -1046,10 +1058,6 @@
    "N_DEGREES" : {
       "description" : "",
       "message" : "%angle{f.1} degrés"
-   },
-   "N_DISTANCE_TO_TARGET" : {
-      "description" : "",
-      "message" : "%distance à la cible"
    },
    "N_EARTH_DAYS" : {
       "description" : "",
@@ -1358,10 +1366,6 @@
    "SHIPS_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show no ships, show ships, or show ships + their orbits",
       "message" : "Bascule entre les modes d'affichage vaisseau"
-   },
-   "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
-      "description" : "",
-      "message" : "Altitude du vaisseau par rapport au terrain"
    },
    "SHIP_DETECTED_NEARBY" : {
       "description" : "",
@@ -1735,9 +1739,33 @@
       "description" : "Duration unit: one 60-minute hour",
       "message" : "h"
    },
+   "UNIT_KILOMETERS" : {
+      "description" : "Distance unit: one kilometer",
+      "message" : "km"
+   },
+   "UNIT_KILOMETERS_PER_SECOND" : {
+      "description" : "Speed unit: one kilometer per second",
+      "message" : "km/s"
+   },
    "UNIT_LY" : {
       "description" : "Distance unit: a light year",
       "message" : "al"
+   },
+   "UNIT_METERS" : {
+      "description" : "Distance unit: one meter",
+      "message" : "m"
+   },
+   "UNIT_METERS_PER_SECOND" : {
+      "description" : "Speed unit: one meter per second",
+      "message" : "m/s"
+   },
+   "UNIT_MILLION_METERS" : {
+      "description" : "Distance unit: one million meters",
+      "message" : "Mm"
+   },
+   "UNIT_MILLION_METERS_PER_SECOND" : {
+      "description" : "Speed unit: one million meters per second",
+      "message" : "Mm/s"
    },
    "UNIT_MINUTES" : {
       "description" : "Duration unit: one 60-second minute",

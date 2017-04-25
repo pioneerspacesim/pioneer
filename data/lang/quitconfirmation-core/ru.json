@@ -39,6 +39,10 @@
       "description" : "Catch phrase of 2016?",
       "message" : "Сделаем Pioneer великим снова! Только неудачники сдаются, уверены насчет этого?"
    },
+   "MSG_19" : {
+      "description" : "Alluding to / inviting the player to contribute content to the game",
+      "message" : "Done testing, back to contributing?"
+   },
    "MSG_2" : {
       "description" : "",
       "message" : "Не уходите! В другой программе вас поджидает пират!"

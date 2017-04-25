@@ -39,6 +39,10 @@
       "description" : "Catch phrase of 2016?",
       "message" : "Tylko przegrani wycofują się, nadal jesteś zdecydowany by wyjść?"
    },
+   "MSG_19" : {
+      "description" : "Alluding to / inviting the player to contribute content to the game",
+      "message" : "Done testing, back to contributing?"
+   },
    "MSG_2" : {
       "description" : "",
       "message" : "Nie odchodź teraz. W innych programach czeka na Ciebie pirat."

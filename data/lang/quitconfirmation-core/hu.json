@@ -39,6 +39,10 @@
       "description" : "Catch phrase of 2016?",
       "message" : "Tegyük újra naggyá a Pioneer-t! Csak a vesztesek lépnek ki. Vesztes akarsz lenni?"
    },
+   "MSG_19" : {
+      "description" : "Alluding to / inviting the player to contribute content to the game",
+      "message" : "Vége a tesztelésnek, vissza közreműködni?"
+   },
    "MSG_2" : {
       "description" : "",
       "message" : "Ne menj! Egy kalóz feni rád a kését a másik programban!"

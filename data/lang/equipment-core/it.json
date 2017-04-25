@@ -309,7 +309,7 @@
    },
    "THRUSTERS_MEDIUM_DESCRIPTION" : {
       "description" : "",
-      "message" : "Propulsori ottimizzati per ridurre le inefficienze e migliorare la potenza di spinta."
+      "message" : "I propulsori sono stati ottimizzati per ridurre le inefficienze e migliorare la potenza d'uscita."
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",

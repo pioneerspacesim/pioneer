@@ -39,6 +39,10 @@
       "description" : "Catch phrase of 2016?",
       "message" : "Bis in die Unendlichkeit, und noch viel weiter! Nur Versager steigen aus, bist du dir sicher?"
    },
+   "MSG_19" : {
+      "description" : "Alluding to / inviting the player to contribute content to the game",
+      "message" : "Done testing, back to contributing?"
+   },
    "MSG_2" : {
       "description" : "",
       "message" : "Geh jetzt nicht, ein Pirat wartet im anderen Programm auf dich."

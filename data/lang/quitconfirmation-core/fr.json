@@ -39,6 +39,10 @@
       "description" : "Catch phrase of 2016?",
       "message" : "Vous êtes sur le point de quitter Pioneer, êtes-vous sûr ?"
    },
+   "MSG_19" : {
+      "description" : "Alluding to / inviting the player to contribute content to the game",
+      "message" : "Fini de tester, retour à la contribution ?"
+   },
    "MSG_2" : {
       "description" : "",
       "message" : "Don't go now, there's a pirate waiting for you in the other program."
