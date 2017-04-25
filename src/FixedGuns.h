@@ -39,8 +39,8 @@ class FixedGuns
 		inline void SetCoolingBoost( float cooler ) { m_cooler_boost = cooler; };
 		inline void SetGunFiringState( int idx, int s ) { if (m_gun_present[idx]) m_state[idx] = s; };
 	protected:
-		virtual void SaveToJson( Json::Value &jsonObj );
-		virtual void LoadFromJson( const Json::Value &jsonObj );
+		virtual void SaveToJson( Json::Value &jsonObj, Space *space);
+		virtual void LoadFromJson( const Json::Value &jsonObj, Space *space);
 	private:
 
 		struct GunData {

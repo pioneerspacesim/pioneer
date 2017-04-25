@@ -319,7 +319,7 @@ void VertexBuffer::BufferData(const size_t size, void *data)
 	if (GetDesc().usage == BUFFER_USAGE_DYNAMIC) {
 		glBindVertexArray(m_vao);
 		glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-		glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)size, (GLvoid*)data, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(size), static_cast<GLvoid*>(data), GL_DYNAMIC_DRAW);
 	}
 }
 
@@ -427,7 +427,7 @@ void IndexBuffer::BufferData(const size_t size, void *data)
 	assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
 	if (GetUsage() == BUFFER_USAGE_DYNAMIC) {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)size, (GLvoid*)data, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(size), static_cast<GLvoid*>(data), GL_DYNAMIC_DRAW);
 	}
 }
 

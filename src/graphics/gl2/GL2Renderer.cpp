@@ -134,7 +134,7 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 		Error("GLEW initialisation failed: %s", glewGetErrorString(glew_err));
 
 	// pump this once as glewExperimental is necessary but spews a single error
-	GLenum err = glGetError();
+	glGetError();
 
 	if (!glewIsSupported("GL_VERSION_2_1") )
 	{

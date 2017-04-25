@@ -41,7 +41,7 @@ void FixedGuns::Init(DynamicBody *b)
 	b->AddFeature( DynamicBody::FIXED_GUNS );
 }
 
-void FixedGuns::SaveToJson( Json::Value &jsonObj )
+void FixedGuns::SaveToJson( Json::Value &jsonObj, Space *space )
 {
 
 	Json::Value gunArray(Json::arrayValue); // Create JSON array to contain gun data.
@@ -57,7 +57,7 @@ void FixedGuns::SaveToJson( Json::Value &jsonObj )
 	jsonObj["guns"] = gunArray; // Add gun array to ship object.
 };
 
-void FixedGuns::LoadFromJson(const Json::Value &jsonObj )
+void FixedGuns::LoadFromJson( const Json::Value &jsonObj, Space *space )
 {
 	Json::Value gunArray = jsonObj["guns"];
 

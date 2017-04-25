@@ -14,7 +14,7 @@ namespace Graphics {
 
 		class SphereImpostorMaterial : public Material {
 		public:
-			Program *CreateProgram(const MaterialDescriptor &) {
+			Program *CreateProgram(const MaterialDescriptor &) override {
 				return new Program("billboard_sphereimpostor", "");
 			}
 

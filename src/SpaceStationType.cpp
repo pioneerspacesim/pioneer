@@ -131,8 +131,8 @@ void SpaceStationType::OnSetupComplete()
 
 		// find the port and setup the rest of it's information
 		bool bFoundPort = false;
-		matrix4x4f approach1;
-		matrix4x4f approach2;
+		matrix4x4f approach1(0.0);
+		matrix4x4f approach2(0.0);
 		for(auto &rPort : m_ports) {
 			if(rPort.portId == portId) {
 				rPort.minShipSize = std::min(minSize,rPort.minShipSize);

@@ -4,6 +4,7 @@
 #include "RandomColor.h"
 #include "libs.h"
 #include <algorithm>
+#include "utils.h"
 
 namespace RandomColorGenerator
 {
@@ -100,6 +101,9 @@ namespace RandomColorGenerator
 		case Luminosity::LUMINOSITY_LIGHT:
 			sMax = 55;
 			break;
+		default:
+			Output("RandomColor::PickSaturation: Unhandled case in switch: %i\n", luminosity);
+			break;
 		}
 
 		return RandomWithin(sMin, sMax);
@@ -125,6 +129,9 @@ namespace RandomColorGenerator
 			bMin = 0;
 			bMax = 100;
 			break;
+		default:
+			Output("RandomColor::PickSaturation: Unhandled case in switch: %i\n", luminosity);
+			break;
 		}
 
 		return RandomWithin(bMin, bMax);
@@ -148,7 +155,7 @@ namespace RandomColorGenerator
 				auto m = (v2 - v1) / (s2 - s1);
 				auto b = v1 - m * s1;
 
-				return (int)(m * S + b);
+				return static_cast<int>(m * S + b);
 			}
 		}
 
@@ -305,7 +312,7 @@ namespace RandomColorGenerator
 		auto s = saturation / 100.0;
 		auto v = value / 100.0;
 
-		auto hInt = (int)floor(h * 6.0);
+		auto hInt = static_cast<int>(floor(h * 6.0));
 		auto f = h * 6 - hInt;
 		auto p = v * (1 - s);
 		auto q = v * (1 - f * s);
@@ -323,10 +330,10 @@ namespace RandomColorGenerator
 		case 4: r = t; g = p; b = v; break;
 		case 5: r = v; g = p; b = q; break;
 		}
-		auto c = Color((Uint8)floor(r * 255.0),
-			(Uint8)floor(g * 255.0),
-			(Uint8)floor(b * 255.0),
-			255);
+		auto c = Color(static_cast<Uint8>(floor(r * 255.0)),
+									 static_cast<Uint8>(floor(g * 255.0)),
+									 static_cast<Uint8>(floor(b * 255.0)),
+									 255);
 
 		return c;
 	}
