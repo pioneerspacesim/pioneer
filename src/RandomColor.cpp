@@ -101,6 +101,7 @@ namespace RandomColorGenerator
 		case Luminosity::LUMINOSITY_LIGHT:
 			sMax = 55;
 			break;
+
 		default:
 			Output("RandomColor::PickSaturation: Unhandled case in switch: %i\n", luminosity);
 			break;
@@ -129,8 +130,9 @@ namespace RandomColorGenerator
 			bMin = 0;
 			bMax = 100;
 			break;
+
 		default:
-			Output("RandomColor::PickSaturation: Unhandled case in switch: %i\n", luminosity);
+			Output("RandomColor::PickBrightness: Unhandled case in switch: %i\n", luminosity);
 			break;
 		}
 
