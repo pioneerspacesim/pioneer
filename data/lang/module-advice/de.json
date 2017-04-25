@@ -1,19 +1,19 @@
 {
    "ADVICE_10_BODYTEXT" : {
       "description" : "",
-      "message" : "Relocating to another faction might be a good idea when in trouble with local authorities."
+      "message" : "In eine andere Gruppierung überzutreten kann eine gute Idee sein, wenn es Probleme mit der lokalen Behörden gibt."
    },
    "ADVICE_10_HEADLINE" : {
       "description" : "",
-      "message" : "Know when to leave town"
+      "message" : "Lerne zu wissen, wann es Zeit ist weiterzuziehen"
    },
    "ADVICE_1_BODYTEXT" : {
       "description" : "",
-      "message" : "Take note of which local business to trust or not, upon completing a transaction outside the confines of the law."
+      "message" : "Notiere nach erfolgreichen Transaktionen am Rande des Gesetzes, welchen lokalen Geschäften man trauen oder nicht trauen kann."
    },
    "ADVICE_1_HEADLINE" : {
       "description" : "",
-      "message" : "Tame the Black Market"
+      "message" : "Zähme den Schwarzmarkt"
    },
    "ADVICE_2_BODYTEXT" : {
       "description" : "",
@@ -25,15 +25,15 @@
    },
    "ADVICE_3_BODYTEXT" : {
       "description" : "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
-      "message" : "Avoid jumping into uninhabited systems without the means to leave."
+      "message" : "Vermeide in unbewohnte Systeme zu springen, ohne genug Treibstoff für einen Sprung in ein bewohntes System zu haben."
    },
    "ADVICE_3_HEADLINE" : {
       "description" : "",
-      "message" : "Avoid getting stranded: plan your jump sequence ahead"
+      "message" : "Vermeide es, zu stranden: Plane deine Sprungsequenz im Voraus"
    },
    "ADVICE_4_BODYTEXT" : {
       "description" : "",
-      "message" : "Choose your frame of reference. Especially when wanting to match speed and course of a moving target."
+      "message" : "Wähle deinen Referenzrahmen. Besonders beim Abgleich von Geschwindigkeit und Kurs mit einem beweglichen Ziel."
    },
    "ADVICE_4_HEADLINE" : {
       "description" : "",
@@ -45,19 +45,19 @@
    },
    "ADVICE_5_HEADLINE" : {
       "description" : "",
-      "message" : "Never lose money"
+      "message" : "Verliere kein Geld."
    },
    "ADVICE_6_BODYTEXT" : {
       "description" : "",
-      "message" : "Pay close attention to any news reported, as information can affect market prices."
+      "message" : "Achte genau auf Nachrichtenmeldungen, da die Informationen die Marktpreise beeinflussen können. "
    },
    "ADVICE_6_HEADLINE" : {
       "description" : "",
-      "message" : "Keep your ear to the ground"
+      "message" : "Behalte immer ein Ohr am Boden"
    },
    "ADVICE_7_BODYTEXT" : {
       "description" : "",
-      "message" : "Donations can earn you a good standing in society, but not all charities will earn you a reputation."
+      "message" : "Spenden können einen guten sozialen Status einbringen, aber nicht alle Wohltätigkeitsorganisationen bringen dir eine Reputation."
    },
    "ADVICE_7_HEADLINE" : {
       "description" : "",
@@ -65,15 +65,15 @@
    },
    "ADVICE_8_BODYTEXT" : {
       "description" : "",
-      "message" : "When journeying to binary systems, make sure to target the right star."
+      "message" : "Bei Reisen zu binären Sternsystemen, achte darauf, dass du zum richtigen Stern fliegst."
    },
    "ADVICE_8_HEADLINE" : {
       "description" : "",
-      "message" : "Stay out of double trouble"
+      "message" : "Vermeide großen Ärger"
    },
    "ADVICE_9_BODYTEXT" : {
       "description" : "",
-      "message" : "Regularly maintain your engines, but remember: you get what you pay for."
+      "message" : "Lass die Triebwerke regelmäßig überholen, aber merke: Man bekommt, wofür man bezahlt."
    },
    "ADVICE_9_HEADLINE" : {
       "description" : "",
@@ -85,7 +85,7 @@
    },
    "TALE_1_BODYTEXT" : {
       "description" : "",
-      "message" : "Don't miss the beautiful eclipse on New Hope as Hades blocks out the light from Epsilon Eridani."
+      "message" : "Verpasse nicht die atemberaubende Sonnenfinsternis auf New Hope, wenn Hades vor Epsilon Eridani tritt."
    },
    "TALE_1_HEADLINE" : {
       "description" : "Blade runner?",

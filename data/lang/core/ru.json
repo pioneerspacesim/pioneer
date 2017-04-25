@@ -217,35 +217,35 @@
    },
    "COMPASS_E" : {
       "description" : "Abbreviation for compass direction: East",
-      "message" : "E"
+      "message" : "В"
    },
    "COMPASS_N" : {
       "description" : "Abbreviation for compass direction: North",
-      "message" : "N"
+      "message" : "С"
    },
    "COMPASS_NE" : {
       "description" : "Abbreviation for compass direction: North East",
-      "message" : "NE"
+      "message" : "СВ"
    },
    "COMPASS_NW" : {
       "description" : "Abbreviation for compass direction: North West",
-      "message" : "NW"
+      "message" : "СЗ"
    },
    "COMPASS_S" : {
       "description" : "Abbreviation for compass direction: South",
-      "message" : "S"
+      "message" : "Ю"
    },
    "COMPASS_SE" : {
       "description" : "Abbreviation for compass direction: South East",
-      "message" : "SE"
+      "message" : "ЮВ"
    },
    "COMPASS_SW" : {
       "description" : "Abbreviation for compass direction: South West",
-      "message" : "SW"
+      "message" : "ЮЗ"
    },
    "COMPASS_W" : {
       "description" : "Abbreviation for compass direction: West",
-      "message" : "W"
+      "message" : "З"
    },
    "COMPUTERS" : {
       "description" : "",
@@ -1741,11 +1741,11 @@
    },
    "UNIT_KILOMETERS" : {
       "description" : "Distance unit: one kilometer",
-      "message" : "km"
+      "message" : "км"
    },
    "UNIT_KILOMETERS_PER_SECOND" : {
       "description" : "Speed unit: one kilometer per second",
-      "message" : "km/s"
+      "message" : "км/с"
    },
    "UNIT_LY" : {
       "description" : "Distance unit: a light year",
@@ -1753,11 +1753,11 @@
    },
    "UNIT_METERS" : {
       "description" : "Distance unit: one meter",
-      "message" : "m"
+      "message" : "м"
    },
    "UNIT_METERS_PER_SECOND" : {
       "description" : "Speed unit: one meter per second",
-      "message" : "m/s"
+      "message" : "м/с"
    },
    "UNIT_MILLION_METERS" : {
       "description" : "Distance unit: one million meters",

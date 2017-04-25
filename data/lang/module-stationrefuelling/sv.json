@@ -5,6 +5,6 @@
    },
    "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
       "description" : "",
-      "message" : "Welcome aboard {station}. Your docking fee of {fee} has been deducted."
+      "message" : "Välkommen till {station}. Din dockningsavgift {fee} har blivit fakturerad."
    }
 }

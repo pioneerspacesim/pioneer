@@ -153,7 +153,7 @@
    },
    "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Compact radar"
+      "message" : "Kompakt radar"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
@@ -441,75 +441,75 @@
    },
    "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
       "description" : "Tooltip: The braking distance using the main thrusters.",
-      "message" : "The braking distance using the main thrusters"
+      "message" : "Stoppsträcka för huvudmotorerna"
    },
    "HUD_CURRENT_COMBAT_TARGET" : {
       "description" : "Tooltip: The current combat target.",
-      "message" : "The current combat target"
+      "message" : "Nuvarande vapenmål"
    },
    "HUD_CURRENT_FRAME" : {
       "description" : "Tooltip: The current frame of reference.",
-      "message" : "The current frame of reference"
+      "message" : "Nuvarande referenssystrem"
    },
    "HUD_CURRENT_HEADING" : {
       "description" : "Tooltip: the current heading.",
-      "message" : "The current heading"
+      "message" : "Nuvarande kurs"
    },
    "HUD_CURRENT_NAV_TARGET" : {
       "description" : "Tooltip: The current navigational target.",
-      "message" : "The current navigational target"
+      "message" : "Nuvarande navigationsmål"
    },
    "HUD_CURRENT_PITCH" : {
       "description" : "Tooltip: the current pitch.",
-      "message" : "The current pitch"
+      "message" : "Nuvarande inklination"
    },
    "HUD_CURRENT_ROLL" : {
       "description" : "Tooltip: the current roll.",
-      "message" : "The current roll"
+      "message" : "Nuvarande roll"
    },
    "HUD_DELTA_V_OF_MANEUVER_BURN" : {
       "description" : "Tooltip: The Δv for the maneuver burn.",
-      "message" : "The Δv for the maneuver burn"
+      "message" : "Δv för manöver"
    },
    "HUD_DISTANCE_TO_SURFACE_OF_FRAME" : {
       "description" : "Tooltip: Distance to the surface of the frame of reference.",
-      "message" : "Distance to the surface of the frame of reference"
+      "message" : "Avstånd till ytan från referenssystemet"
    },
    "HUD_DISTANCE_TO_SURFACE_OF_TARGET" : {
       "description" : "Tooltip: Distance to the surface of the target.",
-      "message" : "Distance to the surface of the target"
+      "message" : "Avstånd till målets yta"
    },
    "HUD_DURATION_OF_MANEUVER_BURN" : {
       "description" : "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
-      "message" : "The approximate duration of the maneuver burn with main thrusters"
+      "message" : "Uppskattad varaktighet av manöver med huvudmotorerna "
    },
    "HUD_DURATION_UNTIL_MANEUVER_BURN" : {
       "description" : "Tooltip: The duration until the middle of the maneuver burn.",
-      "message" : "The duration until the middle of the maneuver burn"
+      "message" : "Hälften av tiden till manövrering"
    },
    "HUD_SHOW_COMBAT_TARGET" : {
       "description" : "Tooltip: Show the current combat target.",
-      "message" : "Show the current combat target"
+      "message" : "Visa nuvarande vapenmål"
    },
    "HUD_SHOW_FRAME" : {
       "description" : "Tooltip: Show the current frame of reference.",
-      "message" : "Show the current frame of reference"
+      "message" : "Visa nuvarande referenssystem"
    },
    "HUD_SHOW_NAV_TARGET" : {
       "description" : "Tooltip: Show current navigational target.",
-      "message" : "Show the current navigational target"
+      "message" : "Visa nuvarande navigationsmål"
    },
    "HUD_SPEED_OF_APPROACH_TO_FRAME" : {
       "description" : "Tooltip: The speed of approach towards the frame of reference.",
-      "message" : "The speed of approach towards the frame of reference"
+      "message" : "Hastighet relativt referenssystemet"
    },
    "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
       "description" : "Tooltip: The speed of approach towards the target.",
-      "message" : "The speed of approach towards the target"
+      "message" : "Hastighet relativt målet"
    },
    "HUD_SPEED_RELATIVE_TO_TARGET" : {
       "description" : "Tooltip: The speed relative to the target.",
-      "message" : "The speed relative to the target"
+      "message" : "Hastighet relativt målet"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",

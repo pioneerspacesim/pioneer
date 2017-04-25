@@ -157,7 +157,7 @@
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "You are not equipped to handle this mission. {unit} {equipment} required."
+      "message" : "Du har inte utrustning för att utföra detta uppdrag. {} {equipment} behövs."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
@@ -389,7 +389,7 @@
    },
    "FULL_CREW" : {
       "description" : "",
-      "message" : "Crew roster full. No more space for more crew."
+      "message" : "Ingen mer plats för besättning."
    },
    "FULL_PASSENGERS" : {
       "description" : "",
@@ -405,11 +405,11 @@
    },
    "INTERACTION_ABORTED" : {
       "description" : "",
-      "message" : "Interaction aborted. Please come closer and try again."
+      "message" : "Interaktion avbruten. Försök komma närmre."
    },
    "INTERACTION_DISTANCE_REACHED" : {
       "description" : "",
-      "message" : "Interaction distance reached."
+      "message" : "Interaktionsavstånd uppnått."
    },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
@@ -441,7 +441,7 @@
    },
    "MISSING_CREW" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Crew missing."
+      "message" : "Kan inte slutföra överföring. Besättning fattas."
    },
    "MISSING_PASS" : {
       "description" : "",
@@ -461,7 +461,7 @@
    },
    "PARTIAL" : {
       "description" : "",
-      "message" : "Thank you for your efforts. I hope you will return to complete the task!"
+      "message" : "Tack för ditt besvär. Jag hoppas du återvänder för att slutföra din uppgift."
    },
    "PASSENGERS" : {
       "description" : "",
@@ -477,7 +477,7 @@
    },
    "PLACE_OF_ASSISTANCE" : {
       "description" : "",
-      "message" : "At the place of assistance"
+      "message" : "Vid assistansplats"
    },
    "PLEASE_LAND" : {
       "description" : "",
@@ -649,7 +649,7 @@
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
-      "message" : "Target ship unresponsive."
+      "message" : "Målskeppet svarar inte"
    },
    "SYSTEM" : {
       "description" : "",
@@ -657,7 +657,7 @@
    },
    "TARGET_SHIP_ID" : {
       "description" : "",
-      "message" : "Target ship ID:"
+      "message" : "Målskepps-ID:"
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
@@ -665,7 +665,7 @@
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",
-      "message" : "tons of free cargo space"
+      "message" : "ton ledigt lastutrymme"
    },
    "TRANSFER_ABORTED" : {
       "description" : "",
@@ -677,7 +677,7 @@
    },
    "TRANSFER_PARTIAL" : {
       "description" : "",
-      "message" : "Transfer has been partially completed. Please return to finish transfer."
+      "message" : "Överföring är delvis slutförd. Återvänd för att slutföra överföringen."
    },
    "TRANSFER_TIME" : {
       "description" : "",
@@ -689,7 +689,7 @@
    },
    "UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "unoccupied passenger cabins"
+      "message" : "lediga passagerarhytter"
    },
    "WHERE_IS_THE_TARGET" : {
       "description" : "",
