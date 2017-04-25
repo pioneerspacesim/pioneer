@@ -31,14 +31,14 @@ static const double gs_targetPatchTriLength(100.0);
 
 #define PRINT_VECTOR(_v) Output("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
-static const int geo_sphere_edge_friends[NUM_PATCHES][4] = {
-	{ 3, 4, 1, 2 },
-	{ 0, 4, 5, 2 },
-	{ 0, 1, 5, 3 },
-	{ 0, 2, 5, 4 },
-	{ 0, 3, 5, 1 },
-	{ 1, 4, 3, 2 }
-};
+// static const int geo_sphere_edge_friends[NUM_PATCHES][4] = {
+// 	{ 3, 4, 1, 2 },
+// 	{ 0, 4, 5, 2 },
+// 	{ 0, 1, 5, 3 },
+// 	{ 0, 2, 5, 4 },
+// 	{ 0, 3, 5, 1 },
+// 	{ 1, 4, 3, 2 }
+// };
 
 static std::vector<GeoSphere*> s_allGeospheres;
 
