@@ -224,12 +224,28 @@ public:
 	// pull an object off the stack, unwrap and return it
 	// if not found or doesn't match the type, throws a lua exception
 	static inline T *CheckFromLua(int idx) {
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#endif
 		return dynamic_cast<T*>(LuaObjectBase::CheckFromLua(idx, s_type));
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 	}
 
 	// same but without error checks. returns 0 on failure
 	static inline T *GetFromLua(int idx) {
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#endif
 		return dynamic_cast<T*>(LuaObjectBase::GetFromLua(idx, s_type));
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 	}
 
 	// standard cast promotion test for convenience
@@ -238,19 +254,19 @@ public:
 	}
 
 protected:
-	LuaObject() : LuaObjectBase(s_type) {}
-
-private:
-	// initial lua type string. defined in a specialisation in the appropriate
-	// .cpp file
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #endif
-	static const char *s_type;
+	LuaObject() : LuaObjectBase(s_type) {}
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
+
+private:
+	// initial lua type string. defined in a specialisation in the appropriate
+	// .cpp file
+	static const char *s_type;
 };
 
 // wrapper for a "core" object - one owned by c++ (eg Body).
