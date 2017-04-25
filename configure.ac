@@ -81,7 +81,14 @@ WARN_CPPFLAGS=
 AC_SUBST(ARFLAGS)
 if test -z "$ARFLAGS"
 then
-	ARFLAGS="rcD"
+  case "${host_os}" in
+  darwin*)
+  # do nothing, darwin does not support ar flag D
+  ;;
+  *)
+  ARFLAGS="rcD"
+  ;;
+  esac
 fi
 dnl Check for ccache if they want it
 AC_ARG_WITH([ccache], AS_HELP_STRING([--with-ccache], [Compile using ccache]), [AC_PATH_PROG([CCACHE], [ccache])])
