@@ -10,7 +10,14 @@
 #include "../../src/Serializer.h" // Need this for the exceptions
 
 extern "C" {
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wattributes"
+#endif
 #include "miniz/miniz.h"
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 }
 
 namespace {
