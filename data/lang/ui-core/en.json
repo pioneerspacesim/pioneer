@@ -511,6 +511,14 @@
       "description": "Tooltip: the current roll.",
       "message" : "The current roll"
    },
+   "HUD_2D_RADAR" : {
+      "description": "Popup text: the name of the azimuthal equidistant projection radar",
+      "message" : "2D azimuthal equidistant projection"
+   },
+   "HUD_3D_RADAR" : {
+      "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
+      "message" : "3D planar projection"
+   },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
       "message" : "Hull does not require repair."
