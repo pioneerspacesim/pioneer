@@ -10,13 +10,17 @@
 #include "TextSupport.h"
 #include "utils.h"
 
+#ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wold-style-cast"
+#endif
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_STROKER_H
 #include FT_GLYPH_H
+#ifdef __clang__
 #pragma clang diagnostic pop
+#endif
 
 #undef FT_FILE // defined by FreeType, conflicts with a symbol name from FileSystem
 

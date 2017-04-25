@@ -243,10 +243,14 @@ protected:
 private:
 	// initial lua type string. defined in a specialisation in the appropriate
 	// .cpp file
+#ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundefined-var-template"
+#endif
 	static const char *s_type;
+#ifdef __clang__
 #pragma clang diagnostic pop
+#endif
 };
 
 // wrapper for a "core" object - one owned by c++ (eg Body).
