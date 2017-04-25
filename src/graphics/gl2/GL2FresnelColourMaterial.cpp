@@ -12,7 +12,7 @@
 namespace Graphics {
 namespace GL2 {
 
-FresnelColourProgram::FresnelColourProgram(const MaterialDescriptor &desc, int lights)
+FresnelColourProgram::FresnelColourProgram(const MaterialDescriptor &desc, int the_lights)
 {
 	//build some defines
 	std::stringstream ss;

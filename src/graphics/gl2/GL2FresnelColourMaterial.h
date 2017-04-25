@@ -16,7 +16,7 @@ namespace Graphics {
 	namespace GL2 {
 		class FresnelColourProgram : public Program {
 		public:
-			FresnelColourProgram(const MaterialDescriptor &, int lights=0);
+			FresnelColourProgram(const MaterialDescriptor &, int the_lights=0);
 		};
 
 		class FresnelColourMaterial : public Material { //unlit

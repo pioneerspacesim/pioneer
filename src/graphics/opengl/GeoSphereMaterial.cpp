@@ -166,7 +166,7 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 void GeoSphereSurfaceMaterial::SwitchShadowVariant()
 {
 	const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters*>(this->specialParameter0);
-	std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
+	// std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
 	//request a new shadow variation
 	if (m_curNumShadows != params.shadows.size()) {
 		m_curNumShadows = std::min(Uint32(params.shadows.size()), 4U);

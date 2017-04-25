@@ -25,7 +25,7 @@ public:
 	virtual void SetSampleMode(TextureSampleMode) override final;
 	virtual uint32_t GetTextureID() const override final { assert(sizeof(uint32_t)==sizeof(GLuint)); return m_texture; }
 
-	void BuildMipmaps();
+	void BuildMipmaps() override;
 
 private:
 	GLenum m_target;

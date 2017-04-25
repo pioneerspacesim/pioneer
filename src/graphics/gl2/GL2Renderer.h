@@ -101,7 +101,7 @@ public:
 	virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) override final;
 	virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) override final;
 
-	virtual bool ReloadShaders();
+	virtual bool ReloadShaders() override;
 
 	virtual const matrix4x4f& GetCurrentModelView() const  override final { return m_modelViewStack.top(); }
 	virtual const matrix4x4f& GetCurrentProjection() const  override final { return m_projectionStack.top(); }
@@ -132,7 +132,7 @@ protected:
 	void DisableVertexAttributes(const VertexBuffer*);
 	void DisableVertexAttributes();
 	int m_numLights;
-	int m_numDirLights;
+	unsigned int m_numDirLights;
 	std::vector<GLuint> m_vertexAttribsSet;
 	float m_minZNear;
 	float m_maxZFar;

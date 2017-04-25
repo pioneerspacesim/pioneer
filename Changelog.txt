@@ -8,6 +8,7 @@ April 2017
      * Update libassimp version requirement in COMPILING.txt (#3958)
      * Update to full (correct) Creative Commons Attribution-shareAlike 3.0 (#3971)
      * VS2015 win32 & x64 plus reorganisation (#3975)
+     * Fix most build warnings (#3982)
 
    * Fixes
      * Bugfix for issue #3967 related to PR #3948 (#3968)
