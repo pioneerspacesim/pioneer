@@ -360,10 +360,10 @@ std::string to_string(const std::string& value, const FormatSpec& fmt) {
 // ---------------------------------------------------------------------------
 // ## string_format() and helpers
 
-static inline const char* scan_unformatted(const char* fmt) {
-	const char *c = fmt;
-	return c;
-}
+// static inline const char* scan_unformatted(const char* fmt) {
+// 	const char *c = fmt;
+// 	return c;
+// }
 
 static inline const char* scan_int(const char* fmt, int& value) {
 	value = 0;
