@@ -9,6 +9,7 @@ April 2017
      * Update to full (correct) Creative Commons Attribution-shareAlike 3.0 (#3971)
      * VS2015 win32 & x64 plus reorganisation (#3975)
      * Fix most build warnings (#3982)
+     * Fix all build warnings (#3985)
      * Include sigc++ directly from pioneer-thirdparty and build as static lib (#3981)
      * clang only warnings silenced on other platforms (#3983)
 
@@ -18,6 +19,8 @@ April 2017
      * Add screenshot support for OpenGL 2.1 renderer (#3977)
      * Initialise the TextureFont to 0 (#3980)
      * Fix minor error in buildfiles (#3973)
+     * Fix output message copy-paste error (#3984)
+     * Fix Mac build (#3987)
 
 March 2017
    * New Features
