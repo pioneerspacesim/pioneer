@@ -489,6 +489,31 @@ static int l_ship_undock(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: Blastoff
+ *
+ * Blast off, in normal direction to the ground, and retract landingear
+ *
+ * > ship:Blastoff()
+ *
+ * Availability:
+ *
+ *  20151005
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_blastoff(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	if (s->GetFlightState() != Ship::LANDED)
+		luaL_error(l, "Can't blastoff if not landed");
+	s->Blastoff();
+	s->SetWheelState(false);
+	return 1;
+}
+
 /* Method: SpawnMissile
  *
  * Spawn a missile near the ship.
@@ -1101,6 +1126,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock",        l_ship_undock          },
+		{ "Blastoff",      l_ship_blastoff        },
 
 		{ "Explode", l_ship_explode },
 
