@@ -50,7 +50,7 @@ struct shipstats_t {
 	float fuel_tank_mass_left;
 };
 
-class Ship: public DynamicBody, public Propulsion, public FixedGuns {
+class Ship: public DynamicBody, public FixedGuns {
 	friend class ShipController; //only controllers need access to AITimeStep
 	friend class PlayerShipController;
 public:
@@ -297,6 +297,21 @@ private:
 	std::unordered_map<Body*, Uint8> m_relationsMap;
 
 	std::string m_shipName;
+public:
+	void ClearAngThrusterState() { GetPropulsion()->ClearAngThrusterState(); }
+	void ClearLinThrusterState() { GetPropulsion()->ClearLinThrusterState(); }
+	double GetAccelFwd() { return GetPropulsion()->GetAccelFwd(); }
+	void SetAngThrusterState(const vector3d &levels) { GetPropulsion()->SetAngThrusterState(levels); }
+	double GetFuel() const { return GetPropulsion()->GetFuel(); }
+	double GetAccel(Thruster thruster) const { return GetPropulsion()->GetAccel(thruster); }
+	void SetFuel(const double f) { GetPropulsion()->SetFuel(f); }
+	void SetFuelReserve(const double f) { GetPropulsion()->SetFuelReserve(f); }
+
+	bool AIMatchVel(const vector3d &vel) { return GetPropulsion()->AIMatchVel(vel); }
+	double AIFaceDirection(const vector3d &dir, double av=0) { return GetPropulsion()->AIFaceDirection(dir, av); }
+	void AIMatchAngVelObjSpace(const vector3d &angvel) { return GetPropulsion()->AIMatchAngVelObjSpace(angvel); }
+	void SetThrusterState(int axis, double level) { return GetPropulsion()->SetThrusterState(axis, level); }
+	void AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness) { return GetPropulsion()->AIModelCoordsMatchAngVel(desiredAngVel, softness); }
 };
 
 

@@ -101,7 +101,7 @@ class Propulsion
 		double AIFaceDirection(const vector3d &dir, double av=0);
 		vector3d AIGetLeadDir(const Body *target, const vector3d& targaccel, double projspeed);
 
-	protected:
+  public: // was protected:
 		virtual void SaveToJson(Json::Value &jsonObj, Space *space);
 		virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
 	private:

@@ -64,7 +64,6 @@ void Propulsion::Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass,
 		m_angThrust = ang_Thrust;
 		m_smodel = m;
 		m_dBody = b;
-		b->AddFeature( DynamicBody::PROPULSION );
 }
 
 void Propulsion::SetAngThrusterState(const vector3d &levels)

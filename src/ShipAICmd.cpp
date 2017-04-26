@@ -618,7 +618,7 @@ static vector3d GenerateTangent(DynamicBody *dBody, Frame *targframe, const vect
 static int CheckCollision(DynamicBody *dBody, const vector3d &pathdir, double pathdist, const vector3d &tpos, double endvel, double r)
 {
 	if (!dBody->Have(DynamicBody::PROPULSION)) return 0;
-	Propulsion *prop = dynamic_cast<Propulsion*>(dBody);
+	Propulsion *prop = dBody->GetPropulsion();
 	assert(prop!=nullptr);
 	// ship is in obstructor's frame anyway, so is tpos
 	if (pathdist < 100.0) return 0;
@@ -690,7 +690,7 @@ static bool ParentSafetyAdjust(DynamicBody *dBody, Frame *targframe, vector3d &t
 
 	// aim for zero velocity at surface of that body
 	// still along path to target
-	Propulsion *prop = dynamic_cast<Propulsion*>(dBody);
+	Propulsion *prop = dBody->GetPropulsion();
 	if (prop==nullptr) return false;
 	vector3d targpos2 = targpos - dBody->GetPosition();
 	double targdist = targpos2.Length();
@@ -707,7 +707,7 @@ static bool CheckSuicide(DynamicBody *dBody, const vector3d &tandir)
 {
 	Body *body = dBody->GetFrame()->GetBody();
 	if (dBody->Have(DynamicBody::PROPULSION)) return false;
-	Propulsion *prop = dynamic_cast<Propulsion*>(dBody);
+	Propulsion *prop = dBody->GetPropulsion();
 	assert(prop!=nullptr);
 	if (!body || !body->IsType(Object::TERRAINBODY)) return false;
 
@@ -724,7 +724,7 @@ extern double calc_ivel(double dist, double vel, double acc);
 // Fly to vicinity of body
 AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, Body *target) : AICommand(dBody, CMD_FLYTO)
 {
-	m_prop = dynamic_cast<Propulsion*>(dBody);
+	m_prop = dBody->GetPropulsion();
 	assert(m_prop!=nullptr);
 	m_frame = 0; m_state = -6; m_lockhead = true; m_endvel = 0; m_tangent = false;
 	if (!target->IsType(Object::TERRAINBODY)) m_dist = VICINITY_MIN;
@@ -752,7 +752,7 @@ AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, Frame *targframe, const vector3d &pos
 	m_lockhead(true),
 	m_frame(nullptr)
 {
-	m_prop = dynamic_cast<Propulsion*>(dBody);
+	m_prop = dBody->GetPropulsion();
 	assert(m_prop!=nullptr);
 }
 
@@ -931,7 +931,7 @@ AICmdDock::AICmdDock(DynamicBody *dBody, SpaceStation *target) : AICommand(dBody
 	ship = static_cast<Ship*>(dBody);
 	assert(ship!=nullptr);
 
-	m_prop = dynamic_cast<Propulsion*>(dBody);
+	m_prop = ship->GetPropulsion(); // dBody->GetPropulsion();
 	assert(m_prop!=nullptr);
 
 	double grav = GetGravityAtPos(m_target->GetFrame(), m_target->GetPosition());
@@ -1102,7 +1102,7 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
 AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double relalt, int mode)
 	: AICommand (dBody, CMD_FLYAROUND)
 {
-	m_prop = dynamic_cast<Propulsion*>(dBody);
+	m_prop = dBody->GetPropulsion();
 	assert(m_prop!=nullptr);
 
 	assert(!std::isnan(relalt));
@@ -1114,7 +1114,7 @@ AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double rela
 AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double alt, double vel, int mode)
 	: AICommand (dBody, CMD_FLYAROUND)
 {
-	m_prop = dynamic_cast<Propulsion*>(dBody);
+	m_prop = dBody->GetPropulsion();
 	assert(m_prop!=nullptr);
 
 	assert(!std::isnan(alt));
@@ -1123,7 +1123,7 @@ AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double alt,
 
 double AICmdFlyAround::MaxVel(double targdist, double targalt)
 {
-	Propulsion *prop = dynamic_cast<Propulsion*>(m_dBody);
+	Propulsion *prop = m_dBody->GetPropulsion();
 	assert(prop!=0);
 
 	if (targalt > m_alt) return m_vel;
@@ -1217,7 +1217,7 @@ AICmdFormation::AICmdFormation(DynamicBody *dBody, DynamicBody *target, const ve
 	m_target(target),
 	m_posoff(posoff)
 {
-	m_prop = dynamic_cast<Propulsion*>(dBody);
+	m_prop = dBody->GetPropulsion();
 	assert(m_prop!=nullptr);
 }
 

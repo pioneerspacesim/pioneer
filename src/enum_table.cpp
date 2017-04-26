@@ -122,9 +122,9 @@ const struct EnumItem ENUM_ShipAIError[] = {
 };
 
 const struct EnumItem ENUM_ShipFuelStatus[] = {
-	{ "OK", int(Ship::FUEL_OK) },
-	{ "WARNING", int(Ship::FUEL_WARNING) },
-	{ "EMPTY", int(Ship::FUEL_EMPTY) },
+	{ "OK", int(Propulsion::FUEL_OK) },
+	{ "WARNING", int(Propulsion::FUEL_WARNING) },
+	{ "EMPTY", int(Propulsion::FUEL_EMPTY) },
 	{ 0, 0 },
 };
 
