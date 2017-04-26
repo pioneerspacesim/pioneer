@@ -426,3 +426,14 @@ const SpaceStationType* SpaceStationType::RandomStationType(Random &random, cons
 
 	return &orbitalTypes[ random.Int32(SpaceStationType::orbitalTypes.size()) ];
 }
+
+/*static*/
+const SpaceStationType *SpaceStationType::FindByName(const std::string &name) {
+	for(auto &sst : surfaceTypes)
+		if(sst.id == name)
+			return &sst;
+	for(auto &sst : orbitalTypes)
+		if(sst.id == name)
+			return &sst;
+	return nullptr;
+}

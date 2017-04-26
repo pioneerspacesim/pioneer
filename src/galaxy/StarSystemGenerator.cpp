@@ -505,7 +505,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		kid->m_volcanicity    = csbody->volcanicity;
 		kid->m_atmosOxidizing = csbody->atmosOxidizing;
 		kid->m_life           = csbody->life;
-
+    kid->m_space_station_type = csbody->spaceStationType;
 		kid->m_rotationPeriod = csbody->rotationPeriod;
 		kid->m_rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
 		kid->m_eccentricity = csbody->eccentricity;
