@@ -125,6 +125,7 @@ public:
 	virtual void Scale( const float x, const float y, const float z ) override final;
 
 	virtual bool Screendump(ScreendumpState &sd) override final;
+	virtual bool FrameGrab(ScreendumpState &sd) override final;
 
 protected:
 	virtual void PushState() override final;
