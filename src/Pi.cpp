@@ -154,6 +154,8 @@ RefCountedPtr<Graphics::Texture> Pi::renderTexture;
 std::unique_ptr<Graphics::Drawables::TexturedQuad> Pi::renderQuad;
 Graphics::RenderState *Pi::quadRenderState = nullptr;
 bool Pi::bRequestEndGame = false;
+bool Pi::isRecordingVideo = false;
+FILE *Pi::ffmpegFile = nullptr;
 
 Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
@@ -499,6 +501,17 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Pi::rng.IncRefCount(); // so nothing tries to free it
 	Pi::rng.seed(time(0));
 
+	if (config->Int("RecordVideo"))
+	{
+		char cmd[256] = { 0 };
+		// start ffmpeg telling it to expect raw rgba 720p-60hz frames
+		// -i - tells it to read frames from stdin
+		_snprintf(cmd, 256, "ffmpeg -r 60 -f rawvideo -pix_fmt rgba -s %dx%d -i - -threads 0 -preset fast -y -pix_fmt yuv420p -crf 21 -vf vflip output.mp4", videoSettings.width, videoSettings.height);
+
+		// open pipe to ffmpeg's stdin in binary write mode
+		Pi::ffmpegFile = _popen(cmd, "wb");
+	}
+
 	InitJoysticks();
 
 	// we can only do bindings once joysticks are initialised.
@@ -764,6 +777,9 @@ bool Pi::IsConsoleActive()
 
 void Pi::Quit()
 {
+	if (Pi::ffmpegFile != nullptr) {
+		_pclose(Pi::ffmpegFile);
+	}
 	Projectile::FreeModel();
 	delete Pi::intro;
 	delete Pi::luaConsole;
@@ -907,6 +923,10 @@ void Pi::HandleEvents()
 							write_screenshot(sd, buf);
 							break;
 						}
+
+						case SDLK_SCROLLLOCK: // toggle video recording
+							Pi::isRecordingVideo = !Pi::isRecordingVideo;
+							break;
 #if WITH_DEVKEYS
 						case SDLK_i: // Toggle Debug info
 							Pi::showDebugInfo = !Pi::showDebugInfo;
@@ -1583,6 +1603,12 @@ void Pi::MainLoop()
 			Screendump(fname.c_str(), Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 		}
 #endif /* MAKING_VIDEO */
+
+		if (isRecordingVideo && (Pi::ffmpegFile!=nullptr)) {
+			Graphics::ScreendumpState sd;
+			Pi::renderer->FrameGrab(sd);
+			fwrite(sd.pixels.get(), sizeof(uint32_t) * Pi::renderer->GetWindow()->GetWidth() * Pi::renderer->GetWindow()->GetHeight(), 1, Pi::ffmpegFile);
+		}
 
 #ifdef PIONEER_PROFILER
 		Profiler::reset();
