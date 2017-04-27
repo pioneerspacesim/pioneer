@@ -224,6 +224,8 @@ public:
 
 	StarSystem* GetStarSystem() const { return m_system; }
 
+	const std::string &GetSpaceStationType() const { return m_space_station_type; }
+
 private:
 	friend class StarSystem;
 	friend class ObjectViewerView;
@@ -280,6 +282,8 @@ private:
 	double m_atmosDensity;
 
 	StarSystem *m_system;
+
+	std::string m_space_station_type;
 };
 
 class StarSystem : public RefCounted {

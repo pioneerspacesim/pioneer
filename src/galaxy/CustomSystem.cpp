@@ -94,6 +94,14 @@ static int l_csb_new(lua_State *L)
 		lua_settop(L, 1); return 1;                        \
 	}
 
+#define CSB_FIELD_SETTER_STRING(luaname, fieldname)        \
+	static int l_csb_ ## luaname (lua_State *L) {          \
+		CustomSystemBody *csb = l_csb_check(L, 1);         \
+		std::string value = luaL_checkstring(L, 2);        \
+		csb->fieldname = value;                            \
+		lua_settop(L, 1); return 1;                        \
+	}
+
 CSB_FIELD_SETTER_FIXED_POSITIVE(radius, radius)
 CSB_FIELD_SETTER_FIXED_POSITIVE(mass, mass)
 CSB_FIELD_SETTER_INT(temp, averageTemp)
@@ -110,6 +118,7 @@ CSB_FIELD_SETTER_FIXED(atmos_oxidizing, atmosOxidizing)
 CSB_FIELD_SETTER_FIXED(ocean_cover, volatileLiquid)
 CSB_FIELD_SETTER_FIXED(ice_cover, volatileIces)
 CSB_FIELD_SETTER_FIXED(life, life)
+CSB_FIELD_SETTER_STRING(space_station_type, spaceStationType)
 
 #undef CSB_FIELD_SETTER_FIXED
 #undef CSB_FIELD_SETTER_FLOAT
@@ -245,6 +254,7 @@ static luaL_Reg LuaCustomSystemBody_meta[] = {
 	{ "atmos_oxidizing", &l_csb_atmos_oxidizing },
 	{ "ocean_cover", &l_csb_ocean_cover },
 	{ "ice_cover", &l_csb_ice_cover },
+	{ "space_station_type", &l_csb_space_station_type },
 	{ "life", &l_csb_life },
 	{ "rings", &l_csb_rings },
 	{ "__gc", &l_csb_gc },

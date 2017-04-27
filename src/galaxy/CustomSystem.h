@@ -61,6 +61,7 @@ public:
 
 	Uint32 seed;
 	bool   want_rand_seed;
+	std::string spaceStationType;
 };
 
 class CustomSystem {
