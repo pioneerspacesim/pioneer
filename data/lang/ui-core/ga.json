@@ -113,7 +113,7 @@
    },
    "CHANGE_BINDING" : {
       "description" : "Key binding option",
-      "message" : "Change Binding"
+      "message" : "Athraigh Eochracha"
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "CITY_DETAIL_LEVEL" : {
       "description" : "Game graphics option",
-      "message" : "City detail level"
+      "message" : "Leibhéal mionsonraithe na cathrach"
    },
    "CLEAN" : {
       "description" : "Legal status of player",
@@ -201,7 +201,7 @@
    },
    "CREW_CABINS" : {
       "description" : "",
-      "message" : "Crew cabins"
+      "message" : "Cábáin na foirne"
    },
    "CREW_ROSTER" : {
       "description" : "",
@@ -237,11 +237,11 @@
    },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
-      "message" : "Descent-to-ground speed:"
+      "message" : "Luas tuirlingt-go-talamh:"
    },
    "DESTROY_ENEMY_SHIP" : {
       "description" : "",
-      "message" : "Destroy enemy ship"
+      "message" : "Scrios long an namhad"
    },
    "DISMISS" : {
       "description" : "Terminate crew memeber's contract",
@@ -253,7 +253,7 @@
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "Settings option: hyperspace tunnel effect",
-      "message" : "Display nav tunnels"
+      "message" : "Taispeáin tolláin loingseoireachta"
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "Settings option: effect when travelling in space",
@@ -345,7 +345,7 @@
    },
    "FAILED" : {
       "description" : "When failed mission",
-      "message" : "Failed"
+      "message" : "Teipthe"
    },
    "FEMALE" : {
       "description" : "",
@@ -365,7 +365,7 @@
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
-      "message" : "Fractal detail"
+      "message" : "Mionsonraí na bhfrachtal"
    },
    "FREE" : {
       "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
@@ -373,7 +373,7 @@
    },
    "FRONT_WEAPON" : {
       "description" : "",
-      "message" : "Front weapon"
+      "message" : "Arm tosaigh"
    },
    "FUEL" : {
       "description" : "",
@@ -401,7 +401,7 @@
    },
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
-      "message" : "Good riddance to you, too."
+      "message" : "Bliain mhaith i do dhiaidhse!"
    },
    "HANG_UP" : {
       "description" : "",
@@ -438,6 +438,14 @@
    "HIGH" : {
       "description" : "Game settings option: for graphics resolution",
       "message" : "Ard"
+   },
+   "HUD_2D_RADAR" : {
+      "description" : "Popup text: the name of the azimuthal equidistant projection radar",
+      "message" : "2D azimuthal equidistant projection"
+   },
+   "HUD_3D_RADAR" : {
+      "description" : "Popup text: the name of the planar projection radar (traditional frontier-style)",
+      "message" : "3D planar projection"
    },
    "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
       "description" : "Tooltip: The braking distance using the main thrusters.",
@@ -513,7 +521,7 @@
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
-      "message" : "Hull does not require repair."
+      "message" : "Ní gá duit an chabhail a dheisiú."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
@@ -525,11 +533,11 @@
    },
    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
       "description" : "",
-      "message" : "Hull repair attempt failed. Hull suffered minor damage."
+      "message" : "Theip ar an iarracht an chabhail a dheisiú. Rinneadh beagán damáiste don chabhail."
    },
    "HYPERDRIVE" : {
       "description" : "",
-      "message" : "Hyperdrive"
+      "message" : "Hipirthiomáint"
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
@@ -537,7 +545,7 @@
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "Hyperspace range"
+      "message" : "Raon hipearspáis"
    },
    "ILLEGAL_JUMP" : {
       "description" : "A finable crime",
@@ -565,7 +573,7 @@
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
-      "message" : "Invert Mouse Y"
+      "message" : "Inbhéartaigh ais-Y na luiche"
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
@@ -589,7 +597,7 @@
    },
    "KILLS" : {
       "description" : "",
-      "message" : "Kills:"
+      "message" : "Maraithe:"
    },
    "LANGUAGE" : {
       "description" : "",
@@ -657,7 +665,7 @@
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
-      "message" : "Located {distance}km from the centre of {name}:"
+      "message" : "Lonnaithe {distance}km ó lár {name}:"
    },
    "LOCATION" : {
       "description" : "",
@@ -673,7 +681,7 @@
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
-      "message" : "Make new face"
+      "message" : "Cruthaigh aghaidh nua"
    },
    "MALE" : {
       "description" : "",
@@ -701,7 +709,7 @@
    },
    "MAX" : {
       "description" : "",
-      "message" : "max"
+      "message" : "uas"
    },
    "MAXIMUM_CREW" : {
       "description" : "",
@@ -805,7 +813,7 @@
    },
    "NEXT_PAID" : {
       "description" : "",
-      "message" : "Next paid"
+      "message" : "An chéad phá eile"
    },
    "NO" : {
       "description" : "Negative answer to a question",
@@ -833,7 +841,7 @@
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
-      "message" : "Not enough {alloy} to attempt a repair"
+      "message" : "Níl go leor {alloy} agat le cromadh ar an deisiú"
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
@@ -845,15 +853,15 @@
    },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
-      "message" : "{range} light years ({maxRange} max)"
+      "message" : "{range} solasbhliain ({maxRange} uasmhéid)"
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} Occupied Passenger Cabins"
+      "message" : "{quantity} Cábán Paisinéara Gafa"
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
-      "message" : "{quantity} Shield Generators"
+      "message" : "{quantity} Gineadóir Scéithe"
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
@@ -933,7 +941,7 @@
    },
    "PLANET_TEXTURES" : {
       "description" : "",
-      "message" : "Planet textures"
+      "message" : "Uigeachtaí pláinéid"
    },
    "POLICE" : {
       "description" : "",
@@ -945,7 +953,7 @@
    },
    "POSITION" : {
       "description" : "The job title/position of crew memeber",
-      "message" : "Position"
+      "message" : "Ionad"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
@@ -965,7 +973,7 @@
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
-      "message" : "Qualification scores"
+      "message" : "Scóir cháilíochta"
    },
    "QUIT" : {
       "description" : "",
@@ -977,7 +985,7 @@
    },
    "RANK" : {
       "description" : "",
-      "message" : "Rank:"
+      "message" : "Céim:"
    },
    "RATING" : {
       "description" : "",
@@ -1021,7 +1029,7 @@
    },
    "RETURN_TO_MENU" : {
       "description" : "",
-      "message" : "Return to menu"
+      "message" : "Fill ar an roghchlár"
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
@@ -1033,7 +1041,7 @@
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward"
+      "message" : "Duais"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1093,7 +1101,7 @@
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "Ship Information"
+      "message" : "Eolas faoin Spáslong"
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
@@ -1137,7 +1145,7 @@
    },
    "START_AT_NEW_HOPE" : {
       "description" : "New Hope is an in game location",
-      "message" : "Start at New Hope"
+      "message" : "Tosaigh ag Dóchas Nua"
    },
    "STAR_FIELD_DENSITY" : {
       "description" : "",
@@ -1165,11 +1173,11 @@
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
-      "message" : "Níl éinne eile ar bord atá in ann an spáslong seo a eitilt."
+      "message" : "Níl éinne eile ar bord atá in ann an long seo a eitilt."
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
-      "message" : "The ship is under station control, Commander."
+      "message" : "Tá an long faoi stiúir an stáisiúin, a Cheannasaí."
    },
    "THREE_KPC_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1177,7 +1185,7 @@
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
-      "message" : "Toggle male/female"
+      "message" : "Athraigh fireannach/baineannach"
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
@@ -1253,7 +1261,7 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Weight empty"
+      "message" : "Meáchan folamh"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
