@@ -10,6 +10,7 @@
 #include "Game.h"
 #include "graphics/Graphics.h"
 #include "Player.h"
+#include "EnumStrings.h"
 
 // Windows defines RegisterClass as a macro, but we don't need that here.
 // undef it, to avoid including yet another header that undefs it
@@ -755,6 +756,12 @@ static int l_pigui_get_mouse_pos(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_get_mouse_wheel(lua_State *l) {
+	float wheel = ImGui::GetIO().MouseWheel;
+	LuaPush(l, wheel);
+	return 1;
+}
+
 static int l_pigui_set_tooltip(lua_State *l) {
 	std::string text = LuaPull<std::string>(l, 1);
 	ImGui::SetTooltip("%s", text.c_str());
@@ -834,6 +841,50 @@ static int l_pigui_get_mouse_clicked_pos(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_get_targets_nearby(lua_State *l) {
+	int range_max = LuaPull<double>(l, 1);
+	LuaTable result(l);
+	Space::BodyNearList nearby;
+	Pi::game->GetSpace()->GetBodiesMaybeNear(Pi::player, range_max, nearby);
+	int index = 1;
+	for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
+		if ((*i) == Pi::player) continue;
+		vector3d position = (*i)->GetPositionRelTo(Pi::player);
+		float distance = float(position.Length());
+		vector3d shipSpacePosition = position * Pi::player->GetOrient();
+		// convert to polar https://en.wikipedia.org/wiki/Spherical_coordinate_system
+		vector3d polarPosition(// don't calculate X, it is not used
+													 // sqrt(shipSpacePosition.x*shipSpacePosition.x
+													 // 			+ shipSpacePosition.y*shipSpacePosition.y
+													 // 			+ shipSpacePosition.z*shipSpacePosition.z)
+													 0
+													 ,
+													 atan2(shipSpacePosition.x, shipSpacePosition.y),
+													 atan2(-shipSpacePosition.z,
+																 sqrt(shipSpacePosition.x*shipSpacePosition.x
+																			+ shipSpacePosition.y*shipSpacePosition.y))
+													 );
+		// convert to AEP https://en.wikipedia.org/wiki/Azimuthal_equidistant_projection
+		double rho = M_PI / 2 - polarPosition.z;
+		double theta = polarPosition.y;
+		vector3d aep(rho * sin(theta) / (2 * M_PI), -rho * cos(theta) / (2 * M_PI), 0);
+		LuaTable object(l);
+		object.Set("distance", distance);
+		object.Set("label", (*i)->GetLabel());
+
+		//		object.Set("type", EnumStrings::GetString("PhysicsObjectType", (*i)->GetType()));
+		//		object.Set("position", position);
+		//		object.Set("oriented_position", shipSpacePosition);
+		//		object.Set("polar_position", polarPosition);
+
+		object.Set("aep", aep);
+		object.Set("body", (*i));
+		result.Set(std::to_string(index++), object);
+		lua_pop(l, 1);
+	}
+  LuaPush(l, result);
+	return 1;
+}
 // static int l_pigui_disable_mouse_facing(lua_State *l) {
 // 	bool b = LuaPull<bool>(l, 1);
 // 	auto *p = Pi::player->GetPlayerController();
@@ -1087,6 +1138,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "SetTooltip",             l_pigui_set_tooltip },
 		{ "Checkbox",               l_pigui_checkbox },
 		{ "GetMousePos",            l_pigui_get_mouse_pos },
+		{ "GetMouseWheel",          l_pigui_get_mouse_wheel },
 		{ "PathArcTo",              l_pigui_path_arc_to },
 		{ "PathStroke",             l_pigui_path_stroke },
 		{ "PushItemWidth",          l_pigui_push_item_width },
@@ -1115,6 +1167,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "LoadTextureFromSVG",     l_pigui_load_texture_from_svg },
 		{ "DataDirPath",            l_pigui_data_dir_path },
 		{ "ShouldDrawUI",           l_pigui_should_draw_ui },
+		{ "GetTargetsNearby",       l_pigui_get_targets_nearby },
 		// { "DisableMouseFacing",     l_pigui_disable_mouse_facing },
 		// { "SetMouseButtonState",    l_pigui_set_mouse_button_state },
 		{ 0, 0 }

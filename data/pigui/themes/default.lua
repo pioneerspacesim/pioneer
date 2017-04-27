@@ -27,6 +27,7 @@ theme.colors = {
 	maneuver = Color(200, 150, 200),
 	maneuverDark = Color(160, 50, 160),
 	mouseMovementDirection = Color(160, 160, 50),
+	lightBlueBackground = Color(0, 0, 200, 20),
 }
 
 theme.icons = {
