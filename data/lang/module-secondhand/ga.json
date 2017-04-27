@@ -1,7 +1,7 @@
 {
    "BUY" : {
       "description" : "Buy a piece of ship equipment",
-      "message" : "Buy"
+      "message" : "Ceannaigh"
    },
    "FITTING_IS_INCLUDED_IN_THE_PRICE" : {
       "description" : "Regarding installing a component on the ship",

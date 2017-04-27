@@ -77,7 +77,7 @@
    },
    "NO" : {
       "description" : "No, don't quit program",
-      "message" : "No"
+      "message" : "Níl"
    },
    "QUIT" : {
       "description" : "Quit game, as a question",
@@ -85,6 +85,6 @@
    },
    "YES" : {
       "description" : "Yes, quit program",
-      "message" : "Yes"
+      "message" : "Tá"
    }
 }

@@ -9,7 +9,7 @@
    },
    "ALLEGIANCE" : {
       "description" : "",
-      "message" : "Allegiance:"
+      "message" : "Dílseacht:"
    },
    "ALT" : {
       "description" : "Alt key on keyboard",
@@ -153,7 +153,7 @@
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Cargo"
+      "message" : "Lasta"
    },
    "CARGO_BAY_LIFE_SUPPORT_LOST" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "CONTROLS" : {
       "description" : "",
-      "message" : "Controls"
+      "message" : "Rialtáin"
    },
    "CORPORATE_SYSTEM" : {
       "description" : "",
@@ -437,7 +437,7 @@
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Fuel"
+      "message" : "Breosla"
    },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
@@ -821,7 +821,7 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "Mais"
    },
    "MASSIVE" : {
       "description" : "",
@@ -849,7 +849,7 @@
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Metal alloys"
+      "message" : "Coímhiotail"
    },
    "METAL_ORE" : {
       "description" : "",
@@ -949,11 +949,11 @@
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
-      "message" : "Name"
+      "message" : "Ainm"
    },
    "NAME_PERSON" : {
       "description" : "For a person",
-      "message" : "Name"
+      "message" : "Ainm"
    },
    "NARCOTICS" : {
       "description" : "",
@@ -1217,7 +1217,7 @@
    },
    "RESET" : {
       "description" : "",
-      "message" : "Reset"
+      "message" : "Athshocraigh"
    },
    "RESET_ORIENTATION_AND_ZOOM" : {
       "description" : "",
@@ -1361,7 +1361,7 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "Spáslong"
    },
    "SHIPS_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show no ships, show ships, or show ships + their orbits",
@@ -1749,7 +1749,7 @@
    },
    "UNIT_LY" : {
       "description" : "Distance unit: a light year",
-      "message" : "ly"
+      "message" : "sbh"
    },
    "UNIT_METERS" : {
       "description" : "Distance unit: one meter",

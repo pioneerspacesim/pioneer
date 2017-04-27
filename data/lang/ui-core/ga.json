@@ -1,11 +1,11 @@
 {
    "ABOVE_AVERAGE" : {
       "description" : "",
-      "message" : "Above Average"
+      "message" : "Thar an meán"
    },
    "ACTIVE" : {
       "description" : "",
-      "message" : "Active"
+      "message" : "Gníomhach"
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
@@ -13,7 +13,7 @@
    },
    "ALLEGIANCE" : {
       "description" : "",
-      "message" : "Allegiance:"
+      "message" : "Dílseacht:"
    },
    "ALL_UP_WEIGHT" : {
       "description" : "",
@@ -21,11 +21,11 @@
    },
    "AMOUNT" : {
       "description" : "",
-      "message" : "Amount"
+      "message" : "Méid"
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
-      "message" : "An error has occurred"
+      "message" : "Tharla earráid"
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
@@ -37,11 +37,11 @@
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
-      "message" : "Available for purchase"
+      "message" : "Ar díol"
    },
    "AVERAGE" : {
       "description" : "",
-      "message" : "Average"
+      "message" : "Meán"
    },
    "BACKWARD_ACCEL" : {
       "description" : "",
@@ -49,19 +49,19 @@
    },
    "BULLETIN_BOARD" : {
       "description" : "",
-      "message" : "Bulletin Board"
+      "message" : "Clár Fógraí"
    },
    "BUY" : {
       "description" : "Commodities and equipment prices",
-      "message" : "Buy"
+      "message" : "Ceannaigh"
    },
    "BUY_SHIP" : {
       "description" : "",
-      "message" : "Buy Ship"
+      "message" : "Ceannaigh Spáslong"
    },
    "CABINS" : {
       "description" : "For passengers",
-      "message" : "Cabins"
+      "message" : "Cábáin"
    },
    "CABIN_FREE" : {
       "description" : "Free capacity for passengers",
@@ -73,11 +73,11 @@
    },
    "CANCEL" : {
       "description" : "",
-      "message" : "Cancel"
+      "message" : "Cealaigh"
    },
    "CAPACITY" : {
       "description" : "Capacity of ship to fit more equipment",
-      "message" : "Capacity"
+      "message" : "Toilleadh"
    },
    "CAPACITY_USED" : {
       "description" : "",
@@ -85,7 +85,7 @@
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Cargo"
+      "message" : "Lasta"
    },
    "CARGO_SPACE" : {
       "description" : "",
@@ -105,11 +105,11 @@
    },
    "CASH" : {
       "description" : "",
-      "message" : "Cash"
+      "message" : "Airgead tirim"
    },
    "CASH_N" : {
       "description" : "",
-      "message" : "Cash: {money}"
+      "message" : "Airgead tirim: {money}"
    },
    "CHANGE_BINDING" : {
       "description" : "Key binding option",
@@ -117,7 +117,7 @@
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
-      "message" : "Chief Mechanic"
+      "message" : "Príomh-mheicneoir"
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
@@ -129,35 +129,35 @@
    },
    "CLEAN" : {
       "description" : "Legal status of player",
-      "message" : "Clean"
+      "message" : "Glan"
    },
    "CLEAR" : {
       "description" : "Clear an option in game settings/options menu",
-      "message" : "Clear"
+      "message" : "Glan"
    },
    "CLIENT" : {
       "description" : "",
-      "message" : "Client"
+      "message" : "Cliant"
    },
    "COMBAT" : {
       "description" : "Headline for kills and combat rating",
-      "message" : "Combat"
+      "message" : "Comhrac"
    },
    "COMMANDER" : {
       "description" : "",
-      "message" : "Commander"
+      "message" : "Ceannasaí"
    },
    "COMMODITY_MARKET" : {
       "description" : "",
-      "message" : "Commodity Market"
+      "message" : "Margadh Tráchtearraí"
    },
    "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Compact radar"
+      "message" : "Radar dlúth"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
-      "message" : "Competent"
+      "message" : "Cumasach"
    },
    "COMPLETED" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "CONSTABLE" : {
       "description" : "",
-      "message" : "Constable"
+      "message" : "Constábla"
    },
    "CONTINUE_GAME" : {
       "description" : "",
@@ -185,19 +185,19 @@
    },
    "CONTROLS" : {
       "description" : "",
-      "message" : "Controls"
+      "message" : "Rialtáin"
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
-      "message" : "Control Options"
+      "message" : "Roghanna Stiúrtha"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
-      "message" : "Could not load game: "
+      "message" : "Níorbh fhéidir an cluiche a lódáil:"
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
-      "message" : "Credible"
+      "message" : "Inchreidte"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -205,31 +205,31 @@
    },
    "CREW_ROSTER" : {
       "description" : "",
-      "message" : "Crew Roster"
+      "message" : "Liosta Foirne"
    },
    "CRIMINAL_RECORD" : {
       "description" : "Past crimes / crime history of character",
-      "message" : "Criminal record"
+      "message" : "Taifead coiriúil"
    },
    "DANGEROUS" : {
       "description" : "Player combat rating",
-      "message" : "Dangerous"
+      "message" : "Contúirteach"
    },
    "DEADLY" : {
       "description" : "Player combat rating",
-      "message" : "Deadly"
+      "message" : "Marfach"
    },
    "DELTA_V" : {
       "description" : "",
-      "message" : "Delta-v"
+      "message" : "Deilt-v"
    },
    "DELTA_V_EMPTY" : {
       "description" : "Delta-v capacity of a ship with no cargo or upgrades",
-      "message" : "Delta-v (empty)"
+      "message" : "Deilt-v (folamh)"
    },
    "DELTA_V_FULL" : {
       "description" : "Delta-v capacity of a ship with maximum cargo",
-      "message" : "Delta-v (full)"
+      "message" : "Deilt-v (lán)"
    },
    "DELTA_V_MAX" : {
       "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
@@ -245,7 +245,7 @@
    },
    "DISMISS" : {
       "description" : "Terminate crew memeber's contract",
-      "message" : "Dismiss"
+      "message" : "Ruaig"
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
@@ -265,31 +265,31 @@
    },
    "DUE" : {
       "description" : "mission deadline date",
-      "message" : "Due"
+      "message" : "Spriocdháta"
    },
    "DUMPING" : {
       "description" : "The illegal act of dumping waste",
-      "message" : "Dumping"
+      "message" : "Dumpáil"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
-      "message" : "Days left: %d"
+      "message" : "Laethanta fágtha: %d"
    },
    "ECONOMY_TRADE" : {
       "description" : "",
-      "message" : "Economy & Trade"
+      "message" : "Geilleagar agus Trádáil"
    },
    "EFFECTS" : {
       "description" : "",
-      "message" : "Effects:"
+      "message" : "Éifeachtaí:"
    },
    "ELITE" : {
       "description" : "Player combat rating",
-      "message" : "ELITE"
+      "message" : "DEN SCOTH"
    },
    "EMPLOYMENT" : {
       "description" : "",
-      "message" : "Employment"
+      "message" : "Fostaíocht"
    },
    "ENABLE_ANISOTROPIC_FILTERING" : {
       "description" : "Use Anisotropic Filtering",
@@ -305,43 +305,43 @@
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
-      "message" : "Enable joystick"
+      "message" : "Cumasaigh an luamhán stiúrtha"
    },
    "ENGINEERING" : {
       "description" : "Engineering skills of crew",
-      "message" : "Engineering:"
+      "message" : "Innealtóireacht:"
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "Equipment"
+      "message" : "Trealamh"
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
-      "message" : "Equipment Market"
+      "message" : "Margadh Trealaimh"
    },
    "EQUIPPED" : {
       "description" : "",
-      "message" : "Equipped"
+      "message" : "Feistithe"
    },
    "ERROR" : {
       "description" : "",
-      "message" : "Error"
+      "message" : "Earráid"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
-      "message" : "Escape speed:"
+      "message" : "Luas éalaithe:"
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
-      "message" : "Exit this game"
+      "message" : "Scoir den chluiche seo"
    },
    "EXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Experienced"
+      "message" : "Seanchleachta"
    },
    "EXPERT" : {
       "description" : "For player reputation",
-      "message" : "Expert"
+      "message" : "Saineolaí"
    },
    "FAILED" : {
       "description" : "When failed mission",
@@ -349,7 +349,7 @@
    },
    "FEMALE" : {
       "description" : "",
-      "message" : "Female"
+      "message" : "Baineannach"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
@@ -369,7 +369,7 @@
    },
    "FREE" : {
       "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
-      "message" : "free"
+      "message" : "ar fáil"
    },
    "FRONT_WEAPON" : {
       "description" : "",
@@ -377,23 +377,23 @@
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Fuel"
+      "message" : "Breosla"
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
-      "message" : "Fuel tank full."
+      "message" : "Tá an t-umar breosla lán."
    },
    "FUEL_WEIGHT" : {
       "description" : "",
-      "message" : "Fuel weight"
+      "message" : "Meáchan an bhreosla"
    },
    "FULL_SCREEN" : {
       "description" : "",
-      "message" : "Full screen"
+      "message" : "Lánscáileán"
    },
    "GENERAL_CREW" : {
       "description" : "",
-      "message" : "General crew"
+      "message" : "Foireann ghinearálta"
    },
    "GIVE_ORDERS_TO_CREW" : {
       "description" : "",
@@ -409,7 +409,7 @@
    },
    "HARMLESS" : {
       "description" : "Player combat rating",
-      "message" : "Harmless"
+      "message" : "Gan dochar"
    },
    "HEAVY_CARGO_SHUTTLE" : {
       "description" : "",
@@ -437,7 +437,7 @@
    },
    "HIGH" : {
       "description" : "Game settings option: for graphics resolution",
-      "message" : "High"
+      "message" : "Ard"
    },
    "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
       "description" : "Tooltip: The braking distance using the main thrusters.",
@@ -549,15 +549,15 @@
    },
    "INACTIVE" : {
       "description" : "",
-      "message" : "Inactive"
+      "message" : "Neamhghníomhach"
    },
    "INCOMPETENT" : {
       "description" : "For player reputation",
-      "message" : "Incompetent"
+      "message" : "Neamhchumasach"
    },
    "INEXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Inexperienced"
+      "message" : "Neamhchleachta"
    },
    "INSUFFICIENT_FUNDS" : {
       "description" : "",
@@ -573,11 +573,11 @@
    },
    "IN_STOCK" : {
       "description" : "",
-      "message" : "In stock"
+      "message" : "Sa stoc"
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
-      "message" : "This item is out of stock."
+      "message" : "Tá sé as stoc."
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
@@ -593,11 +593,11 @@
    },
    "LANGUAGE" : {
       "description" : "",
-      "message" : "Language"
+      "message" : "Teanga"
    },
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Language (restart game to apply)"
+      "message" : "Teanga (atosaigh an cluiche le cur i bhfeidhm)"
    },
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
@@ -613,7 +613,7 @@
    },
    "LEGAL_STATUS" : {
       "description" : "",
-      "message" : "Legal status"
+      "message" : "Stádas dlíthiúil"
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
@@ -641,11 +641,11 @@
    },
    "LOAD" : {
       "description" : "",
-      "message" : "Load"
+      "message" : "Lódáil"
    },
    "LOAD_GAME" : {
       "description" : "",
-      "message" : "Load game"
+      "message" : "Lódáil cluiche"
    },
    "LOBBY" : {
       "description" : "",
@@ -661,15 +661,15 @@
    },
    "LOCATION" : {
       "description" : "",
-      "message" : "Location"
+      "message" : "Suíomh"
    },
    "LOW" : {
       "description" : "",
-      "message" : "Low"
+      "message" : "Íseal"
    },
    "LY" : {
       "description" : "Light year",
-      "message" : "ly"
+      "message" : "sbh"
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
@@ -677,7 +677,7 @@
    },
    "MALE" : {
       "description" : "",
-      "message" : "Male"
+      "message" : "Fireannach"
    },
    "MARKET_BUYLINE" : {
       "description" : "",
@@ -689,15 +689,15 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "Mais"
    },
    "MASTER" : {
       "description" : "For player reputation",
-      "message" : "Master"
+      "message" : "Máistir"
    },
    "MASTER_VOL" : {
       "description" : "Master sound in settings option",
-      "message" : "Master:"
+      "message" : "Máistir:"
    },
    "MAX" : {
       "description" : "",
@@ -709,7 +709,7 @@
    },
    "MEDIUM" : {
       "description" : "Game settings option: graphics resolution",
-      "message" : "Medium"
+      "message" : "Measartha"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
@@ -737,11 +737,11 @@
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Metal alloys"
+      "message" : "Coímhiotail"
    },
    "MILITARY" : {
       "description" : "",
-      "message" : "Military"
+      "message" : "Míleata"
    },
    "MINIMUM_CREW" : {
       "description" : "",
@@ -753,43 +753,43 @@
    },
    "MISSIONS" : {
       "description" : "",
-      "message" : "Missions"
+      "message" : "Misin"
    },
    "MISSION_DETAILS" : {
       "description" : "",
-      "message" : "Mission Details"
+      "message" : "Mionsonraí an Mhisin"
    },
    "MORE_INFO" : {
       "description" : "",
-      "message" : "More info..."
+      "message" : "Tuilleadh eolais..."
    },
    "MOSTLY_HARMLESS" : {
       "description" : "",
-      "message" : "Mostly Harmless"
+      "message" : "Gan dochar den chuid is mó"
    },
    "MULTISAMPLING" : {
       "description" : "",
-      "message" : "Multisampling"
+      "message" : "Ilsampláil"
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "Dúnmharú"
    },
    "MUSIC" : {
       "description" : "",
-      "message" : "Music:"
+      "message" : "Ceol:"
    },
    "MUTE" : {
       "description" : "",
-      "message" : "Mute"
+      "message" : "Balbhaigh"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
-      "message" : "Name"
+      "message" : "Ainm"
    },
    "NAME_PERSON" : {
       "description" : "For a person",
-      "message" : "Name"
+      "message" : "Ainm"
    },
    "NAVIGATION" : {
       "description" : "",
@@ -809,11 +809,11 @@
    },
    "NO" : {
       "description" : "Negative answer to a question",
-      "message" : "No"
+      "message" : "Níl"
    },
    "NOBODY" : {
       "description" : "For player reputation",
-      "message" : "Nobody"
+      "message" : "Duine ar bith"
    },
    "NONE" : {
       "description" : "",
@@ -829,7 +829,7 @@
    },
    "NOTES" : {
       "description" : "",
-      "message" : "Notes:"
+      "message" : "Nótaí:"
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
@@ -861,27 +861,27 @@
    },
    "OFF" : {
       "description" : "",
-      "message" : "Off"
+      "message" : "As"
    },
    "OK" : {
       "description" : "",
-      "message" : "Ok"
+      "message" : "OK"
    },
    "OPEN_USER_FOLDER" : {
       "description" : "",
-      "message" : "User Folder"
+      "message" : "Fillteán an Úsáideora"
    },
    "OPTIONS" : {
       "description" : "",
-      "message" : "Options"
+      "message" : "Roghanna"
    },
    "ORBIT" : {
       "description" : "",
-      "message" : "Orbit"
+      "message" : "Fithis"
    },
    "ORBITAL_ANALYSIS" : {
       "description" : "",
-      "message" : "Orbital Analysis"
+      "message" : "Anailís ar Fhithis"
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
@@ -909,15 +909,15 @@
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
-      "message" : "Personal Information"
+      "message" : "Faisnéis Phearsanta"
    },
    "PILOT" : {
       "description" : "",
-      "message" : "Pilot"
+      "message" : "Píolóta"
    },
    "PILOTING" : {
       "description" : "",
-      "message" : "Piloting:"
+      "message" : "Stiúradh:"
    },
    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
       "description" : "",
@@ -925,7 +925,7 @@
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piracy"
+      "message" : "Foghail"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
@@ -937,11 +937,11 @@
    },
    "POLICE" : {
       "description" : "",
-      "message" : "Police"
+      "message" : "Gardaí"
    },
    "POOR" : {
       "description" : "Player combat rating",
-      "message" : "Poor"
+      "message" : "Bocht"
    },
    "POSITION" : {
       "description" : "The job title/position of crew memeber",
@@ -953,11 +953,11 @@
    },
    "PRICE" : {
       "description" : "",
-      "message" : "Price"
+      "message" : "Praghas"
    },
    "PROFESSIONAL" : {
       "description" : "For player reputation",
-      "message" : "Professional"
+      "message" : "Proifisiúnta"
    },
    "PUMP_DOWN" : {
       "description" : "Drain the fuel tank",
@@ -969,7 +969,7 @@
    },
    "QUIT" : {
       "description" : "",
-      "message" : "Quit"
+      "message" : "Scoir"
    },
    "QUIT_CONFIRMATION" : {
       "description" : "For the checkbox in settings window",
@@ -981,7 +981,7 @@
    },
    "RATING" : {
       "description" : "",
-      "message" : "Rating:"
+      "message" : "Rátáil:"
    },
    "REAR_WEAPON" : {
       "description" : "",
@@ -989,7 +989,7 @@
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "Refuel"
+      "message" : "Athbhreoslaigh"
    },
    "REFUEL_FULL" : {
       "description" : "",
@@ -997,7 +997,7 @@
    },
    "RELIABLE" : {
       "description" : "For player reputation",
-      "message" : "Reliable"
+      "message" : "Iontaofa"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
@@ -1005,7 +1005,7 @@
    },
    "REPUTATION" : {
       "description" : "",
-      "message" : "Reputation"
+      "message" : "Clú"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
@@ -1013,11 +1013,11 @@
    },
    "RESET" : {
       "description" : "",
-      "message" : "Reset"
+      "message" : "Athshocraigh"
    },
    "RETURN_TO_GAME" : {
       "description" : "",
-      "message" : "Return to game"
+      "message" : "Fill ar an gcluiche"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -1041,7 +1041,7 @@
    },
    "SAVE" : {
       "description" : "",
-      "message" : "Save"
+      "message" : "Sábháil"
    },
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
@@ -1053,7 +1053,7 @@
    },
    "SELECT" : {
       "description" : "",
-      "message" : "Select"
+      "message" : "Roghnaigh"
    },
    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
       "description" : "",
@@ -1061,23 +1061,23 @@
    },
    "SELECT_FILE" : {
       "description" : "",
-      "message" : "Select file..."
+      "message" : "Roghnaigh comhad.."
    },
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
-      "message" : "Select game to load..."
+      "message" : "Roghnaigh cluiche le lódáil..."
    },
    "SELL" : {
       "description" : "Commodities and equipment prices",
-      "message" : "Sell"
+      "message" : "Díol"
    },
    "SENSORS" : {
       "description" : "",
-      "message" : "Sensors:"
+      "message" : "Braiteoirí:"
    },
    "SENSORS_AND_DEFENCE" : {
       "description" : "",
-      "message" : "Sensors and defence"
+      "message" : "Braiteoirí agus cosaint"
    },
    "SET_AS_TARGET" : {
       "description" : "",
@@ -1085,7 +1085,7 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "Spáslong"
    },
    "SHIPS_ENGINEER" : {
       "description" : "",
@@ -1125,7 +1125,7 @@
    },
    "SOUND" : {
       "description" : "",
-      "message" : "Sound"
+      "message" : "Fuaim"
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
@@ -1149,7 +1149,7 @@
    },
    "STATUS" : {
       "description" : "",
-      "message" : "Status"
+      "message" : "Stádas"
    },
    "TECH_CERTIFIED" : {
       "description" : "Lobby screen shows the tech level (an integer number) of the station",
@@ -1165,7 +1165,7 @@
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
-      "message" : "There is nobody else on board able to fly this ship."
+      "message" : "Níl éinne eile ar bord atá in ann an spáslong seo a eitilt."
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
@@ -1189,11 +1189,11 @@
    },
    "TOTAL" : {
       "description" : "",
-      "message" : "Total: "
+      "message" : "Iomlán:"
    },
    "TOTAL_MASS" : {
       "description" : "",
-      "message" : "Total mass"
+      "message" : "Mais iomlán"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -1201,11 +1201,11 @@
    },
    "TRUSTWORTHY" : {
       "description" : "For player reputation",
-      "message" : "Trustworthy"
+      "message" : "Muiníneach"
    },
    "TYPE" : {
       "description" : "",
-      "message" : "Type"
+      "message" : "Cineál"
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
@@ -1213,7 +1213,7 @@
    },
    "UNRELIABLE" : {
       "description" : "",
-      "message" : "Unreliable"
+      "message" : "Neamhiontaofa"
    },
    "UP_ACCEL" : {
       "description" : "",
@@ -1221,27 +1221,27 @@
    },
    "USED" : {
       "description" : "",
-      "message" : "Used"
+      "message" : "Úsáidte"
    },
    "VERY_HIGH" : {
       "description" : "Game settings option: graphic resolution",
-      "message" : "Very high"
+      "message" : "An-ard"
    },
    "VERY_LOW" : {
       "description" : "Game settings option: graphic resolution",
-      "message" : "Very low"
+      "message" : "An-íseal"
    },
    "VIDEO" : {
       "description" : "",
-      "message" : "Video"
+      "message" : "Fís"
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Video configuration (restart game to apply)"
+      "message" : "Sainroghanna físe (atosaigh an cluiche le cur i bhfeidhm)"
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",
-      "message" : "Video resolution"
+      "message" : "Taifeach físe"
    },
    "VSYNC" : {
       "description" : "For the checkbox in settings window",
@@ -1249,7 +1249,7 @@
    },
    "WAGE" : {
       "description" : "Salary of crew shown in crew roster",
-      "message" : "Wage"
+      "message" : "Tuarastal"
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
@@ -1273,11 +1273,11 @@
    },
    "YES" : {
       "description" : "Positive answer to a question",
-      "message" : "Yes"
+      "message" : "Tá"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
-      "message" : "You're going to regret sacking me!"
+      "message" : "Beidh aithreachas ort as an bóthar a thabhairt dom!"
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
@@ -1289,7 +1289,7 @@
    },
    "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
       "description" : "",
-      "message" : "You have {units} units in your cargohold"
+      "message" : "Tá {units} aonad sa mbolg lasta"
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
