@@ -1180,4 +1180,23 @@ bool RendererGL2::Screendump(ScreendumpState &sd)
 	return true;
 }
 
+bool RendererGL2::FrameGrab(ScreendumpState &sd)
+{
+	sd.width = GetWindow()->GetWidth();
+	sd.height = GetWindow()->GetHeight();
+	sd.bpp = 4; // XXX get from window
+
+	sd.stride = (4 * sd.width);
+
+	sd.pixels.reset(new Uint8[sd.stride * sd.height]);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
+	glReadBuffer(GL_FRONT);
+	glReadPixels(0, 0, sd.width, sd.height, GL_RGBA, GL_UNSIGNED_BYTE, sd.pixels.get());
+	glFinish();
+
+	return true;
+}
+
 }
