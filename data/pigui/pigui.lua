@@ -33,6 +33,8 @@ local function maybeSetTooltip(tooltip)
 	end
 end
 
+local textBackgroundMarginPixels = 2
+
 ui.icons_texture = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), 16 * 64, 16 * 64)
 
 function ui.window(name, params, fun)
@@ -280,7 +282,7 @@ ui.addIcon = function(position, icon, color, size, anchor_horizontal, anchor_ver
 	return Vector(size, size)
 end
 
-ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data)
+ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, bg_color)
 	-- always align texts at baseline
 	local spacing = 2
 	local size = Vector(0, 0)
@@ -317,6 +319,13 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data)
 	elseif anchor_vertical == ui.anchor.bottom then
 	  position.y = position.y - (size.y - max_offset)
 	end
+	if bg_color then
+		pigui.AddRectFilled(position - Vector(textBackgroundMarginPixels, size.y + textBackgroundMarginPixels),
+												position + Vector(size.x + textBackgroundMarginPixels, textBackgroundMarginPixels),
+												bg_color,
+												0,
+												0)
+	end
 	for i=1,#data do
 		local item = data[i]
 	  local is_icon = item.font.name ~= "icons"
@@ -333,7 +342,7 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data)
 	return size
 end
 
-ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, color, font, tooltip)
+ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, color, font, tooltip, bg_color)
 	-- addStyledText aligns to upper left
 	local size
 	ui.withFont(font.name, font.size, function()
@@ -347,6 +356,9 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 								position = ui.calcTextAlignment(position, size, anchor_horizontal, vert) -- ignore vertical if baseline
 								if anchor_vertical == ui.anchor.baseline then
 									position.y = position.y - font.offset
+								end
+								if bg_color then
+									pigui.AddRectFilled(position - textBackgroundMarginPixels, position + size + textBackgroundMarginPixels, bg_color, 0, 0)
 								end
 								pigui.AddText(position, color, text)
 								-- pigui.AddQuad(position, position + Vector(size.x, 0), position + Vector(size.x, size.y), position + Vector(0, size.y), colors.red, 1.0)
@@ -372,6 +384,8 @@ ui.progressBar = pigui.ProgressBar
 ui.calcTextSize = pigui.CalcTextSize
 ui.addCircle = pigui.AddCircle
 ui.addCircleFilled = pigui.AddCircleFilled
+ui.addRect = pigui.AddRect
+ui.addRectFilled = pigui.AddRectFilled
 ui.addLine = pigui.AddLine
 ui.pathArcTo = pigui.PathArcTo
 ui.pathStroke = pigui.PathStroke
