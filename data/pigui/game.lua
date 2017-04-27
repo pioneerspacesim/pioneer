@@ -164,6 +164,14 @@ local function displayReticuleDeltaV()
 	  gauge(dvc, reticuleCircleRadius + offset + thickness, colors.deltaVCurrent, thickness)
 	end
 
+	local dvr_text, dvr_unit = ui.Format.Speed(deltav_remaining)
+	local uiPos = ui.pointOnClock(center, reticuleCircleRadius + 5, 7)
+	ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.top, {
+										{ text=math.floor(dvr*100), color=colors.reticuleCircle,     font=pionillium.small, tooltip=lui.HUD_DELTA_V_PERCENT },
+										{ text='% ',                color=colors.reticuleCircleDark, font=pionillium.tiny,  tooltip=lui.HUD_DELTA_V_PERCENT },
+										{ text=dvr_text,            color=colors.reticuleCircle,     font=pionillium.small, tooltip=lui.HUD_DELTA_V },
+										{ text=dvr_unit,            color=colors.reticuleCircleDark, font=pionillium.tiny,  tooltip=lui.HUD_DELTA_V }},
+									colors.lightBlackBackground)
 end
 
 -- if the ratio of current distance to brake distance is greater than this,
@@ -261,13 +269,19 @@ local function displayReticulePitchHorizonCompass()
 end
 
 -- show the larger indicator "in-space" around something and maybe the small indicator inside the reticule circle
-local function displayIndicator(onscreen, position, direction, icon, color, showIndicator)
+local function displayIndicator(onscreen, position, direction, icon, color, showIndicator, tooltip)
 	local size = 32 -- size of full icon
 	local indicatorSize = 16 -- size of small indicator inside the reticule circle
 	local dir = direction * reticuleCircleRadius * 0.90
 	local indicator = center + dir
 	if onscreen then
 		ui.addIcon(position, icon, color, size, ui.anchor.center, ui.anchor.center)
+		if tooltip then
+			local mouse_position = ui.getMousePos()
+			if (mouse_position - position):magnitude() < indicatorSize then -- not size on purpose, most icons are much smaller
+				ui.setTooltip(tooltip)
+			end
+		end
 	end
 	-- only show small indicator if the large icon is outside the reticule radius
 	if showIndicator and (center - position):magnitude() > reticuleCircleRadius * 1.2 then
@@ -314,7 +328,7 @@ local function displayDetailData(target, radius, combatTarget, navTarget, colorL
 	local uiPos = ui.pointOnClock(center, radius, 2)
 	-- label of target
 	local tooltip = reticuleTarget == "combatTarget" and lui.HUD_CURRENT_COMBAT_TARGET or (reticuleTarget == "navTarget" and lui.HUD_CURRENT_NAV_TARGET or lui.HUD_CURRENT_FRAME)
-	ui.addStyledText(uiPos, ui.anchor.left, ui.anchor.baseline, target.label, colorDark, pionillium.medium, tooltip)
+	ui.addStyledText(uiPos, ui.anchor.left, ui.anchor.baseline, target.label, colorDark, pionillium.medium, tooltip, colors.lightBlackBackground)
 
 	-- current distance, relative speed
 	uiPos = ui.pointOnClock(center, radius, 2.5)
@@ -324,8 +338,8 @@ local function displayDetailData(target, radius, combatTarget, navTarget, colorL
 
 	ui.addFancyText(uiPos, ui.anchor.left, ui.anchor.baseline, {
 										{ text=speed,      color=colorLight, font=pionillium.medium, tooltip=lui.HUD_SPEED_OF_APPROACH_TO_TARGET },
-										{ text=speed_unit, color=colorDark,  font=pionillium.small,  tooltip=lui.HUD_SPEED_OF_APPROACH_TO_TARGET }
-	})
+										{ text=speed_unit, color=colorDark,  font=pionillium.small,  tooltip=lui.HUD_SPEED_OF_APPROACH_TO_TARGET }},
+									colors.lightBlackBackground)
 
 	-- current brake distance
 	local brake_distance = player:GetDistanceToZeroV(velocity:magnitude(),"forward")
@@ -340,8 +354,8 @@ local function displayDetailData(target, radius, combatTarget, navTarget, colorL
 	local distance,unit = ui.Format.Distance(brake_distance)
 	ui.addFancyText(uiPos, ui.anchor.left, ui.anchor.baseline, {
 										{ text="~" .. distance, color=colorDark, font=pionillium.medium, tooltip=lui.HUD_BRAKE_DISTANCE_MAIN_THRUSTERS },
-										{ text=unit,            color=colorDark, font=pionillium.small,  tooltip=lui.HUD_BRAKE_DISTANCE_MAIN_THRUSTERS }
-	})
+										{ text=unit,            color=colorDark, font=pionillium.small,  tooltip=lui.HUD_BRAKE_DISTANCE_MAIN_THRUSTERS }},
+									colors.lightBlackBackground)
 
 	-- current altitude
 	uiPos = ui.pointOnClock(center, radius, 3)
@@ -350,8 +364,8 @@ local function displayDetailData(target, radius, combatTarget, navTarget, colorL
 										{ text=altitude,      color=colorLight, font=pionillium.medium, tooltip=lui.HUD_DISTANCE_TO_SURFACE_OF_TARGET },
 										{ text=altitude_unit, color=colorDark,  font=pionillium.small,  tooltip=lui.HUD_DISTANCE_TO_SURFACE_OF_TARGET },
 										{ text=" " .. speed,  color=colorLight, font=pionillium.medium, tooltip=lui.HUD_SPEED_RELATIVE_TO_TARGET },
-										{ text=speed_unit,    color=colorDark,  font=pionillium.small,  tooltip=lui.HUD_SPEED_RELATIVE_TO_TARGET }
-	})
+										{ text=speed_unit,    color=colorDark,  font=pionillium.small,  tooltip=lui.HUD_SPEED_RELATIVE_TO_TARGET }},
+									colors.lightBlackBackground)
 
 	-- current speed of approach
 	if approach_speed < 0 then
@@ -373,14 +387,14 @@ local function displayFrameIndicators(frame, navTarget)
 	local frameVelocity = -frame:GetVelocityRelTo(player)
 	if frameVelocity:magnitude() > 1 and frame ~= navTarget then
 		local onscreen,position,direction = Engine.WorldSpaceToScreenSpace(frameVelocity)
-		displayIndicator(onscreen, position, direction, icons.prograde, colors.frame, true)
+		displayIndicator(onscreen, position, direction, icons.prograde, colors.frame, true, lui.HUD_INDICATOR_FRAME_PROGRADE)
 		onscreen,position,direction = Engine.WorldSpaceToScreenSpace(-frameVelocity)
-		displayIndicator(onscreen, position, direction, icons.retrograde, colors.frame, false)
+		displayIndicator(onscreen, position, direction, icons.retrograde, colors.frame, false, lui.HUD_INDICATOR_FRAME_RETROGRADE)
 	end
 
 	local awayFromFrame = player:GetPositionRelTo(frame) * 1.01
 	local onscreen,position,direction = Engine.WorldSpaceToScreenSpace(awayFromFrame)
-	displayIndicator(onscreen, position, direction, icons.frame_away, colors.frame, false)
+	displayIndicator(onscreen, position, direction, icons.frame_away, colors.frame, false, lui.HUD_INDICATOR_AWAY_FROM_FRAME)
 end
 
 -- display the indicator pointing at the nav target, and pro- and retrograde
@@ -390,9 +404,9 @@ local function displayNavTargetIndicator(navTarget)
 	local navVelocity = -navTarget:GetVelocityRelTo(Game.player)
 	if navVelocity:magnitude() > 1 then
 		onscreen,position,direction = Engine.WorldSpaceToScreenSpace(navVelocity)
-		displayIndicator(onscreen, position, direction, icons.prograde, colors.navTarget, true)
+		displayIndicator(onscreen, position, direction, icons.prograde, colors.navTarget, true, lui.HUD_INDICATOR_NAV_TARGET_PROGRADE)
 		onscreen,position,direction = Engine.WorldSpaceToScreenSpace(-navVelocity)
-		displayIndicator(onscreen, position, direction, icons.retrograde, colors.navTarget, false)
+		displayIndicator(onscreen, position, direction, icons.retrograde, colors.navTarget, false, lui.HUD_INDICATOR_NAV_TARGET_RETROGRADE)
 	end
 end
 
@@ -406,20 +420,20 @@ local function displayFrameData(frame, radius)
 	local speed, speed_unit = ui.Format.Speed(approach_speed)
 	local uiPos = ui.pointOnClock(center, radius, -2)
 	-- label of frame
-	ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.baseline, frame.label, colors.frame, pionillium.medium, lui.HUD_CURRENT_FRAME)
+	ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.baseline, frame.label, colors.frame, pionillium.medium, lui.HUD_CURRENT_FRAME, colors.lightBlackBackground)
 	-- altitude above frame
 	uiPos = ui.pointOnClock(center, radius, -3)
 	ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.baseline, {
 										{ text=altitude,      color=colors.frame,     font=pionillium.medium, tooltip=lui.HUD_DISTANCE_TO_SURFACE_OF_FRAME },
-										{ text=altitude_unit, color=colors.frameDark, font=pionillium.small,  tooltip=lui.HUD_DISTANCE_TO_SURFACE_OF_FRAME }
-	})
+										{ text=altitude_unit, color=colors.frameDark, font=pionillium.small,  tooltip=lui.HUD_DISTANCE_TO_SURFACE_OF_FRAME }},
+									colors.lightBlackBackground)
 
 	-- speed of approach of frame
 	uiPos = ui.pointOnClock(center, radius, -2.5)
 	ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.baseline, {
 										{ text=speed,      color=colors.frame,     font=pionillium.medium, tooltip=lui.HUD_SPEED_OF_APPROACH_TO_FRAME },
-										{ text=speed_unit, color=colors.frameDark, font=pionillium.small,  tooltip=lui.HUD_SPEED_OF_APPROACH_TO_FRAME }
-	})
+										{ text=speed_unit, color=colors.frameDark, font=pionillium.small,  tooltip=lui.HUD_SPEED_OF_APPROACH_TO_FRAME }},
+									colors.lightBlackBackground)
 end
 
 -- display current maneuver data below the reticule circle
@@ -428,7 +442,7 @@ local function displayManeuverData(radius)
 	local maneuverSpeed = maneuverVelocity:magnitude()
 	if maneuverSpeed > 0 and not (player:IsDocked() or player:IsLanded()) then
 		local onscreen,position,direction = Engine.WorldSpaceToScreenSpace(maneuverVelocity)
-		displayIndicator(onscreen, position, direction, icons.bullseye, colors.maneuver, true)
+		displayIndicator(onscreen, position, direction, icons.bullseye, colors.maneuver, true, lui.HUD_INDICATOR_MANEUVER_PROGRADE)
 		local uiPos = ui.pointOnClock(center, radius, 6)
 		local speed, speed_unit = ui.Format.Speed(maneuverSpeed)
 		local duration = ui.Format.Duration(player:GetManeuverTime() - Game.time)
@@ -439,8 +453,8 @@ local function displayManeuverData(radius)
 											{ text=duration,           color=colors.maneuver,     font=pionillium.medium, tooltip=lui.HUD_DURATION_UNTIL_MANEUVER_BURN },
 											{ text="  " .. speed,      color=colors.maneuver,     font=pionillium.medium, tooltip=lui.HUD_DELTA_V_OF_MANEUVER_BURN },
 											{ text=speed_unit,         color=colors.maneuverDark, font=pionillium.small,  tooltip=lui.HUD_DELTA_V_OF_MANEUVER_BURN },
-											{ text="  ~" .. burn_time, color=colors.maneuver,     font=pionillium.medium, tooltip=lui.HUD_DURATION_OF_MANEUVER_BURN }
-		})
+											{ text="  ~" .. burn_time, color=colors.maneuver,     font=pionillium.medium, tooltip=lui.HUD_DURATION_OF_MANEUVER_BURN }},
+										colors.lightBlackBackground)
 	end
 end
 
@@ -595,7 +609,7 @@ local function display2DRadar(cntr, size)
 	local d, d_u = ui.Format.Distance(current_radar_size)
 	local distance = d .. ' ' .. d_u
 	local textcenter = cntr + Vector(0, size + 2)
-	local textsize = ui.addStyledText(textcenter, ui.anchor.center, ui.anchor.top, distance, colors.frame, pionillium.small, "Radar distance")
+	local textsize = ui.addStyledText(textcenter, ui.anchor.center, ui.anchor.top, distance, colors.frame, pionillium.small, lui.HUD_RADAR_DISTANCE, colors.lightBlackBackground)
 end
 
 -- display either the 3D or the 2D radar, show a popup on right click to select
