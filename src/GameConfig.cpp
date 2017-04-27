@@ -56,7 +56,6 @@ GameConfig::GameConfig(const map_string &override_)
 	map["EnableGLDebug"] = "0";
 	map["EnableGPUJobs"] = "1";
 	map["GL3ForwardCompatible"] = "1";
-	map["RecordVideo"] = "0";
 
 	Load();
 

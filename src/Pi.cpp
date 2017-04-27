@@ -506,29 +506,6 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Pi::rng.IncRefCount(); // so nothing tries to free it
 	Pi::rng.seed(time(0));
 
-	if (config->Int("RecordVideo"))
-	{
-		char videoName[256];
-		const time_t t = time(0);
-		struct tm *_tm = localtime(&t);
-		strftime(videoName, sizeof(videoName), "pioneer-%Y%m%d-%H%M%S", _tm);
-
-		const std::string dir = "videos";
-		FileSystem::userFiles.MakeDirectory(dir);
-		const std::string fname = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot() + "/" + dir, videoName);
-		// start ffmpeg telling it to expect raw rgba 720p-60hz frames
-		// -i - tells it to read frames from stdin
-		char cmd[256] = { 0 };
-		snprintf(cmd, sizeof(cmd), "ffmpeg -r 60 -f rawvideo -pix_fmt rgba -s %dx%d -i - -threads 0 -preset fast -y -pix_fmt yuv420p -crf 21 -vf vflip %s.mp4", videoSettings.width, videoSettings.height, fname.c_str());
-
-		// open pipe to ffmpeg's stdin in binary write mode
-#if defined(_MSC_VER) || defined(__MINGW32__)
-		Pi::ffmpegFile = _popen(cmd, "wb");
-#else
-		Pi::ffmpegFile = _popen(cmd, "w");
-#endif
-	}
-
 	InitJoysticks();
 
 	// we can only do bindings once joysticks are initialised.
@@ -944,9 +921,32 @@ void Pi::HandleEvents()
 						case SDLK_SCROLLLOCK: // toggle video recording
 							Pi::isRecordingVideo = !Pi::isRecordingVideo;
 							if (Pi::isRecordingVideo) {
-								Output("Video Recording started.");
+								char videoName[256];
+								const time_t t = time(0);
+								struct tm *_tm = localtime(&t);
+								strftime(videoName, sizeof(videoName), "pioneer-%Y%m%d-%H%M%S", _tm);
+								const std::string dir = "videos";
+								FileSystem::userFiles.MakeDirectory(dir);
+								const std::string fname = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot() + "/" + dir, videoName);
+								Output("Video Recording started to %s.\n", fname.c_str());
+								// start ffmpeg telling it to expect raw rgba 720p-60hz frames
+								// -i - tells it to read frames from stdin
+								// if given no frame rate (-r 60), it will just use vfr
+								char cmd[256] = { 0 };
+								snprintf(cmd, sizeof(cmd), "ffmpeg -f rawvideo -pix_fmt rgba -s %dx%d -i - -threads 0 -preset fast -y -pix_fmt yuv420p -crf 21 -vf vflip %s.mp4", config->Int("ScrWidth"), config->Int("ScrHeight"), fname.c_str());
+
+								// open pipe to ffmpeg's stdin in binary write mode
+#if defined(_MSC_VER) || defined(__MINGW32__)
+								Pi::ffmpegFile = _popen(cmd, "wb");
+#else
+								Pi::ffmpegFile = _popen(cmd, "w");
+#endif
 							} else {
-								Output("Video Recording ended.");
+								Output("Video Recording ended.\n");
+								if (Pi::ffmpegFile != nullptr) {
+									_pclose(Pi::ffmpegFile);
+									Pi::ffmpegFile = nullptr;
+								}
 							}
 							break;
 #if WITH_DEVKEYS
