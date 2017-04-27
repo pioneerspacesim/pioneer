@@ -92,6 +92,11 @@
 	#endif
 #endif
 
+#if !defined(_MSC_VER) && !defined(__MINGW32__)
+	#define _popen popen
+	#define _pclose pclose
+#endif
+
 float Pi::gameTickAlpha;
 sigc::signal<void, SDL_Keysym*> Pi::onKeyPress;
 sigc::signal<void, SDL_Keysym*> Pi::onKeyRelease;
@@ -509,7 +514,11 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 		_snprintf(cmd, 256, "ffmpeg -r 60 -f rawvideo -pix_fmt rgba -s %dx%d -i - -threads 0 -preset fast -y -pix_fmt yuv420p -crf 21 -vf vflip output.mp4", videoSettings.width, videoSettings.height);
 
 		// open pipe to ffmpeg's stdin in binary write mode
+#if defined(_MSC_VER) || defined(__MINGW32__)
 		Pi::ffmpegFile = _popen(cmd, "wb");
+#else
+		Pi::ffmpegFile = _popen(cmd, "w");
+#endif
 	}
 
 	InitJoysticks();
@@ -926,6 +935,11 @@ void Pi::HandleEvents()
 
 						case SDLK_SCROLLLOCK: // toggle video recording
 							Pi::isRecordingVideo = !Pi::isRecordingVideo;
+							if (Pi::isRecordingVideo) {
+								Output("Video Recording started.");
+							} else {
+								Output("Video Recording ended.");
+							}
 							break;
 #if WITH_DEVKEYS
 						case SDLK_i: // Toggle Debug info
