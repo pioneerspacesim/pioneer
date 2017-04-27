@@ -516,7 +516,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 		// start ffmpeg telling it to expect raw rgba 720p-60hz frames
 		// -i - tells it to read frames from stdin
 		char cmd[256] = { 0 };
-		_snprintf(cmd, sizeof(cmd), "ffmpeg -r 60 -f rawvideo -pix_fmt rgba -s %dx%d -i - -threads 0 -preset fast -y -pix_fmt yuv420p -crf 21 -vf vflip %s.mp4", videoSettings.width, videoSettings.height, videoName);
+		snprintf(cmd, sizeof(cmd), "ffmpeg -r 60 -f rawvideo -pix_fmt rgba -s %dx%d -i - -threads 0 -preset fast -y -pix_fmt yuv420p -crf 21 -vf vflip %s.mp4", videoSettings.width, videoSettings.height, videoName);
 
 		// open pipe to ffmpeg's stdin in binary write mode
 #if defined(_MSC_VER) || defined(__MINGW32__)
