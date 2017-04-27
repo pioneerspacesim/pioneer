@@ -3,6 +3,7 @@ April 2017
      * New imgui-driven GUI reticule (#3868)
      * New Advice/rumour module for BBS (#3978)
      * Implement an alternative 2D Azimuthal Equidistant Projection Radar (#3986)
+     * Add :space_station_type to CustomSystemBody (#3990)
 
    * Internal Changes
      * Updated Xcode project for Mac OSX build (#3960)
