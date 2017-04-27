@@ -2,6 +2,7 @@ April 2017
    * New Features
      * New imgui-driven GUI reticule (#3868)
      * New Advice/rumour module for BBS (#3978)
+     * Implement an alternative 2D Azimuthal Equidistant Projection Radar (#3986)
 
    * Internal Changes
      * Updated Xcode project for Mac OSX build (#3960)
