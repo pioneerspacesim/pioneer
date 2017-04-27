@@ -12,6 +12,7 @@ April 2017
      * Fix all build warnings (#3985)
      * Include sigc++ directly from pioneer-thirdparty and build as static lib (#3981)
      * clang only warnings silenced on other platforms (#3983)
+     * Replace switch default with explicit list in RandomColor (#3991)
 
    * Fixes
      * Bugfix for issue #3967 related to PR #3948 (#3968)
