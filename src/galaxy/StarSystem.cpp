@@ -507,6 +507,18 @@ const char *SystemBody::GetIcon() const
 	}
 }
 
+bool SystemBody::IsPlanet() const {
+	BodySuperType st = GetSuperType();
+	if(st != BodySuperType::SUPERTYPE_ROCKY_PLANET && st != BodySuperType::SUPERTYPE_GAS_GIANT)
+		return false;
+	SystemBody *p = GetParent();
+	if(p != nullptr && p->GetSuperType() == BodySuperType::SUPERTYPE_STAR) {
+		return true;
+	}	else {
+		return false;
+	}
+}
+
 double SystemBody::GetMaxChildOrbitalDistance() const
 {
 	PROFILE_SCOPED()

@@ -102,6 +102,9 @@ public:
 	const SystemPath& GetPath() const { return m_path; }
 	SystemBody* GetParent() const { return m_parent; }
 
+	bool IsPlanet() const;
+	bool IsMoon() const { return GetSuperType() == SUPERTYPE_ROCKY_PLANET && !IsPlanet(); }
+
 	bool HasChildren() const { return !m_children.empty(); }
 	unsigned GetNumChildren() const { return m_children.size(); }
 	IterationProxy<std::vector<SystemBody*> > GetChildren() { return MakeIterationProxy(m_children); }

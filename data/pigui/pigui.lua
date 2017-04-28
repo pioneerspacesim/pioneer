@@ -371,6 +371,11 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 	return Vector(size.x, size.y)
 end
 
+ui.icon = function(icon, size, color)
+	local uv0, uv1 = get_icon_tex_coords(icon)
+	pigui.Image(ui.icons_texture, size, uv0, uv1, color)
+end
+
 -- Forward selected functions
 ui.screenWidth = pigui.screen_width
 ui.screenHeight = pigui.screen_height
@@ -401,9 +406,12 @@ ui.setTooltip = maybeSetTooltip
 ui.shouldDrawUI = pigui.ShouldDrawUI
 ui.getWindowPos = pigui.GetWindowPos
 ui.getTargetsNearby = pigui.GetTargetsNearby
+ui.getProjectedBodies = pigui.GetProjectedBodies
 ui.isMouseReleased = pigui.IsMouseReleased
 ui.isMouseHoveringRect = pigui.IsMouseHoveringRect
 ui.openPopup = pigui.OpenPopup
+ui.shouldShowLabels = pigui.ShouldShowLabels
+ui.ctrlHeld = function() return pigui.key_ctrl end
 ui.loadTextureFromSVG = function(a, b, c)
 	return pigui:LoadTextureFromSVG(a, b, c)
 end

@@ -126,7 +126,7 @@ template <> const char *LuaObject<Missile>::s_type = "Missile";
 
 template <> void LuaObject<Missile>::RegisterClass()
 {
-	static const char *l_parent = "DynamicBody";
+	static const char *l_parent = "ModelBody"; // "DynamicBody";
 
 	static const luaL_Reg l_methods[] = {
 		{ "Arm",     l_missile_arm },
