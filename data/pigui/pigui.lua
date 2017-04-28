@@ -216,18 +216,20 @@ ui.pointOnClock = function(center, radius, hours)
 	return Vector(center.x, center.y) + Vector(p.x * math.cos(a) - p.y * math.sin(a), p.y * math.cos(a) + p.x * math.sin(a))
 end
 
+-- font sizes are correct for 1920x1200
+local font_factor = pigui.screen_height / 1200.0
 ui.fonts = {
 	-- dummy font, actually renders icons
 	pionicons = {
-		small = { name = "icons", size = 16, offset = 14 },
-		large = { name = "icons", size = 22, offset = 28 }
+		small = { name = "icons", size = 16 * font_factor, offset = 14 * font_factor},
+		large = { name = "icons", size = 22 * font_factor, offset = 28 * font_factor}
 	},
 	pionillium = {
-		large = { name = "pionillium", size = 30, offset = 24 },
-		medium = { name = "pionillium", size = 18, offset = 14 },
+		large = { name = "pionillium", size = 30 * font_factor, offset = 24 * font_factor},
+		medium = { name = "pionillium", size = 18 * font_factor, offset = 14 * font_factor},
 		-- 		medsmall = { name = "pionillium", size = 15, offset = 12 },
-		small = { name = "pionillium", size = 12, offset = 10 },
-		tiny = { name = "pionillium", size = 8, offset = 7 },
+		small = { name = "pionillium", size = 12 * font_factor, offset = 10 * font_factor},
+		tiny = { name = "pionillium", size = 8 * font_factor, offset = 7 * font_factor},
 	}
 }
 
