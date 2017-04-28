@@ -13,7 +13,7 @@
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "An ndéanfá an t-iarratas céanna arís?"
    },
    "CREW" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "DEADLINE" : {
       "description" : "",
-      "message" : "Deadline:"
+      "message" : "Spriocam:"
    },
    "DELIVERED_PASSENGER" : {
       "description" : "",

@@ -21,7 +21,7 @@
    },
    "AND_INDIGENOUS_MICROBIAL_LIFE" : {
       "description" : "",
-      "message" : "\" and indigenous microbial life.\""
+      "message" : "\" agus beathra miocróbach bundúchasach.\""
    },
    "AND_INDIGENOUS_PLANT_LIFE" : {
       "description" : "",
@@ -37,7 +37,7 @@
    },
    "AR_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Argon atmosphere\""
+      "message" : "\" Atmaisféar argóin\""
    },
    "ASTEROID" : {
       "description" : "",
@@ -49,11 +49,11 @@
    },
    "AUTOPILOT_CONTROL" : {
       "description" : "Indicating that ship is flying under autopilot control",
-      "message" : "Autopilot control"
+      "message" : "Rialú uathphíolóta"
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
-      "message" : "Autopilot: Dock with space station"
+      "message" : "Uathphíolóta: Téigh chun glais le stáisiún spáis"
    },
    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "BUTTON" : {
       "description" : "",
-      "message" : "\" Button \""
+      "message" : "\" Cnaipe \""
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
@@ -113,15 +113,15 @@
    },
    "CAMERA_FRONT_VIEW" : {
       "description" : "",
-      "message" : "Front camera"
+      "message" : "Ceamara chun tosaigh"
    },
    "CAMERA_LEFT_VIEW" : {
       "description" : "",
-      "message" : "Left camera"
+      "message" : "Ceamara ar clé"
    },
    "CAMERA_REAR_VIEW" : {
       "description" : "",
-      "message" : "Rear camera"
+      "message" : "Ceamara ar gcúl"
    },
    "CAMERA_RIGHT_VIEW" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "CARBON_ORE" : {
       "description" : "",
-      "message" : "Carbon ore"
+      "message" : "Mianach carbóin"
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "Clearance already granted. Proceed to docking bay %bay."
+      "message" : "Tá cead agat cheana. Lean ar aghaidh dtí bá nasctha %bay."
    },
    "CLEARANCE_DENIED_NO_BAYS" : {
       "description" : "",
@@ -217,7 +217,7 @@
    },
    "COMPASS_E" : {
       "description" : "Abbreviation for compass direction: East",
-      "message" : "E"
+      "message" : "O"
    },
    "COMPASS_N" : {
       "description" : "Abbreviation for compass direction: North",
@@ -233,7 +233,7 @@
    },
    "COMPASS_S" : {
       "description" : "Abbreviation for compass direction: South",
-      "message" : "S"
+      "message" : "D"
    },
    "COMPASS_SE" : {
       "description" : "Abbreviation for compass direction: South East",
@@ -305,7 +305,7 @@
    },
    "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Decrease radar range"
+      "message" : "Laghdaigh raon an radair"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -329,7 +329,7 @@
    },
    "DISTANCE_LY" : {
       "description" : "",
-      "message" : "Distance: %distance{f.2} ly"
+      "message" : "Fad: %distance{f.2} sbh"
    },
    "DOCKED" : {
       "description" : "",
@@ -349,7 +349,7 @@
    },
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
-      "message" : "Label out-of-range systems"
+      "message" : "Cuir lipéad le réaltchórais atá as raon"
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
@@ -413,7 +413,7 @@
    },
    "FINE_PAID_N" : {
       "description" : "",
-      "message" : "You have paid the fine of %fine."
+      "message" : "D'íoc tú an fhíneáil %fine."
    },
    "FINE_PAID_N_BUT_N_REMAINING" : {
       "description" : "",
@@ -421,11 +421,11 @@
    },
    "FIRE_LASER" : {
       "description" : "",
-      "message" : "Fire laser"
+      "message" : "Scaoil léasar"
    },
    "FIRE_MISSILE" : {
       "description" : "",
-      "message" : "Fire missile"
+      "message" : "Scaoil diúracán"
    },
    "FOLLOWING_SELECTION" : {
       "description" : "",
@@ -457,7 +457,7 @@
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
-      "message" : "This saved game cannot be loaded because it contains errors."
+      "message" : "Ní féidir an cluiche sábháilte a lódáil mar gheall ar earráidí sa gcomhad."
    },
    "GAME_LOAD_WRONG_VERSION" : {
       "description" : "",
@@ -469,7 +469,7 @@
    },
    "GAME_SAVE_CANNOT_WRITE" : {
       "description" : "",
-      "message" : "This saved game file could not be written because of a system error."
+      "message" : "Níorbh fhéidir scríobh sa gcomhad sábhála mar gheall ar earráid chórais."
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
@@ -529,7 +529,7 @@
    },
    "HE_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Helium atmosphere\""
+      "message" : "\" Atmaisféar héiliam\""
    },
    "HIGHLY_VOLCANIC" : {
       "description" : "",
@@ -573,7 +573,7 @@
    },
    "HYPERSPACE_JUMP_ABORT" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disengage Hyperdrive"
+      "message" : "Stop an Hipirthiomáint"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
@@ -581,11 +581,11 @@
    },
    "HYPERSPACE_JUMP_DISABLED" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Hyperdrive disabled"
+      "message" : "Díchumasaíodh an hipirthiomáint"
    },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Engage Hyperdrive"
+      "message" : "Tosaigh an Hipirthiomáint"
    },
    "HYPERSPACE_JUMP_FORBIDDEN" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
@@ -609,7 +609,7 @@
    },
    "ILLEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Illegal (current system):"
+      "message" : "Neamhdhleathach (an réaltchóras reatha):"
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
@@ -621,7 +621,7 @@
    },
    "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Increase radar range"
+      "message" : "Méadaigh raon an radair"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -701,7 +701,7 @@
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Legal (current system):"
+      "message" : "Dleathach (an réaltchóras reatha):"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -737,7 +737,7 @@
    },
    "MAJOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major export (current system)"
+      "message" : "Príomheaspórtáil (an réaltchóras reatha)"
    },
    "MAJOR_IMPORTS" : {
       "description" : "",
@@ -745,7 +745,7 @@
    },
    "MAJOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major import (current system)"
+      "message" : "Príomhiompórtáil (an réaltchóras reatha)"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -753,7 +753,7 @@
    },
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
-      "message" : "Manual control mode"
+      "message" : "Mód rialaithe láimhe"
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
@@ -865,7 +865,7 @@
    },
    "MINING_COLONY" : {
       "description" : "",
-      "message" : "Mining colony."
+      "message" : "Coilíneacht mianadóireachta."
    },
    "MINING_MACHINERY" : {
       "description" : "",
@@ -873,19 +873,19 @@
    },
    "MINOR_EXPORTS" : {
       "description" : "",
-      "message" : "Minor Exports:"
+      "message" : "Mioneaspórtálacha:"
    },
    "MINOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor export (current system)"
+      "message" : "Mioneaspórtáil (an réaltchóras reatha)"
    },
    "MINOR_IMPORTS" : {
       "description" : "",
-      "message" : "Minor Imports:"
+      "message" : "Mioniompórtálacha:"
    },
    "MINOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor import (current system)"
+      "message" : "Mioniompórtáil (an réaltchóras reatha)"
    },
    "MISCELLANEOUS" : {
       "description" : "",
@@ -1045,7 +1045,7 @@
    },
    "N_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Atmaisféar nitrigine\""
+      "message" : "\" Atmaisféar nítrigine\""
    },
    "N_CELSIUS" : {
       "description" : "",
@@ -1081,7 +1081,7 @@
    },
    "OCEANICWORLD" : {
       "description" : "",
-      "message" : "\" oceanic world\""
+      "message" : "\" domhan aigéanach\""
    },
    "ORBITAL_PERIOD" : {
       "description" : "",
@@ -1093,7 +1093,7 @@
    },
    "OUTDOOR_AGRICULTURAL_WORLD" : {
       "description" : "",
-      "message" : "Outdoor agricultural world."
+      "message" : "Domhan amuigh talmhaíochta."
    },
    "OVER_N_BILLION" : {
       "description" : "",
@@ -1117,7 +1117,7 @@
    },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
-      "message" : "Periapsis distance"
+      "message" : "Fad peiripsise"
    },
    "PIONEER" : {
       "description" : "",
@@ -1177,7 +1177,7 @@
    },
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
-      "message" : "Plutocratic dictatorship"
+      "message" : "Deachtóireacht mhaoinlathach"
    },
    "POPULATION" : {
       "description" : "",
@@ -1197,7 +1197,7 @@
    },
    "RADAR_CONTROL" : {
       "description" : "",
-      "message" : "Radar control"
+      "message" : "Rialú radair"
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1209,7 +1209,7 @@
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
-      "message" : "This system was explored on %date."
+      "message" : "Taiscéaladh an córas seo ar %date."
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
@@ -1281,7 +1281,7 @@
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
-      "message" : "Scoop"
+      "message" : "Scúp"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1337,7 +1337,7 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Set navigation target to: "
+      "message" : "Socraigh an sprioc loingseoireachta:"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
@@ -1345,7 +1345,7 @@
    },
    "SET_SPEED_M_S" : {
       "description" : "",
-      "message" : "Set speed: %speed{f.0} m/s"
+      "message" : "Socraigh an luas: %speed{f.0} m/s"
    },
    "SHIELD_INTEGRITY" : {
       "description" : "",
@@ -1353,7 +1353,7 @@
    },
    "SHIELD_STRENGTH_N" : {
       "description" : "",
-      "message" : "Shield strength: %shields{f.2}"
+      "message" : "Neart na scéithe: %shields{f.2}"
    },
    "SHIFT" : {
       "description" : "Shift key on keyboard",
@@ -1377,7 +1377,7 @@
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
-      "message" : "Ship mass: %{mass}t"
+      "message" : "Mais na loinge: %{mass}t"
    },
    "SHIP_NEARBY" : {
       "description" : "",
@@ -1393,7 +1393,7 @@
    },
    "SIDEREAL_VIEW" : {
       "description" : "camera view setting",
-      "message" : "Sidereal view"
+      "message" : "Radharc réaltach"
    },
    "SLAVES" : {
       "description" : "",
@@ -1445,7 +1445,7 @@
    },
    "STARPORTS" : {
       "description" : "",
-      "message" : "Starports"
+      "message" : "Spásphoirt"
    },
    "STAR_A" : {
       "description" : "",
@@ -1541,7 +1541,7 @@
    },
    "STAR_M_WF" : {
       "description" : "",
-      "message" : "Wolf-Rayet star - Unstable"
+      "message" : "Réalta Wolf-Rayet - Éagobhsaí"
    },
    "STAR_O" : {
       "description" : "",
@@ -1573,11 +1573,11 @@
    },
    "STAR_S_BH" : {
       "description" : "",
-      "message" : "A stellar black hole"
+      "message" : "Dúpholl réaltach"
    },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
-      "message" : "Suggested responses:"
+      "message" : "Freagraí molta:"
    },
    "SURFACE_GRAVITY" : {
       "description" : "",
@@ -1601,7 +1601,7 @@
    },
    "SYSTEM_NUMBER" : {
       "description" : "",
-      "message" : "System number:"
+      "message" : "Uimhir an chórais:"
    },
    "SYSTEM_ORBIT_VIEW" : {
       "description" : "",
@@ -1613,7 +1613,7 @@
    },
    "S_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Sulfuric atmosphere\""
+      "message" : "\" Atmaisféar sulfarach\""
    },
    "TAKEOFF" : {
       "description" : "",
@@ -1637,7 +1637,7 @@
    },
    "THIN" : {
       "description" : "",
-      "message" : "thin"
+      "message" : "tanaí"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
@@ -1689,11 +1689,11 @@
    },
    "TOGGLE_RADAR_MODE" : {
       "description" : "",
-      "message" : "Toggle radar mode"
+      "message" : "Scoránaigh an mód radair"
    },
    "TOGGLE_RADAR_VIEW" : {
       "description" : "Tooltip for the Radar View button",
-      "message" : "Radar View"
+      "message" : "Radharc Radair"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
@@ -1701,7 +1701,7 @@
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "shown on tombstone when player dies",
-      "message" : "RIP OLD BEAN"
+      "message" : "SUAIMHNEAS SÍORAÍ DUIT A MHIC Ó"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -1877,7 +1877,7 @@
    },
    "ZOOM_IN" : {
       "description" : "",
-      "message" : "Zoom in"
+      "message" : "Zúmáil isteach"
    },
    "ZOOM_OUT" : {
       "description" : "",

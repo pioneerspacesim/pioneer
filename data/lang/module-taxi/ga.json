@@ -13,7 +13,7 @@
    },
    "CORPORATIONS_11" : {
       "description" : "",
-      "message" : "Arment Aerodynamics"
+      "message" : "Aeraidinimic Mhic Aonghusa"
    },
    "CORPORATIONS_2" : {
       "description" : "",
@@ -21,11 +21,11 @@
    },
    "CORPORATIONS_3" : {
       "description" : "",
-      "message" : "Taranis"
+      "message" : "Tuireann"
    },
    "CORPORATIONS_4" : {
       "description" : "",
-      "message" : "Aquarian Shipbuilding"
+      "message" : "Longthógáil an Uisceadóra"
    },
    "CORPORATIONS_5" : {
       "description" : "",
@@ -33,31 +33,31 @@
    },
    "CORPORATIONS_6" : {
       "description" : "",
-      "message" : "Amaliel"
+      "message" : "Aifric"
    },
    "CORPORATIONS_7" : {
       "description" : "",
-      "message" : "Marett Space"
+      "message" : "Aeraspás Uí Mheachair"
    },
    "CORPORATIONS_8" : {
       "description" : "",
-      "message" : "Vega Line"
+      "message" : "Líne Vega"
    },
    "CORPORATIONS_9" : {
       "description" : "",
-      "message" : "Digital"
+      "message" : "Digiteach"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "An ndéanfá an t-iarratas céanna arís?"
    },
    "DANGER" : {
       "description" : "",
-      "message" : "Danger:"
+      "message" : "Contúirt:"
    },
    "DEADLINE" : {
       "description" : "",
-      "message" : "Deadline:"
+      "message" : "Spriocam:"
    },
    "DENY_0" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "FLAVOUR_0_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Níl."
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
@@ -113,7 +113,7 @@
    },
    "FLAVOUR_0_HOWMANY" : {
       "description" : "",
-      "message" : "There are {group} of us."
+      "message" : "Tá {group} againn ann."
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
-      "message" : "Just one."
+      "message" : "Duine amháin."
    },
    "FLAVOUR_10_INTROTEXT" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",
-      "message" : "Just one."
+      "message" : "Duine amháin."
    },
    "FLAVOUR_11_INTROTEXT" : {
       "description" : "",
@@ -205,11 +205,11 @@
    },
    "FLAVOUR_12_FAILUREMSG" : {
       "description" : "",
-      "message" : "I do not have enough money. Sorry."
+      "message" : "Níl go leor airgid agam. Mo leithscéal."
    },
    "FLAVOUR_12_HOWMANY" : {
       "description" : "",
-      "message" : "Just one."
+      "message" : "Duine amháin."
    },
    "FLAVOUR_12_INTROTEXT" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "FLAVOUR_1_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Níl."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "FLAVOUR_1_HOWMANY" : {
       "description" : "",
-      "message" : "There are {group} of us."
+      "message" : "Tá {group} againn ann."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "FLAVOUR_2_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Níl."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
@@ -273,7 +273,7 @@
    },
    "FLAVOUR_2_HOWMANY" : {
       "description" : "",
-      "message" : "There are {group} of us."
+      "message" : "Tá {group} againn ann."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -305,7 +305,7 @@
    },
    "FLAVOUR_3_HOWMANY" : {
       "description" : "",
-      "message" : "It's only me."
+      "message" : "Mise amháin atá ann."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
@@ -321,7 +321,7 @@
    },
    "FLAVOUR_3_WHYSOMUCH" : {
       "description" : "",
-      "message" : "An old rival is trying to kill me."
+      "message" : "Tá sean-namhaid ag iarraidh mise a mharú."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
@@ -329,7 +329,7 @@
    },
    "FLAVOUR_4_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Níl."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
@@ -353,7 +353,7 @@
    },
    "FLAVOUR_4_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I'm traveling salesman."
+      "message" : "Is ceannaí siúil mé."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -369,7 +369,7 @@
    },
    "FLAVOUR_5_HOWMANY" : {
       "description" : "",
-      "message" : "It's only me."
+      "message" : "Mise amháin atá ann."
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
@@ -393,7 +393,7 @@
    },
    "FLAVOUR_6_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Níl."
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
@@ -401,7 +401,7 @@
    },
    "FLAVOUR_6_HOWMANY" : {
       "description" : "",
-      "message" : "It's only me."
+      "message" : "Mise amháin atá ann."
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
@@ -417,7 +417,7 @@
    },
    "FLAVOUR_6_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I'm freelance journalist."
+      "message" : "Is saoririseoir mé."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
@@ -433,7 +433,7 @@
    },
    "FLAVOUR_7_HOWMANY" : {
       "description" : "",
-      "message" : "Me and nobody else."
+      "message" : "Mise amháin gan aon duine eile."
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
@@ -457,7 +457,7 @@
    },
    "FLAVOUR_8_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Níl."
    },
    "FLAVOUR_8_FAILUREMSG" : {
       "description" : "",
@@ -465,7 +465,7 @@
    },
    "FLAVOUR_8_HOWMANY" : {
       "description" : "",
-      "message" : "Only me."
+      "message" : "Mise amháin."
    },
    "FLAVOUR_8_INTROTEXT" : {
       "description" : "",
@@ -489,7 +489,7 @@
    },
    "FLAVOUR_9_DANGER" : {
       "description" : "",
-      "message" : "The Police may try to stop you."
+      "message" : "Seans go ndéanfaidh na Gardaí iarracht thú a stopadh."
    },
    "FLAVOUR_9_FAILUREMSG" : {
       "description" : "",
@@ -497,7 +497,7 @@
    },
    "FLAVOUR_9_HOWMANY" : {
       "description" : "",
-      "message" : "Only me."
+      "message" : "Mise amháin."
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
@@ -517,15 +517,15 @@
    },
    "FROM" : {
       "description" : "",
-      "message" : "From:"
+      "message" : "Ó:"
    },
    "GROUP_DETAILS" : {
       "description" : "",
-      "message" : "Group details:"
+      "message" : "Mionsonraí an ghrúpa:"
    },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
-      "message" : "Hey!?! You are going to pay for this!!!"
+      "message" : "Hé!?! Beidh daor ort!!"
    },
    "HOW_MANY_OF_YOU_ARE_THERE" : {
       "description" : "",
@@ -537,7 +537,7 @@
    },
    "I_MUST_BE_THERE_BEFORE" : {
       "description" : "",
-      "message" : "I must be there before "
+      "message" : "Caithfidh mé a bheith ann roimh"
    },
    "LY" : {
       "description" : "",
@@ -549,15 +549,15 @@
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "You're going to regret dealing with {client}"
+      "message" : "Beidh aithreachas ort as déileáil le {client}"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "You have {client} on board? That was a bad idea."
+      "message" : "Tá {client} ar bord? Drochsmaoineamh é sin."
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
-      "message" : "Today isn't your lucky day! Prepare to die."
+      "message" : "Níl an t-ádh ort inniu! Abair d'urnaí."
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
@@ -569,15 +569,15 @@
    },
    "TAXI" : {
       "description" : "",
-      "message" : "Taxi"
+      "message" : "Tacsaí"
    },
    "TO" : {
       "description" : "",
-      "message" : "To:"
+      "message" : "Chuig:"
    },
    "WE_WANT_TO_BE_THERE_BEFORE" : {
       "description" : "",
-      "message" : "We want to be there before "
+      "message" : "Ba mhaith linn a bheith ann roimh"
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
@@ -593,6 +593,6 @@
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
-      "message" : "You do not have enough cabin space on your ship."
+      "message" : "Níl go leor spáis sna cábáin ar do long."
    }
 }

@@ -1,15 +1,15 @@
 {
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "An ndéanfá an t-iarratas céanna arís?"
    },
    "DANGER" : {
       "description" : "",
-      "message" : "Danger:"
+      "message" : "Contúirt:"
    },
    "DEADLINE" : {
       "description" : "",
-      "message" : "Deadline:"
+      "message" : "Spriocam:"
    },
    "DELIVERY" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "You're going to regret dealing with {client}"
+      "message" : "Beidh aithreachas ort as déileáil le {client}"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
@@ -305,7 +305,7 @@
    },
    "PIRATE_TAUNTS_5" : {
       "description" : "",
-      "message" : "Today isn't your lucky day! Prepare to die."
+      "message" : "Níl an t-ádh ort inniu! Abair d'urnaí."
    },
    "PIRATE_TAUNTS_6" : {
       "description" : "",

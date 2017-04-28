@@ -93,11 +93,11 @@
    },
    "DANGER" : {
       "description" : "the risk level",
-      "message" : "Danger:"
+      "message" : "Contúirt:"
    },
    "DEADLINE" : {
       "description" : "Must be delivered by",
-      "message" : "Deadline:"
+      "message" : "Spriocam:"
    },
    "DELIVER_TO" : {
       "description" : "Deliver to this location",
