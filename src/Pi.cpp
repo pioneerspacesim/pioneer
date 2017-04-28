@@ -96,6 +96,11 @@
 	#endif
 #endif
 
+#if !defined(_MSC_VER) && !defined(__MINGW32__)
+	#define _popen popen
+	#define _pclose pclose
+#endif
+
 float Pi::gameTickAlpha;
 sigc::signal<void, SDL_Keysym*> Pi::onKeyPress;
 sigc::signal<void, SDL_Keysym*> Pi::onKeyRelease;
@@ -158,6 +163,8 @@ RefCountedPtr<Graphics::Texture> Pi::renderTexture;
 std::unique_ptr<Graphics::Drawables::TexturedQuad> Pi::renderQuad;
 Graphics::RenderState *Pi::quadRenderState = nullptr;
 bool Pi::bRequestEndGame = false;
+bool Pi::isRecordingVideo = false;
+FILE *Pi::ffmpegFile = nullptr;
 
 Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
@@ -768,6 +775,9 @@ bool Pi::IsConsoleActive()
 
 void Pi::Quit()
 {
+	if (Pi::ffmpegFile != nullptr) {
+		_pclose(Pi::ffmpegFile);
+	}
 	Projectile::FreeModel();
 	delete Pi::intro;
 	delete Pi::luaConsole;
@@ -911,6 +921,38 @@ void Pi::HandleEvents()
 							write_screenshot(sd, buf);
 							break;
 						}
+
+						case SDLK_SCROLLLOCK: // toggle video recording
+							Pi::isRecordingVideo = !Pi::isRecordingVideo;
+							if (Pi::isRecordingVideo) {
+								char videoName[256];
+								const time_t t = time(0);
+								struct tm *_tm = localtime(&t);
+								strftime(videoName, sizeof(videoName), "pioneer-%Y%m%d-%H%M%S", _tm);
+								const std::string dir = "videos";
+								FileSystem::userFiles.MakeDirectory(dir);
+								const std::string fname = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot() + "/" + dir, videoName);
+								Output("Video Recording started to %s.\n", fname.c_str());
+								// start ffmpeg telling it to expect raw rgba 720p-60hz frames
+								// -i - tells it to read frames from stdin
+								// if given no frame rate (-r 60), it will just use vfr
+								char cmd[256] = { 0 };
+								snprintf(cmd, sizeof(cmd), "ffmpeg -f rawvideo -pix_fmt rgba -s %dx%d -i - -threads 0 -preset fast -y -pix_fmt yuv420p -crf 21 -vf vflip %s.mp4", config->Int("ScrWidth"), config->Int("ScrHeight"), fname.c_str());
+
+								// open pipe to ffmpeg's stdin in binary write mode
+#if defined(_MSC_VER) || defined(__MINGW32__)
+								Pi::ffmpegFile = _popen(cmd, "wb");
+#else
+								Pi::ffmpegFile = _popen(cmd, "w");
+#endif
+							} else {
+								Output("Video Recording ended.\n");
+								if (Pi::ffmpegFile != nullptr) {
+									_pclose(Pi::ffmpegFile);
+									Pi::ffmpegFile = nullptr;
+								}
+							}
+							break;
 #if WITH_DEVKEYS
 						case SDLK_i: // Toggle Debug info
 							Pi::showDebugInfo = !Pi::showDebugInfo;
@@ -1587,6 +1629,12 @@ void Pi::MainLoop()
 			Screendump(fname.c_str(), Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 		}
 #endif /* MAKING_VIDEO */
+
+		if (isRecordingVideo && (Pi::ffmpegFile!=nullptr)) {
+			Graphics::ScreendumpState sd;
+			Pi::renderer->FrameGrab(sd);
+			fwrite(sd.pixels.get(), sizeof(uint32_t) * Pi::renderer->GetWindow()->GetWidth() * Pi::renderer->GetWindow()->GetHeight(), 1, Pi::ffmpegFile);
+		}
 
 #ifdef PIONEER_PROFILER
 		Profiler::reset();

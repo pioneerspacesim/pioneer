@@ -40,7 +40,6 @@ private:
 	void CreateTestResources();
 	void DrawBackground();
 	void DrawGrid(const matrix4x4f &trans, float radius);
-	void DrawLog();
 	void DrawModel(const matrix4x4f &mv);
 	void MainLoop();
 	void OnAnimChanged(unsigned int, const std::string&);
@@ -63,7 +62,6 @@ private:
 	void UpdateCamera();
 	void UpdateLights();
 	void UpdatePatternList();
-	void AddAxisIndicator(const SceneGraph::Model::TVecMT &mts, std::vector<Graphics::Drawables::Line3D> &lines);
 
 	//toggleable options
 	struct Options {

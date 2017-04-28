@@ -236,6 +236,9 @@ private:
 	static Graphics::RenderState *quadRenderState;
 
 	static bool bRequestEndGame;
+
+	static bool isRecordingVideo;
+	static FILE *ffmpegFile;
 };
 
 #endif /* _PI_H */
