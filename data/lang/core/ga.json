@@ -1,11 +1,11 @@
 {
    "AIR_PROCESSORS" : {
       "description" : "",
-      "message" : "Air processors"
+      "message" : "Próiseálaithe aeir"
    },
    "ALERT_CANCELLED" : {
       "description" : "",
-      "message" : "Alert cancelled."
+      "message" : "Cealaíodh an rabhadh."
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
       "description" : "",
-      "message" : "\" and a highly complex ecosystem.\""
+      "message" : "\" agus éiceachóras fíorchasta.\""
    },
    "AND_INDIGENOUS_MICROBIAL_LIFE" : {
       "description" : "",
@@ -29,11 +29,11 @@
    },
    "ANIMAL_MEAT" : {
       "description" : "",
-      "message" : "Animal Meat"
+      "message" : "Feoil Ainmhithe"
    },
    "APOAPSIS_DISTANCE" : {
       "description" : "",
-      "message" : "Apoapsis distance"
+      "message" : "Fad aipipsise"
    },
    "AR_ATMOSPHERE" : {
       "description" : "",
@@ -41,7 +41,7 @@
    },
    "ASTEROID" : {
       "description" : "",
-      "message" : "Asteroid"
+      "message" : "Astaróideach"
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "for star map, select star system when mouse close to it",
@@ -57,19 +57,19 @@
    },
    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Autopilot: Enter high orbit around %target"
+      "message" : "Uathphíolóta: Téigh i bhfithis ard timpeall %target"
    },
    "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Autopilot: Enter low orbit around %target"
+      "message" : "Uathphíolóta: Téigh i bhfithis íseal timpeall %target"
    },
    "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Autopilot: Enter medium orbit around %target"
+      "message" : "Uathphíolóta: Téigh i bhfithis meánairde timpeall %target"
    },
    "AUTOPILOT_FLY_TO_VICINITY_OF" : {
       "description" : "",
-      "message" : "Autopilot: Fly to vicinity of %target"
+      "message" : "Uathphíolóta: Eitil i ngar do %target"
    },
    "AUTOPILOT_ON" : {
       "description" : "",
@@ -77,31 +77,31 @@
    },
    "AXIAL_TILT" : {
       "description" : "",
-      "message" : "Axial tilt"
+      "message" : "Claonadh aiseach"
    },
    "A_FEW_THOUSAND" : {
       "description" : "regarding population",
-      "message" : "Only a few thousand"
+      "message" : "Cúpla míle"
    },
    "BATTLE_WEAPONS" : {
       "description" : "",
-      "message" : "Battle weapons"
+      "message" : "Airm chatha"
    },
    "BINARY_SYSTEM" : {
       "description" : "",
-      "message" : "Binary system"
+      "message" : "Córas déréalta"
    },
    "BODIES" : {
       "description" : "space bodies",
-      "message" : "bodies"
+      "message" : "rinn neimhe"
    },
    "BODY" : {
       "description" : "",
-      "message" : "body"
+      "message" : "rinn neimhe"
    },
    "BROWN_DWARF" : {
       "description" : "",
-      "message" : "Brown dwarf sub-stellar object"
+      "message" : "Abhac donn (rinn fo-réaltach)"
    },
    "BUTTON" : {
       "description" : "",
@@ -109,7 +109,7 @@
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
-      "message" : "Bottom camera"
+      "message" : "Ceamara íochtarach"
    },
    "CAMERA_FRONT_VIEW" : {
       "description" : "",
@@ -125,11 +125,11 @@
    },
    "CAMERA_RIGHT_VIEW" : {
       "description" : "",
-      "message" : "Right camera"
+      "message" : "Ceamara ar dheis"
    },
    "CAMERA_TOP_VIEW" : {
       "description" : "",
-      "message" : "Top camera"
+      "message" : "Ceamara uachtarach"
    },
    "CANT_SAVE_DEAD_PLAYER" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "CAPITALIST" : {
       "description" : "",
-      "message" : "Capitalist"
+      "message" : "Caipitlíoch"
    },
    "CARBON_ORE" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "",
-      "message" : "Carbon ores (coal and oil) are required for the synthesis of many useful chemicals, including plastics, synthetic foodstuffs, medicines and textiles"
+      "message" : "Úsáidtear mianta carbóin (gual agus ola) le go leor substaintí úsáideacha a chruthú: plaistigh, bia-ábhar sintéiseach, cógais, agus teicstílí san áireamh."
    },
    "CARGO" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "CARGO_N" : {
       "description" : "",
-      "message" : "Cargo: %{mass}t"
+      "message" : "Lasta: %{mass}t"
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Methane atmosphere\""
+      "message" : "\" Atmaisféar meatáin\""
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
@@ -189,15 +189,15 @@
    },
    "CO2_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Carbon Dioxide atmosphere\""
+      "message" : "\" Atmaisféar dé-ocsaíde carbóin\""
    },
    "COMMA_HIGHLY_VOLCANIC" : {
       "description" : "",
-      "message" : ", highly volcanic"
+      "message" : ", an-bholcánach"
    },
    "COMMODITY_NONE" : {
       "description" : "When no commodities exist",
-      "message" : "None"
+      "message" : "Faic"
    },
    "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
       "description" : "",
@@ -209,11 +209,11 @@
    },
    "COMMS" : {
       "description" : "",
-      "message" : "Comms"
+      "message" : "Cumarsáid"
    },
    "COMMUNIST" : {
       "description" : "",
-      "message" : "Communist"
+      "message" : "Cumannach"
    },
    "COMPASS_E" : {
       "description" : "Abbreviation for compass direction: East",
@@ -221,7 +221,7 @@
    },
    "COMPASS_N" : {
       "description" : "Abbreviation for compass direction: North",
-      "message" : "N"
+      "message" : "T"
    },
    "COMPASS_NE" : {
       "description" : "Abbreviation for compass direction: North East",
@@ -249,11 +249,11 @@
    },
    "COMPUTERS" : {
       "description" : "",
-      "message" : "Computers"
+      "message" : "Ríomhairí"
    },
    "COMPUTER_HEADING_CONTROL" : {
       "description" : "",
-      "message" : "Computer heading control"
+      "message" : "Ríomhstiúradh"
    },
    "COMPUTER_SPEED_CONTROL" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "CONSUMER_GOODS" : {
       "description" : "",
-      "message" : "Consumer goods"
+      "message" : "Earraí tomhaltais"
    },
    "CONTROLS" : {
       "description" : "",
@@ -269,15 +269,15 @@
    },
    "CORPORATE_SYSTEM" : {
       "description" : "",
-      "message" : "Corporate system"
+      "message" : "Córas corparáideach"
    },
    "COULD_NOT_OPEN_FILENAME" : {
       "description" : "",
-      "message" : "Could not open %path"
+      "message" : "Níorbh fhéidir %path a oscailt"
    },
    "COUNT_ON_SURFACE" : {
       "description" : "",
-      "message" : "\" (%surfacecount on surface)\""
+      "message" : "\" (%surfacecount ar an dromchla)\""
    },
    "COUNT_STARPORTS" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "CO_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Carbon Monoxide atmosphere\""
+      "message" : "\" Atmaisféar aonocsaíde carbóin\""
    },
    "CTRL" : {
       "description" : "Ctrl key on keyboard",
@@ -297,11 +297,11 @@
    },
    "DATE_DUE_N" : {
       "description" : "",
-      "message" : "Date due: %date"
+      "message" : "Dáta dlite: %date"
    },
    "DAY_LENGTH" : {
       "description" : "",
-      "message" : "Day length"
+      "message" : "Fad an lae"
    },
    "DECREASE_RADAR_RANGE" : {
       "description" : "",
@@ -317,15 +317,15 @@
    },
    "DEMOGRAPHICS" : {
       "description" : "",
-      "message" : "Demographics"
+      "message" : "Déimeagrafaic"
    },
    "DESTINATION" : {
       "description" : "",
-      "message" : "Destination"
+      "message" : "Ceann scríbe"
    },
    "DIRECTION" : {
       "description" : "Direction",
-      "message" : "\" Dir \""
+      "message" : "\" Treo \""
    },
    "DISTANCE_LY" : {
       "description" : "",
@@ -333,7 +333,7 @@
    },
    "DOCKED" : {
       "description" : "",
-      "message" : "Docked"
+      "message" : "Glasáilte"
    },
    "DOCKING" : {
       "description" : "",
@@ -341,7 +341,7 @@
    },
    "DOCKING_CLEARANCE_EXPIRED" : {
       "description" : "",
-      "message" : "Docking clearance expired. If you wish to dock you must repeat your request."
+      "message" : "Chuaigh an cead glasála in éag. Más mian leat teacht chun glais, caithfidh tú cead a iarraidh arís."
    },
    "DOWNGRADING_ALERT_STATUS" : {
       "description" : "",
@@ -361,23 +361,23 @@
    },
    "EARTH" : {
       "description" : "",
-      "message" : "Earth"
+      "message" : "An Domhan"
    },
    "EARTH_FEDERATION_COLONIAL_RULE" : {
       "description" : "",
-      "message" : "Earth Federation Colonial Rule"
+      "message" : "Faoi riail choilíneach Chónaidhm an Domhain"
    },
    "EARTH_FEDERATION_DEMOCRACY" : {
       "description" : "",
-      "message" : "Earth Federation Democracy"
+      "message" : "Daonlathas Chónaidhm an Domhain"
    },
    "ECCENTRICITY" : {
       "description" : "",
-      "message" : "Eccentricity"
+      "message" : "Éalárnacht"
    },
    "ECONOMIC_INFO" : {
       "description" : "",
-      "message" : "Economic info"
+      "message" : "Eolas faoin gheilleagar"
    },
    "ECONOMY_TYPE" : {
       "description" : "",
@@ -389,11 +389,11 @@
    },
    "EXACT_MATCH_X" : {
       "description" : "",
-      "message" : "Exact match: %system"
+      "message" : "Meaitseáil chruinn: %system"
    },
    "EXTENSIVE_MINING" : {
       "description" : "",
-      "message" : "Extensive mining operations."
+      "message" : "Oibríocht mhór mhianadóireachta."
    },
    "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
       "description" : "",
@@ -401,15 +401,15 @@
    },
    "EXTERNAL_VIEW" : {
       "description" : "",
-      "message" : "External view"
+      "message" : "Radharc seachtrach"
    },
    "FARM_MACHINERY" : {
       "description" : "",
-      "message" : "Farm machinery"
+      "message" : "Innealra feirme"
    },
    "FERTILIZER" : {
       "description" : "",
-      "message" : "Fertilizer"
+      "message" : "Leasachán"
    },
    "FINE_PAID_N" : {
       "description" : "",
@@ -417,7 +417,7 @@
    },
    "FINE_PAID_N_BUT_N_REMAINING" : {
       "description" : "",
-      "message" : "You have paid %paid but still have an outstanding fine of %fine."
+      "message" : "D'íoc tú %paid, ach tá fíneáil %fine fós le híoc agat."
    },
    "FIRE_LASER" : {
       "description" : "",
@@ -445,7 +445,7 @@
    },
    "GALACTIC_VIEW" : {
       "description" : "view galactic map",
-      "message" : "Galactic view"
+      "message" : "Radharc réaltrach"
    },
    "GALAXY_SECTOR_VIEW" : {
       "description" : "",
@@ -453,7 +453,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Save file '%filename' could not be found (or the game does not have access to open it)."
+      "message" : "Níor aimsíodh comhad sábhála '%filename' (nó níl cead agat é a oscailt)."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -465,7 +465,7 @@
    },
    "GAME_SAVED_TO" : {
       "description" : "",
-      "message" : "\"Game saved to \""
+      "message" : "\"Sábháladh an cluiche mar \""
    },
    "GAME_SAVE_CANNOT_WRITE" : {
       "description" : "",
@@ -477,23 +477,23 @@
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
-      "message" : "Government type:"
+      "message" : "Cineál rialtais:"
    },
    "GRAIN" : {
       "description" : "like wheat or barley",
-      "message" : "Grain"
+      "message" : "Arbhar"
    },
    "HAND_WEAPONS" : {
       "description" : "",
-      "message" : "Hand weapons"
+      "message" : "Airm láimhe"
    },
    "HARD_CAPITALIST" : {
       "description" : "",
-      "message" : "Entirely Capitalist - no government welfare provision"
+      "message" : "Caipitlíoch amach is amach - gan aon chóras leasa shóisialaigh"
    },
    "HAT" : {
       "description" : "Hat switch: Is the top button on a joystick",
-      "message" : "\" Hat\""
+      "message" : "\" Hata\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
       "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -525,7 +525,7 @@
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
-      "message" : "Heavy industry."
+      "message" : "Tionscal trom."
    },
    "HE_ATMOSPHERE" : {
       "description" : "",
@@ -533,23 +533,23 @@
    },
    "HIGHLY_VOLCANIC" : {
       "description" : "",
-      "message" : "Highly volcanic"
+      "message" : "An-bholcánach"
    },
    "HIGH_POPULATION_OUTDOOR_WORLD" : {
       "description" : "",
-      "message" : "High population outdoor world."
+      "message" : "Domhan amuigh a bhfuil daonra mór ann."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Hull integrity"
+      "message" : "Sláine na cabhlach"
    },
    "HULL_TEMP" : {
       "description" : "",
-      "message" : "Hull temp"
+      "message" : "Teocht na cabhlach"
    },
    "HYDROGEN" : {
       "description" : "",
-      "message" : "Hydrogen"
+      "message" : "Hidrigin"
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
@@ -557,19 +557,19 @@
    },
    "HYPERSPACE" : {
       "description" : "",
-      "message" : "Hyperspace"
+      "message" : "Hipearspás"
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
-      "message" : "Hyperspace arrival cloud"
+      "message" : "Néal hipearspáis ar theacht"
    },
    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
       "description" : "",
-      "message" : "Hyperspace arrival cloud remnant"
+      "message" : "Iarsma an néil hipearspáis ar theacht"
    },
    "HYPERSPACE_DEPARTURE_CLOUD" : {
       "description" : "",
-      "message" : "Hyperspace departure cloud"
+      "message" : "Néal hipearspáis ar imeacht"
    },
    "HYPERSPACE_JUMP_ABORT" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
@@ -593,19 +593,19 @@
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Hyperspace target"
+      "message" : "Sprioc hipearspáis"
    },
    "HYPERSPACING_IN_N_SECONDS" : {
       "description" : "",
-      "message" : "Hyperspacing in %countdown{f.0} seconds"
+      "message" : "Ag dul sa hipearspás i gceann %countdown{f.0} soicind"
    },
    "H_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Hydrogen atmosphere\""
+      "message" : "\" Atmaisféar hidrigine\""
    },
    "ICE_WORLD" : {
       "description" : "",
-      "message" : "\" ice world\""
+      "message" : "\" domhan oighir\""
    },
    "ILLEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -613,11 +613,11 @@
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Illegal Goods:"
+      "message" : "Earraí Mídhleathacha:"
    },
    "IMPERIAL_RULE" : {
       "description" : "",
-      "message" : "Imperial Rule"
+      "message" : "Riail Impiriúil"
    },
    "INCREASE_RADAR_RANGE" : {
       "description" : "",
@@ -625,7 +625,7 @@
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
-      "message" : "Increase set speed"
+      "message" : "Socraigh luas níos airde"
    },
    "INCREASE_TIME_ACCELERATION" : {
       "description" : "",
@@ -633,7 +633,7 @@
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
-      "message" : "Industrial colony."
+      "message" : "Coilíneacht thionsclaíoch"
    },
    "INDUSTRIAL_HUB_SYSTEM" : {
       "description" : "",
@@ -641,23 +641,23 @@
    },
    "INDUSTRIAL_MACHINERY" : {
       "description" : "",
-      "message" : "Industrial machinery"
+      "message" : "Innealra tionsclaíoch"
    },
    "INTERNAL_VIEW" : {
       "description" : "",
-      "message" : "Internal view"
+      "message" : "Radharc inmheánach"
    },
    "IN_TRANSIT" : {
       "description" : "",
-      "message" : "In transit"
+      "message" : "Faoi bhealach"
    },
    "IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
-      "message" : "In transit to %system [%x,%y,%z]"
+      "message" : "Ar an tslí go dtí %system [%x,%y,%z]"
    },
    "JOY" : {
       "description" : "Short for Joystick",
-      "message" : "Joy"
+      "message" : "Áthas"
    },
    "JOYSTICK_INPUT" : {
       "description" : "",
@@ -665,7 +665,7 @@
    },
    "JOY_AXIS" : {
       "description" : "Regarding joystick",
-      "message" : "%{sign}%joyname %axis Axis"
+      "message" : "%{sign}%joyname %axis Ais"
    },
    "JUMP_COMPLETE" : {
       "description" : "",
@@ -677,27 +677,27 @@
    },
    "LANDED" : {
       "description" : "",
-      "message" : "Landed"
+      "message" : "Tuirlingthe"
    },
    "LANG_NAME" : {
       "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
-      "message" : "English"
+      "message" : "Gaeilge"
    },
    "LARGE" : {
       "description" : "regarding terrestrial planet size (mass actually)",
-      "message" : "Large"
+      "message" : "Mór"
    },
    "LARGE_GAS_GIANT" : {
       "description" : "",
-      "message" : "Large gas giant"
+      "message" : "Fathach gáis mór"
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
-      "message" : "Laser fire detected."
+      "message" : "Braitheadh lámhach léasair."
    },
    "LATITUDE" : {
       "description" : "Short for latitude",
-      "message" : "Lat:"
+      "message" : "Domhanleithead:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -705,11 +705,11 @@
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
-      "message" : "Liberal democracy"
+      "message" : "Daonlathas liobrálach"
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
-      "message" : "Liquid Oxygen"
+      "message" : "Ocsaigin Leachtach"
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "",
@@ -717,7 +717,7 @@
    },
    "LIQUOR" : {
       "description" : "",
-      "message" : "Liquor"
+      "message" : "Poitín"
    },
    "LIVE_ANIMALS" : {
       "description" : "",
@@ -725,15 +725,15 @@
    },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
-      "message" : "locked"
+      "message" : "faoi ghlas"
    },
    "LONGITUDE" : {
       "description" : "Short for longitude",
-      "message" : "Long:"
+      "message" : "Domhadfhad:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
-      "message" : "Major Exports:"
+      "message" : "Príomheaspórtálacha:"
    },
    "MAJOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
@@ -741,7 +741,7 @@
    },
    "MAJOR_IMPORTS" : {
       "description" : "",
-      "message" : "Major Imports:"
+      "message" : "Príomhiompórtálacha:"
    },
    "MAJOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
@@ -749,7 +749,7 @@
    },
    "MANUAL_CONTROL" : {
       "description" : "",
-      "message" : "Manual control"
+      "message" : "Rialú láimhe"
    },
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
@@ -829,19 +829,19 @@
    },
    "MASS_N_TONNES" : {
       "description" : "",
-      "message" : "Mass: %{mass}t"
+      "message" : "Mais: %{mass}t"
    },
    "MEDICINES" : {
       "description" : "",
-      "message" : "Medicines"
+      "message" : "Cógais"
    },
    "MEDIUM_GAS_GIANT" : {
       "description" : "",
-      "message" : "Medium gas giant"
+      "message" : "Fathach gáis measartha mór"
    },
    "MESSAGE_FROM_X" : {
       "description" : "",
-      "message" : "Message from %sender:"
+      "message" : "Teachtaireacht ó %sender:"
    },
    "META" : {
       "description" : "'Meta' key on keyboard",
@@ -853,15 +853,15 @@
    },
    "METAL_ORE" : {
       "description" : "",
-      "message" : "Metal ore"
+      "message" : "Mianach miotail"
    },
    "MILITARY_DICTATORSHIP" : {
       "description" : "",
-      "message" : "Military dictatorship"
+      "message" : "Deachtóireacht mhíleata"
    },
    "MILITARY_FUEL" : {
       "description" : "",
-      "message" : "Military fuel"
+      "message" : "Breosla míleata"
    },
    "MINING_COLONY" : {
       "description" : "",
@@ -869,7 +869,7 @@
    },
    "MINING_MACHINERY" : {
       "description" : "",
-      "message" : "Mining machinery"
+      "message" : "Innealra mianadóireachta"
    },
    "MINOR_EXPORTS" : {
       "description" : "",
@@ -889,63 +889,63 @@
    },
    "MISCELLANEOUS" : {
       "description" : "",
-      "message" : "Miscellaneous"
+      "message" : "Éagsúil"
    },
    "MISSILE" : {
       "description" : "",
-      "message" : "missile"
+      "message" : "diúracán"
    },
    "MIXED_ECONOMY" : {
       "description" : "",
-      "message" : "Mixed economy"
+      "message" : "Geilleagar measctha"
    },
    "MONTH_APR" : {
       "description" : "",
-      "message" : "Apr"
+      "message" : "Aib"
    },
    "MONTH_AUG" : {
       "description" : "",
-      "message" : "Aug"
+      "message" : "Lún"
    },
    "MONTH_DEC" : {
       "description" : "",
-      "message" : "Dec"
+      "message" : "Noll"
    },
    "MONTH_FEB" : {
       "description" : "",
-      "message" : "Feb"
+      "message" : "Fea"
    },
    "MONTH_JAN" : {
       "description" : "",
-      "message" : "Jan"
+      "message" : "Ean"
    },
    "MONTH_JUL" : {
       "description" : "",
-      "message" : "Jul"
+      "message" : "Iúil"
    },
    "MONTH_JUN" : {
       "description" : "",
-      "message" : "Jun"
+      "message" : "Meith"
    },
    "MONTH_MAR" : {
       "description" : "",
-      "message" : "Mar"
+      "message" : "Már"
    },
    "MONTH_MAY" : {
       "description" : "",
-      "message" : "May"
+      "message" : "Beal"
    },
    "MONTH_NOV" : {
       "description" : "",
-      "message" : "Nov"
+      "message" : "Samh"
    },
    "MONTH_OCT" : {
       "description" : "",
-      "message" : "Oct"
+      "message" : "DFómh"
    },
    "MONTH_SEP" : {
       "description" : "",
-      "message" : "Sep"
+      "message" : "MFómh"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
@@ -957,7 +957,7 @@
    },
    "NARCOTICS" : {
       "description" : "",
-      "message" : "Narcotics"
+      "message" : "Drugaí"
    },
    "NAVIGATION_STAR_MAPS" : {
       "description" : "",
@@ -965,23 +965,23 @@
    },
    "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
       "description" : "",
-      "message" : "Navigation targets in this system"
+      "message" : "Spriocanna loingseoireachta sa réaltchóras seo"
    },
    "NERVE_GAS" : {
       "description" : "",
-      "message" : "Nerve Gas"
+      "message" : "Néarghás"
    },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
-      "message" : "Not found"
+      "message" : "Gan aimsiú"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
-      "message" : "Not found, best match: %system"
+      "message" : "Gan aimsiú, meaitseáil is fearr: %system"
    },
    "NOW" : {
       "description" : "In System Orbit View",
-      "message" : "Now"
+      "message" : "Anois"
    },
    "NO_ALERT" : {
       "description" : "",
@@ -989,7 +989,7 @@
    },
    "NO_CENTRAL_GOVERNANCE" : {
       "description" : "",
-      "message" : "No central governance"
+      "message" : "Gan rialtas láir"
    },
    "NO_ESTABLISHED_ORDER" : {
       "description" : "",
@@ -1009,7 +1009,7 @@
    },
    "NUMBER_DAYS" : {
       "description" : "",
-      "message" : "%days{f.0} days"
+      "message" : "%days{f.0} lá"
    },
    "NUMBER_DECIMAL_POINT" : {
       "description" : "Decimal delimiter used in numbers.",
@@ -1033,11 +1033,11 @@
    },
    "NUMBER_HOURS" : {
       "description" : "",
-      "message" : "%hours{f.1} hrs"
+      "message" : "%hours{f.1} uair an chloig"
    },
    "NUMBER_LY" : {
       "description" : "",
-      "message" : "%distance{f.2} ly"
+      "message" : "%distance{f.2} sbh"
    },
    "NUMBER_TONNES" : {
       "description" : "",
@@ -1045,7 +1045,7 @@
    },
    "N_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Nitrogen atmosphere\""
+      "message" : "\" Atmaisféar nitrigine\""
    },
    "N_CELSIUS" : {
       "description" : "",
@@ -1053,11 +1053,11 @@
    },
    "N_DAYS" : {
       "description" : "",
-      "message" : "%days{f.1} days"
+      "message" : "%days{f.1} lá"
    },
    "N_DEGREES" : {
       "description" : "",
-      "message" : "%angle{f.1} degrees"
+      "message" : "%angle{f.1} céim"
    },
    "N_EARTH_DAYS" : {
       "description" : "",
@@ -1069,11 +1069,11 @@
    },
    "N_WHATEVER_RADII" : {
       "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-      "message" : "%radius{f.3} %units radii (%radkm{f.0} km)"
+      "message" : "%radius{f.3} %units ga (%radkm{f.0} km)"
    },
    "N_YEARS" : {
       "description" : "",
-      "message" : "%years{f.1} years"
+      "message" : "%years{f.1} bliain"
    },
    "O2_ATMOSPHERE" : {
       "description" : "",
@@ -1085,11 +1085,11 @@
    },
    "ORBITAL_PERIOD" : {
       "description" : "",
-      "message" : "Orbital period"
+      "message" : "Tréimhse fhithiseach"
    },
    "ORBITAL_STARPORT" : {
       "description" : "",
-      "message" : "Orbital starport"
+      "message" : "Spásphort fithiseach"
    },
    "OUTDOOR_AGRICULTURAL_WORLD" : {
       "description" : "",
@@ -1097,19 +1097,19 @@
    },
    "OVER_N_BILLION" : {
       "description" : "",
-      "message" : "Over %population billion"
+      "message" : "Níos mó ná %population billiún"
    },
    "OVER_N_MILLION" : {
       "description" : "",
-      "message" : "Over %population million"
+      "message" : "Níos mó ná %population milliún"
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Occupied Passenger Cabin"
+      "message" : "Cábán Paisinéara Gafa"
    },
    "PAUSED" : {
       "description" : "",
-      "message" : "PAUSED"
+      "message" : "AR SOS"
    },
    "PAY_FINE_REMOTELY" : {
       "description" : "",
@@ -1137,7 +1137,7 @@
    },
    "PLANETARY_INFO" : {
       "description" : "",
-      "message" : "Planetary info"
+      "message" : "Eolas faoin phláinéad"
    },
    "PLANET_CONTAINING_LIQUID_WATER" : {
       "description" : "",
@@ -1145,11 +1145,11 @@
    },
    "PLANET_WITH_SOME_ICE" : {
       "description" : "",
-      "message" : "\" planet with some ice\""
+      "message" : "\" pláinéad ar a bhfuil roinnt oighir\""
    },
    "PLANNED_ECONOMY" : {
       "description" : "",
-      "message" : "Centrally planned economy"
+      "message" : "Geilleagar lárphleanáilte"
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "For system orbit view",
@@ -1173,7 +1173,7 @@
    },
    "PLASTICS" : {
       "description" : "",
-      "message" : "Plastics"
+      "message" : "Plaistigh"
    },
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
@@ -1181,15 +1181,15 @@
    },
    "POPULATION" : {
       "description" : "",
-      "message" : "Population:"
+      "message" : "Daonáireamh:"
    },
    "PRECIOUS_METALS" : {
       "description" : "",
-      "message" : "Precious metals"
+      "message" : "Miotail lómhara"
    },
    "PRESSURE_N_ATMOSPHERES" : {
       "description" : "",
-      "message" : "P: %pressure{f.2} atm"
+      "message" : "B: %pressure{f.2} atm"
    },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
@@ -1201,11 +1201,11 @@
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Radioactive waste"
+      "message" : "Dramhaíl radaighníomhach"
    },
    "RADIUS" : {
       "description" : "",
-      "message" : "Radius"
+      "message" : "Ga"
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
@@ -1213,7 +1213,7 @@
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
-      "message" : "Request docking clearance"
+      "message" : "Iarr cead glasála"
    },
    "RESET" : {
       "description" : "",
@@ -1225,15 +1225,15 @@
    },
    "ROBOTS" : {
       "description" : "",
-      "message" : "Robots"
+      "message" : "Róbait"
    },
    "ROCKY_PLANET" : {
       "description" : "",
-      "message" : "\" rocky planet\""
+      "message" : "\" pláinéad carraigeach\""
    },
    "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
       "description" : "",
-      "message" : "\" rocky planet containing some liquids,\""
+      "message" : "\" pláinéad carraigeach ar a bhfuil beagán leachta,\""
    },
    "ROLL" : {
       "description" : "",
@@ -1253,7 +1253,7 @@
    },
    "ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate Left"
+      "message" : "Rothlaigh ar tuathal"
    },
    "ROTATE_RIGHT" : {
       "description" : "",
@@ -1265,7 +1265,7 @@
    },
    "ROTATIONAL_PERIOD" : {
       "description" : "",
-      "message" : "\" (rotational period)\""
+      "message" : "\" (tréimhse rothlaithe)\""
    },
    "ROTATION_DAMPING_OFF" : {
       "description" : "",
@@ -1277,7 +1277,7 @@
    },
    "RUBBISH" : {
       "description" : "",
-      "message" : "Rubbish"
+      "message" : "Bruscar"
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
@@ -1289,7 +1289,7 @@
    },
    "SEARCH" : {
       "description" : "",
-      "message" : "Search"
+      "message" : "Cuardaigh"
    },
    "SEARCH_MAP" : {
       "description" : "",
@@ -1309,11 +1309,11 @@
    },
    "SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Selected system"
+      "message" : "An réaltchóras roghnaithe"
    },
    "SELECT_A_TARGET" : {
       "description" : "",
-      "message" : "Select a target"
+      "message" : "Roghnaigh sprioc"
    },
    "SELECT_LOW_THRUST_POWER_LEVEL" : {
       "description" : "",
@@ -1321,11 +1321,11 @@
    },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
-      "message" : "Semi-major axis"
+      "message" : "Ais leathmhór"
    },
    "SET_HYPERSPACE_DESTINATION_TO" : {
       "description" : "",
-      "message" : "Set hyperspace destination to %system"
+      "message" : "Socraigh %system mar sprioc hipearspáis"
    },
    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
       "description" : "",
@@ -1341,7 +1341,7 @@
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
-      "message" : "Set speed: %speed{f.2} km/s"
+      "message" : "Socraigh an luas: %speed{f.2} km/s"
    },
    "SET_SPEED_M_S" : {
       "description" : "",
@@ -1349,7 +1349,7 @@
    },
    "SHIELD_INTEGRITY" : {
       "description" : "",
-      "message" : "Shield integrity"
+      "message" : "Sláine na scéithe"
    },
    "SHIELD_STRENGTH_N" : {
       "description" : "",
@@ -1369,7 +1369,7 @@
    },
    "SHIP_DETECTED_NEARBY" : {
       "description" : "",
-      "message" : "Ship detected nearby."
+      "message" : "Braitheadh long in aice láimhe."
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -1381,11 +1381,11 @@
    },
    "SHIP_NEARBY" : {
       "description" : "",
-      "message" : "Ship nearby"
+      "message" : "Long in aice láimhe"
    },
    "SHIP_ORIENTATION" : {
       "description" : "",
-      "message" : "Ship orientation"
+      "message" : "Treoshuíomh na loinge"
    },
    "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
       "description" : "",
@@ -1397,19 +1397,19 @@
    },
    "SLAVES" : {
       "description" : "",
-      "message" : "Slaves"
+      "message" : "Sclábhaithe"
    },
    "SMALL" : {
       "description" : "",
-      "message" : "Small"
+      "message" : "Beag"
    },
    "SMALL_GAS_GIANT" : {
       "description" : "",
-      "message" : "Small gas giant"
+      "message" : "Fathach gáis beag"
    },
    "SMALL_INDUSTRIAL_OUTPOST" : {
       "description" : "",
-      "message" : "Small industrial outpost."
+      "message" : "Urphost beag tionsclaíoch."
    },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
@@ -1417,19 +1417,19 @@
    },
    "SOCIAL_DEMOCRACY" : {
       "description" : "",
-      "message" : "Social democracy"
+      "message" : "Daonlathas sóisialta"
    },
    "SOLAR" : {
       "description" : "",
-      "message" : "Solar"
+      "message" : "Gria"
    },
    "SOME_ESTABLISHED_MINING" : {
       "description" : "",
-      "message" : "Some established mining."
+      "message" : "Mianadóireacht ar siúl."
    },
    "SOURCE" : {
       "description" : "tell source system of hyperjump entry cloud",
-      "message" : "Origin"
+      "message" : "Foinse"
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
@@ -1453,15 +1453,15 @@
    },
    "STAR_AF_GIANT" : {
       "description" : "",
-      "message" : "White giant star"
+      "message" : "Fathach bán"
    },
    "STAR_AF_HYPER_GIANT" : {
       "description" : "",
-      "message" : "White hyper giant star"
+      "message" : "Forfhathach bán"
    },
    "STAR_AF_SUPER_GIANT" : {
       "description" : "",
-      "message" : "White super giant star"
+      "message" : "Ollfhathach bán"
    },
    "STAR_B" : {
       "description" : "",
@@ -1469,19 +1469,19 @@
    },
    "STAR_B_GIANT" : {
       "description" : "",
-      "message" : "Blue giant star"
+      "message" : "Fathach gorm"
    },
    "STAR_B_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Blue hyper giant star"
+      "message" : "Forfhathach gorm"
    },
    "STAR_B_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Blue super giant star"
+      "message" : "Ollfhathach gorm"
    },
    "STAR_B_WF" : {
       "description" : "",
-      "message" : "Wolf-Rayet star - Risk of collapse"
+      "message" : "Réalta Wolf-Rayet - i mbaol a himphléasctha"
    },
    "STAR_F" : {
       "description" : "",
@@ -1493,15 +1493,15 @@
    },
    "STAR_G_GIANT" : {
       "description" : "",
-      "message" : "Yellow giant star - Unstable"
+      "message" : "Fathach buí - Éagobhsaí"
    },
    "STAR_G_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Yellow hyper giant star - Unstable"
+      "message" : "Forfhathach buí - Éagobhsaí"
    },
    "STAR_G_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Yellow super giant star"
+      "message" : "Ollfhathach buí"
    },
    "STAR_IM_BH" : {
       "description" : "",
@@ -1513,15 +1513,15 @@
    },
    "STAR_K_GIANT" : {
       "description" : "",
-      "message" : "Orange giant star - Unstable"
+      "message" : "Fathach oráiste - Éagobhsaí"
    },
    "STAR_K_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Orange hyper giant star - Unstable"
+      "message" : "Forfhathach oráiste - Éagobhsaí"
    },
    "STAR_K_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Orange super giant star"
+      "message" : "Ollfhathach oráiste"
    },
    "STAR_M" : {
       "description" : "",
@@ -1529,15 +1529,15 @@
    },
    "STAR_M_GIANT" : {
       "description" : "",
-      "message" : "Red giant star"
+      "message" : "Fathach dearg"
    },
    "STAR_M_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Red hyper giant star"
+      "message" : "Forfhathach dearg"
    },
    "STAR_M_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Red super giant star"
+      "message" : "Ollfhathach dearg"
    },
    "STAR_M_WF" : {
       "description" : "",
@@ -1549,15 +1549,15 @@
    },
    "STAR_O_GIANT" : {
       "description" : "",
-      "message" : "Hot Blue giant star"
+      "message" : "Fathach gorm te"
    },
    "STAR_O_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Hot Blue hyper giant star"
+      "message" : "Forfhathach gorm te"
    },
    "STAR_O_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Hot Blue super giant star"
+      "message" : "Ollfhathach gorm te"
    },
    "STAR_O_WF" : {
       "description" : "",
@@ -1569,7 +1569,7 @@
    },
    "STAR_SYSTEM_INFORMATION" : {
       "description" : "",
-      "message" : "Star system information"
+      "message" : "Eolas faoin réaltchóras"
    },
    "STAR_S_BH" : {
       "description" : "",
@@ -1581,11 +1581,11 @@
    },
    "SURFACE_GRAVITY" : {
       "description" : "",
-      "message" : "Surface gravity"
+      "message" : "Imtharraingt ar an dromchla"
    },
    "SURFACE_TEMPERATURE" : {
       "description" : "",
-      "message" : "Surface temperature"
+      "message" : "Teocht dromchla"
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
@@ -1597,7 +1597,7 @@
    },
    "SYSTEM" : {
       "description" : "star system",
-      "message" : "System"
+      "message" : "Réaltchóras"
    },
    "SYSTEM_NUMBER" : {
       "description" : "",
@@ -1625,15 +1625,15 @@
    },
    "TENUOUS" : {
       "description" : "atmosphere thickness",
-      "message" : "tenuous"
+      "message" : "tanaí"
    },
    "TEXTILES" : {
       "description" : "",
-      "message" : "Textiles"
+      "message" : "Teicstílí"
    },
    "THICK" : {
       "description" : "",
-      "message" : "thick"
+      "message" : "tiubh"
    },
    "THIN" : {
       "description" : "",
@@ -1641,7 +1641,7 @@
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
-      "message" : "Thriving outdoor world."
+      "message" : "Domhan amuigh faoi bhláth."
    },
    "THRUSTER_DORSAL" : {
       "description" : "",
@@ -1669,15 +1669,15 @@
    },
    "TIME_POINT" : {
       "description" : "",
-      "message" : "Time point:"
+      "message" : "Pointe ama:"
    },
    "TINY" : {
       "description" : "",
-      "message" : "Tiny"
+      "message" : "Beag bídeach"
    },
    "TOGGLE_EQUIPMENT_VIEW" : {
       "description" : "Tooltip for the Equipment View button",
-      "message" : "Equipment View"
+      "message" : "Radharc Trealaimh"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
@@ -1685,7 +1685,7 @@
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
-      "message" : "Toggle Lua console"
+      "message" : "Scoránaigh an consól Lua"
    },
    "TOGGLE_RADAR_MODE" : {
       "description" : "",
@@ -1697,7 +1697,7 @@
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
-      "message" : "Toggle rotation damping"
+      "message" : "Scoránaigh maolú an rothlaithe"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "shown on tombstone when player dies",
@@ -1705,11 +1705,11 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Ag trádáil earraí mídhleathacha"
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",
-      "message" : "Triple system"
+      "message" : "Córas tríréalta"
    },
    "UNDOCKING" : {
       "description" : "Flight state of ship when leaving station",
@@ -1717,7 +1717,7 @@
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
-      "message" : "Unexplored system. No more data available."
+      "message" : "Réaltchóras gan taiscéaladh. Níl aon sonraí eile ar fáil."
    },
    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
       "description" : "",
@@ -1725,19 +1725,19 @@
    },
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
-      "message" : "Unexplored System. Star information has been gathered by remote telescope, but no planetary information is available."
+      "message" : "Réaltchóras gan taiscéaladh. Bhailigh teileascóip i gcéin roinnt eolais faoin réalta, ach níl aon eolas faoin phláinéad ar fáil."
    },
    "UNIT_AU" : {
       "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
-      "message" : "AU"
+      "message" : "A.R."
    },
    "UNIT_DAYS" : {
       "description" : "Duration unit: one 24-hour day",
-      "message" : "d"
+      "message" : "l"
    },
    "UNIT_HOURS" : {
       "description" : "Duration unit: one 60-minute hour",
-      "message" : "h"
+      "message" : "u"
    },
    "UNIT_KILOMETERS" : {
       "description" : "Distance unit: one kilometer",
@@ -1753,7 +1753,7 @@
    },
    "UNIT_METERS" : {
       "description" : "Distance unit: one meter",
-      "message" : "m"
+      "message" : "n"
    },
    "UNIT_METERS_PER_SECOND" : {
       "description" : "Speed unit: one meter per second",
@@ -1769,7 +1769,7 @@
    },
    "UNIT_MINUTES" : {
       "description" : "Duration unit: one 60-second minute",
-      "message" : "m"
+      "message" : "n"
    },
    "UNIT_SECONDS" : {
       "description" : "Duration unit: one second",
@@ -1777,11 +1777,11 @@
    },
    "UNIT_WEEKS" : {
       "description" : "Duration unit: one 7-day week",
-      "message" : "w"
+      "message" : "s"
    },
    "UNKNOWN" : {
       "description" : "",
-      "message" : "<unknown>"
+      "message" : "<anaithnid>"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
@@ -1797,35 +1797,35 @@
    },
    "VERY_DENSE" : {
       "description" : "",
-      "message" : "very dense"
+      "message" : "an-dlúth"
    },
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",
-      "message" : "Very large gas giant"
+      "message" : "Fathach an-mhór"
    },
    "VIEW" : {
       "description" : "",
-      "message" : "View"
+      "message" : "Amhar"
    },
    "VIOLENT_ANARCHY" : {
       "description" : "",
-      "message" : "Disorder - Overall governance contested by armed factions"
+      "message" : "Ainriail - Faicsin armáilte in iomaíocht lena chéile"
    },
    "WATER" : {
       "description" : "",
-      "message" : "Water"
+      "message" : "Uisce"
    },
    "WEAPONS" : {
       "description" : "",
-      "message" : "Weapons"
+      "message" : "Airm"
    },
    "WEAPON_TEMP" : {
       "description" : "",
-      "message" : "Weapon temp"
+      "message" : "Teocht an airm"
    },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
-      "message" : "Wheels are down"
+      "message" : "Tá na rothaí síos"
    },
    "WHEELS_ARE_UP" : {
       "description" : "",
@@ -1833,15 +1833,15 @@
    },
    "WHITE_DWARF" : {
       "description" : "",
-      "message" : "White dwarf stellar remnant"
+      "message" : "Abhac bán (iarsma réaltach)"
    },
    "WITH_A" : {
       "description" : "",
-      "message" : "\" with a \""
+      "message" : "\" le \""
    },
    "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" with no significant atmosphere\""
+      "message" : "\" gan atmaisféar arbh fhiú trácht air\""
    },
    "X" : {
       "description" : "keybinding: x axis",
@@ -1853,7 +1853,7 @@
    },
    "YAW" : {
       "description" : "",
-      "message" : "Yaw"
+      "message" : "Luascáil"
    },
    "YAW_LEFT" : {
       "description" : "",
@@ -1865,11 +1865,11 @@
    },
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
-      "message" : "Young farming colony."
+      "message" : "Coilíneacht óg feirmeoireachta."
    },
    "YOU_NO_MONEY" : {
       "description" : "",
-      "message" : "You do not have any money."
+      "message" : "Níl aon airgead agat."
    },
    "Z" : {
       "description" : "keybinding: z axis",

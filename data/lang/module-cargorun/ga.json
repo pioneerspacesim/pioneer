@@ -137,7 +137,7 @@
    },
    "DISTANCE" : {
       "description" : "distance in space, between two locations",
-      "message" : "Distance:"
+      "message" : "Fad:"
    },
    "ELECTRICAL_APPLIANCES" : {
       "description" : "custom cargo",
@@ -445,15 +445,15 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Socraigh mar sprioc loingseoireachta"
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "Socraigh an turas fillte"
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Spaceport:"
+      "message" : "Spásphort:"
    },
    "SPACESHIP_PARTS" : {
       "description" : "custom cargo",
@@ -481,7 +481,7 @@
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Réaltchóras:"
    },
    "TARGET_DESTROYED" : {
       "description" : "",

@@ -5,7 +5,7 @@
    },
    "FLAVOUR_0_RESPONSE" : {
       "description" : "",
-      "message" : "Your engine has been serviced."
+      "message" : "Rinneadh seirbhís ar d'inneall."
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "FLAVOUR_3_YESPLEASE" : {
       "description" : "",
-      "message" : "SuperFix me!"
+      "message" : "Tapaigh an deisiú!"
    },
    "FLAVOUR_4_INTRO" : {
       "description" : "",
@@ -73,11 +73,11 @@
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "",
-      "message" : "Time and Space Engines, Inc."
+      "message" : "Innill Spás-Ama, Teo."
    },
    "FLAVOUR_4_YESPLEASE" : {
       "description" : "",
-      "message" : "Yes, please proceed"
+      "message" : "Tá, ar aghaidh leat"
    },
    "FLAVOUR_5_INTRO" : {
       "description" : "",
@@ -85,7 +85,7 @@
    },
    "FLAVOUR_5_RESPONSE" : {
       "description" : "",
-      "message" : "Your engine has been serviced."
+      "message" : "Rinneadh seirbhís ar d'inneall."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "",
@@ -97,19 +97,19 @@
    },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "I don't have enough money"
+      "message" : "Níl go leor airgid agam"
    },
    "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "I fixed the hyperdrive before it broke down."
+      "message" : "Dheisigh mé an hipirthiomáint sular theip uirthi."
    },
    "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
       "description" : "",
-      "message" : "The ship's hyperdrive has been destroyed by a malfunction"
+      "message" : "Scriosadh hipirthiomáint na loinge mar gheall ar mhífheidhm"
    },
    "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
       "description" : "",
-      "message" : "Your drive has not been serviced since it was installed on {date}"
+      "message" : "Ní dhearna tú seirbhís ar do hipirthiomáint ó suiteáladh í ar {date}"
    },
    "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
       "description" : "",
@@ -117,10 +117,10 @@
    },
    "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
       "description" : "",
-      "message" : "You do not have a drive to service!"
+      "message" : "Níl hipirthiomáint agat le deisiú!"
    },
    "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "You fixed the hyperdrive before it broke down."
+      "message" : "Dheisigh tú an hipirthiomáint sular theip uirthi."
    }
 }

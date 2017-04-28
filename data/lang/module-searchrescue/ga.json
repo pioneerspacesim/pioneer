@@ -1,7 +1,7 @@
 {
    "AU" : {
       "description" : "",
-      "message" : "AU"
+      "message" : "A.R."
    },
    "BOARDED_PASSENGER" : {
       "description" : "",
@@ -33,7 +33,7 @@
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Fad:"
    },
    "ENTITY_FAMILY_BUSINESS_1" : {
       "description" : "",
@@ -425,7 +425,7 @@
    },
    "LAT" : {
       "description" : "",
-      "message" : "Lat:"
+      "message" : "Domhanleithead:"
    },
    "LON" : {
       "description" : "",
@@ -453,7 +453,7 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Ceart go leor."
    },
    "ORBIT" : {
       "description" : "",
@@ -641,11 +641,11 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Socraigh mar sprioc loingseoireachta"
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "Socraigh an turas fillte"
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
@@ -653,7 +653,7 @@
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Réaltchóras:"
    },
    "TARGET_SHIP_ID" : {
       "description" : "",

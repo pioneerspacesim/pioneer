@@ -9,7 +9,7 @@
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
-      "message" : "Atmospheric Shielding"
+      "message" : "Sciathadh Atmaisféarach"
    },
    "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
       "description" : "",
@@ -17,23 +17,23 @@
    },
    "AUTOPILOT" : {
       "description" : "",
-      "message" : "Autopilot"
+      "message" : "Uathphíolóta"
    },
    "AUTOPILOT_DESCRIPTION" : {
       "description" : "",
-      "message" : "An on-board flight computer."
+      "message" : "Ríomhaire eitilte ar bord."
    },
    "CARGO_LIFE_SUPPORT" : {
       "description" : "",
-      "message" : "Cargo Bay Life Support"
+      "message" : "Córas cothaithe beatha don bhá lasta"
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
       "description" : "",
-      "message" : "Allows the transport of live cargo."
+      "message" : "Ligeann seo duit lasta beo a iompar."
    },
    "CARGO_SCOOP" : {
       "description" : "",
-      "message" : "Cargo Scoop"
+      "message" : "Scúp Lasta"
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -129,7 +129,7 @@
    },
    "FUEL_SCOOP" : {
       "description" : "",
-      "message" : "Fuel Scoop"
+      "message" : "Scúp Breosla"
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -173,23 +173,23 @@
    },
    "MISSILE_GUIDED" : {
       "description" : "",
-      "message" : "Guided Missile"
+      "message" : "Diúracán Treoraithe"
    },
    "MISSILE_NAVAL" : {
       "description" : "",
-      "message" : "Naval Missile"
+      "message" : "Diúracán Cabhlaigh"
    },
    "MISSILE_SMART" : {
       "description" : "",
-      "message" : "Smart Missile"
+      "message" : "Diúracán Cliste"
    },
    "MISSILE_UNGUIDED" : {
       "description" : "",
-      "message" : "R40 Unguided Rocket"
+      "message" : "Roicéad Neamhthreoraithe R40"
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
+      "message" : "Ilscúp"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Passenger cabin"
+      "message" : "Cábán paisinéara"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
@@ -213,31 +213,31 @@
    },
    "PULSECANNON_10MW" : {
       "description" : "",
-      "message" : "10MW pulse cannon"
+      "message" : "Bíogchanóin 10MW"
    },
    "PULSECANNON_1MW" : {
       "description" : "",
-      "message" : "1MW pulse cannon"
+      "message" : "Bíogchanóin 1MW"
    },
    "PULSECANNON_20MW" : {
       "description" : "",
-      "message" : "20MW pulse cannon"
+      "message" : "Bíogchanóin 20MW"
    },
    "PULSECANNON_2MW" : {
       "description" : "",
-      "message" : "2MW pulse cannon"
+      "message" : "Bíogchanóin 2MW"
    },
    "PULSECANNON_4MW" : {
       "description" : "",
-      "message" : "4MW pulse cannon"
+      "message" : "Bíogchanóin 4MW"
    },
    "PULSECANNON_DUAL_1MW" : {
       "description" : "",
-      "message" : "1MW dual-fire pulse cannon"
+      "message" : "Bíogchanóin délámhaigh 1MW"
    },
    "PULSECANNON_RAPID_2MW" : {
       "description" : "",
-      "message" : "2MW rapid-fire pulse cannon"
+      "message" : "Bíogchanóin mearlámhaigh 2MW"
    },
    "RADAR" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "SHIELD_GENERATOR" : {
       "description" : "",
-      "message" : "Shield Generator"
+      "message" : "Gineadóir Scéithe"
    },
    "SHIELD_GENERATOR_DESCRIPTION" : {
       "description" : "",
@@ -273,7 +273,7 @@
    },
    "SMALL_PLASMA_ACCEL" : {
       "description" : "",
-      "message" : "Small plasma accelerator"
+      "message" : "Luasaire plasma beag"
    },
    "STARTING_SCAN" : {
       "description" : "",
@@ -297,7 +297,7 @@
    },
    "THRUSTERS_BEST" : {
       "description" : "",
-      "message" : "Bespoke Thrusters"
+      "message" : "Innill Shaincheaptha"
    },
    "THRUSTERS_BEST_DESCRIPTION" : {
       "description" : "",
@@ -305,7 +305,7 @@
    },
    "THRUSTERS_MEDIUM" : {
       "description" : "",
-      "message" : "Optimised Thrusters"
+      "message" : "Innill Optamaithe"
    },
    "THRUSTERS_MEDIUM_DESCRIPTION" : {
       "description" : "",
@@ -321,7 +321,7 @@
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
-      "message" : "Extra Passenger Cabin"
+      "message" : "Cábán paisinéara breise"
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",

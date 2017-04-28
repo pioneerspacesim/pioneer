@@ -65,7 +65,7 @@
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Tar ar ais nuair a bheidh na cáilíochtaí cearta agat."
    },
    "DENY_2" : {
       "description" : "",
@@ -93,11 +93,11 @@
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Fad:"
    },
    "EXCELLENT" : {
       "description" : "",
-      "message" : "Excellent."
+      "message" : "Ar fheabhas."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -545,7 +545,7 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Ceart go leor."
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
@@ -565,7 +565,7 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Socraigh mar sprioc loingseoireachta"
    },
    "TAXI" : {
       "description" : "",

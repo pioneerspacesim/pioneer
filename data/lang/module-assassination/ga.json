@@ -1,7 +1,7 @@
 {
    "ASSASSINATION" : {
       "description" : "",
-      "message" : "Assassination"
+      "message" : "Feallmharú"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -9,15 +9,15 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't trust you."
+      "message" : "Mo leithscéal, ach níl muinín ar bith agam asat."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Tar ar ais nuair a bheidh na cáilíochtaí cearta agat."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the one I'm looking for."
+      "message" : "Ní dóigh liom gur tusa an duine atá mé ag lorg."
    },
    "DENY_3" : {
       "description" : "",
@@ -25,7 +25,7 @@
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You are clearly not the one for this job."
+      "message" : "Is léir nach tusa an duine ceart don jab seo."
    },
    "DENY_5" : {
       "description" : "",
@@ -41,11 +41,11 @@
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Fad:"
    },
    "EXCELLENT" : {
       "description" : "",
-      "message" : "Excellent."
+      "message" : "Ar fheabhas."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -53,7 +53,7 @@
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
-      "message" : "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment."
+      "message" : "Tá mé thar a bheith míshásta go bhfuil {target} beo fós. Ar ndóigh, ní bhfaighidh tú aon íocaíocht."
    },
    "FLAVOUR_0_FAILUREMSG2" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name}. I'll pay you {cash} to get rid of {target}."
+      "message" : "Dia dhuit, is mise {name}. Tabharfaidh mé {cash} duit as fáil réidh le {target}."
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
@@ -73,11 +73,11 @@
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "I hear that {target} is in good health. This pains me."
+      "message" : "Cloisim go bhfuil {target} ina shláinte. Goilleann seo orm."
    },
    "FLAVOUR_1_FAILUREMSG2" : {
       "description" : "",
-      "message" : "{target}'s demise was not caused by you, so do not ask for payment."
+      "message" : "Níor thusa ba chúis le bás {target}; ná hiarr íocaíocht orm."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
@@ -93,15 +93,15 @@
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "It is most regrettable that {target} is still live and well. You will receive no payment as you did not complete your contract."
+      "message" : "Is trua go bhfuil {target} beo beathach fós. Ní bhfaighidh tú airgead ar bith toisc nár chomhlíon tú an conradh."
    },
    "FLAVOUR_2_FAILUREMSG2" : {
       "description" : "",
-      "message" : "Contract was completed by someone else. Be faster next time!"
+      "message" : "Duine éigin eile a chomhlíon an conradh. Is leis an mochóirí an lá!"
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "I am {name}, and I will pay you {cash} to terminate {target}."
+      "message" : "Is mise {name} agus tabharfaidh mé {cash} duit as {target} a mharú."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
@@ -117,15 +117,15 @@
    },
    "FLAVOUR_3_FAILUREMSG2" : {
       "description" : "",
-      "message" : "Are you asking money for job done by someone else? Get lost."
+      "message" : "An bhfuil tú ag iarraidh airgid as jab a rinne duine éigin eile? Imigh leat."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "The {target} must be reduced to space dust. I'll award you {cash} to do this."
+      "message" : "Caithfear smidiríní spáis a dhéanamh de {target}. Tabharfaidh mé {cash} duit i ndíol an jab seo."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "{target} is dead. Here is your award."
+      "message" : "Tá {target} marbh. Seo é luach do shaothair."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
@@ -133,11 +133,11 @@
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "{target} is still breathing and I'm not giving money to you."
+      "message" : "Tá {target} ina lánbheatha fós agus ní thabharfaidh mé cianóg rua duit."
    },
    "FLAVOUR_4_FAILUREMSG2" : {
       "description" : "",
-      "message" : "Retirement of {target} was done by someone else."
+      "message" : "Duine éigin eile a chur deireadh le {target}."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
@@ -149,11 +149,11 @@
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "BIOGRAPHICAL: Some admirers wish {target} dead."
+      "message" : "BEATHAISNÉIS: Tá daoine áirithe ag súil le bás {target}."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "We found out that {target} is nonetheless operative. This saddens us."
+      "message" : "Fuaireamar amach bhfuil {target} gníomhach fós. Cuireann seo díomá orainn."
    },
    "FLAVOUR_5_FAILUREMSG2" : {
       "description" : "",
@@ -169,15 +169,15 @@
    },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
-      "message" : "How soon must it be done?"
+      "message" : "Cé chomh luath agus is gá dom é a dhéanamh?"
    },
    "HOW_WILL_I_BE_PAID" : {
       "description" : "",
-      "message" : "How will I be paid?"
+      "message" : "Cén chaoi a n-íocfar mé?"
    },
    "IT_MUST_BE_DONE_AFTER" : {
       "description" : "",
-      "message" : "It must be done after {target} leaves {spaceport}. Do not miss this opportunity."
+      "message" : "Caithfear é a dhéanamh tar éis do {target} {spaceport} a fhágáil. Ná caill an deis seo."
    },
    "LY" : {
       "description" : "",
@@ -185,150 +185,150 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Ceart go leor."
    },
    "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
       "description" : "",
-      "message" : "Return here on the completion of the contract and you will be paid."
+      "message" : "Fill anseo tar éis duit an conradh a chomhlíonadh agus íocfar thú."
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Socraigh mar sprioc loingseoireachta"
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "Socraigh an turas fillte"
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship:"
+      "message" : "Long:"
    },
    "SHIP_ID" : {
       "description" : "",
-      "message" : "Ship ID:"
+      "message" : "Aitheantas na Loinge:"
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Spaceport:"
+      "message" : "Spásphort:"
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Réaltchóras:"
    },
    "TARGET_NAME" : {
       "description" : "",
-      "message" : "Target name:"
+      "message" : "Ainm na sprice:"
    },
    "TARGET_WILL_BE_LEAVING_SPACEPORT_AT" : {
       "description" : "",
-      "message" : "Target will be leaving spaceport at:"
+      "message" : "Fágfaidh an sprioc an spásphort ag:"
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Admiral"
+      "message" : "Aimiréal"
    },
    "TITLE_1" : {
       "description" : "",
-      "message" : "Ambassador"
+      "message" : "Ambasadóir"
    },
    "TITLE_10" : {
       "description" : "",
-      "message" : "Ensign"
+      "message" : "Meirgire"
    },
    "TITLE_11" : {
       "description" : "",
-      "message" : "General"
+      "message" : "Ginearál"
    },
    "TITLE_12" : {
       "description" : "",
-      "message" : "Judge"
+      "message" : "Breitheamh"
    },
    "TITLE_13" : {
       "description" : "",
-      "message" : "Lawyer"
+      "message" : "Dlíodóir"
    },
    "TITLE_14" : {
       "description" : "",
-      "message" : "Lieutenant"
+      "message" : "Leifteanant"
    },
    "TITLE_15" : {
       "description" : "",
-      "message" : "Marshal"
+      "message" : "Marascal"
    },
    "TITLE_16" : {
       "description" : "",
-      "message" : "Merchant"
+      "message" : "Ceannaí"
    },
    "TITLE_17" : {
       "description" : "",
-      "message" : "Officer"
+      "message" : "Oifigeach"
    },
    "TITLE_18" : {
       "description" : "",
-      "message" : "Private"
+      "message" : "Gnáthshaighdiúir"
    },
    "TITLE_19" : {
       "description" : "",
-      "message" : "Professor"
+      "message" : "Ollamh"
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Brigadier"
+      "message" : "Briogáidire"
    },
    "TITLE_20" : {
       "description" : "",
-      "message" : "Prosecutor"
+      "message" : "Ionchúisitheoir"
    },
    "TITLE_21" : {
       "description" : "",
-      "message" : "Provost"
+      "message" : "Propast"
    },
    "TITLE_22" : {
       "description" : "",
-      "message" : "Seaman"
+      "message" : "Mairnéalach"
    },
    "TITLE_23" : {
       "description" : "",
-      "message" : "Senator"
+      "message" : "Seanadóir"
    },
    "TITLE_24" : {
       "description" : "",
-      "message" : "Sergeant"
+      "message" : "Sáirsint"
    },
    "TITLE_3" : {
       "description" : "",
-      "message" : "Cadet"
+      "message" : "Dalta"
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Captain"
+      "message" : "Captaen"
    },
    "TITLE_5" : {
       "description" : "",
-      "message" : "Cardinal"
+      "message" : "Cairdinéal"
    },
    "TITLE_6" : {
       "description" : "",
-      "message" : "Colonel"
+      "message" : "Coirnéal"
    },
    "TITLE_7" : {
       "description" : "",
-      "message" : "Commandant"
+      "message" : "Ceannfort"
    },
    "TITLE_8" : {
       "description" : "",
-      "message" : "Commodore"
+      "message" : "Comadóir"
    },
    "TITLE_9" : {
       "description" : "",
-      "message" : "Corporal"
+      "message" : "Ceannaire"
    },
    "WHERE_CAN_I_FIND_X" : {
       "description" : "",
-      "message" : "Where can I find {target}?"
+      "message" : "Cá bhfuil {target}?"
    },
    "X_WILL_BE_LEAVING" : {
       "description" : "",
-      "message" : "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."
+      "message" : "Fágfaidh {target} {spaceport} i réaltchóras {system} ({sectorX}, {sectorY}, {sectorZ}), fad {dist} solasbhliain, ar {date}. Is é {shipname} an spáslong agus is é {shipregid} an t-aitheantas clárúcháin."
    }
 }
