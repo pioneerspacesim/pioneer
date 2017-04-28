@@ -1756,6 +1756,7 @@ float Pi::GetMoveSpeedShiftModifier() {
 }
 
 void Pi::DrawPiGui(double delta, std::string handler) {
+	// #define PROFILE_LUA_TIME 1
 	#ifdef PROFILE_LUA_TIME
 	auto before = clock();
 	#endif

@@ -82,6 +82,8 @@ public:
 
 	void BeginCameraFrame() { m_cameraContext->BeginFrame(); };
 	void EndCameraFrame() { m_cameraContext->EndFrame(); };
+
+	bool ShouldShowLabels() { return m_labelsOn; }
 protected:
 	virtual void BuildUI(UI::Single *container);
 	virtual void OnSwitchTo();

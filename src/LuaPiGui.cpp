@@ -841,6 +841,42 @@ static int l_pigui_get_mouse_clicked_pos(lua_State *l) {
 	return 1;
 }
 
+std::tuple<bool, vector3d, vector3d> lua_world_space_to_screen_space(vector3d pos) {
+	WorldView *wv = Pi::game->GetWorldView();
+	vector3d p = wv->WorldSpaceToScreenSpace(pos);
+	const int width = Graphics::GetScreenWidth();
+	const int height = Graphics::GetScreenHeight();
+	vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
+	if(vector3d(0,0,0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
+		return std::make_tuple(false, vector3d(0, 0, 0), direction * (p.z > 0 ? -1 : 1));
+	} else {
+		return std::make_tuple(true, vector3d(p.x, p.y, 0), direction);
+	}
+}
+
+static int l_pigui_get_projected_bodies(lua_State *l) {
+	LuaTable result(l);
+	for (Body* body : Pi::game->GetSpace()->GetBodies()) {
+		if(body == Pi::game->GetPlayer()) continue;
+		if (body->GetType() == Object::PROJECTILE) continue;
+
+		LuaTable object(l);
+
+		object.Set("type", EnumStrings::GetString("PhysicsObjectType", body->GetType()));
+
+		std::tuple<bool, vector3d, vector3d> res = lua_world_space_to_screen_space(body->GetInterpPositionRelTo(Pi::game->GetPlayer())); // defined in LuaPiGui.cpp		
+		object.Set("onscreen", std::get<0>(res));
+		object.Set("screenCoordinates", std::get<1>(res));
+		object.Set("direction", std::get<2>(res));
+		object.Set("body", body);
+
+		result.Set(body->GetLabel(), object);
+		lua_pop(l, 1);
+	}
+	LuaPush(l, result);
+	return 1;
+}
+
 static int l_pigui_get_targets_nearby(lua_State *l) {
 	int range_max = LuaPull<double>(l, 1);
 	LuaTable result(l);
@@ -899,6 +935,13 @@ static int l_pigui_get_targets_nearby(lua_State *l) {
 // 	Pi::SetMouseButtonState(button, state);
 // 	return 0;
 // }
+
+static int l_pigui_should_show_labels(lua_State *l)
+{
+	bool show_labels = Pi::game->GetWorldView()->ShouldShowLabels();
+	LuaPush(l, show_labels);
+	return 1;
+}
 
 static int l_attr_handlers(lua_State *l) {
 	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
@@ -1169,6 +1212,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "DataDirPath",            l_pigui_data_dir_path },
 		{ "ShouldDrawUI",           l_pigui_should_draw_ui },
 		{ "GetTargetsNearby",       l_pigui_get_targets_nearby },
+		{ "GetProjectedBodies",     l_pigui_get_projected_bodies },
+		{ "ShouldShowLabels",       l_pigui_should_show_labels },
 		// { "DisableMouseFacing",     l_pigui_disable_mouse_facing },
 		// { "SetMouseButtonState",    l_pigui_set_mouse_button_state },
 		{ 0, 0 }

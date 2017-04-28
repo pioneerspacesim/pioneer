@@ -100,6 +100,48 @@ static int l_ship_set_type(lua_State *l)
 	return 0;
 }
 
+/* Method: GetShipType
+ *
+ * Returns a string describing the ship type
+ *
+ * > local shiptype = ship:GetShipType()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_ship_get_ship_type(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaPush(l, s->GetShipType()->name.c_str());
+	return 1;
+}
+
+/* Method: GetShipClass
+ *
+ * Returns a string describing the ship class
+ *
+ * > local shipclass = ship:GetShipClass()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_ship_get_ship_class(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaPush(l, s->GetShipType()->shipClass.c_str());
+	return 1;
+}
+
 /*
  * Method: SetHullPercent
  *
@@ -1083,6 +1125,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_ship_is_player },
 
+		{ "GetShipClass", l_ship_get_ship_class },
+		{ "GetShipType", l_ship_get_ship_type },
 		{ "SetShipType", l_ship_set_type },
 		{ "SetHullPercent", l_ship_set_hull_percent },
 		{ "SetFuelPercent", l_ship_set_fuel_percent },

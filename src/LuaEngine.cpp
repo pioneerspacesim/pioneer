@@ -948,20 +948,12 @@ static int l_engine_camera_space_to_screen_space(lua_State *l)
 static int l_engine_world_space_to_screen_space(lua_State *l)
 {
 	vector3d pos = LuaPull<vector3d>(l, 1);
-	WorldView *wv = Pi::game->GetWorldView();
-	vector3d p = wv->WorldSpaceToScreenSpace(pos);
-	const int width = Graphics::GetScreenWidth();
-	const int height = Graphics::GetScreenHeight();
-	vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
-	if(vector3d(0,0,0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
-		LuaPush<bool>(l, false);
-		LuaPush<vector3d>(l, vector3d(0, 0, 0));
-		LuaPush<vector3d>(l, direction * (p.z > 0 ? -1 : 1)); // reverse direction if behind camera
-	} else {
-		LuaPush<bool>(l, true);
-		LuaPush<vector3d>(l, vector3d(p.x, p.y, 0));
-		LuaPush<vector3d>(l, direction);
-	}
+
+	std::tuple<bool, vector3d, vector3d> res = lua_world_space_to_screen_space(pos); // defined in LuaPiGui.cpp
+	
+	LuaPush<bool>(l, std::get<0>(res));
+	LuaPush<vector3d>(l, std::get<1>(res));
+	LuaPush<vector3d>(l, std::get<2>(res));
 	return 3;
 }
 

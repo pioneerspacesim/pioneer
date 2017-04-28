@@ -17,6 +17,9 @@ local icons = ui.theme.icons
 local reticuleCircleRadius = math.min(ui.screenWidth, ui.screenHeight) / 13
 local reticuleCircleThickness = 2.0
 
+-- settings
+local ASTEROID_RADIUS = 1500000 -- rocky planets smaller than this (in meters) are considered an asteroid, not a planet
+local IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE = 1000000 -- ships farther away than this don't show up on as in-space indicators
 -- center of screen, set each frame by the handler
 local center = nil
 
@@ -645,11 +648,162 @@ local function displayRadar()
 	end
 end
 
+local function getBodyIcon(body)
+	local st = body.superType
+	local t = body.type
+	if st == "STARPORT" then
+		if t == "STARPORT_ORBITAL" then
+			return icons.spacestation
+		elseif body.type == "STARPORT_SURFACE" then
+			return icons.starport
+		end
+	elseif st == "GAS_GIANT" then
+		return icons.gas_giant
+	elseif st == "STAR" then
+		return icons.sun
+	elseif st == "ROCKY_PLANET" then
+		if body:IsMoon() then
+			return icons.moon
+		else
+			local sb = body:GetSystemBody()
+			if sb.radius < ASTEROID_RADIUS then
+				return icons.asteroid_hollow
+			else
+				return icons.rocky_planet
+			end
+		end
+	elseif body:IsShip() then
+		local shipClass = body:GetShipClass()
+		if icons[shipClass] then
+			return icons[shipClass]
+		else
+			print("data/pigui/game.lua: getBodyIcon unknown ship class " .. (shipClass and shipClass or "nil"))
+			return icons.ship -- TODO: better icon
+		end
+	elseif body:IsHyperspaceCloud() then
+		return icons.hyperspace -- TODO: better icon
+	elseif body:IsMissile() then
+		return icons.bullseye -- TODO: better icon
+	elseif body:IsCargoContainer() then
+		return icons.rocky_planet
+	else
+		print("data/pigui/game.lua: getBodyIcon not sure how to process body, supertype: " .. (st and st or "nil") .. ", type: " .. (t and t or "nil"))
+		utils.print_r(body)
+		return icons.ship
+	end
+end
+
+local function setTarget(body)
+	if body:IsShip() then
+		player:SetCombatTarget(body)
+	else
+		player:SetNavTarget(body)
+	end
+end
+
+local function displayOnScreenObjects(should_show_label)
+	local iconsize = 18
+	local label_offset = 14 -- enough so that the target rectangle fits
+	local collapse = iconsize
+	local bodies = ui.getProjectedBodies()
+	local navTarget = player:GetNavTarget()
+	local combatTarget = player:GetCombatTarget()
+	local onscreen = {}
+	-- go through all objects, collecting those that are shown near each other into single objects
+	for k,v in pairs(bodies) do
+		if v.onscreen then
+			local it = v
+			it.label = k
+			local itk = k
+			local itbody = it.body
+			local itsc = it.screenCoordinates
+			local inserted = false
+			-- if body is ship and distance is too great, ignore it
+			if not itbody:IsShip() or itbody:DistanceTo(player) < IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE then
+				-- never collapse combat target
+				if itbody ~= combatTarget then
+					for k,v in pairs(onscreen) do
+						local mbsc = v.mainBody.screenCoordinates
+						if (mbsc - itsc):magnitude() < collapse then
+							if itbody == navTarget or (itbody:IsMoreImportantThan(v.mainBody.body) and v.mainBody.body ~= navTarget) then
+								-- if the navtarget is one of the collapsed ones, it's the most important
+								table.insert(v.others, v.mainBody)
+								v.mainBody = it
+								v.hasNavTarget = true
+								v.multiple = true
+							else
+								-- otherwise, just add it as a further body
+								table.insert(v.others, it)
+								v.multiple = true
+							end
+							inserted = true
+							break
+						end
+					end
+				end
+				if not inserted then
+					-- not collapsed anywhere, just insert it normally
+					table.insert(onscreen, { mainBody = it, others = {}, hasCombatTarget = itbody == combatTarget, hasNavTarget = itbody == navTarget, multiple = false })
+				end
+			end
+		end
+	end
+	-- now display each group
+	for k,v in pairs(onscreen) do
+		table.sort(v.others, function(a,b) return a.body:IsMoreImportantThan(b.body) end)
+		local coords = v.mainBody.screenCoordinates
+		ui.addIcon(coords, getBodyIcon(v.mainBody.body), colors.frame, iconsize, ui.anchor.center, ui.anchor.center)
+		if should_show_label then
+			local multipleText = ""
+			if v.multiple then
+				-- show a + after the name to indicate it is actually multiple objects
+				multipleText = "+"
+			end
+			ui.addStyledText(coords + Vector(label_offset, 0), ui.anchor.left, ui.anchor.center, v.mainBody.label .. multipleText , colors.frame, pionillium.small)
+		end
+		local mp = ui.getMousePos()
+		-- click handler
+		if (Vector(mp.x,mp.y) - coords):magnitude() < iconsize then
+			if ui.isMouseReleased(0) then
+				if v.hasNavTarget and ui.ctrlHeld() then
+					-- if ctrl-clicked and has nav target, unset nav target
+					player:SetNavTarget(nil)
+				elseif v.hasCombatTarget and ui.ctrlHeld() then
+					-- if ctlr-clicked and has combat target, unset combat target
+					player:SetCombatTarget(nil)
+				else
+					if v.multiple then
+						-- clicked on group, show popup
+						ui.openPopup("navtarget" .. v.mainBody.label)
+					else
+						-- clicked on single, just set navtarget/combatTarget
+						setTarget(v.mainBody.body)
+					end
+				end
+			end
+		end
+		-- popup content
+		ui.popup("navtarget" .. v.mainBody.label, function()
+			local size = Vector(16,16)
+			ui.icon(getBodyIcon(v.mainBody.body), size, colors.frame)
+			ui.sameLine()
+			if ui.selectable(v.mainBody.label, v.mainBody.body == navTarget, {}) then
+				player:SetNavTarget(v.mainBody.body)
+			end
+			for k,v in pairs(v.others) do
+				ui.icon(getBodyIcon(v.body), size, colors.frame)
+				ui.sameLine()
+				if ui.selectable(v.label, v.body == navTarget, {}) then
+					player:SetNavTarget(v.body)
+				end
+			end
+		end)
+	end
+end
+
 Event.Register('onGameStart',	function()
 								 shouldDisplay2DRadar = false
 end)
-
-
 
 ui.registerHandler(
 	'game',
@@ -669,6 +823,8 @@ ui.registerHandler(
 											else
 												displayReticule()
 												displayRadar()
+												local show_label = ui.shouldShowLabels()
+												displayOnScreenObjects(show_label)
 											end
 										end
 				end)
