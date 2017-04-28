@@ -148,7 +148,6 @@ private:
 	/// Handler for "requestTimeAccelerationDec" event
 	void OnRequestTimeAccelDec();
 	void SelectBody(Body *, bool reselectIsDeselect);
-	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseWheel(bool up);
 
 	Game* m_game;
@@ -194,9 +193,6 @@ private:
 	sigc::connection m_onToggleHudModeCon;
 	sigc::connection m_onIncTimeAccelCon;
 	sigc::connection m_onDecTimeAccelCon;
-
-	Gui::LabelSet *m_bodyLabels;
-	std::map<Body*,vector3d> m_projectedPos;
 
 	RefCountedPtr<CameraContext> m_cameraContext;
 	std::unique_ptr<Camera> m_camera;

@@ -220,9 +220,6 @@ void WorldView::InitObject()
 	Add(m_hudTargetInfo, 0, 85.0f);
 
 	Gui::Screen::PushFont("OverlayFont");
-	m_bodyLabels = new Gui::LabelSet();
-	m_bodyLabels->SetLabelColor(Color(255, 255, 255, 230));
-	Add(m_bodyLabels, 0, 0);
 
 	{
 		m_pauseText = new Gui::Label(std::string("#f7f") + Lang::PAUSED);
@@ -994,17 +991,6 @@ void WorldView::Update()
 	// show state-appropriate buttons
 	RefreshButtonStateAndVisibility();
 
-	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
-		// when controlling your ship with the mouse you don't want to pick targets
-		m_bodyLabels->SetLabelsClickable(false);
-	} else {
-		m_bodyLabels->SetLabelsClickable(true);
-	}
-
-	m_bodyLabels->SetLabelsVisible(m_labelsOn);
-
-	bool targetObject = false;
-
 	// XXX ugly hack checking for console here
 	if (!Pi::IsConsoleActive()) {
 		if (GetCamType() == CAM_INTERNAL) {
@@ -1029,8 +1015,6 @@ void WorldView::Update()
 			cam->ZoomEventUpdate(frameTime);
 		}
 
-		// note if we have to target the object in the crosshairs
-		targetObject = KeyBindings::targetObject.IsActive();
 	}
 
 	if (m_showCameraNameTimeout) {
@@ -1079,14 +1063,6 @@ void WorldView::Update()
 	} else {
 		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
 			it->trail->Reset(playerFrame);
-	}
-
-	// target object under the crosshairs. must be done after
-	// UpdateProjectedObjects() to be sure that m_projectedPos does not have
-	// contain references to deleted objects
-	if (targetObject) {
-		Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
-		SelectBody(target, false);
 	}
 
 	UIView::Update();
@@ -1420,47 +1396,6 @@ void WorldView::UpdateCommsOptions()
 	}
 }
 
-
-void WorldView::SelectBody(Body *target, bool reselectIsDeselect)
-{
-	if (!target || target == Pi::player) return;		// don't select self
-	if (target->IsType(Object::PROJECTILE)) return;
-
-	if (target->IsType(Object::SHIP)) {
-		if (Pi::player->GetCombatTarget() == target) {
-			if (reselectIsDeselect) Pi::player->SetCombatTarget(0);
-		} else {
-			Pi::player->SetCombatTarget(target, Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL));
-		}
-	} else {
-		if (Pi::player->GetNavTarget() == target) {
-			if (reselectIsDeselect) Pi::player->SetNavTarget(0);
-		} else {
-			Pi::player->SetNavTarget(target, Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL));
-		}
-	}
-}
-
-Body* WorldView::PickBody(const double screenX, const double screenY) const
-{
-	for (std::map<Body*,vector3d>::const_iterator
-		i = m_projectedPos.begin(); i != m_projectedPos.end(); ++i) {
-		Body *b = i->first;
-
-		if (b == Pi::player || b->IsType(Object::PROJECTILE))
-			continue;
-
-		const double x1 = i->second.x - PICK_OBJECT_RECT_SIZE * 0.5;
-		const double x2 = x1 + PICK_OBJECT_RECT_SIZE;
-		const double y1 = i->second.y - PICK_OBJECT_RECT_SIZE * 0.5;
-		const double y2 = y1 + PICK_OBJECT_RECT_SIZE;
-		if(screenX >= x1 && screenX <= x2 && screenY >= y1 && screenY <= y2)
-			return b;
-	}
-
-	return 0;
-}
-
 int WorldView::GetActiveWeapon() const
 {
 	switch (GetCamType()) {
@@ -1484,42 +1419,8 @@ static inline bool project_to_screen(const vector3d &in, vector3d &out, const Gr
 
 void WorldView::UpdateProjectedObjects()
 {
-	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
-	const Graphics::Frustum frustum = m_cameraContext->GetFrustum();
-
 	const Frame *cam_frame = m_cameraContext->GetCamFrame();
 	matrix3x3d cam_rot = cam_frame->GetOrient();
-
-	// determine projected positions and update labels
-	m_bodyLabels->Clear();
-	m_projectedPos.clear();
-	for (Body* b : m_game->GetSpace()->GetBodies()) {
-		// don't show the player label on internal camera
-		if (b->IsType(Object::PLAYER) && GetCamType() == CAM_INTERNAL)
-			continue;
-
-		vector3d pos = b->GetInterpPositionRelTo(cam_frame);
-		if (b->IsType(Object::PLAYER)) pos += vector3d(0.1, 0.1, 0);		// otherwise exactly between four pixels => jitter
-		if ((pos.z < -1.0) && project_to_screen(pos, pos, frustum, guiSize)) {
-
-			// only show labels on large or nearby bodies
-			if (b->IsType(Object::PLANET) ||
-				b->IsType(Object::STAR) ||
-				b->IsType(Object::SPACESTATION) ||
-				Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
-			{
-				std::string bodyName = b->GetLabel();
-				// offset the label so it doesn't intersect with the icon drawn around the
-				// navtarget. XXX this probably isn't the most elegant solution
-				if(b == Pi::player->GetNavTarget()) { bodyName = "    " + bodyName; }
-				m_bodyLabels->Add(bodyName,
-						  sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), b, true),
-						  float(pos.x),
-						  float(pos.y));
-			}
-			m_projectedPos[b] = pos;
-		}
-	}
 
 	// later we might want non-ship enemies (e.g., for assaults on military bases)
 	assert(!Pi::player->GetCombatTarget() || Pi::player->GetCombatTarget()->IsType(Object::SHIP));
