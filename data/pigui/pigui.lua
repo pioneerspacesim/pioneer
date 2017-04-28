@@ -27,6 +27,12 @@ local one_over_sqrt_two = 1 / math.sqrt(2)
 
 local ui = { }
 
+local function maybeSetTooltip(tooltip)
+	if not Game.player:IsMouseActive() then
+		pigui.SetTooltip(tooltip)
+	end
+end
+
 ui.icons_texture = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), 16 * 64, 16 * 64)
 
 function ui.window(name, params, fun)
@@ -265,7 +271,7 @@ ui.addIcon = function(position, icon, color, size, anchor_horizontal, anchor_ver
 	end
 	if tooltip and not pigui.IsMouseHoveringAnyWindow() and tooltip ~= "" then
 	  if pigui.IsMouseHoveringRect(pos, pos + size, true) then
-			pigui.SetTooltip(tooltip)
+			maybeSetTooltip(tooltip)
 	  end
 	end
 
@@ -345,7 +351,7 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 	end)
 	if tooltip and not pigui.IsMouseHoveringAnyWindow() and tooltip ~= "" then
 	  if pigui.IsMouseHoveringRect(position, position + size, true) then
-			pigui.SetTooltip(tooltip)
+			maybeSetTooltip(tooltip)
 	  end
 	end
 	return Vector(size.x, size.y)
@@ -375,7 +381,7 @@ ui.oneOverSqrtTwo = one_over_sqrt_two
 ui.isMouseClicked = pigui.IsMouseClicked
 ui.getMousePos = pigui.GetMousePos
 ui.getMouseWheel = pigui.GetMouseWheel
-ui.setTooltip = pigui.SetTooltip
+ui.setTooltip = maybeSetTooltip
 ui.shouldDrawUI = pigui.ShouldDrawUI
 ui.getWindowPos = pigui.GetWindowPos
 ui.getTargetsNearby = pigui.GetTargetsNearby
