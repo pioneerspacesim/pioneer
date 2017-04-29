@@ -25,7 +25,7 @@
    },
    "AND_INDIGENOUS_PLANT_LIFE" : {
       "description" : "",
-      "message" : "\" and indigenous plant life.\""
+      "message" : "\" agus beathra plandúil bundúchasach.\""
    },
    "ANIMAL_MEAT" : {
       "description" : "",
@@ -73,7 +73,7 @@
    },
    "AUTOPILOT_ON" : {
       "description" : "",
-      "message" : "Autopilot on"
+      "message" : "Uathphíolóta ar siúl"
    },
    "AXIAL_TILT" : {
       "description" : "",
@@ -245,7 +245,7 @@
    },
    "COMPASS_W" : {
       "description" : "Abbreviation for compass direction: West",
-      "message" : "W"
+      "message" : "I"
    },
    "COMPUTERS" : {
       "description" : "",
@@ -257,7 +257,7 @@
    },
    "COMPUTER_SPEED_CONTROL" : {
       "description" : "",
-      "message" : "Computer speed control"
+      "message" : "Ríomhrialú luais"
    },
    "CONSUMER_GOODS" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "COUNT_STARPORTS" : {
       "description" : "",
-      "message" : "starports"
+      "message" : "spásphoirt"
    },
    "CO_ATMOSPHERE" : {
       "description" : "",
@@ -293,7 +293,7 @@
    },
    "CURRENT_SYSTEM" : {
       "description" : "selected current star system",
-      "message" : "Current system"
+      "message" : "An réaltchóras reatha"
    },
    "DATE_DUE_N" : {
       "description" : "",
@@ -309,7 +309,7 @@
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
-      "message" : "Decrease set speed"
+      "message" : "Socraigh luas níos ísle"
    },
    "DECREASE_TIME_ACCELERATION" : {
       "description" : "",
@@ -337,7 +337,7 @@
    },
    "DOCKING" : {
       "description" : "",
-      "message" : "Docking"
+      "message" : "Glasáil"
    },
    "DOCKING_CLEARANCE_EXPIRED" : {
       "description" : "",
@@ -353,7 +353,7 @@
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
-      "message" : "Label uninhabited systems"
+      "message" : "Cuir lipéad le réaltchórais neamháitrithe"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
@@ -381,11 +381,11 @@
    },
    "ECONOMY_TYPE" : {
       "description" : "",
-      "message" : "Economy type:"
+      "message" : "Cineál geilleagair:"
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
-      "message" : "Equatorial to polar radius ratio"
+      "message" : "Cóimheas idir an ga meánchiorclach agus an ga molach"
    },
    "EXACT_MATCH_X" : {
       "description" : "",
@@ -397,7 +397,7 @@
    },
    "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
       "description" : "",
-      "message" : "External atmospheric pressure"
+      "message" : "Brú atmaisféarach ar an taobh amuigh"
    },
    "EXTERNAL_VIEW" : {
       "description" : "",
@@ -433,7 +433,7 @@
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
-      "message" : "Fruit and Veg"
+      "message" : "Torthaí agus Glasraí"
    },
    "FUEL" : {
       "description" : "",
@@ -637,7 +637,7 @@
    },
    "INDUSTRIAL_HUB_SYSTEM" : {
       "description" : "",
-      "message" : "Industrial hub system."
+      "message" : "Córas bunaithe ar lárionad tionsclaíoch."
    },
    "INDUSTRIAL_MACHINERY" : {
       "description" : "",
@@ -661,7 +661,7 @@
    },
    "JOYSTICK_INPUT" : {
       "description" : "",
-      "message" : "Joystick input"
+      "message" : "Ionchur ón luamhán stiúrtha"
    },
    "JOY_AXIS" : {
       "description" : "Regarding joystick",
@@ -721,7 +721,7 @@
    },
    "LIVE_ANIMALS" : {
       "description" : "",
-      "message" : "Live Animals"
+      "message" : "Ainmhithe Beo"
    },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
@@ -769,19 +769,19 @@
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotate View Down"
+      "message" : "Rothlaigh an Radharc síos"
    },
    "MAP_VIEW_ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate View Left"
+      "message" : "Rothlaigh an Radharc ar clé"
    },
    "MAP_VIEW_ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate View Right"
+      "message" : "Rothlaigh an Radharc ar dheis"
    },
    "MAP_VIEW_ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate View Up"
+      "message" : "Rothlaigh an Radharc suas"
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
       "description" : "",
@@ -825,7 +825,7 @@
    },
    "MASSIVE" : {
       "description" : "",
-      "message" : "Massive"
+      "message" : "Ollmhór"
    },
    "MASS_N_TONNES" : {
       "description" : "",
@@ -961,7 +961,7 @@
    },
    "NAVIGATION_STAR_MAPS" : {
       "description" : "",
-      "message" : "Navigation and star maps"
+      "message" : "Loingseoireacht agus réaltatlais"
    },
    "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
       "description" : "",
@@ -993,19 +993,19 @@
    },
    "NO_ESTABLISHED_ORDER" : {
       "description" : "",
-      "message" : "No established order"
+      "message" : "Gan ord réamhshocraithe"
    },
    "NO_HYPERDRIVE" : {
       "description" : "",
-      "message" : "No hyperdrive"
+      "message" : "Gan hipirthiomáint"
    },
    "NO_REGISTERED_INHABITANTS" : {
       "description" : "",
-      "message" : "No registered inhabitants"
+      "message" : "Níl aon áitritheoirí cláraithe ann"
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
-      "message" : "Ship Computer: No target selected"
+      "message" : "Ríomhaire na Loinge: Níl aon sprioc roghnaithe"
    },
    "NUMBER_DAYS" : {
       "description" : "",
@@ -1061,11 +1061,11 @@
    },
    "N_EARTH_DAYS" : {
       "description" : "",
-      "message" : "%days{f.1} earth days"
+      "message" : "%days{f.1} lá domhanda"
    },
    "N_WHATEVER_MASSES" : {
       "description" : "",
-      "message" : "%mass{f.3} %units masses"
+      "message" : "%mass{f.3} %units mais"
    },
    "N_WHATEVER_RADII" : {
       "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
@@ -1077,7 +1077,7 @@
    },
    "O2_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Oxygen atmosphere\""
+      "message" : "\" Atmaisféar ocsaigine\""
    },
    "OCEANICWORLD" : {
       "description" : "",
@@ -1113,7 +1113,7 @@
    },
    "PAY_FINE_REMOTELY" : {
       "description" : "",
-      "message" : "Pay fine by remote transfer (%amount)"
+      "message" : "Íos fíneáil trí chianaistriú airgid (%amount)"
    },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
@@ -1121,19 +1121,19 @@
    },
    "PIONEER" : {
       "description" : "",
-      "message" : "PIONEER"
+      "message" : "CEANNRÓDAÍ"
    },
    "PITCH" : {
       "description" : "",
-      "message" : "Pitch"
+      "message" : "Bocáil"
    },
    "PITCH_DOWN" : {
       "description" : "",
-      "message" : "Pitch down"
+      "message" : "Bocáil síos"
    },
    "PITCH_UP" : {
       "description" : "",
-      "message" : "Pitch up"
+      "message" : "Bocáil suas"
    },
    "PLANETARY_INFO" : {
       "description" : "",
@@ -1193,7 +1193,7 @@
    },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
-      "message" : "Quadruple system"
+      "message" : "Córas ceathrúil"
    },
    "RADAR_CONTROL" : {
       "description" : "",
@@ -1237,19 +1237,19 @@
    },
    "ROLL" : {
       "description" : "",
-      "message" : "Roll"
+      "message" : "Iomlasc"
    },
    "ROLL_LEFT" : {
       "description" : "",
-      "message" : "Roll left"
+      "message" : "Iomlasc ar chlé"
    },
    "ROLL_RIGHT" : {
       "description" : "",
-      "message" : "Roll right"
+      "message" : "Iomlasc ar dheis"
    },
    "ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotate Down"
+      "message" : "Rothlaigh Síos"
    },
    "ROTATE_LEFT" : {
       "description" : "",
@@ -1257,11 +1257,11 @@
    },
    "ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate Right"
+      "message" : "Rothlaigh ar deiseal"
    },
    "ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate Up"
+      "message" : "Rothlaigh Suas"
    },
    "ROTATIONAL_PERIOD" : {
       "description" : "",
@@ -1269,11 +1269,11 @@
    },
    "ROTATION_DAMPING_OFF" : {
       "description" : "",
-      "message" : "Rotation damping off"
+      "message" : "Maolú rothlaithe: múchta"
    },
    "ROTATION_DAMPING_ON" : {
       "description" : "",
-      "message" : "Rotation damping on"
+      "message" : "Maolú rothlaithe: ar siúl"
    },
    "RUBBISH" : {
       "description" : "",
@@ -1373,7 +1373,7 @@
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "Ship information"
+      "message" : "Eolas faoin long"
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
@@ -1433,7 +1433,7 @@
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
-      "message" : "Speed control mode"
+      "message" : "Mód rialaithe luais"
    },
    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
       "description" : "",
@@ -1441,7 +1441,7 @@
    },
    "STARPORT" : {
       "description" : "",
-      "message" : "Starport"
+      "message" : "Spásphort"
    },
    "STARPORTS" : {
       "description" : "",
@@ -1449,7 +1449,7 @@
    },
    "STAR_A" : {
       "description" : "",
-      "message" : "Type 'A' hot white star"
+      "message" : "Réalta the bhán de chineál 'A'"
    },
    "STAR_AF_GIANT" : {
       "description" : "",
@@ -1465,7 +1465,7 @@
    },
    "STAR_B" : {
       "description" : "",
-      "message" : "Bright type 'B' blue star"
+      "message" : "Réalta gheal ghorm de chineál 'B'"
    },
    "STAR_B_GIANT" : {
       "description" : "",
@@ -1485,11 +1485,11 @@
    },
    "STAR_F" : {
       "description" : "",
-      "message" : "Type 'F' white star"
+      "message" : "Réalta bhán de chineál 'F'"
    },
    "STAR_G" : {
       "description" : "",
-      "message" : "Type 'G' yellow star"
+      "message" : "Réalta bhuí de chineál 'G'"
    },
    "STAR_G_GIANT" : {
       "description" : "",
@@ -1505,11 +1505,11 @@
    },
    "STAR_IM_BH" : {
       "description" : "",
-      "message" : "An intermediate-mass black hole"
+      "message" : "Dúpholl measartha trom"
    },
    "STAR_K" : {
       "description" : "",
-      "message" : "Type 'K' orange star"
+      "message" : "Réalta oráiste de chineál 'K'"
    },
    "STAR_K_GIANT" : {
       "description" : "",
@@ -1525,7 +1525,7 @@
    },
    "STAR_M" : {
       "description" : "",
-      "message" : "Type 'M' red star"
+      "message" : "Réalta dhearg de chineál 'M'"
    },
    "STAR_M_GIANT" : {
       "description" : "",
@@ -1545,7 +1545,7 @@
    },
    "STAR_O" : {
       "description" : "",
-      "message" : "Hot, massive type 'O' star"
+      "message" : "Réalta ollmhór te de chineál 'O'"
    },
    "STAR_O_GIANT" : {
       "description" : "",
@@ -1561,7 +1561,7 @@
    },
    "STAR_O_WF" : {
       "description" : "",
-      "message" : "Wolf-Rayet star - Imminent collapse"
+      "message" : "Réalta Wolf-Rayet - i ngarbhaol a himphléasctha"
    },
    "STAR_SM_BH" : {
       "description" : "",
@@ -1609,7 +1609,7 @@
    },
    "SYSTEM_TYPE" : {
       "description" : "",
-      "message" : "System type:"
+      "message" : "Cineál an réaltchórais:"
    },
    "S_ATMOSPHERE" : {
       "description" : "",
@@ -1681,7 +1681,7 @@
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
-      "message" : "Toggle HUD mode"
+      "message" : "Scoránaigh an mód HUD"
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
@@ -1713,7 +1713,7 @@
    },
    "UNDOCKING" : {
       "description" : "Flight state of ship when leaving station",
-      "message" : "Undocking"
+      "message" : "Díghlasáil"
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
@@ -1721,7 +1721,7 @@
    },
    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
       "description" : "",
-      "message" : "Unexplored system. System view unavailable."
+      "message" : "Réaltchóras gan taiscéaladh. Níl an radharc córais ar fáil."
    },
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
@@ -1793,7 +1793,7 @@
    },
    "VAST_STRIP_MINE" : {
       "description" : "",
-      "message" : "Vast strip-mining colony."
+      "message" : "Coilíneacht ollmhór stiallmhianadóireachta."
    },
    "VERY_DENSE" : {
       "description" : "",
@@ -1829,7 +1829,7 @@
    },
    "WHEELS_ARE_UP" : {
       "description" : "",
-      "message" : "Wheels are up"
+      "message" : "Tá na rothaí suas"
    },
    "WHITE_DWARF" : {
       "description" : "",
@@ -1857,11 +1857,11 @@
    },
    "YAW_LEFT" : {
       "description" : "",
-      "message" : "Yaw left"
+      "message" : "Luascáil ar clé"
    },
    "YAW_RIGHT" : {
       "description" : "",
-      "message" : "Yaw right"
+      "message" : "Luascáil ar dheis"
    },
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
@@ -1881,6 +1881,6 @@
    },
    "ZOOM_OUT" : {
       "description" : "",
-      "message" : "Zoom out"
+      "message" : "Zúmáil amach"
    }
 }
