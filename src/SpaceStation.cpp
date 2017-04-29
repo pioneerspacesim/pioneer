@@ -385,9 +385,9 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			if (m_shipDocking[i].ship == s) { port = i; break; }
 		}
 		if (port == -1) {
-			if (IsGroundStation())
+			if (IsGroundStation()) {
 				return DoShipDamage(s, flags, relVel);					// no permission
-			else return false;
+			} else return false;
 		}
 		if (IsPortLocked(port)) {
 			return DoShipDamage(s, flags, relVel);
@@ -433,7 +433,9 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			s->SetDockedWith(this, port);				// bounces back to SS::SetDocked()
 			LuaEvent::Queue("onShipDocked", s, this);
 		}
-		return DoShipDamage(s, flags, relVel);
+		// If this is reached, then you have permission
+		// to dock and a collision with docking surface
+		return false;
 	} else {
 		return true;
 	}
