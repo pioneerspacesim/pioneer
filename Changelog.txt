@@ -25,6 +25,7 @@ April 2017
      * Fix minor error in buildfiles (#3973)
      * Fix output message copy-paste error (#3984)
      * Fix Mac build (#3987)
+     * Fixup the modelview linker inputs (#3999)
 
 March 2017
    * New Features
