@@ -49,14 +49,14 @@
    },
    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
       "description" : "",
-      "message" : "Thank you. All donations are welcome."
+      "message" : "Go raibh maith agat. Fearaimid fáilte roimh aon síntiús deonach."
    },
    "WOW_THAT_WAS_VERY_GENEROUS" : {
       "description" : "",
-      "message" : "Wow! That was very generous."
+      "message" : "M'anam! Ba an-fhlaithiúil uait é sin."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You do not have enough money."
+      "message" : "Níl go leor airgid agat."
    }
 }

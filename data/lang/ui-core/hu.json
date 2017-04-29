@@ -477,7 +477,7 @@
    },
    "HUD_DELTA_V" : {
       "description" : "Tooltip: The remaining Δv.",
-      "message" : "Remaining Δv"
+      "message" : "Δv tartalék"
    },
    "HUD_DELTA_V_OF_MANEUVER_BURN" : {
       "description" : "Tooltip: The Δv for the maneuver burn.",
@@ -485,7 +485,7 @@
    },
    "HUD_DELTA_V_PERCENT" : {
       "description" : "Tooltip: The remaining Δv in percent.",
-      "message" : "Remaining Δv"
+      "message" : "Δv tartalék"
    },
    "HUD_DISTANCE_TO_SURFACE_OF_FRAME" : {
       "description" : "Tooltip: Distance to the surface of the frame of reference.",
@@ -505,31 +505,31 @@
    },
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
-      "message" : "Away from the current frame"
+      "message" : "A jelenlegi referenciaobjektumtól \"el\" vektor"
    },
    "HUD_INDICATOR_FRAME_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current frame.",
-      "message" : "Prograde relative to current frame of reference"
+      "message" : "Prográd a referenciaobjektumhoz viszonyítva"
    },
    "HUD_INDICATOR_FRAME_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current frame.",
-      "message" : "Retrograde relative to current frame of reference"
+      "message" : "Retrográd a navigációs célhoz viszonyítva"
    },
    "HUD_INDICATOR_MANEUVER_PROGRADE" : {
       "description" : "Indicator: The prograde direction for the maneuver burn.",
-      "message" : "Prograde for maneuver burn"
+      "message" : "Manőver prográd vektor"
    },
    "HUD_INDICATOR_NAV_TARGET_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current navigational target.",
-      "message" : "Prograde relative to current navigational target"
+      "message" : "Prográd a navigációs célhoz viszonyítva"
    },
    "HUD_INDICATOR_NAV_TARGET_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current navigational target.",
-      "message" : "Retrograde relative to current navigational target"
+      "message" : "Retrográd a referenciaobjektumhoz viszonyítva"
    },
    "HUD_RADAR_DISTANCE" : {
       "description" : "Tooltip: Current distance of the radar.",
-      "message" : "Active radar distance"
+      "message" : "Aktív radar hatótáv"
    },
    "HUD_SHOW_COMBAT_TARGET" : {
       "description" : "Tooltip: Show the current combat target.",

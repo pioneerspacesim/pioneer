@@ -1,94 +1,94 @@
 {
    "ASK_CANDIDATE_TO_SIT_A_TEST" : {
       "description" : "",
-      "message" : "Ask candidate to sit a test"
+      "message" : "Cuir an t-iarrthóir faoi scrúdú"
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
+      "message" : "Ainm: {name}\nTaithí: {experience}\nTuarastal iarrata: {wage} sa tseachtain\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
-      "message" : "{potentialCrewMember} ({wage}/wk)"
+      "message" : "{potentialCrewMember} ({wage}/seachtain)"
    },
    "CREWTESTRESULTSBB" : {
       "description" : "",
-      "message" : "Examination results:\n\nGeneral crew competence: {general}%\nEngineering and repair: {engineering}%\nPiloting and spaceflight: {piloting}%\nNavigation and plotting: {navigation}%\nSensors and defence: {sensors}%\nOverall exam score: {overall}%"
+      "message" : "Torthaí scrúdaithe:\n\nÉifeachtacht ghinearálta na foirne: {general}%\nInnealtóireacht agus deisiú: {engineering}%\nPíolótaíocht agus spáseitilt: {piloting}%\nLoingseoireacht agus beartú cúrsaí: {navigation}%\nBraiteoirí agus cosaint: {sensors}%\nScór iomlán: {overall}%"
    },
    "CREW_FOR_HIRE" : {
       "description" : "",
-      "message" : "Crew for hire"
+      "message" : "Foireann ar fáil"
    },
    "GO_BACK" : {
       "description" : "",
-      "message" : "Go back"
+      "message" : "Téigh ar ais"
    },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
-      "message" : "I'm sorry, I'm not prepared to go any lower."
+      "message" : "Tá brón orm, ach nílim sásta dul níos ísle."
    },
    "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
       "description" : "",
-      "message" : "I'm sorry, your offer isn't attractive to me."
+      "message" : "Tá brón orm, ach níl do thairiscint sách tarraingteach dom."
    },
    "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
       "description" : "",
-      "message" : "Make offer of position on ship for stated amount"
+      "message" : "Déan tairiscint fostaíochta ar bord loinge ar an tuarastal luaite"
    },
    "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
       "description" : "",
-      "message" : "Minimal time served aboard ship"
+      "message" : "Fíorbheagán ama caite ar bord loinge"
    },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
-      "message" : "Sorry, no candidates are currently seeking employment at {station}"
+      "message" : "Ár leithscéal. Níl éinne ag lorg fostaíochta ag {station} faoi láthair"
    },
    "NO_EXPERIENCE" : {
       "description" : "",
-      "message" : "No experience"
+      "message" : "Gan taithí ar bith"
    },
    "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
       "description" : "",
-      "message" : "OK, I suppose that's all right."
+      "message" : "Ceart go leor, is dócha go bhfuil sé sin ceart."
    },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
-      "message" : "Potential crew members are registered as seeking employment at {station}:"
+      "message" : "Chláraigh daoine a d'fhéadfadh bheith ina mball foirne leis an ngníomhaireacht fostaíochta ag {station}:"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",
-      "message" : "Simulator training only"
+      "message" : "Traenáil in ionsamhlóir amháin"
    },
    "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
       "description" : "",
-      "message" : "Some experience in controlled environments"
+      "message" : "Roinnt taithí i dtimpeallachtaí teoranta"
    },
    "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
       "description" : "",
-      "message" : "Suggest new weekly wage of {newAmount}"
+      "message" : "Mol tuarastal seachtainiúil nua: {newAmount}"
    },
    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
       "description" : "",
-      "message" : "Thanks, I'll get settled on board immediately."
+      "message" : "Go raibh maith agat. Socróidh mé mé féin ar bord láithreach."
    },
    "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
       "description" : "",
-      "message" : "That's extremely generous of you!"
+      "message" : "Ba an-fhlaithiúil uait é sin!"
    },
    "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
       "description" : "",
-      "message" : "That certainly makes this offer look better!"
+      "message" : "Cuireann sin cuma níos fearr ar an tairiscint seo gan dabht!"
    },
    "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
       "description" : "",
-      "message" : "There doesn't seem to be space for me on board!"
+      "message" : "Dealraíonn sé nach bhfuil spás dom ar bord!"
    },
    "TIME_SERVED_CREW_MEMBER" : {
       "description" : "",
-      "message" : "Time served crew member"
+      "message" : "Tréimhse caite mar bhall foirne"
    },
    "VETERAN_TIME_SERVED_CREW_MEMBER" : {
       "description" : "",
-      "message" : "Veteran, time served crew member"
+      "message" : "Seanchleachta, tréimhse caite mar bhall foirne"
    }
 }

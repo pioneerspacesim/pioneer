@@ -501,11 +501,11 @@
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-      "message" : "Cumail ais-cheumach"
+      "message" : "Cum ceum air air"
    },
    "HEADING_LOCK_FORWARD" : {
       "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-      "message" : "Cumail air adhart"
+      "message" : "Cum ceum air adhart"
    },
    "HEADING_LOCK_KILLROT" : {
       "description" : "",
@@ -1161,7 +1161,7 @@
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "For system orbit view",
-      "message" : "Delta-v air adhart. Briog gus a shuidheachadh air neoni."
+      "message" : "Delta-v ceum air adhart. Briog gus a shuidheachadh air neoni."
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "For system orbit view",

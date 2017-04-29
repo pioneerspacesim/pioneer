@@ -441,119 +441,119 @@
    },
    "HUD_2D_RADAR" : {
       "description" : "Popup text: the name of the azimuthal equidistant projection radar",
-      "message" : "2D azimuthal equidistant projection"
+      "message" : "Tilg-shealladh co-astarail azimuthach 2D"
    },
    "HUD_3D_RADAR" : {
       "description" : "Popup text: the name of the planar projection radar (traditional frontier-style)",
-      "message" : "3D planar projection"
+      "message" : "Tilg-shealladh plèanach 3D"
    },
    "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
       "description" : "Tooltip: The braking distance using the main thrusters.",
-      "message" : "The braking distance using the main thrusters"
+      "message" : "Astar brèigidh a' cleachdadh nam prìomh-phutairean"
    },
    "HUD_CURRENT_COMBAT_TARGET" : {
       "description" : "Tooltip: The current combat target.",
-      "message" : "The current combat target"
+      "message" : "Amas làithreach na còmhraige"
    },
    "HUD_CURRENT_FRAME" : {
       "description" : "Tooltip: The current frame of reference.",
-      "message" : "The current frame of reference"
+      "message" : "Am frèam-lorgaidh làithreach"
    },
    "HUD_CURRENT_HEADING" : {
       "description" : "Tooltip: the current heading.",
-      "message" : "The current heading"
+      "message" : "A' chomhair làithreach"
    },
    "HUD_CURRENT_NAV_TARGET" : {
       "description" : "Tooltip: The current navigational target.",
-      "message" : "The current navigational target"
+      "message" : "Amas làithreach na seòladaireachd"
    },
    "HUD_CURRENT_PITCH" : {
       "description" : "Tooltip: the current pitch.",
-      "message" : "The current pitch"
+      "message" : "A' phids làithreach"
    },
    "HUD_CURRENT_ROLL" : {
       "description" : "Tooltip: the current roll.",
-      "message" : "The current roll"
+      "message" : "An roiligeadh làithreach"
    },
    "HUD_DELTA_V" : {
       "description" : "Tooltip: The remaining Δv.",
-      "message" : "Remaining Δv"
+      "message" : "Δv air fhàgail"
    },
    "HUD_DELTA_V_OF_MANEUVER_BURN" : {
       "description" : "Tooltip: The Δv for the maneuver burn.",
-      "message" : "The Δv for the maneuver burn"
+      "message" : "Δv airson an losgaidh-obrachaidh"
    },
    "HUD_DELTA_V_PERCENT" : {
       "description" : "Tooltip: The remaining Δv in percent.",
-      "message" : "Remaining Δv"
+      "message" : "Δv air fhàgail"
    },
    "HUD_DISTANCE_TO_SURFACE_OF_FRAME" : {
       "description" : "Tooltip: Distance to the surface of the frame of reference.",
-      "message" : "Distance to the surface of the frame of reference"
+      "message" : "An t-astar gu uachdar an fhrèam-lorgaidh"
    },
    "HUD_DISTANCE_TO_SURFACE_OF_TARGET" : {
       "description" : "Tooltip: Distance to the surface of the target.",
-      "message" : "Distance to the surface of the target"
+      "message" : "An t-astar gu uachdar an amais"
    },
    "HUD_DURATION_OF_MANEUVER_BURN" : {
       "description" : "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
-      "message" : "The approximate duration of the maneuver burn with main thrusters"
+      "message" : "An ùine thuaireamach a bheir an losgadh-obrachaidh leis na prìomh-phutairean"
    },
    "HUD_DURATION_UNTIL_MANEUVER_BURN" : {
       "description" : "Tooltip: The duration until the middle of the maneuver burn.",
-      "message" : "The duration until the middle of the maneuver burn"
+      "message" : "An ùine gu meadhan an losgaidh-obrachaidh"
    },
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
-      "message" : "Away from the current frame"
+      "message" : "Air falbh on fhrèam làithreach"
    },
    "HUD_INDICATOR_FRAME_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current frame.",
-      "message" : "Prograde relative to current frame of reference"
+      "message" : "Gabh ceum air adhart gu dàimheil ris an fhrèam-lorgaidh làithreach"
    },
    "HUD_INDICATOR_FRAME_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current frame.",
-      "message" : "Retrograde relative to current frame of reference"
+      "message" : "Gabh ceum air ais gu dàimheil ris an fhrèam-lorgaidh làithreach"
    },
    "HUD_INDICATOR_MANEUVER_PROGRADE" : {
       "description" : "Indicator: The prograde direction for the maneuver burn.",
-      "message" : "Prograde for maneuver burn"
+      "message" : "Gabh ceum air adhart airson losgadh-obrachaidh"
    },
    "HUD_INDICATOR_NAV_TARGET_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current navigational target.",
-      "message" : "Prograde relative to current navigational target"
+      "message" : "Gabh ceum air adhart gu dàimheil ri amas làithreach na seòladaireachd"
    },
    "HUD_INDICATOR_NAV_TARGET_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current navigational target.",
-      "message" : "Retrograde relative to current navigational target"
+      "message" : "Gabh ceum air ais gu dàimheil ri amas làithreach na seòladaireachd"
    },
    "HUD_RADAR_DISTANCE" : {
       "description" : "Tooltip: Current distance of the radar.",
-      "message" : "Active radar distance"
+      "message" : "Rainse ghnìomhach an rèideir"
    },
    "HUD_SHOW_COMBAT_TARGET" : {
       "description" : "Tooltip: Show the current combat target.",
-      "message" : "Show the current combat target"
+      "message" : "Seall amas làithreach na còmhraige"
    },
    "HUD_SHOW_FRAME" : {
       "description" : "Tooltip: Show the current frame of reference.",
-      "message" : "Show the current frame of reference"
+      "message" : "Seall am frèam-lorgaidh làithreach"
    },
    "HUD_SHOW_NAV_TARGET" : {
       "description" : "Tooltip: Show current navigational target.",
-      "message" : "Show the current navigational target"
+      "message" : "Seall amas làithreach na seòladaireachd"
    },
    "HUD_SPEED_OF_APPROACH_TO_FRAME" : {
       "description" : "Tooltip: The speed of approach towards the frame of reference.",
-      "message" : "The speed of approach towards the frame of reference"
+      "message" : "Luaths an teannaidh an comhair an fhrèam-lorgaidh"
    },
    "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
       "description" : "Tooltip: The speed of approach towards the target.",
-      "message" : "The speed of approach towards the target"
+      "message" : "Luaths an teannaidh dhan amas"
    },
    "HUD_SPEED_RELATIVE_TO_TARGET" : {
       "description" : "Tooltip: The speed relative to the target.",
-      "message" : "The speed relative to the target"
+      "message" : "An luaths dàimheil ris an amas"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",

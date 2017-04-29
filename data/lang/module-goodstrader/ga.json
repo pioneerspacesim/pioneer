@@ -1,58 +1,58 @@
 {
    "GOODS_TRADER_0" : {
       "description" : "",
-      "message" : "Honest {name}'s Goods Emporium"
+      "message" : "Ollmhargadh {name} cóir"
    },
    "GOODS_TRADER_1" : {
       "description" : "",
-      "message" : "{name}'s Trading House"
+      "message" : "Teach trádála {name}"
    },
    "GOODS_TRADER_2" : {
       "description" : "",
-      "message" : "{name}'s Warehouse"
+      "message" : "Trádstóras {name}"
    },
    "GOODS_TRADER_3" : {
       "description" : "",
-      "message" : "{name}'s Goods Exchange"
+      "message" : "Malartán {name}"
    },
    "GOODS_TRADER_4" : {
       "description" : "",
-      "message" : "{name} Holdings"
+      "message" : "Ollsiopa {name}"
    },
    "GOODS_TRADER_5" : {
       "description" : "",
-      "message" : "{name} & Sons"
+      "message" : "Tigh {name}"
    },
    "SLOGAN_0" : {
       "description" : "",
-      "message" : "We deal in what others don't."
+      "message" : "Ag trádáil na rudaí nach bhfuil ag éinne eile."
    },
    "SLOGAN_1" : {
       "description" : "",
-      "message" : "A truly free market."
+      "message" : "Fíor-shaormhargadh."
    },
    "SLOGAN_2" : {
       "description" : "",
-      "message" : "Bringing the best unconventional goods to you!"
+      "message" : "Na hearraí as an ngnáth is fearr!"
    },
    "SLOGAN_3" : {
       "description" : "",
-      "message" : "We believe in a market without restrictions."
+      "message" : "Creidimid i margadh gan srian."
    },
    "SLOGAN_4" : {
       "description" : "",
-      "message" : "The unregulated market, for your freedom."
+      "message" : "An margadh neamhrialaithe, ar son do shaoirse."
    },
    "SLOGAN_5" : {
       "description" : "",
-      "message" : "The trustworthy dealer."
+      "message" : "An mangaire muiníneach."
    },
    "SLOGAN_6" : {
       "description" : "",
-      "message" : "Allways a special price just for you."
+      "message" : "Praghas speisialta duitse i gcónaí."
    },
    "WELCOME_TO" : {
       "description" : "",
-      "message" : "Welcome to "
+      "message" : "Fáilte go dtí"
    }
 }
