@@ -65,7 +65,7 @@
    },
    "ENTITY_FAMILY_BUSINESS_7" : {
       "description" : "",
-      "message" : "{name} & {name}"
+      "message" : "{name} ⁊ {name}"
    },
    "ENTITY_FAMILY_BUSINESS_8" : {
       "description" : "",
@@ -637,7 +637,7 @@
    },
    "SEARCH_RESCUE" : {
       "description" : "",
-      "message" : "Search & Rescue"
+      "message" : "Cuardach ⁊ Tarrtháil"
    },
    "SET_AS_TARGET" : {
       "description" : "",

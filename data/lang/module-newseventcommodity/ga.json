@@ -1,7 +1,7 @@
 {
    "FLAVOUR_0_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: System wide plague in the {system} system. Death toll rises."
+      "message" : "NUACHT {date}: Plá ar fud an chórais {system}. Líon na marbh ag méadú."
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
@@ -17,11 +17,11 @@
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mysterious disappearance of cattle in the {system} system."
+      "message" : "NUACHT {date}: Táin Bó Idir-Réaltrach? Eallach ar iarraidh i réaltchóras {system}."
    },
    "FLAVOUR_11_NEWSBODY" : {
       "description" : "Imply high demand of ANIMAL_MEAT.",
-      "message" : "As if by a stroke of a higher power, the farmers in the {system} system ({sectorx}, {sectory}, {sectorz}) woke up to empty barns. \"It's the cattle theft of the century\", police reports."
+      "message" : "Mar a bheadh lámh Dé san obair, dhúisigh feirmeoirí i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) go bhfuair sciobóil fholmha. \"An fuadach eallaigh is mó ó Tháin Bó Cúailnge\", de réir thuairisc na ngardaí."
    },
    "FLAVOUR_12_HEADLINE" : {
       "description" : "",
@@ -49,7 +49,7 @@
    },
    "FLAVOUR_15_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police raids crime syndicate in the {system} system, key leaders arrested."
+      "message" : "NUACHT {date}: Rinne na gardaí ruathar ar shindeacáit choiriúil i réaltchóras {system}; gabhadh ceannairí tábhachtacha."
    },
    "FLAVOUR_15_NEWSBODY" : {
       "description" : "imply high demand of NARCOTICS.",
@@ -73,7 +73,7 @@
    },
    "FLAVOUR_18_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Economic reform in the {system} system a great success."
+      "message" : "NUACHT {date}: An-rath go deo ar leasú geilleagrach i réaltchóras {system}."
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
@@ -81,7 +81,7 @@
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: It is raining gold in the {system} system."
+      "message" : "NUACHT {date}: Ór ina shlaoda i réaltchóras {system}."
    },
    "FLAVOUR_19_NEWSBODY" : {
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
@@ -89,11 +89,11 @@
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Conflict escalates in {system} system."
+      "message" : "NUACHT {date}: Coimhlint ag éirí níos measa i réaltchóras {system}."
    },
    "FLAVOUR_1_NEWSBODY" : {
       "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
-      "message" : "The long standing conflict in the {system} system ({sectorx}, {sectory}, {sectorz}) escalates as the armies engage in full open combat."
+      "message" : "Tá coimhlint sheanbhunaithe i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) ag éirí níos measa, agus an dá thaobh i mbun comhraic oscailte."
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Grand opening of a new factory in the {system} system."
+      "message" : "NUACHT {date}: Oscailt oifigiúil mhonarcha nua i réaltchóras {system}."
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
@@ -129,7 +129,7 @@
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Drought in {system}. Crop ruined."
+      "message" : "NUACHT {date}: Triomach i réaltchóras {system}. Milleadh an fómhar."
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
@@ -153,7 +153,7 @@
    },
    "FLAVOUR_5_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Slaves rebel in the {system} system. Agricultural industry comes to a halt."
+      "message" : "NUACHT {date}: Sclábhaithe ag éirí amach i réaltchóras {system}. Tá an tóin ag titim as an tionscal talmhaíochta."
    },
    "FLAVOUR_5_NEWSBODY" : {
       "description" : "Imply high demand of SLAVES.",
@@ -161,11 +161,11 @@
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
-      "message" : "NEWS {date}: Joyous Festival of the Quibble in the {system} system."
+      "message" : "NUACHT {date}: Féile Gheal na gCuibeal i réaltchóras {system}."
    },
    "FLAVOUR_6_NEWSBODY" : {
       "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
-      "message" : "The drunken celebrations in the {system} system ({sectorx}, {sectory}, {sectorz}) will be ongoing, as they honour the furry little creature."
+      "message" : "Beidh pléaráca agus ragairne ar siúl i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) in ómós an chréatúir bhig chlúmhaigh seo."
    },
    "FLAVOUR_7_HEADLINE" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "FLAVOUR_8_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mining accident reported from the {system} system."
+      "message" : "NUACHT {date}: Tuairiscítear gur tharla timpiste mianadóireachta i réaltchóras {system}."
    },
    "FLAVOUR_8_NEWSBODY" : {
       "description" : "Imply high demand of MINING_MACHINERY.",
@@ -193,11 +193,11 @@
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
-      "message" : "Welcome trader! We will give you a good price for your {cargo}."
+      "message" : "Fáilte romhat a thrádálaí! Tabharfaimid praghas maith duit ar do {cargo}."
    },
    "GRATEFUL_GREETING_1" : {
       "description" : "",
-      "message" : "Your arrival is most welcome, as is your shipment of {cargo}!"
+      "message" : "Tá an-fháilte romhat, agus roimh do lasta {cargo} freisin!"
    },
    "GRATEFUL_GREETING_2" : {
       "description" : "",
@@ -205,15 +205,15 @@
    },
    "GRATEFUL_GREETING_3" : {
       "description" : "",
-      "message" : "Welcome! Finally some {cargo}."
+      "message" : "Fáilte! Lasta {cargo} faoi dheireadh thiar."
    },
    "GRATEFUL_GREETING_4" : {
       "description" : "",
-      "message" : "How we've longed for some {cargo}."
+      "message" : "Bhíomar ag tnúth go mór le lasta {cargo}."
    },
    "GRATEFUL_GREETING_5" : {
       "description" : "",
-      "message" : "Welcome! Your shipment of {cargo} will sell out fast here."
+      "message" : "Fáilte romhat! Díolaimid do lasta {cargo} go sciobtha anseo."
    },
    "NEWSPAPER_CIW" : {
       "description" : "",
@@ -273,22 +273,22 @@
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Fresh report from {newspaper}"
+      "message" : "An nuacht is déanaí ó {newspaper}"
    },
    "TITLE_1" : {
       "description" : "",
-      "message" : "News from {newspaper}"
+      "message" : "Nuacht ó {newspaper}"
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Report from {newspaper}"
+      "message" : "Tuairisc ó {newspaper}"
    },
    "TITLE_3" : {
       "description" : "",
-      "message" : "The latest from {newspaper}"
+      "message" : "Na scéalta nuachta ó {newspaper}"
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Notes from {newspaper}"
+      "message" : "Nótaí ó {newspaper}"
    }
 }

@@ -13,7 +13,7 @@
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "You may purchase fuel and dispose of {radioactives} here."
+      "message" : "Is féidir leat breosla a cheannach agus fáil réidh le {radioactives} anseo."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
-      "message" : "Welcome to {clubname}"
+      "message" : "Fáilte go dtí {clubname}"
    },
    "FLAVOUR_1_CLUBNAME" : {
       "description" : "Fuel club for the Federation faction",
@@ -65,7 +65,7 @@
    },
    "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "{fuel} at discount prices"
+      "message" : "{fuel} ar lacáiste"
    },
    "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",

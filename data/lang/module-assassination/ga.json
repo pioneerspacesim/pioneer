@@ -33,7 +33,7 @@
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this contract."
+      "message" : "Níor chuala mé riamh fútsa. Tá píolóta a bhfuil seantaithí aige ag teastáil uaim don chonradh seo."
    },
    "DENY_7" : {
       "description" : "",
@@ -129,7 +129,7 @@
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "RETIREMENT: Someone to retire {target}."
+      "message" : "LUATHSCOR: Ag lorg duine le {target} a chur ar luathscor."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",

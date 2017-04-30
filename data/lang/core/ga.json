@@ -177,7 +177,7 @@
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "Tá cead agat cheana. Lean ar aghaidh dtí bá nasctha %bay."
+      "message" : "Tá cead agat cheana. Lean ar aghaidh go dtí bá nasctha %bay."
    },
    "CLEARANCE_DENIED_NO_BAYS" : {
       "description" : "",
@@ -185,7 +185,7 @@
    },
    "CLEARANCE_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "Clearance granted. Proceed to docking bay %bay."
+      "message" : "Tugadh cead duit. Lean ar aghaidh go dtí bá nasctha %bay."
    },
    "CO2_ATMOSPHERE" : {
       "description" : "",
@@ -449,7 +449,7 @@
    },
    "GALAXY_SECTOR_VIEW" : {
       "description" : "",
-      "message" : "Galaxy sector view"
+      "message" : "Radharc rannóige réaltraí"
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
@@ -1141,7 +1141,7 @@
    },
    "PLANET_CONTAINING_LIQUID_WATER" : {
       "description" : "",
-      "message" : "\" planet containing liquid water\""
+      "message" : "\" pláinéad ar a bhfuil uisce leachtach\""
    },
    "PLANET_WITH_SOME_ICE" : {
       "description" : "",
@@ -1297,15 +1297,15 @@
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
-      "message" : "Sector coordinates:"
+      "message" : "Comhordanáidí na rannóige:"
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Sector Map View"
+      "message" : "Léarscáil na Rannóige"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
-      "message" : "Sector: %x,%y,%z"
+      "message" : "Rannóg: %x,%y,%z"
    },
    "SELECTED_SYSTEM" : {
       "description" : "",
@@ -1565,7 +1565,7 @@
    },
    "STAR_SM_BH" : {
       "description" : "",
-      "message" : "Our galactic anchor"
+      "message" : "Ár n-ancaire réaltrach"
    },
    "STAR_SYSTEM_INFORMATION" : {
       "description" : "",

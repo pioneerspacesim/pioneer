@@ -185,7 +185,7 @@
    },
    "FAILUREMSG_FLUFFY_1" : {
       "description" : "",
-      "message" : "You monster! You've waited too long for this delivery. All my fluffy pets are starved!"
+      "message" : "Marbhfháisc ort! D'fhan tú rófhada leis an seachadadh seo. Tá mo chuid peataí clúmhacha go léir marbh leis an ocras!"
    },
    "FURNITURE" : {
       "description" : "custom cargo",
@@ -613,7 +613,7 @@
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
-      "message" : "Will I be in any danger?"
+      "message" : "An mbeidh mé i mbaol?"
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP" : {
       "description" : "",

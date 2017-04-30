@@ -13,7 +13,7 @@
    },
    "DELIVERY" : {
       "description" : "",
-      "message" : "Delivery"
+      "message" : "Seachadadh"
    },
    "DENY_0" : {
       "description" : "",
@@ -41,7 +41,7 @@
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this delivery."
+      "message" : "Níor chuala mé riamh fútsa. Tá píolóta a bhfuil seantaithí aige ag teastáil uaim don seachadadh seo."
    },
    "DENY_7" : {
       "description" : "",
@@ -81,11 +81,11 @@
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "I'm frustrated by the late delivery of my package, and I refuse to pay you."
+      "message" : "Nílim sásta gur tháinig mo phacáiste chomh mall sin, agus diúltaím an costas a íoc."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Dia dhuit, is mise {name}. D'íocfainn {cash} as pacáiste a sheachadadh chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
@@ -97,7 +97,7 @@
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "URGENT. Fast ship needed to deliver a package to the {system} system."
+      "message" : "PRÁINNEACH: Long ghasta ag teastáil le pacáiste a sheachadadh chuig réaltchóras {system}."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Dia dhuit, is mise {name}. D'íocfainn {cash} as pacáiste a sheachadadh chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Dia dhuit, is mise {name}. D'íocfainn {cash} as pacáiste a sheachadadh chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
@@ -137,7 +137,7 @@
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "POSTAL SERVICE. We require a ship for the delivery run to {system} system."
+      "message" : "SEIRBHÍS PHOIST. Tá long ag teastáil uainn leis an bpost a sheachadadh chuig réaltchóras {system}."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
@@ -153,7 +153,7 @@
    },
    "FLAVOUR_4_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "We would be happy to pay you less money."
+      "message" : "Bheimis lánsásta níos lú airgid a thabhairt duit."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -213,11 +213,11 @@
    },
    "FLAVOUR_7_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Standard rates, we work with the market."
+      "message" : "Rátaí caighdeánacha, oibrímid leis an margadh."
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
-      "message" : "NEARBY DELIVERY. Require quick delivery of an item to {starport}."
+      "message" : "SEACHADADH ÁITIÚIL. Beart a sheachadadh chuig {starport} go tapaidh."
    },
    "FLAVOUR_8_FAILUREMSG" : {
       "description" : "",
@@ -233,11 +233,11 @@
    },
    "FLAVOUR_8_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "It's really urgent."
+      "message" : "Tá sé an-phráinneach."
    },
    "FLAVOUR_9_ADTEXT" : {
       "description" : "",
-      "message" : "PACKAGE DROP. Urgent dispatch of perishables to {starport}."
+      "message" : "COR PACÁISTE. Earraí somheata a sheachadadh chuig {starport} go práinneach."
    },
    "FLAVOUR_9_FAILUREMSG" : {
       "description" : "",
@@ -253,7 +253,7 @@
    },
    "FLAVOUR_9_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Our livelihood depends on it."
+      "message" : "Tá ár slí bheatha ag brath air."
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
@@ -269,7 +269,7 @@
    },
    "I_HIGHLY_DOUBT_IT" : {
       "description" : "",
-      "message" : "I highly doubt it."
+      "message" : "Tá an-amhras orm faoi."
    },
    "LY" : {
       "description" : "",
@@ -293,11 +293,11 @@
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
-      "message" : "You're working for {client}? That was a bad idea."
+      "message" : "Tá tú ag obair do {client}? Ba dhrochsmaoineamh é sin."
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
-      "message" : "Your cargo and your life, pilot!"
+      "message" : "Do lasta agus do bheo, a phíolóta!"
    },
    "PIRATE_TAUNTS_4" : {
       "description" : "",
@@ -317,7 +317,7 @@
    },
    "PIRATE_TAUNTS_8" : {
       "description" : "",
-      "message" : "You're not getting to {location} today!"
+      "message" : "Ní bhainfidh tú {location} amach inniu!"
    },
    "PIRATE_TAUNTS_9" : {
       "description" : "",
@@ -349,6 +349,6 @@
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
-      "message" : "Will I be in any danger?"
+      "message" : "An mbeidh mé i mbaol?"
    }
 }

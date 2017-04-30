@@ -85,7 +85,7 @@
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this journey."
+      "message" : "Níor chuala mé riamh fútsa. Tá píolóta a bhfuil seantaithí aige ag teastáil uaim don turas seo."
    },
    "DENY_7" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "FLAVOUR_0_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? We've waited enough - take us to the nearest station NOW!"
+      "message" : "Cá bhfuilimid? Táimid ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí muid ANOIS LÁITHREACH!"
    },
    "FLAVOUR_0_WHYSOMUCH" : {
       "description" : "",
@@ -133,7 +133,7 @@
    },
    "FLAVOUR_10_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage on a fast ship to {system} system."
+      "message" : "LONG AG TEASTÁIL: Iompar ar long ghasta go dtí réaltchóras {system}."
    },
    "FLAVOUR_10_DANGER" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "FLAVOUR_10_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name}. I want fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Paying {cash}."
+      "message" : "Is mise {name}. Tá iompar gasta go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil go géar uaim. Íocfaidh mé {cash} as."
    },
    "FLAVOUR_10_SUCCESSMSG" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "FLAVOUR_10_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
    },
    "FLAVOUR_10_WHYSOMUCH" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "FLAVOUR_11_ADTEXT" : {
       "description" : "",
-      "message" : "FAST SHIP: Passage on a fast ship to {system} system."
+      "message" : "LONG GHASTA: Iompar ar long ghasta go dtí réaltchóras {system}."
    },
    "FLAVOUR_11_DANGER" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "FLAVOUR_11_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}."
+      "message" : "Is mise {name}. Tá iompar gasta go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil go géar uaim. Íocfaidh mé {cash} as."
    },
    "FLAVOUR_11_SUCCESSMSG" : {
       "description" : "",
@@ -189,7 +189,7 @@
    },
    "FLAVOUR_11_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
    },
    "FLAVOUR_11_WHYSOMUCH" : {
       "description" : "",
@@ -197,7 +197,7 @@
    },
    "FLAVOUR_12_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP REQUIRED: Passage to {system} system."
+      "message" : "LONG AG TEASTÁIL: Iompar go dtí réaltchóras {system}."
    },
    "FLAVOUR_12_DANGER" : {
       "description" : "",
@@ -221,11 +221,11 @@
    },
    "FLAVOUR_12_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
    },
    "FLAVOUR_12_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I owe someone some money, and they're after me."
+      "message" : "Tá airgead ag duine éigin orm, agus tá sé ar mo thóir."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
@@ -253,7 +253,7 @@
    },
    "FLAVOUR_1_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? We've waited enough - take us to the nearest station NOW!"
+      "message" : "Cá bhfuilimid? Táimid ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí muid ANOIS LÁITHREACH!"
    },
    "FLAVOUR_1_WHYSOMUCH" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "FLAVOUR_2_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? We've waited enough - take us to the nearest station NOW!"
+      "message" : "Cá bhfuilimid? Táimid ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí muid ANOIS LÁITHREACH!"
    },
    "FLAVOUR_2_WHYSOMUCH" : {
       "description" : "",
@@ -293,7 +293,7 @@
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP REQUIRED: Passage to {system} system. Will pay {cash}."
+      "message" : "LONG AG TEASTÁIL: Iompar go dtí réaltchóras {system}. Íocfar {cash} as."
    },
    "FLAVOUR_3_DANGER" : {
       "description" : "",
@@ -309,7 +309,7 @@
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Dia dhuit, is mise {name}. Tá iompar go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil uaim. Íocfaidh mé {cash} as."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
@@ -317,7 +317,7 @@
    },
    "FLAVOUR_3_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
    },
    "FLAVOUR_3_WHYSOMUCH" : {
       "description" : "",
@@ -325,7 +325,7 @@
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage to {system} system. Will pay {cash}."
+      "message" : "LONG AG TEASTÁIL: Iompar go dtí réaltchóras {system}. Íocfar {cash} as."
    },
    "FLAVOUR_4_DANGER" : {
       "description" : "",
@@ -337,11 +337,11 @@
    },
    "FLAVOUR_4_HOWMANY" : {
       "description" : "",
-      "message" : "Just me."
+      "message" : "Mise amháin."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Dia dhuit, is mise {name}. Tá iompar go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil uaim. Íocfaidh mé {cash} as."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
@@ -349,7 +349,7 @@
    },
    "FLAVOUR_4_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
    },
    "FLAVOUR_4_WHYSOMUCH" : {
       "description" : "",
@@ -373,7 +373,7 @@
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Dia dhuit, is mise {name}. Tá iompar go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil uaim. Íocfaidh mé {cash} as."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
@@ -381,7 +381,7 @@
    },
    "FLAVOUR_5_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
    },
    "FLAVOUR_5_WHYSOMUCH" : {
       "description" : "",
@@ -389,7 +389,7 @@
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage to {system} system. Will pay {cash}."
+      "message" : "LONG AG TEASTÁIL: Iompar go dtí réaltchóras {system}. Íocfar {cash} as."
    },
    "FLAVOUR_6_DANGER" : {
       "description" : "",
@@ -405,7 +405,7 @@
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Dia dhuit, is mise {name}. Tá iompar go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil uaim. Íocfaidh mé {cash} as."
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
@@ -413,7 +413,7 @@
    },
    "FLAVOUR_6_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
    },
    "FLAVOUR_6_WHYSOMUCH" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Safe passage to {system} system. Will pay {cash}."
+      "message" : "LONG AG TEASTÁIL: Iompar slán sábháilte go dtí réaltchóras {system}. Íocfar {cash} as."
    },
    "FLAVOUR_7_DANGER" : {
       "description" : "",
@@ -437,7 +437,7 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, my name is {name} and I need safe passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Dia dhuit, is mise {name}. Tá iompar slán sábháilte go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil uaim. Íocfaidh mé {cash} as."
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
@@ -445,7 +445,7 @@
    },
    "FLAVOUR_7_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
    },
    "FLAVOUR_7_WHYSOMUCH" : {
       "description" : "",
@@ -453,7 +453,7 @@
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage on a fast ship to {system} system."
+      "message" : "LONG AG TEASTÁIL: Iompar ar long ghasta go dtí réaltchóras {system}."
    },
    "FLAVOUR_8_DANGER" : {
       "description" : "",
@@ -469,7 +469,7 @@
    },
    "FLAVOUR_8_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}."
+      "message" : "Is mise {name}. Tá iompar gasta go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil go géar uaim. Íocfaidh mé {cash} as."
    },
    "FLAVOUR_8_SUCCESSMSG" : {
       "description" : "",
@@ -477,7 +477,7 @@
    },
    "FLAVOUR_8_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
    },
    "FLAVOUR_8_WHYSOMUCH" : {
       "description" : "",
@@ -485,7 +485,7 @@
    },
    "FLAVOUR_9_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage on a fast ship to {system} system."
+      "message" : "LONG AG TEASTÁIL: Iompar ar long ghasta go dtí réaltchóras {system}."
    },
    "FLAVOUR_9_DANGER" : {
       "description" : "",
@@ -501,7 +501,7 @@
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}."
+      "message" : "Is mise {name}. Tá iompar gasta go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil go géar uaim. Íocfaidh mé {cash} as."
    },
    "FLAVOUR_9_SUCCESSMSG" : {
       "description" : "",
@@ -509,11 +509,11 @@
    },
    "FLAVOUR_9_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
    },
    "FLAVOUR_9_WHYSOMUCH" : {
       "description" : "",
-      "message" : "The Police want me to help them with their enquiries."
+      "message" : "Tá na Gardaí ag lorg cúnamh uaim lena bhfiosrú."
    },
    "FROM" : {
       "description" : "",
@@ -529,11 +529,11 @@
    },
    "HOW_MANY_OF_YOU_ARE_THERE" : {
       "description" : "",
-      "message" : "How many of you are there?"
+      "message" : "Cé mhéad duine a bheidh i do ghrúpa?"
    },
    "HOW_SOON_YOU_MUST_BE_THERE" : {
       "description" : "",
-      "message" : "How soon you must be there?"
+      "message" : "Cé chomh luath agus is gá daoibh a bheith ann?"
    },
    "I_MUST_BE_THERE_BEFORE" : {
       "description" : "",
@@ -585,7 +585,7 @@
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
-      "message" : "Will I be in any danger?"
+      "message" : "An mbeidh mé i mbaol?"
    },
    "WRONG_SYSTEM" : {
       "description" : "Shown if system name is right, but coordinates are wrong",
