@@ -101,7 +101,7 @@
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Passage for a small group to {system} system. Will pay {cash}."
+      "message" : "LONG AG TEASTÁIL: Iompar go dtí réaltchóras {system}. Íocfar {cash} as."
    },
    "FLAVOUR_0_DANGER" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Passage for a small group to {system} system. Will pay {cash}."
+      "message" : "LONG AG TEASTÁIL: Iompar go dtí réaltchóras {system}. Íocfar {cash} as."
    },
    "FLAVOUR_1_DANGER" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Passage for a small group to {system} system. Will pay {cash}."
+      "message" : "LONG AG TEASTÁIL: Iompar go dtí réaltchóras {system}. Íocfar {cash} as."
    },
    "FLAVOUR_2_DANGER" : {
       "description" : "",
