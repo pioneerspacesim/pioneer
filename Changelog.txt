@@ -27,6 +27,7 @@ April 2017
      * Fix Mac build (#3987)
      * Fixup the modelview linker inputs (#3999)
      * Fix sqrt exception (#4002)
+     * Avoid damaging ships when you have permission to dock (#3998)
 
 March 2017
    * New Features
