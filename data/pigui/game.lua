@@ -7,6 +7,7 @@ local Lang = import("Lang")
 local lc = Lang.GetResource("core");
 local lui = Lang.GetResource("ui-core");
 local utils = import("utils")
+local Event = import("Event")
 
 -- cache ui
 local pionillium = ui.fonts.pionillium
@@ -643,6 +644,12 @@ local function displayRadar()
 		display2DRadar(cntr, size)
 	end
 end
+
+Event.Register('onGameStart',	function()
+								 shouldDisplay2DRadar = false
+end)
+
+
 
 ui.registerHandler(
 	'game',
