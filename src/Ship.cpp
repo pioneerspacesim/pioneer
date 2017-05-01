@@ -1006,6 +1006,20 @@ void Ship::StaticUpdate(const float timeStep)
 	if (GetHullTemperature() > 1.0)
 		Explode();
 
+
+	if (m_flightState == FLYING) {
+		Body *astro = GetFrame()->GetBody();
+		if (astro && astro->IsType(Object::PLANET)) {
+			Planet *p = static_cast<Planet*>(astro);
+			double dist = GetPosition().Length();
+			double pressure, density;
+			p->GetAtmosphericState(dist, &pressure, &density);
+
+			if (pressure > m_type->atmosphericPressureLimit)
+				Explode();
+		}
+	}
+
 	UpdateAlertState();
 
 	/* FUEL SCOOPING!!!!!!!!! */
