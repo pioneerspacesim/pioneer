@@ -9,7 +9,7 @@
    },
    "COMMODITIES" : {
       "description" : "",
-      "message" : "Commodities"
+      "message" : "Tráchtearraí"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "CREW" : {
       "description" : "",
-      "message" : "Crew"
+      "message" : "Foireann"
    },
    "DEADLINE" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP CRASH LANDED on {planet}."
+      "message" : "THUIRLING AN LONG DE THUAIRT ar {planet}."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
@@ -181,11 +181,11 @@
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you, this is a great relief! We will transmit the money momentarily."
+      "message" : "Go raibh maith agat, is mór an faoiseamh é! Seolfaimid an t-airgead láithreach."
    },
    "FLAVOUR_1_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has boarded the ship."
+      "message" : "Chuaigh {unit} ar bord na loinge."
    },
    "FLAVOUR_1_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -193,15 +193,15 @@
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL en route to {starport}."
+      "message" : "NÍL AON BHREOSLA FÁGTHA sa long ar a slí chun {starport}."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "I can't believe you kept me waiting out here this long! Forget about your payment!"
+      "message" : "Ní chreidim gur choinnigh tú ag fanacht mé chomh fada sin! Ní bhfaighidh tú cianóg rua uaim!"
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "To receive full payment you are asked to deliver the fuel by {due}."
+      "message" : "Caithfidh tú an breosla a sheachadadh roimh {due} chun an íocaíocht iomlán a fháil."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -209,23 +209,23 @@
    },
    "FLAVOUR_2_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+      "message" : "Tá an long ag fanacht ag domhanleithead {lat} / domhanfhad {long} ar phláinéad {planet}."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you so much! I have transferred the full reward."
+      "message" : "Go raibh míle maith agat! D'aistrigh mé an méid iomlán."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transferred."
+      "message" : "Aistríodh {unit} tona breosla."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is requesting {unit} tons of {cargo}."
+      "message" : "Tá an píolóta ag iarraidh {unit} tona de {cargo}."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "MEDICAL EMERGENCY on ship close to {starport}."
+      "message" : "ÉIGEANDÁIL LEIGHIS ar long i ngar do {starport}."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "FLAVOUR_3_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship had to emergency land at the coordinates: {lat} / {long}. "
+      "message" : "Rinne an long tuirlingt éigeandála ag comhordanáidí {lat} / {long}."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
@@ -249,7 +249,7 @@
    },
    "FLAVOUR_3_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has left the ship."
+      "message" : "D'fhág {unit} an long."
    },
    "FLAVOUR_3_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -257,11 +257,11 @@
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL on {planet}."
+      "message" : "NÍL AON BHREOSLA FÁGTHA sa long ar {planet}."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "I will send someone else. Don't bother anymore."
+      "message" : "Seolfaidh mé duine éigin eile. Ná bac leis."
    },
    "FLAVOUR_4_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transferred."
+      "message" : "Aistríodh {unit} tona breosla."
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -289,15 +289,15 @@
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL close to {starport}."
+      "message" : "NÍL AON BHREOSLA FÁGTHA sa long i ngar do {planet}."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "People are just not dependable anymore."
+      "message" : "Ní féidir brath ar dhaoine a thuilleadh."
    },
    "FLAVOUR_5_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Please complete refueling by {due}."
+      "message" : "Ní mór duit an t-athbhreoslú a chríochnú roimh {due}."
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transferred."
+      "message" : "Aistríodh {unit} tona breosla."
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -321,15 +321,15 @@
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "VESSEL UNRESPONSIVE in the {system} system."
+      "message" : "GAN FREAGRA ó long i réaltchóras {system}."
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
-      "message" : "What a disaster! This is the death sentence to our poor colleagues!"
+      "message" : "Is millteanach an tubaiste é! Seo é breithiúnas báis ar ár gcomhghleacaithe bochta!"
    },
    "FLAVOUR_6_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "You have to be back by {due}."
+      "message" : "Ní mór duit filleadh roimh {due}."
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
@@ -341,11 +341,11 @@
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you! You can't imagine how relieved we are."
+      "message" : "Go raibh maith agat! Ní chreidfeá an faoiseamh a bhí orainn."
    },
    "FLAVOUR_6_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has boarded the ship."
+      "message" : "Chuaigh {unit} ar bord na loinge."
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -357,7 +357,7 @@
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
-      "message" : "Thank you very much, but you are too late!"
+      "message" : "Go raibh míle maith agat, ach tá tú ródhéanach!"
    },
    "FLAVOUR_7_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -377,7 +377,7 @@
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has transferred to the target ship."
+      "message" : "Aistríodh {unit} go dtí an long sprice."
    },
    "FLAVOUR_7_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -465,7 +465,7 @@
    },
    "PASSENGERS" : {
       "description" : "",
-      "message" : "Passengers"
+      "message" : "Paisinéirí"
    },
    "PAYMENT_LOCATION" : {
       "description" : "",
@@ -661,7 +661,7 @@
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
-      "message" : "Thank you so much. Your help is greatly appreciated."
+      "message" : "Go raibh míle maith agat. Is mór againn do chúnamh."
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",

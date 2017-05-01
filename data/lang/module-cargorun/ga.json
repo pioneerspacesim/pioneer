@@ -237,7 +237,7 @@
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
-      "message" : "How soon must it be delivered?"
+      "message" : "Cé chomh luath agus is gá dom é a sheachadadh?"
    },
    "INTROTEXT_1" : {
       "description" : "",
@@ -393,7 +393,7 @@
    },
    "RISK_2" : {
       "description" : "",
-      "message" : "Not any more than usual."
+      "message" : "Ní bheidh ach mar is gnáth."
    },
    "RISK_3" : {
       "description" : "",
@@ -609,7 +609,7 @@
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Why so much money?"
+      "message" : "Cén fáth a bhfuil an méid sin airgid i gceist?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",

@@ -53,7 +53,7 @@
    },
    "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
       "description" : "",
-      "message" : "Excellent. I will let the recipient know you are on your way."
+      "message" : "Ar fheabhas! Déarfaidh mé leis an bhfaighteoir go bhfuil tú ar an mbealach."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever over that delivery. I'm not willing to pay you."
+      "message" : "Do-ghlactha amach is amach! Shíl mé nach dtiocfadh an pacáiste riamh. Nílim sásta íoc as. "
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
@@ -73,11 +73,11 @@
    },
    "FLAVOUR_0_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "When a friend visited me she left behind some clothes and antique paper books. I'd like to have them returned to her."
+      "message" : "Nuair a thug cara cuairt orm, d'fhág sí éadaí agus roinnt leabhar páipéir ársa ina diaidh. Ba mhaith liom iad a thabhairt ar ais di."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED. Delivery of a package to the {system} system."
+      "message" : "CÚNAMH AG TEASTÁIL: Pacáiste a sheachadadh chuig réaltchóras {system}."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
@@ -89,7 +89,7 @@
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "The package has been received and you have been paid in full."
+      "message" : "Fuair mé an pacáiste agus íocadh an méid iomlán leat."
    },
    "FLAVOUR_1_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -109,7 +109,7 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "You have been paid in full for the delivery. Thank you."
+      "message" : "Íocadh an méid iomlán leat as an seachadadh. Go raibh maith agat."
    },
    "FLAVOUR_2_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -129,7 +129,7 @@
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Your timely and discrete service is much appreciated. You have been paid in full."
+      "message" : "Is mór agam do sheirbhís thráthúil dhiscréideach. Íocadh an méid iomlán leat."
    },
    "FLAVOUR_3_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Your timely and discrete service is much appreciated. You have been paid in full."
+      "message" : "Is mór agam do sheirbhís thráthúil dhiscréideach. Íocadh an méid iomlán leat."
    },
    "FLAVOUR_4_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -169,11 +169,11 @@
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Oh wonderful. I'll start unloading immediately. Thanks again."
+      "message" : "Thar barr. Tosóidh mé ag díluchtú láithreach. GRMA arís."
    },
    "FLAVOUR_5_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Is it a lot? I should rethink my offer!"
+      "message" : "An mórán é? Ba chóir dom athsmaoineamh a dhéanamh ar mo thairiscint!"
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
@@ -197,11 +197,11 @@
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
-      "message" : "INTER-PLANETARY CARGO. Freight of local cargo to {starport}."
+      "message" : "LASTA IDIRPHLÁINÉADACH. Lasta áitiúil a iompar go dtí {starport}."
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
-      "message" : "Our customers are not going to be happy with this. Do not expect to be paid."
+      "message" : "Ní bheidh ár gcustaiméirí róshásta leis seo. Ná bí ag súil le híocaíocht!"
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "FLAVOUR_9_FAILUREMSG" : {
       "description" : "",
-      "message" : "It's all spoilt, this is of no use to anyone! We cannot and will not pay you."
+      "message" : "Tá sé millte, agus níl maith ar bith ann! Ní bhfaighidh tú cianóg rua uainn."
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
@@ -249,7 +249,7 @@
    },
    "FLAVOUR_9_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Grand! We'll start unpacking immediately. I'll have your account updated right away."
+      "message" : "Iontach! Tosóimid ag díphacáil láithreach. Nuashonróidh mé do chuntas lom díreach."
    },
    "FLAVOUR_9_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -257,7 +257,7 @@
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
-      "message" : "How soon must it be delivered?"
+      "message" : "Cé chomh luath agus is gá dom é a sheachadadh?"
    },
    "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "IT_MUST_BE_DELIVERED_BY" : {
       "description" : "",
-      "message" : "It must be delivered by "
+      "message" : "Caithfear é a sheachadadh roimh"
    },
    "I_HIGHLY_DOUBT_IT" : {
       "description" : "",
@@ -277,7 +277,7 @@
    },
    "NOT_ANY_MORE_THAN_USUAL" : {
       "description" : "",
-      "message" : "Not any more than usual."
+      "message" : "Ní bheidh ach mar is gnáth."
    },
    "OK_AGREED" : {
       "description" : "",
@@ -289,7 +289,7 @@
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "Looks like my paycheck has arrived!"
+      "message" : "Dealraíonn sé gur tháinig mo phá!"
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
@@ -301,7 +301,7 @@
    },
    "PIRATE_TAUNTS_4" : {
       "description" : "",
-      "message" : "I'm sure this will bring a pretty penny on the market"
+      "message" : "Tá mé cinnte go bhfaighfear pingin mhaith airgid air seo ar an margadh"
    },
    "PIRATE_TAUNTS_5" : {
       "description" : "",
@@ -341,11 +341,11 @@
    },
    "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE" : {
       "description" : "",
-      "message" : "This is very risky, you will almost certainly run into resistance."
+      "message" : "Tá contúirt mhór ann, agus beidh troid mhór romhat gan dabht."
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Why so much money?"
+      "message" : "Cén fáth a bhfuil an méid sin airgid i gceist?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",

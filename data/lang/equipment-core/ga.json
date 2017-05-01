@@ -1,11 +1,11 @@
 {
    "ADVANCED_TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Advanced target scanner"
+      "message" : "Ardscanóir"
    },
    "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range target scanner with system wide coverage."
+      "message" : "Scanóir fadraoin a chlúdaíonn réaltchóras ina iomláine."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -13,7 +13,7 @@
    },
    "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
       "description" : "",
-      "message" : "Shields your spaceship from the heat of atmospheric re-entry."
+      "message" : "Cosnaíonn seo do spáslong ar theas nuair a thagann sé ar ais san atmaisféar."
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -37,95 +37,95 @@
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Permits scooping cargo pods from space."
+      "message" : "Ligeann seo duit cochaill lasta a bhailiú ón spás."
    },
    "DRIVE_CLASS1" : {
       "description" : "",
-      "message" : "Class 1 Hyperdrive"
+      "message" : "Hipirthiomáint (Aicme 1)"
    },
    "DRIVE_CLASS2" : {
       "description" : "",
-      "message" : "Class 2 Hyperdrive"
+      "message" : "Hipirthiomáint (Aicme 2)"
    },
    "DRIVE_CLASS3" : {
       "description" : "",
-      "message" : "Class 3 Hyperdrive"
+      "message" : "Hipirthiomáint (Aicme 3)"
    },
    "DRIVE_CLASS4" : {
       "description" : "",
-      "message" : "Class 4 Hyperdrive"
+      "message" : "Hipirthiomáint (Aicme 4)"
    },
    "DRIVE_CLASS5" : {
       "description" : "",
-      "message" : "Class 5 Hyperdrive"
+      "message" : "Hipirthiomáint (Aicme 5)"
    },
    "DRIVE_CLASS6" : {
       "description" : "",
-      "message" : "Class 6 Hyperdrive"
+      "message" : "Hipirthiomáint (Aicme 6)"
    },
    "DRIVE_CLASS7" : {
       "description" : "",
-      "message" : "Class 7 Hyperdrive"
+      "message" : "Hipirthiomáint (Aicme 7)"
    },
    "DRIVE_CLASS8" : {
       "description" : "",
-      "message" : "Class 8 Hyperdrive"
+      "message" : "Hipirthiomáint (Aicme 8)"
    },
    "DRIVE_CLASS9" : {
       "description" : "",
-      "message" : "Class 9 Hyperdrive"
+      "message" : "Hipirthiomáint (Aicme 9)"
    },
    "DRIVE_MIL1" : {
       "description" : "",
-      "message" : "Class 1 Military drive"
+      "message" : "Tiomáint mhíleata (Aicme 1)"
    },
    "DRIVE_MIL2" : {
       "description" : "",
-      "message" : "Class 2 Military drive"
+      "message" : "Tiomáint mhíleata (Aicme 2)"
    },
    "DRIVE_MIL3" : {
       "description" : "",
-      "message" : "Class 3 Military drive"
+      "message" : "Tiomáint mhíleata (Aicme 3)"
    },
    "DRIVE_MIL4" : {
       "description" : "",
-      "message" : "Class 4 Military drive"
+      "message" : "Tiomáint mhíleata (Aicme 4)"
    },
    "DRIVE_MIL5" : {
       "description" : "",
-      "message" : "Class 5 Military drive"
+      "message" : "Tiomáint mhíleata (Aicme 5)"
    },
    "DRIVE_MIL6" : {
       "description" : "",
-      "message" : "Class 6 Military drive"
+      "message" : "Tiomáint mhíleata (Aicme 6)"
    },
    "DRIVE_MIL7" : {
       "description" : "",
-      "message" : "Class 7 Military drive"
+      "message" : "Tiomáint mhíleata (Aicme 7)"
    },
    "DRIVE_MIL8" : {
       "description" : "",
-      "message" : "Class 8 Military drive"
+      "message" : "Tiomáint mhíleata (Aicme 8)"
    },
    "DRIVE_MIL9" : {
       "description" : "",
-      "message" : "Class 9 Military drive"
+      "message" : "Tiomáint mhíleata (Aicme 9)"
    },
    "ECM_ADVANCED" : {
       "description" : "",
-      "message" : "Advanced ECM system"
+      "message" : "Ardchóras frithbhirt leictreonaigh"
    },
    "ECM_ADVANCED_DESCRIPTION" : {
       "description" : "",
-      "message" : "An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles."
+      "message" : "Córas cosanta frithdhiúracán a úsáideann frithbhearta leictreonacha, atá in ann diúracáin fhrithinge níos cumasaí a scriosadh."
    },
    "ECM_BASIC" : {
       "description" : "",
-      "message" : "ECM system"
+      "message" : "Córas frithbhirt leictreonaigh"
    },
    "ECM_BASIC_DESCRIPTION" : {
       "description" : "",
-      "message" : "An electronic countermeasure missile defence system, capable of destroying some homing missiles."
+      "message" : "Córas cosanta frithdhiúracán a úsáideann frithbhearta leictreonacha, atá in ann diúracáin fhrithinge áirithe a scriosadh."
    },
    "FUEL_SCOOP" : {
       "description" : "",
@@ -133,43 +133,43 @@
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Permits scooping hydrogen fuel from gas giant planets."
+      "message" : "Ligeann seo duit breosla hidrigine a bhailiú ó fhathaigh gháis."
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
-      "message" : "Hull Auto-Repair System"
+      "message" : "Córas Uathdheisiú na Cabhlach"
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
-      "message" : "Automatically repairs the ship's hull in the event of damage."
+      "message" : "Deisíonn seo cabhail na loinge go huathoibríoch i gcás damáiste."
    },
    "HYPERCLOUD_ANALYZER" : {
       "description" : "",
-      "message" : "Hypercloud Analyzer"
+      "message" : "Anailíseoir Hipirnéalta"
    },
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Analyze hyperspace clouds to determine destination and time of arrival or departure."
+      "message" : "Déanann seo anailís ar néalta hipearspáis chun an sprioc a fháil amach, chomh maith leis an am imeachta agus an am sroichte."
    },
    "LARGE_PLASMA_ACCEL" : {
       "description" : "",
-      "message" : "Large plasma accelerator"
+      "message" : "Luasaire mór plasma"
    },
    "LASER_COOLING_BOOSTER" : {
       "description" : "",
-      "message" : "Laser Cooling Booster"
+      "message" : "Treiseoir do Chóras Fuaraithe an Léasair"
    },
    "LASER_COOLING_BOOSTER_DESCRIPTION" : {
       "description" : "",
-      "message" : "An improved cooling system for your weapons."
+      "message" : "Córas fuaraithe níos fearr do na hairm atá agat."
    },
    "MININGCANNON_17MW" : {
       "description" : "",
-      "message" : "17MW blast-mining cannon"
+      "message" : "Canóin 17MW don mhianadóireacht phléasctha"
    },
    "MININGCANNON_17MW_DESCRIPTION" : {
       "description" : "",
-      "message" : "Used to blast-mine mineral rich asteroids."
+      "message" : "Úsáidtear é seo chun mianadóireacht a dhéanamh ar astaróidigh atá lán de mhianraí."
    },
    "MISSILE_GUIDED" : {
       "description" : "",
@@ -193,11 +193,11 @@
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+      "message" : "Cé nach bhfuil sé seo chomh héifeachtach le scúp breosla, ligeann sé duit idir lasta agus bhreosla a bhailiú"
    },
    "OUT_OF_SCANRANGE" : {
       "description" : "",
-      "message" : "Max scan range exceeded:"
+      "message" : "As raon an scanóra:"
    },
    "PASSENGER_CABIN" : {
       "description" : "",
@@ -205,11 +205,11 @@
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
-      "message" : "Body scan"
+      "message" : "Scanadh reanna"
    },
    "PLANETSCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Scan nearest body for resources."
+      "message" : "Lorg acmhainní ar an rinn is gaire."
    },
    "PULSECANNON_10MW" : {
       "description" : "",
@@ -245,23 +245,23 @@
    },
    "RADAR_DESCRIPTION" : {
       "description" : "",
-      "message" : "Provides a 3D map of nearby ships."
+      "message" : "Soláthraíonn seo léarscáil 3T de longa i ngar duit."
    },
    "SCAN_COMPLETED" : {
       "description" : "",
-      "message" : "Scanning completed"
+      "message" : "Scanadh críochnaithe"
    },
    "SCAN_RESUMED" : {
       "description" : "",
-      "message" : "Scanning resumed"
+      "message" : "Atosaíodh an scanadh"
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
-      "message" : "Shield Energy Booster"
+      "message" : "Treiseoir na Sciath"
    },
    "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Increases the rate at which shields recharge."
+      "message" : "Méadaíonn seo ráta athluchtaithe na sciath."
    },
    "SHIELD_GENERATOR" : {
       "description" : "",
@@ -269,31 +269,31 @@
    },
    "SHIELD_GENERATOR_DESCRIPTION" : {
       "description" : "",
-      "message" : "Provides additional hull defences with each unit fitted."
+      "message" : "Tugann gach ceann a fheistíonn tú cosaint níos fearr don chabhail."
    },
    "SMALL_PLASMA_ACCEL" : {
       "description" : "",
-      "message" : "Luasaire plasma beag"
+      "message" : "Luasaire beag plasma"
    },
    "STARTING_SCAN" : {
       "description" : "",
-      "message" : "Starting scan, target distance is"
+      "message" : "Scanadh á thosú; fad na sprice:"
    },
    "TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Target Scanner"
+      "message" : "Scanóir"
    },
    "TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Used to remotely inspect the equipment, cargo and state of other ships."
+      "message" : "Úsáidtear scanóir chun stádas long eile a iniúchadh, chomh maith leis an trealamh agus an lasta orthu."
    },
    "THRUSTERS_BASIC" : {
       "description" : "",
-      "message" : "Modified Thrusters"
+      "message" : "Innill Mhodhnaithe"
    },
    "THRUSTERS_BASIC_DESCRIPTION" : {
       "description" : "",
-      "message" : "A modified type of thrusters approved for your ship."
+      "message" : "Inneall modhnaithe atá ceadaithe do do long."
    },
    "THRUSTERS_BEST" : {
       "description" : "",
@@ -301,7 +301,7 @@
    },
    "THRUSTERS_BEST_DESCRIPTION" : {
       "description" : "",
-      "message" : "Custom made thrusters that provide the best possible output."
+      "message" : "Innill shaincheaptha a sholáthraíonn an t-aschur is fearr is féidir a fháil."
    },
    "THRUSTERS_MEDIUM" : {
       "description" : "",
@@ -309,15 +309,15 @@
    },
    "THRUSTERS_MEDIUM_DESCRIPTION" : {
       "description" : "",
-      "message" : "Thrusters that have been optimised to reduce inefficiencies and improve power output."
+      "message" : "Innill optamaithe a laghdaíonn neamhéifeachtúlacht agus a fheabhsaíonn aschur cumhachta."
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade Computer"
+      "message" : "Ríomhaire Trádála"
    },
    "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
+      "message" : "Taispeánann seo na tráchtearraí is fearr le trádáil idir an réaltchóras roghnaithe agus an ceann reatha"
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
@@ -325,6 +325,6 @@
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Required for transport of a single passenger"
+      "message" : "Tá cábán breise ag teastáil le paisinéir amháin a iompar"
    }
 }

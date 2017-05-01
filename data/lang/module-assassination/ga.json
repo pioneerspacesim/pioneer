@@ -21,7 +21,7 @@
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone capable of doing what needs to be done."
+      "message" : "Ní dóigh liom gur tusa an sórt duine a bheadh in ann an rud atá ag teastáil a dhéanamh."
    },
    "DENY_4" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a contract of this importance."
+      "message" : "Déarfainn nach bhfuil go leor taithí agat conradh chomh tábhachtach seo a chomhlíonadh."
    },
    "DENY_6" : {
       "description" : "",
@@ -37,7 +37,7 @@
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this contract by giving it to someone as inexperienced as you."
+      "message" : "Nílim sásta dul sa seans leis an gconradh seo agus é a thabhairt do dhuine ar bheagán taithí."
    },
    "DISTANCE" : {
       "description" : "",
@@ -49,7 +49,7 @@
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Removal of {target} from the {system} system."
+      "message" : "CÚNAMH AG TEASTÁIL: {target} a dhíbirt ó réaltchóras {system}."
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
@@ -57,7 +57,7 @@
    },
    "FLAVOUR_0_FAILUREMSG2" : {
       "description" : "",
-      "message" : "{target}'s removal was not done by you. No payment this time."
+      "message" : "Níor thusa ba chúis le himeacht {target}. Ní bhfaighidh tú íocaíocht ar bith an dul seo."
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
@@ -65,11 +65,11 @@
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
-      "message" : "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment."
+      "message" : "Bhí áthas orm a chloisteáil go ndeachaigh {target} ar an tsaoire fhada. Maith thú. Tá mé tar éis tús a chur le d'íocaíocht."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Someone to kill {target} from the {system} system."
+      "message" : "CÚNAMH AG TEASTÁIL: Duine éigin le {target} ó réaltchóras {system} a mharú."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
@@ -81,15 +81,15 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "I need {target} taken out of the picture. I'll pay you {cash} to do this."
+      "message" : "Caithfear {target} a thógáil as an bpictiúr. Tabharfaidh mé {cash} duit i ndíol an jab seo."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "I am most sad to hear of {target}'s demise. You have been paid in full."
+      "message" : "Bhí an-díomá orm cloisteáil faoi bhás anabaí {target}. Íocadh an méid iomlán leat."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "REMOVAL: {target} is no longer wanted in the {system} system."
+      "message" : "CÚNAMH AG TEASTÁIL: Níl iarraidh ar bith ar {target} i réaltchóras {system} a thuilleadh."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
@@ -105,15 +105,15 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "You have been paid in full for the completion of that important contract."
+      "message" : "Íocadh an méid iomlán leat as an gconradh tábhachtach sin a chomhlíonadh."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "TERMINATION: Someone to eliminate {target}."
+      "message" : "CÚNAMH AG TEASTÁIL: Duine éigin chun fáil réidh le {target}."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "You will pay for not eliminating {target}!"
+      "message" : "Beidh daor ort as ligean do {target} éalú lena anam!"
    },
    "FLAVOUR_3_FAILUREMSG2" : {
       "description" : "",
@@ -141,11 +141,11 @@
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "For {cash} we wish to encourage {target} to stop work permanently."
+      "message" : "Ba mhaith linn {target} a spreagadh le héirí as an obair, go buan. Íocfaimid {cash} as."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "News of {target}'s retirement delightfully obtained. Here is your money."
+      "message" : "Bhí áthas orm a chloisteáil gur cuireadh {target} ar luathscor. Seo é do chuid airgid."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -157,15 +157,15 @@
    },
    "FLAVOUR_5_FAILUREMSG2" : {
       "description" : "",
-      "message" : "{target} was neutralized by someone else."
+      "message" : "Bhí {target} neodraithe ag duine éigin eile."
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "We wish {target} to have a fitting career end in the {system} system for {cash}."
+      "message" : "Guímid deireadh mar ba chuí le réim {target} i réaltchóras {system}. Íocfaimid {cash} as."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Message of {target}'s ending career happily acquired. Here is your {cash}."
+      "message" : "Bhí áthas orm a chloisteáil gur cuireadh deireadh le réim {target}. Seo d'íocaíocht {cash}."
    },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",

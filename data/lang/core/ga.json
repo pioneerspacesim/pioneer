@@ -225,11 +225,11 @@
    },
    "COMPASS_NE" : {
       "description" : "Abbreviation for compass direction: North East",
-      "message" : "NE"
+      "message" : "OṪ"
    },
    "COMPASS_NW" : {
       "description" : "Abbreviation for compass direction: North West",
-      "message" : "NW"
+      "message" : "IṪ"
    },
    "COMPASS_S" : {
       "description" : "Abbreviation for compass direction: South",
@@ -237,11 +237,11 @@
    },
    "COMPASS_SE" : {
       "description" : "Abbreviation for compass direction: South East",
-      "message" : "SE"
+      "message" : "OḊ"
    },
    "COMPASS_SW" : {
       "description" : "Abbreviation for compass direction: South West",
-      "message" : "SW"
+      "message" : "IḊ"
    },
    "COMPASS_W" : {
       "description" : "Abbreviation for compass direction: West",
@@ -313,7 +313,7 @@
    },
    "DECREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Decrease Time Acceleration"
+      "message" : "Laghdaigh Luathú an Ama"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
@@ -589,7 +589,7 @@
    },
    "HYPERSPACE_JUMP_FORBIDDEN" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Hyperdrive forbidden zone"
+      "message" : "Cosc ar hipirthiomáint anseo"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -629,7 +629,7 @@
    },
    "INCREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Increase Time Acceleration"
+      "message" : "Méadaigh Luathú an Ama"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
@@ -669,11 +669,11 @@
    },
    "JUMP_COMPLETE" : {
       "description" : "",
-      "message" : "Jump complete: %percent%%"
+      "message" : "Dul chun cinn na léime: %percent%%"
    },
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
-      "message" : "Switch between Lagrange L4/L5 point display modes."
+      "message" : "Athraigh mód taispeána na bpointí Lagrange L4/L5."
    },
    "LANDED" : {
       "description" : "",
@@ -1169,7 +1169,7 @@
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
+      "message" : "Tús na gluaiseachta. Cliceáil le filleadh ar an réamhshocrú."
    },
    "PLASTICS" : {
       "description" : "",
