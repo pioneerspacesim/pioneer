@@ -1481,7 +1481,7 @@ void Pi::MainLoop()
 		}
 		// hide cursor for ship control.
 
-		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT | Pi::MouseButtonState(SDL_BUTTON_MIDDLE)));
+		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT) | Pi::MouseButtonState(SDL_BUTTON_MIDDLE));
 
 		Pi::renderer->EndFrame();
 
