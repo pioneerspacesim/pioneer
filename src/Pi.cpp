@@ -1465,6 +1465,10 @@ void Pi::MainLoop()
 
 		currentView->Update();
 		currentView->Draw3D();
+
+		// hide cursor for ship control. Do this before imgui runs, to prevent the mouse pointer from jumping
+		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT) | Pi::MouseButtonState(SDL_BUTTON_MIDDLE));
+
 		// XXX HandleEvents at the moment must be after view->Draw3D and before
 		// Gui::Draw so that labels drawn to screen can have mouse events correctly
 		// detected. Gui::Draw wipes memory of label positions.
@@ -1477,9 +1481,6 @@ void Pi::MainLoop()
 		if( Pi::bRequestEndGame ) {
 			Pi::EndGame();
 		}
-		// hide cursor for ship control.
-
-		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT) | Pi::MouseButtonState(SDL_BUTTON_MIDDLE));
 
 		Pi::renderer->EndFrame();
 
