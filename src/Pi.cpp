@@ -120,8 +120,6 @@ std::map<SDL_Keycode,bool> Pi::keyState; // XXX SDL2 SDLK_LAST
 char Pi::mouseButton[6];
 int Pi::mouseMotion[2];
 bool Pi::doingMouseGrab = false;
-bool Pi::warpAfterMouseGrab = false;
-int Pi::mouseGrabWarpPos[2];
 Player *Pi::player;
 View *Pi::currentView;
 TransferPlanner *Pi::planner;
