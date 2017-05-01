@@ -217,7 +217,7 @@
    },
    "NEWSPAPER_CIW" : {
       "description" : "",
-      "message" : "The Confederate Chronicle"
+      "message" : "Croinicí Mhars"
    },
    "NEWSPAPER_FED" : {
       "description" : "",
@@ -253,11 +253,11 @@
    },
    "NEWSPAPER_IND_5" : {
       "description" : "",
-      "message" : "The Royal Gazette"
+      "message" : "Tuairisc ponc ie"
    },
    "NEWSPAPER_IND_6" : {
       "description" : "",
-      "message" : "The Universal Mail"
+      "message" : "An Chruinneog"
    },
    "NEWSPAPER_IND_7" : {
       "description" : "",
@@ -269,7 +269,7 @@
    },
    "NEWSPAPER_IND_9" : {
       "description" : "",
-      "message" : "The Satellite Journal"
+      "message" : "An Réadlann"
    },
    "TITLE_0" : {
       "description" : "",

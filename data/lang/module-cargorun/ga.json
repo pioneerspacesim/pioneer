@@ -1,63 +1,63 @@
 {
    "ACCEPTED_1" : {
       "description" : "",
-      "message" : "Excellent. I'll load the goods on to your ship."
+      "message" : "Ar fheabhas. Luchtóidh mé na hearraí ar do long."
    },
    "ACCEPTED_2" : {
       "description" : "",
-      "message" : "Very good."
+      "message" : "An-mhaith."
    },
    "ACCEPTED_3" : {
       "description" : "",
-      "message" : "Ok, good. I hope I can trust you."
+      "message" : "Ceart go leor. Tá súil agam gur duine iontaofa thú."
    },
    "ACCEPTED_4" : {
       "description" : "",
-      "message" : "It's a deal!"
+      "message" : "Bíodh sé ina mhargadh!"
    },
    "ACCEPTED_PICKUP_1" : {
       "description" : "",
-      "message" : "Ok, I will make sure that the goods are ready for collection."
+      "message" : "Ceart go leor, deimhneoidh mé go bhfuil na hearraí réidh lena mbailiú."
    },
    "ACCEPTED_PICKUP_2" : {
       "description" : "",
-      "message" : "It's a deal! I will let my colleagues know that you are on your way."
+      "message" : "Bíodh sé ina mhargadh! Inseoidh mé do mo chomhghleacaithe go bhfuil tú ar an mbealach."
    },
    "ADTEXT_1" : {
       "description" : "",
-      "message" : "CARGO RUN. Delivery of cargo to the {system} system."
+      "message" : "SEACHADADH LASTA. Lasta a sheachadadh chuig réaltchóras {system}."
    },
    "ADTEXT_2" : {
       "description" : "",
-      "message" : "NEED TRANSPORTATION. Transport of goods to the {system} system needed. Pay {cash}."
+      "message" : "IOMPAR DE DHÍTH. Earraí a iompar go dtí réaltchóras {system}. Íocfar {cash}."
    },
    "ADTEXT_EXPENSIVE_1" : {
       "description" : "",
-      "message" : "DELIVERY. Valuable cargo to the {system} system. {cash} to an experienced pilot."
+      "message" : "SEACHADADH. Lasta luachmhar chuig réaltchóras {system}. Íocfar píolóta a bhfuil taithí aige/aici {cash}."
    },
    "ADTEXT_LOCAL_1" : {
       "description" : "",
-      "message" : "LOCAL DELIVERY. Move of goods to {starport}."
+      "message" : "SEACHADADH ÁITIÚIL. Earraí a sheachadadh chuig {starport}."
    },
    "ADTEXT_LOCAL_2" : {
       "description" : "",
-      "message" : "TRANSPORT NEEDED. Delivery of local cargo to {starport}."
+      "message" : "IOMPAR DE DHÍTH. Lasta áitiúil a sheachadadh chuig {starport}."
    },
    "ADTEXT_LOCAL_3" : {
       "description" : "",
-      "message" : "LOCAL CARGO RUN. Delivery of goods to {starport}."
+      "message" : "SEACHADADH ÁITIÚIL. Earraí a sheachadadh chuig {starport}."
    },
    "ADTEXT_PICKUP_1" : {
       "description" : "",
-      "message" : "CARGO PICKUP. Pickup of cargo from the {system} system required."
+      "message" : "BAILIÚ LASTA. Long de dhíth le lasta a bhailiú ó réaltchóras {system}."
    },
    "ADTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
-      "message" : "RELOCATION. Move of cargo from {starport} required."
+      "message" : "AISTRIÚ. Long de dhíth le lasta a aistriú ó {starport}."
    },
    "ADTEXT_WHOLESALER_1" : {
       "description" : "",
-      "message" : "CARGO SERVICE. We require a ship for a delivery to {system} system."
+      "message" : "SEIRBHÍS LASTA. Long ag teastáil uainn le lasta a sheachadadh chuig réaltchóras {system}."
    },
    "ALUMINIUM_TUBES" : {
       "description" : "custom cargo",
@@ -89,7 +89,7 @@
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you please repeat the original request?"
+      "message" : "An ndéanfá an t-iarratas céanna arís?"
    },
    "DANGER" : {
       "description" : "the risk level",
@@ -241,7 +241,7 @@
    },
    "INTROTEXT_1" : {
       "description" : "",
-      "message" : "Hi, I'm {name}. I'll pay you {cash} if you will deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Dia dhuit, is mise {name}. D'íocfainn {cash} as {cargoname} a sheachadadh chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl."
    },
    "INTROTEXT_2" : {
       "description" : "{name} is the full name of a person",

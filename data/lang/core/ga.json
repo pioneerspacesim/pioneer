@@ -45,7 +45,7 @@
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "for star map, select star system when mouse close to it",
-      "message" : "Automatic system selection"
+      "message" : "Roghnúchán uathoibríoch réaltchórais"
    },
    "AUTOPILOT_CONTROL" : {
       "description" : "Indicating that ship is flying under autopilot control",
@@ -133,11 +133,11 @@
    },
    "CANT_SAVE_DEAD_PLAYER" : {
       "description" : "",
-      "message" : "Can't save game after the player has died"
+      "message" : "Ní féidir an cluiche a shábháil tar éis don imreoir bás a fháil"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
-      "message" : "Can't save game while in hyperspace"
+      "message" : "Ní féidir an cluiche a shábháil agus an t-imreoir sa hipearspás"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "CARGO_BAY_LIFE_SUPPORT_LOST" : {
       "description" : "",
-      "message" : "Sensors report critical cargo bay life-support conditions."
+      "message" : "De réir na mbraiteoirí, tá coinníollacha sa mbá lasta criticiúil ó thaobh cúrsaí cothaithe beatha."
    },
    "CARGO_N" : {
       "description" : "",
@@ -165,11 +165,11 @@
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
-      "message" : "Cargo scoop active. Collected 1 tonne of %item."
+      "message" : "Scúp lasta ar siúl. Tá 1 tona amháin %item bailithe agat."
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+      "message" : "Rinne tú iarracht an scúp lasta a úsáid. Níl go leor spáis sa mbolg lasta."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "CLEARANCE_DENIED_NO_BAYS" : {
       "description" : "",
-      "message" : "Clearance denied. There are no free docking bays."
+      "message" : "Diúltaíodh cead. Níl aon bhá nasctha saor."
    },
    "CLEARANCE_GRANTED_BAY_N" : {
       "description" : "",
@@ -201,11 +201,11 @@
    },
    "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
       "description" : "",
-      "message" : "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
+      "message" : "Anailís ar mhargadh na dtráchtearraí ar #ff0%selected_system#fff (roghnaithe) i gcomparáid le #ff0%current_system#fff (ceann reatha):"
    },
    "COMMODITY_TRADE_ANALYSIS_SELF" : {
       "description" : "",
-      "message" : "Commodity trade analysis of #fff%system#fff"
+      "message" : "Anailís ar mhargadh na dtráchtearraí ar #fff%system#fff"
    },
    "COMMS" : {
       "description" : "",
@@ -345,7 +345,7 @@
    },
    "DOWNGRADING_ALERT_STATUS" : {
       "description" : "",
-      "message" : "No fire detected for 60 seconds, downgrading alert status."
+      "message" : "Níor braitheadh aon tine le 60 soicind anuas; rabhadh á íosghrádú."
    },
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
@@ -357,7 +357,7 @@
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
-      "message" : "Draw vertical lines"
+      "message" : "Tarraing línte ingearacha"
    },
    "EARTH" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "FOLLOWING_SELECTION" : {
       "description" : "",
-      "message" : "following selection"
+      "message" : "an chéad roghnú eile"
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
@@ -441,7 +441,7 @@
    },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
-      "message" : "Fuel scoop active. You now have %quantity tonnes of hydrogen."
+      "message" : "Scúp breosla ar siúl. Tá %quantity tona hidrigine agat anois."
    },
    "GALACTIC_VIEW" : {
       "description" : "view galactic map",
@@ -461,7 +461,7 @@
    },
    "GAME_LOAD_WRONG_VERSION" : {
       "description" : "",
-      "message" : "This saved game cannot be loaded because it was created by a different version of Pioneer."
+      "message" : "Ní féidir an cluiche sábháilte seo a lódáil toisc go raibh sé cruthaithe ag leagan difriúil de Pioneer."
    },
    "GAME_SAVED_TO" : {
       "description" : "",
@@ -473,7 +473,7 @@
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
-      "message" : "General View Controls"
+      "message" : "Rialtáin Ghinearálta Radhairc"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
@@ -497,31 +497,31 @@
    },
    "HEADING_LOCK_ANTINORMAL" : {
       "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
-      "message" : "Hold anti-normal"
+      "message" : "Coinnigh an treoshuíomh bunoscionn"
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-      "message" : "Hold retrograde"
+      "message" : "Coinnigh treoshuíomh casiompaithe"
    },
    "HEADING_LOCK_FORWARD" : {
       "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-      "message" : "Hold prograde"
+      "message" : "Coinnigh treoshuíomh forghrádach"
    },
    "HEADING_LOCK_KILLROT" : {
       "description" : "",
-      "message" : "Kill rotation"
+      "message" : "Stop an rothlú"
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-      "message" : "Hold normal"
+      "message" : "Coinnigh an gnáth-threoshuíomh"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
       "description" : "Autopilot direction, relative to orbit (face towards planet)",
-      "message" : "Hold radially in"
+      "message" : "Coinnigh treoshuíomh i dtreo an phláinéid"
    },
    "HEADING_LOCK_RADIALLY_OUTWARD" : {
       "description" : "Autopilot direction, relative to orbit (face away from palent)",
-      "message" : "Hold radially out"
+      "message" : "Coinnigh treoshuíomh amach ón phláinéad"
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
@@ -553,7 +553,7 @@
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Hydrogen is primarily used as a fusion fuel"
+      "message" : "Úsáidtear hidrigin mar bhreosla comhleá den chuid is mó"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -577,7 +577,7 @@
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
-      "message" : "Hyperspace jump aborted."
+      "message" : "Léim hipearspáis curtha ar ceal."
    },
    "HYPERSPACE_JUMP_DISABLED" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
@@ -713,7 +713,7 @@
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Oxygen is required for life support systems and some industrial processes"
+      "message" : "Tá ocsaigin ag teastáil ó chórais chothaithe beatha agus ó phróisis thionsclaíocha áirithe"
    },
    "LIQUOR" : {
       "description" : "",
@@ -757,15 +757,15 @@
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Lock Hyperspace Target"
+      "message" : "Dírigh ar Sprioc Hipearspáis"
    },
    "MAP_TOGGLE_INFO_PANEL" : {
       "description" : "",
-      "message" : "Toggle Info Panel"
+      "message" : "Scoránaigh an Painéal Eolais"
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
       "description" : "",
-      "message" : "Toggle Selection Following View"
+      "message" : "Scoránaigh Radharc Leanúint an Roghnúcháin"
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
@@ -785,39 +785,39 @@
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
       "description" : "",
-      "message" : "Shift View Backwards"
+      "message" : "Aistrigh an Radharc ar gcúl"
    },
    "MAP_VIEW_SHIFT_DOWN" : {
       "description" : "",
-      "message" : "Shift View Down"
+      "message" : "Aistrigh an Radharc síos"
    },
    "MAP_VIEW_SHIFT_FORWARD" : {
       "description" : "",
-      "message" : "Shift View Forwards"
+      "message" : "Aistrigh an Radharc ar aghaidh"
    },
    "MAP_VIEW_SHIFT_LEFT" : {
       "description" : "",
-      "message" : "Shift View Left"
+      "message" : "Aistrigh an Radharc ar clé"
    },
    "MAP_VIEW_SHIFT_RIGHT" : {
       "description" : "",
-      "message" : "Shift View Right"
+      "message" : "Aistrigh an Radharc ar dheis"
    },
    "MAP_VIEW_SHIFT_UP" : {
       "description" : "",
-      "message" : "Shift View Up"
+      "message" : "Aistrigh an Radharc suas"
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Current System"
+      "message" : "Freangadh go dtí an Réaltchóras Reatha"
    },
    "MAP_WARP_TO_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Warp to Hyperspace Target"
+      "message" : "Freangadh go dtí an Sprioc Hipearspáis"
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Selected System"
+      "message" : "Freangadh go dtí Réaltchóras Roghnaithe"
    },
    "MASS" : {
       "description" : "",
@@ -985,7 +985,7 @@
    },
    "NO_ALERT" : {
       "description" : "",
-      "message" : "No alert"
+      "message" : "Gan rabhadh"
    },
    "NO_CENTRAL_GOVERNANCE" : {
       "description" : "",
@@ -1113,7 +1113,7 @@
    },
    "PAY_FINE_REMOTELY" : {
       "description" : "",
-      "message" : "Íos fíneáil trí chianaistriú airgid (%amount)"
+      "message" : "Íoc fíneáil trí chianaistriú airgid (%amount)"
    },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
@@ -1121,7 +1121,7 @@
    },
    "PIONEER" : {
       "description" : "",
-      "message" : "CEANNRÓDAÍ"
+      "message" : "PIONEER"
    },
    "PITCH" : {
       "description" : "",
@@ -1153,19 +1153,19 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "For system orbit view",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
+      "message" : "Ráta méadaithe na luachanna deilt-v. Cliceáil le filleadh ar an réamhshocrú."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "For system orbit view",
-      "message" : "Normal delta-v. Click to reset to zero."
+      "message" : "Deilt-v an ghnáth-threoshuímh. Cliceáil le filleadh ar náid."
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "For system orbit view",
-      "message" : "Prograde delta-v. Click to reset to zero."
+      "message" : "Deilt-v forghrádaithe. Cliceáil le filleadh ar náid."
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "For system orbit view",
-      "message" : "Radial delta-v. Click to reset to zero."
+      "message" : "Deilt-v gathach. Cliceáil le filleadh ar náid."
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
@@ -1221,7 +1221,7 @@
    },
    "RESET_ORIENTATION_AND_ZOOM" : {
       "description" : "",
-      "message" : "Reset Orientation and Zoom"
+      "message" : "Athshocraigh an Treoshuíomh agus an Zúmáil"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1293,7 +1293,7 @@
    },
    "SEARCH_MAP" : {
       "description" : "",
-      "message" : "Search Map"
+      "message" : "Cuardaigh an Léarscáil"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
@@ -1317,7 +1317,7 @@
    },
    "SELECT_LOW_THRUST_POWER_LEVEL" : {
       "description" : "",
-      "message" : "Select low thrust power level"
+      "message" : "Roghnaigh leibhéal íseal cumhachta"
    },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
@@ -1329,11 +1329,11 @@
    },
    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
       "description" : "",
-      "message" : "Hyperspace cloud analyzer: Set hyperspace target to follow this departure"
+      "message" : "Anailíseoir néalta hipearspáis: Socraigh sprioc hipearspáis a leanfar tar éis duit imeacht"
    },
    "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
       "description" : "",
-      "message" : "Set low thrust power level to %power%%"
+      "message" : "Socraigh leibhéal íseal cumhachta %power%%"
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
@@ -1365,7 +1365,7 @@
    },
    "SHIPS_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show no ships, show ships, or show ships + their orbits",
-      "message" : "Switch between ship display modes."
+      "message" : "Athraigh an mód taispeána na long"
    },
    "SHIP_DETECTED_NEARBY" : {
       "description" : "",
@@ -1389,7 +1389,7 @@
    },
    "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
       "description" : "",
-      "message" : "Ship velocity by reference object"
+      "message" : "Luas na loinge i gcoibhneas le rinn tagartha"
    },
    "SIDEREAL_VIEW" : {
       "description" : "camera view setting",
@@ -1437,7 +1437,7 @@
    },
    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
       "description" : "",
-      "message" : "Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}"
+      "message" : "Réaltchóras cobhsaí ina bhfuil %bodycount %{body(s)} mór agus %portcount %{starport(s)}"
    },
    "STARPORT" : {
       "description" : "",
@@ -1589,11 +1589,11 @@
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "Switched heading display to system-wide coordinates."
+      "message" : "Treo-cheann á thaispeáint i gcomhordanáidí an réaltchórais anois."
    },
    "SWITCHED_TO_ROTATIONAL" : {
       "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "Switched heading display to planetary coordinates."
+      "message" : "Treo-cheann á thaispeáint i gcomhordanáidí pláinéadacha anois."
    },
    "SYSTEM" : {
       "description" : "star system",
@@ -1605,7 +1605,7 @@
    },
    "SYSTEM_ORBIT_VIEW" : {
       "description" : "",
-      "message" : "System orbit view"
+      "message" : "Radharc fhithis an réaltchórais"
    },
    "SYSTEM_TYPE" : {
       "description" : "",
@@ -1617,11 +1617,11 @@
    },
    "TAKEOFF" : {
       "description" : "",
-      "message" : "Takeoff"
+      "message" : "Éirí"
    },
    "TARGET_OBJECT_IN_SIGHTS" : {
       "description" : "",
-      "message" : "Target object in cross-hairs"
+      "message" : "Sprioc sna crosribí"
    },
    "TENUOUS" : {
       "description" : "atmosphere thickness",
@@ -1645,27 +1645,27 @@
    },
    "THRUSTER_DORSAL" : {
       "description" : "",
-      "message" : "Thrust down"
+      "message" : "Sá síos"
    },
    "THRUSTER_MAIN" : {
       "description" : "",
-      "message" : "Thrust forward"
+      "message" : "Sá ar aghaidh"
    },
    "THRUSTER_PORT" : {
       "description" : "",
-      "message" : "Thrust left"
+      "message" : "Sá ar clé"
    },
    "THRUSTER_RETRO" : {
       "description" : "",
-      "message" : "Thrust backwards"
+      "message" : "Sá ar gcúl"
    },
    "THRUSTER_STARBOARD" : {
       "description" : "",
-      "message" : "Thrust right"
+      "message" : "Sá ar dheis"
    },
    "THRUSTER_VENTRAL" : {
       "description" : "",
-      "message" : "Thrust up"
+      "message" : "Sá suas"
    },
    "TIME_POINT" : {
       "description" : "",
@@ -1785,11 +1785,11 @@
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
-      "message" : "Unset navigation target."
+      "message" : "Díshocraigh an sprioc loingseoireachta."
    },
    "USE_LOW_THRUST" : {
       "description" : "",
-      "message" : "Use low thrust"
+      "message" : "Úsáid cumhacht íseal"
    },
    "VAST_STRIP_MINE" : {
       "description" : "",
@@ -1805,7 +1805,7 @@
    },
    "VIEW" : {
       "description" : "",
-      "message" : "Amhar"
+      "message" : "Amharc"
    },
    "VIOLENT_ANARCHY" : {
       "description" : "",
