@@ -1,15 +1,15 @@
 {
    "APPLY_FOR_MEMBERSHIP" : {
       "description" : "",
-      "message" : "Apply for membership"
+      "message" : "Cuir isteach ar bhallraíocht"
    },
    "BEGIN_TRADE" : {
       "description" : "",
-      "message" : "Begin trade"
+      "message" : "Tosaigh ag trádáil"
    },
    "FLAVOUR_0_CLUBNAME" : {
       "description" : "",
-      "message" : "Interstellar Pilots' Fuel Co-operative"
+      "message" : "Comharchumann Breosla na bPíolótaí Idir-Réaltacha"
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
+      "message" : "Is eagraíocht neamhspleách é {clubname} a sholáthraíonn breosla spásloinge lascainithe dá ballraíocht. Gheobhaidh tú brainsí ar fud an réaltra. Seo iad na buntáistí a bhaineann le ballraíocht:"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -25,35 +25,35 @@
    },
    "FLAVOUR_1_CLUBNAME" : {
       "description" : "Fuel club for the Federation faction",
-      "message" : "The Federal Fuel Foundation"
+      "message" : "An Bráithreachas Breosla"
    },
    "FLAVOUR_1_NONMEMBER_INTRO" : {
       "description" : "For the Solar Federation faction",
-      "message" : "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
+      "message" : "Is é {clubname} an príomhsholáthraí breosla lascainithe do spáslonga i gCónaidhm na Gréine. Mar bhall den eagraíocht, beidh tú i dteideal na rudaí seo a leanas:"
    },
    "FLAVOUR_2_CLUBNAME" : {
       "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-      "message" : "The Confederate Fuel Union"
+      "message" : "An Braon Broghach Breosla"
    },
    "FLAVOUR_2_NONMEMBER_INTRO" : {
       "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
-      "message" : "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
+      "message" : "Trí ollfhairsinge Chomhlathas na Reann Neamhspleách, is é {clubname} an soláthraí is fearr de bhreosla lascainithe agus seirbhísí bainistíochta dramhaíola. Seo iad na rudaí a dhéanaimid ar son ár mballraíochta:"
    },
    "FLAVOUR_2_WELCOME" : {
       "description" : "",
-      "message" : "Greetings and salutations! We hope you enjoy our services."
+      "message" : "Dia dhuit! Tá súil againn go mbainfidh tú taitneamh as ár gcuid seirbhísí."
    },
    "FLAVOUR_3_CLUBNAME" : {
       "description" : "Fuel club for the Haber faction",
-      "message" : "Haber Propellant and Perishables Division"
+      "message" : "Breosla Uí Scanaill Teo., Roinn na dTiomántán agus na nEarraí Somheata"
    },
    "FLAVOUR_3_MEMBER_INTRO" : {
       "description" : "For the greedy Haber faction, very corporate formulated",
-      "message" : "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
+      "message" : "Fáilte a phíolóta. Tá cead agat athbhreoslú a dhéanamh agus dramhaíl a dhiúscairt (ar choinníollacha áirithe) anois."
    },
    "FLAVOUR_3_NONMEMBER_INTRO" : {
       "description" : "for the Haber faction",
-      "message" : "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
+      "message" : "Dia dhuit a phíolóta! Seo é Breosla Uí Scanaill Teo., Roinn na dTiomántán agus na nEarraí Somheata, an dream atá i gceannas ar dháileadh breosla sa chuid sin den spás i seilbh mhuintir Uí Scanaill."
    },
    "GO_BACK" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "{radioactives}, free disposal (conditions apply)"
+      "message" : "{radioactives}, diúscairt saor in aisce (coinníollacha áirithe i bhfeidhm)"
    },
    "LIST_BENEFITS_FUEL" : {
       "description" : "",
@@ -69,34 +69,34 @@
    },
    "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Our own stocks of fuel, independent of the general market"
+      "message" : "Ár stoic bhreosla féin, neamhspleách ar an margadh ginearálta"
    },
    "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Fuel tank refilling, where necessary"
+      "message" : "Athlíonadh an umair bhreosla, nuair is gá"
    },
    "LIST_BENEFITS_JOIN" : {
       "description" : "",
-      "message" : "Join now! Annual membership costs only {membership_fee}"
+      "message" : "Bí i do bhall! Níl ach {membership_fee} ar bhallraíocht bhliantúil"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
-      "message" : "We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."
+      "message" : "Ní féidir linn fáil réidh le níos mó tonaí {radioactives} ná an méid tonaí {military_fuel} a cheannaigh tú uainn."
    },
    "WHAT_CONDITIONS_APPLY" : {
       "description" : "",
-      "message" : "What conditions apply to {radioactives} disposal?"
+      "message" : "Cad iad na coinníollacha a bhaineann le diúscairt {radioactives}?"
    },
    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
       "description" : "",
-      "message" : "Your membership application has been declined."
+      "message" : "Diúltaíodh d'iarratas ar bhallraíocht."
    },
    "YOU_ARE_NOW_A_MEMBER" : {
       "description" : "",
-      "message" : "You are now a member. Your membership will expire on {expiry_date}."
+      "message" : "Tá tú i do bhall anois. Rachaidh do bhallraíocht i léig ar {expiry_date}."
    },
    "YOU_MUST_BUY" : {
       "description" : "",
-      "message" : "You must buy our {military_fuel} before we will take your {radioactives}"
+      "message" : "Caithfidh tú ár gcuid {military_fuel} a cheannach sula nglacfaimid le do chuid {radioactives}"
    }
 }

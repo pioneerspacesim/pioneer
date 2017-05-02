@@ -25,7 +25,7 @@
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the pilot I'm looking for."
+      "message" : "Ní dóigh liom gur tusa an píolóta atá mé ag lorg."
    },
    "DENY_3" : {
       "description" : "",
@@ -33,11 +33,11 @@
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You're not the kind of pilot I'm looking for."
+      "message" : "Ní dóigh liom gur tusa an sórt píolóta atá mé ag lorg."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a task of this importance."
+      "message" : "Déarfainn nach bhfuil go leor taithí agat chun tasc chomh tábhachtach seo a dhéanamh."
    },
    "DENY_6" : {
       "description" : "",
@@ -45,7 +45,7 @@
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this delivery on someone without any qualifications like you."
+      "message" : "Nílim sásta dul sa seans leis an seachadadh seo agus é a thabhairt do dhuine ar bheagán taithí."
    },
    "DISTANCE" : {
       "description" : "",
@@ -69,7 +69,7 @@
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the delivery. You have been paid in full."
+      "message" : "Go raibh maith agat as an seachadadh. Íocadh an méid iomlán leat."
    },
    "FLAVOUR_0_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "FLAVOUR_1_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "It is nothing special."
+      "message" : "Níl sé chomh speisialta sin."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
@@ -113,11 +113,11 @@
    },
    "FLAVOUR_2_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "It is a research proposal and must be delivered by the deadline or we may not get funding."
+      "message" : "Togra taighde atá ann, agus caithfear é a sheachadadh roimh an spriocdháta nó ní bhfaighimid aon mhaoiniú."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "DELIVERY. Documents to the {system} system. {cash} to an experienced pilot."
+      "message" : "SEACHADADH. Cáipéisí chuig réaltchóras {system}. Íocfar píolóta a bhfuil taithí aige/aici {cash}."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "SHORT-RANGE COURIER. Delivery of a small package to {starport}."
+      "message" : "CÚIRÉIR GEARR-RAOIN. Pacáiste beag a sheachadadh chuig {starport}."
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
@@ -185,11 +185,11 @@
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi. I'm {name} and I will pay {cash} for a ship to deliver this package to {starport}."
+      "message" : "Dia dhuit. Is mise {name} agus tabharfaidh mé {cash} duit as an bpacáiste seo a sheachadadh chuig {starport}."
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the package, you have been paid in full."
+      "message" : "Go raibh maith agat as an pacáiste. Íocadh an méid iomlán leat."
    },
    "FLAVOUR_6_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED" : {
       "description" : "",
-      "message" : "It could be dangerous, you should make sure you're adequately prepared."
+      "message" : "D'fhéadfadh sé a bheith contúirteach. Ba chóir duit deimhniú go bhfuil tú ullamh."
    },
    "IT_MUST_BE_DELIVERED_BY" : {
       "description" : "",

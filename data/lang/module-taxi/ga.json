@@ -1,7 +1,7 @@
 {
    "CORPORATIONS_0" : {
       "description" : "",
-      "message" : "Sirius"
+      "message" : "Réalta an Mhadra"
    },
    "CORPORATIONS_1" : {
       "description" : "",
@@ -9,7 +9,7 @@
    },
    "CORPORATIONS_10" : {
       "description" : "",
-      "message" : "Bulk Ships"
+      "message" : "Spáslonga i mBulc"
    },
    "CORPORATIONS_11" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "CORPORATIONS_2" : {
       "description" : "",
-      "message" : "Cool Cola"
+      "message" : "Cóla Mhic Cumhaill"
    },
    "CORPORATIONS_3" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "CORPORATIONS_5" : {
       "description" : "",
-      "message" : "Rockforth"
+      "message" : "An Ríordánach"
    },
    "CORPORATIONS_6" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't think I could trust you with my safety."
+      "message" : "Mo leithscéal, ach níl muinín ar bith agam asat mise a iompar go sábháilte."
    },
    "DENY_1" : {
       "description" : "",
@@ -69,19 +69,19 @@
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the pilot I'm looking for."
+      "message" : "Ní dóigh liom gur tusa an píolóta atá mé ag lorg."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone capable of transporting people."
+      "message" : "Ní dóigh liom gur tusa an sórt duine a bheadh in ann daoine a iompar."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You're not the kind of pilot I'm looking for."
+      "message" : "Ní dóigh liom gur tusa an sórt píolóta atá mé ag lorg."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a transport of this importance."
+      "message" : "Déarfainn nach bhfuil go leor taithí agat chun iompar chomh tábhachtach seo a dhéanamh."
    },
    "DENY_6" : {
       "description" : "",
@@ -89,7 +89,7 @@
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk my life on someone without any qualifications like you."
+      "message" : "Nílim sásta m'anam a chur i gcontúirt ag brath ar dhuine cosúil leatsa ar bheagán taithí."
    },
    "DISTANCE" : {
       "description" : "",
@@ -109,7 +109,7 @@
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. We are not willing to pay you."
+      "message" : "Do-ghlactha amach is amach! Shíl mé nach dtiocfá riamh. Nílim sásta íoc as. "
    },
    "FLAVOUR_0_HOWMANY" : {
       "description" : "",
@@ -117,11 +117,11 @@
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Dia dhuit! Is mise {name} agus tá mé ag iarraidh grúpa beag a thabhairt liom go {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl. Íocfaidh mé {cash} as."
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Go raibh maith agat as turas chomh deas sin. Íocadh an méid iomlán leat."
    },
    "FLAVOUR_0_WHEREAREWE" : {
       "description" : "",
@@ -129,7 +129,7 @@
    },
    "FLAVOUR_0_WHYSOMUCH" : {
       "description" : "",
-      "message" : "We are visiting a friend."
+      "message" : "Táimid ag tabhairt cuairte ar chara."
    },
    "FLAVOUR_10_ADTEXT" : {
       "description" : "",
@@ -137,11 +137,11 @@
    },
    "FLAVOUR_10_DANGER" : {
       "description" : "",
-      "message" : "I think someone is following me."
+      "message" : "Sílim go bhfuil duine éigin do mo leanúint."
    },
    "FLAVOUR_10_FAILUREMSG" : {
       "description" : "",
-      "message" : "You are such an inexperienced pilot. I'm not going to pay for this."
+      "message" : "Nílim sásta íoc as turas le píolóta nach bhfuil go leor taithí aige."
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
@@ -153,7 +153,7 @@
    },
    "FLAVOUR_10_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the fast ride. You have been paid in full."
+      "message" : "Go raibh maith agat as an síob sciobtha. Íocadh an méid iomlán leat."
    },
    "FLAVOUR_10_WHEREAREWE" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "FLAVOUR_10_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I would rather someone didn't find me."
+      "message" : "B'fhearr liom fanacht faoi cheilt."
    },
    "FLAVOUR_11_ADTEXT" : {
       "description" : "",
@@ -169,11 +169,11 @@
    },
    "FLAVOUR_11_DANGER" : {
       "description" : "",
-      "message" : "Sometimes people don't want to be inspected."
+      "message" : "Uaireanta ní maith le daoine nuair a dhéantar cigireacht orthu."
    },
    "FLAVOUR_11_FAILUREMSG" : {
       "description" : "",
-      "message" : "I'm going to lose my job because of your incompetence. So I need that money more than you."
+      "message" : "Tabharfar bata is bóthar dom toisc go ndearna tú praiseach de seo. Tá an t-airgead sin ag teastáil uaimse níos mó ná uaitse."
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",
@@ -185,7 +185,7 @@
    },
    "FLAVOUR_11_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the fast ride. You have been paid in full."
+      "message" : "Go raibh maith agat as an síob sciobtha. Íocadh an méid iomlán leat."
    },
    "FLAVOUR_11_WHEREAREWE" : {
       "description" : "",
@@ -193,7 +193,7 @@
    },
    "FLAVOUR_11_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I'm a factory inspector doing my rounds."
+      "message" : "Is cigire monarchan mé ar mo chuid cuairteanna."
    },
    "FLAVOUR_12_ADTEXT" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "FLAVOUR_12_DANGER" : {
       "description" : "",
-      "message" : "Someone is chasing me."
+      "message" : "Tá duine éigin sa tóir orm."
    },
    "FLAVOUR_12_FAILUREMSG" : {
       "description" : "",
@@ -213,11 +213,11 @@
    },
    "FLAVOUR_12_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name}. I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}."
+      "message" : "Is mise {name}. Tá mé ag iarraidh réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) a bhaint amach, {dist} solasbhliain ar shiúl. Íocfaidh mé {cash} as."
    },
    "FLAVOUR_12_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the ride. You have been paid in full."
+      "message" : "Go raibh maith agat as an síob. Íocadh an méid iomlán leat."
    },
    "FLAVOUR_12_WHEREAREWE" : {
       "description" : "",
@@ -237,7 +237,7 @@
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. We are not willing to pay you."
+      "message" : "Do-ghlactha amach is amach! Shíl mé nach dtiocfá riamh. Nílim sásta íoc as. "
    },
    "FLAVOUR_1_HOWMANY" : {
       "description" : "",
@@ -245,11 +245,11 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Dia dhuit, is mise {name}. Tá mé ag iarraidh grúpa beag a thabhairt liom go {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl. Íocfaidh mé {cash} as."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Go raibh maith agat as turas chomh deas sin. Íocadh an méid iomlán leat."
    },
    "FLAVOUR_1_WHEREAREWE" : {
       "description" : "",
@@ -257,7 +257,7 @@
    },
    "FLAVOUR_1_WHYSOMUCH" : {
       "description" : "",
-      "message" : "We work for {corp} corporation and they are paying."
+      "message" : "Is fostaithe de chuid {corp} muid, agus is iad atá ag íoc as."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
@@ -269,7 +269,7 @@
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. We are not willing to pay you."
+      "message" : "Do-ghlactha amach is amach! Shíl mé nach dtiocfá riamh. Nílim sásta íoc as. "
    },
    "FLAVOUR_2_HOWMANY" : {
       "description" : "",
@@ -277,11 +277,11 @@
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Dia dhuit, is mise {name}. Tá mé ag iarraidh grúpa beag a thabhairt liom go {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl. Íocfaidh mé {cash} as."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thanks for bringing us here. We've now paid in full. Good Luck!"
+      "message" : "Go raibh maith agat as muid a thabhairt anseo. D'íocamar an méid iomlán leat. Ádh mór!"
    },
    "FLAVOUR_2_WHEREAREWE" : {
       "description" : "",
@@ -289,7 +289,7 @@
    },
    "FLAVOUR_2_WHYSOMUCH" : {
       "description" : "",
-      "message" : "It's normal business trip."
+      "message" : "Gnáth-thuras gnó atá ann."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -297,11 +297,11 @@
    },
    "FLAVOUR_3_DANGER" : {
       "description" : "",
-      "message" : "I think there is an assassin on my trail, and they may come after you."
+      "message" : "Sílim go bhfuil feallmharfóir sa tóir orm, agus seans go mbeidh sé sa tóir ortsa freisin."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. I'm not willing to pay you."
+      "message" : "Do-ghlactha amach is amach! Shíl mé nach dtiocfá riamh. Nílim sásta íoc as. "
    },
    "FLAVOUR_3_HOWMANY" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Go raibh maith agat as turas chomh deas sin. Íocadh an méid iomlán leat."
    },
    "FLAVOUR_3_WHEREAREWE" : {
       "description" : "",
@@ -333,7 +333,7 @@
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "Don't even ask for payment! I'm reporting you to the authorities."
+      "message" : "Ná hiarr íocaíocht orm! Déanfaidh mé gearán fút leis na húdaráis."
    },
    "FLAVOUR_4_HOWMANY" : {
       "description" : "",
@@ -345,7 +345,7 @@
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thanks for carrying me here. I've paid in full. Good Luck!"
+      "message" : "Go raibh maith agat as mise a thabhairt anseo slán sábháilte. D'íoc mé an méid iomlán leat. Ádh mór!"
    },
    "FLAVOUR_4_WHEREAREWE" : {
       "description" : "",
@@ -357,15 +357,15 @@
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Passage to {system} system. Will pay {cash}."
+      "message" : "LONG AG TEASTÁIL: Iompar go dtí réaltchóras {system}. Íocfar {cash} as."
    },
    "FLAVOUR_5_DANGER" : {
       "description" : "",
-      "message" : "You might get some interest from the press. Just ignore them."
+      "message" : "Seans go mbeidh suim ag na nuachtáin ann. Ná bac leo."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "What have you done! My tour is all spoilt and I lost half of my fans."
+      "message" : "Cad atá déanta agat?! Tá mo thuras millte agus chaill mé leath de mo chuid leantóirí."
    },
    "FLAVOUR_5_HOWMANY" : {
       "description" : "",
@@ -377,7 +377,7 @@
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Go raibh maith agat as turas chomh deas sin. Íocadh an méid iomlán leat."
    },
    "FLAVOUR_5_WHEREAREWE" : {
       "description" : "",
@@ -385,7 +385,7 @@
    },
    "FLAVOUR_5_WHYSOMUCH" : {
       "description" : "",
-      "message" : "Didn't you know - I'm a well known dream star."
+      "message" : "Nach raibh a fhios agat - tá mé i mo dhia beag."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
@@ -397,7 +397,7 @@
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. I'm not willing to pay you."
+      "message" : "Do-ghlactha amach is amach! Shíl mé nach dtiocfá riamh. Nílim sásta íoc as. "
    },
    "FLAVOUR_6_HOWMANY" : {
       "description" : "",
@@ -409,7 +409,7 @@
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Go raibh maith agat as turas chomh deas sin. Íocadh an méid iomlán leat."
    },
    "FLAVOUR_6_WHEREAREWE" : {
       "description" : "",
@@ -425,11 +425,11 @@
    },
    "FLAVOUR_7_DANGER" : {
       "description" : "",
-      "message" : "The Mafia don't take kindly to people helping their enemies."
+      "message" : "Ní thaitníonn sé leis an Maifia nuair a thugtar cúnamh dá gcuid naimhde."
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. I'm not willing to pay you."
+      "message" : "Do-ghlactha amach is amach! Shíl mé nach dtiocfá riamh. Nílim sásta íoc as. "
    },
    "FLAVOUR_7_HOWMANY" : {
       "description" : "",
@@ -441,7 +441,7 @@
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thanks for carrying me safely here. I've paid in full. Good Luck!"
+      "message" : "Go raibh maith agat as mise a thabhairt anseo slán sábháilte. D'íoc mé an méid iomlán leat. Ádh mór!"
    },
    "FLAVOUR_7_WHEREAREWE" : {
       "description" : "",
@@ -449,7 +449,7 @@
    },
    "FLAVOUR_7_WHYSOMUCH" : {
       "description" : "",
-      "message" : "The Mafia want me dead."
+      "message" : "Tá an Maifia ag iarraidh mé a mharú."
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
@@ -461,7 +461,7 @@
    },
    "FLAVOUR_8_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. I'm not willing to pay you."
+      "message" : "Do-ghlactha amach is amach! Shíl mé nach dtiocfá riamh. Nílim sásta íoc as. "
    },
    "FLAVOUR_8_HOWMANY" : {
       "description" : "",
@@ -473,7 +473,7 @@
    },
    "FLAVOUR_8_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the fast ride. You have been paid in full."
+      "message" : "Go raibh maith agat as an síob sciobtha. Íocadh an méid iomlán leat."
    },
    "FLAVOUR_8_WHEREAREWE" : {
       "description" : "",
@@ -481,7 +481,7 @@
    },
    "FLAVOUR_8_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I'm visiting a sick relative."
+      "message" : "Tá mé ag tabhairt cuairte ar ghaol tinn."
    },
    "FLAVOUR_9_ADTEXT" : {
       "description" : "",
@@ -493,7 +493,7 @@
    },
    "FLAVOUR_9_FAILUREMSG" : {
       "description" : "",
-      "message" : "Useless! You took forever. I'm not willing to pay you."
+      "message" : "Is liúdramán thú! Shíl mé nach dtiocfá riamh. Ní bhfaighidh tú cianóg rua uaim."
    },
    "FLAVOUR_9_HOWMANY" : {
       "description" : "",
@@ -505,7 +505,7 @@
    },
    "FLAVOUR_9_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the fast ride. You have been paid in full."
+      "message" : "Go raibh maith agat as an síob sciobtha. Íocadh an méid iomlán leat."
    },
    "FLAVOUR_9_WHEREAREWE" : {
       "description" : "",
@@ -561,7 +561,7 @@
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
-      "message" : "You're not going to dock today!"
+      "message" : "Ní bheidh tú ag teacht chun glais inniu!"
    },
    "SET_AS_TARGET" : {
       "description" : "",
@@ -589,7 +589,7 @@
    },
    "WRONG_SYSTEM" : {
       "description" : "Shown if system name is right, but coordinates are wrong",
-      "message" : "The system name is right, but not the coordinates."
+      "message" : "Tá ainm an réaltchórais ceart, ach tá na comhordanáidí mícheart."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
