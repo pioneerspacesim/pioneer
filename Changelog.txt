@@ -2,6 +2,7 @@ May 2017
    * New Features
      * In-space indicators have icons and let you select collapsed ones (#3995)
      * Show combat target pro- and retrograde velocities (#4007)
+     * New ship added Mola Ramsayi (#4006)
 
    * Internal Changes
      * Remove unimplemented method declarations (#4010)
