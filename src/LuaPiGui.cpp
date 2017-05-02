@@ -849,6 +849,7 @@ static int l_pigui_get_targets_nearby(lua_State *l) {
 	int index = 1;
 	for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
 		if ((*i) == Pi::player) continue;
+		if ((*i)->GetType() == Object::PROJECTILE) continue;
 		vector3d position = (*i)->GetPositionRelTo(Pi::player);
 		float distance = float(position.Length());
 		vector3d shipSpacePosition = position * Pi::player->GetOrient();
