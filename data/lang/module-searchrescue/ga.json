@@ -5,7 +5,7 @@
    },
    "BOARDED_PASSENGER" : {
       "description" : "",
-      "message" : "{name} has boarded the ship."
+      "message" : "Chuaigh {name} ar bord na loinge."
    },
    "COMMODITIES" : {
       "description" : "",
@@ -25,11 +25,11 @@
    },
    "DELIVERED_PASSENGER" : {
       "description" : "",
-      "message" : "{name} has left the ship."
+      "message" : "D'fhág {name} an long."
    },
    "DELIVERY" : {
       "description" : "",
-      "message" : "DELIVERY"
+      "message" : "SEACHADADH"
    },
    "DISTANCE" : {
       "description" : "",
@@ -41,7 +41,7 @@
    },
    "ENTITY_FAMILY_BUSINESS_10" : {
       "description" : "",
-      "message" : "{name} Taxi Services"
+      "message" : "Seirbhísí Tacsaí {name}"
    },
    "ENTITY_FAMILY_BUSINESS_2" : {
       "description" : "",
@@ -49,7 +49,7 @@
    },
    "ENTITY_FAMILY_BUSINESS_3" : {
       "description" : "",
-      "message" : "{name} Flowers of {locality}"
+      "message" : "Bláthanna {name} as {locality}"
    },
    "ENTITY_FAMILY_BUSINESS_4" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "ENTITY_FAMILY_BUSINESS_6" : {
       "description" : "",
-      "message" : "{name} Space Pets"
+      "message" : "Spáspheataí {name}"
    },
    "ENTITY_FAMILY_BUSINESS_7" : {
       "description" : "",
@@ -73,19 +73,19 @@
    },
    "ENTITY_FAMILY_BUSINESS_9" : {
       "description" : "",
-      "message" : "{name} Transports"
+      "message" : "Iompar {name}"
    },
    "ENTITY_GENERAL_1" : {
       "description" : "",
-      "message" : "the {locality} General Prospectors Inc"
+      "message" : "Taiscéalaithe Ginearálta {locality}, Teo."
    },
    "ENTITY_GENERAL_10" : {
       "description" : "",
-      "message" : "{locality} Infinity Energy One"
+      "message" : "Fuinneamh Gan Teorainn {locality}"
    },
    "ENTITY_GENERAL_2" : {
       "description" : "",
-      "message" : "the {locality} Society for Ecological Preservation"
+      "message" : "Cumann Caomhnaithe Timpeallachta {locality}"
    },
    "ENTITY_GENERAL_3" : {
       "description" : "",
@@ -93,23 +93,23 @@
    },
    "ENTITY_GENERAL_4" : {
       "description" : "",
-      "message" : "the {locality} Mining Rights Office"
+      "message" : "Oifig na gCeart Mianadóireachta in {locality}"
    },
    "ENTITY_GENERAL_5" : {
       "description" : "",
-      "message" : "the Landowners Association of {locality}"
+      "message" : "Tiarnaí Talún {locality}"
    },
    "ENTITY_GENERAL_6" : {
       "description" : "",
-      "message" : "the Statistical Institute of {locality}"
+      "message" : "Institiúid Staidrimh {locality}"
    },
    "ENTITY_GENERAL_7" : {
       "description" : "",
-      "message" : "the {locality} branch office of SpaceCruise Inc"
+      "message" : "Oifig brainse de Spásturas, Teo. in {locality}"
    },
    "ENTITY_GENERAL_8" : {
       "description" : "",
-      "message" : "{locality} iSatellite Ltd"
+      "message" : "iSatailít {locality}, Teo."
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
@@ -117,43 +117,43 @@
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
-      "message" : "the {locality} Biological Society"
+      "message" : "Cumann Bitheolaíochta {locality}"
    },
    "ENTITY_RESEARCH_10" : {
       "description" : "",
-      "message" : "the {locality} Center of Zoological Research"
+      "message" : "Lárionad Taighde Míoleolaíochta {locality}"
    },
    "ENTITY_RESEARCH_2" : {
       "description" : "",
-      "message" : "the {locality} Microbiological Society"
+      "message" : "Cumann Micribhitheolaíochta {locality}"
    },
    "ENTITY_RESEARCH_3" : {
       "description" : "",
-      "message" : "the {locality} Chemical Society"
+      "message" : "Cumann Ceimice {locality}"
    },
    "ENTITY_RESEARCH_4" : {
       "description" : "",
-      "message" : "the {locality} Astrobiological Society"
+      "message" : "Cumann Réalt-bhitheolaíochta {locality}"
    },
    "ENTITY_RESEARCH_5" : {
       "description" : "",
-      "message" : "the {locality} Geological Society"
+      "message" : "Cumann Geolaíochta {locality}"
    },
    "ENTITY_RESEARCH_6" : {
       "description" : "",
-      "message" : "the {locality} Society for Astropaleontology"
+      "message" : "Cumann Réalt-phailé-ointeolaíochta {locality}"
    },
    "ENTITY_RESEARCH_7" : {
       "description" : "",
-      "message" : "the {locality} Astrophysics Research Center"
+      "message" : "Lárionad Taighde Réaltfhisice {locality}"
    },
    "ENTITY_RESEARCH_8" : {
       "description" : "",
-      "message" : "the {locality} Astrochemistry Research Center"
+      "message" : "Lárionad Taighde Réaltcheimice {locality}"
    },
    "ENTITY_RESEARCH_9" : {
       "description" : "",
-      "message" : "the {locality} Center for Botany"
+      "message" : "Lárionad Luibheolaíochta {locality}"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -385,7 +385,7 @@
    },
    "FULL_CARGO" : {
       "description" : "",
-      "message" : "Ship full. No more room for additional cargo."
+      "message" : "Tá an long lán go béal. Níl spás ann i gcomhair lasta breise."
    },
    "FULL_CREW" : {
       "description" : "",
@@ -397,7 +397,7 @@
    },
    "HOW_FAR" : {
       "description" : "",
-      "message" : "How far away is the target?"
+      "message" : "Cá fhad uainn an sprioc?"
    },
    "HOW_MUCH_TIME" : {
       "description" : "",
@@ -413,7 +413,7 @@
    },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
-      "message" : "It must be completed by "
+      "message" : "Caithfear é a chur i gcrích roimh"
    },
    "KM" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "LON" : {
       "description" : "",
-      "message" : "Lon:"
+      "message" : "Domhanfhad:"
    },
    "LY" : {
       "description" : "",
@@ -437,19 +437,19 @@
    },
    "MISSING_COMM" : {
       "description" : "",
-      "message" : "Cannot complete transfer. {cargotype} missing."
+      "message" : "Ní féidir an t-aistriú a chur i gcrích. {cargotype} ar iarraidh."
    },
    "MISSING_CREW" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Crew missing."
+      "message" : "Ní féidir an t-aistriú a chur i gcrích. Foireann ar iarraidh."
    },
    "MISSING_PASS" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Passengers missing."
+      "message" : "Ní féidir an t-aistriú a chur i gcrích. Paisinéirí ar iarraidh."
    },
    "MISSING_PASSENGER" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Passenger missing."
+      "message" : "Ní féidir an t-aistriú a chur i gcrích. Paisinéir ar iarraidh."
    },
    "OK_AGREED" : {
       "description" : "",
@@ -469,7 +469,7 @@
    },
    "PAYMENT_LOCATION" : {
       "description" : "",
-      "message" : "Payment location:"
+      "message" : "Ionad íocaíochta:"
    },
    "PICKUP" : {
       "description" : "",
@@ -481,127 +481,127 @@
    },
    "PLEASE_LAND" : {
       "description" : "",
-      "message" : "Please land ship to allow transfer."
+      "message" : "Tabhair an long chun talún leis an aistriú a thosú."
    },
    "PROBLEM_CREW_1" : {
       "description" : "",
-      "message" : "a deadly fight among the crew members"
+      "message" : "troid mharfach i measc na foirne"
    },
    "PROBLEM_CREW_10" : {
       "description" : "",
-      "message" : "a mutiny"
+      "message" : "ceannairc"
    },
    "PROBLEM_CREW_2" : {
       "description" : "",
-      "message" : "the crew had to chase a deadly {locality} snake found loose on the ship"
+      "message" : "nathair nimhe mharfach ó {locality} ar teitheadh ar an long"
    },
    "PROBLEM_CREW_3" : {
       "description" : "",
-      "message" : "a {locality} spider killed all the others"
+      "message" : "damhán alla ó {locality} a mharaigh cách"
    },
    "PROBLEM_CREW_4" : {
       "description" : "",
-      "message" : "what it seems like a {locality} scorpion got into the crew quarters at night"
+      "message" : "scairp ó {locality} scaoilte i gceathrú na foirne san oíche"
    },
    "PROBLEM_CREW_5" : {
       "description" : "",
-      "message" : "a severe form of {locality} fever killed the others"
+      "message" : "fiabhras {locality} an-dona ar fad a mharaigh gach duine eile"
    },
    "PROBLEM_CREW_6" : {
       "description" : "",
-      "message" : "the other crew members did not return from a space walk"
+      "message" : "na baill eile den fhoireann ar iarraidh tar éis siúlóide spáis"
    },
    "PROBLEM_CREW_7" : {
       "description" : "",
-      "message" : "a severe form of food poisoning on the ship"
+      "message" : "nimhiú bia an-dona ar fad ar bord na loinge"
    },
    "PROBLEM_CREW_8" : {
       "description" : "",
-      "message" : "a terrible accident that lead to the ejection of the others into space"
+      "message" : "na daoine eile teilgthe amach as an long mar gheall ar thimpiste uafásach"
    },
    "PROBLEM_CREW_9" : {
       "description" : "",
-      "message" : "a circumstance that I can't comment on publicly"
+      "message" : "cúrsaí nach féidir liom plé go poiblí"
    },
    "PROBLEM_GENERAL_1" : {
       "description" : "",
-      "message" : "a fire in the cargo hold"
+      "message" : "tine sa mbolg lasta"
    },
    "PROBLEM_GENERAL_10" : {
       "description" : "",
-      "message" : "the receipt of a distress call from within {locality}"
+      "message" : "glaoch guaise ón taobh istigh de {locality}"
    },
    "PROBLEM_GENERAL_2" : {
       "description" : "",
-      "message" : "a power failure in the engine core"
+      "message" : "cliseadh cumhachta i gcroí an innill"
    },
    "PROBLEM_GENERAL_3" : {
       "description" : "",
-      "message" : "an air leak"
+      "message" : "sceitheadh aeir"
    },
    "PROBLEM_GENERAL_4" : {
       "description" : "",
-      "message" : "a severe form of food poisoning involving all personnel on board the ship"
+      "message" : "nimhiú bia an-dona ar fad a bhuail gach ball den fhoireann ar bord na loinge"
    },
    "PROBLEM_GENERAL_5" : {
       "description" : "",
-      "message" : "a small meteor impact"
+      "message" : "imbhualadh beag dreige"
    },
    "PROBLEM_GENERAL_6" : {
       "description" : "",
-      "message" : "a fight among crew members"
+      "message" : "troid i measc na foirne"
    },
    "PROBLEM_GENERAL_7" : {
       "description" : "",
-      "message" : "contact with an unidentified flight object"
+      "message" : "teagmháil le réad eitilte gan aithint"
    },
    "PROBLEM_GENERAL_8" : {
       "description" : "",
-      "message" : "a dispute with a competitor's vessel"
+      "message" : "easaontas le soitheach iomaitheora"
    },
    "PROBLEM_GENERAL_9" : {
       "description" : "",
-      "message" : "a reboot of the main computer"
+      "message" : "atosú an príomhríomhaire"
    },
    "PROBLEM_RESEARCH_1" : {
       "description" : "",
-      "message" : "an unexpected chemical reaction in one of the reaction chambers"
+      "message" : "imoibriú ceimiceach gan súil leis i gceann de na soithigh imoibrithe"
    },
    "PROBLEM_RESEARCH_10" : {
       "description" : "",
-      "message" : "a major discovery at {locality} that I am not at liberty to disclose at this time"
+      "message" : "fionnachtain an-tábhachtach ag {locality} nach bhfuil cead agam a nochtadh ag an tráth seo"
    },
    "PROBLEM_RESEARCH_2" : {
       "description" : "",
-      "message" : "an infection of a crew member with a pathogen local to {locality}"
+      "message" : "ball den fhoireann ionfhabhtaithe ag pataigin a bhaineann leis an gceantar {locality}"
    },
    "PROBLEM_RESEARCH_3" : {
       "description" : "",
-      "message" : "a leak of experimental pathogens into the main air supply"
+      "message" : "sceitheadh pataiginí turgnamhacha isteach sa bpríomhchóras aeir"
    },
    "PROBLEM_RESEARCH_4" : {
       "description" : "",
-      "message" : "crew exposure to a specimen collected at {locality}"
+      "message" : "baill den fhoireann fágtha gan chosaint ar eiseamal bitheolaíoch a bailíodh ó {locality}"
    },
    "PROBLEM_RESEARCH_5" : {
       "description" : "",
-      "message" : "a chemical explosion in one of the on-board fume hoods"
+      "message" : "pléascadh ceimiceach i gceann de na cochaill eastarraingthe ar bord"
    },
    "PROBLEM_RESEARCH_6" : {
       "description" : "",
-      "message" : "an experimental recreation of {locality} atmospheric gases"
+      "message" : "athchruthú turgnamhach de gháis atmaisféaracha ó {locality}"
    },
    "PROBLEM_RESEARCH_7" : {
       "description" : "",
-      "message" : "a heated dispute between scientists on board the ship"
+      "message" : "achrann idir eolaithe ar bord na loinge"
    },
    "PROBLEM_RESEARCH_8" : {
       "description" : "",
-      "message" : "the sudden disappearance of a lead investigator on board the ship"
+      "message" : "imeacht príomhthaighdeora gan tásc gan tuairisc ar bord na loinge"
    },
    "PROBLEM_RESEARCH_9" : {
       "description" : "",
-      "message" : "the accidental combination of incompatible specimens from {locality}"
+      "message" : "eiseamail neamh-chomhoiriúnacha ó {locality} a tharraingt le chéile trí thimpiste"
    },
    "RESULT_DELIVERY_COMM" : {
       "description" : "",
@@ -609,11 +609,11 @@
    },
    "RESULT_DELIVERY_CREW" : {
       "description" : "",
-      "message" : "Transferred {done} of {todo} crew members to target ship."
+      "message" : "{done} as {todo} ball foirne aistrithe go dtí an long sprice."
    },
    "RESULT_DELIVERY_PASS" : {
       "description" : "",
-      "message" : "Transferred {done} of {todo} passengers to target ship."
+      "message" : "{done} as {todo} paisinéir aistrithe go dtí an long sprice."
    },
    "RESULT_PICKUP_COMM" : {
       "description" : "",
@@ -633,7 +633,7 @@
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward:"
+      "message" : "Duais:"
    },
    "SEARCH_RESCUE" : {
       "description" : "",
@@ -649,7 +649,7 @@
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
-      "message" : "Target ship unresponsive."
+      "message" : "Gan freagra ón long sprice."
    },
    "SYSTEM" : {
       "description" : "",
@@ -665,7 +665,7 @@
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",
-      "message" : "tons of free cargo space"
+      "message" : "tona saor sa mbolg lasta"
    },
    "TRANSFER_ABORTED" : {
       "description" : "",
@@ -673,7 +673,7 @@
    },
    "TRANSFER_COMPLETE" : {
       "description" : "",
-      "message" : "Transfer has been completed!"
+      "message" : "Cuireadh an t-aistriú i gcrích!"
    },
    "TRANSFER_PARTIAL" : {
       "description" : "",
@@ -685,14 +685,14 @@
    },
    "TYPE_OF_HELP" : {
       "description" : "",
-      "message" : "What type of help is needed?"
+      "message" : "Cén sórt cúnamh atá ag teastáil?"
    },
    "UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "unoccupied passenger cabins"
+      "message" : "cábán paisinéara saor"
    },
    "WHERE_IS_THE_TARGET" : {
       "description" : "",
-      "message" : "Where do I find the target?"
+      "message" : "Cá bhfuil an sprioc?"
    }
 }
