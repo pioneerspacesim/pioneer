@@ -1,0 +1,9 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch collision_landing_fixes
+# Changes to be committed:
+#	modified:   data/models/ships/wave/wave_coll.dae
+#	modified:   data/models/stations/ground_station/starport_docking.dae
+#
+
