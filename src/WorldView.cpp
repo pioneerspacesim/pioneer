@@ -793,10 +793,21 @@ void WorldView::RefreshButtonStateAndVisibility()
 				double pressure, density;
 				static_cast<Planet*>(astro)->GetAtmosphericState(center_dist, &pressure, &density);
 
-				if (pressure > 0.001)
+				if (pressure > 0.001) {
 					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
-				else
+					const double apl = Pi::player->GetShipType()->atmosphericPressureLimit;
+					if (pressure > (apl * 0.9)) {
+						m_game->GetCpan()->SetOverlayTextColour(ShipCpanel::OVERLAY_BOTTOM_LEFT, Color::RED);
+					} else if (pressure > (apl * 0.75)) {
+						m_game->GetCpan()->SetOverlayTextColour(ShipCpanel::OVERLAY_BOTTOM_LEFT, Color::YELLOW);
+					} else {
+						m_game->GetCpan()->SetOverlayTextColour(ShipCpanel::OVERLAY_BOTTOM_LEFT, s_hudTextColor);
+					}
+				} else {
 					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
+					m_game->GetCpan()->SetOverlayTextColour(ShipCpanel::OVERLAY_BOTTOM_LEFT, s_hudTextColor);
+				}
+
 				if (Pi::player->GetHullTemperature() > 0.01) {
 					m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
 					m_hudHullTemp->Show();

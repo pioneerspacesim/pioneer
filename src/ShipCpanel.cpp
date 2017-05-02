@@ -453,6 +453,11 @@ void ShipCpanel::SetOverlayToolTip(OverlayTextPos pos, const std::string &text)
 	m_overlay[pos]->SetToolTip(text);
 }
 
+void ShipCpanel::SetOverlayTextColour(OverlayTextPos pos, const Color &colour)
+{
+	m_overlay[pos]->Color(colour);
+}
+
 void ShipCpanel::ClearOverlay()
 {
 	for (int i = 0; i < OVERLAY_MAX; i++) {

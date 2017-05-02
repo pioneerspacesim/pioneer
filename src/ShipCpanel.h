@@ -41,6 +41,7 @@ public:
 	};
 	void SetOverlayText(OverlayTextPos pos, const std::string &text);
 	void SetOverlayToolTip(OverlayTextPos pos, const std::string &text);
+	void SetOverlayTextColour(OverlayTextPos pos, const Color &colour);
 	void ClearOverlay();
 	// Selects the specified button
 	// @param int gid the buttons group (0 = left, 1 = right)
