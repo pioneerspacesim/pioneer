@@ -96,7 +96,6 @@
 		378564521B197FAE0039F2BC /* LuaServerAgent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785644E1B197FAE0039F2BC /* LuaServerAgent.cpp */; };
 		378564531B197FAE0039F2BC /* ServerAgent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378564501B197FAE0039F2BC /* ServerAgent.cpp */; };
 		44B75A971B1C259200EC500F /* libfreetype.6.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		44B75A981B1C259500EC500F /* libassimp.3.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		44B75A991B1C259600EC500F /* libsigc-2.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4A01889715A59908002F540B /* SystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A01889615A59908002F540B /* SystemPath.cpp */; };
 		4A0F25CE165CF00D00208507 /* LuaSmallButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F25CB165CF00D00208507 /* LuaSmallButton.cpp */; };
@@ -495,6 +494,7 @@
 		525515761CA6EEE30055DAB8 /* RandomColor.h in Sources */ = {isa = PBXBuildFile; fileRef = 525515721CA6EE1C0055DAB8 /* RandomColor.h */; };
 		525E07921C318AD1009BD2DD /* libssl.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */; };
 		525E07931C318AE4009BD2DD /* libssl.1.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		527EAD111EB9DA1A006AE599 /* libassimp.3.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5280FA921E52238A00FCBA44 /* JobQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563751B197D740039F2BC /* JobQueue.cpp */; };
 		528422931CC0E81900A9BFA8 /* BillboardMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */; };
 		528422941CC0E81A00A9BFA8 /* BillboardMaterial.h in Sources */ = {isa = PBXBuildFile; fileRef = 528422901CC0E80700A9BFA8 /* BillboardMaterial.h */; };
@@ -687,13 +687,13 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				527EAD111EB9DA1A006AE599 /* libassimp.3.0.0.dylib in Copy SubLibraries */,
 				52161F531C34354B005D3B25 /* libogg.0.dylib in Copy SubLibraries */,
 				523C0C5F1C33F92000802DC7 /* libcrypto.1.0.0.dylib in Copy SubLibraries */,
 				525E07931C318AE4009BD2DD /* libssl.1.0.0.dylib in Copy SubLibraries */,
 				37074B941B1C6DDC00AFE2CE /* libbz2.1.0.6.dylib in Copy SubLibraries */,
 				37074B951B1C6DDC00AFE2CE /* libpng16.16.dylib in Copy SubLibraries */,
 				37074B961B1C6DDC00AFE2CE /* libz.1.2.8.dylib in Copy SubLibraries */,
-				44B75A981B1C259500EC500F /* libassimp.3.0.0.dylib in Copy SubLibraries */,
 				44B75A991B1C259600EC500F /* libsigc-2.0.0.dylib in Copy SubLibraries */,
 				44B75A971B1C259200EC500F /* libfreetype.6.dylib in Copy SubLibraries */,
 			);
@@ -1527,6 +1527,7 @@
 		525515711CA6EE1C0055DAB8 /* RandomColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomColor.cpp; sourceTree = "<group>"; };
 		525515721CA6EE1C0055DAB8 /* RandomColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomColor.h; sourceTree = "<group>"; };
 		525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.1.0.0.dylib; path = ../../../../../opt/local/lib/libssl.1.0.0.dylib; sourceTree = "<group>"; };
+		527EAD0E1EB9D753006AE599 /* libassimp.3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.3.1.dylib; path = /opt/local/lib/libassimp.3.3.1.dylib; sourceTree = "<absolute>"; };
 		5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BillboardMaterial.cpp; sourceTree = "<group>"; };
 		528422901CC0E80700A9BFA8 /* BillboardMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BillboardMaterial.h; sourceTree = "<group>"; };
 		52875DFD1E66D68C00BA28A4 /* eglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eglew.h; sourceTree = "<group>"; };
@@ -2145,6 +2146,7 @@
 		4A671B851388C04700657F38 /* SubLibraries */ = {
 			isa = PBXGroup;
 			children = (
+				527EAD0E1EB9D753006AE599 /* libassimp.3.3.1.dylib */,
 				52161F511C343532005D3B25 /* libogg.0.dylib */,
 				523C0C5D1C33F90800802DC7 /* libcrypto.1.0.0.dylib */,
 				525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */,
