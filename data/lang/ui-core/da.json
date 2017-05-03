@@ -153,7 +153,7 @@
    },
    "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Compact radar"
+      "message" : "Kompakt radar"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
@@ -293,7 +293,7 @@
    },
    "ENABLE_ANISOTROPIC_FILTERING" : {
       "description" : "Use Anisotropic Filtering",
-      "message" : "Anisotropic Filtering"
+      "message" : "Anisotropisk Filtrering"
    },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
@@ -449,11 +449,11 @@
    },
    "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
       "description" : "Tooltip: The braking distance using the main thrusters.",
-      "message" : "The braking distance using the main thrusters"
+      "message" : "Bremseafstanden ved brug af primære styreraketter"
    },
    "HUD_CURRENT_COMBAT_TARGET" : {
       "description" : "Tooltip: The current combat target.",
-      "message" : "The current combat target"
+      "message" : "Det nuværende kampmål"
    },
    "HUD_CURRENT_FRAME" : {
       "description" : "Tooltip: The current frame of reference.",
@@ -465,7 +465,7 @@
    },
    "HUD_CURRENT_NAV_TARGET" : {
       "description" : "Tooltip: The current navigational target.",
-      "message" : "The current navigational target"
+      "message" : "Det aktuelle navigationsmål"
    },
    "HUD_CURRENT_PITCH" : {
       "description" : "Tooltip: the current pitch.",
@@ -497,7 +497,7 @@
    },
    "HUD_DURATION_OF_MANEUVER_BURN" : {
       "description" : "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
-      "message" : "The approximate duration of the maneuver burn with main thrusters"
+      "message" : "Den omtrentlige varighed af manøvrens brændetid med styreraketter"
    },
    "HUD_DURATION_UNTIL_MANEUVER_BURN" : {
       "description" : "Tooltip: The duration until the middle of the maneuver burn.",
@@ -506,6 +506,14 @@
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
       "message" : "Away from the current frame"
+   },
+   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
+      "description" : "Indicator: Prograde direction relative to the current combat target.",
+      "message" : "Prograde relative to current combat target"
+   },
+   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
+      "description" : "Indicator: Retrograde direction relative to the current combat target.",
+      "message" : "Retrograde relative to current combat target"
    },
    "HUD_INDICATOR_FRAME_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current frame.",
@@ -913,7 +921,7 @@
    },
    "OPEN_USER_FOLDER" : {
       "description" : "",
-      "message" : "User Folder"
+      "message" : "Bruger Mappe"
    },
    "OPTIONS" : {
       "description" : "",
@@ -1005,7 +1013,7 @@
    },
    "PUMP_DOWN" : {
       "description" : "Drain the fuel tank",
-      "message" : "Pump down"
+      "message" : "Tøm brændstoftanken"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -1125,7 +1133,7 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set destination as navigation target."
+      "message" : "Brug destination som navigationsmål."
    },
    "SHIP" : {
       "description" : "",
@@ -1165,7 +1173,7 @@
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
-      "message" : "Simulating evolution of the universe: {age} billion years ;-)"
+      "message" : "Simulerer universets udvikling: {age} milliarder år ;-)"
    },
    "SOUND" : {
       "description" : "",
@@ -1228,8 +1236,8 @@
       "message" : "Ship is too small for the current crew."
    },
    "TOO_SMALL_TO_TRANSSHIP" : {
-      "description" : "",
-      "message" : "Ship is too small to transship your cargo."
+      "description" : "Ship market error message",
+      "message" : "New ship lacks capacity for current cargo and hyperdrive."
    },
    "TOTAL" : {
       "description" : "",

@@ -21,7 +21,7 @@
    },
    "DEADLINE" : {
       "description" : "",
-      "message" : "Spriocam:"
+      "message" : "Sprioc-am:"
    },
    "DELIVERED_PASSENGER" : {
       "description" : "",
@@ -165,15 +165,15 @@
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "I can't believe you are just returning now! How much time has been wasted!"
+      "message" : "Ní chreidim nár fhill tú roimhe seo! An méid ama seo curtha amú!"
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full reimbursement of expenses you have to be back by {due}."
+      "message" : "Caithfidh tú filleadh roimh {due} chun aisíocaíocht iomlán ar chostaisí a fháil."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+      "message" : "Tá lucht rialaithe aerthráchta {starport} ag lorg cúnaimh uait LÁITHREACH mar gheall ar spáslong de chineál {ship} a thuirling de thuairt ar {planet}. Níl a fhios againn an bhfuil an córas cothaithe beatha ag feidhmiú fós. Tá luach {cash} d'árachas ó spásphort {starport} ar an long chun costaisí práinnfhreagartha a chlúdach."
    },
    "FLAVOUR_1_LOCATIONTEXT" : {
       "description" : "",
@@ -189,7 +189,7 @@
    },
    "FLAVOUR_1_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+      "message" : "Tuairiscítear go bhfuil {crew} ball foirne agus {pass} paisinéir ar bord na loinge. Tá duine ag teastáil uainn chun an long a aimsiú, éinne a tháinig slán  a bhailiú, agus filleadh anseo leo ar an toirt."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
@@ -205,7 +205,7 @@
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+      "message" : "Tá lucht rialaithe aerthráchta {starport} go díreach tar éis fógra a fháil go bhfuil {shiplabel} rite as breosla agus bhí sé orthu tuirlingt éigeandála a dhéanamh. D'íocfadh an píolóta {cash} as seirbhísí athbhreoslaithe."
    },
    "FLAVOUR_2_LOCATIONTEXT" : {
       "description" : "",

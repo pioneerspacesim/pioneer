@@ -507,6 +507,14 @@
       "description" : "Indicator: Away from the current frame.",
       "message" : "Air falbh on fhrèam làithreach"
    },
+   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
+      "description" : "Indicator: Prograde direction relative to the current combat target.",
+      "message" : "Prograde relative to current combat target"
+   },
+   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
+      "description" : "Indicator: Retrograde direction relative to the current combat target.",
+      "message" : "Retrograde relative to current combat target"
+   },
    "HUD_INDICATOR_FRAME_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current frame.",
       "message" : "Gabh ceum air adhart gu dàimheil ris an fhrèam-lorgaidh làithreach"
@@ -1228,8 +1236,8 @@
       "message" : "Tha an soitheach ro bheag airson an sgioba agad."
    },
    "TOO_SMALL_TO_TRANSSHIP" : {
-      "description" : "",
-      "message" : "Tha an soitheach ro bheag airson an carago agad a ghiùlan."
+      "description" : "Ship market error message",
+      "message" : "New ship lacks capacity for current cargo and hyperdrive."
    },
    "TOTAL" : {
       "description" : "",

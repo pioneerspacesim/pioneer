@@ -97,7 +97,7 @@
    },
    "DEADLINE" : {
       "description" : "Must be delivered by",
-      "message" : "Spriocam:"
+      "message" : "Sprioc-am:"
    },
    "DELIVER_TO" : {
       "description" : "Deliver to this location",

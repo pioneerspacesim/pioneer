@@ -507,6 +507,14 @@
       "description" : "Indicator: Away from the current frame.",
       "message" : "Vettore d'uscita dall'attuale sistema di riferimento"
    },
+   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
+      "description" : "Indicator: Prograde direction relative to the current combat target.",
+      "message" : "Prograde relative to current combat target"
+   },
+   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
+      "description" : "Indicator: Retrograde direction relative to the current combat target.",
+      "message" : "Retrograde relative to current combat target"
+   },
    "HUD_INDICATOR_FRAME_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current frame.",
       "message" : "Prograda relativa all'attuale sistema di riferimento"
@@ -1228,8 +1236,8 @@
       "message" : "L'astronave è troppo piccola per questo equipaggio."
    },
    "TOO_SMALL_TO_TRANSSHIP" : {
-      "description" : "",
-      "message" : "L'astronave è troppo piccola per trasbordarvi il carico."
+      "description" : "Ship market error message",
+      "message" : "New ship lacks capacity for current cargo and hyperdrive."
    },
    "TOTAL" : {
       "description" : "",

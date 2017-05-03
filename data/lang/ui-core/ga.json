@@ -507,6 +507,14 @@
       "description" : "Indicator: Away from the current frame.",
       "message" : "Amach ón bhfráma reatha"
    },
+   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
+      "description" : "Indicator: Prograde direction relative to the current combat target.",
+      "message" : "Prograde relative to current combat target"
+   },
+   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
+      "description" : "Indicator: Retrograde direction relative to the current combat target.",
+      "message" : "Retrograde relative to current combat target"
+   },
    "HUD_INDICATOR_FRAME_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current frame.",
       "message" : "Forghrádú i gcoibhneas leis an bhfráma tagartha reatha"
@@ -1228,8 +1236,8 @@
       "message" : "Tá an long róbheag don fhoireann atá ann."
    },
    "TOO_SMALL_TO_TRANSSHIP" : {
-      "description" : "",
-      "message" : "Tá an long róbheag le do lasta a iompar."
+      "description" : "Ship market error message",
+      "message" : "New ship lacks capacity for current cargo and hyperdrive."
    },
    "TOTAL" : {
       "description" : "",

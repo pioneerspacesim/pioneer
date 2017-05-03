@@ -9,7 +9,7 @@
    },
    "DEADLINE" : {
       "description" : "",
-      "message" : "Spriocam:"
+      "message" : "Sprioc-am:"
    },
    "DELIVERY" : {
       "description" : "",
@@ -309,11 +309,11 @@
    },
    "PIRATE_TAUNTS_6" : {
       "description" : "",
-      "message" : "Tell my old friend {client} that I'll see them in hell!"
+      "message" : "Inis do mo sheanchara {client} go bhfeicfidh mé in ifreann é!"
    },
    "PIRATE_TAUNTS_7" : {
       "description" : "",
-      "message" : "That package isn't going to reach its destination today."
+      "message" : "Ní shroichfidh an pacáiste sin a cheann scríbe inniu."
    },
    "PIRATE_TAUNTS_8" : {
       "description" : "",
@@ -321,7 +321,7 @@
    },
    "PIRATE_TAUNTS_9" : {
       "description" : "",
-      "message" : "You'll pay for that cargo, with your life."
+      "message" : "Bainfidh mé an lasta sin asat, le d'anam."
    },
    "SET_AS_TARGET" : {
       "description" : "",
@@ -337,7 +337,7 @@
    },
    "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
       "description" : "",
-      "message" : "This is a valuable package, you should keep your eyes open."
+      "message" : "Pacáiste luachmhar é seo; ba chóir duit a bheith ar d'fhaichill"
    },
    "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE" : {
       "description" : "",
