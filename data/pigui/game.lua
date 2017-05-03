@@ -378,9 +378,14 @@ end
 
 -- display the indicator pointing at the combat target
 local function displayCombatTargetIndicator(combatTarget)
-	local pos = combatTarget:GetPositionRelTo(Game.player)
+	local pos = combatTarget:GetPositionRelTo(player)
+	local vel = -combatTarget:GetVelocityRelTo(player)
 	local onscreen,position,direction = Engine.WorldSpaceToScreenSpace(pos)
 	displayIndicator(onscreen, position, direction, icons.square, colors.combatTarget, true)
+	onscreen,position,direction = Engine.WorldSpaceToScreenSpace(vel)
+	displayIndicator(onscreen, position, direction, icons.prograde, colors.combatTarget, true, lui.HUD_INDICATOR_COMBAT_TARGET_PROGRADE)
+	onscreen,position,direction = Engine.WorldSpaceToScreenSpace(-vel)
+	displayIndicator(onscreen, position, direction, icons.retrograde, colors.combatTarget, false, lui.HUD_INDICATOR_COMBAT_TARGET_RETROGRADE)
 end
 
 -- display indicators relative to frame

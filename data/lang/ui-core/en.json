@@ -487,6 +487,14 @@
        "description" : "Indicator: Prograde direction relative to the current navigational target.",
        "message" : "Prograde relative to current navigational target"
    },
+   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
+       "description" : "Indicator: Retrograde direction relative to the current combat target.",
+       "message" : "Retrograde relative to current combat target"
+   },
+   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
+       "description" : "Indicator: Prograde direction relative to the current combat target.",
+       "message" : "Prograde relative to current combat target"
+   },
    "HUD_INDICATOR_MANEUVER_PROGRADE" : {
        "description" : "Indicator: The prograde direction for the maneuver burn.",
        "message" : "Prograde for maneuver burn"

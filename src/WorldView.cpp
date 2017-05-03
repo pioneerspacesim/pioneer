@@ -1527,13 +1527,10 @@ void WorldView::UpdateProjectedObjects()
 	// update combat HUD
 	Ship *enemy = static_cast<Ship *>(Pi::player->GetCombatTarget());
 	if (enemy) {
-		char buf[128];
 		const vector3d targpos = enemy->GetInterpPositionRelTo(Pi::player) * cam_rot;
 		const double dist = targpos.Length();
 		const vector3d targScreenPos = enemy->GetInterpPositionRelTo(cam_frame);
 
-		snprintf(buf, sizeof(buf), "%.0fm", dist);
-		m_combatTargetIndicator.label->SetText(buf);
 		UpdateIndicator(m_combatTargetIndicator, targScreenPos);
 
 		// calculate firing solution and relative velocity along our z axis
@@ -1569,8 +1566,6 @@ void WorldView::UpdateProjectedObjects()
 			m_combatTargetIndicator.label->Color(r*255, 0, b*255);
 			m_targetLeadIndicator.label->Color(r*255, 0, b*255);
 
-			snprintf(buf, sizeof(buf), "%0.fm/s", vel);
-			m_targetLeadIndicator.label->SetText(buf);
 			UpdateIndicator(m_targetLeadIndicator, leadpos);
 
 			if ((m_targetLeadIndicator.side != INDICATOR_ONSCREEN) || (m_combatTargetIndicator.side != INDICATOR_ONSCREEN))
