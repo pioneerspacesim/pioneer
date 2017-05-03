@@ -1,3 +1,11 @@
+May 2017
+   * New Features
+	   * In-space indicators have icons and let you select collapsed ones (#3995)
+		 * Show combat target pro- and retrograde velocities (#4007)
+
+	 * Fixes
+	   * Restore correct mouse position after MMB/RMB movement (#4004)
+
 April 2017
    * New Features
      * New imgui-driven GUI reticule (#3868)
