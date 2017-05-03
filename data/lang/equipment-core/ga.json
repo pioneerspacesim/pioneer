@@ -205,7 +205,7 @@
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
-      "message" : "Scanadh reanna"
+      "message" : "Scanóir reann"
    },
    "PLANETSCANNER_DESCRIPTION" : {
       "description" : "",
@@ -289,7 +289,7 @@
    },
    "THRUSTERS_BASIC" : {
       "description" : "",
-      "message" : "Innill Mhodhnaithe"
+      "message" : "Inneall Modhnaithe"
    },
    "THRUSTERS_BASIC_DESCRIPTION" : {
       "description" : "",
@@ -297,19 +297,19 @@
    },
    "THRUSTERS_BEST" : {
       "description" : "",
-      "message" : "Innill Shaincheaptha"
+      "message" : "Inneall Saincheaptha"
    },
    "THRUSTERS_BEST_DESCRIPTION" : {
       "description" : "",
-      "message" : "Innill shaincheaptha a sholáthraíonn an t-aschur is fearr is féidir a fháil."
+      "message" : "Inneall saincheaptha a sholáthraíonn an t-aschur is fearr is féidir a fháil."
    },
    "THRUSTERS_MEDIUM" : {
       "description" : "",
-      "message" : "Innill Optamaithe"
+      "message" : "Inneall Optamaithe"
    },
    "THRUSTERS_MEDIUM_DESCRIPTION" : {
       "description" : "",
-      "message" : "Innill optamaithe a laghdaíonn neamhéifeachtúlacht agus a fheabhsaíonn aschur cumhachta."
+      "message" : "Inneall optamaithe a laghdaíonn neamhéifeachtúlacht agus a fheabhsaíonn aschur cumhachta."
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",

@@ -25,7 +25,7 @@
    },
    "ADVICE_3_BODYTEXT" : {
       "description" : "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
-      "message" : "Vermeide in unbewohnte Systeme zu springen, ohne genug Treibstoff für einen Sprung in ein bewohntes System zu haben."
+      "message" : "Vermeide es, in unbewohnte Systeme zu springen, wenn es keine Möglichkeit zur Rückkehr gibt."
    },
    "ADVICE_3_HEADLINE" : {
       "description" : "",
@@ -45,7 +45,7 @@
    },
    "ADVICE_5_HEADLINE" : {
       "description" : "",
-      "message" : "Verliere kein Geld."
+      "message" : "Verliere niemals Geld."
    },
    "ADVICE_6_BODYTEXT" : {
       "description" : "",
@@ -65,7 +65,7 @@
    },
    "ADVICE_8_BODYTEXT" : {
       "description" : "",
-      "message" : "Bei Reisen zu binären Sternsystemen, achte darauf, dass du zum richtigen Stern fliegst."
+      "message" : "Achte bei Reisen zu binären Sternsystemen darauf, dass du zum richtigen Stern fliegst."
    },
    "ADVICE_8_HEADLINE" : {
       "description" : "",
@@ -89,14 +89,14 @@
    },
    "TALE_1_HEADLINE" : {
       "description" : "Blade runner?",
-      "message" : "\"Ich habe Dinge gesehen, die ihr Menschen niemals glauben würdet.\""
+      "message" : "»Ich habe Dinge gesehen, die ihr Menschen niemals glauben würdet.«"
    },
    "TRAVELLERS_ADVICE" : {
       "description" : "Headline starts with this pre-headline",
-      "message" : "TRAVELLER'S ADVICE"
+      "message" : "RATSCHLAG EINES REISENDEN"
    },
    "TRAVELLERS_TALE" : {
       "description" : "Headline starts with this pre-headline",
-      "message" : "TRAVELLER'S TALE"
+      "message" : "ERZÄHLUNG EINES REISENDEN"
    }
 }

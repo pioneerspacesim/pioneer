@@ -81,11 +81,11 @@
    },
    "CEASE_FIRE" : {
       "description" : "",
-      "message" : "Cease fire, cease fire! I'm on your side!"
+      "message" : "Scoirigí de lámhach, scoirigí de lámhach! Tá mé leatsa!"
    },
    "CLUS" : {
       "description" : "custom cargo",
-      "message" : "Containerized living units"
+      "message" : "Botháin réamhdhéanta"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "I'm sorry, but this cargo is too valuable for me to hand over to an inexperienced pilot."
+      "message" : "Mo leithscéal, ach nílim sásta lasta chomh luachmhar seo a chur i lámha píolóta nach bhfuil mórán taithí aige."
    },
    "DENY_2" : {
       "description" : "",
@@ -133,7 +133,7 @@
    },
    "DIGESTERS" : {
       "description" : "custom cargo",
-      "message" : "Digesters"
+      "message" : "Díleáiteoirí"
    },
    "DISTANCE" : {
       "description" : "distance in space, between two locations",
@@ -141,23 +141,23 @@
    },
    "ELECTRICAL_APPLIANCES" : {
       "description" : "custom cargo",
-      "message" : "Electrical appliances"
+      "message" : "Fearais leictreacha"
    },
    "ESCORT_CHATTER_1" : {
       "description" : "",
-      "message" : "Hostile craft detected. Let us attack it together."
+      "message" : "Braitheadh spáslong naimhdeach. Ionsaímis le chéile í."
    },
    "ESCORT_CHATTER_2" : {
       "description" : "",
-      "message" : "Great. This pirate will be my first kill."
+      "message" : "Ar fheabhas. Is é an foghlaí seo an chéad duine a mharaigh mé riamh."
    },
    "ESCORT_CHATTER_3" : {
       "description" : "",
-      "message" : "Enemy spotted. Commencing attack."
+      "message" : "Feicim namhaid. Ag dul ar an ionsaí."
    },
    "ESCORT_CHATTER_4" : {
       "description" : "",
-      "message" : "Proceed to your destination. I'll cover you."
+      "message" : "Lean ort go dtí do cheann scríbe. Coinneoidh mé slán thú."
    },
    "ESCORT_CHATTER_5" : {
       "description" : "",
@@ -173,15 +173,15 @@
    },
    "FAILUREMSG_2" : {
       "description" : "",
-      "message" : "You are too late! What should I do with this now, it's worthless!"
+      "message" : "Tá tú déanach! Cad ba chóir dom déanamh leis seo? Ní fiú dada é anois!"
    },
    "FAILUREMSG_3" : {
       "description" : "",
-      "message" : "Listen, we were clear about the deadline. You can forget about getting payed."
+      "message" : "Bhíomar an-soiléir faoin sprioc-am. Níl seans faoin spéir go bhfaighidh tú cianóg rua uaim."
    },
    "FAILUREMSG_4" : {
       "description" : "",
-      "message" : "From now on, I will reject all job requests from you."
+      "message" : "Diúltóidh mé gach uile iarratas uait as seo amach."
    },
    "FAILUREMSG_FLUFFY_1" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "HOW_MUCH_MASS" : {
       "description" : "",
-      "message" : "How much mass?"
+      "message" : "Cad é an mhais?"
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
@@ -281,11 +281,11 @@
    },
    "INTROTEXT_PICKUP_1" : {
       "description" : "",
-      "message" : "How do you do? My name is {name}, and I need a ship that is able to fly to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, to pickup {cargoname} and return to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system for {cash}. The distance to {system} is {dist} ly."
+      "message" : "Cén chaoi a bhfuil tú? Is mise {name}, agus tá mé ag lorg spásloinge a bheadh in ann eitilt chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) le lasta {cargoname} a bhailiú, ansin filleadh ar {dom_starport} i réaltchóras {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) ar tháille {cash}. Tá {system} {dist} solasbhliain ar shiúl."
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "How are you? I'm {name}. One of my clients wants to import {cargoname} from {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
+      "message" : "Cad é mar atá tú? Is mise {name}. Tá cliant de mo chuid ag iarraidh {cargoname} a iompórtáil ó {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl. D'íocfadh sé {cash} as an seachadadh seo. Fill ar {dom_starport} i réaltchóras {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) leis an lasta a dhíluchtú."
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
@@ -293,7 +293,7 @@
    },
    "INTROTEXT_PICKUP_LOCAL_2" : {
       "description" : "",
-      "message" : "Hello. My name is {name}. My employer is willing to hire you for {cash} to help us relocate our warehouse by moving {cargoname} from {starport} to our new domicile {dom_starport}."
+      "message" : "Dia dhuit. Is mise {name}. Bheadh m'fhostóir sásta {cash} a thabhairt duit chun cabhrú linn ár trádstóras a athlonnú. Caithfimid {cargoname} a iompar ó {starport} go dtí an t-ionad nua {dom_starport}."
    },
    "INTROTEXT_WEDDING_1" : {
       "description" : "",
@@ -309,15 +309,15 @@
    },
    "I_AM_ON_MY_WAY" : {
       "description" : "",
-      "message" : "Sensors show that you are taking damage. I'm on my way."
+      "message" : "Taispeánann na braiteoirí go bhfuil damáiste á dhéanamh duit. Tá mo ar mo bhealach."
    },
    "I_HAVE_DEBITED_YOUR_ACCOUNT" : {
       "description" : "",
-      "message" : "I've debited your account with the missing goods."
+      "message" : "Thóg mé an t-airgead a bhí agam ort as do chuntas agat mar gheall ar na hearraí atá ar iarraidh."
    },
    "I_NEED_HELP" : {
       "description" : "",
-      "message" : "I'm taking damage. I need help."
+      "message" : "Tá damáiste á dhéanamh dom. Tá cabhair uaim."
    },
    "LY" : {
       "description" : "",
@@ -341,7 +341,7 @@
    },
    "PIRATE_GRIPES_1" : {
       "description" : "",
-      "message" : "Damn! You will pay for this!"
+      "message" : "A dhiabhail! Beidh daor ort!"
    },
    "PIRATE_GRIPES_2" : {
       "description" : "",
@@ -373,11 +373,11 @@
    },
    "PIRATE_TAUNTS_6" : {
       "description" : "",
-      "message" : "Looks like you're carrying more than you can handle. Let me help you with that."
+      "message" : "Dealraíonn sé go bhfuil an iomarca le hiompar agat.  Lig dom cabhrú leat."
    },
    "PIRATE_TAUNTS_7" : {
       "description" : "",
-      "message" : "Your luck has run out!"
+      "message" : "Thréig an t-ádh thú!"
    },
    "PLUTONIUM" : {
       "description" : "custom cargo",
@@ -397,7 +397,7 @@
    },
    "RISK_3" : {
       "description" : "",
-      "message" : "This is valuable cargo, you should keep your eyes open."
+      "message" : "Lasta luachmhar é seo; ba chóir duit a bheith ar d'fhaichill"
    },
    "RISK_4" : {
       "description" : "",
@@ -405,7 +405,7 @@
    },
    "RISK_5" : {
       "description" : "",
-      "message" : "This might be very risky, you could run into some significant resistance."
+      "message" : "Seans go mbeidh sé contúirteach, agus go mbeidh troid romhat."
    },
    "RISK_6" : {
       "description" : "",
@@ -425,7 +425,7 @@
    },
    "RISK_GEMS_1" : {
       "description" : "",
-      "message" : "It is possible that an unscrupulous jewel trader wants to intercept the cargo."
+      "message" : "Seans go bhfuil trádálaí seod neamhscrupallach ag iarraidh an lasta seo a ghoid."
    },
    "RISK_WHOLESALER_1" : {
       "description" : "",
@@ -433,11 +433,11 @@
    },
    "RISK_WHOLESALER_2" : {
       "description" : "",
-      "message" : "Maybe there's a risk. But the police have promised us to patrol the area."
+      "message" : "Seans go bhfuil contúirt ann. Ach gheall na gardaí dúinn go rachaidís ar patról sa cheantar."
    },
    "RISK_WHOLESALER_3" : {
       "description" : "",
-      "message" : "The risk is high. But an escort is ready to guard you."
+      "message" : "Tá an baol ard go maith. Ach déanfaidh gardaí coimhdeacht ort."
    },
    "SEMI_FINISHED_PRODUCTS" : {
       "description" : "custom cargo",
@@ -461,23 +461,23 @@
    },
    "SUCCESSMSG_1" : {
       "description" : "",
-      "message" : "Thank you for the delivery. You have been paid."
+      "message" : "Go raibh maith agat as an seachadadh. Íocadh an t-airgead leat."
    },
    "SUCCESSMSG_2" : {
       "description" : "",
-      "message" : "Thanks for the timely delivery. The money was transferred."
+      "message" : "Go raibh maith agat as an lasta a sheachadadh in am. Aistríodh an t-airgead."
    },
    "SUCCESSMSG_3" : {
       "description" : "",
-      "message" : "Excellent, it was a pleasure to work with you. I have paid the bill."
+      "message" : "Ar fheabhas. B'aoibhinn a bheith ag obair leat. D'íoc mé an bille."
    },
    "SUCCESSMSG_4" : {
       "description" : "",
-      "message" : "Thanks! I will definitely recommend you. Money has been transferred."
+      "message" : "Go raibh maith agat! Molfaidh mé thú gan dabht. Aistríodh an t-airgead."
    },
    "SUCCESSMSG_FLUFFY_1" : {
       "description" : "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
-      "message" : "Oh dear, what to do with so many fluffy beings. Either way, money has been sent."
+      "message" : "A thiarcais, cad ba chóir dom a dhéanamh leis na créatúir chlúmhacha seo? Pé scéal é, seoladh an t-airgead chugat."
    },
    "SYSTEM" : {
       "description" : "",
@@ -485,7 +485,7 @@
    },
    "TARGET_DESTROYED" : {
       "description" : "",
-      "message" : "Target destroyed."
+      "message" : "Scriosadh an sprioc."
    },
    "TITANIUM" : {
       "description" : "custom cargo",
@@ -517,15 +517,15 @@
    },
    "URGENCY_5" : {
       "description" : "",
-      "message" : "It is essential that the goods have been delivered before {date}."
+      "message" : "Caithfear na hearraí a sheachadadh roimh {date}."
    },
    "URGENCY_FLUFFY_1" : {
       "description" : "",
-      "message" : "Because of the reproduction rate of the little animals and the limited food in the container, the delivery must be completed until {date}."
+      "message" : "Mar gheall ar ráta síolraithe na n-ainmhithe beaga agus an méid bia sa gcoimeádán, caithfear iad a sheachadadh roimh {date}."
    },
    "URGENCY_RADIOACTIVE_1" : {
       "description" : "",
-      "message" : "Because of the half-life period of this isotope, delivery must be completed by {date}."
+      "message" : "Mar gheall ar leathré an iseatóip seo, caithfear é a sheachadadh roimh {date}."
    },
    "WEDDING_DRESSES" : {
       "description" : "custom cargo",
@@ -533,11 +533,11 @@
    },
    "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP" : {
       "description" : "",
-      "message" : "We have loaded up the cargo on your ship."
+      "message" : "Táimid tar éis an lasta a luchtú ar do long."
    },
    "WHAT_IS_THIS" : {
       "description" : "",
-      "message" : "What's this? Have you jettisoned my cargo? Are you crazy?"
+      "message" : "Cad é seo? Chaith tú mo lasta thar bord? An bhfuil tú as do mheabhair?"
    },
    "WHYSOMUCH_1" : {
       "description" : "",
@@ -549,15 +549,15 @@
    },
    "WHYSOMUCH_3" : {
       "description" : "",
-      "message" : "What is considered \"much\" is relative."
+      "message" : "Braitheann sé ar cad is brí le \"costasach\"."
    },
    "WHYSOMUCH_4" : {
       "description" : "",
-      "message" : "The pay reflects our wish for the goods to be delivered on time and in one piece."
+      "message" : "Léiríonn an táille ár mian go mbeidh na hearraí seachadta in am agus slán sábháilte."
    },
    "WHYSOMUCH_5" : {
       "description" : "",
-      "message" : "See it as a bonus for you to be discreet about this delivery."
+      "message" : "Féach air mar dhuais i gcomaoin do discréide sa chúram seo."
    },
    "WHYSOMUCH_6" : {
       "description" : "",
@@ -565,11 +565,11 @@
    },
    "WHYSOMUCH_CENTRIFUGES_1" : {
       "description" : "",
-      "message" : "Some {cargoname} were destroyed due to a software error and have to be replaced urgently."
+      "message" : "Scriosadh cuid den {cargoname} mar gheall ar fhabht bogearra agus caithfear cinn nua a chur ina n-áit."
    },
    "WHYSOMUCH_CHEMICAL_1" : {
       "description" : "",
-      "message" : "The production in the chemical plant depends on these goods and must not be interrupted. Nothing must stop the machine."
+      "message" : "Tá táirgeadh sa monarcha cheimiceach ag brath ar na hearraí seo agus tá sé ríthábhachtach gan cur isteach air. Ná stop an meaisín!"
    },
    "WHYSOMUCH_EXPENSIVE_1" : {
       "description" : "",
@@ -581,15 +581,15 @@
    },
    "WHYSOMUCH_FLUFFY_1" : {
       "description" : "",
-      "message" : "{cargoname} is a fast seller this season. You should invest in {cargoname} shares if you want to make a lot of money."
+      "message" : "Tá {cargoname} á dhíol go tiubh an séasúr seo. Ba chóir duit scaireanna {cargoname} a cheannach más mian leat pingin mhaith a thuilleamh."
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "These goods are crucial for a construction project."
+      "message" : "Tá na hearraí seo ríthábhachtach do thionscadal tógála."
    },
    "WHYSOMUCH_MINING_1" : {
       "description" : "",
-      "message" : "These goods are essential for the construction of a new mine."
+      "message" : "Tá na hearraí seo riachtanach do thógáil mianaigh nua."
    },
    "WHYSOMUCH_URGENT_1" : {
       "description" : "",
@@ -597,19 +597,19 @@
    },
    "WHYSOMUCH_URGENT_2" : {
       "description" : "",
-      "message" : "If we do not meet the delivery date, the project will come to a standstill."
+      "message" : "Mura mbainimid an sprioclá seachadta amach, ní bheimid in ann leanúint ar aghaidh leis an togra."
    },
    "WHYSOMUCH_URGENT_3" : {
       "description" : "",
-      "message" : "These goods are urgently needed."
+      "message" : "Tá géarghá leis na hearraí seo."
    },
    "WHYSOMUCH_WEDDING_1" : {
       "description" : "",
-      "message" : "So far I could not find anyone to perform this transport. When the season is over, my merchandise is worthless."
+      "message" : "Ní féidir liom aon duine a aimsiú a bheadh ábalta an seachadadh seo a dhéanamh. Beidh aon luach le mo chuid earraí ag deireadh an tséasúir."
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Cén fáth a bhfuil an méid sin airgid i gceist?"
+      "message" : "Cén fáth a bhfuil sé chomh costasach?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
@@ -621,6 +621,6 @@
    },
    "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE" : {
       "description" : "",
-      "message" : "Please come back when you have sufficient cargo space."
+      "message" : "Tar ar ais nuair a bheidh go leor spáis agat sa mbolg lasta."
    }
 }
