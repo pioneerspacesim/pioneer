@@ -1130,11 +1130,9 @@ void Pi::HandleEscKey() {
 			}
 		}
 		else if (currentView == Pi::game->GetSectorView()) {
-			Pi::game->GetCpan()->SelectGroupButton(0, 0);
 			SetView(Pi::game->GetWorldView());
 		}
 		else if ((currentView == Pi::game->GetSystemView()) || (currentView == Pi::game->GetSystemInfoView())) {
-			Pi::game->GetCpan()->SelectGroupButton(1, 0);
 			SetView(Pi::game->GetSectorView());
 		}
 		else if (currentView == Pi::game->GetSettingsView()){
@@ -1150,11 +1148,9 @@ void Pi::HandleEscKey() {
 				const char* tname = view->GetTemplateName();
 				if(tname) {
 					if (!strcmp(tname, "GalacticView")) {
-						Pi::game->GetCpan()->SelectGroupButton(1, 0);
 						SetView(Pi::game->GetSectorView());
 					}
 					else if (!strcmp(tname, "InfoView") || !strcmp(tname, "StationView")) {
-						Pi::game->GetCpan()->SelectGroupButton(0, 0);
 						SetView(Pi::game->GetWorldView());
 					}
 				}
