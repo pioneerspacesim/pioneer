@@ -441,127 +441,127 @@
    },
    "HUD_2D_RADAR" : {
       "description" : "Popup text: the name of the azimuthal equidistant projection radar",
-      "message" : "2D azimuthal equidistant projection"
+      "message" : "2D азимутальная эквидистантная проекция"
    },
    "HUD_3D_RADAR" : {
       "description" : "Popup text: the name of the planar projection radar (traditional frontier-style)",
-      "message" : "3D planar projection"
+      "message" : "3D проская проекция"
    },
    "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
       "description" : "Tooltip: The braking distance using the main thrusters.",
-      "message" : "The braking distance using the main thrusters"
+      "message" : "Расстояние торможения с использованием главных ускорителей"
    },
    "HUD_CURRENT_COMBAT_TARGET" : {
       "description" : "Tooltip: The current combat target.",
-      "message" : "The current combat target"
+      "message" : "Текущая боевая цель"
    },
    "HUD_CURRENT_FRAME" : {
       "description" : "Tooltip: The current frame of reference.",
-      "message" : "The current frame of reference"
+      "message" : "Текущая система отсчета"
    },
    "HUD_CURRENT_HEADING" : {
       "description" : "Tooltip: the current heading.",
-      "message" : "The current heading"
+      "message" : "Текущее направление"
    },
    "HUD_CURRENT_NAV_TARGET" : {
       "description" : "Tooltip: The current navigational target.",
-      "message" : "The current navigational target"
+      "message" : "Текущая цель навигации"
    },
    "HUD_CURRENT_PITCH" : {
       "description" : "Tooltip: the current pitch.",
-      "message" : "The current pitch"
+      "message" : "Текущий угол наклона"
    },
    "HUD_CURRENT_ROLL" : {
       "description" : "Tooltip: the current roll.",
-      "message" : "The current roll"
+      "message" : "Текущий угол разворота"
    },
    "HUD_DELTA_V" : {
       "description" : "Tooltip: The remaining Δv.",
-      "message" : "Remaining Δv"
+      "message" : "Осталось Δv"
    },
    "HUD_DELTA_V_OF_MANEUVER_BURN" : {
       "description" : "Tooltip: The Δv for the maneuver burn.",
-      "message" : "The Δv for the maneuver burn"
+      "message" : "Δv маневра"
    },
    "HUD_DELTA_V_PERCENT" : {
       "description" : "Tooltip: The remaining Δv in percent.",
-      "message" : "Remaining Δv"
+      "message" : "Осталось Δv"
    },
    "HUD_DISTANCE_TO_SURFACE_OF_FRAME" : {
       "description" : "Tooltip: Distance to the surface of the frame of reference.",
-      "message" : "Distance to the surface of the frame of reference"
+      "message" : "Расстояние до поверхности системы отсчета"
    },
    "HUD_DISTANCE_TO_SURFACE_OF_TARGET" : {
       "description" : "Tooltip: Distance to the surface of the target.",
-      "message" : "Distance to the surface of the target"
+      "message" : "Расстояние до поверхности цели"
    },
    "HUD_DURATION_OF_MANEUVER_BURN" : {
       "description" : "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
-      "message" : "The approximate duration of the maneuver burn with main thrusters"
+      "message" : "Примерная продолжительность маневра с использованием главных ускорителей"
    },
    "HUD_DURATION_UNTIL_MANEUVER_BURN" : {
       "description" : "Tooltip: The duration until the middle of the maneuver burn.",
-      "message" : "The duration until the middle of the maneuver burn"
+      "message" : "Продолжительность до середины маневра"
    },
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
-      "message" : "Away from the current frame"
+      "message" : "Удаляемся от текущей системы отсчета"
    },
    "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current combat target.",
-      "message" : "Prograde relative to current combat target"
+      "message" : "В  направлении относительно текущей боевой цели"
    },
    "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current combat target.",
-      "message" : "Retrograde relative to current combat target"
+      "message" : "В обратном направлении относительно текущей боевой цели"
    },
    "HUD_INDICATOR_FRAME_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current frame.",
-      "message" : "Prograde relative to current frame of reference"
+      "message" : "В направлении относительно текущей системы отсчета"
    },
    "HUD_INDICATOR_FRAME_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current frame.",
-      "message" : "Retrograde relative to current frame of reference"
+      "message" : "В обратном направлении относительно текущей системы отсчета"
    },
    "HUD_INDICATOR_MANEUVER_PROGRADE" : {
       "description" : "Indicator: The prograde direction for the maneuver burn.",
-      "message" : "Prograde for maneuver burn"
+      "message" : "В направлении маневра"
    },
    "HUD_INDICATOR_NAV_TARGET_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current navigational target.",
-      "message" : "Prograde relative to current navigational target"
+      "message" : "В направлении относительно текущей цели навигации"
    },
    "HUD_INDICATOR_NAV_TARGET_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current navigational target.",
-      "message" : "Retrograde relative to current navigational target"
+      "message" : "В обратном направлении относительно текущей цели навигации"
    },
    "HUD_RADAR_DISTANCE" : {
       "description" : "Tooltip: Current distance of the radar.",
-      "message" : "Active radar distance"
+      "message" : "Расстояние активного радара"
    },
    "HUD_SHOW_COMBAT_TARGET" : {
       "description" : "Tooltip: Show the current combat target.",
-      "message" : "Show the current combat target"
+      "message" : "Показать текущую боевую цель"
    },
    "HUD_SHOW_FRAME" : {
       "description" : "Tooltip: Show the current frame of reference.",
-      "message" : "Show the current frame of reference"
+      "message" : "Показать текущую систему отсчета"
    },
    "HUD_SHOW_NAV_TARGET" : {
       "description" : "Tooltip: Show current navigational target.",
-      "message" : "Show the current navigational target"
+      "message" : "Показать текущую цель навигации"
    },
    "HUD_SPEED_OF_APPROACH_TO_FRAME" : {
       "description" : "Tooltip: The speed of approach towards the frame of reference.",
-      "message" : "The speed of approach towards the frame of reference"
+      "message" : "Скорость приближения к системе отсчета"
    },
    "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
       "description" : "Tooltip: The speed of approach towards the target.",
-      "message" : "The speed of approach towards the target"
+      "message" : "Скорость приближения к цели"
    },
    "HUD_SPEED_RELATIVE_TO_TARGET" : {
       "description" : "Tooltip: The speed relative to the target.",
-      "message" : "The speed relative to the target"
+      "message" : "Скорость относительно цели"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
@@ -1237,7 +1237,7 @@
    },
    "TOO_SMALL_TO_TRANSSHIP" : {
       "description" : "Ship market error message",
-      "message" : "New ship lacks capacity for current cargo and hyperdrive."
+      "message" : "У нового корабля не хватает вместимости для текущего груза и гипердвигателя."
    },
    "TOTAL" : {
       "description" : "",

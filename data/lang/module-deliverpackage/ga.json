@@ -17,7 +17,7 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't think I can trust you with this delivery."
+      "message" : "Mo leithscéal, ach níl muinín ar bith agam asat chun é seo a sheachadadh."
    },
    "DENY_1" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone I can trust with this delivery."
+      "message" : "Ní dóigh liom gur tusa an sórt duine a bheadh in ann an seachadadh seo a dhéanamh."
    },
    "DENY_4" : {
       "description" : "",
@@ -57,7 +57,7 @@
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
-      "message" : "GOING TO the {system} system? Money paid for delivery of a small package."
+      "message" : "AR DO BHEALACH go réaltchóras {system}? Íocfar as pacáiste beag a thabhairt leat."
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
@@ -65,7 +65,7 @@
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name}. I'll pay you {cash} if you will deliver a small package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Dia dhuit, is mise {name}. D'íocfainn {cash} as pacáiste beag a sheachadadh chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl."
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid."
+      "message" : "Bhí mé thar a bheith soiléir faoin spriocdháta agus tá an-díomá orm go raibh an seachadadh chomh mall sin. Ní bhfaighidh tú cianóg rua."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "Useless! I will never depend on you again! Needless to say, you will not be paid for this."
+      "message" : "Beag de mhaith! Ní bheidh mé ag brath ort arís. Ní gá a rá nach bhfaighidh tú íocaíocht ar bith."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
@@ -133,7 +133,7 @@
    },
    "FLAVOUR_3_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me."
+      "message" : "Tháinig roinnt cáipéisí an-íogaire chugam, agus tá údar maith agam a shíleadh go gcreidtear gur mise a sceith an t-eolas."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
@@ -141,11 +141,11 @@
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "Your ship registration has been noted, we will reject all further applications for work from you."
+      "message" : "Rinneadh taifead ar uimhir chlárúcháin do loinge. Diúltóimid aon iarratas a chuirfidh tú isteach sa todhchaí."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "Greetings. This is an automated message from Bedford and {name} Courier Services. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Dia dhuit! Seo é teachtaireacht uathoibríoch ó Sheirbhísí Cúiréireachta Bhairbre agus {name}. D'íocfaimis {cash} as turas go dtí {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
@@ -157,15 +157,15 @@
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "MOVING HOME. Move of hardware to {starport} from storage."
+      "message" : "AG DUL ABHAILE. Crua-earraí le haistriú ó stóras go {starport}."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "What are these? Oh, you took so long that I forgot I'd even sent this!"
+      "message" : "Cad iad seo? Ó, bhí tú chomh fada sin go ndearna mé dearmad glan de!"
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "Nice to meet you. I am {name} and I'm willing to pay {cash} for someone with a ship to help me move my belongings to {starport}. No rush, they are just some leftovers from moving house."
+      "message" : "Deas bualadh leat. Is mise {name} agus bheinn sásta {cash} a thabhairt do dhuine a bhfuil long aige chun cabhrú liom mo stuif a aistriú go {starport}. Níl aon deifir orm, níl iontu ach lumpar is lampar ón seanteach."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
-      "message" : "I could have delivered it faster myself. I'm not paying you."
+      "message" : "D'fhéadfainnse é a sheachadadh níos tapúla. Ní bhfaighidh tú cianóg rua uaim."
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
@@ -193,7 +193,7 @@
    },
    "FLAVOUR_6_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "I don't think it's a lot."
+      "message" : "Ní dóigh liomsa go bhfuil sé chomh costasach sin."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
@@ -205,11 +205,11 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "Hello. We need these crates delivered to {starport} as soon as possible. Standard payment for this shipment is {cash}."
+      "message" : "Dia dhuit. Caithfimid na crátaí seo a sheachadadh chuig {starport} chomh luath agus is féidir. Is é {cash} an ghnáthíocaíocht ar an seachadadh seo."
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Excellent, we've credited the funds into your account."
+      "message" : "Ar fheabhas. D'aistríomar an t-airgead go dtí do chuntas."
    },
    "FLAVOUR_7_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -221,15 +221,15 @@
    },
    "FLAVOUR_8_FAILUREMSG" : {
       "description" : "",
-      "message" : "You were offered a premium for quick delivery! I refuse to pay for this."
+      "message" : "Tairgeadh airgead breise duit as seachadadh níos sciobtha! Ní íocfaidh mé sciúrtóg rua."
    },
    "FLAVOUR_8_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} and I need this item delivered to a friend at {starport} pronto, I'll pay you {cash} credits if you get it there in a reasonable time."
+      "message" : "Is mise {name} agus caithfidh mé an rud seo a sheachadadh chuig cara liom ag {starport}, láithreach bonn. Tabharfaidh mé {cash} aonad duit más féidir leat é a sheachadadh laistigh de thréimhse réasúnta."
    },
    "FLAVOUR_8_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Your prompt delivery is appreciated, I have credited your account accordingly."
+      "message" : "Tá mé buíoch díot as an seachadadh sciobtha. D'aistrigh mé an t-airgead chuig do chuntas."
    },
    "FLAVOUR_8_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -245,7 +245,7 @@
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
-      "message" : "Greetings, we're behind with our produce shipment and need it delivered to {starport} urgently. We'll pay you {cash} for your troubles."
+      "message" : "Dia dhuit! Táimid mall leis an lasta torthaí seo agus ní mór dúinn é a sheachadadh chuig {starport} go práinneach. Íocfaimid {cash} leat as ucht do chabhrach."
    },
    "FLAVOUR_9_SUCCESSMSG" : {
       "description" : "",

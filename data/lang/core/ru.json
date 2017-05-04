@@ -1761,11 +1761,11 @@
    },
    "UNIT_MILLION_METERS" : {
       "description" : "Distance unit: one million meters",
-      "message" : "Mm"
+      "message" : "Мм"
    },
    "UNIT_MILLION_METERS_PER_SECOND" : {
       "description" : "Speed unit: one million meters per second",
-      "message" : "Mm/s"
+      "message" : "Мм/с"
    },
    "UNIT_MINUTES" : {
       "description" : "Duration unit: one 60-second minute",

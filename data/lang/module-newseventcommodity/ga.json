@@ -25,11 +25,11 @@
    },
    "FLAVOUR_12_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Infrastructure breakdown as computers malfunction in the {system} system."
+      "message" : "NUACHT {date}: Cliseadh infreastruchtúir ag eascairt as mífheidhmiú ríomhairí i réaltchóras {system}."
    },
    "FLAVOUR_12_NEWSBODY" : {
       "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
-      "message" : "A nasty virus caused all Nachosoft computers in the {system} system ({sectorx}, {sectory}, {sectorz}) to suffer a complete hard drive meltdown. The faulty units make excellent paper weights, computer scientists say."
+      "message" : "Theip ar an tiomántán crua i ngach ríomhaire Micreabhog i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) mar gheall ar víreas tubaisteach. Deir na saineolaithe ríomhaireachta gur féidir tairbhe a bhaint as na haonaid fhabhtacha mar thromáin pháipéir."
    },
    "FLAVOUR_13_HEADLINE" : {
       "description" : "",
@@ -41,11 +41,11 @@
    },
    "FLAVOUR_14_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Solar flare causes biggest black out in a millennium in the {system} system."
+      "message" : "NUACHT {date}: Grianbhladhm is cúis leis an gcliseadh cumhachta is mó le míle bliain anuas i réaltchóras {system}."
    },
    "FLAVOUR_14_NEWSBODY" : {
       "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-      "message" : "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as producer has run out of raw material."
+      "message" : "Tá cúrsaí ar fud réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) ina gcíor thuathail mar gheall ar an gcliseadh cumhachta. Tá tomhaltóirí ag ciúáil chun gabhdáin phlaisteacha a cheannach le húsáid in áit a gcuisneoir, toisc go bhfuil an táirgeoir rite as amhábhar."
    },
    "FLAVOUR_15_HEADLINE" : {
       "description" : "",
@@ -53,23 +53,23 @@
    },
    "FLAVOUR_15_NEWSBODY" : {
       "description" : "imply high demand of NARCOTICS.",
-      "message" : "The administration in the {system} system ({sectorx}, {sectory}, {sectorz}) hopes crime will diminish as drugs are no longer available, since the arrest of several mobsters."
+      "message" : "Tá na húdaráis i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) ag súil le laghdú i líon na gcoireanna tar éis dóibh roinnt drongadóirí a ghabháil, toisc nach bhfuil drugaí ar fáil ar an tsráid a thuilleadh."
    },
    "FLAVOUR_16_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Serious accident during the annual {system} Great Steam Fair."
+      "message" : "NUACHT {date}: Drochthimpiste le linn Oireachtas na Samhna i réaltchóras {system}."
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
-      "message" : "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
+      "message" : "Le linn Oireachtas na Samhna i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), rinneadh iarracht an churiarracht réaltrach sa gcomórtas tarraingthe le tarracóir a shárú, ach chuaigh cúrsaí chun donais nuair a chaill iomaitheoir amháin smacht ar a tharracóir, ag scriosadh gach meaisín eile sa gcomórtas. Deir na húdaráis go bhfuil géarchéim ag bagairt ar na feirmeoirí áitiúla anois."
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: New found riches in the {system} system."
+      "message" : "NUACHT {date}: Saibhreas nua-aimsithe i réaltchóras {system}."
    },
    "FLAVOUR_17_NEWSBODY" : {
       "description" : "Imply vast abundance of METAL_ORE.",
-      "message" : "Miners in the {system} system ({sectorx}, {sectory}, {sectorz}) discovered a vast deposit of ore of never before seen proportions."
+      "message" : "Tá mianadóirí i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) tar éis teacht ar fhosú méine ollmhór; ní bheidh a leithéid arís ann."
    },
    "FLAVOUR_18_HEADLINE" : {
       "description" : "",
@@ -77,7 +77,7 @@
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
-      "message" : "The wheels are spinning ever faster in the {system} system ({sectorx}, {sectory}, {sectorz}) as consumers have more money to spend."
+      "message" : "Tá borradh mór faoin ngeilleagar i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) dá bhrí go bhfuil níos mó airgid le caitheamh ag tomhaltóirí."
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
@@ -85,7 +85,7 @@
    },
    "FLAVOUR_19_NEWSBODY" : {
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
-      "message" : "A man in the {system} system ({sectorx}, {sectory}, {sectorz}) has inherited an invention from his late uncle, allowing him to transmute any solid into gold and platinum. Economists expect a destabilization of the economy in the system, unless the machine breaks down soon."
+      "message" : "Tá fear i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) tar éis aireagán a fháil mar oidhreacht óna uncail, nach maireann, a ligeann dó ór agus platanam a dhéanamh d'aon ábhar soladach. Creideann eacnamaithe go rachaidh geilleagar an réaltchórais chun donais mura dteipeann ar an meaisín go luath."
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
@@ -93,31 +93,31 @@
    },
    "FLAVOUR_1_NEWSBODY" : {
       "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
-      "message" : "Tá coimhlint sheanbhunaithe i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) ag éirí níos measa, agus an dá thaobh i mbun comhraic oscailte."
+      "message" : "Tá coimhlint sheanbhunaithe i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) ag éirí níos measa, agus an dá thaobh i mbun comhraic oscailte anois."
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: The harvest of the gas giant algae in the {system} system sets new record."
+      "message" : "NUACHT {date}: An méid is mó algaí bailithe riamh ó fhathach gáis i réaltchóras {system}."
    },
    "FLAVOUR_20_NEWSBODY" : {
       "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-      "message" : "As {system} ({sectorx}, {sectory}, {sectorz}) enters a phase favourable to the yellow algae found in the atmosphere of a local gas giant, the harvest has be exceptionally good for the fertilizer company Soylent Yellow Inc."
+      "message" : "Tá coinníollacha i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) anois fabhrach do na halgaí buí a aimsítear in atmaisféar fathaigh gháis áitiúil. Tá an comhlacht leasacháin Seán Buí, Teo. ag baint an-tairbhe as an bhfómhar bisiúil. "
    },
    "FLAVOUR_21_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Treaty signed in the {system} system for more \"humane\" warfare."
+      "message" : "NUACHT {date}: Síníodh conradh um chogadh níos \"cineálta\" i réaltchóras {system}."
    },
    "FLAVOUR_21_NEWSBODY" : {
       "description" : "Imply vast abundance of NERVE_GAS.",
-      "message" : "Although the conflicting parties in the {system} system ({sectorx}, {sectory}, {sectorz}) have not signed an official cease fire, they have agreed to stop using chemical weapons."
+      "message" : "Cé nár shínigh an dá thaobh i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) sos lámhaigh oifigiúil, d'aontaíodar gan airm cheimiceacha a úsáid a thuilleadh."
    },
    "FLAVOUR_22_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police on strike in the {system} system. Citizens left to fend for themselves."
+      "message" : "NUACHT {date}: Gardaí ar stailc i réaltchóras {system}. Is éigean do na saoránaigh iad féin a chosaint."
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
-      "message" : "In a protest against understaffing the {system} system ({sectorx}, {sectory}, {sectorz}) police refuse to work. Meanwhile, civilians form vigilante groups and arm themselves with pitchforks and firearms as they prepare for the worst."
+      "message" : "Mar agóid in aghaidh easpa foirne i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), tá na gardaí amach ar stailc. San am céanna, tá na saoránaigh ag bunú grúpaí forairdeallaithe, ag dul faoi airm le pící agus gunnaí, agus ag ullmhú don chás is measa."
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knives capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
+      "message" : "Tá an mhonarcha nua Buaiteoirinox i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) faoi lán seoil anois. Táirgfidh sé sceana den chéad scoth  atá ábalta gearradh trí spásbhuatais. É sin ráite, níl an mhonarcha ar lánacmhainn táirgthe fós mar gheall ar easpa acmhainní atá de dhíth chun na lanna a dhéanamh."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "FLAVOUR_5_NEWSBODY" : {
       "description" : "Imply high demand of SLAVES.",
-      "message" : "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a stand still as no cheap workers can be found."
+      "message" : "Tá oibrithe i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) tar éis éalú ón ngéibheann agus tá siad ag diúltú loiteoga a bhailiú sna páirceanna. Tá an tóin ag titim as an ngeilleagar toisc nach féidir teacht ar oibrithe ar phá íseal."
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -181,7 +181,7 @@
    },
    "FLAVOUR_8_NEWSBODY" : {
       "description" : "Imply high demand of MINING_MACHINERY.",
-      "message" : "A mine collapsed in the {system} system ({sectorx}, {sectory}, {sectorz}), killing hundreds of workers and destroying important machinery vital for the economy."
+      "message" : "Tá mianach tar éis titim anuas i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}). Mharaigh an timpiste na céadta oibrí agus scrios sé innealra atá an-tábhachtach don gheilleagar."
    },
    "FLAVOUR_9_HEADLINE" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "GRATEFUL_GREETING_2" : {
       "description" : "",
-      "message" : "Greetings and salutations! You should have no trouble selling {cargo} here."
+      "message" : "Beannachtaí an lae! Ní bheidh fadhb ar bith agat {cargo} a dhíol anseo."
    },
    "GRATEFUL_GREETING_3" : {
       "description" : "",

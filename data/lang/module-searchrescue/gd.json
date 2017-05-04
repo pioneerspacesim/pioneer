@@ -177,7 +177,7 @@
    },
    "FLAVOUR_1_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "'S e {planet} aig co-chomharran domhan-leud/domhan-fhaid: {lat} / {long} a tha san t-ionad mu dheireadh aig an t-soitheach seo air a bheil tinn eòlach. 'S e {shiplabel} a th' ann an ID an t-soithich."
+      "message" : "'S e {planet} aig co-chomharran domhan-leud/domhan-fhaid: {lat} / {long} a tha san t-ionad mu dheireadh aig an t-soitheach seo air a bheil sinn eòlach. 'S e {shiplabel} a th' ann an ID an t-soithich."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",

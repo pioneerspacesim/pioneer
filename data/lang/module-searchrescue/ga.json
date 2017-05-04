@@ -69,7 +69,7 @@
    },
    "ENTITY_FAMILY_BUSINESS_8" : {
       "description" : "",
-      "message" : "{name} Authentic {locality} Foods"
+      "message" : "Bia Dúchasach {locality} {name}"
    },
    "ENTITY_FAMILY_BUSINESS_9" : {
       "description" : "",
@@ -89,7 +89,7 @@
    },
    "ENTITY_GENERAL_3" : {
       "description" : "",
-      "message" : "the Interest Rights Groups for {locality}"
+      "message" : "Grúpaí Sainleasa in {locality}"
    },
    "ENTITY_GENERAL_4" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "You are not equipped to handle this mission. {unit} {equipment} required."
+      "message" : "Níl an trealamh feiliúnach agat le dul i mbun an mhisin seo. {unit} {equipment} ag teastáil."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
@@ -401,15 +401,15 @@
    },
    "HOW_MUCH_TIME" : {
       "description" : "",
-      "message" : "How much time do I have?"
+      "message" : "Cé mhéad ama atá agam?"
    },
    "INTERACTION_ABORTED" : {
       "description" : "",
-      "message" : "Interaction aborted. Please come closer and try again."
+      "message" : "Stopadh an idirghníomhaíocht go tobann. Tar i ngiorracht agus bain triail eile as."
    },
    "INTERACTION_DISTANCE_REACHED" : {
       "description" : "",
-      "message" : "Interaction distance reached."
+      "message" : "Sroicheadh an fad idirghníomhaíochta."
    },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
@@ -669,7 +669,7 @@
    },
    "TRANSFER_ABORTED" : {
       "description" : "",
-      "message" : "Transfer has been aborted!"
+      "message" : "Stopadh an t-aistriú go tobann!"
    },
    "TRANSFER_COMPLETE" : {
       "description" : "",
@@ -681,7 +681,7 @@
    },
    "TRANSFER_TIME" : {
       "description" : "",
-      "message" : "Please allow {minutes} minutes for transfer."
+      "message" : "Tabhair {minutes} nóiméad leis an aistriú a chur i gcrích."
    },
    "TYPE_OF_HELP" : {
       "description" : "",
