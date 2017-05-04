@@ -453,7 +453,7 @@
    },
    "HUD_CURRENT_COMBAT_TARGET" : {
       "description" : "Tooltip: The current combat target.",
-      "message" : "L'attuale obiettivo per il combattimento"
+      "message" : "L'attuale bersaglio"
    },
    "HUD_CURRENT_FRAME" : {
       "description" : "Tooltip: The current frame of reference.",
@@ -509,11 +509,11 @@
    },
    "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current combat target.",
-      "message" : "Prograde relative to current combat target"
+      "message" : "Prograda relativa all'attuale bersaglio"
    },
    "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current combat target.",
-      "message" : "Retrograde relative to current combat target"
+      "message" : "Retrograda relativa all'attuale bersaglio"
    },
    "HUD_INDICATOR_FRAME_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current frame.",
@@ -541,7 +541,7 @@
    },
    "HUD_SHOW_COMBAT_TARGET" : {
       "description" : "Tooltip: Show the current combat target.",
-      "message" : "Mostra l'attuale obiettivo per il combattimento"
+      "message" : "Mostra l'attuale bersaglio"
    },
    "HUD_SHOW_FRAME" : {
       "description" : "Tooltip: Show the current frame of reference.",
@@ -1237,7 +1237,7 @@
    },
    "TOO_SMALL_TO_TRANSSHIP" : {
       "description" : "Ship market error message",
-      "message" : "New ship lacks capacity for current cargo and hyperdrive."
+      "message" : "La nuova astronave non può contenere l'attuale carico ed iperguida."
    },
    "TOTAL" : {
       "description" : "",
@@ -1345,7 +1345,7 @@
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "Deve prima selezionare un obiettivo per il combattimento, Comandante."
+      "message" : "Deve prima selezionare un bersaglio, Comandante."
    },
    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
       "description" : "",

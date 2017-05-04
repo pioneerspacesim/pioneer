@@ -37,7 +37,7 @@
    },
    "ENTITY_FAMILY_BUSINESS_1" : {
       "description" : "",
-      "message" : "{name} and Sons"
+      "message" : "Tigh {name}"
    },
    "ENTITY_FAMILY_BUSINESS_10" : {
       "description" : "",
@@ -45,7 +45,7 @@
    },
    "ENTITY_FAMILY_BUSINESS_2" : {
       "description" : "",
-      "message" : "{name} and Daughters"
+      "message" : "Muintir {name}"
    },
    "ENTITY_FAMILY_BUSINESS_3" : {
       "description" : "",
@@ -53,11 +53,11 @@
    },
    "ENTITY_FAMILY_BUSINESS_4" : {
       "description" : "",
-      "message" : "{name} Custom Painted Missiles"
+      "message" : "Diúracáin Shainphéinteáilte {name}"
    },
    "ENTITY_FAMILY_BUSINESS_5" : {
       "description" : "",
-      "message" : "{name} Courier Services"
+      "message" : "Seirbhísí Cúiréireachta {name}"
    },
    "ENTITY_FAMILY_BUSINESS_6" : {
       "description" : "",
@@ -113,7 +113,7 @@
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
-      "message" : "{locality} Burial-Services Corp"
+      "message" : "Seirbhísí Adhlacóireachta {locality}"
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "FLAVOUR_1_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+      "message" : "Suíomh is deireanaí a bhfuil eolas ann ina leith don long seo: domhanleithead/domhanfhad {lat} / {long} ar phláinéad {planet}. Is é {shiplabel} aitheantas na loinge."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
@@ -229,15 +229,15 @@
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable performance! We will update our records accordingly."
+      "message" : "Do-ghlactha amach is amach! Déanfaimid nuashonrú ar ár gcuid taifead leis an eolas seo."
    },
    "FLAVOUR_3_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The substitute pilot will need to reach the ship by {due}."
+      "message" : "Caithfidh an píolóta ionaid an long a bhaint amach ar {due} ar a dhéanaí."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+      "message" : "Is mise {name} ó rialú aerthráchta {starport}. Tá mé ag lorg cúnaimh mar gheall ar mhíthaom a bhuail an píolóta atá ag eitilt {shiplabel} i dtreo {starport}."
    },
    "FLAVOUR_3_LOCATIONTEXT" : {
       "description" : "",
@@ -245,7 +245,7 @@
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you, commander! Your help has been duly noted."
+      "message" : "Go raibh maith agat a cheannasaí! Thugamar do chuid oibre crua faoi deara."
    },
    "FLAVOUR_3_TRANSFERMSG" : {
       "description" : "",
@@ -253,7 +253,7 @@
    },
    "FLAVOUR_3_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+      "message" : "Cuir píolóta ionaid ó {starport} go dtí an long sa chaoi go mbeidh sé/sí in ann an long a eitilt ar ais go dtí {starport}."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
@@ -265,19 +265,19 @@
    },
    "FLAVOUR_4_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full pay the pilot expects you to deliver the fuel by {due}."
+      "message" : "Caithfidh tú an breosla a sheachadadh roimh {due} chun an íocaíocht iomlán a fháil."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+      "message" : "Tá lucht rialaithe aerthráchta {starport} go díreach tar éis teachtaireacht a fháil ón phíolóta ar {shiplabel}. Tá siad sáinnithe gan braon breosla, agus d'íocfaidís {cash} le héinne a bheadh sásta teacht i gcabhair orthu agus a long a athbhreoslú."
    },
    "FLAVOUR_4_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is stranded on {planet} at coordinates {lat} / {long}."
+      "message" : "Tá an long sáinnithe ar {planet} ag comhordanáidí {lat} / {long}."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Very good. We will recommend you for future assignments."
+      "message" : "An-mhaith. Bheimis sásta thú a mholadh do jabanna den sórt seo sa todhchaí."
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is asking for {unit} tons of {cargo}."
+      "message" : "Tá an píolóta ag iarraidh {unit} tona de {cargo}."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -301,15 +301,15 @@
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+      "message" : "D'aimsigh lucht rialaithe aerthráchta {starport} spáslong darb ainm {shiplabel} ag imeacht le sruth gan braon breosla. D'íocfaimis {cash} le haon duine a bheadh sásta an long a athbhreoslú sa chaoi go mbeidís in ann an spás i ngar do {starport} a fhágáil. "
    },
    "FLAVOUR_5_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+      "message" : "Tá an long sprice ag imeacht le sruth i bhfoisceacht {dist}km don áit seo. Is ortsa féin fáil amach cá bhfuil sí go beacht."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "We will make record of your timely completion of the task."
+      "message" : "Tá sé tugtha faoi deara againn gur chríochnaigh tú an tasc gan mhoill."
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
@@ -317,7 +317,7 @@
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We request the delivery of {unit} tons of {cargo} to the ship."
+      "message" : "Táimid ag iarraidh {unit} tona {cargo} a sheachadadh chuig an long."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
@@ -333,11 +333,11 @@
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+      "message" : "Is mise {name} ó {entity}. Chailleamar teagmháil lenár {ship} {shiplabel} tar éis {problem}. Bheimis sásta {cash} a íoc as cúnamh láithreach."
    },
    "FLAVOUR_6_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+      "message" : "Suíomh is deireanaí a bhfuil eolas ann ina leith: i ngar do {planet} i réaltchóras {system} [{sectorx},{sectory},{sectorz}], {dist} solasbhliain as seo."
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
@@ -349,11 +349,11 @@
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
+      "message" : "Teastaíonn uaim duine a bheadh sásta imeacht láithreach bonn chun ár gcomhghleacaithe a thabhairt ar ais go {starport}, má tháinig siad slán as. Bhí {crew} ball foirne agus {pass} paisinéir ar bord."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
-      "message" : "IMMEDIATE CREW TRANSPORT to the {system} system requested."
+      "message" : "IOMPAR FOIRNE chuig réaltchóras {system} de dhíth chomh luath agus is féidir."
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
@@ -361,19 +361,19 @@
    },
    "FLAVOUR_7_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The replacement crew has to reach the ship by {due}."
+      "message" : "Caithfear an fhoireann ionaid an long a bhaint amach ar {due} ar a dhéanaí."
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
+      "message" : "Is mise {name} ó {entity}. Tá an long amháin atá againn, {ship} {shiplabel}, ag snámh gan chumhacht gan stiúradh le {crew} ball foirne ar bord tar éis {problem}. Bheinn sásta {cash} a íoc as cúnamh láithreach."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+      "message" : "Aimseoidh tú an long i réaltchóras {system} [{sectorx},{sectory},{sectorz}], {dist} solasbhliain as seo. Tá sé i bhfithis timpeall {planet}."
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you! I have been authorized to transmit the full payment."
+      "message" : "Go raibh maith agat! Tugadh cead dom an íocaíocht iomlán a chur chugat."
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
@@ -381,7 +381,7 @@
    },
    "FLAVOUR_7_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
+      "message" : "Ní féidir linn filleadh ar an long mura bhfuil creatfhoireann ann ar a laghad. Tá mé ag lorg duine a bheadh ábalta {deliver_crew} ball foirne a iompar go dtí ár spáslong láithreach bonn."
    },
    "FULL_CARGO" : {
       "description" : "",
@@ -389,11 +389,11 @@
    },
    "FULL_CREW" : {
       "description" : "",
-      "message" : "Crew roster full. No more space for more crew."
+      "message" : "Tá an fhoireann lán. Níl aon spás ann do thuilleadh ball foirne."
    },
    "FULL_PASSENGERS" : {
       "description" : "",
-      "message" : "All cabins full. No more space for more passengers."
+      "message" : "Tá na cábáin go léir líonta. Níl aon spás do phaisinéirí breise ar an long."
    },
    "HOW_FAR" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "LAST_KNOWN_LOCATION" : {
       "description" : "",
-      "message" : "Last known location:"
+      "message" : "Suíomh is deireanaí a bhfuil eolas ann ina leith:"
    },
    "LAT" : {
       "description" : "",
@@ -461,7 +461,7 @@
    },
    "PARTIAL" : {
       "description" : "",
-      "message" : "Thank you for your efforts. I hope you will return to complete the task!"
+      "message" : "Go raibh maith agat as an méid a rinne tú. Tá súil agam go bhfillfidh tú chun an tasc a chur i gcrích!"
    },
    "PASSENGERS" : {
       "description" : "",
@@ -473,11 +473,11 @@
    },
    "PICKUP" : {
       "description" : "",
-      "message" : "PICKUP"
+      "message" : "BAILIÚ"
    },
    "PLACE_OF_ASSISTANCE" : {
       "description" : "",
-      "message" : "At the place of assistance"
+      "message" : "Ag ionad na cabhrach"
    },
    "PLEASE_LAND" : {
       "description" : "",
@@ -493,23 +493,23 @@
    },
    "PROBLEM_CREW_2" : {
       "description" : "",
-      "message" : "nathair nimhe mharfach ó {locality} ar teitheadh ar an long"
+      "message" : "gur aimsíodh nathair nimhe mharfach ó {locality} ar teitheadh ar an long"
    },
    "PROBLEM_CREW_3" : {
       "description" : "",
-      "message" : "damhán alla ó {locality} a mharaigh cách"
+      "message" : "gur mharaigh damhán alla ó {locality} gach duine eile"
    },
    "PROBLEM_CREW_4" : {
       "description" : "",
-      "message" : "scairp ó {locality} scaoilte i gceathrú na foirne san oíche"
+      "message" : "gur aimsíodh scairp ó {locality} i gceathrú na foirne san oíche"
    },
    "PROBLEM_CREW_5" : {
       "description" : "",
-      "message" : "fiabhras {locality} an-dona ar fad a mharaigh gach duine eile"
+      "message" : "gur mharaigh fiabhras {locality} an-dona ar fad gach duine eile"
    },
    "PROBLEM_CREW_6" : {
       "description" : "",
-      "message" : "na baill eile den fhoireann ar iarraidh tar éis siúlóide spáis"
+      "message" : "nár fhill na baill eile den fhoireann ó shiúlóid spáis"
    },
    "PROBLEM_CREW_7" : {
       "description" : "",
@@ -517,7 +517,7 @@
    },
    "PROBLEM_CREW_8" : {
       "description" : "",
-      "message" : "na daoine eile teilgthe amach as an long mar gheall ar thimpiste uafásach"
+      "message" : "gur teilgeadh na daoine eile amach as an long mar gheall ar thimpiste uafásach"
    },
    "PROBLEM_CREW_9" : {
       "description" : "",
@@ -573,7 +573,7 @@
    },
    "PROBLEM_RESEARCH_2" : {
       "description" : "",
-      "message" : "ball den fhoireann ionfhabhtaithe ag pataigin a bhaineann leis an gceantar {locality}"
+      "message" : "ball den fhoireann a bheith ionfhabhtaithe ag pataigin a bhaineann leis an gceantar {locality}"
    },
    "PROBLEM_RESEARCH_3" : {
       "description" : "",
@@ -581,7 +581,7 @@
    },
    "PROBLEM_RESEARCH_4" : {
       "description" : "",
-      "message" : "baill den fhoireann fágtha gan chosaint ar eiseamal bitheolaíoch a bailíodh ó {locality}"
+      "message" : "baill den fhoireann a bheith fágtha gan chosaint ar eiseamal bitheolaíoch a bailíodh ó {locality}"
    },
    "PROBLEM_RESEARCH_5" : {
       "description" : "",
@@ -601,11 +601,11 @@
    },
    "PROBLEM_RESEARCH_9" : {
       "description" : "",
-      "message" : "eiseamail neamh-chomhoiriúnacha ó {locality} a tharraingt le chéile trí thimpiste"
+      "message" : "eiseamail neamh-chomhoiriúnacha ó {locality} a bheith tarraingthe le chéile trí thimpiste"
    },
    "RESULT_DELIVERY_COMM" : {
       "description" : "",
-      "message" : "Transferred {done} of {todo} tons of {cargotype} to target ship."
+      "message" : "{done} as {todo} tona {cargotype} aistrithe go dtí an long sprice."
    },
    "RESULT_DELIVERY_CREW" : {
       "description" : "",
@@ -617,19 +617,19 @@
    },
    "RESULT_PICKUP_COMM" : {
       "description" : "",
-      "message" : "Picked up {done} of {todo} tons of {cargotype} from target ship."
+      "message" : "{done} as {todo} tona {cargotype} bailithe ón long sprice."
    },
    "RESULT_PICKUP_CREW" : {
       "description" : "",
-      "message" : "Picked up {done} of {todo} crew members from target ship."
+      "message" : "{done} as {todo} ball foirne bailithe ón long sprice."
    },
    "RESULT_PICKUP_PASS" : {
       "description" : "",
-      "message" : "Picked up {done} of {todo} passengers from target ship."
+      "message" : "{done} as {todo} paisinéir bailithe ón long sprice."
    },
    "RETURN_TO" : {
       "description" : "",
-      "message" : "Return To:"
+      "message" : "Fill ar:"
    },
    "REWARD" : {
       "description" : "",
@@ -657,7 +657,7 @@
    },
    "TARGET_SHIP_ID" : {
       "description" : "",
-      "message" : "Target ship ID:"
+      "message" : "Aitheantas na loinge sprice:"
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
@@ -677,7 +677,7 @@
    },
    "TRANSFER_PARTIAL" : {
       "description" : "",
-      "message" : "Transfer has been partially completed. Please return to finish transfer."
+      "message" : "Níl an t-aistriú ach leathdhéanta. Fill ar an long chun é a chur i gcrích."
    },
    "TRANSFER_TIME" : {
       "description" : "",

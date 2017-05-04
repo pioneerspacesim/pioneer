@@ -5,15 +5,15 @@
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
-      "message" : "Plague harvests lives in the {system} system ({sectorx}, {sectory}, {sectorz}). Officials urge for medical aid."
+      "message" : "Tá daoine ag fáil bháis mar gheall ar phlá i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}). Tá na húdaráis ag lorg cúnaimh leighis go práinneach."
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Company threatening continual survival of {system} system."
+      "message" : "NUACHT {date}: Marthanas leanúnach i réaltchóras {system} i mbaol mar gheall ar chomhlacht creachach."
    },
    "FLAVOUR_10_NEWSBODY" : {
       "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-      "message" : "Prekall Inc. are seeking to monopolize air itself throughout {system} ({sectorx}, {sectory}, {sectorz}). Take a deep breath, it might be the last one that is free of charge."
+      "message" : "Tá Caint San Aer, Teo. ag iarraidh monaplacht ar an aer féin a bhunú ar fud réaltchóras {system} ({sectorx}, {sectory}, {sectorz}). Tarraing anáil throm, seans gurb é an ceann deireanach a bheidh saor in aisce."
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",
@@ -33,11 +33,11 @@
    },
    "FLAVOUR_13_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Robot uprising in the {system} system."
+      "message" : "NUACHT {date}: Róbait ag éirí amach i réaltchóras {system}."
    },
    "FLAVOUR_13_NEWSBODY" : {
       "description" : "Imply that nobody wants to buy ROBOTS anymore.",
-      "message" : "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to loose faith in robot servants."
+      "message" : "Duine in aghaidh meaisín atá ann i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), tar éis do thomhaltóirí muinín a chailleadh ina seirbhísigh róbatacha mar gheall ar \"mhífheidhm iompraíochta\"."
    },
    "FLAVOUR_14_HEADLINE" : {
       "description" : "",
@@ -133,23 +133,23 @@
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
-      "message" : "Severe drought has ruined the crop in the {system} system ({sectorx}, {sectory}, {sectorz}). System wide famine is feared."
+      "message" : "Mhill triomach tromchúiseach an fómhar i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}). Is baolach go mbeidh gorta ann, ar fud an chórais."
    },
    "FLAVOUR_3_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Vegan lifestyle gains followers in the {system} system."
+      "message" : "NUACHT {date}: I bhfad níos mó daoine ag dul i dtreo an veigeánachais i réaltchóras {system}."
    },
    "FLAVOUR_3_NEWSBODY" : {
       "description" : "Imply high demand of FRUIT_AND_VEG.",
-      "message" : "Administration in the {system} system ({sectorx}, {sectory}, {sectorz}) seek to increase import to meet the surging demand of all things green ."
+      "message" : "Tá na húdaráis i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) ag iarraidh níos mó táirgí glasa a iompórtáil le freastal ar an éileamh mór orthu."
    },
    "FLAVOUR_4_HEADLINE" : {
       "description" : "About mob rivals competing for selling drugs",
-      "message" : "NEWS {date}: Drug war in the {system} system. Law enforcers struggle to regain control."
+      "message" : "NUACHT {date}: Cogadh i gcoinne drugaí i réaltchóras {system}. Tá na gardaí ag streachailt ag iarraidh smacht a choinneáil ar an gceantar."
    },
    "FLAVOUR_4_NEWSBODY" : {
       "description" : "Imply high abundance of NARCOTICS.",
-      "message" : "The market has been flooded by cheap drugs in the {system} system ({sectorx}, {sectory}, {sectorz}), as rivalling drug lords compete to increase their power."
+      "message" : "Tá an margadh tuilte le drugaí saora i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), le tiarnaí drugaí i gcomórtas le chéile, ag iarraidh níos mó cumhachta a bhaint amach."
    },
    "FLAVOUR_5_HEADLINE" : {
       "description" : "",
@@ -169,11 +169,11 @@
    },
    "FLAVOUR_7_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Industry screeches to a halt in the {system} system."
+      "message" : "NUACHT {date}: An tóin ag titim as an gcóras tionsclaíochta i réaltchóras {system}."
    },
    "FLAVOUR_7_NEWSBODY" : {
       "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
-      "message" : "Long time neglect of machine maintenance causes industrial standstill in the {system} system ({sectorx}, {sectory}, {sectorz})."
+      "message" : "Faillí fhadtéarmach i gcúrsaí cothabhála is cúis le stopadh tionsclaíochta i réaltchóras {system} ({sectorx}, {sectory}, {sectorz})."
    },
    "FLAVOUR_8_HEADLINE" : {
       "description" : "",
@@ -185,11 +185,11 @@
    },
    "FLAVOUR_9_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Fashion craze in the {system} system."
+      "message" : "NUACHT {date}: An-suim i gcúrsaí faisin i réaltchóras {system}."
    },
    "FLAVOUR_9_NEWSBODY" : {
       "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
-      "message" : "The latest trend in the {system} system ({sectorx}, {sectory}, {sectorz}) has it real live pets are the next big thing."
+      "message" : "An faisean is déanaí i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), de réir tuairisce? Peataí ina steillbheatha!"
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
