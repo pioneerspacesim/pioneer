@@ -464,6 +464,28 @@ static int l_get_heading_pitch_roll(lua_State *l)
   return 3;
 }
 
+static int l_set_rotation_damping(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	bool rot = LuaPull<bool>(l, 2);
+	player->GetPlayerController()->SetRotationDamping(rot);
+	return 0;
+}
+
+static int l_get_rotation_damping(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	LuaPush<bool>(l, player->GetPlayerController()->GetRotationDamping());
+	return 1;
+}
+
+static int l_toggle_rotation_damping(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	player->GetPlayerController()->ToggleRotationDamping();
+	return 0;
+}
+
 template <> const char *LuaObject<Player>::s_type = "Player";
 
 template <> void LuaObject<Player>::RegisterClass()
@@ -489,6 +511,9 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "GetAcceleration",     l_get_acceleration },
 		{ "IsMouseActive",       l_get_is_mouse_active },
 		{ "GetMouseDirection",   l_get_mouse_direction },
+		{ "GetRotationDamping",  l_get_rotation_damping },
+		{ "SetRotationDamping",  l_set_rotation_damping },
+		{ "ToggleRotationDamping",  l_toggle_rotation_damping },
 		{ 0, 0 }
 	};
 

@@ -14,7 +14,7 @@
 class Ship;
 class Space;
 
-enum FlightControlState {
+enum FlightControlState { // <enum scope='FlightControlState' name=ShipControllerFlightControlState public>
 	CONTROL_MANUAL,
 	CONTROL_FIXSPEED,
 	CONTROL_FIXHEADING_FORWARD,
@@ -26,7 +26,7 @@ enum FlightControlState {
 	CONTROL_FIXHEADING_KILLROT,
 	CONTROL_AUTOPILOT,
 
-	CONTROL_STATE_COUNT
+	CONTROL_STATE_COUNT // <enum skip>
 };
 
 // only AI
@@ -46,6 +46,8 @@ public:
 	virtual void PostLoadFixup(Space *) { }
 	virtual void StaticUpdate(float timeStep);
 	virtual void SetFlightControlState(FlightControlState s) { }
+	virtual FlightControlState GetFlightControlState() const { return CONTROL_MANUAL; }
+	virtual double GetSetSpeed() const { return 0.0; }
 	Ship *m_ship;
 };
 

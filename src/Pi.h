@@ -141,7 +141,7 @@ public:
 	static int statSceneTris;
 	static int statNumPatches;
 
-	static void DrawPiGui(double delta, std::string handler = "GAME");
+	static void DrawPiGui(double delta, std::string handler);
 	static void SetView(View *v);
 	static View *GetView() { return currentView; }
 

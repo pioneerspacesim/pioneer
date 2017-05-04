@@ -322,6 +322,7 @@ static void LuaInit()
 	pi_lua_dofile(l, "pigui/pigui.lua");
 	pi_lua_dofile(l, "pigui/game.lua");
 	pi_lua_dofile(l, "pigui/init.lua");
+	pi_lua_dofile_recursive(l, "pigui/modules");
 	pi_lua_dofile_recursive(l, "modules");
 
 	Pi::luaNameGen = new LuaNameGen(Lua::manager);
@@ -579,8 +580,8 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Gui::Init(renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 800, 600);
 
 	// twice, to initialize the font correctly
-	draw_progress(0.0f);
-	draw_progress(0.0f);
+	draw_progress(0.01f);
+	draw_progress(0.01f);
 
 	Output("GalaxyGenerator::Init()\n");
 	if (config->HasEntry("GalaxyGenerator"))
@@ -643,7 +644,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	draw_progress(0.9f);
 
 	OS::NotifyLoadEnd();
-	draw_progress(1.0f);
+	draw_progress(0.95f);
 
 #if 0
 	// frame test code
@@ -758,6 +759,8 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::mem_fun(Pi::luaConsole, &LuaConsole::Toggle));
 
 	planner = new TransferPlanner();
+
+	draw_progress(1.0f);
 
 	timer.Stop();
 #ifdef PIONEER_PROFILER
@@ -1531,14 +1534,15 @@ void Pi::MainLoop()
 
 		Pi::EndRenderTarget();
 		Pi::DrawRenderTarget();
-
+		bool endCameraFrame = false;
 		if(Pi::game && !Pi::player->IsDead()) {
 			if(Pi::GetView() == Pi::game->GetWorldView()) {
 				Pi::game->GetWorldView()->BeginCameraFrame();
+				endCameraFrame = true;
 			}
 			PiGui::NewFrame(Pi::renderer->GetWindow()->GetSDLWindow());
-			DrawPiGui(Pi::frameTime);
-			if(Pi::GetView() == Pi::game->GetWorldView()) {
+			DrawPiGui(Pi::frameTime, "GAME");
+			if(endCameraFrame) {
 				Pi::game->GetWorldView()->EndCameraFrame();
 			}
 		}
@@ -1755,7 +1759,7 @@ float Pi::GetMoveSpeedShiftModifier() {
 }
 
 void Pi::DrawPiGui(double delta, std::string handler) {
-	// #define PROFILE_LUA_TIME 1
+	//  #define PROFILE_LUA_TIME 1
 	#ifdef PROFILE_LUA_TIME
 	auto before = clock();
 	#endif
