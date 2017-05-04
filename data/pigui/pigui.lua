@@ -398,6 +398,13 @@ ui.twoPi = two_pi
 ui.pi_2 = pi_2
 ui.pi_4 = pi_4
 ui.pi = pi
+ui.imageButton = function(icon, size, frame_padding, bg_color, tint_color, tooltip)
+	local uv0, uv1 = get_icon_tex_coords(icon)
+	pigui.PushID(tooltip)
+	local res = pigui.ImageButton(ui.icons_texture, size, uv0, uv1, frame_padding, bg_color, tint_color)
+	pigui.PopID()
+	return res
+end
 ui.oneOverSqrtTwo = one_over_sqrt_two
 ui.isMouseClicked = pigui.IsMouseClicked
 ui.getMousePos = pigui.GetMousePos
@@ -411,7 +418,31 @@ ui.isMouseReleased = pigui.IsMouseReleased
 ui.isMouseHoveringRect = pigui.IsMouseHoveringRect
 ui.openPopup = pigui.OpenPopup
 ui.shouldShowLabels = pigui.ShouldShowLabels
+ui.keys = pigui.keys
+ui.systemInfoViewNextPage = pigui.SystemInfoViewNextPage -- deprecated
+ui.isKeyReleased = pigui.IsKeyReleased
+ui.playSfx = pigui.PlaySfx
 ui.ctrlHeld = function() return pigui.key_ctrl end
+ui.coloredSelectedIconButton = function(icon, size, is_selected, frame_padding, bg_color, fg_color, tooltip)
+	if is_selected then
+		pigui.PushStyleColor("Button", bg_color)
+		pigui.PushStyleColor("ButtonHovered", bg_color:tint(0.1))
+		pigui.PushStyleColor("ButtonActive", bg_color:tint(0.2))
+	else
+		pigui.PushStyleColor("Button", bg_color:shade(0.6))
+		pigui.PushStyleColor("ButtonHovered", bg_color:shade(0.4))
+		pigui.PushStyleColor("ButtonActive", bg_color:shade(0.2))
+	end
+	local uv0,uv1 = get_icon_tex_coords(icon)
+	pigui.PushID(tooltip)
+	local res = pigui.ImageButton(ui.icons_texture, size, uv0, uv1, frame_padding, ui.theme.colors.lightBlueBackground, fg_color)
+	pigui.PopID()
+	pigui.PopStyleColor(3)
+	if pigui.IsItemHovered() then
+		pigui.SetTooltip(tooltip)
+	end
+	return res
+end
 ui.loadTextureFromSVG = function(a, b, c)
 	return pigui:LoadTextureFromSVG(a, b, c)
 end
@@ -419,5 +450,17 @@ ui.dataDirPath = pigui.DataDirPath
 ui.addImage = pigui.AddImage
 local defaultTheme = import("themes/default")
 ui.theme = defaultTheme
+
+local modules = {}
+ui.registerModule = function(mode, fun)
+	if not modules[mode] then
+		modules[mode] = {}
+	end
+	table.insert(modules[mode], fun)
+end
+
+ui.getModules = function(mode)
+	return modules[mode] or {}
+end
 
 return ui

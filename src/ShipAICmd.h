@@ -15,7 +15,16 @@
 class AICommand {
 public:
 	// This enum is solely to make the serialization work
-	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION, CMD_FORMATION };
+	enum CmdName { // <enum scope='AICommand::CmdName' name=ShipAICmdName public>
+		CMD_NONE,
+		CMD_DOCK,
+		CMD_FLYTO,
+		CMD_FLYAROUND,
+		CMD_KILL,
+		CMD_KAMIKAZE,
+		CMD_HOLDPOSITION,
+		CMD_FORMATION
+	};
 
 	AICommand(DynamicBody *dBody, CmdName name):
 		m_dBody(dBody), m_cmdName(name) {
@@ -41,6 +50,7 @@ public:
 	// Signal functions
 	virtual void OnDeleted(const Body *body) { if (m_child) m_child->OnDeleted(body); }
 
+	CmdName GetType() const { return m_cmdName; }
 protected:
 	DynamicBody *m_dBody;
 	Propulsion *m_prop;

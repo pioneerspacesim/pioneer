@@ -29,6 +29,9 @@ theme.colors = {
 	mouseMovementDirection = Color(160, 160, 50),
 	lightBlueBackground = Color(0, 0, 200, 20),
 	lightBlackBackground = Color(0, 0, 0, 50),
+	buttonBlue = Color(150, 150, 200, 255),
+	white = Color(255,255,255,255),
+	grey = Color(120,120,120,255),
 }
 
 theme.icons = {

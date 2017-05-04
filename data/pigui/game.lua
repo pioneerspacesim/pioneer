@@ -481,7 +481,7 @@ local lastNavTarget = nil
 local lastCombatTarget = nil
 
 local function updateReticuleTarget(frame, navTarget, combatTarget)
-		if lastNavTarget ~= navTarget then
+	if lastNavTarget ~= navTarget then
 		reticuleTarget = "navTarget"
 	end
 	lastNavTarget = navTarget
@@ -706,7 +706,14 @@ local function setTarget(body)
 	end
 end
 
-local function displayOnScreenObjects(should_show_label)
+local function callModules(mode)
+	for k,v in pairs(ui.getModules(mode)) do
+		v()
+	end
+end
+
+local function displayOnScreenObjects()
+	local should_show_label = ui.shouldShowLabels()
 	local iconsize = 18
 	local label_offset = 14 -- enough so that the target rectangle fits
 	local collapse = iconsize
@@ -789,24 +796,24 @@ local function displayOnScreenObjects(should_show_label)
 		end
 		-- popup content
 		ui.popup("navtarget" .. v.mainBody.label, function()
-			local size = Vector(16,16)
-			ui.icon(getBodyIcon(v.mainBody.body), size, colors.frame)
-			ui.sameLine()
-			if ui.selectable(v.mainBody.label, v.mainBody.body == navTarget, {}) then
-				player:SetNavTarget(v.mainBody.body)
-			end
-			for k,v in pairs(v.others) do
-				ui.icon(getBodyIcon(v.body), size, colors.frame)
-				ui.sameLine()
-				if ui.selectable(v.label, v.body == navTarget, {}) then
-					player:SetNavTarget(v.body)
-				end
-			end
+							 local size = Vector(16,16)
+							 ui.icon(getBodyIcon(v.mainBody.body), size, colors.frame)
+							 ui.sameLine()
+							 if ui.selectable(v.mainBody.label, v.mainBody.body == navTarget, {}) then
+								 player:SetNavTarget(v.mainBody.body)
+							 end
+							 for k,v in pairs(v.others) do
+								 ui.icon(getBodyIcon(v.body), size, colors.frame)
+								 ui.sameLine()
+								 if ui.selectable(v.label, v.body == navTarget, {}) then
+									 player:SetNavTarget(v.body)
+								 end
+							 end
 		end)
 	end
 end
 
-Event.Register('onGameStart',	function()
+Event.Register('onGameStart', function()
 								 shouldDisplay2DRadar = false
 end)
 
@@ -825,13 +832,21 @@ ui.registerHandler(
 										if Game.CurrentView() == "world" and ui.shouldDrawUI() then
 											if Game.InHyperspace() then
 												displayHyperspace()
+												callModules("hyperspace")
 											else
+												displayOnScreenObjects()
 												displayReticule()
 												displayRadar()
-												local show_label = ui.shouldShowLabels()
-												displayOnScreenObjects(show_label)
+												callModules("game")
+											end
+										else
+											if ui.shouldDrawUI() then
+												callModules("game")
 											end
 										end
 				end)
 		end)
 end)
+
+-- todo: f8 low thrust, f5 flight control, f10 equipment ?
+-- todo: on hyperspace target changed while counting down -> abort

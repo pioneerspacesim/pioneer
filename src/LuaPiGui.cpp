@@ -11,6 +11,8 @@
 #include "graphics/Graphics.h"
 #include "Player.h"
 #include "EnumStrings.h"
+#include "SystemInfoView.h"
+#include "Sound.h"
 
 // Windows defines RegisterClass as a macro, but we don't need that here.
 // undef it, to avoid including yet another header that undefs it
@@ -123,8 +125,8 @@ void pi_lua_generic_pull(lua_State *l, int index, ImGuiInputTextFlags_ &theflags
 
 static std::map<std::string, ImGuiSetCond_> imguiSetCondTable
 = {
-    { "Always", ImGuiSetCond_Always },
-    { "Once", ImGuiSetCond_Once },
+	{ "Always", ImGuiSetCond_Always },
+	{ "Once", ImGuiSetCond_Once },
 	{ "FirstUseEver", ImGuiSetCond_FirstUseEver },
 	{ "Appearing", ImGuiSetCond_Appearing }
 };
@@ -1045,6 +1047,11 @@ static int l_pigui_is_mouse_hovering_any_window(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_system_info_view_next_page(lua_State *l) {
+	Pi::game->GetSystemInfoView()->NextPage();
+	return 0;
+}
+
 static int l_pigui_input_text(lua_State *l) {
 	std::string label = LuaPull<std::string>(l, 1);
 	std::string text = LuaPull<std::string>(l, 2);
@@ -1058,6 +1065,14 @@ static int l_pigui_input_text(lua_State *l) {
 	LuaPush<const char*>(l, buffer);
 	LuaPush<bool>(l, result);
 	return 2;
+}
+
+static int l_pigui_play_sfx(lua_State *l) {
+	std::string name = LuaPull<std::string>(l, 1);
+	double left = LuaPull<float>(l, 2);
+	double right = LuaPull<float>(l, 3);
+	Sound::PlaySfx(name.c_str(), left, right, false);
+	return 0;
 }
 
 static int l_pigui_circular_slider(lua_State *l) {
@@ -1214,6 +1229,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "GetTargetsNearby",       l_pigui_get_targets_nearby },
 		{ "GetProjectedBodies",     l_pigui_get_projected_bodies },
 		{ "ShouldShowLabels",       l_pigui_should_show_labels },
+		{ "SystemInfoViewNextPage", l_pigui_system_info_view_next_page }, // deprecated
+		{ "PlaySfx",                l_pigui_play_sfx },
 		// { "DisableMouseFacing",     l_pigui_disable_mouse_facing },
 		// { "SetMouseButtonState",    l_pigui_set_mouse_button_state },
 		{ 0, 0 }
