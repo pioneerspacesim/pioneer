@@ -61,13 +61,17 @@ public:
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const { return m_camType; }
 	CameraController *GetCameraController() const { return m_activeCameraController; }
+
+	/* start deprecated */
 	void ToggleTargetActions();
+	void ToggleLowThrustPowerOptions();
+	void ChangeFlightState();
+	/* end deprecated */
+
 	void ShowTargetActions();
 	void HideTargetActions();
 	int GetActiveWeapon() const;
 	void OnClickBlastoff();
-
-	void ResetHyperspaceButton();
 
 	sigc::signal<void> onChangeCamType;
 
@@ -91,7 +95,6 @@ protected:
 private:
 	void InitObject();
 
-	void RefreshHyperspaceButton();
 	void RefreshButtonStateAndVisibility();
 	void UpdateCommsOptions();
 
@@ -133,13 +136,8 @@ private:
 
 	void HideLowThrustPowerOptions();
 	void ShowLowThrustPowerOptions();
-	void OnClickLowThrustPower();
 	void OnSelectLowThrustPower(float power);
 
-	void OnClickHyperspace(Gui::MultiStateImageButton *b);
-	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
-	void OnChangeFlightState(Gui::MultiStateImageButton *b);
-	void OnHyperspaceTargetChanged();
 	void OnPlayerDockOrUndock();
 	void OnPlayerChangeTarget();
 	void OnPlayerChangeFlightControlState();
@@ -161,16 +159,11 @@ private:
 	Gui::VBox *m_commsNavOptions;
 	Gui::HBox *m_commsNavOptionsContainer;
 	Gui::Fixed *m_lowThrustPowerOptions;
-	Gui::Label *m_flightStatus, *m_debugText;
-	Gui::ImageButton *m_launchButton;
-	Gui::MultiStateImageButton *m_wheelsButton;
-	Gui::MultiStateImageButton *m_flightControlButton;
-	Gui::MultiStateImageButton *m_hyperspaceButton;
+	Gui::Label *m_debugText;
 	bool m_labelsOn;
 	enum CamType m_camType;
 	Uint32 m_showTargetActionsTimeout;
 	Uint32 m_showLowThrustPowerTimeout;
-	Uint32 m_showCameraNameTimeout;
 
 #if WITH_DEVKEYS
 	Gui::Label *m_debugInfo;

@@ -83,8 +83,6 @@ void WorldView::InitObject()
 
 	m_showTargetActionsTimeout = 0;
 	m_showLowThrustPowerTimeout = 0;
-	m_showCameraNameTimeout = 0;
-	m_showCameraName = 0;
 	m_labelsOn = true;
 	SetTransparency(true);
 
@@ -135,54 +133,6 @@ void WorldView::InitObject()
 
 		btn->onClick.connect(sigc::bind(sigc::mem_fun(this, &WorldView::OnSelectLowThrustPower), LOW_THRUST_LEVELS[i]));
 	}
-
-	m_wheelsButton = new Gui::MultiStateImageButton();
-	m_wheelsButton->SetShortcut(SDLK_F6, KMOD_NONE);
-	m_wheelsButton->AddState(0, "icons/wheels_up.png", Lang::WHEELS_ARE_UP);
-	m_wheelsButton->AddState(1, "icons/wheels_down.png", Lang::WHEELS_ARE_DOWN);
-	m_wheelsButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeWheelsState));
-	m_wheelsButton->SetRenderDimensions(30.0f, 22.0f);
-	m_rightButtonBar->Add(m_wheelsButton, 34, 2);
-
-	Gui::ImageButton *set_low_thrust_power_button = new Gui::ImageButton("icons/set_low_thrust_power.png");
-	set_low_thrust_power_button->SetShortcut(SDLK_F8, KMOD_NONE);
-	set_low_thrust_power_button->SetToolTip(Lang::SELECT_LOW_THRUST_POWER_LEVEL);
-	set_low_thrust_power_button->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickLowThrustPower));
-	set_low_thrust_power_button->SetRenderDimensions(30.0f, 22.0f);
-	m_rightButtonBar->Add(set_low_thrust_power_button, 98, 2);
-
-	m_hyperspaceButton = new Gui::MultiStateImageButton();
-	m_hyperspaceButton->SetShortcut(SDLK_F7, KMOD_NONE);
-	m_hyperspaceButton->AddState(0, "icons/hyperspace_disabled_f8.png", Lang::HYPERSPACE_JUMP_DISABLED);
-	m_hyperspaceButton->AddState(1, "icons/hyperspace_forbidden_f8.png", Lang::HYPERSPACE_JUMP_FORBIDDEN);
-	m_hyperspaceButton->AddState(2, "icons/hyperspace_forbidden_abort_f8.png", Lang::HYPERSPACE_JUMP_ABORT);
-	m_hyperspaceButton->AddState(3, "icons/hyperspace_engage_f8.png", Lang::HYPERSPACE_JUMP_ENGAGE);
-	m_hyperspaceButton->AddState(4, "icons/hyperspace_abort_f8.png", Lang::HYPERSPACE_JUMP_ABORT);
-	m_hyperspaceButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickHyperspace));
-	m_hyperspaceButton->SetRenderDimensions(30.0f, 22.0f);
-	m_rightButtonBar->Add(m_hyperspaceButton, 66, 2);
-
-	m_launchButton = new Gui::ImageButton("icons/blastoff.png");
-	m_launchButton->SetShortcut(SDLK_F5, KMOD_NONE);
-	m_launchButton->SetToolTip(Lang::TAKEOFF);
-	m_launchButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickBlastoff));
-	m_launchButton->SetRenderDimensions(30.0f, 22.0f);
-	m_rightButtonBar->Add(m_launchButton, 2, 2);
-
-	m_flightControlButton = new Gui::MultiStateImageButton();
-	m_flightControlButton->SetShortcut(SDLK_F5, KMOD_NONE);
-	// these states must match Player::FlightControlState (so that the enum values match)
-	m_flightControlButton->AddState(CONTROL_MANUAL, "icons/manual_control.png", Lang::MANUAL_CONTROL);
-	m_flightControlButton->AddState(CONTROL_FIXSPEED, "icons/manual_control.png", Lang::COMPUTER_SPEED_CONTROL);
-	m_flightControlButton->AddState(CONTROL_FIXHEADING_FORWARD, "icons/manual_control.png", Lang::COMPUTER_HEADING_CONTROL);
-	m_flightControlButton->AddState(CONTROL_FIXHEADING_BACKWARD, "icons/manual_control.png", Lang::COMPUTER_HEADING_CONTROL);
-	m_flightControlButton->AddState(CONTROL_AUTOPILOT, "icons/autopilot.png", Lang::AUTOPILOT_ON);
-	m_flightControlButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeFlightState));
-	m_flightControlButton->SetRenderDimensions(30.0f, 22.0f);
-	m_rightButtonBar->Add(m_flightControlButton, 2, 2);
-
-	m_flightStatus = (new Gui::Label(""))->Color(255, 178, 0);
-	m_rightRegion2->Add(m_flightStatus, 2, 0);
 
 #if WITH_DEVKEYS
 	Gui::Screen::PushFont("ConsoleFont");
@@ -253,13 +203,8 @@ void WorldView::InitObject()
 	m_siderealCameraController.reset(new SiderealCameraController(m_cameraContext, Pi::player));
 	SetCamType(m_camType); //set the active camera
 
-	m_onHyperspaceTargetChangedCon =
-		m_game->GetSectorView()->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
-
 	m_onPlayerChangeTargetCon =
 		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
-	m_onChangeFlightControlStateCon =
-		Pi::onPlayerChangeFlightControlState.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeFlightControlState));
 	m_onMouseWheelCon =
 		Pi::onMouseWheel.connect(sigc::mem_fun(this, &WorldView::MouseWheel));
 
@@ -271,9 +216,7 @@ void WorldView::InitObject()
 
 WorldView::~WorldView()
 {
-	m_onHyperspaceTargetChangedCon.disconnect();
 	m_onPlayerChangeTargetCon.disconnect();
-	m_onChangeFlightControlStateCon.disconnect();
 	m_onMouseWheelCon.disconnect();
 	m_onToggleHudModeCon.disconnect();
 	m_onIncTimeAccelCon.disconnect();
@@ -321,8 +264,6 @@ void WorldView::SetCamType(enum CamType c)
 	m_activeCameraController->Reset();
 
 	onChangeCamType.emit();
-
-	UpdateCameraName();
 }
 
 void WorldView::ChangeInternalCameraMode(InternalCameraController::Mode m)
@@ -331,44 +272,20 @@ void WorldView::ChangeInternalCameraMode(InternalCameraController::Mode m)
 		Pi::BoinkNoise();
 	m_internalCameraController->SetMode(m);
 	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
-	UpdateCameraName();
-}
-
-void WorldView::UpdateCameraName()
-{
-	if (m_showCameraName)
-		Remove(m_showCameraName);
-
-	const std::string cameraName(m_activeCameraController->GetName());
-
-	Gui::Screen::PushFont("OverlayFont");
-	m_showCameraName = new Gui::Label("#ff0"+cameraName);
-	Gui::Screen::PopFont();
-
-	float w, h;
-	Gui::Screen::MeasureString(cameraName, w, h);
-	Add(m_showCameraName, 0.5f*(Gui::Screen::GetWidth()-w), 20);
-
-	m_showCameraNameTimeout = SDL_GetTicks();
-}
-
-void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
-{
-	Pi::BoinkNoise();
-	if (!Pi::player->SetWheelState(b->GetState()!=0)) {
-		b->StatePrev();
-	}
 }
 
 /* This is UI click to change flight control state (manual, speed ctrl) */
-void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
+void WorldView::ChangeFlightState()
 {
 	Pi::BoinkNoise();
-	int newState = b->GetState();
+	static int newState = CONTROL_MANUAL;
 	if (Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL)) {
 		// skip certain states
 		switch (newState) {
+		case CONTROL_MANUAL: // fallthrough
 		case CONTROL_FIXSPEED: newState = CONTROL_FIXHEADING_FORWARD; break;
+		case CONTROL_FIXHEADING_FORWARD: // fallthrough
+		case CONTROL_FIXHEADING_BACKWARD: // fallthrough
 		case CONTROL_AUTOPILOT: newState = CONTROL_MANUAL; break;
 		default: break;
 		}
@@ -376,19 +293,14 @@ void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 		// skip certain states
 		switch (newState) {
 		case CONTROL_FIXHEADING_FORWARD: // fallthrough
-		case CONTROL_FIXHEADING_BACKWARD: newState = CONTROL_MANUAL; break;
+		case CONTROL_FIXSPEED: // fallthrough
+		case CONTROL_FIXHEADING_BACKWARD: // fallthrough
 		case CONTROL_AUTOPILOT: newState = CONTROL_MANUAL; break;
+		case CONTROL_MANUAL: newState = CONTROL_FIXSPEED; break;
 		default: break;
 		}
 	}
-	b->SetActiveState(newState);
 	Pi::player->GetPlayerController()->SetFlightControlState(static_cast<FlightControlState>(newState));
-}
-
-/* This is when the flight control state actually changes... */
-void WorldView::OnPlayerChangeFlightControlState()
-{
-	m_flightControlButton->SetActiveState(Pi::player->GetPlayerController()->GetFlightControlState());
 }
 
 void WorldView::OnClickBlastoff()
@@ -398,29 +310,6 @@ void WorldView::OnClickBlastoff()
 		Pi::player->Undock();
 	} else {
 		Pi::player->Blastoff();
-	}
-}
-
-void WorldView::OnClickHyperspace(Gui::MultiStateImageButton *b)
-{
-	if(Pi::player->GetFlightState() == Ship::DOCKED || Pi::player->GetFlightState() == Ship::LANDED){
-		// Maybe not the best, but flip state back (from disabled to disabled, I assume?)
-		m_hyperspaceButton->StatePrev();
-	}
-
-	if (Pi::player->IsHyperspaceActive()) {
-		// Hyperspace countdown in effect.. abort!
-		Pi::player->AbortHyperjump();
-		m_game->log->Add(Lang::HYPERSPACE_JUMP_ABORTED);
-
-		// State backs once from original state
-		m_hyperspaceButton->StatePrev(); // reset to original state...
-		m_hyperspaceButton->StatePrev(); // ... -1 from original state
-	}
-	else{
-		// Initiate hyperspace drive
-		SystemPath path = m_game->GetSectorView()->GetHyperspaceTarget();
-		LuaObject<Player>::CallMethod(Pi::player, "HyperjumpTo", &path);
 	}
 }
 
@@ -434,12 +323,6 @@ void WorldView::OnRequestTimeAccelDec()
 {
 	// requests a decrease in time acceleration
 	Pi::game->RequestTimeAccelDec();
-}
-
-void WorldView::ResetHyperspaceButton()
-{
-	// After a jump:
-	m_hyperspaceButton->SetActiveState(0);
 }
 
 void WorldView::Draw3D()
@@ -507,51 +390,6 @@ static Color get_color_for_warning_meter_bar(float v) {
 	return c;
 }
 
-void WorldView::RefreshHyperspaceButton() {
-
-	// 0 = "disabled" - if target selected but landed
-	// 1 = "forbidden" - if flying below allowed jump altitude
-	// 2 = "forbidden_abort" - if countdown below allowed jump altitude
-	// 3 = "engage" - above allowed jump distance
-	// 4 = "engage_abort" - abort current countdown, above allowed altitude
-	//
-	// (Note: when pressing a button in state 1..4, state is auto-incremented by one).
-
-	SystemPath target = m_game->GetSectorView()->GetHyperspaceTarget();
-	if (LuaObject<Ship>::CallMethod<bool>(Pi::player, "CanHyperjumpTo", &target)){
-		if(Pi::player->GetFlightState() == Ship::FLYING || Pi::player->GetFlightState() == Ship::JUMPING)
-			{
-				// leave the "disabled" state if not landed:
-				if(m_hyperspaceButton->GetState() == 0)
-					m_hyperspaceButton->StateNext();
-
-				if(!LuaObject<Ship>::CallMethod<bool>(Pi::player, "IsHyperjumpAllowed")){
-					// If crossing boundary from above
-					if(3 <= m_hyperspaceButton->GetState()){
-						m_hyperspaceButton->StatePrev();
-						m_hyperspaceButton->StatePrev();
-					}
-				}
-				else{
-					// If crossing the boundary from below
-					if(2 >= m_hyperspaceButton->GetState()){
-						m_hyperspaceButton->StateNext();
-						m_hyperspaceButton->StateNext();
-					}
-				}
-			}
-		else{
-			//grayed out disabled button, if target set while LANDED/DOCKED/(UN)DOCKING
-			m_hyperspaceButton->SetActiveState(0);
-		}
-
-		m_hyperspaceButton->Show();
-	}
-	else
-		//If no target selected, then no button at all:
-		m_hyperspaceButton->Hide();
-}
-
 void WorldView::RefreshButtonStateAndVisibility()
 {
 	assert(m_game);
@@ -567,98 +405,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 	if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
-	}
-
-	if (is_equal_exact(Pi::player->GetWheelState(), 0.0f) && Pi::player->ExtrapolateHullTemperature() > 0.7)
-		m_wheelsButton->Hide();
-	else
-		m_wheelsButton->Show();
-	m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()) || Pi::player->GetWheelTransition() == 1);
-
-	RefreshHyperspaceButton();
-
-	switch(Pi::player->GetFlightState()) {
-	case Ship::LANDED:
-		m_flightStatus->SetText(Lang::LANDED);
-		m_launchButton->Show();
-		m_flightControlButton->Hide();
-		break;
-
-	case Ship::DOCKING:
-		m_flightStatus->SetText(Lang::DOCKING);
-		m_launchButton->Hide();
-		m_flightControlButton->Hide();
-		break;
-
-	case Ship::UNDOCKING:
-		m_flightStatus->SetText(Lang::UNDOCKING);
-		m_launchButton->Hide();
-		m_flightControlButton->Hide();
-		break;
-
-	case Ship::DOCKED:
-		m_flightStatus->SetText(Lang::DOCKED);
-		m_launchButton->Show();
-		m_flightControlButton->Hide();
-		break;
-
-	case Ship::JUMPING:
-	case Ship::HYPERSPACE:
-		m_flightStatus->SetText(Lang::HYPERSPACE);
-		m_launchButton->Hide();
-		m_flightControlButton->Hide();
-		break;
-
-	case Ship::FLYING:
-	default:
-		const FlightControlState fstate = Pi::player->GetPlayerController()->GetFlightControlState();
-		switch (fstate) {
-		case CONTROL_MANUAL:
-			m_flightStatus->SetText(Lang::MANUAL_CONTROL); break;
-
-		case CONTROL_FIXSPEED: {
-			std::string msg;
-			const double setspeed = Pi::player->GetPlayerController()->GetSetSpeed();
-			if (setspeed > 1000) {
-				msg = stringf(Lang::SET_SPEED_KM_S, formatarg("speed", setspeed*0.001));
-			} else {
-				msg = stringf(Lang::SET_SPEED_M_S, formatarg("speed", setspeed));
-			}
-			m_flightStatus->SetText(msg);
-			break;
-		}
-
-		case CONTROL_FIXHEADING_FORWARD:
-			m_flightStatus->SetText(Lang::HEADING_LOCK_FORWARD);
-			break;
-		case CONTROL_FIXHEADING_BACKWARD:
-			m_flightStatus->SetText(Lang::HEADING_LOCK_BACKWARD);
-			break;
-		case CONTROL_FIXHEADING_NORMAL:
-			m_flightStatus->SetText(Lang::HEADING_LOCK_NORMAL);
-			break;
-		case CONTROL_FIXHEADING_ANTINORMAL:
-			m_flightStatus->SetText(Lang::HEADING_LOCK_ANTINORMAL);
-			break;
-		case CONTROL_FIXHEADING_RADIALLY_INWARD:
-			m_flightStatus->SetText(Lang::HEADING_LOCK_RADIALLY_INWARD);
-			break;
-		case CONTROL_FIXHEADING_RADIALLY_OUTWARD:
-			m_flightStatus->SetText(Lang::HEADING_LOCK_RADIALLY_OUTWARD);
-			break;
-		case CONTROL_FIXHEADING_KILLROT:
-			m_flightStatus->SetText(Lang::HEADING_LOCK_KILLROT);
-			break;
-
-		case CONTROL_AUTOPILOT:
-			m_flightStatus->SetText(Lang::AUTOPILOT_CONTROL);
-			break;
-
-		default: assert(0); break;
-		}
-
-		m_launchButton->Hide();
-		m_flightControlButton->Show();
 	}
 
 	// Direction indicator
@@ -1017,15 +763,6 @@ void WorldView::Update()
 
 	}
 
-	if (m_showCameraNameTimeout) {
-		if (SDL_GetTicks() - m_showCameraNameTimeout > 20000) {
-			m_showCameraName->Hide();
-			m_showCameraNameTimeout = 0;
-		} else {
-			m_showCameraName->Show();
-		}
-	}
-
 	m_activeCameraController->Update();
 
 	m_cameraContext->BeginFrame();
@@ -1175,7 +912,7 @@ void WorldView::ShowLowThrustPowerOptions()
 	HideTargetActions();
 }
 
-void WorldView::OnClickLowThrustPower()
+void WorldView::ToggleLowThrustPowerOptions()
 {
 	Pi::BoinkNoise();
 	if (m_showLowThrustPowerTimeout)
@@ -1223,15 +960,6 @@ static void PlayerPayFine()
 	}
 }
 */
-
-// XXX belongs in some sort of hyperspace controller
-void WorldView::OnHyperspaceTargetChanged()
-{
-	if (Pi::player->IsHyperspaceActive()) {
-		Pi::player->AbortHyperjump();
-		m_game->log->Add(Lang::HYPERSPACE_JUMP_ABORTED);
-	}
-}
 
 void WorldView::OnPlayerChangeTarget()
 {
