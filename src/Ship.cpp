@@ -1030,16 +1030,16 @@ void Ship::StaticUpdate(const float timeStep)
 		if (astro && astro->IsType(Object::PLANET)) {
 			Planet *p = static_cast<Planet*>(astro);
 			if (p->GetSystemBody()->IsScoopable()) {
-				double dist = GetPosition().Length();
+				const double dist = GetPosition().Length();
 				double pressure, density;
 				p->GetAtmosphericState(dist, &pressure, &density);
 
-				double speed = GetVelocity().Length();
-				vector3d vdir = GetVelocity().Normalized();
-				vector3d pdir = -GetOrient().VectorZ();
-				double dot = vdir.Dot(pdir);
-				if ((m_stats.free_capacity) && (dot > 0.95) && (speed > 2000.0) && (density > 1.0)) {
-					double rate = speed*density*0.00000333f*double(capacity);
+				const double speed = GetVelocity().Length();
+				const vector3d vdir = GetVelocity().Normalized();
+				const vector3d pdir = -GetOrient().VectorZ();
+				const double dot = vdir.Dot(pdir);
+				if ((m_stats.free_capacity) && (dot > 0.90) && (speed > 1000.0) && (density > 0.5)) {
+					const double rate = speed * density * 0.00000333 * double(capacity);
 					if (Pi::rng.Double() < rate) {
 						lua_State *l = Lua::manager->GetLuaState();
 						pi_lua_import(l, "Equipment");
