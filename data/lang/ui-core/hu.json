@@ -509,11 +509,11 @@
    },
    "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current combat target.",
-      "message" : "Prograde relative to current combat target"
+      "message" : "Prográd a harci célponthoz képest"
    },
    "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current combat target.",
-      "message" : "Retrograde relative to current combat target"
+      "message" : "Retrográd a harci célponthoz képest"
    },
    "HUD_INDICATOR_FRAME_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current frame.",
@@ -1237,7 +1237,7 @@
    },
    "TOO_SMALL_TO_TRANSSHIP" : {
       "description" : "Ship market error message",
-      "message" : "New ship lacks capacity for current cargo and hyperdrive."
+      "message" : "Az új hajóra nem rakható át a rakomány és a hiperhajtómű."
    },
    "TOTAL" : {
       "description" : "",

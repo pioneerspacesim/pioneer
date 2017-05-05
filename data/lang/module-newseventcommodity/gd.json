@@ -21,7 +21,7 @@
    },
    "FLAVOUR_11_NEWSBODY" : {
       "description" : "Imply high demand of ANIMAL_MEAT.",
-      "message" : "Mar an robh làmh an t-seilbh ris, bha na sabhalan falamh nuair an do dhùisg na tuathanaich ann an siostam {system} system ({sectorx}, {sectory}, {sectorz}). Dh'aithris am poileas gur \"Seo togail bò na linne\"."
+      "message" : "Mar an robh làmh an t-seilbh ris, bha na sabhalan falamh nuair an do dhùisg na tuathanaich ann an siostam {system} system ({sectorx}, {sectory}, {sectorz}). Dh'aithris am poileas gum b'e sin \"A' chreach as motha o Thàin Bò Chuailgne\"."
    },
    "FLAVOUR_12_HEADLINE" : {
       "description" : "",
