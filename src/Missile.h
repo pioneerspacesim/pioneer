@@ -9,7 +9,7 @@
 #include "DynamicBody.h"
 #include "ShipAICmd.h"
 
-class Missile: public DynamicBody, public Propulsion {
+class Missile: public DynamicBody {
 public:
 	OBJDEF(Missile, DynamicBody, MISSILE);
 	Missile(const ShipType::Id &type, Body *owner, int power=-1);

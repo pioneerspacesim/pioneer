@@ -10,6 +10,8 @@
 #include "matrix4x4.h"
 #include "Orbit.h"
 
+class Propulsion;
+
 class DynamicBody: public ModelBody {
 private:
 	friend class Propulsion;
@@ -74,7 +76,9 @@ public:
 
 	bool Have( Feature f ) const { return m_features[f]; };
 	void SetDecelerating(bool decel) { m_decelerating = decel; }
-
+	const Propulsion *GetPropulsion() const;
+	Propulsion *GetPropulsion();
+	void AddFeature( Feature f );
 protected:
 	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
 	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
@@ -104,9 +108,9 @@ private:
 	vector3d m_lastForce;
 	vector3d m_lastTorque;
 
-	void AddFeature( Feature f ) { m_features[f] = true; };
 	bool m_features[MAX_FEATURE];
 
+	Propulsion *m_propulsion;
 };
 
 #endif /* _DYNAMICBODY_H */

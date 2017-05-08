@@ -13,6 +13,7 @@
 
 Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)//: Ship(shipId)
 {
+	AddFeature( Feature::PROPULSION ); // add component propulsion
 	if (power < 0) {
 		m_power = 0;
 		if (shipId == ShipType::MISSILE_GUIDED) m_power = 1;
@@ -33,14 +34,14 @@ Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)//: Ship(shi
 
 	Disarm();
 
-	SetFuel(1.0);
-	SetFuelReserve(0.0);
+	GetPropulsion()->SetFuel(1.0);
+	GetPropulsion()->SetFuelReserve(0.0);
 
 	m_curAICmd = 0;
 	m_aiMessage = AIERROR_NONE;
 	m_decelerating = false;
 
-	Propulsion::Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
+	GetPropulsion()->Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
 
 }
 
@@ -60,7 +61,7 @@ void Missile::ECMAttack(int power_val)
 void Missile::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	DynamicBody::SaveToJson(jsonObj, space);
-	Propulsion::SaveToJson(jsonObj, space);
+	GetPropulsion()->SaveToJson(jsonObj, space);
 	Json::Value missileObj(Json::objectValue); // Create JSON object to contain missile data.
 
 	if (m_curAICmd) m_curAICmd->SaveToJson(missileObj);
@@ -77,7 +78,7 @@ void Missile::SaveToJson(Json::Value &jsonObj, Space *space)
 void Missile::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
 	DynamicBody::LoadFromJson(jsonObj, space);
-	Propulsion::LoadFromJson(jsonObj, space);
+	GetPropulsion()->LoadFromJson(jsonObj, space);
 
 	if (!jsonObj.isMember("missile")) throw SavedGameCorruptException();
 	Json::Value missileObj = jsonObj["missile"];
@@ -99,7 +100,7 @@ void Missile::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_power = missileObj["power"].asInt();
 	m_armed = missileObj["armed"].asBool();
 
-	Propulsion::Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
+	GetPropulsion()->Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
 
 }
 
@@ -118,10 +119,10 @@ void Missile::StaticUpdate(const float timeStep)
 	//Add smoke trails for missiles on thruster state
 	static double s_timeAccum = 0.0;
 	s_timeAccum += timeStep;
-	if (!is_equal_exact(GetThrusterState().LengthSqr(), 0.0) && (s_timeAccum > 4 || 0.1*Pi::rng.Double() < timeStep)) {
+	if (!is_equal_exact(GetPropulsion()->GetThrusterState().LengthSqr(), 0.0) && (s_timeAccum > 4 || 0.1*Pi::rng.Double() < timeStep)) {
 		s_timeAccum = 0.0;
 		const vector3d pos = GetOrient() * vector3d(0, 0 , 5);
-		const float speed = std::min(10.0*GetVelocity().Length()*std::max(1.0,fabs(GetThrusterState().z)),100.0);
+		const float speed = std::min(10.0*GetVelocity().Length()*std::max(1.0,fabs(GetPropulsion()->GetThrusterState().z)),100.0);
 		SfxManager::AddThrustSmoke(this, speed, pos);
 	}
 }
@@ -129,12 +130,12 @@ void Missile::StaticUpdate(const float timeStep)
 void Missile::TimeStepUpdate(const float timeStep)
 {
 
-	const vector3d thrust=GetActualLinThrust();
+	const vector3d thrust=GetPropulsion()->GetActualLinThrust();
 	AddRelForce( thrust );
-	AddRelTorque( GetActualAngThrust() );
+	AddRelTorque( GetPropulsion()->GetActualAngThrust() );
 
 	DynamicBody::TimeStepUpdate(timeStep);
-	Propulsion::UpdateFuel(timeStep);
+	GetPropulsion()->UpdateFuel(timeStep);
 
 	const float MISSILE_DETECTION_RADIUS = 100.0f;
 	if (!m_owner) {
@@ -217,7 +218,7 @@ void Missile::Render(Graphics::Renderer *renderer, const Camera *camera, const v
 {
 	if (IsDead()) return;
 
-	Propulsion::Render( renderer, camera, viewCoords, viewTransform );
+	GetPropulsion()->Render( renderer, camera, viewCoords, viewTransform );
 	RenderModel(renderer, camera, viewCoords, viewTransform);
 }
 
