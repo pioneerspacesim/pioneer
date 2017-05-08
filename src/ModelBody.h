@@ -21,7 +21,6 @@ public:
 	virtual ~ModelBody();
 	void SetPosition(const vector3d &p) override;
 	void SetOrient(const matrix3x3d &r) override;
-	void TransformToModelCoords(const Frame *camFrame);
 	virtual void SetFrame(Frame *f) override;
 	// Colliding: geoms are checked against collision space
 	void SetColliding(bool colliding);

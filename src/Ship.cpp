@@ -452,8 +452,7 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 		}
 	}
 
-	if (
-		b->IsType(Object::CITYONPLANET) ||
+	if (b->IsType(Object::CITYONPLANET) ||
 		b->IsType(Object::SHIP) ||
 		b->IsType(Object::PLAYER) ||
 		b->IsType(Object::SPACESTATION) ||

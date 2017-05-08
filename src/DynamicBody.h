@@ -23,7 +23,6 @@ public:
 	virtual void SetFrame(Frame *f) override;
 	vector3d GetAngVelocity() const;
 	void SetAngVelocity(const vector3d &v);
-	void SetMesh(ObjMesh *m);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) override;
 	vector3d GetAngularMomentum() const;
 	double GetAngularInertia() const { return m_angInertia; }
@@ -34,7 +33,6 @@ public:
 	virtual void TimeStepUpdate(const float timeStep) override;
 	double CalcAtmosphericForce(double dragCoeff) const;
 	void CalcExternalForce();
-	void UndoTimestep();
 
 	void SetMass(double);
 	void AddForce(const vector3d &);
