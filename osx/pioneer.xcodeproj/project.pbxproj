@@ -496,6 +496,10 @@
 		527325D01EC07BB900B0000E /* libassimp.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 527325CE1EC07B6600B0000E /* libassimp.3.2.0.dylib */; };
 		527325D11EC07BD600B0000E /* libassimp.3.2.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 527325CE1EC07B6600B0000E /* libassimp.3.2.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		527325D71EC07FF500B0000E /* libassimp.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 527325CE1EC07B6600B0000E /* libassimp.3.2.0.dylib */; };
+		527325D81EC0952900B0000E /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522E334A1C1B26AD00AB01D3 /* SDL2_image.framework */; };
+		527325D91EC0952900B0000E /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522E334B1C1B26AD00AB01D3 /* SDL2.framework */; };
+		527325DA1EC095EC00B0000E /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522E334A1C1B26AD00AB01D3 /* SDL2_image.framework */; };
+		527325DB1EC095EC00B0000E /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522E334B1C1B26AD00AB01D3 /* SDL2.framework */; };
 		5280FA921E52238A00FCBA44 /* JobQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563751B197D740039F2BC /* JobQueue.cpp */; };
 		528422931CC0E81900A9BFA8 /* BillboardMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */; };
 		528422941CC0E81A00A9BFA8 /* BillboardMaterial.h in Sources */ = {isa = PBXBuildFile; fileRef = 528422901CC0E80700A9BFA8 /* BillboardMaterial.h */; };
@@ -1639,6 +1643,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				527325DA1EC095EC00B0000E /* SDL2_image.framework in Frameworks */,
+				527325DB1EC095EC00B0000E /* SDL2.framework in Frameworks */,
 				527325D01EC07BB900B0000E /* libassimp.3.2.0.dylib in Frameworks */,
 				52161F521C343532005D3B25 /* libogg.0.dylib in Frameworks */,
 				37074B911B1C653D00AFE2CE /* libbz2.1.0.6.dylib in Frameworks */,
@@ -1674,6 +1680,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				527325D81EC0952900B0000E /* SDL2_image.framework in Frameworks */,
+				527325D91EC0952900B0000E /* SDL2.framework in Frameworks */,
 				527325D71EC07FF500B0000E /* libassimp.3.2.0.dylib in Frameworks */,
 				52F404FC1C9499BA0082B1F3 /* libfreetype.6.dylib in Frameworks */,
 				5221A6E11C9583B3002F4CD1 /* libsigc-2.0.0.dylib in Frameworks */,
