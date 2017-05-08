@@ -12,7 +12,7 @@
 #include "scenegraph/Model.h"
 #include "DynamicBody.h"
 
-enum Thruster { // <enum scope='ShipType' name=ShipTypeThruster prefix=THRUSTER_ public>
+enum Thruster { // <enum scope='Thruster' name=ShipTypeThruster prefix=THRUSTER_ public>
 	THRUSTER_REVERSE,
 	THRUSTER_FORWARD,
 	THRUSTER_UP,
@@ -62,7 +62,7 @@ class Propulsion
 		inline vector3d GetActualAngThrust() const { return m_angThrust * m_angThrusters * m_power_mul; }
 
 		// Fuel
-		enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_ public>
+		enum FuelState { // <enum scope='Propulsion' name=PropulsionFuelStatus prefix=FUEL_ public>
 			FUEL_OK,
 			FUEL_WARNING,
 			FUEL_EMPTY,

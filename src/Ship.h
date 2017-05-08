@@ -166,19 +166,21 @@ public:
 	};
 	AlertState GetAlertState() { return m_alertState; }
 
-	void AIClearInstructions();
+	void AIClearInstructions(); // Note: defined in Ship-AI.cpp
 	bool AIIsActive() { return m_curAICmd ? true : false; }
-	void AIGetStatusText(char *str);
+	void AIGetStatusText(char *str); // Note: defined in Ship-AI.cpp
 
-	void AIKamikaze(Body *target);
-	void AIKill(Ship *target);
+	void AIKamikaze(Body *target); // Note: defined in Ship-AI.cpp
+	void AIKill(Ship *target); // Note: defined in Ship-AI.cpp
 	//void AIJourney(SystemBodyPath &dest);
-	void AIDock(SpaceStation *target);
-	void AIFlyTo(Body *target);
-	void AIOrbit(Body *target, double alt);
-	void AIHoldPosition();
+	void AIDock(SpaceStation *target); // Note: defined in Ship-AI.cpp
+	void AIFlyTo(Body *target); // Note: defined in Ship-AI.cpp
+	void AIOrbit(Body *target, double alt); // Note: defined in Ship-AI.cpp
+	void AIHoldPosition(); // Note: defined in Ship-AI.cpp
 
-	void AIBodyDeleted(const Body* const body) {};		// todo: signals
+	void AIBodyDeleted(const Body* const body) {}; // Note: defined in Ship-AI.cpp // todo: signals
+
+	const AICommand *GetAICommand() const { return m_curAICmd; }
 
 	virtual void PostLoadFixup(Space *space) override;
 
