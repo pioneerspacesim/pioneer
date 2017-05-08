@@ -395,7 +395,6 @@
 		4ACDB6CE167878CE0069FA03 /* ModelCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6CA167878CE0069FA03 /* ModelCache.cpp */; };
 		4ACDB6CF167878CE0069FA03 /* ModelViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6CC167878CE0069FA03 /* ModelViewer.cpp */; };
 		4ACDB6D2167879AF0069FA03 /* DistanceFieldFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6D0167879AF0069FA03 /* DistanceFieldFont.cpp */; };
-		4ACDB6D416787A6A0069FA03 /* libassimp.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; };
 		4ACE132F16B4B19D00CAE524 /* EnumStrings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACE132C16B4B19D00CAE524 /* EnumStrings.cpp */; };
 		4ACED56A16BBCC7200E53808 /* LuaMissile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACED56816BBCC7200E53808 /* LuaMissile.cpp */; };
 		4ADB0D0C15C50DD900AE2123 /* TerrainHeightAsteroid2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB0D0615C50DD900AE2123 /* TerrainHeightAsteroid2.cpp */; };
@@ -443,7 +442,6 @@
 		5221A6DF1C9582BD002F4CD1 /* OSPosix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB0D1515C50DF000AE2123 /* OSPosix.cpp */; };
 		5221A6E01C9582F9002F4CD1 /* liblibposix.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5221A6DD1C958273002F4CD1 /* liblibposix.a */; };
 		5221A6E11C9583B3002F4CD1 /* libsigc-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
-		5221A6E21C9583DB002F4CD1 /* libassimp.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; };
 		5221A6E31C95844A002F4CD1 /* libpng16.16.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */; };
 		5221A6E41C9584F1002F4CD1 /* CollMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52025F781C05BA7100254BB5 /* CollMesh.cpp */; };
 		5221A7391C958923002F4CD1 /* lbitlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A59B4D51557EAF5009926E5 /* lbitlib.c */; };
@@ -494,7 +492,10 @@
 		525515761CA6EEE30055DAB8 /* RandomColor.h in Sources */ = {isa = PBXBuildFile; fileRef = 525515721CA6EE1C0055DAB8 /* RandomColor.h */; };
 		525E07921C318AD1009BD2DD /* libssl.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */; };
 		525E07931C318AE4009BD2DD /* libssl.1.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		527EAD111EB9DA1A006AE599 /* libassimp.3.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		527325CF1EC07B6600B0000E /* libassimp.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 527325CE1EC07B6600B0000E /* libassimp.3.2.0.dylib */; };
+		527325D01EC07BB900B0000E /* libassimp.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 527325CE1EC07B6600B0000E /* libassimp.3.2.0.dylib */; };
+		527325D11EC07BD600B0000E /* libassimp.3.2.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 527325CE1EC07B6600B0000E /* libassimp.3.2.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		527325D71EC07FF500B0000E /* libassimp.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 527325CE1EC07B6600B0000E /* libassimp.3.2.0.dylib */; };
 		5280FA921E52238A00FCBA44 /* JobQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563751B197D740039F2BC /* JobQueue.cpp */; };
 		528422931CC0E81900A9BFA8 /* BillboardMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */; };
 		528422941CC0E81A00A9BFA8 /* BillboardMaterial.h in Sources */ = {isa = PBXBuildFile; fileRef = 528422901CC0E80700A9BFA8 /* BillboardMaterial.h */; };
@@ -663,10 +664,6 @@
 		52F404FA1C9498F90082B1F3 /* liblibscenegraph.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F404631C9496AA0082B1F3 /* liblibscenegraph.a */; };
 		52F404FB1C9498F90082B1F3 /* liblibtext.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F404431C9495FD0082B1F3 /* liblibtext.a */; };
 		52F404FC1C9499BA0082B1F3 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */; };
-		F87E479A1D35E63A0008F233 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87E47981D35E63A0008F233 /* SDL2_image.framework */; };
-		F87E479B1D35E63A0008F233 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87E47991D35E63A0008F233 /* SDL2.framework */; };
-		F87E479C1D35E7480008F233 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87E47981D35E63A0008F233 /* SDL2_image.framework */; };
-		F87E479D1D35E7480008F233 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87E47991D35E63A0008F233 /* SDL2.framework */; };
 		F8FD8D721D3C0CA20075FEA1 /* GasGiantJobs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */; };
 /* End PBXBuildFile section */
 
@@ -687,7 +684,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				527EAD111EB9DA1A006AE599 /* libassimp.3.0.0.dylib in Copy SubLibraries */,
+				527325D11EC07BD600B0000E /* libassimp.3.2.0.dylib in Copy SubLibraries */,
 				52161F531C34354B005D3B25 /* libogg.0.dylib in Copy SubLibraries */,
 				523C0C5F1C33F92000802DC7 /* libcrypto.1.0.0.dylib in Copy SubLibraries */,
 				525E07931C318AE4009BD2DD /* libssl.1.0.0.dylib in Copy SubLibraries */,
@@ -1449,7 +1446,6 @@
 		4ACDB6CD167878CE0069FA03 /* ModelViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelViewer.h; sourceTree = "<group>"; };
 		4ACDB6D0167879AF0069FA03 /* DistanceFieldFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DistanceFieldFont.cpp; sourceTree = "<group>"; };
 		4ACDB6D1167879AF0069FA03 /* DistanceFieldFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistanceFieldFont.h; sourceTree = "<group>"; };
-		4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.0.0.dylib; path = /opt/local/lib/libassimp.3.0.0.dylib; sourceTree = "<absolute>"; };
 		4ACE132C16B4B19D00CAE524 /* EnumStrings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EnumStrings.cpp; sourceTree = "<group>"; };
 		4ACE132D16B4B19D00CAE524 /* EnumStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnumStrings.h; sourceTree = "<group>"; };
 		4ACE132E16B4B19D00CAE524 /* matrix3x3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrix3x3.h; sourceTree = "<group>"; };
@@ -1527,7 +1523,7 @@
 		525515711CA6EE1C0055DAB8 /* RandomColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomColor.cpp; sourceTree = "<group>"; };
 		525515721CA6EE1C0055DAB8 /* RandomColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomColor.h; sourceTree = "<group>"; };
 		525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.1.0.0.dylib; path = ../../../../../opt/local/lib/libssl.1.0.0.dylib; sourceTree = "<group>"; };
-		527EAD0E1EB9D753006AE599 /* libassimp.3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.3.1.dylib; path = /opt/local/lib/libassimp.3.3.1.dylib; sourceTree = "<absolute>"; };
+		527325CE1EC07B6600B0000E /* libassimp.3.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.2.0.dylib; path = ../../../../../opt/local/lib/libassimp.3.2.0.dylib; sourceTree = "<group>"; };
 		5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BillboardMaterial.cpp; sourceTree = "<group>"; };
 		528422901CC0E80700A9BFA8 /* BillboardMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BillboardMaterial.h; sourceTree = "<group>"; };
 		52875DFD1E66D68C00BA28A4 /* eglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eglew.h; sourceTree = "<group>"; };
@@ -1632,8 +1628,6 @@
 		52F4049F1C9497440082B1F3 /* liblibgraphicsdummy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibgraphicsdummy.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F404A91C9497820082B1F3 /* liblibgraphics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibgraphics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F404DA1C94985F0082B1F3 /* liblibgui.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibgui.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		F87E47981D35E63A0008F233 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../Desktop/SDL2_image.framework; sourceTree = "<group>"; };
-		F87E47991D35E63A0008F233 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../Desktop/SDL2.framework; sourceTree = "<group>"; };
 		F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GasGiantJobs.cpp; sourceTree = "<group>"; };
 		F87E479F1D36A46F0008F233 /* GasGiantJobs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasGiantJobs.h; sourceTree = "<group>"; };
 		F8FD8D731D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GenGasGiantColourMaterial.cpp; path = opengl/GenGasGiantColourMaterial.cpp; sourceTree = "<group>"; };
@@ -1645,8 +1639,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F87E479C1D35E7480008F233 /* SDL2_image.framework in Frameworks */,
-				F87E479D1D35E7480008F233 /* SDL2.framework in Frameworks */,
+				527325D01EC07BB900B0000E /* libassimp.3.2.0.dylib in Frameworks */,
 				52161F521C343532005D3B25 /* libogg.0.dylib in Frameworks */,
 				37074B911B1C653D00AFE2CE /* libbz2.1.0.6.dylib in Frameworks */,
 				523C0C5E1C33F90800802DC7 /* libcrypto.1.0.0.dylib in Frameworks */,
@@ -1657,7 +1650,6 @@
 				3701C5861B1ABDA2000F4A72 /* libfreetype.6.dylib in Frameworks */,
 				378563521B19769A0039F2BC /* OpenGL.framework in Frameworks */,
 				52025F7F1C05BD3400254BB5 /* libvorbisfile.3.dylib in Frameworks */,
-				4ACDB6D416787A6A0069FA03 /* libassimp.3.0.0.dylib in Frameworks */,
 				4A20B0E3135319770020F43E /* Cocoa.framework in Frameworks */,
 				4A6C4EA2135452FF00FDD53F /* libsigc-2.0.0.dylib in Frameworks */,
 				525E07921C318AD1009BD2DD /* libssl.1.0.0.dylib in Frameworks */,
@@ -1682,11 +1674,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F87E479A1D35E63A0008F233 /* SDL2_image.framework in Frameworks */,
-				F87E479B1D35E63A0008F233 /* SDL2.framework in Frameworks */,
+				527325D71EC07FF500B0000E /* libassimp.3.2.0.dylib in Frameworks */,
 				52F404FC1C9499BA0082B1F3 /* libfreetype.6.dylib in Frameworks */,
 				5221A6E11C9583B3002F4CD1 /* libsigc-2.0.0.dylib in Frameworks */,
-				5221A6E21C9583DB002F4CD1 /* libassimp.3.0.0.dylib in Frameworks */,
 				5221A6E31C95844A002F4CD1 /* libpng16.16.dylib in Frameworks */,
 				5221A6E01C9582F9002F4CD1 /* liblibposix.a in Frameworks */,
 				52F404F71C9498F90082B1F3 /* liblibgui.a in Frameworks */,
@@ -1705,6 +1695,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				527325CF1EC07B6600B0000E /* libassimp.3.2.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2031,8 +2022,6 @@
 		4A20B0E1135319770020F43E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F87E47981D35E63A0008F233 /* SDL2_image.framework */,
-				F87E47991D35E63A0008F233 /* SDL2.framework */,
 				522E334A1C1B26AD00AB01D3 /* SDL2_image.framework */,
 				522E334B1C1B26AD00AB01D3 /* SDL2.framework */,
 				522B22CA1C06323C00109BB0 /* libcurl.4.dylib */,
@@ -2146,7 +2135,7 @@
 		4A671B851388C04700657F38 /* SubLibraries */ = {
 			isa = PBXGroup;
 			children = (
-				527EAD0E1EB9D753006AE599 /* libassimp.3.3.1.dylib */,
+				527325CE1EC07B6600B0000E /* libassimp.3.2.0.dylib */,
 				52161F511C343532005D3B25 /* libogg.0.dylib */,
 				523C0C5D1C33F90800802DC7 /* libcrypto.1.0.0.dylib */,
 				525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */,
@@ -2154,7 +2143,6 @@
 				37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */,
 				37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */,
 				3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */,
-				4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */,
 				4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */,
 			);
 			name = SubLibraries;
@@ -3316,7 +3304,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#\n# The following script is used to update all the included libraries with the install_name_tool so that we can create a self\n# contained app bundle with all the included libraries without the user having to hunt down extra libraries etc. Just launch\n# and go! (its the apple way!).\n#\nfunction relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libbz2.1.0.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libpng16.16.dylib\n\n# libassimp\nlnk libassimp.3.0.0.dylib libassimp.3.dylib\nrelocateLibInApp /opt/local/lib/ libassimp.3.dylib\nrelocateSubLib /opt/local/lib/ libassimp.3.0.0.dylib libz.1.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n#bz2\nlnk libbz2.1.0.6.dylib libbz2.1.0.dylib\nrelocateLibInApp /opt/local/lib/ libbz2.1.0.dylib\n\n# png\nidLib libpng16.16.dylib\nrelocateSubLib /opt/local/lib/ libpng16.16.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libpng16.16.dylib\n\n# ogg\nrelocateLibInApp /opt/local/lib/ libogg.0.dylib\n\n# vorbis\nrelocateLibInApp /opt/local/lib/ libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbis.0.dylib libogg.0.dylib\nrelocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libogg.0.dylib\n\n# zlib\nlnk libz.1.2.8.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libz.1.dylib\nidLib libz.1.2.8.dylib\n\n# Crypto\nrelocateLibInApp /opt/local/lib/ libcrypto.1.0.0.dylib\n\n# OpenSSL\nrelocateLibInApp /opt/local/lib/ libssl.1.0.0.dylib\nrelocateSubLib /opt/local/lib/ libssl.1.0.0.dylib libcrypto.1.0.0.dylib\n\n# curl\nrelocateLibInApp /opt/local/lib/ libcurl.4.dylib\nrelocateSubLib /opt/local/lib/ libcurl.4.dylib libssl.1.0.0.dylib\nrelocateSubLib /opt/local/lib/ libcurl.4.dylib libcrypto.1.0.0.dylib\n";
+			shellScript = "#\n# The following script is used to update all the included libraries with the install_name_tool so that we can create a self\n# contained app bundle with all the included libraries without the user having to hunt down extra libraries etc. Just launch\n# and go! (its the apple way!).\n#\nfunction relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libbz2.1.0.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libpng16.16.dylib\n\n# libassimp\nlnk libassimp.3.2.0.dylib libassimp.3.dylib\nrelocateLibInApp /opt/local/lib/ libassimp.3.dylib\nrelocateSubLib /opt/local/lib/ libassimp.3.2.0.dylib libz.1.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n#bz2\nlnk libbz2.1.0.6.dylib libbz2.1.0.dylib\nrelocateLibInApp /opt/local/lib/ libbz2.1.0.dylib\n\n# png\nidLib libpng16.16.dylib\nrelocateSubLib /opt/local/lib/ libpng16.16.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libpng16.16.dylib\n\n# ogg\nrelocateLibInApp /opt/local/lib/ libogg.0.dylib\n\n# vorbis\nrelocateLibInApp /opt/local/lib/ libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbis.0.dylib libogg.0.dylib\nrelocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libogg.0.dylib\n\n# zlib\nlnk libz.1.2.8.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libz.1.dylib\nidLib libz.1.2.8.dylib\n\n# Crypto\nrelocateLibInApp /opt/local/lib/ libcrypto.1.0.0.dylib\n\n# OpenSSL\nrelocateLibInApp /opt/local/lib/ libssl.1.0.0.dylib\nrelocateSubLib /opt/local/lib/ libssl.1.0.0.dylib libcrypto.1.0.0.dylib\n\n# curl\nrelocateLibInApp /opt/local/lib/ libcurl.4.dylib\nrelocateSubLib /opt/local/lib/ libcurl.4.dylib libssl.1.0.0.dylib\nrelocateSubLib /opt/local/lib/ libcurl.4.dylib libcrypto.1.0.0.dylib\n";
 		};
 		4AE970701436A65D00424F91 /* GenGitVersion */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4551,6 +4539,10 @@
 					/opt/local/include,
 					/opt/local/include/SDL2,
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -4603,6 +4595,10 @@
 					/opt/local/include/freetype2,
 					/opt/local/include,
 					/opt/local/include/SDL2,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
