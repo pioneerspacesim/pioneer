@@ -269,7 +269,7 @@ public:
 		m_leadTime = m_evadeTime = m_closeTime = 0.0;
 		m_lastVel = m_target->GetVelocity();
 		m_prop = m_dBody->GetPropulsion();
-		m_fguns = dynamic_cast<FixedGuns*>(m_dBody);
+		m_fguns = m_dBody->GetFixedGuns();
 		assert(m_prop!=nullptr);
 		assert(m_fguns!=nullptr);
 	}
@@ -298,7 +298,7 @@ public:
 		m_lastVel = m_target->GetVelocity();
 		// Ensure needed sub-system:
 		m_prop = m_dBody->GetPropulsion();
-		m_fguns = dynamic_cast<FixedGuns*>(m_dBody);
+		m_fguns = m_dBody->GetFixedGuns();
 		assert(m_prop!=nullptr);
 		assert(m_fguns!=nullptr);
 	}

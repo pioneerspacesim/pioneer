@@ -57,7 +57,7 @@ void Ship::SaveToJson(Json::Value &jsonObj, Space *space)
 	shipObj["hyperspace_destination"] = hyperspaceDestObj; // Add hyperspace destination object to ship object.
 	shipObj["hyperspace_countdown"] = FloatToStr(m_hyperspace.countdown);
 
-	FixedGuns::SaveToJson( shipObj, space );
+	GetFixedGuns()->SaveToJson( shipObj, space );
 
 	shipObj["ecm_recharge"] = FloatToStr(m_ecmRecharge);
 	shipObj["ship_type_id"] = m_type->id;
@@ -84,7 +84,8 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	AddFeature( Feature::PROPULSION ); // add component propulsion
 
 	DynamicBody::LoadFromJson(jsonObj, space);
-
+	AddFeature( Feature::PROPULSION ); // add component propulsion
+	AddFeature( Feature::FIXED_GUNS ); // add component fixed guns
 	if (!jsonObj.isMember("ship")) throw SavedGameCorruptException();
 	Json::Value shipObj = jsonObj["ship"];
 
@@ -133,7 +134,7 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_hyperspace.countdown = StrToFloat(shipObj["hyperspace_countdown"].asString());
 	m_hyperspace.duration = 0;
 
-	FixedGuns::LoadFromJson( shipObj, space );
+	GetFixedGuns()->LoadFromJson( shipObj, space );
 
 	m_ecmRecharge = StrToFloat(shipObj["ecm_recharge"].asString());
 	SetShipId(shipObj["ship_type_id"].asString()); // XXX handle missing thirdparty ship
@@ -240,8 +241,8 @@ void Ship::Init()
 
 	m_landingGearAnimation = GetModel()->FindAnimation("gear_down");
 
-	InitGun( GetModel(), "tag_gunmount_0", 0);
-	InitGun( GetModel(), "tag_gunmount_1", 1);
+	GetFixedGuns()->InitGun( GetModel(), "tag_gunmount_0", 0);
+	GetFixedGuns()->InitGun( GetModel(), "tag_gunmount_1", 1);
 
 	// If we've got the tag_landing set then use it for an offset
 	// otherwise use zero so that it will dock but look clearly incorrect
@@ -270,6 +271,7 @@ Ship::Ship(const ShipType::Id &shipId): DynamicBody(),
 	m_landingGearAnimation(nullptr)
 {
 	AddFeature( Feature::PROPULSION ); // add component propulsion
+	AddFeature( Feature::FIXED_GUNS ); // add component fixed guns
 	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
 	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
 
@@ -294,7 +296,7 @@ Ship::Ship(const ShipType::Id &shipId): DynamicBody(),
 
 	m_hyperspace.countdown = 0;
 	m_hyperspace.now = false;
-	FixedGuns::Init(this);
+	GetFixedGuns()->Init(this);
 	m_ecmRecharge = 0;
 	m_shieldCooldown = 0.0f;
 	m_curAICmd = 0;
@@ -542,14 +544,14 @@ void Ship::UpdateGunsStats() {
 
 	float cooler = 1.0f;
 	Properties().Get("laser_cooler_cap", cooler);
-	FixedGuns::SetCoolingBoost( cooler );
+	GetFixedGuns()->SetCoolingBoost( cooler );
 
 	for (int num=0; num < 2; num++) {
 		std::string prefix(num?"laser_rear_":"laser_front_");
 		int damage = 0;
 		Properties().Get(prefix+"damage", damage);
 		if (!damage) {
-			FixedGuns::UnMountGun(num);
+			GetFixedGuns()->UnMountGun(num);
 			return;
 		} else {
 			Properties().PushLuaTable();
@@ -564,10 +566,10 @@ void Ship::UpdateGunsStats() {
 			const float speed = prop.Get<float>(prefix+"speed");
 			const float recharge = prop.Get<float>(prefix+"rechargeTime");
 
-			FixedGuns::MountGun( num, recharge, lifespan, damage, length, width, mining, c, speed );
+			GetFixedGuns()->MountGun( num, recharge, lifespan, damage, length, width, mining, c, speed );
 
-			if (prop.Get<int>(prefix+"dual")) FixedGuns::IsDual( num, true );
-			else FixedGuns::IsDual( num, false );
+			if (prop.Get<int>(prefix+"dual")) GetFixedGuns()->IsDual( num, true );
+			else GetFixedGuns()->IsDual( num, false );
 			lua_pop(prop.GetLua(), 1);
 		}
 	}
@@ -923,7 +925,7 @@ void Ship::UpdateAlertState()
 			if (GetPositionRelTo(ship).LengthSqr() < ALERT_DISTANCE*ALERT_DISTANCE) {
 				ship_is_near = true;
 
-				Uint32 gunstate = ship->IsFiring();
+				Uint32 gunstate = GetFixedGuns()->IsFiring();
 				if (gunstate) {
 					ship_is_firing = true;
 					break;
@@ -1078,9 +1080,9 @@ void Ship::StaticUpdate(const float timeStep)
 		m_launchLockTimeout = 0;
 
 	// lasers
-	FixedGuns::UpdateGuns( timeStep );
+	GetFixedGuns()->UpdateGuns( timeStep );
 	for (int i=0; i<2; i++)
-		if (FixedGuns::Fire(i, this)) {
+		if (GetFixedGuns()->Fire(i, this)) {
 			Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
 			LuaEvent::Queue("onShipFiring", this);
 		};
@@ -1190,7 +1192,7 @@ void Ship::SetGunState(int idx, int state)
 	if (m_flightState != FLYING)
 		return;
 
-	FixedGuns::SetGunFiringState( idx, state );
+	GetFixedGuns()->SetGunFiringState( idx, state );
 }
 
 bool Ship::SetWheelState(bool down)

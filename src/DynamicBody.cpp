@@ -10,6 +10,7 @@
 #include "Pi.h"
 #include "json/JsonUtils.h"
 #include "Propulsion.h"
+#include "FixedGuns.h"
 
 static const float KINETIC_ENERGY_MULT = 0.00001f;
 const double DynamicBody::DEFAULT_DRAG_COEFF = 0.1; // 'smooth sphere'
@@ -17,6 +18,7 @@ const double DynamicBody::DEFAULT_DRAG_COEFF = 0.1; // 'smooth sphere'
 DynamicBody::DynamicBody()
 	: ModelBody()
 	, m_propulsion(nullptr)
+	, m_fixedGuns(nullptr)
 {
 	m_dragCoeff = DEFAULT_DRAG_COEFF;
 	m_flags = Body::FLAG_CAN_MOVE_FRAME;
@@ -44,6 +46,8 @@ void DynamicBody::AddFeature( Feature f ) {
 	m_features[f] = true;
 	if(f == Feature::PROPULSION && m_propulsion == nullptr) {
 		m_propulsion = new Propulsion();
+	} else if(f == Feature::FIXED_GUNS && m_fixedGuns == nullptr) {
+		m_fixedGuns = new FixedGuns();
 	}
 }
 
@@ -135,6 +139,16 @@ const Propulsion *DynamicBody::GetPropulsion() const {
 Propulsion *DynamicBody::GetPropulsion() {
 	assert(m_propulsion != nullptr);
 	return m_propulsion;
+}
+
+const FixedGuns *DynamicBody::GetFixedGuns() const {
+	assert(m_fixedGuns != nullptr);
+	return m_fixedGuns;
+}
+
+FixedGuns *DynamicBody::GetFixedGuns() {
+	assert(m_fixedGuns != nullptr);
+	return m_fixedGuns;
 }
 
 void DynamicBody::SetTorque(const vector3d &t)
@@ -278,6 +292,8 @@ DynamicBody::~DynamicBody()
 {
 	if(m_propulsion != nullptr)
 		delete m_propulsion;
+	if(m_fixedGuns != nullptr)
+		delete m_fixedGuns;
 }
 
 vector3d DynamicBody::GetVelocity() const
