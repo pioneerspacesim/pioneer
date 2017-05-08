@@ -1,10 +1,11 @@
 May 2017
    * New Features
-	   * In-space indicators have icons and let you select collapsed ones (#3995)
-		 * Show combat target pro- and retrograde velocities (#4007)
+     * In-space indicators have icons and let you select collapsed ones (#3995)
+     * Show combat target pro- and retrograde velocities (#4007)
+     * Remove unimplemented method declarations (#4010)
 
-	 * Fixes
-	   * Restore correct mouse position after MMB/RMB movement (#4004)
+   * Fixes
+     * Restore correct mouse position after MMB/RMB movement (#4004)
 
 April 2017
    * New Features
