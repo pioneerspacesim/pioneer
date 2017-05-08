@@ -22,7 +22,7 @@
       "cargo" : 10,
       "scoop" : 0,
       "laser_front" : 1,
-      "laser_rear" : 1,
+      "laser_rear" : 0,
       "missile" : 4,
       "sensor"  : 8
    },
