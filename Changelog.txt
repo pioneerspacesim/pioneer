@@ -7,6 +7,7 @@ May 2017
    * Internal Changes
      * Remove unimplemented method declarations (#4010)
      * Make Propulsion a component (#3989)
+     * Upgraded Assimp to v.3.2.0 in Xcode project (#4011)
 
    * Fixes
      * Restore correct mouse position after MMB/RMB movement (#4004)
