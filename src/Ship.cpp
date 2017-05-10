@@ -81,6 +81,8 @@ void Ship::SaveToJson(Json::Value &jsonObj, Space *space)
 
 void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
+	AddFeature( Feature::PROPULSION ); // add component propulsion
+
 	DynamicBody::LoadFromJson(jsonObj, space);
 
 	if (!jsonObj.isMember("ship")) throw SavedGameCorruptException();
