@@ -3,11 +3,13 @@ May 2017
      * In-space indicators have icons and let you select collapsed ones (#3995)
      * Show combat target pro- and retrograde velocities (#4007)
      * New ship added Mola Ramsayi (#4006)
+     * Simple atmospheric crush pressure (#4005)
 
    * Internal Changes
      * Remove unimplemented method declarations (#4010)
      * Make Propulsion a component (#3989)
      * Upgraded Assimp to v.3.2.0 in Xcode project (#4011)
+     * Make FixedGuns a component (#4012)
 
    * Fixes
      * Restore correct mouse position after MMB/RMB movement (#4004)
