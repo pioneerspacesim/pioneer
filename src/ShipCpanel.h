@@ -41,6 +41,7 @@ public:
 	};
 	void SetOverlayText(OverlayTextPos pos, const std::string &text);
 	void SetOverlayToolTip(OverlayTextPos pos, const std::string &text);
+	void SetOverlayTextColour(OverlayTextPos pos, const Color &colour);
 	void ClearOverlay();
 	void SetRadarVisible(bool visible) { if(visible) m_radar->Show(); else m_radar->Hide(); }
 

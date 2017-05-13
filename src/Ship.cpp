@@ -485,6 +485,49 @@ void Ship::Explode()
 	ClearThrusterState();
 }
 
+bool Ship::DoCrushDamage(float kgDamage)
+{
+	if (m_invulnerable) {
+		return true;
+	}
+
+	if (!IsDead()) {
+		float dam = kgDamage*0.01f;
+		if (m_stats.shield_mass_left > 0.0f) {
+			if (m_stats.shield_mass_left > dam) {
+				m_stats.shield_mass_left -= dam;
+				dam = 0;
+			} else {
+				dam -= m_stats.shield_mass_left;
+				m_stats.shield_mass_left = 0;
+			}
+			Properties().Set("shieldMassLeft", m_stats.shield_mass_left);
+		}
+
+		m_shieldCooldown = DEFAULT_SHIELD_COOLDOWN_TIME;
+		// create a collision location in the models local space and add it as a hit.
+		Random rnd; rnd.seed(time(0));
+		const vector3d randPos(
+			rnd.Double() * 2.0 - 1.0,
+			rnd.Double() * 2.0 - 1.0,
+			rnd.Double() * 2.0 - 1.0);
+		GetShields()->AddHit(randPos * (GetPhysRadius() * 0.75));
+
+		m_stats.hull_mass_left -= dam;
+		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
+		Properties().Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
+		if (m_stats.hull_mass_left < 0) {
+			Explode();
+		} else {
+			if (Pi::rng.Double() < dam)
+				SfxManager::Add(this, TYPE_DAMAGE);
+		}
+	}
+
+	//Output("Ouch! %s took %.1f kilos of damage from %s! (%.1f t hull left)\n", GetLabel().c_str(), kgDamage, attacker->GetLabel().c_str(), m_stats.hull_mass_left);
+	return true;
+}
+
 void Ship::UpdateEquipStats()
 {
 	PropertyMap &p = Properties();
@@ -1010,6 +1053,22 @@ void Ship::StaticUpdate(const float timeStep)
 	if (GetHullTemperature() > 1.0)
 		Explode();
 
+
+	if (m_flightState == FLYING) {
+		Body *astro = GetFrame()->GetBody();
+		if (astro && astro->IsType(Object::PLANET)) {
+			Planet *p = static_cast<Planet*>(astro);
+			double dist = GetPosition().Length();
+			double pressure, density;
+			p->GetAtmosphericState(dist, &pressure, &density);
+
+			if (pressure > m_type->atmosphericPressureLimit) {
+				float damage = float(pressure - m_type->atmosphericPressureLimit);
+				DoCrushDamage(damage);
+			}
+		}
+	}
+
 	UpdateAlertState();
 
 	/* FUEL SCOOPING!!!!!!!!! */
@@ -1020,16 +1079,16 @@ void Ship::StaticUpdate(const float timeStep)
 		if (astro && astro->IsType(Object::PLANET)) {
 			Planet *p = static_cast<Planet*>(astro);
 			if (p->GetSystemBody()->IsScoopable()) {
-				double dist = GetPosition().Length();
+				const double dist = GetPosition().Length();
 				double pressure, density;
 				p->GetAtmosphericState(dist, &pressure, &density);
 
-				double speed = GetVelocity().Length();
-				vector3d vdir = GetVelocity().Normalized();
-				vector3d pdir = -GetOrient().VectorZ();
-				double dot = vdir.Dot(pdir);
-				if ((m_stats.free_capacity) && (dot > 0.95) && (speed > 2000.0) && (density > 1.0)) {
-					double rate = speed*density*0.00000333f*double(capacity);
+				const double speed = GetVelocity().Length();
+				const vector3d vdir = GetVelocity().Normalized();
+				const vector3d pdir = -GetOrient().VectorZ();
+				const double dot = vdir.Dot(pdir);
+				if ((m_stats.free_capacity) && (dot > 0.90) && (speed > 1000.0) && (density > 0.5)) {
+					const double rate = speed * density * 0.00000333 * double(capacity);
 					if (Pi::rng.Double() < rate) {
 						lua_State *l = Lua::manager->GetLuaState();
 						pi_lua_import(l, "Equipment");

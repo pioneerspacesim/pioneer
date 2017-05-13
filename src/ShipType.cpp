@@ -197,6 +197,8 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 		thrusterUpgrades[index] = data["thrust_upgrades"].get(slotname, 0).asDouble();
 	}
 
+	atmosphericPressureLimit = data.get("atmospheric_pressure_limit", 10.0).asDouble();	// 10 atmosphere is about 90 metres underwater (on Earth)
+
 	{
 		const auto it = slots.find("engine");
 		if (it != slots.end())

@@ -20,6 +20,7 @@ public:
 	Player(const ShipType::Id &shipId);
 	Player() {}; //default constructor used before Load
 	virtual void SetDockedWith(SpaceStation *, int port) override;
+	virtual bool DoCrushDamage(float kgDamage) override final; // overloaded to add "crush" audio
 	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData) override;
 	virtual bool SetWheelState(bool down) override; // returns success of state change, NOT state itself
 	virtual Missile * SpawnMissile(ShipType::Id missile_type, int power=-1) override;
@@ -48,7 +49,7 @@ public:
 	sigc::signal<void> onChangeEquipment;
 	virtual vector3d GetManeuverVelocity() const;
 	virtual int GetManeuverTime() const;
-	
+
 protected:
 	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
 	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;

@@ -46,6 +46,7 @@ struct ShipType {
 	Color directionThrusterColor[THRUSTER_MAX];
 	bool isDirectionColorDefined[THRUSTER_MAX];
 	double thrusterUpgrades[4];
+	double atmosphericPressureLimit;
 	int capacity; // tonnes
 	int hullMass;
 	float effectiveExhaustVelocity; // velocity at which the propellant escapes the engines
