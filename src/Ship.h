@@ -50,7 +50,7 @@ struct shipstats_t {
 	float fuel_tank_mass_left;
 };
 
-class Ship: public DynamicBody, public FixedGuns {
+class Ship: public DynamicBody {
 	friend class ShipController; //only controllers need access to AITimeStep
 	friend class PlayerShipController;
 public:

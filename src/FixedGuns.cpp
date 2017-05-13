@@ -15,7 +15,7 @@ bool FixedGuns::IsFiring()
 {
 	bool gunstate = false;
 	for (int j = 0; j < Guns::GUNMOUNT_MAX; j++)
-		gunstate |= m_state[j];
+		gunstate |= m_is_firing[j];
 	return gunstate;
 }
 
@@ -23,7 +23,7 @@ void FixedGuns::Init(DynamicBody *b)
 {
 	for (int i=0; i<Guns::GUNMOUNT_MAX; i++) {
 		// Initialize structs
-		m_state[i] = 0;
+		m_is_firing[i] = false;
 		m_gun[i].recharge = 0;
 		m_gun[i].temp_slope = 0;
 		m_gun[i].projData.lifespan = 0;
@@ -49,7 +49,7 @@ void FixedGuns::SaveToJson( Json::Value &jsonObj, Space *space )
 	for (int i = 0; i<Guns::GUNMOUNT_MAX; i++)
 	{
 		Json::Value gunArrayEl(Json::objectValue); // Create JSON object to contain gun.
-		gunArrayEl["state"] = m_state[i];
+		gunArrayEl["state"] = m_is_firing[i];
 		gunArrayEl["recharge"] = FloatToStr(m_recharge_stat[i]);
 		gunArrayEl["temperature"] = FloatToStr(m_temperature_stat[i]);
 		gunArray.append(gunArrayEl); // Append gun object to array.
@@ -71,7 +71,7 @@ void FixedGuns::LoadFromJson( const Json::Value &jsonObj, Space *space )
 		if (!gunArrayEl.isMember("recharge")) throw SavedGameCorruptException();
 		if (!gunArrayEl.isMember("temperature")) throw SavedGameCorruptException();
 
-		m_state[i] = gunArrayEl["state"].asBool();
+		m_is_firing[i] = gunArrayEl["state"].asBool();
 		m_recharge_stat[i] = StrToFloat(gunArrayEl["recharge"].asString());
 		m_temperature_stat[i] = StrToFloat(gunArrayEl["temperature"].asString());
 	}
@@ -85,6 +85,7 @@ void FixedGuns::InitGun( SceneGraph::Model *m, const char *tag, int num)
 		m_gun[num].pos = trans.GetTranslate();
 		m_gun[num].dir = trans.GetOrient().VectorZ();
 	} else {
+		Output("WARNING: tag %s not found for gun %i\n", tag, num);
 		// XXX deprecated
 		m_gun[num].pos = (num==Guns::GUN_FRONT) ? vector3f(0,0,0) : vector3f(0,0,0);
 		m_gun[num].dir = (num==Guns::GUN_REAR) ? vector3f(0,0,-1) : vector3f(0,0,1);
@@ -93,9 +94,10 @@ void FixedGuns::InitGun( SceneGraph::Model *m, const char *tag, int num)
 
 void FixedGuns::MountGun(int num, float recharge, float lifespan, float damage, float length, float width, bool mining, const Color& color, float speed )
 {
-	if ( num >= Guns::GUNMOUNT_MAX ) return;
+	if(num >= Guns::GUNMOUNT_MAX)
+		return;
 	// Here we have projectile data MORE recharge time
-	m_state[num] = 0;
+	m_is_firing[num] = false;
 	m_gun[num].recharge = recharge;
 	m_gun[num].temp_slope = 0.01; // TODO: More fun if you have a variable "speed" for temperature
 	m_gun[num].projData.lifespan = lifespan;
@@ -110,25 +112,34 @@ void FixedGuns::MountGun(int num, float recharge, float lifespan, float damage, 
 
 void FixedGuns::UnMountGun( int num )
 {
-		m_state[num] = 0;
-		m_gun[num].recharge = 0;
-		m_gun[num].temp_slope = 0;
-		m_gun[num].projData.lifespan = 0;
-		m_gun[num].projData.damage = 0;
-		m_gun[num].projData.length = 0;
-		m_gun[num].projData.width = 0;
-		m_gun[num].projData.mining = false;
-		m_gun[num].projData.speed = 0;
-		m_gun[num].projData.color = Color::BLACK;
-		m_gun_present[num] = false;
+	if(num >= Guns::GUNMOUNT_MAX)
+		return;
+	if(!m_gun_present[num])
+		return;
+	m_is_firing[num] = false;
+	m_gun[num].recharge = 0;
+	m_gun[num].temp_slope = 0;
+	m_gun[num].projData.lifespan = 0;
+	m_gun[num].projData.damage = 0;
+	m_gun[num].projData.length = 0;
+	m_gun[num].projData.width = 0;
+	m_gun[num].projData.mining = false;
+	m_gun[num].projData.speed = 0;
+	m_gun[num].projData.color = Color::BLACK;
+	m_gun_present[num] = false;
 }
 
 bool FixedGuns::Fire( int num, Body* b )
 {
 	if (!m_gun_present[num]) return false;
-	if (!m_state[num]) return false;
+	if (!m_is_firing[num]) return false;
+	Output("Firing gun %i, present\n", num);
+	Output(" is firing\n");
 	if (m_recharge_stat[num]>0) return false;
+	Output(" recharge stat <= 0\n");
 	if (m_temperature_stat[num] > 1.0) return false;
+	Output(" temperature stat <= 1.0\n");
+
 	const vector3d dir = b->GetOrient() * vector3d(m_gun[num].dir);
 	const vector3d pos = b->GetOrient() * vector3d(m_gun[num].pos) + b->GetPosition();
 	const vector3d dirVel = m_gun[num].projData.speed * dir.Normalized();

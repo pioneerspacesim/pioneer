@@ -582,7 +582,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		}
 	}
 
-	const float activeWeaponTemp = Pi::player->GetGunTemperature(GetActiveWeapon());
+	const float activeWeaponTemp = Pi::player->GetFixedGuns()->GetGunTemperature(GetActiveWeapon());
 	if (activeWeaponTemp > 0.0f) {
 		m_hudWeaponTemp->SetValue(activeWeaponTemp);
 		m_hudWeaponTemp->Show();

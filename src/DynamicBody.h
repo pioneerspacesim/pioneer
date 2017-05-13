@@ -11,6 +11,7 @@
 #include "Orbit.h"
 
 class Propulsion;
+class FixedGuns;
 
 class DynamicBody: public ModelBody {
 private:
@@ -78,6 +79,8 @@ public:
 	void SetDecelerating(bool decel) { m_decelerating = decel; }
 	const Propulsion *GetPropulsion() const;
 	Propulsion *GetPropulsion();
+	const FixedGuns *GetFixedGuns() const;
+	FixedGuns *GetFixedGuns();
 	void AddFeature( Feature f );
 protected:
 	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
@@ -111,6 +114,7 @@ private:
 	bool m_features[MAX_FEATURE];
 
 	Propulsion *m_propulsion;
+	FixedGuns *m_fixedGuns;
 };
 
 #endif /* _DYNAMICBODY_H */
