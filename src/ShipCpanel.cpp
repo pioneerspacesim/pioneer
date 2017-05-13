@@ -34,9 +34,6 @@ m_game(game)
 	m_radar = new RadarWidget(r, shipCPanelObj);
 
 	InitObject();
-
-	if (!shipCPanelObj.isMember("cam_button_state")) throw SavedGameCorruptException();
-	m_camButton->SetActiveState(shipCPanelObj["cam_button_state"].asInt());
 }
 
 void ShipCpanel::InitObject()
@@ -268,7 +265,6 @@ void ShipCpanel::SaveToJson(Json::Value &jsonObj)
 {
 	Json::Value shipCPanelObj(Json::objectValue); // Create JSON object to contain ship control panel data.
 	m_radar->SaveToJson(shipCPanelObj);
-	shipCPanelObj["cam_button_state"] = m_camButton->GetState();
 	jsonObj["ship_c_panel"] = shipCPanelObj; // Add ship control panel object to supplied object.
 }
 
