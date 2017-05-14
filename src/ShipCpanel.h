@@ -68,7 +68,6 @@ private:
 
 	RadarWidget *m_radar;
 	UseEquipWidget *m_useEquipWidget;
-	Gui::MultiStateImageButton *m_camButton;
 	Gui::ImageRadioButton *m_timeAccelButtons[6];
 	Gui::Widget *m_mapViewButtons[4];
 	Gui::Image *m_alertLights[3];
