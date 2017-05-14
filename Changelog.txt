@@ -13,6 +13,7 @@ May 2017
 
    * Fixes
      * Restore correct mouse position after MMB/RMB movement (#4004)
+     * Remove remaining legacy camera button (#4014)
 
 April 2017
    * New Features
