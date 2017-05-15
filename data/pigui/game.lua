@@ -623,33 +623,38 @@ end
 
 -- display either the 3D or the 2D radar, show a popup on right click to select
 local function displayRadar()
-	local cntr = Vector(ui.screenWidth / 2, ui.screenHeight - reticuleCircleRadius - 15)
-	local size = reticuleCircleRadius
+	local radar = player:GetEquip("radar")
+	-- only display if there actually *is* a radar installed
+	if #radar > 0 then
 
-	local mp = ui.getMousePos()
-	if (Vector(mp.x,mp.y) - cntr):magnitude() < size then
-		if ui.isMouseReleased(1) then
-			ui.openPopup("radarselector")
+		local cntr = Vector(ui.screenWidth / 2, ui.screenHeight - reticuleCircleRadius - 15)
+		local size = reticuleCircleRadius
+
+		local mp = ui.getMousePos()
+		if (Vector(mp.x,mp.y) - cntr):magnitude() < size then
+			if ui.isMouseReleased(1) then
+				ui.openPopup("radarselector")
+			end
+			local wheel = ui.getMouseWheel()
+			if wheel > 0 then
+				current_radar_size = math.max(current_radar_size / 10, MIN_RADAR_SIZE)
+			elseif wheel < 0 then
+				current_radar_size = math.min(current_radar_size * 10, MAX_RADAR_SIZE)
+			end
 		end
-		local wheel = ui.getMouseWheel()
-		if wheel > 0 then
-			current_radar_size = math.max(current_radar_size / 10, MIN_RADAR_SIZE)
-		elseif wheel < 0 then
-			current_radar_size = math.min(current_radar_size * 10, MAX_RADAR_SIZE)
+		ui.popup("radarselector", function()
+							 if ui.selectable(lui.HUD_2D_RADAR, shouldDisplay2DRadar, {}) then
+								 shouldDisplay2DRadar = true
+								 Game.SetRadarVisible(false)
+							 end
+							 if ui.selectable(lui.HUD_3D_RADAR, not shouldDisplay2DRadar, {}) then
+								 shouldDisplay2DRadar = false
+								 Game.SetRadarVisible(true)
+							 end
+		end)
+		if shouldDisplay2DRadar then
+			display2DRadar(cntr, size)
 		end
-	end
-	ui.popup("radarselector", function()
-						 if ui.selectable(lui.HUD_2D_RADAR, shouldDisplay2DRadar, {}) then
-							 shouldDisplay2DRadar = true
-							 Game.SetRadarVisible(false)
-						 end
-						 if ui.selectable(lui.HUD_3D_RADAR, not shouldDisplay2DRadar, {}) then
-							 shouldDisplay2DRadar = false
-							 Game.SetRadarVisible(true)
-						 end
-	end)
-	if shouldDisplay2DRadar then
-		display2DRadar(cntr, size)
 	end
 end
 
