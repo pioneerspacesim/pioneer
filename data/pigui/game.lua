@@ -572,14 +572,19 @@ local function display2DRadar(cntr, size)
 	local twothirdsize = size * 0.7
 
 	local function line(x,y)
+		local thickness = 1
 		-- ui.addLine(cntr + Vector(x, y) * halfsize, cntr + Vector(x,y) * size, colors.reticuleCircle, reticuleCircleThickness)
-		ui.addLine(cntr + Vector(x, y) * thirdsize, cntr + Vector(x,y) * twothirdsize, colors.reticuleCircle, reticuleCircleThickness)
+		local a = cntr + Vector(x, y) * thirdsize
+		local b = cntr + Vector(x,y) * twothirdsize
+		local num_segments = ((b - a) / 3):magnitude()
+		ui.addLineDashed(a, b, colors.reticuleCircle, thickness, num_segments, 1, 1)
 	end
 	ui.addCircleFilled(cntr, size, colors.lightBlueBackground, ui.circleSegments(size), 1)
 	ui.addCircle(cntr, size, colors.reticuleCircle, ui.circleSegments(size), reticuleCircleThickness)
 	--	ui.addCircle(cntr, halfsize, colors.reticuleCircle, ui.circleSegments(halfsize), reticuleCircleThickness)
-	ui.addCircle(cntr, thirdsize, colors.reticuleCircle, ui.circleSegments(thirdsize), reticuleCircleThickness)
-	ui.addCircle(cntr, twothirdsize, colors.reticuleCircle, ui.circleSegments(twothirdsize), reticuleCircleThickness)
+	local thickness = 1
+	ui.addCircleDashed(cntr, thirdsize, colors.reticuleCircle, ui.dashedCircleSegments(thirdsize), thickness, 1, 1)
+	ui.addCircleDashed(cntr, twothirdsize, colors.reticuleCircle, ui.dashedCircleSegments(twothirdsize), thickness, 1, 1)
 	local l = ui.oneOverSqrtTwo
 	line(-l, l)
 	line(-l, -l)

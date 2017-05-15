@@ -386,6 +386,19 @@ static int l_pigui_add_line(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_add_line_dashed(lua_State *l) {
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	ImVec2 a = LuaPull<ImVec2>(l, 1);
+	ImVec2 b = LuaPull<ImVec2>(l, 2);
+	ImColor col = LuaPull<ImColor>(l, 3);
+	double thickness = LuaPull<double>(l, 4);
+	int num_segments = LuaPull<int>(l, 5);
+	int on_segments = LuaPull<int>(l, 6);
+	int off_segments = LuaPull<int>(l, 7);
+	draw_list->AddLineDashed(a, b, col, thickness, num_segments, on_segments, off_segments);
+	return 0;
+}
+
 static int l_pigui_add_circle(lua_State *l) {
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	ImVec2 center = LuaPull<ImVec2>(l, 1);
@@ -394,6 +407,19 @@ static int l_pigui_add_circle(lua_State *l) {
 	int segments = LuaPull<int>(l, 4);
 	double thickness = LuaPull<double>(l, 5);
 	draw_list->AddCircle(center, radius, color, segments, thickness);
+	return 0;
+}
+
+static int l_pigui_add_circle_dashed(lua_State *l) {
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	ImVec2 center = LuaPull<ImVec2>(l, 1);
+	int radius = LuaPull<int>(l, 2);
+	ImColor color = LuaPull<ImColor>(l, 3);
+	int segments = LuaPull<int>(l, 4);
+	double thickness = LuaPull<double>(l, 5);
+	int on_segments = LuaPull<int>(l, 6);
+	int off_segments = LuaPull<int>(l, 7);
+	draw_list->AddCircleDashed(center, radius, color, segments, thickness, on_segments, off_segments);
 	return 0;
 }
 
@@ -1155,7 +1181,9 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "PushClipRect",           l_pigui_push_clip_rect },
 		{ "AddCircle",              l_pigui_add_circle },
 		{ "AddCircleFilled",        l_pigui_add_circle_filled },
+		{ "AddCircleDashed",        l_pigui_add_circle_dashed },
 		{ "AddLine",                l_pigui_add_line },
+		{ "AddLineDashed",          l_pigui_add_line_dashed },
 		{ "AddText",                l_pigui_add_text },
 		{ "AddTriangle",            l_pigui_add_triangle },
 		{ "AddTriangleFilled",      l_pigui_add_triangle_filled },

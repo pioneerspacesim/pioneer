@@ -116,6 +116,20 @@ ui.circleSegments = function(radius)
 	end
 end
 
+ui.dashedCircleSegments = function(radius)
+	if radius < 5 then
+		return 8
+	elseif radius < 20 then
+		return 32
+	elseif radius < 50 then
+		return 64
+	elseif radius < 100 then
+		return 128
+	else
+		return 256
+	end
+end
+
 ui.Format = {
 	Duration = function(duration, elements)
 		-- shown elements items (2 -> wd or dh, 3 -> dhm or hms)
@@ -388,10 +402,12 @@ ui.selectable = pigui.Selectable
 ui.progressBar = pigui.ProgressBar
 ui.calcTextSize = pigui.CalcTextSize
 ui.addCircle = pigui.AddCircle
+ui.addCircleDashed = pigui.AddCircleDashed
 ui.addCircleFilled = pigui.AddCircleFilled
 ui.addRect = pigui.AddRect
 ui.addRectFilled = pigui.AddRectFilled
 ui.addLine = pigui.AddLine
+ui.addLineDashed = pigui.AddLineDashed
 ui.pathArcTo = pigui.PathArcTo
 ui.pathStroke = pigui.PathStroke
 ui.twoPi = two_pi
