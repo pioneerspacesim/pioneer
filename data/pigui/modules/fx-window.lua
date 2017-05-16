@@ -266,7 +266,7 @@ end
 local function displayFxWindow()
 	player = Game.player
 	local current_view = Game.CurrentView()
-	ui.setNextWindowPos(Vector(ui.screenWidth/3, 0) , "FirstUseEver")
+	ui.setNextWindowPos(Vector(ui.screenWidth/2 - (mainButtonSize.x + 2 * mainButtonFramePadding) * 6, 0) , "FirstUseEver")
 	ui.window("Fx", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 						function()
 							button_world(current_view)
@@ -299,4 +299,5 @@ local function displayFxWindow()
 end
 
 ui.registerModule("game", displayFxWindow)
+
 return {}
