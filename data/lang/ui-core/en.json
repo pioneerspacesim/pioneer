@@ -563,6 +563,10 @@
       "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
       "message" : "3D planar projection"
    },
+   "HUD_REQUEST_TIME_ACCEL": {
+      "description": "Tooltip: Request time acceleration {time}",
+      "message": "Request time acceleration: {time}"
+   },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
       "message" : "Hull does not require repair."

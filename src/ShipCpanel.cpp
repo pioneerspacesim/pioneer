@@ -57,53 +57,6 @@ void ShipCpanel::InitObject()
 
 	ChangeMultiFunctionDisplay(MFUNC_RADAR);
 
-//	Gui::RadioGroup *g = new Gui::RadioGroup();
-	Gui::ImageRadioButton *b = new Gui::ImageRadioButton(0, "icons/timeaccel0.png", "icons/timeaccel0_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_PAUSED));
-	b->SetShortcut(SDLK_ESCAPE, KMOD_LSHIFT);
-	b->SetRenderDimensions(22, 18);
-	Add(b, 0, 34);
-	m_timeAccelButtons[0] = b;
-
-	b = new Gui::ImageRadioButton(0, "icons/timeaccel1.png", "icons/timeaccel1_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_1X));
-	b->SetShortcut(SDLK_F1, KMOD_LSHIFT);
-	b->SetSelected(true);
-	b->SetRenderDimensions(22, 18);
-	Add(b, 22, 34);
-	m_timeAccelButtons[1] = b;
-
-	b = new Gui::ImageRadioButton(0, "icons/timeaccel2.png", "icons/timeaccel2_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_10X));
-	b->SetShortcut(SDLK_F2, KMOD_LSHIFT);
-	b->SetRenderDimensions(22, 18);
-	Add(b, 44, 34);
-	m_timeAccelButtons[2] = b;
-
-	b = new Gui::ImageRadioButton(0, "icons/timeaccel3.png", "icons/timeaccel3_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_100X));
-	b->SetShortcut(SDLK_F3, KMOD_LSHIFT);
-	b->SetRenderDimensions(22, 18);
-	Add(b, 66, 34);
-	m_timeAccelButtons[3] = b;
-
-	b = new Gui::ImageRadioButton(0, "icons/timeaccel4.png", "icons/timeaccel4_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_1000X));
-	b->SetShortcut(SDLK_F4, KMOD_LSHIFT);
-	b->SetRenderDimensions(22, 18);
-	Add(b, 88, 34);
-	m_timeAccelButtons[4] = b;
-
-	b = new Gui::ImageRadioButton(0, "icons/timeaccel5.png", "icons/timeaccel5_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_10000X));
-	b->SetShortcut(SDLK_F5, KMOD_LSHIFT);
-	b->SetRenderDimensions(22, 18);
-	Add(b, 110, 34);
-	m_timeAccelButtons[5] = b;
-
-	m_clock = (new Gui::Label(""))->Color(255,178,0);
-	Add(m_clock, 3, 15);
-
 	img = new Gui::Image("icons/alert_green.png");
 	img->SetToolTip(Lang::NO_ALERT);
 	img->SetRenderDimensions(20, 13);
@@ -175,17 +128,6 @@ void ShipCpanel::OnMultiFuncUngrabFocus(multifuncfunc_t f)
 void ShipCpanel::Update()
 {
 	PROFILE_SCOPED()
-	int timeAccel = m_game->GetTimeAccel();
-	int requested = m_game->GetRequestedTimeAccel();
-
-	for (int i=0; i<Game::TimeAccel::TIMEACCEL_HYPERSPACE; i++) {
-		m_timeAccelButtons[i]->SetSelected(timeAccel == i);
-	}
-	// make requested but not selected icon blink
-	if (timeAccel != requested) {
-		m_timeAccelButtons[Clamp(requested,0,5)]->SetSelected((SDL_GetTicks() & 0x200) != 0);
-	}
-
 	m_radar->Update();
 	m_useEquipWidget->Update();
 
@@ -193,14 +135,6 @@ void ShipCpanel::Update()
 
 void ShipCpanel::Draw()
 {
-	static double prevTime = -1.0;
-	const double currTime = m_game->GetTime();
-	if(!is_equal_exact(prevTime, currTime)) {
-		prevTime = currTime;
-		const std::string time = format_date(currTime);
-		m_clock->SetText(time);
-	}
-
 	Gui::Fixed::Draw();
 }
 
