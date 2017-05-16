@@ -452,11 +452,12 @@ local defaultTheme = import("themes/default")
 ui.theme = defaultTheme
 
 local modules = {}
+
 ui.registerModule = function(mode, fun)
 	if not modules[mode] then
 		modules[mode] = {}
 	end
-	table.insert(modules[mode], fun)
+	table.insert(modules[mode], { fun = fun, enabled = true })
 end
 
 ui.getModules = function(mode)

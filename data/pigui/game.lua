@@ -17,6 +17,10 @@ local icons = ui.theme.icons
 local reticuleCircleRadius = math.min(ui.screenWidth, ui.screenHeight) / 13
 local reticuleCircleThickness = 2.0
 
+-- for modules
+ui.reticuleCircleRadius = reticuleCircleRadius
+ui.reticuleCircleThickness = reticuleCircleThickness
+
 -- settings
 local ASTEROID_RADIUS = 1500000 -- rocky planets smaller than this (in meters) are considered an asteroid, not a planet
 local IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE = 1000000 -- ships farther away than this don't show up on as in-space indicators
@@ -558,106 +562,6 @@ local function displayHyperspace()
 	-- TODO implement :)
 end
 
-local MAX_RADAR_SIZE = 1000000000
-local MIN_RADAR_SIZE = 1000
-
-local shouldDisplay2DRadar = false
-local current_radar_size = 10000
-
--- display the 2D radar
-local function display2DRadar(cntr, size)
-	local targets = ui.getTargetsNearby(current_radar_size)
-	local halfsize = size * 0.5
-	local thirdsize = size * 0.3
-	local twothirdsize = size * 0.7
-
-	local function line(x,y)
-		-- ui.addLine(cntr + Vector(x, y) * halfsize, cntr + Vector(x,y) * size, colors.reticuleCircle, reticuleCircleThickness)
-		ui.addLine(cntr + Vector(x, y) * thirdsize, cntr + Vector(x,y) * twothirdsize, colors.reticuleCircle, reticuleCircleThickness)
-	end
-	ui.addCircleFilled(cntr, size, colors.lightBlueBackground, ui.circleSegments(size), 1)
-	ui.addCircle(cntr, size, colors.reticuleCircle, ui.circleSegments(size), reticuleCircleThickness)
-	--	ui.addCircle(cntr, halfsize, colors.reticuleCircle, ui.circleSegments(halfsize), reticuleCircleThickness)
-	ui.addCircle(cntr, thirdsize, colors.reticuleCircle, ui.circleSegments(thirdsize), reticuleCircleThickness)
-	ui.addCircle(cntr, twothirdsize, colors.reticuleCircle, ui.circleSegments(twothirdsize), reticuleCircleThickness)
-	local l = ui.oneOverSqrtTwo
-	line(-l, l)
-	line(-l, -l)
-	line(l, -l)
-	line(l, l)
-	local combatTarget = player:GetCombatTarget()
-	local navTarget = player:GetNavTarget()
-	local tooltip = {}
-	for k,v in pairs(targets) do
-		if v.distance < current_radar_size then
-			local halfRadarSize = current_radar_size / 2
-			local alpha = 255
-			if v.distance > halfRadarSize then
-				alpha = 255 * (1 - (v.distance - halfRadarSize) / halfRadarSize)
-			end
-			local position = cntr + v.aep * size * 2
-			if v.body == navTarget then
-				local color = Color(colors.navTarget.r, colors.navTarget.g, colors.navTarget.b, alpha)
-				ui.addIcon(position, icons.square, color, 12, ui.anchor.center, ui.anchor.center)
-			elseif v.body == combatTarget then
-				local color = Color(colors.combatTarget.r, colors.combatTarget.g, colors.combatTarget.b, alpha)
-				ui.addIcon(position, icons.square, color, 12, ui.anchor.center, ui.anchor.center)
-			else
-				local color = Color(colors.reticuleCircle.r, colors.reticuleCircle.g, colors.reticuleCircle.b, alpha)
-				ui.addCircleFilled(position, 2, color, 4, 1)
-			end
-			local mouse_position = ui.getMousePos()
-			if (mouse_position - position):magnitude() < 4 then
-				table.insert(tooltip, v.label)
-			end
-		end
-	end
-	if #tooltip > 0 then
-		ui.setTooltip(table.concat(tooltip, "\n"))
-	end
-	local d, d_u = ui.Format.Distance(current_radar_size)
-	local distance = d .. ' ' .. d_u
-	local textcenter = cntr + Vector(0, size + 2)
-	local textsize = ui.addStyledText(textcenter, ui.anchor.center, ui.anchor.top, distance, colors.frame, pionillium.small, lui.HUD_RADAR_DISTANCE, colors.lightBlackBackground)
-end
-
--- display either the 3D or the 2D radar, show a popup on right click to select
-local function displayRadar()
-	local radar = player:GetEquip("radar")
-	-- only display if there actually *is* a radar installed
-	if #radar > 0 then
-
-		local cntr = Vector(ui.screenWidth / 2, ui.screenHeight - reticuleCircleRadius - 15)
-		local size = reticuleCircleRadius
-
-		local mp = ui.getMousePos()
-		if (Vector(mp.x,mp.y) - cntr):magnitude() < size then
-			if ui.isMouseReleased(1) then
-				ui.openPopup("radarselector")
-			end
-			local wheel = ui.getMouseWheel()
-			if wheel > 0 then
-				current_radar_size = math.max(current_radar_size / 10, MIN_RADAR_SIZE)
-			elseif wheel < 0 then
-				current_radar_size = math.min(current_radar_size * 10, MAX_RADAR_SIZE)
-			end
-		end
-		ui.popup("radarselector", function()
-							 if ui.selectable(lui.HUD_2D_RADAR, shouldDisplay2DRadar, {}) then
-								 shouldDisplay2DRadar = true
-								 Game.SetRadarVisible(false)
-							 end
-							 if ui.selectable(lui.HUD_3D_RADAR, not shouldDisplay2DRadar, {}) then
-								 shouldDisplay2DRadar = false
-								 Game.SetRadarVisible(true)
-							 end
-		end)
-		if shouldDisplay2DRadar then
-			display2DRadar(cntr, size)
-		end
-	end
-end
-
 local function getBodyIcon(body)
 	local st = body.superType
 	local t = body.type
@@ -713,7 +617,7 @@ end
 
 local function callModules(mode)
 	for k,v in pairs(ui.getModules(mode)) do
-		v()
+		v.fun()
 	end
 end
 
@@ -841,7 +745,6 @@ ui.registerHandler(
 											else
 												displayOnScreenObjects()
 												displayReticule()
-												displayRadar()
 												callModules("game")
 											end
 										else
