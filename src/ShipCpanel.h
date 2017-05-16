@@ -64,11 +64,9 @@ private:
 
 	enum MapView m_currentMapView;
 	multifuncfunc_t m_userSelectedMfuncWidget;
-	Gui::Label *m_clock;
 
 	RadarWidget *m_radar;
 	UseEquipWidget *m_useEquipWidget;
-	Gui::ImageRadioButton *m_timeAccelButtons[6];
 	Gui::Widget *m_mapViewButtons[4];
 	Gui::Image *m_alertLights[3];
 
