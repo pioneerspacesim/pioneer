@@ -441,11 +441,11 @@
    },
    "HUD_2D_RADAR" : {
       "description" : "Popup text: the name of the azimuthal equidistant projection radar",
-      "message" : "2D azimuthal equidistant projection"
+      "message" : "Proyección azimutal equidistante 2D"
    },
    "HUD_3D_RADAR" : {
       "description" : "Popup text: the name of the planar projection radar (traditional frontier-style)",
-      "message" : "3D planar projection"
+      "message" : "Proyección planar 3D"
    },
    "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
       "description" : "Tooltip: The braking distance using the main thrusters.",
@@ -477,7 +477,7 @@
    },
    "HUD_DELTA_V" : {
       "description" : "Tooltip: The remaining Δv.",
-      "message" : "Remaining Δv"
+      "message" : "Δv restante"
    },
    "HUD_DELTA_V_OF_MANEUVER_BURN" : {
       "description" : "Tooltip: The Δv for the maneuver burn.",
@@ -485,7 +485,7 @@
    },
    "HUD_DELTA_V_PERCENT" : {
       "description" : "Tooltip: The remaining Δv in percent.",
-      "message" : "Remaining Δv"
+      "message" : "Δv restante"
    },
    "HUD_DISTANCE_TO_SURFACE_OF_FRAME" : {
       "description" : "Tooltip: Distance to the surface of the frame of reference.",
@@ -505,39 +505,39 @@
    },
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
-      "message" : "Away from the current frame"
+      "message" : "fuera del marco actual"
    },
    "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current combat target.",
-      "message" : "Prograde relative to current combat target"
+      "message" : "Progrado relativo al objetivo de combate actual"
    },
    "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current combat target.",
-      "message" : "Retrograde relative to current combat target"
+      "message" : "Retrogrado relativo al actual objetivo de combate"
    },
    "HUD_INDICATOR_FRAME_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current frame.",
-      "message" : "Prograde relative to current frame of reference"
+      "message" : "Progrado relativo al marco de referencia actual"
    },
    "HUD_INDICATOR_FRAME_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current frame.",
-      "message" : "Retrograde relative to current frame of reference"
+      "message" : "Retrogrado relativo al actual marco de referencia"
    },
    "HUD_INDICATOR_MANEUVER_PROGRADE" : {
       "description" : "Indicator: The prograde direction for the maneuver burn.",
-      "message" : "Prograde for maneuver burn"
+      "message" : "Progrado para maniobra de quemado"
    },
    "HUD_INDICATOR_NAV_TARGET_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current navigational target.",
-      "message" : "Prograde relative to current navigational target"
+      "message" : "Progrado relativo al objetivo actual de navegación"
    },
    "HUD_INDICATOR_NAV_TARGET_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current navigational target.",
-      "message" : "Retrograde relative to current navigational target"
+      "message" : "Retrogrado relativo al actual objetivo de navegación"
    },
    "HUD_RADAR_DISTANCE" : {
       "description" : "Tooltip: Current distance of the radar.",
-      "message" : "Active radar distance"
+      "message" : "Distancia activa de radar"
    },
    "HUD_SHOW_COMBAT_TARGET" : {
       "description" : "Tooltip: Show the current combat target.",
@@ -1237,7 +1237,7 @@
    },
    "TOO_SMALL_TO_TRANSSHIP" : {
       "description" : "Ship market error message",
-      "message" : "New ship lacks capacity for current cargo and hyperdrive."
+      "message" : "La nueva nave no dispone de capacidad para la actual carga ni para hipermotor"
    },
    "TOTAL" : {
       "description" : "",
