@@ -112,7 +112,7 @@ local onGameStart = function ()
 
 	if not loaded_data then return end
 
-	for k,ad in pairs(loaded_data.ads) do
+	for k,ad in pairs(loaded_data.ads or {}) do
 		local ref = ad.station:AddAdvert({
 			description = ad.headline,
 			icon        = "advice",
