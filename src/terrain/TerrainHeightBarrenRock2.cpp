@@ -22,8 +22,10 @@ TerrainHeightFractal<TerrainHeightBarrenRock2>::TerrainHeightFractal(const Syste
 template <>
 double TerrainHeightFractal<TerrainHeightBarrenRock2>::GetHeight(const vector3d &p) const
 {
-
-	double n = billow_octavenoise(16, 0.3*octavenoise(8, 0.4, 2.5, p),Clamp(5.0*ridged_octavenoise(8, 0.377, 4.0, p), 1.0, 5.0), p);
+	double gain = 0.3*octavenoise(8, 0.4, 2.5, p);
+	double lacunarity = Clamp(5.0*ridged_octavenoise(8, 0.377, 4.0, p), 1.0, 5.0);
+	//double lacunarity = Clamp(5.0*ridged_octavenoise(8, 0.25, 4.0, p), 1.0, 4.0);
+	double n = billow_octavenoise(16, gain, lacunarity, p);
 
 	return (n > 0.0? m_maxHeight*n : 0.0);
 }
