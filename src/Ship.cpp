@@ -1050,7 +1050,21 @@ void Ship::StaticUpdate(const float timeStep)
 
 	if (m_controller) m_controller->StaticUpdate(timeStep);
 
-	if (GetHullTemperature() > 1.0)
+	// growing hull damage when temperature increase (quadratic function)
+	if (GetHullTemperature() >= 0.01) {
+		if (m_equipment.Get(Equip::SLOT_ATMOSHIELD) == Equip::NONE) {
+			//Atmo-shield is disable: implict damage when temperature >=1%
+			SetPercentHull(GetPercentHull() - (GetHullTemperature() * GetHullTemperature()) * timeStep * 10);
+		}
+		else {
+			//Atmo-shield is enable: implict damage when temperature >=50%
+			if ((GetHullTemperature() - 0.5) >= 0) {
+				SetPercentHull(GetPercentHull() - ((GetHullTemperature() - 0.5) * (GetHullTemperature() - 0.5) * timeStep * 10));
+			}
+		}
+	}
+
+	if (GetPercentHull() == 0)
 		Explode();
 
 
