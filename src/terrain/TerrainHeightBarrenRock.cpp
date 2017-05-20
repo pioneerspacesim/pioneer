@@ -29,5 +29,6 @@ double TerrainHeightFractal<TerrainHeightBarrenRock>::GetHeight(const vector3d &
 			//fuck the fracdefs, direct control is better:
 	double n = ridged_octavenoise(16, 0.5*octavenoise(8, 0.4, 2.5, p),Clamp(5.0*octavenoise(8, 0.257, 4.0, p), 1.0, 5.0), p);
 
-	return (n > 0.0 ? m_maxHeight*n : 0.0);
+	// Exaggerate the sharpness of the terrain upon return
+	return (n > 0.0 ? m_maxHeight * (n * n * n) : 0.0);
 }
