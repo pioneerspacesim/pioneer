@@ -155,6 +155,13 @@ public:
 		return 0;
 	}
 
+	static int l_set_hover_color(lua_State *l) {
+		UI::Table *t = LuaObject<UI::Table>::CheckFromLua(1);
+		Color c = Color::FromLuaTable(l, 2);
+		t->SetHoverColor(c);
+		lua_pushvalue(l, 1);
+		return 1;
+	}
 };
 
 }
@@ -180,6 +187,7 @@ template <> void LuaObject<UI::Table>::RegisterClass()
 		{ "SetMouseEnabled",    UI::LuaTable::l_set_mouse_enabled    },
 		{ "ScrollToTop",        UI::LuaTable::l_scroll_to_top        },
 		{ "ScrollToBottom",     UI::LuaTable::l_scroll_to_bottom     },
+		{ "SetHoverColor",		UI::LuaTable::l_set_hover_color      },
 		{ 0, 0 }
 	};
 
