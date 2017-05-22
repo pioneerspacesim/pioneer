@@ -606,7 +606,7 @@
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
 #define _CRT_SECURE_NO_WARNINGS
 #endif
-
+#include "FileSystem.h"
 #include "imgui.h"
 #define IMGUI_DEFINE_MATH_OPERATORS
 #define IMGUI_DEFINE_PLACEMENT_NEW
@@ -803,7 +803,7 @@ ImGuiIO::ImGuiIO()
     DisplaySize = ImVec2(-1.0f, -1.0f);
     DeltaTime = 1.0f/60.0f;
     IniSavingRate = 5.0f;
-    IniFilename = "imgui.ini";
+    IniFilename = FileSystem::JoinPath(FileSystem::GetUserDir(), "imgui.ini").c_str();
     LogFilename = "imgui_log.txt";
     Fonts = &GImDefaultFontAtlas;
     FontGlobalScale = 1.0f;
