@@ -453,11 +453,11 @@
    },
    "HUD_CURRENT_COMBAT_TARGET" : {
       "description" : "Tooltip: The current combat target.",
-      "message" : "L'attuale bersaglio"
+      "message" : "Bersaglio selezionato"
    },
    "HUD_CURRENT_FRAME" : {
       "description" : "Tooltip: The current frame of reference.",
-      "message" : "L'attuale sistema di riferimento"
+      "message" : "Sistema di riferimento attuale"
    },
    "HUD_CURRENT_HEADING" : {
       "description" : "Tooltip: the current heading.",
@@ -465,15 +465,15 @@
    },
    "HUD_CURRENT_NAV_TARGET" : {
       "description" : "Tooltip: The current navigational target.",
-      "message" : "L'attuale obiettivo di navigazione"
+      "message" : "Obiettivo di navigazione"
    },
    "HUD_CURRENT_PITCH" : {
       "description" : "Tooltip: the current pitch.",
-      "message" : "L'attuale beccheggio"
+      "message" : "Beccheggio"
    },
    "HUD_CURRENT_ROLL" : {
       "description" : "Tooltip: the current roll.",
-      "message" : "L'attuale rollio"
+      "message" : "Rollio"
    },
    "HUD_DELTA_V" : {
       "description" : "Tooltip: The remaining Δv.",
@@ -541,7 +541,7 @@
    },
    "HUD_SHOW_COMBAT_TARGET" : {
       "description" : "Tooltip: Show the current combat target.",
-      "message" : "Mostra l'attuale bersaglio"
+      "message" : "Mostra il bersaglio selezionato"
    },
    "HUD_SHOW_FRAME" : {
       "description" : "Tooltip: Show the current frame of reference.",
@@ -549,7 +549,7 @@
    },
    "HUD_SHOW_NAV_TARGET" : {
       "description" : "Tooltip: Show current navigational target.",
-      "message" : "Mostra l'attuale obiettivo di navigazione"
+      "message" : "Mostra l'obiettivo di navigazione"
    },
    "HUD_SPEED_OF_APPROACH_TO_FRAME" : {
       "description" : "Tooltip: The speed of approach towards the frame of reference.",
