@@ -272,7 +272,33 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 				}
 			}
 		}
+		
+		const float dz = m_joystickDeadzone;
+		// handle thrusting along one using the joystick axes
+		{
+			if( KeyBindings::thrustForwardAxis.Enabled() ) {
+				const float val = KeyBindings::thrustForwardAxis.GetValue();
+				if (fabs(val) > dz) {
+					m_ship->SetThrusterState(2, (((val - dz) / (1.0f - dz)) * linearThrustPower));
+				}
+			}
 
+			if( KeyBindings::thrustUpAxis.Enabled() ) {
+				const float val = KeyBindings::thrustUpAxis.GetValue();
+				if (fabs(val) > dz) {
+					m_ship->SetThrusterState(1, -(((val - dz) / (1.0f - dz)) * linearThrustPower));
+				}
+			}
+
+			if( KeyBindings::thrustRightAxis.Enabled() ) {
+				const float val = KeyBindings::thrustRightAxis.GetValue();
+				if (fabs(val) > dz) {
+					m_ship->SetThrusterState(0, -(((val - dz) / (1.0f - dz)) * linearThrustPower));
+				}
+			}
+		}
+
+		// keys can override the values from the joystick/pad
 		if (KeyBindings::thrustForward.IsActive()) m_ship->SetThrusterState(2, -linearThrustPower);
 		if (KeyBindings::thrustBackwards.IsActive()) m_ship->SetThrusterState(2, linearThrustPower);
 		if (KeyBindings::thrustUp.IsActive()) m_ship->SetThrusterState(1, linearThrustPower);
@@ -301,8 +327,24 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		changeVec.y = KeyBindings::yawAxis.GetValue();
 		changeVec.z = KeyBindings::rollAxis.GetValue();
 
+		// split axes such as triggers on Xbox / Xbox360 / XboxONE pads
+		{
+			#define NORMALISE(N) ((1.0f + N) * 0.5f)
+
+			const float up = -NORMALISE(KeyBindings::pitchAxisUp.GetValue());
+			const float down = NORMALISE(KeyBindings::pitchAxisDown.GetValue());
+			changeVec.x += (up + down);
+
+			const float left = -NORMALISE(KeyBindings::yawAxisLeft.GetValue());
+			const float right = NORMALISE(KeyBindings::yawAxisRight.GetValue());
+			changeVec.y += (left + right);
+
+			const float rollleft = -NORMALISE(KeyBindings::rollAxisLeft.GetValue());
+			const float rollright = NORMALISE(KeyBindings::rollAxisRight.GetValue());
+			changeVec.z += (rollleft + rollright);
+		}
+
 		// Deadzone per-axis with normalisation
-		const float dz = m_joystickDeadzone;
 		for (int axis=0; axis<3; axis++) {
 			if (fabs(changeVec[axis]) < dz) {
 				// no input
@@ -348,7 +390,10 @@ bool PlayerShipController::IsAnyLinearThrusterKeyDown()
 		KeyBindings::thrustUp.IsActive()		||
 		KeyBindings::thrustDown.IsActive()		||
 		KeyBindings::thrustLeft.IsActive()		||
-		KeyBindings::thrustRight.IsActive()
+		KeyBindings::thrustRight.IsActive()		||
+		(fabs(KeyBindings::thrustForwardAxis.GetValue()) > m_joystickDeadzone)		||
+		(fabs(KeyBindings::thrustUpAxis.GetValue()) > m_joystickDeadzone)			||
+		(fabs(KeyBindings::thrustRightAxis.GetValue()) > m_joystickDeadzone)
 	);
 }
 
