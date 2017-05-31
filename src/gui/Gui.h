@@ -10,7 +10,6 @@
 namespace Graphics {
 	class Renderer;
 	class VertexBuffer;
-	class WindowSDL;
 	class RenderState;
 }
 
