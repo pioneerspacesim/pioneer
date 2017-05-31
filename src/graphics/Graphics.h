@@ -40,9 +40,8 @@ namespace Graphics {
 	};
 
 	class Renderer;
-	class WindowSDL;
 
-	typedef Renderer* (*RendererCreateFunc)(WindowSDL *window, const Settings &vs);
+	typedef Renderer* (*RendererCreateFunc)(const Settings &vs);
 	void RegisterRenderer(RendererType type, RendererCreateFunc fn);
 
 	//for querying available modes

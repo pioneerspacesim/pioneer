@@ -41,7 +41,7 @@ class RendererGL2 : public Renderer
 public:
 	static void RegisterRenderer();
 
-	RendererGL2(WindowSDL *window, const Graphics::Settings &vs);
+	RendererGL2(SDL_Window *window, const Graphics::Settings &vs);
 	virtual ~RendererGL2();
 
 	virtual const char* GetName() const  override final { return "OpenGL 2.1, with extensions, renderer"; }
@@ -176,6 +176,8 @@ private:
 	typedef std::map<std::pair<AttributeSet, size_t>, RefCountedPtr<VertexBuffer>> AttribBufferMap;
 	typedef AttribBufferMap::iterator AttribBufferIter;
 	static AttribBufferMap s_AttribBufferMap;
+
+	SDL_GLContext m_glContext;
 };
 
 #define RENDERER_CHECK_ERRORS() RendererGL2::CheckErrors(__FUNCTION__, __LINE__)
