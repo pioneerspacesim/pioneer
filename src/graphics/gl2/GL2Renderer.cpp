@@ -8,6 +8,7 @@
 #include "OS.h"
 #include "StringF.h"
 #include "graphics/Texture.h"
+#include "graphics/TextureBuilder.h"
 #include "GL2Texture.h"
 #include "graphics/VertexArray.h"
 #include "GL2Debug.h"
@@ -37,8 +38,97 @@
 
 namespace Graphics {
 
-static Renderer *CreateRenderer(WindowSDL *win, const Settings &vs) {
-	return new RendererGL2(win, vs);
+static bool CreateWindowAndContext(const char *name, const Graphics::Settings &vs, int samples, int depth_bits, SDL_Window **window, SDL_GLContext *context)
+{
+	Uint32 winFlags = 0;
+
+	assert(vs.rendererType==Graphics::RendererType::RENDERER_OPENGL_21);
+
+	winFlags |= SDL_WINDOW_OPENGL;
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+	// cannot initialise 3.x content on OSX with anything but CORE profile
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, 0);
+	// OSX also forces us to use this for 3.2 onwards
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
+
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, depth_bits);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, samples ? 1 : 0);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, samples);
+
+	// need full 32-bit color
+	// (need an alpha channel because of the way progress bars are drawn)
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+
+	winFlags |= (vs.hidden ? SDL_WINDOW_HIDDEN : SDL_WINDOW_SHOWN);
+	if (!vs.hidden && vs.fullscreen)
+		winFlags |= SDL_WINDOW_FULLSCREEN;
+
+	(*window) = SDL_CreateWindow(name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, vs.width, vs.height, winFlags);
+	if (!(*window))
+		return false;
+
+	(*context) = SDL_GL_CreateContext((*window));
+	if (!(*context)) {
+		SDL_DestroyWindow((*window));
+		(*window) = nullptr;
+		return false;
+	}
+
+	return true;
+}
+
+static Renderer *CreateRenderer(const Settings &vs) {
+	bool ok;
+
+	const std::string name("Pioneer");
+	SDL_Window *window = nullptr;
+	SDL_GLContext glContext = nullptr;
+
+	// attempt sequence is:
+	// 1- requested mode
+	ok = CreateWindowAndContext(name.c_str(), vs, vs.requestedSamples, 24, &window, &glContext);
+
+	// 2- requested mode with no anti-aliasing (skipped if no AA was requested anyway)
+	//    (skipped if no AA was requested anyway)
+	if (!ok && vs.requestedSamples) {
+		Output("Failed to set video mode. (%s). Re-trying without multisampling.\n", SDL_GetError());
+		ok = CreateWindowAndContext(name.c_str(), vs, 0, 24, &window, &glContext);
+	}
+
+	// 3- requested mode with 16 bit depth buffer
+	if (!ok) {
+		Output("Failed to set video mode. (%s). Re-trying with 16-bit depth buffer\n", SDL_GetError());
+		ok = CreateWindowAndContext(name.c_str(), vs, vs.requestedSamples, 16, &window, &glContext);
+	}
+
+	// 4- requested mode with 16-bit depth buffer and no anti-aliasing
+	//    (skipped if no AA was requested anyway)
+	if (!ok && vs.requestedSamples) {
+		Output("Failed to set video mode. (%s). Re-trying with 16-bit depth buffer and no multisampling\n", SDL_GetError());
+		ok = CreateWindowAndContext(name.c_str(), vs, 0, 16, &window, &glContext);
+	}
+
+	// 5- abort!
+	if (!ok) {
+		Warning("Failed to set video mode: %s", SDL_GetError());
+		return nullptr;
+	}
+
+	SDLSurfacePtr surface = LoadSurfaceFromFile(vs.iconFile);
+	if (surface)
+		SDL_SetWindowIcon(window, surface.Get());
+
+	SDL_SetWindowTitle(window, vs.title);
+	SDL_ShowCursor(0);
+
+	SDL_GL_SetSwapInterval((vs.vsync!=0) ? 1 : 0);
+
+	return new RendererGL2(window, vs);
 }
 
 void RendererGL2::RegisterRenderer() {
@@ -115,8 +205,8 @@ void RendererGL2::CheckErrors(const char *func /*= nullptr*/, const int line /*=
 #endif
 }
 
-RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
-: Renderer(window, window->GetWidth(), window->GetHeight())
+RendererGL2::RendererGL2(SDL_Window *window, const Graphics::Settings &vs)
+: Renderer(window, vs.width, vs.height)
 , m_numDirLights(0)
 //the range is very large due to a "logarithmic z-buffer" trick used
 //http://outerra.blogspot.com/2009/08/logarithmic-z-buffer.html
@@ -174,6 +264,8 @@ RendererGL2::~RendererGL2()
 	while (!m_programs.empty()) delete m_programs.back().second, m_programs.pop_back();
 	for (auto state : m_renderStates)
 		delete state.second;
+
+	SDL_GL_DeleteContext(m_glContext);
 }
 
 static const char *gl_error_to_string(GLenum err)
@@ -323,7 +415,7 @@ bool RendererGL2::SwapBuffers()
 	PROFILE_SCOPED()
 	CheckRenderErrors(__FUNCTION__,__LINE__);
 
-	GetWindow()->SwapBuffers();
+	SDL_GL_SwapWindow(m_window);
 	return true;
 }
 
@@ -1162,8 +1254,10 @@ void RendererGL2::Scale( const float x, const float y, const float z )
 
 bool RendererGL2::Screendump(ScreendumpState &sd)
 {
-	sd.width = GetWindow()->GetWidth();
-	sd.height = GetWindow()->GetHeight();
+	int w, h;
+	SDL_GetWindowSize(m_window, &w, &h);
+	sd.width = w;
+	sd.height = h;
 	sd.bpp = 3; // XXX get from window
 
 	// pad rows to 4 bytes, which is the default row alignment for OpenGL
@@ -1182,8 +1276,10 @@ bool RendererGL2::Screendump(ScreendumpState &sd)
 
 bool RendererGL2::FrameGrab(ScreendumpState &sd)
 {
-	sd.width = GetWindow()->GetWidth();
-	sd.height = GetWindow()->GetHeight();
+	int w, h;
+	SDL_GetWindowSize(m_window, &w, &h);
+	sd.width = w;
+	sd.height = h;
 	sd.bpp = 4; // XXX get from window
 
 	sd.stride = (4 * sd.width);

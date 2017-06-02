@@ -283,7 +283,6 @@
     <ClCompile Include="..\..\..\src\graphics\TextureBuilder.cpp" />
     <ClCompile Include="..\..\..\src\graphics\VertexArray.cpp" />
     <ClCompile Include="..\..\..\src\graphics\VertexBuffer.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\WindowSDL.cpp" />
     <ClCompile Include="..\..\..\src\win32\OSWin32.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -350,7 +349,6 @@
     <ClInclude Include="..\..\..\src\graphics\Types.h" />
     <ClInclude Include="..\..\..\src\graphics\VertexArray.h" />
     <ClInclude Include="..\..\..\src\graphics\VertexBuffer.h" />
-    <ClInclude Include="..\..\..\src\graphics\WindowSDL.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

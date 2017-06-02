@@ -5,7 +5,7 @@
 
 namespace Graphics {
 
-static Renderer *CreateRenderer(WindowSDL *win, const Settings &vs) {
+static Renderer *CreateRenderer(const Settings &vs) {
     return new RendererDummy();
 }
 

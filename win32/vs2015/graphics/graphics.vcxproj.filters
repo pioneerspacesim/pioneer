@@ -27,7 +27,6 @@
     <ClCompile Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.cpp">
       <Filter>opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\WindowSDL.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\ShieldMaterial.cpp">
       <Filter>opengl</Filter>
     </ClCompile>
@@ -153,7 +152,6 @@
     <ClInclude Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.h">
       <Filter>opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\WindowSDL.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\ShieldMaterial.h">
       <Filter>opengl</Filter>
     </ClInclude>

@@ -4,7 +4,7 @@
 #ifndef _RENDERER_H
 #define _RENDERER_H
 
-#include "WindowSDL.h"
+#include "Graphics.h"
 #include "libs.h"
 #include "Types.h"
 #include "Light.h"
@@ -44,7 +44,7 @@ enum class MatrixMode {
 class Renderer
 {
 public:
-	Renderer(WindowSDL *win, int width, int height);
+	Renderer(SDL_Window *win, int width, int height);
 	virtual ~Renderer();
 
 	virtual const char* GetName() const = 0;
@@ -56,8 +56,10 @@ public:
 
 	virtual bool SupportsInstancing() = 0;
 
-	WindowSDL *GetWindow() const { return m_window.get(); }
+	SDL_Window *GetSDLWindow() const { return m_window; }
 	float GetDisplayAspect() const { return static_cast<float>(m_width) / static_cast<float>(m_height); }
+	int GetWindowWidth() const { return m_width; }
+	int GetWindowHeight() const { return m_height; }
 
 	//get supported minimum for z near and maximum for z far values
 	virtual bool GetNearFarRange(float &near_, float &far_) const = 0;
@@ -185,12 +187,15 @@ public:
 
 	Stats& GetStats() { return m_stats; }
 
+	void SetGrab(const bool grabbed);
+
 protected:
 	int m_width;
 	int m_height;
 	Color m_ambient;
 	Light m_lights[4];
 	Stats m_stats;
+	SDL_Window *m_window;
 
 	virtual void PushState() = 0;
 	virtual void PopState() = 0;
@@ -199,8 +204,6 @@ private:
 	typedef std::pair<std::string,std::string> TextureCacheKey;
 	typedef std::map<TextureCacheKey,RefCountedPtr<Texture>*> TextureCacheMap;
 	TextureCacheMap m_textures;
-
-	std::unique_ptr<WindowSDL> m_window;
 };
 
 }
