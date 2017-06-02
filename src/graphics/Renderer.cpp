@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Renderer.h"
@@ -6,7 +6,7 @@
 
 namespace Graphics {
 
-Renderer::Renderer(WindowSDL *window, int w, int h) :
+Renderer::Renderer(SDL_Window *window, int w, int h) :
 	m_width(w), m_height(h), m_ambient(Color::BLACK), m_window(window)
 {
 }
@@ -14,6 +14,7 @@ Renderer::Renderer(WindowSDL *window, int w, int h) :
 Renderer::~Renderer()
 {
 	RemoveAllCachedTextures();
+	SDL_DestroyWindow(m_window);
 }
 
 Texture *Renderer::GetCachedTexture(const std::string &type, const std::string &name)
@@ -42,6 +43,12 @@ void Renderer::RemoveAllCachedTextures()
 	for (TextureCacheMap::iterator i = m_textures.begin(); i != m_textures.end(); ++i)
 		delete (*i).second;
 	m_textures.clear();
+}
+
+void Renderer::SetGrab(const bool grabbed)
+{
+	SDL_SetWindowGrab(m_window, SDL_bool(grabbed));
+	SDL_SetRelativeMouseMode(SDL_bool(grabbed));
 }
 
 }

@@ -1,0 +1,102 @@
+{
+   "ADVICE_10_BODYTEXT" : {
+      "description" : "",
+      "message" : "Перейти в другую фракцию может быть хорошей идеей, когда возникают проблемы с местными властями."
+   },
+   "ADVICE_10_HEADLINE" : {
+      "description" : "",
+      "message" : "Уходи вовремя"
+   },
+   "ADVICE_1_BODYTEXT" : {
+      "description" : "",
+      "message" : "Отметь для себя, каким местным дельцам можно доверять, а каким нет, совершив сделку вне пределов закона."
+   },
+   "ADVICE_1_HEADLINE" : {
+      "description" : "",
+      "message" : "Приручи черный рынок"
+   },
+   "ADVICE_2_BODYTEXT" : {
+      "description" : "",
+      "message" : "Несколько коротких прыжков быстрее, чем один длинный."
+   },
+   "ADVICE_2_HEADLINE" : {
+      "description" : "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
+      "message" : "Дорога выбрана быстра"
+   },
+   "ADVICE_3_BODYTEXT" : {
+      "description" : "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
+      "message" : "Не прыгай в необитаемые системы без плана отхода."
+   },
+   "ADVICE_3_HEADLINE" : {
+      "description" : "",
+      "message" : "Чтобы не попасть в затруднения, планируй последовательность прыжков наперед"
+   },
+   "ADVICE_4_BODYTEXT" : {
+      "description" : "",
+      "message" : "Выбери систему отсчета. Особенно когда нужно сравнять скорость и курс с движущейся целью."
+   },
+   "ADVICE_4_HEADLINE" : {
+      "description" : "",
+      "message" : "Все относительно"
+   },
+   "ADVICE_5_BODYTEXT" : {
+      "description" : "",
+      "message" : "Купи подешевле, продай подороже."
+   },
+   "ADVICE_5_HEADLINE" : {
+      "description" : "",
+      "message" : "Никогда не теряй деньги"
+   },
+   "ADVICE_6_BODYTEXT" : {
+      "description" : "",
+      "message" : "Внимательно читай новости - информация может влиять на цены."
+   },
+   "ADVICE_6_HEADLINE" : {
+      "description" : "",
+      "message" : "Держи ухо востро"
+   },
+   "ADVICE_7_BODYTEXT" : {
+      "description" : "",
+      "message" : "Пожертвования могут помочь заслужить хорошее положение в обществе, но не все благотворительные дела позволят заработать репутацию."
+   },
+   "ADVICE_7_HEADLINE" : {
+      "description" : "",
+      "message" : "Будь щедрым"
+   },
+   "ADVICE_8_BODYTEXT" : {
+      "description" : "",
+      "message" : "Путешествуя к двойным системам, убедись, что выбрал в качестве цели правильную звезду."
+   },
+   "ADVICE_8_HEADLINE" : {
+      "description" : "",
+      "message" : "Держись подальше от двойных проблем"
+   },
+   "ADVICE_9_BODYTEXT" : {
+      "description" : "",
+      "message" : "Не забывай об обслуживании своих двигателей, но помни: ты получаешь то, за что заплатил."
+   },
+   "ADVICE_9_HEADLINE" : {
+      "description" : "",
+      "message" : "Заботься о своем корабле"
+   },
+   "RUMOUR" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "СЛУХИ"
+   },
+   "TALE_1_BODYTEXT" : {
+      "description" : "",
+      "message" : "Не пропусти прекрасное затмение на Новой Надежде, когда Аид закрывает свет Эпсилон Эридана."
+   },
+   "TALE_1_HEADLINE" : {
+      "description" : "Blade runner?",
+      "message" : "\"Я видел то, во что вы не поверите\""
+   },
+   "TRAVELLERS_ADVICE" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "СОВЕТ ПУТЕШЕСТВЕННИКА"
+   },
+   "TRAVELLERS_TALE" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "ИСТОРИЯ ПУТЕШЕСТВЕННИКА"
+   }
+}

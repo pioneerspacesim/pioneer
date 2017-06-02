@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "OS.h"
@@ -121,6 +121,19 @@ const std::string GetOSInfoString()
 void EnableBreakpad()
 {
 	// Support for Mac and Linux should be added
+}
+
+// Open the Explorer/Finder/etc
+bool SupportsFolderBrowser()
+{
+	return false;
+}
+
+void OpenUserFolderBrowser()
+{
+	// Support for Mac and Linux should be added
+	// Display the path instead for now
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Pioneer", FileSystem::userFiles.GetRoot().c_str(), 0);
 }
 
 } // namespace OS

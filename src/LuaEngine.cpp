@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaEngine.h"
@@ -7,7 +7,9 @@
 #include "LuaConstants.h"
 #include "EnumStrings.h"
 #include "Random.h"
+#include "OS.h"
 #include "Pi.h"
+#include "PiGui.h"
 #include "utils.h"
 #include "FloatComparison.h"
 #include "FileSystem.h"
@@ -18,7 +20,9 @@
 #include "KeyBindings.h"
 #include "Lang.h"
 #include "Player.h"
+#include "Game.h"
 #include "scenegraph/Model.h"
+#include "LuaPiGui.h"
 
 /*
  * Interface: Engine
@@ -91,6 +95,25 @@ static int l_engine_attr_ui(lua_State *l)
 }
 
 /*
+ * Attribute: pigui
+ *
+ * The global PiGui object. It provides an interface to ImGui functions
+ *
+ * Availability:
+ *
+ *   2016-10-06
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_engine_attr_pigui(lua_State *l)
+{
+	LuaObject<PiGui>::PushToLua(Pi::pigui.Get());
+	return 1;
+}
+
+/*
  * Attribute: version
  *
  * String describing the version of Pioneer
@@ -134,6 +157,22 @@ static int l_engine_quit(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: GetVideoModeList
+ *
+ * Get the available video modes
+ *
+ * > Engine.GetVideoModeList()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
 static int l_engine_get_video_mode_list(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -155,12 +194,49 @@ static int l_engine_get_video_mode_list(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetVideoResolution
+ *
+ * Get the current video resolution width and height
+ *
+ * > width,height = Engine.GetVideoResolution()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
 static int l_engine_get_video_resolution(lua_State *l)
 {
 	lua_pushinteger(l, Graphics::GetScreenWidth());
 	lua_pushinteger(l, Graphics::GetScreenHeight());
 	return 2;
 }
+
+/*
+ * Method: SetVideoResolution
+ *
+ * Set the current video resolution width and height
+ *
+ * > Engine.SetVideoResolution(width, height)
+ *
+ * Parameters:
+ *
+ *   width - the new width in pixels
+ *   height - the new height in pixels
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
 
 static int l_engine_set_video_resolution(lua_State *l)
 {
@@ -172,11 +248,47 @@ static int l_engine_set_video_resolution(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: GetFullscreen
+ *
+ * Return true if fullscreen is enabled
+ *
+ * > fullscreen = Engine.GetFullscreen()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
 static int l_engine_get_fullscreen(lua_State *l)
 {
 	lua_pushboolean(l, Pi::config->Int("StartFullscreen") != 0);
 	return 1;
 }
+
+/*
+ * Method: SetFullscreen
+ *
+ * Turn fullscreen on or off
+ *
+ * > Engine.SetFullscreen(true)
+ *
+ * Parameters:
+ *
+ *   fullscreen - true to turn on
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
 
 static int l_engine_set_fullscreen(lua_State *l)
 {
@@ -757,20 +869,108 @@ static int l_engine_set_mouse_y_inverted(lua_State *l)
 	return 0;
 }
 
-static int l_engine_get_compact_scanner(lua_State *l)
+/*
+ * Method: ShipSpaceToScreenSpace
+ *
+ * Convert a Vector from ship space to screen space
+ *
+ * > screen_space = Engine.ShipSpaceToScreenSpace(ship_space)
+ *
+ * Parameters:
+ *
+ *   ship_space - a Vector in ship space
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_engine_ship_space_to_screen_space(lua_State *l)
 {
-	lua_pushboolean(l, Pi::config->Int("CompactScanner") != 0);
+	vector3d pos = LuaPull<vector3d>(l, 1);
+	vector3d cam = Pi::game->GetWorldView()->ShipSpaceToScreenSpace(pos);
+	LuaPush(l, cam);
 	return 1;
 }
 
-static int l_engine_set_compact_scanner(lua_State *l)
+/*
+ * Method: CameraSpaceToScreenSpace
+ *
+ * Convert a Vector from camera space to screen space
+ *
+ * > screen_space = Engine.CameraSpaceToScreenSpace(camera_space)
+ *
+ * Parameters:
+ *
+ *   camera_space - a Vector in camera space
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_engine_camera_space_to_screen_space(lua_State *l)
+{
+	vector3d pos = LuaPull<vector3d>(l, 1);
+	vector3d cam = Pi::game->GetWorldView()->CameraSpaceToScreenSpace(pos);
+	LuaPush(l, cam);
+	return 1;
+}
+
+/*
+ * Method: WorldSpaceToScreenSpace
+ *
+ * Convert a Vector from world space to screen space
+ *
+ * > screen_space = Engine.WorldSpaceToScreenSpace(world_space)
+ *
+ * Parameters:
+ *
+ *   world_space - a Vector in world space
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_engine_world_space_to_screen_space(lua_State *l)
+{
+	vector3d pos = LuaPull<vector3d>(l, 1);
+
+	std::tuple<bool, vector3d, vector3d> res = lua_world_space_to_screen_space(pos); // defined in LuaPiGui.cpp
+	
+	LuaPush<bool>(l, std::get<0>(res));
+	LuaPush<vector3d>(l, std::get<1>(res));
+	LuaPush<vector3d>(l, std::get<2>(res));
+	return 3;
+}
+
+static int l_engine_get_compact_radar(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("CompactRadar") != 0);
+	return 1;
+}
+
+static int l_engine_set_compact_radar(lua_State *l)
 {
 	if (lua_isnone(l, 1))
-		return luaL_error(l, "SetCompactScanner takes one boolean argument");
+		return luaL_error(l, "SetCompactRadar takes one boolean argument");
 	const bool shrunk = lua_toboolean(l, 1);
-	Pi::config->SetInt("CompactScanner", (shrunk ? 1 : 0));
+	Pi::config->SetInt("CompactRadar", (shrunk ? 1 : 0));
 	Pi::config->Save();
-	Pi::SetCompactScanner(shrunk);
+	Pi::SetCompactRadar(shrunk);
 	return 0;
 }
 
@@ -813,6 +1013,18 @@ static int l_engine_get_model(lua_State *l)
 	SceneGraph::Model *model = Pi::FindModel(name);
 	LuaObject<SceneGraph::Model>::PushToLua(model);
 	return 1;
+}
+
+static int l_get_can_browse_user_folders(lua_State *l)
+{
+	lua_pushboolean(l, OS::SupportsFolderBrowser());
+	return 1;
+}
+
+static int l_browse_user_folders(lua_State *l)
+{
+	OS::OpenUserFolderBrowser();
+	return 0;
 }
 
 void LuaEngine::Register()
@@ -866,8 +1078,8 @@ void LuaEngine::Register()
 		{ "GetDisplayHudTrails", l_engine_get_display_hud_trails },
 		{ "SetDisplayHudTrails", l_engine_set_display_hud_trails },
 
-		{ "GetCompactScanner", l_engine_get_compact_scanner },
-		{ "SetCompactScanner", l_engine_set_compact_scanner },
+		{ "GetCompactRadar", l_engine_get_compact_radar },
+		{ "SetCompactRadar", l_engine_set_compact_radar },
 
 		{ "GetConfirmQuit", l_engine_get_confirm_quit },
 		{ "SetConfirmQuit", l_engine_set_confirm_quit },
@@ -895,8 +1107,14 @@ void LuaEngine::Register()
 		{ "GetJoystickEnabled", l_engine_get_joystick_enabled },
 		{ "SetJoystickEnabled", l_engine_set_joystick_enabled },
 
+		{ "CanBrowseUserFolder", l_get_can_browse_user_folders },
+		{ "OpenBrowseUserFolder", l_browse_user_folders },
+
 		{ "GetModel", l_engine_get_model },
 
+		{ "ShipSpaceToScreenSpace",   l_engine_ship_space_to_screen_space },
+		{ "CameraSpaceToScreenSpace", l_engine_camera_space_to_screen_space },
+		{ "WorldSpaceToScreenSpace",     l_engine_world_space_to_screen_space },
 		{ 0, 0 }
 	};
 
@@ -904,6 +1122,7 @@ void LuaEngine::Register()
 		{ "rand",    l_engine_attr_rand    },
 		{ "ticks",   l_engine_attr_ticks   },
 		{ "ui",      l_engine_attr_ui      },
+		{ "pigui",   l_engine_attr_pigui   },
 		{ "version", l_engine_attr_version },
 		{ 0, 0 }
 	};

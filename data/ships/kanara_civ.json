@@ -1,6 +1,6 @@
 {
 	"model" : "kanara_civ",
-	"name" : "Kanara Inteceptor",
+	"name" : "Kanara Interceptor",
 	"cockpit" : "",
 	"manufacturer" : "mandarava_csepel",
 	"ship_class" : "light_fighter",
@@ -17,6 +17,10 @@
 		"laser_rear" : 0,
 		"missile" : 4,
 		"atmo_shield" : 1
+	},
+	"roles" : {
+		"pirate" : true,
+		"mercenary" : true
 	},
 	"effective_exhaust_velocity" : 8840000,
 	"thruster_fuel_use" : -1.0,

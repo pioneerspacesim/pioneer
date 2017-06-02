@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -87,7 +87,7 @@ void Label::Draw()
 
 	// the size might not have bene updated, poke it until it is
 	float size[2]; GetSize(size);
-	if (is_equal_exact(size[0], 0.0f)) 
+	if (is_equal_exact(size[0], 0.0f))
 		RecalcSize();
 	m_layout->Update(size[0], m_color);
 

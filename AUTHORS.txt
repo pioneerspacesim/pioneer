@@ -48,6 +48,7 @@ The Pioneer Developers are:
 * jmf
 * John Bartholomew
 * John Jordan
+* Joshua Mathews
 * Karl Fogelmark
 * Kimmo Kotajärvi
 * Konrad Mruk
@@ -62,6 +63,7 @@ The Pioneer Developers are:
 * Marcel Tulloh
 * Marcus de Roos
 * Michele Botticelli
+* Michele Fanti
 * Miha Vitorovič
 * Nathan Jones
 * Nic
@@ -69,6 +71,7 @@ The Pioneer Developers are:
 * Oleg Ovcharenko
 * Paul Mahol
 * Paul Roberts
+* Peter Feigl
 * Pedro Gimeno
 * Peter Kurucz
 * Phil Howlett
@@ -104,7 +107,7 @@ The Pioneer Developers are:
 Licensing
 =========
 
-Copyright © 2008-2016 Pioneer Developers
+Copyright © 2008-2017 Pioneer Developers
 Portions copyright © 2013-2014 Meteoric Games Ltd.
 
 Pioneer's core code and extension modules are licensed under the terms of the
@@ -119,6 +122,12 @@ Pioneer includes the following third-party software:
   Lua 5.2.1 by R. Ierusalimschy, L. H. de Figueiredo & W. Celes,
   Copyright (C) 1994-2012 Lua.org, PUC-Rio
   Licensed under the MIT licence (see contrib/lua/lua.h)
+
+  GLEW: The OpenGL Extension Wrangler
+  Copyright (C) 2002-2008, Milan Ikits <milan ikits[]ieee org>
+  Copyright (C) 2002-2008, Marcelo E. Magallon <mmagallo[]debian org>
+  Copyright (C) 2002, Lev Povalahev
+  Licensed under the Modified BSD licence (see licenses/GLEW.txt)
 
   miniz by Rich Geldreich, April 2012
   Public domain (see contrib/miniz/miniz.h)
@@ -200,8 +209,8 @@ and services, without which Pioneer would not be possible:
   assimp        http://assimp.sourceforge.net/
   MXE           http://mxe.cc/
 
-  GitHub        		https://github.com/
-  SourceForge   		https://sourceforge.net/
+  GitHub                        https://github.com/
+  SourceForge                   https://sourceforge.net/
   randomColorSharped	https://github.com/nathanpjones/randomColorSharped
-  
+
   OpenGameArt	http://opengameart.org (specifically http://opengameart.org/content/smoke-aura)

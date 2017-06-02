@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StarSystemGenerator.h"
@@ -505,7 +505,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		kid->m_volcanicity    = csbody->volcanicity;
 		kid->m_atmosOxidizing = csbody->atmosOxidizing;
 		kid->m_life           = csbody->life;
-
+    kid->m_space_station_type = csbody->spaceStationType;
 		kid->m_rotationPeriod = csbody->rotationPeriod;
 		kid->m_rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
 		kid->m_eccentricity = csbody->eccentricity;
@@ -1552,7 +1552,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 	if (sbody->GetPopulationAsFixed() < fixed(1,1000)) return;
 	fixed orbMaxS = fixed(1,4)*CalcHillRadius(sbody);
 	fixed orbMinS = fixed().FromDouble((sbody->CalcAtmosphereParams().atmosRadius + + 500000.0/EARTH_RADIUS)) * AU_EARTH_RADIUS;
-	if (sbody->GetNumChildren() > 0) 
+	if (sbody->GetNumChildren() > 0)
 		orbMaxS = std::min(orbMaxS, fixed(1,2) * sbody->GetChildren()[0]->GetOrbMinAsFixed());
 
 	// starports - orbital
@@ -1571,7 +1571,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 		if( NumToMake > 0 )
 		{
 			const double centralMass = sbody->GetMassAsFixed().ToDouble() * EARTH_MASS;
-                        
+
 			// What is our innermost orbit?
 			fixed innerOrbit = orbMinS;// + ((orbMaxS - orbMinS) / 25);
 
@@ -1582,7 +1582,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 				const double hours = seconds / (60.0*60.0);
 				if (hours < minHours)
 				{
-                                        //knowing that T=2*pi*R/sqrt(G*M/R) find R for set T=4 hours: 
+                                        //knowing that T=2*pi*R/sqrt(G*M/R) find R for set T=4 hours:
                                         fixed orbitFromPeriod = fixed().FromDouble((std::pow(G*centralMass, 1.0/3.0)*std::pow(minHours*60.0*60.0, 2.0/3.0))/(std::pow(2.0*M_PI, 2.0/3.0)*AU));
                                         // We can't go higher than our maximum so set it to that.
 					innerOrbit = std::min(orbMaxS, orbitFromPeriod);
@@ -1604,11 +1604,11 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 			}
 			Uint32 orbitIdx = 0;
 
-			for( Uint32 i=0; i<NumToMake; i++ ) 
+			for( Uint32 i=0; i<NumToMake; i++ )
 			{
 				// Pick the orbit we've currently placing a station into.
 				const fixed currOrbit = shells[orbitIdx];
-				++orbitIdx; 
+				++orbitIdx;
 				orbitIdx = orbitIdx % MAX_ORBIT_SHELLS; // wrap it
 
 				// Begin creation of the new station

@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _CAMERA_H
@@ -79,7 +79,7 @@ public:
 	// camera-specific light with attached source body
 	class LightSource {
 	public:
-		LightSource(const Body *b, Graphics::Light light) : m_body(b), m_light(light) {}
+		LightSource(const Body *b, Graphics::Light &light) : m_body(b), m_light(light) {}
 
 		const Body *GetBody() const { return m_body; }
 		const Graphics::Light &GetLight() const { return m_light; }

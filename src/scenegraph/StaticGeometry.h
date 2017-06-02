@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _STATICGEOMETRY_H
@@ -26,11 +26,11 @@ public:
 	};
 	StaticGeometry(Graphics::Renderer *r);
 	StaticGeometry(const StaticGeometry&, NodeCopyCache *cache = 0);
-	virtual Node *Clone(NodeCopyCache *cache = 0);
-	virtual const char *GetTypeName() const { return "StaticGeometry"; }
-	virtual void Accept(NodeVisitor &nv);
-	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
-	virtual void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd);
+	virtual Node *Clone(NodeCopyCache *cache = 0) override;
+	virtual const char *GetTypeName() const override { return "StaticGeometry"; }
+	virtual void Accept(NodeVisitor &nv) override;
+	virtual void Render(const matrix4x4f &trans, const RenderData *rd) override;
+	virtual void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd) override;
 
 	virtual void Save(NodeDatabase&) override;
 	static StaticGeometry *Load(NodeDatabase&);
@@ -50,6 +50,7 @@ protected:
 	~StaticGeometry();
 	void DrawBoundingBox(const Aabb &bb);
 	std::vector<Mesh> m_meshes;
+	std::vector<RefCountedPtr<Graphics::Material>> m_instanceMaterials;
 	Graphics::RenderState *m_renderState;
 	RefCountedPtr<Graphics::InstanceBuffer> m_instBuffer;
 };

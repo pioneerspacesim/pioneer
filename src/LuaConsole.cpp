@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaConsole.h"
@@ -14,6 +14,20 @@
 #include <stack>
 #include <algorithm>
 
+#ifdef REMOTE_LUA_REPL
+// for networking
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <sys/select.h>
+#include <sys/time.h>
+#include <fcntl.h>
+#include <netinet/tcp.h>
+// end networking
+#endif
+
 #define TRUSTED_CONSOLE 1
 
 #if TRUSTED_CONSOLE
@@ -25,7 +39,11 @@ static const char CONSOLE_CHUNK_NAME[] = "console";
 LuaConsole::LuaConsole():
 	m_active(false),
 	m_precompletionStatement(),
-	m_completionList() {
+	m_completionList()
+#ifdef REMOTE_LUA_REPL
+	, m_debugSocket(0)
+#endif
+{
 
 	m_output = Pi::ui->MultiLineText("");
 	m_entry = Pi::ui->TextEntry();
@@ -307,14 +325,18 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 }
 
 void LuaConsole::AddOutput(const std::string &line) {
-	m_output->AppendText(line + "\n");
+	std::string actualLine = line + "\n";
+	m_output->AppendText(actualLine);
+#ifdef REMOTE_LUA_REPL
+	BroadcastToDebuggers(actualLine);
+#endif
 }
 
-void LuaConsole::ExecOrContinue(const std::string &stmt) {
+void LuaConsole::ExecOrContinue(const std::string &stmt, bool repeatStatement) {
 	int result;
 	lua_State *L = Lua::manager->GetLuaState();
 
-    // If the statement is an expression, print its final value.
+	// If the statement is an expression, print its final value.
 	result = luaL_loadbuffer(L, ("return " + stmt).c_str(), stmt.size()+7, CONSOLE_CHUNK_NAME);
 	if (result == LUA_ERRSYNTAX)
 		result = luaL_loadbuffer(L, stmt.c_str(), stmt.size(), CONSOLE_CHUNK_NAME);
@@ -358,12 +380,14 @@ void LuaConsole::ExecOrContinue(const std::string &stmt) {
 	std::istringstream stmt_stream(stmt);
 	std::string string_buffer;
 
-	std::getline(stmt_stream, string_buffer);
-	AddOutput("> " + string_buffer);
-
-	while(!stmt_stream.eof()) {
+	if (repeatStatement) {
 		std::getline(stmt_stream, string_buffer);
-		AddOutput("  " + string_buffer);
+		AddOutput("> " + string_buffer);
+
+		while(!stmt_stream.eof()) {
+			std::getline(stmt_stream, string_buffer);
+			AddOutput("  " + string_buffer);
+		}
 	}
 
 	// perform a protected call
@@ -510,3 +534,120 @@ void LuaConsole::Register()
 
 	LUA_DEBUG_END(l, 0);
 }
+
+#ifdef REMOTE_LUA_REPL
+void LuaConsole::OpenTCPDebugConnection(int portnumber) {
+	m_debugSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (m_debugSocket < 0) {
+		Output("Error opening socket");
+		return;
+	}
+	struct sockaddr_in destination;
+	destination.sin_family = AF_INET;
+	destination.sin_port = htons(portnumber);
+	destination.sin_addr.s_addr = INADDR_ANY; // this should be localhost only!
+	if (bind(m_debugSocket, (struct sockaddr*)&destination, sizeof(destination)) < 0) {
+		Output("Binding socket failed.\n");
+		if(m_debugSocket) {
+			close(m_debugSocket);
+			m_debugSocket = 0;
+			return;
+		}
+	}
+	Output("Listening on TCP port %d.\n", portnumber);
+	if (listen(m_debugSocket, 2) < 0) {
+		Output("Listening failed.\n");
+		if (m_debugSocket) {
+			close(m_debugSocket);
+			m_debugSocket = 0;
+			return;
+		}
+	}
+}
+
+void LuaConsole::HandleTCPDebugConnections() {
+	if (m_debugSocket) {
+		fd_set read_fds;
+		FD_ZERO(&read_fds);
+		FD_SET(m_debugSocket, &read_fds);
+		struct timespec timeout = {0,0};
+
+		int res = pselect(m_debugSocket + 1, &read_fds, NULL, NULL, &timeout, NULL);
+		if (res < 0 && errno != EINTR) {
+			Output("pselect error %d.\n", errno);
+		}
+		if (FD_ISSET(m_debugSocket, &read_fds)) {
+			HandleNewDebugTCPConnection(m_debugSocket);
+		}
+	}
+	for(int sock : m_debugConnections) {
+		HandleDebugTCPConnection(sock);
+	}
+}
+
+void LuaConsole::HandleNewDebugTCPConnection(int socket) {
+	int sock = accept(socket, NULL, 0);
+	if (sock < 0) {
+		Output("Error accepting on socket.\n");
+		return;
+	}
+	// set to non-blocking
+	int status = fcntl(sock, F_SETFL, fcntl(sock, F_GETFL, 0) | O_NONBLOCK);
+	if (status == -1) {
+		Output("Error setting socket to non-blocking.");
+	}
+	// set to no buffering
+	int flag = 1;
+	setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (char *)&flag, sizeof(int));
+
+	m_debugConnections.push_back(sock);
+	std::string welcome = "** Welcome to the Pioneer Remote Debugging Console!\n> ";
+	BroadcastToDebuggers(welcome);
+	Output("Successfully accepted connection.\n");
+}
+
+// TODO: these should not be here, do we need them generally? Maybe in utils.cpp?
+static std::string &ltrim(std::string & str)
+{
+	auto it2 =  std::find_if( str.begin() , str.end() , [](char ch){ return !std::isspace<char>(ch , std::locale::classic() ) ; } );
+	str.erase( str.begin() , it2);
+	return str;
+}
+
+static std::string &rtrim(std::string & str)
+{
+	auto it1 =  std::find_if( str.rbegin() , str.rend() , [](char ch){ return !std::isspace<char>(ch , std::locale::classic() ) ; } );
+	str.erase( it1.base() , str.end() );
+	return str;
+}
+
+static std::string &trim(std::string &str) {
+	return ltrim(rtrim(str));
+}
+
+void LuaConsole::HandleDebugTCPConnection(int sock) {
+	char buffer[4097];
+	int count = read(sock, buffer, 4096);
+	if (count < 0 && errno != EAGAIN) {
+		Output("Error reading from socket: %d.\n", errno);
+		close(sock);
+		m_debugConnections.erase(std::remove(m_debugConnections.begin(), m_debugConnections.end(), sock), m_debugConnections.end());
+	} else if (count > 0) {
+		buffer[count] = 0;
+		std::string text(buffer);
+		trim(text);
+		ExecOrContinue(text, false);
+		BroadcastToDebuggers("\n> ");
+	}
+}
+
+void LuaConsole::BroadcastToDebuggers(const std::string &message) {
+	 for(int sock : m_debugConnections) {
+		 if(send(sock, message.c_str(), message.size(), MSG_NOSIGNAL) < 0) {
+			 Output("Closing debug socket, error %d.\n", errno);
+			 close(sock);
+			 m_debugConnections.erase(std::remove(m_debugConnections.begin(), m_debugConnections.end(), sock), m_debugConnections.end());
+		 };
+	 }
+}
+#endif

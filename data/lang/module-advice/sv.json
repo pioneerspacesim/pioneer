@@ -1,0 +1,102 @@
+{
+   "ADVICE_10_BODYTEXT" : {
+      "description" : "",
+      "message" : "Att byta till en annan falang kan vara en bra idé när du har problem med lokala myndigheter."
+   },
+   "ADVICE_10_HEADLINE" : {
+      "description" : "",
+      "message" : "Vet när det är dags att lämna stan"
+   },
+   "ADVICE_1_BODYTEXT" : {
+      "description" : "",
+      "message" : "Notera vilka lokala affärer du kan lita när du slutför en transaktion utanför lagens ramar."
+   },
+   "ADVICE_1_HEADLINE" : {
+      "description" : "",
+      "message" : "Förstå den svarta marknaden"
+   },
+   "ADVICE_2_BODYTEXT" : {
+      "description" : "",
+      "message" : "Många korta avstånd är snabbare än deras summa."
+   },
+   "ADVICE_2_HEADLINE" : {
+      "description" : "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
+      "message" : "Vägen snabbt tagen"
+   },
+   "ADVICE_3_BODYTEXT" : {
+      "description" : "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
+      "message" : "Undvik att hoppa in i obebodda system utan kapacitet att lämna."
+   },
+   "ADVICE_3_HEADLINE" : {
+      "description" : "",
+      "message" : "Förhindra att bli strandsatt: planera din hoppsekvens"
+   },
+   "ADVICE_4_BODYTEXT" : {
+      "description" : "",
+      "message" : "Välj ditt referenssytem. I synnerhet då man vill matcha hastighet och kurs med ett rörligt mål."
+   },
+   "ADVICE_4_HEADLINE" : {
+      "description" : "",
+      "message" : "Allt är relativt"
+   },
+   "ADVICE_5_BODYTEXT" : {
+      "description" : "",
+      "message" : "Köp billigt, sälj dyrt."
+   },
+   "ADVICE_5_HEADLINE" : {
+      "description" : "",
+      "message" : "Gå aldrig back"
+   },
+   "ADVICE_6_BODYTEXT" : {
+      "description" : "",
+      "message" : "Lägg noga märke till nyheter som rapporterats då informationen kan påverka marknadspriser."
+   },
+   "ADVICE_6_HEADLINE" : {
+      "description" : "",
+      "message" : "Håll ett öra mot marken"
+   },
+   "ADVICE_7_BODYTEXT" : {
+      "description" : "",
+      "message" : "Donationer kan resultera i ett gott rykte, men alla välgörenheter är inte lika."
+   },
+   "ADVICE_7_HEADLINE" : {
+      "description" : "",
+      "message" : "Var generös"
+   },
+   "ADVICE_8_BODYTEXT" : {
+      "description" : "",
+      "message" : "Vid resor till binära system, säkerställ att rätt stjärna är målet."
+   },
+   "ADVICE_8_HEADLINE" : {
+      "description" : "",
+      "message" : "Undivk dubelt trubbel"
+   },
+   "ADVICE_9_BODYTEXT" : {
+      "description" : "",
+      "message" : "Underhåll motorerna regelbundet, men kom ihåg, du får vad du betalar för."
+   },
+   "ADVICE_9_HEADLINE" : {
+      "description" : "",
+      "message" : "Behandla ditt skepp väl"
+   },
+   "RUMOUR" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "RYKTE"
+   },
+   "TALE_1_BODYTEXT" : {
+      "description" : "",
+      "message" : "Missa inte den vackra förmörkelsen på New Hope, när Hades blockerar ljuset från Epsilon Eridani."
+   },
+   "TALE_1_HEADLINE" : {
+      "description" : "Blade runner?",
+      "message" : "\"Jag har sett saker ni inte skulle tro på\""
+   },
+   "TRAVELLERS_ADVICE" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "RESERÅD"
+   },
+   "TRAVELLERS_TALE" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "RESEBERÄTTELSE"
+   }
+}

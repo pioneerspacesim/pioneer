@@ -191,6 +191,14 @@
       "description" : "",
       "message" : "Till an-seo nuair a bhios tu air an cùmhnant a choileanadh is thèid do phàigheadh."
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Cuir ceann-uidhe na seòladaireachd air"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Suidhich cùrsa tillidh"
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Soitheach:"

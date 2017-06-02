@@ -1,0 +1,126 @@
+{
+   "FLAVOUR_0_INTRO" : {
+      "description" : "",
+      "message" : "Seachain an t-anró a bhaineann le hinneall briste. Déan cothabháil ar do hipirthiomáint inniu, le Comhlacht Cothabhála {name}, comhlacht atá molta go hoifigiúil.\n\nInneall: {drive}\nCothabháil: {price}\nRáthaíocht: 18 mí\n{lasttime}"
+   },
+   "FLAVOUR_0_RESPONSE" : {
+      "description" : "",
+      "message" : "Rinneadh seirbhís ar d'inneall."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "Comhlacht Cothabhála {name}"
+   },
+   "FLAVOUR_0_YESPLEASE" : {
+      "description" : "",
+      "message" : "Cothabháil a dhéanamh ar hipirthiomáint"
+   },
+   "FLAVOUR_1_INTRO" : {
+      "description" : "",
+      "message" : "Is mise {proprietor}. Déanfaidh mé cothabháil ar do {drive}, agus tabharfaidh mé gealltanas duit go n-oibreoidh sé gan aon trioblóid ar feadh bliana amháin ar a laghad. Is é {price} costas na seirbhíse seo\n{lasttime}"
+   },
+   "FLAVOUR_1_RESPONSE" : {
+      "description" : "",
+      "message" : "Rinne mé cothabháil ar do hipirthiomáint."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "{proprietor}: Saineolaí Hipirthiomána"
+   },
+   "FLAVOUR_1_YESPLEASE" : {
+      "description" : "",
+      "message" : "Déan cothabháil ar mo hipirthiomáint"
+   },
+   "FLAVOUR_2_INTRO" : {
+      "description" : "",
+      "message" : "Dia dhuit. Tá clú {proprietor} bunaithe ar an obair den scoth a dhéanaimid.\n\n{lasttime}\nDéanfaimid cothabháil ar {drive} do loinge, agus tabharfaimid gealltanas duit go n-oibreoidh sé gan aon trioblóid ar feadh tréimhse 12 mhí. Mise a bheidh i mbun maoirseachta ar an obair, agus dá bharr sin is féidir leat a bheith cinnte go mbeidh an obair déanta go maith."
+   },
+   "FLAVOUR_2_RESPONSE" : {
+      "description" : "",
+      "message" : "Tá an chothabháil déanta. Go raibh maith agat as do chustaiméireacht."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "Hipirmheicneoirí {proprietor}"
+   },
+   "FLAVOUR_2_YESPLEASE" : {
+      "description" : "",
+      "message" : "Bheinn buíoch díot dá mbeifeá cothabháil ar mo hipirthiomáint ar an bpraghas a luadh."
+   },
+   "FLAVOUR_3_INTRO" : {
+      "description" : "",
+      "message" : "Fáilte go dtí Cothabháil na Sárdheisitheoirí.\n\n{lasttime}\nAn bhfuil sé in am do do chothabháil leathbhliantúil? Lig dúinn an deisiúchán a thapú!\nDéanfaimid cothabháil ar do {drive} ar {price}. Níl éinne níos saoire ná muidne!"
+   },
+   "FLAVOUR_3_RESPONSE" : {
+      "description" : "",
+      "message" : "Tá an chothabháil críochnaithe, faoi ráthaíocht na Sárdheisitheoirí!"
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "Cothabháil na Sárdheisitheoirí (brainse {name})"
+   },
+   "FLAVOUR_3_YESPLEASE" : {
+      "description" : "",
+      "message" : "Tapaigh an deisiú!"
+   },
+   "FLAVOUR_4_INTRO" : {
+      "description" : "",
+      "message" : "Fáilte go dtí Innill Spás-Ama, Teo.\nInnill idir-réaltacha an speisialtacht atá againn. Tá ár gcuid oibre cothabhála faoi ráthaíocht go ceann dhá bhliain.\n{lasttime}\nCosnóidh sé {price} cothabháil a dhéanamh ar do {drive}. An bhfuil fonn ort é seo a dhéanamh?"
+   },
+   "FLAVOUR_4_RESPONSE" : {
+      "description" : "",
+      "message" : "Táimid tar éis an chothabháil ar do hipirthiomáint a chur i gcrích."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "Innill Spás-Ama, Teo."
+   },
+   "FLAVOUR_4_YESPLEASE" : {
+      "description" : "",
+      "message" : "Tá, ar aghaidh leat"
+   },
+   "FLAVOUR_5_INTRO" : {
+      "description" : "",
+      "message" : "Seachain an t-anró a bhaineann le hinneall briste. Déan cothabháil ar do hipirthiomáint inniu.\n\nInneall: {drive}\nCothabháil: {price}\n{lasttime}"
+   },
+   "FLAVOUR_5_RESPONSE" : {
+      "description" : "",
+      "message" : "Rinneadh cothabháil ar d'inneall."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "Comhlacht Cothabhála {proprietor}"
+   },
+   "FLAVOUR_5_YESPLEASE" : {
+      "description" : "",
+      "message" : "Cothabháil a dhéanamh ar hipirthiomáint"
+   },
+   "I_DONT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Níl go leor airgid agam"
+   },
+   "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
+      "description" : "",
+      "message" : "Dheisigh mé an hipirthiomáint sular theip uirthi."
+   },
+   "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
+      "description" : "",
+      "message" : "Scriosadh hipirthiomáint na loinge mar gheall ar mhífheidhm"
+   },
+   "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
+      "description" : "",
+      "message" : "Ní dhearna tú cothabháil ar do hipirthiomáint ó suiteáladh í ar {date}"
+   },
+   "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
+      "description" : "",
+      "message" : "Rinne {company} cothabháil ar do hipirthiomáint ar {date}"
+   },
+   "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
+      "description" : "",
+      "message" : "Níl hipirthiomáint agat le deisiú!"
+   },
+   "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
+      "description" : "",
+      "message" : "Dheisigh tú an hipirthiomáint sular theip uirthi."
+   }
+}

@@ -15,14 +15,6 @@
       "description" : "Alt key on keyboard",
       "message" : "Alt"
    },
-   "ALT_IN_KM" : {
-      "description" : "",
-      "message" : "Выс: %altitude{f.0}км (%vspeed{f.1}км/с)"
-   },
-   "ALT_IN_METRES" : {
-      "description" : "",
-      "message" : "Выс: %altitude{f.0}м (%vspeed{f.1}м/с)"
-   },
    "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
       "description" : "",
       "message" : "\" и с очень сложной экосистемой.\""
@@ -61,23 +53,23 @@
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
-      "message" : "Автопилот: Состыковаться со станцией"
+      "message" : "Автопилот: состыковаться со станцией"
    },
    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Автопилот: встать на высокую орбиту %target"
+      "message" : "Автопилот: выйти на высокую орбиту вокруг %target"
    },
    "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Автопилот: встать на низкую орбиту %target"
+      "message" : "Автопилот: выйти на низкую орбиту вокруг %target"
    },
    "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Автопилот: встать на среднюю орбиту %target"
+      "message" : "Автопилот: выйти на среднюю орбиту вокруг %target"
    },
    "AUTOPILOT_FLY_TO_VICINITY_OF" : {
       "description" : "",
-      "message" : "Автопилот: Подлететь ближе к %target"
+      "message" : "Автопилот: подлететь к %target"
    },
    "AUTOPILOT_ON" : {
       "description" : "",
@@ -113,7 +105,7 @@
    },
    "BUTTON" : {
       "description" : "",
-      "message" : "\" Button \""
+      "message" : "\" Кнопка \""
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
@@ -157,7 +149,7 @@
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "",
-      "message" : "Углеродные руды (уголь и нефть) необходимы для для синтеза многих полезных химических продуктов, включая пластмассы, синтетические продукты питания, медикаменты и текстильные изделия."
+      "message" : "Углеродные ископаемые (уголь и нефть) необходимы для синтеза многих полезных химических продуктов, включая пластмассы, синтетические продукты питания, медикаменты и ткани."
    },
    "CARGO" : {
       "description" : "",
@@ -223,13 +215,45 @@
       "description" : "",
       "message" : "Коммунизм"
    },
+   "COMPASS_E" : {
+      "description" : "Abbreviation for compass direction: East",
+      "message" : "В"
+   },
+   "COMPASS_N" : {
+      "description" : "Abbreviation for compass direction: North",
+      "message" : "С"
+   },
+   "COMPASS_NE" : {
+      "description" : "Abbreviation for compass direction: North East",
+      "message" : "СВ"
+   },
+   "COMPASS_NW" : {
+      "description" : "Abbreviation for compass direction: North West",
+      "message" : "СЗ"
+   },
+   "COMPASS_S" : {
+      "description" : "Abbreviation for compass direction: South",
+      "message" : "Ю"
+   },
+   "COMPASS_SE" : {
+      "description" : "Abbreviation for compass direction: South East",
+      "message" : "ЮВ"
+   },
+   "COMPASS_SW" : {
+      "description" : "Abbreviation for compass direction: South West",
+      "message" : "ЮЗ"
+   },
+   "COMPASS_W" : {
+      "description" : "Abbreviation for compass direction: West",
+      "message" : "З"
+   },
    "COMPUTERS" : {
       "description" : "",
       "message" : "Компьютеры"
    },
    "COMPUTER_HEADING_CONTROL" : {
       "description" : "",
-      "message" : "Автоматическое управление положением"
+      "message" : "Автоматическое управление направлением"
    },
    "COMPUTER_SPEED_CONTROL" : {
       "description" : "",
@@ -279,9 +303,9 @@
       "description" : "",
       "message" : "Длина дня"
    },
-   "DECREASE_SCAN_RANGE" : {
+   "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Уменьш.дальность сканера"
+      "message" : "Уменьшить дальность радара"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -301,11 +325,7 @@
    },
    "DIRECTION" : {
       "description" : "Direction",
-      "message" : "\" Dir \""
-   },
-   "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
-      "description" : "",
-      "message" : "Расстояние от корабля до цели"
+      "message" : "\" Напр. \""
    },
    "DISTANCE_LY" : {
       "description" : "",
@@ -329,7 +349,7 @@
    },
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
-      "message" : "Маркеры далёких систем"
+      "message" : "Маркеры систем вне досягаемости"
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
@@ -365,7 +385,7 @@
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
-      "message" : "Соотн. экваториального к полярному радиусу"
+      "message" : "Соотн. экваториального радиуса к полярному"
    },
    "EXACT_MATCH_X" : {
       "description" : "",
@@ -453,7 +473,7 @@
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
-      "message" : "Общий вид управления"
+      "message" : "Управление камерой"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
@@ -541,7 +561,7 @@
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
-      "message" : "Гипероблако входа"
+      "message" : "Гипероблако прибытия"
    },
    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
       "description" : "",
@@ -559,9 +579,17 @@
       "description" : "",
       "message" : "Гиперпрыжок прерван."
    },
+   "HYPERSPACE_JUMP_DISABLED" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Гипердвигатель выключен"
+   },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
       "message" : "Активировать гипердвигатель"
+   },
+   "HYPERSPACE_JUMP_FORBIDDEN" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Включение гипердвигателя запрещено"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -591,9 +619,9 @@
       "description" : "",
       "message" : "Имперское правление"
    },
-   "INCREASE_SCAN_RANGE" : {
+   "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Увелич.дальность сканера"
+      "message" : "Увеличить дальность радара"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -629,7 +657,7 @@
    },
    "JOY" : {
       "description" : "Short for Joystick",
-      "message" : "Joy"
+      "message" : "Джойстик"
    },
    "JOYSTICK_INPUT" : {
       "description" : "",
@@ -639,13 +667,13 @@
       "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis Ось"
    },
-   "KM_S_RELATIVE_TO" : {
+   "JUMP_COMPLETE" : {
       "description" : "",
-      "message" : "%speed{f.2} км/с относительно %frame"
+      "message" : "Гиперпрыжок завершён на %percent%%"
    },
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
-      "message" : "Переключение между режимами отображения точек Лагранжа L4/L5"
+      "message" : "Переключение между режимами отображения точек Лагранжа L4/L5."
    },
    "LANDED" : {
       "description" : "",
@@ -669,7 +697,7 @@
    },
    "LATITUDE" : {
       "description" : "Short for latitude",
-      "message" : "Ш.:"
+      "message" : "Шир:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -701,7 +729,7 @@
    },
    "LONGITUDE" : {
       "description" : "Short for longitude",
-      "message" : "Д.:"
+      "message" : "Дол:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -725,7 +753,7 @@
    },
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
-      "message" : "Управление двигателем:"
+      "message" : "Ручное управление"
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
@@ -919,10 +947,6 @@
       "description" : "",
       "message" : "Сен"
    },
-   "M_S_RELATIVE_TO" : {
-      "description" : "",
-      "message" : "%speed{f.0} м/с относительно %frame"
-   },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
       "message" : "Наименование"
@@ -953,7 +977,7 @@
    },
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
-      "message" : "Не найдено, макс.совпадение: %system"
+      "message" : "Не найдено, лучшее совпадение: %system"
    },
    "NOW" : {
       "description" : "In System Orbit View",
@@ -1034,10 +1058,6 @@
    "N_DEGREES" : {
       "description" : "",
       "message" : "%angle{f.1} град."
-   },
-   "N_DISTANCE_TO_TARGET" : {
-      "description" : "",
-      "message" : "%distance до цели"
    },
    "N_EARTH_DAYS" : {
       "description" : "",
@@ -1133,23 +1153,23 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "For system orbit view",
-      "message" : "Скорость изменения величины Дельта-V. Нажмите на кнопку, чтобы вернуть скорость по умолчанию."
+      "message" : "Скорость изменения значений дельта-v. Нажмите, чтобы cбрость на значение по умолчанию."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "For system orbit view",
-      "message" : "Normal delta-v. Click to reset to zero."
+      "message" : "Нормальная дельта-v. Нажмите, чтобы сбросить до нуля."
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "For system orbit view",
-      "message" : "Prograde delta-v. Click to reset to zero."
+      "message" : "Прямая дельта-v. Нажмите, чтобы сбросить до нуля."
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "For system orbit view",
-      "message" : "Radial delta-v. Click to reset to zero."
+      "message" : "Радиальная дельта-v. Нажмите, чтобы сбросить до нуля."
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
+      "message" : "Начало манёвра. Нажмите, чтобы сбросить настройки."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1171,13 +1191,13 @@
       "description" : "",
       "message" : "p: %pressure{f.2} атм"
    },
-   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
-      "description" : "",
-      "message" : "Пройдено: %probability%%"
-   },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
       "message" : "Четверная система"
+   },
+   "RADAR_CONTROL" : {
+      "description" : "",
+      "message" : "Управление радаром"
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1259,10 +1279,6 @@
       "description" : "",
       "message" : "Мусор"
    },
-   "SCANNER_CONTROL" : {
-      "description" : "",
-      "message" : "Управление сканером:"
-   },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
       "message" : "Сборник"
@@ -1285,7 +1301,7 @@
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Просмотр карты"
+      "message" : "Карта сектора"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
@@ -1321,7 +1337,7 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Выбрана цель для навигации:"
+      "message" : "Установить цель для навигации:"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
@@ -1351,10 +1367,6 @@
       "description" : "Either show no ships, show ships, or show ships + their orbits",
       "message" : "Переключение между режимами отображения кораблей."
    },
-   "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
-      "description" : "",
-      "message" : "Высота корабля над поверхностью"
-   },
    "SHIP_DETECTED_NEARBY" : {
       "description" : "",
       "message" : "Внимание! Приближается чужой корабль!"
@@ -1382,10 +1394,6 @@
    "SIDEREAL_VIEW" : {
       "description" : "camera view setting",
       "message" : "Вид со стороны"
-   },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Моделируем развитие вселенной: %age{f.1} млрд. лет ;-)"
    },
    "SLAVES" : {
       "description" : "",
@@ -1581,11 +1589,11 @@
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "Switched heading display to system-wide coordinates."
+      "message" : "Направление показано в сетке координат системы."
    },
    "SWITCHED_TO_ROTATIONAL" : {
       "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "Switched heading display to planetary coordinates."
+      "message" : "Направление показано в сетке планетарных координат."
    },
    "SYSTEM" : {
       "description" : "star system",
@@ -1669,7 +1677,7 @@
    },
    "TOGGLE_EQUIPMENT_VIEW" : {
       "description" : "Tooltip for the Equipment View button",
-      "message" : "Equipment View"
+      "message" : "Оборудование"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
@@ -1679,17 +1687,17 @@
       "description" : "",
       "message" : "Включить Lua-консоль"
    },
+   "TOGGLE_RADAR_MODE" : {
+      "description" : "",
+      "message" : "Переключение режима радара"
+   },
+   "TOGGLE_RADAR_VIEW" : {
+      "description" : "Tooltip for the Radar View button",
+      "message" : "Радар"
+   },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
       "message" : "Включить плавное вращение"
-   },
-   "TOGGLE_SCANNER_VIEW" : {
-      "description" : "Tooltip for the Scanner View button",
-      "message" : "Scanner View"
-   },
-   "TOGGLE_SCAN_MODE" : {
-      "description" : "",
-      "message" : "Изменить режим сканера"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "shown on tombstone when player dies",
@@ -1723,9 +1731,53 @@
       "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
       "message" : "АЕ"
    },
+   "UNIT_DAYS" : {
+      "description" : "Duration unit: one 24-hour day",
+      "message" : "дн"
+   },
+   "UNIT_HOURS" : {
+      "description" : "Duration unit: one 60-minute hour",
+      "message" : "ч"
+   },
+   "UNIT_KILOMETERS" : {
+      "description" : "Distance unit: one kilometer",
+      "message" : "км"
+   },
+   "UNIT_KILOMETERS_PER_SECOND" : {
+      "description" : "Speed unit: one kilometer per second",
+      "message" : "км/с"
+   },
    "UNIT_LY" : {
       "description" : "Distance unit: a light year",
       "message" : "св.лет"
+   },
+   "UNIT_METERS" : {
+      "description" : "Distance unit: one meter",
+      "message" : "м"
+   },
+   "UNIT_METERS_PER_SECOND" : {
+      "description" : "Speed unit: one meter per second",
+      "message" : "м/с"
+   },
+   "UNIT_MILLION_METERS" : {
+      "description" : "Distance unit: one million meters",
+      "message" : "Мм"
+   },
+   "UNIT_MILLION_METERS_PER_SECOND" : {
+      "description" : "Speed unit: one million meters per second",
+      "message" : "Мм/с"
+   },
+   "UNIT_MINUTES" : {
+      "description" : "Duration unit: one 60-second minute",
+      "message" : "м"
+   },
+   "UNIT_SECONDS" : {
+      "description" : "Duration unit: one second",
+      "message" : "с"
+   },
+   "UNIT_WEEKS" : {
+      "description" : "Duration unit: one 7-day week",
+      "message" : "нед"
    },
    "UNKNOWN" : {
       "description" : "",

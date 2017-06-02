@@ -1,0 +1,62 @@
+{
+   "FLAVOUR_0_MESSAGE" : {
+      "description" : "",
+      "message" : "Roghnaigh an méid airgid ba mhaith leat a bhronnadh ar Eaglais na hOllphéiste Eitilte Spaigití."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "BRONN! Teastaíonn airgead ó Eaglais na hOllphéiste Eitilte Spaigití chun cabhrú leo briathar Dé a scaipeadh. Theagmhaigh sé lena ghéagán núdlach mé!"
+   },
+   "FLAVOUR_1_MESSAGE" : {
+      "description" : "",
+      "message" : "Go raibh síocháin Dé agat, a chara. Roghnaigh an méid ba mhaith leat a bhronnadh ar Chosantóirí an Anama Shaoir."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "BRONN! Iarrann Cosantóirí an Anama Shaoir tabhartas carthanúil uait i dtacaíocht lena gcuid mainistreacha."
+   },
+   "FLAVOUR_2_MESSAGE" : {
+      "description" : "",
+      "message" : "Roghnaigh méid airgid le bronnadh ar Chumann na nDílleachtaí Cogaidh, agus cuir deireadh le fulaingt na bpáistí ar fud an réaltra."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "DUINE FLAITHIÚIL? Tá do thacaíocht ag teastáil ó Chumann na nDílleachtaí Cogaidh le leanúint ar aghaidh leis an obair ríthábhachtach s'acu."
+   },
+   "FLAVOUR_3_MESSAGE" : {
+      "description" : "",
+      "message" : "Roghnaigh an méid airgid ba mhaith leat a bhronnadh ar na Glasaigh Réaltracha, chun cabhrú leo deireadh a chur le truailliú inár réaltra féin."
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "BRONN. Tá airgead ag teastáil ó Chairde an Réaltra i gcomhair feachtais 'Cosc ar Thiomáintí Míleata'."
+   },
+   "FLAVOUR_4_MESSAGE" : {
+      "description" : "",
+      "message" : "Roghnaigh an méid airgid ba mhaith leat a bhronnadh."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "BRONN! Sábháil ár speiceas. Cuir deireadh leis an eirleach ar dhomhain nualonnaithe."
+   },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Fuascail do long! Roghnaigh an méid airgid le bronnadh. Ríomhéigse abú!"
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "TACAIGH LEIS AN tSAOIRSE! Is éagóir chruthanta é bogearraí dílsithe a úsáid chun do long a rialú."
+   },
+   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
+      "description" : "",
+      "message" : "Go raibh maith agat. Fearaimid fáilte roimh aon síntiús deonach."
+   },
+   "WOW_THAT_WAS_VERY_GENEROUS" : {
+      "description" : "",
+      "message" : "M'anam! Ba an-fhlaithiúil uait é sin."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Níl go leor airgid agat."
+   }
+}

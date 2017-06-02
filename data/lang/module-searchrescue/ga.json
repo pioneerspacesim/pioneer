@@ -1,0 +1,698 @@
+{
+   "AU" : {
+      "description" : "",
+      "message" : "A.R."
+   },
+   "BOARDED_PASSENGER" : {
+      "description" : "",
+      "message" : "Chuaigh {name} ar bord na loinge."
+   },
+   "COMMODITIES" : {
+      "description" : "",
+      "message" : "Tráchtearraí"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "An ndéanfá an t-iarratas céanna arís?"
+   },
+   "CREW" : {
+      "description" : "",
+      "message" : "Foireann"
+   },
+   "DEADLINE" : {
+      "description" : "",
+      "message" : "Sprioc-am:"
+   },
+   "DELIVERED_PASSENGER" : {
+      "description" : "",
+      "message" : "D'fhág {name} an long."
+   },
+   "DELIVERY" : {
+      "description" : "",
+      "message" : "SEACHADADH"
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Fad:"
+   },
+   "ENTITY_FAMILY_BUSINESS_1" : {
+      "description" : "",
+      "message" : "Tigh {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_10" : {
+      "description" : "",
+      "message" : "Seirbhísí Tacsaí {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_2" : {
+      "description" : "",
+      "message" : "Muintir {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_3" : {
+      "description" : "",
+      "message" : "Bláthanna {name} as {locality}"
+   },
+   "ENTITY_FAMILY_BUSINESS_4" : {
+      "description" : "",
+      "message" : "Diúracáin Shainphéinteáilte {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_5" : {
+      "description" : "",
+      "message" : "Seirbhísí Cúiréireachta {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_6" : {
+      "description" : "",
+      "message" : "Spáspheataí {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_7" : {
+      "description" : "",
+      "message" : "{name} ⁊ {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_8" : {
+      "description" : "",
+      "message" : "Bia Dúchasach {locality} {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_9" : {
+      "description" : "",
+      "message" : "Iompar {name}"
+   },
+   "ENTITY_GENERAL_1" : {
+      "description" : "",
+      "message" : "Taiscéalaithe Ginearálta {locality}, Teo."
+   },
+   "ENTITY_GENERAL_10" : {
+      "description" : "",
+      "message" : "Fuinneamh Gan Teorainn {locality}"
+   },
+   "ENTITY_GENERAL_2" : {
+      "description" : "",
+      "message" : "Cumann Caomhnaithe Timpeallachta {locality}"
+   },
+   "ENTITY_GENERAL_3" : {
+      "description" : "",
+      "message" : "Grúpaí Sainleasa in {locality}"
+   },
+   "ENTITY_GENERAL_4" : {
+      "description" : "",
+      "message" : "Oifig na gCeart Mianadóireachta in {locality}"
+   },
+   "ENTITY_GENERAL_5" : {
+      "description" : "",
+      "message" : "Tiarnaí Talún {locality}"
+   },
+   "ENTITY_GENERAL_6" : {
+      "description" : "",
+      "message" : "Institiúid Staidrimh {locality}"
+   },
+   "ENTITY_GENERAL_7" : {
+      "description" : "",
+      "message" : "Oifig brainse de Spásturas, Teo. in {locality}"
+   },
+   "ENTITY_GENERAL_8" : {
+      "description" : "",
+      "message" : "iSatailít {locality}, Teo."
+   },
+   "ENTITY_GENERAL_9" : {
+      "description" : "",
+      "message" : "Seirbhísí Adhlacóireachta {locality}"
+   },
+   "ENTITY_RESEARCH_1" : {
+      "description" : "",
+      "message" : "Cumann Bitheolaíochta {locality}"
+   },
+   "ENTITY_RESEARCH_10" : {
+      "description" : "",
+      "message" : "Lárionad Taighde Míoleolaíochta {locality}"
+   },
+   "ENTITY_RESEARCH_2" : {
+      "description" : "",
+      "message" : "Cumann Micribhitheolaíochta {locality}"
+   },
+   "ENTITY_RESEARCH_3" : {
+      "description" : "",
+      "message" : "Cumann Ceimice {locality}"
+   },
+   "ENTITY_RESEARCH_4" : {
+      "description" : "",
+      "message" : "Cumann Réalt-bhitheolaíochta {locality}"
+   },
+   "ENTITY_RESEARCH_5" : {
+      "description" : "",
+      "message" : "Cumann Geolaíochta {locality}"
+   },
+   "ENTITY_RESEARCH_6" : {
+      "description" : "",
+      "message" : "Cumann Réalt-phailé-ointeolaíochta {locality}"
+   },
+   "ENTITY_RESEARCH_7" : {
+      "description" : "",
+      "message" : "Lárionad Taighde Réaltfhisice {locality}"
+   },
+   "ENTITY_RESEARCH_8" : {
+      "description" : "",
+      "message" : "Lárionad Taighde Réaltcheimice {locality}"
+   },
+   "ENTITY_RESEARCH_9" : {
+      "description" : "",
+      "message" : "Lárionad Luibheolaíochta {locality}"
+   },
+   "EQUIPMENT" : {
+      "description" : "",
+      "message" : "Níl an trealamh feiliúnach agat le dul i mbun an mhisin seo. {unit} {equipment} ag teastáil."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "THUIRLING AN LONG DE THUAIRT ar {planet}."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Ní chreidim nár fhill tú roimhe seo! An méid ama seo curtha amú!"
+   },
+   "FLAVOUR_1_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Caithfidh tú filleadh roimh {due} chun aisíocaíocht iomlán ar chostaisí a fháil."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Tá lucht rialaithe aerthráchta {starport} ag lorg cúnaimh uait LÁITHREACH mar gheall ar spáslong de chineál {ship} a thuirling de thuairt ar {planet}. Níl a fhios againn an bhfuil an córas cothaithe beatha ag feidhmiú fós. Tá luach {cash} d'árachas ó spásphort {starport} ar an long chun costaisí práinnfhreagartha a chlúdach."
+   },
+   "FLAVOUR_1_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Suíomh is deireanaí a bhfuil eolas ann ina leith don long seo: domhanleithead/domhanfhad {lat} / {long} ar phláinéad {planet}. Is é {shiplabel} aitheantas na loinge."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat, is mór an faoiseamh é! Seolfaimid an t-airgead láithreach."
+   },
+   "FLAVOUR_1_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "Chuaigh {unit} ar bord na loinge."
+   },
+   "FLAVOUR_1_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Tuairiscítear go bhfuil {crew} ball foirne agus {pass} paisinéir ar bord na loinge. Tá duine ag teastáil uainn chun an long a aimsiú, éinne a tháinig slán  a bhailiú, agus filleadh anseo leo ar an toirt."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "NÍL AON BHREOSLA FÁGTHA sa long ar a slí chun {starport}."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Ní chreidim gur choinnigh tú ag fanacht mé chomh fada sin! Ní bhfaighidh tú cianóg rua uaim!"
+   },
+   "FLAVOUR_2_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Caithfidh tú an breosla a sheachadadh roimh {due} chun an íocaíocht iomlán a fháil."
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Tá lucht rialaithe aerthráchta {starport} go díreach tar éis fógra a fháil go bhfuil {shiplabel} rite as breosla agus bhí sé orthu tuirlingt éigeandála a dhéanamh. D'íocfadh an píolóta {cash} as seirbhísí athbhreoslaithe."
+   },
+   "FLAVOUR_2_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Tá an long ag fanacht ag domhanleithead {lat} / domhanfhad {long} ar phláinéad {planet}."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh míle maith agat! D'aistrigh mé an méid iomlán."
+   },
+   "FLAVOUR_2_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "Aistríodh {unit} tona breosla."
+   },
+   "FLAVOUR_2_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Tá an píolóta ag iarraidh {unit} tona de {cargo}."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "ÉIGEANDÁIL LEIGHIS ar long i ngar do {starport}."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Do-ghlactha amach is amach! Déanfaimid nuashonrú ar ár gcuid taifead leis an eolas seo."
+   },
+   "FLAVOUR_3_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Caithfidh an píolóta ionaid an long a bhaint amach ar {due} ar a dhéanaí."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "Is mise {name} ó rialú aerthráchta {starport}. Tá mé ag lorg cúnaimh mar gheall ar mhíthaom a bhuail an píolóta atá ag eitilt {shiplabel} i dtreo {starport}."
+   },
+   "FLAVOUR_3_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Rinne an long tuirlingt éigeandála ag comhordanáidí {lat} / {long}."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat a cheannasaí! Thugamar do chuid oibre crua faoi deara."
+   },
+   "FLAVOUR_3_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "D'fhág {unit} an long."
+   },
+   "FLAVOUR_3_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Cuir píolóta ionaid ó {starport} go dtí an long sa chaoi go mbeidh sé/sí in ann an long a eitilt ar ais go dtí {starport}."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "NÍL AON BHREOSLA FÁGTHA sa long ar {planet}."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Seolfaidh mé duine éigin eile. Ná bac leis."
+   },
+   "FLAVOUR_4_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Caithfidh tú an breosla a sheachadadh roimh {due} chun an íocaíocht iomlán a fháil."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "Tá lucht rialaithe aerthráchta {starport} go díreach tar éis teachtaireacht a fháil ón phíolóta ar {shiplabel}. Tá siad sáinnithe gan braon breosla, agus d'íocfaidís {cash} le héinne a bheadh sásta teacht i gcabhair orthu agus a long a athbhreoslú."
+   },
+   "FLAVOUR_4_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Tá an long sáinnithe ar {planet} ag comhordanáidí {lat} / {long}."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "An-mhaith. Bheimis sásta thú a mholadh do jabanna den sórt seo sa todhchaí."
+   },
+   "FLAVOUR_4_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "Aistríodh {unit} tona breosla."
+   },
+   "FLAVOUR_4_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Tá an píolóta ag iarraidh {unit} tona de {cargo}."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "NÍL AON BHREOSLA FÁGTHA sa long i ngar do {planet}."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Ní féidir brath ar dhaoine a thuilleadh."
+   },
+   "FLAVOUR_5_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Ní mór duit an t-athbhreoslú a chríochnú roimh {due}."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "D'aimsigh lucht rialaithe aerthráchta {starport} spáslong darb ainm {shiplabel} ag imeacht le sruth gan braon breosla. D'íocfaimis {cash} le haon duine a bheadh sásta an long a athbhreoslú sa chaoi go mbeidís in ann an spás i ngar do {starport} a fhágáil. "
+   },
+   "FLAVOUR_5_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Tá an long sprice ag imeacht le sruth i bhfoisceacht {dist}km don áit seo. Is ortsa féin fáil amach cá bhfuil sí go beacht."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tá sé tugtha faoi deara againn gur chríochnaigh tú an tasc gan mhoill."
+   },
+   "FLAVOUR_5_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "Aistríodh {unit} tona breosla."
+   },
+   "FLAVOUR_5_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Táimid ag iarraidh {unit} tona {cargo} a sheachadadh chuig an long."
+   },
+   "FLAVOUR_6_ADTEXT" : {
+      "description" : "",
+      "message" : "GAN FREAGRA ó long i réaltchóras {system}."
+   },
+   "FLAVOUR_6_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Is millteanach an tubaiste é! Seo é breithiúnas báis ar ár gcomhghleacaithe bochta!"
+   },
+   "FLAVOUR_6_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Ní mór duit filleadh roimh {due}."
+   },
+   "FLAVOUR_6_INTROTEXT" : {
+      "description" : "",
+      "message" : "Is mise {name} ó {entity}. Chailleamar teagmháil lenár {ship} {shiplabel} tar éis {problem}. Bheimis sásta {cash} a íoc as cúnamh láithreach."
+   },
+   "FLAVOUR_6_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Suíomh is deireanaí a bhfuil eolas ann ina leith: i ngar do {planet} i réaltchóras {system} [{sectorx},{sectory},{sectorz}], {dist} solasbhliain as seo."
+   },
+   "FLAVOUR_6_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat! Ní chreidfeá an faoiseamh a bhí orainn."
+   },
+   "FLAVOUR_6_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "Chuaigh {unit} ar bord na loinge."
+   },
+   "FLAVOUR_6_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Teastaíonn uaim duine a bheadh sásta imeacht láithreach bonn chun ár gcomhghleacaithe a thabhairt ar ais go {starport}, má tháinig siad slán as. Bhí {crew} ball foirne agus {pass} paisinéir ar bord."
+   },
+   "FLAVOUR_7_ADTEXT" : {
+      "description" : "",
+      "message" : "IOMPAR FOIRNE chuig réaltchóras {system} de dhíth chomh luath agus is féidir."
+   },
+   "FLAVOUR_7_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Go raibh míle maith agat, ach tá tú ródhéanach!"
+   },
+   "FLAVOUR_7_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Caithfear an fhoireann ionaid an long a bhaint amach ar {due} ar a dhéanaí."
+   },
+   "FLAVOUR_7_INTROTEXT" : {
+      "description" : "",
+      "message" : "Is mise {name} ó {entity}. Tá an long amháin atá againn, {ship} {shiplabel}, ag snámh gan chumhacht gan stiúradh le {crew} ball foirne ar bord tar éis {problem}. Bheinn sásta {cash} a íoc as cúnamh láithreach."
+   },
+   "FLAVOUR_7_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Aimseoidh tú an long i réaltchóras {system} [{sectorx},{sectory},{sectorz}], {dist} solasbhliain as seo. Tá sé i bhfithis timpeall {planet}."
+   },
+   "FLAVOUR_7_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat! Tugadh cead dom an íocaíocht iomlán a chur chugat."
+   },
+   "FLAVOUR_7_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "Aistríodh {unit} go dtí an long sprice."
+   },
+   "FLAVOUR_7_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Ní féidir linn filleadh ar an long mura bhfuil creatfhoireann ann ar a laghad. Tá mé ag lorg duine a bheadh ábalta {deliver_crew} ball foirne a iompar go dtí ár spáslong láithreach bonn."
+   },
+   "FULL_CARGO" : {
+      "description" : "",
+      "message" : "Tá an long lán go béal. Níl spás ann i gcomhair lasta breise."
+   },
+   "FULL_CREW" : {
+      "description" : "",
+      "message" : "Tá an fhoireann lán. Níl aon spás ann do thuilleadh ball foirne."
+   },
+   "FULL_PASSENGERS" : {
+      "description" : "",
+      "message" : "Tá na cábáin go léir líonta. Níl aon spás do phaisinéirí breise ar an long."
+   },
+   "HOW_FAR" : {
+      "description" : "",
+      "message" : "Cá fhad uainn an sprioc?"
+   },
+   "HOW_MUCH_TIME" : {
+      "description" : "",
+      "message" : "Cé mhéad ama atá agam?"
+   },
+   "INTERACTION_ABORTED" : {
+      "description" : "",
+      "message" : "Stopadh an idirghníomhaíocht go tobann. Tar i ngiorracht agus bain triail eile as."
+   },
+   "INTERACTION_DISTANCE_REACHED" : {
+      "description" : "",
+      "message" : "Sroicheadh an fad idirghníomhaíochta."
+   },
+   "IT_MUST_BE_COMPLETED_BY" : {
+      "description" : "",
+      "message" : "Caithfear é a chur i gcrích roimh"
+   },
+   "KM" : {
+      "description" : "",
+      "message" : "km"
+   },
+   "LAST_KNOWN_LOCATION" : {
+      "description" : "",
+      "message" : "Suíomh is deireanaí a bhfuil eolas ann ina leith:"
+   },
+   "LAT" : {
+      "description" : "",
+      "message" : "Domhanleithead:"
+   },
+   "LON" : {
+      "description" : "",
+      "message" : "Domhanfhad:"
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "sbh"
+   },
+   "MISSING_COMM" : {
+      "description" : "",
+      "message" : "Ní féidir an t-aistriú a chur i gcrích. {cargotype} ar iarraidh."
+   },
+   "MISSING_CREW" : {
+      "description" : "",
+      "message" : "Ní féidir an t-aistriú a chur i gcrích. Foireann ar iarraidh."
+   },
+   "MISSING_PASS" : {
+      "description" : "",
+      "message" : "Ní féidir an t-aistriú a chur i gcrích. Paisinéirí ar iarraidh."
+   },
+   "MISSING_PASSENGER" : {
+      "description" : "",
+      "message" : "Ní féidir an t-aistriú a chur i gcrích. Paisinéir ar iarraidh."
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Ceart go leor."
+   },
+   "ORBIT" : {
+      "description" : "",
+      "message" : "Fithis"
+   },
+   "PARTIAL" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as an méid a rinne tú. Tá súil agam go bhfillfidh tú chun an tasc a chur i gcrích!"
+   },
+   "PASSENGERS" : {
+      "description" : "",
+      "message" : "Paisinéirí"
+   },
+   "PAYMENT_LOCATION" : {
+      "description" : "",
+      "message" : "Ionad íocaíochta:"
+   },
+   "PICKUP" : {
+      "description" : "",
+      "message" : "BAILIÚ"
+   },
+   "PLACE_OF_ASSISTANCE" : {
+      "description" : "",
+      "message" : "Ag ionad na cabhrach"
+   },
+   "PLEASE_LAND" : {
+      "description" : "",
+      "message" : "Tabhair an long chun talún leis an aistriú a thosú."
+   },
+   "PROBLEM_CREW_1" : {
+      "description" : "",
+      "message" : "troid mharfach i measc na foirne"
+   },
+   "PROBLEM_CREW_10" : {
+      "description" : "",
+      "message" : "ceannairc"
+   },
+   "PROBLEM_CREW_2" : {
+      "description" : "",
+      "message" : "gur aimsíodh nathair nimhe mharfach ó {locality} ar teitheadh ar an long"
+   },
+   "PROBLEM_CREW_3" : {
+      "description" : "",
+      "message" : "gur mharaigh damhán alla ó {locality} gach duine eile"
+   },
+   "PROBLEM_CREW_4" : {
+      "description" : "",
+      "message" : "gur aimsíodh scairp ó {locality} i gceathrú na foirne san oíche"
+   },
+   "PROBLEM_CREW_5" : {
+      "description" : "",
+      "message" : "gur mharaigh fiabhras {locality} an-dona ar fad gach duine eile"
+   },
+   "PROBLEM_CREW_6" : {
+      "description" : "",
+      "message" : "nár fhill na baill eile den fhoireann ó shiúlóid spáis"
+   },
+   "PROBLEM_CREW_7" : {
+      "description" : "",
+      "message" : "nimhiú bia an-dona ar fad ar bord na loinge"
+   },
+   "PROBLEM_CREW_8" : {
+      "description" : "",
+      "message" : "gur teilgeadh na daoine eile amach as an long mar gheall ar thimpiste uafásach"
+   },
+   "PROBLEM_CREW_9" : {
+      "description" : "",
+      "message" : "cúrsaí nach féidir liom plé go poiblí"
+   },
+   "PROBLEM_GENERAL_1" : {
+      "description" : "",
+      "message" : "tine sa mbolg lasta"
+   },
+   "PROBLEM_GENERAL_10" : {
+      "description" : "",
+      "message" : "glaoch guaise ón taobh istigh de {locality}"
+   },
+   "PROBLEM_GENERAL_2" : {
+      "description" : "",
+      "message" : "cliseadh cumhachta i gcroí an innill"
+   },
+   "PROBLEM_GENERAL_3" : {
+      "description" : "",
+      "message" : "sceitheadh aeir"
+   },
+   "PROBLEM_GENERAL_4" : {
+      "description" : "",
+      "message" : "nimhiú bia an-dona ar fad a bhuail gach ball den fhoireann ar bord na loinge"
+   },
+   "PROBLEM_GENERAL_5" : {
+      "description" : "",
+      "message" : "imbhualadh beag dreige"
+   },
+   "PROBLEM_GENERAL_6" : {
+      "description" : "",
+      "message" : "troid i measc na foirne"
+   },
+   "PROBLEM_GENERAL_7" : {
+      "description" : "",
+      "message" : "teagmháil le réad eitilte gan aithint"
+   },
+   "PROBLEM_GENERAL_8" : {
+      "description" : "",
+      "message" : "easaontas le soitheach iomaitheora"
+   },
+   "PROBLEM_GENERAL_9" : {
+      "description" : "",
+      "message" : "atosú an príomhríomhaire"
+   },
+   "PROBLEM_RESEARCH_1" : {
+      "description" : "",
+      "message" : "imoibriú ceimiceach gan súil leis i gceann de na soithigh imoibrithe"
+   },
+   "PROBLEM_RESEARCH_10" : {
+      "description" : "",
+      "message" : "fionnachtain an-tábhachtach ag {locality} nach bhfuil cead agam a nochtadh ag an tráth seo"
+   },
+   "PROBLEM_RESEARCH_2" : {
+      "description" : "",
+      "message" : "ball den fhoireann a bheith ionfhabhtaithe ag pataigin a bhaineann leis an gceantar {locality}"
+   },
+   "PROBLEM_RESEARCH_3" : {
+      "description" : "",
+      "message" : "sceitheadh pataiginí turgnamhacha isteach sa bpríomhchóras aeir"
+   },
+   "PROBLEM_RESEARCH_4" : {
+      "description" : "",
+      "message" : "baill den fhoireann a bheith fágtha gan chosaint ar eiseamal bitheolaíoch a bailíodh ó {locality}"
+   },
+   "PROBLEM_RESEARCH_5" : {
+      "description" : "",
+      "message" : "pléascadh ceimiceach i gceann de na cochaill eastarraingthe ar bord"
+   },
+   "PROBLEM_RESEARCH_6" : {
+      "description" : "",
+      "message" : "athchruthú turgnamhach de gháis atmaisféaracha ó {locality}"
+   },
+   "PROBLEM_RESEARCH_7" : {
+      "description" : "",
+      "message" : "achrann idir eolaithe ar bord na loinge"
+   },
+   "PROBLEM_RESEARCH_8" : {
+      "description" : "",
+      "message" : "imeacht príomhthaighdeora gan tásc gan tuairisc ar bord na loinge"
+   },
+   "PROBLEM_RESEARCH_9" : {
+      "description" : "",
+      "message" : "eiseamail neamh-chomhoiriúnacha ó {locality} a bheith tarraingthe le chéile trí thimpiste"
+   },
+   "RESULT_DELIVERY_COMM" : {
+      "description" : "",
+      "message" : "{done} as {todo} tona {cargotype} aistrithe go dtí an long sprice."
+   },
+   "RESULT_DELIVERY_CREW" : {
+      "description" : "",
+      "message" : "{done} as {todo} ball foirne aistrithe go dtí an long sprice."
+   },
+   "RESULT_DELIVERY_PASS" : {
+      "description" : "",
+      "message" : "{done} as {todo} paisinéir aistrithe go dtí an long sprice."
+   },
+   "RESULT_PICKUP_COMM" : {
+      "description" : "",
+      "message" : "{done} as {todo} tona {cargotype} bailithe ón long sprice."
+   },
+   "RESULT_PICKUP_CREW" : {
+      "description" : "",
+      "message" : "{done} as {todo} ball foirne bailithe ón long sprice."
+   },
+   "RESULT_PICKUP_PASS" : {
+      "description" : "",
+      "message" : "{done} as {todo} paisinéir bailithe ón long sprice."
+   },
+   "RETURN_TO" : {
+      "description" : "",
+      "message" : "Fill ar:"
+   },
+   "REWARD" : {
+      "description" : "",
+      "message" : "Duais:"
+   },
+   "SEARCH_RESCUE" : {
+      "description" : "",
+      "message" : "Cuardach ⁊ Tarrtháil"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Socraigh mar sprioc loingseoireachta"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Socraigh an turas fillte"
+   },
+   "SHIP_UNRESPONSIVE" : {
+      "description" : "",
+      "message" : "Gan freagra ón long sprice."
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "Réaltchóras:"
+   },
+   "TARGET_SHIP_ID" : {
+      "description" : "",
+      "message" : "Aitheantas na loinge sprice:"
+   },
+   "THANK_YOU_ACCEPTANCE_TXT" : {
+      "description" : "",
+      "message" : "Go raibh míle maith agat. Is mór againn do chúnamh."
+   },
+   "TONS_OF_FREE_CARGO_SPACE" : {
+      "description" : "",
+      "message" : "tona saor sa mbolg lasta"
+   },
+   "TRANSFER_ABORTED" : {
+      "description" : "",
+      "message" : "Stopadh an t-aistriú go tobann!"
+   },
+   "TRANSFER_COMPLETE" : {
+      "description" : "",
+      "message" : "Cuireadh an t-aistriú i gcrích!"
+   },
+   "TRANSFER_PARTIAL" : {
+      "description" : "",
+      "message" : "Níl an t-aistriú ach leathdhéanta. Fill ar an long chun é a chur i gcrích."
+   },
+   "TRANSFER_TIME" : {
+      "description" : "",
+      "message" : "Tabhair {minutes} nóiméad leis an aistriú a chur i gcrích."
+   },
+   "TYPE_OF_HELP" : {
+      "description" : "",
+      "message" : "Cén sórt cúnamh atá ag teastáil?"
+   },
+   "UNOCCUPIED_PASSENGER_CABINS" : {
+      "description" : "",
+      "message" : "cábán paisinéara saor"
+   },
+   "WHERE_IS_THE_TARGET" : {
+      "description" : "",
+      "message" : "Cá bhfuil an sprioc?"
+   }
+}

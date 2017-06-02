@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "BaseLoader.h"
@@ -11,7 +11,7 @@ BaseLoader::BaseLoader(Graphics::Renderer *r)
 : m_renderer(r)
 , m_model(nullptr)
 {
-	Graphics::Texture *sdfTex = Graphics::TextureBuilder("fonts/label3d.png",
+	Graphics::Texture *sdfTex = Graphics::TextureBuilder("fonts/label3d.dds",
 		Graphics::LINEAR_CLAMP, true, true, true).GetOrCreateTexture(r, "model");
 	m_labelFont.Reset(new Text::DistanceFieldFont("fonts/sdf_definition.txt", sdfTex));
 }
@@ -66,7 +66,7 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	//texture5 is reserved for color gradient
 	if (!normTex.empty())
 		mat->texture6 = Graphics::TextureBuilder::Normal(normTex).GetOrCreateTexture(m_renderer, "model");
-	
+
 
 	m_model->m_materials.push_back(std::make_pair(mdef.name, mat));
 }

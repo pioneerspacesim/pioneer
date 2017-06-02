@@ -151,9 +151,9 @@
       "description" : "",
       "message" : "Mercado de Productos"
    },
-   "COMPACT_SCANNER" : {
+   "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Escáner compacto"
+      "message" : "Radar compacto"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
@@ -439,6 +439,130 @@
       "description" : "Game settings option: for graphics resolution",
       "message" : "Alto"
    },
+   "HUD_2D_RADAR" : {
+      "description" : "Popup text: the name of the azimuthal equidistant projection radar",
+      "message" : "Proyección azimutal equidistante 2D"
+   },
+   "HUD_3D_RADAR" : {
+      "description" : "Popup text: the name of the planar projection radar (traditional frontier-style)",
+      "message" : "Proyección planar 3D"
+   },
+   "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
+      "description" : "Tooltip: The braking distance using the main thrusters.",
+      "message" : "La distancia de frenado usando los impulsores principales"
+   },
+   "HUD_CURRENT_COMBAT_TARGET" : {
+      "description" : "Tooltip: The current combat target.",
+      "message" : "El actual objetivo de combate"
+   },
+   "HUD_CURRENT_FRAME" : {
+      "description" : "Tooltip: The current frame of reference.",
+      "message" : "El actual marco de referencia"
+   },
+   "HUD_CURRENT_HEADING" : {
+      "description" : "Tooltip: the current heading.",
+      "message" : "El rumbo actual"
+   },
+   "HUD_CURRENT_NAV_TARGET" : {
+      "description" : "Tooltip: The current navigational target.",
+      "message" : "El actual objetivo de navegación "
+   },
+   "HUD_CURRENT_PITCH" : {
+      "description" : "Tooltip: the current pitch.",
+      "message" : "El cabeceo actual"
+   },
+   "HUD_CURRENT_ROLL" : {
+      "description" : "Tooltip: the current roll.",
+      "message" : "El giro actual"
+   },
+   "HUD_DELTA_V" : {
+      "description" : "Tooltip: The remaining Δv.",
+      "message" : "Δv restante"
+   },
+   "HUD_DELTA_V_OF_MANEUVER_BURN" : {
+      "description" : "Tooltip: The Δv for the maneuver burn.",
+      "message" : "El Δv para la maniobra de quemado"
+   },
+   "HUD_DELTA_V_PERCENT" : {
+      "description" : "Tooltip: The remaining Δv in percent.",
+      "message" : "Δv restante"
+   },
+   "HUD_DISTANCE_TO_SURFACE_OF_FRAME" : {
+      "description" : "Tooltip: Distance to the surface of the frame of reference.",
+      "message" : "Distancia a la superficie del marco de referencia"
+   },
+   "HUD_DISTANCE_TO_SURFACE_OF_TARGET" : {
+      "description" : "Tooltip: Distance to the surface of the target.",
+      "message" : "Distancia hasta la superficie del objetivo"
+   },
+   "HUD_DURATION_OF_MANEUVER_BURN" : {
+      "description" : "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
+      "message" : "La duración aproximada de la maniobra de quemado con los impulsores principales"
+   },
+   "HUD_DURATION_UNTIL_MANEUVER_BURN" : {
+      "description" : "Tooltip: The duration until the middle of the maneuver burn.",
+      "message" : "La duración hasta la mitad de la maniobra de quemado"
+   },
+   "HUD_INDICATOR_AWAY_FROM_FRAME" : {
+      "description" : "Indicator: Away from the current frame.",
+      "message" : "fuera del marco actual"
+   },
+   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
+      "description" : "Indicator: Prograde direction relative to the current combat target.",
+      "message" : "Progrado relativo al objetivo de combate actual"
+   },
+   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
+      "description" : "Indicator: Retrograde direction relative to the current combat target.",
+      "message" : "Retrogrado relativo al actual objetivo de combate"
+   },
+   "HUD_INDICATOR_FRAME_PROGRADE" : {
+      "description" : "Indicator: Prograde direction relative to the current frame.",
+      "message" : "Progrado relativo al marco de referencia actual"
+   },
+   "HUD_INDICATOR_FRAME_RETROGRADE" : {
+      "description" : "Indicator: Retrograde direction relative to the current frame.",
+      "message" : "Retrogrado relativo al actual marco de referencia"
+   },
+   "HUD_INDICATOR_MANEUVER_PROGRADE" : {
+      "description" : "Indicator: The prograde direction for the maneuver burn.",
+      "message" : "Progrado para maniobra de quemado"
+   },
+   "HUD_INDICATOR_NAV_TARGET_PROGRADE" : {
+      "description" : "Indicator: Prograde direction relative to the current navigational target.",
+      "message" : "Progrado relativo al objetivo actual de navegación"
+   },
+   "HUD_INDICATOR_NAV_TARGET_RETROGRADE" : {
+      "description" : "Indicator: Retrograde direction relative to the current navigational target.",
+      "message" : "Retrogrado relativo al actual objetivo de navegación"
+   },
+   "HUD_RADAR_DISTANCE" : {
+      "description" : "Tooltip: Current distance of the radar.",
+      "message" : "Distancia activa de radar"
+   },
+   "HUD_SHOW_COMBAT_TARGET" : {
+      "description" : "Tooltip: Show the current combat target.",
+      "message" : "Muestra el objetivo de combate actual"
+   },
+   "HUD_SHOW_FRAME" : {
+      "description" : "Tooltip: Show the current frame of reference.",
+      "message" : "Muestra el actual marco de referencia"
+   },
+   "HUD_SHOW_NAV_TARGET" : {
+      "description" : "Tooltip: Show current navigational target.",
+      "message" : "Muestra el objetivo de navegación actual"
+   },
+   "HUD_SPEED_OF_APPROACH_TO_FRAME" : {
+      "description" : "Tooltip: The speed of approach towards the frame of reference.",
+      "message" : "La velocidad de aproximación hacia el marco de referencia"
+   },
+   "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
+      "description" : "Tooltip: The speed of approach towards the target.",
+      "message" : "La velocidad de aproximación hacia el objetivo"
+   },
+   "HUD_SPEED_RELATIVE_TO_TARGET" : {
+      "description" : "Tooltip: The speed relative to the target.",
+      "message" : "La velocidad relativa al objetivo"
+   },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
       "message" : "El casco no necesita reparación."
@@ -466,6 +590,10 @@
    "HYPERSPACE_RANGE" : {
       "description" : "",
       "message" : "Alcance hiperespacial"
+   },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Hipersalto temerario registrado"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -791,6 +919,10 @@
       "description" : "",
       "message" : "Ok"
    },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "Carpeta de usuario"
+   },
    "OPTIONS" : {
       "description" : "",
       "message" : "Opciones"
@@ -999,6 +1131,10 @@
       "description" : "",
       "message" : "Detección y defensa"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Establecer destino como objetivo de navegación."
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Nave"
@@ -1034,6 +1170,10 @@
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
       "message" : "La nave que estaba viendo se ha vendido"
+   },
+   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
+      "description" : "",
+      "message" : "Simulando la evolución del universo: {age} mil millones de años ;-)"
    },
    "SOUND" : {
       "description" : "",
@@ -1096,8 +1236,8 @@
       "message" : "La nave es demasiado pequeña para la tripulación actual."
    },
    "TOO_SMALL_TO_TRANSSHIP" : {
-      "description" : "",
-      "message" : "Ship is too small to transship your cargo."
+      "description" : "Ship market error message",
+      "message" : "La nueva nave no dispone de capacidad para la actual carga ni para hipermotor"
    },
    "TOTAL" : {
       "description" : "",

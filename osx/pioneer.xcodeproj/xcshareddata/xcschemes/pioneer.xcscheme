@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0630"
+   LastUpgradeVersion = "0730"
    version = "2.0">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -73,7 +73,7 @@
                BlueprintIdentifier = "4A20B0DD135319770020F43E"
                BuildableName = "pioneer.app"
                BlueprintName = "pioneer"
-               ReferencedContainer = "container:Pioneer.xcodeproj">
+               ReferencedContainer = "container:pioneer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -91,7 +91,7 @@
             BlueprintIdentifier = "4A20B0DD135319770020F43E"
             BuildableName = "pioneer.app"
             BlueprintName = "pioneer"
-            ReferencedContainer = "container:Pioneer.xcodeproj">
+            ReferencedContainer = "container:pioneer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -116,7 +116,7 @@
             BlueprintIdentifier = "4A20B0DD135319770020F43E"
             BuildableName = "pioneer.app"
             BlueprintName = "pioneer"
-            ReferencedContainer = "container:Pioneer.xcodeproj">
+            ReferencedContainer = "container:pioneer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -135,7 +135,7 @@
             BlueprintIdentifier = "4A20B0DD135319770020F43E"
             BuildableName = "pioneer.app"
             BlueprintName = "pioneer"
-            ReferencedContainer = "container:Pioneer.xcodeproj">
+            ReferencedContainer = "container:pioneer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

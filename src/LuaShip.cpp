@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -98,6 +98,48 @@ static int l_ship_set_type(lua_State *l)
 	LUA_DEBUG_END(l, 0);
 
 	return 0;
+}
+
+/* Method: GetShipType
+ *
+ * Returns a string describing the ship type
+ *
+ * > local shiptype = ship:GetShipType()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_ship_get_ship_type(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaPush(l, s->GetShipType()->name.c_str());
+	return 1;
+}
+
+/* Method: GetShipClass
+ *
+ * Returns a string describing the ship class
+ *
+ * > local shipclass = ship:GetShipClass()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_ship_get_ship_class(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaPush(l, s->GetShipType()->shipClass.c_str());
+	return 1;
 }
 
 /*
@@ -227,6 +269,25 @@ static int l_ship_explode(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: GetSkin
+ *
+ * Get the current skin object of the ship.
+ *
+ * > ship:GetSkin()
+ *
+ * Parameters:
+ *
+ *
+ *
+ * Example:
+ *
+ * > ship:GetSkin()
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_ship_get_skin(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
@@ -234,11 +295,64 @@ static int l_ship_get_skin(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: SetSkin
+ *
+ * Set the skin of the ship.
+ *
+ * > ship:SetSkin(skin)
+ *
+ * Parameters:
+ *
+ *   skin - the skin object of the ship
+ *   this can be created using SceneGraph.ModelSkin.New()
+ *
+ * Example:
+ *
+ * > ship:GetSkin(skin)
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_ship_set_skin(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	const SceneGraph::ModelSkin *skin = LuaObject<SceneGraph::ModelSkin>::CheckFromLua(2);
 	s->SetSkin(*skin);
+	return 0;
+}
+
+/*
+ * Method: SetPattern
+ *
+ * Changes the pattern used for texturing the ship.
+ *
+ * > ship:SetPattern(num)
+ *
+ * Parameters:
+ *
+ *   num - the pattern number
+ *
+ * Example:
+ *
+ * > ship:SetPattern(5)
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_set_pattern(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	unsigned int num = lua_tointeger(l, 2);
+	SceneGraph::Model *model = s->GetModel();
+	if(model && model->SupportsPatterns()) {
+		if (num > model->GetNumPatterns()-1)
+			return luaL_error(l, "This pattern does not exist for this ship");
+
+		s->SetPattern(num);
+	}
 	return 0;
 }
 
@@ -277,7 +391,7 @@ static int l_ship_set_label(lua_State *l)
 /*
  * Method: SetShipName
  *
- * Changes the ship's name text. 
+ * Changes the ship's name text.
  * This is the name text that appears beside the ship in the HUD.
  *
  * > ship:SetShipName(newShipName)
@@ -417,6 +531,15 @@ static int l_ship_undock(lua_State *l)
 	return 1;
 }
 
+static int l_ship_blast_off(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	if(!s->IsLanded())
+		luaL_error(l, "Can't blast off if not already landed");
+	s->Blastoff();
+	return 0;
+}
+
 /* Method: SpawnMissile
  *
  * Spawn a missile near the ship.
@@ -520,7 +643,10 @@ static int l_ship_use_ecm(lua_State *l)
 /*
  * Method: InitiateHyperjumpTo
  *
- *   Ready the ship to jump to the given system.
+ *   Ready the ship to jump to the given system. This does not perform
+ *   any check regarding hyperdrive class, range, fuel. Nor does it
+ *   respect minimum legal distance for hyperjump. For those features use
+ *   <Ship.HyperjumpTo> instead.
  *
  * > status = ship:InitiateHyperjumpTo(path, warmup, duration, checks)
  *
@@ -633,6 +759,18 @@ static int l_ship_set_invulnerable(lua_State *l)
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	luaL_checkany(l, 2);
 	s->SetInvulnerable(lua_toboolean(l, 2));
+	return 0;
+}
+
+static int l_ship_get_wheel_state(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushnumber(l, s->GetWheelState());
+	return 1;
+}
+
+static int l_ship_toggle_wheel_state(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	s->SetWheelState(s->GetWheelState() == 0.0);
 	return 0;
 }
 
@@ -881,6 +1019,35 @@ static int l_ship_ai_enter_high_orbit(lua_State *l)
 	return 0;
 }
 
+static int l_ship_get_flight_state(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaPush(l, EnumStrings::GetString("ShipFlightState", s->GetFlightState()));
+	return 1;
+}
+
+static int l_ship_get_flight_control_state(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaPush(l, EnumStrings::GetString("ShipControllerFlightControlState", s->GetController()->GetFlightControlState()));
+	return 1;
+}
+
+static int l_ship_get_set_speed(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaPush(l, s->GetController()->GetSetSpeed());
+	return 1;
+}
+
+static int l_ship_get_current_ai_command(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	const AICommand *cmd = s->GetAICommand();
+	if(cmd != nullptr) {
+		LuaPush(l, EnumStrings::GetString("ShipAICmdName", cmd->GetType()));
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
 /*
  * Method: CancelAI
  *
@@ -953,7 +1120,11 @@ static int l_ship_update_equip_stats(lua_State *l)
 static int l_ship_get_velocity(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	LuaVector::PushToLua(l, s->GetVelocity());
+	vector3d v = s->GetVelocity();
+	lua_newtable(l);
+	pi_lua_settable(l, "x", v.x);
+	pi_lua_settable(l, "y", v.y);
+	pi_lua_settable(l, "z", v.z);
 	return 1;
 }
 
@@ -975,10 +1146,39 @@ static int l_ship_get_velocity(lua_State *l)
 static int l_ship_get_position(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	LuaVector::PushToLua(l, s->GetPosition());
+	vector3d v = s->GetPosition();
+	lua_newtable(l);
+	pi_lua_settable(l, "x", v.x);
+	pi_lua_settable(l, "y", v.y);
+	pi_lua_settable(l, "z", v.z);
 	return 1;
 }
 
+static int l_ship_is_docked(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushboolean(l, s->IsDocked());
+	return 1;
+}
+
+static int l_ship_is_landed(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushboolean(l, s->IsLanded());
+	return 1;
+}
+
+static int l_ship_get_hyperspace_countdown(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaPush(l, s->GetHyperspaceCountdown());
+	return 1;
+}
+
+static int l_ship_is_hyperspace_active(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaPush<bool>(l, s->IsHyperspaceActive());
+	return 1;
+}
 
 template <> const char *LuaObject<Ship>::s_type = "Ship";
 
@@ -989,12 +1189,15 @@ template <> void LuaObject<Ship>::RegisterClass()
 	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_ship_is_player },
 
+		{ "GetShipClass", l_ship_get_ship_class },
+		{ "GetShipType", l_ship_get_ship_type },
 		{ "SetShipType", l_ship_set_type },
 		{ "SetHullPercent", l_ship_set_hull_percent },
 		{ "SetFuelPercent", l_ship_set_fuel_percent },
 
 		{ "GetSkin",    l_ship_get_skin    },
 		{ "SetSkin",    l_ship_set_skin    },
+		{ "SetPattern", l_ship_set_pattern },
 		{ "SetLabel",   l_ship_set_label   },
 		{ "SetShipName",	l_ship_set_ship_name   },
 
@@ -1006,6 +1209,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock",        l_ship_undock          },
+		{ "BlastOff",      l_ship_blast_off       },
 
 		{ "Explode", l_ship_explode },
 
@@ -1028,6 +1232,20 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "GetVelocity", l_ship_get_velocity },
  		{ "GetPosition", l_ship_get_position },
+
+		{ "IsDocked",    l_ship_is_docked },
+		{ "IsLanded",    l_ship_is_landed },
+
+		{ "GetWheelState", l_ship_get_wheel_state },
+		{ "ToggleWheelState", l_ship_toggle_wheel_state },
+		{ "GetFlightState", l_ship_get_flight_state },
+		{ "GetSetSpeed", l_ship_get_set_speed },
+
+		{ "GetHyperspaceCountdown", l_ship_get_hyperspace_countdown },
+		{ "IsHyperspaceActive",     l_ship_is_hyperspace_active },
+
+		{ "GetFlightControlState",  l_ship_get_flight_control_state },
+		{ "GetCurrentAICommand",    l_ship_get_current_ai_command },
 
 		{ 0, 0 }
 	};

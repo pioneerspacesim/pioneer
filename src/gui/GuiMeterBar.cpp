@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -28,7 +28,7 @@ void MeterBar::Draw()
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
 
-	if(!m_outer) 
+	if(!m_outer)
 		m_outer.reset( new Graphics::Drawables::RoundEdgedRect(r, size, 5.0f, OUTER_COLOUR, Screen::alphaBlendState, false) );
 	else
 		m_outer->Update(size, 5.0f, OUTER_COLOUR);
@@ -41,7 +41,7 @@ void MeterBar::Draw()
 		r->Translate(METERBAR_PADDING, METERBAR_PADDING, 0.0f);
 		size.x = m_barValue * (size.x - 2.0f*METERBAR_PADDING);
 		size.y = METERBAR_BAR_HEIGHT;
-		if(!m_inner) 
+		if(!m_inner)
 			m_inner.reset( new Graphics::Drawables::RoundEdgedRect(r, size, 3.0f, m_barColor, Screen::alphaBlendState, false) );
 		else
 			m_inner->Update(size, 3.0f, m_barColor);

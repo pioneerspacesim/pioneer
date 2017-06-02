@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _MODELBODY_H
@@ -19,10 +19,9 @@ public:
 	OBJDEF(ModelBody, Body, MODELBODY);
 	ModelBody();
 	virtual ~ModelBody();
-	void SetPosition(const vector3d &p);
-	void SetOrient(const matrix3x3d &r);
-	void TransformToModelCoords(const Frame *camFrame);
-	virtual void SetFrame(Frame *f);
+	void SetPosition(const vector3d &p) override;
+	void SetOrient(const matrix3x3d &r) override;
+	virtual void SetFrame(Frame *f) override;
 	// Colliding: geoms are checked against collision space
 	void SetColliding(bool colliding);
 	bool IsColliding() const { return m_colliding; }
@@ -37,11 +36,11 @@ public:
 
 	void RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform, const bool setLighting=true);
 
-	virtual void TimeStepUpdate(const float timeStep);
+	virtual void TimeStepUpdate(const float timeStep) override;
 
 protected:
-	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
 
 	void SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<Graphics::Light> &oldLights, Color &oldAmbient);
 	void ResetLighting(Graphics::Renderer *r, const std::vector<Graphics::Light> &oldLights, const Color &oldAmbient);

@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUAPUSHPULL_H
@@ -29,6 +29,18 @@ inline void pi_lua_generic_pull(lua_State * l, int index, std::string & out) {
 	const char *buf = luaL_checklstring(l, index, &len);
 	std::string(buf, len).swap(out);
 }
+template <typename Type>
+inline void LuaPush(lua_State *l, Type value) {
+	pi_lua_generic_push(l, value);
+}
+
+template <typename Type>
+inline Type LuaPull(lua_State *l, int index) {
+	Type value;
+	pi_lua_generic_pull(l, index, value);
+	return value;
+}
+
 inline bool pi_lua_strict_pull(lua_State * l, int index, bool & out) {
 	if (lua_type(l, index) == LUA_TBOOLEAN) {
 		out = lua_toboolean(l, index);

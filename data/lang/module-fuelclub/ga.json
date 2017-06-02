@@ -1,0 +1,102 @@
+{
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "Cuir isteach ar bhallraíocht"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "Tosaigh ag trádáil"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "Comharchumann Breosla na bPíolótaí Idir-Réaltacha"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "Is féidir leat breosla a cheannach agus fáil réidh le {radioactives} anseo."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "Is eagraíocht neamhspleách é {clubname} a sholáthraíonn breosla spásloinge lascainithe dá ballraíocht. Gheobhaidh tú brainsí ar fud an réaltra. Seo iad na buntáistí a bhaineann le ballraíocht:"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "Fáilte go dtí {clubname}"
+   },
+   "FLAVOUR_1_CLUBNAME" : {
+      "description" : "Fuel club for the Federation faction",
+      "message" : "An Bráithreachas Breosla"
+   },
+   "FLAVOUR_1_NONMEMBER_INTRO" : {
+      "description" : "For the Solar Federation faction",
+      "message" : "Is é {clubname} an príomhsholáthraí breosla lascainithe do spáslonga i gCónaidhm na Gréine. Mar bhall den eagraíocht, beidh tú i dteideal na rudaí seo a leanas:"
+   },
+   "FLAVOUR_2_CLUBNAME" : {
+      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+      "message" : "An Braon Broghach Breosla"
+   },
+   "FLAVOUR_2_NONMEMBER_INTRO" : {
+      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
+      "message" : "Trí ollfhairsinge Chomhlathas na Reann Neamhspleách, is é {clubname} an soláthraí is fearr de bhreosla lascainithe agus seirbhísí bainistíochta dramhaíola. Seo iad na rudaí a dhéanaimid ar son ár mballraíochta:"
+   },
+   "FLAVOUR_2_WELCOME" : {
+      "description" : "",
+      "message" : "Dia dhuit! Tá súil againn go mbainfidh tú taitneamh as ár gcuid seirbhísí."
+   },
+   "FLAVOUR_3_CLUBNAME" : {
+      "description" : "Fuel club for the Haber faction",
+      "message" : "Breosla Uí Scanaill Teo., Roinn na dTiomántán agus na nEarraí Somheata"
+   },
+   "FLAVOUR_3_MEMBER_INTRO" : {
+      "description" : "For the greedy Haber faction, very corporate formulated",
+      "message" : "Fáilte a phíolóta. Tá cead agat athbhreoslú a dhéanamh agus dramhaíl a dhiúscairt (ar choinníollacha áirithe) anois."
+   },
+   "FLAVOUR_3_NONMEMBER_INTRO" : {
+      "description" : "for the Haber faction",
+      "message" : "Dia dhuit a phíolóta! Seo é Breosla Uí Scanaill Teo., Roinn na dTiomántán agus na nEarraí Somheata, an dream atá i gceannas ar dháileadh breosla sa chuid sin den spás i seilbh mhuintir Uí Scanaill."
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Téigh ar ais"
+   },
+   "LIST_BENEFITS_DISPOSAL" : {
+      "description" : "",
+      "message" : "{radioactives}, diúscairt saor in aisce (coinníollacha áirithe i bhfeidhm)"
+   },
+   "LIST_BENEFITS_FUEL" : {
+      "description" : "",
+      "message" : "{fuel} ar lacáiste"
+   },
+   "LIST_BENEFITS_FUEL_INTRO" : {
+      "description" : "",
+      "message" : "Ár stoic bhreosla féin, neamhspleách ar an margadh ginearálta"
+   },
+   "LIST_BENEFITS_FUEL_TANK" : {
+      "description" : "",
+      "message" : "Athlíonadh an umair bhreosla, nuair is gá"
+   },
+   "LIST_BENEFITS_JOIN" : {
+      "description" : "",
+      "message" : "Bí i do bhall! Níl ach {membership_fee} ar bhallraíocht bhliantúil"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "Ní féidir linn fáil réidh le níos mó tonaí {radioactives} ná an méid tonaí {military_fuel} a cheannaigh tú uainn."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "Cad iad na coinníollacha a bhaineann le diúscairt {radioactives}?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "Diúltaíodh d'iarratas ar bhallraíocht."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "Tá tú i do bhall anois. Rachaidh do bhallraíocht i léig ar {expiry_date}."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "Caithfidh tú ár gcuid {military_fuel} a cheannach sula nglacfaimid le do chuid {radioactives}"
+   }
+}

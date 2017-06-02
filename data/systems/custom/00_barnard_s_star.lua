@@ -1,4 +1,4 @@
--- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local s = CustomSystem:new('Barnard\'s star',{ 'STAR_M' })
@@ -115,7 +115,7 @@ local impression_moons = {
 		CustomSystemBody:new('Name and Form', 'PLANET_ASTEROID')
 		:seed(-9812342)
 		:radius(f(137,10000))
-		:mass(f(81,100000000000000))
+		:mass(f(81,1000000))
 		:temp(121)
 		:semi_major_axis(f(801,1000000))
 		:eccentricity(f(212,1000000))
@@ -133,7 +133,7 @@ local impression_moons = {
 	CustomSystemBody:new('Six sense spheres', 'PLANET_ASTEROID')
 		:seed(-16313981)
 		:radius(f(395,10000))
-		:mass(f(91,100000000000000))
+		:mass(f(91,1000000))
 		:temp(122)
 		:semi_major_axis(f(714,1000000))
 		:eccentricity(f(19,10000))
@@ -150,7 +150,7 @@ local impression_moons = {
 	CustomSystemBody:new('Sensation', 'PLANET_ASTEROID')
 		:seed(-9981242)
 		:radius(f(134,10000))
-		:mass(f(3,10000000000))
+		:mass(f(3,1000000))
 		:temp(112)
 		:semi_major_axis(f(112,100000))
 		:eccentricity(f(3,1000))

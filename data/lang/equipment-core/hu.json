@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Fejlett Radartérképező"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Fejlett célpont szkenner"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Nagy hatótávú Radar térképező rendszerszintű lefedettséggel."
+      "message" : "Nagy hatótávú szkenner, képes lefedni egy egész csillagrendszert."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -41,55 +41,75 @@
    },
    "DRIVE_CLASS1" : {
       "description" : "",
-      "message" : "1. szintű hipermotor"
+      "message" : "1. osztályú hipermotor"
    },
    "DRIVE_CLASS2" : {
       "description" : "",
-      "message" : "2. szintű hipermotor"
+      "message" : "2. osztályú hipermotor"
    },
    "DRIVE_CLASS3" : {
       "description" : "",
-      "message" : "3. szintű hipermotor"
+      "message" : "3. osztályú hipermotor"
    },
    "DRIVE_CLASS4" : {
       "description" : "",
-      "message" : "4. szintű hipermotor"
+      "message" : "4. osztályú hipermotor"
    },
    "DRIVE_CLASS5" : {
       "description" : "",
-      "message" : "5. szintű hipermotor"
+      "message" : "5. osztályú hipermotor"
    },
    "DRIVE_CLASS6" : {
       "description" : "",
-      "message" : "6. szintű hipermotor"
+      "message" : "6. osztályú hipermotor"
    },
    "DRIVE_CLASS7" : {
       "description" : "",
-      "message" : "7. szintű hipermotor"
+      "message" : "7. osztályú hipermotor"
    },
    "DRIVE_CLASS8" : {
       "description" : "",
-      "message" : "8. szintű hipermotor"
+      "message" : "8. osztályú hipermotor"
    },
    "DRIVE_CLASS9" : {
       "description" : "",
-      "message" : "9. szintű hipermotor"
+      "message" : "9. osztályú hipermotor"
    },
    "DRIVE_MIL1" : {
       "description" : "",
-      "message" : "1. szintű katonai hiperhajtómű"
+      "message" : "1. osztályú katonai hiperhajtómű"
    },
    "DRIVE_MIL2" : {
       "description" : "",
-      "message" : "2. szintű katonai hiperhajtómű"
+      "message" : "2. osztályú katonai hiperhajtómű"
    },
    "DRIVE_MIL3" : {
       "description" : "",
-      "message" : "3. szintű katonai hiperhajtómű"
+      "message" : "3. osztályú katonai hiperhajtómű"
    },
    "DRIVE_MIL4" : {
       "description" : "",
-      "message" : "4. szintű katonai hajtómű"
+      "message" : "4. osztályú katonai hajtómű"
+   },
+   "DRIVE_MIL5" : {
+      "description" : "",
+      "message" : "5. osztályú katonai hipermotor"
+   },
+   "DRIVE_MIL6" : {
+      "description" : "",
+      "message" : "6. osztályú katonai hipermotor"
+   },
+   "DRIVE_MIL7" : {
+      "description" : "",
+      "message" : "7. osztályú katonai hipermotor"
+   },
+   "DRIVE_MIL8" : {
+      "description" : "",
+      "message" : "8. osztályú katonai hipermotor"
+   },
+   "DRIVE_MIL9" : {
+      "description" : "",
+      "message" : "9. osztályú katonai hipermotor"
    },
    "ECM_ADVANCED" : {
       "description" : "",
@@ -179,6 +199,10 @@
       "description" : "",
       "message" : "Hatótávon kívül:"
    },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Kabin"
+   },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
       "message" : "Égitest felmérése"
@@ -215,19 +239,11 @@
       "description" : "",
       "message" : "2MW gyorstüzelő pulzuságyú"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Radartérképező"
+      "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Távolsági érzékelő, űrben lebegő felszerelés, rakomány, hajó vizsgálatára."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Szkenner"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Egy 3D térképet jelenít meg a közeli hajókról."
    },
@@ -263,11 +279,43 @@
       "description" : "",
       "message" : "Felmérés indul, célpont távolsága:"
    },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Piacelemző"
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Célpont szkenner"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Távolsági érzékelő, űrben lebegő felszerelés, rakomány, hajó vizsgálatára."
+   },
+   "THRUSTERS_BASIC" : {
+      "description" : "",
+      "message" : "Módosított fúvókák"
+   },
+   "THRUSTERS_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "A hajódhoz gyártott módosított fúvókák."
+   },
+   "THRUSTERS_BEST" : {
+      "description" : "",
+      "message" : "Egyedi fúvókák"
+   },
+   "THRUSTERS_BEST_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Hajóra szabott fúvókák, a lehető legjobb hatékonysággal."
+   },
+   "THRUSTERS_MEDIUM" : {
+      "description" : "",
+      "message" : "Optimalizált fúvókák"
+   },
+   "THRUSTERS_MEDIUM_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Tolóerőre optimalizált hajtómű, kevésbé hajtóanyaghatékony."
+   },
+   "TRADE_COMPUTER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Kereskedelmi számítógép"
+   },
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "Kiemeli a jelenlegi és a cél rendszer között várhatóan profittal értékesíthető termékeket."
    },

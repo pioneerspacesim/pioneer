@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GasGiantMaterial.h"
@@ -141,7 +141,7 @@ void GasGiantSurfaceMaterial::SetGSUniforms()
 void GasGiantSurfaceMaterial::SwitchShadowVariant()
 {
 	const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters*>(this->specialParameter0);
-	std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
+	// std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
 	//request a new shadow variation
 	if (m_curNumShadows != params.shadows.size()) {
 		m_curNumShadows = std::min(Uint32(params.shadows.size()), 4U);

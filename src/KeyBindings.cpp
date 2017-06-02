@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "KeyBindings.h"
@@ -128,7 +128,7 @@ static bool ReadToTok(char tok, const char **p, char *bufOut, size_t buflen) {
 		}
 		bufOut[idx] = *((*p)++);
 	}
-	// if, after that, we're not pointing at the tok, we must have hit 
+	// if, after that, we're not pointing at the tok, we must have hit
 	// the terminal or run out of buffer.
 	if (**p != tok) {
 		return false;
@@ -180,7 +180,7 @@ bool KeyBinding::FromString(const char *str, KeyBinding &kb)
 		}
 		// force terminate
 		joyUUIDBuf[JoyUUIDLength-1] = '\0';
-		// now, locate the internal ID.		
+		// now, locate the internal ID.
 		int joy = Pi::JoystickFromGUIDString(joyUUIDBuf);
 		if (joy == -1) {
 			return false;
@@ -229,7 +229,7 @@ std::ostream &operator<<(std::ostream &oss, const KeyBinding &kb)
 		oss << "Joy" << Pi::JoystickGUIDString(kb.u.joystickButton.joystick);
 		oss << "/Button" << int(kb.u.joystickButton.button);
 	} else if (kb.type == JOYSTICK_HAT) {
-		oss << "Joy" << Pi::JoystickGUIDString(kb.u.joystickButton.joystick); 
+		oss << "Joy" << Pi::JoystickGUIDString(kb.u.joystickButton.joystick);
 		oss << "/Hat" << int(kb.u.joystickHat.hat);
 		oss << "Dir" << int(kb.u.joystickHat.direction);
 	} else {
@@ -365,16 +365,18 @@ void KeyAction::CheckSDLEventAndDispatch(const SDL_Event *event) {
 	}
 }
 
-AxisBinding::AxisBinding() {
-	this->joystick = JOYSTICK_DISABLED;
-	this->axis = 0;
-	this->direction = POSITIVE;
+AxisBinding::AxisBinding() :
+	joystick(JOYSTICK_DISABLED),
+	axis(0),
+	direction(POSITIVE)
+{
 }
 
-AxisBinding::AxisBinding(Uint8 joystick_, Uint8 axis_, AxisDirection direction_) {
-	this->joystick = joystick_;
-	this->axis = axis_;
-	this->direction = direction_;
+AxisBinding::AxisBinding(Uint8 joystick_, Uint8 axis_, AxisDirection direction_) :
+	joystick(joystick_),
+	axis(axis_),
+	direction(direction_)
+{
 }
 
 float AxisBinding::GetValue() {

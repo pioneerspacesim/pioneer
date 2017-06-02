@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef KEY_BINDING
@@ -46,10 +46,10 @@ BINDING_GROUP(Lang::SPEED_CONTROL_MODE)
 KEY_BINDING(increaseSpeed, "BindIncreaseSpeed", Lang::INCREASE_SET_SPEED, SDLK_RETURN, 0)
 KEY_BINDING(decreaseSpeed, "BindDecreaseSpeed", Lang::DECREASE_SET_SPEED, SDLK_RSHIFT, 0)
 
-BINDING_GROUP(Lang::SCANNER_CONTROL)
-KEY_BINDING(toggleScanMode, "BindToggleScanMode", Lang::TOGGLE_SCAN_MODE, SDLK_BACKSLASH, 0)
-KEY_BINDING(increaseScanRange, "BindIncreaseScanRange", Lang::INCREASE_SCAN_RANGE, SDLK_RIGHTBRACKET, 0)
-KEY_BINDING(decreaseScanRange, "BindDecreaseScanRange", Lang::DECREASE_SCAN_RANGE, SDLK_LEFTBRACKET, 0)
+BINDING_GROUP(Lang::RADAR_CONTROL)
+KEY_BINDING(toggleScanMode, "BindToggleScanMode", Lang::TOGGLE_RADAR_MODE, SDLK_BACKSLASH, 0)
+KEY_BINDING(increaseScanRange, "BindIncreaseScanRange", Lang::INCREASE_RADAR_RANGE, SDLK_RIGHTBRACKET, 0)
+KEY_BINDING(decreaseScanRange, "BindDecreaseScanRange", Lang::DECREASE_RADAR_RANGE, SDLK_LEFTBRACKET, 0)
 
 BINDING_GROUP(Lang::MISCELLANEOUS)
 KEY_BINDING(toggleHudMode, "BindToggleHudMode", Lang::TOGGLE_HUD_MODE, SDLK_TAB, 0)

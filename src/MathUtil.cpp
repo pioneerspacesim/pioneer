@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "MathUtil.h"
@@ -166,14 +166,14 @@ namespace MathUtil {
 			return matrix4x4f::Identity();
 
 		det = 1.0f / det;
-		
+
 		matrix4x4f m;
 		for(int i = 0; i < 16; i++)
 			m[i] = inv[i] * det;
 
 		return m;
 	}
-	matrix4x4f Transpose(const matrix4x4f &cell) 
+	matrix4x4f Transpose(const matrix4x4f &cell)
 	{
 		matrix4x4f m;
 		m[0] = cell[0];		m[1] = cell[4];		m[2] = cell[8];		m[3] = cell[12];
@@ -182,9 +182,9 @@ namespace MathUtil {
 		m[12] = cell[3];	m[13] = cell[7];	m[14] = cell[11];	m[15] = cell[15];
 		return m;
 	}
-	
+
 	// matrix3x3f utility functions
-	matrix3x3f Transpose(const matrix3x3f &cell) 
+	matrix3x3f Transpose(const matrix3x3f &cell)
 	{
 		matrix3x3f m;
 		m[0] = cell[0]; m[1] = cell[3]; m[2] = cell[6];
@@ -192,7 +192,7 @@ namespace MathUtil {
 		m[6] = cell[2]; m[7] = cell[5]; m[8] = cell[8];
 		return m;
 	}
-	matrix3x3f Inverse(const matrix3x3f &cell) 
+	matrix3x3f Inverse(const matrix3x3f &cell)
 	{
 		// computes the inverse of a matrix m
 		#define cell2d(x,y)    cell[((y*3) + x)]

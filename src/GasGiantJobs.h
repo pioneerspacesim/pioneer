@@ -34,17 +34,7 @@ namespace GasGiantJobs
 	static const vector3d p7 = (vector3d(-1, -1, -1)).Normalized();
 	static const vector3d p8 = (vector3d(1, -1, -1)).Normalized();
 
-	static const vector3d s_patchFaces[NUM_PATCHES][4] =
-	{
-		{ p5, p1, p4, p8 }, // +x
-		{ p2, p6, p7, p3 }, // -x
-
-		{ p2, p1, p5, p6 }, // +y
-		{ p7, p8, p4, p3 }, // -y
-
-		{ p6, p5, p8, p7 }, // +z - NB: these are actually reversed!
-		{ p1, p2, p3, p4 }  // -z
-	};
+	const vector3d& GetPatchFaces(const Uint32 patch,const Uint32 face);
 
 	class STextureFaceRequest {
 	public:
@@ -61,7 +51,7 @@ namespace GasGiantJobs
 
 	protected:
 		// deliberately prevent copy constructor access
-		STextureFaceRequest(const STextureFaceRequest &r);
+		STextureFaceRequest(const STextureFaceRequest &r) = delete;
 
 		inline Sint32 NumTexels() const { return uvDIMs*uvDIMs; }
 
@@ -106,7 +96,7 @@ namespace GasGiantJobs
 
 	protected:
 		// deliberately prevent copy constructor access
-		STextureFaceResult(const STextureFaceResult &r);
+		STextureFaceResult(const STextureFaceResult &r) = delete;
 
 		const int32_t mFace;
 		STextureFaceData mData;
@@ -127,7 +117,7 @@ namespace GasGiantJobs
 
 	private:
 		// deliberately prevent copy constructor access
-		SingleTextureFaceJob(const SingleTextureFaceJob &r);
+		SingleTextureFaceJob(const SingleTextureFaceJob &r) = delete;
 
 		std::unique_ptr<STextureFaceRequest> mData;
 		STextureFaceResult *mpResults;
@@ -161,7 +151,7 @@ namespace GasGiantJobs
 
 	protected:
 		// deliberately prevent copy constructor access
-		SGPUGenRequest(const SGPUGenRequest &r);
+		SGPUGenRequest(const SGPUGenRequest &r) = delete;
 
 		inline Sint32 NumTexels() const { return uvDIMs*uvDIMs; }
 
@@ -198,7 +188,7 @@ namespace GasGiantJobs
 
 	protected:
 		// deliberately prevent copy constructor access
-		SGPUGenResult(const SGPUGenResult &r);
+		SGPUGenResult(const SGPUGenResult &r) = delete;
 
 		SGPUGenData mData;
 	};
@@ -219,7 +209,7 @@ namespace GasGiantJobs
 	private:
 		SingleGPUGenJob() {}
 		// deliberately prevent copy constructor access
-		SingleGPUGenJob(const SingleGPUGenJob &r);
+		SingleGPUGenJob(const SingleGPUGenJob &r) = delete;
 
 		std::unique_ptr<SGPUGenRequest> mData;
 		SGPUGenResult *mpResults;

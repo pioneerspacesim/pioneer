@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Terrain.h"
@@ -61,8 +61,9 @@ double TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeight(const vecto
 			n += 3.0*river_octavenoise(GetFracDef(6),
 				Clamp(h*0.00002, 0.5, 0.7), p);
 		}
+		n *= 0.33333333333;
 
-		if (n < 0.4){
+		if (n < 0.133){
 			n += n*billow_octavenoise(GetFracDef(6),
 				0.5*octavenoise(GetFracDef(5), 0.5, p), p);
 		} else {
@@ -70,7 +71,7 @@ double TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeight(const vecto
 				0.5*octavenoise(GetFracDef(5), 0.5, p), p);
 		}
 
-		if (n < 0.2){
+		if (n < 0.066667){
 			n += n*billow_octavenoise(GetFracDef(5),
 				0.5*octavenoise(GetFracDef(5), 0.5, p), p);
 		} else {
@@ -81,7 +82,7 @@ double TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeight(const vecto
 		n += n*0.7*ridged_octavenoise(GetFracDef(5),
 			0.5*octavenoise(GetFracDef(6), 0.5, p), p);
 
-		n = (n/2)+(n*n);
+		n = (n*0.5)+(n*n);
 
 		//jagged surface for mountains
 		//This is probably using far too much noise, some of it is just not needed
@@ -158,7 +159,7 @@ double TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeight(const vecto
 		}
 
 		//terrain is too mountainous, so we reduce the height
-		n *= 0.3;
+		//n *= 0.3;
 
 	}
 

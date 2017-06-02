@@ -1,5 +1,7 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+#ifdef ENABLE_SERVER_AGENT
 
 #include "LuaServerAgent.h"
 #include "LuaObject.h"
@@ -214,3 +216,5 @@ void LuaServerAgent::Register()
 	LuaObjectBase::CreateObject(l_methods, 0, 0);
 	lua_setglobal(Lua::manager->GetLuaState(), "ServerAgent");
 }
+
+#endif

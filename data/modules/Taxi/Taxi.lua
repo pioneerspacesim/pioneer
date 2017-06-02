@@ -1,4 +1,4 @@
--- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -17,6 +17,7 @@ local eq = import("Equipment")
 local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
+local NavButton = import("ui/NavButton")
 
 -- Get the language resource
 local l = Lang.GetResource("module-taxi")
@@ -151,6 +152,8 @@ local onChat = function (form, ref, option)
 		return
 	end
 
+	form:AddNavButton(ad.location)
+
 	if option == 0 then
 		local sys   = ad.location:GetStarSystem()
 
@@ -184,6 +187,7 @@ local onChat = function (form, ref, option)
 	elseif option == 3 then
 		if not Game.player.cabin_cap or Game.player.cabin_cap < ad.group then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP)
+			form:RemoveNavButton()
 			return
 		end
 
@@ -334,9 +338,8 @@ local onEnterSystem = function (player)
 
 			if ships < 1 and risk > 0 and Engine.rand:Integer(math.ceil(1/risk)) == 1 then ships = 1 end
 
-			-- XXX hull mass is a bad way to determine suitability for role
 			local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP'
-				and def.hyperdriveClass > 0 and def.hullMass > 10 and def.hullMass <= 200 end, pairs(ShipDef)))
+				and def.hyperdriveClass > 0 and def.roles.pirate end, pairs(ShipDef)))
 			if #shipdefs == 0 then return end
 
 			local ship
@@ -546,6 +549,8 @@ local onClick = function (mission)
 													ui:Label(dist.." "..l.LY)
 												})
 											}),
+										ui:Margin(5),
+										NavButton.New(l.SET_AS_TARGET, mission.location),
 		})})
 		:SetColumn(1, {
 			ui:VBox(10):PackEnd(InfoFace.New(mission.client))

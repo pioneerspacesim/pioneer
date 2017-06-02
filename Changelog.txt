@@ -1,3 +1,233 @@
+June 2017
+   * Internal Changes
+     * Remove WindowSDL class (#4018)
+
+May 2017
+   * New Features
+     * In-space indicators have icons and let you select collapsed ones (#3995)
+     * Show combat target pro- and retrograde velocities (#4007)
+     * New ship added Mola Ramsayi (#4006)
+     * Simple atmospheric crush pressure (#4005)
+
+   * Internal Changes
+     * Remove unimplemented method declarations (#4010)
+     * Make Propulsion a component (#3989)
+     * Upgraded Assimp to v.3.2.0 in Xcode project (#4011)
+     * Make FixedGuns a component (#4012)
+
+   * Fixes
+     * Restore correct mouse position after MMB/RMB movement (#4004)
+     * Remove remaining legacy camera button (#4014)
+
+April 2017
+   * New Features
+     * New imgui-driven GUI reticule (#3868)
+     * New Advice/rumour module for BBS (#3978)
+     * Implement an alternative 2D Azimuthal Equidistant Projection Radar (#3986)
+     * Add :space_station_type to CustomSystemBody (#3990)
+     * Use ffmpeg to record video realtime (#3992)
+
+   * Internal Changes
+     * Updated Xcode project for Mac OSX build (#3960)
+     * Update libassimp version requirement in COMPILING.txt (#3958)
+     * Update to full (correct) Creative Commons Attribution-shareAlike 3.0 (#3971)
+     * VS2015 win32 & x64 plus reorganisation (#3975)
+     * Fix most build warnings (#3982)
+     * Fix all build warnings (#3985)
+     * Include sigc++ directly from pioneer-thirdparty and build as static lib (#3981)
+     * clang only warnings silenced on other platforms (#3983)
+     * Replace switch default with explicit list in RandomColor (#3991)
+
+   * Fixes
+     * Bugfix for issue #3967 related to PR #3948 (#3968)
+     * Ever damage ship when docking (#3953)
+     * Add screenshot support for OpenGL 2.1 renderer (#3977)
+     * Initialise the TextureFont to 0 (#3980)
+     * Fix minor error in buildfiles (#3973)
+     * Fix output message copy-paste error (#3984)
+     * Fix Mac build (#3987)
+     * Fixup the modelview linker inputs (#3999)
+     * Fix sqrt exception (#4002)
+     * Avoid damaging ships when you have permission to dock (#3998)
+
+March 2017
+   * New Features
+     * Orthographic view in modelviewer (#3936)
+     * OpenGL 2.1 support (#3934)
+     * Thruster colors can be modified globally or per direction (#3948)
+     * Police patrol (#3954)
+
+   * Internal Changes
+     * Upgrade of Xcode project for Mac OSX build (#3937)
+     * Resolve the mismatched attribute numbering (#3938)
+     * Refactor the Vertex, Index, etc buffers (#3941)
+     * Eliminate the evil trailing whitespace (#3942)
+     * All white spaces be gone! (#3943)
+     * Configure cleanup (#3955)
+
+   * Fixes
+     * Fix bug making trade computer un-installable (#3947)
+     * Fix PhysRadius calculation for low orbiting bodies (#3957)
+
+February 2017
+   * New Features
+     * Slowly position ship to landing tag when landing on planetary bases (#3901)
+
+   * Internal Changes
+     * Remove the LineMaterial as it is unused (#3929)
+     * Collision with docking surface entirely moved on SpaceStation (#3920)
+     * Choose enemy ships by role, not hull mass (#3906)
+     * Generous Minimum PhysRadius (#3491)
+     * GLEW resurrection, initial code and project changes (#3925)
+
+   * Fixes
+     * Destructor on AICmdKill ensure no gun fire (#3926)
+     * Avoid CTD when trade ship try to decide hyperjump (#3919)
+     * Fix some orbital data in Sol system (#3889)
+     * Avoid jousting when docking on orbitals at high time steps (#3933)
+
+January 2017
+   * New Features
+     * Toggle cursor position when flying (#3909)
+     * Can no longer set speed above lightspeed (#3908)
+
+   * Internal Changes
+     * Correct and clarify a misleading comment (#3898)
+     * Use the gas giant textures RAW instead of Billboard (#3897)
+     * MERRY HAPPY 2017 (#3899)
+     * Remove IsPlayerShip from Ship (#3904)
+     * Handle collision/docking better (#3915), (#3912)
+
+   * Fixes
+     * Never spawn toothless pirates (#3903)
+
+December 2016
+   * Fixes
+     * Set ImgUI shaders to version 140 to work around junk Intel drivers (#3885)
+     * Fix translations (#3890)
+     * Use dynamic vertex buffers for UI labels (#3887)
+     * Provide config flag and warning to work around Intel pointsprite bug (#3895)
+
+   * Internal Changes
+     * Convert more PNG files to DDS (#3883)
+     * Render error check (#3884)
+     * Keep quit confirmation messages modern and stylish (#3896)
+
+November 2016
+   * Fixes
+     * Set delta-t to 1/60 if it is <= 0 (#3854)
+     * fix pattern selection if no pattern present (#3855)
+     * Lobby: Disconnect the property listeners when the docked station changes (#3857)
+     * Docking message should not mention auto refuel (#3863)
+     * Player shouldn't sell fuel they don't have (#3864)
+     * Render the navlights for orbital stations (#3874)
+     * Jitter fix (#3872)
+     * fix navbutton crash without target (#3865)
+     * Fix orphaned connections in WorldView (#3876)
+     * Disable the modelcompiler multithreading (#3879)
+     * Fix undefined renderer bug in SGM LOD loader (#3880)
+
+   * Internal Changes
+     * Freebsd patches (#3851)
+     * Enhance serializer crash output (#3853)
+     * Custom system checking (#3856)
+     * Sprinkle SpaceStation with asserts to find naughty bug (#3861)
+     * isnan is std, MXE build complained (#3867)
+     * Add GL_CFLAGS value to AM_CFLAGS (#3870)
+     * Remove GL buffer init fills, add init checks (#3877)
+     * Optimisation: Reserve VA capacity correctly for Gui::TextLayout (#3878)
+
+October 2016
+   * New Features
+     * Added military drives from 5 to 9 (#3830)
+     * Thruster upgrades (#3831)
+     * Calculate selling price including equipment (#3835)
+     * Remove autorefuel (#3837)
+     * Rename scanner -> radar; radar mapper -> target scanner (#3825)
+
+   * Fixes
+     * Search&Rescue: set ship look and bugfix (#3823)
+     * Fixing the scaled down collision mesh of New Ground station (#3833)
+     * Updating the Bluenose Medium LOD with the correct mesh (#3845)
+     * Avoid crash if player jumps to next system (#3848)
+
+   * Internal Changes
+     * Add "override" to silence warnings in clang (#3828)
+     * Update the .gitignore file for more vs2015 files outputs (#3829)
+     * Fix ARFLAGS to remove warning (#3827)
+     * Attempt to find the nearest matching exact name (#3832)
+     * Terrain gen cleanup (#3834)
+     * Introduce imgui library, make load screen use it (#3826)
+     * Simple reduction in memory usage (#3838)
+     * Put imgui.ini into user config dir (#3843)
+     * Arm asm fix (#3847)
+     * Don't try to instance zero entries (#3849)
+     * Update attrib binding locations (#3850)
+
+September 2016
+   * New Features
+     * Set ship texture patterns from lua (#3811)
+
+   * Fixes
+     * Model pattern range and status checking (#3814)
+     * New seed and new locations of star ports for New Hope in Epsilon Eridani (#3818)
+
+   * Internal Changes
+     * Update GasGiant config, detail and initialisation timing (#3792)
+     * Change SAR mission rewards (#3806)
+     * Made NavLights responsible for their billboard rendering (#3809)
+     * Adding an editorconfig file to define coding style (#3810)
+     * Add annotations to ShipDef (#3812)
+     * Additional mesh optimisation (#3813)
+     * Unused files from JobSwarm experiments 4 years ago! (#3816)
+     * Belt and braces approach to sanity checking for patterns (#3817)
+     * Brighter luminosity for random colours (#3815)
+     * Minor performance cleanup (#3820)
+     * Use a function to access the s_patchFaces to silence a gcc warning (#3822)
+     * Multi-Threading modelcompiler (#3821)
+
+August 2016
+   * New Features
+     * F3 and F4 Toggles between worldview and their thing (#3765)
+     * Navbutton added to mission screens (#3736)
+     * Add a TCP Lua console (#3768)
+     * Low altitude hyperjumps are illegal (#3753)
+     * Add button to Settings menus so user can open their Pioneer folder (#3790)
+     * Navigation button update to allow for dynamicBodies as nav targets (SAR and general) (#3789)
+     * Loads of SAR improvements ! (#3795)
+
+   * Fixes
+     * Fix crash in by Search & Rescue missions (#3770)
+     * NaN in your numbers (#3772)
+     * Fix hyperspace star streaks (#3773)
+     * prefix std:: to isnan so it builds on Linux (#3775)
+     * Use ImageMagick to fix the iCCP profile problem (#3778)
+     * Fix crash when jumping into empty system (#3791)
+     * Fix risk of game crash from SAR when landing on wrong planet (#3797)
+     * Fix potential instability in SAR (#3802)
+
+   * Internal Changes
+     * Add a function for typesetting time intervals (#3764)
+     * Restore Starfield colourisation (#3774)
+     * Animated city buildings, instancing improvement (#3777)
+     * Small code cleanup in SAR (#3798)
+     * Make colour range of stars more narrow (#3793)
+
+July 2016
+   * New Features
+     * Point sprite background stars (#3757)
+
+   * Fixes
+     * SAR: fix fuel transfer (#3755)
+     * SAR: fix wrong distance (#3650)
+     * Fix grammar error in module-cargorun (#3748)
+
+   * Internal Changes
+     * Swap LuaVector for a table (#3747)
+     * Faster float convert (#3751)
+     * Revert my changes to use atoi and atoll (#3754)
+     * XCode now compiles again (#3759)
+
 June 2016
    * New Features
      * Improve distance format, by introducing ly and Mm (#3745)

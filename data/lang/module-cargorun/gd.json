@@ -1,7 +1,7 @@
 {
    "ACCEPTED_1" : {
       "description" : "",
-      "message" : "Sgoinneil. Luchdaidh mi am bathar dhan t-soitheach agad."
+      "message" : "Sgoinneil. Luchdaichidh mi am bathar dhan t-soitheach agad."
    },
    "ACCEPTED_2" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "Ciamar a tha thu? 'S mise {name}. Tha fear dhe na cliantan agam airson {cargoname} ion-phortadh o {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar. Pàighidh e {cash} airson an lìbhrigidh carago seo. Till gu {dom_starport} an-seo ann an siostam {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) gus an carago a dhì-luchdadh."
+      "message" : "Dè do chor? Is mise {name}. Tha cliant agam airson {cargoname} ion-phortadh o {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar. Pàighidh e {cash} airson a' ghiùlain. Till an-seo gu {dom_starport} ann an siostam {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) gus an carago a dhì-luchdadh."
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
@@ -442,6 +442,14 @@
    "SEMI_FINISHED_PRODUCTS" : {
       "description" : "custom cargo",
       "message" : "Bathar leth-dhèanta"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Cuir ceann-uidhe na seòladaireachd air"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Suidhich cùrsa tillidh"
    },
    "SPACEPORT" : {
       "description" : "",

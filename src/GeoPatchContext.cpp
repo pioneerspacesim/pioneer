@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -22,7 +22,7 @@ double GeoPatchContext::frac = 0.0;
 RefCountedPtr<Graphics::IndexBuffer> GeoPatchContext::indices;
 int GeoPatchContext::prevEdgeLen = 0;
 
-//static 
+//static
 void GeoPatchContext::GenerateIndices()
 {
 	if (prevEdgeLen == edgeLen)
@@ -90,7 +90,7 @@ void GeoPatchContext::GenerateIndices()
 	prevEdgeLen = edgeLen;
 }
 
-void GeoPatchContext::Init() 
+void GeoPatchContext::Init()
 {
 	frac = 1.0 / double(edgeLen-3);
 	numTris = 2*(edgeLen-1)*(edgeLen-1);

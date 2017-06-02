@@ -1,4 +1,4 @@
--- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Ship = import_core("Ship")
@@ -367,13 +367,117 @@ Ship.RemoveEquip = function (self, item, count, slot)
 	return ret
 end
 
-Ship.HyperjumpTo = function (self, path)
+
+--
+-- Method: IsHyperjumpAllowed
+--
+-- Check if hyperjump is allowed, return bool and minimum allowed
+-- altitude / distance.
+--
+-- > is_allowed, distance = ship:IsHyperjumpAllowed()
+--
+--
+-- Return:
+--
+--   is_allowed - Boolean. True if allowed at ships current position,
+--                flase otherwise
+--
+--   distance - The minimum allowed altitude from planetary body, or
+--              distance from orbital space station, for a legal hyper juump.
+--
+-- Availability:
+--
+--  2016 August
+--
+-- Status:
+--
+--  experimental
+--
+Ship.IsHyperjumpAllowed = function(self)
+
+	-- in meters
+	local MIN_PLANET_HYPERJUMP_ALTITUDE = 10000
+	local MIN_SPACESTATION_HYPERJUMP_DISTANCE = 1000
+
+	-- get closest non-dynamic (not ships, cargo, missiles) body of ship
+	local body = self.frameBody
+
+	-- If no body close by, anything goes
+	if not body then
+		return true, 0
+	end
+
+	-- if alt is nil, then outside frame of ref -> OK to jump
+	local check = function(alt, dist) return not alt or alt >= dist, dist end
+
+	-- if body exists and not a planet -> allowed
+	if body and body.type == 'STARPORT_ORBITAL' then
+		return check(body:DistanceTo(self), MIN_SPACESTATION_HYPERJUMP_DISTANCE)
+	end
+
+	-- if on a planet:
+	-- always allowed if not body.hasAtmosphere?
+
+	-- if body is a planet or a star:
+	if body and body.type ~= 'GRAVPOINT' then
+		local lat, long, altitude = self:GetGroundPosition()
+		return check(altitude, MIN_PLANET_HYPERJUMP_ALTITUDE)
+	end
+end
+
+--
+-- Method: HyperjumpTo
+--
+-- Hyperjump ship to system. Makes sure the ship has a hyper drive,
+-- that target is withn range, and ship has enough fuel, before
+-- initiating the hyperjump countdown. In addition, through the
+-- optional argument, the ship can fly to a safe distance, compliant
+-- with local authorities' regulation, before initiating the jump.
+--
+-- > status = ship:HyperjumpTo(path)
+-- > status = ship:HyperjumpTo(path, is_legal)
+--
+-- Parameters:
+--
+--   path - a <SystemPath> for the destination system
+--
+--   isLegal - an optional Boolean argument, defaults to false. If
+--             true AI will fly the ship ship to legal distance
+--             before jumping
+--
+-- Return:
+--
+--   status - a <Constants.ShipJumpStatus> string that tells if the ship can
+--            hyperspace and if not, describes the reason
+--
+-- Availability:
+--
+--  2015
+--
+-- Status:
+--
+--  experimental
+--
+Ship.HyperjumpTo = function (self, path, is_legal)
 	local engine = self:GetEquip("engine", 1)
 	if not engine then
 		return "NO_DRIVE"
 	end
+
+	-- default to false, if nil:
+	is_legal = not (is_legal == nil) or is_legal
+
+	-- only jump from safe distance
+	local is_allowed, distance = self:IsHyperjumpAllowed()
+
+	if is_legal and self.frameBody and not is_allowed then
+		print("---> Engage AI for safe distance of hyperjump")
+		self:AIEnterLowOrbit(self.frameBody)
+	end
+
 	return engine:HyperjumpTo(self, path)
 end
+
 
 Ship.CanHyperjumpTo = function(self, path)
 	return self:GetHyperspaceDetails(path) == 'OK'
@@ -441,10 +545,10 @@ compat.equip.new2old = {
 	[misc.missile_unguided]="MISSILE_UNGUIDED", [misc.missile_guided]="MISSILE_GUIDED",
 	[misc.missile_smart]="MISSILE_SMART", [misc.missile_naval]="MISSILE_NAVAL",
 	[misc.atmospheric_shielding]="ATMOSPHERIC_SHIELDING", [misc.ecm_basic]="ECM_BASIC",
-	[misc.ecm_advanced]="ECM_ADVANCED", [misc.scanner]="SCANNER", [misc.cabin]="CABIN",
+	[misc.ecm_advanced]="ECM_ADVANCED", [misc.radar]="RADAR", [misc.cabin]="CABIN",
 	[misc.shield_generator]="SHIELD_GENERATOR", [misc.laser_cooling_booster]="LASER_COOLING_BOOSTER",
 	[misc.cargo_life_support]="CARGO_LIFE_SUPPORT", [misc.autopilot]="AUTOPILOT",
-	[misc.radar_mapper]="RADAR_MAPPER", [misc.fuel_scoop]="FUEL_SCOOP",
+	[misc.target_scanner]="TARGET_SCANNER", [misc.fuel_scoop]="FUEL_SCOOP",
 	[misc.cargo_scoop]="CARGO_SCOOP", [misc.hypercloud_analyzer]="HYPERCLOUD_ANALYZER",
 	[misc.shield_energy_booster]="SHIELD_ENERGY_BOOSTER", [misc.hull_autorepair]="HULL_AUTOREPAIR",
 	[hyperspace.hyperdrive_1]="DRIVE_CLASS1", [hyperspace.hyperdrive_2]="DRIVE_CLASS2", [hyperspace.hyperdrive_3]="DRIVE_CLASS3",
@@ -522,12 +626,13 @@ function Ship:FireMissileAt(which_missile, target)
 			if not missile_object:exists() then -- Usually means it has already exploded
 				return true
 			end
-			if missile_object:DistanceTo(self) < 300 then
-				return false
-			else
+-- TODO: Due to the changes in missile, DistanceTo cause an error
+--			if missile_object:DistanceTo(self) < 300 then
+--				return false
+--			else
 				missile_object:Arm()
-				return true
-			end
+--				return true
+--			end
 		end)
 	end
 

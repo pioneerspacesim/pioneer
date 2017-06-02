@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Rèidear-mapachaidh adhartadh"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Sganair-amais adhartach"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Rèidear-mapachaidh aig astar mòr le còmhdachadh an t-siostaim gu lèir."
+      "message" : "Sganair le amas fada a ruigeas an siostam gu lèir."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -13,7 +13,7 @@
    },
    "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
       "description" : "",
-      "message" : "Dìonaidh e an soitheach agad on teas nuair a thilleas e dhan àile."
+      "message" : "Dìonaidh e an soitheach-fànais agad on teas nuair a thilleas e dhan àile."
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -91,6 +91,26 @@
       "description" : "",
       "message" : "Draibh an airm clas 4"
    },
+   "DRIVE_MIL5" : {
+      "description" : "",
+      "message" : "Draibh an airm clas 5"
+   },
+   "DRIVE_MIL6" : {
+      "description" : "",
+      "message" : "Draibh an airm clas 6"
+   },
+   "DRIVE_MIL7" : {
+      "description" : "",
+      "message" : "Draibh an airm clas 7"
+   },
+   "DRIVE_MIL8" : {
+      "description" : "",
+      "message" : "Draibh an airm clas 8"
+   },
+   "DRIVE_MIL9" : {
+      "description" : "",
+      "message" : "Draibh an airm clas 9"
+   },
    "ECM_ADVANCED" : {
       "description" : "",
       "message" : "Siostam dìona dealanach adhartach"
@@ -113,7 +133,7 @@
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Leigidh seo leat connadh hàidhdreaidean a sgobadh o mhòr-phlanaidean gasa."
+      "message" : "Leigidh seo leat connadh hàidhdreaidein a sgobadh o mhòr-phlanaidean gasa."
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
@@ -179,6 +199,10 @@
       "description" : "",
       "message" : "Tha e nas fhaide air falbh na ghabhas sganadh:"
    },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Cèibinn thaistealach"
+   },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
       "message" : "Sganair bodhaige"
@@ -215,19 +239,11 @@
       "description" : "",
       "message" : "Canan cuisle luath 2MW"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Rèidear-mapachaidh"
+      "message" : "Rèidear"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Cleachdaidh tu e gus uidheamachd, carago is cor shoithichean eile a sgrùdadh aig astar."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Sganair"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Bheir seo mapa 3D dhut dhe na soithichean am fagas."
    },
@@ -263,11 +279,43 @@
       "description" : "",
       "message" : "A' tòiseachadh air an sganadh, astar amais:"
    },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Sgrùdaiche na malairt"
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Sganair-amais"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Cleachdaidh tu e gus uidheamachd, carago is cor shoithichean eile a sgrùdadh aig astar."
+   },
+   "THRUSTERS_BASIC" : {
+      "description" : "",
+      "message" : "Putairean atharraichte"
+   },
+   "THRUSTERS_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Seòrsa dhe phutairean a chaidh atharrachadh agus ùghdarrachadh airson an t-soithich agad."
+   },
+   "THRUSTERS_BEST" : {
+      "description" : "",
+      "message" : "Putairean gnàthaichte"
+   },
+   "THRUSTERS_BEST_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Putairean gnàthaichte a bheir a' chumhachd as fhearr dhut."
+   },
+   "THRUSTERS_MEDIUM" : {
+      "description" : "",
+      "message" : "Putairean pisichte"
+   },
+   "THRUSTERS_MEDIUM_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Putairean a chaidh a phiseachadh ach am bi iad nas èifeachdaiche agus a' putadh le barrachd cumhachd."
+   },
+   "TRADE_COMPUTER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Coimpiutair malairt"
+   },
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "Seallaidh e bathar-amh dhut a bhios prothaideach airson malart eadar an siostam a thagh thu is am fear làithreach"
    },

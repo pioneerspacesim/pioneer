@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipCpanelMultiFuncDisplays.h"
@@ -23,58 +23,59 @@
 
 using namespace Graphics;
 
-static const float SCANNER_RANGE_MAX = 100000.0f;
-static const float SCANNER_RANGE_MIN = 1000.0f;
-static const float SCANNER_SCALE     = 0.00001f;
-//static const float SCANNER_YSHRINK   = 0.95f;
-//static const float SCANNER_XSHRINK   = 4.0f;
+static const float RADAR_RANGE_MAX = 100000.0f;
+static const float RADAR_RANGE_MIN = 1000.0f;
+static const float RADAR_SCALE     = 0.00001f;
+//static const float RADAR_YSHRINK   = 0.95f;
+//static const float RADAR_XSHRINK   = 4.0f;
 static const float A_BIT             = 1.1f;
-static const unsigned int SCANNER_STEPS = 100;
+static const unsigned int RADAR_STEPS = 100;
 
 // XXX target colours should be unified throughout the game
-static const Color scannerNavTargetColour     = Color( 0,   255, 0   );
-static const Color scannerCombatTargetColour  = Color( 255, 0,   0   );
-static const Color scannerStationColour       = Color( 255, 255, 255 );
-static const Color scannerShipColour          = Color( 243, 237, 29  );
-static const Color scannerMissileColour       = Color( 240, 38,  50  );
-static const Color scannerPlayerMissileColour = Color( 243, 237, 29  );
-static const Color scannerCargoColour         = Color( 166, 166, 166 );
-static const Color scannerCloudColour         = Color( 128, 128, 255 );
+static const Color radarNavTargetColour     = Color( 0,   255, 0   );
+static const Color radarCombatTargetColour  = Color( 255, 0,   0   );
+static const Color radarStationColour       = Color( 255, 255, 255 );
+static const Color radarShipColour          = Color( 243, 237, 29  );
+static const Color radarMissileColour       = Color( 240, 38,  50  );
+static const Color radarPlayerMissileColour = Color( 243, 237, 29  );
+static const Color radarCargoColour         = Color( 166, 166, 166 );
+static const Color radarCloudColour         = Color( 128, 128, 255 );
 
-ScannerWidget::ScannerWidget(Graphics::Renderer *r) :
+RadarWidget::RadarWidget(Graphics::Renderer *r) :
 	m_renderer(r)
 {
-	m_mode = SCANNER_MODE_AUTO;
-	m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MIN;
+	m_mode = RADAR_MODE_AUTO;
+	m_currentRange = m_manualRange = m_targetRange = RADAR_RANGE_MIN;
 
 	InitObject();
 }
 
-ScannerWidget::ScannerWidget(Graphics::Renderer *r, const Json::Value &jsonObj) :
+RadarWidget::RadarWidget(Graphics::Renderer *r, const Json::Value &jsonObj) :
 m_renderer(r)
 {
+	// Radar used to be called "scanner" for Frontier-reasons
 	if (!jsonObj.isMember("scanner")) throw SavedGameCorruptException();
-	Json::Value scannerObj = jsonObj["scanner"];
+	Json::Value radarObj = jsonObj["scanner"];
 
-	if (!scannerObj.isMember("mode")) throw SavedGameCorruptException();
-	if (!scannerObj.isMember("current_range")) throw SavedGameCorruptException();
-	if (!scannerObj.isMember("manual_range")) throw SavedGameCorruptException();
-	if (!scannerObj.isMember("target_range")) throw SavedGameCorruptException();
+	if (!radarObj.isMember("mode")) throw SavedGameCorruptException();
+	if (!radarObj.isMember("current_range")) throw SavedGameCorruptException();
+	if (!radarObj.isMember("manual_range")) throw SavedGameCorruptException();
+	if (!radarObj.isMember("target_range")) throw SavedGameCorruptException();
 
-	m_mode = ScannerMode(scannerObj["mode"].asInt());
-	m_currentRange = StrToFloat(scannerObj["current_range"].asString());
-	m_manualRange = StrToFloat(scannerObj["manual_range"].asString());
-	m_targetRange = StrToFloat(scannerObj["target_range"].asString());
+	m_mode = RadarMode(radarObj["mode"].asInt());
+	m_currentRange = StrToFloat(radarObj["current_range"].asString());
+	m_manualRange = StrToFloat(radarObj["manual_range"].asString());
+	m_targetRange = StrToFloat(radarObj["target_range"].asString());
 
 	InitObject();
 }
 
-void ScannerWidget::InitObject()
+void RadarWidget::InitObject()
 {
 	InitScaling();
 
-	m_toggleScanModeConnection = KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::ToggleMode));
-	m_lastRange = SCANNER_RANGE_MAX * 100.0f;		// force regen
+	m_toggleScanModeConnection = KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &RadarWidget::ToggleMode));
+	m_lastRange = RADAR_RANGE_MAX * 100.0f;		// force regen
 
 	GenerateBaseGeometry();
 
@@ -88,34 +89,34 @@ void ScannerWidget::InitObject()
 	GenerateRingsAndSpokes();
 }
 
-ScannerWidget::~ScannerWidget()
+RadarWidget::~RadarWidget()
 {
 	m_toggleScanModeConnection.disconnect();
 }
 
-void ScannerWidget::GetSizeRequested(float size[2])
+void RadarWidget::GetSizeRequested(float size[2])
 {
 	size[0] = 400;
 	size[1] = 62;
 }
 
-void ScannerWidget::ToggleMode()
+void RadarWidget::ToggleMode()
 {
 	if (IsVisible() && Pi::game->GetTimeAccel() != Game::TIMEACCEL_PAUSED) {
-		if (m_mode == SCANNER_MODE_AUTO) m_mode = SCANNER_MODE_MANUAL;
-		else m_mode = SCANNER_MODE_AUTO;
+		if (m_mode == RADAR_MODE_AUTO) m_mode = RADAR_MODE_MANUAL;
+		else m_mode = RADAR_MODE_AUTO;
 	}
 }
 
-void ScannerWidget::Draw()
+void RadarWidget::Draw()
 {
-	int scanner_cap = 0;
-	Pi::player->Properties().Get("scanner_cap", scanner_cap);
-	if (scanner_cap <= 0) return;
+	int radar_cap = 0;
+	Pi::player->Properties().Get("radar_cap", radar_cap);
+	if (radar_cap <= 0) return;
 
 	float size[2];
 	GetSize(size);
-	m_x = size[0] / (SCANNER_XSHRINK * 2);
+	m_x = size[0] / (RADAR_XSHRINK * 2);
 	m_y = size[1] * 0.5f;
 
 	SetScissor(true);
@@ -126,7 +127,7 @@ void ScannerWidget::Draw()
 		m_lastRange = m_currentRange;
 	}
 
-	// draw objects below player (and below scanner)
+	// draw objects below player (and below radar)
 	if (!m_contacts.empty()) DrawBlobs(true);
 
 	// disc
@@ -134,17 +135,17 @@ void ScannerWidget::Draw()
 
 	// XXX 2d vertices
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE, 128); //reserve some space for positions & colors
-	va.Add(vector3f(SCANNER_XSHRINK * m_x, m_y, 0.f), green);
+	va.Add(vector3f(RADAR_XSHRINK * m_x, m_y, 0.f), green);
 	for (float a = 0; a < 2 * float(M_PI); a += float(M_PI) * 0.02f) {
-		va.Add(vector3f(SCANNER_XSHRINK * m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f), green);
+		va.Add(vector3f(RADAR_XSHRINK * m_x + m_x * sin(a), m_y + RADAR_YSHRINK * m_y * cos(a), 0.f), green);
 	}
-	va.Add(vector3f(SCANNER_XSHRINK * m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);
+	va.Add(vector3f(RADAR_XSHRINK * m_x, m_y + RADAR_YSHRINK * m_y, 0.f), green);
 	m_renderer->DrawTriangles(&va, m_renderState, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 
 	// circles and spokes
 	{
 		Graphics::Renderer::MatrixTicket ticket(m_renderer, Graphics::MatrixMode::MODELVIEW);
-		m_renderer->Translate(SCANNER_XSHRINK * m_x, m_y, 0);
+		m_renderer->Translate(RADAR_XSHRINK * m_x, m_y, 0);
 		m_renderer->Scale(m_x, m_y, 1.0f);
 		DrawRingsAndSpokes(false);
 	}
@@ -157,21 +158,21 @@ void ScannerWidget::Draw()
 	SetScissor(false);
 }
 
-void ScannerWidget::InitScaling(void) {
-	isCompact = Pi::IsScannerCompact();
+void RadarWidget::InitScaling(void) {
+	isCompact = Pi::IsRadarCompact();
 	if(isCompact) {
-		SCANNER_XSHRINK = 4.0f;
-		SCANNER_YSHRINK = 0.95f;
+		RADAR_XSHRINK = 4.0f;
+		RADAR_YSHRINK = 0.95f;
 	} else {
 		// original values
-		SCANNER_XSHRINK = 1.0f;
-		SCANNER_YSHRINK = 0.75f;
+		RADAR_XSHRINK = 1.0f;
+		RADAR_YSHRINK = 0.75f;
 	}
 }
 
-void ScannerWidget::Update()
+void RadarWidget::Update()
 {
-	if(Pi::IsScannerCompact() != isCompact) {
+	if(Pi::IsRadarCompact() != isCompact) {
 		InitScaling();
 		GenerateBaseGeometry();
 		GenerateRingsAndSpokes();
@@ -179,11 +180,11 @@ void ScannerWidget::Update()
 
 	m_contacts.clear();
 
-	int scanner_cap = 0;
-	Pi::player->Properties().Get("scanner_cap", scanner_cap);
-	if (scanner_cap <= 0) {
-		m_mode = SCANNER_MODE_AUTO;
-		m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MIN;
+	int radar_cap = 0;
+	Pi::player->Properties().Get("radar_cap", radar_cap);
+	if (radar_cap <= 0) {
+		m_mode = RADAR_MODE_AUTO;
+		m_currentRange = m_manualRange = m_targetRange = RADAR_RANGE_MIN;
 		return;
 	}
 
@@ -193,7 +194,7 @@ void ScannerWidget::Update()
 
 	// collect the bodies to be displayed, and if AUTO, distances
 	Space::BodyNearList nearby;
-	Pi::game->GetSpace()->GetBodiesMaybeNear(Pi::player, SCANNER_RANGE_MAX, nearby);
+	Pi::game->GetSpace()->GetBodiesMaybeNear(Pi::player, RADAR_RANGE_MAX, nearby);
 	for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
 		if ((*i) == Pi::player) continue;
 
@@ -222,7 +223,7 @@ void ScannerWidget::Update()
 
 				if ((*i) == Pi::player->GetCombatTarget()) c.isSpecial = true;
 
-				if (m_mode == SCANNER_MODE_AUTO && range_type != RANGE_COMBAT) {
+				if (m_mode == RADAR_MODE_AUTO && range_type != RANGE_COMBAT) {
 					if (c.isSpecial == true) {
 						combat_dist = dist;
 						range_type = RANGE_COMBAT;
@@ -241,7 +242,7 @@ void ScannerWidget::Update()
 
 				if ((*i) == Pi::player->GetNavTarget()) c.isSpecial = true;
 
-				if (m_mode == SCANNER_MODE_AUTO && range_type < RANGE_NAV) {
+				if (m_mode == RADAR_MODE_AUTO && range_type < RANGE_NAV) {
 					if (c.isSpecial == true) {
 						nav_dist = dist;
 						range_type = RANGE_NAV;
@@ -261,40 +262,40 @@ void ScannerWidget::Update()
 	}
 
 	if (KeyBindings::increaseScanRange.IsActive()) {
-		if (m_mode == SCANNER_MODE_AUTO) {
+		if (m_mode == RADAR_MODE_AUTO) {
 			m_manualRange = m_targetRange;
-			m_mode = SCANNER_MODE_MANUAL;
+			m_mode = RADAR_MODE_MANUAL;
 		}
 		else
 			m_manualRange = m_currentRange;
-		m_manualRange = Clamp(m_manualRange * 1.05f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		m_manualRange = Clamp(m_manualRange * 1.05f, RADAR_RANGE_MIN, RADAR_RANGE_MAX);
 	}
 	else if (KeyBindings::decreaseScanRange.IsActive()) {
-		if (m_mode == SCANNER_MODE_AUTO) {
+		if (m_mode == RADAR_MODE_AUTO) {
 			m_manualRange = m_targetRange;
-			m_mode = SCANNER_MODE_MANUAL;
+			m_mode = RADAR_MODE_MANUAL;
 		}
 		else
 			m_manualRange = m_currentRange;
-		m_manualRange = Clamp(m_manualRange * 0.95f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+		m_manualRange = Clamp(m_manualRange * 0.95f, RADAR_RANGE_MIN, RADAR_RANGE_MAX);
 	}
 
-	if (m_mode == SCANNER_MODE_AUTO) {
+	if (m_mode == RADAR_MODE_AUTO) {
 		switch (range_type) {
 			case RANGE_COMBAT:
-				m_targetRange = Clamp(combat_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+				m_targetRange = Clamp(combat_dist * A_BIT, RADAR_RANGE_MIN, RADAR_RANGE_MAX);
 				break;
 			case RANGE_FAR_SHIP:
-				m_targetRange = Clamp(far_ship_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+				m_targetRange = Clamp(far_ship_dist * A_BIT, RADAR_RANGE_MIN, RADAR_RANGE_MAX);
 				break;
 			case RANGE_NAV:
-				m_targetRange = Clamp(nav_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+				m_targetRange = Clamp(nav_dist * A_BIT, RADAR_RANGE_MIN, RADAR_RANGE_MAX);
 				break;
 			case RANGE_FAR_OTHER:
-				m_targetRange = Clamp(far_other_dist * A_BIT, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
+				m_targetRange = Clamp(far_other_dist * A_BIT, RADAR_RANGE_MIN, RADAR_RANGE_MAX);
 				break;
 			default:
-				m_targetRange = SCANNER_RANGE_MAX;
+				m_targetRange = RADAR_RANGE_MAX;
 				break;
 		}
 	}
@@ -303,7 +304,7 @@ void ScannerWidget::Update()
 		m_targetRange = m_manualRange;
 }
 
-void ScannerWidget::DrawBlobs(bool below)
+void RadarWidget::DrawBlobs(bool below)
 {
 	assert( !m_contacts.empty() );
 
@@ -324,37 +325,37 @@ void ScannerWidget::DrawBlobs(bool below)
 		switch (i->type) {
 			case Object::SHIP:
 				if (i->isSpecial)
-					color = &scannerCombatTargetColour;
+					color = &radarCombatTargetColour;
 				else
-					color = &scannerShipColour;
+					color = &radarShipColour;
 				break;
 
 			case Object::MISSILE:
 				if (i->isSpecial)
-					color = &scannerPlayerMissileColour;
+					color = &radarPlayerMissileColour;
 				else
-					color = &scannerMissileColour;
+					color = &radarMissileColour;
 				break;
 
 			case Object::SPACESTATION:
 				if (i->isSpecial)
-					color = &scannerNavTargetColour;
+					color = &radarNavTargetColour;
 				else
-					color = &scannerStationColour;
+					color = &radarStationColour;
 				break;
 
 			case Object::CARGOBODY:
 				if (i->isSpecial)
-					color = &scannerNavTargetColour;
+					color = &radarNavTargetColour;
 				else
-					color = &scannerCargoColour;
+					color = &radarCargoColour;
 				break;
 
 			case Object::HYPERSPACECLOUD:
 				if (i->isSpecial)
-					color = &scannerNavTargetColour;
+					color = &radarNavTargetColour;
 				else
-					color = &scannerCloudColour;
+					color = &radarCloudColour;
 				break;
 
 			default:
@@ -365,13 +366,13 @@ void ScannerWidget::DrawBlobs(bool below)
 		if ((pos.y > 0) && (below)) continue;
 		if ((pos.y < 0) && (!below)) continue;
 
-		const float x = SCANNER_XSHRINK * m_x + m_x * float(pos.x) * m_scale;
-		// x scanner widget bound check
-		if (x < SCANNER_XSHRINK * m_x - m_x) continue;
-		if (x > SCANNER_XSHRINK * m_x + m_x) continue;
+		const float x = RADAR_XSHRINK * m_x + m_x * float(pos.x) * m_scale;
+		// x radar widget bound check
+		if (x < RADAR_XSHRINK * m_x - m_x) continue;
+		if (x > RADAR_XSHRINK * m_x + m_x) continue;
 
-		const float y_base = m_y + m_y * SCANNER_YSHRINK * float(pos.z) * m_scale;
-		const float y_blob = y_base - m_y * SCANNER_YSHRINK * float(pos.y) * m_scale;
+		const float y_base = m_y + m_y * RADAR_YSHRINK * float(pos.z) * m_scale;
+		const float y_blob = y_base - m_y * RADAR_YSHRINK * float(pos.y) * m_scale;
 
 		// store this stalk
 		vts.push_back(vector3f(x, y_base, 0.f));
@@ -393,30 +394,30 @@ void ScannerWidget::DrawBlobs(bool below)
 	}
 }
 
-void ScannerWidget::GenerateBaseGeometry()
+void RadarWidget::GenerateBaseGeometry()
 {
 	static const float circle = float(2 * M_PI);
-	static const float step = circle / SCANNER_STEPS;
+	static const float step = circle / RADAR_STEPS;
 
 	// circle (to be scaled and offset)
 	m_circle.clear();
-	m_circle.push_back(vector3f(0.0f, SCANNER_YSHRINK, 0.0f));
+	m_circle.push_back(vector3f(0.0f, RADAR_YSHRINK, 0.0f));
 	float a = step;
-	for (unsigned int i = 1; i < SCANNER_STEPS; i++, a += step) {
-		vector3f v = vector3f(sin(a), SCANNER_YSHRINK * cos(a), 0.0f);
+	for (unsigned int i = 1; i < RADAR_STEPS; i++, a += step) {
+		vector3f v = vector3f(sin(a), RADAR_YSHRINK * cos(a), 0.0f);
 		m_circle.push_back(v); m_circle.push_back(v);
 	}
-	m_circle.push_back(vector3f(0.0f, SCANNER_YSHRINK, 0.0f));
+	m_circle.push_back(vector3f(0.0f, RADAR_YSHRINK, 0.0f));
 
 	// spokes
 	m_spokes.clear();
 	for (float ang = 0; ang < circle; ang += float(M_PI * 0.25)) {
-		m_spokes.push_back(vector3f(0.1f * sin(ang), 0.1f * SCANNER_YSHRINK * cos(ang), 0.0f));
-		m_spokes.push_back(vector3f(sin(ang), SCANNER_YSHRINK * cos(ang), 0.0f));
+		m_spokes.push_back(vector3f(0.1f * sin(ang), 0.1f * RADAR_YSHRINK * cos(ang), 0.0f));
+		m_spokes.push_back(vector3f(sin(ang), RADAR_YSHRINK * cos(ang), 0.0f));
 	}
 }
 
-void ScannerWidget::GenerateRingsAndSpokes()
+void RadarWidget::GenerateRingsAndSpokes()
 {
 	const int csize = m_circle.size();
 	const int ssize = m_spokes.size();
@@ -439,12 +440,12 @@ void ScannerWidget::GenerateRingsAndSpokes()
 	// outer ring
 	m_edgeVts.clear();
 	m_edgeCols.clear();
-	int dimstart = 2 * int(SCANNER_STEPS * m_currentRange / SCANNER_RANGE_MAX);
-	float a = 2.0f * M_PI * m_currentRange / SCANNER_RANGE_MAX;
-	vector3f vn(sin(a), SCANNER_YSHRINK * cos(a), 0.0f);
+	int dimstart = 2 * int(RADAR_STEPS * m_currentRange / RADAR_RANGE_MAX);
+	float a = 2.0f * M_PI * m_currentRange / RADAR_RANGE_MAX;
+	vector3f vn(sin(a), RADAR_YSHRINK * cos(a), 0.0f);
 
 	// bright part
-	Color col = (m_mode == SCANNER_MODE_AUTO) ? Color(0, 178, 0, 128) : Color(178, 178, 0, 128);
+	Color col = (m_mode == RADAR_MODE_AUTO) ? Color(0, 178, 0, 128) : Color(178, 178, 0, 128);
 	for (int i=0; i<=dimstart; i++) {
 		if (i == csize) break;			// whole circle bright case
 		m_edgeVts.push_back(vector3f(m_circle[i].x, m_circle[i].y, 0.0f));
@@ -465,33 +466,34 @@ void ScannerWidget::GenerateRingsAndSpokes()
 	m_edgeLines.SetData(m_edgeVts.size(), &m_edgeVts[0], &m_edgeCols[0]);
 }
 
-void ScannerWidget::DrawRingsAndSpokes(bool blend)
+void RadarWidget::DrawRingsAndSpokes(bool blend)
 {
 	m_scanLines.Draw(m_renderer, m_renderState);
 	m_edgeLines.Draw(m_renderer, m_renderState);
 }
 
-void ScannerWidget::TimeStepUpdate(float step)
+void RadarWidget::TimeStepUpdate(float step)
 {
 	PROFILE_SCOPED()
 	if (m_targetRange < m_currentRange)
-		m_currentRange = Clamp(m_currentRange - (m_currentRange*step), m_targetRange, SCANNER_RANGE_MAX);
+		m_currentRange = Clamp(m_currentRange - (m_currentRange*step), m_targetRange, RADAR_RANGE_MAX);
 	else if (m_targetRange > m_currentRange)
-		m_currentRange = Clamp(m_currentRange + (m_currentRange*step), SCANNER_RANGE_MIN, m_targetRange);
+		m_currentRange = Clamp(m_currentRange + (m_currentRange*step), RADAR_RANGE_MIN, m_targetRange);
 
-	m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_currentRange);
+	m_scale = RADAR_SCALE * (RADAR_RANGE_MAX / m_currentRange);
 }
 
-void ScannerWidget::SaveToJson(Json::Value &jsonObj)
+void RadarWidget::SaveToJson(Json::Value &jsonObj)
 {
-	Json::Value scannerObj(Json::objectValue); // Create JSON object to contain scanner data.
+	Json::Value radarObj(Json::objectValue); // Create JSON object to contain radar data.
 
-	scannerObj["mode"] = Sint32(m_mode);
-	scannerObj["current_range"] = FloatToStr(m_currentRange);
-	scannerObj["manual_range"] = FloatToStr(m_manualRange);
-	scannerObj["target_range"] = FloatToStr(m_targetRange);
+	radarObj["mode"] = Sint32(m_mode);
+	radarObj["current_range"] = FloatToStr(m_currentRange);
+	radarObj["manual_range"] = FloatToStr(m_manualRange);
+	radarObj["target_range"] = FloatToStr(m_targetRange);
 
-	jsonObj["scanner"] = scannerObj; // Add scanner object to supplied object.
+	// Radar used to be called "scanner".
+	jsonObj["scanner"] = radarObj; // Add radar object to supplied object.
 }
 
 /////////////////////////////////
@@ -535,7 +537,7 @@ void UseEquipWidget::UpdateEquip()
 	int numSlots = LuaObject<Ship>::CallMethod<int>(Pi::player, "GetEquipSlotCapacity", "missile");
 
 	if (numSlots) {
-		const float spacing = Pi::IsScannerCompact() ? 16 : (380.0f / numSlots);
+		const float spacing = Pi::IsRadarCompact() ? 16 : (380.0f / numSlots);
 		lua_pushnil(l);
 		while(lua_next(l, -2)) {
 			if (lua_type(l, -2) == LUA_TNUMBER) {
@@ -556,9 +558,9 @@ void UseEquipWidget::UpdateEquip()
 		Pi::player->Properties().Get("ecm_power_cap", ecm_power_cap);
 		if (ecm_power_cap > 0) {
 			Gui::ImageButton *b = 0;
-			if (ecm_power_cap == 3) 
+			if (ecm_power_cap == 3)
 				b = new Gui::ImageButton("icons/ecm_basic.png");
-			else 
+			else
 				b = new Gui::ImageButton("icons/ecm_advanced.png");
 
 			// Note, FireECM() is a wrapper around Ship::UseECM() and is only used here
@@ -606,7 +608,7 @@ MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(104, 17)
 	m_rg = new Gui::RadioGroup();
 
 	m_buttons[0] = new Gui::ImageRadioButton(m_rg, "icons/multifunc_scanner.png", "icons/multifunc_scanner_on.png");
-	m_buttons[0]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_SCANNER));
+	m_buttons[0]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_RADAR));
 	m_buttons[0]->SetShortcut(SDLK_F9, KMOD_NONE);
 	m_buttons[0]->SetSelected(true);
 	m_buttons[0]->SetRenderDimensions(34, 17);

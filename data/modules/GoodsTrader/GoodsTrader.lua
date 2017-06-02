@@ -1,4 +1,4 @@
--- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = import("Lang")
@@ -28,7 +28,7 @@ local onChat = function (form, ref, option)
 	form:Clear()
 	form:SetTitle(ad.flavour)
 	form:SetFace({ seed = ad.faceseed })
-	form:SetMessage(l.WELCOME_TO..ad.flavour.."\n"..ad.slogan)
+	form:SetMessage(l.WELCOME_TO..ad.flavour..".\n"..ad.slogan)
 
 	local onClick = function (ref)
 		if not ads[ref].ispolice then
@@ -118,7 +118,6 @@ local onCreateBB = function (station)
 
 			local flavour = string.interp(l["GOODS_TRADER_"..rand:Integer(1, num_names)-1], {name = NameGen.Surname(rand)})
 			local slogan = l["SLOGAN_"..rand:Integer(1, num_slogans)-1]
-			print("slogan", slogan)
 
 			local ad = {
 				station  = station,

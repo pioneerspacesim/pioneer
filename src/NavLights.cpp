@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "NavLights.h"
@@ -9,6 +9,9 @@
 #include "FileSystem.h"
 
 const float BILLBOARD_SIZE = 2.5f;
+
+static RefCountedPtr<Graphics::Texture> texHalos4x4;
+static RefCountedPtr<Graphics::Material> matHalos4x4;
 
 static bool g_initted = false;
 static vector2f m_lightColorsUVoffsets[(NavLights::NAVLIGHT_YELLOW+1)] = {
@@ -71,6 +74,8 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 : m_time(0.f)
 , m_period(period)
 , m_enabled(false)
+, m_billboardTris(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL)
+, m_billboardRS(nullptr)
 {
 	PROFILE_SCOPED();
 	assert(g_initted);
@@ -87,10 +92,11 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 	const std::vector<Node*> &results = lightFinder.GetResults();
 
 	//attach light billboards
-	for (unsigned int i=0; i < results.size(); i++) {
+	for (unsigned int i=0; i < results.size(); i++)
+	{
 		MatrixTransform *mt = dynamic_cast<MatrixTransform*>(results.at(i));
 		assert(mt);
-		Billboard *bblight = new Billboard(model, renderer, BILLBOARD_SIZE);
+		Billboard *bblight = new Billboard(m_billboardTris, renderer, BILLBOARD_SIZE);
 		Uint32 group = 0;
 		Uint8 mask  = 0xff; //always on
 		Uint8 color = NAVLIGHT_BLUE;
@@ -173,6 +179,51 @@ void NavLights::Update(float time)
 			else
 				it->billboard->SetNodeMask(0x0);
 		}
+	}
+}
+
+void NavLights::Render(Graphics::Renderer *renderer)
+{
+	if(!m_billboardRS) {
+		Graphics::MaterialDescriptor desc;
+		desc.effect = Graphics::EFFECT_BILLBOARD_ATLAS;
+		desc.textures = 1;
+		matHalos4x4.Reset(renderer->CreateMaterial(desc));
+		texHalos4x4.Reset(Graphics::TextureBuilder::Billboard("textures/halo_4x4.dds").GetOrCreateTexture(renderer, std::string("billboard")));
+		matHalos4x4->texture0 = texHalos4x4.Get();
+
+		Graphics::RenderStateDesc rsd;
+		rsd.blendMode = Graphics::BLEND_ADDITIVE;
+		rsd.depthWrite = false;
+		m_billboardRS = renderer->CreateRenderState(rsd);
+	}
+
+	const bool bVBValid = m_billboardVB.Valid();
+	const bool bHasVerts = !m_billboardTris.IsEmpty();
+	const bool bVertCountEqual = bVBValid && (m_billboardVB->GetVertexCount() == m_billboardTris.GetNumVerts());
+	if( bHasVerts && (!bVBValid || !bVertCountEqual) )
+	{
+		//create buffer
+		// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.numVertices = m_billboardTris.GetNumVerts();
+		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
+		m_billboardVB.Reset( renderer->CreateVertexBuffer(vbd) );
+	}
+
+	if(m_billboardVB.Valid())
+	{
+		if(bHasVerts) {
+			m_billboardVB->Populate(m_billboardTris);
+			renderer->SetTransform(matrix4x4f::Identity());
+			renderer->DrawBuffer(m_billboardVB.Get(), m_billboardRS, matHalos4x4.Get(), Graphics::POINTS);
+			renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_BILLBOARD, 1);
+		}
+		m_billboardTris.Clear();
 	}
 }
 

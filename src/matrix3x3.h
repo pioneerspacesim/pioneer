@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _MATRIX3X3_H
@@ -176,12 +176,12 @@ typedef matrix3x3<double> matrix3x3d;
 
 static inline void matrix3x3ftod(const matrix3x3f &in, matrix3x3d &out)
 {
-	for (int i = 0; i < 9; i++) 
+	for (int i = 0; i < 9; i++)
 		out[i] = double(in[i]);
 }
 static inline void matrix3x3dtof(const matrix3x3d &in, matrix3x3f &out)
 {
-	for (int i = 0; i < 9; i++) 
+	for (int i = 0; i < 9; i++)
 		out[i] = float(in[i]);
 }
 

@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUACONSOLE_H
@@ -25,18 +25,29 @@ public:
 	bool IsActive() const { return m_active; }
 	void AddOutput(const std::string &line);
 
+#ifdef REMOTE_LUA_REPL
+	void OpenTCPDebugConnection(int portnumber);
+	void HandleTCPDebugConnections();
+#endif
+
 	static void Register();
 private:
 	bool OnKeyDown(const UI::KeyboardEvent &event);
 	void OnChange(const std::string &text);
 	void OnEnter(const std::string &text);
 
-	void ExecOrContinue(const std::string &stmt);
+	void ExecOrContinue(const std::string &stmt, bool repeatStatement=true);
 
 	void OnKeyPressed(const SDL_Keysym*);
 	void OnTextChanged();
 	void UpdateCompletion(const std::string & statement);
 	void RegisterAutoexec();
+
+#ifdef REMOTE_LUA_REPL
+	void HandleNewDebugTCPConnection(int socket);
+	void HandleDebugTCPConnection(int socket);
+	void BroadcastToDebuggers(const std::string &message);
+#endif
 
 	bool m_active;
 
@@ -53,6 +64,11 @@ private:
 	std::string m_precompletionStatement;
 	std::vector<std::string> m_completionList;
 	unsigned int m_currentCompletion;
+
+#ifdef REMOTE_LUA_REPL
+	int m_debugSocket;
+	std::vector<int> m_debugConnections;
+#endif
 };
 
 #endif /* _LUACONSOLE_H */

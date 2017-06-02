@@ -1,0 +1,102 @@
+{
+   "ADVICE_10_BODYTEXT" : {
+      "description" : "",
+      "message" : "'S dòcha gum b' feairrde thu imrich gu buidheann eile nuair a bhios tu ann an staing leis an ùghdarras ionadail."
+   },
+   "ADVICE_10_HEADLINE" : {
+      "description" : "",
+      "message" : "Thoir am fireach ort ri àm"
+   },
+   "ADVICE_1_BODYTEXT" : {
+      "description" : "",
+      "message" : "Cuimhnich cò na gnìomhachasan ionadail a tha earbsach nuair a nì thu gnothaichean taobh a-muigh an lagha."
+   },
+   "ADVICE_1_HEADLINE" : {
+      "description" : "",
+      "message" : "Ceannsaich am margadh dubh"
+   },
+   "ADVICE_2_BODYTEXT" : {
+      "description" : "",
+      "message" : "Dh'fhaoidte gun ruig thu an t-amas nas luaithe ma shiubhlas tu iomadh astar beag."
+   },
+   "ADVICE_2_HEADLINE" : {
+      "description" : "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
+      "message" : "An rathad nas luaithe"
+   },
+   "ADVICE_3_BODYTEXT" : {
+      "description" : "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
+      "message" : "Na leum gu siostam gun chòmhnadh mur eil dòigh agad gus fhàgail."
+   },
+   "ADVICE_3_HEADLINE" : {
+      "description" : "",
+      "message" : "Na biodh d' earball san deigh: planaig sreath nan leuman agad ro làimh"
+   },
+   "ADVICE_4_BODYTEXT" : {
+      "description" : "",
+      "message" : "Tagh am frèam-lorgaidh agad. Gu h-àraidh nuair a bhios tu airson co-fhreagradh ri luaths is comhair amais."
+   },
+   "ADVICE_4_HEADLINE" : {
+      "description" : "",
+      "message" : "Tha a -uile càil dàimheach"
+   },
+   "ADVICE_5_BODYTEXT" : {
+      "description" : "",
+      "message" : "Ceannaich nithean saora is reic gu daor iad."
+   },
+   "ADVICE_5_HEADLINE" : {
+      "description" : "",
+      "message" : "Na caill airgead idir"
+   },
+   "ADVICE_6_BODYTEXT" : {
+      "description" : "",
+      "message" : "Thoir an aire air gach naidheachd a chluinneas tu on a bhios buaidh air prìsean a' mhargaidh."
+   },
+   "ADVICE_6_HEADLINE" : {
+      "description" : "",
+      "message" : "Tog do chluasan"
+   },
+   "ADVICE_7_BODYTEXT" : {
+      "description" : "",
+      "message" : "Coisnidh tu deagh chliù le tìodhlacan ach cha chuir gach carthannas ri do chliù."
+   },
+   "ADVICE_7_HEADLINE" : {
+      "description" : "",
+      "message" : "Bi fialaidh"
+   },
+   "ADVICE_8_BODYTEXT" : {
+      "description" : "",
+      "message" : "Nuair a thèid thu gu siostam bìnearaidh, dèan cinnteach gum bi d' amas air an reul cheart."
+   },
+   "ADVICE_8_HEADLINE" : {
+      "description" : "",
+      "message" : "Cum air falbh o dha thrioblaid aig an aon àm"
+   },
+   "ADVICE_9_BODYTEXT" : {
+      "description" : "",
+      "message" : "Faigh obair-ghlèidhidh air na h-einnseanan agad ach thoir an aire: gheibh thu seirbheis a-rèir na phàigheas tu."
+   },
+   "ADVICE_9_HEADLINE" : {
+      "description" : "",
+      "message" : "Dèilig gu math ris an t-soitheach agad"
+   },
+   "RUMOUR" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "FATHANN"
+   },
+   "TALE_1_BODYTEXT" : {
+      "description" : "",
+      "message" : "Na caill dubhradh drùidhteach na grèine air Dòchas Ùr fhad 's a bhacas Hades an solar o Epsilon Eridani."
+   },
+   "TALE_1_HEADLINE" : {
+      "description" : "Blade runner?",
+      "message" : "\"Chunnaic mi iomadh rud nach creideadh tu\""
+   },
+   "TRAVELLERS_ADVICE" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "MOLADH SIUBHLACHAIN"
+   },
+   "TRAVELLERS_TALE" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "SGEUL SIUBHLACHAIN"
+   }
+}

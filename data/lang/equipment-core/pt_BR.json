@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Mapeador Avançado de Radar"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Advanced target scanner"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Mapeador de radar de longa distância com cobertura total de sistema."
+      "message" : "Long range target scanner with system wide coverage."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -90,6 +90,26 @@
    "DRIVE_MIL4" : {
       "description" : "",
       "message" : "Estrada Militar de Classe 4"
+   },
+   "DRIVE_MIL5" : {
+      "description" : "",
+      "message" : "Class 5 Military drive"
+   },
+   "DRIVE_MIL6" : {
+      "description" : "",
+      "message" : "Class 6 Military drive"
+   },
+   "DRIVE_MIL7" : {
+      "description" : "",
+      "message" : "Class 7 Military drive"
+   },
+   "DRIVE_MIL8" : {
+      "description" : "",
+      "message" : "Class 8 Military drive"
+   },
+   "DRIVE_MIL9" : {
+      "description" : "",
+      "message" : "Class 9 Military drive"
    },
    "ECM_ADVANCED" : {
       "description" : "",
@@ -179,6 +199,10 @@
       "description" : "",
       "message" : "Alcance máximo de escaneamento ultrapassado:"
    },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Passenger cabin"
+   },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
       "message" : "Escanear corpo"
@@ -215,19 +239,11 @@
       "description" : "",
       "message" : "2MW vibração de canhão de fogo rápido"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Mapeador de Radar"
+      "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Usado para inspecionar remotamente equipamentos, cargas e estado de outras naves."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Scanner"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Fornecer um mapa 3D de naves próximas."
    },
@@ -263,11 +279,43 @@
       "description" : "",
       "message" : "Começando escaneamento, a distância para o alvo é de"
    },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Analisador de comércio"
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Target Scanner"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Usado para inspecionar remotamente equipamentos, cargas e estado de outras naves."
+   },
+   "THRUSTERS_BASIC" : {
+      "description" : "",
+      "message" : "Modified Thrusters"
+   },
+   "THRUSTERS_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "A modified type of thrusters approved for your ship."
+   },
+   "THRUSTERS_BEST" : {
+      "description" : "",
+      "message" : "Bespoke Thrusters"
+   },
+   "THRUSTERS_BEST_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Custom made thrusters that provide the best possible output."
+   },
+   "THRUSTERS_MEDIUM" : {
+      "description" : "",
+      "message" : "Optimised Thrusters"
+   },
+   "THRUSTERS_MEDIUM_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Thrusters that have been optimised to reduce inefficiencies and improve power output."
+   },
+   "TRADE_COMPUTER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Trade Computer"
+   },
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "Mostra mercadorias lucrativas para se comercializar entre o sistema selecionado e o atual"
    },

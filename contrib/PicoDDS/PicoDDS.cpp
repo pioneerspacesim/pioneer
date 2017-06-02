@@ -48,6 +48,7 @@ Send any general questions, bug reports etc to me (Rob Jones):
 */
 
 #include "PicoDDS.h"
+#include <cstdlib>
 #include <cstdio>
 #include <cstring>
 #include <cassert>

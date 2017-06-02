@@ -113,7 +113,7 @@
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
-      "message" : "della Soc. Servizi-Sepolture di {locality}"
+      "message" : "Servizio Pompe Funebri di {locality}"
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Per ricevere la ricompensa piena, le chiediamo di consegnare il carburante entro il {due}."
+      "message" : "Per la paga intera è richiesto che consegni il carburante entro il {due}."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -213,15 +213,15 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Molte grazie! Ho appena trasferito l'intero ammontare della ricompensa."
+      "message" : "Molte grazie! Ho trasferito l'intera ricompensa."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton. di carburante trasferito."
+      "message" : "{unit} ton. di carburante trasferite."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Il pilota richiede 1 ton. di idrogeno."
+      "message" : "Il pilota richiede {unit} ton. di {cargo}."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Il pilota richiede 1 ton. di idrogeno."
+      "message" : "Il pilota sta chiedendo {unit} ton. di {cargo}."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -313,11 +313,11 @@
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton. di carburante trasferito."
+      "message" : "{unit} ton. di carburante trasferite."
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Chiediamo che venga consegnato alla nave 1 ton. di idrogeno."
+      "message" : "Chiediamo la consegna alla nave di {unit} ton. di {cargo}."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
@@ -333,7 +333,7 @@
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "Il mio nome è {name} {entity}. Abbiamo perso i contatti con la nostra {ship} {shiplabel} in seguito {problem}. Siamo disposti a pagare {cash} per un aiuto immediato."
+      "message" : "Il mio nome è {name} {entity}. Abbiamo perso i contatti con la nostra {ship} {shiplabel} per {problem}. Siamo disposti a pagare {cash} per un aiuto immediato."
    },
    "FLAVOUR_6_LOCATIONTEXT" : {
       "description" : "",
@@ -365,7 +365,7 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "Sono {name} {entity}. La nostra unica astronave, {ship} {shiplabel}, è alla deriva con un solo membro rimasto a bordo in seguito {problem}. Sono disposto a pagare {cash} per un aiuto immediato."
+      "message" : "Il mio nome è {name} {entity}. La nostra astronave {ship} {shiplabel} con un equipaggio di {crew} persone è alla deriva per {problem}. Siamo disposti a pagare {cash} per un aiuto immediato."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
@@ -377,7 +377,7 @@
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} sono stati trasferiti sulla nave obiettivo."
+      "message" : "{unit} sono stati trasferiti sulla nave destinataria."
    },
    "FLAVOUR_7_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -485,103 +485,103 @@
    },
    "PROBLEM_CREW_1" : {
       "description" : "",
-      "message" : "ad una feroce lotta fra membri dell'equipaggio"
+      "message" : "una feroce lotta fra membri dell'equipaggio"
    },
    "PROBLEM_CREW_10" : {
       "description" : "",
-      "message" : "ad un ammutinamento"
+      "message" : "un ammutinamento"
    },
    "PROBLEM_CREW_2" : {
       "description" : "",
-      "message" : "all'inseguimento di un mortale serpente di {locality} trovato in libertà sulla nave"
+      "message" : "l'inseguimento di un mortale serpente di {locality} trovato in libertà sulla nave"
    },
    "PROBLEM_CREW_3" : {
       "description" : "",
-      "message" : "alla morte del resto dall'equipaggio a causa di un ragno di {locality}"
+      "message" : "la morte del resto dall'equipaggio a causa di un ragno di {locality}"
    },
    "PROBLEM_CREW_4" : {
       "description" : "",
-      "message" : "a quello che parrebbe uno scorpione di {locality} entrato negli alloggi dell'equipaggio la notte"
+      "message" : "quello che parrebbe uno scorpione di {locality} entrato negli alloggi dell'equipaggio la notte"
    },
    "PROBLEM_CREW_5" : {
       "description" : "",
-      "message" : "ad una grave forma di febbre di {locality} che ha ucciso tutti gli altri"
+      "message" : "una grave forma di febbre di {locality} che ha ucciso tutti gli altri"
    },
    "PROBLEM_CREW_6" : {
       "description" : "",
-      "message" : "ad un incidente durante un'attività extra veicolare che ha coinvolto il resto dell'equipaggio"
+      "message" : "un incidente durante un'attività extra veicolare che ha coinvolto il resto dell'equipaggio"
    },
    "PROBLEM_CREW_7" : {
       "description" : "",
-      "message" : "ad una grave forma di avvelenamento alimentare sulla nave"
+      "message" : "una grave forma di avvelenamento alimentare sulla nave"
    },
    "PROBLEM_CREW_8" : {
       "description" : "",
-      "message" : "ad un terribile incidente che ha causato l'espulsione nello spazio degli altri"
+      "message" : "un terribile incidente che ha causato l'espulsione nello spazio degli altri"
    },
    "PROBLEM_CREW_9" : {
       "description" : "",
-      "message" : "ad una circostanza che non posso commentare pubblicamente"
+      "message" : "una circostanza che non posso commentare pubblicamente"
    },
    "PROBLEM_GENERAL_1" : {
       "description" : "",
-      "message" : "ad un incendio nella stiva"
+      "message" : "un incendio nella stiva"
    },
    "PROBLEM_GENERAL_10" : {
       "description" : "",
-      "message" : "alla ricevuta di una chiamata di soccorso nelle vicinanze di {locality}"
+      "message" : "la ricevuta di una chiamata di soccorso nelle vicinanze di {locality}"
    },
    "PROBLEM_GENERAL_2" : {
       "description" : "",
-      "message" : "ad una interruzione di corrente nel nucleo motore"
+      "message" : "un'interruzione di corrente nel nucleo motore"
    },
    "PROBLEM_GENERAL_3" : {
       "description" : "",
-      "message" : "ad una perdita d'aria"
+      "message" : "una perdita d'aria"
    },
    "PROBLEM_GENERAL_4" : {
       "description" : "",
-      "message" : "ad una grave forma d'avvelenamento alimentare che ha coinvolto tutto il personale a bordo della nave"
+      "message" : "una grave forma d'avvelenamento alimentare che ha coinvolto tutto il personale a bordo della nave"
    },
    "PROBLEM_GENERAL_5" : {
       "description" : "",
-      "message" : "all'impatto di una piccola meteora"
+      "message" : "l'impatto di una piccola meteora"
    },
    "PROBLEM_GENERAL_6" : {
       "description" : "",
-      "message" : "ad una lotta fra membri dell'equipaggio"
+      "message" : "una lotta fra membri dell'equipaggio"
    },
    "PROBLEM_GENERAL_7" : {
       "description" : "",
-      "message" : "al contatto con un oggetto volante non identificato"
+      "message" : "contatto con un oggetto volante non identificato"
    },
    "PROBLEM_GENERAL_8" : {
       "description" : "",
-      "message" : "ad una disputa con un vascello concorrente"
+      "message" : "una disputa con un vascello concorrente"
    },
    "PROBLEM_GENERAL_9" : {
       "description" : "",
-      "message" : "al riavvio del computer principale"
+      "message" : "un riavvio del computer principale"
    },
    "PROBLEM_RESEARCH_1" : {
       "description" : "",
-      "message" : "ad una reazione chimica inaspettata in una delle camere di reazione"
+      "message" : "una reazione chimica inaspettata in una delle camere di reazione"
    },
    "PROBLEM_RESEARCH_10" : {
       "description" : "",
-      "message" : "ad una grande scoperta a {locality} che non ho la libertà di rivelare al momento"
+      "message" : "una grande scoperta a {locality} che non ho la libertà di rivelare al momento"
    },
    "PROBLEM_RESEARCH_2" : {
       "description" : "",
-      "message" : "ad un'infezione di un membro dell'equipaggio con un agente patogeno contratto a {locality}"
+      "message" : "un'infezione di un membro dell'equipaggio con un agente patogeno contratto a {locality}"
    },
    "PROBLEM_RESEARCH_3" : {
       "description" : "",
-      "message" : "ad una dispersione di patogeni sperimentali nei condotti d'areazione primari"
+      "message" : "una dispersione di patogeni sperimentali nei condotti d'areazione primari"
    },
    "PROBLEM_RESEARCH_4" : {
       "description" : "",
-      "message" : "all'esposizione dell'equipaggio a campioni raccolti su {locality}"
+      "message" : "esposizione dell'equipaggio a campioni raccolti su {locality}"
    },
    "PROBLEM_RESEARCH_5" : {
       "description" : "",
@@ -589,19 +589,19 @@
    },
    "PROBLEM_RESEARCH_6" : {
       "description" : "",
-      "message" : "alla riproduzione sperimentale di gas atmosferici di {locality}"
+      "message" : "riproduzione sperimentale di gas atmosferici di {locality}"
    },
    "PROBLEM_RESEARCH_7" : {
       "description" : "",
-      "message" : "ad un'animata discussione fra scienziati a bordo della nave"
+      "message" : "un'animata discussione fra scienziati a bordo della nave"
    },
    "PROBLEM_RESEARCH_8" : {
       "description" : "",
-      "message" : "all'improvvisa scomparsa dell'investigatore capo a bordo della nave"
+      "message" : "l'improvvisa scomparsa dell'investigatore capo a bordo della nave"
    },
    "PROBLEM_RESEARCH_9" : {
       "description" : "",
-      "message" : "all'accidentale combinazione di campioni incompatibili provenienti da {locality}"
+      "message" : "l'accidentale combinazione di campioni incompatibili provenienti da {locality}"
    },
    "RESULT_DELIVERY_COMM" : {
       "description" : "",
@@ -638,6 +638,14 @@
    "SEARCH_RESCUE" : {
       "description" : "",
       "message" : "Ricerca & Soccorso"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Imposta come destinazione di navigazione"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Imposta rotta di ritorno"
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",

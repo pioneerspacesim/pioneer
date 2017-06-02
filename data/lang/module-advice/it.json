@@ -1,0 +1,102 @@
+{
+   "ADVICE_10_BODYTEXT" : {
+      "description" : "",
+      "message" : "Spostarsi in un'altra fazione può essere una buona idea quando si hanno problemi con le autorità locali."
+   },
+   "ADVICE_10_HEADLINE" : {
+      "description" : "",
+      "message" : "Capisci quando è ora di lasciare la città"
+   },
+   "ADVICE_1_BODYTEXT" : {
+      "description" : "",
+      "message" : "Prendi nota di quali attività locali fidarti o no quando completi una transazione fuori dai confini legali."
+   },
+   "ADVICE_1_HEADLINE" : {
+      "description" : "",
+      "message" : "Doma il Mercato Nero"
+   },
+   "ADVICE_2_BODYTEXT" : {
+      "description" : "",
+      "message" : "Molti spostamenti brevi sono più veloci, rispetto alla loro somma, da percorrere."
+   },
+   "ADVICE_2_HEADLINE" : {
+      "description" : "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
+      "message" : "La Strada più Velocemente Presa"
+   },
+   "ADVICE_3_BODYTEXT" : {
+      "description" : "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
+      "message" : "Evita di saltare nei sistemi disabitati se non hai i mezzi per uscirne."
+   },
+   "ADVICE_3_HEADLINE" : {
+      "description" : "",
+      "message" : "Evita di trovarti bloccato: pianifica in anticipo la tua sequenza di salti"
+   },
+   "ADVICE_4_BODYTEXT" : {
+      "description" : "",
+      "message" : "Seleziona il tuo sistema di riferimento. Specialmente quando vuoi ugualiare la velocità ed il tragitto di un bersagio in movimento."
+   },
+   "ADVICE_4_HEADLINE" : {
+      "description" : "",
+      "message" : "È tutto relativo"
+   },
+   "ADVICE_5_BODYTEXT" : {
+      "description" : "",
+      "message" : "Compra basso e vendi alto."
+   },
+   "ADVICE_5_HEADLINE" : {
+      "description" : "",
+      "message" : "Mai perdere i soldi"
+   },
+   "ADVICE_6_BODYTEXT" : {
+      "description" : "",
+      "message" : "Presta molta attenzione a qualsiasi notizia riportata, perché le informazioni possono influenzare i prezzi di mercato."
+   },
+   "ADVICE_6_HEADLINE" : {
+      "description" : "",
+      "message" : "Apri bene le orecchie"
+   },
+   "ADVICE_7_BODYTEXT" : {
+      "description" : "",
+      "message" : "Le donazioni posso farti guadagnare una buona posizione nella società, ma non tutte le beneficenze ti faranno guadagnare in reputazione."
+   },
+   "ADVICE_7_HEADLINE" : {
+      "description" : "",
+      "message" : "Sii generoso"
+   },
+   "ADVICE_8_BODYTEXT" : {
+      "description" : "",
+      "message" : "Quando viaggi verso sistemi binari, assicurati di selezionare la stella corretta."
+   },
+   "ADVICE_8_HEADLINE" : {
+      "description" : "",
+      "message" : "Resta fuori dai doppi guai"
+   },
+   "ADVICE_9_BODYTEXT" : {
+      "description" : "",
+      "message" : "Fai regolare manutenzione dei tuoi motori, ma ricorda: hai quello per cui paghi."
+   },
+   "ADVICE_9_HEADLINE" : {
+      "description" : "",
+      "message" : "Tratta bene la tua nave"
+   },
+   "RUMOUR" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "DICERIA"
+   },
+   "TALE_1_BODYTEXT" : {
+      "description" : "",
+      "message" : "Non perderti la bellissima eclissi a New Hope, quando Hades ostruisce la luce di Epsilon Eridani."
+   },
+   "TALE_1_HEADLINE" : {
+      "description" : "Blade runner?",
+      "message" : "\"Io ne ho viste cose che vuoi umani non potreste immaginarvi\""
+   },
+   "TRAVELLERS_ADVICE" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "CONSIGLIO PER I VIAGGIATORI"
+   },
+   "TRAVELLERS_TALE" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "STORIA DI VIAGGIATORI"
+   }
+}

@@ -323,6 +323,10 @@
       "description" : "",
       "message" : "Zapłacisz za ten ładunek, swoim życiem."
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Ustaw jako cel nawigacyjny."
+   },
    "SPACEPORT" : {
       "description" : "",
       "message" : "Port kosmiczny:"

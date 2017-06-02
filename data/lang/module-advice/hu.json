@@ -1,0 +1,102 @@
+{
+   "ADVICE_10_BODYTEXT" : {
+      "description" : "",
+      "message" : "Ha kergetnek a hatóságok, érdemes meggondolni egy más frakcióhoz költözést."
+   },
+   "ADVICE_10_HEADLINE" : {
+      "description" : "",
+      "message" : "Tudd, mikor kell elhagyni a várost"
+   },
+   "ADVICE_1_BODYTEXT" : {
+      "description" : "",
+      "message" : "Figyelj oda, melyik helyi üzlet megbízható, ha netán a jog bástyáin kívül bonyolítanád tranzakcióidat."
+   },
+   "ADVICE_1_HEADLINE" : {
+      "description" : "",
+      "message" : "Szelidítsd meg a fekete piacot."
+   },
+   "ADVICE_2_BODYTEXT" : {
+      "description" : "",
+      "message" : "Sok kis távolságot hamarabb bejársz, mint az összegüket."
+   },
+   "ADVICE_2_HEADLINE" : {
+      "description" : "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
+      "message" : "Az utak között a leggyorsabb"
+   },
+   "ADVICE_3_BODYTEXT" : {
+      "description" : "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
+      "message" : "Ne ugorj úgy lakatlan rendszerbe, hogy nem gondoskodtál a továbbutazásról."
+   },
+   "ADVICE_3_HEADLINE" : {
+      "description" : "",
+      "message" : "Vigyázz, nehogy ott rekedj valahol: mindig tervezd meg az útvonalad."
+   },
+   "ADVICE_4_BODYTEXT" : {
+      "description" : "",
+      "message" : "Válassz referenciapontot. Különösen, ha ugyanazzal a sebességgel mozognál, mint a célpontod."
+   },
+   "ADVICE_4_HEADLINE" : {
+      "description" : "",
+      "message" : "Minden relatív."
+   },
+   "ADVICE_5_BODYTEXT" : {
+      "description" : "",
+      "message" : "Vásárolj olcsón, adj el drágán."
+   },
+   "ADVICE_5_HEADLINE" : {
+      "description" : "",
+      "message" : "Soha ne veszíts pénzt"
+   },
+   "ADVICE_6_BODYTEXT" : {
+      "description" : "",
+      "message" : "Figyelj a hírekre, bizonyos információk befolyásolhatják az árfolyamokat."
+   },
+   "ADVICE_6_HEADLINE" : {
+      "description" : "",
+      "message" : "Tartsd a füled a földön"
+   },
+   "ADVICE_7_BODYTEXT" : {
+      "description" : "",
+      "message" : "Adományozással javíthatsz társadalmi megítéléseden, ám nem minden jótékonysági szervezet javítjaa hírnevedet."
+   },
+   "ADVICE_7_HEADLINE" : {
+      "description" : "",
+      "message" : "Légy nagylelkű"
+   },
+   "ADVICE_8_BODYTEXT" : {
+      "description" : "",
+      "message" : "Iker naprendszerekbe utazáskor figyelj, hogy a megfelelő csillagot célozd meg."
+   },
+   "ADVICE_8_HEADLINE" : {
+      "description" : "",
+      "message" : "Maradj ki a dupla bajból."
+   },
+   "ADVICE_9_BODYTEXT" : {
+      "description" : "",
+      "message" : "Hiperhajtóművedet tartsd karban. De vigyázz!, azt kapod, amiért fizetsz!"
+   },
+   "ADVICE_9_HEADLINE" : {
+      "description" : "",
+      "message" : "Bánj jól a hajóddal"
+   },
+   "RUMOUR" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "PLETYKA"
+   },
+   "TALE_1_BODYTEXT" : {
+      "description" : "",
+      "message" : "Ne maradj le a gyönyörű New Hope-i naplementéről, amikor Hades eltakarja az Epsilon Eridani-t."
+   },
+   "TALE_1_HEADLINE" : {
+      "description" : "Blade runner?",
+      "message" : "Olyan dolgokat láttam, amit ti emberek el nem hinnétek."
+   },
+   "TRAVELLERS_ADVICE" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "TANÁCS UTAZÓKNAK"
+   },
+   "TRAVELLERS_TALE" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "UTAZÓ MESÉJE"
+   }
+}

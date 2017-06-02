@@ -5,7 +5,7 @@
    },
    "BOARDED_PASSENGER" : {
       "description" : "",
-      "message" : "{name} has boarded the ship."
+      "message" : "{name} har bordat skeppet."
    },
    "COMMODITIES" : {
       "description" : "",
@@ -13,7 +13,7 @@
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Kan du upprepa den ursprungliga önskan?"
+      "message" : "Kan du upprepa den ursprungliga begäran?"
    },
    "CREW" : {
       "description" : "",
@@ -25,7 +25,7 @@
    },
    "DELIVERED_PASSENGER" : {
       "description" : "",
-      "message" : "{name} has left the ship."
+      "message" : "{name} har lämnat skeppet."
    },
    "DELIVERY" : {
       "description" : "",
@@ -77,7 +77,7 @@
    },
    "ENTITY_GENERAL_1" : {
       "description" : "",
-      "message" : "the {locality} General Prospectors Inc"
+      "message" : "[locality] General Prospectors Inc"
    },
    "ENTITY_GENERAL_10" : {
       "description" : "",
@@ -85,27 +85,27 @@
    },
    "ENTITY_GENERAL_2" : {
       "description" : "",
-      "message" : "the {locality} Society for Ecological Preservation"
+      "message" : "[locality] förening för ekologiskt bevarande"
    },
    "ENTITY_GENERAL_3" : {
       "description" : "",
-      "message" : "the Interest Rights Groups for {locality}"
+      "message" : "Intressegruppen för [locality]"
    },
    "ENTITY_GENERAL_4" : {
       "description" : "",
-      "message" : "the {locality} Mining Rights Office"
+      "message" : "[locality] Gruvrättighetskontoret"
    },
    "ENTITY_GENERAL_5" : {
       "description" : "",
-      "message" : "the Landowners Association of {locality}"
+      "message" : "[locality]s landägarassociation"
    },
    "ENTITY_GENERAL_6" : {
       "description" : "",
-      "message" : "the Statistical Institute of {locality}"
+      "message" : "[locality] statistiska institut"
    },
    "ENTITY_GENERAL_7" : {
       "description" : "",
-      "message" : "the {locality} branch office of SpaceCruise Inc"
+      "message" : "[locality] avdelningskontor för SpaceCruise Inc"
    },
    "ENTITY_GENERAL_8" : {
       "description" : "",
@@ -113,51 +113,51 @@
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
-      "message" : "{locality} Burrial-Services Corp"
+      "message" : "{locality} Burial-Services Corp"
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
-      "message" : "the {locality} Biological Society"
+      "message" : "[locality] biologiska förening"
    },
    "ENTITY_RESEARCH_10" : {
       "description" : "",
-      "message" : "the {locality} Center of Zoological Research"
+      "message" : "[locality] center för zoologisk forskning"
    },
    "ENTITY_RESEARCH_2" : {
       "description" : "",
-      "message" : "the {locality} Microbiological Society"
+      "message" : "[locality] mikrobilogiska förening"
    },
    "ENTITY_RESEARCH_3" : {
       "description" : "",
-      "message" : "the {locality} Chemical Society"
+      "message" : "[locality] kemiförening"
    },
    "ENTITY_RESEARCH_4" : {
       "description" : "",
-      "message" : "the {locality} Astrobiological Society"
+      "message" : "[locality] astrobiologiska förening"
    },
    "ENTITY_RESEARCH_5" : {
       "description" : "",
-      "message" : "the {locality} Geological Society"
+      "message" : "[locality] geologiska förening"
    },
    "ENTITY_RESEARCH_6" : {
       "description" : "",
-      "message" : "the {locality} Society for Astropaleontology"
+      "message" : "[locality] förening för astropaleontologi"
    },
    "ENTITY_RESEARCH_7" : {
       "description" : "",
-      "message" : "the {locality} Astrophysics Research Center"
+      "message" : "[locality] astrofysiska forskningscenter"
    },
    "ENTITY_RESEARCH_8" : {
       "description" : "",
-      "message" : "the {locality} Astrochemistry Research Center"
+      "message" : "[locality] astrokemiska forskningscenter"
    },
    "ENTITY_RESEARCH_9" : {
       "description" : "",
-      "message" : "the {locality} Center for Botany"
+      "message" : "[locality] botaniska center"
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "You are not equipped to handle this mission. {unit} {equipment} required."
+      "message" : "Du har inte utrustning för att utföra detta uppdrag. {} {equipment} behövs."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "jag kan inte tro att du bara återvänder nu! Vilket slöseri med tid!"
+      "message" : "jag kan inte tro att du återvänder först nu! Vilket slöseri med tid!"
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+      "message" : "{starport}s flygledning behöver din OMEDELBARA hjälp att undsätta ett skepp av typ {ship} på {planet}. Status för livsuppehållande system är okänt. Skeppet har varit försäkrat hos {starport} starport försäkring som täcker {cash} i ersättning vid nödsituationer."
    },
    "FLAVOUR_1_LOCATIONTEXT" : {
       "description" : "",
@@ -189,7 +189,7 @@
    },
    "FLAVOUR_1_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+      "message" : "En besättning på {crew} och {pass} passagerare uppges befinna sig ombord. Vi behöver någon som kan lokalisera fartyget, plocka upp eventuella överlevande från platsen och föra dem hit omedelbart."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
@@ -197,31 +197,31 @@
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "I can't believe you kept me waiting out here this long! Forget about your payment!"
+      "message" : "Det är otroloigt att du har låtit mig vänta såhär länge. Du kan glömma din lön."
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "To recieve full payment you are asked to deliver the fuel by {due}."
+      "message" : "För att fullfölja uppdraget måste du leverera drivmedlet före {due}."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+      "message" : "{starport}s trafikkontroll har just fått meddelande om att inkommande flyg {shiplabel} har slut på bränsle och varit tvunget att landa akut. Piloten är villig att betala {cash} för tankning."
    },
    "FLAVOUR_2_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+      "message" : "Fartyget väntar för närvarande vid latitud {lat} / longitud {long} på planeten {planet}."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Tack så mycket! Jag har överfört hela betalningen."
+      "message" : "Tack så mycket! Jag har fört över hela belöningen."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "{unit} ton bränsle har förflyttats."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Piloten begär 1 ton väte-bränsle."
+      "message" : "Piloten begär {unit} ton {cargo}."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -229,31 +229,31 @@
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable performance! We will update our records accordingly."
+      "message" : "Uselt fulföljande! Vi uppdaterar våra register."
    },
    "FLAVOUR_3_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The substitute pilot will need to reach the ship by {due}."
+      "message" : "Den nya piloten måste vara vid skeppet innan {due}."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+      "message" : "Det här är {name} från trafikkontrollen vid {starport}. Jag begär hjälp att svara på en medicinsk nödsituation som gäller piloten av {shiplabel} på väg till {starport}."
    },
    "FLAVOUR_3_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship had to emergency land at the coordinates: {lat} / {long}. "
+      "message" : "Skeppet var tvunget att nödlanda vid koordinaterna: {lat} / {long}. "
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you, commander! Your help has been duly noted."
+      "message" : "Tack kapten! Din hjälp har noterats."
    },
    "FLAVOUR_3_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has left the ship."
+      "message" : "{unit} har lämnat skeppet."
    },
    "FLAVOUR_3_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+      "message" : "Vänligen transportera en ny pilot från {starport} till skeppet så de kan flyga det tillbaka till {starport}."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
@@ -261,31 +261,31 @@
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "I will send someone else. Don't bother anymore."
+      "message" : "Jag skickar någon annan. Du behöver inte oroa dig mer."
    },
    "FLAVOUR_4_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full pay the pilot expects you to deliver the fuel by {due}."
+      "message" : "För full betalning förväntar sig piloten att du levererar bränsle till och med {due}."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+      "message" : "Flygledningen vid {starport} har kontaktats av piloten för {shiplabel}. De är strandsatta med en tom bränsletank och har lovat att betala {cash} till den som kan hjälpa till att tanka skeppet."
    },
    "FLAVOUR_4_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is stranded on {planet} at coordinates {lat} / {long}."
+      "message" : "Skeppet är strandsatt på {planet} på koordinaterna {lat} / {long}."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Very good. We will recommend you for future assignments."
+      "message" : "Väldigt bra. Vi kommer att rekommendera dig för framtida uppdrag."
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "{unit} ton bränsle har skickats."
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is asking for 1 ton of hydrogen fuel."
+      "message" : "Piloten frågar efter {unit} ton av {cargo}."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -293,55 +293,55 @@
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "People are just not dependable anymore."
+      "message" : "Man kan inte lite på människor längre."
    },
    "FLAVOUR_5_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Please complete refueling by {due}."
+      "message" : "Var god slutför tankning till {due}"
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+      "message" : "Flygledningen på {starport} har identifierat ett rymdskepp med ID {shiplabel} drivandes utan bränsle i närheten. Vi betalar {cach} till den som vill tanka skeppet så att det kan lämna {starport]. "
    },
    "FLAVOUR_5_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+      "message" : "Målskeppet driver för närvarande inom {dist}km härifrån. Du måste leta reda på den exakta positionen själv."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "We will make record of your timely completion of the task."
+      "message" : "Vi kommer att registrera ditt snabba slutförande av uppgiften."
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "{unit} ton bränsle har skickats."
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We request the delivery of 1 ton of hydrogen fuel to the ship."
+      "message" : "Vi kräver leverans av {unit} ton {cargo} till skeppet."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "VESSEL UNRESPONSIVE in the {system} system."
+      "message" : "FARKOSTEN SVARAR INTE i {system} systemet"
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
-      "message" : "What a disaster! This is the death sentence to our poor colleagues!"
+      "message" : "Vilken katastrof! Detta är en dödsdom för våra arma kollegor."
    },
    "FLAVOUR_6_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "You have to be back by {due}."
+      "message" : "Du måste vara tillbaka till {due}."
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+      "message" : "Mitt namn är {name}. Vi förlorade kontakten med vårt skepp {ship} {shiplabel} efter {problem}. Vi är beredda att betala {cash} för omedelbar undsättning."
    },
    "FLAVOUR_6_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+      "message" : "Den senaste kända positionen var i närheten av [planet] i  {system} [{sectorx},{sectory},{sectorz}] systemet, [dist] ly härifrån."
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you! You can't imagine how relieved we are."
+      "message" : "Tack! Du kan inte ana hur lättade vi är."
    },
    "FLAVOUR_6_TRANSFERMSG" : {
       "description" : "",
@@ -349,7 +349,7 @@
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
+      "message" : "Jag behöver någon som är villig att åka och hämta tillbaka våra kollegor, om de är vid liv, till [starport]  omedelbart. Skeppet hade [crew] besättningsmän och [pass] passagerare ombord."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
@@ -357,43 +357,43 @@
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
-      "message" : "Thank you very much, but you are too late!"
+      "message" : "Tack så mycket, men du är försen!"
    },
    "FLAVOUR_7_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The replacement crew has to reach the ship by {due}."
+      "message" : "Utbytesbesättningen har nått fram till skeppet till [due]."
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with one crew member left on board the ship after {problem}. I am willing to pay {cash} for immediate help."
+      "message" : "Mitt namn är [name] från [entity]. Vårt enda skepp, [ship] [shiplabel] driver omkring med en besättning på [crew] efter [problem]. Jag är beredd att betala [cash] för omedelbar hjälp."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+      "message" : "Du kommer att hitta skeppet i  {system} [{sectorx},{sectory},{sectorz}] systemet, [dist] ly härifrån. Det hålls i omlopp kring [planet]."
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you! I have been authorized to transmit the full payment."
+      "message" : "Tack! Jag har blivit tillåten att skicka över full betalning."
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has transfered to the target ship."
+      "message" : "[unit] har flyttats över till målskeppet."
    },
    "FLAVOUR_7_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
+      "message" : "Vi kan inte skicka tillbaka skeppet utan att minimal besättning finns tillgänglig. Jag letar efter någon som är beredd att transportera en utbytesbesättning på [deliver_crew] till vårt rymdskepp omedelbart."
    },
    "FULL_CARGO" : {
       "description" : "",
-      "message" : "Ship full. No more room for additional cargo."
+      "message" : "Skeppet är fullt. Inget utrymme för ytterligare last."
    },
    "FULL_CREW" : {
       "description" : "",
-      "message" : "Crew roster full. No more space for more crew."
+      "message" : "Ingen mer plats för besättning."
    },
    "FULL_PASSENGERS" : {
       "description" : "",
-      "message" : "All cabins full. No more space for more passengers."
+      "message" : "Alla hytter fulla. Ytterligare passagerare får inte plats."
    },
    "HOW_FAR" : {
       "description" : "",
@@ -405,15 +405,15 @@
    },
    "INTERACTION_ABORTED" : {
       "description" : "",
-      "message" : "Interaction aborted. Please come closer and try again."
+      "message" : "Interaktion avbruten. Försök komma närmre."
    },
    "INTERACTION_DISTANCE_REACHED" : {
       "description" : "",
-      "message" : "Interaction distance reached."
+      "message" : "Interaktionsavstånd uppnått."
    },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
-      "message" : "It must be completed by "
+      "message" : "Måste vara färdigt till"
    },
    "KM" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "LON" : {
       "description" : "",
-      "message" : "Lon:"
+      "message" : "Long:"
    },
    "LY" : {
       "description" : "",
@@ -437,19 +437,19 @@
    },
    "MISSING_COMM" : {
       "description" : "",
-      "message" : "Cannot complete transfer. {cargotype} missing."
+      "message" : "Kan inte slutföra transaktion. {cargotype} saknas."
    },
    "MISSING_CREW" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Crew missing."
+      "message" : "Kan inte slutföra överföring. Besättning fattas."
    },
    "MISSING_PASS" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Passengers missing."
+      "message" : "Kan inte slutföra transaktion. Passagerare saknas."
    },
    "MISSING_PASSENGER" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Passenger missing."
+      "message" : "Kan inte slutföra transaktion. Passagerare saknas."
    },
    "OK_AGREED" : {
       "description" : "",
@@ -461,7 +461,7 @@
    },
    "PARTIAL" : {
       "description" : "",
-      "message" : "Thank you for your efforts. I hope you will return to complete the task!"
+      "message" : "Tack för ditt besvär. Jag hoppas du återvänder för att slutföra din uppgift."
    },
    "PASSENGERS" : {
       "description" : "",
@@ -477,131 +477,131 @@
    },
    "PLACE_OF_ASSISTANCE" : {
       "description" : "",
-      "message" : "At the place of assistance"
+      "message" : "Vid assistansplats"
    },
    "PLEASE_LAND" : {
       "description" : "",
-      "message" : "Please land ship to allow transfer."
+      "message" : "Vänligen landa skeppet för att möjliggöra transaktion."
    },
    "PROBLEM_CREW_1" : {
       "description" : "",
-      "message" : "a deadly fight among the crew members"
+      "message" : "ett dödligt slagsmål mellan bestättningsmän"
    },
    "PROBLEM_CREW_10" : {
       "description" : "",
-      "message" : "a mutiny"
+      "message" : "ett myteri"
    },
    "PROBLEM_CREW_2" : {
       "description" : "",
-      "message" : "the crew had to chase a deadly {locality} snake found loose on the ship"
+      "message" : "besättningen blev tvungna att jag en dödlig [locality] orm som hittats på skeppet"
    },
    "PROBLEM_CREW_3" : {
       "description" : "",
-      "message" : "a {locality} spider killed all the others"
+      "message" : "en [locality] spindel dödade alla andra"
    },
    "PROBLEM_CREW_4" : {
       "description" : "",
-      "message" : "what it seems like a {locality} scorpion got into the crew quarters at night"
+      "message" : "vad som ser ut att vara en [locality] skorpion kom in i besättningens rum på natten"
    },
    "PROBLEM_CREW_5" : {
       "description" : "",
-      "message" : "a severe form of {locality} fever killed the others"
+      "message" : "en alvarlig typ av [locality] feber dödade de andra"
    },
    "PROBLEM_CREW_6" : {
       "description" : "",
-      "message" : "the other crew members did not return from a space walk"
+      "message" : "de andra besättningsmännen kom inte tillbaka från en rymdpromenad"
    },
    "PROBLEM_CREW_7" : {
       "description" : "",
-      "message" : "a severe form of food poisoning on the ship"
+      "message" : "en allvarlig form av matförgiftning på skeppet"
    },
    "PROBLEM_CREW_8" : {
       "description" : "",
-      "message" : "a terrible accident that lead to the ejection of the others into space"
+      "message" : "en fruktansvärd olycka som ledde till att de andra skickades ut i rymden"
    },
    "PROBLEM_CREW_9" : {
       "description" : "",
-      "message" : "a circumstance that I can't comment on publicly"
+      "message" : "en anledning jag inte kan kommentera publikt"
    },
    "PROBLEM_GENERAL_1" : {
       "description" : "",
-      "message" : "a fire in the cargo hold"
+      "message" : "en brand i lastrummet"
    },
    "PROBLEM_GENERAL_10" : {
       "description" : "",
-      "message" : "the receipt of a distress call from within {locality}"
+      "message" : "mottagandet av en nödsignal från [locality]"
    },
    "PROBLEM_GENERAL_2" : {
       "description" : "",
-      "message" : "a power failure in the engine core"
+      "message" : "ett kraftbortfall i mororkärnan"
    },
    "PROBLEM_GENERAL_3" : {
       "description" : "",
-      "message" : "an air leak"
+      "message" : "en luftläcka"
    },
    "PROBLEM_GENERAL_4" : {
       "description" : "",
-      "message" : "a severe form of food poisoning involving all personnel on board the ship"
+      "message" : "en allvarlig form av matförgiftning och innefattar all personal på skeppet"
    },
    "PROBLEM_GENERAL_5" : {
       "description" : "",
-      "message" : "a small meteor impact"
+      "message" : "en träff av en liten meteor"
    },
    "PROBLEM_GENERAL_6" : {
       "description" : "",
-      "message" : "a fight among crew members"
+      "message" : "ett slagsmål inom besättningen"
    },
    "PROBLEM_GENERAL_7" : {
       "description" : "",
-      "message" : "contact with an unidentified flight object"
+      "message" : "kontakt med ett oidentifierbart flygande objekt"
    },
    "PROBLEM_GENERAL_8" : {
       "description" : "",
-      "message" : "a dispute with a competitor's vessel"
+      "message" : "en dispyt med en konkurrents farkost"
    },
    "PROBLEM_GENERAL_9" : {
       "description" : "",
-      "message" : "a reboot of the main computer"
+      "message" : "en omstart av huvuddatorn"
    },
    "PROBLEM_RESEARCH_1" : {
       "description" : "",
-      "message" : "an unexpected chemical reaction in one of the reaction chambers"
+      "message" : "en oväntad kemisk reaktion i en av reaktorhärdarna."
    },
    "PROBLEM_RESEARCH_10" : {
       "description" : "",
-      "message" : "a major discovery at {locality} that I am not at liberty to disclose at this time"
+      "message" : "en stor upptäckt vid [locality] som jag inte kan diskutera just nu"
    },
    "PROBLEM_RESEARCH_2" : {
       "description" : "",
-      "message" : "an infection of a crew member with a pathogen local to {locality}"
+      "message" : "en besättningsman som blivit infekterad av en patogen hemmahörande i [locality]"
    },
    "PROBLEM_RESEARCH_3" : {
       "description" : "",
-      "message" : "a leak of experimental pathogens into the main air supply"
+      "message" : "en läcka av experimentella patogener in i ventilationssystemet"
    },
    "PROBLEM_RESEARCH_4" : {
       "description" : "",
-      "message" : "crew exposure to a specimen collected at {locality}"
+      "message" : "besättningen utsattes för ett insamlat exemplar vid [locality]"
    },
    "PROBLEM_RESEARCH_5" : {
       "description" : "",
-      "message" : "a chemical explosion in one of the on-board fume hoods"
+      "message" : "en kemisk explosion i en av våra dragskåp"
    },
    "PROBLEM_RESEARCH_6" : {
       "description" : "",
-      "message" : "an experimental recreation of {locality} atmospheric gases"
+      "message" : "en experimentellt återskapande av [locality] atmosfära gaser"
    },
    "PROBLEM_RESEARCH_7" : {
       "description" : "",
-      "message" : "a heated dispute between scientists on board the ship"
+      "message" : "en uphättad diskussion mellan två vetenskapskmän ombord"
    },
    "PROBLEM_RESEARCH_8" : {
       "description" : "",
-      "message" : "the sudden disappearance of a lead investigator on board the ship"
+      "message" : "det plötsliga försvinnandet av den ledande utredaren ombord på skeppet"
    },
    "PROBLEM_RESEARCH_9" : {
       "description" : "",
-      "message" : "the accidental combination of incompatible specimens from {locality}"
+      "message" : "av misstag kombinerat oförenliga prov från [locality]"
    },
    "RESULT_DELIVERY_COMM" : {
       "description" : "",
@@ -639,9 +639,17 @@
       "description" : "",
       "message" : "Sök och rädda insats"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Använd destination som navigationsmål"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Sätt som returmål"
+   },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
-      "message" : "Target ship unresponsive."
+      "message" : "Målskeppet svarar inte"
    },
    "SYSTEM" : {
       "description" : "",
@@ -649,31 +657,31 @@
    },
    "TARGET_SHIP_ID" : {
       "description" : "",
-      "message" : "Target ship ID:"
+      "message" : "Målskepps-ID:"
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
-      "message" : "Tak så hjärtligt. Din hjälp uppskattas."
+      "message" : "Tack så mycket. Din hjälp uppskattas verkligen."
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",
-      "message" : "tons of free cargo space"
+      "message" : "ton ledigt lastutrymme"
    },
    "TRANSFER_ABORTED" : {
       "description" : "",
-      "message" : "Transfer has been aborted!"
+      "message" : "Transaktion har avbrutits!"
    },
    "TRANSFER_COMPLETE" : {
       "description" : "",
-      "message" : "Transfer has been completed!"
+      "message" : "Transaktion har slutförts!"
    },
    "TRANSFER_PARTIAL" : {
       "description" : "",
-      "message" : "Transfer has been partially completed. Please return to finish transfer."
+      "message" : "Överföring är delvis slutförd. Återvänd för att slutföra överföringen."
    },
    "TRANSFER_TIME" : {
       "description" : "",
-      "message" : "Please allow {minutes} minutes for transfer."
+      "message" : "Vänligen vänta {minutes} för att fullborda transaktionen."
    },
    "TYPE_OF_HELP" : {
       "description" : "",
@@ -681,7 +689,7 @@
    },
    "UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "unoccupied passenger cabins"
+      "message" : "lediga passagerarhytter"
    },
    "WHERE_IS_THE_TARGET" : {
       "description" : "",

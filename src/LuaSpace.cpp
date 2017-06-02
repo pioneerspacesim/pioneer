@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -183,7 +183,7 @@ static int l_space_spawn_ship(lua_State *l)
  *
  * > -- spawn a ship 10km from the player
  * > local ship = Ship.SpawnNear("viper_police_craft", Game.player, 10, 10)
- * 
+ *
  * > -- spawn a ship 10km from the player with the players velocity
  * > local ship = Ship.SpawnNear("viper_police_craft", Game.player, 10, 10, nil, Game.player:velocity)
  *
@@ -215,8 +215,8 @@ static int l_space_spawn_ship_near(lua_State *l)
 	_unpack_hyperspace_args(l, 5, path, due);
 
 	vector3d newVelocity(nearbody->GetVelocity());
-    if (!lua_isnone(l, 6))
-        newVelocity = *LuaVector::CheckFromLua(l, 6); // If we have a 6th argument, it better be a vector, otherwise ERROR!!! Hence Check and not Get
+	if (!lua_isnone(l, 6))
+		newVelocity = *LuaVector::CheckFromLua(l, 6); // If we have a 6th argument, it better be a vector, otherwise ERROR!!! Hence Check and not Get
 
 	Ship *ship = new Ship(type);
 	assert(ship);

@@ -1,4 +1,4 @@
--- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local utils = import("utils")
@@ -16,8 +16,8 @@ EquipSet.default = {
 	laser_rear=0,
 	missile=0,
 	ecm=1,
-	scanner=1,
 	radar=1,
+	target_scanner=1,
 	hypercloud=1,
 	hull_autorepair=1,
 	energy_booster=1,
@@ -28,8 +28,9 @@ EquipSet.default = {
 	laser_cooler=1,
 	cargo_life_support=1,
 	autopilot=1,
-	trade_analyzer=1,
+	trade_computer=1,
 	sensor = 8,
+	thruster = 1
 }
 
 function EquipSet.New (slots)

@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Sfx.h"
@@ -48,7 +48,7 @@ Sfx::Sfx(const vector3d &pos, const vector3d &vel, const float speed, const SFX_
 {
 }
 
-Sfx::Sfx(const Sfx &b) : 
+Sfx::Sfx(const Sfx &b) :
 	m_pos(b.m_pos),	m_vel(b.m_vel),	m_age(b.m_age), m_speed(b.m_speed), m_type(b.m_type)
 {
 }
@@ -112,7 +112,7 @@ float Sfx::AgeBlend() const
 
 SfxManager::SfxManager()
 {
-	for(size_t t=0; t<TYPE_NONE; t++) 
+	for(size_t t=0; t<TYPE_NONE; t++)
 	{
 		m_instances[t].clear();
 	}
@@ -124,7 +124,7 @@ void SfxManager::ToJson(Json::Value &jsonObj, const Frame *f)
 
 	if (f->m_sfx)
 	{
-		for(size_t t=TYPE_EXPLOSION; t<TYPE_NONE; t++) 
+		for(size_t t=TYPE_EXPLOSION; t<TYPE_NONE; t++)
 		{
 			for (size_t i = 0; i < f->m_sfx->GetNumberInstances(SFX_TYPE(t)); i++)
 			{
@@ -179,7 +179,7 @@ void SfxManager::AddExplosion(Body *b)
 {
 	SfxManager *sfxman = AllocSfxInFrame(b->GetFrame());
 	if (!sfxman) return;
-	
+
 	float speed = 200.0f;
 	if (b->IsType(Object::SHIP)) {
 		Ship *s = static_cast<Ship*>(b);
@@ -202,7 +202,7 @@ void SfxManager::TimeStepAll(const float timeStep, Frame *f)
 {
 	PROFILE_SCOPED()
 	if (f->m_sfx) {
-		for(size_t t=TYPE_EXPLOSION; t<TYPE_NONE; t++) 
+		for(size_t t=TYPE_EXPLOSION; t<TYPE_NONE; t++)
 		{
 			for (size_t i = 0; i < f->m_sfx->GetNumberInstances(SFX_TYPE(t)); i++)
 			{
@@ -220,7 +220,7 @@ void SfxManager::TimeStepAll(const float timeStep, Frame *f)
 
 void SfxManager::Cleanup()
 {
-	for(size_t t=TYPE_EXPLOSION; t<TYPE_NONE; t++) 
+	for(size_t t=TYPE_EXPLOSION; t<TYPE_NONE; t++)
 	{
 		const size_t numInstances = GetNumberInstances(SFX_TYPE(t));
 		if(!numInstances)
@@ -244,7 +244,7 @@ void SfxManager::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 		matrix4x4d ftran;
 		Frame::GetFrameTransform(f, camFrame, ftran);
 
-		for(size_t t=TYPE_EXPLOSION; t<TYPE_NONE; t++) 
+		for(size_t t=TYPE_EXPLOSION; t<TYPE_NONE; t++)
 		{
 			const size_t numInstances = f->m_sfx->GetNumberInstances(SFX_TYPE(t));
 			if(!numInstances)
@@ -258,7 +258,7 @@ void SfxManager::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 			for (size_t i = 0; i < numInstances; i++)
 			{
 				Sfx &inst(f->m_sfx->GetInstanceByIndex(SFX_TYPE(t), i));
-				
+
 				assert(inst.m_type == t);
 				const vector3d dpos = ftran * inst.m_pos;
 				const vector3f pos(dpos);
@@ -266,22 +266,22 @@ void SfxManager::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 
 				float speed = 0.0f;
 				const vector2f offset(CalculateOffset(SFX_TYPE(t), inst));
-				switch (t) 
+				switch (t)
 				{
 					case TYPE_NONE: assert(false); break;
 					case TYPE_EXPLOSION: {
-						speed = SizeToPixels(pos, inst.m_speed); 
+						speed = SizeToPixels(pos, inst.m_speed);
 						rs = SfxManager::alphaState;
 						material = explosionParticle.get();
 						break;
 					}
-					case TYPE_DAMAGE: 
-						speed = SizeToPixels(pos, 20.f); 
+					case TYPE_DAMAGE:
+						speed = SizeToPixels(pos, 20.f);
 						rs = SfxManager::additiveAlphaState;
 						material = damageParticle.get();
 						break;
-					case TYPE_SMOKE: 
-						speed = Clamp(SizeToPixels(pos, (inst.m_speed*inst.m_age)), 0.1f, 50.0f); 
+					case TYPE_SMOKE:
+						speed = Clamp(SizeToPixels(pos, (inst.m_speed*inst.m_age)), 0.1f, 50.0f);
 						rs = SfxManager::alphaState;
 						material = smokeParticle.get();
 						break;
@@ -307,7 +307,7 @@ vector2f SfxManager::CalculateOffset(const enum SFX_TYPE type, const Sfx &inst)
 		const int u = (spriteframe % numImgsWide);    // % is the "modulo operator", the remainder of i / width;
 		const int v = (spriteframe / numImgsWide);    // where "/" is an integer division
 		return vector2f(
-			float(u) / float(numImgsWide), 
+			float(u) / float(numImgsWide),
 			float(v) / float(numImgsWide));
 	}
 	return vector2f(0.0f);
@@ -367,7 +367,7 @@ void SfxManager::Init(Graphics::Renderer *r)
 	cfg.SetString("damageFile", "textures/smoke.png");
 	cfg.SetString("smokeFile", "textures/smoke.png");
 	cfg.SetString("explosionFile", "textures/explosions/explosions.png");
-	
+
 	cfg.SetString("damagePacking", "billboard,1,1");
 	cfg.SetString("smokePacking", "billboard,1,1");
 	cfg.SetString("explosionPacking", "atlas,6,32");
@@ -389,7 +389,7 @@ void SfxManager::Init(Graphics::Renderer *r)
 	// materials
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
-	
+
 	// ECM effect is different, not managed by Sfx at all, should it be factored out?
 	desc.effect = Graphics::EFFECT_BILLBOARD;
 	ecmParticle.reset( r->CreateMaterial(desc) );
@@ -399,13 +399,13 @@ void SfxManager::Init(Graphics::Renderer *r)
 	SplitMaterialData(cfg.String("explosionPacking"), m_materialData[TYPE_EXPLOSION]);
 	SplitMaterialData(cfg.String("damagePacking"), m_materialData[TYPE_DAMAGE]);
 	SplitMaterialData(cfg.String("smokePacking"), m_materialData[TYPE_SMOKE]);
-	
+
 	desc.effect = m_materialData[TYPE_DAMAGE].effect;
 	damageParticle.reset( r->CreateMaterial(desc) );
 	damageParticle->texture0 = Graphics::TextureBuilder::Billboard(cfg.String("damageFile")).GetOrCreateTexture(r, "billboard");
 	if(desc.effect==Graphics::EFFECT_BILLBOARD_ATLAS)
 		damageParticle->specialParameter0 = &m_materialData[TYPE_DAMAGE].coord_downscale;
-	
+
 	desc.effect = m_materialData[TYPE_SMOKE].effect;
 	smokeParticle.reset( r->CreateMaterial(desc) );
 	smokeParticle->texture0 = Graphics::TextureBuilder::Billboard(cfg.String("smokeFile")).GetOrCreateTexture(r, "billboard");

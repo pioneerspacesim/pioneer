@@ -22,9 +22,13 @@
       "cargo" : 10,
       "scoop" : 1,
       "laser_front" : 1,
-      "laser_rear" : 1,
+      "laser_rear" : 0,
       "missile" : 4,
       "sensor"  : 8
+   },
+   "roles" : {
+      "merchant" : true,
+      "pirate" : true
    },
    "thruster_fuel_use" : -1.0,
    "up_thrust" : 500000.0

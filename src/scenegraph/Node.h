@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _NODE_H
@@ -41,6 +41,7 @@ struct RenderData
 {
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0
+	Color customColor;
 
 	float boundingRadius;	//updated by model and passed to submodels
 	unsigned int nodemask;
@@ -59,7 +60,7 @@ struct RenderData
 struct NodeDatabase {
 	Serializer::Writer *wr;
 	Serializer::Reader *rd;
-	Graphics::Renderer *renderer;
+//	Graphics::Renderer *renderer;
 	Model *model;
 	std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > > *materials;
 	BaseLoader *loader;

@@ -113,7 +113,7 @@
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
-      "message" : "la corporation des Services d'Enterrement de {locality}"
+      "message" : "Corporation des Services d'enterrement de {locality}"
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Pour recevoir le paiement complet vous devez délivrer le carburant pour {due}."
+      "message" : "Afin de recevoir le paiement complet, nous vous demandons de livrer le carburant d'ici {due}."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -213,15 +213,15 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Merci beaucoup! J'ai transféré la récompense complète."
+      "message" : "Merci beaucoup! Je vous ai transféré la totalité de la récompense."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} tonne(s) de carburant ont été transférées."
+      "message" : "{unit} tonnes de carburant ont été transféré."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Le pilote demande 1 tonne de carburant hydrogène."
+      "message" : "Le pilote demande {unit} tonnes de {cargo}."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -281,11 +281,11 @@
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} tonne(s) de carburant ont été transférées."
+      "message" : "{unit} tonnes de carburant ont été transféré."
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Le pilote demande 1 tonne de carburant hydrogène."
+      "message" : "Le pilote demande {unit} tonnes de {cargo}."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -313,11 +313,11 @@
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} tonne(s) de carburant ont été transférées."
+      "message" : "{unit} tonnes de carburant ont été transféré."
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Nous demandons la livraison de 1 tonne de carburant hydrogène au vaisseau."
+      "message" : "Nous demandons la livraison sur le vaisseau de {unit} tonnes de {cargo}."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
@@ -365,7 +365,7 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "Mon nom est {name} de {entity}. Notre seul vaisseau, {ship} {shiplabel}, est à la dérive avec un membre d'équipage encore à bord à la suite de {problem}. Je suis prêt à payer {cash} pour une aide immédiate."
+      "message" : "Mon nom est {name} de {entity}. Notre unique vaisseau, {ship} {shiplabel}, dérive actuellement avec un équipage de {crew} à la suite d'une avarie ({problem}). Je suis prêt à payer {cash} pour une aide immédiate."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
@@ -377,7 +377,7 @@
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} a été transféré vers le vaisseau cible."
+      "message" : "{unit} a été transféré à bord du vaisseau."
    },
    "FLAVOUR_7_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -477,7 +477,7 @@
    },
    "PLACE_OF_ASSISTANCE" : {
       "description" : "",
-      "message" : "Au lieu de secours"
+      "message" : "À l'endroit où ont eu lieu les secours"
    },
    "PLEASE_LAND" : {
       "description" : "",
@@ -639,9 +639,17 @@
       "description" : "",
       "message" : "Recherche et sauvetage"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Définir comme cible de navigation."
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Définir le trajet de retour."
+   },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
-      "message" : "Vaisseau cible sans réponse."
+      "message" : "Le vaisseau cible ne répond pas."
    },
    "SYSTEM" : {
       "description" : "",

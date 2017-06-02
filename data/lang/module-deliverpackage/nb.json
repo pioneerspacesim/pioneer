@@ -323,6 +323,10 @@
       "description" : "",
       "message" : "Du kan betale for lasten, med livet ditt."
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set as navigation target"
+   },
    "SPACEPORT" : {
       "description" : "",
       "message" : "Romstasjon:"

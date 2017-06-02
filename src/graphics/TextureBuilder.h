@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TEXTUREBUILDER_H
@@ -19,6 +19,8 @@ public:
 	TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true, bool anisoFiltering = true);
 	TextureBuilder(const std::string &filename, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true, bool anisoFiltering = true, TextureType textureType = TEXTURE_2D);
 	~TextureBuilder();
+
+	static void Init();
 
 	// convenience constructors for common texture types
 	static TextureBuilder Model(const std::string &filename) {
@@ -49,10 +51,12 @@ public:
 		if(m_filename.empty()) {
 			return CreateTexture(r);
 		}
+		SDL_LockMutex(m_textureLock);
 		Texture *t = r->GetCachedTexture(type, m_filename);
-		if (t) return t;
+		if (t) { SDL_UnlockMutex(m_textureLock); return t; }
 		t = CreateTexture(r);
 		r->AddCachedTexture(type, m_filename, t);
+		SDL_UnlockMutex(m_textureLock);
 		return t;
 	}
 
@@ -76,7 +80,7 @@ private:
 	TextureType m_textureType;
 
 	TextureDescriptor m_descriptor;
-	
+
 	Texture *CreateTexture(Renderer *r) {
 		Texture *t = r->CreateTexture(GetDescriptor());
 		UpdateTexture(t);
@@ -88,6 +92,8 @@ private:
 
 	void LoadSurface();
 	void LoadDDS();
+
+	static SDL_mutex *m_textureLock;
 };
 
 }

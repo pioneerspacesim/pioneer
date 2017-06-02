@@ -1,0 +1,1886 @@
+{
+   "AIR_PROCESSORS" : {
+      "description" : "",
+      "message" : "Próiseálaithe aeir"
+   },
+   "ALERT_CANCELLED" : {
+      "description" : "",
+      "message" : "Cealaíodh an rabhadh."
+   },
+   "ALLEGIANCE" : {
+      "description" : "",
+      "message" : "Dílseacht:"
+   },
+   "ALT" : {
+      "description" : "Alt key on keyboard",
+      "message" : "Alt"
+   },
+   "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
+      "description" : "",
+      "message" : "\" agus éiceachóras fíorchasta.\""
+   },
+   "AND_INDIGENOUS_MICROBIAL_LIFE" : {
+      "description" : "",
+      "message" : "\" agus beathra miocróbach bundúchasach.\""
+   },
+   "AND_INDIGENOUS_PLANT_LIFE" : {
+      "description" : "",
+      "message" : "\" agus beathra plandúil bundúchasach.\""
+   },
+   "ANIMAL_MEAT" : {
+      "description" : "",
+      "message" : "Feoil Ainmhithe"
+   },
+   "APOAPSIS_DISTANCE" : {
+      "description" : "",
+      "message" : "Fad aipipsise"
+   },
+   "AR_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmaisféar argóin\""
+   },
+   "ASTEROID" : {
+      "description" : "",
+      "message" : "Astaróideach"
+   },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "for star map, select star system when mouse close to it",
+      "message" : "Roghnúchán uathoibríoch réaltchórais"
+   },
+   "AUTOPILOT_CONTROL" : {
+      "description" : "Indicating that ship is flying under autopilot control",
+      "message" : "Rialú uathphíolóta"
+   },
+   "AUTOPILOT_DOCK_WITH_STATION" : {
+      "description" : "",
+      "message" : "Uathphíolóta: Téigh chun glais le stáisiún spáis"
+   },
+   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Uathphíolóta: Téigh i bhfithis ard timpeall %target"
+   },
+   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Uathphíolóta: Téigh i bhfithis íseal timpeall %target"
+   },
+   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
+      "description" : "",
+      "message" : "Uathphíolóta: Téigh i bhfithis meánairde timpeall %target"
+   },
+   "AUTOPILOT_FLY_TO_VICINITY_OF" : {
+      "description" : "",
+      "message" : "Uathphíolóta: Eitil i ngar do %target"
+   },
+   "AUTOPILOT_ON" : {
+      "description" : "",
+      "message" : "Uathphíolóta ar siúl"
+   },
+   "AXIAL_TILT" : {
+      "description" : "",
+      "message" : "Claonadh aiseach"
+   },
+   "A_FEW_THOUSAND" : {
+      "description" : "regarding population",
+      "message" : "Cúpla míle"
+   },
+   "BATTLE_WEAPONS" : {
+      "description" : "",
+      "message" : "Airm chatha"
+   },
+   "BINARY_SYSTEM" : {
+      "description" : "",
+      "message" : "Córas déréalta"
+   },
+   "BODIES" : {
+      "description" : "space bodies",
+      "message" : "rinn neimhe"
+   },
+   "BODY" : {
+      "description" : "",
+      "message" : "rinn neimhe"
+   },
+   "BROWN_DWARF" : {
+      "description" : "",
+      "message" : "Abhac donn (rinn fo-réaltach)"
+   },
+   "BUTTON" : {
+      "description" : "",
+      "message" : "\" Cnaipe \""
+   },
+   "CAMERA_BOTTOM_VIEW" : {
+      "description" : "",
+      "message" : "Ceamara íochtarach"
+   },
+   "CAMERA_FRONT_VIEW" : {
+      "description" : "",
+      "message" : "Ceamara chun tosaigh"
+   },
+   "CAMERA_LEFT_VIEW" : {
+      "description" : "",
+      "message" : "Ceamara ar clé"
+   },
+   "CAMERA_REAR_VIEW" : {
+      "description" : "",
+      "message" : "Ceamara ar gcúl"
+   },
+   "CAMERA_RIGHT_VIEW" : {
+      "description" : "",
+      "message" : "Ceamara ar dheis"
+   },
+   "CAMERA_TOP_VIEW" : {
+      "description" : "",
+      "message" : "Ceamara uachtarach"
+   },
+   "CANT_SAVE_DEAD_PLAYER" : {
+      "description" : "",
+      "message" : "Ní féidir an cluiche a shábháil tar éis don imreoir bás a fháil"
+   },
+   "CANT_SAVE_IN_HYPERSPACE" : {
+      "description" : "",
+      "message" : "Ní féidir an cluiche a shábháil agus an t-imreoir sa hipearspás"
+   },
+   "CAPITALIST" : {
+      "description" : "",
+      "message" : "Caipitlíoch"
+   },
+   "CARBON_ORE" : {
+      "description" : "",
+      "message" : "Mianach carbóin"
+   },
+   "CARBON_ORE_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Úsáidtear mianta carbóin (gual agus ola) le go leor substaintí úsáideacha a chruthú: plaistigh, bia-ábhar sintéiseach, cógais, agus teicstílí san áireamh."
+   },
+   "CARGO" : {
+      "description" : "",
+      "message" : "Lasta"
+   },
+   "CARGO_BAY_LIFE_SUPPORT_LOST" : {
+      "description" : "",
+      "message" : "De réir na mbraiteoirí, tá coinníollacha sa mbá lasta criticiúil ó thaobh cúrsaí cothaithe beatha."
+   },
+   "CARGO_N" : {
+      "description" : "",
+      "message" : "Lasta: %{mass}t"
+   },
+   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
+      "description" : "",
+      "message" : "Scúp lasta ar siúl. Tá 1 tona amháin %item bailithe agat."
+   },
+   "CARGO_SCOOP_ATTEMPTED" : {
+      "description" : "",
+      "message" : "Rinne tú iarracht an scúp lasta a úsáid. Níl go leor spáis sa mbolg lasta."
+   },
+   "CH4_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmaisféar meatáin\""
+   },
+   "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
+      "description" : "",
+      "message" : "Tá cead agat cheana. Lean ar aghaidh go dtí bá nasctha %bay."
+   },
+   "CLEARANCE_DENIED_NO_BAYS" : {
+      "description" : "",
+      "message" : "Diúltaíodh cead. Níl aon bhá nasctha saor."
+   },
+   "CLEARANCE_GRANTED_BAY_N" : {
+      "description" : "",
+      "message" : "Tugadh cead duit. Lean ar aghaidh go dtí bá nasctha %bay."
+   },
+   "CO2_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmaisféar dé-ocsaíde carbóin\""
+   },
+   "COMMA_HIGHLY_VOLCANIC" : {
+      "description" : "",
+      "message" : ", an-bholcánach"
+   },
+   "COMMODITY_NONE" : {
+      "description" : "When no commodities exist",
+      "message" : "Faic"
+   },
+   "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
+      "description" : "",
+      "message" : "Anailís ar mhargadh na dtráchtearraí ar #ff0%selected_system#fff (roghnaithe) i gcomparáid le #ff0%current_system#fff (ceann reatha):"
+   },
+   "COMMODITY_TRADE_ANALYSIS_SELF" : {
+      "description" : "",
+      "message" : "Anailís ar mhargadh na dtráchtearraí ar #fff%system#fff"
+   },
+   "COMMS" : {
+      "description" : "",
+      "message" : "Cumarsáid"
+   },
+   "COMMUNIST" : {
+      "description" : "",
+      "message" : "Cumannach"
+   },
+   "COMPASS_E" : {
+      "description" : "Abbreviation for compass direction: East",
+      "message" : "O"
+   },
+   "COMPASS_N" : {
+      "description" : "Abbreviation for compass direction: North",
+      "message" : "T"
+   },
+   "COMPASS_NE" : {
+      "description" : "Abbreviation for compass direction: North East",
+      "message" : "OṪ"
+   },
+   "COMPASS_NW" : {
+      "description" : "Abbreviation for compass direction: North West",
+      "message" : "IṪ"
+   },
+   "COMPASS_S" : {
+      "description" : "Abbreviation for compass direction: South",
+      "message" : "D"
+   },
+   "COMPASS_SE" : {
+      "description" : "Abbreviation for compass direction: South East",
+      "message" : "OḊ"
+   },
+   "COMPASS_SW" : {
+      "description" : "Abbreviation for compass direction: South West",
+      "message" : "IḊ"
+   },
+   "COMPASS_W" : {
+      "description" : "Abbreviation for compass direction: West",
+      "message" : "I"
+   },
+   "COMPUTERS" : {
+      "description" : "",
+      "message" : "Ríomhairí"
+   },
+   "COMPUTER_HEADING_CONTROL" : {
+      "description" : "",
+      "message" : "Ríomhstiúradh"
+   },
+   "COMPUTER_SPEED_CONTROL" : {
+      "description" : "",
+      "message" : "Ríomhrialú luais"
+   },
+   "CONSUMER_GOODS" : {
+      "description" : "",
+      "message" : "Earraí tomhaltais"
+   },
+   "CONTROLS" : {
+      "description" : "",
+      "message" : "Rialtáin"
+   },
+   "CORPORATE_SYSTEM" : {
+      "description" : "",
+      "message" : "Córas corparáideach"
+   },
+   "COULD_NOT_OPEN_FILENAME" : {
+      "description" : "",
+      "message" : "Níorbh fhéidir %path a oscailt"
+   },
+   "COUNT_ON_SURFACE" : {
+      "description" : "",
+      "message" : "\" (%surfacecount ar an dromchla)\""
+   },
+   "COUNT_STARPORTS" : {
+      "description" : "",
+      "message" : "spásphoirt"
+   },
+   "CO_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmaisféar aonocsaíde carbóin\""
+   },
+   "CTRL" : {
+      "description" : "Ctrl key on keyboard",
+      "message" : "Ctrl"
+   },
+   "CURRENT_SYSTEM" : {
+      "description" : "selected current star system",
+      "message" : "An réaltchóras reatha"
+   },
+   "DATE_DUE_N" : {
+      "description" : "",
+      "message" : "Dáta dlite: %date"
+   },
+   "DAY_LENGTH" : {
+      "description" : "",
+      "message" : "Fad an lae"
+   },
+   "DECREASE_RADAR_RANGE" : {
+      "description" : "",
+      "message" : "Laghdaigh raon an radair"
+   },
+   "DECREASE_SET_SPEED" : {
+      "description" : "",
+      "message" : "Socraigh luas níos ísle"
+   },
+   "DECREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Laghdaigh Luathú an Ama"
+   },
+   "DEMOGRAPHICS" : {
+      "description" : "",
+      "message" : "Déimeagrafaic"
+   },
+   "DESTINATION" : {
+      "description" : "",
+      "message" : "Ceann scríbe"
+   },
+   "DIRECTION" : {
+      "description" : "Direction",
+      "message" : "\" Treo \""
+   },
+   "DISTANCE_LY" : {
+      "description" : "",
+      "message" : "Fad: %distance{f.2} sbh"
+   },
+   "DOCKED" : {
+      "description" : "",
+      "message" : "Glasáilte"
+   },
+   "DOCKING" : {
+      "description" : "",
+      "message" : "Glasáil"
+   },
+   "DOCKING_CLEARANCE_EXPIRED" : {
+      "description" : "",
+      "message" : "Chuaigh an cead glasála in éag. Más mian leat teacht chun glais, caithfidh tú cead a iarraidh arís."
+   },
+   "DOWNGRADING_ALERT_STATUS" : {
+      "description" : "",
+      "message" : "Níor braitheadh aon tine le 60 soicind anuas; rabhadh á íosghrádú."
+   },
+   "DRAW_OUT_RANGE_LABELS" : {
+      "description" : "",
+      "message" : "Cuir lipéad le réaltchórais atá as raon"
+   },
+   "DRAW_UNINHABITED_LABELS" : {
+      "description" : "",
+      "message" : "Cuir lipéad le réaltchórais neamháitrithe"
+   },
+   "DRAW_VERTICAL_LINES" : {
+      "description" : "",
+      "message" : "Tarraing línte ingearacha"
+   },
+   "EARTH" : {
+      "description" : "",
+      "message" : "An Domhan"
+   },
+   "EARTH_FEDERATION_COLONIAL_RULE" : {
+      "description" : "",
+      "message" : "Faoi riail choilíneach Chónaidhm an Domhain"
+   },
+   "EARTH_FEDERATION_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Daonlathas Chónaidhm an Domhain"
+   },
+   "ECCENTRICITY" : {
+      "description" : "",
+      "message" : "Éalárnacht"
+   },
+   "ECONOMIC_INFO" : {
+      "description" : "",
+      "message" : "Eolas faoin gheilleagar"
+   },
+   "ECONOMY_TYPE" : {
+      "description" : "",
+      "message" : "Cineál geilleagair:"
+   },
+   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
+      "description" : "",
+      "message" : "Cóimheas idir an ga meánchiorclach agus an ga molach"
+   },
+   "EXACT_MATCH_X" : {
+      "description" : "",
+      "message" : "Meaitseáil chruinn: %system"
+   },
+   "EXTENSIVE_MINING" : {
+      "description" : "",
+      "message" : "Oibríocht mhór mhianadóireachta."
+   },
+   "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
+      "description" : "",
+      "message" : "Brú atmaisféarach ar an taobh amuigh"
+   },
+   "EXTERNAL_VIEW" : {
+      "description" : "",
+      "message" : "Radharc seachtrach"
+   },
+   "FARM_MACHINERY" : {
+      "description" : "",
+      "message" : "Innealra feirme"
+   },
+   "FERTILIZER" : {
+      "description" : "",
+      "message" : "Leasachán"
+   },
+   "FINE_PAID_N" : {
+      "description" : "",
+      "message" : "D'íoc tú an fhíneáil %fine."
+   },
+   "FINE_PAID_N_BUT_N_REMAINING" : {
+      "description" : "",
+      "message" : "D'íoc tú %paid, ach tá fíneáil %fine fós le híoc agat."
+   },
+   "FIRE_LASER" : {
+      "description" : "",
+      "message" : "Scaoil léasar"
+   },
+   "FIRE_MISSILE" : {
+      "description" : "",
+      "message" : "Scaoil diúracán"
+   },
+   "FOLLOWING_SELECTION" : {
+      "description" : "",
+      "message" : "an chéad roghnú eile"
+   },
+   "FRUIT_AND_VEG" : {
+      "description" : "",
+      "message" : "Torthaí agus Glasraí"
+   },
+   "FUEL" : {
+      "description" : "",
+      "message" : "Breosla"
+   },
+   "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
+      "description" : "",
+      "message" : "Scúp breosla ar siúl. Tá %quantity tona hidrigine agat anois."
+   },
+   "GALACTIC_VIEW" : {
+      "description" : "view galactic map",
+      "message" : "Radharc réaltrach"
+   },
+   "GALAXY_SECTOR_VIEW" : {
+      "description" : "",
+      "message" : "Radharc rannóige réaltraí"
+   },
+   "GAME_LOAD_CANNOT_OPEN" : {
+      "description" : "",
+      "message" : "Níor aimsíodh comhad sábhála '%filename' (nó níl cead agat é a oscailt)."
+   },
+   "GAME_LOAD_CORRUPT" : {
+      "description" : "",
+      "message" : "Ní féidir an cluiche sábháilte a lódáil mar gheall ar earráidí sa gcomhad."
+   },
+   "GAME_LOAD_WRONG_VERSION" : {
+      "description" : "",
+      "message" : "Ní féidir an cluiche sábháilte seo a lódáil toisc go raibh sé cruthaithe ag leagan difriúil de Pioneer."
+   },
+   "GAME_SAVED_TO" : {
+      "description" : "",
+      "message" : "\"Sábháladh an cluiche mar \""
+   },
+   "GAME_SAVE_CANNOT_WRITE" : {
+      "description" : "",
+      "message" : "Níorbh fhéidir scríobh sa gcomhad sábhála mar gheall ar earráid chórais."
+   },
+   "GENERAL_VIEW_CONTROLS" : {
+      "description" : "",
+      "message" : "Rialtáin Ghinearálta Radhairc"
+   },
+   "GOVERNMENT_TYPE" : {
+      "description" : "",
+      "message" : "Cineál rialtais:"
+   },
+   "GRAIN" : {
+      "description" : "like wheat or barley",
+      "message" : "Arbhar"
+   },
+   "HAND_WEAPONS" : {
+      "description" : "",
+      "message" : "Airm láimhe"
+   },
+   "HARD_CAPITALIST" : {
+      "description" : "",
+      "message" : "Caipitlíoch amach is amach - gan aon chóras leasa shóisialaigh"
+   },
+   "HAT" : {
+      "description" : "Hat switch: Is the top button on a joystick",
+      "message" : "\" Hata\""
+   },
+   "HEADING_LOCK_ANTINORMAL" : {
+      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
+      "message" : "Coinnigh an treoshuíomh bunoscionn"
+   },
+   "HEADING_LOCK_BACKWARD" : {
+      "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
+      "message" : "Coinnigh treoshuíomh casiompaithe"
+   },
+   "HEADING_LOCK_FORWARD" : {
+      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
+      "message" : "Coinnigh treoshuíomh forghrádach"
+   },
+   "HEADING_LOCK_KILLROT" : {
+      "description" : "",
+      "message" : "Stop an rothlú"
+   },
+   "HEADING_LOCK_NORMAL" : {
+      "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
+      "message" : "Coinnigh an gnáth-threoshuíomh"
+   },
+   "HEADING_LOCK_RADIALLY_INWARD" : {
+      "description" : "Autopilot direction, relative to orbit (face towards planet)",
+      "message" : "Coinnigh treoshuíomh i dtreo an phláinéid"
+   },
+   "HEADING_LOCK_RADIALLY_OUTWARD" : {
+      "description" : "Autopilot direction, relative to orbit (face away from palent)",
+      "message" : "Coinnigh treoshuíomh amach ón phláinéad"
+   },
+   "HEAVY_INDUSTRY" : {
+      "description" : "",
+      "message" : "Tionscal trom."
+   },
+   "HE_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmaisféar héiliam\""
+   },
+   "HIGHLY_VOLCANIC" : {
+      "description" : "",
+      "message" : "An-bholcánach"
+   },
+   "HIGH_POPULATION_OUTDOOR_WORLD" : {
+      "description" : "",
+      "message" : "Domhan amuigh a bhfuil daonra mór ann."
+   },
+   "HULL_INTEGRITY" : {
+      "description" : "",
+      "message" : "Sláine na cabhlach"
+   },
+   "HULL_TEMP" : {
+      "description" : "",
+      "message" : "Teocht na cabhlach"
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Hidrigin"
+   },
+   "HYDROGEN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Úsáidtear hidrigin mar bhreosla comhleá den chuid is mó"
+   },
+   "HYPERSPACE" : {
+      "description" : "",
+      "message" : "Hipearspás"
+   },
+   "HYPERSPACE_ARRIVAL_CLOUD" : {
+      "description" : "",
+      "message" : "Néal hipearspáis ar theacht"
+   },
+   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
+      "description" : "",
+      "message" : "Iarsma an néil hipearspáis ar theacht"
+   },
+   "HYPERSPACE_DEPARTURE_CLOUD" : {
+      "description" : "",
+      "message" : "Néal hipearspáis ar imeacht"
+   },
+   "HYPERSPACE_JUMP_ABORT" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Stop an Hipirthiomáint"
+   },
+   "HYPERSPACE_JUMP_ABORTED" : {
+      "description" : "",
+      "message" : "Léim hipearspáis curtha ar ceal."
+   },
+   "HYPERSPACE_JUMP_DISABLED" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Díchumasaíodh an hipirthiomáint"
+   },
+   "HYPERSPACE_JUMP_ENGAGE" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Tosaigh an Hipirthiomáint"
+   },
+   "HYPERSPACE_JUMP_FORBIDDEN" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Cosc ar hipirthiomáint anseo"
+   },
+   "HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Sprioc hipearspáis"
+   },
+   "HYPERSPACING_IN_N_SECONDS" : {
+      "description" : "",
+      "message" : "Ag dul sa hipearspás i gceann %countdown{f.0} soicind"
+   },
+   "H_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmaisféar hidrigine\""
+   },
+   "ICE_WORLD" : {
+      "description" : "",
+      "message" : "\" domhan oighir\""
+   },
+   "ILLEGAL_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+      "message" : "Neamhdhleathach (an réaltchóras reatha):"
+   },
+   "ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Earraí Mídhleathacha:"
+   },
+   "IMPERIAL_RULE" : {
+      "description" : "",
+      "message" : "Riail Impiriúil"
+   },
+   "INCREASE_RADAR_RANGE" : {
+      "description" : "",
+      "message" : "Méadaigh raon an radair"
+   },
+   "INCREASE_SET_SPEED" : {
+      "description" : "",
+      "message" : "Socraigh luas níos airde"
+   },
+   "INCREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Méadaigh Luathú an Ama"
+   },
+   "INDUSTRIAL_COLONY" : {
+      "description" : "",
+      "message" : "Coilíneacht thionsclaíoch"
+   },
+   "INDUSTRIAL_HUB_SYSTEM" : {
+      "description" : "",
+      "message" : "Córas bunaithe ar lárionad tionsclaíoch."
+   },
+   "INDUSTRIAL_MACHINERY" : {
+      "description" : "",
+      "message" : "Innealra tionsclaíoch"
+   },
+   "INTERNAL_VIEW" : {
+      "description" : "",
+      "message" : "Radharc inmheánach"
+   },
+   "IN_TRANSIT" : {
+      "description" : "",
+      "message" : "Faoi bhealach"
+   },
+   "IN_TRANSIT_TO_N_X_X_X" : {
+      "description" : "",
+      "message" : "Ar an tslí go dtí %system [%x,%y,%z]"
+   },
+   "JOY" : {
+      "description" : "Short for Joystick",
+      "message" : "Áthas"
+   },
+   "JOYSTICK_INPUT" : {
+      "description" : "",
+      "message" : "Ionchur ón luamhán stiúrtha"
+   },
+   "JOY_AXIS" : {
+      "description" : "Regarding joystick",
+      "message" : "%{sign}%joyname %axis Ais"
+   },
+   "JUMP_COMPLETE" : {
+      "description" : "",
+      "message" : "Dul chun cinn na léime: %percent%%"
+   },
+   "L4L5_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show L4/L5 points or don't",
+      "message" : "Athraigh mód taispeána na bpointí Lagrange L4/L5."
+   },
+   "LANDED" : {
+      "description" : "",
+      "message" : "Tuirlingthe"
+   },
+   "LANG_NAME" : {
+      "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
+      "message" : "Gaeilge"
+   },
+   "LARGE" : {
+      "description" : "regarding terrestrial planet size (mass actually)",
+      "message" : "Mór"
+   },
+   "LARGE_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Fathach gáis mór"
+   },
+   "LASER_FIRE_DETECTED" : {
+      "description" : "",
+      "message" : "Braitheadh lámhach léasair."
+   },
+   "LATITUDE" : {
+      "description" : "Short for latitude",
+      "message" : "Domhanleithead:"
+   },
+   "LEGAL_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+      "message" : "Dleathach (an réaltchóras reatha):"
+   },
+   "LIBERAL_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Daonlathas liobrálach"
+   },
+   "LIQUID_OXYGEN" : {
+      "description" : "",
+      "message" : "Ocsaigin Leachtach"
+   },
+   "LIQUID_OXYGEN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Tá ocsaigin ag teastáil ó chórais chothaithe beatha agus ó phróisis thionsclaíocha áirithe"
+   },
+   "LIQUOR" : {
+      "description" : "",
+      "message" : "Poitín"
+   },
+   "LIVE_ANIMALS" : {
+      "description" : "",
+      "message" : "Ainmhithe Beo"
+   },
+   "LOCKED" : {
+      "description" : "to lock a hyperspace target",
+      "message" : "faoi ghlas"
+   },
+   "LONGITUDE" : {
+      "description" : "Short for longitude",
+      "message" : "Domhadfhad:"
+   },
+   "MAJOR_EXPORTS" : {
+      "description" : "",
+      "message" : "Príomheaspórtálacha:"
+   },
+   "MAJOR_EXPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Príomheaspórtáil (an réaltchóras reatha)"
+   },
+   "MAJOR_IMPORTS" : {
+      "description" : "",
+      "message" : "Príomhiompórtálacha:"
+   },
+   "MAJOR_IMPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Príomhiompórtáil (an réaltchóras reatha)"
+   },
+   "MANUAL_CONTROL" : {
+      "description" : "",
+      "message" : "Rialú láimhe"
+   },
+   "MANUAL_CONTROL_MODE" : {
+      "description" : "",
+      "message" : "Mód rialaithe láimhe"
+   },
+   "MAP_LOCK_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Dírigh ar Sprioc Hipearspáis"
+   },
+   "MAP_TOGGLE_INFO_PANEL" : {
+      "description" : "",
+      "message" : "Scoránaigh an Painéal Eolais"
+   },
+   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
+      "description" : "",
+      "message" : "Scoránaigh Radharc Leanúint an Roghnúcháin"
+   },
+   "MAP_VIEW_ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Rothlaigh an Radharc síos"
+   },
+   "MAP_VIEW_ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Rothlaigh an Radharc ar clé"
+   },
+   "MAP_VIEW_ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Rothlaigh an Radharc ar dheis"
+   },
+   "MAP_VIEW_ROTATE_UP" : {
+      "description" : "",
+      "message" : "Rothlaigh an Radharc suas"
+   },
+   "MAP_VIEW_SHIFT_BACKWARD" : {
+      "description" : "",
+      "message" : "Aistrigh an Radharc ar gcúl"
+   },
+   "MAP_VIEW_SHIFT_DOWN" : {
+      "description" : "",
+      "message" : "Aistrigh an Radharc síos"
+   },
+   "MAP_VIEW_SHIFT_FORWARD" : {
+      "description" : "",
+      "message" : "Aistrigh an Radharc ar aghaidh"
+   },
+   "MAP_VIEW_SHIFT_LEFT" : {
+      "description" : "",
+      "message" : "Aistrigh an Radharc ar clé"
+   },
+   "MAP_VIEW_SHIFT_RIGHT" : {
+      "description" : "",
+      "message" : "Aistrigh an Radharc ar dheis"
+   },
+   "MAP_VIEW_SHIFT_UP" : {
+      "description" : "",
+      "message" : "Aistrigh an Radharc suas"
+   },
+   "MAP_WARP_TO_CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Freangadh go dtí an Réaltchóras Reatha"
+   },
+   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Freangadh go dtí an Sprioc Hipearspáis"
+   },
+   "MAP_WARP_TO_SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Freangadh go dtí Réaltchóras Roghnaithe"
+   },
+   "MASS" : {
+      "description" : "",
+      "message" : "Mais"
+   },
+   "MASSIVE" : {
+      "description" : "",
+      "message" : "Ollmhór"
+   },
+   "MASS_N_TONNES" : {
+      "description" : "",
+      "message" : "Mais: %{mass}t"
+   },
+   "MEDICINES" : {
+      "description" : "",
+      "message" : "Cógais"
+   },
+   "MEDIUM_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Fathach gáis measartha mór"
+   },
+   "MESSAGE_FROM_X" : {
+      "description" : "",
+      "message" : "Teachtaireacht ó %sender:"
+   },
+   "META" : {
+      "description" : "'Meta' key on keyboard",
+      "message" : "Meta"
+   },
+   "METAL_ALLOYS" : {
+      "description" : "",
+      "message" : "Coímhiotail"
+   },
+   "METAL_ORE" : {
+      "description" : "",
+      "message" : "Mianach miotail"
+   },
+   "MILITARY_DICTATORSHIP" : {
+      "description" : "",
+      "message" : "Deachtóireacht mhíleata"
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Breosla míleata"
+   },
+   "MINING_COLONY" : {
+      "description" : "",
+      "message" : "Coilíneacht mianadóireachta."
+   },
+   "MINING_MACHINERY" : {
+      "description" : "",
+      "message" : "Innealra mianadóireachta"
+   },
+   "MINOR_EXPORTS" : {
+      "description" : "",
+      "message" : "Mioneaspórtálacha:"
+   },
+   "MINOR_EXPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Mioneaspórtáil (an réaltchóras reatha)"
+   },
+   "MINOR_IMPORTS" : {
+      "description" : "",
+      "message" : "Mioniompórtálacha:"
+   },
+   "MINOR_IMPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Mioniompórtáil (an réaltchóras reatha)"
+   },
+   "MISCELLANEOUS" : {
+      "description" : "",
+      "message" : "Éagsúil"
+   },
+   "MISSILE" : {
+      "description" : "",
+      "message" : "diúracán"
+   },
+   "MIXED_ECONOMY" : {
+      "description" : "",
+      "message" : "Geilleagar measctha"
+   },
+   "MONTH_APR" : {
+      "description" : "",
+      "message" : "Aib"
+   },
+   "MONTH_AUG" : {
+      "description" : "",
+      "message" : "Lún"
+   },
+   "MONTH_DEC" : {
+      "description" : "",
+      "message" : "Noll"
+   },
+   "MONTH_FEB" : {
+      "description" : "",
+      "message" : "Fea"
+   },
+   "MONTH_JAN" : {
+      "description" : "",
+      "message" : "Ean"
+   },
+   "MONTH_JUL" : {
+      "description" : "",
+      "message" : "Iúil"
+   },
+   "MONTH_JUN" : {
+      "description" : "",
+      "message" : "Meith"
+   },
+   "MONTH_MAR" : {
+      "description" : "",
+      "message" : "Már"
+   },
+   "MONTH_MAY" : {
+      "description" : "",
+      "message" : "Beal"
+   },
+   "MONTH_NOV" : {
+      "description" : "",
+      "message" : "Samh"
+   },
+   "MONTH_OCT" : {
+      "description" : "",
+      "message" : "DFómh"
+   },
+   "MONTH_SEP" : {
+      "description" : "",
+      "message" : "MFómh"
+   },
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Ainm"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
+      "message" : "Ainm"
+   },
+   "NARCOTICS" : {
+      "description" : "",
+      "message" : "Drugaí"
+   },
+   "NAVIGATION_STAR_MAPS" : {
+      "description" : "",
+      "message" : "Loingseoireacht agus réaltatlais"
+   },
+   "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
+      "description" : "",
+      "message" : "Spriocanna loingseoireachta sa réaltchóras seo"
+   },
+   "NERVE_GAS" : {
+      "description" : "",
+      "message" : "Néarghás"
+   },
+   "NOT_FOUND" : {
+      "description" : "searching star system in sector view",
+      "message" : "Gan aimsiú"
+   },
+   "NOT_FOUND_BEST_MATCH_X" : {
+      "description" : "",
+      "message" : "Gan aimsiú, meaitseáil is fearr: %system"
+   },
+   "NOW" : {
+      "description" : "In System Orbit View",
+      "message" : "Anois"
+   },
+   "NO_ALERT" : {
+      "description" : "",
+      "message" : "Gan rabhadh"
+   },
+   "NO_CENTRAL_GOVERNANCE" : {
+      "description" : "",
+      "message" : "Gan rialtas láir"
+   },
+   "NO_ESTABLISHED_ORDER" : {
+      "description" : "",
+      "message" : "Gan ord réamhshocraithe"
+   },
+   "NO_HYPERDRIVE" : {
+      "description" : "",
+      "message" : "Gan hipirthiomáint"
+   },
+   "NO_REGISTERED_INHABITANTS" : {
+      "description" : "",
+      "message" : "Níl aon áitritheoirí cláraithe ann"
+   },
+   "NO_TARGET_SELECTED" : {
+      "description" : "",
+      "message" : "Ríomhaire na Loinge: Níl aon sprioc roghnaithe"
+   },
+   "NUMBER_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.0} lá"
+   },
+   "NUMBER_DECIMAL_POINT" : {
+      "description" : "Decimal delimiter used in numbers.",
+      "message" : "."
+   },
+   "NUMBER_G" : {
+      "description" : "",
+      "message" : "%acceleration{f.1} G"
+   },
+   "NUMBER_GROUP_MIN" : {
+      "description" : "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
+      "message" : "1000"
+   },
+   "NUMBER_GROUP_NUM" : {
+      "description" : "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
+      "message" : "3"
+   },
+   "NUMBER_GROUP_SEP" : {
+      "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
+      "message" : ","
+   },
+   "NUMBER_HOURS" : {
+      "description" : "",
+      "message" : "%hours{f.1} uair an chloig"
+   },
+   "NUMBER_LY" : {
+      "description" : "",
+      "message" : "%distance{f.2} sbh"
+   },
+   "NUMBER_TONNES" : {
+      "description" : "",
+      "message" : "%{mass}t"
+   },
+   "N_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmaisféar nítrigine\""
+   },
+   "N_CELSIUS" : {
+      "description" : "",
+      "message" : "%temperature C"
+   },
+   "N_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.1} lá"
+   },
+   "N_DEGREES" : {
+      "description" : "",
+      "message" : "%angle{f.1} céim"
+   },
+   "N_EARTH_DAYS" : {
+      "description" : "",
+      "message" : "%days{f.1} lá domhanda"
+   },
+   "N_WHATEVER_MASSES" : {
+      "description" : "",
+      "message" : "%mass{f.3} %units mais"
+   },
+   "N_WHATEVER_RADII" : {
+      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
+      "message" : "%radius{f.3} %units ga (%radkm{f.0} km)"
+   },
+   "N_YEARS" : {
+      "description" : "",
+      "message" : "%years{f.1} bliain"
+   },
+   "O2_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmaisféar ocsaigine\""
+   },
+   "OCEANICWORLD" : {
+      "description" : "",
+      "message" : "\" domhan aigéanach\""
+   },
+   "ORBITAL_PERIOD" : {
+      "description" : "",
+      "message" : "Tréimhse fhithiseach"
+   },
+   "ORBITAL_STARPORT" : {
+      "description" : "",
+      "message" : "Spásphort fithiseach"
+   },
+   "OUTDOOR_AGRICULTURAL_WORLD" : {
+      "description" : "",
+      "message" : "Domhan amuigh talmhaíochta."
+   },
+   "OVER_N_BILLION" : {
+      "description" : "",
+      "message" : "Níos mó ná %population billiún"
+   },
+   "OVER_N_MILLION" : {
+      "description" : "",
+      "message" : "Níos mó ná %population milliún"
+   },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Cábán Paisinéara Gafa"
+   },
+   "PAUSED" : {
+      "description" : "",
+      "message" : "AR SOS"
+   },
+   "PAY_FINE_REMOTELY" : {
+      "description" : "",
+      "message" : "Íoc fíneáil trí chianaistriú airgid (%amount)"
+   },
+   "PERIAPSIS_DISTANCE" : {
+      "description" : "",
+      "message" : "Fad peiripsise"
+   },
+   "PIONEER" : {
+      "description" : "",
+      "message" : "PIONEER"
+   },
+   "PITCH" : {
+      "description" : "",
+      "message" : "Bocáil"
+   },
+   "PITCH_DOWN" : {
+      "description" : "",
+      "message" : "Bocáil síos"
+   },
+   "PITCH_UP" : {
+      "description" : "",
+      "message" : "Bocáil suas"
+   },
+   "PLANETARY_INFO" : {
+      "description" : "",
+      "message" : "Eolas faoin phláinéad"
+   },
+   "PLANET_CONTAINING_LIQUID_WATER" : {
+      "description" : "",
+      "message" : "\" pláinéad ar a bhfuil uisce leachtach\""
+   },
+   "PLANET_WITH_SOME_ICE" : {
+      "description" : "",
+      "message" : "\" pláinéad ar a bhfuil roinnt oighir\""
+   },
+   "PLANNED_ECONOMY" : {
+      "description" : "",
+      "message" : "Geilleagar lárphleanáilte"
+   },
+   "PLANNER_RESET_FACTOR" : {
+      "description" : "For system orbit view",
+      "message" : "Ráta méadaithe na luachanna deilt-v. Cliceáil le filleadh ar an réamhshocrú."
+   },
+   "PLANNER_RESET_NORMAL" : {
+      "description" : "For system orbit view",
+      "message" : "Deilt-v an ghnáth-threoshuímh. Cliceáil le filleadh ar náid."
+   },
+   "PLANNER_RESET_PROGRADE" : {
+      "description" : "For system orbit view",
+      "message" : "Deilt-v forghrádaithe. Cliceáil le filleadh ar náid."
+   },
+   "PLANNER_RESET_RADIAL" : {
+      "description" : "For system orbit view",
+      "message" : "Deilt-v gathach. Cliceáil le filleadh ar náid."
+   },
+   "PLANNER_RESET_START" : {
+      "description" : "For system orbit view",
+      "message" : "Tús na gluaiseachta. Cliceáil le filleadh ar an réamhshocrú."
+   },
+   "PLASTICS" : {
+      "description" : "",
+      "message" : "Plaistigh"
+   },
+   "PLUTOCRATIC_DICTATORSHIP" : {
+      "description" : "",
+      "message" : "Deachtóireacht mhaoinlathach"
+   },
+   "POPULATION" : {
+      "description" : "",
+      "message" : "Daonáireamh:"
+   },
+   "PRECIOUS_METALS" : {
+      "description" : "",
+      "message" : "Miotail lómhara"
+   },
+   "PRESSURE_N_ATMOSPHERES" : {
+      "description" : "",
+      "message" : "B: %pressure{f.2} atm"
+   },
+   "QUADRUPLE_SYSTEM" : {
+      "description" : "",
+      "message" : "Córas ceathrúil"
+   },
+   "RADAR_CONTROL" : {
+      "description" : "",
+      "message" : "Rialú radair"
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Dramhaíl radaighníomhach"
+   },
+   "RADIUS" : {
+      "description" : "",
+      "message" : "Ga"
+   },
+   "RECENTLY_EXPLORED_SYSTEM" : {
+      "description" : "",
+      "message" : "Taiscéaladh an córas seo ar %date."
+   },
+   "REQUEST_DOCKING_CLEARANCE" : {
+      "description" : "",
+      "message" : "Iarr cead glasála"
+   },
+   "RESET" : {
+      "description" : "",
+      "message" : "Athshocraigh"
+   },
+   "RESET_ORIENTATION_AND_ZOOM" : {
+      "description" : "",
+      "message" : "Athshocraigh an Treoshuíomh agus an Zúmáil"
+   },
+   "ROBOTS" : {
+      "description" : "",
+      "message" : "Róbait"
+   },
+   "ROCKY_PLANET" : {
+      "description" : "",
+      "message" : "\" pláinéad carraigeach\""
+   },
+   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
+      "description" : "",
+      "message" : "\" pláinéad carraigeach ar a bhfuil beagán leachta,\""
+   },
+   "ROLL" : {
+      "description" : "",
+      "message" : "Iomlasc"
+   },
+   "ROLL_LEFT" : {
+      "description" : "",
+      "message" : "Iomlasc ar chlé"
+   },
+   "ROLL_RIGHT" : {
+      "description" : "",
+      "message" : "Iomlasc ar dheis"
+   },
+   "ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Rothlaigh Síos"
+   },
+   "ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Rothlaigh ar tuathal"
+   },
+   "ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Rothlaigh ar deiseal"
+   },
+   "ROTATE_UP" : {
+      "description" : "",
+      "message" : "Rothlaigh Suas"
+   },
+   "ROTATIONAL_PERIOD" : {
+      "description" : "",
+      "message" : "\" (tréimhse rothlaithe)\""
+   },
+   "ROTATION_DAMPING_OFF" : {
+      "description" : "",
+      "message" : "Maolú rothlaithe: múchta"
+   },
+   "ROTATION_DAMPING_ON" : {
+      "description" : "",
+      "message" : "Maolú rothlaithe: ar siúl"
+   },
+   "RUBBISH" : {
+      "description" : "",
+      "message" : "Bruscar"
+   },
+   "SCOOP" : {
+      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+      "message" : "Scúp"
+   },
+   "SCREENSHOT_FILENAME_TEMPLATE" : {
+      "description" : "",
+      "message" : "screenshot%index{d08}.png"
+   },
+   "SEARCH" : {
+      "description" : "",
+      "message" : "Cuardaigh"
+   },
+   "SEARCH_MAP" : {
+      "description" : "",
+      "message" : "Cuardaigh an Léarscáil"
+   },
+   "SECTOR_COORDINATES" : {
+      "description" : "",
+      "message" : "Comhordanáidí na rannóige:"
+   },
+   "SECTOR_MAP_VIEW" : {
+      "description" : "",
+      "message" : "Léarscáil na Rannóige"
+   },
+   "SECTOR_X_Y_Z" : {
+      "description" : "",
+      "message" : "Rannóg: %x,%y,%z"
+   },
+   "SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "An réaltchóras roghnaithe"
+   },
+   "SELECT_A_TARGET" : {
+      "description" : "",
+      "message" : "Roghnaigh sprioc"
+   },
+   "SELECT_LOW_THRUST_POWER_LEVEL" : {
+      "description" : "",
+      "message" : "Roghnaigh leibhéal íseal cumhachta"
+   },
+   "SEMI_MAJOR_AXIS" : {
+      "description" : "",
+      "message" : "Ais leathmhór"
+   },
+   "SET_HYPERSPACE_DESTINATION_TO" : {
+      "description" : "",
+      "message" : "Socraigh %system mar sprioc hipearspáis"
+   },
+   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
+      "description" : "",
+      "message" : "Anailíseoir néalta hipearspáis: Socraigh sprioc hipearspáis a leanfar tar éis duit imeacht"
+   },
+   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
+      "description" : "",
+      "message" : "Socraigh leibhéal íseal cumhachta %power%%"
+   },
+   "SET_NAVTARGET_TO" : {
+      "description" : "",
+      "message" : "Socraigh an sprioc loingseoireachta:"
+   },
+   "SET_SPEED_KM_S" : {
+      "description" : "",
+      "message" : "Socraigh an luas: %speed{f.2} km/s"
+   },
+   "SET_SPEED_M_S" : {
+      "description" : "",
+      "message" : "Socraigh an luas: %speed{f.0} m/s"
+   },
+   "SHIELD_INTEGRITY" : {
+      "description" : "",
+      "message" : "Sláine na scéithe"
+   },
+   "SHIELD_STRENGTH_N" : {
+      "description" : "",
+      "message" : "Neart na scéithe: %shields{f.2}"
+   },
+   "SHIFT" : {
+      "description" : "Shift key on keyboard",
+      "message" : "Shift"
+   },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Spáslong"
+   },
+   "SHIPS_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show no ships, show ships, or show ships + their orbits",
+      "message" : "Athraigh an mód taispeána na long"
+   },
+   "SHIP_DETECTED_NEARBY" : {
+      "description" : "",
+      "message" : "Braitheadh long in aice láimhe."
+   },
+   "SHIP_INFORMATION" : {
+      "description" : "",
+      "message" : "Eolas faoin long"
+   },
+   "SHIP_MASS_N_TONNES" : {
+      "description" : "",
+      "message" : "Mais na loinge: %{mass}t"
+   },
+   "SHIP_NEARBY" : {
+      "description" : "",
+      "message" : "Long in aice láimhe"
+   },
+   "SHIP_ORIENTATION" : {
+      "description" : "",
+      "message" : "Treoshuíomh na loinge"
+   },
+   "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
+      "description" : "",
+      "message" : "Luas na loinge i gcoibhneas le rinn tagartha"
+   },
+   "SIDEREAL_VIEW" : {
+      "description" : "camera view setting",
+      "message" : "Radharc réaltach"
+   },
+   "SLAVES" : {
+      "description" : "",
+      "message" : "Sclábhaithe"
+   },
+   "SMALL" : {
+      "description" : "",
+      "message" : "Beag"
+   },
+   "SMALL_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Fathach gáis beag"
+   },
+   "SMALL_INDUSTRIAL_OUTPOST" : {
+      "description" : "",
+      "message" : "Urphost beag tionsclaíoch."
+   },
+   "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
+      "description" : "",
+      "message" : "Sirtheoireacht mhionscála. "
+   },
+   "SOCIAL_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Daonlathas sóisialta"
+   },
+   "SOLAR" : {
+      "description" : "",
+      "message" : "Gria"
+   },
+   "SOME_ESTABLISHED_MINING" : {
+      "description" : "",
+      "message" : "Mianadóireacht ar siúl."
+   },
+   "SOURCE" : {
+      "description" : "tell source system of hyperjump entry cloud",
+      "message" : "Foinse"
+   },
+   "SPEED_CONTROL_MODE" : {
+      "description" : "",
+      "message" : "Mód rialaithe luais"
+   },
+   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
+      "description" : "",
+      "message" : "Réaltchóras cobhsaí ina bhfuil %bodycount %{body(s)} mór agus %portcount %{starport(s)}"
+   },
+   "STARPORT" : {
+      "description" : "",
+      "message" : "Spásphort"
+   },
+   "STARPORTS" : {
+      "description" : "",
+      "message" : "Spásphoirt"
+   },
+   "STAR_A" : {
+      "description" : "",
+      "message" : "Réalta the bhán de chineál 'A'"
+   },
+   "STAR_AF_GIANT" : {
+      "description" : "",
+      "message" : "Fathach bán"
+   },
+   "STAR_AF_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Forfhathach bán"
+   },
+   "STAR_AF_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Ollfhathach bán"
+   },
+   "STAR_B" : {
+      "description" : "",
+      "message" : "Réalta gheal ghorm de chineál 'B'"
+   },
+   "STAR_B_GIANT" : {
+      "description" : "",
+      "message" : "Fathach gorm"
+   },
+   "STAR_B_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Forfhathach gorm"
+   },
+   "STAR_B_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Ollfhathach gorm"
+   },
+   "STAR_B_WF" : {
+      "description" : "",
+      "message" : "Réalta Wolf-Rayet - i mbaol a himphléasctha"
+   },
+   "STAR_F" : {
+      "description" : "",
+      "message" : "Réalta bhán de chineál 'F'"
+   },
+   "STAR_G" : {
+      "description" : "",
+      "message" : "Réalta bhuí de chineál 'G'"
+   },
+   "STAR_G_GIANT" : {
+      "description" : "",
+      "message" : "Fathach buí - Éagobhsaí"
+   },
+   "STAR_G_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Forfhathach buí - Éagobhsaí"
+   },
+   "STAR_G_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Ollfhathach buí"
+   },
+   "STAR_IM_BH" : {
+      "description" : "",
+      "message" : "Dúpholl measartha trom"
+   },
+   "STAR_K" : {
+      "description" : "",
+      "message" : "Réalta oráiste de chineál 'K'"
+   },
+   "STAR_K_GIANT" : {
+      "description" : "",
+      "message" : "Fathach oráiste - Éagobhsaí"
+   },
+   "STAR_K_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Forfhathach oráiste - Éagobhsaí"
+   },
+   "STAR_K_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Ollfhathach oráiste"
+   },
+   "STAR_M" : {
+      "description" : "",
+      "message" : "Réalta dhearg de chineál 'M'"
+   },
+   "STAR_M_GIANT" : {
+      "description" : "",
+      "message" : "Fathach dearg"
+   },
+   "STAR_M_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Forfhathach dearg"
+   },
+   "STAR_M_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Ollfhathach dearg"
+   },
+   "STAR_M_WF" : {
+      "description" : "",
+      "message" : "Réalta Wolf-Rayet - Éagobhsaí"
+   },
+   "STAR_O" : {
+      "description" : "",
+      "message" : "Réalta ollmhór te de chineál 'O'"
+   },
+   "STAR_O_GIANT" : {
+      "description" : "",
+      "message" : "Fathach gorm te"
+   },
+   "STAR_O_HYPER_GIANT" : {
+      "description" : "",
+      "message" : "Forfhathach gorm te"
+   },
+   "STAR_O_SUPER_GIANT" : {
+      "description" : "",
+      "message" : "Ollfhathach gorm te"
+   },
+   "STAR_O_WF" : {
+      "description" : "",
+      "message" : "Réalta Wolf-Rayet - i ngarbhaol a himphléasctha"
+   },
+   "STAR_SM_BH" : {
+      "description" : "",
+      "message" : "Ár n-ancaire réaltrach"
+   },
+   "STAR_SYSTEM_INFORMATION" : {
+      "description" : "",
+      "message" : "Eolas faoin réaltchóras"
+   },
+   "STAR_S_BH" : {
+      "description" : "",
+      "message" : "Dúpholl réaltach"
+   },
+   "SUGGESTED_RESPONSES" : {
+      "description" : "",
+      "message" : "Freagraí molta:"
+   },
+   "SURFACE_GRAVITY" : {
+      "description" : "",
+      "message" : "Imtharraingt ar an dromchla"
+   },
+   "SURFACE_TEMPERATURE" : {
+      "description" : "",
+      "message" : "Teocht dromchla"
+   },
+   "SWITCHED_TO_PARENT" : {
+      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+      "message" : "Treo-cheann á thaispeáint i gcomhordanáidí an réaltchórais anois."
+   },
+   "SWITCHED_TO_ROTATIONAL" : {
+      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+      "message" : "Treo-cheann á thaispeáint i gcomhordanáidí pláinéadacha anois."
+   },
+   "SYSTEM" : {
+      "description" : "star system",
+      "message" : "Réaltchóras"
+   },
+   "SYSTEM_NUMBER" : {
+      "description" : "",
+      "message" : "Uimhir an chórais:"
+   },
+   "SYSTEM_ORBIT_VIEW" : {
+      "description" : "",
+      "message" : "Radharc fhithis an réaltchórais"
+   },
+   "SYSTEM_TYPE" : {
+      "description" : "",
+      "message" : "Cineál an réaltchórais:"
+   },
+   "S_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" Atmaisféar sulfarach\""
+   },
+   "TAKEOFF" : {
+      "description" : "",
+      "message" : "Éirí"
+   },
+   "TARGET_OBJECT_IN_SIGHTS" : {
+      "description" : "",
+      "message" : "Sprioc sna crosribí"
+   },
+   "TENUOUS" : {
+      "description" : "atmosphere thickness",
+      "message" : "tanaí"
+   },
+   "TEXTILES" : {
+      "description" : "",
+      "message" : "Teicstílí"
+   },
+   "THICK" : {
+      "description" : "",
+      "message" : "tiubh"
+   },
+   "THIN" : {
+      "description" : "",
+      "message" : "tanaí"
+   },
+   "THRIVING_OUTDOOR_WORLD" : {
+      "description" : "",
+      "message" : "Domhan amuigh faoi bhláth."
+   },
+   "THRUSTER_DORSAL" : {
+      "description" : "",
+      "message" : "Sá síos"
+   },
+   "THRUSTER_MAIN" : {
+      "description" : "",
+      "message" : "Sá ar aghaidh"
+   },
+   "THRUSTER_PORT" : {
+      "description" : "",
+      "message" : "Sá ar clé"
+   },
+   "THRUSTER_RETRO" : {
+      "description" : "",
+      "message" : "Sá ar gcúl"
+   },
+   "THRUSTER_STARBOARD" : {
+      "description" : "",
+      "message" : "Sá ar dheis"
+   },
+   "THRUSTER_VENTRAL" : {
+      "description" : "",
+      "message" : "Sá suas"
+   },
+   "TIME_POINT" : {
+      "description" : "",
+      "message" : "Pointe ama:"
+   },
+   "TINY" : {
+      "description" : "",
+      "message" : "Beag bídeach"
+   },
+   "TOGGLE_EQUIPMENT_VIEW" : {
+      "description" : "Tooltip for the Equipment View button",
+      "message" : "Radharc Trealaimh"
+   },
+   "TOGGLE_HUD_MODE" : {
+      "description" : "",
+      "message" : "Scoránaigh an mód HUD"
+   },
+   "TOGGLE_LUA_CONSOLE" : {
+      "description" : "",
+      "message" : "Scoránaigh an consól Lua"
+   },
+   "TOGGLE_RADAR_MODE" : {
+      "description" : "",
+      "message" : "Scoránaigh an mód radair"
+   },
+   "TOGGLE_RADAR_VIEW" : {
+      "description" : "Tooltip for the Radar View button",
+      "message" : "Radharc Radair"
+   },
+   "TOGGLE_ROTATION_DAMPING" : {
+      "description" : "",
+      "message" : "Scoránaigh maolú an rothlaithe"
+   },
+   "TOMBSTONE_EPITAPH" : {
+      "description" : "shown on tombstone when player dies",
+      "message" : "SUAIMHNEAS SÍORAÍ DUIT A MHIC Ó"
+   },
+   "TRADING_ILLEGAL_GOODS" : {
+      "description" : "",
+      "message" : "Ag trádáil earraí mídhleathacha"
+   },
+   "TRIPLE_SYSTEM" : {
+      "description" : "",
+      "message" : "Córas tríréalta"
+   },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Díghlasáil"
+   },
+   "UNEXPLORED_SYSTEM_NO_DATA" : {
+      "description" : "",
+      "message" : "Réaltchóras gan taiscéaladh. Níl aon sonraí eile ar fáil."
+   },
+   "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
+      "description" : "",
+      "message" : "Réaltchóras gan taiscéaladh. Níl an radharc córais ar fáil."
+   },
+   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
+      "description" : "",
+      "message" : "Réaltchóras gan taiscéaladh. Bhailigh teileascóip i gcéin roinnt eolais faoin réalta, ach níl aon eolas faoin phláinéad ar fáil."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "A.R."
+   },
+   "UNIT_DAYS" : {
+      "description" : "Duration unit: one 24-hour day",
+      "message" : "l"
+   },
+   "UNIT_HOURS" : {
+      "description" : "Duration unit: one 60-minute hour",
+      "message" : "u"
+   },
+   "UNIT_KILOMETERS" : {
+      "description" : "Distance unit: one kilometer",
+      "message" : "km"
+   },
+   "UNIT_KILOMETERS_PER_SECOND" : {
+      "description" : "Speed unit: one kilometer per second",
+      "message" : "km/s"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "sbh"
+   },
+   "UNIT_METERS" : {
+      "description" : "Distance unit: one meter",
+      "message" : "n"
+   },
+   "UNIT_METERS_PER_SECOND" : {
+      "description" : "Speed unit: one meter per second",
+      "message" : "m/s"
+   },
+   "UNIT_MILLION_METERS" : {
+      "description" : "Distance unit: one million meters",
+      "message" : "Mm"
+   },
+   "UNIT_MILLION_METERS_PER_SECOND" : {
+      "description" : "Speed unit: one million meters per second",
+      "message" : "Mm/s"
+   },
+   "UNIT_MINUTES" : {
+      "description" : "Duration unit: one 60-second minute",
+      "message" : "n"
+   },
+   "UNIT_SECONDS" : {
+      "description" : "Duration unit: one second",
+      "message" : "s"
+   },
+   "UNIT_WEEKS" : {
+      "description" : "Duration unit: one 7-day week",
+      "message" : "s"
+   },
+   "UNKNOWN" : {
+      "description" : "",
+      "message" : "<anaithnid>"
+   },
+   "UNSET_NAVTARGET" : {
+      "description" : "",
+      "message" : "Díshocraigh an sprioc loingseoireachta."
+   },
+   "USE_LOW_THRUST" : {
+      "description" : "",
+      "message" : "Úsáid cumhacht íseal"
+   },
+   "VAST_STRIP_MINE" : {
+      "description" : "",
+      "message" : "Coilíneacht ollmhór stiallmhianadóireachta."
+   },
+   "VERY_DENSE" : {
+      "description" : "",
+      "message" : "an-dlúth"
+   },
+   "VERY_LARGE_GAS_GIANT" : {
+      "description" : "",
+      "message" : "Fathach an-mhór"
+   },
+   "VIEW" : {
+      "description" : "",
+      "message" : "Amharc"
+   },
+   "VIOLENT_ANARCHY" : {
+      "description" : "",
+      "message" : "Ainriail - Faicsin armáilte in iomaíocht lena chéile"
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Uisce"
+   },
+   "WEAPONS" : {
+      "description" : "",
+      "message" : "Airm"
+   },
+   "WEAPON_TEMP" : {
+      "description" : "",
+      "message" : "Teocht an airm"
+   },
+   "WHEELS_ARE_DOWN" : {
+      "description" : "",
+      "message" : "Tá na rothaí síos"
+   },
+   "WHEELS_ARE_UP" : {
+      "description" : "",
+      "message" : "Tá na rothaí suas"
+   },
+   "WHITE_DWARF" : {
+      "description" : "",
+      "message" : "Abhac bán (iarsma réaltach)"
+   },
+   "WITH_A" : {
+      "description" : "",
+      "message" : "\" le \""
+   },
+   "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
+      "description" : "",
+      "message" : "\" gan atmaisféar arbh fhiú trácht air\""
+   },
+   "X" : {
+      "description" : "keybinding: x axis",
+      "message" : "X"
+   },
+   "Y" : {
+      "description" : "keybinding: y axis",
+      "message" : "Y"
+   },
+   "YAW" : {
+      "description" : "",
+      "message" : "Luascáil"
+   },
+   "YAW_LEFT" : {
+      "description" : "",
+      "message" : "Luascáil ar clé"
+   },
+   "YAW_RIGHT" : {
+      "description" : "",
+      "message" : "Luascáil ar dheis"
+   },
+   "YOUNG_FARMING_COLONY" : {
+      "description" : "",
+      "message" : "Coilíneacht óg feirmeoireachta."
+   },
+   "YOU_NO_MONEY" : {
+      "description" : "",
+      "message" : "Níl aon airgead agat."
+   },
+   "Z" : {
+      "description" : "keybinding: z axis",
+      "message" : "Z"
+   },
+   "ZOOM_IN" : {
+      "description" : "",
+      "message" : "Zúmáil isteach"
+   },
+   "ZOOM_OUT" : {
+      "description" : "",
+      "message" : "Zúmáil amach"
+   }
+}

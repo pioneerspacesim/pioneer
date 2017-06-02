@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -22,7 +22,7 @@ Widget::Widget()
 bool Widget::IsVisible() const
 {
 	PROFILE_SCOPED()
-	if (!m_visible || !m_parent) 
+	if (!m_visible || !m_parent)
 		return false;
 
 	Container *parent = m_parent;

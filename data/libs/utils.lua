@@ -1,4 +1,4 @@
--- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local utils
@@ -12,11 +12,11 @@ utils = {}
 function utils.numbered_keys(step, context, position)
   local k = position
   local f = function(s, i)
-    local v
-    k,v = step(s, k)
-    if k ~= nil then
-      return (i+1), v
-    end
+	local v
+	k,v = step(s, k)
+	if k ~= nil then
+	  return (i+1), v
+	end
   end
   return f, context, 0
 end
@@ -29,9 +29,9 @@ end
 --
 function utils.filter(predicate, step, context, position)
   local f = function (s, k)
-    local v
-    repeat k,v = step(s,k); until (k == nil) or predicate(k,v)
-    return k,v
+	local v
+	repeat k,v = step(s,k); until (k == nil) or predicate(k,v)
+	return k,v
   end
   return f, context, position
 end
@@ -43,11 +43,11 @@ end
 --
 function utils.map(transformer, step, context, position)
   local f = function (s, k)
-    local v
-    k, v = step(s, k)
-    if k ~= nil then
-      return transformer(k,v)
-    end
+	local v
+	k, v = step(s, k)
+	if k ~= nil then
+	  return transformer(k,v)
+	end
   end
   return f, context, position
 end
@@ -62,9 +62,9 @@ function utils.build_array(f, s, k)
   local v
   local t = {}
   while true do
-    k, v = f(s, k)
-    if k == nil then break end
-    table.insert(t, v)
+	k, v = f(s, k)
+	if k == nil then break end
+	table.insert(t, v)
   end
   return t
 end
@@ -79,9 +79,9 @@ function utils.build_table(f, s, k)
   local v
   local t = {}
   while true do
-    k, v = f(s, k)
-    if k == nil then break end
-    t[k] = v
+	k, v = f(s, k)
+	if k == nil then break end
+	t[k] = v
   end
   return t
 end
@@ -91,50 +91,50 @@ end
 -- (default Lua table.sort is fast and unstable).
 -- stable_sort uses Merge sort algorithm.
 --
--- sorted_table = stable_sort(unsorted_table, 
+-- sorted_table = stable_sort(unsorted_table,
 --							  function (a,b) return a < b end)
 --
 
 function utils.stable_sort(values, cmp)
-	if not cmp then 
+	if not cmp then
 		cmp = function (a,b) return a <= b end
 	end
-	
-	local split = function (values) 
-	   local a = {} 
-	   local b = {} 
-	   local len = #values 
-	   local mid = math.floor(len/2)
-	   for i = 1, mid do 
-		  a[i] = values[i]
-	   end 
-	   for i = mid+1, len do 
-		  b[i-mid] = values[i]
-	   end 
-	   return a,b
-	end 
 
-	local merge = function (a,b) 
+	local split = function (values)
+	   local a = {}
+	   local b = {}
+	   local len = #values
+	   local mid = math.floor(len/2)
+	   for i = 1, mid do
+		  a[i] = values[i]
+	   end
+	   for i = mid+1, len do
+		  b[i-mid] = values[i]
+	   end
+	   return a,b
+	end
+
+	local merge = function (a,b)
 	   local result = {}
 	   local a_len = #(a)
 	   local b_len = #(b)
 	   local i1 = 1
 	   local i2 = 1
-	   for j = 1, a_len+b_len do 
-		  if i2 > b_len 
+	   for j = 1, a_len+b_len do
+		  if i2 > b_len
 			 or (i1 <= a_len and cmp(a[i1], b[i2]))
 		  then
 			 result[j] = a[i1]
 			 i1 = i1 + 1
-		  else                      
+		  else
 			 result[j] = b[i2]
 			 i2 = i2 + 1
 		  end
-	   end 
-	   return result 
-	end 
+	   end
+	   return result
+	end
 
-	function merge_sort (values) 
+	function merge_sort (values)
 	   if #values > 1 then
 		  local a, b = split(values)
 		  a = merge_sort(a)
@@ -143,7 +143,7 @@ function utils.stable_sort(values, cmp)
 	   end
 	   return values
 	end
-	
+
 	return merge_sort(values)
 end
 
@@ -193,7 +193,7 @@ utils.inherits = function (baseClass, name)
 	end
 
 	function new_class.Unserialize(data)
-        local tmp = base_class.Unserialize(data)
+		local tmp = base_class.Unserialize(data)
 		setmetatable(tmp, new_class.meta)
 		return tmp
 	end
@@ -204,6 +204,50 @@ utils.inherits = function (baseClass, name)
 	end
 
 	return new_class
+end
+
+utils.print_r = function(t)
+	local print_r_cache={}
+	local function sub_print_r(t,indent,rec_guard)
+		if (print_r_cache[tostring(t)]) then
+			print(indent.."*"..tostring(t))
+		else
+			print_r_cache[tostring(t)]=true
+			if (type(t)=="table") then
+				for pos,val in pairs(t) do
+					local string_pos = tostring(pos)
+					if (type(val)=="table") then
+						print(indent.."["..string_pos.."] => "..tostring(t).." {")
+						sub_print_r(val,indent..string.rep(" ",string.len(string_pos)+8))
+						print(indent..string.rep(" ",string.len(string_pos)+6).."}")
+					elseif (type(val)=="string") then
+						print(indent.."["..string_pos..'] => "'..val..'"')
+					else
+						print(indent.."["..string_pos.."] => "..tostring(val))
+					end
+				end
+			else
+				print(indent..tostring(t))
+			end
+		end
+	end
+	if (type(t)=="table") then
+		print(tostring(t).." {")
+		sub_print_r(t,"  ")
+		print("}")
+	else
+		sub_print_r(t,"  ")
+	end
+	print()
+end
+
+-- Count the number of entries in a table
+utils.count = function(t)
+   local i = 0
+   for _,v in pairs(t) do
+	  i = i + 1
+   end
+   return i
 end
 
 return utils

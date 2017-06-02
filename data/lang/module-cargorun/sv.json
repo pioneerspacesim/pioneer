@@ -285,7 +285,7 @@
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "Hur är det med dig? Jag är {name}. En av mina klienter vill importera {cargoname} från {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), på {dist} ly avstånd. Han betalar {cash} för den här lasten. Kom tillbaka hit till {dom_starport} i systemet {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) för att lasta av."
+      "message" : "Hur är det med dig? Mitt namn är {name}. En av mina klienter vill importera {cargoname} från {starport} i {system} ({sectorx}, {sectory}, {sectorz}) systemet, {dist} härifrån. Han betalar {cash} för denna transport. Återvänd hit till {dom_starport} i {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) systemet för att lasta av."
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
@@ -443,6 +443,14 @@
       "description" : "custom cargo",
       "message" : "Halvfärdiga produkter"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Använd destination som navigationsmål"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Sätt som returmål"
+   },
    "SPACEPORT" : {
       "description" : "",
       "message" : "Rymdstation:"
@@ -577,7 +585,7 @@
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "Dessa varor är avgörande för ett byggprojekt."
+      "message" : "Ett byggprojekt är avhängigt dessa varor"
    },
    "WHYSOMUCH_MINING_1" : {
       "description" : "",

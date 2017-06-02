@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -12,28 +12,28 @@ BaseSphere::BaseSphere(const SystemBody *body) : m_sbody(body), m_terrain(Terrai
 
 BaseSphere::~BaseSphere() {}
 
-//static 
+//static
 void BaseSphere::Init()
 {
 	GeoSphere::Init();
 	GasGiant::Init();
 }
 
-//static 
+//static
 void BaseSphere::Uninit()
 {
 	GeoSphere::Uninit();
 	GasGiant::Uninit();
 }
 
-//static 
+//static
 void BaseSphere::UpdateAllBaseSphereDerivatives()
 {
 	GeoSphere::UpdateAllGeoSpheres();
 	GasGiant::UpdateAllGasGiants();
 }
 
-//static 
+//static
 void BaseSphere::OnChangeDetailLevel()
 {
 	GeoSphere::OnChangeDetailLevel();

@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaGame.h"
@@ -13,6 +13,12 @@
 #include "WorldView.h"
 #include "DeathView.h"
 #include "galaxy/Galaxy.h"
+#include "DateTime.h"
+#include "SectorView.h"
+#include "SystemView.h"
+#include "SystemInfoView.h"
+#include "ShipCpanel.h"
+#include "LuaPiGui.h"
 
 /*
  * Interface: Game
@@ -120,7 +126,7 @@ static int l_game_load_game(lua_State *l)
  *
  * Parameters:
  *
- *   filename - Filename to find. 
+ *   filename - Filename to find.
  *
  * Return:
  *
@@ -312,6 +318,101 @@ static int l_game_attr_paused(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: InHyperspace
+ *
+ * Return true if the game is in hyperspace mode
+ *
+ * > hyperspace = Game.InHyperspace()
+ *
+ * Return:
+ *
+ *   hyperspace - true if the game is currently in hyperspace
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_game_in_hyperspace(lua_State *l)
+{
+	LuaPush(l, Pi::game->IsHyperspace() || Pi::player->GetFlightState() == Ship::HYPERSPACE);
+	return 1;
+}
+
+/*
+ * Function: SetRadarVisible
+ *
+ * Show or hide the traditional radar in ShipCPanel
+ *
+ * > Game.SetRadarVisible(true)
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_game_set_radar_visible(lua_State *l)
+{
+	bool visible = LuaPull<bool>(l, 1);
+	Pi::game->GetCpan()->SetRadarVisible(visible);
+	return 0;
+}
+
+/*
+ * Function: CurrentView
+ *
+ * Return the currently active game view
+ *
+ * > current_view = Game.CurrentView()
+ *
+ * Return:
+ *
+ *   view - a string describing the game view: "world", "space_station", "info", "sector", "system", "system_info", "death", "galaxy", "settings"
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_game_current_view(lua_State *l)
+{
+	const View *view = Pi::GetView();
+	if(view == Pi::game->GetWorldView())
+		LuaPush(l, "world");
+	else if(view == Pi::game->GetSpaceStationView())
+		LuaPush(l, "space_station");
+	else if(view == Pi::game->GetInfoView())
+		LuaPush(l, "info");
+	else if(Pi::GetView() == Pi::game->GetSectorView())
+		LuaPush(l, "sector");
+	else if(view == Pi::game->GetSystemView())
+		LuaPush(l, "system");
+	else if(view == Pi::game->GetSystemInfoView())
+		LuaPush(l, "system_info");
+	else if(view == Pi::game->GetDeathView())
+		LuaPush(l, "death");
+	else if(view == Pi::game->GetGalacticView())
+		LuaPush(l, "galaxy");
+	else if(view == Pi::game->GetSettingsView())
+		LuaPush(l, "settings");
+	else
+		lua_pushnil(l);
+	return 1;
+}
+
 // XXX temporary to support StationView "Launch" button
 // remove once WorldView has been converted to the new UI
 static int l_game_switch_view(lua_State *l)
@@ -322,6 +423,90 @@ static int l_game_switch_view(lua_State *l)
 		Pi::SetView(Pi::game->GetDeathView());
 	else
 		Pi::SetView(Pi::game->GetWorldView());
+	return 0;
+}
+
+static int l_game_set_view(lua_State *l)
+{
+	if (!Pi::game)
+		return luaL_error(l, "can't set view when no game is running");
+	std::string target = luaL_checkstring(l, 1);
+	if(!target.compare("world")) {
+		Pi::SetView(Pi::game->GetWorldView());
+	} else if(!target.compare("space_station")) {
+		Pi::SetView(Pi::game->GetSpaceStationView());
+	} else if(!target.compare("info")) {
+		Pi::SetView(Pi::game->GetInfoView());
+	} else if(!target.compare("settings")) {
+		Pi::SetView(Pi::game->GetSettingsView());
+	} else if(!target.compare("death")) {
+		Pi::SetView(Pi::game->GetDeathView());
+	} else if(!target.compare("sector")) {
+		Pi::SetView(Pi::game->GetSectorView());
+	} else if(!target.compare("galaxy")) {
+		Pi::SetView(Pi::game->GetGalacticView());
+	} else if(!target.compare("system")) {
+		Pi::SetView(Pi::game->GetSystemView());
+	} else if(!target.compare("system_info")) {
+		Pi::SetView(Pi::game->GetSystemInfoView());
+	} else {
+		// TODO else error
+	}
+	return 0;
+}
+
+static int l_game_get_world_cam_type(lua_State *l)
+{
+	switch(Pi::game->GetWorldView()->GetCamType()) {
+	case WorldView::CAM_INTERNAL: lua_pushstring(l, "internal"); break;
+	case WorldView::CAM_EXTERNAL: lua_pushstring(l, "external"); break;
+	case WorldView::CAM_SIDEREAL: lua_pushstring(l, "sidereal"); break;
+	default: Output("Unknown world view cam type\n"); break;
+	}
+	return 1;
+}
+
+static int l_game_toggle_target_actions(lua_State *l)
+{
+	Pi::game->GetWorldView()->ToggleTargetActions();
+	return 0;
+}
+
+static int l_game_toggle_low_thrust_power_options(lua_State *l)
+{
+	Pi::game->GetWorldView()->ToggleLowThrustPowerOptions();
+	return 0;
+}
+
+static int l_game_change_flight_state(lua_State *l)
+{
+	Pi::game->GetWorldView()->ChangeFlightState();
+	return 0;
+}
+
+static int l_game_change_mfd(lua_State *l)
+{
+	std::string selected = LuaPull<std::string>(l, 1);
+	if(!selected.compare("scanner")) {
+		Pi::game->GetCpan()->ChangeMultiFunctionDisplay(MFUNC_RADAR);
+	} else if(!selected.compare("equipment")) {
+		Pi::game->GetCpan()->ChangeMultiFunctionDisplay(MFUNC_EQUIPMENT);
+	}
+	return 0;
+}
+
+static int l_game_set_world_cam_type(lua_State *l)
+{
+	std::string cam = luaL_checkstring(l, 1);
+	if(!cam.compare("internal"))
+		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_INTERNAL);
+	else if(!cam.compare("external"))
+		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_EXTERNAL);
+	else if(!cam.compare("sidereal"))
+		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_SIDEREAL);
+	else {
+		// TODO else error
+	}
 	return 0;
 }
 
@@ -337,8 +522,19 @@ void LuaGame::Register()
 		{ "CanLoadGame",    l_game_can_load_game    },
 		{ "SaveGame",       l_game_save_game        },
 		{ "EndGame",        l_game_end_game         },
+		{ "InHyperspace",   l_game_in_hyperspace    },
+		{ "SetRadarVisible",l_game_set_radar_visible},
 
-		{ "SwitchView", l_game_switch_view },
+		{ "SwitchView",  l_game_switch_view },
+		{ "CurrentView", l_game_current_view },
+		{ "SetView",     l_game_set_view },
+
+		{ "SetWorldCamType", l_game_set_world_cam_type },
+		{ "GetWorldCamType", l_game_get_world_cam_type },
+		{ "ToggleTargetActions",         l_game_toggle_target_actions }, // deprecated
+		{ "ToggleLowThrustPowerOptions", l_game_toggle_low_thrust_power_options }, // deprecated
+		{ "ChangeFlightState",           l_game_change_flight_state }, // deprecated
+		{ "ChangeMFD",       l_game_change_mfd },
 
 		{ 0, 0 }
 	};

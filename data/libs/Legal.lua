@@ -1,4 +1,4 @@
--- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 local Comms = import("Comms")
 local Game = import("Game")
@@ -36,6 +36,7 @@ local Legal = {}
 Legal.CrimeType = {}
 
 Legal.CrimeType["DUMPING"] = {basefine = 1e4, name = l.DUMPING}
+Legal.CrimeType["ILLEGAL_JUMP"] = {basefine = 5e2, name = l.ILLEGAL_JUMP}
 Legal.CrimeType["MURDER"] = {basefine = 1.5e6, name = l.MURDER}
 Legal.CrimeType["PIRACY"] = {basefine = 1e5, name = l.PIRACY}
 Legal.CrimeType["TRADING_ILLEGAL_GOODS"] = {basefine = 5e3, name = l.TRADING_ILLEGAL_GOODS}

@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #define ALLOW_LUA_SHIP_DEF 0
@@ -46,10 +46,12 @@ static bool ShipIsUnbuyable(const std::string &id)
 	return is_zero_exact(t.baseprice);
 }
 
-ShipType::ShipType(const Id &_id, const std::string &path) 
+ShipType::ShipType(const Id &_id, const std::string &path)
 {
 	Json::Reader reader;
 	Json::Value data;
+
+	isGlobalColorDefined = false;
 
 	auto fd = FileSystem::gameDataFiles.ReadFile(path);
 	if (!fd) {
@@ -87,6 +89,86 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	linThrust[THRUSTER_RIGHT] = data.get("right_thrust", 0.0f).asFloat();
 	angThrust = data.get("angular_thrust", 0.0f).asFloat();
 
+	// Parse global thrusters color
+	bool error = false;
+	int parse = 0;
+	for( Json::Value::iterator thruster_color = data["thruster_global_color"].begin() ; thruster_color != data["thruster_global_color"].end() ; ++thruster_color ) {
+		const std::string colorchannel = thruster_color.key().asString();
+		if (colorchannel.length()!=1) {
+			error = true;
+			break;
+		}
+		if (colorchannel.at(0) == 'r') {
+			globalThrusterColor.r = data["thruster_global_color"].get(colorchannel, 0).asInt();
+			parse++;
+			continue;
+		} else if (colorchannel.at(0) == 'g') {
+			globalThrusterColor.g = data["thruster_global_color"].get(colorchannel, 0).asInt();
+			parse++;
+			continue;
+		} else if (colorchannel.at(0) == 'b') {
+			globalThrusterColor.b = data["thruster_global_color"].get(colorchannel, 0).asInt();
+			parse++;
+			continue;
+		} else {
+			// No 'r', no 'g', no 'b', no good :/
+			error = true;
+			break;
+		}
+	}
+	if (error==true) {
+		Output("In file \"%s.json\" global thrusters custom color must be \"r\",\"g\" and \"b\"\n", modelName.c_str());
+	} else if (parse>0 && parse<3) {
+		Output("In file \"%s.json\" global thrusters custom color is malformed\n", modelName.c_str());
+	} else if (parse==3) {
+		globalThrusterColor.a = 255;
+		isGlobalColorDefined = true;
+	}
+	// Parse direction thrusters color
+	for (int i=0; i<THRUSTER_MAX; i++) isDirectionColorDefined[i]=false;
+	error = false;
+	for( Json::Value::iterator thruster_color = data["thruster_direction_color"].begin() ; thruster_color != data["thruster_direction_color"].end() ; ++thruster_color ) {
+		const std::string th_color_dir = thruster_color.key().asString();
+		Json::Value dir_color = data["thruster_direction_color"].get(th_color_dir, 0);
+		Color color;
+		if (!dir_color.isMember("r")||!dir_color.isMember("g")||!dir_color.isMember("b")) {
+			error = true;
+			continue /* for */;
+		} else {
+			color.r = dir_color["r"].asInt();
+			color.g = dir_color["g"].asInt();
+			color.b = dir_color["b"].asInt();
+			color.a = 255;
+		}
+		if (th_color_dir.find("forward")!=std::string::npos) {
+			isDirectionColorDefined[THRUSTER_FORWARD]=true;
+			directionThrusterColor[THRUSTER_FORWARD]= color;
+		}
+		if (th_color_dir.find("retro")!=std::string::npos) {
+			isDirectionColorDefined[THRUSTER_REVERSE]=true;
+			directionThrusterColor[THRUSTER_REVERSE]= color;
+		}
+		if (th_color_dir.find("left")!=std::string::npos) {
+			isDirectionColorDefined[THRUSTER_LEFT]=true;
+			directionThrusterColor[THRUSTER_LEFT]= color;
+		}
+		if (th_color_dir.find("right")!=std::string::npos) {
+			isDirectionColorDefined[THRUSTER_RIGHT]=true;
+			directionThrusterColor[THRUSTER_RIGHT]= color;
+		}
+		if (th_color_dir.find("up")!=std::string::npos) {
+			isDirectionColorDefined[THRUSTER_UP]=true;
+			directionThrusterColor[THRUSTER_UP]= color;
+		}
+		if (th_color_dir.find("down")!=std::string::npos) {
+			isDirectionColorDefined[THRUSTER_DOWN]=true;
+			directionThrusterColor[THRUSTER_DOWN]= color;
+		}
+	}
+	if (error==true) {
+		for (int i=0; i<THRUSTER_MAX; i++) isDirectionColorDefined[i]=false;
+		Output("In file \"%s.json\" directional thrusters custom color must be \"r\",\"g\" and \"b\"\n", modelName.c_str());
+	}
 	// invert values where necessary
 	linThrust[THRUSTER_FORWARD] *= -1.f;
 	linThrust[THRUSTER_LEFT] *= -1.f;
@@ -103,11 +185,25 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 		slots[slotname] = data["slots"].get(slotname, 0).asInt();
 	}
 
+	for( Json::Value::iterator role = data["roles"].begin(); role != data["roles"].end(); ++role ) {
+		const std::string rolename = role.key().asString();
+		roles[rolename] = data["roles"].get(rolename, 0).asBool();
+	}
+
+	for(int it=0;it<4;it++) thrusterUpgrades[it] = 1.0 + (double(it)/10.0);
+	for( Json::Value::iterator slot = data["thrust_upgrades"].begin() ; slot != data["thrust_upgrades"].end() ; ++slot ) {
+		const std::string slotname = slot.key().asString();
+		const int index = Clamp(atoi(&slotname.c_str()[9]), 1, 3);
+		thrusterUpgrades[index] = data["thrust_upgrades"].get(slotname, 0).asDouble();
+	}
+
+	atmosphericPressureLimit = data.get("atmospheric_pressure_limit", 10.0).asDouble();	// 10 atmosphere is about 90 metres underwater (on Earth)
+
 	{
 		const auto it = slots.find("engine");
-		if (it != slots.end()) 
-		{ 
-			it->second = Clamp(it->second, 0, 1); 
+		if (it != slots.end())
+		{
+			it->second = Clamp(it->second, 0, 1);
 		}
 	}
 
@@ -119,13 +215,13 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 		effectiveExhaustVelocity = 55000000;
 	} else if(effectiveExhaustVelocity < 0 && thruster_fuel_use >= 0) {
 		// v_c undefined and thruster fuel use defined -- use it!
-		effectiveExhaustVelocity = GetEffectiveExhaustVelocity(fuelTankMass, thruster_fuel_use, linThrust[ShipType::THRUSTER_FORWARD]);
+		effectiveExhaustVelocity = GetEffectiveExhaustVelocity(fuelTankMass, thruster_fuel_use, linThrust[Thruster::THRUSTER_FORWARD]);
 	} else {
 		if(thruster_fuel_use >= 0) {
 			Output("Warning: Both thruster_fuel_use and effective_exhaust_velocity defined for %s, using effective_exhaust_velocity.\n", modelName.c_str());
 		}
 	}
-	
+
 	baseprice = data.get("price", 0.0).asDouble();
 	minCrew = data.get("min_crew", 1).asInt();
 	maxCrew = data.get("max_crew", 1).asInt();
@@ -231,7 +327,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	s.maxCrew = t.Get("max_crew", 1);
 
 	s.hyperdriveClass = t.Get("hyperdrive_class", 1);
-	
+
 	data["price"] = s.baseprice;
 	data["min_crew"] = s.minCrew;
 	data["max_crew"] = s.maxCrew;
@@ -294,7 +390,7 @@ int define_missile(lua_State *L)
 void ShipType::Init()
 {
 	static bool isInitted = false;
-	if (isInitted) 
+	if (isInitted)
 		return;
 	isInitted = true;
 

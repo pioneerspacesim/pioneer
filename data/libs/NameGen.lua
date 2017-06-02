@@ -1,4 +1,4 @@
--- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 --
@@ -53,18 +53,18 @@ NameGen = {
 --   stable
 --
 
-    FullName = function (isfemale, rand)
+	FullName = function (isfemale, rand)
 		if not rand then rand = Engine.rand end
 
 		local firstname
 		if isfemale then
 			firstname = r(NameGen.firstNames.female, rand)
 		else
-            firstname = r(NameGen.firstNames.male, rand)
+			firstname = r(NameGen.firstNames.male, rand)
 		end
 
 		return firstname .. " " .. NameGen.Surname(rand)
-    end,
+	end,
 
 --
 -- Function: Surname
@@ -177,7 +177,7 @@ NameGen.firstNames.male = {
 	'Steve', 'Szilárd', 'Taiki', 'Thierry', 'Thomas', 'Tim', 'Timothy', 'Tom', 'Tomas', 'Tony',
 	'Tristram', 'Ulf', 'Vaughan', 'Vincent', 'Vladimir', 'Wayne', 'William'
 }
--- SAVEBUMP add: 
+-- SAVEBUMP add:
 
 NameGen.firstNames.female = {
 	'Jen', 'Steph', 'Hannah', 'Alison', 'Amanda', 'Angela', 'Ann', 'Anne',
@@ -236,7 +236,7 @@ NameGen.surnames = {
 	'Graham', 'Grant', 'Gray', 'Gredka', 'Green', 'Greene', 'Griffin',
 	'Guerra', 'Guthrie', 'Gutierrez', 'Hahn', 'Haley', 'Hall', 'Hamilton',
 	'Han', 'Hansen', 'Hao', 'Hard', 'Harding', 'Hardy', 'Harper',
-	'Harris', 'Harrison', 'Harvey', 'Hawkins', 'Hayden', 'Hays', 'Hemingway', 
+	'Harris', 'Harrison', 'Harvey', 'Hawkins', 'Hayden', 'Hays', 'Hemingway',
 	'Henderson', 'Hendricks', 'Hendrix', 'Henry', 'Herbert', 'Herman',
 	'Hernandez', 'Hester', 'Hicks', 'Hill', 'Hills', 'Hindle', 'Hinton', 'Hodgetts',
 	'Holden', 'Holman', 'Holmes', 'Hooper', 'Hopper', 'Horne', 'Hou',
@@ -296,7 +296,7 @@ NameGen.surnames = {
 	'Wooten', 'Wright', 'Wu', 'Wynn', 'Yang', 'Yen', 'Yin', 'Young', 'Yu',
 	'Yuan', 'Yung', 'Zamora', 'Zimmerman',
 }
--- SAVEBUMP add: 
+-- SAVEBUMP add:
 
 NameGen.outdoorPlanetFormats = {
 	"{name}",

@@ -1,11 +1,11 @@
 {
    "APPLY_FOR_MEMBERSHIP" : {
       "description" : "",
-      "message" : "Apply for membership"
+      "message" : "تقدم بطلب العضوية"
    },
    "BEGIN_TRADE" : {
       "description" : "",
-      "message" : "Begin trade"
+      "message" : "إبدا التجارة"
    },
    "FLAVOUR_0_CLUBNAME" : {
       "description" : "",
@@ -13,7 +13,7 @@
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "You may purchase fuel and dispose of {radioactives} here."
+      "message" : "أنت ربما تشتري الوقود و تتخلص من {radioactives} هنا."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
@@ -21,11 +21,11 @@
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
-      "message" : "Welcome to {clubname}"
+      "message" : "أهلا في  {clubname}"
    },
    "FLAVOUR_1_CLUBNAME" : {
       "description" : "Fuel club for the Federation faction",
-      "message" : "The Federal Fuel Foundation"
+      "message" : "منظمة الوقود الفيدرالية"
    },
    "FLAVOUR_1_NONMEMBER_INTRO" : {
       "description" : "For the Solar Federation faction",
@@ -33,7 +33,7 @@
    },
    "FLAVOUR_2_CLUBNAME" : {
       "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-      "message" : "The Confederate Fuel Union"
+      "message" : "الإتحاد الفيدرالي للوقود"
    },
    "FLAVOUR_2_NONMEMBER_INTRO" : {
       "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
@@ -57,7 +57,7 @@
    },
    "GO_BACK" : {
       "description" : "",
-      "message" : "Go back"
+      "message" : "إرجع"
    },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
@@ -65,7 +65,7 @@
    },
    "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "{fuel} at discount prices"
+      "message" : "{fuel} بأسعار مخفضة"
    },
    "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
@@ -73,11 +73,11 @@
    },
    "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Fuel tank refilling, where necessary"
+      "message" : "إعادة تعبئة خزانات الوقود، حينما يكون ضرورياً"
    },
    "LIST_BENEFITS_JOIN" : {
       "description" : "",
-      "message" : "Join now! Annual membership costs only {membership_fee}"
+      "message" : "إنضم الأن! سعر الإشتراك السنوي يكلف فقط {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
@@ -85,18 +85,18 @@
    },
    "WHAT_CONDITIONS_APPLY" : {
       "description" : "",
-      "message" : "What conditions apply to {radioactives} disposal?"
+      "message" : "ما الظروف التي تطبق علي {radioactives} المتخلص منها؟"
    },
    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
       "description" : "",
-      "message" : "Your membership application has been declined."
+      "message" : "طلب عضويتك قد رُفض."
    },
    "YOU_ARE_NOW_A_MEMBER" : {
       "description" : "",
-      "message" : "You are now a member. Your membership will expire on {expiry_date}."
+      "message" : "أنت الأن عضو، عضويتك سوف تنتهي في {expiry_date}."
    },
    "YOU_MUST_BUY" : {
       "description" : "",
-      "message" : "You must buy our {military_fuel} before we will take your {radioactives}"
+      "message" : "يجب عليك أن تشتري {military_fuel} الخاص بنا قبل أن نأخذ {radioactives} الخاص بك"
    }
 }

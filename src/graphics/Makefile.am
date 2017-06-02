@@ -1,4 +1,4 @@
-SUBDIRS = opengl dummy
+SUBDIRS = opengl gl2 dummy
 
 include $(top_srcdir)/Makefile.common
 
@@ -11,7 +11,6 @@ AM_CPPFLAGS += -I$(srcdir)/.. -isystem $(top_srcdir)/contrib
 noinst_LIBRARIES = libgraphics.a
 noinst_HEADERS = \
 	Graphics.h \
-	WindowSDL.h \
 	Renderer.h \
 	RenderTarget.h \
 	Frustum.h \
@@ -28,7 +27,6 @@ noinst_HEADERS = \
 
 libgraphics_a_SOURCES = \
 	Graphics.cpp \
-	WindowSDL.cpp \
 	Renderer.cpp \
 	Frustum.cpp \
 	Light.cpp \

@@ -563,6 +563,10 @@
       "description" : "",
       "message" : "Vou n'êtes pas prêt de vous arrimer aujourd'hui!"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Définir comme cible de navigation."
+   },
    "TAXI" : {
       "description" : "",
       "message" : "Taxi"
@@ -585,7 +589,7 @@
    },
    "WRONG_SYSTEM" : {
       "description" : "Shown if system name is right, but coordinates are wrong",
-      "message" : "The system name is right, but not the coordinates."
+      "message" : "Le nom du système est correct, mais pas ses coordonnées."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",

@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _DRAWABLES_H
@@ -95,12 +95,13 @@ private:
 class PointSprites {
 public:
 	PointSprites();
-	void SetData(const int count, const vector3f *positions, const matrix4x4f &trans, const float size);
-	void Draw(Renderer*, RenderState*, Material*);
+	void SetData(const int count, const vector3f *positions, const Color *colours, const float *sizes, Graphics::Material *pMaterial);
+	void Draw(Renderer*, RenderState*);
 private:
-	void CreateVertexBuffer(Graphics::Renderer *r, Material *mat, const Uint32 size);
+	void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
 
 	bool m_refreshVertexBuffer;
+	RefCountedPtr<Graphics::Material> m_material;
 	RefCountedPtr<VertexBuffer> m_vertexBuffer;
 	std::unique_ptr<VertexArray> m_va;
 };
@@ -115,7 +116,7 @@ public:
 	void Draw(Renderer*, RenderState*);
 private:
 	void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
-	
+
 	bool m_refreshVertexBuffer;
 	RefCountedPtr<Material> m_material;
 	RefCountedPtr<VertexBuffer> m_vertexBuffer;

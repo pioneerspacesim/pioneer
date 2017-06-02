@@ -9,7 +9,7 @@
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "С учетом вашего судна"
+      "message" : "С учётом вашего судна"
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -33,7 +33,7 @@
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "Попытка отремонтировать корпус"
+      "message" : "Попытаться отремонтировать корпус"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
@@ -151,9 +151,9 @@
       "description" : "",
       "message" : "Торговый центр"
    },
-   "COMPACT_SCANNER" : {
+   "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Компактный сканер"
+      "message" : "Компактный радар"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
@@ -429,7 +429,7 @@
    },
    "HEAVY_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Тяжёлый пассажирский шаттл"
+      "message" : "Тяжёлый пассажирский челнок"
    },
    "HEAVY_PASSENGER_TRANSPORT" : {
       "description" : "",
@@ -438,6 +438,130 @@
    "HIGH" : {
       "description" : "Game settings option: for graphics resolution",
       "message" : "Высокая"
+   },
+   "HUD_2D_RADAR" : {
+      "description" : "Popup text: the name of the azimuthal equidistant projection radar",
+      "message" : "2D азимутальная эквидистантная проекция"
+   },
+   "HUD_3D_RADAR" : {
+      "description" : "Popup text: the name of the planar projection radar (traditional frontier-style)",
+      "message" : "3D проская проекция"
+   },
+   "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
+      "description" : "Tooltip: The braking distance using the main thrusters.",
+      "message" : "Расстояние торможения с использованием главных ускорителей"
+   },
+   "HUD_CURRENT_COMBAT_TARGET" : {
+      "description" : "Tooltip: The current combat target.",
+      "message" : "Текущая боевая цель"
+   },
+   "HUD_CURRENT_FRAME" : {
+      "description" : "Tooltip: The current frame of reference.",
+      "message" : "Текущая система отсчета"
+   },
+   "HUD_CURRENT_HEADING" : {
+      "description" : "Tooltip: the current heading.",
+      "message" : "Текущее направление"
+   },
+   "HUD_CURRENT_NAV_TARGET" : {
+      "description" : "Tooltip: The current navigational target.",
+      "message" : "Текущая цель навигации"
+   },
+   "HUD_CURRENT_PITCH" : {
+      "description" : "Tooltip: the current pitch.",
+      "message" : "Текущий угол наклона"
+   },
+   "HUD_CURRENT_ROLL" : {
+      "description" : "Tooltip: the current roll.",
+      "message" : "Текущий угол разворота"
+   },
+   "HUD_DELTA_V" : {
+      "description" : "Tooltip: The remaining Δv.",
+      "message" : "Осталось Δv"
+   },
+   "HUD_DELTA_V_OF_MANEUVER_BURN" : {
+      "description" : "Tooltip: The Δv for the maneuver burn.",
+      "message" : "Δv маневра"
+   },
+   "HUD_DELTA_V_PERCENT" : {
+      "description" : "Tooltip: The remaining Δv in percent.",
+      "message" : "Осталось Δv"
+   },
+   "HUD_DISTANCE_TO_SURFACE_OF_FRAME" : {
+      "description" : "Tooltip: Distance to the surface of the frame of reference.",
+      "message" : "Расстояние до поверхности системы отсчета"
+   },
+   "HUD_DISTANCE_TO_SURFACE_OF_TARGET" : {
+      "description" : "Tooltip: Distance to the surface of the target.",
+      "message" : "Расстояние до поверхности цели"
+   },
+   "HUD_DURATION_OF_MANEUVER_BURN" : {
+      "description" : "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
+      "message" : "Примерная продолжительность маневра с использованием главных ускорителей"
+   },
+   "HUD_DURATION_UNTIL_MANEUVER_BURN" : {
+      "description" : "Tooltip: The duration until the middle of the maneuver burn.",
+      "message" : "Продолжительность до середины маневра"
+   },
+   "HUD_INDICATOR_AWAY_FROM_FRAME" : {
+      "description" : "Indicator: Away from the current frame.",
+      "message" : "Удаляемся от текущей системы отсчета"
+   },
+   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
+      "description" : "Indicator: Prograde direction relative to the current combat target.",
+      "message" : "В  направлении относительно текущей боевой цели"
+   },
+   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
+      "description" : "Indicator: Retrograde direction relative to the current combat target.",
+      "message" : "В обратном направлении относительно текущей боевой цели"
+   },
+   "HUD_INDICATOR_FRAME_PROGRADE" : {
+      "description" : "Indicator: Prograde direction relative to the current frame.",
+      "message" : "В направлении относительно текущей системы отсчета"
+   },
+   "HUD_INDICATOR_FRAME_RETROGRADE" : {
+      "description" : "Indicator: Retrograde direction relative to the current frame.",
+      "message" : "В обратном направлении относительно текущей системы отсчета"
+   },
+   "HUD_INDICATOR_MANEUVER_PROGRADE" : {
+      "description" : "Indicator: The prograde direction for the maneuver burn.",
+      "message" : "В направлении маневра"
+   },
+   "HUD_INDICATOR_NAV_TARGET_PROGRADE" : {
+      "description" : "Indicator: Prograde direction relative to the current navigational target.",
+      "message" : "В направлении относительно текущей цели навигации"
+   },
+   "HUD_INDICATOR_NAV_TARGET_RETROGRADE" : {
+      "description" : "Indicator: Retrograde direction relative to the current navigational target.",
+      "message" : "В обратном направлении относительно текущей цели навигации"
+   },
+   "HUD_RADAR_DISTANCE" : {
+      "description" : "Tooltip: Current distance of the radar.",
+      "message" : "Расстояние активного радара"
+   },
+   "HUD_SHOW_COMBAT_TARGET" : {
+      "description" : "Tooltip: Show the current combat target.",
+      "message" : "Показать текущую боевую цель"
+   },
+   "HUD_SHOW_FRAME" : {
+      "description" : "Tooltip: Show the current frame of reference.",
+      "message" : "Показать текущую систему отсчета"
+   },
+   "HUD_SHOW_NAV_TARGET" : {
+      "description" : "Tooltip: Show current navigational target.",
+      "message" : "Показать текущую цель навигации"
+   },
+   "HUD_SPEED_OF_APPROACH_TO_FRAME" : {
+      "description" : "Tooltip: The speed of approach towards the frame of reference.",
+      "message" : "Скорость приближения к системе отсчета"
+   },
+   "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
+      "description" : "Tooltip: The speed of approach towards the target.",
+      "message" : "Скорость приближения к цели"
+   },
+   "HUD_SPEED_RELATIVE_TO_TARGET" : {
+      "description" : "Tooltip: The speed relative to the target.",
+      "message" : "Скорость относительно цели"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
@@ -466,6 +590,10 @@
    "HYPERSPACE_RANGE" : {
       "description" : "",
       "message" : "Дальность гиперпрыжка"
+   },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Совершение рискованного гиперпрыжка"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -791,6 +919,10 @@
       "description" : "",
       "message" : "Хорошо"
    },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "Папка пользователя"
+   },
    "OPTIONS" : {
       "description" : "",
       "message" : "Настройки"
@@ -909,7 +1041,7 @@
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "Заправить"
+      "message" : "Закачать"
    },
    "REFUEL_FULL" : {
       "description" : "",
@@ -999,6 +1131,10 @@
       "description" : "",
       "message" : "Сенсоры и защита"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Установить пункт назначения как цель для навигации."
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Корабль"
@@ -1034,6 +1170,10 @@
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
       "message" : "Корабль, который вы смотрели, был продан"
+   },
+   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
+      "description" : "",
+      "message" : "Моделируем эволюцию вселенной: {age} млрд. лет ;-)"
    },
    "SOUND" : {
       "description" : "",
@@ -1096,8 +1236,8 @@
       "message" : "Корабль слишком мал для вашей команды."
    },
    "TOO_SMALL_TO_TRANSSHIP" : {
-      "description" : "",
-      "message" : "Ship is too small to transship your cargo."
+      "description" : "Ship market error message",
+      "message" : "У нового корабля не хватает вместимости для текущего груза и гипердвигателя."
    },
    "TOTAL" : {
       "description" : "",
@@ -1181,7 +1321,7 @@
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
       "description" : "Message to be sent over comms by police when crime is committed by player",
-      "message" : "Здесь не потерпят {crime}!"
+      "message" : "{crime} нельзя допускать здесь!"
    },
    "YES" : {
       "description" : "Positive answer to a question",

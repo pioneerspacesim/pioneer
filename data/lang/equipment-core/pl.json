@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Zaawansowany maper radarowy"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Zaawansowany skaner celu"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Maper radarowy dalekiego zasięgu z pokryciem na cały system."
+      "message" : "Skaner celu o dalekim zasięgu z pokryciem na cały system."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -41,39 +41,39 @@
    },
    "DRIVE_CLASS1" : {
       "description" : "",
-      "message" : "Napęd Klasy 1"
+      "message" : "Hipernapęd klasy 1"
    },
    "DRIVE_CLASS2" : {
       "description" : "",
-      "message" : "Napęd Klasy 2"
+      "message" : "Hipernapęd klasy 2"
    },
    "DRIVE_CLASS3" : {
       "description" : "",
-      "message" : "Napęd Klasy 3"
+      "message" : "Hipernapęd klasy 3"
    },
    "DRIVE_CLASS4" : {
       "description" : "",
-      "message" : "Napęd Klasy 4"
+      "message" : "Hipernapęd klasy 4"
    },
    "DRIVE_CLASS5" : {
       "description" : "",
-      "message" : "Napęd Klasy 5"
+      "message" : "Hipernapęd klasy 5"
    },
    "DRIVE_CLASS6" : {
       "description" : "",
-      "message" : "Napęd Klasy 6"
+      "message" : "Hipernapęd klasy 6"
    },
    "DRIVE_CLASS7" : {
       "description" : "",
-      "message" : "Napęd Klasy 7"
+      "message" : "Hipernapęd klasy 7"
    },
    "DRIVE_CLASS8" : {
       "description" : "",
-      "message" : "Napęd Klasy 8"
+      "message" : "Hipernapęd klasy 8"
    },
    "DRIVE_CLASS9" : {
       "description" : "",
-      "message" : "Napęd Klasy 9"
+      "message" : "Hipernapęd klasy 9"
    },
    "DRIVE_MIL1" : {
       "description" : "",
@@ -90,6 +90,26 @@
    "DRIVE_MIL4" : {
       "description" : "",
       "message" : "Napęd Wojskowy Klasy 4"
+   },
+   "DRIVE_MIL5" : {
+      "description" : "",
+      "message" : "Napęd Wojskowy Klasy 5"
+   },
+   "DRIVE_MIL6" : {
+      "description" : "",
+      "message" : "Napęd Wojskowy Klasy 6"
+   },
+   "DRIVE_MIL7" : {
+      "description" : "",
+      "message" : "Napęd Wojskowy Klasy 7"
+   },
+   "DRIVE_MIL8" : {
+      "description" : "",
+      "message" : "Napęd Wojskowy Klasy 8"
+   },
+   "DRIVE_MIL9" : {
+      "description" : "",
+      "message" : "Napęd Wojskowy Klasy 9"
    },
    "ECM_ADVANCED" : {
       "description" : "",
@@ -179,6 +199,10 @@
       "description" : "",
       "message" : "Przekroczono maks. zasięg skanowania:"
    },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Kabina pasażerska"
+   },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
       "message" : "Skanowanie obiektu"
@@ -215,19 +239,11 @@
       "description" : "",
       "message" : "2MW Szybkostrzelne Działo Imp."
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Mapowanie Radarowe"
+      "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Przydatne do zdalnego podglądu wyposażenia, ładunku i stanu innych statków."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Skaner"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Dostarcza trójwymiarową mapę pobliskiej przestrzeni."
    },
@@ -263,11 +279,43 @@
       "description" : "",
       "message" : "Uruchamianie skanowania, odległość do celu wynosi"
    },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Analizator handlu"
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Skaner celu"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Przydatne do zdalnego podglądu wyposażenia, ładunku i stanu innych statków."
+   },
+   "THRUSTERS_BASIC" : {
+      "description" : "",
+      "message" : "Zmodyfikowane silniki odrzutowe"
+   },
+   "THRUSTERS_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Zmodyfikowany typ silników odrzutowych dostępnych dla twojego statku."
+   },
+   "THRUSTERS_BEST" : {
+      "description" : "",
+      "message" : "Ręcznie wykonane silniki odrzutowe"
+   },
+   "THRUSTERS_BEST_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ręcznie wykonane silniki odrzutowe które zapewniają najlepszą możliwą wydajność."
+   },
+   "THRUSTERS_MEDIUM" : {
+      "description" : "",
+      "message" : "Zoptymalizowane silniki odrzutowe"
+   },
+   "THRUSTERS_MEDIUM_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Silniki które poddano optymalizacji mającej na celu redukcję niewydolności oraz poprawę mocy."
+   },
+   "TRADE_COMPUTER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Komputer handlowy"
+   },
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "Pokazuje zysk w handlu towarami pomiędzy wskazanym a obecnym systemem"
    },

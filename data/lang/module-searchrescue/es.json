@@ -113,7 +113,7 @@
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
-      "message" : "Burrial-Services Corp {locality} "
+      "message" : "Corporación de Servicios Funerarios de {locality}"
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Para recibir el pago completo debe enviar el combustible en {due}. "
+      "message" : "Para recibir el pago completo se le pide que envíe el fuel en {due}."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -213,15 +213,15 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "¡Muchísimas gracias! He transferido el pago completo."
+      "message" : "¡Muchísimas gracias! He transferido la recompensa completa."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "Se han transferido {unit} toneladas de fuel."
+      "message" : "Se ha/n transferido {unit} tonelada/s de fuel."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "El piloto requiere 1 tonelada de fuel de hidrógeno."
+      "message" : "El piloto pide {unit} tonelada/s de {cargo}."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -281,11 +281,11 @@
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
-      "message" : "Se han transferido {unit} toneladas de fuel."
+      "message" : "Se ha/n transferido {unit} tonelada/s de fuel."
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "El piloto pide una tonelada de fuel de hidrógeno."
+      "message" : "El piloto pide {unit} tonelada/s de {cargo}."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -313,11 +313,11 @@
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "Se han transferido {unit} toneladas de fuel."
+      "message" : "Se ha/n transferido {unit} tonelada/s de fuel. "
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Requerimos el envio de 1 tonelada de fuel de hidrógeno a la nave."
+      "message" : "Pedimos el envío de {unit} tonelada/s de {cargo} a la nave."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
@@ -365,7 +365,7 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "Soy {name} de {entity}. Nuestra única nave, {ship} {shiplabel}, se encuentra a la deriva con un solo tripulante a bordo tras un {problem}. Estoy dispuesto a pagar {cash} por ayuda inmediata."
+      "message" : "Mi nombre es {name} de {entity}. Nuestra única nave, {ship} {shiplabel}, se encuentra a la deriva con una tripulación de {crew} tras un/a {problem}. Tengo intención de pagar {cash} por ayuda inmediata."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
@@ -377,7 +377,7 @@
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} se ha trasladado a la nave."
+      "message" : "Se ha/n transferido {unit} al la nave."
    },
    "FLAVOUR_7_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -638,6 +638,14 @@
    "SEARCH_RESCUE" : {
       "description" : "",
       "message" : "Búsqueda y Rescate"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Establecer como objetivo de navegación"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Establecer ruta de retorno"
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",

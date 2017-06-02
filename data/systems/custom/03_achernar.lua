@@ -1,4 +1,4 @@
--- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local system = CustomSystem:new('Achernar', { 'STAR_B',  })
@@ -301,7 +301,7 @@ local achernarf = CustomSystemBody:new("Achernar f", 'PLANET_GAS_GIANT')
 
 local achernarf1 = CustomSystemBody:new("Achernar f 1", 'PLANET_ASTEROID')
 	:radius(f(270,10000))
-	:mass(f(0,10000))
+	:mass(f(1,10000))
 	:seed(4207186055)
 	:temp(149)
 	:semi_major_axis(f(47,10000))
@@ -314,7 +314,7 @@ local achernarf1 = CustomSystemBody:new("Achernar f 1", 'PLANET_ASTEROID')
 
 local achernarf2 = CustomSystemBody:new("Achernar f 2", 'PLANET_ASTEROID')
 	:radius(f(366,10000))
-	:mass(f(0,10000))
+	:mass(f(1,10000))
 	:seed(524031511)
 	:temp(149)
 	:semi_major_axis(f(75,10000))
@@ -445,39 +445,39 @@ local achernarf8 = CustomSystemBody:new("Achernar f 8", 'PLANET_TERRESTRIAL')
 	:ice_cover(f(0,10000))
 	:life(f(0,10000))
 
-system:bodies(achernar, 
+system:bodies(achernar,
 	{
-	achernara, 
-	achernarb, 
-	achernarc, 
+	achernara,
+	achernarb,
+	achernarc,
 	{
-	achernarc1, 
-	achernarc2, 
-	}, 
-	achernard, 
+	achernarc1,
+	achernarc2,
+	},
+	achernard,
 	{
-	achernard1, 
-	achernard2, 
-	}, 
-	achernare, 
+	achernard1,
+	achernard2,
+	},
+	achernare,
 	{
-	achernare1, 
-	achernare2, 
-	achernare3, 
-	achernare4, 
-	achernare5, 
-	}, 
-	achernarf, 
+	achernare1,
+	achernare2,
+	achernare3,
+	achernare4,
+	achernare5,
+	},
+	achernarf,
 	{
-	achernarf1, 
-	achernarf2, 
-	achernarf3, 
-	achernarf4, 
-	achernarf5, 
-	achernarf6, 
-	achernarf7, 
-	achernarf8, 
-	}, 
+	achernarf1,
+	achernarf2,
+	achernarf3,
+	achernarf4,
+	achernarf5,
+	achernarf6,
+	achernarf7,
+	achernarf8,
+	},
 	})
 
 system:add_to_sector(4,-9,-16,v(0.0230,0.1430,0.8830))

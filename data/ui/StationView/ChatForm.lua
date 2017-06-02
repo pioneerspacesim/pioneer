@@ -1,4 +1,4 @@
--- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -7,6 +7,7 @@ local Lang = import("Lang")
 local Face = import("UI.Game.Face")
 
 local SmallLabeledButton = import("ui/SmallLabeledButton")
+local NavButton = import("ui/NavButton")
 
 local EquipmentTableWidgets = import("EquipmentTableWidgets")
 
@@ -95,6 +96,10 @@ function ChatForm:BuildWidget ()
 
 	end
 
+	if self.navButton then
+		box:PackEnd({ ui:Margin(5), self.navButton })
+	end
+
 	local hangupButton = SmallLabeledButton.New(l.HANG_UP)
 	hangupButton.button.onClick:Connect(function () self:Close() end)
 
@@ -167,6 +172,14 @@ function ChatForm:AddGoodsTrader (funcs)
 			end
 		end
 	end
+end
+
+function ChatForm:AddNavButton (target)
+	self.navButton = NavButton.New(l.SET_AS_TARGET, target)
+end
+
+function ChatForm:RemoveNavButton ()
+	self.navButton = nil
 end
 
 function ChatForm:Close ()

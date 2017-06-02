@@ -1,0 +1,330 @@
+{
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Ardscanóir"
+   },
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Scanóir fadraoin a chlúdaíonn réaltchóras ina iomláine."
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Sciathadh Atmaisféarach"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Cosnaíonn seo do spáslong ar theas nuair a thagann sé ar ais san atmaisféar."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Uathphíolóta"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ríomhaire eitilte ar bord."
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "Córas cothaithe beatha don bhá lasta"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ligeann seo duit lasta beo a iompar."
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Scúp Lasta"
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ligeann seo duit cochaill lasta a bhailiú ón spás."
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "Hipirthiomáint (Aicme 1)"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "Hipirthiomáint (Aicme 2)"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "Hipirthiomáint (Aicme 3)"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "Hipirthiomáint (Aicme 4)"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "Hipirthiomáint (Aicme 5)"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "Hipirthiomáint (Aicme 6)"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "Hipirthiomáint (Aicme 7)"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "Hipirthiomáint (Aicme 8)"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "Hipirthiomáint (Aicme 9)"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "Tiomáint mhíleata (Aicme 1)"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "Tiomáint mhíleata (Aicme 2)"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "Tiomáint mhíleata (Aicme 3)"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "Tiomáint mhíleata (Aicme 4)"
+   },
+   "DRIVE_MIL5" : {
+      "description" : "",
+      "message" : "Tiomáint mhíleata (Aicme 5)"
+   },
+   "DRIVE_MIL6" : {
+      "description" : "",
+      "message" : "Tiomáint mhíleata (Aicme 6)"
+   },
+   "DRIVE_MIL7" : {
+      "description" : "",
+      "message" : "Tiomáint mhíleata (Aicme 7)"
+   },
+   "DRIVE_MIL8" : {
+      "description" : "",
+      "message" : "Tiomáint mhíleata (Aicme 8)"
+   },
+   "DRIVE_MIL9" : {
+      "description" : "",
+      "message" : "Tiomáint mhíleata (Aicme 9)"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Ardchóras frithbhirt leictreonaigh"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Córas cosanta frithdhiúracán a úsáideann frithbhearta leictreonacha, atá in ann diúracáin fhrithinge níos cumasaí a scriosadh."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "Córas frithbhirt leictreonaigh"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Córas cosanta frithdhiúracán a úsáideann frithbhearta leictreonacha, atá in ann diúracáin fhrithinge áirithe a scriosadh."
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Scúp Breosla"
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ligeann seo duit breosla hidrigine a bhailiú ó fhathaigh gháis."
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "Córas Uathdheisiú na Cabhlach"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Deisíonn seo cabhail na loinge go huathoibríoch i gcás damáiste."
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Anailíseoir Hipirnéalta"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Déanann seo anailís ar néalta hipearspáis chun an sprioc a fháil amach, chomh maith leis an am imeachta agus an am sroichte."
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Luasaire mór plasma"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Treiseoir do Chóras Fuaraithe an Léasair"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Córas fuaraithe níos fearr do na hairm atá agat."
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "Canóin 17MW don mhianadóireacht phléasctha"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Úsáidtear é seo chun mianadóireacht a dhéanamh ar astaróidigh atá lán de mhianraí."
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Diúracán Treoraithe"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Diúracán Cabhlaigh"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Diúracán Cliste"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "Roicéad Neamhthreoraithe R40"
+   },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Ilscúp"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Cé nach bhfuil sé seo chomh héifeachtach le scúp breosla, ligeann sé duit idir lasta agus bhreosla a bhailiú"
+   },
+   "OUT_OF_SCANRANGE" : {
+      "description" : "",
+      "message" : "As raon an scanóra:"
+   },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Cábán paisinéara"
+   },
+   "PLANETSCANNER" : {
+      "description" : "Scans the nearest body for resources",
+      "message" : "Scanóir reann"
+   },
+   "PLANETSCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Lorg acmhainní ar an rinn is gaire."
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "Bíogchanóin 10MW"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "Bíogchanóin 1MW"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "Bíogchanóin 20MW"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "Bíogchanóin 2MW"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "Bíogchanóin 4MW"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "Bíogchanóin délámhaigh 1MW"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "Bíogchanóin mearlámhaigh 2MW"
+   },
+   "RADAR" : {
+      "description" : "",
+      "message" : "Radar"
+   },
+   "RADAR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Soláthraíonn seo léarscáil 3T de longa i ngar duit."
+   },
+   "SCAN_COMPLETED" : {
+      "description" : "",
+      "message" : "Scanadh críochnaithe"
+   },
+   "SCAN_RESUMED" : {
+      "description" : "",
+      "message" : "Atosaíodh an scanadh"
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Treiseoir na Sciath"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Méadaíonn seo ráta athluchtaithe na sciath."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Gineadóir Scéithe"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Tugann gach ceann a fheistíonn tú cosaint níos fearr don chabhail."
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Luasaire beag plasma"
+   },
+   "STARTING_SCAN" : {
+      "description" : "",
+      "message" : "Scanadh á thosú; fad na sprice:"
+   },
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Scanóir"
+   },
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Úsáidtear scanóir chun stádas long eile a iniúchadh, chomh maith leis an trealamh agus an lasta orthu."
+   },
+   "THRUSTERS_BASIC" : {
+      "description" : "",
+      "message" : "Inneall Modhnaithe"
+   },
+   "THRUSTERS_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Inneall modhnaithe atá ceadaithe do do long."
+   },
+   "THRUSTERS_BEST" : {
+      "description" : "",
+      "message" : "Inneall Saincheaptha"
+   },
+   "THRUSTERS_BEST_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Inneall saincheaptha a sholáthraíonn an t-aschur is fearr is féidir a fháil."
+   },
+   "THRUSTERS_MEDIUM" : {
+      "description" : "",
+      "message" : "Inneall Optamaithe"
+   },
+   "THRUSTERS_MEDIUM_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Inneall optamaithe a laghdaíonn neamhéifeachtúlacht agus a fheabhsaíonn aschur cumhachta."
+   },
+   "TRADE_COMPUTER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Ríomhaire Trádála"
+   },
+   "TRADE_COMPUTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Taispeánann seo na tráchtearraí is fearr le trádáil idir an réaltchóras roghnaithe agus an ceann reatha"
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Cábán paisinéara breise"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Tá cábán breise ag teastáil le paisinéir amháin a iompar"
+   }
+}

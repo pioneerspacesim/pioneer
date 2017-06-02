@@ -1,0 +1,598 @@
+{
+   "CORPORATIONS_0" : {
+      "description" : "",
+      "message" : "Réalta an Mhadra"
+   },
+   "CORPORATIONS_1" : {
+      "description" : "",
+      "message" : "ACME"
+   },
+   "CORPORATIONS_10" : {
+      "description" : "",
+      "message" : "Spáslonga i mBulc"
+   },
+   "CORPORATIONS_11" : {
+      "description" : "",
+      "message" : "Aeraidinimic Mhic Aonghusa"
+   },
+   "CORPORATIONS_2" : {
+      "description" : "",
+      "message" : "Cóla Mhic Cumhaill"
+   },
+   "CORPORATIONS_3" : {
+      "description" : "",
+      "message" : "Tuireann"
+   },
+   "CORPORATIONS_4" : {
+      "description" : "",
+      "message" : "Longthógáil an Uisceadóra"
+   },
+   "CORPORATIONS_5" : {
+      "description" : "",
+      "message" : "An Ríordánach"
+   },
+   "CORPORATIONS_6" : {
+      "description" : "",
+      "message" : "Aifric"
+   },
+   "CORPORATIONS_7" : {
+      "description" : "",
+      "message" : "Aeraspás Uí Mheachair"
+   },
+   "CORPORATIONS_8" : {
+      "description" : "",
+      "message" : "Líne Vega"
+   },
+   "CORPORATIONS_9" : {
+      "description" : "",
+      "message" : "Digiteach"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "An ndéanfá an t-iarratas céanna arís?"
+   },
+   "DANGER" : {
+      "description" : "",
+      "message" : "Contúirt:"
+   },
+   "DEADLINE" : {
+      "description" : "",
+      "message" : "Sprioc-am:"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Mo leithscéal, ach níl muinín ar bith agam asat mise a iompar go sábháilte."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Tar ar ais nuair a bheidh na cáilíochtaí cearta agat."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Ní dóigh liom gur tusa an píolóta atá mé ag lorg."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Ní dóigh liom gur tusa an sórt duine a bheadh in ann daoine a iompar."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Ní dóigh liom gur tusa an sórt píolóta atá mé ag lorg."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Déarfainn nach bhfuil go leor taithí agat chun iompar chomh tábhachtach seo a dhéanamh."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Níor chuala mé riamh fútsa. Tá píolóta a bhfuil seantaithí aige ag teastáil uaim don turas seo."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Nílim sásta m'anam a chur i gcontúirt ag brath ar dhuine cosúil leatsa ar bheagán taithí."
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Fad:"
+   },
+   "EXCELLENT" : {
+      "description" : "",
+      "message" : "Ar fheabhas."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "LONG AG TEASTÁIL: Iompar go dtí réaltchóras {system}. Íocfar {cash} as."
+   },
+   "FLAVOUR_0_DANGER" : {
+      "description" : "",
+      "message" : "Níl."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Do-ghlactha amach is amach! Shíl mé nach dtiocfá riamh. Nílim sásta íoc as. "
+   },
+   "FLAVOUR_0_HOWMANY" : {
+      "description" : "",
+      "message" : "Tá {group} againn ann."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit! Is mise {name} agus tá mé ag iarraidh grúpa beag a thabhairt liom go {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl. Íocfaidh mé {cash} as."
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as turas chomh deas sin. Íocadh an méid iomlán leat."
+   },
+   "FLAVOUR_0_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Cá bhfuilimid? Táimid ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí muid ANOIS LÁITHREACH!"
+   },
+   "FLAVOUR_0_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Táimid ag tabhairt cuairte ar chara."
+   },
+   "FLAVOUR_10_ADTEXT" : {
+      "description" : "",
+      "message" : "LONG AG TEASTÁIL: Iompar ar long ghasta go dtí réaltchóras {system}."
+   },
+   "FLAVOUR_10_DANGER" : {
+      "description" : "",
+      "message" : "Sílim go bhfuil duine éigin do mo leanúint."
+   },
+   "FLAVOUR_10_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Nílim sásta íoc as turas le píolóta nach bhfuil go leor taithí aige."
+   },
+   "FLAVOUR_10_HOWMANY" : {
+      "description" : "",
+      "message" : "Duine amháin."
+   },
+   "FLAVOUR_10_INTROTEXT" : {
+      "description" : "",
+      "message" : "Is mise {name}. Tá iompar gasta go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil go géar uaim. Íocfaidh mé {cash} as."
+   },
+   "FLAVOUR_10_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as an síob sciobtha. Íocadh an méid iomlán leat."
+   },
+   "FLAVOUR_10_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
+   },
+   "FLAVOUR_10_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "B'fhearr liom fanacht faoi cheilt."
+   },
+   "FLAVOUR_11_ADTEXT" : {
+      "description" : "",
+      "message" : "LONG GHASTA: Iompar ar long ghasta go dtí réaltchóras {system}."
+   },
+   "FLAVOUR_11_DANGER" : {
+      "description" : "",
+      "message" : "Uaireanta ní maith le daoine nuair a dhéantar cigireacht orthu."
+   },
+   "FLAVOUR_11_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Tabharfar bata is bóthar dom toisc go ndearna tú praiseach de seo. Tá an t-airgead sin ag teastáil uaimse níos mó ná uaitse."
+   },
+   "FLAVOUR_11_HOWMANY" : {
+      "description" : "",
+      "message" : "Duine amháin."
+   },
+   "FLAVOUR_11_INTROTEXT" : {
+      "description" : "",
+      "message" : "Is mise {name}. Tá iompar gasta go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil go géar uaim. Íocfaidh mé {cash} as."
+   },
+   "FLAVOUR_11_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as an síob sciobtha. Íocadh an méid iomlán leat."
+   },
+   "FLAVOUR_11_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
+   },
+   "FLAVOUR_11_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Is cigire monarchan mé ar mo chuid cuairteanna."
+   },
+   "FLAVOUR_12_ADTEXT" : {
+      "description" : "",
+      "message" : "LONG AG TEASTÁIL: Iompar go dtí réaltchóras {system}."
+   },
+   "FLAVOUR_12_DANGER" : {
+      "description" : "",
+      "message" : "Tá duine éigin sa tóir orm."
+   },
+   "FLAVOUR_12_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Níl go leor airgid agam. Mo leithscéal."
+   },
+   "FLAVOUR_12_HOWMANY" : {
+      "description" : "",
+      "message" : "Duine amháin."
+   },
+   "FLAVOUR_12_INTROTEXT" : {
+      "description" : "",
+      "message" : "Is mise {name}. Tá mé ag iarraidh réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) a bhaint amach, {dist} solasbhliain ar shiúl. Íocfaidh mé {cash} as."
+   },
+   "FLAVOUR_12_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as an síob. Íocadh an méid iomlán leat."
+   },
+   "FLAVOUR_12_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
+   },
+   "FLAVOUR_12_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Tá airgead ag duine éigin orm, agus tá sé ar mo thóir."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "LONG AG TEASTÁIL: Iompar go dtí réaltchóras {system}. Íocfar {cash} as."
+   },
+   "FLAVOUR_1_DANGER" : {
+      "description" : "",
+      "message" : "Níl."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Do-ghlactha amach is amach! Shíl mé nach dtiocfá riamh. Nílim sásta íoc as. "
+   },
+   "FLAVOUR_1_HOWMANY" : {
+      "description" : "",
+      "message" : "Tá {group} againn ann."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit, is mise {name}. Tá mé ag iarraidh grúpa beag a thabhairt liom go {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl. Íocfaidh mé {cash} as."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as turas chomh deas sin. Íocadh an méid iomlán leat."
+   },
+   "FLAVOUR_1_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Cá bhfuilimid? Táimid ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí muid ANOIS LÁITHREACH!"
+   },
+   "FLAVOUR_1_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Is fostaithe de chuid {corp} muid, agus is iad atá ag íoc as."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "LONG AG TEASTÁIL: Iompar go dtí réaltchóras {system}. Íocfar {cash} as."
+   },
+   "FLAVOUR_2_DANGER" : {
+      "description" : "",
+      "message" : "Níl."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Do-ghlactha amach is amach! Shíl mé nach dtiocfá riamh. Nílim sásta íoc as. "
+   },
+   "FLAVOUR_2_HOWMANY" : {
+      "description" : "",
+      "message" : "Tá {group} againn ann."
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit, is mise {name}. Tá mé ag iarraidh grúpa beag a thabhairt liom go {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl. Íocfaidh mé {cash} as."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as muid a thabhairt anseo. D'íocamar an méid iomlán leat. Ádh mór!"
+   },
+   "FLAVOUR_2_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Cá bhfuilimid? Táimid ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí muid ANOIS LÁITHREACH!"
+   },
+   "FLAVOUR_2_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Gnáth-thuras gnó atá ann."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "LONG AG TEASTÁIL: Iompar go dtí réaltchóras {system}. Íocfar {cash} as."
+   },
+   "FLAVOUR_3_DANGER" : {
+      "description" : "",
+      "message" : "Sílim go bhfuil feallmharfóir sa tóir orm, agus seans go mbeidh sé sa tóir ortsa freisin."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Do-ghlactha amach is amach! Shíl mé nach dtiocfá riamh. Nílim sásta íoc as. "
+   },
+   "FLAVOUR_3_HOWMANY" : {
+      "description" : "",
+      "message" : "Mise amháin atá ann."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit, is mise {name}. Tá iompar go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil uaim. Íocfaidh mé {cash} as."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as turas chomh deas sin. Íocadh an méid iomlán leat."
+   },
+   "FLAVOUR_3_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
+   },
+   "FLAVOUR_3_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Tá sean-namhaid ag iarraidh mise a mharú."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "LONG AG TEASTÁIL: Iompar go dtí réaltchóras {system}. Íocfar {cash} as."
+   },
+   "FLAVOUR_4_DANGER" : {
+      "description" : "",
+      "message" : "Níl."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Ná hiarr íocaíocht orm! Déanfaidh mé gearán fút leis na húdaráis."
+   },
+   "FLAVOUR_4_HOWMANY" : {
+      "description" : "",
+      "message" : "Mise amháin."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit, is mise {name}. Tá iompar go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil uaim. Íocfaidh mé {cash} as."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as mise a thabhairt anseo slán sábháilte. D'íoc mé an méid iomlán leat. Ádh mór!"
+   },
+   "FLAVOUR_4_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
+   },
+   "FLAVOUR_4_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Is ceannaí siúil mé."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "LONG AG TEASTÁIL: Iompar go dtí réaltchóras {system}. Íocfar {cash} as."
+   },
+   "FLAVOUR_5_DANGER" : {
+      "description" : "",
+      "message" : "Seans go mbeidh suim ag na nuachtáin ann. Ná bac leo."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Cad atá déanta agat?! Tá mo thuras millte agus chaill mé leath de mo chuid leantóirí."
+   },
+   "FLAVOUR_5_HOWMANY" : {
+      "description" : "",
+      "message" : "Mise amháin atá ann."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit, is mise {name}. Tá iompar go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil uaim. Íocfaidh mé {cash} as."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as turas chomh deas sin. Íocadh an méid iomlán leat."
+   },
+   "FLAVOUR_5_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
+   },
+   "FLAVOUR_5_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Nach raibh a fhios agat - tá mé i mo dhia beag."
+   },
+   "FLAVOUR_6_ADTEXT" : {
+      "description" : "",
+      "message" : "LONG AG TEASTÁIL: Iompar go dtí réaltchóras {system}. Íocfar {cash} as."
+   },
+   "FLAVOUR_6_DANGER" : {
+      "description" : "",
+      "message" : "Níl."
+   },
+   "FLAVOUR_6_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Do-ghlactha amach is amach! Shíl mé nach dtiocfá riamh. Nílim sásta íoc as. "
+   },
+   "FLAVOUR_6_HOWMANY" : {
+      "description" : "",
+      "message" : "Mise amháin atá ann."
+   },
+   "FLAVOUR_6_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit, is mise {name}. Tá iompar go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil uaim. Íocfaidh mé {cash} as."
+   },
+   "FLAVOUR_6_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as turas chomh deas sin. Íocadh an méid iomlán leat."
+   },
+   "FLAVOUR_6_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
+   },
+   "FLAVOUR_6_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Is saoririseoir mé."
+   },
+   "FLAVOUR_7_ADTEXT" : {
+      "description" : "",
+      "message" : "LONG AG TEASTÁIL: Iompar slán sábháilte go dtí réaltchóras {system}. Íocfar {cash} as."
+   },
+   "FLAVOUR_7_DANGER" : {
+      "description" : "",
+      "message" : "Ní thaitníonn sé leis an Maifia nuair a thugtar cúnamh dá gcuid naimhde."
+   },
+   "FLAVOUR_7_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Do-ghlactha amach is amach! Shíl mé nach dtiocfá riamh. Nílim sásta íoc as. "
+   },
+   "FLAVOUR_7_HOWMANY" : {
+      "description" : "",
+      "message" : "Mise amháin gan aon duine eile."
+   },
+   "FLAVOUR_7_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit, is mise {name}. Tá iompar slán sábháilte go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil uaim. Íocfaidh mé {cash} as."
+   },
+   "FLAVOUR_7_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as mise a thabhairt anseo slán sábháilte. D'íoc mé an méid iomlán leat. Ádh mór!"
+   },
+   "FLAVOUR_7_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
+   },
+   "FLAVOUR_7_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Tá an Maifia ag iarraidh mé a mharú."
+   },
+   "FLAVOUR_8_ADTEXT" : {
+      "description" : "",
+      "message" : "LONG AG TEASTÁIL: Iompar ar long ghasta go dtí réaltchóras {system}."
+   },
+   "FLAVOUR_8_DANGER" : {
+      "description" : "",
+      "message" : "Níl."
+   },
+   "FLAVOUR_8_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Do-ghlactha amach is amach! Shíl mé nach dtiocfá riamh. Nílim sásta íoc as. "
+   },
+   "FLAVOUR_8_HOWMANY" : {
+      "description" : "",
+      "message" : "Mise amháin."
+   },
+   "FLAVOUR_8_INTROTEXT" : {
+      "description" : "",
+      "message" : "Is mise {name}. Tá iompar gasta go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil go géar uaim. Íocfaidh mé {cash} as."
+   },
+   "FLAVOUR_8_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as an síob sciobtha. Íocadh an méid iomlán leat."
+   },
+   "FLAVOUR_8_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
+   },
+   "FLAVOUR_8_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Tá mé ag tabhairt cuairte ar ghaol tinn."
+   },
+   "FLAVOUR_9_ADTEXT" : {
+      "description" : "",
+      "message" : "LONG AG TEASTÁIL: Iompar ar long ghasta go dtí réaltchóras {system}."
+   },
+   "FLAVOUR_9_DANGER" : {
+      "description" : "",
+      "message" : "Seans go ndéanfaidh na Gardaí iarracht thú a stopadh."
+   },
+   "FLAVOUR_9_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Is liúdramán thú! Shíl mé nach dtiocfá riamh. Ní bhfaighidh tú cianóg rua uaim."
+   },
+   "FLAVOUR_9_HOWMANY" : {
+      "description" : "",
+      "message" : "Mise amháin."
+   },
+   "FLAVOUR_9_INTROTEXT" : {
+      "description" : "",
+      "message" : "Is mise {name}. Tá iompar gasta go dtí {system} ({sectorx}, {sectory}, {sectorz}), réaltchóras {dist} solasbhliain ar shiúl, ag teastáil go géar uaim. Íocfaidh mé {cash} as."
+   },
+   "FLAVOUR_9_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as an síob sciobtha. Íocadh an méid iomlán leat."
+   },
+   "FLAVOUR_9_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Cá bhfuilimid? Tá mé ag fanacht anseo fada go leor - tabhair go dtí an stáisiún is cóngaraí mé ANOIS LÁITHREACH!"
+   },
+   "FLAVOUR_9_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Tá na Gardaí ag lorg cúnamh uaim lena bhfiosrú."
+   },
+   "FROM" : {
+      "description" : "",
+      "message" : "Ó:"
+   },
+   "GROUP_DETAILS" : {
+      "description" : "",
+      "message" : "Mionsonraí an ghrúpa:"
+   },
+   "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
+      "description" : "",
+      "message" : "Hé!?! Beidh daor ort!!"
+   },
+   "HOW_MANY_OF_YOU_ARE_THERE" : {
+      "description" : "",
+      "message" : "Cé mhéad duine a bheidh i do ghrúpa?"
+   },
+   "HOW_SOON_YOU_MUST_BE_THERE" : {
+      "description" : "",
+      "message" : "Cé chomh luath agus is gá daoibh a bheith ann?"
+   },
+   "I_MUST_BE_THERE_BEFORE" : {
+      "description" : "",
+      "message" : "Caithfidh mé a bheith ann roimh"
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "sbh"
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Ceart go leor."
+   },
+   "PIRATE_TAUNTS_0" : {
+      "description" : "",
+      "message" : "Beidh aithreachas ort as déileáil le {client}"
+   },
+   "PIRATE_TAUNTS_1" : {
+      "description" : "",
+      "message" : "Tá {client} ar bord? Drochsmaoineamh é sin."
+   },
+   "PIRATE_TAUNTS_2" : {
+      "description" : "",
+      "message" : "Níl an t-ádh ort inniu! Abair d'urnaí."
+   },
+   "PIRATE_TAUNTS_3" : {
+      "description" : "",
+      "message" : "Ní bheidh tú ag teacht chun glais inniu!"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Socraigh mar sprioc loingseoireachta"
+   },
+   "TAXI" : {
+      "description" : "",
+      "message" : "Tacsaí"
+   },
+   "TO" : {
+      "description" : "",
+      "message" : "Chuig:"
+   },
+   "WE_WANT_TO_BE_THERE_BEFORE" : {
+      "description" : "",
+      "message" : "Ba mhaith linn a bheith ann roimh"
+   },
+   "WHY_SO_MUCH_MONEY" : {
+      "description" : "",
+      "message" : "Cén fáth a bhfuil an méid sin airgid i gceist?"
+   },
+   "WILL_I_BE_IN_ANY_DANGER" : {
+      "description" : "",
+      "message" : "An mbeidh mé i mbaol?"
+   },
+   "WRONG_SYSTEM" : {
+      "description" : "Shown if system name is right, but coordinates are wrong",
+      "message" : "Tá ainm an réaltchórais ceart, ach tá na comhordanáidí mícheart."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
+      "description" : "",
+      "message" : "Níl go leor spáis sna cábáin ar do long."
+   }
+}

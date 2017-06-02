@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "MultiMaterial.h"
@@ -42,7 +42,7 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc, int numLights)
 		ss << "#define MAP_COLOR\n";
 	if (desc.quality & HAS_HEAT_GRADIENT)
 		ss << "#define HEAT_COLOURING\n";
-	if (desc.instanced) 
+	if (desc.instanced)
 		ss << "#define USE_INSTANCING\n";
 
 	m_name = "multi";

@@ -26,5 +26,8 @@
       "scoop" : 1,
       "laser_front" : 1,
       "missile" : 2
+   },
+   "roles" : {
+      "merchant" : true
    }
 }

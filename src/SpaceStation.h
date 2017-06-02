@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SPACESTATION_H
@@ -31,19 +31,20 @@ public:
 
 	// Should point to SystemBody in Pi::currentSystem
 	SpaceStation(const SystemBody *);
-	SpaceStation() {}
+	SpaceStation() : m_type(nullptr) {}
 	virtual ~SpaceStation();
 	virtual vector3d GetAngVelocity() const { return vector3d(0,m_type->AngVel(),0); }
-	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
-	virtual void StaticUpdate(const float timeStep);
-	virtual void TimeStepUpdate(const float timeStep);
+	virtual bool OnCollision(Object *b, Uint32 flags, double relVel) override;
+	bool DoShipDamage(Ship* s, Uint32 flags, double relVel);
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
+	virtual void StaticUpdate(const float timeStep) override;
+	virtual void TimeStepUpdate(const float timeStep) override;
 
-	virtual const SystemBody *GetSystemBody() const { return m_sbody; }
-	virtual void PostLoadFixup(Space *space);
-	virtual void NotifyRemoved(const Body* const removedBody);
+	virtual const SystemBody *GetSystemBody() const override { return m_sbody; }
+	virtual void PostLoadFixup(Space *space) override;
+	virtual void NotifyRemoved(const Body* const removedBody) override;
 
-	virtual void SetLabel(const std::string &label);
+	virtual void SetLabel(const std::string &label) override;
 
 	// should call Ship::Undock and Ship::SetDockedWith instead
 	// Returns true on success, false if permission denied
@@ -63,18 +64,20 @@ public:
 	bool AllocateStaticSlot(int& slot);
 
 	// use docking bay position, if player has been granted permission
-	virtual vector3d GetTargetIndicatorPosition(const Frame *relTo) const;
+	virtual vector3d GetTargetIndicatorPosition(const Frame *relTo) const override;
 
 	// need this now because stations rotate in their frame
-	virtual void UpdateInterpTransform(double alpha);
+	virtual void UpdateInterpTransform(double alpha) override;
 
 protected:
-	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
 
 private:
 	void DockingUpdate(const double timeStep);
+	void PositionDockingShip(Ship *ship, int port) const;
 	void PositionDockedShip(Ship *ship, int port) const;
+	bool LevelShip(Ship *ship, int port, const float timeStep) const;
 	void DoLawAndOrder(const double timeStep);
 	bool IsPortLocked(const int bay) const;
 	void LockPort(const int bay, const bool lockIt);
@@ -82,13 +85,17 @@ private:
 	/* Stage 0 means docking port empty
 	 * Stage 1 means docking clearance granted to ->ship
 	 * Stage 2 to m_type->numDockingStages is docking animation
-	 * Stage m_type->numDockingStages+1 means ship is docked
+	 * Stage m_type->numDockingStages+1 means evaluating repos
+	 * Stage m_type->numDockingStages+2 means ship is repositioning
+	 * Stage m_type->numDockingStages+3 means ship is just docked
+	 * Stage m_type->numDockingStages+4 means ship is docked
 	 * Stage -1 to -m_type->numUndockStages is undocking animation
 	 */
 	struct shipDocking_t {
 		shipDocking_t():
-			ship(0), shipIndex(0),
-			stage(0), stagePos(0), fromPos(0.0), fromRot(1.0, 0.0, 0.0, 0.0)
+			ship(0), shipIndex(0), stage(0), stagePos(0),
+			fromPos(0.0), fromRot(1.0, 0.0, 0.0, 0.0),
+			maxOffset(0)
 		{}
 
 		Ship *ship;
@@ -97,6 +104,7 @@ private:
 		double stagePos; // 0 -> 1.0
 		vector3d fromPos; // in station model coords
 		Quaterniond fromRot;
+		double maxOffset;
 	};
 	typedef std::vector<shipDocking_t>::const_iterator	constShipDockingIter;
 	typedef std::vector<shipDocking_t>::iterator		shipDockingIter;

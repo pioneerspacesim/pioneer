@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaMissile.h"
@@ -58,6 +58,41 @@ static int l_missile_disarm(lua_State *l)
 }
 
 /*
+ * Method: AIKamikaze
+ *
+ * Crash into the target ship.
+ *
+ * > missile:AIKamikaze(target)
+ *
+ * Parameters:
+ *
+ *   target - the <Ship> to destroy
+ *
+ * Returns:
+ *   true if the command could be enacted, false otherwise
+ *
+ * Availability:
+ *
+ *  Gen 2017
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_missile_ai_kamikaze(lua_State *l)
+{
+	Missile *m = LuaObject<Missile>::GetFromLua(1);
+	Ship *target = LuaObject<Ship>::GetFromLua(2);
+	if (target != nullptr) {
+		m->AIKamikaze(target);
+		lua_pushboolean(l, true);
+	} else {
+		lua_pushboolean(l, false);
+	}
+	return 1;
+}
+
+/*
  * Group: Attributes
  */
 
@@ -91,11 +126,12 @@ template <> const char *LuaObject<Missile>::s_type = "Missile";
 
 template <> void LuaObject<Missile>::RegisterClass()
 {
-	static const char *l_parent = "Ship";
+	static const char *l_parent = "ModelBody"; // "DynamicBody";
 
 	static const luaL_Reg l_methods[] = {
 		{ "Arm",     l_missile_arm },
 		{ "Disarm",  l_missile_disarm },
+		{ "AIKamikaze", l_missile_ai_kamikaze },
 		{ 0, 0 }
 	};
 

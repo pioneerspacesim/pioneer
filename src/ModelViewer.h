@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef MODELVIEWER_H
@@ -40,7 +40,6 @@ private:
 	void CreateTestResources();
 	void DrawBackground();
 	void DrawGrid(const matrix4x4f &trans, float radius);
-	void DrawLog();
 	void DrawModel(const matrix4x4f &mv);
 	void MainLoop();
 	void OnAnimChanged(unsigned int, const std::string&);
@@ -63,7 +62,6 @@ private:
 	void UpdateCamera();
 	void UpdateLights();
 	void UpdatePatternList();
-	void AddAxisIndicator(const SceneGraph::Model::TVecMT &mts, std::vector<Graphics::Drawables::Line3D> &lines);
 
 	//toggleable options
 	struct Options {
@@ -80,6 +78,7 @@ private:
 		bool mouselookEnabled;
 		float gridInterval;
 		int lightPreset;
+		bool orthoView;
 
 		Options();
 	};

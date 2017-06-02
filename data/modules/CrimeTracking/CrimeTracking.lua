@@ -1,4 +1,4 @@
--- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Event = import("Event")
@@ -24,7 +24,8 @@ local function doLawAndOrder ()
 		Game.player.flightState == "FLYING" and
 		Engine.rand:Integer(0,1) > Game.system.lawlessness then
 			local station = Game.player:FindNearestTo("SPACESTATION")
-			if station.lawEnforcedRange >= station:DistanceTo(Game.player) then
+			-- check that station exists, since apparently empty systems can have lawlessness > 0
+			if station and station.lawEnforcedRange >= station:DistanceTo(Game.player) then
 				station:LaunchPolice(Game.player)
 				policeDispatched = station
 			end
@@ -105,6 +106,10 @@ local onLeaveSystem = function(ship)
 	if not ship:IsPlayer() then return end
 	-- if we leave the system, the space station object will be invalid
 	policeDispatched = nil
+
+	if not ship:IsHyperjumpAllowed() then
+		Legal:notifyOfCrime(ship,"ILLEGAL_JUMP")
+	end
 end
 
 
@@ -120,5 +125,6 @@ Event.Register("onJettison", onJettison)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onLeaveSystem", onLeaveSystem)
+
 
 Serializer:Register("CrimeTracking", serialize, unserialize)

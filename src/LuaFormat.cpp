@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaFormat.h"
@@ -138,6 +138,13 @@ static int l_format_mass_tonnes(lua_State *l)
 	return 1;
 }
 
+static int l_format_duration(lua_State *l)
+{
+	double seconds = luaL_checknumber(l, 1);
+	lua_pushstring(l, format_duration(seconds).c_str());
+	return 1;
+}
+
 void LuaFormat::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -150,6 +157,7 @@ void LuaFormat::Register()
 		{ "Money",      l_format_money       },
 		{ "AccelG",     l_format_accel_g     },
 		{ "MassTonnes", l_format_mass_tonnes },
+		{ "Duration",   l_format_duration    },
 		{ 0, 0 }
 	};
 

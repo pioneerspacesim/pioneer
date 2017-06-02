@@ -1,4 +1,4 @@
--- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = import("Lang")
@@ -36,7 +36,6 @@ local onShipDocked = function (ship, station)
 	else
 		Comms.Message(l.WELCOME_ABOARD_STATION_FEE_DEDUCTED:interp({station = station.label,fee = Format.Money(fee)}))
 		ship:AddMoney(0 - fee)
-		ship:SetFuelPercent()
 	end
 end
 

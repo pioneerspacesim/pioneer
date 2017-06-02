@@ -1,4 +1,4 @@
--- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -19,6 +19,7 @@ local Ship = import("Ship")
 local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
+local NavButton = import("ui/NavButton")
 
 local l = Lang.GetResource("module-assassination")
 
@@ -79,6 +80,8 @@ local onChat = function (form, ref, option)
 		form:SetMessage(introtext)
 		return
 	end
+
+	form:AddNavButton(ad.location)
 
 	if option == 0 then
 		local sys = ad.location:GetStarSystem()
@@ -514,6 +517,8 @@ local onClick = function (mission)
 													ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
 												})
 											}),
+										NavButton.New(l.SET_AS_TARGET, mission.location),
+										NavButton.New(l.SET_RETURN_ROUTE, mission.backstation),
 										ui:Grid(2,1)
 											:SetColumn(0, {
 												ui:VBox():PackEnd({

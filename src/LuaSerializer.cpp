@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaSerializer.h"
@@ -52,7 +52,7 @@
 // "Deserialize" function under that namespace. that data returned will be
 // given back to the module
 
-void LuaSerializer::pickle(lua_State *l, int to_serialize, std::string &out, const char *key)
+void LuaSerializer::pickle(lua_State *l, int to_serialize, std::string &out, std::string key)
 {
 	static char buf[256];
 
@@ -153,15 +153,15 @@ void LuaSerializer::pickle(lua_State *l, int to_serialize, std::string &out, con
 				lua_pushvalue(l, idx);
 				lua_pushnil(l);
 				while (lua_next(l, -2)) {
-					const char *k = key;
-					if (!k) {
-						lua_pushvalue(l, -2);
-						k = lua_tostring(l, -1);
-						lua_pop(l, 1);
-					}
+
+					lua_pushvalue(l, -2);
+					const char *k = lua_tostring(l, -1);
+					std::string new_key = key + "." + (k? std::string(k) : "<" + std::string(lua_typename(l, lua_type(l, -1))) + ">");
+					lua_pop(l, 1);
+
 					// Copy the values to pickle, as they might be mutated by the pickling process.
-					pickle(l, -2, out, key);
-					pickle(l, -1, out, key);
+					pickle(l, -2, out, new_key);
+					pickle(l, -1, out, new_key);
 					lua_pop(l, 1);
 				}
 				lua_pop(l, 1);
@@ -177,14 +177,14 @@ void LuaSerializer::pickle(lua_State *l, int to_serialize, std::string &out, con
 			LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, idx));
 			void *o = lo->GetObject();
 			if (!o)
-				Error("Lua serializer '%s' tried to serialize an invalid '%s' object", key, lo->GetType());
+				Error("Lua serializer '%s' tried to serialize an invalid '%s' object", key.c_str(), lo->GetType());
 
 			out += lo->Serialize();
 			break;
 		}
 
 		default:
-			Error("Lua serializer '%s' tried to serialize %s value", key, lua_typename(l, lua_type(l, idx)));
+			Error("Lua serializer '%s' tried to serialize %s value", key.c_str(), lua_typename(l, lua_type(l, idx)));
 			break;
 	}
 
@@ -374,12 +374,12 @@ void LuaSerializer::ToJson(Json::Value &jsonObj)
 
 	lua_pushnil(l);
 	while (lua_next(l, -2) != 0) {
-		lua_pushinteger(l, 1);
-		lua_gettable(l, -2);
-		pi_lua_protected_call(l, 0, 1);
-		lua_pushvalue(l, -3);
-		lua_insert(l, -2);
-		lua_settable(l, savetable);
+		lua_pushinteger(l, 1); // 1, fntable, key
+		lua_gettable(l, -2); // fn, fntable, key
+		pi_lua_protected_call(l, 0, 1); // table, fntable, key
+		lua_pushvalue(l, -3); // key, table, fntable, key
+		lua_insert(l, -2); // table, key, fntable, key
+		lua_settable(l, savetable); // fntable, key
 		lua_pop(l, 1);
 	}
 

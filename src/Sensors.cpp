@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Sensors.h"
@@ -98,7 +98,7 @@ void Sensors::Update(float time)
 
 	PopulateStaticContacts(); //no need to do all the time
 
-	//Find nearby contacts, same range as scanner. Scanner should use these
+	//Find nearby contacts, same range as radar scanner. It should use these
 	//contacts, worldview labels too.
 	Space::BodyNearList nearby;
 	Pi::game->GetSpace()->GetBodiesMaybeNear(m_owner, 100000.0f, nearby);

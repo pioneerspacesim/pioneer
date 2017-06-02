@@ -1,0 +1,94 @@
+{
+   "ASK_CANDIDATE_TO_SIT_A_TEST" : {
+      "description" : "",
+      "message" : "Cuir an t-iarrthóir faoi scrúdú"
+   },
+   "CREWDETAILSHEETBB" : {
+      "description" : "",
+      "message" : "Ainm: {name}\nTaithí: {experience}\nTuarastal iarrata: {wage} sa tseachtain\n\n{response}\n"
+   },
+   "CREWMEMBER_WAGE_PER_WEEK" : {
+      "description" : "",
+      "message" : "{potentialCrewMember} ({wage}/seachtain)"
+   },
+   "CREWTESTRESULTSBB" : {
+      "description" : "",
+      "message" : "Torthaí scrúdaithe:\n\nÉifeachtacht ghinearálta na foirne: {general}%\nInnealtóireacht agus deisiú: {engineering}%\nPíolótaíocht agus spáseitilt: {piloting}%\nLoingseoireacht agus beartú cúrsaí: {navigation}%\nBraiteoirí agus cosaint: {sensors}%\nScór iomlán: {overall}%"
+   },
+   "CREW_FOR_HIRE" : {
+      "description" : "",
+      "message" : "Foireann ar fáil"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Téigh ar ais"
+   },
+   "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
+      "description" : "",
+      "message" : "Tá brón orm, ach nílim sásta dul níos ísle."
+   },
+   "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
+      "description" : "",
+      "message" : "Tá brón orm, ach níl do thairiscint sách tarraingteach dom."
+   },
+   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
+      "description" : "",
+      "message" : "Déan tairiscint fostaíochta ar bord loinge ar an tuarastal luaite"
+   },
+   "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
+      "description" : "",
+      "message" : "Fíorbheagán ama caite ar bord loinge"
+   },
+   "NO_CREW_AVAILABLE" : {
+      "description" : "",
+      "message" : "Ár leithscéal. Níl éinne ag lorg fostaíochta ag {station} faoi láthair"
+   },
+   "NO_EXPERIENCE" : {
+      "description" : "",
+      "message" : "Gan taithí ar bith"
+   },
+   "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
+      "description" : "",
+      "message" : "Ceart go leor, is dócha go bhfuil sé sin ceart."
+   },
+   "POTENTIAL_CREW_MEMBERS" : {
+      "description" : "",
+      "message" : "Chláraigh daoine a d'fhéadfadh bheith ina mball foirne leis an ngníomhaireacht fostaíochta ag {station}:"
+   },
+   "SIMULATOR_TRAINING_ONLY" : {
+      "description" : "",
+      "message" : "Traenáil in ionsamhlóir amháin"
+   },
+   "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
+      "description" : "",
+      "message" : "Roinnt taithí i dtimpeallachtaí teoranta"
+   },
+   "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
+      "description" : "",
+      "message" : "Mol tuarastal seachtainiúil nua: {newAmount}"
+   },
+   "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
+      "description" : "",
+      "message" : "Go raibh maith agat. Socróidh mé mé féin ar bord láithreach."
+   },
+   "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
+      "description" : "",
+      "message" : "Ba an-fhlaithiúil uait é sin!"
+   },
+   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
+      "description" : "",
+      "message" : "Cuireann sin cuma níos fearr ar an tairiscint seo gan dabht!"
+   },
+   "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
+      "description" : "",
+      "message" : "Dealraíonn sé nach bhfuil spás dom ar bord!"
+   },
+   "TIME_SERVED_CREW_MEMBER" : {
+      "description" : "",
+      "message" : "Tréimhse caite mar bhall foirne"
+   },
+   "VETERAN_TIME_SERVED_CREW_MEMBER" : {
+      "description" : "",
+      "message" : "Seanchleachta, tréimhse caite mar bhall foirne"
+   }
+}

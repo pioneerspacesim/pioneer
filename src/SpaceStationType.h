@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SPACESTATIONTYPE_H
@@ -39,7 +39,7 @@ public:
 		vector3d yaxis;
 		vector3d zaxis;
 	};
-	
+
 private:
 	std::string id;
 	SceneGraph::Model *model;
@@ -92,6 +92,7 @@ public:
 	static void Init();
 
 	static const SpaceStationType* RandomStationType(Random &random, const bool bIsGround);
+	static const SpaceStationType *FindByName(const std::string &name);
 };
 
 #endif

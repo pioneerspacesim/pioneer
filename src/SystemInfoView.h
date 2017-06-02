@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SYSTEMINFOVIEW_H
@@ -6,6 +6,7 @@
 
 #include "libs.h"
 #include "gui/Gui.h"
+
 #include "UIView.h"
 #include <vector>
 
@@ -72,7 +73,7 @@ private:
 	//map is not enough to associate icons as each tab has their own. First element is the body index of SystemPath (names are not unique)
 	std::vector<std::pair<Uint32, BodyIcon*> > m_bodyIcons;
 	bool m_unexplored;
-	bool m_hasTradeAnalyzer;
+	bool m_hasTradeComputer;
 };
 
 #endif /* _SYSTEMINFOVIEW_H */

@@ -1,0 +1,102 @@
+{
+   "ADVICE_10_BODYTEXT" : {
+      "description" : "",
+      "message" : "B'fhéidir nár mhiste duit athlonnú go dtí faicsean eile nuair a bhíonn tú i dtrioblóid leis na húdaráis áitiúla."
+   },
+   "ADVICE_10_HEADLINE" : {
+      "description" : "",
+      "message" : "Uaireanta is mithid duit imeacht"
+   },
+   "ADVICE_1_BODYTEXT" : {
+      "description" : "",
+      "message" : "Tabhair faoi deara na gnóthaí áitiúla ar féidir muinín a bheith agat astu tar éis duit idirbheart a dhéanamh taobh amuigh den dlí."
+   },
+   "ADVICE_1_HEADLINE" : {
+      "description" : "",
+      "message" : "Ceansaigh an Margadh Dubh"
+   },
+   "ADVICE_2_BODYTEXT" : {
+      "description" : "",
+      "message" : "Tá go leor turas gearr níos sciobtha ná turas fada amháin."
+   },
+   "ADVICE_2_HEADLINE" : {
+      "description" : "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
+      "message" : "An Bóthar Níos Sciobtha"
+   },
+   "ADVICE_3_BODYTEXT" : {
+      "description" : "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
+      "message" : "Ná léim go dtí réaltchóras neamháitrithe gan na acmhainní le filleadh."
+   },
+   "ADVICE_3_HEADLINE" : {
+      "description" : "",
+      "message" : "Ná bí fágtha ar an bpláinéad folamh: ba cheart duit do sheicheamh léimeanna a phleanáil roimh ré"
+   },
+   "ADVICE_4_BODYTEXT" : {
+      "description" : "",
+      "message" : "Roghnaigh do fhráma tagartha, go háirithe nuair a bhíonn tú ag iarraidh luas agus cúrsa na sprice a mheaitseáil."
+   },
+   "ADVICE_4_HEADLINE" : {
+      "description" : "",
+      "message" : "Tá chuile rud coibhneasta"
+   },
+   "ADVICE_5_BODYTEXT" : {
+      "description" : "",
+      "message" : "Ceannaigh ar phraghas íseal, díol ar phraghas ard."
+   },
+   "ADVICE_5_HEADLINE" : {
+      "description" : "",
+      "message" : "Ná caill airgead"
+   },
+   "ADVICE_6_BODYTEXT" : {
+      "description" : "",
+      "message" : "Éist go cúramach leis an nuacht toisc go dtéann eolas nua i bhfeidhm ar phraghsanna an mhargaidh uaireanta."
+   },
+   "ADVICE_6_HEADLINE" : {
+      "description" : "",
+      "message" : "Cad é an scéal scéil?"
+   },
+   "ADVICE_7_BODYTEXT" : {
+      "description" : "",
+      "message" : "Is féidir leat dea-chlú i measc an phobail a ghnóthú trí dheontais a thabhairt do chumainn charthanachta áirithe."
+   },
+   "ADVICE_7_HEADLINE" : {
+      "description" : "",
+      "message" : "Bí fial flaithiúil"
+   },
+   "ADVICE_8_BODYTEXT" : {
+      "description" : "",
+      "message" : "Nuair a thugann tú cuairt ar chóras déréalta, deimhnigh go bhfuil tú dírithe ar an réalta cheart."
+   },
+   "ADVICE_8_HEADLINE" : {
+      "description" : "",
+      "message" : "Seachain trioblóid dhúbailte"
+   },
+   "ADVICE_9_BODYTEXT" : {
+      "description" : "",
+      "message" : "Déan cothabháil ar do chuid inneall go rialta, ach meabhraigh go bhfaigheann tú luach do chuid airgid."
+   },
+   "ADVICE_9_HEADLINE" : {
+      "description" : "",
+      "message" : "Caith go maith le do long"
+   },
+   "RUMOUR" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "RÁFLA"
+   },
+   "TALE_1_BODYTEXT" : {
+      "description" : "",
+      "message" : "Ná caill an t-éiclips álainn ar an Dóchas Nua nuair a uraíonn Háidéas an solas ó Eipsealón Eridani."
+   },
+   "TALE_1_HEADLINE" : {
+      "description" : "Blade runner?",
+      "message" : "\"Ní chreidfeá na rudaí atá feicthe agam\""
+   },
+   "TRAVELLERS_ADVICE" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "COMHAIRLE AN TAISTEALAÍ"
+   },
+   "TRAVELLERS_TALE" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "SCÉAL AN TAISTEALAÍ"
+   }
+}

@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Расширенный радарный топограф"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Продвинутый сканер цели"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : " Радарный топограф дальнего действия с системой широкой зоны покрытия."
+      "message" : "Сканер цели дальнего действия с покрытием всей системы."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -91,6 +91,26 @@
       "description" : "",
       "message" : "Военный гипердвигатель 4 кл."
    },
+   "DRIVE_MIL5" : {
+      "description" : "",
+      "message" : "Военный гипердвигатель 5 кл."
+   },
+   "DRIVE_MIL6" : {
+      "description" : "",
+      "message" : "Военный гипердвигатель 6 кл."
+   },
+   "DRIVE_MIL7" : {
+      "description" : "",
+      "message" : "Военный гипердвигатель 7 кл."
+   },
+   "DRIVE_MIL8" : {
+      "description" : "",
+      "message" : "Военный гипердвигатель 8 кл."
+   },
+   "DRIVE_MIL9" : {
+      "description" : "",
+      "message" : "Военный гипердвигатель 9 кл."
+   },
    "ECM_ADVANCED" : {
       "description" : "",
       "message" : "Продвинутая система ПРО"
@@ -137,7 +157,7 @@
    },
    "LASER_COOLING_BOOSTER" : {
       "description" : "",
-      "message" : "Доп.орудийный охладитель"
+      "message" : "Доп. орудийный охладитель"
    },
    "LASER_COOLING_BOOSTER_DESCRIPTION" : {
       "description" : "",
@@ -179,9 +199,13 @@
       "description" : "",
       "message" : "Превышена дальность сканирования:"
    },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Пассажирская каюта"
+   },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
-      "message" : "Сканер Небесных Тел"
+      "message" : "Сканер небесных тел"
    },
    "PLANETSCANNER_DESCRIPTION" : {
       "description" : "",
@@ -215,19 +239,11 @@
       "description" : "",
       "message" : "2MW скоростное имп.орудие"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Радарный топограф"
+      "message" : "Радар"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Используется для дистанционного сканирования чужих кораблей - собирает информацию о грузе, оборудовании и общем состоянии. Также используется для получения информации о других объектах."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Сканер"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Формирует на дисплее объемную схему расположения значимых объектов в околокорабельном пространстве."
    },
@@ -263,17 +279,49 @@
       "description" : "",
       "message" : "Начинаю сканирование, расстояние до цели"
    },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Анализатор торговли"
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Сканер цели"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Используется для дистанционного сканирования чужих кораблей - собирает информацию о грузе, оборудовании и общем состоянии. Также используется для получения информации о других объектах."
+   },
+   "THRUSTERS_BASIC" : {
+      "description" : "",
+      "message" : "Модифицированные ускорители"
+   },
+   "THRUSTERS_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Модифицированные ускорители, подходящие для вашего корабля."
+   },
+   "THRUSTERS_BEST" : {
+      "description" : "",
+      "message" : "Заказные ускорители"
+   },
+   "THRUSTERS_BEST_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Сделанные под заказ ускорители максимально возможной мощности."
+   },
+   "THRUSTERS_MEDIUM" : {
+      "description" : "",
+      "message" : "Оптимизированные ускорители"
+   },
+   "THRUSTERS_MEDIUM_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ускорители, которые оптимизированы для уменьшения неэффективности и увеличения мощности."
+   },
+   "TRADE_COMPUTER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Торговый компьютер"
+   },
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "Показать товары, выгодные для торговли между выбранной и текущей системами"
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
-      "message" : "Пассажирская каюта"
+      "message" : "Доп. пассажирская каюта"
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",

@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -116,7 +116,7 @@ void TextLayout::Update(const float width, const Color &color)
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
 	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
-	
+
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 
 	if( r )
@@ -129,8 +129,19 @@ void TextLayout::Update(const float width, const Color &color)
 
 		Color c = color;
 
+		// vertex array pre-assignment, because TextureFont botches it
+		// over-reserves for markup, but we don't care
+		int numChars = 0;
 		std::list<word_t>::const_iterator wpos = this->words.begin();
+		for (; wpos != this->words.end(); ++wpos)
+			if ((*wpos).word) numChars += strlen((*wpos).word);
+
+		va.position.reserve(6 * numChars);
+		va.diffuse.reserve(6 * numChars);
+		va.uv0.reserve(6 * numChars);
+
 		// build lines of text
+		wpos = this->words.begin();
 		while (wpos != this->words.end()) {
 			float len = 0;
 			int num = 0;

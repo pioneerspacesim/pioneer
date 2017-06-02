@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -461,7 +461,7 @@ static void RelocateStarportIfNecessary(SystemBody *sbody, Frame *frame, Planet 
 
 	Random r(sbody->GetSeed());
 
-	for (int tries = 0; tries < 200; tries++) 
+	for (int tries = 0; tries < 200; tries++)
 	{
 		variationWithinLimits = true;
 
@@ -494,7 +494,7 @@ static void RelocateStarportIfNecessary(SystemBody *sbody, Frame *frame, Planet 
 		bool tooCloseToOther = false;
 		for (vector3d oldPos : prevPositions)
 		{
-			// is the distance between points less than the delta distance?	
+			// is the distance between points less than the delta distance?
 			if ((pos_ - oldPos).LengthSqr() < (delta*delta)) {
 				tooCloseToOther = true; // then we're too close so try again
 				break;
@@ -512,7 +512,7 @@ static void RelocateStarportIfNecessary(SystemBody *sbody, Frame *frame, Planet 
 			rotNotUnderwaterWithLeastVariation = rot_;
 		}
 
-		if (variationWithinLimits && !starportUnderwater && !tooCloseToOther) 
+		if (variationWithinLimits && !starportUnderwater && !tooCloseToOther)
 			break;
 
 		// try new random position
@@ -882,7 +882,7 @@ static void hitCallback(CollisionContact *c)
 		const vector3d hitVel1 = linVel1 + angVel1.Cross(hitPos1);
 		const double relVel = hitVel1.Dot(c->normal);
 		// moving away so no collision
-		if (relVel > 0 && !c->geomFlag) return;
+		if (relVel > 0) return;
 		if (!OnCollision(po1, po2, c, -relVel)) return;
 		const double invAngInert = 1.0 / mover->GetAngularInertia();
 		const double numerator = -(1.0 + coeff_rest) * relVel;

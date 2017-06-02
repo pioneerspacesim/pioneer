@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Geavanceerde Radar Mapper"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Advanced target scanner"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Langeafstands radar mapper met stelselbrede dekking."
+      "message" : "Long range target scanner with system wide coverage."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -90,6 +90,26 @@
    "DRIVE_MIL4" : {
       "description" : "",
       "message" : "Klasse 4 Militaire aandrijving"
+   },
+   "DRIVE_MIL5" : {
+      "description" : "",
+      "message" : "Class 5 Military drive"
+   },
+   "DRIVE_MIL6" : {
+      "description" : "",
+      "message" : "Class 6 Military drive"
+   },
+   "DRIVE_MIL7" : {
+      "description" : "",
+      "message" : "Class 7 Military drive"
+   },
+   "DRIVE_MIL8" : {
+      "description" : "",
+      "message" : "Class 8 Military drive"
+   },
+   "DRIVE_MIL9" : {
+      "description" : "",
+      "message" : "Class 9 Military drive"
    },
    "ECM_ADVANCED" : {
       "description" : "",
@@ -179,6 +199,10 @@
       "description" : "",
       "message" : "Max scanbereik overschreden:"
    },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Passenger cabin"
+   },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
       "message" : "Hemellichaamscan"
@@ -215,19 +239,11 @@
       "description" : "",
       "message" : "2MW snelvuur puls kanon"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Radar Mapper"
+      "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Maakt het mogelijk om de uitrusting, lading of status van andere schepen van een afstand te bekijken."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Scanner"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Projecteert een 3D-kaart van nabije schepen."
    },
@@ -263,11 +279,43 @@
       "description" : "",
       "message" : "Scan starten. Afstand tot doel is"
    },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Handels-analysesysteem"
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Target Scanner"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Maakt het mogelijk om de uitrusting, lading of status van andere schepen van een afstand te bekijken."
+   },
+   "THRUSTERS_BASIC" : {
+      "description" : "",
+      "message" : "Modified Thrusters"
+   },
+   "THRUSTERS_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "A modified type of thrusters approved for your ship."
+   },
+   "THRUSTERS_BEST" : {
+      "description" : "",
+      "message" : "Bespoke Thrusters"
+   },
+   "THRUSTERS_BEST_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Custom made thrusters that provide the best possible output."
+   },
+   "THRUSTERS_MEDIUM" : {
+      "description" : "",
+      "message" : "Optimised Thrusters"
+   },
+   "THRUSTERS_MEDIUM_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Thrusters that have been optimised to reduce inefficiencies and improve power output."
+   },
+   "TRADE_COMPUTER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Trade Computer"
+   },
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "Toon handelswaar die winstgevend is tussen de huidige en geselecteerde stelsels."
    },

@@ -1,4 +1,4 @@
-material Fuselage-material
+material Fuselage
 diffuse 1.0 1.0 1.0
 specular 0.8 0.8 0.8
 #use_patterns

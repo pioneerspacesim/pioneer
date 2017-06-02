@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TextureBuilder.h"
@@ -12,6 +12,9 @@
 
 namespace Graphics {
 
+//static
+SDL_mutex *TextureBuilder::m_textureLock = nullptr;
+
 TextureBuilder::TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA, bool compressTextures, bool anisoFiltering) :
     m_surface(surface), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_compressTextures(compressTextures), m_anisotropicFiltering(anisoFiltering), m_textureType(TEXTURE_2D), m_prepared(false)
 {
@@ -24,6 +27,11 @@ TextureBuilder::TextureBuilder(const std::string &filename, TextureSampleMode sa
 
 TextureBuilder::~TextureBuilder()
 {
+}
+
+void TextureBuilder::Init()
+{
+	m_textureLock = SDL_CreateMutex();
 }
 
 // RGBA and RGBpixel format for converting textures
@@ -206,8 +214,8 @@ void TextureBuilder::LoadSurface()
 	SDLSurfacePtr s;
 	if(m_textureType == TEXTURE_2D) {
 		s = LoadSurfaceFromFile(m_filename);
-		if (! s) { 
-			s = LoadSurfaceFromFile("textures/unknown.png"); 
+		if (! s) {
+			s = LoadSurfaceFromFile("textures/unknown.png");
 		}
 	} else if(m_textureType == TEXTURE_CUBE_MAP) {
 		Output("LoadSurface: %s: cannot load non-DDS cubemaps\n", m_filename.c_str());

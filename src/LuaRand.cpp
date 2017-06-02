@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -51,7 +51,7 @@ static int l_rand_new(lua_State *l)
 /*
  * Method: Number
  *
- * Generates a real (non-integer) number.
+ * Generates a real (non-integer) number in an open interval
  *
  * > number = rand:Number()
  * > number = rand:Number(max)
@@ -59,11 +59,11 @@ static int l_rand_new(lua_State *l)
  *
  * Parameters:
  *
- *   min - optional, the minimum possible value for the generated number. If
- *         omitted, defaults to 0
+ *   min - optional, lower (exclusive) bound for random number.
+ *         If omitted, defaults to 0.
  *
- *   max - optional, the maximum possible value for the generated number. If
- *         omitted, defaults to a very large number (currently 2^32-1)
+ *   max - optional, upper (exclusive) bound for random number.
+ *         If omitted, defaults to 1.
  *
  * Return:
  *
@@ -91,8 +91,8 @@ static int l_rand_number(lua_State *l)
 		max = lua_tonumber(l, 2);
 	}
 	else {
-        lua_pushnumber(l, rand->Double());
-        return 1;
+		lua_pushnumber(l, rand->Double());
+		return 1;
 	}
 
 	if (min > max)
@@ -181,8 +181,8 @@ static int l_rand_normal(lua_State *l)
 		stddev = 1;
 	}
 	else {
-        lua_pushnumber(l, rand->Normal());
-        return 1;
+		lua_pushnumber(l, rand->Normal());
+		return 1;
 	}
 
 	if (stddev < 0)
@@ -235,8 +235,8 @@ static int l_rand_integer(lua_State *l)
 		max = lua_tointeger(l, 2);
 	}
 	else {
-        lua_pushnumber(l, rand->Int32());
-        return 1;
+		  lua_pushnumber(l, rand->Int32());
+		  return 1;
 	}
 
 	if (min > max)

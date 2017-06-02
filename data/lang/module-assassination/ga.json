@@ -1,0 +1,334 @@
+{
+   "ASSASSINATION" : {
+      "description" : "",
+      "message" : "Feallmharú"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "An ndéanfá an t-iarratas céanna arís?"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Mo leithscéal, ach níl muinín ar bith agam asat."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Tar ar ais nuair a bheidh na cáilíochtaí cearta agat."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Ní dóigh liom gur tusa an duine atá mé ag lorg."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Ní dóigh liom gur tusa an sórt duine a bheadh in ann an rud atá ag teastáil a dhéanamh."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Is léir nach tusa an duine ceart don jab seo."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Déarfainn nach bhfuil go leor taithí agat conradh chomh tábhachtach seo a chomhlíonadh."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Níor chuala mé riamh fútsa. Tá píolóta a bhfuil seantaithí aige ag teastáil uaim don chonradh seo."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Nílim sásta dul sa seans leis an gconradh seo agus é a thabhairt do dhuine ar bheagán taithí."
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Fad:"
+   },
+   "EXCELLENT" : {
+      "description" : "",
+      "message" : "Ar fheabhas."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "CÚNAMH AG TEASTÁIL: {target} a dhíbirt ó réaltchóras {system}."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Tá mé thar a bheith míshásta go bhfuil {target} beo fós. Ar ndóigh, ní bhfaighidh tú aon íocaíocht."
+   },
+   "FLAVOUR_0_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Níor thusa ba chúis le himeacht {target}. Ní bhfaighidh tú íocaíocht ar bith an dul seo."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit, is mise {name}. Tabharfaidh mé {cash} duit as fáil réidh le {target}."
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Bhí áthas orm a chloisteáil go ndeachaigh {target} ar an tsaoire fhada. Maith thú. Tá mé tar éis tús a chur le d'íocaíocht."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "CÚNAMH AG TEASTÁIL: Duine éigin le {target} ó réaltchóras {system} a mharú."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Cloisim go bhfuil {target} ina shláinte. Goilleann seo orm."
+   },
+   "FLAVOUR_1_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Níor thusa ba chúis le bás {target}; ná hiarr íocaíocht orm."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Caithfear {target} a thógáil as an bpictiúr. Tabharfaidh mé {cash} duit i ndíol an jab seo."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Bhí an-díomá orm cloisteáil faoi bhás anabaí {target}. Íocadh an méid iomlán leat."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "CÚNAMH AG TEASTÁIL: Níl iarraidh ar bith ar {target} i réaltchóras {system} a thuilleadh."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Is trua go bhfuil {target} beo beathach fós. Ní bhfaighidh tú airgead ar bith toisc nár chomhlíon tú an conradh."
+   },
+   "FLAVOUR_2_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Duine éigin eile a chomhlíon an conradh. Is leis an mochóirí an lá!"
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Is mise {name} agus tabharfaidh mé {cash} duit as {target} a mharú."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Íocadh an méid iomlán leat as an gconradh tábhachtach sin a chomhlíonadh."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "CÚNAMH AG TEASTÁIL: Duine éigin chun fáil réidh le {target}."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Beidh daor ort as ligean do {target} éalú lena anam!"
+   },
+   "FLAVOUR_3_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "An bhfuil tú ag iarraidh airgid as jab a rinne duine éigin eile? Imigh leat."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "Caithfear smidiríní spáis a dhéanamh de {target}. Tabharfaidh mé {cash} duit i ndíol an jab seo."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tá {target} marbh. Seo é luach do shaothair."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "LUATHSCOR: Ag lorg duine le {target} a chur ar luathscor."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Tá {target} ina lánbheatha fós agus ní thabharfaidh mé cianóg rua duit."
+   },
+   "FLAVOUR_4_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Duine éigin eile a chur deireadh le {target}."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "Ba mhaith linn {target} a spreagadh le héirí as an obair, go buan. Íocfaimid {cash} as."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Bhí áthas orm a chloisteáil gur cuireadh {target} ar luathscor. Seo é do chuid airgid."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "BEATHAISNÉIS: Tá daoine áirithe ag súil le bás {target}."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Fuaireamar amach bhfuil {target} gníomhach fós. Cuireann seo díomá orainn."
+   },
+   "FLAVOUR_5_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Bhí {target} neodraithe ag duine éigin eile."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "Guímid deireadh mar ba chuí le réim {target} i réaltchóras {system}. Íocfaimid {cash} as."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Bhí áthas orm a chloisteáil gur cuireadh deireadh le réim {target}. Seo d'íocaíocht {cash}."
+   },
+   "HOW_SOON_MUST_IT_BE_DONE" : {
+      "description" : "",
+      "message" : "Cé chomh luath agus is gá dom é a dhéanamh?"
+   },
+   "HOW_WILL_I_BE_PAID" : {
+      "description" : "",
+      "message" : "Cén chaoi a n-íocfar mé?"
+   },
+   "IT_MUST_BE_DONE_AFTER" : {
+      "description" : "",
+      "message" : "Caithfear é a dhéanamh tar éis do {target} {spaceport} a fhágáil. Ná caill an deis seo."
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "sbh"
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Ceart go leor."
+   },
+   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
+      "description" : "",
+      "message" : "Fill anseo tar éis duit an conradh a chomhlíonadh agus íocfar thú."
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Socraigh mar sprioc loingseoireachta"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Socraigh an turas fillte"
+   },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Long:"
+   },
+   "SHIP_ID" : {
+      "description" : "",
+      "message" : "Aitheantas na Loinge:"
+   },
+   "SPACEPORT" : {
+      "description" : "",
+      "message" : "Spásphort:"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "Réaltchóras:"
+   },
+   "TARGET_NAME" : {
+      "description" : "",
+      "message" : "Ainm na sprice:"
+   },
+   "TARGET_WILL_BE_LEAVING_SPACEPORT_AT" : {
+      "description" : "",
+      "message" : "Fágfaidh an sprioc an spásphort ag:"
+   },
+   "TITLE_0" : {
+      "description" : "",
+      "message" : "Aimiréal"
+   },
+   "TITLE_1" : {
+      "description" : "",
+      "message" : "Ambasadóir"
+   },
+   "TITLE_10" : {
+      "description" : "",
+      "message" : "Meirgire"
+   },
+   "TITLE_11" : {
+      "description" : "",
+      "message" : "Ginearál"
+   },
+   "TITLE_12" : {
+      "description" : "",
+      "message" : "Breitheamh"
+   },
+   "TITLE_13" : {
+      "description" : "",
+      "message" : "Dlíodóir"
+   },
+   "TITLE_14" : {
+      "description" : "",
+      "message" : "Leifteanant"
+   },
+   "TITLE_15" : {
+      "description" : "",
+      "message" : "Marascal"
+   },
+   "TITLE_16" : {
+      "description" : "",
+      "message" : "Ceannaí"
+   },
+   "TITLE_17" : {
+      "description" : "",
+      "message" : "Oifigeach"
+   },
+   "TITLE_18" : {
+      "description" : "",
+      "message" : "Gnáthshaighdiúir"
+   },
+   "TITLE_19" : {
+      "description" : "",
+      "message" : "Ollamh"
+   },
+   "TITLE_2" : {
+      "description" : "",
+      "message" : "Briogáidire"
+   },
+   "TITLE_20" : {
+      "description" : "",
+      "message" : "Ionchúisitheoir"
+   },
+   "TITLE_21" : {
+      "description" : "",
+      "message" : "Propast"
+   },
+   "TITLE_22" : {
+      "description" : "",
+      "message" : "Mairnéalach"
+   },
+   "TITLE_23" : {
+      "description" : "",
+      "message" : "Seanadóir"
+   },
+   "TITLE_24" : {
+      "description" : "",
+      "message" : "Sáirsint"
+   },
+   "TITLE_3" : {
+      "description" : "",
+      "message" : "Dalta"
+   },
+   "TITLE_4" : {
+      "description" : "",
+      "message" : "Captaen"
+   },
+   "TITLE_5" : {
+      "description" : "",
+      "message" : "Cairdinéal"
+   },
+   "TITLE_6" : {
+      "description" : "",
+      "message" : "Coirnéal"
+   },
+   "TITLE_7" : {
+      "description" : "",
+      "message" : "Ceannfort"
+   },
+   "TITLE_8" : {
+      "description" : "",
+      "message" : "Comadóir"
+   },
+   "TITLE_9" : {
+      "description" : "",
+      "message" : "Ceannaire"
+   },
+   "WHERE_CAN_I_FIND_X" : {
+      "description" : "",
+      "message" : "Cá bhfuil {target}?"
+   },
+   "X_WILL_BE_LEAVING" : {
+      "description" : "",
+      "message" : "Fágfaidh {target} {spaceport} i réaltchóras {system} ({sectorX}, {sectorY}, {sectorZ}), fad {dist} solasbhliain, ar {date}. Is é {shipname} an spáslong agus is é {shipregid} an t-aitheantas clárúcháin."
+   }
+}

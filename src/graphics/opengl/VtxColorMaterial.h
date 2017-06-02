@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GL_VTXCOLORMATERIAL_H
@@ -21,7 +21,7 @@ namespace Graphics {
 
 		class VtxColorMaterial : public Material {
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &);
+			virtual Program *CreateProgram(const MaterialDescriptor &) override final;
 		};
 	}
 }

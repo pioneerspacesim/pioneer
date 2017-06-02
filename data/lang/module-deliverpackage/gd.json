@@ -323,6 +323,10 @@
       "description" : "",
       "message" : "Pàighidh tu airson a' charago seo le do bheatha."
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Cuir ceann-uidhe na seòladaireachd air"
+   },
    "SPACEPORT" : {
       "description" : "",
       "message" : "Port-fhànais:"

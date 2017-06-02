@@ -1,4 +1,4 @@
--- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -71,7 +71,7 @@ local onChat = function (form, ref, option)
 			Comms.Message(l.THANK_YOU_ALL_DONATIONS_ARE_WELCOME)
 		end
 		Game.player:AddMoney(-option)
-		addReputation(option)
+		addReputation(option * ad.modifier)
 	end
 end
 
@@ -83,6 +83,7 @@ local onCreateBB = function (station)
 	local n = Engine.rand:Integer(1, #flavours)
 
 	local ad = {
+		modifier = n == 6 and 1.5 or 1.0, -- donating to FOSS is twice as good
 		title    = flavours[n].title,
 		message  = flavours[n].message,
 		station  = station,

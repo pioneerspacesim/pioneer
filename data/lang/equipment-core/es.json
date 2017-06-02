@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Radar Trazador Avanzado"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Escáner de blanco avanzado"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Radar trazador de largo alcance con cobertura completa del sistema."
+      "message" : "Escáner de largo rango con sistema de cobertura amplia."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -90,6 +90,26 @@
    "DRIVE_MIL4" : {
       "description" : "",
       "message" : "Hiperimpulsor militar clase 4"
+   },
+   "DRIVE_MIL5" : {
+      "description" : "",
+      "message" : "Hiperimpulsor militar Clase 5"
+   },
+   "DRIVE_MIL6" : {
+      "description" : "",
+      "message" : "Hiperimpulsor militar Clase 6"
+   },
+   "DRIVE_MIL7" : {
+      "description" : "",
+      "message" : "Hiperimpulsor militar Clase 7"
+   },
+   "DRIVE_MIL8" : {
+      "description" : "",
+      "message" : "Hiperimpulsor militar Clase 8"
+   },
+   "DRIVE_MIL9" : {
+      "description" : "",
+      "message" : "Hiperimpulsor militar Clase 9"
    },
    "ECM_ADVANCED" : {
       "description" : "",
@@ -179,6 +199,10 @@
       "description" : "",
       "message" : "Máximo alcance de escáner excedido:"
    },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Cabina de pasajeros"
+   },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
       "message" : "Escáner de cuerpo"
@@ -215,19 +239,11 @@
       "description" : "",
       "message" : "Cañón rápido de pulsos 2MW"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Radar Trazador"
+      "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Se utiliza para la inspección remota del equipo, carga y estado de otras naves."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Escáner"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Proporciona una vista 3D de las naves próximas."
    },
@@ -263,11 +279,43 @@
       "description" : "",
       "message" : "Escaneo iniciado, la distancia al objetivo es"
    },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Analizador de comercio"
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Escáner de objetivo"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Se utiliza para la inspección remota del equipo, carga y estado de otras naves."
+   },
+   "THRUSTERS_BASIC" : {
+      "description" : "",
+      "message" : "Impulsores modificados"
+   },
+   "THRUSTERS_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Un tipo de impulsores modificados aprobados para su nave."
+   },
+   "THRUSTERS_BEST" : {
+      "description" : "",
+      "message" : "Impulsores a medida"
+   },
+   "THRUSTERS_BEST_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Impulsores personalizados que ofrecen la mejor salida de potencia posible."
+   },
+   "THRUSTERS_MEDIUM" : {
+      "description" : "",
+      "message" : "Impulsores optimizados"
+   },
+   "THRUSTERS_MEDIUM_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Impulsores que han sido optimizados a fin de reducir ineficiencias y mejorar su potencia de salida."
+   },
+   "TRADE_COMPUTER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Ordenador de comercio"
+   },
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "Muestra las mercancías rentables con las que comerciar entre el sistema seleccionado y el actual"
    },

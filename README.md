@@ -33,7 +33,7 @@ Pioneer wiki
   http://pioneerwiki.com/wiki/Pioneer_Wiki
 
 Join the player's forum:
-  http://spacesimcentral.com/ssc/forum/23-pioneer/
+  http://spacesimcentral.com/forum/categories/pioneer
 
 Join the development forum:
   http://pioneerspacesim.net/forum
@@ -52,6 +52,12 @@ Keyboard and mouse control is found at:
 
 For frequently asked questions, please see
   http://pioneerwiki.com/wiki/FAQ
+  
+  
+## BUG Reporting
+
+Please see the section of the FAQ pertaining to bugs, crashs and reporting other issues.
+  http://pioneerwiki.com/wiki/FAQ#How.2Fwhere_do_I_report_my_bug.2Fcrash
 
 
 ## Contributing

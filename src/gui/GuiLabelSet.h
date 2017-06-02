@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef GUILABELSET_H
@@ -16,20 +16,13 @@ class LabelSet: public Widget {
 public:
 	class LabelSetItem {
 	public:
-		LabelSetItem(std::string text_, sigc::slot<void> onClick_, float screenx_, float screeny_) {
-			this->text = text_;
-			this->onClick = onClick_;
-			this->screenx = screenx_;
-			this->screeny = screeny_;
-			this->hasOwnColor = false;
+		LabelSetItem(std::string text_, sigc::slot<void> onClick_, float screenx_, float screeny_) :
+			text(text_), hasOwnColor(false), onClick(onClick_), screenx(screenx_), screeny(screeny_)
+		{
 		}
-		LabelSetItem(std::string text_, sigc::slot<void> onClick_, float screenx_, float screeny_, const Color &c) {
-			this->text = text_;
-			this->onClick = onClick_;
-			this->screenx = screenx_;
-			this->screeny = screeny_;
-			this->color = c;
-			this->hasOwnColor = true;
+		LabelSetItem(std::string text_, sigc::slot<void> onClick_, float screenx_, float screeny_, const Color &c) :
+			text(text_), color(c), hasOwnColor(true), onClick(onClick_), screenx(screenx_), screeny(screeny_)
+		{
 		}
 		std::string text;
 		Color color;

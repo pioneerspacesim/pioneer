@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TextureFont.h"
@@ -10,10 +10,17 @@
 #include "TextSupport.h"
 #include "utils.h"
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#endif
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_STROKER_H
 #include FT_GLYPH_H
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 #undef FT_FILE // defined by FreeType, conflicts with a symbol name from FileSystem
 
@@ -200,9 +207,9 @@ void TextureFont::PopulateString(Graphics::VertexArray &va, const std::string &s
 	float py = y;
 
 	// we know how many we're adding so reserve space ahead of time
-	va.position.reserve(str.size() * 6);
-	va.diffuse.reserve(str.size() * 6);
-	va.uv0.reserve(str.size() * 6);
+	va.position.reserve(va.position.size() + str.size() * 6);
+	va.diffuse.reserve(va.diffuse.size() + str.size() * 6);
+	va.uv0.reserve(va.uv0.size() + str.size() * 6);
 
 	// add all of the glyphs individually
 	int i = 0;
@@ -214,7 +221,8 @@ void TextureFont::PopulateString(Graphics::VertexArray &va, const std::string &s
 		} else {
 			Uint32 chr;
 			int n = utf8_decode_char(&chr, &str[i]);
-			assert(n);
+			if(n<=0)
+				break;
 			i += n;
 
 			const Glyph &glyph = GetGlyph(chr);
@@ -223,7 +231,8 @@ void TextureFont::PopulateString(Graphics::VertexArray &va, const std::string &s
 			if (str[i]) {
 				Uint32 chr2;
 				n = utf8_decode_char(&chr2, &str[i]);
-				assert(n);
+				if(n<=0)
+					break;
 
 				px += GetKern(glyph, GetGlyph(chr2));
 			}
@@ -240,9 +249,9 @@ Color TextureFont::PopulateMarkup(Graphics::VertexArray &va, const std::string &
 	if(str.empty()) return Color::BLACK;
 
 	// we know how many we're adding so reserve space ahead of time
-	va.position.reserve(str.size() * 6);
-	va.diffuse.reserve(str.size() * 6);
-	va.uv0.reserve(str.size() * 6);
+	va.position.reserve(va.position.size() + str.size() * 6);
+	va.diffuse.reserve(va.diffuse.size() + str.size() * 6);
+	va.uv0.reserve(va.uv0.size() + str.size() * 6);
 
 	float px = x;
 	float py = y;
@@ -275,7 +284,8 @@ Color TextureFont::PopulateMarkup(Graphics::VertexArray &va, const std::string &
 		} else {
 			Uint32 chr;
 			int n = utf8_decode_char(&chr, &str[i]);
-			assert(n);
+			if(n<=0)
+				break;
 			i += n;
 
 			const Glyph &glyph = GetGlyph(chr);
@@ -285,7 +295,8 @@ Color TextureFont::PopulateMarkup(Graphics::VertexArray &va, const std::string &
 			if (str[i]) {
 				Uint32 chr2;
 				n = utf8_decode_char(&chr2, &str[i]);
-				assert(n);
+				if(n<=0)
+					break;
 
 				px += GetKern(glyph, GetGlyph(chr2));
 			}
@@ -525,7 +536,7 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 
 		FT_Done_Glyph(strokeGlyph);
 	}
-	else 
+	else
 	{
 		//don't run off atlas borders
 		m_atlasVIncrement = std::max(m_atlasVIncrement, static_cast<unsigned int>(bmGlyph->bitmap.rows));
@@ -620,6 +631,13 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 	m_mat.reset(m_renderer->CreateMaterial(desc));
 	Graphics::TextureDescriptor textureDescriptor(m_texFormat, vector2f(ATLAS_SIZE), Graphics::NEAREST_CLAMP, false, false, false, 0, Graphics::TEXTURE_2D);
 	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
+	{
+		const size_t sz = m_bpp * ATLAS_SIZE * ATLAS_SIZE;
+		char *buf = static_cast<char*>(malloc(sz));
+		memset(buf, 0, sz);
+		m_texture->Update(buf, vector2f(0.0f, 0.0f), vector2f(ATLAS_SIZE, ATLAS_SIZE), m_texFormat);
+		free(buf);
+	}
 	m_mat->texture0 = m_texture.Get();
 
 	// font-wide metrics. we assume that these match for all faces
@@ -647,7 +665,7 @@ FT_Face TextureFont::GetFTFace(const FontConfig::Face &face)
 	}
 
 	RefCountedPtr<FileSystem::FileData> fd;
-	
+
 	fd = FileSystem::gameDataFiles.ReadFile("fonts/" + face.fontFile);
 	if (!fd) {
 		Output("Terrible error! Couldn't load '%s'.\n", face.fontFile.c_str());

@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipController.h"
@@ -255,10 +255,14 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 			}
 
 			if (!stickySpeedKey) {
-				if (KeyBindings::increaseSpeed.IsActive())
+				if (KeyBindings::increaseSpeed.IsActive()) {
 					m_setSpeed += std::max(fabs(m_setSpeed)*0.05, 1.0);
-				if (KeyBindings::decreaseSpeed.IsActive())
+					if ( m_setSpeed > 300000000 ) m_setSpeed = 300000000;
+				}
+				if (KeyBindings::decreaseSpeed.IsActive()) {
 					m_setSpeed -= std::max(fabs(m_setSpeed)*0.05, 1.0);
+					if ( m_setSpeed < -300000000 ) m_setSpeed = -300000000;
+				}
 				if ( ((oldSpeed < 0.0) && (m_setSpeed >= 0.0)) ||
 						((oldSpeed > 0.0) && (m_setSpeed <= 0.0)) ) {
 					// flipped from going forward to backwards. make the speed 'stick' at zero
@@ -308,7 +312,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 				changeVec[axis] = (changeVec[axis] - dz) / (1.0f - dz);
 			}
 		}
-		
+
 		wantAngVel += changeVec;
 
 		if (wantAngVel.Length() >= 0.001 || force_rotation_damping || m_rotationDamping) {

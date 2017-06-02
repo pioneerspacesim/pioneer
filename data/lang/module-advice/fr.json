@@ -1,0 +1,102 @@
+{
+   "ADVICE_10_BODYTEXT" : {
+      "description" : "",
+      "message" : "Déménager vers une autre faction peut être une bonne idée lorsque vous avez des soucis avec les autorités locales."
+   },
+   "ADVICE_10_HEADLINE" : {
+      "description" : "",
+      "message" : "Sachez quand vous retirer"
+   },
+   "ADVICE_1_BODYTEXT" : {
+      "description" : "",
+      "message" : "Souvenez-vous des commerces locaux auquels vous pouvez faire confiance ou non, lorsque vous completez une transaction en dehors du périmètre de la loi."
+   },
+   "ADVICE_1_HEADLINE" : {
+      "description" : "",
+      "message" : "Apprivoisez le marché noir"
+   },
+   "ADVICE_2_BODYTEXT" : {
+      "description" : "",
+      "message" : "Plusieurs petites distances sont traversées plus rapidement que leur somme totale."
+   },
+   "ADVICE_2_HEADLINE" : {
+      "description" : "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
+      "message" : "Le chemin le plus rapide"
+   },
+   "ADVICE_3_BODYTEXT" : {
+      "description" : "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
+      "message" : "Évitez de sauter vers un système inhabité sans avoir les moyens d'en partir."
+   },
+   "ADVICE_3_HEADLINE" : {
+      "description" : "",
+      "message" : "Évitez de vous retrouver en rade: planifiez votre séquence de sauts à l'avance"
+   },
+   "ADVICE_4_BODYTEXT" : {
+      "description" : "",
+      "message" : "Choisissez votre cadre de référence. Spécialement quand vous souhaitez adapter votre vitesse et direction à celle d'une cible mouvante."
+   },
+   "ADVICE_4_HEADLINE" : {
+      "description" : "",
+      "message" : "C'est tout relatif"
+   },
+   "ADVICE_5_BODYTEXT" : {
+      "description" : "",
+      "message" : "Achetez à bas prix et revendez plus cher."
+   },
+   "ADVICE_5_HEADLINE" : {
+      "description" : "",
+      "message" : "Investissez intelligemment"
+   },
+   "ADVICE_6_BODYTEXT" : {
+      "description" : "",
+      "message" : "Faites attention à chaque nouvelle que vous recevez: l'actualité peut affecter les prix des marchés."
+   },
+   "ADVICE_6_HEADLINE" : {
+      "description" : "",
+      "message" : "Restez à l'écoute"
+   },
+   "ADVICE_7_BODYTEXT" : {
+      "description" : "",
+      "message" : "Les donations peuvent vous donner une bonne image dans la société, mais toutes les oeuvres de charité ne monterons pas nécessairement votre réputation."
+   },
+   "ADVICE_7_HEADLINE" : {
+      "description" : "",
+      "message" : "Soyez généreux"
+   },
+   "ADVICE_8_BODYTEXT" : {
+      "description" : "",
+      "message" : "Lorsque vous voyagez vers des systèmes binaires, assurez-vous de cibler la bonne étoile."
+   },
+   "ADVICE_8_HEADLINE" : {
+      "description" : "",
+      "message" : "N'allez pas chercher les ennuis"
+   },
+   "ADVICE_9_BODYTEXT" : {
+      "description" : "",
+      "message" : "Maintenez régulièrement votre moteur, mais souvenez-vous: la qualité dépendra du prix que vous y aurez mis."
+   },
+   "ADVICE_9_HEADLINE" : {
+      "description" : "",
+      "message" : "Traitez votre vaisseau correctement"
+   },
+   "RUMOUR" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "RUMEUR"
+   },
+   "TALE_1_BODYTEXT" : {
+      "description" : "",
+      "message" : "Ne ratez pas la magnifique éclipse sur New Hope lorsque Hades bloque la lumière d'Epsilon Eridani."
+   },
+   "TALE_1_HEADLINE" : {
+      "description" : "Blade runner?",
+      "message" : "\"J'ai vu des choses que vous autre ne croirez jamais\""
+   },
+   "TRAVELLERS_ADVICE" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "CONSEIL DE VOYAGE"
+   },
+   "TRAVELLERS_TALE" : {
+      "description" : "Headline starts with this pre-headline",
+      "message" : "RÉCIT DE VOYAGE"
+   }
+}

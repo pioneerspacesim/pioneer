@@ -5,11 +5,11 @@
    },
    "BOARDED_PASSENGER" : {
       "description" : "",
-      "message" : "{name} has boarded the ship."
+      "message" : "{name} átszállt a fedélzetre."
    },
    "COMMODITIES" : {
       "description" : "",
-      "message" : "Commodities"
+      "message" : "Rakomány"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "CREW" : {
       "description" : "",
-      "message" : "Crew"
+      "message" : "Legénység"
    },
    "DEADLINE" : {
       "description" : "",
@@ -25,11 +25,11 @@
    },
    "DELIVERED_PASSENGER" : {
       "description" : "",
-      "message" : "{name} has left the ship."
+      "message" : "{name} elhagyta a hajót."
    },
    "DELIVERY" : {
       "description" : "",
-      "message" : "DELIVERY"
+      "message" : "LESZÁLLÍTÁS"
    },
    "DISTANCE" : {
       "description" : "",
@@ -37,127 +37,127 @@
    },
    "ENTITY_FAMILY_BUSINESS_1" : {
       "description" : "",
-      "message" : "{name} and Sons"
+      "message" : "{name} és Fiai"
    },
    "ENTITY_FAMILY_BUSINESS_10" : {
       "description" : "",
-      "message" : "{name} Taxi Services"
+      "message" : "{name} Taxi szolgálat"
    },
    "ENTITY_FAMILY_BUSINESS_2" : {
       "description" : "",
-      "message" : "{name} and Daughters"
+      "message" : "{name} és Lányai"
    },
    "ENTITY_FAMILY_BUSINESS_3" : {
       "description" : "",
-      "message" : "{name} Flowers of {locality}"
+      "message" : "{locality}-i {name}  Virágkertészet"
    },
    "ENTITY_FAMILY_BUSINESS_4" : {
       "description" : "",
-      "message" : "{name} Custom Painted Missiles"
+      "message" : "{name}  Rakétafényezés"
    },
    "ENTITY_FAMILY_BUSINESS_5" : {
       "description" : "",
-      "message" : "{name} Courier Services"
+      "message" : "{name}  Futárszolgálat"
    },
    "ENTITY_FAMILY_BUSINESS_6" : {
       "description" : "",
-      "message" : "{name} Space Pets"
+      "message" : "{name} Kisállatüzlet"
    },
    "ENTITY_FAMILY_BUSINESS_7" : {
       "description" : "",
-      "message" : "{name} & {name}"
+      "message" : "{name} és {name} "
    },
    "ENTITY_FAMILY_BUSINESS_8" : {
       "description" : "",
-      "message" : "{name} Authentic {locality} Foods"
+      "message" : "{name} Eredeti {locality}-i Ételek"
    },
    "ENTITY_FAMILY_BUSINESS_9" : {
       "description" : "",
-      "message" : "{name} Transports"
+      "message" : "{name}sped"
    },
    "ENTITY_GENERAL_1" : {
       "description" : "",
-      "message" : "the {locality} General Prospectors Inc"
+      "message" : "{locality} Általános Talajkutató Vállalat"
    },
    "ENTITY_GENERAL_10" : {
       "description" : "",
-      "message" : "{locality} Infinity Energy One"
+      "message" : "{locality} Infinty Energy One"
    },
    "ENTITY_GENERAL_2" : {
       "description" : "",
-      "message" : "the {locality} Society for Ecological Preservation"
+      "message" : "{locality} Természetvédelmi Egyesület"
    },
    "ENTITY_GENERAL_3" : {
       "description" : "",
-      "message" : "the Interest Rights Groups for {locality}"
+      "message" : "{locality} Érdekvédő Csoport"
    },
    "ENTITY_GENERAL_4" : {
       "description" : "",
-      "message" : "the {locality} Mining Rights Office"
+      "message" : "{locality} Bányászati Hivatal"
    },
    "ENTITY_GENERAL_5" : {
       "description" : "",
-      "message" : "the Landowners Association of {locality}"
+      "message" : "{locality} Földtulajdonosok Egyesülete"
    },
    "ENTITY_GENERAL_6" : {
       "description" : "",
-      "message" : "the Statistical Institute of {locality}"
+      "message" : "{locality} Statisztikai Hivatal"
    },
    "ENTITY_GENERAL_7" : {
       "description" : "",
-      "message" : "the {locality} branch office of SpaceCruise Inc"
+      "message" : "ŰrCirkáló vállalat {locality}-i irodája"
    },
    "ENTITY_GENERAL_8" : {
       "description" : "",
-      "message" : "{locality} iSatellite Ltd"
+      "message" : "{locality} iMűhold Kft."
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
-      "message" : "{locality} Burrial-Services Corp"
+      "message" : "{locality} Temetkezési Vállalat"
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
-      "message" : "the {locality} Biological Society"
+      "message" : "{locality} Biológiai Intézet"
    },
    "ENTITY_RESEARCH_10" : {
       "description" : "",
-      "message" : "the {locality} Center of Zoological Research"
+      "message" : "{locality} Zoológiai Kutatóközpont"
    },
    "ENTITY_RESEARCH_2" : {
       "description" : "",
-      "message" : "the {locality} Microbiological Society"
+      "message" : "{locality} Mikrobiológiai Intézet"
    },
    "ENTITY_RESEARCH_3" : {
       "description" : "",
-      "message" : "the {locality} Chemical Society"
+      "message" : "{locality} Vegyészkamara"
    },
    "ENTITY_RESEARCH_4" : {
       "description" : "",
-      "message" : "the {locality} Astrobiological Society"
+      "message" : "{locality} Asztrobiológiai Szövetség"
    },
    "ENTITY_RESEARCH_5" : {
       "description" : "",
-      "message" : "the {locality} Geological Society"
+      "message" : "{locality} Földrajzi Társaság"
    },
    "ENTITY_RESEARCH_6" : {
       "description" : "",
-      "message" : "the {locality} Society for Astropaleontology"
+      "message" : "{locality} Asztropaleontológiai Egyesület"
    },
    "ENTITY_RESEARCH_7" : {
       "description" : "",
-      "message" : "the {locality} Astrophysics Research Center"
+      "message" : "{locality} Asztrofizikai Kutatóközpont"
    },
    "ENTITY_RESEARCH_8" : {
       "description" : "",
-      "message" : "the {locality} Astrochemistry Research Center"
+      "message" : "{locality} Asztokémiai Kutatóintézet"
    },
    "ENTITY_RESEARCH_9" : {
       "description" : "",
-      "message" : "the {locality} Center for Botany"
+      "message" : "{locality} Botanikai Központ"
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "You are not equipped to handle this mission. {unit} {equipment} required."
+      "message" : "Alkalmatlan a hajója a feladat végrehajtására. {unit} {equipment} szükséges."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "A teljes kifizetésért {due} előtt le kell szállítani a hajtóanyagot."
+      "message" : "A teljes jutalom kifizetéséhez kérjük szállítsa le az üzemanyagot {due}-ig."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -213,15 +213,15 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Köszönöm! Átutaltam a fizetséget."
+      "message" : "Köszönöm szépen! Átutaltam a teljes jutalmat."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} tonna hidrogén áttöltve."
+      "message" : "{unit} tonna üzemanyag áttöltve."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "A pilóta 1 tonna hidrogént kér."
+      "message" : "A pilóta {unit} tonna {cargo} leszállítását kéri."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -277,143 +277,143 @@
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Very good. We will recommend you for future assignments."
+      "message" : "Nagyon jó! Javasolni fogjuk újabb megbízásokra."
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} tonna hidrogén áttöltve."
+      "message" : "{unit} tonna üzemanyag áttöltve."
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "A pilóta 1 tonna hidrogént kér."
+      "message" : "A kapitánynak {unit} tonna {cargo}-t kér."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL close to {starport}."
+      "message" : "HAJÓ ÜRES TANKKAL {starport} közelében."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "People are just not dependable anymore."
+      "message" : "Hiába, manapság senkire sem lehet számítani."
    },
    "FLAVOUR_5_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Please complete refueling by {due}."
+      "message" : "Kérem {due}-ig juttassa el az üzemanyagot."
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+      "message" : "{starport} forgalomirányítás jelzést kapott a {shiplabel} lajstromjelű hajótól, ami üres üzemanyagtartályokkal sodródik a közelben. {cash} jutalmat fizetünk annak, aki azonnal üzemanyagot juttat el hozzá, hogy elhagyhassák a körzetet."
    },
    "FLAVOUR_5_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+      "message" : "A hajó {dist} km-re innen vesztegel. A pontos tartózkodási helyét magának kell megtalálnia."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "We will make record of your timely completion of the task."
+      "message" : "Feljegyeztük a feladat gyors végrehajtását."
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} tonna hidrogén áttöltve."
+      "message" : "{unit} tonna üzemanyag átpumpálva."
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We request the delivery of 1 ton of hydrogen fuel to the ship."
+      "message" : "{unit} tonna {cargo} hajóhoz szállítását kérjük."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "VESSEL UNRESPONSIVE in the {system} system."
+      "message" : "HAJÓ NEM VÁLASZOL, utolsó ismert tartózkodási helye: {system}."
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
-      "message" : "What a disaster! This is the death sentence to our poor colleagues!"
+      "message" : "Micsoda katasztrófa! Halálos ítélet szerencsétlen kollégáink számára!"
    },
    "FLAVOUR_6_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "You have to be back by {due}."
+      "message" : "{due}-ig vissza kell érnie."
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+      "message" : "A nevem {name}, {entity} képviseletében. Elvesztettük a kapcsolatot {shiplabel} jelű, {ship} típusú, hajónkkal. Hajlandóak vagyunk {cash} fizettséget felajánlani az azonnali segítéségért."
    },
    "FLAVOUR_6_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+      "message" : "Az utolsó ismert tartózkodási helye: {planet} bolygó körzete, {system} rendszer: [{sectorx},{sectory},{sectorz}], {dist} fényévre innen."
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you! You can't imagine how relieved we are."
+      "message" : "Köszönjük! El sem tudja képzelni, mekkora megkönnyebbülés."
    },
    "FLAVOUR_6_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} fő a fedélzeten."
+      "message" : "{unit} fő átszállt a fedélzetre."
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
+      "message" : "Szükségem van valakire, aki azonnal kollégaink segítségére siet, és ha még léetben vannak, elhozza őket {starport} kikötőjébe. A hajón {crew} fő legénység és {pass} utas tartózkodott induláskor."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
-      "message" : "IMMEDIATE CREW TRANSPORT to the {system} system requested."
+      "message" : "AZONNALI LEGÉNYSÉG SZÁLLÍTÁST KÉRÜNK {system} rendszerbe."
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
-      "message" : "Thank you very much, but you are too late!"
+      "message" : "Köszönjük, de későn érkezett."
    },
    "FLAVOUR_7_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The replacement crew has to reach the ship by {due}."
+      "message" : "A legénységnek {due}-ig a hajóra kell érnie."
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with one crew member left on board the ship after {problem}. I am willing to pay {cash} for immediate help."
+      "message" : "{entity} képviseletében {name} vagyok. Egyetlen hajónk, {shiplabel} lajstromjelű {ship} {crew} fő legénységgel sodródik. {problem} Felajánlok {cash} jutalmat az azonnali segítségéért."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+      "message" : "{system} rendszerben találja meg a hajót ([{sectorx},{sectory},{sectorz}] dist} fényévre. {planet} körül kering."
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you! I have been authorized to transmit the full payment."
+      "message" : "Köszönöm! Engedélyeztem a jutalma átutalását."
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has transfered to the target ship."
+      "message" : "{unit} fő átszállt a fedélzetre."
    },
    "FLAVOUR_7_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
+      "message" : "Nem tudnak visszajutni a szükséges legénység nélkül. Keresek valakit, aki hajlandó sürgősen eljuttatni {deliver_crew} csere legénységet a hajónkra."
    },
    "FULL_CARGO" : {
       "description" : "",
-      "message" : "Ship full. No more room for additional cargo."
+      "message" : "Tele a raktér. Nincs hely további rakománynak."
    },
    "FULL_CREW" : {
       "description" : "",
-      "message" : "Crew roster full. No more space for more crew."
+      "message" : "A legénység teljesen feltöltve, nincs több hely."
    },
    "FULL_PASSENGERS" : {
       "description" : "",
-      "message" : "All cabins full. No more space for more passengers."
+      "message" : "Minden kabin foglalt, nincs több hely az utasoknak."
    },
    "HOW_FAR" : {
       "description" : "",
-      "message" : "How far away is the target?"
+      "message" : "Milyen távol van a célpont?"
    },
    "HOW_MUCH_TIME" : {
       "description" : "",
-      "message" : "How much time do I have?"
+      "message" : "Mennyi időm van?"
    },
    "INTERACTION_ABORTED" : {
       "description" : "",
-      "message" : "Interaction aborted. Please come closer and try again."
+      "message" : "Túl távol került, jöjjön közelebb, hogy folytatni tudjuk a műveletet."
    },
    "INTERACTION_DISTANCE_REACHED" : {
       "description" : "",
-      "message" : "Interaction distance reached."
+      "message" : "Megfelelő távolság."
    },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
-      "message" : "It must be completed by "
+      "message" : "Határidő:"
    },
    "KM" : {
       "description" : "",
@@ -421,15 +421,15 @@
    },
    "LAST_KNOWN_LOCATION" : {
       "description" : "",
-      "message" : "Last known location:"
+      "message" : "Utolsó ismert tartózkodási hely:"
    },
    "LAT" : {
       "description" : "",
-      "message" : "Lat:"
+      "message" : "Szél:"
    },
    "LON" : {
       "description" : "",
-      "message" : "Lon:"
+      "message" : "Hossz:"
    },
    "LY" : {
       "description" : "",
@@ -437,19 +437,19 @@
    },
    "MISSING_COMM" : {
       "description" : "",
-      "message" : "Cannot complete transfer. {cargotype} missing."
+      "message" : "Nem lehet átrakodni. {cargotype} hiányzik."
    },
    "MISSING_CREW" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Crew missing."
+      "message" : "Nem lehet befejezni az átszállást. Nincs ki a létszám."
    },
    "MISSING_PASS" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Passengers missing."
+      "message" : "Nem lehet befejezni az átszállást. Utas hiányzik."
    },
    "MISSING_PASSENGER" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Passenger missing."
+      "message" : "Nem lehet befejezni az átszállást. Hiányzik valaki az utaslistáról."
    },
    "OK_AGREED" : {
       "description" : "",
@@ -457,191 +457,199 @@
    },
    "ORBIT" : {
       "description" : "",
-      "message" : "Orbitális pálya"
+      "message" : "Pálya"
    },
    "PARTIAL" : {
       "description" : "",
-      "message" : "Thank you for your efforts. I hope you will return to complete the task!"
+      "message" : "Köszönjük az erőfeszítéseit. Reméljük visszatér és befejezi a feladatot."
    },
    "PASSENGERS" : {
       "description" : "",
-      "message" : "Passengers"
+      "message" : "Utas"
    },
    "PAYMENT_LOCATION" : {
       "description" : "",
-      "message" : "Payment location:"
+      "message" : "Fizetés átvehető:"
    },
    "PICKUP" : {
       "description" : "",
-      "message" : "PICKUP"
+      "message" : "FELSZEDÉS"
    },
    "PLACE_OF_ASSISTANCE" : {
       "description" : "",
-      "message" : "At the place of assistance"
+      "message" : "a helyszínen"
    },
    "PLEASE_LAND" : {
       "description" : "",
-      "message" : "Please land ship to allow transfer."
+      "message" : "Kérem száljon le, hogy megkezdhessük az átszállást."
    },
    "PROBLEM_CREW_1" : {
       "description" : "",
-      "message" : "a deadly fight among the crew members"
+      "message" : "Halálos kimenetelű összetűzés a legénység tagjai között."
    },
    "PROBLEM_CREW_10" : {
       "description" : "",
-      "message" : "a mutiny"
+      "message" : "Zendülés."
    },
    "PROBLEM_CREW_2" : {
       "description" : "",
-      "message" : "the crew had to chase a deadly {locality} snake found loose on the ship"
+      "message" : "A legénység egy elszabadult {locality}-i veszélyes mérges kígyót keres a hajón."
    },
    "PROBLEM_CREW_3" : {
       "description" : "",
-      "message" : "a {locality} spider killed all the others"
+      "message" : "Egy {locality}-i pók halálra csípte a többieket."
    },
    "PROBLEM_CREW_4" : {
       "description" : "",
-      "message" : "what it seems like a {locality} scorpion got into the crew quarters at night"
+      "message" : "Úgy tűnik, az éjszaka folyamán egy {locality}-n honos skorpió tévedt a legénységi kabinokba."
    },
    "PROBLEM_CREW_5" : {
       "description" : "",
-      "message" : "a severe form of {locality} fever killed the others"
+      "message" : "Súlyos {locality}-i láz vitte el a többieket."
    },
    "PROBLEM_CREW_6" : {
       "description" : "",
-      "message" : "the other crew members did not return from a space walk"
+      "message" : "A legénység több tagja nem tért vissza az űrsétáról."
    },
    "PROBLEM_CREW_7" : {
       "description" : "",
-      "message" : "a severe form of food poisoning on the ship"
+      "message" : "Súlyos ételmérgezés a hajón."
    },
    "PROBLEM_CREW_8" : {
       "description" : "",
-      "message" : "a terrible accident that lead to the ejection of the others into space"
+      "message" : "Egy szörnyű baleset során a többiek kizuhantak az űrbe."
    },
    "PROBLEM_CREW_9" : {
       "description" : "",
-      "message" : "a circumstance that I can't comment on publicly"
+      "message" : "Bizonyos kürölmények, amiket nem hozhatok nyilvánosságra."
    },
    "PROBLEM_GENERAL_1" : {
       "description" : "",
-      "message" : "a fire in the cargo hold"
+      "message" : "Tűz ütött ki a raktérben."
    },
    "PROBLEM_GENERAL_10" : {
       "description" : "",
-      "message" : "the receipt of a distress call from within {locality}"
+      "message" : "Vészjelzést fogtunk {locality} környéről."
    },
    "PROBLEM_GENERAL_2" : {
       "description" : "",
-      "message" : "a power failure in the engine core"
+      "message" : "Hajtóműhiba történt."
    },
    "PROBLEM_GENERAL_3" : {
       "description" : "",
-      "message" : "an air leak"
+      "message" : "Léket kapott."
    },
    "PROBLEM_GENERAL_4" : {
       "description" : "",
-      "message" : "a severe form of food poisoning involving all personnel on board the ship"
+      "message" : "A hajón tartózkodók súlyos ételmérgezést kaptak."
    },
    "PROBLEM_GENERAL_5" : {
       "description" : "",
-      "message" : "a small meteor impact"
+      "message" : "Mikrometeorit becsapódás."
    },
    "PROBLEM_GENERAL_6" : {
       "description" : "",
-      "message" : "a fight among crew members"
+      "message" : "Összeverekedtek a legénység tagjai."
    },
    "PROBLEM_GENERAL_7" : {
       "description" : "",
-      "message" : "contact with an unidentified flight object"
+      "message" : "Azonosítatlan repülő objektummal találkoztak."
    },
    "PROBLEM_GENERAL_8" : {
       "description" : "",
-      "message" : "a dispute with a competitor's vessel"
+      "message" : "Összezördülés a konkurencia hajójával."
    },
    "PROBLEM_GENERAL_9" : {
       "description" : "",
-      "message" : "a reboot of the main computer"
+      "message" : "A központi számítógépet újra kellett indítani."
    },
    "PROBLEM_RESEARCH_1" : {
       "description" : "",
-      "message" : "an unexpected chemical reaction in one of the reaction chambers"
+      "message" : "Nem várt reakció történt az egyik reaktorkamrában."
    },
    "PROBLEM_RESEARCH_10" : {
       "description" : "",
-      "message" : "a major discovery at {locality} that I am not at liberty to disclose at this time"
+      "message" : "Nagy felfedezés {locality}-n, aminek a részleteit nem oszthatom meg önnel."
    },
    "PROBLEM_RESEARCH_2" : {
       "description" : "",
-      "message" : "an infection of a crew member with a pathogen local to {locality}"
+      "message" : "A legénység egy tagját megtámadta egy {locality}-i fertőzés."
    },
    "PROBLEM_RESEARCH_3" : {
       "description" : "",
-      "message" : "a leak of experimental pathogens into the main air supply"
+      "message" : "Kísérleti kórokozó került a légcserélő rendszerbe."
    },
    "PROBLEM_RESEARCH_4" : {
       "description" : "",
-      "message" : "crew exposure to a specimen collected at {locality}"
+      "message" : "A legénység ki volt téve a {locality}-n begyűjtött mintának."
    },
    "PROBLEM_RESEARCH_5" : {
       "description" : "",
-      "message" : "a chemical explosion in one of the on-board fume hoods"
+      "message" : "Vegyi robbanás történt az egyik izolációs kamrában."
    },
    "PROBLEM_RESEARCH_6" : {
       "description" : "",
-      "message" : "an experimental recreation of {locality} atmospheric gases"
+      "message" : "Balul sült el  a kísérlet amit {locality} légköréből vett mintákkal végeztünk."
    },
    "PROBLEM_RESEARCH_7" : {
       "description" : "",
-      "message" : "a heated dispute between scientists on board the ship"
+      "message" : "Elharapódzott a vita a fedélzeten tartózkodó tudósok között."
    },
    "PROBLEM_RESEARCH_8" : {
       "description" : "",
-      "message" : "the sudden disappearance of a lead investigator on board the ship"
+      "message" : "Eltűnt a vizsgálatvezető a hajóról."
    },
    "PROBLEM_RESEARCH_9" : {
       "description" : "",
-      "message" : "the accidental combination of incompatible specimens from {locality}"
+      "message" : "Véletlenül összekeveredtek az inkompatibilis minták amiket {locality}-n gyűjtöttünk."
    },
    "RESULT_DELIVERY_COMM" : {
       "description" : "",
-      "message" : "Transferred {done} of {todo} tons of {cargotype} to target ship."
+      "message" : "{done} tonna {cargotype} átrakodva, maradt {todo}."
    },
    "RESULT_DELIVERY_CREW" : {
       "description" : "",
-      "message" : "Transferred {done} of {todo} crew members to target ship."
+      "message" : "{done} fő átszállt, maradt {todo}."
    },
    "RESULT_DELIVERY_PASS" : {
       "description" : "",
-      "message" : "Transferred {done} of {todo} passengers to target ship."
+      "message" : "{done} utas a átszállt, maradt {todo}."
    },
    "RESULT_PICKUP_COMM" : {
       "description" : "",
-      "message" : "Picked up {done} of {todo} tons of {cargotype} from target ship."
+      "message" : "{done} tonna {cargotype} átrakodva, maradt {todo}."
    },
    "RESULT_PICKUP_CREW" : {
       "description" : "",
-      "message" : "Picked up {done} of {todo} crew members from target ship."
+      "message" : "{done} fő a fedélzeten, maradt {todo}."
    },
    "RESULT_PICKUP_PASS" : {
       "description" : "",
-      "message" : "Picked up {done} of {todo} passengers from target ship."
+      "message" : "{done} utas a fedélzeten, maradt {todo}."
    },
    "RETURN_TO" : {
       "description" : "",
-      "message" : "Return To:"
+      "message" : "Visszatérés ide:"
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward:"
+      "message" : "Jutalom:"
    },
    "SEARCH_RESCUE" : {
       "description" : "",
       "message" : "Kutatás és mentés"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Navigációs célnak beállít."
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Visszaút"
+   },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
-      "message" : "Target ship unresponsive."
+      "message" : "A céljármű nem válaszol."
    },
    "SYSTEM" : {
       "description" : "",
@@ -649,7 +657,7 @@
    },
    "TARGET_SHIP_ID" : {
       "description" : "",
-      "message" : "Target ship ID:"
+      "message" : "Célpont lajstromjele:"
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
@@ -657,34 +665,34 @@
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",
-      "message" : "tons of free cargo space"
+      "message" : "tonnányi üres raktér"
    },
    "TRANSFER_ABORTED" : {
       "description" : "",
-      "message" : "Transfer has been aborted!"
+      "message" : "Az átszállás megszakadt!"
    },
    "TRANSFER_COMPLETE" : {
       "description" : "",
-      "message" : "Transfer has been completed!"
+      "message" : "Az átszállás befejeződött!"
    },
    "TRANSFER_PARTIAL" : {
       "description" : "",
-      "message" : "Transfer has been partially completed. Please return to finish transfer."
+      "message" : "Nem tudott mindenki átszállni. Kérem térjen vissza a többiekért."
    },
    "TRANSFER_TIME" : {
       "description" : "",
-      "message" : "Please allow {minutes} minutes for transfer."
+      "message" : "Szükségünk van {minutes} precre az átszálláshoz."
    },
    "TYPE_OF_HELP" : {
       "description" : "",
-      "message" : "What type of help is needed?"
+      "message" : "Milyen jellegű segítségre van szükség?"
    },
    "UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "unoccupied passenger cabins"
+      "message" : "szabad utaskabin"
    },
    "WHERE_IS_THE_TARGET" : {
       "description" : "",
-      "message" : "Where do I find the target?"
+      "message" : "Hol találom a célpontot?"
    }
 }

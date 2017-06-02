@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Loader.h"
@@ -333,13 +333,18 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 	//There are several optimizations assimp can do, intentionally skipping them now
 	const aiScene *scene = importer.ReadFile(
 		filename,
-		aiProcess_RemoveComponent	|
-		aiProcess_Triangulate		|
-		aiProcess_SortByPType		| //ignore point, line primitive types (collada dummy nodes seem to be fine)
-		aiProcess_GenUVCoords		|
-		aiProcess_FlipUVs			|
-		aiProcess_CalcTangentSpace	|
-		aiProcess_GenSmoothNormals);  //only if normals not specified
+		aiProcess_RemoveComponent			|
+		aiProcess_Triangulate				|
+		aiProcess_SortByPType				| //ignore point, line primitive types (collada dummy nodes seem to be fine)
+		aiProcess_GenUVCoords				|
+		aiProcess_FlipUVs					|
+		aiProcess_CalcTangentSpace			|
+		aiProcess_JoinIdenticalVertices		|
+		aiProcess_GenSmoothNormals			| //only if normals not specified
+		aiProcess_ImproveCacheLocality		|
+		aiProcess_LimitBoneWeights			|
+		aiProcess_FindDegenerates			|
+		aiProcess_FindInvalidData);
 
 	if(!scene)
 		throw LoadingError("Couldn't load file");
@@ -453,9 +458,9 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 
 		const bool hasUVs = mesh->HasTextureCoords(0);
 		const bool hasTangents = mesh->HasTangentsAndBitangents();
-		if (!hasUVs) 
+		if (!hasUVs)
 			AddLog(stringf("%0: missing UV coordinates", m_curMeshDef));
-		if (!hasTangents) 
+		if (!hasTangents)
 			AddLog(stringf("%0: missing Tangents and Bitangents coordinates", m_curMeshDef));
 		//sadly, aimesh name is usually empty so no help for logging
 
@@ -566,7 +571,7 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 				vtxPtr[v].nrm = vector3f(norm.x, norm.y, norm.z);
 				vtxPtr[v].uv0 = vector2f(uv0.x, uv0.y);
 				vtxPtr[v].tangent = vector3f(tangents.x, tangents.y, tangents.z);
-				
+
 				//update bounding box
 				//untransformed points, collision visitor will transform
 				geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);

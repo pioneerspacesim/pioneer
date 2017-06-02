@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _OGL_STARFIELD_MATERIAL_H
@@ -21,12 +21,16 @@ namespace Graphics {
 			}
 
 			virtual void Apply() override {
+				OGL::Material::Apply();
 				glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
+				assert(this->texture0);
 				m_program->Use();
+				m_program->texture0.Set(this->texture0, 0);
 				m_program->emission.Set(this->emissive);
 			}
 
 			virtual void Unapply() override {
+				static_cast<TextureGL*>(texture0)->Unbind();
 				glDisable(GL_VERTEX_PROGRAM_POINT_SIZE);
 			}
 		};

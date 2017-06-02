@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Intro.h"
@@ -37,6 +37,20 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	for (auto i : ShipType::player_ships) {
 		SceneGraph::Model *model = Pi::FindModel(ShipType::types[i].modelName)->MakeInstance();
 		model->SetThrust(vector3f(0.f, 0.f, -0.6f), vector3f(0.f));
+		if (ShipType::types[i].isGlobalColorDefined) model->SetThrusterColor(ShipType::types[i].globalThrusterColor);
+		for (int j=0; j<THRUSTER_MAX; j++) {
+			if (!ShipType::types[i].isDirectionColorDefined[j]) continue;
+			vector3f dir;
+			switch (j) {
+				case THRUSTER_FORWARD: dir = vector3f(0.0, 0.0, 1.0); break;
+				case THRUSTER_REVERSE: dir = vector3f(0.0, 0.0, -1.0); break;
+				case THRUSTER_LEFT: dir = vector3f(1.0, 0.0, 0.0); break;
+				case THRUSTER_RIGHT: dir = vector3f(-1.0, 0.0, 0.0); break;
+				case THRUSTER_UP: dir = vector3f(1.0, 0.0, 0.0); break;
+				case THRUSTER_DOWN: dir = vector3f(-1.0, 0.0, 0.0); break;
+			}
+			model->SetThrusterColor(dir, ShipType::types[i].directionThrusterColor[j]);
+		}
 		const Uint32 numMats = model->GetNumMaterials();
 		for( Uint32 m=0; m<numMats; m++ ) {
 			RefCountedPtr<Graphics::Material> mat = model->GetMaterialByIndex(m);
@@ -74,7 +88,8 @@ void Intro::Reset(float _time)
 	if (m_modelIndex == m_models.size()) m_modelIndex = 0;
 	m_skin.SetRandomColors(Pi::rng);
 	m_skin.Apply(m_model);
-	m_model->SetPattern(Pi::rng.Int32(0, m_model->GetNumPatterns()));
+	if(m_model->SupportsPatterns())
+		m_model->SetPattern(Pi::rng.Int32(0, m_model->GetNumPatterns()-1));
 	m_zoomBegin = -10000.0f;
 	m_zoomEnd = -m_model->GetDrawClipRadius()*1.7f;
 	m_dist = m_zoomBegin;

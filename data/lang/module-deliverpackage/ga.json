@@ -1,0 +1,354 @@
+{
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "An ndéanfá an t-iarratas céanna arís?"
+   },
+   "DANGER" : {
+      "description" : "",
+      "message" : "Contúirt:"
+   },
+   "DEADLINE" : {
+      "description" : "",
+      "message" : "Sprioc-am:"
+   },
+   "DELIVERY" : {
+      "description" : "",
+      "message" : "Seachadadh"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Mo leithscéal, ach níl muinín ar bith agam asat chun é seo a sheachadadh."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Tar ar ais nuair a bheidh na cáilíochtaí cearta agat."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Ní dóigh liom gur tusa an píolóta atá mé ag lorg."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Ní dóigh liom gur tusa an sórt duine a bheadh in ann an seachadadh seo a dhéanamh."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Ní dóigh liom gur tusa an sórt píolóta atá mé ag lorg."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Déarfainn nach bhfuil go leor taithí agat chun tasc chomh tábhachtach seo a dhéanamh."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Níor chuala mé riamh fútsa. Tá píolóta a bhfuil seantaithí aige ag teastáil uaim don seachadadh seo."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Nílim sásta dul sa seans leis an seachadadh seo agus é a thabhairt do dhuine ar bheagán taithí."
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Fad:"
+   },
+   "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
+      "description" : "",
+      "message" : "Ar fheabhas! Déarfaidh mé leis an bhfaighteoir go bhfuil tú ar an mbealach."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "AR DO BHEALACH go réaltchóras {system}? Íocfar as pacáiste beag a thabhairt leat."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Do-ghlactha amach is amach! Shíl mé nach dtiocfadh an pacáiste riamh. Nílim sásta íoc as. "
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit, is mise {name}. D'íocfainn {cash} as pacáiste beag a sheachadadh chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl."
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as an seachadadh. Íocadh an méid iomlán leat."
+   },
+   "FLAVOUR_0_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Nuair a thug cara cuairt orm, d'fhág sí éadaí agus roinnt leabhar páipéir ársa ina diaidh. Ba mhaith liom iad a thabhairt ar ais di."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "CÚNAMH AG TEASTÁIL: Pacáiste a sheachadadh chuig réaltchóras {system}."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Nílim sásta gur tháinig mo phacáiste chomh mall sin, agus diúltaím an costas a íoc."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit, is mise {name}. D'íocfainn {cash} as pacáiste a sheachadadh chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Fuair mé an pacáiste agus íocadh an méid iomlán leat."
+   },
+   "FLAVOUR_1_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Níl sé chomh speisialta sin."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "PRÁINNEACH: Long ghasta ag teastáil le pacáiste a sheachadadh chuig réaltchóras {system}."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Bhí mé thar a bheith soiléir faoin spriocdháta agus tá an-díomá orm go raibh an seachadadh chomh mall sin. Ní bhfaighidh tú cianóg rua."
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit, is mise {name}. D'íocfainn {cash} as pacáiste a sheachadadh chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Íocadh an méid iomlán leat as an seachadadh. Go raibh maith agat."
+   },
+   "FLAVOUR_2_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Togra taighde atá ann, agus caithfear é a sheachadadh roimh an spriocdháta nó ní bhfaighimid aon mhaoiniú."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "SEACHADADH. Cáipéisí chuig réaltchóras {system}. Íocfar píolóta a bhfuil taithí aige/aici {cash}."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Beag de mhaith! Ní bheidh mé ag brath ort arís. Ní gá a rá nach bhfaighidh tú íocaíocht ar bith."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit, is mise {name}. D'íocfainn {cash} as pacáiste a sheachadadh chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Is mór agam do sheirbhís thráthúil dhiscréideach. Íocadh an méid iomlán leat."
+   },
+   "FLAVOUR_3_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Tháinig roinnt cáipéisí an-íogaire chugam, agus tá údar maith agam a shíleadh go gcreidtear gur mise a sceith an t-eolas."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "SEIRBHÍS PHOIST. Tá long ag teastáil uainn leis an bpost a sheachadadh chuig réaltchóras {system}."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Rinneadh taifead ar uimhir chlárúcháin do loinge. Diúltóimid aon iarratas a chuirfidh tú isteach sa todhchaí."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit! Seo é teachtaireacht uathoibríoch ó Sheirbhísí Cúiréireachta Bhairbre agus {name}. D'íocfaimis {cash} as turas go dtí {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Is mór agam do sheirbhís thráthúil dhiscréideach. Íocadh an méid iomlán leat."
+   },
+   "FLAVOUR_4_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Bheimis lánsásta níos lú airgid a thabhairt duit."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "AG DUL ABHAILE. Crua-earraí le haistriú ó stóras go {starport}."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Cad iad seo? Ó, bhí tú chomh fada sin go ndearna mé dearmad glan de!"
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "Deas bualadh leat. Is mise {name} agus bheinn sásta {cash} a thabhairt do dhuine a bhfuil long aige chun cabhrú liom mo stuif a aistriú go {starport}. Níl aon deifir orm, níl iontu ach lumpar is lampar ón seanteach."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Thar barr. Tosóidh mé ag díluchtú láithreach. GRMA arís."
+   },
+   "FLAVOUR_5_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "An mórán é? Ba chóir dom athsmaoineamh a dhéanamh ar mo thairiscint!"
+   },
+   "FLAVOUR_6_ADTEXT" : {
+      "description" : "",
+      "message" : "CÚIRÉIR GEARR-RAOIN. Pacáiste beag a sheachadadh chuig {starport}."
+   },
+   "FLAVOUR_6_FAILUREMSG" : {
+      "description" : "",
+      "message" : "D'fhéadfainnse é a sheachadadh níos tapúla. Ní bhfaighidh tú cianóg rua uaim."
+   },
+   "FLAVOUR_6_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit. Is mise {name} agus tabharfaidh mé {cash} duit as an bpacáiste seo a sheachadadh chuig {starport}."
+   },
+   "FLAVOUR_6_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as an pacáiste. Íocadh an méid iomlán leat."
+   },
+   "FLAVOUR_6_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Ní dóigh liomsa go bhfuil sé chomh costasach sin."
+   },
+   "FLAVOUR_7_ADTEXT" : {
+      "description" : "",
+      "message" : "LASTA IDIRPHLÁINÉADACH. Lasta áitiúil a iompar go dtí {starport}."
+   },
+   "FLAVOUR_7_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Ní bheidh ár gcustaiméirí róshásta leis seo. Ná bí ag súil le híocaíocht!"
+   },
+   "FLAVOUR_7_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit. Caithfimid na crátaí seo a sheachadadh chuig {starport} chomh luath agus is féidir. Is é {cash} an ghnáthíocaíocht ar an seachadadh seo."
+   },
+   "FLAVOUR_7_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Ar fheabhas. D'aistríomar an t-airgead go dtí do chuntas."
+   },
+   "FLAVOUR_7_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Rátaí caighdeánacha, oibrímid leis an margadh."
+   },
+   "FLAVOUR_8_ADTEXT" : {
+      "description" : "",
+      "message" : "SEACHADADH ÁITIÚIL. Beart a sheachadadh chuig {starport} go tapaidh."
+   },
+   "FLAVOUR_8_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Tairgeadh airgead breise duit as seachadadh níos sciobtha! Ní íocfaidh mé sciúrtóg rua."
+   },
+   "FLAVOUR_8_INTROTEXT" : {
+      "description" : "",
+      "message" : "Is mise {name} agus caithfidh mé an rud seo a sheachadadh chuig cara liom ag {starport}, láithreach bonn. Tabharfaidh mé {cash} aonad duit más féidir leat é a sheachadadh laistigh de thréimhse réasúnta."
+   },
+   "FLAVOUR_8_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tá mé buíoch díot as an seachadadh sciobtha. D'aistrigh mé an t-airgead chuig do chuntas."
+   },
+   "FLAVOUR_8_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Tá sé an-phráinneach."
+   },
+   "FLAVOUR_9_ADTEXT" : {
+      "description" : "",
+      "message" : "COR PACÁISTE. Earraí somheata a sheachadadh chuig {starport} go práinneach."
+   },
+   "FLAVOUR_9_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Tá sé millte, agus níl maith ar bith ann! Ní bhfaighidh tú cianóg rua uainn."
+   },
+   "FLAVOUR_9_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dia dhuit! Táimid mall leis an lasta torthaí seo agus ní mór dúinn é a sheachadadh chuig {starport} go práinneach. Íocfaimid {cash} leat as ucht do chabhrach."
+   },
+   "FLAVOUR_9_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Iontach! Tosóimid ag díphacáil láithreach. Nuashonróidh mé do chuntas lom díreach."
+   },
+   "FLAVOUR_9_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "Tá ár slí bheatha ag brath air."
+   },
+   "HOW_SOON_MUST_IT_BE_DELIVERED" : {
+      "description" : "",
+      "message" : "Cé chomh luath agus is gá dom é a sheachadadh?"
+   },
+   "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED" : {
+      "description" : "",
+      "message" : "D'fhéadfadh sé a bheith contúirteach. Ba chóir duit deimhniú go bhfuil tú ullamh."
+   },
+   "IT_MUST_BE_DELIVERED_BY" : {
+      "description" : "",
+      "message" : "Caithfear é a sheachadadh roimh"
+   },
+   "I_HIGHLY_DOUBT_IT" : {
+      "description" : "",
+      "message" : "Tá an-amhras orm faoi."
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "sbh"
+   },
+   "NOT_ANY_MORE_THAN_USUAL" : {
+      "description" : "",
+      "message" : "Ní bheidh ach mar is gnáth."
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Ceart go leor."
+   },
+   "PIRATE_TAUNTS_0" : {
+      "description" : "",
+      "message" : "Beidh aithreachas ort as déileáil le {client}"
+   },
+   "PIRATE_TAUNTS_1" : {
+      "description" : "",
+      "message" : "Dealraíonn sé gur tháinig mo phá!"
+   },
+   "PIRATE_TAUNTS_2" : {
+      "description" : "",
+      "message" : "Tá tú ag obair do {client}? Ba dhrochsmaoineamh é sin."
+   },
+   "PIRATE_TAUNTS_3" : {
+      "description" : "",
+      "message" : "Do lasta agus do bheo, a phíolóta!"
+   },
+   "PIRATE_TAUNTS_4" : {
+      "description" : "",
+      "message" : "Tá mé cinnte go bhfaighfear pingin mhaith airgid air seo ar an margadh"
+   },
+   "PIRATE_TAUNTS_5" : {
+      "description" : "",
+      "message" : "Níl an t-ádh ort inniu! Abair d'urnaí."
+   },
+   "PIRATE_TAUNTS_6" : {
+      "description" : "",
+      "message" : "Inis do mo sheanchara {client} go bhfeicfidh mé in ifreann é!"
+   },
+   "PIRATE_TAUNTS_7" : {
+      "description" : "",
+      "message" : "Ní shroichfidh an pacáiste sin a cheann scríbe inniu."
+   },
+   "PIRATE_TAUNTS_8" : {
+      "description" : "",
+      "message" : "Ní bhainfidh tú {location} amach inniu!"
+   },
+   "PIRATE_TAUNTS_9" : {
+      "description" : "",
+      "message" : "Bainfidh mé an lasta sin asat, le d'anam."
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Socraigh mar sprioc loingseoireachta"
+   },
+   "SPACEPORT" : {
+      "description" : "",
+      "message" : "Spásphort:"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "Réaltchóras:"
+   },
+   "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
+      "description" : "",
+      "message" : "Pacáiste luachmhar é seo; ba chóir duit a bheith ar d'fhaichill"
+   },
+   "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE" : {
+      "description" : "",
+      "message" : "Tá contúirt mhór ann, agus beidh troid mhór romhat gan dabht."
+   },
+   "WHY_SO_MUCH_MONEY" : {
+      "description" : "",
+      "message" : "Cén fáth a bhfuil an méid sin airgid i gceist?"
+   },
+   "WILL_I_BE_IN_ANY_DANGER" : {
+      "description" : "",
+      "message" : "An mbeidh mé i mbaol?"
+   }
+}

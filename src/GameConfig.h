@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GAMECONFIG_H
@@ -8,7 +8,8 @@
 
 class GameConfig : public IniConfig {
 public:
-	GameConfig(const std::map<std::string,std::string> &override_ = std::map<std::string,std::string>());
+	typedef std::map<std::string, std::string> map_string;
+	GameConfig(const map_string &override_ = map_string());
 
 	void Load();
 	bool Save();

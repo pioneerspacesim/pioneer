@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CustomSystem.h"
@@ -56,19 +56,33 @@ static int l_csb_new(lua_State *L)
 	return 1;
 }
 
+// Used when the value MUST not be NEGATIVE but can be Zero, for life, etc
 #define CSB_FIELD_SETTER_FIXED(luaname, fieldname)         \
 	static int l_csb_ ## luaname (lua_State *L) {          \
 		CustomSystemBody *csb = l_csb_check(L, 1);         \
 		const fixed *value = LuaFixed::CheckFromLua(L, 2); \
-		csb->fieldname = *value;                         \
+		if (value->ToDouble() < 0.0)                      \
+			Output("Error: Custom system definition: Value cannot be negative/zero (%lf) for %s : %s\n", value->ToDouble(), csb->name.c_str(), #luaname);\
+		csb->fieldname = *value;                           \
 		lua_settop(L, 1); return 1;                        \
 	}
 
-#define CSB_FIELD_SETTER_FLOAT(luaname, fieldname)         \
+// Used when the value MUST be greater than Zero, for Mass or Radius for example
+#define CSB_FIELD_SETTER_FIXED_POSITIVE(luaname, fieldname)\
+	static int l_csb_ ## luaname (lua_State *L) {          \
+		CustomSystemBody *csb = l_csb_check(L, 1);         \
+		const fixed *value = LuaFixed::CheckFromLua(L, 2); \
+		if (value->ToDouble() <= 0.0)                      \
+			Output("Error: Custom system definition: Value cannot be negative/zero (%lf) for %s : %s\n", value->ToDouble(), csb->name.c_str(), #luaname);\
+		csb->fieldname = *value;						   \
+		lua_settop(L, 1); return 1;                        \
+	}
+
+#define CSB_FIELD_SETTER_REAL(luaname, fieldname)         \
 	static int l_csb_ ## luaname (lua_State *L) {          \
 		CustomSystemBody *csb = l_csb_check(L, 1);         \
 		double value = luaL_checknumber(L, 2);             \
-		csb->fieldname = value;                          \
+		csb->fieldname = value;                            \
 		lua_settop(L, 1); return 1;                        \
 	}
 
@@ -76,17 +90,25 @@ static int l_csb_new(lua_State *L)
 	static int l_csb_ ## luaname (lua_State *L) {          \
 		CustomSystemBody *csb = l_csb_check(L, 1);         \
 		int value = luaL_checkinteger(L, 2);               \
-		csb->fieldname = value;                          \
+		csb->fieldname = value;                            \
 		lua_settop(L, 1); return 1;                        \
 	}
 
-CSB_FIELD_SETTER_FIXED(radius, radius)
-CSB_FIELD_SETTER_FIXED(mass, mass)
+#define CSB_FIELD_SETTER_STRING(luaname, fieldname)        \
+	static int l_csb_ ## luaname (lua_State *L) {          \
+		CustomSystemBody *csb = l_csb_check(L, 1);         \
+		std::string value = luaL_checkstring(L, 2);        \
+		csb->fieldname = value;                            \
+		lua_settop(L, 1); return 1;                        \
+	}
+
+CSB_FIELD_SETTER_FIXED_POSITIVE(radius, radius)
+CSB_FIELD_SETTER_FIXED_POSITIVE(mass, mass)
 CSB_FIELD_SETTER_INT(temp, averageTemp)
 CSB_FIELD_SETTER_FIXED(semi_major_axis, semiMajorAxis)
 CSB_FIELD_SETTER_FIXED(eccentricity, eccentricity)
-CSB_FIELD_SETTER_FLOAT(latitude, latitude)
-CSB_FIELD_SETTER_FLOAT(longitude, longitude)
+CSB_FIELD_SETTER_REAL(latitude, latitude)
+CSB_FIELD_SETTER_REAL(longitude, longitude)
 CSB_FIELD_SETTER_FIXED(rotation_period, rotationPeriod)
 CSB_FIELD_SETTER_FIXED(axial_tilt, axialTilt)
 CSB_FIELD_SETTER_FIXED(metallicity, metallicity)
@@ -96,6 +118,7 @@ CSB_FIELD_SETTER_FIXED(atmos_oxidizing, atmosOxidizing)
 CSB_FIELD_SETTER_FIXED(ocean_cover, volatileLiquid)
 CSB_FIELD_SETTER_FIXED(ice_cover, volatileIces)
 CSB_FIELD_SETTER_FIXED(life, life)
+CSB_FIELD_SETTER_STRING(space_station_type, spaceStationType)
 
 #undef CSB_FIELD_SETTER_FIXED
 #undef CSB_FIELD_SETTER_FLOAT
@@ -231,6 +254,7 @@ static luaL_Reg LuaCustomSystemBody_meta[] = {
 	{ "atmos_oxidizing", &l_csb_atmos_oxidizing },
 	{ "ocean_cover", &l_csb_ocean_cover },
 	{ "ice_cover", &l_csb_ice_cover },
+	{ "space_station_type", &l_csb_space_station_type },
 	{ "life", &l_csb_life },
 	{ "rings", &l_csb_rings },
 	{ "__gc", &l_csb_gc },

@@ -1,0 +1,294 @@
+{
+   "FLAVOUR_0_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Plá ar fud an chórais {system}. Líon na marbh ag méadú."
+   },
+   "FLAVOUR_0_NEWSBODY" : {
+      "description" : "Imply high demand for MEDICINE commodity.",
+      "message" : "Tá daoine ag fáil bháis mar gheall ar phlá i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}). Tá na húdaráis ag lorg cúnaimh leighis go práinneach."
+   },
+   "FLAVOUR_10_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Marthanas leanúnach i réaltchóras {system} i mbaol mar gheall ar chomhlacht creachach."
+   },
+   "FLAVOUR_10_NEWSBODY" : {
+      "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
+      "message" : "Tá Caint San Aer, Teo. ag iarraidh monaplacht ar an aer féin a bhunú ar fud réaltchóras {system} ({sectorx}, {sectory}, {sectorz}). Tarraing anáil throm, seans gurb é an ceann deireanach a bheidh saor in aisce."
+   },
+   "FLAVOUR_11_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Táin Bó Idir-Réaltrach? Eallach ar iarraidh i réaltchóras {system}."
+   },
+   "FLAVOUR_11_NEWSBODY" : {
+      "description" : "Imply high demand of ANIMAL_MEAT.",
+      "message" : "Mar a bheadh lámh Dé san obair, dhúisigh feirmeoirí i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) go bhfuair sciobóil fholmha. \"An fuadach eallaigh is mó ó Tháin Bó Cúailnge\", de réir thuairisc na ngardaí."
+   },
+   "FLAVOUR_12_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Cliseadh infreastruchtúir ag eascairt as mífheidhmiú ríomhairí i réaltchóras {system}."
+   },
+   "FLAVOUR_12_NEWSBODY" : {
+      "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
+      "message" : "Theip ar an tiomántán crua i ngach ríomhaire Micreabhog i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) mar gheall ar víreas tubaisteach. Deir na saineolaithe ríomhaireachta gur féidir tairbhe a bhaint as na haonaid fhabhtacha mar thromáin pháipéir."
+   },
+   "FLAVOUR_13_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Róbait ag éirí amach i réaltchóras {system}."
+   },
+   "FLAVOUR_13_NEWSBODY" : {
+      "description" : "Imply that nobody wants to buy ROBOTS anymore.",
+      "message" : "Duine in aghaidh meaisín atá ann i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), tar éis do thomhaltóirí muinín a chailleadh ina seirbhísigh róbatacha mar gheall ar \"mhífheidhm iompraíochta\"."
+   },
+   "FLAVOUR_14_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Grianbhladhm is cúis leis an gcliseadh cumhachta is mó le míle bliain anuas i réaltchóras {system}."
+   },
+   "FLAVOUR_14_NEWSBODY" : {
+      "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
+      "message" : "Tá cúrsaí ar fud réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) ina gcíor thuathail mar gheall ar an gcliseadh cumhachta. Tá tomhaltóirí ag ciúáil chun gabhdáin phlaisteacha a cheannach le húsáid in áit a gcuisneoir, toisc go bhfuil an táirgeoir rite as amhábhar."
+   },
+   "FLAVOUR_15_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Rinne na gardaí ruathar ar shindeacáit choiriúil i réaltchóras {system}; gabhadh ceannairí tábhachtacha."
+   },
+   "FLAVOUR_15_NEWSBODY" : {
+      "description" : "imply high demand of NARCOTICS.",
+      "message" : "Tá na húdaráis i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) ag súil le laghdú i líon na gcoireanna tar éis dóibh roinnt drongadóirí a ghabháil, toisc nach bhfuil drugaí ar fáil ar an tsráid a thuilleadh."
+   },
+   "FLAVOUR_16_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Drochthimpiste le linn Oireachtas na Samhna i réaltchóras {system}."
+   },
+   "FLAVOUR_16_NEWSBODY" : {
+      "description" : "Imply high demand of FARM_MACHINERY.",
+      "message" : "Le linn Oireachtas na Samhna i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), rinneadh iarracht an churiarracht réaltrach sa gcomórtas tarraingthe le tarracóir a shárú, ach chuaigh cúrsaí chun donais nuair a chaill iomaitheoir amháin smacht ar a tharracóir, ag scriosadh gach meaisín eile sa gcomórtas. Deir na húdaráis go bhfuil géarchéim ag bagairt ar na feirmeoirí áitiúla anois."
+   },
+   "FLAVOUR_17_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Saibhreas nua-aimsithe i réaltchóras {system}."
+   },
+   "FLAVOUR_17_NEWSBODY" : {
+      "description" : "Imply vast abundance of METAL_ORE.",
+      "message" : "Tá mianadóirí i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) tar éis teacht ar fhosú méine ollmhór; ní bheidh a leithéid arís ann."
+   },
+   "FLAVOUR_18_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: An-rath go deo ar leasú geilleagrach i réaltchóras {system}."
+   },
+   "FLAVOUR_18_NEWSBODY" : {
+      "description" : "Imply vast demand of CONSUMER_GOODS.",
+      "message" : "Tá borradh mór faoin ngeilleagar i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) dá bhrí go bhfuil níos mó airgid le caitheamh ag tomhaltóirí."
+   },
+   "FLAVOUR_19_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Ór ina shlaoda i réaltchóras {system}."
+   },
+   "FLAVOUR_19_NEWSBODY" : {
+      "description" : "Imply vast abundance of PRECIOUS_METALS.",
+      "message" : "Tá fear i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) tar éis aireagán a fháil mar oidhreacht óna uncail, nach maireann, a ligeann dó ór agus platanam a dhéanamh d'aon ábhar soladach. Creideann eacnamaithe go rachaidh geilleagar an réaltchórais chun donais mura dteipeann ar an meaisín go luath."
+   },
+   "FLAVOUR_1_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Coimhlint ag éirí níos measa i réaltchóras {system}."
+   },
+   "FLAVOUR_1_NEWSBODY" : {
+      "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+      "message" : "Tá coimhlint sheanbhunaithe i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) ag éirí níos measa, agus an dá thaobh i mbun comhraic oscailte anois."
+   },
+   "FLAVOUR_20_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: An méid is mó algaí bailithe riamh ó fhathach gáis i réaltchóras {system}."
+   },
+   "FLAVOUR_20_NEWSBODY" : {
+      "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
+      "message" : "Tá coinníollacha i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) anois fabhrach do na halgaí buí a aimsítear in atmaisféar fathaigh gháis áitiúil. Tá an comhlacht leasacháin Seán Buí, Teo. ag baint an-tairbhe as an bhfómhar bisiúil. "
+   },
+   "FLAVOUR_21_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Síníodh conradh um chogadh níos \"cineálta\" i réaltchóras {system}."
+   },
+   "FLAVOUR_21_NEWSBODY" : {
+      "description" : "Imply vast abundance of NERVE_GAS.",
+      "message" : "Cé nár shínigh an dá thaobh i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) sos lámhaigh oifigiúil, d'aontaíodar gan airm cheimiceacha a úsáid a thuilleadh."
+   },
+   "FLAVOUR_22_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Gardaí ar stailc i réaltchóras {system}. Is éigean do na saoránaigh iad féin a chosaint."
+   },
+   "FLAVOUR_22_NEWSBODY" : {
+      "description" : "Imply high demand of HAND_WEAPONS.",
+      "message" : "Mar agóid in aghaidh easpa foirne i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), tá na gardaí amach ar stailc. San am céanna, tá na saoránaigh ag bunú grúpaí forairdeallaithe, ag dul faoi airm le pící agus gunnaí, agus ag ullmhú don chás is measa."
+   },
+   "FLAVOUR_23_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Oscailt oifigiúil mhonarcha nua i réaltchóras {system}."
+   },
+   "FLAVOUR_23_NEWSBODY" : {
+      "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
+      "message" : "Tá an mhonarcha nua Buaiteoirinox i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) faoi lán seoil anois. Táirgfidh sé sceana den chéad scoth  atá ábalta gearradh trí spásbhuatais. É sin ráite, níl an mhonarcha ar lánacmhainn táirgthe fós mar gheall ar easpa acmhainní atá de dhíth chun na lanna a dhéanamh."
+   },
+   "FLAVOUR_2_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Triomach i réaltchóras {system}. Milleadh an fómhar."
+   },
+   "FLAVOUR_2_NEWSBODY" : {
+      "description" : "Hint there will be high demand of GRAIN.",
+      "message" : "Mhill triomach tromchúiseach an fómhar i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}). Is baolach go mbeidh gorta ann, ar fud an chórais."
+   },
+   "FLAVOUR_3_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: I bhfad níos mó daoine ag dul i dtreo an veigeánachais i réaltchóras {system}."
+   },
+   "FLAVOUR_3_NEWSBODY" : {
+      "description" : "Imply high demand of FRUIT_AND_VEG.",
+      "message" : "Tá na húdaráis i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) ag iarraidh níos mó táirgí glasa a iompórtáil le freastal ar an éileamh mór orthu."
+   },
+   "FLAVOUR_4_HEADLINE" : {
+      "description" : "About mob rivals competing for selling drugs",
+      "message" : "NUACHT {date}: Cogadh i gcoinne drugaí i réaltchóras {system}. Tá na gardaí ag streachailt ag iarraidh smacht a choinneáil ar an gceantar."
+   },
+   "FLAVOUR_4_NEWSBODY" : {
+      "description" : "Imply high abundance of NARCOTICS.",
+      "message" : "Tá an margadh tuilte le drugaí saora i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), le tiarnaí drugaí i gcomórtas le chéile, ag iarraidh níos mó cumhachta a bhaint amach."
+   },
+   "FLAVOUR_5_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Sclábhaithe ag éirí amach i réaltchóras {system}. Tá an tóin ag titim as an tionscal talmhaíochta."
+   },
+   "FLAVOUR_5_NEWSBODY" : {
+      "description" : "Imply high demand of SLAVES.",
+      "message" : "Tá oibrithe i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) tar éis éalú ón ngéibheann agus tá siad ag diúltú loiteoga a bhailiú sna páirceanna. Tá an tóin ag titim as an ngeilleagar toisc nach féidir teacht ar oibrithe ar phá íseal."
+   },
+   "FLAVOUR_6_HEADLINE" : {
+      "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
+      "message" : "NUACHT {date}: Féile Gheal na gCuibeal i réaltchóras {system}."
+   },
+   "FLAVOUR_6_NEWSBODY" : {
+      "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
+      "message" : "Beidh pléaráca agus ragairne ar siúl i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) in ómós an chréatúir bhig chlúmhaigh seo."
+   },
+   "FLAVOUR_7_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: An tóin ag titim as an gcóras tionsclaíochta i réaltchóras {system}."
+   },
+   "FLAVOUR_7_NEWSBODY" : {
+      "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
+      "message" : "Faillí fhadtéarmach i gcúrsaí cothabhála is cúis le stopadh tionsclaíochta i réaltchóras {system} ({sectorx}, {sectory}, {sectorz})."
+   },
+   "FLAVOUR_8_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: Tuairiscítear gur tharla timpiste mianadóireachta i réaltchóras {system}."
+   },
+   "FLAVOUR_8_NEWSBODY" : {
+      "description" : "Imply high demand of MINING_MACHINERY.",
+      "message" : "Tá mianach tar éis titim anuas i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}). Mharaigh an timpiste na céadta oibrí agus scrios sé innealra atá an-tábhachtach don gheilleagar."
+   },
+   "FLAVOUR_9_HEADLINE" : {
+      "description" : "",
+      "message" : "NUACHT {date}: An-suim i gcúrsaí faisin i réaltchóras {system}."
+   },
+   "FLAVOUR_9_NEWSBODY" : {
+      "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
+      "message" : "An faisean is déanaí i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), de réir tuairisce? Peataí ina steillbheatha!"
+   },
+   "GRATEFUL_GREETING_0" : {
+      "description" : "",
+      "message" : "Fáilte romhat a thrádálaí! Tabharfaimid praghas maith duit ar do {cargo}."
+   },
+   "GRATEFUL_GREETING_1" : {
+      "description" : "",
+      "message" : "Tá an-fháilte romhat, agus roimh do lasta {cargo} freisin!"
+   },
+   "GRATEFUL_GREETING_2" : {
+      "description" : "",
+      "message" : "Beannachtaí an lae! Ní bheidh fadhb ar bith agat {cargo} a dhíol anseo."
+   },
+   "GRATEFUL_GREETING_3" : {
+      "description" : "",
+      "message" : "Fáilte! Lasta {cargo} faoi dheireadh thiar."
+   },
+   "GRATEFUL_GREETING_4" : {
+      "description" : "",
+      "message" : "Bhíomar ag tnúth go mór le lasta {cargo}."
+   },
+   "GRATEFUL_GREETING_5" : {
+      "description" : "",
+      "message" : "Fáilte romhat! Díolaimid do lasta {cargo} go sciobtha anseo."
+   },
+   "NEWSPAPER_CIW" : {
+      "description" : "",
+      "message" : "Croinicí Mhars"
+   },
+   "NEWSPAPER_FED" : {
+      "description" : "",
+      "message" : "An tIrisleabhar Feidearálach"
+   },
+   "NEWSPAPER_IMP" : {
+      "description" : "",
+      "message" : "An Iris Impiriúil"
+   },
+   "NEWSPAPER_IND_0" : {
+      "description" : "",
+      "message" : "An Curadh Ceannródaíoch"
+   },
+   "NEWSPAPER_IND_1" : {
+      "description" : "",
+      "message" : "An Nuachtán Neamhspleách"
+   },
+   "NEWSPAPER_IND_10" : {
+      "description" : "",
+      "message" : "An Breathnóir Breacsholais"
+   },
+   "NEWSPAPER_IND_2" : {
+      "description" : "",
+      "message" : "Reacaireacht an Réaltra"
+   },
+   "NEWSPAPER_IND_3" : {
+      "description" : "",
+      "message" : "An Ghrian Uilíoch"
+   },
+   "NEWSPAPER_IND_4" : {
+      "description" : "",
+      "message" : "An Preas Pláinéadach"
+   },
+   "NEWSPAPER_IND_5" : {
+      "description" : "",
+      "message" : "Tuairisc ponc ie"
+   },
+   "NEWSPAPER_IND_6" : {
+      "description" : "",
+      "message" : "An Chruinneog"
+   },
+   "NEWSPAPER_IND_7" : {
+      "description" : "",
+      "message" : "An Claidheamh Réaltsolais"
+   },
+   "NEWSPAPER_IND_8" : {
+      "description" : "",
+      "message" : "An Teileagraf Teallúrach"
+   },
+   "NEWSPAPER_IND_9" : {
+      "description" : "",
+      "message" : "An Réadlann"
+   },
+   "TITLE_0" : {
+      "description" : "",
+      "message" : "An nuacht is déanaí ó {newspaper}"
+   },
+   "TITLE_1" : {
+      "description" : "",
+      "message" : "Nuacht ó {newspaper}"
+   },
+   "TITLE_2" : {
+      "description" : "",
+      "message" : "Tuairisc ó {newspaper}"
+   },
+   "TITLE_3" : {
+      "description" : "",
+      "message" : "Na scéalta nuachta ó {newspaper}"
+   },
+   "TITLE_4" : {
+      "description" : "",
+      "message" : "Nótaí ó {newspaper}"
+   }
+}

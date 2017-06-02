@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_MODEL_H
@@ -73,8 +73,8 @@
 #include "json/json.h"
 #include <stdexcept>
 
-namespace Graphics { 
-	class Renderer; 
+namespace Graphics {
+	class Renderer;
 	class VertexBuffer;
 }
 
@@ -108,7 +108,7 @@ public:
 
 	float GetDrawClipRadius() const { return m_boundingRadius; }
 	void SetDrawClipRadius(float clipRadius) { m_boundingRadius = clipRadius; }
-	
+
 	void Render(const matrix4x4f &trans, const RenderData *rd = 0); //ModelNode can override RD
 	void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd = 0); //ModelNode can override RD
 
@@ -153,10 +153,12 @@ public:
 	//special for ship model use
 	void SetThrust(const vector3f &linear, const vector3f &angular);
 
+	void SetThrusterColor(const vector3f &dir, const Color &color);
+	void SetThrusterColor(const std::string &name, const Color &color);
+	void SetThrusterColor(const Color &color);
+
 	void SaveToJson(Json::Value &jsonObj) const;
 	void LoadFromJson(const Json::Value &jsonObj);
-
-	Graphics::VertexArray& GetBillboardVA() { return m_billboardTris; }
 
 	//serialization aid
 	std::string GetNameForMaterial(Graphics::Material*) const;
@@ -173,7 +175,6 @@ public:
 
 private:
 	Model(const Model&);
-	void DrawBillboards();
 
 	static const unsigned int MAX_DECAL_MATERIALS = 4;
 	ColorMap m_colorMap;
@@ -208,9 +209,6 @@ private:
 	RefCountedPtr<Graphics::VertexBuffer> m_aabbVB;
 	RefCountedPtr<Graphics::Material> m_aabbMat;
 	Graphics::RenderState* m_state;
-	Graphics::VertexArray m_billboardTris;
-	RefCountedPtr<Graphics::VertexBuffer> m_billboardVB;
-	Graphics::RenderState *m_billboardRS;
 };
 
 }

@@ -1,6 +1,6 @@
 {
 	"model" : "kanara",
-	"name" : "Kanara Police Inteceptor",
+	"name" : "Kanara Police Interceptor",
 	"cockpit" : "",
 	"manufacturer" : "mandarava_csepel",
 	"ship_class" : "light_fighter",
@@ -14,7 +14,7 @@
 		"engine" : 0,
 		"scoop" : 0,
 		"laser_front" : 1,
-		"laser_rear" : 0,
+		"laser_rear" : 1,
 		"missile" : 8,
 		"atmo_shield" : 1
 	},

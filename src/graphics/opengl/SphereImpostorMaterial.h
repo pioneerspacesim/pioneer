@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 #ifndef _GL2_SPHEREIMPOSTORMATERIAL_H
 #define _GL2_SPHEREIMPOSTORMATERIAL_H
@@ -14,7 +14,7 @@ namespace Graphics {
 
 		class SphereImpostorMaterial : public Material {
 		public:
-			Program *CreateProgram(const MaterialDescriptor &) {
+			Program *CreateProgram(const MaterialDescriptor &) override {
 				return new Program("billboard_sphereimpostor", "");
 			}
 

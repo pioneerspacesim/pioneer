@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "HudTrail.h"
@@ -29,12 +29,12 @@ void HudTrail::Update(float time)
 	if (m_updateTime > UPDATE_INTERVAL) {
 		m_updateTime = 0.f;
 		const Frame *bodyFrame = m_body->GetFrame();
-		
+
 		if( !m_currentFrame ) {
 			m_currentFrame = bodyFrame;
 			m_trailPoints.clear();
 		}
-		
+
 		if( bodyFrame==m_currentFrame )
 			m_trailPoints.push_back(m_body->GetInterpPosition());
 	}

@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaLang.h"
@@ -10,7 +10,27 @@
 
 static int _resource_index(lua_State *l)
 {
-	return luaL_error(l, "unknown translation token: %s", lua_tostring(l, 2));
+	const char *token = lua_tostring(l, 2);
+	lua_pushstring(l, "resourceName");
+	lua_gettable(l, -3);
+	const char *resourceName = lua_tostring(l, -1);
+	lua_pop(l, 1);
+	lua_pushstring(l, "langCode");
+	lua_gettable(l, -3);
+	const char *langCode = lua_tostring(l, -1);
+	lua_pop(l, 1);
+	return luaL_error(l, "missing translation token: `%s' in resource `%s', language code `%s'.", token, resourceName, langCode);
+}
+
+static int _resource_newindex(lua_State *l)
+{
+	return luaL_error(l, "not allowed to add new translation tokens on-the-fly");
+}
+
+static int _get(lua_State *l)
+{
+	lua_rawget(l, -2);
+	return 1;
 }
 
 static int l_lang_get_resource(lua_State *l)
@@ -45,6 +65,12 @@ static int l_lang_get_resource(lua_State *l)
 	}
 
 	lua_newtable(l);
+	lua_pushstring(l, "langCode");
+	lua_pushstring(l, langCode.c_str());
+	lua_settable(l, -3);
+	lua_pushstring(l, "resourceName");
+	lua_pushstring(l, resourceName.c_str());
+	lua_settable(l, -3);
 
 	for (auto i : res.GetStrings()) {
 		const std::string token(i.first);
@@ -54,9 +80,16 @@ static int l_lang_get_resource(lua_State *l)
 		lua_rawset(l, -3);
 	}
 
+	lua_pushstring(l, "get");
+	lua_pushcfunction(l, _get);
+	lua_rawset(l, -3);
+
 	lua_newtable(l);
-	lua_pushstring(l, "__newindex");
+	lua_pushstring(l, "__index");
 	lua_pushcfunction(l, _resource_index);
+	lua_rawset(l, -3);
+	lua_pushstring(l, "__newindex");
+	lua_pushcfunction(l, _resource_newindex);
 	lua_rawset(l, -3);
 	lua_setmetatable(l, -2);
 

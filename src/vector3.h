@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _VECTOR3_H
@@ -47,7 +47,7 @@ public:
 	vector3 operator-(const vector3 &a) const { return vector3(x-a.x, y-a.y, z-a.z); }
 	vector3 operator-() const { return vector3(-x, -y, -z); }
 
-	bool operator==(const vector3 &a) const { 
+	bool operator==(const vector3 &a) const {
 		return is_equal_exact(a.x, x) && is_equal_exact(a.y, y) && is_equal_exact(a.z, z);
 	}
 	bool ExactlyEqual(const vector3 &a) const {
@@ -129,9 +129,9 @@ public:
 		*this = t;
 	}
 
-	void xy(const vector2<T> v2) { x = v2.x; y = v2.y; }
-	void xz(const vector2<T> v2) { x = v2.x; z = v2.y; }
-	void yz(const vector2<T> v2) { y = v2.x; z = v2.y; }
+	void xy(const vector2<T> &v2) { x = v2.x; y = v2.y; }
+	void xz(const vector2<T> &v2) { x = v2.x; z = v2.y; }
+	void yz(const vector2<T> &v2) { y = v2.x; z = v2.y; }
 
 	vector2<T> xy() { return vector2<T>(x,y); }
 	vector2<T> xz() { return vector2<T>(x,z); }

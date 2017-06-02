@@ -177,7 +177,7 @@
    },
    "IT_MUST_BE_DONE_AFTER" : {
       "description" : "",
-      "message" : "Вы должны сделать это когда {target} покинет {spaceport}. Не упустите момент."
+      "message" : "Вы должны сделать это когда {target} покинет космопорт {spaceport}. Не упустите момент."
    },
    "LY" : {
       "description" : "",
@@ -191,6 +191,14 @@
       "description" : "",
       "message" : "Вы сможете получить деньги на этой станции после выполнения контракта."
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Установить как цель для навигации"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Задать маршрут возвращения"
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Тип корабля:"
@@ -201,7 +209,7 @@
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Станция нахождения:"
+      "message" : "Космопорт нахождения:"
    },
    "SYSTEM" : {
       "description" : "",
@@ -321,6 +329,6 @@
    },
    "X_WILL_BE_LEAVING" : {
       "description" : "",
-      "message" : "Ваша цель - {target} - покинет станцию {spaceport} в системе {system} ({sectorX}, {sectorY}, {sectorZ}), расстояние {dist}, ровно в {date} года.\n Корабль {shipname} имеет регистрационный номер {shipregid}."
+      "message" : "Ваша цель - {target} - покинет космопорт {spaceport} в системе {system} ({sectorX}, {sectorY}, {sectorZ}), расстояние {dist}, ровно в {date} года.\nКорабль {shipname} имеет регистрационный номер {shipregid}."
    }
 }

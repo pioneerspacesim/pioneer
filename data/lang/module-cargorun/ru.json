@@ -85,7 +85,7 @@
    },
    "CLUS" : {
       "description" : "custom cargo",
-      "message" : "Containerized living units"
+      "message" : "Контейнеризированные жилые блоки"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -197,7 +197,7 @@
    },
    "GUNS_GUNS_GUNS" : {
       "description" : "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
-      "message" : "Guns, guns, guns."
+      "message" : "Орудие, орудие, орудие."
    },
    "HAZARDOUS_SUBSTANCES" : {
       "description" : "custom cargo",
@@ -257,7 +257,7 @@
    },
    "INTROTEXT_FLUFFY_1" : {
       "description" : "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
-      "message" : "Hi, my name is {name}. I have a fluffy shipment of {cargoname} for delivery to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. The distance is {dist} ly. For this delivery I will pay you {cash}."
+      "message" : "Приветствую! Моё имя {name}. У меня есть пушистый груз - {cargoname}, который нужно доставить в космопорт {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}). Расстояние {dist} св.л. За доставку заплачу {cash}."
    },
    "INTROTEXT_INFRASTRUCTURE_1" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "Как жизнь? Я {name}. \nОдин из моих клиентов хочет вывезти {cargoname} из космопорта {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}), которая находится в {dist} св.лет отсюда и разгрузиться здесь в космопорте {dom_starport} системы {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}). За перевозку груза клиент платит {cash}. "
+      "message" : "Как поживаете? Меня зовут {name}. Один из моих клиентов желает импортировать {cargoname} из {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}) на расстоянии {dist} св. лет отсюда. Он платит {cash} за этот рейс. Вернитесь для разгрузки сюда, в космопорт {dom_starport} в системе {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz})."
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
@@ -309,7 +309,7 @@
    },
    "I_AM_ON_MY_WAY" : {
       "description" : "",
-      "message" : "Sensors show that you are taking damage. I'm on my way."
+      "message" : "Сенсоры зафиксировали, что вы наносите повреждения. Я в пути!"
    },
    "I_HAVE_DEBITED_YOUR_ACCOUNT" : {
       "description" : "",
@@ -385,7 +385,7 @@
    },
    "QUIBBLES" : {
       "description" : "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-      "message" : "Quibbles"
+      "message" : "Квибблы"
    },
    "RISK_1" : {
       "description" : "",
@@ -442,6 +442,14 @@
    "SEMI_FINISHED_PRODUCTS" : {
       "description" : "custom cargo",
       "message" : "Полуфабрикат"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Установить как цель для навигации"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Задать маршрут возвращения"
    },
    "SPACEPORT" : {
       "description" : "",
@@ -513,7 +521,7 @@
    },
    "URGENCY_FLUFFY_1" : {
       "description" : "",
-      "message" : "Because of the reproduction rate of the little animals and the limited food in the container, the delivery must be completed until {date}."
+      "message" : "Эти зверки либо едят, либо размножаются, а еды в контейнере ограничено. Поэтому доставка должна быть завершена до {date}."
    },
    "URGENCY_RADIOACTIVE_1" : {
       "description" : "",

@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _CITYONPLANET_H
@@ -15,7 +15,7 @@ class Planet;
 class SpaceStation;
 class Frame;
 namespace Graphics { class Renderer; class Frustum; }
-namespace SceneGraph { class Model; }
+namespace SceneGraph { class Model; class Animation; }
 
 #define CITY_ON_PLANET_RADIUS 5000.0
 
@@ -31,7 +31,7 @@ public:
 	static void Uninit();
 	static void SetCityModelPatterns(const SystemPath &path);
 private:
-	void PutCityBit(Random &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4);
+	void PutCityBit(Random &rand, const matrix4x4d &rot, const vector3d &p1, const vector3d &p2, const vector3d &p3, const vector3d &p4);
 	void AddStaticGeomsToCollisionSpace();
 	void RemoveStaticGeomsFromCollisionSpace();
 
@@ -60,6 +60,7 @@ private:
 		const char *modelname;
 		double xzradius;
 		SceneGraph::Model *resolvedModel;
+		SceneGraph::Animation *idle;
 		RefCountedPtr<CollMesh> collMesh;
 		Uint32 instIndex;
 	};

@@ -113,7 +113,7 @@
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
-      "message" : "{locality}-Bestattungsdienste"
+      "message" : "{locality} Bestattungsdiensleistungen GmbH"
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Um volle Zahlung zu erhalten, sollten Sie bis {due} liefern."
+      "message" : "Um die volle Bezahlung zu erhalten müssen Sie den Treibstoff bis {due} liefern."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -221,7 +221,7 @@
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Der Pilot fragt 1 Tonne Wasserstoff an."
+      "message" : "Der Pilot fordert {unit} Tonnen {cargo} an."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Der Pilot benötigt 1 Tonne Wasserstoff."
+      "message" : "Der Pilot bittet um {unit} Tonnen {cargo}."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -317,7 +317,7 @@
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Wir bitten um die Lieferung von 1 Tonne Wasserstofftreibstoff zum Schiff."
+      "message" : "Wir erbitten die Lieferung von {unit} Tonnen {cargo} auf das Schiff."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
@@ -365,7 +365,7 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "Ich bin {name} von {entity}. Unser einziges Schiff, genannt „{shiplabel}“ und vom Typ {ship}, treibt mit einem verbleibenden Crewmitglied an Bord, aufgrund von {problem}. Ich bin bereit, {cash} für sofortige Hilfe zu zahlen."
+      "message" : "Mein Name ist {name} von {entity}. Unser einziges Schiff, {ship} {shiplabel}, schwebt ziellos im Weltraum mit einer Crew von {crew} umher, aufgrund von {problem}. Ich bin bereit, {cash} für sofortige Hilfe zu bezahlen."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
@@ -638,6 +638,14 @@
    "SEARCH_RESCUE" : {
       "description" : "",
       "message" : "Such- und Rettungsdienst"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Als Navigationsziel setzen"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Rückkehrroute setzen"
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",

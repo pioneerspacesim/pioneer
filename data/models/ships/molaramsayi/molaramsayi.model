@@ -1,0 +1,24 @@
+material Fuselage
+diffuse 1.0 1.0 1.0
+specular 0.9 0.9 0.9
+shininess 69
+use_patterns
+
+tex_diff molaramsayi_diff.dds
+tex_spec molaramsayi_spec.dds
+tex_glow molaramsayi_glow.dds
+tex_norm molaramsayi_norm.dds
+
+lod 300
+mesh molaramsayi_hi.dae
+mesh molaramsayi_shield.dae
+
+lod 50
+mesh molaramsayi_med.dae
+
+lod 10
+mesh molaramsayi_low.dae
+
+collision molaramsayi_col.dae
+
+anim gear_down 0 100

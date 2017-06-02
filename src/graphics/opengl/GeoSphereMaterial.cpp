@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GeoSphereMaterial.h"
@@ -31,7 +31,7 @@ void GeoSphereProgram::InitUniforms()
 	geosphereCenter.Init("geosphereCenter", m_program);
 	geosphereRadius.Init("geosphereRadius", m_program);
 	geosphereInvRadius.Init("geosphereInvRadius", m_program);
-	
+
 	detailScaleHi.Init("detailScaleHi", m_program);
 	detailScaleLo.Init("detailScaleLo", m_program);
 
@@ -51,7 +51,7 @@ GeoSphereSurfaceMaterial::GeoSphereSurfaceMaterial() : m_curNumShadows(0)
 
 Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
-	assert((desc.effect == EFFECT_GEOSPHERE_TERRAIN) || 
+	assert((desc.effect == EFFECT_GEOSPHERE_TERRAIN) ||
 		(desc.effect == EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA) ||
 		(desc.effect == EFFECT_GEOSPHERE_TERRAIN_WITH_WATER));
 	assert(desc.dirLights < 5);
@@ -166,7 +166,7 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 void GeoSphereSurfaceMaterial::SwitchShadowVariant()
 {
 	const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters*>(this->specialParameter0);
-	std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
+	// std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
 	//request a new shadow variation
 	if (m_curNumShadows != params.shadows.size()) {
 		m_curNumShadows = std::min(Uint32(params.shadows.size()), 4U);
@@ -197,7 +197,7 @@ Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)
 		ss << "#define ECLIPSE\n";
 
 	ss << stringf("#define NUM_SHADOWS %0{u}\n", m_curNumShadows);
-	
+
 	return new Graphics::OGL::GeoSphereProgram("geosphere_sky", ss.str());
 }
 

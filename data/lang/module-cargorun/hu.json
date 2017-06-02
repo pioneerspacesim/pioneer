@@ -285,7 +285,7 @@
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "How are you? I'm {name}. One of my clients wants to import {cargoname} from the {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
+      "message" : "Hogy s mint? {name} vagyok. Egy ügyfelem {cargoname}-t szeretne importálni {starport} állomásról, {system} rendszerből ({sectorx}, {sectory}, {sectorz}, {dist} fényév). {cash} kredited fizet, ha leszállítod ide:  {dom_starport}, {dom_system} rendszerben ({dom_sectorx}, {dom_sectory}, {dom_sectorz})"
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
@@ -443,6 +443,14 @@
       "description" : "custom cargo",
       "message" : "Félkész termékek"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Navigációs célnak beállít."
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Visszaút"
+   },
    "SPACEPORT" : {
       "description" : "",
       "message" : "Kikötő:"
@@ -577,7 +585,7 @@
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "These goods crucial for a construction project."
+      "message" : "Létfontosságú rakomány egy építkezéshez."
    },
    "WHYSOMUCH_MINING_1" : {
       "description" : "",

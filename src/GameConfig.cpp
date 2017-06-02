@@ -1,11 +1,11 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GameConfig.h"
 #include "KeyBindings.h"
 #include "FileSystem.h"
 
-GameConfig::GameConfig(const std::map<std::string,std::string> &override_)
+GameConfig::GameConfig(const map_string &override_)
 {
 	// set defaults
 	std::map<std::string, std::string> &map = m_map[""];
@@ -23,7 +23,7 @@ GameConfig::GameConfig(const std::map<std::string,std::string> &override_)
 	map["InvertMouseY"] = "0";
 	map["FOVVertical"] = "65";
 	map["DisplayNavTunnel"] = "0";
-	map["CompactScanner"] = "1";
+	map["CompactRadar"] = "1";
 	map["ConfirmQuit"] = "1";
 	map["MasterVolume"] = "0.8";
 	map["MusicVolume"] = "0.8";
@@ -46,6 +46,7 @@ GameConfig::GameConfig(const std::map<std::string,std::string> &override_)
 	map["EnableServerAgent"] = "0";
 	map["AmountOfBackgroundStars"] = "1.0";
 	map["UseAnisotropicFiltering"] = "0";
+	map["RendererName"] = "Opengl 3.x"; // default to our best renderer
 
 #ifdef _WIN32
 	map["RedirectStdio"] = "1";
@@ -54,6 +55,7 @@ GameConfig::GameConfig(const std::map<std::string,std::string> &override_)
 #endif
 	map["EnableGLDebug"] = "0";
 	map["EnableGPUJobs"] = "1";
+	map["GL3ForwardCompatible"] = "1";
 
 	Load();
 

@@ -78,6 +78,9 @@
     <ClCompile Include="..\..\src\win32\TextUtils.cpp">
       <Filter>Win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\JobQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\IniConfig.h">
@@ -163,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\DateTime.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\JobQueue.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

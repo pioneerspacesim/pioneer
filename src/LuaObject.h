@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUAOBJECT_H
@@ -90,7 +90,7 @@ struct SerializerPair {
 
 
 // wrapper baseclass, and extra bits for getting at certain parts of the
-// LuaObject layer 
+// LuaObject layer
 class LuaObjectBase {
 	friend class LuaSerializer;
 
@@ -224,12 +224,28 @@ public:
 	// pull an object off the stack, unwrap and return it
 	// if not found or doesn't match the type, throws a lua exception
 	static inline T *CheckFromLua(int idx) {
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#endif
 		return dynamic_cast<T*>(LuaObjectBase::CheckFromLua(idx, s_type));
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 	}
 
 	// same but without error checks. returns 0 on failure
 	static inline T *GetFromLua(int idx) {
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#endif
 		return dynamic_cast<T*>(LuaObjectBase::GetFromLua(idx, s_type));
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 	}
 
 	// standard cast promotion test for convenience
@@ -238,15 +254,20 @@ public:
 	}
 
 protected:
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundefined-var-template"
+#endif
 	LuaObject() : LuaObjectBase(s_type) {}
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 private:
-
 	// initial lua type string. defined in a specialisation in the appropriate
 	// .cpp file
 	static const char *s_type;
 };
-
 
 // wrapper for a "core" object - one owned by c++ (eg Body).
 // Lua needs to know when the object is deleted so that it can handle

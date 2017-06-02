@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -28,7 +28,7 @@ bool SSphere::HorizonCulling(const vector3d& view, const SSphere& obj) const
 	const double R2 = obj.m_radius;
 	const double iD1 = 1.0 / D1;
 	const double iD2 = 1.0 / D2;
-	
+
 	O1C *= iD1;
 	O2C *= iD2;
 	const double K = O1C.Dot(O2C);

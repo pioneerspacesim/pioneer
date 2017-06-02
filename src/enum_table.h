@@ -1,4 +1,4 @@
-/* Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details */
+/* Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details */
 /* Licensed under the terms of the GPL v3. See licenses/GPL-3.txt        */
 
 #ifndef HX_GEN_ENUM_TABLES
@@ -10,17 +10,19 @@
 struct EnumItem { const char *name; int value; };
 struct EnumTable { const char *name; const EnumItem *first; };
 
+extern const struct EnumItem ENUM_ShipAIError[];
 extern const struct EnumItem ENUM_DetailLevel[];
 extern const struct EnumItem ENUM_FileSystemRoot[];
 extern const struct EnumItem ENUM_PhysicsObjectType[];
 extern const struct EnumItem ENUM_PolitEcon[];
 extern const struct EnumItem ENUM_PolitGovType[];
+extern const struct EnumItem ENUM_ShipTypeThruster[];
+extern const struct EnumItem ENUM_PropulsionFuelStatus[];
 extern const struct EnumItem ENUM_ShipFlightState[];
 extern const struct EnumItem ENUM_ShipJumpStatus[];
 extern const struct EnumItem ENUM_ShipAlertStatus[];
-extern const struct EnumItem ENUM_ShipAIError[];
-extern const struct EnumItem ENUM_ShipFuelStatus[];
-extern const struct EnumItem ENUM_ShipTypeThruster[];
+extern const struct EnumItem ENUM_ShipAICmdName[];
+extern const struct EnumItem ENUM_ShipControllerFlightControlState[];
 extern const struct EnumItem ENUM_DualLaserOrientation[];
 extern const struct EnumItem ENUM_ShipTypeTag[];
 extern const struct EnumItem ENUM_EconType[];

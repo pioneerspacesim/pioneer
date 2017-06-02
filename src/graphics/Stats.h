@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _STATS_H
@@ -41,7 +41,7 @@ public:
 
 		MAX_STAT
 	};
-	
+
 	struct TFrameData {
 		Uint32 m_stats[MAX_STAT];
 	};

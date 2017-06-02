@@ -1,0 +1,90 @@
+{
+   "MSG_1" : {
+      "description" : "",
+      "message" : "Abair {yes} chun imeacht as seo agus filleadh ar do chuid ríomhchlár leadránach"
+   },
+   "MSG_10" : {
+      "description" : "",
+      "message" : "Roghnaigh {no} agus cuir cúpla uair an chloig eile amú. Le do thoil?"
+   },
+   "MSG_11" : {
+      "description" : "",
+      "message" : "Ní ghéilleann eachtránaithe riamh. Ach tá fáilte romhat {yes} a chliceáil mura bhfuil tú i d'fhíoreachtránaí."
+   },
+   "MSG_12" : {
+      "description" : "",
+      "message" : "Roghnaigh {no} más sealgaire deolchairí crua thú, nó cliceáil {yes}, go héadrom."
+   },
+   "MSG_13" : {
+      "description" : "\"Seeing\" as in having an affair / being unfaithful",
+      "message" : "Ní bhíonn deiseanna comhrá againn a thuilleadh. An bhfuil tú ag siúl amach le duine éigin eile?"
+   },
+   "MSG_14" : {
+      "description" : "",
+      "message" : "Nach bhfuil rud éigin níos fearr le déanamh agat?"
+   },
+   "MSG_15" : {
+      "description" : "",
+      "message" : "Ag géilleadh cheana?"
+   },
+   "MSG_16" : {
+      "description" : "A little homage to the movie 2001 A Space Odyssey",
+      "message" : "Cad é go díreach atá ar siúl agat, Dave?"
+   },
+   "MSG_17" : {
+      "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
+      "message" : "An láidir nó lag, tréan nó trua thú?"
+   },
+   "MSG_18" : {
+      "description" : "Catch phrase of 2016?",
+      "message" : "Ní maith le héinne trumpadóir. An bhfuil tú cinnte gur mhaith leat éirí as?"
+   },
+   "MSG_19" : {
+      "description" : "Alluding to / inviting the player to contribute content to the game",
+      "message" : "Bheith i do rannpháirtí arís?"
+   },
+   "MSG_2" : {
+      "description" : "",
+      "message" : "Ná himigh anois, tá foghlaí mara ag fanacht leat sa ríomhchlár eile."
+   },
+   "MSG_3" : {
+      "description" : "",
+      "message" : "An bhfuil tú cinnte gur mhaith leat scor den chluiche iontach saor in aisce seo?"
+   },
+   "MSG_4" : {
+      "description" : "",
+      "message" : "Ná himigh agus gach ar gheallas duit, comhaillfead dhuit é gan contabhairt!"
+   },
+   "MSG_5" : {
+      "description" : "(Inspired by Wolfenstein 3D)",
+      "message" : "{no} = gunnaí agus glóir, {yes} = strus agus sclábhaíocht."
+   },
+   "MSG_6" : {
+      "description" : "",
+      "message" : "Cliceáil {no} le bheith calma cróga, cliceáil {yes} le bheith meatach mílaochta."
+   },
+   "MSG_7" : {
+      "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
+      "message" : "Dá mba mise tusa, ní imeoinn. Tá líne na n-orduithe i bhfad níos measa."
+   },
+   "MSG_8" : {
+      "description" : "",
+      "message" : "Sílim go bhfuil tú ag iarraidh {no} a chliceáil agus leanúint leis an gcluiche. Déan é!"
+   },
+   "MSG_9" : {
+      "description" : "",
+      "message" : "Cliceáil {yes} le filleadh ar do shaol oibre leamh leadránach."
+   },
+   "NO" : {
+      "description" : "No, don't quit program",
+      "message" : "Níl"
+   },
+   "QUIT" : {
+      "description" : "Quit game, as a question",
+      "message" : "An bhfuil fonn ort scor?"
+   },
+   "YES" : {
+      "description" : "Yes, quit program",
+      "message" : "Tá"
+   }
+}

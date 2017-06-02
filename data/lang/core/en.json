@@ -15,14 +15,6 @@
       "description" : "Alt key on keyboard",
       "message" : "Alt"
    },
-   "ALT_IN_KM" : {
-      "description" : "",
-      "message" : "Alt: %altitude{f.0}km (%vspeed{f.1}km/s)"
-   },
-   "ALT_IN_METRES" : {
-      "description" : "",
-      "message" : "Alt: %altitude{f.0}m (%vspeed{f.1}m/s)"
-   },
    "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
       "description" : "",
       "message" : "\" and a highly complex ecosystem.\""
@@ -223,6 +215,38 @@
       "description" : "",
       "message" : "Communist"
    },
+   "COMPASS_N" : {
+       "description" : "Abbreviation for compass direction: North",
+       "message" : "N"
+   },
+   "COMPASS_NE" : {
+       "description" : "Abbreviation for compass direction: North East",
+       "message" : "NE"
+   },
+   "COMPASS_E" : {
+       "description" : "Abbreviation for compass direction: East",
+       "message" : "E"
+   },
+   "COMPASS_SE" : {
+       "description" : "Abbreviation for compass direction: South East",
+       "message" : "SE"
+   },
+   "COMPASS_S" : {
+       "description" : "Abbreviation for compass direction: South",
+       "message" : "S"
+   },
+   "COMPASS_SW" : {
+       "description" : "Abbreviation for compass direction: South West",
+       "message" : "SW"
+   },
+   "COMPASS_W" : {
+       "description" : "Abbreviation for compass direction: West",
+       "message" : "W"
+   },
+   "COMPASS_NW" : {
+       "description" : "Abbreviation for compass direction: North West",
+       "message" : "NW"
+   },
    "COMPUTERS" : {
       "description" : "",
       "message" : "Computers"
@@ -279,9 +303,9 @@
       "description" : "",
       "message" : "Day length"
    },
-   "DECREASE_SCAN_RANGE" : {
+   "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Decrease scanner range"
+      "message" : "Decrease radar range"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -302,10 +326,6 @@
    "DIRECTION" : {
       "description" : "Direction",
       "message" : "\" Dir \""
-   },
-   "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
-      "description" : "",
-      "message" : "Distance from ship to navigation target"
    },
    "DISTANCE_LY" : {
       "description" : "",
@@ -559,9 +579,17 @@
       "description" : "",
       "message" : "Hyperspace jump aborted."
    },
+   "HYPERSPACE_JUMP_DISABLED" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Hyperdrive disabled"
+   },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
       "message" : "Engage Hyperdrive"
+   },
+   "HYPERSPACE_JUMP_FORBIDDEN" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Hyperdrive forbidden zone"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -591,9 +619,9 @@
       "description" : "",
       "message" : "Imperial Rule"
    },
-   "INCREASE_SCAN_RANGE" : {
+   "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Increase scanner range"
+      "message" : "Increase radar range"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -639,9 +667,9 @@
       "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis Axis"
    },
-   "KM_S_RELATIVE_TO" : {
+   "JUMP_COMPLETE" : {
       "description" : "",
-      "message" : "%speed{f.2} km/s rel-to %frame"
+      "message" : "Jump complete: %percent%%"
    },
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
@@ -919,10 +947,6 @@
       "description" : "",
       "message" : "Sep"
    },
-   "M_S_RELATIVE_TO" : {
-      "description" : "",
-      "message" : "%speed{f.0} m/s rel-to %frame"
-   },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
       "message" : "Name"
@@ -1034,10 +1058,6 @@
    "N_DEGREES" : {
       "description" : "",
       "message" : "%angle{f.1} degrees"
-   },
-   "N_DISTANCE_TO_TARGET" : {
-      "description" : "",
-      "message" : "%distance to target"
    },
    "N_EARTH_DAYS" : {
       "description" : "",
@@ -1171,10 +1191,6 @@
       "description" : "",
       "message" : "P: %pressure{f.2} atm"
    },
-   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
-      "description" : "",
-      "message" : "Probability of arrival: %probability%%"
-   },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
       "message" : "Quadruple system"
@@ -1259,9 +1275,9 @@
       "description" : "",
       "message" : "Rubbish"
    },
-   "SCANNER_CONTROL" : {
+   "RADAR_CONTROL" : {
       "description" : "",
-      "message" : "Scanner control"
+      "message" : "Radar control"
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
@@ -1351,10 +1367,6 @@
       "description" : "Either show no ships, show ships, or show ships + their orbits",
       "message" : "Switch between ship display modes."
    },
-   "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
-      "description" : "",
-      "message" : "Ship altitude above terrain"
-   },
    "SHIP_DETECTED_NEARBY" : {
       "description" : "",
       "message" : "Ship detected nearby."
@@ -1382,10 +1394,6 @@
    "SIDEREAL_VIEW" : {
       "description" : "camera view setting",
       "message" : "Sidereal view"
-   },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Simulating evolution of the universe: %age{f.1} billion years ;-)"
    },
    "SLAVES" : {
       "description" : "",
@@ -1683,13 +1691,13 @@
       "description" : "",
       "message" : "Toggle rotation damping"
    },
-   "TOGGLE_SCANNER_VIEW" : {
-      "description" : "Tooltip for the Scanner View button",
-      "message" : "Scanner View"
+   "TOGGLE_RADAR_VIEW" : {
+      "description" : "Tooltip for the Radar View button",
+      "message" : "Radar View"
    },
-   "TOGGLE_SCAN_MODE" : {
+   "TOGGLE_RADAR_MODE" : {
       "description" : "",
-      "message" : "Toggle scanner mode"
+      "message" : "Toggle radar mode"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "shown on tombstone when player dies",
@@ -1726,6 +1734,50 @@
    "UNIT_LY" : {
       "description" : "Distance unit: a light year",
       "message" : "ly"
+   },
+   "UNIT_WEEKS" : {
+      "description" : "Duration unit: one 7-day week",
+      "message" : "w"
+   },
+   "UNIT_DAYS" : {
+      "description" : "Duration unit: one 24-hour day",
+      "message" : "d"
+   },
+   "UNIT_HOURS" : {
+      "description" : "Duration unit: one 60-minute hour",
+      "message" : "h"
+   },
+   "UNIT_MINUTES" : {
+      "description" : "Duration unit: one 60-second minute",
+      "message" : "m"
+   },
+   "UNIT_SECONDS" : {
+      "description" : "Duration unit: one second",
+      "message" : "s"
+   },
+   "UNIT_METERS_PER_SECOND" : {
+      "description" : "Speed unit: one meter per second",
+      "message" : "m/s"
+   },
+   "UNIT_KILOMETERS_PER_SECOND" : {
+      "description" : "Speed unit: one kilometer per second",
+      "message" : "km/s"
+   },
+   "UNIT_MILLION_METERS_PER_SECOND" : {
+      "description" : "Speed unit: one million meters per second",
+      "message" : "Mm/s"
+   },
+   "UNIT_METERS" : {
+      "description" : "Distance unit: one meter",
+      "message" : "m"
+   },
+   "UNIT_KILOMETERS" : {
+      "description" : "Distance unit: one kilometer",
+      "message" : "km"
+   },
+   "UNIT_MILLION_METERS" : {
+      "description" : "Distance unit: one million meters",
+      "message" : "Mm"
    },
    "UNKNOWN" : {
       "description" : "",

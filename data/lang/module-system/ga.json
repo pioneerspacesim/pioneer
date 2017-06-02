@@ -1,0 +1,34 @@
+{
+   "BASE" : {
+      "description" : "",
+      "message" : "bunáit"
+   },
+   "BASES" : {
+      "description" : "",
+      "message" : "bunáit"
+   },
+   "BODIES" : {
+      "description" : "",
+      "message" : "rinn neimhe"
+   },
+   "BODY" : {
+      "description" : "",
+      "message" : "rinn neimhe"
+   },
+   "DISCOVERED_HIDDEN_BASES" : {
+      "description" : "",
+      "message" : "D'aimsigh tú {portcount} {bases} folaithe!"
+   },
+   "EXPLORING_SYSTEM" : {
+      "description" : "",
+      "message" : "Réaltchóras a thaiscéaladh ina bhfuil {bodycount} príomh{bodies}."
+   },
+   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
+      "description" : "",
+      "message" : "Tá an t-umar breosla beagnach folamh."
+   },
+   "YOUR_FUEL_TANK_IS_EMPTY" : {
+      "description" : "",
+      "message" : "Tá an t-umar breosla folamh."
+   }
+}

@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "utils.h"
@@ -150,6 +150,30 @@ void OpenGLDebugMsg(const char *format, ...)
 	fputs(buf, stderr);
 }
 
+std::string format_duration(double seconds)
+{
+	std::ostringstream ss;
+	int duration = seconds;
+	int secs = duration % 60;
+	int minutes = (duration / 60) % 60;
+	int hours = (duration / 60 / 60) % 24;
+	int days = (duration / 60 / 60 / 24) % 7;
+	int weeks = (duration / 60 / 60 / 24 / 7);
+	if(weeks != 0)
+		ss << weeks << Lang::UNIT_WEEKS;
+	if(days != 0)
+		ss << days << Lang::UNIT_DAYS;
+	if(hours != 0)
+		ss << hours << Lang::UNIT_HOURS;
+	if(minutes != 0)
+		ss << minutes << Lang::UNIT_MINUTES;
+	// do not show seconds unless the largest unit shown is minutes
+	if(weeks == 0 && days == 0 && hours == 0)
+		if(minutes == 0 || secs != 0)
+			ss << secs << Lang::UNIT_SECONDS;
+	return ss.str();
+}
+
 std::string format_distance(double dist, int precision)
 {
 	std::ostringstream ss;
@@ -159,7 +183,7 @@ std::string format_distance(double dist, int precision)
 		ss << dist << " m";
 	}
 	else {
-		const float LY = 9.4607e15;
+		const float LY = 9.4607e15f;
 		ss.precision(precision);
 
 		if (dist < 1e6)
@@ -265,7 +289,7 @@ std::string FloatToStr(float val)
 	static_assert(sizeof(float) == 4, "float isn't 4bytes");
 	fu32 uval(val);
 	char str[64];
-	const int amt = sprintf(str, "%" PRIu32, uval.u);
+	SDL_itoa(uval.u, str, 10);
 	return str;
 #endif
 }
@@ -282,7 +306,7 @@ std::string DoubleToStr(double val)
 	static_assert(sizeof(double) == 8, "double isn't 8 bytes");
 	fu64 uval(val);
 	char str[128];
-	const int amt = sprintf(str, "%" PRIu64, uval.u);
+	SDL_ulltoa(uval.u, str, 10);
 	return str;
 #endif
 }
@@ -293,13 +317,13 @@ void Vector3fToStr(const vector3f &val, char *out, size_t size)
 	static_assert(sizeof(vector3f) == 12, "vector3f isn't 12 bytes");
 #ifdef USE_HEX_FLOATS
 	const int amt = std::sprintf(out, "%a,%a,%a", val.x, val.y, val.z);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #else
 	fu32 a(val.x);
 	fu32 b(val.y);
 	fu32 c(val.z);
 	const int amt = sprintf(out, "(%" PRIu32",%" PRIu32",%" PRIu32")", a.u, b.u, c.u);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #endif
 }
 
@@ -309,13 +333,13 @@ void Vector3dToStr(const vector3d &val, char *out, size_t size)
 	static_assert(sizeof(vector3d) == 24, "vector3d isn't 24 bytes");
 #ifdef USE_HEX_FLOATS
 	const int amt = std::sprintf(out, "%la,%la,%la", val.x, val.y, val.z);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #else
 	fu64 a(val.x);
 	fu64 b(val.y);
 	fu64 c(val.z);
 	const int amt = sprintf(out, "(%" PRIu64",%" PRIu64",%" PRIu64")", a.u, b.u, c.u);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #endif
 }
 
@@ -325,19 +349,19 @@ void Matrix3x3fToStr(const matrix3x3f &val, char *out, size_t size)
 	static_assert(sizeof(matrix3x3f) == 36, "matrix3x3f isn't 36 bytes");
 #ifdef USE_HEX_FLOATS
 	const int amt = std::sprintf(out, "%a,%a,%a,%a,%a,%a,%a,%a,%a", val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7], val[8]);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #else
 	fu32 fuvals[9];
 	for(int i=0; i<9; i++)
 		fuvals[i].f = val[i];
-	const int amt = sprintf(out, 
+	const int amt = sprintf(out,
 		"(%" PRIu32",%" PRIu32",%" PRIu32
 		",%" PRIu32",%" PRIu32",%" PRIu32
-		",%" PRIu32",%" PRIu32",%" PRIu32")", 
-		fuvals[0].u, fuvals[1].u, fuvals[2].u, 
-		fuvals[3].u, fuvals[4].u, fuvals[5].u, 
+		",%" PRIu32",%" PRIu32",%" PRIu32")",
+		fuvals[0].u, fuvals[1].u, fuvals[2].u,
+		fuvals[3].u, fuvals[4].u, fuvals[5].u,
 		fuvals[6].u, fuvals[7].u, fuvals[8].u);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #endif
 }
 
@@ -347,19 +371,19 @@ void Matrix3x3dToStr(const matrix3x3d &val, char *out, size_t size)
 	static_assert(sizeof(matrix3x3d) == 72, "matrix3x3d isn't 72 bytes");
 #ifdef USE_HEX_FLOATS
 	const int amt = std::sprintf(out, "%a,%a,%a,%a,%a,%a,%a,%a,%a", val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7], val[8]);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #else
 	fu64 fuvals[9];
 	for(int i=0; i<9; i++)
 		fuvals[i].d = val[i];
-	const int amt = sprintf(out, 
+	const int amt = sprintf(out,
 		"(%" PRIu64",%" PRIu64",%" PRIu64
 		",%" PRIu64",%" PRIu64",%" PRIu64
-		",%" PRIu64",%" PRIu64",%" PRIu64")", 
-		fuvals[0].u, fuvals[1].u, fuvals[2].u, 
-		fuvals[3].u, fuvals[4].u, fuvals[5].u, 
+		",%" PRIu64",%" PRIu64",%" PRIu64")",
+		fuvals[0].u, fuvals[1].u, fuvals[2].u,
+		fuvals[3].u, fuvals[4].u, fuvals[5].u,
 		fuvals[6].u, fuvals[7].u, fuvals[8].u);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #endif
 }
 
@@ -369,21 +393,21 @@ void Matrix4x4fToStr(const matrix4x4f &val, char *out, size_t size)
 	static_assert(sizeof(matrix4x4f) == 64, "matrix4x4f isn't 64 bytes");
 #ifdef USE_HEX_FLOATS
 	const int amt = std::sprintf(out, "%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a", val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7], val[8], val[9], val[10], val[11], val[12], val[13], val[14], val[15]);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #else
 	fu32 fuvals[16];
 	for(int i=0; i<16; i++)
 		fuvals[i].f = val[i];
-	const int amt = sprintf(out, 
+	const int amt = sprintf(out,
 		"(%" PRIu32",%" PRIu32",%" PRIu32",%" PRIu32
 		",%" PRIu32",%" PRIu32",%" PRIu32",%" PRIu32
 		",%" PRIu32",%" PRIu32",%" PRIu32",%" PRIu32
-		",%" PRIu32",%" PRIu32",%" PRIu32",%" PRIu32")", 
-		fuvals[0].u, fuvals[1].u, fuvals[2].u, fuvals[3].u, 
-		fuvals[4].u, fuvals[5].u, fuvals[6].u, fuvals[7].u, 
-		fuvals[8].u, fuvals[9].u, fuvals[10].u, fuvals[11].u, 
+		",%" PRIu32",%" PRIu32",%" PRIu32",%" PRIu32")",
+		fuvals[0].u, fuvals[1].u, fuvals[2].u, fuvals[3].u,
+		fuvals[4].u, fuvals[5].u, fuvals[6].u, fuvals[7].u,
+		fuvals[8].u, fuvals[9].u, fuvals[10].u, fuvals[11].u,
 		fuvals[12].u, fuvals[13].u, fuvals[14].u, fuvals[15].u);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #endif
 }
 
@@ -393,21 +417,21 @@ void Matrix4x4dToStr(const matrix4x4d &val, char *out, size_t size)
 	static_assert(sizeof(matrix4x4d) == 128, "matrix4x4d isn't 128 bytes");
 #ifdef USE_HEX_FLOATS
 	const int amt = std::sprintf(out, "%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a", val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7], val[8], val[9], val[10], val[11], val[12], val[13], val[14], val[15]);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #else
 	fu64 fuvals[16];
 	for(int i=0; i<16; i++)
 		fuvals[i].d = val[i];
-	const int amt = sprintf(out, 
+	const int amt = sprintf(out,
 		"(%" PRIu64",%" PRIu64",%" PRIu64",%" PRIu64
 		",%" PRIu64",%" PRIu64",%" PRIu64",%" PRIu64
 		",%" PRIu64",%" PRIu64",%" PRIu64",%" PRIu64
-		",%" PRIu64",%" PRIu64",%" PRIu64",%" PRIu64")", 
-		fuvals[0].u, fuvals[1].u, fuvals[2].u, fuvals[3].u, 
-		fuvals[4].u, fuvals[5].u, fuvals[6].u, fuvals[7].u, 
-		fuvals[8].u, fuvals[9].u, fuvals[10].u, fuvals[11].u, 
+		",%" PRIu64",%" PRIu64",%" PRIu64",%" PRIu64")",
+		fuvals[0].u, fuvals[1].u, fuvals[2].u, fuvals[3].u,
+		fuvals[4].u, fuvals[5].u, fuvals[6].u, fuvals[7].u,
+		fuvals[8].u, fuvals[9].u, fuvals[10].u, fuvals[11].u,
 		fuvals[12].u, fuvals[13].u, fuvals[14].u, fuvals[15].u);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #endif
 }
 
@@ -476,6 +500,7 @@ double StrToDouble(const std::string &str)
 #else
 	// Exact representation (but not human readable).
 	static_assert(sizeof(double) == 8, "double isn't 8 bytes");
+	static_assert(sizeof(long long) == sizeof(uint64_t), "long long isn't equal in size to uint64_t");
 	fu64 uval;
 	const int amt = sscanf(str.c_str(), "%" SCNu64, &uval.u);
 	assert(amt==1);
@@ -543,9 +568,9 @@ void StrToMatrix3x3f(const char *str, matrix3x3f &val)
 	assert(amt==9);
 #else
 	fu32 fu[9];
-	const int amt = std::sscanf(str, "(%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32")", 
-		&fu[0].u, &fu[1].u, &fu[2].u, 
-		&fu[3].u, &fu[4].u, &fu[5].u, 
+	const int amt = std::sscanf(str, "(%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32")",
+		&fu[0].u, &fu[1].u, &fu[2].u,
+		&fu[3].u, &fu[4].u, &fu[5].u,
 		&fu[6].u, &fu[7].u, &fu[8].u);
 	assert(amt==9);
 	for(int i=0; i<9; i++)
@@ -561,9 +586,9 @@ void StrToMatrix3x3d(const char *str, matrix3x3d &val)
 	assert(amt==9);
 #else
 	fu64 fu[9];
-	const int amt = std::sscanf(str, "(%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64")", 
-		&fu[0].u, &fu[1].u, &fu[2].u, 
-		&fu[3].u, &fu[4].u, &fu[5].u, 
+	const int amt = std::sscanf(str, "(%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64")",
+		&fu[0].u, &fu[1].u, &fu[2].u,
+		&fu[3].u, &fu[4].u, &fu[5].u,
 		&fu[6].u, &fu[7].u, &fu[8].u);
 	assert(amt==9);
 	for(int i=0; i<9; i++)
@@ -579,10 +604,10 @@ void StrToMatrix4x4f(const char *str, matrix4x4f &val)
 	assert(amt==16);
 #else
 	fu32 fu[16];
-	const int amt = std::sscanf(str, "(%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32")", 
-		&fu[0].u, &fu[1].u, &fu[2].u, &fu[3].u, 
-		&fu[4].u, &fu[5].u, &fu[6].u, &fu[7].u, 
-		&fu[8].u, &fu[9].u, &fu[10].u, &fu[11].u, 
+	const int amt = std::sscanf(str, "(%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32")",
+		&fu[0].u, &fu[1].u, &fu[2].u, &fu[3].u,
+		&fu[4].u, &fu[5].u, &fu[6].u, &fu[7].u,
+		&fu[8].u, &fu[9].u, &fu[10].u, &fu[11].u,
 		&fu[12].u, &fu[13].u, &fu[14].u, &fu[15].u);
 	assert(amt==16);
 	for(int i=0; i<16; i++)
@@ -598,10 +623,10 @@ void StrToMatrix4x4d(const char *str, matrix4x4d &val)
 	assert(amt==16);
 #else
 	fu64 fu[16];
-	const int amt = std::sscanf(str, "(%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64")", 
-		&fu[0].u, &fu[1].u, &fu[2].u, &fu[3].u, 
-		&fu[4].u, &fu[5].u, &fu[6].u, &fu[7].u, 
-		&fu[8].u, &fu[9].u, &fu[10].u, &fu[11].u, 
+	const int amt = std::sscanf(str, "(%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64")",
+		&fu[0].u, &fu[1].u, &fu[2].u, &fu[3].u,
+		&fu[4].u, &fu[5].u, &fu[6].u, &fu[7].u,
+		&fu[8].u, &fu[9].u, &fu[10].u, &fu[11].u,
 		&fu[12].u, &fu[13].u, &fu[14].u, &fu[15].u);
 	assert(amt==16);
 	for(int i=0; i<16; i++)

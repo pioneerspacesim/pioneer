@@ -563,6 +563,10 @@
       "description" : "",
       "message" : "Du kommer inte att docka idag!"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Använd destination som navigationsmål"
+   },
    "TAXI" : {
       "description" : "",
       "message" : "Taxi"

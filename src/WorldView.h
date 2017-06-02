@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _WORLDVIEW_H
@@ -61,16 +61,33 @@ public:
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const { return m_camType; }
 	CameraController *GetCameraController() const { return m_activeCameraController; }
+
+	/* start deprecated */
 	void ToggleTargetActions();
+	void ToggleLowThrustPowerOptions();
+	void ChangeFlightState();
+	/* end deprecated */
+
 	void ShowTargetActions();
 	void HideTargetActions();
 	int GetActiveWeapon() const;
 	void OnClickBlastoff();
 
-	void ResetHyperspaceButton();
-
 	sigc::signal<void> onChangeCamType;
 
+	std::tuple<double, double, double> CalculateHeadingPitchRoll(enum PlaneType);
+
+	vector3d WorldSpaceToScreenSpace(Body *body) const;
+	vector3d WorldSpaceToScreenSpace(vector3d position) const;
+	vector3d ShipSpaceToScreenSpace(vector3d position) const;
+	vector3d GetTargetIndicatorScreenPosition(Body *body) const;
+	vector3d GetMouseDirection() const;
+	vector3d CameraSpaceToScreenSpace(vector3d pos) const;
+
+	void BeginCameraFrame() { m_cameraContext->BeginFrame(); };
+	void EndCameraFrame() { m_cameraContext->EndFrame(); };
+
+	bool ShouldShowLabels() { return m_labelsOn; }
 protected:
 	virtual void BuildUI(UI::Single *container);
 	virtual void OnSwitchTo();
@@ -78,7 +95,6 @@ protected:
 private:
 	void InitObject();
 
-	void RefreshHyperspaceButton();
 	void RefreshButtonStateAndVisibility();
 	void UpdateCommsOptions();
 
@@ -110,8 +126,6 @@ private:
 	void OnToggleLabels();
 
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
-	void DrawTargetSquare(const Indicator &marker, const Color &c);
-	void DrawVelocityIndicator(const Indicator &marker, VelIconType d, const Color &c);
 	void DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c);
 	void DrawEdgeMarker(const Indicator &marker, const Color &c);
 
@@ -122,13 +136,8 @@ private:
 
 	void HideLowThrustPowerOptions();
 	void ShowLowThrustPowerOptions();
-	void OnClickLowThrustPower();
 	void OnSelectLowThrustPower(float power);
 
-	void OnClickHyperspace(Gui::MultiStateImageButton *b);
-	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
-	void OnChangeFlightState(Gui::MultiStateImageButton *b);
-	void OnHyperspaceTargetChanged();
 	void OnPlayerDockOrUndock();
 	void OnPlayerChangeTarget();
 	void OnPlayerChangeFlightControlState();
@@ -137,14 +146,10 @@ private:
 	/// Handler for "requestTimeAccelerationDec" event
 	void OnRequestTimeAccelDec();
 	void SelectBody(Body *, bool reselectIsDeselect);
-	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseWheel(bool up);
-	bool OnClickHeadingLabel(void);
-	void RefreshHeadingPitch(void);
 
 	Game* m_game;
 
-	PlaneType m_curPlane;
 	NavTunnelWidget *m_navTunnel;
 	std::unique_ptr<SpeedLines> m_speedLines;
 
@@ -154,16 +159,11 @@ private:
 	Gui::VBox *m_commsNavOptions;
 	Gui::HBox *m_commsNavOptionsContainer;
 	Gui::Fixed *m_lowThrustPowerOptions;
-	Gui::Label *m_flightStatus, *m_debugText;
-	Gui::ImageButton *m_launchButton;
-	Gui::MultiStateImageButton *m_wheelsButton;
-	Gui::MultiStateImageButton *m_flightControlButton;
-	Gui::MultiStateImageButton *m_hyperspaceButton;
+	Gui::Label *m_debugText;
 	bool m_labelsOn;
 	enum CamType m_camType;
 	Uint32 m_showTargetActionsTimeout;
 	Uint32 m_showLowThrustPowerTimeout;
-	Uint32 m_showCameraNameTimeout;
 
 #if WITH_DEVKEYS
 	Gui::Label *m_debugInfo;
@@ -171,28 +171,21 @@ private:
 
 	// useful docking locations for new-ui widgets in the HUD
 	RefCountedPtr<UI::Widget> m_hudRoot;
-	RefCountedPtr<UI::Single> m_hudDockTop;
-	RefCountedPtr<UI::Single> m_hudDockLeft;
-	RefCountedPtr<UI::Single> m_hudDockRight;
-	RefCountedPtr<UI::Single> m_hudDockBottom;
-	RefCountedPtr<UI::Single> m_hudDockCentre;
 	// new-ui HUD components
-	RefCountedPtr<UI::Label> m_headingInfo, m_pitchInfo;
 
 	Gui::Label *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure,
 		   *m_hudHyperspaceInfo, *m_hudTargetInfo;
 	Gui::MeterBar *m_hudHullTemp, *m_hudWeaponTemp, *m_hudHullIntegrity, *m_hudShieldIntegrity;
 	Gui::MeterBar *m_hudTargetHullIntegrity, *m_hudTargetShieldIntegrity;
-	Gui::MeterBar *m_hudFuelGauge;
 	Gui::VBox *m_hudSensorGaugeStack;
 
 	sigc::connection m_onHyperspaceTargetChangedCon;
 	sigc::connection m_onPlayerChangeTargetCon;
 	sigc::connection m_onChangeFlightControlStateCon;
 	sigc::connection m_onMouseWheelCon;
-
-	Gui::LabelSet *m_bodyLabels;
-	std::map<Body*,vector3d> m_projectedPos;
+	sigc::connection m_onToggleHudModeCon;
+	sigc::connection m_onIncTimeAccelCon;
+	sigc::connection m_onDecTimeAccelCon;
 
 	RefCountedPtr<CameraContext> m_cameraContext;
 	std::unique_ptr<Camera> m_camera;
@@ -201,23 +194,8 @@ private:
 	std::unique_ptr<SiderealCameraController> m_siderealCameraController;
 	CameraController *m_activeCameraController; //one of the above
 
-	Indicator m_velIndicator;
-	Indicator m_navVelIndicator;
-	Indicator m_burnIndicator;
-	Indicator m_retroVelIndicator;
-	Indicator m_navTargetIndicator;
 	Indicator m_combatTargetIndicator;
 	Indicator m_targetLeadIndicator;
-	Indicator m_mouseDirIndicator;
-
-	std::unique_ptr<Gui::TexturedQuad> m_indicatorMousedir;
-	std::unique_ptr<Gui::TexturedQuad> m_frontCrosshair;
-	std::unique_ptr<Gui::TexturedQuad> m_rearCrosshair;
-	std::unique_ptr<Gui::TexturedQuad> m_progradeIcon;
-	std::unique_ptr<Gui::TexturedQuad> m_retrogradeIcon;
-	std::unique_ptr<Gui::TexturedQuad> m_burnIcon;
-	std::unique_ptr<Gui::TexturedQuad> m_targetIcon;
-	vector2f m_indicatorMousedirSize;
 
 	Graphics::RenderState *m_blendState;
 

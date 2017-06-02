@@ -25,7 +25,7 @@
    },
    "MSG_15" : {
       "description" : "",
-      "message" : "Уже сдались?"
+      "message" : "Что, уже сдаётесь?"
    },
    "MSG_16" : {
       "description" : "A little homage to the movie 2001 A Space Odyssey",
@@ -34,6 +34,14 @@
    "MSG_17" : {
       "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
       "message" : "\"Выход\" - это для слабаков!"
+   },
+   "MSG_18" : {
+      "description" : "Catch phrase of 2016?",
+      "message" : "Сделаем Pioneer великим снова! Только неудачники сдаются, уверены насчет этого?"
+   },
+   "MSG_19" : {
+      "description" : "Alluding to / inviting the player to contribute content to the game",
+      "message" : "Закончили тестирование, теперь помогаем разработчикам?"
    },
    "MSG_2" : {
       "description" : "",

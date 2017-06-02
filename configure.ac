@@ -1,4 +1,4 @@
-dnl Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+dnl Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 dnl Licensed under the terms of the GPL v3. See COPYING.txt for details
 
 dnl Process this file with autoconf to create configure.
@@ -78,6 +78,18 @@ WARN_CFLAGS=
 WARN_CXXFLAGS=
 WARN_CPPFLAGS=
 
+AC_SUBST(ARFLAGS)
+if test -z "$ARFLAGS"
+then
+  case "${host_os}" in
+  darwin*)
+  # do nothing, darwin does not support ar flag D
+  ;;
+  *)
+  ARFLAGS="rcD"
+  ;;
+  esac
+fi
 dnl Check for ccache if they want it
 AC_ARG_WITH([ccache], AS_HELP_STRING([--with-ccache], [Compile using ccache]), [AC_PATH_PROG([CCACHE], [ccache])])
 if test "x$with_ccache" = xyes; then
@@ -133,7 +145,7 @@ AC_SUBST([OPTIMISE])
 
 dnl Debug stuff
 AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [Enable debugging code (stack checks, debug tools features, etc)]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DDEBUG"])
-AC_ARG_ENABLE([ldb], AS_HELP_STRING([--enable-ldb], [Enable ldb support.]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DENABLE_LDB" ; EXTRA_LIBS="$EXTRA_LIBS -lldbcore"])
+AC_ARG_ENABLE([remote-lua-repl], AS_HELP_STRING([--enable-remote-lua-repl], [Enable remote lua repl (tcp port 12345 or -DREMOTE_LUA_REPL_PORT=54321]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DREMOTE_LUA_REPL"])
 AC_ARG_ENABLE([profiler], AS_HELP_STRING([--enable-profiler], [Enable internal profiler]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DPIONEER_PROFILER"])
 
 AC_ARG_WITH([fno-inline],  AS_HELP_STRING([--with-fno-inline], [Compile without inlining. Helps debugging segaults that occur in STL code]), [PIONEER_C_CXX_FLAG([-fno-inline])])
@@ -167,7 +179,7 @@ EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DPIONEER_VERSION=\\\"$PIONEER_VERSION\\\" -DPIO
 dnl __STDC_LIMIT_MACROS is defined so that GCC 4.7 will provide limit macros (eg, INT64_MAX) as part of cstdint
 dnl (note, __STDC_LIMIT_MACROS is not needed in GCC 4.8 or later; those macros are part of the C++11 standard)
 dnl __STDC_FORMAT_MACROS is the same deal for the (PRI|SCN)[ud](32|64) macros
-EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -D__STDC_LIMIT_MACROS -D__STDC_FORMAT_MACROS"
+EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DGLEW_STATIC -D__STDC_LIMIT_MACROS -D__STDC_FORMAT_MACROS"
 
 
 dnl Compiler warning options
@@ -307,7 +319,11 @@ if test "x$cross_compiling" = "xno" ; then
 fi
 
 dnl Check for libcurl
-PKG_CHECK_MODULES([CURL], [libcurl])
+AC_ARG_WITH([server-agent], AS_HELP_STRING([--with-server-agent], [Compile in our server agent, adding libcurl as a dependency]), [], [with_server_agent=no])
+if test "$with_server_agent" = yes; then
+  EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DENABLE_SERVER_AGENT"
+  PKG_CHECK_MODULES([CURL], [libcurl])
+fi
 
 dnl Optionally use external liblua
 AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-external-liblua], [Use external liblua in place of our internal copy]), [], [with_external_liblua=no; HAVE_LUA=no])
@@ -401,6 +417,7 @@ AC_CONFIG_FILES([
 	src/gameui/Makefile
 	src/gui/Makefile
 	src/graphics/Makefile
+	src/graphics/gl2/Makefile
 	src/graphics/opengl/Makefile
 	src/graphics/dummy/Makefile
 	src/scenegraph/Makefile
@@ -414,9 +431,12 @@ AC_CONFIG_FILES([
 	contrib/lua/Makefile
 	contrib/miniz/Makefile
 	contrib/jenkins/Makefile
+	contrib/imgui/Makefile
+	contrib/nanosvg/Makefile
 	contrib/json/Makefile
 	contrib/PicoDDS/Makefile
 	contrib/vcacheopt/Makefile
+	contrib/glew/Makefile
 	contrib/profiler/Makefile
 	osx/Makefile
 	win32/Makefile])

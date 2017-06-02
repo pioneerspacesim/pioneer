@@ -62,11 +62,11 @@ irc.freenode.net.
     libfreetype6-dev
     libvorbis-dev
     libpng-dev
-    libassimp-dev >= 3.0
+    libassimp-dev >= 3.2
     mesa-common-dev
 
-   If your platform doesn't have assimp 3.0, you'll need to build it from
-   source. Its available in pioneer-thirdparty, see below.
+   If your platform doesn't have assimp 3.2, you'll need to build it from
+   source. It's available in pioneer-thirdparty, see below.
 
 2. Run ./bootstrap to generate your 'configure' file
 

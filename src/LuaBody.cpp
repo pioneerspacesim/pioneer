@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -11,6 +11,7 @@
 #include "TerrainBody.h"
 #include "Pi.h"
 #include "Game.h"
+#include "LuaPiGui.h"
 
 #include "ModelBody.h"
 #include "Ship.h"
@@ -90,6 +91,7 @@ static int l_body_attr_seed(lua_State *l)
  *
  *   stable
  */
+
 static int l_body_attr_path(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -104,6 +106,218 @@ static int l_body_attr_path(lua_State *l)
 	LuaObject<SystemPath>::PushToLua(path);
 
 	return 1;
+}
+
+/*
+ * Method: GetVelocityRelTo
+ *
+ * Get the body's velocity relative to another body as a Vector
+ *
+ * > body:GetVelocityRelTo(otherBody)
+ *
+ * Parameters:
+ *
+ *   other - the other body
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_body_get_velocity_rel_to(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	const Body *other = LuaObject<Body>::CheckFromLua(2);
+	vector3d velocity = b->GetVelocityRelTo(other);
+	LuaPush(l, velocity);
+	return 1;
+}
+
+static int l_body_is_moon(lua_State *l)
+{
+		Body *body = LuaObject<Body>::CheckFromLua(1);
+		const SystemBody *sb = body->GetSystemBody();
+		if(!sb) {
+			LuaPush<bool>(l, false);
+		} else {
+			LuaPush<bool>(l, sb->IsMoon());
+		}
+		return 1;
+}
+
+static int l_body_is_missile(lua_State *l)
+{
+		Body *body = LuaObject<Body>::CheckFromLua(1);
+		LuaPush<bool>(l, body->GetType() == Object::Type::MISSILE);
+		return 1;
+}
+
+static int l_body_is_cargo_container(lua_State *l)
+{
+		Body *body = LuaObject<Body>::CheckFromLua(1);
+		LuaPush<bool>(l, body->GetType() == Object::Type::CARGOBODY);
+		return 1;
+}
+
+static int l_body_is_ship(lua_State *l)
+{
+		Body *body = LuaObject<Body>::CheckFromLua(1);
+		LuaPush<bool>(l, body->GetType() == Object::Type::SHIP);
+		return 1;
+}
+
+static int l_body_is_hyperspace_cloud(lua_State *l)
+{
+		Body *body = LuaObject<Body>::CheckFromLua(1);
+		LuaPush<bool>(l, body->GetType() == Object::Type::HYPERSPACECLOUD);
+		return 1;
+}
+
+static int l_body_is_planet(lua_State *l)
+{
+		Body *body = LuaObject<Body>::CheckFromLua(1);
+		const SystemBody *sb = body->GetSystemBody();
+		if(!sb) {
+			LuaPush<bool>(l, false);
+		} else {
+			LuaPush<bool>(l, sb->IsPlanet());
+		}
+		return 1;
+}
+
+static int l_body_get_system_body(lua_State *l)
+{
+		Body *body = LuaObject<Body>::CheckFromLua(1);
+		SystemBody *sb = const_cast<SystemBody*>(body->GetSystemBody()); // TODO: ugly, change this...
+		if(!sb) {
+			lua_pushnil(l);
+		} else {
+			LuaObject<SystemBody>::PushToLua(sb);
+		}
+		return 1;
+}
+
+static int l_body_is_more_important_than(lua_State *l)
+{
+	Body *body = LuaObject<Body>::CheckFromLua(1);
+	Body *other = LuaObject<Body>::CheckFromLua(2);
+
+	if(body == other)
+		return false;
+
+	Object::Type a = body->GetType();
+	const SystemBody *sb_a = body->GetSystemBody();
+	bool a_gas_giant = sb_a && sb_a->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT;
+	bool a_planet = sb_a && sb_a->IsPlanet();
+	bool a_moon = sb_a && sb_a->IsMoon();
+
+	Object::Type b = other->GetType();
+	const SystemBody *sb_b = other->GetSystemBody();
+	bool b_gas_giant = sb_b && sb_b->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT;
+	bool b_planet = sb_b && sb_b->IsPlanet();
+	bool b_moon = sb_b && sb_b->IsMoon();
+
+	bool result = false;
+
+	if(a == b && a != Object::Type::PLANET) result = body->GetLabel() < other->GetLabel();
+	else if(a == Object::Type::STAR) result = true;
+	else if(b == Object::Type::STAR) result = false;
+	else if(a_gas_giant) result = true;
+	else if(b_gas_giant) result = false;
+	else if(a == Object::Type::HYPERSPACECLOUD) result = false;
+	else if(b == Object::Type::HYPERSPACECLOUD) result = true;
+	else if(a == Object::Type::MISSILE) result = false;
+	else if(b == Object::Type::MISSILE) result = true;
+	else if(a == Object::Type::PROJECTILE) result = false;
+	else if(b == Object::Type::PROJECTILE) result = true;
+	else if(a == Object::Type::SHIP) result = false;
+	else if(b == Object::Type::SHIP) result = true;
+	else if(a == Object::Type::SPACESTATION) result = false;
+	else if(b == Object::Type::SPACESTATION) result = true;
+	else if(a_planet && b_planet) result = body->GetLabel() < other->GetLabel();
+	else if(a_moon && b_moon) result = body->GetLabel() < other->GetLabel();
+	else if(sb_a && sb_a->IsPlanet()) result = true;
+	else if(sb_b && sb_b->IsPlanet()) result = false;
+	else Error("don't know how to compare %i and %i\n", a, b);
+
+	LuaPush<bool>(l, result);
+	return 1;
+}
+/*
+ * Method: GetPositionRelTo
+ *
+ * Get the body's position relative to another body as a Vector
+ *
+ * > body:GetPositionRelTo(otherBody)
+ *
+ * Parameters:
+ *
+ *   other - the other body
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_body_get_position_rel_to(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	const Body *other = LuaObject<Body>::CheckFromLua(2);
+	vector3d velocity = b->GetPositionRelTo(other);
+	LuaPush(l, velocity);
+	return 1;
+}
+
+/*
+ * Method: GetAltitudeRelTo
+ *
+ * Get the body's altitude relative to another body
+ *
+ * > body:GetAltitudeRelTo(otherBody)
+ *
+ * Parameters:
+ *
+ *   other - the other body
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_body_get_altitude_rel_to(lua_State *l)
+{
+	const Body *other = LuaObject<Body>::CheckFromLua(2);
+	vector3d pos = Pi::player->GetPositionRelTo(other);
+	double center_dist = pos.Length();
+	if(other && other->IsType(Object::TERRAINBODY)) {
+		const TerrainBody* terrain = static_cast<const TerrainBody*>(other);
+		vector3d surface_pos = pos.Normalized();
+		double radius = 0.0;
+		if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
+			radius = terrain->GetTerrainHeight(surface_pos);
+		}
+		double altitude = center_dist - radius;
+		if (altitude < 0)
+			altitude = 0;
+		LuaPush(l, altitude);
+		return 1;
+	} else {
+		LuaPush(l, center_dist);
+		return 1;
+	}
+
 }
 
 /*
@@ -394,6 +608,61 @@ static int l_body_find_nearest_to(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetPhysRadius
+ *
+ * Get the body's physical radius
+ *
+ * > body:GetPhysRadius()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_body_get_phys_radius(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	LuaPush(l, b->GetPhysRadius());
+	return 1;
+}
+
+/*
+ * Method: GetProjectedScreenPosition
+ *
+ * Get the body's position projected to screen space as a Vector
+ *
+ * > body:GetProjectedScreenPosition()
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_body_get_projected_screen_position(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	WorldView *wv = Pi::game->GetWorldView();
+	vector3d p = wv->WorldSpaceToScreenSpace(b);
+	return pushOnScreenPositionDirection(l, p);
+}
+
+static int l_body_get_target_indicator_screen_position(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	WorldView *wv = Pi::game->GetWorldView();
+	vector3d p = wv->GetTargetIndicatorScreenPosition(b);
+	return pushOnScreenPositionDirection(l, p);
+}
+
 static std::string _body_serializer(LuaWrappable *o)
 {
 	static char buf[256];
@@ -411,35 +680,35 @@ static bool _body_deserializer(const char *pos, const char **next)
 	Body *body = Pi::game->GetSpace()->GetBodyByIndex(n);
 
 	switch (body->GetType()) {
-		case Object::BODY:
-			LuaObject<Body>::PushToLua(body);
-			break;
-		case Object::MODELBODY:
-			LuaObject<Body>::PushToLua(dynamic_cast<ModelBody*>(body));
-			break;
-		case Object::SHIP:
-			LuaObject<Ship>::PushToLua(dynamic_cast<Ship*>(body));
-			break;
-		case Object::PLAYER:
-			LuaObject<Player>::PushToLua(dynamic_cast<Player*>(body));
-			break;
-		case Object::SPACESTATION:
-			LuaObject<SpaceStation>::PushToLua(dynamic_cast<SpaceStation*>(body));
-			break;
-		case Object::PLANET:
-			LuaObject<Planet>::PushToLua(dynamic_cast<Planet*>(body));
-			break;
-		case Object::STAR:
-			LuaObject<Star>::PushToLua(dynamic_cast<Star*>(body));
-			break;
-		case Object::CARGOBODY:
-			LuaObject<Star>::PushToLua(dynamic_cast<CargoBody*>(body));
-			break;
-		case Object::MISSILE:
-			LuaObject<Missile>::PushToLua(dynamic_cast<Missile*>(body));
-			break;
-		default:
-			return false;
+	case Object::BODY:
+		LuaObject<Body>::PushToLua(body);
+		break;
+	case Object::MODELBODY:
+		LuaObject<Body>::PushToLua(dynamic_cast<ModelBody*>(body));
+		break;
+	case Object::SHIP:
+		LuaObject<Ship>::PushToLua(dynamic_cast<Ship*>(body));
+		break;
+	case Object::PLAYER:
+		LuaObject<Player>::PushToLua(dynamic_cast<Player*>(body));
+		break;
+	case Object::SPACESTATION:
+		LuaObject<SpaceStation>::PushToLua(dynamic_cast<SpaceStation*>(body));
+		break;
+	case Object::PLANET:
+		LuaObject<Planet>::PushToLua(dynamic_cast<Planet*>(body));
+		break;
+	case Object::STAR:
+		LuaObject<Star>::PushToLua(dynamic_cast<Star*>(body));
+		break;
+	case Object::CARGOBODY:
+		LuaObject<Star>::PushToLua(dynamic_cast<CargoBody*>(body));
+		break;
+	case Object::MISSILE:
+		LuaObject<Missile>::PushToLua(dynamic_cast<Missile*>(body));
+		break;
+	default:
+		return false;
 	}
 
 	return true;
@@ -456,6 +725,20 @@ template <> void LuaObject<Body>::RegisterClass()
 		{ "DistanceTo", l_body_distance_to },
 		{ "GetGroundPosition", l_body_get_ground_position },
 		{ "FindNearestTo", l_body_find_nearest_to },
+		{ "GetVelocityRelTo",  l_body_get_velocity_rel_to },
+		{ "GetPositionRelTo",  l_body_get_position_rel_to },
+		{ "GetAltitudeRelTo",  l_body_get_altitude_rel_to },
+		{ "GetProjectedScreenPosition", l_body_get_projected_screen_position },
+		{ "GetTargetIndicatorScreenPosition", l_body_get_target_indicator_screen_position },
+		{ "GetPhysicalRadius",   l_body_get_phys_radius },
+		{ "IsMoreImportantThan", l_body_is_more_important_than },
+		{ "IsMoon",              l_body_is_moon },
+		{ "IsPlanet",            l_body_is_planet },
+		{ "IsShip",              l_body_is_ship },
+		{ "IsHyperspaceCloud",   l_body_is_hyperspace_cloud },
+		{ "IsMissile",           l_body_is_missile },
+		{ "IsCargoContainer",    l_body_is_cargo_container },
+		{ "GetSystemBody",       l_body_get_system_body },
 		{ 0, 0 }
 	};
 

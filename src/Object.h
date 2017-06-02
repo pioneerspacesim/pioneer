@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _OBJECT_H
@@ -31,8 +31,8 @@ public:
 	virtual bool IsType(Type c) const { return GetType() == c; }
 };
 #define OBJDEF(__thisClass,__parentClass,__TYPE) \
-	virtual Object::Type GetType() const { return Object::__TYPE; } \
-	virtual bool IsType(Type c) const { \
+	virtual Object::Type GetType() const override { return Object::__TYPE; } \
+	virtual bool IsType(Type c) const override { \
 	if (__thisClass::GetType() == (c)) return true; \
 	else return __parentClass::IsType(c); }
 #endif /* _OBJECT_H */

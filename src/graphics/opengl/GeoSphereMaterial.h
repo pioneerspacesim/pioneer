@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _OGL_GEOSPHEREMATERIAL_H
@@ -24,7 +24,7 @@ namespace Graphics {
 			Uniform geosphereCenter;
 			Uniform geosphereRadius; // (planet radius)
 			Uniform geosphereInvRadius; // 1.0 / (planet radius)
-			
+
 			Uniform detailScaleHi;
 			Uniform detailScaleLo;
 
@@ -73,7 +73,7 @@ namespace Graphics {
 		protected:
 			void SetGSUniforms();
 		};
-		
+
 	}
 }
 #endif

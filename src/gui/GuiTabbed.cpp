@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -160,7 +160,7 @@ void Tabbed::Draw()
 	}
 	m_rectBGShadow->Draw(Screen::GetRenderer());
 
-	for (pagecontainer_t::iterator i = m_pages.begin(), iEnd = m_pages.end(); i!=iEnd; ++i, index++) 
+	for (pagecontainer_t::iterator i = m_pages.begin(), iEnd = m_pages.end(); i!=iEnd; ++i, index++)
 	{
 		float csize[2];
 		(*i).first->GetSize(csize);

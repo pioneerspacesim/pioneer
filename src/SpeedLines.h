@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SPEEDLINES_H
@@ -29,14 +29,14 @@ private:
 	Ship *m_ship;
 
 	std::vector<vector3f> m_points;
-	
+
 	Graphics::RenderState *m_renderState;
 	RefCountedPtr<Graphics::Material> m_material;
 	std::unique_ptr<Graphics::VertexArray> m_varray;
 	std::unique_ptr<Graphics::VertexBuffer> m_vbuffer;
 
 	matrix4x4d m_transform;
-	
+
 	bool m_visible;
 	float m_lineLength;
 	vector3f m_dir;

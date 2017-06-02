@@ -1,4 +1,4 @@
--- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -25,7 +25,7 @@ local setupPlayerSol = function ()
 	Game.player:AddEquip(laser.pulsecannon_1mw)
 	Game.player:AddEquip(misc.atmospheric_shielding)
 	Game.player:AddEquip(misc.autopilot)
-	Game.player:AddEquip(misc.scanner)
+	Game.player:AddEquip(misc.radar)
 	Game.player:AddEquip(cargo.hydrogen, 2)
 	Game.player:SetMoney(100)
 end
@@ -37,7 +37,7 @@ local setupPlayerEridani = function ()
 	Game.player:AddEquip(laser.pulsecannon_1mw)
 	Game.player:AddEquip(misc.atmospheric_shielding)
 	Game.player:AddEquip(misc.autopilot)
-	Game.player:AddEquip(misc.scanner)
+	Game.player:AddEquip(misc.radar)
 	Game.player:AddEquip(cargo.hydrogen, 2)
 	Game.player:SetMoney(100)
 end
@@ -48,7 +48,7 @@ local setupPlayerBarnard = function ()
 	--Game.player:AddEquip(equipment.laser.pulsecannon_1mw)
 	Game.player:AddEquip(misc.atmospheric_shielding)
 	Game.player:AddEquip(misc.autopilot)
-	Game.player:AddEquip(misc.scanner)
+	Game.player:AddEquip(misc.radar)
 	Game.player:AddEquip(cargo.hydrogen, 2)
 	Game.player:SetMoney(100)
 end
@@ -77,7 +77,8 @@ local doSettingsScreen = function()
 	ui.layer:SetInnerWidget(
 		ui.templates.Settings({
 			closeButtons = {
-				{ text = l.RETURN_TO_MENU, onClick = function () ui.layer:SetInnerWidget(ui.templates.MainMenu()) end }
+				{ text = l.RETURN_TO_MENU, onClick = function () ui.layer:SetInnerWidget(ui.templates.MainMenu()) end },
+				{ text = l.OPEN_USER_FOLDER, onClick = Engine.OpenBrowseUserFolder, toDisable = function () return Engine.CanBrowseUserFolder==false end }
 			}
 		})
 	)

@@ -1,0 +1,58 @@
+{
+   "GOODS_TRADER_0" : {
+      "description" : "",
+      "message" : "Ollmhargadh {name} cóir"
+   },
+   "GOODS_TRADER_1" : {
+      "description" : "",
+      "message" : "Teach trádála {name}"
+   },
+   "GOODS_TRADER_2" : {
+      "description" : "",
+      "message" : "Trádstóras {name}"
+   },
+   "GOODS_TRADER_3" : {
+      "description" : "",
+      "message" : "Malartán {name}"
+   },
+   "GOODS_TRADER_4" : {
+      "description" : "",
+      "message" : "Ollsiopa {name}"
+   },
+   "GOODS_TRADER_5" : {
+      "description" : "",
+      "message" : "Tigh {name}"
+   },
+   "SLOGAN_0" : {
+      "description" : "",
+      "message" : "Ag trádáil na rudaí nach bhfuil ag éinne eile."
+   },
+   "SLOGAN_1" : {
+      "description" : "",
+      "message" : "Fíor-shaormhargadh."
+   },
+   "SLOGAN_2" : {
+      "description" : "",
+      "message" : "Na hearraí as an ngnáth is fearr!"
+   },
+   "SLOGAN_3" : {
+      "description" : "",
+      "message" : "Creidimid i margadh gan srian."
+   },
+   "SLOGAN_4" : {
+      "description" : "",
+      "message" : "An margadh neamhrialaithe, ar son do shaoirse."
+   },
+   "SLOGAN_5" : {
+      "description" : "",
+      "message" : "An mangaire muiníneach."
+   },
+   "SLOGAN_6" : {
+      "description" : "",
+      "message" : "Praghas speisialta duitse i gcónaí."
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Fáilte go dtí"
+   }
+}

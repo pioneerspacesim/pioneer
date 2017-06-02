@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Radar cartographique avancé"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Détecteur de cible avancé"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Radar cartographique avancé, avec couverture large du système"
+      "message" : "Détecteur de cible longue portée avec couverture complète du système."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -90,6 +90,26 @@
    "DRIVE_MIL4" : {
       "description" : "",
       "message" : "Propulsion militaire Classe 4"
+   },
+   "DRIVE_MIL5" : {
+      "description" : "",
+      "message" : "Propulsion militaire Classe 5"
+   },
+   "DRIVE_MIL6" : {
+      "description" : "",
+      "message" : "Propulsion militaire Classe 6"
+   },
+   "DRIVE_MIL7" : {
+      "description" : "",
+      "message" : "Propulsion militaire Classe 7"
+   },
+   "DRIVE_MIL8" : {
+      "description" : "",
+      "message" : "Propulsion militaire Classe 8"
+   },
+   "DRIVE_MIL9" : {
+      "description" : "",
+      "message" : "Propulsion militaire Classe 9"
    },
    "ECM_ADVANCED" : {
       "description" : "",
@@ -179,6 +199,10 @@
       "description" : "",
       "message" : "Distance maximale de scannage dépassée:"
    },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Cabine passager"
+   },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
       "message" : "Scannage de l'objet"
@@ -215,19 +239,11 @@
       "description" : "",
       "message" : "Canon laser rapide 2MW"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Cartographe Radar"
+      "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Permet d'inspecter l'équipement, le cargo et l'état des autres vaisseaux."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Senseurs"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Donne une représentation 3D des vaisseaux environnants."
    },
@@ -263,11 +279,43 @@
       "description" : "",
       "message" : "Démarrage du scannage, la distance de cible est "
    },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Analyseur de profit commercial"
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Détecteur de cible"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permet d'inspecter l'équipement, le cargo et l'état des autres vaisseaux."
+   },
+   "THRUSTERS_BASIC" : {
+      "description" : "",
+      "message" : "Propulseurs modifiés"
+   },
+   "THRUSTERS_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Un type de propulseurs modifiés approuvé pour votre vaisseau."
+   },
+   "THRUSTERS_BEST" : {
+      "description" : "",
+      "message" : "Propulseurs sur mesure"
+   },
+   "THRUSTERS_BEST_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Propulseurs sur mesure les plus puissants possible."
+   },
+   "THRUSTERS_MEDIUM" : {
+      "description" : "",
+      "message" : "Propulseurs optimisés"
+   },
+   "THRUSTERS_MEDIUM_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Les réacteurs qui ont été optimisés afin de réduire les inéfficacités et améliorer la consommation d'énergie."
+   },
+   "TRADE_COMPUTER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Détecteur de profits"
+   },
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "Montre les profits générés par les échanges commerciaux entre le système actuel et le système sélectionné"
    },

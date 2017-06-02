@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _USE_MATH_DEFINES
@@ -10,7 +10,14 @@
 #include "../../src/Serializer.h" // Need this for the exceptions
 
 extern "C" {
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wattributes"
+#endif
 #include "miniz/miniz.h"
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 }
 
 namespace {

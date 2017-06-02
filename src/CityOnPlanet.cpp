@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -33,7 +33,7 @@ CityOnPlanet::citybuildinglist_t CityOnPlanet::s_buildingList = {
 
 CityOnPlanet::cityflavourdef_t CityOnPlanet::cityflavour[CITYFLAVOURS];
 
-void CityOnPlanet::PutCityBit(Random &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
+void CityOnPlanet::PutCityBit(Random &rand, const matrix4x4d &rot, const vector3d &p1, const vector3d &p2, const vector3d &p3, const vector3d &p4)
 {
 	double rad = (p1-p2).Length()*0.5;
 	Uint32 instIndex(0);
@@ -151,7 +151,7 @@ void CityOnPlanet::RemoveStaticGeomsFromCollisionSpace()
 
 // Get all model file names under buildings/
 // This is temporary. Buildings should be defined in BuildingSet data files, or something.
-//static 
+//static
 void CityOnPlanet::EnumerateNewBuildings(std::set<std::string> &filenames)
 {
 	const std::string fullpath = FileSystem::JoinPathBelow("models", "buildings");
@@ -165,7 +165,7 @@ void CityOnPlanet::EnumerateNewBuildings(std::set<std::string> &filenames)
 	}
 }
 
-//static 
+//static
 void CityOnPlanet::LookupBuildingListModels(citybuildinglist_t *list)
 {
 	std::vector<Model*> models;
@@ -192,6 +192,7 @@ void CityOnPlanet::LookupBuildingListModels(citybuildinglist_t *list)
 	for (auto m = models.begin(), itEnd = models.end(); m != itEnd; ++m, i++) {
 		list->buildings[i].instIndex = i;
 		list->buildings[i].resolvedModel = *m;
+		list->buildings[i].idle = (*m)->FindAnimation("idle");
 		list->buildings[i].collMesh = (*m)->CreateCollisionMesh();
 		const Aabb &aabb = list->buildings[i].collMesh->GetAabb();
 		const double maxx = std::max(fabs(aabb.max.x), fabs(aabb.min.x));
@@ -248,7 +249,8 @@ void CityOnPlanet::SetCityModelPatterns(const SystemPath &path)
 		if (!m->SupportsPatterns()) continue;
 		skin.SetRandomColors(rand);
 		skin.Apply(m);
-		m->SetPattern(rand.Int32(0, m->GetNumPatterns()));
+		if(m->SupportsPatterns())
+			m->SetPattern(rand.Int32(0, m->GetNumPatterns()-1));
 	}
 }
 
@@ -307,7 +309,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 		cityflavour[i].center = p + a*mx + b*mz;
 		cityflavour[i].size = rand.Int32(int(blist->minRadius), int(blist->maxRadius));
 	}
-	
+
 	vector3d p1, p2, p3, p4;
 	for (int side=0; side<4; side++) {
 		/* put buildings on all sides of spaceport */
@@ -379,6 +381,15 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustu
 		}
 	}
 
+	// update any idle animations
+	for(Uint32 i=0; i<s_buildingList.numBuildings; i++) {
+		SceneGraph::Animation *pAnim = s_buildingList.buildings[i].idle;
+		if(pAnim) {
+			pAnim->SetProgress(fmod(pAnim->GetProgress() + (Pi::game->GetTimeStep() / pAnim->GetDuration()), 1.0));
+			pAnim->Interpolate();
+		}
+	}
+
 	Uint32 uCount = 0;
 	std::vector<Uint32> instCount;
 	std::vector< std::vector<matrix4x4f> > transform;
@@ -405,10 +416,23 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustu
 
 		++uCount;
 	}
-	
-	// render the building models using instancing
-	for(Uint32 i=0; i<s_buildingList.numBuildings; i++) {
-		s_buildingList.buildings[i].resolvedModel->Render(transform[i]);
+
+	if(r->SupportsInstancing())
+	{
+		// render the building models using instancing
+		for(Uint32 i=0; i<s_buildingList.numBuildings; i++) {
+			if(!transform[i].empty())
+				s_buildingList.buildings[i].resolvedModel->Render(transform[i]);
+		}
+	}
+	else
+	{
+		// render the buildings individually
+		for(Uint32 i=0; i<s_buildingList.numBuildings; i++) {
+			for(auto t : transform[i]) {
+				s_buildingList.buildings[i].resolvedModel->Render(t);
+			}
+		}
 	}
 
 	r->GetStats().AddToStatCount(Graphics::Stats::STAT_BUILDINGS, uCount);

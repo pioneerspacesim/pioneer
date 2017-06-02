@@ -149,11 +149,11 @@
    },
    "COMMODITY_MARKET" : {
       "description" : "",
-      "message" : "Margaid bathair-àmh"
+      "message" : "Margadh bathair-àmh"
    },
-   "COMPACT_SCANNER" : {
+   "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Sganair teannta"
+      "message" : "Rèidear teannta"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
@@ -189,7 +189,7 @@
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
-      "message" : "Roghainnean nan uidheaman-smachd"
+      "message" : "Roghainnean an stiùiridh"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
@@ -317,7 +317,7 @@
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
-      "message" : "Margaid uidheamachd"
+      "message" : "Margadh uidheamachd"
    },
    "EQUIPPED" : {
       "description" : "",
@@ -439,6 +439,130 @@
       "description" : "Game settings option: for graphics resolution",
       "message" : "Àrd"
    },
+   "HUD_2D_RADAR" : {
+      "description" : "Popup text: the name of the azimuthal equidistant projection radar",
+      "message" : "Tilg-shealladh co-astarail azimuthach 2D"
+   },
+   "HUD_3D_RADAR" : {
+      "description" : "Popup text: the name of the planar projection radar (traditional frontier-style)",
+      "message" : "Tilg-shealladh plèanach 3D"
+   },
+   "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
+      "description" : "Tooltip: The braking distance using the main thrusters.",
+      "message" : "Astar brèigidh a' cleachdadh nam prìomh-phutairean"
+   },
+   "HUD_CURRENT_COMBAT_TARGET" : {
+      "description" : "Tooltip: The current combat target.",
+      "message" : "Amas làithreach na còmhraige"
+   },
+   "HUD_CURRENT_FRAME" : {
+      "description" : "Tooltip: The current frame of reference.",
+      "message" : "Am frèam-lorgaidh làithreach"
+   },
+   "HUD_CURRENT_HEADING" : {
+      "description" : "Tooltip: the current heading.",
+      "message" : "A' chomhair làithreach"
+   },
+   "HUD_CURRENT_NAV_TARGET" : {
+      "description" : "Tooltip: The current navigational target.",
+      "message" : "Amas làithreach na seòladaireachd"
+   },
+   "HUD_CURRENT_PITCH" : {
+      "description" : "Tooltip: the current pitch.",
+      "message" : "A' phids làithreach"
+   },
+   "HUD_CURRENT_ROLL" : {
+      "description" : "Tooltip: the current roll.",
+      "message" : "An roiligeadh làithreach"
+   },
+   "HUD_DELTA_V" : {
+      "description" : "Tooltip: The remaining Δv.",
+      "message" : "Δv air fhàgail"
+   },
+   "HUD_DELTA_V_OF_MANEUVER_BURN" : {
+      "description" : "Tooltip: The Δv for the maneuver burn.",
+      "message" : "Δv airson an losgaidh-obrachaidh"
+   },
+   "HUD_DELTA_V_PERCENT" : {
+      "description" : "Tooltip: The remaining Δv in percent.",
+      "message" : "Δv air fhàgail"
+   },
+   "HUD_DISTANCE_TO_SURFACE_OF_FRAME" : {
+      "description" : "Tooltip: Distance to the surface of the frame of reference.",
+      "message" : "An t-astar gu uachdar an fhrèam-lorgaidh"
+   },
+   "HUD_DISTANCE_TO_SURFACE_OF_TARGET" : {
+      "description" : "Tooltip: Distance to the surface of the target.",
+      "message" : "An t-astar gu uachdar an amais"
+   },
+   "HUD_DURATION_OF_MANEUVER_BURN" : {
+      "description" : "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
+      "message" : "An ùine thuaireamach a bheir an losgadh-obrachaidh leis na prìomh-phutairean"
+   },
+   "HUD_DURATION_UNTIL_MANEUVER_BURN" : {
+      "description" : "Tooltip: The duration until the middle of the maneuver burn.",
+      "message" : "An ùine gu meadhan an losgaidh-obrachaidh"
+   },
+   "HUD_INDICATOR_AWAY_FROM_FRAME" : {
+      "description" : "Indicator: Away from the current frame.",
+      "message" : "Air falbh on fhrèam làithreach"
+   },
+   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
+      "description" : "Indicator: Prograde direction relative to the current combat target.",
+      "message" : "Gabh ceum air adhart an dàimh ri amas làithreach na còmhraige"
+   },
+   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
+      "description" : "Indicator: Retrograde direction relative to the current combat target.",
+      "message" : "Gabh ceum air ais an dàimh ri amas làithreach na còmhraige"
+   },
+   "HUD_INDICATOR_FRAME_PROGRADE" : {
+      "description" : "Indicator: Prograde direction relative to the current frame.",
+      "message" : "Gabh ceum air adhart gu dàimheil ris an fhrèam-lorgaidh làithreach"
+   },
+   "HUD_INDICATOR_FRAME_RETROGRADE" : {
+      "description" : "Indicator: Retrograde direction relative to the current frame.",
+      "message" : "Gabh ceum air ais gu dàimheil ris an fhrèam-lorgaidh làithreach"
+   },
+   "HUD_INDICATOR_MANEUVER_PROGRADE" : {
+      "description" : "Indicator: The prograde direction for the maneuver burn.",
+      "message" : "Gabh ceum air adhart airson losgadh-obrachaidh"
+   },
+   "HUD_INDICATOR_NAV_TARGET_PROGRADE" : {
+      "description" : "Indicator: Prograde direction relative to the current navigational target.",
+      "message" : "Gabh ceum air adhart gu dàimheil ri amas làithreach na seòladaireachd"
+   },
+   "HUD_INDICATOR_NAV_TARGET_RETROGRADE" : {
+      "description" : "Indicator: Retrograde direction relative to the current navigational target.",
+      "message" : "Gabh ceum air ais gu dàimheil ri amas làithreach na seòladaireachd"
+   },
+   "HUD_RADAR_DISTANCE" : {
+      "description" : "Tooltip: Current distance of the radar.",
+      "message" : "Rainse ghnìomhach an rèideir"
+   },
+   "HUD_SHOW_COMBAT_TARGET" : {
+      "description" : "Tooltip: Show the current combat target.",
+      "message" : "Seall amas làithreach na còmhraige"
+   },
+   "HUD_SHOW_FRAME" : {
+      "description" : "Tooltip: Show the current frame of reference.",
+      "message" : "Seall am frèam-lorgaidh làithreach"
+   },
+   "HUD_SHOW_NAV_TARGET" : {
+      "description" : "Tooltip: Show current navigational target.",
+      "message" : "Seall amas làithreach na seòladaireachd"
+   },
+   "HUD_SPEED_OF_APPROACH_TO_FRAME" : {
+      "description" : "Tooltip: The speed of approach towards the frame of reference.",
+      "message" : "Luaths an teannaidh an comhair an fhrèam-lorgaidh"
+   },
+   "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
+      "description" : "Tooltip: The speed of approach towards the target.",
+      "message" : "Luaths an teannaidh dhan amas"
+   },
+   "HUD_SPEED_RELATIVE_TO_TARGET" : {
+      "description" : "Tooltip: The speed relative to the target.",
+      "message" : "An luaths dàimheil ris an amas"
+   },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
       "message" : "Chan eil càradh a dhìth air an t-slige."
@@ -466,6 +590,10 @@
    "HYPERSPACE_RANGE" : {
       "description" : "",
       "message" : "Rainse os-fhànais"
+   },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Chaidh os-leum cion-umhail a chlàradh"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -773,7 +901,7 @@
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} cèibinnean taistealaich air an còmhnadh"
+      "message" : "{quantity} cèibinn(ean) taistealaich air an còmhnadh"
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
@@ -781,7 +909,7 @@
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} cèibinnean taistealaich gun chòmhnadh"
+      "message" : "{quantity} cèibinn(ean) taistealaich gun chòmhnadh"
    },
    "OFF" : {
       "description" : "",
@@ -790,6 +918,10 @@
    "OK" : {
       "description" : "",
       "message" : "Ceart ma-thà"
+   },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "Pasgan a' chleachdaiche"
    },
    "OPTIONS" : {
       "description" : "",
@@ -805,7 +937,7 @@
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "Thèid luaths cearcallach na reul-cuairte a shealltainn mar luaths beantanach. Mu chòir dhan long a bhith a' siubhal le 90° an comhair aiseal na luinge/{name}.\n\nTha an luaths teàrnaidh cho beag 's a ghabhas agus tha e beantanach cuideachd. Bheir luaths as ìsle le ceum as ìsle cùrsa dhut a dh'eadar-ghearras ris an uachdar aig {name}.\n\nBu chòir don luaths teichidh obrachadh air comhair sam bith cho fad 's nach buail an long ri {name} air an t-slighe.\n\t\t"
+      "message" : "Thèid luaths cearcallach na reul-cuairte a shealltainn mar luaths beantanach. Mu chòir dhan t-soitheach a bhith a' siubhal le 90° an comhair aiseal an t-soithich/{name}.\n\nTha an luaths teàrnaidh cho beag 's a ghabhas agus tha e beantanach cuideachd. Bheir luaths as ìsle le ceum as ìsle cùrsa dhut a dh'eadar-ghearras ris an uachdar aig {name}.\n\nBu chòir don luaths teichidh obrachadh air comhair sam bith cho fad 's nach buail an soitheach ri {name} air an t-slighe.\n\t\t"
    },
    "OUTER_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -999,6 +1131,10 @@
       "description" : "",
       "message" : "Mothaichearan 's dìon"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Suidhich an ceann-uidhe mar cheann-uidhe na seòladaireachd."
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Soitheach"
@@ -1025,7 +1161,7 @@
    },
    "SHIP_MARKET" : {
       "description" : "",
-      "message" : "Margaidh shoithichean"
+      "message" : "Margadh shoithichean"
    },
    "SHIP_REPAIRS" : {
       "description" : "",
@@ -1034,6 +1170,10 @@
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
       "message" : "Tha an soitheach a bha thu a' coimhead air rèic"
+   },
+   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
+      "description" : "",
+      "message" : "A' cruthachadh gnè an domhain: {age} billean bliadhna ;-)"
    },
    "SOUND" : {
       "description" : "",
@@ -1096,8 +1236,8 @@
       "message" : "Tha an soitheach ro bheag airson an sgioba agad."
    },
    "TOO_SMALL_TO_TRANSSHIP" : {
-      "description" : "",
-      "message" : "Tha an soitheach ro bheag airson an carago agad a ghiùlan."
+      "description" : "Ship market error message",
+      "message" : "Chan eil rum aig soithichean ùra airson a' charago 's draibh os-fhànais seo."
    },
    "TOTAL" : {
       "description" : "",
@@ -1133,7 +1273,7 @@
    },
    "USED" : {
       "description" : "",
-      "message" : "'Ga chleachdadh"
+      "message" : "Cleachd."
    },
    "VERY_HIGH" : {
       "description" : "Game settings option: graphic resolution",

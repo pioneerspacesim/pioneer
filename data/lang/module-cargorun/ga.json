@@ -1,0 +1,626 @@
+{
+   "ACCEPTED_1" : {
+      "description" : "",
+      "message" : "Ar fheabhas. Luchtóidh mé na hearraí ar do long."
+   },
+   "ACCEPTED_2" : {
+      "description" : "",
+      "message" : "An-mhaith."
+   },
+   "ACCEPTED_3" : {
+      "description" : "",
+      "message" : "Ceart go leor. Tá súil agam gur duine iontaofa thú."
+   },
+   "ACCEPTED_4" : {
+      "description" : "",
+      "message" : "Bíodh sé ina mhargadh!"
+   },
+   "ACCEPTED_PICKUP_1" : {
+      "description" : "",
+      "message" : "Ceart go leor, deimhneoidh mé go bhfuil na hearraí réidh lena mbailiú."
+   },
+   "ACCEPTED_PICKUP_2" : {
+      "description" : "",
+      "message" : "Bíodh sé ina mhargadh! Inseoidh mé do mo chomhghleacaithe go bhfuil tú ar an mbealach."
+   },
+   "ADTEXT_1" : {
+      "description" : "",
+      "message" : "SEACHADADH LASTA. Lasta a sheachadadh chuig réaltchóras {system}."
+   },
+   "ADTEXT_2" : {
+      "description" : "",
+      "message" : "IOMPAR DE DHÍTH. Earraí a iompar go dtí réaltchóras {system}. Íocfar {cash}."
+   },
+   "ADTEXT_EXPENSIVE_1" : {
+      "description" : "",
+      "message" : "SEACHADADH. Lasta luachmhar chuig réaltchóras {system}. Íocfar píolóta a bhfuil taithí aige/aici {cash}."
+   },
+   "ADTEXT_LOCAL_1" : {
+      "description" : "",
+      "message" : "SEACHADADH ÁITIÚIL. Earraí a sheachadadh chuig {starport}."
+   },
+   "ADTEXT_LOCAL_2" : {
+      "description" : "",
+      "message" : "IOMPAR DE DHÍTH. Lasta áitiúil a sheachadadh chuig {starport}."
+   },
+   "ADTEXT_LOCAL_3" : {
+      "description" : "",
+      "message" : "SEACHADADH ÁITIÚIL. Earraí a sheachadadh chuig {starport}."
+   },
+   "ADTEXT_PICKUP_1" : {
+      "description" : "",
+      "message" : "BAILIÚ LASTA. Long de dhíth le lasta a bhailiú ó réaltchóras {system}."
+   },
+   "ADTEXT_PICKUP_LOCAL_1" : {
+      "description" : "",
+      "message" : "AISTRIÚ. Long de dhíth le lasta a aistriú ó {starport}."
+   },
+   "ADTEXT_WHOLESALER_1" : {
+      "description" : "",
+      "message" : "SEIRBHÍS LASTA. Long ag teastáil uainn le lasta a sheachadadh chuig réaltchóras {system}."
+   },
+   "ALUMINIUM_TUBES" : {
+      "description" : "custom cargo",
+      "message" : "Tiúba alúmanaim"
+   },
+   "AMOUNT" : {
+      "description" : "Shown in mission summary. The amount of cargo",
+      "message" : "Méid:"
+   },
+   "ART_OBJECTS" : {
+      "description" : "custom cargo",
+      "message" : "Réada ealaíne"
+   },
+   "CARGO" : {
+      "description" : "",
+      "message" : "Lasta:"
+   },
+   "CARGORUN" : {
+      "description" : "Name of mission type",
+      "message" : "Lasta a sheachadadh"
+   },
+   "CEASE_FIRE" : {
+      "description" : "",
+      "message" : "Scoirigí de lámhach, scoirigí de lámhach! Tá mé leatsa!"
+   },
+   "CLUS" : {
+      "description" : "custom cargo",
+      "message" : "Botháin réamhdhéanta"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "An ndéanfá an t-iarratas céanna arís?"
+   },
+   "DANGER" : {
+      "description" : "the risk level",
+      "message" : "Contúirt:"
+   },
+   "DEADLINE" : {
+      "description" : "Must be delivered by",
+      "message" : "Sprioc-am:"
+   },
+   "DELIVER_TO" : {
+      "description" : "Deliver to this location",
+      "message" : "Seachadadh chuig:"
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Mo leithscéal, ach nílim sásta lasta chomh luachmhar seo a chur i lámha píolóta nach bhfuil mórán taithí aige."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Níor chuala mé riamh fútsa. Níl aithne agam ort agus níl muinín agam asat."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Mo leithscéal, ach tá mé ag lorg píolóta a bhfuil seantaithí aige sa ghnó seo."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Mo leithscéal, ach ní dóigh liom go bhfuil an mianach ceart ionat chun an jab seo a chur i gcrích."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Ná cuir mo chuid ama amú. Tá tú beagán glas fós."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Tar ar ais nuair a bheidh níos mó taithí agat."
+   },
+   "DIAMONDS" : {
+      "description" : "custom cargo",
+      "message" : "Diamaint"
+   },
+   "DIGESTERS" : {
+      "description" : "custom cargo",
+      "message" : "Díleáiteoirí"
+   },
+   "DISTANCE" : {
+      "description" : "distance in space, between two locations",
+      "message" : "Fad:"
+   },
+   "ELECTRICAL_APPLIANCES" : {
+      "description" : "custom cargo",
+      "message" : "Fearais leictreacha"
+   },
+   "ESCORT_CHATTER_1" : {
+      "description" : "",
+      "message" : "Braitheadh spáslong naimhdeach. Ionsaímis le chéile í."
+   },
+   "ESCORT_CHATTER_2" : {
+      "description" : "",
+      "message" : "Ar fheabhas. Is é an foghlaí seo an chéad duine a mharaigh mé riamh."
+   },
+   "ESCORT_CHATTER_3" : {
+      "description" : "",
+      "message" : "Feicim namhaid. Ag dul ar an ionsaí."
+   },
+   "ESCORT_CHATTER_4" : {
+      "description" : "",
+      "message" : "Lean ort go dtí do cheann scríbe. Coinneoidh mé slán thú."
+   },
+   "ESCORT_CHATTER_5" : {
+      "description" : "",
+      "message" : "Teailí hó. Seo é mo chéad ghabháil den lá."
+   },
+   "EXPLOSIVES" : {
+      "description" : "custom cargo",
+      "message" : "Pléascáin"
+   },
+   "FAILUREMSG_1" : {
+      "description" : "",
+      "message" : "Tá an-díomá orm go raibh an seachadadh chomh mall sin. Ní bhfaighidh tú cianóg rua."
+   },
+   "FAILUREMSG_2" : {
+      "description" : "",
+      "message" : "Tá tú déanach! Cad ba chóir dom déanamh leis seo? Ní fiú dada é anois!"
+   },
+   "FAILUREMSG_3" : {
+      "description" : "",
+      "message" : "Bhíomar an-soiléir faoin sprioc-am. Níl seans faoin spéir go bhfaighidh tú cianóg rua uaim."
+   },
+   "FAILUREMSG_4" : {
+      "description" : "",
+      "message" : "Diúltóidh mé gach uile iarratas uait as seo amach."
+   },
+   "FAILUREMSG_FLUFFY_1" : {
+      "description" : "",
+      "message" : "Marbhfháisc ort! D'fhan tú rófhada leis an seachadadh seo. Tá mo chuid peataí clúmhacha go léir marbh leis an ocras!"
+   },
+   "FURNITURE" : {
+      "description" : "custom cargo",
+      "message" : "Troscán"
+   },
+   "GREENHOUSES" : {
+      "description" : "custom cargo",
+      "message" : "Tithe gloine"
+   },
+   "GUNS_GUNS_GUNS" : {
+      "description" : "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
+      "message" : "Gunnaí, gunnaí, gunnaí."
+   },
+   "HAZARDOUS_SUBSTANCES" : {
+      "description" : "custom cargo",
+      "message" : "Substaintí guaiseacha"
+   },
+   "HOWMUCH_1" : {
+      "description" : "regarding mass, always more than 1t",
+      "message" : "{amount} tonna méadrach."
+   },
+   "HOWMUCH_2" : {
+      "description" : "regarding mass, always more than 1t",
+      "message" : "{amount}t"
+   },
+   "HOWMUCH_3" : {
+      "description" : "regarding mass, always more than 1t",
+      "message" : "Is é {amount}t an mhais."
+   },
+   "HOWMUCH_4" : {
+      "description" : "regarding mass, always more than 1t",
+      "message" : "Tá {amount}t ann."
+   },
+   "HOWMUCH_SINGULAR_1" : {
+      "description" : "This string is only used for 1 metric tons (singular)",
+      "message" : "Níl ann ach {amount}t."
+   },
+   "HOWMUCH_WHOLESALER_1" : {
+      "description" : "",
+      "message" : "Tá {amount}t {cargoname} ann."
+   },
+   "HOWMUCH_WHOLESALER_2" : {
+      "description" : "",
+      "message" : "{amount}t {cargoname}"
+   },
+   "HOW_MUCH_MASS" : {
+      "description" : "",
+      "message" : "Cad é an mhais?"
+   },
+   "HOW_SOON_MUST_IT_BE_DELIVERED" : {
+      "description" : "",
+      "message" : "Cé chomh luath agus is gá dom é a sheachadadh?"
+   },
+   "INTROTEXT_1" : {
+      "description" : "",
+      "message" : "Dia dhuit, is mise {name}. D'íocfainn {cash} as {cargoname} a sheachadadh chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl."
+   },
+   "INTROTEXT_2" : {
+      "description" : "{name} is the full name of a person",
+      "message" : "Dia dhuit! Ba mhaith le Córas Iompair {name} {cargoname} a sheachadadh chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl. Íocfaimid {cash} as seachadadh slán sábháilte."
+   },
+   "INTROTEXT_3" : {
+      "description" : "",
+      "message" : "Bail ó Dhia ort. Is mise {name}, bunaitheoir {name} Teo. Tá mé ag lorg duine iontaofa chun {cargoname} a sheachadadh chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}). Íocfaidh mé {cash} as an eitilt {dist} solasbhliain ar fad."
+   },
+   "INTROTEXT_EXPENSIVE_1" : {
+      "description" : "",
+      "message" : "Go mbeannaí Dia duit. Táimid ag lorg píolóta a bhfuil seantaithí aige chun lasta a sheachadadh chuig {starport} i réaltchóras ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl. D'fhéadfadh sé a bheith contúirteach. Íocfaimid {cash} as."
+   },
+   "INTROTEXT_FLUFFY_1" : {
+      "description" : "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
+      "message" : "Haló, is mise {name}. Tá lasta clúmhach {cargoname} agam le seachadadh chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl. Íocfaidh mé {cash} as an seachadadh seo."
+   },
+   "INTROTEXT_INFRASTRUCTURE_1" : {
+      "description" : "",
+      "message" : "Dia dhuit! Is mise {name}. Ba mhaith le rialtas {system} {cargoname} a sheachadadh chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl. Íocfaimid {cash} as."
+   },
+   "INTROTEXT_LOCAL_1" : {
+      "description" : "",
+      "message" : "Deas bualadh leat. Is mise {name}, fostaí de chuid riarachán {starport}. D'íocfaimis {cash} le duine éigin a bheadh ábalta {cargoname} a sheachadadh chuig {starport}."
+   },
+   "INTROTEXT_LOCAL_2" : {
+      "description" : "",
+      "message" : "Hóra a chara. Is mise {name} agus íocfaidh mé {cash} as lasta {cargoname} a sheachadadh chuig {starport}, achar an-ghearr ar fad."
+   },
+   "INTROTEXT_LOCAL_3" : {
+      "description" : "",
+      "message" : "Is mise {name} agus caithfidh mé {cargoname} a sheoladh chuig cliant ag {starport}. Íocfaidh mé {cash} as an seachadadh seo."
+   },
+   "INTROTEXT_MINING_1" : {
+      "description" : "{name} is the full name of a person",
+      "message" : "Dia dhuit! Ba mhaith leis an gcomhlacht mianadóireachta {name} {cargoname} a sheachadadh chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl, chun mianach nua a thógáil. Íocfaimid {cash} as."
+   },
+   "INTROTEXT_PICKUP_1" : {
+      "description" : "",
+      "message" : "Cén chaoi a bhfuil tú? Is mise {name}, agus tá mé ag lorg spásloinge a bheadh in ann eitilt chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}) le lasta {cargoname} a bhailiú, ansin filleadh ar {dom_starport} i réaltchóras {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) ar tháille {cash}. Tá {system} {dist} solasbhliain ar shiúl."
+   },
+   "INTROTEXT_PICKUP_2" : {
+      "description" : "",
+      "message" : "Cad é mar atá tú? Is mise {name}. Tá cliant de mo chuid ag iarraidh {cargoname} a iompórtáil ó {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl. D'íocfadh sé {cash} as an seachadadh seo. Fill ar {dom_starport} i réaltchóras {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) leis an lasta a dhíluchtú."
+   },
+   "INTROTEXT_PICKUP_LOCAL_1" : {
+      "description" : "",
+      "message" : "Dia dhuit, is mise {name}. Íocfaidh mé {cash} le duine éigin as lasta {cargoname} a thabhairt ó {starport} go {dom_starport}."
+   },
+   "INTROTEXT_PICKUP_LOCAL_2" : {
+      "description" : "",
+      "message" : "Dia dhuit. Is mise {name}. Bheadh m'fhostóir sásta {cash} a thabhairt duit chun cabhrú linn ár trádstóras a athlonnú. Caithfimid {cargoname} a iompar ó {starport} go dtí an t-ionad nua {dom_starport}."
+   },
+   "INTROTEXT_WEDDING_1" : {
+      "description" : "",
+      "message" : "Dia dhuit. Ar chuala tú riamh faoi shéasúr na mbainiseacha ag {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz})? Ba mhaith linn {cargoname} a sheoladh chuige, {dist} solasbhliain ar shiúl. Íocfar {cash} as. Céard a déarfá?"
+   },
+   "INTROTEXT_WHOLESALER_1" : {
+      "description" : "",
+      "message" : "Dia dhuit, is mise {name} agus is mórdhíoltóir mé i réaltchóras {system}. D'íocfainn {cash} as seachadadh chuig {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl."
+   },
+   "INTROTEXT_WHOLESALER_2" : {
+      "description" : "",
+      "message" : "Dia dhuit! Is mise {name} agus is fostaí de chuid Breosla Uí Scanaill, Teo. D'íocfaimis {cash} as turas go dtí {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl."
+   },
+   "I_AM_ON_MY_WAY" : {
+      "description" : "",
+      "message" : "Taispeánann na braiteoirí go bhfuil damáiste á dhéanamh duit. Tá mo ar mo bhealach."
+   },
+   "I_HAVE_DEBITED_YOUR_ACCOUNT" : {
+      "description" : "",
+      "message" : "Thóg mé an t-airgead a bhí agam ort as do chuntas agat mar gheall ar na hearraí atá ar iarraidh."
+   },
+   "I_NEED_HELP" : {
+      "description" : "",
+      "message" : "Tá damáiste á dhéanamh dom. Tá cabhair uaim."
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "sbh"
+   },
+   "MACHINE_TOOLS" : {
+      "description" : "custom cargo",
+      "message" : "Meaisín-uirlisí"
+   },
+   "NEPTUNIUM" : {
+      "description" : "custom cargo",
+      "message" : "Neiptiúiniam"
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Ceart go leor, aontaím."
+   },
+   "PICKUP_FROM" : {
+      "description" : "from a location",
+      "message" : "An lasta a bhailiú ó:"
+   },
+   "PIRATE_GRIPES_1" : {
+      "description" : "",
+      "message" : "A dhiabhail! Beidh daor ort!"
+   },
+   "PIRATE_GRIPES_2" : {
+      "description" : "",
+      "message" : "Och ochón! Mo long bhocht!"
+   },
+   "PIRATE_GRIPES_3" : {
+      "description" : "said with vengeance",
+      "message" : "Fan nóiméad, taispeánfaidh mé duit."
+   },
+   "PIRATE_TAUNTS_1" : {
+      "description" : "",
+      "message" : "Seo é an seachadadh deireanach a bheidh agat!"
+   },
+   "PIRATE_TAUNTS_2" : {
+      "description" : "",
+      "message" : "Tá tú ag obair do {client}? Tá do phort seinnte!"
+   },
+   "PIRATE_TAUNTS_3" : {
+      "description" : "",
+      "message" : "Hé a mhic, tabhair uait na hearraí. Anois!"
+   },
+   "PIRATE_TAUNTS_4" : {
+      "description" : "",
+      "message" : "Ní shroichfidh tú do cheann scríbe riamh, a mhic."
+   },
+   "PIRATE_TAUNTS_5" : {
+      "description" : "",
+      "message" : "Á, boc mór eile ar a bhealach go {location}."
+   },
+   "PIRATE_TAUNTS_6" : {
+      "description" : "",
+      "message" : "Dealraíonn sé go bhfuil an iomarca le hiompar agat.  Lig dom cabhrú leat."
+   },
+   "PIRATE_TAUNTS_7" : {
+      "description" : "",
+      "message" : "Thréig an t-ádh thú!"
+   },
+   "PLUTONIUM" : {
+      "description" : "custom cargo",
+      "message" : "Plútóiniam"
+   },
+   "QUIBBLES" : {
+      "description" : "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
+      "message" : "Cuibil"
+   },
+   "RISK_1" : {
+      "description" : "",
+      "message" : "Tá súil agam nach mbeidh aon trioblóid ann."
+   },
+   "RISK_2" : {
+      "description" : "",
+      "message" : "Ní bheidh ach mar is gnáth."
+   },
+   "RISK_3" : {
+      "description" : "",
+      "message" : "Lasta luachmhar é seo; ba chóir duit a bheith ar d'fhaichill"
+   },
+   "RISK_4" : {
+      "description" : "",
+      "message" : "D'fhéadfadh sé a bheith contúirteach. Ba chóir duit deimhniú go bhfuil tú ullamh."
+   },
+   "RISK_5" : {
+      "description" : "",
+      "message" : "Seans go mbeidh sé contúirteach, agus go mbeidh troid romhat."
+   },
+   "RISK_6" : {
+      "description" : "",
+      "message" : "Ní féidir a bheith cinnte go sroichfidh tú do cheann scríbe slán sábháilte."
+   },
+   "RISK_ART_1" : {
+      "description" : "",
+      "message" : "Tá ráchairt mhór ar na hearraí i measc bailitheoirí ealaíne."
+   },
+   "RISK_EXPENSIVE_1" : {
+      "description" : "",
+      "message" : "Rinneamar ár seacht ndícheall an seachadadh a choinneáil faoi rún. Ach ní féidir linn a bheith cinnte riamh."
+   },
+   "RISK_EXPENSIVE_2" : {
+      "description" : "",
+      "message" : "Dúirt na gardaí linn go bhfuil dream anaithnid foghlaithe ag imeacht thart sa réaltchóras seo."
+   },
+   "RISK_GEMS_1" : {
+      "description" : "",
+      "message" : "Seans go bhfuil trádálaí seod neamhscrupallach ag iarraidh an lasta seo a ghoid."
+   },
+   "RISK_WHOLESALER_1" : {
+      "description" : "",
+      "message" : "Ná buair do cheann. Tá patról gardaí réidh i gcás trioblóide."
+   },
+   "RISK_WHOLESALER_2" : {
+      "description" : "",
+      "message" : "Seans go bhfuil contúirt ann. Ach gheall na gardaí dúinn go rachaidís ar patról sa cheantar."
+   },
+   "RISK_WHOLESALER_3" : {
+      "description" : "",
+      "message" : "Tá an baol ard go maith. Ach déanfaidh gardaí coimhdeacht ort."
+   },
+   "SEMI_FINISHED_PRODUCTS" : {
+      "description" : "custom cargo",
+      "message" : "Earraí leathchríochnaithe"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Socraigh mar sprioc loingseoireachta"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Socraigh an turas fillte"
+   },
+   "SPACEPORT" : {
+      "description" : "",
+      "message" : "Spásphort:"
+   },
+   "SPACESHIP_PARTS" : {
+      "description" : "custom cargo",
+      "message" : "Páirteanna spásloinge"
+   },
+   "SUCCESSMSG_1" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as an seachadadh. Íocadh an t-airgead leat."
+   },
+   "SUCCESSMSG_2" : {
+      "description" : "",
+      "message" : "Go raibh maith agat as an lasta a sheachadadh in am. Aistríodh an t-airgead."
+   },
+   "SUCCESSMSG_3" : {
+      "description" : "",
+      "message" : "Ar fheabhas. B'aoibhinn a bheith ag obair leat. D'íoc mé an bille."
+   },
+   "SUCCESSMSG_4" : {
+      "description" : "",
+      "message" : "Go raibh maith agat! Molfaidh mé thú gan dabht. Aistríodh an t-airgead."
+   },
+   "SUCCESSMSG_FLUFFY_1" : {
+      "description" : "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
+      "message" : "A thiarcais, cad ba chóir dom a dhéanamh leis na créatúir chlúmhacha seo? Pé scéal é, seoladh an t-airgead chugat."
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "Réaltchóras:"
+   },
+   "TARGET_DESTROYED" : {
+      "description" : "",
+      "message" : "Scriosadh an sprioc."
+   },
+   "TITANIUM" : {
+      "description" : "custom cargo",
+      "message" : "Tíotáiniam"
+   },
+   "TUNGSTEN" : {
+      "description" : "custom cargo",
+      "message" : "Tungstan"
+   },
+   "URANIUM" : {
+      "description" : "custom cargo",
+      "message" : "Úráiniam"
+   },
+   "URGENCY_1" : {
+      "description" : "",
+      "message" : "Níl aon deifir ann. Caithfear é a sheachadadh roimh {date}."
+   },
+   "URGENCY_2" : {
+      "description" : "",
+      "message" : "Caithfear é a sheachadadh roimh {date}."
+   },
+   "URGENCY_3" : {
+      "description" : "",
+      "message" : "Mar gheall ar an sceideal docht, caithfear é a sheachadadh roimh {date}."
+   },
+   "URGENCY_4" : {
+      "description" : "",
+      "message" : "Tá deifir orainn, agus dá bharr sin caithfear é a sheachadadh roimh {date}."
+   },
+   "URGENCY_5" : {
+      "description" : "",
+      "message" : "Caithfear na hearraí a sheachadadh roimh {date}."
+   },
+   "URGENCY_FLUFFY_1" : {
+      "description" : "",
+      "message" : "Mar gheall ar ráta síolraithe na n-ainmhithe beaga agus an méid bia sa gcoimeádán, caithfear iad a sheachadadh roimh {date}."
+   },
+   "URGENCY_RADIOACTIVE_1" : {
+      "description" : "",
+      "message" : "Mar gheall ar leathré an iseatóip seo, caithfear é a sheachadadh roimh {date}."
+   },
+   "WEDDING_DRESSES" : {
+      "description" : "custom cargo",
+      "message" : "Gúnaí pósta"
+   },
+   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP" : {
+      "description" : "",
+      "message" : "Táimid tar éis an lasta a luchtú ar do long."
+   },
+   "WHAT_IS_THIS" : {
+      "description" : "",
+      "message" : "Cad é seo? Chaith tú mo lasta thar bord? An bhfuil tú as do mheabhair?"
+   },
+   "WHYSOMUCH_1" : {
+      "description" : "",
+      "message" : "Seo é an gnáth-tháille."
+   },
+   "WHYSOMUCH_2" : {
+      "description" : "",
+      "message" : "Glac leis nó ná glac is cuma liom."
+   },
+   "WHYSOMUCH_3" : {
+      "description" : "",
+      "message" : "Braitheann sé ar cad is brí le \"costasach\"."
+   },
+   "WHYSOMUCH_4" : {
+      "description" : "",
+      "message" : "Léiríonn an táille ár mian go mbeidh na hearraí seachadta in am agus slán sábháilte."
+   },
+   "WHYSOMUCH_5" : {
+      "description" : "",
+      "message" : "Féach air mar dhuais i gcomaoin do discréide sa chúram seo."
+   },
+   "WHYSOMUCH_6" : {
+      "description" : "",
+      "message" : "Bhuel, bheimis lánsásta níos lú airgid a thabhairt duit."
+   },
+   "WHYSOMUCH_CENTRIFUGES_1" : {
+      "description" : "",
+      "message" : "Scriosadh cuid den {cargoname} mar gheall ar fhabht bogearra agus caithfear cinn nua a chur ina n-áit."
+   },
+   "WHYSOMUCH_CHEMICAL_1" : {
+      "description" : "",
+      "message" : "Tá táirgeadh sa monarcha cheimiceach ag brath ar na hearraí seo agus tá sé ríthábhachtach gan cur isteach air. Ná stop an meaisín!"
+   },
+   "WHYSOMUCH_EXPENSIVE_1" : {
+      "description" : "",
+      "message" : "Tá an-éileamh ar earraí luachmhara."
+   },
+   "WHYSOMUCH_EXPENSIVE_2" : {
+      "description" : "",
+      "message" : "Toisc go bhfuil na hearraí seo sách costasach."
+   },
+   "WHYSOMUCH_FLUFFY_1" : {
+      "description" : "",
+      "message" : "Tá {cargoname} á dhíol go tiubh an séasúr seo. Ba chóir duit scaireanna {cargoname} a cheannach más mian leat pingin mhaith a thuilleamh."
+   },
+   "WHYSOMUCH_INFRASTRUCTURE_1" : {
+      "description" : "",
+      "message" : "Tá na hearraí seo ríthábhachtach do thionscadal tógála."
+   },
+   "WHYSOMUCH_MINING_1" : {
+      "description" : "",
+      "message" : "Tá na hearraí seo riachtanach do thógáil mianaigh nua."
+   },
+   "WHYSOMUCH_URGENT_1" : {
+      "description" : "",
+      "message" : "Tá an píolóta is ansa liom tinn, agus níl mórán ama agam."
+   },
+   "WHYSOMUCH_URGENT_2" : {
+      "description" : "",
+      "message" : "Mura mbainimid an sprioclá seachadta amach, ní bheimid in ann leanúint ar aghaidh leis an togra."
+   },
+   "WHYSOMUCH_URGENT_3" : {
+      "description" : "",
+      "message" : "Tá géarghá leis na hearraí seo."
+   },
+   "WHYSOMUCH_WEDDING_1" : {
+      "description" : "",
+      "message" : "Ní féidir liom aon duine a aimsiú a bheadh ábalta an seachadadh seo a dhéanamh. Beidh aon luach le mo chuid earraí ag deireadh an tséasúir."
+   },
+   "WHY_SO_MUCH_MONEY" : {
+      "description" : "",
+      "message" : "Cén fáth a bhfuil sé chomh costasach?"
+   },
+   "WILL_I_BE_IN_ANY_DANGER" : {
+      "description" : "",
+      "message" : "An mbeidh mé i mbaol?"
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP" : {
+      "description" : "",
+      "message" : "Níl go leor spáis do lasta ar do long."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE" : {
+      "description" : "",
+      "message" : "Tar ar ais nuair a bheidh go leor spáis agat sa mbolg lasta."
+   }
+}

@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Lua.h"
@@ -190,6 +190,36 @@
  *   experimental
  */
 
+/*
+ * Attribute: shipClass
+ *
+ * Class of the ship (e.g. "medium_courier").
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+/*
+ * Attribute: manufacturer
+ *
+ * Manufacturer of the ship (e.g. "kaluri").
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+/*
+ * Attribute: modelName
+ *
+ * Name for the model of this ship. Important for looking up the actual ship model (Engine.GetModel(ShipDef.modelName)).
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
 void LuaShipDef::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -222,7 +252,7 @@ void LuaShipDef::Register()
 		pi_lua_settable(l, "thrusterFuelUse",   st.GetFuelUseRate());
 
 		lua_newtable(l);
-		for (int t = ShipType::THRUSTER_REVERSE; t < ShipType::THRUSTER_MAX; t++)
+		for (int t = Thruster::THRUSTER_REVERSE; t < Thruster::THRUSTER_MAX; t++)
 			pi_lua_settable(l, EnumStrings::GetString("ShipTypeThruster", t), st.linThrust[t]);
 		pi_lua_readonly_table_proxy(l, -1);
 		lua_setfield(l, -3, "linearThrust");
@@ -244,6 +274,14 @@ void LuaShipDef::Register()
 		lua_setmetatable(l, -2);
 		lua_pop(l, 1);
 		lua_setfield(l, -3, "equipSlotCapacity");
+		lua_pop(l, 1);
+
+		lua_newtable(l);
+		for (auto it = st.roles.cbegin(); it != st.roles.cend(); ++it) {
+			pi_lua_settable(l, it->first.c_str(), it->second);
+		}
+		pi_lua_readonly_table_proxy(l, -1);
+		lua_setfield(l, -3, "roles");
 		lua_pop(l, 1);
 
 		pi_lua_readonly_table_proxy(l, -1);

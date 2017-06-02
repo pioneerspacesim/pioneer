@@ -9,11 +9,11 @@
    },
    "FLAVOUR_1_MESSAGE" : {
       "description" : "",
-      "message" : "Peace be with you, brother. Please select an amount to donate to the Guardians of the Free Spirit."
+      "message" : "تصحبك السلامة، أخي. من فضلك حدد الكمية المُتبرع بها إلي \"المدافعون عن الروح الحرة\"."
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "",
-      "message" : "DONATE. The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+      "message" : "تبرع. \"المدافعون عن الروح الحرة\" بتواضع يقبلون تبرعك لدعم أديرتنا."
    },
    "FLAVOUR_2_MESSAGE" : {
       "description" : "",
@@ -25,7 +25,7 @@
    },
    "FLAVOUR_3_MESSAGE" : {
       "description" : "",
-      "message" : "Please select an amount to donate to the GreenWatch, and end the pollution of our galaxy."
+      "message" : "من فضلك حدد كمية لكي تتبرع بها إلي \"مراقبة الطبيعة\"، و أنهي التلوث من مجرتنا."
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "",
@@ -33,7 +33,7 @@
    },
    "FLAVOUR_4_MESSAGE" : {
       "description" : "",
-      "message" : "Please select an amount to donate."
+      "message" : "من فضلك حدد كمية ليتم التبرع بها."
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "",
@@ -49,14 +49,14 @@
    },
    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
       "description" : "",
-      "message" : "Thank you. All donations are welcome."
+      "message" : "شكراً لك. كل التبرعات مُرحب بها."
    },
    "WOW_THAT_WAS_VERY_GENEROUS" : {
       "description" : "",
-      "message" : "Wow! That was very generous."
+      "message" : "واو! هذا كان كريم جداً."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You do not have enough money."
+      "message" : "أنت لا تملك مالاً كافياً."
    }
 }

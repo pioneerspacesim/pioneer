@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright Â© 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef GRAPHICS_VERTEXBUFFER_H
@@ -85,6 +85,9 @@ public:
 	// copies the contents of the VertexArray into the buffer
 	virtual bool Populate(const VertexArray &) = 0;
 
+	// change the buffer data without mapping
+	virtual void BufferData(const size_t, void*) = 0;
+
 	virtual void Bind() = 0;
 	virtual void Release() = 0;
 
@@ -100,6 +103,9 @@ public:
 	IndexBuffer(Uint32 size, BufferUsage);
 	virtual ~IndexBuffer();
 	virtual Uint32 *Map(BufferMapMode) = 0;
+
+	// change the buffer data without mapping
+	virtual void BufferData(const size_t, void*) = 0;
 
 	Uint32 GetSize() const { return m_size; }
 	Uint32 GetIndexCount() const { return m_indexCount; }

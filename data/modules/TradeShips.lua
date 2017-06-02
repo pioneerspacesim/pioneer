@@ -1,4 +1,4 @@
--- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -98,7 +98,7 @@ local addShipEquip = function (ship)
 		-- This ship cannot safely land on a planet with an atmosphere.
 		trader.ATMOSHIELD = false
 	end
-	ship:AddEquip(e.misc.scanner)
+	ship:AddEquip(e.misc.radar)
 	ship:AddEquip(e.misc.autopilot)
 	ship:AddEquip(e.misc.cargo_life_support)
 
@@ -758,7 +758,7 @@ Event.Register("onShipAlertChanged", onShipAlertChanged)
 
 local onShipHit = function (ship, attacker)
 	if attacker == nil then return end-- XX
-	
+
 	-- XXX this whole thing might be better if based on amount of damage sustained
 	if trade_ships[ship] == nil then return end
 	local trader = trade_ships[ship]
@@ -786,7 +786,7 @@ local onShipHit = function (ship, attacker)
 	if trader.no_jump ~= true then
 		if #starports == 0 then
 			trader['no_jump'] = true -- it already tried in onEnterSystem
-		elseif Engine.rand:Number(1) < trader.chance then
+		elseif trader.starport and Engine.rand:Number(1) < trader.chance then
 			local distance = ship:DistanceTo(trader.starport)
 			if distance > 149598000 * (2 - trader.chance) then -- 149,598,000km = 1AU
 				if getSystemAndJump(ship) then

@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_BILLBOARD_H
@@ -18,7 +18,7 @@ namespace SceneGraph {
 
 class Billboard : public Node {
 public:
-	Billboard(SceneGraph::Model *model, Graphics::Renderer *r, float size);
+	Billboard(Graphics::VertexArray& bbVA, Graphics::Renderer *r, float size);
 	Billboard(const Billboard&, NodeCopyCache *cache = 0);
 	virtual Node *Clone(NodeCopyCache *cache = 0);
 	virtual void Accept(NodeVisitor &v);
@@ -27,7 +27,7 @@ public:
 	void SetColorUVoffset(const vector2f& c) { m_colorUVoffset = c; }
 
 private:
-	SceneGraph::Model *m_model;
+	Graphics::VertexArray& m_bbVA;
 	float m_size;
 	vector2f m_colorUVoffset;
 };

@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _OGL_UNIFORM_H
@@ -33,8 +33,9 @@ namespace Graphics {
 			void Set(const matrix3x3f&);
 			void Set(const matrix4x4f&);
 			void Set(Texture *t, unsigned int unit);
+			bool IsValid() const { return (m_location != -1); }
 
-		//private:
+		private:
 			GLint m_location;
 		};
 	}

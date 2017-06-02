@@ -1,15 +1,15 @@
 {
    "AU" : {
       "description" : "",
-      "message" : "AU"
+      "message" : "JA"
    },
    "BOARDED_PASSENGER" : {
       "description" : "",
-      "message" : "{name} has boarded the ship."
+      "message" : "{name} wsiadł na statek."
    },
    "COMMODITIES" : {
       "description" : "",
-      "message" : "Commodities"
+      "message" : "Surowce"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "CREW" : {
       "description" : "",
-      "message" : "Crew"
+      "message" : "Załoga"
    },
    "DEADLINE" : {
       "description" : "",
@@ -25,11 +25,11 @@
    },
    "DELIVERED_PASSENGER" : {
       "description" : "",
-      "message" : "{name} has left the ship."
+      "message" : "{name} opuścił okręt."
    },
    "DELIVERY" : {
       "description" : "",
-      "message" : "DELIVERY"
+      "message" : "DOSTAWA"
    },
    "DISTANCE" : {
       "description" : "",
@@ -37,19 +37,19 @@
    },
    "ENTITY_FAMILY_BUSINESS_1" : {
       "description" : "",
-      "message" : "{name} and Sons"
+      "message" : "{name} i Synowie"
    },
    "ENTITY_FAMILY_BUSINESS_10" : {
       "description" : "",
-      "message" : "{name} Taxi Services"
+      "message" : "{name} Serwis Taxi"
    },
    "ENTITY_FAMILY_BUSINESS_2" : {
       "description" : "",
-      "message" : "{name} and Daughters"
+      "message" : "{name} i Córki"
    },
    "ENTITY_FAMILY_BUSINESS_3" : {
       "description" : "",
-      "message" : "{name} Flowers of {locality}"
+      "message" : "{name} Kwiaty z {locality}"
    },
    "ENTITY_FAMILY_BUSINESS_4" : {
       "description" : "",
@@ -57,11 +57,11 @@
    },
    "ENTITY_FAMILY_BUSINESS_5" : {
       "description" : "",
-      "message" : "{name} Courier Services"
+      "message" : "Kurierzy z {name}"
    },
    "ENTITY_FAMILY_BUSINESS_6" : {
       "description" : "",
-      "message" : "{name} Space Pets"
+      "message" : "Kosmiczne Zwierzaki {name}"
    },
    "ENTITY_FAMILY_BUSINESS_7" : {
       "description" : "",
@@ -73,7 +73,7 @@
    },
    "ENTITY_FAMILY_BUSINESS_9" : {
       "description" : "",
-      "message" : "{name} Transports"
+      "message" : "{name} Transport"
    },
    "ENTITY_GENERAL_1" : {
       "description" : "",
@@ -113,11 +113,11 @@
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
-      "message" : "{locality} Burrial-Services Corp"
+      "message" : "Korporacja Pogrzebowa z {locality}"
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
-      "message" : "the {locality} Biological Society"
+      "message" : "Towarzystwo Biologów z {locality}"
    },
    "ENTITY_RESEARCH_10" : {
       "description" : "",
@@ -125,43 +125,43 @@
    },
    "ENTITY_RESEARCH_2" : {
       "description" : "",
-      "message" : "the {locality} Microbiological Society"
+      "message" : "Towarzystwo MIkrobiologów z {locality}"
    },
    "ENTITY_RESEARCH_3" : {
       "description" : "",
-      "message" : "the {locality} Chemical Society"
+      "message" : "Towarzystwo Chemików z {locality}"
    },
    "ENTITY_RESEARCH_4" : {
       "description" : "",
-      "message" : "the {locality} Astrobiological Society"
+      "message" : "Towarzystwo Astroiologów z {locality}"
    },
    "ENTITY_RESEARCH_5" : {
       "description" : "",
-      "message" : "the {locality} Geological Society"
+      "message" : "Towarzystwo Geologów z {locality}"
    },
    "ENTITY_RESEARCH_6" : {
       "description" : "",
-      "message" : "the {locality} Society for Astropaleontology"
+      "message" : "Towarzystwo Astropaleontologów z {locality}"
    },
    "ENTITY_RESEARCH_7" : {
       "description" : "",
-      "message" : "the {locality} Astrophysics Research Center"
+      "message" : "Centrum Badań Astrofizycznych z {locality}"
    },
    "ENTITY_RESEARCH_8" : {
       "description" : "",
-      "message" : "the {locality} Astrochemistry Research Center"
+      "message" : "Centrum Badań Astrochemicznych z {locality}"
    },
    "ENTITY_RESEARCH_9" : {
       "description" : "",
-      "message" : "the {locality} Center for Botany"
+      "message" : "Centrum Botaniki z {locality}"
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "You are not equipped to handle this mission. {unit} {equipment} required."
+      "message" : "Nie jesteś odpowiednio wyposażony. Wymagany {unit} {equipment}."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP CRASH LANDED on {planet}."
+      "message" : "Wrak wylądował na {planet}"
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
@@ -193,7 +193,7 @@
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL en route to {starport}."
+      "message" : "OKRĘT BEZ PALIWA na trasie do {starport}."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "To recieve full payment you are asked to deliver the fuel by {due}."
+      "message" : "To receive full payment you are asked to deliver the fuel by {due}."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -213,15 +213,15 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you so much! I have transfered the full reward."
+      "message" : "Thank you so much! I have transferred the full reward."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "{unit} ton paliwa przetransportowano."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is requesting 1 ton of hydrogen fuel."
+      "message" : "The pilot is requesting {unit} tons of {cargo}."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -249,7 +249,7 @@
    },
    "FLAVOUR_3_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has left the ship."
+      "message" : "{unit} opuścił okręt."
    },
    "FLAVOUR_3_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -257,11 +257,11 @@
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL on {planet}."
+      "message" : "OKRĘT BEZ PALIWA na {planet}"
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "I will send someone else. Don't bother anymore."
+      "message" : "Nie przejmuj się, wyślę kogoś innego."
    },
    "FLAVOUR_4_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -281,15 +281,15 @@
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "{unit} ton paliwa przetransportowano."
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is asking for 1 ton of hydrogen fuel."
+      "message" : "Pilot prosi o {unit} ton {cargo}."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL close to {starport}."
+      "message" : "STATEK BEZ PALIWA w pobliżu {starport}"
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
@@ -313,15 +313,15 @@
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "{unit} ton paliwa przetransportowano."
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We request the delivery of 1 ton of hydrogen fuel to the ship."
+      "message" : "We request the delivery of {unit} tons of {cargo} to the ship."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "VESSEL UNRESPONSIVE in the {system} system."
+      "message" : "OKRĘT NIE ODPOWIADA w systemie {system}"
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
@@ -357,7 +357,7 @@
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
-      "message" : "Thank you very much, but you are too late!"
+      "message" : "Dziękuję bardzo, ale jesteś za późno!"
    },
    "FLAVOUR_7_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -365,7 +365,7 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with one crew member left on board the ship after {problem}. I am willing to pay {cash} for immediate help."
+      "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
@@ -377,7 +377,7 @@
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has transfered to the target ship."
+      "message" : "{unit} has transferred to the target ship."
    },
    "FLAVOUR_7_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -385,35 +385,35 @@
    },
    "FULL_CARGO" : {
       "description" : "",
-      "message" : "Ship full. No more room for additional cargo."
+      "message" : "Statek pełny, brak miejsca na dodatkowy ładunek."
    },
    "FULL_CREW" : {
       "description" : "",
-      "message" : "Crew roster full. No more space for more crew."
+      "message" : "Obsada pełna. Brak miejsca dla kolejnych załogantów."
    },
    "FULL_PASSENGERS" : {
       "description" : "",
-      "message" : "All cabins full. No more space for more passengers."
+      "message" : "Wszystkie kabiny pełne. Brak miejsca dla kolejnych pasażerów."
    },
    "HOW_FAR" : {
       "description" : "",
-      "message" : "How far away is the target?"
+      "message" : "Jak daleko znajduje się cel?"
    },
    "HOW_MUCH_TIME" : {
       "description" : "",
-      "message" : "How much time do I have?"
+      "message" : "Ile mam czasu?"
    },
    "INTERACTION_ABORTED" : {
       "description" : "",
-      "message" : "Interaction aborted. Please come closer and try again."
+      "message" : "Proszę podejść bliżej i spróbować jeszcze raz."
    },
    "INTERACTION_DISTANCE_REACHED" : {
       "description" : "",
-      "message" : "Interaction distance reached."
+      "message" : "Osiągnięto odpowiednią odległość."
    },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
-      "message" : "It must be completed by "
+      "message" : "Musi być wykonane przed"
    },
    "KM" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "LAST_KNOWN_LOCATION" : {
       "description" : "",
-      "message" : "Last known location:"
+      "message" : "Ostatnia znana lokalizacja:"
    },
    "LAT" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "LON" : {
       "description" : "",
-      "message" : "Lon:"
+      "message" : "Dług.:"
    },
    "LY" : {
       "description" : "",
@@ -437,7 +437,7 @@
    },
    "MISSING_COMM" : {
       "description" : "",
-      "message" : "Cannot complete transfer. {cargotype} missing."
+      "message" : "Nie mogę ukończyć załadunku. Brakuje {cargotype}."
    },
    "MISSING_CREW" : {
       "description" : "",
@@ -445,7 +445,7 @@
    },
    "MISSING_PASS" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Passengers missing."
+      "message" : "Nie można ukończyć załadunku. Brakuje pasażerów."
    },
    "MISSING_PASSENGER" : {
       "description" : "",
@@ -465,15 +465,15 @@
    },
    "PASSENGERS" : {
       "description" : "",
-      "message" : "Passengers"
+      "message" : "Pasażerowie"
    },
    "PAYMENT_LOCATION" : {
       "description" : "",
-      "message" : "Payment location:"
+      "message" : "Miejsce zapłaty:"
    },
    "PICKUP" : {
       "description" : "",
-      "message" : "PICKUP"
+      "message" : "ODBIÓR"
    },
    "PLACE_OF_ASSISTANCE" : {
       "description" : "",
@@ -481,7 +481,7 @@
    },
    "PLEASE_LAND" : {
       "description" : "",
-      "message" : "Please land ship to allow transfer."
+      "message" : "Proszę wylądować aby dokonać załadunku."
    },
    "PROBLEM_CREW_1" : {
       "description" : "",
@@ -489,7 +489,7 @@
    },
    "PROBLEM_CREW_10" : {
       "description" : "",
-      "message" : "a mutiny"
+      "message" : "nota"
    },
    "PROBLEM_CREW_2" : {
       "description" : "",
@@ -525,7 +525,7 @@
    },
    "PROBLEM_GENERAL_1" : {
       "description" : "",
-      "message" : "a fire in the cargo hold"
+      "message" : "pożar w ładowni"
    },
    "PROBLEM_GENERAL_10" : {
       "description" : "",
@@ -533,11 +533,11 @@
    },
    "PROBLEM_GENERAL_2" : {
       "description" : "",
-      "message" : "a power failure in the engine core"
+      "message" : "awaria prądu w rdzeniu silnika"
    },
    "PROBLEM_GENERAL_3" : {
       "description" : "",
-      "message" : "an air leak"
+      "message" : "wyciek powietrza"
    },
    "PROBLEM_GENERAL_4" : {
       "description" : "",
@@ -545,15 +545,15 @@
    },
    "PROBLEM_GENERAL_5" : {
       "description" : "",
-      "message" : "a small meteor impact"
+      "message" : "zderzenie z małym meteorem"
    },
    "PROBLEM_GENERAL_6" : {
       "description" : "",
-      "message" : "a fight among crew members"
+      "message" : "bójka wśród załogi"
    },
    "PROBLEM_GENERAL_7" : {
       "description" : "",
-      "message" : "contact with an unidentified flight object"
+      "message" : "kontakt z niezidentyfikowanym obiektem latającyn"
    },
    "PROBLEM_GENERAL_8" : {
       "description" : "",
@@ -561,7 +561,7 @@
    },
    "PROBLEM_GENERAL_9" : {
       "description" : "",
-      "message" : "a reboot of the main computer"
+      "message" : "restart komputera głównego"
    },
    "PROBLEM_RESEARCH_1" : {
       "description" : "",
@@ -593,7 +593,7 @@
    },
    "PROBLEM_RESEARCH_7" : {
       "description" : "",
-      "message" : "a heated dispute between scientists on board the ship"
+      "message" : "gorąca dyskusja pomiędzy naukowcami na statku"
    },
    "PROBLEM_RESEARCH_8" : {
       "description" : "",
@@ -605,7 +605,7 @@
    },
    "RESULT_DELIVERY_COMM" : {
       "description" : "",
-      "message" : "Transferred {done} of {todo} tons of {cargotype} to target ship."
+      "message" : "Przetransportowano {done} {todo{ ton {cargotype} do okrętu docelowego."
    },
    "RESULT_DELIVERY_CREW" : {
       "description" : "",
@@ -617,7 +617,7 @@
    },
    "RESULT_PICKUP_COMM" : {
       "description" : "",
-      "message" : "Picked up {done} of {todo} tons of {cargotype} from target ship."
+      "message" : "Odebrano {done} {todo{ ton {cargotype} z okrętu docelowego."
    },
    "RESULT_PICKUP_CREW" : {
       "description" : "",
@@ -629,19 +629,27 @@
    },
    "RETURN_TO" : {
       "description" : "",
-      "message" : "Return To:"
+      "message" : "Powrót do:"
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward:"
+      "message" : "Nagroda:"
    },
    "SEARCH_RESCUE" : {
       "description" : "",
       "message" : "Search & Rescue"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Ustaw jako cel nawigacyjny."
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Ustaw drogę powrotną."
+   },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
-      "message" : "Target ship unresponsive."
+      "message" : "Okręt nie odpowiada."
    },
    "SYSTEM" : {
       "description" : "",
@@ -649,7 +657,7 @@
    },
    "TARGET_SHIP_ID" : {
       "description" : "",
-      "message" : "Target ship ID:"
+      "message" : "ID celu:"
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
@@ -657,34 +665,34 @@
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",
-      "message" : "tons of free cargo space"
+      "message" : "ton wolnego miejsca w ładowni."
    },
    "TRANSFER_ABORTED" : {
       "description" : "",
-      "message" : "Transfer has been aborted!"
+      "message" : "Załadunek został przerwany!"
    },
    "TRANSFER_COMPLETE" : {
       "description" : "",
-      "message" : "Transfer has been completed!"
+      "message" : "Załadunek zakończony!"
    },
    "TRANSFER_PARTIAL" : {
       "description" : "",
-      "message" : "Transfer has been partially completed. Please return to finish transfer."
+      "message" : "Załadunek częściowo wykonany, proszę powrócić aby go dokończyć."
    },
    "TRANSFER_TIME" : {
       "description" : "",
-      "message" : "Please allow {minutes} minutes for transfer."
+      "message" : "Proszę o {minutes} na załadunek."
    },
    "TYPE_OF_HELP" : {
       "description" : "",
-      "message" : "What type of help is needed?"
+      "message" : "Jakiej pomocy potrzeba?"
    },
    "UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "unoccupied passenger cabins"
+      "message" : "wolne kabiny"
    },
    "WHERE_IS_THE_TARGET" : {
       "description" : "",
-      "message" : "Where do I find the target?"
+      "message" : "Gdzie znajdę cel?"
    }
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Frame.h"
@@ -160,11 +160,17 @@ vector3d Frame::GetVelocityRelTo(const Frame *relTo) const
 
 vector3d Frame::GetPositionRelTo(const Frame *relTo) const
 {
-	// early-outs for simple cases (disabled as premature optimisation)
-//	if (this == relTo) return vector3d(0,0,0);
-//	if (relTo->GetParent() == this) 					// relative to child
-//		return -relTo->m_pos * relTo->m_orient;
-//	if (GetParent() == relTo) return m_pos;				// relative to parent
+	// early-outs for simple cases, required for accuracy in large systems
+	if (this == relTo) return vector3d(0, 0, 0);
+	if (GetParent() == relTo) return m_pos;				// relative to parent
+	if (relTo->GetParent() == this) { 					// relative to child
+		if (!relTo->IsRotFrame()) return -relTo->m_pos;
+		else return -relTo->m_pos * relTo->m_orient;
+	}
+	if (relTo->GetParent() == GetParent()) {			// common parent
+		if (!relTo->IsRotFrame()) return m_pos - relTo->m_pos;
+		else return (m_pos - relTo->m_pos) * relTo->m_orient;
+	}
 
 	vector3d diff = m_rootPos - relTo->m_rootPos;
 	if (relTo->IsRotFrame()) return diff * relTo->m_rootOrient;
@@ -173,11 +179,17 @@ vector3d Frame::GetPositionRelTo(const Frame *relTo) const
 
 vector3d Frame::GetInterpPositionRelTo(const Frame *relTo) const
 {
-	// early-outs for simple cases (disabled as premature optimisation)
-//	if (this == relTo) return vector3d(0,0,0);
-//	if (relTo->GetParent() == this) 							// relative to child
-//		return -relTo->m_interpPos * relTo->m_interpOrient;
-//	if (GetParent() == relTo) return m_interpPos;				// relative to parent
+	// early-outs for simple cases, required for accuracy in large systems
+	if (this == relTo) return vector3d(0,0,0);
+	if (GetParent() == relTo) return m_interpPos;				// relative to parent
+	if (relTo->GetParent() == this) { 							// relative to child
+		if (!relTo->IsRotFrame()) return -relTo->m_interpPos;
+		else return -relTo->m_interpPos * relTo->m_interpOrient;
+	}
+	if (relTo->GetParent() == GetParent()) {			// common parent
+		if (!relTo->IsRotFrame()) return m_interpPos - relTo->m_interpPos;
+		else return (m_interpPos - relTo->m_interpPos) * relTo->m_interpOrient;
+	}
 
 	vector3d diff = m_rootInterpPos - relTo->m_rootInterpPos;
 	if (relTo->IsRotFrame()) return diff * relTo->m_rootInterpOrient;
@@ -256,7 +268,7 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 	}
 	// temporary test thing
 	else m_pos = m_pos + m_vel * timestep;
-	
+
 	// update frame rotation
 	double ang = fmod(m_angSpeed * time, 2.0 * M_PI);
 	if (!is_zero_exact(ang)) {			// frequently used with e^-10 etc

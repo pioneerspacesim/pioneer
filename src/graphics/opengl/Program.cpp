@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Program.h"
@@ -50,9 +50,9 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 	if (!isShader) {
 		// perform general validation that the program is usable
 		glValidateProgram(obj);
- 
+
 		glGetProgramiv(obj, GL_VALIDATE_STATUS, &status);
-		
+
 		if (status == GL_FALSE) {
 			Error("Error vaildating shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
 				filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
@@ -75,7 +75,7 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 }
 
 struct Shader {
-	Shader(GLenum type, const std::string &filename, const std::string &defines) 
+	Shader(GLenum type, const std::string &filename, const std::string &defines)
 	{
 		RefCountedPtr<FileSystem::FileData> filecode = FileSystem::gameDataFiles.ReadFile(filename);
 
@@ -84,7 +84,7 @@ struct Shader {
 
 		std::string strCode(filecode->AsStringRange().ToString());
 		size_t found = strCode.find("#include");
-		while (found != std::string::npos) 
+		while (found != std::string::npos)
 		{
 			// find the name of the file to include
 			const size_t begFilename = strCode.find_first_of("\"", found + 8) + 1;
@@ -263,7 +263,11 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 	glBindAttribLocation(m_program, 1, "a_normal");
 	glBindAttribLocation(m_program, 2, "a_color");
 	glBindAttribLocation(m_program, 3, "a_uv0");
-	glBindAttribLocation(m_program, 4, "a_transform");
+	glBindAttribLocation(m_program, 4, "a_uv1");
+	glBindAttribLocation(m_program, 5, "a_tangent");
+	glBindAttribLocation(m_program, 6, "a_transform");
+	// a_transform @ 6 shadows (uses) 7, 8, and 9
+	// next available is layout (location = 10)
 
 	glBindFragDataLocation(m_program, 0, "frag_color");
 

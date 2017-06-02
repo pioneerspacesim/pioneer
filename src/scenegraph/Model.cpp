@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Model.h"
@@ -9,11 +9,10 @@
 #include "graphics/VertexArray.h"
 #include "StringF.h"
 #include "json/JsonUtils.h"
+#include "FindNodeVisitor.h"
+#include "Thruster.h"
 
 namespace SceneGraph {
-
-static RefCountedPtr<Graphics::Texture> texHalos4x4;
-static RefCountedPtr<Graphics::Material> matHalos4x4;
 
 class LabelUpdateVisitor : public NodeVisitor {
 public:
@@ -31,8 +30,6 @@ Model::Model(Graphics::Renderer *r, const std::string &name)
 , m_curPatternIndex(0)
 , m_curPattern(0)
 , m_debugFlags(0)
-, m_billboardTris(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL)
-, m_billboardRS(nullptr)
 {
 	m_root.Reset(new Group(m_renderer));
 	m_root->SetName(name);
@@ -49,8 +46,6 @@ Model::Model(const Model &model)
 , m_curPatternIndex(model.m_curPatternIndex)
 , m_curPattern(model.m_curPattern)
 , m_debugFlags(0)
-, m_billboardTris(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL)
-, m_billboardRS(nullptr)
 {
 	//selective copying of node structure
 	NodeCopyCache cache;
@@ -136,8 +131,6 @@ void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 		m_root->Render(trans, &params);
 		params.nodemask = NODE_TRANSPARENT;
 		m_root->Render(trans, &params);
-
-		DrawBillboards();
 	}
 
 	if (!m_debugFlags)
@@ -207,51 +200,6 @@ void Model::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 	}
 }
 
-void Model::DrawBillboards()
-{
-	if(!m_billboardRS) {
-		Graphics::MaterialDescriptor desc;
-		desc.effect = Graphics::EFFECT_BILLBOARD_ATLAS;
-		desc.textures = 1;
-		matHalos4x4.Reset(m_renderer->CreateMaterial(desc));
-		texHalos4x4.Reset(Graphics::TextureBuilder::Billboard("textures/halo_4x4.dds").GetOrCreateTexture(m_renderer, std::string("billboard")));
-		matHalos4x4->texture0 = texHalos4x4.Get();
-	
-		Graphics::RenderStateDesc rsd;
-		rsd.blendMode = Graphics::BLEND_ADDITIVE;
-		rsd.depthWrite = false;
-		m_billboardRS = m_renderer->CreateRenderState(rsd);
-	}
-
-	const bool bVBValid = m_billboardVB.Valid();
-	const bool bHasVerts = !m_billboardTris.IsEmpty();
-	const bool bVertCountEqual = bVBValid && (m_billboardVB->GetVertexCount() == m_billboardTris.GetNumVerts());
-	if( bHasVerts && (!bVBValid || !bVertCountEqual) )
-	{
-		//create buffer
-		// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
-		Graphics::VertexBufferDesc vbd;
-		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
-		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
-		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
-		vbd.numVertices = m_billboardTris.GetNumVerts();
-		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
-		m_billboardVB.Reset( m_renderer->CreateVertexBuffer(vbd) );
-	}
-	
-	if(m_billboardVB.Valid())
-	{
-		if(bHasVerts) {
-			m_billboardVB->Populate(m_billboardTris);
-			m_renderer->SetTransform(matrix4x4f::Identity());
-			m_renderer->DrawBuffer(m_billboardVB.Get(), m_billboardRS, matHalos4x4.Get(), Graphics::POINTS);
-			m_renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_BILLBOARD, 1);
-		}
-		m_billboardTris.Clear();
-	}
-}
-
 void Model::CreateAabbVB()
 {
 	PROFILE_SCOPED()
@@ -318,7 +266,7 @@ void Model::DrawAabb()
 	}
 
 	m_renderer->DrawBuffer( m_aabbVB.Get(), m_state, m_aabbMat.Get(), Graphics::LINE_SINGLE);
-	
+
 }
 
 // Draw collision mesh as a wireframe overlay
@@ -383,7 +331,7 @@ RefCountedPtr<Graphics::Material> Model::GetMaterialByName(const std::string &na
 {
 	for (auto it : m_materials)
 	{
-		if (it.first == name) 
+		if (it.first == name)
 			return it.second;
 	}
 	return RefCountedPtr<Graphics::Material>(); //return invalid
@@ -488,8 +436,8 @@ bool Model::SupportsDecals()
 
 bool Model::SupportsPatterns()
 {
-	for (MaterialContainer::const_iterator it = m_materials.begin();
-		it != m_materials.end();
+	for (MaterialContainer::const_iterator it = m_materials.begin(), itEnd = m_materials.end();
+		it != itEnd;
 		++it)
 	{
 		//Set pattern only on a material that supports it
@@ -524,6 +472,54 @@ void Model::SetThrust(const vector3f &lin, const vector3f &ang)
 	m_renderData.angthrust[0] = ang.x;
 	m_renderData.angthrust[1] = ang.y;
 	m_renderData.angthrust[2] = ang.z;
+}
+
+void Model::SetThrusterColor(const vector3f &dir, const Color &color)
+{
+	assert(m_root!=nullptr);
+
+	FindNodeVisitor thrusterFinder(FindNodeVisitor::MATCH_NAME_FULL, "thrusters");
+	m_root->Accept(thrusterFinder);
+	const std::vector<Node*> &results = thrusterFinder.GetResults();
+	Group* thrusters = static_cast<Group*>(results.at(0));
+
+	for (unsigned int i=0; i<thrusters->GetNumChildren(); i++) {
+		MatrixTransform *mt = static_cast<MatrixTransform*>(thrusters->GetChildAt(i));
+		Thruster* my_thruster = static_cast<Thruster*>(mt->GetChildAt(0));
+		if (my_thruster==nullptr) continue;
+		float dot = my_thruster->GetDirection().Dot(dir);
+		if (dot>0.99) my_thruster->SetColor(color);
+	}
+}
+
+void Model::SetThrusterColor(const std::string &name, const Color &color)
+{
+    assert(m_root!=nullptr);
+
+	FindNodeVisitor thrusterFinder(FindNodeVisitor::MATCH_NAME_FULL, name);
+	m_root->Accept(thrusterFinder);
+	const std::vector<Node*> &results = thrusterFinder.GetResults();
+
+	//Hope there's only 1 result...
+	Thruster* my_thruster = static_cast<Thruster*>(results.at(0));
+	if (my_thruster!=nullptr) my_thruster->SetColor(color);
+}
+
+void Model::SetThrusterColor(const Color &color)
+{
+    assert(m_root!=nullptr);
+
+	FindNodeVisitor thrusterFinder(FindNodeVisitor::MATCH_NAME_FULL, "thrusters");
+	m_root->Accept(thrusterFinder);
+	const std::vector<Node*> &results = thrusterFinder.GetResults();
+	Group* thrusters = static_cast<Group*>(results.at(0));
+
+	for (unsigned int i=0; i<thrusters->GetNumChildren(); i++) {
+		MatrixTransform *mt = static_cast<MatrixTransform*>(thrusters->GetChildAt(i));
+		Thruster* my_thruster = static_cast<Thruster*>(mt->GetChildAt(0));
+		assert(my_thruster!=nullptr);
+		my_thruster->SetColor(color);
+	}
 }
 
 class SaveVisitorJson : public NodeVisitor {

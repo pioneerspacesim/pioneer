@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Stats.h"
@@ -27,7 +27,7 @@ namespace Graphics {
 		memset(&m_frameStats[m_currentFrame], 0, sizeof(TFrameData));
 	}
 
-	const Stats::TFrameData& Stats::FrameStatsPrevious() const { 
-		return m_frameStats[Clamp(m_currentFrame-1, 0U, MAX_FRAMES_STORE-1)]; 
+	const Stats::TFrameData& Stats::FrameStatsPrevious() const {
+		return m_frameStats[Clamp(m_currentFrame-1, 0U, MAX_FRAMES_STORE-1)];
 	}
 }
