@@ -1,3 +1,7 @@
+June 2017
+   * Internal Changes
+     * Remove WindowSDL class (#4018)
+
 May 2017
    * New Features
      * In-space indicators have icons and let you select collapsed ones (#3995)
