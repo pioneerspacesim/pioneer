@@ -1,102 +1,102 @@
 {
    "ADVICE_10_BODYTEXT" : {
       "description" : "",
-      "message" : "Relocating to another faction might be a good idea when in trouble with local authorities."
+      "message" : "Yerel yönetimle başın beladayken başka bir gruba yerleşmek iyi bir fikir olabilir."
    },
    "ADVICE_10_HEADLINE" : {
       "description" : "",
-      "message" : "Know when to leave town"
+      "message" : "Terk etmen gereken zamanı bil"
    },
    "ADVICE_1_BODYTEXT" : {
       "description" : "",
-      "message" : "Take note of which local business to trust or not, upon completing a transaction outside the confines of the law."
+      "message" : "Yerel işletmelerin güvenilip güvenilmeyeceğine dikkat et, kanun dışı bir işlem gerçekleştirilebilir."
    },
    "ADVICE_1_HEADLINE" : {
       "description" : "",
-      "message" : "Tame the Black Market"
+      "message" : "Karaborsayı Ehlileştir"
    },
    "ADVICE_2_BODYTEXT" : {
       "description" : "",
-      "message" : "Many small distances are faster travelled than their sum."
+      "message" : "Pek çok küçük yol, toplamlarından daha hızlı alınır."
    },
    "ADVICE_2_HEADLINE" : {
       "description" : "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
-      "message" : "The Road Faster Taken"
+      "message" : "Hızlı Alınan Yol"
    },
    "ADVICE_3_BODYTEXT" : {
       "description" : "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
-      "message" : "Avoid jumping into uninhabited systems without the means to leave."
+      "message" : "Yerleşim bulundurmayan sistemlere giderken yanında fazladan yakıt bulundur."
    },
    "ADVICE_3_HEADLINE" : {
       "description" : "",
-      "message" : "Avoid getting stranded: plan your jump sequence ahead"
+      "message" : "Mahsur kalmaktan kaçın: sıçramalarını önceden planla"
    },
    "ADVICE_4_BODYTEXT" : {
       "description" : "",
-      "message" : "Choose your frame of reference. Especially when wanting to match speed and course of a moving target."
+      "message" : "Referans kareni seç. Özellikle hareketli bir hedefle hız ve yön eşitlemek istiyorsan."
    },
    "ADVICE_4_HEADLINE" : {
       "description" : "",
-      "message" : "It's all relative"
+      "message" : "Hepsi göreceli"
    },
    "ADVICE_5_BODYTEXT" : {
       "description" : "",
-      "message" : "Buy low and sell high."
+      "message" : "Ucuza al ve pahalıya sat."
    },
    "ADVICE_5_HEADLINE" : {
       "description" : "",
-      "message" : "Never lose money"
+      "message" : "Asla para kaybetme"
    },
    "ADVICE_6_BODYTEXT" : {
       "description" : "",
-      "message" : "Pay close attention to any news reported, as information can affect market prices."
+      "message" : "Haberlere dikkat et, bilgiler market fiyatlarını etkileyebilir."
    },
    "ADVICE_6_HEADLINE" : {
       "description" : "",
-      "message" : "Keep your ear to the ground"
+      "message" : "Kulaklarını yere daya"
    },
    "ADVICE_7_BODYTEXT" : {
       "description" : "",
-      "message" : "Donations can earn you a good standing in society, but not all charities will earn you a reputation."
+      "message" : "Yardımlarınız size toplumda saygınlık kazandırır, ama bütün hayır işleri itibar kazandırmaz."
    },
    "ADVICE_7_HEADLINE" : {
       "description" : "",
-      "message" : "Be generous"
+      "message" : "Cömert ol"
    },
    "ADVICE_8_BODYTEXT" : {
       "description" : "",
-      "message" : "When journeying to binary systems, make sure to target the right star."
+      "message" : "İkili sistemlere seyahat ederken, doğru yıldızı seçtiğinizden emin olun."
    },
    "ADVICE_8_HEADLINE" : {
       "description" : "",
-      "message" : "Stay out of double trouble"
+      "message" : "Çifte beladan uzak dur"
    },
    "ADVICE_9_BODYTEXT" : {
       "description" : "",
-      "message" : "Regularly maintain your engines, but remember: you get what you pay for."
+      "message" : "Motorlarının bakımını eksik etme, ama unutma: ödediğin kadar hizmet alırsın."
    },
    "ADVICE_9_HEADLINE" : {
       "description" : "",
-      "message" : "Treat your ship well"
+      "message" : "Gemine iyi bak"
    },
    "RUMOUR" : {
       "description" : "Headline starts with this pre-headline",
-      "message" : "RUMOUR"
+      "message" : "RİVAYET"
    },
    "TALE_1_BODYTEXT" : {
       "description" : "",
-      "message" : "Don't miss the beautiful eclipse on New Hope as Hades blocks out the light from Epsilon Eridani."
+      "message" : "Hades, Epsilon Eridani'nin ışığını kapatırken New Hope'taki güzel tutulmayı kaçırma."
    },
    "TALE_1_HEADLINE" : {
       "description" : "Blade runner?",
-      "message" : "\"I've seen things you people wouldn't believe\""
+      "message" : "\"Siz insanların inanmayacağı şeyler gördüm\""
    },
    "TRAVELLERS_ADVICE" : {
       "description" : "Headline starts with this pre-headline",
-      "message" : "TRAVELLER'S ADVICE"
+      "message" : "GEZGİN ÖNERİSİ"
    },
    "TRAVELLERS_TALE" : {
       "description" : "Headline starts with this pre-headline",
-      "message" : "TRAVELLER'S TALE"
+      "message" : "GEZGİN MASALI"
    }
 }

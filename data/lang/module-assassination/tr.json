@@ -193,11 +193,11 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Navigasyon hedefi olarak seç"
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "Dönüş yolunu seç"
    },
    "SHIP" : {
       "description" : "",

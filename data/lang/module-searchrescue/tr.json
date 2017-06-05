@@ -1,7 +1,7 @@
 {
    "AU" : {
       "description" : "",
-      "message" : "AU"
+      "message" : "AB"
    },
    "BOARDED_PASSENGER" : {
       "description" : "",
@@ -161,75 +161,75 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP CRASH LANDED on {planet}."
+      "message" : "GEMİ {planet} ÜZERİNE ACİL İNİŞ YAPTI"
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "I can't believe you are just returning now! How much time has been wasted!"
+      "message" : "Şu an döndüğüne inanamıyorum! Ne kadar zaman boşa gitti!"
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full reimbursement of expenses you have to be back by {due}."
+      "message" : "Giderlerinizin karşılanması için {due} tarihinden önce geri dönmelisiniz."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+      "message" : "{starport} hava trafik kontrolü {planet} üzerine acil iniş yapan {ship} türü bir gemiye ACİL yardım götürmene ihtiyaç duyuyor! Hayat destek ünitesinin durumu bilinmiyor. Bu gemi {starport} istasyonu güvencesinde ve acil yardım için {cash} teklif ediyor."
    },
    "FLAVOUR_1_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+      "message" : "Bu geminin son bilinen konumu {planet} gezegeninde şu enlem/boylam koordinatlarında: {lat} / {long}. Gemi ID'si {shiplabel}."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you, this is a great relief! We will transmit the money momentarily."
+      "message" : "Teşekkürler, bu içimizi rahatlattı! Parayı hemen teslim ediyoruz."
    },
    "FLAVOUR_1_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has boarded the ship."
+      "message" : "{unit} gemiye bindi."
    },
    "FLAVOUR_1_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+      "message" : "{crew} kadar mürettebatın ve {pass} kadar yolcunun gemide olduğu biliniyor. Gemiyi bulup sağ kalanları alacak ve buraya getirecek birine ihtiyacımız var."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL en route to {starport}."
+      "message" : "{starport} yolunda GEMİNİN YAKITI BİTTİ"
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "I can't believe you kept me waiting out here this long! Forget about your payment!"
+      "message" : "Beni bu kadar beklettiğine inanamıyorum! Ödemeni unut!"
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "To receive full payment you are asked to deliver the fuel by {due}."
+      "message" : "Tam ödemeyi alabilmek için yakıtı {due} tarihinden önce teslim etmen gerekiyor."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+      "message" : "{starport} hava trafik kontrolü, yaklaşmada olan {shiplabel} uçuşunun yakıtı bittiğini ve acil iniş yapmak zorunda kaldığını öğrendi. Pilot, yakıt almak için {cash} ödemeyi teklif ediyor."
    },
    "FLAVOUR_2_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+      "message" : "Gemi şu an {planet} üzerinde {lat} enlemi / {long} boylamında bekliyor."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you so much! I have transferred the full reward."
+      "message" : "Çok teşekkürler! Bütün ödülü hesabınıza aktardım."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transferred."
+      "message" : "{unit} tonluk yakıt aktarıldı."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is requesting {unit} tons of {cargo}."
+      "message" : "Pilot {unit} tonluk {cargo} istiyor."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "MEDICAL EMERGENCY on ship close to {starport}."
+      "message" : "{starport} yakınındaki gemide TIBBİ VAKA"
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable performance! We will update our records accordingly."
+      "message" : "Kabul edilemez performans! Kayıtlarımızı hemen düzenleyeceğiz."
    },
    "FLAVOUR_3_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transferred."
+      "message" : "{unit} tonluk yakıt aktarıldı."
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transferred."
+      "message" : "{unit} tonluk yakıt aktarıldı."
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -345,7 +345,7 @@
    },
    "FLAVOUR_6_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has boarded the ship."
+      "message" : "{unit} gemiye bindi."
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -637,15 +637,15 @@
    },
    "SEARCH_RESCUE" : {
       "description" : "",
-      "message" : "Search & Rescue"
+      "message" : "Arama & Kurtarma"
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Navigasyon hedefi olarak seç"
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "Dönüş yolunu seç"
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
@@ -661,7 +661,7 @@
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
-      "message" : "Thank you so much. Your help is greatly appreciated."
+      "message" : "Çok teşekkür ederim. Yardımınız büyük takdir gördü."
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",

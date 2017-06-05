@@ -285,7 +285,7 @@
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "How are you? I'm {name}. One of my clients wants to import {cargoname} from {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
+      "message" : "Nasılsın? Ben {name}. Bir müşterim {dist} ıy uzaklığındaki {system} ({sectorx}, {sectory}, {sectorz}) sisteminden {cargoname} ithal etmek istiyor. Bu kargo teslimatı için {cash} ödeyecek. Kargoyu bırakmak için buraya, yani {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) sistemine geri dön."
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
@@ -445,11 +445,11 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Navigasyon hedefi olarak seç"
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "Dönüş yolunu seç"
    },
    "SPACEPORT" : {
       "description" : "",
@@ -585,7 +585,7 @@
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "These goods are crucial for a construction project."
+      "message" : "Bu malzemeler bir yapı projesi için gerekli."
    },
    "WHYSOMUCH_MINING_1" : {
       "description" : "",

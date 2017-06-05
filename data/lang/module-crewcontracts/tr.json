@@ -41,7 +41,7 @@
    },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
-      "message" : "Sorry, no candidates are currently seeking employment at {station}"
+      "message" : "Üzgünün, {station} istasyonunda iş arayan yok."
    },
    "NO_EXPERIENCE" : {
       "description" : "",

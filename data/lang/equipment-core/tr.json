@@ -1,11 +1,11 @@
 {
    "ADVANCED_TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Advanced target scanner"
+      "message" : "Gelişmiş hedef tarayıcısı"
    },
    "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range target scanner with system wide coverage."
+      "message" : "Bütün sistemi kapsayan uzun menzilli tarayıcı."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -93,23 +93,23 @@
    },
    "DRIVE_MIL5" : {
       "description" : "",
-      "message" : "Class 5 Military drive"
+      "message" : "5. Sınıf Askeri Sürücü"
    },
    "DRIVE_MIL6" : {
       "description" : "",
-      "message" : "Class 6 Military drive"
+      "message" : "6. Sınıf Askeri Sürücü"
    },
    "DRIVE_MIL7" : {
       "description" : "",
-      "message" : "Class 7 Military drive"
+      "message" : "7. Sınıf Askeri Sürücü"
    },
    "DRIVE_MIL8" : {
       "description" : "",
-      "message" : "Class 8 Military drive"
+      "message" : "8. Sınıf Askeri Sürücü"
    },
    "DRIVE_MIL9" : {
       "description" : "",
-      "message" : "Class 9 Military drive"
+      "message" : "9. Sınıf Askeri Sürücü"
    },
    "ECM_ADVANCED" : {
       "description" : "",
@@ -197,19 +197,19 @@
    },
    "OUT_OF_SCANRANGE" : {
       "description" : "",
-      "message" : "Max scan range exceeded:"
+      "message" : "Maksimum tarama menzili aşıldı:"
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Passenger cabin"
+      "message" : "Yolcu kabini"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
-      "message" : "Body scan"
+      "message" : "Gökcismi taraması"
    },
    "PLANETSCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Scan nearest body for resources."
+      "message" : "En yakın cismi kaynaklar için tara"
    },
    "PULSECANNON_10MW" : {
       "description" : "",
@@ -249,11 +249,11 @@
    },
    "SCAN_COMPLETED" : {
       "description" : "",
-      "message" : "Scanning completed"
+      "message" : "Tarama tamamlandı"
    },
    "SCAN_RESUMED" : {
       "description" : "",
-      "message" : "Scanning resumed"
+      "message" : "Taramaya devam ediliyor"
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
@@ -277,11 +277,11 @@
    },
    "STARTING_SCAN" : {
       "description" : "",
-      "message" : "Starting scan, target distance is"
+      "message" : "Tarama başlatılıyor, hedef:"
    },
    "TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Target Scanner"
+      "message" : "Hedef Tarayıcısı"
    },
    "TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
@@ -289,31 +289,31 @@
    },
    "THRUSTERS_BASIC" : {
       "description" : "",
-      "message" : "Modified Thrusters"
+      "message" : "Modifiyeli İticiler"
    },
    "THRUSTERS_BASIC_DESCRIPTION" : {
       "description" : "",
-      "message" : "A modified type of thrusters approved for your ship."
+      "message" : "Geminizle uyumlu modifikasyonlar yapılmış iticiler."
    },
    "THRUSTERS_BEST" : {
       "description" : "",
-      "message" : "Bespoke Thrusters"
+      "message" : "Özel Yapım Sürücüler"
    },
    "THRUSTERS_BEST_DESCRIPTION" : {
       "description" : "",
-      "message" : "Custom made thrusters that provide the best possible output."
+      "message" : "En iyi itiş gücü için özel olarak yapılmış iticiler."
    },
    "THRUSTERS_MEDIUM" : {
       "description" : "",
-      "message" : "Optimised Thrusters"
+      "message" : "Optimize İticiler"
    },
    "THRUSTERS_MEDIUM_DESCRIPTION" : {
       "description" : "",
-      "message" : "Thrusters that have been optimised to reduce inefficiencies and improve power output."
+      "message" : "Verimsizliği azaltmak ve güç çıkışını arttırmak için optimize edilmiş iticiler."
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade Computer"
+      "message" : "Ticari Bilgisayar"
    },
    "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
