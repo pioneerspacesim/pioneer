@@ -37,31 +37,31 @@
    },
    "ENTITY_FAMILY_BUSINESS_1" : {
       "description" : "",
-      "message" : "{name} and Sons"
+      "message" : "{name} ve Oğulları"
    },
    "ENTITY_FAMILY_BUSINESS_10" : {
       "description" : "",
-      "message" : "{name} Taxi Services"
+      "message" : "{name} Taksi Hizmetleri"
    },
    "ENTITY_FAMILY_BUSINESS_2" : {
       "description" : "",
-      "message" : "{name} and Daughters"
+      "message" : "{name} ve Kızları"
    },
    "ENTITY_FAMILY_BUSINESS_3" : {
       "description" : "",
-      "message" : "{name} Flowers of {locality}"
+      "message" : "{name} {locality} Çiçekleri"
    },
    "ENTITY_FAMILY_BUSINESS_4" : {
       "description" : "",
-      "message" : "{name} Custom Painted Missiles"
+      "message" : "{name} Boyanmış Füzeler"
    },
    "ENTITY_FAMILY_BUSINESS_5" : {
       "description" : "",
-      "message" : "{name} Courier Services"
+      "message" : "{name} Kurye Servisleri"
    },
    "ENTITY_FAMILY_BUSINESS_6" : {
       "description" : "",
-      "message" : "{name} Space Pets"
+      "message" : "{name} Uzay Hayvanları"
    },
    "ENTITY_FAMILY_BUSINESS_7" : {
       "description" : "",
@@ -69,91 +69,91 @@
    },
    "ENTITY_FAMILY_BUSINESS_8" : {
       "description" : "",
-      "message" : "{name} Authentic {locality} Foods"
+      "message" : "{name} Otantik {locality} Yemekleri"
    },
    "ENTITY_FAMILY_BUSINESS_9" : {
       "description" : "",
-      "message" : "{name} Transports"
+      "message" : "{name} Nakliyat"
    },
    "ENTITY_GENERAL_1" : {
       "description" : "",
-      "message" : "the {locality} General Prospectors Inc"
+      "message" : "{locality} Maden Arama Inc"
    },
    "ENTITY_GENERAL_10" : {
       "description" : "",
-      "message" : "{locality} Infinity Energy One"
+      "message" : "{locality} Sonsuz Enerji"
    },
    "ENTITY_GENERAL_2" : {
       "description" : "",
-      "message" : "the {locality} Society for Ecological Preservation"
+      "message" : "{locality} Ekolojik Koruma Topluluğu"
    },
    "ENTITY_GENERAL_3" : {
       "description" : "",
-      "message" : "the Interest Rights Groups for {locality}"
+      "message" : "{locality} Insan Hakları Grupları"
    },
    "ENTITY_GENERAL_4" : {
       "description" : "",
-      "message" : "the {locality} Mining Rights Office"
+      "message" : "{locality} Madenci Hakları Ofisi"
    },
    "ENTITY_GENERAL_5" : {
       "description" : "",
-      "message" : "the Landowners Association of {locality}"
+      "message" : "{locality} Toprak Sahipleri Birliği"
    },
    "ENTITY_GENERAL_6" : {
       "description" : "",
-      "message" : "the Statistical Institute of {locality}"
+      "message" : "{locality} İstatistik Enstitüsü"
    },
    "ENTITY_GENERAL_7" : {
       "description" : "",
-      "message" : "the {locality} branch office of SpaceCruise Inc"
+      "message" : "KozmoSeyahat'in {locality} şubesi"
    },
    "ENTITY_GENERAL_8" : {
       "description" : "",
-      "message" : "{locality} iSatellite Ltd"
+      "message" : "{locality} iUydu Ltd"
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
-      "message" : "{locality} Burial-Services Corp"
+      "message" : "{locality} Gömme Hizmetleri Şir"
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
-      "message" : "the {locality} Biological Society"
+      "message" : "{locality} Biyoloji Topluluğu"
    },
    "ENTITY_RESEARCH_10" : {
       "description" : "",
-      "message" : "the {locality} Center of Zoological Research"
+      "message" : "{locality} Zoolojik Araştırma Merkezi"
    },
    "ENTITY_RESEARCH_2" : {
       "description" : "",
-      "message" : "the {locality} Microbiological Society"
+      "message" : "{locality} Mikrobiyoloji Topluluğu"
    },
    "ENTITY_RESEARCH_3" : {
       "description" : "",
-      "message" : "the {locality} Chemical Society"
+      "message" : "{locality} Kimya Topluluğu"
    },
    "ENTITY_RESEARCH_4" : {
       "description" : "",
-      "message" : "the {locality} Astrobiological Society"
+      "message" : "{locality} Astrobiyoloji Topluluğu"
    },
    "ENTITY_RESEARCH_5" : {
       "description" : "",
-      "message" : "the {locality} Geological Society"
+      "message" : "{locality} Jeoloji Topluluğu"
    },
    "ENTITY_RESEARCH_6" : {
       "description" : "",
-      "message" : "the {locality} Society for Astropaleontology"
+      "message" : "{locality} Astropaleontoloji Toluluğu"
    },
    "ENTITY_RESEARCH_7" : {
       "description" : "",
-      "message" : "the {locality} Astrophysics Research Center"
+      "message" : "{locality} Astrofizik Araştırma Merkezi"
    },
    "ENTITY_RESEARCH_8" : {
       "description" : "",
-      "message" : "the {locality} Astrochemistry Research Center"
+      "message" : "{locality} Astrokimya Araştırma Merkezi"
    },
    "ENTITY_RESEARCH_9" : {
       "description" : "",
-      "message" : "the {locality} Center for Botany"
+      "message" : "{locality} Botanik Merkezi"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -329,15 +329,15 @@
    },
    "FLAVOUR_6_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "You have to be back by {due}."
+      "message" : "{due} tarihine dek dönmüş olmalısın."
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+      "message" : "Ben {entity} şirketinden {name}. {problem} dolayısıyla {ship} {shiplabel} gemimizle iletişimimizi kaybettik. Acil yardım için {cash} teklif ediyoruz."
    },
    "FLAVOUR_6_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+      "message" : "Son bilinen konum {dist} ıy uzaklıktaki {system} [{sectorx},{sectory},{sectorz}] sisteminde {planet} gezegeni yakınlarındaydı."
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
@@ -349,39 +349,39 @@
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
+      "message" : "Hemen yola koyulup iş arkadaşlarımızı {starport} istasyonuna döndürecek birine ihtiyacım var, hala hayatta olmalılar. Gemide {crew} mürettebat ve {pass} yolcu vardı."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
-      "message" : "IMMEDIATE CREW TRANSPORT to the {system} system requested."
+      "message" : "{system} sistemine ACİL MÜRETTEBAT AKTARIMI isteniyor"
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
-      "message" : "Thank you very much, but you are too late!"
+      "message" : "Çok teşekkürler, ama çok geç kaldın!"
    },
    "FLAVOUR_7_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The replacement crew has to reach the ship by {due}."
+      "message" : "Yeni mürettebat {due} tarihinden önce gemiye ulaşmalı."
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
+      "message" : "Ben {entity} şirketinden {name}. Tek gemimiz, {ship} {shiplabel}, {problem} dolayısıyla {crew} mürettebatıyla birlikte mahsur kaldı. Acil yardım için {cash} teklif ediyorum."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+      "message" : "Gemiyi {dist} ıy uzaklıktaki {system} [{sectorx},{sectory},{sectorz}] sisteminde bulabilirsin. {planet} etrafında bir yörüngede tutuluyor."
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you! I have been authorized to transmit the full payment."
+      "message" : "Teşekkürler! Tam ödemeyi yapmak için izin aldım."
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has transferred to the target ship."
+      "message" : "{unit} hedef gemiye aktarıldı."
    },
    "FLAVOUR_7_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
+      "message" : "Gemiyi minimum mürettebat olmadan geri döndüremeyiz. Yıldız gemimize acilen {deliver_crew} kişilik yeni bir mürettebat gönderecek birini arıyorum."
    },
    "FULL_CARGO" : {
       "description" : "",
@@ -437,7 +437,7 @@
    },
    "MISSING_COMM" : {
       "description" : "",
-      "message" : "Cannot complete transfer. {cargotype} missing."
+      "message" : "Aktarım tamamlanamıyor. {cargotype} eksik."
    },
    "MISSING_CREW" : {
       "description" : "",
@@ -445,7 +445,7 @@
    },
    "MISSING_PASS" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Passengers missing."
+      "message" : "Yolcular eksik. Aktarma tamamlanamadı."
    },
    "MISSING_PASSENGER" : {
       "description" : "",
@@ -485,147 +485,147 @@
    },
    "PROBLEM_CREW_1" : {
       "description" : "",
-      "message" : "a deadly fight among the crew members"
+      "message" : "mürettebat içindeki ölümcül bir kavga"
    },
    "PROBLEM_CREW_10" : {
       "description" : "",
-      "message" : "a mutiny"
+      "message" : "bir isyan"
    },
    "PROBLEM_CREW_2" : {
       "description" : "",
-      "message" : "the crew had to chase a deadly {locality} snake found loose on the ship"
+      "message" : "mürettebat {locality} taraflarından gelen ölümcül bir yılanı kovalamak zorunda kaldı"
    },
    "PROBLEM_CREW_3" : {
       "description" : "",
-      "message" : "a {locality} spider killed all the others"
+      "message" : "{locality} örümceği diğer hepsini öldürdü"
    },
    "PROBLEM_CREW_4" : {
       "description" : "",
-      "message" : "what it seems like a {locality} scorpion got into the crew quarters at night"
+      "message" : "{locality} akrebinin biri gece mürettebat koğuşlarına girmiş gibi görünüyor"
    },
    "PROBLEM_CREW_5" : {
       "description" : "",
-      "message" : "a severe form of {locality} fever killed the others"
+      "message" : "{locality} gribinin tehlikeli bir türü diğerlerini öldürdü"
    },
    "PROBLEM_CREW_6" : {
       "description" : "",
-      "message" : "the other crew members did not return from a space walk"
+      "message" : "mürettebatın kalanı uzay yürüyüşünden geriye dönmedi"
    },
    "PROBLEM_CREW_7" : {
       "description" : "",
-      "message" : "a severe form of food poisoning on the ship"
+      "message" : "gemideki tehlikeli bir gıda zehirlenmesi"
    },
    "PROBLEM_CREW_8" : {
       "description" : "",
-      "message" : "a terrible accident that lead to the ejection of the others into space"
+      "message" : "diğer herkesin uzaya fırlamasına sebep olan kötü bir kaza"
    },
    "PROBLEM_CREW_9" : {
       "description" : "",
-      "message" : "a circumstance that I can't comment on publicly"
+      "message" : "alenen açıklayamayacağım bir durum"
    },
    "PROBLEM_GENERAL_1" : {
       "description" : "",
-      "message" : "a fire in the cargo hold"
+      "message" : "kargo bölümündeki bir yangın"
    },
    "PROBLEM_GENERAL_10" : {
       "description" : "",
-      "message" : "the receipt of a distress call from within {locality}"
+      "message" : "{locality} civarlarından alınan bir yardım çağrısı"
    },
    "PROBLEM_GENERAL_2" : {
       "description" : "",
-      "message" : "a power failure in the engine core"
+      "message" : "motor çekirdeğindeki bir güç kaybı"
    },
    "PROBLEM_GENERAL_3" : {
       "description" : "",
-      "message" : "an air leak"
+      "message" : "bir hava kaçağı"
    },
    "PROBLEM_GENERAL_4" : {
       "description" : "",
-      "message" : "a severe form of food poisoning involving all personnel on board the ship"
+      "message" : "gemideki bütün personeli etkileyen güçlü bir gıda zehirlenmesi"
    },
    "PROBLEM_GENERAL_5" : {
       "description" : "",
-      "message" : "a small meteor impact"
+      "message" : "küçük bir göktaşı çarpışması"
    },
    "PROBLEM_GENERAL_6" : {
       "description" : "",
-      "message" : "a fight among crew members"
+      "message" : "mürettebat içindeki bir kavga"
    },
    "PROBLEM_GENERAL_7" : {
       "description" : "",
-      "message" : "contact with an unidentified flight object"
+      "message" : "tanımlanamayan bir cisimle temas"
    },
    "PROBLEM_GENERAL_8" : {
       "description" : "",
-      "message" : "a dispute with a competitor's vessel"
+      "message" : "rakip gemiyle bir tartışma"
    },
    "PROBLEM_GENERAL_9" : {
       "description" : "",
-      "message" : "a reboot of the main computer"
+      "message" : "ana bilgisayarın yeniden başlatılması"
    },
    "PROBLEM_RESEARCH_1" : {
       "description" : "",
-      "message" : "an unexpected chemical reaction in one of the reaction chambers"
+      "message" : "tepkime bölmelerinden birinde beklenmedik bir kimyasal tepkime"
    },
    "PROBLEM_RESEARCH_10" : {
       "description" : "",
-      "message" : "a major discovery at {locality} that I am not at liberty to disclose at this time"
+      "message" : "{locality} civarlarında tespit edilen ancak henüz açıklayamayacağım büyük bir keşif"
    },
    "PROBLEM_RESEARCH_2" : {
       "description" : "",
-      "message" : "an infection of a crew member with a pathogen local to {locality}"
+      "message" : "{locality} civarlarına özgü bir patojenden etkilenen mürettebat"
    },
    "PROBLEM_RESEARCH_3" : {
       "description" : "",
-      "message" : "a leak of experimental pathogens into the main air supply"
+      "message" : "deneysel patojenlerin hava destek ünitesine saçılması"
    },
    "PROBLEM_RESEARCH_4" : {
       "description" : "",
-      "message" : "crew exposure to a specimen collected at {locality}"
+      "message" : "mürettebatın {locality} civarlarından toplanan numunelere maruz kalması"
    },
    "PROBLEM_RESEARCH_5" : {
       "description" : "",
-      "message" : "a chemical explosion in one of the on-board fume hoods"
+      "message" : "duman filtrelerinden birindeki kimyasal patlama"
    },
    "PROBLEM_RESEARCH_6" : {
       "description" : "",
-      "message" : "an experimental recreation of {locality} atmospheric gases"
+      "message" : "{locality} atmosferinin taklit edilmesi deneyi"
    },
    "PROBLEM_RESEARCH_7" : {
       "description" : "",
-      "message" : "a heated dispute between scientists on board the ship"
+      "message" : "gemideki bilim adamlarının arasındaki tehlikeli anlaşmazlık"
    },
    "PROBLEM_RESEARCH_8" : {
       "description" : "",
-      "message" : "the sudden disappearance of a lead investigator on board the ship"
+      "message" : "gemideki baş müfettişin aniden ortadan kaybolması"
    },
    "PROBLEM_RESEARCH_9" : {
       "description" : "",
-      "message" : "the accidental combination of incompatible specimens from {locality}"
+      "message" : "{locality} civarlarında toplanan uyumsuz numunelerin bir araya gelmesi"
    },
    "RESULT_DELIVERY_COMM" : {
       "description" : "",
-      "message" : "Transferred {done} of {todo} tons of {cargotype} to target ship."
+      "message" : "Hedef gemiye {todo} tonluk {cargotype}'ın {done} tonluk kısmı aktarıldı."
    },
    "RESULT_DELIVERY_CREW" : {
       "description" : "",
-      "message" : "Transferred {done} of {todo} crew members to target ship."
+      "message" : "Hedef gemiye {todo} mürettebatın {done} kadarı aktarıldı."
    },
    "RESULT_DELIVERY_PASS" : {
       "description" : "",
-      "message" : "Transferred {done} of {todo} passengers to target ship."
+      "message" : "Hedef gemiye {todo} yolcunun {done} kadarı aktarıldı."
    },
    "RESULT_PICKUP_COMM" : {
       "description" : "",
-      "message" : "Picked up {done} of {todo} tons of {cargotype} from target ship."
+      "message" : "Hedef gemiden {todo} tonluk {cargotype}'ın {done} tonu alındı."
    },
    "RESULT_PICKUP_CREW" : {
       "description" : "",
-      "message" : "Picked up {done} of {todo} crew members from target ship."
+      "message" : "Hedef gemiden {todo} mürettebatın {done} kadarı alındı."
    },
    "RESULT_PICKUP_PASS" : {
       "description" : "",
-      "message" : "Picked up {done} of {todo} passengers from target ship."
+      "message" : "Hedef gemiden {todo} yolcunun {done} kadarı alındı."
    },
    "RETURN_TO" : {
       "description" : "",

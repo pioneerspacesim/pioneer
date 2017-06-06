@@ -169,11 +169,11 @@
    },
    "CONFIRM_PURCHASE" : {
       "description" : "",
-      "message" : "Confirm purchase"
+      "message" : "Alımı onayla"
    },
    "CONFIRM_SALE" : {
       "description" : "",
-      "message" : "Confirm sale"
+      "message" : "Satışı onayla"
    },
    "CONSTABLE" : {
       "description" : "",
@@ -269,7 +269,7 @@
    },
    "DUMPING" : {
       "description" : "The illegal act of dumping waste",
-      "message" : "Dumping"
+      "message" : "Atmak"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -297,7 +297,7 @@
    },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
-      "message" : "Enable Autosave"
+      "message" : "Otomatik Kayıt"
    },
    "ENABLE_COCKPIT" : {
       "description" : "Game settings option: to use a cockpit 3D model",
@@ -505,19 +505,19 @@
    },
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
-      "message" : "Away from the current frame"
+      "message" : "Şu anki kareden uzağa"
    },
    "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current combat target.",
-      "message" : "Prograde relative to current combat target"
+      "message" : "Şu anki savaş hedefine göre prograd"
    },
    "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current combat target.",
-      "message" : "Retrograde relative to current combat target"
+      "message" : "Şu anki savaş hedefine göre retrograd"
    },
    "HUD_INDICATOR_FRAME_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current frame.",
-      "message" : "Prograde relative to current frame of reference"
+      "message" : "Şu anki referans karesine göre prograd"
    },
    "HUD_INDICATOR_FRAME_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current frame.",
@@ -533,7 +533,7 @@
    },
    "HUD_INDICATOR_NAV_TARGET_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current navigational target.",
-      "message" : "Retrograde relative to current navigational target"
+      "message" : "Şu anki referans karesine göre retrograd"
    },
    "HUD_RADAR_DISTANCE" : {
       "description" : "Tooltip: Current distance of the radar.",
@@ -593,7 +593,7 @@
    },
    "ILLEGAL_JUMP" : {
       "description" : "A finable crime",
-      "message" : "Reckless hyperjump registered"
+      "message" : "Ahlaksız üstuzay atlayışı kaydedildi."
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -613,7 +613,7 @@
    },
    "INSUFFICIENT_FUNDS" : {
       "description" : "",
-      "message" : "Insufficient funds."
+      "message" : "Yeteriz para."
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -733,11 +733,11 @@
    },
    "MARKET_BUYLINE" : {
       "description" : "",
-      "message" : "Buy {amount} units for {price}"
+      "message" : "{price} için {amount} birim al"
    },
    "MARKET_SELLINE" : {
       "description" : "",
-      "message" : "Sell {amount} units for {price}"
+      "message" : "{price} için {amount} birim sat"
    },
    "MASS" : {
       "description" : "",
@@ -873,7 +873,7 @@
    },
    "NONE_FOR_SALE_IN_THIS_STATION" : {
       "description" : "",
-      "message" : "None for sale in this station."
+      "message" : "Bu istasyonda satılmıyor."
    },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -945,7 +945,7 @@
    },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
-      "message" : "Outstanding fines"
+      "message" : "Cezalar"
    },
    "OWED" : {
       "description" : "Player owing money to crew members",
@@ -1013,7 +1013,7 @@
    },
    "PUMP_DOWN" : {
       "description" : "Drain the fuel tank",
-      "message" : "Pump down"
+      "message" : "Pompa aşağı"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -1025,7 +1025,7 @@
    },
    "QUIT_CONFIRMATION" : {
       "description" : "For the checkbox in settings window",
-      "message" : "Quit confirmation"
+      "message" : "Çıkış Doğrulaması"
    },
    "RANK" : {
       "description" : "",
@@ -1193,7 +1193,7 @@
    },
    "STAR_FIELD_DENSITY" : {
       "description" : "",
-      "message" : "Density of Star field"
+      "message" : "Yıldız Yoğunluğu"
    },
    "STATION_MANAGER" : {
       "description" : "",
@@ -1205,11 +1205,11 @@
    },
    "TECH_CERTIFIED" : {
       "description" : "Lobby screen shows the tech level (an integer number) of the station",
-      "message" : "This station holds a level {tech_level} technology certificate."
+      "message" : "Bu istasyon {tech_level} teknoloji sertifikasına sahip."
    },
    "TECH_CERTIFIED_MILITARY" : {
       "description" : "Lobby screen shows the tech level of the station",
-      "message" : "This installation holds a military technology clearance."
+      "message" : "Bu yerleşimde askeri teknoloji belgesi var."
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
@@ -1297,7 +1297,7 @@
    },
    "VSYNC" : {
       "description" : "For the checkbox in settings window",
-      "message" : "VSync"
+      "message" : "Dikey Senkronizasyon"
    },
    "WAGE" : {
       "description" : "Salary of crew shown in crew roster",
@@ -1321,7 +1321,7 @@
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
       "description" : "Message to be sent over comms by police when crime is committed by player",
-      "message" : "{crime} cannot be tolerated here!"
+      "message" : "{crime} tölere edilemez!"
    },
    "YES" : {
       "description" : "Positive answer to a question",
@@ -1341,7 +1341,7 @@
    },
    "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
       "description" : "",
-      "message" : "You have {units} units in your cargohold"
+      "message" : "Kargo bölmenizde {units} birim var"
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
@@ -1365,6 +1365,6 @@
    },
    "ZOOM" : {
       "description" : "Label for a zoom (magnification) control bar.",
-      "message" : "Zoom"
+      "message" : "Büyütme"
    }
 }

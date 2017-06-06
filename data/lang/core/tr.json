@@ -333,7 +333,7 @@
    },
    "DOCKED" : {
       "description" : "",
-      "message" : "Sabitlendi"
+      "message" : "Kenetlendi"
    },
    "DOCKING" : {
       "description" : "",
@@ -1213,7 +1213,7 @@
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
-      "message" : "Sabitlenme izni iste"
+      "message" : "Kenetlenme izni iste"
    },
    "RESET" : {
       "description" : "",
