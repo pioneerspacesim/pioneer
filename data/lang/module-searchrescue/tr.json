@@ -5,11 +5,11 @@
    },
    "BOARDED_PASSENGER" : {
       "description" : "",
-      "message" : "{name} has boarded the ship."
+      "message" : "{name} gemiye bindi."
    },
    "COMMODITIES" : {
       "description" : "",
-      "message" : "Commodities"
+      "message" : "Mallar"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "CREW" : {
       "description" : "",
-      "message" : "Crew"
+      "message" : "Mürettebat"
    },
    "DEADLINE" : {
       "description" : "",
@@ -25,11 +25,11 @@
    },
    "DELIVERED_PASSENGER" : {
       "description" : "",
-      "message" : "{name} has left the ship."
+      "message" : "{name} gemiden ayrıldı."
    },
    "DELIVERY" : {
       "description" : "",
-      "message" : "DELIVERY"
+      "message" : "TESLİMAT"
    },
    "DISTANCE" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "You are not equipped to handle this mission. {unit} {equipment} required."
+      "message" : "Bu görev için yeterince donanımınız yok. {unit} {equipment} gerekli."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
@@ -233,51 +233,51 @@
    },
    "FLAVOUR_3_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The substitute pilot will need to reach the ship by {due}."
+      "message" : "Yedek pilot gemiye {due} tarihine kadar ulaşmış olmalı."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+      "message" : "Ben {starport} hava trafik kontrolünden {name}. {starport} istikametinde ilerlerken mahsur kalan {shiplabel} uçuşuna medikal yardım gerekiyor."
    },
    "FLAVOUR_3_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship had to emergency land at the coordinates: {lat} / {long}. "
+      "message" : "Gemi şu koordinatlara acil iniş yapmak zorunda kaldı: {lat} / {long}."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you, commander! Your help has been duly noted."
+      "message" : "Teşekkürler, kaptan! Yardımınız unutulmayacak."
    },
    "FLAVOUR_3_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has left the ship."
+      "message" : "{unit} gemiden ayrıldı."
    },
    "FLAVOUR_3_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+      "message" : "Lütfen gemiyi {starport} istasyonuna geri döndürecek bir pilotu ulaştırın."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL on {planet}."
+      "message" : "{planet} üzerinde GEMİNİN YAKITI BİTTİ"
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "I will send someone else. Don't bother anymore."
+      "message" : "Başka birini göndereceğim. Artık zahmet etme."
    },
    "FLAVOUR_4_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full pay the pilot expects you to deliver the fuel by {due}."
+      "message" : "Pilot, tam ödeme için yakıtın {due} tarihinden önce teslim edilmesini istiyor."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+      "message" : "{shiplabel} gemisinin pilotu {starport} hava trafik kontrolü ile iletişim kurdu. Boş bir yakıt tankı ile mahsur kalan mürettebat, kendilerine yakıt yardımı yapacak kişiye {cash} teklif ediyor."
    },
    "FLAVOUR_4_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is stranded on {planet} at coordinates {lat} / {long}."
+      "message" : "Gemi {planet} gezegeninde {lat} / {long} koordinatlarında mahsur."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Very good. We will recommend you for future assignments."
+      "message" : "Çok güzel. Gelecek görevler için sizi önereceğiz."
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
@@ -285,31 +285,31 @@
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is asking for {unit} tons of {cargo}."
+      "message" : "Pilot {unit} tonluk {cargo} istiyor."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL close to {starport}."
+      "message" : "{starport} yakınında GEMİNİN YAKITI BİTTİ"
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "People are just not dependable anymore."
+      "message" : "Artık insanlara güven kalmadı."
    },
    "FLAVOUR_5_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Please complete refueling by {due}."
+      "message" : "Lütfen yakıt aktarımı {due} tarihine kadar yapılmış olsun."
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+      "message" : "{starport} hava trafik kontrolü {shiplabel} ID'li gemiyi yakıtı bitmiş bir şekilde sürüklenirken tespit etti. {starport} istasyonuna gelmeleri için gerekn yakıtı verecek kişiye {cash} ödeyeceğiz."
    },
    "FLAVOUR_5_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+      "message" : "Hedef gemi şu an buradan {dist} km uzaklıkta. Tam konumu kendiniz belirlemeniz gerekecek."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "We will make record of your timely completion of the task."
+      "message" : "Görevi vakitli bir şekilde tamamlamanızı unutmayacağız."
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
@@ -317,15 +317,15 @@
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We request the delivery of {unit} tons of {cargo} to the ship."
+      "message" : "Gemiye {unit} tonluk {cargo} teslim edilmesini istiyoruz."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "VESSEL UNRESPONSIVE in the {system} system."
+      "message" : "{system} sisteminde YANIT VERMEYEN ARAÇ"
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
-      "message" : "What a disaster! This is the death sentence to our poor colleagues!"
+      "message" : "Bu bir felaket! Bu zavallı iş arkadaşlarımıza resmen bir ölüm fermanı!"
    },
    "FLAVOUR_6_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -341,7 +341,7 @@
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you! You can't imagine how relieved we are."
+      "message" : "Teşekkür ederim! Nasıl rahatladığımızı hayal edemezsiniz."
    },
    "FLAVOUR_6_TRANSFERMSG" : {
       "description" : "",
@@ -385,35 +385,35 @@
    },
    "FULL_CARGO" : {
       "description" : "",
-      "message" : "Ship full. No more room for additional cargo."
+      "message" : "Gemi doldu. Daha fazla kargo için alan yok."
    },
    "FULL_CREW" : {
       "description" : "",
-      "message" : "Crew roster full. No more space for more crew."
+      "message" : "Mürettebat listesi dolu. Daha faza mürettebat için yer yok."
    },
    "FULL_PASSENGERS" : {
       "description" : "",
-      "message" : "All cabins full. No more space for more passengers."
+      "message" : "Tüm kabinler dolu. Daha fazla yolcu için yer yok."
    },
    "HOW_FAR" : {
       "description" : "",
-      "message" : "How far away is the target?"
+      "message" : "Hedef ne kadar uzakta?"
    },
    "HOW_MUCH_TIME" : {
       "description" : "",
-      "message" : "How much time do I have?"
+      "message" : "Ne kadar zamanım var?"
    },
    "INTERACTION_ABORTED" : {
       "description" : "",
-      "message" : "Interaction aborted. Please come closer and try again."
+      "message" : "Etkileşim iptal edildi. Lütfen daha yakına gelip tekrar deneyin."
    },
    "INTERACTION_DISTANCE_REACHED" : {
       "description" : "",
-      "message" : "Interaction distance reached."
+      "message" : "Etkileşim mesafesine ulaşıldı."
    },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
-      "message" : "It must be completed by "
+      "message" : "Şu tarihten önce tamamlanmalı:"
    },
    "KM" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "LAST_KNOWN_LOCATION" : {
       "description" : "",
-      "message" : "Last known location:"
+      "message" : "Son bilinen konum:"
    },
    "LAT" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "LON" : {
       "description" : "",
-      "message" : "Lon:"
+      "message" : "Boy:"
    },
    "LY" : {
       "description" : "",
@@ -441,7 +441,7 @@
    },
    "MISSING_CREW" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Crew missing."
+      "message" : "Aktarım tamamlanamıyor. Mürettebat eksik."
    },
    "MISSING_PASS" : {
       "description" : "",
@@ -449,7 +449,7 @@
    },
    "MISSING_PASSENGER" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Passenger missing."
+      "message" : "Aktarım tamamlanamıyor. Yolcu eksik."
    },
    "OK_AGREED" : {
       "description" : "",
@@ -461,27 +461,27 @@
    },
    "PARTIAL" : {
       "description" : "",
-      "message" : "Thank you for your efforts. I hope you will return to complete the task!"
+      "message" : "Emekleriniz için teşekkürler. Umarım görevi tamamlamak üzere geri dönersiniz!"
    },
    "PASSENGERS" : {
       "description" : "",
-      "message" : "Passengers"
+      "message" : "Yolcular"
    },
    "PAYMENT_LOCATION" : {
       "description" : "",
-      "message" : "Payment location:"
+      "message" : "Ödeme noktası:"
    },
    "PICKUP" : {
       "description" : "",
-      "message" : "PICKUP"
+      "message" : "TAŞIMA"
    },
    "PLACE_OF_ASSISTANCE" : {
       "description" : "",
-      "message" : "At the place of assistance"
+      "message" : "Yardım yerinde"
    },
    "PLEASE_LAND" : {
       "description" : "",
-      "message" : "Please land ship to allow transfer."
+      "message" : "Lütfen aktarım için gemiyi indirin."
    },
    "PROBLEM_CREW_1" : {
       "description" : "",
@@ -629,11 +629,11 @@
    },
    "RETURN_TO" : {
       "description" : "",
-      "message" : "Return To:"
+      "message" : "Şuraya dön:"
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward:"
+      "message" : "Ödül:"
    },
    "SEARCH_RESCUE" : {
       "description" : "",
@@ -649,7 +649,7 @@
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
-      "message" : "Target ship unresponsive."
+      "message" : "Hedef gemi yanıt vermiyor."
    },
    "SYSTEM" : {
       "description" : "",
@@ -657,7 +657,7 @@
    },
    "TARGET_SHIP_ID" : {
       "description" : "",
-      "message" : "Target ship ID:"
+      "message" : "Hedef gemi ID'si:"
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
@@ -665,34 +665,34 @@
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",
-      "message" : "tons of free cargo space"
+      "message" : "tonluk boş kargo alanı"
    },
    "TRANSFER_ABORTED" : {
       "description" : "",
-      "message" : "Transfer has been aborted!"
+      "message" : "Aktarım iptal edildi!"
    },
    "TRANSFER_COMPLETE" : {
       "description" : "",
-      "message" : "Transfer has been completed!"
+      "message" : "Aktarım tamamlandı."
    },
    "TRANSFER_PARTIAL" : {
       "description" : "",
-      "message" : "Transfer has been partially completed. Please return to finish transfer."
+      "message" : "Aktarım kısmen tamamlandı. Lütfen aktarımı tamamlamak için geri dönün."
    },
    "TRANSFER_TIME" : {
       "description" : "",
-      "message" : "Please allow {minutes} minutes for transfer."
+      "message" : "Lütfen aktarım için {minutes} dakika bekleyin."
    },
    "TYPE_OF_HELP" : {
       "description" : "",
-      "message" : "What type of help is needed?"
+      "message" : "Ne tür yardım gerekiyor?"
    },
    "UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "unoccupied passenger cabins"
+      "message" : "boş yolcu kabini"
    },
    "WHERE_IS_THE_TARGET" : {
       "description" : "",
-      "message" : "Where do I find the target?"
+      "message" : "Hedefi nerede bulabilirim?"
    }
 }

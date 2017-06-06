@@ -153,7 +153,7 @@
    },
    "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Compact radar"
+      "message" : "Sıkıştırılmış radar"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
@@ -293,7 +293,7 @@
    },
    "ENABLE_ANISOTROPIC_FILTERING" : {
       "description" : "Use Anisotropic Filtering",
-      "message" : "Anisotropic Filtering"
+      "message" : "Anizotropik Filtreleme"
    },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
@@ -441,67 +441,67 @@
    },
    "HUD_2D_RADAR" : {
       "description" : "Popup text: the name of the azimuthal equidistant projection radar",
-      "message" : "2D azimuthal equidistant projection"
+      "message" : "2B azimutal eş uzunluklu projeksiyon"
    },
    "HUD_3D_RADAR" : {
       "description" : "Popup text: the name of the planar projection radar (traditional frontier-style)",
-      "message" : "3D planar projection"
+      "message" : "3B düzlemsel projeksiyon"
    },
    "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
       "description" : "Tooltip: The braking distance using the main thrusters.",
-      "message" : "The braking distance using the main thrusters"
+      "message" : "Ana iticileri kullanarak frenleme mesafesi"
    },
    "HUD_CURRENT_COMBAT_TARGET" : {
       "description" : "Tooltip: The current combat target.",
-      "message" : "The current combat target"
+      "message" : "Şu anki savaş hedefi"
    },
    "HUD_CURRENT_FRAME" : {
       "description" : "Tooltip: The current frame of reference.",
-      "message" : "The current frame of reference"
+      "message" : "Şu anki referans karesi"
    },
    "HUD_CURRENT_HEADING" : {
       "description" : "Tooltip: the current heading.",
-      "message" : "The current heading"
+      "message" : "Şu anki yön"
    },
    "HUD_CURRENT_NAV_TARGET" : {
       "description" : "Tooltip: The current navigational target.",
-      "message" : "The current navigational target"
+      "message" : "Şu anki navigasyon hedefi"
    },
    "HUD_CURRENT_PITCH" : {
       "description" : "Tooltip: the current pitch.",
-      "message" : "The current pitch"
+      "message" : "Şu anki yunuslama"
    },
    "HUD_CURRENT_ROLL" : {
       "description" : "Tooltip: the current roll.",
-      "message" : "The current roll"
+      "message" : "Şu anki yalpa"
    },
    "HUD_DELTA_V" : {
       "description" : "Tooltip: The remaining Δv.",
-      "message" : "Remaining Δv"
+      "message" : "Kalan Δv"
    },
    "HUD_DELTA_V_OF_MANEUVER_BURN" : {
       "description" : "Tooltip: The Δv for the maneuver burn.",
-      "message" : "The Δv for the maneuver burn"
+      "message" : "Manevra için gerekli Δv"
    },
    "HUD_DELTA_V_PERCENT" : {
       "description" : "Tooltip: The remaining Δv in percent.",
-      "message" : "Remaining Δv"
+      "message" : "Kalan Δv"
    },
    "HUD_DISTANCE_TO_SURFACE_OF_FRAME" : {
       "description" : "Tooltip: Distance to the surface of the frame of reference.",
-      "message" : "Distance to the surface of the frame of reference"
+      "message" : "Referans karesinin yüzeyine uzaklık"
    },
    "HUD_DISTANCE_TO_SURFACE_OF_TARGET" : {
       "description" : "Tooltip: Distance to the surface of the target.",
-      "message" : "Distance to the surface of the target"
+      "message" : "Hedefin yüzeyine uzaklık"
    },
    "HUD_DURATION_OF_MANEUVER_BURN" : {
       "description" : "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
-      "message" : "The approximate duration of the maneuver burn with main thrusters"
+      "message" : "Ana iticiler kullanılarak manevranın yaklaşık süresi"
    },
    "HUD_DURATION_UNTIL_MANEUVER_BURN" : {
       "description" : "Tooltip: The duration until the middle of the maneuver burn.",
-      "message" : "The duration until the middle of the maneuver burn"
+      "message" : "Manevranın ortasına kadar geçecek süre"
    },
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
@@ -521,15 +521,15 @@
    },
    "HUD_INDICATOR_FRAME_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current frame.",
-      "message" : "Retrograde relative to current frame of reference"
+      "message" : "Şu anki referans karesine göre retrograd"
    },
    "HUD_INDICATOR_MANEUVER_PROGRADE" : {
       "description" : "Indicator: The prograde direction for the maneuver burn.",
-      "message" : "Prograde for maneuver burn"
+      "message" : "Manevra için prograd"
    },
    "HUD_INDICATOR_NAV_TARGET_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current navigational target.",
-      "message" : "Prograde relative to current navigational target"
+      "message" : "Şu anki navigasyon hedefine göre prograd"
    },
    "HUD_INDICATOR_NAV_TARGET_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current navigational target.",
@@ -537,31 +537,31 @@
    },
    "HUD_RADAR_DISTANCE" : {
       "description" : "Tooltip: Current distance of the radar.",
-      "message" : "Active radar distance"
+      "message" : "Aktif radar mesafesi"
    },
    "HUD_SHOW_COMBAT_TARGET" : {
       "description" : "Tooltip: Show the current combat target.",
-      "message" : "Show the current combat target"
+      "message" : "Şu anki savaş hedefini göster"
    },
    "HUD_SHOW_FRAME" : {
       "description" : "Tooltip: Show the current frame of reference.",
-      "message" : "Show the current frame of reference"
+      "message" : "Şu anki referans karesini göster"
    },
    "HUD_SHOW_NAV_TARGET" : {
       "description" : "Tooltip: Show current navigational target.",
-      "message" : "Show the current navigational target"
+      "message" : "Şu anki navigasyon hedefini göster"
    },
    "HUD_SPEED_OF_APPROACH_TO_FRAME" : {
       "description" : "Tooltip: The speed of approach towards the frame of reference.",
-      "message" : "The speed of approach towards the frame of reference"
+      "message" : "Referans karesini yaklaşım hızı"
    },
    "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
       "description" : "Tooltip: The speed of approach towards the target.",
-      "message" : "The speed of approach towards the target"
+      "message" : "Hedefe yaklaşım hızı"
    },
    "HUD_SPEED_RELATIVE_TO_TARGET" : {
       "description" : "Tooltip: The speed relative to the target.",
-      "message" : "The speed relative to the target"
+      "message" : "Hedefe göreceli hız"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
@@ -921,7 +921,7 @@
    },
    "OPEN_USER_FOLDER" : {
       "description" : "",
-      "message" : "User Folder"
+      "message" : "Kullanıcı Klasörü"
    },
    "OPTIONS" : {
       "description" : "",
@@ -1133,7 +1133,7 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set destination as navigation target."
+      "message" : "Varış noktasını navigasyon hedefi olarak seç."
    },
    "SHIP" : {
       "description" : "",
@@ -1173,7 +1173,7 @@
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
-      "message" : "Simulating evolution of the universe: {age} billion years ;-)"
+      "message" : "Evrenin evrimi hesaplanıyor: {age} milyar yıl ;-)"
    },
    "SOUND" : {
       "description" : "",
@@ -1237,7 +1237,7 @@
    },
    "TOO_SMALL_TO_TRANSSHIP" : {
       "description" : "Ship market error message",
-      "message" : "New ship lacks capacity for current cargo and hyperdrive."
+      "message" : "Yeni gemi şu anki kargo ve üstuzay sürücüsü için yeterli kapasiteye sahip değil."
    },
    "TOTAL" : {
       "description" : "",
