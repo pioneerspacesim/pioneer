@@ -263,9 +263,9 @@ bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
 
 	m_options.attachGuns = !m_options.attachGuns;
 	SceneGraph::Model::TVecMT tags;
-	m_model->FindTagsByStartOfName("tag_gun_", tags);
+	m_model->FindTagsByStartOfName("tag_gunmount_", tags);
 	if (tags.empty()) {
-		AddLog("Missing tags \"tag_gun_XXX\" in model");
+		AddLog("Missing tags \"tag_gunmount_XXX\" in model");
 		return false;
 	}
 	if (m_options.attachGuns) {
