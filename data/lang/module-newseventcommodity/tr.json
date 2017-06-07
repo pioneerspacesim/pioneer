@@ -5,15 +5,15 @@
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
-      "message" : "Plague harvests lives in the {system} system ({sectorx}, {sectory}, {sectorz}). Officials urge for medical aid."
+      "message" : "Patojen {system} ({sectorx}, {sectory}, {sectorz}) sisteminde can alıyor. Resmi makamlar yardım istiyor."
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
-      "message" : "HABERLER {date}: Düşmanlar {system} sisteminin ayakta kalmasını tehdit ediyor."
+      "message" : "HABERLER {date}: Şirket, {system} sisteminin ayakta kalmasını tehdit ediyor."
    },
    "FLAVOUR_10_NEWSBODY" : {
       "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-      "message" : "Prekall Inc. are seeking to monopolize air itself throughout {system} ({sectorx}, {sectory}, {sectorz}). Take a deep breath, it might be the last one that is free of charge."
+      "message" : "Prekall Inc. {system} ({sectorx}, {sectory}, {sectorz}) sisteminde havanın kendisini ücrete tabii tutmayı amaçlıyor. Derin bir nefes alın, bedavaya aldığınız son nefes olabilir."
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "FLAVOUR_11_NEWSBODY" : {
       "description" : "Imply high demand of ANIMAL_MEAT.",
-      "message" : "As if by a stroke of a higher power, the farmers in the {system} system ({sectorx}, {sectory}, {sectorz}) woke up to empty barns. \"It's the cattle theft of the century\", police reports."
+      "message" : "İlahi bir güçle olmuş gibi, {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki çiftçilerin ahırları birden bomboş kaldı. \"Yüzyılın sığır hırsızlığı\", diyor polis."
    },
    "FLAVOUR_12_HEADLINE" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "FLAVOUR_12_NEWSBODY" : {
       "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
-      "message" : "A nasty virus caused all Nachosoft computers in the {system} system ({sectorx}, {sectory}, {sectorz}) to suffer a complete hard drive meltdown. The faulty units make excellent paper weights, computer scientists say."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sisteminde bir virüs bütün Nachosoft bilgisayarlarının sabit disklerinin erimesine sebep oldu. Bilgisayar mühendisleri, arızalı parçalardan çok güzel kağıt ağırlığı yapıldığını söylüyor."
    },
    "FLAVOUR_13_HEADLINE" : {
       "description" : "",
@@ -37,7 +37,7 @@
    },
    "FLAVOUR_13_NEWSBODY" : {
       "description" : "Imply that nobody wants to buy ROBOTS anymore.",
-      "message" : "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to loose faith in robot servants."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sisteminde insanlarla robotlar karşı karşıya. Robotlarda oluşan bir \"davranışsal bozukluk\", robot hizmetçilerin efendilerine itaatsizliği ile sonuçlanıyor."
    },
    "FLAVOUR_14_HEADLINE" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "FLAVOUR_1_NEWSBODY" : {
       "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
-      "message" : "The long standing conflict in the {system} system ({sectorx}, {sectory}, {sectorz}) escalates as the armies engage in full open combat."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sisteminde ezelden beridir süren çatışma orduların apaçık bir savaşa girmesiyle büyüdü."
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
@@ -133,7 +133,7 @@
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
-      "message" : "Severe drought has ruined the crop in the {system} system ({sectorx}, {sectory}, {sectorz}). System wide famine is feared."
+      "message" : "Şiddetli kuraklık {system} ({sectorx}, {sectory}, {sectorz}) sisteminde ürünleri mahvetti. Sistem genelinde kıtlıkan korkuluyor."
    },
    "FLAVOUR_3_HEADLINE" : {
       "description" : "",
@@ -141,11 +141,11 @@
    },
    "FLAVOUR_3_NEWSBODY" : {
       "description" : "Imply high demand of FRUIT_AND_VEG.",
-      "message" : "Administration in the {system} system ({sectorx}, {sectory}, {sectorz}) seek to increase import to meet the surging demand of all things green ."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sisteminin idari mevkileri, yeşil varlığındaki talep için ithalatı arttırıyor."
    },
    "FLAVOUR_4_HEADLINE" : {
       "description" : "About mob rivals competing for selling drugs",
-      "message" : "HABERLER {date}: {system} sisteminde ilaç savaşları. Kanun koruyucular kontrolü sağlamakta zorlanıyor."
+      "message" : "HABERLER {date}: {system} sisteminde uyuşturucu savaşları. Polis kontrolü sağlamakta zorlanıyor."
    },
    "FLAVOUR_4_NEWSBODY" : {
       "description" : "Imply high abundance of NARCOTICS.",
@@ -153,11 +153,11 @@
    },
    "FLAVOUR_5_HEADLINE" : {
       "description" : "",
-      "message" : "HABERLER {date}: {system} sisteminde köleler isyan etti. Tarın endüstrisi durma noktasına geldi."
+      "message" : "HABERLER {date}: {system} sisteminde köleler isyan etti. Tarım endüstrisi durma noktasına geldi."
    },
    "FLAVOUR_5_NEWSBODY" : {
       "description" : "Imply high demand of SLAVES.",
-      "message" : "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a stand still as no cheap workers can be found."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sistemindeki işçiler isyan ederek zincirlerini kırdı ve Ltus tarlalarında çalışmayı bıraktı. Ucuz işçi bulunamadığı için ekonomi durma noktasında."
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -165,7 +165,7 @@
    },
    "FLAVOUR_6_NEWSBODY" : {
       "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
-      "message" : "The drunken celebrations in the {system} system ({sectorx}, {sectory}, {sectorz}) will be ongoing, as they honour the furry little creature."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sistemindeki içkili kutlamalar, tüylü küçük yaratığı onurlandırmak için devam edecek."
    },
    "FLAVOUR_7_HEADLINE" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "FLAVOUR_7_NEWSBODY" : {
       "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
-      "message" : "Long time neglect of machine maintenance causes industrial standstill in the {system} system ({sectorx}, {sectory}, {sectorz})."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sisteminde makine bakımlarının ihmali yüzünden endüstri durdu."
    },
    "FLAVOUR_8_HEADLINE" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "FLAVOUR_8_NEWSBODY" : {
       "description" : "Imply high demand of MINING_MACHINERY.",
-      "message" : "A mine collapsed in the {system} system ({sectorx}, {sectory}, {sectorz}), killing hundreds of workers and destroying important machinery vital for the economy."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sisteminde maden çöktü, ekonomi için önemli yüzlerce işçi öldü ve önemli makineler yok oldu."
    },
    "FLAVOUR_9_HEADLINE" : {
       "description" : "",
@@ -189,7 +189,7 @@
    },
    "FLAVOUR_9_NEWSBODY" : {
       "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
-      "message" : "The latest trend in the {system} system ({sectorx}, {sectory}, {sectorz}) has it real live pets are the next big thing."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sistemindeki son moda gerçek hayvanları da bir parçası yaparak büyük yankı uyandırdı."
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",

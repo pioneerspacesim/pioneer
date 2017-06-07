@@ -25,35 +25,35 @@
    },
    "FLAVOUR_1_CLUBNAME" : {
       "description" : "Fuel club for the Federation faction",
-      "message" : "The Federal Fuel Foundation"
+      "message" : "Federal Yakıt Kurumu"
    },
    "FLAVOUR_1_NONMEMBER_INTRO" : {
       "description" : "For the Solar Federation faction",
-      "message" : "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
+      "message" : "{clubname}, Güneş Federsayonu'ndaki üyeleri için yakıt temin etmede lider sağlayıcıdır. Üyelik ile şunlara sahip olacaksınız:"
    },
    "FLAVOUR_2_CLUBNAME" : {
       "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-      "message" : "The Confederate Fuel Union"
+      "message" : "Konfedere Yakıt Birliği"
    },
    "FLAVOUR_2_NONMEMBER_INTRO" : {
       "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
-      "message" : "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
+      "message" : "Commonwealth of Independent Worlds boyunca {clubname}, ucuz yakıt ve çöp atma servislerinin lideridir. Üyelerimiz için şunları yapıyoruz:"
    },
    "FLAVOUR_2_WELCOME" : {
       "description" : "",
-      "message" : "Greetings and salutations! We hope you enjoy our services."
+      "message" : "Hoş geldiniz! Umarız servislerimizi beğenirsiniz."
    },
    "FLAVOUR_3_CLUBNAME" : {
       "description" : "Fuel club for the Haber faction",
-      "message" : "Haber Propellant and Perishables Division"
+      "message" : "Haber Yakıt ve Tüketim Malzemeleri Bölümü"
    },
    "FLAVOUR_3_MEMBER_INTRO" : {
       "description" : "For the greedy Haber faction, very corporate formulated",
-      "message" : "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
+      "message" : "Selamlar pilot. Yakıt doldurma ve yan ürünleri atma ayrıcalıklarınız onaylandı."
    },
    "FLAVOUR_3_NONMEMBER_INTRO" : {
       "description" : "for the Haber faction",
-      "message" : "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
+      "message" : "Selamlar, pilot. Burası Haber Yakıt ve Tüketim Malzemeleri Bölümü, Haber kontrolündeki uzayda yakıt dağıtımının güvenilir ismi."
    },
    "GO_BACK" : {
       "description" : "",
