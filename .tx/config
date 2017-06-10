@@ -76,6 +76,11 @@ file_filter = data/lang/module-newseventcommodity/<lang>.json
 source_file = data/lang/module-newseventcommodity/en.json
 source_lang = en
 
+[pioneer.module-policepatrol]
+file_filter = data/lang/module-policepatrol/<lang>.json
+source_file = data/lang/module-policepatrol/en.json
+source_lang = en
+
 [pioneer.module-searchrescue]
 file_filter = data/lang/module-searchrescue/<lang>.json
 source_file = data/lang/module-searchrescue/en.json
