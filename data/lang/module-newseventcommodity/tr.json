@@ -45,7 +45,7 @@
    },
    "FLAVOUR_14_NEWSBODY" : {
       "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-      "message" : "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as producer has run out of raw material."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sistemini kapsayan güç kesintisi büyük zarara sebep oldu. Tüketiciler, imalatçıların yaşadığı malzeme sıkıntısı nedeniyle buzdolaplarının yerine geçecek saklama kaplarını almak için sıraya giriyor."
    },
    "FLAVOUR_15_HEADLINE" : {
       "description" : "",
@@ -53,7 +53,7 @@
    },
    "FLAVOUR_15_NEWSBODY" : {
       "description" : "imply high demand of NARCOTICS.",
-      "message" : "The administration in the {system} system ({sectorx}, {sectory}, {sectorz}) hopes crime will diminish as drugs are no longer available, since the arrest of several mobsters."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sisteminin idari birimleri, uyuşturucu satıcılarının tutuklanmaları dolayısıyla artık sistemde uyuşturucu bulunmadığı için suç oranlarının düşmesini umuyor."
    },
    "FLAVOUR_16_HEADLINE" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
-      "message" : "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sistemindeki Büyük Duman Şenliği'nde yarışmacılar \"En Büyük Traktör Çekme Yarışı\"nda galaktik bir rekor elde etmeye çalışırken, yarışmacıların birinin tasarımının kontrolden çıkması ve diğer yarışmacıların tasarımlarını yok etmesi dolayısıyla bir felaketle sona erdi. Resmi makamlar, bu olayın yerli çiftçiler için yıkıcı sonuçları olabileceğini söylüyor."
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
@@ -69,7 +69,7 @@
    },
    "FLAVOUR_17_NEWSBODY" : {
       "description" : "Imply vast abundance of METAL_ORE.",
-      "message" : "Miners in the {system} system ({sectorx}, {sectory}, {sectorz}) discovered a vast deposit of ore of never before seen proportions."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sistemindeki madenciler daha önce hiç görülmemiş boyutlarda bir maden damarı tespit etti."
    },
    "FLAVOUR_18_HEADLINE" : {
       "description" : "",
@@ -77,7 +77,7 @@
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
-      "message" : "The wheels are spinning ever faster in the {system} system ({sectorx}, {sectory}, {sectorz}) as consumers have more money to spend."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sisteminde, tüketicilerin harcayacak daha fazla parası olduğu için ekonomi çarkı daha hızlı dönüyor."
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
@@ -85,7 +85,7 @@
    },
    "FLAVOUR_19_NEWSBODY" : {
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
-      "message" : "A man in the {system} system ({sectorx}, {sectory}, {sectorz}) has inherited an invention from his late uncle, allowing him to transmute any solid into gold and platinum. Economists expect a destabilization of the economy in the system, unless the machine breaks down soon."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sisteminde bir adama, amcasının yaptığı ve herhangi bir katı cismi altın ya da platine çeviren bir makine miras kaldı. Uzmanlar, eğer makine yakın zamanda bozulmazsa, sistemin ekonomisinde bir dengesizlik bekliyor."
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "FLAVOUR_20_NEWSBODY" : {
       "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-      "message" : "As {system} ({sectorx}, {sectory}, {sectorz}) enters a phase favourable to the yellow algae found in the atmosphere of a local gas giant, the harvest has be exceptionally good for the fertilizer company Soylent Yellow Inc."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sistemindeki gaz devinin atmosferinde bulunan sarı alglerin Sarı Soylent Inc şirketi tarafından toplanıp gübreye dönüştürülmesiyle ekonomiye kazandırılıyor."
    },
    "FLAVOUR_21_HEADLINE" : {
       "description" : "",
@@ -109,7 +109,7 @@
    },
    "FLAVOUR_21_NEWSBODY" : {
       "description" : "Imply vast abundance of NERVE_GAS.",
-      "message" : "Although the conflicting parties in the {system} system ({sectorx}, {sectory}, {sectorz}) have not signed an official cease fire, they have agreed to stop using chemical weapons."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sistemindeki taraflar arasında bir ateşkes olmasa da taraflar, kimyasal silahların kullanımının durdurulması konusunda anlaştılar."
    },
    "FLAVOUR_22_HEADLINE" : {
       "description" : "",
@@ -117,7 +117,7 @@
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
-      "message" : "In a protest against understaffing the {system} system ({sectorx}, {sectory}, {sectorz}) police refuse to work. Meanwhile, civilians form vigilante groups and arm themselves with pitchforks and firearms as they prepare for the worst."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sisteminde eleman yetersizliğini protesto eden polis, çalışmayı reddetti. Bu sırada bazı sivil gruplar kendilerini ateşli silah ve dirgenlerle donatarak en kötü durumlarda bile kendilerini savunmaya hazırlanıyor."
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knives capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) sistemindeki yeni Amissionox fabrikası açıldı ve çalışmaya başladı. Bu fabrika uzay botlarını bile kesebilecek kaliteli bıçaklar üretecek; ancak, bıçaklar için gereken kaynakların azlığından dolayı henüz tam üretim kapasitesi sağlanamadı."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
