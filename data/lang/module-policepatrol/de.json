@@ -5,15 +5,15 @@
    },
    "INITIATE_CARGO_SCAN_1" : {
       "description" : "",
-      "message" : "Initiate cargo scan."
+      "message" : "Largerraumscan eingeleitet."
    },
    "INITIATE_CARGO_SCAN_2" : {
       "description" : "",
-      "message" : "Maintain speed and course for a cargo scan."
+      "message" : "Behalten Sie die Geschwindigkeit und den Kurs bei für einen Lagerraumscan."
    },
    "INITIATE_CARGO_SCAN_3" : {
       "description" : "",
-      "message" : "Initiate contraband search."
+      "message" : "Suche nach Schmuggelware eingeleitet."
    },
    "NOTHING_DETECTED" : {
       "description" : "",
@@ -25,22 +25,22 @@
    },
    "POLICE_TAUNT_2" : {
       "description" : "",
-      "message" : "Smuggler, you will pay the utimate price!"
+      "message" : "Schmuggler, Sie werden den ultimativen Preis bezahlen!"
    },
    "POLICE_TAUNT_3" : {
       "description" : "",
-      "message" : "Fool, crime doesn't pay off!"
+      "message" : "Idiot, Verbrechen zahlt sich nicht aus!"
    },
    "RESPECT_THE_LAW_1" : {
       "description" : "",
-      "message" : "Respect the law! Crime doesn't pay off in the {system} system!"
+      "message" : "Halten Sie sich an die Gesetze! Das Verbrechen zahlt sich im System „{system}“ nicht aus!"
    },
    "RESPECT_THE_LAW_2" : {
       "description" : "",
-      "message" : "You have entered the {system} system. Respect the law!"
+      "message" : "Sie haben das System „{system}“ erreicht. Beachten Sie die Gesetze!"
    },
    "TAKE_A_HIKE" : {
       "description" : "",
-      "message" : "Ok, you got a second chance. Take a hike!"
+      "message" : "Okay, Sie kriegen eine zweite Chance. Verschwinden Sie!"
    }
 }
