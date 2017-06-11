@@ -1,0 +1,46 @@
+{
+   "ILLEGAL_GOODS_DETECTED" : {
+      "description" : "",
+      "message" : "Olaglig last upptäckt!"
+   },
+   "INITIATE_CARGO_SCAN_1" : {
+      "description" : "",
+      "message" : "Påbörjar genomsökning av last."
+   },
+   "INITIATE_CARGO_SCAN_2" : {
+      "description" : "",
+      "message" : "Bibehåll fart och kurs för genomsökning av last."
+   },
+   "INITIATE_CARGO_SCAN_3" : {
+      "description" : "",
+      "message" : "Påbörjar sökning för smuggelvaror"
+   },
+   "NOTHING_DETECTED" : {
+      "description" : "",
+      "message" : "Ingen olaglig last funnen. Återgå."
+   },
+   "POLICE_TAUNT_1" : {
+      "description" : "",
+      "message" : "Det var en dålig affär"
+   },
+   "POLICE_TAUNT_2" : {
+      "description" : "",
+      "message" : "Smuglare, du skall betala det ultimata priset!"
+   },
+   "POLICE_TAUNT_3" : {
+      "description" : "",
+      "message" : "Kanalje! Brott lönar sig inte!"
+   },
+   "RESPECT_THE_LAW_1" : {
+      "description" : "",
+      "message" : "Respektera lagen! Brott lönar sig inte i {system} systemet!"
+   },
+   "RESPECT_THE_LAW_2" : {
+      "description" : "",
+      "message" : "Du har anlänt till {sysmte} systemet. Vänligen respektera lagen!"
+   },
+   "TAKE_A_HIKE" : {
+      "description" : "",
+      "message" : "OK, du får en andra chans. Avvik!"
+   }
+}

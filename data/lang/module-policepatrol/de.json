@@ -1,0 +1,46 @@
+{
+   "ILLEGAL_GOODS_DETECTED" : {
+      "description" : "",
+      "message" : "Illegale Güter gefunden."
+   },
+   "INITIATE_CARGO_SCAN_1" : {
+      "description" : "",
+      "message" : "Initiate cargo scan."
+   },
+   "INITIATE_CARGO_SCAN_2" : {
+      "description" : "",
+      "message" : "Maintain speed and course for a cargo scan."
+   },
+   "INITIATE_CARGO_SCAN_3" : {
+      "description" : "",
+      "message" : "Initiate contraband search."
+   },
+   "NOTHING_DETECTED" : {
+      "description" : "",
+      "message" : "Keine illegalen Güter gefunden. Du darfst passieren."
+   },
+   "POLICE_TAUNT_1" : {
+      "description" : "",
+      "message" : "Junge, das war eine schlechte Idee!"
+   },
+   "POLICE_TAUNT_2" : {
+      "description" : "",
+      "message" : "Smuggler, you will pay the utimate price!"
+   },
+   "POLICE_TAUNT_3" : {
+      "description" : "",
+      "message" : "Fool, crime doesn't pay off!"
+   },
+   "RESPECT_THE_LAW_1" : {
+      "description" : "",
+      "message" : "Respect the law! Crime doesn't pay off in the {system} system!"
+   },
+   "RESPECT_THE_LAW_2" : {
+      "description" : "",
+      "message" : "You have entered the {system} system. Respect the law!"
+   },
+   "TAKE_A_HIKE" : {
+      "description" : "",
+      "message" : "Ok, you got a second chance. Take a hike!"
+   }
+}

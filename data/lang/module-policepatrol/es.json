@@ -1,0 +1,46 @@
+{
+   "ILLEGAL_GOODS_DETECTED" : {
+      "description" : "",
+      "message" : "Mercancía ilegal detectada."
+   },
+   "INITIATE_CARGO_SCAN_1" : {
+      "description" : "",
+      "message" : "Iniciar escaneo de carga."
+   },
+   "INITIATE_CARGO_SCAN_2" : {
+      "description" : "",
+      "message" : "Mantenga la velocidad y el curso para un escaneo de la carga."
+   },
+   "INITIATE_CARGO_SCAN_3" : {
+      "description" : "",
+      "message" : "Iniciar búsqueda de contrabando."
+   },
+   "NOTHING_DETECTED" : {
+      "description" : "",
+      "message" : "No se ha detectado mercancía ilegal. Proceda."
+   },
+   "POLICE_TAUNT_1" : {
+      "description" : "",
+      "message" : "¡Hijo, eso ha sido una mala idea!"
+   },
+   "POLICE_TAUNT_2" : {
+      "description" : "",
+      "message" : "¡Contrabandista, me las vas a pagar!"
+   },
+   "POLICE_TAUNT_3" : {
+      "description" : "",
+      "message" : "¡Estúpido, el crímen no compensa!"
+   },
+   "RESPECT_THE_LAW_1" : {
+      "description" : "",
+      "message" : "¡Respete la ley! ¡El crímen no compensa en el sistema {system}!"
+   },
+   "RESPECT_THE_LAW_2" : {
+      "description" : "",
+      "message" : "Acaba de entrar en el sistema {system} ¡Respete la ley!"
+   },
+   "TAKE_A_HIKE" : {
+      "description" : "",
+      "message" : "De acuerdo, tiene una segunda oportunidad ¡Camine!"
+   }
+}

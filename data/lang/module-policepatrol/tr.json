@@ -1,0 +1,46 @@
+{
+   "ILLEGAL_GOODS_DETECTED" : {
+      "description" : "",
+      "message" : "Yasa dışı mal tespit edildi."
+   },
+   "INITIATE_CARGO_SCAN_1" : {
+      "description" : "",
+      "message" : "Kargo taraması yapılıyor."
+   },
+   "INITIATE_CARGO_SCAN_2" : {
+      "description" : "",
+      "message" : "Kargo taraması için hızınızı ve yönünüzü koruyun."
+   },
+   "INITIATE_CARGO_SCAN_3" : {
+      "description" : "",
+      "message" : "Kaçak mal araması yapılıyor."
+   },
+   "NOTHING_DETECTED" : {
+      "description" : "",
+      "message" : "Yasa dışı kargo tespit edilmedi. Devam edebilirsiniz."
+   },
+   "POLICE_TAUNT_1" : {
+      "description" : "",
+      "message" : "Dostum, bu kötü bir fikirdi."
+   },
+   "POLICE_TAUNT_2" : {
+      "description" : "",
+      "message" : "Kaçakçı, bunun bedelini ödeyeceksin!"
+   },
+   "POLICE_TAUNT_3" : {
+      "description" : "",
+      "message" : "Aptal, suçların yanına kalmayacak!"
+   },
+   "RESPECT_THE_LAW_1" : {
+      "description" : "",
+      "message" : "Kanunlara uy! {system} sisteminde suça yer yok!"
+   },
+   "RESPECT_THE_LAW_2" : {
+      "description" : "",
+      "message" : "{system} sistemine girdiniz. Kanunlara uyunuz."
+   },
+   "TAKE_A_HIKE" : {
+      "description" : "",
+      "message" : "Peki, sana ikinci bir şans veriyoruz. Toz ol."
+   }
+}
