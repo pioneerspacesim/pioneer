@@ -224,10 +224,10 @@ static int l_body_is_more_important_than(lua_State *l)
 	bool result = false;
 
 	if(a == b && a != Object::Type::PLANET) result = body->GetLabel() < other->GetLabel();
-	else if(a == Object::Type::STAR) result = true;
 	else if(b == Object::Type::STAR) result = false;
-	else if(a_gas_giant) result = true;
+	else if(a == Object::Type::STAR) result = true;
 	else if(b_gas_giant) result = false;
+	else if(a_gas_giant) result = true;
 	else if(a == Object::Type::HYPERSPACECLOUD) result = false;
 	else if(b == Object::Type::HYPERSPACECLOUD) result = true;
 	else if(a == Object::Type::MISSILE) result = false;
@@ -240,8 +240,8 @@ static int l_body_is_more_important_than(lua_State *l)
 	else if(b == Object::Type::SPACESTATION) result = true;
 	else if(a_planet && b_planet) result = body->GetLabel() < other->GetLabel();
 	else if(a_moon && b_moon) result = body->GetLabel() < other->GetLabel();
-	else if(sb_a && sb_a->IsPlanet()) result = true;
 	else if(sb_b && sb_b->IsPlanet()) result = false;
+	else if(sb_a && sb_a->IsPlanet()) result = true;
 	else Error("don't know how to compare %i and %i\n", a, b);
 
 	LuaPush<bool>(l, result);
