@@ -2,6 +2,9 @@ June 2017
    * Internal Changes
      * Remove WindowSDL class (#4018)
 
+   * Fixes
+     * Fix for incorrectly implemented comparison function crashing Pioneer upon entering system (#4024)
+
 May 2017
    * New Features
      * In-space indicators have icons and let you select collapsed ones (#3995)
