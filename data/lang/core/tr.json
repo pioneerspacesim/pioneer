@@ -53,7 +53,7 @@
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
-      "message" : "Otopilot: Uzay istasyonuna sabitlen"
+      "message" : "Otopilot: Uzay istasyonuna kenetlen"
    },
    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
       "description" : "",
