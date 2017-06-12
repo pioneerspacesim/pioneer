@@ -26,6 +26,7 @@ The Pioneer Developers are:
 * Chris Dennett
 * Christian Koch
 * Claudius Mueller
+* Clinton Mead
 * Connor Findlay
 * Craig Thomson
 * Dan Bennett
