@@ -1,46 +1,46 @@
 {
    "ILLEGAL_GOODS_DETECTED" : {
       "description" : "",
-      "message" : "Illegal goods detected."
+      "message" : "Illegális rakományt találtunk."
    },
    "INITIATE_CARGO_SCAN_1" : {
       "description" : "",
-      "message" : "Initiate cargo scan."
+      "message" : "Szkennelést megkezdeni."
    },
    "INITIATE_CARGO_SCAN_2" : {
       "description" : "",
-      "message" : "Maintain speed and course for a cargo scan."
+      "message" : "Tartsa a sebességet és pályát az ellenőrzés folyamán."
    },
    "INITIATE_CARGO_SCAN_3" : {
       "description" : "",
-      "message" : "Initiate contraband search."
+      "message" : "Rakományellenőrzés."
    },
    "NOTHING_DETECTED" : {
       "description" : "",
-      "message" : "No illegal cargo detected. You may proceed."
+      "message" : "Nem találtunk illegális rakományt. Távozhat."
    },
    "POLICE_TAUNT_1" : {
       "description" : "",
-      "message" : "Boy, this was a bad idea!"
+      "message" : "Haver, ez rossz ötlet volt."
    },
    "POLICE_TAUNT_2" : {
       "description" : "",
-      "message" : "Smuggler, you will pay the utimate price!"
+      "message" : "Csempész, ezért nagy árat fizetsz!"
    },
    "POLICE_TAUNT_3" : {
       "description" : "",
-      "message" : "Fool, crime doesn't pay off!"
+      "message" : "Bolond, a bűnözés nem kifizetődő!"
    },
    "RESPECT_THE_LAW_1" : {
       "description" : "",
-      "message" : "Respect the law! Crime doesn't pay off in the {system} system!"
+      "message" : "Tartsa be a törvényt! {system} rendszerben a bűnözés nem kifizetődő!"
    },
    "RESPECT_THE_LAW_2" : {
       "description" : "",
-      "message" : "You have entered the {system} system. Respect the law!"
+      "message" : "{system} felségterületén tartózkodik. Tartsa tiszteletben törvényeinket!"
    },
    "TAKE_A_HIKE" : {
       "description" : "",
-      "message" : "Ok, you got a second chance. Take a hike!"
+      "message" : "Kapsz egy utolsó lehetőséget. Tűnj el!"
    }
 }
