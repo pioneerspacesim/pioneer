@@ -261,7 +261,7 @@
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
-      "message" : "Mevcut hedefe sabitlen"
+      "message" : "Mevcut hedefe kenetlen"
    },
    "DUE" : {
       "description" : "mission deadline date",
@@ -657,11 +657,11 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permission to launch denied: not enough crew to handle this ship."
+      "message" : "Kalkış izni reddedildi: gemiyi kullanacak yeterli mürettebat yok."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
-      "message" : "Denize iniş izni reddedildi: ödenmemiş borcunuz var."
+      "message" : "Kalkış izni reddedildi: ödenmemiş borcunuz var."
    },
    "LEGAL_STATUS" : {
       "description" : "",

@@ -185,7 +185,7 @@
    },
    "CLEARANCE_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "İzin verildi. %bay nolu sabitlenme bölmesine ilerleyin."
+      "message" : "İzin verildi. %bay nolu kenetlenme bölmesine ilerleyin."
    },
    "CO2_ATMOSPHERE" : {
       "description" : "",
@@ -337,7 +337,7 @@
    },
    "DOCKING" : {
       "description" : "",
-      "message" : "Sabitleniyor"
+      "message" : "Kenetleniyor"
    },
    "DOCKING_CLEARANCE_EXPIRED" : {
       "description" : "",
@@ -1413,7 +1413,7 @@
    },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
-      "message" : "Küçük ölçekli maden araştırma. Kayıtlı sakin yok."
+      "message" : "Küçük ölçekli maden araştırma. Kayıtlı yerleşim yok."
    },
    "SOCIAL_DEMOCRACY" : {
       "description" : "",
@@ -1749,7 +1749,7 @@
    },
    "UNIT_LY" : {
       "description" : "Distance unit: a light year",
-      "message" : "Iy"
+      "message" : "ıy"
    },
    "UNIT_METERS" : {
       "description" : "Distance unit: one meter",
