@@ -423,6 +423,9 @@ ui.systemInfoViewNextPage = pigui.SystemInfoViewNextPage -- deprecated
 ui.isKeyReleased = pigui.IsKeyReleased
 ui.playSfx = pigui.PlaySfx
 ui.ctrlHeld = function() return pigui.key_ctrl end
+ui.altHeld = function() return pigui.key_alt end
+ui.shiftHeld = function() return pigui.key_shift end
+ui.noModifierHeld = function() return pigui.key_none end
 ui.coloredSelectedIconButton = function(icon, size, is_selected, frame_padding, bg_color, fg_color, tooltip)
 	if is_selected then
 		pigui.PushStyleColor("Button", bg_color)

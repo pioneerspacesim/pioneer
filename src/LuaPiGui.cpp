@@ -968,6 +968,21 @@ static int l_attr_key_ctrl(lua_State *l) {
 	return 1;
 }
 
+static int l_attr_key_none(lua_State *l) {
+	LuaPush<bool>(l, !ImGui::GetIO().KeyCtrl & !ImGui::GetIO().KeyShift & !ImGui::GetIO().KeyAlt);
+	return 1;
+}
+
+static int l_attr_key_shift(lua_State *l) {
+	LuaPush<bool>(l, ImGui::GetIO().KeyShift);
+	return 1;
+}
+
+static int l_attr_key_alt(lua_State *l) {
+	LuaPush<bool>(l, ImGui::GetIO().KeyAlt);
+	return 1;
+}
+
 static int l_attr_screen_height(lua_State *l) {
 	//	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
 	LuaPush<int>(l,Graphics::GetScreenHeight());
@@ -1241,6 +1256,9 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "screen_width",  l_attr_screen_width },
 		{ "screen_height", l_attr_screen_height },
 		{ "key_ctrl",      l_attr_key_ctrl },
+		{ "key_none",      l_attr_key_none },
+		{ "key_shift",     l_attr_key_shift },
+		{ "key_alt",       l_attr_key_alt },
 		{ "keys",          l_attr_keys },
 		{ 0, 0 }
 	};
