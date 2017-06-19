@@ -539,6 +539,10 @@
       "description" : "Tooltip: Current distance of the radar.",
       "message" : "Aktive Radardistanz"
    },
+   "HUD_REQUEST_TIME_ACCEL" : {
+      "description" : "Tooltip: Request time acceleration {time}",
+      "message" : "Request time acceleration: {time}"
+   },
    "HUD_SHOW_COMBAT_TARGET" : {
       "description" : "Tooltip: Show the current combat target.",
       "message" : "Zeige das aktuelle Waffenziel"
