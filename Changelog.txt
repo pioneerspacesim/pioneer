@@ -1,4 +1,7 @@
 June 2017
+   * New Features
+     * Move time and time accel window to lua (#4025)
+
    * Internal Changes
      * Remove WindowSDL class (#4018)
      * Support modifier keys in lua (#4026)
