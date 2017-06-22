@@ -175,7 +175,7 @@ void InternalCameraController::SaveToJson(Json::Value &jsonObj)
 {
 	Json::Value internalCameraObj(Json::objectValue); // Create JSON object to contain internal camera data.
 
-	internalCameraObj["mode"] = m_mode;
+	internalCameraObj["mode"] = Json::Value::Int(m_mode);
 
 	jsonObj["internal"] = internalCameraObj; // Add internal camera object to supplied object.
 }

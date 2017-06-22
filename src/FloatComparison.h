@@ -101,6 +101,7 @@ inline typename IEEEFloatTraits<T>::bool_type is_finite(T x) {
 // --- exact comparisons, and checking for NaN
 
 #ifdef __GNUC__
+#pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wfloat-equal"
 #endif
 inline bool is_equal_exact(float a, float b) { return (a == b); }
@@ -112,7 +113,7 @@ inline bool is_zero_exact(double x) { return (x == 0.0); }
 inline bool is_nan(float x) { return (x != x); }
 inline bool is_nan(double x) { return (x != x); }
 #ifdef __GNUC__
-#pragma GCC diagnostic warning "-Wfloat-equal"
+#pragma GCC diagnostic pop
 #endif
 
 // --- relative & absolute error comparisons

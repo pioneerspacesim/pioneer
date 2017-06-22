@@ -767,12 +767,20 @@ static int l_ship_get_wheel_state(lua_State *l) {
 	lua_pushnumber(l, s->GetWheelState());
 	return 1;
 }
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+#endif
 
 static int l_ship_toggle_wheel_state(lua_State *l) {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	s->SetWheelState(s->GetWheelState() == 0.0);
 	return 0;
 }
+
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
 /*
  * Group: AI methods
