@@ -79,7 +79,7 @@ public:
 		VectorToJson(aiCommandObj, m_dockpos, "dock_pos");
 		VectorToJson(aiCommandObj, m_dockdir, "dock_dir");
 		VectorToJson(aiCommandObj, m_dockupdir, "dock_up_dir");
-		aiCommandObj["state"] = m_state;
+		aiCommandObj["state"] = Json::Value::Int(m_state);
 		jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
 	}
 	AICmdDock(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_DOCK) {

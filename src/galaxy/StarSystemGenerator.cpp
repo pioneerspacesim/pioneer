@@ -1097,7 +1097,7 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 		// planets around a binary pair [gravpoint] -- ignore the stars...
 		if ((*i)->GetSuperType() == SystemBody::SUPERTYPE_STAR) continue;
 		// Turn them into something!!!!!!!
-		char buf[8];
+		char buf[12];
 		if (superType <= SystemBody::SUPERTYPE_STAR) {
 			// planet naming scheme
 			snprintf(buf, sizeof(buf), " %c", 'a'+idx);

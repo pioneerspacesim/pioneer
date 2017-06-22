@@ -60,7 +60,7 @@ void Sfx::SaveToJson(Json::Value &jsonObj)
 	VectorToJson(sfxObj, m_pos, "pos");
 	VectorToJson(sfxObj, m_vel, "vel");
 	sfxObj["age"] = FloatToStr(m_age);
-	sfxObj["type"] = m_type;
+	sfxObj["type"] = Json::Value::Int(m_type);
 
 	jsonObj["sfx"] = sfxObj; // Add sfx object to supplied object.
 }

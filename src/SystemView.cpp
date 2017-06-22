@@ -192,7 +192,7 @@ void TransferPlanner::DecreaseFactor(void) {
 }
 
 std::string TransferPlanner::printFactor(void) {
-	char buf[10];
+	char buf[16];
 	snprintf(buf, sizeof(buf), "%8gx", 10 * m_factor);
 	return std::string(buf);
 }

@@ -390,7 +390,7 @@ void SectorView::SaveToJson(Json::Value &jsonObj)
 
 	sectorViewObj["match_target_to_selection"] = m_matchTargetToSelection;
 	sectorViewObj["automatic_system_selection"] = m_automaticSystemSelection;
-	sectorViewObj["detail_box_visible"] = m_detailBoxVisible;
+	sectorViewObj["detail_box_visible"] = Json::Value::Int(m_detailBoxVisible);
 
 	jsonObj["sector_view"] = sectorViewObj; // Add sector view object to supplied object.
 }

@@ -50,7 +50,7 @@ void AICommand::SaveToJson(Json::Value &jsonObj)
 	// No longer need to save CMD_NONE when a child ai command does not exist (just don't add a child ai command object).
 	Space *space = Pi::game->GetSpace();
 	Json::Value commonAiCommandObj(Json::objectValue); // Create JSON object to contain common ai command data.
-	commonAiCommandObj["command_name"] = m_cmdName;
+	commonAiCommandObj["command_name"] = Json::Value::Int(m_cmdName);
 	commonAiCommandObj["index_for_body"] = space->GetIndexForBody(m_dBody);
 	if (m_child) m_child->SaveToJson(commonAiCommandObj);
 	jsonObj["common_ai_command"] = commonAiCommandObj; // Add common ai command object to supplied object.
