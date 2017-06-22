@@ -7,8 +7,8 @@
 #include "Pi.h"
 
 const float BOUNDS     = 2000.f;
-const int   DEPTH      = 8;
-const float SPACING    = 500.f;
+const int   DEPTH      = 9;
+const float SPACING    = 750.f;
 const float MAX_VEL    = 100.f;
 
 SpeedLines::SpeedLines(Ship *s)
