@@ -761,11 +761,11 @@
    },
    "MAP_TOGGLE_INFO_PANEL" : {
       "description" : "",
-      "message" : "Включение панели информации"
+      "message" : "Переключение панели информации"
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
       "description" : "",
-      "message" : "Включить обзор следования за целью"
+      "message" : "Переключение экрана слежения за целью"
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
@@ -1269,11 +1269,11 @@
    },
    "ROTATION_DAMPING_OFF" : {
       "description" : "",
-      "message" : "Плавное вращение выкл."
+      "message" : "Компенсация вращения выкл."
    },
    "ROTATION_DAMPING_ON" : {
       "description" : "",
-      "message" : "Плавное вращение вкл."
+      "message" : "Компенсация вращения вкл."
    },
    "RUBBISH" : {
       "description" : "",
@@ -1457,7 +1457,7 @@
    },
    "STAR_AF_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Белый сверхгигант"
+      "message" : "Белый гипергигант"
    },
    "STAR_AF_SUPER_GIANT" : {
       "description" : "",
@@ -1473,7 +1473,7 @@
    },
    "STAR_B_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Голубой сверхгигант"
+      "message" : "Голубой гипергигант"
    },
    "STAR_B_SUPER_GIANT" : {
       "description" : "",
@@ -1497,7 +1497,7 @@
    },
    "STAR_G_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Нестабильный жёлтый сверхгигант"
+      "message" : "Нестабильный жёлтый гипергигант"
    },
    "STAR_G_SUPER_GIANT" : {
       "description" : "",
@@ -1517,7 +1517,7 @@
    },
    "STAR_K_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Нестабильный оранжевый сверхгигант"
+      "message" : "Нестабильный оранжевый гипергигант"
    },
    "STAR_K_SUPER_GIANT" : {
       "description" : "",
@@ -1533,7 +1533,7 @@
    },
    "STAR_M_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Красный сверхгигант"
+      "message" : "Красный гипергигант"
    },
    "STAR_M_SUPER_GIANT" : {
       "description" : "",
@@ -1553,7 +1553,7 @@
    },
    "STAR_O_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Горячий голубой сверхгигант"
+      "message" : "Горячий голубой гипергигант"
    },
    "STAR_O_SUPER_GIANT" : {
       "description" : "",
@@ -1685,7 +1685,7 @@
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
-      "message" : "Включить Lua-консоль"
+      "message" : "Переключение Lua-консоли"
    },
    "TOGGLE_RADAR_MODE" : {
       "description" : "",
@@ -1697,7 +1697,7 @@
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
-      "message" : "Включить плавное вращение"
+      "message" : "Переключение компенсации вращения"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "shown on tombstone when player dies",
