@@ -11,6 +11,7 @@ local Equipment = import("Equipment")
 local Timer = import("Timer")
 local Lang = import("Lang")
 local Character = import("Character")
+local Comms = import("Comms")
 
 local l = Lang.GetResource("ui-core")
 
