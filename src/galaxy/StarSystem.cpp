@@ -186,7 +186,8 @@ const float StarSystem::starScale[] = {  // Used in sector view
 	4.0f  // Supermassive blackhole
 };
 
-bool supportComplexLife;
+int supportComplexLife;
+int LifeChanceMultiplier = (rand() % static_cast<int>(4)); //random value between 0 and 3
 
 SystemBody::BodySuperType SystemBody::GetSuperType() const
 {
@@ -338,35 +339,37 @@ std::string SystemBody::GetAstroDescription() const
 			else thickness = Lang::VERY_DENSE;
 
 			if (m_atmosOxidizing > fixed(95,100)) {
-				supportComplexLife = true;
+				supportComplexLife = 9/10 * LifeChanceMultiplier;
 				s += Lang::WITH_A+thickness+Lang::O2_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(7,10)) {
-				supportComplexLife = true;
+				supportComplexLife = 7/10* LifeChanceMultiplier;
 				s += Lang::WITH_A+thickness+Lang::CO2_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(65,100)) {
-				supportComplexLife = true;
+				supportComplexLife = 6/10* LifeChanceMultiplier;
 				s += Lang::WITH_A+thickness+Lang::CO_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(55,100)) {
-				supportComplexLife = true;
+				supportComplexLife = 6/10;
 				s += Lang::WITH_A+thickness+Lang::CH4_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(3,10)) {
-				supportComplexLife = true;
+				supportComplexLife = 3/10;
 				s += Lang::WITH_A+thickness+Lang::H_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(2,10)) {
-				supportComplexLife = true;
+				supportComplexLife = 0;
 				s += Lang::WITH_A+thickness+Lang::HE_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(15,100)) {
-				supportComplexLife = false;
+				supportComplexLife = 0;
 				s += Lang::WITH_A+thickness+Lang::AR_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(1,10)) {
-				supportComplexLife = false;
+				supportComplexLife = 0;
 				s += Lang::WITH_A+thickness+Lang::S_ATMOSPHERE;
 			} else {
-				supportComplexLife = true;
+				supportComplexLife = 2/10;
 				s += Lang::WITH_A+thickness+Lang::N_ATMOSPHERE;
 			}
 		}
-		if (m_life > fixed(1,2) && supportComplexLife) {
+		
+		lifeCahnceMultiplier
+		if (m_life > fixed(1,2)) {
 			s += Lang::AND_HIGHLY_COMPLEX_ECOSYSTEM;
 		} else if (m_life > fixed(1,10)) {
 			s += Lang::AND_INDIGENOUS_PLANT_LIFE;
