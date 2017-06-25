@@ -339,19 +339,19 @@ std::string SystemBody::GetAstroDescription() const
 			else thickness = Lang::VERY_DENSE;
 
 			if (m_atmosOxidizing > fixed(95,100)) {
-				supportComplexLife = 9/10 * LifeChanceMultiplier;
+				supportComplexLife = 9 * LifeChanceMultiplier;
 				s += Lang::WITH_A+thickness+Lang::O2_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(7,10)) {
-				supportComplexLife = 7/10* LifeChanceMultiplier;
+				supportComplexLife = 7 * LifeChanceMultiplier;
 				s += Lang::WITH_A+thickness+Lang::CO2_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(65,100)) {
-				supportComplexLife = 6/10* LifeChanceMultiplier;
+				supportComplexLife = 6 * LifeChanceMultiplier;
 				s += Lang::WITH_A+thickness+Lang::CO_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(55,100)) {
-				supportComplexLife = 6/10;
+				supportComplexLife = 6 * LifeChanceMultiplier;
 				s += Lang::WITH_A+thickness+Lang::CH4_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(3,10)) {
-				supportComplexLife = 3/10;
+				supportComplexLife = 3 * LifeChanceMultiplier;
 				s += Lang::WITH_A+thickness+Lang::H_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(2,10)) {
 				supportComplexLife = 0;
@@ -363,15 +363,14 @@ std::string SystemBody::GetAstroDescription() const
 				supportComplexLife = 0;
 				s += Lang::WITH_A+thickness+Lang::S_ATMOSPHERE;
 			} else {
-				supportComplexLife = 2/10;
+				supportComplexLife = 2 * LifeChanceMultiplier;
 				s += Lang::WITH_A+thickness+Lang::N_ATMOSPHERE;
 			}
 		}
 		
-		lifeCahnceMultiplier
-		if (m_life > fixed(1,2)) {
+		if (m_life > fixed(1,2) && supportComplexLife > 7) {
 			s += Lang::AND_HIGHLY_COMPLEX_ECOSYSTEM;
-		} else if (m_life > fixed(1,10)) {
+		} else if (m_life > fixed(1,10) && supportComplexLife > 3) {
 			s += Lang::AND_INDIGENOUS_PLANT_LIFE;
 		} else if (m_life > fixed()) {
 			s += Lang::AND_INDIGENOUS_MICROBIAL_LIFE;
