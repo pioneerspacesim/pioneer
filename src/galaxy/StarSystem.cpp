@@ -187,7 +187,7 @@ const float StarSystem::starScale[] = {  // Used in sector view
 };
 
 int supportComplexLife;
-int LifeChanceMultiplier = (rand() % static_cast<int>(4)); //random value between 0 and 3
+int LifeChanceMultiplier = Int32(const int 0, const int 3); //random value between 0 and 3 (inclusive), reference: Random.h
 
 SystemBody::BodySuperType SystemBody::GetSuperType() const
 {
