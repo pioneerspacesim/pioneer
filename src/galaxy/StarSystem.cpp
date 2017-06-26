@@ -370,12 +370,14 @@ std::string SystemBody::GetAstroDescription() const
 		
 		if (m_life > fixed(1,2) && supportComplexLife > 7) {
 			s += Lang::AND_HIGHLY_COMPLEX_ECOSYSTEM;
-		} else if (m_life > fixed(1,10) && supportComplexLife > 3) {
+		} else if (m_life > fixed(1,10) && supportComplexLife > 4) {
 			s += Lang::AND_INDIGENOUS_PLANT_LIFE;
+		} else if (m_life > fixed() && supportComplexLife > 2) {
+			s += Lang::AND_PRIMITIVE_MULTICELLULAR_LIFE;
 		} else if (m_life > fixed()) {
 			s += Lang::AND_INDIGENOUS_MICROBIAL_LIFE;
 		} else {
-			s += ".";
+			s += "."
 		}
 
 		return s;
