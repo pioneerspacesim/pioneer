@@ -186,6 +186,9 @@ const float StarSystem::starScale[] = {  // Used in sector view
 	4.0f  // Supermassive blackhole
 };
 
+int supportComplexLife;
+int LifeChanceMultiplier = Int32(const int 0, const int 3); //random value between 0 and 3 (inclusive), reference: Random.h
+
 SystemBody::BodySuperType SystemBody::GetSuperType() const
 {
 	PROFILE_SCOPED()
@@ -336,34 +339,45 @@ std::string SystemBody::GetAstroDescription() const
 			else thickness = Lang::VERY_DENSE;
 
 			if (m_atmosOxidizing > fixed(95,100)) {
+				supportComplexLife = 9 * LifeChanceMultiplier;
 				s += Lang::WITH_A+thickness+Lang::O2_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(7,10)) {
+				supportComplexLife = 7 * LifeChanceMultiplier;
 				s += Lang::WITH_A+thickness+Lang::CO2_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(65,100)) {
+				supportComplexLife = 6 * LifeChanceMultiplier;
 				s += Lang::WITH_A+thickness+Lang::CO_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(55,100)) {
+				supportComplexLife = 6 * LifeChanceMultiplier;
 				s += Lang::WITH_A+thickness+Lang::CH4_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(3,10)) {
+				supportComplexLife = 3 * LifeChanceMultiplier;
 				s += Lang::WITH_A+thickness+Lang::H_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(2,10)) {
+				supportComplexLife = 0;
 				s += Lang::WITH_A+thickness+Lang::HE_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(15,100)) {
+				supportComplexLife = 0;
 				s += Lang::WITH_A+thickness+Lang::AR_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(1,10)) {
+				supportComplexLife = 0;
 				s += Lang::WITH_A+thickness+Lang::S_ATMOSPHERE;
 			} else {
+				supportComplexLife = 2 * LifeChanceMultiplier;
 				s += Lang::WITH_A+thickness+Lang::N_ATMOSPHERE;
 			}
 		}
-
-		if (m_life > fixed(1,2)) {
+		
+		if (m_life > fixed(1,2) && supportComplexLife > 7) {
 			s += Lang::AND_HIGHLY_COMPLEX_ECOSYSTEM;
-		} else if (m_life > fixed(1,10)) {
+		} else if (m_life > fixed(1,10) && supportComplexLife > 4) {
 			s += Lang::AND_INDIGENOUS_PLANT_LIFE;
+		} else if (m_life > fixed() && supportComplexLife > 2) {
+			s += Lang::AND_PRIMITIVE_MULTICELLULAR_LIFE;
 		} else if (m_life > fixed()) {
 			s += Lang::AND_INDIGENOUS_MICROBIAL_LIFE;
 		} else {
-			s += ".";
+			s += "."
 		}
 
 		return s;
