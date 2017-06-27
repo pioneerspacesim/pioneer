@@ -10,6 +10,7 @@ June 2017
 
    * Fixes
      * Fix for incorrectly implemented comparison function crashing Pioneer upon entering system (#4024)
+     * Fixed a crash pumping fuel into full tank (#4032)
 
 May 2017
    * New Features
