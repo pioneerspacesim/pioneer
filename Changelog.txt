@@ -6,6 +6,7 @@ June 2017
      * Remove WindowSDL class (#4018)
      * Support modifier keys in lua (#4026)
      * Fix all GCC 7.1.1 warnings (#4029)
+     * Decreased density for speedlines (#4031)
 
    * Fixes
      * Fix for incorrectly implemented comparison function crashing Pioneer upon entering system (#4024)
