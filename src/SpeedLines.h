@@ -24,6 +24,12 @@ public:
 	Ship *GetShip() const { return m_ship; }
 
 private:
+	static void Init();
+	static float BOUNDS;
+	static int   DEPTH;
+	static float SPACING;
+	static float MAX_VEL;
+
 	void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
 
 	Ship *m_ship;
