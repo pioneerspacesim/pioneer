@@ -10,6 +10,7 @@ The Pioneer Developers are:
 * Alan Briggs
 * Alan 'joonicks' Londa
 * Alessandro Giachi
+* Alexander Noack
 * Andrew Cook
 * Andrew Copland
 * Anton Korzun
