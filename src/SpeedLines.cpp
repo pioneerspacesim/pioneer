@@ -5,11 +5,14 @@
 #include "Ship.h"
 #include "graphics/RenderState.h"
 #include "Pi.h"
+#include "IniConfig.h"
+#include "FileSystem.h"
 
-const float BOUNDS     = 2000.f;
-const int   DEPTH      = 9;
-const float SPACING    = 750.f;
-const float MAX_VEL    = 100.f;
+// default values
+float SpeedLines::BOUNDS     = 2000.f;
+int   SpeedLines::DEPTH      = 9;
+float SpeedLines::SPACING    = 750.f;
+float SpeedLines::MAX_VEL    = 100.f;
 
 SpeedLines::SpeedLines(Ship *s)
 : m_ship(s)
@@ -17,6 +20,10 @@ SpeedLines::SpeedLines(Ship *s)
 , m_dir(0.f)
 {
 	PROFILE_SCOPED();
+
+	// init the static data
+	SpeedLines::Init();
+
 	m_points.reserve(DEPTH * DEPTH * DEPTH);
 	for (int x = -DEPTH/2; x < DEPTH/2; x++) {
 		for (int y = -DEPTH/2; y < DEPTH/2; y++) {
@@ -138,4 +145,16 @@ void SpeedLines::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
 	vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
 	vbd.numVertices = size;
 	m_vbuffer.reset(r->CreateVertexBuffer(vbd));
+}
+
+void SpeedLines::Init()
+{
+	IniConfig cfg;
+	cfg.Read(FileSystem::gameDataFiles, "configs/SpeedLines.ini");
+
+	// NB: limit the ranges of all values loaded from the file
+	BOUNDS     = Clamp(cfg.Float("bounds", 2000.0f), 100.0f, 4000.0f);
+	DEPTH      = Clamp(cfg.Int("depth", 9), 1, 32);
+	SPACING    = Clamp(cfg.Float("spacing", 750.0f), 250.0f, 2000.0f);
+	MAX_VEL    = Clamp(cfg.Float("max_vel", 100.0f), 50.0f, 200.0f);
 }
