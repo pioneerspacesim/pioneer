@@ -41,6 +41,7 @@ public:
 	void GotoCurrentSystem() { GotoSystem(m_current); }
 	void GotoSelectedSystem() { GotoSystem(m_selected); }
 	void GotoHyperspaceTarget() { GotoSystem(m_hyperspaceTarget); }
+	void SwapSelectedHyperspaceTarget();
 	virtual void SaveToJson(Json::Value &jsonObj);
 
 	sigc::signal<void> onHyperspaceTargetChanged;
