@@ -1587,6 +1587,10 @@
       "description" : "",
       "message" : "Yüzey sıcaklığı"
    },
+   "SWAP_SELECTED_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Swap selected and hyperjump target"
+   },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
       "message" : "Yönelim ekranı sistem geneli koordinatlara değiştirildi."

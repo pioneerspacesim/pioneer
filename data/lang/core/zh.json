@@ -1587,6 +1587,10 @@
       "description" : "",
       "message" : "表面温度"
    },
+   "SWAP_SELECTED_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Swap selected and hyperjump target"
+   },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
       "message" : "已将朝向模式设为星系坐标模式."
