@@ -1,3 +1,7 @@
+July 2017
+   * New Features
+     * Added Swap button for sector map (#4039)
+
 June 2017
    * New Features
      * Move time and time accel window to lua (#4025)
