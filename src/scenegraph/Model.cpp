@@ -248,7 +248,7 @@ void Model::CreateAabbVB()
 		Graphics::VertexBufferDesc vbd;
 		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
 		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
-		vbd.numVertices = va.GetNumVerts();
+		vbd.numVertices = static_cast<Uint32>(va.GetNumVerts());
 		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
 		m_aabbVB.Reset( m_renderer->CreateVertexBuffer(vbd) );
 		m_aabbVB->Populate( va );
@@ -298,7 +298,7 @@ void Model::DrawCollisionMesh()
 		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
 		vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
 		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_UBYTE4;
-		vbd.numVertices = va.GetNumVerts();
+		vbd.numVertices = static_cast<Uint32>(va.GetNumVerts());
 		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
 		m_collisionMeshVB.Reset( m_renderer->CreateVertexBuffer(vbd) );
 		m_collisionMeshVB->Populate( va );

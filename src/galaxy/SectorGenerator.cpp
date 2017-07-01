@@ -138,7 +138,7 @@ bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 	const int sx = sector->sx;
 	const int sy = sector->sy;
 	const int sz = sector->sz;
-	const int customCount = sector->m_systems.size();
+	const int customCount = static_cast<Uint32>(sector->m_systems.size());
 
 	int numSystems = (rng.Int32(4,20) * galaxy->GetSectorDensity(sx, sy, sz)) >> 8;
 

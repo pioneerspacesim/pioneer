@@ -96,7 +96,7 @@ Point Box::PreferredSize()
 	// if there was no variable ones, and thus we're asking for a specific
 	// amount of space, add sufficient padding
 	if (m_numVariable == 0)
-		m_preferredSize[vc] += m_spacing*m_children.size();
+		m_preferredSize[vc] += m_spacing * static_cast<Uint32>(m_children.size());
 
 	return m_preferredSize;
 }
@@ -127,8 +127,8 @@ void Box::Layout()
 		// didn't get enough, so we have share it around
 		else {
 			// we can certainly afford to give everyone this much
-			int availSize = boxSize[vc] - (m_spacing * (m_children.size()-1));
-			int minSize = availSize / m_children.size();
+			int availSize = boxSize[vc] - (m_spacing * static_cast<Uint32>(m_children.size()-1));
+			int minSize = availSize / static_cast<Uint32>(m_children.size());
 			int remaining = availSize;
 			int wantMore = 0;
 
@@ -159,13 +159,13 @@ void Box::Layout()
 	// we have one or more children that have requested the maximum size possible
 	else {
 
-		int availSize = boxSize[vc] - (m_spacing * (m_children.size()-1));
+		int availSize = boxSize[vc] - (m_spacing * static_cast<Sint32>((m_children.size()-1)));
 		int remaining = availSize;
 
 		// fixed ones first
 		if (m_children.size() > m_numVariable) {
 			// distribute evenly among the fixed ones
-			int minSize = availSize / (m_children.size() - m_numVariable);
+			int minSize = availSize / (static_cast<Uint32>(m_children.size()) - m_numVariable);
 
 			// loop and hand it out
 			for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {

@@ -32,7 +32,7 @@ List *List::AddOption(const std::string &text)
 
 	VBox *vbox = static_cast<VBox*>(m_container->GetInnerWidget());
 
-	int index = m_optionBackgrounds.size();
+	int index = static_cast<int>(m_optionBackgrounds.size());
 
 	ColorBackground *background = c->ColorBackground(m_selected == index ? c->GetSkin().GetSelectColor() : c->GetSkin().GetNormalColor());
 	vbox->PackEnd(background->SetInnerWidget(c->Label(text)));

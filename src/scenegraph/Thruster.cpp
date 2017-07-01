@@ -169,7 +169,7 @@ Graphics::VertexBuffer *Thruster::CreateThrusterGeometry(Graphics::Renderer *r, 
 	vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
 	vbd.attrib[1].semantic = Graphics::ATTRIB_UV0;
 	vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
-	vbd.numVertices = verts.GetNumVerts();
+	vbd.numVertices = static_cast<Uint32>(verts.GetNumVerts());
 	vbd.usage = Graphics::BUFFER_USAGE_STATIC;
 	Graphics::VertexBuffer *vb = r->CreateVertexBuffer(vbd);
 	vb->Populate(verts);
@@ -214,7 +214,7 @@ Graphics::VertexBuffer *Thruster::CreateGlowGeometry(Graphics::Renderer *r, Grap
 	vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
 	vbd.attrib[1].semantic = Graphics::ATTRIB_UV0;
 	vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
-	vbd.numVertices = verts.GetNumVerts();
+	vbd.numVertices = static_cast<Uint32>(verts.GetNumVerts());
 	vbd.usage = Graphics::BUFFER_USAGE_STATIC;
 	Graphics::VertexBuffer *vb = r->CreateVertexBuffer(vbd);
 	vb->Populate(verts);

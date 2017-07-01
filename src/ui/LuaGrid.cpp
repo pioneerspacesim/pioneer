@@ -13,7 +13,7 @@ public:
 		UI::Grid *g = LuaObject<UI::Grid>::CheckFromLua(1);
 		UI::Context *c = g->GetContext();
 
-		size_t rowNum = luaL_checkinteger(l, 2);
+		Uint32 rowNum = luaL_checkinteger(l, 2);
 		luaL_checktype(l, 3, LUA_TTABLE);
 
 		if (rowNum >= g->GetNumRows()) {
@@ -21,7 +21,7 @@ public:
 			return 0;
 		}
 
-		for (size_t i = 0; i < g->GetNumCols() && i < lua_rawlen(l, 3); i++) {
+		for (Uint32 i = 0; i < g->GetNumCols() && i < static_cast<Uint32>(lua_rawlen(l, 3)); i++) {
 			lua_rawgeti(l, 3, i+1);
 			if (lua_isnil(l, -1))
 				g->ClearCell(i, rowNum);
@@ -38,7 +38,7 @@ public:
 		UI::Grid *g = LuaObject<UI::Grid>::CheckFromLua(1);
 		UI::Context *c = g->GetContext();
 
-		size_t colNum = luaL_checkinteger(l, 2);
+		Uint32 colNum = luaL_checkinteger(l, 2);
 		luaL_checktype(l, 3, LUA_TTABLE);
 
 		if (colNum >= g->GetNumCols()) {
@@ -46,7 +46,7 @@ public:
 			return 0;
 		}
 
-		for (size_t i = 0; i < g->GetNumRows() && i < lua_rawlen(l, 3); i++) {
+		for (Uint32 i = 0; i < g->GetNumRows() && i < lua_rawlen(l, 3); i++) {
 			lua_rawgeti(l, 3, i+1);
 			if (lua_isnil(l, -1))
 				g->ClearCell(colNum, i);
@@ -63,8 +63,8 @@ public:
 		UI::Grid *g = LuaObject<UI::Grid>::CheckFromLua(1);
 		UI::Context *c = g->GetContext();
 
-		size_t colNum = luaL_checkinteger(l, 2);
-		size_t rowNum = luaL_checkinteger(l, 3);
+		Uint32 colNum = luaL_checkinteger(l, 2);
+		Uint32 rowNum = luaL_checkinteger(l, 3);
 		UI::Widget *w = UI::Lua::CheckWidget(c, l, 4);
 
 		if (colNum >= g->GetNumCols()) {

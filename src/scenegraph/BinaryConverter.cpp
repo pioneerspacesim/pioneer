@@ -46,7 +46,7 @@ public:
 	virtual void ApplyGroup(Group &g) override
 	{
 		ApplyNode(static_cast<Node&>(g));
-		db.wr->Int32(g.GetNumChildren());
+		db.wr->Int32(static_cast<Uint32>(g.GetNumChildren()));
 		g.Traverse(*this);
 	}
 
@@ -127,7 +127,7 @@ void BinaryConverter::Save(const std::string& filename, const std::string& savep
 	SaveAnimations(wr, m);
 
 	//save tags
-	wr.Int32(m->GetNumTags());
+	wr.Int32(static_cast<Uint32>(m->GetNumTags()));
 	for (unsigned int i = 0; i < m->GetNumTags(); i++)
 		wr.String(m->GetTagByIndex(i)->GetName().c_str());
 
@@ -244,7 +244,7 @@ void BinaryConverter::SaveMaterials(Serializer::Writer& wr, Model* model)
 	//for material definitions
 	const ModelDefinition &modelDef = FindModelDefinition(model->GetName());
 
-	wr.Int32(modelDef.matDefs.size());
+	wr.Int32(static_cast<Uint32>(modelDef.matDefs.size()));
 
 	for (const auto& m : modelDef.matDefs) {
 		wr.String(m.name);
@@ -296,25 +296,25 @@ void BinaryConverter::SaveAnimations(Serializer::Writer &wr, Model *m)
 {
 	PROFILE_SCOPED()
 	const auto& anims = m->GetAnimations();
-	wr.Int32(anims.size());
+	wr.Int32(static_cast<Uint32>(anims.size()));
 	for (const auto& anim : anims) {
 		wr.String(anim->GetName());
 		wr.Double(anim->GetDuration());
-		wr.Int32(anim->GetChannels().size());
+		wr.Int32(static_cast<Uint32>(anim->GetChannels().size()));
 		for (const auto &chan : anim->GetChannels()) {
 			wr.String(chan.node->GetName());
 			//write pos/rot/scale keys
-			wr.Int32(chan.positionKeys.size());
+			wr.Int32(static_cast<Uint32>(chan.positionKeys.size()));
 			for (const auto &pkey : chan.positionKeys) {
 				wr.Double(pkey.time);
 				wr.Vector3f(pkey.position);
 			}
-			wr.Int32(chan.rotationKeys.size());
+			wr.Int32(static_cast<Uint32>(chan.rotationKeys.size()));
 			for (const auto &rkey : chan.rotationKeys) {
 				wr.Double(rkey.time);
 				wr.WrQuaternionf(rkey.rotation);
 			}
-			wr.Int32(chan.scaleKeys.size());
+			wr.Int32(static_cast<Uint32>(chan.scaleKeys.size()));
 			for (const auto &skey : chan.scaleKeys) {
 				wr.Double(skey.time);
 				wr.Vector3f(skey.scale);

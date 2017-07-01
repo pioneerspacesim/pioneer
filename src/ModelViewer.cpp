@@ -511,7 +511,7 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 	}
 
 	m_renderer->SetTransform(trans);
-	m_gridLines.SetData(points.size(), &points[0], Color(128, 128, 128));
+	m_gridLines.SetData(static_cast<Uint32>(points.size()), &points[0], Color(128, 128, 128));
 	m_gridLines.Draw(m_renderer, m_bgState);
 
 	// industry-standard red/green/blue XYZ axis indiactor

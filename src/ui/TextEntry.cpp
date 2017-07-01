@@ -115,7 +115,7 @@ void TextEntry::HandleKeyDown(const KeyboardEvent &event)
 			break;
 
 		case SDLK_END:
-			m_cursor = text.size();
+			m_cursor = static_cast<Uint32>(text.size());
 			break;
 
 		case SDLK_BACKSPACE:
@@ -157,7 +157,7 @@ void TextEntry::HandleKeyDown(const KeyboardEvent &event)
 					case SDLK_w: {
 						size_t pos = text.find_last_not_of(' ', m_cursor);
 						if (pos != std::string::npos) pos = text.find_last_of(' ', pos);
-						m_cursor = pos != std::string::npos ? pos+1 : 0;
+						m_cursor = static_cast<Uint32>(pos != std::string::npos ? pos+1 : 0);
 						text.erase(m_cursor);
 						m_label->SetText(text);
 						onChange.emit(text);
@@ -167,10 +167,10 @@ void TextEntry::HandleKeyDown(const KeyboardEvent &event)
 					case SDLK_v: { // XXX SDLK_PASTE?
 						if (SDL_HasClipboardText()) {
 							char *paste = SDL_GetClipboardText();
-							int len = strlen(paste); // XXX strlen not utf8-aware
+							size_t len = strlen(paste); // XXX strlen not utf8-aware
 							text.insert(m_cursor, paste, len);
 							m_label->SetText(text);
-							m_cursor += len;
+							m_cursor += static_cast<Uint32>(len);
 							SDL_free(paste);
 						}
 					}

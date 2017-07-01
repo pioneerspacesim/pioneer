@@ -8,8 +8,8 @@ namespace UI {
 Grid::Grid(Context *context, const CellSpec &rowSpec, const CellSpec &colSpec) : Container(context),
 	m_rowSpec(rowSpec),
 	m_colSpec(colSpec),
-	m_numRows(colSpec.numCells),
-	m_numCols(rowSpec.numCells),
+	m_numRows(static_cast<Uint32>(colSpec.numCells)),
+	m_numCols(static_cast<Uint32>(rowSpec.numCells)),
 	m_widgets(m_rowSpec.numCells*m_colSpec.numCells)
 {
 	Clear();

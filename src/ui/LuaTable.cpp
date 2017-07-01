@@ -23,7 +23,7 @@ public:
 				widgets.push_back(w);
 			else
 				for (size_t i = 0; i < lua_rawlen(l, 2); i++) {
-					lua_rawgeti(l, 2, i+1);
+					lua_rawgeti(l, 2, static_cast<Sint32>(i+1));
 					widgets.push_back(UI::Lua::CheckWidget(c, l, -1));
 					lua_pop(l, 1);
 				}
@@ -50,7 +50,7 @@ public:
 				widgets.push_back(w);
 			else
 				for (size_t i = 0; i < lua_rawlen(l, idx); i++) {
-					lua_rawgeti(l, idx, i+1);
+					lua_rawgeti(l, idx, static_cast<Sint32>(i+1));
 					widgets.push_back(UI::Lua::CheckWidget(c, l, -1));
 					lua_pop(l, 1);
 				}

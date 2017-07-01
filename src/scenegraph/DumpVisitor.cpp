@@ -17,7 +17,7 @@ DumpVisitor::DumpVisitor(const Model *m)
 {
 	//model statistics that cannot be visited)
 	m_modelStats.collTriCount = m->GetCollisionMesh() ? m->GetCollisionMesh()->GetNumTriangles() : 0;
-	m_modelStats.materialCount = m->GetNumMaterials();
+	m_modelStats.materialCount = static_cast<Uint32>(m->GetNumMaterials());
 }
 
 std::string DumpVisitor::GetModelStatistics()

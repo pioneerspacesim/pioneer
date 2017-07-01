@@ -22,7 +22,7 @@ namespace Gui {
 		void RemoveAllChildren();
 		void DeleteAllChildren();
 		void GetChildPosition(const Widget *child, float outPos[2]) const;
-		int GetNumChildren() { return m_children.size(); }
+		size_t GetNumChildren() { return m_children.size(); }
 		virtual void Draw();
 		void ShowChildren();
 		void HideChildren();

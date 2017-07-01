@@ -44,7 +44,7 @@ void Table::LayoutAccumulator::ComputeForWidth(int availWidth) {
 		return;
 
 	if (m_preferredWidth == SIZE_EXPAND) {
-		int fixedSize = m_columnSpacing * (m_columnWidth.size()-1);
+		int fixedSize = m_columnSpacing * static_cast<Uint32>(m_columnWidth.size()-1);
 		int numExpand = 0;
 		for (std::size_t i = 0; i < m_columnWidth.size(); i++)
 			if (m_columnWidth[i] == SIZE_EXPAND)
@@ -80,7 +80,7 @@ void Table::LayoutAccumulator::ComputeForWidth(int availWidth) {
 		case COLUMN_RIGHT: {
 			m_columnLeft.back() = availWidth - m_columnWidth.back();
 			if (m_columnWidth.size() > 1)
-				for (int i = m_columnWidth.size()-2; i >= 0; i--)
+				for (size_t i = m_columnWidth.size()-2; i >= 0; i--)
 					m_columnLeft[i] = m_columnLeft[i+1] - m_columnSpacing - m_columnWidth[i];
 			break;
 		}
@@ -88,7 +88,7 @@ void Table::LayoutAccumulator::ComputeForWidth(int availWidth) {
 		case COLUMN_JUSTIFY: {
 			m_columnLeft[0] = 0;
 			if (m_columnWidth.size() > 1) {
-				int pad = availWidth > m_preferredWidth ? (availWidth-m_preferredWidth) / (m_columnWidth.size()-1) : 0;
+				int pad = availWidth > m_preferredWidth ? (availWidth-m_preferredWidth) / static_cast<Uint32>(m_columnWidth.size()-1) : 0;
 				for (std::size_t i = 1; i < m_columnWidth.size(); i++)
 					m_columnLeft[i] = m_columnLeft[i-1] + m_columnWidth[i-1] + m_columnSpacing + pad;
 			}
@@ -134,7 +134,7 @@ Point Table::Inner::PreferredSize()
 	}
 
 	if (!m_rows.empty() && m_rowSpacing)
-		m_preferredSize.y += (m_rows.size()-1)*m_rowSpacing;
+		m_preferredSize.y += static_cast<Uint32>(m_rows.size()-1) * m_rowSpacing;
 
 	m_dirty = false;
 	return m_preferredSize;
@@ -254,7 +254,7 @@ void Table::Inner::HandleClick()
 
 int Table::Inner::RowUnderPoint(const Point &pt, int *out_row_top, int *out_row_bottom) const
 {
-	int start = 0, end = m_rows.size()-1, mid = 0;
+	int start = 0, end = static_cast<Uint32>(m_rows.size()-1), mid = 0;
 	while (start <= end) {
 		mid = start+((end-start)/2);
 
