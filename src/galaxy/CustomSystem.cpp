@@ -398,6 +398,15 @@ static int l_csys_lawlessness(lua_State *L)
 	return 1;
 }
 
+static int l_csys_absmag(lua_State *L)
+{
+	CustomSystem *cs = l_csys_check(L, 1);
+	const double value = luaL_checknumber(L, 2);
+	cs->absMag = value;
+	lua_settop(L, 1);
+	return 1;
+}
+
 static void _add_children_to_sbody(lua_State *L, CustomSystemBody *sbody)
 {
 	lua_checkstack(L, 5); // grow the stack if necessary
@@ -520,6 +529,7 @@ static luaL_Reg LuaCustomSystem_meta[] = {
 	{ "faction", &l_csys_faction },
 	{ "govtype", &l_csys_govtype },
 	{ "lawlessness", &l_csys_lawlessness },
+	{ "absmag", &l_csys_absmag },
 	{ "bodies", &l_csys_bodies },
 	{ "add_to_sector", &l_csys_add_to_sector },
 	{ "__gc", &l_csys_gc },
