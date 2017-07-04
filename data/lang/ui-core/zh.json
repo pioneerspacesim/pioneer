@@ -293,7 +293,7 @@
    },
    "ENABLE_ANISOTROPIC_FILTERING" : {
       "description" : "Use Anisotropic Filtering",
-      "message" : "Anisotropic Filtering"
+      "message" : "各向异性过滤"
    },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
@@ -597,7 +597,7 @@
    },
    "ILLEGAL_JUMP" : {
       "description" : "A finable crime",
-      "message" : "Reckless hyperjump registered"
+      "message" : "鲁莽的超空间跳跃已经被记录在案"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -1017,7 +1017,7 @@
    },
    "PUMP_DOWN" : {
       "description" : "Drain the fuel tank",
-      "message" : "Pump down"
+      "message" : "抽空"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -1137,7 +1137,7 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set destination as navigation target."
+      "message" : "将目的地设置为导航目标. "
    },
    "SHIP" : {
       "description" : "",

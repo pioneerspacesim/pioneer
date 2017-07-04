@@ -565,7 +565,7 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "设置为导航目标"
    },
    "TAXI" : {
       "description" : "",
@@ -589,7 +589,7 @@
    },
    "WRONG_SYSTEM" : {
       "description" : "Shown if system name is right, but coordinates are wrong",
-      "message" : "The system name is right, but not the coordinates."
+      "message" : "星系名称是对的, 但是坐标不对"
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",

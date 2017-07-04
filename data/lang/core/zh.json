@@ -185,7 +185,7 @@
    },
    "CLEARANCE_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "请求已接受.前往停靠口 %bay."
+      "message" : "请求已接受. 前往停靠口 %bay."
    },
    "CO2_ATMOSPHERE" : {
       "description" : "",
@@ -217,35 +217,35 @@
    },
    "COMPASS_E" : {
       "description" : "Abbreviation for compass direction: East",
-      "message" : "E"
+      "message" : "东"
    },
    "COMPASS_N" : {
       "description" : "Abbreviation for compass direction: North",
-      "message" : "N"
+      "message" : "北"
    },
    "COMPASS_NE" : {
       "description" : "Abbreviation for compass direction: North East",
-      "message" : "NE"
+      "message" : "东北"
    },
    "COMPASS_NW" : {
       "description" : "Abbreviation for compass direction: North West",
-      "message" : "NW"
+      "message" : "西北"
    },
    "COMPASS_S" : {
       "description" : "Abbreviation for compass direction: South",
-      "message" : "S"
+      "message" : "南"
    },
    "COMPASS_SE" : {
       "description" : "Abbreviation for compass direction: South East",
-      "message" : "SE"
+      "message" : "东南"
    },
    "COMPASS_SW" : {
       "description" : "Abbreviation for compass direction: South West",
-      "message" : "SW"
+      "message" : "西南"
    },
    "COMPASS_W" : {
       "description" : "Abbreviation for compass direction: West",
-      "message" : "W"
+      "message" : "西"
    },
    "COMPUTERS" : {
       "description" : "",
@@ -305,7 +305,7 @@
    },
    "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Decrease radar range"
+      "message" : "减小雷达探测范围"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "DECREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Decrease Time Acceleration"
+      "message" : "减缓时间流逝"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
@@ -329,7 +329,7 @@
    },
    "DISTANCE_LY" : {
       "description" : "",
-      "message" : "距离: %distance{f.2} ly"
+      "message" : "距离: %distance{f.2} 光年"
    },
    "DOCKED" : {
       "description" : "",
@@ -453,7 +453,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Save file '%filename' could not be found (or the game does not have access to open it)."
+      "message" : "文件 '%filename' 无法被找到 (或游戏没有打开它的权限)"
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -573,7 +573,7 @@
    },
    "HYPERSPACE_JUMP_ABORT" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disengage Hyperdrive"
+      "message" : "超空间引擎熄火"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
@@ -581,15 +581,15 @@
    },
    "HYPERSPACE_JUMP_DISABLED" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Hyperdrive disabled"
+      "message" : "超空间引擎关闭"
    },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Engage Hyperdrive"
+      "message" : "超空间引擎启动"
    },
    "HYPERSPACE_JUMP_FORBIDDEN" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Hyperdrive forbidden zone"
+      "message" : "超空间引擎禁用区域"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -609,7 +609,7 @@
    },
    "ILLEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "非法的(当前星系):"
+      "message" : "非法的 (当前星系):"
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
@@ -621,7 +621,7 @@
    },
    "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Increase radar range"
+      "message" : "增加雷达探测范围"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -629,7 +629,7 @@
    },
    "INCREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Increase Time Acceleration"
+      "message" : "加快时间流逝"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
@@ -669,11 +669,11 @@
    },
    "JUMP_COMPLETE" : {
       "description" : "",
-      "message" : "Jump complete: %percent%%"
+      "message" : "跳跃已完成: %percent%%"
    },
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
-      "message" : "Switch between Lagrange L4/L5 point display modes."
+      "message" : "在拉格朗日点L4/L5显示模式间切换. "
    },
    "LANDED" : {
       "description" : "",
@@ -697,11 +697,11 @@
    },
    "LATITUDE" : {
       "description" : "Short for latitude",
-      "message" : "Lat:"
+      "message" : "纬度:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "合法的(当前星系):"
+      "message" : "合法的 (当前星系):"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -729,7 +729,7 @@
    },
    "LONGITUDE" : {
       "description" : "Short for longitude",
-      "message" : "Long:"
+      "message" : "经度:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -737,7 +737,7 @@
    },
    "MAJOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "主要出口(本星系)"
+      "message" : "主要出口 (本星系)"
    },
    "MAJOR_IMPORTS" : {
       "description" : "",
@@ -745,7 +745,7 @@
    },
    "MAJOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "主要进口(本星系)"
+      "message" : "主要进口 (本星系)"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -877,7 +877,7 @@
    },
    "MINOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "次要出口(本星系)"
+      "message" : "次要出口 (本星系)"
    },
    "MINOR_IMPORTS" : {
       "description" : "",
@@ -885,7 +885,7 @@
    },
    "MINOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "次要入口(本星系)"
+      "message" : "次要入口 (本星系)"
    },
    "MISCELLANEOUS" : {
       "description" : "",
@@ -981,7 +981,7 @@
    },
    "NOW" : {
       "description" : "In System Orbit View",
-      "message" : "Now"
+      "message" : "现在"
    },
    "NO_ALERT" : {
       "description" : "",
@@ -1005,7 +1005,7 @@
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
-      "message" : "船载计算机: 没有选择目标"
+      "message" : "舰载计算机: 没有选择目标"
    },
    "NUMBER_DAYS" : {
       "description" : "",
@@ -1169,7 +1169,7 @@
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
+      "message" : "已开始机动. 点击以回到默认设置. "
    },
    "PLASTICS" : {
       "description" : "",
@@ -1197,7 +1197,7 @@
    },
    "RADAR_CONTROL" : {
       "description" : "",
-      "message" : "Radar control"
+      "message" : "雷达控制"
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1281,7 +1281,7 @@
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
-      "message" : "个收集器位"
+      "message" : "收集器槽位数"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1449,7 +1449,7 @@
    },
    "STAR_A" : {
       "description" : "",
-      "message" : "'A'型白炽恒星"
+      "message" : "炽热的A型白色恒星"
    },
    "STAR_AF_GIANT" : {
       "description" : "",
@@ -1457,7 +1457,7 @@
    },
    "STAR_AF_HYPER_GIANT" : {
       "description" : "",
-      "message" : "白特超巨星"
+      "message" : "白超超巨星"
    },
    "STAR_AF_SUPER_GIANT" : {
       "description" : "",
@@ -1465,7 +1465,7 @@
    },
    "STAR_B" : {
       "description" : "",
-      "message" : "明亮的'B'型蓝色恒星"
+      "message" : "明亮的B型蓝色恒星"
    },
    "STAR_B_GIANT" : {
       "description" : "",
@@ -1473,23 +1473,23 @@
    },
    "STAR_B_HYPER_GIANT" : {
       "description" : "",
-      "message" : "蓝特超巨星"
+      "message" : "蓝超超巨星"
    },
    "STAR_B_SUPER_GIANT" : {
       "description" : "",
-      "message" : "超级蓝巨星"
+      "message" : "蓝超巨星"
    },
    "STAR_B_WF" : {
       "description" : "",
-      "message" : "沃尔夫–拉叶星 - 有塌缩的可能性"
+      "message" : "沃尔夫-拉叶星 - 有塌缩的可能性"
    },
    "STAR_F" : {
       "description" : "",
-      "message" : "'F'型白色恒星"
+      "message" : "F型白色恒星"
    },
    "STAR_G" : {
       "description" : "",
-      "message" : "'G'型黄色恒星"
+      "message" : "G型黄色恒星"
    },
    "STAR_G_GIANT" : {
       "description" : "",
@@ -1497,19 +1497,19 @@
    },
    "STAR_G_HYPER_GIANT" : {
       "description" : "",
-      "message" : "黄特超巨星 - 不稳定"
+      "message" : "黄超超巨星 - 不稳定"
    },
    "STAR_G_SUPER_GIANT" : {
       "description" : "",
-      "message" : "超级黄巨星"
+      "message" : "黄超巨星"
    },
    "STAR_IM_BH" : {
       "description" : "",
-      "message" : "中等质量黑洞"
+      "message" : "一个中等质量黑洞"
    },
    "STAR_K" : {
       "description" : "",
-      "message" : "'K'型橙色恒星"
+      "message" : "K型橙色恒星"
    },
    "STAR_K_GIANT" : {
       "description" : "",
@@ -1517,15 +1517,15 @@
    },
    "STAR_K_HYPER_GIANT" : {
       "description" : "",
-      "message" : "橙特超巨星 - 不稳定"
+      "message" : "橙超超巨星 - 不稳定"
    },
    "STAR_K_SUPER_GIANT" : {
       "description" : "",
-      "message" : "超级橙巨星"
+      "message" : "橙超巨星"
    },
    "STAR_M" : {
       "description" : "",
-      "message" : "'M'型红色恒星"
+      "message" : "M型红色恒星"
    },
    "STAR_M_GIANT" : {
       "description" : "",
@@ -1533,35 +1533,35 @@
    },
    "STAR_M_HYPER_GIANT" : {
       "description" : "",
-      "message" : "红特超巨星"
+      "message" : "红超超巨星"
    },
    "STAR_M_SUPER_GIANT" : {
       "description" : "",
-      "message" : "超级红巨星"
+      "message" : "红超巨星"
    },
    "STAR_M_WF" : {
       "description" : "",
-      "message" : "沃尔夫–拉叶星 - 不稳定"
+      "message" : "沃尔夫-拉叶星 - 不稳定"
    },
    "STAR_O" : {
       "description" : "",
-      "message" : "炽热'O'型巨星"
+      "message" : "炽热, 大质量的O型恒星"
    },
    "STAR_O_GIANT" : {
       "description" : "",
-      "message" : "蓝炽巨星"
+      "message" : "炽热的蓝巨星"
    },
    "STAR_O_HYPER_GIANT" : {
       "description" : "",
-      "message" : "蓝炽特超巨星"
+      "message" : "炽热的蓝超超巨星"
    },
    "STAR_O_SUPER_GIANT" : {
       "description" : "",
-      "message" : "超级蓝炽巨星"
+      "message" : "炽热的蓝超巨星"
    },
    "STAR_O_WF" : {
       "description" : "",
-      "message" : "沃尔夫–拉叶星 - 即将塌缩"
+      "message" : "沃尔夫-拉叶星 - 即将塌缩"
    },
    "STAR_SM_BH" : {
       "description" : "",
@@ -1589,7 +1589,7 @@
    },
    "SWAP_SELECTED_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Swap selected and hyperjump target"
+      "message" : "交换已选择的超空间跳跃目标"
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
@@ -1681,7 +1681,7 @@
    },
    "TOGGLE_EQUIPMENT_VIEW" : {
       "description" : "Tooltip for the Equipment View button",
-      "message" : "Equipment View"
+      "message" : "装备视图"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
@@ -1693,11 +1693,11 @@
    },
    "TOGGLE_RADAR_MODE" : {
       "description" : "",
-      "message" : "Toggle radar mode"
+      "message" : "切换雷达模式"
    },
    "TOGGLE_RADAR_VIEW" : {
       "description" : "Tooltip for the Radar View button",
-      "message" : "Radar View"
+      "message" : "雷达视图"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
@@ -1717,7 +1717,7 @@
    },
    "UNDOCKING" : {
       "description" : "Flight state of ship when leaving station",
-      "message" : "Undocking"
+      "message" : "离港中"
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
@@ -1729,59 +1729,59 @@
    },
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
-      "message" : "未探索的星系.已使用远程探测器收集到恒星信息,但行星信息仍不可用."
+      "message" : "未探索的星系. 已使用远程探测器收集到恒星信息, 但行星信息仍不可用."
    },
    "UNIT_AU" : {
       "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
-      "message" : "AU"
+      "message" : "天文单位"
    },
    "UNIT_DAYS" : {
       "description" : "Duration unit: one 24-hour day",
-      "message" : "d"
+      "message" : "日"
    },
    "UNIT_HOURS" : {
       "description" : "Duration unit: one 60-minute hour",
-      "message" : "h"
+      "message" : "时"
    },
    "UNIT_KILOMETERS" : {
       "description" : "Distance unit: one kilometer",
-      "message" : "km"
+      "message" : "千米"
    },
    "UNIT_KILOMETERS_PER_SECOND" : {
       "description" : "Speed unit: one kilometer per second",
-      "message" : "km/s"
+      "message" : "千米/秒"
    },
    "UNIT_LY" : {
       "description" : "Distance unit: a light year",
-      "message" : "ly"
+      "message" : "光年"
    },
    "UNIT_METERS" : {
       "description" : "Distance unit: one meter",
-      "message" : "m"
+      "message" : "米"
    },
    "UNIT_METERS_PER_SECOND" : {
       "description" : "Speed unit: one meter per second",
-      "message" : "m/s"
+      "message" : "米/秒"
    },
    "UNIT_MILLION_METERS" : {
       "description" : "Distance unit: one million meters",
-      "message" : "Mm"
+      "message" : "百万米"
    },
    "UNIT_MILLION_METERS_PER_SECOND" : {
       "description" : "Speed unit: one million meters per second",
-      "message" : "Mm/s"
+      "message" : "百万米/秒"
    },
    "UNIT_MINUTES" : {
       "description" : "Duration unit: one 60-second minute",
-      "message" : "m"
+      "message" : "分"
    },
    "UNIT_SECONDS" : {
       "description" : "Duration unit: one second",
-      "message" : "s"
+      "message" : "秒"
    },
    "UNIT_WEEKS" : {
       "description" : "Duration unit: one 7-day week",
-      "message" : "w"
+      "message" : "周"
    },
    "UNKNOWN" : {
       "description" : "",

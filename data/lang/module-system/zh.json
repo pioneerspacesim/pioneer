@@ -9,11 +9,11 @@
    },
    "BODIES" : {
       "description" : "",
-      "message" : "体"
+      "message" : "星体"
    },
    "BODY" : {
       "description" : "",
-      "message" : "体"
+      "message" : "星体"
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",

@@ -41,7 +41,7 @@
    },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
-      "message" : "Sorry, no candidates are currently seeking employment at {station}"
+      "message" : "很抱歉, 在 {station} 内没有正在寻找工作的人"
    },
    "NO_EXPERIENCE" : {
       "description" : "",

@@ -285,7 +285,7 @@
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "How are you? I'm {name}. One of my clients wants to import {cargoname} from {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
+      "message" : "你好! 我叫 {name}. 我的一个客户希望从距离我们 {dist} 光年的 {system} ({sectorx}, {sectory}, {sectorz}) 星系进口 {cargoname} . 他愿意为这趟跑货付 {cash} . 你需要回到 {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) 星系的 {dom_starport} 星港来交付货物. "
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
@@ -445,11 +445,11 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "设置为导航目标"
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "设置返程航线"
    },
    "SPACEPORT" : {
       "description" : "",
@@ -585,7 +585,7 @@
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "These goods are crucial for a construction project."
+      "message" : "这些货物对一个建筑计划极为重要. "
    },
    "WHYSOMUCH_MINING_1" : {
       "description" : "",

@@ -1,7 +1,7 @@
 {
    "AU" : {
       "description" : "",
-      "message" : "AU"
+      "message" : "天文单位"
    },
    "BOARDED_PASSENGER" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP CRASH LANDED on {planet}."
+      "message" : "飞船坠毁于 {planet}. "
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
@@ -417,7 +417,7 @@
    },
    "KM" : {
       "description" : "",
-      "message" : "km"
+      "message" : "千米"
    },
    "LAST_KNOWN_LOCATION" : {
       "description" : "",
@@ -637,15 +637,15 @@
    },
    "SEARCH_RESCUE" : {
       "description" : "",
-      "message" : "Search & Rescue"
+      "message" : "搜救任务"
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "设置为导航目标"
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "设置返程航线"
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
@@ -661,7 +661,7 @@
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
-      "message" : "Thank you so much. Your help is greatly appreciated."
+      "message" : "十分感谢你的帮助. "
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",

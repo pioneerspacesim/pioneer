@@ -1,11 +1,11 @@
 {
    "ADVANCED_TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Advanced target scanner"
+      "message" : "先进扫描器"
    },
    "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range target scanner with system wide coverage."
+      "message" : "可以覆盖星系大部分区域的长程扫描器. "
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -93,23 +93,23 @@
    },
    "DRIVE_MIL5" : {
       "description" : "",
-      "message" : "Class 5 Military drive"
+      "message" : "等级 5 军用推进器"
    },
    "DRIVE_MIL6" : {
       "description" : "",
-      "message" : "Class 6 Military drive"
+      "message" : "等级 6 军用推进器"
    },
    "DRIVE_MIL7" : {
       "description" : "",
-      "message" : "Class 7 Military drive"
+      "message" : "等级 7 军用推进器"
    },
    "DRIVE_MIL8" : {
       "description" : "",
-      "message" : "Class 8 Military drive"
+      "message" : "等级 8 军用推进器"
    },
    "DRIVE_MIL9" : {
       "description" : "",
-      "message" : "Class 9 Military drive"
+      "message" : "等级 9 军用推进器"
    },
    "ECM_ADVANCED" : {
       "description" : "",
@@ -197,19 +197,19 @@
    },
    "OUT_OF_SCANRANGE" : {
       "description" : "",
-      "message" : "Max scan range exceeded:"
+      "message" : "已超出扫描范围: "
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Passenger cabin"
+      "message" : "客舱"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
-      "message" : "Body scan"
+      "message" : "星体扫描"
    },
    "PLANETSCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Scan nearest body for resources."
+      "message" : "扫描最近的星体以搜寻资源. "
    },
    "PULSECANNON_10MW" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "RADAR" : {
       "description" : "",
-      "message" : "Radar"
+      "message" : "雷达"
    },
    "RADAR_DESCRIPTION" : {
       "description" : "",
@@ -249,11 +249,11 @@
    },
    "SCAN_COMPLETED" : {
       "description" : "",
-      "message" : "Scanning completed"
+      "message" : "扫描完成"
    },
    "SCAN_RESUMED" : {
       "description" : "",
-      "message" : "Scanning resumed"
+      "message" : "继续扫描"
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
@@ -277,11 +277,11 @@
    },
    "STARTING_SCAN" : {
       "description" : "",
-      "message" : "Starting scan, target distance is"
+      "message" : "开始扫描, 目标距离为"
    },
    "TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Target Scanner"
+      "message" : "扫描器"
    },
    "TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
@@ -289,31 +289,31 @@
    },
    "THRUSTERS_BASIC" : {
       "description" : "",
-      "message" : "Modified Thrusters"
+      "message" : "改良推进器"
    },
    "THRUSTERS_BASIC_DESCRIPTION" : {
       "description" : "",
-      "message" : "A modified type of thrusters approved for your ship."
+      "message" : "一种适用于你的船的改良推进器. "
    },
    "THRUSTERS_BEST" : {
       "description" : "",
-      "message" : "Bespoke Thrusters"
+      "message" : "订制推进器"
    },
    "THRUSTERS_BEST_DESCRIPTION" : {
       "description" : "",
-      "message" : "Custom made thrusters that provide the best possible output."
+      "message" : "订制的推进器, 可提供最大的输出. "
    },
    "THRUSTERS_MEDIUM" : {
       "description" : "",
-      "message" : "Optimised Thrusters"
+      "message" : "优化推进器"
    },
    "THRUSTERS_MEDIUM_DESCRIPTION" : {
       "description" : "",
-      "message" : "Thrusters that have been optimised to reduce inefficiencies and improve power output."
+      "message" : "经过优化以增加效率并增加输出功率的推进器. "
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade Computer"
+      "message" : "贸易计算机"
    },
    "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",

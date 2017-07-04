@@ -193,11 +193,11 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "设置为导航目标"
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "设置返程航线"
    },
    "SHIP" : {
       "description" : "",

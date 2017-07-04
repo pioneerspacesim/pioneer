@@ -1,7 +1,7 @@
 {
    "ADVICE_10_BODYTEXT" : {
       "description" : "",
-      "message" : "Relocating to another faction might be a good idea when in trouble with local authorities."
+      "message" : "如果你和地方当局有矛盾, 不如试试搬家到其它势力范围下. "
    },
    "ADVICE_10_HEADLINE" : {
       "description" : "",
@@ -13,11 +13,11 @@
    },
    "ADVICE_1_HEADLINE" : {
       "description" : "",
-      "message" : "Tame the Black Market"
+      "message" : "驾驭黑市交易"
    },
    "ADVICE_2_BODYTEXT" : {
       "description" : "",
-      "message" : "Many small distances are faster travelled than their sum."
+      "message" : "把旅程分为几个小段, 所需的时间往往比直接跨过整个旅程要短. "
    },
    "ADVICE_2_HEADLINE" : {
       "description" : "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
@@ -25,11 +25,11 @@
    },
    "ADVICE_3_BODYTEXT" : {
       "description" : "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
-      "message" : "Avoid jumping into uninhabited systems without the means to leave."
+      "message" : "避免在无法离开的情况下跳入一个不适宜居住的星系"
    },
    "ADVICE_3_HEADLINE" : {
       "description" : "",
-      "message" : "Avoid getting stranded: plan your jump sequence ahead"
+      "message" : "避免被困住: 计划好你的跳跃路线"
    },
    "ADVICE_4_BODYTEXT" : {
       "description" : "",
@@ -37,19 +37,19 @@
    },
    "ADVICE_4_HEADLINE" : {
       "description" : "",
-      "message" : "It's all relative"
+      "message" : "这都是相对的"
    },
    "ADVICE_5_BODYTEXT" : {
       "description" : "",
-      "message" : "Buy low and sell high."
+      "message" : "低价买入, 高价卖出. "
    },
    "ADVICE_5_HEADLINE" : {
       "description" : "",
-      "message" : "Never lose money"
+      "message" : "从不输钱"
    },
    "ADVICE_6_BODYTEXT" : {
       "description" : "",
-      "message" : "Pay close attention to any news reported, as information can affect market prices."
+      "message" : "密切关注新闻报道, 任何信息都有可能影响市场价格. "
    },
    "ADVICE_6_HEADLINE" : {
       "description" : "",
@@ -57,46 +57,46 @@
    },
    "ADVICE_7_BODYTEXT" : {
       "description" : "",
-      "message" : "Donations can earn you a good standing in society, but not all charities will earn you a reputation."
+      "message" : "捐款可以让你获得良好的社会声望, 但是不是所有的慈善机构都能让你获得好名声. "
    },
    "ADVICE_7_HEADLINE" : {
       "description" : "",
-      "message" : "Be generous"
+      "message" : "慷慨点"
    },
    "ADVICE_8_BODYTEXT" : {
       "description" : "",
-      "message" : "When journeying to binary systems, make sure to target the right star."
+      "message" : "当你旅行到一个双星系统时, 请确保你选对了目标恒星. "
    },
    "ADVICE_8_HEADLINE" : {
       "description" : "",
-      "message" : "Stay out of double trouble"
+      "message" : "别惹大麻烦"
    },
    "ADVICE_9_BODYTEXT" : {
       "description" : "",
-      "message" : "Regularly maintain your engines, but remember: you get what you pay for."
+      "message" : "经常维护你的引擎, 记住: 一分钱一分货. "
    },
    "ADVICE_9_HEADLINE" : {
       "description" : "",
-      "message" : "Treat your ship well"
+      "message" : "对你的船好点儿! "
    },
    "RUMOUR" : {
       "description" : "Headline starts with this pre-headline",
-      "message" : "RUMOUR"
+      "message" : "传言"
    },
    "TALE_1_BODYTEXT" : {
       "description" : "",
-      "message" : "Don't miss the beautiful eclipse on New Hope as Hades blocks out the light from Epsilon Eridani."
+      "message" : "不要错过哈迪斯遮挡波江座ε时在新希望上可以看到的美丽的日蚀. "
    },
    "TALE_1_HEADLINE" : {
       "description" : "Blade runner?",
-      "message" : "\"I've seen things you people wouldn't believe\""
+      "message" : "\"我曾见过你们无法置信的景象\""
    },
    "TRAVELLERS_ADVICE" : {
       "description" : "Headline starts with this pre-headline",
-      "message" : "TRAVELLER'S ADVICE"
+      "message" : "旅行者的建议"
    },
    "TRAVELLERS_TALE" : {
       "description" : "Headline starts with this pre-headline",
-      "message" : "TRAVELLER'S TALE"
+      "message" : "旅行者的故事"
    }
 }
