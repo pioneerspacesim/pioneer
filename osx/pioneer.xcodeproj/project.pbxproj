@@ -83,7 +83,6 @@
 		378564241B197E600039F2BC /* VtxColorMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378564041B197E600039F2BC /* VtxColorMaterial.cpp */; };
 		378564261B197E600039F2BC /* Stats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785640A1B197E600039F2BC /* Stats.cpp */; };
 		378564271B197E600039F2BC /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785640D1B197E600039F2BC /* VertexBuffer.cpp */; };
-		378564281B197E600039F2BC /* WindowSDL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785640F1B197E600039F2BC /* WindowSDL.cpp */; };
 		3785642C1B197E7A0039F2BC /* BindingCapture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378564291B197E7A0039F2BC /* BindingCapture.cpp */; };
 		3785642D1B197E7A0039F2BC /* LuaBindingCapture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785642B1B197E7A0039F2BC /* LuaBindingCapture.cpp */; };
 		378564381B197E8B0039F2BC /* Economy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785642E1B197E8B0039F2BC /* Economy.cpp */; };
@@ -492,10 +491,6 @@
 		525515761CA6EEE30055DAB8 /* RandomColor.h in Sources */ = {isa = PBXBuildFile; fileRef = 525515721CA6EE1C0055DAB8 /* RandomColor.h */; };
 		525E07921C318AD1009BD2DD /* libssl.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */; };
 		525E07931C318AE4009BD2DD /* libssl.1.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		527325CF1EC07B6600B0000E /* libassimp.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 527325CE1EC07B6600B0000E /* libassimp.3.2.0.dylib */; };
-		527325D01EC07BB900B0000E /* libassimp.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 527325CE1EC07B6600B0000E /* libassimp.3.2.0.dylib */; };
-		527325D11EC07BD600B0000E /* libassimp.3.2.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 527325CE1EC07B6600B0000E /* libassimp.3.2.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		527325D71EC07FF500B0000E /* libassimp.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 527325CE1EC07B6600B0000E /* libassimp.3.2.0.dylib */; };
 		527325D81EC0952900B0000E /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522E334A1C1B26AD00AB01D3 /* SDL2_image.framework */; };
 		527325D91EC0952900B0000E /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522E334B1C1B26AD00AB01D3 /* SDL2.framework */; };
 		527325DA1EC095EC00B0000E /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522E334A1C1B26AD00AB01D3 /* SDL2_image.framework */; };
@@ -625,7 +620,6 @@
 		52F404A01C9497790082B1F3 /* RendererDummy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563DA1B197E600039F2BC /* RendererDummy.cpp */; };
 		52F404AA1C9497EF0082B1F3 /* Stats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785640A1B197E600039F2BC /* Stats.cpp */; };
 		52F404AB1C9497EF0082B1F3 /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785640D1B197E600039F2BC /* VertexBuffer.cpp */; };
-		52F404AC1C9497EF0082B1F3 /* WindowSDL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785640F1B197E600039F2BC /* WindowSDL.cpp */; };
 		52F404AD1C9497EF0082B1F3 /* Drawables.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25B914F524D400FD14A6 /* Drawables.cpp */; };
 		52F404AE1C9497EF0082B1F3 /* Frustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25BB14F524D400FD14A6 /* Frustum.cpp */; };
 		52F404AF1C9497EF0082B1F3 /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25BD14F524D400FD14A6 /* Graphics.cpp */; };
@@ -668,6 +662,9 @@
 		52F404FA1C9498F90082B1F3 /* liblibscenegraph.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F404631C9496AA0082B1F3 /* liblibscenegraph.a */; };
 		52F404FB1C9498F90082B1F3 /* liblibtext.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F404431C9495FD0082B1F3 /* liblibtext.a */; };
 		52F404FC1C9499BA0082B1F3 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */; };
+		52F623AC1F0B82E000922CE1 /* libassimp.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F623AB1F0B82E000922CE1 /* libassimp.3.2.0.dylib */; };
+		52F623AD1F0B82E000922CE1 /* libassimp.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F623AB1F0B82E000922CE1 /* libassimp.3.2.0.dylib */; };
+		52F623AE1F0B82F000922CE1 /* libassimp.3.2.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 52F623AB1F0B82E000922CE1 /* libassimp.3.2.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F8FD8D721D3C0CA20075FEA1 /* GasGiantJobs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */; };
 /* End PBXBuildFile section */
 
@@ -688,7 +685,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				527325D11EC07BD600B0000E /* libassimp.3.2.0.dylib in Copy SubLibraries */,
+				52F623AE1F0B82F000922CE1 /* libassimp.3.2.0.dylib in Copy SubLibraries */,
 				52161F531C34354B005D3B25 /* libogg.0.dylib in Copy SubLibraries */,
 				523C0C5F1C33F92000802DC7 /* libcrypto.1.0.0.dylib in Copy SubLibraries */,
 				525E07931C318AE4009BD2DD /* libssl.1.0.0.dylib in Copy SubLibraries */,
@@ -869,8 +866,6 @@
 		3785640C1B197E600039F2BC /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
 		3785640D1B197E600039F2BC /* VertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexBuffer.cpp; sourceTree = "<group>"; };
 		3785640E1B197E600039F2BC /* VertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VertexBuffer.h; sourceTree = "<group>"; };
-		3785640F1B197E600039F2BC /* WindowSDL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WindowSDL.cpp; sourceTree = "<group>"; };
-		378564101B197E600039F2BC /* WindowSDL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowSDL.h; sourceTree = "<group>"; };
 		378564291B197E7A0039F2BC /* BindingCapture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BindingCapture.cpp; sourceTree = "<group>"; };
 		3785642A1B197E7A0039F2BC /* BindingCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindingCapture.h; sourceTree = "<group>"; };
 		3785642B1B197E7A0039F2BC /* LuaBindingCapture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaBindingCapture.cpp; sourceTree = "<group>"; };
@@ -1527,7 +1522,6 @@
 		525515711CA6EE1C0055DAB8 /* RandomColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomColor.cpp; sourceTree = "<group>"; };
 		525515721CA6EE1C0055DAB8 /* RandomColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomColor.h; sourceTree = "<group>"; };
 		525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.1.0.0.dylib; path = ../../../../../opt/local/lib/libssl.1.0.0.dylib; sourceTree = "<group>"; };
-		527325CE1EC07B6600B0000E /* libassimp.3.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.2.0.dylib; path = ../../../../../opt/local/lib/libassimp.3.2.0.dylib; sourceTree = "<group>"; };
 		5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BillboardMaterial.cpp; sourceTree = "<group>"; };
 		528422901CC0E80700A9BFA8 /* BillboardMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BillboardMaterial.h; sourceTree = "<group>"; };
 		52875DFD1E66D68C00BA28A4 /* eglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eglew.h; sourceTree = "<group>"; };
@@ -1632,6 +1626,7 @@
 		52F4049F1C9497440082B1F3 /* liblibgraphicsdummy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibgraphicsdummy.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F404A91C9497820082B1F3 /* liblibgraphics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibgraphics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F404DA1C94985F0082B1F3 /* liblibgui.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibgui.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		52F623AB1F0B82E000922CE1 /* libassimp.3.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.2.0.dylib; path = ../../../../../opt/local/lib/libassimp.3.2.0.dylib; sourceTree = "<group>"; };
 		F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GasGiantJobs.cpp; sourceTree = "<group>"; };
 		F87E479F1D36A46F0008F233 /* GasGiantJobs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasGiantJobs.h; sourceTree = "<group>"; };
 		F8FD8D731D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GenGasGiantColourMaterial.cpp; path = opengl/GenGasGiantColourMaterial.cpp; sourceTree = "<group>"; };
@@ -1645,7 +1640,6 @@
 			files = (
 				527325DA1EC095EC00B0000E /* SDL2_image.framework in Frameworks */,
 				527325DB1EC095EC00B0000E /* SDL2.framework in Frameworks */,
-				527325D01EC07BB900B0000E /* libassimp.3.2.0.dylib in Frameworks */,
 				52161F521C343532005D3B25 /* libogg.0.dylib in Frameworks */,
 				37074B911B1C653D00AFE2CE /* libbz2.1.0.6.dylib in Frameworks */,
 				523C0C5E1C33F90800802DC7 /* libcrypto.1.0.0.dylib in Frameworks */,
@@ -1654,6 +1648,7 @@
 				37074B931B1C653D00AFE2CE /* libz.1.2.8.dylib in Frameworks */,
 				52025F7C1C05BBAC00254BB5 /* libvorbis.0.dylib in Frameworks */,
 				3701C5861B1ABDA2000F4A72 /* libfreetype.6.dylib in Frameworks */,
+				52F623AD1F0B82E000922CE1 /* libassimp.3.2.0.dylib in Frameworks */,
 				378563521B19769A0039F2BC /* OpenGL.framework in Frameworks */,
 				52025F7F1C05BD3400254BB5 /* libvorbisfile.3.dylib in Frameworks */,
 				4A20B0E3135319770020F43E /* Cocoa.framework in Frameworks */,
@@ -1682,7 +1677,6 @@
 			files = (
 				527325D81EC0952900B0000E /* SDL2_image.framework in Frameworks */,
 				527325D91EC0952900B0000E /* SDL2.framework in Frameworks */,
-				527325D71EC07FF500B0000E /* libassimp.3.2.0.dylib in Frameworks */,
 				52F404FC1C9499BA0082B1F3 /* libfreetype.6.dylib in Frameworks */,
 				5221A6E11C9583B3002F4CD1 /* libsigc-2.0.0.dylib in Frameworks */,
 				5221A6E31C95844A002F4CD1 /* libpng16.16.dylib in Frameworks */,
@@ -1691,6 +1685,7 @@
 				52F404F51C9498F90082B1F3 /* liblibgraphics.a in Frameworks */,
 				52F404F61C9498F90082B1F3 /* liblibgraphicsdummy.a in Frameworks */,
 				52F404FA1C9498F90082B1F3 /* liblibscenegraph.a in Frameworks */,
+				52F623AC1F0B82E000922CE1 /* libassimp.3.2.0.dylib in Frameworks */,
 				52F404F41C9498F90082B1F3 /* liblibcollider.a in Frameworks */,
 				52F404FB1C9498F90082B1F3 /* liblibtext.a in Frameworks */,
 				52F404F81C9498F90082B1F3 /* liblibpicodds.a in Frameworks */,
@@ -1703,7 +1698,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				527325CF1EC07B6600B0000E /* libassimp.3.2.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2115,8 +2109,6 @@
 				3785640C1B197E600039F2BC /* Types.h */,
 				3785640D1B197E600039F2BC /* VertexBuffer.cpp */,
 				3785640E1B197E600039F2BC /* VertexBuffer.h */,
-				3785640F1B197E600039F2BC /* WindowSDL.cpp */,
-				378564101B197E600039F2BC /* WindowSDL.h */,
 				4A4F25B914F524D400FD14A6 /* Drawables.cpp */,
 				4A4F25BA14F524D400FD14A6 /* Drawables.h */,
 				4A4F25BB14F524D400FD14A6 /* Frustum.cpp */,
@@ -2143,7 +2135,7 @@
 		4A671B851388C04700657F38 /* SubLibraries */ = {
 			isa = PBXGroup;
 			children = (
-				527325CE1EC07B6600B0000E /* libassimp.3.2.0.dylib */,
+				52F623AB1F0B82E000922CE1 /* libassimp.3.2.0.dylib */,
 				52161F511C343532005D3B25 /* libogg.0.dylib */,
 				523C0C5D1C33F90800802DC7 /* libcrypto.1.0.0.dylib */,
 				525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */,
@@ -3256,7 +3248,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "Pioneer" */;
+			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -3634,7 +3626,6 @@
 				4AAB881D15F4AD7700AAF8A8 /* Lua.cpp in Sources */,
 				4AAB884815FDEA6F00AAF8A8 /* LuaRef.cpp in Sources */,
 				378564121B197E600039F2BC /* RendererDummy.cpp in Sources */,
-				378564281B197E600039F2BC /* WindowSDL.cpp in Sources */,
 				4A973BF71618688F0029562D /* DeathView.cpp in Sources */,
 				4A973BF81618688F0029562D /* LuaDev.cpp in Sources */,
 				4AF222E7162103EA00BED38E /* Factions.cpp in Sources */,
@@ -3945,7 +3936,6 @@
 			files = (
 				52F404AA1C9497EF0082B1F3 /* Stats.cpp in Sources */,
 				52F404AB1C9497EF0082B1F3 /* VertexBuffer.cpp in Sources */,
-				52F404AC1C9497EF0082B1F3 /* WindowSDL.cpp in Sources */,
 				52F404AD1C9497EF0082B1F3 /* Drawables.cpp in Sources */,
 				52F404AE1C9497EF0082B1F3 /* Frustum.cpp in Sources */,
 				52F404AF1C9497EF0082B1F3 /* Graphics.cpp in Sources */,
@@ -5394,7 +5384,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "Pioneer" */ = {
+		4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4A20B0D51353194B0020F43E /* Debug */,
