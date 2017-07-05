@@ -4,6 +4,10 @@ July 2017
 
    * Internal Changes
      * Install package for OS X (July 2017) (#4047)
+     * VS2015, 64bit linking fix (#4046)
+
+   * Fixes
+     * Adding some missing letters to Orbiteer for Turkish translation (#4043)
 
 June 2017
    * New Features
