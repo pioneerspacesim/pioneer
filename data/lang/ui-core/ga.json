@@ -541,7 +541,7 @@
    },
    "HUD_REQUEST_TIME_ACCEL" : {
       "description" : "Tooltip: Request time acceleration {time}",
-      "message" : "Request time acceleration: {time}"
+      "message" : "Iarr luathú ama: {time}"
    },
    "HUD_SHOW_COMBAT_TARGET" : {
       "description" : "Tooltip: Show the current combat target.",
