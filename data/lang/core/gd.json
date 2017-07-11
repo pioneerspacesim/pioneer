@@ -1589,7 +1589,7 @@
    },
    "SWAP_SELECTED_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Swap selected and hyperjump target"
+      "message" : "Dèan amas os-fhànais dhe na thagh thu"
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
