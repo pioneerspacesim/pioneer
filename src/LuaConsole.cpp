@@ -189,7 +189,7 @@ bool LuaConsole::OnKeyDown(const UI::KeyboardEvent &event) {
 		case SDLK_DOWN: {
 			if (m_historyPosition == -1) {
 				if (event.keysym.sym == SDLK_UP) {
-					m_historyPosition = (m_statementHistory.size() - 1);
+					m_historyPosition = static_cast<Uint32>(m_statementHistory.size() - 1);
 					if (m_historyPosition != -1) {
 						m_stashedStatement = m_entry->GetText();
 						m_entry->SetText(m_statementHistory[m_historyPosition]);
@@ -240,11 +240,11 @@ bool LuaConsole::OnKeyDown(const UI::KeyboardEvent &event) {
 			if (!m_completionList.empty()) { // We still need to test whether it failed or not.
 				if (event.keysym.mod & KMOD_SHIFT) {
 					if (m_currentCompletion == 0)
-						m_currentCompletion = m_completionList.size();
+						m_currentCompletion = static_cast<Uint32>(m_completionList.size());
 					m_currentCompletion--;
 				} else {
 					m_currentCompletion++;
-					if (m_currentCompletion == m_completionList.size())
+					if (m_currentCompletion == static_cast<Uint32>(m_completionList.size()))
 						m_currentCompletion = 0;
 				}
 				m_entry->SetText(m_precompletionStatement + m_completionList[m_currentCompletion]);
@@ -319,7 +319,7 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 		std::sort(m_completionList.begin(), m_completionList.end());
 		m_completionList.erase(std::unique(m_completionList.begin(), m_completionList.end()), m_completionList.end());
 		// Add blank completion at the end of the list and point to it.
-		m_currentCompletion = m_completionList.size();
+		m_currentCompletion = static_cast<Uint32>(m_completionList.size());
 		m_completionList.push_back("");
 
 		m_precompletionStatement = statement;

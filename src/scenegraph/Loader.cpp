@@ -534,9 +534,9 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 		assert(indices.size() > 0);
 
 		//create buffer & copy
-		RefCountedPtr<Graphics::IndexBuffer> ib(m_renderer->CreateIndexBuffer(indices.size(), Graphics::BUFFER_USAGE_STATIC));
+		RefCountedPtr<Graphics::IndexBuffer> ib(m_renderer->CreateIndexBuffer(static_cast<Uint32>(indices.size()), Graphics::BUFFER_USAGE_STATIC));
 		Uint32* idxPtr = ib->Map(Graphics::BUFFER_MAP_WRITE);
-		for (Uint32 j = 0; j < indices.size(); j++)
+		for (size_t j = 0; j < indices.size(); j++)
 			idxPtr[j] = indices[j];
 		ib->Unmap();
 

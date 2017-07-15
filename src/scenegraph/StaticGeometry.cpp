@@ -59,7 +59,7 @@ void StaticGeometry::Render(const std::vector<matrix4x4f> &trans, const RenderDa
 	SDL_assert(m_renderState);
 	Graphics::Renderer *r = GetRenderer();
 
-	const size_t numTrans = trans.size();
+	const Uint32 numTrans = static_cast<Uint32>(trans.size());
 	if (!m_instBuffer.Valid() || (numTrans > m_instBuffer->GetSize()))
 	{
 		// create the InstanceBuffer with the maximum number of transformations we might use within it.
@@ -125,7 +125,7 @@ void StaticGeometry::Save(NodeDatabase &db)
     db.wr->Vector3d(m_boundingBox.min);
     db.wr->Vector3d(m_boundingBox.max);
 
-    db.wr->Int32(m_meshes.size());
+    db.wr->Int32(static_cast<Uint32>(m_meshes.size()));
 
     for (auto mesh : m_meshes) {
 		//do ptr to material name mapping
@@ -375,7 +375,7 @@ void StaticGeometry::DrawBoundingBox(const Aabb &bb)
 	vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
 	vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
 	vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_UBYTE4;
-	vbd.numVertices = vts->GetNumVerts();
+	vbd.numVertices = static_cast<Uint32>(vts->GetNumVerts());
 	vbd.usage = Graphics::BUFFER_USAGE_STATIC;
 	vb.Reset( m_renderer->CreateVertexBuffer(vbd) );
 	vb->Populate( *vts );

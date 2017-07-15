@@ -92,7 +92,7 @@ protected:
 			lua_setfield(l, LUA_REGISTRYINDEX, "PiUISignal");
 		}
 
-		idx = lua_rawlen(l, -1)+1;
+		idx = static_cast<Sint32>(lua_rawlen(l, -1)+1);
 		lua_pushvalue(l, 2);
 		lua_rawseti(l, -2, idx);
 

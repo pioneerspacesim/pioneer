@@ -178,7 +178,7 @@ static int l_engine_get_video_mode_list(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	const std::vector<Graphics::VideoMode> modes = Graphics::GetAvailableVideoModes();
-	const int N = modes.size();
+	const int N = static_cast<Sint32>(modes.size());
 	lua_createtable(l, N, 0);
 	for (int i = 0; i < N; ++i) {
 		lua_createtable(l, 0, 2);

@@ -696,7 +696,7 @@ bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
 			++attribIdx;
 		}
-		vbd.numVertices = v->position.size();
+		vbd.numVertices = static_cast<Uint32>(v->position.size());
 		vbd.usage = BUFFER_USAGE_DYNAMIC;	// dynamic since we'll be reusing these buffers if possible
 
 		// VertexBuffer

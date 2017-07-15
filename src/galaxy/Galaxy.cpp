@@ -116,7 +116,7 @@ DensityMapGalaxy::DensityMapGalaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerato
 		Pi::Quit();
 	}
 
-	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
+	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), static_cast<Uint32>(filedata->GetSize()));
 	SDL_Surface *galaxyImg = SDL_LoadBMP_RW(datastream, 1);
 	if (!galaxyImg) {
 		Output("Galaxy: couldn't load: %s (%s)\n", mapfile.c_str(), SDL_GetError());
