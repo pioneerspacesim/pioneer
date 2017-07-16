@@ -42,7 +42,7 @@ public:
 	virtual void Disable();
 	virtual void Enable();
 
-	unsigned GetNumWidgets() const { return m_widgets.size(); }
+	Uint32 GetNumWidgets() const { return static_cast<Uint32>(m_widgets.size()); }
 	IterationProxy<std::vector<RefCountedPtr<Widget> > > GetWidgets() { return MakeIterationProxy(m_widgets); }
 	const IterationProxy<const std::vector<RefCountedPtr<Widget> > > GetWidgets() const { return MakeIterationProxy(m_widgets); }
 
