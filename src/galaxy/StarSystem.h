@@ -106,7 +106,7 @@ public:
 	bool IsMoon() const { return GetSuperType() == SUPERTYPE_ROCKY_PLANET && !IsPlanet(); }
 
 	bool HasChildren() const { return !m_children.empty(); }
-	unsigned GetNumChildren() const { return m_children.size(); }
+	Uint32 GetNumChildren() const { return static_cast<Uint32>(m_children.size()); }
 	IterationProxy<std::vector<SystemBody*> > GetChildren() { return MakeIterationProxy(m_children); }
 	const IterationProxy<const std::vector<SystemBody*> > GetChildren() const { return MakeIterationProxy(m_children); }
 
@@ -322,12 +322,12 @@ public:
 	RefCountedPtr<const SystemBody> GetRootBody() const { return m_rootBody; }
 	RefCountedPtr<SystemBody> GetRootBody() { return m_rootBody; }
 	bool HasSpaceStations() const { return !m_spaceStations.empty(); }
-	unsigned GetNumSpaceStations() const { return m_spaceStations.size(); }
+	Uint32 GetNumSpaceStations() const { return static_cast<Uint32>(m_spaceStations.size()); }
 	IterationProxy<std::vector<SystemBody*> > GetSpaceStations() { return MakeIterationProxy(m_spaceStations); }
 	const IterationProxy<const std::vector<SystemBody*> > GetSpaceStations() const { return MakeIterationProxy(m_spaceStations); }
 	IterationProxy<std::vector<SystemBody*> > GetStars() { return MakeIterationProxy(m_stars); }
 	const IterationProxy<const std::vector<SystemBody*> > GetStars() const { return MakeIterationProxy(m_stars); }
-	unsigned GetNumBodies() const { return m_bodies.size(); }
+	Uint32 GetNumBodies() const { return static_cast<Uint32>(m_bodies.size()); }
 	IterationProxy<std::vector<RefCountedPtr<SystemBody> > > GetBodies() { return MakeIterationProxy(m_bodies); }
 	const IterationProxy<const std::vector<RefCountedPtr<SystemBody> > > GetBodies() const { return MakeIterationProxy(m_bodies); }
 
@@ -363,7 +363,7 @@ protected:
 	virtual ~StarSystem();
 
 	SystemBody *NewBody() {
-		SystemBody *body = new SystemBody(SystemPath(m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex, m_bodies.size()), this);
+		SystemBody *body = new SystemBody(SystemPath(m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex, static_cast<Uint32>(m_bodies.size())), this);
 		m_bodies.push_back(RefCountedPtr<SystemBody>(body));
 		return body;
 	}

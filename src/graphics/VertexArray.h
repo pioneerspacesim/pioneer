@@ -24,7 +24,7 @@ public:
 
 	//check presence of an attribute
 	__inline bool HasAttrib(const VertexAttrib v) const	{ return (m_attribs & v) != 0; }
-	__inline size_t GetNumVerts() const { return position.size(); }
+	__inline Uint32 GetNumVerts() const { return static_cast<Uint32>(position.size()); }
 	__inline AttributeSet GetAttributeSet() const { return m_attribs; }
 
 	__inline bool IsEmpty() const { return position.empty(); }

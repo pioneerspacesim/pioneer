@@ -103,7 +103,7 @@ public:
 
 	// lights with properties in camera space
 	const std::vector<LightSource> &GetLightSources() const { return m_lightSources; }
-	const int GetNumLightSources() const { return m_lightSources.size(); }
+	const int GetNumLightSources() const { return static_cast<Uint32>(m_lightSources.size()); }
 
 private:
 	RefCountedPtr<CameraContext> m_context;

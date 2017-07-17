@@ -33,8 +33,9 @@ SpeedLines::SpeedLines(Ship *s)
 		}
 	}
 
-	m_varray.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, (m_points.size() * 2)));
-	for( Uint32 i = 0; i < (m_points.size() * 2); i++ )
+	const Uint32 doubleNumPoints = static_cast<Uint32>(m_points.size()) * 2;
+	m_varray.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, doubleNumPoints));
+	for( Uint32 i = 0; i < doubleNumPoints; i++ )
 		m_varray->Add(vector3f(0.0f), Color::BLACK);
 
 	Graphics::RenderStateDesc rsd;
@@ -42,7 +43,7 @@ SpeedLines::SpeedLines(Ship *s)
 	rsd.depthWrite = false;
 	m_renderState = Pi::renderer->CreateRenderState(rsd);
 
-	CreateVertexBuffer( Pi::renderer, (m_points.size() * 2) );
+	CreateVertexBuffer( Pi::renderer, doubleNumPoints );
 }
 
 void SpeedLines::Update(float time)

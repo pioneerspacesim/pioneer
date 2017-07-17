@@ -62,7 +62,7 @@ public:
 	void AddChild(Frame *f) { m_children.push_back(f); }
 	void RemoveChild(Frame *f);
 	bool HasChildren() const { return !m_children.empty(); }
-	unsigned GetNumChildren() const { return m_children.size(); }
+	unsigned GetNumChildren() const { return static_cast<Uint32>(m_children.size()); }
 	IterationProxy<std::vector<Frame*> > GetChildren() { return MakeIterationProxy(m_children); }
 	const IterationProxy<const std::vector<Frame*> > GetChildren() const { return MakeIterationProxy(m_children); }
 

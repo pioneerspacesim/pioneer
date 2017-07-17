@@ -22,7 +22,7 @@ public:
 
 	bool Load();
 
-	Uint32 GetNumStrings() const { return m_strings.size(); }
+	Uint32 GetNumStrings() const { return static_cast<Uint32>(m_strings.size()); }
 
 	const std::string &Get(const std::string &token) const;
 
