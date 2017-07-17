@@ -5,6 +5,7 @@ July 2017
    * Internal Changes
      * Install package for OS X (July 2017) (#4047)
      * VS2015, 64bit linking fix (#4046)
+     * Cleaup 64-bit warnings in vs2015 (#4051)
 
    * Fixes
      * Adding some missing letters to Orbiteer for Turkish translation (#4043)
