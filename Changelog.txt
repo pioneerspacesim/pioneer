@@ -1,6 +1,7 @@
 July 2017
    * New Features
      * Added Swap button for sector map (#4039)
+     * New default keybindings (#4050)
 
    * Internal Changes
      * Install package for OS X (July 2017) (#4047)
