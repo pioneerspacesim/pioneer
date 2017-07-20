@@ -10,6 +10,7 @@ July 2017
 
    * Fixes
      * Adding some missing letters to Orbiteer for Turkish translation (#4043)
+     * Fix comparison for "most important" object (#4053)
 
 June 2017
    * New Features
