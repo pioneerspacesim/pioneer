@@ -12,6 +12,7 @@ July 2017
      * Adding some missing letters to Orbiteer for Turkish translation (#4043)
      * Fix comparison for "most important" object (#4053)
      * Handle assimp major versions greater than 3 (#4055)
+     * Removing collision mesh for those little fin things top and bottom (#4044)
 
 June 2017
    * New Features
