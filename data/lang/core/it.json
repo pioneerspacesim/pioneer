@@ -5,7 +5,7 @@
    },
    "ALERT_CANCELLED" : {
       "description" : "",
-      "message" : "Allarme rientrato."
+      "message" : "Allarme disattivato."
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -257,7 +257,7 @@
    },
    "COMPUTER_SPEED_CONTROL" : {
       "description" : "",
-      "message" : "Controllo velocità assitito"
+      "message" : "Controllo velocità assistito"
    },
    "CONSUMER_GOODS" : {
       "description" : "",
@@ -361,7 +361,7 @@
    },
    "EARTH" : {
       "description" : "",
-      "message" : "terrestre"
+      "message" : "Terrestre"
    },
    "EARTH_FEDERATION_COLONIAL_RULE" : {
       "description" : "",
@@ -489,7 +489,7 @@
    },
    "HARD_CAPITALIST" : {
       "description" : "",
-      "message" : "Capitalismo perfetto - nessun intervento dello Stato in economia"
+      "message" : "Capitalismo perfetto - nessun intervento dello stato in economia"
    },
    "HAT" : {
       "description" : "Hat switch: Is the top button on a joystick",
@@ -673,7 +673,7 @@
    },
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
-      "message" : "Commuta frai modi di visualizzazione dei punti di Lagrange L4/L5."
+      "message" : "Commuta i modi di visualizzazione dei punti di Lagrange L4/L5."
    },
    "LANDED" : {
       "description" : "",
@@ -893,7 +893,7 @@
    },
    "MISSILE" : {
       "description" : "",
-      "message" : "missile"
+      "message" : "Missile"
    },
    "MIXED_ECONOMY" : {
       "description" : "",
@@ -1169,7 +1169,7 @@
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
-      "message" : "Inizio manovra. Click per reimpostare al predefinito."
+      "message" : "Inizio manovra. Click per reimpostare ai valori predefiniti."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1801,7 +1801,7 @@
    },
    "VERY_DENSE" : {
       "description" : "",
-      "message" : "spessa"
+      "message" : "Spessa"
    },
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",
