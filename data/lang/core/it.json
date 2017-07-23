@@ -5,7 +5,7 @@
    },
    "ALERT_CANCELLED" : {
       "description" : "",
-      "message" : "Allarme rientrato."
+      "message" : "Allarme disabilitato."
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "COUNT_STARPORTS" : {
       "description" : "",
-      "message" : "astroporti"
+      "message" : "Astroporti"
    },
    "CO_ATMOSPHERE" : {
       "description" : "",
@@ -361,7 +361,7 @@
    },
    "EARTH" : {
       "description" : "",
-      "message" : "terrestre"
+      "message" : "Terrestre"
    },
    "EARTH_FEDERATION_COLONIAL_RULE" : {
       "description" : "",
@@ -413,11 +413,11 @@
    },
    "FINE_PAID_N" : {
       "description" : "",
-      "message" : "Ha pagato la sanzione di %fine."
+      "message" : "Hai pagato la sanzione di %fine."
    },
    "FINE_PAID_N_BUT_N_REMAINING" : {
       "description" : "",
-      "message" : "Ha pagato %paid, ma ha ancora in pendenza sanzioni per %fine."
+      "message" : "Hai pagato %paid, ma hai ancora in pendenza sanzioni per %fine."
    },
    "FIRE_LASER" : {
       "description" : "",
@@ -1169,7 +1169,7 @@
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
-      "message" : "Inizio manovra. Click per reimpostare al predefinito."
+      "message" : "Inizio manovra. Click per reimpostare ai valori predefiniti."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1629,7 +1629,7 @@
    },
    "TENUOUS" : {
       "description" : "atmosphere thickness",
-      "message" : "tenue"
+      "message" : "Tenue"
    },
    "TEXTILES" : {
       "description" : "",
@@ -1657,7 +1657,7 @@
    },
    "THRUSTER_PORT" : {
       "description" : "",
-      "message" : "Spinta a manca"
+      "message" : "Spinta a sinistra"
    },
    "THRUSTER_RETRO" : {
       "description" : "",
@@ -1873,7 +1873,7 @@
    },
    "YOU_NO_MONEY" : {
       "description" : "",
-      "message" : "Non ha più crediti."
+      "message" : "Non hai più crediti."
    },
    "Z" : {
       "description" : "keybinding: z axis",
