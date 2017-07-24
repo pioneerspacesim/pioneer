@@ -47,7 +47,7 @@ class RendererOGL : public Renderer
 public:
 	static void RegisterRenderer();
 
-	RendererOGL(SDL_Window *window, const Graphics::Settings &vs);
+	RendererOGL(SDL_Window *window, const Graphics::Settings &vs, SDL_GLContext &glContext);
 	virtual ~RendererOGL() override final;
 
 	virtual const char* GetName() const override final { return "OpenGL 3.1, with extensions, renderer"; }

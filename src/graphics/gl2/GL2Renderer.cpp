@@ -128,7 +128,7 @@ static Renderer *CreateRenderer(const Settings &vs) {
 
 	SDL_GL_SetSwapInterval((vs.vsync!=0) ? 1 : 0);
 
-	return new RendererGL2(window, vs);
+	return new RendererGL2(window, vs, glContext);
 }
 
 void RendererGL2::RegisterRenderer() {
@@ -205,7 +205,7 @@ void RendererGL2::CheckErrors(const char *func /*= nullptr*/, const int line /*=
 #endif
 }
 
-RendererGL2::RendererGL2(SDL_Window *window, const Graphics::Settings &vs)
+RendererGL2::RendererGL2(SDL_Window *window, const Graphics::Settings &vs, SDL_GLContext &glContext)
 : Renderer(window, vs.width, vs.height)
 , m_numDirLights(0)
 //the range is very large due to a "logarithmic z-buffer" trick used
@@ -218,6 +218,7 @@ RendererGL2::RendererGL2(SDL_Window *window, const Graphics::Settings &vs)
 , m_activeRenderTarget(0)
 , m_activeRenderState(nullptr)
 , m_matrixMode(MatrixMode::MODELVIEW)
+, m_glContext(glContext)
 {
 	GLenum glew_err;
 	if ((glew_err = glewInit()) != GLEW_OK)

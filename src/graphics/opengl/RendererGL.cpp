@@ -129,7 +129,7 @@ static Renderer *CreateRenderer(const Settings &vs)
 
 	SDL_GL_SetSwapInterval((vs.vsync!=0) ? 1 : 0);
 
-    return new RendererOGL(window, vs);
+    return new RendererOGL(window, vs, glContext);
 }
 
 // static method instantiations
@@ -145,7 +145,7 @@ RendererOGL::AttribBufferMap RendererOGL::s_AttribBufferMap;
 typedef std::vector<std::pair<MaterialDescriptor, OGL::Program*> >::const_iterator ProgramIterator;
 
 // ----------------------------------------------------------------------------
-RendererOGL::RendererOGL(SDL_Window *window, const Graphics::Settings &vs)
+RendererOGL::RendererOGL(SDL_Window *window, const Graphics::Settings &vs, SDL_GLContext &glContext)
 : Renderer(window, vs.width, vs.height)
 , m_numLights(0)
 , m_numDirLights(0)
@@ -159,6 +159,7 @@ RendererOGL::RendererOGL(SDL_Window *window, const Graphics::Settings &vs)
 , m_activeRenderTarget(0)
 , m_activeRenderState(nullptr)
 , m_matrixMode(MatrixMode::MODELVIEW)
+, m_glContext(glContext)
 {
 	glewExperimental = true;
 	GLenum glew_err;
