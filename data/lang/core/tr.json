@@ -189,7 +189,7 @@
    },
    "CO2_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Karbon Diyoksit atmosfer\""
+      "message" : "\" Karbondioksit atmosfer\""
    },
    "COMMA_HIGHLY_VOLCANIC" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "CO_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Karbon Monoksit atmosfer\""
+      "message" : "\" Karbonmonoksit atmosfer\""
    },
    "CTRL" : {
       "description" : "Ctrl key on keyboard",
@@ -509,7 +509,7 @@
    },
    "HEADING_LOCK_KILLROT" : {
       "description" : "",
-      "message" : "Döndürmeyi yok et."
+      "message" : "Dönüşü durdur."
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
@@ -1045,7 +1045,7 @@
    },
    "N_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Nitrojen atmosfer\""
+      "message" : "\" Azot atmosfer\""
    },
    "N_CELSIUS" : {
       "description" : "",
@@ -1589,7 +1589,7 @@
    },
    "SWAP_SELECTED_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Değişim seçildi ve üstuzay hedefi"
+      "message" : "Üstuzay hedefini seçili hedefle değiştir"
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",

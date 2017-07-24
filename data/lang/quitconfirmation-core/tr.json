@@ -37,7 +37,7 @@
    },
    "MSG_18" : {
       "description" : "Catch phrase of 2016?",
-      "message" : "Pioneer'i yeinden harika yapalım! Sadece korkaklar kaçar, bundan emin misin?"
+      "message" : "Pioneer'i yeniden harika yapalım! Sadece korkaklar kaçar, bundan emin misin?"
    },
    "MSG_19" : {
       "description" : "Alluding to / inviting the player to contribute content to the game",
@@ -61,11 +61,11 @@
    },
    "MSG_6" : {
       "description" : "",
-      "message" : "Cesur olmak için {no}a tıkla. Utanç içinde korkmak için {yes}e tıkla."
+      "message" : "Cesur olmak için {no}a tıkla. Utanç içinde kaçmak için {yes}e tıkla."
    },
    "MSG_7" : {
       "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
-      "message" : "Senin yerinde olsam ayrılmazdım. Komut satırı çok daha kötü"
+      "message" : "Senin yerinde olsam ayrılmazdım. Komut satırı çok daha kötü."
    },
    "MSG_8" : {
       "description" : "",

@@ -1017,7 +1017,7 @@
    },
    "PUMP_DOWN" : {
       "description" : "Drain the fuel tank",
-      "message" : "Pompa aşağı"
+      "message" : "Geri pompala"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
