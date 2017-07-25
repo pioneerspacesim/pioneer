@@ -41,7 +41,7 @@ class RendererGL2 : public Renderer
 public:
 	static void RegisterRenderer();
 
-	RendererGL2(SDL_Window *window, const Graphics::Settings &vs);
+	RendererGL2(SDL_Window *window, const Graphics::Settings &vs, SDL_GLContext &glContext);
 	virtual ~RendererGL2();
 
 	virtual const char* GetName() const  override final { return "OpenGL 2.1, with extensions, renderer"; }
