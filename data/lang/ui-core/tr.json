@@ -597,7 +597,7 @@
    },
    "ILLEGAL_JUMP" : {
       "description" : "A finable crime",
-      "message" : "Ahlaksız üstuzay atlayışı kaydedildi."
+      "message" : "Ahlaksız üstuzay atlayışı"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -1209,7 +1209,7 @@
    },
    "TECH_CERTIFIED" : {
       "description" : "Lobby screen shows the tech level (an integer number) of the station",
-      "message" : "Bu istasyon {tech_level} teknoloji sertifikasına sahip."
+      "message" : "Bu istasyon {tech_level} seviye teknoloji sertifikasına sahip."
    },
    "TECH_CERTIFIED_MILITARY" : {
       "description" : "Lobby screen shows the tech level of the station",
