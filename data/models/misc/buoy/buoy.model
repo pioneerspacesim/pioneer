@@ -1,0 +1,6 @@
+material Material-material
+diffuse 1.0 1.0 1.0
+specular 0.5 0.5 0.5
+tex_diff buoy.png
+
+mesh buoy.dae
