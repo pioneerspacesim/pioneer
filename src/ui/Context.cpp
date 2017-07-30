@@ -96,10 +96,12 @@ Layer *Context::NewLayer()
 void Context::DropLayer()
 {
 	// dropping the last layer would be bad
-	assert(m_layers.size() > 1);
-	RemoveWidget(m_layers.back());
-	m_layers.pop_back();
-	m_needsLayout = true;
+	if(m_layers.size() > 1)
+	{
+		RemoveWidget(m_layers.back());
+		m_layers.pop_back();
+		m_needsLayout = true;
+	}
 }
 
 void Context::DropAllLayers()
