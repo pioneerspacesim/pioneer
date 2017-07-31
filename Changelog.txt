@@ -2,6 +2,8 @@ July 2017
    * New Features
      * Added Swap button for sector map (#4039)
      * New default keybindings (#4050)
+     * Fail hyperdrive when wheels are down (#4049)
+     * New music for ship-destroyed (#4038)
 
    * Internal Changes
      * Install package for OS X (July 2017) (#4047)
@@ -14,6 +16,7 @@ July 2017
      * Handle assimp major versions greater than 3 (#4055)
      * Removing collision mesh for those little fin things top and bottom (#4044)
      * Fix segfault when exiting Pioneer (#4057)
+     * Avoid crash on ESCaping a UI Dropdown (#4060)
 
 June 2017
    * New Features
