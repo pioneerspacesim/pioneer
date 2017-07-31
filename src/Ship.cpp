@@ -1206,7 +1206,7 @@ void Ship::StaticUpdate(const float timeStep)
 			AbortHyperjump();
 		} else {
 			m_hyperspace.countdown = m_hyperspace.countdown - timeStep;
-			if (!abort && m_hyperspace.countdown <= 0.0f) {
+			if (!abort && m_hyperspace.countdown <= 0.0f && m_wheelState != 1.0f) {
 				m_hyperspace.countdown = 0;
 				m_hyperspace.now = true;
 				SetFlightState(JUMPING);
@@ -1215,6 +1215,11 @@ void Ship::StaticUpdate(const float timeStep)
 				// after the whole physics update, which means the flight state on next
 				// step would be HYPERSPACE, thus breaking quite a few things.
 				LuaEvent::Queue("onLeaveSystem", this);
+			}
+			//give player some time to check the wheels
+			else if (m_hyperspace.countdown <= 0.0f && m_wheelState == 1.0f) {
+				AbortHyperjump();
+				Sound::BodyMakeNoise(this, "Hyperjump_Abort", 1.0f);
 			}
 		}
 	}
