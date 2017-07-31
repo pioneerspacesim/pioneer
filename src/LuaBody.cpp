@@ -254,6 +254,10 @@ static int l_body_is_more_important_than(lua_State *l)
 	// spacestation > ship > hyperspace cloud > cargo body > missile > projectile
 	else if(a == Object::Type::SPACESTATION) result = true;
 	else if(b == Object::Type::SPACESTATION) result = false;
+    else if(a == Object::Type::CITYONPLANET) result = true;
+    else if(b == Object::Type::CITYONPLANET) result = false;
+    else if(a == Object::Type::TERRAINBODY) result = true;
+    else if(b == Object::Type::TERRAINBODY) result = false;
 	else if(a == Object::Type::SHIP) result = true;
 	else if(b == Object::Type::SHIP) result = false;
 	else if(a == Object::Type::HYPERSPACECLOUD) result = true;
