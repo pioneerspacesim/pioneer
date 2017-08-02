@@ -84,8 +84,8 @@ local function displayRadar()
 	-- only display if there actually *is* a radar installed
 	if #radar > 0 then
 
-		local cntr = Vector(ui.screenWidth / 2, ui.screenHeight - ui.reticuleCircleRadius - 15)
-		local size = ui.reticuleCircleRadius
+		local size = ui.reticuleCircleRadius * 0.66
+		local cntr = Vector(ui.screenWidth / 2, ui.screenHeight - size - 15)
 
 		local mp = ui.getMousePos()
 		if (Vector(mp.x,mp.y) - cntr):magnitude() < size then
