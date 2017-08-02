@@ -11,6 +11,7 @@ local Event = import("Event")
 
 -- cache ui
 local pionillium = ui.fonts.pionillium
+local pionicons = ui.fonts.pionicons
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
@@ -530,6 +531,23 @@ local function updateReticuleTarget(frame, navTarget, combatTarget)
 	end
 end
 
+local function displaySetSpeed(radius)
+	local setSpeed = player:GetSetSpeed()
+	if setSpeed ~= nil then
+		local distance, unit = ui.Format.Speed(setSpeed)
+		local uiPos = ui.pointOnClock(center, radius, 4.0)
+		local target = player:GetSetSpeedTarget()
+		local color = colors.reticuleCircle
+		local colorDark = colors.reticuleCircleDark
+		ui.addFancyText(uiPos, ui.anchor.left, ui.anchor.top, {
+											{ text=icons.autopilot_set_speed, color=color,     font=pionicons.medium,  tooltip="set speed" },
+											{ text=distance,                  color=color,     font=pionillium.medium, tooltip="set speed" },
+											{ text=unit,                      color=colorDark, font=pionillium.small,  tooltip="set speed" },
+											{ text=' ' .. target.label,       color=color,     font=pionillium.medium, tooltip="set speed" }},
+										colors.lightBlackBackground)
+	end
+end
+
 local function displayReticule()
 	-- reticule circle
 	ui.addCircle(center, reticuleCircleRadius, colors.reticuleCircle, ui.circleSegments(reticuleCircleRadius), reticuleCircleThickness)
@@ -556,6 +574,7 @@ local function displayReticule()
 		displayDetailData(combatTarget, radius, combatTarget, navTarget, colors.combatTarget, colors.combatTargetDark)
 	end
 
+	displaySetSpeed(radius)
 	displayManeuverData(radius)
 	displayMouseMoveIndicator()
 	displayReticulePitchHorizonCompass()

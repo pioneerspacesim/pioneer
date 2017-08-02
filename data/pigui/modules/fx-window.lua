@@ -254,8 +254,11 @@ local function button_flight_control()
 			tooltip = ci.tooltip
 		end
 	elseif flightcontrolstate == "CONTROL_FIXSPEED" then
-		local distance, unit = ui.Format.Speed(player:GetSetSpeed())
-		tooltip = tooltip .. " " .. distance .. unit
+		local speed = player:GetSetSpeed()
+		if speed then
+			local distance, unit = ui.Format.Speed(speed)
+			tooltip = tooltip .. " " .. distance .. unit
+		end
   end
 	if mainMenuButton(icon, false, tooltip) or (flightstate == "FLYING" and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
 		Game.ChangeFlightState()

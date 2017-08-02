@@ -48,6 +48,7 @@ public:
 	virtual void SetFlightControlState(FlightControlState s) { }
 	virtual FlightControlState GetFlightControlState() const { return CONTROL_MANUAL; }
 	virtual double GetSetSpeed() const { return 0.0; }
+	virtual Body *GetSetSpeedTarget() const { return nullptr; }
 	Ship *m_ship;
 };
 
@@ -57,19 +58,19 @@ class PlayerShipController : public ShipController
 public:
 	PlayerShipController();
 	~PlayerShipController();
-	virtual Type GetType() { return PLAYER; }
-	void SaveToJson(Json::Value &jsonObj, Space *s);
-	void LoadFromJson(const Json::Value &jsonObj);
-	void PostLoadFixup(Space *s);
-	void StaticUpdate(float timeStep);
+	Type GetType() override { return PLAYER; }
+	void SaveToJson(Json::Value &jsonObj, Space *s) override;
+	void LoadFromJson(const Json::Value &jsonObj) override;
+	void PostLoadFixup(Space *s) override;
+	void StaticUpdate(float timeStep) override;
 	// Poll controls, set thruster states, gun states and target velocity
 	void PollControls(float timeStep, const bool force_rotation_damping, int *mouseMotion);
 	bool IsMouseActive() const { return m_mouseActive; }
-	double GetSetSpeed() const { return m_setSpeed; }
-	FlightControlState GetFlightControlState() const { return m_flightControlState; }
+	double GetSetSpeed() const override { return m_setSpeed; }
+	FlightControlState GetFlightControlState() const override { return m_flightControlState; }
 	vector3d GetMouseDir() const { return m_mouseDir; }
 	void SetMouseForRearView(bool enable) { m_invertMouse = enable; }
-	void SetFlightControlState(FlightControlState s);
+	void SetFlightControlState(FlightControlState s) override;
 	float GetLowThrustPower() const { return m_lowThrustPower; }
 	void SetLowThrustPower(float power);
 
@@ -82,7 +83,7 @@ public:
 	//XXX AI should utilize one or more of these
 	Body *GetCombatTarget() const;
 	Body *GetNavTarget() const;
-	Body *GetSetSpeedTarget() const;
+	Body *GetSetSpeedTarget() const override;
 	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
 	void SetNavTarget(Body* const target, bool setSpeedTo = false);
 
