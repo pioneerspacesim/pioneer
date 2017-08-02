@@ -1041,7 +1041,25 @@ static int l_ship_get_flight_control_state(lua_State *l) {
 
 static int l_ship_get_set_speed(lua_State *l) {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	LuaPush(l, s->GetController()->GetSetSpeed());
+	if(s->GetController()->GetFlightControlState() == CONTROL_FIXSPEED)
+		LuaPush(l, s->GetController()->GetSetSpeed());
+	else
+		lua_pushnil(l);
+	return 1;
+}
+
+static int l_ship_get_set_speed_target(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	Body *t = s->GetController()->GetSetSpeedTarget();
+	if(s->GetType() == Object::Type::PLAYER && t == nullptr) {
+		Frame *f = s->GetFrame();
+		if(f)
+			t = f->GetBody();
+	}
+	if(t)
+		LuaObject<Body>::PushToLua(t);
+	else
+		lua_pushnil(l);
 	return 1;
 }
 
@@ -1244,10 +1262,11 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "IsDocked",    l_ship_is_docked },
 		{ "IsLanded",    l_ship_is_landed },
 
-		{ "GetWheelState", l_ship_get_wheel_state },
-		{ "ToggleWheelState", l_ship_toggle_wheel_state },
-		{ "GetFlightState", l_ship_get_flight_state },
-		{ "GetSetSpeed", l_ship_get_set_speed },
+		{ "GetWheelState",     l_ship_get_wheel_state },
+		{ "ToggleWheelState",  l_ship_toggle_wheel_state },
+		{ "GetFlightState",    l_ship_get_flight_state },
+		{ "GetSetSpeed",       l_ship_get_set_speed },
+		{ "GetSetSpeedTarget", l_ship_get_set_speed_target },
 
 		{ "GetHyperspaceCountdown", l_ship_get_hyperspace_countdown },
 		{ "IsHyperspaceActive",     l_ship_is_hyperspace_active },

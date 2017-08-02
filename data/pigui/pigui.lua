@@ -224,6 +224,7 @@ ui.fonts = {
 	-- dummy font, actually renders icons
 	pionicons = {
 		small = { name = "icons", size = 16 * font_factor, offset = 14 * font_factor},
+		medium = { name = "icons", size = 18 * font_factor, offset = 20 * font_factor},
 		large = { name = "icons", size = 22 * font_factor, offset = 28 * font_factor}
 	},
 	pionillium = {

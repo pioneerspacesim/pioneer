@@ -74,8 +74,8 @@ static int l_set_nav_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
 	Body *target = LuaObject<Body>::GetFromLua(2);
-    p->SetNavTarget(target);
-    return 0;
+	p->SetNavTarget(target);
+	return 0;
 }
 
 /*
