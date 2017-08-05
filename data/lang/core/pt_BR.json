@@ -217,7 +217,7 @@
    },
    "COMPASS_E" : {
       "description" : "Abbreviation for compass direction: East",
-      "message" : "E"
+      "message" : "L"
    },
    "COMPASS_N" : {
       "description" : "Abbreviation for compass direction: North",
@@ -229,7 +229,7 @@
    },
    "COMPASS_NW" : {
       "description" : "Abbreviation for compass direction: North West",
-      "message" : "NW"
+      "message" : "NO"
    },
    "COMPASS_S" : {
       "description" : "Abbreviation for compass direction: South",
@@ -241,11 +241,11 @@
    },
    "COMPASS_SW" : {
       "description" : "Abbreviation for compass direction: South West",
-      "message" : "SW"
+      "message" : "SO"
    },
    "COMPASS_W" : {
       "description" : "Abbreviation for compass direction: West",
-      "message" : "W"
+      "message" : "O"
    },
    "COMPUTERS" : {
       "description" : "",
@@ -305,7 +305,7 @@
    },
    "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Decrease radar range"
+      "message" : "Diminuir alcance do radar"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "DECREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Decrease Time Acceleration"
+      "message" : "Diminuir Aceleração do Tempo"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
@@ -453,7 +453,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Save file '%filename' could not be found (or the game does not have access to open it)."
+      "message" : "Arquivo de save '%filename' não encontrado (ou o jogo não tem permissão para abri-lo)."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -581,7 +581,7 @@
    },
    "HYPERSPACE_JUMP_DISABLED" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Hyperdrive disabled"
+      "message" : "Hiperdrive desligado"
    },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
@@ -589,7 +589,7 @@
    },
    "HYPERSPACE_JUMP_FORBIDDEN" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Hyperdrive forbidden zone"
+      "message" : "Zona proibida para Hiperdrive"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -621,7 +621,7 @@
    },
    "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Increase radar range"
+      "message" : "Aumentar alcance do radar"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -629,7 +629,7 @@
    },
    "INCREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Increase Time Acceleration"
+      "message" : "Aumentar Aceleração do Tempo"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
@@ -669,11 +669,11 @@
    },
    "JUMP_COMPLETE" : {
       "description" : "",
-      "message" : "Jump complete: %percent%%"
+      "message" : "Salto completo: %percent%%"
    },
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
-      "message" : "Switch between Lagrange L4/L5 point display modes."
+      "message" : "Trocar modo de display entre ponto de Lagrange L4/L5"
    },
    "LANDED" : {
       "description" : "",
@@ -981,7 +981,7 @@
    },
    "NOW" : {
       "description" : "In System Orbit View",
-      "message" : "Now"
+      "message" : "Agora"
    },
    "NO_ALERT" : {
       "description" : "",
@@ -1197,7 +1197,7 @@
    },
    "RADAR_CONTROL" : {
       "description" : "",
-      "message" : "Radar control"
+      "message" : "Controle do radar"
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1589,7 +1589,7 @@
    },
    "SWAP_SELECTED_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Swap selected and hyperjump target"
+      "message" : "Trocar alvo selecionado com o do hipersalto"
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
@@ -1681,7 +1681,7 @@
    },
    "TOGGLE_EQUIPMENT_VIEW" : {
       "description" : "Tooltip for the Equipment View button",
-      "message" : "Equipment View"
+      "message" : "Visão dos Equipamentos"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
@@ -1693,11 +1693,11 @@
    },
    "TOGGLE_RADAR_MODE" : {
       "description" : "",
-      "message" : "Toggle radar mode"
+      "message" : "Permutar modo radar"
    },
    "TOGGLE_RADAR_VIEW" : {
       "description" : "Tooltip for the Radar View button",
-      "message" : "Radar View"
+      "message" : "Visão do Radar"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
@@ -1733,7 +1733,7 @@
    },
    "UNIT_AU" : {
       "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
-      "message" : "AU"
+      "message" : "UA"
    },
    "UNIT_DAYS" : {
       "description" : "Duration unit: one 24-hour day",
@@ -1781,7 +1781,7 @@
    },
    "UNIT_WEEKS" : {
       "description" : "Duration unit: one 7-day week",
-      "message" : "w"
+      "message" : "smn"
    },
    "UNKNOWN" : {
       "description" : "",

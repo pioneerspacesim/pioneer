@@ -5,15 +5,15 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Nome: {nome}%s\nExperiência: {experiência}%s\nPretensão Salarial: {salário} semanal%s\n%s\n{resposta}%s\n"
+      "message" : "Nome: {name}\nExperiência: {experience}\nPretensão Salarial: {wage} semanal\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
-      "message" : "{potencialMembrodaTripulação} ({salário}/wk)"
+      "message" : "{potentialCrewMember} ({wage}/semana)"
    },
    "CREWTESTRESULTSBB" : {
       "description" : "",
-      "message" : "Resultados do exame:%s\n%s\nCompetência geral da tripulação: {geral}%s\nEngenharia e reparo: {engenharia}%s\nPilotagem e voo no espaço: {pilotagem}%s\nNavegação e mapeamento: {navegação}%s\nSensores e defesa: {sensores}%s\nPontuação global do exame: {global}%"
+      "message" : "Resultados do exame:\n\nCompetência geral da tripulação: {general}\nEngenharia e reparo: {engineering}\nPilotagem e voo no espaço: {piloting}\nNavegação e mapeamento: {navigation}\nSensores e defesa: {sensors}\nPontuação global do exame: {overall}"
    },
    "CREW_FOR_HIRE" : {
       "description" : "",
@@ -53,7 +53,7 @@
    },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
-      "message" : "Potenciais membros da tripulação estão registrados como à procura de emprego em {estação}:"
+      "message" : "Potenciais membros da tripulação estão registrados como à procura de emprego em {station}:"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",
@@ -65,7 +65,7 @@
    },
    "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
       "description" : "",
-      "message" : "Sugestão de novo salário semanal de {novaQuantia}"
+      "message" : "Sugestão de novo salário semanal de {newAmount}"
    },
    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
       "description" : "",

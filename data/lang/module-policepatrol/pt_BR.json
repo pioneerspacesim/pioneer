@@ -1,46 +1,46 @@
 {
    "ILLEGAL_GOODS_DETECTED" : {
       "description" : "",
-      "message" : "Illegal goods detected."
+      "message" : "Bens ilegais detectados."
    },
    "INITIATE_CARGO_SCAN_1" : {
       "description" : "",
-      "message" : "Initiate cargo scan."
+      "message" : "Iniciar varredura de carga."
    },
    "INITIATE_CARGO_SCAN_2" : {
       "description" : "",
-      "message" : "Maintain speed and course for a cargo scan."
+      "message" : "Mantenha a velocidade e o curso para varredura de carga."
    },
    "INITIATE_CARGO_SCAN_3" : {
       "description" : "",
-      "message" : "Initiate contraband search."
+      "message" : "Iniciar busca de contrabando."
    },
    "NOTHING_DETECTED" : {
       "description" : "",
-      "message" : "No illegal cargo detected. You may proceed."
+      "message" : "Nenhuma carga ilegal detectada. Você pode prosseguir."
    },
    "POLICE_TAUNT_1" : {
       "description" : "",
-      "message" : "Boy, this was a bad idea!"
+      "message" : "Garoto, essa foi uma má ideia!"
    },
    "POLICE_TAUNT_2" : {
       "description" : "",
-      "message" : "Smuggler, you will pay the utimate price!"
+      "message" : "Contrabandista, você vai pagar o preço final!"
    },
    "POLICE_TAUNT_3" : {
       "description" : "",
-      "message" : "Fool, crime doesn't pay off!"
+      "message" : "Tolo! O crime não compensa!"
    },
    "RESPECT_THE_LAW_1" : {
       "description" : "",
-      "message" : "Respect the law! Crime doesn't pay off in the {system} system!"
+      "message" : "Respeite a lei! O crime não compensa no sistema {system}!"
    },
    "RESPECT_THE_LAW_2" : {
       "description" : "",
-      "message" : "You have entered the {system} system. Respect the law!"
+      "message" : "Você acaba de entrar no sistema {system}. Respeite a lei!"
    },
    "TAKE_A_HIKE" : {
       "description" : "",
-      "message" : "Ok, you got a second chance. Take a hike!"
+      "message" : "Ok, você ganhou uma segunda chance. Vá fazer uma caminhada!"
    }
 }

@@ -1,7 +1,7 @@
 {
    "AU" : {
       "description" : "",
-      "message" : "AU"
+      "message" : "UA"
    },
    "BOARDED_PASSENGER" : {
       "description" : "",
@@ -641,11 +641,11 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Definir como destino de navegação"
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "Definir rota de retorno"
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",

@@ -153,7 +153,7 @@
    },
    "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Compact radar"
+      "message" : "Radar compacto"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
@@ -293,7 +293,7 @@
    },
    "ENABLE_ANISOTROPIC_FILTERING" : {
       "description" : "Use Anisotropic Filtering",
-      "message" : "Anisotropic Filtering"
+      "message" : "Filtro Anisotrópico"
    },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
@@ -449,11 +449,11 @@
    },
    "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
       "description" : "Tooltip: The braking distance using the main thrusters.",
-      "message" : "The braking distance using the main thrusters"
+      "message" : "A distância de frenagem usando os propulsores principais"
    },
    "HUD_CURRENT_COMBAT_TARGET" : {
       "description" : "Tooltip: The current combat target.",
-      "message" : "The current combat target"
+      "message" : "O alvo de combate atual"
    },
    "HUD_CURRENT_FRAME" : {
       "description" : "Tooltip: The current frame of reference.",
@@ -465,7 +465,7 @@
    },
    "HUD_CURRENT_NAV_TARGET" : {
       "description" : "Tooltip: The current navigational target.",
-      "message" : "The current navigational target"
+      "message" : "O alvo atual de navegação"
    },
    "HUD_CURRENT_PITCH" : {
       "description" : "Tooltip: the current pitch.",
@@ -477,7 +477,7 @@
    },
    "HUD_DELTA_V" : {
       "description" : "Tooltip: The remaining Δv.",
-      "message" : "Remaining Δv"
+      "message" : "Δv restante"
    },
    "HUD_DELTA_V_OF_MANEUVER_BURN" : {
       "description" : "Tooltip: The Δv for the maneuver burn.",
@@ -485,7 +485,7 @@
    },
    "HUD_DELTA_V_PERCENT" : {
       "description" : "Tooltip: The remaining Δv in percent.",
-      "message" : "Remaining Δv"
+      "message" : "Δv restante"
    },
    "HUD_DISTANCE_TO_SURFACE_OF_FRAME" : {
       "description" : "Tooltip: Distance to the surface of the frame of reference.",
@@ -497,7 +497,7 @@
    },
    "HUD_DURATION_OF_MANEUVER_BURN" : {
       "description" : "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
-      "message" : "The approximate duration of the maneuver burn with main thrusters"
+      "message" : "A duração aproximada da manobra executada pelos propulsores principais "
    },
    "HUD_DURATION_UNTIL_MANEUVER_BURN" : {
       "description" : "Tooltip: The duration until the middle of the maneuver burn.",
@@ -597,7 +597,7 @@
    },
    "ILLEGAL_JUMP" : {
       "description" : "A finable crime",
-      "message" : "Reckless hyperjump registered"
+      "message" : "Hiperjump imprudente detectado"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -925,7 +925,7 @@
    },
    "OPEN_USER_FOLDER" : {
       "description" : "",
-      "message" : "User Folder"
+      "message" : "Pasta do Usuário"
    },
    "OPTIONS" : {
       "description" : "",
@@ -1017,7 +1017,7 @@
    },
    "PUMP_DOWN" : {
       "description" : "Drain the fuel tank",
-      "message" : "Pump down"
+      "message" : "Bombear abaixo"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -1137,7 +1137,7 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set destination as navigation target."
+      "message" : "Definir destino como alvo de navegação"
    },
    "SHIP" : {
       "description" : "",
@@ -1177,7 +1177,7 @@
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
-      "message" : "Simulating evolution of the universe: {age} billion years ;-)"
+      "message" : "Simulando evolução do universo: {age} bilhões de anos ;-)"
    },
    "SOUND" : {
       "description" : "",
@@ -1241,7 +1241,7 @@
    },
    "TOO_SMALL_TO_TRANSSHIP" : {
       "description" : "Ship market error message",
-      "message" : "New ship lacks capacity for current cargo and hyperdrive."
+      "message" : "Nova nave não tem capacidade para carga e hipersalto atuais."
    },
    "TOTAL" : {
       "description" : "",

@@ -1,11 +1,11 @@
 {
    "ADVANCED_TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Advanced target scanner"
+      "message" : "Scanner de alvo avançado"
    },
    "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range target scanner with system wide coverage."
+      "message" : "Scanner de longo alcance com cobertura para todo um sistema."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -93,23 +93,23 @@
    },
    "DRIVE_MIL5" : {
       "description" : "",
-      "message" : "Class 5 Military drive"
+      "message" : "Drive Militar Classe 5"
    },
    "DRIVE_MIL6" : {
       "description" : "",
-      "message" : "Class 6 Military drive"
+      "message" : "Drive Militar Classe 6"
    },
    "DRIVE_MIL7" : {
       "description" : "",
-      "message" : "Class 7 Military drive"
+      "message" : "Drive Militar Classe 7"
    },
    "DRIVE_MIL8" : {
       "description" : "",
-      "message" : "Class 8 Military drive"
+      "message" : "Drive Militar Classe 8"
    },
    "DRIVE_MIL9" : {
       "description" : "",
-      "message" : "Class 9 Military drive"
+      "message" : "Drive Militar Classe 9"
    },
    "ECM_ADVANCED" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Passenger cabin"
+      "message" : "Cabine de passageiros"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
@@ -281,7 +281,7 @@
    },
    "TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Target Scanner"
+      "message" : "Scanner de Alvo"
    },
    "TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
@@ -289,31 +289,31 @@
    },
    "THRUSTERS_BASIC" : {
       "description" : "",
-      "message" : "Modified Thrusters"
+      "message" : "Propulsores Modificados"
    },
    "THRUSTERS_BASIC_DESCRIPTION" : {
       "description" : "",
-      "message" : "A modified type of thrusters approved for your ship."
+      "message" : "Um tipo modificado de propulsor aprovado para a sua nave."
    },
    "THRUSTERS_BEST" : {
       "description" : "",
-      "message" : "Bespoke Thrusters"
+      "message" : "Propulsores Personalizados"
    },
    "THRUSTERS_BEST_DESCRIPTION" : {
       "description" : "",
-      "message" : "Custom made thrusters that provide the best possible output."
+      "message" : "Propulsores feitos sob medida para prover a melhor entrega possível."
    },
    "THRUSTERS_MEDIUM" : {
       "description" : "",
-      "message" : "Optimised Thrusters"
+      "message" : "Propulsores Otimizados"
    },
    "THRUSTERS_MEDIUM_DESCRIPTION" : {
       "description" : "",
-      "message" : "Thrusters that have been optimised to reduce inefficiencies and improve power output."
+      "message" : "Os propulsores foram otimizados para reduzir ineficiências e aumentar a entrega de força."
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade Computer"
+      "message" : "Computador de Comércio"
    },
    "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",

@@ -1,102 +1,102 @@
 {
    "ADVICE_10_BODYTEXT" : {
       "description" : "",
-      "message" : "Relocating to another faction might be a good idea when in trouble with local authorities."
+      "message" : "Mudar de facção pode ser uma boa ideia se você estiver encrencado com autoridades locais."
    },
    "ADVICE_10_HEADLINE" : {
       "description" : "",
-      "message" : "Know when to leave town"
+      "message" : "Saiba quando deixar a cidade"
    },
    "ADVICE_1_BODYTEXT" : {
       "description" : "",
-      "message" : "Take note of which local business to trust or not, upon completing a transaction outside the confines of the law."
+      "message" : "Notifique-se de quais negócios locais são confiáveis ao completar uma transação fora dos confins da lei."
    },
    "ADVICE_1_HEADLINE" : {
       "description" : "",
-      "message" : "Tame the Black Market"
+      "message" : "Dome o Mercado Negro"
    },
    "ADVICE_2_BODYTEXT" : {
       "description" : "",
-      "message" : "Many small distances are faster travelled than their sum."
+      "message" : "Muitas distâncias pequenas são atravessadas mais rapidamente que suas somas."
    },
    "ADVICE_2_HEADLINE" : {
       "description" : "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
-      "message" : "The Road Faster Taken"
+      "message" : "A Estrada Tomada Mais Rapidamente"
    },
    "ADVICE_3_BODYTEXT" : {
       "description" : "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
-      "message" : "Avoid jumping into uninhabited systems without the means to leave."
+      "message" : "Evite saltar para sistemas inabitados sem meios de voltar."
    },
    "ADVICE_3_HEADLINE" : {
       "description" : "",
-      "message" : "Avoid getting stranded: plan your jump sequence ahead"
+      "message" : "Evite ficar ilhado: planeje sua sequência de saltos com antecedência"
    },
    "ADVICE_4_BODYTEXT" : {
       "description" : "",
-      "message" : "Choose your frame of reference. Especially when wanting to match speed and course of a moving target."
+      "message" : "Escolha seu quadro de referência. Especialmente quando deseja combinar sua velocidade e curso com um alvo em movimento."
    },
    "ADVICE_4_HEADLINE" : {
       "description" : "",
-      "message" : "It's all relative"
+      "message" : "É tudo relativo"
    },
    "ADVICE_5_BODYTEXT" : {
       "description" : "",
-      "message" : "Buy low and sell high."
+      "message" : "Compre barato e venda caro."
    },
    "ADVICE_5_HEADLINE" : {
       "description" : "",
-      "message" : "Never lose money"
+      "message" : "Nunca perca dinheiro."
    },
    "ADVICE_6_BODYTEXT" : {
       "description" : "",
-      "message" : "Pay close attention to any news reported, as information can affect market prices."
+      "message" : "Fique atento às notícias, pois informação pode afetar os preços de mercado."
    },
    "ADVICE_6_HEADLINE" : {
       "description" : "",
-      "message" : "Keep your ear to the ground"
+      "message" : "Mantenha o ouvido no chão"
    },
    "ADVICE_7_BODYTEXT" : {
       "description" : "",
-      "message" : "Donations can earn you a good standing in society, but not all charities will earn you a reputation."
+      "message" : "Doações podem te render uma boa posição na sociedade, mas nem todas as caridades vão te render reputação."
    },
    "ADVICE_7_HEADLINE" : {
       "description" : "",
-      "message" : "Be generous"
+      "message" : "Seja generoso"
    },
    "ADVICE_8_BODYTEXT" : {
       "description" : "",
-      "message" : "When journeying to binary systems, make sure to target the right star."
+      "message" : "Quando viajar para sistemas binários, certifique-se de mirar na estrela certa."
    },
    "ADVICE_8_HEADLINE" : {
       "description" : "",
-      "message" : "Stay out of double trouble"
+      "message" : "Esteja fora de encrencas duplas"
    },
    "ADVICE_9_BODYTEXT" : {
       "description" : "",
-      "message" : "Regularly maintain your engines, but remember: you get what you pay for."
+      "message" : "Faça manutenção regular nos seus motores, mas lembre-se: você ganha o que você paga."
    },
    "ADVICE_9_HEADLINE" : {
       "description" : "",
-      "message" : "Treat your ship well"
+      "message" : "Trate bem sua nave"
    },
    "RUMOUR" : {
       "description" : "Headline starts with this pre-headline",
-      "message" : "RUMOUR"
+      "message" : "RUMOR"
    },
    "TALE_1_BODYTEXT" : {
       "description" : "",
-      "message" : "Don't miss the beautiful eclipse on New Hope as Hades blocks out the light from Epsilon Eridani."
+      "message" : "Não perca o belo eclipse New Hope, quando Hades bloqueia a luz de Epsilon Eridani."
    },
    "TALE_1_HEADLINE" : {
       "description" : "Blade runner?",
-      "message" : "\"I've seen things you people wouldn't believe\""
+      "message" : "\"Vi coisas que vocês não acreditariam\""
    },
    "TRAVELLERS_ADVICE" : {
       "description" : "Headline starts with this pre-headline",
-      "message" : "TRAVELLER'S ADVICE"
+      "message" : "CONSELHO DO VIAJANTE"
    },
    "TRAVELLERS_TALE" : {
       "description" : "Headline starts with this pre-headline",
-      "message" : "TRAVELLER'S TALE"
+      "message" : "CONTO DO VIAJANTE"
    }
 }

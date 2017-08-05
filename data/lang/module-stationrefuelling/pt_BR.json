@@ -1,10 +1,10 @@
 {
    "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
       "description" : "",
-      "message" : "This is {station}. You do not have enough money for your docking fee of {fee}."
+      "message" : "Esta é a estação {station}. Você não tem saldo suficiente para a taxa de atracação de {fee}."
    },
    "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
       "description" : "",
-      "message" : "Welcome aboard {station}. Your docking fee of {fee} has been deducted."
+      "message" : "Bem vindo a bordo da estação {station}. Sua taxa de atracação de {fee} foi debitada."
    }
 }
