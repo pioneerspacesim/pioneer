@@ -684,6 +684,22 @@ static int l_body_get_projected_screen_position(lua_State *l)
 	return pushOnScreenPositionDirection(l, p);
 }
 
+static int l_body_get_atmospheric_state(lua_State *l) {
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	//	const SystemBody *sb = b->GetSystemBody();
+	vector3d pos = Pi::player->GetPosition();
+	double center_dist = pos.Length();
+	if (b->IsType(Object::PLANET)) {
+		double pressure, density;
+		static_cast<Planet*>(b)->GetAtmosphericState(center_dist, &pressure, &density);
+		lua_pushnumber(l, pressure);
+		lua_pushnumber(l, density);
+		return 2;
+	} else {
+		return 0;
+	}
+}
+
 static int l_body_get_target_indicator_screen_position(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -760,6 +776,7 @@ template <> void LuaObject<Body>::RegisterClass()
 		{ "GetProjectedScreenPosition", l_body_get_projected_screen_position },
 		{ "GetTargetIndicatorScreenPosition", l_body_get_target_indicator_screen_position },
 		{ "GetPhysicalRadius",   l_body_get_phys_radius },
+		{ "GetAtmosphericState", l_body_get_atmospheric_state },
 		{ "IsMoreImportantThan", l_body_is_more_important_than },
 		{ "IsMoon",              l_body_is_moon },
 		{ "IsPlanet",            l_body_is_planet },

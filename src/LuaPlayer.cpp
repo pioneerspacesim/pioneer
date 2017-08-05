@@ -19,8 +19,8 @@
 
 static int l_player_is_player(lua_State *l)
 {
-    lua_pushboolean(l, true);
-    return 1;
+	lua_pushboolean(l, true);
+	return 1;
 }
 
 /*
@@ -129,8 +129,8 @@ static int l_set_combat_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
 	Body *target = LuaObject<Body>::GetFromLua(2);
-    p->SetCombatTarget(target);
-    return 0;
+	p->SetCombatTarget(target);
+	return 0;
 }
 
 /*
@@ -233,9 +233,9 @@ static int l_get_mouse_direction(lua_State *l)
 
 static int l_get_is_mouse_active(lua_State *l)
 {
-		Player *player = LuaObject<Player>::CheckFromLua(1);
-		LuaPush(l, player->GetPlayerController()->IsMouseActive());
-		return 1;
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	LuaPush(l, player->GetPlayerController()->IsMouseActive());
+	return 1;
 }
 
 /*
@@ -486,6 +486,44 @@ static int l_toggle_rotation_damping(lua_State *l)
 	return 0;
 }
 
+static int l_get_gps(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	vector3d pos = Pi::player->GetPosition();
+	double center_dist = pos.Length();
+	auto frame = player->GetFrame();
+	if(frame) {
+		Body *astro = frame->GetBody();
+		if(astro && astro->IsType(Object::TERRAINBODY)) {
+			TerrainBody* terrain = static_cast<TerrainBody*>(astro);
+			if (!frame->IsRotFrame())
+				frame = frame->GetRotFrame();
+			vector3d surface_pos = pos.Normalized();
+			double radius = 0.0;
+			if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
+				radius = terrain->GetTerrainHeight(surface_pos);
+			}
+			double altitude = center_dist - radius;
+			vector3d velocity = player->GetVelocity();
+			double vspeed = velocity.Dot(surface_pos);
+			if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
+
+			//			RefreshHeadingPitch();
+
+			if (altitude < 0) altitude = 0;
+			LuaPush(l, altitude);
+			LuaPush(l, vspeed);
+			const float lat = RAD2DEG(asin(surface_pos.y));
+			const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
+			LuaPush(l, lat);
+			LuaPush(l, lon);
+			return 4;
+			//				}
+		}
+	}
+	return 0;
+}
+
 template <> const char *LuaObject<Player>::s_type = "Player";
 
 template <> void LuaObject<Player>::RegisterClass()
@@ -513,6 +551,7 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "GetMouseDirection",   l_get_mouse_direction },
 		{ "GetRotationDamping",  l_get_rotation_damping },
 		{ "SetRotationDamping",  l_set_rotation_damping },
+		{ "GetGPS",              l_get_gps },
 		{ "ToggleRotationDamping",  l_toggle_rotation_damping },
 		{ 0, 0 }
 	};

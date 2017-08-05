@@ -774,6 +774,7 @@ ui.registerHandler(
 											else
 												displayOnScreenObjects()
 												displayReticule()
+												ui.displayPlayerGauges()
 												callModules("game")
 											end
 										else

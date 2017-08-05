@@ -149,17 +149,9 @@ void WorldView::InitObject()
 	m_hudHyperspaceInfo = (new Gui::Label(""))->Color(s_hudTextColor);
 	Add(m_hudHyperspaceInfo, Gui::Screen::GetWidth()*0.4f, Gui::Screen::GetHeight()*0.3f);
 
-	m_hudHullTemp = new Gui::MeterBar(100.0f, Lang::HULL_TEMP, Color(255,0,0,204));
-	m_hudWeaponTemp = new Gui::MeterBar(100.0f, Lang::WEAPON_TEMP, Color(255,128,0,204));
-	m_hudHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(255,255,0,204));
-	m_hudShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(255,255,0,204));
 	m_hudSensorGaugeStack = new Gui::VBox();
 	m_hudSensorGaugeStack->SetSpacing(2.0f);
-	Add(m_hudHullTemp, 5.0f, Gui::Screen::GetHeight() - 144.0f);
-	Add(m_hudWeaponTemp, 5.0f, Gui::Screen::GetHeight() - 184.0f);
 	Add(m_hudSensorGaugeStack, 5.0f, 5.0f);
-	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 135.0f);
-	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 175.0f);
 
 	m_hudTargetHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(255,255,0,204));
 	m_hudTargetShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(255,255,0,204));
@@ -403,13 +395,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 	else
 		m_pauseText->Hide();
 
-	if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
-	}
-
-	// Direction indicator
-	vector3d vel = Pi::player->GetVelocity();
-
 	if (m_showTargetActionsTimeout) {
 		if (SDL_GetTicks() - m_showTargetActionsTimeout > 20000) {
 			m_showTargetActionsTimeout = 0;
@@ -483,140 +468,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 																																						 formatarg("percent", m_game->GetHyperspaceArrivalProbability()*100.0, "f3.1")));
 	}
 
-	else {
-		// altitude
-		const Frame* frame = Pi::player->GetFrame();
-		if (frame->GetBody() && frame->GetBody()->IsType(Object::SPACESTATION))
-			frame = frame->GetParent();
-		if (frame && frame->GetBody() && frame->GetBody()->IsType(Object::TERRAINBODY) &&
-				(frame->HasRotFrame() || frame->IsRotFrame())) {
-			Body *astro = frame->GetBody();
-			//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
-			assert(astro->IsType(Object::TERRAINBODY));
-			TerrainBody* terrain = static_cast<TerrainBody*>(astro);
-			if (!frame->IsRotFrame())
-				frame = frame->GetRotFrame();
-			vector3d pos = (frame == Pi::player->GetFrame() ? Pi::player->GetPosition() : Pi::player->GetPositionRelTo(frame));
-			double center_dist = pos.Length();
-			// Avoid calculating terrain if we are too far anyway.
-			// This should rather be 1.5 * max_radius, but due to quirkses in terrain generation we must be generous.
-			if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
-				vector3d surface_pos = pos.Normalized();
-				double radius = terrain->GetTerrainHeight(surface_pos);
-				double altitude = center_dist - radius;
-				if (altitude < 10000000.0 && altitude < 0.5 * radius) {
-					vector3d velocity = (frame == Pi::player->GetFrame() ? vel : Pi::player->GetVelocityRelTo(frame));
-					double vspeed = velocity.Dot(surface_pos);
-					if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
-
-					// show lat/long when altitude is shownr
-					const float lat = RAD2DEG(asin(surface_pos.y));
-					const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
-					std::string lat_str = DecimalToDegMinSec(lat);
-					std::string lon_str = DecimalToDegMinSec(lon);
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, Lang::LATITUDE);
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, lat_str);
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, Lang::LONGITUDE);
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, lon_str);
-				} else {
-					// XXX does this need to be repeated 3 times?
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, "");
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, "");
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, "");
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, "");
-				}
-			} else {
-				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, "");
-				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, "");
-				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, "");
-				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, "");
-			}
-
-			if (astro->IsType(Object::PLANET)) {
-				double pressure, density;
-				static_cast<Planet*>(astro)->GetAtmosphericState(center_dist, &pressure, &density);
-
-				if (pressure > 0.001) {
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
-					const double apl = Pi::player->GetShipType()->atmosphericPressureLimit;
-					if (pressure > (apl * 0.9)) {
-						m_game->GetCpan()->SetOverlayTextColour(ShipCpanel::OVERLAY_BOTTOM_LEFT, Color::RED);
-					} else if (pressure > (apl * 0.75)) {
-						m_game->GetCpan()->SetOverlayTextColour(ShipCpanel::OVERLAY_BOTTOM_LEFT, Color::YELLOW);
-					} else {
-						m_game->GetCpan()->SetOverlayTextColour(ShipCpanel::OVERLAY_BOTTOM_LEFT, s_hudTextColor);
-					}
-				} else {
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
-					m_game->GetCpan()->SetOverlayTextColour(ShipCpanel::OVERLAY_BOTTOM_LEFT, s_hudTextColor);
-				}
-
-				if (Pi::player->GetHullTemperature() > 0.01) {
-					m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
-					m_hudHullTemp->Show();
-				} else {
-					m_hudHullTemp->Hide();
-				}
-			} else {
-				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, ""); // No atmosphere, no pressure
-			}
-		} else {
-			m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
-			m_hudHullTemp->Hide();
-		}
-
-		int hasSensors = 0;
-		Pi::player->Properties().Get("sensor_cap", hasSensors);
-		if (hasSensors) {
-			m_hudSensorGaugeStack->DeleteAllChildren();
-			lua_State *l = Lua::manager->GetLuaState();
-			const int clean_stack = lua_gettop(l);
-			LuaObject<Ship>::CallMethod<LuaRef>(Pi::player, "GetEquip", "sensor").PushCopyToStack();
-			const int numSensorSlots = LuaObject<Ship>::CallMethod<int>(Pi::player, "GetEquipSlotCapacity", "sensor");
-			if (numSensorSlots) {
-				lua_pushnil(l);
-				while(lua_next(l, -2)) {
-					if (lua_type(l, -2) == LUA_TNUMBER) {
-						LuaTable sensor(l, -1);
-						const float sensor_progress = sensor.CallMethod<float>("GetProgress");
-						if (sensor_progress > 0.0 && sensor_progress < 100.f) {
-							const auto sensor_gauge = new Gui::MeterBar(100.f, sensor.CallMethod<std::string>("GetName").c_str(), Color(255, 255, 0, 204));
-							sensor_gauge->SetValue(sensor_progress/100.f);
-							sensor_gauge->Show();
-							m_hudSensorGaugeStack->PackEnd(sensor_gauge);
-						}
-					}
-					lua_pop(l, 1);
-				}
-			}
-			lua_settop(l, clean_stack);
-		}
-	}
-
-	const float activeWeaponTemp = Pi::player->GetFixedGuns()->GetGunTemperature(GetActiveWeapon());
-	if (activeWeaponTemp > 0.0f) {
-		m_hudWeaponTemp->SetValue(activeWeaponTemp);
-		m_hudWeaponTemp->Show();
-	} else {
-		m_hudWeaponTemp->Hide();
-	}
-
-	float hull = Pi::player->GetPercentHull();
-	if (hull <= 99.9f) { //visible when hull integrity <= 99.9%
-		m_hudHullIntegrity->SetColor(get_color_for_warning_meter_bar(hull));
-		m_hudHullIntegrity->SetValue(hull*0.01f);
-		m_hudHullIntegrity->Show();
-	} else {
-		m_hudHullIntegrity->Hide();
-	}
-	float shields = Pi::player->GetPercentShields();
-	if (shields < 100.0f) {
-		m_hudShieldIntegrity->SetColor(get_color_for_warning_meter_bar(shields));
-		m_hudShieldIntegrity->SetValue(shields*0.01f);
-		m_hudShieldIntegrity->Show();
-	} else {
-		m_hudShieldIntegrity->Hide();
-	}
 
 	Body *b = Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget();
 	if (b) {

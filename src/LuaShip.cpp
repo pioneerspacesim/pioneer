@@ -1180,6 +1180,35 @@ static int l_ship_get_position(lua_State *l)
 	return 1;
 }
 
+static int l_ship_get_hull_temperature(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaPush(l, s->GetHullTemperature());
+	return 1;
+}
+
+static int l_ship_get_gun_temperature(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int gun = luaL_checkinteger(l, 2);
+	LuaPush(l, s->GetGunTemperature(gun));
+	return 1;
+}
+
+static int l_ship_get_hull_percent(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaPush(l, s->GetPercentHull());
+	return 1;
+}
+
+static int l_ship_get_shields_percent(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	double shields = s->GetPercentShields();
+	if(s->GetStats().shield_mass <= 0)
+		lua_pushnil(l);
+	else
+		lua_pushnumber(l, shields);
+	return 1;
+}
+
 static int l_ship_is_docked(lua_State *l) {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	lua_pushboolean(l, s->IsDocked());
@@ -1270,6 +1299,11 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "GetHyperspaceCountdown", l_ship_get_hyperspace_countdown },
 		{ "IsHyperspaceActive",     l_ship_is_hyperspace_active },
+
+		{ "GetHullTemperature", l_ship_get_hull_temperature },
+		{ "GetGunTemperature",  l_ship_get_gun_temperature },
+		{ "GetHullPercent",     l_ship_get_hull_percent },
+		{ "GetShieldsPercent",  l_ship_get_shields_percent },
 
 		{ "GetFlightControlState",  l_ship_get_flight_control_state },
 		{ "GetCurrentAICommand",    l_ship_get_current_ai_command },

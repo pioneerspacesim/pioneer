@@ -32,6 +32,12 @@ theme.colors = {
 	buttonBlue = Color(150, 150, 200, 255),
 	white = Color(255,255,255,255),
 	grey = Color(120,120,120,255),
+	gaugeBackground = Color(40, 40, 70),
+	gaugePressure = Color(76,76,158),
+	gaugeTemperature = Color(200,0,0),
+	gaugeShield = Color(150,150,230),
+	gaugeHull = Color(230,230,230),
+	gaugeWeapon = Color(255,165, 0),
 }
 
 theme.icons = {

@@ -27,6 +27,29 @@ local one_over_sqrt_two = 1 / math.sqrt(2)
 
 local ui = { }
 
+local defaultTheme = import("themes/default")
+ui.theme = defaultTheme
+
+-- font sizes are correct for 1920x1200
+local font_factor = pigui.screen_height / 1200.0
+ui.fonts = {
+	-- dummy font, actually renders icons
+	pionicons = {
+		small = { name = "icons", size = 16 * font_factor, offset = 14 * font_factor},
+		medium = { name = "icons", size = 18 * font_factor, offset = 20 * font_factor},
+		large = { name = "icons", size = 22 * font_factor, offset = 28 * font_factor}
+	},
+	pionillium = {
+		large = { name = "pionillium", size = 30 * font_factor, offset = 24 * font_factor},
+		medium = { name = "pionillium", size = 18 * font_factor, offset = 14 * font_factor},
+		-- 		medsmall = { name = "pionillium", size = 15, offset = 12 },
+		small = { name = "pionillium", size = 12 * font_factor, offset = 10 * font_factor},
+		tiny = { name = "pionillium", size = 8 * font_factor, offset = 7 * font_factor},
+	}
+}
+
+ui.anchor = { left = 1, right = 2, center = 3, top = 4, bottom = 5, baseline = 6 }
+
 local function maybeSetTooltip(tooltip)
 	if not Game.player:IsMouseActive() then
 		pigui.SetTooltip(tooltip)
@@ -117,6 +140,30 @@ ui.circleSegments = function(radius)
 end
 
 ui.Format = {
+	Latitude = function(decimal_degrees)
+		local deg = math.floor(decimal_degrees + 0.5)
+		local dec = math.abs(decimal_degrees - deg)
+		local prefix = lc.LATITUDE_NORTH_ABBREV
+		if deg < 0 then
+			prefix = lc.LATITUDE_SOUTH_ABBREV
+			deg = math.abs(deg)
+		end
+		local min = dec * 60
+		local sec = (min - math.floor(min)) * 60
+		return string.format('%s %03i°%02i\'%02i"', prefix, deg, min, sec)
+	end,
+	Longitude = function(decimal_degrees)
+		local deg = math.floor(decimal_degrees + 0.5)
+		local dec = math.abs(decimal_degrees - deg)
+		local prefix = lc.LONGITUDE_EAST_ABBREV
+		if deg < 0 then
+			prefix = lc.LONGITUDE_WEST_ABBREV
+			deg = math.abs(deg)
+		end
+		local min = dec * 60
+		local sec = (min - math.floor(min)) * 60
+		return string.format('%s %03i°%02i\'%02i"', prefix, deg, min, sec)
+	end,
 	Duration = function(duration, elements)
 		-- shown elements items (2 -> wd or dh, 3 -> dhm or hms)
 		local negative = false
@@ -218,26 +265,6 @@ ui.pointOnClock = function(center, radius, hours)
 	return Vector(center.x, center.y) + Vector(p.x * math.cos(a) - p.y * math.sin(a), p.y * math.cos(a) + p.x * math.sin(a))
 end
 
--- font sizes are correct for 1920x1200
-local font_factor = pigui.screen_height / 1200.0
-ui.fonts = {
-	-- dummy font, actually renders icons
-	pionicons = {
-		small = { name = "icons", size = 16 * font_factor, offset = 14 * font_factor},
-		medium = { name = "icons", size = 18 * font_factor, offset = 20 * font_factor},
-		large = { name = "icons", size = 22 * font_factor, offset = 28 * font_factor}
-	},
-	pionillium = {
-		large = { name = "pionillium", size = 30 * font_factor, offset = 24 * font_factor},
-		medium = { name = "pionillium", size = 18 * font_factor, offset = 14 * font_factor},
-		-- 		medsmall = { name = "pionillium", size = 15, offset = 12 },
-		small = { name = "pionillium", size = 12 * font_factor, offset = 10 * font_factor},
-		tiny = { name = "pionillium", size = 8 * font_factor, offset = 7 * font_factor},
-	}
-}
-
-ui.anchor = { left = 1, right = 2, center = 3, top = 4, bottom = 5, baseline = 6 }
-
 ui.calcTextAlignment = function(pos, size, anchor_horizontal, anchor_vertical)
 	local position = Vector(pos.x, pos.y)
 	if anchor_horizontal == ui.anchor.left or anchor_horizontal == nil then
@@ -274,7 +301,7 @@ ui.addIcon = function(position, icon, color, size, anchor_horizontal, anchor_ver
 	else
 	  pigui.AddImage(ui.icons_texture, pos, pos + Vector(size, size), uv0, uv1, color)
 	end
-	if tooltip and not pigui.IsMouseHoveringAnyWindow() and tooltip ~= "" then
+	if tooltip and (pigui.IsMouseHoveringWindow() or not pigui.IsMouseHoveringAnyWindow()) and tooltip ~= "" then
 	  if pigui.IsMouseHoveringRect(pos, pos + size, true) then
 			maybeSetTooltip(tooltip)
 	  end
@@ -364,7 +391,7 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 								pigui.AddText(position, color, text)
 								-- pigui.AddQuad(position, position + Vector(size.x, 0), position + Vector(size.x, size.y), position + Vector(0, size.y), colors.red, 1.0)
 	end)
-	if tooltip and not pigui.IsMouseHoveringAnyWindow() and tooltip ~= "" then
+	if tooltip and (pigui.IsMouseHoveringWindow() or not pigui.IsMouseHoveringAnyWindow()) and tooltip ~= "" then
 	  if pigui.IsMouseHoveringRect(position, position + size, true) then
 			maybeSetTooltip(tooltip)
 	  end
@@ -448,13 +475,81 @@ ui.coloredSelectedIconButton = function(icon, size, is_selected, frame_padding, 
 	end
 	return res
 end
+
+local gauge_show_percent = true
+ui.gauge_height = 25
+ui.gauge_width = 275
+
+ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color, tooltip)
+	local percent = (value - minimum) / (maximum - minimum)
+	local offset = 60
+	local uiPos = position
+	ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
+								ui.addLine(uiPos, uiPos + Vector(ui.gauge_width, 0), ui.theme.colors.gaugeBackground, ui.gauge_height)
+								if gauge_show_percent then
+									local one_hundred = ui.calcTextSize("100")
+									uiPos = uiPos + Vector(one_hundred.x * 1.2, 0) -- 1.2 for a bit of slack
+									ui.addStyledText(uiPos + Vector(0, ui.gauge_height / 12), ui.anchor.right, ui.anchor.center, string.format("%i", percent * 100), ui.theme.colors.reticuleCircle, ui.fonts.pionillium.medium, tooltip)
+								end
+								uiPos = uiPos + Vector(ui.gauge_height * 1.2, 0)
+								ui.addIcon(uiPos - ui.gauge_height/2, icon, ui.theme.colors.reticuleCircle, ui.gauge_height, ui.anchor.center, ui.anchor.top, tooltip)
+								local w = (position.x + ui.gauge_width) - uiPos.x
+								ui.addLine(uiPos, uiPos + Vector(w * percent, 0), color, ui.gauge_height)
+								if value and format then
+									ui.addFancyText(uiPos + Vector(ui.gauge_height/2, ui.gauge_height/4), ui.anchor.left, ui.anchor.center, {
+																		{ text=string.format(format, value), color=ui.theme.colors.reticuleCircle,     font=ui.fonts.pionillium.small, tooltip=tooltip },
+																		{ text=unit,                         color=ui.theme.colors.reticuleCircleDark, font=ui.fonts.pionillium.small, tooltip=tooltip }},
+																	ui.theme.colors.gaugeBackground)
+								end
+	end)
+
+end
+
+local gauges = {}
+
+ui.registerGauge = function(fun, priority)
+	table.insert(gauges, {fun = fun, priority = priority})
+	table.sort(gauges, function(a,b) return a.priority < b.priority end)
+end
+
+ui.displayPlayerGauges = function()
+	local gauge_stretch = 1.4
+	local current_view = Game.CurrentView()
+	local c = 0
+	for k,v in pairs(gauges) do
+		local g = v.fun()
+		if g and g.value then
+			c = c + 1
+		end
+	end
+	c = c + 0.1
+	if current_view == "world" then
+		ui.setNextWindowSize(Vector(ui.gauge_width, ui.gauge_height * c * gauge_stretch), "Always")
+		local tws = ui.timeWindowSize
+		if not tws then
+			tws = Vector(0, 100)
+		end
+		tws = tws + Vector(0, 30) -- extra offset
+		ui.setNextWindowPos(Vector(5, ui.screenHeight - tws.y - ui.gauge_height * c * gauge_stretch), "Always")
+		ui.window("PlayerGauges", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
+							function()
+								local uiPos = ui.getWindowPos() + Vector(0, ui.gauge_height)
+								for k,v in pairs(gauges) do
+									local g = v.fun()
+									if g and g.value then
+										ui.gauge(uiPos, g.value, g.unit, g.format, g.min, g.max, g.icon, g.color, g.tooltip)
+										uiPos = uiPos + Vector(0, ui.gauge_height * gauge_stretch)
+									end
+								end
+		end)
+	end
+end
+
 ui.loadTextureFromSVG = function(a, b, c)
 	return pigui:LoadTextureFromSVG(a, b, c)
 end
 ui.dataDirPath = pigui.DataDirPath
 ui.addImage = pigui.AddImage
-local defaultTheme = import("themes/default")
-ui.theme = defaultTheme
 
 local modules = {}
 
