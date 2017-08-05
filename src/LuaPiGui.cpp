@@ -1062,6 +1062,11 @@ static int l_pigui_is_mouse_hovering_any_window(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_is_mouse_hovering_window(lua_State *l) {
+	LuaPush<bool>(l, ImGui::IsMouseHoveringWindow());
+	return 1;
+}
+
 static int l_pigui_system_info_view_next_page(lua_State *l) {
 	Pi::game->GetSystemInfoView()->NextPage();
 	return 0;
@@ -1226,6 +1231,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "IsMouseClicked",         l_pigui_is_mouse_clicked },
 		{ "IsMouseHoveringRect",    l_pigui_is_mouse_hovering_rect },
 		{ "IsMouseHoveringAnyWindow",    l_pigui_is_mouse_hovering_any_window },
+		{ "IsMouseHoveringWindow",  l_pigui_is_mouse_hovering_window },
 		{ "Image",                  l_pigui_image },
 		{ "ImageButton",            l_pigui_image_button },
 		{ "RadialMenu",             l_pigui_radial_menu },
