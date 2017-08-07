@@ -325,7 +325,7 @@
    },
    "DIRECTION" : {
       "description" : "Direction",
-      "message" : "\" Dir \""
+      "message" : "\" Yön \""
    },
    "DISTANCE_LY" : {
       "description" : "",
