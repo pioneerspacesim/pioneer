@@ -441,11 +441,11 @@
    },
    "HUD_2D_RADAR" : {
       "description" : "Popup text: the name of the azimuthal equidistant projection radar",
-      "message" : "2D azimuthal equidistant projection"
+      "message" : "Projeção 2D azimutal equidistante"
    },
    "HUD_3D_RADAR" : {
       "description" : "Popup text: the name of the planar projection radar (traditional frontier-style)",
-      "message" : "3D planar projection"
+      "message" : "Projeção planar 3D"
    },
    "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
       "description" : "Tooltip: The braking distance using the main thrusters.",
@@ -457,11 +457,11 @@
    },
    "HUD_CURRENT_FRAME" : {
       "description" : "Tooltip: The current frame of reference.",
-      "message" : "The current frame of reference"
+      "message" : "O quadro de referência atual"
    },
    "HUD_CURRENT_HEADING" : {
       "description" : "Tooltip: the current heading.",
-      "message" : "The current heading"
+      "message" : "O cabeçalho atual."
    },
    "HUD_CURRENT_NAV_TARGET" : {
       "description" : "Tooltip: The current navigational target.",
@@ -473,7 +473,7 @@
    },
    "HUD_CURRENT_ROLL" : {
       "description" : "Tooltip: the current roll.",
-      "message" : "The current roll"
+      "message" : "A rolagem atual"
    },
    "HUD_DELTA_V" : {
       "description" : "Tooltip: The remaining Δv.",
@@ -481,7 +481,7 @@
    },
    "HUD_DELTA_V_OF_MANEUVER_BURN" : {
       "description" : "Tooltip: The Δv for the maneuver burn.",
-      "message" : "The Δv for the maneuver burn"
+      "message" : "O Δv para a manobra"
    },
    "HUD_DELTA_V_PERCENT" : {
       "description" : "Tooltip: The remaining Δv in percent.",
@@ -489,11 +489,11 @@
    },
    "HUD_DISTANCE_TO_SURFACE_OF_FRAME" : {
       "description" : "Tooltip: Distance to the surface of the frame of reference.",
-      "message" : "Distance to the surface of the frame of reference"
+      "message" : "Distância para a superfície do quadro de referência."
    },
    "HUD_DISTANCE_TO_SURFACE_OF_TARGET" : {
       "description" : "Tooltip: Distance to the surface of the target.",
-      "message" : "Distance to the surface of the target"
+      "message" : "Distância para a superfície do alvo"
    },
    "HUD_DURATION_OF_MANEUVER_BURN" : {
       "description" : "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
@@ -501,11 +501,11 @@
    },
    "HUD_DURATION_UNTIL_MANEUVER_BURN" : {
       "description" : "Tooltip: The duration until the middle of the maneuver burn.",
-      "message" : "The duration until the middle of the maneuver burn"
+      "message" : "A duração até o meio da manobra"
    },
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
-      "message" : "Away from the current frame"
+      "message" : "Distante do quadro atual."
    },
    "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
       "description" : "Indicator: Prograde direction relative to the current combat target.",
@@ -537,7 +537,7 @@
    },
    "HUD_RADAR_DISTANCE" : {
       "description" : "Tooltip: Current distance of the radar.",
-      "message" : "Active radar distance"
+      "message" : "Distância do radar ativo."
    },
    "HUD_REQUEST_TIME_ACCEL" : {
       "description" : "Tooltip: Request time acceleration {time}",
@@ -545,27 +545,27 @@
    },
    "HUD_SHOW_COMBAT_TARGET" : {
       "description" : "Tooltip: Show the current combat target.",
-      "message" : "Show the current combat target"
+      "message" : "Mostra o alvo de combate atual."
    },
    "HUD_SHOW_FRAME" : {
       "description" : "Tooltip: Show the current frame of reference.",
-      "message" : "Show the current frame of reference"
+      "message" : "Mostra o quadro de referência atual."
    },
    "HUD_SHOW_NAV_TARGET" : {
       "description" : "Tooltip: Show current navigational target.",
-      "message" : "Show the current navigational target"
+      "message" : "Mostra o alvo atual de navegação."
    },
    "HUD_SPEED_OF_APPROACH_TO_FRAME" : {
       "description" : "Tooltip: The speed of approach towards the frame of reference.",
-      "message" : "The speed of approach towards the frame of reference"
+      "message" : "A velocidade de aproximação rumo ao quadro de referência"
    },
    "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
       "description" : "Tooltip: The speed of approach towards the target.",
-      "message" : "The speed of approach towards the target"
+      "message" : "A velocidade de aproximação rumo ao alvo."
    },
    "HUD_SPEED_RELATIVE_TO_TARGET" : {
       "description" : "Tooltip: The speed relative to the target.",
-      "message" : "The speed relative to the target"
+      "message" : "Velocidade relativa ao alvo."
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
