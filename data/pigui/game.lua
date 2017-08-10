@@ -755,10 +755,6 @@ local function displayOnScreenObjects()
 	end
 end
 
-Event.Register('onGameStart', function()
-								 shouldDisplay2DRadar = false
-end)
-
 ui.registerHandler(
 	'game',
 	function(delta_t)

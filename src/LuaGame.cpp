@@ -555,8 +555,12 @@ static int l_game_change_mfd(lua_State *l)
 	std::string selected = LuaPull<std::string>(l, 1);
 	if(!selected.compare("scanner")) {
 		Pi::game->GetCpan()->ChangeMultiFunctionDisplay(MFUNC_RADAR);
+		Pi::game->GetCpan()->SetRadarVisible(true);
 	} else if(!selected.compare("equipment")) {
 		Pi::game->GetCpan()->ChangeMultiFunctionDisplay(MFUNC_EQUIPMENT);
+	} else if(!selected.compare("radar")) {
+		Pi::game->GetCpan()->ChangeMultiFunctionDisplay(MFUNC_RADAR);
+		Pi::game->GetCpan()->SetRadarVisible(false);
 	}
 	return 0;
 }

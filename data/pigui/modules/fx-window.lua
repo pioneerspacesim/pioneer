@@ -199,20 +199,24 @@ local function button_rotation_damping()
 end
 
 local current_mfd = "scanner"
+local last_mfd = "scanner"
 local function button_mfd()
 	ui.sameLine()
-	if current_mfd == "scanner" then
+	if current_mfd == "scanner" or current_mfd == "radar" then
 		if mainMenuButton(icons.scanner, false, "scanner") or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f9)) then
-			Game.ChangeMFD("equipment")
-			current_mfd = "equipment"
+			last_mfd = current_mfd
+			Event.Queue('changeMFD', 'equipment')
 		end
 	else
 		if mainMenuButton(icons.repairs, false, "equipment") or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f9)) then
-			Game.ChangeMFD("scanner")
-			current_mfd = "scanner"
+			Event.Queue('changeMFD', last_mfd)
 		end
 	end
 end
+
+Event.Register('onChangeMFD', function(selected)
+								 current_mfd = selected
+end)
 
 local flightstate_info = {
 	["CONTROL_MANUAL"] = { icon = icons.autopilot_manual, tooltip = "manual control" },
