@@ -1,3 +1,10 @@
+August
+   * New Features
+     * Hide mouse pointer when GUI is not drawn (#4066)
+
+   * Fixes
+     * Additional sort order fix (#4062)
+
 July 2017
    * New Features
      * Added Swap button for sector map (#4039)
