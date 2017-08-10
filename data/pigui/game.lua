@@ -537,14 +537,16 @@ local function displaySetSpeed(radius)
 		local distance, unit = ui.Format.Speed(setSpeed)
 		local uiPos = ui.pointOnClock(center, radius, 4.0)
 		local target = player:GetSetSpeedTarget()
-		local color = colors.reticuleCircle
-		local colorDark = colors.reticuleCircleDark
-		ui.addFancyText(uiPos, ui.anchor.left, ui.anchor.top, {
-											{ text=icons.autopilot_set_speed, color=color,     font=pionicons.medium,  tooltip="set speed" },
-											{ text=distance,                  color=color,     font=pionillium.medium, tooltip="set speed" },
-											{ text=unit,                      color=colorDark, font=pionillium.small,  tooltip="set speed" },
-											{ text=' ' .. target.label,       color=color,     font=pionillium.medium, tooltip="set speed" }},
-										colors.lightBlackBackground)
+		if target then
+			local color = colors.reticuleCircle
+			local colorDark = colors.reticuleCircleDark
+			ui.addFancyText(uiPos, ui.anchor.left, ui.anchor.top, {
+												{ text=icons.autopilot_set_speed, color=color,     font=pionicons.medium,  tooltip="set speed" },
+												{ text=distance,                  color=color,     font=pionillium.medium, tooltip="set speed" },
+												{ text=unit,                      color=colorDark, font=pionillium.small,  tooltip="set speed" },
+												{ text=' ' .. target.label,       color=color,     font=pionillium.medium, tooltip="set speed" }},
+											colors.lightBlackBackground)
+		end
 	end
 end
 
