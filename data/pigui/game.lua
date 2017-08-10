@@ -718,7 +718,7 @@ local function displayOnScreenObjects()
 		local mp = ui.getMousePos()
 		-- click handler
 		if (Vector(mp.x,mp.y) - coords):magnitude() < iconsize then
-			if ui.isMouseReleased(0) then
+			if not ui.isMouseHoveringAnyWindow() and ui.isMouseReleased(0) then
 				if v.hasNavTarget and ui.ctrlHeld() then
 					-- if ctrl-clicked and has nav target, unset nav target
 					player:SetNavTarget(nil)

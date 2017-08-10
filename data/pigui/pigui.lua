@@ -417,6 +417,7 @@ ui.getTargetsNearby = pigui.GetTargetsNearby
 ui.getProjectedBodies = pigui.GetProjectedBodies
 ui.isMouseReleased = pigui.IsMouseReleased
 ui.isMouseHoveringRect = pigui.IsMouseHoveringRect
+ui.isMouseHoveringAnyWindow = pigui.IsMouseHoveringAnyWindow
 ui.openPopup = pigui.OpenPopup
 ui.shouldShowLabels = pigui.ShouldShowLabels
 ui.keys = pigui.keys
