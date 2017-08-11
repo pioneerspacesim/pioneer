@@ -277,6 +277,8 @@ HyperdriveType.HyperjumpTo = function (self, ship, destination)
 	-- First off, check that this is the primary engine.
 	local engines = ship:GetEquip('engine')
 	local primary_index = 0
+	local wheels = ship:GetWheelState();
+	local l = Lang.GetResource(self.l10n_resource)
 	for i,e in ipairs(engines) do
 		if e == self then
 			primary_index = i
@@ -293,6 +295,9 @@ HyperdriveType.HyperjumpTo = function (self, ship, destination)
 	end
 	if not fuel_use then
 		return "INSUFFICIENT_FUEL"
+	end
+	if wheels == 1 then
+		Comms.ImportantMessage(l.ERROR_LANDING_GEAR_DOWN)
 	end
 	ship:setprop('nextJumpFuelUse', fuel_use)
 	local warmup_time = 5 + self.capabilities.hyperclass*1.5
