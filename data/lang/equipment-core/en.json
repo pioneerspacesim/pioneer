@@ -326,5 +326,9 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Required for transport of a single passenger"
-   }
+   },
+   "ERROR_LANDING_GEAR_DOWN": {
+      "description": "",
+      "message": "ERROR: Landing gear is down!"
+  }
 }
