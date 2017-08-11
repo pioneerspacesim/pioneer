@@ -1217,7 +1217,7 @@ void Ship::StaticUpdate(const float timeStep)
 				LuaEvent::Queue("onLeaveSystem", this);
 			} else if (m_wheelState == 1.0f) {
 				AbortHyperjump();
-				Sound::BodyMakeNoise(this, "Missile_Inbound", 1.0f);			
+				Sound::BodyMakeNoise(this, "Missile_Inbound", 1.0f);
 			}
 		}
 	}
