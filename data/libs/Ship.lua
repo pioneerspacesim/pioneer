@@ -461,6 +461,7 @@ end
 --
 Ship.HyperjumpTo = function (self, path, is_legal)
 	local engine = self:GetEquip("engine", 1)
+	local wheels = self:GetWheelState()
 	if not engine then
 		return "NO_DRIVE"
 	end
@@ -474,6 +475,11 @@ Ship.HyperjumpTo = function (self, path, is_legal)
 	if is_legal and self.frameBody and not is_allowed then
 		print("---> Engage AI for safe distance of hyperjump")
 		self:AIEnterLowOrbit(self.frameBody)
+	end
+
+	-- display warning if gear is not retracted
+	if self == Game.player and wheels ~= 0 then
+		Comms.ImportantMessage(l.ERROR_LANDING_GEAR_DOWN)
 	end
 
 	return engine:HyperjumpTo(self, path)

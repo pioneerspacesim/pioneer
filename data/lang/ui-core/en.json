@@ -1530,5 +1530,9 @@
    "ZOOM" : {
       "description" : "Label for a zoom (magnification) control bar.",
       "message" : "Zoom"
-   }
+   },
+   "ERROR_LANDING_GEAR_DOWN": {
+      "description": "",
+      "message": "Can not initiate hyperjump; landing gear is not retracted!"
+  }
 }
