@@ -1293,7 +1293,7 @@
    },
    "SEARCH_MAP" : {
       "description" : "",
-      "message" : "Haritayı Ara"
+      "message" : "Haritada Ara"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
@@ -1301,7 +1301,7 @@
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Sektör Harita Görünümü"
+      "message" : "Sektör Haritası Görünümü"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
