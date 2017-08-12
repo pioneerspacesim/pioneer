@@ -421,7 +421,7 @@
    },
    "FIRE_LASER" : {
       "description" : "",
-      "message" : "Tüzelés a lézerrel"
+      "message" : "Fire weapon"
    },
    "FIRE_MISSILE" : {
       "description" : "",
@@ -693,7 +693,7 @@
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
-      "message" : "Lézerlövés érzékelve."
+      "message" : "Weapons fire detected."
    },
    "LATITUDE" : {
       "description" : "Short for latitude",
