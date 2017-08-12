@@ -1,9 +1,16 @@
 August
    * New Features
      * Hide mouse pointer when GUI is not drawn (#4066)
+     * Make all main menu button tooltips translatable (#4072)
+     * Setspeed indicator, larger hud size, more frame info (#4065)
+
+   * Internal Changes
+     * Change laser to weapon in some core en.json (#4069)
 
    * Fixes
      * Additional sort order fix (#4062)
+     * Fix occasional nil dereference (#4073)
+     * Hide mouse pointer when GUI is not being drawn (#4066)
 
 July 2017
    * New Features
