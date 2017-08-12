@@ -190,7 +190,6 @@ private:
 	TimeAccel m_timeAccel;
 	TimeAccel m_requestedTimeAccel;
 	bool m_forceTimeAccel;
-
 	static const float s_timeAccelRates[];
 	static const float s_timeInvAccelRates[];
 };

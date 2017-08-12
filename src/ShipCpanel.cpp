@@ -57,22 +57,6 @@ void ShipCpanel::InitObject()
 
 	ChangeMultiFunctionDisplay(MFUNC_RADAR);
 
-	img = new Gui::Image("icons/alert_green.png");
-	img->SetToolTip(Lang::NO_ALERT);
-	img->SetRenderDimensions(20, 13);
-	Add(img, 780, 39);
-	m_alertLights[0] = img;
-	img = new Gui::Image("icons/alert_yellow.png");
-	img->SetToolTip(Lang::SHIP_NEARBY);
-	img->SetRenderDimensions(20, 13);
-	Add(img, 780, 39);
-	m_alertLights[1] = img;
-	img = new Gui::Image("icons/alert_red.png");
-	img->SetToolTip(Lang::LASER_FIRE_DETECTED);
-	img->SetRenderDimensions(20, 13);
-	Add(img, 780, 39);
-	m_alertLights[2] = img;
-
 	m_overlay[OVERLAY_TOP_LEFT]     = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_overlay[OVERLAY_TOP_RIGHT]    = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_overlay[OVERLAY_BOTTOM_LEFT]  = (new Gui::Label(""))->Color(s_hudTextColor);
@@ -165,27 +149,6 @@ void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
 	else {
 		Pi::SetView(m_game->GetWorldView());
 		m_game->GetWorldView()->ToggleTargetActions();
-	}
-}
-
-void ShipCpanel::SetAlertState(Ship::AlertState as)
-{
-	switch (as) {
-		case Ship::ALERT_NONE:
-			m_alertLights[0]->Show();
-			m_alertLights[1]->Hide();
-			m_alertLights[2]->Hide();
-			break;
-		case Ship::ALERT_SHIP_NEARBY:
-			m_alertLights[0]->Hide();
-			m_alertLights[1]->Show();
-			m_alertLights[2]->Hide();
-			break;
-		case Ship::ALERT_SHIP_FIRING:
-			m_alertLights[0]->Hide();
-			m_alertLights[1]->Hide();
-			m_alertLights[2]->Show();
-			break;
 	}
 }
 
