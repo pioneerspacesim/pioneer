@@ -550,6 +550,19 @@ local function displaySetSpeed(radius)
 	end
 end
 
+local function displayAlertMarker()
+	local alert = player:GetAlertState()
+	local iconsize = Vector(24,24)
+	if alert then
+		local uiPos = ui.pointOnClock(center, reticuleCircleRadius * 1.2 , 2)
+		if alert == "ship-firing" then
+			ui.addIcon(uiPos, icons.alert2, colors.alertRed, iconsize, ui.anchor.center, ui.anchor.center, lc.LASER_FIRE_DETECTED)
+		elseif alert == "ship-nearby" then
+			ui.addIcon(uiPos, icons.alert1, colors.alertYellow, iconsize, ui.anchor.center, ui.anchor.center, lc.SHIP_DETECTED_NEARBY)
+		end
+	end
+end
+
 local function displayReticule()
 	-- reticule circle
 	ui.addCircle(center, reticuleCircleRadius, colors.reticuleCircle, ui.circleSegments(reticuleCircleRadius), reticuleCircleThickness)
@@ -582,6 +595,7 @@ local function displayReticule()
 	displayReticulePitchHorizonCompass()
 	displayReticuleDeltaV()
 	displayDirectionalMarkers()
+	displayAlertMarker()
 
 	if frame then
 		displayFrameIndicators(frame, navTarget)

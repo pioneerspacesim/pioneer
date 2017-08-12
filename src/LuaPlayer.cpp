@@ -524,6 +524,26 @@ static int l_get_gps(lua_State *l)
 	return 0;
 }
 
+static int l_get_alert_state(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	Ship::AlertState state = player->GetAlertState();
+	switch(state) {
+	case Ship::AlertState::ALERT_NONE:
+		lua_pushnil(l);
+		break;
+	case Ship::AlertState::ALERT_SHIP_NEARBY:
+		LuaPush(l, "ship-nearby");
+		break;
+	case Ship::AlertState::ALERT_SHIP_FIRING:
+		LuaPush(l, "ship-firing");
+		break;
+	default:
+		Error("Unknown alert state %i", state);
+	}
+	return 1;
+}
+
 template <> const char *LuaObject<Player>::s_type = "Player";
 
 template <> void LuaObject<Player>::RegisterClass()
@@ -553,6 +573,7 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "SetRotationDamping",  l_set_rotation_damping },
 		{ "GetGPS",              l_get_gps },
 		{ "ToggleRotationDamping",  l_toggle_rotation_damping },
+		{ "GetAlertState",       l_get_alert_state },
 		{ 0, 0 }
 	};
 
