@@ -296,11 +296,11 @@ HyperdriveType.HyperjumpTo = function (self, ship, destination)
 	if not fuel_use then
 		return "INSUFFICIENT_FUEL"
 	end
-	if wheels == 1 then
-		Comms.ImportantMessage(l.ERROR_LANDING_GEAR_DOWN)
-	end
 	ship:setprop('nextJumpFuelUse', fuel_use)
 	local warmup_time = 5 + self.capabilities.hyperclass*1.5
+	if wheels ~= 0 then
+		Comms.ImportantMessage(l.ERROR_LANDING_GEAR_DOWN)
+	end
 	return ship:InitiateHyperjumpTo(destination, warmup_time, duration), fuel_use, duration
 end
 
