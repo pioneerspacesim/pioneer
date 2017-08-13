@@ -149,7 +149,7 @@
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "",
-      "message" : "Los minerales de carbono (carbón y petróleo) se requieren para la síntesis de muchos y muy útiles productos químicos, incluyendo plásticos, productos alimenticios sintéticos, medicamentos y textiles."
+      "message" : "Los minerales de carbono (carbón y petróleo) se requieren para la síntesis de muchos productos químicos útiles, incluyendo plásticos, alimentos sintéticos, medicamentos y textiles."
    },
    "CARGO" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "FIRE_LASER" : {
       "description" : "",
-      "message" : "Fire weapon"
+      "message" : "Disparar láser"
    },
    "FIRE_MISSILE" : {
       "description" : "",
@@ -693,7 +693,7 @@
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
-      "message" : "Weapons fire detected."
+      "message" : "Disparo de láser detectado."
    },
    "LATITUDE" : {
       "description" : "Short for latitude",
