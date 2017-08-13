@@ -447,6 +447,14 @@
       "description" : "Popup text: the name of the planar projection radar (traditional frontier-style)",
       "message" : "3D planar projection"
    },
+   "HUD_ATMOSPHERIC_PRESSURE" : {
+      "description" : "Tooltip: Atmospheric Pressure.",
+      "message" : "Atmospheric Pressure"
+   },
+   "HUD_BACKWARD_GUN_TEMPERATURE" : {
+      "description" : "Tooltip: Backward Gun Temperature.",
+      "message" : "Backward Gun Temperature"
+   },
    "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
       "description" : "Tooltip: The braking distance using the main thrusters.",
       "message" : "The braking distance using the main thrusters"
@@ -545,7 +553,7 @@
    },
    "HUD_BUTTON_SCANNER" : {
       "description" : "Tooltip: Scanner",
-      "message" : "Scanner"
+      "message" : "Σαρωτής"
    },
    "HUD_BUTTON_SET_SPEED" : {
       "description" : "Tooltip: set speed",
@@ -639,6 +647,18 @@
       "description" : "Tooltip: The duration until the middle of the maneuver burn.",
       "message" : "The duration until the middle of the maneuver burn"
    },
+   "HUD_FORWARD_GUN_TEMPERATURE" : {
+      "description" : "Tooltip: Forward Gun Temperature.",
+      "message" : "Forward Gun Temperature"
+   },
+   "HUD_HULL_STRENGTH" : {
+      "description" : "Tooltip: Hull Strength.",
+      "message" : "Hull Strength"
+   },
+   "HUD_HULL_TEMPERATURE" : {
+      "description" : "Tooltip: Hull Temperature.",
+      "message" : "Hull Temperature"
+   },
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
       "message" : "Away from the current frame"
@@ -678,6 +698,10 @@
    "HUD_REQUEST_TIME_ACCEL" : {
       "description" : "Tooltip: Request time acceleration {time}",
       "message" : "Request time acceleration: {time}"
+   },
+   "HUD_SHIELD_STRENGTH" : {
+      "description" : "Tooltip: Shield Strength.",
+      "message" : "Shield Strength"
    },
    "HUD_SHOW_COMBAT_TARGET" : {
       "description" : "Tooltip: Show the current combat target.",

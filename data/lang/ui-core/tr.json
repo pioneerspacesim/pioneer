@@ -447,6 +447,14 @@
       "description" : "Popup text: the name of the planar projection radar (traditional frontier-style)",
       "message" : "3B düzlemsel projeksiyon"
    },
+   "HUD_ATMOSPHERIC_PRESSURE" : {
+      "description" : "Tooltip: Atmospheric Pressure.",
+      "message" : "Atmospheric Pressure"
+   },
+   "HUD_BACKWARD_GUN_TEMPERATURE" : {
+      "description" : "Tooltip: Backward Gun Temperature.",
+      "message" : "Backward Gun Temperature"
+   },
    "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
       "description" : "Tooltip: The braking distance using the main thrusters.",
       "message" : "Ana iticileri kullanarak frenleme mesafesi"
@@ -639,6 +647,18 @@
       "description" : "Tooltip: The duration until the middle of the maneuver burn.",
       "message" : "Manevranın ortasına kadar geçecek süre"
    },
+   "HUD_FORWARD_GUN_TEMPERATURE" : {
+      "description" : "Tooltip: Forward Gun Temperature.",
+      "message" : "Forward Gun Temperature"
+   },
+   "HUD_HULL_STRENGTH" : {
+      "description" : "Tooltip: Hull Strength.",
+      "message" : "Hull Strength"
+   },
+   "HUD_HULL_TEMPERATURE" : {
+      "description" : "Tooltip: Hull Temperature.",
+      "message" : "Hull Temperature"
+   },
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
       "message" : "Şu anki kareden uzağa"
@@ -678,6 +698,10 @@
    "HUD_REQUEST_TIME_ACCEL" : {
       "description" : "Tooltip: Request time acceleration {time}",
       "message" : "Zaman hızlandırması talep et: {time}"
+   },
+   "HUD_SHIELD_STRENGTH" : {
+      "description" : "Tooltip: Shield Strength.",
+      "message" : "Shield Strength"
    },
    "HUD_SHOW_COMBAT_TARGET" : {
       "description" : "Tooltip: Show the current combat target.",
