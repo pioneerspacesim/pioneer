@@ -29,7 +29,7 @@ class FixedGuns
 		void UpdateGuns( float timeStep );
 		bool Fire( int num, Body* b );
 		bool IsFiring();
-		inline float GetGunTemperature(int idx) const { return m_temperature_stat[idx]; }
+		float GetGunTemperature(int idx) const;
 		inline void IsDual( int idx, bool dual ) { m_gun[idx].dual = dual; };
 		void MountGun( int num, const float recharge, const float lifespan, const float dam, const float length,
 						 const float width, const bool mining, const Color& color, const float speed );

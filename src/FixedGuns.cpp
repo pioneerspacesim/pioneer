@@ -173,3 +173,9 @@ void FixedGuns::UpdateGuns( float timeStep )
 	}
 
 }
+float FixedGuns::GetGunTemperature(int idx) const {
+	if(m_gun_present[idx])
+		return m_temperature_stat[idx];
+	else
+		return 0.0f;
+}
