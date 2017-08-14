@@ -211,6 +211,7 @@ pioneer_SOURCES	= \
 	LuaFileSystem.cpp \
 	LuaFormat.cpp \
 	LuaGame.cpp \
+	LuaHyperspaceCloud.cpp \
 	LuaLang.cpp \
 	LuaMatrix.cpp \
 	LuaVector.cpp \

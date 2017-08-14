@@ -56,8 +56,8 @@
  */
 static int l_ship_is_player(lua_State *l)
 {
-    lua_pushboolean(l, false);
-    return 1;
+	lua_pushboolean(l, false);
+	return 1;
 }
 
 /* Method: SetShipType
@@ -181,8 +181,8 @@ static int l_ship_set_hull_percent(lua_State *l)
 		percent = float(luaL_checknumber(l, 2));
 		if (percent < 0.0f || percent > 100.0f) {
 			pi_lua_warn(l,
-				"argument out of range: Ship{%s}:SetHullPercent(%g)",
-				s->GetLabel().c_str(), percent);
+									"argument out of range: Ship{%s}:SetHullPercent(%g)",
+									s->GetLabel().c_str(), percent);
 		}
 	}
 
@@ -228,8 +228,8 @@ static int l_ship_set_fuel_percent(lua_State *l)
 		percent = luaL_checknumber(l, 2);
 		if (percent < 0.0 || percent > 100.0) {
 			pi_lua_warn(l,
-				"argument out of range: Ship{%s}:SetFuelPercent(%g)",
-				s->GetLabel().c_str(), percent);
+									"argument out of range: Ship{%s}:SetFuelPercent(%g)",
+									s->GetLabel().c_str(), percent);
 		}
 	}
 
@@ -1154,6 +1154,23 @@ static int l_ship_get_velocity(lua_State *l)
 	return 1;
 }
 
+static int l_ship_get_stats(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaTable t(l);
+	const shipstats_t &stats = s->GetStats();
+	t.Set("usedCapacity", stats.used_capacity);
+	t.Set("usedCargo", stats.used_cargo);
+	t.Set("freeCapacity", stats.free_capacity);
+	t.Set("staticMass", stats.static_mass);
+	t.Set("hullMassLeft", stats.hull_mass_left);
+	t.Set("hyperspaceRange", stats.hyperspace_range);
+	t.Set("hyperspaceRangeMax", stats.hyperspace_range_max);
+	t.Set("shieldMass", stats.shield_mass);
+	t.Set("shieldMassLeft", stats.shield_mass_left);
+	t.Set("fuelTankMassLeft", stats.fuel_tank_mass_left);
+	return 1;
+}
+
 /*
  * Method: GetPosition
  *
@@ -1228,10 +1245,31 @@ static int l_ship_get_hyperspace_countdown(lua_State *l)
 	return 1;
 }
 
+static int l_ship_get_hyperspace_destination(lua_State *l)
+{
+	Ship *ship = LuaObject<Ship>::CheckFromLua(1);
+	const SystemPath &dest = ship->GetHyperspaceDest();
+	RefCountedPtr<const Sector> s = Pi::game->GetGalaxy()->GetSector(dest);
+	LuaObject<SystemPath>::PushToLua(dest);
+	LuaPush(l, s->m_systems[dest.systemIndex].GetName());
+	return 2;
+}
+
 static int l_ship_is_hyperspace_active(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	LuaPush<bool>(l, s->IsHyperspaceActive());
+	return 1;
+}
+
+static int l_ship_get_thruster_state(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	vector3d v = s->GetPropulsion()->GetThrusterState();
+	lua_newtable(l);
+	pi_lua_settable(l, "x", v.x);
+	pi_lua_settable(l, "y", v.y);
+	pi_lua_settable(l, "z", v.z);
 	return 1;
 }
 
@@ -1256,6 +1294,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetLabel",   l_ship_set_label   },
 		{ "SetShipName",	l_ship_set_ship_name   },
 
+		{ "GetHyperspaceDestination", l_ship_get_hyperspace_destination },
+		
 		{ "SpawnCargo", l_ship_spawn_cargo },
 
 		{ "SpawnMissile", l_ship_spawn_missile },
@@ -1287,6 +1327,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "GetVelocity", l_ship_get_velocity },
  		{ "GetPosition", l_ship_get_position },
+		{ "GetThrusterState",   l_ship_get_thruster_state },
 
 		{ "IsDocked",    l_ship_is_docked },
 		{ "IsLanded",    l_ship_is_landed },
@@ -1296,6 +1337,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetFlightState",    l_ship_get_flight_state },
 		{ "GetSetSpeed",       l_ship_get_set_speed },
 		{ "GetSetSpeedTarget", l_ship_get_set_speed_target },
+		{ "GetStats",          l_ship_get_stats },
 
 		{ "GetHyperspaceCountdown", l_ship_get_hyperspace_countdown },
 		{ "IsHyperspaceActive",     l_ship_is_hyperspace_active },

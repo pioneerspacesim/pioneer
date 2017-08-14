@@ -13,7 +13,6 @@
 #include "SectorView.h"
 #include "SystemView.h"
 #include "Serializer.h"
-#include "ShipCpanel.h"
 #include "Sound.h"
 #include "Space.h"
 #include "SpaceStation.h"
@@ -47,7 +46,6 @@ namespace {
 	static const float ZOOM_SPEED = 1.f;
 	static const float WHEEL_SENSITIVITY = .05f;	// Should be a variable in user settings.
 	static const float HUD_CROSSHAIR_SIZE = 8.0f;
-	static const Uint8 HUD_ALPHA          = 87;
 	static const Color white(255, 255, 255, 204);
 	static const Color green(0, 255, 0, 204);
 	static const Color yellow(230, 230, 77, 255);
@@ -146,20 +144,9 @@ void WorldView::InitObject()
 
 	// --
 
-	m_hudHyperspaceInfo = (new Gui::Label(""))->Color(s_hudTextColor);
-	Add(m_hudHyperspaceInfo, Gui::Screen::GetWidth()*0.4f, Gui::Screen::GetHeight()*0.3f);
-
 	m_hudSensorGaugeStack = new Gui::VBox();
 	m_hudSensorGaugeStack->SetSpacing(2.0f);
 	Add(m_hudSensorGaugeStack, 5.0f, 5.0f);
-
-	m_hudTargetHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(255,255,0,204));
-	m_hudTargetShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(255,255,0,204));
-	Add(m_hudTargetHullIntegrity, Gui::Screen::GetWidth() - 105.0f, 5.0f);
-	Add(m_hudTargetShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, 45.0f);
-
-	m_hudTargetInfo = (new Gui::Label(""))->Color(s_hudTextColor);
-	Add(m_hudTargetInfo, 0, 85.0f);
 
 	Gui::Screen::PushFont("OverlayFont");
 
@@ -371,24 +358,11 @@ void WorldView::ShowAll()
 	RefreshButtonStateAndVisibility();
 }
 
-static Color get_color_for_warning_meter_bar(float v) {
-	Color c;
-	if (v < 50.0f)
-		c = Color(255,0,0,HUD_ALPHA);
-	else if (v < 75.0f)
-		c = Color(255,128,0,HUD_ALPHA);
-	else
-		c = Color(255,255,0,HUD_ALPHA);
-	return c;
-}
-
 void WorldView::RefreshButtonStateAndVisibility()
 {
 	assert(m_game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
-
-	m_game->GetCpan()->ClearOverlay();
 
 	if (m_game->IsPaused())
 		m_pauseText->Show();
@@ -454,138 +428,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_debugInfo->Hide();
 	}
 #endif
-	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) {
-		const SystemPath dest = Pi::player->GetHyperspaceDest();
-		RefCountedPtr<StarSystem> s = m_game->GetGalaxy()->GetStarSystem(dest);
-
-		m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
-																																						formatarg("system", dest.IsBodyPath() ? s->GetBodyByPath(dest)->GetName() : s->GetName()),
-																																						formatarg("x", dest.sectorX),
-																																						formatarg("y", dest.sectorY),
-																																						formatarg("z", dest.sectorZ)));
-
-		m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, stringf(Lang::JUMP_COMPLETE,
-																																						 formatarg("percent", m_game->GetHyperspaceArrivalProbability()*100.0, "f3.1")));
-	}
-
-
-	Body *b = Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget();
-	if (b) {
-		if (b->IsType(Object::SHIP)) {
-			int prop_var = 0;
-			Pi::player->Properties().Get("target_scanner_level_cap", prop_var);
-			if (prop_var > 0) {
-				assert(b->IsType(Object::SHIP));
-				Ship *s = static_cast<Ship*>(b);
-
-				const shipstats_t &stats = s->GetStats();
-
-				float sShields = 0;
-				float sHull = s->GetPercentHull();
-				m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(sHull));
-				m_hudTargetHullIntegrity->SetValue(sHull*0.01f);
-				m_hudTargetHullIntegrity->Show();
-
-				prop_var = 0;
-				s->Properties().Get("shield_cap", prop_var);
-				if (prop_var > 0) {
-					sShields = s->GetPercentShields();
-				}
-				m_hudTargetShieldIntegrity->SetColor(get_color_for_warning_meter_bar(sShields));
-				m_hudTargetShieldIntegrity->SetValue(sShields*0.01f);
-				m_hudTargetShieldIntegrity->Show();
-
-				std::string text;
-				text += s->GetShipType()->name;
-				text += "\n";
-				text += s->GetLabel();
-				text += "\n";
-
-				lua_State * l = Lua::manager->GetLuaState();
-				int clean_stack = lua_gettop(l);
-
-				LuaObject<Ship>::CallMethod<LuaRef>(s, "GetEquip", "engine").PushCopyToStack();
-				lua_rawgeti(l, -1, 1);
-				if (lua_isnil(l, -1)) {
-					text += Lang::NO_HYPERDRIVE;
-				} else {
-					text += LuaTable(l, -1).CallMethod<std::string>("GetName");
-				}
-				lua_settop(l, clean_stack);
-
-				text += "\n";
-				text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.static_mass));
-				text += "\n";
-				text += stringf(Lang::SHIELD_STRENGTH_N, formatarg("shields",
-																													 (sShields*0.01f) * float(prop_var))); // At that point, it still holds the property for the shields
-				text += "\n";
-				text += stringf(Lang::CARGO_N, formatarg("mass", stats.used_cargo));
-				text += "\n";
-
-				m_hudTargetInfo->SetText(text);
-				MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 150.0f, 85.0f);
-				m_hudTargetInfo->Show();
-			}
-		}
-
-		else if (b->IsType(Object::HYPERSPACECLOUD)) {
-			int cap = 0;
-			Pi::player->Properties().Get("hypercloud_analyzer_cap", cap);
-			if(cap) {
-				HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(b);
-
-				m_hudTargetHullIntegrity->Hide();
-				m_hudTargetShieldIntegrity->Hide();
-
-				std::string text;
-
-				Ship *ship = cloud->GetShip();
-				if (!ship) {
-					text += Lang::HYPERSPACE_ARRIVAL_CLOUD_REMNANT;
-				}
-				else {
-					const SystemPath& dest = ship->GetHyperspaceDest();
-					RefCountedPtr<const Sector> s = m_game->GetGalaxy()->GetSector(dest);
-					text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
-					text += "\n";
-					text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().static_mass));
-					text += "\n";
-					text += (cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION);
-					text += ": ";
-					text += s->m_systems[dest.systemIndex].GetName();
-					text += "\n";
-					text += stringf(Lang::DATE_DUE_N, formatarg("date", format_date(cloud->GetDueDate())));
-					text += "\n";
-				}
-
-				m_hudTargetInfo->SetText(text);
-				MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 180.0f, 5.0f);
-				m_hudTargetInfo->Show();
-			}
-		}
-
-		else {
-			b = 0;
-		}
-	}
-	if (!b) {
-		m_hudTargetHullIntegrity->Hide();
-		m_hudTargetShieldIntegrity->Hide();
-		m_hudTargetInfo->Hide();
-	}
-
-	if (Pi::player->IsHyperspaceActive()) {
-		float val = Pi::player->GetHyperspaceCountdown();
-
-		if (!(int(ceil(val*2.0)) % 2)) {
-			m_hudHyperspaceInfo->SetText(stringf(Lang::HYPERSPACING_IN_N_SECONDS, formatarg("countdown", ceil(val))));
-			m_hudHyperspaceInfo->Show();
-		} else {
-			m_hudHyperspaceInfo->Hide();
-		}
-	} else {
-		m_hudHyperspaceInfo->Hide();
-	}
 }
 
 void WorldView::Update()

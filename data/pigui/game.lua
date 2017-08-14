@@ -606,7 +606,14 @@ local function displayReticule()
 end
 
 local function displayHyperspace()
-	-- TODO implement :)
+	local uiPos = Vector(ui.screenWidth / 2, ui.screenHeight / 2 - 10)
+	local path,destName = player:GetHyperspaceDestination()
+	local label = string.interp(lui.HUD_IN_TRANSIT_TO_N_X_X_X, { system = destName, x = path.sectorX, y = path.sectorY, z = path.sectorZ })
+	local r = ui.addStyledText(uiPos, ui.anchor.center, ui.anchor.bottom, label, colors.hyperspaceInfo, pionillium.large, nil, colors.lightBlackBackground)
+	uiPos = uiPos + Vector(0, r.y + 20)
+	local percent = Game.GetHyperspaceTravelledPercentage() * 100
+	label = string.interp(lui.HUD_JUMP_COMPLETE, { percent = string.format("%2.1f", percent) })
+	ui.addStyledText(uiPos, ui.anchor.center, ui.anchor.top, label, colors.hyperspaceInfo, pionillium.large, nil, colors.lightBlackBackground)
 end
 
 local function getBodyIcon(body)
@@ -667,6 +674,103 @@ local function callModules(mode)
 		v.fun()
 	end
 end
+local shipInfoLowerBound
+local function displayTargetScannerFor(target, offset)
+	local hull = target:GetHullPercent()
+	local shield = target:GetShieldsPercent()
+	local class = target:GetShipType()
+	local label = target.label
+	local engine = target:GetEquip('engine', 1)
+	local stats = target:GetStats()
+	local mass = stats.staticMass
+	local cargo = stats.usedCargo
+	if engine then
+		engine = engine:GetName()
+	else
+		engine = 'No Hyperdrive'
+	end
+	local uiPos = Vector(ui.screenWidth - 30, 1 * ui.gauge_height)
+	if shield then
+		ui.gauge(uiPos - Vector(ui.gauge_width, 0), shield, nil, nil, 0, 100, icons.shield, colors.gaugeShield, lui.HUD_SHIELD_STRENGTH)
+	end
+	uiPos = uiPos + Vector(0, ui.gauge_height * 1.5)
+	ui.gauge(uiPos - Vector(ui.gauge_width, 0), hull, nil, nil, 0, 100, icons.hull, colors.gaugeHull, lui.HUD_HULL_STRENGTH)
+	uiPos = uiPos + Vector(0, ui.gauge_height * 0.8)
+	local r = ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, label, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
+	uiPos = uiPos + Vector(0, r.y + offset)
+	r = ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, class, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
+	uiPos = uiPos + Vector(0, r.y + offset)
+	r = ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, engine, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
+	uiPos = uiPos + Vector(0, r.y + offset)
+	r = ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.top, {
+										{ text=lui.HUD_MASS .. ' ', color=colors.reticuleCircleDark, font=pionillium.medium },
+										{ text=mass, color=colors.reticuleCircle, font=pionillium.medium, },
+										{ text=lc.UNIT_TONNES, color=colors.reticuleCircleDark, font=pionillium.medium }},
+									colors.lightBlackBackground)
+	uiPos = uiPos + Vector(0, r.y + offset)
+	r = ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.top, {
+										{ text=lui.HUD_CARGO_MASS .. ' ', color=colors.reticuleCircleDark, font=pionillium.medium, },
+										{ text=cargo, color=colors.reticuleCircle, font=pionillium.medium },
+										{ text=lc.UNIT_TONNES, color=colors.reticuleCircleDark, font=pionillium.medium }},
+									colors.lightBlackBackground)
+	shipInfoLowerBound = uiPos + Vector(0, r.y + 15)
+end
+
+local function displayTargetScanner()
+	local offset = 7
+	shipInfoLowerBound = Vector(ui.screenWidth - 30, 1 * ui.gauge_height)
+	if player:GetEquipCountOccupied('target_scanner') > 0 or player:GetEquipCountOccupied('advanced_target_scanner') > 0 then
+           -- what is the difference between target_scanner and advanced_target_scanner?
+		local target = player:GetNavTarget()
+		if target and target:IsShip() then
+			displayTargetScannerFor(target, offset)
+		else
+			target = player:GetCombatTarget()
+			if target and target:IsShip() then
+				displayTargetScannerFor(target, offset)
+			end
+		end
+	end
+	if player:GetEquipCountOccupied('hypercloud') > 0 then
+		local target = player:GetNavTarget()
+		if target and target:IsHyperspaceCloud() then
+			local arrival = target:IsArrival()
+			local ship = target:GetShip()
+			if ship then
+				local stats = ship:GetStats()
+				local mass = stats.staticMass
+				local path,destName = ship:GetHyperspaceDestination()
+				local date = target:GetDueDate()
+				local dueDate = ui.Format.Datetime(date)
+				local uiPos = shipInfoLowerBound + Vector(0, 15)
+				local name = (arrival and lc.HYPERSPACE_ARRIVAL_CLOUD or lc.HYPERSPACE_DEPARTURE_CLOUD)
+				local r = ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, name , colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
+				uiPos = uiPos + Vector(0, r.y + offset)
+				r = ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.top, {
+													{ text=lui.HUD_MASS .. ' ', color=colors.reticuleCircleDark, font=pionillium.medium },
+													{ text=mass, color=colors.reticuleCircle, font=pionillium.medium },
+													{ text=lc.UNIT_TONNES, color=colors.reticuleCircleDark, font=pionillium.medium }},
+												colors.lightBlackBackground)
+				uiPos = uiPos + Vector(0, r.y + offset)
+				r = ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, destName, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
+				uiPos = uiPos + Vector(0, r.y + offset)
+				ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, dueDate, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
+			else
+				local uiPos = Vector(ui.screenWidth - 30, 1 * ui.gauge_height)
+				ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, lc.HYPERSPACE_ARRIVAL_CLOUD_REMNANT , colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
+			end
+		end
+	end
+end
+
+local function displayHyperspaceCountdown()
+	if player:IsHyperspaceActive() then
+		local countdown = math.ceil(player:GetHyperspaceCountdown())
+                local path,destName = player:GetHyperspaceDestination()
+		local uiPos = Vector(ui.screenWidth / 2, ui.screenHeight / 3)
+		ui.addStyledText(uiPos, ui.anchor.center, ui.anchor.bottom, string.interp(lui.HUD_HYPERSPACING_TO_N_IN_N_SECONDS ,{ destination = destName, countdown = countdown }), colors.hyperspaceInfo, pionillium.large)
+	end
+end
 
 local function displayOnScreenObjects()
 	local should_show_label = ui.shouldShowLabels()
@@ -681,8 +785,7 @@ local function displayOnScreenObjects()
 	for k,v in pairs(bodies) do
 		if v.onscreen then
 			local it = v
-			it.label = k
-			local itk = k
+			it.label = k:GetLabel()
 			local itbody = it.body
 			local itsc = it.screenCoordinates
 			local inserted = false
@@ -763,7 +866,11 @@ local function displayOnScreenObjects()
 							 ui.icon(getBodyIcon(v.mainBody.body), size, colors.frame)
 							 ui.sameLine()
 							 if ui.selectable(v.mainBody.label, v.mainBody.body == navTarget, {}) then
-								 player:SetNavTarget(v.mainBody.body)
+								 if v.mainBody.body:IsShip() then
+									 player:SetCombatTarget(v.mainBody.body)
+								 else
+									 player:SetNavTarget(v.mainBody.body)
+								 end
 								 if ui.ctrlHeld() then
 									 local target = v.mainBody.body
 									 if target == player:GetSetSpeedTarget() then
@@ -776,7 +883,11 @@ local function displayOnScreenObjects()
 								 ui.icon(getBodyIcon(v.body), size, colors.frame)
 								 ui.sameLine()
 								 if ui.selectable(v.label, v.body == navTarget, {}) then
-									 player:SetNavTarget(v.body)
+									 if v.body:IsShip() then
+										 player:SetCombatTarget(v.body)
+									 else
+										 player:SetNavTarget(v.body)
+									 end
 								 end
 							 end
 		end)
@@ -803,6 +914,8 @@ ui.registerHandler(
 												displayOnScreenObjects()
 												displayReticule()
 												ui.displayPlayerGauges()
+												displayTargetScanner()
+												displayHyperspaceCountdown()
 												callModules("game")
 											end
 										else
@@ -814,5 +927,3 @@ ui.registerHandler(
 		end)
 end)
 
--- todo: f8 low thrust, f5 flight control, f10 equipment ?
--- todo: on hyperspace target changed while counting down -> abort

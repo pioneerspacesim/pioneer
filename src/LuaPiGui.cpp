@@ -450,6 +450,36 @@ static int l_pigui_button(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_thrust_indicator(lua_State *l) {
+	std::string text = LuaPull<std::string>(l, 1);
+	ImVec2 size = LuaPull<ImVec2>(l, 2);
+	vector3d thr = LuaPull<vector3d>(l, 3);
+	vector3d vel = LuaPull<vector3d>(l, 4);
+	ImColor color = LuaPull<ImColor>(l, 5);
+	int frame_padding = LuaPull<int>(l, 6);
+	ImColor vel_fg = LuaPull<ImColor>(l, 7);
+	ImColor vel_bg = LuaPull<ImColor>(l, 8);
+	ImColor thrust_fg = LuaPull<ImColor>(l, 9);
+	ImColor thrust_bg = LuaPull<ImColor>(l, 10);
+	ImVec4 thrust(thr.x, thr.y, thr.z, 0);
+	ImVec4 velocity(vel.x, vel.y, vel.z, 0);
+	PiGui::ThrustIndicator(text.c_str(), size, thrust, velocity, color, frame_padding, vel_fg, vel_bg, thrust_fg, thrust_bg);
+	return 0;
+}
+
+static int l_pigui_low_thrust_button(lua_State *l) {
+	std::string text = LuaPull<std::string>(l, 1);
+	ImVec2 size = LuaPull<ImVec2>(l, 2);
+	float level = LuaPull<int>(l, 3);
+	ImColor color = LuaPull<ImColor>(l, 4);
+	int frame_padding = LuaPull<int>(l, 5);
+	ImColor gauge_fg = LuaPull<ImColor>(l, 6);
+	ImColor gauge_bg = LuaPull<ImColor>(l, 7);
+	bool ret = PiGui::LowThrustButton(text.c_str(), size, level, color, frame_padding, gauge_fg, gauge_bg);
+	LuaPush<bool>(l, ret);
+	return 1;
+}
+
 static int l_pigui_text_wrapped(lua_State *l) {
 	std::string text = LuaPull<std::string>(l, 1);
 	ImGui::TextWrapped("%s", text.c_str());
@@ -872,7 +902,7 @@ static int l_pigui_get_projected_bodies(lua_State *l) {
 		object.Set("direction", std::get<2>(res));
 		object.Set("body", body);
 
-		result.Set(body->GetLabel(), object);
+		result.Set(body, object);
 		lua_pop(l, 1);
 	}
 	LuaPush(l, result);
@@ -1114,6 +1144,18 @@ static int l_pigui_is_key_released(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_get_cursor_pos(lua_State *l) {
+	ImVec2 v = ImGui::GetCursorPos();
+	LuaPush<ImVec2>(l, v);
+	return 1;
+}
+
+static int l_pigui_set_cursor_pos(lua_State *l) {
+	ImVec2 v = LuaPull<ImVec2>(l, 1);
+	ImGui::SetCursorPos(v);
+	return 0;
+}
+
 static int l_pigui_drag_int_4(lua_State *l) {
 	std::string label = LuaPull<std::string>(l, 1);
 	int v[4];
@@ -1202,6 +1244,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "Button",                 l_pigui_button },
 		{ "Selectable",             l_pigui_selectable },
 		{ "BeginGroup",             l_pigui_begin_group },
+		{ "SetCursorPos",           l_pigui_set_cursor_pos },
+		{ "GetCursorPos",           l_pigui_get_cursor_pos },
 		{ "EndGroup",               l_pigui_end_group },
 		{ "SameLine",               l_pigui_same_line },
 		{ "Separator",              l_pigui_separator },
@@ -1251,6 +1295,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "GetProjectedBodies",     l_pigui_get_projected_bodies },
 		{ "ShouldShowLabels",       l_pigui_should_show_labels },
 		{ "SystemInfoViewNextPage", l_pigui_system_info_view_next_page }, // deprecated
+		{ "LowThrustButton",        l_pigui_low_thrust_button },
+		{ "ThrustIndicator",        l_pigui_thrust_indicator },
 		{ "PlaySfx",                l_pigui_play_sfx },
 		// { "DisableMouseFacing",     l_pigui_disable_mouse_facing },
 		// { "SetMouseButtonState",    l_pigui_set_mouse_button_state },

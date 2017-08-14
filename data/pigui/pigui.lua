@@ -95,6 +95,14 @@ function ui.withStyleColors(styles, fun)
 	pigui.PopStyleColor(utils.count(styles))
 end
 
+function ui.withStyleVars(vars, fun)
+	for k,v in pairs(vars) do
+		pigui.PushStyleVar(k, v)
+	end
+	fun()
+	pigui.PopStyleVar(utils.count(vars))
+end
+
 pigui.handlers.INIT = function(progress)
 	if pigui.handlers and pigui.handlers.init then
 		pigui.handlers.init(progress)
@@ -256,6 +264,10 @@ ui.Format = {
 		return string.format("%0.2f", distance / 1000 / 1000), lc.UNIT_MILLION_METERS_PER_SECOND
 		-- no need for au/s
 	end,
+  Datetime = function(date)
+		local second, minute, hour, day, month, year = Game.GetPartsFromDateTime(date)
+		return string.format("%4i-%02i-%02i %02i:%02i:%02i", year, month, day, hour, minute, second)
+  end
 }
 
 ui.pointOnClock = function(center, radius, hours)
@@ -343,7 +355,7 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, b
 	size.x = size.x - spacing -- remove last spacing
 	position = ui.calcTextAlignment(position, size, anchor_horizontal, nil)
 	if anchor_vertical == ui.anchor.top then
-	  position.y = position.y + max_offset
+	  position.y = position.y + size.y -- was max_offset, seems wrong
 	elseif anchor_vertical == ui.anchor.bottom then
 	  position.y = position.y - (size.y - max_offset)
 	end
@@ -433,6 +445,10 @@ ui.imageButton = function(icon, size, frame_padding, bg_color, tint_color, toolt
 	pigui.PopID()
 	return res
 end
+ui.setCursorPos = pigui.SetCursorPos
+ui.getCursorPos = pigui.GetCursorPos
+ui.lowThrustButton = pigui.LowThrustButton
+ui.thrustIndicator = pigui.ThrustIndicator
 ui.oneOverSqrtTwo = one_over_sqrt_two
 ui.isMouseClicked = pigui.IsMouseClicked
 ui.getMousePos = pigui.GetMousePos
@@ -447,15 +463,18 @@ ui.isMouseHoveringRect = pigui.IsMouseHoveringRect
 ui.isMouseHoveringAnyWindow = pigui.IsMouseHoveringAnyWindow
 ui.openPopup = pigui.OpenPopup
 ui.shouldShowLabels = pigui.ShouldShowLabels
+ui.columns = pigui.Columns
+ui.nextColumn = pigui.NextColumn
 ui.keys = pigui.keys
 ui.systemInfoViewNextPage = pigui.SystemInfoViewNextPage -- deprecated
 ui.isKeyReleased = pigui.IsKeyReleased
 ui.playSfx = pigui.PlaySfx
+ui.isItemHovered = pigui.IsItemHovered
 ui.ctrlHeld = function() return pigui.key_ctrl end
 ui.altHeld = function() return pigui.key_alt end
 ui.shiftHeld = function() return pigui.key_shift end
 ui.noModifierHeld = function() return pigui.key_none end
-ui.coloredSelectedIconButton = function(icon, size, is_selected, frame_padding, bg_color, fg_color, tooltip)
+ui.coloredSelectedIconButton = function(icon, thesize, is_selected, frame_padding, bg_color, fg_color, tooltip)
 	if is_selected then
 		pigui.PushStyleColor("Button", bg_color)
 		pigui.PushStyleColor("ButtonHovered", bg_color:tint(0.1))
@@ -467,7 +486,7 @@ ui.coloredSelectedIconButton = function(icon, size, is_selected, frame_padding, 
 	end
 	local uv0,uv1 = get_icon_tex_coords(icon)
 	pigui.PushID(tooltip)
-	local res = pigui.ImageButton(ui.icons_texture, size, uv0, uv1, frame_padding, ui.theme.colors.lightBlueBackground, fg_color)
+	local res = pigui.ImageButton(ui.icons_texture, thesize, uv0, uv1, frame_padding, ui.theme.colors.lightBlueBackground, fg_color)
 	pigui.PopID()
 	pigui.PopStyleColor(3)
 	if pigui.IsItemHovered() then
@@ -492,7 +511,7 @@ ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color
 									ui.addStyledText(uiPos + Vector(0, ui.gauge_height / 12), ui.anchor.right, ui.anchor.center, string.format("%i", percent * 100), ui.theme.colors.reticuleCircle, ui.fonts.pionillium.medium, tooltip)
 								end
 								uiPos = uiPos + Vector(ui.gauge_height * 1.2, 0)
-								ui.addIcon(uiPos - ui.gauge_height/2, icon, ui.theme.colors.reticuleCircle, ui.gauge_height, ui.anchor.center, ui.anchor.top, tooltip)
+								ui.addIcon(uiPos - Vector(ui.gauge_height/2, 0), icon, ui.theme.colors.reticuleCircle, ui.gauge_height * 0.9, ui.anchor.center, ui.anchor.center, tooltip)
 								local w = (position.x + ui.gauge_width) - uiPos.x
 								ui.addLine(uiPos, uiPos + Vector(w * percent, 0), color, ui.gauge_height)
 								if value and format then

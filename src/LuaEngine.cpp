@@ -957,6 +957,15 @@ static int l_engine_world_space_to_screen_space(lua_State *l)
 	return 3;
 }
 
+static int l_engine_world_space_to_ship_space(lua_State *l)
+{
+	vector3d vec = LuaPull<vector3d>(l, 1);
+	auto res = vec * Pi::game->GetPlayer()->GetOrient();
+	
+	LuaPush<vector3d>(l, res);
+	return 1;
+}
+
 static int l_engine_get_compact_radar(lua_State *l)
 {
 	lua_pushboolean(l, Pi::config->Int("CompactRadar") != 0);
@@ -1115,6 +1124,7 @@ void LuaEngine::Register()
 		{ "ShipSpaceToScreenSpace",   l_engine_ship_space_to_screen_space },
 		{ "CameraSpaceToScreenSpace", l_engine_camera_space_to_screen_space },
 		{ "WorldSpaceToScreenSpace",     l_engine_world_space_to_screen_space },
+		{ "WorldSpaceToShipSpace",     l_engine_world_space_to_ship_space },
 		{ 0, 0 }
 	};
 

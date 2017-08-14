@@ -57,8 +57,5 @@ void View::Detach() {
 	Gui::Screen::RemoveBaseWidget(m_rightRegion1);
 	Gui::Screen::RemoveBaseWidget(s_cpan);
 	Gui::Screen::RemoveBaseWidget(this);
-	if (s_cpan)
-		s_cpan->ClearOverlay();
-
 	OnSwitchFrom();
 }
