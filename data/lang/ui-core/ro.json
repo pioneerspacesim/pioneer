@@ -509,7 +509,7 @@
    },
    "HUD_BUTTON_HYPERDRIVE_DISABLED" : {
       "description" : "Tooltip: Hyperdrive disabled (docked or landed)",
-      "message" : "Hyperdrive disabled"
+      "message" : "Motor superluminic dezactivat"
    },
    "HUD_BUTTON_INITIATE_HYPERJUMP" : {
       "description" : "Tooltip: Initiate legal hyperjump",
