@@ -78,6 +78,14 @@ static int l_set_nav_target(lua_State *l)
 	return 0;
 }
 
+static int l_set_set_speed_target(lua_State *l)
+{
+	Player *p = LuaObject<Player>::CheckFromLua(1);
+	Body *target = LuaObject<Body>::GetFromLua(2);
+	p->SetSetSpeedTarget(target);
+	return 0;
+}
+
 /*
  * Method: GetCombatTarget
  *
@@ -553,10 +561,11 @@ template <> void LuaObject<Player>::RegisterClass()
 	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_player_is_player },
 
-		{ "GetNavTarget",    l_get_nav_target    },
-		{ "SetNavTarget",    l_set_nav_target    },
-		{ "GetCombatTarget", l_get_combat_target },
-		{ "SetCombatTarget", l_set_combat_target },
+		{ "GetNavTarget",        l_get_nav_target    },
+		{ "SetNavTarget",        l_set_nav_target    },
+		{ "SetSetSpeedTarget",   l_set_set_speed_target },
+		{ "GetCombatTarget",     l_get_combat_target },
+		{ "SetCombatTarget",     l_set_combat_target },
 		{ "GetHyperspaceTarget", l_get_hyperspace_target },
 		{ "SetHyperspaceTarget", l_set_hyperspace_target },
 		{ "GetDistanceToZeroV",  l_get_distance_to_zero_v },

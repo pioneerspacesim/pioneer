@@ -697,7 +697,7 @@ local function displayOnScreenObjects()
 								-- if the navtarget is one of the collapsed ones, it's the most important
 								table.insert(v.others, v.mainBody)
 								v.mainBody = it
-								v.hasNavTarget = true
+								v.hasNavTarget = itbody == navTarget
 								v.multiple = true
 							else
 								-- otherwise, just add it as a further body
@@ -731,13 +731,13 @@ local function displayOnScreenObjects()
 		end
 		local mp = ui.getMousePos()
 		-- click handler
-		if (Vector(mp.x,mp.y) - coords):magnitude() < iconsize then
+		if (Vector(mp.x,mp.y) - coords):magnitude() < iconsize * 1.5 then
 			if not ui.isMouseHoveringAnyWindow() and ui.isMouseReleased(0) then
-				if v.hasNavTarget and ui.ctrlHeld() then
-					-- if ctrl-clicked and has nav target, unset nav target
+				if v.hasNavTarget then
+					-- if clicked and has nav target, unset nav target
 					player:SetNavTarget(nil)
-				elseif v.hasCombatTarget and ui.ctrlHeld() then
-					-- if ctlr-clicked and has combat target, unset combat target
+				elseif v.hasCombatTarget then
+					-- if clicked and has combat target, unset combat target
 					player:SetCombatTarget(nil)
 				else
 					if v.multiple then
@@ -746,6 +746,13 @@ local function displayOnScreenObjects()
 					else
 						-- clicked on single, just set navtarget/combatTarget
 						setTarget(v.mainBody.body)
+						if ui.ctrlHeld() then
+							local target = v.mainBody.body
+							if target == player:GetSetSpeedTarget() then
+								target = nil
+							end
+							player:SetSetSpeedTarget(target)
+						end
 					end
 				end
 			end
@@ -757,6 +764,13 @@ local function displayOnScreenObjects()
 							 ui.sameLine()
 							 if ui.selectable(v.mainBody.label, v.mainBody.body == navTarget, {}) then
 								 player:SetNavTarget(v.mainBody.body)
+								 if ui.ctrlHeld() then
+									 local target = v.mainBody.body
+									 if target == player:GetSetSpeedTarget() then
+										 target = nil
+									 end
+									 player:SetSetSpeedTarget(target)
+								 end
 							 end
 							 for k,v in pairs(v.others) do
 								 ui.icon(getBodyIcon(v.body), size, colors.frame)

@@ -86,6 +86,7 @@ public:
 	Body *GetSetSpeedTarget() const override;
 	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
 	void SetNavTarget(Body* const target, bool setSpeedTo = false);
+	void SetSetSpeedTarget(Body* const target);
 
 	sigc::signal<void> onRotationDampingChanged;
 
