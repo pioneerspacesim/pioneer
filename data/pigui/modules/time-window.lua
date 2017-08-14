@@ -16,7 +16,7 @@ local icons = ui.theme.icons
 -- names of the keys in lang/core/
 local months = {"MONTH_JAN", "MONTH_FEB", "MONTH_MAR", "MONTH_APR", "MONTH_MAY", "MONTH_JUN", "MONTH_JUL", "MONTH_AUG", "MONTH_SEP", "MONTH_OCT", "MONTH_NOV", "MONTH_DEC"}
 
-local button_size = Vector(32,32)
+local button_size = Vector(32,32) * (ui.screenHeight / 1200)
 local frame_padding = 3
 local bg_color = colors.buttonBlue
 local fg_color = colors.white
@@ -48,7 +48,7 @@ local function displayTimeWindow()
 	end
 	ui.withFont(pionillium.large.name, pionillium.large.size, function()
 								local text_size = ui.calcTextSize(date)
-								local window_size = Vector(math.max(text_size.x, (button_size.x + frame_padding * 2 + 7) * 6) + 15, text_size.y + button_size.y + frame_padding * 2 + 15)
+								local window_size = Vector(math.max(text_size.x, (button_size.x + frame_padding * 2 + 7) * 6) + 15, text_size.y + button_size.y + frame_padding * 2 + 19)
 								ui.timeWindowSize = window_size
 								ui.setNextWindowSize(window_size, "Always")
 								ui.setNextWindowPos(Vector(0, ui.screenHeight - window_size.y), "Always")

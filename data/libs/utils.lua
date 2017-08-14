@@ -243,11 +243,11 @@ end
 
 -- Count the number of entries in a table
 utils.count = function(t)
-   local i = 0
-   for _,v in pairs(t) do
-	  i = i + 1
-   end
-   return i
+	local i = 0
+	for _,v in pairs(t) do
+		i = i + 1
+	end
+	return i
 end
 
 return utils

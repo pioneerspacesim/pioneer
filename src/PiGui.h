@@ -111,6 +111,9 @@ public:
 	static bool CircularSlider(const ImVec2 &center, float *v, float v_min, float v_max);
 
 	void Cleanup();
+	static bool LowThrustButton(const char* label, const ImVec2& size_arg, int thrust_level, const ImVec4 &bg_col, int frame_padding, ImColor gauge_fg, ImColor gauge_bg);
+
+	static void ThrustIndicator(const std::string &id_string, const ImVec2& size, const ImVec4& thrust, const ImVec4& velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg);
 private:
 	LuaRef m_handlers;
 	LuaRef m_keys;

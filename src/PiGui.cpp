@@ -4,6 +4,8 @@
 #include "Pi.h"
 #include "graphics/opengl/TextureGL.h" // nasty, usage of GL is implementation specific
 #include "PiGui.h"
+// to get ImVec2 + ImVec2
+#define IMGUI_DEFINE_MATH_OPERATORS true
 #include "imgui/imgui_internal.h"
 
 #include <stdio.h>
@@ -13,6 +15,7 @@
 #include "nanosvg/nanosvg.h"
 #define NANOSVGRAST_IMPLEMENTATION
 #include "nanosvg/nanosvgrast.h"
+
 
 std::vector<Graphics::Texture*> PiGui::m_svg_textures;
 
@@ -340,9 +343,9 @@ void PiGui::NewFrame(SDL_Window *window) {
 	// it will do this if MouseDrawCursor is true. After the frame
 	// is created, we set the actual cursor draw state.
 	if (!Pi::DrawGUI)
-	{
-		ImGui::GetIO().MouseDrawCursor = true;
-	}
+		{
+			ImGui::GetIO().MouseDrawCursor = true;
+		}
 	switch(Pi::renderer->GetRendererType())
 		{
 		default:
@@ -460,6 +463,143 @@ void PiGui::BakeFonts() {
 	}
 
 	RefreshFontsTexture();
+}
+
+static void drawThrust(ImDrawList* draw_list, const ImVec2 &center, const ImVec2 &up, float value, const ImColor &fg, const ImColor &bg) {
+	float factor = 0.1; // how much to offset from center
+	const ImVec2 step(up.x * 0.5, up.y * 0.5);
+	const ImVec2 left(-step.y * (1.0-factor), step.x * (1.0-factor));
+	const ImVec2 u(up.x * (1.0 - factor), up.y * (1.0 - factor));
+	const ImVec2 c(center + ImVec2(u.x * factor, u.y * factor));
+	const ImVec2 right(-left.x, -left.y);
+	const ImVec2 leftmiddle = c + step + left;
+	const ImVec2 rightmiddle = c + step + right;
+	const ImVec2 bb_lowerright = c + right;
+	const ImVec2 bb_upperleft = c + left + ImVec2(u.x * value, u.y * value);
+	const ImVec2 lefttop = c + u + left;
+	const ImVec2 righttop = c + u + right;
+	const ImVec2 minimum(fmin(bb_upperleft.x, bb_lowerright.x), fmin(bb_upperleft.y, bb_lowerright.y));
+	const ImVec2 maximum(fmax(bb_upperleft.x, bb_lowerright.x), fmax(bb_upperleft.y, bb_lowerright.y));
+	ImVec2 points[] = { c, leftmiddle, lefttop, righttop, rightmiddle };
+	draw_list->AddConvexPolyFilled(points, 5, bg, false);
+	draw_list->PushClipRect(minimum - ImVec2(1,1), maximum + ImVec2(1,1));
+	draw_list->AddConvexPolyFilled(points, 5, fg, false);
+	draw_list->PopClipRect();
+}
+
+void PiGui::ThrustIndicator(const std::string &id_string, const ImVec2& size_arg, const ImVec4& thrust, const ImVec4& velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg)
+{
+	ImGuiWindow* window = ImGui::GetCurrentWindow();
+	if (window->SkipItems)
+		return;
+
+	ImGuiContext& g = *GImGui;
+	const ImGuiStyle& style = g.Style;
+	const ImGuiID id = window->GetID(id_string.c_str());
+
+	ImVec2 pos = window->DC.CursorPos;
+	// if ((flags & ImGuiButtonFlags_AlignTextBaseLine) && style.FramePadding.y < window->DC.CurrentLineTextBaseOffset) // Try to vertically align buttons that are smaller/have no padding so that text baseline matches (bit hacky, since it shouldn't be a flag)
+	//     pos.y += window->DC.CurrentLineTextBaseOffset - style.FramePadding.y;
+	ImVec2 size = ImGui::CalcItemSize(size_arg, style.FramePadding.x * 2.0f, style.FramePadding.y * 2.0f);
+
+	const ImVec2 padding = (frame_padding >= 0) ? ImVec2(static_cast<float>(frame_padding), static_cast<float>(frame_padding)) : style.FramePadding;
+	const ImRect bb(pos, pos + size + padding*2);
+	const ImRect inner_bb(pos + padding, pos + padding + size);
+
+	ImGui::ItemSize(bb, style.FramePadding.y);
+	if (!ImGui::ItemAdd(bb, &id))
+		return;
+
+	// Render
+	const ImU32 col = ImGui::GetColorU32(ImGuiCol_Button);
+	ImGui::RenderFrame(bb.Min, bb.Max, col, true, style.FrameRounding);
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	if (bg_col.w > 0.0f)
+		draw_list->AddRectFilled(inner_bb.Min, inner_bb.Max, ImGui::GetColorU32(bg_col));
+	const ImVec2 leftupper = inner_bb.Min;
+	const ImVec2 rightlower = inner_bb.Max;
+	const ImVec2 rightcenter((rightlower.x - leftupper.x) * 0.8 + leftupper.x, (rightlower.y + leftupper.y) / 2);
+	const ImVec2 leftcenter((rightlower.x - leftupper.x) * 0.35 + leftupper.x, (rightlower.y + leftupper.y) / 2);
+	const ImVec2 up(0, - abs(leftupper.y - rightlower.y) * 0.4);
+	const ImVec2 left(-up.y, up.x);
+	float thrust_fwd   = fmax( thrust.z, 0);
+	float thrust_bwd   = fmax(-thrust.z, 0);
+	float thrust_left  = fmax(-thrust.x, 0);
+	float thrust_right = fmax( thrust.x, 0);
+	float thrust_up    = fmax(-thrust.y, 0);
+	float thrust_down  = fmax( thrust.y, 0);
+	// actual thrust
+	drawThrust(draw_list, rightcenter, up, thrust_fwd, thrust_fg, thrust_bg);
+	drawThrust(draw_list, rightcenter, ImVec2(-up.x, -up.y), thrust_bwd, thrust_fg, thrust_bg);
+	drawThrust(draw_list, leftcenter, up, thrust_up, thrust_fg, thrust_bg);
+	drawThrust(draw_list, leftcenter, ImVec2(-up.x, -up.y), thrust_down, thrust_fg, thrust_bg);
+	drawThrust(draw_list, leftcenter, left, thrust_left, thrust_fg, thrust_bg);
+	drawThrust(draw_list, leftcenter, ImVec2(-left.x, -left.y), thrust_right, thrust_fg, thrust_bg);
+	// forward/back velocity
+	draw_list->AddLine(rightcenter + up, rightcenter - up, vel_bg, 3);
+	draw_list->AddLine(rightcenter, rightcenter - up * velocity.z, vel_fg, 3);
+	// left/right velocity
+	draw_list->AddLine(leftcenter + left, leftcenter - left, vel_bg, 3);
+	draw_list->AddLine(leftcenter, leftcenter + left * velocity.x, vel_fg, 3);
+	// up/down velocity
+	draw_list->AddLine(leftcenter + up, leftcenter - up, vel_bg, 3);
+	draw_list->AddLine(leftcenter, leftcenter + up * velocity.y, vel_fg, 3);
+	// Automatically close popups
+	//if (pressed && !(flags & ImGuiButtonFlags_DontClosePopups) && (window->Flags & ImGuiWindowFlags_Popup))
+	//    CloseCurrentPopup();
+}
+
+bool PiGui::LowThrustButton(const char* id_string, const ImVec2& size_arg, int thrust_level, const ImVec4 &bg_col, int frame_padding, ImColor gauge_fg, ImColor gauge_bg)
+{
+	std::string label = std::to_string(thrust_level);
+	ImGuiWindow* window = ImGui::GetCurrentWindow();
+	if (window->SkipItems)
+		return false;
+
+	ImGuiContext& g = *GImGui;
+	const ImGuiStyle& style = g.Style;
+	const ImGuiID id = window->GetID(id_string);
+	const ImVec2 label_size = ImGui::CalcTextSize(label.c_str(), NULL, true);
+
+	ImVec2 pos = window->DC.CursorPos;
+	// if ((flags & ImGuiButtonFlags_AlignTextBaseLine) && style.FramePadding.y < window->DC.CurrentLineTextBaseOffset) // Try to vertically align buttons that are smaller/have no padding so that text baseline matches (bit hacky, since it shouldn't be a flag)
+	//     pos.y += window->DC.CurrentLineTextBaseOffset - style.FramePadding.y;
+	ImVec2 size = ImGui::CalcItemSize(size_arg, label_size.x + style.FramePadding.x * 2.0f, label_size.y + style.FramePadding.y * 2.0f);
+
+	const ImVec2 padding = (frame_padding >= 0) ? ImVec2(static_cast<float>(frame_padding), static_cast<float>(frame_padding)) : style.FramePadding;
+	const ImRect bb(pos, pos + size + padding*2);
+	const ImRect inner_bb(pos + padding, pos + padding + size);
+
+	ImGui::ItemSize(bb, style.FramePadding.y);
+	if (!ImGui::ItemAdd(bb, &id))
+		return false;
+
+	// if (window->DC.ButtonRepeat) flags |= ImGuiButtonFlags_Repeat;
+	bool hovered, held;
+	bool pressed = ImGui::ButtonBehavior(bb, id, &hovered, &held, 0); // flags
+
+	// Render
+	const ImU32 col = ImGui::GetColorU32((hovered && held) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
+	ImGui::RenderFrame(bb.Min, bb.Max, col, true, style.FrameRounding);
+	const ImVec2 center = (inner_bb.Min + inner_bb.Max) / 2;
+	float radius = (inner_bb.Max.x - inner_bb.Min.x) * 0.4;
+	float thickness = 4;
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	if (bg_col.w > 0.0f)
+		draw_list->AddRectFilled(inner_bb.Min, inner_bb.Max, ImGui::GetColorU32(bg_col));
+
+	draw_list->PathArcTo(center, radius, 0, IM_PI * 2, 16);
+	draw_list->PathStroke(gauge_bg, false, thickness);
+
+	draw_list->PathArcTo(center, radius, IM_PI, IM_PI + IM_PI * 2 * (thrust_level / 100.0) , 16);
+	draw_list->PathStroke(gauge_fg, false, thickness);
+	ImGui::RenderTextClipped(bb.Min + style.FramePadding, bb.Max - style.FramePadding, label.c_str(), NULL, &label_size, style.ButtonTextAlign, &bb);
+
+	// Automatically close popups
+	//if (pressed && !(flags & ImGuiButtonFlags_DontClosePopups) && (window->Flags & ImGuiWindowFlags_Popup))
+	//    CloseCurrentPopup();
+
+	return pressed;
 }
 
 void PiGui::Cleanup() {

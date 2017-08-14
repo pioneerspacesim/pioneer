@@ -17,15 +17,20 @@ local icons = ui.theme.icons
 
 local iconSize = Vector(16,16)
 
+local font = pionillium.medium
+local width = 120 + 120 * (ui.screenWidth / 1200)
+local height = math.max(iconSize.y, font.size) * 3
+
 local function displayPlanetaryInfo()
 	local player = Game.player
 	local alt, vspd, latitude, longitude = player:GetGPS()
 	if latitude and longitude and alt and vspd then
-		ui.setNextWindowSize(Vector(140,120), "Always")
-		ui.setNextWindowPos(Vector(ui.screenWidth - 150, ui.screenHeight - 100), "Always")
+		ui.setNextWindowSize(Vector(width, height), "Always")
+		ui.setNextWindowPos(Vector(ui.screenWidth - width, ui.screenHeight - height), "Always")
 		ui.window("PlanetaryInfo", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 							function()
-								ui.withFont(pionillium.medium.name, pionillium.medium.size, function()
+								ui.withFont(font.name, font.size, function()
+															ui.columns(2, "", false)
 															ui.icon(icons.altitude, iconSize, colors.reticuleCircle)
 															ui.sameLine()
 															local altitude,altitude_unit = ui.Format.Distance(alt)
@@ -34,6 +39,7 @@ local function displayPlanetaryInfo()
 															ui.sameLine()
 															local speed,speed_unit = ui.Format.Speed(vspd)
 															ui.text(speed .. speed_unit)
+															ui.nextColumn()
 															ui.icon(icons.latitude, iconSize, colors.reticuleCircle)
 															ui.sameLine()
 															ui.text(ui.Format.Latitude(latitude))

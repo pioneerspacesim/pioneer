@@ -73,10 +73,11 @@ local function display2DRadar(cntr, size)
 	end
 	local d, d_u = ui.Format.Distance(current_radar_size)
 	local distance = d .. ' ' .. d_u
-	local textcenter = cntr + Vector(0, size + 2)
-	local textsize = ui.addStyledText(textcenter, ui.anchor.center, ui.anchor.top, distance, colors.frame, pionillium.small, lui.HUD_RADAR_DISTANCE, colors.lightBlackBackground)
+	local textcenter = cntr + Vector((halfsize + twothirdsize) * 0.5, size)
+	local textsize = ui.addStyledText(textcenter, ui.anchor.left, ui.anchor.bottom, distance, colors.frame, pionillium.small, lui.HUD_RADAR_DISTANCE, colors.lightBlackBackground)
 end
 
+local click_on_radar = false
 -- display either the 3D or the 2D radar, show a popup on right click to select
 local function displayRadar()
 	player = Game.player
@@ -88,8 +89,14 @@ local function displayRadar()
 		local cntr = Vector(ui.screenWidth / 2, ui.screenHeight - size - 15)
 
 		local mp = ui.getMousePos()
+		if (Vector(mp.x,mp.y) - cntr):magnitude() > size then
+			click_on_radar = false
+		end
 		if (Vector(mp.x,mp.y) - cntr):magnitude() < size then
-			if ui.isMouseReleased(1) then
+			if ui.isMouseClicked(1) then
+				click_on_radar = true
+			end
+			if click_on_radar and ui.isMouseReleased(1) then
 				ui.openPopup("radarselector")
 			end
 			local wheel = ui.getMouseWheel()

@@ -110,7 +110,7 @@ static int l_game_load_game(lua_State *l)
 	}
 	catch (CouldNotOpenFileException) {
 		const std::string msg = stringf(Lang::GAME_LOAD_CANNOT_OPEN,
-			formatarg("filename", filename));
+																		formatarg("filename", filename));
 		luaL_error(l, msg.c_str());
 	}
 
@@ -580,6 +580,27 @@ static int l_game_set_world_cam_type(lua_State *l)
 	return 0;
 }
 
+static int l_game_get_hyperspace_travelled_percentage(lua_State *l) {
+	LuaPush(l, Pi::game->GetHyperspaceArrivalProbability());
+	return 1;
+}
+
+static int l_game_get_parts_from_date_time(lua_State *l)
+{
+	float time = LuaPull<float>(l, 1);
+	Time::DateTime t(time);
+	int year, month, day, hour, minute, second;
+	t.GetDateParts(&year, &month, &day);
+	t.GetTimeParts(&hour, &minute, &second);
+	LuaPush(l, second);
+	LuaPush(l, minute);
+	LuaPush(l, hour);
+	LuaPush(l, day);
+	LuaPush(l, month);
+	LuaPush(l, year);
+	return 6;
+}
+
 void LuaGame::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -599,10 +620,12 @@ void LuaGame::Register()
 		{ "CurrentView", l_game_current_view },
 		{ "SetView",     l_game_set_view },
 		{ "GetDateTime", l_game_get_date_time },
+		{ "GetPartsFromDateTime", l_game_get_parts_from_date_time },
 		{ "SetTimeAcceleration",          l_game_set_time_acceleration },
 		{ "GetTimeAcceleration",          l_game_get_time_acceleration },
 		{ "GetRequestedTimeAcceleration", l_game_get_requested_time_acceleration },
-
+		{ "GetHyperspaceTravelledPercentage", l_game_get_hyperspace_travelled_percentage },
+		
 		{ "SetWorldCamType", l_game_set_world_cam_type },
 		{ "GetWorldCamType", l_game_get_world_cam_type },
 		{ "ToggleTargetActions",         l_game_toggle_target_actions }, // deprecated

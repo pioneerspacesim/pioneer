@@ -44,7 +44,6 @@ void ShipCpanel::InitObject()
 	img->SetRenderDimensions(800, 80);
 	Add(img, 0, 0);
 
-	m_currentMapView = MAP_SECTOR;
 	m_useEquipWidget = new UseEquipWidget();
 
 	m_userSelectedMfuncWidget = MFUNC_RADAR;
@@ -56,21 +55,6 @@ void ShipCpanel::InitObject()
 	m_useEquipWidget->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), MFUNC_EQUIPMENT));
 
 	ChangeMultiFunctionDisplay(MFUNC_RADAR);
-
-	m_overlay[OVERLAY_TOP_LEFT]     = (new Gui::Label(""))->Color(s_hudTextColor);
-	m_overlay[OVERLAY_TOP_RIGHT]    = (new Gui::Label(""))->Color(s_hudTextColor);
-	m_overlay[OVERLAY_BOTTOM_LEFT]  = (new Gui::Label(""))->Color(s_hudTextColor);
-	m_overlay[OVERLAY_OVER_PANEL_RIGHT_1] = (new Gui::Label(""))->Color(s_hudTextColor);
-	m_overlay[OVERLAY_OVER_PANEL_RIGHT_2] = (new Gui::Label(""))->Color(s_hudTextColor);
-	m_overlay[OVERLAY_OVER_PANEL_RIGHT_3] = (new Gui::Label(""))->Color(s_hudTextColor);
-	m_overlay[OVERLAY_OVER_PANEL_RIGHT_4] = (new Gui::Label(""))->Color(s_hudTextColor);
-	Add(m_overlay[OVERLAY_TOP_LEFT],     170.0f, 2.0f);
-	Add(m_overlay[OVERLAY_TOP_RIGHT],    500.0f, 2.0f);
-	Add(m_overlay[OVERLAY_BOTTOM_LEFT],  150.0f, 62.0f);
-	Add(m_overlay[OVERLAY_OVER_PANEL_RIGHT_1], 691.0f, -17.0f);
-	Add(m_overlay[OVERLAY_OVER_PANEL_RIGHT_2], 723.0f, -17.0f);
-	Add(m_overlay[OVERLAY_OVER_PANEL_RIGHT_3], 691.0f, -4.0f);
-	Add(m_overlay[OVERLAY_OVER_PANEL_RIGHT_4], 723.0f, -4.0f);
 
 	View::SetCpanel(this);
 }
@@ -122,36 +106,6 @@ void ShipCpanel::Draw()
 	Gui::Fixed::Draw();
 }
 
-void ShipCpanel::OnClickTimeaccel(Game::TimeAccel val)
-{
-	Pi::BoinkNoise();
-	if ((m_game->GetTimeAccel() == val) && (val == Game::TIMEACCEL_PAUSED)) {
-		if (Pi::GetView() != m_game->GetSettingsView())
-			Pi::SetView(m_game->GetSettingsView());
-		else
-			Pi::SetView(m_game->GetWorldView());
-	}
-	else {
-		if (Pi::GetView() == m_game->GetSettingsView())
-			Pi::SetView(m_game->GetWorldView());
-		m_game->RequestTimeAccel(val, Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL));
-	}
-}
-
-void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
-{
-	Pi::BoinkNoise();
-	if (Pi::player->GetFlightState() == Ship::DOCKED)
-		if (Pi::GetView() == m_game->GetSpaceStationView())
-			Pi::SetView(m_game->GetWorldView());
-		else
-			Pi::SetView(m_game->GetSpaceStationView());
-	else {
-		Pi::SetView(m_game->GetWorldView());
-		m_game->GetWorldView()->ToggleTargetActions();
-	}
-}
-
 void ShipCpanel::TimeStepUpdate(float step)
 {
 	PROFILE_SCOPED()
@@ -163,31 +117,4 @@ void ShipCpanel::SaveToJson(Json::Value &jsonObj)
 	Json::Value shipCPanelObj(Json::objectValue); // Create JSON object to contain ship control panel data.
 	m_radar->SaveToJson(shipCPanelObj);
 	jsonObj["ship_c_panel"] = shipCPanelObj; // Add ship control panel object to supplied object.
-}
-
-void ShipCpanel::SetOverlayText(OverlayTextPos pos, const std::string &text)
-{
-	m_overlay[pos]->SetText(text);
-	if (text.length() == 0)
-		m_overlay[pos]->Hide();
-	else
-		m_overlay[pos]->Show();
-}
-
-void ShipCpanel::SetOverlayToolTip(OverlayTextPos pos, const std::string &text)
-{
-	m_overlay[pos]->SetToolTip(text);
-}
-
-void ShipCpanel::SetOverlayTextColour(OverlayTextPos pos, const Color &colour)
-{
-	m_overlay[pos]->Color(colour);
-}
-
-void ShipCpanel::ClearOverlay()
-{
-	for (int i = 0; i < OVERLAY_MAX; i++) {
-		m_overlay[i]->SetText("");
-		m_overlay[i]->SetToolTip("");
-	}
 }

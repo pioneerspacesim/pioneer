@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -420,6 +420,7 @@
     <ClCompile Include="..\..\src\LuaFixed.cpp" />
     <ClCompile Include="..\..\src\LuaFormat.cpp" />
     <ClCompile Include="..\..\src\LuaGame.cpp" />
+		<ClCompile Include="..\..\src\LuaHyperspaceCloud.cpp" />
     <ClCompile Include="..\..\src\LuaLang.cpp" />
     <ClCompile Include="..\..\src\LuaManager.cpp" />
     <ClCompile Include="..\..\src\LuaMatrix.cpp" />

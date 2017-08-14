@@ -552,6 +552,35 @@ static int l_get_alert_state(lua_State *l)
 	return 1;
 }
 
+static int l_get_low_thrust_power(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	LuaPush(l, player->GetPlayerController()->GetLowThrustPower());
+	return 1;
+}
+
+static int l_set_low_thrust_power(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	double thrust = luaL_checknumber(l, 2);
+	player->GetPlayerController()->SetLowThrustPower(thrust);
+	return 0;
+}
+
+static int l_player_get_hyperspace_countdown(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	LuaPush(l, player->GetHyperspaceCountdown());
+	return 1;
+}
+
+static int l_player_is_hyperspace_active(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	LuaPush(l, player->IsHyperspaceActive());
+	return 1;
+}
+
 template <> const char *LuaObject<Player>::s_type = "Player";
 
 template <> void LuaObject<Player>::RegisterClass()
@@ -583,6 +612,11 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "GetGPS",              l_get_gps },
 		{ "ToggleRotationDamping",  l_toggle_rotation_damping },
 		{ "GetAlertState",       l_get_alert_state },
+		{ "GetLowThrustPower",   l_get_low_thrust_power },
+		{ "SetLowThrustPower",   l_set_low_thrust_power },
+		{ "IsHyperspaceActive",      l_player_is_hyperspace_active },
+		{ "GetHyperspaceCountdown",  l_player_get_hyperspace_countdown },
+			
 		{ 0, 0 }
 	};
 
