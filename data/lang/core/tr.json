@@ -421,7 +421,7 @@
    },
    "FIRE_LASER" : {
       "description" : "",
-      "message" : "Fire weapon"
+      "message" : "Silahı ateşle"
    },
    "FIRE_MISSILE" : {
       "description" : "",
@@ -693,7 +693,7 @@
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
-      "message" : "Weapons fire detected."
+      "message" : "Silah atışı algılandı."
    },
    "LATITUDE" : {
       "description" : "Short for latitude",

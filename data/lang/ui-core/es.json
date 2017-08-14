@@ -529,15 +529,15 @@
    },
    "HUD_BUTTON_LANDING_GEAR_IS_DOWN" : {
       "description" : "Tooltip: Landing gear is down",
-      "message" : "Landing gear is down"
+      "message" : "Tren de aterrizaje desplegado"
    },
    "HUD_BUTTON_LANDING_GEAR_IS_MOVING" : {
       "description" : "Tooltip: Landing gear is moving",
-      "message" : "Landing gear is moving"
+      "message" : "Tren de aterrizaje en movimiento"
    },
    "HUD_BUTTON_LANDING_GEAR_IS_UP" : {
       "description" : "Tooltip: Landing gear is up",
-      "message" : "Landing gear is up"
+      "message" : "Tren de aterrizaje retraído"
    },
    "HUD_BUTTON_MANUAL_CONTROL" : {
       "description" : "Tooltip: Manual control",

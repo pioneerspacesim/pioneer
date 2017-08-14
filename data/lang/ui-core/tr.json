@@ -449,11 +449,11 @@
    },
    "HUD_ATMOSPHERIC_PRESSURE" : {
       "description" : "Tooltip: Atmospheric Pressure.",
-      "message" : "Atmospheric Pressure"
+      "message" : "Atmosfer basıncı"
    },
    "HUD_BACKWARD_GUN_TEMPERATURE" : {
       "description" : "Tooltip: Backward Gun Temperature.",
-      "message" : "Backward Gun Temperature"
+      "message" : "Arka Silah Sıcaklığı"
    },
    "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
       "description" : "Tooltip: The braking distance using the main thrusters.",
@@ -649,15 +649,15 @@
    },
    "HUD_FORWARD_GUN_TEMPERATURE" : {
       "description" : "Tooltip: Forward Gun Temperature.",
-      "message" : "Forward Gun Temperature"
+      "message" : "Ön silah Sıcaklığı"
    },
    "HUD_HULL_STRENGTH" : {
       "description" : "Tooltip: Hull Strength.",
-      "message" : "Hull Strength"
+      "message" : "Gövde Sağlamlığı"
    },
    "HUD_HULL_TEMPERATURE" : {
       "description" : "Tooltip: Hull Temperature.",
-      "message" : "Hull Temperature"
+      "message" : "Gövde Sıcaklığı"
    },
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
@@ -701,7 +701,7 @@
    },
    "HUD_SHIELD_STRENGTH" : {
       "description" : "Tooltip: Shield Strength.",
-      "message" : "Shield Strength"
+      "message" : "Kalkan Gücü"
    },
    "HUD_SHOW_COMBAT_TARGET" : {
       "description" : "Tooltip: Show the current combat target.",
