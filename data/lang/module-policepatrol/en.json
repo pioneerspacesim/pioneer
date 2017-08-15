@@ -19,6 +19,18 @@
       "description" : "",
       "message" : "No illegal cargo detected. You may proceed."
    },
+   "OUTLAW_DETECTED_1" : {
+      "description" : "",
+      "message" : "{ship_label} is flown by a known outlaw. Attack and destroy!"
+   },
+   "OUTLAW_DETECTED_2" : {
+      "description" : "",
+      "message" : "Bandit, your days are numbered!"
+   },
+   "OUTLAW_DETECTED_3" : {
+      "description" : "",
+      "message" : "Hah, caught! You will not leave this system alive!"
+   },
    "TAKE_A_HIKE" : {
       "description" : "",
       "message" : "Ok, you got a second chance. Take a hike!"
