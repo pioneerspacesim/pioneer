@@ -329,6 +329,6 @@
    },
    "ERROR_LANDING_GEAR_DOWN": {
       "description": "",
-      "message": "ERROR: Landing gear is down!"
+      "message": "Cannot initiate hyperjump; landing gear must be retacted!"
   }
 }
