@@ -5,7 +5,7 @@ local s = CustomSystem:new('Regula Benedicti', { 'BROWN_DWARF' })
 	:govtype('EARTHDEMOC')
 	:lawlessness(f(1,100)) -- 1/100th from a peaceful eden
 	:short_desc('Among the first habitable exoplanets were discovered here')
-	:long_desc([[Regula Benedicti was among the first star systems where habitable exoplanets were discovered.]])
+	:long_desc([[Regula Benedicti was among the first star systems where habitable exoplanets were discovered, then named TRAPPIST-1 the telescope which discovered it.]])
 
 local trappist_1 = CustomSystemBody:new('Regula Benedicti', 'BROWN_DWARF')
 	:radius(f(114,1000))
