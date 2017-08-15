@@ -298,7 +298,7 @@ HyperdriveType.HyperjumpTo = function (self, ship, destination)
 	end
 	ship:setprop('nextJumpFuelUse', fuel_use)
 	local warmup_time = 5 + self.capabilities.hyperclass*1.5
-	if wheels ~= 0 then
+	if ship = Game.player and wheels ~= 0 then
 		Comms.ImportantMessage(l.ERROR_LANDING_GEAR_DOWN)
 	end
 	return ship:InitiateHyperjumpTo(destination, warmup_time, duration), fuel_use, duration
