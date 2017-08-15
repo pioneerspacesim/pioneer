@@ -1206,7 +1206,7 @@ void Ship::StaticUpdate(const float timeStep)
 			AbortHyperjump();
 		} else {
 			m_hyperspace.countdown = m_hyperspace.countdown - timeStep;
-			if (!abort && m_hyperspace.countdown <= 0.0f && m_wheelState != 1.0f) {
+			if (!abort && m_hyperspace.countdown <= 0.0f && !is_equal_exact(m_wheelState, 1.0f)) {
 				m_hyperspace.countdown = 0;
 				m_hyperspace.now = true;
 				SetFlightState(JUMPING);
@@ -1217,7 +1217,7 @@ void Ship::StaticUpdate(const float timeStep)
 				LuaEvent::Queue("onLeaveSystem", this);
 			}
 			//give player some time to check the wheels
-			else if (m_hyperspace.countdown <= 0.0f && m_wheelState == 1.0f) {
+			else if (m_hyperspace.countdown <= 0.0f && is_equal_exact(m_wheelState,1.0f)) {
 				AbortHyperjump();
 				Sound::BodyMakeNoise(this, "Hyperjump_Abort", 1.0f);
 			}
@@ -1442,4 +1442,3 @@ void Ship::SetRelations(Body *other, Uint8 percent)
 	m_relationsMap[other] = percent;
 	if (m_sensors.get()) m_sensors->UpdateIFF(other);
 }
-
