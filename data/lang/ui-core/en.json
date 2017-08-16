@@ -1532,7 +1532,7 @@
       "message" : "Zoom"
    },
    "ERROR_LANDING_GEAR_DOWN": {
-    "description": "",
-    "message": "Cannot initiate hyperjump; landing gear is not retracted!"
+      "description": "",
+      "message": "Can not initiate hyperjump; landing gear is not retracted!"
   }
 }
