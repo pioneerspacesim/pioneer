@@ -326,9 +326,5 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Required for transport of a single passenger"
-   },
-   "ERROR_LANDING_GEAR_DOWN": {
-      "description": "",
-      "message": "Cannot initiate hyperjump; landing gear must be retracted!"
-  }
+   }
 }
