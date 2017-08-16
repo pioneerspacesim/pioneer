@@ -1387,6 +1387,10 @@
       "description" : "",
       "message" : "Station manager"
    },
+   "STATION_ORBIT" : {
+      "description" : "Information shown in the station loby",
+      "message" : "We are in a {orbit_period} day period orbit around {parent_body}."
+   },
    "STATUS" : {
       "description" : "",
       "message" : "Status"

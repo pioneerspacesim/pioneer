@@ -216,12 +216,22 @@ local lobby = function (tab)
 		tech_certified = string.interp(l.TECH_CERTIFIED, { tech_level = station.techLevel})
 	end
 
+	local orbit_period = station.path:GetSystemBody().orbitPeriod
+
+	local station_orbit_info = ""
+	if station.type == "STARPORT_ORBITAL" then
+		station_orbit_info =
+			string.interp(l.STATION_ORBIT, { orbit_period = string.format("%.2f", orbit_period),
+											 parent_body = station.path:GetSystemBody().parent.name})
+	end
+
 	return
 		ui:Grid({60,1,39},1)
 			:SetColumn(0, {
 				ui:VBox(10):PackEnd({
 					ui:Label(station.label):SetFont("HEADING_LARGE"),
 					ui:Align("LEFT", tech_certified),
+					ui:Align("LEFT", station_orbit_info),
 					ui:Expand(),
 					ui:VBox(10):PackEnd({
 						ui:HBox(10):PackEnd({
