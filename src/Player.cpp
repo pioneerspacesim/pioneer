@@ -239,6 +239,13 @@ void Player::SetNavTarget(Body* const target, bool setSpeedTo)
 	static_cast<PlayerShipController*>(m_controller)->SetNavTarget(target, setSpeedTo);
 	Pi::onPlayerChangeTarget.emit();
 }
+
+void Player::SetSetSpeedTarget(Body* const target)
+{
+	static_cast<PlayerShipController*>(m_controller)->SetSetSpeedTarget(target);
+	// TODO: not sure, do we actually need this? we are only changing the set speed target
+	Pi::onPlayerChangeTarget.emit();
+}
 //temporary targeting stuff ends
 
 Ship::HyperjumpStatus Player::InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, LuaRef checks) {

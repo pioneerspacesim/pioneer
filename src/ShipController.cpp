@@ -433,3 +433,8 @@ void PlayerShipController::SetNavTarget(Body* const target, bool setSpeedTo)
 		m_setSpeedTarget = 0;
 	m_navTarget = target;
 }
+
+void PlayerShipController::SetSetSpeedTarget(Body* const target)
+{
+	m_setSpeedTarget = target;
+}
