@@ -85,7 +85,7 @@ void FixedGuns::InitGun( SceneGraph::Model *m, const char *tag, int num)
 		m_gun[num].pos = trans.GetTranslate();
 		m_gun[num].dir = trans.GetOrient().VectorZ();
 	} else {
-		Output("WARNING: tag %s not found for gun %i\n", tag, num);
+		// Output("WARNING: tag %s not found for gun %i\n", tag, num);
 		// XXX deprecated
 		m_gun[num].pos = (num==Guns::GUN_FRONT) ? vector3f(0,0,0) : vector3f(0,0,0);
 		m_gun[num].dir = (num==Guns::GUN_REAR) ? vector3f(0,0,-1) : vector3f(0,0,1);
@@ -133,12 +133,12 @@ bool FixedGuns::Fire( int num, Body* b )
 {
 	if (!m_gun_present[num]) return false;
 	if (!m_is_firing[num]) return false;
-	Output("Firing gun %i, present\n", num);
-	Output(" is firing\n");
+	// Output("Firing gun %i, present\n", num);
+	// Output(" is firing\n");
 	if (m_recharge_stat[num]>0) return false;
-	Output(" recharge stat <= 0\n");
+	// Output(" recharge stat <= 0\n");
 	if (m_temperature_stat[num] > 1.0) return false;
-	Output(" temperature stat <= 1.0\n");
+	// Output(" temperature stat <= 1.0\n");
 
 	const vector3d dir = b->GetOrient() * vector3d(m_gun[num].dir);
 	const vector3d pos = b->GetOrient() * vector3d(m_gun[num].pos) + b->GetPosition();
@@ -172,4 +172,10 @@ void FixedGuns::UpdateGuns( float timeStep )
 		if (m_recharge_stat[i] < 0.0f) m_recharge_stat[i] = 0;
 	}
 
+}
+float FixedGuns::GetGunTemperature(int idx) const {
+	if(m_gun_present[idx])
+		return m_temperature_stat[idx];
+	else
+		return 0.0f;
 }

@@ -195,6 +195,16 @@ local mars_moons = {
 	},
 }
 
+local eros = CustomSystemBody:new('Eros', 'PLANET_TERRESTRIAL')
+	:seed(842785371)
+	:radius(f(3,1000)) -- 16.84km mean
+	:mass(f(112,100000000000)) -- 6.687e15 kg
+	:temp(164)
+	:semi_major_axis(f(1458,1000)) -- 1.458 AU
+	:eccentricity(f(223,1000)) -- 0.223
+	:inclination(math.deg2rad(10.829)) -- 10.829°
+	:rotation_period(f(2194,10000)) -- 5h16m
+
 local pallas = CustomSystemBody:new('Pallas', 'PLANET_TERRESTRIAL')
 	:radius(f(08,100)) -- 512km
 	:mass(f(353,10000000)) -- 2.11e20 kg
@@ -524,6 +534,16 @@ local saturn_moons = {
 		:eccentricity(f(29,1000))
 		:inclination(math.deg2rad(15.47))
 		:rotation_period(f(7932,100)),
+	CustomSystemBody:new('Phoebe', 'PLANET_TERRESTRIAL')
+		:seed(1740171277)
+		:radius(f(17,1000))
+		:mass(f(139,100000000))
+		:temp(115)
+		:semi_major_axis(f(87,1000))
+		:eccentricity(f(156,1000))
+		:inclination(math.deg2rad(151.78))
+		:rotation_period(f(386,1000)),
+
 }
 
 local uranus = CustomSystemBody:new('Uranus', 'PLANET_GAS_GIANT')
@@ -665,6 +685,7 @@ s:bodies(sol, {
 	mars,
 		mars_starports,
 		mars_moons,
+	eros,
 	pallas,
 	vesta,
 	ceres,

@@ -25,7 +25,7 @@
    },
    "FLAVOUR_2_BODY" : {
       "description" : "",
-      "message" : "Üdvözöllek! {name} vagyok, és van nekem egy {equipment}, mindössze {price}-ért a tied lehet."
+      "message" : "Üdvözöllek! {name} vagyok, és van itt egy {equipment}, ami mindössze {price}-ért a tied lehet."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "Selling second hand ship equipment",

@@ -101,12 +101,10 @@ local function displayRadar()
 		end
 		ui.popup("radarselector", function()
 							 if ui.selectable(lui.HUD_2D_RADAR, shouldDisplay2DRadar, {}) then
-								 shouldDisplay2DRadar = true
-								 Game.SetRadarVisible(false)
+								 Event.Queue('changeMFD', 'radar')
 							 end
 							 if ui.selectable(lui.HUD_3D_RADAR, not shouldDisplay2DRadar, {}) then
-								 shouldDisplay2DRadar = false
-								 Game.SetRadarVisible(true)
+								 Event.Queue('changeMFD', 'scanner')
 							 end
 		end)
 		if shouldDisplay2DRadar then
@@ -114,6 +112,22 @@ local function displayRadar()
 		end
 	end
 end
+
+Event.Register('changeMFD', function(selected)
+								 Game.ChangeMFD(selected)
+								 Event.Queue('onChangeMFD', selected)
+end)
+
+Event.Register('onChangeMFD', function(selected)
+								 if selected == "radar" then
+									 shouldDisplay2DRadar = true;
+								 elseif selected == "scanner" then
+									 shouldDisplay2DRadar = false;
+								 elseif selected == "equipment" then
+									 shouldDisplay2DRadar = false;
+								 end
+end)
+
 
 ui.registerModule("game", displayRadar)
 

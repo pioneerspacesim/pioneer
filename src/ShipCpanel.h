@@ -23,7 +23,6 @@ public:
 	virtual ~ShipCpanel();
 	virtual void Draw();
 	void Update();
-	void SetAlertState(Ship::AlertState as);
 
 	void TimeStepUpdate(float step);
 
@@ -68,7 +67,6 @@ private:
 	RadarWidget *m_radar;
 	UseEquipWidget *m_useEquipWidget;
 	Gui::Widget *m_mapViewButtons[4];
-	Gui::Image *m_alertLights[3];
 
 	Gui::Label *m_overlay[OVERLAY_MAX];
 };

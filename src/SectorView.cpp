@@ -408,7 +408,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 	if (m_searchBox->GetText().empty() && keysym->sym == SDLK_UP && !m_previousSearch.empty())
 		m_searchBox->SetText(m_previousSearch);
 
-	if (keysym->sym != SDLK_KP_ENTER && keysym->sym != SDLK_RETURN)
+	if (keysym->sym != SDLK_KP_ENTER && keysym->sym != SDLK_RETURN && (keysym->sym != SDLK_j || !(keysym->mod & KMOD_CTRL))) // enter, return or C-j
 		return;
 
 	std::string search = m_searchBox->GetText();

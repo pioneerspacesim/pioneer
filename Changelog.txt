@@ -1,3 +1,26 @@
+August
+   * New Features
+     * Hide mouse pointer when GUI is not drawn (#4066)
+     * Make all main menu button tooltips translatable (#4072)
+     * Setspeed indicator, larger hud size, more frame info (#4065)
+     * Show alerts near the reticule with imgui (#4079)
+     * Add Eros and Phoebe (#4084)
+     * Adding TRAPPIST-1 (#4085)
+     * Make Ctrl-clicking select the set-speed target (#4086)
+
+   * Internal Changes
+     * Change laser to weapon in some core en.json (#4069)
+     * Removing unused cpanel icons (#4076)
+     * Putting back the lagrange icons (#4087)
+     * Silence GCC warning (#4090)
+
+   * Fixes
+     * Additional sort order fix (#4062)
+     * Fix occasional nil dereference (#4073)
+     * Hide mouse pointer when GUI is not being drawn (#4066)
+     * Add missing flight state in crew rooster (#4082)
+     * Fix Star/planet/gas giants popping into view (#4083)
+
 July 2017
    * New Features
      * Added Swap button for sector map (#4039)

@@ -19,8 +19,8 @@
 
 static int l_player_is_player(lua_State *l)
 {
-    lua_pushboolean(l, true);
-    return 1;
+	lua_pushboolean(l, true);
+	return 1;
 }
 
 /*
@@ -78,6 +78,14 @@ static int l_set_nav_target(lua_State *l)
 	return 0;
 }
 
+static int l_set_set_speed_target(lua_State *l)
+{
+	Player *p = LuaObject<Player>::CheckFromLua(1);
+	Body *target = LuaObject<Body>::GetFromLua(2);
+	p->SetSetSpeedTarget(target);
+	return 0;
+}
+
 /*
  * Method: GetCombatTarget
  *
@@ -129,8 +137,8 @@ static int l_set_combat_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
 	Body *target = LuaObject<Body>::GetFromLua(2);
-    p->SetCombatTarget(target);
-    return 0;
+	p->SetCombatTarget(target);
+	return 0;
 }
 
 /*
@@ -233,9 +241,9 @@ static int l_get_mouse_direction(lua_State *l)
 
 static int l_get_is_mouse_active(lua_State *l)
 {
-		Player *player = LuaObject<Player>::CheckFromLua(1);
-		LuaPush(l, player->GetPlayerController()->IsMouseActive());
-		return 1;
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	LuaPush(l, player->GetPlayerController()->IsMouseActive());
+	return 1;
 }
 
 /*
@@ -486,6 +494,64 @@ static int l_toggle_rotation_damping(lua_State *l)
 	return 0;
 }
 
+static int l_get_gps(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	vector3d pos = Pi::player->GetPosition();
+	double center_dist = pos.Length();
+	auto frame = player->GetFrame();
+	if(frame) {
+		Body *astro = frame->GetBody();
+		if(astro && astro->IsType(Object::TERRAINBODY)) {
+			TerrainBody* terrain = static_cast<TerrainBody*>(astro);
+			if (!frame->IsRotFrame())
+				frame = frame->GetRotFrame();
+			vector3d surface_pos = pos.Normalized();
+			double radius = 0.0;
+			if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
+				radius = terrain->GetTerrainHeight(surface_pos);
+			}
+			double altitude = center_dist - radius;
+			vector3d velocity = player->GetVelocity();
+			double vspeed = velocity.Dot(surface_pos);
+			if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
+
+			//			RefreshHeadingPitch();
+
+			if (altitude < 0) altitude = 0;
+			LuaPush(l, altitude);
+			LuaPush(l, vspeed);
+			const float lat = RAD2DEG(asin(surface_pos.y));
+			const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
+			LuaPush(l, lat);
+			LuaPush(l, lon);
+			return 4;
+			//				}
+		}
+	}
+	return 0;
+}
+
+static int l_get_alert_state(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	Ship::AlertState state = player->GetAlertState();
+	switch(state) {
+	case Ship::AlertState::ALERT_NONE:
+		lua_pushnil(l);
+		break;
+	case Ship::AlertState::ALERT_SHIP_NEARBY:
+		LuaPush(l, "ship-nearby");
+		break;
+	case Ship::AlertState::ALERT_SHIP_FIRING:
+		LuaPush(l, "ship-firing");
+		break;
+	default:
+		Error("Unknown alert state %i", state);
+	}
+	return 1;
+}
+
 template <> const char *LuaObject<Player>::s_type = "Player";
 
 template <> void LuaObject<Player>::RegisterClass()
@@ -495,10 +561,11 @@ template <> void LuaObject<Player>::RegisterClass()
 	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_player_is_player },
 
-		{ "GetNavTarget",    l_get_nav_target    },
-		{ "SetNavTarget",    l_set_nav_target    },
-		{ "GetCombatTarget", l_get_combat_target },
-		{ "SetCombatTarget", l_set_combat_target },
+		{ "GetNavTarget",        l_get_nav_target    },
+		{ "SetNavTarget",        l_set_nav_target    },
+		{ "SetSetSpeedTarget",   l_set_set_speed_target },
+		{ "GetCombatTarget",     l_get_combat_target },
+		{ "SetCombatTarget",     l_set_combat_target },
 		{ "GetHyperspaceTarget", l_get_hyperspace_target },
 		{ "SetHyperspaceTarget", l_set_hyperspace_target },
 		{ "GetDistanceToZeroV",  l_get_distance_to_zero_v },
@@ -513,7 +580,9 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "GetMouseDirection",   l_get_mouse_direction },
 		{ "GetRotationDamping",  l_get_rotation_damping },
 		{ "SetRotationDamping",  l_set_rotation_damping },
+		{ "GetGPS",              l_get_gps },
 		{ "ToggleRotationDamping",  l_toggle_rotation_damping },
+		{ "GetAlertState",       l_get_alert_state },
 		{ 0, 0 }
 	};
 

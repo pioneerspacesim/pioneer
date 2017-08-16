@@ -149,7 +149,7 @@
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "",
-      "message" : "Los minerales de carbono (carbón y petróleo) se requieren para la síntesis de muchos y muy útiles productos químicos, incluyendo plásticos, productos alimenticios sintéticos, medicamentos y textiles."
+      "message" : "Los minerales de carbono (carbón y petróleo) se requieren para la síntesis de muchos productos químicos útiles, incluyendo plásticos, alimentos sintéticos, medicamentos y textiles."
    },
    "CARGO" : {
       "description" : "",
@@ -699,6 +699,14 @@
       "description" : "Short for latitude",
       "message" : "Lat:"
    },
+   "LATITUDE_NORTH_ABBREV" : {
+      "description" : "Abbreviation letter for latitude 'north'",
+      "message" : "N"
+   },
+   "LATITUDE_SOUTH_ABBREV" : {
+      "description" : "Abbreviation letter for latitude 'south'",
+      "message" : "S"
+   },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
       "message" : "Legal (sistema actual):"
@@ -730,6 +738,14 @@
    "LONGITUDE" : {
       "description" : "Short for longitude",
       "message" : "Long:"
+   },
+   "LONGITUDE_EAST_ABBREV" : {
+      "description" : "Abbreviation letter for longitude 'east'",
+      "message" : "E"
+   },
+   "LONGITUDE_WEST_ABBREV" : {
+      "description" : "Abbreviation letter for latitude 'west'",
+      "message" : "O"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",

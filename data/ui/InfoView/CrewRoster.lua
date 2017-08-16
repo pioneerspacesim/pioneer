@@ -125,6 +125,7 @@ local crewRoster = function ()
 						JUMPING = l.WE_ARE_IN_HYPERSPACE_COMMANDER,
 						HYPERSPACE = l.WE_ARE_IN_HYPERSPACE_COMMANDER,
 						DOCKING = l.THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER,
+						UNDOCKING = l.THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER
 					})[Game.player.flightState])
 				elseif not (target and target:isa('SpaceStation')) then
 					feedback:SetText(l.YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER)

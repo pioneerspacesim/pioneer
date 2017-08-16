@@ -537,14 +537,29 @@ local function displaySetSpeed(radius)
 		local distance, unit = ui.Format.Speed(setSpeed)
 		local uiPos = ui.pointOnClock(center, radius, 4.0)
 		local target = player:GetSetSpeedTarget()
-		local color = colors.reticuleCircle
-		local colorDark = colors.reticuleCircleDark
-		ui.addFancyText(uiPos, ui.anchor.left, ui.anchor.top, {
-											{ text=icons.autopilot_set_speed, color=color,     font=pionicons.medium,  tooltip="set speed" },
-											{ text=distance,                  color=color,     font=pionillium.medium, tooltip="set speed" },
-											{ text=unit,                      color=colorDark, font=pionillium.small,  tooltip="set speed" },
-											{ text=' ' .. target.label,       color=color,     font=pionillium.medium, tooltip="set speed" }},
-										colors.lightBlackBackground)
+		if target then
+			local color = colors.reticuleCircle
+			local colorDark = colors.reticuleCircleDark
+			ui.addFancyText(uiPos, ui.anchor.left, ui.anchor.top, {
+												{ text=icons.autopilot_set_speed, color=color,     font=pionicons.medium,  tooltip="set speed" },
+												{ text=distance,                  color=color,     font=pionillium.medium, tooltip="set speed" },
+												{ text=unit,                      color=colorDark, font=pionillium.small,  tooltip="set speed" },
+												{ text=' ' .. target.label,       color=color,     font=pionillium.medium, tooltip="set speed" }},
+											colors.lightBlackBackground)
+		end
+	end
+end
+
+local function displayAlertMarker()
+	local alert = player:GetAlertState()
+	local iconsize = Vector(24,24)
+	if alert then
+		local uiPos = ui.pointOnClock(center, reticuleCircleRadius * 1.2 , 2)
+		if alert == "ship-firing" then
+			ui.addIcon(uiPos, icons.alert2, colors.alertRed, iconsize, ui.anchor.center, ui.anchor.center, lc.LASER_FIRE_DETECTED)
+		elseif alert == "ship-nearby" then
+			ui.addIcon(uiPos, icons.alert1, colors.alertYellow, iconsize, ui.anchor.center, ui.anchor.center, lc.SHIP_DETECTED_NEARBY)
+		end
 	end
 end
 
@@ -580,6 +595,7 @@ local function displayReticule()
 	displayReticulePitchHorizonCompass()
 	displayReticuleDeltaV()
 	displayDirectionalMarkers()
+	displayAlertMarker()
 
 	if frame then
 		displayFrameIndicators(frame, navTarget)
@@ -681,7 +697,7 @@ local function displayOnScreenObjects()
 								-- if the navtarget is one of the collapsed ones, it's the most important
 								table.insert(v.others, v.mainBody)
 								v.mainBody = it
-								v.hasNavTarget = true
+								v.hasNavTarget = itbody == navTarget
 								v.multiple = true
 							else
 								-- otherwise, just add it as a further body
@@ -715,13 +731,13 @@ local function displayOnScreenObjects()
 		end
 		local mp = ui.getMousePos()
 		-- click handler
-		if (Vector(mp.x,mp.y) - coords):magnitude() < iconsize then
-			if ui.isMouseReleased(0) then
-				if v.hasNavTarget and ui.ctrlHeld() then
-					-- if ctrl-clicked and has nav target, unset nav target
+		if (Vector(mp.x,mp.y) - coords):magnitude() < iconsize * 1.5 then
+			if not ui.isMouseHoveringAnyWindow() and ui.isMouseReleased(0) then
+				if v.hasNavTarget then
+					-- if clicked and has nav target, unset nav target
 					player:SetNavTarget(nil)
-				elseif v.hasCombatTarget and ui.ctrlHeld() then
-					-- if ctlr-clicked and has combat target, unset combat target
+				elseif v.hasCombatTarget then
+					-- if clicked and has combat target, unset combat target
 					player:SetCombatTarget(nil)
 				else
 					if v.multiple then
@@ -730,6 +746,13 @@ local function displayOnScreenObjects()
 					else
 						-- clicked on single, just set navtarget/combatTarget
 						setTarget(v.mainBody.body)
+						if ui.ctrlHeld() then
+							local target = v.mainBody.body
+							if target == player:GetSetSpeedTarget() then
+								target = nil
+							end
+							player:SetSetSpeedTarget(target)
+						end
 					end
 				end
 			end
@@ -741,6 +764,13 @@ local function displayOnScreenObjects()
 							 ui.sameLine()
 							 if ui.selectable(v.mainBody.label, v.mainBody.body == navTarget, {}) then
 								 player:SetNavTarget(v.mainBody.body)
+								 if ui.ctrlHeld() then
+									 local target = v.mainBody.body
+									 if target == player:GetSetSpeedTarget() then
+										 target = nil
+									 end
+									 player:SetSetSpeedTarget(target)
+								 end
 							 end
 							 for k,v in pairs(v.others) do
 								 ui.icon(getBodyIcon(v.body), size, colors.frame)
@@ -752,10 +782,6 @@ local function displayOnScreenObjects()
 		end)
 	end
 end
-
-Event.Register('onGameStart', function()
-								 shouldDisplay2DRadar = false
-end)
 
 ui.registerHandler(
 	'game',
@@ -776,6 +802,7 @@ ui.registerHandler(
 											else
 												displayOnScreenObjects()
 												displayReticule()
+												ui.displayPlayerGauges()
 												callModules("game")
 											end
 										else

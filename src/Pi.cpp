@@ -1220,7 +1220,6 @@ void Pi::StartGame()
 	Pi::player->onLanded.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::game->GetCpan()->ShowAll();
 	DrawGUI = true;
-	Pi::game->GetCpan()->SetAlertState(Ship::ALERT_NONE);
 	SetView(game->GetWorldView());
 
 #ifdef REMOTE_LUA_REPL
@@ -1759,7 +1758,8 @@ void Pi::DrawPiGui(double delta, std::string handler) {
 	#ifdef PROFILE_LUA_TIME
 	auto before = clock();
 	#endif
-	Pi::pigui->Render(delta, handler);
+	if(!IsConsoleActive())
+		Pi::pigui->Render(delta, handler);
 	#ifdef PROFILE_LUA_TIME
 	auto after = clock();
   Output("Lua PiGUI took %f\n", double(after - before) / CLOCKS_PER_SEC);

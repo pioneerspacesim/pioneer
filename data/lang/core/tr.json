@@ -325,7 +325,7 @@
    },
    "DIRECTION" : {
       "description" : "Direction",
-      "message" : "\" Dir \""
+      "message" : "\" Yön \""
    },
    "DISTANCE_LY" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "FIRE_LASER" : {
       "description" : "",
-      "message" : "Lazeri ateşle"
+      "message" : "Silahı ateşle"
    },
    "FIRE_MISSILE" : {
       "description" : "",
@@ -693,11 +693,19 @@
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
-      "message" : "Lazer atışı algılandı."
+      "message" : "Silah atışı algılandı."
    },
    "LATITUDE" : {
       "description" : "Short for latitude",
       "message" : "Enl:"
+   },
+   "LATITUDE_NORTH_ABBREV" : {
+      "description" : "Abbreviation letter for latitude 'north'",
+      "message" : "K"
+   },
+   "LATITUDE_SOUTH_ABBREV" : {
+      "description" : "Abbreviation letter for latitude 'south'",
+      "message" : "G"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -730,6 +738,14 @@
    "LONGITUDE" : {
       "description" : "Short for longitude",
       "message" : "Boyl:"
+   },
+   "LONGITUDE_EAST_ABBREV" : {
+      "description" : "Abbreviation letter for longitude 'east'",
+      "message" : "D"
+   },
+   "LONGITUDE_WEST_ABBREV" : {
+      "description" : "Abbreviation letter for latitude 'west'",
+      "message" : "B"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -1293,7 +1309,7 @@
    },
    "SEARCH_MAP" : {
       "description" : "",
-      "message" : "Haritayı Ara"
+      "message" : "Haritada Ara"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
@@ -1301,7 +1317,7 @@
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Sektör Harita Görünümü"
+      "message" : "Sektör Haritası Görünümü"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",

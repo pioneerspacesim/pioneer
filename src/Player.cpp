@@ -169,8 +169,6 @@ void Player::SetAlertState(Ship::AlertState as)
 			break;
 	}
 
-	Pi::game->GetCpan()->SetAlertState(as);
-
 	Ship::SetAlertState(as);
 }
 
@@ -239,6 +237,13 @@ void Player::SetCombatTarget(Body* const target, bool setSpeedTo)
 void Player::SetNavTarget(Body* const target, bool setSpeedTo)
 {
 	static_cast<PlayerShipController*>(m_controller)->SetNavTarget(target, setSpeedTo);
+	Pi::onPlayerChangeTarget.emit();
+}
+
+void Player::SetSetSpeedTarget(Body* const target)
+{
+	static_cast<PlayerShipController*>(m_controller)->SetSetSpeedTarget(target);
+	// TODO: not sure, do we actually need this? we are only changing the set speed target
 	Pi::onPlayerChangeTarget.emit();
 }
 //temporary targeting stuff ends
