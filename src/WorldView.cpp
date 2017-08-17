@@ -635,7 +635,7 @@ static void PlayerRequestDockingClearance(SpaceStation *s)
 {
 	std::string msg;
 	s->GetDockingClearance(Pi::player, msg);
-	Pi::game->log->Add(s->GetLabel(), msg);
+	Pi::game->log->Add(s->GetLabel(), msg, GameLog::Priority::PRIORITY_NORMAL);
 }
 
 // XXX paying fine remotely can't really be done until crime and

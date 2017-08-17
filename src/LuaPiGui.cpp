@@ -486,6 +486,13 @@ static int l_pigui_text_wrapped(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_text_colored(lua_State *l) {
+	ImColor col = LuaPull<ImColor>(l, 1);
+	std::string text = LuaPull<std::string>(l, 2);
+	ImGui::TextColored(col, "%s", text.c_str());
+	return 0;
+}
+
 // static int l_pigui_get_velocity(lua_State *l) {
 // 	std::string name = LuaPull<std::string>(l, 1);
 // 	WorldView *wv = Pi::game->GetWorldView();
@@ -1205,6 +1212,22 @@ static int l_pigui_load_texture_from_svg(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_set_scroll_here(lua_State *l) {
+	ImGui::SetScrollHere();
+	return 0;
+}
+
+static int l_pigui_pop_text_wrap_pos(lua_State *l) {
+	ImGui::PopTextWrapPos();
+	return 0;
+}
+
+static int l_pigui_push_text_wrap_pos(lua_State *l) {
+	float wrap_pos_x = LuaPull<float>(l, 1);
+	ImGui::PushTextWrapPos(wrap_pos_x);
+	return 0;
+}
+
 template <> const char *LuaObject<PiGui>::s_type = "PiGui";
 
 template <> void LuaObject<PiGui>::RegisterClass()
@@ -1241,6 +1264,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "NextColumn",             l_pigui_next_column },
 		{ "Text",                   l_pigui_text },
 		{ "TextWrapped",            l_pigui_text_wrapped },
+		{ "TextColored",            l_pigui_text_colored },
+		{ "SetScrollHere",          l_pigui_set_scroll_here },
 		{ "Button",                 l_pigui_button },
 		{ "Selectable",             l_pigui_selectable },
 		{ "BeginGroup",             l_pigui_begin_group },
@@ -1266,6 +1291,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "PathStroke",             l_pigui_path_stroke },
 		{ "PushItemWidth",          l_pigui_push_item_width },
 		{ "PopItemWidth",           l_pigui_pop_item_width },
+		{ "PushTextWrapPos",        l_pigui_push_text_wrap_pos },
+		{ "PopTextWrapPos",         l_pigui_pop_text_wrap_pos },
 		{ "BeginPopup",             l_pigui_begin_popup },
 		{ "EndPopup",               l_pigui_end_popup },
 		{ "OpenPopup",              l_pigui_open_popup },
