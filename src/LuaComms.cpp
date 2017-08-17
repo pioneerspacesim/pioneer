@@ -6,6 +6,7 @@
 #include "LuaUtils.h"
 #include "Pi.h"
 #include "ShipCpanel.h"
+#include "GameLog.h"
 
 /*
  * Interface: Comms
@@ -49,7 +50,7 @@ static int l_comms_message(lua_State *l)
 	if (lua_gettop(l) >= 2)
 		from = luaL_checkstring(l, 2);
 
-	Pi::game->log->Add(from, msg);
+	Pi::game->log->Add(from, msg, GameLog::Priority::PRIORITY_NORMAL);
 	return 0;
 }
 
@@ -92,7 +93,7 @@ static int l_comms_important_message(lua_State *l)
 	if (lua_gettop(l) >= 2)
 		from = luaL_checkstring(l, 2);
 
-	Pi::game->log->Add(from, msg);
+	Pi::game->log->Add(from, msg, GameLog::Priority::PRIORITY_ALERT);
 	return 0;
 }
 
