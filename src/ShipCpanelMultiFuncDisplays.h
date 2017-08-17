@@ -69,7 +69,6 @@ private:
 	float m_y;
 
 	float m_lastRange;
-	bool isCompact;
 	float RADAR_XSHRINK;
 	float RADAR_YSHRINK;
 
