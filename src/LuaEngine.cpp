@@ -966,23 +966,6 @@ static int l_engine_world_space_to_ship_space(lua_State *l)
 	return 1;
 }
 
-static int l_engine_get_compact_radar(lua_State *l)
-{
-	lua_pushboolean(l, Pi::config->Int("CompactRadar") != 0);
-	return 1;
-}
-
-static int l_engine_set_compact_radar(lua_State *l)
-{
-	if (lua_isnone(l, 1))
-		return luaL_error(l, "SetCompactRadar takes one boolean argument");
-	const bool shrunk = lua_toboolean(l, 1);
-	Pi::config->SetInt("CompactRadar", (shrunk ? 1 : 0));
-	Pi::config->Save();
-	Pi::SetCompactRadar(shrunk);
-	return 0;
-}
-
 static int l_engine_get_confirm_quit(lua_State *l)
 {
 	lua_pushboolean(l, Pi::config->Int("ConfirmQuit") != 0);
@@ -1086,9 +1069,6 @@ void LuaEngine::Register()
 
 		{ "GetDisplayHudTrails", l_engine_get_display_hud_trails },
 		{ "SetDisplayHudTrails", l_engine_set_display_hud_trails },
-
-		{ "GetCompactRadar", l_engine_get_compact_radar },
-		{ "SetCompactRadar", l_engine_set_compact_radar },
 
 		{ "GetConfirmQuit", l_engine_get_confirm_quit },
 		{ "SetConfirmQuit", l_engine_set_confirm_quit },

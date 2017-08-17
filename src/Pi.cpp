@@ -141,7 +141,6 @@ GameConfig *Pi::config;
 DetailLevel Pi::detail;
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
-bool Pi::compactRadar;
 std::map<SDL_JoystickID,Pi::JoystickState> Pi::joysticks;
 bool Pi::navTunnelDisplayed = false;
 bool Pi::speedLinesDisplayed = false;
@@ -518,7 +517,6 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
-	compactRadar = (config->Int("CompactRadar")) ? true : false;
 
 	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
 	speedLinesDisplayed = (config->Int("SpeedLines")) ? true : false;

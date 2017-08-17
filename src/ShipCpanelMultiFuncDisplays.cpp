@@ -159,25 +159,12 @@ void RadarWidget::Draw()
 }
 
 void RadarWidget::InitScaling(void) {
-	isCompact = Pi::IsRadarCompact();
-	if(isCompact) {
-		RADAR_XSHRINK = 4.0f;
-		RADAR_YSHRINK = 0.95f;
-	} else {
-		// original values
-		RADAR_XSHRINK = 1.0f;
-		RADAR_YSHRINK = 0.75f;
-	}
+	RADAR_XSHRINK = 4.0f;
+	RADAR_YSHRINK = 0.95f;
 }
 
 void RadarWidget::Update()
 {
-	if(Pi::IsRadarCompact() != isCompact) {
-		InitScaling();
-		GenerateBaseGeometry();
-		GenerateRingsAndSpokes();
-	}
-
 	m_contacts.clear();
 
 	int radar_cap = 0;
@@ -537,7 +524,7 @@ void UseEquipWidget::UpdateEquip()
 	int numSlots = LuaObject<Ship>::CallMethod<int>(Pi::player, "GetEquipSlotCapacity", "missile");
 
 	if (numSlots) {
-		const float spacing = Pi::IsRadarCompact() ? 16 : (380.0f / numSlots);
+		const float spacing = 16;
 		lua_pushnil(l);
 		while(lua_next(l, -2)) {
 			if (lua_type(l, -2) == LUA_TNUMBER) {

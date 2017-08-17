@@ -89,8 +89,6 @@ public:
 	static SDL_JoystickGUID JoystickGUID(int joystick);
 	static void SetMouseYInvert(bool state) { mouseYInvert = state; }
 	static bool IsMouseYInvert() { return mouseYInvert; }
-	static void SetCompactRadar(bool state) { compactRadar = state; }
-	static bool IsRadarCompact() { return compactRadar; }
 	static bool IsNavTunnelDisplayed() { return navTunnelDisplayed; }
 	static void SetNavTunnelDisplayed(bool state) { navTunnelDisplayed = state; }
 	static bool AreSpeedLinesDisplayed() { return speedLinesDisplayed; }
@@ -209,7 +207,6 @@ private:
 
 	static bool joystickEnabled;
 	static bool mouseYInvert;
-	static bool compactRadar;
 	struct JoystickState {
 		SDL_Joystick *joystick;
 		SDL_JoystickGUID guid;
