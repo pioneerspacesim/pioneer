@@ -15,7 +15,7 @@ The Pioneer Developers are:
 * Andrew Copland
 * Anton Korzun
 * Antti Salonen
-* Arda GÜLER
+* Arda Güler
 * Armin Kretschmer
 * Asier Basagoiti
 * Benamucki
