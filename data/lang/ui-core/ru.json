@@ -327,6 +327,10 @@
       "description" : "",
       "message" : "Ошибка"
    },
+   "ERROR_LANDING_GEAR_DOWN" : {
+      "description" : "",
+      "message" : "Can not initiate hyperjump; landing gear is not retracted!"
+   },
    "ESCAPE_SPEED" : {
       "description" : "",
       "message" : "Параболическая скорость:"
