@@ -20,6 +20,7 @@ August
      * Hide mouse pointer when GUI is not being drawn (#4066)
      * Add missing flight state in crew rooster (#4082)
      * Fix Star/planet/gas giants popping into view (#4083)
+		 * Show a warning message if trying to hyperjump with wheels down. (#4074)
 
 July 2017
    * New Features
