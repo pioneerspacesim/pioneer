@@ -77,7 +77,8 @@ local earth_starports = {
 		:longitude(math.deg2rad(99)),
 	CustomSystemBody:new('London', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(51))
-		:longitude(0),
+		:longitude(0)
+		:space_station_type("ground_station"),
 	CustomSystemBody:new('Moscow', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(55))
 		:longitude(math.deg2rad(-37.5)),
