@@ -156,6 +156,13 @@ static int l_body_is_missile(lua_State *l)
 		return 1;
 }
 
+static int l_body_is_station(lua_State *l)
+{
+		Body *body = LuaObject<Body>::CheckFromLua(1);
+		LuaPush<bool>(l, body->GetType() == Object::Type::SPACESTATION);
+		return 1;
+}
+
 static int l_body_is_cargo_container(lua_State *l)
 {
 		Body *body = LuaObject<Body>::CheckFromLua(1);
@@ -794,6 +801,7 @@ template <> void LuaObject<Body>::RegisterClass()
 		{ "IsShip",              l_body_is_ship },
 		{ "IsHyperspaceCloud",   l_body_is_hyperspace_cloud },
 		{ "IsMissile",           l_body_is_missile },
+		{ "IsStation",           l_body_is_station },
 		{ "IsCargoContainer",    l_body_is_cargo_container },
 		{ "GetSystemBody",       l_body_get_system_body },
 		{ 0, 0 }

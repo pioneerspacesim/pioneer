@@ -47,7 +47,15 @@ theme.colors = {
 	gaugeVelocityLight = Color(230,230,230),
 	gaugeVelocityDark = Color(30,30,30),
 	gaugeThrustLight = Color(123,123,123),
-	gaugeThrustDark = Color(19, 19, 31)
+	gaugeThrustDark = Color(19, 19, 31),
+	radarCombatTarget = Color(255, 0, 0),
+	radarShip = Color(243, 237, 29),
+	radarPlayerMissile = Color(243, 237, 29),
+	radarMissile = Color(240, 38, 50),
+	radarCargo = Color(166, 166, 166),
+	radarNavTarget = Color(0, 255, 0),
+	radarStation = Color(255, 255, 255),
+	radarCloud = Color(128, 128, 255)
 }
 
 theme.icons = {
