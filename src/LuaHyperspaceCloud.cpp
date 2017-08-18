@@ -17,6 +17,16 @@
  * Class representing a hyperspace cloud. Inherits from <Body>
  */
 
+
+/* Method: IsArrival
+ *
+ * Return true if this is an arrival cloud.
+ *
+ * Returns:
+ *
+ *    true if this is an arrival cloud.
+ *
+ */
 static int l_hyperspace_cloud_is_arrival(lua_State *l)
 {
 	HyperspaceCloud *cloud = LuaObject<HyperspaceCloud>::CheckFromLua(1);
@@ -24,6 +34,16 @@ static int l_hyperspace_cloud_is_arrival(lua_State *l)
 	return 1;
 }
 
+
+/* Method: GetShip
+ *
+ * Return the <Ship> that created this cloud, or nil.
+ *
+ * Returns:
+ *
+ *    the <Ship> that created this cloud, or nil.
+ *
+ */
 static int l_hyperspace_cloud_get_ship(lua_State *l)
 {
 	HyperspaceCloud *cloud = LuaObject<HyperspaceCloud>::CheckFromLua(1);
@@ -35,6 +55,16 @@ static int l_hyperspace_cloud_get_ship(lua_State *l)
 	return 1;
 }
 
+
+/* Method: GetDueDate
+ *
+ * Return the date when a ship has entered / will exit this cloud.
+ *
+ * Returns:
+ *
+ *    the date when a ship has entered / will exit this cloud
+ *
+ */
 static int l_hyperspace_cloud_get_due_date(lua_State *l)
 {
 		HyperspaceCloud *cloud = LuaObject<HyperspaceCloud>::CheckFromLua(1);
