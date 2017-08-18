@@ -577,7 +577,7 @@
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
-      "message" : "Salto iperspaziale annullato."
+      "message" : "Ipersalto annullato."
    },
    "HYPERSPACE_JUMP_DISABLED" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
@@ -1605,7 +1605,7 @@
    },
    "SWAP_SELECTED_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Commuta tra selezione e bersaglio salto iperspaziale"
+      "message" : "Commuta tra selezione e bersaglio ipersalto"
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",

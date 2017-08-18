@@ -329,7 +329,7 @@
    },
    "ERROR_LANDING_GEAR_DOWN" : {
       "description" : "",
-      "message" : "Can not initiate hyperjump; landing gear is not retracted!"
+      "message" : "Impossibile iniziare l'ipersalto; il carrello non è rientrato!"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
@@ -517,11 +517,11 @@
    },
    "HUD_BUTTON_INITIATE_HYPERJUMP" : {
       "description" : "Tooltip: Initiate legal hyperjump",
-      "message" : "Inizio salto iperspaziale"
+      "message" : "Inizio ipersalto"
    },
    "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP" : {
       "description" : "Tooltip: Initiate illegal hyperjump",
-      "message" : "Inizio salto spaziale illegale"
+      "message" : "Inizio ipersalto illegale"
    },
    "HUD_BUTTON_INTERNAL_VIEW" : {
       "description" : "Tooltip: Internal camera view",
@@ -761,7 +761,7 @@
    },
    "ILLEGAL_JUMP" : {
       "description" : "A finable crime",
-      "message" : "Salto pericoloso illegale registrato"
+      "message" : "Ipersalto pericoloso registrato"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",

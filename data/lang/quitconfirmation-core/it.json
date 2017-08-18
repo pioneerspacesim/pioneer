@@ -29,7 +29,7 @@
    },
    "MSG_16" : {
       "description" : "A little homage to the movie 2001 A Space Odyssey",
-      "message" : "Cosa stai pensando di fare, Dave?"
+      "message" : "Ma cosa hai intenzione di fare, David?"
    },
    "MSG_17" : {
       "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
@@ -37,15 +37,15 @@
    },
    "MSG_18" : {
       "description" : "Catch phrase of 2016?",
-      "message" : "Rendi Pioneer di nuovo grande! Solo i perdenti abbandonano, sei sicuro di farlo?"
+      "message" : "Rendi Pioneer nuovamente grande! Solo i perdenti abbandonano, sei sicuro di volerlo fare?"
    },
    "MSG_19" : {
       "description" : "Alluding to / inviting the player to contribute content to the game",
-      "message" : "Testing completato, ora di contribuire?"
+      "message" : "Fine del test, ritorni a scriver codice?"
    },
    "MSG_2" : {
       "description" : "",
-      "message" : "Non andartene ora, c'è un pirata in agguato nell'altro programma."
+      "message" : "Non andartene ora, in quell'altro programma c'è un pirata in agguato."
    },
    "MSG_3" : {
       "description" : "",
@@ -53,7 +53,7 @@
    },
    "MSG_4" : {
       "description" : "",
-      "message" : "Volete forse andarvene, con tal frettolosa fuga?"
+      "message" : "Dove vorreste andarvene, con tal frettolosa fuga?"
    },
    "MSG_5" : {
       "description" : "(Inspired by Wolfenstein 3D)",
@@ -61,7 +61,7 @@
    },
    "MSG_6" : {
       "description" : "",
-      "message" : "Clicca {no} se sei coraggioso, clicca {yes} per fuggire vergognosamente."
+      "message" : "Clicca {no} se vuoi essere coraggioso, clicca {yes} per nasconderti vergonosamente."
    },
    "MSG_7" : {
       "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
@@ -81,7 +81,7 @@
    },
    "QUIT" : {
       "description" : "Quit game, as a question",
-      "message" : "Esci?"
+      "message" : "Uscita?"
    },
    "YES" : {
       "description" : "Yes, quit program",

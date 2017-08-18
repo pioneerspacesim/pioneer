@@ -329,7 +329,7 @@
    },
    "ERROR_LANDING_GEAR_DOWN" : {
       "description" : "",
-      "message" : "Can not initiate hyperjump; landing gear is not retracted!"
+      "message" : "Hiperűr-ugrás nem lehetséges kiengedett futóművel!"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
