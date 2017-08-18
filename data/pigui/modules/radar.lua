@@ -20,6 +20,26 @@ local MIN_RADAR_SIZE = 1000
 local shouldDisplay2DRadar = false
 local current_radar_size = 10000
 
+local function getColorFor(item)
+	local body = item.body
+	if body == player:GetNavTarget() then
+		return colors.radarNavTarget
+	elseif body == player:GetCombatTarget() then
+		return colors.radarCombatTarget
+	elseif body:IsShip() then
+		return colors.radarShip
+	elseif body:IsHyperspaceCloud() then
+		return colors.radarCloud
+	elseif body:IsMissile() then
+		return colors.radarMissile
+	elseif body:IsStation() then
+		return colors.radarStation
+	elseif body:IsCargoContainer() then
+		return colors.radarCargo
+	end
+	return colors.grey
+end
+
 -- display the 2D radar
 local function display2DRadar(cntr, size)
 	local targets = ui.getTargetsNearby(current_radar_size)
@@ -59,7 +79,7 @@ local function display2DRadar(cntr, size)
 				local color = Color(colors.combatTarget.r, colors.combatTarget.g, colors.combatTarget.b, alpha)
 				ui.addIcon(position, icons.square, color, 12, ui.anchor.center, ui.anchor.center)
 			else
-				local color = Color(colors.reticuleCircle.r, colors.reticuleCircle.g, colors.reticuleCircle.b, alpha)
+				local color = getColorFor(v)
 				ui.addCircleFilled(position, 2, color, 4, 1)
 			end
 			local mouse_position = ui.getMousePos()
