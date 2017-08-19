@@ -129,6 +129,14 @@ local function get_icon_tex_coords(icon)
 	return Vector(rem / count, quot/count), Vector((rem+1) / count, (quot+1)/count)
 end
 
+local function get_wide_icon_tex_coords(icon)
+	assert(icon, "no icon given")
+	local count = 16.0 -- icons per row/column
+	local rem = math.floor(icon % count)
+	local quot = math.floor(icon / count)
+	return Vector(rem / count, quot/count), Vector((rem+2) / count, (quot+1)/count)
+end
+
 ui.registerHandler = function(name, fun)
 	pigui.handlers[name] = fun
 end
@@ -322,6 +330,28 @@ ui.addIcon = function(position, icon, color, size, anchor_horizontal, anchor_ver
 	return Vector(size, size)
 end
 
+ui.addWideIcon = function(position, icon, color, size, anchor_horizontal, anchor_vertical, tooltip, angle_rad)
+	local pos = ui.calcTextAlignment(position, Vector(size, size), anchor_horizontal, anchor_vertical)
+	local uv0, uv1 = get_wide_icon_tex_coords(icon)
+	if angle_rad then
+	  local center = (pos + pos + Vector(size,size)) / 2
+	  local up_left = Vector(-size/2, size/2):rotate2d(angle_rad)
+	  local up_right = up_left:right()
+	  local down_left = up_left:left()
+	  local down_right = -up_left
+	  pigui.AddImageQuad(ui.icons_texture, center + up_left, center + up_right, center + down_right, center + down_left, uv0, Vector(uv1.x, uv0.y), uv1, Vector(uv0.x, uv1.y), color)
+	else
+	  pigui.AddImage(ui.icons_texture, pos, pos + Vector(size, size), uv0, uv1, color)
+	end
+	if tooltip and (pigui.IsMouseHoveringWindow() or not pigui.IsMouseHoveringAnyWindow()) and tooltip ~= "" then
+	  if pigui.IsMouseHoveringRect(pos, pos + size, true) then
+			maybeSetTooltip(tooltip)
+	  end
+	end
+
+	return Vector(size, size)
+end
+
 ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, bg_color)
 	-- always align texts at baseline
 	local spacing = 2
@@ -437,6 +467,7 @@ ui.addCircleFilled = pigui.AddCircleFilled
 ui.addRect = pigui.AddRect
 ui.addRectFilled = pigui.AddRectFilled
 ui.addLine = pigui.AddLine
+ui.addText = pigui.AddText
 ui.pathArcTo = pigui.PathArcTo
 ui.pathStroke = pigui.PathStroke
 ui.twoPi = two_pi
@@ -456,6 +487,7 @@ ui.lowThrustButton = pigui.LowThrustButton
 ui.thrustIndicator = pigui.ThrustIndicator
 ui.oneOverSqrtTwo = one_over_sqrt_two
 ui.isMouseClicked = pigui.IsMouseClicked
+ui.isMouseDown = pigui.IsMouseDown
 ui.getMousePos = pigui.GetMousePos
 ui.getMouseWheel = pigui.GetMouseWheel
 ui.setTooltip = maybeSetTooltip

@@ -757,6 +757,12 @@ static int l_pigui_is_mouse_released(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_is_mouse_down(lua_State *l) {
+	int button = LuaPull<int>(l, 1);
+	LuaPush(l, ImGui::IsMouseDown(button));
+	return 1;
+}
+
 static int l_pigui_is_mouse_clicked(lua_State *l) {
 	int button = LuaPull<int>(l, 1);
 	LuaPush(l, ImGui::IsMouseClicked(button));
@@ -1300,6 +1306,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "PopID",                  l_pigui_pop_id },
 		{ "IsMouseReleased",        l_pigui_is_mouse_released },
 		{ "IsMouseClicked",         l_pigui_is_mouse_clicked },
+		{ "IsMouseDown",            l_pigui_is_mouse_down },
 		{ "IsMouseHoveringRect",    l_pigui_is_mouse_hovering_rect },
 		{ "IsMouseHoveringAnyWindow",    l_pigui_is_mouse_hovering_any_window },
 		{ "IsMouseHoveringWindow",  l_pigui_is_mouse_hovering_window },

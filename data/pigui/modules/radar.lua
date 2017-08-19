@@ -141,16 +141,15 @@ local function displayRadar()
 end
 
 Event.Register('changeMFD', function(selected)
-								 Game.ChangeMFD(selected)
 								 Event.Queue('onChangeMFD', selected)
 end)
 
 Event.Register('onChangeMFD', function(selected)
 								 if selected == "radar" then
 									 shouldDisplay2DRadar = true;
+									 Game.SetRadarVisible(false)
 								 elseif selected == "scanner" then
-									 shouldDisplay2DRadar = false;
-								 elseif selected == "equipment" then
+									 Game.SetRadarVisible(true)
 									 shouldDisplay2DRadar = false;
 								 end
 end)

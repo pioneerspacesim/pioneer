@@ -186,6 +186,7 @@ theme.icons = {
    display_navtarget = 121,
    alert1 = 122,
    alert2 = 123,
+	 ecm_advanced = 124,
    -- ninth row
    view_internal = 128,
    view_external = 129,
@@ -233,7 +234,12 @@ theme.icons = {
    star = 170,
    -- TODO: manual / autopilot
 	 -- dummy, until actually defined correctly
-	 mouse_move_direction = 14
+	 mouse_move_direction = 14,
+	 -- fourteenth row, wide icons
+	 missile_unguided = 208,
+	 missile_guided = 210,
+	 missile_smart = 212,
+	 missile_naval = 214,
 }
 
 return theme
