@@ -81,7 +81,7 @@ end
 
 local onShipHit = function(ship, attacker)
 	if attacker and attacker:IsPlayer() then
-		Legal:notifyOfCrime(ship,"PIRACY")
+		Legal:notifyOfCrime(attacker,"PIRACY")
 	end
 end
 
@@ -90,7 +90,7 @@ local onShipDestroyed = function(ship, attacker)
 	-- Note: crash issue #887, this _should_ no longer trigger crash.
 	-- Also, attacker can be a body, which does not have an IsPlayer()
 	if attacker and attacker:isa("Ship") and attacker:IsPlayer() then
-		Legal:notifyOfCrime(ship,"MURDER")
+		Legal:notifyOfCrime(attacker,"MURDER")
 	end
 end
 
