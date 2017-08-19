@@ -565,11 +565,11 @@ static double MaxEffectRad(Body *body, Propulsion *prop)
 	}
 	const double gMulMassDivAccelUp = G * body->GetMass() / prop->GetAccelUp();
 #if 0
- 	if(gMulMassDivAccelUp>0.0)
- 		return std::max(body->GetPhysRadius(), sqrt(gMulMassDivAccelUp));
- 	return 0.0;
+	if(gMulMassDivAccelUp>0.0)
+		return std::max(body->GetPhysRadius(), sqrt(gMulMassDivAccelUp));
+	return 0.0;
 #else
-    return std::max(body->GetPhysRadius(), sqrt(gMulMassDivAccelUp));
+	return std::max(body->GetPhysRadius(), sqrt(gMulMassDivAccelUp));
 #endif
 }
 
