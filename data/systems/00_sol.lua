@@ -204,6 +204,7 @@ local eros = CustomSystemBody:new('Eros', 'PLANET_TERRESTRIAL')
 	:eccentricity(f(223,1000)) -- 0.223
 	:inclination(math.deg2rad(10.829)) -- 10.829°
 	:rotation_period(f(2194,10000)) -- 5h16m
+	:orbital_phase_at_start(fixed.deg2rad(f(230,1))) -- random, to get it away from Luna
 
 local pallas = CustomSystemBody:new('Pallas', 'PLANET_TERRESTRIAL')
 	:radius(f(08,100)) -- 512km
