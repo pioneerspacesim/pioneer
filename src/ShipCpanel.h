@@ -30,8 +30,6 @@ public:
 
 	void SetRadarVisible(bool visible) { if(visible) m_radar->Show(); else m_radar->Hide(); }
 
-	void ChangeMultiFunctionDisplay(multifuncfunc_t selected);
-
 private:
 	void InitObject();
 
@@ -40,15 +38,9 @@ private:
 	// Handler for radar view / equipment view toggle button
 	void OnClickRadarEquip(Gui::MultiStateImageButton *b);
 
-	void OnMultiFuncGrabFocus(multifuncfunc_t);
-	void OnMultiFuncUngrabFocus(multifuncfunc_t);
-
 	Game* m_game;
 
-	multifuncfunc_t m_userSelectedMfuncWidget;
-
 	RadarWidget *m_radar;
-	UseEquipWidget *m_useEquipWidget;
 };
 
 #endif /* _SHIP_CPANEL_H */

@@ -550,21 +550,6 @@ static int l_game_change_flight_state(lua_State *l)
 	return 0;
 }
 
-static int l_game_change_mfd(lua_State *l)
-{
-	std::string selected = LuaPull<std::string>(l, 1);
-	if(!selected.compare("scanner")) {
-		Pi::game->GetCpan()->ChangeMultiFunctionDisplay(MFUNC_RADAR);
-		Pi::game->GetCpan()->SetRadarVisible(true);
-	} else if(!selected.compare("equipment")) {
-		Pi::game->GetCpan()->ChangeMultiFunctionDisplay(MFUNC_EQUIPMENT);
-	} else if(!selected.compare("radar")) {
-		Pi::game->GetCpan()->ChangeMultiFunctionDisplay(MFUNC_RADAR);
-		Pi::game->GetCpan()->SetRadarVisible(false);
-	}
-	return 0;
-}
-
 static int l_game_set_world_cam_type(lua_State *l)
 {
 	std::string cam = luaL_checkstring(l, 1);
@@ -631,7 +616,6 @@ void LuaGame::Register()
 		{ "ToggleTargetActions",         l_game_toggle_target_actions }, // deprecated
 		{ "ToggleLowThrustPowerOptions", l_game_toggle_low_thrust_power_options }, // deprecated
 		{ "ChangeFlightState",           l_game_change_flight_state }, // deprecated
-		{ "ChangeMFD",       l_game_change_mfd },
 
 		{ 0, 0 }
 	};

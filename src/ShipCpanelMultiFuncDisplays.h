@@ -85,38 +85,4 @@ private:
 	Graphics::Drawables::Lines m_edgeLines;
 };
 
-class UseEquipWidget: public IMultiFunc, public Gui::Fixed {
-public:
-	UseEquipWidget();
-	virtual ~UseEquipWidget();
-	void GetSizeRequested(float size[2]);
-	virtual void Update() {}
-private:
-	void UpdateEquip();
-	void UseRadarMapper();
-	void UseHypercloudAnalyzer();
-	enum { MAX_MISSILE_SLOTS = 8 };
-
-	sigc::connection m_onPlayerEquipChangedCon;
-
-	void FireMissile(int idx);
-};
-
-class MultiFuncSelectorWidget: public Gui::Fixed {
-public:
-	MultiFuncSelectorWidget();
-	virtual ~MultiFuncSelectorWidget();
-	sigc::signal<void, multifuncfunc_t> onSelect;
-	void SetSelected(multifuncfunc_t f) {
-		m_rg->SetSelected(int(f));
-	}
-private:
-	void UpdateButtons();
-	void OnClickButton(multifuncfunc_t f);
-
-	int m_active;
-	Gui::ImageRadioButton *m_buttons[MFUNC_MAX];
-	Gui::RadioGroup *m_rg;
-};
-
 #endif /* _SHIPCPANELMULTIFUNCDISPLAYS_H */

@@ -646,6 +646,13 @@ static int l_ship_use_ecm(lua_State *l)
 	return 2;
 }
 
+static int l_ship_is_ecm_ready(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaPush<bool>(l, is_equal_exact(s->GetECMRechargeRemain(), 0.0));
+	return 1;
+}
+
 /*
  * Method: InitiateHyperjumpTo
  *
@@ -1503,7 +1510,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "SpawnMissile", l_ship_spawn_missile },
 
-		{ "UseECM", l_ship_use_ecm },
+		{ "UseECM",     l_ship_use_ecm },
+		{ "IsECMReady", l_ship_is_ecm_ready },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock",        l_ship_undock          },

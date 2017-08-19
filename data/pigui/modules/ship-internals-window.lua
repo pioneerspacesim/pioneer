@@ -63,6 +63,9 @@ local function button_thrustIndicator()
 			local v = ui.getCursorPos();
 			ui.setCursorPos(Vector(v.x, 20));
 			ui.thrustIndicator("foo", mainButtonSize * size, thrust, vel, colors.lightBlueBackground, mainButtonFramePadding, colors.gaugeVelocityLight, colors.gaugeVelocityDark, colors.gaugeThrustLight, colors.gaugeThrustDark)
+			if ui.isItemHovered() then
+				ui.setTooltip(lui.HUD_THRUST_INDICATOR)
+			end
 	end)
 	-- if ui.isItemHovered() then
 	-- 	ui.setTooltip(lc.SELECT_LOW_THRUST_POWER_LEVEL)
@@ -106,30 +109,10 @@ local function button_rotation_damping()
 	end
 end
 
-local current_mfd = "scanner"
-local last_mfd = "scanner"
-local function button_mfd()
-	ui.sameLine()
-	if current_mfd == "scanner" or current_mfd == "radar" then
-		if mainMenuButton(icons.scanner, false, lui.HUD_BUTTON_SCANNER) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f9)) then
-			last_mfd = current_mfd
-			Event.Queue('changeMFD', 'equipment')
-		end
-	else
-		if mainMenuButton(icons.repairs, false, lui.HUD_BUTTON_EQUIPMENT) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f9)) then
-			Event.Queue('changeMFD', last_mfd)
-		end
-	end
-end
-
-Event.Register('onChangeMFD', function(selected)
-								 current_mfd = selected
-end)
-
 local function displayShipFunctionWindow()
 	player = Game.player
 	local current_view = Game.CurrentView()
-	local buttons = 7
+	local buttons = 6
 	ui.setNextWindowPos(Vector(ui.screenWidth/2 - ui.reticuleCircleRadius - (mainButtonSize.x + 2 * mainButtonFramePadding) * buttons, ui.screenHeight - mainButtonSize.y * 3 - 8) , "Always")
 	ui.window("ShipFunctions", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 						function()
@@ -138,7 +121,6 @@ local function displayShipFunctionWindow()
 								ui.setCursorPos(Vector(0, v.y + 1.33 * mainButtonSize.y));
 								button_wheelstate()
 								button_rotation_damping()
-								button_mfd()
 								ui.sameLine()
 								button_lowThrustPower()
 								button_thrustIndicator()

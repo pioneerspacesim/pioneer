@@ -23,6 +23,9 @@ ShipCpanel::ShipCpanel(Graphics::Renderer *r, Game* game): Gui::Fixed(float(Gui:
 	m_radar = new RadarWidget(r);
 
 	InitObject();
+
+	Add(m_radar, 200, 18);
+	m_radar->ShowAll();
 }
 
 ShipCpanel::ShipCpanel(const Json::Value &jsonObj, Graphics::Renderer *r, Game* game) : Gui::Fixed(float(Gui::Screen::GetWidth()), 80),
@@ -34,6 +37,9 @@ m_game(game)
 	m_radar = new RadarWidget(r, shipCPanelObj);
 
 	InitObject();
+
+	Add(m_radar, 200, 18);
+	m_radar->ShowAll();
 }
 
 void ShipCpanel::InitObject()
@@ -44,18 +50,6 @@ void ShipCpanel::InitObject()
 	img->SetRenderDimensions(800, 80);
 	Add(img, 0, 0);
 
-	m_useEquipWidget = new UseEquipWidget();
-
-	m_userSelectedMfuncWidget = MFUNC_RADAR;
-
-	m_radar->onGrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncGrabFocus), MFUNC_RADAR));
-	m_useEquipWidget->onGrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncGrabFocus), MFUNC_EQUIPMENT));
-
-	m_radar->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), MFUNC_RADAR));
-	m_useEquipWidget->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), MFUNC_EQUIPMENT));
-
-	ChangeMultiFunctionDisplay(MFUNC_RADAR);
-
 	View::SetCpanel(this);
 }
 
@@ -63,42 +57,13 @@ ShipCpanel::~ShipCpanel()
 {
 	View::SetCpanel(nullptr);
 	Remove(m_radar);
-	Remove(m_useEquipWidget);
 	delete m_radar;
-	delete m_useEquipWidget;
-}
-
-void ShipCpanel::ChangeMultiFunctionDisplay(multifuncfunc_t f)
-{
-	Gui::Widget *selected = 0;
-	if (f == MFUNC_RADAR) selected = m_radar;
-	if (f == MFUNC_EQUIPMENT) selected = m_useEquipWidget;
-
-	Remove(m_radar);
-	Remove(m_useEquipWidget);
-	if (selected) {
-		Add(selected, 200, 18);
-		selected->ShowAll();
-	}
-	m_userSelectedMfuncWidget = f;
-}
-
-void ShipCpanel::OnMultiFuncGrabFocus(multifuncfunc_t f)
-{
-	ChangeMultiFunctionDisplay(f);
-}
-
-void ShipCpanel::OnMultiFuncUngrabFocus(multifuncfunc_t f)
-{
-	ChangeMultiFunctionDisplay(m_userSelectedMfuncWidget);
 }
 
 void ShipCpanel::Update()
 {
 	PROFILE_SCOPED()
 	m_radar->Update();
-	m_useEquipWidget->Update();
-
 }
 
 void ShipCpanel::Draw()
