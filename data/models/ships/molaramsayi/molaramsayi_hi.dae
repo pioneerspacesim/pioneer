@@ -3,10 +3,10 @@
   <asset>
     <contributor>
       <author>Blender User</author>
-      <authoring_tool>Blender 2.78.0 commit date:2017-02-08, commit time:13:50, hash:3c04373</authoring_tool>
+      <authoring_tool>Blender 2.78.0 commit date:2017-02-24, commit time:14:33, hash:e92f235283</authoring_tool>
     </contributor>
-    <created>2017-05-02T21:49:39</created>
-    <modified>2017-05-02T21:49:39</modified>
+    <created>2017-08-19T22:04:03</created>
+    <modified>2017-08-19T22:04:03</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -10068,7 +10068,7 @@
         <translate sid="location">5.64743e-6 -12.82735 8.97761</translate>
         <rotate sid="rotationZ">0 0 1 7.67244e-16</rotate>
         <rotate sid="rotationY">0 1 0 -4.35125e-15</rotate>
-        <rotate sid="rotationX">1 0 0 -19.71441</rotate>
+        <rotate sid="rotationX">1 0 0 -19.99999</rotate>
         <scale sid="scale">1 1 1</scale>
         <instance_geometry url="#heatsink_fin-mesh" name="Fin_A-Hi">
           <bind_material>
@@ -10082,7 +10082,7 @@
         <translate sid="location">7.774836 -12.82735 -4.488808</translate>
         <rotate sid="rotationZ">0 0 1 -2.43057e-6</rotate>
         <rotate sid="rotationY">0 1 0 120</rotate>
-        <rotate sid="rotationX">1 0 0 -19.71441</rotate>
+        <rotate sid="rotationX">1 0 0 -19.99999</rotate>
         <scale sid="scale">1 1 0.9999999</scale>
         <instance_geometry url="#heatsink_fin-mesh" name="Fin_C-Hi">
           <bind_material>
@@ -10096,7 +10096,7 @@
         <translate sid="location">-7.774841 -12.82735 -4.488799</translate>
         <rotate sid="rotationZ">0 0 1 6.46534e-7</rotate>
         <rotate sid="rotationY">0 1 0 -120</rotate>
-        <rotate sid="rotationX">1 0 0 -19.71441</rotate>
+        <rotate sid="rotationX">1 0 0 -19.99999</rotate>
         <scale sid="scale">1 1 1</scale>
         <instance_geometry url="#heatsink_fin-mesh" name="Fin_B-Hi">
           <bind_material>
@@ -10107,10 +10107,10 @@
         </instance_geometry>
       </node>
       <node id="Gear-hydraulics_B_FL_" name="Gear-hydraulics_B_FL_" type="NODE">
-        <translate sid="location">-4.122818 3.437717 -4.201617</translate>
-        <rotate sid="rotationZ">0 0 1 0.3256145</rotate>
-        <rotate sid="rotationY">0 1 0 -0.255806</rotate>
-        <rotate sid="rotationX">1 0 0 -91.69129</rotate>
+        <translate sid="location">-4.122818 3.426652 -4.172905</translate>
+        <rotate sid="rotationZ">0 0 1 0.3268641</rotate>
+        <rotate sid="rotationY">0 1 0 -0.2483922</rotate>
+        <rotate sid="rotationX">1 0 0 -92.43085</rotate>
         <scale sid="scale">1 1 0.9999999</scale>
         <instance_geometry url="#Circle-mesh" name="Gear-hydraulics_B_FL_">
           <bind_material>
@@ -10122,10 +10122,10 @@
       </node>
       <node id="Gear-hydraulics_A_FL-Hi" name="Gear-hydraulics_A_FL-Hi" type="NODE">
         <translate sid="location">-4.134941 5.622701 -4.266133</translate>
-        <rotate sid="rotationZ">0 0 1 0.3642938</rotate>
-        <rotate sid="rotationY">0 1 0 -1.570202</rotate>
-        <rotate sid="rotationX">1 0 0 88.30814</rotate>
-        <scale sid="scale">1 0.9999997 0.9999999</scale>
+        <rotate sid="rotationZ">0 0 1 0.3847227</rotate>
+        <rotate sid="rotationY">0 1 0 -1.610929</rotate>
+        <rotate sid="rotationX">1 0 0 87.56821</rotate>
+        <scale sid="scale">1 0.9999996 0.9999999</scale>
         <instance_geometry url="#Circle_002-mesh" name="Gear-hydraulics_A_FL-Hi">
           <bind_material>
             <technique_common>
@@ -10135,10 +10135,10 @@
         </instance_geometry>
       </node>
       <node id="gear_FL-Hi" name="gear_FL-Hi" type="NODE">
-        <translate sid="location">-4.132883 2.672625 -4.368882</translate>
+        <translate sid="location">-4.132883 2.658366 -4.324828</translate>
         <rotate sid="rotationZ">0 0 1 90.00007</rotate>
-        <rotate sid="rotationY">0 1 0 71.49389</rotate>
-        <rotate sid="rotationX">1 0 0 6.10386e-5</rotate>
+        <rotate sid="rotationY">0 1 0 72.64045</rotate>
+        <rotate sid="rotationX">1 0 0 6.17563e-5</rotate>
         <scale sid="scale">0.9999995 0.9999999 0.9999993</scale>
         <instance_geometry url="#gear_F_001-mesh" name="gear_FL-Hi">
           <bind_material>
@@ -10151,8 +10151,8 @@
       <node id="gear_F_002" name="gear_F_002" type="NODE">
         <translate sid="location">-4.132883 4.866335 -3.634601</translate>
         <rotate sid="rotationZ">0 0 1 90.00011</rotate>
-        <rotate sid="rotationY">0 1 0 71.49352</rotate>
-        <rotate sid="rotationX">1 0 0 7.05557e-5</rotate>
+        <rotate sid="rotationY">0 1 0 72.64036</rotate>
+        <rotate sid="rotationX">1 0 0 7.13435e-5</rotate>
         <scale sid="scale">0.9999994 1 0.9999994</scale>
         <instance_geometry url="#gear_F_002-mesh" name="gear_F_002">
           <bind_material>
@@ -10164,8 +10164,8 @@
       </node>
       <node id="Circle_005" name="Circle_005" type="NODE">
         <translate sid="location">-5.647386 -6.822009 -5.164883</translate>
-        <rotate sid="rotationZ">0 0 1 -1.76083e-5</rotate>
-        <rotate sid="rotationY">0 1 0 2.4344e-5</rotate>
+        <rotate sid="rotationZ">0 0 1 -1.77261e-5</rotate>
+        <rotate sid="rotationY">0 1 0 2.4523e-5</rotate>
         <rotate sid="rotationX">1 0 0 -52.04758</rotate>
         <scale sid="scale">1 1 1</scale>
         <instance_geometry url="#Circle_003-mesh" name="Circle_005">
@@ -10178,7 +10178,7 @@
       </node>
       <node id="Circle_006" name="Circle_006" type="NODE">
         <translate sid="location">-5.647385 -5.94962 -4.484465</translate>
-        <rotate sid="rotationZ">0 0 1 6.64893e-7</rotate>
+        <rotate sid="rotationZ">0 0 1 5.55398e-7</rotate>
         <rotate sid="rotationY">0 1 0 -180</rotate>
         <rotate sid="rotationX">1 0 0 52.2044</rotate>
         <scale sid="scale">1 0.9999999 0.9999999</scale>
@@ -10192,8 +10192,8 @@
       </node>
       <node id="Circle_008" name="Circle_008" type="NODE">
         <translate sid="location">-5.647386 -8.223814 -5.164883</translate>
-        <rotate sid="rotationZ">0 0 1 1.46606e-5</rotate>
-        <rotate sid="rotationY">0 1 0 2.5434e-5</rotate>
+        <rotate sid="rotationZ">0 0 1 1.47913e-5</rotate>
+        <rotate sid="rotationY">0 1 0 2.56385e-5</rotate>
         <rotate sid="rotationX">1 0 0 52.13066</rotate>
         <scale sid="scale">0.9999999 0.9999998 1</scale>
         <instance_geometry url="#Circle_003-mesh" name="Circle_008">
@@ -10236,8 +10236,8 @@
         <translate sid="location">-3.922876 4.482311 -4.802465</translate>
         <rotate sid="rotationZ">0 0 1 89.99999</rotate>
         <rotate sid="rotationY">0 1 0 -13.06369</rotate>
-        <rotate sid="rotationX">1 0 0 -7.778645</rotate>
-        <scale sid="scale">1 1 0.9999999</scale>
+        <rotate sid="rotationX">1 0 0 5.1227e-7</rotate>
+        <scale sid="scale">1 1 1</scale>
         <instance_geometry url="#Cube_019-mesh" name="Cube_008">
           <bind_material>
             <technique_common>
@@ -10250,7 +10250,7 @@
         <translate sid="location">-4.381391 4.482782 -4.74766</translate>
         <rotate sid="rotationZ">0 0 1 89.99999</rotate>
         <rotate sid="rotationY">0 1 0 -13.29418</rotate>
-        <rotate sid="rotationX">1 0 0 7.389713</rotate>
+        <rotate sid="rotationX">1 0 0 1.14889e-6</rotate>
         <scale sid="scale">0.9999998 0.9999998 0.9999997</scale>
         <instance_geometry url="#Cube_020-mesh" name="Cube_007">
           <bind_material>
@@ -10264,8 +10264,8 @@
         <translate sid="location">-3.726 3.644452 -4.997503</translate>
         <rotate sid="rotationZ">0 0 1 90</rotate>
         <rotate sid="rotationY">0 1 0 -11.96268</rotate>
-        <rotate sid="rotationX">1 0 0 -10.19206</rotate>
-        <scale sid="scale">0.9999999 0.9999998 0.9999998</scale>
+        <rotate sid="rotationX">1 0 0 1.64264e-6</rotate>
+        <scale sid="scale">0.9999999 0.9999998 0.9999997</scale>
         <instance_geometry url="#Cube_011-mesh" name="Cube_006">
           <bind_material>
             <technique_common>
@@ -10278,7 +10278,7 @@
         <translate sid="location">-4.556468 4.060901 -4.827353</translate>
         <rotate sid="rotationZ">0 0 1 90</rotate>
         <rotate sid="rotationY">0 1 0 -11.96268</rotate>
-        <rotate sid="rotationX">1 0 0 10.69167</rotate>
+        <rotate sid="rotationX">1 0 0 1.02889e-6</rotate>
         <scale sid="scale">1 1 1</scale>
         <instance_geometry url="#Cube_012-mesh" name="Cube_004">
           <bind_material>
@@ -10292,8 +10292,8 @@
         <translate sid="location">-6.49452 -7.627635 -5.721373</translate>
         <rotate sid="rotationZ">0 0 1 90</rotate>
         <rotate sid="rotationY">0 1 0 -2.002426</rotate>
-        <rotate sid="rotationX">1 0 0 1.646107</rotate>
-        <scale sid="scale">1 0.9999998 1</scale>
+        <rotate sid="rotationX">1 0 0 0.04190662</rotate>
+        <scale sid="scale">1 0.9999999 1</scale>
         <instance_geometry url="#Cube_024-mesh" name="Cube_011">
           <bind_material>
             <technique_common>
@@ -10306,7 +10306,7 @@
         <translate sid="location">4.556468 4.060901 -4.827353</translate>
         <rotate sid="rotationZ">0 0 1 90</rotate>
         <rotate sid="rotationY">0 1 0 168.0373</rotate>
-        <rotate sid="rotationX">1 0 0 10.69443</rotate>
+        <rotate sid="rotationX">1 0 0 -1.7185e-5</rotate>
         <scale sid="scale">1 1 1</scale>
         <instance_geometry url="#Cube_031-mesh" name="Cube_017">
           <bind_material>
@@ -10320,7 +10320,7 @@
         <translate sid="location">3.726285 3.644512 -4.997844</translate>
         <rotate sid="rotationZ">0 0 1 89.98757</rotate>
         <rotate sid="rotationY">0 1 0 168.0737</rotate>
-        <rotate sid="rotationX">1 0 0 -10.24338</rotate>
+        <rotate sid="rotationX">1 0 0 -0.05986985</rotate>
         <scale sid="scale">0.9999999 1 1</scale>
         <instance_geometry url="#Cube_032-mesh" name="Cube_018">
           <bind_material>
@@ -10331,10 +10331,10 @@
         </instance_geometry>
       </node>
       <node id="Cube_013" name="Cube_013" type="NODE">
-        <translate sid="location">5.203789 -7.627215 -6.063367</translate>
-        <rotate sid="rotationZ">0 0 1 -90.00051</rotate>
-        <rotate sid="rotationY">0 1 0 1.690726</rotate>
-        <rotate sid="rotationX">1 0 0 176.93</rotate>
+        <translate sid="location">5.202634 -7.62765 -6.048686</translate>
+        <rotate sid="rotationZ">0 0 1 89.99949</rotate>
+        <rotate sid="rotationY">0 1 0 178.3093</rotate>
+        <rotate sid="rotationX">1 0 0 6.87166e-4</rotate>
         <scale sid="scale">0.9999999 1 1</scale>
         <instance_geometry url="#Cube_008-mesh" name="Cube_013">
           <bind_material>
@@ -10346,10 +10346,10 @@
       </node>
       <node id="Cube_012" name="Cube_012" type="NODE">
         <translate sid="location">4.768156 -7.627671 -6.090233</translate>
-        <rotate sid="rotationZ">0 0 1 -89.99999</rotate>
-        <rotate sid="rotationY">0 1 0 1.690262</rotate>
-        <rotate sid="rotationX">1 0 0 178.2077</rotate>
-        <scale sid="scale">1 0.9999999 1</scale>
+        <rotate sid="rotationZ">0 0 1 90.00001</rotate>
+        <rotate sid="rotationY">0 1 0 178.3097</rotate>
+        <rotate sid="rotationX">1 0 0 7.12676e-8</rotate>
+        <scale sid="scale">1 1 1</scale>
         <instance_geometry url="#Cube_009-mesh" name="Cube_012">
           <bind_material>
             <technique_common>
@@ -10362,8 +10362,8 @@
         <translate sid="location">6.49452 -7.627635 -5.721373</translate>
         <rotate sid="rotationZ">0 0 1 90</rotate>
         <rotate sid="rotationY">0 1 0 177.9977</rotate>
-        <rotate sid="rotationX">1 0 0 1.133423</rotate>
-        <scale sid="scale">1 0.9999999 0.9999999</scale>
+        <rotate sid="rotationX">1 0 0 8.44394e-8</rotate>
+        <scale sid="scale">1 1 1</scale>
         <instance_geometry url="#Cube_007-mesh" name="Cube_014">
           <bind_material>
             <technique_common>
@@ -10374,8 +10374,8 @@
       </node>
       <node id="Circle_010" name="Circle_010" type="NODE">
         <translate sid="location">5.647381 -8.231962 -5.161026</translate>
-        <rotate sid="rotationZ">0 0 1 -1.31295e-5</rotate>
-        <rotate sid="rotationY">0 1 0 3.03432e-4</rotate>
+        <rotate sid="rotationZ">0 0 1 -1.10448e-5</rotate>
+        <rotate sid="rotationY">0 1 0 3.04944e-4</rotate>
         <rotate sid="rotationX">1 0 0 52.02866</rotate>
         <scale sid="scale">1 1 1</scale>
         <instance_geometry url="#Circle_003-mesh" name="Circle_010">
@@ -10388,7 +10388,7 @@
       </node>
       <node id="Circle_009" name="Circle_009" type="NODE">
         <translate sid="location">5.647385 -9.098814 -4.484465</translate>
-        <rotate sid="rotationZ">0 0 1 1.0219e-4</rotate>
+        <rotate sid="rotationZ">0 0 1 1.03084e-4</rotate>
         <rotate sid="rotationY">0 1 0 -179.9998</rotate>
         <rotate sid="rotationX">1 0 0 -51.96858</rotate>
         <scale sid="scale">0.9999999 0.9999999 0.9999999</scale>
@@ -10402,8 +10402,8 @@
       </node>
       <node id="Circle_012" name="Circle_012" type="NODE">
         <translate sid="location">5.64738 -6.822008 -5.164883</translate>
-        <rotate sid="rotationZ">0 0 1 -9.72697e-5</rotate>
-        <rotate sid="rotationY">0 1 0 1.95434e-4</rotate>
+        <rotate sid="rotationZ">0 0 1 -9.81334e-5</rotate>
+        <rotate sid="rotationY">0 1 0 1.96601e-4</rotate>
         <rotate sid="rotationX">1 0 0 -52.04758</rotate>
         <scale sid="scale">1 0.9999999 1</scale>
         <instance_geometry url="#Circle_003-mesh" name="Circle_012">
@@ -10416,7 +10416,7 @@
       </node>
       <node id="Circle_011" name="Circle_011" type="NODE">
         <translate sid="location">5.647385 -5.94962 -4.484465</translate>
-        <rotate sid="rotationZ">0 0 1 -9.79615e-5</rotate>
+        <rotate sid="rotationZ">0 0 1 -9.89509e-5</rotate>
         <rotate sid="rotationY">0 1 0 -179.9998</rotate>
         <rotate sid="rotationX">1 0 0 52.20442</rotate>
         <scale sid="scale">1 0.9999999 0.9999999</scale>
@@ -11009,13 +11009,6 @@
         <rotate sid="rotationX">1 0 0 90</rotate>
         <scale sid="scale">1 1 1</scale>
       </node>
-      <node id="tag_camera_right_001" name="tag_camera_right_001" type="NODE">
-        <translate sid="location">0.6287949 12.75087 2.041916</translate>
-        <rotate sid="rotationZ">0 0 1 90</rotate>
-        <rotate sid="rotationY">0 1 0 8.65142e-6</rotate>
-        <rotate sid="rotationX">1 0 0 90</rotate>
-        <scale sid="scale">1 1 1</scale>
-      </node>
       <node id="tag_camera_top" name="tag_camera_top" type="NODE">
         <translate sid="location">0.6287949 12.75087 2.041916</translate>
         <rotate sid="rotationZ">0 0 1 180</rotate>
@@ -11068,8 +11061,8 @@
       <node id="gear_F_003" name="gear_F_003" type="NODE">
         <translate sid="location">4.132883 4.866335 -3.634601</translate>
         <rotate sid="rotationZ">0 0 1 90.00011</rotate>
-        <rotate sid="rotationY">0 1 0 71.49352</rotate>
-        <rotate sid="rotationX">1 0 0 7.05557e-5</rotate>
+        <rotate sid="rotationY">0 1 0 72.64036</rotate>
+        <rotate sid="rotationX">1 0 0 7.13435e-5</rotate>
         <scale sid="scale">0.9999994 1 0.9999994</scale>
         <instance_geometry url="#gear_F_002-mesh" name="gear_F_003">
           <bind_material>
@@ -11080,10 +11073,10 @@
         </instance_geometry>
       </node>
       <node id="gear_F_004" name="gear_F_004" type="NODE">
-        <translate sid="location">4.132883 2.672625 -4.368882</translate>
+        <translate sid="location">4.132883 2.658366 -4.324828</translate>
         <rotate sid="rotationZ">0 0 1 90.00007</rotate>
-        <rotate sid="rotationY">0 1 0 71.49389</rotate>
-        <rotate sid="rotationX">1 0 0 6.10386e-5</rotate>
+        <rotate sid="rotationY">0 1 0 72.64045</rotate>
+        <rotate sid="rotationX">1 0 0 6.17563e-5</rotate>
         <scale sid="scale">0.9999995 0.9999999 0.9999993</scale>
         <instance_geometry url="#gear_F_001-mesh" name="gear_F_004">
           <bind_material>
@@ -11095,10 +11088,10 @@
       </node>
       <node id="Circle_003" name="Circle_003" type="NODE">
         <translate sid="location">4.110404 5.622701 -4.266133</translate>
-        <rotate sid="rotationZ">0 0 1 0.3642938</rotate>
-        <rotate sid="rotationY">0 1 0 -1.570202</rotate>
-        <rotate sid="rotationX">1 0 0 88.30814</rotate>
-        <scale sid="scale">1 0.9999997 0.9999999</scale>
+        <rotate sid="rotationZ">0 0 1 0.3847227</rotate>
+        <rotate sid="rotationY">0 1 0 -1.610929</rotate>
+        <rotate sid="rotationX">1 0 0 87.56821</rotate>
+        <scale sid="scale">1 0.9999996 0.9999999</scale>
         <instance_geometry url="#Circle_002-mesh" name="Circle_003">
           <bind_material>
             <technique_common>
@@ -11108,10 +11101,10 @@
         </instance_geometry>
       </node>
       <node id="Circle_004" name="Circle_004" type="NODE">
-        <translate sid="location">4.122818 3.437717 -4.201617</translate>
-        <rotate sid="rotationZ">0 0 1 0.3256145</rotate>
-        <rotate sid="rotationY">0 1 0 -0.255806</rotate>
-        <rotate sid="rotationX">1 0 0 -91.69129</rotate>
+        <translate sid="location">4.122818 3.426652 -4.172905</translate>
+        <rotate sid="rotationZ">0 0 1 0.3268641</rotate>
+        <rotate sid="rotationY">0 1 0 -0.2483922</rotate>
+        <rotate sid="rotationX">1 0 0 -92.43085</rotate>
         <scale sid="scale">1 1 0.9999999</scale>
         <instance_geometry url="#Circle-mesh" name="Circle_004">
           <bind_material>
@@ -11129,10 +11122,10 @@
         <scale sid="scale">1 1 1</scale>
       </node>
       <node id="Cube_040" name="Cube_040" type="NODE">
-        <translate sid="location">-5.203788 -7.627215 -6.063367</translate>
+        <translate sid="location">-5.202634 -7.62765 -6.048685</translate>
         <rotate sid="rotationZ">0 0 1 90.00002</rotate>
         <rotate sid="rotationY">0 1 0 -1.690255</rotate>
-        <rotate sid="rotationX">1 0 0 -3.166196</rotate>
+        <rotate sid="rotationX">1 0 0 -6.83019e-6</rotate>
         <scale sid="scale">0.9999999 1 1</scale>
         <instance_geometry url="#Cube_037-mesh" name="Cube_040">
           <bind_material>
@@ -11146,7 +11139,7 @@
         <translate sid="location">-4.768156 -7.627671 -6.090233</translate>
         <rotate sid="rotationZ">0 0 1 90</rotate>
         <rotate sid="rotationY">0 1 0 -1.690258</rotate>
-        <rotate sid="rotationX">1 0 0 -1.934347</rotate>
+        <rotate sid="rotationX">1 0 0 7.12675e-8</rotate>
         <scale sid="scale">1 1 1</scale>
         <instance_geometry url="#Cube_038-mesh" name="Cube_041">
           <bind_material>
@@ -11160,8 +11153,8 @@
         <translate sid="location">4.381391 4.482782 -4.74766</translate>
         <rotate sid="rotationZ">0 0 1 90</rotate>
         <rotate sid="rotationY">0 1 0 166.7059</rotate>
-        <rotate sid="rotationX">1 0 0 7.389715</rotate>
-        <scale sid="scale">1 0.9999999 1</scale>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
         <instance_geometry url="#Cube_058-mesh" name="Cube_015">
           <bind_material>
             <technique_common>
@@ -11174,8 +11167,8 @@
         <translate sid="location">3.922876 4.482311 -4.802465</translate>
         <rotate sid="rotationZ">0 0 1 90.00002</rotate>
         <rotate sid="rotationY">0 1 0 166.9363</rotate>
-        <rotate sid="rotationX">1 0 0 -7.778643</rotate>
-        <scale sid="scale">1 1 0.9999999</scale>
+        <rotate sid="rotationX">1 0 0 1.69199e-6</rotate>
+        <scale sid="scale">1 1 1</scale>
         <instance_geometry url="#Cube_059-mesh" name="Cube_016">
           <bind_material>
             <technique_common>
@@ -11190,6 +11183,97 @@
         <rotate sid="rotationY">0 1 0 0</rotate>
         <rotate sid="rotationX">1 0 0 0</rotate>
         <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="tag_gunmount_0" name="tag_gunmount_0" type="NODE">
+        <translate sid="location">1.792347 13.43074 -1.034814</translate>
+        <rotate sid="rotationZ">0 0 1 5.91511e-6</rotate>
+        <rotate sid="rotationY">0 1 0 120</rotate>
+        <rotate sid="rotationX">1 0 0 -89.99999</rotate>
+        <scale sid="scale">2.993442 2.993443 2.993442</scale>
+      </node>
+      <node id="tag_gunmount_1" name="tag_gunmount_1" type="NODE">
+        <translate sid="location">-1.792346 -11.76512 -1.034814</translate>
+        <rotate sid="rotationZ">0 0 1 1.86693e-5</rotate>
+        <rotate sid="rotationY">0 1 0 60.00001</rotate>
+        <rotate sid="rotationX">1 0 0 90.00001</rotate>
+        <scale sid="scale">2.993442 2.993443 2.993442</scale>
+      </node>
+      <node id="navlight_red_001" name="navlight_red_001" type="NODE">
+        <translate sid="location">-8.0569 -11.13982 -4.651658</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1.023488 1.023488 1.023488</scale>
+      </node>
+      <node id="navlight_red_000" name="navlight_red_000" type="NODE">
+        <translate sid="location">-2.859851 12.69219 -1.651137</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1.023488 1.023488 1.023488</scale>
+      </node>
+      <node id="navlight_green_002" name="navlight_green_002" type="NODE">
+        <translate sid="location">2.859851 12.69219 -1.651137</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1.023488 1.023488 1.023488</scale>
+      </node>
+      <node id="navlight_green_001" name="navlight_green_001" type="NODE">
+        <translate sid="location">8.0569 -11.13982 -4.651658</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1.023488 1.023488 1.023488</scale>
+      </node>
+      <node id="navlight_green_000" name="navlight_green_000" type="NODE">
+        <translate sid="location">2.92822e-6 -11.13982 9.303308</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 -120</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1.023488 1.023488 1.023488</scale>
+      </node>
+      <node id="navlight_green_006" name="navlight_green_006" type="NODE">
+        <translate sid="location">0 11.56246 4.171037</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 -120</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1.023488 1.023488 1.023488</scale>
+      </node>
+      <node id="navlight_blue_002" name="navlight_blue_002" type="NODE">
+        <translate sid="location">-1.057392 13.75641 0.7324556</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 -120</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1.023488 1.023488 1.023488</scale>
+      </node>
+      <node id="navlight_blue_001" name="navlight_blue_001" type="NODE">
+        <translate sid="location">1.057392 13.75641 0.7324556</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 -120</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1.023488 1.023488 1.023488</scale>
+      </node>
+      <node id="navlight_red_002" name="navlight_red_002" type="NODE">
+        <translate sid="location">-2.859851 -11.99944 -1.651137</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1.023488 1.023488 1.023488</scale>
+      </node>
+      <node id="navlight_green_003" name="navlight_green_003" type="NODE">
+        <translate sid="location">2.859851 -11.99944 -1.651137</translate>
+        <rotate sid="rotationZ">0 0 1 180</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1.023488 1.023488 1.023488</scale>
+      </node>
+      <node id="navlight_blue_000" name="navlight_blue_000" type="NODE">
+        <translate sid="location">1.95215e-6 -11.99944 3.302273</translate>
+        <rotate sid="rotationZ">0 0 1 -2.95756e-6</rotate>
+        <rotate sid="rotationY">0 1 0 60.00001</rotate>
+        <rotate sid="rotationX">1 0 0 -180</rotate>
+        <scale sid="scale">1.023488 1.023488 1.023488</scale>
       </node>
     </visual_scene>
   </library_visual_scenes>
