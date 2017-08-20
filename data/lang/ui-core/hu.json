@@ -601,7 +601,7 @@
    },
    "HUD_CARGO_MASS" : {
       "description" : "Cargo Mass",
-      "message" : "Cargo Mass"
+      "message" : "Rakomány tömeg"
    },
    "HUD_CURRENT_COMBAT_TARGET" : {
       "description" : "Tooltip: The current combat target.",
@@ -669,7 +669,7 @@
    },
    "HUD_HYPERSPACING_TO_N_IN_N_SECONDS" : {
       "description" : "",
-      "message" : "Hyperspacing to {destination} in {countdown} seconds"
+      "message" : "Hiperűrugrás {destination} rendszerbe: {countdown}"
    },
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
@@ -705,11 +705,11 @@
    },
    "HUD_IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
-      "message" : "In transit to {system} [{x},{y},{z}]"
+      "message" : "Úton  {system} [{x},{y},{z}] felé."
    },
    "HUD_JUMP_COMPLETE" : {
       "description" : "",
-      "message" : "Jump complete: {percent}%"
+      "message" : "Ugrás:  {percent}%"
    },
    "HUD_MASS" : {
       "description" : "Mass",
@@ -753,7 +753,7 @@
    },
    "HUD_THRUST_INDICATOR" : {
       "description" : "Tooltip: describe what the thrust/velocity indicator shows",
-      "message" : "Show current velocity for each direction (thin lines) and thrust (thick background)"
+      "message" : "Mutatja a sebesség arányát mindhárom tengelyen (vékony vonat) és a tolóerőt (vastag háttér)."
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",

@@ -421,7 +421,7 @@
    },
    "FIRE_LASER" : {
       "description" : "",
-      "message" : "Fire weapon"
+      "message" : "Utiliser arme"
    },
    "FIRE_MISSILE" : {
       "description" : "",
@@ -677,7 +677,7 @@
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
-      "message" : "Weapons fire detected."
+      "message" : "Utilisation d'armes détectée."
    },
    "LATITUDE" : {
       "description" : "Short for latitude",

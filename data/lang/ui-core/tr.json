@@ -329,7 +329,7 @@
    },
    "ERROR_LANDING_GEAR_DOWN" : {
       "description" : "",
-      "message" : "Can not initiate hyperjump; landing gear is not retracted!"
+      "message" : "Üstuzay sıçraması yapılamaz; iniş takımı kapatılmalı!"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "HUD_CARGO_MASS" : {
       "description" : "Cargo Mass",
-      "message" : "Cargo Mass"
+      "message" : "Kargo Kütlesi"
    },
    "HUD_CURRENT_COMBAT_TARGET" : {
       "description" : "Tooltip: The current combat target.",
@@ -669,7 +669,7 @@
    },
    "HUD_HYPERSPACING_TO_N_IN_N_SECONDS" : {
       "description" : "",
-      "message" : "Hyperspacing to {destination} in {countdown} seconds"
+      "message" : "{countdown} saniyede {destination} hedefine sıçrama yapılıyor"
    },
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
@@ -705,11 +705,11 @@
    },
    "HUD_IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
-      "message" : "In transit to {system} [{x},{y},{z}]"
+      "message" : "{system} [{x},{y},{z}] sistemine yolculukta"
    },
    "HUD_JUMP_COMPLETE" : {
       "description" : "",
-      "message" : "Jump complete: {percent}%"
+      "message" : "Sıçrama tamamlanıyor: %{percent}"
    },
    "HUD_MASS" : {
       "description" : "Mass",
@@ -753,7 +753,7 @@
    },
    "HUD_THRUST_INDICATOR" : {
       "description" : "Tooltip: describe what the thrust/velocity indicator shows",
-      "message" : "Show current velocity for each direction (thin lines) and thrust (thick background)"
+      "message" : "Bütün yönler için anık hızı (ince çizgiler) ve itiş gücünü (kalın arkaplan) göster."
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
