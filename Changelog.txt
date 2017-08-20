@@ -23,6 +23,7 @@ August
      * Fix Star/planet/gas giants popping into view (#4083)
      * Show a warning message if trying to hyperjump with wheels down. (#4074)
      * Fix player not being fined for murder and piracy (#4096)
+     * Adding gun and light tags to Mola Ramsayi (#4097)
 
 July 2017
    * New Features
