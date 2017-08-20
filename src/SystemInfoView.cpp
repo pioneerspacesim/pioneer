@@ -99,7 +99,9 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 
 	if (b->GetType() != SystemBody::TYPE_STARPORT_ORBITAL) {
 		_add_label_and_value(Lang::SURFACE_TEMPERATURE, stringf(Lang::N_CELSIUS, formatarg("temperature", b->GetAverageTemp()-273)));
-		_add_label_and_value(Lang::SURFACE_GRAVITY, stringf("%0{f.3} m/s^2", b->CalcSurfaceGravity()));
+		static const auto earthG = G * EARTH_MASS / (EARTH_RADIUS * EARTH_RADIUS);
+		const auto surfAccel = b->CalcSurfaceGravity();
+		_add_label_and_value(Lang::SURFACE_GRAVITY, stringf("%0{f.3} m/s^2 (%1{f.3} g)", surfAccel, surfAccel / earthG));
 	}
 
 	if (b->GetParent()) {
