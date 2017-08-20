@@ -595,10 +595,6 @@
       "description" : "",
       "message" : "Hyperrymdsmål"
    },
-   "HYPERSPACING_IN_N_SECONDS" : {
-      "description" : "",
-      "message" : "Hyperrymd om %countdown{f.0} sekunder"
-   },
    "H_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" Vätgasatmosfär\""
@@ -647,14 +643,6 @@
       "description" : "",
       "message" : "Intern vy"
    },
-   "IN_TRANSIT" : {
-      "description" : "",
-      "message" : "På väg"
-   },
-   "IN_TRANSIT_TO_N_X_X_X" : {
-      "description" : "",
-      "message" : "På väg till %system [%x,%y,%z]"
-   },
    "JOY" : {
       "description" : "Short for Joystick",
       "message" : "Joy"
@@ -666,10 +654,6 @@
    "JOY_AXIS" : {
       "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis Axis"
-   },
-   "JUMP_COMPLETE" : {
-      "description" : "",
-      "message" : "Hopp färdigt: %percent%%"
    },
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
@@ -1794,6 +1778,10 @@
    "UNIT_SECONDS" : {
       "description" : "Duration unit: one second",
       "message" : "s"
+   },
+   "UNIT_TONNES" : {
+      "description" : "Mass unit: one tonne (t)",
+      "message" : "t"
    },
    "UNIT_WEEKS" : {
       "description" : "Duration unit: one 7-day week",

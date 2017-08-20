@@ -599,6 +599,10 @@
       "description" : "Tooltip: Undock",
       "message" : "Undock"
    },
+   "HUD_CARGO_MASS" : {
+      "description" : "Cargo Mass",
+      "message" : "Cargo Mass"
+   },
    "HUD_CURRENT_COMBAT_TARGET" : {
       "description" : "Tooltip: The current combat target.",
       "message" : "The current combat target"
@@ -663,6 +667,10 @@
       "description" : "Tooltip: Hull Temperature.",
       "message" : "Hull Temperature"
    },
+   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS" : {
+      "description" : "",
+      "message" : "Hyperspacing to {destination} in {countdown} seconds"
+   },
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
       "message" : "Away from the current frame"
@@ -694,6 +702,18 @@
    "HUD_INDICATOR_NAV_TARGET_RETROGRADE" : {
       "description" : "Indicator: Retrograde direction relative to the current navigational target.",
       "message" : "Retrograde relative to current navigational target"
+   },
+   "HUD_IN_TRANSIT_TO_N_X_X_X" : {
+      "description" : "",
+      "message" : "In transit to {system} [{x},{y},{z}]"
+   },
+   "HUD_JUMP_COMPLETE" : {
+      "description" : "",
+      "message" : "Jump complete: {percent}%"
+   },
+   "HUD_MASS" : {
+      "description" : "Mass",
+      "message" : "كتلة"
    },
    "HUD_RADAR_DISTANCE" : {
       "description" : "Tooltip: Current distance of the radar.",
@@ -730,6 +750,10 @@
    "HUD_SPEED_RELATIVE_TO_TARGET" : {
       "description" : "Tooltip: The speed relative to the target.",
       "message" : "The speed relative to the target"
+   },
+   "HUD_THRUST_INDICATOR" : {
+      "description" : "Tooltip: describe what the thrust/velocity indicator shows",
+      "message" : "Show current velocity for each direction (thin lines) and thrust (thick background)"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",

@@ -595,10 +595,6 @@
       "description" : "",
       "message" : "Hyperprostorový cíl"
    },
-   "HYPERSPACING_IN_N_SECONDS" : {
-      "description" : "",
-      "message" : "Hyperskok za %countdown{f.0} sekund"
-   },
    "H_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" vodíkovou atmosférou\""
@@ -647,14 +643,6 @@
       "description" : "",
       "message" : "Pohled zevnitř"
    },
-   "IN_TRANSIT" : {
-      "description" : "",
-      "message" : "Na cestě"
-   },
-   "IN_TRANSIT_TO_N_X_X_X" : {
-      "description" : "",
-      "message" : "Na cestě do %system [%x,%y,%z]"
-   },
    "JOY" : {
       "description" : "Short for Joystick",
       "message" : "Joy"
@@ -666,10 +654,6 @@
    "JOY_AXIS" : {
       "description" : "Regarding joystick",
       "message" : "%{sign}%joyname osa %axis"
-   },
-   "JUMP_COMPLETE" : {
-      "description" : "",
-      "message" : "Jump complete: %percent%%"
    },
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
@@ -1794,6 +1778,10 @@
    "UNIT_SECONDS" : {
       "description" : "Duration unit: one second",
       "message" : "s"
+   },
+   "UNIT_TONNES" : {
+      "description" : "Mass unit: one tonne (t)",
+      "message" : "t"
    },
    "UNIT_WEEKS" : {
       "description" : "Duration unit: one 7-day week",

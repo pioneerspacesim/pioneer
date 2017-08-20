@@ -595,10 +595,6 @@
       "description" : "",
       "message" : "Alvo no hiperespaço"
    },
-   "HYPERSPACING_IN_N_SECONDS" : {
-      "description" : "",
-      "message" : "Entrando em hiper espaço em %countdown{f.0} segundos"
-   },
    "H_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" Atmosfera de hidrogênio\""
@@ -647,14 +643,6 @@
       "description" : "",
       "message" : "Visão interna"
    },
-   "IN_TRANSIT" : {
-      "description" : "",
-      "message" : "Em trânsito"
-   },
-   "IN_TRANSIT_TO_N_X_X_X" : {
-      "description" : "",
-      "message" : "Em trânsito para %system [%x, %y, %z]"
-   },
    "JOY" : {
       "description" : "Short for Joystick",
       "message" : "Joy"
@@ -666,10 +654,6 @@
    "JOY_AXIS" : {
       "description" : "Regarding joystick",
       "message" : "Eixo %{sign}%joyname %axis"
-   },
-   "JUMP_COMPLETE" : {
-      "description" : "",
-      "message" : "Salto completo: %percent%%"
    },
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
@@ -1794,6 +1778,10 @@
    "UNIT_SECONDS" : {
       "description" : "Duration unit: one second",
       "message" : "s"
+   },
+   "UNIT_TONNES" : {
+      "description" : "Mass unit: one tonne (t)",
+      "message" : "t"
    },
    "UNIT_WEEKS" : {
       "description" : "Duration unit: one 7-day week",

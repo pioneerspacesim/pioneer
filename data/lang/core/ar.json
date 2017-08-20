@@ -595,10 +595,6 @@
       "description" : "",
       "message" : "القذف الى الهدف"
    },
-   "HYPERSPACING_IN_N_SECONDS" : {
-      "description" : "",
-      "message" : "سيتم القذف بعد %countdown{f,0} ثانية"
-   },
    "H_ATMOSPHERE" : {
       "description" : "",
       "message" : "غلاف جوي مكون من هايدروجين"
@@ -647,14 +643,6 @@
       "description" : "",
       "message" : "روئية داخلية"
    },
-   "IN_TRANSIT" : {
-      "description" : "",
-      "message" : "في العبور"
-   },
-   "IN_TRANSIT_TO_N_X_X_X" : {
-      "description" : "",
-      "message" : "العبور الى %system [%x,%y,%z]"
-   },
    "JOY" : {
       "description" : "Short for Joystick",
       "message" : "عصا"
@@ -666,10 +654,6 @@
    "JOY_AXIS" : {
       "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis المحور"
-   },
-   "JUMP_COMPLETE" : {
-      "description" : "",
-      "message" : "Jump complete: %percent%%"
    },
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
@@ -1794,6 +1778,10 @@
    "UNIT_SECONDS" : {
       "description" : "Duration unit: one second",
       "message" : "s"
+   },
+   "UNIT_TONNES" : {
+      "description" : "Mass unit: one tonne (t)",
+      "message" : "t"
    },
    "UNIT_WEEKS" : {
       "description" : "Duration unit: one 7-day week",
