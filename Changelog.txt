@@ -1,5 +1,7 @@
 August
    * New Features
+     * Added Comms log, thruster / velocity indicators, removed wide radar,
+       moved remaining cpanel UI to imgui/lua (#4093)
      * Hide mouse pointer when GUI is not drawn (#4066)
      * Make all main menu button tooltips translatable (#4072)
      * Setspeed indicator, larger hud size, more frame info (#4065)
@@ -17,10 +19,9 @@ August
    * Fixes
      * Additional sort order fix (#4062)
      * Fix occasional nil dereference (#4073)
-     * Hide mouse pointer when GUI is not being drawn (#4066)
      * Add missing flight state in crew rooster (#4082)
      * Fix Star/planet/gas giants popping into view (#4083)
-		 * Show a warning message if trying to hyperjump with wheels down. (#4074)
+     * Show a warning message if trying to hyperjump with wheels down. (#4074)
 
 July 2017
    * New Features
