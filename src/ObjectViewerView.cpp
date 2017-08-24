@@ -12,6 +12,7 @@
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"
 #include "StringF.h"
+#include <sstream>
 
 #if WITH_OBJECTVIEWER
 
@@ -175,7 +176,24 @@ void ObjectViewerView::Update()
 			m_sbodyRadius->SetText(stringf("%0{f}", sbody->GetRadiusAsFixed().ToFloat()));
 		}
 	}
-	snprintf(buf, sizeof(buf), "View dist: %s     Object: %s", format_distance(viewingDist).c_str(), (body ? body->GetLabel().c_str() : "<none>"));
+
+	std::ostringstream pathStr;
+	if(body)
+	{
+		// fill in pathStr from sp values and sys->GetName()
+		static const std::string comma(", ");
+		const SystemBody *psb = body->GetSystemBody();
+		if(psb) {
+			const SystemPath sp = psb->GetPath();
+			pathStr << body->GetSystemBody()->GetName() << " (" << sp.sectorX << comma << sp.sectorY << comma << sp.sectorZ << comma << sp.systemIndex << comma << sp.bodyIndex << ")";
+		} else {
+			pathStr << "<unknown>";
+		}
+	}
+
+	snprintf(buf, sizeof(buf), "View dist: %s     Object: %s\nSystemPath: %s", 
+		format_distance(viewingDist).c_str(), (body ? body->GetLabel().c_str() : "<none>"),
+		pathStr.str().c_str());
 	m_infoLabel->SetText(buf);
 
 	if (body && body->IsType(Object::TERRAINBODY)) m_vbox->ShowAll();
