@@ -1,7 +1,6 @@
 August
    * New Features
-     * Added Comms log, thruster / velocity indicators, removed wide radar,
-       moved remaining cpanel UI to imgui/lua (#4093)
+     * Moved remaining cpanel UI to imgui/lua (#4093)
      * Hide mouse pointer when GUI is not drawn (#4066)
      * Make all main menu button tooltips translatable (#4072)
      * Setspeed indicator, larger hud size, more frame info (#4065)
@@ -10,12 +9,15 @@ August
      * Adding TRAPPIST-1 (#4085)
      * Make Ctrl-clicking select the set-speed target (#4086)
      * Orbit stations lobby shows orbit info (#4091)
+     * Add Earth g comparison in system info view (#4101)
 
    * Internal Changes
      * Change laser to weapon in some core en.json (#4069)
      * Removing unused cpanel icons (#4076)
      * Putting back the lagrange icons (#4087)
      * Silence GCC warning (#4090)
+     * Move Brasilia a little bit (#4102)
+     * Move game start location for Earth back to London (#4092)
 
    * Fixes
      * Additional sort order fix (#4062)
