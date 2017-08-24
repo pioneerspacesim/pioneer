@@ -29,6 +29,7 @@ August
      * Fix player not being fined for murder and piracy (#4096)
      * Adding gun and light tags to Mola Ramsayi (#4097)
      * Fix AI ships not hyper-jumping (#4098)
+     * Workaround for issue 4098 (#4103)
 
 July 2017
    * New Features
