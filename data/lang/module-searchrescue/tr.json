@@ -425,7 +425,7 @@
    },
    "LAT" : {
       "description" : "",
-      "message" : "Lat:"
+      "message" : "Enl:"
    },
    "LON" : {
       "description" : "",
@@ -433,7 +433,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "Iy"
+      "message" : "ıy"
    },
    "MISSING_COMM" : {
       "description" : "",
