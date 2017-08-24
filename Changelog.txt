@@ -9,6 +9,7 @@ August
      * Add Eros and Phoebe (#4084)
      * Adding TRAPPIST-1 (#4085)
      * Make Ctrl-clicking select the set-speed target (#4086)
+     * Orbit stations lobby shows orbit info (#4091)
 
    * Internal Changes
      * Change laser to weapon in some core en.json (#4069)
