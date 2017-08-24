@@ -18,6 +18,7 @@ August
      * Silence GCC warning (#4090)
      * Move Brasilia a little bit (#4102)
      * Move game start location for Earth back to London (#4092)
+     * Add SystemPath to the ObjectViewerView (#4107)
 
    * Fixes
      * Additional sort order fix (#4062)
