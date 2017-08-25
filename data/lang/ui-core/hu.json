@@ -1393,7 +1393,7 @@
    },
    "STATION_ORBIT" : {
       "description" : "Information shown in the station loby",
-      "message" : "We are in a {orbit_period} day period orbit around {parent_body}."
+      "message" : " {orbit_period} napos periódusú pályán keringünk  orbit {parent_body} körül."
    },
    "STATUS" : {
       "description" : "",
