@@ -30,6 +30,7 @@ August
      * Adding gun and light tags to Mola Ramsayi (#4097)
      * Fix AI ships not hyper-jumping (#4098)
      * Workaround for issue 4098 (#4103)
+     * Fix zero mass asteroids in custom systems (#4108)
 
 July 2017
    * New Features
