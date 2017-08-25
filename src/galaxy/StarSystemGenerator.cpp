@@ -495,6 +495,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		kid->m_isCustomBody = true;
 
 		kid->m_mass = csbody->mass;
+		// obsolete adjustment, probably existed because of denominator precision problems, see LuaFixed.cpp
 //		if (kid->GetType() == SystemBody::TYPE_PLANET_ASTEROID) kid->m_mass /= 100000;
 
 		kid->m_metallicity    = csbody->metallicity;
