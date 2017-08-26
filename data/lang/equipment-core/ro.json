@@ -1,11 +1,11 @@
 {
    "ADVANCED_TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Advanced target scanner"
+      "message" : "Scaner de ținte avansat"
    },
    "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range target scanner with system wide coverage."
+      "message" : "Scaner de ținte cu rază mare de acțiune cu acoperire la nivel de sistem solar."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -93,23 +93,23 @@
    },
    "DRIVE_MIL5" : {
       "description" : "",
-      "message" : "Class 5 Military drive"
+      "message" : "Motor Militar Clasa 5"
    },
    "DRIVE_MIL6" : {
       "description" : "",
-      "message" : "Class 6 Military drive"
+      "message" : "Motor Militar Clasa 6"
    },
    "DRIVE_MIL7" : {
       "description" : "",
-      "message" : "Class 7 Military drive"
+      "message" : "Motor Militar Clasa 7"
    },
    "DRIVE_MIL8" : {
       "description" : "",
-      "message" : "Class 8 Military drive"
+      "message" : "Motor Militar Clasa 8"
    },
    "DRIVE_MIL9" : {
       "description" : "",
-      "message" : "Class 9 Military drive"
+      "message" : "Motor Militar Clasa 9"
    },
    "ECM_ADVANCED" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Passenger cabin"
+      "message" : "Cabină Pasager"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
@@ -281,7 +281,7 @@
    },
    "TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Target Scanner"
+      "message" : "Scaner de ținte"
    },
    "TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
@@ -289,31 +289,31 @@
    },
    "THRUSTERS_BASIC" : {
       "description" : "",
-      "message" : "Modified Thrusters"
+      "message" : "Propulsoare Modificate"
    },
    "THRUSTERS_BASIC_DESCRIPTION" : {
       "description" : "",
-      "message" : "A modified type of thrusters approved for your ship."
+      "message" : "Un tip modificat de propulsoare aprobate pentru nava dvs."
    },
    "THRUSTERS_BEST" : {
       "description" : "",
-      "message" : "Bespoke Thrusters"
+      "message" : "Propulsoare Comandate"
    },
    "THRUSTERS_BEST_DESCRIPTION" : {
       "description" : "",
-      "message" : "Custom made thrusters that provide the best possible output."
+      "message" : "Propulsoare făcute la comandă care dau cel mai bun randament posibil."
    },
    "THRUSTERS_MEDIUM" : {
       "description" : "",
-      "message" : "Optimised Thrusters"
+      "message" : "Propulsoare Optimizate"
    },
    "THRUSTERS_MEDIUM_DESCRIPTION" : {
       "description" : "",
-      "message" : "Thrusters that have been optimised to reduce inefficiencies and improve power output."
+      "message" : "Propulsoare care au fost optimizate pentru a reduce ineficiențele și a îmbunatați randamentul."
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade Computer"
+      "message" : "Calculator Comerț"
    },
    "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",

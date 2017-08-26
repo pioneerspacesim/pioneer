@@ -617,7 +617,7 @@
    },
    "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Increase radar range"
+      "message" : "Crește amplitudine radar"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -1197,7 +1197,7 @@
    },
    "RADAR_CONTROL" : {
       "description" : "",
-      "message" : "Radar control"
+      "message" : "Control radar"
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1589,7 +1589,7 @@
    },
    "SWAP_SELECTED_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Swap selected and hyperjump target"
+      "message" : "Comută între ţinta saltului și cea selectată"
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
@@ -1693,11 +1693,11 @@
    },
    "TOGGLE_RADAR_MODE" : {
       "description" : "",
-      "message" : "Toggle radar mode"
+      "message" : "Comută mod radar"
    },
    "TOGGLE_RADAR_VIEW" : {
       "description" : "Tooltip for the Radar View button",
-      "message" : "Radar View"
+      "message" : "Vizualizare radar"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
