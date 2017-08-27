@@ -42,7 +42,6 @@ void Propulsion::LoadFromJson(const Json::Value &jsonObj, Space *space)
 
 Propulsion::Propulsion()
 {
-	m_power_mul = 1.0;
 	m_fuelTankMass = 1;
 	for ( int i=0; i< Thruster::THRUSTER_MAX; i++) m_linThrust[i]=0.0;
 	m_angThrust = 0.0;
@@ -64,6 +63,15 @@ void Propulsion::Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass,
 		m_angThrust = ang_Thrust;
 		m_smodel = m;
 		m_dBody = b;
+}
+
+void Propulsion::SetThrustPowerMult(double p, const float lin_Thrust[], const float ang_Thrust)
+{
+	// Init of Propulsion:
+	for (int i = 0; i<Thruster::THRUSTER_MAX; i++)
+		m_linThrust[i] = lin_Thrust[i] * p;
+	m_angThrust = ang_Thrust * p;
+
 }
 
 void Propulsion::SetAngThrusterState(const vector3d &levels)
@@ -91,24 +99,24 @@ void Propulsion::SetThrusterState(const vector3d &levels)
 vector3d Propulsion::GetThrustMax(const vector3d &dir) const
 {
 	vector3d maxThrust;
-	maxThrust.x = ((dir.x > 0) ? m_linThrust[THRUSTER_RIGHT] * m_power_mul : -m_linThrust[THRUSTER_LEFT] * m_power_mul );
-	maxThrust.y = ((dir.y > 0) ? m_linThrust[THRUSTER_UP] * m_power_mul : -m_linThrust[THRUSTER_DOWN] * m_power_mul );
-	maxThrust.z = ((dir.z > 0) ? m_linThrust[THRUSTER_REVERSE] * m_power_mul : -m_linThrust[THRUSTER_FORWARD] * m_power_mul );
+	maxThrust.x = ((dir.x > 0) ? m_linThrust[THRUSTER_RIGHT] : -m_linThrust[THRUSTER_LEFT] );
+	maxThrust.y = ((dir.y > 0) ? m_linThrust[THRUSTER_UP] : -m_linThrust[THRUSTER_DOWN] );
+	maxThrust.z = ((dir.z > 0) ? m_linThrust[THRUSTER_REVERSE] : -m_linThrust[THRUSTER_FORWARD] );
 	return maxThrust;
 }
 
 double Propulsion::GetThrustMin() const
 {
-	double val = m_linThrust[THRUSTER_UP] * m_power_mul ;
-	val = std::min(val, m_linThrust[THRUSTER_RIGHT] * m_power_mul );
-	val = std::min(val, -m_linThrust[THRUSTER_LEFT] * m_power_mul );
+	double val = m_linThrust[THRUSTER_UP];
+	val = std::min(val, static_cast<double>(m_linThrust[THRUSTER_RIGHT]));
+	val = std::min(val, static_cast<double>(-m_linThrust[THRUSTER_LEFT]));
 	return val;
 }
 
 float Propulsion::GetFuelUseRate()
 {
 	const float denominator = m_fuelTankMass * m_effectiveExhaustVelocity * 10;
-	return denominator > 0 ? -(m_linThrust[THRUSTER_FORWARD] * m_power_mul)/denominator : 1e9;
+	return denominator > 0 ? -(m_linThrust[THRUSTER_FORWARD])/denominator : 1e9;
 }
 
 void Propulsion::UpdateFuel(const float timeStep)
