@@ -31,6 +31,7 @@ August
      * Fix AI ships not hyper-jumping (#4098)
      * Workaround for issue 4098 (#4103)
      * Fix zero mass asteroids in custom systems (#4108)
+     * Fix autopilot being confused by bespoke thrusters (#4113)
 
 July 2017
    * New Features
