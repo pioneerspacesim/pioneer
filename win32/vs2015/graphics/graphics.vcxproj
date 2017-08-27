@@ -211,6 +211,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PIONEER_PROFILER;GLEW_STATIC;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">
@@ -235,6 +236,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
