@@ -365,8 +365,18 @@ static int l_pigui_pop_style_color(lua_State *l) {
 
 static int l_pigui_push_style_var(lua_State *l) {
 	int style = LuaPull<ImGuiStyleVar_>(l, 1);
-	float val = LuaPull<double>(l, 2);
-	ImGui::PushStyleVar(style, val);
+
+	if (lua_isnumber(l, 2))
+	{
+		double val = LuaPull<double>(l, 2);
+		ImGui::PushStyleVar(style, val);
+	}
+	else if (lua_istable(l, 2))
+	{
+		ImVec2 val = LuaPull<ImVec2>(l, 2);
+		ImGui::PushStyleVar(style, val);
+	}
+
 	return 0;
 }
 
@@ -909,7 +919,7 @@ static int l_pigui_get_projected_bodies(lua_State *l) {
 
 		object.Set("type", EnumStrings::GetString("PhysicsObjectType", body->GetType()));
 
-		std::tuple<bool, vector3d, vector3d> res = lua_world_space_to_screen_space(body->GetInterpPositionRelTo(Pi::game->GetPlayer())); // defined in LuaPiGui.cpp		
+		std::tuple<bool, vector3d, vector3d> res = lua_world_space_to_screen_space(body->GetInterpPositionRelTo(Pi::game->GetPlayer())); // defined in LuaPiGui.cpp
 		object.Set("onscreen", std::get<0>(res));
 		object.Set("screenCoordinates", std::get<1>(res));
 		object.Set("direction", std::get<2>(res));
