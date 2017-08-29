@@ -6,6 +6,8 @@ local Game = import("Game")
 local SpaceStation = import("SpaceStation")
 local Event = import("Event")
 local ChatForm = import("ChatForm")
+local Lang = import("Lang")
+local l = Lang.GetResource("core");
 
 local ui = Engine.ui
 
@@ -18,6 +20,9 @@ local bbTable = ui:Table()
 	:SetColumnSpacing(10)
 	:SetRowAlignment("CENTER")
 	:SetMouseEnabled(not Game.paused)
+    
+local bbSearchField = ui:TextEntry()
+local searchText = "";
 
 bbTable.onRowClicked:Connect(function (row)
 	local station = Game.player:GetDockedWith()
@@ -48,6 +53,8 @@ local updateTable = function (station)
 	if not adverts then return end
 
 	local rows = {}
+    rowRef[station] = {}
+    local rowNum = 1
 	for ref,ad in pairs(adverts) do
 		local icon = ad.icon or "default"
 		local label = ui:Label(ad.description)
@@ -57,27 +64,25 @@ local updateTable = function (station)
 		if Game.paused then
 			label:SetColor({ r = 0.3, g = 0.3, b = 0.3})
 		end
-		table.insert(rows, {
-			ui:Image("icons/bbs/"..icon..".png", { "PRESERVE_ASPECT" }),
-			label,
-		})
+
+        if searchText == "" 
+            or searchText ~= "" and string.find(
+                string.lower(ad.description),
+                string.lower(searchText),
+                1, true)
+        then            
+            table.insert(rows, {
+                ui:Image("icons/bbs/"..icon..".png", { "PRESERVE_ASPECT" }),
+                label,
+            })
+            
+            rowRef[station][rowNum] = ref
+            rowNum = rowNum+1
+        end
+        
 	end
 
 	bbTable:AddRows(rows)
-end
-
-local updateRowRefs = function (station, ref)
-	local adverts = SpaceStation.adverts[station]
-	if not adverts then return end
-
-	rowRef[station] = {}
-	local rowNum = 1
-	for ref,ad in pairs(adverts) do
-		rowRef[station][rowNum] = ref
-		rowNum = rowNum+1
-	end
-
-	updateTable(station)
 end
 
 local onGamePaused = function ()
@@ -90,8 +95,13 @@ local onGameResumed = function ()
 	updateTable(Game.player:GetDockedWith())
 end
 
-Event.Register("onAdvertAdded", updateRowRefs)
-Event.Register("onAdvertRemoved", updateRowRefs) -- XXX close form if open
+bbSearchField.onChange:Connect(function (newSearchText)
+    searchText = newSearchText
+    updateTable(Game.player:GetDockedWith())
+end)
+
+Event.Register("onAdvertAdded", updateTable)
+Event.Register("onAdvertRemoved", updateTable) -- XXX close form if open
 Event.Register("onAdvertChanged", updateTable)
 Event.Register("onGamePaused", onGamePaused)
 Event.Register("onGameResumed", onGameResumed)
@@ -99,7 +109,15 @@ Event.Register("onGameResumed", onGameResumed)
 local bulletinBoard = function (args, tg)
 	tabGroup = tg
 	updateTable(Game.player:GetDockedWith())
-	return bbTable
+	return 
+        ui:Grid({79, 1, 20}, 1)
+            :SetColumn(0, {bbTable})
+            :SetColumn(2, {
+                ui:VBox():PackEnd({
+                    ui:Label(l.SEARCH):SetFont("HEADING_LARGE"),
+                    ui:Expand("HORIZONTAL", bbSearchField),
+                })
+            })
 end
 
 return bulletinBoard
