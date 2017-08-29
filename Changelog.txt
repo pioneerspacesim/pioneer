@@ -10,6 +10,8 @@ August
      * Make Ctrl-clicking select the set-speed target (#4086)
      * Orbit stations lobby shows orbit info (#4091)
      * Add Earth g comparison in system info view (#4101)
+     * Add search field to BBS adverts (#4109)
+     * Orbit and ground station use different welcome messages (#4116)
 
    * Internal Changes
      * Change laser to weapon in some core en.json (#4069)
