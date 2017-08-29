@@ -4,7 +4,11 @@
       "message" : "Burası {station}. Kenetlenme ücreti olan {fee} paranız olmadığı için ödenemedi."
    },
    "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
-      "description" : "",
+      "description" : "Station welcome message, docking in orbit",
       "message" : "{station} istasyonuna hoşgeldiniz. Kenetlenme ücreti olan {fee} hesabınızdan alındı."
+   },
+   "WELCOME_TO_STATION_FEE_DEDUCTED" : {
+      "description" : "Station welcome message, ground station landing",
+      "message" : "Welcome to {station}. Your landing fee of {fee} has been deducted."
    }
 }

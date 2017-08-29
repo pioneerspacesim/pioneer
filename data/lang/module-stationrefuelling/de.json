@@ -4,7 +4,11 @@
       "message" : "Dies ist {station}. Du hast nicht genug Geld, um die Dockgebühren in Höhe von {fee} zu bezahlen."
    },
    "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
-      "description" : "",
+      "description" : "Station welcome message, docking in orbit",
       "message" : "Willkommen an {station}. Die Dockgebühren von {fee} wurden eingezogen."
+   },
+   "WELCOME_TO_STATION_FEE_DEDUCTED" : {
+      "description" : "Station welcome message, ground station landing",
+      "message" : "Welcome to {station}. Your landing fee of {fee} has been deducted."
    }
 }

@@ -453,7 +453,7 @@
    },
    "HUD_ATMOSPHERIC_PRESSURE" : {
       "description" : "Tooltip: Atmospheric Pressure.",
-      "message" : "Atmospheric Pressure"
+      "message" : "Атмосферное давление"
    },
    "HUD_BACKWARD_GUN_TEMPERATURE" : {
       "description" : "Tooltip: Backward Gun Temperature.",
@@ -565,11 +565,11 @@
    },
    "HUD_BUTTON_SHOW_COMMS" : {
       "description" : "Tooltip: Show comms",
-      "message" : "Show comms"
+      "message" : "Связь"
    },
    "HUD_BUTTON_SHOW_PERSONAL_INFO" : {
       "description" : "Tooltip: Show personal info",
-      "message" : "Show personal info"
+      "message" : "Персональная информация"
    },
    "HUD_BUTTON_SIDEREAL_VIEW" : {
       "description" : "Tooltip: Sidereal camera view",
@@ -577,19 +577,19 @@
    },
    "HUD_BUTTON_SWITCH_TO_GALAXY_MAP" : {
       "description" : "Tooltip: Switch to galaxy map",
-      "message" : "Switch to galaxy map"
+      "message" : "Карта галактики"
    },
    "HUD_BUTTON_SWITCH_TO_SECTOR_MAP" : {
       "description" : "Tooltip: Switch to sector map",
-      "message" : "Switch to sector map"
+      "message" : "Карта сектора"
    },
    "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP" : {
       "description" : "Tooltip: Switch to system map",
-      "message" : "Switch to system map"
+      "message" : "Карта системы"
    },
    "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW" : {
       "description" : "Tooltip: Switch to system overview",
-      "message" : "Switch to system overview"
+      "message" : "Обзор системы"
    },
    "HUD_BUTTON_SWITCH_TO_WORLD_VIEW" : {
       "description" : "Tooltip: Switch to world view",
@@ -597,7 +597,7 @@
    },
    "HUD_BUTTON_UNDOCK" : {
       "description" : "Tooltip: Undock",
-      "message" : "Undock"
+      "message" : "Взлёт"
    },
    "HUD_CARGO_MASS" : {
       "description" : "Cargo Mass",
@@ -669,7 +669,7 @@
    },
    "HUD_HYPERSPACING_TO_N_IN_N_SECONDS" : {
       "description" : "",
-      "message" : "Hyperspacing to {destination} in {countdown} seconds"
+      "message" : "Гиперпрыжок в {destination} через {countdown} сек."
    },
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
@@ -705,11 +705,11 @@
    },
    "HUD_IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
-      "message" : "In transit to {system} [{x},{y},{z}]"
+      "message" : "Прыжок в систему {system} [{x},{y},{z}]"
    },
    "HUD_JUMP_COMPLETE" : {
       "description" : "",
-      "message" : "Jump complete: {percent}%"
+      "message" : "Гиперпрыжок завершён на {percent}%"
    },
    "HUD_MASS" : {
       "description" : "Mass",

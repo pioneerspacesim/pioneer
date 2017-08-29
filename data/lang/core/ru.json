@@ -421,7 +421,7 @@
    },
    "FIRE_LASER" : {
       "description" : "",
-      "message" : "Fire weapon"
+      "message" : "Огонь"
    },
    "FIRE_MISSILE" : {
       "description" : "",
@@ -677,7 +677,7 @@
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
-      "message" : "Weapons fire detected."
+      "message" : "Внимание! Ваш корабль под атакой!"
    },
    "LATITUDE" : {
       "description" : "Short for latitude",
@@ -1781,7 +1781,7 @@
    },
    "UNIT_TONNES" : {
       "description" : "Mass unit: one tonne (t)",
-      "message" : "t"
+      "message" : "т"
    },
    "UNIT_WEEKS" : {
       "description" : "Duration unit: one 7-day week",

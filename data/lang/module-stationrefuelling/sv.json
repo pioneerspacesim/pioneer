@@ -4,7 +4,11 @@
       "message" : "Detta är {station}. Du har inte tillräckligt med pengar för din dockningsavgift på {fee}."
    },
    "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
-      "description" : "",
+      "description" : "Station welcome message, docking in orbit",
       "message" : "Välkommen till {station}. Din dockningsavgift {fee} har blivit fakturerad."
+   },
+   "WELCOME_TO_STATION_FEE_DEDUCTED" : {
+      "description" : "Station welcome message, ground station landing",
+      "message" : "Welcome to {station}. Your landing fee of {fee} has been deducted."
    }
 }
