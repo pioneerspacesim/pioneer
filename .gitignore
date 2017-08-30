@@ -50,6 +50,7 @@ pioneer-debug.lib
 pioneer-prerelease.lib
 pioneer-profile.lib
 pioneer.lib
+pioneer-x64*.lib
 aclocal.m4
 config.guess
 config.log
