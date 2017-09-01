@@ -1,4 +1,4 @@
-September
+September 2017
    * New Features
      * Attack outlaws immediately (#4089)
 
@@ -9,7 +9,7 @@ September
    * Fixes
      * Fix orbital stations sharing an orbit (#4129)
 
-August
+August 2017
    * New Features
      * Moved remaining cpanel UI to imgui/lua (#4093)
      * Hide mouse pointer when GUI is not drawn (#4066)
