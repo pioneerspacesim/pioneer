@@ -1,3 +1,14 @@
+September
+   * New Features
+     * Attack outlaws immediately (#4089)
+
+   * Internal Changes
+     * Ignore all Pioneer x64 Visual Studio files (#4125)
+     * VS2015, Fix 64-bit SSE2 flag warning #4114
+
+   * Fixes
+     * Fix orbital stations sharing an orbit (#4129)
+
 August
    * New Features
      * Moved remaining cpanel UI to imgui/lua (#4093)
