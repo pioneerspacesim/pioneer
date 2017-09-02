@@ -21,15 +21,15 @@
    },
    "OUTLAW_DETECTED_1" : {
       "description" : "",
-      "message" : "{ship_label} is flown by a known outlaw. Attack and destroy!"
+      "message" : "{ship_label} è pilotata da un noto fuorilegge. Attaccare e distruggere!"
    },
    "OUTLAW_DETECTED_2" : {
       "description" : "",
-      "message" : "Bandit, your days are numbered!"
+      "message" : "Bandito, i tuoi giorni sono contati!"
    },
    "OUTLAW_DETECTED_3" : {
       "description" : "",
-      "message" : "Hah, caught! You will not leave this system alive!"
+      "message" : "Hah, preso! Non uscirai vivo da questo sistema!"
    },
    "POLICE_TAUNT_1" : {
       "description" : "",
