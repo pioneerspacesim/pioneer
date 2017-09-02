@@ -19,6 +19,18 @@
       "description" : "",
       "message" : "Nenhuma carga ilegal detectada. Você pode prosseguir."
    },
+   "OUTLAW_DETECTED_1" : {
+      "description" : "",
+      "message" : "{ship_label} is flown by a known outlaw. Attack and destroy!"
+   },
+   "OUTLAW_DETECTED_2" : {
+      "description" : "",
+      "message" : "Bandit, your days are numbered!"
+   },
+   "OUTLAW_DETECTED_3" : {
+      "description" : "",
+      "message" : "Hah, caught! You will not leave this system alive!"
+   },
    "POLICE_TAUNT_1" : {
       "description" : "",
       "message" : "Garoto, essa foi uma má ideia!"
