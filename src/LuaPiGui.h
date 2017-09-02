@@ -8,6 +8,7 @@
 #include <tuple>
 
 void pi_lua_generic_push(lua_State *l, const vector3d &v);
+void pi_lua_generic_push(lua_State *l, const vector3f &v);
 void pi_lua_generic_pull(lua_State *l, int index, vector3d &vector);
 int pushOnScreenPositionDirection(lua_State *l, vector3d position);
 std::tuple<bool, vector3d, vector3d> lua_world_space_to_screen_space(vector3d pos);

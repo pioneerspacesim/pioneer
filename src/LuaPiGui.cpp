@@ -99,6 +99,25 @@ void pi_lua_generic_pull(lua_State *l, int index, ImGuiSelectableFlags_ &theflag
 	theflags = parse_imgui_flags(l, index, imguiSelectableFlagsTable, "ImGuiSelectableFlags");
 }
 
+static std::map<std::string, ImGuiTreeNodeFlags_> imguiTreeNodeFlagsTable
+= {
+	{ "Selected", ImGuiTreeNodeFlags_Selected },
+	{ "Framed", ImGuiTreeNodeFlags_Framed },
+	{ "AllowOverlapMode", ImGuiTreeNodeFlags_AllowOverlapMode },
+	{ "NoTreePushOnOpen", ImGuiTreeNodeFlags_NoTreePushOnOpen },
+	{ "NoAutoOpenOnLog", ImGuiTreeNodeFlags_NoAutoOpenOnLog },
+	{ "DefaultOpen", ImGuiTreeNodeFlags_DefaultOpen },
+	{ "OpenOnDoubleClick", ImGuiTreeNodeFlags_OpenOnDoubleClick },
+	{ "OpenOnArrow", ImGuiTreeNodeFlags_OpenOnArrow },
+	{ "Leaf", ImGuiTreeNodeFlags_Leaf },
+	{ "Bullet", ImGuiTreeNodeFlags_Bullet },
+	{ "CollapsingHeader", ImGuiTreeNodeFlags_CollapsingHeader },
+};
+
+void pi_lua_generic_pull(lua_State *l, int index, ImGuiTreeNodeFlags_ &theflags) {
+	theflags = parse_imgui_flags(l, index, imguiTreeNodeFlagsTable, "ImGuiTreeNodeFlags");
+}
+
 static std::map<std::string, ImGuiInputTextFlags_> imguiInputTextFlagsTable
 = {
 	{ "CharsDecimal", ImGuiInputTextFlags_CharsDecimal },
@@ -250,6 +269,10 @@ static void pi_lua_generic_push(lua_State *l, const ImVec2 &v) {
 }
 
 void pi_lua_generic_push(lua_State *l, const vector3d &v) {
+	pi_lua_pushVector(l, v.x, v.y, v.z);
+}
+
+void pi_lua_generic_push(lua_State *l, const vector3f &v) {
 	pi_lua_pushVector(l, v.x, v.y, v.z);
 }
 
@@ -752,6 +775,11 @@ static int l_pigui_end_child(lua_State *l) {
 
 static int l_pigui_is_item_hovered(lua_State *l) {
 	LuaPush(l, ImGui::IsItemHovered());
+	return 1;
+}
+
+static int l_pigui_is_item_active(lua_State *l) {
+	LuaPush(l, ImGui::IsItemActive());
 	return 1;
 }
 
@@ -1269,6 +1297,13 @@ static int l_pigui_pop_text_wrap_pos(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_collapsing_header(lua_State *l) {
+	std::string label = LuaPull<std::string>(l, 1);
+	ImGuiTreeNodeFlags flags = LuaPull<ImGuiTreeNodeFlags_>(l, 2);
+	LuaPush(l, ImGui::CollapsingHeader(label.c_str(), flags));
+	return 1;
+}
+
 static int l_pigui_push_text_wrap_pos(lua_State *l) {
 	float wrap_pos_x = LuaPull<float>(l, 1);
 	ImGui::PushTextWrapPos(wrap_pos_x);
@@ -1322,6 +1357,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "SameLine",               l_pigui_same_line },
 		{ "Separator",              l_pigui_separator },
 		{ "IsItemHovered",          l_pigui_is_item_hovered },
+		{ "IsItemActive",           l_pigui_is_item_active },
 		{ "IsItemClicked",          l_pigui_is_item_clicked },
 		{ "Spacing",                l_pigui_spacing },
 		{ "Dummy",                  l_pigui_dummy },
@@ -1363,6 +1399,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "DragInt4",               l_pigui_drag_int_4 },
 		{ "GetWindowPos",           l_pigui_get_window_pos },
 		{ "InputText",              l_pigui_input_text },
+		{ "CollapsingHeader",       l_pigui_collapsing_header },
 		{ "CaptureMouseFromApp",    l_pigui_capture_mouse_from_app },
 		{ "ProgressBar",            l_pigui_progress_bar },
 		{ "LoadTextureFromSVG",     l_pigui_load_texture_from_svg },

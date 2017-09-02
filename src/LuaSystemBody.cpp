@@ -608,6 +608,20 @@ static int l_sbody_attr_is_scoopable(lua_State *l)
 	return 1;
 }
 
+static int l_sbody_attr_path(lua_State *l)
+{
+	SystemBody * sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	LuaObject<SystemPath>::PushToLua(sbody->GetPath());
+	return 1;
+}
+
+static int l_sbody_attr_astro_description(lua_State *l)
+{
+	SystemBody * sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	LuaPush(l, sbody->GetAstroDescription());
+	return 1;
+}
+
 template <> const char *LuaObject<SystemBody>::s_type = "SystemBody";
 
 template <> void LuaObject<SystemBody>::RegisterClass()
@@ -641,6 +655,8 @@ template <> void LuaObject<SystemBody>::RegisterClass()
 		{ "hasRings",		l_sbody_attr_has_rings		 },
 		{ "hasAtmosphere",  l_sbody_attr_has_atmosphere  },
 		{ "isScoopable",    l_sbody_attr_is_scoopable    },
+		{ "astroDescription", l_sbody_attr_astro_description },
+		{ "path",           l_sbody_attr_path },
 		{ 0, 0 }
 	};
 
