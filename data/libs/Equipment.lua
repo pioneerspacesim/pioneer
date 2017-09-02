@@ -393,7 +393,7 @@ function BodyScannerType:OnBeginAcquisition()
 	local closest_planet = Game.player:FindNearestTo("PLANET")
 	if closest_planet then
 		local altitude = self:DistanceToSurface(closest_planet)
-		if altitude < self.max_range then
+		if altitude and altitude < self.max_range then
 			self.target_altitude = altitude
 			self.target_body_path = closest_planet.path
 			local l = Lang.GetResource(self.l10n_resource)
