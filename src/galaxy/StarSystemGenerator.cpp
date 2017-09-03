@@ -1364,20 +1364,35 @@ try_that_again_guvnah:
  * Position a surface starport anywhere. Space.cpp::MakeFrameFor() ensures it
  * is on dry land (discarding this position if necessary)
  */
-void PopulateStarSystemGenerator::PositionSettlementOnPlanet(SystemBody* sbody)
+void PopulateStarSystemGenerator::PositionSettlementOnPlanet(SystemBody* sbody, std::vector<double> &prevOrbits)
 {
 	PROFILE_SCOPED()
 	Random r(sbody->GetSeed());
 	// used for orientation on planet surface
 	double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
 	double r1 = r.Double();		// can't put two rands in the same expression
+
+	// try to ensure that stations are far enough apart
+	for (size_t i=0; i<prevOrbits.size(); i++)
+	{
+		const double &orev = prevOrbits[i];
+		const double len = abs(r1 - orev);
+		if(len < 0.05)
+		{
+			r2 = r.Double();
+			r1 = r.Double();
+			i = 0; // reset to start the checking from beginning as we're generating new values.
+		}
+	}
+	prevOrbits.push_back(r1);
+
+	// pset the orbit
 	sbody->m_orbit.SetPlane(matrix3x3d::RotateZ(2*M_PI*r1) * matrix3x3d::RotateY(2*M_PI*r2));
 
 	// store latitude and longitude to equivalent orbital parameters to
 	// be accessible easier
 	sbody->m_inclination = fixed(r1*10000,10000) + FIXED_PI/2;	// latitide
 	sbody->m_orbitalOffset = FIXED_PI/2;						// longitude
-
 }
 
 /*
@@ -1655,6 +1670,8 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 	// starports - surface
 	// give it a fighting chance of having a decent number of starports (*3)
 	pop = sbody->GetPopulationAsFixed() + (rand.Fixed() * 3);
+	std::vector<double> previousOrbits;
+	previousOrbits.reserve(8);
 	int max = 6;
 	while (max-- > 0) {
 		pop -= rand.Fixed();
@@ -1668,7 +1685,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 		sp->m_mass = 0;
 		sp->m_name = gen_unique_station_name(sp, system, namerand);
 		memset(&sp->m_orbit, 0, sizeof(Orbit));
-		PositionSettlementOnPlanet(sp);
+		PositionSettlementOnPlanet(sp, previousOrbits);
 		sbody->m_children.insert(sbody->m_children.begin(), sp);
 		system->AddSpaceStation(sp);
 	}
@@ -1684,7 +1701,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 		sp->m_mass = 0;
 		sp->m_name = gen_unique_station_name(sp, system, namerand);
 		memset(&sp->m_orbit, 0, sizeof(Orbit));
-		PositionSettlementOnPlanet(sp);
+		PositionSettlementOnPlanet(sp, previousOrbits);
 		sbody->m_children.insert(sbody->m_children.begin(), sp);
 		system->AddSpaceStation(sp);
 	}
