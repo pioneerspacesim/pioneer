@@ -29,6 +29,7 @@ The Pioneer Developers are:
 * Christian Koch
 * Claudius Mueller
 * Clinton Mead
+* ColdSpirit
 * Connor Findlay
 * Craig Thomson
 * Dan Bennett
