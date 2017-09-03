@@ -8,6 +8,7 @@ September 2017
 
    * Fixes
      * Fix orbital stations sharing an orbit (#4129)
+     * Make orbit radius relative to GetPhysRadius, clamp to frame radius (#4131)
 
 August 2017
    * New Features
