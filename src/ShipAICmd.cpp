@@ -552,8 +552,7 @@ bool AICmdKill::TimeStepUpdate()
 static double MaxFeatureRad(Body *body)
 {
 	if(!body) return 0.0;
-	if(!body->IsType(Object::TERRAINBODY)) return body->GetPhysRadius();
-	return static_cast<TerrainBody *>(body)->GetMaxFeatureRadius() + 1000.0;		// + building height
+	else return body->GetPhysRadius();
 }
 
 static double MaxEffectRad(Body *body, Propulsion *prop)
@@ -1087,16 +1086,17 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
 	assert(!std::isnan(vel));
 	m_obstructor = obstructor; m_alt = alt; m_vel = vel; m_targmode = mode;
 
+	// push out of effect radius (gravity safety & station parking zones)
+	alt = std::max(alt, MaxEffectRad(obstructor, m_prop));
+
+	// drag within frame because orbits are impossible otherwise
+	// timestep code also doesn't work correctly for ex-frame cases, should probably be fixed 
+	alt = std::min(alt, 0.95 * obstructor->GetFrame()->GetNonRotFrame()->GetRadius());
+
 	// generate suitable velocity if none provided
 	double minacc = (mode == 2) ? 0 : m_prop->GetAccelMin();
 	double mass = obstructor->IsType(Object::TERRAINBODY) ? obstructor->GetMass() : 0;
 	if (vel < 1e-30) m_vel = sqrt(m_alt*0.8*minacc + mass*G/m_alt);
-
-	// check if altitude is within obstructor frame
-	if (alt > 0.9 * obstructor->GetFrame()->GetNonRotFrame()->GetRadius()) {
-		m_dBody->AIMessage(Ship::AIERROR_ORBIT_IMPOSSIBLE);
-		m_targmode = 6;			// force an exit
-	}
 }
 
 AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double relalt, int mode)
@@ -1106,7 +1106,7 @@ AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double rela
 	assert(m_prop!=nullptr);
 
 	assert(!std::isnan(relalt));
-	double alt = relalt*MaxEffectRad(obstructor, m_prop);
+	double alt = relalt * obstructor->GetPhysRadius();
 	assert(!std::isnan(alt));
 	Setup(obstructor, alt, 0.0, mode);
 }
