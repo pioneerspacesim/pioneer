@@ -395,7 +395,30 @@ void StarSystemLegacyGeneratorBase::PickRings(SystemBody* sbody, bool forceRings
 	sbody->m_rings.maxRadius = fixed();
 	sbody->m_rings.baseColor = Color(255,255,255,255);
 
-	if (sbody->GetType() == SystemBody::TYPE_PLANET_GAS_GIANT) {
+	Random ringRng(sbody->GetSeed() + 965467);
+	bool bHasRings = forceRings;
+	if (!bHasRings)
+	{
+		// today's forecast:
+		if (sbody->GetType() == SystemBody::TYPE_PLANET_GAS_GIANT)
+		{
+			// 50% chance of rings
+			bHasRings = ringRng.Double() < 0.5;
+		}
+		else if (sbody->GetType() == SystemBody::TYPE_PLANET_TERRESTRIAL)
+		{
+			// 1:100 (1%) chance of rings
+			bHasRings = ringRng.Double() < 0.01;
+		}
+		/*else if (sbody->GetType() == SystemBody::TYPE_PLANET_ASTEROID)
+		{
+			// 1:10 (10%) chance of rings
+			bHasRings = ringRng.Double() < 0.1;
+		}*/
+	}
+
+	if (bHasRings)
+	{
 		Random ringRng(sbody->GetSeed() + 965467);
 
 		// today's forecast: 50% chance of rings
@@ -1652,8 +1675,8 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 				// The rotations around X & Y perturb the orbits just a little bit so that not all stations are exactly within the same plane
 				// The Z rotation is what gives them the separation in their orbit around the parent body as a whole.
 				sp->m_orbit.SetPlane(
-					matrix3x3d::RotateX(rand.Double(M_PI * 0.03125)) * 
-					matrix3x3d::RotateY(rand.Double(M_PI * 0.03125)) * 
+					matrix3x3d::RotateX(rand.Double(M_PI * 0.03125)) *
+					matrix3x3d::RotateY(rand.Double(M_PI * 0.03125)) *
 					matrix3x3d::RotateZ(orbitSlt * orbitSeparation)
 				);
 
