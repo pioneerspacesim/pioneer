@@ -9,6 +9,8 @@ September 2017
    * Fixes
      * Fix orbital stations sharing an orbit (#4129)
      * Make orbit radius relative to GetPhysRadius, clamp to frame radius (#4131)
+     * Avoid division by zero doing AABB ray test (#4135)
+     * Fix cities overlapping (#4137)
 
 August 2017
    * New Features
