@@ -1373,10 +1373,11 @@ void PopulateStarSystemGenerator::PositionSettlementOnPlanet(SystemBody* sbody, 
 	double r1 = r.Double();		// can't put two rands in the same expression
 
 	// try to ensure that stations are far enough apart
-	for (size_t i=0; i<prevOrbits.size(); i++)
+	
+	for (size_t i = 0, iterations = 0; i<prevOrbits.size() && iterations<128; i++)
 	{
 		const double &orev = prevOrbits[i];
-		const double len = abs(r1 - orev);
+		const double len = fabs(r1 - orev);
 		if(len < 0.05)
 		{
 			r2 = r.Double();
