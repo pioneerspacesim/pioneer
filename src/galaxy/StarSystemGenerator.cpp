@@ -1374,7 +1374,7 @@ void PopulateStarSystemGenerator::PositionSettlementOnPlanet(SystemBody* sbody, 
 
 	// try to ensure that stations are far enough apart
 	
-	for (size_t i = 0, iterations = 0; i<prevOrbits.size() && iterations<128; i++)
+	for (size_t i = 0, iterations = 0; i<prevOrbits.size() && iterations<128; i++, iterations++)
 	{
 		const double &orev = prevOrbits[i];
 		const double len = fabs(r1 - orev);
