@@ -409,7 +409,7 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Bekle."
+      "message" : "Ayrıl."
    },
    "HARMLESS" : {
       "description" : "Player combat rating",
