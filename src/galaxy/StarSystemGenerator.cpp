@@ -407,8 +407,8 @@ void StarSystemLegacyGeneratorBase::PickRings(SystemBody* sbody, bool forceRings
 		}
 		else if (sbody->GetType() == SystemBody::TYPE_PLANET_TERRESTRIAL)
 		{
-			// 1:100 (1%) chance of rings
-			bHasRings = ringRng.Double() < 0.01;
+			// 10% chance of rings
+			bHasRings = ringRng.Double() < 0.1;
 		}
 		/*else if (sbody->GetType() == SystemBody::TYPE_PLANET_ASTEROID)
 		{
@@ -1001,6 +1001,13 @@ static fixed get_disc_density(SystemBody *primary, fixed discMin, fixed discMax,
 	return primary->GetMassInEarths() * percentOfPrimaryMass / total;
 }
 
+static inline bool test_overlap(const fixed& x1, const fixed& x2, const fixed& y1, const fixed& y2) {
+	return	(x1 >= y1 && x1 <= y2) ||
+			(x2 >= y1 && x2 <= y2) ||
+			(y1 >= x1 && y1 <= x2) ||
+			(y2 >= x1 && y2 <= x2);
+}
+
 void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *primary, Random &rand)
 {
 	PROFILE_SCOPED()
@@ -1008,9 +1015,9 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 	fixed discMax = fixed(5000,1);
 	fixed discDensity;
 
-	SystemBody::BodySuperType superType = primary->GetSuperType();
+	SystemBody::BodySuperType parentSuperType = primary->GetSuperType();
 
-	if (superType <= SystemBody::SUPERTYPE_STAR) {
+	if (parentSuperType <= SystemBody::SUPERTYPE_STAR) {
 		if (primary->GetType() == SystemBody::TYPE_GRAVPOINT) {
 			/* around a binary */
 			discMin = primary->m_children[0]->m_orbMax * SAFE_DIST_FROM_BINARY;
@@ -1034,7 +1041,7 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 		// disc density
 		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax, fixed(2,100));
 
-		if ((superType == SystemBody::SUPERTYPE_STAR) && (primary->m_parent)) {
+		if ((parentSuperType == SystemBody::SUPERTYPE_STAR) && (primary->m_parent)) {
 			// limit planets out to 10% distance to star's binary companion
 			discMax = std::min(discMax, primary->m_orbMin * fixed(1,10));
 		}
@@ -1060,6 +1067,8 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 
 	fixed initialJump = rand.NFixed(5);
 	fixed pos = (fixed(1,1) - initialJump)*discMin + (initialJump*discMax);
+	const RingStyle &ring = primary->GetRings();
+	const bool hasRings = primary->HasRings();
 
 	while (pos < discMax) {
 		// periapsis, apoapsis = closest, farthest distance in orbit
@@ -1110,19 +1119,30 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 		planet->m_orbMax = apoapsis;
 		primary->m_children.push_back(planet);
 
+		if (hasRings &&
+			parentSuperType == SystemBody::SUPERTYPE_ROCKY_PLANET &&
+			test_overlap(ring.minRadius, ring.maxRadius, periapsis, apoapsis))
+		{
+			//Output("Overlap, eliminating rings from parent SystemBody\n");
+			//Overlap, eliminating rings from parent SystemBody
+			primary->m_rings.minRadius = fixed();
+			primary->m_rings.maxRadius = fixed();
+			primary->m_rings.baseColor = Color(255, 255, 255, 255);
+		}
+
 		/* minimum separation between planets of 1.35 */
 		pos = apoapsis * fixed(135,100);
 	}
 
 	int idx=0;
-	bool make_moons = superType <= SystemBody::SUPERTYPE_STAR;
+	bool make_moons = parentSuperType <= SystemBody::SUPERTYPE_STAR;
 
 	for (std::vector<SystemBody*>::iterator i = primary->m_children.begin(); i != primary->m_children.end(); ++i) {
 		// planets around a binary pair [gravpoint] -- ignore the stars...
 		if ((*i)->GetSuperType() == SystemBody::SUPERTYPE_STAR) continue;
 		// Turn them into something!!!!!!!
 		char buf[12];
-		if (superType <= SystemBody::SUPERTYPE_STAR) {
+		if (parentSuperType <= SystemBody::SUPERTYPE_STAR) {
 			// planet naming scheme
 			snprintf(buf, sizeof(buf), " %c", 'a'+idx);
 		} else {
@@ -1396,10 +1416,11 @@ void PopulateStarSystemGenerator::PositionSettlementOnPlanet(SystemBody* sbody, 
 	double r1 = r.Double();		// can't put two rands in the same expression
 
 	// try to ensure that stations are far enough apart
-	for (size_t i=0; i<prevOrbits.size(); i++)
+	
+	for (size_t i = 0, iterations = 0; i<prevOrbits.size() && iterations<128; i++, iterations++)
 	{
 		const double &orev = prevOrbits[i];
-		const double len = abs(r1 - orev);
+		const double len = fabs(r1 - orev);
 		if(len < 0.05)
 		{
 			r2 = r.Double();

@@ -11,6 +11,7 @@ September 2017
      * Make orbit radius relative to GetPhysRadius, clamp to frame radius (#4131)
      * Avoid division by zero doing AABB ray test (#4135)
      * Fix cities overlapping (#4137)
+     * Use fabs for double instead of abs for cross-platform compatibility (#4145)
 
 August 2017
    * New Features
