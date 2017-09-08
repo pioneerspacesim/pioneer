@@ -90,16 +90,6 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		const vector3f *pNorm = normals.get();
 		const Color3ub *pColr = colors.get();
 
-		const Sint32 innerTop = 1;
-		const Sint32 innerBottom = edgeLen - 2;
-		const Sint32 innerLeft = 1;
-		const Sint32 innerRight = edgeLen - 2;
-
-		const Sint32 outerTop = 0;
-		const Sint32 outerBottom = edgeLen - 1;
-		const Sint32 outerLeft = 0;
-		const Sint32 outerRight = edgeLen - 1;
-
 		double minh = DBL_MAX;
 
 		// ----------------------------------------------------
@@ -134,12 +124,16 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 				++vtxPtr; // next vertex
 			}
 		}
-		const double minhScale = (minh + 1.0) * 0.99999;
+		const double minhScale = (minh + 1.0) * 0.999995;
 		// ----------------------------------------------------
+		const Sint32 innerLeft = 1;
+		const Sint32 innerRight = edgeLen - 2;
+		const Sint32 outerLeft = 0;
+		const Sint32 outerRight = edgeLen - 1;
 		// vertical edges
 		// left-edge
 		for (Sint32 y = 1; y < edgeLen - 1; y++) {
-			const Sint32 x = innerLeft;
+			const Sint32 x = innerLeft-1;
 			const double xFrac = double(x - 1) * frac;
 			const double yFrac = double(y - 1) * frac;
 			const vector3d p((GetSpherePoint(xFrac, yFrac) * minhScale) - clipCentroid);
@@ -153,7 +147,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		}
 		// right-edge
 		for (Sint32 y = 1; y < edgeLen - 1; y++) {
-			const Sint32 x = innerRight;
+			const Sint32 x = innerRight+1;
 			const double xFrac = double(x - 1) * frac;
 			const double yFrac = double(y - 1) * frac;
 			const vector3d p((GetSpherePoint(xFrac, yFrac) * minhScale) - clipCentroid);
@@ -166,11 +160,15 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			vtxPtr->uv = vtxInr->uv;
 		}
 		// ----------------------------------------------------
+		const Sint32 innerTop = 1;
+		const Sint32 innerBottom = edgeLen - 2;
+		const Sint32 outerTop = 0;
+		const Sint32 outerBottom = edgeLen - 1;
 		// horizontal edges
 		// top-edge
 		for (Sint32 x = 1; x < edgeLen - 1; x++)
 		{
-			const Sint32 y = innerTop;
+			const Sint32 y = innerTop-1;
 			const double xFrac = double(x - 1) * frac;
 			const double yFrac = double(y - 1) * frac;
 			const vector3d p((GetSpherePoint(xFrac, yFrac) * minhScale) - clipCentroid);
@@ -185,7 +183,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		// bottom-edge
 		for (Sint32 x = 1; x < edgeLen - 1; x++)
 		{
-			const Sint32 y = innerBottom;
+			const Sint32 y = innerBottom+1;
 			const double xFrac = double(x - 1) * frac;
 			const double yFrac = double(y - 1) * frac;
 			const vector3d p((GetSpherePoint(xFrac, yFrac) * minhScale) - clipCentroid);
