@@ -493,7 +493,7 @@
    },
    "HAT" : {
       "description" : "Hat switch: Is the top button on a joystick",
-      "message" : "\" Şapka\""
+      "message" : "\" Üst düğme\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
       "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -1573,7 +1573,7 @@
    },
    "STAR_S_BH" : {
       "description" : "",
-      "message" : "Yıldız kara deliği"
+      "message" : "Kara delik"
    },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
