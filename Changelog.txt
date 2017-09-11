@@ -13,6 +13,7 @@ September 2017
      * Avoid division by zero doing AABB ray test (#4135)
      * Fix cities overlapping (#4137)
      * Use fabs for double instead of abs for cross-platform compatibility (#4145)
+     * Set ARFlags for OSX builds (#4080)
 
 August 2017
    * New Features

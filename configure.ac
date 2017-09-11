@@ -83,7 +83,8 @@ if test -z "$ARFLAGS"
 then
   case "${host_os}" in
   darwin*)
-  # do nothing, darwin does not support ar flag D
+  # darwin uses it's own version of ar with different flags to what GNU uses
+  ARFLAGS="r"
   ;;
   *)
   ARFLAGS="rcD"
