@@ -329,7 +329,7 @@
    },
    "ERROR_LANDING_GEAR_DOWN" : {
       "description" : "",
-      "message" : "Üstuzay sıçraması yapılamaz; iniş takımı kapatılmalı!"
+      "message" : "Üstuzay sıçraması yapılamıyor; iniş takımı kapatılmalı!"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
@@ -749,7 +749,7 @@
    },
    "HUD_SPEED_RELATIVE_TO_TARGET" : {
       "description" : "Tooltip: The speed relative to the target.",
-      "message" : "Hedefe göreceli hız"
+      "message" : "Hedefe bağıl hız"
    },
    "HUD_THRUST_INDICATOR" : {
       "description" : "Tooltip: describe what the thrust/velocity indicator shows",
@@ -1069,7 +1069,7 @@
    },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Norma kolu"
+      "message" : "Cetvel kolu"
    },
    "NOTES" : {
       "description" : "",
@@ -1149,7 +1149,7 @@
    },
    "PERSEUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Perseus kolu"
+      "message" : "Yerel kol"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -1281,7 +1281,7 @@
    },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Sagittarius kolu"
+      "message" : "Yay kolu"
    },
    "SAVE" : {
       "description" : "",
@@ -1293,7 +1293,7 @@
    },
    "SCUTUM_CENTAURUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Scutum-Centaurus kolu"
+      "message" : "Kalkan-Güneyhaçı kolu"
    },
    "SELECT" : {
       "description" : "",
