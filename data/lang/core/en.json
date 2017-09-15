@@ -151,6 +151,14 @@
       "description" : "",
       "message" : "Carbon ores (coal and oil) are required for the synthesis of many useful chemicals, including plastics, synthetic foodstuffs, medicines and textiles"
    },
+   "COVFEFE" : {
+      "description" : "",
+      "message" : "Covfefe"
+   },
+   "COVFEFE_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Nobody knows what the heck Covfefe is, but it must be important"
+   },
    "CARGO" : {
       "description" : "",
       "message" : "Cargo"

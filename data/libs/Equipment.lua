@@ -490,6 +490,11 @@ cargo = {
 		capabilities={mass=1}, economy_type="mining",
 		purchasable=true, icon_name="Carbon_ore"
 	}),
+	covfefe = EquipType.New({
+		l10n_key="COVFEFE", l10n_resource = "core", slots="cargo", price=-1,
+		capabilities={mass=1}, economy_type="mining",
+		purchasable=true, icon_name="Covfefe"
+	}),
 	metal_ore = EquipType.New({
 		l10n_key="METAL_ORE", l10n_resource = "core", slots="cargo", price=3,
 		capabilities={mass=1}, economy_type="mining",
@@ -638,6 +643,7 @@ cargo.hand_weapons.requirements = { cargo.computers }
 cargo.computers.requirements = { cargo.precious_metals, cargo.industrial_machinery }
 cargo.metal_ore.requirements = { cargo.mining_machinery }
 cargo.carbon_ore.requirements = { cargo.mining_machinery }
+cargo.covfefe.requirements = { cargo.water }
 cargo.metal_alloys.requirements = { cargo.mining_machinery }
 cargo.precious_metals.requirements = { cargo.mining_machinery }
 cargo.water.requirements = { cargo.mining_machinery }
