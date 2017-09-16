@@ -16,6 +16,7 @@ September 2017
      * Fix cities overlapping (#4137)
      * Use fabs for double instead of abs for cross-platform compatibility (#4145)
      * Set ARFlags for OSX builds (#4080)
+     * Stop tradeships crashing into landing pads while trying to hyperspace (#4150)
 
 August 2017
    * New Features
