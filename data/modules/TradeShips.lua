@@ -307,6 +307,12 @@ local jumpToSystem = function (ship, target_path)
 end
 
 local getSystemAndJump = function (ship)
+	local body = Space.GetBody(trade_ships[ship].starport.path:GetSystemBody().parent.index)
+	local port = trade_ships[ship].starport
+	-- boost away from the starport before jumping if it is too close
+	if (ship:DistanceTo(port) < 20000) then
+		ship:AIEnterLowOrbit(body)
+	end
 	return jumpToSystem(ship, getSystem(ship))
 end
 
