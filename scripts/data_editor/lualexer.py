@@ -28,6 +28,11 @@ class Token:
   def IsLiteral(self):
     return self.type in [TokenType.INTEGER, TokenType.FLOAT, TokenType.STRING]
 
+  def LiteralVal(self):
+    if not self.IsLiteral():
+      raise ValueError("Literal expected.")
+    return self.val
+
   def WordVal(self):
     if self.type != TokenType.ID:
       raise ValueError("Identifier expected.")
@@ -35,22 +40,23 @@ class Token:
 
   def ExpectPunct(self, val):
     if self.type != TokenType.PUNCT or self.val != val:
-      raise ValueError("Expected puctuation [%s]." % val)
+      raise ValueError("Expected puctuation [%s], got %s:[%s]." %
+                       (val, self.type, self.val))
 
 
 EOF_RE = re.compile(br'^$')
 # Whitespace regex also skips comments
 WHITESPACE_RE = re.compile(br'(?:[ \n\r\f\t]|(?:--.*))+')
-IDENTIFIER_RE = re.compile(br'[a-zA-Z_][a-zA-Z_.]*')
+IDENTIFIER_RE = re.compile(br'[a-zA-Z_][0-9a-zA-Z_.]*')
 INTEGER_RE = re.compile(br'-?[0-9]+')
-FLOAT_RE = re.compile(br'-?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?')
+FLOAT_RE = re.compile(br'-?[0-9]*\.[0-9]+(?:[eE][-+]?[0-9]+)?')
 PUNCT_RE = re.compile(br'[\[\]=:{}*(),\-+*/]')
 # Single-quoted string
 STRING_SQ_RE = re.compile(br"'([^'\\]*(?:\\.[^'\\]*)*)'")
 # Double-quoted string
 STRING_DQ_RE = re.compile(br'"([^"\\]*(?:\\.[^"\\]*)*)"')
 # [==[Bracket]==] string
-STRING_BB_RE = re.compile(br'\[(=*)\[(.*)?\]\1\]')
+STRING_BB_RE = re.compile(br'\[(=*)\[(.*)?\]\1\]', re.DOTALL)
 
 MATCHERS = [
     (WHITESPACE_RE, lambda m: None),

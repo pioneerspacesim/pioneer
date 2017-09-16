@@ -24,6 +24,15 @@ class Parser:
     if variable_name:
       self.dict[variable_name] = obj
 
+  # Only supports expressions only with multiplication. :)  e.g. 24*60*3
+  def ParseLiteralExpr(self, ts):
+    v = ts.Next().LiteralVal()
+    while ts.Peek().IsPunct(b'*'):
+      ts.Next()  # '*'
+      v *= ts.Next().LiteralVal()
+
+    return v
+
   def ParseObject(self, ts):
     if ts.Peek().IsPunct(b'{'):
       ts.Next()  # '{'
@@ -32,7 +41,7 @@ class Parser:
       return lst
 
     if ts.Peek().IsLiteral():
-      return ts.Next().val
+      return self.ParseLiteralExpr(ts)
 
     ctx = self.dict[ts.Next().WordVal()]
 
