@@ -2,6 +2,7 @@ September 2017
    * New Features
      * Attack outlaws immediately (#4089)
      * New music tracks (#4139)
+     * Allow planets to have rings (#4146)
 
    * Internal Changes
      * Ignore all Pioneer x64 Visual Studio files (#4125)
