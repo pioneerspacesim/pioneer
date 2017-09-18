@@ -113,9 +113,16 @@ void Missile::PostLoadFixup(Space *space)
 
 void Missile::StaticUpdate(const float timeStep)
 {
-
 	// Note: direct call to AI->TimeStepUpdate
-	if (m_curAICmd!=nullptr) m_curAICmd->TimeStepUpdate();
+
+	if (!m_curAICmd) {
+		GetPropulsion()->ClearLinThrusterState();
+		GetPropulsion()->ClearAngThrusterState();
+	}
+	else if (m_curAICmd->TimeStepUpdate()) {
+		delete m_curAICmd;
+		m_curAICmd = nullptr;
+	}
 	//Add smoke trails for missiles on thruster state
 	static double s_timeAccum = 0.0;
 	s_timeAccum += timeStep;
@@ -196,6 +203,7 @@ void Missile::Explode()
 
 void Missile::NotifyRemoved(const Body* const removedBody)
 {
+	if (m_curAICmd) m_curAICmd->OnDeleted(removedBody);
 	if (m_owner == removedBody) {
 		m_owner = 0;
 	}
