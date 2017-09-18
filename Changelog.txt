@@ -18,6 +18,7 @@ September 2017
      * Use fabs for double instead of abs for cross-platform compatibility (#4145)
      * Set ARFlags for OSX builds (#4080)
      * Stop tradeships crashing into landing pads while trying to hyperspace (#4150)
+     * Fix missile death notifications, clear thrusters and AI on target death (#4156)
 
 August 2017
    * New Features
