@@ -248,27 +248,36 @@ local onEnterSystem = function (ship)
 	else
 		return -- Don't care about NPC ships
 	end
-	local saved_by_this_guy = savedByCrew(ship)
-	if (service_history.lastdate + service_history.service_period < Game.time) and not saved_by_this_guy then
+
+	-- Jump drive is getting worn and is running down
+	if (service_history.lastdate + service_history.service_period < Game.time) then
 		service_history.jumpcount = service_history.jumpcount + 1
-		if (service_history.jumpcount > max_jumps_unserviced) or (Engine.rand:Integer(max_jumps_unserviced - service_history.jumpcount) == 0) then
+	end
+
+	-- Test if the engine will actually break
+	if Engine.rand:Number() < service_history.jumpcount / max_jumps_unserviced then
+		print("Player hyperdrive is breaking down!")
+
+		-- The more engineers the more likely to be saved (rule doesn't apply to cooking):
+		local crew_to_the_rescue = savedByCrew(ship)
+
+		if crew_to_the_rescue then
+			-- Brag to the player
+			if crew_to_the_rescue.player then
+				Comms.Message(l.YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN)
+			else
+				Comms.Message(l.I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN,crew_to_the_rescue.name)
+			end
+			-- Rewind the servicing countdown by a random amount based on crew member's ability
+			local fixup = math.max(0, crew_to_the_rescue.engineering - crew_to_the_rescue.DiceRoll())
+			service_history.jumpcount = service_history.jumpcount - fixup
+		else
 			-- Destroy the engine
 			local engine = ship:GetEquip('engine',1)
 			ship:RemoveEquip(engine)
 			ship:AddEquip(Equipment.cargo.rubbish, engine.capabilities.mass)
 			Comms.Message(l.THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION)
 		end
-	end
-	if saved_by_this_guy then
-		-- Brag to the player
-		if saved_by_this_guy.player then
-			Comms.Message(l.YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN)
-		else
-			Comms.Message(l.I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN,saved_by_this_guy.name)
-		end
-		-- Rewind the servicing countdown by a random amount based on crew member's ability
-		local fixup = saved_by_this_guy.engineering - saved_by_this_guy.DiceRoll()
-		if fixup > 0 then service_history.jumpcount = service_history.jumpcount - fixup end
 	end
 end
 
