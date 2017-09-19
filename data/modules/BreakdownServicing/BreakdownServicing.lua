@@ -244,7 +244,7 @@ end
 
 local onEnterSystem = function (ship)
 	if ship:IsPlayer() then
-		print(('DEBUG: Jumps since warranty: %d, chance of failure (if > 0): 1/%d\nWarranty expires: %s'):format(service_history.jumpcount,max_jumps_unserviced-service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period)))
+		print(('DEBUG: Jumps since warranty: %d\nWarranty expires: %s'):format(service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period)))
 	else
 		return -- Don't care about NPC ships
 	end
