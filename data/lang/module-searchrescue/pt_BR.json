@@ -17,7 +17,7 @@
    },
    "CREW" : {
       "description" : "",
-      "message" : "Crew"
+      "message" : "Tripulação"
    },
    "DEADLINE" : {
       "description" : "",
@@ -117,7 +117,7 @@
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
-      "message" : "the {locality} Biological Society"
+      "message" : "a Sociedade de Biologia de {locality}"
    },
    "ENTITY_RESEARCH_10" : {
       "description" : "",
@@ -125,19 +125,19 @@
    },
    "ENTITY_RESEARCH_2" : {
       "description" : "",
-      "message" : "the {locality} Microbiological Society"
+      "message" : "a Sociedade de Microbiologia de {locality}"
    },
    "ENTITY_RESEARCH_3" : {
       "description" : "",
-      "message" : "the {locality} Chemical Society"
+      "message" : "a Sociedade de Química de {locality}"
    },
    "ENTITY_RESEARCH_4" : {
       "description" : "",
-      "message" : "the {locality} Astrobiological Society"
+      "message" : "a Sociedade de Astrobiologia de {locality}"
    },
    "ENTITY_RESEARCH_5" : {
       "description" : "",
-      "message" : "the {locality} Geological Society"
+      "message" : "a Sociedade de Geologia de {locality}"
    },
    "ENTITY_RESEARCH_6" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "Não acredito que você só está voltando agora! Muito tempo foi desperdiçado!"
+      "message" : "Não acredito que você só está voltando agora! Quanto tempo foi desperdiçado!"
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -353,15 +353,15 @@
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
-      "message" : "IMMEDIATE CREW TRANSPORT to the {system} system requested."
+      "message" : "TRANSPORTE IMEDIATO DE TRIPULAÇÃO solicitada para o sistema {system}"
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
-      "message" : "Thank you very much, but you are too late!"
+      "message" : "Muito obrigado, mas você está muito atrasado!"
    },
    "FLAVOUR_7_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The replacement crew has to reach the ship by {due}."
+      "message" : "A tripulação substituta deve alcançar a nave até {due}."
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
@@ -369,19 +369,19 @@
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+      "message" : "Você vai encontrar a nave no sistema  {system} [{sectorx},{sectory},{sectorz}], a {dist} anos luz daqui. Está sendo mantida em órbita de {planet}."
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you! I have been authorized to transmit the full payment."
+      "message" : "Obrigado! Fui autorizado a transferir o pagamento total."
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has transferred to the target ship."
+      "message" : "{unit} foi transferido para a nave selecionada."
    },
    "FLAVOUR_7_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
+      "message" : "Nós não podemos retornar a nave sem uma tripulação mínima presente. Estou procurando por alguém disposto a transportar uma tripulação substituta de {deliver_crew} para nossa nave imediatamente."
    },
    "FULL_CARGO" : {
       "description" : "",
@@ -397,11 +397,11 @@
    },
    "HOW_FAR" : {
       "description" : "",
-      "message" : "How far away is the target?"
+      "message" : "O quão distante está o alvo?"
    },
    "HOW_MUCH_TIME" : {
       "description" : "",
-      "message" : "How much time do I have?"
+      "message" : "Quanto tempo eu tenho?"
    },
    "INTERACTION_ABORTED" : {
       "description" : "",
@@ -413,7 +413,7 @@
    },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
-      "message" : "It must be completed by "
+      "message" : "Deve ser completado até"
    },
    "KM" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "LAST_KNOWN_LOCATION" : {
       "description" : "",
-      "message" : "Last known location:"
+      "message" : "Última localização conhecida:"
    },
    "LAT" : {
       "description" : "",
@@ -465,11 +465,11 @@
    },
    "PASSENGERS" : {
       "description" : "",
-      "message" : "Passengers"
+      "message" : "Passageiros"
    },
    "PAYMENT_LOCATION" : {
       "description" : "",
-      "message" : "Payment location:"
+      "message" : "Local de pagamento:"
    },
    "PICKUP" : {
       "description" : "",
@@ -481,11 +481,11 @@
    },
    "PLEASE_LAND" : {
       "description" : "",
-      "message" : "Please land ship to allow transfer."
+      "message" : "Por favor, pouse a nave autorizar transferência."
    },
    "PROBLEM_CREW_1" : {
       "description" : "",
-      "message" : "a deadly fight among the crew members"
+      "message" : "uma briga mortal entre membros da tripulação"
    },
    "PROBLEM_CREW_10" : {
       "description" : "",
@@ -493,79 +493,79 @@
    },
    "PROBLEM_CREW_2" : {
       "description" : "",
-      "message" : "the crew had to chase a deadly {locality} snake found loose on the ship"
+      "message" : "a tripulação teve qeu perseguir uma cobra mortal de {locality} encontrada solta dentro da nave"
    },
    "PROBLEM_CREW_3" : {
       "description" : "",
-      "message" : "a {locality} spider killed all the others"
+      "message" : "uma aranha de {locality} matou todos os outros"
    },
    "PROBLEM_CREW_4" : {
       "description" : "",
-      "message" : "what it seems like a {locality} scorpion got into the crew quarters at night"
+      "message" : "o que parece ser um escorpião de {locality} entrou no dormitório da tripulação à noite"
    },
    "PROBLEM_CREW_5" : {
       "description" : "",
-      "message" : "a severe form of {locality} fever killed the others"
+      "message" : "uma forma severa de febre de {locality} matou os outros"
    },
    "PROBLEM_CREW_6" : {
       "description" : "",
-      "message" : "the other crew members did not return from a space walk"
+      "message" : "os outros membros não voltaram de uma caminhada espacial"
    },
    "PROBLEM_CREW_7" : {
       "description" : "",
-      "message" : "a severe form of food poisoning on the ship"
+      "message" : "uma forma severa de envenenamento alimentar na nave"
    },
    "PROBLEM_CREW_8" : {
       "description" : "",
-      "message" : "a terrible accident that lead to the ejection of the others into space"
+      "message" : "um acidente terrível que levou à ejeção dos outros ao espaço"
    },
    "PROBLEM_CREW_9" : {
       "description" : "",
-      "message" : "a circumstance that I can't comment on publicly"
+      "message" : "uma circunstância que eu não posso comentar publicamente"
    },
    "PROBLEM_GENERAL_1" : {
       "description" : "",
-      "message" : "a fire in the cargo hold"
+      "message" : "um incêndio no compartimento de carga"
    },
    "PROBLEM_GENERAL_10" : {
       "description" : "",
-      "message" : "the receipt of a distress call from within {locality}"
+      "message" : "a recepção de um sinal de socorro de {locality}"
    },
    "PROBLEM_GENERAL_2" : {
       "description" : "",
-      "message" : "a power failure in the engine core"
+      "message" : "uma queda de energia no núcleo do motor"
    },
    "PROBLEM_GENERAL_3" : {
       "description" : "",
-      "message" : "an air leak"
+      "message" : "um vazamento de ar"
    },
    "PROBLEM_GENERAL_4" : {
       "description" : "",
-      "message" : "a severe form of food poisoning involving all personnel on board the ship"
+      "message" : "uma forma severa de envenenamento alimentar envolvendo todo o pessoal a bordo"
    },
    "PROBLEM_GENERAL_5" : {
       "description" : "",
-      "message" : "a small meteor impact"
+      "message" : "um impacto de um pequeno meteoro"
    },
    "PROBLEM_GENERAL_6" : {
       "description" : "",
-      "message" : "a fight among crew members"
+      "message" : "uma briga entre membros da tripulação"
    },
    "PROBLEM_GENERAL_7" : {
       "description" : "",
-      "message" : "contact with an unidentified flight object"
+      "message" : "contato com um objeto voador não identificado"
    },
    "PROBLEM_GENERAL_8" : {
       "description" : "",
-      "message" : "a dispute with a competitor's vessel"
+      "message" : "uma disputa com a nave de um competidor"
    },
    "PROBLEM_GENERAL_9" : {
       "description" : "",
-      "message" : "a reboot of the main computer"
+      "message" : "uma reinicialização do computador principal"
    },
    "PROBLEM_RESEARCH_1" : {
       "description" : "",
-      "message" : "an unexpected chemical reaction in one of the reaction chambers"
+      "message" : "uma reação química inesperada em uma das câmaras de reação"
    },
    "PROBLEM_RESEARCH_10" : {
       "description" : "",
@@ -573,15 +573,15 @@
    },
    "PROBLEM_RESEARCH_2" : {
       "description" : "",
-      "message" : "an infection of a crew member with a pathogen local to {locality}"
+      "message" : "uma infecção de um membro da tripulação com um patógeno natural de {locality}"
    },
    "PROBLEM_RESEARCH_3" : {
       "description" : "",
-      "message" : "a leak of experimental pathogens into the main air supply"
+      "message" : "um vazamento de patógenos experimentais para dentro do suprimento de ar"
    },
    "PROBLEM_RESEARCH_4" : {
       "description" : "",
-      "message" : "crew exposure to a specimen collected at {locality}"
+      "message" : "exposição de tripulação a um espécime coletado em {locality}"
    },
    "PROBLEM_RESEARCH_5" : {
       "description" : "",
@@ -629,11 +629,11 @@
    },
    "RETURN_TO" : {
       "description" : "",
-      "message" : "Return To:"
+      "message" : "Retornar para:"
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward:"
+      "message" : "Recompensa:"
    },
    "SEARCH_RESCUE" : {
       "description" : "",
@@ -649,7 +649,7 @@
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
-      "message" : "Target ship unresponsive."
+      "message" : "Nave alvo não responde."
    },
    "SYSTEM" : {
       "description" : "",
@@ -657,7 +657,7 @@
    },
    "TARGET_SHIP_ID" : {
       "description" : "",
-      "message" : "Target ship ID:"
+      "message" : "ID da nave alvo:"
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
@@ -681,11 +681,11 @@
    },
    "TRANSFER_TIME" : {
       "description" : "",
-      "message" : "Please allow {minutes} minutes for transfer."
+      "message" : "Por favor, libere {minutes} minutos para transferir."
    },
    "TYPE_OF_HELP" : {
       "description" : "",
-      "message" : "What type of help is needed?"
+      "message" : "Que tipo de ajuda é necessária?"
    },
    "UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
@@ -693,6 +693,6 @@
    },
    "WHERE_IS_THE_TARGET" : {
       "description" : "",
-      "message" : "Where do I find the target?"
+      "message" : "Onde eu acho o alvo?"
    }
 }

@@ -329,7 +329,7 @@
    },
    "ERROR_LANDING_GEAR_DOWN" : {
       "description" : "",
-      "message" : "Can not initiate hyperjump; landing gear is not retracted!"
+      "message" : "Hipersalto impossibilitado. Trem de pouso não está recolhido!"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
@@ -453,11 +453,11 @@
    },
    "HUD_ATMOSPHERIC_PRESSURE" : {
       "description" : "Tooltip: Atmospheric Pressure.",
-      "message" : "Atmospheric Pressure"
+      "message" : "Pressão atmosférica"
    },
    "HUD_BACKWARD_GUN_TEMPERATURE" : {
       "description" : "Tooltip: Backward Gun Temperature.",
-      "message" : "Backward Gun Temperature"
+      "message" : "Temperatura da arma traseira"
    },
    "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
       "description" : "Tooltip: The braking distance using the main thrusters.",
@@ -465,15 +465,15 @@
    },
    "HUD_BUTTON_AUTOPILOT_DOCKING" : {
       "description" : "Tooltip: Autopilot docking",
-      "message" : "Autopilot docking"
+      "message" : "Piloto automático atracando"
    },
    "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT" : {
       "description" : "Tooltip: Autopilot entering orbit",
-      "message" : "Autopilot entering orbit"
+      "message" : "Piloto automático entrando na órbita"
    },
    "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET" : {
       "description" : "Tooltip: Autopilot flying to target",
-      "message" : "Autopilot flying to target"
+      "message" : "Piloto automático voando para o alvo"
    },
    "HUD_BUTTON_BLASTOFF" : {
       "description" : "Tooltip: Blastoff",
@@ -517,11 +517,11 @@
    },
    "HUD_BUTTON_INITIATE_HYPERJUMP" : {
       "description" : "Tooltip: Initiate legal hyperjump",
-      "message" : "Initiate hyperjump"
+      "message" : "Iniciar hipersalto"
    },
    "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP" : {
       "description" : "Tooltip: Initiate illegal hyperjump",
-      "message" : "Initiate illegal hyperjump"
+      "message" : "Iniciar hipersalto ilegal"
    },
    "HUD_BUTTON_INTERNAL_VIEW" : {
       "description" : "Tooltip: Internal camera view",
@@ -533,15 +533,15 @@
    },
    "HUD_BUTTON_LANDING_GEAR_IS_DOWN" : {
       "description" : "Tooltip: Landing gear is down",
-      "message" : "Landing gear is down"
+      "message" : "Trem de pouso está em posição"
    },
    "HUD_BUTTON_LANDING_GEAR_IS_MOVING" : {
       "description" : "Tooltip: Landing gear is moving",
-      "message" : "Landing gear is moving"
+      "message" : "Trem de pouso está em deslocamento"
    },
    "HUD_BUTTON_LANDING_GEAR_IS_UP" : {
       "description" : "Tooltip: Landing gear is up",
-      "message" : "Landing gear is up"
+      "message" : "Trem de pouso está recolhido"
    },
    "HUD_BUTTON_MANUAL_CONTROL" : {
       "description" : "Tooltip: Manual control",
@@ -549,11 +549,11 @@
    },
    "HUD_BUTTON_ROTATION_DAMPING_IS_OFF" : {
       "description" : "Tooltip: Rotation damping is off",
-      "message" : "Rotation damping is off"
+      "message" : "Autoajuste de rotação desativada"
    },
    "HUD_BUTTON_ROTATION_DAMPING_IS_ON" : {
       "description" : "Tooltip: Rotation damping is on",
-      "message" : "Rotation damping is on"
+      "message" : "Autoajuste de rotação ativada"
    },
    "HUD_BUTTON_SCANNER" : {
       "description" : "Tooltip: Scanner",
@@ -561,15 +561,15 @@
    },
    "HUD_BUTTON_SET_SPEED" : {
       "description" : "Tooltip: set speed",
-      "message" : "Set speed"
+      "message" : "Definir velocidade"
    },
    "HUD_BUTTON_SHOW_COMMS" : {
       "description" : "Tooltip: Show comms",
-      "message" : "Show comms"
+      "message" : "Mostrar comms"
    },
    "HUD_BUTTON_SHOW_PERSONAL_INFO" : {
       "description" : "Tooltip: Show personal info",
-      "message" : "Show personal info"
+      "message" : "Mostrar informação pessoal"
    },
    "HUD_BUTTON_SIDEREAL_VIEW" : {
       "description" : "Tooltip: Sidereal camera view",
@@ -577,31 +577,31 @@
    },
    "HUD_BUTTON_SWITCH_TO_GALAXY_MAP" : {
       "description" : "Tooltip: Switch to galaxy map",
-      "message" : "Switch to galaxy map"
+      "message" : "Mudar para mapa galático"
    },
    "HUD_BUTTON_SWITCH_TO_SECTOR_MAP" : {
       "description" : "Tooltip: Switch to sector map",
-      "message" : "Switch to sector map"
+      "message" : "Mudar para mapa do setor"
    },
    "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP" : {
       "description" : "Tooltip: Switch to system map",
-      "message" : "Switch to system map"
+      "message" : "Mudar para mapa do sistema"
    },
    "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW" : {
       "description" : "Tooltip: Switch to system overview",
-      "message" : "Switch to system overview"
+      "message" : "Mudar para visão geral do sistema"
    },
    "HUD_BUTTON_SWITCH_TO_WORLD_VIEW" : {
       "description" : "Tooltip: Switch to world view",
-      "message" : "Switch to world view"
+      "message" : "Mudar para visão planetária"
    },
    "HUD_BUTTON_UNDOCK" : {
       "description" : "Tooltip: Undock",
-      "message" : "Undock"
+      "message" : "Desatracar"
    },
    "HUD_CARGO_MASS" : {
       "description" : "Cargo Mass",
-      "message" : "Cargo Mass"
+      "message" : "Massa da carga"
    },
    "HUD_CURRENT_COMBAT_TARGET" : {
       "description" : "Tooltip: The current combat target.",
@@ -657,19 +657,19 @@
    },
    "HUD_FORWARD_GUN_TEMPERATURE" : {
       "description" : "Tooltip: Forward Gun Temperature.",
-      "message" : "Forward Gun Temperature"
+      "message" : "Temperatura da arma dianteira"
    },
    "HUD_HULL_STRENGTH" : {
       "description" : "Tooltip: Hull Strength.",
-      "message" : "Hull Strength"
+      "message" : "Força do casco"
    },
    "HUD_HULL_TEMPERATURE" : {
       "description" : "Tooltip: Hull Temperature.",
-      "message" : "Hull Temperature"
+      "message" : "Temperatura do casco"
    },
    "HUD_HYPERSPACING_TO_N_IN_N_SECONDS" : {
       "description" : "",
-      "message" : "Hyperspacing to {destination} in {countdown} seconds"
+      "message" : "Hipersalto para {destination} em {countdown} segundos"
    },
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
@@ -705,11 +705,11 @@
    },
    "HUD_IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
-      "message" : "In transit to {system} [{x},{y},{z}]"
+      "message" : "Em trânsito para {system} [{x},{y},{z}]"
    },
    "HUD_JUMP_COMPLETE" : {
       "description" : "",
-      "message" : "Jump complete: {percent}%"
+      "message" : "Salto completo: {percent}%"
    },
    "HUD_MASS" : {
       "description" : "Mass",
@@ -725,7 +725,7 @@
    },
    "HUD_SHIELD_STRENGTH" : {
       "description" : "Tooltip: Shield Strength.",
-      "message" : "Shield Strength"
+      "message" : "Força do escudo"
    },
    "HUD_SHOW_COMBAT_TARGET" : {
       "description" : "Tooltip: Show the current combat target.",
@@ -753,7 +753,7 @@
    },
    "HUD_THRUST_INDICATOR" : {
       "description" : "Tooltip: describe what the thrust/velocity indicator shows",
-      "message" : "Show current velocity for each direction (thin lines) and thrust (thick background)"
+      "message" : "Mostra velocidade atual para cada direção (linhas finas) e propulsão (fundo grosso)."
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
@@ -1393,7 +1393,7 @@
    },
    "STATION_ORBIT" : {
       "description" : "Information shown in the station loby",
-      "message" : "We are in a {orbit_period} day period orbit around {parent_body}."
+      "message" : "Estamos em uma órbita com período de {orbit_period} dia(s) em torno de {parent_body}."
    },
    "STATUS" : {
       "description" : "",
