@@ -421,7 +421,7 @@
    },
    "FIRE_LASER" : {
       "description" : "",
-      "message" : "Fire weapon"
+      "message" : "Strzał z broni"
    },
    "FIRE_MISSILE" : {
       "description" : "",
@@ -677,7 +677,7 @@
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
-      "message" : "Weapons fire detected."
+      "message" : "Wykryto ostrzał z broni."
    },
    "LATITUDE" : {
       "description" : "Short for latitude",
@@ -1589,7 +1589,7 @@
    },
    "SWAP_SELECTED_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Swap selected and hyperjump target"
+      "message" : "Zmiana wybranego na cel dla skoku nadprzestrzennego"
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
