@@ -53,6 +53,7 @@ for i = 1,#flavours do
 	local f = flavours[i]
 	f.title     = l["FLAVOUR_" .. i-1 .. "_TITLE"]
 	f.intro     = l["FLAVOUR_" .. i-1 .. "_INTRO"]
+	f.price     = l["FLAVOUR_" .. i-1 .. "_PRICE"]
 	f.yesplease = l["FLAVOUR_" .. i-1 .. "_YESPLEASE"]
 	f.response  = l["FLAVOUR_" .. i-1 .. "_RESPONSE"]
 end
@@ -106,10 +107,16 @@ local onChat = function (form, ref, option)
 	price = price * 10
 
 	-- Replace those tokens into ad's intro text that can change during play
-	local message = string.interp(ad.intro, {
+	local pricesuggestion = string.interp(ad.price, {
 		drive = hyperdrive and hyperdrive:GetName() or lui.NONE,
 		price = Format.Money(price),
 	})
+
+	if not hyperdrive then
+		pricesuggestion = "\n"..l.YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE
+	end
+
+	local message = ad.intro..pricesuggestion
 
 	if option == -1 then
 		-- Hang up
@@ -191,6 +198,7 @@ local onCreateBB = function (station)
 			name = station.label,
 			proprietor = name,
 		}),
+		price = flavours[n].price,
 		yesplease = flavours[n].yesplease,
 		response = flavours[n].response,
 		station = station,
