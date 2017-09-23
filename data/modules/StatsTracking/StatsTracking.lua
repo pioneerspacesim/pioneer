@@ -23,14 +23,18 @@ local PlayerDamagedShips = {}
 
 local onShipDestroyed = function (ship, attacker)
 	if attacker:isa('Ship') and attacker:IsPlayer() then
+		-- check current/old combat rating
+		local rating_rank = Character.persistent.player:GetCombatRating()
+
 		-- Increment player's kill count
 		Character.persistent.player.killcount = Character.persistent.player.killcount + 1
 		PlayerDamagedShips[ship]=nil
-		if Character.persistent.player.killcount == 1 or (Character.persistent.player.killcount < 256 and Character.persistent.player.killcount % 16 == 0) or (Character.persistent.player.killcount % 256 == 0) then
-			-- On the first kill, every 16th kill until 256, and every 256th
-			-- kill thereafter
+
+		-- If rank changed, let player know (assume it can not decrease):
+		if not (rating_rank == Character.persistent.player:GetCombatRating()) then
 			Comms.Message(l.WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED,l.PIONEERING_PILOTS_GUILD)
 		end
+
 		Event.Queue("onReputationChanged", Character.persistent.player.reputation, Character.persistent.player.killcount - 1,
 			Character.persistent.player.reputation, Character.persistent.player.killcount)
 	elseif PlayerDamagedShips[ship] then
