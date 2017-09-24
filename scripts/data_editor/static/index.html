@@ -1,10 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans+Caption" rel="stylesheet">
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">  
+  <link rel="stylesheet" href="/static/editor.css" />
   <title>Pioneer Data Editor</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="/static/maintab.js"></script>
+  <script src="/static/main.js"></script>
 </head>
 <body>
-  Hi! :D
+  <div id="top-header">
+    <h1>
+      Pioneer Data Editor
+    </h1>
+  </div>
+  <div id="tabs">
+    <ul>
+      <button id="new-tab-button">+</button>
+    </ul>
+  </div> 
+  <script type="text/javascript">
+    PIONEER_MODULE.init();
+  </script>
 
 </body>
 </html>

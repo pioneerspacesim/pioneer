@@ -22,7 +22,7 @@ def Index(h):
   ServeStatic(h, 'index.html')
 
 
-@OnGet(r'r/static/(.*)')
+@OnGet(r'/static/(.*)')
 def ServeStatic(h, file):
   base_dir = os.path.join(
       os.path.dirname(os.path.realpath(__file__)), 'static')
@@ -35,10 +35,9 @@ def ServeStatic(h, file):
     return
 
   try:
-    print(file_dir)
     with open(file_dir, 'rb') as f:
       h.send_response(200)
-      h.send_header("Content-type", mimetypes.guess_type(file_dir, False))
+      h.send_header("Content-type", mimetypes.guess_type(file_dir, False)[0])
       h.end_headers()
       h.wfile.write(f.read())
   except:
