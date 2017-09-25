@@ -20,6 +20,7 @@ September 2017
      * Stop tradeships crashing into landing pads while trying to hyperspace (#4150)
      * Fix missile death notifications, clear thrusters and AI on target death (#4156)
      * Fix engineers constantly repairing engines, and negative jump counter (#4161)
+     * Fix combat rating messages not being in sync with actual ranks (#4165)
 
 August 2017
    * New Features
