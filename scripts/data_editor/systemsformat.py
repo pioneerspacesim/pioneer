@@ -1,6 +1,17 @@
 import types
 from luaparser import Parser
-import os
+
+
+class LuaObjectFactory:
+  def __init__(self, cls, **argv):
+    self.cls = cls
+    self.context = argv
+
+  def lua_new(self, *args):
+    obj = self.cls(*args)
+    for k, v in self.context.items():
+      setattr(obj, k, v)
+    return obj
 
 
 class LuaObject:
@@ -51,6 +62,11 @@ class Vector:
     self.y = y
     self.z = z
 
+  def __iter__(self):
+    yield self.x
+    yield self.y
+    yield self.z
+
 
 class CustomSystem(LuaObject):
   PROPERTIES = [
@@ -66,6 +82,10 @@ class CustomSystem(LuaObject):
     return self
 
   def lua_add_to_sector(self, x, y, z, v):
+    self.sector_coord = (x, y, z)
+    self.in_sector_coord = tuple(v)
+    if hasattr(self, 'systems_set'):
+      self.systems_set.AddSystem(self)
     return self
 
   def __init__(self, name, types):
@@ -112,19 +132,12 @@ class CustomSystemBody(LuaObject):
     self.typ = typ
 
 
-# For debug
-if __name__ == "__main__":
-  for root, dirs, files in os.walk('../../data/systems'):
-    for file in files:
-      if not file.endswith('.lua'):
-        continue
-      f = os.path.join(root, file)
-      print(f)
-      x = Parser()
-      x.AddObject(b'CustomSystem', CustomSystem)
-      x.AddObject(b'CustomSystemBody', CustomSystemBody)
-      x.AddObject(b'f', FixedPoint)
-      x.AddObject(b'v', Vector)
-      x.AddObject(b'math.deg2rad', Angle)
-      x.AddObject(b'fixed.deg2rad', FixedAngle)
-      x.Parse(f)
+def InitLuaParser(**argv):
+  x = Parser()
+  x.AddObject(b'CustomSystem', LuaObjectFactory(CustomSystem, **argv))
+  x.AddObject(b'CustomSystemBody', CustomSystemBody)
+  x.AddObject(b'f', FixedPoint)
+  x.AddObject(b'v', Vector)
+  x.AddObject(b'math.deg2rad', Angle)
+  x.AddObject(b'fixed.deg2rad', FixedAngle)
+  return x

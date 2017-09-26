@@ -7,6 +7,11 @@ var MAINTAB_MODULE = (function() {
     this.tabName = function() {
       return "Index";
     };
+    $.getJSON('/json/systems/contents/', function(data) {
+      var el = $('<table>').appendTo(element);
+      el.deeptable({data:data.data, schema:data.schema});
+    });
+
     return this;
   };
 

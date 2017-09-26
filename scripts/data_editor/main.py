@@ -2,9 +2,11 @@
 
 import re
 import os
+import json
 import mimetypes
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse
+from systems import GetSystemsSet
 
 GET_HANDLERS = []
 
@@ -17,9 +19,17 @@ def OnGet(regex):
   return f
 
 
-@OnGet(r'^/$')
+@OnGet(r'/$')
 def Index(h):
   ServeStatic(h, 'index.html')
+
+
+@OnGet(r'/json/systems/contents/$')
+def GetContents(h):
+  h.send_response(200)
+  h.send_header('Content-type', 'application/json')
+  h.end_headers()
+  h.wfile.write(json.dumps(GetSystemsSet().GetContents()).encode('utf-8'))
 
 
 @OnGet(r'/static/(.*)')

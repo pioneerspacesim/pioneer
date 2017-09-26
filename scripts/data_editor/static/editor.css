@@ -1,9 +1,10 @@
 body {
-  background: rgb(241,241,241);
-  color: rgba(0,0,0,0.87);
+  background: rgb(241, 241, 241);
+  color: rgba(0, 0, 0, 0.87);
+  font-family: 'PT Sans Caption', sans-serif;
+  font-size: 11px;
   margin: 0;
   padding: 0;
-  font-family: 'PT Sans Caption', sans-serif;
 }
 
 #top-header {
@@ -19,16 +20,21 @@ body {
   padding: 0.5em;
 }
 
+.ui-widget {
+  font: inherit;
+}
+
 .ui-helper-reset {
   font-family: 'PT Sans Caption', sans-serif;
   font-size: 10pt;
 }
+
 .ui-tabs-nav {
   background-color: inherit;
-  border: none;
-  background: rgb(241,241,241);
-  padding: 0 !important;
+  background: rgb(241, 241, 241);
   border-radius: 0;
+  border: none;
+  padding: 0 !important;
 }
 
 #new-tab-button {
@@ -40,6 +46,33 @@ body {
 }
 
 #tabs .ui-icon-close {
-  float: left; margin: 0.4em 0.2em 0 0; cursor: pointer;
+  cursor: pointer;
+  float: left;
+  margin: 0.4em 0.2em 0 0;
+}
 
+.deeptable {
+  border: none;
+  border-collapse: collapse;
+}
+
+.deeptable th.deeptable-title {
+  background-color: #ddd;
+  padding: 2px 0 2px 5px;
+  text-align: left;
+}
+
+.deeptable th {
+  border-left: 1px dotted #999;
+  border-right: 1px dotted #999;
+  border-top: 1px solid #999;
+  font-weight: bold;
+  padding: 5px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.deeptable thead {
+  background: #bbb;
+  border: 1px solid #999;
 }
