@@ -57,22 +57,45 @@ body {
 }
 
 .deeptable th.deeptable-title {
-  background-color: #ddd;
+  background-color: #eee;
   padding: 2px 0 2px 5px;
   text-align: left;
 }
 
 .deeptable th {
-  border-left: 1px dotted #999;
-  border-right: 1px dotted #999;
-  border-top: 1px solid #999;
+  border-left: 1px solid #aaa;
+  border-right: 1px solid #aaa;
+  border-top: 1px solid #aaa;
   font-weight: bold;
   padding: 5px;
   text-align: center;
   vertical-align: middle;
 }
 
+.deeptable td {
+  border-left: 1px dotted #ccc;
+  border-right: 1px dotted #ccc;
+  padding: 2px;
+}
+
 .deeptable thead {
-  background: #bbb;
-  border: 1px solid #999;
+  background: #ccc;
+  border: 1px solid #aaa;
+}
+
+.deeptable tbody {
+  border-left: 1px solid #aaa;
+  border-right: 1px solid #aaa;  
+}
+
+.deeptable tbody.odd {
+  background: #eee;
+}
+
+.deeptable tbody.even {
+  background: #fff;
+}
+
+.deeptable td.number {
+  text-align: right;
 }

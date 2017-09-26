@@ -24,6 +24,20 @@
     return this.cols;
   };
 
+  var formatters = {
+    'int': function(el, val) {
+      el.addClass('number').text(val);
+    },
+    'default': function(el, val) {
+      el.text(val);
+    }
+  }
+
+  function Format(fmt, el, val) {
+    if (!formatters.hasOwnProperty(fmt)) fmt = 'default';
+    formatters[fmt](el, val);
+  }
+
   function IterateSchema(schema, opt_terminal, opt_msg_begin, opt_msg_end) {
     for (var i = 0; i < schema.length; ++i) {
       var item = schema[i];
@@ -87,6 +101,53 @@
     return element;
   }
 
+  function RenderDataChunk(schema, item) {
+    var cells = new Array2D();
+    var curCol = 0;
+    var curRow = 0;
+    var xs = [item];
+
+    IterateSchema(
+      schema,
+      function(item) {
+        cells.Set(curRow, curCol, {
+          'schema': item,
+          'data': xs[xs.length - 1][item.id]
+        });
+        ++curCol;
+      },
+      function(item) {
+        xs.push(xs[xs.length - 1][item.id]);
+      },
+      function(item) {
+        xs.pop();
+      }
+    );
+    var element = $('<tbody>');
+    for (var i = 0; i < cells.Rows(); ++i) {
+      var tr = $('<tr>');
+      for (var j = 0; j < cells.Cols(); ++j) {
+        if (cells.Get(i, j) === undefined) continue;
+        var item = cells.Get(i, j);
+        var col = j;
+        var rowspan = 1;
+        while (i + rowspan < cells.Rows() &&
+          cells.Get(i + rowspan, j) === undefined) {
+          ++rowspan;
+        }
+        while (j + 1 < cells.Cols() && cells.Get(i, j + 1) === undefined) ++j;
+        var colspan = j - col + 1;
+        var th = $('<td>')
+          .attr('colspan', colspan)
+          .attr('rowspan', rowspan);
+        Format(item.schema.format, th, item.data);
+        th.appendTo(tr);
+      }
+      tr.appendTo(element);
+    }
+    return element;
+  }
+
   $.widget('ui.deeptable', {
     defaultElement: '<table>',
     options: {
@@ -98,6 +159,11 @@
       this.element.addClass('deeptable');
       RenderHeader(this.options.schema, this.options.title)
         .appendTo(this.element);
+      for (var i = 0; i < this.options.data.length; ++i) {
+        RenderDataChunk(this.options.schema, this.options.data[i])
+          .addClass(i % 2 ? 'even' : 'odd')
+          .appendTo(this.element);
+      }
     },
   });
 

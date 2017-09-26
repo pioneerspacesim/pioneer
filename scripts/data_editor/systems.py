@@ -11,7 +11,7 @@ class SystemsSet:
 
   def LoadFromDir(self, rootdir):
     for root, dirs, files in os.walk(rootdir):
-      for file in files:
+      for file in sorted(files):
         if not file.endswith('.lua'):
           continue
         f = os.path.join(root, file)
