@@ -3,13 +3,15 @@ var MAINTAB_MODULE = (function() {
 
   var self = {};
 
-  self.createTab = function(payload, element) {
-    this.tabName = function() {
-      return "Index";
-    };
+  self.createTab = function(element) {
+    this.tabName = "Index";
     $.getJSON('/json/systems/contents/', function(data) {
-      var el = $('<table>').appendTo(element);
-      el.deeptable({data:data.data, schema:data.schema, title: 'Systems List'});
+      var el = $('<div>').appendTo(element);
+      el.deeptable({
+        data: data.data,
+        schema: data.schema,
+        onClick: function(x) { PIONEER_MODULE.newTab('system', x); }
+      });
     });
 
     return this;

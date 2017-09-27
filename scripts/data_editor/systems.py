@@ -21,27 +21,37 @@ class SystemsSet:
         x.Parse(f)
 
   def GetContents(self):
-    schema = [
-        {
-            'title': 'Filename',
-            'id': 'filename',
-            'format': 'string',
+    schema = [{
+        'type': ('table'),
+        'id': ('systems'),
+        'title': ('Systems List'),
+        'options': {
+            'clickable': True,
         },
-        {
-            'title': 'System name',
-            'id': 'name',
-            'format': 'string',
-        },
-        {
-            'title': 'Sector',
-            'id': 'sector',
-            'subfields': [{
-                'title': x,
-                'id': x,
-                'format': 'int'
-            } for x in 'xyz']
-        },
-    ]
+        'columns': [
+            {
+                'title': 'Filename',
+                'id': 'filename',
+                'format': 'string',
+            },
+            {
+                'title': 'System name',
+                'id': 'name',
+                'format': 'string',
+            },
+            {
+                'title':
+                'Sector',
+                'id':
+                'sector',
+                'subfields': [{
+                    'title': x,
+                    'id': x,
+                    'format': 'int'
+                } for x in 'xyz']
+            },
+        ],
+    }]
     data = []
     for x in self.systems:
       data.append({
@@ -49,7 +59,7 @@ class SystemsSet:
           'name': x.name,
           'sector': dict(zip('xyz', x.sector_coord)),
       })
-    return {'data': data, 'schema': schema}
+    return {'data': {'systems': data}, 'schema': schema}
 
   def __str__(self):
     return "%d systems: %s" % (

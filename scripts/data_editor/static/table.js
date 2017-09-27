@@ -149,22 +149,42 @@
   }
 
   $.widget('ui.deeptable', {
-    defaultElement: '<table>',
+    defaultElement: '<div>',
     options: {
-      title: 'Table',
       schema: [],
       data: [],
+      onClick: undefined,
     },
     _create: function() {
-      this.element.addClass('deeptable');
-      RenderHeader(this.options.schema, this.options.title)
-        .appendTo(this.element);
-      for (var i = 0; i < this.options.data.length; ++i) {
-        RenderDataChunk(this.options.schema, this.options.data[i])
-          .addClass(i % 2 ? 'even' : 'odd')
-          .appendTo(this.element);
+      for (var i = 0; i < this.options.schema.length; ++i) {
+        this.renderChunk(this.element,
+          {},
+          this.options.schema[i],
+          this.options.data);
       }
     },
+    renderChunk: function(parent, parent_options, schema, data) {
+      var options = schema.options || {};
+      $.extend(options, parent_options);
+      if (schema.type == 'table') {
+        var el = $('<table>').addClass('deeptable').appendTo(parent);
+        if (options.clickable && this.options.onClick) {
+          el.addClass('clickable');
+        }
+        var d = data[schema['id']];
+        RenderHeader(schema.columns, schema.title).appendTo(el);
+        for (var i = 0; i < d.length; ++i) {
+          var row = RenderDataChunk(schema.columns, d[i])
+            .addClass(i % 2 ? 'even' : 'odd')
+            .appendTo(el);
+          if (options.clickable && this.options.onClick) {
+            row.click(this.options.onClick.bind(this, d[i]));            
+          }
+        }
+      } else {
+        $('<div>').text('Uknown schema type! ' + schema.type).appendTo(parent);
+      }
+    }
   });
 
 })(jQuery);

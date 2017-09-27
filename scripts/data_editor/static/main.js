@@ -5,12 +5,15 @@ var PIONEER_MODULE = (function() {
   var tabs = [];
   var tab_counter = 0;
 
-  self.tabDispatcher = function(id, payload, element) {
-    switch(id) {
-      case 0:
-        return new MAINTAB_MODULE.createTab(payload, element);
+  self.tabDispatcher = function(element, id, payload) {
+    switch (id) {
+      case 'index':
+        return new MAINTAB_MODULE.createTab(element);
+      case 'system':
+        return new SYSTEMTAB_MODULE.createTab(element, payload);
       default:
-        $(element).text("Unknown tab type");
+        $(element).text("Unknown tab type: " + id);
+        return { tabName: "Error" };
     }
   }
 
@@ -20,22 +23,22 @@ var PIONEER_MODULE = (function() {
       '"></a><span class="ui-icon ui-icon-close">Remove Tab</span></li>');
     var newElement = $('<div id="tab-' + tab_idx + '"></div>');
 
-    var el = $('#tabs');    
+    var el = $('#tabs');
     el.find('.ui-tabs-nav').append(newTab);
     el.append(newElement);
-    var newTabContents = self.tabDispatcher(id, payload, newElement);
-    newTab.find('a').text(newTabContents.tabName());
-    newTab.find('span').click(function(){
+    var newTabContents = self.tabDispatcher(newElement, id, payload);
+    newTab.find('a').text(newTabContents.tabName);
+    newTab.find('span').click(function() {
       newTab.remove();
       newElement.remove();
       el.tabs("refresh");
     });
     el.tabs("refresh");
+    $('#tabs').tabs("option", "active", -1);
   };
 
   self.freshTab = function() {
-    self.newTab(0, "");
-    $('#tabs').tabs("option", "active", -1);
+    self.newTab('index');
   }
 
   self.init = function() {

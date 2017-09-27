@@ -106,10 +106,10 @@ body {
   background: #eee;
 }
 
-.deeptable.active tbody:hover {
+.deeptable.clickable tbody:hover {
   background-color: #ddd;
   cursor: pointer;
-  transition: background-color .250s;
+  transition: background-color .150s;
 }
 
 .deeptable td.number {
