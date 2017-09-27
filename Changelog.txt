@@ -9,6 +9,7 @@ September 2017
      * VS2015, Fix 64-bit SSE2 flag warning #4114
      * Spread the terrain skirts wider to avoid some sparklies (#4147)
      * XCode, update project and config files (#4152)
+     * Fix module instances being created twice (#4124)
 
    * Fixes
      * Fix orbital stations sharing an orbit (#4129)

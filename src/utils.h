@@ -36,6 +36,14 @@ void Warning(const char *format, ...)  __attribute((format(printf,1,2)));
 void Output(const char *format, ...)  __attribute((format(printf,1,2)));
 void OpenGLDebugMsg(const char *format, ...)  __attribute((format(printf,1,2)));
 
+/**
+* Works like Output, but adds indent before message.
+* Call IndentIncrease and IndentDecrease to control indent level.
+*/
+void IndentedOutput(const char *format, ...) __attribute((format(printf,1,2)));
+void IndentIncrease();
+void IndentDecrease();
+
 // Helper for timing functions with multiple stages
 // Used on a branch to help time loading.
 struct MsgTimer {

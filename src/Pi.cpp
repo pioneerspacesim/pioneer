@@ -279,7 +279,7 @@ static void LuaInit()
 	LuaObject<CargoBody>::RegisterClass();
 	LuaObject<ModelBody>::RegisterClass();
 	LuaObject<HyperspaceCloud>::RegisterClass();
-	
+
 	LuaObject<StarSystem>::RegisterClass();
 	LuaObject<SystemPath>::RegisterClass();
 	LuaObject<SystemBody>::RegisterClass();
@@ -317,13 +317,13 @@ static void LuaInit()
 
 	// XXX load everything. for now, just modules
 	lua_State *l = Lua::manager->GetLuaState();
-	pi_lua_dofile(l, "libs/autoload.lua");
-	pi_lua_dofile_recursive(l, "ui");
-	pi_lua_dofile(l, "pigui/pigui.lua");
-	pi_lua_dofile(l, "pigui/game.lua");
-	pi_lua_dofile(l, "pigui/init.lua");
-	pi_lua_dofile_recursive(l, "pigui/modules");
-	pi_lua_dofile_recursive(l, "modules");
+	pi_lua_import(l, "libs/autoload.lua", true);
+	pi_lua_import_recursive(l, "ui");
+	pi_lua_import(l, "pigui/pigui.lua", true);
+	pi_lua_import(l, "pigui/game.lua", true);
+	pi_lua_import(l, "pigui/init.lua", true);
+	pi_lua_import_recursive(l, "pigui/modules");
+	pi_lua_import_recursive(l, "modules");
 
 	Pi::luaNameGen = new LuaNameGen(Lua::manager);
 }
