@@ -52,20 +52,22 @@ body {
 }
 
 .deeptable {
-  border: none;
+  border: 1px solid #eee;
   border-collapse: collapse;
+  white-space: nowrap;
 }
 
 .deeptable th.deeptable-title {
-  background-color: #eee;
+  border: 1px solid #ccc;
+  background-color: #ddd;
   padding: 2px 0 2px 5px;
   text-align: left;
 }
 
 .deeptable th {
-  border-left: 1px solid #aaa;
-  border-right: 1px solid #aaa;
-  border-top: 1px solid #aaa;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  white-space: normal;
   font-weight: bold;
   padding: 5px;
   text-align: center;
@@ -78,22 +80,36 @@ body {
   padding: 2px;
 }
 
-.deeptable thead {
-  background: #ccc;
-  border: 1px solid #aaa;
+.deeptable a {
+  display: inline-block;
+  max-width: 300px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;  
 }
 
-.deeptable tbody {
-  border-left: 1px solid #aaa;
-  border-right: 1px solid #aaa;  
+.deeptable td.empty {
+  border-left: 1px dotted #ddd;
+  padding: 0 5px;
+  vertical-align: top;
+}
+
+.deeptable thead {
+  background-color: #f1f1f1;
 }
 
 .deeptable tbody.odd {
-  background: #eee;
+  background: #fff;
 }
 
 .deeptable tbody.even {
-  background: #fff;
+  background: #eee;
+}
+
+.deeptable.active tbody:hover {
+  background-color: #ddd;
+  cursor: pointer;
+  transition: background-color .250s;
 }
 
 .deeptable td.number {
