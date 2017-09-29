@@ -469,15 +469,15 @@
    },
    "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT" : {
       "description" : "Tooltip: Autopilot entering orbit",
-      "message" : "Autopilot entering orbit"
+      "message" : "Автопилот выходит на орбиту"
    },
    "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET" : {
       "description" : "Tooltip: Autopilot flying to target",
-      "message" : "Autopilot flying to target"
+      "message" : "Автопилот летит к цели"
    },
    "HUD_BUTTON_BLASTOFF" : {
       "description" : "Tooltip: Blastoff",
-      "message" : "Blastoff"
+      "message" : "Взлёт"
    },
    "HUD_BUTTON_EQUIPMENT" : {
       "description" : "Tooltip: Equipment",
@@ -541,7 +541,7 @@
    },
    "HUD_BUTTON_LANDING_GEAR_IS_UP" : {
       "description" : "Tooltip: Landing gear is up",
-      "message" : "Landing gear is up"
+      "message" : "Посадочный механизм поднят"
    },
    "HUD_BUTTON_MANUAL_CONTROL" : {
       "description" : "Tooltip: Manual control",
