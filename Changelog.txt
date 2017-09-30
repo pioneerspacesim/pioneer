@@ -10,6 +10,7 @@ September 2017
      * Spread the terrain skirts wider to avoid some sparklies (#4147)
      * XCode, update project and config files (#4152)
      * Fix module instances being created twice (#4124)
+     * Don't show 'None' for drive specs when asking to service engine (#4171)
 
    * Fixes
      * Fix orbital stations sharing an orbit (#4129)
@@ -22,6 +23,9 @@ September 2017
      * Fix missile death notifications, clear thrusters and AI on target death (#4156)
      * Fix engineers constantly repairing engines, and negative jump counter (#4161)
      * Fix combat rating messages not being in sync with actual ranks (#4165)
+     * Fix heading jump when switching reference frames with RMB held down (#4170)
+     * Don't fail assassins when entering mission system (#4167)
+     * Fix autopilot tooltip when (nav)targeting other ships (#4166)
 
 August 2017
    * New Features
