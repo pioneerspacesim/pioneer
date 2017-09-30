@@ -11,6 +11,7 @@ September 2017
      * XCode, update project and config files (#4152)
      * Fix module instances being created twice (#4124)
      * Don't show 'None' for drive specs when asking to service engine (#4171)
+     * PushStyleVar now pushing also vector variables (#4138)
 
    * Fixes
      * Fix orbital stations sharing an orbit (#4129)
