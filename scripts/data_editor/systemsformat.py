@@ -50,13 +50,19 @@ class FixedPoint:
 
 
 class Angle:
-  def __init__(self, radians):
-    self.radians = radians
+  def __init__(self, degrees):
+    self.degrees = degrees
+
+  def to_float(self):
+    return self.degrees
 
 
 class FixedAngle:
-  def __init__(self, radians):
-    self.radians = radians
+  def __init__(self, degrees):
+    self.degrees = degrees
+
+  def to_float(self):
+    return self.degrees.to_float()
 
 
 class Vector:
@@ -81,8 +87,9 @@ class CustomSystem(LuaObject):
       ('seed', int),
   ]
 
-  def lua_bodies(self, *lst):
-    return self
+  def lua_bodies(self, star, planets):
+    self.star = star
+    star.SetSattelites(planets)
 
   def lua_add_to_sector(self, x, y, z, v):
     self.sector_coord = (x, y, z)
@@ -94,6 +101,7 @@ class CustomSystem(LuaObject):
   def __init__(self, name, types):
     self.name = name
     self.types = types
+    self.star = None
 
 
 class CustomSystemBody(LuaObject):
@@ -124,15 +132,36 @@ class CustomSystemBody(LuaObject):
   ]
 
   def lua_rings(self, f1, f2, lst):
+    self.rings = {
+        'min_radius': f1,
+        'max_radius': f2,
+        'red': lst[0],
+        'green': lst[1],
+        'blue': lst[2],
+        'alpha': lst[3],
+    }
     return self
 
   def lua_height_map(self, map, index):
     self.height_map = (map, index)
     return self
 
+  def SetSattelites(self, sattelites):
+    for x in sattelites:
+      if isinstance(x, list):
+        self.sattelites[-1].SetSattelites(x)
+      else:
+        if x.typ == 'STARPORT_SURFACE':
+          self.starports.append(x)
+        else:
+          self.sattelites.append(x)
+
   def __init__(self, name, typ):
     self.name = name
     self.typ = typ
+    self.sattelites = []
+    self.starports = []
+    self.rings = None
 
 
 def InitLuaParser(**argv):

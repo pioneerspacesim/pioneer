@@ -157,6 +157,7 @@
       }
       tr.appendTo(element);
     }
+    element.colspanwidth = cells.Cols();
     return element;
   }
 
@@ -195,12 +196,16 @@
     _create: function() {
       var schema = this.options.schema;
       for (var i = 0; i < schema.order.length; ++i) {
-        this.renderChunk(this.element, {},
-          schema[schema.order[i]],
-          this.options.data[schema.order[i]]);
+        if (this.options.data[schema.order[i]]) {
+          this.renderChunk(this.element, {},
+            schema,
+            schema.order[i],
+            this.options.data[schema.order[i]]);
+        }
       }
     },
-    renderChunk: function(parent, parent_options, schema, data) {
+    renderChunk: function(parent, parent_options, root_schema, section, data) {
+      var schema = root_schema[section];
       var options = schema.options || {};
       $.extend(options, parent_options);
       if (schema.type == 'table') {
@@ -211,8 +216,20 @@
         RenderHeader(schema.columns, schema.title).appendTo(el);
         for (var i = 0; i < data.length; ++i) {
           var row = RenderDataChunk(schema.columns, data[i])
-            .addClass(i % 2 ? 'even' : 'odd')
-            .appendTo(el);
+            .addClass(i % 2 ? 'even' : 'odd');
+          if (schema.subsections) {
+            for (var j = 0; j < schema.subsections.length; ++j) {
+              var subsection = schema.subsections[j];
+              var d = data[i][subsection.id];
+              if (!d || d.length == 0) continue;
+              var td = $('<td>')
+                .addClass('subsection')
+                .attr('colspan', row.colspanwidth)
+                .appendTo($('<tr>').appendTo(row));
+              this.renderChunk(td, options, root_schema, subsection.schema, d);
+            }
+          }
+          row.appendTo(el);
           if (options.clickable && this.options.onClick) {
             row.click(this.options.onClick.bind(this, data[i]));
           }

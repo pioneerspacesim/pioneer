@@ -52,8 +52,9 @@ body {
 }
 
 .deeptable {
-  border: 1px solid #eee;
   border-collapse: collapse;
+  border: 1px solid #eee;
+  margin: 0.5em;
   white-space: nowrap;
 }
 
@@ -118,4 +119,8 @@ body {
   font-family: monospace;
   max-width: 600px;
   white-space: pre-wrap;
+}
+
+.deeptable td.subsection {
+  padding-left: 3em;
 }

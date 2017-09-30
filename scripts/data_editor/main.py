@@ -6,7 +6,7 @@ import json
 import mimetypes
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
-from systems import GetSystemsSet
+from systems import GetSystemsSet, UnknownSystem
 
 GET_HANDLERS = []
 
@@ -37,7 +37,7 @@ def GetSystem(h):
   params = parse_qs(urlparse(h.path).query)
   try:
     x = GetSystemsSet().GetSystem(params['file'][0], params['system'][0])
-  except:
+  except UnknownSystem:
     h.send_response(404)
     h.send_header("Content-type", "text/plain")
     h.end_headers()
