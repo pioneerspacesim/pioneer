@@ -33,6 +33,9 @@
     'int': function(el, val) {
       el.addClass('number').text(val);
     },
+    'text': function(el, val) {
+      el.addClass('text').text(val);
+    },
     'default': function(el, val) {
       el.text(val);
     },
@@ -146,11 +149,11 @@
         }
         while (j + 1 < cells.Cols() && cells.Get(i, j + 1) === undefined) ++j;
         var colspan = j - col + 1;
-        var th = $('<td>')
+        var td = $('<td>')
           .attr('colspan', colspan)
           .attr('rowspan', rowspan);
-        Format(item.schema.format, th, item.data);
-        th.appendTo(tr);
+        Format(item.schema.format, td, item.data);
+        td.appendTo(tr);
       }
       tr.appendTo(element);
     }
@@ -160,7 +163,24 @@
   function RenderFields(schema, data, title) {
     var el = $('<table>').addClass('deeptable');
     $('<th>').attr('colspan', 2).addClass('deeptable-title')
-        .text(title).appendTo($('<tr>').appendTo(el));
+      .text(title).appendTo($('<tr>').appendTo(el));
+
+    for (var i = 0; i < schema.length; ++i) {
+      var tbody = $('<tbody>').addClass(i % 2 ? 'even' : 'odd').appendTo(el);
+      var tr = $('<tr>').appendTo(tbody);
+      $('<th>').text(schema[i].title).appendTo(tr);
+      var td = $('<td>');
+      if (schema[i].subfields) {
+        var table = $('<table>').addClass('deeptable').appendTo(td);
+        RenderHeader(schema[i].subfields).appendTo(table);
+        RenderDataChunk(schema[i].subfields, data[schema[i].id])
+          .addClass('odd')
+          .appendTo(table);
+      } else {
+        Format(schema[i].format, td, data[schema[i].id]);
+      }
+      td.appendTo(tr);
+    }
 
     return el;
   }

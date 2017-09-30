@@ -130,8 +130,8 @@ def PopulateFromSchema(data, schema):
         d = getattr(d, term)
       else:
         d = d[term]
-    if hasattr(d, 'as_%s' % x['format']):
-      d = getattr(d, 'as_%s' % x['format'])()
+    if hasattr(d, 'to_%s' % x['format']):
+      d = getattr(d, 'to_%s' % x['format'])()
     res[x['id']] = d
   return res
 

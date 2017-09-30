@@ -113,3 +113,9 @@ body {
 .deeptable td.number {
   text-align: right;
 }
+
+.deeptable td.text {
+  font-family: monospace;
+  max-width: 600px;
+  white-space: pre-wrap;
+}

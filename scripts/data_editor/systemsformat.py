@@ -45,7 +45,7 @@ class FixedPoint:
     self.numerator = numerator
     self.denominator = denominator
 
-  def AsFloat(self):
+  def to_float(self):
     return self.numerator / self.denominator
 
 
