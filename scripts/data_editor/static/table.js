@@ -23,6 +23,11 @@
   Array2D.prototype.Cols = function() {
     return this.cols;
   };
+  Array2D.prototype.IsUndefinedAbove = function(row, col) {
+    for (var i = 0; i <= row; ++i)
+      if (this.Get(i, col) !== undefined) return false;
+    return true;
+  }
 
   var formatters = {
     'int': function(el, val) {
@@ -30,11 +35,15 @@
     },
     'default': function(el, val) {
       el.text(val);
+    },
+    'none': function(el, val) {
+      el.text('(none)').addClass('empty');
     }
   }
 
   function Format(fmt, el, val) {
-    if (!formatters.hasOwnProperty(fmt)) fmt = 'default';
+    if (val === null) fmt = 'none';
+    else if (!formatters.hasOwnProperty(fmt)) fmt = 'default';
     formatters[fmt](el, val);
   }
 
@@ -88,7 +97,7 @@
           cells.Get(i + rowspan, j) === undefined) {
           ++rowspan;
         }
-        while (j + 1 < cells.Cols() && cells.Get(i, j + 1) === undefined) ++j;
+        while (j + 1 < cells.Cols() && cells.IsUndefinedAbove(i, j + 1)) ++j;
         var colspan = j - col + 1;
         var th = $('<th>')
           .attr('colspan', colspan)
@@ -148,6 +157,14 @@
     return element;
   }
 
+  function RenderFields(schema, data, title) {
+    var el = $('<table>').addClass('deeptable');
+    $('<th>').attr('colspan', 2).addClass('deeptable-title')
+        .text(title).appendTo($('<tr>').appendTo(el));
+
+    return el;
+  }
+
   $.widget('ui.deeptable', {
     defaultElement: '<div>',
     options: {
@@ -156,11 +173,11 @@
       onClick: undefined,
     },
     _create: function() {
-      for (var i = 0; i < this.options.schema.length; ++i) {
-        this.renderChunk(this.element,
-          {},
-          this.options.schema[i],
-          this.options.data);
+      var schema = this.options.schema;
+      for (var i = 0; i < schema.order.length; ++i) {
+        this.renderChunk(this.element, {},
+          schema[schema.order[i]],
+          this.options.data[schema.order[i]]);
       }
     },
     renderChunk: function(parent, parent_options, schema, data) {
@@ -171,16 +188,18 @@
         if (options.clickable && this.options.onClick) {
           el.addClass('clickable');
         }
-        var d = data[schema['id']];
         RenderHeader(schema.columns, schema.title).appendTo(el);
-        for (var i = 0; i < d.length; ++i) {
-          var row = RenderDataChunk(schema.columns, d[i])
+        for (var i = 0; i < data.length; ++i) {
+          var row = RenderDataChunk(schema.columns, data[i])
             .addClass(i % 2 ? 'even' : 'odd')
             .appendTo(el);
           if (options.clickable && this.options.onClick) {
-            row.click(this.options.onClick.bind(this, d[i]));            
+            row.click(this.options.onClick.bind(this, data[i]));
           }
         }
+      } else if (schema.type == 'fields') {
+        RenderFields(schema.fields, data, schema.title)
+          .appendTo(parent);
       } else {
         $('<div>').text('Uknown schema type! ' + schema.type).appendTo(parent);
       }

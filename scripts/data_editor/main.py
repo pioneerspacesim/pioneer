@@ -5,7 +5,7 @@ import os
 import json
 import mimetypes
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from urllib.parse import urlparse
+from urllib.parse import urlparse, parse_qs
 from systems import GetSystemsSet
 
 GET_HANDLERS = []
@@ -30,6 +30,24 @@ def GetContents(h):
   h.send_header('Content-type', 'application/json')
   h.end_headers()
   h.wfile.write(json.dumps(GetSystemsSet().GetContents()).encode('utf-8'))
+
+
+@OnGet(r'/json/systems/get/$')
+def GetSystem(h):
+  params = parse_qs(urlparse(h.path).query)
+  try:
+    x = GetSystemsSet().GetSystem(params['file'][0], params['system'][0])
+  except:
+    h.send_response(404)
+    h.send_header("Content-type", "text/plain")
+    h.end_headers()
+    h.wfile.write(b"404 Not found.")
+    return
+
+  h.send_response(200)
+  h.send_header('Content-type', 'application/json')
+  h.end_headers()
+  h.wfile.write(json.dumps(x).encode('utf-8'))
 
 
 @OnGet(r'/static/(.*)')

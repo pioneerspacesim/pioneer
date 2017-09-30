@@ -69,7 +69,7 @@ body {
   border-bottom: none;
   white-space: normal;
   font-weight: bold;
-  padding: 5px;
+  padding: 2px;
   text-align: center;
   vertical-align: middle;
 }
@@ -89,9 +89,7 @@ body {
 }
 
 .deeptable td.empty {
-  border-left: 1px dotted #ddd;
-  padding: 0 5px;
-  vertical-align: top;
+  color: #ddd;
 }
 
 .deeptable thead {

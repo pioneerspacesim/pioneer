@@ -45,6 +45,9 @@ class FixedPoint:
     self.numerator = numerator
     self.denominator = denominator
 
+  def AsFloat(self):
+    return self.numerator / self.denominator
+
 
 class Angle:
   def __init__(self, radians):
