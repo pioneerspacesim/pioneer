@@ -145,13 +145,8 @@ SYSTEM_SCHEMA = {
                 'format': 'float',
             },
             {
-                'title': 'Temperature',
+                'title': '🌡',
                 'id': 'temp',
-                'format': 'int',
-            },
-            {
-                'title': 'Seed',
-                'id': 'seed',
                 'format': 'int',
             },
             {
@@ -160,12 +155,12 @@ SYSTEM_SCHEMA = {
                 'format': 'float',
             },
             {
-                'title': 'Eccentricity',
+                'title': 'Eccent\u200Bricity',
                 'id': 'eccentricity',
                 'format': 'float',
             },
             {
-                'title': 'Inclination',
+                'title': 'Incli\u200Bnation',
                 'id': 'inclination',
                 'format': 'float',
             },
@@ -180,22 +175,22 @@ SYSTEM_SCHEMA = {
                 'format': 'float',
             },
             {
-                'title': 'Metallicity',
+                'title': 'Metal\u200Blicity',
                 'id': 'metallicity',
                 'format': 'float',
             },
             {
-                'title': 'Volcanicity',
+                'title': 'Volca\u200Bnicity',
                 'id': 'volcanicity',
                 'format': 'float',
             },
             {
-                'title': 'Atmospheric Density',
+                'title': 'Atmo\u200Bspheric Density',
                 'id': 'atmos_density',
                 'format': 'float',
             },
             {
-                'title': 'Atmospheric Oxidizing',
+                'title': 'Atmo\u200Bspheric Oxidi\u200Bzing',
                 'id': 'atmos_oxidizing',
                 'format': 'float',
             },
@@ -220,17 +215,17 @@ SYSTEM_SCHEMA = {
                 'format': 'float',
             },
             {
-                'title': 'Rotational phase at start',
+                'title': 'Rota\u200Btional phase at start',
                 'id': 'rotational_phase_at_start',
                 'format': 'float',
             },
             {
-                'title': 'Orbital offset',
+                'title': 'Orbi\u200Btal offset',
                 'id': 'orbital_offset',
                 'format': 'float',
             },
             {
-                'title': 'Equatorial to polar radius',
+                'title': 'Equa\u200Btorial to polar radius',
                 'id': 'equatorial_to_polar_radius',
                 'format': 'float',
             },
@@ -238,6 +233,11 @@ SYSTEM_SCHEMA = {
                 'title': 'Space Station type',
                 'id': 'space_station_type',
                 'format': 'string',
+            },
+            {
+                'title': 'Seed',
+                'id': 'seed',
+                'format': 'int',
             },
         ],
         'subsections': [
