@@ -1,7 +1,11 @@
 {
    "FLAVOUR_0_INTRO" : {
       "description" : "",
-      "message" : "Evite a inconveniência de uma máquina de hiperespaço quebrada. Adquira sua manutenção hoje, pela, oficialmente endossada Companhia de Manutenção de Máquinas {nome}.%s\n%s\nMáquina: {drive}%s\nManutenção: {preço}%s\nGarantia: 18 meses%s\n{últimavez}"
+      "message" : "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n"
+   },
+   "FLAVOUR_0_PRICE" : {
+      "description" : "",
+      "message" : "\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}"
    },
    "FLAVOUR_0_RESPONSE" : {
       "description" : "",
@@ -17,7 +21,11 @@
    },
    "FLAVOUR_1_INTRO" : {
       "description" : "",
-      "message" : "Sou {proprietário}. Posso reparar seu {drive}, garantindo pelo menos um ano de desempenho sem problemas. O custo para este serviço será de {preço}%s\n{última vez}"
+      "message" : "I'm {proprietor}. I can service your hyperdrive, guaranteeing at least a year of trouble-free performance. "
+   },
+   "FLAVOUR_1_PRICE" : {
+      "description" : "",
+      "message" : "The cost for servicing your {drive} will be {price}\n{lasttime}"
    },
    "FLAVOUR_1_RESPONSE" : {
       "description" : "",
@@ -33,7 +41,11 @@
    },
    "FLAVOUR_2_INTRO" : {
       "description" : "",
-      "message" : "Olá. Nós da {proprietário} & Cia marcamos nossa reputação em nosso trabalho.%s\n%s\n{últimavez}%s\nPodemos regular {drive} da sua nave, garantindo 12 meses de operação sem problemas, pela soma de {preço}. Eu mesmo estarei supervisionando o trabalho, então pode ter certeza de que um bom trabalho será feito."
+      "message" : "Hi there.  We at {proprietor} & Co stake our reputation on our work.\nWe can tune your ship's hyperdrive, ensuring 12 months of trouble-free operation. "
+   },
+   "FLAVOUR_2_PRICE" : {
+      "description" : "",
+      "message" : "\n\n{lasttime}\nFor your {drive}, I'll be supervising the work myself, so you can be sure that a good job will be done, for the sum of {price}."
    },
    "FLAVOUR_2_RESPONSE" : {
       "description" : "",
@@ -45,11 +57,15 @@
    },
    "FLAVOUR_2_YESPLEASE" : {
       "description" : "",
-      "message" : "Por favor regule meu drive no preço cotado"
+      "message" : "Please tune my hyperdrive at the quoted price"
    },
    "FLAVOUR_3_INTRO" : {
       "description" : "",
-      "message" : "Benvindo Manutenção SuperConserto.%s\n%s\n{últimavez}%s\nTempo para sua manutenção bianual? Deixe-nos SuperConsertar seu hyperdrive!%s\nPodemos regular seu {drive} por apenas {preço}. Ninguém é mais barato!"
+      "message" : "Welcome SuperFix Maintenance. Time for your biannual maintenance? Let us SuperFix your hyperdrive! "
+   },
+   "FLAVOUR_3_PRICE" : {
+      "description" : "",
+      "message" : "\n\n{lasttime}\nWe can tune your {drive} for just {price}.  There's nobody cheaper!"
    },
    "FLAVOUR_3_RESPONSE" : {
       "description" : "",
@@ -65,7 +81,11 @@
    },
    "FLAVOUR_4_INTRO" : {
       "description" : "",
-      "message" : "Benvindo a Tempo e Espaço.%s\n%s\nSomos especializados em máquinas interestelares. Todo trabalho de manutenção tem garantia de dois anos.%s\n{últimavez}%s\nManutenção no seu {drive} custará {preço}. Gostaria de continuar?"
+      "message" : "Welcome to Time and Space.\n\nWe specialise in interstellar engines. All maintenance work guaranteed for two years."
+   },
+   "FLAVOUR_4_PRICE" : {
+      "description" : "",
+      "message" : "\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?"
    },
    "FLAVOUR_4_RESPONSE" : {
       "description" : "",
@@ -81,7 +101,11 @@
    },
    "FLAVOUR_5_INTRO" : {
       "description" : "",
-      "message" : "Evite a inconveniência de uma máquina de hiperespaço quebrada. Adquira sua manutenção hoje.%s\n%s\nMáquina: {drive}%s\nManutenção: {preço}%s\n{íultimavez}"
+      "message" : "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today.\n"
+   },
+   "FLAVOUR_5_PRICE" : {
+      "description" : "",
+      "message" : "\nEngine: {drive}\nService: {price}\n{lasttime}"
    },
    "FLAVOUR_5_RESPONSE" : {
       "description" : "",

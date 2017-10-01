@@ -1,7 +1,11 @@
 {
    "FLAVOUR_0_INTRO" : {
       "description" : "",
-      "message" : "Evitați ca motorul dvs. supeluminic să vă lase baltă în cel mai nepotrivit moment. Veniți să-l depanați astăzi la firma autorizată Compania Depanare Motoare {name}.\n\nMotor: {drive}\nDepanare: {price}\nGaranție: 18 luni\n{lasttime}"
+      "message" : "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n"
+   },
+   "FLAVOUR_0_PRICE" : {
+      "description" : "",
+      "message" : "\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}"
    },
    "FLAVOUR_0_RESPONSE" : {
       "description" : "",
@@ -17,7 +21,11 @@
    },
    "FLAVOUR_1_INTRO" : {
       "description" : "",
-      "message" : "Sunt {proprietor}. Pot să depanez motorul dvs.: {drive} cu garanția de cel puțin un an de performanță fără probleme. Costul pentru acest serviciu este de {price}\n{lasttime}"
+      "message" : "I'm {proprietor}. I can service your hyperdrive, guaranteeing at least a year of trouble-free performance. "
+   },
+   "FLAVOUR_1_PRICE" : {
+      "description" : "",
+      "message" : "The cost for servicing your {drive} will be {price}\n{lasttime}"
    },
    "FLAVOUR_1_RESPONSE" : {
       "description" : "",
@@ -33,7 +41,11 @@
    },
    "FLAVOUR_2_INTRO" : {
       "description" : "",
-      "message" : "Salut. Noi, cei de la S.C. {proprietor} ne punem reputația la bătaie prin munca noastră.\n\n{lasttime}\nPutem să reglăm motorul navei dvs.: {drive} și asigurăm 12 luni de operare fără probleme pentru suma de {price}. O să supervizez lucrările chiar eu, așa că puteți sta liniștit că o să fie treabă de calitate."
+      "message" : "Hi there.  We at {proprietor} & Co stake our reputation on our work.\nWe can tune your ship's hyperdrive, ensuring 12 months of trouble-free operation. "
+   },
+   "FLAVOUR_2_PRICE" : {
+      "description" : "",
+      "message" : "\n\n{lasttime}\nFor your {drive}, I'll be supervising the work myself, so you can be sure that a good job will be done, for the sum of {price}."
    },
    "FLAVOUR_2_RESPONSE" : {
       "description" : "",
@@ -45,11 +57,15 @@
    },
    "FLAVOUR_2_YESPLEASE" : {
       "description" : "",
-      "message" : "Vă rog să-mi reglați motorul la prețul cerut"
+      "message" : "Please tune my hyperdrive at the quoted price"
    },
    "FLAVOUR_3_INTRO" : {
       "description" : "",
-      "message" : "Bine ați venit la Mentenanța SuperFix.\n\n{lasttime}\nTimpul pentru mentenanța semestrială? SuperFix vă ajută la nevoie!\nVă putem regla motorul dvs.: {drive} pentru doar {price}. Nu veți găsi nicăieri mai ieftin!"
+      "message" : "Welcome SuperFix Maintenance. Time for your biannual maintenance? Let us SuperFix your hyperdrive! "
+   },
+   "FLAVOUR_3_PRICE" : {
+      "description" : "",
+      "message" : "\n\n{lasttime}\nWe can tune your {drive} for just {price}.  There's nobody cheaper!"
    },
    "FLAVOUR_3_RESPONSE" : {
       "description" : "",
@@ -65,7 +81,11 @@
    },
    "FLAVOUR_4_INTRO" : {
       "description" : "",
-      "message" : "Bine ați venit la Timp și Spațiu.\n\nSuntem specialiști în motoare interstelare. Toate lucrările de mentenanță sunt garantate pentru doi ani.\n{lasttime}\nDepanarea motorului dvs.: {drive} costă {price}. Doriți să ne apucăm de treabă?"
+      "message" : "Welcome to Time and Space.\n\nWe specialise in interstellar engines. All maintenance work guaranteed for two years."
+   },
+   "FLAVOUR_4_PRICE" : {
+      "description" : "",
+      "message" : "\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?"
    },
    "FLAVOUR_4_RESPONSE" : {
       "description" : "",
@@ -81,7 +101,11 @@
    },
    "FLAVOUR_5_INTRO" : {
       "description" : "",
-      "message" : "Evitați ca motorul dvs. supeluminic să vă lase baltă în cel mai nepotrivit moment. Veniți să-l depanați astăzi.\n\nMotor: {drive}\nDepanare: {price}\n{lasttime}"
+      "message" : "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today.\n"
+   },
+   "FLAVOUR_5_PRICE" : {
+      "description" : "",
+      "message" : "\nEngine: {drive}\nService: {price}\n{lasttime}"
    },
    "FLAVOUR_5_RESPONSE" : {
       "description" : "",
