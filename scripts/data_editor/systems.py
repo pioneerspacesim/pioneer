@@ -120,6 +120,9 @@ SYSTEM_SCHEMA = {
     'bodies': {
         'type': ('table'),
         'title': ('System Bodies'),
+        'options': {
+            'collapsible': True,
+        },
         'columns': [
             {
                 'title': 'Body name',
@@ -251,6 +254,9 @@ SYSTEM_SCHEMA = {
     'starports': {
         'type': ('table'),
         'title': ('Surface starports'),
+        'options': {
+            'collapsible': False,
+        },
         'columns': [
             {
                 'title': 'Body name',

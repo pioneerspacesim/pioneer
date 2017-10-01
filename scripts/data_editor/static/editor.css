@@ -105,10 +105,9 @@ body {
   background: #eee;
 }
 
-.deeptable.clickable tbody:hover {
-  background-color: #ddd;
-  cursor: pointer;
-  transition: background-color .150s;
+.deeptable tbody.inner {
+  background: #999;
+  box-shadow: inset 0px 0px 2px rgba(0,0,0,0.9);
 }
 
 .deeptable td.number {
@@ -122,5 +121,11 @@ body {
 }
 
 .deeptable td.subsection {
-  padding-left: 3em;
+  padding-left: 0.5em;
+}
+
+.clickable:hover {
+  background-color: #ddd !important;
+  cursor: pointer;
+  transition: background-color .150s;
 }

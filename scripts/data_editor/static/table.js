@@ -64,10 +64,15 @@
     }
   }
 
-  function RenderHeader(schema, title) {
+  function RenderHeader(schema, title, options) {
+    options = options || {};
     var cells = new Array2D();
     var curRow = 0;
     var curCol = 0;
+    if (options.collapsible) {
+      cells.Set(0, 0, '');
+      ++curCol;
+    }
 
     IterateSchema(
       schema,
@@ -113,19 +118,27 @@
     return element;
   }
 
-  function RenderDataChunk(schema, item) {
+  function RenderDataChunk(schema, item, options) {
+    options = options || {};
     var cells = new Array2D();
     var curCol = 0;
     var curRow = 0;
     var xs = [item];
 
+    var element = $('<tbody>');
+    if (options.collapsible) {
+      var td = $('<td>');
+      cells.Set(0, 0, td);
+      element.collapser = td;
+      ++curCol;
+    }
+
     IterateSchema(
       schema,
       function(item) {
-        cells.Set(curRow, curCol, {
-          'schema': item,
-          'data': xs[xs.length - 1][item.id]
-        });
+        var td = $('<td>');
+        Format(item.format, td, xs[xs.length - 1][item.id]);
+        cells.Set(curRow, curCol, td);
         ++curCol;
       },
       function(item) {
@@ -135,12 +148,11 @@
         xs.pop();
       }
     );
-    var element = $('<tbody>');
     for (var i = 0; i < cells.Rows(); ++i) {
       var tr = $('<tr>');
       for (var j = 0; j < cells.Cols(); ++j) {
         if (cells.Get(i, j) === undefined) continue;
-        var item = cells.Get(i, j);
+        var td = cells.Get(i, j);
         var col = j;
         var rowspan = 1;
         while (i + rowspan < cells.Rows() &&
@@ -149,11 +161,9 @@
         }
         while (j + 1 < cells.Cols() && cells.Get(i, j + 1) === undefined) ++j;
         var colspan = j - col + 1;
-        var td = $('<td>')
-          .attr('colspan', colspan)
-          .attr('rowspan', rowspan);
-        Format(item.schema.format, td, item.data);
-        td.appendTo(tr);
+        td.attr('colspan', colspan)
+          .attr('rowspan', rowspan)
+          .appendTo(tr);
       }
       tr.appendTo(element);
     }
@@ -207,30 +217,50 @@
     renderChunk: function(parent, parent_options, root_schema, section, data) {
       var schema = root_schema[section];
       var options = schema.options || {};
-      $.extend(options, parent_options);
+      options = $.extend({}, parent_options, options);
       if (schema.type == 'table') {
         var el = $('<table>').addClass('deeptable').appendTo(parent);
-        if (options.clickable && this.options.onClick) {
-          el.addClass('clickable');
-        }
-        RenderHeader(schema.columns, schema.title).appendTo(el);
+        RenderHeader(schema.columns, schema.title, options).appendTo(el);
         for (var i = 0; i < data.length; ++i) {
-          var row = RenderDataChunk(schema.columns, data[i])
-            .addClass(i % 2 ? 'even' : 'odd');
+          var row = RenderDataChunk(schema.columns, data[i], options);
+          row.addClass(i % 2 ? 'even' : 'odd').appendTo(el);
           if (schema.subsections) {
+            var innerTbody = $('<tbody>').addClass('inner');
+            var hasSomething = false;
             for (var j = 0; j < schema.subsections.length; ++j) {
               var subsection = schema.subsections[j];
               var d = data[i][subsection.id];
               if (!d || d.length == 0) continue;
+              hasSomething = true;
               var td = $('<td>')
                 .addClass('subsection')
                 .attr('colspan', row.colspanwidth)
-                .appendTo($('<tr>').appendTo(row));
+                .appendTo($('<tr>').appendTo(innerTbody));
               this.renderChunk(td, options, root_schema, subsection.schema, d);
             }
+            if (hasSomething) {
+              innerTbody.appendTo(el);
+              if (row.collapser) {
+                (function(collapser, tbody) {
+                  tbody.hide();
+                  var hidden = true;
+                  collapser.text('⊞').addClass('clickable').click(function() {
+                    if (hidden) {
+                      tbody.show('fast');
+                      collapser.text('⊟');
+                      hidden = false;
+                    } else {
+                      tbody.hide();
+                      collapser.text('⊞');
+                      hidden = true;                      
+                    }
+                  });
+                })(row.collapser, innerTbody);
+              }
+            }
           }
-          row.appendTo(el);
           if (options.clickable && this.options.onClick) {
+            row.addClass('clickable');
             row.click(this.options.onClick.bind(this, data[i]));
           }
         }
