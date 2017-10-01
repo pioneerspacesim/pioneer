@@ -29,12 +29,58 @@
     return true;
   }
 
+  function FormatWithSiPrefix(val) {
+    if (val == 0) return "0";
+    var digits = "";
+    if (val < 0) {
+      digits = "-";
+      val = val;
+    }
+
+    var exponent = Math.floor(Math.log10(val));
+    var mantissa = Math.round(val / (10 ** (exponent - 2))).toString();
+    var suffix = '';
+
+    var prefixes = [
+      'y', 'z', 'a', 'f', 'p', 'n', 'µ', 'm', '',
+      'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y',
+    ];
+
+    if (exponent == -1) {
+      // Special case, "0.1" appears more readable to me than "100m".
+      digits += "0." + mantissa;
+    } else {
+      var x = exponent % 3;
+      if (x < 0) x += 3;
+      digits += mantissa.slice(0, x + 1) + '.' + mantissa.slice(x + 1);
+      suffix = prefixes[Math.floor(exponent / 3) + 8];
+    }
+
+    return digits.replace(/\.?0*$/, '') + suffix;
+  }
+
+  function FormatToDecimal(val) {
+    return val.toFixed(1).replace(/\.?0*$/, '');
+  }
+
   var formatters = {
     'int': function(el, val) {
       el.addClass('number').text(val);
     },
     'text': function(el, val) {
       el.addClass('text').text(val);
+    },
+    'siprefix': function(el, val) {
+      el.text(FormatWithSiPrefix(val));
+    },
+    'percent': function(el, val) {
+      el.text(FormatToDecimal(val * 100) + '%');
+    },
+    'degrees': function(el, val) {
+      el.text(FormatToDecimal(val) + '°');
+    },
+    'hex': function(el, val) {
+      el.addClass('number').text(val.toString(16));
     },
     'default': function(el, val) {
       el.text(val);
@@ -252,7 +298,7 @@
                     } else {
                       tbody.hide();
                       collapser.text('⊞');
-                      hidden = true;                      
+                      hidden = true;
                     }
                   });
                 })(row.collapser, innerTbody);

@@ -137,12 +137,14 @@ SYSTEM_SCHEMA = {
             {
                 'title': 'Radius',
                 'id': 'radius',
-                'format': 'float',
+                'format': 'siprefix',
+                'type': 'float',
             },
             {
                 'title': 'Mass',
                 'id': 'mass',
-                'format': 'float',
+                'format': 'siprefix',
+                'type': 'float',
             },
             {
                 'title': '🌡',
@@ -152,82 +154,98 @@ SYSTEM_SCHEMA = {
             {
                 'title': 'Semi Major Axis',
                 'id': 'semi_major_axis',
-                'format': 'float',
+                'format': 'siprefix',
+                'type': 'float',
             },
             {
                 'title': 'Eccent\u200Bricity',
                 'id': 'eccentricity',
-                'format': 'float',
+                'format': 'percent',
+                'type': 'float',
             },
             {
                 'title': 'Incli\u200Bnation',
                 'id': 'inclination',
-                'format': 'float',
+                'format': 'degrees',
+                'type': 'float',
             },
             {
                 'title': 'Rotation Period',
                 'id': 'rotation_period',
-                'format': 'float',
+                'format': 'siprefix',
+                'type': 'float',
             },
             {
                 'title': 'Axial Tilt',
                 'id': 'axial_tilt',
-                'format': 'float',
+                'format': 'degrees',
+                'type': 'float',
             },
             {
                 'title': 'Metal\u200Blicity',
                 'id': 'metallicity',
-                'format': 'float',
+                'format': 'siprefix',
+                'type': 'float',
             },
             {
                 'title': 'Volca\u200Bnicity',
                 'id': 'volcanicity',
-                'format': 'float',
+                'format': 'siprefix',
+                'type': 'float',
             },
             {
                 'title': 'Atmo\u200Bspheric Density',
                 'id': 'atmos_density',
-                'format': 'float',
+                'format': 'siprefix',
+                'type': 'float',
             },
             {
                 'title': 'Atmo\u200Bspheric Oxidi\u200Bzing',
                 'id': 'atmos_oxidizing',
-                'format': 'float',
+                'format': 'siprefix',
+                'type': 'float',
             },
             {
                 'title': 'Ocean Cover',
                 'id': 'ocean_cover',
-                'format': 'float',
+                'format': 'siprefix',
+                'type': 'float',
             },
             {
                 'title': 'Ice Cover',
                 'id': 'ice_cover',
-                'format': 'float',
+                'format': 'siprefix',
+                'type': 'float',
             },
             {
                 'title': 'Life',
                 'id': 'life',
-                'format': 'float',
+                'format': 'siprefix',
+                'type': 'float',
             },
             {
                 'title': 'Orbital phase at start',
                 'id': 'orbital_phase_at_start',
-                'format': 'float',
+                'format': 'degrees',
+                'type': 'float',
             },
             {
                 'title': 'Rota\u200Btional phase at start',
                 'id': 'rotational_phase_at_start',
-                'format': 'float',
+                'format': 'degrees',
+                'type': 'float',
             },
             {
                 'title': 'Orbi\u200Btal offset',
                 'id': 'orbital_offset',
                 'format': 'float',
+                'type': 'float',
             },
             {
                 'title': 'Equa\u200Btorial to polar radius',
                 'id': 'equatorial_to_polar_radius',
                 'format': 'float',
+                'type': 'float',
             },
             {
                 'title': 'Space Station type',
@@ -237,7 +255,7 @@ SYSTEM_SCHEMA = {
             {
                 'title': 'Seed',
                 'id': 'seed',
-                'format': 'int',
+                'format': 'hex',
             },
         ],
         'subsections': [
@@ -302,8 +320,9 @@ def PopulateFieldsFromSchema(data, schema):
       res[x['id']] = PopulateFieldsFromSchema(data, x['subfields'])
       continue
     d = FollowSelector(data, x)
-    if hasattr(d, 'to_%s' % x['format']):
-      d = getattr(d, 'to_%s' % x['format'])()
+    typ = x.get('type', x['format'])
+    if hasattr(d, 'to_%s' % typ):
+      d = getattr(d, 'to_%s' % typ)()
     res[x['id']] = d
   return res
 

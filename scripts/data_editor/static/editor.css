@@ -86,7 +86,7 @@ body {
   max-width: 300px;
   overflow-x: hidden;
   text-overflow: ellipsis;
-  vertical-align: top;  
+  vertical-align: top;
 }
 
 .deeptable td.empty {
@@ -107,7 +107,7 @@ body {
 
 .deeptable tbody.inner {
   background: #999;
-  box-shadow: inset 0px 0px 2px rgba(0,0,0,0.9);
+  box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.9);
 }
 
 .deeptable td.number {
