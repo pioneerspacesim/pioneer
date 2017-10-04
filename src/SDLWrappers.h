@@ -22,7 +22,9 @@ public:
 	SDLSurfacePtr() {}
 	SDLSurfacePtr(const SDLSurfacePtr& b): base_type(b.Get())
 	{ if (this->m_ptr) this->m_ptr->refcount += 1; }
-	~SDLSurfacePtr() { SDL_FreeSurface(this->Release()); }
+//	~SDLSurfacePtr() { SDL_FreeSurface(this->Release()); }
+	// workaround for SDL 2.0.6 FreeSurface bug
+	~SDLSurfacePtr() { SDL_Surface *p = this->Release(); if (p && --p->refcount <= 0) SDL_FreeSurface(p); }
 
 	SDLSurfacePtr &operator=(const SDLSurfacePtr &b) { SDLSurfacePtr(b).Swap(*this); return *this; }
 
