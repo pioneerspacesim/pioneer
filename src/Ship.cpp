@@ -402,6 +402,8 @@ bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact& co
 			if (attacker) {
 				if (attacker->IsType(Object::BODY))
 					LuaEvent::Queue("onShipDestroyed", this, dynamic_cast<Body*>(attacker));
+				else if (attacker->IsType(Object::CITYONPLANET))
+					LuaEvent::Queue("onShipDestroyed", this, dynamic_cast<CityOnPlanet*>(attacker)->GetPlanet());
 			}
 
 			Explode();
