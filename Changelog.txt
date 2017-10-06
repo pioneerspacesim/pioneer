@@ -1,3 +1,7 @@
+October 2017
+   * Internal Changes
+     * Work around for pioneer crashing at start due to bug in new SDL 2.0.6 (#4174)
+
 September 2017
    * New Features
      * Attack outlaws immediately (#4089)
