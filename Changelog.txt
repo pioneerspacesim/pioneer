@@ -4,6 +4,7 @@ October 2017
 
    * Fixes
      * Fix crash on MacOS (#4176)
+     * Fix bug in SAR mission regarding available passengers (#4175)
 
 September 2017
    * New Features
