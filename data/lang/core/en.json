@@ -15,6 +15,10 @@
       "description" : "Alt key on keyboard",
       "message" : "Alt"
    },
+   "AND" : {
+      "description" : "",
+      "message" : " and "
+   },
    "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
       "description" : "",
       "message" : "\" and a highly complex ecosystem.\""
@@ -262,6 +266,10 @@
    "CONSUMER_GOODS" : {
       "description" : "",
       "message" : "Consumer goods"
+   },
+   "CONTAINING" : {
+      "description" : "",
+      "message" : " containing "
    },
    "CONTROLS" : {
       "description" : "",
@@ -599,6 +607,10 @@
       "description" : "",
       "message" : "\" Hydrogen atmosphere\""
    },
+   "ICE" : {
+      "description" : "",
+      "message" : "ice"
+   },
    "ICE_WORLD" : {
       "description" : "",
       "message" : "\" ice world\""
@@ -659,6 +671,10 @@
       "description" : "Either show L4/L5 points or don't",
       "message" : "Switch between Lagrange L4/L5 point display modes."
    },
+   "LAND" : {
+      "description" : "",
+      "message" : "land"
+   },
    "LANDED" : {
       "description" : "",
       "message" : "Landed"
@@ -715,9 +731,17 @@
       "description" : "",
       "message" : "Oxygen is required for life support systems and some industrial processes"
    },
+   "LIQUID_WATER" : {
+      "description" : "",
+      "message" : "liquid water"
+   },
    "LIQUOR" : {
       "description" : "",
       "message" : "Liquor"
+   },
+   "LITTLE" : {
+      "description" : "",
+      "message" : "little "
    },
    "LIVE_ANIMALS" : {
       "description" : "",
@@ -946,6 +970,10 @@
    "MONTH_SEP" : {
       "description" : "",
       "message" : "Sep"
+   },
+   "MUCH" : {
+      "description" : "",
+      "message" : "much "
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
@@ -1422,6 +1450,10 @@
    "SOLAR" : {
       "description" : "",
       "message" : "Solar"
+   },
+   "SOME" : {
+      "description" : "",
+      "message" : "some "
    },
    "SOME_ESTABLISHED_MINING" : {
       "description" : "",
