@@ -21,11 +21,31 @@ void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint
 	bmask = 0x00ff0000;
 	amask = (bytes_per_pixel == 3) ? 0 : 0xff000000;
 #endif
+
 	// create a surface
-	SDL_Surface *surface = SDL_CreateRGBSurfaceFrom((void*)bytes, width, height, bytes_per_pixel * 8, width * bytes_per_pixel, rmask, gmask, bmask, amask);
-	const std::string fname = FileSystem::JoinPathBelow(fs.GetRoot(), path);
+	//SDL_Surface *surface = SDL_CreateRGBSurfaceFrom((void*)bytes, width, height, bytes_per_pixel * 8, width * bytes_per_pixel, rmask, gmask, bmask, amask);
+	SDL_Surface *surface = SDL_CreateRGBSurface(0, width, height, bytes_per_pixel * 8, rmask, gmask, bmask, amask);
+
+	// flip the image vertically
+	int srcy = height - 1;
+	for (int y = 0; y < height; y++)
+	{
+		for (int x = 0; x < stride; x++)
+		{
+			const int src_index = (srcy * stride) + x;
+			const int dst_index = (y * stride) + x;
+			for (int channel = 0; channel < bytes_per_pixel; channel++)
+			{
+				((Uint8*)surface->pixels)[dst_index + channel] = bytes[src_index + channel];
+			}
+		}
+		srcy--;
+	}
+	
 	// do the actual saving
+	const std::string fname = FileSystem::JoinPathBelow(fs.GetRoot(), path);
 	IMG_SavePNG(surface, fname.c_str());
+
 	//cleanup after ourselves
 	SDL_FreeSurface(surface);
 	surface = nullptr;
