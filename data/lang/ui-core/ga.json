@@ -453,7 +453,7 @@
    },
    "HUD_ATMOSPHERIC_PRESSURE" : {
       "description" : "Tooltip: Atmospheric Pressure.",
-      "message" : "Atmospheric Pressure"
+      "message" : "Brú Atmaisféarach"
    },
    "HUD_BACKWARD_GUN_TEMPERATURE" : {
       "description" : "Tooltip: Backward Gun Temperature.",
@@ -477,7 +477,7 @@
    },
    "HUD_BUTTON_BLASTOFF" : {
       "description" : "Tooltip: Blastoff",
-      "message" : "Blastoff"
+      "message" : "Éirí den talamh"
    },
    "HUD_BUTTON_EQUIPMENT" : {
       "description" : "Tooltip: Equipment",
@@ -549,27 +549,27 @@
    },
    "HUD_BUTTON_ROTATION_DAMPING_IS_OFF" : {
       "description" : "Tooltip: Rotation damping is off",
-      "message" : "Rotation damping is off"
+      "message" : "Maolú rothlaithe múchta"
    },
    "HUD_BUTTON_ROTATION_DAMPING_IS_ON" : {
       "description" : "Tooltip: Rotation damping is on",
-      "message" : "Rotation damping is on"
+      "message" : "Maolú rothlaithe ar siúl"
    },
    "HUD_BUTTON_SCANNER" : {
       "description" : "Tooltip: Scanner",
-      "message" : "Scanner"
+      "message" : "Scanóir"
    },
    "HUD_BUTTON_SET_SPEED" : {
       "description" : "Tooltip: set speed",
-      "message" : "Set speed"
+      "message" : "Socraigh an luas"
    },
    "HUD_BUTTON_SHOW_COMMS" : {
       "description" : "Tooltip: Show comms",
-      "message" : "Show comms"
+      "message" : "Taispeáin an gléas cumarsáide"
    },
    "HUD_BUTTON_SHOW_PERSONAL_INFO" : {
       "description" : "Tooltip: Show personal info",
-      "message" : "Show personal info"
+      "message" : "Taispeáin faisnéis phearsanta"
    },
    "HUD_BUTTON_SIDEREAL_VIEW" : {
       "description" : "Tooltip: Sidereal camera view",
@@ -597,11 +597,11 @@
    },
    "HUD_BUTTON_UNDOCK" : {
       "description" : "Tooltip: Undock",
-      "message" : "Undock"
+      "message" : "Díghlasáil"
    },
    "HUD_CARGO_MASS" : {
       "description" : "Cargo Mass",
-      "message" : "Cargo Mass"
+      "message" : "Mais an Lasta"
    },
    "HUD_CURRENT_COMBAT_TARGET" : {
       "description" : "Tooltip: The current combat target.",
@@ -661,15 +661,15 @@
    },
    "HUD_HULL_STRENGTH" : {
       "description" : "Tooltip: Hull Strength.",
-      "message" : "Hull Strength"
+      "message" : "Neart na Cabhlach"
    },
    "HUD_HULL_TEMPERATURE" : {
       "description" : "Tooltip: Hull Temperature.",
-      "message" : "Hull Temperature"
+      "message" : "Teocht na Cabhlach"
    },
    "HUD_HYPERSPACING_TO_N_IN_N_SECONDS" : {
       "description" : "",
-      "message" : "Hyperspacing to {destination} in {countdown} seconds"
+      "message" : "Ag dul sa hipearspás go dtí {destination} i gceann {countdown} soicind"
    },
    "HUD_INDICATOR_AWAY_FROM_FRAME" : {
       "description" : "Indicator: Away from the current frame.",
@@ -705,11 +705,11 @@
    },
    "HUD_IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
-      "message" : "In transit to {system} [{x},{y},{z}]"
+      "message" : "Ar an tslí go dtí {system} [{x},{y},{z}]"
    },
    "HUD_JUMP_COMPLETE" : {
       "description" : "",
-      "message" : "Jump complete: {percent}%"
+      "message" : "Dul chun cinn na léime: {percent}%"
    },
    "HUD_MASS" : {
       "description" : "Mass",
@@ -725,7 +725,7 @@
    },
    "HUD_SHIELD_STRENGTH" : {
       "description" : "Tooltip: Shield Strength.",
-      "message" : "Shield Strength"
+      "message" : "Neart na Scéithe"
    },
    "HUD_SHOW_COMBAT_TARGET" : {
       "description" : "Tooltip: Show the current combat target.",

@@ -1,11 +1,11 @@
 {
    "FLAVOUR_0_INTRO" : {
       "description" : "",
-      "message" : "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n"
+      "message" : "Seachain an t-anró a bhaineann le hinneall briste. Déan cothabháil ar do hipirthiomáint inniu, le Comhlacht Cothabhála {name}, comhlacht atá molta go hoifigiúil.\n"
    },
    "FLAVOUR_0_PRICE" : {
       "description" : "",
-      "message" : "\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}"
+      "message" : "\nInneall: {drive}\nSeirbhís: {price}\nBarántas: 18 mí\n{lasttime}"
    },
    "FLAVOUR_0_RESPONSE" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "FLAVOUR_1_INTRO" : {
       "description" : "",
-      "message" : "I'm {proprietor}. I can service your hyperdrive, guaranteeing at least a year of trouble-free performance. "
+      "message" : "Is mise {proprietor}. Déanfaidh mé cothabháil ar do hipirthiomáint, agus tabharfaidh mé gealltanas duit go n-oibreoidh sé gan aon trioblóid ar feadh bliana amháin ar a laghad."
    },
    "FLAVOUR_1_PRICE" : {
       "description" : "",
@@ -41,11 +41,11 @@
    },
    "FLAVOUR_2_INTRO" : {
       "description" : "",
-      "message" : "Hi there.  We at {proprietor} & Co stake our reputation on our work.\nWe can tune your ship's hyperdrive, ensuring 12 months of trouble-free operation. "
+      "message" : "Dia dhuit. Tá clú {proprietor} bunaithe ar an obair den scoth a dhéanaimid.\nDéanfaimid cothabháil ar hipirthiomáint do loinge, agus tabharfaimid gealltanas duit go n-oibreoidh sé gan aon trioblóid ar feadh tréimhse 12 mhí."
    },
    "FLAVOUR_2_PRICE" : {
       "description" : "",
-      "message" : "\n\n{lasttime}\nFor your {drive}, I'll be supervising the work myself, so you can be sure that a good job will be done, for the sum of {price}."
+      "message" : "\n\n{lasttime}\nMise a bheidh i mbun maoirseachta ar an obair ar do {drive}, agus dá bharr sin is féidir leat a bheith cinnte go mbeidh an obair déanta go maith, ar chostas {price}."
    },
    "FLAVOUR_2_RESPONSE" : {
       "description" : "",
@@ -57,15 +57,15 @@
    },
    "FLAVOUR_2_YESPLEASE" : {
       "description" : "",
-      "message" : "Please tune my hyperdrive at the quoted price"
+      "message" : "Bheinn buíoch díot dá ndéanfá cothabháil ar mo hipirthiomáint ar an bpraghas a luadh."
    },
    "FLAVOUR_3_INTRO" : {
       "description" : "",
-      "message" : "Welcome SuperFix Maintenance. Time for your biannual maintenance? Let us SuperFix your hyperdrive! "
+      "message" : "Fáilte go dtí Cothabháil na Sárdheisitheoirí. An bhfuil sé in am do do chothabháil leathbhliantúil? Lig dúinn an deisiúchán a thapú!"
    },
    "FLAVOUR_3_PRICE" : {
       "description" : "",
-      "message" : "\n\n{lasttime}\nWe can tune your {drive} for just {price}.  There's nobody cheaper!"
+      "message" : "\n\n{lasttime}\nDéanfaimid cothabháil ar do {drive} ar {price}. Níl éinne níos saoire ná muidne!"
    },
    "FLAVOUR_3_RESPONSE" : {
       "description" : "",
@@ -81,11 +81,11 @@
    },
    "FLAVOUR_4_INTRO" : {
       "description" : "",
-      "message" : "Welcome to Time and Space.\n\nWe specialise in interstellar engines. All maintenance work guaranteed for two years."
+      "message" : "Fáilte go dtí Innill Spás-Ama, Teo.\n\nInnill idir-réaltacha an speisialtacht atá againn. Tá ár gcuid oibre cothabhála faoi ráthaíocht go ceann dhá bhliain."
    },
    "FLAVOUR_4_PRICE" : {
       "description" : "",
-      "message" : "\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?"
+      "message" : "\n{lasttime}\nCosnóidh sé {price} cothabháil a dhéanamh ar do {drive}. An bhfuil fonn ort é seo a dhéanamh?"
    },
    "FLAVOUR_4_RESPONSE" : {
       "description" : "",
@@ -101,11 +101,11 @@
    },
    "FLAVOUR_5_INTRO" : {
       "description" : "",
-      "message" : "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today.\n"
+      "message" : "Seachain an t-anró a bhaineann le hinneall briste. Déan cothabháil ar do hipirthiomáint inniu.\n"
    },
    "FLAVOUR_5_PRICE" : {
       "description" : "",
-      "message" : "\nEngine: {drive}\nService: {price}\n{lasttime}"
+      "message" : "\nInneall: {drive}\nSeirbhís: {price}\n{lasttime}"
    },
    "FLAVOUR_5_RESPONSE" : {
       "description" : "",
