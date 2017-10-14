@@ -5,64 +5,48 @@
 #include "FileSystem.h"
 #include "utils.h"
 
-#define PNG_SKIP_SETJMP_CHECK
-#include <png.h>
+void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint8 *bytes, int width, int height, int stride, int bytes_per_pixel)
+{
+	// Set up the pixel format color masks for RGB(A) byte arrays.
+	Uint32 rmask, gmask, bmask, amask;
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+	int shift = ((sd.bpp == 3) ? 8 : 0;
+	rmask = 0xff000000 >> shift;
+	gmask = 0x00ff0000 >> shift;
+	bmask = 0x0000ff00 >> shift;
+	amask = 0x000000ff >> shift;
+#else // little endian, like x86
+	rmask = 0x000000ff;
+	gmask = 0x0000ff00;
+	bmask = 0x00ff0000;
+	amask = (bytes_per_pixel == 3) ? 0 : 0xff000000;
+#endif
 
-void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint8 *bytes, int width, int height, int stride, int bytes_per_pixel) {
-	png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
-	if (!png_ptr) {
-		Output("Couldn't create png_write_struct\n");
-		return;
+	// create a surface
+	//SDL_Surface *surface = SDL_CreateRGBSurfaceFrom((void*)bytes, width, height, bytes_per_pixel * 8, width * bytes_per_pixel, rmask, gmask, bmask, amask);
+	SDL_Surface *surface = SDL_CreateRGBSurface(0, width, height, bytes_per_pixel * 8, rmask, gmask, bmask, amask);
+
+	// flip the image vertically
+	int srcy = height - 1;
+	for (int y = 0; y < height; y++)
+	{
+		for (int x = 0; x < stride; x++)
+		{
+			const int src_index = (srcy * stride) + x;
+			const int dst_index = (y * stride) + x;
+			for (int channel = 0; channel < bytes_per_pixel; channel++)
+			{
+				((Uint8*)surface->pixels)[dst_index + channel] = bytes[src_index + channel];
+			}
+		}
+		srcy--;
 	}
+	
+	// do the actual saving
+	const std::string fname = FileSystem::JoinPathBelow(fs.GetRoot(), path);
+	IMG_SavePNG(surface, fname.c_str());
 
-	png_infop info_ptr = png_create_info_struct(png_ptr);
-	if (!info_ptr) {
-		png_destroy_write_struct(&png_ptr, 0);
-		Output("Couldn't create png_info_struct\n");
-		return;
-	}
-
-	//http://www.libpng.org/pub/png/libpng-1.2.5-manual.html#section-3.1
-	if (setjmp(png_jmpbuf(png_ptr))) {
-		png_destroy_write_struct(&png_ptr, &info_ptr);
-		Output("Couldn't set png jump buffer\n");
-		return;
-	}
-
-	FILE *out = fs.OpenWriteStream(path);
-	if (!out) {
-		png_destroy_write_struct(&png_ptr, &info_ptr);
-		Output("Couldn't open '%s/%s' for writing\n", fs.GetRoot().c_str(), path.c_str());
-		return;
-	}
-
-	int colour_type;
-	switch (bytes_per_pixel) {
-		case 1: colour_type = PNG_COLOR_TYPE_GRAY; break;
-		case 2: colour_type = PNG_COLOR_TYPE_GRAY_ALPHA; break;
-		case 3: colour_type = PNG_COLOR_TYPE_RGB; break;
-		case 4: colour_type = PNG_COLOR_TYPE_RGB_ALPHA; break;
-		default: assert(0); return;
-	}
-
-	png_init_io(png_ptr, out);
-	png_set_filter(png_ptr, 0, PNG_FILTER_NONE);
-	png_set_IHDR(png_ptr, info_ptr, width, height, 8, colour_type,
-		PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
-		PNG_FILTER_TYPE_DEFAULT);
-
-	png_bytepp rows = new png_bytep[height];
-
-	for (int i = 0; i < height; ++i) {
-		const Uint8 *row = bytes + ((height-i-1) * stride);
-		rows[i] = const_cast<Uint8*>(row);
-	}
-	png_set_rows(png_ptr, info_ptr, rows);
-	png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, 0);
-
-	png_destroy_write_struct(&png_ptr, &info_ptr);
-
-	delete[] rows;
-
-	fclose(out);
+	//cleanup after ourselves
+	SDL_FreeSurface(surface);
+	surface = nullptr;
 }
