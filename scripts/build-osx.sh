@@ -5,19 +5,24 @@
 # It grabs the binary, data files and libs and bundles them all
 # in cotton wool.
 
-# Run ./scripts/build-osx.sh "./configure && make" and you should have a nice
-# pioneer-osx.bz2 file in the root of the project directory.
+# Run ./scripts/build-osx.sh and it will configure, make and upload
+# the osx binary to sourceforge.
 
 PIONEER="/Users/Phil/dev/pioneer"
 DIST="${PIONEER}/pioneer-osx"
-DATE=`date +%Y%m`
-COUNTER="`git rev-list --count --since=\`date +%Y-%m-01\` HEAD`"
-BASEOUTFILE="pioneer-${DATE}.${COUNTER}-osx"
+DATE=`date +%Y%m%d`
+BASEOUTFILE="pioneer-${DATE}-osx"
 UPLOAD_DIR=philbywhizz,pioneerspacesim@frs.sf.net:/home/frs/project/p/pi/pioneerspacesim
 
 cd $PIONEER
 
-echo "=== Packaging ${BASEOUTFILE} ==="
+echo "=== Clean and do a new build ==="
+
+make clean
+./configure LDFLAGS="-L/System/Library/Frameworks/OpenGL.framework/Libraries -L/System/Library/Frameworks/GLUT.framework"
+make all
+
+echo "=== OSX Packaging ${BASEOUTFILE} ==="
 
 test -d $DIST && rm -fr $DIST
 mkdir $DIST
@@ -34,31 +39,20 @@ cp -r $PIONEER/licenses $DIST/licenses
 # copy the data folder
 cp -r $PIONEER/data $DIST/data
 
-# Copy over libs
+# Copy over main libs
 mkdir $DIST/libs
-cp -v /opt/local/lib/libfreetype.6.dylib $DIST/libs
-cp -v /opt/local/lib/libGLEW.1.9.0.dylib $DIST/libs
-cp -v /opt/local/lib/libassimp.3.dylib $DIST/libs
-cp -v /opt/local/lib/libsigc-2.0.0.dylib $DIST/libs
-cp -v /opt/local/lib/libSDL-1.2.0.dylib $DIST/libs
-cp -v /opt/local/lib/libSDL_image-1.2.0.dylib $DIST/libs
-cp -v /opt/local/lib/libSDL_sound-1.0.1.0.2.dylib $DIST/libs
-cp -v /opt/local/lib/libvorbisfile.3.dylib $DIST/libs
-cp -v /opt/local/lib/libbz2.1.0.dylib $DIST/libs
-cp -v /opt/local/lib/libjpeg.9.dylib $DIST/libs
-cp -v /opt/local/lib/libogg.0.dylib $DIST/libs
-cp -v /opt/local/lib/libpng15.15.dylib $DIST/libs
-cp -v /opt/local/lib/libtiff.5.dylib $DIST/libs
-cp -v /opt/local/lib/libvorbis.0.dylib $DIST/libs
-cp -v /opt/local/lib/libX11.6.dylib $DIST/libs
-cp -v /opt/local/lib/libXau.6.dylib $DIST/libs
-cp -v /opt/local/lib/libxcb.1.dylib $DIST/libs
-cp -v /opt/local/lib/libXdmcp.6.dylib $DIST/libs
-cp -v /opt/local/lib/libXext.6.dylib $DIST/libs
-cp -v /opt/local/lib/libXrandr.2.dylib $DIST/libs
-cp -v /opt/local/lib/libXrender.1.dylib $DIST/libs
-cp -v /opt/local/lib/libz.1.dylib $DIST/libs
-cp -v /opt/local/lib/liblzma.5.dylib $DIST/libs
+cp -v /usr/local/lib/libfreetype.6.dylib $DIST/libs
+cp -v /usr/local/lib/libSDL2_image-2.0.0.dylib $DIST/libs
+cp -v /usr/local/lib/libSDL2-2.0.0.dylib $DIST/libs
+cp -v /usr/local/opt/libsigc++/lib/libsigc-2.0.0.dylib $DIST/libs
+cp -v /usr/local/lib/libvorbisfile.3.dylib $DIST/libs
+cp -v /usr/local/lib/libpng16.16.dylib $DIST/libs
+cp -v /usr/local/lib/libjpeg.9.dylib $DIST/libs
+cp -v /usr/local/lib/libassimp.4.dylib $DIST/libs
+cp -v /usr/local/lib/libtiff.5.dylib $DIST/libs
+cp -v /usr/local/lib/libwebp.7.dylib $DIST/libs
+cp -v /usr/local/lib/libogg.0.dylib $DIST/libs
+cp -v /usr/local/lib/libvorbis.0.dylib $DIST/libs
 
 # Copy over the shell script
 cp $PIONEER/osx/pioneer.sh $DIST/pioneer
