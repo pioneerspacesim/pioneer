@@ -4,6 +4,8 @@ October 2017
      * Work around for pioneer crashing at start due to bug in new SDL 2.0.6 (#4174)
      * Removed unnecessary symlink + pioner now executes from any place (#4179)
      * Begin removing direct libpng usage (#4182)
+     * OSX Binary Build script (#4183)
+     * Part 2 of removing the libpng files (#4184)
 
    * Fixes
      * Fix crash on MacOS (#4176)
