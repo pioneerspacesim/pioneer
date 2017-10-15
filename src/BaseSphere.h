@@ -70,9 +70,11 @@ protected:
 	Graphics::RenderState *m_atmosRenderState;
 	RefCountedPtr<Graphics::Material> m_surfaceMaterial;
 	RefCountedPtr<Graphics::Material> m_atmosphereMaterial;
+	RefCountedPtr<Graphics::Material> m_cloudMaterial;
 
 	// atmosphere geometry
 	std::unique_ptr<Graphics::Drawables::Sphere3D> m_atmos;
+	std::unique_ptr<Graphics::Drawables::Sphere3D> m_cloudSphere;
 
 	//special parameters for shaders
 	MaterialParameters m_materialParameters;

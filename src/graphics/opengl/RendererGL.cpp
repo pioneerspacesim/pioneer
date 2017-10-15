@@ -15,6 +15,7 @@
 #include "GasGiantMaterial.h"
 #include "GeoSphereMaterial.h"
 #include "GenGasGiantColourMaterial.h"
+#include "GenCloudSphereMaterial.h"
 #include "MaterialGL.h"
 #include "RenderStateGL.h"
 #include "RenderTargetGL.h"
@@ -30,6 +31,7 @@
 #include "UIMaterial.h"
 #include "VtxColorMaterial.h"
 #include "BillboardMaterial.h"
+#include "CloudSphereMaterial.h"
 
 #include <stddef.h> //for offsetof
 #include <ostream>
@@ -409,6 +411,7 @@ bool RendererOGL::BeginFrame()
 
 bool RendererOGL::EndFrame()
 {
+	glFlush();
 	return true;
 }
 
@@ -975,9 +978,15 @@ Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d)
 	case EFFECT_GEN_GASGIANT_TEXTURE:
 		mat = new OGL::GenGasGiantColourMaterial();
 		break;
+	case EFFECT_GEN_CLOUDSPHERE_TEXTURE:
+		mat = new OGL::GenCloudSphereMaterial();
+		break;
 	case EFFECT_BILLBOARD_ATLAS:
 	case EFFECT_BILLBOARD:
 		mat = new OGL::BillboardMaterial();
+		break;
+	case EFFECT_CLOUD_SPHERE:
+		mat = new OGL::CloudSphereMaterial();
 		break;
 	default:
 		if (desc.lighting)

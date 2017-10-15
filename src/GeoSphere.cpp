@@ -6,6 +6,7 @@
 #include "GeoPatchContext.h"
 #include "GeoPatch.h"
 #include "GeoPatchJobs.h"
+#include "CloudJobs.h"
 #include "perlin.h"
 #include "Pi.h"
 #include "RefCounted.h"
@@ -19,6 +20,27 @@
 #include "vcacheopt/vcacheopt.h"
 #include <deque>
 #include <algorithm>
+
+#define DUMP_TO_TEXTURE false
+#if DUMP_TO_TEXTURE
+#include "FileSystem.h"
+#include "PngWriter.h"
+#include "graphics/opengl/TextureGL.h"
+void textureDump(const char* destFile, const int width, const int height, const Color* buf)
+{
+	const std::string dir = "generated_textures";
+	FileSystem::userFiles.MakeDirectory(dir);
+	const std::string fname = FileSystem::JoinPathBelow(dir, destFile);
+
+	// pad rows to 4 bytes, which is the default row alignment for OpenGL
+	//const int stride = (3*width + 3) & ~3;
+	const int stride = width * 4;
+
+	write_png(FileSystem::userFiles, fname, &buf[0].r, width, height, stride, 4);
+
+	printf("texture %s saved\n", fname.c_str());
+}
+#endif
 
 RefCountedPtr<GeoPatchContext> GeoSphere::s_patchContext;
 
@@ -126,6 +148,43 @@ bool GeoSphere::OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResul
 	return false;
 }
 
+//static
+bool GeoSphere::OnAddCPUGenResult(const SystemPath &path, CloudJobs::CloudCPUGenResult *res)
+{
+	// Find the correct GeoSphere via it's system path, and give it the split result
+	for(auto i : s_allGeospheres) {
+		if( path == i->GetSystemBody()->GetPath() ) {
+			i->AddCPUGenResult(res);
+			return true;
+		}
+	}
+	// GeoSphere not found to return the data to, cancel (which deletes it) instead
+	if( res ) {
+		res->OnCancel();
+		delete res;
+	}
+	return false;
+}
+
+//static
+bool GeoSphere::OnAddGPUGenResult(const SystemPath &path, CloudJobs::CloudGPUGenResult *res)
+{
+	// Find the correct GeoSphere via it's system path, and give it the split result
+	for(auto i : s_allGeospheres) {
+		if( path == i->GetSystemBody()->GetPath() ) {
+			i->AddGPUGenResult(res);
+			return true;
+		}
+	}
+	// GeoSphere not found to return the data to, cancel (which deletes it) instead
+	if( res ) {
+		res->OnCancel();
+		delete res;
+	}
+	return false;
+}
+	
+
 void GeoSphere::Reset()
 {
 	{
@@ -181,10 +240,14 @@ void GeoSphere::Reset()
 #define GEOSPHERE_TYPE	(GetSystemBody()->type)
 
 GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
-	m_hasTempCampos(false), m_tempCampos(0.0), m_tempFrustum(800, 600, 0.5, 1.0, 1000.0),
+	mCloudProcessDelay(-1), m_hasTempCampos(false), m_tempCampos(0.0), m_tempFrustum(800, 600, 0.5, 1.0, 1000.0), m_hasGpuJobRequest(false),
 	m_initStage(eBuildFirstPatches), m_maxDepth(0)
 {
 	print_info(body, m_terrain.Get());
+
+	for(int i=0; i<NUM_PATCHES; i++) {
+		m_hasJobRequest[i] = false;
+	}
 
 	s_allGeospheres.push_back(this);
 
@@ -277,6 +340,221 @@ void GeoSphere::ProcessSplitResults()
 	}
 }
 
+
+
+bool GeoSphere::AddCPUGenResult(CloudJobs::CloudCPUGenResult *res)
+{
+	bool result = false;
+	assert(res);
+	if(res) {
+		mCPUCloudResults.push_back(res);
+		if(mCPUCloudResults.size() == NUM_PATCHES)
+			mCloudProcessDelay = 30;
+		result = true;
+	}
+	return result;
+}
+
+bool GeoSphere::AddGPUGenResult(CloudJobs::CloudGPUGenResult *res)
+{
+	bool result = false;
+	assert(res);
+	if(res) {
+		mGPUCloudResults.push_back(res);
+		mCloudProcessDelay = 30;
+		result = true;
+	}
+	return result;
+}
+
+bool GeoSphere::ProcessCloudResults()
+{
+	if (mCloudProcessDelay<0) {
+		return false;
+	} else if (mCloudProcessDelay>0) {
+		--mCloudProcessDelay;
+		return false;
+	} else if (mCloudProcessDelay==0) {
+		mCloudProcessDelay = -1;
+		ProcessCPUCloudResults();
+		ProcessGPUCloudResults();
+		return true;
+	}
+	assert(false && "how did it get here?");
+	return false;
+}
+
+bool GeoSphere::ProcessCPUCloudResults()
+{
+	if (mCPUCloudResults.empty())
+		return false;
+
+	assert(SystemBody::SUPERTYPE_ROCKY_PLANET == GetSystemBody()->GetSuperType());
+	
+	bool result = false;
+
+	bool bCreateTexture = true;
+	Sint32 uvDims = -1;
+	for(int i=0; i<NUM_PATCHES; i++) {
+		
+		std::unique_ptr<CloudJobs::CloudCPUGenResult> res(mCPUCloudResults[i]);
+		assert(res);
+		assert(res->face() >= 0 && res->face() < NUM_PATCHES);
+		m_jobColorBuffers[res->face()].reset( res->data().colors );
+		m_hasJobRequest[res->face()] = false;
+		uvDims = res->data().uvDims;
+		assert( uvDims > 0 && uvDims <= 4096 );
+
+		bCreateTexture = bCreateTexture & (m_jobColorBuffers[res->face()] != nullptr);
+	}
+
+	if( bCreateTexture ) {
+		// create texture
+		const vector2f texSize(1.0f, 1.0f);
+		const vector2f dataSize(uvDims, uvDims);
+		const Graphics::TextureDescriptor texDesc(
+			Graphics::TEXTURE_RGBA_8888, 
+			dataSize, texSize, Graphics::LINEAR_CLAMP, 
+			true, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
+		m_cloudsTexture.Reset(Pi::renderer->CreateTexture(texDesc));
+
+		// update with buffer from above
+		Graphics::TextureCubeData tcd;
+		tcd.posX = m_jobColorBuffers[0].get();
+		tcd.negX = m_jobColorBuffers[1].get();
+		tcd.posY = m_jobColorBuffers[2].get();
+		tcd.negY = m_jobColorBuffers[3].get();
+		tcd.posZ = m_jobColorBuffers[4].get();
+		tcd.negZ = m_jobColorBuffers[5].get();
+		m_cloudsTexture->Update(tcd, dataSize, Graphics::TEXTURE_RGBA_8888);
+
+#if DUMP_TO_TEXTURE
+		for (int iFace = 0; iFace<NUM_PATCHES; iFace++) {
+			char filename[1024];
+			snprintf(filename, 1024, "%s%d.png", GetSystemBody()->GetName().c_str(), iFace);
+			textureDump(filename, uvDims, uvDims, m_jobColorBuffers[iFace].get());
+		}
+#endif
+
+		// cleanup the temporary color buffer storage
+		for(int i=0; i<NUM_PATCHES; i++) {
+			m_jobColorBuffers[i].reset();
+		}
+
+		// change the planet texture for the new higher resolution texture
+		if( m_cloudMaterial.Get() ) {
+			m_cloudMaterial->texture0 = m_cloudsTexture.Get();
+		}
+
+		result = true;
+	}
+	mCPUCloudResults.clear();
+
+	return result;
+}
+
+bool GeoSphere::ProcessGPUCloudResults()
+{
+	if (mGPUCloudResults.empty())
+		return false;
+
+	assert(SystemBody::SUPERTYPE_ROCKY_PLANET == GetSystemBody()->GetSuperType());
+
+	std::unique_ptr<CloudJobs::CloudGPUGenResult> res(mGPUCloudResults[0]);
+	mGPUCloudResults.pop_front();
+	bool result = false;
+	assert(res);
+	m_hasGpuJobRequest = false;
+	assert(!m_gpuJob.HasJob());
+	const Sint32 uvDims = res->data().uvDims;
+	assert( uvDims > 0 && uvDims <= 4096 );
+
+#if DUMP_TO_TEXTURE
+	for(int iFace=0; iFace<NUM_PATCHES; iFace++) {
+		std::unique_ptr<Color, FreeDeleter> buffer(static_cast<Color*>(malloc(uvDims*uvDims*4)));
+		Graphics::Texture* pTex = res->data().texture.Get();
+		Graphics::TextureGL* pGLTex = static_cast<Graphics::TextureGL*>(pTex);
+		pGLTex->Bind();
+		glGetTexImage(GL_TEXTURE_CUBE_MAP_POSITIVE_X + iFace, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer.get());
+		pGLTex->Unbind();
+
+		char filename[1024];
+		snprintf(filename, 1024, "%s%d.png", GetSystemBody()->GetName().c_str(), iFace);
+		textureDump(filename, uvDims, uvDims, buffer.get());
+	}
+#endif
+
+	if (m_builtTexture.Valid()) 
+	{
+		m_cloudsTexture = m_builtTexture;
+		m_builtTexture.Reset();
+
+		// these won't be automatically generated otherwise since we used it as a render target
+		m_cloudsTexture->BuildMipmaps();
+
+		// change the planet texture for the new higher resolution texture
+		if( m_cloudMaterial.Get() ) {
+			m_cloudMaterial->texture0 = m_cloudsTexture.Get();
+		}
+
+		result = true;
+	}
+
+	return result;
+}
+
+void GeoSphere::RequestCloudSphereTexture()
+{
+	const SystemBody *pSysBody = GetSystemBody();
+	if(pSysBody==nullptr || SystemBody::SUPERTYPE_ROCKY_PLANET != pSysBody->GetSuperType())
+		return;
+
+	SystemBody::AtmosphereParameters atmosphere = pSysBody->CalcAtmosphereParams();
+	if (m_materialParameters.atmosphere.atmosDensity <= 0.0) {
+		// no atmosphere, so no clouds
+		return;
+	}
+
+	for(int i=0; i<NUM_PATCHES; i++) {
+		if (m_hasGpuJobRequest || m_hasJobRequest[i])
+			return;
+	}
+
+	const bool bEnableGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
+
+	// create small texture
+	if( !bEnableGPUJobs )
+	{
+		for(int i=0; i<NUM_PATCHES; i++) 
+		{
+			assert(!m_hasJobRequest[i]);
+			assert(!m_job[i].HasJob());
+			CloudJobs::CloudCPUGenRequest *ccgr = new CloudJobs::CloudCPUGenRequest(pSysBody->GetPath(), i, GeoSphere::OnAddCPUGenResult);
+			m_job[i] = Pi::GetAsyncJobQueue()->Queue(new CloudJobs::CPUCloudSphereJob(ccgr));
+			m_hasJobRequest[i] = true;
+		}
+	}
+	else
+	{
+		// use m_cloudsTexture texture?
+		assert(!m_hasGpuJobRequest);
+		assert(!m_gpuJob.HasJob());
+		
+		// create texture
+		const vector2f texSize(1.0f, 1.0f);
+		const vector2f dataSize(CloudJobs::GetGPUTextureDimensions());
+		const Graphics::TextureDescriptor texDesc(
+			Graphics::TEXTURE_RGBA_8888, 
+			dataSize, texSize, Graphics::LINEAR_CLAMP, 
+			true, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
+		m_builtTexture.Reset(Pi::renderer->CreateTexture(texDesc));
+
+		CloudJobs::CloudGPUGenRequest *pGPUReq = new CloudJobs::CloudGPUGenRequest(pSysBody->GetPath(), pSysBody->GetRadius(), m_builtTexture.Get(), GeoSphere::OnAddGPUGenResult);
+		m_gpuJob = Pi::GetSyncJobQueue()->Queue(new CloudJobs::GPUCloudSphereJob(pGPUReq));
+		m_hasGpuJobRequest = true;
+	}
+}
+
 void GeoSphere::BuildFirstPatches()
 {
 	assert(!m_patches[0]);
@@ -333,6 +611,7 @@ void GeoSphere::Update()
 	case eRequestedFirstPatches:
 		{
 			ProcessSplitResults();
+			ProcessCloudResults();
 			uint8_t numValidPatches = 0;
 			for (int i=0; i<NUM_PATCHES; i++) {
 				if(m_patches[i]->HasHeightData()) {
@@ -351,6 +630,7 @@ void GeoSphere::Update()
 	case eDefaultUpdateState:
 		if(m_hasTempCampos) {
 			ProcessSplitResults();
+			ProcessCloudResults();
 			for (int i=0; i<NUM_PATCHES; i++) {
 				m_patches[i]->LODUpdate(m_tempCampos, m_tempFrustum);
 			}
@@ -410,6 +690,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	if (!m_surfaceMaterial)
 		SetUpMaterials();
 
+	bool bHasAtmosphere = false;
 	{
 		//Update material parameters
 		//XXX no need to calculate AP every frame
@@ -422,8 +703,12 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 		m_materialParameters.maxPatchDepth = GetMaxDepth();
 
 		m_surfaceMaterial->specialParameter0 = &m_materialParameters;
+		
+		bHasAtmosphere = (m_materialParameters.atmosphere.atmosDensity > 0.0);
+		if (bHasAtmosphere) {
+			if(!m_atmosphereMaterial->specialParameter0) 
+				RequestCloudSphereTexture();
 
-		if (m_materialParameters.atmosphere.atmosDensity > 0.0) {
 			m_atmosphereMaterial->specialParameter0 = &m_materialParameters;
 
 			// make atmosphere sphere slightly bigger than required so
@@ -431,8 +716,34 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 			// show ugly polygonal angles
 			DrawAtmosphereSurface(renderer, trans, campos,
 				m_materialParameters.atmosphere.atmosRadius*1.01,
-				m_atmosRenderState, m_atmosphereMaterial);
+				m_atmosRenderState, m_atmosphereMaterial );
 		}
+	}
+
+	// create the cloud materials, mesh and renderstate
+	const float rad = m_materialParameters.atmosphere.atmosRadius * 0.99f;
+	const matrix4x4d cloudsTrans(trans * matrix4x4d::ScaleMatrix(rad, rad, rad));
+	if(bHasAtmosphere && m_cloudsTexture.Valid())
+	{
+		// bunny, ball ball!
+		if( !m_cloudSphere.get() ) {
+			if(!m_cloudMaterial.Valid()) {
+				Graphics::MaterialDescriptor matDesc;
+				matDesc.effect = Graphics::EFFECT_CLOUD_SPHERE;
+				matDesc.textures = 1;
+				m_cloudMaterial.Reset(Pi::renderer->CreateMaterial(matDesc));
+				m_cloudMaterial->diffuse = Color4f(0.7f, 0.7f, 0.7f, 0.5f);
+				m_cloudMaterial->texture0 = m_cloudsTexture.Get();
+			}
+
+			//blended
+			Graphics::RenderStateDesc rsd;
+			rsd.blendMode = Graphics::BLEND_ALPHA;
+			rsd.depthWrite = false;
+			rsd.cullMode = Graphics::CULL_NONE;
+			m_cloudSphere.reset( new Graphics::Drawables::Sphere3D(Pi::renderer, m_cloudMaterial, Pi::renderer->CreateRenderState(rsd), 5, 1.0, Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL) );
+		}
+		m_cloudMaterial->specialParameter0 = &m_materialParameters;
 	}
 
 	Color ambient;
@@ -469,6 +780,13 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	}
 
 	renderer->SetAmbientColor(oldAmbient);
+	
+	if( bHasAtmosphere && m_cloudSphere )
+	{
+		// draw it
+		renderer->SetTransform(cloudsTrans);
+		m_cloudSphere->Draw( Pi::renderer );
+	}
 
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_PLANETS, 1);
 }

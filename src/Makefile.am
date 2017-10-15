@@ -26,6 +26,7 @@ noinst_HEADERS = \
 	CameraController.h \
 	CargoBody.h \
 	CityOnPlanet.h \
+	CloudJobs.h \
 	Color.h \
 	Cutscene.h \
 	CRC32.h \
@@ -169,6 +170,7 @@ pioneer_SOURCES	= \
 	Color.cpp \
 	CollMesh.cpp \
 	CityOnPlanet.cpp \
+	CloudJobs.cpp \
 	CRC32.cpp \
 	DateTime.cpp \
 	DeathView.cpp \

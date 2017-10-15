@@ -465,6 +465,9 @@
     <ClCompile Include="..\..\contrib\imgui\examples\sdl_opengl2_example\imgui_impl_sdl.cpp">
       <Filter>src\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\CloudJobs.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -931,6 +934,9 @@
     </ClInclude>
     <ClInclude Include="..\..\contrib\imgui\examples\sdl_opengl2_example\imgui_impl_sdl.h">
       <Filter>src\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\CloudJobs.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
