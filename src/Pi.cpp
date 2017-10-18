@@ -1233,14 +1233,17 @@ void Pi::StartGame()
 	LuaEvent::Emit();
 }
 
-void Pi::Start()
+void Pi::Start(const int& startPlanet)
 {
 	Pi::bRequestEndGame = false;
 
 	Pi::intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 
+	lua_State *l = Lua::manager->GetLuaState();
+	LuaTable args(l);
+	args.Set("StartPlanetNum", startPlanet);
 	ui->DropAllLayers();
-	ui->GetTopLayer()->SetInnerWidget(ui->CallTemplate("MainMenu"));
+	ui->GetTopLayer()->SetInnerWidget(ui->CallTemplate("MainMenu", args));
 
 	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
 	// for some models

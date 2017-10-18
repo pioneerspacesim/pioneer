@@ -63,7 +63,7 @@ public:
 	static void StartGame();
 	static void RequestEndGame(); // request that the game is ended as soon as safely possible
 	static void EndGame();
-	static void Start();
+	static void Start(const int& startPlanet);
 	static void MainLoop();
 	static void TombStoneLoop();
 	static void OnChangeDetailLevel();
