@@ -123,8 +123,12 @@ local moon = {
 	{
 		CustomSystemBody:new('Tranquility Base', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(0.6875))
-			:longitude(math.deg2rad(23.4334))
-	},
+			:longitude(math.deg2rad(23.4334)),
+		CustomSystemBody:new('Mariasurīru', 'STARPORT_SURFACE')
+			:latitude(math.deg2rad(14.000))
+			:longitude(math.deg2rad(-303.2))
+			:space_station_type("ground_station"),
+	}
 }
 
 local mars = CustomSystemBody:new('Mars', 'PLANET_TERRESTRIAL')
