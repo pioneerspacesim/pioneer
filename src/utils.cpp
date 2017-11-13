@@ -262,6 +262,37 @@ const char *pi_strcasestr (const char *haystack, const char *needle)
 	}
 }
 
+std::vector<std::string> SplitString(const std::string& source, const std::string& delim)
+{
+	bool stringSplitted = false;
+	std::vector<std::string> splitted;
+
+	size_t startPos = 0;
+	do {
+		// try to find delim
+		size_t delimPos = source.find(delim, startPos);
+
+		// if delim found
+		if (delimPos != std::string::npos)
+		{
+			std::string element = source.substr(startPos, delimPos);
+			splitted.push_back(element);
+
+			// prepare next loop
+			startPos = delimPos + delim.length();
+		}
+		else
+		{
+			// push tail and exit
+			splitted.push_back(source.substr(startPos));
+			stringSplitted = true;
+		}
+
+	} while (!stringSplitted);
+
+	return splitted;
+}
+
 std::string SInt64ToStr(Sint64 val)
 {
 	char str[128];
