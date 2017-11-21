@@ -23,6 +23,7 @@
 #endif
 
 namespace FileSystem {
+	static FileInfo::FileType stat_path(const char *, Time::DateTime &);
 
 	static std::string absolute_path(const std::string &path) {
 		if (!path.empty() && path[0] == '/') { return path; }
@@ -79,7 +80,17 @@ namespace FileSystem {
         CFRelease(resourcesURL);
         return path;
 #else
-        return absolute_path(std::string(PIONEER_DATA_DIR));
+        /* PIONEER_DATA_DIR should point to ${prefix}/share/pioneer/data.
+         * If this directory does not exist, try to use the "data" folder
+         * in the current directory. */
+        Time::DateTime mtime;
+        std::string str = absolute_path(std::string(PIONEER_DATA_DIR));
+        FileInfo::FileType ty = stat_path(str.c_str(), mtime);
+
+        if (ty == FileInfo::FT_DIR)
+            return str;
+
+        return absolute_path(std::string("data"));
 #endif
     }
 
