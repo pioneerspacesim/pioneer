@@ -6,6 +6,7 @@
 
 #include "buildopts.h"
 
+#include <cmath>
 #include <cassert>
 #include <cstdio>
 #include <sigc++/sigc++.h>
