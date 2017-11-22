@@ -4,7 +4,9 @@
 #include "TextUtils.h"
 #include "Win32Setup.h"
 #define WIN32_LEAN_AND_MEAN
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif
 #include <windows.h>
 
 std::wstring transcode_utf8_to_utf16(const char *s, size_t nbytes)
