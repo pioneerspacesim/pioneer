@@ -313,35 +313,35 @@ std::string SystemBody::GetAstroDescription() const
 				if (m_volatileLiquid >= m_volatileIces && m_volatileLiquid >= amountLittle) {
 					// more (and enough) liquid - mention first
 					if (m_volatileLiquid >= amountMuch)
-						s += std::string(Lang::CONTAINING) + Lang::MUCH + Lang::LIQUID_WATER;
+						s += Lang::CONTAINING_MUCH_LIQUID_WATER;
 					else if (m_volatileLiquid >= amountNorm)
-						s += std::string(Lang::CONTAINING) + Lang::LIQUID_WATER;
+						s += Lang::CONTAINING_LIQUID_WATER;
 					else if (m_volatileLiquid >= amountSome)
-						s += std::string(Lang::CONTAINING) + Lang::SOME + Lang::LIQUID_WATER;
+						s += Lang::CONTAINING_SOME_LIQUID_WATER;
 					else
-						s += std::string(Lang::CONTAINING) + Lang::LITTLE + Lang::LIQUID_WATER;
+						s += Lang::CONTAINING_LITTLE_LIQUID_WATER;
 					if (m_volatileIces >= amountNorm)
-						s += std::string(Lang::AND) + Lang::ICE;
+						s += Lang::AND_ICE;
 					else if (m_volatileIces >= amountSome)
-						s += std::string(Lang::AND) + Lang::SOME + Lang::ICE;
+						s += Lang::AND_SOME_ICE;
 					else if (m_volatileIces >= amountLittle)
-						s += std::string(Lang::AND) + Lang::LITTLE + Lang::ICE;
+						s += Lang::AND_LITTLE_ICE;
 				} else if (m_volatileIces > m_volatileLiquid && m_volatileIces >= amountLittle) {
 					// more (and enough) ice
 					if (m_volatileIces >= amountMuch)
-						s += std::string(Lang::CONTAINING) + Lang::MUCH + Lang::ICE;
+						s += Lang::CONTAINING_MUCH_ICE;
 					else if (m_volatileIces >= amountNorm)
-						s += std::string(Lang::CONTAINING) + Lang::ICE;
+						s += Lang::CONTAINING_ICE;
 					else if (m_volatileIces >= amountSome)
-						s += std::string(Lang::CONTAINING) + Lang::SOME + Lang::ICE;
+						s += Lang::CONTAINING_SOME_ICE;
 					else
-						s += std::string(Lang::CONTAINING) + Lang::LITTLE + Lang::ICE;
+						s += Lang::CONTAINING_LITTLE_ICE;
 					if (m_volatileLiquid >= amountNorm)
-						s += std::string(Lang::AND) + Lang::LIQUID_WATER;
+						s += Lang::AND_LIQUID_WATER;
 					else if (m_volatileLiquid >= amountSome)
-						s += std::string(Lang::AND) + Lang::SOME + Lang::LIQUID_WATER;
+						s += Lang::AND_SOME_LIQUID_WATER;
 					else if (m_volatileLiquid >= amountLittle)
-						s += std::string(Lang::AND) + Lang::LITTLE + Lang::LIQUID_WATER;
+						s += Lang::AND_LITTLE_LIQUID_WATER;
 				}
 			} else // Mainly ice; ice > land > water
 				s += Lang::ICE_WORLD;
@@ -351,35 +351,35 @@ std::string SystemBody::GetAstroDescription() const
 				if (m_volatileLand >= m_volatileIces && m_volatileLand >= amountLittle) {
 					// more (and enough) land - mention first
 					if (m_volatileLand >= amountMuch)
-						s += std::string(Lang::CONTAINING) + Lang::MUCH + Lang::LAND;
+						s += Lang::CONTAINING_MUCH_LAND;
 					else if (m_volatileLand >= amountNorm)
-						s += std::string(Lang::CONTAINING) + Lang::LAND;
+						s += Lang::CONTAINING_LAND;
 					else if (m_volatileLand >= amountSome)
-						s += std::string(Lang::CONTAINING) + Lang::SOME + Lang::LAND;
+						s += Lang::CONTAINING_SOME_LAND;
 					else
-						s += std::string(Lang::CONTAINING) + Lang::LITTLE + Lang::LAND;
+						s += Lang::CONTAINING_LITTLE_LAND;
 					if (m_volatileIces >= amountNorm)
-						s += std::string(Lang::AND) + Lang::ICE;
+						s += Lang::AND_ICE;
 					else if (m_volatileIces >= amountSome)
-						s += std::string(Lang::AND) + Lang::SOME + Lang::ICE;
+						s += Lang::AND_SOME_ICE;
 					else if (m_volatileIces >= amountLittle)
-						s += std::string(Lang::AND) + Lang::LITTLE + Lang::ICE;
+						s += Lang::AND_LITTLE_ICE;
 				} else if (m_volatileIces > m_volatileLand && m_volatileIces >= amountLittle) {
 					// more (and enough) ice
 					if (m_volatileIces >= amountMuch)
-						s += std::string(Lang::CONTAINING) + Lang::MUCH + Lang::ICE;
+						s += Lang::CONTAINING_MUCH_ICE;
 					else if (m_volatileIces >= amountNorm)
-						s += std::string(Lang::CONTAINING) + Lang::ICE;
+						s += Lang::CONTAINING_ICE;
 					else if (m_volatileIces >= amountSome)
-						s += std::string(Lang::CONTAINING) + Lang::ICE;
+						s += Lang::CONTAINING_ICE;
 					else
-						s += std::string(Lang::CONTAINING) + Lang::LITTLE + Lang::ICE;
+						s += Lang::CONTAINING_LITTLE_ICE;
 					if (m_volatileLand >= amountNorm)
-						s += std::string(Lang::AND) + Lang::LAND;
+						s += Lang::AND_LAND;
 					else if (m_volatileLand >= amountSome)
-						s += std::string(Lang::AND) + Lang::SOME + Lang::LAND;
+						s += Lang::AND_SOME_LAND;
 					else if (m_volatileLand >= amountLittle)
-						s += std::string(Lang::AND) + Lang::LITTLE + Lang::LAND;
+						s += Lang::AND_LITTLE_LAND;
 				}
 			} else // Mainly ice; ice > water > land
 				s += Lang::ICE_WORLD;

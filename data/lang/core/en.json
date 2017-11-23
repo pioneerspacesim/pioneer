@@ -15,9 +15,41 @@
       "description" : "Alt key on keyboard",
       "message" : "Alt"
    },
-   "AND" : {
+   "AND_ICE" : {
       "description" : "",
-      "message" : " and "
+      "message" : " and ice"
+   },
+   "AND_LAND" : {
+      "description" : "",
+      "message" : " and land"
+   },
+   "AND_LIQUID_WATER" : {
+      "description" : "",
+      "message" : " and liquid water"
+   },
+   "AND_LITTLE_ICE" : {
+      "description" : "",
+      "message" : " and little ice"
+   },
+   "AND_LITTLE_LAND" : {
+      "description" : "",
+      "message" : " and little land"
+   },
+   "AND_LITTLE_LIQUID_WATER" : {
+      "description" : "",
+      "message" : " and little liquid water"
+   },
+   "AND_SOME_ICE" : {
+      "description" : "",
+      "message" : " and some ice"
+   },
+   "AND_SOME_LAND" : {
+      "description" : "",
+      "message" : " and some land"
+   },
+   "AND_SOME_LIQUID_WATER" : {
+      "description" : "",
+      "message" : " and some liquid water"
    },
    "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
       "description" : "",
@@ -267,9 +299,53 @@
       "description" : "",
       "message" : "Consumer goods"
    },
-   "CONTAINING" : {
+   "CONTAINING_ICE" : {
       "description" : "",
-      "message" : " containing "
+      "message" : " containing ice"
+   },
+   "CONTAINING_LAND" : {
+      "description" : "",
+      "message" : " containing land"
+   },
+   "CONTAINING_LIQUID_WATER" : {
+      "description" : "",
+      "message" : " containing liquid water"
+   },
+   "CONTAINING_LITTLE_ICE" : {
+      "description" : "",
+      "message" : " containing little ice"
+   },
+   "CONTAINING_LITTLE_LAND" : {
+      "description" : "",
+      "message" : " containing little land"
+   },
+   "CONTAINING_LITTLE_LIQUID_WATER" : {
+      "description" : "",
+      "message" : " containing little liquid water"
+   },
+   "CONTAINING_MUCH_ICE" : {
+      "description" : "",
+      "message" : " containing much ice"
+   },
+   "CONTAINING_MUCH_LAND" : {
+      "description" : "",
+      "message" : " containing much land"
+   },
+   "CONTAINING_MUCH_LIQUID_WATER" : {
+      "description" : "",
+      "message" : " containing much liquid water"
+   },
+   "CONTAINING_SOME_ICE" : {
+      "description" : "",
+      "message" : " containing some ice"
+   },
+   "CONTAINING_SOME_LAND" : {
+      "description" : "",
+      "message" : " containing some land"
+   },
+   "CONTAINING_SOME_LIQUID_WATER" : {
+      "description" : "",
+      "message" : " containing some liquid water"
    },
    "CONTROLS" : {
       "description" : "",
@@ -607,10 +683,6 @@
       "description" : "",
       "message" : "\" Hydrogen atmosphere\""
    },
-   "ICE" : {
-      "description" : "",
-      "message" : "ice"
-   },
    "ICE_WORLD" : {
       "description" : "",
       "message" : "\" ice world\""
@@ -671,10 +743,6 @@
       "description" : "Either show L4/L5 points or don't",
       "message" : "Switch between Lagrange L4/L5 point display modes."
    },
-   "LAND" : {
-      "description" : "",
-      "message" : "land"
-   },
    "LANDED" : {
       "description" : "",
       "message" : "Landed"
@@ -731,17 +799,9 @@
       "description" : "",
       "message" : "Oxygen is required for life support systems and some industrial processes"
    },
-   "LIQUID_WATER" : {
-      "description" : "",
-      "message" : "liquid water"
-   },
    "LIQUOR" : {
       "description" : "",
       "message" : "Liquor"
-   },
-   "LITTLE" : {
-      "description" : "",
-      "message" : "little "
    },
    "LIVE_ANIMALS" : {
       "description" : "",
@@ -970,10 +1030,6 @@
    "MONTH_SEP" : {
       "description" : "",
       "message" : "Sep"
-   },
-   "MUCH" : {
-      "description" : "",
-      "message" : "much "
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
@@ -1450,10 +1506,6 @@
    "SOLAR" : {
       "description" : "",
       "message" : "Solar"
-   },
-   "SOME" : {
-      "description" : "",
-      "message" : "some "
    },
    "SOME_ESTABLISHED_MINING" : {
       "description" : "",
