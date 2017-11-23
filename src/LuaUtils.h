@@ -5,7 +5,7 @@
 #define _LUAUTILS_H
 
 #include <string>
-#include "lua/lua.hpp"
+#include <lua.hpp>
 #include "utils.h"
 
 namespace FileSystem { class FileData; }

@@ -4,7 +4,7 @@
 #ifndef _LUAREF_H
 #define _LUAREF_H
 
-#include "lua/lua.hpp"
+#include <lua.hpp>
 #include "json/json.h"
 #include <vector>
 #include <cassert>
