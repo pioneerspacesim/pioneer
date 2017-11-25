@@ -303,7 +303,7 @@ local onChat = function (form, ref, option)
 	if option == 0 then
 		local introtext  = string.interp(ad.introtext, {
 			name         = ad.client.name,
-			cash         = Format.Money(ad.reward),
+			cash         = Format.Money(ad.reward,false),
 			cargoname    = ad.cargotype:GetName(),
 			starport     = ad.location:GetSystemBody().name,
 			system       = ad.location:GetStarSystem().name,
@@ -545,7 +545,7 @@ local makeAdvert = function (station)
 	end
 	ad.desc = string.interp(adtext, {
 		system   = nearbysystem.name,
-		cash     = Format.Money(ad.reward),
+		cash     = Format.Money(ad.reward,false),
 		starport = ad.location:GetSystemBody().name,
 	})
 
@@ -891,7 +891,7 @@ local onClick = function (mission)
 											sectorx = mission.location.sectorX,
 											sectory = mission.location.sectorY,
 											sectorz = mission.location.sectorZ,
-											cash = Format.Money(mission.reward),
+											cash = Format.Money(mission.reward,false),
 											dist = dist})
 										),
 										ui:Margin(10),
@@ -991,7 +991,7 @@ local onClick = function (mission)
 											dom_sectorx = mission.domicile.sectorX,
 											dom_sectory = mission.domicile.sectorY,
 											dom_sectorz = mission.domicile.sectorZ,
-											cash = Format.Money(mission.reward),
+											cash = Format.Money(mission.reward,false),
 											dist = dist})
 										),
 										ui:Margin(10),

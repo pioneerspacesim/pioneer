@@ -146,7 +146,7 @@ local onChat = function (form, ref, option)
 
 		local introtext = string.interp(flavours[ad.flavour].introtext, {
 			name     = ad.client.name,
-			cash     = Format.Money(ad.reward),
+			cash     = Format.Money(ad.reward,false),
 			starport = sbody.name,
 			system   = sys.name,
 			sectorx  = ad.location.sectorX,
@@ -280,7 +280,7 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 
 	ad.desc = string.interp(flavours[flavour].adtext, {
 		system	= nearbysystem.name,
-		cash	= Format.Money(ad.reward),
+		cash	= Format.Money(ad.reward,false),
 		starport = sbody.name,
 	})
 
@@ -501,7 +501,7 @@ local onClick = function (mission)
 														sectorx = mission.location.sectorX,
 														sectory = mission.location.sectorY,
 														sectorz = mission.location.sectorZ,
-														cash   = Format.Money(mission.reward),
+														cash   = Format.Money(mission.reward,false),
 														dist  = dist})
 										),
 										ui:Margin(10),

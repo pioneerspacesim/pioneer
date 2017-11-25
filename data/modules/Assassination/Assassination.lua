@@ -88,7 +88,7 @@ local onChat = function (form, ref, option)
 
 		local introtext = string.interp(flavours[ad.flavour].introtext, {
 			name	= ad.client.name,
-			cash	= Format.Money(ad.reward),
+			cash	= Format.Money(ad.reward,false),
 			target	= ad.target,
 			system	= sys.name,
 		})
@@ -333,7 +333,7 @@ local onShipDocked = function (ship, station)
 			   mission.backstation == station.path then
 				local text = string.interp(flavours[mission.flavour].successmsg, {
 					target	= mission.target,
-					cash	= Format.Money(mission.reward),
+					cash	= Format.Money(mission.reward,false),
 				})
 				Comms.ImportantMessage(text, mission.client.name)
 				ship:AddMoney(mission.reward)
@@ -485,7 +485,7 @@ local onClick = function (mission)
 														name   = mission.client.name,
 														target = mission.target,
 														system = mission.location:GetStarSystem().name,
-														cash   = Format.Money(mission.reward),
+														cash   = Format.Money(mission.reward,false),
 														dist  = dist})
 										),
 										ui:Margin(10),
