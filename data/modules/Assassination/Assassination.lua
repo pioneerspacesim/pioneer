@@ -176,6 +176,7 @@ local makeAdvert = function (station)
 	local due = Game.time + Engine.rand:Number(7*60*60*24, time * 31*60*60*24)
 	local danger = Engine.rand:Integer(1,4)
 	local reward = Engine.rand:Number(2100, 7000) * danger
+	reward = math.ceil(reward)
 
 	-- XXX hull mass is a bad way to determine suitability for role
 	--local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
