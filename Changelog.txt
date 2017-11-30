@@ -4,6 +4,9 @@ November 2017
 
    * Internal Changes
      * Added -skipmenu/-sm flag (#4185)
+     
+   * Fixes
+     * Fix the MainMenu nil args crash (#4198)
 
 October 2017
    * Internal Changes
