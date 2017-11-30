@@ -190,12 +190,16 @@ local menu =
 		})
 
 ui.templates.MainMenu = function (args)	
+	local args = args or {}
 	local startPlanetNum = args.StartPlanetNum
 	
-	if startPlanetNum > 0 and startPlanetNum <= 3 then
+	if startPlanetNum and startPlanetNum > 0 and startPlanetNum <= 3 then
 		loadOptions[startPlanetNum]()
 	else
 		for _,anim in ipairs(anims) do ui:Animate(anim) end
 	end
+
+	-- XXX: Whatever environment is loaded in args should be transmitted to the settings screen
+	-- That's not a problem for now as the only argument is to skip the menu altogether.
 	return menu
 end
