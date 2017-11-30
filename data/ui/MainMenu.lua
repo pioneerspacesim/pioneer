@@ -189,18 +189,11 @@ local menu =
 				)
 		})
 
-local skipped = false -- should skip menu only once
 ui.templates.MainMenu = function (args)	
 	local startPlanetNum = args.StartPlanetNum
 	
-	-- if number valid and menu not skipped already
-	if ((startPlanetNum > 0) and (startPlanetNum <= 3) and (not skipped)) then
-		local loadOption = loadOptions[startPlanetNum]
-		
-		-- load
-		loadOption()
-		
-		skipped = true
+	if startPlanetNum > 0 and startPlanetNum <= 3 then
+		loadOptions[startPlanetNum]()
 	else
 		for _,anim in ipairs(anims) do ui:Animate(anim) end
 	end

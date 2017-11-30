@@ -174,7 +174,10 @@ start:
 			Pi::Init(options, mode == MODE_GALAXYDUMP);
 
 			if (mode == MODE_GAME)
-				for (;;) Pi::Start(startPlanet);
+				for (;;) {
+					Pi::Start(startPlanet);
+					startPlanet = 0; // Reset the start planet when coming back to the menu
+				}
 			else if (mode == MODE_GALAXYDUMP) {
 				FILE* file = filename == "-" ? stdout : fopen(filename.c_str(), "w");
 				if (file == nullptr) {
