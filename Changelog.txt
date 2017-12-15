@@ -1,3 +1,7 @@
+December 2017
+   * New Features
+     * Rounded rewards (#4195)
+
 November 2017
    * New Features
      * Adding base to Moon (JAXA lava cave location) (#4186)
