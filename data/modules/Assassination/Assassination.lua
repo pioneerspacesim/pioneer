@@ -88,7 +88,7 @@ local onChat = function (form, ref, option)
 
 		local introtext = string.interp(flavours[ad.flavour].introtext, {
 			name	= ad.client.name,
-			cash	= Format.Money(ad.reward),
+			cash	= Format.Money(ad.reward,false),
 			target	= ad.target,
 			system	= sys.name,
 		})
@@ -176,6 +176,7 @@ local makeAdvert = function (station)
 	local due = Game.time + Engine.rand:Number(7*60*60*24, time * 31*60*60*24)
 	local danger = Engine.rand:Integer(1,4)
 	local reward = Engine.rand:Number(2100, 7000) * danger
+	reward = math.ceil(reward)
 
 	-- XXX hull mass is a bad way to determine suitability for role
 	--local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
@@ -332,7 +333,7 @@ local onShipDocked = function (ship, station)
 			   mission.backstation == station.path then
 				local text = string.interp(flavours[mission.flavour].successmsg, {
 					target	= mission.target,
-					cash	= Format.Money(mission.reward),
+					cash	= Format.Money(mission.reward,false),
 				})
 				Comms.ImportantMessage(text, mission.client.name)
 				ship:AddMoney(mission.reward)
@@ -484,7 +485,7 @@ local onClick = function (mission)
 														name   = mission.client.name,
 														target = mission.target,
 														system = mission.location:GetStarSystem().name,
-														cash   = Format.Money(mission.reward),
+														cash   = Format.Money(mission.reward,false),
 														dist  = dist})
 										),
 										ui:Margin(10),
