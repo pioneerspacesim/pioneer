@@ -848,7 +848,7 @@ bool RendererOGL::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat
 	SetMaterialShaderTransforms(mat);
 
 	vb->Bind();
-	glDrawArrays(pt, 0, vb->GetVertexCount());
+	glDrawArrays(pt, 0, vb->GetSize());
 	vb->Release();
 	CheckRenderErrors(__FUNCTION__,__LINE__);
 
@@ -887,7 +887,7 @@ bool RendererOGL::DrawBufferInstanced(VertexBuffer* vb, RenderState* state, Mate
 
 	vb->Bind();
 	instb->Bind();
-	glDrawArraysInstanced(pt, 0, vb->GetVertexCount(), instb->GetInstanceCount());
+	glDrawArraysInstanced(pt, 0, vb->GetSize(), instb->GetInstanceCount());
 	instb->Release();
 	vb->Release();
 	CheckRenderErrors(__FUNCTION__,__LINE__);

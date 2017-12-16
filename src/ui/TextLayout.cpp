@@ -125,7 +125,7 @@ void TextLayout::Draw(const Point &layoutSize, const Point &drawPos, const Point
 			}
 		}
 
-		if (!m_vbuffer.Valid() || (m_vbuffer->GetVertexCount() != va.GetNumVerts())) {
+		if (!m_vbuffer.Valid() || (m_vbuffer->GetCapacity() < va.GetNumVerts())) {
 			m_vbuffer.Reset(m_font->CreateVertexBuffer(va, true));
 		}
 		else {

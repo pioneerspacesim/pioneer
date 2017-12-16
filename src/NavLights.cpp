@@ -200,7 +200,7 @@ void NavLights::Render(Graphics::Renderer *renderer)
 
 	const bool bVBValid = m_billboardVB.Valid();
 	const bool bHasVerts = !m_billboardTris.IsEmpty();
-	const bool bVertCountEqual = bVBValid && (m_billboardVB->GetVertexCount() == m_billboardTris.GetNumVerts());
+	const bool bVertCountEqual = bVBValid && (m_billboardVB->GetSize() == m_billboardTris.GetNumVerts());
 	if( bHasVerts && (!bVBValid || !bVertCountEqual) )
 	{
 		//create buffer

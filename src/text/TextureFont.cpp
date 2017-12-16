@@ -187,7 +187,7 @@ int TextureFont::PickCharacter(const std::string &str, float mouseX, float mouse
 
 void TextureFont::RenderBuffer(Graphics::VertexBuffer *vb, const Color &color)
 {
-	if( vb && vb->GetVertexCount() > 0 )
+	if( vb && vb->GetSize() > 0 )
 	{
 		m_mat->diffuse = color;
 		m_renderer->DrawBuffer(vb, m_renderState, m_mat.get());
