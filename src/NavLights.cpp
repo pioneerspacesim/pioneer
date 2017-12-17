@@ -200,8 +200,8 @@ void NavLights::Render(Graphics::Renderer *renderer)
 
 	const bool bVBValid = m_billboardVB.Valid();
 	const bool bHasVerts = !m_billboardTris.IsEmpty();
-	const bool bVertCountEqual = bVBValid && (m_billboardVB->GetSize() == m_billboardTris.GetNumVerts());
-	if( bHasVerts && (!bVBValid || !bVertCountEqual) )
+	const bool bVertCountEnough = bVBValid && (m_billboardTris.GetNumVerts() <= m_billboardVB->GetCapacity());
+	if( bHasVerts && (!bVBValid || !bVertCountEnough) )
 	{
 		//create buffer
 		// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
