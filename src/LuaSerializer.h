@@ -27,6 +27,8 @@ private:
 
 	static void pickle(lua_State *l, int idx, std::string &out, std::string key = "");
 	static const char *unpickle(lua_State *l, const char *pos);
+
+	static void pickle_json(lua_State *l, int idx, Json::Value &out, std::string key = "");
 };
 
 #endif

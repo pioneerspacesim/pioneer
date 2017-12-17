@@ -329,6 +329,146 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 	return pos;
 }
 
+void LuaSerializer::pickle_json(lua_State *l, int to_serialize, Json::Value &out, std::string key)
+{
+	LUA_DEBUG_START(l);
+
+	// tables are pickled recursively, so we can run out of Lua stack space if we're not careful
+	// start by ensuring we have enough (this grows the stack if necessary)
+	// (20 is somewhat arbitrary)
+	if (!lua_checkstack(l, 20))
+		luaL_error(l, "The Lua stack couldn't be extended (out of memory?)");
+
+	to_serialize = lua_absindex(l, to_serialize);
+	int idx = to_serialize;
+
+	if (lua_getmetatable(l, idx)) {
+		lua_getfield(l, -1, "class");
+		if (lua_isnil(l, -1))
+			lua_pop(l, 2);
+
+		else {
+			const char *cl = lua_tostring(l, -1);
+
+			out["class"] = cl;
+
+			lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerClasses");
+
+			lua_getfield(l, -1, cl);
+			if (lua_isnil(l, -1))
+				luaL_error(l, "No Serialize method found for class '%s'\n", cl);
+
+			lua_getfield(l, -1, "Serialize");
+			if (lua_isnil(l, -1))
+				luaL_error(l, "No Serialize method found for class '%s'\n", cl);
+
+			lua_pushvalue(l, idx);
+			pi_lua_protected_call(l, 1, 1);
+
+			idx = lua_gettop(l);
+
+			if (lua_isnil(l, idx)) {
+				lua_pop(l, 5);
+				LUA_DEBUG_END(l, 0);
+				return;
+			}
+		}
+	}
+
+	switch (lua_type(l, idx)) {
+		case LUA_TNIL:
+			break;
+
+		case LUA_TNUMBER: {
+			out = Json::Value(lua_tonumber(l, idx));
+			break;
+		}
+
+		case LUA_TBOOLEAN: {
+			out = Json::Value(static_cast<bool>(lua_toboolean(l, idx)));
+			break;
+		}
+
+		case LUA_TSTRING: {
+			lua_pushvalue(l, idx);
+			size_t len;
+			const char *str = lua_tolstring(l, -1, &len);
+			out = Json::Value(str, str + len);
+			lua_pop(l, 1);
+			break;
+		}
+
+		case LUA_TTABLE: {
+			lua_Integer ptr = lua_Integer(lua_topointer(l, to_serialize));
+			lua_pushinteger(l, ptr);                                        // ptr
+
+			lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");    // ptr reftable
+			lua_pushvalue(l, -2);                                           // ptr reftable ptr
+			lua_rawget(l, -2);                                              // ptr reftable ???
+
+			if (!lua_isnil(l, -1)) {
+				out["inner_ref_from"] = Json::Value(Json::Int64(ptr));
+				lua_pop(l, 3);                                              // [empty]
+			}
+
+			else {
+				out["inner_ref_to"] = Json::Value(Json::Int64(ptr));
+
+				lua_pushvalue(l, -3);                                       // ptr reftable nil ptr
+				lua_pushvalue(l, to_serialize);                             // ptr reftable nil ptr table
+				lua_rawset(l, -4);                                          // ptr reftable nil
+				lua_pop(l, 3);                                              // [empty]
+
+				Json::Value inner(Json::arrayValue);
+
+				lua_pushvalue(l, idx);
+				lua_pushnil(l);
+				while (lua_next(l, -2)) {
+					lua_pushvalue(l, -2);
+					const char *k = lua_tostring(l, -1);
+					std::string new_key = key + "." + (k? std::string(k) : "<" + std::string(lua_typename(l, lua_type(l, -1))) + ">");
+					lua_pop(l, 1);
+
+					// Copy the values to pickle, as they might be mutated by the pickling process.
+					Json::Value out_k, out_v;
+
+					pickle_json(l, -2, out_k, new_key);
+					pickle_json(l, -1, out_v, new_key);
+
+					inner.append(out_k);
+					inner.append(out_v);
+
+					lua_pop(l, 1);
+				}
+				lua_pop(l, 1);
+
+				out["inner"] = Json::Value(inner);
+			}
+
+			break;
+		}
+
+		case LUA_TUSERDATA: {
+			LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, idx));
+			void *o = lo->GetObject();
+			if (!o)
+				Error("Lua serializer '%s' tried to serialize an invalid '%s' object", key.c_str(), lo->GetType());
+
+			out["udata"] = lo->Serialize();
+			break;
+		}
+
+		default:
+			Error("Lua serializer '%s' tried to serialize %s value", key.c_str(), lua_typename(l, lua_type(l, idx)));
+			break;
+	}
+
+	if (idx != lua_absindex(l, to_serialize)) // It means we called a transformation function on the data, so we clean it up.
+		lua_pop(l, 5);
+
+	LUA_DEBUG_END(l, 0);
+}
+
 void LuaSerializer::InitTableRefs() {
 	lua_State *l = Lua::manager->GetLuaState();
 
@@ -386,10 +526,9 @@ void LuaSerializer::ToJson(Json::Value &jsonObj)
 
 	lua_pop(l, 1);
 
-	std::string pickled;
-	pickle(l, savetable, pickled);
-
-	BinStrToJson(jsonObj, pickled, "lua_modules");
+	Json::Value pickled;
+	pickle_json(l, savetable, pickled);
+	jsonObj["lua_modules_json"] = pickled;
 
 	lua_pop(l, 1);
 
