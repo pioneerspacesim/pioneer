@@ -198,10 +198,10 @@ void NavLights::Render(Graphics::Renderer *renderer)
 		m_billboardRS = renderer->CreateRenderState(rsd);
 	}
 
-	const bool bVBValid = m_billboardVB.Valid();
-	const bool bHasVerts = !m_billboardTris.IsEmpty();
-	const bool bVertCountEnough = bVBValid && (m_billboardTris.GetNumVerts() <= m_billboardVB->GetCapacity());
-	if( bHasVerts && (!bVBValid || !bVertCountEnough) )
+	const bool isVBValid = m_billboardVB.Valid();
+	const bool hasVerts = !m_billboardTris.IsEmpty();
+	const bool isVertCountEnough = isVBValid && (m_billboardTris.GetNumVerts() <= m_billboardVB->GetCapacity());
+	if( hasVerts && (!isVBValid || !isVertCountEnough) )
 	{
 		//create buffer
 		// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
@@ -217,7 +217,7 @@ void NavLights::Render(Graphics::Renderer *renderer)
 
 	if(m_billboardVB.Valid())
 	{
-		if(bHasVerts) {
+		if(hasVerts) {
 			m_billboardVB->Populate(m_billboardTris);
 			renderer->SetTransform(matrix4x4f::Identity());
 			renderer->DrawBuffer(m_billboardVB.Get(), m_billboardRS, matHalos4x4.Get(), Graphics::POINTS);

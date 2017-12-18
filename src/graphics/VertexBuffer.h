@@ -65,16 +65,13 @@ public:
 	inline Uint32 GetCapacity() const { return m_capacity; }
 
 protected:
-	Mappable(const Uint32 size) : m_mapMode(BUFFER_MAP_NONE), m_size(size), m_capacity(size) { }
+	explicit Mappable(const Uint32 size) : m_mapMode(BUFFER_MAP_NONE), m_size(size), m_capacity(size) { }
 	BufferMapMode m_mapMode; //tracking map state
 
 	// size is the current number of elements in the buffer
 	Uint32 m_size;
 	// capacity is the maximum number of elements that can be put in the buffer
 	Uint32 m_capacity;
-
-private:
-	Mappable() {}
 };
 
 class VertexBuffer : public Mappable {

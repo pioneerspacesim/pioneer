@@ -231,7 +231,7 @@ void Lines::SetData(const Uint32 vertCount, const vector3f *vertices, const Colo
 	m_refreshVertexBuffer = true;
 
 	// if the number of vert mismatches then clear the current vertex buffer
-	if( m_vertexBuffer.Valid() && m_vertexBuffer->GetSize() != vertCount ) {
+	if( m_vertexBuffer.Valid() && m_vertexBuffer->GetCapacity() < vertCount ) {
 		// a new one will be created when it is drawn
 		m_vertexBuffer.Reset();
 	}
