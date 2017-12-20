@@ -406,14 +406,11 @@ void LuaSerializer::pickle_json(lua_State *l, int to_serialize, Json::Value &out
 			lua_pushvalue(l, -2);                                           // ptr reftable ptr
 			lua_rawget(l, -2);                                              // ptr reftable ???
 
+			out["inner_ref"] = Json::Value(Json::Int64(ptr));
+
 			if (!lua_isnil(l, -1)) {
-				out["inner_ref_from"] = Json::Value(Json::Int64(ptr));
 				lua_pop(l, 3);                                              // [empty]
-			}
-
-			else {
-				out["inner_ref_to"] = Json::Value(Json::Int64(ptr));
-
+			} else {
 				lua_pushvalue(l, -3);                                       // ptr reftable nil ptr
 				lua_pushvalue(l, to_serialize);                             // ptr reftable nil ptr table
 				lua_rawset(l, -4);                                          // ptr reftable nil
@@ -467,6 +464,115 @@ void LuaSerializer::pickle_json(lua_State *l, int to_serialize, Json::Value &out
 		lua_pop(l, 5);
 
 	LUA_DEBUG_END(l, 0);
+}
+
+void LuaSerializer::unpickle_json(lua_State *l, const Json::Value &value)
+{
+	LUA_DEBUG_START(l);
+
+	// tables are also unpickled recursively, so we can run out of Lua stack space if we're not careful
+	// start by ensuring we have enough (this grows the stack if necessary)
+	// (20 is somewhat arbitrary)
+	if (!lua_checkstack(l, 20))
+		luaL_error(l, "The Lua stack couldn't be extended (not enough memory?)");
+
+	switch (value.type()) {
+
+		case Json::nullValue:
+			// Pickle doesn't emit nil/null.
+			throw SavedGameCorruptException();
+			break;
+		case Json::intValue:  // fallthrough
+		case Json::uintValue: // fallthrough
+		case Json::realValue:
+			lua_pushnumber(l, value.asDouble());
+			break;
+		case Json::stringValue:
+			// FIXME: Should do something to make sure we can unpickle strings that include null bytes.
+			// However I'm not sure that the JSON library actually supports strings containing nulls which would make it moot.
+			lua_pushstring(l, value.asCString());
+			break;
+		case Json::booleanValue:
+			lua_pushboolean(l, value.asBool());
+			break;
+		case Json::arrayValue:
+			// Pickle doesn't emit array type values.
+			throw SavedGameCorruptException();
+			break;
+		case Json::objectValue:
+			if (value.isMember("udata")) {
+				std::string s = value["udata"].asString();
+				const char *begin = s.data();
+				const char *end = nullptr;
+				if (!LuaObjectBase::Deserialize(begin, &end)) { throw SavedGameCorruptException(); }
+				if (end != (begin + s.size())) { throw SavedGameCorruptException(); }
+			} else {
+				// Object, table, or table-reference.
+				if (!value.isMember("inner_ref")) { throw SavedGameCorruptException(); }
+
+				lua_Integer ptr = value["inner_ref"].asInt64();
+
+				if (value.isMember("inner")) {
+					lua_newtable(l);
+
+					lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs"); // [t] [refs]
+					lua_pushinteger(l, ptr);                                     // [t] [refs] [key]
+					lua_pushvalue(l, -3);                                        // [t] [refs] [key] [t]
+					lua_rawset(l, -3);                                           // [t] [refs]
+					lua_pop(l, 1);                                               // [t]
+
+					const Json::Value &inner = value["inner"];
+					if (inner.size() % 2 != 0) { throw SavedGameCorruptException(); }
+					for (int i = 0; i < inner.size(); i += 2) {
+						unpickle_json(l, inner[i+0]);
+						unpickle_json(l, inner[i+1]);
+						lua_rawset(l, -3);
+					}
+				} else {
+					// Reference to a previously-pickled table.
+					lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
+					lua_pushinteger(l, ptr);
+					lua_rawget(l, -2);
+
+					if (lua_isnil(l, -1))
+						throw SavedGameCorruptException();
+
+					lua_insert(l, -3);
+					lua_pop(l, 2);
+				}
+
+				if (value.isMember("class")) {
+					const char *cl = value["class"].asCString();
+					// If this was a full definition (not just a reference) then run the class's unserialiser function.
+					if (value.isMember("inner")) {
+						lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerClasses");
+						lua_pushstring(l, cl);
+						lua_gettable(l, -2);
+						lua_remove(l, -2);
+
+						if (lua_isnil(l, -1)) {
+							lua_pop(l, 2);
+						} else {
+							lua_getfield(l, -1, "Unserialize");  // [t] [klass] [klass.Unserialize]
+							if (lua_isnil(l, -1)) {
+								luaL_error(l, "No Unserialize method found for class '%s'\n", cl);
+							} else {
+								lua_insert(l, -3);  // [klass.Unserialize] [t] [klass]
+								lua_pop(l, 1);      // [klass.Unserialize] [t]
+
+								pi_lua_protected_call(l, 1, 1);
+							}
+						}
+					}
+				}
+			}
+			break;
+
+		default:
+			throw SavedGameCorruptException();
+	}
+
+	LUA_DEBUG_END(l, 1);
 }
 
 void LuaSerializer::InitTableRefs() {
@@ -537,17 +643,16 @@ void LuaSerializer::ToJson(Json::Value &jsonObj)
 
 void LuaSerializer::FromJson(const Json::Value &jsonObj)
 {
-	if (!jsonObj.isMember("lua_modules")) throw SavedGameCorruptException();
+	if (!jsonObj.isMember("lua_modules_json")) throw SavedGameCorruptException();
 
 	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
-	std::string pickled = JsonToBinStr(jsonObj, "lua_modules");
+	const Json::Value &value = jsonObj["lua_modules_json"];
+	if (value.type() != Json::objectValue) { throw SavedGameCorruptException(); }
+	unpickle_json(l, value);
 
-	const char *start = pickled.c_str();
-	const char *end = unpickle(l, start);
-	if (size_t(end - start) != pickled.length()) throw SavedGameCorruptException();
 	if (!lua_istable(l, -1)) throw SavedGameCorruptException();
 	int savetable = lua_gettop(l);
 
