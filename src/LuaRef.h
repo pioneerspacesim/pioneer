@@ -4,7 +4,8 @@
 #ifndef _LUAREF_H
 #define _LUAREF_H
 
-#include "lua/lua.hpp"
+#include <lua.hpp>
+
 #include "Serializer.h"
 #include "json/json.h"
 #include <vector>
