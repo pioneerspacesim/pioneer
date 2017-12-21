@@ -1,6 +1,9 @@
 December 2017
    * New Features
      * Rounded rewards (#4195)
+     
+   * Internal Changes
+     * Refactor buffers to have a capacity and size (#4201)
 
 November 2017
    * New Features
