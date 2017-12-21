@@ -1,6 +1,7 @@
 December 2017
    * New Features
      * Rounded rewards (#4195)
+     * Save files are now written in gzip format so they don't need a custom tool to extract (#4205)
      
    * Internal Changes
      * Refactor buffers to have a capacity and size (#4201)
