@@ -451,7 +451,8 @@ void LuaSerializer::pickle_json(lua_State *l, int to_serialize, Json::Value &out
 			if (!o)
 				Error("Lua serializer '%s' tried to serialize an invalid '%s' object", key.c_str(), lo->GetType());
 
-			out["udata"] = lo->Serialize();
+			const std::string pickled = lo->Serialize();
+			BinStrToJson(out, pickled, "udata");
 			break;
 		}
 
@@ -486,14 +487,17 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json::Value &value)
 		case Json::uintValue: // fallthrough
 		case Json::realValue:
 			lua_pushnumber(l, value.asDouble());
+			LUA_DEBUG_CHECK(l, 1);
 			break;
 		case Json::stringValue:
 			// FIXME: Should do something to make sure we can unpickle strings that include null bytes.
 			// However I'm not sure that the JSON library actually supports strings containing nulls which would make it moot.
 			lua_pushstring(l, value.asCString());
+			LUA_DEBUG_CHECK(l, 1);
 			break;
 		case Json::booleanValue:
 			lua_pushboolean(l, value.asBool());
+			LUA_DEBUG_CHECK(l, 1);
 			break;
 		case Json::arrayValue:
 			// Pickle doesn't emit array type values.
@@ -501,11 +505,12 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json::Value &value)
 			break;
 		case Json::objectValue:
 			if (value.isMember("udata")) {
-				std::string s = value["udata"].asString();
-				const char *begin = s.data();
+				std::string pickled = JsonToBinStr(value, "udata");
+				const char *begin = pickled.data();
 				const char *end = nullptr;
 				if (!LuaObjectBase::Deserialize(begin, &end)) { throw SavedGameCorruptException(); }
-				if (end != (begin + s.size())) { throw SavedGameCorruptException(); }
+				if (end != (begin + pickled.size())) { throw SavedGameCorruptException(); }
+				LUA_DEBUG_CHECK(l, 1);
 			} else {
 				// Object, table, or table-reference.
 				if (!value.isMember("inner_ref")) { throw SavedGameCorruptException(); }
@@ -528,17 +533,20 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json::Value &value)
 						unpickle_json(l, inner[i+1]);
 						lua_rawset(l, -3);
 					}
+
+					LUA_DEBUG_CHECK(l, 1);
 				} else {
 					// Reference to a previously-pickled table.
-					lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
-					lua_pushinteger(l, ptr);
-					lua_rawget(l, -2);
+					lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs"); // [refs]
+					lua_pushinteger(l, ptr);                                     // [refs] [key]
+					lua_rawget(l, -2);                                           // [refs] [out]
 
 					if (lua_isnil(l, -1))
 						throw SavedGameCorruptException();
 
-					lua_insert(l, -3);
-					lua_pop(l, 2);
+					lua_remove(l, -2);  // [out]
+
+					LUA_DEBUG_CHECK(l, 1);
 				}
 
 				if (value.isMember("class")) {
@@ -564,6 +572,7 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json::Value &value)
 							}
 						}
 					}
+					LUA_DEBUG_CHECK(l, 1);
 				}
 			}
 			break;
