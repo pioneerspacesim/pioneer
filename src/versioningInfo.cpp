@@ -21,6 +21,8 @@ void OutputVersioningInfo()
 	Output("\n--------------------\n");
 	Output("SDL Version %d.%d.%d\n", ver.major, ver.minor, ver.patch);
 	Output("SDL_image ver: %d.%d.%d\n", SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
+	const SDL_version *pVer = IMG_Linked_Version();
+	Output("SDL_image dynamic ver: %d.%d.%d\n", pVer->major, pVer->minor, pVer->patch);
 	Output("Assimp ver: %u.%u.%u\n", aiGetVersionMajor(), aiGetVersionMinor(), aiGetVersionRevision());
 	Output("FreeType ver: %d.%d.%d\n", FREETYPE_MAJOR, FREETYPE_MINOR, FREETYPE_PATCH);
 
