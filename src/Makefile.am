@@ -99,7 +99,6 @@ noinst_HEADERS = \
 	ObjectViewerView.h \
 	Orbit.h \
 	OS.h \
-	PersistSystemData.h \
 	Pi.h \
 	PiGui.h \
 	Plane.h \
