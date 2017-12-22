@@ -4,15 +4,11 @@
 #ifndef _SERIALIZE_H
 #define _SERIALIZE_H
 
-#include "utils.h"
-#include "Quaternion.h"
 #include "ByteRange.h"
-#include <vector>
-
-class Frame;
-class Body;
-class StarSystem;
-class SystemBody;
+#include "Color.h"
+#include "Quaternion.h"
+#include "vector2.h"
+#include "vector3.h"
 
 struct SavedGameCorruptException {};
 struct SavedGameWrongVersionException {};
