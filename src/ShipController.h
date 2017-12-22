@@ -11,6 +11,7 @@
 #include "Serializer.h"
 #include "json/json.h"
 
+class Body;
 class Ship;
 class Space;
 

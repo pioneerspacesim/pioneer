@@ -7,6 +7,7 @@
 #include "scenegraph/SceneGraph.h"
 #include "IniConfig.h"
 #include "FileSystem.h"
+#include "utils.h"
 
 const float BILLBOARD_SIZE = 2.5f;
 

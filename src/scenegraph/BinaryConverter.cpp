@@ -5,6 +5,7 @@
 #include "Parser.h"
 #include "FileSystem.h"
 #include "StringF.h"
+#include "utils.h"
 
 extern "C" {
 #include "miniz/miniz.h"

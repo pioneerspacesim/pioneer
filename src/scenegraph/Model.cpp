@@ -11,6 +11,7 @@
 #include "json/JsonUtils.h"
 #include "FindNodeVisitor.h"
 #include "Thruster.h"
+#include "utils.h"
 
 namespace SceneGraph {
 

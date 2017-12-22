@@ -8,6 +8,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/Material.h"
+#include "utils.h"
 
 namespace SceneGraph {
 

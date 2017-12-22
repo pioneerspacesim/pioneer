@@ -5,6 +5,7 @@
 #include "NodeVisitor.h"
 #include "NodeCopyCache.h"
 #include "BaseLoader.h"
+#include "utils.h"
 
 namespace SceneGraph {
 
