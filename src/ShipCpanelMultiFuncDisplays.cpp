@@ -20,6 +20,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
+#include "GameSaveError.h"
 
 using namespace Graphics;
 

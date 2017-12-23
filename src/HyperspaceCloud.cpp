@@ -8,7 +8,6 @@
 #include "perlin.h"
 #include "Pi.h"
 #include "Player.h"
-#include "Serializer.h"
 #include "Ship.h"
 #include "Space.h"
 #include "graphics/Graphics.h"
@@ -17,6 +16,7 @@
 #include "graphics/VertexArray.h"
 #include "graphics/RenderState.h"
 #include "json/JsonUtils.h"
+#include "GameSaveError.h"
 
 using namespace Graphics;
 

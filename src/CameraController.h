@@ -7,7 +7,6 @@
 #include "vector3.h"
 #include "matrix4x4.h"
 #include "Lang.h"
-#include "Serializer.h"
 #include "Camera.h"
 #include "json/json.h"
 

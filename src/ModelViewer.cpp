@@ -18,6 +18,7 @@
 #include "Pi.h"
 #include "StringF.h"
 #include "ModManager.h"
+#include "GameSaveError.h"
 #include <sstream>
 
 //default options

@@ -10,6 +10,7 @@
 #include "Pi.h"
 #include "Game.h"
 #include "json/JsonUtils.h"
+#include "GameSaveError.h"
 #include <algorithm>
 
 Frame::Frame()

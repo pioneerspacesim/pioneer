@@ -48,7 +48,6 @@
 #include "Projectile.h"
 #include "SDLWrappers.h"
 #include "SectorView.h"
-#include "Serializer.h"
 #include "Sfx.h"
 #include "ShipCpanel.h"
 #include "ShipType.h"

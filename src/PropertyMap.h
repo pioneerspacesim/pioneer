@@ -7,7 +7,6 @@
 #include "LuaManager.h"
 #include "LuaRef.h"
 #include "LuaTable.h"
-#include "Serializer.h"
 #include "libs.h"
 
 struct lua_State;

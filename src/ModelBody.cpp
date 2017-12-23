@@ -7,7 +7,6 @@
 #include "Game.h"
 #include "ModelCache.h"
 #include "Pi.h"
-#include "Serializer.h"
 #include "Space.h"
 #include "WorldView.h"
 #include "Camera.h"
@@ -17,6 +16,7 @@
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/NodeVisitor.h"
 #include "scenegraph/CollisionGeometry.h"
+#include "GameSaveError.h"
 
 class DynGeomFinder : public SceneGraph::NodeVisitor {
 public:

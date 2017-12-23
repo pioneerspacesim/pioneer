@@ -26,6 +26,7 @@
 #include "graphics/Renderer.h"
 #include "ui/Context.h"
 #include "galaxy/GalaxyGenerator.h"
+#include "GameSaveError.h"
 
 static const int  s_saveVersion   = 84;
 static const char s_saveStart[]   = "PIONEER";

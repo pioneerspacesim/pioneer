@@ -3,6 +3,7 @@
 
 #include "LuaSerializer.h"
 #include "LuaObject.h"
+#include "GameSaveError.h"
 #include "json/JsonUtils.h"
 
 // every module can save one object. that will usually be a table.  we call

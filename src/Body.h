@@ -8,7 +8,6 @@
 #include "matrix4x4.h"
 #include "Object.h"
 #include "Frame.h"
-#include "Serializer.h"
 #include "PropertiedObject.h"
 #include <string>
 

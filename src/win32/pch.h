@@ -54,7 +54,6 @@
 #include "Planet.h"
 #include "Player.h"
 #include "SectorView.h"
-#include "Serializer.h"
 #include "Sfx.h"
 #include "Ship.h"
 #include "ShipCpanel.h"

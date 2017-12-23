@@ -5,7 +5,6 @@
 #include "CargoBody.h"
 #include "Game.h"
 #include "Pi.h"
-#include "Serializer.h"
 #include "Sfx.h"
 #include "Space.h"
 #include "EnumStrings.h"
@@ -13,6 +12,7 @@
 #include "collider/collider.h"
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
+#include "GameSaveError.h"
 
 void CargoBody::SaveToJson(Json::Value &jsonObj, Space *space)
 {

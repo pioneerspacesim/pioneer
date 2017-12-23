@@ -4,8 +4,8 @@
 #ifndef _PERSISTSYSTEMDATA_H
 #define _PERSISTSYSTEMDATA_H
 
-#include "Serializer.h"
 #include "galaxy/SystemPath.h"
+#include "GameSaveError.h"
 #include <map>
 
 template <typename T>

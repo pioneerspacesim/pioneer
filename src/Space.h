@@ -7,7 +7,6 @@
 #include <list>
 #include "Object.h"
 #include "vector3.h"
-#include "Serializer.h"
 #include "RefCounted.h"
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/StarSystem.h"

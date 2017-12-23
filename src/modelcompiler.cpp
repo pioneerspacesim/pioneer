@@ -25,6 +25,7 @@
 #include "OS.h"
 #include "StringF.h"
 #include "ModManager.h"
+#include "GameSaveError.h"
 #include <sstream>
 
 std::unique_ptr<GameConfig> s_config;

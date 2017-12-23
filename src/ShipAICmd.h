@@ -6,10 +6,10 @@
 
 #include "Ship.h"
 #include "SpaceStation.h"
-#include "Serializer.h"
 #include "Pi.h"
 #include "Game.h"
 #include "json/JsonUtils.h"
+#include "GameSaveError.h"
 #include "libs.h"
 
 class AICommand {

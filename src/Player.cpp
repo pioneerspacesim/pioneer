@@ -8,7 +8,6 @@
 #include "Lang.h"
 #include "Pi.h"
 #include "SectorView.h"
-#include "Serializer.h"
 #include "ShipCpanel.h"
 #include "Sound.h"
 #include "SpaceStation.h"

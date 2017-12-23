@@ -12,6 +12,7 @@
 #include "FindNodeVisitor.h"
 #include "Thruster.h"
 #include "utils.h"
+#include "GameSaveError.h"
 
 namespace SceneGraph {
 

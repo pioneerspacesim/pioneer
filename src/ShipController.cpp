@@ -11,6 +11,7 @@
 #include "Space.h"
 #include "WorldView.h"
 #include "OS.h"
+#include "GameSaveError.h"
 
 void ShipController::StaticUpdate(float timeStep)
 {

@@ -7,7 +7,6 @@
 #include <list>
 #include <string>
 #include "RefCounted.h"
-#include "Serializer.h"
 #include "Sector.h"
 #include "StarSystem.h"
 #include "SystemPath.h"

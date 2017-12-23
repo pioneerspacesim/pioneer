@@ -8,6 +8,7 @@
 #include "Sector.h"
 #include "Pi.h"
 #include "FileSystem.h"
+#include "GameSaveError.h"
 
 Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, float sol_offset_x, float sol_offset_y,
 	const std::string& factionsDir, const std::string& customSysDir)

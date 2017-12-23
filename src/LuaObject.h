@@ -11,7 +11,6 @@
 #include "LuaWrappable.h"
 #include "RefCounted.h"
 #include "DeleteEmitter.h"
-#include "Serializer.h"
 #include <typeinfo>
 #include <tuple>
 

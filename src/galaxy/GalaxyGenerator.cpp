@@ -6,6 +6,7 @@
 #include "GalaxyGenerator.h"
 #include "SectorGenerator.h"
 #include "galaxy/StarSystemGenerator.h"
+#include "GameSaveError.h"
 
 static const GalaxyGenerator::Version LAST_VERSION_LEGACY = 1;
 

@@ -6,6 +6,7 @@
 #include "FileSystem.h"
 #include "StringF.h"
 #include "utils.h"
+#include "GameSaveError.h"
 
 extern "C" {
 #include "miniz/miniz.h"

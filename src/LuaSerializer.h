@@ -8,7 +8,6 @@
 #include "LuaObject.h"
 #include "LuaRef.h"
 #include "DeleteEmitter.h"
-#include "Serializer.h"
 
 class LuaSerializer : public DeleteEmitter {
 	friend class LuaObject<LuaSerializer>;

@@ -4,6 +4,7 @@
 #include "LuaRef.h"
 #include "Lua.h"
 #include "Pi.h"
+#include "GameSaveError.h"
 #include <cassert>
 
 LuaRef::LuaRef(const LuaRef & ref): m_lua(ref.m_lua), m_id(ref.m_id), m_copycount(ref.m_copycount) {

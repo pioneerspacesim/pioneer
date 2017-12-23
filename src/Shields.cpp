@@ -9,6 +9,7 @@
 #include "Ship.h"
 #include "Pi.h"
 #include "json/JsonUtils.h"
+#include "GameSaveError.h"
 #include <sstream>
 
 namespace {

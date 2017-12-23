@@ -11,7 +11,6 @@
 #include "NavLights.h"
 #include "Planet.h"
 #include "Sensors.h"
-#include "Serializer.h"
 #include "ShipType.h"
 #include "Space.h"
 #include "scenegraph/SceneGraph.h"

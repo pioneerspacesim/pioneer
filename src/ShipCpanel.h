@@ -8,7 +8,6 @@
 #include "gui/Gui.h"
 #include "ShipCpanelMultiFuncDisplays.h"
 #include "Ship.h"
-#include "Serializer.h"
 #include "Game.h"
 #include "WorldView.h"
 
