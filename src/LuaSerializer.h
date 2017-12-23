@@ -19,9 +19,6 @@ public:
 	void ToJson(Json::Value &jsonObj);
 	void FromJson(const Json::Value &jsonObj);
 
-	void WrLuaRef(LuaRef &ref, Serializer::Writer &wr);
-	void RdLuaRef(LuaRef &ref, Serializer::Reader &rd);
-
 	void InitTableRefs();
 	void UninitTableRefs();
 
