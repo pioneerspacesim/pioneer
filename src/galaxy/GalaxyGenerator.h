@@ -27,7 +27,6 @@ public:
 	static RefCountedPtr<Galaxy> Create() {
 		return Create(s_defaultGenerator, s_defaultVersion);
 	}
-	static RefCountedPtr<Galaxy> Create(Serializer::Reader& rd);
 	static RefCountedPtr<Galaxy> CreateFromJson(const Json::Value &jsonObj);
 
 	static std::string GetDefaultGeneratorName() { return s_defaultGenerator; }

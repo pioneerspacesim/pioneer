@@ -78,19 +78,6 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string& name, Version v
 }
 
 // static
-RefCountedPtr<Galaxy> GalaxyGenerator::Create(Serializer::Reader& rd)
-{
-	std::string genName = rd.String();
-	GalaxyGenerator::Version genVersion = rd.Int32();
-	RefCountedPtr<Galaxy> galaxy = GalaxyGenerator::Create(genName, genVersion);
-	if (!galaxy) {
-		Output("can't load savefile, unsupported galaxy generator %s, version %d\n", genName.c_str(), genVersion);
-		throw SavedGameWrongVersionException();
-	}
-	return galaxy;
-}
-
-// static
 RefCountedPtr<Galaxy> GalaxyGenerator::CreateFromJson(const Json::Value &jsonObj)
 {
 	if (!jsonObj.isMember("name")) throw SavedGameCorruptException();
