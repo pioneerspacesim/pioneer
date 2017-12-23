@@ -9,11 +9,7 @@
 #include "Quaternion.h"
 #include "vector2.h"
 #include "vector3.h"
-
-struct SavedGameCorruptException {};
-struct SavedGameWrongVersionException {};
-struct CouldNotOpenFileException {};
-struct CouldNotWriteToFileException {};
+#include "GameSaveError.h"
 
 namespace Serializer {
 

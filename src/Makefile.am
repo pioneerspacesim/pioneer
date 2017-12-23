@@ -54,6 +54,7 @@ noinst_HEADERS = \
 	IterationProxy.h \
 	JobQueue.h \
 	GameConfig.h \
+	GameSaveError.h \
 	KeyBindings.h \
 	Lang.h \
 	LangStrings.inc.h \
