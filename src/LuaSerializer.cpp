@@ -528,7 +528,7 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json::Value &value)
 
 					const Json::Value &inner = value["inner"];
 					if (inner.size() % 2 != 0) { throw SavedGameCorruptException(); }
-					for (int i = 0; i < inner.size(); i += 2) {
+					for (Json::ArrayIndex i = 0; i < inner.size(); i += 2) {
 						unpickle_json(l, inner[i+0]);
 						unpickle_json(l, inner[i+1]);
 						lua_rawset(l, -3);
