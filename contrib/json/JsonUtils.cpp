@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright Â© 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _USE_MATH_DEFINES
@@ -233,7 +233,7 @@ void BinStrToJson(Json::Value &jsonObj, const std::string &binStr, const std::st
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 
-	// compress in memory, write to open file 
+	// compress in memory, write to open file
 	size_t outSize = 0;
 	void *pCompressedData = tdefl_compress_mem_to_heap(binStr.data(), binStr.length(), &outSize, 128);
 	assert(pCompressedData); // can we fail to compress?
@@ -245,7 +245,7 @@ void BinStrToJson(Json::Value &jsonObj, const std::string &binStr, const std::st
 			binStrArray[charIndex] = int(((uint8_t*)pCompressedData)[charIndex]);
 		}
 		// Add compressed and packed binary string array to supplied object.
-		jsonObj[name] = binStrArray; 
+		jsonObj[name] = binStrArray;
 		// release the compressed data
 		mz_free(pCompressedData);
 	}
