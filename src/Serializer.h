@@ -63,14 +63,7 @@ namespace Serializer {
 		vector3d Vector3d();
 		Quaternionf RdQuaternionf();
 		Color Color4UB();
-		Reader RdSection(const std::string &section_label_expected) {
-			if (section_label_expected != String()) {
-				throw SavedGameCorruptException();
-			}
-			Reader section = Reader(Blob());
-			section.SetStreamVersion(StreamVersion());
-			return section;
-		}
+		Reader RdSection(const std::string &section_label_expected);
 		/** Best not to use these except in templates */
 		void Auto(Sint32 *x) { *x = Int32(); }
 		void Auto(Sint64 *x) { *x = Int64(); }

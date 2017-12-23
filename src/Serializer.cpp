@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Serializer.h"
+#include "GameSaveError.h"
 
 namespace Serializer {
 
@@ -260,6 +261,15 @@ Color Reader::Color4UB()
 	c.b = Byte();
 	c.a = Byte();
 	return c;
+}
+
+Reader Reader::RdSection(const std::string &section_label_expected) {
+	if (section_label_expected != String()) {
+		throw SavedGameCorruptException();
+	}
+	Reader section = Reader(Blob());
+	section.SetStreamVersion(StreamVersion());
+	return section;
 }
 
 } /* end namespace Serializer */
