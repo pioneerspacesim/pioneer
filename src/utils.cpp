@@ -293,20 +293,6 @@ std::vector<std::string> SplitString(const std::string& source, const std::strin
 	return splitted;
 }
 
-std::string SInt64ToStr(Sint64 val)
-{
-	char str[128];
-	sprintf(str, "%" PRIu64, val);
-	return str;
-}
-
-std::string UInt64ToStr(Uint64 val)
-{
-	char str[128];
-	sprintf(str, "%" PRIu64, val);
-	return str;
-}
-
 //#define USE_HEX_FLOATS
 #ifndef USE_HEX_FLOATS
 union fu32 {
