@@ -630,7 +630,6 @@
     <ClInclude Include="..\..\src\Orbit.h" />
     <ClInclude Include="..\..\src\OS.h" />
     <ClInclude Include="..\..\src\perlin.h" />
-    <ClInclude Include="..\..\src\PersistSystemData.h" />
     <ClInclude Include="..\..\src\Pi.h" />
     <ClInclude Include="..\..\src\PiGui.h" />
     <ClInclude Include="..\..\src\Plane.h" />
