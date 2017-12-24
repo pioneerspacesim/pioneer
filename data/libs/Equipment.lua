@@ -489,159 +489,161 @@ end
 -- autopilot - autopilot
 -- trade_computer - commodity trade analyzer computer module
 
+local CARGOLANGRESOURCE = "commodity"
+
 cargo = {
 	hydrogen = EquipType.New({
-		l10n_key = 'HYDROGEN', l10n_resource = "core", slots="cargo", price=1,
+		l10n_key = 'HYDROGEN', l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=1,
 		capabilities={mass=1}, economy_type="mining",
 		purchasable=true, icon_name="Hydrogen"
 	}),
 	liquid_oxygen = EquipType.New({
-		l10n_key="LIQUID_OXYGEN", l10n_resource = "core", slots="cargo", price=1.5,
+		l10n_key="LIQUID_OXYGEN", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=1.5,
 		capabilities={mass=1}, economy_type="mining",
 		purchasable=true, icon_name="Liquid_Oxygen"
 	}),
 	water = EquipType.New({
-		l10n_key="WATER", l10n_resource = "core", slots="cargo", price=1.2,
+		l10n_key="WATER", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=1.2,
 		capabilities={mass=1}, economy_type="mining",
 		purchasable=true, icon_name="Water"
 	}),
 	carbon_ore = EquipType.New({
-		l10n_key="CARBON_ORE", l10n_resource = "core", slots="cargo", price=5,
+		l10n_key="CARBON_ORE", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=5,
 		capabilities={mass=1}, economy_type="mining",
 		purchasable=true, icon_name="Carbon_ore"
 	}),
 	metal_ore = EquipType.New({
-		l10n_key="METAL_ORE", l10n_resource = "core", slots="cargo", price=3,
+		l10n_key="METAL_ORE", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=3,
 		capabilities={mass=1}, economy_type="mining",
 		purchasable=true, icon_name="Metal_ore"
 	}),
 	metal_alloys = EquipType.New({
-		l10n_key="METAL_ALLOYS", l10n_resource = "core", slots="cargo", price=8,
+		l10n_key="METAL_ALLOYS", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=8,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Metal_alloys"
 	}),
 	precious_metals = EquipType.New({
-		l10n_key="PRECIOUS_METALS", l10n_resource = "core", slots="cargo", price=180,
+		l10n_key="PRECIOUS_METALS", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=180,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Precious_metals"
 	}),
 	plastics = EquipType.New({
-		l10n_key="PLASTICS", l10n_resource = "core", slots="cargo", price=12,
+		l10n_key="PLASTICS", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=12,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Plastics"
 	}),
 	fruit_and_veg = EquipType.New({
-		l10n_key="FRUIT_AND_VEG", l10n_resource = "core", slots="cargo", price=12,
+		l10n_key="FRUIT_AND_VEG", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=12,
 		capabilities={mass=1}, economy_type="agriculture",
 		purchasable=true, icon_name="Fruit_and_Veg"
 	}),
 	animal_meat = EquipType.New({
-		l10n_key="ANIMAL_MEAT", l10n_resource = "core", slots="cargo", price=18,
+		l10n_key="ANIMAL_MEAT", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=18,
 		capabilities={mass=1}, economy_type="agriculture",
 		purchasable=true, icon_name="Animal_Meat"
 	}),
 	live_animals = EquipType.New({
-		l10n_key="LIVE_ANIMALS", l10n_resource = "core", slots="cargo", price=32,
+		l10n_key="LIVE_ANIMALS", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=32,
 		capabilities={mass=1}, economy_type="agriculture",
 		purchasable=true, icon_name="Live_Animals"
 	}),
 	liquor = EquipType.New({
-		l10n_key="LIQUOR", l10n_resource = "core", slots="cargo", price=8,
+		l10n_key="LIQUOR", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=8,
 		capabilities={mass=1}, economy_type="agriculture",
 		purchasable=true, icon_name="Liquor"
 	}),
 	grain = EquipType.New({
-		l10n_key="GRAIN", l10n_resource = "core", slots="cargo", price=10,
+		l10n_key="GRAIN", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=10,
 		capabilities={mass=1}, economy_type="agriculture",
 		purchasable=true, icon_name="Grain"
 	}),
 	slaves = EquipType.New({
-		l10n_key="SLAVES", l10n_resource = "core", slots="cargo", price=232,
+		l10n_key="SLAVES", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=232,
 		capabilities={mass=1}, economy_type="agriculture",
 		purchasable=true, icon_name="Slaves"
 	}),
 	textiles = EquipType.New({
-		l10n_key="TEXTILES", l10n_resource = "core", slots="cargo", price=8.5,
+		l10n_key="TEXTILES", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=8.5,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Textiles"
 	}),
 	fertilizer = EquipType.New({
-		l10n_key="FERTILIZER", l10n_resource = "core", slots="cargo", price=4,
+		l10n_key="FERTILIZER", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=4,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Fertilizer"
 	}),
 	medicines = EquipType.New({
-		l10n_key="MEDICINES", l10n_resource = "core", slots="cargo", price=22,
+		l10n_key="MEDICINES", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=22,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Medicines"
 	}),
 	consumer_goods = EquipType.New({
-		l10n_key="CONSUMER_GOODS", l10n_resource = "core", slots="cargo", price=140,
+		l10n_key="CONSUMER_GOODS", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=140,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Consumer_goods"
 	}),
 	computers = EquipType.New({
-		l10n_key="COMPUTERS", l10n_resource = "core", slots="cargo", price=80,
+		l10n_key="COMPUTERS", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=80,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Computers"
 	}),
 	rubbish = EquipType.New({
-		l10n_key="RUBBISH", l10n_resource = "core", slots="cargo", price=-0.1,
+		l10n_key="RUBBISH", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=-0.1,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Rubbish"
 	}),
 	radioactives = EquipType.New({
-		l10n_key="RADIOACTIVES", l10n_resource = "core", slots="cargo", price=-3.5,
+		l10n_key="RADIOACTIVES", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=-3.5,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Radioactive_waste"
 	}),
 	narcotics = EquipType.New({
-		l10n_key="NARCOTICS", l10n_resource = "core", slots="cargo", price=157,
+		l10n_key="NARCOTICS", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=157,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Narcotics"
 	}),
 	nerve_gas = EquipType.New({
-		l10n_key="NERVE_GAS", l10n_resource = "core", slots="cargo", price=265,
+		l10n_key="NERVE_GAS", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=265,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Nerve_Gas"
 	}),
 	military_fuel = EquipType.New({
-		l10n_key="MILITARY_FUEL", l10n_resource = "core", slots="cargo", price=60,
+		l10n_key="MILITARY_FUEL", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=60,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Military_fuel"
 	}),
 	robots = EquipType.New({
-		l10n_key="ROBOTS", l10n_resource = "core", slots="cargo", price=63,
+		l10n_key="ROBOTS", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=63,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Robots"
 	}),
 	hand_weapons = EquipType.New({
-		l10n_key="HAND_WEAPONS", l10n_resource = "core", slots="cargo", price=124,
+		l10n_key="HAND_WEAPONS", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=124,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Hand_weapons"
 	}),
 	air_processors = EquipType.New({
-		l10n_key="AIR_PROCESSORS", l10n_resource = "core", slots="cargo", price=20,
+		l10n_key="AIR_PROCESSORS", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=20,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Air_processors"
 	}),
 	farm_machinery = EquipType.New({
-		l10n_key="FARM_MACHINERY", l10n_resource = "core", slots="cargo", price=11,
+		l10n_key="FARM_MACHINERY", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=11,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Farm_machinery"
 	}),
 	mining_machinery = EquipType.New({
-		l10n_key="MINING_MACHINERY", l10n_resource = "core", slots="cargo", price=12,
+		l10n_key="MINING_MACHINERY", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=12,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Mining_machinery"
 	}),
 	battle_weapons = EquipType.New({
-		l10n_key="BATTLE_WEAPONS", l10n_resource = "core", slots="cargo", price=220,
+		l10n_key="BATTLE_WEAPONS", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=220,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Battle_weapons"
 	}),
 	industrial_machinery = EquipType.New({
-		l10n_key="INDUSTRIAL_MACHINERY", l10n_resource = "core", slots="cargo", price=13,
+		l10n_key="INDUSTRIAL_MACHINERY", l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=13,
 		capabilities={mass=1}, economy_type="industry",
 		purchasable=true, icon_name="Industrial_machinery"
 	}),
