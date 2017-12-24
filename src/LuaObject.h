@@ -73,18 +73,29 @@ struct SerializerPair {
 	typedef std::string (*Serializer)(LuaWrappable *o);
 	typedef bool (*Deserializer)(const char *stream, const char **next);
 
+	typedef void (*ToJson)(Json::Value &out, LuaWrappable *o);
+	typedef bool (*FromJson)(const Json::Value &obj);
+
 	SerializerPair() :
 		serialize(nullptr),
-		deserialize(nullptr)
+		deserialize(nullptr),
+		to_json(nullptr),
+		from_json(nullptr)
 	{}
 
-	SerializerPair(Serializer _serialize, Deserializer _deserialize) :
-		serialize(_serialize),
-		deserialize(_deserialize)
+	SerializerPair(
+			Serializer serialize_, Deserializer deserialize_,
+			ToJson to_json_, FromJson from_json_):
+		serialize(serialize_),
+		deserialize(deserialize_),
+		to_json(to_json_),
+		from_json(from_json_)
 	{}
 
 	Serializer serialize;
 	Deserializer deserialize;
+	ToJson to_json;
+	FromJson from_json;
 };
 
 
@@ -147,6 +158,9 @@ protected:
 
 	std::string Serialize();
 	static bool Deserialize(const char *stream, const char **next);
+
+	void ToJson(Json::Value &out);
+	static bool FromJson(const Json::Value &obj);
 
     // allocate n bytes from Lua memory and leave it an associated userdata on
     // the stack. this is a wrapper around lua_newuserdata

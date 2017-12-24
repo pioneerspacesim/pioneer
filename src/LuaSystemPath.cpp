@@ -616,6 +616,35 @@ static bool _systempath_deserializer(const char *pos, const char **next)
 	return true;
 }
 
+static void _systempath_to_json(Json::Value &out, LuaWrappable *o)
+{
+	SystemPath *p = static_cast<SystemPath*>(o);
+	out = Json::Value(Json::arrayValue);
+	out.resize(5);
+	out[0] = Json::Value(p->sectorX);
+	out[1] = Json::Value(p->sectorY);
+	out[2] = Json::Value(p->sectorZ);
+	out[3] = Json::Value(p->systemIndex);
+	out[4] = Json::Value(p->bodyIndex);
+}
+
+static bool _systempath_from_json(const Json::Value &obj)
+{
+	if (!obj.isArray()) return false;
+	if (obj.size() < 3 || obj.size() > 5) return false;
+	for (Json::ArrayIndex i = 0; i < obj.size(); ++i) { if (!obj[i].isIntegral()) { return false; } }
+
+	SystemPath p;
+	p.sectorX = obj[0].asInt();
+	p.sectorY = obj[1].asInt();
+	p.sectorZ = obj[2].asInt();
+	if (obj.size() >= 4) { p.systemIndex = obj[3].asUInt(); }
+	if (obj.size() >= 5) { p.bodyIndex = obj[4].asUInt(); }
+
+	LuaObject<SystemPath>::PushToLua(p);
+	return true;
+}
+
 template <> const char *LuaObject<SystemPath>::s_type = "SystemPath";
 
 template <> void LuaObject<SystemPath>::RegisterClass()
@@ -655,5 +684,6 @@ template <> void LuaObject<SystemPath>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, 0, l_methods, l_attrs, l_meta);
-	LuaObjectBase::RegisterSerializer(s_type, SerializerPair(_systempath_serializer, _systempath_deserializer));
+	LuaObjectBase::RegisterSerializer(s_type, SerializerPair(
+		_systempath_serializer, _systempath_deserializer, _systempath_to_json, _systempath_from_json));
 }
