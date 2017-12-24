@@ -662,15 +662,22 @@ void LuaSerializer::ToJson(Json::Value &jsonObj)
 
 void LuaSerializer::FromJson(const Json::Value &jsonObj)
 {
-	if (!jsonObj.isMember("lua_modules_json")) throw SavedGameCorruptException();
-
 	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
-	const Json::Value &value = jsonObj["lua_modules_json"];
-	if (value.type() != Json::objectValue) { throw SavedGameCorruptException(); }
-	unpickle_json(l, value);
+	if (jsonObj.isMember("lua_modules_json")) {
+		const Json::Value &value = jsonObj["lua_modules_json"];
+		if (value.type() != Json::objectValue) { throw SavedGameCorruptException(); }
+		unpickle_json(l, value);
+	} else if (jsonObj.isMember("lua_modules")) {
+		std::string pickled = JsonToBinStr(jsonObj, "lua_modules");
+		const char *start = pickled.c_str();
+		const char *end = unpickle(l, start);
+		if (size_t(end - start) != pickled.length()) throw SavedGameCorruptException();
+	} else {
+		throw SavedGameCorruptException();
+	}
 
 	if (!lua_istable(l, -1)) throw SavedGameCorruptException();
 	int savetable = lua_gettop(l);
