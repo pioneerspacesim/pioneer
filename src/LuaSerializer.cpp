@@ -518,6 +518,8 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json::Value &value)
 			break;
 		case Json::objectValue:
 			if (value.isMember("number")) {
+				lua_pushnumber(l, StrToDouble(value["number"].asString()));
+				LUA_DEBUG_CHECK(l, 1);
 			} else if (value.isMember("userdata")) {
 				if (!LuaObjectBase::FromJson(value["userdata"])) { throw SavedGameCorruptException(); }
 				LUA_DEBUG_CHECK(l, 1);
