@@ -56,6 +56,9 @@ void Ship::SaveToJson(Json::Value &jsonObj, Space *space)
 	m_hyperspace.dest.ToJson(hyperspaceDestObj);
 	shipObj["hyperspace_destination"] = hyperspaceDestObj; // Add hyperspace destination object to ship object.
 	shipObj["hyperspace_countdown"] = FloatToStr(m_hyperspace.countdown);
+	shipObj["hyperspace_warmup_sound"] = m_hyperspace.sounds.warmup_sound;
+	shipObj["hyperspace_abort_sound"] = m_hyperspace.sounds.abort_sound;
+	shipObj["hyperspace_jump_sound"] = m_hyperspace.sounds.jump_sound;
 
 	GetFixedGuns()->SaveToJson( shipObj, space );
 
@@ -133,6 +136,12 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_hyperspace.dest = SystemPath::FromJson(hyperspaceDestObj);
 	m_hyperspace.countdown = StrToFloat(shipObj["hyperspace_countdown"].asString());
 	m_hyperspace.duration = 0;
+	m_hyperspace.sounds.warmup_sound =
+		shipObj.isMember("hyperspace_warmup_sound") ? shipObj["hyperspace_warmup_sound"].asString() : "";
+	m_hyperspace.sounds.abort_sound =
+		shipObj.isMember("hyperspace_abort_sound") ? shipObj["hyperspace_abort_sound"].asString() : "";
+	m_hyperspace.sounds.jump_sound =
+		shipObj.isMember("hyperspace_jump_sound") ? shipObj["hyperspace_jump_sound"].asString() : "";
 
 	GetFixedGuns()->LoadFromJson( shipObj, space );
 
@@ -638,7 +647,7 @@ Ship::HyperjumpStatus Ship::CheckHyperjumpCapability() const {
 	return HYPERJUMP_OK;
 }
 
-Ship::HyperjumpStatus Ship::InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, LuaRef checks) {
+Ship::HyperjumpStatus Ship::InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, const HyperdriveSoundsTable &sounds, LuaRef checks) {
 	if (!dest.HasValidSystem() || GetFlightState() != FLYING || warmup_time < 1)
 		return HYPERJUMP_SAFETY_LOCKOUT;
 	StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
@@ -650,6 +659,7 @@ Ship::HyperjumpStatus Ship::InitiateHyperjumpTo(const SystemPath &dest, int warm
 	m_hyperspace.now = false;
 	m_hyperspace.duration = duration;
 	m_hyperspace.checks = checks;
+	m_hyperspace.sounds = sounds;
 
 	return Ship::HYPERJUMP_OK;
 }
@@ -1352,7 +1362,7 @@ void Ship::EnterHyperspace() {
 }
 
 void Ship::OnEnterHyperspace() {
-	Sound::BodyMakeNoise(this, "Hyperdrive_Jump", 1.f);
+	Sound::BodyMakeNoise(this, m_hyperspace.sounds.jump_sound.c_str(), 1.f);
 	m_hyperspaceCloud = new HyperspaceCloud(this, Pi::game->GetTime() + m_hyperspace.duration, false);
 	m_hyperspaceCloud->SetFrame(GetFrame());
 	m_hyperspaceCloud->SetPosition(GetPosition());
