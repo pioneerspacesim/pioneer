@@ -6,6 +6,7 @@ December 2017
    * Internal Changes
      * Refactor buffers to have a capacity and size (#4201)
      * Add GZipFormat source files to VS2015 Solution (#4212)
+     * Library version information logging to aid debugging (#4209)
 
 November 2017
    * New Features
