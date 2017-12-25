@@ -790,7 +790,7 @@ bool RendererGL2::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat
 	gvb->Bind();
 	EnableVertexAttributes(gvb);
 
-	glDrawArrays(pt, 0, gvb->GetVertexCount());
+	glDrawArrays(pt, 0, gvb->GetSize());
 
 	DisableVertexAttributes(gvb);
 	gvb->Release();
@@ -838,7 +838,7 @@ bool RendererGL2::DrawBufferInstanced(VertexBuffer* vb, RenderState* state, Mate
 
 	vb->Bind();
 	instb->Bind();
-	glDrawArraysInstancedARB(pt, 0, vb->GetVertexCount(), instb->GetInstanceCount());
+	glDrawArraysInstancedARB(pt, 0, vb->GetSize(), instb->GetInstanceCount());
 	instb->Release();
 	vb->Release();
 

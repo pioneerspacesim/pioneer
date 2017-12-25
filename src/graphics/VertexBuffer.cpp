@@ -67,15 +67,10 @@ VertexBuffer::~VertexBuffer()
 {
 }
 
-Uint32 VertexBuffer::GetVertexCount() const
-{
-	return m_numVertices;
-}
-
 bool VertexBuffer::SetVertexCount(Uint32 v)
 {
 	if (v <= m_desc.numVertices) {
-		m_numVertices = v;
+		m_size = v;
 		return true;
 	}
 	return false;
@@ -83,7 +78,7 @@ bool VertexBuffer::SetVertexCount(Uint32 v)
 
 // ------------------------------------------------------------
 IndexBuffer::IndexBuffer(Uint32 size, BufferUsage usage)
-	: m_size(size)
+	: Mappable(size)
 	, m_indexCount(size)
 	, m_usage(usage)
 {
@@ -101,7 +96,7 @@ void IndexBuffer::SetIndexCount(Uint32 ic)
 
 // ------------------------------------------------------------
 InstanceBuffer::InstanceBuffer(Uint32 size, BufferUsage usage)
-	: m_size(size)
+	: Mappable(size)
 	, m_usage(usage)
 {
 }

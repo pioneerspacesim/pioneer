@@ -562,6 +562,7 @@ local calcReward = function (flavour, pickup_crew, pickup_pass, pickup_comm, del
 		reward = reward + extra
 	end
 
+	reward = math.ceil(reward)
 	return reward
 end
 

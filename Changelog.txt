@@ -1,3 +1,12 @@
+December 2017
+   * New Features
+     * Rounded rewards (#4195)
+     * Save files are now written in gzip format so they don't need a custom tool to extract (#4205)
+     
+   * Internal Changes
+     * Refactor buffers to have a capacity and size (#4201)
+     * Add GZipFormat source files to VS2015 Solution (#4212)
+
 November 2017
    * New Features
      * Adding base to Moon (JAXA lava cave location) (#4186)

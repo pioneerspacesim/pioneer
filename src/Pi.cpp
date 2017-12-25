@@ -1516,17 +1516,6 @@ void Pi::MainLoop()
 			Pi::ui->Draw();
 		}
 
-#if WITH_DEVKEYS
-		if (Pi::showDebugInfo) {
-			Gui::Screen::EnterOrtho();
-			Gui::Screen::PushFont("ConsoleFont");
-			static RefCountedPtr<Graphics::VertexBuffer> s_debugInfovb;
-			Gui::Screen::RenderStringBuffer(s_debugInfovb, fps_readout, 0, 0);
-			Gui::Screen::PopFont();
-			Gui::Screen::LeaveOrtho();
-		}
-#endif
-
 		Pi::EndRenderTarget();
 		Pi::DrawRenderTarget();
 		bool endCameraFrame = false;
@@ -1541,6 +1530,19 @@ void Pi::MainLoop()
 				Pi::game->GetWorldView()->EndCameraFrame();
 			}
 		}
+
+#if WITH_DEVKEYS
+		// NB: this needs to be rendered last so that it appears over all other game elements
+		//	preferrably like this where it is just before the buffer swap
+		if (Pi::showDebugInfo) {
+			Gui::Screen::EnterOrtho();
+			Gui::Screen::PushFont("ConsoleFont");
+			static RefCountedPtr<Graphics::VertexBuffer> s_debugInfovb;
+			Gui::Screen::RenderStringBuffer(s_debugInfovb, fps_readout, 0, 0);
+			Gui::Screen::PopFont();
+			Gui::Screen::LeaveOrtho();
+		}
+#endif
 
 		Pi::renderer->SwapBuffers();
 
