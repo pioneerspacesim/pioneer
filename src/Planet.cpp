@@ -121,6 +121,11 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	// Note: some code duplicated in InitParams(). Check if changing.
 	if (dist >= m_atmosphereRadius) {*outDensity = 0.0; *outPressure = 0.0; return;}
 
+	// molar mass of hydrogen gas = 2.016g/mol
+	// molar mass of helium gas = 4.002g/mol
+	// molar mass of earth air = 28.97g/mol
+	// molar mass of hydrogen gas(85%) and helium(15%) mix = 2.3139g/mol
+
 	double surfaceDensity;
 	double specificHeatCp;
 	double gasMolarMass;
@@ -139,8 +144,8 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	// lapse rate http://en.wikipedia.org/wiki/Adiabatic_lapse_rate#Dry_adiabatic_lapse_rate
 	// the wet adiabatic rate can be used when cloud layers are incorporated
 	// fairly accurate in the troposphere
-	const double lapseRate_L = -m_surfaceGravity_g/specificHeatCp; // negative deg/m
-
+	// m_surfaceGravity_g is calculated and stored as a negative number
+	const double lapseRate_L = -m_surfaceGravity_g/specificHeatCp; // negative deg/m << wrong? -(-)/+ = +, should it be -abs(G)/hcp?
 	const double height_h = (dist-sbody->GetRadius()); // height in m
 	const double surfaceTemperature_T0 = sbody->GetAverageTemp(); //K
 
@@ -156,10 +161,11 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	if (height_h < 0.0) { *outPressure = surfaceP_p0; *outDensity = surfaceDensity*gasMolarMass; return; }
 
 	//*outPressure = p0*(1-l*h/T0)^(g*M/(R*L);
+	// WARNING! lapserate is a positive number, not negative as commented
 	*outPressure = surfaceP_p0*pow((1-lapseRate_L*height_h/surfaceTemperature_T0),(-m_surfaceGravity_g*gasMolarMass/(GAS_CONSTANT*lapseRate_L)));// in ATM since p0 was in ATM
 	//                                                                               ^^g used is abs(g)
 	// temperature at height
-	double temp = surfaceTemperature_T0+lapseRate_L*height_h;
+	double temp = surfaceTemperature_T0-lapseRate_L*height_h; // << lapserate is a positive number and needs to be subtracted for temperature to drop the higher you get.
 
 	*outDensity = (*outPressure/(PA_2_ATMOS*GAS_CONSTANT*temp))*gasMolarMass;
 }
