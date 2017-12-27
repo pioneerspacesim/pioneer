@@ -14,7 +14,6 @@
 #include "Planet.h"
 #include "Player.h"
 #include "Polit.h"
-#include "Serializer.h"
 #include "Ship.h"
 #include "Space.h"
 #include "StringF.h"
@@ -23,6 +22,7 @@
 #include "graphics/Graphics.h"
 #include "scenegraph/ModelSkin.h"
 #include "json/JsonUtils.h"
+#include "GameSaveError.h"
 #include <algorithm>
 
 void SpaceStation::Init()

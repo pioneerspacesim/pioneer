@@ -20,6 +20,7 @@
 #include "galaxy/GalaxyCache.h"
 #include "Factions.h"
 #include "FileSystem.h"
+#include "GameSaveError.h"
 
 /*
  * Class: StarSystem

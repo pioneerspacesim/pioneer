@@ -17,6 +17,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "json/JsonUtils.h"
+#include "GameSaveError.h"
 
 using namespace Graphics;
 

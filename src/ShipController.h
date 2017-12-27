@@ -8,9 +8,9 @@
  * Controls thrusters, autopilot according to player input or AI
  */
 #include "libs.h"
-#include "Serializer.h"
 #include "json/json.h"
 
+class Body;
 class Ship;
 class Space;
 

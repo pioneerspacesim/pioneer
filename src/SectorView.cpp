@@ -9,7 +9,6 @@
 #include "Pi.h"
 #include "Player.h"
 #include "SectorView.h"
-#include "Serializer.h"
 #include "ShipCpanel.h"
 #include "StringF.h"
 #include "SystemInfoView.h"
@@ -22,6 +21,7 @@
 #include "graphics/Renderer.h"
 #include "gui/Gui.h"
 #include "KeyBindings.h"
+#include "GameSaveError.h"
 #include <algorithm>
 #include <sstream>
 #include <SDL_stdinc.h>

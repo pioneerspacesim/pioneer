@@ -4,6 +4,7 @@
 #include "BaseLoader.h"
 #include "FileSystem.h"
 #include "graphics/TextureBuilder.h"
+#include "utils.h"
 
 using namespace SceneGraph;
 

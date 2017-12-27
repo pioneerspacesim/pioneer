@@ -38,7 +38,7 @@ public:
 	void SetNavTarget(Body* const target, bool setSpeedTo = false);
 	void SetSetSpeedTarget(Body* const target);
 
-	virtual Ship::HyperjumpStatus InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, LuaRef checks) override;
+	virtual Ship::HyperjumpStatus InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, const HyperdriveSoundsTable &sounds, LuaRef checks) override;
 	virtual void AbortHyperjump() override;
 
 	// XXX cockpit is here for now because it has a physics component

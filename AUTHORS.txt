@@ -97,6 +97,7 @@ The Pioneer Developers are:
 * Sukender (Benoit Neil)
 * Szilárd Bálint
 * Taiki Kim
+* Taylor Talkington
 * Thierry Dupré
 * Tim Jones
 * Timothy Hills

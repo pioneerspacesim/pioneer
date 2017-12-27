@@ -401,6 +401,7 @@
     <ClCompile Include="..\..\src\GeoPatchID.cpp" />
     <ClCompile Include="..\..\src\GeoPatchJobs.cpp" />
     <ClCompile Include="..\..\src\GeoSphere.cpp" />
+    <ClCompile Include="..\..\src\GZipFormat.cpp" />
     <ClCompile Include="..\..\src\HudTrail.cpp" />
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp" />
     <ClCompile Include="..\..\src\IniConfig.cpp" />
@@ -522,6 +523,7 @@
     <ClCompile Include="..\..\src\Tombstone.cpp" />
     <ClCompile Include="..\..\src\UIView.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
+    <ClCompile Include="..\..\src\versioningInfo.cpp" />
     <ClCompile Include="..\..\src\View.cpp" />
     <ClCompile Include="..\..\src\win32\FileSystemWin32.cpp" />
     <ClCompile Include="..\..\src\win32\OSWin32.cpp" />
@@ -576,6 +578,7 @@
     <ClInclude Include="..\..\src\GeoPatchID.h" />
     <ClInclude Include="..\..\src\GeoPatchJobs.h" />
     <ClInclude Include="..\..\src\GeoSphere.h" />
+    <ClInclude Include="..\..\src\GZipFormat.h" />
     <ClInclude Include="..\..\src\HudTrail.h" />
     <ClInclude Include="..\..\src\HyperspaceCloud.h" />
     <ClInclude Include="..\..\src\IniConfig.h" />
@@ -627,7 +630,6 @@
     <ClInclude Include="..\..\src\Orbit.h" />
     <ClInclude Include="..\..\src\OS.h" />
     <ClInclude Include="..\..\src\perlin.h" />
-    <ClInclude Include="..\..\src\PersistSystemData.h" />
     <ClInclude Include="..\..\src\Pi.h" />
     <ClInclude Include="..\..\src\PiGui.h" />
     <ClInclude Include="..\..\src\Plane.h" />
@@ -677,6 +679,7 @@
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\vector2.h" />
     <ClInclude Include="..\..\src\vector3.h" />
+    <ClInclude Include="..\..\src\versioningInfo.h" />
     <ClInclude Include="..\..\src\VideoLink.h" />
     <ClInclude Include="..\..\src\View.h" />
     <ClInclude Include="..\..\src\win32\TextUtils.h" />

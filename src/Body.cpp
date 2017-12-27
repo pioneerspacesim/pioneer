@@ -17,6 +17,7 @@
 #include "Space.h"
 #include "Game.h"
 #include "LuaEvent.h"
+#include "GameSaveError.h"
 #include "json/JsonUtils.h"
 
 Body::Body() : PropertiedObject(Lua::manager)

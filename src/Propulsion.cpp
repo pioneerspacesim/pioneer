@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "Object.h" // <- here only for comment in AIFaceDirection (line 320)
 #include "KeyBindings.h" // <- same here
+#include "GameSaveError.h"
 
 void Propulsion::SaveToJson(Json::Value &jsonObj, Space *space)
 {

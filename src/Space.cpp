@@ -15,7 +15,6 @@
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
 #include "SpaceStation.h"
-#include "Serializer.h"
 #include "collider/collider.h"
 #include "Missile.h"
 #include "HyperspaceCloud.h"

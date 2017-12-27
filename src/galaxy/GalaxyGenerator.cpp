@@ -6,6 +6,7 @@
 #include "GalaxyGenerator.h"
 #include "SectorGenerator.h"
 #include "galaxy/StarSystemGenerator.h"
+#include "GameSaveError.h"
 
 static const GalaxyGenerator::Version LAST_VERSION_LEGACY = 1;
 
@@ -75,19 +76,6 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string& name, Version v
 		Output("Galaxy generation failed: Unknown generator '%s' version %d\n", name.c_str(), version);
 		return RefCountedPtr<Galaxy>();
 	}
-}
-
-// static
-RefCountedPtr<Galaxy> GalaxyGenerator::Create(Serializer::Reader& rd)
-{
-	std::string genName = rd.String();
-	GalaxyGenerator::Version genVersion = rd.Int32();
-	RefCountedPtr<Galaxy> galaxy = GalaxyGenerator::Create(genName, genVersion);
-	if (!galaxy) {
-		Output("can't load savefile, unsupported galaxy generator %s, version %d\n", genName.c_str(), genVersion);
-		throw SavedGameWrongVersionException();
-	}
-	return galaxy;
 }
 
 // static

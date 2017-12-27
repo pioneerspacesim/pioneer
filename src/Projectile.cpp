@@ -7,7 +7,6 @@
 #include "Frame.h"
 #include "galaxy/StarSystem.h"
 #include "Space.h"
-#include "Serializer.h"
 #include "collider/collider.h"
 #include "CargoBody.h"
 #include "Planet.h"
@@ -23,6 +22,7 @@
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
 #include "json/JsonUtils.h"
+#include "GameSaveError.h"
 
 std::unique_ptr<Graphics::VertexArray> Projectile::s_sideVerts;
 std::unique_ptr<Graphics::VertexArray> Projectile::s_glowVerts;

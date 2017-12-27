@@ -5,7 +5,6 @@
 #define _FRAME_H
 
 #include "libs.h"
-#include "Serializer.h"
 #include "IterationProxy.h"
 #include "json/json.h"
 #include <string>

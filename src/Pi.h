@@ -223,8 +223,6 @@ private:
 	static bool bRefreshBackgroundStars;
 	static float amountOfBackgroundStarsDisplayed;
 
-	static Gui::Fixed *menu;
-
 	static Graphics::RenderTarget *renderTarget;
 	static RefCountedPtr<Graphics::Texture> renderTexture;
 	static std::unique_ptr<Graphics::Drawables::TexturedQuad> renderQuad;

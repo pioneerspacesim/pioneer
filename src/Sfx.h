@@ -5,7 +5,6 @@
 #define _SFX_H
 
 #include "Body.h"
-#include "Serializer.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
 

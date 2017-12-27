@@ -26,6 +26,7 @@
 #include "graphics/Renderer.h"
 #include "ui/Context.h"
 #include "galaxy/GalaxyGenerator.h"
+#include "GameSaveError.h"
 
 static const int  s_saveVersion   = 84;
 static const char s_saveStart[]   = "PIONEER";
@@ -775,7 +776,6 @@ void Game::CreateViews()
 	m_gameViews.reset(new Views);
 	m_gameViews->Init(this);
 
-	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
 	log = new GameLog();
 }
 
@@ -791,7 +791,6 @@ void Game::LoadViewsFromJson(const Json::Value &jsonObj)
 	m_gameViews.reset(new Views);
 	m_gameViews->LoadFromJson(jsonObj, this);
 
-	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
 	log = new GameLog();
 }
 

@@ -564,6 +564,11 @@ local cleanTradeShipsTable = function ()
 end
 
 local onEnterSystem = function (ship)
+	-- dont crash when entering unexplored systems
+	if Game.system.explored == false then
+		return
+	end
+	
 	-- if the player is following a ship through hyperspace that ship may enter first
 	-- so update the system when the first ship enters (see Space::DoHyperspaceTo)
 	if not system_updated then

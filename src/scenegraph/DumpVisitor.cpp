@@ -7,6 +7,7 @@
 #include "Node.h"
 #include "StaticGeometry.h"
 #include "Model.h"
+#include "utils.h"
 #include <iostream>
 #include <sstream>
 

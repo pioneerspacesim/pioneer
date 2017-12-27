@@ -5,7 +5,6 @@
 #define _VIEW_H
 
 #include "libs.h"
-#include "Serializer.h"
 #include "gui/Gui.h"
 #include "json/json.h"
 

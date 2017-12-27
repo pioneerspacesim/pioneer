@@ -7,7 +7,6 @@
  * Blinking navigation lights for ships and stations
  */
 #include "libs.h"
-#include "Serializer.h"
 #include "json/json.h"
 #include "graphics/RenderState.h"
 #include "graphics/VertexArray.h"

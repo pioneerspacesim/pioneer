@@ -8,19 +8,19 @@
 #include "GalaxyGenerator.h"
 #include "Factions.h"
 
-#include "Serializer.h"
 #include "Pi.h"
 #include "LuaEvent.h"
 #include "enum_table.h"
-#include <map>
-#include <string>
-#include <algorithm>
 #include "utils.h"
 #include "Orbit.h"
 #include "Lang.h"
 #include "StringF.h"
-#include <SDL_stdinc.h>
 #include "EnumStrings.h"
+#include "GameSaveError.h"
+#include <SDL_stdinc.h>
+#include <map>
+#include <string>
+#include <algorithm>
 
 //#define DEBUG_DUMP
 
