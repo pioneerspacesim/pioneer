@@ -127,6 +127,11 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_launchLockTimeout = StrToFloat(shipObj["launch_lock_timeout"].asString());
 	m_testLanded = shipObj["test_landed"].asBool();
 	m_flightState = static_cast<FlightState>(shipObj["flight_state"].asInt());
+	
+	m_lastAlertUpdate = 0.0;	// alertstate check cache timer
+	m_shipNear = false;			// alertstate check cache value
+	m_shipFiring = false;		// alertstate check cache value
+
 	m_alertState = static_cast<AlertState>(shipObj["alert_state"].asInt());
 	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
 	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
@@ -275,10 +280,13 @@ void Ship::PostLoadFixup(Space *space)
 
 Ship::Ship(const ShipType::Id &shipId): DynamicBody(),
 	m_controller(0),
-  m_flightState(FLYING),
-  m_alertState(ALERT_NONE),
+    m_flightState(FLYING),
+    m_alertState(ALERT_NONE),
 	m_landingGearAnimation(nullptr)
 {
+	/*
+		THIS CODE DOES NOT RUN WHEN LOADING SAVEGAMES!!
+	*/
 	AddFeature( Feature::PROPULSION ); // add component propulsion
 	AddFeature( Feature::FIXED_GUNS ); // add component fixed guns
 	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
@@ -954,6 +962,16 @@ void Ship::UpdateAlertState()
 	}
 
 	bool ship_is_near = false, ship_is_firing = false;
+
+	// sanity check: m_lastAlertUpdate should not be in the future.
+	// reset and re-check if it is.
+	if (m_lastAlertUpdate > Pi::game->GetTime())
+	{
+		m_lastAlertUpdate = 0;
+		m_shipNear = false;
+		m_shipFiring = false;
+	}
+
 	if (m_lastAlertUpdate + 1.0 <= Pi::game->GetTime())
 	{
 		// time to update the list again, once per second should suffice
