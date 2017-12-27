@@ -107,14 +107,14 @@ local commodityMarket = function (args)
 	local hasCargoLabel =
 		ui:Label("")
 	local commonButtons =
-		ui:HBox():PackEnd({				--pack all the buttons into one widget for future use, hbox lines up elements horizontally
-			add100,						--first button does not need a left margin
-			ui:Margin(16,"LEFT",addten),	--all the following buttons needs a margin to separate it from the previous one
-			ui:Margin(16,"LEFT",addone),
-			ui:Margin(16,"LEFT",tradereset),
+		ui:HBox():PackEnd({					--pack all the buttons into one widget for future use, hbox lines up elements horizontally
+			sub100,							--first button does not need a left margin
+			ui:Margin(16,"LEFT",subten),	--all the following buttons needs a margin to separate it from the previous one						
 			ui:Margin(16,"LEFT",subone),
-			ui:Margin(16,"LEFT",subten),	
-			ui:Margin(16,"LEFT",sub100),						
+			ui:Margin(16,"LEFT",tradereset),
+			ui:Margin(16,"LEFT",addone),
+			ui:Margin(16,"LEFT",addten),
+			ui:Margin(16,"LEFT",add100)
 		})
 
 	-- calls to this function alter traded amount up or down, not absolute values
