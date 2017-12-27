@@ -581,9 +581,6 @@
     <ClInclude Include="..\..\src\perlin.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\PersistSystemData.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Pi.h">
       <Filter>src</Filter>
     </ClInclude>
