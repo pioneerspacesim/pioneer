@@ -218,8 +218,6 @@ void Ship::InitMaterials()
 
 void Ship::Init()
 {
-	Output("Running Ship::Init()\n");
-
 	m_invulnerable = false;
 
 	m_sensors.reset(new Sensors(this));
@@ -957,7 +955,7 @@ void Ship::UpdateAlertState()
 
 	// sanity check: m_lastAlertUpdate should not be in the future.
 	// reset and re-check if it is.
-	if (m_lastAlertUpdate > Pi::game->GetTime() + 2)
+	if (m_lastAlertUpdate > Pi::game->GetTime())
 	{
 		m_lastAlertUpdate = 0;
 		m_shipNear = false;
