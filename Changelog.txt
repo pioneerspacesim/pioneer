@@ -13,6 +13,7 @@ December 2017
      
    * Fixes
      * tradeships.lua unexplored crashfix (#4220)
+     * AlertState cache cleared on load (#4218)
 
 November 2017
    * New Features
