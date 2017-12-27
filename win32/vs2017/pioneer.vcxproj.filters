@@ -468,6 +468,9 @@
     <ClCompile Include="..\..\src\GZipFormat.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\versioningInfo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -933,6 +936,9 @@
       <Filter>src\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GZipFormat.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\versioningInfo.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
