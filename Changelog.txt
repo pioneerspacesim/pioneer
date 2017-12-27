@@ -9,6 +9,9 @@ December 2017
      * Add GZipFormat source files to VS2015 Solution (#4212)
      * Library version information logging to aid debugging (#4209)
      * Some minor code cleanup (#4211)
+     
+   * Fixes
+     * tradeships.lua unexplored crashfix (#4220)
 
 November 2017
    * New Features
