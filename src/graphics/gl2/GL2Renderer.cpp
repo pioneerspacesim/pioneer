@@ -391,6 +391,18 @@ void RendererGL2::WriteRendererInfo(std::ostream &out) const
 	dump_and_clear_opengl_errors(out);
 }
 
+int RendererGL2::GetMaximumNumberAASamples() const
+{
+	GLint value = 0;
+	glGetIntegerv(GL_MAX_SAMPLES, &value);
+	// do this as there's a good chance that GL_MAX_SAMPLES won't exist for a pre-GL 3.0 context
+	GLenum err = glGetError();
+	if( err ) {
+		return 0;
+	}
+	return value;
+}
+
 bool RendererGL2::GetNearFarRange(float &near_, float &far_) const
 {
 	near_ = m_minZNear;
