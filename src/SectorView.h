@@ -47,7 +47,7 @@ public:
 	virtual void SaveToJson(Json::Value &jsonObj);
 
 	sigc::signal<void> onHyperspaceTargetChanged;
-	
+
 	double GetZoomLevel() const;
 	void ZoomIn();
 	void ZoomOut();
@@ -61,6 +61,18 @@ public:
 	const std::set<const Faction *> &GetVisibleFactions() { return m_visibleFactions; }
 	const std::set<const Faction *> &GetHiddenFactions() { return m_hiddenFactions; }
 	void SetFactionVisible(const Faction *faction, bool visible);
+
+	// HyperJump Route Planner
+	bool MoveRouteItemUp(const std::vector<SystemPath>::size_type element);
+	bool MoveRouteItemDown(const std::vector<SystemPath>::size_type element);
+	void AddToRoute(const SystemPath &path);
+	bool RemoveRouteItem(const std::vector<SystemPath>::size_type element);
+	void ClearRoute();
+	std::vector<SystemPath> GetRoute();
+	std::vector<SystemPath> AutoRoute(const SystemPath &start, const SystemPath &target);
+	void SetDrawRouteLines(bool value) { m_drawRouteLines = value; }
+
+
 protected:
 	virtual void OnSwitchTo();
 
@@ -127,7 +139,7 @@ private:
 	bool m_drawUninhabitedLabels;
 	bool m_drawOutRangeLabels;
 	bool m_drawVerticalLines;
-	
+
 	std::unique_ptr<Graphics::Drawables::Disk> m_disk;
 
 	Gui::LabelSet *m_clickableLabels;
@@ -149,6 +161,11 @@ private:
 	Graphics::Drawables::Line3D m_selectedLine;
 	Graphics::Drawables::Line3D m_secondLine;
 	Graphics::Drawables::Line3D m_jumpLine;
+
+	// HyperJump Route Planner Stuff
+	std::vector<SystemPath> m_route;
+	bool m_drawRouteLines;
+	void DrawRouteLines(const vector3f &playerAbsPos, const matrix4x4f &trans);
 
 	Graphics::RenderState *m_solidState;
 	Graphics::RenderState *m_alphaBlendState;
