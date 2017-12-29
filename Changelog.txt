@@ -4,12 +4,14 @@ December 2017
      * Save files are now written in gzip format so they don't need a custom tool to extract (#4205)
      * WKFO's Military hyperdrive sound effects (#4202)
      * Add VS2017 Build files (#4217)
+     * Force time acceleration if right mouse button is held down (#4225)
 
    * Internal Changes
      * Refactor buffers to have a capacity and size (#4201)
      * Add GZipFormat source files to VS2015 Solution (#4212)
      * Library version information logging to aid debugging (#4209)
      * Some minor code cleanup (#4211)
+     * Query the maximum AA samples (#4224)
      
    * Fixes
      * tradeships.lua unexplored crashfix (#4220)
