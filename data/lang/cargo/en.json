@@ -1,75 +1,75 @@
 {
    "DRIVE_CLASS1_PACKAGED" : {
       "description" : "",
-      "message" : "Class 1 Hyperdrive (Packaged)"
+      "message" : "Class 1 hyperdrive (packaged)"
    },
    "DRIVE_CLASS2_PACKAGED" : {
       "description" : "",
-      "message" : "Class 2 Hyperdrive (Packaged)"
+      "message" : "Class 2 hyperdrive (packaged)"
    },
    "DRIVE_CLASS3_PACKAGED" : {
       "description" : "",
-      "message" : "Class 3 Hyperdrive (Packaged)"
+      "message" : "Class 3 hyperdrive (packaged)"
    },
    "DRIVE_CLASS4_PACKAGED" : {
       "description" : "",
-      "message" : "Class 4 Hyperdrive (Packaged)"
+      "message" : "Class 4 hyperdrive (packaged)"
    },
    "DRIVE_CLASS5_PACKAGED" : {
       "description" : "",
-      "message" : "Class 5 Hyperdrive (Packaged)"
+      "message" : "Class 5 hyperdrive (packaged)"
    },
    "DRIVE_CLASS6_PACKAGED" : {
       "description" : "",
-      "message" : "Class 6 Hyperdrive (Packaged)"
+      "message" : "Class 6 hyperdrive (packaged)"
    },
    "DRIVE_CLASS7_PACKAGED" : {
       "description" : "",
-      "message" : "Class 7 Hyperdrive (Packaged)"
+      "message" : "Class 7 hyperdrive (packaged)"
    },
    "DRIVE_CLASS8_PACKAGED" : {
       "description" : "",
-      "message" : "Class 8 Hyperdrive (Packaged)"
+      "message" : "Class 8 hyperdrive (packaged)"
    },
    "DRIVE_CLASS9_PACKAGED" : {
       "description" : "",
-      "message" : "Class 9 Hyperdrive (Packaged)"
+      "message" : "Class 9 hyperdrive (packaged)"
    },
    "DRIVE_MIL1_PACKAGED" : {
       "description" : "",
-      "message" : "Class 1 Military drive (Packaged)"
+      "message" : "Class 1 military drive (packaged)"
    },
    "DRIVE_MIL2_PACKAGED" : {
       "description" : "",
-      "message" : "Class 2 Military drive (Packaged)"
+      "message" : "Class 2 military drive (packaged)"
    },
    "DRIVE_MIL3_PACKAGED" : {
       "description" : "",
-      "message" : "Class 3 Military drive (Packaged)"
+      "message" : "Class 3 military drive (packaged)"
    },
    "DRIVE_MIL4_PACKAGED" : {
       "description" : "",
-      "message" : "Class 4 Military drive (Packaged)"
+      "message" : "Class 4 military drive (packaged)"
    },
    "DRIVE_MIL5_PACKAGED" : {
       "description" : "",
-      "message" : "Class 5 Military drive (Packaged)"
+      "message" : "Class 5 military drive (packaged)"
    },
    "DRIVE_MIL6_PACKAGED" : {
       "description" : "",
-      "message" : "Class 6 Military drive (Packaged)"
+      "message" : "Class 6 military drive (packaged)"
    },
    "DRIVE_MIL7_PACKAGED" : {
       "description" : "",
-      "message" : "Class 7 Military drive (Packaged)"
+      "message" : "Class 7 military drive (packaged)"
    },
    "DRIVE_MIL8_PACKAGED" : {
       "description" : "",
-      "message" : "Class 8 Military drive (Packaged)"
+      "message" : "Class 8 military drive (packaged)"
    },
    "DRIVE_MIL9_PACKAGED" : {
       "description" : "",
-      "message" : "Class 9 Military drive (Packaged)"
+      "message" : "Class 9 military drive (packaged)"
    },
 	"AIR_PROCESSORS" : {
 		"description" : "",
@@ -77,7 +77,7 @@
 	},
 	"AIR_PROCESSORS_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Where there are humans, there is oxygen. Very few worlds, however, come stocked with breathable air, and so it is necessary to process the existing air and make it ready for human use. Thus, many companies produce various air processors, capable of turning even the most volatile atmospheres into a workable environment. It's worth noting that air processors are not terraformers. They only work inside of small, closed facilities."
+		"message" : "Clean air is only taken for granted when already abundant. The technique behind air purification is rumoured to come from alien artifacts found on Mars. Many companies produce various types of air processors, capable of turning even the most hostile atmospheres into a workable environment, and governments do not tolerate monopoly on air production."
 	},
 	"ANIMAL_MEAT" : {
 		"description" : "",
@@ -85,7 +85,7 @@
 	},
 	"ANIMAL_MEAT_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "A major point of controversy, meat is the flesh of animals. In this day and age, with synthetic meat readily available, most people believe that animals should not be killed. In many core systems, animal meat is illegal, as it is deemed inhumane to kill animals for the sole purpose of taste. Many argue the other way, stating that it's only natural, and that killing things is how humans survived for thousands of years."
+		"message" : "A major point of controversy, meat is the flesh of animals. With synthetic protein readily available, most people believe that animals should not be killed. While meats are illegal in most core systems, live animals and their meat is an important part of the lives of people on more traditional worlds."
 	},
 	"BATTLE_WEAPONS" : {
 		"description" : "",
@@ -93,7 +93,7 @@
 	},
 	"BATTLE_WEAPONS_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Any kind of military-grade weapon would fall under this label. This could be anything from a grenade or machine gun, to a surface-air-missile (SAM) launcher. These are illegal in almost all stable governments, as it is generally considered reasonable that only the military needs access to weapons of this magnitude. On the black market, however, these can often fetch a hefty sum of money."
+		"message" : "Heavy military-grade weapons, like armoured hover tanks, and surface-to-space missiles. Trading in them is usually a governmental monopoly. On the black market, however, these can often fetch a hefty sum of money."
 	},
 	"CARBON_ORE" : {
 		"description" : "",
@@ -101,7 +101,7 @@
 	},
 	"CARBON_ORE_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Used in almost everything, carbon is another inexpensive, but important commodity. Carbon is a natural element, and is in metal, trees, and even human beings. Most commonly, it used to create metal alloys. As such, almost all industrial settlements import carbon ore."
+		"message" : "Carbon is one of the most diverse elements we know of. Used in almost everything from plastics to alloys and sometimes even power production, carbon is an inexpensive, but important commodity. As such, almost all industrial settlements import carbon ore."
 	},
 	"COMPUTERS" : {
 		"description" : "",
@@ -109,7 +109,7 @@
 	},
 	"COMPUTERS_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "For over one thousand years, computers have developed. Back in the beginning, computers were really just glorified calculators. After some time, they became practical work and entertainments systems. Now, a computer can do trillions of calculations per second, and is the size of a coin. Some people elect to have implants installed, which lets the computer feed information directly to the brain or eyes."
+		"message" : "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
 	},
 	"CONSUMER_GOODS" : {
 		"description" : "",
@@ -117,7 +117,7 @@
 	},
 	"CONSUMER_GOODS_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "The term consumer goods covers a very wide range of products. Anything that's not a necessity falls under this category. This can be as small as a toothbrush, or as large as a car. These are expensive, being that they are luxuries, and are mainly in demand in highly developed core systems."
+		"message" : "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
 	},
 	"FARM_MACHINERY" : {
 		"description" : "",
@@ -125,7 +125,7 @@
 	},
 	"FARM_MACHINERY_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Although farming is less common than it was before the invention of synthetic fruits and vegetables, it is still a viable industry on some planets. Large machines are used to help cultivate the land, and are rather inexpensive. Although rare, it is still possible to catch the occasional farmer with an ox-driven plow."
+		"message" : "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
 	},
 	"FERTILIZER" : {
 		"description" : "",
@@ -133,7 +133,7 @@
 	},
 	"FERTILIZER_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Fertilizer is used in the growing of crops. Growing plants in specialized fertilizer yields far better results than planting in plain dirt. The downside, of course, is that fertilizer costs quite a bit for a large lot of land, where dirt is free."
+		"message" : "Fertilizers are crucial for growing crops at an industrial scale, allowing mono-cultures, yielding higher dividends than possible using plain dirt. This often comes with at an ecological cost, not evident at the onset."
 	},
 	"FRUIT_AND_VEG" : {
 		"description" : "",
@@ -141,7 +141,7 @@
 	},
 	"FRUIT_AND_VEG_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "While most people eat a synthetic diet, some purists still like to eat real fruits and vegetables. These are grown on agricultural worlds, and then exported to systems in which growing plants is not feasible."
+		"message" : "While there are lots of synthetic alternatives, real fruits and vegetables are still an important part of our cuisine and nutrition. Grown on agricultural worlds or as part of the life support of habitats, and exported to systems in which growing plants is not feasible."
 	},
 	"GRAIN" : {
 		"description" : "",
@@ -149,7 +149,15 @@
 	},
 	"GRAIN_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Grain is the backbone of many peoples' diets. It is used in farming, to feed animals (though this uncommon these days), and as a cheap supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal, and the infamous \"Sodian Grain Plate\". Most cultures eat at least some grains, as there is an almost endless variety, meaning something will probably grow."
+		"message" : "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+	},
+	"HAND_WEAPONS" : {
+		"description" : "",
+		"message" : "Small arms"
+	},
+	"HAND_WEAPONS_DESCRIPTION" : {
+		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+		"message" : "Providing insurance beyond the long arm of the law, hand weapons are essential for space traders in far-out systems. However, many governments see them as a threat to their own control over their population and strictly control their trade and possession."
 	},
 	"HYDROGEN" : {
 		"description" : "",
@@ -157,7 +165,7 @@
 	},
 	"HYDROGEN_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Used as fuel for starships, hydrogen is an extremely important element. Fortunately, it is also abundant, and is often among the cheapest commodities on the stock market. Most starports have thousands of tons in stock at any given time. Hydrogen is also known sometimes as simply H."
+		"message" : "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
 	},
 	"INDUSTRIAL_MACHINERY" : {
 		"description" : "",
@@ -165,7 +173,7 @@
 	},
 	"INDUSTRIAL_MACHINERY_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Regardless of the industry, almost everything produced comes from a large factory of some sort. In these factories, there are often many machines busily working to create goods. These machines, due to their rather simple nature, are very cheap. Many systems import these, as they are under a constant workload and frequently break."
+		"message" : "Needed for assembly lines, refineries, smelters, and production of machinery that will in turn produce other goods. High competence is needed to produce these advanced machines."
 	},
 	"LIQUID_OXYGEN" : {
 		"description" : "",
@@ -173,7 +181,7 @@
 	},
 	"LIQUID_OXYGEN_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Liquid Oxygen has many purposes. It's most common uses are in medical and industrial applications, though it is sometimes used for waste treatment. It is very affordable, as oxygen is easy to obtain."
+		"message" : "Liquid oxygen has many purposes, most commonly in medical and industrial applications and sometimes also used in waste treatment. It is very affordable, as oxygen is easy to obtain from water."
 	},
 	"LIQUOR" : {
 		"description" : "",
@@ -181,7 +189,7 @@
 	},
 	"LIQUOR_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Most towns have some local brew that outsiders can't stomach. These are alcoholic beverages, often served in bars. Some systems, however, feel that alcohol is unnecessary, and have banned it, on grounds that is simply decreases a person's ability to perform. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
+		"message" : "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
 	},
 	"LIVE_ANIMALS" : {
 		"description" : "",
@@ -189,7 +197,7 @@
 	},
 	"LIVE_ANIMALS_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Where meat causes anger, live animals cause rage. In almost any system where meat is illegal, live animals will be too. This is because the only major reason to import animals, is to eat them, or for transport to illegal zoos (government agencies often take care of official zoos)."
+		"message" : "Partly due to humanistic, economic and ecological reasons, animal rearing and trade is strictly regulated, or even illegal in many core systems. Going outward, livestock becomes a more important part of the livelihood of the people, both as a source of nutrition and a beast of burden. Exotic zoos and wildlife reserves contribute to the trade of animals around the galaxy, usually under strict state regulations, to combat illegal hunting grounds."
 	},
 	"MEDICINES" : {
 		"description" : "",
@@ -197,7 +205,7 @@
 	},
 	"MEDICINES_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Made on industrial worlds, medicines are needed everywhere humans go. If a system is low on medicine, then injured people will often pay very large sums of money to receive medical supplies they need. Medicines are carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
+		"message" : "Derived from natural sources, or synthesized artificially, medicines are needed everywhere humans go. From curing the common cold to combat the adverse effects of prolonged space travel, medicines are essential to the prosperity of an interstellar humanity. Carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
 	},
 	"METAL_ALLOYS" : {
 		"description" : "",
@@ -205,7 +213,7 @@
 	},
 	"METAL_ALLOYS_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "After metal ore is extracted, it is processed and ends up as various alloys. An alloy is a mix of metals, rather than a single element. To this end, almost all consumer metals are actually alloys, as pure metals are often impractical."
+		"message" : "After metal ore is extracted and refined, it is processed and ends up as various alloys. An alloy is an amalgamation of metals, rather than a single pure element, combined in exact proportions to gain specific desirable traits. Therefore, most consumer metals are alloys."
 	},
 	"METAL_ORE" : {
 		"description" : "",
@@ -213,7 +221,7 @@
 	},
 	"METAL_ORE_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Metal ore is very common, and has similar purposes to carbon ore. Many colonies mine metal, and export it to industrial systems. Used in everything from small toys to spaceships, metal is one of the most significant resources in the galaxy."
+		"message" : "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
 	},
 	"MILITARY_FUEL" : {
 		"description" : "",
@@ -221,7 +229,7 @@
 	},
 	"MILITARY_FUEL_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Military fuel has the same practical use of hydrogen, except that it is used exclusively in military drives, while hydrogen is used in normal consumer hyperdrives. When used, it creates radioactive waste, which must be disposed of. Because of this, some governments have banned the use of military fuel. Due to its synthetic nature, military fuel is also much more expensive than hydrogen or water."
+		"message" : "Used as fuel in the more advanced military drives. These drives produce nuclear waste during operation, which must be disposed of. Because of this, some governments have banned the use of military drives and their fuel. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
 	},
 	"MINING_MACHINERY" : {
 		"description" : "",
@@ -229,7 +237,7 @@
 	},
 	"MINING_MACHINERY_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "In a similar fashion to farming, mining is made far easier through the use of large machines. These machines help miners in locating and retrieving various ores, and then transporting them to processing facilities and/or starports."
+		"message" : "The traditionally back breaking work of mining is alleviated by the use of machines that help miners in locating and retrieving various ores, and transporting them to the closest processing facilities."
 	},
 	"NARCOTICS" : {
 		"description" : "",
@@ -237,7 +245,7 @@
 	},
 	"NARCOTICS_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Despite warning against it for hundreds of years, many people still find it interesting to \"sample\" exotic drugs. These drugs, unfortunately, are often two things: A) addicting, and B) unhealthy, or even dangerous. They are also expensive, meaning some people will use all their money trying to quench their need for the narcotics. Most systems with a reasonable government have outlawed the trading of narcotics."
+		"message" : "Natural or synthetic substances that alter the state of mind and body. Although the use of narcotics, both for recreational and medical purposes, is as old as humanity itself, shipping and trading is commonly outlawed."
 	},
 	"NERVE_GAS" : {
 		"description" : "",
@@ -245,7 +253,7 @@
 	},
 	"NERVE_GAS_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Nerve gas is almost always illegal, for good reason. It is generally accepted to be a weapon of mass destruction, meaning that not even the military in most systems has access to it. It works by rendering nerves unable to transmit messages, leading to a slow, painful death by asphyxiation."
+		"message" : "It is generally accepted to be a weapon of mass destruction, shunned even by the military in most systems, and thus illegal in most systems."
 	},
 	"PLASTICS" : {
 		"description" : "",
@@ -253,7 +261,7 @@
 	},
 	"PLASTICS_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Many everyday things are made of plastic. Although usually found in simple consumer goods, some advanced plastics have made their way into military hardware and even starships."
+		"message" : "Synthetical and semi-synthetical materials used in everything from everyday items to spaceship construction. They are relatively easy to use in manufacture, versatile and cheap to make, thus an important part of human civilization."
 	},
 	"PRECIOUS_METALS" : {
 		"description" : "",
@@ -261,7 +269,7 @@
 	},
 	"PRECIOUS_METALS_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Precious metals are, predictably, metals with considerable economic value. This often includes gold, silver, platinum, diamonds, and many others. Generally speaking, these metals are wanted as a way to back up a currency, though some individuals like collecting rare rocks and metals. Certain metals, such as gold and silicon, are also used in computers."
+		"message" : "Precious metals are, generally, less reactive, more difficult to mine, and more scarce, resulting in a considerable economic value. This often includes gold, silver, platinum, and rare earths. Certain elements such as gold and silicon, or rare earths, are crucial for the construction of computers and other electronics."
 	},
 	"RADIOACTIVES" : {
 		"description" : "",
@@ -269,7 +277,7 @@
 	},
 	"RADIOACTIVES_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "One of the more dangerous items for starship captains to transport is radioactive waste. It is created by nuclear power plants, nuclear reactors, nuclear warheads, and military hyperdrives. It is not uncommon to see radioactive waste banned, due to the potential for catastrophe if an accident were to happen at a starport. In systems where it is legal, there is a small payment for getting rid of it, as there is no practical use for radioactive waste."
+		"message" : "Created by nuclear reactors, and military hyperdrives, nuclear waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping nuclear waste is a severe offence."
 	},
 	"ROBOTS" : {
 		"description" : "",
@@ -277,7 +285,7 @@
 	},
 	"ROBOTS_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "There is some debate over robots, mainly over the topic of citizenship. Many argue that a robot, if sentient, should be considered a citizen. Others, however, argue that robots are simply machines, and that they should be treated as such. Because of this issue, many people believe that robots should remain non-sentient, and some systems have outlawed robots all-together. Robots are often imported into industrial and mining systems, due to their ability to easily perform tasks that would be too difficult, tedious, or unsafe for human workers."
+		"message" : "Robots are often imported into industrial and mining systems, due to their ability to easily perform tasks that would be too difficult, tedious, or unsafe for human workers. They can also serve as politicians and lawyers."
 	},
 	"RUBBISH" : {
 		"description" : "",
@@ -285,7 +293,7 @@
 	},
 	"RUBBISH_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Rubbish is a general term for unwanted waste. This can be industrial waste, household garbage, or any number of other junk items. Because it is unappealing to have dumps on the surface of planets, most rubbish is sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal."
+		"message" : "The byproduct of civilization, consisting of industrial waste, household garbage, and worn down equipment. Most waste is reprocessed, recycled or sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal. Starports usually charge a fee for waste disposal, but will also pay you to take it away."
 	},
 	"SEALED_CARGO" : {
 		"description" : "",
@@ -297,15 +305,7 @@
 	},
 	"SLAVES_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "The vast majority of governments have banned slavery, but it is rife nonetheless. It is almost universally accepted that slavery is immoral, and as such, punishment for slave trading is often much more harsh than smuggling a hold of, say, illegal spices. Despite the best efforts of humanitarians, there are still many corrupt rules who use slaves as a form of cheap labor."
-	},
-	"HAND_WEAPONS" : {
-		"description" : "",
-		"message" : "Small arms"
-	},
-	"HAND_WEAPONS_DESCRIPTION" : {
-		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "Hand weapons have existed for almost as long as humans have. The term applies to any weapon that can be wielded without the aid of a vehicle or structure, and many people choose to always remain armed. It is unusual to find a space trader in a far-out system without some sort of small side-arm. Many governments, however, have decided that weapons have no practical use, and only serve to increase violence, thus barring them from trade."
+		"message" : "As machines have replaced slaves as the engine that powers civilization, slavery is now almost universally seen as immoral, and transgression against a ban draws the strictest punishment. However, despite the best efforts of humanitarians, slavery is still prevalent, even in developed worlds."
 	},
 	"TEXTILES" : {
 		"description" : "",
@@ -313,7 +313,7 @@
 	},
 	"TEXTILES_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "By definition, a textile is a simple fabric, woven from yarn. Usually produced by robots in large factories, it is still possible to find the occasional weaver who makes their own textiles. These are usually much more expensive than mass-produced cloths, but are generally considered nicer."
+		"message" : "Textiles are simple fabric, woven from either synthetic, plant or animal derived yarn. Usually produced by robots in large factories, it is still possible to find the occasional weaver who makes their own textiles."
 	},
 	"WATER" : {
 		"description" : "",
@@ -321,6 +321,6 @@
 	},
 	"WATER_DESCRIPTION" : {
 		"description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-		"message" : "An often overlooked commodity, water is needed wherever humanity roams. Sometimes known by its scientific name, H2O, water is required for human life, as well as almost all life on Earth. As such, the vast majority of off-world colonies import water from planets like Earth. It can also be created artificially, though this is expensive. Water is also known to be used as fuel."
+		"message" : "Essential for life as we know it, an often overlooked commodity, water is needed wherever humanity roams. As such, the vast majority of off-world colonies import water from comets or planets like Earth. Water is used on a massive scale for hydrogen and oxygen production."
 	}
 }
