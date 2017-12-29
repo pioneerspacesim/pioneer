@@ -392,6 +392,13 @@ void RendererOGL::WriteRendererInfo(std::ostream &out) const
 	dump_and_clear_opengl_errors(out);
 }
 
+int RendererOGL::GetMaximumNumberAASamples() const
+{
+	GLint value = 0;
+	glGetIntegerv(GL_MAX_SAMPLES, &value);
+	return value;
+}
+
 bool RendererOGL::GetNearFarRange(float &near_, float &far_) const
 {
 	near_ = m_minZNear;
