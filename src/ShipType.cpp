@@ -16,6 +16,8 @@
 #include "json/json.h"
 #include <algorithm>
 
+// TODO: Fix the horrible control flow that makes this exception type necessary.
+struct ShipTypeLoadError {};
 
 std::map<ShipType::Id, const ShipType> ShipType::types;
 std::vector<ShipType::Id> ShipType::player_ships;
@@ -56,12 +58,12 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	auto fd = FileSystem::gameDataFiles.ReadFile(path);
 	if (!fd) {
 		Output("couldn't open ship def '%s'\n", path.c_str());
-		return;
+		throw ShipTypeLoadError();
 	}
 
 	if (!reader.parse(fd->GetData(), fd->GetData()+fd->GetSize(), data)) {
 		Output("couldn't read ship def '%s': %s\n", path.c_str(), reader.getFormattedErrorMessages().c_str());
-		return;
+		throw ShipTypeLoadError();
 	}
 
 	// determine what kind (tag) of ship this is.
@@ -118,8 +120,10 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	}
 	if (error==true) {
 		Output("In file \"%s.json\" global thrusters custom color must be \"r\",\"g\" and \"b\"\n", modelName.c_str());
+		throw ShipTypeLoadError();
 	} else if (parse>0 && parse<3) {
 		Output("In file \"%s.json\" global thrusters custom color is malformed\n", modelName.c_str());
+		throw ShipTypeLoadError();
 	} else if (parse==3) {
 		globalThrusterColor.a = 255;
 		isGlobalColorDefined = true;
@@ -168,6 +172,7 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	if (error==true) {
 		for (int i=0; i<THRUSTER_MAX; i++) isDirectionColorDefined[i]=false;
 		Output("In file \"%s.json\" directional thrusters custom color must be \"r\",\"g\" and \"b\"\n", modelName.c_str());
+		throw ShipTypeLoadError();
 	}
 	// invert values where necessary
 	linThrust[THRUSTER_FORWARD] *= -1.f;
@@ -400,18 +405,23 @@ void ShipType::Init()
 		const fs::FileInfo &info = files.Current();
 		if (ends_with_ci(info.GetPath(), ".json")) {
 			const std::string id(info.GetName().substr(0, info.GetName().size()-5));
-			ShipType st = ShipType(id, info.GetPath());
-			types.insert(std::make_pair(st.id, st));
+			try {
+				ShipType st = ShipType(id, info.GetPath());
+				types.insert(std::make_pair(st.id, st));
 
-			// assign the names to the various lists
-			switch( st.tag ) {
-			case TAG_SHIP:				player_ships.push_back(id);				break;
-			case TAG_STATIC_SHIP:		static_ships.push_back(id);				break;
-			case TAG_MISSILE:			missile_ships.push_back(id);			break;
-				break;
-			case TAG_NONE:
-			default:
-				break;
+				// assign the names to the various lists
+				switch( st.tag ) {
+				case TAG_SHIP:				player_ships.push_back(id);				break;
+				case TAG_STATIC_SHIP:		static_ships.push_back(id);				break;
+				case TAG_MISSILE:			missile_ships.push_back(id);			break;
+					break;
+				case TAG_NONE:
+				default:
+					break;
+				}
+			} catch (ShipTypeLoadError) {
+				// TODO: Actual error handling would be nice.
+				Error("Error while loading Ship data (check stdout/output.txt).\n");
 			}
 		}
 	}
