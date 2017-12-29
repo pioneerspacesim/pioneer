@@ -827,7 +827,10 @@ Game *Game::LoadGame(const std::string &filename)
 		const char *pdata = plain_data.data();
 		Json::Reader jsonReader;
 		Json::Value rootNode;
-		jsonReader.parse(pdata, pdata + plain_data.size(), rootNode); 
+		if (!jsonReader.parse(pdata, pdata + plain_data.size(), rootNode)) {
+			Output("Game load failed: %s\n", jsonReader.getFormattedErrorMessages().c_str());
+			throw SavedGameCorruptException();
+		}
 		if (!rootNode.isObject()) throw SavedGameCorruptException();
 		return new Game(rootNode);
 	} catch (gzip::DecompressionFailedException) {
