@@ -331,9 +331,12 @@ fi
 dnl Optionally use external liblua
 AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-external-liblua], [Use external liblua in place of our internal copy]), [], [with_external_liblua=no; HAVE_LUA=no])
 if test "$with_external_liblua" = yes; then
-  PKG_CHECK_MODULES([LUA], [lua >= 5.2], [HAVE_LUA=yes], [foundlua=no])
+  PKG_CHECK_MODULES([LUA], [lua >= 5.2 lua < 5.3], [HAVE_LUA=yes], [foundlua=no])
   if test "$foundlua" = no; then
-    PKG_CHECK_MODULES([LUA], [lua5.2 >= 5.2], [HAVE_LUA=yes], [AC_MSG_ERROR([External liblua was requested but is not available])])
+    dnl On ArchLinux at least, Lua 5.2 is provided through pkg-config lua52.pc.
+    PKG_CHECK_MODULES([LUA], [lua52 >= 5.2], [HAVE_LUA=yes],
+        [PKG_CHECK_MODULES([LUA], [lua5.2 >= 5.2], [HAVE_LUA=yes],
+            [AC_MSG_ERROR([External liblua was requested but is not available])])])
   fi
 fi
 AM_CONDITIONAL([HAVE_LUA], [test "$HAVE_LUA" = yes])
