@@ -50,6 +50,11 @@ public:
 	//police logo
 	//goods/equipment availability (1-per-economy-type: aka agricultural, industrial, tourist, etc)
 
+	typedef std::vector<SystemPath> ClaimList;
+	ClaimList			m_ownedsystemlist;
+	void PushClaim(SystemPath path) { m_ownedsystemlist.push_back(path); }
+	bool Faction::IsClaimed(SystemPath) const;
+
 	// commodity legality
 	typedef std::map<GalacticEconomy::Commodity, Uint32> CommodityProbMap;
 	CommodityProbMap       commodity_legality;

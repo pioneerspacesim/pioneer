@@ -230,6 +230,27 @@ static int l_fac_colour(lua_State *L)
 	return 1;
 }
 
+static int l_fac_claim(lua_State *L)
+{
+	Faction *fac = l_fac_check(L, 1);
+
+	Sint32 sector_x = luaL_checkinteger(L, 2);
+	Sint32 sector_y = luaL_checkinteger(L, 3);
+	Sint32 sector_z = luaL_checkinteger(L, 4);
+
+	SystemPath path(sector_x, sector_y, sector_z);
+
+	path.systemIndex = -99; // magic number, claim whole sector
+
+	if (lua_gettop(L) > 4)
+	{
+		path.systemIndex = luaL_checkinteger(L, 5);
+	}
+	fac->PushClaim(path);
+	lua_settop(L, 1);
+	return 1;
+}
+
 #ifdef DUMP_FACTIONS
 static void ExportFactionToLua(const Faction *fac, const size_t index)
 {
@@ -365,6 +386,7 @@ static luaL_Reg LuaFaction_meta[] = {
 	{ "illegal_goods_probability", &l_fac_illegal_goods_probability },
 	{ "colour",                    &l_fac_colour },
 	{ "add_to_factions",           &l_fac_add_to_factions },
+	{ "claim",					   &l_fac_claim }, // claim possession of a starsystem or sector
 	{ "__gc",                      &l_fac_gc },
 	{ 0, 0 }
 };
@@ -544,8 +566,12 @@ const Faction* FactionsDatabase::GetNearestFaction(const Sector::System* sys) co
 	double closestFactionDist = HUGE_VAL;
 	ConstFactionList& candidates = m_spatial_index.CandidateFactions(sys);
 
-	for (ConstFactionIterator it = candidates.begin(); it != candidates.end(); ++it) {
-		if ((*it)->IsCloserAndContains(closestFactionDist, sys)) result = *it;
+	for (ConstFactionIterator it = candidates.begin(); it != candidates.end(); ++it)
+	{
+		if ((*it)->IsClaimed(sys->GetPath()))
+			result = *it;
+		if ((*it)->IsCloserAndContains(closestFactionDist, sys))
+			result = *it;
 	}
 	return result;
 }
@@ -557,6 +583,20 @@ bool FactionsDatabase::IsHomeSystem(const SystemPath& sysPath) const
 }
 
 // ------- Factions proper --------
+
+bool Faction::IsClaimed(SystemPath path) const
+{
+	// check the factions list of claimed systems/sectors, if there is one
+	SystemPath sector = path;
+	sector.systemIndex = -99;
+
+	for (auto clam = m_ownedsystemlist.begin(); clam != m_ownedsystemlist.end(); clam++)
+	{
+		if (*clam == sector || *clam == path)
+			return true;
+	}
+	return false;
+}
 
 /*	Answer whether the faction both contains the sysPath, and has a homeworld
 	closer than the passed distance.
