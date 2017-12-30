@@ -142,7 +142,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>-Zm137 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -153,7 +153,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>-Zm137 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -167,7 +167,7 @@
     </Link>
     <ClCompile />
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -181,7 +181,7 @@
     </Link>
     <ClCompile />
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
@@ -196,7 +196,7 @@
     </Link>
     <ClCompile />
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PIONEER_PROFILER;GLEW_STATIC;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -209,7 +209,7 @@
     </Link>
     <ClCompile />
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PIONEER_PROFILER;GLEW_STATIC;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -222,7 +222,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -234,7 +234,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
