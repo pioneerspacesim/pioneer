@@ -57,25 +57,25 @@ static int l_csb_new(lua_State *L)
 }
 
 // Used when the value MUST not be NEGATIVE but can be Zero, for life, etc
-#define CSB_FIELD_SETTER_FIXED(luaname, fieldname)         \
-	static int l_csb_ ## luaname (lua_State *L) {          \
-		CustomSystemBody *csb = l_csb_check(L, 1);         \
-		const fixed *value = LuaFixed::CheckFromLua(L, 2); \
-		if (value->ToDouble() < 0.0)                      \
-			Output("Error: Custom system definition: Value cannot be negative/zero (%lf) for %s : %s\n", value->ToDouble(), csb->name.c_str(), #luaname);\
-		csb->fieldname = *value;                           \
-		lua_settop(L, 1); return 1;                        \
+#define CSB_FIELD_SETTER_FIXED(luaname, fieldname)          \
+	static int l_csb_ ## luaname (lua_State *L) {           \
+		CustomSystemBody *csb = l_csb_check(L, 1);          \
+		double value = luaL_checknumber(L, 2);				\
+		if (value < 0.0)									\
+			Output("Error: Custom system definition: Value cannot be negative (%lf) for %s : %s\n", value, csb->name.c_str(), #luaname);\
+		csb->fieldname = (fixed)value;						\
+		lua_settop(L, 1); return 1;                         \
 	}
 
 // Used when the value MUST be greater than Zero, for Mass or Radius for example
-#define CSB_FIELD_SETTER_FIXED_POSITIVE(luaname, fieldname)\
-	static int l_csb_ ## luaname (lua_State *L) {          \
-		CustomSystemBody *csb = l_csb_check(L, 1);         \
-		const fixed *value = LuaFixed::CheckFromLua(L, 2); \
-		if (value->ToDouble() <= 0.0)                      \
-			Output("Error: Custom system definition: Value cannot be negative/zero (%lf) for %s : %s\n", value->ToDouble(), csb->name.c_str(), #luaname);\
-		csb->fieldname = *value;						   \
-		lua_settop(L, 1); return 1;                        \
+#define CSB_FIELD_SETTER_FIXED_POSITIVE(luaname, fieldname) \
+	static int l_csb_ ## luaname (lua_State *L) {           \
+		CustomSystemBody *csb = l_csb_check(L, 1);			\
+		double value = luaL_checknumber(L, 2);				\
+		if (value <= 0.0)				                    \
+			Output("Error: Custom system definition: Value cannot be negative/zero (%lf) for %s : %s\n", value, csb->name.c_str(), #luaname);\
+		csb->fieldname = (fixed)value;					    \
+		lua_settop(L, 1); return 1;                         \
 	}
 
 #define CSB_FIELD_SETTER_REAL(luaname, fieldname)         \
