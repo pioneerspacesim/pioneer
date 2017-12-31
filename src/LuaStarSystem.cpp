@@ -6,6 +6,7 @@
 #include "LuaTable.h"
 #include "LuaUtils.h"
 #include "EnumStrings.h"
+#include "enum_table.h"
 #include "LuaUtils.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/Economy.h"
@@ -543,6 +544,37 @@ static int l_starsystem_attr_faction(lua_State *l)
 }
 
 /*
+* Attribute: government
+*
+* The government type used in the system
+* (PolitGovType string constant, EARTHCOLONIAL, EARTHDEMOC, EMPIRERULE, etc.
+*
+* Availability:
+*
+*   december 2017
+*
+* Status:
+*
+*   experimental
+*/
+static int l_starsystem_attr_government(lua_State *l)
+{
+	PROFILE_SCOPED()
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	int j = 0;
+	for (; ENUM_PolitGovType[j].name != 0; j++)
+	{
+		if (ENUM_PolitGovType[j].value == s->GetSysPolit().govType)
+			break;
+	}
+	if (ENUM_PolitGovType[j].name == 0)
+		return 0;
+
+	lua_pushstring(l, ENUM_PolitGovType[j].name);
+	return 1;
+}
+
+/*
  * Attribute: explored
  *
  *   If this system has been explored then returns true
@@ -593,6 +625,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ "lawlessness", l_starsystem_attr_lawlessness },
 		{ "population",  l_starsystem_attr_population  },
 		{ "faction",     l_starsystem_attr_faction     },
+		{ "govtype",     l_starsystem_attr_government  },
 		{ "explored",    l_starsystem_attr_explored    },
 
 		{ 0, 0 }
