@@ -543,6 +543,28 @@ static int l_starsystem_attr_faction(lua_State *l)
 }
 
 /*
+* Attribute: government
+*
+* The government type used in the system
+* (PolitGovType string constant, EARTHCOLONIAL, EARTHDEMOC, EMPIRERULE, etc.
+*
+* Availability:
+*
+*   december 2017
+*
+* Status:
+*
+*   experimental
+*/
+static int l_starsystem_attr_government(lua_State *l)
+{
+	PROFILE_SCOPED()
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	lua_pushstring(l, EnumStrings::GetString("PolitGovType", s->GetSysPolit().govType));
+	return 1;
+}
+
+/*
  * Attribute: explored
  *
  *   If this system has been explored then returns true
@@ -593,6 +615,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ "lawlessness", l_starsystem_attr_lawlessness },
 		{ "population",  l_starsystem_attr_population  },
 		{ "faction",     l_starsystem_attr_faction     },
+		{ "govtype",     l_starsystem_attr_government  },
 		{ "explored",    l_starsystem_attr_explored    },
 
 		{ 0, 0 }
