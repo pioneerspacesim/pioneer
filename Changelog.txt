@@ -1,3 +1,8 @@
+January 2018
+   * New Features
+     * Lua API StarSystem has new 'govtype' attribute (#4236)
+     * Unexplored systems in the sector view are now grey. (#4229)
+
 December 2017
    * New Features
      * Rounded rewards (#4195)
@@ -5,7 +10,6 @@ December 2017
      * WKFO's Military hyperdrive sound effects (#4202)
      * Add VS2017 Build files (#4217)
      * Force time acceleration if right mouse button is held down (#4225)
-     * Unexplored systems in the sector view are now grey. (#4229)
 
    * Internal Changes
      * Refactor buffers to have a capacity and size (#4201)
