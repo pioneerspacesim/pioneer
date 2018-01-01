@@ -569,7 +569,7 @@ const Faction* FactionsDatabase::GetNearestFaction(const Sector::System* sys) co
 	for (ConstFactionIterator it = candidates.begin(); it != candidates.end(); ++it)
 	{
 		if ((*it)->IsClaimed(sys->GetPath()))
-			result = *it;
+			return *it; // this is a very specific claim, no further checks for distance from another factions homeworld is needed.
 		if ((*it)->IsCloserAndContains(closestFactionDist, sys))
 			result = *it;
 	}
