@@ -6,7 +6,6 @@
 #include "LuaTable.h"
 #include "LuaUtils.h"
 #include "EnumStrings.h"
-#include "enum_table.h"
 #include "LuaUtils.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/Economy.h"
@@ -561,16 +560,7 @@ static int l_starsystem_attr_government(lua_State *l)
 {
 	PROFILE_SCOPED()
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
-	int j = 0;
-	for (; ENUM_PolitGovType[j].name != 0; j++)
-	{
-		if (ENUM_PolitGovType[j].value == s->GetSysPolit().govType)
-			break;
-	}
-	if (ENUM_PolitGovType[j].name == 0)
-		return 0;
-
-	lua_pushstring(l, ENUM_PolitGovType[j].name);
+	lua_pushstring(l, EnumStrings::GetString("PolitGovType", s->GetSysPolit().govType));
 	return 1;
 }
 
