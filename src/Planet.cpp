@@ -167,6 +167,10 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	// temperature at height
 	double temp = surfaceTemperature_T0-lapseRate_L*height_h; // << lapserate is a positive number and needs to be subtracted for temperature to drop the higher you get.
 
+	int th = floor(height_h);
+	if ((th % 1000) == 0)
+		Output("Atmosphere at %.0f meters, temperature = %.1fC, with + temperature (unfixed) = %.1fC\n", height_h, temp - 273, (surfaceTemperature_T0 + lapseRate_L * height_h) - 273);
+
 	*outDensity = (*outPressure/(PA_2_ATMOS*GAS_CONSTANT*temp))*gasMolarMass;
 }
 
