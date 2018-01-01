@@ -195,6 +195,39 @@ static int l_engine_get_video_mode_list(lua_State *l)
 }
 
 /*
+* Method: GetMaximumAASamples
+*
+* Get the maximum number of samples the current OpenGL context supports
+*
+* > Engine.GetMaximumAASamples()
+*
+* Availability:
+*
+*   2017-12
+*
+* Status:
+*
+*   stable
+*/
+
+static int l_engine_get_maximum_aa_samples(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	if(Pi::renderer != nullptr) {
+		int maxSamples = Pi::renderer->GetMaximumNumberAASamples();
+		lua_pushinteger(l, maxSamples);
+	} else {
+		lua_pushinteger(l, 0);
+	}
+
+	LUA_DEBUG_END(l, 1);
+	return 1;
+}
+
+
+
+/*
  * Method: GetVideoResolution
  *
  * Get the current video resolution width and height
@@ -1029,6 +1062,7 @@ void LuaEngine::Register()
 		{ "Quit", l_engine_quit },
 
 		{ "GetVideoModeList", l_engine_get_video_mode_list },
+		{ "GetMaximumAASamples", l_engine_get_maximum_aa_samples },
 		{ "GetVideoResolution", l_engine_get_video_resolution },
 		{ "SetVideoResolution", l_engine_set_video_resolution },
 		{ "GetFullscreen", l_engine_get_fullscreen },

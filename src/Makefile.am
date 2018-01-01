@@ -54,6 +54,7 @@ noinst_HEADERS = \
 	IterationProxy.h \
 	JobQueue.h \
 	GameConfig.h \
+	GameSaveError.h \
 	KeyBindings.h \
 	Lang.h \
 	LangStrings.inc.h \
@@ -98,7 +99,6 @@ noinst_HEADERS = \
 	ObjectViewerView.h \
 	Orbit.h \
 	OS.h \
-	PersistSystemData.h \
 	Pi.h \
 	PiGui.h \
 	Plane.h \
@@ -143,6 +143,7 @@ noinst_HEADERS = \
 	TerrainBody.h \
 	Tombstone.h \
 	UIView.h \
+	versioningInfo.h \
 	VideoLink.h \
 	View.h \
 	WorldView.h \
@@ -291,6 +292,7 @@ pioneer_SOURCES	= \
 	TerrainBody.cpp \
 	Tombstone.cpp \
 	UIView.cpp \
+	versioningInfo.cpp \
 	View.cpp \
 	WorldView.cpp \
 	main.cpp \

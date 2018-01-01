@@ -7,7 +7,6 @@
 #include "libs.h"
 #include "galaxy/Economy.h"
 #include "Polit.h"
-#include "Serializer.h"
 #include <vector>
 #include <string>
 #include "RefCounted.h"

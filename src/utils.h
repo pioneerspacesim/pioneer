@@ -194,8 +194,6 @@ static inline size_t SplitSpec(const std::string &spec, std::vector<float> &outp
 std::vector<std::string> SplitString(const std::string& source, const std::string& delim);
 
 // 'Numeric type' to string conversions.
-std::string SInt64ToStr(Sint64 val);
-std::string UInt64ToStr(Uint64 val);
 std::string FloatToStr(float val);
 std::string DoubleToStr(double val);
 std::string AutoToStr(Sint32 val);

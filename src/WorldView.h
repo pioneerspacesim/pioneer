@@ -8,7 +8,6 @@
 #include "gui/Gui.h"
 #include "gui/GuiWidget.h"
 #include "UIView.h"
-#include "Serializer.h"
 #include "SpeedLines.h"
 #include "Background.h"
 #include "Camera.h"

@@ -48,7 +48,6 @@
 #include "Projectile.h"
 #include "SDLWrappers.h"
 #include "SectorView.h"
-#include "Serializer.h"
 #include "Sfx.h"
 #include "ShipCpanel.h"
 #include "ShipType.h"
@@ -84,6 +83,7 @@
 #include "ui/Lua.h"
 #include <algorithm>
 #include <sstream>
+#include "versioningInfo.h"
 
 #ifdef PROFILE_LUA_TIME
 #include <time.h>
@@ -147,7 +147,6 @@ bool Pi::speedLinesDisplayed = false;
 bool Pi::hudTrailsDisplayed = false;
 bool Pi::bRefreshBackgroundStars = true;
 float Pi::amountOfBackgroundStarsDisplayed = 1.0f;
-Gui::Fixed *Pi::menu;
 bool Pi::DrawGUI = true;
 Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
@@ -468,9 +467,8 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	if (SDL_Init(sdlInitFlags) < 0) {
 		Error("SDL initialization failed: %s\n", SDL_GetError());
 	}
-	SDL_version ver;
-	SDL_GetVersion(&ver);
-	Output("SDL Version %d.%d.%d\n", ver.major, ver.minor, ver.patch);
+
+	OutputVersioningInfo();
 
 	Graphics::RendererGL2::RegisterRenderer();
 	Graphics::RendererOGL::RegisterRenderer();

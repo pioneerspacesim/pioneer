@@ -10,6 +10,7 @@
 #include "Game.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "GameSaveError.h"
 
 TerrainBody::TerrainBody(SystemBody *sbody) :
 	Body(),

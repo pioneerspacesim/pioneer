@@ -6,6 +6,7 @@
 #include "AnimationCurves.h"
 #include "Pi.h"
 #include "Game.h"
+#include "GameSaveError.h"
 #include "json/JsonUtils.h"
 
 CameraController::CameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :

@@ -4,7 +4,8 @@
 #ifndef _LUAPUSHPULL_H
 #define _LUAPUSHPULL_H
 
-#include "lua/lua.hpp"
+#include <lua.hpp>
+
 #include "Lua.h"
 #include <string>
 #include <tuple>

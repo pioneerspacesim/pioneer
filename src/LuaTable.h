@@ -7,7 +7,8 @@
 #include <cassert>
 #include <iterator>
 
-#include "lua/lua.hpp"
+#include <lua.hpp>
+
 #include "LuaRef.h"
 #include "LuaPushPull.h"
 #include "LuaUtils.h"

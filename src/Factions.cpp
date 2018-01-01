@@ -9,6 +9,7 @@
 
 #include "enum_table.h"
 
+#include "GameSaveError.h"
 #include "LuaUtils.h"
 #include "LuaVector.h"
 #include "LuaFixed.h"

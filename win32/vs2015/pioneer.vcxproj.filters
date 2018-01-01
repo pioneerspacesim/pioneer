@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="src">
@@ -465,6 +465,9 @@
     <ClCompile Include="..\..\contrib\imgui\examples\sdl_opengl2_example\imgui_impl_sdl.cpp">
       <Filter>src\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\versioningInfo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\GZipFormat.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -579,9 +582,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\perlin.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\PersistSystemData.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Pi.h">
@@ -934,6 +934,9 @@
     </ClInclude>
     <ClInclude Include="..\..\contrib\imgui\examples\sdl_opengl2_example\imgui_impl_sdl.h">
       <Filter>src\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\versioningInfo.h">
+      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GZipFormat.h">
       <Filter>src</Filter>

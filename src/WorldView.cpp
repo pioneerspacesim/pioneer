@@ -12,7 +12,6 @@
 #include "galaxy/GalaxyCache.h"
 #include "SectorView.h"
 #include "SystemView.h"
-#include "Serializer.h"
 #include "Sound.h"
 #include "Space.h"
 #include "SpaceStation.h"
@@ -35,6 +34,7 @@
 #include "Quaternion.h"
 #include "LuaObject.h"
 #include "utils.h"
+#include "GameSaveError.h"
 #include <algorithm>
 #include <sstream>
 #include <iomanip>

@@ -65,6 +65,7 @@ public:
 		bool InSameSector(const SystemPath &b) const {
 			return sx == b.sectorX && sy == b.sectorY && sz == b.sectorZ;
 		}
+		SystemPath GetPath() const { return SystemPath(sx, sy, sz, idx); }
 
 		const int sx, sy, sz;
 		const Uint32 idx;

@@ -2,10 +2,21 @@ December 2017
    * New Features
      * Rounded rewards (#4195)
      * Save files are now written in gzip format so they don't need a custom tool to extract (#4205)
-     
+     * WKFO's Military hyperdrive sound effects (#4202)
+     * Add VS2017 Build files (#4217)
+     * Force time acceleration if right mouse button is held down (#4225)
+     * Unexplored systems in the sector view are now grey. (#4229)
+
    * Internal Changes
      * Refactor buffers to have a capacity and size (#4201)
      * Add GZipFormat source files to VS2015 Solution (#4212)
+     * Library version information logging to aid debugging (#4209)
+     * Some minor code cleanup (#4211)
+     * Query the maximum AA samples (#4224)
+
+   * Fixes
+     * tradeships.lua unexplored crashfix (#4220)
+     * AlertState cache cleared on load (#4218)
 
 November 2017
    * New Features
@@ -13,7 +24,7 @@ November 2017
 
    * Internal Changes
      * Added -skipmenu/-sm flag (#4185)
-     
+
    * Fixes
      * Fix the MainMenu nil args crash (#4198)
 
@@ -2820,4 +2831,4 @@ Alpha 12
     * Adjust Saturn, Uranus and Neptune so they have rings as appropriate
 
   * Internal changes
-    * All model timing now based of game 
+    * All model timing now based of game
