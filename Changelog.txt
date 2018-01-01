@@ -5,6 +5,7 @@ December 2017
      * WKFO's Military hyperdrive sound effects (#4202)
      * Add VS2017 Build files (#4217)
      * Force time acceleration if right mouse button is held down (#4225)
+     * Unexplored systems in the sector view are now grey. (#4229)
 
    * Internal Changes
      * Refactor buffers to have a capacity and size (#4201)
@@ -12,7 +13,7 @@ December 2017
      * Library version information logging to aid debugging (#4209)
      * Some minor code cleanup (#4211)
      * Query the maximum AA samples (#4224)
-     
+
    * Fixes
      * tradeships.lua unexplored crashfix (#4220)
      * AlertState cache cleared on load (#4218)
