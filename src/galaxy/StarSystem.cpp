@@ -301,28 +301,88 @@ std::string SystemBody::GetAstroDescription() const
 			else s = Lang::HIGHLY_VOLCANIC;
 		}
 
-		if (m_volatileIces + m_volatileLiquid > fixed(4,5)) {
-			if (m_volatileIces > m_volatileLiquid) {
-				if (m_averageTemp < fixed(250)) {
-					s += Lang::ICE_WORLD;
-				} else s += Lang::ROCKY_PLANET;
-			} else {
-				if (m_averageTemp < fixed(250)) {
-					s += Lang::ICE_WORLD;
-				} else {
-					s += Lang::OCEANICWORLD;
+		// Determine whether the surface is mainly land, water or ice to call the planet accordingly
+		fixed m_volatileLand = fixed(1,1)-m_volatileLiquid-m_volatileIces;
+		fixed amountMuch = fixed(35,100);
+		fixed amountNorm = fixed(25,100);
+		fixed amountSome = fixed(15,100);
+		fixed amountLittle = fixed(5,100);
+		if (m_volatileLand >= m_volatileLiquid) {
+			if (m_volatileLand >= m_volatileIces) { // Mainly solid
+				s += Lang::ROCKY_PLANET;
+				if (m_volatileLiquid >= m_volatileIces && m_volatileLiquid >= amountLittle) {
+					// more (and enough) liquid - mention first
+					if (m_volatileLiquid >= amountMuch)
+						s += Lang::CONTAINING_MUCH_LIQUID_WATER;
+					else if (m_volatileLiquid >= amountNorm)
+						s += Lang::CONTAINING_LIQUID_WATER;
+					else if (m_volatileLiquid >= amountSome)
+						s += Lang::CONTAINING_SOME_LIQUID_WATER;
+					else
+						s += Lang::CONTAINING_LITTLE_LIQUID_WATER;
+					if (m_volatileIces >= amountNorm)
+						s += Lang::AND_ICE;
+					else if (m_volatileIces >= amountSome)
+						s += Lang::AND_SOME_ICE;
+					else if (m_volatileIces >= amountLittle)
+						s += Lang::AND_LITTLE_ICE;
+				} else if (m_volatileIces > m_volatileLiquid && m_volatileIces >= amountLittle) {
+					// more (and enough) ice
+					if (m_volatileIces >= amountMuch)
+						s += Lang::CONTAINING_MUCH_ICE;
+					else if (m_volatileIces >= amountNorm)
+						s += Lang::CONTAINING_ICE;
+					else if (m_volatileIces >= amountSome)
+						s += Lang::CONTAINING_SOME_ICE;
+					else
+						s += Lang::CONTAINING_LITTLE_ICE;
+					if (m_volatileLiquid >= amountNorm)
+						s += Lang::AND_LIQUID_WATER;
+					else if (m_volatileLiquid >= amountSome)
+						s += Lang::AND_SOME_LIQUID_WATER;
+					else if (m_volatileLiquid >= amountLittle)
+						s += Lang::AND_LITTLE_LIQUID_WATER;
 				}
-			}
-		} else if (m_volatileLiquid > fixed(2,5)){
-			if (m_averageTemp > fixed(250)) {
-				s += Lang::PLANET_CONTAINING_LIQUID_WATER;
-			} else {
-				s += Lang::PLANET_WITH_SOME_ICE;
-			}
-		} else if (m_volatileLiquid > fixed(1,5)){
-			s += Lang::ROCKY_PLANET_CONTAINING_COME_LIQUIDS;
+			} else // Mainly ice; ice > land > water
+				s += Lang::ICE_WORLD;
 		} else {
-			s += Lang::ROCKY_PLANET;
+			if (m_volatileLiquid >= m_volatileIces) { //Mainly water
+				s += Lang::OCEANICWORLD;
+				if (m_volatileLand >= m_volatileIces && m_volatileLand >= amountLittle) {
+					// more (and enough) land - mention first
+					if (m_volatileLand >= amountMuch)
+						s += Lang::CONTAINING_MUCH_LAND;
+					else if (m_volatileLand >= amountNorm)
+						s += Lang::CONTAINING_LAND;
+					else if (m_volatileLand >= amountSome)
+						s += Lang::CONTAINING_SOME_LAND;
+					else
+						s += Lang::CONTAINING_LITTLE_LAND;
+					if (m_volatileIces >= amountNorm)
+						s += Lang::AND_ICE;
+					else if (m_volatileIces >= amountSome)
+						s += Lang::AND_SOME_ICE;
+					else if (m_volatileIces >= amountLittle)
+						s += Lang::AND_LITTLE_ICE;
+				} else if (m_volatileIces > m_volatileLand && m_volatileIces >= amountLittle) {
+					// more (and enough) ice
+					if (m_volatileIces >= amountMuch)
+						s += Lang::CONTAINING_MUCH_ICE;
+					else if (m_volatileIces >= amountNorm)
+						s += Lang::CONTAINING_ICE;
+					else if (m_volatileIces >= amountSome)
+						s += Lang::CONTAINING_ICE;
+					else
+						s += Lang::CONTAINING_LITTLE_ICE;
+					if (m_volatileLand >= amountNorm)
+						s += Lang::AND_LAND;
+					else if (m_volatileLand >= amountSome)
+						s += Lang::AND_SOME_LAND;
+					else if (m_volatileLand >= amountLittle)
+						s += Lang::AND_LITTLE_LAND;
+				}
+			} else // Mainly ice; ice > water > land
+				s += Lang::ICE_WORLD;
 		}
 
 		if (m_volatileGas < fixed(1,100)) {

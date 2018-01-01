@@ -15,6 +15,42 @@
       "description" : "Alt key on keyboard",
       "message" : "Alt"
    },
+   "AND_ICE" : {
+      "description" : "",
+      "message" : " and ice"
+   },
+   "AND_LAND" : {
+      "description" : "",
+      "message" : " and land"
+   },
+   "AND_LIQUID_WATER" : {
+      "description" : "",
+      "message" : " and liquid water"
+   },
+   "AND_LITTLE_ICE" : {
+      "description" : "",
+      "message" : " and little ice"
+   },
+   "AND_LITTLE_LAND" : {
+      "description" : "",
+      "message" : " and little land"
+   },
+   "AND_LITTLE_LIQUID_WATER" : {
+      "description" : "",
+      "message" : " and little liquid water"
+   },
+   "AND_SOME_ICE" : {
+      "description" : "",
+      "message" : " and some ice"
+   },
+   "AND_SOME_LAND" : {
+      "description" : "",
+      "message" : " and some land"
+   },
+   "AND_SOME_LIQUID_WATER" : {
+      "description" : "",
+      "message" : " and some liquid water"
+   },
    "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
       "description" : "",
       "message" : "\" and a highly complex ecosystem.\""
@@ -262,6 +298,54 @@
    "CONSUMER_GOODS" : {
       "description" : "",
       "message" : "Consumer goods"
+   },
+   "CONTAINING_ICE" : {
+      "description" : "",
+      "message" : " containing ice"
+   },
+   "CONTAINING_LAND" : {
+      "description" : "",
+      "message" : " containing land"
+   },
+   "CONTAINING_LIQUID_WATER" : {
+      "description" : "",
+      "message" : " containing liquid water"
+   },
+   "CONTAINING_LITTLE_ICE" : {
+      "description" : "",
+      "message" : " containing little ice"
+   },
+   "CONTAINING_LITTLE_LAND" : {
+      "description" : "",
+      "message" : " containing little land"
+   },
+   "CONTAINING_LITTLE_LIQUID_WATER" : {
+      "description" : "",
+      "message" : " containing little liquid water"
+   },
+   "CONTAINING_MUCH_ICE" : {
+      "description" : "",
+      "message" : " containing much ice"
+   },
+   "CONTAINING_MUCH_LAND" : {
+      "description" : "",
+      "message" : " containing much land"
+   },
+   "CONTAINING_MUCH_LIQUID_WATER" : {
+      "description" : "",
+      "message" : " containing much liquid water"
+   },
+   "CONTAINING_SOME_ICE" : {
+      "description" : "",
+      "message" : " containing some ice"
+   },
+   "CONTAINING_SOME_LAND" : {
+      "description" : "",
+      "message" : " containing some land"
+   },
+   "CONTAINING_SOME_LIQUID_WATER" : {
+      "description" : "",
+      "message" : " containing some liquid water"
    },
    "CONTROLS" : {
       "description" : "",
