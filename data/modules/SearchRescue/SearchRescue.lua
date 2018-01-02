@@ -721,7 +721,7 @@ local createTargetShip = function (mission)
 				break
 			end
 		end
-		if not drive then
+		if not ship:GetEquip('engine', 1) then
 			ship:AddEquip(Equipment.hyperspace['hyperdrive_1'])
 		end
 	end
