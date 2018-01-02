@@ -109,7 +109,7 @@ local commodityMarket = function (args)
 	local commonButtons =
 		ui:HBox():PackEnd({					--pack all the buttons into one widget for future use, hbox lines up elements horizontally
 			sub100,							--first button does not need a left margin
-			ui:Margin(16,"LEFT",subten),	--all the following buttons needs a margin to separate it from the previous one						
+			ui:Margin(16,"LEFT",subten),	--all the following buttons needs a margin to separate it from the previous one
 			ui:Margin(16,"LEFT",subone),
 			ui:Margin(16,"LEFT",tradereset),
 			ui:Margin(16,"LEFT",addone),
@@ -203,7 +203,8 @@ local commodityMarket = function (args)
 	sub100.onClick:Connect(function () changeTradeamount(-100) end)
 	subten.onClick:Connect(function () changeTradeamount(-10) end)
 	subone.onClick:Connect(function () changeTradeamount(-1) end)
-	tradereset.onClick:Connect(function () changeTradeamount(-tradeamount) end) -- tradeamount minus tradeamount is zero, as the argument needs to be a delta, not an absolute number
+	-- tradeamount minus tradeamount is zero, as the argument needs to be a delta, not an absolute number
+	tradereset.onClick:Connect(function () changeTradeamount(-tradeamount) end)
 	addone.onClick:Connect(function () changeTradeamount(1) end)
 	addten.onClick:Connect(function () changeTradeamount(10) end)
 	add100.onClick:Connect(function () changeTradeamount(100) end)
