@@ -153,7 +153,7 @@ void Planet::InitParams(const SystemBody *sbody)
 
 		Output("Planet::InitParams> Planet `%s', type = %s, surfaceDensity %.0f g/m^3, surfaceTemperature %.1fK, Rspecific %.3f,\n"
 			"                    surfacePressure %.0f Pascal (%.2f atmospheres), atmosphereheight %.0f meters, testformula = %.0f meters\n",
-			sbody->GetName(), ((sbody->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) ? "gas giant" : "rocky body"),
+			sbody->GetName().c_str(), ((sbody->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) ? "gas giant" : "rocky body"),
 			surfaceDensity, surfaceTemperature, Rspecific, surfacePressure, (surfacePressure / PASCAL_PER_ATMOSPHERE), atmosphereheight, testformula);
 	}
 	else
