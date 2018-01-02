@@ -5,6 +5,9 @@ January 2018
 
    * Internal Changes
      * Happy new year! (#4240)
+     * Errors parsing Ship and Space Station data files will now make the game
+       fail during load, instead of leaving those objects in an indeterminate
+       state to cause a hard-to-diagnose crash later. (#4230)
 
 December 2017
    * New Features
