@@ -213,7 +213,7 @@ Character = {
 --
 -- Attribute: playerRelationship
 --
--- Integer attribute for roll-play style dice tests.  PlayerRelationship is
+-- Integer attribute for RPG style dice tests.  PlayerRelationship is
 -- intended to reflect the character's willingness to accommodate the player.
 -- Tested with 4xD16; useful values are 4 (despise) to 65 (adore).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
@@ -231,7 +231,7 @@ Character = {
 --
 -- Attribute: luck
 --
--- Integer attribute for roll-play style dice tests.  Luck is intended to reflect
+-- Integer attribute for RPG style dice tests.  Luck is intended to reflect
 -- the character's innate good fortune.
 -- Tested with 4xD16; useful values are 4 (never lucky) to 65 (always lucky).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
@@ -249,7 +249,7 @@ Character = {
 --
 -- Attribute: intelligence
 --
--- Integer attribute for roll-play style dice tests.  Intelligence is intended to
+-- Integer attribute for RPG style dice tests.  Intelligence is intended to
 -- reflect the character's ability to learn.
 -- Tested with 4xD16; useful values are 4 (moron) to 65 (genius).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
@@ -267,7 +267,7 @@ Character = {
 --
 -- Attribute: charisma
 --
--- Integer attribute for roll-play style dice tests.  Charisma is intended to reflect
+-- Integer attribute for RPG style dice tests.  Charisma is intended to reflect
 -- the character's ability to win contracts or favrouable deals.
 -- Tested with 4xD16; useful values are 4 (always hated) to 65 (always liked).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
@@ -285,7 +285,7 @@ Character = {
 --
 -- Attribute: notoriety
 --
--- Integer attribute for roll-play style dice tests.  Notoriety is intended to reflect
+-- Integer attribute for RPG style dice tests.  Notoriety is intended to reflect
 -- how well the character's reputation (good or bad) is known.
 -- Tested against 4xD16; useful values are 4 (complete nobody) to 65 (celebrity).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
@@ -303,7 +303,7 @@ Character = {
 --
 -- Attribute: lawfulness
 --
--- Integer attribute for roll-play style dice tests.  Lawfulness is intended to reflect
+-- Integer attribute for RPG style dice tests.  Lawfulness is intended to reflect
 -- the character's willingness to break the law.
 -- Tested with 4xD16; useful values are 4 (going straight) to 65 (criminal).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
@@ -323,7 +323,7 @@ Character = {
 --
 -- (Crew skill)
 --
--- Integer attribute for roll-play style dice tests.  Engineering is intended to reflect
+-- Integer attribute for RPG style dice tests.  Engineering is intended to reflect
 -- the character's mechanical, electrical or other tecnical skills.  Tests might
 -- be made against this attribute to see whether a character can repair a
 -- damaged piece of equipment, partially repair a ship, fit new equipment and
@@ -346,7 +346,7 @@ Character = {
 --
 -- (Crew skill)
 --
--- Integer attribute for roll-play style dice tests.  Piloting is intended to reflect
+-- Integer attribute for RPG style dice tests.  Piloting is intended to reflect
 -- the character's skill at flying spacecraft.
 -- Tested with 4xD16; useful values are 4 (always crashes) to 65 (aerobat).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
@@ -366,7 +366,7 @@ Character = {
 --
 -- (Crew skill)
 --
--- Integer attribute for roll-play style dice tests.  Navigation is intended to reflect
+-- Integer attribute for RPG style dice tests.  Navigation is intended to reflect
 -- the character's skill at course plotting, mapping and so on.  This might be
 -- tested to see whether a ship can gain additional range on a hyperspace jump,
 -- by having this character involved, or if, during a mission, a
@@ -389,7 +389,7 @@ Character = {
 --
 -- (Crew skill)
 --
--- Integer attribute for roll-play style dice tests.  Sensors is intended to reflect
+-- Integer attribute for RPG style dice tests.  Sensors is intended to reflect
 -- the character's ability to get the most from a ship's scanner, radar, etc.
 -- This skill might be tested to see if a hidden ship can be found, or an
 -- unknown item in space can be identified.
