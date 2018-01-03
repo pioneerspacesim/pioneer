@@ -1,7 +1,7 @@
 January 2018
    * New Features
      * Lua API StarSystem has new 'govtype' attribute (#4236)
-     * Unexplored systems in the sector view are now grey. (#4229)
+     * Unexplored systems in the sector view zoomed out mode are now grey. (#4229)
 
    * Internal Changes
      * Happy new year! (#4240)
