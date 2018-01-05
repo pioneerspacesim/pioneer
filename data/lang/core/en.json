@@ -407,14 +407,6 @@
       "description" : "",
       "message" : "Fertilizer"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "You have paid the fine of %fine."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "You have paid %paid but still have an outstanding fine of %fine."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Fire weapon"
@@ -1862,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Young farming colony."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "You do not have any money."
    },
    "Z" : {
       "description" : "keybinding: z axis",
