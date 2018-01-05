@@ -23,14 +23,12 @@ local l = Lang.GetResource("ui-core")
 -- Class: SpaceStation
 --
 
-
 function SpaceStation:Constructor()
 	-- Use a variation of the space station seed itself to ensure consistency
 	local rand = Rand.New(util.hash_random(self.seed .. '-techLevel', 2^31)-1)
 	local techLevel = rand:Integer(1, 6) + rand:Integer(0,6)
 	self:setprop("techLevel", techLevel)
 end
-
 
 local equipmentStock = {}
 
@@ -44,7 +42,16 @@ local function updateEquipmentStock (station)
 			if e:IsValidSlot("cargo") then      -- is cargo
 				local min = e == hydrogen and 1 or 0 -- always stock hydrogen
 				equipmentStock[station][e] = Engine.rand:Integer(min,100) * Engine.rand:Integer(1,100)
-			else                                     -- is ship equipment
+			elseif e:IsValidSlot("engine") then -- hyperdrives
+				-- what is the difference in techLevel between the item sold and the station?
+				-- the amount in stock should increase if say, station techlevel is 12 and the item techlevel is 6
+				if e.tech_level <= station.techLevel then
+					local slider = e.stock * ((station.techLevel - e.tech_level) / 12)  -- is max tech level absolutely = 12?
+					equipmentStock[station][e] = math.floor((Engine.rand:Integer(0 + slider,e.stock + slider) + Engine.rand:Integer(0,e.stock)) / 2)
+				else
+					equipmentStock[station][e] = 0
+				end
+			else -- is ship equipment (non-hyperdrives)
 				equipmentStock[station][e] = Engine.rand:Integer(0,100)
 			end
 		end
