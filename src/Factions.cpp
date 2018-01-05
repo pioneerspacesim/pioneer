@@ -553,7 +553,7 @@ bool FactionsDatabase::MayAssignFactions() const
 	return m_may_assign_factions;
 }
 
-const Faction* FactionsDatabase::GetNearestFaction(const Sector::System* sys) const
+const Faction* FactionsDatabase::GetNearestClaimant(const Sector::System* sys) const
 {
 	PROFILE_SCOPED()
 	// firstly if this a custom StarSystem it may already have a faction assigned

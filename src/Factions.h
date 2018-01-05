@@ -98,7 +98,7 @@ public:
 
 	const Faction *GetFaction(const Uint32 index) const;
 	const Faction *GetFaction(const std::string& factionName) const;
-	const Faction *GetNearestFaction(const Sector::System* sys) const;
+	const Faction *GetNearestClaimant(const Sector::System* sys) const;
 	bool IsHomeSystem(const SystemPath& sysPath) const;
 
 	const Uint32 GetNumFactions() const;

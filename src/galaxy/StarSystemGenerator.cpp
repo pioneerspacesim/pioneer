@@ -286,7 +286,7 @@ bool StarSystemFromSectorGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gal
 	assert(system->GetPath().systemIndex >= 0 && system->GetPath().systemIndex < sec->m_systems.size());
 	const Sector::System& secSys = sec->m_systems[system->GetPath().systemIndex];
 
-	system->SetFaction(galaxy->GetFactions()->GetNearestFaction(&secSys));
+	system->SetFaction(galaxy->GetFactions()->GetNearestClaimant(&secSys));
 	system->SetSeed(secSys.GetSeed());
 	system->SetName(secSys.GetName());
 	system->SetExplored(secSys.GetExplored(), secSys.GetExploredTime());
