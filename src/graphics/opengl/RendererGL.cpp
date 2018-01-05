@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RendererGL.h"
@@ -390,6 +390,13 @@ void RendererOGL::WriteRendererInfo(std::ostream &out) const
 	}
 	// one last time
 	dump_and_clear_opengl_errors(out);
+}
+
+int RendererOGL::GetMaximumNumberAASamples() const
+{
+	GLint value = 0;
+	glGetIntegerv(GL_MAX_SAMPLES, &value);
+	return value;
 }
 
 bool RendererOGL::GetNearFarRange(float &near_, float &far_) const

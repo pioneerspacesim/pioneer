@@ -1,11 +1,11 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUAUTILS_H
 #define _LUAUTILS_H
 
 #include <string>
-#include "lua/lua.hpp"
+#include <lua.hpp>
 #include "utils.h"
 
 namespace FileSystem { class FileData; }

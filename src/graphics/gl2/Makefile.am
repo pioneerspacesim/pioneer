@@ -5,6 +5,9 @@ AM_CPPFLAGS += $(WARN_CPPFLAGS)
 AM_CXXFLAGS += $(STD_CXXFLAGS) $(WARN_CXXFLAGS)
 
 AM_CPPFLAGS += -I$(srcdir)/../.. -isystem $(top_srcdir)/contrib
+if !HAVE_LUA
+AM_CPPFLAGS += -isystem @top_srcdir@/contrib/lua
+endif
 
 noinst_LIBRARIES = libgraphicsgl2.a
 noinst_HEADERS = \

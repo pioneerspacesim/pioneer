@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Game.h"
@@ -827,7 +827,10 @@ Game *Game::LoadGame(const std::string &filename)
 		const char *pdata = plain_data.data();
 		Json::Reader jsonReader;
 		Json::Value rootNode;
-		jsonReader.parse(pdata, pdata + plain_data.size(), rootNode); 
+		if (!jsonReader.parse(pdata, pdata + plain_data.size(), rootNode)) {
+			Output("Game load failed: %s\n", jsonReader.getFormattedErrorMessages().c_str());
+			throw SavedGameCorruptException();
+		}
 		if (!rootNode.isObject()) throw SavedGameCorruptException();
 		return new Game(rootNode);
 	} catch (gzip::DecompressionFailedException) {
