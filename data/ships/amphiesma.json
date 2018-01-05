@@ -7,7 +7,7 @@
    "forward_thrust" : 4000000.0,
    "fuel_tank_mass" : 24,
    "hull_mass" : 18,
-   "hyperdrive_class" : 1,
+   "hyperdrive_class" : 2,
    "left_thrust" : 500000.0,
    "manufacturer" : "opli",
    "max_crew" : 2,
