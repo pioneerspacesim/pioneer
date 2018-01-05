@@ -1091,10 +1091,6 @@
       "description" : "",
       "message" : "PAUSED"
    },
-   "PAY_FINE_REMOTELY" : {
-      "description" : "",
-      "message" : "Pay fine by remote transfer (%amount)"
-   },
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Periapsis distance"
