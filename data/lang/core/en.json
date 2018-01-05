@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Carbon ore"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Carbon ores (coal and oil) are required for the synthesis of many useful chemicals, including plastics, synthetic foodstuffs, medicines and textiles"
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Cargo"
@@ -551,10 +547,6 @@
       "description" : "",
       "message" : "Hydrogen"
    },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Hydrogen is primarily used as a fusion fuel"
-   },
    "HYPERSPACE" : {
       "description" : "",
       "message" : "Hyperspace"
@@ -710,10 +702,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Liquid Oxygen"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Oxygen is required for life support systems and some industrial processes"
    },
    "LIQUOR" : {
       "description" : "",
