@@ -36,23 +36,24 @@ local function updateEquipmentStock (station)
 	assert(station and station:exists())
 	if equipmentStock[station] then return end
 	equipmentStock[station] = {}
-	local hydrogen = Equipment.cargo.hydrogen
-	for _,slot in pairs{"cargo","laser", "hyperspace", "misc"} do
+	for _,slot in pairs{"cargo", "laser", "hyperspace", "misc"} do
 		for key, e in pairs(Equipment[slot]) do
 			if e:IsValidSlot("cargo") then      -- is cargo
-				local min = e == hydrogen and 1 or 0 -- always stock hydrogen
+				local min = (e == Equipment.cargo.hydrogen) and 1 or 0 -- always stock hydrogen
 				equipmentStock[station][e] = Engine.rand:Integer(min,100) * Engine.rand:Integer(1,100)
-			elseif e:IsValidSlot("engine") then -- hyperdrives
-				-- what is the difference in techLevel between the item sold and the station?
-				-- the amount in stock should increase if say, station techlevel is 12 and the item techlevel is 6
-				if e.tech_level <= station.techLevel then
+			else -- equipment
+				-- check if equipment.stock is > 0, for purchasable=false stock is set to 0
+				-- check if station tech level permits sale
+				if e.stock > 0 and e.tech_level <= station.techLevel then
+					-- what is the difference in techLevel between the item sold and the station?
+					-- the amount in stock should increase if say, station techlevel is 12 and the item techlevel is 6
 					local slider = e.stock * ((station.techLevel - e.tech_level) / 12)  -- is max tech level absolutely = 12?
+					
 					equipmentStock[station][e] = math.floor((Engine.rand:Integer(0 + slider,e.stock + slider) + Engine.rand:Integer(0,e.stock)) / 2)
 				else
+					-- spacestations dont have large secret stocks of things they cant sell
 					equipmentStock[station][e] = 0
 				end
-			else -- is ship equipment (non-hyperdrives)
-				equipmentStock[station][e] = Engine.rand:Integer(0,100)
 			end
 		end
 	end
