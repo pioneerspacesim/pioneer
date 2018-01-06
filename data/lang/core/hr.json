@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Ugljikova rudača"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Ugljikova rudača (ugljen i nafta) su potrebni za sintezu mnogih korisnih kemikalija, uključujući plastiku, sintetičku hranu, ljekove i tekstil"
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Teret"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Gnojivo"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Platili ste globu od %fine."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Platili ste %paid ali još imate neplaćenih %fine."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Fire weapon"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Vodik"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Vodik se prije svega koristi kao fuzijsko gorivo"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Tekući kisik"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Kisik je potreban za život i neke industijske procese"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Mlada poljoprivredna kolonija."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Nemate novaca."
    },
    "Z" : {
       "description" : "keybinding: z axis",

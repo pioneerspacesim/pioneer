@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Carbó brut"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Els hidrocarburs (carbó i petroli) s'utilitzen per a la síntesi de molts productes químics útils, com plàstics, fustes sintètiques, medicaments i productes tèxtils."
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Càrrega"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Fems"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Heu pagat una multa de %fine."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Ja heu pagat %paid però encara teniu pendents %fine."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Fire weapon"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Hidrogen"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "L'hidrogen s'utilitza com a principal combustible de fusió"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Oxigen líquid"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "L'oxigen s'utilitza per sistemes de vida i per algunes indústries"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Colònia minera de poca edat."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "No teniu diners."
    },
    "Z" : {
       "description" : "keybinding: z axis",

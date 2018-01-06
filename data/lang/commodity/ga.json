@@ -9,7 +9,7 @@
    },
    "ANIMAL_MEAT" : {
       "description" : "",
-      "message" : "Animal meat"
+      "message" : "Feoil"
    },
    "ANIMAL_MEAT_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -65,7 +65,7 @@
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
-      "message" : "Fruit & vegetables"
+      "message" : "Torthaí ⁊ glasraí"
    },
    "FRUIT_AND_VEG_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -81,7 +81,7 @@
    },
    "HAND_WEAPONS" : {
       "description" : "",
-      "message" : "Small arms"
+      "message" : "Mionarm"
    },
    "HAND_WEAPONS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -105,7 +105,7 @@
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
-      "message" : "Liquid oxygen"
+      "message" : "Ocsaigin leachtach"
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -121,7 +121,7 @@
    },
    "LIVE_ANIMALS" : {
       "description" : "",
-      "message" : "Live animals"
+      "message" : "Ainmhithe beo"
    },
    "LIVE_ANIMALS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -177,7 +177,7 @@
    },
    "NERVE_GAS" : {
       "description" : "",
-      "message" : "Nerve gas"
+      "message" : "Néarghás"
    },
    "NERVE_GAS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -201,7 +201,7 @@
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Radioactives"
+      "message" : "Ábhar radaighníomhach"
    },
    "RADIOACTIVES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

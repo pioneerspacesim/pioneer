@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Mineral de carbón"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Los minerales de carbono (carbón y petróleo) se requieren para la síntesis de muchos productos químicos útiles, incluyendo plásticos, alimentos sintéticos, medicamentos y textiles."
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Carga"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Fertilizantes"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Ha pagado la multa de %fine."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Ha pagado %paid pero aún tiene una multa pendiente de %fine."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Disparar láser"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Hidrógeno"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "El Hidrógeno se usa principalmente como combustible de fusión."
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Oxígeno líquido"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Se requiere Oxígeno para los sistemas de soporte vital y algunos procesos industriales."
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Colonia agrícola joven."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Se encuentra sin fondos."
    },
    "Z" : {
       "description" : "keybinding: z axis",
