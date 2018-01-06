@@ -57,7 +57,8 @@ local commodityMarket = function (args)
 	local commodityTrade =
 		ui:Expand("VERTICAL")			--blank right pane gets filled in by code once a row in the list is clicked
 
-	local pricemod = ""
+	local pricemod = nil
+	local priceicon = nil
 	local trac = Game.player:GetEquipCountOccupied('trade_computer')
 	local majex = "icons/market/export-major.png"
 	local majim = "icons/market/import-major.png"
@@ -399,16 +400,21 @@ local commodityMarket = function (args)
 		commonDescript:Clear()
 		
 		pricemod = ""
+		priceicon = nil
 		if trac > 0 then						--trac = if player has trade computer
 			local mod = Game.system:GetCommodityBasePriceAlterations(e)
 			if mod >= 10 then
 				pricemod = l.MAJOR_IMPORTS_ITEM
+				priceicon = majim
 			elseif mod >= 2 then
 				pricemod = l.MINOR_IMPORTS_ITEM
+				priceicon = minim
 			elseif mod <= -10 then
 				pricemod = l.MAJOR_EXPORTS_ITEM
+				priceicon = majex
 			elseif mod <= -2 then
 				pricemod = l.MINOR_EXPORTS_ITEM
+				priceicon = minex
 			end
 		end
 
@@ -419,6 +425,7 @@ local commodityMarket = function (args)
 			ui:Expand("HORIZONTAL",ui:Label(marketColumnValue["name"](e)):SetFont("HEADING_LARGE")),
 			--if player has trade computer, show major/minor export/import, otherwise blank
 			ui:Label(pricemod),
+			priceicon and ui:Image(priceicon,{ "PRESERVE_ASPECT" }) or "",
 			""		--cheap way of adding a right margin								
 		})
 		
