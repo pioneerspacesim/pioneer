@@ -41,13 +41,25 @@ extern "C" {
  */
 static int l_hash_random(lua_State *L)
 {
+	// This function is intended to:
+	//  1- Produce a 64-bit hash of the input value (which is either a string
+	//     or a double-precision float).
+	//  2- Take those 64 bits and use them to pick a random number
+	//     (as indicated in the doc comment above).
+	// It's also intended to produce the same output for the same input, across
+	// any platforms Pioneer runs on, but there may be bugs.
+
 	int numargs = lua_gettop(L);
 	Uint32 hashA = 0, hashB = 0;
 
 	luaL_checkany(L, 1);
 	switch (lua_type(L, 1)) {
 		case LUA_TNIL:
-			// random numbers!
+			// There is only one 'nil' value, so we can only produce one output
+			// value. These values were chosen randomly, there are no particular
+			// constraints on what they should be.
+			// With hindsight it may be better to simply return an error if we
+			// get 'nil' as input.
 			hashA = 0xBF42B131u;
 			hashB = 0x2A40F7F2u;
 			break;
@@ -55,6 +67,7 @@ static int l_hash_random(lua_State *L)
 		{
 			size_t sz;
 			const char *str = lua_tolstring(L, 1, &sz);
+			// jenkins/lookup3
 			lookup3_hashlittle2(str, sz, &hashA, &hashB);
 			break;
 		}
@@ -62,14 +75,25 @@ static int l_hash_random(lua_State *L)
 		{
 			lua_Number n = lua_tonumber(L, 1);
 			assert(!is_nan(n));
+			// jenkins/lookup3
+			// There are assumptions here that (a) lua_Number is actually
+			// 'double' on platforms we care about and (b) 'double' has the
+			// same in-memory representation on all platforms we care about.
 			lookup3_hashlittle2(&n, sizeof(n), &hashA, &hashB);
 			break;
 		}
 		default: return luaL_error(L, "expected a string or a number for argument 1");
 	}
 
-	// generate a value in the range 0 <= x < 1
+	// Generate a value in the range 0 <= x < 1.
+	// We have 64 random bits (in hashA and hashB). We take 27 bits from hashA
+	// and 26 bits from hashB to give a 53-bit integer (0 to 2**53-1 inclusive)
+	// (53 bits chosen because IEEE double precision floats can exactly
+	// represent integers up to 53 bits).
+	// 67108864 = 2**26
 	double x = (hashA >> 5) * 67108864.0 + double(hashB >> 6);
+	// 9007199254740992 = 2**53
+	// Divide by 2**53 to get a value from 0 to (less than) 1.
 	x *= 1.0 / 9007199254740992.0;
 	if (numargs == 1) {
 		// return a value x: 0 <= x < 1
