@@ -573,7 +573,7 @@
    },
    "HYPERSPACE_JUMP_ABORT" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disattiva Iperguida"
+      "message" : "Disattiva Iper-propulsione"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
@@ -581,15 +581,15 @@
    },
    "HYPERSPACE_JUMP_DISABLED" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Iperguida disabilitata"
+      "message" : "Iper-propulsione disabilitata"
    },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Attiva Iperguida"
+      "message" : "Attiva Iper-propulsione"
    },
    "HYPERSPACE_JUMP_FORBIDDEN" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Iperguida: Zona vietata"
+      "message" : "Iper-propulsione: Zona vietata"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -997,7 +997,7 @@
    },
    "NO_HYPERDRIVE" : {
       "description" : "",
-      "message" : "Iperguida non montata"
+      "message" : "Iper-propulsione non montata"
    },
    "NO_REGISTERED_INHABITANTS" : {
       "description" : "",
