@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Mianach carbóin"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Úsáidtear mianta carbóin (gual agus ola) le go leor substaintí úsáideacha a chruthú: plaistigh, bia-ábhar sintéiseach, cógais, agus teicstílí san áireamh."
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Lasta"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Leasachán"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "D'íoc tú an fhíneáil %fine."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "D'íoc tú %paid, ach tá fíneáil %fine fós le híoc agat."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Lámhach gléas troda"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Hidrigin"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Úsáidtear hidrigin mar bhreosla comhleá den chuid is mó"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Ocsaigin Leachtach"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Tá ocsaigin ag teastáil ó chórais chothaithe beatha agus ó phróisis thionsclaíocha áirithe"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Coilíneacht óg feirmeoireachta."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Níl aon airgead agat."
    },
    "Z" : {
       "description" : "keybinding: z axis",

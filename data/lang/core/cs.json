@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Uhlíková ruda"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Uhlíkové rudy (uhlí a ropa) jsou potřebné pro syntetizaci mnoha užitečných chemikálií, včetně plastů, syntetických potravin, léků a textilu"
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Náklad"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Hnojivo"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Zaplatili jste pokutu %fine."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Zaplatili jste pokutu %paid, ale ještě zbývá zaplatit %fine."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Fire weapon"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Vodík"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Vodík se primárně používá jako fúzní palivo do motorů"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Tekutý kyslík"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Kyslík je potřebný pro systémy podpory života a některé průmyslové procesy"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Nová zemědělská kolonie."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Nemáte žádné peníze."
    },
    "Z" : {
       "description" : "keybinding: z axis",

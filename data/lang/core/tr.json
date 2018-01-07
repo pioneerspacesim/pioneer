@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Karbon cevheri"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Karbon cevherleri (kömür ve petrol) plastik, sentetik yemek, ilaç ve tekstili içeren çok sayıda faydalı kimyasalın sentezi için gerekmektedir."
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Kargo"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Gübre"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "%fine ceza ödediniz."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "%paid ödediniz fakat hala ödememiş %fine cezanız var."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Silahı ateşle"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Hidrojen"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Hidrojen temel olarak füzyon yakıtı olarak kullanılır"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Sıvı Oksijen"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Oksijen yaşam destek sistemleri ve bazı endüstriyel aşamalar için gereklidir"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Genç tarım kolonisi."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Hiç paranız yok."
    },
    "Z" : {
       "description" : "keybinding: z axis",

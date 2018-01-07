@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Углеродная руда"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Углеродные ископаемые (уголь и нефть) необходимы для синтеза многих полезных химических продуктов, включая пластмассы, синтетические продукты питания, медикаменты и ткани."
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Трюм"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Удобрения"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Вы оплатили штраф на сумму %fine."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Заплачен штраф на сумму %paid, осталось оплатить %fine."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Огонь"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Водород"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Водород прежде всего используется в качестве термоядерного топлива"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Жидкий кислород"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Кислород необходим для систем жизнеобеспечения и некоторых производственных процессов"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Молодая сельскохозяйственная колония."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "На вашем счёте нет денег."
    },
    "Z" : {
       "description" : "keybinding: z axis",

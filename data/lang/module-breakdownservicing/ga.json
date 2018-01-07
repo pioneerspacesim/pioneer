@@ -25,7 +25,7 @@
    },
    "FLAVOUR_1_PRICE" : {
       "description" : "",
-      "message" : "The cost for servicing your {drive} will be {price}\n{lasttime}"
+      "message" : "Is é {price} an costas chun cothabháil a dhéanamh ar do {drive}\n{lasttime}"
    },
    "FLAVOUR_1_RESPONSE" : {
       "description" : "",

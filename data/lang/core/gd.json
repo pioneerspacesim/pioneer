@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Clach-carboin"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Tha feum air clach-charboin (gual is ola) gus iomadh co-thàthadh ceimigeach feumail a dhèanamh, a' gabhail a-steach plastaig, biadh co-thàthte, leigheas is clò "
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Carago"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Todhar"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Tha thu air a' chàin de %fine a phàigheadh."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Tha thu air %paid a phàigheadh ach tha càin dhe %fine ri a pàigheadh ann fhathast."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Loisg arm"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Hàidhdreaidean"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Cleachdar hàidhdreaidean mar chonnadh fiùisein gu h-àraidh"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Ogsaidean leannach"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Tha feum air ogsaidean aig siostaman taice-beatha is cuid a phròiseasan gnìomhachail"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Tuineachadh àiteachais òg."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Chan eil airgead agad."
    },
    "Z" : {
       "description" : "keybinding: z axis",

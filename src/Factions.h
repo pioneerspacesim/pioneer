@@ -50,6 +50,11 @@ public:
 	//police logo
 	//goods/equipment availability (1-per-economy-type: aka agricultural, industrial, tourist, etc)
 
+	typedef std::vector<SystemPath> ClaimList;
+	ClaimList			m_ownedsystemlist;
+	void PushClaim(SystemPath path) { m_ownedsystemlist.push_back(path); }
+	bool IsClaimed(SystemPath) const;
+
 	// commodity legality
 	typedef std::map<GalacticEconomy::Commodity, Uint32> CommodityProbMap;
 	CommodityProbMap       commodity_legality;
@@ -93,7 +98,7 @@ public:
 
 	const Faction *GetFaction(const Uint32 index) const;
 	const Faction *GetFaction(const std::string& factionName) const;
-	const Faction *GetNearestFaction(const Sector::System* sys) const;
+	const Faction *GetNearestClaimant(const Sector::System* sys) const;
 	bool IsHomeSystem(const SystemPath& sysPath) const;
 
 	const Uint32 GetNumFactions() const;
