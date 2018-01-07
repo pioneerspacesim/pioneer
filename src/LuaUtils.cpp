@@ -54,15 +54,6 @@ static int l_hash_random(lua_State *L)
 
 	luaL_checkany(L, 1);
 	switch (lua_type(L, 1)) {
-		case LUA_TNIL:
-			// There is only one 'nil' value, so we can only produce one output
-			// value. These values were chosen randomly, there are no particular
-			// constraints on what they should be.
-			// With hindsight it may be better to simply return an error if we
-			// get 'nil' as input.
-			hashA = 0xBF42B131u;
-			hashB = 0x2A40F7F2u;
-			break;
 		case LUA_TSTRING:
 		{
 			size_t sz;
