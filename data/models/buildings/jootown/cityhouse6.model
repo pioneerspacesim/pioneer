@@ -1,0 +1,7 @@
+material piohouse
+tex_diff newbuildings.dds
+tex_glow glowmap.dds
+tex_spec specular.dds
+
+mesh cityhouse6.obj
+collision cityhouse6collider.obj
