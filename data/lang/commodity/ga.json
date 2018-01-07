@@ -157,7 +157,7 @@
    },
    "MILITARY_FUEL_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Used as fuel in the more advanced military drives. These drives produce nuclear waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
+      "message" : "Úsáidte mar bhreosla i dtiomáintí míleata níos cumhachtaí. Táirgeann na tiomáintí seo dramhaíl núicléach nach foláir a dhiúscairt. Ós rud é gur ábhar sintéiseach é, tá breosla míleata níos costasaí agus níos annaimhe ná hidrigin, agus níl aon fháil air go nádúrtha."
    },
    "MINING_MACHINERY" : {
       "description" : "",
@@ -237,7 +237,7 @@
    },
    "TEXTILES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Textiles are simple fabric, woven from either synthetic, plant or animal derived yarn. Usually produced by robots in large factories, it is still possible to find the occasional weaver who makes their own textiles."
+      "message" : "Is éard atá i dteicstílí ná fabraicí simplí, fite ó shnáth sintéiseach nó ó shnáth a bhí déanta as planda nó as ainmhí. Dé ghnáth, is é róbait a tháirgeann teicstílí i monarchana móra, ach tá fíodóirí daonna ann a dhéanann a gcuid teicstílí féin fós."
    },
    "WATER" : {
       "description" : "",
