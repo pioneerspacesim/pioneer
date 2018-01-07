@@ -48,8 +48,8 @@ local function updateEquipmentStock (station)
 					-- what is the difference in techLevel between the item sold and the station?
 					-- the amount in stock should increase if say, station techlevel is 12 and the item techlevel is 6
 					local slider = e.stock * ((station.techLevel - e.tech_level) / 12)  -- is max tech level absolutely = 12?
-					
-					equipmentStock[station][e] = math.floor((Engine.rand:Integer(0 + slider,e.stock + slider) + Engine.rand:Integer(0,e.stock)) / 2)
+					local randstock = math.floor(((Engine.rand:Integer(0 + slider,e.stock + slider) + Engine.rand:Integer(0,e.stock)) / 2) - e.stockmod)
+					equipmentStock[station][e] = randstock >= 0 and randstock or 0
 				else
 					-- spacestations dont have large secret stocks of things they cant sell
 					equipmentStock[station][e] = 0
