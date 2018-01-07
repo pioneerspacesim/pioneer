@@ -5,15 +5,15 @@
    },
    "AIR_PROCESSORS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Clean air is only taken for granted when already abundant. The technique behind air purification is rumoured to come from alien artifacts found on Mars. Many companies produce various types of air processors, capable of turning even the most hostile atmospheres into a workable environment, and governments do not tolerate monopoly on air production."
+      "message" : "Temiz hava bolken değeri bilinmez. Hava saflaştırmanın arkasında yatan tekniğin Mars'ta bulunan uzaylı kalıntılarından geldiği söylentileri vardır. Pek çok şirket, en dehşetli hava koşullarını bile konforlu bir hale getirebilen değişik türlerde hava işlemcileri üretiyor ve hükumetler hava üretiminde monopoliye izin vermiyor."
    },
    "ANIMAL_MEAT" : {
       "description" : "",
-      "message" : "Animal meat"
+      "message" : "Hayvan eti"
    },
    "ANIMAL_MEAT_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "A major point of controversy, meat is the flesh of animals. With synthetic protein readily available, most people believe that animals should not be killed. While meats are illegal in most core systems, live animals and their meat is an important part of the lives of people on more traditional worlds."
+      "message" : "Hayvan eti tartışma sebebi olan bir üründür. Halihazırda sentetik proteinler bulunduğu için çoğu insan, hayvanların öldürülmemesi gerektiğine inanıyor. Pek çok merkezi sistemde yasak olmasına karşın canlı hayvanlar ve etleri, daha geleneksel yaşam süren insanların yaşamlarının önemli bir parçası."
    },
    "BATTLE_WEAPONS" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "BATTLE_WEAPONS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Heavy military-grade weapons, like armoured hover tanks, and surface-to-space missiles. Trading in them is usually a governmental monopoly. On the black market, however, these can often fetch a hefty sum of money."
+      "message" : "Zırhlı süzülen tanklar ve karadan-uzaya füzeler gibi ağır askeri silahlar. Bunların ticareti genellikle hükumetlerin tekelindedir. Buna rağmen bu silahlar karaborsada iyi para edebilirler."
    },
    "CARBON_ORE" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Carbon is one of the most diverse elements we know of. Used in almost everything from plastics to alloys and sometimes even power production, carbon is an inexpensive, but important commodity. As such, almost all industrial settlements import carbon ore."
+      "message" : "Karbon, bildiğimiz en çeşitli elementlerden biridir. Plastikten alaşımlara kadar neredeyse herşeyde, hatta bazen güç üretiminde bile kullanılan karbon ucuz ama önemli bir hammaddedir; bu yüzden neredeyse bütün endüstriyel yerleşimler karbon cevheri ithal ederler."
    },
    "COMPUTERS" : {
       "description" : "",
@@ -37,7 +37,7 @@
    },
    "COMPUTERS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
+      "message" : "Bin yıldan uzun bir süredir Abaküs, PDP-11 ve Morotola 68k chip'ten başlayıp modern HAL 9001 ve Multivac serisine kadar gelen bilgisayarlar, bilgi çağının şafağında yükseldiler. Üstuzay sıçramalarını hesaplamak ya da UniNet'te sevimli hayvan videoları paylaşmak gibi pek çok iş için eşit önem taşırlar."
    },
    "CONSUMER_GOODS" : {
       "description" : "",
@@ -45,7 +45,7 @@
    },
    "CONSUMER_GOODS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
+      "message" : "Daha çok işlenmesine gerek duyulmayan genel tüketim eşyaları. Diş fırçasından beyaz eşyaya kadar her şey."
    },
    "FARM_MACHINERY" : {
       "description" : "",
@@ -53,7 +53,7 @@
    },
    "FARM_MACHINERY_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
+      "message" : "Ne kadar nadir de olsa, öküzle saban çeken çiftçiler görmek hala mümkündür. Ancak tarım yapılan neredeyse her yerde; gerek yer altındaki hidroponiklerde, gerekse uçsuz bucaksız ovalarda toprağın işlenmesi için makineler kullanılır."
    },
    "FERTILIZER" : {
       "description" : "",
@@ -61,15 +61,15 @@
    },
    "FERTILIZER_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Fertilizers are crucial for growing crops at an industrial scale, allowing mono-cultures, and yielding higher dividends than possible using plain dirt. This often comes with an ecological cost, not evident at the onset."
+      "message" : "Gübreler endüstriyel boyutlarda ekin yetiştirmek için kritiktir; monokültürlerin var olmasını ve sıradan topraktan çok daha fazla ürün elde edilmesini sağlarlar. Genellikle hemen ortaya çıkmayan ekolojik bir tahribat ortaya çıkarabilirler."
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
-      "message" : "Fruit & vegetables"
+      "message" : "Meyve & sebzeler"
    },
    "FRUIT_AND_VEG_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "While there are lots of synthetic alternatives, real fruits and vegetables are still an important part of our cuisine and nutrition. Grown on agricultural worlds or as part of the life support of habitats, and exported to systems in which growing plants is not feasible."
+      "message" : "Pek çok yapay alternatifleri bulunsa da, gerçek meyve ve sebzeler hala önemli birer besin kaynağıdır. Tarımsal üretim yapmanın uygun olduğu yerlerde ya da yaşam destek birimlerinin bir parçası olarak yetiştirilen bu ürünler, bitki yetiştirmeye elverişli olmayan sistemlere ihraç edilirler."
    },
    "GRAIN" : {
       "description" : "",
@@ -77,15 +77,15 @@
    },
    "GRAIN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+      "message" : "Pek çok insanın diyetinin belkemiği. Tarımda, hayvan beslemede ve yapay besinlere yardımcı olarak kullanılır. Bunun yanı sıra yulaf ezmesi ve pişmiş ürünler gibi pek çok değişik yiyecekte de kullanılır. Uzay seyahati yapan pek çok kültür, kendi yaşam alanlarına adapte olmuş en azından bir miktar tahıl tüketir."
    },
    "HAND_WEAPONS" : {
       "description" : "",
-      "message" : "Small arms"
+      "message" : "Küçük silahlar"
    },
    "HAND_WEAPONS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Providing insurance beyond the long arm of the law, hand weapons are essential for space traders in far-out systems. However, many governments see them as a threat to their own control over their population and strictly control their trade and possession."
+      "message" : "Kanunun uzun kollarının da ötesinde bir sigorta olan el silahları uzak sistemlerdeki tüccarlar için vazgeçilmezdir. Ancak çoğu hükumet bu silahları kendi halklarının kontrolü için bir tehdit olarak görür; ticaretini ve elde bulundurulmasını sıkıca düzenler."
    },
    "HYDROGEN" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
+      "message" : "Uzay gemileri için yakıt olarak kullanılan hidrojen çok önemli bir elementtir. Neyse ki evrende en yaygın bulunan elementtir, ancak saklanması zahmetlidir. Genellikle marketteki en ucuz maddelerdendir. Uzay istasyonlarında bol miktarda bulunur."
    },
    "INDUSTRIAL_MACHINERY" : {
       "description" : "",
@@ -101,15 +101,15 @@
    },
    "INDUSTRIAL_MACHINERY_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Needed for assembly lines, refineries, smelters, and production of machinery that will in turn produce other goods. High competence is needed to produce these advanced machines."
+      "message" : "Yapı hatları, rafineriler, eritme fırınları ve benzeri üretim makineleri için gerekli malzemeler. Bu gelişmiş makinelerin üretimi yüksek yeterlilikler gerektirir."
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
-      "message" : "Liquid oxygen"
+      "message" : "Sıvı oksijen"
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Liquid oxygen has many purposes, most commonly in medical and industrial applications and sometimes also used in waste treatment. It is very affordable, as oxygen is easy to obtain from water."
+      "message" : "Sıvı oksijenin başta ilaç ve endüstri alanında, bazen de atık işlemelerinde olmak üzere pek çok kullanım alanı vardır. Oksijenin sudan elde edilmesi kolay olduğu için ucuzdur."
    },
    "LIQUOR" : {
       "description" : "",
@@ -117,15 +117,15 @@
    },
    "LIQUOR_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
+      "message" : "Çoğu uzak mekanın, yabancıların midesine ağır gelecek yerel içkileri vardır. Alkol bazı sistemlerde zihni bulutlandırdığı için yasaklanabilir. Buna rağmen birkaç şişe viski belli bir ücret karşılığında her zaman karaborsadan bulunabilir."
    },
    "LIVE_ANIMALS" : {
       "description" : "",
-      "message" : "Live animals"
+      "message" : "Canlı hayvanlar"
    },
    "LIVE_ANIMALS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Partly due to humanistic, economic and ecological reasons, animal rearing and trade is strictly regulated, or even illegal in many core systems. Going outward, livestock becomes a more important part of the livelihood of the people, both as a source of nutrition and a beast of burden. Exotic zoos and wildlife reserves contribute to the trade of animals around the galaxy, usually under strict state regulations, to combat illegal hunting grounds."
+      "message" : "İnsancıl, ekonomik ve ekolojik sebeplerden dolayı hayvan yetiştirme ve satışı sıkı bir düzenleme ile yapılır, hatta bazı merkezi sistemlerde yasaklanmıştır. Dış sistemlere çıkıldıkça çiftlik hayvanları hem besin kaynağı hem de yük taşıma araçları olarak insanların yaşamlarının bir parçası haline gelir. Egzotik hayvanat bahçeleri ve yabani hayvan barınakları, sıkı düzenlemeler ile birlikte, yasadışı avlanmanın önüne geçmek için galaksideki hayvan ticaretine katkı sağlarlar."
    },
    "MEDICINES" : {
       "description" : "",
@@ -133,7 +133,7 @@
    },
    "MEDICINES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Derived from natural sources, or synthesized artificially, medicines are needed everywhere humans go. From curing the common cold to combat the adverse effects of prolonged space travel, medicines are essential to the prosperity of an interstellar humanity. Carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
+      "message" : "Gerek doğal gerek yapay olarak elde edilmiş olsun, ilaçlar insanların gittiği her yerde bir ihtiyaçtır. Ufak bir nezleden uzun uzay yolculuklarının etkilerine kadar pek çok sıkıntıyı gideren ilaçlar, yıldızlararası bir uygarlık olan insanlığın refahı için gereklidir. Narkotiklerin ilaç gibi saklanıldığı çokça görül düğü için gümrüklerde sıkıca kontrol edilirler."
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "METAL_ALLOYS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "After metal ore is extracted and refined, it is processed and ends up as various alloys. An alloy is an amalgamation of metals, rather than a single pure element, combined in exact proportions to gain specific desirable traits. Therefore, most consumer metals are alloys."
+      "message" : "Metal cevherleri çıkarılıp işlendikten sonra çeşitli alaşımlar haline getirilirler. Alaşımlar sade elementlerin aksine çok çeşitli metallerden oluşan, sahip olması istenen özelliklere göre kütle oranları dikkatle belirlenen karışımlardır. Bu yüzden çoğu tüketim metali alaşımdır."
    },
    "METAL_ORE" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "METAL_ORE_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
+      "message" : "Pek çok koloni; ihraç edilmesi, işlenmesi ve endüstride kullanılması için metal cevheri çıkarırlar. Küçük oyuncaklardan uzay gemilerine kadar her şeyde kullanılan metal, modern uygarlık için her haliyle vazgeçilmezdir."
    },
    "MILITARY_FUEL" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "MILITARY_FUEL_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Used as fuel in the more advanced military drives. These drives produce nuclear waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
+      "message" : "Gelişmiş askeri hipersürücüler için yakıt olarak kullanılır. Bu sürücüler kullanıldıkları zaman atılmalarını gerektiren nükleer atıklar üretirler. Sentetik yapısından dolayı askeri yakıt daha pahalıdır ve hidrojenden daha az bulunur."
    },
    "MINING_MACHINERY" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "MINING_MACHINERY_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The traditionally back breaking work of mining is alleviated by the use of machines that help miners in locating and retrieving various ores, and transporting them to the closest processing facilities."
+      "message" : "Çoğu zaman bel büken bir iş olan madenciliğin makineler yardımıyla yapılması; çeşitli madenlerin bulunması, çıkartılması ve en yakın işleme tesislerine taşınmasını kolaylaştırmış ve hızlandırmıştır."
    },
    "NARCOTICS" : {
       "description" : "",
@@ -173,15 +173,15 @@
    },
    "NARCOTICS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Natural or synthetic substances that alter the state of mind and body. Although the use of narcotics, both for recreational and medical purposes, is as old as humanity itself, shipping and trading is commonly outlawed."
+      "message" : "Zihin ve bedenin durumunu değiştiren doğal ya da sentetik maddeler. Narkotiklerin kullanımı, gerek eğlence gerek ilaç niyetine olsun, insanlık kadar eskidir; ancak nakliyatı ve satışı çoğu yerde yasaklanmıştır."
    },
    "NERVE_GAS" : {
       "description" : "",
-      "message" : "Nerve gas"
+      "message" : "Sinir gazı"
    },
    "NERVE_GAS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "It is generally accepted to be a weapon of mass destruction, shunned even by the military in most systems, and thus illegal in most systems."
+      "message" : "Genellikle kitle imha silahı olarak kabul gören ve çoğu sistemin akseri güçlerinin bile kullanmaktan kaçındığı bu madde çoğu sistemde yasadışıdır."
    },
    "PLASTICS" : {
       "description" : "",
@@ -189,7 +189,7 @@
    },
    "PLASTICS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Synthetical and semi-synthetical materials used in everything from everyday items to spaceship construction. They are relatively easy to use in manufacture, versatile and cheap to make, thus an important part of human civilization."
+      "message" : "Gündelik eşyalardan uzay gemisi yapımına kadar her yerde kullanılan sentetik ya da yarı-sentetik materyaller. Üretimde kullanılmaları kolay, çok yönlü ve ucuzdur; bu sayede insan medeniyetinin önemli bir parçasıdırlar."
    },
    "PRECIOUS_METALS" : {
       "description" : "",
@@ -197,15 +197,15 @@
    },
    "PRECIOUS_METALS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Precious metals are, generally, less reactive, more difficult to mine, and more scarce, resulting in a considerable economic value. This often includes gold, silver, platinum, and rare earths. Certain elements such as gold and silicon, or rare earths, are crucial for the construction of computers and other electronics."
+      "message" : "Değerli metaller genellikle daha az reaktiftir,madenlerde zor bulunur ve zor çıkarılırlar; bu yüzden yüksek ekonomik değerleri vardır. Altın, gümüş, platin ve nadir toprak metalleri genelde bu sınıfa girer. Altın ve silikon gibi bazı elementler bilgisayarlar ve benzeri elektroniklerin yapılabilmesi için büyük önem taşırlar."
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Radioactives"
+      "message" : "Radyoaktifler"
    },
    "RADIOACTIVES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Created by nuclear reactors, and military hyperdrives, nuclear waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping nuclear waste is a severe offence."
+      "message" : "Nükleer reaktörler tarafından üretilen bu atıklar, taşınması ve atılması en zor ve en tehlikeli maddelerdir. Bu sebepten dolayı çoğu uzay istasyonu bunlardan kurtulmak için para öderler. Nükleer atıkların atılması ciddi bir suçtur."
    },
    "ROBOTS" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "ROBOTS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Robots are often imported into industrial and mining systems, due to their ability to easily perform tasks that would be too difficult, tedious, or unsafe for human workers. They can also serve as politicians and lawyers."
+      "message" : "Robotlar, insanlar için çok zor veya tehlikeli işleri kolaylıkla halledebildikleri için sıklıkla endüstriyel ve maden sistemlerine ithal edilirler. Bunun yanı sıra politikacı ya da avukat olarak da görev yapabilirler."
    },
    "RUBBISH" : {
       "description" : "",
@@ -221,7 +221,7 @@
    },
    "RUBBISH_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The byproduct of civilization, consisting of industrial waste, household garbage, and worn down equipment. Most waste is reprocessed, recycled or sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal. Starports usually charge a fee for waste disposal, but will also pay you to take it away."
+      "message" : " Medeniyetin evsel atıklar, eskimiş ekipman ve endüstriyel atıklar gibi yan ürünleri. Çoğu atık yeniden işlenir, geri dönüştürülür veya uzay istasyonlarına gönderilir. Yerleşim bulunduran sistemlerde çöp atmak neredeyse her zaman yasadışıdır. Uzay istasyonlarında atıklarınızdan kurtulmak için genellikle bir ücret talep edilir, ancak aksine uzay istasyonundan atıkları alırsanız size ödeme de yaparlar."
    },
    "SLAVES" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "SLAVES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "As machines have replaced slaves as the engine that powers civilization, slavery is now almost universally seen as immoral, and transgression against a ban draws the strictest punishment. However, despite the best efforts of humanitarians, slavery is still prevalent, even in developed worlds."
+      "message" : "Makinelerin kölelerin yerini aldığı, köleleştirmenin vicdansızlık bilindiği, yasakları çiğnemenin en ağır cezalarla sonuçlandığı ve çok büyük insancıl çabaların gösterildiği medeniyette; en gelişmiş dünyalarda bile kölelik hala varlığını sürdürüyor."
    },
    "TEXTILES" : {
       "description" : "",
@@ -237,7 +237,7 @@
    },
    "TEXTILES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Textiles are simple fabric, woven from either synthetic, plant or animal derived yarn. Usually produced by robots in large factories, it is still possible to find the occasional weaver who makes their own textiles."
+      "message" : "Tekstil basit bir çeşit kumaştır, sentetik olarak ya da bitki veya hayvanlardan elde edilirler. Genellikle büyük fabrikalarda robotlar ile üretilmelerine rağmen hala kendi tekstillerini yapan dokumacılar bulmak mümkündür."
    },
    "WATER" : {
       "description" : "",
@@ -245,6 +245,6 @@
    },
    "WATER_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Essential for life as we know it, an often overlooked commodity, water is needed wherever humanity roams. As such, the vast majority of off-world colonies import water from comets or planets like Earth. Water is used on a massive scale for hydrogen and oxygen production."
+      "message" : "Çoğu zaman göz ardı edilen su, yaşam için gereklidir ve insanlığın gittiği her yerde olması gerekir. Bu yüzden pek çok uzak koloni suyu kuyruklu yıldızlardan ya da Dünya gibi gezegenlerden getirir. Hidrojen ve oksijen üretimi için de bolca kullanılır."
    }
 }

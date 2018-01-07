@@ -9,11 +9,11 @@
    },
    "ANIMAL_MEAT" : {
       "description" : "",
-      "message" : "Animal meat"
+      "message" : "Hús"
    },
    "ANIMAL_MEAT_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "A major point of controversy, meat is the flesh of animals. With synthetic protein readily available, most people believe that animals should not be killed. While meats are illegal in most core systems, live animals and their meat is an important part of the lives of people on more traditional worlds."
+      "message" : "Sok vita tárgya az állatok húsa, hiszen a szintetikus helyettesítők térnyerésével az emberek többsége szerint nincs szükség az állatok étkezési célú leölésére. A legtöbb központi rendszerben az állattartás és a hús illegális, a hagyományosabb kultúrájú világokon fontos része az emberek életének."
    },
    "BATTLE_WEAPONS" : {
       "description" : "",
@@ -45,7 +45,7 @@
    },
    "CONSUMER_GOODS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
+      "message" : "Az ipar által készített termékek, amikre a civilizációnk épül, legyen az akár egy fogkefe, konyhai gép, vagy légpárnás autó."
    },
    "FARM_MACHINERY" : {
       "description" : "",
@@ -53,7 +53,7 @@
    },
    "FARM_MACHINERY_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
+      "message" : "Bár ritka, ám még a mai napig találkozhatunk igavonó állatokkal a mezőgazdaságban. De szinte mindenhol gépesített gazdálkodás az elterjedt, a zöld bolygók végtelen mezőitől a földalatti városok hidroponikus gazdaságáig."
    },
    "FERTILIZER" : {
       "description" : "",
@@ -65,7 +65,7 @@
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
-      "message" : "Fruit & vegetables"
+      "message" : "Zöldség és gyümölcs"
    },
    "FRUIT_AND_VEG_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -77,15 +77,15 @@
    },
    "GRAIN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+      "message" : "Az emberiség táplálkozásának gerince. Takarmányként is használják, de a szintetikus ételek sem szorították ki teljesen. Zabpelyhek, kásák, pékáruk alapanyaga. Szinte minden kultúra fogyaszt valamilyen gabonafélét, amit sikerült meghonosítani az élőhelyük klímájában."
    },
    "HAND_WEAPONS" : {
       "description" : "",
-      "message" : "Small arms"
+      "message" : "Kézifegyverek"
    },
    "HAND_WEAPONS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Providing insurance beyond the long arm of the law, hand weapons are essential for space traders in far-out systems. However, many governments see them as a threat to their own control over their population and strictly control their trade and possession."
+      "message" : "Életbiztosítás ott, ahova a törvény hosszú keze már nem ér el, így a kézi fegyverek elengedhetetlenek a peremvidéki rendszerekbe utazóknak. Ugyanakkor a legtöbb kormány kényelmetlenül érzi magát, ha polgárai hozzáférnek fegyverekhez, és szigorúan szabályozza kereskedelmüket és birtoklásulat."
    },
    "HYDROGEN" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
+      "message" : "Hiperhajóművek üzemanyagaként és űrhajók hajtóanyagaként a hidrogén kimondottan fontos elem. Szerencsére a leggyakoribb az univerzumban, így olcsó, ám tárolása nem egyszerű. Az űrkikötők nagy készletekkel rendelkeznek."
    },
    "INDUSTRIAL_MACHINERY" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
-      "message" : "Liquid oxygen"
+      "message" : "Folyékony oxigén"
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -117,11 +117,11 @@
    },
    "LIQUOR_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
+      "message" : "A legtöbb világ büszkélkedhet olyan helyi égetett szesszel, amit a jöttmentek képtelenek legyűrni. A szesztilalom sem ismeretlen bizonyos helyeken, hiszen az alkohol ködösíti az elmét. Ám törvény ide vagy oda, egy stampedli pálinkát szinte bárhol találhatunk, jó áron a kevésbé jó hírű környékeken."
    },
    "LIVE_ANIMALS" : {
       "description" : "",
-      "message" : "Live animals"
+      "message" : "Élő állat"
    },
    "LIVE_ANIMALS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -133,7 +133,7 @@
    },
    "MEDICINES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Derived from natural sources, or synthesized artificially, medicines are needed everywhere humans go. From curing the common cold to combat the adverse effects of prolonged space travel, medicines are essential to the prosperity of an interstellar humanity. Carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
+      "message" : "A természetből nyert, vagy mesterségesen szintetizált gyógyszerekre mindenhol szügség van, ahova az ember megy. A nátha gyógyításától a hosszú űrben töltött idő káros hatásainak kezeléséig a gyógyszerek elengedhetetlenek a csillagközi civilizáció fenntartásához. A vám ellenőrök szigorúan ellenőriznek minden szállítmányt, hiszen vékony a határ a gyógyszerek é a kábítószerek között."
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "METAL_ALLOYS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "After metal ore is extracted and refined, it is processed and ends up as various alloys. An alloy is an amalgamation of metals, rather than a single pure element, combined in exact proportions to gain specific desirable traits. Therefore, most consumer metals are alloys."
+      "message" : "A fémércek kitermelés után feldolgozásra kerülnek, és általában valamilyen ötvözet készül belőlük, hiszen így szinte minden felhasználási módhoz készíthető megfelelő tulajdonságú anyag. A legtöbb a piacon megtalálható fém ötvözet."
    },
    "METAL_ORE" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "METAL_ORE_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
+      "message" : "Sok kolónia elsődleges bevételforrása a bányászat, a kinyert ércek exportja, melyek feldolgozás után az iparban kerülnek felhasználásra. Az apró játékoktól a az űrhajókig szinte mindenben megtalálhatóak, így elengedhetetlenek a modern civilizáció számára."
    },
    "MILITARY_FUEL" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "NERVE_GAS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "It is generally accepted to be a weapon of mass destruction, shunned even by the military in most systems, and thus illegal in most systems."
+      "message" : "Tömegpusztító fegyvernek számítanak, és ennek megfelelően állnak hozzá a legtöbb helyen, még a hadseregek is. Szinte mindenhol illegális."
    },
    "PLASTICS" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Radioactives"
+      "message" : "Radioaktív anyagok"
    },
    "RADIOACTIVES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -221,7 +221,7 @@
    },
    "RUBBISH_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The byproduct of civilization, consisting of industrial waste, household garbage, and worn down equipment. Most waste is reprocessed, recycled or sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal. Starports usually charge a fee for waste disposal, but will also pay you to take it away."
+      "message" : "A civilizáció melléktermékei. Ipari-, háztartási hulladékok, elhasználódott eszközök. Többségét feldolgozzák, újrahasznosítják vagy holt bolygókra szállítják. Az engedély nélküli szemétlerakás szinte minden lakott rendszerben illegális. Az űrkikötők általában díjat számolnak fel a hajók szemetének elszállításáért, és örömmel fizetnek annak aki hajlandó elszállítani."
    },
    "SLAVES" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "SLAVES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "As machines have replaced slaves as the engine that powers civilization, slavery is now almost universally seen as immoral, and transgression against a ban draws the strictest punishment. However, despite the best efforts of humanitarians, slavery is still prevalent, even in developed worlds."
+      "message" : "Ahogy a gépek átvették a rabszolgák szerepét, mint a civilizáció motorja, a rabszolgatartást egyre inkább immorálissá vált. Napjainkban a legszigorúbban büntetett bűnök egyike. Ennek ellenére sem tűnt el teljesen, még a legfejlettebb világokon is előfordul."
    },
    "TEXTILES" : {
       "description" : "",
@@ -245,6 +245,6 @@
    },
    "WATER_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Essential for life as we know it, an often overlooked commodity, water is needed wherever humanity roams. As such, the vast majority of off-world colonies import water from comets or planets like Earth. Water is used on a massive scale for hydrogen and oxygen production."
+      "message" : "Elengedhetetlen az általunk ismert élethez. Bár többnyire magától értetődő a jelenléte, bárhova beteszi az emberiség a lábát, ott szükség lesz rá. Ahol nem található meg a környezetben, oda más világokról, vagy üstökösökről importálják. A nagyipari hidrogén- és oxigéntermelés fő nyersanyaga is a víz."
    }
 }

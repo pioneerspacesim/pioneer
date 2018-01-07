@@ -29,7 +29,7 @@
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Carbon is one of the most diverse elements we know of. Used in almost everything from plastics to alloys and sometimes even power production, carbon is an inexpensive, but important commodity. As such, almost all industrial settlements import carbon ore."
+      "message" : "Le carbone est l'un des éléments les plus polyvalents que nous connaissions. Utilisé dans presque tout: du plastique à certains alliages et quelquefois même dans la production d'énergie, le carbone est peu cher, mais est une ressource importante. Pour cette raison, presque toutes les installations industrielles importent du carbone."
    },
    "COMPUTERS" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "FERTILIZER_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Fertilizers are crucial for growing crops at an industrial scale, allowing mono-cultures, and yielding higher dividends than possible using plain dirt. This often comes with an ecological cost, not evident at the onset."
+      "message" : "Les engrais sont cruciaux pour faire pousser des récoltes à une échelle industrielle, autorisant ainsi de la mono-culture et fournissant un meilleur rendement par rapport à l'utilisation de la terre seule. Cet usage d'engrais a souvent un coût écologique pas forcément évident dès le début."
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "NARCOTICS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Natural or synthetic substances that alter the state of mind and body. Although the use of narcotics, both for recreational and medical purposes, is as old as humanity itself, shipping and trading is commonly outlawed."
+      "message" : "Substances naturelles ou synthétiques qui altèrent l'état d'esprit et le corps. Bien que l'usage de narcotique, médical ou récréatif, est aussi vieux que l'humanité, le transport et le commerce de ces substances est couramment interdit."
    },
    "NERVE_GAS" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "ROBOTS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Robots are often imported into industrial and mining systems, due to their ability to easily perform tasks that would be too difficult, tedious, or unsafe for human workers. They can also serve as politicians and lawyers."
+      "message" : "Lest robots sont souvent importés dans les systèmes industriels et miniers de part leur capacité à accomplir des tâches qui auraient été trop difficile, ennuyeuse ou risqués pour les travailleur humains. Ils peuvent aussi servir comme politiciens ou avocats."
    },
    "RUBBISH" : {
       "description" : "",
