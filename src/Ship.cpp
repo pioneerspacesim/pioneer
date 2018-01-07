@@ -865,9 +865,6 @@ void Ship::TimeStepUpdate(const float timeStep)
 	// fuel use decreases mass, so do this as the last thing in the frame
 	UpdateFuel( timeStep );
 
-	if ( GetPropulsion()->IsFuelStateChanged() )
-		LuaEvent::Queue("onShipFuelChanged", this, EnumStrings::GetString("ShipFuelStatus", GetPropulsion()->GetFuelState() ));
-
 	m_navLights->SetEnabled(m_wheelState > 0.01f);
 	m_navLights->Update(timeStep);
 	if (m_sensors.get()) m_sensors->Update(timeStep);
