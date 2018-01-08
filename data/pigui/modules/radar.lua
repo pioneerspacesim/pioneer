@@ -154,6 +154,15 @@ Event.Register('onChangeMFD', function(selected)
 								 end
 end)
 
+Event.Register("onGameStart", function ()
+	if selected == "radar" then
+		shouldDisplay2DRadar = true;
+		Game.SetRadarVisible(false)
+	else
+		shouldDisplay2DRadar = false;
+		Game.SetRadarVisible(true)
+	end
+end)
 
 ui.registerModule("game", displayRadar)
 
