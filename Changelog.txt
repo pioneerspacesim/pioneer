@@ -5,6 +5,7 @@ January 2018
      * Commodity market shows description of the commodity selected (#4213)
      * Allow custom factions to make claims (#4233)
      * Don't show radar in hyperspace (#4559)
+     * CustomSystem input syntax adapted for easier data entry (#4238)
 
    * Internal Changes
      * Happy new year! (#4240)
