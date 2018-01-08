@@ -4,6 +4,7 @@ January 2018
      * Unexplored systems in the sector view zoomed out mode are now grey. (#4229)
      * Commodity market shows description of the commodity selected (#4213)
      * Allow custom factions to make claims (#4233)
+     * Don't show radar in hyperspace (#4559)
 
    * Internal Changes
      * Happy new year! (#4240)
@@ -12,6 +13,8 @@ January 2018
        state to cause a hard-to-diagnose crash later. (#4230)
      * Fix spelling error in docs (#4244)
      * Remove unused strings (#4250)
+     * Add forgotten copyright headers to pigui-files (#4263)
+     * Trivial micro change of variable (#4264)
 
 December 2017
    * New Features
