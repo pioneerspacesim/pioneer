@@ -15,6 +15,8 @@ January 2018
      * Remove unused strings (#4250)
      * Add forgotten copyright headers to pigui-files (#4263)
      * Trivial micro change of variable (#4264)
+     * Some hash_random related fixes (#4257)
+     * Change lua_pushinteger for lua_pushnumber to preserve value of seed (#4255)
 
 December 2017
    * New Features
