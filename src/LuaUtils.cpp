@@ -28,8 +28,8 @@ extern "C" {
  *
  *   seed - A string or a number. The output is deterministic based on this value.
  *   m, n - optional. If called as hash_random(seed), the result is in the range 0 <= x < 1.
- *          If called as hash_random(seed, n), the result is an integer in the range 1 <= x <= n.
  *          If called as hash_random(seed, m, n), the result is an integer in the range m <= x <= n.
+ *          m must be less than n. (n - m) must be less than 2^32.
  *
  * Availability:
  *
@@ -41,55 +41,79 @@ extern "C" {
  */
 static int l_hash_random(lua_State *L)
 {
+	// This function is intended to:
+	//  1- Produce a 64-bit hash of the input value (which is either a string
+	//     or a double-precision float).
+	//  2- Take those 64 bits and use them to pick a random number
+	//     (as indicated in the doc comment above).
+	// It's also intended to produce the same output for the same input, across
+	// any platforms Pioneer runs on, but there may be bugs.
+
 	int numargs = lua_gettop(L);
+	// Note according to hashlittle2 comments, hashA is better mixed than hashB.
 	Uint32 hashA = 0, hashB = 0;
 
 	luaL_checkany(L, 1);
 	switch (lua_type(L, 1)) {
-		case LUA_TNIL:
-			// random numbers!
-			hashA = 0xBF42B131u;
-			hashB = 0x2A40F7F2u;
-			break;
 		case LUA_TSTRING:
 		{
 			size_t sz;
 			const char *str = lua_tolstring(L, 1, &sz);
+			// jenkins/lookup3
 			lookup3_hashlittle2(str, sz, &hashA, &hashB);
 			break;
 		}
 		case LUA_TNUMBER:
 		{
-			lua_Number n = lua_tonumber(L, 1);
+			double n = lua_tonumber(L, 1);
 			assert(!is_nan(n));
+			// jenkins/lookup3
+			// There are assumptions here that 'double' has the same in-memory
+			// representation on all platforms we care about. Also since we're
+			// taking a number as input, the source of that number (Lua code)
+			// needs to compute it in a way that gives the same result on all
+			// platforms, which may be tricky in some cases.
 			lookup3_hashlittle2(&n, sizeof(n), &hashA, &hashB);
 			break;
 		}
 		default: return luaL_error(L, "expected a string or a number for argument 1");
 	}
 
-	// generate a value in the range 0 <= x < 1
-	double x = (hashA >> 5) * 67108864.0 + double(hashB >> 6);
-	x *= 1.0 / 9007199254740992.0;
 	if (numargs == 1) {
+		// Generate a value in the range 0 <= x < 1.
+		// We have 64 random bits (in hashA and hashB). We take 27 bits from
+		// hashA and 26 bits from hashB to give a 53-bit integer
+		// (0 to 2**53-1 inclusive)
+		// (53 bits chosen because IEEE double precision floats can exactly
+		// represent integers up to 2**53).
+		// 67108864 = 2**26
+		double x = (hashA >> 5) * 67108864.0 + double(hashB >> 6);
+		// 9007199254740992 = 2**53
+		// Divide by 2**53 to get a value from 0 to (less than) 1.
+		x *= 1.0 / 9007199254740992.0;
 		// return a value x: 0 <= x < 1
 		lua_pushnumber(L, x);
 		return 1;
-	} else {
-		int m, n;
-		if (numargs == 3) {
-			m = lua_tointeger(L, 2);
-			n = lua_tointeger(L, 3);
-		} else if (numargs == 2) {
-			m = 1;
-			n = lua_tointeger(L, 2);
+	} else if (numargs == 3) {
+		Sint64 m = Sint64(lua_tonumber(L, 2));
+		Sint64 n = Sint64(lua_tonumber(L, 3));
+
+		if (m > n) { return luaL_error(L, "arguments invalid (m > n not allowed)"); }
+
+		// Restrict to 32-bit output. This is a bit weird because we allow both signed and unsigned.
+		if (m < 0) {
+			if (m < INT32_MIN || n > INT32_MAX) { return luaL_error(L, "arguments out of range for signed 32-bit int"); }
 		} else {
-			assert(numargs > 3);
-			return luaL_error(L, "wrong number of arguments");
+			if (n > UINT32_MAX) { return luaL_error(L, "arguments out of range for unsigned 32-bit int"); }
 		}
+
+		Uint64 range = n - m + 1;
+		Uint64 bits = (Uint64(hashB) << 32) | Uint64(hashA);
 		// return a value x: m <= x <= n
-		lua_pushinteger(L, m + int(x * (n - m + 1)));
+		lua_pushnumber(L, double(Sint64(m) + Sint64(bits % range)));
 		return 1;
+	} else {
+		return luaL_error(L, "wrong number of arguments");
 	}
 }
 
