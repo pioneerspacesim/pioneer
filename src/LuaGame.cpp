@@ -397,7 +397,7 @@ static int l_game_current_view(lua_State *l)
 		LuaPush(l, "space_station");
 	else if(view == Pi::game->GetInfoView())
 		LuaPush(l, "info");
-	else if(Pi::GetView() == Pi::game->GetSectorView())
+	else if(view == Pi::game->GetSectorView())
 		LuaPush(l, "sector");
 	else if(view == Pi::game->GetSystemView())
 		LuaPush(l, "system");
