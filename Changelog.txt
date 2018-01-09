@@ -6,7 +6,8 @@ January 2018
      * Allow custom factions to make claims (#4233)
      * Don't show radar in hyperspace (#4559)
      * CustomSystem input syntax adapted for easier data entry (#4238)
-     * sectorview zoomout prettier homeworld labels (#4245)
+     * Sectorview zoomout prettier homeworld labels (#4245)
+     * Hydrogen scooping from small planets with hydrogen atmosphere (#4254)
 
    * Internal Changes
      * Happy new year! (#4240)
