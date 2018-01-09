@@ -385,7 +385,7 @@
    },
    "QUIBBLES" : {
       "description" : "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-      "message" : "Triboules"
+      "message" : "Quibules"
    },
    "RISK_1" : {
       "description" : "",
