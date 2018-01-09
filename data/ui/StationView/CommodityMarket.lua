@@ -44,13 +44,13 @@ local commodityMarket = function (args)
 			:SetColumnSpacing(10)		--margin between columns
 			:SetHeadingRow({
 				'',						--blank header column used for the icons in the list
-				l.NAME_OBJECT,
-				l.PRICE,
+				ui:Label(l.NAME_OBJECT):SetFont("LARGE"),
+				ui:Align("RIGHT",l.PRICE),
 				"",						--blank column for import/export icons
 				l.IN_STOCK,
-				ui:Margin(32,"RIGHT",l.CARGO) -- because a later expand() expands it too much we have to pad the table with some blank space at the right edge or the text will be cropped by the scrollbar
+				ui:Margin(24,"RIGHT",l.CARGO) -- because a later expand() expands it too much we have to pad the table with some blank space at the right edge or the text will be cropped by the scrollbar
 			})
-			:SetHeadingFont("LARGE")	--large font for header
+			--:SetHeadingFont("LARGE")	--large font for header
 			:SetRowAlignment("CENTER")	--align the row to the center relative to up and down
 			:SetMouseEnabled(true)		--mouse can be used on this list
 
@@ -123,12 +123,10 @@ local commodityMarket = function (args)
 	local sellfromcargo = ui:Button(l.SELL)
 	local buyfrommarket = ui:Button(l.BUY)
 
-	local commonHeader =
-		ui:HBox(32)						--blank header for right pane, filled in by code once user has selected which commodity to trade in
-	local commonDescript =
-		ui:HBox()
-	local hasCargoLabel =
-		ui:Label("")
+	local commonHeader = ui:HBox(24)		--blank header for right pane, filled in by code once user has selected which commodity to trade in
+	local computerInfo = ui:HBox(24)
+	local commonDescript = ui:HBox()
+	local hasCargoLabel = ui:Label("")
 	local commonButtons =
 		ui:HBox():PackEnd({					--pack all the buttons into one widget for future use, hbox lines up elements horizontally
 			sub100,							--first button does not need a left margin
@@ -251,8 +249,8 @@ local commodityMarket = function (args)
 						buyfrommarket,
 						sellfromcargo
 					}),
-					--common header contains icon and commodity name
-					commonHeader,
+					commonHeader, --common header contains icon and commodity name
+					computerInfo, -- info from trade computer, if the player has one, otherwise blank
 					--contains description, if there is one
 					ui:Expand("VERTICAL",commonDescript),
 					commonButtons, -- prepared widget with all the buttons -100 -10 -1 reset +1 +10 +100
@@ -274,6 +272,7 @@ local commodityMarket = function (args)
 						sellfromcargo
 					}),
 					commonHeader, --icon, commodity name
+					computerInfo, -- info from trade computer, if the player has one, otherwise blank
 					commonDescript, --description (optional)
 					ui:Expand("VERTICAL"),
 					commonButtons, --prepared buttons -100 to +100
@@ -397,6 +396,7 @@ local commodityMarket = function (args)
 
 		--clear the header because previous calls might have filled it
 		commonHeader:Clear()
+		computerInfo:Clear()
 		commonDescript:Clear()
 		
 		pricemod = ""
@@ -424,9 +424,12 @@ local commodityMarket = function (args)
 			--simple text label with the commodity name
 			ui:Expand("HORIZONTAL",ui:Label(marketColumnValue["name"](e)):SetFont("HEADING_LARGE")),
 			--if player has trade computer, show major/minor export/import, otherwise blank
-			ui:Label(pricemod),
-			priceicon and ui:Image(priceicon,{ "PRESERVE_ASPECT" }) or "",
 			""		--cheap way of adding a right margin								
+		})
+		
+		computerInfo:PackEnd({
+			priceicon and ui:Image(priceicon,{ "PRESERVE_ASPECT" }) or "",
+			ui:Label(pricemod)
 		})
 		
 		commonDescript:PackEnd({
@@ -445,7 +448,7 @@ local commodityMarket = function (args)
 	end)
 
 	return
-		ui:Grid({48,4,48},1) --make a simple grid layout with 3 columns, 48%, 4% and 48% the width of the space, 1 row (?)
+		ui:Grid({48,2,50},1) --make a simple grid layout with 3 columns, 48%, 2% and 50% the width of the space, 1 row
 			:SetColumn(0, {marketTable})
 			--column 1 is empty
 			:SetColumn(2, {commodityTrade})
