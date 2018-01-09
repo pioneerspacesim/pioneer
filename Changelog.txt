@@ -21,6 +21,7 @@ January 2018
      * Some hash_random related fixes (#4257)
      * Change lua_pushinteger for lua_pushnumber to preserve value of seed (#4255)
      * Updatefuel code duplication (#4262)
+     * CityOnPlanet rewrite: recursive to iterative (#4266)
 
 December 2017
    * New Features
