@@ -115,6 +115,9 @@ void RadarWidget::Draw()
 	Pi::player->Properties().Get("radar_cap", radar_cap);
 	if (radar_cap <= 0) return;
 
+	if (Pi::player->GetFlightState() == Ship::HYPERSPACE)
+		return;
+
 	float size[2];
 	GetSize(size);
 	m_x = size[0] / (RADAR_XSHRINK * 2);

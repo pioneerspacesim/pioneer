@@ -56,26 +56,49 @@ static int l_csb_new(lua_State *L)
 	return 1;
 }
 
+static double *getDoubleOrFixed(lua_State *L, int which)
+{
+	static double mixvalue;
+
+	const char *s = luaL_typename(L, which);
+	if (strcmp(s, "userdata") == 0)
+	{
+		const fixed *mix = LuaFixed::CheckFromLua(L, which);
+		mixvalue = mix->ToDouble();
+		return(&mixvalue);
+	}
+	else if (strcmp(s, "number") == 0)
+	{
+		mixvalue = luaL_checknumber(L, which);
+		return(&mixvalue);
+	}
+	return nullptr;
+}
+
 // Used when the value MUST not be NEGATIVE but can be Zero, for life, etc
-#define CSB_FIELD_SETTER_FIXED(luaname, fieldname)         \
-	static int l_csb_ ## luaname (lua_State *L) {          \
-		CustomSystemBody *csb = l_csb_check(L, 1);         \
-		const fixed *value = LuaFixed::CheckFromLua(L, 2); \
-		if (value->ToDouble() < 0.0)                      \
-			Output("Error: Custom system definition: Value cannot be negative/zero (%lf) for %s : %s\n", value->ToDouble(), csb->name.c_str(), #luaname);\
-		csb->fieldname = *value;                           \
-		lua_settop(L, 1); return 1;                        \
+#define CSB_FIELD_SETTER_FIXED(luaname, fieldname)          \
+	static int l_csb_ ## luaname (lua_State *L) {           \
+		CustomSystemBody *csb = l_csb_check(L, 1);          \
+		double *value = getDoubleOrFixed(L, 2);				\
+		if (value == nullptr)								\
+			return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2)); \
+		if (*value < 0.0)									\
+			Output("Error: Custom system definition: Value cannot be negative (%lf) for %s : %s\n", *value, csb->name.c_str(), #luaname); \
+		csb->fieldname = fixed::FromDouble(*value);			\
+		lua_settop(L, 1); return 1;                         \
 	}
 
 // Used when the value MUST be greater than Zero, for Mass or Radius for example
-#define CSB_FIELD_SETTER_FIXED_POSITIVE(luaname, fieldname)\
-	static int l_csb_ ## luaname (lua_State *L) {          \
-		CustomSystemBody *csb = l_csb_check(L, 1);         \
-		const fixed *value = LuaFixed::CheckFromLua(L, 2); \
-		if (value->ToDouble() <= 0.0)                      \
-			Output("Error: Custom system definition: Value cannot be negative/zero (%lf) for %s : %s\n", value->ToDouble(), csb->name.c_str(), #luaname);\
-		csb->fieldname = *value;						   \
-		lua_settop(L, 1); return 1;                        \
+#define CSB_FIELD_SETTER_FIXED_POSITIVE(luaname, fieldname) \
+	static int l_csb_ ## luaname (lua_State *L) {           \
+		CustomSystemBody *csb = l_csb_check(L, 1);			\
+		double *value = getDoubleOrFixed(L, 2);				\
+		if (value == nullptr)								\
+			return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2)); \
+		if (*value <= 0.0)				                    \
+			Output("Error: Custom system definition: Value cannot be negative/zero (%lf) for %s : %s\n", *value, csb->name.c_str(), #luaname);\
+		csb->fieldname = fixed::FromDouble(*value);		    \
+		lua_settop(L, 1); return 1;                         \
 	}
 
 #define CSB_FIELD_SETTER_REAL(luaname, fieldname)         \
@@ -124,6 +147,16 @@ CSB_FIELD_SETTER_STRING(space_station_type, spaceStationType)
 #undef CSB_FIELD_SETTER_FLOAT
 #undef CSB_FIELD_SETTER_INT
 
+static int l_csb_radius_km(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	double value = luaL_checknumber(L, 2);
+	// earth mean radiusMean radius = 6371.0 km (source: wikipedia)
+	csb->radius = (value/6371.0);
+	lua_settop(L, 1);
+	return 1;
+}
+
 static int l_csb_seed(lua_State *L)
 {
 	CustomSystemBody *csb = l_csb_check(L, 1);
@@ -136,8 +169,10 @@ static int l_csb_seed(lua_State *L)
 static int l_csb_orbital_offset(lua_State *L)
 {
 	CustomSystemBody *csb = l_csb_check(L, 1);
-	const fixed *value = LuaFixed::CheckFromLua(L, 2);
-	csb->orbitalOffset = *value;
+	double *value = getDoubleOrFixed(L, 2);
+	if (value == nullptr)
+		return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));
+	csb->orbitalOffset = fixed::FromDouble(*value);
 	csb->want_rand_offset = false;
 	lua_settop(L, 1);
 	return 1;
@@ -146,10 +181,12 @@ static int l_csb_orbital_offset(lua_State *L)
 static int l_csb_orbital_phase_at_start(lua_State *L)
 {
 	CustomSystemBody *csb = l_csb_check(L, 1);
-	const fixed *value = LuaFixed::CheckFromLua(L, 2);
-	if ((value->ToDouble() < 0.0) || (value->ToDouble() > double(2.0*M_PI)))
+	double *value = getDoubleOrFixed(L, 2);
+	if (value == nullptr)
+		return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));
+	if ((*value < 0.0) || (*value > double(2.0*M_PI)))
 		return luaL_error(L, "Error: Custom system definition: Orbital phase at game start must be between 0 and 2 PI radians (including 0 but not 2 PI).");
-	csb->orbitalPhaseAtStart = *value;
+	csb->orbitalPhaseAtStart = fixed::FromDouble(*value);
 	lua_settop(L, 1);
 	return 1;
 }
@@ -157,10 +194,12 @@ static int l_csb_orbital_phase_at_start(lua_State *L)
 static int l_csb_rotational_phase_at_start(lua_State *L)
 {
 	CustomSystemBody *csb = l_csb_check(L, 1);
-	const fixed *value = LuaFixed::CheckFromLua(L, 2);
-	if ((value->ToDouble() < 0.0) || (value->ToDouble() > double(2.0*M_PI)))
+	double *value = getDoubleOrFixed(L, 2);
+	if (value == nullptr)
+		return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));
+	if ((*value < 0.0) || (*value > double(2.0*M_PI)))
 		return luaL_error(L, "Error: Custom system definition: Rotational phase at start must be between 0 and 2 PI radians (including 0 but not 2 PI).\n The rotational phase is the phase of the body's spin about it's axis at game start.");
-	csb->rotationalPhaseAtStart = *value;
+	csb->rotationalPhaseAtStart = fixed::FromDouble(*value);
 	lua_settop(L, 1);
 	return 1;
 }
@@ -189,8 +228,14 @@ static int l_csb_rings(lua_State *L)
 		}
 	} else {
 		csb->ringStatus = CustomSystemBody::WANT_CUSTOM_RINGS;
-		csb->ringInnerRadius = *LuaFixed::CheckFromLua(L, 2);
-		csb->ringOuterRadius = *LuaFixed::CheckFromLua(L, 3);
+		double *value = getDoubleOrFixed(L, 2);
+		if (value == nullptr)
+			return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));
+		csb->ringInnerRadius = fixed::FromDouble(*value);
+		value = getDoubleOrFixed(L, 3);
+		if (value == nullptr)
+			return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 3));
+		csb->ringOuterRadius = fixed::FromDouble(*value);
 		luaL_checktype(L, 4, LUA_TTABLE);
 		Color4f col;
 		lua_rawgeti(L, 4, 1);
@@ -219,8 +264,10 @@ static int l_csb_gc(lua_State *L)
 static int l_csb_aspect_ratio(lua_State *L)
 {
 	CustomSystemBody *csb = l_csb_check(L, 1);
-	const fixed *value = LuaFixed::CheckFromLua(L, 2);
-	csb->aspectRatio = *value;
+	double *value = getDoubleOrFixed(L, 2);
+	if (value == nullptr)
+		return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));
+	csb->aspectRatio = fixed::FromDouble(*value);
 	if (csb->aspectRatio < fixed(1,1) ) { return luaL_error(
 		L, "Error: Custom system definition: Equatorial to Polar radius ratio cannot be less than 1."); }
 	if (csb->aspectRatio > fixed(10000,1) ) { return luaL_error(
@@ -233,6 +280,7 @@ static luaL_Reg LuaCustomSystemBody_meta[] = {
 	{ "new", &l_csb_new },
 	{ "seed", &l_csb_seed },
 	{ "radius", &l_csb_radius },
+	{ "radius_km", &l_csb_radius_km },
 	{ "equatorial_to_polar_radius", &l_csb_aspect_ratio },
 	{ "mass", &l_csb_mass },
 	{ "temp", &l_csb_temp },
@@ -391,8 +439,10 @@ static int l_csys_govtype(lua_State *L)
 static int l_csys_lawlessness(lua_State *L)
 {
 	CustomSystem *cs = l_csys_check(L, 1);
-	const fixed *value = LuaFixed::CheckFromLua(L, 2);
-	cs->lawlessness = *value;
+	double *value = getDoubleOrFixed(L, 2);
+	if (value == nullptr)
+		return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));
+	cs->lawlessness = fixed::FromDouble(*value);
 	cs->want_rand_lawlessness = false;
 	lua_settop(L, 1);
 	return 1;

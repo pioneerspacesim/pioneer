@@ -238,6 +238,8 @@ public:
 			o *= Fixed();
 		return o;
 	}
+
+	const pcg32 &GetPCG() const { return mPCG; }
 private:
 	Random(const Random&); // copy constructor not defined
 	void operator=(const Random&); // assignment operator not defined
