@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "碳矿"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "碳矿(煤炭和石油)是合成许多有用化学品的原料,包括塑料,合成食物,药品,纺织物."
-   },
    "CARGO" : {
       "description" : "",
       "message" : "货仓"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "肥料"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "你缴纳了 %fine 的罚金."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "你缴纳了 %paid 罚金但是仍有惊人的 %fine 未缴."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Fire weapon"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "氢"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "氢主要被用作聚变燃料"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "液氧"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "氧用于维生系统和一些工业生产"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "新兴的农业殖民地."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "你已经穷得响叮当了."
    },
    "Z" : {
       "description" : "keybinding: z axis",

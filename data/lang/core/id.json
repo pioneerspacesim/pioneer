@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Carbon ore"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Carbon ores (coal and oil) are required for the synthesis of many useful chemicals, including plastics, synthetic foodstuffs, medicines and textiles"
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Kargo"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Fertilizer"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Anda telah membayar denda sebesar %fine"
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Anda telah membayar %paid tapi masih punya denda sebesar %fine."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Fire weapon"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Hidrogen"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Hidrogen digunakan sebagai bahan bakar fusi"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Liquid Oxygen"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Oksigen dibutuhkan untuk sistem penopang kehidupan dan beberapa proses industri"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Koloni pertanian muda."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Anda tidak punya uang."
    },
    "Z" : {
       "description" : "keybinding: z axis",

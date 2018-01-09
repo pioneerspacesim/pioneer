@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Minereu din cărbune"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Minereurile din cărbune (cărbuni și petrol) sunt necesare pentru sintetizarea multor chimicale folositoare, inclusiv plastice, mâncare sintetică, doctorii și textile"
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Depozit"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Îngrășământ"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Ați plătit amenda de %fine."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Ați plătit %paid dar v-a mai rămas de plătit din amendă %fine."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Trage"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Hidrogen"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Hidrogenul este folosit în principal drept combustibil de fuziune"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Oxigen Lichid"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Oxigenul este necesar sistemelor de menținere a vieții și câtorva procesări industriale"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Colonie proaspătă de agricultură."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Nu aveți niciun ban."
    },
    "Z" : {
       "description" : "keybinding: z axis",

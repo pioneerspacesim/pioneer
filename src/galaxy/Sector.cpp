@@ -109,5 +109,5 @@ float Sector::System::DistanceBetween(const System* a, const System* b)
 void Sector::System::AssignFaction() const
 {
 	assert(m_sector->m_galaxy->GetFactions()->MayAssignFactions());
-	m_faction = m_sector->m_galaxy->GetFactions()->GetNearestFaction(this);
+	m_faction = m_sector->m_galaxy->GetFactions()->GetNearestClaimant(this);
 }

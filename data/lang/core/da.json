@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Kulmalm"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Karbonmalm (kul og olie) er nødvendigt for syntesen af mange nyttige kemikalier, herunder plast, syntetiske fødevarer, lægemidler og tekstiler"
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Last"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Gødning"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "You har betalt bøden på %fine."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Du har betalt %paid, men har stadigvæk en udestående bøde på %fine."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Fire weapon"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Hydrogen"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Hydrogen er primært brugt til fusionsbrændstof"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Flydende oxygen"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Oxygen er nødvendigt for livsstøttende systemer og industrielle processer"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Ung landbrugskoloni."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Du har ikke nogle penge."
    },
    "Z" : {
       "description" : "keybinding: z axis",

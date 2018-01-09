@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Szénérc"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "A szénércek (szén és olaj) hasznos kémiai anyagok, pl. műanyagok, szintetikus ételek, gyógyszerek és textilanyagok létrehozásához szükségesek"
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Raktér"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Mütrágya"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Kifizetted a(z) %fine összegnyi büntetést."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Fizettél %paid összeget, de még tartozol %fine összeggel."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Fegyver elsütése"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Hidrogén"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "A hidrogént elsősorban fúziós üzemanyagként használják"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Folyékony oxigén"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Az oxigén az életfenntartó rendszerekhez és néhány ipari folyamathoz kell"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Fiatal farmkolónia"
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Nincs pénzed."
    },
    "Z" : {
       "description" : "keybinding: z axis",

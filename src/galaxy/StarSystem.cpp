@@ -246,7 +246,8 @@ SystemBody::BodySuperType SystemBody::GetSuperType() const
 std::string SystemBody::GetAstroDescription() const
 {
 	PROFILE_SCOPED()
-	switch (m_type) {
+	switch (m_type)
+	{
 	case TYPE_BROWN_DWARF: return Lang::BROWN_DWARF;
 	case TYPE_WHITE_DWARF: return Lang::WHITE_DWARF;
 	case TYPE_STAR_M: return Lang::STAR_M;
@@ -289,51 +290,67 @@ std::string SystemBody::GetAstroDescription() const
 		if (m_mass > 80) return Lang::MEDIUM_GAS_GIANT;
 		else return Lang::SMALL_GAS_GIANT;
 	case TYPE_PLANET_ASTEROID: return Lang::ASTEROID;
-	case TYPE_PLANET_TERRESTRIAL: {
+	case TYPE_PLANET_TERRESTRIAL:
+	{
 		std::string s;
-		if (m_mass > fixed(2,1)) s = Lang::MASSIVE;
-		else if (m_mass > fixed(3,2)) s = Lang::LARGE;
-		else if (m_mass < fixed(1,10)) s = Lang::TINY;
-		else if (m_mass < fixed(1,5)) s = Lang::SMALL;
+		if (m_mass > fixed(2,1))
+			s = Lang::MASSIVE;
+		else if (m_mass > fixed(3,2))
+			s = Lang::LARGE;
+		else if (m_mass < fixed(1,10))
+			s = Lang::TINY;
+		else if (m_mass < fixed(1,5))
+			s = Lang::SMALL;
 
-		if (m_volcanicity > fixed(7,10)) {
-			if (s.size()) s += Lang::COMMA_HIGHLY_VOLCANIC;
-			else s = Lang::HIGHLY_VOLCANIC;
+		if (m_volcanicity > fixed(7,10))
+		{
+			if (s.size())
+				s += Lang::COMMA_HIGHLY_VOLCANIC;
+			else
+				s = Lang::HIGHLY_VOLCANIC;
 		}
 
-		if (m_volatileIces + m_volatileLiquid > fixed(4,5)) {
-			if (m_volatileIces > m_volatileLiquid) {
-				if (m_averageTemp < fixed(250)) {
-					s += Lang::ICE_WORLD;
-				} else s += Lang::ROCKY_PLANET;
-			} else {
-				if (m_averageTemp < fixed(250)) {
-					s += Lang::ICE_WORLD;
-				} else {
-					s += Lang::OCEANICWORLD;
-				}
+		// m_averageTemp <-- in degrees Kelvin. -273 for Celsius.
+		// ^--- is not in fixed() format, but rather plain integer
+
+		if (m_volatileIces + m_volatileLiquid > fixed(4,5))
+		{
+			if (m_volatileIces > m_volatileLiquid)
+			{
+				s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::ROCKY_PLANET;
 			}
-		} else if (m_volatileLiquid > fixed(2,5)){
-			if (m_averageTemp > fixed(250)) {
-				s += Lang::PLANET_CONTAINING_LIQUID_WATER;
-			} else {
-				s += Lang::PLANET_WITH_SOME_ICE;
+			else
+			{
+				s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::OCEANICWORLD;
 			}
-		} else if (m_volatileLiquid > fixed(1,5)){
-			s += Lang::ROCKY_PLANET_CONTAINING_COME_LIQUIDS;
-		} else {
-			s += Lang::ROCKY_PLANET;
+			// what is a waterworld with temperature above 100C? possible?
+		}
+		else if (m_volatileLiquid > fixed(2,5))
+		{
+			s += (m_averageTemp > 273) ? Lang::PLANET_CONTAINING_LIQUID_WATER : Lang::PLANET_WITH_SOME_ICE;
+		}
+		else
+		{
+			s += (m_volatileLiquid > fixed(1,5)) ? Lang::ROCKY_PLANET_CONTAINING_COME_LIQUIDS : Lang::ROCKY_PLANET;
 		}
 
-		if (m_volatileGas < fixed(1,100)) {
+		if (m_volatileGas < fixed(1,100))
+		{
 			s += Lang::WITH_NO_SIGNIFICANT_ATMOSPHERE;
-		} else {
+		}
+		else
+		{
 			std::string thickness;
-			if (m_volatileGas < fixed(1,10)) thickness = Lang::TENUOUS;
-			else if (m_volatileGas < fixed(1,5)) thickness = Lang::THIN;
-			else if (m_volatileGas < fixed(2,1)) {}
-			else if (m_volatileGas < fixed(4,1)) thickness = Lang::THICK;
-			else thickness = Lang::VERY_DENSE;
+			if (m_volatileGas < fixed(1,10))
+				thickness = Lang::TENUOUS;
+			else if (m_volatileGas < fixed(1,5))
+				thickness = Lang::THIN;
+			else if (m_volatileGas < fixed(2,1))	// normal atmosphere
+				{}
+			else if (m_volatileGas < fixed(4,1))
+				thickness = Lang::THICK;
+			else
+				thickness = Lang::VERY_DENSE;
 
 			if (m_atmosOxidizing > fixed(95,100)) {
 				s += Lang::WITH_A+thickness+Lang::O2_ATMOSPHERE;
@@ -344,7 +361,7 @@ std::string SystemBody::GetAstroDescription() const
 			} else if (m_atmosOxidizing > fixed(55,100)) {
 				s += Lang::WITH_A+thickness+Lang::CH4_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(3,10)) {
-				s += Lang::WITH_A+thickness+Lang::H_ATMOSPHERE;
+				s += Lang::WITH_A+thickness+Lang::H_ATMOSPHERE; // IsScoopable depends on these if/then/else values fixed(3,10) -> fixed(55,100) == hydrogen
 			} else if (m_atmosOxidizing > fixed(2,10)) {
 				s += Lang::WITH_A+thickness+Lang::HE_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(15,100)) {
@@ -588,7 +605,15 @@ bool SystemBody::HasAtmosphere() const
 bool SystemBody::IsScoopable() const
 {
 	PROFILE_SCOPED()
-	return (GetSuperType() == SUPERTYPE_GAS_GIANT);
+
+	if (GetSuperType() == SUPERTYPE_GAS_GIANT)
+		return true;
+	if ((m_type == TYPE_PLANET_TERRESTRIAL) &&
+		m_volatileGas > fixed(1, 100) &&
+		m_atmosOxidizing > fixed(3, 10) &&
+		m_atmosOxidizing <= fixed(55, 100))
+		return true;
+	return false;
 }
 
 // Calculate parameters used in the atmospheric model for shaders

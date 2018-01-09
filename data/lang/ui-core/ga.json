@@ -329,7 +329,7 @@
    },
    "ERROR_LANDING_GEAR_DOWN" : {
       "description" : "",
-      "message" : "Can not initiate hyperjump; landing gear is not retracted!"
+      "message" : "Ní féidir an hipirléim a thosú; níl an fearas tuirlingthe suas!"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
@@ -457,7 +457,7 @@
    },
    "HUD_BACKWARD_GUN_TEMPERATURE" : {
       "description" : "Tooltip: Backward Gun Temperature.",
-      "message" : "Backward Gun Temperature"
+      "message" : "Teocht an Ghunna ar gCúl"
    },
    "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
       "description" : "Tooltip: The braking distance using the main thrusters.",
@@ -465,15 +465,15 @@
    },
    "HUD_BUTTON_AUTOPILOT_DOCKING" : {
       "description" : "Tooltip: Autopilot docking",
-      "message" : "Autopilot docking"
+      "message" : "Uathphíolóta ag glasáil"
    },
    "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT" : {
       "description" : "Tooltip: Autopilot entering orbit",
-      "message" : "Autopilot entering orbit"
+      "message" : "Uathphíolóta ag dul i bhfithis"
    },
    "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET" : {
       "description" : "Tooltip: Autopilot flying to target",
-      "message" : "Autopilot flying to target"
+      "message" : "Uathphíolóta ag eitilt i dtreo na sprice"
    },
    "HUD_BUTTON_BLASTOFF" : {
       "description" : "Tooltip: Blastoff",
@@ -517,11 +517,11 @@
    },
    "HUD_BUTTON_INITIATE_HYPERJUMP" : {
       "description" : "Tooltip: Initiate legal hyperjump",
-      "message" : "Initiate hyperjump"
+      "message" : "Tosaigh hipirléim"
    },
    "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP" : {
       "description" : "Tooltip: Initiate illegal hyperjump",
-      "message" : "Initiate illegal hyperjump"
+      "message" : "Tosaigh hipirléim mhídhleathach"
    },
    "HUD_BUTTON_INTERNAL_VIEW" : {
       "description" : "Tooltip: Internal camera view",
@@ -533,15 +533,15 @@
    },
    "HUD_BUTTON_LANDING_GEAR_IS_DOWN" : {
       "description" : "Tooltip: Landing gear is down",
-      "message" : "Landing gear is down"
+      "message" : "Tá an fearas tuirlingthe síos"
    },
    "HUD_BUTTON_LANDING_GEAR_IS_MOVING" : {
       "description" : "Tooltip: Landing gear is moving",
-      "message" : "Landing gear is moving"
+      "message" : "Tá an fearas tuirlingthe ag bogadh"
    },
    "HUD_BUTTON_LANDING_GEAR_IS_UP" : {
       "description" : "Tooltip: Landing gear is up",
-      "message" : "Landing gear is up"
+      "message" : "Tá an fearas tuirlingthe suas"
    },
    "HUD_BUTTON_MANUAL_CONTROL" : {
       "description" : "Tooltip: Manual control",
@@ -577,23 +577,23 @@
    },
    "HUD_BUTTON_SWITCH_TO_GALAXY_MAP" : {
       "description" : "Tooltip: Switch to galaxy map",
-      "message" : "Switch to galaxy map"
+      "message" : "Athraigh go dtí mapa an réaltra"
    },
    "HUD_BUTTON_SWITCH_TO_SECTOR_MAP" : {
       "description" : "Tooltip: Switch to sector map",
-      "message" : "Switch to sector map"
+      "message" : "Athraigh go dtí mapa na rannóige"
    },
    "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP" : {
       "description" : "Tooltip: Switch to system map",
-      "message" : "Switch to system map"
+      "message" : "Athraigh go dtí mapa an réaltchórais"
    },
    "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW" : {
       "description" : "Tooltip: Switch to system overview",
-      "message" : "Switch to system overview"
+      "message" : "Athraigh go dtí foramharc an réaltchórais"
    },
    "HUD_BUTTON_SWITCH_TO_WORLD_VIEW" : {
       "description" : "Tooltip: Switch to world view",
-      "message" : "Switch to world view"
+      "message" : "Athraigh go dtí an t-amharc uilíoch"
    },
    "HUD_BUTTON_UNDOCK" : {
       "description" : "Tooltip: Undock",
@@ -657,7 +657,7 @@
    },
    "HUD_FORWARD_GUN_TEMPERATURE" : {
       "description" : "Tooltip: Forward Gun Temperature.",
-      "message" : "Forward Gun Temperature"
+      "message" : "Teocht an Ghunna Chun Tosaigh"
    },
    "HUD_HULL_STRENGTH" : {
       "description" : "Tooltip: Hull Strength.",
@@ -753,7 +753,7 @@
    },
    "HUD_THRUST_INDICATOR" : {
       "description" : "Tooltip: describe what the thrust/velocity indicator shows",
-      "message" : "Show current velocity for each direction (thin lines) and thrust (thick background)"
+      "message" : "Taispeáin an luas reatha i ngach treo (línte tanaí) agus sá (cúlra tiubh)"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
@@ -1393,7 +1393,7 @@
    },
    "STATION_ORBIT" : {
       "description" : "Information shown in the station loby",
-      "message" : "We are in a {orbit_period} day period orbit around {parent_body}."
+      "message" : "Táimid i bhfithis {orbit_period} lá timpeall {parent_body}."
    },
    "STATUS" : {
       "description" : "",

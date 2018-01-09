@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Kohlenstofferz"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Kohlenstofferze (Kohle und Öl) sind für die Synthese von vielen nützlichen Chemikalien, darunter Kunststoffe, synthetische Lebensmittel, Pharmazeutika und Textilien erforderlich."
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Ladung"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Düngemittel"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Sie haben die Geldstrafe von %fine bezahlt."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Sie haben %paid bezahlt, aber Sie müssen noch eine weitere Geldstrafe von %fine bezahlen."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Waffe abfeuern"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Wasserstoff"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Wasserstoff wird vor allem als Fusionstreibstoff verwendet."
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Flüssiger Sauerstoff"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Sauerstoff wird für die Lebenserhaltungssysteme und einige industrielle Prozesse benötigt."
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Neu gegründete landwirtschaftliche Kolonie."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Sie haben kein Geld."
    },
    "Z" : {
       "description" : "keybinding: z axis",

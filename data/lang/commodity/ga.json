@@ -1,0 +1,250 @@
+{
+   "AIR_PROCESSORS" : {
+      "description" : "",
+      "message" : "Próiseálaithe aeir"
+   },
+   "AIR_PROCESSORS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Clean air is only taken for granted when already abundant. The technique behind air purification is rumoured to come from alien artifacts found on Mars. Many companies produce various types of air processors, capable of turning even the most hostile atmospheres into a workable environment, and governments do not tolerate monopoly on air production."
+   },
+   "ANIMAL_MEAT" : {
+      "description" : "",
+      "message" : "Feoil"
+   },
+   "ANIMAL_MEAT_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "A major point of controversy, meat is the flesh of animals. With synthetic protein readily available, most people believe that animals should not be killed. While meats are illegal in most core systems, live animals and their meat is an important part of the lives of people on more traditional worlds."
+   },
+   "BATTLE_WEAPONS" : {
+      "description" : "",
+      "message" : "Airm chatha"
+   },
+   "BATTLE_WEAPONS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Airm mhíleata, ar nós tancanna foluaineacha armúrtha, agus diúracáin dromchla-go-spás. De ghnáth, bíonn monaplacht rialtais ar a dtrádáil. Is féidir iad a cheannach ar an margadh dubh, ach cosnóidh siad pingin mhaith ort."
+   },
+   "CARBON_ORE" : {
+      "description" : "",
+      "message" : "Mianach carbóin"
+   },
+   "CARBON_ORE_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Is é carbón ceann de na heilimintí is forleithne ar ár n-eolas. Is tráchtearra neamhchostasach é, ach tábhachtach mar sin féin, agus baintear úsáid as i dtáirgí plaisteacha, i gcóimhiotail, agus fiú i dtáirgiúlacht cumhachta. Dá bharr seo, iompórtálann beagnach gach coilíneacht thionsclaíoch mianach carbóin."
+   },
+   "COMPUTERS" : {
+      "description" : "",
+      "message" : "Ríomhairí"
+   },
+   "COMPUTERS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
+   },
+   "CONSUMER_GOODS" : {
+      "description" : "",
+      "message" : "Earraí tomhaltais"
+   },
+   "CONSUMER_GOODS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
+   },
+   "FARM_MACHINERY" : {
+      "description" : "",
+      "message" : "Innealra feirme"
+   },
+   "FARM_MACHINERY_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
+   },
+   "FERTILIZER" : {
+      "description" : "",
+      "message" : "Leasachán"
+   },
+   "FERTILIZER_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Ní féidir barra a shaothrú ar scála tionsclaíoch gan leasúcháin a úsáid. Ceadaíonn siad monashaothrú, agus táirgíonn siad torthaí níos fearr ná ithir neamhleasaithe. Go minic, déanann leasúchán dochar don timpeallacht nach bhfuil soiléir i dtús báire."
+   },
+   "FRUIT_AND_VEG" : {
+      "description" : "",
+      "message" : "Torthaí ⁊ glasraí"
+   },
+   "FRUIT_AND_VEG_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "While there are lots of synthetic alternatives, real fruits and vegetables are still an important part of our cuisine and nutrition. Grown on agricultural worlds or as part of the life support of habitats, and exported to systems in which growing plants is not feasible."
+   },
+   "GRAIN" : {
+      "description" : "",
+      "message" : "Arbhar"
+   },
+   "GRAIN_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+   },
+   "HAND_WEAPONS" : {
+      "description" : "",
+      "message" : "Mionarm"
+   },
+   "HAND_WEAPONS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Providing insurance beyond the long arm of the law, hand weapons are essential for space traders in far-out systems. However, many governments see them as a threat to their own control over their population and strictly control their trade and possession."
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Hidrigin"
+   },
+   "HYDROGEN_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
+   },
+   "INDUSTRIAL_MACHINERY" : {
+      "description" : "",
+      "message" : "Innealra tionsclaíoch"
+   },
+   "INDUSTRIAL_MACHINERY_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Needed for assembly lines, refineries, smelters, and production of machinery that will in turn produce other goods. High competence is needed to produce these advanced machines."
+   },
+   "LIQUID_OXYGEN" : {
+      "description" : "",
+      "message" : "Ocsaigin leachtach"
+   },
+   "LIQUID_OXYGEN_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Liquid oxygen has many purposes, most commonly in medical and industrial applications and sometimes also used in waste treatment. It is very affordable, as oxygen is easy to obtain from water."
+   },
+   "LIQUOR" : {
+      "description" : "",
+      "message" : "Poitín"
+   },
+   "LIQUOR_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
+   },
+   "LIVE_ANIMALS" : {
+      "description" : "",
+      "message" : "Ainmhithe beo"
+   },
+   "LIVE_ANIMALS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Partly due to humanistic, economic and ecological reasons, animal rearing and trade is strictly regulated, or even illegal in many core systems. Going outward, livestock becomes a more important part of the livelihood of the people, both as a source of nutrition and a beast of burden. Exotic zoos and wildlife reserves contribute to the trade of animals around the galaxy, usually under strict state regulations, to combat illegal hunting grounds."
+   },
+   "MEDICINES" : {
+      "description" : "",
+      "message" : "Cógais"
+   },
+   "MEDICINES_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Derived from natural sources, or synthesized artificially, medicines are needed everywhere humans go. From curing the common cold to combat the adverse effects of prolonged space travel, medicines are essential to the prosperity of an interstellar humanity. Carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
+   },
+   "METAL_ALLOYS" : {
+      "description" : "",
+      "message" : "Cóimhiotail"
+   },
+   "METAL_ALLOYS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "After metal ore is extracted and refined, it is processed and ends up as various alloys. An alloy is an amalgamation of metals, rather than a single pure element, combined in exact proportions to gain specific desirable traits. Therefore, most consumer metals are alloys."
+   },
+   "METAL_ORE" : {
+      "description" : "",
+      "message" : "Mianach miotail"
+   },
+   "METAL_ORE_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Breosla míleata"
+   },
+   "MILITARY_FUEL_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Úsáidte mar bhreosla i dtiomáintí míleata níos cumhachtaí. Táirgeann na tiomáintí seo dramhaíl núicléach nach foláir a dhiúscairt. Ós rud é gur ábhar sintéiseach é, tá breosla míleata níos costasaí agus níos annaimhe ná hidrigin, agus níl aon fháil air go nádúrtha."
+   },
+   "MINING_MACHINERY" : {
+      "description" : "",
+      "message" : "Innealra mianadóireachta"
+   },
+   "MINING_MACHINERY_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Laghdaítear an sclábhaíocht a bhaineann leis an mianadóireacht le meaisíní a chabhraíonn le mianadóirí mianta éagsúla a aimsiú, a thochailt, agus a aistriú go dtí an tsaoráid phróiseála is gaire."
+   },
+   "NARCOTICS" : {
+      "description" : "",
+      "message" : "Drugaí"
+   },
+   "NARCOTICS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Substaintí nádúrtha nó sintéiseacha a athraíonn staid na hintinne nó staid an choirp. Cé go bhfuil drugaí in úsáid go forleathan mar chaitheamh aimsire nó ar mhaithe le sláinte, is minic go mbíonn sé in aghaidh an dlí drugaí a sheoladh nó a thrádáil."
+   },
+   "NERVE_GAS" : {
+      "description" : "",
+      "message" : "Néarghás"
+   },
+   "NERVE_GAS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Glactar leis go ginearálta gur arm ollscriosta é néarghás. Is annamh a úsáidtear é, fiú i gcomhthéacs míleata, agus tá sé mídhleathach i mbeagnach gach réaltchóras."
+   },
+   "PLASTICS" : {
+      "description" : "",
+      "message" : "Plaistigh"
+   },
+   "PLASTICS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Synthetical and semi-synthetical materials used in everything from everyday items to spaceship construction. They are relatively easy to use in manufacture, versatile and cheap to make, thus an important part of human civilization."
+   },
+   "PRECIOUS_METALS" : {
+      "description" : "",
+      "message" : "Miotail lómhara"
+   },
+   "PRECIOUS_METALS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Precious metals are, generally, less reactive, more difficult to mine, and more scarce, resulting in a considerable economic value. This often includes gold, silver, platinum, and rare earths. Certain elements such as gold and silicon, or rare earths, are crucial for the construction of computers and other electronics."
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Ábhar radaighníomhach"
+   },
+   "RADIOACTIVES_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Created by nuclear reactors, and military hyperdrives, nuclear waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping nuclear waste is a severe offence."
+   },
+   "ROBOTS" : {
+      "description" : "",
+      "message" : "Róbait"
+   },
+   "ROBOTS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Iompórtáiltear róbait isteach i réaltchórais tionsclaíocha agus mianadóireachta go minic, toisc go bhfuil siad in ann obair a dhéanamh a bheadh ródheacair, róleadránach, nó róchontúirteach d'oibrithe daonna. Baintear úsáid astu mar pholaiteoirí agus mar dhlíodóirí freisin. "
+   },
+   "RUBBISH" : {
+      "description" : "",
+      "message" : "Bruscar"
+   },
+   "RUBBISH_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "The byproduct of civilization, consisting of industrial waste, household garbage, and worn down equipment. Most waste is reprocessed, recycled or sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal. Starports usually charge a fee for waste disposal, but will also pay you to take it away."
+   },
+   "SLAVES" : {
+      "description" : "",
+      "message" : "Sclábhaithe"
+   },
+   "SLAVES_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "As machines have replaced slaves as the engine that powers civilization, slavery is now almost universally seen as immoral, and transgression against a ban draws the strictest punishment. However, despite the best efforts of humanitarians, slavery is still prevalent, even in developed worlds."
+   },
+   "TEXTILES" : {
+      "description" : "",
+      "message" : "Teicstílí"
+   },
+   "TEXTILES_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Is éard atá i dteicstílí ná fabraicí simplí, fite ó shnáth sintéiseach nó ó shnáth a bhí déanta as planda nó as ainmhí. Dé ghnáth, is é róbait a tháirgeann teicstílí i monarchana móra, ach tá fíodóirí daonna ann a dhéanann a gcuid teicstílí féin fós."
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Uisce"
+   },
+   "WATER_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Essential for life as we know it, an often overlooked commodity, water is needed wherever humanity roams. As such, the vast majority of off-world colonies import water from comets or planets like Earth. Water is used on a massive scale for hydrogen and oxygen production."
+   }
+}

@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Minério de carbono"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Minérios de metal (carvão e petróleo) são necessários para a síntese de muitas substâncias químicas úteis, incluindo plásticos, alimentos sintéticos, remédios e tecidos"
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Carga"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Fertilizante"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Você pagou a multa de %fine."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Você pagou %paid mas ainda tem uma multa pendente de %fine"
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Disparar arma"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Hidrogênio"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Hidrogênio é usado primariamente como um combustível de fusão"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Oxigênio Líquido"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Oxigênio é necessário para sistemas de suporte à vida e alguns processos industriais"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Jovem colônia agricultora."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Você não tem dinheiro algum."
    },
    "Z" : {
       "description" : "keybinding: z axis",

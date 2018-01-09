@@ -71,7 +71,7 @@ static int l_body_attr_seed(lua_State *l)
 	const SystemBody *sbody = b->GetSystemBody();
 	assert(sbody);
 
-	lua_pushinteger(l, sbody->GetSeed());
+	lua_pushnumber(l, sbody->GetSeed());
 	return 1;
 }
 

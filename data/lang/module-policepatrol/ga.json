@@ -21,15 +21,15 @@
    },
    "OUTLAW_DETECTED_1" : {
       "description" : "",
-      "message" : "{ship_label} is flown by a known outlaw. Attack and destroy!"
+      "message" : "Coirpeach cruthaithe a eitlíonn {ship_label}. Déan ionradh air agus scrios é!"
    },
    "OUTLAW_DETECTED_2" : {
       "description" : "",
-      "message" : "Bandit, your days are numbered!"
+      "message" : "Is gearr eile a mhairfidh tú, a mheirligh!"
    },
    "OUTLAW_DETECTED_3" : {
       "description" : "",
-      "message" : "Hah, caught! You will not leave this system alive!"
+      "message" : "Há, tá tú gafa! Ní éalóidh tú ón réaltchóras seo!"
    },
    "POLICE_TAUNT_1" : {
       "description" : "",

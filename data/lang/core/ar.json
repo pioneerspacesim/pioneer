@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "كربون خام"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "خام الكربون (فحم و زيت) هناك حاجة لتركيب العديد من المواد الكيميائية المفيدة، بما في ذلك المواد البلاستيكية والمواد الغذائية الاصطناعية والأدوية والمنسوجات"
-   },
    "CARGO" : {
       "description" : "",
       "message" : "حمولة"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "سماد"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "لقد قمت بدفع الغرامة بمبلغ %fine."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "لقد دفعت %paid لكن لا يزال من الفاتورة &fine"
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Fire weapon"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "هايدروجين"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "يستخدم الهيدروجين في المقام الأول باعتباره وقود الاندماج"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "اوكسجين سائل"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "الأكسجين ضروري لدعم الحياة و بعض الصناعات"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "مستعمرة زراعة صغيرة"
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "انت لا تملك اية مال"
    },
    "Z" : {
       "description" : "keybinding: z axis",

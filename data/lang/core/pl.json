@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Paliwa kopalne"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Paliwa kopalne (węgiel i ropa naftowa) są wymagane do syntezy wielu użytecznych substancji chemicznych, włączając, tworzywa sztuczne, syntetyczne środki spożywcze, lekarstwa i tekstylia"
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Ładownia"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Nawozy"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Przelano na konto policji %fine."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Zapłacono %paid kary, nadal masz %fine do uregulowania."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Strzał z broni"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Wodór"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Wodór jest podstawowym składnikiem paliwa"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Ciekły tlen"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Tlen jest wymagany dla systemów podtrzymywania życia i niektórych procesów przemysłowych"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Młoda kolonia rolnicza."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Nie masz pieniędzy."
    },
    "Z" : {
       "description" : "keybinding: z axis",
