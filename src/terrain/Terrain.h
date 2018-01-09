@@ -19,6 +19,15 @@ struct fracdef_t {
 	int octaves;
 };
 
+// data about regions from feature to heightmap code go here
+struct RegionType {
+	bool Valid;
+	double height;
+	double heightVariation;
+	double inner;
+	double outer;
+	int Type;
+};
 
 template <typename,typename> class TerrainGenerator;
 
@@ -40,7 +49,12 @@ public:
 	void SetFracDef(const unsigned int index, const double featureHeightMeters, const double featureWidthMeters, const double smallestOctaveMeters = 20.0);
 	inline const fracdef_t &GetFracDef(const unsigned int index) const { assert(index>=0 && index<MAX_FRACDEFS); return m_fracdef[index]; }
 
-	virtual double GetHeight(const vector3d &p) const = 0;
+	inline double GetHeight(const vector3d &p) const {
+		double h = GetHeightInner(p);
+		ApplySimpleHeightRegions(h, p);
+		return h;
+	};
+	virtual double GetHeightInner(const vector3d &p) const = 0;
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const = 0;
 
 	virtual const char *GetHeightFractalName() const = 0;
@@ -50,6 +64,9 @@ public:
 
 	Uint32 GetSurfaceEffects() const { return m_surfaceEffects; }
 
+	void SetCityRegions(const std::vector<vector3d> &positions, const std::vector<RegionType> &regionTypes);
+	void ApplySimpleHeightRegions(double &h,const vector3d &p) const;
+
 	void DebugDump() const;
 
 private:
@@ -57,7 +74,6 @@ private:
 	static Terrain *InstanceGenerator(const SystemBody *body) { return new TerrainGenerator<HeightFractal,ColorFractal>(body); }
 
 	typedef Terrain* (*GeneratorInstancer)(const SystemBody *);
-
 
 protected:
 	Terrain(const SystemBody *body);
@@ -122,13 +138,17 @@ protected:
 		std::string m_name;
 	};
 	MinBodyData m_minBody;
+
+	// used for region based terrain e.g. cities
+	std::vector<vector3d> m_positions;
+	std::vector<RegionType> m_regionTypes;
 };
 
 
 template <typename HeightFractal>
 class TerrainHeightFractal : virtual public Terrain {
 public:
-	virtual double GetHeight(const vector3d &p) const;
+	virtual double GetHeightInner(const vector3d &p) const;
 	virtual const char *GetHeightFractalName() const;
 protected:
 	TerrainHeightFractal(const SystemBody *body);

@@ -28,7 +28,7 @@ TerrainHeightFractal<TerrainHeightMapped>::TerrainHeightFractal(const SystemBody
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightMapped>::GetHeight(const vector3d &p) const
+double TerrainHeightFractal<TerrainHeightMapped>::GetHeightInner(const vector3d &p) const
 {
     // This is all used for Earth and Earth alone
 
@@ -138,6 +138,6 @@ double TerrainHeightFractal<TerrainHeightMapped>::GetHeight(const vector3d &p) c
 			v += h;
 		}
 
-		return v<0 ? 0 : (v/m_planetRadius);
+		return v<0 ? 0 : (v / m_planetRadius);
 	}
 }
