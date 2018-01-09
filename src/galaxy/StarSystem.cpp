@@ -361,7 +361,7 @@ std::string SystemBody::GetAstroDescription() const
 			} else if (m_atmosOxidizing > fixed(55,100)) {
 				s += Lang::WITH_A+thickness+Lang::CH4_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(3,10)) {
-				s += Lang::WITH_A+thickness+Lang::H_ATMOSPHERE;
+				s += Lang::WITH_A+thickness+Lang::H_ATMOSPHERE; // IsScoopable depends on these if/then/else values fixed(3,10) -> fixed(55,100) == hydrogen
 			} else if (m_atmosOxidizing > fixed(2,10)) {
 				s += Lang::WITH_A+thickness+Lang::HE_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(15,100)) {
@@ -605,7 +605,15 @@ bool SystemBody::HasAtmosphere() const
 bool SystemBody::IsScoopable() const
 {
 	PROFILE_SCOPED()
-	return (GetSuperType() == SUPERTYPE_GAS_GIANT);
+
+	if (GetSuperType() == SUPERTYPE_GAS_GIANT)
+		return true;
+	if ((m_type == TYPE_PLANET_TERRESTRIAL) &&
+		m_volatileGas > fixed(1, 100) &&
+		m_atmosOxidizing > fixed(3, 10) &&
+		m_atmosOxidizing <= fixed(55, 100))
+		return true;
+	return false;
 }
 
 // Calculate parameters used in the atmospheric model for shaders
