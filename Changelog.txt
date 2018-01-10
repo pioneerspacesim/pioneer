@@ -9,6 +9,7 @@ January 2018
      * Sectorview zoomout prettier homeworld labels (#4245)
      * Hydrogen scooping from small planets with hydrogen atmosphere (#4254)
      * Commodity market shows import/export icons if trade computer exists (#4227)
+     * access all systembody attributes in lua (#4256)
 
    * Internal Changes
      * Happy new year! (#4240)
