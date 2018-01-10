@@ -911,6 +911,22 @@
       "description" : "Light year",
       "message" : "ly"
    },
+   "MAJOR_EXPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Major exports"
+   },
+   "MAJOR_IMPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Major imports"
+   },
+   "MINOR_EXPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Minor exports"
+   },
+   "MINOR_IMPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Minor imports"
+   },
    "MAKE_NEW_FACE" : {
       "description" : "",
       "message" : "Make new face"

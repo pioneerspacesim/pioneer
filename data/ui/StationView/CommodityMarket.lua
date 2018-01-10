@@ -44,28 +44,51 @@ local commodityMarket = function (args)
 			:SetColumnSpacing(10)		--margin between columns
 			:SetHeadingRow({
 				'',						--blank header column used for the icons in the list
-				l.NAME_OBJECT,
-				l.PRICE,
+				ui:Label(l.NAME_OBJECT):SetFont("LARGE"),
+				ui:Align("RIGHT",l.PRICE),
+				"",						--blank column for import/export icons
 				l.IN_STOCK,
-				ui:Margin(32,"RIGHT",l.CARGO) -- because a later expand() expands it too much we have to pad the table with some blank space at the right edge or the text will be cropped by the scrollbar
+				ui:Margin(24,"RIGHT",l.CARGO) -- because a later expand() expands it too much we have to pad the table with some blank space at the right edge or the text will be cropped by the scrollbar
 			})
-			:SetHeadingFont("LARGE")	--large font for header
+			--:SetHeadingFont("LARGE")	--large font for header
 			:SetRowAlignment("CENTER")	--align the row to the center relative to up and down
 			:SetMouseEnabled(true)		--mouse can be used on this list
 
 	local commodityTrade =
 		ui:Expand("VERTICAL")			--blank right pane gets filled in by code once a row in the list is clicked
 
+	local pricemod = nil
+	local priceicon = nil
+	local trac = Game.player:GetEquipCountOccupied('trade_computer')
+	local majex = "icons/market/export-major.png"
+	local majim = "icons/market/import-major.png"
+	local minex = "icons/market/export-minor.png"
+	local minim = "icons/market/import-minor.png"
+	
 	local fillMarketTable = function()
 		marketTable:ClearRows()
 		local rowCommodity = {}
 		for i,e in ipairs(equipTypes) do
+			pricemod = nil
+			if trac > 0 then
+				local mod = Game.system:GetCommodityBasePriceAlterations(e)
+				if mod >= 10 then
+					pricemod = majim
+				elseif mod >= 2 then
+					pricemod = minim
+				elseif mod <= -10 then
+					pricemod = majex
+				elseif mod <= -2 then
+					pricemod = minex
+				end
+			end
 			marketTable:AddRow({
 				marketColumnValue["icon"](e),
 				ui:Expand("HORIZONTAL",marketColumnValue["name"](e)),	--names are aligned to the left (default)
 																		--expand the bame to make the whole row fill the horizontal space,
 																		--expands too much and cargo column is clipped by scrollbar, but fixed with margins on cargo column header (above) and rows (3 lines down)
 				ui:Align("RIGHT", marketColumnValue["price"](e)),		--numbers are aligned to the right for decimal places to be in the same spot
+				pricemod and ui:Image(pricemod) or "",
 				ui:Align("RIGHT", marketColumnValue["stock"](e)),
 				ui:Align("RIGHT", ui:Margin(32,"RIGHT",marketColumnValue["cargo"](e))), --margin is fix for greedy expand() 3 lines up
 			})
@@ -100,12 +123,10 @@ local commodityMarket = function (args)
 	local sellfromcargo = ui:Button(l.SELL)
 	local buyfrommarket = ui:Button(l.BUY)
 
-	local commonHeader =
-		ui:HBox()						--blank header for right pane, filled in by code once user has selected which commodity to trade in
-	local commonDescript =
-		ui:HBox()
-	local hasCargoLabel =
-		ui:Label("")
+	local commonHeader = ui:HBox(24)		--blank header for right pane, filled in by code once user has selected which commodity to trade in
+	local computerInfo = ui:HBox(24)
+	local commonDescript = ui:HBox()
+	local hasCargoLabel = ui:Label("")
 	local commonButtons =
 		ui:HBox():PackEnd({					--pack all the buttons into one widget for future use, hbox lines up elements horizontally
 			sub100,							--first button does not need a left margin
@@ -228,8 +249,8 @@ local commodityMarket = function (args)
 						buyfrommarket,
 						sellfromcargo
 					}),
-					--common header contains icon and commodity name
-					commonHeader,
+					commonHeader, --common header contains icon and commodity name
+					computerInfo, -- info from trade computer, if the player has one, otherwise blank
 					--contains description, if there is one
 					ui:Expand("VERTICAL",commonDescript),
 					commonButtons, -- prepared widget with all the buttons -100 -10 -1 reset +1 +10 +100
@@ -251,6 +272,7 @@ local commodityMarket = function (args)
 						sellfromcargo
 					}),
 					commonHeader, --icon, commodity name
+					computerInfo, -- info from trade computer, if the player has one, otherwise blank
 					commonDescript, --description (optional)
 					ui:Expand("VERTICAL"),
 					commonButtons, --prepared buttons -100 to +100
@@ -374,12 +396,40 @@ local commodityMarket = function (args)
 
 		--clear the header because previous calls might have filled it
 		commonHeader:Clear()
+		computerInfo:Clear()
 		commonDescript:Clear()
 		
+		pricemod = ""
+		priceicon = nil
+		if trac > 0 then						--trac = if player has trade computer
+			local mod = Game.system:GetCommodityBasePriceAlterations(e)
+			if mod >= 10 then
+				pricemod = l.MAJOR_IMPORTS_ITEM
+				priceicon = majim
+			elseif mod >= 2 then
+				pricemod = l.MINOR_IMPORTS_ITEM
+				priceicon = minim
+			elseif mod <= -10 then
+				pricemod = l.MAJOR_EXPORTS_ITEM
+				priceicon = majex
+			elseif mod <= -2 then
+				pricemod = l.MINOR_EXPORTS_ITEM
+				priceicon = minex
+			end
+		end
+
 		--update common header to the commodity that was clicked
 		commonHeader:PackEnd({
-			ui:Margin(32,"RIGHT",marketColumnValue["icon"](e)), --margin separates icon from the text followin on the right
-			ui:Label(marketColumnValue["name"](e)):SetFont("HEADING_LARGE") --simple text label with the commodity name
+			marketColumnValue["icon"](e),
+			--simple text label with the commodity name
+			ui:Expand("HORIZONTAL",ui:Label(marketColumnValue["name"](e)):SetFont("HEADING_LARGE")),
+			--if player has trade computer, show major/minor export/import, otherwise blank
+			""		--cheap way of adding a right margin								
+		})
+		
+		computerInfo:PackEnd({
+			priceicon and ui:Image(priceicon,{ "PRESERVE_ASPECT" }) or "",
+			ui:Label(pricemod)
 		})
 		
 		commonDescript:PackEnd({
@@ -398,7 +448,7 @@ local commodityMarket = function (args)
 	end)
 
 	return
-		ui:Grid({48,4,48},1) --make a simple grid layout with 3 columns, 48%, 4% and 48% the width of the space, 1 row (?)
+		ui:Grid({48,2,50},1) --make a simple grid layout with 3 columns, 48%, 2% and 50% the width of the space, 1 row
 			:SetColumn(0, {marketTable})
 			--column 1 is empty
 			:SetColumn(2, {commodityTrade})
