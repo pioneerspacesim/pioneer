@@ -915,6 +915,14 @@
       "description" : "Light year",
       "message" : "al"
    },
+   "MAJOR_EXPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Major exports"
+   },
+   "MAJOR_IMPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Major imports"
+   },
    "MAKE_NEW_FACE" : {
       "description" : "",
       "message" : "Față nouă"
@@ -990,6 +998,14 @@
    "MINIMUM_CREW" : {
       "description" : "",
       "message" : "Personal minim"
+   },
+   "MINOR_EXPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Minor exports"
+   },
+   "MINOR_IMPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Minor imports"
    },
    "MISSILE_MOUNTS" : {
       "description" : "",

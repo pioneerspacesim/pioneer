@@ -915,6 +915,14 @@
       "description" : "Light year",
       "message" : "AL"
    },
+   "MAJOR_EXPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Major exports"
+   },
+   "MAJOR_IMPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Major imports"
+   },
    "MAKE_NEW_FACE" : {
       "description" : "",
       "message" : "Crear nuevo rostro"
@@ -990,6 +998,14 @@
    "MINIMUM_CREW" : {
       "description" : "",
       "message" : "Tripulación mínima"
+   },
+   "MINOR_EXPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Minor exports"
+   },
+   "MINOR_IMPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Minor imports"
    },
    "MISSILE_MOUNTS" : {
       "description" : "",

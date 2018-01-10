@@ -5,7 +5,7 @@
    },
    "AIR_PROCESSORS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Clean air is only taken for granted when already abundant. The technique behind air purification is rumoured to come from alien artifacts found on Mars. Many companies produce various types of air processors, capable of turning even the most hostile atmospheres into a workable environment, and governments do not tolerate monopoly on air production."
+      "message" : "Déantar dóigh den aer glan nuair a bhíonn sé fairsing. Deirtear gur tháinig an teicneolaíocht a ghlanann an t-aer ó dhéantáin eachtardhomhanda a aimsíodh ar Mhars. Déanann neart comhlachtaí próiseálaithe aeir éagsúla atá in ann timpeallacht shábháilte a chruthú as atmaisféir fiú an-chontúirteacha. Ní chuireann rialtais suas le monaplachtaí ar tháirgeadh aeir."
    },
    "ANIMAL_MEAT" : {
       "description" : "",
@@ -37,7 +37,7 @@
    },
    "COMPUTERS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
+      "message" : "Le mílte bliain anuas, ón abacas, PDP-11, agus slis Motorola 68k, go dtí HAL 9001 agus an líne nua-aimseartha Multivac, tá ríomhairí tar éis tús a chur le ré na faisnéise. Tá ríomhairí riachtanach sa saol, is cuma más mian leat dul isteach i hipearspás, nó físeán de chuibil ghleoite a phostáil ar an AonLíon."
    },
    "CONSUMER_GOODS" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "INDUSTRIAL_MACHINERY_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Needed for assembly lines, refineries, smelters, and production of machinery that will in turn produce other goods. High competence is needed to produce these advanced machines."
+      "message" : "Innealra atá ag teastáil ar línte cóimeála, i scaglanna, i mbruithneoirí, agus mar chuid d'innealra eile a tháirgeoidh earraí eile. Tá ardscileanna de dhíth chun na meaisíní casta seo a dhéanamh."
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "LIVE_ANIMALS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Partly due to humanistic, economic and ecological reasons, animal rearing and trade is strictly regulated, or even illegal in many core systems. Going outward, livestock becomes a more important part of the livelihood of the people, both as a source of nutrition and a beast of burden. Exotic zoos and wildlife reserves contribute to the trade of animals around the galaxy, usually under strict state regulations, to combat illegal hunting grounds."
+      "message" : "Ar chúiseanna daonnachta, eacnamaíochta, agus éiceolaíochta, tá rialacháin dochta, agus uaireanta cosc iomlán, ar thógáil agus ar thrádáil ainmhithe ina lán réaltchoras i ngar don chroí. Níos faide amach, is cuid thábhachtach de shaol an phobail é beostoc, mar fhoinse cothúcháin agus mar bheithígh iompair. Glacann zúnna agus tearmainn dúlra páirt i dtrádáil ainmhithe freisin timpeall an réaltra, faoi rialúcháin an stáit, le troid in aghaidh seilge mídhleathaí. "
    },
    "MEDICINES" : {
       "description" : "",
@@ -189,7 +189,7 @@
    },
    "PLASTICS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Synthetical and semi-synthetical materials used in everything from everyday items to spaceship construction. They are relatively easy to use in manufacture, versatile and cheap to make, thus an important part of human civilization."
+      "message" : "Ábhair shintéiseacha agus leathshintéiseacha a úsáidtear ina lán táirgí, ó ghnáthearraí tí go spáslonga. Tá sé éasca go leor iad a úsáid sa déantúsaíocht agus níl sé costasach iad a dhéanamh. Imríonn siad ról tábhachtach sa tsibhialtacht dhaonna."
    },
    "PRECIOUS_METALS" : {
       "description" : "",
@@ -197,7 +197,7 @@
    },
    "PRECIOUS_METALS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Precious metals are, generally, less reactive, more difficult to mine, and more scarce, resulting in a considerable economic value. This often includes gold, silver, platinum, and rare earths. Certain elements such as gold and silicon, or rare earths, are crucial for the construction of computers and other electronics."
+      "message" : "Go ginearálta, ní bhíonn miotail lómhara chomh himoibríoch le miotail eile agus tá sé níos deacra iad a bhaint as mianach. Dá bharr sin, tá luach mór eacnamaíochta le miotail lómhara ar nós óir, airgid, platanaim, agus eilimintí tearcithreach. Baintear úsáid as ór, sileacan, agus eilimintí tearcithreach éagsúla i ríomhairí agus i dtáirgí leictreonacha eile."
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -205,7 +205,7 @@
    },
    "RADIOACTIVES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Created by nuclear reactors, and military hyperdrives, nuclear waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping nuclear waste is a severe offence."
+      "message" : "Táirgeann imoibreoirí núicléacha agus hipirthiomáintí míleata dramhaíl núicléach, ábhar atá an-deacair agus an-chontúirteach a iompar agus a dhiúscairt. Dá bharr seo,  tabharfaidh go leor spásphort airgead duit as fáil réidh le dramhaíl bhreise. Tá sé in aghaidh an dlí dramhaíl núicléach a dhumpáil."
    },
    "ROBOTS" : {
       "description" : "",
