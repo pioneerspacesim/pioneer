@@ -8,6 +8,7 @@ January 2018
      * CustomSystem input syntax adapted for easier data entry (#4238)
      * Sectorview zoomout prettier homeworld labels (#4245)
      * Hydrogen scooping from small planets with hydrogen atmosphere (#4254)
+     * Commodity market shows import/export icons if trade computer exists (#4227)
 
    * Internal Changes
      * Happy new year! (#4240)
