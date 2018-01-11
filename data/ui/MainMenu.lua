@@ -27,7 +27,7 @@ local setupPlayerSol = function ()
 	Game.player:AddEquip(misc.autopilot)
 	Game.player:AddEquip(misc.radar)
 	Game.player:AddEquip(cargo.hydrogen, 2)
-	Game.player:SetMoney(100)
+	Game.player:SetMoney(1000)
 end
 
 local setupPlayerEridani = function ()
@@ -39,7 +39,7 @@ local setupPlayerEridani = function ()
 	Game.player:AddEquip(misc.autopilot)
 	Game.player:AddEquip(misc.radar)
 	Game.player:AddEquip(cargo.hydrogen, 2)
-	Game.player:SetMoney(100)
+	Game.player:SetMoney(1000)
 end
 
 local setupPlayerBarnard = function ()
@@ -50,7 +50,7 @@ local setupPlayerBarnard = function ()
 	Game.player:AddEquip(misc.autopilot)
 	Game.player:AddEquip(misc.radar)
 	Game.player:AddEquip(cargo.hydrogen, 2)
-	Game.player:SetMoney(100)
+	Game.player:SetMoney(1000)
 end
 
 local loadGame = function (path)
