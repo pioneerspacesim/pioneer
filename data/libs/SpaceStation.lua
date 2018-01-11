@@ -23,7 +23,6 @@ local l = Lang.GetResource("ui-core")
 -- Class: SpaceStation
 --
 
-
 function SpaceStation:Constructor()
 	-- Use a variation of the space station seed itself to ensure consistency
 	local rand = Rand.New(self.seed .. '-techLevel')
@@ -31,21 +30,30 @@ function SpaceStation:Constructor()
 	self:setprop("techLevel", techLevel)
 end
 
-
 local equipmentStock = {}
 
 local function updateEquipmentStock (station)
 	assert(station and station:exists())
 	if equipmentStock[station] then return end
 	equipmentStock[station] = {}
-	local hydrogen = Equipment.cargo.hydrogen
-	for _,slot in pairs{"cargo","laser", "hyperspace", "misc"} do
+	for _,slot in pairs{"cargo", "laser", "hyperspace", "misc"} do
 		for key, e in pairs(Equipment[slot]) do
 			if e:IsValidSlot("cargo") then      -- is cargo
-				local min = e == hydrogen and 1 or 0 -- always stock hydrogen
+				local min = (e == Equipment.cargo.hydrogen) and 1 or 0 -- always stock hydrogen
 				equipmentStock[station][e] = Engine.rand:Integer(min,100) * Engine.rand:Integer(1,100)
-			else                                     -- is ship equipment
-				equipmentStock[station][e] = Engine.rand:Integer(0,100)
+			else -- equipment
+				-- check if equipment.stock is > 0, for purchasable=false stock is set to 0
+				-- check if station tech level permits sale
+				if e.stock > 0 and e.tech_level <= station.techLevel then
+					-- what is the difference in techLevel between the item sold and the station?
+					-- the amount in stock should increase if say, station techlevel is 12 and the item techlevel is 6
+					local slider = e.stock * ((station.techLevel - e.tech_level) / 12)  -- is max tech level absolutely = 12?
+					local randstock = math.floor(((Engine.rand:Integer(0 + slider,e.stock + slider) + Engine.rand:Integer(0,e.stock)) / 2) - e.stockmod)
+					equipmentStock[station][e] = randstock >= 0 and randstock or 0
+				else
+					-- spacestations dont have large secret stocks of things they cant sell
+					equipmentStock[station][e] = 0
+				end
 			end
 		end
 	end
