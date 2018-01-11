@@ -227,7 +227,11 @@ void Geom::CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const mat
 			// contact geomFlag is bitwise OR of triangle's and edge's flags
 			contact.geomFlag = b->m_geomtree->GetTriFlag(isect.triIdx) |
 				edges[ edgeNode->triIndicesStart[i] ].triFlag;
-			callback(&contact);
+			//Don't attempt collide callback if either m_data pointer is NULL
+			if((m_data != 0) && (b->m_data != 0))
+			{			
+				callback(&contact);
+			}
 			if (--maxContacts <= 0) return;
 		}
 	} else {
