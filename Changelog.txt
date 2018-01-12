@@ -1,3 +1,17 @@
+January 12, 2018 -- Pioneer Play
+
+* Added: Low power thruster slider is now available in the new gui (#9)
+* Changed: Hyperspace range reduced from absurd to reasonable (#8)
+* Changed: The player now starts with 1000 money instead of 100 (#7)
+* Added: One more city building, for variation
+* Changes: When using a mining laser to mine an asteroid, the resulting commodity is determined by a lua function (#6)
+* Fixes: tradeships.lua would crash if both player and a tradeship would jump into an uninhabited system (#5)
+* Changes: Spacestation commodity stock is created differently, export commodities being out of stock
+           should be much more common. (#4)
+* Fixes: Old and new radar no longer appears at the same time if you change and then restart the game,
+         savegames store the new/old preference (#3)
+* Fixes: atmospheric temperature now decreases with altitude instead of incorrectly increasing (#2)
+   
 January 2018
    * New Features
      * Lua API StarSystem has new 'govtype' attribute (#4236)
