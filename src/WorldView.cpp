@@ -72,15 +72,12 @@ WorldView::WorldView(const Json::Value &jsonObj, Game* game) : UIView(), m_game(
 	m_siderealCameraController->LoadFromJson(worldViewObj);
 }
 
-static const float LOW_THRUST_LEVELS[] = { 0.75, 0.5, 0.25, 0.1, 0.05, 0.01 };
-
 void WorldView::InitObject()
 {
 	float size[2];
 	GetSizeRequested(size);
 
 	m_showTargetActionsTimeout = 0;
-	m_showLowThrustPowerTimeout = 0;
 	m_labelsOn = true;
 	SetTransparency(true);
 
@@ -110,27 +107,6 @@ void WorldView::InitObject()
 	m_commsNavOptions = new Gui::VBox();
 	m_commsNavOptions->SetSpacing(5);
 	portal->Add(m_commsNavOptions);
-
-	m_lowThrustPowerOptions = new Gui::Fixed(size[0], size[1]/2);
-	m_lowThrustPowerOptions->SetTransparency(true);
-	Add(m_lowThrustPowerOptions, 10, 200);
-	for (int i = 0; i < int(COUNTOF(LOW_THRUST_LEVELS)); ++i) {
-		assert(i < 9); // otherwise the shortcuts break
-		const int ypos = i*32;
-
-		Gui::Label *label = new Gui::Label(
-																			 stringf(Lang::SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT,
-																							 formatarg("power", 100.0f * LOW_THRUST_LEVELS[i], "f.0")));
-		m_lowThrustPowerOptions->Add(label, 50, float(ypos));
-
-		char buf[8];
-		snprintf(buf, sizeof(buf), "%d", (i + 1));
-		Gui::Button *btn = new Gui::LabelButton(new Gui::Label(buf));
-		btn->SetShortcut(SDL_Keycode(SDLK_1 + i), KMOD_NONE);
-		m_lowThrustPowerOptions->Add(btn, 16, float(ypos));
-
-		btn->onClick.connect(sigc::bind(sigc::mem_fun(this, &WorldView::OnSelectLowThrustPower), LOW_THRUST_LEVELS[i]));
-	}
 
 #if WITH_DEVKEYS
 	Gui::Screen::PushFont("ConsoleFont");
@@ -382,14 +358,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_commsNavOptionsContainer->Hide();
 	}
 
-	if (m_showLowThrustPowerTimeout) {
-		if (SDL_GetTicks() - m_showLowThrustPowerTimeout > 20000) {
-			m_showLowThrustPowerTimeout = 0;
-		}
-		m_lowThrustPowerOptions->Show();
-	} else {
-		m_lowThrustPowerOptions->Hide();
-	}
 #if WITH_DEVKEYS
 	if (Pi::showDebugInfo) {
 		std::ostringstream ss;
@@ -536,7 +504,6 @@ void WorldView::ShowTargetActions()
 {
 	m_showTargetActionsTimeout = SDL_GetTicks();
 	UpdateCommsOptions();
-	HideLowThrustPowerOptions();
 }
 
 void WorldView::HideTargetActions()
@@ -564,7 +531,6 @@ void WorldView::OnClickCommsNavOption(Body *target)
 {
 	Pi::player->SetNavTarget(target);
 	m_showTargetActionsTimeout = SDL_GetTicks();
-	HideLowThrustPowerOptions();
 }
 
 void WorldView::AddCommsNavOption(const std::string &msg, Body *target)
@@ -601,34 +567,6 @@ void WorldView::BuildCommsNavOptions()
 			AddCommsNavOption((*j)->GetName(), body);
 		}
 	}
-}
-
-void WorldView::HideLowThrustPowerOptions()
-{
-	m_showLowThrustPowerTimeout = 0;
-	m_lowThrustPowerOptions->Hide();
-}
-
-void WorldView::ShowLowThrustPowerOptions()
-{
-	m_showLowThrustPowerTimeout = SDL_GetTicks();
-	m_lowThrustPowerOptions->Show();
-	HideTargetActions();
-}
-
-void WorldView::ToggleLowThrustPowerOptions()
-{
-	Pi::BoinkNoise();
-	if (m_showLowThrustPowerTimeout)
-		HideLowThrustPowerOptions();
-	else
-		ShowLowThrustPowerOptions();
-}
-
-void WorldView::OnSelectLowThrustPower(float power)
-{
-	Pi::player->GetPlayerController()->SetLowThrustPower(power);
-	HideLowThrustPowerOptions();
 }
 
 static void PlayerRequestDockingClearance(SpaceStation *s)

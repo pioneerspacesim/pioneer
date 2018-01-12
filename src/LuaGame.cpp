@@ -539,12 +539,6 @@ static int l_game_toggle_target_actions(lua_State *l)
 	return 0;
 }
 
-static int l_game_toggle_low_thrust_power_options(lua_State *l)
-{
-	Pi::game->GetWorldView()->ToggleLowThrustPowerOptions();
-	return 0;
-}
-
 static int l_game_change_flight_state(lua_State *l)
 {
 	Pi::game->GetWorldView()->ChangeFlightState();
@@ -615,7 +609,6 @@ void LuaGame::Register()
 		{ "SetWorldCamType", l_game_set_world_cam_type },
 		{ "GetWorldCamType", l_game_get_world_cam_type },
 		{ "ToggleTargetActions",         l_game_toggle_target_actions }, // deprecated
-		{ "ToggleLowThrustPowerOptions", l_game_toggle_low_thrust_power_options }, // deprecated
 		{ "ChangeFlightState",           l_game_change_flight_state }, // deprecated
 
 		{ 0, 0 }
