@@ -24,6 +24,9 @@ January 2018
      * Change lua_pushinteger for lua_pushnumber to preserve value of seed (#4255)
      * Updatefuel code duplication (#4262)
      * CityOnPlanet rewrite: recursive to iterative (#4266)
+     
+   * Fixes
+     * planar and azimuthal radar at same time (#4265)
 
 December 2017
    * New Features
