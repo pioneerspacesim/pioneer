@@ -307,13 +307,16 @@ local jumpToSystem = function (ship, target_path)
 end
 
 local getSystemAndJump = function (ship)
-	local body = Space.GetBody(trade_ships[ship].starport.path:GetSystemBody().parent.index)
-	local port = trade_ships[ship].starport
-	-- boost away from the starport before jumping if it is too close
-	if (ship:DistanceTo(port) < 20000) then
-		ship:AIEnterLowOrbit(body)
+	-- attention all coders: trade_ships[ship].starport may be nil
+	if trade_ships[ship].starport then
+		local body = Space.GetBody(trade_ships[ship].starport.path:GetSystemBody().parent.index)
+		local port = trade_ships[ship].starport
+		-- boost away from the starport before jumping if it is too close
+		if (ship:DistanceTo(port) < 20000) then
+			ship:AIEnterLowOrbit(body)
+		end
+		return jumpToSystem(ship, getSystem(ship))
 	end
-	return jumpToSystem(ship, getSystem(ship))
 end
 
 local getAcceptableShips = function ()
@@ -342,14 +345,19 @@ local getAcceptableShips = function ()
 end
 
 local spawnInitialShips = function (game_start)
+	-- quicker checks first
+	-- dont spawn tradeships in unpopulated systems
+	local population = Game.system.population
+	if population == 0 then return nil end
+
 	-- check if the current system can be traded in
 	starports = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
 	if #starports == 0 then return nil end
 	vacuum_starports = Space.GetBodies(function (body)
 		return body.superType == 'STARPORT' and (body.type == 'STARPORT_ORBITAL' or (not body.path:GetSystemBody().parent.hasAtmosphere))
 	end)
-	local population = Game.system.population
-	if population == 0 then return nil end
+	
+	-- get ships listed as tradeships, if none - give up
 	local ship_names = getAcceptableShips()
 	if #ship_names == 0 then return nil end
 
@@ -360,15 +368,14 @@ local spawnInitialShips = function (game_start)
 		local v = Game.system:GetCommodityBasePriceAlterations(equip)
 		if key ~= "rubbish" and key ~= "radioactives" and Game.system:IsCommodityLegal(equip) then
 			-- values from SystemInfoView::UpdateEconomyTab
-			if		v > 10	then
-				import_score = import_score + 2
-			elseif	v > 2	then
-				import_score = import_score + 1
+
+			if v > 2 then
+				import_score = import_score + (v > 10 and 2 or 1) -- lua is crazy
 				table.insert(imports, equip)
-			elseif	v < -10	then
-				export_score = export_score + 2
-			elseif	v < -2	then
-				export_score = export_score + 1
+			end
+
+			if v < -2 then
+				export_score = export_score + (v < -10 and 2 or 1)
 				table.insert(exports, equip)
 			end
 		end
@@ -414,27 +421,16 @@ local spawnInitialShips = function (game_start)
 		if game_start and i < num_trade_ships / 4 then
 			-- spawn the first quarter in port if at game start
 			local starport = starports[Engine.rand:Integer(1, #starports)]
-
+			local dockstatus = 'docked'
 			ship = Space.SpawnShipDocked(ship_name, starport)
-			if ship ~= nil then
-				ship:SetLabel(Ship.MakeRandomLabel())
-				trade_ships[ship] = {
-					status		= 'docked',
-					starport	= starport,
-					ship_name	= ship_name,
-				}
-				addShipEquip(ship)
-			else
+			if ship == nil then
 				-- the starport must have been full
 				ship = Space.SpawnShipNear(ship_name, starport, 10000000, 149598000) -- 10mkm - 1AU
-				ship:SetLabel(Ship.MakeRandomLabel())
-				trade_ships[ship] = {
-					status		= 'inbound',
-					starport	= starport,
-					ship_name	= ship_name,
-				}
-				addShipEquip(ship)
+				dockstatus = 'inbound'
 			end
+			trade_ships[ship] = { status = dockstatus, starport	= starport, ship_name = ship_name }
+			ship:SetLabel(Ship.MakeRandomLabel())
+			addShipEquip(ship)
 		elseif i < num_trade_ships * 0.75 then
 			-- spawn the first three quarters in space, or middle half if game start
 			local min_dist = range * i + 1
@@ -444,14 +440,11 @@ local spawnInitialShips = function (game_start)
 
 			ship = Space.SpawnShip(ship_name, min_dist, min_dist + range)
 			ship:SetLabel(Ship.MakeRandomLabel())
-			trade_ships[ship] = {
-				status		= 'inbound',
-				ship_name	= ship_name,
-			}
+			trade_ships[ship] = { status = 'inbound', ship_name	= ship_name }
 			-- Add ship equipment right now, because...
 			addShipEquip(ship)
 			-- ...this next call needs to see if there's an atmospheric shield.
-			trade_ships[ship].starport	= getNearestStarport(ship)
+			trade_ships[ship].starport = getNearestStarport(ship)
 		else
 			-- spawn the last quarter in hyperspace
 			local min_time = trade_ships.interval * (i - num_trade_ships * 0.75)
