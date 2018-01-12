@@ -9,7 +9,7 @@
    },
    "ANIMAL_MEAT" : {
       "description" : "",
-      "message" : "Animal meat"
+      "message" : "Viande animale"
    },
    "ANIMAL_MEAT_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -45,7 +45,7 @@
    },
    "CONSUMER_GOODS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
+      "message" : "Les produits finis, prêt pour la consommation publique, sans necessiter le recours à un quelconque raffinement. Produits allant de la brosse à dents aux voitures à lévitation, en passant par les ustensiles de cuisine."
    },
    "FARM_MACHINERY" : {
       "description" : "",
@@ -69,7 +69,7 @@
    },
    "FRUIT_AND_VEG_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "While there are lots of synthetic alternatives, real fruits and vegetables are still an important part of our cuisine and nutrition. Grown on agricultural worlds or as part of the life support of habitats, and exported to systems in which growing plants is not feasible."
+      "message" : "Bien qu'il y ait beaucoup d'alternatives synthétiques, les fruits et légumes réels sont toujours une part importante de notre cuisine et de notre nuitrition. Ils sont cultivés sur des mondes agriculturaux ou bien dans les modules de support vitaux des habitats et sont exportés vers les systèmes pour lesquels la culture des plantes n'est pas possible."
    },
    "GRAIN" : {
       "description" : "",
@@ -77,11 +77,11 @@
    },
    "GRAIN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+      "message" : "Les céréales sont l'épine dorsale du régime de beaucoup de personnes. Elles sont utilisés dans les fermes pour nourrir les animaux et comme supplément aux nourritures synthétiques. Elles sont aussi utilisées dans beaucoup d'autre aliments, comme le gruau et les patisseries. La plupart des cultures spatiales cultivent et consomment au moins quelques céréales, celles qui ont pu s'adapter au climat de leur habitat."
    },
    "HAND_WEAPONS" : {
       "description" : "",
-      "message" : "Small arms"
+      "message" : "Armes légères"
    },
    "HAND_WEAPONS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -109,7 +109,7 @@
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Liquid oxygen has many purposes, most commonly in medical and industrial applications and sometimes also used in waste treatment. It is very affordable, as oxygen is easy to obtain from water."
+      "message" : "L'oxygène liquide a plusieurs usages. Il est couramment utilisé pour des applications médicales ou bien industrielles, mais il peut être également utilisé dans le traitement des déchets. Il est très abordable, puisque l'oxygène peut s'obtenir facilement à partir d'eau."
    },
    "LIQUOR" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "LIVE_ANIMALS" : {
       "description" : "",
-      "message" : "Live animals"
+      "message" : "Animaux vivants"
    },
    "LIVE_ANIMALS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -205,7 +205,7 @@
    },
    "RADIOACTIVES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Created by nuclear reactors, and military hyperdrives, nuclear waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping nuclear waste is a severe offence."
+      "message" : "Crées par les réacteurs nucléaires et les moteurs à hyperpropulsion militaires, les déchets nucléaires sont les marchandises les dangeureuses à transporter et à les plus difficiles à se débarrasser. Pour cette raison, la plupart des spatioports paient pour se débarasser de ce type de déchets. Déverser n'importe où des déchets nucléaire est un délit grave."
    },
    "ROBOTS" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "SLAVES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "As machines have replaced slaves as the engine that powers civilization, slavery is now almost universally seen as immoral, and transgression against a ban draws the strictest punishment. However, despite the best efforts of humanitarians, slavery is still prevalent, even in developed worlds."
+      "message" : "Depuis que les machines ont remplacés les esclaves au coeur du moteur alimentant la civilisation, l'esclavage est maintenant considéré universellement comme immoral. Transgresser une interdiction d'esclavage entraine une punision sévère. Cependant, malgré le meilleur effort des humanistes, l'esclavage existe toujours, même sur certains mondes développés."
    },
    "TEXTILES" : {
       "description" : "",
@@ -245,6 +245,6 @@
    },
    "WATER_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Essential for life as we know it, an often overlooked commodity, water is needed wherever humanity roams. As such, the vast majority of off-world colonies import water from comets or planets like Earth. Water is used on a massive scale for hydrogen and oxygen production."
+      "message" : "Essentielle pour la vie telle que nous la connaissons, l'eau est une ressource souvent négligé, bien qu'indispensable partout où l'humanité s'aventure. C'est pourquoi la plupart des colonies spatiales importent de l'eau de comètes ou bien de planètes similaires à la Terre. L'eau est utilisé à une échelle massive pour la production d'hydrogène et d'oxygène."
    }
 }
