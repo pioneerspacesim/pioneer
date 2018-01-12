@@ -48,50 +48,133 @@ void Planet::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	InitParams(sbody);
 }
 
+static const double GAS_CONSTANT = 8.3144598; // as defined by https://en.wikipedia.org/wiki/Gas_constant
+static const double PASCAL_PER_ATMOSPHERE = 101325; // 1 Atmosphere of pressure = 101325 Pascal
+
 void Planet::InitParams(const SystemBody *sbody)
 {
-	double specificHeatCp;
-	double gasMolarMass;
-	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) {
-		specificHeatCp=12950.0; // constant pressure specific heat, for a combination of hydrogen and helium
-		gasMolarMass = 0.0023139903;
-	} else {
-		specificHeatCp=1000.5;// constant pressure specific heat, for the combination of gasses that make up air
-		// XXX using earth's molar mass of air...
-		gasMolarMass = 0.02897;
-	}
-	const double GAS_CONSTANT = 8.3144621;
-	const double PA_2_ATMOS = 1.0 / 101325.0;
-
+	// All bodies have gravity
 	// surface gravity = -G*M/planet radius^2
-	m_surfaceGravity_g = -G*sbody->GetMass()/(sbody->GetRadius()*sbody->GetRadius());
-	const double lapseRate_L = -m_surfaceGravity_g/specificHeatCp; // negative deg/m
-	const double surfaceTemperature_T0 = sbody->GetAverageTemp(); //K
+	m_surfaceGravity_g = -G * sbody->GetMass() / (sbody->GetRadius()*sbody->GetRadius());
 
-	double surfaceDensity, h; Color c;
-	sbody->GetAtmosphereFlavor(&c, &surfaceDensity);// kg / m^3
-	surfaceDensity/=gasMolarMass;			// convert to moles/m^3
+	Color c; // value not used but function call requires a buffer to fill
+	double surfaceDensity;
 
-	//P = density*R*T=(n/V)*R*T
-	const double surfaceP_p0 = PA_2_ATMOS*((surfaceDensity)*GAS_CONSTANT*surfaceTemperature_T0); // in atmospheres
-	if (surfaceP_p0 < 0.002) h = 0;
-	else {
-		//*outPressure = p0*(1-l*h/T0)^(g*M/(R*L);
-		// want height for pressure 0.001 atm:
-		// h = (1 - exp(RL/gM * log(P/p0))) * T0 / l
-		double RLdivgM = (GAS_CONSTANT*lapseRate_L)/(-m_surfaceGravity_g*gasMolarMass);
-		h = (1.0 - exp(RLdivgM * log(0.001/surfaceP_p0))) * surfaceTemperature_T0 / lapseRate_L;
-//		double h2 = (1.0 - pow(0.001/surfaceP_p0, RLdivgM)) * surfaceTemperature_T0 / lapseRate_L;
-//		double P = surfaceP_p0*pow((1.0-lapseRate_L*h/surfaceTemperature_T0),1/RLdivgM);
+	// function returns surface atmosphere density in kg per cubic meter (m^3)
+	sbody->GetAtmosphereFlavor(&c, &surfaceDensity);
+
+	// if surfaceDensity is not zero, calculate an atmosphere
+	if (surfaceDensity > 0)
+	{
+		double atmosphereheight, specificHeatCp, gasMolarMass;
+
+		// molar mass of hydrogen gas = 2.016g/mol
+		// molar mass of helium gas   = 4.002g/mol
+		// molar mass of earth air    = 28.97g/mol
+		if (sbody->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT)
+		{
+			specificHeatCp = 12950.0; // constant pressure specific heat, for a combination of hydrogen and helium
+			gasMolarMass = 2.3139;    // molar mass of hydrogen gas(85%) and helium(15%) mix = 2.3139g/mol
+		}
+		else
+		{
+			specificHeatCp = 1000.5;  // constant pressure specific heat, for the combination of gasses that make up air
+			gasMolarMass = 28.97;     // grams/mol (earth air)
+		}
+
+		// https://en.wikipedia.org/wiki/Gas_constant#Specific_gas_constant
+		// Rspecific = GAS_CONSTANT / M (molar mass)
+		// Wikipedia uses a gram GAS_CONSTANT, ours is in kg, so these results are effectively divided by 1000.
+		// Wikipedia states: Rspecific for dry air = 287.058, calculated here to 0.287002 for earth air and 3.593266 for gas giant
+		const double Rspecific = GAS_CONSTANT / gasMolarMass;
+
+		// Ideal gas law formula uses grams per cubic meter, not kilograms. Multiply by 1000.
+		surfaceDensity *= 1000;
+
+		// get surface temperature in degrees Kelvin
+		const double surfaceTemperature = sbody->GetAverageTemp();
+
+		// Calculate surface pressure using https://en.wikipedia.org/wiki/Ideal_gas_law
+		// P (pressure in Pascal) = density (in grams per cubic meter) * Rspecific * temperature (in degrees Kelvin)
+		const double surfacePressure = (surfaceDensity * Rspecific * surfaceTemperature) / PASCAL_PER_ATMOSPHERE;
+		// Earth values: surfacePressure 1225 g/m^3 * Rspecific 0.278002 * temperature 288K = 101254 Pascal (0.9993 atmospheres)
+		// temperature of 288.2K would give 101325 Pa (1 atmosphere exactly)
+
+		// so, whats the result? more than 0.002 atmospheres?
+		if (surfacePressure < 0.002)
+			atmosphereheight = 0; // nope. surface pressure is below 0.002 atmospheres. no atmosphere for this little boy!
+		else
+		{
+			// https://en.wikipedia.org/wiki/Lapse_rate
+			// lapserate is the change in temperature as altitude increases, in degrees Kelvin per meter
+			const double lapseRate = -m_surfaceGravity_g / specificHeatCp;
+
+			// The formula used below is unknown, but here are some references
+			// https://en.wikipedia.org/wiki/Vertical_pressure_variation
+			// https://en.wikipedia.org/wiki/Density_of_air
+			// it is likely that the formula used below is taken out of context and thats why it produces poor results
+
+			{
+				// this is a mess, something better is needed. original comments preserved.
+				// calculation slightly adjusted but verified to match unaltered old version.
+
+				//*outPressure = p0*(1-l*h/T0)^(g*M/(R*L);
+				// want height for pressure 0.001 atm:
+				// h = (1 - exp(RL/gM * log(P/p0))) * T0 / l
+				double RLdivgM = (GAS_CONSTANT*lapseRate) / (-m_surfaceGravity_g * (gasMolarMass / 1000));
+				atmosphereheight = (1.0 - exp(RLdivgM * log(0.001 / surfacePressure))) * surfaceTemperature / lapseRate;
+				//double h2 = (1.0 - pow(0.001/surfaceP_p0, RLdivgM)) * surfaceTemperature_T0 / lapseRate_L;
+				//double P = surfaceP_p0*pow((1.0-lapseRate_L*h/surfaceTemperature_T0),1/RLdivgM);
+			}
+			// by the above formula, earths atmosphere ends at 25344 meters.
+		}
+		m_atmosphereRadius = atmosphereheight + sbody->GetRadius();
+
+		// 1 Pascal is 980665 kg/m2
+		// surfacePressure * 980655 = total mass in of the pillar of air above you
+		// divided by the density = how high the pillar needs to be to weigh that much at constant density
+		//
+		// this is not a formula based in science, but it gives surprisingly good/usable results, much better than the complicated formula above
+		//
+		// examples:		Planet			Old formula			testformula				reality
+		//					Venus			80km				206km					~250km
+		//					Earth			25km				80km					~100km
+		//					Mars			62km				78km					?
+		//					Jupiter			79km				581km					50km?
+		//					Io				46km				36km									<-- in game 8271 Pa pressure (systems/00_sol.lua), in reality <0.0003 Pa
+		//					Europa			47km				28km									<-- in game 7093 Pa pressure (systems/00_sol.lua), in reality 0.000001 Pa
+		//					Rhea			17403km				22km									<-- this shows how absurd the old formula can get
+		//					Icarus			25km				193km									<-- icarus is very hot (+414C), heat raises pressure, this might need to be taken into account
+		//
+		// when it comes to temperature, you can calculate the escape velocity of a body,
+		// and you can calculate the actual velocity of a gas at a given temperature
+		// https://en.wikipedia.org/wiki/Atmospheric_escape reading material
+		//
+// set to "#if 1" for your favorite kind of spam
+#if 1
+		double testformula = surfacePressure * PASCAL_PER_ATMOSPHERE * 980.665 / surfaceDensity;
+
+		Output("Planet::InitParams> Planet `%s', type = %s, surfaceDensity %.0f g/m^3, surfaceTemperature %.1fK, Rspecific %.3f,\n"
+			"                    surfacePressure %.0f atmospheres, atmosphereheight %.0f meters, testformula = %.0f meters\n",
+			sbody->GetName().c_str(), ((sbody->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) ? "gas giant" : "rocky body"),
+			surfaceDensity, surfaceTemperature, Rspecific, surfacePressure, atmosphereheight, testformula);
+#endif
 	}
-	m_atmosphereRadius = h + sbody->GetRadius();
+	else
+	{
+		// no surfacePressure = no atmosphere
+		m_atmosphereRadius = sbody->GetRadius();
+	}
 
 	SetPhysRadius(std::max(m_atmosphereRadius, GetMaxFeatureRadius()+1000));
 	// NB: Below abandoned due to docking problems with low altitude orbiting space stations
 	// SetPhysRadius(std::max(m_atmosphereRadius, std::max(GetMaxFeatureRadius() * 2.0 + 2000, sbody->GetRadius() * 1.05)));
-	if (sbody->HasRings()) {
+	if (sbody->HasRings())
+	{
 		SetClipRadius(sbody->GetRadius() * sbody->GetRings().maxRadius.ToDouble());
-	} else {
+	}
+	else
+	{
 		SetClipRadius(GetPhysRadius());
 	}
 }
@@ -119,49 +202,90 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 
 	// This model has no atmosphere beyond the adiabetic limit
 	// Note: some code duplicated in InitParams(). Check if changing.
-	if (dist >= m_atmosphereRadius) {*outDensity = 0.0; *outPressure = 0.0; return;}
-
-	double surfaceDensity;
-	double specificHeatCp;
-	double gasMolarMass;
-	const SystemBody *sbody = this->GetSystemBody();
-	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) {
-		specificHeatCp=12950.0; // constant pressure specific heat, for a combination of hydrogen and helium
-		gasMolarMass = 0.0023139903;
-	} else {
-		specificHeatCp=1000.5;// constant pressure specific heat, for the combination of gasses that make up air
-		// XXX using earth's molar mass of air...
-		gasMolarMass = 0.02897;
+	if (dist >= m_atmosphereRadius)
+	{
+		*outDensity = 0.0;
+		*outPressure = 0.0;
+		return;
 	}
-	const double GAS_CONSTANT = 8.3144621;
-	const double PA_2_ATMOS = 1.0 / 101325.0;
 
-	// lapse rate http://en.wikipedia.org/wiki/Adiabatic_lapse_rate#Dry_adiabatic_lapse_rate
-	// the wet adiabatic rate can be used when cloud layers are incorporated
-	// fairly accurate in the troposphere
-	const double lapseRate_L = -m_surfaceGravity_g/specificHeatCp; // negative deg/m
+	Color c; // value not used but function call requires a buffer to fill
+	double surfaceDensity, specificHeatCp, gasMolarMass;
+	const SystemBody *sbody = this->GetSystemBody();
 
-	const double height_h = (dist-sbody->GetRadius()); // height in m
-	const double surfaceTemperature_T0 = sbody->GetAverageTemp(); //K
+	// molar mass of hydrogen gas = 2.016g/mol
+	// molar mass of helium gas   = 4.002g/mol
+	// molar mass of earth air    = 28.97g/mol
+	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT)
+	{
+		specificHeatCp = 12950.0; // constant pressure specific heat, for a combination of hydrogen and helium
+		gasMolarMass = 2.3139;    // molar mass of hydrogen gas(85%) and helium(15%) mix = 2.3139g/mol
+	}
+	else
+	{
+		specificHeatCp = 1000.5;  // constant pressure specific heat, for the combination of gasses that make up air
+		gasMolarMass = 28.97;     // grams/mol (earth air)
+	}
 
-	Color c;
-	sbody->GetAtmosphereFlavor(&c, &surfaceDensity);// kg / m^3
-	// convert to moles/m^3
-	surfaceDensity/=gasMolarMass;
+	// https://en.wikipedia.org/wiki/Gas_constant#Specific_gas_constant
+	// Rspecific = GAS_CONSTANT / M (molar mass)
+	// Wikipedia uses a gram GAS_CONSTANT, ours is in kg, so these results are effectively divided by 1000.
+	// Wikipedia states: Rspecific for dry air = 287.058, calculated here to 0.287002 for earth air and 3.593266 for gas giant
+	const double Rspecific = GAS_CONSTANT / gasMolarMass;
 
-	//P = density*R*T=(n/V)*R*T
-	const double surfaceP_p0 = PA_2_ATMOS*((surfaceDensity)*GAS_CONSTANT*surfaceTemperature_T0); // in atmospheres
+	// function returns surface atmosphere density in kg per cubic meter (m^3)
+	sbody->GetAtmosphereFlavor(&c, &surfaceDensity);
+
+	// Ideal gas law formula uses grams per cubic meter, not kilograms. Multiply by 1000.
+	surfaceDensity *= 1000;
+
+	// get surface temperature in degrees Kelvin
+	const double surfaceTemperature = sbody->GetAverageTemp();
+
+	// Calculate surface pressure using https://en.wikipedia.org/wiki/Ideal_gas_law
+	// P (pressure in Pascal) = density (in grams per cubic meter) * Rspecific * temperature (in degrees Kelvin)
+	const double surfacePressure = (surfaceDensity * Rspecific * surfaceTemperature) / PASCAL_PER_ATMOSPHERE;
+	// Earth values: surfacePressure 1225 g/m^3 * Rspecific 0.278002 * temperature 288K = 101254 Pascal (0.9993 atmospheres)
+	// temperature of 288.2K would give 101325 Pa (1 atmosphere exactly)
+
+	// players current height in meters over the center of the body, converted to height above the surface
+	const double currentheight = (dist - sbody->GetRadius());
 
 	// height below zero should not occur
-	if (height_h < 0.0) { *outPressure = surfaceP_p0; *outDensity = surfaceDensity*gasMolarMass; return; }
+	if (currentheight < 0.0)
+	{
+		*outPressure = surfacePressure;
+		*outDensity = surfaceDensity / 1000;
+		return;
+	}
+	
+	// https://en.wikipedia.org/wiki/Lapse_rate
+	// lapserate is the change in temperature as altitude increases, in degrees Kelvin per meter
+	const double lapseRate = -m_surfaceGravity_g / specificHeatCp;
+
+	// formulas below use molar mass in kg
+	const double gasMolarMassKilo = gasMolarMass / 1000;
 
 	//*outPressure = p0*(1-l*h/T0)^(g*M/(R*L);
-	*outPressure = surfaceP_p0*pow((1-lapseRate_L*height_h/surfaceTemperature_T0),(-m_surfaceGravity_g*gasMolarMass/(GAS_CONSTANT*lapseRate_L)));// in ATM since p0 was in ATM
-	//                                                                               ^^g used is abs(g)
-	// temperature at height
-	double temp = surfaceTemperature_T0+lapseRate_L*height_h;
 
-	*outDensity = (*outPressure/(PA_2_ATMOS*GAS_CONSTANT*temp))*gasMolarMass;
+	//result in atmospheres since surfacePressure is in atmospheres
+	*outPressure = surfacePressure * pow((1 - lapseRate * currentheight / surfaceTemperature), (-m_surfaceGravity_g * gasMolarMassKilo / (GAS_CONSTANT * lapseRate)));
+
+	// temperature at currentheight
+	double temp = surfaceTemperature - lapseRate * currentheight;
+
+	*outDensity = (*outPressure / ((GAS_CONSTANT * temp) / PASCAL_PER_ATMOSPHERE)) * gasMolarMassKilo;
+	// set to "#if 1" for your favorite kind of spam
+#if 0
+	static double lastupdate = -99999999;
+
+	if (abs(lastupdate - currentheight) >= 500)
+	{
+		lastupdate = currentheight;
+		Output("GetAtmosphericState> Planet `%s'> SURFACE %.3f atm, %.3f kg/m3, %.1f K, HEIGHT %.0f meters, %.3f atm, %.3f kg/m3, %.1f K (%.1f C)\n",
+			sbody->GetName().c_str(), surfacePressure, surfaceDensity/1000, surfaceTemperature, currentheight, *outPressure, *outDensity, temp, temp-273);
+	}
+#endif
 }
 
 void Planet::GenerateRings(Graphics::Renderer *renderer)
