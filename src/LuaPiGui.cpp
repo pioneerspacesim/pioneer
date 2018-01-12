@@ -1161,6 +1161,37 @@ static int l_pigui_circular_slider(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_vsliderint(lua_State *l) {
+	std::string lbl = LuaPull<std::string>(l, 1);
+	ImVec2 size = LuaPull<ImVec2>(l, 2);
+
+	int value = LuaPull<int>(l, 3);
+	int val_min = LuaPull<int>(l, 4);
+	int val_max = LuaPull<int>(l, 5);
+
+	ImGui::VSliderInt(lbl.c_str(), size, &value, val_min, val_max);
+
+	LuaPush<int>(l, value);
+
+	return 1;
+}
+
+
+static int l_pigui_vsliderfloat(lua_State *l) {
+	std::string lbl = LuaPull<std::string>(l, 1);
+	ImVec2 size = LuaPull<ImVec2>(l, 2);
+
+	float value = LuaPull<float>(l, 3);
+	float val_min = LuaPull<float>(l, 4);
+	float val_max = LuaPull<float>(l, 5);
+
+	ImGui::VSliderFloat(lbl.c_str(), size, &value, val_min, val_max);
+
+	LuaPush<float>(l, value);
+
+	return 1;
+}
+
 static int l_pigui_is_key_released(lua_State *l) {
 	int key = LuaPull<int>(l, 1);
 	LuaPush<bool>(l, ImGui::IsKeyReleased(key));
@@ -1324,6 +1355,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "ImageButton",            l_pigui_image_button },
 		{ "RadialMenu",             l_pigui_radial_menu },
 		{ "CircularSlider",         l_pigui_circular_slider },
+		{ "VSliderFloat",           l_pigui_vsliderfloat },
+	    { "VSliderInt",             l_pigui_vsliderint },
 		{ "GetMouseClickedPos",     l_pigui_get_mouse_clicked_pos },
 		{ "AddConvexPolyFilled",    l_pigui_add_convex_poly_filled },
 		{ "IsKeyReleased",          l_pigui_is_key_released },
