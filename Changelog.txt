@@ -10,6 +10,7 @@ January 2018
      * Hydrogen scooping from small planets with hydrogen atmosphere (#4254)
      * Commodity market shows import/export icons if trade computer exists (#4227)
      * access all systembody attributes in lua (#4256)
+     * Move LowThrust Setting to ImGui (#4261)
 
    * Internal Changes
      * Happy new year! (#4240)
