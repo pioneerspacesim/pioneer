@@ -50,7 +50,8 @@ void CargoBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
 void CargoBody::Init()
 {
 	m_hitpoints = 1.0f;
-	SetLabel(ScopedTable(m_cargo).CallMethod<std::string>("GetName"));
+	std::string cargoname = ScopedTable(m_cargo).CallMethod<std::string>("GetName"); // instead of switching to lua twice for the same value
+	SetLabel(cargoname);
 	SetMassDistributionFromModel();
 	m_hasSelfdestruct = true;
 
@@ -66,7 +67,7 @@ void CargoBody::Init()
 	skin.Apply(GetModel());
 	GetModel()->SetColors(colors);
 
-	Properties().Set("type", ScopedTable(m_cargo).CallMethod<std::string>("GetName"));
+	Properties().Set("type", cargoname);
 }
 
 CargoBody::CargoBody(const LuaRef& cargo, float selfdestructTimer): m_cargo(cargo)

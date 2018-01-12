@@ -14,6 +14,7 @@
 #include "Ship.h"
 #include "Pi.h"
 #include "Game.h"
+#include "Player.h"
 #include "LuaEvent.h"
 #include "LuaUtils.h"
 #include "graphics/Graphics.h"
@@ -217,21 +218,27 @@ double Projectile::GetRadius() const
 static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, const vector3d &pos)
 {
 	lua_State *l = Lua::manager->GetLuaState();
-	pi_lua_import(l, "Equipment");
-	LuaTable cargo_types = LuaTable(l, -1).Sub("cargo");
-	if (20*Pi::rng.Fixed() < asteroid->GetMetallicityAsFixed()) {
-		cargo_types.Sub("precious_metals");
-	} else if (8*Pi::rng.Fixed() < asteroid->GetMetallicityAsFixed()) {
-		cargo_types.Sub("metal_alloys");
-	} else if (Pi::rng.Fixed() < asteroid->GetMetallicityAsFixed()) {
-		cargo_types.Sub("metal_ore");
-	} else if (Pi::rng.Fixed() < fixed(1,2)) {
-		cargo_types.Sub("water");
-	} else {
-		cargo_types.Sub("rubbish");
-	}
+
+	// lua cant push "const SystemBody", needs to convert to non-const
+	RefCountedPtr<StarSystem> s = Pi::game->GetGalaxy()->GetStarSystem(asteroid->GetPath());
+	SystemBody *liveasteroid = s->GetBodyByPath(asteroid->GetPath());
+
+	// this is an adapted version of "CallMethod", because;
+	// 1, there is no template for LuaObject<LuaTable>::CallMethod(..., SystemBody)
+	// 2, this leaves the return value on the lua stack to be used by "new CargoBody()"
+	LUA_DEBUG_START(l);
+	LuaObject<Player>::PushToLua(Pi::player);
+	lua_pushstring(l, "SpawnMiningContainer");
+	lua_gettable(l, -2);
+	lua_pushvalue(l, -2);
+	lua_remove(l, -3);
+	LuaObject<SystemBody>::PushToLua(liveasteroid);
+	pi_lua_protected_call(l, 2, 1);
+
 	CargoBody *cargo = new CargoBody(LuaRef(l, -1));
-	lua_pop(l, 3);
+	lua_pop(l, 1);
+	LUA_DEBUG_END(l, 0);
+
 	cargo->SetFrame(f);
 	cargo->SetPosition(pos);
 	const double x = Pi::rng.Double();
@@ -264,16 +271,20 @@ void Projectile::StaticUpdate(const float timeStep)
 			}
 		}
 	}
-	if (m_mining) {
+	if (m_mining) // mining lasers can break off chunks of terrain
+	{
 		// need to test for terrain hit
-		if (GetFrame()->GetBody() && GetFrame()->GetBody()->IsType(Object::PLANET)) {
-			Planet *const planet = static_cast<Planet*>(GetFrame()->GetBody());
-			const SystemBody *b = planet->GetSystemBody();
+		Planet *const planet = static_cast<Planet*>(GetFrame()->GetBody()); // cache the value even for the if statement
+		if (planet && planet->IsType(Object::PLANET))
+		{
 			vector3d pos = GetPosition();
 			double terrainHeight = planet->GetTerrainHeight(pos.Normalized());
-			if (terrainHeight > pos.Length()) {
+			if (terrainHeight > pos.Length())
+			{
+				const SystemBody *b = planet->GetSystemBody();
 				// hit the fucker
-				if (b->GetType() == SystemBody::TYPE_PLANET_ASTEROID) {
+				if (b->GetType() == SystemBody::TYPE_PLANET_ASTEROID)
+				{
 					vector3d n = GetPosition().Normalized();
 					MiningLaserSpawnTastyStuff(planet->GetFrame(), b, n*terrainHeight + 5.0*n);
 					SfxManager::Add(this, TYPE_EXPLOSION);
