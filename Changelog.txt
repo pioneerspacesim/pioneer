@@ -26,6 +26,7 @@ January 2018
      * Updatefuel code duplication (#4262)
      * CityOnPlanet rewrite: recursive to iterative (#4266)
      * New calculations for station commodity stocks (#4267)
+     * Asteroid mining results controlled by lua (#4272)
      
    * Fixes
      * Planar and azimuthal radar at same time (#4265)
