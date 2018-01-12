@@ -713,19 +713,19 @@
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
-      "message" : "Prìomh às-phortachadh:"
+      "message" : "Prìomh às-phortadh:"
    },
    "MAJOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Prìomh às-phortachadh (far a bheil thu):"
+      "message" : "Prìomh às-phortadh (far a bheil thu):"
    },
    "MAJOR_IMPORTS" : {
       "description" : "",
-      "message" : "Prìomh ion-phortachadh:"
+      "message" : "Prìomh ion-phortadh:"
    },
    "MAJOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Prìomh ion-phortachadh (far a bheil thu):"
+      "message" : "Prìomh ion-phortadh (far a bheil thu):"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -853,19 +853,19 @@
    },
    "MINOR_EXPORTS" : {
       "description" : "",
-      "message" : "Beagan às-phortachaidh:"
+      "message" : "Beagan às-phortaidh:"
    },
    "MINOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Beagan às-phortachaidh (far a bheil thu):"
+      "message" : "Beagan às-phortaidh (far a bheil thu):"
    },
    "MINOR_IMPORTS" : {
       "description" : "",
-      "message" : "Beagan ion-phortachaidh:"
+      "message" : "Beagan ion-phortaidh:"
    },
    "MINOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Beagan ion-phortachaidh (far a bheil thu):"
+      "message" : "Beagan ion-phortaidh (far a bheil thu):"
    },
    "MISCELLANEOUS" : {
       "description" : "",
