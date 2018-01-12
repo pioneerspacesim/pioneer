@@ -7,7 +7,7 @@
    "forward_thrust" : 5000000.0,
    "fuel_tank_mass" : 40,
    "hull_mass" : 27,
-   "hyperdrive_class" : 1,
+   "hyperdrive_class" : 3,
    "left_thrust" : 600000.0,
    "manufacturer" : "kaluri",
    "max_crew" : 3,

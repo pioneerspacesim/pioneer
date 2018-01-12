@@ -205,7 +205,9 @@ end
 local HyperdriveType = utils.inherits(EquipType, "HyperdriveType")
 
 HyperdriveType.GetMaximumRange = function (self, ship)
-	return 625.0*(self.capabilities.hyperclass ^ 2) / (ship.staticMass + ship.fuelMassLeft)
+	local shipDef = ShipDef[ship.shipId]
+	local shipMass = shipDef.hullMass + shipDef.capacity + shipDef.fuelTankMass
+	return 200.0 * (self.capabilities.hyperclass ^ 2) / shipMass
 end
 
 -- range_max is as usual optional
