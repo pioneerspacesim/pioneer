@@ -917,11 +917,11 @@
    },
    "MAJOR_EXPORTS_ITEM" : {
       "description" : "",
-      "message" : "Major exports"
+      "message" : "Exportaciones principales"
    },
    "MAJOR_IMPORTS_ITEM" : {
       "description" : "",
-      "message" : "Major imports"
+      "message" : "Importaciones principales"
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
@@ -1001,11 +1001,11 @@
    },
    "MINOR_EXPORTS_ITEM" : {
       "description" : "",
-      "message" : "Minor exports"
+      "message" : "Exportaciones menores"
    },
    "MINOR_IMPORTS_ITEM" : {
       "description" : "",
-      "message" : "Minor imports"
+      "message" : "Importaciones menores"
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
