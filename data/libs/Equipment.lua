@@ -530,8 +530,7 @@ cargo = {}
 for _,com in pairs(commoditylist) do
 	local tblk = com[1]
 	local econ = com[2]
-	local val = com[3] --, econ, val = com
-	print(tblk,econ,val)
+	local val = com[3]
 	local langkey = string.upper(tblk)
 	cargo[tblk] = EquipType.New({
 		l10n_key = langkey, l10n_resource = "cargo", slots="cargo", icon_name = tblk,
