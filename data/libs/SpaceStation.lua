@@ -36,6 +36,7 @@ local function updateEquipmentStock (station)
 	assert(station and station:exists())
 	if equipmentStock[station] then return end
 	equipmentStock[station] = {}
+  
 	local hydrogen = Equipment.cargo.hydrogen
 	for _,e in pairs(Equipment.cargo) do
 		if e.purchasable then
@@ -54,15 +55,27 @@ local function updateEquipmentStock (station)
 				elseif pricemod < -2 then --minor export
 					stock = stock + (rn*0.3) -- 30-130% stock
 				end
-				equipmentStock[station][e] = math.floor(stock >=0 and stock or 0)
+				equipmentStock[station][e] = math.floor(stock >=0 and stock or 0
 			end
 		else
 			equipmentStock[station][e] = 0 -- commodity that cant be bought
 		end
 	end
-	for _,slot in pairs{"laser", "hyperspace", "misc"} do
+
+  for _,slot in pairs{"laser", "hyperspace", "misc"} do
 		for key, e in pairs(Equipment[slot]) do
-			equipmentStock[station][e] = Engine.rand:Integer(0,100)
+			-- check if equipment.stock is > 0, for purchasable=false stock is set to 0
+			-- check if station tech level permits sale
+			if e.stock > 0 and e.tech_level <= station.techLevel then
+				-- what is the difference in techLevel between the item sold and the station?
+				-- the amount in stock should increase if say, station techlevel is 12 and the item techlevel is 6
+				local slider = e.stock * ((station.techLevel - e.tech_level) / 12)  -- is max tech level absolutely = 12?
+				local randstock = math.floor(((Engine.rand:Integer(0 + slider,e.stock + slider) + Engine.rand:Integer(0,e.stock)) / 2) - e.stockmod)
+				equipmentStock[station][e] = randstock >= 0 and randstock or 0
+			else
+				-- spacestations dont have large secret stocks of things they cant sell
+				equipmentStock[station][e] = 0
+			end
 		end
 	end
 end
