@@ -25,7 +25,7 @@ local l = Lang.GetResource("ui-core")
 
 function SpaceStation:Constructor()
 	-- Use a variation of the space station seed itself to ensure consistency
-	local rand = Rand.New(util.hash_random(self.seed .. '-techLevel', 2^31)-1)
+	local rand = Rand.New(self.seed .. '-techLevel')
 	local techLevel = rand:Integer(1, 6) + rand:Integer(0,6)
 	self:setprop("techLevel", techLevel)
 end

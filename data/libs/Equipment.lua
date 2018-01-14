@@ -205,7 +205,6 @@ end
 local HyperdriveType = utils.inherits(EquipType, "HyperdriveType")
 
 HyperdriveType.GetMaximumRange = function (self, ship)
-	-- calculation moved into the power attribute of each drive for individual tuning
 	return self.capabilities.power / (ship.staticMass + ship.fuelMassLeft)
 end
 
@@ -221,7 +220,6 @@ end
 HyperdriveType.GetFuelUse = function (self, ship, distance, range_max)
 	range_max = range_max or self:GetMaximumRange(ship)
 	local distance = distance or range_max
-	-- calculation moved into the maxfuel attribute of each drive for individual tuning
 	local maxfuel = self.capabilities.maxfuel
 	return math.clamp(math.ceil(maxfuel*distance / range_max), 1, maxfuel);
 end
@@ -652,32 +650,6 @@ cargo = {
 		purchasable=true, icon_name="Industrial_machinery"
 	}),
 }
-
-cargo.liquid_oxygen.requirements = { cargo.water, cargo.industrial_machinery }
-cargo.battle_weapons.requirements = { cargo.metal_alloys, cargo.industrial_machinery }
-cargo.farm_machinery.requirements = { cargo.metal_alloys, cargo.robots }
-cargo.mining_machinery.requirements = { cargo.metal_alloys, cargo.robots }
-cargo.industrial_machinery.requirements = { cargo.metal_alloys, cargo.robots }
-cargo.air_processors.requirements = { cargo.plastics, cargo.industrial_machinery }
-cargo.robots.requirements = { cargo.plastics, cargo.computers }
-cargo.hand_weapons.requirements = { cargo.computers }
-cargo.computers.requirements = { cargo.precious_metals, cargo.industrial_machinery }
-cargo.metal_ore.requirements = { cargo.mining_machinery }
-cargo.carbon_ore.requirements = { cargo.mining_machinery }
-cargo.metal_alloys.requirements = { cargo.mining_machinery }
-cargo.precious_metals.requirements = { cargo.mining_machinery }
-cargo.water.requirements = { cargo.mining_machinery }
-cargo.plastics.requirements = { cargo.carbon_ore, cargo.industrial_machinery }
-cargo.fruit_and_veg.requirements = { cargo.farm_machinery, cargo.fertilizer }
-cargo.animal_meat.requirements = { cargo.farm_machinery, cargo.fertilizer }
-cargo.live_animals.requirements = { cargo.farm_machinery, cargo.fertilizer }
-cargo.liquor.requirements = { cargo.farm_machinery, cargo.fertilizer }
-cargo.grain.requirements = { cargo.farm_machinery, cargo.fertilizer }
-cargo.textiles.requirements = { cargo.plastics }
-cargo.military_fuel.requirements = { cargo.hydrogen }
-cargo.fertilizer.requirements = { cargo.carbon_ore }
-cargo.medicines.requirements = { cargo.computers, cargo.carbon_ore }
-cargo.consumer_goods.requirements = { cargo.plastics, cargo.textiles }
 
 -- lua has problems with strings in fields where numbers are expected
 local MILTECH = 999
