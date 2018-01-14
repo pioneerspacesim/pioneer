@@ -1,5 +1,6 @@
 January 12, 2018 -- Pioneer Play
 
+* Changed: Replaced icon for commodity 'hand weapons'.
 * Changed: Commodity price overhaul.
 * Changed: Hyperdrives and euipment diversification overhaul.
 * Fixed: Dont show atmosphere gauge unless actually inside an atmosphere
