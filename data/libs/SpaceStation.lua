@@ -55,14 +55,14 @@ local function updateEquipmentStock (station)
 				elseif pricemod < -2 then --minor export
 					stock = stock + (rn*0.3) -- 30-130% stock
 				end
-				equipmentStock[station][e] = math.floor(stock >=0 and stock or 0
+				equipmentStock[station][e] = math.floor(stock >=0 and stock or 0)
 			end
 		else
 			equipmentStock[station][e] = 0 -- commodity that cant be bought
 		end
 	end
 
-  for _,slot in pairs{"laser", "hyperspace", "misc"} do
+	for _,slot in pairs{"laser", "hyperspace", "misc"} do
 		for key, e in pairs(Equipment[slot]) do
 			-- check if equipment.stock is > 0, for purchasable=false stock is set to 0
 			-- check if station tech level permits sale
