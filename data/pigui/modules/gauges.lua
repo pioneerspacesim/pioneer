@@ -46,7 +46,7 @@ addGauge(2, function ()
 					 local frame = Game.player.frameBody
 					 if frame then
 						 local pressure, density = frame:GetAtmosphericState()
-						 return pressure
+						 return pressure > 0.00001 and pressure or nil
 					 else
 						 return nil
 					 end
