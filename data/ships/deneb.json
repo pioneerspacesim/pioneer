@@ -7,7 +7,7 @@
    "forward_thrust" : 50000000.0,
    "fuel_tank_mass" : 225,
    "hull_mass" : 175,
-   "hyperdrive_class" : 3,
+   "hyperdrive_class" : 8,
    "left_thrust" : 10000000.0,
    "manufacturer" : "albr",
    "max_crew" : 3,

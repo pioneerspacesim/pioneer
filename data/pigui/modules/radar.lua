@@ -1,3 +1,6 @@
+-- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 local Engine = import('Engine')
 local Game = import('Game')
 local ui = import('pigui/pigui.lua')
@@ -17,7 +20,7 @@ local icons = ui.theme.icons
 local MAX_RADAR_SIZE = 1000000000
 local MIN_RADAR_SIZE = 1000
 
-local shouldDisplay2DRadar = false
+local shouldDisplay2DRadar
 local current_radar_size = 10000
 
 local function getColorFor(item)
@@ -141,19 +144,33 @@ local function displayRadar()
 end
 
 Event.Register('changeMFD', function(selected)
-								 Event.Queue('onChangeMFD', selected)
+	Event.Queue('onChangeMFD', selected)
 end)
 
 Event.Register('onChangeMFD', function(selected)
-								 if selected == "radar" then
-									 shouldDisplay2DRadar = true;
-									 Game.SetRadarVisible(false)
-								 elseif selected == "scanner" then
-									 Game.SetRadarVisible(true)
-									 shouldDisplay2DRadar = false;
-								 end
+	if selected == "radar" then
+		shouldDisplay2DRadar = true;
+		Game.SetRadarVisible(false)
+	elseif selected == "scanner" then
+		Game.SetRadarVisible(true)
+		shouldDisplay2DRadar = false;
+	end
 end)
 
+-- reset the radar at game start
+Event.Register("onGameStart", function()
+	if shouldDisplay2DRadar then
+		Game.SetRadarVisible(false)
+	else
+		Game.SetRadarVisible(true)
+	end
+end)
+
+-- reset radar to default at game end
+Event.Register("onGameEnd", function() shouldDisplay2DRadar = false end)
+
+-- save/load preference
+import("Serializer"):Register("PiguiRadar", function () return shouldDisplay2DRadar end, function (data) shouldDisplay2DRadar = data end)
 
 ui.registerModule("game", displayRadar)
 

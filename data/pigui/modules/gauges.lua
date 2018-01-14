@@ -1,3 +1,6 @@
+-- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 local Engine = import('Engine')
 local Game = import('Game')
 local ui = import('pigui/pigui.lua')
@@ -43,7 +46,7 @@ addGauge(2, function ()
 					 local frame = Game.player.frameBody
 					 if frame then
 						 local pressure, density = frame:GetAtmosphericState()
-						 return pressure
+						 return pressure > 0.00001 and pressure or nil
 					 else
 						 return nil
 					 end

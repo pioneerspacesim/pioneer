@@ -9,7 +9,7 @@
    },
    "ANIMAL_MEAT" : {
       "description" : "",
-      "message" : "Animal meat"
+      "message" : "Мясо животных"
    },
    "ANIMAL_MEAT_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -25,7 +25,7 @@
    },
    "CARBON_ORE" : {
       "description" : "",
-      "message" : "Углеродная руда"
+      "message" : "Уголь"
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -65,7 +65,7 @@
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
-      "message" : "Fruit & vegetables"
+      "message" : "Фрукты и овощи"
    },
    "FRUIT_AND_VEG_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -81,7 +81,7 @@
    },
    "HAND_WEAPONS" : {
       "description" : "",
-      "message" : "Small arms"
+      "message" : "Стрелковое оружие"
    },
    "HAND_WEAPONS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -105,7 +105,7 @@
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
-      "message" : "Liquid oxygen"
+      "message" : "Жидкий кислород"
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -121,7 +121,7 @@
    },
    "LIVE_ANIMALS" : {
       "description" : "",
-      "message" : "Live animals"
+      "message" : "Животные"
    },
    "LIVE_ANIMALS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -145,7 +145,7 @@
    },
    "METAL_ORE" : {
       "description" : "",
-      "message" : "Металлические руды"
+      "message" : "Металлическая руда"
    },
    "METAL_ORE_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -161,7 +161,7 @@
    },
    "MINING_MACHINERY" : {
       "description" : "",
-      "message" : "Горная техника"
+      "message" : "Горное оборудование"
    },
    "MINING_MACHINERY_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -177,7 +177,7 @@
    },
    "NERVE_GAS" : {
       "description" : "",
-      "message" : "Nerve gas"
+      "message" : " Нервно-паралитический газ"
    },
    "NERVE_GAS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -185,7 +185,7 @@
    },
    "PLASTICS" : {
       "description" : "",
-      "message" : "Пластики"
+      "message" : "Пластик"
    },
    "PLASTICS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -193,7 +193,7 @@
    },
    "PRECIOUS_METALS" : {
       "description" : "",
-      "message" : "Цветные металлы"
+      "message" : "Драгоценные металлы"
    },
    "PRECIOUS_METALS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -201,7 +201,7 @@
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Radioactives"
+      "message" : "Радиоактивные материалы"
    },
    "RADIOACTIVES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -217,7 +217,7 @@
    },
    "RUBBISH" : {
       "description" : "",
-      "message" : "Мусор"
+      "message" : "Отходы"
    },
    "RUBBISH_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
