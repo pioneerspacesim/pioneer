@@ -690,124 +690,124 @@ misc.planetscanner = BodyScannerType.New({
 	purchasable=false, tech_level=1, stock=100, stockmod=0, price=15000
 })
 
--- calculate power: 625*hyperclass^2
+-- calculate power: 200*hyperclass^2
 -- price for solfed drives calculated as mass * 1750 + slight variation
 -- corello class price = solfed * 3 + slight variation
 hyperspace = {}
 hyperspace.hyperdrive_1 = HyperdriveType.New({
 	l10n_key="DRIVE_CLASS1", fuel=cargo.hydrogen, slots="engine",
 	capabilities={mass=4, hyperclass=1, speed=100, warmup=7, durability=1000000,
-	power=625, maxfuel=1 },
+	power=200, maxfuel=1 },
 	purchasable=true, tech_level=3, stock=75, stockmod=0, price=6500 -- slightly underpriced
 })
 hyperspace.hyperdrive_2 = HyperdriveType.New({
 	l10n_key="DRIVE_CLASS2", fuel=cargo.hydrogen, slots="engine",
 	capabilities={mass=10, hyperclass=2, speed=100, warmup=8, durability=1000000,
-	power=2500, maxfuel=4 },
+	power=800, maxfuel=4 },
 	purchasable=true, tech_level=4, stock=64, stockmod=0, price=17000 --slightly underpriced
 })
 -- corello corporation hyperdrive, "better quality, lighter, 20% shorter traveling time, shorter warmup, but quality costs"
 hyperspace.corello_class2 = HyperdriveType.New({
 	l10n_key="DRIVE_CLASS2_CORELLO", fuel=cargo.hydrogen, slots="engine",
 	capabilities={mass=9, hyperclass=2, speed=120, warmup=7, durability=1200000, -- slightly higher durability (+20%)
-	power=2500, maxfuel=4 },
+	power=800, maxfuel=4 },
 	purchasable=true, tech_level=7, stock=3, stockmod=0, price=51500
 })
 hyperspace.hyperdrive_3 = HyperdriveType.New({
 	l10n_key="DRIVE_CLASS3", fuel=cargo.hydrogen, slots="engine",
 	capabilities={mass=20, hyperclass=3, speed=100, warmup=9, durability=1000000,
-	power=5625, maxfuel=9 },
+	power=1800, maxfuel=9 },
 	purchasable=true, tech_level=4, stock=58, stockmod=0, price=34500 -- slightly underpriced
 })
 hyperspace.hyperdrive_4 = HyperdriveType.New({
 	l10n_key="DRIVE_CLASS4", fuel=cargo.hydrogen, slots="engine",
 	capabilities={mass=40, hyperclass=4, speed=100, warmup=11, durability=1000000,
-	power=10000, maxfuel=16 },
+	power=3200, maxfuel=16 },
 	purchasable=true, tech_level=5, stock=45, stockmod=0, price=69000 -- slightly underpriced
 })
 hyperspace.hyperdrive_5 = HyperdriveType.New({
 	l10n_key="DRIVE_CLASS5", fuel=cargo.hydrogen, slots="engine",
 	capabilities={mass=120, hyperclass=5, speed=100, warmup=13, durability=1000000,
-	power=15625, maxfuel=25 },
+	power=5000, maxfuel=25 },
 	purchasable=true, tech_level=5, stock=37, stockmod=0, price=198500 -- underpriced
 })
 hyperspace.hyperdrive_6 = HyperdriveType.New({
 	l10n_key="DRIVE_CLASS6", fuel=cargo.hydrogen, slots="engine",
 	capabilities={mass=225, hyperclass=6, speed=100, warmup=14, durability=1000000,
-	power=22500, maxfuel=36 },
+	power=7200, maxfuel=36 },
 	purchasable=true, tech_level=6, stock=20, stockmod=0, price=397000 -- overpriced
 })
 hyperspace.hyperdrive_7 = HyperdriveType.New({
 	l10n_key="DRIVE_CLASS7", fuel=cargo.hydrogen, slots="engine",
 	capabilities={mass=400, hyperclass=7, speed=100, warmup=16, durability=1000000,
-	power=30625, maxfuel=49 },
+	power=9800, maxfuel=49 },
 	purchasable=true, tech_level=8, stock=14, stockmod=0, price=675000 -- underpriced
 })
 hyperspace.hyperdrive_8 = HyperdriveType.New({
 	l10n_key="DRIVE_CLASS8", fuel=cargo.hydrogen, slots="engine",
 	capabilities={mass=580, hyperclass=8, speed=100, warmup=17, durability=1000000,
-	power=40000, maxfuel=64 },
+	power=12800, maxfuel=64 },
 	purchasable=true, tech_level=9, stock=10, stockmod=0, price=985000 -- underpriced
 })
 hyperspace.hyperdrive_9 = HyperdriveType.New({
 	l10n_key="DRIVE_CLASS9", fuel=cargo.hydrogen, slots="engine",
 	capabilities={mass=740, hyperclass=9, speed=100, warmup=19, durability=1000000,
-	power=50625, maxfuel=81 },
+	power=16200, maxfuel=81 },
 	purchasable=true, tech_level=10, stock=6, stockmod=0, price=1295000 -- exact
 })
 -- price of military drives: mass * 4750 + (class^2 * 10000) + slight variation
 hyperspace.hyperdrive_mil1 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL1", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
 	capabilities={mass=3, hyperclass=1, speed=160, warmup=5, durability=1000000,
-	power=625, maxfuel=1 },
+	power=200, maxfuel=1 },
 	purchasable=true, tech_level=10, stock=12, stockmod=0, price=24500
 })
 hyperspace.hyperdrive_mil2 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL2", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
 	capabilities={mass=8, hyperclass=2, speed=160, warmup=5, durability=1000000,
-	power=2500, maxfuel=4 },
+	power=800, maxfuel=4 },
 	purchasable=true, tech_level=MILTECH, stock=1, stockmod=0, price=76500
 })
 hyperspace.hyperdrive_mil3 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL3", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
 	capabilities={mass=16, hyperclass=3, speed=160, warmup=6, durability=1000000,
-	power=5625, maxfuel=9 },
+	power=1800, maxfuel=9 },
 	purchasable=true, tech_level=11, stock=8, stockmod=0, price=168000
 })
 hyperspace.hyperdrive_mil4 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL4", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
 	capabilities={mass=30, hyperclass=4, speed=160, warmup=7, durability=1000000,
-	power=10000, maxfuel=16 },
+	power=3200, maxfuel=16 },
 	purchasable=true, tech_level=12, stock=5, stockmod=0, price=298000
 })
 hyperspace.hyperdrive_mil5 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL5", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
 	capabilities={mass=53, hyperclass=5, speed=160, warmup=7, durability=1000000,
-	power=15625, maxfuel=25 },
+	power=5000, maxfuel=25 },
 	purchasable=false, tech_level=MILTECH, stock=1, stockmod=0, price=485500
 })
 hyperspace.hyperdrive_mil6 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL6", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
 	capabilities={mass=78, hyperclass=6, speed=160, warmup=8, durability=1000000,
-	power=22500, maxfuel=36 },
+	power=7200, maxfuel=36 },
 	purchasable=false, tech_level=MILTECH, stock=1, stockmod=0, price=736500
 })
 hyperspace.hyperdrive_mil7 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL7", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
 	capabilities={mass=128, hyperclass=7, speed=160, warmup=9, durability=1000000,
-	power=30625, maxfuel=49 },
+	power=9800, maxfuel=49 },
 	purchasable=false, tech_level=MILTECH, stock=1, stockmod=0, price=1121000
 })
 hyperspace.hyperdrive_mil8 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL8", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
 	capabilities={mass=196, hyperclass=8, speed=160, warmup=10, durability=1000000,
-	power=40000, maxfuel=64 },
+	power=12800, maxfuel=64 },
 	purchasable=false, tech_level=MILTECH, stock=1, stockmod=0, price=1471000
 })
 hyperspace.hyperdrive_mil9 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL9", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
 	capabilities={mass=285, hyperclass=9, speed=160, warmup=10, durability=1000000,
-	power=50625, maxfuel=81 },
+	power=16200, maxfuel=81 },
 	purchasable=false, tech_level=MILTECH, stock=1, stockmod=0, price=2368000
 })
 
