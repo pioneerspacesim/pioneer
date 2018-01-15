@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Anglies rūda"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Anglies rūdos (anglis ir nafta) - reikalingos sintezuojant daugelį naudingų chemikalų, įskaitant plastmases, sintetinį maistą, medikamentus bei tekstiles."
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Kroviniai"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Trąšos"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Jūs užmokėjote %fine baudą."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Jūs užmokėjote %paid, bet dar liko %fine neapmokėtos baudos."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Fire weapon"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Vandenilis"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Vandenilis pagrindinai naudojamas kaip atominės sintezės kuras"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Suskystintas Deguonis"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Deguonis reikalingas gyvybės palaikymo sistemoms ir kai kuriems industriniams procesams"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Jauna žemės ūkio kolonija."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Jūs visiškai neturite pinigų."
    },
    "Z" : {
       "description" : "keybinding: z axis",

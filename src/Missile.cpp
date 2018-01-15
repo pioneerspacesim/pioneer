@@ -1,8 +1,7 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Missile.h"
-#include "Serializer.h"
 #include "Space.h"
 #include "Sfx.h"
 #include "ShipType.h"
@@ -113,9 +112,16 @@ void Missile::PostLoadFixup(Space *space)
 
 void Missile::StaticUpdate(const float timeStep)
 {
-
 	// Note: direct call to AI->TimeStepUpdate
-	if (m_curAICmd!=nullptr) m_curAICmd->TimeStepUpdate();
+
+	if (!m_curAICmd) {
+		GetPropulsion()->ClearLinThrusterState();
+		GetPropulsion()->ClearAngThrusterState();
+	}
+	else if (m_curAICmd->TimeStepUpdate()) {
+		delete m_curAICmd;
+		m_curAICmd = nullptr;
+	}
 	//Add smoke trails for missiles on thruster state
 	static double s_timeAccum = 0.0;
 	s_timeAccum += timeStep;
@@ -196,6 +202,7 @@ void Missile::Explode()
 
 void Missile::NotifyRemoved(const Body* const removedBody)
 {
+	if (m_curAICmd) m_curAICmd->OnDeleted(removedBody);
 	if (m_owner == removedBody) {
 		m_owner = 0;
 	}

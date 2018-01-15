@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipCpanelMultiFuncDisplays.h"
@@ -20,6 +20,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
+#include "GameSaveError.h"
 
 using namespace Graphics;
 
@@ -113,6 +114,9 @@ void RadarWidget::Draw()
 	int radar_cap = 0;
 	Pi::player->Properties().Get("radar_cap", radar_cap);
 	if (radar_cap <= 0) return;
+
+	if (Pi::player->GetFlightState() == Ship::HYPERSPACE)
+		return;
 
 	float size[2];
 	GetSize(size);

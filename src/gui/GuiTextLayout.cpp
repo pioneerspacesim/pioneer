@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -17,12 +17,20 @@ TextLayout::TextLayout(const char *_str, RefCountedPtr<Text::TextureFont> font, 
 	m_colourMarkup = markup;
 	m_font = font ? font : Gui::Screen::GetFont();
 
-	str = static_cast<char *>(malloc(strlen(_str)+1));
-	strcpy(str, _str);
+	SetText(_str);
+
+	prevWidth = -1.0f;
+	prevColor = Color::WHITE;
+}
+
+void TextLayout::SetText(const char *_str)
+{
+	str = std::string(_str);
 
 	m_justify = false;
 	float wordWidth = 0;
-	char *wordstart = str;
+	const char *wordstart = str.c_str();
+	words.clear();
 
 	int i = 0;
 	while (str[i]) {
@@ -31,7 +39,7 @@ TextLayout::TextLayout(const char *_str, RefCountedPtr<Text::TextureFont> font, 
 
 		while (str[i] && str[i] != ' ' && str[i] != '\r' && str[i] != '\n') {
 			/* skip color control code things! */
-			if ((markup != ColourMarkupNone) && (str[i] == '#')) {
+			if ((m_colourMarkup != ColourMarkupNone) && (str[i] == '#')) {
 				unsigned int hexcol;
 				if (sscanf(&str[i], "#%3x", &hexcol)==1) {
 					i+=4;
@@ -195,7 +203,7 @@ void TextLayout::Update(const float width, const Color &color)
 	}
 
 	if( va.GetNumVerts() > 0 ) {
-		if( !m_vbuffer.Valid() || m_vbuffer->GetVertexCount() != va.GetNumVerts() ) {
+		if( !m_vbuffer.Valid() || m_vbuffer->GetCapacity() < va.GetNumVerts() ) {
 			//create buffer and upload data
 			Graphics::VertexBufferDesc vbd;
 			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;

@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TextureFont.h"
@@ -187,7 +187,7 @@ int TextureFont::PickCharacter(const std::string &str, float mouseX, float mouse
 
 void TextureFont::RenderBuffer(Graphics::VertexBuffer *vb, const Color &color)
 {
-	if( vb && vb->GetVertexCount() > 0 )
+	if( vb && vb->GetSize() > 0 )
 	{
 		m_mat->diffuse = color;
 		m_renderer->DrawBuffer(vb, m_renderState, m_mat.get());

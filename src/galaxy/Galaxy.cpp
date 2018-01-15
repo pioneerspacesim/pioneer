@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -8,6 +8,7 @@
 #include "Sector.h"
 #include "Pi.h"
 #include "FileSystem.h"
+#include "GameSaveError.h"
 
 Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, float sol_offset_x, float sol_offset_y,
 	const std::string& factionsDir, const std::string& customSysDir)

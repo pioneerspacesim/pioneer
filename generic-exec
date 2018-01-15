@@ -1,8 +1,0 @@
-#!/bin/sh
-# Executable wrapper script
-# Ensures the program is up-to-date, then hands over
-
-PROGRAM_NAME=$0
-
-EXEC_BIN=src/$PROGRAM_NAME
-make && exec $EXEC_BIN $*

@@ -1,4 +1,4 @@
--- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Format = import('Format')
@@ -511,6 +511,7 @@ ui.ctrlHeld = function() return pigui.key_ctrl end
 ui.altHeld = function() return pigui.key_alt end
 ui.shiftHeld = function() return pigui.key_shift end
 ui.noModifierHeld = function() return pigui.key_none end
+ui.vSliderInt = pigui.VSliderInt
 ui.coloredSelectedIconButton = function(icon, thesize, is_selected, frame_padding, bg_color, fg_color, tooltip)
 	if is_selected then
 		pigui.PushStyleColor("Button", bg_color)

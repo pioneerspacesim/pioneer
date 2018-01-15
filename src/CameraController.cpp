@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CameraController.h"
@@ -6,6 +6,7 @@
 #include "AnimationCurves.h"
 #include "Pi.h"
 #include "Game.h"
+#include "GameSaveError.h"
 #include "json/JsonUtils.h"
 
 CameraController::CameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :

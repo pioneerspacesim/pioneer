@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Game.h"
@@ -22,13 +22,11 @@
 #include "LuaRef.h"
 #include "ObjectViewerView.h"
 #include "FileSystem.h"
+#include "GZipFormat.h"
 #include "graphics/Renderer.h"
 #include "ui/Context.h"
 #include "galaxy/GalaxyGenerator.h"
-
-extern "C" {
-#include "miniz/miniz.h"
-}
+#include "GameSaveError.h"
 
 static const int  s_saveVersion   = 84;
 static const char s_saveStart[]   = "PIONEER";
@@ -778,7 +776,6 @@ void Game::CreateViews()
 	m_gameViews.reset(new Views);
 	m_gameViews->Init(this);
 
-	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
 	log = new GameLog();
 }
 
@@ -794,7 +791,6 @@ void Game::LoadViewsFromJson(const Json::Value &jsonObj)
 	m_gameViews.reset(new Views);
 	m_gameViews->LoadFromJson(jsonObj, this);
 
-	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
 	log = new GameLog();
 }
 
@@ -825,20 +821,21 @@ Game *Game::LoadGame(const std::string &filename)
 	Output("Game::LoadGame('%s')\n", filename.c_str());
 	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 	if (!file) throw CouldNotOpenFileException();
-	Json::Value rootNode; // Create the root JSON value for receiving the game data.
-	Json::Reader jsonReader; // Create reader for parsing the JSON string.
-	const auto data = file->AsByteRange();
-	size_t outSize = 0;
-	void *pDecompressedData = tinfl_decompress_mem_to_heap(&data[0], data.Size(), &outSize, 0);
-	if (pDecompressedData) {
-		jsonReader.parse(static_cast<char*>(pDecompressedData), static_cast<char*>(pDecompressedData)+outSize, rootNode); // Parse the JSON string.
-		mz_free(pDecompressedData);
+	const auto compressed_data = file->AsByteRange();
+	try {
+		const std::string plain_data = gzip::DecompressDeflateOrGZip(reinterpret_cast<const unsigned char*>(compressed_data.begin), compressed_data.Size());
+		const char *pdata = plain_data.data();
+		Json::Reader jsonReader;
+		Json::Value rootNode;
+		if (!jsonReader.parse(pdata, pdata + plain_data.size(), rootNode)) {
+			Output("Game load failed: %s\n", jsonReader.getFormattedErrorMessages().c_str());
+			throw SavedGameCorruptException();
+		}
 		if (!rootNode.isObject()) throw SavedGameCorruptException();
-		return new Game(rootNode); // Decode the game data from JSON and create the game.
-	} else {
+		return new Game(rootNode);
+	} catch (gzip::DecompressionFailedException) {
 		throw SavedGameCorruptException();
 	}
-	// file data is freed here
 }
 
 bool Game::CanLoadGame(const std::string &filename)
@@ -883,18 +880,12 @@ void Game::SaveGame(const std::string &filename, Game *game)
 	FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 	if (!f) throw CouldNotOpenFileException();
 
-	// compress in memory, write to open file
-	size_t outSize = 0;
-	void *pCompressedData = tdefl_compress_mem_to_heap(jsonDataStr.data(), jsonDataStr.length(), &outSize, 128);
-	if (pCompressedData)
-	{
-		size_t nwritten = fwrite(pCompressedData, outSize, 1, f);
-		mz_free(pCompressedData);
+	try {
+		const std::string comressed_data = gzip::CompressGZip(jsonDataStr, filename + ".json");
+		size_t nwritten = fwrite(comressed_data.data(), comressed_data.size(), 1, f);
 		fclose(f);
 		if (nwritten != 1) throw CouldNotWriteToFileException();
-	}
-	else
-	{
+	} catch (gzip::CompressionFailedException) {
 		fclose(f);
 		throw CouldNotWriteToFileException();
 	}

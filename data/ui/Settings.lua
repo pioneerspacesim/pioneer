@@ -1,4 +1,4 @@
--- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = import("Game")
@@ -69,9 +69,19 @@ ui.templates.Settings = function (args)
 		end
 		local modeDropDown = optionDropDown(GetVideoMode, SetVideoMode, l.VIDEO_RESOLUTION, videoModeLabels, videoModeLabels)
 
-		local aaLabels = { l.OFF, "x2", "x4", "x8", "x16" }
-		local aaModes = { 0, 2, 4, 8, 16 }
-		local aaDropDown = optionDropDown(Engine.GetMultisampling, Engine.SetMultisampling, l.MULTISAMPLING, aaLabels, aaModes)
+		local maxSamples = Engine.GetMaximumAASamples()
+		local aaLabels = { l.OFF, "x2", "x4", "x8", "x16", "x32", "x64" }
+		local aaModes = { 0, 2, 4, 8, 16, 32, 64 } -- I honestly had no idea you could get these values before today!
+		local aaTempLabels = {}
+		local aaTempModes = {}
+		-- many thanks/blame to impaktor for the following loop code
+		for i,value in ipairs(aaModes) do
+			if value < maxSamples then
+				table.insert(aaTempModes, value)
+				table.insert(aaTempLabels, aaLabels[i])
+			end
+		end
+		local aaDropDown = optionDropDown(Engine.GetMultisampling, Engine.SetMultisampling, l.MULTISAMPLING, aaTempLabels, aaTempModes)
 
 		local detailLevels = { 'VERY_LOW', 'LOW', 'MEDIUM', 'HIGH', 'VERY_HIGH' }
 		local detailLabels = { l.VERY_LOW, l.LOW, l.MEDIUM, l.HIGH, l.VERY_HIGH }

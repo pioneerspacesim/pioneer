@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -129,15 +129,6 @@ namespace FileSystem {
 		}
 	}
 
-	static FileInfo::FileType stat_fd(int fd, Time::DateTime &mtime) {
-		struct stat info;
-		if (fstat(fd, &info) == 0) {
-			return interpret_stat(info, mtime);
-		} else {
-			return FileInfo::FT_NON_EXISTENT;
-		}
-	}
-
 	FileInfo FileSourceFS::Lookup(const std::string &path)
 	{
 		const std::string fullpath = JoinPathBelow(GetRoot(), path);
@@ -149,33 +140,36 @@ namespace FileSystem {
 	RefCountedPtr<FileData> FileSourceFS::ReadFile(const std::string &path)
 	{
 		const std::string fullpath = JoinPathBelow(GetRoot(), path);
-		FILE *fl = fopen(fullpath.c_str(), "rb");
-		if (!fl) {
-			return RefCountedPtr<FileData>(0);
-		} else {
-			Time::DateTime mtime;
-			FileInfo::FileType ty = stat_fd(fileno(fl), mtime);
-			assert(ty == FileInfo::FT_FILE);
+		Time::DateTime mtime;
 
-			fseek(fl, 0, SEEK_END);
-			long sz = ftell(fl);
-			fseek(fl, 0, SEEK_SET);
-			char *data = static_cast<char*>(std::malloc(sz));
-			if (!data) {
-				// XXX handling memory allocation failure gracefully is too hard right now
-				Output("failed when allocating buffer for '%s'\n", fullpath.c_str());
+		FileInfo::FileType ty = stat_path(fullpath.c_str(), mtime);
+
+		if (ty == FileInfo::FT_FILE) {
+
+			FILE *fl = fopen(fullpath.c_str(), "rb");
+			if (fl) {
+				fseek(fl, 0, SEEK_END);
+				long sz = ftell(fl);
+				fseek(fl, 0, SEEK_SET);
+				char *data = static_cast<char*>(std::malloc(sz));
+				if (!data) {
+					// XXX handling memory allocation failure gracefully is too hard right now
+					Output("failed when allocating buffer for '%s'\n", fullpath.c_str());
+					fclose(fl);
+					abort();
+				}
+				size_t read_size = fread(data, 1, sz, fl);
+				if (read_size != size_t(sz)) {
+					Output("file '%s' truncated!\n", fullpath.c_str());
+					memset(data + read_size, 0xee, sz - read_size);
+				}
 				fclose(fl);
-				abort();
-			}
-			size_t read_size = fread(data, 1, sz, fl);
-			if (read_size != size_t(sz)) {
-				Output("file '%s' truncated!\n", fullpath.c_str());
-				memset(data + read_size, 0xee, sz - read_size);
-			}
-			fclose(fl);
 
-			return RefCountedPtr<FileData>(new FileDataMalloc(MakeFileInfo(path, ty, mtime), sz, data));
+				return RefCountedPtr<FileData>(new FileDataMalloc(MakeFileInfo(path, ty, mtime), sz, data));
+			}
 		}
+
+		return RefCountedPtr<FileData>(0);
 	}
 
 	bool FileSourceFS::ReadDirectory(const std::string &dirpath, std::vector<FileInfo> &output)

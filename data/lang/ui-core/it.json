@@ -513,7 +513,7 @@
    },
    "HUD_BUTTON_HYPERDRIVE_DISABLED" : {
       "description" : "Tooltip: Hyperdrive disabled (docked or landed)",
-      "message" : "Iperguida disabilitata"
+      "message" : "Iper-propulsore disabilitato"
    },
    "HUD_BUTTON_INITIATE_HYPERJUMP" : {
       "description" : "Tooltip: Initiate legal hyperjump",
@@ -773,11 +773,11 @@
    },
    "HYPERDRIVE" : {
       "description" : "",
-      "message" : "Iperguida"
+      "message" : "Iper-propulsore"
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
-      "message" : "Iperguida montata:"
+      "message" : "Iper-propulsore montato:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
@@ -915,6 +915,14 @@
       "description" : "Light year",
       "message" : "AL"
    },
+   "MAJOR_EXPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Esportazioni principali"
+   },
+   "MAJOR_IMPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Importazioni principali"
+   },
    "MAKE_NEW_FACE" : {
       "description" : "",
       "message" : "Genera nuovo volto"
@@ -990,6 +998,14 @@
    "MINIMUM_CREW" : {
       "description" : "",
       "message" : "Equipaggio minimo"
+   },
+   "MINOR_EXPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Importazioni secondarie"
+   },
+   "MINOR_IMPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Esportazioni secondarie"
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
@@ -1433,7 +1449,7 @@
    },
    "TOO_SMALL_TO_TRANSSHIP" : {
       "description" : "Ship market error message",
-      "message" : "La nuova astronave non può contenere l'attuale carico ed iperguida."
+      "message" : "La nuova astronave non può contenere l'attuale carico ed iper-propulsore."
    },
    "TOTAL" : {
       "description" : "",

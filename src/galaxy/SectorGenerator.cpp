@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Pi.h"
@@ -7,6 +7,7 @@
 #include "CustomSystem.h"
 #include "Galaxy.h"
 #include "Factions.h"
+#include "GameSaveError.h"
 
 static const unsigned int SYS_NAME_FRAGS = 32;
 static const char *sys_names[SYS_NAME_FRAGS] =
@@ -329,31 +330,38 @@ bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 
 void SectorPersistenceGenerator::SetExplored(Sector::System* sys, StarSystem::ExplorationState e, double time)
 {
-	Sint32 date;
-	if (e != StarSystem::eUNEXPLORED) {
-		int year, month, day;
+	if (e == StarSystem::eUNEXPLORED) {
+		m_exploredSystems.erase(sys->GetPath());
+	} else if (e == StarSystem::eEXPLORED_AT_START) {
+		m_exploredSystems[sys->GetPath()] = 0;
+	} else {
+		assert(e == StarSystem::eEXPLORED_BY_PLAYER);
 		Time::DateTime dt = Time::DateTime(3200,1,1,0,0,0) + Time::TimeDelta(time, Time::Second);
+		int year, month, day;
 		dt.GetDateParts(&year, &month, &day);
-		date = day | month << 5 | year << 9;
+		Sint32 date = day | month << 5 | year << 9;
+		m_exploredSystems[sys->GetPath()] = date;
 	}
-	m_exploredSystems.Set(SystemPath(sys->sx, sys->sy, sys->sz, sys->idx), (e == StarSystem::eUNEXPLORED) ? -1 : date);
 }
 
 bool SectorPersistenceGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config)
 {
 	if (galaxy->IsInitialized()) {
 		for (Sector::System& secsys : sector->m_systems) {
-			Sint32 exploredTime = m_exploredSystems.Get(SystemPath(secsys.sx, secsys.sy, secsys.sz, secsys.idx), -1);
-			if (exploredTime == 0) {
-				secsys.m_explored = StarSystem::eEXPLORED_AT_START;
-				secsys.m_exploredTime = 0.0;
-			} else if (exploredTime > 0) {
-				int year = exploredTime >> 9;
-				int month = (exploredTime >> 5) & 0xf;
-				int day = exploredTime & 0x1f;
-				Time::DateTime dt(year, month, day);
-				secsys.m_explored = StarSystem::eEXPLORED_BY_PLAYER;
-				secsys.m_exploredTime = dt.ToGameTime();
+			const auto iter = m_exploredSystems.find(SystemPath(secsys.sx, secsys.sy, secsys.sz, secsys.idx));
+			if (iter != m_exploredSystems.end()) {
+				Sint32 date = iter->second;
+				if (date == 0) {
+					secsys.m_explored = StarSystem::eEXPLORED_AT_START;
+					secsys.m_exploredTime = 0.0;
+				} else if (date > 0) {
+					int year = date >> 9;
+					int month = (date >> 5) & 0xf;
+					int day = date & 0x1f;
+					Time::DateTime dt(year, month, day);
+					secsys.m_explored = StarSystem::eEXPLORED_BY_PLAYER;
+					secsys.m_exploredTime = dt.ToGameTime();
+				}
 			}
 		}
 	}
@@ -363,12 +371,36 @@ bool SectorPersistenceGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> galaxy
 
 void SectorPersistenceGenerator::FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)
 {
-	m_exploredSystems.Clear();
-	if (m_version >= 1)
-		m_exploredSystems.FromJson(jsonObj, &m_exploredSystems);
+	m_exploredSystems.clear();
+	if (m_version < 1) { return; }
+
+	// The layout of this data is really weird for historical reasons.
+	// It used to be stored by a general System-information container type called PersistSystemData<>.
+
+	if (!jsonObj.isMember("dict")) throw SavedGameCorruptException();
+	Json::Value dictArray = jsonObj["dict"];
+	if (!dictArray.isArray()) throw SavedGameCorruptException();
+	for (unsigned int arrayIndex = 0; arrayIndex < dictArray.size(); ++arrayIndex) {
+		const Json::Value &dictArrayEl = dictArray[arrayIndex];
+		if (!dictArrayEl.isMember("value")) throw SavedGameCorruptException();
+		SystemPath path = SystemPath::FromJson(dictArrayEl);
+		Sint32 val;
+		StrToAuto(&val, dictArrayEl["value"].asString());
+		m_exploredSystems[path] = val;
+	}
 }
 
 void SectorPersistenceGenerator::ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)
 {
-	m_exploredSystems.ToJson(jsonObj);
+	// The layout of this data is really weird for historical reasons.
+	// It used to be stored by a general System-information container type called PersistSystemData<>.
+
+	Json::Value dictArray(Json::arrayValue); // Create JSON array to contain dict data.
+	for (const auto &element : m_exploredSystems) {
+		Json::Value dictArrayEl(Json::objectValue); // Create JSON object to contain dict element.
+		element.first.ToJson(dictArrayEl);
+		dictArrayEl["value"] = AutoToStr(element.second);
+		dictArray.append(dictArrayEl); // Append dict object to array.
+	}
+	jsonObj["dict"] = dictArray; // Add dict array to supplied object.
 }

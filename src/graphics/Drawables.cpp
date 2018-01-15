@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Drawables.h"
@@ -231,7 +231,7 @@ void Lines::SetData(const Uint32 vertCount, const vector3f *vertices, const Colo
 	m_refreshVertexBuffer = true;
 
 	// if the number of vert mismatches then clear the current vertex buffer
-	if( m_vertexBuffer.Valid() && m_vertexBuffer->GetVertexCount() != vertCount ) {
+	if( m_vertexBuffer.Valid() && m_vertexBuffer->GetCapacity() < vertCount ) {
 		// a new one will be created when it is drawn
 		m_vertexBuffer.Reset();
 	}
@@ -252,7 +252,7 @@ void Lines::SetData(const Uint32 vertCount, const vector3f *vertices, const Colo
 	m_refreshVertexBuffer = true;
 
 	// if the number of vert mismatches then clear the current vertex buffer
-	if( m_vertexBuffer.Valid() && m_vertexBuffer->GetVertexCount() != vertCount ) {
+	if( m_vertexBuffer.Valid() && m_vertexBuffer->GetCapacity() < vertCount ) {
 		// a new one will be created when it is drawn
 		m_vertexBuffer.Reset();
 	}
@@ -271,7 +271,7 @@ void Lines::Draw(Renderer *r, RenderState *rs, const PrimitiveType pt)
 		return;
 
 	if( !m_vertexBuffer.Valid() ) {
-		CreateVertexBuffer(r, m_va->GetNumVerts());
+		CreateVertexBuffer(r, m_va->GetNumVerts() * 2); // ask for twice as many as we need to reduce buffer thrashing
 	}
 	if( m_refreshVertexBuffer ) {
 		m_refreshVertexBuffer = false;
@@ -456,7 +456,7 @@ void Points::Draw(Renderer *r, RenderState *rs)
 	if (m_va->GetNumVerts() == 0)
 		return;
 
-	if (!m_vertexBuffer.Valid() || (m_va->GetNumVerts() != m_vertexBuffer->GetVertexCount())) {
+	if (!m_vertexBuffer.Valid() || (m_va->GetNumVerts() != m_vertexBuffer->GetSize())) {
 		CreateVertexBuffer(r, m_va->GetNumVerts());
 	}
 	if( m_refreshVertexBuffer ) {

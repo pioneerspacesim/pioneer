@@ -1,11 +1,10 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUAREF_H
 #define _LUAREF_H
 
-#include "lua/lua.hpp"
-#include "Serializer.h"
+#include <lua.hpp>
 #include "json/json.h"
 #include <vector>
 #include <cassert>

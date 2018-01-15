@@ -1,4 +1,4 @@
--- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -14,6 +14,7 @@ local l = Lang.GetResource("ui-core")
 local marketColumnValue = {
 	icon  = function (e) return e.icon_name and ui:Image("icons/goods/"..e.icon_name..".png") or "" end,
 	name  = function (e) return e:GetName() end,
+	desc  = function (e) return e:GetDescription() end,
 	price = function (e) return Format.Money(Game.player:GetDockedWith():GetEquipmentPrice(e)) end,
 	stock = function (e) return Game.player:GetDockedWith():GetEquipmentStock(e) end,
 	cargo = function (e)
@@ -43,28 +44,51 @@ local commodityMarket = function (args)
 			:SetColumnSpacing(10)		--margin between columns
 			:SetHeadingRow({
 				'',						--blank header column used for the icons in the list
-				l.NAME_OBJECT,
-				l.PRICE,
+				ui:Label(l.NAME_OBJECT):SetFont("LARGE"),
+				ui:Align("RIGHT",l.PRICE),
+				"",						--blank column for import/export icons
 				l.IN_STOCK,
-				ui:Margin(32,"RIGHT",l.CARGO) -- because a later expand() expands it too much we have to pad the table with some blank space at the right edge or the text will be cropped by the scrollbar
+				ui:Margin(24,"RIGHT",l.CARGO) -- because a later expand() expands it too much we have to pad the table with some blank space at the right edge or the text will be cropped by the scrollbar
 			})
-			:SetHeadingFont("LARGE")	--large font for header
+			--:SetHeadingFont("LARGE")	--large font for header
 			:SetRowAlignment("CENTER")	--align the row to the center relative to up and down
 			:SetMouseEnabled(true)		--mouse can be used on this list
 
 	local commodityTrade =
 		ui:Expand("VERTICAL")			--blank right pane gets filled in by code once a row in the list is clicked
 
+	local pricemod = nil
+	local priceicon = nil
+	local trac = Game.player:GetEquipCountOccupied('trade_computer')
+	local majex = "icons/market/export-major.png"
+	local majim = "icons/market/import-major.png"
+	local minex = "icons/market/export-minor.png"
+	local minim = "icons/market/import-minor.png"
+	
 	local fillMarketTable = function()
 		marketTable:ClearRows()
 		local rowCommodity = {}
 		for i,e in ipairs(equipTypes) do
+			pricemod = nil
+			if trac > 0 then
+				local mod = Game.system:GetCommodityBasePriceAlterations(e)
+				if mod >= 10 then
+					pricemod = majim
+				elseif mod >= 2 then
+					pricemod = minim
+				elseif mod <= -10 then
+					pricemod = majex
+				elseif mod <= -2 then
+					pricemod = minex
+				end
+			end
 			marketTable:AddRow({
 				marketColumnValue["icon"](e),
 				ui:Expand("HORIZONTAL",marketColumnValue["name"](e)),	--names are aligned to the left (default)
 																		--expand the bame to make the whole row fill the horizontal space,
 																		--expands too much and cargo column is clipped by scrollbar, but fixed with margins on cargo column header (above) and rows (3 lines down)
 				ui:Align("RIGHT", marketColumnValue["price"](e)),		--numbers are aligned to the right for decimal places to be in the same spot
+				pricemod and ui:Image(pricemod) or "",
 				ui:Align("RIGHT", marketColumnValue["stock"](e)),
 				ui:Align("RIGHT", ui:Margin(32,"RIGHT",marketColumnValue["cargo"](e))), --margin is fix for greedy expand() 3 lines up
 			})
@@ -81,7 +105,7 @@ local commodityMarket = function (args)
 	local tradeamount = 0;				--initial number of commodity to buy
 	local tradecommodity = ''			--blank value, uses commodity objects, unset until user clicks a row in left pane
 	local buysell =
-		ui:Expand("VERTICAL")			--blank widget
+		ui:Label(""):SetFont("LARGE")	--blank widget
 	local tradeflipflop =
 		ui:Expand()						--blank widget
 
@@ -99,17 +123,19 @@ local commodityMarket = function (args)
 	local sellfromcargo = ui:Button(l.SELL)
 	local buyfrommarket = ui:Button(l.BUY)
 
-	local commonHeader =
-		ui:HBox()						--blank header for right pane, filled in by code once user has selected which commodity to trade in
+	local commonHeader = ui:HBox(24)		--blank header for right pane, filled in by code once user has selected which commodity to trade in
+	local computerInfo = ui:HBox(24)
+	local commonDescript = ui:HBox()
+	local hasCargoLabel = ui:Label("")
 	local commonButtons =
-		ui:HBox():PackEnd({				--pack all the buttons into one widget for future use, hbox lines up elements horizontally
-			sub100,						--first button does not need a left margin
+		ui:HBox():PackEnd({					--pack all the buttons into one widget for future use, hbox lines up elements horizontally
+			sub100,							--first button does not need a left margin
 			ui:Margin(16,"LEFT",subten),	--all the following buttons needs a margin to separate it from the previous one
 			ui:Margin(16,"LEFT",subone),
 			ui:Margin(16,"LEFT",tradereset),
 			ui:Margin(16,"LEFT",addone),
 			ui:Margin(16,"LEFT",addten),
-			ui:Margin(16,"LEFT",add100),
+			ui:Margin(16,"LEFT",add100)
 		})
 
 	-- calls to this function alter traded amount up or down, not absolute values
@@ -127,24 +153,21 @@ local commodityMarket = function (args)
 		if trade_mode == trade_mode_buy then
 			stock = Game.player:GetDockedWith():GetEquipmentStock(tradecommodity)
 			if stock == 0 then
-				buysell:SetInnerWidget(ui:Label(l.NONE_FOR_SALE_IN_THIS_STATION)
-					:SetFont("LARGE")
-					:SetColor({ r = 1.0, g = 0.0, b = 0.0 }) --set the color of the message to fullblown red
-				)
-				showbuysellbutton = nobutton
+				buysell:SetText(l.NONE_FOR_SALE_IN_THIS_STATION)
+				buysell:SetColor({ r = 1.0, g = 0.0, b = 0.0 }) --set the color of the message to fullblown red
+				showbuysellbutton:Disable()
 				return
 			end
 			if price > playercash then
-				buysell:SetInnerWidget(ui:Label(l.INSUFFICIENT_FUNDS)
-					:SetFont("LARGE")
-					:SetColor({ r = 1.0, g = 1.0, b = 0.0 }) --set the color of the message to lovely yellow
-				)
-				showbuysellbutton = nobutton
+				buysell:SetText(l.INSUFFICIENT_FUNDS)
+				buysell:SetColor({ r = 1.0, g = 1.0, b = 0.0 }) --set the color of the message to lovely yellow
+				showbuysellbutton:Disable()
 				return
 			end
 		else
 			stock = Game.player:CountEquip(tradecommodity)
 		end
+		showbuysellbutton:Enable()
 
 		--dont alter tradeamount before checks have been made
 		local wantamount = tradeamount + delta
@@ -193,94 +216,68 @@ local commodityMarket = function (args)
 		tradecost = tradeamount * price
 
 		--its possible to get to this line without tradetext being initialized unless done 30 rows up
-		buysell:SetInnerWidget(ui:Label(string.interp(tradetext,{ amount = string.format("%d", tradeamount), price = Format.Money(tradecost)})):SetFont("LARGE"))
+		buysell:SetText(string.interp(tradetext,{ amount = string.format("%d", tradeamount), price = Format.Money(tradecost)}))
+		buysell:SetColor({ r = 1.0, g = 1.0, b = 1.0 }) --set the color of the message to default white
 	end
 
 	--attach click actions to all the buttons
 	sub100.onClick:Connect(function () changeTradeamount(-100) end)
 	subten.onClick:Connect(function () changeTradeamount(-10) end)
 	subone.onClick:Connect(function () changeTradeamount(-1) end)
-	tradereset.onClick:Connect(function () changeTradeamount(-tradeamount) end) -- tradeamount minus tradeamount is zero, as the argument needs to be a delta, not an absolute number
+	-- tradeamount minus tradeamount is zero, as the argument needs to be a delta, not an absolute number
+	tradereset.onClick:Connect(function () changeTradeamount(-tradeamount) end)
 	addone.onClick:Connect(function () changeTradeamount(1) end)
 	addten.onClick:Connect(function () changeTradeamount(10) end)
 	add100.onClick:Connect(function () changeTradeamount(100) end)
 
 	--this is the layout for the right pane, only shown once user selects a commodity to trade
 	local buyorsell = function()
-
 		--buy pane is complex layout because of checking if player has any commodity to sell
 		if trade_mode == trade_mode_buy then
 			local n = Game.player:CountEquip(tradecommodity)
 			if n > 0 then
-				commodityTrade:SetInnerWidget(
-					--expand the widget to use all vertical space available to it
-					ui:Expand("VERTICAL",ui:VBox():PackEnd({ --vbox lines up elements vertically (up to down)
-						ui:Margin(16,"VERTICAL",
-							ui:HBox():PackEnd({
-								buyfrommarket,
-								ui:Margin(32,"LEFT",sellfromcargo),
-							})
-						),
-						--common header contains icon, commodity name and description (if there is one)
-						commonHeader,
-						ui:Margin(32,"VERTICAL", --add some margin above and below buttons+buy/sell text-line
-							ui:VBox():PackEnd({ --vbox lines up elements vertically (up to down)
-								commonButtons, -- prepared widget with all the buttons -100 -10 -1 reset +1 +10 +100
-								ui:Margin(16,"TOP",buysell), --add some space at the top to separate it from the buttons, text is one-liner detailing the current market deal
-							})
-						),
-						--this widgetset is only show if the player has an amount of the commodity in cargo to sell
-						ui:Margin(32,"VERTICAL", --add some margins to separate it from the text above and confirm button below
-							ui:HBox():PackEnd({ --hbox lines up elements horizontally (left to right)
-								ui:Align("MIDDLE",ui:Label(string.interp(l.YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD, {units = n}))), --horizontally aligned as there is no free space left and right (no expand)
-							})
-						),
-						showbuysellbutton, --button to confirm buying the selected amount
-					}))
-				)
 				sellfromcargo:Enable()
+				hasCargoLabel:SetText(string.interp(l.YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD, {units = n}))
 			else
-				--player has none of the selected commodity in cargo, dont bother showing option to sell
-				commodityTrade:SetInnerWidget(
-					ui:Expand("VERTICAL",ui:VBox():PackEnd({ --expand to fill vertical space, vbox lines up elements vertically
-						ui:Margin(16,"VERTICAL",
-							ui:HBox():PackEnd({
-								buyfrommarket,
-								ui:Margin(32,"LEFT",sellfromcargo),
-							})
-						),
-						commonHeader, --icon, commodity name, (optional) description
-						ui:Margin(32,"VERTICAL", --margins above and below buttons+text
-							ui:VBox():PackEnd({ --vbox lines up elements vertically
-								commonButtons, --prepared buttons -100 to +100
-								ui:Margin(16,"TOP",buysell), --margin separates text from buttons above
-							})
-						),
-						showbuysellbutton, --button to confirm buying
-					}))
-				)
+				hasCargoLabel:SetText("")
 				sellfromcargo:Disable()
 			end
+				
+			commodityTrade:SetInnerWidget(
+				ui:VBox(15):PackEnd({
+					ui:HBox(30):PackEnd({
+						buyfrommarket,
+						sellfromcargo
+					}),
+					commonHeader, --common header contains icon and commodity name
+					computerInfo, -- info from trade computer, if the player has one, otherwise blank
+					--contains description, if there is one
+					ui:Expand("VERTICAL",commonDescript),
+					commonButtons, -- prepared widget with all the buttons -100 -10 -1 reset +1 +10 +100
+					buysell,
+					--this widgetset is only show if the player has an amount of the commodity in cargo to sell
+					ui:Align("LEFT",hasCargoLabel),
+					showbuysellbutton --button to confirm buying the selected amount
+				})
+			)
 			return
 		end
 
 		--sell pane is simpler
 		if trade_mode == trade_mode_sell then
 			commodityTrade:SetInnerWidget(
-				ui:VBox():PackEnd({
-					ui:Margin(16,"VERTICAL",
-						ui:HBox():PackEnd({
-							buyfrommarket,
-							ui:Margin(32,"LEFT",sellfromcargo),
-						})
-					),
-					commonHeader, --icon, commodity name, (optional) description
-					ui:Margin(32,"VERTICAL", --margin separates it from header above
-						ui:VBox():PackEnd({ --vbox lines up elements vertically
-							commonButtons, --prepared buttons -100 to +100
-							ui:Margin(16,"TOP",buysell), --margin separates text from buttons above
-						})
-					),
+				ui:VBox(15):PackEnd({
+					ui:HBox(30):PackEnd({
+						buyfrommarket,
+						sellfromcargo
+					}),
+					commonHeader, --icon, commodity name
+					computerInfo, -- info from trade computer, if the player has one, otherwise blank
+					commonDescript, --description (optional)
+					ui:Expand("VERTICAL"),
+					commonButtons, --prepared buttons -100 to +100
+					buysell,
+					ui:Align("LEFT",hasCargoLabel),
 					showbuysellbutton, --confirm selling
 				})
 			)
@@ -399,29 +396,46 @@ local commodityMarket = function (args)
 
 		--clear the header because previous calls might have filled it
 		commonHeader:Clear()
+		computerInfo:Clear()
+		commonDescript:Clear()
+		
+		pricemod = ""
+		priceicon = nil
+		if trac > 0 then						--trac = if player has trade computer
+			local mod = Game.system:GetCommodityBasePriceAlterations(e)
+			if mod >= 10 then
+				pricemod = l.MAJOR_IMPORTS_ITEM
+				priceicon = majim
+			elseif mod >= 2 then
+				pricemod = l.MINOR_IMPORTS_ITEM
+				priceicon = minim
+			elseif mod <= -10 then
+				pricemod = l.MAJOR_EXPORTS_ITEM
+				priceicon = majex
+			elseif mod <= -2 then
+				pricemod = l.MINOR_EXPORTS_ITEM
+				priceicon = minex
+			end
+		end
 
 		--update common header to the commodity that was clicked
-		if e.description then
-			commonHeader:PackEnd({
-				ui:VBox():PackEnd({
-					ui:Margin(16,"VERTICAL", --margin separates the layout from edge above and other widgets below
-						ui:HBox():PackEnd({
-							ui:Margin(32,"RIGHT",marketColumnValue["icon"](e)), --margin separates icon from the text followin on the right
-							ui:Label(marketColumnValue["name"](e)):SetFont("HEADING_LARGE"), --simple text label with the commodity name
-						})
-					),
-					ui:Expand("HORIZONTAL",ui:MultiLineText(e.description):SetFont("SMALL")) --expand textbox to fill horizontal space
-				})
-			})
-		else
-			--no description present
-			commonHeader:PackEnd({
-				ui:Margin(16,"TOP",ui:HBox():PackEnd({ --margin separates the layout from edge above and other widgets below
-					ui:Margin(32,"RIGHT",marketColumnValue["icon"](e)), --margin separates icon from the text followin on the right
-					ui:Label(marketColumnValue["name"](e)):SetFont("HEADING_LARGE"), --simple text label with the commodity name
-				}))
-			})
-		end
+		commonHeader:PackEnd({
+			marketColumnValue["icon"](e),
+			--simple text label with the commodity name
+			ui:Expand("HORIZONTAL",ui:Label(marketColumnValue["name"](e)):SetFont("HEADING_LARGE")),
+			--if player has trade computer, show major/minor export/import, otherwise blank
+			""		--cheap way of adding a right margin								
+		})
+		
+		computerInfo:PackEnd({
+			priceicon and ui:Image(priceicon,{ "PRESERVE_ASPECT" }) or "",
+			ui:Label(pricemod)
+		})
+		
+		commonDescript:PackEnd({
+			ui:Expand("HORIZONTAL",ui:MultiLineText(marketColumnValue["desc"](e)):SetFont("SMALL")) --expand textbox to fill horizontal space
+		})
+
 		showbuysellbutton = confirmtradebuy
 		buyfrommarket:Hide()
 		buyfrommarket:SetFont("LARGE")
@@ -434,7 +448,7 @@ local commodityMarket = function (args)
 	end)
 
 	return
-		ui:Grid({48,4,48},1) --make a simple grid layout with 3 columns, 48%, 4% and 48% the width of the space, 1 row (?)
+		ui:Grid({48,2,50},1) --make a simple grid layout with 3 columns, 48%, 2% and 50% the width of the space, 1 row
 			:SetColumn(0, {marketTable})
 			--column 1 is empty
 			:SetColumn(2, {commodityTrade})

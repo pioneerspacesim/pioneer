@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Ship.h"
@@ -56,6 +56,9 @@ void Ship::SaveToJson(Json::Value &jsonObj, Space *space)
 	m_hyperspace.dest.ToJson(hyperspaceDestObj);
 	shipObj["hyperspace_destination"] = hyperspaceDestObj; // Add hyperspace destination object to ship object.
 	shipObj["hyperspace_countdown"] = FloatToStr(m_hyperspace.countdown);
+	shipObj["hyperspace_warmup_sound"] = m_hyperspace.sounds.warmup_sound;
+	shipObj["hyperspace_abort_sound"] = m_hyperspace.sounds.abort_sound;
+	shipObj["hyperspace_jump_sound"] = m_hyperspace.sounds.jump_sound;
 
 	GetFixedGuns()->SaveToJson( shipObj, space );
 
@@ -124,6 +127,11 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_launchLockTimeout = StrToFloat(shipObj["launch_lock_timeout"].asString());
 	m_testLanded = shipObj["test_landed"].asBool();
 	m_flightState = static_cast<FlightState>(shipObj["flight_state"].asInt());
+	
+	m_lastAlertUpdate = 0.0;	// alertstate check cache timer
+	m_shipNear = false;			// alertstate check cache value
+	m_shipFiring = false;		// alertstate check cache value
+
 	m_alertState = static_cast<AlertState>(shipObj["alert_state"].asInt());
 	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
 	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
@@ -133,6 +141,12 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_hyperspace.dest = SystemPath::FromJson(hyperspaceDestObj);
 	m_hyperspace.countdown = StrToFloat(shipObj["hyperspace_countdown"].asString());
 	m_hyperspace.duration = 0;
+	m_hyperspace.sounds.warmup_sound =
+		shipObj.isMember("hyperspace_warmup_sound") ? shipObj["hyperspace_warmup_sound"].asString() : "";
+	m_hyperspace.sounds.abort_sound =
+		shipObj.isMember("hyperspace_abort_sound") ? shipObj["hyperspace_abort_sound"].asString() : "";
+	m_hyperspace.sounds.jump_sound =
+		shipObj.isMember("hyperspace_jump_sound") ? shipObj["hyperspace_jump_sound"].asString() : "";
 
 	GetFixedGuns()->LoadFromJson( shipObj, space );
 
@@ -266,10 +280,13 @@ void Ship::PostLoadFixup(Space *space)
 
 Ship::Ship(const ShipType::Id &shipId): DynamicBody(),
 	m_controller(0),
-  m_flightState(FLYING),
-  m_alertState(ALERT_NONE),
+    m_flightState(FLYING),
+    m_alertState(ALERT_NONE),
 	m_landingGearAnimation(nullptr)
 {
+	/*
+		THIS CODE DOES NOT RUN WHEN LOADING SAVEGAMES!!
+	*/
 	AddFeature( Feature::PROPULSION ); // add component propulsion
 	AddFeature( Feature::FIXED_GUNS ); // add component fixed guns
 	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
@@ -402,6 +419,8 @@ bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact& co
 			if (attacker) {
 				if (attacker->IsType(Object::BODY))
 					LuaEvent::Queue("onShipDestroyed", this, dynamic_cast<Body*>(attacker));
+				else if (attacker->IsType(Object::CITYONPLANET))
+					LuaEvent::Queue("onShipDestroyed", this, dynamic_cast<CityOnPlanet*>(attacker)->GetPlanet());
 			}
 
 			Explode();
@@ -636,7 +655,7 @@ Ship::HyperjumpStatus Ship::CheckHyperjumpCapability() const {
 	return HYPERJUMP_OK;
 }
 
-Ship::HyperjumpStatus Ship::InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, LuaRef checks) {
+Ship::HyperjumpStatus Ship::InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, const HyperdriveSoundsTable &sounds, LuaRef checks) {
 	if (!dest.HasValidSystem() || GetFlightState() != FLYING || warmup_time < 1)
 		return HYPERJUMP_SAFETY_LOCKOUT;
 	StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
@@ -648,6 +667,7 @@ Ship::HyperjumpStatus Ship::InitiateHyperjumpTo(const SystemPath &dest, int warm
 	m_hyperspace.now = false;
 	m_hyperspace.duration = duration;
 	m_hyperspace.checks = checks;
+	m_hyperspace.sounds = sounds;
 
 	return Ship::HYPERJUMP_OK;
 }
@@ -845,9 +865,6 @@ void Ship::TimeStepUpdate(const float timeStep)
 	// fuel use decreases mass, so do this as the last thing in the frame
 	UpdateFuel( timeStep );
 
-	if ( GetPropulsion()->IsFuelStateChanged() )
-		LuaEvent::Queue("onShipFuelChanged", this, EnumStrings::GetString("ShipFuelStatus", GetPropulsion()->GetFuelState() ));
-
 	m_navLights->SetEnabled(m_wheelState > 0.01f);
 	m_navLights->Update(timeStep);
 	if (m_sensors.get()) m_sensors->Update(timeStep);
@@ -942,6 +959,16 @@ void Ship::UpdateAlertState()
 	}
 
 	bool ship_is_near = false, ship_is_firing = false;
+
+	// sanity check: m_lastAlertUpdate should not be in the future.
+	// reset and re-check if it is.
+	if (m_lastAlertUpdate > Pi::game->GetTime())
+	{
+		m_lastAlertUpdate = 0;
+		m_shipNear = false;
+		m_shipFiring = false;
+	}
+
 	if (m_lastAlertUpdate + 1.0 <= Pi::game->GetTime())
 	{
 		// time to update the list again, once per second should suffice
@@ -1350,7 +1377,7 @@ void Ship::EnterHyperspace() {
 }
 
 void Ship::OnEnterHyperspace() {
-	Sound::BodyMakeNoise(this, "Hyperdrive_Jump", 1.f);
+	Sound::BodyMakeNoise(this, m_hyperspace.sounds.jump_sound.c_str(), 1.f);
 	m_hyperspaceCloud = new HyperspaceCloud(this, Pi::game->GetTime() + m_hyperspace.duration, false);
 	m_hyperspaceCloud->SetFrame(GetFrame());
 	m_hyperspaceCloud->SetPosition(GetPosition());

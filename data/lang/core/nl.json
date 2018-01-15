@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Koolstof"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Fossiele brandstoffen (kolen en olie) zijn nodig voor de synthese van veel nuttige chemicaliën, zoals: kunststoffen, synthetisch voedsel, medicijnen en textiel"
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Lading"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Kunstmest"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "U heeft een boete betaald van %fine."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "U heeft %paid betaald, maar hebt nog steeds een boete uitstaan van %fine."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Fire weapon"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Waterstof"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Waterstof wordt voornamelijk gebruikt als brandstof voor fusie"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Vloeibare Zuurstof"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Zuurstof is nodig voor levensinstandhoudingssystemen en een aantal industriële processen"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Jonge agrarische kolonie."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "U heeft geen geld."
    },
    "Z" : {
       "description" : "keybinding: z axis",

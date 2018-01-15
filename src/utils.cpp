@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "utils.h"
@@ -150,6 +150,23 @@ void OpenGLDebugMsg(const char *format, ...)
 	fputs(buf, stderr);
 }
 
+static unsigned int __indentationLevel = 0;
+void IndentIncrease() { __indentationLevel++; }
+void IndentDecrease() { assert(__indentationLevel > 0); __indentationLevel--; }
+void IndentedOutput(const char *format, ...)
+{
+	std::string indentation (__indentationLevel, '\t');
+	char buf[1024];
+	va_list ap;
+	va_start(ap, format);
+	strcpy(buf, indentation.c_str());
+	int indentationSize = indentation.size();
+	vsnprintf(buf + indentationSize, sizeof(buf)-indentationSize, format, ap);
+	va_end(ap);
+
+	fputs(buf, stderr);
+}
+
 std::string format_duration(double seconds)
 {
 	std::ostringstream ss;
@@ -245,18 +262,35 @@ const char *pi_strcasestr (const char *haystack, const char *needle)
 	}
 }
 
-std::string SInt64ToStr(Sint64 val)
+std::vector<std::string> SplitString(const std::string& source, const std::string& delim)
 {
-	char str[128];
-	sprintf(str, "%" PRIu64, val);
-	return str;
-}
+	bool stringSplitted = false;
+	std::vector<std::string> splitted;
 
-std::string UInt64ToStr(Uint64 val)
-{
-	char str[128];
-	sprintf(str, "%" PRIu64, val);
-	return str;
+	size_t startPos = 0;
+	do {
+		// try to find delim
+		size_t delimPos = source.find(delim, startPos);
+
+		// if delim found
+		if (delimPos != std::string::npos)
+		{
+			std::string element = source.substr(startPos, delimPos);
+			splitted.push_back(element);
+
+			// prepare next loop
+			startPos = delimPos + delim.length();
+		}
+		else
+		{
+			// push tail and exit
+			splitted.push_back(source.substr(startPos));
+			stringSplitted = true;
+		}
+
+	} while (!stringSplitted);
+
+	return splitted;
 }
 
 //#define USE_HEX_FLOATS

@@ -1,23 +1,14 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SERIALIZE_H
 #define _SERIALIZE_H
 
-#include "utils.h"
-#include "Quaternion.h"
 #include "ByteRange.h"
-#include <vector>
-
-class Frame;
-class Body;
-class StarSystem;
-class SystemBody;
-
-struct SavedGameCorruptException {};
-struct SavedGameWrongVersionException {};
-struct CouldNotOpenFileException {};
-struct CouldNotWriteToFileException {};
+#include "Color.h"
+#include "Quaternion.h"
+#include "vector2.h"
+#include "vector3.h"
 
 namespace Serializer {
 
@@ -71,14 +62,7 @@ namespace Serializer {
 		vector3d Vector3d();
 		Quaternionf RdQuaternionf();
 		Color Color4UB();
-		Reader RdSection(const std::string &section_label_expected) {
-			if (section_label_expected != String()) {
-				throw SavedGameCorruptException();
-			}
-			Reader section = Reader(Blob());
-			section.SetStreamVersion(StreamVersion());
-			return section;
-		}
+		Reader RdSection(const std::string &section_label_expected);
 		/** Best not to use these except in templates */
 		void Auto(Sint32 *x) { *x = Int32(); }
 		void Auto(Sint64 *x) { *x = Int64(); }

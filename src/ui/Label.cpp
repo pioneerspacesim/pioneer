@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Label.h"
@@ -58,7 +58,10 @@ void Label::Draw()
 		m_font = GetContext()->GetFont(GetFont());
 		Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 		m_font->PopulateString(va, m_text, 0.0f, 0.0f, finalColor);
-		m_vbuffer.Reset( m_font->CreateVertexBuffer(va, false) );		// too frequent for static
+		if(!m_vbuffer || m_vbuffer->GetCapacity() < va.GetNumVerts()) {
+			m_vbuffer.Reset( m_font->CreateVertexBuffer(va, false) );		// too frequent for static
+		}
+		m_vbuffer->Populate(va);
 		m_bNeedsUpdating = false;
 		m_bPrevDisabled = IsDisabled();
 		m_prevOpacity = opacity;

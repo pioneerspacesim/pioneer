@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -11,7 +11,7 @@
 #include "LuaMissile.h"
 #include "SpaceStation.h"
 #include "ShipType.h"
-#include "Sfx.h"
+// #include "Sfx.h"
 #include "Sound.h"
 #include "Space.h"
 #include "Pi.h"
@@ -672,6 +672,14 @@ static int l_ship_is_ecm_ready(lua_State *l)
  *
  *   duration - travel time, in seconds.
  *
+ *   sounds - a table of sounds, of the form:
+ *            {
+ *                warmup = "Hyperdrive_Charge",
+ *                abort = "Hyperdrive_Abort",
+ *                jump = "Hyperdrive_Jump",
+ *            }
+ *            The values refer to sound-effects under the data/sounds/ directory.
+ *
  *   checks - optional. A function that doesn't take any parameter and returns
  *            true as long as all the conditions for hyperspace are met.
  *
@@ -694,11 +702,22 @@ static int l_ship_initiate_hyperjump_to(lua_State *l)
 	SystemPath *dest = LuaObject<SystemPath>::CheckFromLua(2);
 	int warmup_time = lua_tointeger(l, 3);
 	int duration = lua_tointeger(l, 4);
-	LuaRef checks;
-	if (lua_gettop(l) >= 5)
-		checks = LuaRef(l, 5);
 
-	Ship::HyperjumpStatus status = s->InitiateHyperjumpTo(*dest, warmup_time, duration, checks);
+	HyperdriveSoundsTable sounds;
+	if (lua_gettop(l) >= 5 && lua_istable(l, 5)) {
+		LuaTable t(l, 5);
+		sounds.warmup_sound = t.Get("warmup", "Hyperdrive_Charge");
+		sounds.abort_sound = t.Get("abort", "Hyperdrive_Abort");
+		sounds.jump_sound = t.Get("jump", "Hyperdrive_Jump");
+	} else {
+		return luaL_error(l, "Ship:InitiateHyperjumpTo() requires a sound table in argument 5.");
+	}
+
+	LuaRef checks;
+	if (lua_gettop(l) >= 6)
+		checks = LuaRef(l, 6);
+
+	Ship::HyperjumpStatus status = s->InitiateHyperjumpTo(*dest, warmup_time, duration, sounds, checks);
 
 	lua_pushstring(l, EnumStrings::GetString("ShipJumpStatus", status));
 	return 1;
@@ -996,7 +1015,7 @@ static int l_ship_get_position(lua_State *l)
 
 /* Method: GetHullTemperature
  *
- * Return the current hull temperature (0.0 - 1.0). 
+ * Return the current hull temperature (0.0 - 1.0).
  *
  * Returns:
  *
@@ -1505,7 +1524,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetShipName",	l_ship_set_ship_name   },
 
 		{ "GetHyperspaceDestination", l_ship_get_hyperspace_destination },
-		
+
 		{ "SpawnCargo", l_ship_spawn_cargo },
 
 		{ "SpawnMissile", l_ship_spawn_missile },

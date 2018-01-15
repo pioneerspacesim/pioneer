@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Carbone minerale"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Carbone fossile, Petrolio ed altri idrocarburi naturali sono richiesti dall'Industria Chimica per la sintesi di vari prodotti come plastiche, alimenti sintetici, medicinali, tessuti e molto altro."
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Carico"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Fertilizzanti"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Hai pagato la sanzione di %fine."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Hai pagato %paid, ma hai ancora in pendenza sanzioni per %fine."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Usa arma"
@@ -551,10 +539,6 @@
       "description" : "",
       "message" : "Idrogeno"
    },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "L'Idrogeno è usato principalmente nei reattori a fusione"
-   },
    "HYPERSPACE" : {
       "description" : "",
       "message" : "Iperspazio"
@@ -573,7 +557,7 @@
    },
    "HYPERSPACE_JUMP_ABORT" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disattiva Iperguida"
+      "message" : "Disattiva Iper-propulsione"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
@@ -581,15 +565,15 @@
    },
    "HYPERSPACE_JUMP_DISABLED" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Iperguida disabilitata"
+      "message" : "Iper-propulsione disabilitata"
    },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Attiva Iperguida"
+      "message" : "Attiva Iper-propulsione"
    },
    "HYPERSPACE_JUMP_FORBIDDEN" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Iperguida: Zona vietata"
+      "message" : "Iper-propulsione: Zona vietata"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Ossigeno liquido"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "L'ossigeno è necessario per i sistemi di supporto vitale, è utilizzato anche in alcuni processi industriali."
    },
    "LIQUOR" : {
       "description" : "",
@@ -997,7 +977,7 @@
    },
    "NO_HYPERDRIVE" : {
       "description" : "",
-      "message" : "Iperguida non montata"
+      "message" : "Iper-propulsione non montata"
    },
    "NO_REGISTERED_INHABITANTS" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Giovane colonia agricola."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Non hai più crediti."
    },
    "Z" : {
       "description" : "keybinding: z axis",

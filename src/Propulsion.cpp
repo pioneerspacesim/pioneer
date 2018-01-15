@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Propulsion.h"
@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "Object.h" // <- here only for comment in AIFaceDirection (line 320)
 #include "KeyBindings.h" // <- same here
+#include "GameSaveError.h"
 
 void Propulsion::SaveToJson(Json::Value &jsonObj, Space *space)
 {

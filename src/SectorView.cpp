@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -9,7 +9,6 @@
 #include "Pi.h"
 #include "Player.h"
 #include "SectorView.h"
-#include "Serializer.h"
 #include "ShipCpanel.h"
 #include "StringF.h"
 #include "SystemInfoView.h"
@@ -22,6 +21,7 @@
 #include "graphics/Renderer.h"
 #include "gui/Gui.h"
 #include "KeyBindings.h"
+#include "GameSaveError.h"
 #include <algorithm>
 #include <sstream>
 #include <SDL_stdinc.h>
@@ -764,29 +764,38 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 
 				Gui::Screen::MeasureString(labelText, labelWidth, labelHeight);
 
+				// draw a big diamond for the location of the star
+				static const float STARSIZE = 5;
+				Graphics::VertexArray outline(Graphics::ATTRIB_POSITION);
+				outline.Add(vector3f(pos.x - STARSIZE - 1.f, pos.y, 1));
+				outline.Add(vector3f(pos.x, pos.y + STARSIZE + 1.f, 1));
+				outline.Add(vector3f(pos.x, pos.y - STARSIZE - 1.f, 1));
+				outline.Add(vector3f(pos.x + STARSIZE + 1.f, pos.y, 1));
+				m_material->diffuse = { 0, 0, 0, 255 };
+				m_renderer->DrawTriangles(&outline, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
 
-				{
-					Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
-					va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f,               0));
-					va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f + labelHeight, 0));
-					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f,               0));
-					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f + labelHeight, 0));
-					m_material->diffuse = labelBorder;
-					m_renderer->DrawTriangles(&va, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
-				}
+				Graphics::VertexArray marker(Graphics::ATTRIB_POSITION);
+				marker.Add(vector3f(pos.x - STARSIZE, pos.y, 0));
+				marker.Add(vector3f(pos.x, pos.y + STARSIZE, 0));
+				marker.Add(vector3f(pos.x, pos.y - STARSIZE, 0));
+				marker.Add(vector3f(pos.x + STARSIZE, pos.y, 0));
+				m_material->diffuse = labelColor;
+				m_renderer->DrawTriangles(&marker, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
 
-				{
-					Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
-					va.Add(vector3f(pos.x - 8.f, pos.y,       0));
-					va.Add(vector3f(pos.x      , pos.y + 8.f, 0));
-					va.Add(vector3f(pos.x,       pos.y - 8.f, 0));
-					va.Add(vector3f(pos.x + 8.f, pos.y,       0));
-					m_material->diffuse = labelColor;
-					m_renderer->DrawTriangles(&va, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
-				}
+				// draw a surface for the label to sit on
+				static const float MARGINLEFT = 8;
+				float halfheight = labelHeight / 2.0;
+				Graphics::VertexArray surface(Graphics::ATTRIB_POSITION);
+				surface.Add(vector3f(pos.x + MARGINLEFT - 2.f, pos.y - halfheight, 0));
+				surface.Add(vector3f(pos.x + MARGINLEFT - 2.f, pos.y + halfheight, 0));
+				surface.Add(vector3f(pos.x + MARGINLEFT + labelWidth + 2.f, pos.y - halfheight, 0));
+				surface.Add(vector3f(pos.x + MARGINLEFT + labelWidth + 2.f, pos.y + halfheight, 0));
+				m_material->diffuse = labelBorder;
+				m_renderer->DrawTriangles(&surface, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
 
-				if (labelColor.GetLuminance() > 191) labelColor.a = 204;    // luminance is sometimes a bit overly
-				m_clickableLabels->Add(labelText, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), (*it)->homeworld), pos.x, pos.y, labelColor);
+				if (labelColor.GetLuminance() > 204)
+					labelColor.a = 204;    // luminance is sometimes a bit overly
+				m_clickableLabels->Add(labelText, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), (*it)->homeworld), pos.x + MARGINLEFT, pos.y - (halfheight / 2.0) - 1.f, labelColor);
 			}
 		}
 	}
@@ -1210,6 +1219,13 @@ void SectorView::BuildFarSector(RefCountedPtr<Sector> sec, const vector3f &origi
 	for (std::vector<Sector::System>::iterator i = sec->m_systems.begin(); i != sec->m_systems.end(); ++i) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
 		if ((m_pos*Sector::SIZE - (*i).GetFullPosition()).Length() > (m_zoomClamped/FAR_THRESHOLD )*OUTER_RADIUS) continue;
+
+		if (!i->IsExplored())
+		{
+			points.push_back((*i).GetFullPosition() - origin);
+			colors.push_back({ 100,100,100,155 });					// flat gray for unexplored systems
+			continue;
+		}
 
 		// if the system belongs to a faction we've chosen to hide also skip it, if it's not selectd in some way
 		m_visibleFactions.insert(i->GetFaction());

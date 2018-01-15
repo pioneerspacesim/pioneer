@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SPACESTATION_H
@@ -9,7 +9,6 @@
 #include "ModelBody.h"
 #include "NavLights.h"
 #include "Quaternion.h"
-#include "Serializer.h"
 #include "ShipType.h"
 #include "SpaceStationType.h"
 

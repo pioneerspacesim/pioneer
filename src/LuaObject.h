@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUAOBJECT_H
@@ -11,7 +11,6 @@
 #include "LuaWrappable.h"
 #include "RefCounted.h"
 #include "DeleteEmitter.h"
-#include "Serializer.h"
 #include <typeinfo>
 #include <tuple>
 

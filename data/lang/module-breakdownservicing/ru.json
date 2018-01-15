@@ -1,7 +1,11 @@
 {
    "FLAVOUR_0_INTRO" : {
       "description" : "",
-      "message" : "Застрахуйте себя от несвоевременных поломок гипердвигателя. Обратитесь в сервис сегодня. К вашим услугам официально одобренная фирма - Центр Обслуживания Двигателей станции {name}.\n\nДвигатель: {drive}\nЦена обслуживания: {price}\nГарантия: 18 месяцев\n{lasttime}"
+      "message" : "Застрахуйте себя от несвоевременных поломок гипердвигателя. Обратитесь в сервис сегодня. К вашим услугам официально одобренная фирма - Центр Обслуживания Двигателей станции {name}.\n"
+   },
+   "FLAVOUR_0_PRICE" : {
+      "description" : "",
+      "message" : "\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}"
    },
    "FLAVOUR_0_RESPONSE" : {
       "description" : "",
@@ -17,7 +21,11 @@
    },
    "FLAVOUR_1_INTRO" : {
       "description" : "",
-      "message" : "Я {proprietor}.  Я могу обслужить ваш {drive}. Гарантирую год работы без сбоев. Это будет стоить вам {price}.\n{lasttime}"
+      "message" : "I'm {proprietor}. I can service your hyperdrive, guaranteeing at least a year of trouble-free performance. "
+   },
+   "FLAVOUR_1_PRICE" : {
+      "description" : "",
+      "message" : "The cost for servicing your {drive} will be {price}\n{lasttime}"
    },
    "FLAVOUR_1_RESPONSE" : {
       "description" : "",
@@ -33,7 +41,11 @@
    },
    "FLAVOUR_2_INTRO" : {
       "description" : "",
-      "message" : "Привет! Мы - {proprietor} & Co - строим репутацию с вашей удачей!\n\n{lasttime}\nМы можем настроить ваш {drive}, обеспечив 12 месяцев бесперебойной работы. Это будет стоить {price}.  Я лично проконтролирую работу - можете быть спокойны."
+      "message" : "Hi there.  We at {proprietor} & Co stake our reputation on our work.\nWe can tune your ship's hyperdrive, ensuring 12 months of trouble-free operation. "
+   },
+   "FLAVOUR_2_PRICE" : {
+      "description" : "",
+      "message" : "\n\n{lasttime}\nFor your {drive}, I'll be supervising the work myself, so you can be sure that a good job will be done, for the sum of {price}."
    },
    "FLAVOUR_2_RESPONSE" : {
       "description" : "",
@@ -49,7 +61,11 @@
    },
    "FLAVOUR_3_INTRO" : {
       "description" : "",
-      "message" : "Добро пожаловать в SuperFix Maintenance!\n\n{lasttime}\nПришло время для двухгодичного сервиса? Мы проведем вам сверхтонкую настройку и максимальный сервис!\nМы можем настроить ваш {drive} за {price}. Дешевле не найдёте!"
+      "message" : "Добро пожаловать в SuperFix Maintenance! Пришло время для двухгодичного сервиса? Давайте-ка супер-подправим Ваш гипердвигатель!"
+   },
+   "FLAVOUR_3_PRICE" : {
+      "description" : "",
+      "message" : "\n\n{lasttime}\nWe can tune your {drive} for just {price}.  There's nobody cheaper!"
    },
    "FLAVOUR_3_RESPONSE" : {
       "description" : "",
@@ -65,7 +81,11 @@
    },
    "FLAVOUR_4_INTRO" : {
       "description" : "",
-      "message" : "Добро пожаловать в Time and Space, Inc.\n\nМы специалисты по обслуживаю гипердвигателей. Предоставляем двухлетнюю гарантию!\n{lasttime}\nМы обслужим ваш {drive} за {price}. Готовы начать?"
+      "message" : "Добро пожаловать в Time and Space, Inc.\n\nМы специалисты по обслуживаю гипердвигателей. Предоставляем двухлетнюю гарантию!"
+   },
+   "FLAVOUR_4_PRICE" : {
+      "description" : "",
+      "message" : "\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?"
    },
    "FLAVOUR_4_RESPONSE" : {
       "description" : "",
@@ -81,7 +101,11 @@
    },
    "FLAVOUR_5_INTRO" : {
       "description" : "",
-      "message" : "Избегайте проблем с гипердвигателями. Пройдите сервисное обслуживание сегодня.\n\nДвигатель: {drive}\nЦена обслуживания: {price}\n{lasttime}"
+      "message" : "Избегайте проблем с гипердвигателями. Пройдите сервисное обслуживание сегодня.\n"
+   },
+   "FLAVOUR_5_PRICE" : {
+      "description" : "",
+      "message" : "\nEngine: {drive}\nService: {price}\n{lasttime}"
    },
    "FLAVOUR_5_RESPONSE" : {
       "description" : "",

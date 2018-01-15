@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Carbone"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Les hydrocarbures (charbon, huile) sont requis pour synthétiser de nombreux composés chimiques, plastiques, aliments synthétiques, médicaments et tissus"
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Cargaison"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Fertilisant"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Vous avez payé l'amende de %fine."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Vous avez payé %paid mais il reste encore %fine à payer."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Utiliser arme"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Hydrogène"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "L'hydrogène est utilisé comme carburant de fusion"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Oxygène Liquide"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "L'oxygène liquide est requis par certains procédés industriels et les systèmes de support vitaux"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Jeune colonie agricole."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Vous n'avez pas d'argent."
    },
    "Z" : {
       "description" : "keybinding: z axis",

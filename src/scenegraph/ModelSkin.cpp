@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelSkin.h"
@@ -6,6 +6,7 @@
 #include "StringF.h"
 #include "graphics/TextureBuilder.h"
 #include "json/JsonUtils.h"
+#include "GameSaveError.h"
 
 #include "RandomColor.h"
 

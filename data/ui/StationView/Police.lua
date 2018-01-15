@@ -1,4 +1,4 @@
--- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -22,7 +22,7 @@ local police = function (tab)
 
 	local station = Game.player:GetDockedWith()
 
-	local rand = Rand.New(util.hash_random(station.seed .. '-police', 2^31-1) - 1)
+	local rand = Rand.New(station.seed .. '-police')
 	local face = InfoFace.New(Character.New({
 		title  = l.CONSTABLE,
 		armour = true,

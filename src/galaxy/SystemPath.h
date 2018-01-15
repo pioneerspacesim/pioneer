@@ -1,13 +1,17 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SYSTEMPATH_H
 #define _SYSTEMPATH_H
 
-#include "Serializer.h"
 #include "LuaWrappable.h"
-#include "json/json.h"
 #include <stdexcept>
+#include <SDL_stdinc.h>
+#include <cassert>
+
+namespace Json {
+	class Value;
+}
 
 class SystemPath : public LuaWrappable {
 public:
@@ -136,30 +140,8 @@ public:
 		return SystemPath(sectorX, sectorY, sectorZ, systemIndex);
 	}
 
-	void ToJson(Json::Value &jsonObj) const {
-		Json::Value systemPathObj(Json::objectValue); // Create JSON object to contain system path data.
-		systemPathObj["sector_x"] = sectorX;
-		systemPathObj["sector_y"] = sectorY;
-		systemPathObj["sector_z"] = sectorZ;
-		systemPathObj["system_index"] = systemIndex;
-		systemPathObj["body_index"] = bodyIndex;
-		jsonObj["system_path"] = systemPathObj; // Add system path object to supplied object.
-	}
-	static SystemPath FromJson(const Json::Value &jsonObj) {
-		if (!jsonObj.isMember("system_path")) throw SavedGameCorruptException();
-		Json::Value systemPathObj = jsonObj["system_path"];
-		if (!systemPathObj.isMember("sector_x")) throw SavedGameCorruptException();
-		if (!systemPathObj.isMember("sector_y")) throw SavedGameCorruptException();
-		if (!systemPathObj.isMember("sector_z")) throw SavedGameCorruptException();
-		if (!systemPathObj.isMember("system_index")) throw SavedGameCorruptException();
-		if (!systemPathObj.isMember("body_index")) throw SavedGameCorruptException();
-		Sint32 x = systemPathObj["sector_x"].asInt();
-		Sint32 y = systemPathObj["sector_y"].asInt();
-		Sint32 z = systemPathObj["sector_z"].asInt();
-		Uint32 si = systemPathObj["system_index"].asUInt();
-		Uint32 bi = systemPathObj["body_index"].asUInt();
-		return SystemPath(x, y, z, si, bi);
-	}
+	void ToJson(Json::Value &jsonObj) const;
+	static SystemPath FromJson(const Json::Value &jsonObj);
 
 	// sometimes it's useful to be able to get the SystemPath data as a blob
 	// (for example, to be used for hashing)

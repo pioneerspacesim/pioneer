@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Sector.h"
@@ -109,5 +109,5 @@ float Sector::System::DistanceBetween(const System* a, const System* b)
 void Sector::System::AssignFaction() const
 {
 	assert(m_sector->m_galaxy->GetFactions()->MayAssignFactions());
-	m_faction = m_sector->m_galaxy->GetFactions()->GetNearestFaction(this);
+	m_faction = m_sector->m_galaxy->GetFactions()->GetNearestClaimant(this);
 }

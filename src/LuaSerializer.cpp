@@ -1,8 +1,9 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaSerializer.h"
 #include "LuaObject.h"
+#include "GameSaveError.h"
 #include "json/JsonUtils.h"
 
 // every module can save one object. that will usually be a table.  we call

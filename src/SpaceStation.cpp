@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SpaceStation.h"
@@ -14,7 +14,6 @@
 #include "Planet.h"
 #include "Player.h"
 #include "Polit.h"
-#include "Serializer.h"
 #include "Ship.h"
 #include "Space.h"
 #include "StringF.h"
@@ -23,6 +22,7 @@
 #include "graphics/Graphics.h"
 #include "scenegraph/ModelSkin.h"
 #include "json/JsonUtils.h"
+#include "GameSaveError.h"
 #include <algorithm>
 
 void SpaceStation::Init()

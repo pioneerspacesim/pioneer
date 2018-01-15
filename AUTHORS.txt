@@ -73,6 +73,7 @@ The Pioneer Developers are:
 * Nic
 * Nick Wanstall
 * Oleg Ovcharenko
+* Paul Cercueil
 * Paul Mahol
 * Paul Roberts
 * Peter Feigl
@@ -97,6 +98,7 @@ The Pioneer Developers are:
 * Sukender (Benoit Neil)
 * Szilárd Bálint
 * Taiki Kim
+* Taylor Talkington
 * Thierry Dupré
 * Tim Jones
 * Timothy Hills
@@ -111,7 +113,7 @@ The Pioneer Developers are:
 Licensing
 =========
 
-Copyright © 2008-2017 Pioneer Developers
+Copyright © 2008-2018 Pioneer Developers
 Portions copyright © 2013-2014 Meteoric Games Ltd.
 
 Pioneer's core code and extension modules are licensed under the terms of the

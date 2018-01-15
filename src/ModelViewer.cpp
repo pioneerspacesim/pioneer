@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelViewer.h"
@@ -18,6 +18,7 @@
 #include "Pi.h"
 #include "StringF.h"
 #include "ModManager.h"
+#include "GameSaveError.h"
 #include <sstream>
 
 //default options
@@ -333,7 +334,7 @@ void ModelViewer::HitImpl()
 			// Please don't do this in game, no speed guarantee
 			const Uint32 posOffs = mesh.vertexBuffer->GetDesc().GetOffset(Graphics::ATTRIB_POSITION);
 			const Uint32 stride  = mesh.vertexBuffer->GetDesc().stride;
-			const Uint32 vtxIdx = m_rng.Int32() % mesh.vertexBuffer->GetVertexCount();
+			const Uint32 vtxIdx = m_rng.Int32() % mesh.vertexBuffer->GetSize();
 
 			const Uint8 *vtxPtr = mesh.vertexBuffer->Map<Uint8>(Graphics::BUFFER_MAP_READ);
 			const vector3f pos = *reinterpret_cast<const vector3f*>(vtxPtr + vtxIdx * stride + posOffs);

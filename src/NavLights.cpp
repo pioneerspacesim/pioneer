@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "NavLights.h"
@@ -7,6 +7,8 @@
 #include "scenegraph/SceneGraph.h"
 #include "IniConfig.h"
 #include "FileSystem.h"
+#include "GameSaveError.h"
+#include "utils.h"
 
 const float BILLBOARD_SIZE = 2.5f;
 
@@ -198,10 +200,10 @@ void NavLights::Render(Graphics::Renderer *renderer)
 		m_billboardRS = renderer->CreateRenderState(rsd);
 	}
 
-	const bool bVBValid = m_billboardVB.Valid();
-	const bool bHasVerts = !m_billboardTris.IsEmpty();
-	const bool bVertCountEqual = bVBValid && (m_billboardVB->GetVertexCount() == m_billboardTris.GetNumVerts());
-	if( bHasVerts && (!bVBValid || !bVertCountEqual) )
+	const bool isVBValid = m_billboardVB.Valid();
+	const bool hasVerts = !m_billboardTris.IsEmpty();
+	const bool isVertCountEnough = isVBValid && (m_billboardTris.GetNumVerts() <= m_billboardVB->GetCapacity());
+	if( hasVerts && (!isVBValid || !isVertCountEnough) )
 	{
 		//create buffer
 		// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
@@ -217,7 +219,7 @@ void NavLights::Render(Graphics::Renderer *renderer)
 
 	if(m_billboardVB.Valid())
 	{
-		if(bHasVerts) {
+		if(hasVerts) {
 			m_billboardVB->Populate(m_billboardTris);
 			renderer->SetTransform(matrix4x4f::Identity());
 			renderer->DrawBuffer(m_billboardVB.Get(), m_billboardRS, matHalos4x4.Get(), Graphics::POINTS);

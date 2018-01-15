@@ -1,1 +1,13 @@
-generic-exec
+#!/bin/sh
+# Executable wrapper script
+# Ensures the program is up-to-date, then hands over
+
+PROGRAM_NAME=$(basename $0)
+
+EXEC_BIN=src/$PROGRAM_NAME
+START_DIR=$(pwd)
+WORK_DIR=$(dirname $0)
+
+cd $WORK_DIR
+make && exec $EXEC_BIN $*
+cd $START_DIR

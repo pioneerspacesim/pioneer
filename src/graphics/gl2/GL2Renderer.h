@@ -54,6 +54,7 @@ public:
 
 	virtual bool SupportsInstancing() override final { return false; }
 
+	virtual int GetMaximumNumberAASamples() const override final;
 	virtual bool GetNearFarRange(float &near, float &far) const override final;
 
 	virtual bool BeginFrame() override final;

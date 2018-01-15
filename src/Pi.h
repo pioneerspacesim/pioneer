@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PI_H
@@ -63,7 +63,7 @@ public:
 	static void StartGame();
 	static void RequestEndGame(); // request that the game is ended as soon as safely possible
 	static void EndGame();
-	static void Start();
+	static void Start(const int& startPlanet);
 	static void MainLoop();
 	static void TombStoneLoop();
 	static void OnChangeDetailLevel();
@@ -222,8 +222,6 @@ private:
 	static bool hudTrailsDisplayed;
 	static bool bRefreshBackgroundStars;
 	static float amountOfBackgroundStarsDisplayed;
-
-	static Gui::Fixed *menu;
 
 	static Graphics::RenderTarget *renderTarget;
 	static RefCountedPtr<Graphics::Texture> renderTexture;

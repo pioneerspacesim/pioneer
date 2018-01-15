@@ -1,3 +1,6 @@
+-- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 local Engine = import('Engine')
 local Game = import('Game')
 local ui = import('pigui/pigui.lua')
@@ -17,6 +20,8 @@ local mainButtonSize = Vector(32,32) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
 local itemSpacingX = 8 -- imgui default
 
+local show_thrust_slider = false
+
 local function mainMenuButton(icon, selected, tooltip, color)
 	if color == nil then
 		color = colors.white
@@ -32,9 +37,24 @@ local function button_lowThrustPower()
 			["ButtonHovered"] = colors.buttonBlue:shade(0.4),
 			["ButtonActive"] = colors.buttonBlue:shade(0.2)},
 		function ()
-			if ui.lowThrustButton("lowthrust", mainButtonSize, thrust * 100, colors.lightBlueBackground, mainButtonFramePadding, gauge_fg, gauge_bg) then
-				Game:ToggleLowThrustPowerOptions()
+            local winpos = ui.getWindowPos()
+            local pos = ui.getCursorPos()
+			if ui.lowThrustButton("lowthrust", mainButtonSize, thrust * 100, colors.lightBlueBackground, mainButtonFramePadding, gauge_fg, gauge_bg)  then
+                show_thrust_slider = not show_thrust_slider
 			end
+            
+            if show_thrust_slider then
+                local p = winpos + pos - Vector(8,100+9)
+                ui.setNextWindowPos(p,'Always')
+                
+                ui.window("ThrustSliderWindow", {"NoTitleBar", "NoResize"},
+                    function()
+                        ui.withStyleColors({["SliderGrab"] =colors.white, ["SliderGrabActive"]=colors.buttonBlue},function()
+                            new_thrust = ui.vSliderInt('###ThrustLowPowerSlider',Vector(mainButtonSize.x + 1 + 2 * mainButtonFramePadding,100), thrust*100,0,100)
+                            player:SetLowThrustPower(new_thrust/100)
+                        end)
+                end)
+            end
 	end)
 	if ui.isItemHovered() then
 		ui.setTooltip(lc.SELECT_LOW_THRUST_POWER_LEVEL)
@@ -125,7 +145,7 @@ local function displayShipFunctionWindow()
 								button_lowThrustPower()
 								button_thrustIndicator()
 								if ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f8) then
-									Game.ToggleLowThrustPowerOptions()
+                                    show_thrust_slider = not show_thrust_slider
 								end
 							end -- current_view == "world"
 	end)

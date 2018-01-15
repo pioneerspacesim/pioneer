@@ -1,11 +1,10 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Ship.h"
 #include "CargoBody.h"
 #include "Game.h"
 #include "Pi.h"
-#include "Serializer.h"
 #include "Sfx.h"
 #include "Space.h"
 #include "EnumStrings.h"
@@ -13,6 +12,7 @@
 #include "collider/collider.h"
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
+#include "GameSaveError.h"
 
 void CargoBody::SaveToJson(Json::Value &jsonObj, Space *space)
 {
@@ -50,7 +50,8 @@ void CargoBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
 void CargoBody::Init()
 {
 	m_hitpoints = 1.0f;
-	SetLabel(ScopedTable(m_cargo).CallMethod<std::string>("GetName"));
+	std::string cargoname = ScopedTable(m_cargo).CallMethod<std::string>("GetName"); // instead of switching to lua twice for the same value
+	SetLabel(cargoname);
 	SetMassDistributionFromModel();
 	m_hasSelfdestruct = true;
 
@@ -66,7 +67,7 @@ void CargoBody::Init()
 	skin.Apply(GetModel());
 	GetModel()->SetColors(colors);
 
-	Properties().Set("type", ScopedTable(m_cargo).CallMethod<std::string>("GetName"));
+	Properties().Set("type", cargoname);
 }
 
 CargoBody::CargoBody(const LuaRef& cargo, float selfdestructTimer): m_cargo(cargo)

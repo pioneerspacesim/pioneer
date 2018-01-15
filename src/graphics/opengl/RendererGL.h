@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -60,6 +60,7 @@ public:
 
 	virtual bool SupportsInstancing() override final { return true; }
 
+	virtual int GetMaximumNumberAASamples() const override final;
 	virtual bool GetNearFarRange(float &near_, float &far_) const override final;
 
 	virtual bool BeginFrame() override final;

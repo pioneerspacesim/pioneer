@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -71,7 +71,7 @@ static int l_body_attr_seed(lua_State *l)
 	const SystemBody *sbody = b->GetSystemBody();
 	assert(sbody);
 
-	lua_pushinteger(l, sbody->GetSeed());
+	lua_pushnumber(l, sbody->GetSeed());
 	return 1;
 }
 

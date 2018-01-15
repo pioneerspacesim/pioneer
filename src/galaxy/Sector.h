@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SECTOR_H
@@ -65,6 +65,7 @@ public:
 		bool InSameSector(const SystemPath &b) const {
 			return sx == b.sectorX && sy == b.sectorY && sz == b.sectorZ;
 		}
+		SystemPath GetPath() const { return SystemPath(sx, sy, sz, idx); }
 
 		const int sx, sy, sz;
 		const Uint32 idx;

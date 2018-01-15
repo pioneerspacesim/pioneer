@@ -1,7 +1,11 @@
 {
    "FLAVOUR_0_INTRO" : {
       "description" : "",
-      "message" : "Evita l'inconveniente di un iperguida guasta. Fai rivisionare la tua oggi, dalla {name} autorizzata ufficiale Azienda Manutenzione Motori.\n\nMotore: {drive}\nRevisione: {price}\nGaranzia: 18 mesi\n\n{lasttime}"
+      "message" : "Evita l'inconveniente di un ipermotore guasto. Fai revisionare la tua oggi, dalla {name} Azienda Manutenzione Motori, autorizzata ufficiale."
+   },
+   "FLAVOUR_0_PRICE" : {
+      "description" : "",
+      "message" : "\nMotore: {drive}\nServizio: {price}\nGaranzia: 18 mesi\n{lasttime}"
    },
    "FLAVOUR_0_RESPONSE" : {
       "description" : "",
@@ -17,23 +21,31 @@
    },
    "FLAVOUR_1_INTRO" : {
       "description" : "",
-      "message" : "Sono {proprietor}. Posso revisionare la sua {drive}, garantendo almeno un anno di prestazioni senza incovenienti. Il costo per questo servizio sarà di {price}.\n\n{lasttime}"
+      "message" : "Sono {proprietor}. Posso revisionare il suo Iper-propulsore, garantendo almeno un anno di prestazioni senza inconvenienti."
+   },
+   "FLAVOUR_1_PRICE" : {
+      "description" : "",
+      "message" : "Il prezzo per la manutenzione del suo {drive} sarà di {price}\n{lasttime}"
    },
    "FLAVOUR_1_RESPONSE" : {
       "description" : "",
-      "message" : "Ho revisionato la sua Iperguida."
+      "message" : "Ho revisionato il suo Iper-propulsore."
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "",
-      "message" : "{proprietor}: Specialista manutenzione Iperguide"
+      "message" : "{proprietor}: Specialista manutenzione Iper-propulsori"
    },
    "FLAVOUR_1_YESPLEASE" : {
       "description" : "",
-      "message" : "Revisiona la mia Iperguida"
+      "message" : "Revisiona il mio propulsore"
    },
    "FLAVOUR_2_INTRO" : {
       "description" : "",
-      "message" : "Salve. Noi di {proprietor} & Co giochiamo la reputazione sul nostro lavoro.\n\n{lasttime}\n\nPossiamo mettere a punto l'{drive} della sua astronave, garantendo 12 mesi di operatività senza inconvenienti, per un totale di {price}. Supervisionerò personalmente i lavori, in modo che possa essere sicuro di un lavoro ben fatto."
+      "message" : "Salve. Qui alla {proprietor} & Co la nostra reputazione dipende dal buon lavoro.\nPossiamo mettere a punto l'iper-propulsore della sua astronave, garantendo 12 mesi di operatività senza inconvenienti."
+   },
+   "FLAVOUR_2_PRICE" : {
+      "description" : "",
+      "message" : "\n{lasttime}\nPer il suo {drive}, supervisionerò personalmente il lavoro, così che possa essere sicuro che sarà fatto un buon lavoro, per un totale di {price}."
    },
    "FLAVOUR_2_RESPONSE" : {
       "description" : "",
@@ -45,11 +57,15 @@
    },
    "FLAVOUR_2_YESPLEASE" : {
       "description" : "",
-      "message" : "Metta a punto la mia Iperguida per il prezzo preventivato"
+      "message" : "Metta a punto il mio iper-propulsore per il prezzo preventivato"
    },
    "FLAVOUR_3_INTRO" : {
       "description" : "",
-      "message" : "Benvenuti a SuperFix Manutenzioni.\n\n{lasttime}\n\nTempo della sua revisione biennale? Lasci che noi SuperFix-iamo la sua Iperguida!\nPossiamo mettere a punto il suo {drive} per appena {price}. Nessuno ha prezzi migliori!"
+      "message" : "Benvenuti a SuperFix Manutenzioni. È tempo della sua revisione biennale? Lasci che noi SuperFix-iamo il suo iper-propulsore!"
+   },
+   "FLAVOUR_3_PRICE" : {
+      "description" : "",
+      "message" : "\n{lasttime}\nPossiamo mettere a punto il suo {drive} per appena {price}. Nessuno ha prezzi migliori!"
    },
    "FLAVOUR_3_RESPONSE" : {
       "description" : "",
@@ -65,11 +81,15 @@
    },
    "FLAVOUR_4_INTRO" : {
       "description" : "",
-      "message" : "Benvenuti alla SpazioTempo.\n\nSiamo specializzati in motori interstellari. Tutti i lavori di manutenzione sono garantiti per due anni.\n\n{lasttime}\n\nLa reisione della sua {drive} costerà {price}. Vuole procedere?"
+      "message" : "Benvenuti alla SpazioTempo.\n\nSiamo specializzati in motori interstellari. Tutti i lavori di manutenzione sono garantiti per due anni."
+   },
+   "FLAVOUR_4_PRICE" : {
+      "description" : "",
+      "message" : "\n{lasttime}\nIl prezzo per la manutenzione del suo {drive} sarà di {price}. Vuole procedere?"
    },
    "FLAVOUR_4_RESPONSE" : {
       "description" : "",
-      "message" : "Abbiamo completato il lavoro sulla sua Iperguida."
+      "message" : "Abbiamo completato il lavoro sul suo iper-propulsore."
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "",
@@ -81,7 +101,11 @@
    },
    "FLAVOUR_5_INTRO" : {
       "description" : "",
-      "message" : "Evita l'inconveniente di un iperguida guasta. Rivisiona la tua oggi.\n\nMotore: {drive}\nRevisione: {price}\n\n{lasttime}"
+      "message" : "Evita l'inconveniente di un ipermotore guasto. Revisiona il tuo oggi."
+   },
+   "FLAVOUR_5_PRICE" : {
+      "description" : "",
+      "message" : "\nMotore: {drive}\nServizio: {price}\n{lasttime}"
    },
    "FLAVOUR_5_RESPONSE" : {
       "description" : "",
@@ -101,26 +125,26 @@
    },
    "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "Ho riparato l'Iperguida prima che si guastasse."
+      "message" : "Ho riparato l'iper-propulsore prima che si guastasse."
    },
    "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
       "description" : "",
-      "message" : "L'Iperguida della nave è andata distrutta a causa di un malfunzionamento"
+      "message" : "L'Iper-propulsore della nave è andato distrutto a causa di un malfunzionamento"
    },
    "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
       "description" : "",
-      "message" : "La sua Iperguida non è stata revisionata dal giorno della sua installazione in data {date}"
+      "message" : "Il suo propulsore non è stato revisionato dal giorno della sua installazione in data {date}"
    },
    "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
       "description" : "",
-      "message" : "La sua Iperguida è stata revisionata il {date} da {company}"
+      "message" : "Il suo sua propulsore è stato revisionato il {date} da {company}"
    },
    "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
       "description" : "",
-      "message" : "Non ha un'Iperguida da revisionare!"
+      "message" : "Non ha un propulsore da revisionare!"
    },
    "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "Hai riparato l'Iperguida prima che si guastasse."
+      "message" : "Hai riparato l'Iper-propulsore prima che si guastasse."
    }
 }

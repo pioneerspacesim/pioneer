@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -20,6 +20,7 @@
 #include "galaxy/GalaxyCache.h"
 #include "Factions.h"
 #include "FileSystem.h"
+#include "GameSaveError.h"
 
 /*
  * Class: StarSystem
@@ -542,6 +543,28 @@ static int l_starsystem_attr_faction(lua_State *l)
 }
 
 /*
+* Attribute: govtype
+*
+* The government type used in the system
+* (PolitGovType string constant, EARTHCOLONIAL, EARTHDEMOC, EMPIRERULE, etc.
+*
+* Availability:
+*
+*   december 2017
+*
+* Status:
+*
+*   experimental
+*/
+static int l_starsystem_attr_govtype(lua_State *l)
+{
+	PROFILE_SCOPED()
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	lua_pushstring(l, EnumStrings::GetString("PolitGovType", s->GetSysPolit().govType));
+	return 1;
+}
+
+/*
  * Attribute: explored
  *
  *   If this system has been explored then returns true
@@ -592,6 +615,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ "lawlessness", l_starsystem_attr_lawlessness },
 		{ "population",  l_starsystem_attr_population  },
 		{ "faction",     l_starsystem_attr_faction     },
+		{ "govtype",     l_starsystem_attr_govtype     },
 		{ "explored",    l_starsystem_attr_explored    },
 
 		{ 0, 0 }

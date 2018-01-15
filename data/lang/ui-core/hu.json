@@ -915,6 +915,14 @@
       "description" : "Light year",
       "message" : "fé"
    },
+   "MAJOR_EXPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Főbb export"
+   },
+   "MAJOR_IMPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Főbb import"
+   },
    "MAKE_NEW_FACE" : {
       "description" : "",
       "message" : "Új arc"
@@ -990,6 +998,14 @@
    "MINIMUM_CREW" : {
       "description" : "",
       "message" : "Minimális legénység"
+   },
+   "MINOR_EXPORTS_ITEM" : {
+      "description" : "",
+      "message" : "További export"
+   },
+   "MINOR_IMPORTS_ITEM" : {
+      "description" : "",
+      "message" : "További import"
    },
    "MISSILE_MOUNTS" : {
       "description" : "",

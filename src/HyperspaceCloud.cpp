@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "HyperspaceCloud.h"
@@ -8,7 +8,6 @@
 #include "perlin.h"
 #include "Pi.h"
 #include "Player.h"
-#include "Serializer.h"
 #include "Ship.h"
 #include "Space.h"
 #include "graphics/Graphics.h"
@@ -17,6 +16,7 @@
 #include "graphics/VertexArray.h"
 #include "graphics/RenderState.h"
 #include "json/JsonUtils.h"
+#include "GameSaveError.h"
 
 using namespace Graphics;
 

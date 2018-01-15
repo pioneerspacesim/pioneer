@@ -22,12 +22,10 @@
 
 /* Begin PBXBuildFile section */
 		3701C5861B1ABDA2000F4A72 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */; };
-		37074B911B1C653D00AFE2CE /* libbz2.1.0.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
 		37074B921B1C653D00AFE2CE /* libpng16.16.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */; };
-		37074B931B1C653D00AFE2CE /* libz.1.2.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
-		37074B941B1C6DDC00AFE2CE /* libbz2.1.0.6.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		37074B931B1C653D00AFE2CE /* libz.1.2.11.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B901B1C653D00AFE2CE /* libz.1.2.11.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
 		37074B951B1C6DDC00AFE2CE /* libpng16.16.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		37074B961B1C6DDC00AFE2CE /* libz.1.2.8.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		37074B961B1C6DDC00AFE2CE /* libz.1.2.11.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B901B1C653D00AFE2CE /* libz.1.2.11.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		378563521B19769A0039F2BC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 378563511B19769A0039F2BC /* OpenGL.framework */; };
 		3785635D1B197CF90039F2BC /* JsonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563581B197CF90039F2BC /* JsonUtils.cpp */; };
 		3785635F1B197CF90039F2BC /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785635C1B197CF90039F2BC /* jsoncpp.cpp */; };
@@ -153,6 +151,10 @@
 		4A1904DF138AA39C00E0229C /* lundump.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A19042D138AA39C00E0229C /* lundump.c */; };
 		4A1904E1138AA39C00E0229C /* lvm.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A190430138AA39C00E0229C /* lvm.c */; };
 		4A1904E3138AA39C00E0229C /* lzio.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A190433138AA39C00E0229C /* lzio.c */; };
+		4A1AE0771F6404C9005708AA /* libbz2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A1AE0761F6404C9005708AA /* libbz2.1.0.dylib */; };
+		4A1AE07A1F64183B005708AA /* LuaHyperspaceCloud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A1AE0781F6411C5005708AA /* LuaHyperspaceCloud.cpp */; };
+		4A1AE07B1F64BF32005708AA /* libbz2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A1AE0761F6404C9005708AA /* libbz2.1.0.dylib */; };
+		4A1AE07C1F64BF55005708AA /* libbz2.1.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A1AE0761F6404C9005708AA /* libbz2.1.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4A20B0E3135319770020F43E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A20B0E2135319770020F43E /* Cocoa.framework */; };
 		4A20B11C13531CD10020F43E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11613531CD10020F43E /* Credits.rtf */; };
 		4A20B11D13531CD10020F43E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11813531CD10020F43E /* InfoPlist.strings */; };
@@ -486,7 +488,6 @@
 		522E334F1C1B26C300AB01D3 /* SDL2.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 522E334B1C1B26AD00AB01D3 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		523C0C5E1C33F90800802DC7 /* libcrypto.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 523C0C5D1C33F90800802DC7 /* libcrypto.1.0.0.dylib */; };
 		523C0C5F1C33F92000802DC7 /* libcrypto.1.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 523C0C5D1C33F90800802DC7 /* libcrypto.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		525515701CA6EBC30055DAB8 /* modelcompiler in Copy Model Compiler */ = {isa = PBXBuildFile; fileRef = 52F310201C907FDA00F8A082 /* modelcompiler */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		525515751CA6EEE30055DAB8 /* RandomColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 525515711CA6EE1C0055DAB8 /* RandomColor.cpp */; };
 		525515761CA6EEE30055DAB8 /* RandomColor.h in Sources */ = {isa = PBXBuildFile; fileRef = 525515721CA6EE1C0055DAB8 /* RandomColor.h */; };
 		525E07921C318AD1009BD2DD /* libssl.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */; };
@@ -662,9 +663,9 @@
 		52F404FA1C9498F90082B1F3 /* liblibscenegraph.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F404631C9496AA0082B1F3 /* liblibscenegraph.a */; };
 		52F404FB1C9498F90082B1F3 /* liblibtext.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F404431C9495FD0082B1F3 /* liblibtext.a */; };
 		52F404FC1C9499BA0082B1F3 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */; };
-		52F623AC1F0B82E000922CE1 /* libassimp.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F623AB1F0B82E000922CE1 /* libassimp.3.2.0.dylib */; };
-		52F623AD1F0B82E000922CE1 /* libassimp.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F623AB1F0B82E000922CE1 /* libassimp.3.2.0.dylib */; };
-		52F623AE1F0B82F000922CE1 /* libassimp.3.2.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 52F623AB1F0B82E000922CE1 /* libassimp.3.2.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		52F623AC1F0B82E000922CE1 /* libassimp.4.0.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F623AB1F0B82E000922CE1 /* libassimp.4.0.1.dylib */; };
+		52F623AD1F0B82E000922CE1 /* libassimp.4.0.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F623AB1F0B82E000922CE1 /* libassimp.4.0.1.dylib */; };
+		52F623AE1F0B82F000922CE1 /* libassimp.4.0.1.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 52F623AB1F0B82E000922CE1 /* libassimp.4.0.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F8FD8D721D3C0CA20075FEA1 /* GasGiantJobs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */; };
 /* End PBXBuildFile section */
 
@@ -685,13 +686,13 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				52F623AE1F0B82F000922CE1 /* libassimp.3.2.0.dylib in Copy SubLibraries */,
+				4A1AE07C1F64BF55005708AA /* libbz2.1.0.dylib in Copy SubLibraries */,
+				52F623AE1F0B82F000922CE1 /* libassimp.4.0.1.dylib in Copy SubLibraries */,
 				52161F531C34354B005D3B25 /* libogg.0.dylib in Copy SubLibraries */,
 				523C0C5F1C33F92000802DC7 /* libcrypto.1.0.0.dylib in Copy SubLibraries */,
 				525E07931C318AE4009BD2DD /* libssl.1.0.0.dylib in Copy SubLibraries */,
-				37074B941B1C6DDC00AFE2CE /* libbz2.1.0.6.dylib in Copy SubLibraries */,
 				37074B951B1C6DDC00AFE2CE /* libpng16.16.dylib in Copy SubLibraries */,
-				37074B961B1C6DDC00AFE2CE /* libz.1.2.8.dylib in Copy SubLibraries */,
+				37074B961B1C6DDC00AFE2CE /* libz.1.2.11.dylib in Copy SubLibraries */,
 				44B75A991B1C259600EC500F /* libsigc-2.0.0.dylib in Copy SubLibraries */,
 				44B75A971B1C259200EC500F /* libfreetype.6.dylib in Copy SubLibraries */,
 			);
@@ -730,7 +731,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				525515701CA6EBC30055DAB8 /* modelcompiler in Copy Model Compiler */,
 			);
 			name = "Copy Model Compiler";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -747,10 +747,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = /opt/local/lib/libfreetype.6.dylib; sourceTree = "<absolute>"; };
-		37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.6.dylib; path = /opt/local/lib/libbz2.1.0.6.dylib; sourceTree = "<absolute>"; };
-		37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng16.16.dylib; path = /opt/local/lib/libpng16.16.dylib; sourceTree = "<absolute>"; };
-		37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.8.dylib; path = /opt/local/lib/libz.1.2.8.dylib; sourceTree = "<absolute>"; };
+		3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = ../../../../../usr/local/Cellar/freetype/2.8/lib/libfreetype.6.dylib; sourceTree = "<group>"; };
+		37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng16.16.dylib; path = ../../../../../usr/local/Cellar/libpng/1.6.32/lib/libpng16.16.dylib; sourceTree = "<group>"; };
+		37074B901B1C653D00AFE2CE /* libz.1.2.11.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.11.dylib; path = ../../../../../usr/local/Cellar/zlib/1.2.11/lib/libz.1.2.11.dylib; sourceTree = "<group>"; };
 		378563511B19769A0039F2BC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		378563581B197CF90039F2BC /* JsonUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JsonUtils.cpp; sourceTree = "<group>"; };
 		378563591B197CF90039F2BC /* JsonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonUtils.h; sourceTree = "<group>"; };
@@ -999,6 +998,8 @@
 		4A190431138AA39C00E0229C /* lvm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lvm.h; sourceTree = "<group>"; };
 		4A190433138AA39C00E0229C /* lzio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lzio.c; sourceTree = "<group>"; };
 		4A190434138AA39C00E0229C /* lzio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lzio.h; sourceTree = "<group>"; };
+		4A1AE0761F6404C9005708AA /* libbz2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.dylib; path = ../../../../../usr/lib/libbz2.1.0.dylib; sourceTree = "<group>"; };
+		4A1AE0781F6411C5005708AA /* LuaHyperspaceCloud.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaHyperspaceCloud.cpp; sourceTree = "<group>"; };
 		4A1E9EBE144EEA8A009243D2 /* FloatComparison.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatComparison.h; sourceTree = "<group>"; };
 		4A20B0DE135319770020F43E /* pioneer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pioneer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A20B0E2135319770020F43E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -1158,7 +1159,7 @@
 		4A6C4D7113532FC300FDD53F /* View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = View.h; sourceTree = "<group>"; };
 		4A6C4D7213532FC300FDD53F /* WorldView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldView.cpp; sourceTree = "<group>"; };
 		4A6C4D7313532FC300FDD53F /* WorldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldView.h; sourceTree = "<group>"; };
-		4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libsigc-2.0.0.dylib"; path = "/opt/local/lib/libsigc-2.0.0.dylib"; sourceTree = "<absolute>"; };
+		4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libsigc-2.0.0.dylib"; path = "../../../../../usr/local/Cellar/libsigc++/2.10.0/lib/libsigc-2.0.0.dylib"; sourceTree = "<group>"; };
 		4A6C55141354655000FDD53F /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../data; sourceTree = "<group>"; };
 		4A712411170EC89000BB9BCC /* Orbit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Orbit.cpp; sourceTree = "<group>"; };
 		4A712412170EC89000BB9BCC /* Orbit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Orbit.h; sourceTree = "<group>"; };
@@ -1507,21 +1508,21 @@
 		4AFBD7BB16412676002928CB /* TextEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextEntry.cpp; sourceTree = "<group>"; };
 		4AFBD7BC16412676002928CB /* TextEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextEntry.h; sourceTree = "<group>"; };
 		52025F781C05BA7100254BB5 /* CollMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollMesh.cpp; sourceTree = "<group>"; };
-		52025F7A1C05BBAC00254BB5 /* libvorbis.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbis.0.dylib; path = ../../../../../opt/local/lib/libvorbis.0.dylib; sourceTree = "<group>"; };
-		52025F7E1C05BD3400254BB5 /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = ../../../../../opt/local/lib/libvorbisfile.3.dylib; sourceTree = "<group>"; };
+		52025F7A1C05BBAC00254BB5 /* libvorbis.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbis.0.dylib; path = ../../../../../usr/local/Cellar/libvorbis/1.3.5_1/lib/libvorbis.0.dylib; sourceTree = "<group>"; };
+		52025F7E1C05BD3400254BB5 /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = ../../../../../usr/local/Cellar/libvorbis/1.3.5_1/lib/libvorbisfile.3.dylib; sourceTree = "<group>"; };
 		520639271E561B5D00818943 /* OpenGLLibs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLLibs.h; sourceTree = "<group>"; };
 		5206392F1E561DE200818943 /* GenGasGiantColourMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GenGasGiantColourMaterial.cpp; sourceTree = "<group>"; };
 		520639301E561DE200818943 /* GenGasGiantColourMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenGasGiantColourMaterial.h; sourceTree = "<group>"; };
-		52161F511C343532005D3B25 /* libogg.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libogg.0.dylib; path = ../../../../../opt/local/lib/libogg.0.dylib; sourceTree = "<group>"; };
+		52161F511C343532005D3B25 /* libogg.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libogg.0.dylib; path = ../../../../../usr/local/Cellar/libogg/1.3.2/lib/libogg.0.dylib; sourceTree = "<group>"; };
 		5221A6DD1C958273002F4CD1 /* liblibposix.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibposix.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5221A7301C9588D8002F4CD1 /* libliblua.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libliblua.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		522B22CA1C06323C00109BB0 /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = ../../../../../opt/local/lib/libcurl.4.dylib; sourceTree = "<group>"; };
+		522B22CA1C06323C00109BB0 /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = ../../../../../usr/local/Cellar/curl/7.55.1/lib/libcurl.4.dylib; sourceTree = "<group>"; };
 		522E334A1C1B26AD00AB01D3 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../Library/Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
 		522E334B1C1B26AD00AB01D3 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
-		523C0C5D1C33F90800802DC7 /* libcrypto.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.1.0.0.dylib; path = ../../../../../opt/local/lib/libcrypto.1.0.0.dylib; sourceTree = "<group>"; };
+		523C0C5D1C33F90800802DC7 /* libcrypto.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.1.0.0.dylib; path = ../../../../../usr/local/Cellar/openssl/1.0.2l/lib/libcrypto.1.0.0.dylib; sourceTree = "<group>"; };
 		525515711CA6EE1C0055DAB8 /* RandomColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomColor.cpp; sourceTree = "<group>"; };
 		525515721CA6EE1C0055DAB8 /* RandomColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomColor.h; sourceTree = "<group>"; };
-		525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.1.0.0.dylib; path = ../../../../../opt/local/lib/libssl.1.0.0.dylib; sourceTree = "<group>"; };
+		525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.1.0.0.dylib; path = ../../../../../usr/local/Cellar/openssl/1.0.2l/lib/libssl.1.0.0.dylib; sourceTree = "<group>"; };
 		5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BillboardMaterial.cpp; sourceTree = "<group>"; };
 		528422901CC0E80700A9BFA8 /* BillboardMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BillboardMaterial.h; sourceTree = "<group>"; };
 		52875DFD1E66D68C00BA28A4 /* eglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eglew.h; sourceTree = "<group>"; };
@@ -1626,7 +1627,7 @@
 		52F4049F1C9497440082B1F3 /* liblibgraphicsdummy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibgraphicsdummy.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F404A91C9497820082B1F3 /* liblibgraphics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibgraphics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F404DA1C94985F0082B1F3 /* liblibgui.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibgui.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		52F623AB1F0B82E000922CE1 /* libassimp.3.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.2.0.dylib; path = ../../../../../opt/local/lib/libassimp.3.2.0.dylib; sourceTree = "<group>"; };
+		52F623AB1F0B82E000922CE1 /* libassimp.4.0.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.4.0.1.dylib; path = ../../../../../usr/local/Cellar/assimp/4.0.1/lib/libassimp.4.0.1.dylib; sourceTree = "<group>"; };
 		F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GasGiantJobs.cpp; sourceTree = "<group>"; };
 		F87E479F1D36A46F0008F233 /* GasGiantJobs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasGiantJobs.h; sourceTree = "<group>"; };
 		F8FD8D731D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GenGasGiantColourMaterial.cpp; path = opengl/GenGasGiantColourMaterial.cpp; sourceTree = "<group>"; };
@@ -1641,14 +1642,14 @@
 				527325DA1EC095EC00B0000E /* SDL2_image.framework in Frameworks */,
 				527325DB1EC095EC00B0000E /* SDL2.framework in Frameworks */,
 				52161F521C343532005D3B25 /* libogg.0.dylib in Frameworks */,
-				37074B911B1C653D00AFE2CE /* libbz2.1.0.6.dylib in Frameworks */,
 				523C0C5E1C33F90800802DC7 /* libcrypto.1.0.0.dylib in Frameworks */,
+				4A1AE07B1F64BF32005708AA /* libbz2.1.0.dylib in Frameworks */,
 				37074B921B1C653D00AFE2CE /* libpng16.16.dylib in Frameworks */,
 				522B22CB1C06323C00109BB0 /* libcurl.4.dylib in Frameworks */,
-				37074B931B1C653D00AFE2CE /* libz.1.2.8.dylib in Frameworks */,
+				37074B931B1C653D00AFE2CE /* libz.1.2.11.dylib in Frameworks */,
 				52025F7C1C05BBAC00254BB5 /* libvorbis.0.dylib in Frameworks */,
 				3701C5861B1ABDA2000F4A72 /* libfreetype.6.dylib in Frameworks */,
-				52F623AD1F0B82E000922CE1 /* libassimp.3.2.0.dylib in Frameworks */,
+				52F623AD1F0B82E000922CE1 /* libassimp.4.0.1.dylib in Frameworks */,
 				378563521B19769A0039F2BC /* OpenGL.framework in Frameworks */,
 				52025F7F1C05BD3400254BB5 /* libvorbisfile.3.dylib in Frameworks */,
 				4A20B0E3135319770020F43E /* Cocoa.framework in Frameworks */,
@@ -1685,7 +1686,7 @@
 				52F404F51C9498F90082B1F3 /* liblibgraphics.a in Frameworks */,
 				52F404F61C9498F90082B1F3 /* liblibgraphicsdummy.a in Frameworks */,
 				52F404FA1C9498F90082B1F3 /* liblibscenegraph.a in Frameworks */,
-				52F623AC1F0B82E000922CE1 /* libassimp.3.2.0.dylib in Frameworks */,
+				52F623AC1F0B82E000922CE1 /* libassimp.4.0.1.dylib in Frameworks */,
 				52F404F41C9498F90082B1F3 /* liblibcollider.a in Frameworks */,
 				52F404FB1C9498F90082B1F3 /* liblibtext.a in Frameworks */,
 				52F404F81C9498F90082B1F3 /* liblibpicodds.a in Frameworks */,
@@ -1698,6 +1699,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A1AE0771F6404C9005708AA /* libbz2.1.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2066,21 +2068,21 @@
 			children = (
 				378564291B197E7A0039F2BC /* BindingCapture.cpp */,
 				3785642A1B197E7A0039F2BC /* BindingCapture.h */,
+				4A4D25D2167335D9003BC9D5 /* Face.cpp */,
+				4A4D25D3167335D9003BC9D5 /* Face.h */,
 				52B054A31C184D0800BAAE57 /* GalaxyMap.cpp */,
 				52B054A41C184D0800BAAE57 /* GalaxyMap.h */,
+				4A24FD611650F4D100DE7B0F /* GameUI.h */,
 				52B054A51C184D0800BAAE57 /* LabelOverlay.cpp */,
 				52B054A61C184D0800BAAE57 /* LabelOverlay.h */,
+				4A24FD621650F4D100DE7B0F /* Lua.cpp */,
+				4A24FD631650F4D100DE7B0F /* Lua.h */,
 				3785642B1B197E7A0039F2BC /* LuaBindingCapture.cpp */,
+				4A4D25D4167335D9003BC9D5 /* LuaFace.cpp */,
 				52B054A71C184D0800BAAE57 /* LuaGalaxyMap.cpp */,
 				4AA527FB16E9EB650036D4CB /* LuaModelSpinner.cpp */,
 				4AA527FC16E9EB650036D4CB /* ModelSpinner.cpp */,
 				4AA527FD16E9EB650036D4CB /* ModelSpinner.h */,
-				4A4D25D2167335D9003BC9D5 /* Face.cpp */,
-				4A4D25D3167335D9003BC9D5 /* Face.h */,
-				4A24FD611650F4D100DE7B0F /* GameUI.h */,
-				4A24FD621650F4D100DE7B0F /* Lua.cpp */,
-				4A24FD631650F4D100DE7B0F /* Lua.h */,
-				4A4D25D4167335D9003BC9D5 /* LuaFace.cpp */,
 				4A24FD651650F4D100DE7B0F /* Panel.cpp */,
 				4A24FD661650F4D100DE7B0F /* Panel.h */,
 			);
@@ -2135,13 +2137,13 @@
 		4A671B851388C04700657F38 /* SubLibraries */ = {
 			isa = PBXGroup;
 			children = (
-				52F623AB1F0B82E000922CE1 /* libassimp.3.2.0.dylib */,
+				4A1AE0761F6404C9005708AA /* libbz2.1.0.dylib */,
+				52F623AB1F0B82E000922CE1 /* libassimp.4.0.1.dylib */,
 				52161F511C343532005D3B25 /* libogg.0.dylib */,
 				523C0C5D1C33F90800802DC7 /* libcrypto.1.0.0.dylib */,
 				525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */,
-				37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */,
 				37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */,
-				37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */,
+				37074B901B1C653D00AFE2CE /* libz.1.2.11.dylib */,
 				3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */,
 				4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */,
 			);
@@ -2151,15 +2153,6 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
-				52F08A7B1E57411000D4AAE6 /* Propulsion.cpp */,
-				52F08A7C1E57411000D4AAE6 /* Propulsion.h */,
-				52F08A7D1E57411000D4AAE6 /* Range.h */,
-				52F08A751E5740EA00D4AAE6 /* LuaPiGui.cpp */,
-				52F08A761E5740EA00D4AAE6 /* LuaPiGui.h */,
-				52F08A771E5740EA00D4AAE6 /* PiGui.cpp */,
-				52F08A781E5740EA00D4AAE6 /* PiGui.h */,
-				52F08A721E5740B100D4AAE6 /* FixedGuns.cpp */,
-				52F08A731E5740B100D4AAE6 /* FixedGuns.h */,
 				4A6C4BFE13532FC300FDD53F /* Aabb.h */,
 				4A6C4BFF13532FC300FDD53F /* AmbientSounds.cpp */,
 				4A6C4C0013532FC300FDD53F /* AmbientSounds.h */,
@@ -2171,8 +2164,6 @@
 				4A6C4C0213532FC300FDD53F /* Body.cpp */,
 				4A6C4C0313532FC300FDD53F /* Body.h */,
 				4A6392C4136BD51E008352F1 /* buildopts.h */,
-				F87E479F1D36A46F0008F233 /* GasGiantJobs.h */,
-				F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */,
 				4A305FCB151341170076D414 /* ByteRange.h */,
 				4A84CB82146027DC0051C848 /* Camera.cpp */,
 				4A84CB83146027DC0051C848 /* Camera.h */,
@@ -2211,6 +2202,8 @@
 				4A305FCC151341170076D414 /* FileSystem.cpp */,
 				4A305FCD151341170076D414 /* FileSystem.h */,
 				4A6C4C2513532FC300FDD53F /* fixed.h */,
+				52F08A721E5740B100D4AAE6 /* FixedGuns.cpp */,
+				52F08A731E5740B100D4AAE6 /* FixedGuns.h */,
 				4A1E9EBE144EEA8A009243D2 /* FloatComparison.h */,
 				4A94CA4114F26875002CA792 /* FontCache.cpp */,
 				4A94CA4214F26875002CA792 /* FontCache.h */,
@@ -2227,6 +2220,8 @@
 				4A24FD601650F4D100DE7B0F /* gameui */,
 				378563681B197D740039F2BC /* GasGiant.cpp */,
 				378563691B197D740039F2BC /* GasGiant.h */,
+				F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */,
+				F87E479F1D36A46F0008F233 /* GasGiantJobs.h */,
 				3785636A1B197D740039F2BC /* GeoPatch.cpp */,
 				3785636B1B197D740039F2BC /* GeoPatch.h */,
 				3785636C1B197D740039F2BC /* GeoPatchContext.cpp */,
@@ -2282,6 +2277,7 @@
 				4A9937281368355500EA0EE5 /* LuaFormat.h */,
 				4A9937291368355500EA0EE5 /* LuaGame.cpp */,
 				4A99372A1368355500EA0EE5 /* LuaGame.h */,
+				4A1AE0781F6411C5005708AA /* LuaHyperspaceCloud.cpp */,
 				4AE9706514369D7500424F91 /* LuaLang.cpp */,
 				4AE9706614369D7500424F91 /* LuaLang.h */,
 				4A99372B1368355500EA0EE5 /* LuaManager.cpp */,
@@ -2297,6 +2293,8 @@
 				4A99372E1368355500EA0EE5 /* LuaNameGen.h */,
 				4A99372F1368355500EA0EE5 /* LuaObject.cpp */,
 				4A82AA7F1386969B0028CCED /* LuaObject.h */,
+				52F08A751E5740EA00D4AAE6 /* LuaPiGui.cpp */,
+				52F08A761E5740EA00D4AAE6 /* LuaPiGui.h */,
 				4A9937301368355500EA0EE5 /* LuaPlanet.cpp */,
 				4A9937321368355500EA0EE5 /* LuaPlayer.cpp */,
 				4A8AE19217208CE40005C2D9 /* LuaPropertiedObject.cpp */,
@@ -2331,13 +2329,13 @@
 				4AF999A21496D51F009821AF /* MathUtil.h */,
 				4ACE132E16B4B19D00CAE524 /* matrix3x3.h */,
 				4A6C4CD913532FC300FDD53F /* matrix4x4.h */,
-				52F3101A1C907E2800F8A082 /* modelcompiler.cpp */,
 				4A6C4CDA13532FC300FDD53F /* Missile.cpp */,
 				4A6C4CDB13532FC300FDD53F /* Missile.h */,
 				4A6C4CDE13532FC300FDD53F /* ModelBody.cpp */,
 				4A6C4CDF13532FC300FDD53F /* ModelBody.h */,
 				4ACDB6CA167878CE0069FA03 /* ModelCache.cpp */,
 				4ACDB6CB167878CE0069FA03 /* ModelCache.h */,
+				52F3101A1C907E2800F8A082 /* modelcompiler.cpp */,
 				4ACDB6CC167878CE0069FA03 /* ModelViewer.cpp */,
 				4ACDB6CD167878CE0069FA03 /* ModelViewer.h */,
 				4AAC9FE71545901D00116131 /* ModManager.cpp */,
@@ -2355,6 +2353,8 @@
 				4A6C4D2E13532FC300FDD53F /* PersistSystemData.h */,
 				4A6C4D2F13532FC300FDD53F /* Pi.cpp */,
 				4A6C4D3013532FC300FDD53F /* Pi.h */,
+				52F08A771E5740EA00D4AAE6 /* PiGui.cpp */,
+				52F08A781E5740EA00D4AAE6 /* PiGui.h */,
 				3785637B1B197D740039F2BC /* Plane.cpp */,
 				3785637C1B197D740039F2BC /* Plane.h */,
 				4A6C4D3913532FC300FDD53F /* Planet.cpp */,
@@ -2371,10 +2371,13 @@
 				4A8AE19317208CE40005C2D9 /* PropertiedObject.h */,
 				4A8AE19417208CE40005C2D9 /* PropertyMap.cpp */,
 				4A8AE19517208CE50005C2D9 /* PropertyMap.h */,
+				52F08A7B1E57411000D4AAE6 /* Propulsion.cpp */,
+				52F08A7C1E57411000D4AAE6 /* Propulsion.h */,
 				4A6C4D4313532FC300FDD53F /* Quaternion.h */,
 				4AA84A2616D0E18700220311 /* Random.h */,
 				525515711CA6EE1C0055DAB8 /* RandomColor.cpp */,
 				525515721CA6EE1C0055DAB8 /* RandomColor.h */,
+				52F08A7D1E57411000D4AAE6 /* Range.h */,
 				4A99374E1368355500EA0EE5 /* RefCounted.h */,
 				4ACDB683167878610069FA03 /* scenegraph */,
 				4ADC7B7F152C703200E359B5 /* SDLWrappers.cpp */,
@@ -2456,7 +2459,6 @@
 		4A6C4C0913532FC300FDD53F /* collider */ = {
 			isa = PBXGroup;
 			children = (
-				3785643D1B197E960039F2BC /* Weld.h */,
 				4A6C4C0F13532FC300FDD53F /* BVHTree.cpp */,
 				4A6C4C1013532FC300FDD53F /* BVHTree.h */,
 				4A6C4C1113532FC300FDD53F /* collider.h */,
@@ -2467,6 +2469,7 @@
 				4A6C4C1613532FC300FDD53F /* Geom.h */,
 				4A6C4C1713532FC300FDD53F /* GeomTree.cpp */,
 				4A6C4C1813532FC300FDD53F /* GeomTree.h */,
+				3785643D1B197E960039F2BC /* Weld.h */,
 			);
 			path = collider;
 			sourceTree = "<group>";
@@ -2759,25 +2762,25 @@
 		4ADF517F1557473400ACF5A0 /* galaxy */ = {
 			isa = PBXGroup;
 			children = (
+				4ADF51801557473400ACF5A0 /* CustomSystem.cpp */,
+				4ADF51811557473400ACF5A0 /* CustomSystem.h */,
 				3785642E1B197E8B0039F2BC /* Economy.cpp */,
 				3785642F1B197E8B0039F2BC /* Economy.h */,
+				4ADF51821557473400ACF5A0 /* Galaxy.cpp */,
+				4ADF51831557473400ACF5A0 /* Galaxy.h */,
 				378564301B197E8B0039F2BC /* GalaxyCache.cpp */,
 				378564311B197E8B0039F2BC /* GalaxyCache.h */,
 				378564321B197E8B0039F2BC /* GalaxyGenerator.cpp */,
 				378564331B197E8B0039F2BC /* GalaxyGenerator.h */,
+				4ADF51851557473400ACF5A0 /* Sector.cpp */,
+				4ADF51861557473400ACF5A0 /* Sector.h */,
 				378564341B197E8B0039F2BC /* SectorGenerator.cpp */,
 				378564351B197E8B0039F2BC /* SectorGenerator.h */,
+				4ADF51871557473400ACF5A0 /* StarSystem.cpp */,
+				4ADF51881557473400ACF5A0 /* StarSystem.h */,
 				378564361B197E8B0039F2BC /* StarSystemGenerator.cpp */,
 				378564371B197E8B0039F2BC /* StarSystemGenerator.h */,
 				4A01889615A59908002F540B /* SystemPath.cpp */,
-				4ADF51801557473400ACF5A0 /* CustomSystem.cpp */,
-				4ADF51811557473400ACF5A0 /* CustomSystem.h */,
-				4ADF51821557473400ACF5A0 /* Galaxy.cpp */,
-				4ADF51831557473400ACF5A0 /* Galaxy.h */,
-				4ADF51851557473400ACF5A0 /* Sector.cpp */,
-				4ADF51861557473400ACF5A0 /* Sector.h */,
-				4ADF51871557473400ACF5A0 /* StarSystem.cpp */,
-				4ADF51881557473400ACF5A0 /* StarSystem.h */,
 				4ADF51891557473400ACF5A0 /* SystemPath.h */,
 			);
 			path = galaxy;
@@ -3238,7 +3241,7 @@
 		4A20B0D01353194B0020F43E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0820;
 				TargetAttributes = {
 					5221A72F1C9588D8002F4CD1 = {
 						CreatedOnToolsVersion = 7.2;
@@ -3304,7 +3307,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#\n# The following script is used to update all the included libraries with the install_name_tool so that we can create a self\n# contained app bundle with all the included libraries without the user having to hunt down extra libraries etc. Just launch\n# and go! (its the apple way!).\n#\nfunction relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libbz2.1.0.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libpng16.16.dylib\n\n# libassimp\nlnk libassimp.3.2.0.dylib libassimp.3.dylib\nrelocateLibInApp /opt/local/lib/ libassimp.3.dylib\nrelocateSubLib /opt/local/lib/ libassimp.3.2.0.dylib libz.1.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n#bz2\nlnk libbz2.1.0.6.dylib libbz2.1.0.dylib\nrelocateLibInApp /opt/local/lib/ libbz2.1.0.dylib\n\n# png\nidLib libpng16.16.dylib\nrelocateSubLib /opt/local/lib/ libpng16.16.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libpng16.16.dylib\n\n# ogg\nrelocateLibInApp /opt/local/lib/ libogg.0.dylib\n\n# vorbis\nrelocateLibInApp /opt/local/lib/ libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbis.0.dylib libogg.0.dylib\nrelocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libogg.0.dylib\n\n# zlib\nlnk libz.1.2.8.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libz.1.dylib\nidLib libz.1.2.8.dylib\n\n# Crypto\nrelocateLibInApp /opt/local/lib/ libcrypto.1.0.0.dylib\n\n# OpenSSL\nrelocateLibInApp /opt/local/lib/ libssl.1.0.0.dylib\nrelocateSubLib /opt/local/lib/ libssl.1.0.0.dylib libcrypto.1.0.0.dylib\n\n# curl\nrelocateLibInApp /opt/local/lib/ libcurl.4.dylib\nrelocateSubLib /opt/local/lib/ libcurl.4.dylib libssl.1.0.0.dylib\nrelocateSubLib /opt/local/lib/ libcurl.4.dylib libcrypto.1.0.0.dylib\n";
+			shellScript = "#\n# The following script is used to update all the included libraries with the install_name_tool so that we can create a self\n# contained app bundle with all the included libraries without the user having to hunt down extra libraries etc. Just launch\n# and go! (its the apple way!).\n#\nfunction relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /usr/local/opt/freetype/lib/ libfreetype.6.dylib\nrelocateSubLib /usr/lib/ libfreetype.6.dylib libz.1.dylib\nrelocateSubLib /usr/lib/ libfreetype.6.dylib libbz2.1.0.dylib\nrelocateSubLib /usr/local/opt/libpng/lib/ libfreetype.6.dylib libpng16.16.dylib\n\n# libassimp\nlnk libassimp.4.0.1.dylib libassimp.4.dylib\nrelocateLibInApp /usr/local/opt/assimp/lib/ libassimp.4.dylib\nrelocateSubLib /usr/lib/ libassimp.4.0.1.dylib libz.1.dylib\n\n# sigcxx\nrelocateLibInApp /usr/local/opt/libsigc++/lib/ libsigc-2.0.0.dylib\n\n#bz2\nidLib libbz2.1.0.dylib libbz2.1.0.dylib\n#lnk libbz2.1.0.dylib libbz2.1.0.dylib\nrelocateLibInApp /usr/lib/ libbz2.1.0.dylib\n\n# png\nidLib libpng16.16.dylib\nrelocateSubLib /usr/lib/ libpng16.16.dylib libz.1.dylib\nrelocateLibInApp /usr/local/opt/libpng/lib/ libpng16.16.dylib\n\n# ogg\nrelocateLibInApp /usr/local/opt/libogg/lib/ libogg.0.dylib\n\n# vorbis\nrelocateLibInApp /usr/local/opt/libvorbis/lib/ libvorbis.0.dylib\nrelocateSubLib /usr/local/opt/libogg/lib/ libvorbis.0.dylib libogg.0.dylib\nrelocateLibInApp /usr/local/opt/libvorbis/lib/ libvorbisfile.3.dylib\nrelocateSubLib /usr/local/Cellar/libvorbis/1.3.5_1/lib/ libvorbisfile.3.dylib libvorbis.0.dylib\nrelocateSubLib /usr/local/opt/libogg/lib/ libvorbisfile.3.dylib libogg.0.dylib\n\n# zlib\nlnk libz.1.2.11.dylib libz.1.dylib\nrelocateLibInApp /usr/local/opt/zlib/lib/ libz.1.dylib\nidLib libz.1.2.11.dylib\n\n# Crypto\nrelocateLibInApp /usr/local/opt/openssl/lib/ libcrypto.1.0.0.dylib\n\n# OpenSSL\nrelocateLibInApp /usr/local/opt/openssl/lib/ libssl.1.0.0.dylib\nrelocateSubLib /usr/local/Cellar/openssl/1.0.2l/lib/ libssl.1.0.0.dylib libcrypto.1.0.0.dylib\n\n# curl\nrelocateLibInApp /usr/lib/ libcurl.4.dylib\nrelocateSubLib /usr/lib/ libcurl.4.dylib libssl.1.0.0.dylib\nrelocateSubLib /usr/lib/ libcurl.4.dylib libcrypto.1.0.0.dylib\nrelocateSubLib /usr/lib/ libz.1.dylib libz.1.dylib\n";
 		};
 		4AE970701436A65D00424F91 /* GenGitVersion */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3713,6 +3716,7 @@
 				4A4D25E0167335F5003BC9D5 /* LuaIcon.cpp in Sources */,
 				4ACDB6B1167878620069FA03 /* Animation.cpp in Sources */,
 				4ACDB6B2167878620069FA03 /* Billboard.cpp in Sources */,
+				4A1AE07A1F64183B005708AA /* LuaHyperspaceCloud.cpp in Sources */,
 				4ACDB6B3167878620069FA03 /* CollisionGeometry.cpp in Sources */,
 				4ACDB6B4167878620069FA03 /* CollisionVisitor.cpp in Sources */,
 				3785643C1B197E8B0039F2BC /* StarSystemGenerator.cpp in Sources */,
@@ -4014,9 +4018,36 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_CXX0X_EXTENSIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				HEADER_SEARCH_PATHS = "";
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"../src/**",
+					../contrib,
+					"/usr/local/include/sigc++-2.0",
+					"/usr/local/lib/sigc++-2.0/include",
+					/usr/local/include,
+					/usr/local/include,
+					/usr/local/include,
+					/usr/local/include/SDL2,
+					/usr/local/include/freetype2,
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME)";
 				PRODUCT_NAME = "${PRODUCT_NAME:c99extidentifier}";
@@ -4029,8 +4060,35 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_CXX0X_EXTENSIONS = YES;
-				HEADER_SEARCH_PATHS = "";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"../src/**",
+					../contrib,
+					"/usr/local/include/sigc++-2.0",
+					"/usr/local/lib/sigc++-2.0/include",
+					/usr/local/include,
+					/usr/local/include,
+					/usr/local/include,
+					/usr/local/include/SDL2,
+					/usr/local/include/freetype2,
+				);
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME)";
 				PRODUCT_NAME = "${PRODUCT_NAME:c99extidentifier}";
 				SDKROOT = macosx;
@@ -4040,7 +4098,6 @@
 		4A20B0FB135319780020F43E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -4067,26 +4124,19 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GENERATE_PROFILING_CODE = YES;
-				HEADER_SEARCH_PATHS = (
-					"../src/**",
-					../contrib,
-					"/opt/local/include/sigc++-2.0",
-					"/opt/local/lib/sigc++-2.0/include",
-					/opt/local/include,
-					/opt/local/include/freetype2,
-					/opt/local/include/SDL2,
-				);
 				INFOPLIST_FILE = "pioneer/pioneer-Info.plist";
 				INFOPLIST_PREFIX_HEADER = InfoPlist.h;
 				INFOPLIST_PREPROCESS = YES;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/opt/local/lib/**",
+					/usr/local/lib,
 					"\"$(SRCROOT)/../src/gui\"",
 					"\"$(SRCROOT)/../contrib/lua\"",
-					/opt/local/lib,
 					"$(PROJECT_DIR)",
+					/usr/local/opt/openssl/lib,
+					/usr/local/opt/zlib/lib,
+					/usr/local/opt/freetype/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
@@ -4103,7 +4153,6 @@
 		4A20B0FC135319780020F43E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -4128,26 +4177,19 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GENERATE_PROFILING_CODE = NO;
-				HEADER_SEARCH_PATHS = (
-					"../src/**",
-					../contrib,
-					"/opt/local/include/sigc++-2.0",
-					"/opt/local/lib/sigc++-2.0/include",
-					/opt/local/include,
-					/opt/local/include/freetype2,
-					/opt/local/include/SDL2,
-				);
 				INFOPLIST_FILE = "pioneer/pioneer-Info.plist";
 				INFOPLIST_PREFIX_HEADER = InfoPlist.h;
 				INFOPLIST_PREPROCESS = YES;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/opt/local/lib/**",
+					/usr/local/lib,
 					"\"$(SRCROOT)/../src/gui\"",
 					"\"$(SRCROOT)/../contrib/lua\"",
-					/opt/local/lib,
 					"$(PROJECT_DIR)",
+					/usr/local/opt/openssl/lib,
+					/usr/local/opt/zlib/lib,
+					/usr/local/opt/freetype/lib,
 				);
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
@@ -4219,15 +4261,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -4272,15 +4305,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4384,7 +4408,6 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -4407,21 +4430,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../src,
-					../contrib,
-					"/opt/local/include/sigc++-2.0",
-					"/opt/local/lib/sigc++-2.0/include",
-					/opt/local/include,
-					/opt/local/include/freetype2,
-					/opt/local/include/SDL2,
-				);
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/opt/local/lib,
-					"$(SRCROOT)/../src/gui",
-					"$(SRCROOT)/../contrib/lua",
-					"$(PROJECT_DIR)",
+					"\"$(SRCROOT)/../contrib/lua\"",
+					/usr/local/lib,
+					/usr/local/opt/openssl/lib,
+					/usr/local/opt/freetype/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -4446,7 +4459,6 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -4463,21 +4475,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../src,
-					../contrib,
-					"/opt/local/include/sigc++-2.0",
-					"/opt/local/lib/sigc++-2.0/include",
-					/opt/local/include,
-					/opt/local/include/freetype2,
-					/opt/local/include/SDL2,
-				);
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/opt/local/lib,
-					"$(SRCROOT)/../src/gui",
-					"$(SRCROOT)/../contrib/lua",
-					"$(PROJECT_DIR)",
+					"\"$(SRCROOT)/../contrib/lua\"",
+					/usr/local/lib,
+					/usr/local/opt/openssl/lib,
+					/usr/local/opt/freetype/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -4528,18 +4530,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/opt/local/lib,
+					"$(PROJECT_DIR)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -4585,18 +4578,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/opt/local/lib,
+					"$(PROJECT_DIR)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -4647,15 +4631,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -4700,15 +4675,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4758,15 +4724,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -4811,15 +4768,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4869,15 +4817,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -4922,15 +4861,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4980,15 +4910,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -5033,15 +4954,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -5091,15 +5003,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -5144,15 +5047,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -5202,15 +5096,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -5255,15 +5140,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -5313,15 +5189,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -5366,15 +5233,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";

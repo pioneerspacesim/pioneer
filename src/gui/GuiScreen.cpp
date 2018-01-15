@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -319,7 +319,7 @@ void Screen::RenderStringBuffer(RefCountedPtr<Graphics::VertexBuffer> vb, const 
 		font->PopulateString(va, s.c_str(), 0, 0, color);
 
 		if (va.GetNumVerts() > 0) {
-			if (!vb.Valid() || vb->GetVertexCount() != va.GetNumVerts()) {
+			if (!vb.Valid() || vb->GetCapacity() < va.GetNumVerts()) {
 				vb.Reset(font->CreateVertexBuffer(va, s, true));
 			}
 
@@ -359,7 +359,7 @@ void Screen::RenderMarkupBuffer(RefCountedPtr<Graphics::VertexBuffer> vb, const 
 		font->PopulateMarkup(va, s.c_str(), 0, 0, color);
 
 		if (va.GetNumVerts() > 0) {
-			if (!vb.Valid() || vb->GetVertexCount() != va.GetNumVerts()) {
+			if (!vb.Valid() || vb->GetCapacity() < va.GetNumVerts()) {
 				vb.Reset(font->CreateVertexBuffer(va, s, true));
 			}
 

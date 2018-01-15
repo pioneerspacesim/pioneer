@@ -1,4 +1,4 @@
--- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local s = CustomSystem:new('Sol', { 'STAR_G' })
@@ -123,8 +123,12 @@ local moon = {
 	{
 		CustomSystemBody:new('Tranquility Base', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(0.6875))
-			:longitude(math.deg2rad(23.4334))
-	},
+			:longitude(math.deg2rad(23.4334)),
+		CustomSystemBody:new('Mariasurīru', 'STARPORT_SURFACE')
+			:latitude(math.deg2rad(14.000))
+			:longitude(math.deg2rad(-303.2))
+			:space_station_type("ground_station"),
+	}
 }
 
 local mars = CustomSystemBody:new('Mars', 'PLANET_TERRESTRIAL')

@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipController.h"
@@ -11,6 +11,7 @@
 #include "Space.h"
 #include "WorldView.h"
 #include "OS.h"
+#include "GameSaveError.h"
 
 void ShipController::StaticUpdate(float timeStep)
 {
@@ -188,6 +189,12 @@ void PlayerShipController::CheckControlsLock()
 		|| (Pi::GetView() != Pi::game->GetWorldView()); //to prevent moving the ship in starmap etc.
 }
 
+vector3d PlayerShipController::GetMouseDir() const
+{
+	// translate from system to local frame
+	return m_mouseDir * m_ship->GetFrame()->GetOrient();
+}
+
 // mouse wraparound control function
 static double clipmouse(double cur, double inp)
 {
@@ -217,9 +224,10 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		// have to use this function. SDL mouse position event is bugged in windows
 		if (Pi::MouseButtonState(SDL_BUTTON_RIGHT))
 		{
-			const matrix3x3d &rot = m_ship->GetOrient();
+			// use ship rotation relative to system, unchanged by frame transitions
+			matrix3x3d rot = m_ship->GetOrientRelTo(m_ship->GetFrame()->GetNonRotFrame());
 			if (!m_mouseActive) {
-				m_mouseDir = -rot.VectorZ();	// in world space
+				m_mouseDir = -rot.VectorZ();
 				m_mouseX = m_mouseY = 0;
 				m_mouseActive = true;
 			}
@@ -324,7 +332,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 			m_ship->AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
 		}
 
-		if (m_mouseActive) m_ship->AIFaceDirection(m_mouseDir);
+		if (m_mouseActive) m_ship->AIFaceDirection(GetMouseDir());
 	}
 }
 

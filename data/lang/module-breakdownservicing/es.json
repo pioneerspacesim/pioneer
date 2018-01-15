@@ -1,7 +1,11 @@
 {
    "FLAVOUR_0_INTRO" : {
       "description" : "",
-      "message" : "Elimine el inconveniente de un hiperimpulsor averiado. Tenga hoy mismo el suyo revisado por la compañía homologada Revisión de Motores {name}.\n\nMotor: {drive}\nRevisión: {price}\nGarantía: 18 meses\n{lasttime}"
+      "message" : "Evite los inconvenientes de un motor hiperespacial averiado. Mantenga el suyo hoy mismo en servicio, por la oficialmente avalada Compañía de de Mantenimiento de Motores {name}.\n"
+   },
+   "FLAVOUR_0_PRICE" : {
+      "description" : "",
+      "message" : "\nMotor: {drive}\nMantenimiento: {price}\nGarantía: 18 meses\n{lasttime}"
    },
    "FLAVOUR_0_RESPONSE" : {
       "description" : "",
@@ -17,7 +21,11 @@
    },
    "FLAVOUR_1_INTRO" : {
       "description" : "",
-      "message" : "Soy {proprietor}.  Puedo revisar su {drive}, con garantía por un año libre de problemas.  El costo de la revisión será {price}\n{lasttime}"
+      "message" : "Soy {proprietor}. Puedo dar servicio a su motor de hiperimpulso, garantizando por lo menos un año de rendimiento libre de problemas."
+   },
+   "FLAVOUR_1_PRICE" : {
+      "description" : "",
+      "message" : "El precio por el mantenimiento de su {drive} será {price}\n{lasttime}"
    },
    "FLAVOUR_1_RESPONSE" : {
       "description" : "",
@@ -33,7 +41,11 @@
    },
    "FLAVOUR_2_INTRO" : {
       "description" : "",
-      "message" : "Saludos.  En {proprietor} & Co ponemos nuestra reputación en el trabajo.\n\n{lasttime}\nPodemos afinar el {drive} de su nave, con garantía por 12 meses, por la suma de {price}.  Estaré supervisando el trabajo yo mismo, por lo tanto puedo asegurarle un trabajo bien hecho."
+      "message" : "Que hay. Nosotros en {proprietor} & Co apostamos nuestra reputación en nuestro trabajo.\nPodemos afinar los motores de hiperimpulso de sus naves, asegurando 12 meses de operatividad sin averías."
+   },
+   "FLAVOUR_2_PRICE" : {
+      "description" : "",
+      "message" : "\n\n{lasttime}\nPara su {drive} estaré supervisando el trabajo yo mismo, así podrá estar seguro de que se hará un buen trabajo, por la suma de {price}."
    },
    "FLAVOUR_2_RESPONSE" : {
       "description" : "",
@@ -45,11 +57,15 @@
    },
    "FLAVOUR_2_YESPLEASE" : {
       "description" : "",
-      "message" : "Por favor, revise mi motor al precio acordado"
+      "message" : "Por favor, afine el hipermotor al precio acordado"
    },
    "FLAVOUR_3_INTRO" : {
       "description" : "",
-      "message" : "Bienvenido a Mantenimiento SuperFix.\n\n{lasttime}\n¿Ha llegado el momento de su mantenimiento bianual? ¡Permítanos Super-Reparar su hiperimpulsor!\nPodemos afinar su {drive} por solo {price}.  ¡No hay nada mas barato!"
+      "message" : "Bienvenido a Mantenimientos SuperFix. ¿Es hora de su mantenimiento bianual? ¡Déjelo en manos de SuperFix!"
+   },
+   "FLAVOUR_3_PRICE" : {
+      "description" : "",
+      "message" : "\n\n{lasttime}\nPodemos afinar su {drive} por solo {price} ¡No hay nadie más barato!"
    },
    "FLAVOUR_3_RESPONSE" : {
       "description" : "",
@@ -65,7 +81,11 @@
    },
    "FLAVOUR_4_INTRO" : {
       "description" : "",
-      "message" : "Bienvenido a Tiempo y Espacio.\n\nNos especializamos en motores interestelares. Garantía por dos años.\n{lasttime}\nLa revisión de su {drive} le costará {price}.  ¿Quiere continuar?"
+      "message" : "Bienvenido a Time and Space.\n\nEstamos especializados en motores interestelares. Todo el trabajo de mantenimiento garantizado por dos años."
+   },
+   "FLAVOUR_4_PRICE" : {
+      "description" : "",
+      "message" : "\n{lasttime}\nEl mantenimiento de su {drive} tendrá un coste de {price}. ¿Quiere proceder?"
    },
    "FLAVOUR_4_RESPONSE" : {
       "description" : "",
@@ -81,7 +101,11 @@
    },
    "FLAVOUR_5_INTRO" : {
       "description" : "",
-      "message" : "Elimine el inconveniente de un hiperimpulsor averiado.  Optimice hoy mismo el suyo.\n\nMotor: {drive}\nRevisión: {price}\n{lasttime}"
+      "message" : "Evite el inconveniente de un motor hiperespacial averiado. Mantenga hoy mismo el suyo en servicio.\n"
+   },
+   "FLAVOUR_5_PRICE" : {
+      "description" : "",
+      "message" : "\nMotor: {drive}\nMantenimiento: {price}\n{lasttime}"
    },
    "FLAVOUR_5_RESPONSE" : {
       "description" : "",

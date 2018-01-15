@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef GALAXYGENERATOR_H
@@ -7,7 +7,6 @@
 #include <list>
 #include <string>
 #include "RefCounted.h"
-#include "Serializer.h"
 #include "Sector.h"
 #include "StarSystem.h"
 #include "SystemPath.h"
@@ -27,7 +26,6 @@ public:
 	static RefCountedPtr<Galaxy> Create() {
 		return Create(s_defaultGenerator, s_defaultVersion);
 	}
-	static RefCountedPtr<Galaxy> Create(Serializer::Reader& rd);
 	static RefCountedPtr<Galaxy> CreateFromJson(const Json::Value &jsonObj);
 
 	static std::string GetDefaultGeneratorName() { return s_defaultGenerator; }

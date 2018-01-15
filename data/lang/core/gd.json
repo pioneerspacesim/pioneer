@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Clach-carboin"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Tha feum air clach-charboin (gual is ola) gus iomadh co-thàthadh ceimigeach feumail a dhèanamh, a' gabhail a-steach plastaig, biadh co-thàthte, leigheas is clò "
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Carago"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Todhar"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Tha thu air a' chàin de %fine a phàigheadh."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Tha thu air %paid a phàigheadh ach tha càin dhe %fine ri a pàigheadh ann fhathast."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Loisg arm"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Hàidhdreaidean"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Cleachdar hàidhdreaidean mar chonnadh fiùisein gu h-àraidh"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -703,10 +687,6 @@
       "description" : "",
       "message" : "Ogsaidean leannach"
    },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Tha feum air ogsaidean aig siostaman taice-beatha is cuid a phròiseasan gnìomhachail"
-   },
    "LIQUOR" : {
       "description" : "",
       "message" : "Deoch làidir"
@@ -733,19 +713,19 @@
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
-      "message" : "Prìomh às-phortachadh:"
+      "message" : "Prìomh às-phortadh:"
    },
    "MAJOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Prìomh às-phortachadh (far a bheil thu):"
+      "message" : "Prìomh às-phortadh (far a bheil thu):"
    },
    "MAJOR_IMPORTS" : {
       "description" : "",
-      "message" : "Prìomh ion-phortachadh:"
+      "message" : "Prìomh ion-phortadh:"
    },
    "MAJOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Prìomh ion-phortachadh (far a bheil thu):"
+      "message" : "Prìomh ion-phortadh (far a bheil thu):"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -873,19 +853,19 @@
    },
    "MINOR_EXPORTS" : {
       "description" : "",
-      "message" : "Beagan às-phortachaidh:"
+      "message" : "Beagan às-phortaidh:"
    },
    "MINOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Beagan às-phortachaidh (far a bheil thu):"
+      "message" : "Beagan às-phortaidh (far a bheil thu):"
    },
    "MINOR_IMPORTS" : {
       "description" : "",
-      "message" : "Beagan ion-phortachaidh:"
+      "message" : "Beagan ion-phortaidh:"
    },
    "MINOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Beagan ion-phortachaidh (far a bheil thu):"
+      "message" : "Beagan ion-phortaidh (far a bheil thu):"
    },
    "MISCELLANEOUS" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Tuineachadh àiteachais òg."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Chan eil airgead agad."
    },
    "Z" : {
       "description" : "keybinding: z axis",

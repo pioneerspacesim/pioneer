@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef GRAPHICS_VERTEXBUFFER_H
@@ -56,19 +56,27 @@ struct VertexBufferDesc {
 	BufferUsage usage;
 };
 
-class Mappable {
+class Mappable : public RefCounted {
 public:
 	virtual ~Mappable() { }
 	virtual void Unmap() = 0;
 
+	inline Uint32 GetSize() const { return m_size; }
+	inline Uint32 GetCapacity() const { return m_capacity; }
+
 protected:
-	Mappable() : m_mapMode(BUFFER_MAP_NONE) { }
+	explicit Mappable(const Uint32 size) : m_mapMode(BUFFER_MAP_NONE), m_size(size), m_capacity(size) { }
 	BufferMapMode m_mapMode; //tracking map state
+
+	// size is the current number of elements in the buffer
+	Uint32 m_size;
+	// capacity is the maximum number of elements that can be put in the buffer
+	Uint32 m_capacity;
 };
 
-class VertexBuffer : public RefCounted, public Mappable {
+class VertexBuffer : public Mappable {
 public:
-	VertexBuffer(const VertexBufferDesc &desc) : m_desc(desc), m_numVertices(0) {}
+	VertexBuffer(const VertexBufferDesc &desc) : Mappable(desc.numVertices), m_desc(desc) {}
 	virtual ~VertexBuffer();
 	const VertexBufferDesc &GetDesc() const { return m_desc; }
 
@@ -79,7 +87,6 @@ public:
 	//Vertex count used for rendering.
 	//By default the maximum set in description, but
 	//you may set a smaller count for partial rendering
-	Uint32 GetVertexCount() const;
 	bool SetVertexCount(Uint32);
 
 	// copies the contents of the VertexArray into the buffer
@@ -94,11 +101,10 @@ public:
 protected:
 	virtual Uint8 *MapInternal(BufferMapMode) = 0;
 	VertexBufferDesc m_desc;
-	Uint32 m_numVertices;
 };
 
 // Index buffer
-class IndexBuffer : public RefCounted, public Mappable {
+class IndexBuffer : public Mappable {
 public:
 	IndexBuffer(Uint32 size, BufferUsage);
 	virtual ~IndexBuffer();
@@ -107,7 +113,6 @@ public:
 	// change the buffer data without mapping
 	virtual void BufferData(const size_t, void*) = 0;
 
-	Uint32 GetSize() const { return m_size; }
 	Uint32 GetIndexCount() const { return m_indexCount; }
 	void SetIndexCount(Uint32);
 	BufferUsage GetUsage() const { return m_usage; }
@@ -116,19 +121,17 @@ public:
 	virtual void Release() = 0;
 
 protected:
-	Uint32 m_size;
 	Uint32 m_indexCount;
 	BufferUsage m_usage;
 };
 
 // Instance buffer
-class InstanceBuffer : public RefCounted, public Mappable {
+class InstanceBuffer : public Mappable {
 public:
 	InstanceBuffer(Uint32 size, BufferUsage);
 	virtual ~InstanceBuffer();
 	virtual matrix4x4f* Map(BufferMapMode) = 0;
 
-	Uint32 GetSize() const { return m_size; }
 	Uint32 GetInstanceCount() const { return m_instanceCount; }
 	void SetInstanceCount(const Uint32);
 	BufferUsage GetUsage() const { return m_usage; }
@@ -137,7 +140,6 @@ public:
 	virtual void Release() = 0;
 
 protected:
-	Uint32 m_size;
 	Uint32 m_instanceCount;
 	BufferUsage m_usage;
 };

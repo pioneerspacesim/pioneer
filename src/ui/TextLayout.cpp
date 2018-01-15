@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TextLayout.h"
@@ -125,7 +125,7 @@ void TextLayout::Draw(const Point &layoutSize, const Point &drawPos, const Point
 			}
 		}
 
-		if (!m_vbuffer.Valid() || (m_vbuffer->GetVertexCount() != va.GetNumVerts())) {
+		if (!m_vbuffer.Valid() || (m_vbuffer->GetCapacity() < va.GetNumVerts())) {
 			m_vbuffer.Reset(m_font->CreateVertexBuffer(va, true));
 		}
 		else {

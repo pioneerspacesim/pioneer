@@ -1,4 +1,4 @@
--- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local SpaceStation = import_core("SpaceStation")
@@ -23,14 +23,12 @@ local l = Lang.GetResource("ui-core")
 -- Class: SpaceStation
 --
 
-
 function SpaceStation:Constructor()
 	-- Use a variation of the space station seed itself to ensure consistency
-	local rand = Rand.New(util.hash_random(self.seed .. '-techLevel', 2^31)-1)
+	local rand = Rand.New(self.seed .. '-techLevel')
 	local techLevel = rand:Integer(1, 6) + rand:Integer(0,6)
 	self:setprop("techLevel", techLevel)
 end
-
 
 local equipmentStock = {}
 
@@ -39,14 +37,32 @@ local function updateEquipmentStock (station)
 	if equipmentStock[station] then return end
 	equipmentStock[station] = {}
 	local hydrogen = Equipment.cargo.hydrogen
-	for _,slot in pairs{"cargo","laser", "hyperspace", "misc"} do
-		for key, e in pairs(Equipment[slot]) do
-			if e:IsValidSlot("cargo") then      -- is cargo
-				local min = e == hydrogen and 1 or 0 -- always stock hydrogen
-				equipmentStock[station][e] = Engine.rand:Integer(min,100) * Engine.rand:Integer(1,100)
-			else                                     -- is ship equipment
-				equipmentStock[station][e] = Engine.rand:Integer(0,100)
+	for _,e in pairs(Equipment.cargo) do
+		if e.purchasable then
+			local rn = 100000 / math.abs(e.price) --have about 100,000 worth of stock, per commodity
+			if e == hydrogen then
+				equipmentStock[station][e] = math.floor(rn/2 + Engine.rand:Integer(0,rn)) --always stock hydrogen
+			else
+				local pricemod = Game.system:GetCommodityBasePriceAlterations(e)
+				local stock =  (Engine.rand:Integer(0,rn) + Engine.rand:Integer(0,rn)) / 2 -- normal 0-100% stock
+				if pricemod > 10 then --major import, very low stock
+					stock = stock - (rn*0.6) -- 0-40% stock
+				elseif pricemod > 2 then --minor import
+					stock = stock - (rn*0.3) -- 0-70% stock
+				elseif pricemod < -10 then --major export
+					stock = stock + (rn*0.8) -- 80-180% stock
+				elseif pricemod < -2 then --minor export
+					stock = stock + (rn*0.3) -- 30-130% stock
+				end
+				equipmentStock[station][e] = math.floor(stock >=0 and stock or 0)
 			end
+		else
+			equipmentStock[station][e] = 0 -- commodity that cant be bought
+		end
+	end
+	for _,slot in pairs{"laser", "hyperspace", "misc"} do
+		for key, e in pairs(Equipment[slot]) do
+			equipmentStock[station][e] = Engine.rand:Integer(0,100)
 		end
 	end
 end

@@ -1,0 +1,250 @@
+{
+   "AIR_PROCESSORS" : {
+      "description" : "",
+      "message" : "Hava işlemciler"
+   },
+   "AIR_PROCESSORS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Temiz hava bolken değeri bilinmez. Hava saflaştırmanın arkasında yatan tekniğin Mars'ta bulunan uzaylı kalıntılarından geldiği söylentileri vardır. Pek çok şirket, en dehşetli hava koşullarını bile konforlu bir hale getirebilen değişik türlerde hava işlemcileri üretiyor ve hükumetler hava üretiminde monopoliye izin vermiyor."
+   },
+   "ANIMAL_MEAT" : {
+      "description" : "",
+      "message" : "Hayvan eti"
+   },
+   "ANIMAL_MEAT_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Hayvan eti tartışma sebebi olan bir üründür. Halihazırda sentetik proteinler bulunduğu için çoğu insan, hayvanların öldürülmemesi gerektiğine inanıyor. Pek çok merkezi sistemde yasak olmasına karşın canlı hayvanlar ve etleri, daha geleneksel yaşam süren insanların yaşamlarının önemli bir parçası."
+   },
+   "BATTLE_WEAPONS" : {
+      "description" : "",
+      "message" : "Savaş silahları"
+   },
+   "BATTLE_WEAPONS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Zırhlı süzülen tanklar ve karadan-uzaya füzeler gibi ağır askeri silahlar. Bunların ticareti genellikle hükumetlerin tekelindedir. Buna rağmen bu silahlar karaborsada iyi para edebilirler."
+   },
+   "CARBON_ORE" : {
+      "description" : "",
+      "message" : "Karbon cevheri"
+   },
+   "CARBON_ORE_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Karbon, bildiğimiz en çeşitli elementlerden biridir. Plastikten alaşımlara kadar neredeyse herşeyde, hatta bazen güç üretiminde bile kullanılan karbon ucuz ama önemli bir hammaddedir; bu yüzden neredeyse bütün endüstriyel yerleşimler karbon cevheri ithal ederler."
+   },
+   "COMPUTERS" : {
+      "description" : "",
+      "message" : "Bilgisayarlar"
+   },
+   "COMPUTERS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Bin yıldan uzun bir süredir Abaküs, PDP-11 ve Morotola 68k chip'ten başlayıp modern HAL 9001 ve Multivac serisine kadar gelen bilgisayarlar, bilgi çağının şafağında yükseldiler. Üstuzay sıçramalarını hesaplamak ya da UniNet'te sevimli hayvan videoları paylaşmak gibi pek çok iş için eşit önem taşırlar."
+   },
+   "CONSUMER_GOODS" : {
+      "description" : "",
+      "message" : "Tüketim Malları"
+   },
+   "CONSUMER_GOODS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Daha çok işlenmesine gerek duyulmayan genel tüketim eşyaları. Diş fırçasından beyaz eşyaya kadar her şey."
+   },
+   "FARM_MACHINERY" : {
+      "description" : "",
+      "message" : "Tarım makineleri"
+   },
+   "FARM_MACHINERY_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Ne kadar nadir de olsa, öküzle saban çeken çiftçiler görmek hala mümkündür. Ancak tarım yapılan neredeyse her yerde; gerek yer altındaki hidroponiklerde, gerekse uçsuz bucaksız ovalarda toprağın işlenmesi için makineler kullanılır."
+   },
+   "FERTILIZER" : {
+      "description" : "",
+      "message" : "Gübre"
+   },
+   "FERTILIZER_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Gübreler endüstriyel boyutlarda ekin yetiştirmek için kritiktir; monokültürlerin var olmasını ve sıradan topraktan çok daha fazla ürün elde edilmesini sağlarlar. Genellikle hemen ortaya çıkmayan ekolojik bir tahribat ortaya çıkarabilirler."
+   },
+   "FRUIT_AND_VEG" : {
+      "description" : "",
+      "message" : "Meyve & sebzeler"
+   },
+   "FRUIT_AND_VEG_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Pek çok yapay alternatifleri bulunsa da, gerçek meyve ve sebzeler hala önemli birer besin kaynağıdır. Tarımsal üretim yapmanın uygun olduğu yerlerde ya da yaşam destek birimlerinin bir parçası olarak yetiştirilen bu ürünler, bitki yetiştirmeye elverişli olmayan sistemlere ihraç edilirler."
+   },
+   "GRAIN" : {
+      "description" : "",
+      "message" : "Tahıl"
+   },
+   "GRAIN_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Pek çok insanın diyetinin belkemiği. Tarımda, hayvan beslemede ve yapay besinlere yardımcı olarak kullanılır. Bunun yanı sıra yulaf ezmesi ve pişmiş ürünler gibi pek çok değişik yiyecekte de kullanılır. Uzay seyahati yapan pek çok kültür, kendi yaşam alanlarına adapte olmuş en azından bir miktar tahıl tüketir."
+   },
+   "HAND_WEAPONS" : {
+      "description" : "",
+      "message" : "Küçük silahlar"
+   },
+   "HAND_WEAPONS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Kanunun uzun kollarının da ötesinde bir sigorta olan el silahları uzak sistemlerdeki tüccarlar için vazgeçilmezdir. Ancak çoğu hükumet bu silahları kendi halklarının kontrolü için bir tehdit olarak görür; ticaretini ve elde bulundurulmasını sıkıca düzenler."
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Hidrojen"
+   },
+   "HYDROGEN_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Uzay gemileri için yakıt olarak kullanılan hidrojen çok önemli bir elementtir. Neyse ki evrende en yaygın bulunan elementtir, ancak saklanması zahmetlidir. Genellikle marketteki en ucuz maddelerdendir. Uzay istasyonlarında bol miktarda bulunur."
+   },
+   "INDUSTRIAL_MACHINERY" : {
+      "description" : "",
+      "message" : "Endüstriyel makineler"
+   },
+   "INDUSTRIAL_MACHINERY_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Yapı hatları, rafineriler, eritme fırınları ve benzeri üretim makineleri için gerekli malzemeler. Bu gelişmiş makinelerin üretimi yüksek yeterlilikler gerektirir."
+   },
+   "LIQUID_OXYGEN" : {
+      "description" : "",
+      "message" : "Sıvı oksijen"
+   },
+   "LIQUID_OXYGEN_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Sıvı oksijenin başta ilaç ve endüstri alanında, bazen de atık işlemelerinde olmak üzere pek çok kullanım alanı vardır. Oksijenin sudan elde edilmesi kolay olduğu için ucuzdur."
+   },
+   "LIQUOR" : {
+      "description" : "",
+      "message" : "Likör"
+   },
+   "LIQUOR_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Çoğu uzak mekanın, yabancıların midesine ağır gelecek yerel içkileri vardır. Alkol bazı sistemlerde zihni bulutlandırdığı için yasaklanabilir. Buna rağmen birkaç şişe viski belli bir ücret karşılığında her zaman karaborsadan bulunabilir."
+   },
+   "LIVE_ANIMALS" : {
+      "description" : "",
+      "message" : "Canlı hayvanlar"
+   },
+   "LIVE_ANIMALS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "İnsancıl, ekonomik ve ekolojik sebeplerden dolayı hayvan yetiştirme ve satışı sıkı bir düzenleme ile yapılır, hatta bazı merkezi sistemlerde yasaklanmıştır. Dış sistemlere çıkıldıkça çiftlik hayvanları hem besin kaynağı hem de yük taşıma araçları olarak insanların yaşamlarının bir parçası haline gelir. Egzotik hayvanat bahçeleri ve yabani hayvan barınakları, sıkı düzenlemeler ile birlikte, yasadışı avlanmanın önüne geçmek için galaksideki hayvan ticaretine katkı sağlarlar."
+   },
+   "MEDICINES" : {
+      "description" : "",
+      "message" : "İlaçlar"
+   },
+   "MEDICINES_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Gerek doğal gerek yapay olarak elde edilmiş olsun, ilaçlar insanların gittiği her yerde bir ihtiyaçtır. Ufak bir nezleden uzun uzay yolculuklarının etkilerine kadar pek çok sıkıntıyı gideren ilaçlar, yıldızlararası bir uygarlık olan insanlığın refahı için gereklidir. Narkotiklerin ilaç gibi saklanıldığı çokça görül düğü için gümrüklerde sıkıca kontrol edilirler."
+   },
+   "METAL_ALLOYS" : {
+      "description" : "",
+      "message" : "Metal alaşımları"
+   },
+   "METAL_ALLOYS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Metal cevherleri çıkarılıp işlendikten sonra çeşitli alaşımlar haline getirilirler. Alaşımlar sade elementlerin aksine çok çeşitli metallerden oluşan, sahip olması istenen özelliklere göre kütle oranları dikkatle belirlenen karışımlardır. Bu yüzden çoğu tüketim metali alaşımdır."
+   },
+   "METAL_ORE" : {
+      "description" : "",
+      "message" : "Metal cevheri"
+   },
+   "METAL_ORE_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Pek çok koloni; ihraç edilmesi, işlenmesi ve endüstride kullanılması için metal cevheri çıkarırlar. Küçük oyuncaklardan uzay gemilerine kadar her şeyde kullanılan metal, modern uygarlık için her haliyle vazgeçilmezdir."
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Askeri yakıt"
+   },
+   "MILITARY_FUEL_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Gelişmiş askeri hipersürücüler için yakıt olarak kullanılır. Bu sürücüler kullanıldıkları zaman atılmalarını gerektiren nükleer atıklar üretirler. Sentetik yapısından dolayı askeri yakıt daha pahalıdır ve hidrojenden daha az bulunur."
+   },
+   "MINING_MACHINERY" : {
+      "description" : "",
+      "message" : "Maden makineleri"
+   },
+   "MINING_MACHINERY_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Çoğu zaman bel büken bir iş olan madenciliğin makineler yardımıyla yapılması; çeşitli madenlerin bulunması, çıkartılması ve en yakın işleme tesislerine taşınmasını kolaylaştırmış ve hızlandırmıştır."
+   },
+   "NARCOTICS" : {
+      "description" : "",
+      "message" : "Uyuşturucular"
+   },
+   "NARCOTICS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Zihin ve bedenin durumunu değiştiren doğal ya da sentetik maddeler. Narkotiklerin kullanımı, gerek eğlence gerek ilaç niyetine olsun, insanlık kadar eskidir; ancak nakliyatı ve satışı çoğu yerde yasaklanmıştır."
+   },
+   "NERVE_GAS" : {
+      "description" : "",
+      "message" : "Sinir gazı"
+   },
+   "NERVE_GAS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Genellikle kitle imha silahı olarak kabul gören ve çoğu sistemin akseri güçlerinin bile kullanmaktan kaçındığı bu madde çoğu sistemde yasadışıdır."
+   },
+   "PLASTICS" : {
+      "description" : "",
+      "message" : "Plastik"
+   },
+   "PLASTICS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Gündelik eşyalardan uzay gemisi yapımına kadar her yerde kullanılan sentetik ya da yarı-sentetik materyaller. Üretimde kullanılmaları kolay, çok yönlü ve ucuzdur; bu sayede insan medeniyetinin önemli bir parçasıdırlar."
+   },
+   "PRECIOUS_METALS" : {
+      "description" : "",
+      "message" : "Değerli metaller"
+   },
+   "PRECIOUS_METALS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Değerli metaller genellikle daha az reaktiftir,madenlerde zor bulunur ve zor çıkarılırlar; bu yüzden yüksek ekonomik değerleri vardır. Altın, gümüş, platin ve nadir toprak metalleri genelde bu sınıfa girer. Altın ve silikon gibi bazı elementler bilgisayarlar ve benzeri elektroniklerin yapılabilmesi için büyük önem taşırlar."
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Radyoaktifler"
+   },
+   "RADIOACTIVES_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Nükleer reaktörler tarafından üretilen bu atıklar, taşınması ve atılması en zor ve en tehlikeli maddelerdir. Bu sebepten dolayı çoğu uzay istasyonu bunlardan kurtulmak için para öderler. Nükleer atıkların atılması ciddi bir suçtur."
+   },
+   "ROBOTS" : {
+      "description" : "",
+      "message" : "Robotlar"
+   },
+   "ROBOTS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Robotlar, insanlar için çok zor veya tehlikeli işleri kolaylıkla halledebildikleri için sıklıkla endüstriyel ve maden sistemlerine ithal edilirler. Bunun yanı sıra politikacı ya da avukat olarak da görev yapabilirler."
+   },
+   "RUBBISH" : {
+      "description" : "",
+      "message" : "Atık"
+   },
+   "RUBBISH_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : " Medeniyetin evsel atıklar, eskimiş ekipman ve endüstriyel atıklar gibi yan ürünleri. Çoğu atık yeniden işlenir, geri dönüştürülür veya uzay istasyonlarına gönderilir. Yerleşim bulunduran sistemlerde çöp atmak neredeyse her zaman yasadışıdır. Uzay istasyonlarında atıklarınızdan kurtulmak için genellikle bir ücret talep edilir, ancak aksine uzay istasyonundan atıkları alırsanız size ödeme de yaparlar."
+   },
+   "SLAVES" : {
+      "description" : "",
+      "message" : "Köleler"
+   },
+   "SLAVES_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Makinelerin kölelerin yerini aldığı, köleleştirmenin vicdansızlık bilindiği, yasakları çiğnemenin en ağır cezalarla sonuçlandığı ve çok büyük insancıl çabaların gösterildiği medeniyette; en gelişmiş dünyalarda bile kölelik hala varlığını sürdürüyor."
+   },
+   "TEXTILES" : {
+      "description" : "",
+      "message" : "Tekstil"
+   },
+   "TEXTILES_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Tekstil basit bir çeşit kumaştır, sentetik olarak ya da bitki veya hayvanlardan elde edilirler. Genellikle büyük fabrikalarda robotlar ile üretilmelerine rağmen hala kendi tekstillerini yapan dokumacılar bulmak mümkündür."
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Su"
+   },
+   "WATER_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Çoğu zaman göz ardı edilen su, yaşam için gereklidir ve insanlığın gittiği her yerde olması gerekir. Bu yüzden pek çok uzak koloni suyu kuyruklu yıldızlardan ya da Dünya gibi gezegenlerden getirir. Hidrojen ve oksijen üretimi için de bolca kullanılır."
+   }
+}

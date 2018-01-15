@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -14,6 +14,7 @@
 #include "UIView.h"
 #include "Lang.h"
 #include "Game.h"
+#include "GameSaveError.h"
 
 // XXX duplicated in WorldView. should probably be a theme variable
 static const Color s_hudTextColor(0,255,0,204);

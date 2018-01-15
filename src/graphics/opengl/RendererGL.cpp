@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RendererGL.h"
@@ -390,6 +390,13 @@ void RendererOGL::WriteRendererInfo(std::ostream &out) const
 	}
 	// one last time
 	dump_and_clear_opengl_errors(out);
+}
+
+int RendererOGL::GetMaximumNumberAASamples() const
+{
+	GLint value = 0;
+	glGetIntegerv(GL_MAX_SAMPLES, &value);
+	return value;
 }
 
 bool RendererOGL::GetNearFarRange(float &near_, float &far_) const
@@ -848,7 +855,7 @@ bool RendererOGL::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat
 	SetMaterialShaderTransforms(mat);
 
 	vb->Bind();
-	glDrawArrays(pt, 0, vb->GetVertexCount());
+	glDrawArrays(pt, 0, vb->GetSize());
 	vb->Release();
 	CheckRenderErrors(__FUNCTION__,__LINE__);
 
@@ -887,7 +894,7 @@ bool RendererOGL::DrawBufferInstanced(VertexBuffer* vb, RenderState* state, Mate
 
 	vb->Bind();
 	instb->Bind();
-	glDrawArraysInstanced(pt, 0, vb->GetVertexCount(), instb->GetInstanceCount());
+	glDrawArraysInstanced(pt, 0, vb->GetSize(), instb->GetInstanceCount());
 	instb->Release();
 	vb->Release();
 	CheckRenderErrors(__FUNCTION__,__LINE__);
@@ -1225,17 +1232,17 @@ bool RendererOGL::Screendump(ScreendumpState &sd)
 	SDL_GetWindowSize(m_window, &w, &h);
 	sd.width = w;
 	sd.height = h;
-	sd.bpp = 3; // XXX get from window
+	sd.bpp = 4; // XXX get from window
 
 	// pad rows to 4 bytes, which is the default row alignment for OpenGL
-	sd.stride = (3*sd.width + 3) & ~3;
+	sd.stride = ((sd.bpp * sd.width) + 3) & ~3;
 
 	sd.pixels.reset(new Uint8[sd.stride * sd.height]);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
 	glReadBuffer(GL_FRONT);
-	glReadPixels(0, 0, sd.width, sd.height, GL_RGB, GL_UNSIGNED_BYTE, sd.pixels.get());
+	glReadPixels(0, 0, sd.width, sd.height, GL_RGBA, GL_UNSIGNED_BYTE, sd.pixels.get());
 	glFinish();
 
 	return true;

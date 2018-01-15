@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _RENDERER_H
@@ -60,6 +60,7 @@ public:
 	float GetDisplayAspect() const { return static_cast<float>(m_width) / static_cast<float>(m_height); }
 	int GetWindowWidth() const { return m_width; }
 	int GetWindowHeight() const { return m_height; }
+	virtual int GetMaximumNumberAASamples() const = 0;
 
 	//get supported minimum for z near and maximum for z far values
 	virtual bool GetNearFarRange(float &near_, float &far_) const = 0;

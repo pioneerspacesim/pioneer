@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -29,6 +29,7 @@ void Label::Init(const std::string &text, TextLayout::ColourMarkupMode colourMar
 	m_dlist = 0;
 	m_font = Gui::Screen::GetFont();
 	m_color = ::Color::WHITE;
+	UpdateLayout();
 	SetText(text);
 }
 
@@ -50,7 +51,6 @@ Label *Label::Color(Uint8 r, Uint8 g, Uint8 b)
 	::Color c(r, g, b);
 	if (m_color != c) {
 		m_color = c;
-		m_needsUpdate = true;
 	}
 	return this;
 }
@@ -59,7 +59,6 @@ Label *Label::Color(const ::Color &c)
 {
 	if (m_color != c) {
 		m_color = c;
-		m_needsUpdate = true;
 	}
 	return this;
 }
@@ -73,8 +72,7 @@ void Label::SetText(const std::string &text)
 {
 	if (m_text != text || m_needsUpdate) {
 		m_text = text;
-		m_needsUpdate = true;
-		UpdateLayout();
+		m_layout->SetText(m_text.c_str());
 		RecalcSize();
 	}
 }

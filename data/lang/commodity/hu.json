@@ -1,0 +1,250 @@
+{
+   "AIR_PROCESSORS" : {
+      "description" : "",
+      "message" : "Levegőfeldolgozók"
+   },
+   "AIR_PROCESSORS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Ahol a tiszta levegő korlátlan mennyiségben rendelkezésre áll, ott általában magától értetődőnek tekintik, ám sok helyen szükséges mesterségesen előállítani. Bizonyos pletykák szerint a technológiát a Marson talált idegen berendezések alapján fejlesztették ki. Sok cég gyárt különféle típusú légtisztítókat, melyek akár a legellenségesebb atmoszférát és belélegezhetővé alakítják. A legtöbb kormány nem tolerálja ebben az ágazatban a monopóliumokat."
+   },
+   "ANIMAL_MEAT" : {
+      "description" : "",
+      "message" : "Hús"
+   },
+   "ANIMAL_MEAT_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Sok vita tárgya az állatok húsa, hiszen a szintetikus helyettesítők térnyerésével az emberek többsége szerint nincs szükség az állatok étkezési célú leölésére. A legtöbb központi rendszerben az állattartás és a hús illegális, a hagyományosabb kultúrájú világokon fontos része az emberek életének."
+   },
+   "BATTLE_WEAPONS" : {
+      "description" : "",
+      "message" : "Katonai fegyverzet"
+   },
+   "BATTLE_WEAPONS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Nehéz katonai fegyverek, tankok, föld-űr rakéták. Kereskedelmül általában állami monopólium. A feketepiacon viszont gyakran szép summáért cserélnek gazdát."
+   },
+   "CARBON_ORE" : {
+      "description" : "",
+      "message" : "Szénérc"
+   },
+   "CARBON_ORE_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Az egyik legsokoldalúbb elem az univerzumban. A műanyagokban, ötvözetekben is megtalálható, és energiatermelésre is használható. A szénérc könnyen hozzáférhető, de annál fontosabb anyag, így az ipari rendszerek nagy mennyiségeket importálnak belőle."
+   },
+   "COMPUTERS" : {
+      "description" : "",
+      "message" : "Számítógépek"
+   },
+   "COMPUTERS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Kicsit több mint egy évezreddel ezelőtt az Abacus, PDP-11 és a Motorola 68k chip születésével, majd a HAL 9001 és Multivac sorozatokkal beköszöntött az információs kor. Egyaránt elengedhetetlen a hiperűrutazáshoz és a quibble-es videók megosztásához az UniNet-en."
+   },
+   "CONSUMER_GOODS" : {
+      "description" : "",
+      "message" : "Fogyasztási cikkek"
+   },
+   "CONSUMER_GOODS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Az ipar által készített termékek, amikre a civilizációnk épül, legyen az akár egy fogkefe, konyhai gép, vagy légpárnás autó."
+   },
+   "FARM_MACHINERY" : {
+      "description" : "",
+      "message" : "Mezőgazdasági gépek"
+   },
+   "FARM_MACHINERY_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Bár ritka, ám még a mai napig találkozhatunk igavonó állatokkal a mezőgazdaságban. De szinte mindenhol gépesített gazdálkodás az elterjedt, a zöld bolygók végtelen mezőitől a földalatti városok hidroponikus gazdaságáig."
+   },
+   "FERTILIZER" : {
+      "description" : "",
+      "message" : "Mütrágya"
+   },
+   "FERTILIZER_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Az ipari léptékű mezőgazdaság nékülözhetetlen eleme. Lehetővé teszi a monokultúrás növénytermesztést, és növeli a terméshozamot. Hosszú távon károsíthatja az élővilágot."
+   },
+   "FRUIT_AND_VEG" : {
+      "description" : "",
+      "message" : "Zöldség és gyümölcs"
+   },
+   "FRUIT_AND_VEG_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Bár sok szintetikus alternatíva hozzáférhető, a valódi gyümölcs és zöldség fontos része az emberiség táplálkozásának és konyhaművészetének. Mezőgazdasági világokon termesztik őket, de fontos részei a zárt életterek létfenntartó rendszereinek, melyek olyan világokra is exportálnak, ahol nem megoldható a termesztésük."
+   },
+   "GRAIN" : {
+      "description" : "",
+      "message" : "Búza"
+   },
+   "GRAIN_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Az emberiség táplálkozásának gerince. Takarmányként is használják, de a szintetikus ételek sem szorították ki teljesen. Zabpelyhek, kásák, pékáruk alapanyaga. Szinte minden kultúra fogyaszt valamilyen gabonafélét, amit sikerült meghonosítani az élőhelyük klímájában."
+   },
+   "HAND_WEAPONS" : {
+      "description" : "",
+      "message" : "Kézifegyverek"
+   },
+   "HAND_WEAPONS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Életbiztosítás ott, ahova a törvény hosszú keze már nem ér el, így a kézi fegyverek elengedhetetlenek a peremvidéki rendszerekbe utazóknak. Ugyanakkor a legtöbb kormány kényelmetlenül érzi magát, ha polgárai hozzáférnek fegyverekhez, és szigorúan szabályozza kereskedelmüket és birtoklásulat."
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Hidrogén"
+   },
+   "HYDROGEN_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Hiperhajóművek üzemanyagaként és űrhajók hajtóanyagaként a hidrogén kimondottan fontos elem. Szerencsére a leggyakoribb az univerzumban, így olcsó, ám tárolása nem egyszerű. Az űrkikötők nagy készletekkel rendelkeznek."
+   },
+   "INDUSTRIAL_MACHINERY" : {
+      "description" : "",
+      "message" : "Ipari gépek"
+   },
+   "INDUSTRIAL_MACHINERY_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Gyártósorok, feldolgozó üzemek, öntödék, szerszámgépek készítésére való gépek. Magas szintű képzettség szükséges ezeknek a gépeknek az előállításához."
+   },
+   "LIQUID_OXYGEN" : {
+      "description" : "",
+      "message" : "Folyékony oxigén"
+   },
+   "LIQUID_OXYGEN_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "A folyékony oxigént sokféle ipari és egészségügyi eljárás során használják, de még hulladékkezeléshez is. Megfizethető, vízből egyszerűen előállítható."
+   },
+   "LIQUOR" : {
+      "description" : "",
+      "message" : "Alkohol"
+   },
+   "LIQUOR_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "A legtöbb világ büszkélkedhet olyan helyi égetett szesszel, amit a jöttmentek képtelenek legyűrni. A szesztilalom sem ismeretlen bizonyos helyeken, hiszen az alkohol ködösíti az elmét. Ám törvény ide vagy oda, egy stampedli pálinkát szinte bárhol találhatunk, jó áron a kevésbé jó hírű környékeken."
+   },
+   "LIVE_ANIMALS" : {
+      "description" : "",
+      "message" : "Élő állat"
+   },
+   "LIVE_ANIMALS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Részben emberségességi, részben gazdasági okokból az állattartás és kereskedelem szigorúan szabályozott, sok központi világon még illegális is. A peremvidék felé haladva az állatok egyre fontosabb részei az emberek mindennapi életének, mint élelemforrás és igavonó, mint közlekedési eszköz. Az élőállat kereskedelemhez hozzájárulnak még az egzotikus állatkertek és rezervátumok is, de a piac szigorúan felügyelt, az illegális vadászmezők visszaszorítása érdekében."
+   },
+   "MEDICINES" : {
+      "description" : "",
+      "message" : "Gyógyszerek"
+   },
+   "MEDICINES_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "A természetből nyert, vagy mesterségesen szintetizált gyógyszerekre mindenhol szügség van, ahova az ember megy. A nátha gyógyításától a hosszú űrben töltött idő káros hatásainak kezeléséig a gyógyszerek elengedhetetlenek a csillagközi civilizáció fenntartásához. A vám ellenőrök szigorúan ellenőriznek minden szállítmányt, hiszen vékony a határ a gyógyszerek é a kábítószerek között."
+   },
+   "METAL_ALLOYS" : {
+      "description" : "",
+      "message" : "Fémötvözetek"
+   },
+   "METAL_ALLOYS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "A fémércek kitermelés után feldolgozásra kerülnek, és általában valamilyen ötvözet készül belőlük, hiszen így szinte minden felhasználási módhoz készíthető megfelelő tulajdonságú anyag. A legtöbb a piacon megtalálható fém ötvözet."
+   },
+   "METAL_ORE" : {
+      "description" : "",
+      "message" : "Fémérc"
+   },
+   "METAL_ORE_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Sok kolónia elsődleges bevételforrása a bányászat, a kinyert ércek exportja, melyek feldolgozás után az iparban kerülnek felhasználásra. Az apró játékoktól a az űrhajókig szinte mindenben megtalálhatóak, így elengedhetetlenek a modern civilizáció számára."
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Katonai üzemanyag"
+   },
+   "MILITARY_FUEL_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "A fejlettebb, katonai hiperhajtóművek üzemanyaga. Ezek radioaktív hulladékot termelnek működésük közben, amit megfelelően kezelni kell. Szintetikus természetéből adódóan drágább és kevésbé hozzáférhető a hidrogénnél, a természetben nem található meg."
+   },
+   "MINING_MACHINERY" : {
+      "description" : "",
+      "message" : "Bányagépek"
+   },
+   "MINING_MACHINERY_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "A hagyományosan embertelen bányászmunkák nehézségén sokat enyhített a technológia fejlődése, mind a lelőhelyek felderítése, a kitermelés és feldolgozás helyére szállítás."
+   },
+   "NARCOTICS" : {
+      "description" : "",
+      "message" : "Kábítószer"
+   },
+   "NARCOTICS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Test és elme állapotát befolyásoló természetes és mesterséges anyagok. Bár rekreációs és gyógyászati felhasználása egy idős az emberiséggel, kereskedelmüket és használatukat szigorúan többnyire szigorúan szabályozzák, korlátozzák."
+   },
+   "NERVE_GAS" : {
+      "description" : "",
+      "message" : "Ideggáz"
+   },
+   "NERVE_GAS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Tömegpusztító fegyvernek számítanak, és ennek megfelelően állnak hozzá a legtöbb helyen, még a hadseregek is. Szinte mindenhol illegális."
+   },
+   "PLASTICS" : {
+      "description" : "",
+      "message" : "Müanyagok"
+   },
+   "PLASTICS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Szintetikus és fél-szintetikus anyagok, melyeket a háztartási eszközök előállításában, de még az űrhajógyártásban is használnak. Viszonylag könnyű megmunkálásuk, sokoldalúságuk és könnyű előállíthatóságuk miatt az emberi civilizáció fontos részei."
+   },
+   "PRECIOUS_METALS" : {
+      "description" : "",
+      "message" : "Értékes fémek"
+   },
+   "PRECIOUS_METALS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "A nemesfémek általában kevésbé reaktívak, bányászatuk nehéz, és kevés áll rendelkezésre belőlük, így nagy értéket képviselnek. Ide tartozik az arany, ezüst, platina, ritkaföldfémek. Nagy részük elengedhetetlen nyersanyaga a számítógép- és elektronikai iparnak."
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Radioaktív anyagok"
+   },
+   "RADIOACTIVES_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Nukleáris reaktorok és katonai hiperhajtóművek működésekor keletkező melléktermék. Szállítása és ártalmatlanítása egyaránt nehéz és veszélyes. Ez az oka, hogy az űrkikötők boldogan fizetnek bárkinek, aki elszállítja a tárolóikból. A nukleáris hulladék lerakása szigorúan büntetendő."
+   },
+   "ROBOTS" : {
+      "description" : "",
+      "message" : "Robotok"
+   },
+   "ROBOTS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Az ipari és kitermelő rendszerek gyakori import cikkei a robotok, hiszen könnyen elvégzik az emberek számára nehéz, unalmas vagy veszélyes munkákat. Politikusként és ügyvédként is alkalmazhatóak."
+   },
+   "RUBBISH" : {
+      "description" : "",
+      "message" : "Hulladék"
+   },
+   "RUBBISH_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "A civilizáció melléktermékei. Ipari-, háztartási hulladékok, elhasználódott eszközök. Többségét feldolgozzák, újrahasznosítják vagy holt bolygókra szállítják. Az engedély nélküli szemétlerakás szinte minden lakott rendszerben illegális. Az űrkikötők általában díjat számolnak fel a hajók szemetének elszállításáért, és örömmel fizetnek annak aki hajlandó elszállítani."
+   },
+   "SLAVES" : {
+      "description" : "",
+      "message" : "Rabszolgák"
+   },
+   "SLAVES_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Ahogy a gépek átvették a rabszolgák szerepét, mint a civilizáció motorja, a rabszolgatartást egyre inkább immorálissá vált. Napjainkban a legszigorúbban büntetett bűnök egyike. Ennek ellenére sem tűnt el teljesen, még a legfejlettebb világokon is előfordul."
+   },
+   "TEXTILES" : {
+      "description" : "",
+      "message" : "Textília"
+   },
+   "TEXTILES_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Mesterséges, növényi vagy állati eredetű fonalakból készített szövetek. Általában automatizált üzemekben állítják elő, de a mai napig lehet találni kézműveseket, akik maguk szövik az anyagaikat."
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Víz"
+   },
+   "WATER_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Elengedhetetlen az általunk ismert élethez. Bár többnyire magától értetődő a jelenléte, bárhova beteszi az emberiség a lábát, ott szükség lesz rá. Ahol nem található meg a környezetben, oda más világokról, vagy üstökösökről importálják. A nagyipari hidrogén- és oxigéntermelés fő nyersanyaga is a víz."
+   }
+}

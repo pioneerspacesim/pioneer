@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaEngine.h"
@@ -193,6 +193,39 @@ static int l_engine_get_video_mode_list(lua_State *l)
 	LUA_DEBUG_END(l, 1);
 	return 1;
 }
+
+/*
+* Method: GetMaximumAASamples
+*
+* Get the maximum number of samples the current OpenGL context supports
+*
+* > Engine.GetMaximumAASamples()
+*
+* Availability:
+*
+*   2017-12
+*
+* Status:
+*
+*   stable
+*/
+
+static int l_engine_get_maximum_aa_samples(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	if(Pi::renderer != nullptr) {
+		int maxSamples = Pi::renderer->GetMaximumNumberAASamples();
+		lua_pushinteger(l, maxSamples);
+	} else {
+		lua_pushinteger(l, 0);
+	}
+
+	LUA_DEBUG_END(l, 1);
+	return 1;
+}
+
+
 
 /*
  * Method: GetVideoResolution
@@ -950,7 +983,7 @@ static int l_engine_world_space_to_screen_space(lua_State *l)
 	vector3d pos = LuaPull<vector3d>(l, 1);
 
 	std::tuple<bool, vector3d, vector3d> res = lua_world_space_to_screen_space(pos); // defined in LuaPiGui.cpp
-	
+
 	LuaPush<bool>(l, std::get<0>(res));
 	LuaPush<vector3d>(l, std::get<1>(res));
 	LuaPush<vector3d>(l, std::get<2>(res));
@@ -961,7 +994,7 @@ static int l_engine_world_space_to_ship_space(lua_State *l)
 {
 	vector3d vec = LuaPull<vector3d>(l, 1);
 	auto res = vec * Pi::game->GetPlayer()->GetOrient();
-	
+
 	LuaPush<vector3d>(l, res);
 	return 1;
 }
@@ -1029,6 +1062,7 @@ void LuaEngine::Register()
 		{ "Quit", l_engine_quit },
 
 		{ "GetVideoModeList", l_engine_get_video_mode_list },
+		{ "GetMaximumAASamples", l_engine_get_maximum_aa_samples },
 		{ "GetVideoResolution", l_engine_get_video_resolution },
 		{ "SetVideoResolution", l_engine_set_video_resolution },
 		{ "GetFullscreen", l_engine_get_fullscreen },

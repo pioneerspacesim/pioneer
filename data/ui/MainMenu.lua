@@ -1,4 +1,4 @@
--- Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -97,11 +97,17 @@ local doQuitConfirmation = function()
 	end
 end
 
+local loadOptions = {
+	function () Game.StartGame(SystemPath.New(0,0,0,0,6),48600) ; setupPlayerSol() end,
+	function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) ; setupPlayerEridani() end,
+	function () Game.StartGame(SystemPath.New(-1,0,0,0,16)) ; setupPlayerBarnard() end,
+}
+
 local buttonDefs = {
 	{ l.CONTINUE_GAME,          function () loadGame("_exit") end },
-	{ l.START_AT_EARTH,         function () Game.StartGame(SystemPath.New(0,0,0,0,6),48600)   setupPlayerSol() end },
-	{ l.START_AT_NEW_HOPE,      function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerEridani() end },
-	{ l.START_AT_BARNARDS_STAR, function () Game.StartGame(SystemPath.New(-1,0,0,0,16))  setupPlayerBarnard() end },
+	{ l.START_AT_EARTH,         loadOptions[1] },
+	{ l.START_AT_NEW_HOPE,      loadOptions[2] },
+	{ l.START_AT_BARNARDS_STAR, loadOptions[3] },
 	{ l.LOAD_GAME,              doLoadDialog },
 	{ l.OPTIONS,                doSettingsScreen },
 	{ l.QUIT,                   doQuitConfirmation },
@@ -183,7 +189,17 @@ local menu =
 				)
 		})
 
-ui.templates.MainMenu = function (args)
-	for _,anim in ipairs(anims) do ui:Animate(anim) end
+ui.templates.MainMenu = function (args)	
+	local args = args or {}
+	local startPlanetNum = args.StartPlanetNum
+	
+	if startPlanetNum and startPlanetNum > 0 and startPlanetNum <= 3 then
+		loadOptions[startPlanetNum]()
+	else
+		for _,anim in ipairs(anims) do ui:Animate(anim) end
+	end
+
+	-- XXX: Whatever environment is loaded in args should be transmitted to the settings screen
+	-- That's not a problem for now as the only argument is to skip the menu altogether.
 	return menu
 end

@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 // A deterministic random number generator for use by the rest of the
@@ -238,6 +238,8 @@ public:
 			o *= Fixed();
 		return o;
 	}
+
+	const pcg32 &GetPCG() const { return mPCG; }
 private:
 	Random(const Random&); // copy constructor not defined
 	void operator=(const Random&); // assignment operator not defined

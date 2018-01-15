@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Carbon ore"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Karbonmalm (kull og olje) er nødvendig for produksjon av mange nyttige kjemikalier, inkludert plast, syntetiske matvarer, medisiner og tekstiler"
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Last"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Fertilizer"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "You have paid the fine of %fine."
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "You have paid %paid but still have an outstanding fine of %fine."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Fire weapon"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Hydrogen"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Hydrogen is primarily used as a fusion fuel"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Liquid Oxygen"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Oxygen is required for life support systems and some industrial processes"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Young farming colony."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Du har ikke noen penger."
    },
    "Z" : {
       "description" : "keybinding: z axis",

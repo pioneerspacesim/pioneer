@@ -1,11 +1,11 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUAUTILS_H
 #define _LUAUTILS_H
 
 #include <string>
-#include "lua/lua.hpp"
+#include <lua.hpp>
 #include "utils.h"
 
 namespace FileSystem { class FileData; }
@@ -66,7 +66,8 @@ void pi_lua_readonly_table_proxy(lua_State *l, int index);
 // pushes the underlying (read-write) table pointed to by the proxy at <index>
 void pi_lua_readonly_table_original(lua_State *l, int index);
 
-bool pi_lua_import(lua_State *l, const std::string &importName);
+bool pi_lua_import(lua_State *l, const std::string &importName, bool isFullName = false);
+void pi_lua_import_recursive(lua_State *L, const std::string &basepath);
 
 int  pi_lua_panic(lua_State *l) __attribute((noreturn));
 void pi_lua_protected_call(lua_State* state, int nargs, int nresults);

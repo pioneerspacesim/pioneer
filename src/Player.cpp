@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Player.h"
@@ -8,7 +8,6 @@
 #include "Lang.h"
 #include "Pi.h"
 #include "SectorView.h"
-#include "Serializer.h"
 #include "ShipCpanel.h"
 #include "Sound.h"
 #include "SpaceStation.h"
@@ -190,7 +189,7 @@ void Player::NotifyRemoved(const Body* const removedBody)
 //XXX ui stuff
 void Player::OnEnterHyperspace()
 {
-	s_soundHyperdrive.Play("Hyperdrive_Jump");
+	s_soundHyperdrive.Play(m_hyperspace.sounds.jump_sound.c_str());
 	SetNavTarget(0);
 	SetCombatTarget(0);
 
@@ -248,18 +247,18 @@ void Player::SetSetSpeedTarget(Body* const target)
 }
 //temporary targeting stuff ends
 
-Ship::HyperjumpStatus Player::InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, LuaRef checks) {
-	HyperjumpStatus status = Ship::InitiateHyperjumpTo(dest, warmup_time, duration, checks);
+Ship::HyperjumpStatus Player::InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, const HyperdriveSoundsTable &sounds, LuaRef checks) {
+	HyperjumpStatus status = Ship::InitiateHyperjumpTo(dest, warmup_time, duration, sounds, checks);
 
 	if (status == HYPERJUMP_OK)
-		s_soundHyperdrive.Play("Hyperdrive_Charge");
+		s_soundHyperdrive.Play(m_hyperspace.sounds.warmup_sound.c_str());
 
 	return status;
 }
 
 void Player::AbortHyperjump()
 {
-	s_soundHyperdrive.Play("Hyperdrive_Abort");
+	s_soundHyperdrive.Play(m_hyperspace.sounds.abort_sound.c_str());
 	Ship::AbortHyperjump();
 }
 

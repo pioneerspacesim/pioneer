@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Pi.h"
@@ -48,7 +48,6 @@
 #include "Projectile.h"
 #include "SDLWrappers.h"
 #include "SectorView.h"
-#include "Serializer.h"
 #include "Sfx.h"
 #include "ShipCpanel.h"
 #include "ShipType.h"
@@ -84,6 +83,7 @@
 #include "ui/Lua.h"
 #include <algorithm>
 #include <sstream>
+#include "versioningInfo.h"
 
 #ifdef PROFILE_LUA_TIME
 #include <time.h>
@@ -147,7 +147,6 @@ bool Pi::speedLinesDisplayed = false;
 bool Pi::hudTrailsDisplayed = false;
 bool Pi::bRefreshBackgroundStars = true;
 float Pi::amountOfBackgroundStarsDisplayed = 1.0f;
-Gui::Fixed *Pi::menu;
 bool Pi::DrawGUI = true;
 Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
@@ -279,7 +278,7 @@ static void LuaInit()
 	LuaObject<CargoBody>::RegisterClass();
 	LuaObject<ModelBody>::RegisterClass();
 	LuaObject<HyperspaceCloud>::RegisterClass();
-	
+
 	LuaObject<StarSystem>::RegisterClass();
 	LuaObject<SystemPath>::RegisterClass();
 	LuaObject<SystemBody>::RegisterClass();
@@ -317,13 +316,13 @@ static void LuaInit()
 
 	// XXX load everything. for now, just modules
 	lua_State *l = Lua::manager->GetLuaState();
-	pi_lua_dofile(l, "libs/autoload.lua");
-	pi_lua_dofile_recursive(l, "ui");
-	pi_lua_dofile(l, "pigui/pigui.lua");
-	pi_lua_dofile(l, "pigui/game.lua");
-	pi_lua_dofile(l, "pigui/init.lua");
-	pi_lua_dofile_recursive(l, "pigui/modules");
-	pi_lua_dofile_recursive(l, "modules");
+	pi_lua_import(l, "libs/autoload.lua", true);
+	pi_lua_import_recursive(l, "ui");
+	pi_lua_import(l, "pigui/pigui.lua", true);
+	pi_lua_import(l, "pigui/game.lua", true);
+	pi_lua_import(l, "pigui/init.lua", true);
+	pi_lua_import_recursive(l, "pigui/modules");
+	pi_lua_import_recursive(l, "modules");
 
 	Pi::luaNameGen = new LuaNameGen(Lua::manager);
 }
@@ -468,9 +467,8 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	if (SDL_Init(sdlInitFlags) < 0) {
 		Error("SDL initialization failed: %s\n", SDL_GetError());
 	}
-	SDL_version ver;
-	SDL_GetVersion(&ver);
-	Output("SDL Version %d.%d.%d\n", ver.major, ver.minor, ver.patch);
+
+	OutputVersioningInfo();
 
 	Graphics::RendererGL2::RegisterRenderer();
 	Graphics::RendererOGL::RegisterRenderer();
@@ -1233,14 +1231,17 @@ void Pi::StartGame()
 	LuaEvent::Emit();
 }
 
-void Pi::Start()
+void Pi::Start(const int& startPlanet)
 {
 	Pi::bRequestEndGame = false;
 
 	Pi::intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 
+	lua_State *l = Lua::manager->GetLuaState();
+	LuaTable args(l);
+	args.Set("StartPlanetNum", startPlanet);
 	ui->DropAllLayers();
-	ui->GetTopLayer()->SetInnerWidget(ui->CallTemplate("MainMenu"));
+	ui->GetTopLayer()->SetInnerWidget(ui->CallTemplate("MainMenu", args));
 
 	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
 	// for some models
@@ -1513,17 +1514,6 @@ void Pi::MainLoop()
 			Pi::ui->Draw();
 		}
 
-#if WITH_DEVKEYS
-		if (Pi::showDebugInfo) {
-			Gui::Screen::EnterOrtho();
-			Gui::Screen::PushFont("ConsoleFont");
-			static RefCountedPtr<Graphics::VertexBuffer> s_debugInfovb;
-			Gui::Screen::RenderStringBuffer(s_debugInfovb, fps_readout, 0, 0);
-			Gui::Screen::PopFont();
-			Gui::Screen::LeaveOrtho();
-		}
-#endif
-
 		Pi::EndRenderTarget();
 		Pi::DrawRenderTarget();
 		bool endCameraFrame = false;
@@ -1538,6 +1528,19 @@ void Pi::MainLoop()
 				Pi::game->GetWorldView()->EndCameraFrame();
 			}
 		}
+
+#if WITH_DEVKEYS
+		// NB: this needs to be rendered last so that it appears over all other game elements
+		//	preferrably like this where it is just before the buffer swap
+		if (Pi::showDebugInfo) {
+			Gui::Screen::EnterOrtho();
+			Gui::Screen::PushFont("ConsoleFont");
+			static RefCountedPtr<Graphics::VertexBuffer> s_debugInfovb;
+			Gui::Screen::RenderStringBuffer(s_debugInfovb, fps_readout, 0, 0);
+			Gui::Screen::PopFont();
+			Gui::Screen::LeaveOrtho();
+		}
+#endif
 
 		Pi::renderer->SwapBuffers();
 

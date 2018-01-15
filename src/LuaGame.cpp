@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaGame.h"
@@ -19,6 +19,7 @@
 #include "SystemInfoView.h"
 #include "ShipCpanel.h"
 #include "LuaPiGui.h"
+#include "GameSaveError.h"
 
 /*
  * Interface: Game
@@ -396,7 +397,7 @@ static int l_game_current_view(lua_State *l)
 		LuaPush(l, "space_station");
 	else if(view == Pi::game->GetInfoView())
 		LuaPush(l, "info");
-	else if(Pi::GetView() == Pi::game->GetSectorView())
+	else if(view == Pi::game->GetSectorView())
 		LuaPush(l, "sector");
 	else if(view == Pi::game->GetSystemView())
 		LuaPush(l, "system");
@@ -538,12 +539,6 @@ static int l_game_toggle_target_actions(lua_State *l)
 	return 0;
 }
 
-static int l_game_toggle_low_thrust_power_options(lua_State *l)
-{
-	Pi::game->GetWorldView()->ToggleLowThrustPowerOptions();
-	return 0;
-}
-
 static int l_game_change_flight_state(lua_State *l)
 {
 	Pi::game->GetWorldView()->ChangeFlightState();
@@ -610,11 +605,10 @@ void LuaGame::Register()
 		{ "GetTimeAcceleration",          l_game_get_time_acceleration },
 		{ "GetRequestedTimeAcceleration", l_game_get_requested_time_acceleration },
 		{ "GetHyperspaceTravelledPercentage", l_game_get_hyperspace_travelled_percentage },
-		
+
 		{ "SetWorldCamType", l_game_set_world_cam_type },
 		{ "GetWorldCamType", l_game_get_world_cam_type },
 		{ "ToggleTargetActions",         l_game_toggle_target_actions }, // deprecated
-		{ "ToggleLowThrustPowerOptions", l_game_toggle_low_thrust_power_options }, // deprecated
 		{ "ChangeFlightState",           l_game_change_flight_state }, // deprecated
 
 		{ 0, 0 }

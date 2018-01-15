@@ -915,6 +915,14 @@
       "description" : "Light year",
       "message" : "bl-shol"
    },
+   "MAJOR_EXPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Prìomh às-phortadh"
+   },
+   "MAJOR_IMPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Prìomh ion-phortadh"
+   },
    "MAKE_NEW_FACE" : {
       "description" : "",
       "message" : "Cruthaich aodann ùr"
@@ -990,6 +998,14 @@
    "MINIMUM_CREW" : {
       "description" : "",
       "message" : "An sgioba as lugha"
+   },
+   "MINOR_EXPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Beagan às-phortaidh"
+   },
+   "MINOR_IMPORTS_ITEM" : {
+      "description" : "",
+      "message" : "Beagan ion-phortaidh"
    },
    "MISSILE_MOUNTS" : {
       "description" : "",

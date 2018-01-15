@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _WORLDVIEW_H
@@ -8,7 +8,6 @@
 #include "gui/Gui.h"
 #include "gui/GuiWidget.h"
 #include "UIView.h"
-#include "Serializer.h"
 #include "SpeedLines.h"
 #include "Background.h"
 #include "Camera.h"
@@ -64,7 +63,6 @@ public:
 
 	/* start deprecated */
 	void ToggleTargetActions();
-	void ToggleLowThrustPowerOptions();
 	void ChangeFlightState();
 	/* end deprecated */
 
@@ -134,10 +132,6 @@ private:
 	void OnClickCommsNavOption(Body *target);
 	void BuildCommsNavOptions();
 
-	void HideLowThrustPowerOptions();
-	void ShowLowThrustPowerOptions();
-	void OnSelectLowThrustPower(float power);
-
 	void OnPlayerDockOrUndock();
 	void OnPlayerChangeTarget();
 	void OnPlayerChangeFlightControlState();
@@ -158,12 +152,10 @@ private:
 	Gui::Fixed *m_commsOptions;
 	Gui::VBox *m_commsNavOptions;
 	Gui::HBox *m_commsNavOptionsContainer;
-	Gui::Fixed *m_lowThrustPowerOptions;
 	Gui::Label *m_debugText;
 	bool m_labelsOn;
 	enum CamType m_camType;
 	Uint32 m_showTargetActionsTimeout;
-	Uint32 m_showLowThrustPowerTimeout;
 
 #if WITH_DEVKEYS
 	Gui::Label *m_debugInfo;

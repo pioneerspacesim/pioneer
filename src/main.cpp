@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -15,6 +15,7 @@ enum RunMode {
 	MODE_GAME,
 	MODE_MODELVIEWER,
 	MODE_GALAXYDUMP,
+	MODE_SKIPMENU,
 	MODE_VERSION,
 	MODE_USAGE,
 	MODE_USAGE_ERROR
@@ -27,6 +28,7 @@ int main(int argc, char** argv)
 #endif
 
 	RunMode mode = MODE_GAME;
+	std::string modeopt;
 
 	if (argc > 1) {
 		const char switchchar = argv[1][0];
@@ -35,7 +37,7 @@ int main(int argc, char** argv)
 			goto start;
 		}
 
-		const std::string modeopt(std::string(argv[1]).substr(1));
+		modeopt = std::string(argv[1]).substr(1);
 
 		if (modeopt == "game" || modeopt == "g") {
 			mode = MODE_GAME;
@@ -49,6 +51,13 @@ int main(int argc, char** argv)
 
 		if (modeopt == "galaxydump" || modeopt == "gd") {
 			mode = MODE_GALAXYDUMP;
+			goto start;
+		}
+
+		if (modeopt.find("skipmenu", 0, 8) != std::string::npos ||
+			modeopt.find("sm", 0, 2) != std::string::npos)
+		{
+			mode = MODE_SKIPMENU;
 			goto start;
 		}
 
@@ -71,6 +80,8 @@ start:
 	long int radius = 4;
 	long int sx = 0, sy = 0, sz = 0;
 	std::string filename;
+	int startPlanet = 0; // zero is off
+
 	switch (mode) {
 		case MODE_GALAXYDUMP: {
 			if (argc < 3) {
@@ -109,25 +120,64 @@ start:
 			}
 			// fallthrough
 		}
+		case MODE_SKIPMENU: {
+			// fallthrough protect
+			if (mode == MODE_SKIPMENU)
+			{
+				// try to get start planet number
+				std::vector<std::string> keyValue = SplitString(modeopt, "=");
+
+				// if found value
+				if (keyValue.size() == 2)
+				{
+					if (keyValue[1].empty())
+					{
+						startPlanet = 0;
+					}
+					else
+					{
+						startPlanet = static_cast<int>(StrToSInt64(keyValue[1]));
+					}
+				}
+				// if value not exists - load on Earth
+				else
+					startPlanet = 1;
+
+				// set usual mode
+				mode = MODE_GAME;
+			}
+			// fallthrough
+		}
 		case MODE_GAME: {
 			std::map<std::string,std::string> options;
+
+			// if arguments more than parsed already
 			if (argc > pos) {
 				static const std::string delim("=");
+
+				// for each argument
 				for (; pos < argc; pos++) {
 					const std::string arg(argv[pos]);
-					size_t mid = arg.find_first_of(delim, 0);
-					if (mid == std::string::npos || mid == 0 || mid == arg.length()-1) {
+					std::vector<std::string> keyValue = SplitString(arg, "=");
+
+					// if there no key and value || key is empty || value is empty
+					if (keyValue.size() != 2 || keyValue[0].empty() || keyValue[1].empty()) {
 						Output("malformed option: %s\n", arg.c_str());
 						return 1;
 					}
-					const std::string key(arg.substr(0, mid));
-					const std::string val(arg.substr(mid+1, arg.length()));
-					options[key] = val;
+
+					// put key and value to config
+					options[keyValue[0]] = keyValue[1];
 				}
 			}
+
 			Pi::Init(options, mode == MODE_GALAXYDUMP);
+
 			if (mode == MODE_GAME)
-				for (;;) Pi::Start();
+				for (;;) {
+					Pi::Start(startPlanet);
+					startPlanet = 0; // Reset the start planet when coming back to the menu
+				}
 			else if (mode == MODE_GALAXYDUMP) {
 				FILE* file = filename == "-" ? stdout : fopen(filename.c_str(), "w");
 				if (file == nullptr) {
@@ -170,6 +220,8 @@ start:
 				"    -game        [-g]     game (default)\n"
 				"    -modelviewer [-mv]    model viewer\n"
 				"    -galaxydump  [-gd]    galaxy dumper\n"
+				"    -skipmenu    [-sm]    skip main menu\n"
+				"    -skipmenu=N  [-sm=N]  skip main menu and load planet 'N' where N: number\n"
 				"    -version     [-v]     show version\n"
 				"    -help        [-h,-?]  this help\n"
 			);

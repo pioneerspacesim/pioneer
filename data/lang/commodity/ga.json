@@ -1,0 +1,250 @@
+{
+   "AIR_PROCESSORS" : {
+      "description" : "",
+      "message" : "Próiseálaithe aeir"
+   },
+   "AIR_PROCESSORS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Déantar dóigh den aer glan nuair a bhíonn sé fairsing. Deirtear gur tháinig an teicneolaíocht a ghlanann an t-aer ó dhéantáin eachtardhomhanda a aimsíodh ar Mhars. Déanann neart comhlachtaí próiseálaithe aeir éagsúla atá in ann timpeallacht shábháilte a chruthú as atmaisféir fiú an-chontúirteacha. Ní chuireann rialtais suas le monaplachtaí ar tháirgeadh aeir."
+   },
+   "ANIMAL_MEAT" : {
+      "description" : "",
+      "message" : "Feoil"
+   },
+   "ANIMAL_MEAT_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Toisc gur furasta teacht ar phróitéin shintéiseach, creideann formhór an phobail nár cheart ainmhithe a mharú. Cé go bhfuil feoil in aghaidh an dlí i réaltchórais i ngar don chroí, is cuid thábhachtach den saol ar dhomhain níos traidisiúnta ainmhithe beo agus a gcuid feola."
+   },
+   "BATTLE_WEAPONS" : {
+      "description" : "",
+      "message" : "Airm chatha"
+   },
+   "BATTLE_WEAPONS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Airm mhíleata, ar nós tancanna foluaineacha armúrtha, agus diúracáin dromchla-go-spás. De ghnáth, bíonn monaplacht rialtais ar a dtrádáil. Is féidir iad a cheannach ar an margadh dubh, ach cosnóidh siad pingin mhaith ort."
+   },
+   "CARBON_ORE" : {
+      "description" : "",
+      "message" : "Mianach carbóin"
+   },
+   "CARBON_ORE_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Is é carbón ceann de na heilimintí is forleithne ar ár n-eolas. Is tráchtearra neamhchostasach é, ach tábhachtach mar sin féin, agus baintear úsáid as i dtáirgí plaisteacha, i gcóimhiotail, agus fiú i dtáirgiúlacht cumhachta. Dá bharr seo, iompórtálann beagnach gach coilíneacht thionsclaíoch mianach carbóin."
+   },
+   "COMPUTERS" : {
+      "description" : "",
+      "message" : "Ríomhairí"
+   },
+   "COMPUTERS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Le mílte bliain anuas, ón abacas, PDP-11, agus slis Motorola 68k, go dtí HAL 9001 agus an líne nua-aimseartha Multivac, tá ríomhairí tar éis tús a chur le ré na faisnéise. Tá ríomhairí riachtanach sa saol, is cuma más mian leat dul isteach i hipearspás, nó físeán de chuibil ghleoite a phostáil ar an AonLíon."
+   },
+   "CONSUMER_GOODS" : {
+      "description" : "",
+      "message" : "Earraí tomhaltais"
+   },
+   "CONSUMER_GOODS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Táirgí deiridh, réidh don phobal i gcoitinne, gan gá tuilleadh próiseála a dhéanamh orthu. Gach rud faoi rothaí na gréine, ó scuaba fiacla agus fearais leictreacha go carranna foluaineacha."
+   },
+   "FARM_MACHINERY" : {
+      "description" : "",
+      "message" : "Innealra feirme"
+   },
+   "FARM_MACHINERY_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Is rud annamh é, ach feictear corrfheirmeoir anois is arís ag baint úsáide as céachta agus damh riata. Ach úsáidtear meaisíní i bhformhór na n-áiteanna ina bhfuil curaíocht ar siúl, mar shampla i gcóras hidreaponaice faoi thalamh, nó sna machairí gan chríoch ar dhomhan talmhaíochta."
+   },
+   "FERTILIZER" : {
+      "description" : "",
+      "message" : "Leasachán"
+   },
+   "FERTILIZER_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Ní féidir barra a shaothrú ar scála tionsclaíoch gan leasúcháin a úsáid. Ceadaíonn siad monashaothrú, agus táirgeann siad torthaí níos fearr ná ithir neamhleasaithe. Go minic, déanann leasúchán dochar don timpeallacht nach bhfuil soiléir i dtús báire."
+   },
+   "FRUIT_AND_VEG" : {
+      "description" : "",
+      "message" : "Torthaí ⁊ glasraí"
+   },
+   "FRUIT_AND_VEG_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Cé go bhfuil go leor roghanna sintéiseacha ar fáil, tá fíorthorthaí agus fíorghlasraí fós tábhachtach i gcúrsaí cócaireachta agus cothúcháin. Saothraítear torthaí agus glasraí ar dhomhain talmhaíochta nó mar chuid de chórais tacaíochta beatha, agus easpórtáiltear iad chuig réaltchórais ina bhfuil sé dodhéanta plandaí a shaothrú."
+   },
+   "GRAIN" : {
+      "description" : "",
+      "message" : "Arbhar"
+   },
+   "GRAIN_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Cuid thábhachtach den aiste bia ag go leor daoine. Úsáidtear san fheirmeoireacht é, mar bhia ainmhithe, agus mar fhorlíonadh do bhia sintéiseach. Úsáidtear gráinne mar chomhábhar ina lán bianna eile, mar shampla min choirce, arán, cácaí, srl. Saothraíonn go leor cultúr idir-réaltach gráinní a cuireadh in oiriúint don aeráid speisialta atá acu."
+   },
+   "HAND_WEAPONS" : {
+      "description" : "",
+      "message" : "Mionarm"
+   },
+   "HAND_WEAPONS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Tá mionairm riachtanach do thrádálaithe i réaltchórais i bhfad amach in áiteanna thar géag fhada an dlí. Mar sin féin, creideann go leor rialtas gur bagairt iad orthu, agus dá bharr sin cuireann siad srianta dochta i bhfeidhm ar thrádáil agus ar sheilbh mionarm."
+   },
+   "HYDROGEN" : {
+      "description" : "",
+      "message" : "Hidrigin"
+   },
+   "HYDROGEN_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Is eilimint fhíorthábhachtach é hidrigin a úsáidtear mar bhreosla i hipirthiomáintí agus mar thiomántán i spáslonga. Ar an dea-uair, is é hidrigin an eilimint is coitianta sa chruinne, cé nach bhfuil sé éasca é a stóráil. Bíonn sé i measc na dtráchtearraí is saoire ar an margadh de ghnáth, agus bíonn soláthar maith ar fáil i spásphoirt i gcónaí."
+   },
+   "INDUSTRIAL_MACHINERY" : {
+      "description" : "",
+      "message" : "Innealra tionsclaíoch"
+   },
+   "INDUSTRIAL_MACHINERY_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Innealra atá ag teastáil ar línte cóimeála, i scaglanna, i mbruithneoirí, agus mar chuid d'innealra eile a tháirgeann earraí eile. Tá ardscileanna de dhíth chun na meaisíní casta seo a dhéanamh."
+   },
+   "LIQUID_OXYGEN" : {
+      "description" : "",
+      "message" : "Ocsaigin leachtach"
+   },
+   "LIQUID_OXYGEN_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Úsáidtear ocsaigin leachtach ar go leor bealaí, is minice i gcúrsaí leighis nó i gcúrsaí tionsclaíochta, agus uaireanta in áiseanna cóireála dramhaíola freisin. Níl sé róchostasach toisc gur féidir ocsaigin a fháil ó uisce gan mórán stró."
+   },
+   "LIQUOR" : {
+      "description" : "",
+      "message" : "Poitín"
+   },
+   "LIQUOR_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Gheobhaidh tú beoir áitiúil a chuireann masmas ar strainséirí i mbeagnach gach urphost. Cuirtear cosc ar alcól i réaltchórais áirithe toisc go gcreidtear go gcuireann sé mearbhall ar an intinn. Beag beann ar an dlí, bíonn tú in ann braon fuisce a fháil ar an margadh dubh am ar bith má tá tú sásta íoc as."
+   },
+   "LIVE_ANIMALS" : {
+      "description" : "",
+      "message" : "Ainmhithe beo"
+   },
+   "LIVE_ANIMALS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Ar chúiseanna daonnachta, eacnamaíochta, agus éiceolaíochta, tá rialacháin dochta, agus uaireanta cosc iomlán, ar thógáil agus ar thrádáil ainmhithe ina lán réaltchoras i ngar don chroí. Níos faide amach, is cuid thábhachtach de shaol an phobail é beostoc, mar fhoinse cothúcháin agus mar bheithígh iompair. Glacann zúnna agus tearmainn dúlra páirt i dtrádáil ainmhithe freisin timpeall an réaltra, faoi rialúcháin an stáit, le troid in aghaidh seilge mídhleathaí. "
+   },
+   "MEDICINES" : {
+      "description" : "",
+      "message" : "Cógais"
+   },
+   "MEDICINES_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Tagann cógais áirithe ó fhoinsí nádúrtha, agus sintéisítear cinn eile.  Tá siad riachtanach do shláinte an chine dhaonna sa spás idir-réaltach, mar leigheas ar an slaghdán, nó chun gníomhú in aghaidh éifeachtaí díobhálacha a bhaineann le tréimhsí fada sa spás. Coinnítear gníomhairí custaim súil ghéar orthu, toisc gur minic a dhéantar iarracht drugaí a chur i bhfolach mar ghnáthchógais leighis."
+   },
+   "METAL_ALLOYS" : {
+      "description" : "",
+      "message" : "Cóimhiotail"
+   },
+   "METAL_ALLOYS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Tar éis go mbaintear agus go scagtar mian miotail, próiseáiltear é agus déantar cóimhiotail éagsúla as. Is éard atá i gcóimhiotal ná cumasc miotal ina bhfuil níos mó ná eilimint amháin, de réir comhréireacha beachta chun tréithe áirithe a bhaint amach. Is cóimhiotail iad an chuid is mó de na miotail a úsáideann an gnáthphobal."
+   },
+   "METAL_ORE" : {
+      "description" : "",
+      "message" : "Mianach miotail"
+   },
+   "METAL_ORE_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Baineann go leor coilíneachtaí mianta miotail lena n-easpórtáil. Déantar scagadh orthu agus úsáidtear i ndéantúsaíocht thionsclaíoch iad. Tá miotal i ngach foirm sár-riachtanach don tsibhialtacht nua-aimseartha."
+   },
+   "MILITARY_FUEL" : {
+      "description" : "",
+      "message" : "Breosla míleata"
+   },
+   "MILITARY_FUEL_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Úsáidte mar bhreosla i dtiomáintí míleata níos cumhachtaí. Táirgeann na tiomáintí seo dramhaíl núicléach nach foláir a dhiúscairt. Ós rud é gur ábhar sintéiseach é, tá breosla míleata níos costasaí agus níos annaimhe ná hidrigin, agus níl aon fháil air go nádúrtha."
+   },
+   "MINING_MACHINERY" : {
+      "description" : "",
+      "message" : "Innealra mianadóireachta"
+   },
+   "MINING_MACHINERY_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Laghdaítear an sclábhaíocht a bhaineann leis an mianadóireacht le meaisíní a chabhraíonn le mianadóirí mianta éagsúla a aimsiú, a thochailt, agus a aistriú go dtí an tsaoráid phróiseála is gaire."
+   },
+   "NARCOTICS" : {
+      "description" : "",
+      "message" : "Drugaí"
+   },
+   "NARCOTICS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Substaintí nádúrtha nó sintéiseacha a athraíonn staid na hintinne nó staid an choirp. Cé go bhfuil drugaí in úsáid go forleathan mar chaitheamh aimsire nó ar mhaithe le sláinte, is minic go mbíonn sé in aghaidh an dlí drugaí a sheoladh nó a thrádáil."
+   },
+   "NERVE_GAS" : {
+      "description" : "",
+      "message" : "Néarghás"
+   },
+   "NERVE_GAS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Glactar leis go ginearálta gur arm ollscriosta é néarghás. Is annamh a úsáidtear é, fiú i gcomhthéacs míleata, agus tá sé mídhleathach i mbeagnach gach réaltchóras."
+   },
+   "PLASTICS" : {
+      "description" : "",
+      "message" : "Plaistigh"
+   },
+   "PLASTICS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Ábhair shintéiseacha agus leathshintéiseacha a úsáidtear ina lán táirgí, ó ghnáthearraí tí go spáslonga. Tá sé éasca go leor iad a úsáid sa déantúsaíocht agus níl sé costasach iad a dhéanamh. Imríonn siad ról tábhachtach sa tsibhialtacht dhaonna."
+   },
+   "PRECIOUS_METALS" : {
+      "description" : "",
+      "message" : "Miotail lómhara"
+   },
+   "PRECIOUS_METALS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Go ginearálta, ní bhíonn miotail lómhara chomh himoibríoch le miotail eile agus tá sé níos deacra iad a bhaint as mianach. Dá bharr sin, tá luach mór eacnamaíochta le miotail lómhara ar nós óir, airgid, platanaim, agus eilimintí tearcithreach. Baintear úsáid as ór, sileacan, agus eilimintí tearcithreach éagsúla i ríomhairí agus i dtáirgí leictreonacha eile."
+   },
+   "RADIOACTIVES" : {
+      "description" : "",
+      "message" : "Ábhar radaighníomhach"
+   },
+   "RADIOACTIVES_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Táirgeann imoibreoirí núicléacha agus hipirthiomáintí míleata dramhaíl núicléach, ábhar atá an-deacair agus an-chontúirteach a iompar agus a dhiúscairt. Dá bharr seo, tabharfaidh go leor spásphort airgead duit as fáil réidh lena ndramhaíl bhreise. Tá sé in aghaidh an dlí dramhaíl núicléach a dhumpáil."
+   },
+   "ROBOTS" : {
+      "description" : "",
+      "message" : "Róbait"
+   },
+   "ROBOTS_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Iompórtáiltear róbait isteach i réaltchórais tionsclaíocha agus mianadóireachta go minic, toisc go bhfuil siad in ann obair a dhéanamh a bheadh ródheacair, róleadránach, nó róchontúirteach d'oibrithe daonna. Baintear úsáid astu mar pholaiteoirí agus mar dhlíodóirí freisin. "
+   },
+   "RUBBISH" : {
+      "description" : "",
+      "message" : "Bruscar"
+   },
+   "RUBBISH_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Fotháirge de chuid na sibhialtachta: dramhaíl thionsclaíoch, fuíollábhar teaghlaigh, agus trealamh seanchaite. Den chuid is mó, déantar athphróiseáil nó athchúrsáil ar dhramhaíl, nó seoltar chun spásphort í lena hiompar ón phláinéad. Tá sé in aghaidh an dlí bruscar a dhumpáil in aon réaltchóras áitrithe. De ghnáth, gearrann spásphoirt táille ar do chuid dramhaíola a dhiúscairt, ach tabharfaidh siad airgead duit as fáil réidh le dramhaíl freisin."
+   },
+   "SLAVES" : {
+      "description" : "",
+      "message" : "Sclábhaithe"
+   },
+   "SLAVES_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Aontaíonn gach duine go bhfuil an sclábhaíocht mímhorálta, agus gearrtar dianphionóis ar éinne a sháraíonn an cosc ar an sclábhaíocht. Mar sin féin, in ainneoin na ngníomhaíoch a dhéanann a ndícheall ag troid in aghaidh na sclábhaíochta, is fadhb fhorleathan í fós, fiú i ndomhain fhorbartha."
+   },
+   "TEXTILES" : {
+      "description" : "",
+      "message" : "Teicstílí"
+   },
+   "TEXTILES_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Is éard atá i dteicstílí ná fabraicí simplí, fite ó shnáth sintéiseach nó ó shnáth a bhí déanta as planda nó as ainmhí. Dé ghnáth, is é róbait a tháirgeann teicstílí i monarchana móra, ach tá fíodóirí daonna ann a dhéanann a gcuid teicstílí féin fós."
+   },
+   "WATER" : {
+      "description" : "",
+      "message" : "Uisce"
+   },
+   "WATER_DESCRIPTION" : {
+      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+      "message" : "Cé go ndéantar neamhshuim de go minic, tá uisce riachtanach don bheatha faoi mar is eol dúinn í.  Dá bharr seo, iompórtálann an chuid is mó de na coilíneachtaí eachtardhomhanda uisce ó chóiméid nó ó phláinéid cosúil leis an Domhan. Úsáidtear uisce ar mhórscála chun hidrigin agus ocsaigin a tháirgeadh."
+   }
+}

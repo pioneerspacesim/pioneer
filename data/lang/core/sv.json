@@ -147,10 +147,6 @@
       "description" : "",
       "message" : "Kolmalm"
    },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Kolmalm (kol och olja) krävs för att syntisera många användbara kemikalier som plaster, syntetisk mat, mediciner och textiler."
-   },
    "CARGO" : {
       "description" : "",
       "message" : "Last"
@@ -411,14 +407,6 @@
       "description" : "",
       "message" : "Gödsel"
    },
-   "FINE_PAID_N" : {
-      "description" : "",
-      "message" : "Du har betalat böterna på %fine"
-   },
-   "FINE_PAID_N_BUT_N_REMAINING" : {
-      "description" : "",
-      "message" : "Du har betalat %paid men har fortfarande en obetald böter på %fine."
-   },
    "FIRE_LASER" : {
       "description" : "",
       "message" : "Avfyra vapen"
@@ -550,10 +538,6 @@
    "HYDROGEN" : {
       "description" : "",
       "message" : "Väte"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Väte används främst som fusionsbränsle"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -702,10 +686,6 @@
    "LIQUID_OXYGEN" : {
       "description" : "",
       "message" : "Flytande syre"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Syre krävs för livsuppehållande system och vissa industriprocesser"
    },
    "LIQUOR" : {
       "description" : "",
@@ -1874,10 +1854,6 @@
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
       "message" : "Ung jordbrukskoloni."
-   },
-   "YOU_NO_MONEY" : {
-      "description" : "",
-      "message" : "Du har inga pengar."
    },
    "Z" : {
       "description" : "keybinding: z axis",

@@ -1,4 +1,4 @@
-// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIP_H
@@ -11,7 +11,6 @@
 #include "NavLights.h"
 #include "Planet.h"
 #include "Sensors.h"
-#include "Serializer.h"
 #include "ShipType.h"
 #include "Space.h"
 #include "scenegraph/SceneGraph.h"
@@ -48,6 +47,12 @@ struct shipstats_t {
 	float shield_mass;
 	float shield_mass_left;
 	float fuel_tank_mass_left;
+};
+
+struct HyperdriveSoundsTable {
+	std::string jump_sound;
+	std::string warmup_sound;
+	std::string abort_sound;
 };
 
 class Ship: public DynamicBody {
@@ -141,7 +146,7 @@ public:
 	};
 
 	Ship::HyperjumpStatus CheckHyperjumpCapability() const;
-	virtual Ship::HyperjumpStatus InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, LuaRef checks);
+	virtual Ship::HyperjumpStatus InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, const HyperdriveSoundsTable &sounds, LuaRef checks);
 	virtual void AbortHyperjump();
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
 	bool IsHyperspaceActive() const { return (m_hyperspace.countdown > 0.0); }
@@ -241,6 +246,16 @@ protected:
 
 	ShipController *m_controller;
 
+	struct HyperspacingOut {
+		SystemPath dest;
+		// > 0 means active
+		float countdown;
+		bool now;
+		double duration;
+		LuaRef checks; // A Lua function to check all the conditions before the jump
+		HyperdriveSoundsTable sounds;
+	} m_hyperspace;
+
 	LuaRef m_equipSet;
 
 private:
@@ -276,14 +291,6 @@ private:
 	bool m_shipFiring;
 	Space::BodyNearList m_nearbyBodies;
 
-	struct HyperspacingOut {
-		SystemPath dest;
-		// > 0 means active
-		float countdown;
-		bool now;
-		double duration;
-		LuaRef checks; // A Lua function to check all the conditions before the jump
-	} m_hyperspace;
 	HyperspaceCloud *m_hyperspaceCloud;
 
 	AICommand *m_curAICmd;
