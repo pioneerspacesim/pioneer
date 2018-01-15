@@ -1251,6 +1251,10 @@
       "description" : "",
       "message" : "Refuel full"
    },
+   "REGISTRATION_NUMBER" : {
+     "description" : "",
+     "message" : "Registration number"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Reliable"
