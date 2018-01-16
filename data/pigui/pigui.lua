@@ -79,6 +79,11 @@ function ui.popup(name, fun)
 	end
 end
 
+function ui.child(id, fun)
+	pigui.BeginChild(id)
+	fun()
+	pigui.EndChild()
+end
 function ui.withFont(name, size, fun)
 	local font = pigui:PushFont(name, size)
 	fun()
@@ -456,6 +461,9 @@ ui.sameLine = pigui.SameLine
 ui.text = pigui.Text
 ui.textWrapped = pigui.TextWrapped
 ui.textColored = pigui.TextColored
+ui.inputText = pigui.InputText
+ui.checkbox = pigui.Checkbox
+ui.separator = pigui.Separator
 ui.pushTextWrapPos = pigui.PushTextWrapPos
 ui.popTextWrapPos = pigui.PopTextWrapPos
 ui.setScrollHere = pigui.SetScrollHere
@@ -474,11 +482,16 @@ ui.twoPi = two_pi
 ui.pi_2 = pi_2
 ui.pi_4 = pi_4
 ui.pi = pi
+ui.withID = function(id, fun)
+		pigui.PushID(id)
+		fun()
+		pigui.PopID()
+end
 ui.imageButton = function(icon, size, frame_padding, bg_color, tint_color, tooltip)
 	local uv0, uv1 = get_icon_tex_coords(icon)
-	pigui.PushID(tooltip)
-	local res = pigui.ImageButton(ui.icons_texture, size, uv0, uv1, frame_padding, bg_color, tint_color)
-	pigui.PopID()
+	pigui.withID(tooltip, function()
+								 local res = pigui.ImageButton(ui.icons_texture, size, uv0, uv1, frame_padding, bg_color, tint_color)
+	end)
 	return res
 end
 ui.setCursorPos = pigui.SetCursorPos
@@ -498,6 +511,7 @@ ui.getProjectedBodies = pigui.GetProjectedBodies
 ui.isMouseReleased = pigui.IsMouseReleased
 ui.isMouseHoveringRect = pigui.IsMouseHoveringRect
 ui.isMouseHoveringAnyWindow = pigui.IsMouseHoveringAnyWindow
+ui.collapsingHeader = pigui.CollapsingHeader
 ui.openPopup = pigui.OpenPopup
 ui.shouldShowLabels = pigui.ShouldShowLabels
 ui.columns = pigui.Columns
@@ -507,6 +521,7 @@ ui.systemInfoViewNextPage = pigui.SystemInfoViewNextPage -- deprecated
 ui.isKeyReleased = pigui.IsKeyReleased
 ui.playSfx = pigui.PlaySfx
 ui.isItemHovered = pigui.IsItemHovered
+ui.isItemActive = pigui.IsItemActive
 ui.ctrlHeld = function() return pigui.key_ctrl end
 ui.altHeld = function() return pigui.key_alt end
 ui.shiftHeld = function() return pigui.key_shift end

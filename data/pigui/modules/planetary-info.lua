@@ -26,31 +26,34 @@ local height = math.max(iconSize.y, font.size) * 3
 
 local function displayPlanetaryInfo()
 	local player = Game.player
-	local alt, vspd, latitude, longitude = player:GetGPS()
-	if latitude and longitude and alt and vspd then
-		ui.setNextWindowSize(Vector(width, height), "Always")
-		ui.setNextWindowPos(Vector(ui.screenWidth - width, ui.screenHeight - height), "Always")
-		ui.window("PlanetaryInfo", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
-							function()
-								ui.withFont(font.name, font.size, function()
-															ui.columns(2, "", false)
-															ui.icon(icons.altitude, iconSize, colors.reticuleCircle)
-															ui.sameLine()
-															local altitude,altitude_unit = ui.Format.Distance(alt)
-															ui.text(altitude .. altitude_unit)
-															ui.icon(icons.normal, iconSize, colors.reticuleCircle)
-															ui.sameLine()
-															local speed,speed_unit = ui.Format.Speed(vspd)
-															ui.text(speed .. speed_unit)
-															ui.nextColumn()
-															ui.icon(icons.latitude, iconSize, colors.reticuleCircle)
-															ui.sameLine()
-															ui.text(ui.Format.Latitude(latitude))
-															ui.icon(icons.longitude, iconSize, colors.reticuleCircle)
-															ui.sameLine()
-															ui.text(ui.Format.Longitude(longitude))
-								end)
-		end)
+	local current_view = Game.CurrentView()
+	if current_view == "world" then
+		local alt, vspd, latitude, longitude = player:GetGPS()
+		if latitude and longitude and alt and vspd then
+			ui.setNextWindowSize(Vector(width, height), "Always")
+			ui.setNextWindowPos(Vector(ui.screenWidth - width, ui.screenHeight - height), "Always")
+			ui.window("PlanetaryInfo", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
+								function()
+									ui.withFont(font.name, font.size, function()
+																ui.columns(2, "", false)
+																ui.icon(icons.altitude, iconSize, colors.reticuleCircle)
+																ui.sameLine()
+																local altitude,altitude_unit = ui.Format.Distance(alt)
+																ui.text(altitude .. altitude_unit)
+																ui.icon(icons.normal, iconSize, colors.reticuleCircle)
+																ui.sameLine()
+																local speed,speed_unit = ui.Format.Speed(vspd)
+																ui.text(speed .. speed_unit)
+																ui.nextColumn()
+																ui.icon(icons.latitude, iconSize, colors.reticuleCircle)
+																ui.sameLine()
+																ui.text(ui.Format.Latitude(latitude))
+																ui.icon(icons.longitude, iconSize, colors.reticuleCircle)
+																ui.sameLine()
+																ui.text(ui.Format.Longitude(longitude))
+									end)
+			end)
+		end
 	end
 end
 
