@@ -29,6 +29,8 @@ January 2018
    * Fixes
      * Planar and azimuthal radar at same time (#4265)
      * Tradeships getSystemAndJump checking (#4268)
+     * Fudge-fix projectile ray tracing (#4278)
+     * Fix ship stat CSV output (#4277)
 
 December 2017
    * New Features
