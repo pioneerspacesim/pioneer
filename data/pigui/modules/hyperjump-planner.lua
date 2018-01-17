@@ -5,6 +5,7 @@ local Vector = import('Vector')
 local Event = import('Event')
 local Lang = import("Lang")
 local lc = Lang.GetResource("core")
+local lui = Lang.GetResource("ui-core");
 local Equipment = import("Equipment")
 
 local player = nil
@@ -26,9 +27,9 @@ local current_fuel
 local remove_first_if_current = true
 
 local function showSettings()
-    if ui.collapsingHeader("Settings", {"DefaultOpen"}) then
+    if ui.collapsingHeader(lui.SETTINGS, {"DefaultOpen"}) then
         local changed
-        changed, remove_first_if_current = ui.checkbox("Remove jump when completed", remove_first_if_current)
+        changed, remove_first_if_current = ui.checkbox(lui.REMOVE_WHEN_COMPLETED, remove_first_if_current)
     end
 end -- showSettings
 
@@ -61,8 +62,8 @@ local function showJumpData(start, target, status, distance, fuel, duration, sho
     end
 end -- showJumpData
 
-local function showInfo() 
-    if ui.collapsingHeader("Route Info",{"DefaultOpen"}) then
+local function showInfo()
+    if ui.collapsingHeader(lui.ROUTE_INFO,{"DefaultOpen"}) then
         local total_fuel = 0
         local total_duration = 0
         local total_distance = 0
@@ -78,23 +79,23 @@ local function showInfo()
 
             start = jump
         end
-        
-        ui.text("Current System: " .. current_system.name .. " (" .. current_path.sectorX .. "," .. current_path.sectorY .. "," .. current_path.sectorZ ..")")
-        ui.text("Final Target:")
-        
+
+        ui.text(lui.CURRENT_SYSTEM .. ": " .. current_system.name .. " (" .. current_path.sectorX .. "," .. current_path.sectorY .. "," .. current_path.sectorZ ..")")
+        ui.text(lui.FINAL_TARGET)
+
         if route_jumps > 0 then
             local final_path = hyperjump_route[route_jumps]
             local final_sys = final_path:GetStarSystem()
             ui.sameLine()
             ui.text(final_sys.name .. " (" .. final_path.sectorX .. "," .. final_path.sectorY .. "," .. final_path.sectorZ .. ")")
         end
-        ui.text("Current Fuel: " .. current_fuel .. lc.UNIT_TONNES)
+        ui.text(lui.CURRENT_FUEL .. " " .. current_fuel .. lc.UNIT_TONNES)
         ui.sameLine()
-        ui.text("Required Fuel: " .. total_fuel .. lc.UNIT_TONNES)
-        
-        ui.text("Total Duration: "..ui.Format.Duration(total_duration, 2))
+        ui.text(lui.REQUIRED_FUEL .. " " .. total_fuel .. lc.UNIT_TONNES)
+
+        ui.text(lui.TOTAL_DURATION .. " " ..ui.Format.Duration(total_duration, 2))
         ui.sameLine()
-        ui.text("Total Distance: " ..string.format("%.2f", total_distance) .. lc.UNIT_LY)
+        ui.text(lui.TOTAL_DISTANCE .. " " ..string.format("%.2f", total_distance) .. lc.UNIT_LY)
     end
 end -- showInfo
 
@@ -107,14 +108,14 @@ local function mainButton(icon, tooltip, callback)
 end --mainButton
 
 local function showJumpRoute()
-    if ui.collapsingHeader("Route Jumps", {"DefaultOpen"}) then        
-        mainButton(icons.forward, "Add Jump", 
+    if ui.collapsingHeader(lui.ROUTE_JUMPS, {"DefaultOpen"}) then
+        mainButton(icons.forward, lui.ADD_JUMP,
             function()
                 Engine.SectorMapAddToRoute(map_selected_path)
         end)
         ui.sameLine()
-        
-        mainButton(icons.current_line, "Remove Jump",
+
+        mainButton(icons.current_line, lui.REMOVE_JUMP,
             function()
                 local new_route = {}
                 local new_count = 0
@@ -123,8 +124,8 @@ local function showJumpRoute()
                 end
         end)
         ui.sameLine()
-        
-        mainButton(icons.current_periapsis, "Move Up",
+
+        mainButton(icons.current_periapsis, lui.MOVE_UP,
             function()
                 if selected_jump then
                     if Engine.SectorMapMoveRouteItemUp(selected_jump) then
@@ -133,8 +134,8 @@ local function showJumpRoute()
                 end
         end)
         ui.sameLine()
-        
-        mainButton(icons.current_apoapsis, "Move Down",
+
+        mainButton(icons.current_apoapsis, lui.MOVE_DOWN,
             function()
                 if selected_jump then
                     if Engine.SectorMapMoveRouteItemDown(selected_jump) then
@@ -143,31 +144,31 @@ local function showJumpRoute()
                 end
         end)
         ui.sameLine()
-        
-        mainButton(icons.retrograde_thin, "Clear Route", 
-            function() 
+
+        mainButton(icons.retrograde_thin, lui.CLEAR_ROUTE,
+            function()
                 Engine.SectorMapClearRoute()
                 selected_jump = nil
         end)
         ui.sameLine()
-        
-        mainButton(icons.hyperspace, "Auto Route", 
-            function() 
+
+        mainButton(icons.hyperspace, lui.AUTO_ROUTE,
+            function()
                 Engine.SectorMapAutoRoute()
-                
+
         end)
         ui.sameLine()
-        
-        mainButton(icons.search_lens, "Zoom to System",
+
+        mainButton(icons.search_lens, lui.CENTER_ON_SYSTEM,
             function()
                 if selected_jump then
                     Engine.SectorMapGotoSystemPath(hyperjump_route[selected_jump])
                 end
         end)
-        
-        
+
+
         ui.separator()
-        
+
         local start = current_path
         local clicked
         local running_fuel = 0
@@ -211,7 +212,7 @@ local function showHyperJumpPlannerWindow()
     ui.withStyleColors({["WindowBg"] = colors.lightBlackBackground}, function()
         ui.window("MapSectorViewHyperJumpPlanner", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
             function()
-                ui.text("HyperJump Route")
+                ui.text(lui.HYPERJUMP_ROUTE)
                 ui.separator()
                 showInfo()
                 ui.separator()
