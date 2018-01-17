@@ -1,15 +1,17 @@
 -- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local s = CustomSystem:new('Black Hole', { 'STAR_SM_BH' })
+local s = CustomSystem:new('Sagittarius A*', { 'STAR_SM_BH' })
 	:govtype('CISLIBDEM')
-	:short_desc('The End of the line.')
-	:long_desc([[This is what holds it all together baby, Yeah!]])
+	:short_desc('A supermassive black hole.')
+	:long_desc([[The supermassive black hole which holds all the Milky Way Galaxy together.
+	Astronomers were aware of the existance of this black hole since the 21st ceuntry, but the first expedition to the system did not depart until 2827 when the famous explorer Tom Morton decided to attempt such a dangerous journey. After a few exploration missions, humans established permanent research bases in the system for further observations.
+	Although the system is completely isolated from the rest of the human civilisation, it is not uncommon to see daring travellers and wealthy tourists visiting the system.]])
 
 
-local agamemnon = CustomSystemBody:new('Agamemnon', 'STAR_SM_BH')
-	:radius(f(10000,1))
-	:mass(f(999999999,1))
+local SagA = CustomSystemBody:new('Sagittarius A*', 'STAR_SM_BH')
+	:radius(f(8500,1))
+	:mass(f(4100000,1))
 
 
 local terminus = CustomSystemBody:new('Terminus', 'PLANET_TERRESTRIAL')
@@ -61,7 +63,7 @@ local terminus = CustomSystemBody:new('Terminus', 'PLANET_TERRESTRIAL')
 	}
 
 
-	s:bodies(agamemnon, {
+	s:bodies(SagA, {
 	terminus,
 		terminus_starports,
 		melon,
