@@ -1,6 +1,7 @@
 January 2018
    * New Features
      * F2 sector view UI moved to ImGui (#4204)
+     * Hyperjump planner for F2 sector view (#4241)
      * Lua API StarSystem has new 'govtype' attribute (#4236)
      * Unexplored systems in the sector view zoomed out mode are now grey. (#4229)
      * Commodity market shows description of the commodity selected (#4213)

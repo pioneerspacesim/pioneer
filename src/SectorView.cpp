@@ -135,6 +135,9 @@ void SectorView::InitDefaults()
 	m_cacheYMax = 0;
 
 	m_sectorCache = m_galaxy->NewSectorSlaveCache();
+
+	m_drawRouteLines = true; // where should this go?!
+	m_route = std::vector<SystemPath>();
 }
 
 void SectorView::InitObject()
@@ -239,6 +242,10 @@ void SectorView::Draw3D()
 	modelview.Translate(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);
 	m_renderer->SetTransform(modelview);
 
+	RefCountedPtr<const Sector> playerSec = GetCached(m_current);
+	const vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].GetPosition();
+
+
 	if (m_zoomClamped <= FAR_THRESHOLD)
 		DrawNearSectors(modelview);
 	else
@@ -260,6 +267,15 @@ void SectorView::Draw3D()
 		m_sectorlines.SetData( m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0]);
 		m_sectorlines.Draw(m_renderer, m_alphaBlendState);
 	}
+
+	// not quite the same as modelview
+	matrix4x4f trans = matrix4x4f::Identity();
+	trans.Translate(0.f, 0.f, -10.f - 10.f*m_zoom);
+	trans.Rotate(DEG2RAD(m_rotX), 1.f, 0.f, 0.f);
+	trans.Rotate(DEG2RAD(m_rotZ), 0.f, 0.f, 1.f);
+	trans.Translate(-(m_pos.x)*Sector::SIZE, -(m_pos.y)*Sector::SIZE, -(m_pos.z)*Sector::SIZE);
+
+	DrawRouteLines(playerPos, trans);
 
 	UIView::Draw3D();
 }
@@ -507,6 +523,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 	RefCountedPtr<const Sector> playerSec = GetCached(m_current);
 	const vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].GetPosition();
 
+
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
 			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
@@ -530,6 +547,185 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 		}
 	}
 	Gui::Screen::LeaveOrtho();
+}
+
+bool SectorView::MoveRouteItemUp(const std::vector<SystemPath>::size_type element) {
+	if (element <= 0 || element >= m_route.size()) return false;
+
+	std::swap(m_route[element - 1], m_route[element]);
+
+	return true;
+}
+
+bool SectorView::MoveRouteItemDown(const std::vector<SystemPath>::size_type element) {
+	if (element < 0 || element >= m_route.size() - 1) return false;
+
+	std::swap(m_route[element + 1], m_route[element]);
+
+	return true;
+}
+
+void SectorView::AddToRoute(const SystemPath &path)
+{
+	m_route.push_back(path);
+}
+
+bool SectorView::RemoveRouteItem(const std::vector<SystemPath>::size_type element) {
+	m_route.erase(m_route.begin() + element);
+	return true;
+}
+
+void SectorView::ClearRoute()
+{
+	m_route.clear();
+}
+
+std::vector<SystemPath> SectorView::GetRoute()
+{
+	return m_route;
+}
+
+std::vector<SystemPath> SectorView::AutoRoute(const SystemPath &start, const SystemPath &target)
+{
+	RefCountedPtr<const Sector> start_sec = m_galaxy->GetSector(start);
+	RefCountedPtr<const Sector> target_sec = m_galaxy->GetSector(target);
+
+	// Get the player's hyperdrive from Lua, later used to calculate the duration between systems
+	ScopedTable hyperdrive = ScopedTable(LuaObject<Player>::CallMethod<LuaRef>(Pi::player, "GetEquip", "engine", 1));
+	// Cache max range so it doesn't get recalculated every time we call GetDuration
+	float max_range = hyperdrive.CallMethod<float>("GetMaximumRange", Pi::player);
+
+	float dist = Sector::DistanceBetween(start_sec, start.systemIndex, target_sec, target.systemIndex);
+
+	int sec_dist = ceilf(dist / Sector::SIZE);
+
+	std::vector<SystemPath> nodes;
+	std::set<std::vector<SystemPath>::size_type> unvisited;
+
+	std::vector<float> path_dist; // distance from source to node
+	std::vector<std::vector<SystemPath>::size_type> path_prev; // previous node in optimal path
+
+	// nodes[0] is always start
+	nodes.push_back(start);
+
+	// go sector by sector for sec_dist sectors and add systems
+	// if they are within 110% of dist of both start and target
+	for (Sint32 sx = -sec_dist; sx <= sec_dist; sx++) {
+		for (Sint32 sy = -sec_dist; sy <= sec_dist; sy++) {
+			for (Sint32 sz = -sec_dist; sz < sec_dist; sz++) {
+				SystemPath sec_path = SystemPath(start.sectorX + sx, start.sectorY + sy, start.sectorZ + sz);
+				RefCountedPtr<const Sector> sec = m_galaxy->GetSector(sec_path);
+				for (std::vector<Sector::System>::size_type s = 0; s < sec->m_systems.size(); s++) {
+					if (start.IsSameSystem(sec->m_systems[s].GetPath())) continue; // start is already nodes[0]
+					if (Sector::DistanceBetween(start_sec, start.systemIndex, sec, sec->m_systems[s].idx) <= dist * 1.10 &&
+						Sector::DistanceBetween(target_sec, target.systemIndex, sec, sec->m_systems[s].idx) <= dist * 1.10) {
+						nodes.push_back(sec->m_systems[s].GetPath());
+					}
+				}
+			}
+		}
+	}
+
+	// setup inital values and set everything as unvisited
+	for (std::vector<SystemPath>::size_type i = 0; i < nodes.size(); i++) {
+		path_dist.push_back(INFINITY);
+		path_prev.push_back(0);
+		unvisited.insert(i);
+	}
+
+	// distance to the start is 0
+	path_dist[0] = 0.f;
+
+	while (unvisited.size() > 0) {
+		// find the closest node (for the first loop this will be start)
+		std::vector<SystemPath>::size_type closest_i = *unvisited.begin();
+		for (auto it = unvisited.begin(); it != unvisited.end(); it++) {
+			if (path_dist[*it] < path_dist[closest_i]) closest_i = *it;
+		}
+		SystemPath closest = nodes[closest_i];
+		RefCountedPtr<const Sector> closest_sec = m_galaxy->GetSector(closest);
+
+		// mark it as visited
+		unvisited.erase(closest_i);
+
+		// if this is the target then we have found the route
+		if (closest.IsSameSystem(target)) break;
+
+		// if not, loop through all unvisited nodes
+		// since every system is technically reachable from every other system
+		// everything is a neighbor :)
+		for (auto it = unvisited.begin(); it != unvisited.end(); it++) {
+			SystemPath v = nodes[*it];
+			RefCountedPtr<const Sector> v_sec = m_galaxy->GetSector(v);
+
+			float v_dist_ly = 0;
+			v_dist_ly = Sector::DistanceBetween(closest_sec, closest.systemIndex, v_sec, v.systemIndex);
+
+			// in this case, duration is used for the distance since that's what we are optimizing
+			float v_dist = hyperdrive.CallMethod<float>("GetDuration", Pi::player, v_dist_ly, max_range);
+
+			v_dist += path_dist[closest_i]; // we want the total duration from start to this node
+			if (v_dist < path_dist[*it]) {
+				// if our calculated duration is less than a previous value, this path is more efficent
+				// so store/override it
+				path_dist[*it] = v_dist;
+				path_prev[*it] = closest_i;
+			}
+		}
+	}
+
+	std::vector<SystemPath> route;
+	std::vector<SystemPath>::size_type u;
+
+	// find the index of our target
+	for (std::vector<SystemPath>::size_type i = 0; i < nodes.size(); i++) {
+		if (target.IsSameSystem(nodes[i])) {
+			u = i;
+			break;
+		}
+	}
+
+	// Build the route, in reverse starting with the target
+	while (u != 0) {
+		route.push_back(nodes[u]);
+		u = path_prev[u];
+	}
+
+	std::reverse(std::begin(route), std::end(route));
+
+	return route;
+}
+
+void SectorView::DrawRouteLines(const vector3f &playerAbsPos, const matrix4x4f &trans)
+{
+	for (std::vector<SystemPath>::size_type i = 0; i < m_route.size(); ++i) {
+		RefCountedPtr<const Sector> jumpSec = m_galaxy->GetSector(m_route[i]);
+		const Sector::System& jumpSecSys = jumpSec->m_systems[m_route[i].systemIndex];
+		const vector3f jumpAbsPos = Sector::SIZE*vector3f(float(jumpSec->sx), float(jumpSec->sy), float(jumpSec->sz)) + jumpSecSys.GetPosition();
+
+		vector3f startPos;
+		if (i == 0) {
+			startPos = playerAbsPos;
+		} else {
+			RefCountedPtr<const Sector> prevSec = m_galaxy->GetSector(m_route[i-1]);
+			const Sector::System& prevSecSys = prevSec->m_systems[m_route[i-1].systemIndex];
+			const vector3f prevAbsPos = Sector::SIZE*vector3f(float(prevSec->sx), float(prevSec->sy), float(prevSec->sz)) + prevSecSys.GetPosition();
+			startPos = prevAbsPos;
+		}
+		std::unique_ptr<Graphics::VertexArray> verts;
+		Graphics::Drawables::Lines lines;
+		verts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
+		verts->Clear();
+
+		verts->position.reserve(2);
+		verts->diffuse.reserve(2);
+
+		verts->Add(trans* startPos, Color(20, 20, 0, 127));
+		verts->Add(trans* jumpAbsPos, Color(255, 255, 0, 255));
+
+		lines.SetData(verts->GetNumVerts(), &verts->position[0], &verts->diffuse[0]);
+		lines.Draw(m_renderer, m_alphaBlendState);
+	}
 }
 
 void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const vector3f &playerAbsPos,const matrix4x4f &trans)
@@ -738,7 +934,7 @@ void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 
 	// always draw the stars, slightly altering their size for different different resolutions, so they still look okay
 	if (m_farstars.size() > 0) {
-		m_farstarsPoints.SetData(m_renderer, m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], modelview, 1.f * (Graphics::GetScreenHeight() / 720.f));
+		m_farstarsPoints.SetData(m_renderer, m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], modelview, 0.25f * (Graphics::GetScreenHeight() / 720.f));
 		m_farstarsPoints.Draw(m_renderer, m_alphaBlendState);
 	}
 
@@ -769,7 +965,7 @@ void SectorView::BuildFarSector(RefCountedPtr<Sector> sec, const vector3f &origi
 		// otherwise add the system's position (origin must be m_pos's *sector* or we get judder)
 		// and faction color to the list to draw
 		starColor = i->GetFaction()->colour;
-		starColor.a = 191;
+		starColor.a = 120;
 
 		points.push_back((*i).GetFullPosition() - origin);
 		colors.push_back(starColor);
@@ -843,7 +1039,7 @@ void SectorView::Update()
 {
 	PROFILE_SCOPED()
 	SystemPath last_current = m_current;
-	
+
 	if (Pi::game->IsNormalSpace()) {
 		m_inSystem = true;
 		m_current = Pi::game->GetSpace()->GetStarSystem()->GetPath();

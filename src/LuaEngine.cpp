@@ -1041,6 +1041,21 @@ static int l_engine_get_model(lua_State *l)
 	return 1;
 }
 
+static int l_engine_sector_map_clear_route(lua_State *l)
+{
+	SectorView *sv = Pi::game->GetSectorView();
+	sv->ClearRoute();
+	return 0;
+}
+
+static int l_engine_sector_map_add_to_route(lua_State *l)
+{
+	SectorView *sv = Pi::game->GetSectorView();
+	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
+	sv->AddToRoute(path);
+	return 0;
+}
+
 static int l_engine_get_sector_map_zoom_level(lua_State *l)
 {
 	SectorView *sv = Pi::game->GetSectorView();
@@ -1062,21 +1077,21 @@ static int l_engine_get_sector_map_center_sector(lua_State *l)
 	return 1;
 }
 
-static int l_engine_get_sector_map_current_system_path(lua_State *l) 
+static int l_engine_get_sector_map_current_system_path(lua_State *l)
 {
 	SectorView *sv = Pi::game->GetSectorView();
 	LuaObject<SystemPath>::PushToLua(sv->GetCurrent());
 	return 1;
 }
 
-static int l_engine_get_sector_map_selected_system_path(lua_State *l) 
+static int l_engine_get_sector_map_selected_system_path(lua_State *l)
 {
 	SectorView *sv = Pi::game->GetSectorView();
 	LuaObject<SystemPath>::PushToLua(sv->GetSelected());
 	return 1;
 }
 
-static int l_engine_get_sector_map_hyperspace_target_system_path(lua_State *l) 
+static int l_engine_get_sector_map_hyperspace_target_system_path(lua_State *l)
 {
 	SectorView *sv = Pi::game->GetSectorView();
 	LuaObject<SystemPath>::PushToLua(sv->GetHyperspaceTarget());
@@ -1121,6 +1136,79 @@ static int l_engine_set_sector_map_automatic_system_selection(lua_State *l)
 	bool value = LuaPull<bool>(l, 1);
 	sv->SetAutomaticSystemSelection(value);
 	return 0;
+}
+
+static int l_engine_sector_map_get_route(lua_State *l) {
+	SectorView *sv = Pi::game->GetSectorView();
+	std::vector<SystemPath> route = sv->GetRoute();
+
+	lua_newtable(l);
+	int i = 1;
+	for (const SystemPath j : route) {
+		lua_pushnumber(l, i++);
+		LuaObject<SystemPath>::PushToLua(j);
+		lua_settable(l, -3);
+	}
+	return 1;
+}
+
+static int l_engine_sector_map_get_route_size(lua_State *l) {
+	SectorView *sv = Pi::game->GetSectorView();
+	std::vector<SystemPath> route = sv->GetRoute();
+	const int size = route.size();
+	LuaPush(l, size);
+	return 1;
+}
+
+static int l_engine_sector_map_auto_route(lua_State *l)
+{
+	SectorView *sv = Pi::game->GetSectorView();
+	SystemPath current_path = sv->GetCurrent();
+	SystemPath target_path = sv->GetSelected();
+
+	std::vector<SystemPath> route = sv->AutoRoute(current_path, target_path);
+	sv->ClearRoute();
+	for (auto it = route.begin(); it != route.end(); it++) {
+		sv->AddToRoute(*it);
+	}
+
+	return l_engine_sector_map_get_route(l);
+}
+
+static int l_engine_sector_map_move_route_item_up(lua_State *l) {
+	SectorView *sv = Pi::game->GetSectorView();
+	int element = LuaPull<int>(l, 1);
+
+	// lua indexes start at 1
+	element -= 1;
+
+	bool r = sv->MoveRouteItemUp(element);
+	LuaPush<bool>(l, r);
+	return 1;
+}
+
+static int l_engine_sector_map_move_route_item_down(lua_State *l) {
+	SectorView *sv = Pi::game->GetSectorView();
+	int element = LuaPull<int>(l, 1);
+
+	// lua indexes start at 1
+	element -= 1;
+
+	bool r = sv->MoveRouteItemDown(element);
+	LuaPush<bool>(l, r);
+	return 1;
+}
+
+static int l_engine_sector_map_remove_route_item(lua_State *l) {
+	SectorView *sv = Pi::game->GetSectorView();
+	int element = LuaPull<int>(l, 1);
+
+	// lua indexes start at 1
+	element -= 1;
+
+	bool r = sv->RemoveRouteItem(element);
+	LuaPush<bool>(l, r);
+	return 1;
 }
 
 static int l_engine_set_sector_map_selected(lua_State *l)
@@ -1307,6 +1395,15 @@ void LuaEngine::Register()
 		{ "SectorMapGotoSystemPath",                l_engine_sector_map_goto_system_path },
 		{ "GetSectorMapFactions",                   l_engine_get_sector_map_factions },
 		{ "SetSectorMapFactionVisible",             l_engine_set_sector_map_faction_visible },
+		{ "SectorMapAutoRoute",                     l_engine_sector_map_auto_route },
+		{ "SectorMapGetRoute",                      l_engine_sector_map_get_route },
+		{ "SectorMapGetRouteSize",                  l_engine_sector_map_get_route_size },
+		{ "SectorMapMoveRouteItemUp",               l_engine_sector_map_move_route_item_up },
+		{ "SectorMapMoveRouteItemDown",             l_engine_sector_map_move_route_item_down },
+		{ "SectorMapRemoveRouteItem",               l_engine_sector_map_remove_route_item },
+
+		{"SectorMapClearRoute", l_engine_sector_map_clear_route },
+		{"SectorMapAddToRoute", l_engine_sector_map_add_to_route },
 
 		{ "SearchNearbyStarSystemsByName",  l_engine_search_nearby_star_systems_by_name },
 
