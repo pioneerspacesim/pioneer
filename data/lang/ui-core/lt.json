@@ -7,6 +7,10 @@
       "description" : "",
       "message" : "Active"
    },
+   "ADD_JUMP" : {
+      "description" : "UI-button: Add hyper jump to list of planned jumps",
+      "message" : "Add Jump"
+   },
    "AFTER_TRADE_IN" : {
       "description" : "",
       "message" : "After trade-in"
@@ -34,6 +38,10 @@
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
       "message" : "Attempt to repair hull"
+   },
+   "AUTO_ROUTE" : {
+      "description" : "Automatically find shortest jump route (measured in time) in star map",
+      "message" : "Auto Route"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
@@ -111,6 +119,10 @@
       "description" : "",
       "message" : "Cash: {money}"
    },
+   "CENTER_ON_SYSTEM" : {
+      "description" : "Center on selected star system",
+      "message" : "Center on System"
+   },
    "CHANGE_BINDING" : {
       "description" : "Key binding option",
       "message" : "Change Binding"
@@ -134,6 +146,10 @@
    "CLEAR" : {
       "description" : "Clear an option in game settings/options menu",
       "message" : "Clear"
+   },
+   "CLEAR_ROUTE" : {
+      "description" : "Clear a planned route of hyperjumps",
+      "message" : "Clear Route"
    },
    "CLIENT" : {
       "description" : "",
@@ -210,6 +226,14 @@
    "CRIMINAL_RECORD" : {
       "description" : "Past crimes / crime history of character",
       "message" : "Criminal record"
+   },
+   "CURRENT_FUEL" : {
+      "description" : "For hyperjump planner",
+      "message" : "Current Fuel:"
+   },
+   "CURRENT_SYSTEM" : {
+      "description" : "For hyperjump planner",
+      "message" : "Dabartinė sistema"
    },
    "DANGEROUS" : {
       "description" : "Player combat rating",
@@ -354,6 +378,10 @@
    "FEMALE" : {
       "description" : "",
       "message" : "Moteris"
+   },
+   "FINAL_TARGET" : {
+      "description" : "Hyperjump planner, referring to star system target",
+      "message" : "Final Target:"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
@@ -779,6 +807,10 @@
       "description" : "",
       "message" : "Hyperdrive fitted:"
    },
+   "HYPERJUMP_ROUTE" : {
+      "description" : "",
+      "message" : "HyperJump Route"
+   },
    "HYPERSPACE_RANGE" : {
       "description" : "",
       "message" : "Hyperspace range"
@@ -1027,6 +1059,14 @@
       "description" : "",
       "message" : "Mostly Harmless"
    },
+   "MOVE_DOWN" : {
+      "description" : "move selection down in list",
+      "message" : "Move Down"
+   },
+   "MOVE_UP" : {
+      "description" : "move selection up in list",
+      "message" : "Move Up"
+   },
    "MULTISAMPLING" : {
       "description" : "",
       "message" : "Multisampling"
@@ -1259,6 +1299,14 @@
       "description" : "For player reputation",
       "message" : "Reliable"
    },
+   "REMOVE_JUMP" : {
+      "description" : "UI-button: remove hyper jump from list of planned jumps",
+      "message" : "Remove Jump"
+   },
+   "REMOVE_WHEN_COMPLETED" : {
+      "description" : "For UI hyperjump planner, referring to jump target system",
+      "message" : "Remove jump when completed"
+   },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
       "message" : "Repair {damage}% hull damage for {price}"
@@ -1270,6 +1318,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Request Launch"
+   },
+   "REQUIRED_FUEL" : {
+      "description" : "Fuel usage for traveling to star system",
+      "message" : "Required Fuel:"
    },
    "RESET" : {
       "description" : "",
@@ -1294,6 +1346,14 @@
    "REWARD" : {
       "description" : "",
       "message" : "Reward"
+   },
+   "ROUTE_INFO" : {
+      "description" : "For hyperjump planner",
+      "message" : "Route Info"
+   },
+   "ROUTE_JUMPS" : {
+      "description" : "For hyperjump planner",
+      "message" : "Route Jumps"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1338,6 +1398,10 @@
    "SENSORS_AND_DEFENCE" : {
       "description" : "",
       "message" : "Sensors and defence"
+   },
+   "SETTINGS" : {
+      "description" : "UI option",
+      "message" : "Settings"
    },
    "SET_AS_TARGET" : {
       "description" : "",
@@ -1454,6 +1518,14 @@
    "TOTAL" : {
       "description" : "",
       "message" : "Viso:"
+   },
+   "TOTAL_DISTANCE" : {
+      "description" : "Total distance of a (possibly series) of hyper jump(s)",
+      "message" : "Total Distance:"
+   },
+   "TOTAL_DURATION" : {
+      "description" : "Total duration of a (possibly series) of hyper jump(s)",
+      "message" : "Total Duration:"
    },
    "TOTAL_MASS" : {
       "description" : "",
