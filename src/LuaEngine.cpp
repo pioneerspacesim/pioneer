@@ -246,8 +246,8 @@ static int l_engine_get_maximum_aa_samples(lua_State *l)
 
 static int l_engine_get_video_resolution(lua_State *l)
 {
-	lua_pushinteger(l, Graphics::GetScreenWidth());
-	lua_pushinteger(l, Graphics::GetScreenHeight());
+	lua_pushinteger(l, Pi::config->Int("ScrWidth"));
+	lua_pushinteger(l, Pi::config->Int("ScrHeight"));
 	return 2;
 }
 

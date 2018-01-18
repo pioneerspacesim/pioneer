@@ -20,6 +20,7 @@
 #include "ShipCpanel.h"
 #include "LuaPiGui.h"
 #include "GameSaveError.h"
+#include "GZipFormat.h"
 
 /*
  * Interface: Game
@@ -69,6 +70,51 @@ static int l_game_start_game(lua_State *l)
 		luaL_error(l, "invalid starting location for game: %s", e.error.c_str());
 	}
 	return 0;
+}
+
+static int l_game_savegame_stats(lua_State *l)
+{
+	std::string filename = LuaPull<std::string>(l, 1);
+
+	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
+	if (!file) throw CouldNotOpenFileException();
+	const auto compressed_data = file->AsByteRange();
+	try {
+		const std::string plain_data = gzip::DecompressDeflateOrGZip(reinterpret_cast<const unsigned char*>(compressed_data.begin), compressed_data.Size());
+		const char *pdata = plain_data.data();
+		Json::Reader jsonReader;
+		Json::Value rootNode;
+		if (!jsonReader.parse(pdata, pdata + plain_data.size(), rootNode)) {
+			Output("Game load failed: %s\n", jsonReader.getFormattedErrorMessages().c_str());
+			throw SavedGameCorruptException();
+		}
+		if (!rootNode.isObject()) throw SavedGameCorruptException();
+
+		LuaTable t(l);
+
+		t.Set("time", StrToDouble(rootNode["time"].asString()));
+
+		// if this is a newer saved game, show the embedded info
+		if (rootNode.isMember("game_info")) {
+			Json::Value gameInfo = rootNode["game_info"];
+			t.Set("system", gameInfo["system"].asString());
+			t.Set("ship", gameInfo["ship"].asString());
+			t.Set("credits", gameInfo["credits"].asFloat());
+			t.Set("flight_state", gameInfo["flight_state"].asString());
+			if (gameInfo.isMember("docked_at")) t.Set("docked_at", gameInfo["docked_at"].asString());
+		} else {
+			// this is an older saved game...try to show something useful
+			Json::Value shipNode = rootNode["space"]["bodies"][rootNode["player"].asInt() - 1];
+			t.Set("frame", rootNode["space"]["bodies"][shipNode["body"]["index_for_frame"].asInt() - 1]["body"]["label"].asString());
+			t.Set("ship", shipNode["model_body"]["model_name"].asString());
+		}
+	}
+	catch (gzip::DecompressionFailedException) {
+		throw SavedGameCorruptException();
+		lua_pushnil(l);
+	}
+
+	return 1;
 }
 
 /*
@@ -407,8 +453,6 @@ static int l_game_current_view(lua_State *l)
 		LuaPush(l, "death");
 	else if(view == Pi::game->GetGalacticView())
 		LuaPush(l, "galaxy");
-	else if(view == Pi::game->GetSettingsView())
-		LuaPush(l, "settings");
 	else
 		lua_pushnil(l);
 	return 1;
@@ -504,8 +548,6 @@ static int l_game_set_view(lua_State *l)
 		Pi::SetView(Pi::game->GetSpaceStationView());
 	} else if(!target.compare("info")) {
 		Pi::SetView(Pi::game->GetInfoView());
-	} else if(!target.compare("settings")) {
-		Pi::SetView(Pi::game->GetSettingsView());
 	} else if(!target.compare("death")) {
 		Pi::SetView(Pi::game->GetDeathView());
 	} else if(!target.compare("sector")) {
@@ -595,6 +637,7 @@ void LuaGame::Register()
 		{ "EndGame",        l_game_end_game         },
 		{ "InHyperspace",   l_game_in_hyperspace    },
 		{ "SetRadarVisible",l_game_set_radar_visible},
+		{ "SaveGameStats",  l_game_savegame_stats },
 
 		{ "SwitchView",  l_game_switch_view },
 		{ "CurrentView", l_game_current_view },

@@ -322,6 +322,7 @@ static void LuaInit()
 	pi_lua_import(l, "pigui/pigui.lua", true);
 	pi_lua_import(l, "pigui/game.lua", true);
 	pi_lua_import(l, "pigui/init.lua", true);
+	pi_lua_import(l, "pigui/mainmenu.lua", true);
 	pi_lua_import_recursive(l, "pigui/modules");
 	pi_lua_import_recursive(l, "modules");
 
@@ -1118,26 +1119,11 @@ void Pi::HandleEvents()
 
 void Pi::HandleEscKey() {
 	if (currentView != 0) {
-		if (currentView == Pi::game->GetWorldView()) {
-			static_cast<WorldView*>(currentView)->HideTargetActions();
-			if (!Pi::game->IsPaused()) {
-				Pi::game->SetTimeAccel(Game::TIMEACCEL_PAUSED);
-			}
-			else {
-				SetView(Pi::game->GetSettingsView());
-			}
-		}
-		else if (currentView == Pi::game->GetSectorView()) {
+		if (currentView == Pi::game->GetSectorView()) {
 			SetView(Pi::game->GetWorldView());
 		}
 		else if ((currentView == Pi::game->GetSystemView()) || (currentView == Pi::game->GetSystemInfoView())) {
 			SetView(Pi::game->GetSectorView());
-		}
-		else if (currentView == Pi::game->GetSettingsView()){
-			Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
-			SetView(Pi::player->IsDead()
-					? static_cast<View*>(Pi::game->GetDeathView())
-					: static_cast<View*>(Pi::game->GetWorldView()));
 		}
 		else {
 			UIView* view = dynamic_cast<UIView*>(currentView);
@@ -1238,17 +1224,9 @@ void Pi::Start(const int& startPlanet)
 
 	Pi::intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 
-	lua_State *l = Lua::manager->GetLuaState();
-	LuaTable args(l);
-	args.Set("StartPlanetNum", startPlanet);
-	ui->DropAllLayers();
-	ui->GetTopLayer()->SetInnerWidget(ui->CallTemplate("MainMenu", args));
-
 	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
 	// for some models
 	Pi::renderer->SetAmbientColor(Color(51, 51, 51, 255));
-
-	ui->Layout();
 
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
@@ -1283,6 +1261,29 @@ void Pi::Start(const int& startPlanet)
 					}
 				}
 
+				// joystick stuff for the options window
+				switch (event.type) {
+				case SDL_JOYAXISMOTION:
+					if (!joysticks[event.jaxis.which].joystick)
+						break;
+					if (event.jaxis.value == -32768)
+						joysticks[event.jaxis.which].axes[event.jaxis.axis] = 1.f;
+					else
+						joysticks[event.jaxis.which].axes[event.jaxis.axis] = -event.jaxis.value / 32767.f;
+					break;
+				case SDL_JOYBUTTONUP:
+				case SDL_JOYBUTTONDOWN:
+					if (!joysticks[event.jaxis.which].joystick)
+						break;
+					joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state != 0;
+					break;
+				case SDL_JOYHATMOTION:
+					if (!joysticks[event.jaxis.which].joystick)
+						break;
+					joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
+					break;
+				default: break;
+				}
 				ui->DispatchSDLEvent(event);
 			}
 			// XXX hack
@@ -1296,9 +1297,6 @@ void Pi::Start(const int& startPlanet)
 		Pi::renderer->BeginFrame();
 		intro->Draw(_time);
 		Pi::renderer->EndFrame();
-
-		ui->Update();
-		ui->Draw();
 
 		PiGui::NewFrame(Pi::renderer->GetSDLWindow());
 		DrawPiGui(Pi::frameTime, "MAINMENU");
@@ -1317,9 +1315,6 @@ void Pi::Start(const int& startPlanet)
 		Pi::serverAgent->ProcessResponses();
 #endif
 	}
-
-	ui->DropAllLayers();
-	ui->Layout(); // UI does important things on layout, like updating keyboard shortcuts
 
 	delete Pi::intro; Pi::intro = 0;
 
