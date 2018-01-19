@@ -140,6 +140,8 @@ bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 	const int sy = sector->sy;
 	const int sz = sector->sz;
 	const int customCount = static_cast<Uint32>(sector->m_systems.size());
+	const int dist = isqrt(1 + sx*sx + sy*sy + sz*sz);
+	const int freqSqrt = isqrt(1 + sx * sx + sy * sy);
 
 	const int numSystems = (rng.Int32(4,20) * galaxy->GetSectorDensity(sx, sy, sz)) >> 8;
 	sector->m_systems.reserve(numSystems);
@@ -167,14 +169,12 @@ bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 		 * ~500ly - ~700ly (65-90 sectors): gradual
 		 * ~700ly+: unexplored
 		 */
-		const int dist = isqrt(1 + sx*sx + sy*sy + sz*sz);
 		if (((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, customCount + i)))
 			s.m_explored = StarSystem::eEXPLORED_AT_START;
 		else
 			s.m_explored = StarSystem::eUNEXPLORED;
 
 		// Frequencies are low enough that we probably don't need this anymore.
-		const int freqSqrt = isqrt(1 + sx * sx + sy * sy);
 		if (freqSqrt > 10)
 		{
 			const Uint32 weight = rng.Int32(1000000);
