@@ -34,6 +34,14 @@ namespace MathUtil {
 	// matrix3x3f utility functions
 	matrix3x3f Inverse(const matrix3x3f &);
 	matrix3x3f Transpose(const matrix3x3f &);
+
+	// distince from a line segment:
+	float DistanceFromLine(const vector3f& start, const vector3f& end, const vector3f& pos, bool& isWithinLineSegment);
+
+//#define TEST_MATHUTIL
+#ifdef TEST_MATHUTIL
+	bool TestDistanceFromLine();
+#endif
 }
 
 #endif

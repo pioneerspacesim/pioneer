@@ -603,31 +603,12 @@ void SectorView::AutoRoute(std::vector<SystemPath> &outRoute, const SystemPath &
 	// nodes[0] is always start
 	std::vector<SystemPath> nodes;
 	nodes.push_back(start);
-#if 0
-	// go sector by sector for sec_dist sectors and add systems
-	// if they are within 110% of dist of both start and target
-	for (Sint32 sx = -sec_dist; sx <= sec_dist; sx++) {
-		for (Sint32 sy = -sec_dist; sy <= sec_dist; sy++) {
-			for (Sint32 sz = -sec_dist; sz < sec_dist; sz++) {
-				const SystemPath sec_path = SystemPath(start.sectorX + sx, start.sectorY + sy, start.sectorZ + sz);
-				RefCountedPtr<const Sector> sec = m_galaxy->GetSector(sec_path);
-				for (std::vector<Sector::System>::size_type s = 0; s < sec->m_systems.size(); s++) {
-					if (start.IsSameSystem(sec->m_systems[s].GetPath()))
-						continue; // start is already nodes[0]
 
-					if (Sector::DistanceBetween(start_sec, start.systemIndex, sec, sec->m_systems[s].idx) <= dist * 1.10 &&
-						Sector::DistanceBetween(target_sec, target.systemIndex, sec, sec->m_systems[s].idx) <= dist * 1.10)
-					{
-						nodes.push_back(sec->m_systems[s].GetPath());
-					}
-				}
-			}
-		}
-	}
-#else
 	const Sint32 minX = std::min(start.sectorX, target.sectorX)-2, maxX = std::max(start.sectorX, target.sectorX)+2;
 	const Sint32 minY = std::min(start.sectorY, target.sectorY)-2, maxY = std::max(start.sectorY, target.sectorY)+2;
 	const Sint32 minZ = std::min(start.sectorZ, target.sectorZ)-2, maxZ = std::max(start.sectorZ, target.sectorZ)+2;
+	const vector3f start_pos = start_sec->m_systems[start.systemIndex].GetFullPosition();
+	const vector3f target_pos = target_sec->m_systems[target.systemIndex].GetFullPosition();
 
 	// go sector by sector for sec_dist sectors and add systems
 	// if they are within 110% of dist of both start and target
@@ -640,8 +621,12 @@ void SectorView::AutoRoute(std::vector<SystemPath> &outRoute, const SystemPath &
 					if (start.IsSameSystem(sec->m_systems[s].GetPath()))
 						continue; // start is already nodes[0]
 
+					bool isWithinLineSegment = false;
+					const float lineDist = MathUtil::DistanceFromLine(start_pos, target_pos, sec->m_systems[s].GetFullPosition(), isWithinLineSegment);
+
 					if (Sector::DistanceBetween(start_sec, start.systemIndex, sec, sec->m_systems[s].idx) <= dist * 1.10 &&
-						Sector::DistanceBetween(target_sec, target.systemIndex, sec, sec->m_systems[s].idx) <= dist * 1.10)
+						Sector::DistanceBetween(target_sec, target.systemIndex, sec, sec->m_systems[s].idx) <= dist * 1.10 &&
+						/*isWithinLineSegment &&*/ lineDist<(Sector::SIZE*3))
 					{
 						nodes.push_back(sec->m_systems[s].GetPath());
 					}
@@ -649,7 +634,6 @@ void SectorView::AutoRoute(std::vector<SystemPath> &outRoute, const SystemPath &
 			}
 		}
 	}
-#endif
 	Output("SectorView::AutoRoute, nodes to search = %lu\n", nodes.size());
 
 	// setup inital values and set everything as unvisited
