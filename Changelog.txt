@@ -13,6 +13,7 @@ January 2018
      * Commodity market shows import/export icons if trade computer exists (#4227)
      * access all systembody attributes in lua (#4256)
      * Move LowThrust Setting to ImGui (#4261)
+     * Small display changes (#4279)
 
    * Internal Changes
      * Happy new year! (#4240)
