@@ -1166,7 +1166,8 @@ static int l_engine_sector_map_auto_route(lua_State *l)
 	SystemPath current_path = sv->GetCurrent();
 	SystemPath target_path = sv->GetSelected();
 
-	std::vector<SystemPath> route = sv->AutoRoute(current_path, target_path);
+	std::vector<SystemPath> route;
+	sv->AutoRoute(current_path, target_path, route);
 	sv->ClearRoute();
 	for (auto it = route.begin(); it != route.end(); it++) {
 		sv->AddToRoute(*it);
