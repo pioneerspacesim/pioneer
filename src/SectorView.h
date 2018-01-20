@@ -69,7 +69,7 @@ public:
 	bool RemoveRouteItem(const std::vector<SystemPath>::size_type element);
 	void ClearRoute();
 	std::vector<SystemPath> GetRoute();
-	void AutoRoute(std::vector<SystemPath> &outRoute, const SystemPath &start, const SystemPath &target) const;
+	void AutoRoute(const SystemPath &start, const SystemPath &target, std::vector<SystemPath> &outRoute) const;
 	void SetDrawRouteLines(bool value) { m_drawRouteLines = value; }
 
 

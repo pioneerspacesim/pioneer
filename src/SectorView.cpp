@@ -25,6 +25,7 @@
 #include "GameSaveError.h"
 #include <algorithm>
 #include <sstream>
+#include <unordered_set>
 #include <SDL_stdinc.h>
 
 using namespace Graphics;
@@ -586,7 +587,7 @@ std::vector<SystemPath> SectorView::GetRoute()
 	return m_route;
 }
 
-void SectorView::AutoRoute(std::vector<SystemPath> &outRoute, const SystemPath &start, const SystemPath &target) const
+void SectorView::AutoRoute(const SystemPath &start, const SystemPath &target, std::vector<SystemPath> &outRoute) const
 {
 	const RefCountedPtr<const Sector> start_sec = m_galaxy->GetSector(start);
 	const RefCountedPtr<const Sector> target_sec = m_galaxy->GetSector(target);
@@ -621,12 +622,11 @@ void SectorView::AutoRoute(std::vector<SystemPath> &outRoute, const SystemPath &
 					if (start.IsSameSystem(sec->m_systems[s].GetPath()))
 						continue; // start is already nodes[0]
 
-					bool isWithinLineSegment = false;
-					const float lineDist = MathUtil::DistanceFromLine(start_pos, target_pos, sec->m_systems[s].GetFullPosition(), isWithinLineSegment);
+					const float lineDist = MathUtil::DistanceFromLine(start_pos, target_pos, sec->m_systems[s].GetFullPosition());
 
 					if (Sector::DistanceBetween(start_sec, start.systemIndex, sec, sec->m_systems[s].idx) <= dist * 1.10 &&
 						Sector::DistanceBetween(target_sec, target.systemIndex, sec, sec->m_systems[s].idx) <= dist * 1.10 &&
-						/*isWithinLineSegment &&*/ lineDist<(Sector::SIZE*3))
+						lineDist<(Sector::SIZE*3))
 					{
 						nodes.push_back(sec->m_systems[s].GetPath());
 					}
@@ -639,7 +639,7 @@ void SectorView::AutoRoute(std::vector<SystemPath> &outRoute, const SystemPath &
 	// setup inital values and set everything as unvisited
 	std::vector<float> path_dist; // distance from source to node
 	std::vector<std::vector<SystemPath>::size_type> path_prev; // previous node in optimal path
-	std::set<std::vector<SystemPath>::size_type> unvisited;
+	std::unordered_set<std::vector<SystemPath>::size_type> unvisited;
 	for (std::vector<SystemPath>::size_type i = 0; i < nodes.size(); i++) {
 		path_dist.push_back(INFINITY);
 		path_prev.push_back(0);
@@ -653,8 +653,9 @@ void SectorView::AutoRoute(std::vector<SystemPath> &outRoute, const SystemPath &
 	while (unvisited.size() > 0) {
 		// find the closest node (for the first loop this will be start)
 		std::vector<SystemPath>::size_type closest_i = *unvisited.begin();
-		for (auto it = unvisited.begin(), itEnd = unvisited.end(); it != itEnd; ++it) {
-			if (path_dist[*it] < path_dist[closest_i]) closest_i = *it;
+		for (auto it : unvisited) {
+			if (path_dist[it] < path_dist[closest_i])
+				closest_i = it;
 		}
 
 		// mark it as visited
@@ -662,16 +663,17 @@ void SectorView::AutoRoute(std::vector<SystemPath> &outRoute, const SystemPath &
 
 		// if this is the target then we have found the route
 		const SystemPath &closest = nodes[closest_i];
-		if (closest.IsSameSystem(target)) break;
+		if (closest.IsSameSystem(target))
+			break;
 
 		RefCountedPtr<const Sector> closest_sec = m_galaxy->GetSector(closest);
 
 		// if not, loop through all unvisited nodes
 		// since every system is technically reachable from every other system
 		// everything is a neighbor :)
-		for (auto it = unvisited.begin(), itEnd = unvisited.end(); it != itEnd; ++it) {
-			const auto idx = *it;
-			const SystemPath &v = nodes[idx];
+		for (auto it : unvisited) {
+			const SystemPath &v = nodes[it];
+			// everything is a neighbor isn't quite true as the ship has a max_range for each jump!
 			if ((SystemPath::SectorDistance(closest, v)*Sector::SIZE) > max_range) {
 				++totalSkipped;
 				continue;
@@ -685,11 +687,11 @@ void SectorView::AutoRoute(std::vector<SystemPath> &outRoute, const SystemPath &
 			float v_dist = hyperdrive.CallMethod<float>("GetDuration", Pi::player, v_dist_ly, max_range);
 
 			v_dist += path_dist[closest_i]; // we want the total duration from start to this node
-			if (v_dist < path_dist[idx]) {
+			if (v_dist < path_dist[it]) {
 				// if our calculated duration is less than a previous value, this path is more efficent
 				// so store/override it
-				path_dist[idx] = v_dist;
-				path_prev[idx] = closest_i;
+				path_dist[it] = v_dist;
+				path_prev[it] = closest_i;
 			}
 		}
 	}
@@ -708,7 +710,7 @@ void SectorView::AutoRoute(std::vector<SystemPath> &outRoute, const SystemPath &
 	}
 
 	// It's posible that there is no valid route
-	if(foundRoute) {
+	if (foundRoute) {
 		outRoute.reserve(nodes.size());
 		// Build the route, in reverse starting with the target
 		while (u != 0) {

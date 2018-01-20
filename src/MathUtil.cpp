@@ -218,7 +218,7 @@ namespace MathUtil {
 
 	// basic distince from a line segment as described here:
 	// http://paulbourke.net/geometry/pointline/
-	float DistanceFromLine(const vector3f& start, const vector3f& end, const vector3f& pos, bool& isWithinLineSegment)
+	float DistanceFromLineSegment(const vector3f& start, const vector3f& end, const vector3f& pos, bool& isWithinLineSegment)
 	{
 		const float magnitude = (end-start).Length();
 		float t = Dot((pos - start), (end - start)) / (magnitude * magnitude) ;
@@ -230,6 +230,18 @@ namespace MathUtil {
 		} else {
 			isWithinLineSegment = true;
 		}
+		// convert the time t to a vector to use in intersection calculation
+		vector3f tv(t,t,t);
+		vector3f intersect(start + tv * (end - start));
+
+		return (intersect-pos).Length();
+	}
+
+	float DistanceFromLine(const vector3f& start, const vector3f& end, const vector3f& pos)
+	{
+		const float magnitude = (end-start).Length();
+		const float t = Dot((pos - start), (end - start)) / (magnitude * magnitude) ;
+
 		// convert the time t to a vector to use in intersection calculation
 		vector3f tv(t,t,t);
 		vector3f intersect(start + tv * (end - start));
@@ -271,6 +283,12 @@ namespace MathUtil {
 			false,// no
 			false// no
 		};
+		static const bool RESLINE[TotalNum] = {
+			true, // no
+			true,// yes
+			false,// no
+			true// no
+		};
 
 		// Just working with a fixed distance.
 		static const float triggerSoundDistance = 6.0f;
@@ -278,11 +296,19 @@ namespace MathUtil {
 		bool success = true;
 		for( int i=0; i<TotalNum; i++ ) {
 			bool isWithinLineSegment = false;
-			const float dist = DistanceFromLine(E[i], H[i], P[i], isWithinLineSegment);
+			const float dist = DistanceFromLineSegment(E[i], H[i], P[i], isWithinLineSegment);
 
 			// Compare against the expected result and accumulate
 			success &= (RES[i] == (isWithinLineSegment && dist <= triggerSoundDistance));
 		}
+
+		for( int i=0; i<TotalNum; i++ ) {
+			const float dist = DistanceFromLine(E[i], H[i], P[i]);
+
+			// Compare against the expected result and accumulate
+			success &= (RESLINE[i] == (dist <= triggerSoundDistance));
+		}
+		
 		Output("TestDistanceFromLine successful? = %s\n", success ? "yes" : "no");
 		return success;
 	}
