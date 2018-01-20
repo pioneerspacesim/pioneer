@@ -36,6 +36,7 @@ January 2018
      * Fudge-fix projectile ray tracing (#4278)
      * Fix ship stat CSV output (#4277)
      * Make the black hole system navigable (#4282)
+     * Modelcompiler fixes for x64 linking (#4285)
 
 December 2017
    * New Features
