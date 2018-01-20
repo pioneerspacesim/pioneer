@@ -33,6 +33,7 @@ January 2018
      * Tradeships getSystemAndJump checking (#4268)
      * Fudge-fix projectile ray tracing (#4278)
      * Fix ship stat CSV output (#4277)
+     * Make the black hole system navigable (#4282)
 
 December 2017
    * New Features
