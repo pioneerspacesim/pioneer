@@ -299,6 +299,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 			const CollMesh* cmesh = bt.collMesh.Get(); // collision mesh
 			
 			Geom *geom = new Geom(cmesh->GetGeomTree());
+			geom->SetUserData(static_cast<void*>(this));
 
 			// rotate the building to face a random direction
 			int32_t orient = rand.Int32(4);
