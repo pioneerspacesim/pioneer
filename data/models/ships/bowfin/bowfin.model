@@ -2,7 +2,7 @@ material Fuselage
 diffuse 1.0 1.0 1.0
 specular 0.9 0.9 0.9
 shininess 69
-#use_patterns
+use_patterns
 tex_diff bowfin_diff.dds
 #tex_glow bowfin_glow.dds
 tex_spec bowfin_spec.dds
