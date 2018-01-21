@@ -37,6 +37,7 @@ January 2018
      * Fix ship stat CSV output (#4277)
      * Make the black hole system navigable (#4282)
      * Modelcompiler fixes for x64 linking (#4285)
+     * Set the user data for city geom objects (#4284)
 
 December 2017
    * New Features
