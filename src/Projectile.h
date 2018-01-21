@@ -14,9 +14,10 @@ struct ProjectileData {
 	float damage;
 	float length;
 	float width;
-	bool mining;
 	float speed;
 	Color color;
+	bool mining;
+	bool beam;
 };
 
 

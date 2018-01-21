@@ -1004,10 +1004,12 @@ void Pi::HandleEvents()
 									}
 								} else {
 									Ship *ship = new Ship(ShipType::POLICE);
-									if( KeyState(SDLK_LCTRL) )
-										ship->AIFlyTo(Pi::player);	// a less lethal option
-									else
-										ship->AIKill(Pi::player);	// a really lethal option!
+									if( !KeyState(SDLK_LALT)) { //Left ALT = no AI
+										if( !KeyState(SDLK_LCTRL) )
+											ship->AIFlyTo(Pi::player);	// a less lethal option
+										else
+											ship->AIKill(Pi::player);	// a really lethal option!
+									}
 									lua_State *l = Lua::manager->GetLuaState();
 									pi_lua_import(l, "Equipment");
 									LuaTable equip(l, -1);

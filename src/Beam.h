@@ -16,12 +16,13 @@ namespace Graphics {
 	class Renderer;
 	class VertexArray;
 }
+struct ProjectileData;
 
 class Beam: public Body {
 public:
 	OBJDEF(Beam, Body, PROJECTILE);
 
-	static void Add(Body *parent, const vector3d &pos, const vector3d &dir, const double length, const float damage, const bool mining, const Color& color);
+	static void Add(Body *parent, const ProjectileData& prData, const vector3d &pos, const vector3d &dir);
 
 	Beam();
 	virtual ~Beam();
@@ -57,6 +58,7 @@ private:
 	static std::unique_ptr<Graphics::Material> s_sideMat;
 	static std::unique_ptr<Graphics::Material> s_glowMat;
 	static Graphics::RenderState *s_renderState;
+	Graphics::Drawables::Line3D m_line;
 
 /*
 

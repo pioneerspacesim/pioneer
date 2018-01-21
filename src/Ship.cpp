@@ -628,8 +628,9 @@ void Ship::UpdateGunsStats() {
 			const bool mining = prop.Get<int>(prefix+"mining");
 			const float speed = prop.Get<float>(prefix+"speed");
 			const float recharge = prop.Get<float>(prefix+"rechargeTime");
+			const bool beam = prop.Get<int>(prefix+"beam");
 
-			GetFixedGuns()->MountGun( num, recharge, lifespan, damage, length, width, mining, c, speed );
+			GetFixedGuns()->MountGun( num, recharge, lifespan, damage, length, width, mining, c, speed, beam );
 
 			if (prop.Get<int>(prefix+"dual")) GetFixedGuns()->IsDual( num, true );
 			else GetFixedGuns()->IsDual( num, false );
@@ -919,64 +920,6 @@ void Ship::TimeAccelAdjust(const float timeStep)
 	if (!m_decelerating) vdiff = -2.0 * vdiff;
 	SetVelocity(GetVelocity() + vdiff);
 }
-#if 0
-void Ship::FireWeapon(int num)
-{
-	if (m_flightState != FLYING)
-		return;
-
-	std::string prefix(num?"laser_rear_":"laser_front_");
-	int damage = 0;
-	Properties().Get(prefix+"damage", damage);
-	if (!damage)
-		return;
-
-	Properties().PushLuaTable();
-	LuaTable prop(Lua::manager->GetLuaState(), -1);
-
-	const matrix3x3d &m = GetOrient();
-	const vector3d dir = m * vector3d(m_gun[num].dir);
-	const vector3d pos = m * vector3d(m_gun[num].pos) + GetPosition();
-
-	m_gun[num].temperature += 0.01f;
-
-	m_gun[num].recharge = prop.Get<float>(prefix+"rechargeTime");
-	const vector3d baseVel = GetVelocity();
-	const vector3d dirVel = prop.Get<float>(prefix+"speed") * dir.Normalized();
-
-	const Color c(prop.Get<float>(prefix+"rgba_r"), prop.Get<float>(prefix+"rgba_g"),
-			prop.Get<float>(prefix+"rgba_b"), prop.Get<float>(prefix+"rgba_a"));
-	const float lifespan = prop.Get<float>(prefix+"lifespan");
-	const float width = prop.Get<float>(prefix+"width");
-	const float length = prop.Get<float>(prefix+"length");
-	const bool mining = prop.Get<int>(prefix+"mining");
-	const bool beam = prop.Get<int>(prefix+"beam");
-	if (prop.Get<int>(prefix+"dual"))
-	{
-		const vector3d orient_norm = m.VectorY();
-		const vector3d sep = 5.0 * dir.Cross(orient_norm).NormalizedSafe();
-
-		if(beam) {
-			Beam::Add(this, pos + sep, -dir, 10000.0, damage, mining, c);
-			Beam::Add(this, pos - sep, -dir, 10000.0, damage, mining, c);
-		} else {
-			Projectile::Add(this, lifespan, damage, length, width, mining, c, pos + sep, baseVel, dirVel);
-			Projectile::Add(this, lifespan, damage, length, width, mining, c, pos - sep, baseVel, dirVel);
-		}
-		
-	} else {
-		if(beam) {
-			Beam::Add(this, pos, -dir, 10000.0, damage, mining, c);
-		} else {
-			Projectile::Add(this, lifespan, damage, length, width, mining, c, pos, baseVel, dirVel);
-		}
-	}
-
-	Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
-	lua_pop(prop.GetLua(), 1);
-	LuaEvent::Queue("onShipFiring", this);
-}
-#endif
 
 double Ship::ExtrapolateHullTemperature() const
 {

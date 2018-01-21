@@ -27,12 +27,12 @@ class FixedGuns : public RefCounted
 		void Init(DynamicBody *b);
 		void InitGun( SceneGraph::Model *m, const char *tag, int num);
 		void UpdateGuns( float timeStep );
-		bool Fire( int num, Body* b );
+		bool Fire( const int num, Body* b );
 		bool IsFiring();
 		float GetGunTemperature(int idx) const;
 		inline void IsDual( int idx, bool dual ) { m_gun[idx].dual = dual; };
-		void MountGun( int num, const float recharge, const float lifespan, const float dam, const float length,
-						 const float width, const bool mining, const Color& color, const float speed );
+		void MountGun( const int num, const float recharge, const float lifespan, const float damage, const float length,
+						 const float width, const bool mining, const Color& color, const float speed, const bool beam );
 		void UnMountGun( int num );
 		inline float GetGunRange( int idx ) { return m_gun[idx].projData.speed*m_gun[idx].projData.lifespan; };
 		inline float GetProjSpeed(int idx ) { return m_gun[idx].projData.speed; };

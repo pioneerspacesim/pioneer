@@ -3,6 +3,7 @@
 
 #include "FixedGuns.h"
 #include "GameSaveError.h"
+#include "Beam.h"
 
 FixedGuns::FixedGuns()
 {
@@ -93,7 +94,8 @@ void FixedGuns::InitGun( SceneGraph::Model *m, const char *tag, int num)
 	}
 }
 
-void FixedGuns::MountGun(int num, float recharge, float lifespan, float damage, float length, float width, bool mining, const Color& color, float speed )
+void FixedGuns::MountGun(const int num, const float recharge, const float lifespan, const float damage, const float length,
+	const float width, const bool mining, const Color& color, const float speed, const bool beam )
 {
 	if(num >= Guns::GUNMOUNT_MAX)
 		return;
@@ -108,6 +110,7 @@ void FixedGuns::MountGun(int num, float recharge, float lifespan, float damage, 
 	m_gun[num].projData.mining = mining;
 	m_gun[num].projData.color = color;
 	m_gun[num].projData.speed = speed;
+	m_gun[num].projData.beam = beam;
 	m_gun_present[num] = true;
 };
 
@@ -130,7 +133,7 @@ void FixedGuns::UnMountGun( int num )
 	m_gun_present[num] = false;
 }
 
-bool FixedGuns::Fire( int num, Body* b )
+bool FixedGuns::Fire( const int num, Body* b ) 
 {
 	if (!m_gun_present[num]) return false;
 	if (!m_is_firing[num]) return false;
@@ -152,11 +155,25 @@ bool FixedGuns::Fire( int num, Body* b )
 	{
 		const vector3d orient_norm = b->GetOrient().VectorY();
 		const vector3d sep = 5.0 * dir.Cross(orient_norm).NormalizedSafe();
-
-		Projectile::Add( b, m_gun[num].projData, pos + sep, b->GetVelocity(), dirVel);
-		Projectile::Add( b, m_gun[num].projData, pos - sep, b->GetVelocity(), dirVel);
+		if(m_gun[num].projData.beam)
+		{
+			Beam::Add(b, m_gun[num].projData, pos + sep, -dir);
+			Beam::Add(b, m_gun[num].projData, pos - sep, -dir);
+		}
+		else
+		{
+			Projectile::Add(b, m_gun[num].projData, pos + sep, b->GetVelocity(), dirVel);
+			Projectile::Add(b, m_gun[num].projData, pos - sep, b->GetVelocity(), dirVel);
+		}
 	} else {
-		Projectile::Add( b, m_gun[num].projData, pos, b->GetVelocity(), dirVel);
+		if(m_gun[num].projData.beam)
+		{
+			Beam::Add(b, m_gun[num].projData, pos, -dir);
+		}
+		else
+		{
+			Projectile::Add(b, m_gun[num].projData, pos, b->GetVelocity(), dirVel);
+		}
 	}
 	return true;
 };

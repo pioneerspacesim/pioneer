@@ -7,13 +7,14 @@
 #include "Frame.h"
 #include "galaxy/StarSystem.h"
 #include "Space.h"
-#include "Serializer.h"
+#include "GameSaveError.h"
 #include "collider/collider.h"
 #include "CargoBody.h"
 #include "Planet.h"
 #include "Sfx.h"
 #include "Ship.h"
 #include "Pi.h"
+#include "Player.h"
 #include "Game.h"
 #include "LuaEvent.h"
 #include "LuaUtils.h"
@@ -197,21 +198,27 @@ double Beam::GetRadius() const
 static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, const vector3d &pos)
 {
 	lua_State *l = Lua::manager->GetLuaState();
-	pi_lua_import(l, "Equipment");
-	LuaTable cargo_types = LuaTable(l, -1).Sub("cargo");
-	if (20*Pi::rng.Fixed() < asteroid->GetMetallicityAsFixed()) {
-		cargo_types.Sub("precious_metals");
-	} else if (8*Pi::rng.Fixed() < asteroid->GetMetallicityAsFixed()) {
-		cargo_types.Sub("metal_alloys");
-	} else if (Pi::rng.Fixed() < asteroid->GetMetallicityAsFixed()) {
-		cargo_types.Sub("metal_ore");
-	} else if (Pi::rng.Fixed() < fixed(1,2)) {
-		cargo_types.Sub("water");
-	} else {
-		cargo_types.Sub("rubbish");
-	}
+
+	// lua cant push "const SystemBody", needs to convert to non-const
+	RefCountedPtr<StarSystem> s = Pi::game->GetGalaxy()->GetStarSystem(asteroid->GetPath());
+	SystemBody *liveasteroid = s->GetBodyByPath(asteroid->GetPath());
+
+	// this is an adapted version of "CallMethod", because;
+	// 1, there is no template for LuaObject<LuaTable>::CallMethod(..., SystemBody)
+	// 2, this leaves the return value on the lua stack to be used by "new CargoBody()"
+	LUA_DEBUG_START(l);
+	LuaObject<Player>::PushToLua(Pi::player);
+	lua_pushstring(l, "SpawnMiningContainer");
+	lua_gettable(l, -2);
+	lua_pushvalue(l, -2);
+	lua_remove(l, -3);
+	LuaObject<SystemBody>::PushToLua(liveasteroid);
+	pi_lua_protected_call(l, 2, 1);
+
 	CargoBody *cargo = new CargoBody(LuaRef(l, -1));
-	lua_pop(l, 3);
+	lua_pop(l, 1);
+	LUA_DEBUG_END(l, 0);
+
 	cargo->SetFrame(f);
 	cargo->SetPosition(pos);
 	const double x = Pi::rng.Double();
@@ -244,6 +251,17 @@ void Beam::StaticUpdate(const float timeStep)
 			}
 		}
 	}
+//	for (unsigned int i=0; i<laserBeams.size(); i++) {
+//		CollisionContact c;
+//		laserBeams[i].frame->GetCollisionSpace()->TraceRay(
+//			laserBeams[i].pos, laserBeams[i].dir,
+//			(float)laserBeams[i].length, &c,
+//			laserBeams[i].firer->GetGeom());
+//		if (c.userData1) {
+//			Body *hit = static_cast<Body*>(c.userData1);
+//			hit->OnDamage(laserBeams[i].firer, laserBeams[i].damage);
+//		}
+//	}
 	if (m_mining) {
 		// need to test for terrain hit
 		if (GetFrame()->GetBody() && GetFrame()->GetBody()->IsType(Object::PLANET)) {
@@ -267,11 +285,11 @@ void Beam::StaticUpdate(const float timeStep)
 void Beam::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	PROFILE_SCOPED()
-	vector3d _from = viewTransform * GetInterpPosition();
-	vector3d _to = viewTransform * (GetInterpPosition() + m_dir);
-	vector3d _dir = _to - _from;
-	vector3f from(&_from.x);
-	vector3f dir = vector3f(_dir).Normalized();
+	const vector3d _from = viewTransform * GetInterpPosition();
+	const vector3d _to = viewTransform * (GetInterpPosition() + m_dir);
+	const vector3d _dir = _to - _from;
+	const vector3f from(&_from.x);
+	const vector3f dir = vector3f(_dir).Normalized();
 
 	vector3f v1, v2;
 	matrix4x4f m = matrix4x4f::Identity();
@@ -319,15 +337,15 @@ void Beam::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 }
 
 // static
-void Beam::Add(Body *parent, const vector3d &pos, const vector3d &dir, const double length, const float damage, const bool mining, const Color& color)
+void Beam::Add(Body *parent, const ProjectileData& prData, const vector3d &pos, const vector3d &dir)
 {
 	Beam *p = new Beam();
 	p->m_parent = parent;
 	p->m_dir = dir;
-	p->m_baseDam = damage;
-	p->m_length = length;
-	p->m_mining = mining;
-	p->m_color = color;
+	p->m_baseDam = prData.damage;
+	p->m_length = prData.length;
+	p->m_mining = prData.mining;
+	p->m_color = prData.color;
 	p->SetFrame(parent->GetFrame());
 
 	p->SetOrient(parent->GetOrient());
