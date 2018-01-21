@@ -1295,6 +1295,10 @@
       "description" : "",
       "message" : "Tam yakıt dolumu"
    },
+   "REGISTRATION_NUMBER" : {
+      "description" : "",
+      "message" : "Registration number"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Güvenilir"

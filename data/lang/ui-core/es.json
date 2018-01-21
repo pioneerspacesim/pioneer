@@ -1295,6 +1295,10 @@
       "description" : "",
       "message" : "Llenar el tanque"
    },
+   "REGISTRATION_NUMBER" : {
+      "description" : "",
+      "message" : "Registration number"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Fiable"

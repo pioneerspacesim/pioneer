@@ -1295,6 +1295,10 @@
       "description" : "",
       "message" : "补满燃料"
    },
+   "REGISTRATION_NUMBER" : {
+      "description" : "",
+      "message" : "Registration number"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "可靠的"

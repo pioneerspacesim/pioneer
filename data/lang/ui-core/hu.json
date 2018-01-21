@@ -9,7 +9,7 @@
    },
    "ADD_JUMP" : {
       "description" : "UI-button: Add hyper jump to list of planned jumps",
-      "message" : "Add Jump"
+      "message" : "Ugrás hozzáadása"
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
@@ -41,7 +41,7 @@
    },
    "AUTO_ROUTE" : {
       "description" : "Automatically find shortest jump route (measured in time) in star map",
-      "message" : "Auto Route"
+      "message" : "Útvonaltervezés"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "CENTER_ON_SYSTEM" : {
       "description" : "Center on selected star system",
-      "message" : "Center on System"
+      "message" : "Rendszert középre"
    },
    "CHANGE_BINDING" : {
       "description" : "Key binding option",
@@ -149,7 +149,7 @@
    },
    "CLEAR_ROUTE" : {
       "description" : "Clear a planned route of hyperjumps",
-      "message" : "Clear Route"
+      "message" : "Összes eltávolítása"
    },
    "CLIENT" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "CURRENT_FUEL" : {
       "description" : "For hyperjump planner",
-      "message" : "Current Fuel:"
+      "message" : "Üzemanyag:"
    },
    "CURRENT_SYSTEM" : {
       "description" : "For hyperjump planner",
@@ -381,7 +381,7 @@
    },
    "FINAL_TARGET" : {
       "description" : "Hyperjump planner, referring to star system target",
-      "message" : "Final Target:"
+      "message" : "Végső cél:"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
@@ -809,7 +809,7 @@
    },
    "HYPERJUMP_ROUTE" : {
       "description" : "",
-      "message" : "HyperJump Route"
+      "message" : "Hiperűr útvonal"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
@@ -1061,11 +1061,11 @@
    },
    "MOVE_DOWN" : {
       "description" : "move selection down in list",
-      "message" : "Move Down"
+      "message" : "Le"
    },
    "MOVE_UP" : {
       "description" : "move selection up in list",
-      "message" : "Move Up"
+      "message" : "Fel"
    },
    "MULTISAMPLING" : {
       "description" : "",
@@ -1295,17 +1295,21 @@
       "description" : "",
       "message" : "Teletölt"
    },
+   "REGISTRATION_NUMBER" : {
+      "description" : "",
+      "message" : "Registration number"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Megbízható"
    },
    "REMOVE_JUMP" : {
       "description" : "UI-button: remove hyper jump from list of planned jumps",
-      "message" : "Remove Jump"
+      "message" : "Ugrás eltávolítása"
    },
    "REMOVE_WHEN_COMPLETED" : {
       "description" : "For UI hyperjump planner, referring to jump target system",
-      "message" : "Remove jump when completed"
+      "message" : "Ugrás eltávolítása ha kész"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
@@ -1321,7 +1325,7 @@
    },
    "REQUIRED_FUEL" : {
       "description" : "Fuel usage for traveling to star system",
-      "message" : "Required Fuel:"
+      "message" : "Szükséges üzemanyag:"
    },
    "RESET" : {
       "description" : "",
@@ -1349,11 +1353,11 @@
    },
    "ROUTE_INFO" : {
       "description" : "For hyperjump planner",
-      "message" : "Route Info"
+      "message" : "Útvonal info:"
    },
    "ROUTE_JUMPS" : {
       "description" : "For hyperjump planner",
-      "message" : "Route Jumps"
+      "message" : "Ugrások száma"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1401,7 +1405,7 @@
    },
    "SETTINGS" : {
       "description" : "UI option",
-      "message" : "Settings"
+      "message" : "Beállítások"
    },
    "SET_AS_TARGET" : {
       "description" : "",
@@ -1521,11 +1525,11 @@
    },
    "TOTAL_DISTANCE" : {
       "description" : "Total distance of a (possibly series) of hyper jump(s)",
-      "message" : "Total Distance:"
+      "message" : "Teljes táv:"
    },
    "TOTAL_DURATION" : {
       "description" : "Total duration of a (possibly series) of hyper jump(s)",
-      "message" : "Total Duration:"
+      "message" : "Teljes utazási idő:"
    },
    "TOTAL_MASS" : {
       "description" : "",
