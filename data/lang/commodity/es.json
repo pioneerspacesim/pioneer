@@ -5,15 +5,15 @@
    },
    "AIR_PROCESSORS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Clean air is only taken for granted when already abundant. The technique behind air purification is rumoured to come from alien artifacts found on Mars. Many companies produce various types of air processors, capable of turning even the most hostile atmospheres into a workable environment, and governments do not tolerate monopoly on air production."
+      "message" : "El aire puro solo se da por sentado cuando es abundante. Se rumorea que la técnica detrás de la purificación del aire proviene de artefactos alienígenas encontrados en Marte. Muchas empresas producen varios tipos de procesadores de aire capaces de convertir incluso las atmósferas más hostiles en un entorno viable, y los gobiernos no toleran el monopolio de la producción."
    },
    "ANIMAL_MEAT" : {
       "description" : "",
-      "message" : "Animal meat"
+      "message" : "Carne animal"
    },
    "ANIMAL_MEAT_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "A major point of controversy, meat is the flesh of animals. With synthetic protein readily available, most people believe that animals should not be killed. While meats are illegal in most core systems, live animals and their meat is an important part of the lives of people on more traditional worlds."
+      "message" : "Un punto importante de controversia, los cárnicos son la carne de los animales. Con la proteína sintética disponible, la mayoría de las personas cree que los animales no deben ser asesinados. Si bien las carnes son ilegales en la mayoría de los sistemas centrales, los animales vivos y su carne es una parte importante de la vida de las personas en los mundos más tradicionales."
    },
    "BATTLE_WEAPONS" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "BATTLE_WEAPONS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Heavy military-grade weapons, like armoured hover tanks, and surface-to-space missiles. Trading in them is usually a governmental monopoly. On the black market, however, these can often fetch a hefty sum of money."
+      "message" : "Armas pesadas de grado militar, como tanques blindados y misiles tierra-espacio. Comerciar con ellos suele ser un monopolio gubernamental. En el mercado negro, sin embargo, estos a menudo pueden obtener una suma considerable de dinero."
    },
    "CARBON_ORE" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Carbon is one of the most diverse elements we know of. Used in almost everything from plastics to alloys and sometimes even power production, carbon is an inexpensive, but important commodity. As such, almost all industrial settlements import carbon ore."
+      "message" : "El carbón es uno de los elementos más diversos de los que tenemos constancia. Usado en prácticamente todo, desde plásticos a aleaciones, en ocasiones incluso producciones energéticas, el carbón es barato, pero una mercancía importante. Como tal, casi cualquier asentamiento industrial importa mineral de carbón."
    },
    "COMPUTERS" : {
       "description" : "",
@@ -37,7 +37,7 @@
    },
    "COMPUTERS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
+      "message" : "Desde hace más de mil años, con los chips Abacus, PDP-11 y Motorola 68k, hasta nuestra línea moderna HAL 9001 y Multivac, las computadoras marcaron el comienzo de la era de la información. Igualmente esencial para entrar en el hiperespacio que para compartir videos a través de UniNet."
    },
    "CONSUMER_GOODS" : {
       "description" : "",
@@ -45,7 +45,7 @@
    },
    "CONSUMER_GOODS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
+      "message" : "Los productos finales están listos para el consumo público general, sin necesidad de un procesamiento posterior. Todo, desde cepillos de dientes, electrodomésticos de cocina hasta coches flotantes."
    },
    "FARM_MACHINERY" : {
       "description" : "",
@@ -53,7 +53,7 @@
    },
    "FARM_MACHINERY_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
+      "message" : "Aunque es raro, todavía es posible ver al agricultor ocasional con un arado de bueyes. Pero en casi cualquier lugar donde hay agricultura, las máquinas se utilizan en el cultivo de la tierra, ya sea en los hidropónicos de un hábitat subterráneo o en los campos interminables de un mundo-jardín."
    },
    "FERTILIZER" : {
       "description" : "",
@@ -61,15 +61,15 @@
    },
    "FERTILIZER_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Fertilizers are crucial for growing crops at an industrial scale, allowing mono-cultures, and yielding higher dividends than possible using plain dirt. This often comes with an ecological cost, not evident at the onset."
+      "message" : "Los fertilizantes son cruciales para el crecimiento de cultivos a escala industrial, permitiendo monocultivos con el rendimiento más alto posible en dividendos, utilizando tierra llana. Esto en ocasiones viene con un coste ecológico no evidente a priori."
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
-      "message" : "Fruit & vegetables"
+      "message" : "Frutas & vegetales"
    },
    "FRUIT_AND_VEG_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "While there are lots of synthetic alternatives, real fruits and vegetables are still an important part of our cuisine and nutrition. Grown on agricultural worlds or as part of the life support of habitats, and exported to systems in which growing plants is not feasible."
+      "message" : "Si bien hay muchas alternativas sintéticas, las frutas y verduras reales siguen siendo una parte importante de nuestra cocina y nutrición. Cultivados en mundos agrícolas o como parte del soporte vital de hábitats, y exportado a sistemas en los que no es factible cultivar plantas."
    },
    "GRAIN" : {
       "description" : "",
@@ -77,15 +77,15 @@
    },
    "GRAIN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+      "message" : "La columna vertebral de la dieta de muchas personas. Se usa en la agricultura, para alimentar animales y como suplemento de los alimentos sintéticos. El grano también se usa en muchos otros alimentos, como avena y productos horneados. La mayoría de las culturas estelares crecen y consumen al menos algún tipo de granos, que han sido adoptados al clima de su hábitat."
    },
    "HAND_WEAPONS" : {
       "description" : "",
-      "message" : "Small arms"
+      "message" : "Armas pequeñas"
    },
    "HAND_WEAPONS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Providing insurance beyond the long arm of the law, hand weapons are essential for space traders in far-out systems. However, many governments see them as a threat to their own control over their population and strictly control their trade and possession."
+      "message" : "\nProporcionando seguridad más allá del brazo de la ley, las armas de mano son esenciales para los comerciantes espaciales en sistemas lejanos. Sin embargo, muchos gobiernos los ven como una amenaza para su propio control sobre su población y controlan estrictamente su comercio y posesión."
    },
    "HYDROGEN" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
+      "message" : "Utilizado como combustible para hiperimpulsores y propulsor para naves espaciales, el hidrógeno es un elemento extremadamente importante. Afortunadamente también es el elemento más común en el universo, aunque almacenarlo no es trivial. Por lo general, se encuentra entre los productos más baratos en el mercado de valores. Los puertos espaciales están bien provistos en cualquier momento "
    },
    "INDUSTRIAL_MACHINERY" : {
       "description" : "",
@@ -101,15 +101,15 @@
    },
    "INDUSTRIAL_MACHINERY_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Needed for assembly lines, refineries, smelters, and production of machinery that will in turn produce other goods. High competence is needed to produce these advanced machines."
+      "message" : "Necesarias para las líneas de montaje, refinerías, fundiciones y producción de maquinaria que a su vez producirá otros bienes. Se necesita una gran competencia para producir estas máquinas avanzadas."
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
-      "message" : "Liquid oxygen"
+      "message" : "Oxígeno líquido"
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Liquid oxygen has many purposes, most commonly in medical and industrial applications and sometimes also used in waste treatment. It is very affordable, as oxygen is easy to obtain from water."
+      "message" : "El oxígeno líquido tiene muchos propósitos, los más comunes son en aplicaciones médicas e industriales y a veces también se utiliza en el tratamiento de residuos. Es muy económico, ya que el oxígeno es fácil de obtener a partir del agua."
    },
    "LIQUOR" : {
       "description" : "",
@@ -117,15 +117,15 @@
    },
    "LIQUOR_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
+      "message" : "La mayoría de los puestos avanzados tienen un brebaje local que los extranjeros encuentran difícil de digerir. El alcohol puede ser prohibido en algunos sistemas, ya que se considera que nubla la mente. Independientemente de la ley, una dosis de whisky está casi siempre disponible en el mercado negro, por un precio."
    },
    "LIVE_ANIMALS" : {
       "description" : "",
-      "message" : "Live animals"
+      "message" : "Animales vivos"
    },
    "LIVE_ANIMALS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Partly due to humanistic, economic and ecological reasons, animal rearing and trade is strictly regulated, or even illegal in many core systems. Going outward, livestock becomes a more important part of the livelihood of the people, both as a source of nutrition and a beast of burden. Exotic zoos and wildlife reserves contribute to the trade of animals around the galaxy, usually under strict state regulations, to combat illegal hunting grounds."
+      "message" : "En parte debido a razones humanísticas, económicas y ecológicas, la cría y el comercio de animales están estrictamente regulados, o incluso son ilegales en muchos sistemas centrales. Hacia el exterior, el ganado se convierte en una parte más importante del sustento de las personas, tanto como fuente de nutrición como una bestia de carga. Los zoológicos exóticos y las reservas de vida silvestre contribuyen al comercio de animales en toda la galaxia, generalmente bajo estrictas regulaciones estatales, para combatir los terrenos de caza ilegales."
    },
    "MEDICINES" : {
       "description" : "",
@@ -133,7 +133,7 @@
    },
    "MEDICINES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Derived from natural sources, or synthesized artificially, medicines are needed everywhere humans go. From curing the common cold to combat the adverse effects of prolonged space travel, medicines are essential to the prosperity of an interstellar humanity. Carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
+      "message" : "Derivados de fuentes naturales, o sintetizados artificialmente, los medicamentos son necesarios en todos los lugares donde los humanos van. Desde curar el resfriado común hasta combatir los efectos adversos del viaje espacial prolongado, los medicamentos son esenciales para la prosperidad de la humanidad interestelar. Cuidadosamente vigilados por los agentes de aduanas, ya que no es raro disfrazar los narcóticos como medicamentos."
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "METAL_ALLOYS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "After metal ore is extracted and refined, it is processed and ends up as various alloys. An alloy is an amalgamation of metals, rather than a single pure element, combined in exact proportions to gain specific desirable traits. Therefore, most consumer metals are alloys."
+      "message" : "Después de extraer y refinar el mineral de metal, se procesa y termina en varias aleaciones. Una aleación es una amalgamación de metales, en lugar de un único elemento puro, combinado en proporciones exactas para obtener rasgos deseables específicos. Por lo tanto, la mayoría de los metales de consumo son aleaciones."
    },
    "METAL_ORE" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "METAL_ORE_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
+      "message" : "\nMuchas colonias extraen minerales metálicos para su exportación, para refinarlos y usarlos en la fabricación industrial. Usado en todo, desde pequeños juguetes hasta naves espaciales, el metal en todas sus formas es esencial para la civilización moderna."
    },
    "MILITARY_FUEL" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "MILITARY_FUEL_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Used as fuel in the more advanced military drives. These drives produce nuclear waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
+      "message" : "Utilizado como fuel en las unidades militares más avanzadas. Estos motores producen desechos nucleares durante la operación, que deben eliminarse. Debido a su naturaleza sintética, el combustible militar es más costoso y menos común que el hidrógeno, y no se puede encontrar en forma natural."
    },
    "MINING_MACHINERY" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "MINING_MACHINERY_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The traditionally back breaking work of mining is alleviated by the use of machines that help miners in locating and retrieving various ores, and transporting them to the closest processing facilities."
+      "message" : "\nEl trabajo tradicionalmente retroactivo de la minería se alivia con el uso de máquinas que ayudan a los mineros a ubicar y recuperar varios minerales y transportarlos a las instalaciones de procesamiento más cercanas."
    },
    "NARCOTICS" : {
       "description" : "",
@@ -173,15 +173,15 @@
    },
    "NARCOTICS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Natural or synthetic substances that alter the state of mind and body. Although the use of narcotics, both for recreational and medical purposes, is as old as humanity itself, shipping and trading is commonly outlawed."
+      "message" : "Sustancias naturales o sintéticas que alteran el estado de la mente o el cuerpo. Aunque el uso de narcóticos, ya sea para uso recreativo o médico, es tan antiguo como la humanidad, el envío y comercio de estas sustancias está comúnmente fuera de la ley."
    },
    "NERVE_GAS" : {
       "description" : "",
-      "message" : "Nerve gas"
+      "message" : "Gas nervioso"
    },
    "NERVE_GAS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "It is generally accepted to be a weapon of mass destruction, shunned even by the military in most systems, and thus illegal in most systems."
+      "message" : "En general, se acepta que es un arma de destrucción masiva, incluso rechazada por los militares en la mayoría de los sistemas, y por lo tanto ilegal en la mayoría de estos."
    },
    "PLASTICS" : {
       "description" : "",
@@ -189,7 +189,7 @@
    },
    "PLASTICS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Synthetical and semi-synthetical materials used in everything from everyday items to spaceship construction. They are relatively easy to use in manufacture, versatile and cheap to make, thus an important part of human civilization."
+      "message" : "Materiales sintéticos y semisintéticos utilizados en todo, desde artículos de uso cotidiano hasta la construcción de naves espaciales. Son relativamente fáciles de usar en la fabricación, versátiles y baratos de hacer y por lo tanto, una parte importante de la civilización humana."
    },
    "PRECIOUS_METALS" : {
       "description" : "",
@@ -197,15 +197,15 @@
    },
    "PRECIOUS_METALS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Precious metals are, generally, less reactive, more difficult to mine, and more scarce, resulting in a considerable economic value. This often includes gold, silver, platinum, and rare earths. Certain elements such as gold and silicon, or rare earths, are crucial for the construction of computers and other electronics."
+      "message" : "Los metales preciosos son, en general, menos reactivos, más difíciles de extraer y más escasos, lo que resulta en un valor económico considerable. Esto a menudo incluye oro, plata, platino y tierras raras. Ciertos elementos como el oro y el silicio, o las tierras raras, son cruciales para la construcción de ordenadoes y otros productos electrónicos."
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Radioactives"
+      "message" : "Radioactivos"
    },
    "RADIOACTIVES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Created by nuclear reactors, and military hyperdrives, nuclear waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping nuclear waste is a severe offence."
+      "message" : "Creado por reactores nucleares e hiperimpulsores militares, los desechos nucleares son el producto más difícil y peligroso para transportar y eliminar. Por esta razón, la mayoría de los puertos estelares pagarán para deshacerse del exceso de existencias. El vertido de desechos nucleares es un delito grave."
    },
    "ROBOTS" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "ROBOTS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Robots are often imported into industrial and mining systems, due to their ability to easily perform tasks that would be too difficult, tedious, or unsafe for human workers. They can also serve as politicians and lawyers."
+      "message" : "Los robots en ocasiones se importan en sistemas industriales y mineros debido a su habilidad para realizar tareas que serían demasiado difíciles, tediosas o peligrosas para trabajadores humanos. También pueden ejercer de políticos o abogados."
    },
    "RUBBISH" : {
       "description" : "",
@@ -221,7 +221,7 @@
    },
    "RUBBISH_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The byproduct of civilization, consisting of industrial waste, household garbage, and worn down equipment. Most waste is reprocessed, recycled or sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal. Starports usually charge a fee for waste disposal, but will also pay you to take it away."
+      "message" : "El subproducto de la civilización, que consiste en residuos industriales, basura doméstica y equipos desgastados. La mayoría de los desechos se reprocesan, reciclan o envían a puertos espaciales para su transporte al espacio exterior. El vertido de basura en sistemas habitados es casi siempre ilegal. Los puertos espaciales cobran generalmente una tarifa por la eliminación de desechos, pero también pagará para que se la lleven."
    },
    "SLAVES" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "SLAVES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "As machines have replaced slaves as the engine that powers civilization, slavery is now almost universally seen as immoral, and transgression against a ban draws the strictest punishment. However, despite the best efforts of humanitarians, slavery is still prevalent, even in developed worlds."
+      "message" : "Ya que las máquinas han reemplazado a los esclavos como el motor que impulsa la civilización, ahora la esclavitud se considera casi universalmente inmoral, y la transgresión contra una prohibición recibe el castigo más estricto. Sin embargo, a pesar de los mejores esfuerzos de los trabajadores humanitarios, la esclavitud aún prevalece, incluso en los mundos desarrollados."
    },
    "TEXTILES" : {
       "description" : "",
@@ -237,7 +237,7 @@
    },
    "TEXTILES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Textiles are simple fabric, woven from either synthetic, plant or animal derived yarn. Usually produced by robots in large factories, it is still possible to find the occasional weaver who makes their own textiles."
+      "message" : "Los textiles son telas simples, tejidas a partir de hilados de derivados sintéticos, vegetales o animales. Usualmente producidos por robots en grandes fábricas, todavía es posible encontrar al tejedor ocasional que fabrica sus propias telas."
    },
    "WATER" : {
       "description" : "",
@@ -245,6 +245,6 @@
    },
    "WATER_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Essential for life as we know it, an often overlooked commodity, water is needed wherever humanity roams. As such, the vast majority of off-world colonies import water from comets or planets like Earth. Water is used on a massive scale for hydrogen and oxygen production."
+      "message" : "Esencial para la vida tal como la conocemos, un producto que a menudo se pasa por alto, el agua es necesaria en cualquier lugar donde la humanidad deambule. Como tal, la gran mayoría de las colonias de los mundos exteriores importa agua de cometas o planetas como la Tierra. El agua se usa a gran escala para la producción de hidrógeno y oxígeno."
    }
 }

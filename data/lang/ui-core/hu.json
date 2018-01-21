@@ -7,6 +7,10 @@
       "description" : "",
       "message" : "Aktív"
    },
+   "ADD_JUMP" : {
+      "description" : "UI-button: Add hyper jump to list of planned jumps",
+      "message" : "Ugrás hozzáadása"
+   },
    "AFTER_TRADE_IN" : {
       "description" : "",
       "message" : "Beszámítás után"
@@ -34,6 +38,10 @@
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
       "message" : "Kíséreld meg a hajótest javítását"
+   },
+   "AUTO_ROUTE" : {
+      "description" : "Automatically find shortest jump route (measured in time) in star map",
+      "message" : "Útvonaltervezés"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
@@ -111,6 +119,10 @@
       "description" : "",
       "message" : "Pénz: {money}"
    },
+   "CENTER_ON_SYSTEM" : {
+      "description" : "Center on selected star system",
+      "message" : "Rendszert középre"
+   },
    "CHANGE_BINDING" : {
       "description" : "Key binding option",
       "message" : "Hozzárendel"
@@ -134,6 +146,10 @@
    "CLEAR" : {
       "description" : "Clear an option in game settings/options menu",
       "message" : "Töröl"
+   },
+   "CLEAR_ROUTE" : {
+      "description" : "Clear a planned route of hyperjumps",
+      "message" : "Összes eltávolítása"
    },
    "CLIENT" : {
       "description" : "",
@@ -210,6 +226,14 @@
    "CRIMINAL_RECORD" : {
       "description" : "Past crimes / crime history of character",
       "message" : "Bűnügyi nyilvántartás"
+   },
+   "CURRENT_FUEL" : {
+      "description" : "For hyperjump planner",
+      "message" : "Üzemanyag:"
+   },
+   "CURRENT_SYSTEM" : {
+      "description" : "For hyperjump planner",
+      "message" : "Jelenlegi rendszer"
    },
    "DANGEROUS" : {
       "description" : "Player combat rating",
@@ -354,6 +378,10 @@
    "FEMALE" : {
       "description" : "",
       "message" : "Nő"
+   },
+   "FINAL_TARGET" : {
+      "description" : "Hyperjump planner, referring to star system target",
+      "message" : "Végső cél:"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
@@ -779,6 +807,10 @@
       "description" : "",
       "message" : "Felszerelt hipermotor:"
    },
+   "HYPERJUMP_ROUTE" : {
+      "description" : "",
+      "message" : "Hiperűr útvonal"
+   },
    "HYPERSPACE_RANGE" : {
       "description" : "",
       "message" : "Hiperűr hatótáv"
@@ -1027,6 +1059,14 @@
       "description" : "",
       "message" : "Jobbára ártalmatlan"
    },
+   "MOVE_DOWN" : {
+      "description" : "move selection down in list",
+      "message" : "Le"
+   },
+   "MOVE_UP" : {
+      "description" : "move selection up in list",
+      "message" : "Fel"
+   },
    "MULTISAMPLING" : {
       "description" : "",
       "message" : "Élsimítás"
@@ -1255,9 +1295,21 @@
       "description" : "",
       "message" : "Teletölt"
    },
+   "REGISTRATION_NUMBER" : {
+      "description" : "",
+      "message" : "Registration number"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Megbízható"
+   },
+   "REMOVE_JUMP" : {
+      "description" : "UI-button: remove hyper jump from list of planned jumps",
+      "message" : "Ugrás eltávolítása"
+   },
+   "REMOVE_WHEN_COMPLETED" : {
+      "description" : "For UI hyperjump planner, referring to jump target system",
+      "message" : "Ugrás eltávolítása ha kész"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
@@ -1270,6 +1322,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Felszállási engedély kérése"
+   },
+   "REQUIRED_FUEL" : {
+      "description" : "Fuel usage for traveling to star system",
+      "message" : "Szükséges üzemanyag:"
    },
    "RESET" : {
       "description" : "",
@@ -1294,6 +1350,14 @@
    "REWARD" : {
       "description" : "",
       "message" : "Jutalom"
+   },
+   "ROUTE_INFO" : {
+      "description" : "For hyperjump planner",
+      "message" : "Útvonal info:"
+   },
+   "ROUTE_JUMPS" : {
+      "description" : "For hyperjump planner",
+      "message" : "Ugrások száma"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1338,6 +1402,10 @@
    "SENSORS_AND_DEFENCE" : {
       "description" : "",
       "message" : "Érzékelők és védelem"
+   },
+   "SETTINGS" : {
+      "description" : "UI option",
+      "message" : "Beállítások"
    },
    "SET_AS_TARGET" : {
       "description" : "",
@@ -1454,6 +1522,14 @@
    "TOTAL" : {
       "description" : "",
       "message" : "Összesen:"
+   },
+   "TOTAL_DISTANCE" : {
+      "description" : "Total distance of a (possibly series) of hyper jump(s)",
+      "message" : "Teljes táv:"
+   },
+   "TOTAL_DURATION" : {
+      "description" : "Total duration of a (possibly series) of hyper jump(s)",
+      "message" : "Teljes utazási idő:"
    },
    "TOTAL_MASS" : {
       "description" : "",

@@ -187,6 +187,7 @@ theme.icons = {
    alert1 = 122,
    alert2 = 123,
 	 ecm_advanced = 124,
+	 systems_management = 125,
    -- ninth row
    view_internal = 128,
    view_external = 129,

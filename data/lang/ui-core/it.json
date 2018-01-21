@@ -7,6 +7,10 @@
       "description" : "",
       "message" : "Attivo"
    },
+   "ADD_JUMP" : {
+      "description" : "UI-button: Add hyper jump to list of planned jumps",
+      "message" : "Aggiungi Salto"
+   },
    "AFTER_TRADE_IN" : {
       "description" : "",
       "message" : "Dopo la permuta"
@@ -34,6 +38,10 @@
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
       "message" : "Tenta di riparare lo scavo"
+   },
+   "AUTO_ROUTE" : {
+      "description" : "Automatically find shortest jump route (measured in time) in star map",
+      "message" : "Percorso Automatico"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
@@ -111,6 +119,10 @@
       "description" : "",
       "message" : "Denaro: {money}"
    },
+   "CENTER_ON_SYSTEM" : {
+      "description" : "Center on selected star system",
+      "message" : "Centra sul Sistema"
+   },
    "CHANGE_BINDING" : {
       "description" : "Key binding option",
       "message" : "Cambia associazioni"
@@ -134,6 +146,10 @@
    "CLEAR" : {
       "description" : "Clear an option in game settings/options menu",
       "message" : "Pulisci"
+   },
+   "CLEAR_ROUTE" : {
+      "description" : "Clear a planned route of hyperjumps",
+      "message" : "Elimina Percorso"
    },
    "CLIENT" : {
       "description" : "",
@@ -210,6 +226,14 @@
    "CRIMINAL_RECORD" : {
       "description" : "Past crimes / crime history of character",
       "message" : "Fedina penale"
+   },
+   "CURRENT_FUEL" : {
+      "description" : "For hyperjump planner",
+      "message" : "Carburante Attuale:"
+   },
+   "CURRENT_SYSTEM" : {
+      "description" : "For hyperjump planner",
+      "message" : "Sistema attuale"
    },
    "DANGEROUS" : {
       "description" : "Player combat rating",
@@ -354,6 +378,10 @@
    "FEMALE" : {
       "description" : "",
       "message" : "Femmina"
+   },
+   "FINAL_TARGET" : {
+      "description" : "Hyperjump planner, referring to star system target",
+      "message" : "Destinazione Finale:"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
@@ -779,6 +807,10 @@
       "description" : "",
       "message" : "Iper-propulsore montato:"
    },
+   "HYPERJUMP_ROUTE" : {
+      "description" : "",
+      "message" : "Percorso Ipersalto"
+   },
    "HYPERSPACE_RANGE" : {
       "description" : "",
       "message" : "Portata iperspaziale"
@@ -1027,6 +1059,14 @@
       "description" : "",
       "message" : "Praticamente innocuo"
    },
+   "MOVE_DOWN" : {
+      "description" : "move selection down in list",
+      "message" : "Sposta Giù"
+   },
+   "MOVE_UP" : {
+      "description" : "move selection up in list",
+      "message" : "Sposta Su"
+   },
    "MULTISAMPLING" : {
       "description" : "",
       "message" : "Multisampling"
@@ -1255,9 +1295,21 @@
       "description" : "",
       "message" : "Rifornimento completo"
    },
+   "REGISTRATION_NUMBER" : {
+      "description" : "",
+      "message" : "Numero di registrazione"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Affidabile"
+   },
+   "REMOVE_JUMP" : {
+      "description" : "UI-button: remove hyper jump from list of planned jumps",
+      "message" : "Rimuovi Salto"
+   },
+   "REMOVE_WHEN_COMPLETED" : {
+      "description" : "For UI hyperjump planner, referring to jump target system",
+      "message" : "Rimuovi il salto una volta completato"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
@@ -1270,6 +1322,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Richiesta autorizzazione al lancio"
+   },
+   "REQUIRED_FUEL" : {
+      "description" : "Fuel usage for traveling to star system",
+      "message" : "Carburante Richiesto:"
    },
    "RESET" : {
       "description" : "",
@@ -1294,6 +1350,14 @@
    "REWARD" : {
       "description" : "",
       "message" : "Ricompensa"
+   },
+   "ROUTE_INFO" : {
+      "description" : "For hyperjump planner",
+      "message" : "Informazioni Percorso"
+   },
+   "ROUTE_JUMPS" : {
+      "description" : "For hyperjump planner",
+      "message" : "Salti del Percorso"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1338,6 +1402,10 @@
    "SENSORS_AND_DEFENCE" : {
       "description" : "",
       "message" : "Sensori e difesa"
+   },
+   "SETTINGS" : {
+      "description" : "UI option",
+      "message" : "Impostazioni"
    },
    "SET_AS_TARGET" : {
       "description" : "",
@@ -1454,6 +1522,14 @@
    "TOTAL" : {
       "description" : "",
       "message" : "Totale:"
+   },
+   "TOTAL_DISTANCE" : {
+      "description" : "Total distance of a (possibly series) of hyper jump(s)",
+      "message" : "Distanza Totale:"
+   },
+   "TOTAL_DURATION" : {
+      "description" : "Total duration of a (possibly series) of hyper jump(s)",
+      "message" : "Durata Totale:"
    },
    "TOTAL_MASS" : {
       "description" : "",

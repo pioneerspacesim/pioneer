@@ -252,7 +252,8 @@ void Projectile::StaticUpdate(const float timeStep)
 {
 	PROFILE_SCOPED()
 	CollisionContact c;
-	vector3d vel = (m_baseVel+m_dirVel) * timeStep;
+	// Collision spaces don't store velocity, so dirvel-only is still wrong but less awful than dirvel+basevel
+	vector3d vel = m_dirVel * timeStep;
 	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), vel.Normalized(), vel.Length(), &c);
 
 	if (c.userData1) {

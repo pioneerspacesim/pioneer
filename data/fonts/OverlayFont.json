@@ -4,14 +4,14 @@
    "faces" : [
       {
          "fontFile" : "PionilliumText22L-Medium.ttf",
-         "pixelWidth" : 14,
-         "pixelHeight" : 14,
+         "pixelWidth" : 11,
+         "pixelHeight" : 11,
          "advanceXAdjustment" : -1
       },
       {
          "fontFile" : "DejaVuSans.ttf",
-         "pixelWidth" : 14,
-         "pixelHeight" : 14,
+         "pixelWidth" : 11,
+         "pixelHeight" : 11,
          "advanceXAdjustment" : -1,
          "ranges" : [
             [ "0x0400", "0x04FF" ],
@@ -24,8 +24,8 @@
       },
       {
         "fontFile" : "wqy-microhei.ttc",
-        "pixelWidth" : 14,
-        "pixelHeight" : 14,
+        "pixelWidth" : 11,
+        "pixelHeight" : 11,
         "ranges" : [
             [ "0x4E00",  "0x9FFF"  ],
             [ "0x3400",  "0x4DFF"  ],

@@ -46,6 +46,7 @@
 #include "Planet.h"
 #include "Player.h"
 #include "Projectile.h"
+#include "Propulsion.h"
 #include "SDLWrappers.h"
 #include "SectorView.h"
 #include "Sfx.h"
@@ -737,10 +738,10 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 			double simass = (hullmass + capacity) * 1000.0;
 			double angInertia = (2/5.0)*simass*brad*brad;
-			double acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*simass);
-			double acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*simass);
-			double acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*simass);
-			double acc4 = shipdef->linThrust[ShipType::THRUSTER_RIGHT] / (9.81*simass);
+			double acc1 = shipdef->linThrust[Thruster::THRUSTER_FORWARD] / (9.81*simass);
+			double acc2 = shipdef->linThrust[Thruster::THRUSTER_REVERSE] / (9.81*simass);
+			double acc3 = shipdef->linThrust[Thruster::THRUSTER_UP] / (9.81*simass);
+			double acc4 = shipdef->linThrust[Thruster::THRUSTER_RIGHT] / (9.81*simass);
 			double acca = shipdef->angThrust/angInertia;
 			double exvel = shipdef->effectiveExhaustVelocity;
 

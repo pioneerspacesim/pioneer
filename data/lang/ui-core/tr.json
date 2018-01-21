@@ -7,6 +7,10 @@
       "description" : "",
       "message" : "Aktif"
    },
+   "ADD_JUMP" : {
+      "description" : "UI-button: Add hyper jump to list of planned jumps",
+      "message" : "Sıçrama Ekle"
+   },
    "AFTER_TRADE_IN" : {
       "description" : "",
       "message" : "Takastan sonra"
@@ -34,6 +38,10 @@
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
       "message" : "Gövdeyi tamir etmeyi dene"
+   },
+   "AUTO_ROUTE" : {
+      "description" : "Automatically find shortest jump route (measured in time) in star map",
+      "message" : "Otomatik Rota"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
@@ -111,6 +119,10 @@
       "description" : "",
       "message" : "Nakit: {money}"
    },
+   "CENTER_ON_SYSTEM" : {
+      "description" : "Center on selected star system",
+      "message" : "Sistemi Ortala"
+   },
    "CHANGE_BINDING" : {
       "description" : "Key binding option",
       "message" : "Atamayı Değiştir"
@@ -134,6 +146,10 @@
    "CLEAR" : {
       "description" : "Clear an option in game settings/options menu",
       "message" : "Temizle"
+   },
+   "CLEAR_ROUTE" : {
+      "description" : "Clear a planned route of hyperjumps",
+      "message" : "Rotayı Temizle"
    },
    "CLIENT" : {
       "description" : "",
@@ -210,6 +226,14 @@
    "CRIMINAL_RECORD" : {
       "description" : "Past crimes / crime history of character",
       "message" : "Suç kaydı"
+   },
+   "CURRENT_FUEL" : {
+      "description" : "For hyperjump planner",
+      "message" : "Mevcut Yakıt:"
+   },
+   "CURRENT_SYSTEM" : {
+      "description" : "For hyperjump planner",
+      "message" : "Mevcut sistem"
    },
    "DANGEROUS" : {
       "description" : "Player combat rating",
@@ -354,6 +378,10 @@
    "FEMALE" : {
       "description" : "",
       "message" : "Kadın"
+   },
+   "FINAL_TARGET" : {
+      "description" : "Hyperjump planner, referring to star system target",
+      "message" : "Son Hedef:"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
@@ -779,6 +807,10 @@
       "description" : "",
       "message" : "Mevcut hipersürücü:"
    },
+   "HYPERJUMP_ROUTE" : {
+      "description" : "",
+      "message" : "HiperSıçrama Rotası"
+   },
    "HYPERSPACE_RANGE" : {
       "description" : "",
       "message" : "Üstuzay menzili"
@@ -917,11 +949,11 @@
    },
    "MAJOR_EXPORTS_ITEM" : {
       "description" : "",
-      "message" : "Major exports"
+      "message" : "Ana ihracatlar"
    },
    "MAJOR_IMPORTS_ITEM" : {
       "description" : "",
-      "message" : "Major imports"
+      "message" : "Ana ithalatlar"
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
@@ -1001,11 +1033,11 @@
    },
    "MINOR_EXPORTS_ITEM" : {
       "description" : "",
-      "message" : "Minor exports"
+      "message" : "Yan ihracatlar"
    },
    "MINOR_IMPORTS_ITEM" : {
       "description" : "",
-      "message" : "Minor imports"
+      "message" : "Yan ithalatlar"
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
@@ -1026,6 +1058,14 @@
    "MOSTLY_HARMLESS" : {
       "description" : "",
       "message" : "Çoğunlukla Zararsız"
+   },
+   "MOVE_DOWN" : {
+      "description" : "move selection down in list",
+      "message" : "Aşağı Git"
+   },
+   "MOVE_UP" : {
+      "description" : "move selection up in list",
+      "message" : "Yukarı Git"
    },
    "MULTISAMPLING" : {
       "description" : "",
@@ -1255,9 +1295,21 @@
       "description" : "",
       "message" : "Tam yakıt dolumu"
    },
+   "REGISTRATION_NUMBER" : {
+      "description" : "",
+      "message" : "Registration number"
+   },
    "RELIABLE" : {
       "description" : "For player reputation",
       "message" : "Güvenilir"
+   },
+   "REMOVE_JUMP" : {
+      "description" : "UI-button: remove hyper jump from list of planned jumps",
+      "message" : "Sıçramayı Kaldır"
+   },
+   "REMOVE_WHEN_COMPLETED" : {
+      "description" : "For UI hyperjump planner, referring to jump target system",
+      "message" : "Bitirilen sıçramayı kaldır"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
@@ -1270,6 +1322,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Kalkış Talep Et"
+   },
+   "REQUIRED_FUEL" : {
+      "description" : "Fuel usage for traveling to star system",
+      "message" : "Gereken Yakıt:"
    },
    "RESET" : {
       "description" : "",
@@ -1294,6 +1350,14 @@
    "REWARD" : {
       "description" : "",
       "message" : "Ödül"
+   },
+   "ROUTE_INFO" : {
+      "description" : "For hyperjump planner",
+      "message" : "Rota Bilgisi"
+   },
+   "ROUTE_JUMPS" : {
+      "description" : "For hyperjump planner",
+      "message" : "Rota Sıçramaları"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1338,6 +1402,10 @@
    "SENSORS_AND_DEFENCE" : {
       "description" : "",
       "message" : "Algılayıcılar ve savunma"
+   },
+   "SETTINGS" : {
+      "description" : "UI option",
+      "message" : "Ayarlar"
    },
    "SET_AS_TARGET" : {
       "description" : "",
@@ -1454,6 +1522,14 @@
    "TOTAL" : {
       "description" : "",
       "message" : "Toplam:"
+   },
+   "TOTAL_DISTANCE" : {
+      "description" : "Total distance of a (possibly series) of hyper jump(s)",
+      "message" : "Toplam Uzaklık:"
+   },
+   "TOTAL_DURATION" : {
+      "description" : "Total duration of a (possibly series) of hyper jump(s)",
+      "message" : "Toplam Süre:"
    },
    "TOTAL_MASS" : {
       "description" : "",
