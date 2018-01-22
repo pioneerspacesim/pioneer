@@ -21,7 +21,7 @@
    },
    "BATTLE_WEAPONS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Heavy military-grade weapons, like armoured hover tanks, and surface-to-space missiles. Trading in them is usually a governmental monopoly. On the black market, however, these can often fetch a hefty sum of money."
+      "message" : "Schwere Waffen, wie gepanzerte Schwebepanzer und Boden-Weltraum-Raketen. Der Handel mit ihnen ist üblicherweise der Regierung vorbehalten. Auf dem Schwarzmarkt können damit aber enorme Summen erzielt werden."
    },
    "CARBON_ORE" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "FERTILIZER_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Fertilizers are crucial for growing crops at an industrial scale, allowing mono-cultures, and yielding higher dividends than possible using plain dirt. This often comes with an ecological cost, not evident at the onset."
+      "message" : "Düngemittel sind unverzichtbar um Pflanzen in industriellem Maßstab anzubauen, wodurch Monokulturen und höhere Ertragsraten als mit unmodifizierter Erde erreicht werden können. Oft kommt der Einsatz mit Ökologischen Kosten, die am Anfang noch nicht vorauszusehen sind."
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "INDUSTRIAL_MACHINERY_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Needed for assembly lines, refineries, smelters, and production of machinery that will in turn produce other goods. High competence is needed to produce these advanced machines."
+      "message" : "Benötigt für Fertigungsstraßen, Raffinerien, Schmelzöfen und die Herstellung von Maschinen, die wiederum andere Güter herstellen. Fachwissen ist nötig, um diese fortgeschrittenen Maschinen herzustellen."
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "LIVE_ANIMALS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Partly due to humanistic, economic and ecological reasons, animal rearing and trade is strictly regulated, or even illegal in many core systems. Going outward, livestock becomes a more important part of the livelihood of the people, both as a source of nutrition and a beast of burden. Exotic zoos and wildlife reserves contribute to the trade of animals around the galaxy, usually under strict state regulations, to combat illegal hunting grounds."
+      "message" : "Teils aus humanistischen, ökonomischen und ökologischen Gründen werden Tieraufzucht und -Handel in den meisten Kernsystemen streng reguliert, oder sogar verboten. Weiter auswärts ist Vieh eine wichtige Existenzgrundlage, sowohl für die Ernährung als auch als Arbeitstier. Exotische Zoos und Wildreservate tragen zum Handel mit Tieren in der ganzen Galaxie bei, meistens unter strenger Regulation. um Wilderei zu bekämpfen."
    },
    "MEDICINES" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "MILITARY_FUEL_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Used as fuel in the more advanced military drives. These drives produce nuclear waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
+      "message" : "Wird in hochwertigen militärischen Antrieben genutzt. Diese Antriebe produzieren nukleare Abfälle, die sicher entsorgt werden müssen. Wegen seiner synthetischen Natur ist er teurer und weniger verbreitet als Wasserstoff und kommt nicht frei in der Umwelt vor."
    },
    "MINING_MACHINERY" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "MINING_MACHINERY_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The traditionally back breaking work of mining is alleviated by the use of machines that help miners in locating and retrieving various ores, and transporting them to the closest processing facilities."
+      "message" : "Die traditionell zermürbende Arbeit in den Minen wird durch Maschinen gemildert, die Minenarbeitern dabei hilft, Erz zu finden und zu fördern, sowie es zur nächsten Verarbeitungsanlage zu transportieren."
    },
    "NARCOTICS" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "NARCOTICS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Natural or synthetic substances that alter the state of mind and body. Although the use of narcotics, both for recreational and medical purposes, is as old as humanity itself, shipping and trading is commonly outlawed."
+      "message" : "Natürliche und synthetische Substanzen, die den Zustand des Verstandes und Körpers verändern. Obwohl die Verwendung von narkotisierenden Substanzen für Erholung und Medizin so alt ist wie die Menschheit selbst, ist Transport und Handel vielerorts illegal."
    },
    "NERVE_GAS" : {
       "description" : "",
@@ -189,7 +189,7 @@
    },
    "PLASTICS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Synthetical and semi-synthetical materials used in everything from everyday items to spaceship construction. They are relatively easy to use in manufacture, versatile and cheap to make, thus an important part of human civilization."
+      "message" : "Synthetische und halbsynthetische Materialien, die von Alltagsgegenständen bis zum Raumschiffbau überall eingesetzt werden. Sie sind relativ einfach zu verwenden und herzustellen, vielseitig, und einfach herzustellen und somit ein wichtiger Teil der menschlichen Zivilisation."
    },
    "PRECIOUS_METALS" : {
       "description" : "",
@@ -197,7 +197,7 @@
    },
    "PRECIOUS_METALS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Precious metals are, generally, less reactive, more difficult to mine, and more scarce, resulting in a considerable economic value. This often includes gold, silver, platinum, and rare earths. Certain elements such as gold and silicon, or rare earths, are crucial for the construction of computers and other electronics."
+      "message" : "Wertvolle Metalle sind, normalerweise, weniger reaktiv, schwieriger abzubauen und seltener, woraus sich ein enormer Wert ergibt. Das umfasst oft Gold, Silber, Platin und seltene Erden. Gewisse Elemente wie Gold, Silizium oder seltene Erden sind unverzichtbar für die Konstruktion von Computern und anderer Elektronik."
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "ROBOTS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Robots are often imported into industrial and mining systems, due to their ability to easily perform tasks that would be too difficult, tedious, or unsafe for human workers. They can also serve as politicians and lawyers."
+      "message" : "Roboter werden häufig in industrielle Systeme und Systemen mit Erzminen eingesetzt, da sie einfach Aufgaben erfüllen können, die zu schwierig, aufwendig oder unsicher für menschliche Arbeiter sind. Sie können auch als Politiker und Anwälte verwendet werden."
    },
    "RUBBISH" : {
       "description" : "",
@@ -237,7 +237,7 @@
    },
    "TEXTILES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Textiles are simple fabric, woven from either synthetic, plant or animal derived yarn. Usually produced by robots in large factories, it is still possible to find the occasional weaver who makes their own textiles."
+      "message" : "Textilien sind einfache Stoffe, gewebt von synthetischen, pflanzlichen oder tierisch gewonnenem Garn. Obwohl es meistens von Robotern in großen Fabriken hergestellt wird gibt es immer noch einige Weber, die ihre eigenen Textilien herstellen."
    },
    "WATER" : {
       "description" : "",
