@@ -20,6 +20,20 @@ Geom::Geom(const GeomTree *geomtree) :
 {
 }
 
+Geom::Geom(const GeomTree *geomtree, const matrix4x4d &m, const vector3d &pos, void *d) :
+	m_mailboxIndex(0),
+	m_orient(m),
+	m_active(true),
+	m_geomtree(geomtree),
+	m_data(d),
+	m_group(0)
+{
+	m_orient[12] = pos.x;
+	m_orient[13] = pos.y;
+	m_orient[14] = pos.z;
+	m_invOrient = m_orient.Inverse();
+}
+
 matrix4x4d Geom::GetRotation() const
 {
 	PROFILE_SCOPED()
