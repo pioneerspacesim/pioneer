@@ -54,6 +54,9 @@ SYSTEM_SCHEMA = {
     'system': {
         'type': ('fields'),
         'title': ('System Properties'),
+        'options': {
+            'editable': True,
+        },
         'fields': [
             {
                 'title': 'Filename',
@@ -122,6 +125,7 @@ SYSTEM_SCHEMA = {
         'title': ('System Bodies'),
         'options': {
             'collapsible': True,
+            'editable': True,
         },
         'columns': [
             {
@@ -274,6 +278,7 @@ SYSTEM_SCHEMA = {
         'title': ('Surface starports'),
         'options': {
             'collapsible': False,
+            'editable': True,
         },
         'columns': [
             {

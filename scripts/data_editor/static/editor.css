@@ -120,8 +120,27 @@ body {
   white-space: pre-wrap;
 }
 
+.deeptable td.editing {
+  background-color: #dfd;
+  border: 2px solid black;
+}
+
 .deeptable td.subsection {
   padding-left: 0.5em;
+}
+
+.editbox {
+  font-size: 14px;
+  background-color: white;
+  border: 1px solid #aaa;
+  padding: 0.3em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  min-width: 300px;
+}
+
+.editbox-header {
+  font-size: 20px;
 }
 
 .clickable:hover {

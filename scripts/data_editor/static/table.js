@@ -164,6 +164,29 @@
     return element;
   }
 
+  function EditField(e, scheme, td, dict, key) {
+    td.addClass('editing');
+    var el = $('<div class="editbox"></div>');
+    var boundRect = td[0].getBoundingClientRect();
+    el.css({
+      'position': 'absolute',
+      'top': boundRect.bottom + document.documentElement.scrollTop,
+      'left': boundRect.left + document.documentElement.scrollLeft
+    });
+    var header = $('<div class="editbox-header">')
+      .text(scheme.title).appendTo(el);
+
+    function OnClickOutside(e) {
+      if (el[0].contains(e.target)) return;
+      td.removeClass('editing');
+      el.remove();
+      document.removeEventListener('click', OnClickOutside, true);      
+    }
+    e.stopPropagation();
+    document.addEventListener('click', OnClickOutside, true);      
+    $('body').append(el);
+  }
+
   function RenderDataChunk(schema, item, options) {
     options = options || {};
     var cells = new Array2D();
@@ -184,6 +207,13 @@
       function(item) {
         var td = $('<td>');
         Format(item.format, td, xs[xs.length - 1][item.id]);
+        if (options.editable) {
+          (function(scheme, dict, key) {
+            td.click(function(e) {
+              EditField(e, scheme, td, dict, key);
+            });
+          })(item, xs[xs.length - 1], item.id);
+        }
         cells.Set(curRow, curCol, td);
         ++curCol;
       },
