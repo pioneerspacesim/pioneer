@@ -22,26 +22,28 @@ class Beam: public Body {
 public:
 	OBJDEF(Beam, Body, PROJECTILE);
 
-	static void Add(Body *parent, const ProjectileData& prData, const vector3d &pos, const vector3d &dir);
+	static void Add(Body *parent, const ProjectileData& prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dir);
 
 	Beam();
 	virtual ~Beam();
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
-	void TimeStepUpdate(const float timeStep);
-	void StaticUpdate(const float timeStep);
-	virtual void NotifyRemoved(const Body* const removedBody);
-	virtual void PostLoadFixup(Space *space);
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override final;
+	void TimeStepUpdate(const float timeStep) override final;
+	void StaticUpdate(const float timeStep) override final;
+	virtual void NotifyRemoved(const Body* const removedBody) override final;
+	virtual void PostLoadFixup(Space *space) override final;
+	virtual void UpdateInterpTransform(double alpha) override final;
 
 	static void FreeModel();
 
 protected:
-	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override final;
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override final;
 
 private:
 	float GetDamage() const;
 	double GetRadius() const;
 	Body *m_parent;
+	vector3d m_baseVel;
 	vector3d m_dir;
 	float m_baseDam;
 	float m_length;

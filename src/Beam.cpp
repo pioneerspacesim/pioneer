@@ -169,6 +169,13 @@ void Beam::PostLoadFixup(Space *space)
 	m_parent = space->GetBodyByIndex(m_parentIndex);
 }
 
+void Beam::UpdateInterpTransform(double alpha)
+{
+	m_interpOrient = GetOrient();
+	const vector3d oldPos = GetPosition() - (m_baseVel + m_dir) * Pi::game->GetTimeStep();
+	m_interpPos = alpha*GetPosition() + (1.0-alpha)*oldPos;
+}
+
 void Beam::NotifyRemoved(const Body* const removedBody)
 {
 	if (m_parent == removedBody) 
@@ -227,13 +234,13 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, con
 	cargo->SetVelocity(Pi::rng.Double(100.0,200.0) * dir);
 	Pi::game->GetSpace()->AddBody(cargo);
 }
-
+#pragma optimize("",off)
 void Beam::StaticUpdate(const float timeStep)
 {
 	PROFILE_SCOPED()
 
 	CollisionContact c;
-	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), m_dir.Normalized(), m_length, &c);
+	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), m_dir.Normalized(), m_length, &c, static_cast<ModelBody*>(m_parent)->GetGeom());
 
 	if (c.userData1) {
 		Object *o = static_cast<Object*>(c.userData1);
@@ -286,7 +293,7 @@ void Beam::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 {
 	PROFILE_SCOPED()
 	const vector3d _from = viewTransform * GetInterpPosition();
-	const vector3d _to = viewTransform * (GetInterpPosition() + m_dir);
+	const vector3d _to = viewTransform * (GetInterpPosition() + (-m_dir));
 	const vector3d _dir = _to - _from;
 	const vector3f from(&_from.x);
 	const vector3f dir = vector3f(_dir).Normalized();
@@ -334,10 +341,17 @@ void Beam::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		s_glowMat->diffuse = color;
 		renderer->DrawTriangles(s_glowVerts.get(), s_renderState, s_glowMat.get());
 	}
+
+	/*
+	m_line.SetStart(from);
+	m_line.SetEnd(from * (dir*10000.0f));
+	m_line.SetColor(m_color);
+	m_line.Draw(Pi::renderer, s_renderState);
+	*/
 }
 
 // static
-void Beam::Add(Body *parent, const ProjectileData& prData, const vector3d &pos, const vector3d &dir)
+void Beam::Add(Body *parent, const ProjectileData& prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dir)
 {
 	Beam *p = new Beam();
 	p->m_parent = parent;
@@ -350,6 +364,7 @@ void Beam::Add(Body *parent, const ProjectileData& prData, const vector3d &pos, 
 
 	p->SetOrient(parent->GetOrient());
 	p->SetPosition(pos);
+	p->m_baseVel = baseVel;
 	p->SetClipRadius(p->GetRadius());
 	p->SetPhysRadius(p->GetRadius());
 	Pi::game->GetSpace()->AddBody(p);

@@ -157,8 +157,8 @@ bool FixedGuns::Fire( const int num, Body* b )
 		const vector3d sep = 5.0 * dir.Cross(orient_norm).NormalizedSafe();
 		if(m_gun[num].projData.beam)
 		{
-			Beam::Add(b, m_gun[num].projData, pos + sep, -dir);
-			Beam::Add(b, m_gun[num].projData, pos - sep, -dir);
+			Beam::Add(b, m_gun[num].projData, pos + sep, b->GetVelocity(), dir.Normalized());
+			Beam::Add(b, m_gun[num].projData, pos - sep, b->GetVelocity(), dir.Normalized());
 		}
 		else
 		{
@@ -168,7 +168,7 @@ bool FixedGuns::Fire( const int num, Body* b )
 	} else {
 		if(m_gun[num].projData.beam)
 		{
-			Beam::Add(b, m_gun[num].projData, pos, -dir);
+			Beam::Add(b, m_gun[num].projData, pos, b->GetVelocity(), dir.Normalized());
 		}
 		else
 		{
