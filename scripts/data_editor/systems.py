@@ -3,7 +3,7 @@ from systemsformat import InitLuaParser
 
 
 class UnknownSystem(Exception):
-  pass
+    pass
 
 
 CONTENTS_SCHEMA = {
@@ -302,101 +302,101 @@ SYSTEM_SCHEMA = {
 
 
 def FollowSelector(data, schema):
-  selector = schema.get('selector', schema['id'])
-  if not isinstance(selector, tuple):
-    selector = (selector, )
-  for term in selector:
-    if isinstance(term, str) and hasattr(data, term):
-      data = getattr(data, term)
-    else:
-      data = data[term]
-  return data
+    selector = schema.get('selector', schema['id'])
+    if not isinstance(selector, tuple):
+        selector = (selector, )
+    for term in selector:
+        if isinstance(term, str) and hasattr(data, term):
+            data = getattr(data, term)
+        else:
+            data = data[term]
+    return data
 
 
 def PopulateFieldsFromSchema(data, schema):
-  res = {}
-  for x in schema:
-    if 'subfields' in x:
-      res[x['id']] = PopulateFieldsFromSchema(data, x['subfields'])
-      continue
-    d = FollowSelector(data, x)
-    typ = x.get('type', x['format'])
-    if hasattr(d, 'to_%s' % typ):
-      d = getattr(d, 'to_%s' % typ)()
-    res[x['id']] = d
-  return res
+    res = {}
+    for x in schema:
+        if 'subfields' in x:
+            res[x['id']] = PopulateFieldsFromSchema(data, x['subfields'])
+            continue
+        d = FollowSelector(data, x)
+        typ = x.get('type', x['format'])
+        if hasattr(d, 'to_%s' % typ):
+            d = getattr(d, 'to_%s' % typ)()
+        res[x['id']] = d
+    return res
 
 
 def PopulateFromSchema(data, root_schema, section):
-  schema = root_schema[section]
-  if 'columns' in schema and isinstance(data, list):
-    res = []
-    for x in data:
-      res.append(PopulateFromSchema(x, root_schema, section))
+    schema = root_schema[section]
+    if 'columns' in schema and isinstance(data, list):
+        res = []
+        for x in data:
+            res.append(PopulateFromSchema(x, root_schema, section))
+        return res
+    if data is None:
+        return None
+    res = {}
+    if 'columns' in schema:
+        res.update(PopulateFieldsFromSchema(data, schema['columns']))
+    if 'fields' in schema:
+        res.update(PopulateFieldsFromSchema(data, schema['fields']))
+    if 'subsections' in schema:
+        for x in schema['subsections']:
+            d = FollowSelector(data, x)
+            res[x['id']] = PopulateFromSchema(d, root_schema, x['schema'])
     return res
-  if data is None:
-    return None
-  res = {}
-  if 'columns' in schema:
-    res.update(PopulateFieldsFromSchema(data, schema['columns']))
-  if 'fields' in schema:
-    res.update(PopulateFieldsFromSchema(data, schema['fields']))
-  if 'subsections' in schema:
-    for x in schema['subsections']:
-      d = FollowSelector(data, x)
-      res[x['id']] = PopulateFromSchema(d, root_schema, x['schema'])
-  return res
 
 
 class SystemsSet:
-  def __init__(self):
-    self.systems = []
+    def __init__(self):
+        self.systems = []
 
-  def AddSystem(self, system):
-    self.systems.append(system)
+    def AddSystem(self, system):
+        self.systems.append(system)
 
-  def LoadFromDir(self, rootdir):
-    for root, dirs, files in os.walk(rootdir):
-      for file in sorted(files):
-        if not file.endswith('.lua'):
-          continue
-        f = os.path.join(root, file)
-        filename = f[len(rootdir):]
-        print(filename)
-        x = InitLuaParser(filename=filename, systems_set=self)
-        x.Parse(f)
+    def LoadFromDir(self, rootdir):
+        for root, dirs, files in os.walk(rootdir):
+            for file in sorted(files):
+                if not file.endswith('.lua'):
+                    continue
+                f = os.path.join(root, file)
+                filename = f[len(rootdir):]
+                print(filename)
+                x = InitLuaParser(filename=filename, systems_set=self)
+                x.Parse(f)
 
-  def GetContents(self):
-    data = PopulateFromSchema(self.systems, CONTENTS_SCHEMA, 'systems')
-    return {'data': {'systems': data}, 'schema': CONTENTS_SCHEMA}
+    def GetContents(self):
+        data = PopulateFromSchema(self.systems, CONTENTS_SCHEMA, 'systems')
+        return {'data': {'systems': data}, 'schema': CONTENTS_SCHEMA}
 
-  def GetSystem(self, file, system):
-    for x in self.systems:
-      if x.filename == file and x.name == system:
-        break
-    else:
-      raise UnknownSystem
+    def GetSystem(self, file, system):
+        for x in self.systems:
+            if x.filename == file and x.name == system:
+                break
+        else:
+            raise UnknownSystem
 
-    sysprops = PopulateFromSchema(x, SYSTEM_SCHEMA, 'system')
-    root_body = None
-    if x.star:
-      root_body = PopulateFromSchema([x.star], SYSTEM_SCHEMA, 'bodies')
+        sysprops = PopulateFromSchema(x, SYSTEM_SCHEMA, 'system')
+        root_body = None
+        if x.star:
+            root_body = PopulateFromSchema([x.star], SYSTEM_SCHEMA, 'bodies')
 
-    return {
-        'data': {
-            'system': sysprops,
-            'bodies': root_body,
-        },
-        'schema': SYSTEM_SCHEMA
-    }
+        return {
+            'data': {
+                'system': sysprops,
+                'bodies': root_body,
+            },
+            'schema': SYSTEM_SCHEMA
+        }
 
-  def __str__(self):
-    return "%d systems: %s" % (
-        len(self.systems),
-        ', '.join(['%s:%s' % (x.filename, x.name) for x in self.systems]))
+    def __str__(self):
+        return "%d systems: %s" % (
+            len(self.systems),
+            ', '.join(['%s:%s' % (x.filename, x.name) for x in self.systems]))
 
 
 def GetSystemsSet():
-  x = SystemsSet()
-  x.LoadFromDir('../../data/systems/')
-  return x
+    x = SystemsSet()
+    x.LoadFromDir('../../data/systems/')
+    return x
