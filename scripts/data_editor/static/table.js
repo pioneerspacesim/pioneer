@@ -90,7 +90,7 @@
     }
   }
 
-  function StdWidget(parent, label) {
+  function StdWidget(parent, label) {    
     var el = $("<input></input>").appendTo(parent).focus();
     if (label) {
       parent.append(document.createTextNode(label));
@@ -99,6 +99,14 @@
   }
 
   var widgets = {
+    'enum': function(parent, val, scheme) {
+      var el = $('<select>').appendTo(parent).focus();
+      scheme.enumvals.forEach(function(v) {
+        $('<option>').val(v).text(v).appendTo(el);
+      });
+      el.val(val);
+      return function() { return el.val(); };
+    },
     'int': function(parent, val, scheme) {
       var el = StdWidget(parent, scheme.editsuffix).val(val);
       return function() { return el.val() ? parseInt(el.val()) : null; };
