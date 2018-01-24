@@ -599,8 +599,6 @@ void SectorView::AutoRoute(const SystemPath &start, const SystemPath &target, st
 
 	const float dist = Sector::DistanceBetween(start_sec, start.systemIndex, target_sec, target.systemIndex);
 
-	const int sec_dist = ceilf(dist / Sector::SIZE);
-
 	// nodes[0] is always start
 	std::vector<SystemPath> nodes;
 	nodes.push_back(start);
@@ -611,7 +609,7 @@ void SectorView::AutoRoute(const SystemPath &start, const SystemPath &target, st
 	const vector3f start_pos = start_sec->m_systems[start.systemIndex].GetFullPosition();
 	const vector3f target_pos = target_sec->m_systems[target.systemIndex].GetFullPosition();
 
-	// go sector by sector for sec_dist sectors and add systems
+	// go sector by sector for the minimum cube of sectors and add systems
 	// if they are within 110% of dist of both start and target
 	for (Sint32 sx = minX; sx <= maxX; sx++) {
 		for (Sint32 sy = minY; sy <= maxY; sy++) {
