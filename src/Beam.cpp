@@ -25,6 +25,11 @@
 #include "graphics/TextureBuilder.h"
 #include "json/JsonUtils.h"
 
+namespace
+{
+	static float lifetime = 0.1f;
+}
+
 std::unique_ptr<Graphics::VertexArray> Beam::s_sideVerts;
 std::unique_ptr<Graphics::VertexArray> Beam::s_glowVerts;
 std::unique_ptr<Graphics::Material> Beam::s_sideMat;
@@ -118,7 +123,8 @@ Beam::Beam(): Body()
 	m_mining = false;
 	m_parent = 0;
 	m_flags |= FLAG_DRAW_LAST;
-	m_canKill = false;
+	m_age = 0;
+	m_active = true;
 }
 
 Beam::~Beam()
@@ -172,7 +178,7 @@ void Beam::PostLoadFixup(Space *space)
 void Beam::UpdateInterpTransform(double alpha)
 {
 	m_interpOrient = GetOrient();
-	const vector3d oldPos = GetPosition() - (m_baseVel + m_dir) * Pi::game->GetTimeStep();
+	const vector3d oldPos = GetPosition() - (m_baseVel * Pi::game->GetTimeStep());
 	m_interpPos = alpha*GetPosition() + (1.0-alpha)*oldPos;
 }
 
@@ -184,12 +190,11 @@ void Beam::NotifyRemoved(const Body* const removedBody)
 
 void Beam::TimeStepUpdate(const float timeStep)
 {
-	if(m_canKill) {
-		// Laser pulse's only last for one frame
+	// Laser pulse's do not age well!
+	m_age += timeStep;
+	if (m_age > lifetime)
 		Pi::game->GetSpace()->KillBody(this);
-	} else {
-		m_canKill = true;
-	}
+	SetPosition(GetPosition() + (m_baseVel * double(timeStep)));
 }
 
 float Beam::GetDamage() const
@@ -234,10 +239,13 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, con
 	cargo->SetVelocity(Pi::rng.Double(100.0,200.0) * dir);
 	Pi::game->GetSpace()->AddBody(cargo);
 }
-#pragma optimize("",off)
+
 void Beam::StaticUpdate(const float timeStep)
 {
 	PROFILE_SCOPED()
+	// This is just to stop it from hitting things repeatedly, it's dead in effect but still rendered
+	if (!m_active)
+		return;
 
 	CollisionContact c;
 	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), m_dir.Normalized(), m_length, &c, static_cast<ModelBody*>(m_parent)->GetGeom());
@@ -252,7 +260,7 @@ void Beam::StaticUpdate(const float timeStep)
 			Body *hit = static_cast<Body*>(o);
 			if (hit != m_parent) {
 				hit->OnDamage(m_parent, GetDamage(), c);
-				Pi::game->GetSpace()->KillBody(this);
+				m_active = false;
 				if (hit->IsType(Object::SHIP))
 					LuaEvent::Queue("onShipHit", dynamic_cast<Ship*>(hit), dynamic_cast<Body*>(m_parent));
 			}
@@ -283,7 +291,7 @@ void Beam::StaticUpdate(const float timeStep)
 					MiningLaserSpawnTastyStuff(planet->GetFrame(), b, n*terrainHeight + 5.0*n);
 					SfxManager::Add(this, TYPE_EXPLOSION);
 				}
-				Pi::game->GetSpace()->KillBody(this);
+				m_active = false;
 			}
 		}
 	}

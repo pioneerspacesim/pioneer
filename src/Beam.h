@@ -45,11 +45,12 @@ private:
 	Body *m_parent;
 	vector3d m_baseVel;
 	vector3d m_dir;
+	Color m_color;
 	float m_baseDam;
 	float m_length;
+	float m_age;
 	bool m_mining;
-	Color m_color;
-	bool m_canKill;
+	bool m_active;
 
 	int m_parentIndex; // deserialisation
 
