@@ -2,6 +2,23 @@ import types
 from luaparser import Parser
 
 
+def EncodeVal(x):
+    if hasattr(x, 'DumpLua'):
+        return '\n'.join(x.DumpLua())
+    if isinstance(x, list):
+        return '{%s}' % ', '.join([EncodeVal(y) for y in x])
+    if isinstance(x, str) and len(x) > 80 and '[[' not in x:
+        return '[[%s]]' % x
+    return repr(x)
+
+
+def EncodeVals(*argv):
+    res = []
+    for x in argv:
+        res.append(EncodeVal(x))
+    return ', '.join(res)
+
+
 class LuaObjectFactory:
     def __init__(self, cls, **argv):
         self.cls = cls
@@ -47,6 +64,12 @@ class FixedPoint:
     def to_float(self):
         return self.numerator / self.denominator
 
+    def DumpLua(self):
+        return [
+            'f(%s, %s)' % (EncodeVal(self.numerator),
+                           EncodeVal(self.denominator))
+        ]
+
 
 class Angle:
     def __init__(self, degrees):
@@ -55,6 +78,9 @@ class Angle:
     def to_float(self):
         return self.degrees
 
+    def DumpLua(self):
+        return ['math.deg2rad(%s)' % EncodeVal(self.degrees)]
+
 
 class FixedAngle:
     def __init__(self, degrees):
@@ -62,6 +88,9 @@ class FixedAngle:
 
     def to_float(self):
         return self.degrees.to_float()
+
+    def DumpLua(self):
+        return ['fixed.deg2rad(%s)' % EncodeVal(self.degrees)]
 
 
 class Vector:
@@ -74,6 +103,12 @@ class Vector:
         yield self.x
         yield self.y
         yield self.z
+
+    def DumpLua(self):
+        return [
+            'v(%s, %s, %s)' % tuple(
+                [EncodeVal(getattr(self, x)) for x in 'xyz'])
+        ]
 
 
 class CustomSystem(LuaObject):
@@ -101,6 +136,17 @@ class CustomSystem(LuaObject):
         self.name = name
         self.types = types
         self.star = None
+
+    def DumpLua(self):
+        res = []
+        res.append(self.__class__.__name__)
+        res.append("  :new(%s)" % EncodeVals(self.name, self.types))
+        for x, _ in self.PROPERTIES:
+            if getattr(self, x) is not None:
+                res.append('  :%s(%s)' % (x, EncodeVal(getattr(self, x))))
+        res.append('  :add_to_sector(%s)' % EncodeVals(
+            *self.sector_coord, Vector(*self.in_sector_coord)))
+        return res
 
 
 class CustomSystemBody(LuaObject):
