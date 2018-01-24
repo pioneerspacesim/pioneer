@@ -143,23 +143,27 @@ SYSTEM_SCHEMA = {
                 'id': 'radius',
                 'format': 'siprefix',
                 'type': 'float',
+                'editlabel': 'Relative to Sun/Earth',
             },
             {
                 'title': 'Mass',
                 'id': 'mass',
                 'format': 'siprefix',
                 'type': 'float',
+                'editlabel': 'Relative to Sun/Earth',
             },
             {
                 'title': '🌡',
                 'id': 'temp',
                 'format': 'int',
+                'editsuffix': 'K',
             },
             {
                 'title': 'Semi Major Axis',
                 'id': 'semi_major_axis',
                 'format': 'siprefix',
                 'type': 'float',
+                'editsuffix': 'au',
             },
             {
                 'title': 'Eccent\u200Bricity',
@@ -178,6 +182,7 @@ SYSTEM_SCHEMA = {
                 'id': 'rotation_period',
                 'format': 'siprefix',
                 'type': 'float',
+                'editsuffix': 'days',
             },
             {
                 'title': 'Axial Tilt',
@@ -202,6 +207,7 @@ SYSTEM_SCHEMA = {
                 'id': 'atmos_density',
                 'format': 'siprefix',
                 'type': 'float',
+                'editsuffix': 'bar',
             },
             {
                 'title': 'Atmo\u200Bspheric Oxidi\u200Bzing',

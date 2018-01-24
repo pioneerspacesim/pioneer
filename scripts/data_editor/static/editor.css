@@ -143,6 +143,15 @@ body {
   font-size: 20px;
 }
 
+.widget-container {
+  margin: 0.5em 0;
+}
+
+.modified-value {
+  background-color: #eef;
+  font-weight: bold;
+}
+
 .clickable:hover {
   background-color: #ddd !important;
   cursor: pointer;

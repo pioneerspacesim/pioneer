@@ -90,7 +90,52 @@
     }
   }
 
+  function StdWidget(parent, label) {
+    var el = $("<input></input>").appendTo(parent).focus();
+    if (label) {
+      parent.append(document.createTextNode(label));
+    }
+    return el;
+  }
+
+  var widgets = {
+    'int': function(parent, val, scheme) {
+      var el = StdWidget(parent, scheme.editsuffix).val(val);
+      return function() { return el.val() ? parseInt(el.val()) : null; };
+    },
+    'hex': function(parent, val, scheme) {
+      var el = StdWidget(parent, scheme.editsuffix).val(val);
+      return function() { return el.val() ? parseInt(el.val()) : null; };
+    },
+    'percent': function(parent, val, scheme) {
+      var el = StdWidget(
+          parent, " × 100% " + (scheme.editsuffix || '')).val(val);
+      return function() { return el.val() ? parseFloat(el.val()) : null; };
+    },
+    'degrees': function(parent, val, scheme) {
+      var el = StdWidget(parent, "°" + (scheme.editsuffix || '')).val(val);
+      return function() { return el.val() ? parseFloat(el.val()) : null; };
+    },
+    'default': function(parent, val, scheme) {
+      var el = StdWidget(parent, scheme.editsuffix).val(val);
+      return function() { return el.val() || null; };
+    }
+  };
+
+  function CreateWidget(parent, scheme, dict, key) {
+    var widget = $('<div class="widget-container">').appendTo(parent);
+    if (scheme.editlabel) {
+      $('<div class="widget-label">').text(scheme.editlabel).appendTo(widget);      
+    }
+
+    var fmt = scheme.format;
+    if (!widgets.hasOwnProperty(fmt)) fmt = 'default';
+    return widgets[fmt](widget, dict[key], scheme);
+  }
+
   function Format(fmt, el, val) {
+    el.empty();
+    el.removeClass();
     if (val === null) fmt = 'none';
     else if (!formatters.hasOwnProperty(fmt)) fmt = 'default';
     formatters[fmt](el, val);
@@ -166,7 +211,7 @@
 
   function EditField(e, scheme, td, dict, key) {
     td.addClass('editing');
-    var el = $('<div class="editbox"></div>');
+    var el = $('<div class="editbox"></div>').appendTo('body');
     var boundRect = td[0].getBoundingClientRect();
     el.css({
       'position': 'absolute',
@@ -176,15 +221,37 @@
     var header = $('<div class="editbox-header">')
       .text(scheme.title).appendTo(el);
 
-    function OnClickOutside(e) {
-      if (el[0].contains(e.target)) return;
+    var getter = CreateWidget(el, scheme, dict, key);
+
+    var okButton = $('<button>OK</button>').click(Ok).appendTo(el);
+    var cancelButton = $('<button>Cancel</button>').click(Cancel).appendTo(el);
+
+    function Cancel(e) {
       td.removeClass('editing');
       el.remove();
       document.removeEventListener('click', OnClickOutside, true);      
+      document.removeEventListener('keydown', OnKey, true);      
     }
+
+    function Ok(e) {
+      dict[key] = getter();
+      Format(scheme.format, td, dict[key]);
+      td.addClass('modified-value');
+      Cancel();
+    }
+
+    function OnClickOutside(e) {
+      if (el[0].contains(e.target)) return;
+      e.stopPropagation();
+    }
+    function OnKey(e) {
+      if (e.keyCode == 27) Cancel();
+      if (e.keyCode == 13) Ok();
+    }
+
     e.stopPropagation();
     document.addEventListener('click', OnClickOutside, true);      
-    $('body').append(el);
+    document.addEventListener('keydown', OnKey, true);      
   }
 
   function RenderDataChunk(schema, item, options) {
