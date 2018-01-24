@@ -90,12 +90,35 @@
     }
   }
 
-  function StdWidget(parent, label) {    
+  function StdWidget(parent, scheme, label) {    
     var el = $("<input></input>").appendTo(parent).focus();
+    label = label || '';
+    if (scheme.editsuffix) label += scheme.editsuffix;
+    if (!label) label = '(' + (scheme.type || scheme.format) + ')';
     if (label) {
       parent.append(document.createTextNode(label));
     }
     return el;
+  }
+
+
+  function GetType(scheme) {
+    return scheme.type || scheme.format;
+  }
+
+  var converters = {
+    'int': function(v) { return v ? parseInt(v) : null; },
+    'float': function(v) { return v ? parseFloat(v) : null; }, 
+    'default': function(v) { return v || null; }
+  };
+
+  function MakeConverter(scheme, element) {
+    var type = scheme.type || scheme.format;
+    if (!converters.hasOwnProperty(type)) type = 'default';
+    var converter = converters[type];
+    return function(v) {
+      return converter(v);
+    }
   }
 
   var widgets = {
@@ -106,32 +129,31 @@
         $('<option>').val(v).text(v).appendTo(el);
       });
       el.val(val);
-      return function() { return el.val() || null; };
+      return el;
     },
     'text': function(parent, val, scheme) {
-      var el = $('<textarea>').text(val).appendTo(parent).focus();
-      return function() { return el.val() || null; };
+      return $('<textarea>').text(val).appendTo(parent).focus();
     },
     'int': function(parent, val, scheme) {
-      var el = StdWidget(parent, scheme.editsuffix).val(val);
-      return function() { return el.val() ? parseInt(el.val()) : null; };
+      return StdWidget(parent, scheme).val(val);
+    },
+    'float': function(parent, val, scheme) {
+      return StdWidget(parent, scheme).val(val);
+    },
+    'siprefix': function(parent, val, scheme) {
+      return StdWidget(parent, scheme).val(val);
     },
     'hex': function(parent, val, scheme) {
-      var el = StdWidget(parent, scheme.editsuffix).val(val);
-      return function() { return el.val() ? parseInt(el.val()) : null; };
+      return StdWidget(parent, scheme).val(val);
     },
     'percent': function(parent, val, scheme) {
-      var el = StdWidget(
-          parent, " × 100% " + (scheme.editsuffix || '')).val(val);
-      return function() { return el.val() ? parseFloat(el.val()) : null; };
+      return StdWidget(parent, scheme, " × 100% ").val(val);
     },
     'degrees': function(parent, val, scheme) {
-      var el = StdWidget(parent, "°" + (scheme.editsuffix || '')).val(val);
-      return function() { return el.val() ? parseFloat(el.val()) : null; };
+      return StdWidget(parent, scheme, "°").val(val);
     },
     'default': function(parent, val, scheme) {
-      var el = StdWidget(parent, scheme.editsuffix).val(val);
-      return function() { return el.val() || null; };
+      return StdWidget(parent, scheme).val(val);
     }
   };
 
@@ -143,7 +165,7 @@
 
     var fmt = scheme.format;
     if (!widgets.hasOwnProperty(fmt)) fmt = 'default';
-    return widgets[fmt](widget, dict[key], scheme);
+    return MakeConverter(scheme, widgets[fmt](widget, dict[key], scheme));
   }
 
   function Format(fmt, el, val) {
@@ -344,6 +366,15 @@
         RenderDataChunk(schema[i].subfields, data[schema[i].id], options)
           .addClass('odd')
           .appendTo(table);
+      } else if (schema[i].format === 'valarray') {
+        var table = $('<table>').addClass('deeptable').appendTo(td);
+        for (var j = 0; j < data[schema[i].id].length; ++j) {
+          var tmpSchema = $.extend(true, {}, schema[i].item);
+          tmpSchema.id = j;
+          RenderDataChunk([tmpSchema], data[schema[i].id], options)
+            .addClass(j % 2 ? 'odd' : 'even')
+            .appendTo(table);
+        }
       } else {
         Format(schema[i].format, td, data[schema[i].id]);
         if (options.editable) {
