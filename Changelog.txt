@@ -30,6 +30,7 @@ January 2018
      * Asteroid mining results controlled by lua (#4272)
      * Route planner optimisations (#4283)
      * Remove unused variable and update the comment (#4290)
+     * CityOnPlanet setuserdata optimized (#4289)
 
    * Fixes
      * Planar and azimuthal radar at same time (#4265)
