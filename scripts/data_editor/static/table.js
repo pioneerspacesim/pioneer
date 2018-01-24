@@ -101,11 +101,16 @@
   var widgets = {
     'enum': function(parent, val, scheme) {
       var el = $('<select>').appendTo(parent).focus();
+      $('<option>').val('').text('(none)').appendTo(el);
       scheme.enumvals.forEach(function(v) {
         $('<option>').val(v).text(v).appendTo(el);
       });
       el.val(val);
-      return function() { return el.val(); };
+      return function() { return el.val() || null; };
+    },
+    'text': function(parent, val, scheme) {
+      var el = $('<textarea>').text(val).appendTo(parent).focus();
+      return function() { return el.val() || null; };
     },
     'int': function(parent, val, scheme) {
       var el = StdWidget(parent, scheme.editsuffix).val(val);
@@ -322,7 +327,8 @@
     return element;
   }
 
-  function RenderFields(schema, data, title) {
+  function RenderFields(schema, data, title, options) {
+    options = options || {};
     var el = $('<table>').addClass('deeptable');
     $('<th>').attr('colspan', 2).addClass('deeptable-title')
       .text(title).appendTo($('<tr>').appendTo(el));
@@ -335,11 +341,18 @@
       if (schema[i].subfields) {
         var table = $('<table>').addClass('deeptable').appendTo(td);
         RenderHeader(schema[i].subfields).appendTo(table);
-        RenderDataChunk(schema[i].subfields, data[schema[i].id])
+        RenderDataChunk(schema[i].subfields, data[schema[i].id], options)
           .addClass('odd')
           .appendTo(table);
       } else {
         Format(schema[i].format, td, data[schema[i].id]);
+        if (options.editable) {
+          (function(td, scheme, dict, key) {
+            td.click(function(e) {
+              EditField(e, scheme, td, dict, key);
+            });
+          })(td, schema[i], data, schema[i].id);
+        }
       }
       td.appendTo(tr);
     }
@@ -416,7 +429,7 @@
           }
         }
       } else if (schema.type == 'fields') {
-        RenderFields(schema.fields, data, schema.title)
+        RenderFields(schema.fields, data, schema.title, options)
           .appendTo(parent);
       } else {
         $('<div>').text('Uknown schema type! ' + schema.type).appendTo(parent);

@@ -147,6 +147,11 @@ body {
   margin: 0.5em 0;
 }
 
+.widget-container textarea {
+  min-width: 40em;
+  min-height: 20em;
+}
+
 .modified-value {
   background-color: #eef;
   font-weight: bold;
