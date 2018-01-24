@@ -116,8 +116,8 @@
     var type = scheme.type || scheme.format;
     if (!converters.hasOwnProperty(type)) type = 'default';
     var converter = converters[type];
-    return function(v) {
-      return converter(v);
+    return function() {
+      return converter(element.val());
     }
   }
 
