@@ -16,6 +16,7 @@ struct BVHNode;
 class Geom {
 public:
 	Geom(const GeomTree *);
+	Geom(const GeomTree *, const matrix4x4d &, const vector3d &, void *);
 	void MoveTo(const matrix4x4d &m);
 	void MoveTo(const matrix4x4d &m, const vector3d &pos);
 	const matrix4x4d &GetInvTransform() const { return m_invOrient; }

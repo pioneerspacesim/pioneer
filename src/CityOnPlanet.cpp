@@ -298,12 +298,9 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 			const citybuilding_t &bt = buildings->buildings[rand.Int32(buildings->numBuildings)];
 			const CollMesh* cmesh = bt.collMesh.Get(); // collision mesh
 			
-			Geom *geom = new Geom(cmesh->GetGeomTree());
-			geom->SetUserData(static_cast<void*>(this));
-
 			// rotate the building to face a random direction
 			int32_t orient = rand.Int32(4);
-			geom->MoveTo(orientcalc[orient], cent);
+			Geom *geom = new Geom(cmesh->GetGeomTree(), orientcalc[orient], cent, this);
 			
 			// add it to the list of buildings to render
 			m_buildings.push_back({ bt.instIndex, float(cmesh->GetRadius()), orient, cent, geom });
