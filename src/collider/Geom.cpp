@@ -9,43 +9,32 @@
 
 static const unsigned int MAX_CONTACTS = 8;
 
-Geom::Geom(const GeomTree *geomtree) :
-	m_mailboxIndex(0),
-	m_orient(matrix4x4d::Identity()),
-	m_invOrient(matrix4x4d::Identity()),
-	m_active(true),
-	m_geomtree(geomtree),
-	m_data(nullptr),
-	m_group(0)
-{
-}
-
-Geom::Geom(const GeomTree *geomtree, const matrix4x4d &m, const vector3d &pos, void *d) :
-	m_mailboxIndex(0),
+Geom::Geom(const GeomTree *geomtree, const matrix4x4d &m, const vector3d &pos, void *data) :
 	m_orient(m),
-	m_active(true),
+	m_pos(pos),
 	m_geomtree(geomtree),
-	m_data(d),
-	m_group(0)
+	m_data(data),
+	m_group(0),
+	m_mailboxIndex(0),
+	m_active(true)
 {
-	m_orient[12] = pos.x;
-	m_orient[13] = pos.y;
-	m_orient[14] = pos.z;
+	m_orient.SetTranslate(pos);
 	m_invOrient = m_orient.Inverse();
 }
 
-matrix4x4d Geom::GetRotation() const
+/*matrix4x4d Geom::GetRotation() const
 {
 	PROFILE_SCOPED()
 	matrix4x4d m = GetTransform();
 	m[12] = 0; m[13] = 0; m[14] = 0;
 	return m;
-}
+}*/
 
 void Geom::MoveTo(const matrix4x4d &m)
 {
 	PROFILE_SCOPED()
 	m_orient = m;
+	m_pos = m_orient.GetTranslate();
 	m_invOrient = m.Inverse();
 }
 
@@ -53,21 +42,12 @@ void Geom::MoveTo(const matrix4x4d &m, const vector3d &pos)
 {
 	PROFILE_SCOPED()
 	m_orient = m;
-	m_orient[12] = pos.x;
-	m_orient[13] = pos.y;
-	m_orient[14] = pos.z;
+	m_pos = pos;
+	m_orient.SetTranslate(pos);
 	m_invOrient = m_orient.Inverse();
 }
 
-vector3d Geom::GetPosition() const
-{
-	PROFILE_SCOPED()
-	return vector3d(m_orient[12],
-		m_orient[13],
-		m_orient[14]);
-}
-
-void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*))
+void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*)) const
 {
 	PROFILE_SCOPED()
 	/* if the geom is actually within the sphere, create a contact so
@@ -92,7 +72,7 @@ void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*))
  * This geom has moved, causing a possible collision with geom b.
  * Collide meshes to see.
  */
-void Geom::Collide(Geom *b, void (*callback)(CollisionContact*))
+void Geom::Collide(Geom *b, void (*callback)(CollisionContact*)) const
 {
 	PROFILE_SCOPED()
 	int max_contacts = MAX_CONTACTS;
@@ -135,7 +115,7 @@ static bool rotatedAabbIsectsNormalOne(Aabb &a, const matrix4x4d &transA, Aabb &
  * Intersect this Geom's edge BVH tree with geom b's triangle BVH tree.
  * Generate collision contacts.
  */
-void Geom::CollideEdgesWithTrisOf(int &maxContacts, Geom *b, const matrix4x4d &transTo, void (*callback)(CollisionContact*))
+void Geom::CollideEdgesWithTrisOf(int &maxContacts, const Geom *b, const matrix4x4d &transTo, void (*callback)(CollisionContact*)) const
 {
 	PROFILE_SCOPED()
 	struct stackobj {
@@ -197,7 +177,7 @@ void Geom::CollideEdgesWithTrisOf(int &maxContacts, Geom *b, const matrix4x4d &t
  * BVH of another geom (b), starting from btriNode.
  */
 void Geom::CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const matrix4x4d &transToB,
-		Geom *b, const BVHNode *btriNode, void (*callback)(CollisionContact*))
+	const Geom *b, const BVHNode *btriNode, void (*callback)(CollisionContact*)) const
 {
 	PROFILE_SCOPED()
 	if (maxContacts <= 0) return;
