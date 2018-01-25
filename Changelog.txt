@@ -31,6 +31,7 @@ January 2018
      * Route planner optimisations (#4283)
      * Remove unused variable and update the comment (#4290)
      * CityOnPlanet setuserdata optimized (#4289)
+     * Updates to Geom class (#4292)
 
    * Fixes
      * Planar and azimuthal radar at same time (#4265)
