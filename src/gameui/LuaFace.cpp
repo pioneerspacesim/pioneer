@@ -38,7 +38,7 @@ public:
 		Uint32 seed = 0;
 
 		if (lua_gettop(l) > 2 && !lua_isnil(l, 3))
-			seed = luaL_checkinteger(l, 3);
+			seed = luaL_checkunsigned(l, 3);
 
 		LuaObject<Face>::PushToLua(new Face(c, flags, seed));
 		return 1;
