@@ -40,6 +40,7 @@ January 2018
      * Make the black hole system navigable (#4282)
      * Modelcompiler fixes for x64 linking (#4285)
      * Set the user data for city geom objects (#4284)
+     * Fix broken Lua->C seed transfers in Face & CustomSystem (#4296)
 
 December 2017
    * New Features
