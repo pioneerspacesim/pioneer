@@ -144,6 +144,10 @@ class CustomSystem(LuaObject):
         for x, _ in self.PROPERTIES:
             if getattr(self, x) is not None:
                 res.append('  :%s(%s)' % (x, EncodeVal(getattr(self, x))))
+        if self.star:
+            res.append('  :bodies(')
+            res.extend(['    ' + x for x in self.star.DumpLua()])
+            res[-1] += ')'
         res.append('  :add_to_sector(%s)' % EncodeVals(
             *self.sector_coord, Vector(*self.in_sector_coord)))
         return res
@@ -207,6 +211,35 @@ class CustomSystemBody(LuaObject):
         self.sattelites = []
         self.starports = []
         self.rings = None
+        self.height_map = None
+
+    def DumpLua(self):
+        res = []
+        res.append(self.__class__.__name__)
+        res.append("  :new(%s)" % EncodeVals(self.name, self.typ))
+        for x, _ in self.PROPERTIES:
+            if getattr(self, x) is not None:
+                res.append('  :%s(%s)' % (x, EncodeVal(getattr(self, x))))
+        if self.height_map:
+            res.append("  :height_map(%s)" % EncodeVals(*self.height_map))
+        if self.rings:
+            res.append("  :rings(%s)" % EncodeVals(self.rings['min_radius'],
+                                                   self.rings['max_radius'], [
+                                                       self.rings['red'],
+                                                       self.rings['green'],
+                                                       self.rings['blue'],
+                                                       self.rings['alpha'],
+                                                   ]))
+        sats = self.sattelites + self.starports
+        if sats:
+            res[-1] += ','
+            res.append('  {')
+            for x in sats:
+                res.extend(['    ' + y for y in x.DumpLua()])
+                if x != sats[-1]:
+                    res[-1] += ','
+            res.append('  }')
+        return res
 
 
 def InitLuaParser(**argv):
