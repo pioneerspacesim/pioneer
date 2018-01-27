@@ -272,6 +272,7 @@
       dict[key] = getter();
       Format(scheme.format, td, dict[key]);
       td.addClass('modified-value');
+      $('.enable-on-change').attr('disabled', false);
       Cancel();
     }
 
@@ -400,6 +401,7 @@
     },
     _create: function() {
       var schema = this.options.schema;
+      this.options.data = this.options.data[0];
       for (var i = 0; i < schema.order.length; ++i) {
         if (this.options.data[schema.order[i]]) {
           this.renderChunk(this.element, {},

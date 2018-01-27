@@ -4,16 +4,27 @@ import re
 import os
 import json
 import mimetypes
+import urllib
+import traceback
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 from systems import GetSystemsSet, UnknownSystem
 
 GET_HANDLERS = []
+POST_HANDLERS = []
 
 
 def OnGet(regex):
     def f(g):
         GET_HANDLERS.append((re.compile(regex), g))
+        return g
+
+    return f
+
+
+def OnPost(regex):
+    def f(g):
+        POST_HANDLERS.append((re.compile(regex), g))
         return g
 
     return f
@@ -48,6 +59,25 @@ def GetSystem(h):
     h.send_header('Content-type', 'application/json')
     h.end_headers()
     h.wfile.write(json.dumps(x).encode('utf-8'))
+
+
+@OnPost(r'/json/systems/store/$')
+def StoreSystem(h, data):
+    try:
+        x = GetSystemsSet()
+        x.UpdateSystem(json.loads(data['id'][0]), json.loads(data['data'][0]))
+        x.SaveToDir()
+    except:
+        h.send_response(500)
+        h.send_header("Content-type", "text/plain")
+        h.end_headers()
+        traceback.print_exc()
+        h.wfile.write(traceback.format_exc().encode('utf-8'))
+        return
+    h.send_response(200)
+    h.send_header('Content-type', 'application/json')
+    h.end_headers()
+    h.wfile.write(b'{}')
 
 
 @OnGet(r'/static/(.*)')
@@ -89,6 +119,21 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-type", "text/plain")
         self.end_headers()
         self.wfile.write(b"404 Not found.")
+
+    def do_POST(self):
+        url = urlparse(self.path)
+        length = int(self.headers['Content-Length'])
+        data = urllib.parse.parse_qs(self.rfile.read(length).decode('utf-8'))
+
+        for r, f in POST_HANDLERS:
+            m = r.match(url.path)
+            if m:
+                return f(self, data, *m.groups())
+
+        self.send_response(418)
+        self.send_header("Content-type", "text/plain")
+        self.end_headers()
+        self.wfile.write(b"418 I'm a teapot.")
 
 
 def run():

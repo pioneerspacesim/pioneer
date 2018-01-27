@@ -3,19 +3,55 @@ var SYSTEMTAB_MODULE = (function() {
 
   var self = {};
 
-  self.createTab = function(element, entry) {
+  self.createTab = function(parent, entry) {
     this.tabName = entry.name;
+    var el = $('<div>').appendTo(parent);
 
-    $.getJSON('/json/systems/get/', {
-      'file': entry.filename,
-      'system': entry.name
-    }, function(data) {
-      var el = $('<div>').appendTo(element);
-      el.deeptable({
-        data: data.data,
-        schema: data.schema,
+    function ResetTabContents() {
+      el.empty();
+      $.getJSON('/json/systems/get/', {
+        'file': entry.filename,
+        'system': entry.name
+      }, function(data) {
+
+        var buttonBar = $('<div>').addClass('button-bar').appendTo(el);
+        $('<button>').text('Save').addClass('enable-on-change')
+            .attr('disabled', 'disabled').appendTo(buttonBar)
+            .click(function(e) {
+              var req = $.ajax({
+                url: '/json/systems/store/',
+                type: 'POST',
+                data: {
+                  id: JSON.stringify(entry),
+                  data: JSON.stringify(data.data)
+                },
+                cache: false,
+                dataType: 'json'
+              }).done(function() {
+                console.log(data);
+                entry.filename = data.data.system.filename;
+                ResetTabContents();
+              }).fail(function(xhr, textstatus) {
+                $(e.target).text("Error: " + textstatus);
+              });
+            });
+
+        $('<button>').text('Reset').addClass('enable-on-change')
+            .attr('disabled', 'disabled').appendTo(buttonBar).click(function() {
+              if (confirm("Reset all fields and lose changes?")) {
+                ResetTabContents();
+              }
+            });
+
+        var deepTable = $('<div>').appendTo(el)
+        deepTable.deeptable({
+          data: [data.data],
+          schema: data.schema,
+        });
       });
-    });
+    }
+
+    ResetTabContents();
 
     return this;
   }

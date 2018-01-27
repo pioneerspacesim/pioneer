@@ -157,6 +157,14 @@ body {
   font-weight: bold;
 }
 
+.button-bar {
+  margin: 0.5em;
+}
+
+.button-bar button {
+  margin-right: 0.5em;
+}
+
 .clickable:hover {
   background-color: #ddd !important;
   cursor: pointer;

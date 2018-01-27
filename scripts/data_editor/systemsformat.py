@@ -51,6 +51,19 @@ class LuaObject:
 
         return obj
 
+    def PropertiesFromJson(self, data):
+        for name, typ in self.PROPERTIES:
+            if name in data and data[name]:
+                if type(data[name]) is typ:
+                    setattr(self, name, data[name])
+                else:
+                    setattr(self, name,
+                            getattr(typ,
+                                    'from_%s' % type(data[name]).__name__)(
+                                        data[name]))
+            else:
+                setattr(self, name, None)
+
     @classmethod
     def lua_new(cls, *args):
         return cls(*args)
@@ -63,6 +76,34 @@ class FixedPoint:
 
     def to_float(self):
         return self.numerator / self.denominator
+
+    @classmethod
+    def from_int(cls, val):
+        self = cls.__new__(cls)
+        self.numerator = val
+        self.denominator = 1
+        return self
+
+    @classmethod
+    def from_float(cls, val):
+        self = cls.__new__(cls)
+        x = abs(val)
+        (p0, q0, p, q) = (1, 0, int(x), 1)
+        x -= p
+
+        while x:
+            v = 1 / x
+            a = int(v)
+            x = v - a
+            (p0, q0, p, q) = (p, q, a * p + p0, a * q + q0)
+            EPS = .000000000001
+            delta = abs(p / q - abs(val)) / abs(val)
+            if delta < EPS:
+                break
+
+        self.numerator = -p if val < 0 else p
+        self.denominator = q
+        return self
 
     def DumpLua(self):
         return [
@@ -78,6 +119,18 @@ class Angle:
     def to_float(self):
         return self.degrees
 
+    @classmethod
+    def from_int(cls, val):
+        self = cls.__new__(cls)
+        self.degrees = float(val)
+        return self
+
+    @classmethod
+    def from_float(cls, val):
+        self = cls.__new__(cls)
+        self.degrees = val
+        return self
+
     def DumpLua(self):
         return ['math.deg2rad(%s)' % EncodeVal(self.degrees)]
 
@@ -88,6 +141,18 @@ class FixedAngle:
 
     def to_float(self):
         return self.degrees.to_float()
+
+    @classmethod
+    def from_float(cls, val):
+        self = cls.__new__(cls)
+        self.degrees = FixedPoint.from_float(val)
+        return self
+
+    @classmethod
+    def from_int(cls, val):
+        self = cls.__new__(cls)
+        self.degrees = FixedPoint.from_int(val)
+        return self
 
     def DumpLua(self):
         return ['fixed.deg2rad(%s)' % EncodeVal(self.degrees)]
@@ -124,6 +189,7 @@ class CustomSystem(LuaObject):
     def lua_bodies(self, star, planets):
         self.star = star
         star.SetSattelites(planets)
+        return self
 
     def lua_add_to_sector(self, x, y, z, v):
         self.sector_coord = (x, y, z)
@@ -151,6 +217,25 @@ class CustomSystem(LuaObject):
         res.append('  :add_to_sector(%s)' % EncodeVals(
             *self.sector_coord, Vector(*self.in_sector_coord)))
         return res
+
+    @classmethod
+    def FromJson(cls, data):
+        self = cls.__new__(cls)
+        system = data['system']
+        stars = data.get('bodies', [])
+        self.filename = system['filename']
+        self.name = system['name']
+        self.types = system['types']
+        self.sector_coord = tuple([system['sector'][x] for x in 'xyz'])
+        self.in_sector_coord = tuple([system['coord'][x] for x in 'xyz'])
+        self.PropertiesFromJson(system)
+        self.star = None
+        if stars:
+            if len(stars) != 1:
+                raise ValueError
+            self.star = CustomSystemBody.FromJson(stars[0])
+
+        return self
 
 
 class CustomSystemBody(LuaObject):
@@ -192,7 +277,7 @@ class CustomSystemBody(LuaObject):
         return self
 
     def lua_height_map(self, map, index):
-        self.height_map = (map, index)
+        self.height_map = {'map': map, 'index': index}
         return self
 
     def SetSattelites(self, sattelites):
@@ -212,6 +297,31 @@ class CustomSystemBody(LuaObject):
         self.starports = []
         self.rings = None
         self.height_map = None
+
+    @classmethod
+    def FromJson(cls, data):
+        self = cls.__new__(cls)
+        self.name = data['name']
+        self.typ = data['typ']
+        self.sattelites = []
+        self.starports = []
+        self.rings = None
+        self.height_map = None
+
+        if 'rings' in data and data['rings']['min_radius'] is not None:
+            self.rings = data['rings']
+            for x in ['min_radius', 'max_radius']:
+                self.rings[x] = FixedPoint.from_float(self.rings[x])
+
+        if 'height_map' in data and data['height_map']['map']:
+            self.height_map = data['height_map']
+
+        self.PropertiesFromJson(data)
+        for x in data.get('sattelites', []):
+            self.sattelites.append(CustomSystemBody.FromJson(x))
+        for x in data.get('starports', []):
+            self.starports.append(CustomSystemBody.FromJson(x))
+        return self
 
     def DumpLua(self):
         res = []
@@ -251,3 +361,7 @@ def InitLuaParser(**argv):
     x.AddObject(b'math.deg2rad', Angle)
     x.AddObject(b'fixed.deg2rad', FixedAngle)
     return x
+
+
+def SystemFromJson(data):
+    return CustomSystem.FromJson(data)

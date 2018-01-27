@@ -1,6 +1,9 @@
 import os
 import datetime
-from systemsformat import InitLuaParser
+from systemsformat import InitLuaParser, SystemFromJson
+from schema import CONTENTS_SCHEMA, SYSTEM_SCHEMA
+
+DEFAULT_SYSTEMS_PATH = '../../data/systems/'
 
 
 class UnknownSystem(Exception):
@@ -16,423 +19,15 @@ BANNER = """
 
 """
 
-CONTENTS_SCHEMA = {
-    'order': ['systems'],
-    'systems': {
-        'type': ('table'),
-        'title': ('Systems List'),
-        'options': {
-            'clickable': True,
-        },
-        'columns': [
-            {
-                'title': 'Filename',
-                'id': 'filename',
-                'format': 'string',
-            },
-            {
-                'title': 'System name',
-                'id': 'name',
-                'format': 'string',
-            },
-            {
-                'title': ('Sector'),
-                'id': ('sector'),
-                'subfields': [{
-                    'title': x,
-                    'id': x,
-                    'format': 'int',
-                    'selector': ('sector_coord', i),
-                } for (i, x) in enumerate('xyz')]
-            },
-            {
-                'title': 'Government',
-                'id': 'govtype',
-                'format': 'string',
-            },
-            {
-                'title': 'Faction',
-                'id': 'faction',
-                'format': 'string',
-            },
-        ],
-    }
-}
-
-SYSTEM_SCHEMA = {
-    'order': ['system', 'bodies'],
-    'system': {
-        'type': ('fields'),
-        'title': ('System Properties'),
-        'options': {
-            'editable': True,
-        },
-        'fields': [
-            {
-                'title': 'Filename',
-                'id': 'filename',
-                'format': 'string',
-            },
-            {
-                'title': 'System name',
-                'id': 'name',
-                'format': 'string',
-            },
-            {
-                'title': ('System types'),
-                'id': ('types'),
-                'format': ('valarray'),
-                'item': {
-                    'format': ('enum'),
-                    'enumvals': [
-                        'GRAVPOINT',
-                        'BROWN_DWARF',
-                        'WHITE_DWARF',
-                        'STAR_M',
-                        'STAR_K',
-                        'STAR_G',
-                        'STAR_F',
-                        'STAR_A',
-                        'STAR_B',
-                        'STAR_O',
-                        'STAR_M_GIANT',
-                        'STAR_K_GIANT',
-                        'STAR_G_GIANT',
-                        'STAR_F_GIANT',
-                        'STAR_A_GIANT',
-                        'STAR_B_GIANT',
-                        'STAR_O_GIANT',
-                        'STAR_M_SUPER_GIANT',
-                        'STAR_K_SUPER_GIANT',
-                        'STAR_G_SUPER_GIANT',
-                        'STAR_F_SUPER_GIANT',
-                        'STAR_A_SUPER_GIANT',
-                        'STAR_B_SUPER_GIANT',
-                        'STAR_O_SUPER_GIANT',
-                        'STAR_M_HYPER_GIANT',
-                        'STAR_K_HYPER_GIANT',
-                        'STAR_G_HYPER_GIANT',
-                        'STAR_F_HYPER_GIANT',
-                        'STAR_A_HYPER_GIANT',
-                        'STAR_B_HYPER_GIANT',
-                        'STAR_O_HYPER_GIANT',
-                        'STAR_M_WF',
-                        'STAR_B_WF',
-                        'STAR_O_WF',
-                        'STAR_S_BH',
-                        'STAR_IM_BH',
-                        'STAR_SM_BH',
-                    ]
-                }
-            },
-            {
-                'title': 'Short description',
-                'id': 'short_desc',
-                'format': 'string',
-            },
-            {
-                'title': 'Long description',
-                'id': 'long_desc',
-                'format': 'text',
-            },
-            {
-                'title': ('Government'),
-                'id': ('govtype'),
-                'format': ('enum'),
-                'enumvals': [
-                    'NONE',
-                    'EARTHCOLONIAL',
-                    'EARTHDEMOC',
-                    'EMPIRERULE',
-                    'CISLIBDEM',
-                    'CISSOCDEM',
-                    'LIBDEM',
-                    'CORPORATE',
-                    'SOCDEM',
-                    'EARTHMILDICT',
-                    'MILDICT1',
-                    'MILDICT2',
-                    'EMPIREMILDICT',
-                    'COMMUNIST',
-                    'PLUTOCRATIC',
-                    'DISORDER',
-                ]
-            },
-            {
-                'title': 'Lawlessness',
-                'id': 'lawlessness',
-                'format': 'float',
-            },
-            {
-                'title': 'Faction',
-                'id': 'faction',
-                'format': 'string',
-            },
-            {
-                'title': ('Sector'),
-                'id': ('sector'),
-                'subfields': [{
-                    'title': x,
-                    'id': x,
-                    'format': 'int',
-                    'selector': ('sector_coord', i),
-                } for (i, x) in enumerate('xyz')]
-            },
-            {
-                'title': ('Coordinates'),
-                'id': ('coord'),
-                'subfields': [{
-                    'title': x,
-                    'id': x,
-                    'format': 'float',
-                    'selector': ('in_sector_coord', i),
-                } for (i, x) in enumerate('xyz')]
-            },
-        ],
-    },
-    'bodies': {
-        'type': ('table'),
-        'title': ('System Bodies'),
-        'options': {
-            'collapsible': True,
-            'editable': True,
-        },
-        'columns': [
-            {
-                'title': 'Body name',
-                'id': 'name',
-                'format': 'string',
-            },
-            {
-                'title': ('Type'),
-                'id': ('typ'),
-                'format': ('enum'),
-                'enumvals': [
-                    'GRAVPOINT',
-                    'BROWN_DWARF',
-                    'WHITE_DWARF',
-                    'STAR_M',
-                    'STAR_K',
-                    'STAR_G',
-                    'STAR_F',
-                    'STAR_A',
-                    'STAR_B',
-                    'STAR_O',
-                    'STAR_M_GIANT',
-                    'STAR_K_GIANT',
-                    'STAR_G_GIANT',
-                    'STAR_F_GIANT',
-                    'STAR_A_GIANT',
-                    'STAR_B_GIANT',
-                    'STAR_O_GIANT',
-                    'STAR_M_SUPER_GIANT',
-                    'STAR_K_SUPER_GIANT',
-                    'STAR_G_SUPER_GIANT',
-                    'STAR_F_SUPER_GIANT',
-                    'STAR_A_SUPER_GIANT',
-                    'STAR_B_SUPER_GIANT',
-                    'STAR_O_SUPER_GIANT',
-                    'STAR_M_HYPER_GIANT',
-                    'STAR_K_HYPER_GIANT',
-                    'STAR_G_HYPER_GIANT',
-                    'STAR_F_HYPER_GIANT',
-                    'STAR_A_HYPER_GIANT',
-                    'STAR_B_HYPER_GIANT',
-                    'STAR_O_HYPER_GIANT',
-                    'STAR_M_WF',
-                    'STAR_B_WF',
-                    'STAR_O_WF',
-                    'STAR_S_BH',
-                    'STAR_IM_BH',
-                    'STAR_SM_BH',
-                    'PLANET_GAS_GIANT',
-                    'PLANET_ASTEROID',
-                    'PLANET_TERRESTRIAL',
-                    'STARPORT_ORBITAL',
-                ]
-            },
-            {
-                'title': 'Radius',
-                'id': 'radius',
-                'format': 'siprefix',
-                'type': 'float',
-                'editlabel': 'Relative to Sun/Earth',
-            },
-            {
-                'title': 'Mass',
-                'id': 'mass',
-                'format': 'siprefix',
-                'type': 'float',
-                'editlabel': 'Relative to Sun/Earth',
-            },
-            {
-                'title': '🌡',
-                'id': 'temp',
-                'format': 'int',
-                'editsuffix': 'K',
-            },
-            {
-                'title': 'Semi Major Axis',
-                'id': 'semi_major_axis',
-                'format': 'siprefix',
-                'type': 'float',
-                'editsuffix': 'au',
-            },
-            {
-                'title': 'Eccent\u200Bricity',
-                'id': 'eccentricity',
-                'format': 'percent',
-                'type': 'float',
-            },
-            {
-                'title': 'Incli\u200Bnation',
-                'id': 'inclination',
-                'format': 'degrees',
-                'type': 'float',
-            },
-            {
-                'title': 'Rotation Period',
-                'id': 'rotation_period',
-                'format': 'siprefix',
-                'type': 'float',
-                'editsuffix': 'days',
-            },
-            {
-                'title': 'Axial Tilt',
-                'id': 'axial_tilt',
-                'format': 'degrees',
-                'type': 'float',
-            },
-            {
-                'title': 'Metal\u200Blicity',
-                'id': 'metallicity',
-                'format': 'siprefix',
-                'type': 'float',
-            },
-            {
-                'title': 'Volca\u200Bnicity',
-                'id': 'volcanicity',
-                'format': 'siprefix',
-                'type': 'float',
-            },
-            {
-                'title': 'Atmo\u200Bspheric Density',
-                'id': 'atmos_density',
-                'format': 'siprefix',
-                'type': 'float',
-                'editsuffix': 'bar',
-            },
-            {
-                'title': 'Atmo\u200Bspheric Oxidi\u200Bzing',
-                'id': 'atmos_oxidizing',
-                'format': 'siprefix',
-                'type': 'float',
-            },
-            {
-                'title': 'Ocean Cover',
-                'id': 'ocean_cover',
-                'format': 'siprefix',
-                'type': 'float',
-            },
-            {
-                'title': 'Ice Cover',
-                'id': 'ice_cover',
-                'format': 'siprefix',
-                'type': 'float',
-            },
-            {
-                'title': 'Life',
-                'id': 'life',
-                'format': 'siprefix',
-                'type': 'float',
-            },
-            {
-                'title': 'Orbital phase at start',
-                'id': 'orbital_phase_at_start',
-                'format': 'degrees',
-                'type': 'float',
-            },
-            {
-                'title': 'Rota\u200Btional phase at start',
-                'id': 'rotational_phase_at_start',
-                'format': 'degrees',
-                'type': 'float',
-            },
-            {
-                'title': 'Orbi\u200Btal offset',
-                'id': 'orbital_offset',
-                'format': 'float',
-                'type': 'float',
-            },
-            {
-                'title': 'Equa\u200Btorial to polar radius',
-                'id': 'equatorial_to_polar_radius',
-                'format': 'float',
-                'type': 'float',
-            },
-            {
-                'title': 'Space Station type',
-                'id': 'space_station_type',
-                'format': 'string',
-            },
-            {
-                'title': 'Seed',
-                'id': 'seed',
-                'format': 'hex',
-                'type': 'int',
-            },
-        ],
-        'subsections': [
-            {
-                'id': 'sattelites',
-                'schema': 'bodies',
-            },
-            {
-                'id': 'starports',
-                'schema': 'starports',
-            },
-        ],
-    },
-    'starports': {
-        'type': ('table'),
-        'title': ('Surface starports'),
-        'options': {
-            'collapsible': False,
-            'editable': True,
-        },
-        'columns': [
-            {
-                'title': 'Body name',
-                'id': 'name',
-                'format': 'string',
-            },
-            {
-                'title': 'Type',
-                'id': 'typ',
-                'format': 'enum',
-                'enumvals': ['STARPORT_SURFACE'],
-            },
-            {
-                'title': 'Latitude',
-                'id': 'latitude',
-                'format': 'float',
-            },
-            {
-                'title': 'longitude',
-                'id': 'longitude',
-                'format': 'float',
-            },
-        ]
-    }
-}
-
 
 def FollowSelector(data, schema):
     selector = schema.get('selector', schema['id'])
     if not isinstance(selector, tuple):
         selector = (selector, )
     for term in selector:
-        if isinstance(term, str) and hasattr(data, term):
+        if data is None:
+            pass
+        elif isinstance(term, str) and hasattr(data, term):
             data = getattr(data, term)
         else:
             data = data[term]
@@ -443,7 +38,9 @@ def PopulateFieldsFromSchema(data, schema):
     res = {}
     for x in schema:
         if 'subfields' in x:
-            res[x['id']] = PopulateFieldsFromSchema(data, x['subfields'])
+            res[x['id']] = PopulateFieldsFromSchema(
+                (FollowSelector(data, x)
+                 if x.get('dive') else data), x['subfields'])
             continue
         d = FollowSelector(data, x)
         typ = x.get('type', x['format'])
@@ -493,7 +90,7 @@ class SystemsSet:
                 x = InitLuaParser(filename=filename, systems_set=self)
                 x.Parse(f)
 
-    def SaveToDir(self, rootdir, dirty_only=True):
+    def SaveToDir(self, rootdir=DEFAULT_SYSTEMS_PATH, dirty_only=True):
         file_to_systems = {}
         for x in self.systems:
             file_to_systems.setdefault(x.filename, []).append(x)
@@ -501,6 +98,7 @@ class SystemsSet:
         for file, systems in file_to_systems.items():
             if dirty_only and file not in self.dirty_files:
                 continue
+            self.dirty_files.remove(file)
             filename = os.path.join(rootdir, file)
             os.makedirs(os.path.dirname(filename), exist_ok=True)
             with open(filename, "w") as f:
@@ -512,6 +110,10 @@ class SystemsSet:
                         f.write(cat_lines + '\n')
                     else:
                         f.write('\n'.join(lines) + '\n\n')
+        for file in self.dirty_files:
+            filename = os.path.join(rootdir, file)
+            if os.path.isfile(filename):
+                os.remove(filename)
 
     def GetContents(self):
         data = PopulateFromSchema(self.systems, CONTENTS_SCHEMA, 'systems')
@@ -537,14 +139,39 @@ class SystemsSet:
             'schema': SYSTEM_SCHEMA
         }
 
+    def UpdateSystem(self, id, data):
+        file = id.get('filename')
+        name = id.get('name')
+        if file:
+            self.dirty_files.add(file)
+        if data['system'].get('filename'):
+            self.dirty_files.add(data['system']['filename'])
+
+        if file or name:
+            for i, x in enumerate(self.systems):
+                if x.filename == file and x.name == name:
+                    self.systems[i] = SystemFromJson(data)
+                    return
+        self.systems.append(SystemFromJson(data))
+
+    def DeleteSystem(self, id):
+        file = id.get('filename')
+        name = id.get('name')
+        if file:
+            self.dirty_files.add(file)
+        for i, x in enumerate(self.systems):
+            if x.filename == file and x.name == name:
+                self.systems.pop(i)
+                return
+
     def __str__(self):
         return "%d systems: %s" % (
             len(self.systems),
             ', '.join(['%s:%s' % (x.filename, x.name) for x in self.systems]))
 
 
-def GetSystemsSet():
+def GetSystemsSet(path=DEFAULT_SYSTEMS_PATH):
     x = SystemsSet()
-    x.LoadFromDir('../../data/systems/')
+    x.LoadFromDir(path)
     # x.SaveToDir('/tmp/test', False)  # DO NOT COMMIT
     return x

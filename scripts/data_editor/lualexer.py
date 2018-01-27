@@ -1,5 +1,6 @@
-from enum import Enum
+import ast
 import re
+from enum import Enum
 
 
 class TokenType(Enum):
@@ -54,9 +55,9 @@ INTEGER_RE = re.compile(br'-?[0-9]+')
 FLOAT_RE = re.compile(br'-?[0-9]*\.[0-9]+(?:[eE][-+]?[0-9]+)?')
 PUNCT_RE = re.compile(br'[\[\]=:{}*(),\-+*/]')
 # Single-quoted string
-STRING_SQ_RE = re.compile(br"'([^'\\]*(?:\\.[^'\\]*)*)'")
+STRING_SQ_RE = re.compile(br"('[^'\\]*(?:\\.[^'\\]*)*')")
 # Double-quoted string
-STRING_DQ_RE = re.compile(br'"([^"\\]*(?:\\.[^"\\]*)*)"')
+STRING_DQ_RE = re.compile(br'("[^"\\]*(?:\\.[^"\\]*)*")')
 # [==[Bracket]==] string
 STRING_BB_RE = re.compile(br'\[(=*)\[(.*)?\]\1\]', re.DOTALL)
 
@@ -67,9 +68,11 @@ MATCHERS = [
     (FLOAT_RE, lambda m: Token(TokenType.FLOAT, float(m.group()))),
     (INTEGER_RE, lambda m: Token(TokenType.INTEGER, int(m.group()))),
     (STRING_SQ_RE,
-     lambda m: Token(TokenType.STRING, m.group(1).decode('utf-8'))),
+     lambda m: Token(TokenType.STRING,
+                     ast.literal_eval(m.group(1).decode('utf-8')))),
     (STRING_DQ_RE,
-     lambda m: Token(TokenType.STRING, m.group(1).decode('utf-8'))),
+     lambda m: Token(TokenType.STRING,
+                     ast.literal_eval(m.group(1).decode('utf-8')))),
     (STRING_BB_RE,
      lambda m: Token(TokenType.STRING, m.group(2).decode('utf-8'))),
     (PUNCT_RE, lambda m: Token(TokenType.PUNCT, m.group())),

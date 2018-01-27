@@ -8,7 +8,7 @@ var MAINTAB_MODULE = (function() {
     $.getJSON('/json/systems/contents/', function(data) {
       var el = $('<div>').appendTo(element);
       el.deeptable({
-        data: data.data,
+        data: [data.data],
         schema: data.schema,
         onClick: function(x) { PIONEER_MODULE.newTab('system', x); }
       });
