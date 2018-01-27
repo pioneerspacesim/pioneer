@@ -9,7 +9,7 @@
    },
    "ADD_JUMP" : {
       "description" : "UI-button: Add hyper jump to list of planned jumps",
-      "message" : "Add Jump"
+      "message" : "Cuir leum ris"
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
@@ -41,7 +41,7 @@
    },
    "AUTO_ROUTE" : {
       "description" : "Automatically find shortest jump route (measured in time) in star map",
-      "message" : "Auto Route"
+      "message" : "Cùrsa fèin-obrachail"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "CENTER_ON_SYSTEM" : {
       "description" : "Center on selected star system",
-      "message" : "Center on System"
+      "message" : "Meadhanaich air an t-siosam"
    },
    "CHANGE_BINDING" : {
       "description" : "Key binding option",
@@ -149,7 +149,7 @@
    },
    "CLEAR_ROUTE" : {
       "description" : "Clear a planned route of hyperjumps",
-      "message" : "Clear Route"
+      "message" : "Falamhaich an cùrsa"
    },
    "CLIENT" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "CURRENT_FUEL" : {
       "description" : "For hyperjump planner",
-      "message" : "Current Fuel:"
+      "message" : "An connadh a th’ agad:"
    },
    "CURRENT_SYSTEM" : {
       "description" : "For hyperjump planner",
@@ -381,7 +381,7 @@
    },
    "FINAL_TARGET" : {
       "description" : "Hyperjump planner, referring to star system target",
-      "message" : "Final Target:"
+      "message" : "An ceann-uidhe:"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
@@ -809,7 +809,7 @@
    },
    "HYPERJUMP_ROUTE" : {
       "description" : "",
-      "message" : "HyperJump Route"
+      "message" : "Cùrsa os-leum"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
@@ -1061,11 +1061,11 @@
    },
    "MOVE_DOWN" : {
       "description" : "move selection down in list",
-      "message" : "Move Down"
+      "message" : "Gluais sìos"
    },
    "MOVE_UP" : {
       "description" : "move selection up in list",
-      "message" : "Move Up"
+      "message" : "Gluais suas"
    },
    "MULTISAMPLING" : {
       "description" : "",
@@ -1297,7 +1297,7 @@
    },
    "REGISTRATION_NUMBER" : {
       "description" : "",
-      "message" : "Registration number"
+      "message" : "Àireamh clàraidh"
    },
    "RELIABLE" : {
       "description" : "For player reputation",
@@ -1305,11 +1305,11 @@
    },
    "REMOVE_JUMP" : {
       "description" : "UI-button: remove hyper jump from list of planned jumps",
-      "message" : "Remove Jump"
+      "message" : "Thoir air falbh an leum"
    },
    "REMOVE_WHEN_COMPLETED" : {
       "description" : "For UI hyperjump planner, referring to jump target system",
-      "message" : "Remove jump when completed"
+      "message" : "Thoir air falbh an leum nuair a bhios e deiseil"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
@@ -1325,7 +1325,7 @@
    },
    "REQUIRED_FUEL" : {
       "description" : "Fuel usage for traveling to star system",
-      "message" : "Required Fuel:"
+      "message" : "Connadh air a bheil feum:"
    },
    "RESET" : {
       "description" : "",
@@ -1353,11 +1353,11 @@
    },
    "ROUTE_INFO" : {
       "description" : "For hyperjump planner",
-      "message" : "Route Info"
+      "message" : "Fiosrachadh a’ chùrsa"
    },
    "ROUTE_JUMPS" : {
       "description" : "For hyperjump planner",
-      "message" : "Route Jumps"
+      "message" : "Leuman a’ chùrsa"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1405,7 +1405,7 @@
    },
    "SETTINGS" : {
       "description" : "UI option",
-      "message" : "Settings"
+      "message" : "Roghainnean"
    },
    "SET_AS_TARGET" : {
       "description" : "",
@@ -1525,11 +1525,11 @@
    },
    "TOTAL_DISTANCE" : {
       "description" : "Total distance of a (possibly series) of hyper jump(s)",
-      "message" : "Total Distance:"
+      "message" : "An t-astar iomlan:"
    },
    "TOTAL_DURATION" : {
       "description" : "Total duration of a (possibly series) of hyper jump(s)",
-      "message" : "Total Duration:"
+      "message" : "Am fad iomlan:"
    },
    "TOTAL_MASS" : {
       "description" : "",
