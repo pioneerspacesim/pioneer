@@ -331,7 +331,9 @@ class CustomSystemBody(LuaObject):
             if getattr(self, x) is not None:
                 res.append('  :%s(%s)' % (x, EncodeVal(getattr(self, x))))
         if self.height_map:
-            res.append("  :height_map(%s)" % EncodeVals(*self.height_map))
+            res.append(
+                "  :height_map(%s)" %
+                EncodeVals(*[self.height_map[y] for y in ['map', 'index']]))
         if self.rings:
             res.append("  :rings(%s)" % EncodeVals(self.rings['min_radius'],
                                                    self.rings['max_radius'], [
