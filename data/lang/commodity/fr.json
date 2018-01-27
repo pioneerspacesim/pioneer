@@ -53,7 +53,7 @@
    },
    "FARM_MACHINERY_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
+      "message" : "Bien que rare, il est toujours possible de trouver des fermiers utilisant une charrue tirée par des boeufs. Mais dans la plupart des endroits où il y a de l'agriculture, les machines sont utilisées pour la culture des sols, que ce soit des cultures hydroponiques dans un habitat sous-terrain ou bien d'immenses champs sur un monde jardin."
    },
    "FERTILIZER" : {
       "description" : "",
@@ -85,7 +85,7 @@
    },
    "HAND_WEAPONS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Providing insurance beyond the long arm of the law, hand weapons are essential for space traders in far-out systems. However, many governments see them as a threat to their own control over their population and strictly control their trade and possession."
+      "message" : "Les armes de mains procurent une assurance là où la loi n'est plus présente et à ce titre elles se révèlent essentielles dans les systèmes lointains. Cependant, beaucoup de gouvernement les considèrent comme une menace à l'ordre public pour les plus libéraux, ou bien à leur contrôle sur la population pour les plus despotiques et contrôlent strictement leur commerce ainsi que leur possession."
    },
    "HYDROGEN" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "METAL_ALLOYS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "After metal ore is extracted and refined, it is processed and ends up as various alloys. An alloy is an amalgamation of metals, rather than a single pure element, combined in exact proportions to gain specific desirable traits. Therefore, most consumer metals are alloys."
+      "message" : "Après que le minérai de métal est extrait et raffiné, il est traité et termine dans de nombreux alliages. Un alliage est un amalgame de métaux, combiné dans des propotions précises afin de gagner certains traits désirables. La plupart des métaux à destination de la consommation sont des alliages."
    },
    "METAL_ORE" : {
       "description" : "",
@@ -221,7 +221,7 @@
    },
    "RUBBISH_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The byproduct of civilization, consisting of industrial waste, household garbage, and worn down equipment. Most waste is reprocessed, recycled or sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal. Starports usually charge a fee for waste disposal, but will also pay you to take it away."
+      "message" : "Sous-produit de la civilisation, consistant en déchéts industriels, ordures ménagères et équipements usagés. La plupart des déchets est reconditionné, recyclé ou envoyé vers des ports spatiaux pour transport vers d'autres mondes. Déposer des ordures sur des systèmes habités est presque systématiquement illégal. Les ports spatiaux font habituellement payer tout dépôt de déchets, mais vous payeront si vous décidiez de les enlever."
    },
    "SLAVES" : {
       "description" : "",
