@@ -9,6 +9,8 @@
 #include "Factions.h"
 #include "GameSaveError.h"
 
+#define Square(x) ((x)*(x))
+
 static const unsigned int SYS_NAME_FRAGS = 32;
 static const char *sys_names[SYS_NAME_FRAGS] =
 { "en", "la", "can", "be", "and", "phi", "eth", "ol", "ve", "ho", "a",
@@ -17,11 +19,10 @@ static const char *sys_names[SYS_NAME_FRAGS] =
 
 bool SectorCustomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config)
 {
-	PROFILE_SCOPED()
-
 	const int sx = sector->sx;
 	const int sy = sector->sy;
 	const int sz = sector->sz;
+	const Sint64 dist = (1 + sx*sx + sy*sy + sz*sz);
 
 	if ((sx >= -m_customOnlyRadius) && (sx <= m_customOnlyRadius-1) &&
 		(sy >= -m_customOnlyRadius) && (sy <= m_customOnlyRadius-1) &&
@@ -49,8 +50,7 @@ bool SectorCustomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 			 * ~500ly - ~700ly (65-90 sectors): gradual
 			 * ~700ly+: unexplored
 			 */
-			int dist = isqrt(1 + sx*sx + sy*sy + sz*sz);
-			if (((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, sysIdx)))
+			if (((dist <= Square(90)) && ( dist <= Square(65) || rng.Int32(dist) <= Square(40))) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, sysIdx)))
 				s.m_explored = StarSystem::eEXPLORED_AT_START;
 			else
 				s.m_explored = StarSystem::eUNEXPLORED;
@@ -67,7 +67,6 @@ bool SectorCustomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 
 const std::string SectorRandomSystemsGenerator::GenName(RefCountedPtr<Galaxy> galaxy, const Sector& sec, Sector::System &sys, int si, Random &rng)
 {
-	PROFILE_SCOPED()
 	std::string name;
 	const int sx = sec.sx;
 	const int sy = sec.sy;
@@ -140,8 +139,8 @@ bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 	const int sy = sector->sy;
 	const int sz = sector->sz;
 	const int customCount = static_cast<Uint32>(sector->m_systems.size());
-	const int dist = isqrt(1 + sx*sx + sy*sy + sz*sz);
-	const int freqSqrt = isqrt(1 + sx * sx + sy * sy);
+	const Sint64 dist = (1 + sx*sx + sy*sy + sz*sz);
+	const Sint64 freq = (1 + sx * sx + sy * sy);
 
 	const int numSystems = (rng.Int32(4,20) * galaxy->GetSectorDensity(sx, sy, sz)) >> 8;
 	sector->m_systems.reserve(numSystems);
@@ -175,7 +174,7 @@ bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 			s.m_explored = StarSystem::eUNEXPLORED;
 
 		// Frequencies are low enough that we probably don't need this anymore.
-		if (freqSqrt > 10)
+		if (freq > Square(10))
 		{
 			const Uint32 weight = rng.Int32(1000000);
 			if (weight < 1) {
@@ -283,7 +282,7 @@ bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 
 		if ((s.m_starType[0] <= SystemBody::TYPE_STAR_A) && (rng.Int32(10)==0)) {
 			// make primary a giant. never more than one giant in a system
-			if (freqSqrt > 10)
+			if (freq > Square(10))
 			{
 				const Uint32 weight = rng.Int32(1000);
 				if (weight >= 999) {
@@ -311,7 +310,7 @@ bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 				} else {
 					s.m_starType[0] = SystemBody::TYPE_STAR_M_GIANT;
 				}
-			} else if (freqSqrt > 5) s.m_starType[0] = SystemBody::TYPE_STAR_M_GIANT;
+			} else if (freq > Square(5)) s.m_starType[0] = SystemBody::TYPE_STAR_M_GIANT;
 			else s.m_starType[0] = SystemBody::TYPE_STAR_M;
 
 			//Output("%d: %d%\n", sx, sy);
