@@ -122,22 +122,9 @@ class SystemsSet:
     def GetSystem(self, file, system):
         for x in self.systems:
             if x.filename == file and x.name == system:
-                break
+                return x
         else:
             raise UnknownSystem
-
-        sysprops = PopulateFromSchema(x, SYSTEM_SCHEMA, 'system')
-        root_body = None
-        if x.star:
-            root_body = PopulateFromSchema([x.star], SYSTEM_SCHEMA, 'bodies')
-
-        return {
-            'data': {
-                'system': sysprops,
-                'bodies': root_body,
-            },
-            'schema': SYSTEM_SCHEMA
-        }
 
     def UpdateSystem(self, id, data):
         file = id.get('filename')
@@ -173,5 +160,19 @@ class SystemsSet:
 def GetSystemsSet(path=DEFAULT_SYSTEMS_PATH):
     x = SystemsSet()
     x.LoadFromDir(path)
-    # x.SaveToDir('/tmp/test', False)  # DO NOT COMMIT
     return x
+
+
+def SystemToJson(x):
+    sysprops = PopulateFromSchema(x, SYSTEM_SCHEMA, 'system')
+    root_body = None
+    if x.star:
+        root_body = PopulateFromSchema([x.star], SYSTEM_SCHEMA, 'bodies')
+
+    return {
+        'data': {
+            'system': sysprops,
+            'bodies': root_body,
+        },
+        'schema': SYSTEM_SCHEMA
+    }

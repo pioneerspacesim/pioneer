@@ -8,7 +8,8 @@ import urllib
 import traceback
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
-from systems import GetSystemsSet, UnknownSystem
+from systems import GetSystemsSet, UnknownSystem, SystemToJson
+from systemsformat import CreateNewSystem
 
 GET_HANDLERS = []
 POST_HANDLERS = []
@@ -47,7 +48,11 @@ def GetContents(h):
 def GetSystem(h):
     params = parse_qs(urlparse(h.path).query)
     try:
-        x = GetSystemsSet().GetSystem(params['file'][0], params['system'][0])
+        if 'file' not in params and params['system'][0] == 'New System':
+            x = CreateNewSystem()
+        else:
+            x = GetSystemsSet().GetSystem(params['file'][0],
+                                          params['system'][0])
     except UnknownSystem:
         h.send_response(404)
         h.send_header("Content-type", "text/plain")
@@ -58,7 +63,7 @@ def GetSystem(h):
     h.send_response(200)
     h.send_header('Content-type', 'application/json')
     h.end_headers()
-    h.wfile.write(json.dumps(x).encode('utf-8'))
+    h.wfile.write(json.dumps(SystemToJson(x)).encode('utf-8'))
 
 
 @OnPost(r'/json/systems/store/$')

@@ -367,3 +367,10 @@ def InitLuaParser(**argv):
 
 def SystemFromJson(data):
     return CustomSystem.FromJson(data)
+
+
+def CreateNewSystem():
+    res = CustomSystem('New System', [])
+    res.filename = 'new_file.lua'
+    res.lua_add_to_sector(0, 0, 0, (0.5, 0.5, 0.5))
+    return res
