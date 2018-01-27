@@ -144,10 +144,10 @@ class SystemsSet:
     def DeleteSystem(self, id):
         file = id.get('filename')
         name = id.get('name')
-        if file:
-            self.dirty_files.add(file)
         for i, x in enumerate(self.systems):
             if x.filename == file and x.name == name:
+                if file:
+                    self.dirty_files.add(file)
                 self.systems.pop(i)
                 return
 

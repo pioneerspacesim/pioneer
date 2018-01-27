@@ -18,7 +18,7 @@ var SYSTEMTAB_MODULE = (function() {
         $('<button>').text('Save').addClass('enable-on-change')
             .attr('disabled', 'disabled').appendTo(buttonBar)
             .click(function(e) {
-              var req = $.ajax({
+              $.ajax({
                 url: '/json/systems/store/',
                 type: 'POST',
                 data: {
@@ -28,7 +28,6 @@ var SYSTEMTAB_MODULE = (function() {
                 cache: false,
                 dataType: 'json'
               }).done(function() {
-                console.log(data);
                 entry.filename = data.data.system.filename;
                 ResetTabContents();
               }).fail(function(xhr, textstatus) {
@@ -42,6 +41,29 @@ var SYSTEMTAB_MODULE = (function() {
                 ResetTabContents();
               }
             });
+
+        if (entry.filename && entry.system != 'New System') {
+          $('<button>').text('Delete').appendTo(buttonBar).click(function() {
+            if (confirm("Delete this system?")) {
+              $.ajax({
+                url: '/json/systems/delete/',
+                type: 'POST',
+                data: {
+                  id: JSON.stringify(entry),
+                },
+                cache: false,
+                dataType: 'json'
+              }).done(function() {
+                el.empty();
+                el.text('This system has been deleted');
+              }).fail(function(xhr, textstatus) {
+                $(e.target).text("Error: " + textstatus);
+              });
+
+            }
+          });
+        }
+
 
         var deepTable = $('<div>').appendTo(el)
         deepTable.deeptable({

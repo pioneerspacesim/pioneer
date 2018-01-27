@@ -85,6 +85,25 @@ def StoreSystem(h, data):
     h.wfile.write(b'{}')
 
 
+@OnPost(r'/json/systems/delete/$')
+def DeleteSystem(h, data):
+    try:
+        x = GetSystemsSet()
+        x.DeleteSystem(json.loads(data['id'][0]))
+        x.SaveToDir()
+    except:
+        h.send_response(500)
+        h.send_header("Content-type", "text/plain")
+        h.end_headers()
+        traceback.print_exc()
+        h.wfile.write(traceback.format_exc().encode('utf-8'))
+        return
+    h.send_response(200)
+    h.send_header('Content-type', 'application/json')
+    h.end_headers()
+    h.wfile.write(b'{}')
+
+
 @OnGet(r'/static/(.*)')
 def ServeStatic(h, file):
     base_dir = os.path.join(
