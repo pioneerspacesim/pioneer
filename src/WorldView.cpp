@@ -165,6 +165,7 @@ void WorldView::InitObject()
 
 	Pi::player->GetPlayerController()->SetMouseForRearView(GetCamType() == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 	m_onToggleHudModeCon = KeyBindings::toggleHudMode.onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
+	m_onToggleWheelStateCon = KeyBindings::toggleWheelState.onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleWheels));
 	m_onIncTimeAccelCon = KeyBindings::increaseTimeAcceleration.onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelInc));
 	m_onDecTimeAccelCon = KeyBindings::decreaseTimeAcceleration.onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelDec));
 }
@@ -326,6 +327,13 @@ void WorldView::OnToggleLabels()
 			m_labelsOn = true;
 		}
 	}
+}
+
+void WorldView::OnToggleWheels()
+{
+	if (Pi::player->GetFlightState() != Ship::FlightState::FLYING)
+		return;
+	Pi::player->SetWheelState(is_equal_exact(Pi::player->GetWheelState(), 0.0f));
 }
 
 void WorldView::ShowAll()
