@@ -34,6 +34,7 @@ January 2018
      * CityOnPlanet setuserdata optimized (#4289)
      * Updates to Geom class (#4292)
      * Minor optimisations around avoiding isqrt (#4294)
+     * Square the values now that the isqrt was removed (#4301)
 
    * Fixes
      * Planar and azimuthal radar at same time (#4265)
