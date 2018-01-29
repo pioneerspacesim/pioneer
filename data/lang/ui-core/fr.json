@@ -229,7 +229,7 @@
    },
    "CURRENT_FUEL" : {
       "description" : "For hyperjump planner",
-      "message" : "Current Fuel:"
+      "message" : "Carburant actuel:"
    },
    "CURRENT_SYSTEM" : {
       "description" : "For hyperjump planner",
@@ -381,7 +381,7 @@
    },
    "FINAL_TARGET" : {
       "description" : "Hyperjump planner, referring to star system target",
-      "message" : "Final Target:"
+      "message" : "Destination finale:"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
@@ -949,11 +949,11 @@
    },
    "MAJOR_EXPORTS_ITEM" : {
       "description" : "",
-      "message" : "Major exports"
+      "message" : "Exportations majeures"
    },
    "MAJOR_IMPORTS_ITEM" : {
       "description" : "",
-      "message" : "Major imports"
+      "message" : "Importations majeures"
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
@@ -1033,11 +1033,11 @@
    },
    "MINOR_EXPORTS_ITEM" : {
       "description" : "",
-      "message" : "Minor exports"
+      "message" : "Exportations mineures"
    },
    "MINOR_IMPORTS_ITEM" : {
       "description" : "",
-      "message" : "Minor imports"
+      "message" : "Importations mineures"
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
@@ -1065,7 +1065,7 @@
    },
    "MOVE_UP" : {
       "description" : "move selection up in list",
-      "message" : "Move Up"
+      "message" : "Monter"
    },
    "MULTISAMPLING" : {
       "description" : "",
@@ -1325,7 +1325,7 @@
    },
    "REQUIRED_FUEL" : {
       "description" : "Fuel usage for traveling to star system",
-      "message" : "Required Fuel:"
+      "message" : "Carburant nécessaire:"
    },
    "RESET" : {
       "description" : "",

@@ -13,7 +13,7 @@
    },
    "ANIMAL_MEAT_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "A major point of controversy, meat is the flesh of animals. With synthetic protein readily available, most people believe that animals should not be killed. While meats are illegal in most core systems, live animals and their meat is an important part of the lives of people on more traditional worlds."
+      "message" : "La viande est la chair des animaux et est un point de controverse majeur. Avec des protéines synthétiques aisément disponibles, la plupart des gens pensent que les animaux ne devraient pas être tués. Bien que la viande soit illégale dans la plupart des systèmes centraux, les animaux vivants et leur viande est une part importante de la vie des gens sur des mondes plus traditionels."
    },
    "BATTLE_WEAPONS" : {
       "description" : "",
@@ -65,7 +65,7 @@
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
-      "message" : "Fruit & vegetables"
+      "message" : "Fruits et légumes"
    },
    "FRUIT_AND_VEG_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -93,7 +93,7 @@
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
+      "message" : "Utilisé en tant que carburant pour les vaisseaux à hyperpropulsion, l'hydrogène est un élément extrèmement important. Heureusement, il est également l'élément le plus répandu dans l'univers, bien que son stockage ne soit pas aisé. Il est habituellement l'une des commodités les moins chères sur le marché. Les spatiaux ports sont toujours bien fournies en hydrogène."
    },
    "INDUSTRIAL_MACHINERY" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
-      "message" : "Liquid oxygen"
+      "message" : "Oxygène liquide"
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -117,7 +117,7 @@
    },
    "LIQUOR_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
+      "message" : "La plupart des avant-postes possèdent une décoction locale que les étrangers trouvent difficile pour leur estomac. L'alcool peut être banni dans certains systèmes puisqu'il est réputé embrouiller votre esprit. Quoi que dise la loi, un verre de whisky est presque toujours disponible au marché noir, si vous y mettez les moyens."
    },
    "LIVE_ANIMALS" : {
       "description" : "",
@@ -133,7 +133,7 @@
    },
    "MEDICINES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Derived from natural sources, or synthesized artificially, medicines are needed everywhere humans go. From curing the common cold to combat the adverse effects of prolonged space travel, medicines are essential to the prosperity of an interstellar humanity. Carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
+      "message" : "Extraits de sources naturelles ou bien synthétisés, les médicaments sont nécessaire partout où l'humain s'aventure. Du médicament contre le rhume, au combat contre les effets indésirables du voyage spatial prolongé, les médicaments sont essentiels à la prospérité de l'humanité interstellaire. Les médicaments sont surveillé soigneusement par les douaniers, car il n'est pas rare que des narcotiques soient camouflés sous la forme de médicaments banals."
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "METAL_ORE_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
+      "message" : "Beaucoup de colonies minent les minérais de métaux pour l'export. Ces minerais sont alors rafinés et employés en tant que matières première dans des usines industrielles. Utilisé aussi bien dans de petits jouets que dans les vaisseaux spatiaux, le métal sous toutes ses formes est essentiel à la civilisation moderne."
    },
    "MILITARY_FUEL" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "NERVE_GAS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "It is generally accepted to be a weapon of mass destruction, shunned even by the military in most systems, and thus illegal in most systems."
+      "message" : "Les gaz neurotoxiques sont généralement considérés comme des armes de destruction massive, très souvent boudé même par les militaires, ils ont donc illégaux dans la plupart des systèmes."
    },
    "PLASTICS" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Radioactives"
+      "message" : "Produits radioactifs"
    },
    "RADIOACTIVES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
