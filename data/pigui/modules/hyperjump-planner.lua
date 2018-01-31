@@ -226,14 +226,12 @@ end -- showHyperJumpPlannerWindow
 
 local function displayHyperJumpPlanner()
     player = Game.player
-    current_system = Game.system
-    current_path = current_system.path
-
-    current_fuel = player:CountEquip(Equipment.cargo.hydrogen,"cargo")
-
     local current_view = Game.CurrentView()
 
-    if current_view == "sector" then
+    if current_view == "sector" and not Game.InHyperspace() then
+		current_system = Game.system
+		current_path = current_system.path
+		current_fuel = player:CountEquip(Equipment.cargo.hydrogen,"cargo")
         map_selected_path = Engine.GetSectorMapSelectedSystemPath()
         hyperjump_route = Engine.SectorMapGetRoute()
         route_jumps = Engine.SectorMapGetRouteSize()
