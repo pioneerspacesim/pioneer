@@ -9,7 +9,7 @@
    },
    "ADD_JUMP" : {
       "description" : "UI-button: Add hyper jump to list of planned jumps",
-      "message" : "Add Jump"
+      "message" : "Ajouter ce saut"
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
@@ -41,7 +41,7 @@
    },
    "AUTO_ROUTE" : {
       "description" : "Automatically find shortest jump route (measured in time) in star map",
-      "message" : "Auto Route"
+      "message" : "Auto-itinéraire"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "CENTER_ON_SYSTEM" : {
       "description" : "Center on selected star system",
-      "message" : "Center on System"
+      "message" : "Centrer sur le système"
    },
    "CHANGE_BINDING" : {
       "description" : "Key binding option",
@@ -149,7 +149,7 @@
    },
    "CLEAR_ROUTE" : {
       "description" : "Clear a planned route of hyperjumps",
-      "message" : "Clear Route"
+      "message" : "Effacer l'itinéraire"
    },
    "CLIENT" : {
       "description" : "",
@@ -809,7 +809,7 @@
    },
    "HYPERJUMP_ROUTE" : {
       "description" : "",
-      "message" : "HyperJump Route"
+      "message" : "Itinéraire d'hyper-sauts"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
@@ -1061,7 +1061,7 @@
    },
    "MOVE_DOWN" : {
       "description" : "move selection down in list",
-      "message" : "Move Down"
+      "message" : "Descendre"
    },
    "MOVE_UP" : {
       "description" : "move selection up in list",
@@ -1297,7 +1297,7 @@
    },
    "REGISTRATION_NUMBER" : {
       "description" : "",
-      "message" : "Registration number"
+      "message" : "Numéro d'immatriculation"
    },
    "RELIABLE" : {
       "description" : "For player reputation",
@@ -1305,11 +1305,11 @@
    },
    "REMOVE_JUMP" : {
       "description" : "UI-button: remove hyper jump from list of planned jumps",
-      "message" : "Remove Jump"
+      "message" : "Effacer ce saut"
    },
    "REMOVE_WHEN_COMPLETED" : {
       "description" : "For UI hyperjump planner, referring to jump target system",
-      "message" : "Remove jump when completed"
+      "message" : "Effacer le saut après exécution"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
@@ -1353,11 +1353,11 @@
    },
    "ROUTE_INFO" : {
       "description" : "For hyperjump planner",
-      "message" : "Route Info"
+      "message" : "Info itinéraire"
    },
    "ROUTE_JUMPS" : {
       "description" : "For hyperjump planner",
-      "message" : "Route Jumps"
+      "message" : "Sauts de l'itinéraire"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1405,7 +1405,7 @@
    },
    "SETTINGS" : {
       "description" : "UI option",
-      "message" : "Settings"
+      "message" : "Paramètres"
    },
    "SET_AS_TARGET" : {
       "description" : "",
@@ -1525,11 +1525,11 @@
    },
    "TOTAL_DISTANCE" : {
       "description" : "Total distance of a (possibly series) of hyper jump(s)",
-      "message" : "Total Distance:"
+      "message" : "Distance totale:"
    },
    "TOTAL_DURATION" : {
       "description" : "Total duration of a (possibly series) of hyper jump(s)",
-      "message" : "Total Duration:"
+      "message" : "Durée totale:"
    },
    "TOTAL_MASS" : {
       "description" : "",
