@@ -1,3 +1,7 @@
+February 2018
+   * Fixes
+     * Don't crash when opening sector view in hyperspace (#4303)
+
 January 2018
    * New Features
      * F2 sector view UI moved to ImGui (#4204)
