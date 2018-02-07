@@ -1297,7 +1297,7 @@
    },
    "REGISTRATION_NUMBER" : {
       "description" : "",
-      "message" : "Registration number"
+      "message" : "Número de registro"
    },
    "RELIABLE" : {
       "description" : "For player reputation",
