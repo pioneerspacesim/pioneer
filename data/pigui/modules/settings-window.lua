@@ -329,23 +329,23 @@ local function showSoundOptions()
 	local effectsMuted = Engine.GetEffectsMuted()
 	local effectsLevel = Engine.GetEffectsVolume()*100
 
-	c,masterMuted = checkbox(lui.MUTE, masterMuted)
+	c,masterMuted = checkbox(lui.MUTE.."##master", masterMuted)
 	if c then Engine.SetMasterMuted(masterMuted) end
 	ui.sameLine()
 	c,masterLevel = slider(lui.MASTER_VOL, masterLevel, 0, 100)
-	if c then Engine.SetMasterVolume(masterLevel*100) end
+	if c then Engine.SetMasterVolume(masterLevel/100) end
 
-	c,musicMuted = checkbox(lui.MUTE, musicMuted)
-	if c then Engine.SetMasterMuted(musicMuted) end
+	c,musicMuted = checkbox(lui.MUTE.."##music", musicMuted)
+	if c then Engine.SetMusicMuted(musicMuted) end
 	ui.sameLine()
 	c,musicLevel = slider(lui.MUSIC, musicLevel, 0, 100)
-	if c then Engine.SetMasterVolume(musicLevel*100) end
+	if c then Engine.SetMusicVolume(musicLevel/100) end
 
-	c,effectsMuted = checkbox(lui.MUTE, effectsMuted)
-	if c then Engine.SetMasterMuted(effectsMuted) end
+	c,effectsMuted = checkbox(lui.MUTE.."##effects", effectsMuted)
+	if c then Engine.SetEffectsMuted(effectsMuted) end
 	ui.sameLine()
 	c,effectsLevel = slider(lui.EFFECTS, effectsLevel, 0, 100)
-	if c then Engine.SetMasterVolume(effectsLevel*100) end
+	if c then Engine.SetEffectsVolume(effectsLevel/100) end
 end
 
 local function showLanguageOptions()
