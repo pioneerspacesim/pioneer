@@ -928,5 +928,15 @@ ui.registerHandler(
 										end
 				end)
 		end)
+
+		if Game.CurrentView() == "world" and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.escape) then
+			if not ui.showOptionsWindow then
+				Game.SetTimeAcceleration("paused")
+				ui.showOptionsWindow = true
+			else
+				Game.SetTimeAcceleration("1x")
+				ui.showOptionsWindow = false
+			end
+		end
 end)
 

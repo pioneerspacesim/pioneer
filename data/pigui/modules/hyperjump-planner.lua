@@ -166,7 +166,6 @@ local function showJumpRoute()
                 end
         end)
 
-
         ui.separator()
 
         local start = current_path

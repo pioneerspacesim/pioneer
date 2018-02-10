@@ -1,4 +1,7 @@
 February 2018
+   * New Features
+     * Main menu converted to ImGui (#4299)
+
    * Fixes
      * Don't crash when opening sector view in hyperspace (#4303)
 

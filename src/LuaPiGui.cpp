@@ -355,6 +355,12 @@ static int l_pigui_set_next_window_pos(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_set_next_window_pos_center(lua_State *l) {
+	int cond = LuaPull<ImGuiSetCond_>(l, 1);
+	ImGui::SetNextWindowPosCenter(cond);
+	return 0;
+}
+
 static int l_pigui_set_next_window_focus(lua_State *l) {
 	ImGui::SetNextWindowFocus();
 	return 0;
@@ -370,6 +376,13 @@ static int l_pigui_set_next_window_size(lua_State *l) {
 	ImVec2 size = LuaPull<ImVec2>(l, 1);
 	int cond = LuaPull<ImGuiSetCond_>(l, 2);
 	ImGui::SetNextWindowSize(size, cond);
+	return 0;
+}
+
+static int l_pigui_set_next_window_size_constraints(lua_State *l) {
+	ImVec2 min = LuaPull<ImVec2>(l, 1);
+	ImVec2 max = LuaPull<ImVec2>(l, 2);
+	ImGui::SetNextWindowSizeConstraints(min, max);
 	return 0;
 }
 
@@ -478,7 +491,8 @@ static int l_pigui_text(lua_State *l) {
 
 static int l_pigui_button(lua_State *l) {
 	std::string text = LuaPull<std::string>(l, 1);
-	bool ret = ImGui::Button(text.c_str());
+	ImVec2 size = LuaPull<ImVec2>(l, 2);
+	bool ret = ImGui::Button(text.c_str(), size);
 	LuaPush<bool>(l, ret);
 	return 1;
 }
@@ -607,6 +621,112 @@ static int l_pigui_text_colored(lua_State *l) {
 // 	//	  Output("forward: %f/%f %s\n", marker->pos.x, marker->pos.y, side.c_str());
 // 	return 3;
 // }
+
+static int l_pigui_get_axisbinding(lua_State *l)
+{
+	std::string binding = "";
+	if (!Pi::IsJoystickEnabled()) {
+		lua_pushnil(l);
+		return 1;
+	}
+
+	ImGuiIO io = ImGui::GetIO();
+
+	// Escape is used to clear an existing binding
+	if (io.KeysDown[SDLK_ESCAPE]) {
+		binding = "disabled";
+		LuaPush<std::string>(l, binding);
+		return 1;
+	}
+
+	// otherwise actually check the joystick
+
+	auto joysticks = Pi::GetJoysticksState();
+
+	for (auto js : joysticks) {
+		std::vector<float> axes = js.second.axes;
+		for (auto a = 0; a < axes.size(); a++) {
+			if (axes[a]>0.25 || axes[a]<-0.25) {
+				binding = "Joy" + Pi::JoystickGUIDString(js.first) + "/Axis" + std::to_string(a);
+				break;
+			}
+		}
+		if (binding.compare("")) break;
+	}
+
+	if (!binding.compare("")) lua_pushnil(l);
+	else LuaPush<std::string>(l, binding);
+	return 1;
+}
+
+static int l_pigui_get_keybinding(lua_State *l)
+{
+	ImGuiIO io = ImGui::GetIO();
+	int key = 0;
+	int mod = 0;
+
+	std::string binding;
+
+	// pick the first key that's currently held down
+	// should there be a priority?
+	for (int i = 0; i < 512; i++) {
+		if (io.KeysDown[i]) {
+			key = i;
+			break;
+		}
+	}
+
+	// Escape is used to clear an existing binding
+	if (key == SDLK_ESCAPE) {
+		binding = "disabled";
+		LuaPush<std::string>(l, binding);
+		return 1;
+	}
+
+	// or-ing with 0x100 below is done because ImGui does it for key codes that are derived from scancodes
+	// (essentially adding 256 to the scancode)
+	// ImGui keycodes range from 0-512
+	// So LCTRL goes from 224 -> 480
+
+	// No modifier if the key is a modifier
+	// These are all in a continous range apparently...?
+	if (!(key >= (SDL_SCANCODE_LCTRL | 0x100) && key <= (SDL_SCANCODE_RGUI | 0x100))) {
+		if (io.KeyAlt) mod |= KMOD_ALT;
+		if (io.KeyShift) mod |= KMOD_SHIFT;
+		if (io.KeyCtrl) mod |= KMOD_CTRL;
+		if (io.KeySuper) mod |= KMOD_GUI;
+	}
+
+	// Check joysticks if no keys are held down
+	if (Pi::IsJoystickEnabled() && (key == 0 || (key >= (SDL_SCANCODE_LCTRL | 0x100) && key <= (SDL_SCANCODE_RGUI | 0x100)))) {
+		auto joysticks = Pi::GetJoysticksState();
+
+		for (auto js : joysticks) {
+			std::vector<bool> buttons = js.second.buttons;
+			for (auto b = 0; b < buttons.size(); b++) {
+				if (buttons[b]) {
+					binding = "Joy" + Pi::JoystickGUIDString(js.first) + "/Button" + std::to_string(b);
+					break;
+				}
+			}
+			for (auto h = 0; h < js.second.hats.size(); h++) {
+				if (js.second.hats[h]) {
+					binding = "Joy" + Pi::JoystickGUIDString(js.first) + "/Hat" + std::to_string(h) + "Dir" + std::to_string(js.second.hats[h]);
+					break;
+				}
+			}
+			if (binding.compare("")) break;
+		}
+	}
+	else {
+		// hard coding is bad, but is instantiating a keybinding every frame worse?
+		binding = "Key" + std::to_string(key);
+		if (mod > 0) binding += "Mod" + std::to_string(mod);
+	}
+	if (!binding.compare("")) lua_pushnil(l);
+	else LuaPush<std::string>(l, binding);
+	return 1;
+}
 
 static int l_pigui_add_text(lua_State *l) {
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
@@ -764,7 +884,8 @@ static int l_pigui_end_popup(lua_State *l) {
 
 static int l_pigui_begin_child(lua_State *l) {
 	std::string id = LuaPull<std::string>(l, 1);
-	ImGui::BeginChild(id.c_str());
+	ImVec2 size = LuaPull<ImVec2>(l, 2);
+	ImGui::BeginChild(id.c_str(),size);
 	return 0;
 }
 
@@ -1070,6 +1191,45 @@ static int l_attr_screen_height(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_combo(lua_State *l) {
+	std::string lbl = LuaPull<std::string>(l, 1);
+	int selected = LuaPull<int>(l, 2);
+
+	LuaTable t(l, 3);
+	std::vector<const char *> items;
+	for (auto it = t.Begin<const char *>(); it != t.End<const char *>(); it++) {
+		items.push_back(*it);
+	}
+
+	bool changed = ImGui::Combo(lbl.c_str(), &selected, &items[0], static_cast<int>(items.size()));
+
+	LuaPush<bool>(l, changed);
+	LuaPush<int>(l, selected);
+
+	return 2;
+}
+
+
+static int l_pigui_listbox(lua_State *l) {
+
+	std::string lbl = LuaPull<std::string>(l, 1);
+	int selected = LuaPull<int>(l, 2);
+
+	LuaTable t(l, 3);
+	std::vector<const char *> items;
+	for (auto it = t.Begin<const char *>(); it != t.End<const char *>(); it++) {
+		items.push_back(*it);
+	}
+
+	bool changed = ImGui::ListBox(lbl.c_str(), &selected, &items[0], static_cast<int>(items.size()));
+
+	LuaPush<bool>(l, changed);
+	LuaPush<int>(l, selected);
+
+	return 2;
+}
+
+
 static int l_pigui_radial_menu(lua_State *l) {
 	ImVec2 center = LuaPull<ImVec2>(l, 1);
 	std::string id = LuaPull<std::string>(l, 2);
@@ -1186,6 +1346,18 @@ static int l_pigui_circular_slider(lua_State *l) {
 		LuaPush<double>(l, v);
 	else
 		lua_pushnil(l);
+	return 1;
+}
+
+static int l_pigui_slider_int(lua_State *l) {
+	std::string lbl = LuaPull<std::string>(l, 1);
+	int value = LuaPull<int>(l, 2);
+	int val_min = LuaPull<int>(l, 3);
+	int val_max = LuaPull<int>(l, 4);
+
+	ImGui::SliderInt(lbl.c_str(), &value, val_min, val_max);
+
+	LuaPush<int>(l, value);
 	return 1;
 }
 
@@ -1333,9 +1505,13 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "AddImageQuad",           l_pigui_add_image_quad },
 		{ "AddBezierCurve",         l_pigui_add_bezier_curve },
 		{ "SetNextWindowPos",       l_pigui_set_next_window_pos },
+		{ "SetNextWindowPosCenter", l_pigui_set_next_window_pos_center },
 		{ "SetNextWindowSize",      l_pigui_set_next_window_size },
+		{ "SetNextWindowSizeConstraints", l_pigui_set_next_window_size_constraints },
 		{ "SetNextWindowFocus",     l_pigui_set_next_window_focus },
 		{ "SetWindowFocus",         l_pigui_set_window_focus },
+		{ "GetKeyBinding",          l_pigui_get_keybinding },
+		{ "GetAxisBinding",         l_pigui_get_axisbinding },
 		//		{ "GetHUDMarker",           l_pigui_get_hud_marker },
 		//    { "GetVelocity",            l_pigui_get_velocity },
 		{ "PushStyleColor",         l_pigui_push_style_color },
@@ -1391,6 +1567,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "ImageButton",            l_pigui_image_button },
 		{ "RadialMenu",             l_pigui_radial_menu },
 		{ "CircularSlider",         l_pigui_circular_slider },
+	    { "SliderInt",              l_pigui_slider_int },
 		{ "VSliderFloat",           l_pigui_vsliderfloat },
 	    { "VSliderInt",             l_pigui_vsliderint },
 		{ "GetMouseClickedPos",     l_pigui_get_mouse_clicked_pos },
@@ -1399,6 +1576,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "DragInt4",               l_pigui_drag_int_4 },
 		{ "GetWindowPos",           l_pigui_get_window_pos },
 		{ "InputText",              l_pigui_input_text },
+		{ "Combo",                  l_pigui_combo },
+		{ "ListBox",                l_pigui_listbox },
 		{ "CollapsingHeader",       l_pigui_collapsing_header },
 		{ "CaptureMouseFromApp",    l_pigui_capture_mouse_from_app },
 		{ "ProgressBar",            l_pigui_progress_bar },

@@ -232,6 +232,9 @@ private:
 
 	static bool isRecordingVideo;
 	static FILE *ffmpegFile;
+
+public:
+	static std::map<SDL_JoystickID, JoystickState> GetJoysticksState() { return joysticks; }
 };
 
 #endif /* _PI_H */

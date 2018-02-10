@@ -3,6 +3,7 @@
 
 local Format = import('Format')
 local Game = import('Game')
+local Player = import('Player')
 local Space = import('Space')
 local Engine = import('Engine')
 local Event = import("Event")
@@ -78,9 +79,12 @@ function ui.popup(name, fun)
 		pigui.EndPopup()
 	end
 end
-
-function ui.child(id, fun)
-	pigui.BeginChild(id)
+function ui.child(id, size, fun)
+	if fun == nil then -- size is optional
+		fun = size
+		size = Vector(-1,-1)
+	end
+	pigui.BeginChild(id, size)
 	fun()
 	pigui.EndChild()
 end
@@ -455,10 +459,14 @@ end
 ui.screenWidth = pigui.screen_width
 ui.screenHeight = pigui.screen_height
 ui.setNextWindowPos = pigui.SetNextWindowPos
+ui.setNextWindowPosCenter = pigui.SetNextWindowPosCenter
 ui.setNextWindowSize = pigui.SetNextWindowSize
+ui.setNextWindowSizeConstraints = pigui.SetNextWindowSizeConstraints
 ui.dummy = pigui.Dummy
 ui.sameLine = pigui.SameLine
 ui.text = pigui.Text
+ui.combo = pigui.Combo
+ui.listBox = pigui.ListBox
 ui.textWrapped = pigui.TextWrapped
 ui.textColored = pigui.TextColored
 ui.inputText = pigui.InputText
@@ -528,6 +536,36 @@ ui.altHeld = function() return pigui.key_alt end
 ui.shiftHeld = function() return pigui.key_shift end
 ui.noModifierHeld = function() return pigui.key_none end
 ui.vSliderInt = pigui.VSliderInt
+ui.sliderInt = pigui.SliderInt
+ui.coloredSelectedButton = function(label, thesize, is_selected, bg_color, tooltip, enabled)
+	if is_selected then
+		pigui.PushStyleColor("Button", bg_color)
+		if enabled then
+			pigui.PushStyleColor("ButtonHovered", bg_color:tint(0.1))
+			pigui.PushStyleColor("ButtonActive", bg_color:tint(0.2))
+		else
+			pigui.PushStyleColor("ButtonHovered", bg_color)
+			pigui.PushStyleColor("ButtonActive", bg_color)
+		end
+	else
+		pigui.PushStyleColor("Button", bg_color:shade(0.6))
+		if enabled then
+			pigui.PushStyleColor("ButtonHovered", bg_color:shade(0.4))
+			pigui.PushStyleColor("ButtonActive", bg_color:shade(0.2))
+		else
+			pigui.PushStyleColor("ButtonHovered", bg_color)
+			pigui.PushStyleColor("ButtonActive", bg_color)
+		end
+	end
+	--pigui.PushID(label)
+	local res = pigui.Button(label,thesize)
+	--pigui.PopID()
+	pigui.PopStyleColor(3)
+	if pigui.IsItemHovered() and enabled and tooltip then
+		pigui.SetTooltip(tooltip)
+	end
+	return res
+end
 ui.coloredSelectedIconButton = function(icon, thesize, is_selected, frame_padding, bg_color, fg_color, tooltip)
 	if is_selected then
 		pigui.PushStyleColor("Button", bg_color)
