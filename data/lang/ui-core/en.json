@@ -560,8 +560,8 @@
       "message" : "Distance to the surface of the frame of reference"
    },
    "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
-       "description" : "Tooltip: The speed of approach towards the target.",
-       "message" : "The speed of approach towards the target"
+       "description" : "Tooltip: The speed of approach relative to target.",
+       "message" : "The speed of approach relative to target"
    },
    "HUD_SPEED_OF_APPROACH_TO_FRAME" : {
        "description" : "Tooltip: The speed of approach towards the frame of reference.",
