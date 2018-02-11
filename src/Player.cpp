@@ -88,6 +88,8 @@ void Player::InitCockpit()
 	}
 	if (!cockpitModelName.empty())
 		m_cockpit.reset(new ShipCockpit(cockpitModelName));
+
+	OnCockpitActivated();
 }
 
 bool Player::DoCrushDamage(float kgDamage)
@@ -265,7 +267,7 @@ void Player::AbortHyperjump()
 void Player::OnCockpitActivated()
 {
 	if (m_cockpit)
-		m_cockpit->OnActivated();
+		m_cockpit->OnActivated(this);
 }
 
 void Player::StaticUpdate(const float timeStep)
@@ -275,7 +277,7 @@ void Player::StaticUpdate(const float timeStep)
 	// XXX even when not on screen. hacky, but really cockpit shouldn't be here
 	// anyway so this will do for now
 	if (m_cockpit)
-		m_cockpit->Update(timeStep);
+		m_cockpit->Update(this, timeStep);
 }
 
 int Player::GetManeuverTime() const {
