@@ -27,6 +27,10 @@
       "description" : "",
       "message" : "Amount"
    },
+   "ANISOTROPIC_FILTERING_DESC" : {
+      "description" : "",
+      "message" : "Samples the texture across multiple mip levels to produce a much clearer texture when viewed at shallow angles. Stops the textures from becoming as blurred; however, it can come at a heavy performance cost."
+   },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
       "message" : "An error has occurred"
@@ -155,6 +159,10 @@
       "description" : "",
       "message" : "Client"
    },
+   "CLOSE" : {
+      "description" : "",
+      "message" : "Close"
+   },
    "COMBAT" : {
       "description" : "Headline for kills and combat rating",
       "message" : "Combat"
@@ -214,6 +222,10 @@
    "CREDIBLE" : {
       "description" : "For player reputation",
       "message" : "Credible"
+   },
+   "CREDITS" : {
+      "description" : "in game currency",
+      "message" : "Credits"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -283,6 +295,10 @@
       "description" : "Settings option: effect when travelling in space",
       "message" : "Display speed lines"
    },
+   "DOCKED_AT" : {
+      "description" : "",
+      "message" : "Docked at"
+   },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
       "message" : "Dock at current target"
@@ -330,6 +346,10 @@
    "ENABLE_JOYSTICK" : {
       "description" : "",
       "message" : "Enable joystick"
+   },
+   "END_GAME" : {
+      "description" : "",
+      "message" : "End Game"
    },
    "ENGINEERING" : {
       "description" : "Engineering skills of crew",
@@ -383,6 +403,14 @@
       "description" : "Hyperjump planner, referring to star system target",
       "message" : "Final Target:"
    },
+   "FLIGHT_STATE" : {
+      "description" : "",
+      "message" : "Flight State"
+   },
+   "FLYING" : {
+      "description" : "",
+      "message" : "Flying"
+   },
    "FORWARD_ACCEL" : {
       "description" : "",
       "message" : "Forward acceleration"
@@ -423,6 +451,10 @@
       "description" : "",
       "message" : "Full screen"
    },
+   "GAME_TIME" : {
+      "description" : "",
+      "message" : "Game time"
+   },
    "GENERAL_CREW" : {
       "description" : "",
       "message" : "General crew"
@@ -434,6 +466,14 @@
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
       "message" : "Good riddance to you, too."
+   },
+   "GPU_JOBS" : {
+      "description" : "",
+      "message" : "GPU Jobs"
+   },
+   "GPU_JOBS_DESC" : {
+      "description" : "",
+      "message" : "Utilize GPU for certain actions, possibly improving performance."
    },
    "HANG_UP" : {
       "description" : "",
@@ -772,8 +812,8 @@
       "message" : "The speed of approach towards the frame of reference"
    },
    "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
-      "description" : "Tooltip: The speed of approach towards the target.",
-      "message" : "The speed of approach towards the target"
+      "description" : "Tooltip: The speed of approach relative to target.",
+      "message" : "The speed of approach relative to target"
    },
    "HUD_SPEED_RELATIVE_TO_TARGET" : {
       "description" : "Tooltip: The speed relative to the target.",
@@ -862,6 +902,10 @@
    "JETTISON" : {
       "description" : "",
       "message" : "Jettison"
+   },
+   "JUMPING" : {
+      "description" : "Flight State",
+      "message" : "Jumping"
    },
    "KILLS" : {
       "description" : "",
@@ -1071,6 +1115,10 @@
       "description" : "",
       "message" : "Multisampling"
    },
+   "MULTISAMPLING_DESC" : {
+      "description" : "",
+      "message" : "A graphical fine-tuning feature, used to reduce jagged, pixelated contours. It can be quite resource-intensive."
+   },
    "MURDER" : {
       "description" : "",
       "message" : "Murder"
@@ -1249,7 +1297,7 @@
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
-      "message" : "Press a key or controller button"
+      "message" : "Press a key or controller button or escape to clear"
    },
    "PRICE" : {
       "description" : "",
@@ -1459,13 +1507,25 @@
       "description" : "",
       "message" : "Start at Barnard's Star"
    },
+   "START_AT_BARNARDS_STAR_DESC" : {
+      "description" : "",
+      "message" : "This is a difficult start from the System Administration Resting prison station."
+   },
    "START_AT_EARTH" : {
       "description" : "",
       "message" : "Start at Earth"
    },
+   "START_AT_EARTH_DESC" : {
+      "description" : "",
+      "message" : "This is an easy start from London on Earth in the Sol system."
+   },
    "START_AT_NEW_HOPE" : {
       "description" : "New Hope is an in game location",
       "message" : "Start at New Hope"
+   },
+   "START_AT_NEW_HOPE_DESC" : {
+      "description" : "",
+      "message" : "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
    },
    "STAR_FIELD_DENSITY" : {
       "description" : "",
@@ -1490,6 +1550,10 @@
    "TECH_CERTIFIED_MILITARY" : {
       "description" : "Lobby screen shows the tech level of the station",
       "message" : "This installation holds a military technology clearance."
+   },
+   "TEXTURE_COMPRESSION" : {
+      "description" : "",
+      "message" : "This frees up more memory for the graphics card, which is likely what you want, at the expense of compressing them during game start."
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
@@ -1571,6 +1635,10 @@
       "description" : "Game settings option: graphic resolution",
       "message" : "Very low"
    },
+   "VICINITY_OF" : {
+      "description" : "",
+      "message" : "In vicinity of"
+   },
    "VIDEO" : {
       "description" : "",
       "message" : "Video"
@@ -1583,9 +1651,17 @@
       "description" : "",
       "message" : "Video resolution"
    },
+   "VIDEO_RESOLUTION_DESC" : {
+      "description" : "Tooltip for video mode/resultion setting",
+      "message" : "Higher resolutions display more information at a smaller size and can decrease performance."
+   },
    "VSYNC" : {
       "description" : "For the checkbox in settings window",
       "message" : "VSync"
+   },
+   "VSYNC_DESC" : {
+      "description" : "",
+      "message" : "Vertical Sync can eliminate visual tearing or artifacts, and input latency."
    },
    "WAGE" : {
       "description" : "Salary of crew shown in crew roster",

@@ -27,6 +27,10 @@
       "description" : "",
       "message" : "Miktar"
    },
+   "ANISOTROPIC_FILTERING_DESC" : {
+      "description" : "",
+      "message" : "Dokuları birden çok mip seviyesi arasında örnekler ve dar açılardan görüntülenen dokulara daha düzgün bir görüntü verir. Dokuların bulanıklaşmasını önler, ancak performans bedeli ağır olabilir."
+   },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
       "message" : "Bir hata oluştu"
@@ -155,6 +159,10 @@
       "description" : "",
       "message" : "Müşteri"
    },
+   "CLOSE" : {
+      "description" : "",
+      "message" : "Kapat"
+   },
    "COMBAT" : {
       "description" : "Headline for kills and combat rating",
       "message" : "Savaş"
@@ -214,6 +222,10 @@
    "CREDIBLE" : {
       "description" : "For player reputation",
       "message" : "İnanılır"
+   },
+   "CREDITS" : {
+      "description" : "in game currency",
+      "message" : "Kredi"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -283,6 +295,10 @@
       "description" : "Settings option: effect when travelling in space",
       "message" : "Hız çizgilerini göster"
    },
+   "DOCKED_AT" : {
+      "description" : "",
+      "message" : "Kenetli"
+   },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
       "message" : "Mevcut hedefe kenetlen"
@@ -330,6 +346,10 @@
    "ENABLE_JOYSTICK" : {
       "description" : "",
       "message" : "Joystick etkin"
+   },
+   "END_GAME" : {
+      "description" : "",
+      "message" : "Oyunu Bitir"
    },
    "ENGINEERING" : {
       "description" : "Engineering skills of crew",
@@ -383,6 +403,14 @@
       "description" : "Hyperjump planner, referring to star system target",
       "message" : "Son Hedef:"
    },
+   "FLIGHT_STATE" : {
+      "description" : "",
+      "message" : "Uçuş Durumu"
+   },
+   "FLYING" : {
+      "description" : "",
+      "message" : "Uçuyor"
+   },
    "FORWARD_ACCEL" : {
       "description" : "",
       "message" : "İleri ivme"
@@ -423,6 +451,10 @@
       "description" : "",
       "message" : "Tam ekran"
    },
+   "GAME_TIME" : {
+      "description" : "",
+      "message" : "Oyun zamanı"
+   },
    "GENERAL_CREW" : {
       "description" : "",
       "message" : "Genel mürettebat"
@@ -434,6 +466,14 @@
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
       "message" : "Sana da iyi şanslar."
+   },
+   "GPU_JOBS" : {
+      "description" : "",
+      "message" : "GPU İşleri"
+   },
+   "GPU_JOBS_DESC" : {
+      "description" : "",
+      "message" : "Bazı eylemler için GPU kullanarak performansı arttır."
    },
    "HANG_UP" : {
       "description" : "",
@@ -772,8 +812,8 @@
       "message" : "Referans karesini yaklaşım hızı"
    },
    "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
-      "description" : "Tooltip: The speed of approach towards the target.",
-      "message" : "Hedefe yaklaşım hızı"
+      "description" : "Tooltip: The speed of approach relative to target.",
+      "message" : "The speed of approach relative to target"
    },
    "HUD_SPEED_RELATIVE_TO_TARGET" : {
       "description" : "Tooltip: The speed relative to the target.",
@@ -862,6 +902,10 @@
    "JETTISON" : {
       "description" : "",
       "message" : "Fırlat"
+   },
+   "JUMPING" : {
+      "description" : "Flight State",
+      "message" : "Sıçrıyor"
    },
    "KILLS" : {
       "description" : "",
@@ -1071,6 +1115,10 @@
       "description" : "",
       "message" : "Çoklu örnekleme"
    },
+   "MULTISAMPLING_DESC" : {
+      "description" : "",
+      "message" : "Bir grafiksel düzeltme özelliği, pürüzlü ve pikselleşmiş hatları azaltır. Kaynak kullanımını arttırabilir."
+   },
    "MURDER" : {
       "description" : "",
       "message" : "Cinayet"
@@ -1249,7 +1297,7 @@
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
-      "message" : "Bir tuşa veya kontrolcü düğmesine basın"
+      "message" : "Temizlemek için bir tuşa veya escape'e basın"
    },
    "PRICE" : {
       "description" : "",
@@ -1459,13 +1507,25 @@
       "description" : "",
       "message" : "Barnard Yıldızı'nda Başla"
    },
+   "START_AT_BARNARDS_STAR_DESC" : {
+      "description" : "",
+      "message" : "This is a difficult start from the System Administration Resting prison station."
+   },
    "START_AT_EARTH" : {
       "description" : "",
       "message" : "Dünya'da Başla"
    },
+   "START_AT_EARTH_DESC" : {
+      "description" : "",
+      "message" : "Bu, Sol sistemindeki Dünya'da bulunan Londra'dan yapılan kolay başlangıç."
+   },
    "START_AT_NEW_HOPE" : {
       "description" : "New Hope is an in game location",
       "message" : "Yeni Ümit'te Başla"
+   },
+   "START_AT_NEW_HOPE_DESC" : {
+      "description" : "",
+      "message" : "Bu, Epsilon Eridani sistemindeki New Hope'ta bulunan Itzaelan'dan yapılan orta zorluktaki başlangıç."
    },
    "STAR_FIELD_DENSITY" : {
       "description" : "",
@@ -1490,6 +1550,10 @@
    "TECH_CERTIFIED_MILITARY" : {
       "description" : "Lobby screen shows the tech level of the station",
       "message" : "Bu yerleşimde askeri teknoloji belgesi var."
+   },
+   "TEXTURE_COMPRESSION" : {
+      "description" : "",
+      "message" : "Bu, muhtemelen sizin de isteyeceğiniz gibi, dokuları oyun başlangıcında sıkıştırarak grafik kartına daha fazla bellek ayırır."
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
@@ -1571,6 +1635,10 @@
       "description" : "Game settings option: graphic resolution",
       "message" : "Çok düşük"
    },
+   "VICINITY_OF" : {
+      "description" : "",
+      "message" : "Şunun çevresinde:"
+   },
    "VIDEO" : {
       "description" : "",
       "message" : "Görüntü"
@@ -1583,9 +1651,17 @@
       "description" : "",
       "message" : "Ekran çözünürlüğü"
    },
+   "VIDEO_RESOLUTION_DESC" : {
+      "description" : "Tooltip for video mode/resultion setting",
+      "message" : "Yüksek çözünürlük, ekrana daha fazla ve daha küçük bilgiler gönderir, performansı düşürebilir."
+   },
    "VSYNC" : {
       "description" : "For the checkbox in settings window",
       "message" : "Dikey Senkronizasyon"
+   },
+   "VSYNC_DESC" : {
+      "description" : "",
+      "message" : "Dikey Senkronizasyon görsel bozuklukları ve girdi gecikmesini düzeltir."
    },
    "WAGE" : {
       "description" : "Salary of crew shown in crew roster",
