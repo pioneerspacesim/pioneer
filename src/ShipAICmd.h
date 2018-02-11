@@ -357,8 +357,8 @@ class AICmdHoldPosition : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
 	AICmdHoldPosition(DynamicBody *dBody) : AICommand(dBody, CMD_HOLDPOSITION) {
-		Propulsion *prop = m_dBody->GetPropulsion();
-		assert(prop!=0);
+		m_prop = m_dBody->GetPropulsion();
+		assert(m_prop!=nullptr);
 	}
 	AICmdHoldPosition(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_HOLDPOSITION) {
 		// Ensure needed sub-system:
