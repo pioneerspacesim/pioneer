@@ -5,6 +5,8 @@ February 2018
    * Fixes
      * Don't crash when opening sector view in hyperspace (#4303)
      * Bugfix for new main menu changes (#4310)
+     * Fix startup crash, m_prop was null (#4312)
+     * Activate the cockpit if it's being used (#4313)
 
 January 2018
    * New Features
