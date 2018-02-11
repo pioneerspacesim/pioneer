@@ -19,7 +19,7 @@ enum Guns {
 	GUNMOUNT_MAX = 2
 };
 
-class FixedGuns
+class FixedGuns : public RefCounted
 {
 	public:
 		FixedGuns();
