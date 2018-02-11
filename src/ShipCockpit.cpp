@@ -38,7 +38,7 @@ ShipCockpit::~ShipCockpit()
 void ShipCockpit::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	PROFILE_SCOPED()
-		RenderModel(renderer, camera, viewCoords, viewTransform);
+	RenderModel(renderer, camera, viewCoords, viewTransform);
 }
 
 inline void ShipCockpit::resetInternalCameraController() {
@@ -183,7 +183,7 @@ void ShipCockpit::Update(const Player *player, float timeStep)
 void ShipCockpit::RenderCockpit(Graphics::Renderer* renderer, const Camera* camera, Frame* frame)
 {
 	PROFILE_SCOPED()
-		renderer->ClearDepthBuffer();
+	renderer->ClearDepthBuffer();
 	SetFrame(frame);
 	Render(renderer, camera, m_translate, m_transform);
 	SetFrame(nullptr);
