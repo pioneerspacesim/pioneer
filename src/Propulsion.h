@@ -22,7 +22,7 @@ enum Thruster { // <enum scope='Thruster' name=ShipTypeThruster prefix=THRUSTER_
 	THRUSTER_MAX // <enum skip>
 };
 
-class Propulsion
+class Propulsion : public RefCounted
 {
 	public:
 		// Inits:

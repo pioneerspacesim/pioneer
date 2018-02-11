@@ -113,8 +113,8 @@ private:
 
 	bool m_features[MAX_FEATURE];
 
-	Propulsion *m_propulsion;
-	FixedGuns *m_fixedGuns;
+	RefCountedPtr<Propulsion> m_propulsion;
+	RefCountedPtr<FixedGuns> m_fixedGuns;
 };
 
 #endif /* _DYNAMICBODY_H */

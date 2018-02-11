@@ -29,8 +29,6 @@ public:
 	AICommand(DynamicBody *dBody, CmdName name):
 		m_dBody(dBody), m_cmdName(name) {
 		m_dBody->AIMessage(DynamicBody::AIERROR_NONE);
-		m_prop = nullptr;
-		m_fguns = nullptr;
 	}
 	virtual ~AICommand() {}
 
@@ -53,8 +51,8 @@ public:
 	CmdName GetType() const { return m_cmdName; }
 protected:
 	DynamicBody *m_dBody;
-	Propulsion *m_prop;
-	FixedGuns *m_fguns;
+	RefCountedPtr<Propulsion> m_prop;
+	RefCountedPtr<FixedGuns> m_fguns;
 
 	std::unique_ptr<AICommand> m_child;
 	CmdName m_cmdName;
@@ -98,7 +96,7 @@ public:
 		AICommand::PostLoadFixup(space);
 		m_target = static_cast<SpaceStation *>(space->GetBodyByIndex(m_targetIndex));
 		// Ensure needed sub-system:
-		m_prop = m_dBody->GetPropulsion();
+		m_prop.Reset(m_dBody->GetPropulsion());
 		assert(m_prop!=nullptr);
 	}
 	virtual void OnDeleted(const Body *body) {
@@ -182,7 +180,7 @@ public:
 		m_targframe = space->GetFrameByIndex(m_targframeIndex);
 		m_lockhead = true;
 		// Ensure needed sub-system:
-		m_prop = m_dBody->GetPropulsion();
+		m_prop.Reset(m_dBody->GetPropulsion());
 		assert(m_prop!=nullptr);
 	}
 	virtual void OnDeleted(const Body *body) {
@@ -240,7 +238,7 @@ public:
 		AICommand::PostLoadFixup(space);
 		m_obstructor = space->GetBodyByIndex(m_obstructorIndex);
 		// Ensure needed sub-system:
-		m_prop = m_dBody->GetPropulsion();
+		m_prop.Reset(m_dBody->GetPropulsion());
 		assert(m_prop!=nullptr);
 	}
 	virtual void OnDeleted(const Body *body) {
@@ -268,8 +266,8 @@ public:
 		m_target = target;
 		m_leadTime = m_evadeTime = m_closeTime = 0.0;
 		m_lastVel = m_target->GetVelocity();
-		m_prop = m_dBody->GetPropulsion();
-		m_fguns = m_dBody->GetFixedGuns();
+		m_prop.Reset(m_dBody->GetPropulsion());
+		m_fguns.Reset(m_dBody->GetFixedGuns());
 		assert(m_prop!=nullptr);
 		assert(m_fguns!=nullptr);
 	}
@@ -297,8 +295,8 @@ public:
 		m_leadTime = m_evadeTime = m_closeTime = 0.0;
 		m_lastVel = m_target->GetVelocity();
 		// Ensure needed sub-system:
-		m_prop = m_dBody->GetPropulsion();
-		m_fguns = m_dBody->GetFixedGuns();
+		m_prop.Reset(m_dBody->GetPropulsion());
+		m_fguns.Reset(m_dBody->GetFixedGuns());
 		assert(m_prop!=nullptr);
 		assert(m_fguns!=nullptr);
 	}
@@ -320,7 +318,7 @@ public:
 	virtual bool TimeStepUpdate();
 	AICmdKamikaze(DynamicBody *dBody, Body *target) : AICommand(dBody, CMD_KAMIKAZE) {
 		m_target = target;
-		m_prop = m_dBody->GetPropulsion();
+		m_prop.Reset(m_dBody->GetPropulsion());
 		assert(m_prop!=nullptr);
 	}
 
@@ -339,7 +337,7 @@ public:
 		AICommand::PostLoadFixup(space);
 		m_target = space->GetBodyByIndex(m_targetIndex);
 		// Ensure needed sub-system:
-		m_prop = m_dBody->GetPropulsion();
+		m_prop.Reset(m_dBody->GetPropulsion());
 		assert(m_prop!=nullptr);
 	}
 
@@ -357,12 +355,12 @@ class AICmdHoldPosition : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
 	AICmdHoldPosition(DynamicBody *dBody) : AICommand(dBody, CMD_HOLDPOSITION) {
-		Propulsion *prop = m_dBody->GetPropulsion();
-		assert(prop!=0);
+		m_prop.Reset(m_dBody->GetPropulsion());
+		assert(m_prop!=nullptr);
 	}
 	AICmdHoldPosition(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_HOLDPOSITION) {
 		// Ensure needed sub-system:
-		m_prop = m_dBody->GetPropulsion();
+		m_prop.Reset(m_dBody->GetPropulsion());
 		assert(m_prop!=nullptr);
 	}
 };
@@ -395,7 +393,7 @@ public:
 		AICommand::PostLoadFixup(space);
 		m_target = static_cast<Ship*>(space->GetBodyByIndex(m_targetIndex));
 		// Ensure needed sub-system:
-		m_prop = m_dBody->GetPropulsion();
+		m_prop.Reset(m_dBody->GetPropulsion());
 		assert(m_prop!=nullptr);
 	}
 	virtual void OnDeleted(const Body *body) {

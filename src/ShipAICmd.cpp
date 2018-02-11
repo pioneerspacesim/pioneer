@@ -723,11 +723,11 @@ extern double calc_ivel(double dist, double vel, double acc);
 // Fly to vicinity of body
 AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, Body *target) : AICommand(dBody, CMD_FLYTO)
 {
-	m_prop = dBody->GetPropulsion();
+	m_prop.Reset(dBody->GetPropulsion());
 	assert(m_prop!=nullptr);
 	m_frame = 0; m_state = -6; m_lockhead = true; m_endvel = 0; m_tangent = false;
 	if (!target->IsType(Object::TERRAINBODY)) m_dist = VICINITY_MIN;
-	else m_dist = VICINITY_MUL*MaxEffectRad(target, m_prop);
+	else m_dist = VICINITY_MUL*MaxEffectRad(target, m_prop.Get());
 
 	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation*>(target)->IsGroundStation()) {
 		m_posoff = target->GetPosition() + 15000.0 * target->GetOrient().VectorY();
@@ -751,7 +751,7 @@ AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, Frame *targframe, const vector3d &pos
 	m_lockhead(true),
 	m_frame(nullptr)
 {
-	m_prop = dBody->GetPropulsion();
+	m_prop.Reset(dBody->GetPropulsion());
 	assert(m_prop!=nullptr);
 }
 
@@ -809,7 +809,7 @@ Output("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 // TODO: collision needs to be processed according to vdiff, not reldir?
 
 	Body *body = m_frame->GetBody();
-	double erad = MaxEffectRad(body, m_prop);
+	double erad = MaxEffectRad(body, m_prop.Get());
 	if ((m_target && body != m_target)
 		|| (m_targframe && (!m_tangent || body != m_targframe->GetBody())))
 	{
@@ -930,7 +930,7 @@ AICmdDock::AICmdDock(DynamicBody *dBody, SpaceStation *target) : AICommand(dBody
 	ship = static_cast<Ship*>(dBody);
 	assert(ship!=nullptr);
 
-	m_prop = ship->GetPropulsion(); // dBody->GetPropulsion();
+	m_prop.Reset(ship->GetPropulsion());
 	assert(m_prop!=nullptr);
 
 	double grav = GetGravityAtPos(m_target->GetFrame(), m_target->GetPosition());
@@ -1087,7 +1087,7 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
 	m_obstructor = obstructor; m_alt = alt; m_vel = vel; m_targmode = mode;
 
 	// push out of effect radius (gravity safety & station parking zones)
-	alt = std::max(alt, MaxEffectRad(obstructor, m_prop));
+	alt = std::max(alt, MaxEffectRad(obstructor, m_prop.Get()));
 
 	// drag within frame because orbits are impossible otherwise
 	// timestep code also doesn't work correctly for ex-frame cases, should probably be fixed 
@@ -1102,7 +1102,7 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
 AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double relalt, int mode)
 	: AICommand (dBody, CMD_FLYAROUND)
 {
-	m_prop = dBody->GetPropulsion();
+	m_prop.Reset(dBody->GetPropulsion());
 	assert(m_prop!=nullptr);
 
 	assert(!std::isnan(relalt));
@@ -1114,7 +1114,7 @@ AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double rela
 AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double alt, double vel, int mode)
 	: AICommand (dBody, CMD_FLYAROUND)
 {
-	m_prop = dBody->GetPropulsion();
+	m_prop.Reset(dBody->GetPropulsion());
 	assert(m_prop!=nullptr);
 
 	assert(!std::isnan(alt));
@@ -1217,7 +1217,7 @@ AICmdFormation::AICmdFormation(DynamicBody *dBody, DynamicBody *target, const ve
 	m_target(target),
 	m_posoff(posoff)
 {
-	m_prop = dBody->GetPropulsion();
+	m_prop.Reset(dBody->GetPropulsion());
 	assert(m_prop!=nullptr);
 }
 
