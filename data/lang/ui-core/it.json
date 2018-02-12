@@ -813,7 +813,7 @@
    },
    "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
       "description" : "Tooltip: The speed of approach relative to target.",
-      "message" : "La velocità relativa di avvicinamento all'obiettivo"
+      "message" : "La velocità di avvicinamento relativa all'obiettivo"
    },
    "HUD_SPEED_RELATIVE_TO_TARGET" : {
       "description" : "Tooltip: The speed relative to the target.",

@@ -5,7 +5,7 @@
    },
    "AIR_PROCESSORS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Clean air is only taken for granted when already abundant. The technique behind air purification is rumoured to come from alien artifacts found on Mars. Many companies produce various types of air processors, capable of turning even the most hostile atmospheres into a workable environment, and governments do not tolerate monopoly on air production."
+      "message" : "Saubere Luft wird nur als selbstverständlich wahrgenommen, wenn sie frei verfügbar ist. Gerüchten zufolge soll die Technologie der Luftaufbereitung von Alien-Artefakten vom Mars stammen. Viele Firmen produzieren Luftaufbereiter, die selbst die lebensfeindlichste Atmosphäre in nutzbare Luft umwandeln kann."
    },
    "ANIMAL_MEAT" : {
       "description" : "",
@@ -37,7 +37,7 @@
    },
    "COMPUTERS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
+      "message" : "Vom Abakus über den PDP-11 und den Motorola 68k-Chip bis zu den modernen HAL 9001 und Multivac-Systemen, Rechenanlagen sind in unserem Informationszeitalter unverzichtbar geworden. Ebenso unverzichtbar für Hyperraumsprünge, wie für das UniNet-Streamen von süßen Quibbles-Videos."
    },
    "CONSUMER_GOODS" : {
       "description" : "",
@@ -69,7 +69,7 @@
    },
    "FRUIT_AND_VEG_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "While there are lots of synthetic alternatives, real fruits and vegetables are still an important part of our cuisine and nutrition. Grown on agricultural worlds or as part of the life support of habitats, and exported to systems in which growing plants is not feasible."
+      "message" : "Während es viele, synthetische Alternativen gibt, sind echtes Obst und Gemüse immer noch wichtig in Küche und Ernährung. Von landwirtschaftlich genutzten Welten oder Gewächshäusern in Habitaten werden sie in Systeme exportiert, in denen die Pflanzenzucht unmöglich ist."
    },
    "GRAIN" : {
       "description" : "",
@@ -109,7 +109,7 @@
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Liquid oxygen has many purposes, most commonly in medical and industrial applications and sometimes also used in waste treatment. It is very affordable, as oxygen is easy to obtain from water."
+      "message" : "Flüssiger Sauerstoff hat viele Anwendungen und wird häufig im medizinischen und industriellen Umfeld eingesetzt, manchmal auch in der Abfallverwertung. Es ist recht günstig, da Sauerstoff leicht aus Wasser gewonnen werden kann."
    },
    "LIQUOR" : {
       "description" : "",
@@ -205,7 +205,7 @@
    },
    "RADIOACTIVES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Created by nuclear reactors, and military hyperdrives, nuclear waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping nuclear waste is a severe offence."
+      "message" : "Nuklearer Abfall wird von nuklearen Reaktoren und militärischen Hyperraumantrieben erzeugt und ist die vermutlich die gefährlichste und am schwierigsten zu entsorgende Fracht. Viele Raumhäfen zahlen gut, um ihre Abfälle loszuwerden. Nukleare Abfälle einfach auszulassen ist ein schweres Vergehen."
    },
    "ROBOTS" : {
       "description" : "",
