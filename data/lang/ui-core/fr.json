@@ -29,7 +29,7 @@
    },
    "ANISOTROPIC_FILTERING_DESC" : {
       "description" : "",
-      "message" : "Samples the texture across multiple mip levels to produce a much clearer texture when viewed at shallow angles. Stops the textures from becoming as blurred; however, it can come at a heavy performance cost."
+      "message" : "Echantillonne la texture en de multiples niveaux de mip afin de produire une texture bien plus claire quand elle est observée à des angles faibles. Le filtre anisotropique empêche le floutage des textures, mais peut ralentir les performances."
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "CLOSE" : {
       "description" : "",
-      "message" : "Close"
+      "message" : "Fermer"
    },
    "COMBAT" : {
       "description" : "Headline for kills and combat rating",
@@ -813,7 +813,7 @@
    },
    "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
       "description" : "Tooltip: The speed of approach relative to target.",
-      "message" : "The speed of approach relative to target"
+      "message" : "La vitesse d'approche relative à la cible"
    },
    "HUD_SPEED_RELATIVE_TO_TARGET" : {
       "description" : "Tooltip: The speed relative to the target.",
@@ -1297,7 +1297,7 @@
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
-      "message" : "Press a key or controller button or escape to clear"
+      "message" : "Appuyez sur une touche ou un bouton du controlleur ou ECHAP pour effacer"
    },
    "PRICE" : {
       "description" : "",
