@@ -809,11 +809,11 @@
    },
    "HUD_SPEED_OF_APPROACH_TO_FRAME" : {
       "description" : "Tooltip: The speed of approach towards the frame of reference.",
-      "message" : "Referans karesini yaklaşım hızı"
+      "message" : "Referans karesine yaklaşım hızı"
    },
    "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
       "description" : "Tooltip: The speed of approach relative to target.",
-      "message" : "The speed of approach relative to target"
+      "message" : "Hedefe yaklaşım hızı"
    },
    "HUD_SPEED_RELATIVE_TO_TARGET" : {
       "description" : "Tooltip: The speed relative to the target.",
@@ -1509,7 +1509,7 @@
    },
    "START_AT_BARNARDS_STAR_DESC" : {
       "description" : "",
-      "message" : "This is a difficult start from the System Administration Resting prison station."
+      "message" : "Bu, System Administration Resting hapishane istasyonundan yapılan zor başlangıç."
    },
    "START_AT_EARTH" : {
       "description" : "",

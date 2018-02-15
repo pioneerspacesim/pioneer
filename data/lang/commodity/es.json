@@ -29,7 +29,7 @@
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "El carbón es uno de los elementos más diversos de los que tenemos constancia. Usado en prácticamente todo, desde plásticos a aleaciones, en ocasiones incluso producciones energéticas, el carbón es barato, pero una mercancía importante. Como tal, casi cualquier asentamiento industrial importa mineral de carbón."
+      "message" : "El carbón es uno de los elementos más diversos de los que tenemos constancia. Usado en casi todo, desde plásticos hasta aleaciones, en ocasiones incluso en producción energética, el carbón es un producto barato pero importante. Como tal, casi todos los asentamientos industriales importan mineral de carbón."
    },
    "COMPUTERS" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "FERTILIZER_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Los fertilizantes son cruciales para el crecimiento de cultivos a escala industrial, permitiendo monocultivos con el rendimiento más alto posible en dividendos, utilizando tierra llana. Esto en ocasiones viene con un coste ecológico no evidente a priori."
+      "message" : "Los fertilizantes son cruciales para el crecimiento de cultivos a escala industrial, permitiendo monocultivos y rindiendo beneficios más altos que los que daría el uso de tierra simple. Esto a menudo viene con un coste ecológico, no evidente a priori."
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "LIVE_ANIMALS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "En parte debido a razones humanísticas, económicas y ecológicas, la cría y el comercio de animales están estrictamente regulados, o incluso son ilegales en muchos sistemas centrales. Hacia el exterior, el ganado se convierte en una parte más importante del sustento de las personas, tanto como fuente de nutrición como una bestia de carga. Los zoológicos exóticos y las reservas de vida silvestre contribuyen al comercio de animales en toda la galaxia, generalmente bajo estrictas regulaciones estatales, para combatir los terrenos de caza ilegales."
+      "message" : "En parte debido a razones humanísticas, económicas y ecológicas, la cría y el comercio de animales están estrictamente regulados, o incluso proscritos en muchos sistemas centrales. Hacia las afueras, el ganado es una parte más importante del sustento de las personas, tanto como fuente de nutrición como bestia de carga. Los zoológicos exóticos y las reservas naturales contribuyen al comercio de animales en toda la galaxia, generalmente bajo estrictas regulaciones estatales, para combatir los predios de caza ilegales."
    },
    "MEDICINES" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "MINING_MACHINERY_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "\nEl trabajo tradicionalmente retroactivo de la minería se alivia con el uso de máquinas que ayudan a los mineros a ubicar y recuperar varios minerales y transportarlos a las instalaciones de procesamiento más cercanas."
+      "message" : "El tradicionalmente penoso trabajo de la minería es aliviado por el uso de máquinas que ayudan a los mineros ubicando y extrayendo varios minerales, y transportándolos a las instalaciones de procesamiento más cercanas."
    },
    "NARCOTICS" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "NARCOTICS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Sustancias naturales o sintéticas que alteran el estado de la mente o el cuerpo. Aunque el uso de narcóticos, ya sea para uso recreativo o médico, es tan antiguo como la humanidad, el envío y comercio de estas sustancias está comúnmente fuera de la ley."
+      "message" : "Sustancias naturales o sintéticas que alteran el estado de la mente y el cuerpo. Aunque el uso de narcóticos, ya sea para fines recreativos o médicos, sea tan antiguo como la humanidad misma, su transporte y comercio está comúnmente prohibido."
    },
    "NERVE_GAS" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "ROBOTS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Los robots en ocasiones se importan en sistemas industriales y mineros debido a su habilidad para realizar tareas que serían demasiado difíciles, tediosas o peligrosas para trabajadores humanos. También pueden ejercer de políticos o abogados."
+      "message" : "Los robots a menudo se importan en sistemas industriales y mineros debido a su habilidad para realizar fácilmente tareas que serían demasiado difíciles, tediosas o peligrosas para trabajadores humanos. También pueden servir como políticos o abogados."
    },
    "RUBBISH" : {
       "description" : "",
@@ -237,7 +237,7 @@
    },
    "TEXTILES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Los textiles son telas simples, tejidas a partir de hilados de derivados sintéticos, vegetales o animales. Usualmente producidos por robots en grandes fábricas, todavía es posible encontrar al tejedor ocasional que fabrica sus propias telas."
+      "message" : "Los tejidos son tela simple, tejida a partir de hilo derivado de materiales sintéticos, de vegetales o de animales. Usualmente producidos por robots en grandes fábricas, todavía es posible encontrar al tejedor ocasional que hace sus propios tejidos."
    },
    "WATER" : {
       "description" : "",
