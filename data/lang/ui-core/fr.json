@@ -225,7 +225,7 @@
    },
    "CREDITS" : {
       "description" : "in game currency",
-      "message" : "Credits"
+      "message" : "Crédits"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -297,7 +297,7 @@
    },
    "DOCKED_AT" : {
       "description" : "",
-      "message" : "Docked at"
+      "message" : "Arrimé à"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
@@ -349,7 +349,7 @@
    },
    "END_GAME" : {
       "description" : "",
-      "message" : "End Game"
+      "message" : "Arrêter le jeu"
    },
    "ENGINEERING" : {
       "description" : "Engineering skills of crew",
@@ -405,11 +405,11 @@
    },
    "FLIGHT_STATE" : {
       "description" : "",
-      "message" : "Flight State"
+      "message" : "État de vol"
    },
    "FLYING" : {
       "description" : "",
-      "message" : "Flying"
+      "message" : "En vol"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
@@ -453,7 +453,7 @@
    },
    "GAME_TIME" : {
       "description" : "",
-      "message" : "Game time"
+      "message" : "Temps de jeu"
    },
    "GENERAL_CREW" : {
       "description" : "",
@@ -469,11 +469,11 @@
    },
    "GPU_JOBS" : {
       "description" : "",
-      "message" : "GPU Jobs"
+      "message" : "Tâches de carte graphique"
    },
    "GPU_JOBS_DESC" : {
       "description" : "",
-      "message" : "Utilize GPU for certain actions, possibly improving performance."
+      "message" : "Utiliser la carte graphique pour certaines actions, afin d'améliorer potentiellement les performances."
    },
    "HANG_UP" : {
       "description" : "",
@@ -905,7 +905,7 @@
    },
    "JUMPING" : {
       "description" : "Flight State",
-      "message" : "Jumping"
+      "message" : "En saut"
    },
    "KILLS" : {
       "description" : "",
@@ -1117,7 +1117,7 @@
    },
    "MULTISAMPLING_DESC" : {
       "description" : "",
-      "message" : "A graphical fine-tuning feature, used to reduce jagged, pixelated contours. It can be quite resource-intensive."
+      "message" : "Une option graphique permettant d'ajuster l'effet d'escalier des contours pixélisés. Peut réduire sensiblement les performances."
    },
    "MURDER" : {
       "description" : "",
@@ -1509,7 +1509,7 @@
    },
    "START_AT_BARNARDS_STAR_DESC" : {
       "description" : "",
-      "message" : "This is a difficult start from the System Administration Resting prison station."
+      "message" : "Départ difficile du pénitentier spatial de l'administration du système \"Resting\"."
    },
    "START_AT_EARTH" : {
       "description" : "",
@@ -1517,7 +1517,7 @@
    },
    "START_AT_EARTH_DESC" : {
       "description" : "",
-      "message" : "This is an easy start from London on Earth in the Sol system."
+      "message" : "Départ facile de Londres sur Terre dans le système Sol."
    },
    "START_AT_NEW_HOPE" : {
       "description" : "New Hope is an in game location",
@@ -1525,7 +1525,7 @@
    },
    "START_AT_NEW_HOPE_DESC" : {
       "description" : "",
-      "message" : "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
+      "message" : "Départ modérement facile depuis Itzalean sur New Hope dans le système Epsilon Eridani."
    },
    "STAR_FIELD_DENSITY" : {
       "description" : "",
@@ -1553,7 +1553,7 @@
    },
    "TEXTURE_COMPRESSION" : {
       "description" : "",
-      "message" : "This frees up more memory for the graphics card, which is likely what you want, at the expense of compressing them during game start."
+      "message" : "La compression de texture libère de la mémoire de la carte graphique car les textures prennent moins de place, ce qui est probablement ce que vous voulez, en échange de leur compression (et donc d'un peu de performance) pendant le départ du jeu."
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
@@ -1637,7 +1637,7 @@
    },
    "VICINITY_OF" : {
       "description" : "",
-      "message" : "In vicinity of"
+      "message" : "À proximité de"
    },
    "VIDEO" : {
       "description" : "",
@@ -1653,7 +1653,7 @@
    },
    "VIDEO_RESOLUTION_DESC" : {
       "description" : "Tooltip for video mode/resultion setting",
-      "message" : "Higher resolutions display more information at a smaller size and can decrease performance."
+      "message" : "Les résolutions plus élevées affichent plus d'informations (plus de pixels) pour un même espace d'écran, mais dans certains cas peuvent réduire les performances."
    },
    "VSYNC" : {
       "description" : "For the checkbox in settings window",
@@ -1661,7 +1661,7 @@
    },
    "VSYNC_DESC" : {
       "description" : "",
-      "message" : "Vertical Sync can eliminate visual tearing or artifacts, and input latency."
+      "message" : "La synchronisation verticale sert à éliminer les effets de 'déchirement' (dit 'tearing') ou autre artefacts visuels ainsi que la latence sur les entrées."
    },
    "WAGE" : {
       "description" : "Salary of crew shown in crew roster",
