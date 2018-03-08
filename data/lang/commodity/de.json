@@ -45,7 +45,7 @@
    },
    "CONSUMER_GOODS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
+      "message" : "Produkte, bereit für die breiten Massen, ohne dass weitere Bearbeitungsschritte benötigt werden. Diese Kategorie reicht von Zahnbürsten über Küchengeräten bis zu fliegenden Autos."
    },
    "FARM_MACHINERY" : {
       "description" : "",
@@ -53,7 +53,7 @@
    },
    "FARM_MACHINERY_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
+      "message" : "Nur noch selten sieht man den Bauer mit einem von Ochsen gezogenen Pflug das Land bestellen. Die landwirtschaftliche Arbeit wird heute hauptsächlich von Maschinen verrichtet, sei es in den unterirdischen Hydrokulturen oder auf den endlosen Feldern einer Agrarwelt."
    },
    "FERTILIZER" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "METAL_ALLOYS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "After metal ore is extracted and refined, it is processed and ends up as various alloys. An alloy is an amalgamation of metals, rather than a single pure element, combined in exact proportions to gain specific desirable traits. Therefore, most consumer metals are alloys."
+      "message" : "Nachdem das Metall gewonnen und verarbeitet wurde, wird es zu verschiedenen Legierungen verarbeitet. Legierungen ist eine Vermengung mehrerer Metalle, anstatt eines einzelnen Elements, um Materialien mit besseren Eigenschaften zu gewinnen. Die meisten Metalle für den gemeinen Gebrauch sind deshalb Legierungen."
    },
    "METAL_ORE" : {
       "description" : "",
@@ -221,7 +221,7 @@
    },
    "RUBBISH_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The byproduct of civilization, consisting of industrial waste, household garbage, and worn down equipment. Most waste is reprocessed, recycled or sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal. Starports usually charge a fee for waste disposal, but will also pay you to take it away."
+      "message" : "Als Beiprodukt der Zivilisation fällt Müll, bestehend aus Industrieabfällen, Haushaltsabfällen und defekten Gerätschaften, überall an. Die meisten Abfälle werden wiederverwendet, recycled oder für die weitere Verarbeitung verschifft. Abfälle einfach in unbewohnten oder sogar bewohnten Systemen abzulassen ist fast immer illegal. Weltraumbahnhöfe verlangen normalerweise eine Gebühr für die Entsorgung von Abfällen, sie zahlen aber auch jeden, der den Müll für sie entsorgt."
    },
    "SLAVES" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "SLAVES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "As machines have replaced slaves as the engine that powers civilization, slavery is now almost universally seen as immoral, and transgression against a ban draws the strictest punishment. However, despite the best efforts of humanitarians, slavery is still prevalent, even in developed worlds."
+      "message" : "Wo früher Sklaven gearbeitet haben, arbeiten heute Maschinen. Sklaverei wird fast universell als unmoralisch gesehen und ein Verstoß gegen das Verbot zieht schwere Strafen nach sich. Trotz dieses Verbotes und abschreckender Strafen ist Sklaverei aber noch immer verbreitet, selbst auf entwickelten Welten."
    },
    "TEXTILES" : {
       "description" : "",
@@ -245,6 +245,6 @@
    },
    "WATER_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Essential for life as we know it, an often overlooked commodity, water is needed wherever humanity roams. As such, the vast majority of off-world colonies import water from comets or planets like Earth. Water is used on a massive scale for hydrogen and oxygen production."
+      "message" : "Wasser gilt oft als selbstverständlich, ist aber lebenswichtig und wird überall benötigt, wo Menschen siedeln. Weltraumbasen brauchen deshalb große Mengen Wasser, das aus Kometen oder von Planeten wie der Erde gewonnen wird. Wasser wird außerdem im großen Maßstab für die Sauerstoff- und Wasserstoffproduktion verwendet."
    }
 }
