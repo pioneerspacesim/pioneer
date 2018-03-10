@@ -29,7 +29,7 @@
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Karbon, bildiğimiz en çeşitli elementlerden biridir. Plastikten alaşımlara kadar neredeyse herşeyde, hatta bazen güç üretiminde bile kullanılan karbon ucuz ama önemli bir hammaddedir; bu yüzden neredeyse bütün endüstriyel yerleşimler karbon cevheri ithal ederler."
+      "message" : "Karbon, bildiğimiz en çeşitli elementlerden biridir. Plastikten alaşımlara kadar neredeyse her şeyde, hatta bazen güç üretiminde bile kullanılan karbon ucuz ama önemli bir hammaddedir; bu yüzden neredeyse bütün endüstriyel yerleşimler karbon cevheri ithal ederler."
    },
    "COMPUTERS" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "FERTILIZER_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Gübreler endüstriyel boyutlarda ekin yetiştirmek için kritiktir; monokültürlerin var olmasını ve sıradan topraktan çok daha fazla ürün elde edilmesini sağlarlar. Genellikle hemen ortaya çıkmayan ekolojik bir tahribat ortaya çıkarabilirler."
+      "message" : "Gübreler endüstriyel boyutlarda ekin yetiştirmek için kritiktir; monokültürlerin var olmasını ve sıradan topraktan çok daha fazla ürün elde edilmesini sağlarlar. Genellikle hemen fark edilmeyen ekolojik bir tahribat ortaya çıkarabilirler."
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
@@ -77,7 +77,7 @@
    },
    "GRAIN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Pek çok insanın diyetinin belkemiği. Tarımda, hayvan beslemede ve yapay besinlere yardımcı olarak kullanılır. Bunun yanı sıra yulaf ezmesi ve pişmiş ürünler gibi pek çok değişik yiyecekte de kullanılır. Uzay seyahati yapan pek çok kültür, kendi yaşam alanlarına adapte olmuş en azından bir miktar tahıl tüketir."
+      "message" : "Pek çok insanın diyetinin belkemiği. Tarımda, hayvan beslemede ve yapay besinlere yardımcı olarak kullanılır. Bunun yanı sıra yulaf ezmesi ve pişmiş ürünler gibi pek çok değişik yiyecekte de kullanılır. Uzay seyahati yapan pek çok kültür, kendi yaşam alanlarının iklimine adapte olmuş mutlaka bir miktar tahıl tüketir."
    },
    "HAND_WEAPONS" : {
       "description" : "",
@@ -133,7 +133,7 @@
    },
    "MEDICINES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Gerek doğal gerek yapay olarak elde edilmiş olsun, ilaçlar insanların gittiği her yerde bir ihtiyaçtır. Ufak bir nezleden uzun uzay yolculuklarının etkilerine kadar pek çok sıkıntıyı gideren ilaçlar, yıldızlararası bir uygarlık olan insanlığın refahı için gereklidir. Narkotiklerin ilaç gibi saklanıldığı çokça görül düğü için gümrüklerde sıkıca kontrol edilirler."
+      "message" : "Gerek doğal gerek yapay olarak elde edilmiş olsun, ilaçlar insanların gittiği her yerde bir ihtiyaçtır. Ufak bir nezleden uzun uzay yolculuklarının etkilerine kadar pek çok sıkıntıyı gideren ilaçlar, yıldızlararası bir uygarlık olan insanlığın refahı için gereklidir. Narkotiklerin ilaç gibi saklanıldığı çokça görüldüğü için gümrüklerde sıkıca kontrol edilirler."
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "METAL_ORE_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Pek çok koloni; ihraç edilmesi, işlenmesi ve endüstride kullanılması için metal cevheri çıkarırlar. Küçük oyuncaklardan uzay gemilerine kadar her şeyde kullanılan metal, modern uygarlık için her haliyle vazgeçilmezdir."
+      "message" : "Pek çok koloni; ihraç edilmesi, işlenmesi ve endüstride kullanılması için metal cevheri çıkarır. Küçük oyuncaklardan uzay gemilerine kadar her şeyde kullanılan metal, modern uygarlık için her haliyle vazgeçilmezdir."
    },
    "MILITARY_FUEL" : {
       "description" : "",
@@ -197,7 +197,7 @@
    },
    "PRECIOUS_METALS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Değerli metaller genellikle daha az reaktiftir,madenlerde zor bulunur ve zor çıkarılırlar; bu yüzden yüksek ekonomik değerleri vardır. Altın, gümüş, platin ve nadir toprak metalleri genelde bu sınıfa girer. Altın ve silikon gibi bazı elementler bilgisayarlar ve benzeri elektroniklerin yapılabilmesi için büyük önem taşırlar."
+      "message" : "Değerli metaller, genellikle, zor tepkimeye girer, madenlerde zor bulunur ve zor çıkarılırlar; bu yüzden yüksek ekonomik değerleri vardır. Altın, gümüş, platin ve nadir toprak metalleri genelde bu sınıfa girer. Altın ve silikon gibi bazı elementler bilgisayarlar ve benzeri elektroniklerin yapılabilmesi için büyük önem taşırlar."
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "ROBOTS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Robotlar, insanlar için çok zor veya tehlikeli işleri kolaylıkla halledebildikleri için sıklıkla endüstriyel ve maden sistemlerine ithal edilirler. Bunun yanı sıra politikacı ya da avukat olarak da görev yapabilirler."
+      "message" : "Robotlar, insanlar için çok zor veya tehlikeli işleri kolaylıkla halledebildikleri için sıklıkla endüstriyel sistemlere ve maden sistemlerine ithal edilirler. Bunun yanı sıra politikacı ya da avukat olarak da görev yapabilirler."
    },
    "RUBBISH" : {
       "description" : "",
@@ -221,7 +221,7 @@
    },
    "RUBBISH_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : " Medeniyetin evsel atıklar, eskimiş ekipman ve endüstriyel atıklar gibi yan ürünleri. Çoğu atık yeniden işlenir, geri dönüştürülür veya uzay istasyonlarına gönderilir. Yerleşim bulunduran sistemlerde çöp atmak neredeyse her zaman yasadışıdır. Uzay istasyonlarında atıklarınızdan kurtulmak için genellikle bir ücret talep edilir, ancak aksine uzay istasyonundan atıkları alırsanız size ödeme de yaparlar."
+      "message" : "Evsel atıklar, eskimiş ekipman ve endüstriyel atıklar gibi medeniyetin yan ürünleri. Çoğu atık yeniden işlenir, geri dönüştürülür veya uzay istasyonlarına gönderilir. Yerleşim bulunduran sistemlerde çöp atmak neredeyse her zaman yasadışıdır. Uzay istasyonlarında atıklarınızdan kurtulmak için genellikle bir ücret talep edilir, ancak aksine uzay istasyonundan atıkları alırsanız size ödeme de yaparlar."
    },
    "SLAVES" : {
       "description" : "",
