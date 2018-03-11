@@ -24,8 +24,8 @@ opacity 13
 
 material ring
 tex_diff ring_diff.dds
+tex_spec ring_diff_s.dds
 tex_glow ring_glow.dds
-specular 0.1 0.1 0.1
 
 material ring_glass
 tex_diff ring_diff.dds
@@ -39,6 +39,7 @@ specular 0.1 0.1 0.1
 material spokes
 tex_diff spoke_n_misc_diff.dds
 specular 0.1 0.1 0.1
+use_patterns
 
 mesh station_hub_B.dae
 mesh station_docking_B.dae
