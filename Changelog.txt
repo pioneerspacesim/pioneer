@@ -2,6 +2,7 @@ March 2018
    * New Features
      * Keepers orbital texture updates and patterns (#4315)
      * Small BBS Easter egg added (#4316)
+     * New music added (#4293)
 
 February 2018
    * New Features
