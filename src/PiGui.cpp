@@ -176,6 +176,7 @@ void PiGui::Init(SDL_Window *window) {
 
 	ImGui::CreateContext();
 	ImGuiIO &io = ImGui::GetIO();
+	ImGui::GetStyle().WindowBorderSize = 0.0f;
 	switch(Pi::renderer->GetRendererType())
 		{
 		default:
@@ -679,4 +680,22 @@ void PiFace::sortUsedRanges() const {
 	if(current.first != 0xffff && current.second != 0xffff)
 		merged.push_back(current);
 	m_used_ranges.assign(merged.begin(), merged.end());
+}
+
+void PiGui::RenderImGui() {
+	ImGui::Render();
+	switch(Pi::renderer->GetRendererType())
+		{
+		default:
+		case Graphics::RENDERER_DUMMY:
+			Error("RENDERER_DUMMY is not a valid renderer, aborting.");
+			return;
+		case Graphics::RENDERER_OPENGL_21:
+			ImGui_ImplSdlGL2_RenderDrawData(ImGui::GetDrawData());
+			break;
+		case Graphics::RENDERER_OPENGL_3x:
+			ImGui_ImplSdlGL3_RenderDrawData(ImGui::GetDrawData());
+			break;
+		}
+
 }
