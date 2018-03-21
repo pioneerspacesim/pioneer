@@ -174,6 +174,8 @@ void PiGui::Init(SDL_Window *window) {
 		keys.Set(p.first, p.second);
 	}
 
+	ImGui::CreateContext();
+	ImGuiIO &io = ImGui::GetIO();
 	switch(Pi::renderer->GetRendererType())
 		{
 		default:
@@ -181,14 +183,12 @@ void PiGui::Init(SDL_Window *window) {
 			Error("RENDERER_DUMMY is not a valid renderer, aborting.");
 			return;
 		case Graphics::RENDERER_OPENGL_21:
-			ImGui_ImplSdl_Init(window);
+			ImGui_ImplSdlGL2_Init(window);
 			break;
 		case Graphics::RENDERER_OPENGL_3x:
 			ImGui_ImplSdlGL3_Init(window);
 			break;
 		}
-
-	ImGuiIO &io = ImGui::GetIO();
 
 	std::string imguiIni = FileSystem::JoinPath(FileSystem::GetUserDir(), "imgui.ini");
 	// this will be leaked, not sure how to deal with it properly in imgui...
@@ -249,7 +249,7 @@ int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std
 			draw_list->PathArcTo(center, RADIUS_MAX - border_inout, item_outer_ang_min, item_outer_ang_max, arc_segments);
 			draw_list->PathArcTo(center, RADIUS_MIN + border_inout, item_inner_ang_max, item_inner_ang_min, arc_segments);
 
-			draw_list->PathFill(hovered ? ImColor(102,147,189) : selected ? ImColor(48,81,111) : ImColor(48,81,111));
+			draw_list->PathFillConvex(hovered ? ImColor(102,147,189) : selected ? ImColor(48,81,111) : ImColor(48,81,111));
 			if(hovered) {
 				// draw outer / inner extra segments
 				draw_list->PathArcTo(center, RADIUS_MAX - border_thickness, item_outer_ang_min, item_outer_ang_max, arc_segments);
@@ -303,7 +303,7 @@ bool PiGui::ProcessEvent(SDL_Event *event)
 			Error("RENDERER_DUMMY is not a valid renderer, aborting.");
 			break;
 		case Graphics::RENDERER_OPENGL_21:
-			ImGui_ImplSdl_ProcessEvent(event);
+			ImGui_ImplSdlGL2_ProcessEvent(event);
 			break;
 		case Graphics::RENDERER_OPENGL_3x:
 			ImGui_ImplSdlGL3_ProcessEvent(event);
@@ -353,7 +353,7 @@ void PiGui::NewFrame(SDL_Window *window) {
 			Error("RENDERER_DUMMY is not a valid renderer, aborting.");
 			return;
 		case Graphics::RENDERER_OPENGL_21:
-			ImGui_ImplSdl_NewFrame(window);
+			ImGui_ImplSdlGL2_NewFrame(window);
 			break;
 		case Graphics::RENDERER_OPENGL_3x:
 			ImGui_ImplSdlGL3_NewFrame(window);
@@ -481,9 +481,9 @@ static void drawThrust(ImDrawList* draw_list, const ImVec2 &center, const ImVec2
 	const ImVec2 minimum(fmin(bb_upperleft.x, bb_lowerright.x), fmin(bb_upperleft.y, bb_lowerright.y));
 	const ImVec2 maximum(fmax(bb_upperleft.x, bb_lowerright.x), fmax(bb_upperleft.y, bb_lowerright.y));
 	ImVec2 points[] = { c, leftmiddle, lefttop, righttop, rightmiddle };
-	draw_list->AddConvexPolyFilled(points, 5, bg, false);
+	draw_list->AddConvexPolyFilled(points, 5, bg);
 	draw_list->PushClipRect(minimum - ImVec2(1,1), maximum + ImVec2(1,1));
-	draw_list->AddConvexPolyFilled(points, 5, fg, false);
+	draw_list->AddConvexPolyFilled(points, 5, fg);
 	draw_list->PopClipRect();
 }
 
@@ -507,11 +507,11 @@ void PiGui::ThrustIndicator(const std::string &id_string, const ImVec2& size_arg
 	const ImRect inner_bb(pos + padding, pos + padding + size);
 
 	ImGui::ItemSize(bb, style.FramePadding.y);
-	if (!ImGui::ItemAdd(bb, &id))
+	if (!ImGui::ItemAdd(bb, id))
 		return;
 
 	// Render
-	const ImU32 col = ImGui::GetColorU32(ImGuiCol_Button);
+	const ImU32 col = ImGui::GetColorU32(ImGuiCol_Button, 1.0f);
 	ImGui::RenderFrame(bb.Min, bb.Max, col, true, style.FrameRounding);
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	if (bg_col.w > 0.0f)
@@ -571,7 +571,7 @@ bool PiGui::LowThrustButton(const char* id_string, const ImVec2& size_arg, int t
 	const ImRect inner_bb(pos + padding, pos + padding + size);
 
 	ImGui::ItemSize(bb, style.FramePadding.y);
-	if (!ImGui::ItemAdd(bb, &id))
+	if (!ImGui::ItemAdd(bb, id))
 		return false;
 
 	// if (window->DC.ButtonRepeat) flags |= ImGuiButtonFlags_Repeat;
@@ -579,7 +579,7 @@ bool PiGui::LowThrustButton(const char* id_string, const ImVec2& size_arg, int t
 	bool pressed = ImGui::ButtonBehavior(bb, id, &hovered, &held, 0); // flags
 
 	// Render
-	const ImU32 col = ImGui::GetColorU32((hovered && held) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
+	const ImU32 col = ImGui::GetColorU32((hovered && held) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button, 1.0f);
 	ImGui::RenderFrame(bb.Min, bb.Max, col, true, style.FrameRounding);
 	const ImVec2 center = (inner_bb.Min + inner_bb.Max) / 2;
 	float radius = (inner_bb.Max.x - inner_bb.Min.x) * 0.4;
