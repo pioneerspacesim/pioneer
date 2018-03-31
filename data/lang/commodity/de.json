@@ -13,7 +13,7 @@
    },
    "ANIMAL_MEAT_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "A major point of controversy, meat is the flesh of animals. With synthetic protein readily available, most people believe that animals should not be killed. While meats are illegal in most core systems, live animals and their meat is an important part of the lives of people on more traditional worlds."
+      "message" : "Das Fleisch von Tieren ist ein großer Streitpunkt. Da künstliche Proteine überall erhältlich sind, denken die meisten Leute, dass es unnötig ist, Tiere zu töten. Während Fleisch in den meisten inneren Systemen verboten ist, sind lebende Tiere und deren Fleisch ein wichtiger Teil des Lebens für die Menschen in den traditionelleren Welten."
    },
    "BATTLE_WEAPONS" : {
       "description" : "",
@@ -77,7 +77,7 @@
    },
    "GRAIN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+      "message" : "Für die meisten Leute der Hauptbestandteil ihrer Diäten. Es wird in der Landwirtschaft benutzt, um Tiere zu füttern, als eine Ergänzung zu synthetischem Futter. Getreide wird auch oft für normale Nahrung benutzt, z.B. Haferflocken und Backwaren. Die meisten Kulturen, die in der Raumfahrt envolviert sind, pflanzen verschiedene Getreide an und essen auch selbst ein paar Getreidesorten, aber nur diejenigen, die an das Klima ihres Lebensraums angepasst sind."
    },
    "HAND_WEAPONS" : {
       "description" : "",
@@ -85,7 +85,7 @@
    },
    "HAND_WEAPONS_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Providing insurance beyond the long arm of the law, hand weapons are essential for space traders in far-out systems. However, many governments see them as a threat to their own control over their population and strictly control their trade and possession."
+      "message" : "Indem sie eine gewisse Sicherheit zur Verüfung stellen, die über den langen Arm des Gesetztes hinausgeht, sind Handwaffen essentiell wichtig für Weltraum-Händler in abgelegenen Systemen. Allerdings betrachten viele Regierungen diese als Bedrohung für ihre Macht über die Bevölkerung und regulieren deshalb den Handel und Besitz von Handwaffen strengstens."
    },
    "HYDROGEN" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
+      "message" : "Wasserstoff wird als Brennstoff für Hyperraumantriebe und als Treibstoff für Raumschiffe benutzt und ist auch sonst ein extrem wichtiges Element. Unglücklicherweise ist es auch das am öftesten vorkommende Element im ganzen Universum, obwohl seine Lagerung nicht gerade einfach ist. Gewöhnlich ist es eine der billigsten Handelswaren auf dem Markt, und Raumhäfen haben eigentlich immer genug davon auf Lager."
    },
    "INDUSTRIAL_MACHINERY" : {
       "description" : "",
@@ -117,7 +117,7 @@
    },
    "LIQUOR_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
+      "message" : "Die meisten Außenposten haben ihr eigenes Gebräu, das Fremde als schwer verdaulich empfinden. Alkohol kann in manchen Systemen verboten sein, da gesagt wird, dass er das Gehirn vernebeln soll. Unabhängig vom Gesetz ist für einen gewissen Preis fast immer ein Schuss Whisky auf dem Schwarzmarkt verfügbar."
    },
    "LIVE_ANIMALS" : {
       "description" : "",
@@ -133,7 +133,7 @@
    },
    "MEDICINES_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Derived from natural sources, or synthesized artificially, medicines are needed everywhere humans go. From curing the common cold to combat the adverse effects of prolonged space travel, medicines are essential to the prosperity of an interstellar humanity. Carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
+      "message" : "Von natürlichen Ressourcen bezogen oder künstlich hergestellt, werden Medikamente überall dort gebraucht, wo Menschen sind. Von der Heilung einer gewöhnlichen Erkältung bis zur Bekämpfung der Effekte des Raumflugs über längere Zeit, sind Medikamente essentiell für das Gedeihen der interstellaren Menschheit. Da es nicht unüblich ist, Rauschgift als medizinische Drogen zu tarnen, wird deren Handel sorgfältig von den Behörden überwacht."
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "METAL_ORE_DESCRIPTION" : {
       "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
+      "message" : "Viele Kolonien schürfen Metallerz für den Export, um dann veredelt und in der Industrie verarbeitet zu werden. Metall wird in überall verwendet, von kleinen Spielzeugen bis zu Raumschiffen, und ist in allen Formen lebenswichtig für die moderne Zivilisation."
    },
    "MILITARY_FUEL" : {
       "description" : "",
