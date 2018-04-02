@@ -206,6 +206,6 @@ namespace Profiler {
 		ScopedThread( const char *name ) { PROFILE_THREAD_START_RAW( name ); }
 		~ScopedThread() { PROFILE_THREAD_STOP() }
 	};
-}; // namespace Profiler
+} // namespace Profiler
 
 #endif // __PROFILER_H__

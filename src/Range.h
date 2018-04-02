@@ -27,33 +27,29 @@
 
 // Description: See header of /src/RandomColor.h for licnses and origin of code discussion
 
-#include <cassert>
-#include <cstdio>
+#include <cstdlib>
 
-namespace RandomColorGenerator
-{
-    // Represents a range using an upper and lower value.
-    class Range
-    {
-    public:
+namespace RandomColorGenerator {
+	// Represents a range using an upper and lower value.
+	class Range {
+	public:
 		int Lower;
-        int Upper;
+		int Upper;
 
 		Range() {}
-        Range(int lower, int upper)
-        {
-            Lower = lower;
-            Upper = upper;
-        }
+        	Range(int lower, int upper) 
+        	{
+			Lower = lower;
+			Upper = upper;
+        	}
 
-        // Gets the lower range for an index of 0 and the upper for an index of 1.
-		const int &operator[](const size_t index) const {
-			if(index==0)
-                 return Lower;
-			else
-                 return Upper;
+        	// Gets the lower range for an index of 0 and the upper for an index of 1.
+		const int &operator[](const size_t index) const
+		{
+			if(index==0) return Lower;
+			else return Upper;
 		}
-    };
-};
+	};
+} // namespace RandomColorGenerator
 
 #endif // _RANGE_H_

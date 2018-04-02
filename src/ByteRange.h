@@ -4,7 +4,6 @@
 #ifndef _BYTERANGE_H
 #define _BYTERANGE_H
 
-#include <string>
 #include <cassert>
 #include <cctype>
 #include <cstring>

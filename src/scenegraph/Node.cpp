@@ -50,7 +50,7 @@ Node* Node::FindNode(const std::string &name)
 	if (m_name == name)
 		return this;
 	else
-		return 0;
+		return nullptr;
 }
 
 void Node::DrawAxes()
@@ -62,7 +62,7 @@ void Node::DrawAxes()
 void Node::Save(NodeDatabase &db)
 {
     db.wr->String(GetTypeName());
-	db.wr->String(m_name.c_str());
+    db.wr->String(m_name.c_str());
     db.wr->Int32(m_nodeMask);
     db.wr->Int32(m_nodeFlags);
 }
