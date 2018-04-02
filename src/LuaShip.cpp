@@ -234,6 +234,11 @@ static int l_ship_set_fuel_percent(lua_State *l)
 	}
 
 	s->SetFuel(percent/100.0);
+	// This is required for the fuel to properly update when the game is paused.
+	// Without this we can sell fuel indefinitely, or buy fuel without receiving
+	// anything. This is a workaround - the proper fix is to prevent interactions
+	// with stations while the game is paused.
+	s->TimeStepUpdate(0.0);
 
 	LUA_DEBUG_END(l, 0);
 
