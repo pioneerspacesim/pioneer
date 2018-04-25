@@ -66,7 +66,7 @@ file_filter = data/lang/module-crewcontracts/<lang>.json
 source_file = data/lang/module-crewcontracts/en.json
 source_lang = en
 
-[pioneer.module-easteregg]
+[pioneer.module-easteregg-message]
 file_filter = data/lang/module-easteregg-message/<lang>.json
 source_file = data/lang/module-easteregg-message/en.json
 source_lang = en
