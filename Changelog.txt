@@ -1,3 +1,7 @@
+April 2018
+   * Fixes
+     * Don't crash when missing translation (#4328)
+
 March 2018
    * New Features
      * Keepers orbital texture updates and patterns (#4315)
