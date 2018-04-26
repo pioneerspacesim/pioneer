@@ -29,7 +29,7 @@
    },
    "ANISOTROPIC_FILTERING_DESC" : {
       "description" : "",
-      "message" : "Samples the texture across multiple mip levels to produce a much clearer texture when viewed at shallow angles. Stops the textures from becoming as blurred; however, it can come at a heavy performance cost."
+      "message" : "Gabhaidh seo sampallan o inneach air iomadh leibheil mip ach am faigh thu inneach mòran nas soilleire nuair a choimheadas tu orra air ceàrnan staoine. Cha bhi uiread a sgleò air na h-innich an uairsin ach tha an t-àireamhachadh glè chosgail."
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "CLOSE" : {
       "description" : "",
-      "message" : "Close"
+      "message" : "Dùin"
    },
    "COMBAT" : {
       "description" : "Headline for kills and combat rating",
@@ -225,7 +225,7 @@
    },
    "CREDITS" : {
       "description" : "in game currency",
-      "message" : "Credits"
+      "message" : "Urram"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -297,7 +297,7 @@
    },
    "DOCKED_AT" : {
       "description" : "",
-      "message" : "Docked at"
+      "message" : "Docaichte aig"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
@@ -349,7 +349,7 @@
    },
    "END_GAME" : {
       "description" : "",
-      "message" : "End Game"
+      "message" : "Cuir crìoch air a’ gheama"
    },
    "ENGINEERING" : {
       "description" : "Engineering skills of crew",
@@ -405,11 +405,11 @@
    },
    "FLIGHT_STATE" : {
       "description" : "",
-      "message" : "Flight State"
+      "message" : "Staid an iteil"
    },
    "FLYING" : {
       "description" : "",
-      "message" : "Flying"
+      "message" : "Ag itealadh"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
@@ -453,7 +453,7 @@
    },
    "GAME_TIME" : {
       "description" : "",
-      "message" : "Game time"
+      "message" : "Àm a’ gheama"
    },
    "GENERAL_CREW" : {
       "description" : "",
@@ -469,11 +469,11 @@
    },
    "GPU_JOBS" : {
       "description" : "",
-      "message" : "GPU Jobs"
+      "message" : "Obraichean GPU"
    },
    "GPU_JOBS_DESC" : {
       "description" : "",
-      "message" : "Utilize GPU for certain actions, possibly improving performance."
+      "message" : "Cleachd an GPU airson cuid a ghnìomhan le beagan buannachd air an dèanadas, ’s docha."
    },
    "HANG_UP" : {
       "description" : "",
@@ -813,7 +813,7 @@
    },
    "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
       "description" : "Tooltip: The speed of approach relative to target.",
-      "message" : "The speed of approach relative to target"
+      "message" : "Luaths an teannaidh dàimheil ris an amas"
    },
    "HUD_SPEED_RELATIVE_TO_TARGET" : {
       "description" : "Tooltip: The speed relative to the target.",
@@ -905,7 +905,7 @@
    },
    "JUMPING" : {
       "description" : "Flight State",
-      "message" : "Jumping"
+      "message" : "Leum"
    },
    "KILLS" : {
       "description" : "",
@@ -1117,7 +1117,7 @@
    },
    "MULTISAMPLING_DESC" : {
       "description" : "",
-      "message" : "A graphical fine-tuning feature, used to reduce jagged, pixelated contours. It can be quite resource-intensive."
+      "message" : "Gleusadh na grafaigeachd a chleachdar gus oir-loidhnichean nas rèidhe fhaighinn. Dh’fhaoidte gum bi seo cosgail air an stòras."
    },
    "MURDER" : {
       "description" : "",
@@ -1297,7 +1297,7 @@
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
-      "message" : "Press a key or controller button or escape to clear"
+      "message" : "Brùth air iuchair no putan uidheim-smachd no air escape airson fhalamhachadh"
    },
    "PRICE" : {
       "description" : "",
@@ -1637,7 +1637,7 @@
    },
    "VICINITY_OF" : {
       "description" : "",
-      "message" : "In vicinity of"
+      "message" : "Faisg air"
    },
    "VIDEO" : {
       "description" : "",
