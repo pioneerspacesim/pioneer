@@ -45,11 +45,11 @@
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "for star map, select star system when mouse close to it",
-      "message" : "Automatic system selection"
+      "message" : "Seleção do sistema automático"
    },
    "AUTOPILOT_CONTROL" : {
       "description" : "Indicating that ship is flying under autopilot control",
-      "message" : "Autopilot control"
+      "message" : "Controlo do piloto automático"
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
@@ -225,7 +225,7 @@
    },
    "COMPASS_NW" : {
       "description" : "Abbreviation for compass direction: North West",
-      "message" : "NW"
+      "message" : "NO"
    },
    "COMPASS_S" : {
       "description" : "Abbreviation for compass direction: South",
@@ -237,11 +237,11 @@
    },
    "COMPASS_SW" : {
       "description" : "Abbreviation for compass direction: South West",
-      "message" : "SW"
+      "message" : "SO"
    },
    "COMPASS_W" : {
       "description" : "Abbreviation for compass direction: West",
-      "message" : "W"
+      "message" : "O"
    },
    "COMPUTERS" : {
       "description" : "",
@@ -301,7 +301,7 @@
    },
    "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Decrease radar range"
+      "message" : "Diminuir alcance do radar"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -409,7 +409,7 @@
    },
    "FIRE_LASER" : {
       "description" : "",
-      "message" : "Fire weapon"
+      "message" : "Disparar arma"
    },
    "FIRE_MISSILE" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Increase radar range"
+      "message" : "Aumentar alcance do radar"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -661,7 +661,7 @@
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
-      "message" : "Weapons fire detected."
+      "message" : "Detetado disparo de armas."
    },
    "LATITUDE" : {
       "description" : "Short for latitude",
@@ -709,7 +709,7 @@
    },
    "LONGITUDE_WEST_ABBREV" : {
       "description" : "Abbreviation letter for latitude 'west'",
-      "message" : "W"
+      "message" : "O"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -1177,7 +1177,7 @@
    },
    "RADAR_CONTROL" : {
       "description" : "",
-      "message" : "Radar control"
+      "message" : "Controlo do radar"
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1273,7 +1273,7 @@
    },
    "SEARCH_MAP" : {
       "description" : "",
-      "message" : "Search Map"
+      "message" : "Mapa de Procura"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
@@ -1281,7 +1281,7 @@
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Sector Map View"
+      "message" : "Vista do Mapa do Setor"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
@@ -1321,7 +1321,7 @@
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
-      "message" : "Set speed: %speed{f.2} km/s"
+      "message" : "Definir velocidade: %speed{f.2} km/s"
    },
    "SET_SPEED_M_S" : {
       "description" : "",
@@ -1673,11 +1673,11 @@
    },
    "TOGGLE_RADAR_MODE" : {
       "description" : "",
-      "message" : "Toggle radar mode"
+      "message" : "Alternar modo de radar"
    },
    "TOGGLE_RADAR_VIEW" : {
       "description" : "Tooltip for the Radar View button",
-      "message" : "Radar View"
+      "message" : "Vista de radar"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",

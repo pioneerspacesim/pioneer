@@ -125,7 +125,7 @@
    },
    "CENTER_ON_SYSTEM" : {
       "description" : "Center on selected star system",
-      "message" : "Center on System"
+      "message" : "Centrar no sistema"
    },
    "CHANGE_BINDING" : {
       "description" : "Key binding option",
@@ -161,7 +161,7 @@
    },
    "CLOSE" : {
       "description" : "",
-      "message" : "Close"
+      "message" : "Fechar"
    },
    "COMBAT" : {
       "description" : "Headline for kills and combat rating",
@@ -225,7 +225,7 @@
    },
    "CREDITS" : {
       "description" : "in game currency",
-      "message" : "Credits"
+      "message" : "Créditos"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -349,7 +349,7 @@
    },
    "END_GAME" : {
       "description" : "",
-      "message" : "End Game"
+      "message" : "Terminar jogo"
    },
    "ENGINEERING" : {
       "description" : "Engineering skills of crew",
@@ -405,11 +405,11 @@
    },
    "FLIGHT_STATE" : {
       "description" : "",
-      "message" : "Flight State"
+      "message" : "Estado do voo"
    },
    "FLYING" : {
       "description" : "",
-      "message" : "Flying"
+      "message" : "A voar"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
@@ -629,7 +629,7 @@
    },
    "HUD_BUTTON_SET_SPEED" : {
       "description" : "Tooltip: set speed",
-      "message" : "Set speed"
+      "message" : "Definir velocidade"
    },
    "HUD_BUTTON_SHOW_COMMS" : {
       "description" : "Tooltip: Show comms",
@@ -669,7 +669,7 @@
    },
    "HUD_CARGO_MASS" : {
       "description" : "Cargo Mass",
-      "message" : "Cargo Mass"
+      "message" : "Massa da Carga"
    },
    "HUD_CURRENT_COMBAT_TARGET" : {
       "description" : "Tooltip: The current combat target.",
@@ -785,7 +785,7 @@
    },
    "HUD_RADAR_DISTANCE" : {
       "description" : "Tooltip: Current distance of the radar.",
-      "message" : "Active radar distance"
+      "message" : "Distância do radar ativo"
    },
    "HUD_REQUEST_TIME_ACCEL" : {
       "description" : "Tooltip: Request time acceleration {time}",
@@ -1217,7 +1217,7 @@
    },
    "OPEN_USER_FOLDER" : {
       "description" : "",
-      "message" : "User Folder"
+      "message" : "Usar pasta"
    },
    "OPTIONS" : {
       "description" : "",
@@ -1453,7 +1453,7 @@
    },
    "SETTINGS" : {
       "description" : "UI option",
-      "message" : "Settings"
+      "message" : "Configurações"
    },
    "SET_AS_TARGET" : {
       "description" : "",
@@ -1593,7 +1593,7 @@
    },
    "TOTAL_DURATION" : {
       "description" : "Total duration of a (possibly series) of hyper jump(s)",
-      "message" : "Total Duration:"
+      "message" : "Duração total:"
    },
    "TOTAL_MASS" : {
       "description" : "",
