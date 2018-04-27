@@ -205,7 +205,7 @@
    },
    "CONTINUE_GAME" : {
       "description" : "",
-      "message" : "Continua partita"
+      "message" : "Continua la partita"
    },
    "CONTROLS" : {
       "description" : "",
@@ -469,7 +469,7 @@
    },
    "GPU_JOBS" : {
       "description" : "",
-      "message" : "Lavori GPU"
+      "message" : "Calcoli in GPU"
    },
    "GPU_JOBS_DESC" : {
       "description" : "",
@@ -965,7 +965,7 @@
    },
    "LOAD_GAME" : {
       "description" : "",
-      "message" : "Carica partita"
+      "message" : "Carica una partita"
    },
    "LOBBY" : {
       "description" : "",
@@ -1317,7 +1317,7 @@
    },
    "QUIT" : {
       "description" : "",
-      "message" : "Esci"
+      "message" : "Uscita"
    },
    "QUIT_CONFIRMATION" : {
       "description" : "For the checkbox in settings window",
@@ -1505,7 +1505,7 @@
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
-      "message" : "Parti dalla Stella di Barnard"
+      "message" : "Inizia da Barnard"
    },
    "START_AT_BARNARDS_STAR_DESC" : {
       "description" : "",
@@ -1513,7 +1513,7 @@
    },
    "START_AT_EARTH" : {
       "description" : "",
-      "message" : "Parti dalla Terra"
+      "message" : "Inizia dalla Terra"
    },
    "START_AT_EARTH_DESC" : {
       "description" : "",
@@ -1521,7 +1521,7 @@
    },
    "START_AT_NEW_HOPE" : {
       "description" : "New Hope is an in game location",
-      "message" : "Parti da New Hope"
+      "message" : "Inizia da New Hope"
    },
    "START_AT_NEW_HOPE_DESC" : {
       "description" : "",
