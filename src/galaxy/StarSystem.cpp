@@ -101,7 +101,7 @@ const Color StarSystem::starRealColors[] = {
 	{ 255, 153, 153 }, // M WF
 	{ 204, 204, 255 }, // B WF
 	{ 255, 204, 255 },  // O WF
-	{ 255, 255, 255 },  // small Black hole
+	{ 22, 0, 24 },  // small Black hole
 	{ 16, 0, 20 }, // med BH
 	{ 10, 0, 16 } // massive BH
 };

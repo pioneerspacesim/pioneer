@@ -45,6 +45,7 @@ libterrain_a_SOURCES = \
 	TerrainHeightWaterSolid.cpp \
 	TerrainColorAsteroid.cpp \
 	TerrainColorBandedRock.cpp \
+	TerrainColorBlack.cpp \
 	TerrainColorDeadWithWater.cpp \
 	TerrainColorDesert.cpp \
 	TerrainColorEarthLike.cpp \
@@ -67,7 +68,8 @@ libterrain_a_SOURCES = \
 	TerrainColorStarWhiteDwarf.cpp \
 	TerrainColorTFGood.cpp \
 	TerrainColorTFPoor.cpp \
-	TerrainColorVolcanic.cpp
+	TerrainColorVolcanic.cpp \
+	TerrainColorWhite.cpp 
 
 AM_CPPFLAGS += -isystem @top_srcdir@/contrib
 if !HAVE_LUA
