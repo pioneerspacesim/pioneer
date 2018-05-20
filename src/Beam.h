@@ -61,7 +61,6 @@ private:
 	static std::unique_ptr<Graphics::Material> s_sideMat;
 	static std::unique_ptr<Graphics::Material> s_glowMat;
 	static Graphics::RenderState *s_renderState;
-	Graphics::Drawables::Line3D m_line;
 
 /*
 

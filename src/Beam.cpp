@@ -43,8 +43,8 @@ void Beam::BuildModel()
 	desc.textures = 1;
 	s_sideMat.reset(Pi::renderer->CreateMaterial(desc));
 	s_glowMat.reset(Pi::renderer->CreateMaterial(desc));
-	s_sideMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
-	s_glowMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.png").GetOrCreateTexture(Pi::renderer, "billboard");
+	s_sideMat->texture0 = Graphics::TextureBuilder::Billboard("textures/beam_l.dds").GetOrCreateTexture(Pi::renderer, "billboard");
+	s_glowMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.dds").GetOrCreateTexture(Pi::renderer, "billboard");
 
 	//zero at projectile position
 	//+x down
@@ -63,8 +63,8 @@ void Beam::BuildModel()
 	const vector2f botLeft(0.f, 0.f);
 	const vector2f botRight(1.f, 0.f);
 
-	s_sideVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0));
-	s_glowVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0));
+	s_sideVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0, 24));
+	s_glowVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0, 240));
 
 	//add four intersecting planes to create a volumetric effect
 	for (int i=0; i < 4; i++) {
@@ -83,10 +83,10 @@ void Beam::BuildModel()
 	}
 
 	//create quads for viewing on end
-	float gw = 0.5f;
+	static const float gw = 0.5f;
 	float gz = -0.1f;
 
-	for (int i=0; i < 4; i++) {
+	for (int i=0; i < 40; i++) {
 		s_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
 		s_glowVerts->Add(vector3f(-gw, gw, gz), topRight);
 		s_glowVerts->Add(vector3f(gw, gw, gz), botRight);
@@ -95,8 +95,7 @@ void Beam::BuildModel()
 		s_glowVerts->Add(vector3f(gw, -gw, gz), botLeft);
 		s_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
 
-		gw -= 0.1f; // they get smaller
-		gz -= 0.2f; // as they move back
+		gz -= 0.02f; // as they move back
 	}
 
 	Graphics::RenderStateDesc rsd;
@@ -349,13 +348,6 @@ void Beam::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		s_glowMat->diffuse = color;
 		renderer->DrawTriangles(s_glowVerts.get(), s_renderState, s_glowMat.get());
 	}
-
-	/*
-	m_line.SetStart(from);
-	m_line.SetEnd(from * (dir*10000.0f));
-	m_line.SetColor(m_color);
-	m_line.Draw(Pi::renderer, s_renderState);
-	*/
 }
 
 // static
