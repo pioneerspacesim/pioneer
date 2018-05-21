@@ -60,7 +60,6 @@ libterrain_a_SOURCES = \
 	TerrainColorMethane.cpp \
 	TerrainColorRock2.cpp \
 	TerrainColorRock.cpp \
-	TerrainColorSolid.cpp \
 	TerrainColorStarBrownDwarf.cpp \
 	TerrainColorStarG.cpp \
 	TerrainColorStarK.cpp \
