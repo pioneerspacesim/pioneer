@@ -1,4 +1,7 @@
 May 2018
+   * New Features
+     * New mission: Combat #4319
+
    * Fixes
      * fix spoiled eggs (#4334)
      * Bug fix for large Star Rendering (#4332)
