@@ -35,6 +35,9 @@ local onChat = function (form, ref, option)
 	form:SetMessage("\n" .. flavours[ad.flavour].body)
 end
 
+local onDelete = function (ref)
+	ads[ref] = nil
+end
 
 local makeAdvert = function (station, flavour_index)
 
@@ -47,6 +50,7 @@ local makeAdvert = function (station, flavour_index)
 	local ref = station:AddAdvert({
 		description = ad.desc,
 --		icon        = "lightning",
+		onDelete    = onDelete,
 		onChat      = onChat})
 	ads[ref] = ad
 
@@ -79,6 +83,7 @@ local onGameStart = function ()
 		local ref = ad.station:AddAdvert({
 			description = ad.desc,
 --			icon        = "lightning",
+			onDelete    = onDelete,
 			onChat      = onChat,
 		})
 		ads[ref] = ad

@@ -1,3 +1,7 @@
+May 2018
+   * Fixes
+     * fix spoiled eggs (#4334)
+
 April 2018
    * Fixes
      * Don't crash when missing translation (#4328)
