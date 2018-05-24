@@ -5,6 +5,7 @@ May 2018
    * Fixes
      * fix spoiled eggs (#4334)
      * Bug fix for large Star Rendering (#4332)
+     * Invoke dummy Ship::TimeStepUpdate when refueling (#4320)
 
 April 2018
    * Fixes
