@@ -1,3 +1,7 @@
+June 2018
+   * New Features
+     * Audio alarms (#4335)
+
 May 2018
    * New Features
      * New mission: Combat #4319
