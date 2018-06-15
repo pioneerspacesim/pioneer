@@ -78,23 +78,25 @@ local function showSaveFiles()
 		saveFileCache = {}
 	end
 
-	table.sort(files, function(a,b) return (a.mtime.timestamp > b.mtime.timestamp) end)
+	if _ then
+		table.sort(files, function(a,b) return (a.mtime.timestamp > b.mtime.timestamp) end)
 
-	ui.columns(2,"##saved_games",true)
-	for _,f in pairs(files) do
-		if ui.selectable(f.name, f.name == selectedSave, {"SpanAllColumns"}) then
-			selectedSave = f.name
-		end
-		if Engine.pigui.IsItemHovered() then
-			local tooltip = getSaveTooltip(f.name)
-			Engine.pigui.SetTooltip(tooltip)
-		end
+		ui.columns(2,"##saved_games",true)
+		for _,f in pairs(files) do
+			if ui.selectable(f.name, f.name == selectedSave, {"SpanAllColumns"}) then
+				selectedSave = f.name
+			end
+			if Engine.pigui.IsItemHovered() then
+				local tooltip = getSaveTooltip(f.name)
+				Engine.pigui.SetTooltip(tooltip)
+			end
 
-		ui.nextColumn()
-		ui.text(Format.Date(f.mtime.timestamp))
-		ui.nextColumn()
+			ui.nextColumn()
+			ui.text(Format.Date(f.mtime.timestamp))
+			ui.nextColumn()
+		end
+		ui.columns(1,"",false)
 	end
-	ui.columns(1,"",false)
 end
 
 local function closeAndClearCache()
@@ -103,12 +105,14 @@ local function closeAndClearCache()
 end
 
 local function closeAndLoadOrSave()
-	if ui.showSavedGameWindow == "LOAD" then
-		Game.LoadGame(selectedSave)
-	elseif ui.showSavedGameWindow == "SAVE" then
-		Game.SaveGame(selectedSave)
+	if selectedSave ~= nil and selectedSave ~= '' then
+		if ui.showSavedGameWindow == "LOAD" then
+			Game.LoadGame(selectedSave)
+		elseif ui.showSavedGameWindow == "SAVE" then
+			Game.SaveGame(selectedSave)
+		end
+		closeAndClearCache()
 	end
-	closeAndClearCache()
 end
 
 local function savedGameWindow()
