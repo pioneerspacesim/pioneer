@@ -201,7 +201,7 @@ namespace PicoDDS
 		const int32_t	DDSCAPS2_CUBEMAP_POSITIVEZ = 0x00004000;
 		const int32_t	DDSCAPS2_CUBEMAP_NEGATIVEZ = 0x00008000;
 		const int32_t	DDSCAPS2_VOLUME = 0x00200000;
-	};
+	}
 
 	class DDSImage
 	{
