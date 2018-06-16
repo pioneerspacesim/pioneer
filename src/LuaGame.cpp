@@ -72,6 +72,27 @@ static int l_game_start_game(lua_State *l)
 	return 0;
 }
 
+
+/*
+* Function: SaveGameStats
+*
+* Start a new game.
+*
+* > Game.SaveGameStats(filename)
+*
+* Parameters:
+*
+*   filename - The filename of the save game to retrieve stats for.
+*              Stats will be loaded from the 'savefiles' directory in the user's game directory.
+*
+* Availability:
+*
+*   2018-02-10
+*
+* Status:
+*
+*   experimental
+*/
 static int l_game_savegame_stats(lua_State *l)
 {
 	std::string filename = LuaPull<std::string>(l, 1);
