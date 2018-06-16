@@ -7,6 +7,7 @@ June 2018
 
    * Fixes
      * Cleanup minor warnings, header inclusion, Windows versioning (#4339)
+     * Fix various isuess when saving/loading games (#4338)
 
 May 2018
    * New Features
