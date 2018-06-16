@@ -5,6 +5,8 @@
 #define _BYTERANGE_H
 
 #include <cassert>
+#include <cctype>
+#include <cstring>
 #include <algorithm>
 
 struct ByteRange
