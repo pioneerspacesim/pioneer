@@ -4,10 +4,10 @@
 #ifndef _SERIALIZE_H
 #define _SERIALIZE_H
 
+#include <string>
 #include "ByteRange.h"
 #include "Color.h"
 #include "Quaternion.h"
-#include "vector2.h"
 #include "vector3.h"
 
 namespace Serializer {
