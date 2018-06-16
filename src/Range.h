@@ -25,7 +25,7 @@
 #ifndef _RANGE_H_
 #define _RANGE_H_
 
-// Description: See header of /src/RandomColor.h for licnses and origin of code discussion
+// Description: See header of /src/RandomColor.h for licenses and origin of code discussion
 
 #include <cstdlib>
 
@@ -37,13 +37,13 @@ namespace RandomColorGenerator {
 		int Upper;
 
 		Range() {}
-        	Range(int lower, int upper) 
-        	{
+        Range(int lower, int upper) 
+        {
 			Lower = lower;
 			Upper = upper;
-        	}
+        }
 
-        	// Gets the lower range for an index of 0 and the upper for an index of 1.
+        // Gets the lower range for an index of 0 and the upper for an index of 1.
 		const int &operator[](const size_t index) const
 		{
 			if(index==0) return Lower;
