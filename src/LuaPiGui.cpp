@@ -39,6 +39,7 @@ static Type parse_imgui_enum(lua_State *l, int index, std::map<std::string, Type
 		return table.at(stylestr);
 	else
 		Error("Unknown %s %s\n", name.c_str(), stylestr.c_str());
+	return static_cast<Type>(0);
 }
 
 void *pi_lua_checklightuserdata(lua_State *l, int index) {
