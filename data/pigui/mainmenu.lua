@@ -88,7 +88,7 @@ local function mainTextButton(label, tooltip, enabled, callback)
 	ui.withFont(pionillium.large.name, mainButtonFontSize, function()
 		button = ui.coloredSelectedButton(label, mainButtonSize, false, bgcolor, tooltip, enabled)
 	end)
-	if button then
+	if button and enabled then
 		callback()
 	end
 	return button
