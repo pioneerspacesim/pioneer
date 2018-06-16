@@ -2,6 +2,12 @@ June 2018
    * New Features
      * Audio alarms (#4335)
 
+   * Internal Changes
+     * Correct minor formatting/indentation (#4321)
+
+   * Fixes
+     * Cleanup minor warnings, header inclusion, Windows versioning (#4339)
+
 May 2018
    * New Features
      * New mission: Combat #4319
