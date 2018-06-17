@@ -8,6 +8,7 @@ local lc = Lang.GetResource("core");
 local lui = Lang.GetResource("ui-core");
 local utils = import("utils")
 local Event = import("Event")
+local SystemPath = import("SystemPath")
 
 local player = nil
 local colors = ui.theme.colors
@@ -120,33 +121,38 @@ local function showSearch()
 	ui.text(lc.SEARCH)
 	search_text, changed = ui.inputText("", search_text, {})
 	if search_text ~= "" then
-		local systempaths = Engine.SearchNearbyStarSystemsByName(search_text)
-		if #systempaths == 0 then
-			ui.text(lc.NOT_FOUND)
+		local parsedSystem = SystemPath.ParseString(search_text)
+		if parsedSystem ~= nil then
+			Engine.SectorMapGotoSectorPath(parsedSystem)
 		else
-			local data = {}
-			for _,path in pairs(systempaths) do
-				local jumpStatus, distance, fuelRequired, duration = getHyperspaceDetails(path)
-				table.insert(data, { jumpStatus = jumpStatus, distance = distance, fuelRequired = fuelRequired, duration = duration, path = path })
-			end
-			ui.child("search_results", function ()
-								 table.sort(data, function(a,b)
-								 							if a.path == b.path or a.path:IsSameSystem(b.path) then
-																return false
-															end
-								 							return a.distance < b.distance
-								 end)
-								 for _,item in pairs(data) do
-									 local system = item.path:GetStarSystem()
-									 local label = system.name
-									 label = label .. '  ' .. item.jumpStatus .. ", " .. string.format("%.2f", item.distance) .. lc.UNIT_LY .. ", " .. item.fuelRequired .. lc.UNIT_TONNES .. ", " .. ui.Format.Duration(item.duration, 2)
+			local systempaths = Engine.SearchNearbyStarSystemsByName(search_text)
+			if #systempaths == 0 then
+				ui.text(lc.NOT_FOUND)
+			else
+				local data = {}
+				for _,path in pairs(systempaths) do
+					local jumpStatus, distance, fuelRequired, duration = getHyperspaceDetails(path)
+					table.insert(data, { jumpStatus = jumpStatus, distance = distance, fuelRequired = fuelRequired, duration = duration, path = path })
+				end
+				ui.child("search_results", function ()
+									 table.sort(data, function(a,b)
+																if a.path == b.path or a.path:IsSameSystem(b.path) then
+																	return false
+																end
+																return a.distance < b.distance
+									 end)
+									 for _,item in pairs(data) do
+										 local system = item.path:GetStarSystem()
+										 local label = system.name
+										 label = label .. '  ' .. item.jumpStatus .. ", " .. string.format("%.2f", item.distance) .. lc.UNIT_LY .. ", " .. item.fuelRequired .. lc.UNIT_TONNES .. ", " .. ui.Format.Duration(item.duration, 2)
 
-									 if ui.selectable(label, false, {}) then
-										 Engine.SetSectorMapSelected(item.path)
-										 Engine.SectorMapGotoSystemPath(item.path)
+										 if ui.selectable(label, false, {}) then
+											 Engine.SetSectorMapSelected(item.path)
+											 Engine.SectorMapGotoSystemPath(item.path)
+										 end
 									 end
-								 end
-			end)
+				end)
+			end
 		end
 	end
 end

@@ -1220,6 +1220,14 @@ static int l_engine_set_sector_map_selected(lua_State *l)
 		return 0;
 }
 
+static int l_engine_sector_map_goto_sector_path(lua_State *l)
+{
+	SectorView *sv = Pi::game->GetSectorView();
+	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
+	sv->GotoSector(*path);
+	return 0;
+}
+
 static int l_engine_sector_map_goto_system_path(lua_State *l)
 {
 		SectorView *sv = Pi::game->GetSectorView();
@@ -1393,6 +1401,7 @@ void LuaEngine::Register()
 		{ "SetSectorMapAutomaticSystemSelection",   l_engine_set_sector_map_automatic_system_selection },
 		{ "SetSectorMapLockHyperspaceTarget",       l_engine_set_sector_map_lock_hyperspace_target },
 		{ "SetSectorMapSelected",                   l_engine_set_sector_map_selected },
+		{ "SectorMapGotoSectorPath",                l_engine_sector_map_goto_sector_path },
 		{ "SectorMapGotoSystemPath",                l_engine_sector_map_goto_system_path },
 		{ "GetSectorMapFactions",                   l_engine_get_sector_map_factions },
 		{ "SetSectorMapFactionVisible",             l_engine_set_sector_map_faction_visible },
