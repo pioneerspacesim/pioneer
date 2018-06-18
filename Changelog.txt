@@ -5,11 +5,14 @@ June 2018
    * Internal Changes
      * Correct minor formatting/indentation (#4321)
      * Do not callback if button if disabled (#4342)
+     * Add MSVC2017 to COMPILING.txt (#4344)
 
    * Fixes
      * Cleanup minor warnings, header inclusion, Windows versioning (#4339)
      * Fix various isuess when saving/loading games (#4338)
      * Reinstate searching by Sector coordinates (#4341)
+     * Update changed files so vs2015 builds again (#4346)
+     * Small saveloadgame script cleanup (#4343)
 
 May 2018
    * New Features
