@@ -227,7 +227,7 @@ local onGameStart = function ()
 			service_period = oneyear, -- default
 			jumpcount = 0, -- Number of jumps made after the service_period
 		}
-	else
+	elseif loaded_data.ads then
 		for k,ad in pairs(loaded_data.ads) do
 		local ref = ad.station:AddAdvert({
 			description = ad.title,
