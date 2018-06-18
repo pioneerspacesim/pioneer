@@ -215,6 +215,7 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 	m_objectLabels = new Gui::LabelSet();
 	Add(m_objectLabels, 0, 0);
 	m_shipLabels = new Gui::LabelSet();
+	m_shipLabels->SetLabelColor(Color(255,155,0,200));
 	Add(m_shipLabels, 0, 0);
 	Gui::Screen::PopFont();
 
