@@ -76,11 +76,8 @@ local function showSaveFiles()
 	if not ok then
 		print('Error: ' .. files)
 		saveFileCache = {}
-	end
-
-	if _ then
+	else
 		table.sort(files, function(a,b) return (a.mtime.timestamp > b.mtime.timestamp) end)
-
 		ui.columns(2,"##saved_games",true)
 		for _,f in pairs(files) do
 			if ui.selectable(f.name, f.name == selectedSave, {"SpanAllColumns"}) then
