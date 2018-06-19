@@ -611,7 +611,10 @@ void SystemInfoView::UpdateIconSelections()
 		if (currentSys && currentSys->GetPath() == m_system->GetPath()) {
 			//navtarget can be only set in current system
 			Body* navtarget = Pi::player->GetNavTarget();
-			if ( navtarget && !navtarget->IsType(Body::SHIP) ) {
+			if ( navtarget &&
+			     (navtarget->IsType(Body::STAR) ||
+			      navtarget->IsType(Body::PLANET) ||
+			      navtarget->IsType(Body::SPACESTATION))) {
 				const SystemPath& navpath = navtarget->GetSystemBody()->GetPath();
 				if (bodyIcon.first == navpath.bodyIndex) {
 					bodyIcon.second->SetSelectColor(Color(0, 255, 0, 255));
