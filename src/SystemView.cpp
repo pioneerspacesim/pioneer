@@ -841,7 +841,6 @@ void SystemView::Draw3D()
 	if (m_system->GetUnexplored())
 		m_infoLabel->SetText(Lang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
 	else {
-		m_infoLabel->SetText("");
 		if (m_system->GetRootBody()) {
 			PutBody(m_system->GetRootBody().Get(), pos, trans);
 			if (m_game->GetSpace()->GetStarSystem() == m_system) {
