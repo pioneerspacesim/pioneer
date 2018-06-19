@@ -13,6 +13,7 @@ June 2018
      * Reinstate searching by Sector coordinates (#4341)
      * Update changed files so vs2015 builds again (#4346)
      * Small saveloadgame script cleanup (#4343)
+     * Fix possible crash in system info view (#4351)
 
 May 2018
    * New Features
