@@ -843,7 +843,7 @@ end
 local loaded_data
 
 local onGameStart = function ()
-	if loaded_data then
+	if loaded_data and loaded_data.ads then
 		ads = {}
 		missions = {}
 		custom_cargo = {}

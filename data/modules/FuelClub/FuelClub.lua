@@ -252,7 +252,7 @@ end
 
 local onGameStart = function ()
 
-	if loaded_data then
+	if loaded_data and loaded_data.ads then
 		-- rebuild saved adverts
 		for k,ad in pairs(loaded_data.ads) do
 			ads[ad.station:AddAdvert({

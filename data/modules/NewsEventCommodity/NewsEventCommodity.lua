@@ -380,7 +380,7 @@ local onGameStart = function ()
 	ads = {}
 	news = {}
 
-	if not loadedData then return end
+	if not loadedData or not loadedData.ads then return end
 
 	for k,ad in pairs(loadedData.ads) do
 		local ref = ad.station:AddAdvert(
