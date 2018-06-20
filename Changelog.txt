@@ -6,6 +6,8 @@ June 2018
      * Correct minor formatting/indentation (#4321)
      * Do not callback if button if disabled (#4342)
      * Add MSVC2017 to COMPILING.txt (#4344)
+     * Check also for local_data.ads in all mission modules (#4349)
+     * Make assassination mission time depends on distance (#4348)
 
    * Fixes
      * Cleanup minor warnings, header inclusion, Windows versioning (#4339)
@@ -14,6 +16,7 @@ June 2018
      * Update changed files so vs2015 builds again (#4346)
      * Small saveloadgame script cleanup (#4343)
      * Fix possible crash in system info view (#4351)
+     * Improve quality of docking4 music track (#4345)
 
 May 2018
    * New Features
