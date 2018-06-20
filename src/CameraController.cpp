@@ -26,12 +26,16 @@ void CameraController::Reset()
 void CameraController::Update()
 {
 	m_camera->SetFrame(m_ship->GetFrame());
-
-	// interpolate between last physics tick position and current one,
-	// to remove temporal aliasing
-	const matrix3x3d &m = m_ship->GetInterpOrient();
-	m_camera->SetOrient(m * m_orient);
-	m_camera->SetPosition(m * m_pos + m_ship->GetInterpPosition());
+	if (GetType() == FLYBY) {
+		m_camera->SetOrient(m_orient);
+		m_camera->SetPosition(m_pos);
+	} else {
+		// interpolate between last physics tick position and current one,
+		// to remove temporal aliasing
+		const matrix3x3d &m = m_ship->GetInterpOrient();
+		m_camera->SetOrient(m * m_orient);
+		m_camera->SetPosition(m * m_pos + m_ship->GetInterpPosition());
+	}
 }
 
 
@@ -402,5 +406,106 @@ void SiderealCameraController::LoadFromJson(const Json::Value &jsonObj)
 
 	JsonToMatrix(&m_sidOrient, siderealCameraObj, "sid_orient");
 	m_dist = StrToDouble(siderealCameraObj["dist"].asString());
+	m_distTo = m_dist;
+}
+
+FlyByCameraController::FlyByCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
+MoveableCameraController(camera, ship),
+m_dist(500), m_distTo(m_dist),
+m_roll(0)
+{
+}
+
+void FlyByCameraController::ZoomIn(float frameTime)
+{
+	ZoomOut(-frameTime);
+}
+
+void FlyByCameraController::ZoomOut(float frameTime)
+{
+	m_dist += 400 * frameTime;
+	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
+	m_distTo = m_dist;
+}
+
+void FlyByCameraController::ZoomEvent(float amount)
+{
+	m_distTo += 400 * amount;
+	m_distTo = std::max(GetShip()->GetClipRadius(), m_distTo);
+}
+
+void FlyByCameraController::ZoomEventUpdate(float frameTime)
+{
+	AnimationCurves::Approach(m_dist, m_distTo, frameTime, 4.0, 50. / std::max(m_distTo, 1e-7));		// std::max() here just avoid dividing by 0.
+	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
+}
+
+void FlyByCameraController::RollLeft(float frameTime)
+{
+	m_roll += M_PI / 4 * frameTime;
+}
+
+void FlyByCameraController::RollRight(float frameTime)
+{
+	m_roll += -M_PI / 4 * frameTime;
+}
+
+void FlyByCameraController::Reset()
+{
+	m_dist = 500;
+	m_distTo = m_dist;
+	SetPosition(vector3d(0, 0, 0));
+}
+
+static matrix3x3d LookAt(const vector3d eye, const vector3d target, const vector3d up)
+{
+	const vector3d z = (eye - target).NormalizedSafe();
+	const vector3d x = (up.Cross(z)).NormalizedSafe();
+	const vector3d y = (z.Cross(x)).NormalizedSafe();
+
+	return matrix3x3d::FromVectors(x, y, z);
+}
+
+void FlyByCameraController::Update()
+{
+	const Ship *ship = GetShip();
+
+	matrix3x3d camerao;
+	vector3d ship_pos = ship->GetInterpPosition();
+	vector3d camerap;
+
+	if (GetPosition() == vector3d(0, 0, 0) || m_old_frame != ship->GetFrame()) {
+		m_old_pos = ship_pos;
+		m_old_frame = ship->GetFrame();
+	}
+
+	camerap = m_old_pos + vector3d(0, 0, 2) * m_dist;
+	SetPosition(camerap);
+	camerao = LookAt(camerap, ship_pos, vector3d(0, 1, 0));
+	const vector3d rotAxis = camerao.VectorZ();
+	camerao = matrix3x3d::Rotate(m_roll, rotAxis) * camerao;
+	SetOrient(camerao);
+
+	CameraController::Update();
+}
+
+void FlyByCameraController::SaveToJson(Json::Value &jsonObj)
+{
+	Json::Value flybyCameraObj(Json::objectValue); // Create JSON object to contain flyby camera data.
+
+	flybyCameraObj["roll"] = FloatToStr(m_roll);
+	flybyCameraObj["dist"] = DoubleToStr(m_dist);
+
+	jsonObj["flyby"] = flybyCameraObj; // Add flyby camera object to supplied object.
+}
+
+void FlyByCameraController::LoadFromJson(const Json::Value &jsonObj)
+{
+	if (!jsonObj.isMember("flyby")) return; //throw SavedGameCorruptException();
+	Json::Value flybyCameraObj = jsonObj["flyby"];
+	if (!flybyCameraObj.isMember("dist")) throw SavedGameCorruptException();
+
+	m_roll = StrToFloat(flybyCameraObj["roll"].asString());
+	m_dist = StrToDouble(flybyCameraObj["dist"].asString());
 	m_distTo = m_dist;
 }
