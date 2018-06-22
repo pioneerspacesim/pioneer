@@ -158,7 +158,7 @@ local function showSearch()
 end
 local function showInfoWindow()
 	ui.withStyleColors({["WindowBg"] = colors.lightBlackBackground}, function()
-			ui.window("MapSectorViewInfo", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
+			ui.window("MapSectorViewInfo", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "HorizontalScrollbar"},
 								function()
 
 									ui.text(string.format("%.2f", Engine.GetSectorMapZoomLevel()) .. lc.UNIT_LY)
