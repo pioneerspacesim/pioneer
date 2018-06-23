@@ -227,7 +227,7 @@ local function displaySectorViewWindow()
 	player = Game.player
 	local current_view = Game.CurrentView()
 	if current_view == "sector" then
-		ui.setNextWindowSize(Vector(ui.screenWidth / 5, ui.screenHeight / 3 * 2), "Always")
+		ui.setNextWindowSize(Vector(ui.screenWidth / 5, ui.screenHeight / 3 * 2.1), "Always")
 		ui.setNextWindowPos(Vector(10, 10) , "Always")
 		showInfoWindow()
 		showFactionLegendWindow()
