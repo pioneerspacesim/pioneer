@@ -1667,6 +1667,10 @@
       "description" : "",
       "message" : "Toggle HUD mode"
    },
+   "TOGGLE_WHEEL_STATE" : {
+      "description" : "",
+	  "message" : "Toggle landing gear up or down"
+   },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
       "message" : "Toggle Lua console"

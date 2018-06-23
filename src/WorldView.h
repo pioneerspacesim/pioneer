@@ -122,6 +122,7 @@ private:
 	void SeparateLabels(Gui::Label *a, Gui::Label *b);
 
 	void OnToggleLabels();
+	void OnToggleWheels();
 
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
 	void DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c);
@@ -172,6 +173,7 @@ private:
 	sigc::connection m_onChangeFlightControlStateCon;
 	sigc::connection m_onMouseWheelCon;
 	sigc::connection m_onToggleHudModeCon;
+	sigc::connection m_onToggleWheelStateCon;
 	sigc::connection m_onIncTimeAccelCon;
 	sigc::connection m_onDecTimeAccelCon;
 
