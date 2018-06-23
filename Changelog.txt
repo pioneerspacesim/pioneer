@@ -17,6 +17,7 @@ June 2018
      * Small saveloadgame script cleanup (#4343)
      * Fix possible crash in system info view (#4351)
      * Improve quality of docking4 music track (#4345)
+     * Various small GUI tweaks (#4354)
 
 May 2018
    * New Features
