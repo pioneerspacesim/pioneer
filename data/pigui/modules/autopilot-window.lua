@@ -135,8 +135,7 @@ end
 local function displayAutoPilotWindow()
 	player = Game.player
 	local current_view = Game.CurrentView()
-	local buttons = 3
-	ui.setNextWindowSize(Vector(mainButtonSize.x * 5, mainButtonSize.y * 2), "Always")
+	ui.setNextWindowSize(Vector(mainButtonSize.x * 6, mainButtonSize.y * 2), "Always")
 	ui.setNextWindowPos(Vector(ui.screenWidth/2 + ui.reticuleCircleRadius / 4 * 3, ui.screenHeight - mainButtonSize.y * 1.5 - 8) , "Always")
 	ui.window("AutoPilot", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 						function()

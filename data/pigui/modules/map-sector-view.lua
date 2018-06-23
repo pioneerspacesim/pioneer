@@ -29,7 +29,7 @@ local function showSystemInfo(label, current_systempath, systempath, othersystem
 								local jumpData = ""
 								if not current_systempath:IsSameSystem(systempath) then
 									local jumpStatus, distance, fuelRequired, duration = player:GetHyperspaceDetails(current_systempath, systempath)
-									jumpData = jumpStatus .. "  " .. string.format("%.2f", distance) .. lc.UNIT_LY .. "  " .. fuelRequired .. lc.UNIT_TONNES .. "  " .. ui.Format.Duration(duration, 2)
+									jumpData = "\n" .. jumpStatus .. "  " .. string.format("%.2f", distance) .. lc.UNIT_LY .. "  " .. fuelRequired .. lc.UNIT_TONNES .. "  " .. ui.Format.Duration(duration, 2)
 								end
 								if ui.collapsingHeader(label .. ': ' .. starsystem.name .. '  ' .. jumpData .. " (" .. math.floor(systempath.sectorX) .. ", " .. math.floor(systempath.sectorY) .. ", " .. math.floor(systempath.sectorZ) .. ")", { "DefaultOpen" }) then
 									local stars = starsystem:GetStars()
@@ -158,7 +158,7 @@ local function showSearch()
 end
 local function showInfoWindow()
 	ui.withStyleColors({["WindowBg"] = colors.lightBlackBackground}, function()
-			ui.window("MapSectorViewInfo", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
+			ui.window("MapSectorViewInfo", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "HorizontalScrollbar"},
 								function()
 
 									ui.text(string.format("%.2f", Engine.GetSectorMapZoomLevel()) .. lc.UNIT_LY)
@@ -227,7 +227,7 @@ local function displaySectorViewWindow()
 	player = Game.player
 	local current_view = Game.CurrentView()
 	if current_view == "sector" then
-		ui.setNextWindowSize(Vector(ui.screenWidth / 5, ui.screenHeight / 3 * 2), "Always")
+		ui.setNextWindowSize(Vector(ui.screenWidth / 5, ui.screenHeight / 3 * 2.1), "Always")
 		ui.setNextWindowPos(Vector(10, 10) , "Always")
 		showInfoWindow()
 		showFactionLegendWindow()
