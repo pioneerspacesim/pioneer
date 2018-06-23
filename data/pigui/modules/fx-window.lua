@@ -129,9 +129,8 @@ end
 local function displayFxWindow()
 	player = Game.player
 	local current_view = Game.CurrentView()
-	local buttons = 7
-	ui.setNextWindowSize(Vector((mainButtonSize.x + mainButtonFramePadding * 2) * 9, (mainButtonSize.y + mainButtonFramePadding * 2) * 1.5), "Always")
-	ui.setNextWindowPos(Vector(ui.screenWidth/2 - (mainButtonSize.x + 4 * mainButtonFramePadding) * buttons/2, 0) , "Always")
+	ui.setNextWindowSize(Vector((mainButtonSize.x + mainButtonFramePadding * 2) * 10, (mainButtonSize.y + mainButtonFramePadding * 2) * 1.5), "Always")
+	ui.setNextWindowPos(Vector(ui.screenWidth/2 - (mainButtonSize.x + 4 * mainButtonFramePadding) * 7.5/2, 0) , "Always")
 	ui.window("Fx", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 						function()
 							button_world(current_view)
