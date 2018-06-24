@@ -1,0 +1,122 @@
+{
+   "RACING" : {
+      "description" : "",
+      "message" : "Racing"
+   },
+   "EXCELLENT" : {
+      "description" : "",
+      "message" : "Excellent."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "{system}: RACE IS ON!"
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "{system}: PURSUIT IS STARTING!"
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "{system}: RUN IS BEGINNING!"
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "{system}: CHASE IS ON!"
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "You failed to win the race."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "You failed to be the first."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Someone else was first."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "More luck next time."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "Welcome fellow pilot. Destination system is {system} ({sectorX}, {sectorY}, {sectorZ}) and final destination location is {spaceport}. Reward is {cash}. Current race record is {record}. Standard participation fee is {fee}."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hello fellow pilot. Destination system is {system} ({sectorX}, {sectorY}, {sectorZ}) and final destination location is {spaceport}. You will be rewarded {cash} if you win. Current race record is {record}. Standard participation fee is {fee}."
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hi commander. Destination system is {system} ({sectorX}, {sectorY}, {sectorZ}) and final destination location is {spaceport}. You will be rewarded {cash} if you win. Current race record is {record}. Standard participation fee is {fee}."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "Grettings, commander. Destination system is {system} ({sectorX}, {sectorY}, {sectorZ}) and final destination location is {spaceport}. You will be rewarded {cash} if you win. Current race record is {record}. Standard participation fee is {fee}."
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "You are clear winner."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Congratulations. You are race winner."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "You are fast pilot."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Good job. You are first."
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Ok, agreed."
+   },
+   "STARTING_SYSTEM" : {
+      "description" : "",
+      "message" : "Starting system:"
+   },
+   "FINAL_SYSTEM" : {
+      "description" : "",
+      "message" : "Final system:"
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Distance:"
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "ly"
+   },
+   "DEADLINE" : {
+      "description" : "",
+      "message" : "Deadline:"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set as navigation target"
+   },
+   "STARTING_SPACEPORT" : {
+      "description" : "",
+      "message" : "Starting spaceport:"
+   },
+   "FINAL_SPACEPORT" : {
+      "description" : "",
+      "message" : "Final spaceport:"
+   },
+   "RECORD" : {
+      "description" : "",
+      "message" : "Record:"
+   },
+   "REWARD" : {
+      "description" : "",
+      "message" : "Reward:"
+   },
+   "YOU_DONT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "You don't have enough money."
+   }
+}
