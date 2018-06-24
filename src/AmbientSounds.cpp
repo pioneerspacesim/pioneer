@@ -161,7 +161,9 @@ void AmbientSounds::Update()
                     s_planetSurfaceNoise.Stop();
                 }
             }
-        }
+		} else if (Pi::game->IsHyperspace()) {
+			s_planetSurfaceNoise.Stop();
+		}
     } else {
 		if (s_stationNoise.IsPlaying()) {
 			const float target[2] = {0.0f,0.0f};
