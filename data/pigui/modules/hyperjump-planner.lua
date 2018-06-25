@@ -25,6 +25,7 @@ local map_selected_path
 local selected_jump
 local current_fuel
 local remove_first_if_current = true
+local hideHyperJumpPlaner = false
 
 local function showSettings()
     if ui.collapsingHeader(lui.SETTINGS, {"DefaultOpen"}) then
@@ -234,7 +235,12 @@ local function displayHyperJumpPlanner()
         map_selected_path = Engine.GetSectorMapSelectedSystemPath()
         hyperjump_route = Engine.SectorMapGetRoute()
         route_jumps = Engine.SectorMapGetRouteSize()
-        showHyperJumpPlannerWindow()
+		if ui.isKeyReleased(ui.keys.tab) then
+			hideHyperJumpPlaner = not hideHyperJumpPlaner;
+		end
+		if not hideHyperJumpPlaner then
+			showHyperJumpPlannerWindow()
+		end
     end
 end -- displayHyperJumpPlanner
 
