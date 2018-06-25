@@ -215,6 +215,7 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 	m_objectLabels = new Gui::LabelSet();
 	Add(m_objectLabels, 0, 0);
 	m_shipLabels = new Gui::LabelSet();
+	m_shipLabels->SetLabelColor(Color(255,155,0,200));
 	Add(m_shipLabels, 0, 0);
 	Gui::Screen::PopFont();
 
@@ -840,7 +841,6 @@ void SystemView::Draw3D()
 	if (m_system->GetUnexplored())
 		m_infoLabel->SetText(Lang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
 	else {
-		m_infoLabel->SetText("");
 		if (m_system->GetRootBody()) {
 			PutBody(m_system->GetRootBody().Get(), pos, trans);
 			if (m_game->GetSpace()->GetStarSystem() == m_system) {
@@ -938,11 +938,21 @@ void SystemView::RefreshShips(void) {
 void SystemView::DrawShips(const double t, const vector3d &offset) {
 	m_shipLabels->Clear();
 	for(auto s = m_contacts.begin(); s != m_contacts.end(); s++) {
-		const vector3d pos = offset + (*s).second.OrbitalPosAtTime(t) * double(m_zoom);
+		vector3d pos = offset;
+		if ((*s).first->GetFlightState() != Ship::FlightState::FLYING) {
+			Frame *frame = Pi::game->GetSpace()->GetRootFrame();
+			pos += (*s).first->GetPositionRelTo(frame) * double(m_zoom);;
+		} else {
+			Frame *frame = (*s).first->GetFrame();
+			vector3d bpos = vector3d(0., 0., 0.);
+			if (frame != Pi::game->GetSpace()->GetRootFrame())
+			    bpos += frame->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
+			pos += (bpos + (*s).second.OrbitalPosAtTime(t)) * double(m_zoom);
+		}
 		const bool isNavTarget = Pi::player->GetNavTarget() == (*s).first;
 		PutSelectionBox(pos, isNavTarget ? Color::GREEN : Color::BLUE);
 		LabelShip((*s).first, pos);
-		if(m_shipDrawing == ORBITS)
+		if(m_shipDrawing == ORBITS && (*s).first->GetFlightState() == Ship::FlightState::FLYING)
 			PutOrbit(&(*s).second, offset, isNavTarget ? Color::GREEN : Color::BLUE, 0);
 	}
 }
