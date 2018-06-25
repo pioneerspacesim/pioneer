@@ -13,6 +13,7 @@ local SystemPath = import("SystemPath")
 local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
+local hideSectorViewWindows = false
 
 local mainButtonSize = Vector(32,32) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
@@ -229,8 +230,13 @@ local function displaySectorViewWindow()
 	if current_view == "sector" then
 		ui.setNextWindowSize(Vector(ui.screenWidth / 5, ui.screenHeight / 3 * 2.1), "Always")
 		ui.setNextWindowPos(Vector(10, 10) , "Always")
-		showInfoWindow()
-		showFactionLegendWindow()
+		if ui.isKeyReleased(ui.keys.tab) then
+			hideSectorViewWindows = not hideSectorViewWindows;
+		end
+		if not hideSectorViewWindows then
+			showInfoWindow()
+			showFactionLegendWindow()
+		end
 	end
 end
 

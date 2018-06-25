@@ -43,7 +43,8 @@ static std::vector<std::pair<std::string,int>> keycodes
 		{"f9", to_keycode(SDLK_F9)},
 		{"f10", to_keycode(SDLK_F10)},
 		{"f11", to_keycode(SDLK_F11)},
-		{"f12", to_keycode(SDLK_F12)}
+		{"f12", to_keycode(SDLK_F12)},
+		{"tab", to_keycode(SDLK_TAB)},
 };
 
 ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height) {
