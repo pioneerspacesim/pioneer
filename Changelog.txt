@@ -19,6 +19,7 @@ June 2018
      * Improve quality of docking4 music track (#4345)
      * Various small GUI tweaks (#4354)
      * Fix audio crossfade and do not play planet ambient sounds in hyperspace (#4356)
+     * Fix Ship positions in SystemView when not flying (#4347)
 
 May 2018
    * New Features
