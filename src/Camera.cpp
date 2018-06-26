@@ -85,6 +85,7 @@ Camera::Camera(RefCountedPtr<CameraContext> context, Graphics::Renderer *rendere
 	m_renderer(renderer)
 {
 	Graphics::MaterialDescriptor desc;
+	desc.effect = Graphics::EFFECT_BILLBOARD;
 	desc.textures = 1;
 
 	m_billboardMaterial.reset(m_renderer->CreateMaterial(desc));
@@ -148,11 +149,14 @@ void Camera::Update()
 		if (b->IsType(Object::TERRAINBODY)) {
 			if (pixSize < BILLBOARD_PIXEL_THRESHOLD) {
 				attrs.billboard = true;
+
+				// project the position
 				vector3d pos;
-				// limit the minimum billboard size for planets so they're always a little visible
-				const double size = std::max(0.5, rad * 2.0 * m_context->GetFrustum().TranslatePoint(attrs.viewCoords, pos));
+				m_context->GetFrustum().TranslatePoint(attrs.viewCoords, pos);
 				attrs.billboardPos = vector3f(pos);
-				attrs.billboardSize = float(size);
+
+				// limit the minimum billboard size for planets so they're always a little visible
+				attrs.billboardSize = std::max(1.0f, pixSize);
 				if (b->IsType(Object::STAR)) {
 					attrs.billboardColor = StarSystem::starRealColors[b->GetSystemBody()->GetType()];
 				}
