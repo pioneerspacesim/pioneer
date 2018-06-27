@@ -132,15 +132,12 @@ bool Frustum::ProjectPoint(const vector3d &in, vector3d &out) const
 	return true;
 }
 
-double Frustum::TranslatePoint(const vector3d &in, vector3d &out) const
+void Frustum::TranslatePoint(const vector3d &in, vector3d &out) const
 {
 	out = in;
-	double scale = 1.0;
 	while (out.LengthSqr() > m_translateThresholdSqr) {
 		out *= TRANSLATE_STEP;
-		scale *= TRANSLATE_STEP;
 	}
-	return scale;
 }
 
 }
