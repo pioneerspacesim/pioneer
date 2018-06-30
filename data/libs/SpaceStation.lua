@@ -27,6 +27,8 @@ function SpaceStation:Constructor()
 	-- Use a variation of the space station seed itself to ensure consistency
 	local rand = Rand.New(self.seed .. '-techLevel')
 	local techLevel = rand:Integer(1, 6) + rand:Integer(0,6)
+	-- cap the techlevel lower end based on the planets population
+	techLevel = math.max(techLevel, math.min(math.floor(self.path:GetSystemBody().parent.population * 0.5), 11))
 	self:setprop("techLevel", techLevel)
 end
 
