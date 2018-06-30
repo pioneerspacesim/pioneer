@@ -22,6 +22,7 @@ June 2018
      * Fix Ship positions in SystemView when not flying (#4347)
      * Fix tab not hiding sector view window (#4298)
      * Fix planets size "popping into view" as approaching from afar (#4190)
+     * Fix misplaced ships in external view (#4361)
 
 May 2018
    * New Features
