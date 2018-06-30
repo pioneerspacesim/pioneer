@@ -37,9 +37,9 @@ local quitConfirmMsg
 local max_flavours = 19
 
 local startLocations = {
-	{['name']=lui.START_AT_EARTH,
-	 ['desc']=lui.START_AT_EARTH_DESC,
-	 ['location']=SystemPath.New(0,0,0,0,6,48600),
+	{['name']=lui.START_AT_MARS,
+	 ['desc']=lui.START_AT_MARS_DESC,
+	 ['location']=SystemPath.New(0,0,0,0,18),
 	 ['shipType']='sinonatrix',['money']=100,['hyperdrive']=true,
 	 ['equipment']={
 		{laser.pulsecannon_1mw,1},
