@@ -465,7 +465,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		kid->m_volcanicity    = csbody->volcanicity;
 		kid->m_atmosOxidizing = csbody->atmosOxidizing;
 		kid->m_life           = csbody->life;
-    kid->m_space_station_type = csbody->spaceStationType;
+		kid->m_space_station_type = csbody->spaceStationType;
 		kid->m_rotationPeriod = csbody->rotationPeriod;
 		kid->m_rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
 		kid->m_eccentricity = csbody->eccentricity;
@@ -491,24 +491,25 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 
 		if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
 			kid->m_orbit.SetPlane(matrix3x3d::RotateY(csbody->longitude) * matrix3x3d::RotateX(-0.5*M_PI + csbody->latitude));
-		} else {
-                        if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
-                            fixed lowestOrbit = fixed().FromDouble(parent->CalcAtmosphereParams().atmosRadius + 500000.0/EARTH_RADIUS);
-                            if (kid->m_orbit.GetSemiMajorAxis() < lowestOrbit.ToDouble()) {
-                                    Error("%s's orbit is too close to its parent (%.2f/%.2f)", csbody->name.c_str(),kid->m_orbit.GetSemiMajorAxis(),lowestOrbit.ToFloat());
-                            }
-                        }
-                        else {
-                            if (kid->m_orbit.GetSemiMajorAxis() < 1.2 * parent->GetRadius()) {
-                                    Error("%s's orbit is too close to its parent", csbody->name.c_str());
-                            }
-                        }
-			double offset = csbody->want_rand_offset ? rand.Double(2*M_PI) : (csbody->orbitalOffset.ToDouble());
+		}
+		else {
+			if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
+				fixed lowestOrbit = fixed().FromDouble(parent->CalcAtmosphereParams().atmosRadius + 500000.0 / EARTH_RADIUS);
+				if (kid->m_orbit.GetSemiMajorAxis() < lowestOrbit.ToDouble()) {
+					Error("%s's orbit is too close to its parent (%.2f/%.2f)", csbody->name.c_str(), kid->m_orbit.GetSemiMajorAxis(), lowestOrbit.ToFloat());
+				}
+			}
+			else {
+				if (kid->m_orbit.GetSemiMajorAxis() < 1.2 * parent->GetRadius()) {
+					Error("%s's orbit is too close to its parent", csbody->name.c_str());
+				}
+			}
+			double offset = csbody->want_rand_offset ? rand.Double(2 * M_PI) : (csbody->orbitalOffset.ToDouble());
 			kid->m_orbit.SetPlane(matrix3x3d::RotateY(offset) * matrix3x3d::RotateX(-0.5*M_PI + csbody->latitude));
 		}
 		if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
 			(*outHumanInfestedness)++;
-            system->AddSpaceStation(kid);
+			system->AddSpaceStation(kid);
 		}
 		parent->m_children.push_back(kid);
 
@@ -1410,13 +1411,19 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody* sbody, StarSystem::
 
 	/* Bad type of planet for settlement */
 	if ((sbody->GetAverageTemp() > CELSIUS+100) || (sbody->GetAverageTemp() < 100) ||
-	    (sbody->GetType() != SystemBody::TYPE_PLANET_TERRESTRIAL && sbody->GetType() != SystemBody::TYPE_PLANET_ASTEROID)) {
+	    (sbody->GetType() != SystemBody::TYPE_PLANET_TERRESTRIAL && sbody->GetType() != SystemBody::TYPE_PLANET_ASTEROID))
+	{
+		Random starportPopRand;
+		starportPopRand.seed(_init, 6);
 
         // orbital starports should carry a small amount of population
         if (sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) {
-			sbody->m_population = fixed(1,100000);
+			sbody->m_population = fixed(1, 100000) + fixed(1, 1000000 + starportPopRand.Int32(-10000,10000));
 			outTotalPop += sbody->m_population;
-        }
+		} else if (sbody->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+			sbody->m_population = fixed(1, 10000) + fixed(1, 100000 + starportPopRand.Int32(-100, 100));
+			outTotalPop += sbody->m_population;
+		}
 
 		return;
 	}
