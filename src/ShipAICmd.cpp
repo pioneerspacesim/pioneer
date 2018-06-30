@@ -910,7 +910,21 @@ Output("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	head = head*maxdecel + perpdir*sidefactor;
 
 	// face appropriate direction
-	if (m_state >= 3) m_prop->AIMatchAngVelObjSpace(vector3d(0.0));
+	if (m_state >= 3) {
+		if (Pi::game->GetTimeAccelRate() <= 100.0) {
+			vector3d pos;
+			if (m_target) {
+				pos = m_target->GetPositionRelTo(m_dBody).NormalizedSafe();
+			} else {
+				pos = -m_dBody->GetPosition().NormalizedSafe();
+			}
+			double ang = m_prop->AIFaceDirection(pos);
+			if (ang > DEG2RAD(5.0) || ang < DEG2RAD(-5.0))
+				return false;
+		}
+		m_prop->AIMatchAngVelObjSpace(vector3d(0.0));
+		return true;
+	}
 	else m_prop->AIFaceDirection(head);
 	if (body && body->IsType(Object::PLANET) && m_dBody->GetPosition().LengthSqr() < 2*erad*erad)
 		m_prop->AIFaceUpdir(m_dBody->GetPosition());		// turn bottom thruster towards planet
