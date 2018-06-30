@@ -1059,6 +1059,19 @@ std::tuple<bool, vector3d, vector3d> lua_world_space_to_screen_space(vector3d po
 	}
 }
 
+std::tuple<bool, vector3d, vector3d> lua_world_space_to_screen_space(Body *body) {
+	WorldView *wv = Pi::game->GetWorldView();
+	vector3d p = wv->WorldSpaceToScreenSpace(body);
+	const int width = Graphics::GetScreenWidth();
+	const int height = Graphics::GetScreenHeight();
+	vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
+	if(vector3d(0,0,0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
+		return std::make_tuple(false, vector3d(0, 0, 0), direction * (p.z > 0 ? -1 : 1));
+	} else {
+		return std::make_tuple(true, vector3d(p.x, p.y, 0), direction);
+	}
+}
+
 static int l_pigui_get_projected_bodies(lua_State *l) {
 	LuaTable result(l);
 	for (Body* body : Pi::game->GetSpace()->GetBodies()) {
@@ -1069,7 +1082,7 @@ static int l_pigui_get_projected_bodies(lua_State *l) {
 
 		object.Set("type", EnumStrings::GetString("PhysicsObjectType", body->GetType()));
 
-		std::tuple<bool, vector3d, vector3d> res = lua_world_space_to_screen_space(body->GetInterpPositionRelTo(Pi::game->GetPlayer())); // defined in LuaPiGui.cpp
+		std::tuple<bool, vector3d, vector3d> res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
 		object.Set("onscreen", std::get<0>(res));
 		object.Set("screenCoordinates", std::get<1>(res));
 		object.Set("direction", std::get<2>(res));
