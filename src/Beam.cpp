@@ -265,17 +265,7 @@ void Beam::StaticUpdate(const float timeStep)
 			}
 		}
 	}
-//	for (unsigned int i=0; i<laserBeams.size(); i++) {
-//		CollisionContact c;
-//		laserBeams[i].frame->GetCollisionSpace()->TraceRay(
-//			laserBeams[i].pos, laserBeams[i].dir,
-//			(float)laserBeams[i].length, &c,
-//			laserBeams[i].firer->GetGeom());
-//		if (c.userData1) {
-//			Body *hit = static_cast<Body*>(c.userData1);
-//			hit->OnDamage(laserBeams[i].firer, laserBeams[i].damage);
-//		}
-//	}
+
 	if (m_mining) {
 		// need to test for terrain hit
 		if (GetFrame()->GetBody() && GetFrame()->GetBody()->IsType(Object::PLANET)) {
