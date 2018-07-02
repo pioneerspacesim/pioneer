@@ -481,6 +481,7 @@ local function optionsWindow()
 					ui.showOptionsWindow = false
 					if Game.player then
 						Game.SetTimeAcceleration("1x")
+						Engine.EnableBindings();
 					end
 				end)
 
@@ -491,6 +492,7 @@ local function optionsWindow()
 					ui.sameLine()
 					optionTextButton(lui.END_GAME, nil, true, function()
 						ui.showOptionsWindow = false
+						Engine.EnableBindings();
 						Game.EndGame()
 					end)
 				end

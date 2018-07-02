@@ -8,6 +8,8 @@
 #include <string>
 #include <sstream>
 
+static bool m_disableBindings = 0;
+
 namespace KeyBindings {
 
 #define KEY_BINDING(name,a,b,c,d) KeyAction name;
@@ -329,6 +331,7 @@ bool KeyAction::Matches(const SDL_Keysym *sym) const {
 }
 
 void KeyAction::CheckSDLEventAndDispatch(const SDL_Event *event) {
+	if (m_disableBindings) return;
 	switch (event->type) {
 		case SDL_KEYDOWN:
 		case SDL_KEYUP:
@@ -535,6 +538,16 @@ void InitBindings()
 {
 	UpdateBindings();
 	Pi::config->Save();
+}
+
+void EnableBindings()
+{
+	m_disableBindings = 0;
+}
+
+void DisableBindings()
+{
+	m_disableBindings = 1;
 }
 
 }

@@ -132,6 +132,7 @@ local function displayMissiles(uiPos)
 end
 
 local function displayEquipment()
+	if ui.showOptionsWindow then return end
 	local uiPos = Vector(15, ui.screenHeight / 3 + 10)
 	uiPos = displayMissiles(uiPos)
 	uiPos = displayECM(uiPos + Vector(0, 10))

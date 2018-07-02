@@ -933,9 +933,11 @@ ui.registerHandler(
 			if not ui.showOptionsWindow then
 				Game.SetTimeAcceleration("paused")
 				ui.showOptionsWindow = true
+				Engine.DisableBindings();
 			else
 				Game.SetTimeAcceleration("1x")
 				ui.showOptionsWindow = false
+				Engine.EnableBindings();
 			end
 		end
 end)

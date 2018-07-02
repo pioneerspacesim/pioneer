@@ -130,6 +130,7 @@ local function button_rotation_damping()
 end
 
 local function displayShipFunctionWindow()
+	if ui.showOptionsWindow then return end
 	player = Game.player
 	local current_view = Game.CurrentView()
 	local buttons = 6

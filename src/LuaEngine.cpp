@@ -837,6 +837,18 @@ static int l_engine_get_key_bindings(lua_State *l)
 	return 1;
 }
 
+static int l_engine_enable_bindings(lua_State *l)
+{
+	KeyBindings::EnableBindings();
+	return 0;
+}
+
+static int l_engine_disable_bindings(lua_State *l)
+{
+	KeyBindings::DisableBindings();
+	return 0;
+}
+
 static int set_key_binding(lua_State *l, const char *config_id, KeyBindings::KeyAction *action) {
 	const char *binding_config_1 = lua_tostring(l, 2);
 	const char *binding_config_2 = lua_tostring(l, 3);
@@ -1375,6 +1387,8 @@ void LuaEngine::Register()
 		{ "GetMusicVolume", l_engine_get_music_volume },
 		{ "SetMusicVolume", l_engine_set_music_volume },
 
+		{ "EnableBindings", l_engine_enable_bindings },
+		{ "DisableBindings", l_engine_disable_bindings },
 		{ "GetKeyBindings", l_engine_get_key_bindings },
 		{ "SetKeyBinding", l_engine_set_key_binding },
 		{ "GetMouseYInverted", l_engine_get_mouse_y_inverted },
