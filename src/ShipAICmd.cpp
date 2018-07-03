@@ -52,6 +52,7 @@ void AICommand::SaveToJson(Json::Value &jsonObj)
 	Json::Value commonAiCommandObj(Json::objectValue); // Create JSON object to contain common ai command data.
 	commonAiCommandObj["command_name"] = Json::Value::Int(m_cmdName);
 	commonAiCommandObj["index_for_body"] = space->GetIndexForBody(m_dBody);
+	commonAiCommandObj["is_flyto"] = Json::Value::Int(m_is_flyto);
 	if (m_child) m_child->SaveToJson(commonAiCommandObj);
 	jsonObj["common_ai_command"] = commonAiCommandObj; // Add common ai command object to supplied object.
 }
@@ -63,6 +64,9 @@ AICommand::AICommand(const Json::Value &jsonObj, CmdName name) : m_cmdName(name)
 
 	if (!commonAiCommandObj.isMember("index_for_body")) throw SavedGameCorruptException();
 	m_dBodyIndex = commonAiCommandObj["index_for_body"].asInt();
+
+	if (commonAiCommandObj.isMember("is_flyto"))
+	    m_is_flyto = commonAiCommandObj["is_flyto"].asBool();
 
 	m_child.reset(LoadFromJson(commonAiCommandObj));
 }
