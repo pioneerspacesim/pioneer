@@ -1,1870 +1,1870 @@
 {
-   "AIR_PROCESSORS" : {
-      "description" : "",
-      "message" : "空气处理器"
-   },
-   "ALERT_CANCELLED" : {
-      "description" : "",
-      "message" : "警报取消"
-   },
-   "ALLEGIANCE" : {
-      "description" : "",
-      "message" : "所属:"
-   },
-   "ALT" : {
-      "description" : "Alt key on keyboard",
-      "message" : "Alt"
-   },
-   "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
-      "description" : "",
-      "message" : "\"和一个高度复杂的生态系统.\""
-   },
-   "AND_INDIGENOUS_MICROBIAL_LIFE" : {
-      "description" : "",
-      "message" : "\"和原生微生物.\""
-   },
-   "AND_INDIGENOUS_PLANT_LIFE" : {
-      "description" : "",
-      "message" : "\"和原生植物.\""
-   },
-   "ANIMAL_MEAT" : {
-      "description" : "",
-      "message" : "动物肉"
-   },
-   "APOAPSIS_DISTANCE" : {
-      "description" : "",
-      "message" : "远拱点距离"
-   },
-   "AR_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\"氩气大气\""
-   },
-   "ASTEROID" : {
-      "description" : "",
-      "message" : "小行星"
-   },
-   "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "for star map, select star system when mouse close to it",
-      "message" : "自动化系统选择"
-   },
-   "AUTOPILOT_CONTROL" : {
-      "description" : "Indicating that ship is flying under autopilot control",
-      "message" : "自动驾驶中"
-   },
-   "AUTOPILOT_DOCK_WITH_STATION" : {
-      "description" : "",
-      "message" : "自动飞行:停靠空间站"
-   },
-   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "自动飞行: 进入 %target 的高轨道"
-   },
-   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "自动飞行:进入 %target 的低轨道"
-   },
-   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "自动飞行:进入 %target 的中轨道"
-   },
-   "AUTOPILOT_FLY_TO_VICINITY_OF" : {
-      "description" : "",
-      "message" : "自动飞行: 飞到 %target 的附近"
-   },
-   "AUTOPILOT_ON" : {
-      "description" : "",
-      "message" : "自动飞行已打开"
-   },
-   "AXIAL_TILT" : {
-      "description" : "",
-      "message" : "转轴倾角"
-   },
-   "A_FEW_THOUSAND" : {
-      "description" : "regarding population",
-      "message" : "只有几千"
-   },
-   "BATTLE_WEAPONS" : {
-      "description" : "",
-      "message" : "战斗武器"
-   },
-   "BINARY_SYSTEM" : {
-      "description" : "",
-      "message" : "双星系统"
-   },
-   "BODIES" : {
-      "description" : "space bodies",
-      "message" : "体"
-   },
-   "BODY" : {
-      "description" : "",
-      "message" : "体"
-   },
-   "BROWN_DWARF" : {
-      "description" : "",
-      "message" : "褐矮星亚恒星体"
-   },
-   "BUTTON" : {
-      "description" : "",
-      "message" : "\"按钮\""
-   },
-   "CAMERA_BOTTOM_VIEW" : {
-      "description" : "",
-      "message" : "底部摄像机"
-   },
-   "CAMERA_FRONT_VIEW" : {
-      "description" : "",
-      "message" : "前部摄像机"
-   },
-   "CAMERA_LEFT_VIEW" : {
-      "description" : "",
-      "message" : "左部摄像机"
-   },
-   "CAMERA_REAR_VIEW" : {
-      "description" : "",
-      "message" : "后部摄像机"
-   },
-   "CAMERA_RIGHT_VIEW" : {
-      "description" : "",
-      "message" : "右部摄像机"
-   },
-   "CAMERA_TOP_VIEW" : {
-      "description" : "",
-      "message" : "顶部摄像机"
-   },
-   "CANT_SAVE_DEAD_PLAYER" : {
-      "description" : "",
-      "message" : "在角色死亡后无法保存游戏"
-   },
-   "CANT_SAVE_IN_HYPERSPACE" : {
-      "description" : "",
-      "message" : "无法在超空间中保存游戏"
-   },
-   "CAPITALIST" : {
-      "description" : "",
-      "message" : "资本主义"
-   },
-   "CARBON_ORE" : {
-      "description" : "",
-      "message" : "碳矿"
-   },
-   "CARGO" : {
-      "description" : "",
-      "message" : "货仓"
-   },
-   "CARGO_BAY_LIFE_SUPPORT_LOST" : {
-      "description" : "",
-      "message" : "传感器报告货仓生命维持系统出现致命状况."
-   },
-   "CARGO_N" : {
-      "description" : "",
-      "message" : "货仓: %{mass}t"
-   },
-   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
-      "description" : "",
-      "message" : "货仓收集器启动.收集了 1 吨 %item."
-   },
-   "CARGO_SCOOP_ATTEMPTED" : {
-      "description" : "",
-      "message" : "货物收集器启动. 货仓空间不足."
-   },
-   "CH4_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\"甲烷大气\""
-   },
-   "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
-      "description" : "",
-      "message" : "请求已经接受.前往停靠口 %bay."
-   },
-   "CLEARANCE_DENIED_NO_BAYS" : {
-      "description" : "",
-      "message" : "请求驳回.没有空闲的停靠口了."
-   },
-   "CLEARANCE_GRANTED_BAY_N" : {
-      "description" : "",
-      "message" : "请求已接受. 前往停靠口 %bay."
-   },
-   "CO2_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\"二氧化碳大气\""
-   },
-   "COMMA_HIGHLY_VOLCANIC" : {
-      "description" : "",
-      "message" : ", 高度火山化"
-   },
-   "COMMODITY_NONE" : {
-      "description" : "When no commodities exist",
-      "message" : "无"
-   },
-   "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
-      "description" : "",
-      "message" : "#ff0%selected_system#fff(已选择)星系与#ff0%current_system#fff(当前)星系的商品贸易分析对比:"
-   },
-   "COMMODITY_TRADE_ANALYSIS_SELF" : {
-      "description" : "",
-      "message" : "#fff%system#fff星系的商品销售分析"
-   },
-   "COMMS" : {
-      "description" : "",
-      "message" : "通讯"
-   },
-   "COMMUNIST" : {
-      "description" : "",
-      "message" : "共产"
-   },
-   "COMPASS_E" : {
-      "description" : "Abbreviation for compass direction: East",
-      "message" : "东"
-   },
-   "COMPASS_N" : {
-      "description" : "Abbreviation for compass direction: North",
-      "message" : "北"
-   },
-   "COMPASS_NE" : {
-      "description" : "Abbreviation for compass direction: North East",
-      "message" : "东北"
-   },
-   "COMPASS_NW" : {
-      "description" : "Abbreviation for compass direction: North West",
-      "message" : "西北"
-   },
-   "COMPASS_S" : {
-      "description" : "Abbreviation for compass direction: South",
-      "message" : "南"
-   },
-   "COMPASS_SE" : {
-      "description" : "Abbreviation for compass direction: South East",
-      "message" : "东南"
-   },
-   "COMPASS_SW" : {
-      "description" : "Abbreviation for compass direction: South West",
-      "message" : "西南"
-   },
-   "COMPASS_W" : {
-      "description" : "Abbreviation for compass direction: West",
-      "message" : "西"
-   },
-   "COMPUTERS" : {
-      "description" : "",
-      "message" : "计算机"
-   },
-   "COMPUTER_HEADING_CONTROL" : {
-      "description" : "",
-      "message" : "计算机航向控制"
-   },
-   "COMPUTER_SPEED_CONTROL" : {
-      "description" : "",
-      "message" : "计算机速度控制"
-   },
-   "CONSUMER_GOODS" : {
-      "description" : "",
-      "message" : "消费者货物"
-   },
-   "CONTROLS" : {
-      "description" : "",
-      "message" : "控制"
-   },
-   "CORPORATE_SYSTEM" : {
-      "description" : "",
-      "message" : "企业系统"
-   },
-   "COULD_NOT_OPEN_FILENAME" : {
-      "description" : "",
-      "message" : "无法打开 %path"
-   },
-   "COUNT_ON_SURFACE" : {
-      "description" : "",
-      "message" : "\" (%surfacecount 个位于地表)\""
-   },
-   "COUNT_STARPORTS" : {
-      "description" : "",
-      "message" : "星港"
-   },
-   "CO_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\"一氧化碳大气\""
-   },
-   "CTRL" : {
-      "description" : "Ctrl key on keyboard",
-      "message" : "Ctrl"
-   },
-   "CURRENT_SYSTEM" : {
-      "description" : "selected current star system",
-      "message" : "当前星系"
-   },
-   "DATE_DUE_N" : {
-      "description" : "",
-      "message" : "日期: %date"
-   },
-   "DAY_LENGTH" : {
-      "description" : "",
-      "message" : "日长"
-   },
-   "DECREASE_RADAR_RANGE" : {
-      "description" : "",
-      "message" : "减小雷达探测范围"
-   },
-   "DECREASE_SET_SPEED" : {
-      "description" : "",
-      "message" : "减小设定速度"
-   },
-   "DECREASE_TIME_ACCELERATION" : {
-      "description" : "",
-      "message" : "减缓时间流逝"
-   },
-   "DEMOGRAPHICS" : {
-      "description" : "",
-      "message" : "人口统计"
-   },
-   "DESTINATION" : {
-      "description" : "",
-      "message" : "目的地"
-   },
-   "DIRECTION" : {
-      "description" : "Direction",
-      "message" : "\" Dir\""
-   },
-   "DISTANCE_LY" : {
-      "description" : "",
-      "message" : "距离: %distance{f.2} 光年"
-   },
-   "DOCKED" : {
-      "description" : "",
-      "message" : "已停靠"
-   },
-   "DOCKING" : {
-      "description" : "",
-      "message" : "停靠"
-   },
-   "DOCKING_CLEARANCE_EXPIRED" : {
-      "description" : "",
-      "message" : "停靠请求已过期.如果仍要停靠必须复述停靠请求."
-   },
-   "DOWNGRADING_ALERT_STATUS" : {
-      "description" : "",
-      "message" : "60秒内未检测到开火,警报等级下降."
-   },
-   "DRAW_OUT_RANGE_LABELS" : {
-      "description" : "",
-      "message" : "标示超出范围的星系"
-   },
-   "DRAW_UNINHABITED_LABELS" : {
-      "description" : "",
-      "message" : "标示无人星系"
-   },
-   "DRAW_VERTICAL_LINES" : {
-      "description" : "",
-      "message" : "绘制垂直线"
-   },
-   "EARTH" : {
-      "description" : "",
-      "message" : "地球"
-   },
-   "EARTH_FEDERATION_COLONIAL_RULE" : {
-      "description" : "",
-      "message" : "地球联邦殖民法"
-   },
-   "EARTH_FEDERATION_DEMOCRACY" : {
-      "description" : "",
-      "message" : "地球联邦民主权"
-   },
-   "ECCENTRICITY" : {
-      "description" : "",
-      "message" : "离心率"
-   },
-   "ECONOMIC_INFO" : {
-      "description" : "",
-      "message" : "经济信息"
-   },
-   "ECONOMY_TYPE" : {
-      "description" : "",
-      "message" : "经济类型:"
-   },
-   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
-      "description" : "",
-      "message" : "赤道极地半径比"
-   },
-   "EXACT_MATCH_X" : {
-      "description" : "",
-      "message" : "精切匹配: %system"
-   },
-   "EXTENSIVE_MINING" : {
-      "description" : "",
-      "message" : "大规模采矿行动."
-   },
-   "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
-      "description" : "",
-      "message" : "外层气压"
-   },
-   "EXTERNAL_VIEW" : {
-      "description" : "",
-      "message" : "外部视角"
-   },
-   "FARM_MACHINERY" : {
-      "description" : "",
-      "message" : "农用机械"
-   },
-   "FERTILIZER" : {
-      "description" : "",
-      "message" : "肥料"
-   },
-   "FIRE_LASER" : {
-      "description" : "",
-      "message" : "Fire weapon"
-   },
-   "FIRE_MISSILE" : {
-      "description" : "",
-      "message" : "发射导弹"
-   },
-   "FOLLOWING_SELECTION" : {
-      "description" : "",
-      "message" : "以下选项"
-   },
-   "FRUIT_AND_VEG" : {
-      "description" : "",
-      "message" : "蔬果"
-   },
-   "FUEL" : {
-      "description" : "",
-      "message" : "燃料"
-   },
-   "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
-      "description" : "",
-      "message" : "燃料收集器启动.你现在有 %quantity 吨氢燃料."
-   },
-   "GALACTIC_VIEW" : {
-      "description" : "view galactic map",
-      "message" : "银河视角"
-   },
-   "GALAXY_SECTOR_VIEW" : {
-      "description" : "",
-      "message" : "银河区域视角"
-   },
-   "GAME_LOAD_CANNOT_OPEN" : {
-      "description" : "",
-      "message" : "文件 '%filename' 无法被找到 (或游戏没有打开它的权限)"
-   },
-   "GAME_LOAD_CORRUPT" : {
-      "description" : "",
-      "message" : "该保存的游戏由于存在错误而无法被载入."
-   },
-   "GAME_LOAD_WRONG_VERSION" : {
-      "description" : "",
-      "message" : "该保存的游戏因为是由不同版本的游戏生成而无法被载入."
-   },
-   "GAME_SAVED_TO" : {
-      "description" : "",
-      "message" : "\"将游戏保存到 \""
-   },
-   "GAME_SAVE_CANNOT_WRITE" : {
-      "description" : "",
-      "message" : "该保存的游戏因为系统错误而无法被写入."
-   },
-   "GENERAL_VIEW_CONTROLS" : {
-      "description" : "",
-      "message" : "通用视角控制"
-   },
-   "GOVERNMENT_TYPE" : {
-      "description" : "",
-      "message" : "政府类型:"
-   },
-   "GRAIN" : {
-      "description" : "like wheat or barley",
-      "message" : "粮食"
-   },
-   "HAND_WEAPONS" : {
-      "description" : "",
-      "message" : "手持武器"
-   },
-   "HARD_CAPITALIST" : {
-      "description" : "",
-      "message" : "完全资本主义 - 政府不提供福利"
-   },
-   "HAT" : {
-      "description" : "Hat switch: Is the top button on a joystick",
-      "message" : "\" Hat\""
-   },
-   "HEADING_LOCK_ANTINORMAL" : {
-      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
-      "message" : "锁定航向 (反法线)"
-   },
-   "HEADING_LOCK_BACKWARD" : {
-      "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-      "message" : "锁定航向 (船尾)"
-   },
-   "HEADING_LOCK_FORWARD" : {
-      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-      "message" : "锁定航向 (船首)"
-   },
-   "HEADING_LOCK_KILLROT" : {
-      "description" : "",
-      "message" : "消除旋转"
-   },
-   "HEADING_LOCK_NORMAL" : {
-      "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-      "message" : "锁定航向 (法线)"
-   },
-   "HEADING_LOCK_RADIALLY_INWARD" : {
-      "description" : "Autopilot direction, relative to orbit (face towards planet)",
-      "message" : "锁定航向 (径向内)"
-   },
-   "HEADING_LOCK_RADIALLY_OUTWARD" : {
-      "description" : "Autopilot direction, relative to orbit (face away from palent)",
-      "message" : "锁定航向 (径向外)"
-   },
-   "HEAVY_INDUSTRY" : {
-      "description" : "",
-      "message" : "重工业"
-   },
-   "HE_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\"氦气大气\""
-   },
-   "HIGHLY_VOLCANIC" : {
-      "description" : "",
-      "message" : "高度火山化"
-   },
-   "HIGH_POPULATION_OUTDOOR_WORLD" : {
-      "description" : "",
-      "message" : "可在户外活动的高人口星球."
-   },
-   "HULL_INTEGRITY" : {
-      "description" : "",
-      "message" : "船体完整性"
-   },
-   "HULL_TEMP" : {
-      "description" : "",
-      "message" : "船体温度"
-   },
-   "HYDROGEN" : {
-      "description" : "",
-      "message" : "氢"
-   },
-   "HYPERSPACE" : {
-      "description" : "",
-      "message" : "超空间"
-   },
-   "HYPERSPACE_ARRIVAL_CLOUD" : {
-      "description" : "",
-      "message" : "超空间接近云"
-   },
-   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
-      "description" : "",
-      "message" : "残余超空间接近云"
-   },
-   "HYPERSPACE_DEPARTURE_CLOUD" : {
-      "description" : "",
-      "message" : "超空间出发云"
-   },
-   "HYPERSPACE_JUMP_ABORT" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "超空间引擎熄火"
-   },
-   "HYPERSPACE_JUMP_ABORTED" : {
-      "description" : "",
-      "message" : "超空间跳跃中止."
-   },
-   "HYPERSPACE_JUMP_DISABLED" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "超空间引擎关闭"
-   },
-   "HYPERSPACE_JUMP_ENGAGE" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "超空间引擎启动"
-   },
-   "HYPERSPACE_JUMP_FORBIDDEN" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "超空间引擎禁用区域"
-   },
-   "HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "超空间跳跃目标"
-   },
-   "H_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\"氢气大气\""
-   },
-   "ICE_WORLD" : {
-      "description" : "",
-      "message" : "\"冰封的世界\""
-   },
-   "ILLEGAL_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "非法的 (当前星系):"
-   },
-   "ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "非法货物:"
-   },
-   "IMPERIAL_RULE" : {
-      "description" : "",
-      "message" : "皇家条约"
-   },
-   "INCREASE_RADAR_RANGE" : {
-      "description" : "",
-      "message" : "增加雷达探测范围"
-   },
-   "INCREASE_SET_SPEED" : {
-      "description" : "",
-      "message" : "增加设定速度"
-   },
-   "INCREASE_TIME_ACCELERATION" : {
-      "description" : "",
-      "message" : "加快时间流逝"
-   },
-   "INDUSTRIAL_COLONY" : {
-      "description" : "",
-      "message" : "工业殖民."
-   },
-   "INDUSTRIAL_HUB_SYSTEM" : {
-      "description" : "",
-      "message" : "工业化连接器系统"
-   },
-   "INDUSTRIAL_MACHINERY" : {
-      "description" : "",
-      "message" : "工业机械"
-   },
-   "INTERNAL_VIEW" : {
-      "description" : "",
-      "message" : "内部视角"
-   },
-   "JOY" : {
-      "description" : "Short for Joystick",
-      "message" : "摇杆"
-   },
-   "JOYSTICK_INPUT" : {
-      "description" : "",
-      "message" : "摇杆输入"
-   },
-   "JOY_AXIS" : {
-      "description" : "Regarding joystick",
-      "message" : "%{sign}Joy%joynum %axis 轴"
-   },
-   "L4L5_DISPLAY_MODE_TOGGLE" : {
-      "description" : "Either show L4/L5 points or don't",
-      "message" : "在拉格朗日点L4/L5显示模式间切换. "
-   },
-   "LANDED" : {
-      "description" : "",
-      "message" : "着陆"
-   },
-   "LANG_NAME" : {
-      "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
-      "message" : "简体中文"
-   },
-   "LARGE" : {
-      "description" : "regarding terrestrial planet size (mass actually)",
-      "message" : "较大的"
-   },
-   "LARGE_GAS_GIANT" : {
-      "description" : "",
-      "message" : "大型气体巨星"
-   },
-   "LASER_FIRE_DETECTED" : {
-      "description" : "",
-      "message" : "Weapons fire detected."
-   },
-   "LATITUDE" : {
-      "description" : "Short for latitude",
-      "message" : "纬度:"
-   },
-   "LATITUDE_NORTH_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'north'",
-      "message" : "北"
-   },
-   "LATITUDE_SOUTH_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'south'",
-      "message" : "南"
-   },
-   "LEGAL_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "合法的 (当前星系):"
-   },
-   "LIBERAL_DEMOCRACY" : {
-      "description" : "",
-      "message" : "民主自由派"
-   },
-   "LIQUID_OXYGEN" : {
-      "description" : "",
-      "message" : "液氧"
-   },
-   "LIQUOR" : {
-      "description" : "",
-      "message" : "酒"
-   },
-   "LIVE_ANIMALS" : {
-      "description" : "",
-      "message" : "活动物"
-   },
-   "LOCKED" : {
-      "description" : "to lock a hyperspace target",
-      "message" : "锁定"
-   },
-   "LONGITUDE" : {
-      "description" : "Short for longitude",
-      "message" : "经度:"
-   },
-   "LONGITUDE_EAST_ABBREV" : {
-      "description" : "Abbreviation letter for longitude 'east'",
-      "message" : "东"
-   },
-   "LONGITUDE_WEST_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'west'",
-      "message" : "西"
-   },
-   "MAJOR_EXPORTS" : {
-      "description" : "",
-      "message" : "主要出口:"
-   },
-   "MAJOR_EXPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "主要出口 (本星系)"
-   },
-   "MAJOR_IMPORTS" : {
-      "description" : "",
-      "message" : "主要进口:"
-   },
-   "MAJOR_IMPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "主要进口 (本星系)"
-   },
-   "MANUAL_CONTROL" : {
-      "description" : "",
-      "message" : "手动控制"
-   },
-   "MANUAL_CONTROL_MODE" : {
-      "description" : "",
-      "message" : "手动控制模式"
-   },
-   "MAP_LOCK_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "锁定超空间跳跃目标"
-   },
-   "MAP_TOGGLE_INFO_PANEL" : {
-      "description" : "",
-      "message" : "切换信息面板"
-   },
-   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
-      "description" : "",
-      "message" : "切换选项视图"
-   },
-   "MAP_VIEW_ROTATE_DOWN" : {
-      "description" : "",
-      "message" : "向下旋转视角"
-   },
-   "MAP_VIEW_ROTATE_LEFT" : {
-      "description" : "",
-      "message" : "向左旋转视角"
-   },
-   "MAP_VIEW_ROTATE_RIGHT" : {
-      "description" : "",
-      "message" : "向右旋转视角"
-   },
-   "MAP_VIEW_ROTATE_UP" : {
-      "description" : "",
-      "message" : "向上旋转视角"
-   },
-   "MAP_VIEW_SHIFT_BACKWARD" : {
-      "description" : "",
-      "message" : "向后平移视角"
-   },
-   "MAP_VIEW_SHIFT_DOWN" : {
-      "description" : "",
-      "message" : "向下平移视角"
-   },
-   "MAP_VIEW_SHIFT_FORWARD" : {
-      "description" : "",
-      "message" : "向前平移视角"
-   },
-   "MAP_VIEW_SHIFT_LEFT" : {
-      "description" : "",
-      "message" : "向左平移视角"
-   },
-   "MAP_VIEW_SHIFT_RIGHT" : {
-      "description" : "",
-      "message" : "向右平移视角"
-   },
-   "MAP_VIEW_SHIFT_UP" : {
-      "description" : "",
-      "message" : "向上平移视角"
-   },
-   "MAP_WARP_TO_CURRENT_SYSTEM" : {
-      "description" : "",
-      "message" : "移动到当前星系"
-   },
-   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "移动到超空间跳跃目标"
-   },
-   "MAP_WARP_TO_SELECTED_SYSTEM" : {
-      "description" : "",
-      "message" : "移动到选择的星系"
-   },
-   "MASS" : {
-      "description" : "",
-      "message" : "质量"
-   },
-   "MASSIVE" : {
-      "description" : "",
-      "message" : "巨大的"
-   },
-   "MASS_N_TONNES" : {
-      "description" : "",
-      "message" : "质量: %{mass} t"
-   },
-   "MEDICINES" : {
-      "description" : "",
-      "message" : "药品"
-   },
-   "MEDIUM_GAS_GIANT" : {
-      "description" : "",
-      "message" : "中型气体巨星"
-   },
-   "MESSAGE_FROM_X" : {
-      "description" : "",
-      "message" : "从 %sender 来的消息:"
-   },
-   "META" : {
-      "description" : "'Meta' key on keyboard",
-      "message" : "Meta"
-   },
-   "METAL_ALLOYS" : {
-      "description" : "",
-      "message" : "合金"
-   },
-   "METAL_ORE" : {
-      "description" : "",
-      "message" : "金属矿"
-   },
-   "MILITARY_DICTATORSHIP" : {
-      "description" : "",
-      "message" : "军事独裁"
-   },
-   "MILITARY_FUEL" : {
-      "description" : "",
-      "message" : "军用燃料"
-   },
-   "MINING_COLONY" : {
-      "description" : "",
-      "message" : "采矿殖民地."
-   },
-   "MINING_MACHINERY" : {
-      "description" : "",
-      "message" : "采矿机械."
-   },
-   "MINOR_EXPORTS" : {
-      "description" : "",
-      "message" : "次要出口:"
-   },
-   "MINOR_EXPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "次要出口 (本星系)"
-   },
-   "MINOR_IMPORTS" : {
-      "description" : "",
-      "message" : "次要进口:"
-   },
-   "MINOR_IMPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "次要入口 (本星系)"
-   },
-   "MISCELLANEOUS" : {
-      "description" : "",
-      "message" : "杂项"
-   },
-   "MISSILE" : {
-      "description" : "",
-      "message" : "导弹"
-   },
-   "MIXED_ECONOMY" : {
-      "description" : "",
-      "message" : "混合型经济"
-   },
-   "MONTH_APR" : {
-      "description" : "",
-      "message" : "四月"
-   },
-   "MONTH_AUG" : {
-      "description" : "",
-      "message" : "八月"
-   },
-   "MONTH_DEC" : {
-      "description" : "",
-      "message" : "十二月"
-   },
-   "MONTH_FEB" : {
-      "description" : "",
-      "message" : "二月"
-   },
-   "MONTH_JAN" : {
-      "description" : "",
-      "message" : "一月"
-   },
-   "MONTH_JUL" : {
-      "description" : "",
-      "message" : "七月"
-   },
-   "MONTH_JUN" : {
-      "description" : "",
-      "message" : "六月"
-   },
-   "MONTH_MAR" : {
-      "description" : "",
-      "message" : "三月"
-   },
-   "MONTH_MAY" : {
-      "description" : "",
-      "message" : "五月"
-   },
-   "MONTH_NOV" : {
-      "description" : "",
-      "message" : "十一月"
-   },
-   "MONTH_OCT" : {
-      "description" : "",
-      "message" : "十月"
-   },
-   "MONTH_SEP" : {
-      "description" : "",
-      "message" : "九月"
-   },
-   "NAME_OBJECT" : {
-      "description" : "For an item or object",
-      "message" : "名称"
-   },
-   "NAME_PERSON" : {
-      "description" : "For a person",
-      "message" : "姓名"
-   },
-   "NARCOTICS" : {
-      "description" : "",
-      "message" : "毒品"
-   },
-   "NAVIGATION_STAR_MAPS" : {
-      "description" : "",
-      "message" : "导航和星图"
-   },
-   "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
-      "description" : "",
-      "message" : "本星系内的导航目标"
-   },
-   "NERVE_GAS" : {
-      "description" : "",
-      "message" : "神经毒气"
-   },
-   "NOT_FOUND" : {
-      "description" : "searching star system in sector view",
-      "message" : "未找到"
-   },
-   "NOT_FOUND_BEST_MATCH_X" : {
-      "description" : "",
-      "message" : "未找到,最相近的匹配: %system"
-   },
-   "NOW" : {
-      "description" : "In System Orbit View",
-      "message" : "现在"
-   },
-   "NO_ALERT" : {
-      "description" : "",
-      "message" : "无警报"
-   },
-   "NO_CENTRAL_GOVERNANCE" : {
-      "description" : "",
-      "message" : "非中央集权"
-   },
-   "NO_ESTABLISHED_ORDER" : {
-      "description" : "",
-      "message" : "没有已建立的体系"
-   },
-   "NO_HYPERDRIVE" : {
-      "description" : "",
-      "message" : "没有超空间引擎"
-   },
-   "NO_REGISTERED_INHABITANTS" : {
-      "description" : "",
-      "message" : "没有已注册的居民地"
-   },
-   "NO_TARGET_SELECTED" : {
-      "description" : "",
-      "message" : "舰载计算机: 没有选择目标"
-   },
-   "NUMBER_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.0} 天"
-   },
-   "NUMBER_DECIMAL_POINT" : {
-      "description" : "Decimal delimiter used in numbers.",
-      "message" : "."
-   },
-   "NUMBER_G" : {
-      "description" : "",
-      "message" : "%acceleration{f.1} G"
-   },
-   "NUMBER_GROUP_MIN" : {
-      "description" : "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
-      "message" : "1000"
-   },
-   "NUMBER_GROUP_NUM" : {
-      "description" : "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
-      "message" : "3"
-   },
-   "NUMBER_GROUP_SEP" : {
-      "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-      "message" : ","
-   },
-   "NUMBER_HOURS" : {
-      "description" : "",
-      "message" : "%hours{f.1} 小时"
-   },
-   "NUMBER_LY" : {
-      "description" : "",
-      "message" : "%distance{f.2} 光年"
-   },
-   "NUMBER_TONNES" : {
-      "description" : "",
-      "message" : "%{mass} 吨"
-   },
-   "N_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\"氮气大气\""
-   },
-   "N_CELSIUS" : {
-      "description" : "",
-      "message" : "%temperature C"
-   },
-   "N_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.1} 天"
-   },
-   "N_DEGREES" : {
-      "description" : "",
-      "message" : "%angle{f.1} 度"
-   },
-   "N_EARTH_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.1} 地球日"
-   },
-   "N_WHATEVER_MASSES" : {
-      "description" : "",
-      "message" : "%mass{f.3} %units 质量"
-   },
-   "N_WHATEVER_RADII" : {
-      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-      "message" : "%radius{f.3} %units 半径 (%radkm{f.0} km)"
-   },
-   "N_YEARS" : {
-      "description" : "",
-      "message" : "%years{f.1} 年"
-   },
-   "O2_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\"氧气大气\""
-   },
-   "OCEANICWORLD" : {
-      "description" : "",
-      "message" : "\"海洋世界\""
-   },
-   "ORBITAL_PERIOD" : {
-      "description" : "",
-      "message" : "环绕周期"
-   },
-   "ORBITAL_STARPORT" : {
-      "description" : "",
-      "message" : "轨道星港"
-   },
-   "OUTDOOR_AGRICULTURAL_WORLD" : {
-      "description" : "",
-      "message" : "可在户外活动的农业星球."
-   },
-   "OVER_N_BILLION" : {
-      "description" : "",
-      "message" : "超过 %population 000000000"
-   },
-   "OVER_N_MILLION" : {
-      "description" : "",
-      "message" : "超过 %population 000000"
-   },
-   "PASSENGER_CABIN" : {
-      "description" : "",
-      "message" : "已满客舱"
-   },
-   "PAUSED" : {
-      "description" : "",
-      "message" : "暂停"
-   },
-   "PAY_FINE_REMOTELY" : {
-      "description" : "",
-      "message" : "转账缴纳罚金 (%amount)"
-   },
-   "PERIAPSIS_DISTANCE" : {
-      "description" : "",
-      "message" : "近拱点距离"
-   },
-   "PIONEER" : {
-      "description" : "",
-      "message" : "先锋"
-   },
-   "PITCH" : {
-      "description" : "",
-      "message" : "俯仰"
-   },
-   "PITCH_DOWN" : {
-      "description" : "",
-      "message" : "俯冲"
-   },
-   "PITCH_UP" : {
-      "description" : "",
-      "message" : "上仰"
-   },
-   "PLANETARY_INFO" : {
-      "description" : "",
-      "message" : "行星信息"
-   },
-   "PLANET_CONTAINING_LIQUID_WATER" : {
-      "description" : "",
-      "message" : "\"表面存在液态水\""
-   },
-   "PLANET_WITH_SOME_ICE" : {
-      "description" : "",
-      "message" : "\"较冷的星球\""
-   },
-   "PLANNED_ECONOMY" : {
-      "description" : "",
-      "message" : "计划经济"
-   },
-   "PLANNER_RESET_FACTOR" : {
-      "description" : "For system orbit view",
-      "message" : "delta-v 增加率. 单击重置为默认值."
-   },
-   "PLANNER_RESET_NORMAL" : {
-      "description" : "For system orbit view",
-      "message" : "法线delta-v. 单击重置为零."
-   },
-   "PLANNER_RESET_PROGRADE" : {
-      "description" : "For system orbit view",
-      "message" : "前进方向delta-v. 单击重置为零."
-   },
-   "PLANNER_RESET_RADIAL" : {
-      "description" : "For system orbit view",
-      "message" : "径向delta-v. 单击重置为零."
-   },
-   "PLANNER_RESET_START" : {
-      "description" : "For system orbit view",
-      "message" : "已开始机动. 点击以回到默认设置. "
-   },
-   "PLASTICS" : {
-      "description" : "",
-      "message" : "塑料"
-   },
-   "PLUTOCRATIC_DICTATORSHIP" : {
-      "description" : "",
-      "message" : "富商独裁"
-   },
-   "POPULATION" : {
-      "description" : "",
-      "message" : "人口:"
-   },
-   "PRECIOUS_METALS" : {
-      "description" : "",
-      "message" : "贵金属"
-   },
-   "PRESSURE_N_ATMOSPHERES" : {
-      "description" : "",
-      "message" : "气压: %pressure{f.2} atm"
-   },
-   "QUADRUPLE_SYSTEM" : {
-      "description" : "",
-      "message" : "四星系统"
-   },
-   "RADAR_CONTROL" : {
-      "description" : "",
-      "message" : "雷达控制"
-   },
-   "RADIOACTIVES" : {
-      "description" : "",
-      "message" : "放射性废料"
-   },
-   "RADIUS" : {
-      "description" : "",
-      "message" : "半径"
-   },
-   "RECENTLY_EXPLORED_SYSTEM" : {
-      "description" : "",
-      "message" : "此星系被探明于 %date."
-   },
-   "REQUEST_DOCKING_CLEARANCE" : {
-      "description" : "",
-      "message" : "请求停靠许可"
-   },
-   "RESET" : {
-      "description" : "",
-      "message" : "重置"
-   },
-   "RESET_ORIENTATION_AND_ZOOM" : {
-      "description" : "",
-      "message" : "重置方向和缩放"
-   },
-   "ROBOTS" : {
-      "description" : "",
-      "message" : "机器人"
-   },
-   "ROCKY_PLANET" : {
-      "description" : "",
-      "message" : "\"岩石星球\""
-   },
-   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
-      "description" : "",
-      "message" : "\"部分覆盖着液体的岩石星球\""
-   },
-   "ROLL" : {
-      "description" : "",
-      "message" : "滚转"
-   },
-   "ROLL_LEFT" : {
-      "description" : "",
-      "message" : "向左滚转"
-   },
-   "ROLL_RIGHT" : {
-      "description" : "",
-      "message" : "向右滚转"
-   },
-   "ROTATE_DOWN" : {
-      "description" : "",
-      "message" : "向下旋转"
-   },
-   "ROTATE_LEFT" : {
-      "description" : "",
-      "message" : "向左旋转"
-   },
-   "ROTATE_RIGHT" : {
-      "description" : "",
-      "message" : "向右旋转"
-   },
-   "ROTATE_UP" : {
-      "description" : "",
-      "message" : "向上旋转"
-   },
-   "ROTATIONAL_PERIOD" : {
-      "description" : "",
-      "message" : "\" (自转周期)\""
-   },
-   "ROTATION_DAMPING_OFF" : {
-      "description" : "",
-      "message" : "旋转消除关"
-   },
-   "ROTATION_DAMPING_ON" : {
-      "description" : "",
-      "message" : "旋转消除开"
-   },
-   "RUBBISH" : {
-      "description" : "",
-      "message" : "废料"
-   },
-   "SCOOP" : {
-      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
-      "message" : "收集器槽位数"
-   },
-   "SCREENSHOT_FILENAME_TEMPLATE" : {
-      "description" : "",
-      "message" : "截图 %index{d08}.png"
-   },
-   "SEARCH" : {
-      "description" : "",
-      "message" : "搜寻"
-   },
-   "SEARCH_MAP" : {
-      "description" : "",
-      "message" : "查找星图"
-   },
-   "SECTOR_COORDINATES" : {
-      "description" : "",
-      "message" : "区域坐标:"
-   },
-   "SECTOR_MAP_VIEW" : {
-      "description" : "",
-      "message" : "区域星图视角"
-   },
-   "SECTOR_X_Y_Z" : {
-      "description" : "",
-      "message" : "区域: %x,%y,%z"
-   },
-   "SELECTED_SYSTEM" : {
-      "description" : "",
-      "message" : "已选择的星系"
-   },
-   "SELECT_A_TARGET" : {
-      "description" : "",
-      "message" : "选择一个目标"
-   },
-   "SELECT_LOW_THRUST_POWER_LEVEL" : {
-      "description" : "",
-      "message" : "选择低推力等级"
-   },
-   "SEMI_MAJOR_AXIS" : {
-      "description" : "",
-      "message" : "半长轴"
-   },
-   "SET_HYPERSPACE_DESTINATION_TO" : {
-      "description" : "",
-      "message" : "设定超空间目的地为 %system"
-   },
-   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
-      "description" : "",
-      "message" : "超空间云分析仪: 设定超空间目标追踪此跳跃"
-   },
-   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
-      "description" : "",
-      "message" : "降低推力等级至 %power%%"
-   },
-   "SET_NAVTARGET_TO" : {
-      "description" : "",
-      "message" : "将导航目标设为:"
-   },
-   "SET_SPEED_KM_S" : {
-      "description" : "",
-      "message" : "设定速度: %speed{f.2} km/s"
-   },
-   "SET_SPEED_M_S" : {
-      "description" : "",
-      "message" : "设定速度: %speed{f.0} m/s"
-   },
-   "SHIELD_INTEGRITY" : {
-      "description" : "",
-      "message" : "护盾完整性"
-   },
-   "SHIELD_STRENGTH_N" : {
-      "description" : "",
-      "message" : "护盾强度: %shields{f.2}"
-   },
-   "SHIFT" : {
-      "description" : "Shift key on keyboard",
-      "message" : "Shift"
-   },
-   "SHIP" : {
-      "description" : "",
-      "message" : "飞船"
-   },
-   "SHIPS_DISPLAY_MODE_TOGGLE" : {
-      "description" : "Either show no ships, show ships, or show ships + their orbits",
-      "message" : "切换飞船显示模式."
-   },
-   "SHIP_DETECTED_NEARBY" : {
-      "description" : "",
-      "message" : "在附近探测到飞船."
-   },
-   "SHIP_INFORMATION" : {
-      "description" : "",
-      "message" : "飞船信息"
-   },
-   "SHIP_MASS_N_TONNES" : {
-      "description" : "",
-      "message" : "飞船质量: %{mass} t"
-   },
-   "SHIP_NEARBY" : {
-      "description" : "",
-      "message" : "附近的飞船"
-   },
-   "SHIP_ORIENTATION" : {
-      "description" : "",
-      "message" : "飞船朝向"
-   },
-   "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
-      "description" : "",
-      "message" : "飞船相对于参照物体的速度"
-   },
-   "SIDEREAL_VIEW" : {
-      "description" : "camera view setting",
-      "message" : "恒星视角"
-   },
-   "SLAVES" : {
-      "description" : "",
-      "message" : "奴隶"
-   },
-   "SMALL" : {
-      "description" : "",
-      "message" : "小"
-   },
-   "SMALL_GAS_GIANT" : {
-      "description" : "",
-      "message" : "小型气体巨星"
-   },
-   "SMALL_INDUSTRIAL_OUTPOST" : {
-      "description" : "",
-      "message" : "小型工业前哨站."
-   },
-   "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
-      "description" : "",
-      "message" : "小规模探测.没有发现已注册的居民地."
-   },
-   "SOCIAL_DEMOCRACY" : {
-      "description" : "",
-      "message" : "社会主义"
-   },
-   "SOLAR" : {
-      "description" : "",
-      "message" : "太阳"
-   },
-   "SOME_ESTABLISHED_MINING" : {
-      "description" : "",
-      "message" : "一些已建立的采矿站."
-   },
-   "SOURCE" : {
-      "description" : "tell source system of hyperjump entry cloud",
-      "message" : "起源"
-   },
-   "SPEED_CONTROL_MODE" : {
-      "description" : "",
-      "message" : "速度控制模式"
-   },
-   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
-      "description" : "",
-      "message" : "稳定的星系,内有 %bodycount 个主要 %{body(s)} 与 %portcount 个 %{starport(s)}"
-   },
-   "STARPORT" : {
-      "description" : "",
-      "message" : "星港"
-   },
-   "STARPORTS" : {
-      "description" : "",
-      "message" : "星港"
-   },
-   "STAR_A" : {
-      "description" : "",
-      "message" : "炽热的A型白色恒星"
-   },
-   "STAR_AF_GIANT" : {
-      "description" : "",
-      "message" : "白巨星"
-   },
-   "STAR_AF_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "白超超巨星"
-   },
-   "STAR_AF_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "白超巨星"
-   },
-   "STAR_B" : {
-      "description" : "",
-      "message" : "明亮的B型蓝色恒星"
-   },
-   "STAR_B_GIANT" : {
-      "description" : "",
-      "message" : "蓝巨星"
-   },
-   "STAR_B_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "蓝超超巨星"
-   },
-   "STAR_B_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "蓝超巨星"
-   },
-   "STAR_B_WF" : {
-      "description" : "",
-      "message" : "沃尔夫-拉叶星 - 有塌缩的可能性"
-   },
-   "STAR_F" : {
-      "description" : "",
-      "message" : "F型白色恒星"
-   },
-   "STAR_G" : {
-      "description" : "",
-      "message" : "G型黄色恒星"
-   },
-   "STAR_G_GIANT" : {
-      "description" : "",
-      "message" : "黄巨星 - 不稳定"
-   },
-   "STAR_G_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "黄超超巨星 - 不稳定"
-   },
-   "STAR_G_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "黄超巨星"
-   },
-   "STAR_IM_BH" : {
-      "description" : "",
-      "message" : "一个中等质量黑洞"
-   },
-   "STAR_K" : {
-      "description" : "",
-      "message" : "K型橙色恒星"
-   },
-   "STAR_K_GIANT" : {
-      "description" : "",
-      "message" : "橙巨星 - 不稳定"
-   },
-   "STAR_K_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "橙超超巨星 - 不稳定"
-   },
-   "STAR_K_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "橙超巨星"
-   },
-   "STAR_M" : {
-      "description" : "",
-      "message" : "M型红色恒星"
-   },
-   "STAR_M_GIANT" : {
-      "description" : "",
-      "message" : "红巨星"
-   },
-   "STAR_M_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "红超超巨星"
-   },
-   "STAR_M_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "红超巨星"
-   },
-   "STAR_M_WF" : {
-      "description" : "",
-      "message" : "沃尔夫-拉叶星 - 不稳定"
-   },
-   "STAR_O" : {
-      "description" : "",
-      "message" : "炽热, 大质量的O型恒星"
-   },
-   "STAR_O_GIANT" : {
-      "description" : "",
-      "message" : "炽热的蓝巨星"
-   },
-   "STAR_O_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "炽热的蓝超超巨星"
-   },
-   "STAR_O_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "炽热的蓝超巨星"
-   },
-   "STAR_O_WF" : {
-      "description" : "",
-      "message" : "沃尔夫-拉叶星 - 即将塌缩"
-   },
-   "STAR_SM_BH" : {
-      "description" : "",
-      "message" : "我们的宇宙锚"
-   },
-   "STAR_SYSTEM_INFORMATION" : {
-      "description" : "",
-      "message" : "星系信息"
-   },
-   "STAR_S_BH" : {
-      "description" : "",
-      "message" : "恒星级黑洞"
-   },
-   "SUGGESTED_RESPONSES" : {
-      "description" : "",
-      "message" : "建议回应:"
-   },
-   "SURFACE_GRAVITY" : {
-      "description" : "",
-      "message" : "表面重力加速度"
-   },
-   "SURFACE_TEMPERATURE" : {
-      "description" : "",
-      "message" : "表面温度"
-   },
-   "SWAP_SELECTED_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "交换已选择的超空间跳跃目标"
-   },
-   "SWITCHED_TO_PARENT" : {
-      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "已将朝向模式设为星系坐标模式."
-   },
-   "SWITCHED_TO_ROTATIONAL" : {
-      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "已将朝向模式设为地表坐标模式."
-   },
-   "SYSTEM" : {
-      "description" : "star system",
-      "message" : "星系"
-   },
-   "SYSTEM_NUMBER" : {
-      "description" : "",
-      "message" : "星系数量:"
-   },
-   "SYSTEM_ORBIT_VIEW" : {
-      "description" : "",
-      "message" : "星系轨道视图"
-   },
-   "SYSTEM_TYPE" : {
-      "description" : "",
-      "message" : "星系类型:"
-   },
-   "S_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\"硫化大气\""
-   },
-   "TAKEOFF" : {
-      "description" : "",
-      "message" : "起飞"
-   },
-   "TARGET_OBJECT_IN_SIGHTS" : {
-      "description" : "",
-      "message" : "将准星内物体设为目标"
-   },
-   "TENUOUS" : {
-      "description" : "atmosphere thickness",
-      "message" : "稀薄的"
-   },
-   "TEXTILES" : {
-      "description" : "",
-      "message" : "纤维"
-   },
-   "THICK" : {
-      "description" : "",
-      "message" : "厚"
-   },
-   "THIN" : {
-      "description" : "",
-      "message" : "较薄的"
-   },
-   "THRIVING_OUTDOOR_WORLD" : {
-      "description" : "",
-      "message" : "可在户外活动的繁荣星球."
-   },
-   "THRUSTER_DORSAL" : {
-      "description" : "",
-      "message" : "向下平移"
-   },
-   "THRUSTER_MAIN" : {
-      "description" : "",
-      "message" : "向前平移"
-   },
-   "THRUSTER_PORT" : {
-      "description" : "",
-      "message" : "向左平移"
-   },
-   "THRUSTER_RETRO" : {
-      "description" : "",
-      "message" : "向后平移"
-   },
-   "THRUSTER_STARBOARD" : {
-      "description" : "",
-      "message" : "向右平移"
-   },
-   "THRUSTER_VENTRAL" : {
-      "description" : "",
-      "message" : "向上平移"
-   },
-   "TIME_POINT" : {
-      "description" : "",
-      "message" : "时间点:"
-   },
-   "TINY" : {
-      "description" : "",
-      "message" : "微小的"
-   },
-   "TOGGLE_EQUIPMENT_VIEW" : {
-      "description" : "Tooltip for the Equipment View button",
-      "message" : "装备视图"
-   },
-   "TOGGLE_HUD_MODE" : {
-      "description" : "",
-      "message" : "切换 HUD 模式"
-   },
-   "TOGGLE_LUA_CONSOLE" : {
-      "description" : "",
-      "message" : "切换 Lua 控制台"
-   },
-   "TOGGLE_RADAR_MODE" : {
-      "description" : "",
-      "message" : "切换雷达模式"
-   },
-   "TOGGLE_RADAR_VIEW" : {
-      "description" : "Tooltip for the Radar View button",
-      "message" : "雷达视图"
-   },
-   "TOGGLE_ROTATION_DAMPING" : {
-      "description" : "",
-      "message" : "切换旋转消除"
-   },
-   "TOMBSTONE_EPITAPH" : {
-      "description" : "shown on tombstone when player dies",
-      "message" : "缅怀老比恩"
-   },
-   "TRADING_ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "交易非法货物"
-   },
-   "TRIPLE_SYSTEM" : {
-      "description" : "",
-      "message" : "三星系统"
-   },
-   "UNDOCKING" : {
-      "description" : "Flight state of ship when leaving station",
-      "message" : "离港中"
-   },
-   "UNEXPLORED_SYSTEM_NO_DATA" : {
-      "description" : "",
-      "message" : "未探索的星系.无可用数据."
-   },
-   "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
-      "description" : "",
-      "message" : "未探索的星系.星系视图不可用."
-   },
-   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
-      "description" : "",
-      "message" : "未探索的星系. 已使用远程探测器收集到恒星信息, 但行星信息仍不可用."
-   },
-   "UNIT_AU" : {
-      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
-      "message" : "天文单位"
-   },
-   "UNIT_DAYS" : {
-      "description" : "Duration unit: one 24-hour day",
-      "message" : "日"
-   },
-   "UNIT_HOURS" : {
-      "description" : "Duration unit: one 60-minute hour",
-      "message" : "时"
-   },
-   "UNIT_KILOMETERS" : {
-      "description" : "Distance unit: one kilometer",
-      "message" : "千米"
-   },
-   "UNIT_KILOMETERS_PER_SECOND" : {
-      "description" : "Speed unit: one kilometer per second",
-      "message" : "千米/秒"
-   },
-   "UNIT_LY" : {
-      "description" : "Distance unit: a light year",
-      "message" : "光年"
-   },
-   "UNIT_METERS" : {
-      "description" : "Distance unit: one meter",
-      "message" : "米"
-   },
-   "UNIT_METERS_PER_SECOND" : {
-      "description" : "Speed unit: one meter per second",
-      "message" : "米/秒"
-   },
-   "UNIT_MILLION_METERS" : {
-      "description" : "Distance unit: one million meters",
-      "message" : "百万米"
-   },
-   "UNIT_MILLION_METERS_PER_SECOND" : {
-      "description" : "Speed unit: one million meters per second",
-      "message" : "百万米/秒"
-   },
-   "UNIT_MINUTES" : {
-      "description" : "Duration unit: one 60-second minute",
-      "message" : "分"
-   },
-   "UNIT_SECONDS" : {
-      "description" : "Duration unit: one second",
-      "message" : "秒"
-   },
-   "UNIT_TONNES" : {
-      "description" : "Mass unit: one tonne (t)",
-      "message" : "t"
-   },
-   "UNIT_WEEKS" : {
-      "description" : "Duration unit: one 7-day week",
-      "message" : "周"
-   },
-   "UNKNOWN" : {
-      "description" : "",
-      "message" : "<unknown>"
-   },
-   "UNSET_NAVTARGET" : {
-      "description" : "",
-      "message" : "取消导航目标."
-   },
-   "USE_LOW_THRUST" : {
-      "description" : "",
-      "message" : "使用低推力"
-   },
-   "VAST_STRIP_MINE" : {
-      "description" : "",
-      "message" : "大型露天采矿殖民地."
-   },
-   "VERY_DENSE" : {
-      "description" : "",
-      "message" : "高密度的"
-   },
-   "VERY_LARGE_GAS_GIANT" : {
-      "description" : "",
-      "message" : "超大气体巨星"
-   },
-   "VIEW" : {
-      "description" : "",
-      "message" : "视图"
-   },
-   "VIOLENT_ANARCHY" : {
-      "description" : "",
-      "message" : "秩序混乱 - 全球的治理被军阀力量所干预."
-   },
-   "WATER" : {
-      "description" : "",
-      "message" : "水"
-   },
-   "WEAPONS" : {
-      "description" : "",
-      "message" : "武器"
-   },
-   "WEAPON_TEMP" : {
-      "description" : "",
-      "message" : "武器温度"
-   },
-   "WHEELS_ARE_DOWN" : {
-      "description" : "",
-      "message" : "机轮已放下"
-   },
-   "WHEELS_ARE_UP" : {
-      "description" : "",
-      "message" : "机轮已升起"
-   },
-   "WHITE_DWARF" : {
-      "description" : "",
-      "message" : "白矮星残骸"
-   },
-   "WITH_A" : {
-      "description" : "",
-      "message" : "\"并拥有\""
-   },
-   "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\"没有明显大气\""
-   },
-   "X" : {
-      "description" : "keybinding: x axis",
-      "message" : "X"
-   },
-   "Y" : {
-      "description" : "keybinding: y axis",
-      "message" : "Y"
-   },
-   "YAW" : {
-      "description" : "",
-      "message" : "偏航"
-   },
-   "YAW_LEFT" : {
-      "description" : "",
-      "message" : "向左偏航"
-   },
-   "YAW_RIGHT" : {
-      "description" : "",
-      "message" : "向右偏航"
-   },
-   "YOUNG_FARMING_COLONY" : {
-      "description" : "",
-      "message" : "新兴的农业殖民地."
-   },
-   "Z" : {
-      "description" : "keybinding: z axis",
-      "message" : "Z"
-   },
-   "ZOOM_IN" : {
-      "description" : "",
-      "message" : "放大"
-   },
-   "ZOOM_OUT" : {
-      "description" : "",
-      "message" : "缩小"
-   }
+  "AIR_PROCESSORS": {
+    "description": "",
+    "message": "空气处理器"
+  },
+  "ALERT_CANCELLED": {
+    "description": "",
+    "message": "警报取消"
+  },
+  "ALLEGIANCE": {
+    "description": "",
+    "message": "所属:"
+  },
+  "ALT": {
+    "description": "Alt key on keyboard",
+    "message": "Alt"
+  },
+  "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
+    "description": "",
+    "message": "\"和一个高度复杂的生态系统.\""
+  },
+  "AND_INDIGENOUS_MICROBIAL_LIFE": {
+    "description": "",
+    "message": "\"和原生微生物.\""
+  },
+  "AND_INDIGENOUS_PLANT_LIFE": {
+    "description": "",
+    "message": "\"和原生植物.\""
+  },
+  "ANIMAL_MEAT": {
+    "description": "",
+    "message": "动物肉"
+  },
+  "APOAPSIS_DISTANCE": {
+    "description": "",
+    "message": "远拱点距离"
+  },
+  "AR_ATMOSPHERE": {
+    "description": "",
+    "message": "\"氩气大气\""
+  },
+  "ASTEROID": {
+    "description": "",
+    "message": "小行星"
+  },
+  "AUTOMATIC_SYSTEM_SELECTION": {
+    "description": "for star map, select star system when mouse close to it",
+    "message": "自动化系统选择"
+  },
+  "AUTOPILOT_CONTROL": {
+    "description": "Indicating that ship is flying under autopilot control",
+    "message": "自动驾驶中"
+  },
+  "AUTOPILOT_DOCK_WITH_STATION": {
+    "description": "",
+    "message": "自动飞行:停靠空间站"
+  },
+  "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
+    "description": "",
+    "message": "自动飞行: 进入 %target 的高轨道"
+  },
+  "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
+    "description": "",
+    "message": "自动飞行:进入 %target 的低轨道"
+  },
+  "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
+    "description": "",
+    "message": "自动飞行:进入 %target 的中轨道"
+  },
+  "AUTOPILOT_FLY_TO_VICINITY_OF": {
+    "description": "",
+    "message": "自动飞行: 飞到 %target 的附近"
+  },
+  "AUTOPILOT_ON": {
+    "description": "",
+    "message": "自动飞行已打开"
+  },
+  "AXIAL_TILT": {
+    "description": "",
+    "message": "转轴倾角"
+  },
+  "A_FEW_THOUSAND": {
+    "description": "regarding population",
+    "message": "只有几千"
+  },
+  "BATTLE_WEAPONS": {
+    "description": "",
+    "message": "战斗武器"
+  },
+  "BINARY_SYSTEM": {
+    "description": "",
+    "message": "双星系统"
+  },
+  "BODIES": {
+    "description": "space bodies",
+    "message": "体"
+  },
+  "BODY": {
+    "description": "",
+    "message": "体"
+  },
+  "BROWN_DWARF": {
+    "description": "",
+    "message": "褐矮星亚恒星体"
+  },
+  "BUTTON": {
+    "description": "",
+    "message": "\"按钮\""
+  },
+  "CAMERA_BOTTOM_VIEW": {
+    "description": "",
+    "message": "底部摄像机"
+  },
+  "CAMERA_FRONT_VIEW": {
+    "description": "",
+    "message": "前部摄像机"
+  },
+  "CAMERA_LEFT_VIEW": {
+    "description": "",
+    "message": "左部摄像机"
+  },
+  "CAMERA_REAR_VIEW": {
+    "description": "",
+    "message": "后部摄像机"
+  },
+  "CAMERA_RIGHT_VIEW": {
+    "description": "",
+    "message": "右部摄像机"
+  },
+  "CAMERA_TOP_VIEW": {
+    "description": "",
+    "message": "顶部摄像机"
+  },
+  "CANT_SAVE_DEAD_PLAYER": {
+    "description": "",
+    "message": "在角色死亡后无法保存游戏"
+  },
+  "CANT_SAVE_IN_HYPERSPACE": {
+    "description": "",
+    "message": "无法在超空间中保存游戏"
+  },
+  "CAPITALIST": {
+    "description": "",
+    "message": "资本主义"
+  },
+  "CARBON_ORE": {
+    "description": "",
+    "message": "碳矿"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "货仓"
+  },
+  "CARGO_BAY_LIFE_SUPPORT_LOST": {
+    "description": "",
+    "message": "传感器报告货仓生命维持系统出现致命状况."
+  },
+  "CARGO_N": {
+    "description": "",
+    "message": "货仓: %{mass}t"
+  },
+  "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
+    "description": "",
+    "message": "货仓收集器启动.收集了 1 吨 %item."
+  },
+  "CARGO_SCOOP_ATTEMPTED": {
+    "description": "",
+    "message": "货物收集器启动. 货仓空间不足."
+  },
+  "CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "\"甲烷大气\""
+  },
+  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
+    "description": "",
+    "message": "请求已经接受.前往停靠口 %bay."
+  },
+  "CLEARANCE_DENIED_NO_BAYS": {
+    "description": "",
+    "message": "请求驳回.没有空闲的停靠口了."
+  },
+  "CLEARANCE_GRANTED_BAY_N": {
+    "description": "",
+    "message": "请求已接受. 前往停靠口 %bay."
+  },
+  "CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "\"二氧化碳大气\""
+  },
+  "COMMA_HIGHLY_VOLCANIC": {
+    "description": "",
+    "message": ", 高度火山化"
+  },
+  "COMMODITY_NONE": {
+    "description": "When no commodities exist",
+    "message": "无"
+  },
+  "COMMODITY_TRADE_ANALYSIS_COMPARE": {
+    "description": "",
+    "message": "#ff0%selected_system#fff(已选择)星系与#ff0%current_system#fff(当前)星系的商品贸易分析对比:"
+  },
+  "COMMODITY_TRADE_ANALYSIS_SELF": {
+    "description": "",
+    "message": "#fff%system#fff星系的商品销售分析"
+  },
+  "COMMS": {
+    "description": "",
+    "message": "通讯"
+  },
+  "COMMUNIST": {
+    "description": "",
+    "message": "共产"
+  },
+  "COMPASS_E": {
+    "description": "Abbreviation for compass direction: East",
+    "message": "东"
+  },
+  "COMPASS_N": {
+    "description": "Abbreviation for compass direction: North",
+    "message": "北"
+  },
+  "COMPASS_NE": {
+    "description": "Abbreviation for compass direction: North East",
+    "message": "东北"
+  },
+  "COMPASS_NW": {
+    "description": "Abbreviation for compass direction: North West",
+    "message": "西北"
+  },
+  "COMPASS_S": {
+    "description": "Abbreviation for compass direction: South",
+    "message": "南"
+  },
+  "COMPASS_SE": {
+    "description": "Abbreviation for compass direction: South East",
+    "message": "东南"
+  },
+  "COMPASS_SW": {
+    "description": "Abbreviation for compass direction: South West",
+    "message": "西南"
+  },
+  "COMPASS_W": {
+    "description": "Abbreviation for compass direction: West",
+    "message": "西"
+  },
+  "COMPUTERS": {
+    "description": "",
+    "message": "计算机"
+  },
+  "COMPUTER_HEADING_CONTROL": {
+    "description": "",
+    "message": "计算机航向控制"
+  },
+  "COMPUTER_SPEED_CONTROL": {
+    "description": "",
+    "message": "计算机速度控制"
+  },
+  "CONSUMER_GOODS": {
+    "description": "",
+    "message": "消费者货物"
+  },
+  "CONTROLS": {
+    "description": "",
+    "message": "控制"
+  },
+  "CORPORATE_SYSTEM": {
+    "description": "",
+    "message": "企业系统"
+  },
+  "COULD_NOT_OPEN_FILENAME": {
+    "description": "",
+    "message": "无法打开 %path"
+  },
+  "COUNT_ON_SURFACE": {
+    "description": "",
+    "message": "\" (%surfacecount 个位于地表)\""
+  },
+  "COUNT_STARPORTS": {
+    "description": "",
+    "message": "星港"
+  },
+  "CO_ATMOSPHERE": {
+    "description": "",
+    "message": "\"一氧化碳大气\""
+  },
+  "CTRL": {
+    "description": "Ctrl key on keyboard",
+    "message": "Ctrl"
+  },
+  "CURRENT_SYSTEM": {
+    "description": "selected current star system",
+    "message": "当前星系"
+  },
+  "DATE_DUE_N": {
+    "description": "",
+    "message": "日期: %date"
+  },
+  "DAY_LENGTH": {
+    "description": "",
+    "message": "日长"
+  },
+  "DECREASE_RADAR_RANGE": {
+    "description": "",
+    "message": "减小雷达探测范围"
+  },
+  "DECREASE_SET_SPEED": {
+    "description": "",
+    "message": "减小设定速度"
+  },
+  "DECREASE_TIME_ACCELERATION": {
+    "description": "",
+    "message": "减缓时间流逝"
+  },
+  "DEMOGRAPHICS": {
+    "description": "",
+    "message": "人口统计"
+  },
+  "DESTINATION": {
+    "description": "",
+    "message": "目的地"
+  },
+  "DIRECTION": {
+    "description": "Direction",
+    "message": "\" Dir\""
+  },
+  "DISTANCE_LY": {
+    "description": "",
+    "message": "距离: %distance{f.2} 光年"
+  },
+  "DOCKED": {
+    "description": "",
+    "message": "已停靠"
+  },
+  "DOCKING": {
+    "description": "",
+    "message": "停靠"
+  },
+  "DOCKING_CLEARANCE_EXPIRED": {
+    "description": "",
+    "message": "停靠请求已过期.如果仍要停靠必须复述停靠请求."
+  },
+  "DOWNGRADING_ALERT_STATUS": {
+    "description": "",
+    "message": "60秒内未检测到开火,警报等级下降."
+  },
+  "DRAW_OUT_RANGE_LABELS": {
+    "description": "",
+    "message": "标示超出范围的星系"
+  },
+  "DRAW_UNINHABITED_LABELS": {
+    "description": "",
+    "message": "标示无人星系"
+  },
+  "DRAW_VERTICAL_LINES": {
+    "description": "",
+    "message": "绘制垂直线"
+  },
+  "EARTH": {
+    "description": "",
+    "message": "地球"
+  },
+  "EARTH_FEDERATION_COLONIAL_RULE": {
+    "description": "",
+    "message": "地球联邦殖民法"
+  },
+  "EARTH_FEDERATION_DEMOCRACY": {
+    "description": "",
+    "message": "地球联邦民主权"
+  },
+  "ECCENTRICITY": {
+    "description": "",
+    "message": "离心率"
+  },
+  "ECONOMIC_INFO": {
+    "description": "",
+    "message": "经济信息"
+  },
+  "ECONOMY_TYPE": {
+    "description": "",
+    "message": "经济类型:"
+  },
+  "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
+    "description": "",
+    "message": "赤道极地半径比"
+  },
+  "EXACT_MATCH_X": {
+    "description": "",
+    "message": "精切匹配: %system"
+  },
+  "EXTENSIVE_MINING": {
+    "description": "",
+    "message": "大规模采矿行动."
+  },
+  "EXTERNAL_ATMOSPHERIC_PRESSURE": {
+    "description": "",
+    "message": "外层气压"
+  },
+  "EXTERNAL_VIEW": {
+    "description": "",
+    "message": "外部视角"
+  },
+  "FARM_MACHINERY": {
+    "description": "",
+    "message": "农用机械"
+  },
+  "FERTILIZER": {
+    "description": "",
+    "message": "肥料"
+  },
+  "FIRE_LASER": {
+    "description": "",
+    "message": "Fire weapon"
+  },
+  "FIRE_MISSILE": {
+    "description": "",
+    "message": "发射导弹"
+  },
+  "FOLLOWING_SELECTION": {
+    "description": "",
+    "message": "以下选项"
+  },
+  "FRUIT_AND_VEG": {
+    "description": "",
+    "message": "蔬果"
+  },
+  "FUEL": {
+    "description": "",
+    "message": "燃料"
+  },
+  "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
+    "description": "",
+    "message": "燃料收集器启动.你现在有 %quantity 吨氢燃料."
+  },
+  "GALACTIC_VIEW": {
+    "description": "view galactic map",
+    "message": "银河视角"
+  },
+  "GALAXY_SECTOR_VIEW": {
+    "description": "",
+    "message": "银河区域视角"
+  },
+  "GAME_LOAD_CANNOT_OPEN": {
+    "description": "",
+    "message": "文件 '%filename' 无法被找到 (或游戏没有打开它的权限)"
+  },
+  "GAME_LOAD_CORRUPT": {
+    "description": "",
+    "message": "该保存的游戏由于存在错误而无法被载入."
+  },
+  "GAME_LOAD_WRONG_VERSION": {
+    "description": "",
+    "message": "该保存的游戏因为是由不同版本的游戏生成而无法被载入."
+  },
+  "GAME_SAVED_TO": {
+    "description": "",
+    "message": "\"将游戏保存到 \""
+  },
+  "GAME_SAVE_CANNOT_WRITE": {
+    "description": "",
+    "message": "该保存的游戏因为系统错误而无法被写入."
+  },
+  "GENERAL_VIEW_CONTROLS": {
+    "description": "",
+    "message": "通用视角控制"
+  },
+  "GOVERNMENT_TYPE": {
+    "description": "",
+    "message": "政府类型:"
+  },
+  "GRAIN": {
+    "description": "like wheat or barley",
+    "message": "粮食"
+  },
+  "HAND_WEAPONS": {
+    "description": "",
+    "message": "手持武器"
+  },
+  "HARD_CAPITALIST": {
+    "description": "",
+    "message": "完全资本主义 - 政府不提供福利"
+  },
+  "HAT": {
+    "description": "Hat switch: Is the top button on a joystick",
+    "message": "\" Hat\""
+  },
+  "HEADING_LOCK_ANTINORMAL": {
+    "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
+    "message": "锁定航向 (反法线)"
+  },
+  "HEADING_LOCK_BACKWARD": {
+    "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
+    "message": "锁定航向 (船尾)"
+  },
+  "HEADING_LOCK_FORWARD": {
+    "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
+    "message": "锁定航向 (船首)"
+  },
+  "HEADING_LOCK_KILLROT": {
+    "description": "",
+    "message": "消除旋转"
+  },
+  "HEADING_LOCK_NORMAL": {
+    "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
+    "message": "锁定航向 (法线)"
+  },
+  "HEADING_LOCK_RADIALLY_INWARD": {
+    "description": "Autopilot direction, relative to orbit (face towards planet)",
+    "message": "锁定航向 (径向内)"
+  },
+  "HEADING_LOCK_RADIALLY_OUTWARD": {
+    "description": "Autopilot direction, relative to orbit (face away from palent)",
+    "message": "锁定航向 (径向外)"
+  },
+  "HEAVY_INDUSTRY": {
+    "description": "",
+    "message": "重工业"
+  },
+  "HE_ATMOSPHERE": {
+    "description": "",
+    "message": "\"氦气大气\""
+  },
+  "HIGHLY_VOLCANIC": {
+    "description": "",
+    "message": "高度火山化"
+  },
+  "HIGH_POPULATION_OUTDOOR_WORLD": {
+    "description": "",
+    "message": "可在户外活动的高人口星球."
+  },
+  "HULL_INTEGRITY": {
+    "description": "",
+    "message": "船体完整性"
+  },
+  "HULL_TEMP": {
+    "description": "",
+    "message": "船体温度"
+  },
+  "HYDROGEN": {
+    "description": "",
+    "message": "氢"
+  },
+  "HYPERSPACE": {
+    "description": "",
+    "message": "超空间"
+  },
+  "HYPERSPACE_ARRIVAL_CLOUD": {
+    "description": "",
+    "message": "超空间接近云"
+  },
+  "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
+    "description": "",
+    "message": "残余超空间接近云"
+  },
+  "HYPERSPACE_DEPARTURE_CLOUD": {
+    "description": "",
+    "message": "超空间出发云"
+  },
+  "HYPERSPACE_JUMP_ABORT": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "超空间引擎熄火"
+  },
+  "HYPERSPACE_JUMP_ABORTED": {
+    "description": "",
+    "message": "超空间跳跃中止."
+  },
+  "HYPERSPACE_JUMP_DISABLED": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "超空间引擎关闭"
+  },
+  "HYPERSPACE_JUMP_ENGAGE": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "超空间引擎启动"
+  },
+  "HYPERSPACE_JUMP_FORBIDDEN": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "超空间引擎禁用区域"
+  },
+  "HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "超空间跳跃目标"
+  },
+  "H_ATMOSPHERE": {
+    "description": "",
+    "message": "\"氢气大气\""
+  },
+  "ICE_WORLD": {
+    "description": "",
+    "message": "\"冰封的世界\""
+  },
+  "ILLEGAL_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+    "message": "非法的 (当前星系):"
+  },
+  "ILLEGAL_GOODS": {
+    "description": "",
+    "message": "非法货物:"
+  },
+  "IMPERIAL_RULE": {
+    "description": "",
+    "message": "皇家条约"
+  },
+  "INCREASE_RADAR_RANGE": {
+    "description": "",
+    "message": "增加雷达探测范围"
+  },
+  "INCREASE_SET_SPEED": {
+    "description": "",
+    "message": "增加设定速度"
+  },
+  "INCREASE_TIME_ACCELERATION": {
+    "description": "",
+    "message": "加快时间流逝"
+  },
+  "INDUSTRIAL_COLONY": {
+    "description": "",
+    "message": "工业殖民."
+  },
+  "INDUSTRIAL_HUB_SYSTEM": {
+    "description": "",
+    "message": "工业化连接器系统"
+  },
+  "INDUSTRIAL_MACHINERY": {
+    "description": "",
+    "message": "工业机械"
+  },
+  "INTERNAL_VIEW": {
+    "description": "",
+    "message": "内部视角"
+  },
+  "JOY": {
+    "description": "Short for Joystick",
+    "message": "摇杆"
+  },
+  "JOYSTICK_INPUT": {
+    "description": "",
+    "message": "摇杆输入"
+  },
+  "JOY_AXIS": {
+    "description": "Regarding joystick",
+    "message": "%{sign}Joy%joynum %axis 轴"
+  },
+  "L4L5_DISPLAY_MODE_TOGGLE": {
+    "description": "Either show L4/L5 points or don't",
+    "message": "在拉格朗日点L4/L5显示模式间切换. "
+  },
+  "LANDED": {
+    "description": "",
+    "message": "着陆"
+  },
+  "LANG_NAME": {
+    "description": "The name that native speakers use for this language. This will be used in the language selection screen.",
+    "message": "简体中文"
+  },
+  "LARGE": {
+    "description": "regarding terrestrial planet size (mass actually)",
+    "message": "较大的"
+  },
+  "LARGE_GAS_GIANT": {
+    "description": "",
+    "message": "大型气体巨星"
+  },
+  "LASER_FIRE_DETECTED": {
+    "description": "",
+    "message": "Weapons fire detected."
+  },
+  "LATITUDE": {
+    "description": "Short for latitude",
+    "message": "纬度:"
+  },
+  "LATITUDE_NORTH_ABBREV": {
+    "description": "Abbreviation letter for latitude 'north'",
+    "message": "北"
+  },
+  "LATITUDE_SOUTH_ABBREV": {
+    "description": "Abbreviation letter for latitude 'south'",
+    "message": "南"
+  },
+  "LEGAL_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+    "message": "合法的 (当前星系):"
+  },
+  "LIBERAL_DEMOCRACY": {
+    "description": "",
+    "message": "民主自由派"
+  },
+  "LIQUID_OXYGEN": {
+    "description": "",
+    "message": "液氧"
+  },
+  "LIQUOR": {
+    "description": "",
+    "message": "酒"
+  },
+  "LIVE_ANIMALS": {
+    "description": "",
+    "message": "活动物"
+  },
+  "LOCKED": {
+    "description": "to lock a hyperspace target",
+    "message": "锁定"
+  },
+  "LONGITUDE": {
+    "description": "Short for longitude",
+    "message": "经度:"
+  },
+  "LONGITUDE_EAST_ABBREV": {
+    "description": "Abbreviation letter for longitude 'east'",
+    "message": "东"
+  },
+  "LONGITUDE_WEST_ABBREV": {
+    "description": "Abbreviation letter for latitude 'west'",
+    "message": "西"
+  },
+  "MAJOR_EXPORTS": {
+    "description": "",
+    "message": "主要出口:"
+  },
+  "MAJOR_EXPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "主要出口 (本星系)"
+  },
+  "MAJOR_IMPORTS": {
+    "description": "",
+    "message": "主要进口:"
+  },
+  "MAJOR_IMPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "主要进口 (本星系)"
+  },
+  "MANUAL_CONTROL": {
+    "description": "",
+    "message": "手动控制"
+  },
+  "MANUAL_CONTROL_MODE": {
+    "description": "",
+    "message": "手动控制模式"
+  },
+  "MAP_LOCK_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "锁定超空间跳跃目标"
+  },
+  "MAP_TOGGLE_INFO_PANEL": {
+    "description": "",
+    "message": "切换信息面板"
+  },
+  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
+    "description": "",
+    "message": "切换选项视图"
+  },
+  "MAP_VIEW_ROTATE_DOWN": {
+    "description": "",
+    "message": "向下旋转视角"
+  },
+  "MAP_VIEW_ROTATE_LEFT": {
+    "description": "",
+    "message": "向左旋转视角"
+  },
+  "MAP_VIEW_ROTATE_RIGHT": {
+    "description": "",
+    "message": "向右旋转视角"
+  },
+  "MAP_VIEW_ROTATE_UP": {
+    "description": "",
+    "message": "向上旋转视角"
+  },
+  "MAP_VIEW_SHIFT_BACKWARD": {
+    "description": "",
+    "message": "向后平移视角"
+  },
+  "MAP_VIEW_SHIFT_DOWN": {
+    "description": "",
+    "message": "向下平移视角"
+  },
+  "MAP_VIEW_SHIFT_FORWARD": {
+    "description": "",
+    "message": "向前平移视角"
+  },
+  "MAP_VIEW_SHIFT_LEFT": {
+    "description": "",
+    "message": "向左平移视角"
+  },
+  "MAP_VIEW_SHIFT_RIGHT": {
+    "description": "",
+    "message": "向右平移视角"
+  },
+  "MAP_VIEW_SHIFT_UP": {
+    "description": "",
+    "message": "向上平移视角"
+  },
+  "MAP_WARP_TO_CURRENT_SYSTEM": {
+    "description": "",
+    "message": "移动到当前星系"
+  },
+  "MAP_WARP_TO_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "移动到超空间跳跃目标"
+  },
+  "MAP_WARP_TO_SELECTED_SYSTEM": {
+    "description": "",
+    "message": "移动到选择的星系"
+  },
+  "MASS": {
+    "description": "",
+    "message": "质量"
+  },
+  "MASSIVE": {
+    "description": "",
+    "message": "巨大的"
+  },
+  "MASS_N_TONNES": {
+    "description": "",
+    "message": "质量: %{mass} t"
+  },
+  "MEDICINES": {
+    "description": "",
+    "message": "药品"
+  },
+  "MEDIUM_GAS_GIANT": {
+    "description": "",
+    "message": "中型气体巨星"
+  },
+  "MESSAGE_FROM_X": {
+    "description": "",
+    "message": "从 %sender 来的消息:"
+  },
+  "META": {
+    "description": "'Meta' key on keyboard",
+    "message": "Meta"
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "合金"
+  },
+  "METAL_ORE": {
+    "description": "",
+    "message": "金属矿"
+  },
+  "MILITARY_DICTATORSHIP": {
+    "description": "",
+    "message": "军事独裁"
+  },
+  "MILITARY_FUEL": {
+    "description": "",
+    "message": "军用燃料"
+  },
+  "MINING_COLONY": {
+    "description": "",
+    "message": "采矿殖民地."
+  },
+  "MINING_MACHINERY": {
+    "description": "",
+    "message": "采矿机械."
+  },
+  "MINOR_EXPORTS": {
+    "description": "",
+    "message": "次要出口:"
+  },
+  "MINOR_EXPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "次要出口 (本星系)"
+  },
+  "MINOR_IMPORTS": {
+    "description": "",
+    "message": "次要进口:"
+  },
+  "MINOR_IMPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "次要入口 (本星系)"
+  },
+  "MISCELLANEOUS": {
+    "description": "",
+    "message": "杂项"
+  },
+  "MISSILE": {
+    "description": "",
+    "message": "导弹"
+  },
+  "MIXED_ECONOMY": {
+    "description": "",
+    "message": "混合型经济"
+  },
+  "MONTH_APR": {
+    "description": "",
+    "message": "四月"
+  },
+  "MONTH_AUG": {
+    "description": "",
+    "message": "八月"
+  },
+  "MONTH_DEC": {
+    "description": "",
+    "message": "十二月"
+  },
+  "MONTH_FEB": {
+    "description": "",
+    "message": "二月"
+  },
+  "MONTH_JAN": {
+    "description": "",
+    "message": "一月"
+  },
+  "MONTH_JUL": {
+    "description": "",
+    "message": "七月"
+  },
+  "MONTH_JUN": {
+    "description": "",
+    "message": "六月"
+  },
+  "MONTH_MAR": {
+    "description": "",
+    "message": "三月"
+  },
+  "MONTH_MAY": {
+    "description": "",
+    "message": "五月"
+  },
+  "MONTH_NOV": {
+    "description": "",
+    "message": "十一月"
+  },
+  "MONTH_OCT": {
+    "description": "",
+    "message": "十月"
+  },
+  "MONTH_SEP": {
+    "description": "",
+    "message": "九月"
+  },
+  "NAME_OBJECT": {
+    "description": "For an item or object",
+    "message": "名称"
+  },
+  "NAME_PERSON": {
+    "description": "For a person",
+    "message": "姓名"
+  },
+  "NARCOTICS": {
+    "description": "",
+    "message": "毒品"
+  },
+  "NAVIGATION_STAR_MAPS": {
+    "description": "",
+    "message": "导航和星图"
+  },
+  "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
+    "description": "",
+    "message": "本星系内的导航目标"
+  },
+  "NERVE_GAS": {
+    "description": "",
+    "message": "神经毒气"
+  },
+  "NOT_FOUND": {
+    "description": "searching star system in sector view",
+    "message": "未找到"
+  },
+  "NOT_FOUND_BEST_MATCH_X": {
+    "description": "",
+    "message": "未找到,最相近的匹配: %system"
+  },
+  "NOW": {
+    "description": "In System Orbit View",
+    "message": "现在"
+  },
+  "NO_ALERT": {
+    "description": "",
+    "message": "无警报"
+  },
+  "NO_CENTRAL_GOVERNANCE": {
+    "description": "",
+    "message": "非中央集权"
+  },
+  "NO_ESTABLISHED_ORDER": {
+    "description": "",
+    "message": "没有已建立的体系"
+  },
+  "NO_HYPERDRIVE": {
+    "description": "",
+    "message": "没有超空间引擎"
+  },
+  "NO_REGISTERED_INHABITANTS": {
+    "description": "",
+    "message": "没有已注册的居民地"
+  },
+  "NO_TARGET_SELECTED": {
+    "description": "",
+    "message": "舰载计算机: 没有选择目标"
+  },
+  "NUMBER_DAYS": {
+    "description": "",
+    "message": "%days{f.0} 天"
+  },
+  "NUMBER_DECIMAL_POINT": {
+    "description": "Decimal delimiter used in numbers.",
+    "message": "."
+  },
+  "NUMBER_G": {
+    "description": "",
+    "message": "%acceleration{f.1} G"
+  },
+  "NUMBER_GROUP_MIN": {
+    "description": "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
+    "message": "1000"
+  },
+  "NUMBER_GROUP_NUM": {
+    "description": "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
+    "message": "3"
+  },
+  "NUMBER_GROUP_SEP": {
+    "description": "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
+    "message": ","
+  },
+  "NUMBER_HOURS": {
+    "description": "",
+    "message": "%hours{f.1} 小时"
+  },
+  "NUMBER_LY": {
+    "description": "",
+    "message": "%distance{f.2} 光年"
+  },
+  "NUMBER_TONNES": {
+    "description": "",
+    "message": "%{mass} 吨"
+  },
+  "N_ATMOSPHERE": {
+    "description": "",
+    "message": "\"氮气大气\""
+  },
+  "N_CELSIUS": {
+    "description": "",
+    "message": "%temperature C"
+  },
+  "N_DAYS": {
+    "description": "",
+    "message": "%days{f.1} 天"
+  },
+  "N_DEGREES": {
+    "description": "",
+    "message": "%angle{f.1} 度"
+  },
+  "N_EARTH_DAYS": {
+    "description": "",
+    "message": "%days{f.1} 地球日"
+  },
+  "N_WHATEVER_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} %units 质量"
+  },
+  "N_WHATEVER_RADII": {
+    "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
+    "message": "%radius{f.3} %units 半径 (%radkm{f.0} km)"
+  },
+  "N_YEARS": {
+    "description": "",
+    "message": "%years{f.1} 年"
+  },
+  "O2_ATMOSPHERE": {
+    "description": "",
+    "message": "\"氧气大气\""
+  },
+  "OCEANICWORLD": {
+    "description": "",
+    "message": "\"海洋世界\""
+  },
+  "ORBITAL_PERIOD": {
+    "description": "",
+    "message": "环绕周期"
+  },
+  "ORBITAL_STARPORT": {
+    "description": "",
+    "message": "轨道星港"
+  },
+  "OUTDOOR_AGRICULTURAL_WORLD": {
+    "description": "",
+    "message": "可在户外活动的农业星球."
+  },
+  "OVER_N_BILLION": {
+    "description": "",
+    "message": "超过 %population 000000000"
+  },
+  "OVER_N_MILLION": {
+    "description": "",
+    "message": "超过 %population 000000"
+  },
+  "PASSENGER_CABIN": {
+    "description": "",
+    "message": "已满客舱"
+  },
+  "PAUSED": {
+    "description": "",
+    "message": "暂停"
+  },
+  "PAY_FINE_REMOTELY": {
+    "description": "",
+    "message": "转账缴纳罚金 (%amount)"
+  },
+  "PERIAPSIS_DISTANCE": {
+    "description": "",
+    "message": "近拱点距离"
+  },
+  "PIONEER": {
+    "description": "",
+    "message": "先锋"
+  },
+  "PITCH": {
+    "description": "",
+    "message": "俯仰"
+  },
+  "PITCH_DOWN": {
+    "description": "",
+    "message": "俯冲"
+  },
+  "PITCH_UP": {
+    "description": "",
+    "message": "上仰"
+  },
+  "PLANETARY_INFO": {
+    "description": "",
+    "message": "行星信息"
+  },
+  "PLANET_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\"表面存在液态水\""
+  },
+  "PLANET_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\"较冷的星球\""
+  },
+  "PLANNED_ECONOMY": {
+    "description": "",
+    "message": "计划经济"
+  },
+  "PLANNER_RESET_FACTOR": {
+    "description": "For system orbit view",
+    "message": "delta-v 增加率. 单击重置为默认值."
+  },
+  "PLANNER_RESET_NORMAL": {
+    "description": "For system orbit view",
+    "message": "法线delta-v. 单击重置为零."
+  },
+  "PLANNER_RESET_PROGRADE": {
+    "description": "For system orbit view",
+    "message": "前进方向delta-v. 单击重置为零."
+  },
+  "PLANNER_RESET_RADIAL": {
+    "description": "For system orbit view",
+    "message": "径向delta-v. 单击重置为零."
+  },
+  "PLANNER_RESET_START": {
+    "description": "For system orbit view",
+    "message": "已开始机动. 点击以回到默认设置. "
+  },
+  "PLASTICS": {
+    "description": "",
+    "message": "塑料"
+  },
+  "PLUTOCRATIC_DICTATORSHIP": {
+    "description": "",
+    "message": "富商独裁"
+  },
+  "POPULATION": {
+    "description": "",
+    "message": "人口:"
+  },
+  "PRECIOUS_METALS": {
+    "description": "",
+    "message": "贵金属"
+  },
+  "PRESSURE_N_ATMOSPHERES": {
+    "description": "",
+    "message": "气压: %pressure{f.2} atm"
+  },
+  "QUADRUPLE_SYSTEM": {
+    "description": "",
+    "message": "四星系统"
+  },
+  "RADAR_CONTROL": {
+    "description": "",
+    "message": "雷达控制"
+  },
+  "RADIOACTIVES": {
+    "description": "",
+    "message": "放射性废料"
+  },
+  "RADIUS": {
+    "description": "",
+    "message": "半径"
+  },
+  "RECENTLY_EXPLORED_SYSTEM": {
+    "description": "",
+    "message": "此星系被探明于 %date."
+  },
+  "REQUEST_DOCKING_CLEARANCE": {
+    "description": "",
+    "message": "请求停靠许可"
+  },
+  "RESET": {
+    "description": "",
+    "message": "重置"
+  },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "重置方向和缩放"
+  },
+  "ROBOTS": {
+    "description": "",
+    "message": "机器人"
+  },
+  "ROCKY_PLANET": {
+    "description": "",
+    "message": "\"岩石星球\""
+  },
+  "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
+    "description": "",
+    "message": "\"部分覆盖着液体的岩石星球\""
+  },
+  "ROLL": {
+    "description": "",
+    "message": "滚转"
+  },
+  "ROLL_LEFT": {
+    "description": "",
+    "message": "向左滚转"
+  },
+  "ROLL_RIGHT": {
+    "description": "",
+    "message": "向右滚转"
+  },
+  "ROTATE_DOWN": {
+    "description": "",
+    "message": "向下旋转"
+  },
+  "ROTATE_LEFT": {
+    "description": "",
+    "message": "向左旋转"
+  },
+  "ROTATE_RIGHT": {
+    "description": "",
+    "message": "向右旋转"
+  },
+  "ROTATE_UP": {
+    "description": "",
+    "message": "向上旋转"
+  },
+  "ROTATIONAL_PERIOD": {
+    "description": "",
+    "message": "\" (自转周期)\""
+  },
+  "ROTATION_DAMPING_OFF": {
+    "description": "",
+    "message": "旋转消除关"
+  },
+  "ROTATION_DAMPING_ON": {
+    "description": "",
+    "message": "旋转消除开"
+  },
+  "RUBBISH": {
+    "description": "",
+    "message": "废料"
+  },
+  "SCOOP": {
+    "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+    "message": "收集器槽位数"
+  },
+  "SCREENSHOT_FILENAME_TEMPLATE": {
+    "description": "",
+    "message": "截图 %index{d08}.png"
+  },
+  "SEARCH": {
+    "description": "",
+    "message": "搜寻"
+  },
+  "SEARCH_MAP": {
+    "description": "",
+    "message": "查找星图"
+  },
+  "SECTOR_COORDINATES": {
+    "description": "",
+    "message": "区域坐标:"
+  },
+  "SECTOR_MAP_VIEW": {
+    "description": "",
+    "message": "区域星图视角"
+  },
+  "SECTOR_X_Y_Z": {
+    "description": "",
+    "message": "区域: %x,%y,%z"
+  },
+  "SELECTED_SYSTEM": {
+    "description": "",
+    "message": "已选择的星系"
+  },
+  "SELECT_A_TARGET": {
+    "description": "",
+    "message": "选择一个目标"
+  },
+  "SELECT_LOW_THRUST_POWER_LEVEL": {
+    "description": "",
+    "message": "选择低推力等级"
+  },
+  "SEMI_MAJOR_AXIS": {
+    "description": "",
+    "message": "半长轴"
+  },
+  "SET_HYPERSPACE_DESTINATION_TO": {
+    "description": "",
+    "message": "设定超空间目的地为 %system"
+  },
+  "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
+    "description": "",
+    "message": "超空间云分析仪: 设定超空间目标追踪此跳跃"
+  },
+  "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
+    "description": "",
+    "message": "降低推力等级至 %power%%"
+  },
+  "SET_NAVTARGET_TO": {
+    "description": "",
+    "message": "将导航目标设为:"
+  },
+  "SET_SPEED_KM_S": {
+    "description": "",
+    "message": "设定速度: %speed{f.2} km/s"
+  },
+  "SET_SPEED_M_S": {
+    "description": "",
+    "message": "设定速度: %speed{f.0} m/s"
+  },
+  "SHIELD_INTEGRITY": {
+    "description": "",
+    "message": "护盾完整性"
+  },
+  "SHIELD_STRENGTH_N": {
+    "description": "",
+    "message": "护盾强度: %shields{f.2}"
+  },
+  "SHIFT": {
+    "description": "Shift key on keyboard",
+    "message": "Shift"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "飞船"
+  },
+  "SHIPS_DISPLAY_MODE_TOGGLE": {
+    "description": "Either show no ships, show ships, or show ships + their orbits",
+    "message": "切换飞船显示模式."
+  },
+  "SHIP_DETECTED_NEARBY": {
+    "description": "",
+    "message": "在附近探测到飞船."
+  },
+  "SHIP_INFORMATION": {
+    "description": "",
+    "message": "飞船信息"
+  },
+  "SHIP_MASS_N_TONNES": {
+    "description": "",
+    "message": "飞船质量: %{mass} t"
+  },
+  "SHIP_NEARBY": {
+    "description": "",
+    "message": "附近的飞船"
+  },
+  "SHIP_ORIENTATION": {
+    "description": "",
+    "message": "飞船朝向"
+  },
+  "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
+    "description": "",
+    "message": "飞船相对于参照物体的速度"
+  },
+  "SIDEREAL_VIEW": {
+    "description": "camera view setting",
+    "message": "恒星视角"
+  },
+  "SLAVES": {
+    "description": "",
+    "message": "奴隶"
+  },
+  "SMALL": {
+    "description": "",
+    "message": "小"
+  },
+  "SMALL_GAS_GIANT": {
+    "description": "",
+    "message": "小型气体巨星"
+  },
+  "SMALL_INDUSTRIAL_OUTPOST": {
+    "description": "",
+    "message": "小型工业前哨站."
+  },
+  "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": {
+    "description": "",
+    "message": "小规模探测.没有发现已注册的居民地."
+  },
+  "SOCIAL_DEMOCRACY": {
+    "description": "",
+    "message": "社会主义"
+  },
+  "SOLAR": {
+    "description": "",
+    "message": "太阳"
+  },
+  "SOME_ESTABLISHED_MINING": {
+    "description": "",
+    "message": "一些已建立的采矿站."
+  },
+  "SOURCE": {
+    "description": "tell source system of hyperjump entry cloud",
+    "message": "起源"
+  },
+  "SPEED_CONTROL_MODE": {
+    "description": "",
+    "message": "速度控制模式"
+  },
+  "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
+    "description": "",
+    "message": "稳定的星系,内有 %bodycount 个主要 %{body(s)} 与 %portcount 个 %{starport(s)}"
+  },
+  "STARPORT": {
+    "description": "",
+    "message": "星港"
+  },
+  "STARPORTS": {
+    "description": "",
+    "message": "星港"
+  },
+  "STAR_A": {
+    "description": "",
+    "message": "炽热的A型白色恒星"
+  },
+  "STAR_AF_GIANT": {
+    "description": "",
+    "message": "白巨星"
+  },
+  "STAR_AF_HYPER_GIANT": {
+    "description": "",
+    "message": "白超超巨星"
+  },
+  "STAR_AF_SUPER_GIANT": {
+    "description": "",
+    "message": "白超巨星"
+  },
+  "STAR_B": {
+    "description": "",
+    "message": "明亮的B型蓝色恒星"
+  },
+  "STAR_B_GIANT": {
+    "description": "",
+    "message": "蓝巨星"
+  },
+  "STAR_B_HYPER_GIANT": {
+    "description": "",
+    "message": "蓝超超巨星"
+  },
+  "STAR_B_SUPER_GIANT": {
+    "description": "",
+    "message": "蓝超巨星"
+  },
+  "STAR_B_WF": {
+    "description": "",
+    "message": "沃尔夫-拉叶星 - 有塌缩的可能性"
+  },
+  "STAR_F": {
+    "description": "",
+    "message": "F型白色恒星"
+  },
+  "STAR_G": {
+    "description": "",
+    "message": "G型黄色恒星"
+  },
+  "STAR_G_GIANT": {
+    "description": "",
+    "message": "黄巨星 - 不稳定"
+  },
+  "STAR_G_HYPER_GIANT": {
+    "description": "",
+    "message": "黄超超巨星 - 不稳定"
+  },
+  "STAR_G_SUPER_GIANT": {
+    "description": "",
+    "message": "黄超巨星"
+  },
+  "STAR_IM_BH": {
+    "description": "",
+    "message": "一个中等质量黑洞"
+  },
+  "STAR_K": {
+    "description": "",
+    "message": "K型橙色恒星"
+  },
+  "STAR_K_GIANT": {
+    "description": "",
+    "message": "橙巨星 - 不稳定"
+  },
+  "STAR_K_HYPER_GIANT": {
+    "description": "",
+    "message": "橙超超巨星 - 不稳定"
+  },
+  "STAR_K_SUPER_GIANT": {
+    "description": "",
+    "message": "橙超巨星"
+  },
+  "STAR_M": {
+    "description": "",
+    "message": "M型红色恒星"
+  },
+  "STAR_M_GIANT": {
+    "description": "",
+    "message": "红巨星"
+  },
+  "STAR_M_HYPER_GIANT": {
+    "description": "",
+    "message": "红超超巨星"
+  },
+  "STAR_M_SUPER_GIANT": {
+    "description": "",
+    "message": "红超巨星"
+  },
+  "STAR_M_WF": {
+    "description": "",
+    "message": "沃尔夫-拉叶星 - 不稳定"
+  },
+  "STAR_O": {
+    "description": "",
+    "message": "炽热, 大质量的O型恒星"
+  },
+  "STAR_O_GIANT": {
+    "description": "",
+    "message": "炽热的蓝巨星"
+  },
+  "STAR_O_HYPER_GIANT": {
+    "description": "",
+    "message": "炽热的蓝超超巨星"
+  },
+  "STAR_O_SUPER_GIANT": {
+    "description": "",
+    "message": "炽热的蓝超巨星"
+  },
+  "STAR_O_WF": {
+    "description": "",
+    "message": "沃尔夫-拉叶星 - 即将塌缩"
+  },
+  "STAR_SM_BH": {
+    "description": "",
+    "message": "我们的宇宙锚"
+  },
+  "STAR_SYSTEM_INFORMATION": {
+    "description": "",
+    "message": "星系信息"
+  },
+  "STAR_S_BH": {
+    "description": "",
+    "message": "恒星级黑洞"
+  },
+  "SUGGESTED_RESPONSES": {
+    "description": "",
+    "message": "建议回应:"
+  },
+  "SURFACE_GRAVITY": {
+    "description": "",
+    "message": "表面重力加速度"
+  },
+  "SURFACE_TEMPERATURE": {
+    "description": "",
+    "message": "表面温度"
+  },
+  "SWAP_SELECTED_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "交换已选择的超空间跳跃目标"
+  },
+  "SWITCHED_TO_PARENT": {
+    "description": "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+    "message": "已将朝向模式设为星系坐标模式."
+  },
+  "SWITCHED_TO_ROTATIONAL": {
+    "description": "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+    "message": "已将朝向模式设为地表坐标模式."
+  },
+  "SYSTEM": {
+    "description": "star system",
+    "message": "星系"
+  },
+  "SYSTEM_NUMBER": {
+    "description": "",
+    "message": "星系数量:"
+  },
+  "SYSTEM_ORBIT_VIEW": {
+    "description": "",
+    "message": "星系轨道视图"
+  },
+  "SYSTEM_TYPE": {
+    "description": "",
+    "message": "星系类型:"
+  },
+  "S_ATMOSPHERE": {
+    "description": "",
+    "message": "\"硫化大气\""
+  },
+  "TAKEOFF": {
+    "description": "",
+    "message": "起飞"
+  },
+  "TARGET_OBJECT_IN_SIGHTS": {
+    "description": "",
+    "message": "将准星内物体设为目标"
+  },
+  "TENUOUS": {
+    "description": "atmosphere thickness",
+    "message": "稀薄的"
+  },
+  "TEXTILES": {
+    "description": "",
+    "message": "纤维"
+  },
+  "THICK": {
+    "description": "",
+    "message": "厚"
+  },
+  "THIN": {
+    "description": "",
+    "message": "较薄的"
+  },
+  "THRIVING_OUTDOOR_WORLD": {
+    "description": "",
+    "message": "可在户外活动的繁荣星球."
+  },
+  "THRUSTER_DORSAL": {
+    "description": "",
+    "message": "向下平移"
+  },
+  "THRUSTER_MAIN": {
+    "description": "",
+    "message": "向前平移"
+  },
+  "THRUSTER_PORT": {
+    "description": "",
+    "message": "向左平移"
+  },
+  "THRUSTER_RETRO": {
+    "description": "",
+    "message": "向后平移"
+  },
+  "THRUSTER_STARBOARD": {
+    "description": "",
+    "message": "向右平移"
+  },
+  "THRUSTER_VENTRAL": {
+    "description": "",
+    "message": "向上平移"
+  },
+  "TIME_POINT": {
+    "description": "",
+    "message": "时间点:"
+  },
+  "TINY": {
+    "description": "",
+    "message": "微小的"
+  },
+  "TOGGLE_EQUIPMENT_VIEW": {
+    "description": "Tooltip for the Equipment View button",
+    "message": "装备视图"
+  },
+  "TOGGLE_HUD_MODE": {
+    "description": "",
+    "message": "切换 HUD 模式"
+  },
+  "TOGGLE_LUA_CONSOLE": {
+    "description": "",
+    "message": "切换 Lua 控制台"
+  },
+  "TOGGLE_RADAR_MODE": {
+    "description": "",
+    "message": "切换雷达模式"
+  },
+  "TOGGLE_RADAR_VIEW": {
+    "description": "Tooltip for the Radar View button",
+    "message": "雷达视图"
+  },
+  "TOGGLE_ROTATION_DAMPING": {
+    "description": "",
+    "message": "切换旋转消除"
+  },
+  "TOMBSTONE_EPITAPH": {
+    "description": "shown on tombstone when player dies",
+    "message": "缅怀老比恩"
+  },
+  "TRADING_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "交易非法货物"
+  },
+  "TRIPLE_SYSTEM": {
+    "description": "",
+    "message": "三星系统"
+  },
+  "UNDOCKING": {
+    "description": "Flight state of ship when leaving station",
+    "message": "离港中"
+  },
+  "UNEXPLORED_SYSTEM_NO_DATA": {
+    "description": "",
+    "message": "未探索的星系.无可用数据."
+  },
+  "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
+    "description": "",
+    "message": "未探索的星系.星系视图不可用."
+  },
+  "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
+    "description": "",
+    "message": "未探索的星系. 已使用远程探测器收集到恒星信息, 但行星信息仍不可用."
+  },
+  "UNIT_AU": {
+    "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
+    "message": "天文单位"
+  },
+  "UNIT_DAYS": {
+    "description": "Duration unit: one 24-hour day",
+    "message": "日"
+  },
+  "UNIT_HOURS": {
+    "description": "Duration unit: one 60-minute hour",
+    "message": "时"
+  },
+  "UNIT_KILOMETERS": {
+    "description": "Distance unit: one kilometer",
+    "message": "千米"
+  },
+  "UNIT_KILOMETERS_PER_SECOND": {
+    "description": "Speed unit: one kilometer per second",
+    "message": "千米/秒"
+  },
+  "UNIT_LY": {
+    "description": "Distance unit: a light year",
+    "message": "光年"
+  },
+  "UNIT_METERS": {
+    "description": "Distance unit: one meter",
+    "message": "米"
+  },
+  "UNIT_METERS_PER_SECOND": {
+    "description": "Speed unit: one meter per second",
+    "message": "米/秒"
+  },
+  "UNIT_MILLION_METERS": {
+    "description": "Distance unit: one million meters",
+    "message": "百万米"
+  },
+  "UNIT_MILLION_METERS_PER_SECOND": {
+    "description": "Speed unit: one million meters per second",
+    "message": "百万米/秒"
+  },
+  "UNIT_MINUTES": {
+    "description": "Duration unit: one 60-second minute",
+    "message": "分"
+  },
+  "UNIT_SECONDS": {
+    "description": "Duration unit: one second",
+    "message": "秒"
+  },
+  "UNIT_TONNES": {
+    "description": "Mass unit: one tonne (t)",
+    "message": "t"
+  },
+  "UNIT_WEEKS": {
+    "description": "Duration unit: one 7-day week",
+    "message": "周"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "<unknown>"
+  },
+  "UNSET_NAVTARGET": {
+    "description": "",
+    "message": "取消导航目标."
+  },
+  "USE_LOW_THRUST": {
+    "description": "",
+    "message": "使用低推力"
+  },
+  "VAST_STRIP_MINE": {
+    "description": "",
+    "message": "大型露天采矿殖民地."
+  },
+  "VERY_DENSE": {
+    "description": "",
+    "message": "高密度的"
+  },
+  "VERY_LARGE_GAS_GIANT": {
+    "description": "",
+    "message": "超大气体巨星"
+  },
+  "VIEW": {
+    "description": "",
+    "message": "视图"
+  },
+  "VIOLENT_ANARCHY": {
+    "description": "",
+    "message": "秩序混乱 - 全球的治理被军阀力量所干预."
+  },
+  "WATER": {
+    "description": "",
+    "message": "水"
+  },
+  "WEAPONS": {
+    "description": "",
+    "message": "武器"
+  },
+  "WEAPON_TEMP": {
+    "description": "",
+    "message": "武器温度"
+  },
+  "WHEELS_ARE_DOWN": {
+    "description": "",
+    "message": "机轮已放下"
+  },
+  "WHEELS_ARE_UP": {
+    "description": "",
+    "message": "机轮已升起"
+  },
+  "WHITE_DWARF": {
+    "description": "",
+    "message": "白矮星残骸"
+  },
+  "WITH_A": {
+    "description": "",
+    "message": "\"并拥有\""
+  },
+  "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
+    "description": "",
+    "message": "\"没有明显大气\""
+  },
+  "X": {
+    "description": "keybinding: x axis",
+    "message": "X"
+  },
+  "Y": {
+    "description": "keybinding: y axis",
+    "message": "Y"
+  },
+  "YAW": {
+    "description": "",
+    "message": "偏航"
+  },
+  "YAW_LEFT": {
+    "description": "",
+    "message": "向左偏航"
+  },
+  "YAW_RIGHT": {
+    "description": "",
+    "message": "向右偏航"
+  },
+  "YOUNG_FARMING_COLONY": {
+    "description": "",
+    "message": "新兴的农业殖民地."
+  },
+  "Z": {
+    "description": "keybinding: z axis",
+    "message": "Z"
+  },
+  "ZOOM_IN": {
+    "description": "",
+    "message": "放大"
+  },
+  "ZOOM_OUT": {
+    "description": "",
+    "message": "缩小"
+  }
 }

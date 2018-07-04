@@ -1,102 +1,102 @@
 {
-   "APPLY_FOR_MEMBERSHIP" : {
-      "description" : "",
-      "message" : "Demande d'adhesion"
-   },
-   "BEGIN_TRADE" : {
-      "description" : "",
-      "message" : "Commencer les transactions"
-   },
-   "FLAVOUR_0_CLUBNAME" : {
-      "description" : "",
-      "message" : "Coopérative interstellaire pour le carburants des pilotes (CICP)"
-   },
-   "FLAVOUR_0_MEMBER_INTRO" : {
-      "description" : "",
-      "message" : "Vous pouvez acheter du carburant et déposer des {radioactives} ici."
-   },
-   "FLAVOUR_0_NONMEMBER_INTRO" : {
-      "description" : "",
-      "message" : "{clubname} est une organisation indépendante dont le but est de fournir à ses membre du carburant au meilleur prix. Elle possède des succursales dans toute la galaxie. Les membres bénéficient des avantages suivants :"
-   },
-   "FLAVOUR_0_WELCOME" : {
-      "description" : "",
-      "message" : "Bienvenue chez {clubname}"
-   },
-   "FLAVOUR_1_CLUBNAME" : {
-      "description" : "Fuel club for the Federation faction",
-      "message" : "La Fondation du Carburant Fédéral"
-   },
-   "FLAVOUR_1_NONMEMBER_INTRO" : {
-      "description" : "For the Solar Federation faction",
-      "message" : "{clubname} est le premier fournisseur de carburant à bas prix à tous ses vaisseaux membres dans la Fédération Solaire. Être membre vous donne le droit à ce qui suit:"
-   },
-   "FLAVOUR_2_CLUBNAME" : {
-      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-      "message" : "L'Union Confédérée du Carburant"
-   },
-   "FLAVOUR_2_NONMEMBER_INTRO" : {
-      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
-      "message" : "À travers les vastes contrées de la communauté des mondes indépendants vous constaterez que {clubname} est le meilleur fournisseur de carburant discount et de gestion des déchets. À nos membres nous fournissons:"
-   },
-   "FLAVOUR_2_WELCOME" : {
-      "description" : "",
-      "message" : "Salutions! Nous espérons que vous appréciez nos services."
-   },
-   "FLAVOUR_3_CLUBNAME" : {
-      "description" : "Fuel club for the Haber faction",
-      "message" : "Division Haber des combustibles et périssables."
-   },
-   "FLAVOUR_3_MEMBER_INTRO" : {
-      "description" : "For the greedy Haber faction, very corporate formulated",
-      "message" : "Salutations pilote. Vos privilèges de ravitaillement de carburant et d'évacuation des rejets potentiels est accordée."
-   },
-   "FLAVOUR_3_NONMEMBER_INTRO" : {
-      "description" : "for the Haber faction",
-      "message" : "Salutations pilote. Ici la division Haber des combustibles et périssables, responsable de la gestion de la distribution du carburant à travers le secteur spatial Haber."
-   },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Retour"
-   },
-   "LIST_BENEFITS_DISPOSAL" : {
-      "description" : "",
-      "message" : "{radioactives}, élimination gratuite (selon conditions)"
-   },
-   "LIST_BENEFITS_FUEL" : {
-      "description" : "",
-      "message" : "{fuel} à prix cassés"
-   },
-   "LIST_BENEFITS_FUEL_INTRO" : {
-      "description" : "",
-      "message" : "Nos propres réserves de carburant, en dehors du marché officiel."
-   },
-   "LIST_BENEFITS_FUEL_TANK" : {
-      "description" : "",
-      "message" : "Remplissage du réservoir de carburant, à l'endroit où c'est nécessaire."
-   },
-   "LIST_BENEFITS_JOIN" : {
-      "description" : "",
-      "message" : "Inscrivez-vous! Notre cotisation annuelle ne revient qu'à {membership_fee}"
-   },
-   "WE_WILL_ONLY_DISPOSE_OF" : {
-      "description" : "",
-      "message" : "Nous ne pouvons accepter que le nombre de tonnes de {radioactives} correspondant aux tonnes de  {military_fuel} achetés chez nous."
-   },
-   "WHAT_CONDITIONS_APPLY" : {
-      "description" : "",
-      "message" : "Quelles sont les conditions pour deposer des {radioactives} ?"
-   },
-   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
-      "description" : "",
-      "message" : "Votre demande d'adhésion a été refusée."
-   },
-   "YOU_ARE_NOW_A_MEMBER" : {
-      "description" : "",
-      "message" : "Vous etes désormais membre . Votre adhesion expire le {expiry_date}."
-   },
-   "YOU_MUST_BUY" : {
-      "description" : "",
-      "message" : "Vous devez d'abord acheter notre  {military_fuel} avant que nous acceptions des {radioactives}"
-   }
+  "APPLY_FOR_MEMBERSHIP": {
+    "description": "",
+    "message": "Demande d'adhesion"
+  },
+  "BEGIN_TRADE": {
+    "description": "",
+    "message": "Commencer les transactions"
+  },
+  "FLAVOUR_0_CLUBNAME": {
+    "description": "",
+    "message": "Coopérative interstellaire pour le carburants des pilotes (CICP)"
+  },
+  "FLAVOUR_0_MEMBER_INTRO": {
+    "description": "",
+    "message": "Vous pouvez acheter du carburant et déposer des {radioactives} ici."
+  },
+  "FLAVOUR_0_NONMEMBER_INTRO": {
+    "description": "",
+    "message": "{clubname} est une organisation indépendante dont le but est de fournir à ses membre du carburant au meilleur prix. Elle possède des succursales dans toute la galaxie. Les membres bénéficient des avantages suivants :"
+  },
+  "FLAVOUR_0_WELCOME": {
+    "description": "",
+    "message": "Bienvenue chez {clubname}"
+  },
+  "FLAVOUR_1_CLUBNAME": {
+    "description": "Fuel club for the Federation faction",
+    "message": "La Fondation du Carburant Fédéral"
+  },
+  "FLAVOUR_1_NONMEMBER_INTRO": {
+    "description": "For the Solar Federation faction",
+    "message": "{clubname} est le premier fournisseur de carburant à bas prix à tous ses vaisseaux membres dans la Fédération Solaire. Être membre vous donne le droit à ce qui suit:"
+  },
+  "FLAVOUR_2_CLUBNAME": {
+    "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+    "message": "L'Union Confédérée du Carburant"
+  },
+  "FLAVOUR_2_NONMEMBER_INTRO": {
+    "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
+    "message": "À travers les vastes contrées de la communauté des mondes indépendants vous constaterez que {clubname} est le meilleur fournisseur de carburant discount et de gestion des déchets. À nos membres nous fournissons:"
+  },
+  "FLAVOUR_2_WELCOME": {
+    "description": "",
+    "message": "Salutions! Nous espérons que vous appréciez nos services."
+  },
+  "FLAVOUR_3_CLUBNAME": {
+    "description": "Fuel club for the Haber faction",
+    "message": "Division Haber des combustibles et périssables."
+  },
+  "FLAVOUR_3_MEMBER_INTRO": {
+    "description": "For the greedy Haber faction, very corporate formulated",
+    "message": "Salutations pilote. Vos privilèges de ravitaillement de carburant et d'évacuation des rejets potentiels est accordée."
+  },
+  "FLAVOUR_3_NONMEMBER_INTRO": {
+    "description": "for the Haber faction",
+    "message": "Salutations pilote. Ici la division Haber des combustibles et périssables, responsable de la gestion de la distribution du carburant à travers le secteur spatial Haber."
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Retour"
+  },
+  "LIST_BENEFITS_DISPOSAL": {
+    "description": "",
+    "message": "{radioactives}, élimination gratuite (selon conditions)"
+  },
+  "LIST_BENEFITS_FUEL": {
+    "description": "",
+    "message": "{fuel} à prix cassés"
+  },
+  "LIST_BENEFITS_FUEL_INTRO": {
+    "description": "",
+    "message": "Nos propres réserves de carburant, en dehors du marché officiel."
+  },
+  "LIST_BENEFITS_FUEL_TANK": {
+    "description": "",
+    "message": "Remplissage du réservoir de carburant, à l'endroit où c'est nécessaire."
+  },
+  "LIST_BENEFITS_JOIN": {
+    "description": "",
+    "message": "Inscrivez-vous! Notre cotisation annuelle ne revient qu'à {membership_fee}"
+  },
+  "WE_WILL_ONLY_DISPOSE_OF": {
+    "description": "",
+    "message": "Nous ne pouvons accepter que le nombre de tonnes de {radioactives} correspondant aux tonnes de  {military_fuel} achetés chez nous."
+  },
+  "WHAT_CONDITIONS_APPLY": {
+    "description": "",
+    "message": "Quelles sont les conditions pour deposer des {radioactives} ?"
+  },
+  "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
+    "description": "",
+    "message": "Votre demande d'adhésion a été refusée."
+  },
+  "YOU_ARE_NOW_A_MEMBER": {
+    "description": "",
+    "message": "Vous etes désormais membre . Votre adhesion expire le {expiry_date}."
+  },
+  "YOU_MUST_BUY": {
+    "description": "",
+    "message": "Vous devez d'abord acheter notre  {military_fuel} avant que nous acceptions des {radioactives}"
+  }
 }

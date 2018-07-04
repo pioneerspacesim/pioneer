@@ -1,14 +1,14 @@
 {
-   "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
-      "description" : "",
-      "message" : "Burası {station}. Kenetlenme ücreti olan {fee} paranız olmadığı için ödenemedi."
-   },
-   "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
-      "description" : "Station welcome message, docking in orbit",
-      "message" : "{station} istasyonuna hoşgeldiniz. Kenetlenme ücreti olan {fee} hesabınızdan alındı."
-   },
-   "WELCOME_TO_STATION_FEE_DEDUCTED" : {
-      "description" : "Station welcome message, ground station landing",
-      "message" : "{station} istasyonuna hoşgeldiniz. İniş ücretiniz olan {fee} hesabınızdan alındı."
-   }
+  "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH": {
+    "description": "",
+    "message": "Burası {station}. Kenetlenme ücreti olan {fee} paranız olmadığı için ödenemedi."
+  },
+  "WELCOME_ABOARD_STATION_FEE_DEDUCTED": {
+    "description": "Station welcome message, docking in orbit",
+    "message": "{station} istasyonuna hoşgeldiniz. Kenetlenme ücreti olan {fee} hesabınızdan alındı."
+  },
+  "WELCOME_TO_STATION_FEE_DEDUCTED": {
+    "description": "Station welcome message, ground station landing",
+    "message": "{station} istasyonuna hoşgeldiniz. İniş ücretiniz olan {fee} hesabınızdan alındı."
+  }
 }

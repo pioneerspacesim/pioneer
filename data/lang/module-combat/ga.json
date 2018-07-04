@@ -1,0 +1,346 @@
+{
+  "ACCEPTED_1": {
+    "description": "",
+    "message": "Tá go maith. Ádh mór!"
+  },
+  "ACCEPTED_2": {
+    "description": "",
+    "message": "Thar barr!"
+  },
+  "ACCEPTED_3": {
+    "description": "",
+    "message": "Iontach. Táimid ag brath ort!"
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "RELIABLE PILOT WANTED: Pay {cash}."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "CHALLENGE: Ship and crew wanted for a combat mission in the {system} system."
+  },
+  "ADTEXT_3": {
+    "description": "",
+    "message": "COMBAT: Need qualified mercenary with well-equipped ship."
+  },
+  "ADTEXT_4": {
+    "description": "",
+    "message": "FEARLESS MERCENARY WANTED: Pay {cash} for a mission to the {system} system."
+  },
+  "ADTEXT_5": {
+    "description": "",
+    "message": "Misean {mission}: Tuarastal {cash}."
+  },
+  "AGENT": {
+    "description": "Secret Service Agent",
+    "message": "Gníomhaire"
+  },
+  "AREA": {
+    "description": "An allotted area for the mission",
+    "message": "Limistéar:"
+  },
+  "BONUS_1": {
+    "description": "",
+    "message": "My supervisor was impressed about your performance and has allotted a bonus of {cash} for this mission."
+  },
+  "BONUS_2": {
+    "description": "",
+    "message": "You have served us well! I pay you a bonus of {cash}."
+  },
+  "BONUS_3": {
+    "description": "",
+    "message": "Very impressive! I'm authorized to pay you a bonus of {cash}."
+  },
+  "BONUS_4": {
+    "description": "",
+    "message": "I'm very pleased of your performance! I have transferred additional {cash} credits."
+  },
+  "COMBAT": {
+    "description": "Name of mission type",
+    "message": "Comhrac"
+  },
+  "CORPORATION_1": {
+    "description": "Name of a corporation",
+    "message": "Precious Goods Foundation"
+  },
+  "CORPORATION_2": {
+    "description": "Name of a corporation",
+    "message": "Mianadóireacht Óimige"
+  },
+  "CORPORATION_3": {
+    "description": "Name of a corporation",
+    "message": "United Ore Mines Syndicate"
+  },
+  "CORPORATION_4": {
+    "description": "Name of a corporation",
+    "message": "Galactic Explorer Corporation"
+  },
+  "CORPORATION_5": {
+    "description": "Name of a corporation",
+    "message": "Haber Corporation"
+  },
+  "CORPORATION_6": {
+    "description": "Name of a corporation",
+    "message": "Taiscéalaithe Miotal Lómhar, Teo."
+  },
+  "CORPORATION_7": {
+    "description": "Name of a corporation",
+    "message": "{name} Ore Seeker PLC"
+  },
+  "CORPORATION_8": {
+    "description": "Name of a corporation",
+    "message": "{name} Teo."
+  },
+  "DANGER": {
+    "description": "The risk level",
+    "message": "Contúirt:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Sorry, I need a pilot who has more combat experience."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Gabh mo leithscéal. Tá duine gairmiúil uaim."
+  },
+  "DETECTIVE": {
+    "description": "Police Detective",
+    "message": "Bleachtaire"
+  },
+  "DISTANCE": {
+    "description": "Distance in space, between two locations",
+    "message": "Fad:"
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "Mo náire thú. Séid leat as m'amharc."
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "You are too late! You have caused great losses. You will not be paid!"
+  },
+  "FAILUREMSG_3": {
+    "description": "",
+    "message": "You're a disgrace to all pilots. I cannot pay you!"
+  },
+  "FAILUREMSG_4": {
+    "description": "",
+    "message": "Theip ort! Ní íocfaidh mé pingin rua!"
+  },
+  "GREETING_1": {
+    "description": "",
+    "message": "Hóra a chara, is mise {name}."
+  },
+  "GREETING_2": {
+    "description": "",
+    "message": "Heileo. Is mise {name}."
+  },
+  "GREETING_3": {
+    "description": "",
+    "message": "Cén chaoi a bhfuil tú. Is mise {name}."
+  },
+  "GREETING_4": {
+    "description": "",
+    "message": "Go mbeannaí Dia dhuit! {name} is ainm dom."
+  },
+  "GREETING_5": {
+    "description": "",
+    "message": "Dia dhuit. Is mise {name}."
+  },
+  "HARVESTING_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "The {org} will pay {cash} for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We have reason to believe that a ruthless market competitor is responsible for the disappearance of our freighters at {area}. Distance to the target area is {dist} ly."
+  },
+  "HARVESTING_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Our market competitor is seriously claiming he has ownership of {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The {org} totally disagree and is willing to pay {cash} for a combat mission at {area}. {area} is in a distance of {dist} ly."
+  },
+  "HARVESTING_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Please help! We received a distress call from one of our freighters orbiting {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The call was interrupted, so we fear the worst. Distance to {system} is {dist} ly. The pay is {cash}."
+  },
+  "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "It's important that the mission is completed by {date}. Please keep quiet about this operation."
+  },
+  "HARVESTING_LAND_THERE": {
+    "description": "",
+    "message": "We have a salesperson in every nearby star system. This person will get in contact with you when landed."
+  },
+  "HOW_WILL_I_BE_PAID": {
+    "description": "",
+    "message": "Cén chaoi a n-íocfar mé?"
+  },
+  "IS_THERE_A_TIME_LIMIT": {
+    "description": "",
+    "message": "An bhfuil sprioc ama ann?"
+  },
+  "LY": {
+    "description": "",
+    "message": "sbh"
+  },
+  "MANAGER": {
+    "description": "",
+    "message": "Bainisteoir"
+  },
+  "MEET_ME_THERE": {
+    "description": "",
+    "message": "Meet me in the {rendezvous} system to finish the job!"
+  },
+  "MILITARY_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Military intelligence believe that a hostile faction has set up a secret listening outpost on {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The government can not tolerate this and have approved a series of operations to wipe out this facility. The enemy tries to disguise its origin by using only civilian spacecraft types. We do it like this too! So we are willing to hire a mercenary for {cash}. {area} is located {dist} ly from here."
+  },
+  "MILITARY_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "In response to a case of piracy in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly, the local authorities pay {cash} for a combat mission at {area}."
+  },
+  "MILITARY_3": {
+    "description": "",
+    "message": "The counter intelligence corps needs a civil pilot who asks no questions for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pay is {cash}."
+  },
+  "MILITARY_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "A task force will be assembled to regain control of {area}. It's important that the mission is successfully completed by {date}."
+  },
+  "MILITARY_LAND_THERE": {
+    "description": "",
+    "message": "Visit a station in the territory protected by the {org}!"
+  },
+  "MINING_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "The {org} is in a dispute with a rival company about {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To push through our claims we need a reliable and combat experienced mercenary. We offer {cash} for the expenses. Distance to {system} is {dist} ly."
+  },
+  "MINING_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "I'm a manager of the {org}. We need additional help in a longtime legal dispute with a competitor about the mining rights in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. We lost patience and would like to speed things up outside of the courtroom. Your mission would be to jump to {area} for {cash}."
+  },
+  "MINING_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "I work for the {org}. Some of our freighters will arrive shortly at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To increase the safety of our employees and to protect the equipment we are willing to pay {cash} for a {mission} mission. Distance to {area} is {dist} ly."
+  },
+  "MINING_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "A convoy is enroute to {area}. It is essential that the mission is completed by {date}."
+  },
+  "MINING_LAND_THERE": {
+    "description": "",
+    "message": "We have employees in every nearby star system. Just visit the nearest station and get in contact with the local office there."
+  },
+  "MISSION": {
+    "description": "",
+    "message": "Misean"
+  },
+  "MISSION_COMPLETE": {
+    "description": "Message from the ship computer",
+    "message": "Príomhaidhm an mhisin curtha i gcrích"
+  },
+  "MISSION_TYPE_1": {
+    "description": "Name of mission type",
+    "message": "Taiscéalaíocht"
+  },
+  "MISSION_TYPE_2": {
+    "description": "Name of mission type",
+    "message": "Taiscéalaíocht Armtha"
+  },
+  "MISSION_TYPE_3": {
+    "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "Area Sweep"
+  },
+  "OBJECTIVE_1": {
+    "description": "",
+    "message": "It's not necessary to attack the enemy. We want data about the defence capability and response time."
+  },
+  "OBJECTIVE_2": {
+    "description": "",
+    "message": "Weaken the enemy's strength as much as possible and then jump to safety."
+  },
+  "OBJECTIVE_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Clear the area around {area}. Break any resistance."
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Ceart go leor, aontaím."
+  },
+  "PAYMENT_LOCATION": {
+    "description": "",
+    "message": "Ionad íocaíochta:"
+  },
+  "PLEASE_REPEAT_THE_MISSION_DETAILS": {
+    "description": "",
+    "message": "Tabhair mionsonraí an mhisin dom arís!"
+  },
+  "POLICE_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Police detectives have discovered that a group of pirates try to establish a stronghold on {area} in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. This must not happen. The local authorities pay {cash} for a mission to {area} as preparation of a police operation."
+  },
+  "POLICE_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "The {org} will pay {cash} for a combat mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We are short on pilots and ships. So this will be an opportunity for a loyal citizen to make money. The target is a small pirate base on {area}. You need hyperdrive propellant for {dist} ly and additional fuel for the return route."
+  },
+  "POLICE_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Our markets were flooded by contraband. The source has been traced back to a hidden base at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). Only a distance of {dist} ly. Because of the reduced police budget the local authorities would like to outsource this mission and have allotted {cash} credits for this operation."
+  },
+  "POLICE_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "Tá sé tábhachtach go gcríochnóidh tú an misean roimh {date}, toisc go bhfuil níos mó spáslonga naimhdeacha ar a mbealach."
+  },
+  "POLICE_LAND_THERE": {
+    "description": "",
+    "message": "Just land at a station with a {org} office."
+  },
+  "RISK_1": {
+    "description": "",
+    "message": "The competitor has only limited resources. Nothing you can't handle."
+  },
+  "RISK_2": {
+    "description": "",
+    "message": "Níl ach mionacmhainní ag an iomaitheoir. Ach seasfaidh sé an fód más gá."
+  },
+  "RISK_3": {
+    "description": "",
+    "message": "The competitor is well equipped. Please keep your eyes open!"
+  },
+  "RISK_4": {
+    "description": "",
+    "message": "The enemy is very well equiped and has access to the latest technology. Be careful!"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Socraigh mar sprioc loingseoireachta"
+  },
+  "SUCCESSMSG_1": {
+    "description": "",
+    "message": "I knew you were the right person for such a mission. Here is your payment."
+  },
+  "SUCCESSMSG_2": {
+    "description": "",
+    "message": "Go raibh míle maith agat! D'aistrigh mé an t-airgead."
+  },
+  "SUCCESSMSG_3": {
+    "description": "",
+    "message": "I hope you had no big trouble. I just paid you."
+  },
+  "SUCCESSMSG_4": {
+    "description": "",
+    "message": "Maith thú. D'íoc mé an bille."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Réaltchóras:"
+  },
+  "TIME_LIMIT": {
+    "description": "",
+    "message": "Teorainn ama:"
+  },
+  "WHAT_ARE_THE_MISSION_OBJECTIVES": {
+    "description": "",
+    "message": "Cad iad aidhmeanna an mhisin?"
+  },
+  "WILL_I_BE_IN_TROUBLE": {
+    "description": "",
+    "message": "An dtarraingeoidh mé trioblóid orm féin?"
+  }
+}

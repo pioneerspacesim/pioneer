@@ -1,58 +1,58 @@
 {
-   "ILLEGAL_GOODS_DETECTED" : {
-      "description" : "",
-      "message" : "Marchandise illégale détectée."
-   },
-   "INITIATE_CARGO_SCAN_1" : {
-      "description" : "",
-      "message" : "Démarrer scan de cargaison"
-   },
-   "INITIATE_CARGO_SCAN_2" : {
-      "description" : "",
-      "message" : "Maintenez votre vitesse et direction afin que nous procédions à un scan de cargaison."
-   },
-   "INITIATE_CARGO_SCAN_3" : {
-      "description" : "",
-      "message" : "Démarrer la recherche de contrebande."
-   },
-   "NOTHING_DETECTED" : {
-      "description" : "",
-      "message" : "Aucune marchandise illégale détectée. Vous pouvez circuler."
-   },
-   "OUTLAW_DETECTED_1" : {
-      "description" : "",
-      "message" : "{ship_label} est piloté par un hors-la-loi connu. Détruisez-le !"
-   },
-   "OUTLAW_DETECTED_2" : {
-      "description" : "",
-      "message" : "Bandit, tes jours sont comptés!"
-   },
-   "OUTLAW_DETECTED_3" : {
-      "description" : "",
-      "message" : "Ha, je te tiens ! Tu ne sortiras pas de ce système vivant !"
-   },
-   "POLICE_TAUNT_1" : {
-      "description" : "",
-      "message" : "Mon garçon, c'était une mauvaise idée !"
-   },
-   "POLICE_TAUNT_2" : {
-      "description" : "",
-      "message" : "Sale trafiquant, vous allez manger l'herbe par la racine!"
-   },
-   "POLICE_TAUNT_3" : {
-      "description" : "",
-      "message" : "Imbécile, le crime ne paie pas !"
-   },
-   "RESPECT_THE_LAW_1" : {
-      "description" : "",
-      "message" : "Respectez la loi ! Le crime ne paie pas dans le système {system} !"
-   },
-   "RESPECT_THE_LAW_2" : {
-      "description" : "",
-      "message" : "Vous avez pénétré dans le système {system}. Respectez la loi !"
-   },
-   "TAKE_A_HIKE" : {
-      "description" : "",
-      "message" : "Ok, je vous laisse une seconde chance. Disparaissez !"
-   }
+  "ILLEGAL_GOODS_DETECTED": {
+    "description": "",
+    "message": "Marchandise illégale détectée."
+  },
+  "INITIATE_CARGO_SCAN_1": {
+    "description": "",
+    "message": "Démarrer scan de cargaison"
+  },
+  "INITIATE_CARGO_SCAN_2": {
+    "description": "",
+    "message": "Maintenez votre vitesse et direction afin que nous procédions à un scan de cargaison."
+  },
+  "INITIATE_CARGO_SCAN_3": {
+    "description": "",
+    "message": "Démarrer la recherche de contrebande."
+  },
+  "NOTHING_DETECTED": {
+    "description": "",
+    "message": "Aucune marchandise illégale détectée. Vous pouvez circuler."
+  },
+  "OUTLAW_DETECTED_1": {
+    "description": "",
+    "message": "{ship_label} est piloté par un hors-la-loi connu. Détruisez-le !"
+  },
+  "OUTLAW_DETECTED_2": {
+    "description": "",
+    "message": "Bandit, tes jours sont comptés!"
+  },
+  "OUTLAW_DETECTED_3": {
+    "description": "",
+    "message": "Ha, je te tiens ! Tu ne sortiras pas de ce système vivant !"
+  },
+  "POLICE_TAUNT_1": {
+    "description": "",
+    "message": "Mon garçon, c'était une mauvaise idée !"
+  },
+  "POLICE_TAUNT_2": {
+    "description": "",
+    "message": "Sale trafiquant, vous allez manger l'herbe par la racine!"
+  },
+  "POLICE_TAUNT_3": {
+    "description": "",
+    "message": "Imbécile, le crime ne paie pas !"
+  },
+  "RESPECT_THE_LAW_1": {
+    "description": "",
+    "message": "Respectez la loi ! Le crime ne paie pas dans le système {system} !"
+  },
+  "RESPECT_THE_LAW_2": {
+    "description": "",
+    "message": "Vous avez pénétré dans le système {system}. Respectez la loi !"
+  },
+  "TAKE_A_HIKE": {
+    "description": "",
+    "message": "Ok, je vous laisse une seconde chance. Disparaissez !"
+  }
 }

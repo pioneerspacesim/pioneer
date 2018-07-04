@@ -1,58 +1,58 @@
 {
-   "GOODS_TRADER_0" : {
-      "description" : "",
-      "message" : "Emporio di {name} l'Onesto."
-   },
-   "GOODS_TRADER_1" : {
-      "description" : "",
-      "message" : "Casa d'affari di {name}"
-   },
-   "GOODS_TRADER_2" : {
-      "description" : "",
-      "message" : "Magazzini {name}"
-   },
-   "GOODS_TRADER_3" : {
-      "description" : "",
-      "message" : "Scambio Merci {name}"
-   },
-   "GOODS_TRADER_4" : {
-      "description" : "",
-      "message" : "{name} S.P.A."
-   },
-   "GOODS_TRADER_5" : {
-      "description" : "",
-      "message" : "{name} e figli."
-   },
-   "SLOGAN_0" : {
-      "description" : "",
-      "message" : "I nostri affari non sono come tuti gli altri."
-   },
-   "SLOGAN_1" : {
-      "description" : "",
-      "message" : "Un vero mercato libero."
-   },
-   "SLOGAN_2" : {
-      "description" : "",
-      "message" : "Ti forniamo la miglior merce non convenzionale!"
-   },
-   "SLOGAN_3" : {
-      "description" : "",
-      "message" : "Crediamo in un mercato senza restrizioni."
-   },
-   "SLOGAN_4" : {
-      "description" : "",
-      "message" : "Il mercato autogestito, per la tua libertà."
-   },
-   "SLOGAN_5" : {
-      "description" : "",
-      "message" : "Il distributore fidato."
-   },
-   "SLOGAN_6" : {
-      "description" : "",
-      "message" : "Un prezzo speciale solo per te, sempre."
-   },
-   "WELCOME_TO" : {
-      "description" : "",
-      "message" : "Benvenuto a: "
-   }
+  "GOODS_TRADER_0": {
+    "description": "",
+    "message": "Emporio di {name} l'Onesto."
+  },
+  "GOODS_TRADER_1": {
+    "description": "",
+    "message": "Casa d'affari di {name}"
+  },
+  "GOODS_TRADER_2": {
+    "description": "",
+    "message": "Magazzini {name}"
+  },
+  "GOODS_TRADER_3": {
+    "description": "",
+    "message": "Scambio Merci {name}"
+  },
+  "GOODS_TRADER_4": {
+    "description": "",
+    "message": "{name} S.P.A."
+  },
+  "GOODS_TRADER_5": {
+    "description": "",
+    "message": "{name} e figli."
+  },
+  "SLOGAN_0": {
+    "description": "",
+    "message": "I nostri affari non sono come tuti gli altri."
+  },
+  "SLOGAN_1": {
+    "description": "",
+    "message": "Un vero mercato libero."
+  },
+  "SLOGAN_2": {
+    "description": "",
+    "message": "Ti forniamo la miglior merce non convenzionale!"
+  },
+  "SLOGAN_3": {
+    "description": "",
+    "message": "Crediamo in un mercato senza restrizioni."
+  },
+  "SLOGAN_4": {
+    "description": "",
+    "message": "Il mercato autogestito, per la tua libertà."
+  },
+  "SLOGAN_5": {
+    "description": "",
+    "message": "Il distributore fidato."
+  },
+  "SLOGAN_6": {
+    "description": "",
+    "message": "Un prezzo speciale solo per te, sempre."
+  },
+  "WELCOME_TO": {
+    "description": "",
+    "message": "Benvenuto a: "
+  }
 }

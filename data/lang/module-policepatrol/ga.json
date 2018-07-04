@@ -1,58 +1,58 @@
 {
-   "ILLEGAL_GOODS_DETECTED" : {
-      "description" : "",
-      "message" : "Bhraitheamar earraí mídhleathacha."
-   },
-   "INITIATE_CARGO_SCAN_1" : {
-      "description" : "",
-      "message" : "Tosaigh ag scanadh an lasta."
-   },
-   "INITIATE_CARGO_SCAN_2" : {
-      "description" : "",
-      "message" : "Coinnigh an luas agus an cúrsa céanna chun scanadh lasta a dhéanamh."
-   },
-   "INITIATE_CARGO_SCAN_3" : {
-      "description" : "",
-      "message" : "Tosaigh ag cuardach contrabhanna."
-   },
-   "NOTHING_DETECTED" : {
-      "description" : "",
-      "message" : "Níor bhraitheamar aon lasta mídhleathach. Lean ort."
-   },
-   "OUTLAW_DETECTED_1" : {
-      "description" : "",
-      "message" : "Coirpeach cruthaithe a eitlíonn {ship_label}. Déan ionradh air agus scrios é!"
-   },
-   "OUTLAW_DETECTED_2" : {
-      "description" : "",
-      "message" : "Is gearr eile a mhairfidh tú, a mheirligh!"
-   },
-   "OUTLAW_DETECTED_3" : {
-      "description" : "",
-      "message" : "Há, tá tú gafa! Ní éalóidh tú ón réaltchóras seo!"
-   },
-   "POLICE_TAUNT_1" : {
-      "description" : "",
-      "message" : "Dhera, drochsmaoineamh a bhí ann!"
-   },
-   "POLICE_TAUNT_2" : {
-      "description" : "",
-      "message" : "Beidh daor ort a smuigléara!"
-   },
-   "POLICE_TAUNT_3" : {
-      "description" : "",
-      "message" : "Ní bhaintear tairbhe as coiriúlacht a amadáin!"
-   },
-   "RESPECT_THE_LAW_1" : {
-      "description" : "",
-      "message" : "Géill don dlí! Ní bhaintear tairbhe as coiriúlacht i réaltchóras {system}!"
-   },
-   "RESPECT_THE_LAW_2" : {
-      "description" : "",
-      "message" : "Tá tú i réaltchóras {system} anois. Géill don dlí!"
-   },
-   "TAKE_A_HIKE" : {
-      "description" : "",
-      "message" : "Ok, tá seans eile agat. Gread leat!"
-   }
+  "ILLEGAL_GOODS_DETECTED": {
+    "description": "",
+    "message": "Bhraitheamar earraí mídhleathacha."
+  },
+  "INITIATE_CARGO_SCAN_1": {
+    "description": "",
+    "message": "Tosaigh ag scanadh an lasta."
+  },
+  "INITIATE_CARGO_SCAN_2": {
+    "description": "",
+    "message": "Coinnigh an luas agus an cúrsa céanna chun scanadh lasta a dhéanamh."
+  },
+  "INITIATE_CARGO_SCAN_3": {
+    "description": "",
+    "message": "Tosaigh ag cuardach contrabhanna."
+  },
+  "NOTHING_DETECTED": {
+    "description": "",
+    "message": "Níor bhraitheamar aon lasta mídhleathach. Lean ort."
+  },
+  "OUTLAW_DETECTED_1": {
+    "description": "",
+    "message": "Coirpeach cruthaithe a eitlíonn {ship_label}. Déan ionradh air agus scrios é!"
+  },
+  "OUTLAW_DETECTED_2": {
+    "description": "",
+    "message": "Is gearr eile a mhairfidh tú, a mheirligh!"
+  },
+  "OUTLAW_DETECTED_3": {
+    "description": "",
+    "message": "Há, tá tú gafa! Ní éalóidh tú ón réaltchóras seo!"
+  },
+  "POLICE_TAUNT_1": {
+    "description": "",
+    "message": "Dhera, drochsmaoineamh a bhí ann!"
+  },
+  "POLICE_TAUNT_2": {
+    "description": "",
+    "message": "Beidh daor ort a smuigléara!"
+  },
+  "POLICE_TAUNT_3": {
+    "description": "",
+    "message": "Ní bhaintear tairbhe as coiriúlacht a amadáin!"
+  },
+  "RESPECT_THE_LAW_1": {
+    "description": "",
+    "message": "Géill don dlí! Ní bhaintear tairbhe as coiriúlacht i réaltchóras {system}!"
+  },
+  "RESPECT_THE_LAW_2": {
+    "description": "",
+    "message": "Tá tú i réaltchóras {system} anois. Géill don dlí!"
+  },
+  "TAKE_A_HIKE": {
+    "description": "",
+    "message": "Ok, tá seans eile agat. Gread leat!"
+  }
 }

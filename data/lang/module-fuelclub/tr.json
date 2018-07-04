@@ -1,102 +1,102 @@
 {
-   "APPLY_FOR_MEMBERSHIP" : {
-      "description" : "",
-      "message" : "Üyelik için başvurun"
-   },
-   "BEGIN_TRADE" : {
-      "description" : "",
-      "message" : "Ticarete başlayın"
-   },
-   "FLAVOUR_0_CLUBNAME" : {
-      "description" : "",
-      "message" : "Yıldızlar Arası Pilotların Yakıt Kooperatifi"
-   },
-   "FLAVOUR_0_MEMBER_INTRO" : {
-      "description" : "",
-      "message" : "You may purchase fuel and dispose of {radioactives} here."
-   },
-   "FLAVOUR_0_NONMEMBER_INTRO" : {
-      "description" : "",
-      "message" : "{clubname}, üyelerine indirimli yıldız gemisi yakıtı sağlamaya adamıştır bağımsız bir kuruluştur. Şubeleri galaksi boyunca bulunabilir. Üyelik avantajları şunlardır:"
-   },
-   "FLAVOUR_0_WELCOME" : {
-      "description" : "",
-      "message" : "{clubname}, Hoş geldiniz"
-   },
-   "FLAVOUR_1_CLUBNAME" : {
-      "description" : "Fuel club for the Federation faction",
-      "message" : "Federal Yakıt Kurumu"
-   },
-   "FLAVOUR_1_NONMEMBER_INTRO" : {
-      "description" : "For the Solar Federation faction",
-      "message" : "{clubname}, Güneş Federsayonu'ndaki üyeleri için yakıt temin etmede lider sağlayıcıdır. Üyelik ile şunlara sahip olacaksınız:"
-   },
-   "FLAVOUR_2_CLUBNAME" : {
-      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-      "message" : "Konfedere Yakıt Birliği"
-   },
-   "FLAVOUR_2_NONMEMBER_INTRO" : {
-      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
-      "message" : "Commonwealth of Independent Worlds boyunca {clubname}, ucuz yakıt ve çöp atma servislerinin lideridir. Üyelerimiz için şunları yapıyoruz:"
-   },
-   "FLAVOUR_2_WELCOME" : {
-      "description" : "",
-      "message" : "Hoş geldiniz! Umarız servislerimizi beğenirsiniz."
-   },
-   "FLAVOUR_3_CLUBNAME" : {
-      "description" : "Fuel club for the Haber faction",
-      "message" : "Haber Yakıt ve Tüketim Malzemeleri Bölümü"
-   },
-   "FLAVOUR_3_MEMBER_INTRO" : {
-      "description" : "For the greedy Haber faction, very corporate formulated",
-      "message" : "Selamlar pilot. Yakıt doldurma ve yan ürünleri atma ayrıcalıklarınız onaylandı."
-   },
-   "FLAVOUR_3_NONMEMBER_INTRO" : {
-      "description" : "for the Haber faction",
-      "message" : "Selamlar, pilot. Burası Haber Yakıt ve Tüketim Malzemeleri Bölümü, Haber kontrolündeki uzayda yakıt dağıtımının güvenilir ismi."
-   },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Geri"
-   },
-   "LIST_BENEFITS_DISPOSAL" : {
-      "description" : "",
-      "message" : "{radioactives}, ücretsiz elden çıkarma (koşullar geçerlidir)"
-   },
-   "LIST_BENEFITS_FUEL" : {
-      "description" : "",
-      "message" : "İndirimli fiyatlarla {fuel}"
-   },
-   "LIST_BENEFITS_FUEL_INTRO" : {
-      "description" : "",
-      "message" : "Kendi yakıt stoklarımız, genel piyasadan bağımsız."
-   },
-   "LIST_BENEFITS_FUEL_TANK" : {
-      "description" : "",
-      "message" : "Yakıt tankı ikmali, gerektiğinde"
-   },
-   "LIST_BENEFITS_JOIN" : {
-      "description" : "",
-      "message" : "Hemen katıl! Yıllık üyelik sadece {membership_fee}"
-   },
-   "WE_WILL_ONLY_DISPOSE_OF" : {
-      "description" : "",
-      "message" : "Bizden almış olduğunuz kaç ton {military_fuel} varsa sadece o kadar ton {radioactives}ü yok edeceğiz."
-   },
-   "WHAT_CONDITIONS_APPLY" : {
-      "description" : "",
-      "message" : "{radioactives} yok etme için hangi şartlar geçerli?"
-   },
-   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
-      "description" : "",
-      "message" : "Üyelik başvurunuz reddedildi."
-   },
-   "YOU_ARE_NOW_A_MEMBER" : {
-      "description" : "",
-      "message" : "Artık bir üyesiniz. Üyeliğiniz {expiry_date} tarihinde sona erecek."
-   },
-   "YOU_MUST_BUY" : {
-      "description" : "",
-      "message" : "{radioactives}lerinizi almadan önce bizim {military_fuel}ımızı almalısınız"
-   }
+  "APPLY_FOR_MEMBERSHIP": {
+    "description": "",
+    "message": "Üyelik için başvurun"
+  },
+  "BEGIN_TRADE": {
+    "description": "",
+    "message": "Ticarete başlayın"
+  },
+  "FLAVOUR_0_CLUBNAME": {
+    "description": "",
+    "message": "Yıldızlar Arası Pilotların Yakıt Kooperatifi"
+  },
+  "FLAVOUR_0_MEMBER_INTRO": {
+    "description": "",
+    "message": "You may purchase fuel and dispose of {radioactives} here."
+  },
+  "FLAVOUR_0_NONMEMBER_INTRO": {
+    "description": "",
+    "message": "{clubname}, üyelerine indirimli yıldız gemisi yakıtı sağlamaya adamıştır bağımsız bir kuruluştur. Şubeleri galaksi boyunca bulunabilir. Üyelik avantajları şunlardır:"
+  },
+  "FLAVOUR_0_WELCOME": {
+    "description": "",
+    "message": "{clubname}, Hoş geldiniz"
+  },
+  "FLAVOUR_1_CLUBNAME": {
+    "description": "Fuel club for the Federation faction",
+    "message": "Federal Yakıt Kurumu"
+  },
+  "FLAVOUR_1_NONMEMBER_INTRO": {
+    "description": "For the Solar Federation faction",
+    "message": "{clubname}, Güneş Federsayonu'ndaki üyeleri için yakıt temin etmede lider sağlayıcıdır. Üyelik ile şunlara sahip olacaksınız:"
+  },
+  "FLAVOUR_2_CLUBNAME": {
+    "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+    "message": "Konfedere Yakıt Birliği"
+  },
+  "FLAVOUR_2_NONMEMBER_INTRO": {
+    "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
+    "message": "Commonwealth of Independent Worlds boyunca {clubname}, ucuz yakıt ve çöp atma servislerinin lideridir. Üyelerimiz için şunları yapıyoruz:"
+  },
+  "FLAVOUR_2_WELCOME": {
+    "description": "",
+    "message": "Hoş geldiniz! Umarız servislerimizi beğenirsiniz."
+  },
+  "FLAVOUR_3_CLUBNAME": {
+    "description": "Fuel club for the Haber faction",
+    "message": "Haber Yakıt ve Tüketim Malzemeleri Bölümü"
+  },
+  "FLAVOUR_3_MEMBER_INTRO": {
+    "description": "For the greedy Haber faction, very corporate formulated",
+    "message": "Selamlar pilot. Yakıt doldurma ve yan ürünleri atma ayrıcalıklarınız onaylandı."
+  },
+  "FLAVOUR_3_NONMEMBER_INTRO": {
+    "description": "for the Haber faction",
+    "message": "Selamlar, pilot. Burası Haber Yakıt ve Tüketim Malzemeleri Bölümü, Haber kontrolündeki uzayda yakıt dağıtımının güvenilir ismi."
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Geri"
+  },
+  "LIST_BENEFITS_DISPOSAL": {
+    "description": "",
+    "message": "{radioactives}, ücretsiz elden çıkarma (koşullar geçerlidir)"
+  },
+  "LIST_BENEFITS_FUEL": {
+    "description": "",
+    "message": "İndirimli fiyatlarla {fuel}"
+  },
+  "LIST_BENEFITS_FUEL_INTRO": {
+    "description": "",
+    "message": "Kendi yakıt stoklarımız, genel piyasadan bağımsız."
+  },
+  "LIST_BENEFITS_FUEL_TANK": {
+    "description": "",
+    "message": "Yakıt tankı ikmali, gerektiğinde"
+  },
+  "LIST_BENEFITS_JOIN": {
+    "description": "",
+    "message": "Hemen katıl! Yıllık üyelik sadece {membership_fee}"
+  },
+  "WE_WILL_ONLY_DISPOSE_OF": {
+    "description": "",
+    "message": "Bizden almış olduğunuz kaç ton {military_fuel} varsa sadece o kadar ton {radioactives}ü yok edeceğiz."
+  },
+  "WHAT_CONDITIONS_APPLY": {
+    "description": "",
+    "message": "{radioactives} yok etme için hangi şartlar geçerli?"
+  },
+  "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
+    "description": "",
+    "message": "Üyelik başvurunuz reddedildi."
+  },
+  "YOU_ARE_NOW_A_MEMBER": {
+    "description": "",
+    "message": "Artık bir üyesiniz. Üyeliğiniz {expiry_date} tarihinde sona erecek."
+  },
+  "YOU_MUST_BUY": {
+    "description": "",
+    "message": "{radioactives}lerinizi almadan önce bizim {military_fuel}ımızı almalısınız"
+  }
 }

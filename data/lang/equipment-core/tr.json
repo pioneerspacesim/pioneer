@@ -1,330 +1,330 @@
 {
-   "ADVANCED_TARGET_SCANNER" : {
-      "description" : "ship equipment showing target information/stats",
-      "message" : "Gelişmiş hedef tarayıcısı"
-   },
-   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Bütün sistemi kapsayan uzun menzilli tarayıcı."
-   },
-   "ATMOSPHERIC_SHIELDING" : {
-      "description" : "",
-      "message" : "Atmosfer Kalkanı"
-   },
-   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Uzay geminizi atmosfere geri giriş ısısından korur."
-   },
-   "AUTOPILOT" : {
-      "description" : "",
-      "message" : "Otomatik pilot"
-   },
-   "AUTOPILOT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Güverte uçuş bilgisayarı"
-   },
-   "CARGO_LIFE_SUPPORT" : {
-      "description" : "",
-      "message" : "Kargo Bölmesi Yaşam Desteği"
-   },
-   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Canlı kargonun taşınmasına izin verir."
-   },
-   "CARGO_SCOOP" : {
-      "description" : "",
-      "message" : "Kargo Toplayıcı"
-   },
-   "CARGO_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Kargo kutularını uzaydan toplamaya izin verir."
-   },
-   "DRIVE_CLASS1" : {
-      "description" : "",
-      "message" : "Sınıf 1 Hipersürücü"
-   },
-   "DRIVE_CLASS2" : {
-      "description" : "",
-      "message" : "Sınıf 2 Hipersürücü"
-   },
-   "DRIVE_CLASS3" : {
-      "description" : "",
-      "message" : "Sınıf 3 Hipersürücü"
-   },
-   "DRIVE_CLASS4" : {
-      "description" : "",
-      "message" : "Sınıf 4 Hipersürücü"
-   },
-   "DRIVE_CLASS5" : {
-      "description" : "",
-      "message" : "Sınıf 5 Hipersürücü"
-   },
-   "DRIVE_CLASS6" : {
-      "description" : "",
-      "message" : "Sınıf 6 Hipersürücü"
-   },
-   "DRIVE_CLASS7" : {
-      "description" : "",
-      "message" : "Sınıf 7 Hipersürücü"
-   },
-   "DRIVE_CLASS8" : {
-      "description" : "",
-      "message" : "Sınıf 8 Hipersürücü"
-   },
-   "DRIVE_CLASS9" : {
-      "description" : "",
-      "message" : "Sınıf 9 Hipersürücü"
-   },
-   "DRIVE_MIL1" : {
-      "description" : "",
-      "message" : "Sınıf 1 Askeri Sürücü"
-   },
-   "DRIVE_MIL2" : {
-      "description" : "",
-      "message" : "Sınıf 2 Askeri Sürücü"
-   },
-   "DRIVE_MIL3" : {
-      "description" : "",
-      "message" : "Sınıf 3 Askeri Sürücü"
-   },
-   "DRIVE_MIL4" : {
-      "description" : "",
-      "message" : "Sınıf 4 Askeri Sürücü"
-   },
-   "DRIVE_MIL5" : {
-      "description" : "",
-      "message" : "5. Sınıf Askeri Sürücü"
-   },
-   "DRIVE_MIL6" : {
-      "description" : "",
-      "message" : "6. Sınıf Askeri Sürücü"
-   },
-   "DRIVE_MIL7" : {
-      "description" : "",
-      "message" : "7. Sınıf Askeri Sürücü"
-   },
-   "DRIVE_MIL8" : {
-      "description" : "",
-      "message" : "8. Sınıf Askeri Sürücü"
-   },
-   "DRIVE_MIL9" : {
-      "description" : "",
-      "message" : "9. Sınıf Askeri Sürücü"
-   },
-   "ECM_ADVANCED" : {
-      "description" : "",
-      "message" : "Gelişmiş ECM sistemi"
-   },
-   "ECM_ADVANCED_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Elektronik karşı önlem füze savunma sistemi, daha gelişmiş güdümlü füze türlerini yok etme becerisine sahiptir."
-   },
-   "ECM_BASIC" : {
-      "description" : "",
-      "message" : "ECM sistemi"
-   },
-   "ECM_BASIC_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Elektronik karşı önlem füze savunma sistemi, bazı güdümlü füzeleri yok etme becerisine sahiptir."
-   },
-   "FUEL_SCOOP" : {
-      "description" : "",
-      "message" : "Yakıt Toplayıcı"
-   },
-   "FUEL_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Hidrojen yakıtını gaz devi gezegenlerden toplamaya izin verir."
-   },
-   "HULL_AUTOREPAIR" : {
-      "description" : "",
-      "message" : "Gövde Oto-Tamir Sistemi"
-   },
-   "HULL_AUTOREPAIR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Hasar olduğunda geminin gövdesini otomatik olarak tamir eder."
-   },
-   "HYPERCLOUD_ANALYZER" : {
-      "description" : "",
-      "message" : "Hiperbulut İnceleyici"
-   },
-   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Hedefi ve varış veya ayrılış zamanını belirlemek için üstuzay bulutunu inceleyin"
-   },
-   "LARGE_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Büyük plazma hızlandırıcı"
-   },
-   "LASER_COOLING_BOOSTER" : {
-      "description" : "",
-      "message" : "Laser Soğutma Hızlandırıcısı"
-   },
-   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Silahlarınız için iyileştirilmiş bir soğutma sistemi."
-   },
-   "MININGCANNON_17MW" : {
-      "description" : "",
-      "message" : "17MV madencilik topu"
-   },
-   "MININGCANNON_17MW_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Zengin asteroitlerden minerali patlatarak çıkarmak için kullanılır."
-   },
-   "MISSILE_GUIDED" : {
-      "description" : "",
-      "message" : "Güdümlü füze"
-   },
-   "MISSILE_NAVAL" : {
-      "description" : "",
-      "message" : "Donanma füzesi"
-   },
-   "MISSILE_SMART" : {
-      "description" : "",
-      "message" : "Akıllı füze"
-   },
-   "MISSILE_UNGUIDED" : {
-      "description" : "",
-      "message" : "R40 Güdümsüz Roket"
-   },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Çoklu Toplayıcı"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Yakıt toplayıcıdan daha az etkilli olsa da hem kargo hem de yakıt toplamaya izin verir"
-   },
-   "OUT_OF_SCANRANGE" : {
-      "description" : "",
-      "message" : "Maksimum tarama menzili aşıldı:"
-   },
-   "PASSENGER_CABIN" : {
-      "description" : "",
-      "message" : "Yolcu kabini"
-   },
-   "PLANETSCANNER" : {
-      "description" : "Scans the nearest body for resources",
-      "message" : "Gökcismi taraması"
-   },
-   "PLANETSCANNER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "En yakın cismi kaynaklar için tara"
-   },
-   "PULSECANNON_10MW" : {
-      "description" : "",
-      "message" : "10MV titreşim topu"
-   },
-   "PULSECANNON_1MW" : {
-      "description" : "",
-      "message" : "1MV titreşim topu"
-   },
-   "PULSECANNON_20MW" : {
-      "description" : "",
-      "message" : "20MV titreşim topu"
-   },
-   "PULSECANNON_2MW" : {
-      "description" : "",
-      "message" : "2MV titreşim topu"
-   },
-   "PULSECANNON_4MW" : {
-      "description" : "",
-      "message" : "4MV titreşim topu"
-   },
-   "PULSECANNON_DUAL_1MW" : {
-      "description" : "",
-      "message" : "1MV çift-atış titreşim topu"
-   },
-   "PULSECANNON_RAPID_2MW" : {
-      "description" : "",
-      "message" : "2MW hızlı-atış titreşim topu"
-   },
-   "RADAR" : {
-      "description" : "",
-      "message" : "Radar"
-   },
-   "RADAR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Yakında bulunan gemilerin 3B haritasını sağlar."
-   },
-   "SCAN_COMPLETED" : {
-      "description" : "",
-      "message" : "Tarama tamamlandı"
-   },
-   "SCAN_RESUMED" : {
-      "description" : "",
-      "message" : "Taramaya devam ediliyor"
-   },
-   "SHIELD_ENERGY_BOOSTER" : {
-      "description" : "",
-      "message" : "Kalkan Enerji Hızlandırıcı"
-   },
-   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Kalkanların dolum hızını arttırır."
-   },
-   "SHIELD_GENERATOR" : {
-      "description" : "",
-      "message" : "Kalkan Jeneratörü"
-   },
-   "SHIELD_GENERATOR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Yerleştirilen herbir birim ek gövde koruması sağlar."
-   },
-   "SMALL_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Küçük plazma hızlandırıcı"
-   },
-   "STARTING_SCAN" : {
-      "description" : "",
-      "message" : "Tarama başlatılıyor, hedef:"
-   },
-   "TARGET_SCANNER" : {
-      "description" : "ship equipment showing target information/stats",
-      "message" : "Hedef Tarayıcısı"
-   },
-   "TARGET_SCANNER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Uzaktan diğer gemilerin ekipmanı, kargosu ve durumunu incelemek için kullanılır."
-   },
-   "THRUSTERS_BASIC" : {
-      "description" : "",
-      "message" : "Modifiyeli İticiler"
-   },
-   "THRUSTERS_BASIC_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Geminizle uyumlu modifikasyonlar yapılmış iticiler."
-   },
-   "THRUSTERS_BEST" : {
-      "description" : "",
-      "message" : "Özel Üretim İticiler"
-   },
-   "THRUSTERS_BEST_DESCRIPTION" : {
-      "description" : "",
-      "message" : "En iyi itiş gücü için özel olarak üretilmiş iticiler."
-   },
-   "THRUSTERS_MEDIUM" : {
-      "description" : "",
-      "message" : "Optimize İticiler"
-   },
-   "THRUSTERS_MEDIUM_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Verimsizliği azaltmak ve güç çıkışını arttırmak için optimize edilmiş iticiler."
-   },
-   "TRADE_COMPUTER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Ticari Bilgisayar"
-   },
-   "TRADE_COMPUTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Seçilen ve mevcut sistem arasında alım satımı karlı olan malları gösterir"
-   },
-   "UNOCCUPIED_CABIN" : {
-      "description" : "",
-      "message" : "Ek Yolcu Kabini"
-   },
-   "UNOCCUPIED_CABIN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Tek bir yolcunun taşınması için gereklidir"
-   }
+  "ADVANCED_TARGET_SCANNER": {
+    "description": "ship equipment showing target information/stats",
+    "message": "Gelişmiş hedef tarayıcısı"
+  },
+  "ADVANCED_TARGET_SCANNER_DESCRIPTION": {
+    "description": "",
+    "message": "Bütün sistemi kapsayan uzun menzilli tarayıcı."
+  },
+  "ATMOSPHERIC_SHIELDING": {
+    "description": "",
+    "message": "Atmosfer Kalkanı"
+  },
+  "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
+    "description": "",
+    "message": "Uzay geminizi atmosfere geri giriş ısısından korur."
+  },
+  "AUTOPILOT": {
+    "description": "",
+    "message": "Otomatik pilot"
+  },
+  "AUTOPILOT_DESCRIPTION": {
+    "description": "",
+    "message": "Güverte uçuş bilgisayarı"
+  },
+  "CARGO_LIFE_SUPPORT": {
+    "description": "",
+    "message": "Kargo Bölmesi Yaşam Desteği"
+  },
+  "CARGO_LIFE_SUPPORT_DESCRIPTION": {
+    "description": "",
+    "message": "Canlı kargonun taşınmasına izin verir."
+  },
+  "CARGO_SCOOP": {
+    "description": "",
+    "message": "Kargo Toplayıcı"
+  },
+  "CARGO_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "Kargo kutularını uzaydan toplamaya izin verir."
+  },
+  "DRIVE_CLASS1": {
+    "description": "",
+    "message": "Sınıf 1 Hipersürücü"
+  },
+  "DRIVE_CLASS2": {
+    "description": "",
+    "message": "Sınıf 2 Hipersürücü"
+  },
+  "DRIVE_CLASS3": {
+    "description": "",
+    "message": "Sınıf 3 Hipersürücü"
+  },
+  "DRIVE_CLASS4": {
+    "description": "",
+    "message": "Sınıf 4 Hipersürücü"
+  },
+  "DRIVE_CLASS5": {
+    "description": "",
+    "message": "Sınıf 5 Hipersürücü"
+  },
+  "DRIVE_CLASS6": {
+    "description": "",
+    "message": "Sınıf 6 Hipersürücü"
+  },
+  "DRIVE_CLASS7": {
+    "description": "",
+    "message": "Sınıf 7 Hipersürücü"
+  },
+  "DRIVE_CLASS8": {
+    "description": "",
+    "message": "Sınıf 8 Hipersürücü"
+  },
+  "DRIVE_CLASS9": {
+    "description": "",
+    "message": "Sınıf 9 Hipersürücü"
+  },
+  "DRIVE_MIL1": {
+    "description": "",
+    "message": "Sınıf 1 Askeri Sürücü"
+  },
+  "DRIVE_MIL2": {
+    "description": "",
+    "message": "Sınıf 2 Askeri Sürücü"
+  },
+  "DRIVE_MIL3": {
+    "description": "",
+    "message": "Sınıf 3 Askeri Sürücü"
+  },
+  "DRIVE_MIL4": {
+    "description": "",
+    "message": "Sınıf 4 Askeri Sürücü"
+  },
+  "DRIVE_MIL5": {
+    "description": "",
+    "message": "5. Sınıf Askeri Sürücü"
+  },
+  "DRIVE_MIL6": {
+    "description": "",
+    "message": "6. Sınıf Askeri Sürücü"
+  },
+  "DRIVE_MIL7": {
+    "description": "",
+    "message": "7. Sınıf Askeri Sürücü"
+  },
+  "DRIVE_MIL8": {
+    "description": "",
+    "message": "8. Sınıf Askeri Sürücü"
+  },
+  "DRIVE_MIL9": {
+    "description": "",
+    "message": "9. Sınıf Askeri Sürücü"
+  },
+  "ECM_ADVANCED": {
+    "description": "",
+    "message": "Gelişmiş ECM sistemi"
+  },
+  "ECM_ADVANCED_DESCRIPTION": {
+    "description": "",
+    "message": "Elektronik karşı önlem füze savunma sistemi, daha gelişmiş güdümlü füze türlerini yok etme becerisine sahiptir."
+  },
+  "ECM_BASIC": {
+    "description": "",
+    "message": "ECM sistemi"
+  },
+  "ECM_BASIC_DESCRIPTION": {
+    "description": "",
+    "message": "Elektronik karşı önlem füze savunma sistemi, bazı güdümlü füzeleri yok etme becerisine sahiptir."
+  },
+  "FUEL_SCOOP": {
+    "description": "",
+    "message": "Yakıt Toplayıcı"
+  },
+  "FUEL_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "Hidrojen yakıtını gaz devi gezegenlerden toplamaya izin verir."
+  },
+  "HULL_AUTOREPAIR": {
+    "description": "",
+    "message": "Gövde Oto-Tamir Sistemi"
+  },
+  "HULL_AUTOREPAIR_DESCRIPTION": {
+    "description": "",
+    "message": "Hasar olduğunda geminin gövdesini otomatik olarak tamir eder."
+  },
+  "HYPERCLOUD_ANALYZER": {
+    "description": "",
+    "message": "Hiperbulut İnceleyici"
+  },
+  "HYPERCLOUD_ANALYZER_DESCRIPTION": {
+    "description": "",
+    "message": "Hedefi ve varış veya ayrılış zamanını belirlemek için üstuzay bulutunu inceleyin"
+  },
+  "LARGE_PLASMA_ACCEL": {
+    "description": "",
+    "message": "Büyük plazma hızlandırıcı"
+  },
+  "LASER_COOLING_BOOSTER": {
+    "description": "",
+    "message": "Laser Soğutma Hızlandırıcısı"
+  },
+  "LASER_COOLING_BOOSTER_DESCRIPTION": {
+    "description": "",
+    "message": "Silahlarınız için iyileştirilmiş bir soğutma sistemi."
+  },
+  "MININGCANNON_17MW": {
+    "description": "",
+    "message": "17MV madencilik topu"
+  },
+  "MININGCANNON_17MW_DESCRIPTION": {
+    "description": "",
+    "message": "Zengin asteroitlerden minerali patlatarak çıkarmak için kullanılır."
+  },
+  "MISSILE_GUIDED": {
+    "description": "",
+    "message": "Güdümlü füze"
+  },
+  "MISSILE_NAVAL": {
+    "description": "",
+    "message": "Donanma füzesi"
+  },
+  "MISSILE_SMART": {
+    "description": "",
+    "message": "Akıllı füze"
+  },
+  "MISSILE_UNGUIDED": {
+    "description": "",
+    "message": "R40 Güdümsüz Roket"
+  },
+  "MULTI_SCOOP": {
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
+    "message": "Çoklu Toplayıcı"
+  },
+  "MULTI_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "Yakıt toplayıcıdan daha az etkilli olsa da hem kargo hem de yakıt toplamaya izin verir"
+  },
+  "OUT_OF_SCANRANGE": {
+    "description": "",
+    "message": "Maksimum tarama menzili aşıldı:"
+  },
+  "PASSENGER_CABIN": {
+    "description": "",
+    "message": "Yolcu kabini"
+  },
+  "PLANETSCANNER": {
+    "description": "Scans the nearest body for resources",
+    "message": "Gökcismi taraması"
+  },
+  "PLANETSCANNER_DESCRIPTION": {
+    "description": "",
+    "message": "En yakın cismi kaynaklar için tara"
+  },
+  "PULSECANNON_10MW": {
+    "description": "",
+    "message": "10MV titreşim topu"
+  },
+  "PULSECANNON_1MW": {
+    "description": "",
+    "message": "1MV titreşim topu"
+  },
+  "PULSECANNON_20MW": {
+    "description": "",
+    "message": "20MV titreşim topu"
+  },
+  "PULSECANNON_2MW": {
+    "description": "",
+    "message": "2MV titreşim topu"
+  },
+  "PULSECANNON_4MW": {
+    "description": "",
+    "message": "4MV titreşim topu"
+  },
+  "PULSECANNON_DUAL_1MW": {
+    "description": "",
+    "message": "1MV çift-atış titreşim topu"
+  },
+  "PULSECANNON_RAPID_2MW": {
+    "description": "",
+    "message": "2MW hızlı-atış titreşim topu"
+  },
+  "RADAR": {
+    "description": "",
+    "message": "Radar"
+  },
+  "RADAR_DESCRIPTION": {
+    "description": "",
+    "message": "Yakında bulunan gemilerin 3B haritasını sağlar."
+  },
+  "SCAN_COMPLETED": {
+    "description": "",
+    "message": "Tarama tamamlandı"
+  },
+  "SCAN_RESUMED": {
+    "description": "",
+    "message": "Taramaya devam ediliyor"
+  },
+  "SHIELD_ENERGY_BOOSTER": {
+    "description": "",
+    "message": "Kalkan Enerji Hızlandırıcı"
+  },
+  "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
+    "description": "",
+    "message": "Kalkanların dolum hızını arttırır."
+  },
+  "SHIELD_GENERATOR": {
+    "description": "",
+    "message": "Kalkan Jeneratörü"
+  },
+  "SHIELD_GENERATOR_DESCRIPTION": {
+    "description": "",
+    "message": "Yerleştirilen herbir birim ek gövde koruması sağlar."
+  },
+  "SMALL_PLASMA_ACCEL": {
+    "description": "",
+    "message": "Küçük plazma hızlandırıcı"
+  },
+  "STARTING_SCAN": {
+    "description": "",
+    "message": "Tarama başlatılıyor, hedef:"
+  },
+  "TARGET_SCANNER": {
+    "description": "ship equipment showing target information/stats",
+    "message": "Hedef Tarayıcısı"
+  },
+  "TARGET_SCANNER_DESCRIPTION": {
+    "description": "",
+    "message": "Uzaktan diğer gemilerin ekipmanı, kargosu ve durumunu incelemek için kullanılır."
+  },
+  "THRUSTERS_BASIC": {
+    "description": "",
+    "message": "Modifiyeli İticiler"
+  },
+  "THRUSTERS_BASIC_DESCRIPTION": {
+    "description": "",
+    "message": "Geminizle uyumlu modifikasyonlar yapılmış iticiler."
+  },
+  "THRUSTERS_BEST": {
+    "description": "",
+    "message": "Özel Üretim İticiler"
+  },
+  "THRUSTERS_BEST_DESCRIPTION": {
+    "description": "",
+    "message": "En iyi itiş gücü için özel olarak üretilmiş iticiler."
+  },
+  "THRUSTERS_MEDIUM": {
+    "description": "",
+    "message": "Optimize İticiler"
+  },
+  "THRUSTERS_MEDIUM_DESCRIPTION": {
+    "description": "",
+    "message": "Verimsizliği azaltmak ve güç çıkışını arttırmak için optimize edilmiş iticiler."
+  },
+  "TRADE_COMPUTER": {
+    "description": "Ship equipment computing profitable commodities to trade between two systems",
+    "message": "Ticari Bilgisayar"
+  },
+  "TRADE_COMPUTER_DESCRIPTION": {
+    "description": "",
+    "message": "Seçilen ve mevcut sistem arasında alım satımı karlı olan malları gösterir"
+  },
+  "UNOCCUPIED_CABIN": {
+    "description": "",
+    "message": "Ek Yolcu Kabini"
+  },
+  "UNOCCUPIED_CABIN_DESCRIPTION": {
+    "description": "",
+    "message": "Tek bir yolcunun taşınması için gereklidir"
+  }
 }

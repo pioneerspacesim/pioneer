@@ -1,334 +1,334 @@
 {
-   "ASSASSINATION" : {
-      "description" : "",
-      "message" : "Ликвидация"
-   },
-   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
-      "description" : "",
-      "message" : "Повторите ваше задание, пожалуйста."
-   },
-   "DENY_0" : {
-      "description" : "",
-      "message" : "Извините, но я вам не доверяю."
-   },
-   "DENY_1" : {
-      "description" : "",
-      "message" : "Возвращайтесь, когда у вас будет больше опыта."
-   },
-   "DENY_2" : {
-      "description" : "",
-      "message" : "Я не думаю, что вы тот человек, которого я ищу."
-   },
-   "DENY_3" : {
-      "description" : "",
-      "message" : "Вы не похожи на человека, способного сделать то, что поручено."
-   },
-   "DENY_4" : {
-      "description" : "",
-      "message" : "Вы явно не созданы для этой работы."
-   },
-   "DENY_5" : {
-      "description" : "",
-      "message" : "Вы кажетесь неопытным, чтобы справиться с контрактом такой важности."
-   },
-   "DENY_6" : {
-      "description" : "",
-      "message" : "Я никогда не слышал о вас. Мне нужен более опытный человек для этого контракта."
-   },
-   "DENY_7" : {
-      "description" : "",
-      "message" : "Я не готов идти на риск подписывая контракт столь же неопытным человеком, как вы."
-   },
-   "DISTANCE" : {
-      "description" : "",
-      "message" : "Расстояние:"
-   },
-   "EXCELLENT" : {
-      "description" : "",
-      "message" : "Отлично."
-   },
-   "FLAVOUR_0_ADTEXT" : {
-      "description" : "",
-      "message" : "РАЗЫСКИВАЮ: человека для решения проблемы в системе {system}. Моя проблема - {target}."
-   },
-   "FLAVOUR_0_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Похоже {target} всё ещё дышит! Это не то, что могло бы меня успокоить."
-   },
-   "FLAVOUR_0_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Я уже знаю, что {target} мёртв. Но не от вашей руки. Контракт разорван."
-   },
-   "FLAVOUR_0_INTROTEXT" : {
-      "description" : "",
-      "message" : "Привет! - меня зовут {name}. Я заплачу тебе {cash}, если {target} будет устранен."
-   },
-   "FLAVOUR_0_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Похоже {target} отправился на вечные каникулы. Отлично, я перечислю деньги на ваш счёт."
-   },
-   "FLAVOUR_1_ADTEXT" : {
-      "description" : "",
-      "message" : "ПРЕДЛОЖЕНИЕ: {target} должен навсегда исчезнуть из моей жизни в системе {system}."
-   },
-   "FLAVOUR_1_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Я слышал, что {target} находится в добром здравии. Это весьма неприятно."
-   },
-   "FLAVOUR_1_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Я знаю, что {target} скончался без вашей помощи, так что не спрашивайте про деньги."
-   },
-   "FLAVOUR_1_INTROTEXT" : {
-      "description" : "",
-      "message" : "Мне нужно, чтоб {target} покинул этот мир. Я заплачу {cash} наличными."
-   },
-   "FLAVOUR_1_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Мне было очень грустно узнать, что {target} мёртв. Деньги уже перечислены на ваш счёт."
-   },
-   "FLAVOUR_2_ADTEXT" : {
-      "description" : "",
-      "message" : "УСТРАНЕНИЕ: {target} был недавно замечен в системе {system}."
-   },
-   "FLAVOUR_2_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Весьма прискорбно, что {target} всё ещё жив и здоров. Вы не получите денег за незавершенный контракт!"
-   },
-   "FLAVOUR_2_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Контракт выполнили без вас. В следующий раз поторапливайся!"
-   },
-   "FLAVOUR_2_INTROTEXT" : {
-      "description" : "",
-      "message" : "Я {name} заплачу вам {cash}, если {target} будет устранен."
-   },
-   "FLAVOUR_2_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Завершенный контракт оплачен в полном объеме. Удачи!."
-   },
-   "FLAVOUR_3_ADTEXT" : {
-      "description" : "",
-      "message" : "ЗАДАНИЕ: {target} должен быть устранен."
-   },
-   "FLAVOUR_3_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Вам придется ответить за то, что {target} жив!"
-   },
-   "FLAVOUR_3_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Просите деньги за чужую работу? Проваливайте!"
-   },
-   "FLAVOUR_3_INTROTEXT" : {
-      "description" : "",
-      "message" : "В звездную пыль должен быть превращен {target}. За это я награжу вас {cash}."
-   },
-   "FLAVOUR_3_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Всё прошло хорошо - {target} мёртв. Вот ваша награда."
-   },
-   "FLAVOUR_4_ADTEXT" : {
-      "description" : "",
-      "message" : "НА СВАЛКУ истории должен отправиться {target}"
-   },
-   "FLAVOUR_4_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Я не дам вам ни монетки - {target} ещё не в могиле!"
-   },
-   "FLAVOUR_4_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Похоже, что {target} уже в могиле без вашей помощи. Платить вам не за что."
-   },
-   "FLAVOUR_4_INTROTEXT" : {
-      "description" : "",
-      "message" : "Мы можем предложить {cash}, чтобы {target} прекратил свою деятельность."
-   },
-   "FLAVOUR_4_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Мы узнали, что {target} сдох - это восхитительно! Вот ваши деньги."
-   },
-   "FLAVOUR_5_ADTEXT" : {
-      "description" : "",
-      "message" : "КОНТРАКТ: требуется человек для деликатной работы. Цель - {target}."
-   },
-   "FLAVOUR_5_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Мы знаем, что {target} всё ещё в живых. Мы разочарованы."
-   },
-   "FLAVOUR_5_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Сожалею, но {target} ликвидирован без вашего участия! Прощайте."
-   },
-   "FLAVOUR_5_INTROTEXT" : {
-      "description" : "",
-      "message" : "Предлагаем вам сделку на {cash}.\n Цель контракта - {target}.\n Есть люди, которые считают, что пора поставить точку в биографии этой личности.\n Если наше предложение заинтересовало вас, подписывайте контракт и отправляйтесь в систему {system}."
-   },
-   "FLAVOUR_5_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Мы получили подтверждение ликвидации {target}. Призовая сумма в {cash} переведена на ваш счёт."
-   },
-   "HOW_SOON_MUST_IT_BE_DONE" : {
-      "description" : "",
-      "message" : "Когда я должен выполнить задание?"
-   },
-   "HOW_WILL_I_BE_PAID" : {
-      "description" : "",
-      "message" : "Как я получу оплату за работу?"
-   },
-   "IT_MUST_BE_DONE_AFTER" : {
-      "description" : "",
-      "message" : "Вы должны сделать это когда {target} покинет космопорт {spaceport}. Не упустите момент."
-   },
-   "LY" : {
-      "description" : "",
-      "message" : "св.лет"
-   },
-   "OK_AGREED" : {
-      "description" : "",
-      "message" : "Согласен, подписываю контракт."
-   },
-   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
-      "description" : "",
-      "message" : "Вы сможете получить деньги на этой станции после выполнения контракта."
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Установить как цель для навигации"
-   },
-   "SET_RETURN_ROUTE" : {
-      "description" : "",
-      "message" : "Задать маршрут возвращения"
-   },
-   "SHIP" : {
-      "description" : "",
-      "message" : "Тип корабля:"
-   },
-   "SHIP_ID" : {
-      "description" : "",
-      "message" : "Номер корабля:"
-   },
-   "SPACEPORT" : {
-      "description" : "",
-      "message" : "Космопорт нахождения:"
-   },
-   "SYSTEM" : {
-      "description" : "",
-      "message" : "Система нахождения:"
-   },
-   "TARGET_NAME" : {
-      "description" : "",
-      "message" : "Цель:"
-   },
-   "TARGET_WILL_BE_LEAVING_SPACEPORT_AT" : {
-      "description" : "",
-      "message" : "Цель покинет космопорт:"
-   },
-   "TITLE_0" : {
-      "description" : "",
-      "message" : "адмирал"
-   },
-   "TITLE_1" : {
-      "description" : "",
-      "message" : "посол"
-   },
-   "TITLE_10" : {
-      "description" : "",
-      "message" : "энсин"
-   },
-   "TITLE_11" : {
-      "description" : "",
-      "message" : "генерал"
-   },
-   "TITLE_12" : {
-      "description" : "",
-      "message" : "судья"
-   },
-   "TITLE_13" : {
-      "description" : "",
-      "message" : "адвокат"
-   },
-   "TITLE_14" : {
-      "description" : "",
-      "message" : "лейтенант"
-   },
-   "TITLE_15" : {
-      "description" : "",
-      "message" : "маршал"
-   },
-   "TITLE_16" : {
-      "description" : "",
-      "message" : "торговец"
-   },
-   "TITLE_17" : {
-      "description" : "",
-      "message" : "офицер"
-   },
-   "TITLE_18" : {
-      "description" : "",
-      "message" : "рядовой"
-   },
-   "TITLE_19" : {
-      "description" : "",
-      "message" : "профессор"
-   },
-   "TITLE_2" : {
-      "description" : "",
-      "message" : "бригадир"
-   },
-   "TITLE_20" : {
-      "description" : "",
-      "message" : "прокурор"
-   },
-   "TITLE_21" : {
-      "description" : "",
-      "message" : "ректор"
-   },
-   "TITLE_22" : {
-      "description" : "",
-      "message" : "матрос"
-   },
-   "TITLE_23" : {
-      "description" : "",
-      "message" : "сенатор"
-   },
-   "TITLE_24" : {
-      "description" : "",
-      "message" : "сержант"
-   },
-   "TITLE_3" : {
-      "description" : "",
-      "message" : "кадет"
-   },
-   "TITLE_4" : {
-      "description" : "",
-      "message" : "капитан"
-   },
-   "TITLE_5" : {
-      "description" : "",
-      "message" : "кардинал"
-   },
-   "TITLE_6" : {
-      "description" : "",
-      "message" : "полковник"
-   },
-   "TITLE_7" : {
-      "description" : "",
-      "message" : "командир"
-   },
-   "TITLE_8" : {
-      "description" : "",
-      "message" : "командор"
-   },
-   "TITLE_9" : {
-      "description" : "",
-      "message" : "капрал"
-   },
-   "WHERE_CAN_I_FIND_X" : {
-      "description" : "",
-      "message" : "Где находится цель?"
-   },
-   "X_WILL_BE_LEAVING" : {
-      "description" : "",
-      "message" : "Ваша цель - {target} - покинет космопорт {spaceport} в системе {system} ({sectorX}, {sectorY}, {sectorZ}), расстояние {dist}, ровно в {date} года.\nКорабль {shipname} имеет регистрационный номер {shipregid}."
-   }
+  "ASSASSINATION": {
+    "description": "",
+    "message": "Ликвидация"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Повторите ваше задание, пожалуйста."
+  },
+  "DENY_0": {
+    "description": "",
+    "message": "Извините, но я вам не доверяю."
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Возвращайтесь, когда у вас будет больше опыта."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Я не думаю, что вы тот человек, которого я ищу."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Вы не похожи на человека, способного сделать то, что поручено."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Вы явно не созданы для этой работы."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Вы кажетесь неопытным, чтобы справиться с контрактом такой важности."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "Я никогда не слышал о вас. Мне нужен более опытный человек для этого контракта."
+  },
+  "DENY_7": {
+    "description": "",
+    "message": "Я не готов идти на риск подписывая контракт столь же неопытным человеком, как вы."
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "Расстояние:"
+  },
+  "EXCELLENT": {
+    "description": "",
+    "message": "Отлично."
+  },
+  "FLAVOUR_0_ADTEXT": {
+    "description": "",
+    "message": "РАЗЫСКИВАЮ: человека для решения проблемы в системе {system}. Моя проблема - {target}."
+  },
+  "FLAVOUR_0_FAILUREMSG": {
+    "description": "",
+    "message": "Похоже {target} всё ещё дышит! Это не то, что могло бы меня успокоить."
+  },
+  "FLAVOUR_0_FAILUREMSG2": {
+    "description": "",
+    "message": "Я уже знаю, что {target} мёртв. Но не от вашей руки. Контракт разорван."
+  },
+  "FLAVOUR_0_INTROTEXT": {
+    "description": "",
+    "message": "Привет! - меня зовут {name}. Я заплачу тебе {cash}, если {target} будет устранен."
+  },
+  "FLAVOUR_0_SUCCESSMSG": {
+    "description": "",
+    "message": "Похоже {target} отправился на вечные каникулы. Отлично, я перечислю деньги на ваш счёт."
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "ПРЕДЛОЖЕНИЕ: {target} должен навсегда исчезнуть из моей жизни в системе {system}."
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "Я слышал, что {target} находится в добром здравии. Это весьма неприятно."
+  },
+  "FLAVOUR_1_FAILUREMSG2": {
+    "description": "",
+    "message": "Я знаю, что {target} скончался без вашей помощи, так что не спрашивайте про деньги."
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "",
+    "message": "Мне нужно, чтоб {target} покинул этот мир. Я заплачу {cash} наличными."
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "Мне было очень грустно узнать, что {target} мёртв. Деньги уже перечислены на ваш счёт."
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "УСТРАНЕНИЕ: {target} был недавно замечен в системе {system}."
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "Весьма прискорбно, что {target} всё ещё жив и здоров. Вы не получите денег за незавершенный контракт!"
+  },
+  "FLAVOUR_2_FAILUREMSG2": {
+    "description": "",
+    "message": "Контракт выполнили без вас. В следующий раз поторапливайся!"
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "Я {name} заплачу вам {cash}, если {target} будет устранен."
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Завершенный контракт оплачен в полном объеме. Удачи!."
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "ЗАДАНИЕ: {target} должен быть устранен."
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "Вам придется ответить за то, что {target} жив!"
+  },
+  "FLAVOUR_3_FAILUREMSG2": {
+    "description": "",
+    "message": "Просите деньги за чужую работу? Проваливайте!"
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": "В звездную пыль должен быть превращен {target}. За это я награжу вас {cash}."
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "Всё прошло хорошо - {target} мёртв. Вот ваша награда."
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "НА СВАЛКУ истории должен отправиться {target}"
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "Я не дам вам ни монетки - {target} ещё не в могиле!"
+  },
+  "FLAVOUR_4_FAILUREMSG2": {
+    "description": "",
+    "message": "Похоже, что {target} уже в могиле без вашей помощи. Платить вам не за что."
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "Мы можем предложить {cash}, чтобы {target} прекратил свою деятельность."
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "Мы узнали, что {target} сдох - это восхитительно! Вот ваши деньги."
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "КОНТРАКТ: требуется человек для деликатной работы. Цель - {target}."
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "Мы знаем, что {target} всё ещё в живых. Мы разочарованы."
+  },
+  "FLAVOUR_5_FAILUREMSG2": {
+    "description": "",
+    "message": "Сожалею, но {target} ликвидирован без вашего участия! Прощайте."
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "Предлагаем вам сделку на {cash}.\n Цель контракта - {target}.\n Есть люди, которые считают, что пора поставить точку в биографии этой личности.\n Если наше предложение заинтересовало вас, подписывайте контракт и отправляйтесь в систему {system}."
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "Мы получили подтверждение ликвидации {target}. Призовая сумма в {cash} переведена на ваш счёт."
+  },
+  "HOW_SOON_MUST_IT_BE_DONE": {
+    "description": "",
+    "message": "Когда я должен выполнить задание?"
+  },
+  "HOW_WILL_I_BE_PAID": {
+    "description": "",
+    "message": "Как я получу оплату за работу?"
+  },
+  "IT_MUST_BE_DONE_AFTER": {
+    "description": "",
+    "message": "Вы должны сделать это когда {target} покинет космопорт {spaceport}. Не упустите момент."
+  },
+  "LY": {
+    "description": "",
+    "message": "св.лет"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Согласен, подписываю контракт."
+  },
+  "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
+    "description": "",
+    "message": "Вы сможете получить деньги на этой станции после выполнения контракта."
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Установить как цель для навигации"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Задать маршрут возвращения"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Тип корабля:"
+  },
+  "SHIP_ID": {
+    "description": "",
+    "message": "Номер корабля:"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Космопорт нахождения:"
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Система нахождения:"
+  },
+  "TARGET_NAME": {
+    "description": "",
+    "message": "Цель:"
+  },
+  "TARGET_WILL_BE_LEAVING_SPACEPORT_AT": {
+    "description": "",
+    "message": "Цель покинет космопорт:"
+  },
+  "TITLE_0": {
+    "description": "",
+    "message": "адмирал"
+  },
+  "TITLE_1": {
+    "description": "",
+    "message": "посол"
+  },
+  "TITLE_10": {
+    "description": "",
+    "message": "энсин"
+  },
+  "TITLE_11": {
+    "description": "",
+    "message": "генерал"
+  },
+  "TITLE_12": {
+    "description": "",
+    "message": "судья"
+  },
+  "TITLE_13": {
+    "description": "",
+    "message": "адвокат"
+  },
+  "TITLE_14": {
+    "description": "",
+    "message": "лейтенант"
+  },
+  "TITLE_15": {
+    "description": "",
+    "message": "маршал"
+  },
+  "TITLE_16": {
+    "description": "",
+    "message": "торговец"
+  },
+  "TITLE_17": {
+    "description": "",
+    "message": "офицер"
+  },
+  "TITLE_18": {
+    "description": "",
+    "message": "рядовой"
+  },
+  "TITLE_19": {
+    "description": "",
+    "message": "профессор"
+  },
+  "TITLE_2": {
+    "description": "",
+    "message": "бригадир"
+  },
+  "TITLE_20": {
+    "description": "",
+    "message": "прокурор"
+  },
+  "TITLE_21": {
+    "description": "",
+    "message": "ректор"
+  },
+  "TITLE_22": {
+    "description": "",
+    "message": "матрос"
+  },
+  "TITLE_23": {
+    "description": "",
+    "message": "сенатор"
+  },
+  "TITLE_24": {
+    "description": "",
+    "message": "сержант"
+  },
+  "TITLE_3": {
+    "description": "",
+    "message": "кадет"
+  },
+  "TITLE_4": {
+    "description": "",
+    "message": "капитан"
+  },
+  "TITLE_5": {
+    "description": "",
+    "message": "кардинал"
+  },
+  "TITLE_6": {
+    "description": "",
+    "message": "полковник"
+  },
+  "TITLE_7": {
+    "description": "",
+    "message": "командир"
+  },
+  "TITLE_8": {
+    "description": "",
+    "message": "командор"
+  },
+  "TITLE_9": {
+    "description": "",
+    "message": "капрал"
+  },
+  "WHERE_CAN_I_FIND_X": {
+    "description": "",
+    "message": "Где находится цель?"
+  },
+  "X_WILL_BE_LEAVING": {
+    "description": "",
+    "message": "Ваша цель - {target} - покинет космопорт {spaceport} в системе {system} ({sectorX}, {sectorY}, {sectorZ}), расстояние {dist}, ровно в {date} года.\nКорабль {shipname} имеет регистрационный номер {shipregid}."
+  }
 }

@@ -1,0 +1,346 @@
+{
+  "ACCEPTED_1": {
+    "description": "",
+    "message": "Pekala. İyi şanslar!"
+  },
+  "ACCEPTED_2": {
+    "description": "",
+    "message": "Mükkemmel!"
+  },
+  "ACCEPTED_3": {
+    "description": "",
+    "message": "Güzel. Size güveniyoruz!"
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "GÜVENİLİR PİLOT ARANIYOR: {cash} ödenecek."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "MEYDAN OKUMA: {system} sisteminde savaş görevi için gemi ve mürettebat aranıyor."
+  },
+  "ADTEXT_3": {
+    "description": "",
+    "message": "ÇATIŞMA: İyi donanımlı gemiye sahip paralı asker aranıyor."
+  },
+  "ADTEXT_4": {
+    "description": "",
+    "message": "KORKUSUZ PARALI ASKER ARANIYOR: {system} sistemine bir görev için {cash} ödenecek."
+  },
+  "ADTEXT_5": {
+    "description": "",
+    "message": "{mission} Görevi: Ücret {cash}."
+  },
+  "AGENT": {
+    "description": "Secret Service Agent",
+    "message": "Ajan"
+  },
+  "AREA": {
+    "description": "An allotted area for the mission",
+    "message": "Bölge:"
+  },
+  "BONUS_1": {
+    "description": "",
+    "message": "Gözetmenim performansınızdan etkilendi ve bu görev için size fazladan {cash} ayırdı."
+  },
+  "BONUS_2": {
+    "description": "",
+    "message": "Bize iyi bir hizmet sundunuz! Size {cash} bonus ödeyeceğim."
+  },
+  "BONUS_3": {
+    "description": "",
+    "message": "Çok etkileyici! Size {cash} kadarlık bonus ödemek için izin aldım."
+  },
+  "BONUS_4": {
+    "description": "",
+    "message": "Performansınızda çok memnun kaldım! Size fazladan {cash} kredi aktardım."
+  },
+  "COMBAT": {
+    "description": "Name of mission type",
+    "message": "Savaş"
+  },
+  "CORPORATION_1": {
+    "description": "Name of a corporation",
+    "message": "Değerli Mallar Kuruluşu"
+  },
+  "CORPORATION_2": {
+    "description": "Name of a corporation",
+    "message": "Omega Madencilik Şirketi"
+  },
+  "CORPORATION_3": {
+    "description": "Name of a corporation",
+    "message": "Birleşmiş Cevher Madenleri Sendikası"
+  },
+  "CORPORATION_4": {
+    "description": "Name of a corporation",
+    "message": "Galaktik Kaşif Kurumu"
+  },
+  "CORPORATION_5": {
+    "description": "Name of a corporation",
+    "message": "Haber Corporation"
+  },
+  "CORPORATION_6": {
+    "description": "Name of a corporation",
+    "message": "Değerli Metal Araştırmacıları Ltd."
+  },
+  "CORPORATION_7": {
+    "description": "Name of a corporation",
+    "message": "{name} Maden Arama Ltd."
+  },
+  "CORPORATION_8": {
+    "description": "Name of a corporation",
+    "message": "{name} Ltd. Şti."
+  },
+  "DANGER": {
+    "description": "The risk level",
+    "message": "Tehlike:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Üzgünüm, daha çok savaş tecrübesi olan bir pilota ihtiyacım var."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Özür dilerim. Gerçek bir profesyonele ihtiyacım var."
+  },
+  "DETECTIVE": {
+    "description": "Police Detective",
+    "message": "Dedektif"
+  },
+  "DISTANCE": {
+    "description": "Distance in space, between two locations",
+    "message": "Uzaklık:"
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "Yazıklar olsun. Gözüm seni görmesin."
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "Çok geciktin! Çok fazla zarara sebep oldun. Paran ödenmeyecek!"
+  },
+  "FAILUREMSG_3": {
+    "description": "",
+    "message": "Bütün pilotların yüz karasısın. Sana para ödeyemem!"
+  },
+  "FAILUREMSG_4": {
+    "description": "",
+    "message": "Başaramadın! Sana ödeme yapmayacağım!"
+  },
+  "GREETING_1": {
+    "description": "",
+    "message": "Merhaba, ben {name}."
+  },
+  "GREETING_2": {
+    "description": "",
+    "message": "Merhaba. Benim adım {name}."
+  },
+  "GREETING_3": {
+    "description": "",
+    "message": "Nasılsınız? Ben {name}."
+  },
+  "GREETING_4": {
+    "description": "",
+    "message": "Selamlar! Ben {name}."
+  },
+  "GREETING_5": {
+    "description": "",
+    "message": "İyi günler. Benim adım {name}."
+  },
+  "HARVESTING_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "{org}, {system} ({sectorx}, {sectory}, {sectorz}) sisteminde bir {mission} görevi için {cash} ödeyecek. Acımasız bir piyasa rakibinin {area} bölgesindeki yük gemilerimizin kaybolmasıyla bir ilgisi olduğuna inanıyoruz. Hedef bölgeye uzaklık {dist} ıy."
+  },
+  "HARVESTING_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Piyasa rakibimiz {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {area} üzerine hak talep ediyor. {org} olarak karşı çıkıyoruz ve {area} bölgesine bir saldırı görevi için {cash} ödeyeceğiz. {area} buradan {dist} ıy uzaklıkta."
+  },
+  "HARVESTING_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Lütfen yardım edin! {system} ({sectorx}, {sectory}, {sectorz}) sisteminde {area} yörüngesindeki yük gemilerimizden birinden bir yardım çağrısı aldık. Çağrı yarıda kesildi, şu an en kötüsüne hazırlanıyoruz. {system} sistemine uzaklığımız {dist} ıy. Ödeme {cash}."
+  },
+  "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "Görevin {date} tarihinden önce bitirilmesi önemli. Lütfen bu operasyon bir sır olarak kalsın."
+  },
+  "HARVESTING_LAND_THERE": {
+    "description": "",
+    "message": "Yakındaki her yıldız sisteminde bir elemanımız var. İniş yaptığınızda sizinle iletişime geçecek."
+  },
+  "HOW_WILL_I_BE_PAID": {
+    "description": "",
+    "message": "Bana nasıl ödeme yapılacak?"
+  },
+  "IS_THERE_A_TIME_LIMIT": {
+    "description": "",
+    "message": "Süre kısıtlaması var mı?"
+  },
+  "LY": {
+    "description": "",
+    "message": "ıy"
+  },
+  "MANAGER": {
+    "description": "",
+    "message": "Yönetici"
+  },
+  "MEET_ME_THERE": {
+    "description": "",
+    "message": "İşi bitirmek için benimle {rendezvous} sisteminde buluş!"
+  },
+  "MILITARY_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Askeri istihbarat, düşman bir birliğin {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {area} bölgesine gizli bir dinleme üssü kurduğuna inanıyor. Hükumet buna göz yumamaz ve bu tesisin yok edilmesi için bir dizi operasyonu onayladı. Düşman, menşeini gizlemek için sadece sivil araç sınıflarını kullanıyor. Biz de öyle yapacağız! Bu yüzden {cash} ile bir pilot kiralamak istiyoruz. {area} buradan {dist} ıy uzaklıkta."
+  },
+  "MILITARY_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Yerel idare {dist} ıy uzaklığındaki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki bir korsanlık olayına karşılık olarak {area} alanına düzenlenecek bir savaş görevi için {cash} ödeyecek."
+  },
+  "MILITARY_3": {
+    "description": "",
+    "message": "Karşı istihbarat birliği {dist} ıy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sisteminde bir {mission} görevi için hiçbir soru sormayacak sivil bir pilot arıyor. Ödeme {cash}."
+  },
+  "MILITARY_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "{area} alanının kontrolünü yeniden ele geçirmek için özel bir ekip oluşturulacak. Görevin {date} tarihine kadar başarıyla tamamlanmış olması önemli."
+  },
+  "MILITARY_LAND_THERE": {
+    "description": "",
+    "message": "{org} tarafından korunan bölgede bir istasyonu ziyaret et!"
+  },
+  "MINING_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "{org}, rakip bir şirket ile {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {area} için bir mücadele içinde. Hakkımızı almak için güvenilir ve savaş tecrübesi olan birine ihtiyacımız var. Giderlerinize karşılık {cash} teklif ediyoruz. {system} sistemine uzaklık {dist} ıy."
+  },
+  "MINING_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "{org} müdürlerindenim. {dist} ıy uzaklığındaki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki madenci hakları hakkında rakibimizle süregelen mücadelemizde yardıma ihtiyacımız var. Sabrımız artık tükendi ve mahkeme salonunun dışında işleri hızlandırmamız lazım. Göreviniz, {cash} için {area} bölgesine sıçramak."
+  },
+  "MINING_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "{org} için çalışıyorum. Birkaç yük gemimiz yakında {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {area} bölgesine ulaşacak. Çalışanlarımızın güvenliği ve ekipmanların korunması için bir {mission} görevine {cash} ödeyeceğiz. {area} bölgesine olan uzaklık {dist} ıy."
+  },
+  "MINING_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "Bir konvoy {area} bölgesine doğru yola çıktı. Görevin {date} tarihine kadar tamamlanması gerekli."
+  },
+  "MINING_LAND_THERE": {
+    "description": "",
+    "message": "Yakınaki bütün yıldız sistemlerinde çalışanlarımız var. En yakındaki istasyonu ziyaret et ve yerel büromuzla iletişime geç."
+  },
+  "MISSION": {
+    "description": "",
+    "message": "Görev:"
+  },
+  "MISSION_COMPLETE": {
+    "description": "Message from the ship computer",
+    "message": "Birincil hedef tamamlandı"
+  },
+  "MISSION_TYPE_1": {
+    "description": "Name of mission type",
+    "message": "Keşif"
+  },
+  "MISSION_TYPE_2": {
+    "description": "Name of mission type",
+    "message": "Silahlı Keşif"
+  },
+  "MISSION_TYPE_3": {
+    "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "Bölge Taraması"
+  },
+  "OBJECTIVE_1": {
+    "description": "",
+    "message": "Düşmana saldırmaya gerek yok. Sadece savunma güçleri ve tepki süreleri hakkında veri istiyoruz."
+  },
+  "OBJECTIVE_2": {
+    "description": "",
+    "message": "Düşman gücünü olabildiğince zayıflat ve güvenli bir yere sıçrama yap."
+  },
+  "OBJECTIVE_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "{area} civarındaki alanı temizle. Bütün direnişi kır."
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Tamam, kabul."
+  },
+  "PAYMENT_LOCATION": {
+    "description": "",
+    "message": "Ödeme noktası:"
+  },
+  "PLEASE_REPEAT_THE_MISSION_DETAILS": {
+    "description": "",
+    "message": "Lütfen görev detaylarını tekrarlayın!"
+  },
+  "POLICE_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Polis dedektifleri, {dist} ıy uzaklığındaki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {area} civarında sığınak kurmaya çalışan bir grup korsan tespit etti. Buna izin veremeyiz. Yerel idare, polis operasyonuna hazırlık olarak {area} alanına bir görev için {cash} ödeyecek."
+  },
+  "POLICE_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "{org}, {system} ({sectorx}, {sectory}, {sectorz}) sisteminde bir savaş görevi için {cash} ödeyecek. Gemimiz ve pilotumuz az. Bu yüzden bu görev sadık yurttaşlarımızın para yapmaları için fırsat olacak. Hedef, {area} üzerindeki küçük bir korsan üssü. {dist} ışık yılı uzaklığa bir gidiş-dönüş yolculuğu için yeterli üstuzay yakıtına ihtiyacınız olacak."
+  },
+  "POLICE_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Piyasamız kaçak malla doldu. Bu malların kaynağı {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {area} civarında gizli bir üs olarak belirlendi. Sadece {dist} ıy uzaklıkta. Polis bütçesi azaltıldığı için yerel idare dışarıdan gemi temin etmek için bu operasyona {cash} kredi ayırdı."
+  },
+  "POLICE_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "Görevin {date} tarihine kadar tamamlanması önemli, çünkü daha fazla düşman gemisi takviye gelecek."
+  },
+  "POLICE_LAND_THERE": {
+    "description": "",
+    "message": "{org} ofisi olan bir istasyona inmeniz yeterli."
+  },
+  "RISK_1": {
+    "description": "",
+    "message": "Rakip sınırlı kaynaklara sahip. Üstesinden gelemeyeceğin bir şey değil."
+  },
+  "RISK_2": {
+    "description": "",
+    "message": "Rakip az miktarda kaynağa sahip. Ama gerekirse mevkisini korur."
+  },
+  "RISK_3": {
+    "description": "",
+    "message": "Rakibiniz iyi donanımlı. Lütfen gözlerinizi dört açın!"
+  },
+  "RISK_4": {
+    "description": "",
+    "message": "Düşman iyi donanımlı ve en son teknolojiye erişimi var. Dikkatli ol!"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Navigasyon hedefi olarak seç"
+  },
+  "SUCCESSMSG_1": {
+    "description": "",
+    "message": "Bu görev için doğru kişi olduğunuzu biliyordum. İşte ödemeniz."
+  },
+  "SUCCESSMSG_2": {
+    "description": "",
+    "message": "Teşekkürler. Parayı aktardım."
+  },
+  "SUCCESSMSG_3": {
+    "description": "",
+    "message": "Umarım senin için sıkıntılı olmamıştır. Ödemeni az önce yaptım."
+  },
+  "SUCCESSMSG_4": {
+    "description": "",
+    "message": "Pek iyi. Faturanızı ödedim."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Sistem:"
+  },
+  "TIME_LIMIT": {
+    "description": "",
+    "message": "Süre kısıtlaması:"
+  },
+  "WHAT_ARE_THE_MISSION_OBJECTIVES": {
+    "description": "",
+    "message": "Görevin hedefleri neler?"
+  },
+  "WILL_I_BE_IN_TROUBLE": {
+    "description": "",
+    "message": "Belaya bulaşacak mıyım?"
+  }
+}

@@ -1,1734 +1,1734 @@
 {
-   "ABOVE_AVERAGE" : {
-      "description" : "",
-      "message" : "Över medel"
-   },
-   "ACTIVE" : {
-      "description" : "",
-      "message" : "Aktiv"
-   },
-   "ADD_JUMP" : {
-      "description" : "UI-button: Add hyper jump to list of planned jumps",
-      "message" : "Add Jump"
-   },
-   "AFTER_TRADE_IN" : {
-      "description" : "",
-      "message" : "Efter inbyte"
-   },
-   "ALLEGIANCE" : {
-      "description" : "",
-      "message" : "Tillhörighet:"
-   },
-   "ALL_UP_WEIGHT" : {
-      "description" : "",
-      "message" : "Totalvikt"
-   },
-   "AMOUNT" : {
-      "description" : "",
-      "message" : "Belopp"
-   },
-   "ANISOTROPIC_FILTERING_DESC" : {
-      "description" : "",
-      "message" : "Samples the texture across multiple mip levels to produce a much clearer texture when viewed at shallow angles. Stops the textures from becoming as blurred; however, it can come at a heavy performance cost."
-   },
-   "AN_ERROR_HAS_OCCURRED" : {
-      "description" : "",
-      "message" : "Ett fel har uppstått"
-   },
-   "ATMOSPHERIC_SHIELDING" : {
-      "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
-      "message" : "Atmosfärkapabel"
-   },
-   "ATTEMPT_TO_REPAIR_HULL" : {
-      "description" : "",
-      "message" : "Försök att reparera skrov"
-   },
-   "AUTO_ROUTE" : {
-      "description" : "Automatically find shortest jump route (measured in time) in star map",
-      "message" : "Auto Route"
-   },
-   "AVAILABLE_FOR_PURCHASE" : {
-      "description" : "",
-      "message" : "Tillgänglig för köp"
-   },
-   "AVERAGE" : {
-      "description" : "",
-      "message" : "Medel"
-   },
-   "BACKWARD_ACCEL" : {
-      "description" : "",
-      "message" : "Accelerera bakåt"
-   },
-   "BULLETIN_BOARD" : {
-      "description" : "",
-      "message" : "Anslagstavla"
-   },
-   "BUY" : {
-      "description" : "Commodities and equipment prices",
-      "message" : "Köpa"
-   },
-   "BUY_SHIP" : {
-      "description" : "",
-      "message" : "Köp skepp"
-   },
-   "CABINS" : {
-      "description" : "For passengers",
-      "message" : "Hytter"
-   },
-   "CABIN_FREE" : {
-      "description" : "Free capacity for passengers",
-      "message" : "{amount} ledigt"
-   },
-   "CABIN_USED" : {
-      "description" : "Passengers using cabins",
-      "message" : "{amount} använt"
-   },
-   "CANCEL" : {
-      "description" : "",
-      "message" : "Avbryt"
-   },
-   "CAPACITY" : {
-      "description" : "Capacity of ship to fit more equipment",
-      "message" : "Kapacitet"
-   },
-   "CAPACITY_USED" : {
-      "description" : "",
-      "message" : "Använd kapacitet"
-   },
-   "CARGO" : {
-      "description" : "",
-      "message" : "Last"
-   },
-   "CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Lastutrymme"
-   },
-   "CARGO_SPACE_USED" : {
-      "description" : "",
-      "message" : "Använt lastutrymme"
-   },
-   "CARGO_T_FREE" : {
-      "description" : "t for tonne",
-      "message" : "{amount}t ledigt"
-   },
-   "CARGO_T_USED" : {
-      "description" : "t for tonne",
-      "message" : "{amount}t använt"
-   },
-   "CASH" : {
-      "description" : "",
-      "message" : "Kontanter"
-   },
-   "CASH_N" : {
-      "description" : "",
-      "message" : "Pengar: {money}"
-   },
-   "CENTER_ON_SYSTEM" : {
-      "description" : "Center on selected star system",
-      "message" : "Center on System"
-   },
-   "CHANGE_BINDING" : {
-      "description" : "Key binding option",
-      "message" : "Ändra bindning"
-   },
-   "CHIEF_MECHANIC" : {
-      "description" : "",
-      "message" : "Chefsmekaniker"
-   },
-   "CIRCULAR_ORBIT_SPEED" : {
-      "description" : "",
-      "message" : "Cirkulär omloppshastighet"
-   },
-   "CITY_DETAIL_LEVEL" : {
-      "description" : "Game graphics option",
-      "message" : "Detaljnivå för städer"
-   },
-   "CLEAN" : {
-      "description" : "Legal status of player",
-      "message" : "Rensa"
-   },
-   "CLEAR" : {
-      "description" : "Clear an option in game settings/options menu",
-      "message" : "Rensa"
-   },
-   "CLEAR_ROUTE" : {
-      "description" : "Clear a planned route of hyperjumps",
-      "message" : "Clear Route"
-   },
-   "CLIENT" : {
-      "description" : "",
-      "message" : "Klient"
-   },
-   "CLOSE" : {
-      "description" : "",
-      "message" : "Close"
-   },
-   "COMBAT" : {
-      "description" : "Headline for kills and combat rating",
-      "message" : "Strid"
-   },
-   "COMMANDER" : {
-      "description" : "",
-      "message" : "Kapten"
-   },
-   "COMMODITY_MARKET" : {
-      "description" : "",
-      "message" : "Råvarumarknad"
-   },
-   "COMPACT_RADAR" : {
-      "description" : "Game settings option",
-      "message" : "Kompakt radar"
-   },
-   "COMPETENT" : {
-      "description" : "Combat rating",
-      "message" : "Kompetent"
-   },
-   "COMPLETED" : {
-      "description" : "",
-      "message" : "Utförd"
-   },
-   "COMPRESS_TEXTURES" : {
-      "description" : "graphics option in game settings menu ",
-      "message" : "Komprimera texturer"
-   },
-   "CONFIRM_PURCHASE" : {
-      "description" : "",
-      "message" : "Bekräfta köp"
-   },
-   "CONFIRM_SALE" : {
-      "description" : "",
-      "message" : "Bekräfta försäljning"
-   },
-   "CONSTABLE" : {
-      "description" : "",
-      "message" : "Konstapel"
-   },
-   "CONTINUE_GAME" : {
-      "description" : "",
-      "message" : "Fortsätt spelet"
-   },
-   "CONTROLS" : {
-      "description" : "",
-      "message" : "Kontroller"
-   },
-   "CONTROL_OPTIONS" : {
-      "description" : "",
-      "message" : "Kontrollalternativ"
-   },
-   "COULD_NOT_LOAD_GAME" : {
-      "description" : "",
-      "message" : "Kunde inte ladda spel:"
-   },
-   "CREDIBLE" : {
-      "description" : "For player reputation",
-      "message" : "Trovärdig"
-   },
-   "CREDITS" : {
-      "description" : "in game currency",
-      "message" : "Credits"
-   },
-   "CREW_CABINS" : {
-      "description" : "",
-      "message" : "Besättningshytter"
-   },
-   "CREW_ROSTER" : {
-      "description" : "",
-      "message" : "Besättningslista"
-   },
-   "CRIMINAL_RECORD" : {
-      "description" : "Past crimes / crime history of character",
-      "message" : "Kriminalregister"
-   },
-   "CURRENT_FUEL" : {
-      "description" : "For hyperjump planner",
-      "message" : "Current Fuel:"
-   },
-   "CURRENT_SYSTEM" : {
-      "description" : "For hyperjump planner",
-      "message" : "Nuvarande system"
-   },
-   "DANGEROUS" : {
-      "description" : "Player combat rating",
-      "message" : "Farligt"
-   },
-   "DEADLY" : {
-      "description" : "Player combat rating",
-      "message" : "Dödligt"
-   },
-   "DELTA_V" : {
-      "description" : "",
-      "message" : "Delta-v"
-   },
-   "DELTA_V_EMPTY" : {
-      "description" : "Delta-v capacity of a ship with no cargo or upgrades",
-      "message" : "Delta-v (tom)"
-   },
-   "DELTA_V_FULL" : {
-      "description" : "Delta-v capacity of a ship with maximum cargo",
-      "message" : "Delta-v (full)"
-   },
-   "DELTA_V_MAX" : {
-      "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
-      "message" : "Delta-v (max)"
-   },
-   "DESCENT_TO_GROUND_SPEED" : {
-      "description" : "",
-      "message" : "Hastighet-mot-marken:"
-   },
-   "DESTROY_ENEMY_SHIP" : {
-      "description" : "",
-      "message" : "Förstör fiendeskepp"
-   },
-   "DISMISS" : {
-      "description" : "Terminate crew memeber's contract",
-      "message" : "Avskeda"
-   },
-   "DISPLAY_HUD_TRAILS" : {
-      "description" : "",
-      "message" : "Visa HUD spår"
-   },
-   "DISPLAY_NAV_TUNNELS" : {
-      "description" : "Settings option: hyperspace tunnel effect",
-      "message" : "Visa navigationstunnlar"
-   },
-   "DISPLAY_SPEED_LINES" : {
-      "description" : "Settings option: effect when travelling in space",
-      "message" : "Visa hastighetslinjer"
-   },
-   "DOCKED_AT" : {
-      "description" : "",
-      "message" : "Docked at"
-   },
-   "DOCK_AT_CURRENT_TARGET" : {
-      "description" : "",
-      "message" : "Docka vid nuvarande mål"
-   },
-   "DUE" : {
-      "description" : "mission deadline date",
-      "message" : "Förfaller"
-   },
-   "DUMPING" : {
-      "description" : "The illegal act of dumping waste",
-      "message" : "Dumpning"
-   },
-   "D_DAYS_LEFT" : {
-      "description" : "",
-      "message" : "Dagar kvar: %d"
-   },
-   "ECONOMY_TRADE" : {
-      "description" : "",
-      "message" : "Ekonomi & handel"
-   },
-   "EFFECTS" : {
-      "description" : "",
-      "message" : "Effekter:"
-   },
-   "ELITE" : {
-      "description" : "Player combat rating",
-      "message" : "ELITE"
-   },
-   "EMPLOYMENT" : {
-      "description" : "",
-      "message" : "Anställning"
-   },
-   "ENABLE_ANISOTROPIC_FILTERING" : {
-      "description" : "Use Anisotropic Filtering",
-      "message" : "Anisotropiskt filter"
-   },
-   "ENABLE_AUTOSAVE" : {
-      "description" : "Allow the game to autosave when docking",
-      "message" : "Spara automatiskt"
-   },
-   "ENABLE_COCKPIT" : {
-      "description" : "Game settings option: to use a cockpit 3D model",
-      "message" : "Aktivera cockpit (EXPERIMENTELLT)"
-   },
-   "ENABLE_JOYSTICK" : {
-      "description" : "",
-      "message" : "Aktivera joystick"
-   },
-   "END_GAME" : {
-      "description" : "",
-      "message" : "End Game"
-   },
-   "ENGINEERING" : {
-      "description" : "Engineering skills of crew",
-      "message" : "Ingenjör:"
-   },
-   "EQUIPMENT" : {
-      "description" : "",
-      "message" : "Utrustning"
-   },
-   "EQUIPMENT_MARKET" : {
-      "description" : "",
-      "message" : "Utrustningsmarknad"
-   },
-   "EQUIPPED" : {
-      "description" : "",
-      "message" : "Utrustad"
-   },
-   "ERROR" : {
-      "description" : "",
-      "message" : "Fel"
-   },
-   "ERROR_LANDING_GEAR_DOWN" : {
-      "description" : "",
-      "message" : "Kan inte påbörja hopp; landningsställ är inte uppfällt!"
-   },
-   "ESCAPE_SPEED" : {
-      "description" : "",
-      "message" : "Flykthastighet:"
-   },
-   "EXIT_THIS_GAME" : {
-      "description" : "",
-      "message" : "Avsluta detta spel"
-   },
-   "EXPERIENCED" : {
-      "description" : "For player reputation",
-      "message" : "Erfaren"
-   },
-   "EXPERT" : {
-      "description" : "For player reputation",
-      "message" : "Expert"
-   },
-   "FAILED" : {
-      "description" : "When failed mission",
-      "message" : "Misslyckades"
-   },
-   "FEMALE" : {
-      "description" : "",
-      "message" : "Kvinna"
-   },
-   "FINAL_TARGET" : {
-      "description" : "Hyperjump planner, referring to star system target",
-      "message" : "Final Target:"
-   },
-   "FLIGHT_STATE" : {
-      "description" : "",
-      "message" : "Flight State"
-   },
-   "FLYING" : {
-      "description" : "",
-      "message" : "Flying"
-   },
-   "FORWARD_ACCEL" : {
-      "description" : "",
-      "message" : "Accelerera framåt"
-   },
-   "FORWARD_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Acceleration framåt (tom)"
-   },
-   "FORWARD_ACCEL_FULL" : {
-      "description" : "",
-      "message" : "Acceleration framåt (full)"
-   },
-   "FRACTAL_DETAIL" : {
-      "description" : "",
-      "message" : "Fraktaldetaljer"
-   },
-   "FREE" : {
-      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
-      "message" : "gratis"
-   },
-   "FRONT_WEAPON" : {
-      "description" : "",
-      "message" : "Främre vapen"
-   },
-   "FUEL" : {
-      "description" : "",
-      "message" : "Bränsle"
-   },
-   "FUEL_TANK_FULL" : {
-      "description" : "",
-      "message" : "Bränsletank full."
-   },
-   "FUEL_WEIGHT" : {
-      "description" : "",
-      "message" : "Bränslevikt"
-   },
-   "FULL_SCREEN" : {
-      "description" : "",
-      "message" : "Helskärm"
-   },
-   "GAME_TIME" : {
-      "description" : "",
-      "message" : "Game time"
-   },
-   "GENERAL_CREW" : {
-      "description" : "",
-      "message" : "Generell besättning"
-   },
-   "GIVE_ORDERS_TO_CREW" : {
-      "description" : "",
-      "message" : "Verkställ order"
-   },
-   "GOOD_RIDDANCE_TO_YOU_TOO" : {
-      "description" : "",
-      "message" : "Hejdå till dig också."
-   },
-   "GPU_JOBS" : {
-      "description" : "",
-      "message" : "GPU Jobs"
-   },
-   "GPU_JOBS_DESC" : {
-      "description" : "",
-      "message" : "Utilize GPU for certain actions, possibly improving performance."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Lägg på."
-   },
-   "HARMLESS" : {
-      "description" : "Player combat rating",
-      "message" : "Ofarlig"
-   },
-   "HEAVY_CARGO_SHUTTLE" : {
-      "description" : "",
-      "message" : "Tung lastskyttel"
-   },
-   "HEAVY_COURIER" : {
-      "description" : "",
-      "message" : "Tung kurir"
-   },
-   "HEAVY_FIGHTER" : {
-      "description" : "",
-      "message" : "Tungt jaktskepp"
-   },
-   "HEAVY_FREIGHTER" : {
-      "description" : "",
-      "message" : "Tungt fraktskepp"
-   },
-   "HEAVY_PASSENGER_SHUTTLE" : {
-      "description" : "",
-      "message" : "Tung passagerarskyttel"
-   },
-   "HEAVY_PASSENGER_TRANSPORT" : {
-      "description" : "",
-      "message" : "Tung passagerartransport"
-   },
-   "HIGH" : {
-      "description" : "Game settings option: for graphics resolution",
-      "message" : "Hög"
-   },
-   "HUD_2D_RADAR" : {
-      "description" : "Popup text: the name of the azimuthal equidistant projection radar",
-      "message" : "2D azimuthal equidistant projection"
-   },
-   "HUD_3D_RADAR" : {
-      "description" : "Popup text: the name of the planar projection radar (traditional frontier-style)",
-      "message" : "3D planprojektion"
-   },
-   "HUD_ATMOSPHERIC_PRESSURE" : {
-      "description" : "Tooltip: Atmospheric Pressure.",
-      "message" : "Atmosfäriskt tryck"
-   },
-   "HUD_BACKWARD_GUN_TEMPERATURE" : {
-      "description" : "Tooltip: Backward Gun Temperature.",
-      "message" : "Bakre kanon-temperatur"
-   },
-   "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
-      "description" : "Tooltip: The braking distance using the main thrusters.",
-      "message" : "Stoppsträcka för huvudmotorerna"
-   },
-   "HUD_BUTTON_AUTOPILOT_DOCKING" : {
-      "description" : "Tooltip: Autopilot docking",
-      "message" : "Autopilot dockar"
-   },
-   "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT" : {
-      "description" : "Tooltip: Autopilot entering orbit",
-      "message" : "Autopilot går in i omlopp"
-   },
-   "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET" : {
-      "description" : "Tooltip: Autopilot flying to target",
-      "message" : "Autopilot flyger till mål"
-   },
-   "HUD_BUTTON_BLASTOFF" : {
-      "description" : "Tooltip: Blastoff",
-      "message" : "Blastoff"
-   },
-   "HUD_BUTTON_EQUIPMENT" : {
-      "description" : "Tooltip: Equipment",
-      "message" : "Utrustning"
-   },
-   "HUD_BUTTON_EXTERNAL_VIEW" : {
-      "description" : "Tooltip: External camera view",
-      "message" : "Extern vy"
-   },
-   "HUD_BUTTON_FIX_ANTINORMAL" : {
-      "description" : "Tooltip: fix heading antinormal",
-      "message" : "Fix heading antinormal"
-   },
-   "HUD_BUTTON_FIX_NORMAL" : {
-      "description" : "Tooltip: fix heading normal",
-      "message" : "Fix heading normal"
-   },
-   "HUD_BUTTON_FIX_PROGRADE" : {
-      "description" : "Tooltip: fix heading prograde",
-      "message" : "Fix heading prograde"
-   },
-   "HUD_BUTTON_FIX_RADIAL_IN" : {
-      "description" : "Tooltip: fix heading radially inward",
-      "message" : "Fix heading radially inward"
-   },
-   "HUD_BUTTON_FIX_RADIAL_OUT" : {
-      "description" : "Tooltip: fix heading radially outward",
-      "message" : "Fix heading radially outward"
-   },
-   "HUD_BUTTON_FIX_RETROGRADE" : {
-      "description" : "Tooltip: fix heading retrograde",
-      "message" : "Fix heading retrograde"
-   },
-   "HUD_BUTTON_HYPERDRIVE_DISABLED" : {
-      "description" : "Tooltip: Hyperdrive disabled (docked or landed)",
-      "message" : "Hypermotor inaktiverad"
-   },
-   "HUD_BUTTON_INITIATE_HYPERJUMP" : {
-      "description" : "Tooltip: Initiate legal hyperjump",
-      "message" : "Påbörja hopp"
-   },
-   "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP" : {
-      "description" : "Tooltip: Initiate illegal hyperjump",
-      "message" : "Påbörja olagligt hopp"
-   },
-   "HUD_BUTTON_INTERNAL_VIEW" : {
-      "description" : "Tooltip: Internal camera view",
-      "message" : "Intern vy"
-   },
-   "HUD_BUTTON_KILL_ROTATION" : {
-      "description" : "Tooltip: kill rotation",
-      "message" : "Avbryt rotation"
-   },
-   "HUD_BUTTON_LANDING_GEAR_IS_DOWN" : {
-      "description" : "Tooltip: Landing gear is down",
-      "message" : "Landningsställ är nerfällt"
-   },
-   "HUD_BUTTON_LANDING_GEAR_IS_MOVING" : {
-      "description" : "Tooltip: Landing gear is moving",
-      "message" : "Landningsställ i rörelse"
-   },
-   "HUD_BUTTON_LANDING_GEAR_IS_UP" : {
-      "description" : "Tooltip: Landing gear is up",
-      "message" : "Landningsställ är uppfällt"
-   },
-   "HUD_BUTTON_MANUAL_CONTROL" : {
-      "description" : "Tooltip: Manual control",
-      "message" : "Manuell kontroll"
-   },
-   "HUD_BUTTON_ROTATION_DAMPING_IS_OFF" : {
-      "description" : "Tooltip: Rotation damping is off",
-      "message" : "Rotationsdämpning är av"
-   },
-   "HUD_BUTTON_ROTATION_DAMPING_IS_ON" : {
-      "description" : "Tooltip: Rotation damping is on",
-      "message" : "Rotationsdämpare är på"
-   },
-   "HUD_BUTTON_SCANNER" : {
-      "description" : "Tooltip: Scanner",
-      "message" : "Scanner"
-   },
-   "HUD_BUTTON_SET_SPEED" : {
-      "description" : "Tooltip: set speed",
-      "message" : "Sätt hastighet"
-   },
-   "HUD_BUTTON_SHOW_COMMS" : {
-      "description" : "Tooltip: Show comms",
-      "message" : "Visa kommunikationslog"
-   },
-   "HUD_BUTTON_SHOW_PERSONAL_INFO" : {
-      "description" : "Tooltip: Show personal info",
-      "message" : "Visa person-information"
-   },
-   "HUD_BUTTON_SIDEREAL_VIEW" : {
-      "description" : "Tooltip: Sidereal camera view",
-      "message" : "Sidovy"
-   },
-   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP" : {
-      "description" : "Tooltip: Switch to galaxy map",
-      "message" : "Byt till galax-karta"
-   },
-   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP" : {
-      "description" : "Tooltip: Switch to sector map",
-      "message" : "Byt till sektor-karta"
-   },
-   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP" : {
-      "description" : "Tooltip: Switch to system map",
-      "message" : "Byt till system-karta"
-   },
-   "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW" : {
-      "description" : "Tooltip: Switch to system overview",
-      "message" : "Byt till system-översikt"
-   },
-   "HUD_BUTTON_SWITCH_TO_WORLD_VIEW" : {
-      "description" : "Tooltip: Switch to world view",
-      "message" : "Byt till världsvy"
-   },
-   "HUD_BUTTON_UNDOCK" : {
-      "description" : "Tooltip: Undock",
-      "message" : "Lämna dockan"
-   },
-   "HUD_CARGO_MASS" : {
-      "description" : "Cargo Mass",
-      "message" : "Lastmassa"
-   },
-   "HUD_CURRENT_COMBAT_TARGET" : {
-      "description" : "Tooltip: The current combat target.",
-      "message" : "Nuvarande vapenmål"
-   },
-   "HUD_CURRENT_FRAME" : {
-      "description" : "Tooltip: The current frame of reference.",
-      "message" : "Nuvarande referenssystrem"
-   },
-   "HUD_CURRENT_HEADING" : {
-      "description" : "Tooltip: the current heading.",
-      "message" : "Nuvarande kurs"
-   },
-   "HUD_CURRENT_NAV_TARGET" : {
-      "description" : "Tooltip: The current navigational target.",
-      "message" : "Nuvarande navigationsmål"
-   },
-   "HUD_CURRENT_PITCH" : {
-      "description" : "Tooltip: the current pitch.",
-      "message" : "Nuvarande inklination"
-   },
-   "HUD_CURRENT_ROLL" : {
-      "description" : "Tooltip: the current roll.",
-      "message" : "Nuvarande roll"
-   },
-   "HUD_DELTA_V" : {
-      "description" : "Tooltip: The remaining Δv.",
-      "message" : "Återstående Δv"
-   },
-   "HUD_DELTA_V_OF_MANEUVER_BURN" : {
-      "description" : "Tooltip: The Δv for the maneuver burn.",
-      "message" : "Δv för manöver"
-   },
-   "HUD_DELTA_V_PERCENT" : {
-      "description" : "Tooltip: The remaining Δv in percent.",
-      "message" : "Återstående Δv"
-   },
-   "HUD_DISTANCE_TO_SURFACE_OF_FRAME" : {
-      "description" : "Tooltip: Distance to the surface of the frame of reference.",
-      "message" : "Avstånd till ytan från referenssystemet"
-   },
-   "HUD_DISTANCE_TO_SURFACE_OF_TARGET" : {
-      "description" : "Tooltip: Distance to the surface of the target.",
-      "message" : "Avstånd till målets yta"
-   },
-   "HUD_DURATION_OF_MANEUVER_BURN" : {
-      "description" : "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
-      "message" : "Uppskattad varaktighet av manöver med huvudmotorerna "
-   },
-   "HUD_DURATION_UNTIL_MANEUVER_BURN" : {
-      "description" : "Tooltip: The duration until the middle of the maneuver burn.",
-      "message" : "Hälften av tiden till manövrering"
-   },
-   "HUD_FORWARD_GUN_TEMPERATURE" : {
-      "description" : "Tooltip: Forward Gun Temperature.",
-      "message" : "Främre kanon-temperatur"
-   },
-   "HUD_HULL_STRENGTH" : {
-      "description" : "Tooltip: Hull Strength.",
-      "message" : "Skrovstyrka"
-   },
-   "HUD_HULL_TEMPERATURE" : {
-      "description" : "Tooltip: Hull Temperature.",
-      "message" : "Skrovtemperatur"
-   },
-   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS" : {
-      "description" : "",
-      "message" : "Hopp till {destination} om {countdown} sekunder "
-   },
-   "HUD_INDICATOR_AWAY_FROM_FRAME" : {
-      "description" : "Indicator: Away from the current frame.",
-      "message" : "Från nuvarande referenssystem"
-   },
-   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
-      "description" : "Indicator: Prograde direction relative to the current combat target.",
-      "message" : "Prograde relative to current combat target"
-   },
-   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
-      "description" : "Indicator: Retrograde direction relative to the current combat target.",
-      "message" : "Retrograde relative to current combat target"
-   },
-   "HUD_INDICATOR_FRAME_PROGRADE" : {
-      "description" : "Indicator: Prograde direction relative to the current frame.",
-      "message" : "Prograde relative to current frame of reference"
-   },
-   "HUD_INDICATOR_FRAME_RETROGRADE" : {
-      "description" : "Indicator: Retrograde direction relative to the current frame.",
-      "message" : "Retrograde relative to current frame of reference"
-   },
-   "HUD_INDICATOR_MANEUVER_PROGRADE" : {
-      "description" : "Indicator: The prograde direction for the maneuver burn.",
-      "message" : "Prograde for maneuver burn"
-   },
-   "HUD_INDICATOR_NAV_TARGET_PROGRADE" : {
-      "description" : "Indicator: Prograde direction relative to the current navigational target.",
-      "message" : "Prograde relative to current navigational target"
-   },
-   "HUD_INDICATOR_NAV_TARGET_RETROGRADE" : {
-      "description" : "Indicator: Retrograde direction relative to the current navigational target.",
-      "message" : "Retrograde relative to current navigational target"
-   },
-   "HUD_IN_TRANSIT_TO_N_X_X_X" : {
-      "description" : "",
-      "message" : "På väg mot {system} [{x},{y},{z}]"
-   },
-   "HUD_JUMP_COMPLETE" : {
-      "description" : "",
-      "message" : "Hopp färdigt: {percent}%"
-   },
-   "HUD_MASS" : {
-      "description" : "Mass",
-      "message" : "Massa"
-   },
-   "HUD_RADAR_DISTANCE" : {
-      "description" : "Tooltip: Current distance of the radar.",
-      "message" : "Aktiv radaravstånd"
-   },
-   "HUD_REQUEST_TIME_ACCEL" : {
-      "description" : "Tooltip: Request time acceleration {time}",
-      "message" : "Request time acceleration: {time}"
-   },
-   "HUD_SHIELD_STRENGTH" : {
-      "description" : "Tooltip: Shield Strength.",
-      "message" : "Sköld-styrka"
-   },
-   "HUD_SHOW_COMBAT_TARGET" : {
-      "description" : "Tooltip: Show the current combat target.",
-      "message" : "Visa nuvarande vapenmål"
-   },
-   "HUD_SHOW_FRAME" : {
-      "description" : "Tooltip: Show the current frame of reference.",
-      "message" : "Visa nuvarande referenssystem"
-   },
-   "HUD_SHOW_NAV_TARGET" : {
-      "description" : "Tooltip: Show current navigational target.",
-      "message" : "Visa nuvarande navigationsmål"
-   },
-   "HUD_SPEED_OF_APPROACH_TO_FRAME" : {
-      "description" : "Tooltip: The speed of approach towards the frame of reference.",
-      "message" : "Hastighet relativt referenssystemet"
-   },
-   "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
-      "description" : "Tooltip: The speed of approach relative to target.",
-      "message" : "The speed of approach relative to target"
-   },
-   "HUD_SPEED_RELATIVE_TO_TARGET" : {
-      "description" : "Tooltip: The speed relative to the target.",
-      "message" : "Hastighet relativt målet"
-   },
-   "HUD_THRUST_INDICATOR" : {
-      "description" : "Tooltip: describe what the thrust/velocity indicator shows",
-      "message" : "Visa nuvarande hastighet för varje riktning (tunna linjer) och motorer (tjock bakgrund)"
-   },
-   "HULL_DOES_NOT_REQUIRE_REPAIR" : {
-      "description" : "",
-      "message" : "Skrovet behöver inte repareras."
-   },
-   "HULL_INTEGRITY" : {
-      "description" : "",
-      "message" : "Skrovhållfasthet"
-   },
-   "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
-      "description" : "",
-      "message" : "Skrovet reparerades av {name}, nu på {repairPercent}%"
-   },
-   "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
-      "description" : "",
-      "message" : "Försöket att reparera skrovet misslyckades. Skrovet har fått en del små skador. "
-   },
-   "HYPERDRIVE" : {
-      "description" : "",
-      "message" : "Hypermotor"
-   },
-   "HYPERDRIVE_FITTED" : {
-      "description" : "",
-      "message" : "Installerad hypermotor:"
-   },
-   "HYPERJUMP_ROUTE" : {
-      "description" : "",
-      "message" : "HyperJump Route"
-   },
-   "HYPERSPACE_RANGE" : {
-      "description" : "",
-      "message" : "Hyperrymdsräckvidd"
-   },
-   "ILLEGAL_JUMP" : {
-      "description" : "A finable crime",
-      "message" : "Vårdslös hyperhopp registrerat"
-   },
-   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
-      "description" : "",
-      "message" : "Jag är trött på att arbeta för ingenting. Vet du inte vad ett kontrakt är?"
-   },
-   "INACTIVE" : {
-      "description" : "",
-      "message" : "Inaktiv"
-   },
-   "INCOMPETENT" : {
-      "description" : "For player reputation",
-      "message" : "Inkompetent"
-   },
-   "INEXPERIENCED" : {
-      "description" : "For player reputation",
-      "message" : "Oerfaren"
-   },
-   "INSUFFICIENT_FUNDS" : {
-      "description" : "",
-      "message" : "Otillräcklig likvid"
-   },
-   "INVERT_MOUSE_Y" : {
-      "description" : "",
-      "message" : "Invertera mus Y"
-   },
-   "IN_CARGO_HOLD" : {
-      "description" : "",
-      "message" : "I lastutrymme"
-   },
-   "IN_STOCK" : {
-      "description" : "",
-      "message" : "I lager"
-   },
-   "ITEM_IS_OUT_OF_STOCK" : {
-      "description" : "",
-      "message" : "Den här varan finns inte på lager."
-   },
-   "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
-      "description" : "",
-      "message" : "Det har varit bra att arbeta för dig. Om du behöver mig igen så kommer jag att vara här ett tag."
-   },
-   "JETTISON" : {
-      "description" : "",
-      "message" : "Göra av med"
-   },
-   "JUMPING" : {
-      "description" : "Flight State",
-      "message" : "Jumping"
-   },
-   "KILLS" : {
-      "description" : "",
-      "message" : "Dödade:"
-   },
-   "LANGUAGE" : {
-      "description" : "",
-      "message" : "Språk"
-   },
-   "LANGUAGE_RESTART_GAME_TO_APPLY" : {
-      "description" : "",
-      "message" : "Språk (starta om för att tillämpa)"
-   },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Tillstånd för uppskjutning nekat: landningsplats upptaget."
-   },
-   "LAUNCH_PERMISSION_DENIED_CREW" : {
-      "description" : "",
-      "message" : "Tillstånd nekas: det fattas tillräcklig med besättning för detta skepp"
-   },
-   "LAUNCH_PERMISSION_DENIED_FINED" : {
-      "description" : "",
-      "message" : "Uppskjutningstillstånd nekat: du har obetalda böter."
-   },
-   "LEGAL_STATUS" : {
-      "description" : "",
-      "message" : "Legal status"
-   },
-   "LIGHT_CARGO_SHUTTLE" : {
-      "description" : "",
-      "message" : "Lätt lastskyttel"
-   },
-   "LIGHT_COURIER" : {
-      "description" : "",
-      "message" : "Lätt kurir"
-   },
-   "LIGHT_FIGHTER" : {
-      "description" : "",
-      "message" : "Lätt jaktskepp"
-   },
-   "LIGHT_FREIGHTER" : {
-      "description" : "",
-      "message" : "Lätt fraktskepp"
-   },
-   "LIGHT_PASSENGER_SHUTTLE" : {
-      "description" : "",
-      "message" : "Lätt passagerarskyttel"
-   },
-   "LIGHT_PASSENGER_TRANSPORT" : {
-      "description" : "",
-      "message" : "Lätt passagerartransport"
-   },
-   "LOAD" : {
-      "description" : "",
-      "message" : "Ladda"
-   },
-   "LOAD_GAME" : {
-      "description" : "",
-      "message" : "Återuppta spel"
-   },
-   "LOBBY" : {
-      "description" : "",
-      "message" : "Lobby"
-   },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Lokal arm"
-   },
-   "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
-      "description" : "",
-      "message" : "Befinner sig {distance}km från centrum av {name}:"
-   },
-   "LOCATION" : {
-      "description" : "",
-      "message" : "Plats"
-   },
-   "LOW" : {
-      "description" : "",
-      "message" : "Låg"
-   },
-   "LY" : {
-      "description" : "Light year",
-      "message" : "ly"
-   },
-   "MAJOR_EXPORTS_ITEM" : {
-      "description" : "",
-      "message" : "Major exports"
-   },
-   "MAJOR_IMPORTS_ITEM" : {
-      "description" : "",
-      "message" : "Major imports"
-   },
-   "MAKE_NEW_FACE" : {
-      "description" : "",
-      "message" : "Skapa nytt ansikte"
-   },
-   "MALE" : {
-      "description" : "",
-      "message" : "Man"
-   },
-   "MARKET_BUYLINE" : {
-      "description" : "",
-      "message" : "Köp {amount} enheter för {price}"
-   },
-   "MARKET_SELLINE" : {
-      "description" : "",
-      "message" : "Sälj {amount} enheter för {price}"
-   },
-   "MASS" : {
-      "description" : "",
-      "message" : "Massa"
-   },
-   "MASTER" : {
-      "description" : "For player reputation",
-      "message" : "Mästare"
-   },
-   "MASTER_VOL" : {
-      "description" : "Master sound in settings option",
-      "message" : "Mästare:"
-   },
-   "MAX" : {
-      "description" : "",
-      "message" : "max"
-   },
-   "MAXIMUM_CREW" : {
-      "description" : "",
-      "message" : "Maxbesättning"
-   },
-   "MEDIUM" : {
-      "description" : "Game settings option: graphics resolution",
-      "message" : "Medium"
-   },
-   "MEDIUM_CARGO_SHUTTLE" : {
-      "description" : "",
-      "message" : "Medium lastskyttel"
-   },
-   "MEDIUM_COURIER" : {
-      "description" : "",
-      "message" : "Medium kurir"
-   },
-   "MEDIUM_FIGHTER" : {
-      "description" : "",
-      "message" : "Medium jaktskepp"
-   },
-   "MEDIUM_FREIGHTER" : {
-      "description" : "",
-      "message" : "Medium fraktskepp"
-   },
-   "MEDIUM_PASSENGER_SHUTTLE" : {
-      "description" : "",
-      "message" : "Medium passagerarskyttel"
-   },
-   "MEDIUM_PASSENGER_TRANSPORT" : {
-      "description" : "",
-      "message" : "Medium passagerartransport"
-   },
-   "METAL_ALLOYS" : {
-      "description" : "",
-      "message" : "Metallegeringar"
-   },
-   "MILITARY" : {
-      "description" : "",
-      "message" : "Militär"
-   },
-   "MINIMUM_CREW" : {
-      "description" : "",
-      "message" : "Minimumbesättning"
-   },
-   "MINOR_EXPORTS_ITEM" : {
-      "description" : "",
-      "message" : "Minor exports"
-   },
-   "MINOR_IMPORTS_ITEM" : {
-      "description" : "",
-      "message" : "Minor imports"
-   },
-   "MISSILE_MOUNTS" : {
-      "description" : "",
-      "message" : "Missilpyloner"
-   },
-   "MISSIONS" : {
-      "description" : "",
-      "message" : "Uppdrag"
-   },
-   "MISSION_DETAILS" : {
-      "description" : "",
-      "message" : "Uppdragsdetaljer"
-   },
-   "MORE_INFO" : {
-      "description" : "",
-      "message" : "Mer info..."
-   },
-   "MOSTLY_HARMLESS" : {
-      "description" : "",
-      "message" : "Till största delen ofarlig"
-   },
-   "MOVE_DOWN" : {
-      "description" : "move selection down in list",
-      "message" : "Move Down"
-   },
-   "MOVE_UP" : {
-      "description" : "move selection up in list",
-      "message" : "Move Up"
-   },
-   "MULTISAMPLING" : {
-      "description" : "",
-      "message" : "Multisampling"
-   },
-   "MULTISAMPLING_DESC" : {
-      "description" : "",
-      "message" : "A graphical fine-tuning feature, used to reduce jagged, pixelated contours. It can be quite resource-intensive."
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Mord"
-   },
-   "MUSIC" : {
-      "description" : "",
-      "message" : "Musik:"
-   },
-   "MUTE" : {
-      "description" : "",
-      "message" : "Tyst"
-   },
-   "NAME_OBJECT" : {
-      "description" : "For an item or object",
-      "message" : "Namn"
-   },
-   "NAME_PERSON" : {
-      "description" : "For a person",
-      "message" : "Namn"
-   },
-   "NAVIGATION" : {
-      "description" : "",
-      "message" : "Navigation:"
-   },
-   "NAVIGATOR" : {
-      "description" : "",
-      "message" : "Navigatör"
-   },
-   "NEGOTIATE" : {
-      "description" : "",
-      "message" : "Förhandla"
-   },
-   "NEXT_PAID" : {
-      "description" : "",
-      "message" : "Nästa betalning"
-   },
-   "NO" : {
-      "description" : "Negative answer to a question",
-      "message" : "Nej"
-   },
-   "NOBODY" : {
-      "description" : "For player reputation",
-      "message" : "Ingen"
-   },
-   "NONE" : {
-      "description" : "",
-      "message" : "Inget"
-   },
-   "NONE_FOR_SALE_IN_THIS_STATION" : {
-      "description" : "",
-      "message" : "Inget tillsalu vid denna station"
-   },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Norma arm"
-   },
-   "NOTES" : {
-      "description" : "",
-      "message" : "Anteckningar:"
-   },
-   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
-      "description" : "",
-      "message" : "Inte tillräckligt med {alloy} för att försöka reparera"
-   },
-   "NOT_SUPPORTED_ON_THIS_SHIP" : {
-      "description" : "",
-      "message" : "{equipment} stöds inte av den här skeppsmodellen"
-   },
-   "NO_MISSIONS" : {
-      "description" : "",
-      "message" : "Inga uppdrag."
-   },
-   "N_LIGHT_YEARS_N_MAX" : {
-      "description" : "",
-      "message" : "{range} ljusår ({maxRange} max)"
-   },
-   "N_OCCUPIED_PASSENGER_CABINS" : {
-      "description" : "",
-      "message" : "{quantity} upptagna passagerarhytter"
-   },
-   "N_SHIELD_GENERATORS" : {
-      "description" : "",
-      "message" : "{quantity} sköldgeneratorer"
-   },
-   "N_UNOCCUPIED_PASSENGER_CABINS" : {
-      "description" : "",
-      "message" : "{quantity} tomma passagerarhytter"
-   },
-   "OFF" : {
-      "description" : "",
-      "message" : "Av"
-   },
-   "OK" : {
-      "description" : "",
-      "message" : "Ok"
-   },
-   "OPEN_USER_FOLDER" : {
-      "description" : "",
-      "message" : "Användarkatalog"
-   },
-   "OPTIONS" : {
-      "description" : "",
-      "message" : "Alternativ"
-   },
-   "ORBIT" : {
-      "description" : "",
-      "message" : "Omloppsbana"
-   },
-   "ORBITAL_ANALYSIS" : {
-      "description" : "",
-      "message" : "Analys av omloppsbana"
-   },
-   "ORBITAL_ANALYSIS_NOTES" : {
-      "description" : "",
-      "message" : "Cirkulär omloppshastighet är angiven för en tangerande hastighet. Skeppet borde röras i 90° riktning mot skep/{name} axeln.\n\nNedstigningshastighet är ett absolut minimum och är också tangerande. En lägre hastighet eller lägre vinkel kommer att resultera i en kurs som korsar ytan på {name}.\n\nFlykthastighet fungerar i teorin i alla riktningar så länge inte skeppet krockar med {name} på vägen.\n\t\t"
-   },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Yttre arm"
-   },
-   "OUTSTANDING_FINES" : {
-      "description" : "Unpaid fines for crimes committed",
-      "message" : "Obetalda böter"
-   },
-   "OWED" : {
-      "description" : "Player owing money to crew members",
-      "message" : "Skyldig"
-   },
-   "PAY_FINE_OF_N" : {
-      "description" : "",
-      "message" : "Betala böter på {amount}"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Perseus arm"
-   },
-   "PERSONAL_INFORMATION" : {
-      "description" : "",
-      "message" : "Personlig information"
-   },
-   "PILOT" : {
-      "description" : "",
-      "message" : "Pilot"
-   },
-   "PILOTING" : {
-      "description" : "",
-      "message" : "Pilot:"
-   },
-   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
-      "description" : "",
-      "message" : "Pilotens stol är nu upptagen av {name}"
-   },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Ståtröveri"
-   },
-   "PLANET_DETAIL_DISTANCE" : {
-      "description" : "",
-      "message" : "Detaljavstånd för planeter"
-   },
-   "PLANET_TEXTURES" : {
-      "description" : "",
-      "message" : "Planettexturer"
-   },
-   "POLICE" : {
-      "description" : "",
-      "message" : "Polis"
-   },
-   "POOR" : {
-      "description" : "Player combat rating",
-      "message" : "Dålig"
-   },
-   "POSITION" : {
-      "description" : "The job title/position of crew memeber",
-      "message" : "Befattning"
-   },
-   "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
-      "description" : "",
-      "message" : "Press a key or controller button or escape to clear"
-   },
-   "PRICE" : {
-      "description" : "",
-      "message" : "Pris"
-   },
-   "PROFESSIONAL" : {
-      "description" : "For player reputation",
-      "message" : "Professionell"
-   },
-   "PUMP_DOWN" : {
-      "description" : "Drain the fuel tank",
-      "message" : "Pumpa tillbaka"
-   },
-   "QUALIFICATION_SCORES" : {
-      "description" : "",
-      "message" : "Kvalificeringspoäng"
-   },
-   "QUIT" : {
-      "description" : "",
-      "message" : "Avsluta"
-   },
-   "QUIT_CONFIRMATION" : {
-      "description" : "For the checkbox in settings window",
-      "message" : "Bekräfta avslut"
-   },
-   "RANK" : {
-      "description" : "",
-      "message" : "Rank:"
-   },
-   "RATING" : {
-      "description" : "",
-      "message" : "Betyg:"
-   },
-   "REAR_WEAPON" : {
-      "description" : "",
-      "message" : "Bakre vapen"
-   },
-   "REFUEL" : {
-      "description" : "",
-      "message" : "Tanka"
-   },
-   "REFUEL_FULL" : {
-      "description" : "",
-      "message" : "Tanka fullt"
-   },
-   "REGISTRATION_NUMBER" : {
-      "description" : "",
-      "message" : "Registration number"
-   },
-   "RELIABLE" : {
-      "description" : "For player reputation",
-      "message" : "Pålitlig"
-   },
-   "REMOVE_JUMP" : {
-      "description" : "UI-button: remove hyper jump from list of planned jumps",
-      "message" : "Remove Jump"
-   },
-   "REMOVE_WHEN_COMPLETED" : {
-      "description" : "For UI hyperjump planner, referring to jump target system",
-      "message" : "Remove jump when completed"
-   },
-   "REPAIR_X_HULL_DAMAGE_FOR_X" : {
-      "description" : "",
-      "message" : "Reparera {damage}% skrov för {price}"
-   },
-   "REPUTATION" : {
-      "description" : "",
-      "message" : "Rykte"
-   },
-   "REQUEST_LAUNCH" : {
-      "description" : "",
-      "message" : "Uppskjutningstillstånd"
-   },
-   "REQUIRED_FUEL" : {
-      "description" : "Fuel usage for traveling to star system",
-      "message" : "Required Fuel:"
-   },
-   "RESET" : {
-      "description" : "",
-      "message" : "Återställ"
-   },
-   "RETURN_TO_GAME" : {
-      "description" : "",
-      "message" : "Återgå till spelet"
-   },
-   "RETURN_TO_MENU" : {
-      "description" : "",
-      "message" : "Återgå till meny"
-   },
-   "REVERSE_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Accelerera bakåt (tom)"
-   },
-   "REVERSE_ACCEL_FULL" : {
-      "description" : "",
-      "message" : "Accelerera bakåt (full)"
-   },
-   "REWARD" : {
-      "description" : "",
-      "message" : "Belöning"
-   },
-   "ROUTE_INFO" : {
-      "description" : "For hyperjump planner",
-      "message" : "Route Info"
-   },
-   "ROUTE_JUMPS" : {
-      "description" : "For hyperjump planner",
-      "message" : "Route Jumps"
-   },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Sagittarius arm"
-   },
-   "SAVE" : {
-      "description" : "",
-      "message" : "Spara"
-   },
-   "SCOOP_MOUNTS" : {
-      "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-      "message" : "Skopfästen"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Scutum-Centaurus arm"
-   },
-   "SELECT" : {
-      "description" : "",
-      "message" : "Välj"
-   },
-   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
-      "description" : "",
-      "message" : "Välj en fil att spara till eller skriv in ett nytt filnamn"
-   },
-   "SELECT_FILE" : {
-      "description" : "",
-      "message" : "Välj fil..."
-   },
-   "SELECT_GAME_TO_LOAD" : {
-      "description" : "",
-      "message" : "Välj spel att ladda..."
-   },
-   "SELL" : {
-      "description" : "Commodities and equipment prices",
-      "message" : "Sälja"
-   },
-   "SENSORS" : {
-      "description" : "",
-      "message" : "Sensorer:"
-   },
-   "SENSORS_AND_DEFENCE" : {
-      "description" : "",
-      "message" : "Sensorer och försvar"
-   },
-   "SETTINGS" : {
-      "description" : "UI option",
-      "message" : "Settings"
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Använd destination som navigationsmål"
-   },
-   "SHIP" : {
-      "description" : "",
-      "message" : "Skepp"
-   },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "Skeppsingenjör"
-   },
-   "SHIP_INFORMATION" : {
-      "description" : "",
-      "message" : "Skeppsinformation"
-   },
-   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
-      "description" : "",
-      "message" : "Ditt skepp fungerar utmärkt."
-   },
-   "SHIP_IS_FULLY_EQUIPPED" : {
-      "description" : "",
-      "message" : "Ditt skepp är fullt utrustat."
-   },
-   "SHIP_IS_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Ditt skepp är fullastat."
-   },
-   "SHIP_MARKET" : {
-      "description" : "",
-      "message" : "Skeppsmarknad"
-   },
-   "SHIP_REPAIRS" : {
-      "description" : "",
-      "message" : "Skeppsreparationer"
-   },
-   "SHIP_VIEWING_WAS_SOLD" : {
-      "description" : "",
-      "message" : "Skeppet du tittade på har blivit sålt"
-   },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Simulerar universums evolution: {age} miljarder år ;-)"
-   },
-   "SOUND" : {
-      "description" : "",
-      "message" : "Ljud"
-   },
-   "START_AT_BARNARDS_STAR" : {
-      "description" : "",
-      "message" : "Starta vid Bernard's Stjärna"
-   },
-   "START_AT_BARNARDS_STAR_DESC" : {
-      "description" : "",
-      "message" : "This is a difficult start from the System Administration Resting prison station."
-   },
-   "START_AT_EARTH" : {
-      "description" : "",
-      "message" : "Starta på Jorden"
-   },
-   "START_AT_EARTH_DESC" : {
-      "description" : "",
-      "message" : "This is an easy start from London on Earth in the Sol system."
-   },
-   "START_AT_NEW_HOPE" : {
-      "description" : "New Hope is an in game location",
-      "message" : "Starta vid New Hope"
-   },
-   "START_AT_NEW_HOPE_DESC" : {
-      "description" : "",
-      "message" : "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
-   },
-   "STAR_FIELD_DENSITY" : {
-      "description" : "",
-      "message" : "Täthet i bakgrundssjärnor"
-   },
-   "STATION_MANAGER" : {
-      "description" : "",
-      "message" : "Stationschef"
-   },
-   "STATION_ORBIT" : {
-      "description" : "Information shown in the station loby",
-      "message" : "Vi är i en {orbit_period} dags period runt {parent_body}."
-   },
-   "STATUS" : {
-      "description" : "",
-      "message" : "Status"
-   },
-   "TECH_CERTIFIED" : {
-      "description" : "Lobby screen shows the tech level (an integer number) of the station",
-      "message" : "Denna station innehar nivå {tech_level} teknologi-certifikat "
-   },
-   "TECH_CERTIFIED_MILITARY" : {
-      "description" : "Lobby screen shows the tech level of the station",
-      "message" : "Denna station är certifierad för militär utrustning."
-   },
-   "TEXTURE_COMPRESSION" : {
-      "description" : "",
-      "message" : "This frees up more memory for the graphics card, which is likely what you want, at the expense of compressing them during game start."
-   },
-   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
-      "description" : "",
-      "message" : "Tack för ditt köp. Kom ihåg att utrusta och köpa bränsle innan du åker."
-   },
-   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
-      "description" : "",
-      "message" : "Det finns ingen annan ombord som kan flyga skeppet."
-   },
-   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
-      "description" : "",
-      "message" : "Skeppet är under stationens kontroll kapten."
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc arm"
-   },
-   "TOGGLE_MALE_FEMALE" : {
-      "description" : "player gender",
-      "message" : "Växla mellan manlig/kvinnlig"
-   },
-   "TOO_SMALL_FOR_CURRENT_CREW" : {
-      "description" : "",
-      "message" : "Skeppet för litet för nuvarande besättning"
-   },
-   "TOO_SMALL_TO_TRANSSHIP" : {
-      "description" : "Ship market error message",
-      "message" : "Nytt skepp saknar kapacitet för nuvarande last och hypermotor."
-   },
-   "TOTAL" : {
-      "description" : "",
-      "message" : "Totalt:"
-   },
-   "TOTAL_DISTANCE" : {
-      "description" : "Total distance of a (possibly series) of hyper jump(s)",
-      "message" : "Total Distance:"
-   },
-   "TOTAL_DURATION" : {
-      "description" : "Total duration of a (possibly series) of hyper jump(s)",
-      "message" : "Total Duration:"
-   },
-   "TOTAL_MASS" : {
-      "description" : "",
-      "message" : "Total massa"
-   },
-   "TRADING_ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "Handla med illegalt gods"
-   },
-   "TRUSTWORTHY" : {
-      "description" : "For player reputation",
-      "message" : "Tillförlitlig"
-   },
-   "TYPE" : {
-      "description" : "",
-      "message" : "Typ"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Olaglig vapenavfyring"
-   },
-   "UNRELIABLE" : {
-      "description" : "",
-      "message" : "Opålitlig"
-   },
-   "UP_ACCEL" : {
-      "description" : "",
-      "message" : "Accelerera upp"
-   },
-   "USED" : {
-      "description" : "",
-      "message" : "Använd"
-   },
-   "VERY_HIGH" : {
-      "description" : "Game settings option: graphic resolution",
-      "message" : "Mycket högt"
-   },
-   "VERY_LOW" : {
-      "description" : "Game settings option: graphic resolution",
-      "message" : "Väldigt lågt"
-   },
-   "VICINITY_OF" : {
-      "description" : "",
-      "message" : "In vicinity of"
-   },
-   "VIDEO" : {
-      "description" : "",
-      "message" : "Video"
-   },
-   "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
-      "description" : "",
-      "message" : "Videokonfiguration (starta om spelet för att använda)"
-   },
-   "VIDEO_RESOLUTION" : {
-      "description" : "",
-      "message" : "Videoupplösning"
-   },
-   "VIDEO_RESOLUTION_DESC" : {
-      "description" : "Tooltip for video mode/resultion setting",
-      "message" : "Higher resolutions display more information at a smaller size and can decrease performance."
-   },
-   "VSYNC" : {
-      "description" : "For the checkbox in settings window",
-      "message" : "Vsync"
-   },
-   "VSYNC_DESC" : {
-      "description" : "",
-      "message" : "Vertical Sync can eliminate visual tearing or artifacts, and input latency."
-   },
-   "WAGE" : {
-      "description" : "Salary of crew shown in crew roster",
-      "message" : "Lön"
-   },
-   "WEIGHT_EMPTY" : {
-      "description" : "",
-      "message" : "Tom vikt"
-   },
-   "WEIGHT_FULLY_LOADED" : {
-      "description" : "",
-      "message" : "Vikt full last"
-   },
-   "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
-      "description" : "",
-      "message" : "Vi är i hyperrymden kapten."
-   },
-   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "Said by the police to law abiding player",
-      "message" : "Du har inga polisiära ärenden."
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "Message to be sent over comms by police when crime is committed by player",
-      "message" : "{crime} tollereras inte här!"
-   },
-   "YES" : {
-      "description" : "Positive answer to a question",
-      "message" : "Ja"
-   },
-   "YOURE_GOING_TO_REGRET_SACKING_ME" : {
-      "description" : "",
-      "message" : "Du kommer att ångra att du sparkade mig!"
-   },
-   "YOUR_HULL_IS_AT_X_INTEGRITY" : {
-      "description" : "",
-      "message" : "Ditt skrovs integritet är {value}%."
-   },
-   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
-      "description" : "",
-      "message" : "Du har inte tillräckligt med pengar för det valet."
-   },
-   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
-      "description" : "",
-      "message" : "Du har {units} enheter i din last"
-   },
-   "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
-      "description" : "",
-      "message" : "Du måste först välja ett stridsmål kapten."
-   },
-   "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
-      "description" : "",
-      "message" : "Du måste först välja ett passande navigationsmål kapten."
-   },
-   "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
-      "description" : "",
-      "message" : "Du måste först skjutas upp kapten."
-   },
-   "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
-      "description" : "",
-      "message" : "Du måste begära uppskjutningstillstånd först kapten."
-   },
-   "YOU_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Du har inte tillräckligt med pengar"
-   },
-   "ZOOM" : {
-      "description" : "Label for a zoom (magnification) control bar.",
-      "message" : "Zoom"
-   }
+  "ABOVE_AVERAGE": {
+    "description": "",
+    "message": "Över medel"
+  },
+  "ACTIVE": {
+    "description": "",
+    "message": "Aktiv"
+  },
+  "ADD_JUMP": {
+    "description": "UI-button: Add hyper jump to list of planned jumps",
+    "message": "Add Jump"
+  },
+  "AFTER_TRADE_IN": {
+    "description": "",
+    "message": "Efter inbyte"
+  },
+  "ALLEGIANCE": {
+    "description": "",
+    "message": "Tillhörighet:"
+  },
+  "ALL_UP_WEIGHT": {
+    "description": "",
+    "message": "Totalvikt"
+  },
+  "AMOUNT": {
+    "description": "",
+    "message": "Belopp"
+  },
+  "ANISOTROPIC_FILTERING_DESC": {
+    "description": "",
+    "message": "Samples the texture across multiple mip levels to produce a much clearer texture when viewed at shallow angles. Stops the textures from becoming as blurred; however, it can come at a heavy performance cost."
+  },
+  "AN_ERROR_HAS_OCCURRED": {
+    "description": "",
+    "message": "Ett fel har uppstått"
+  },
+  "ATMOSPHERIC_SHIELDING": {
+    "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
+    "message": "Atmosfärkapabel"
+  },
+  "ATTEMPT_TO_REPAIR_HULL": {
+    "description": "",
+    "message": "Försök att reparera skrov"
+  },
+  "AUTO_ROUTE": {
+    "description": "Automatically find shortest jump route (measured in time) in star map",
+    "message": "Auto Route"
+  },
+  "AVAILABLE_FOR_PURCHASE": {
+    "description": "",
+    "message": "Tillgänglig för köp"
+  },
+  "AVERAGE": {
+    "description": "",
+    "message": "Medel"
+  },
+  "BACKWARD_ACCEL": {
+    "description": "",
+    "message": "Accelerera bakåt"
+  },
+  "BULLETIN_BOARD": {
+    "description": "",
+    "message": "Anslagstavla"
+  },
+  "BUY": {
+    "description": "Commodities and equipment prices",
+    "message": "Köpa"
+  },
+  "BUY_SHIP": {
+    "description": "",
+    "message": "Köp skepp"
+  },
+  "CABINS": {
+    "description": "For passengers",
+    "message": "Hytter"
+  },
+  "CABIN_FREE": {
+    "description": "Free capacity for passengers",
+    "message": "{amount} ledigt"
+  },
+  "CABIN_USED": {
+    "description": "Passengers using cabins",
+    "message": "{amount} använt"
+  },
+  "CANCEL": {
+    "description": "",
+    "message": "Avbryt"
+  },
+  "CAPACITY": {
+    "description": "Capacity of ship to fit more equipment",
+    "message": "Kapacitet"
+  },
+  "CAPACITY_USED": {
+    "description": "",
+    "message": "Använd kapacitet"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Last"
+  },
+  "CARGO_SPACE": {
+    "description": "",
+    "message": "Lastutrymme"
+  },
+  "CARGO_SPACE_USED": {
+    "description": "",
+    "message": "Använt lastutrymme"
+  },
+  "CARGO_T_FREE": {
+    "description": "t for tonne",
+    "message": "{amount}t ledigt"
+  },
+  "CARGO_T_USED": {
+    "description": "t for tonne",
+    "message": "{amount}t använt"
+  },
+  "CASH": {
+    "description": "",
+    "message": "Kontanter"
+  },
+  "CASH_N": {
+    "description": "",
+    "message": "Pengar: {money}"
+  },
+  "CENTER_ON_SYSTEM": {
+    "description": "Center on selected star system",
+    "message": "Center on System"
+  },
+  "CHANGE_BINDING": {
+    "description": "Key binding option",
+    "message": "Ändra bindning"
+  },
+  "CHIEF_MECHANIC": {
+    "description": "",
+    "message": "Chefsmekaniker"
+  },
+  "CIRCULAR_ORBIT_SPEED": {
+    "description": "",
+    "message": "Cirkulär omloppshastighet"
+  },
+  "CITY_DETAIL_LEVEL": {
+    "description": "Game graphics option",
+    "message": "Detaljnivå för städer"
+  },
+  "CLEAN": {
+    "description": "Legal status of player",
+    "message": "Rensa"
+  },
+  "CLEAR": {
+    "description": "Clear an option in game settings/options menu",
+    "message": "Rensa"
+  },
+  "CLEAR_ROUTE": {
+    "description": "Clear a planned route of hyperjumps",
+    "message": "Clear Route"
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "Klient"
+  },
+  "CLOSE": {
+    "description": "",
+    "message": "Close"
+  },
+  "COMBAT": {
+    "description": "Headline for kills and combat rating",
+    "message": "Strid"
+  },
+  "COMMANDER": {
+    "description": "",
+    "message": "Kapten"
+  },
+  "COMMODITY_MARKET": {
+    "description": "",
+    "message": "Råvarumarknad"
+  },
+  "COMPACT_RADAR": {
+    "description": "Game settings option",
+    "message": "Kompakt radar"
+  },
+  "COMPETENT": {
+    "description": "Combat rating",
+    "message": "Kompetent"
+  },
+  "COMPLETED": {
+    "description": "",
+    "message": "Utförd"
+  },
+  "COMPRESS_TEXTURES": {
+    "description": "graphics option in game settings menu ",
+    "message": "Komprimera texturer"
+  },
+  "CONFIRM_PURCHASE": {
+    "description": "",
+    "message": "Bekräfta köp"
+  },
+  "CONFIRM_SALE": {
+    "description": "",
+    "message": "Bekräfta försäljning"
+  },
+  "CONSTABLE": {
+    "description": "",
+    "message": "Konstapel"
+  },
+  "CONTINUE_GAME": {
+    "description": "",
+    "message": "Fortsätt spelet"
+  },
+  "CONTROLS": {
+    "description": "",
+    "message": "Kontroller"
+  },
+  "CONTROL_OPTIONS": {
+    "description": "",
+    "message": "Kontrollalternativ"
+  },
+  "COULD_NOT_LOAD_GAME": {
+    "description": "",
+    "message": "Kunde inte ladda spel:"
+  },
+  "CREDIBLE": {
+    "description": "For player reputation",
+    "message": "Trovärdig"
+  },
+  "CREDITS": {
+    "description": "in game currency",
+    "message": "Credits"
+  },
+  "CREW_CABINS": {
+    "description": "",
+    "message": "Besättningshytter"
+  },
+  "CREW_ROSTER": {
+    "description": "",
+    "message": "Besättningslista"
+  },
+  "CRIMINAL_RECORD": {
+    "description": "Past crimes / crime history of character",
+    "message": "Kriminalregister"
+  },
+  "CURRENT_FUEL": {
+    "description": "For hyperjump planner",
+    "message": "Current Fuel:"
+  },
+  "CURRENT_SYSTEM": {
+    "description": "For hyperjump planner",
+    "message": "Nuvarande system"
+  },
+  "DANGEROUS": {
+    "description": "Player combat rating",
+    "message": "Farligt"
+  },
+  "DEADLY": {
+    "description": "Player combat rating",
+    "message": "Dödligt"
+  },
+  "DELTA_V": {
+    "description": "",
+    "message": "Delta-v"
+  },
+  "DELTA_V_EMPTY": {
+    "description": "Delta-v capacity of a ship with no cargo or upgrades",
+    "message": "Delta-v (tom)"
+  },
+  "DELTA_V_FULL": {
+    "description": "Delta-v capacity of a ship with maximum cargo",
+    "message": "Delta-v (full)"
+  },
+  "DELTA_V_MAX": {
+    "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
+    "message": "Delta-v (max)"
+  },
+  "DESCENT_TO_GROUND_SPEED": {
+    "description": "",
+    "message": "Hastighet-mot-marken:"
+  },
+  "DESTROY_ENEMY_SHIP": {
+    "description": "",
+    "message": "Förstör fiendeskepp"
+  },
+  "DISMISS": {
+    "description": "Terminate crew memeber's contract",
+    "message": "Avskeda"
+  },
+  "DISPLAY_HUD_TRAILS": {
+    "description": "",
+    "message": "Visa HUD spår"
+  },
+  "DISPLAY_NAV_TUNNELS": {
+    "description": "Settings option: hyperspace tunnel effect",
+    "message": "Visa navigationstunnlar"
+  },
+  "DISPLAY_SPEED_LINES": {
+    "description": "Settings option: effect when travelling in space",
+    "message": "Visa hastighetslinjer"
+  },
+  "DOCKED_AT": {
+    "description": "",
+    "message": "Docked at"
+  },
+  "DOCK_AT_CURRENT_TARGET": {
+    "description": "",
+    "message": "Docka vid nuvarande mål"
+  },
+  "DUE": {
+    "description": "mission deadline date",
+    "message": "Förfaller"
+  },
+  "DUMPING": {
+    "description": "The illegal act of dumping waste",
+    "message": "Dumpning"
+  },
+  "D_DAYS_LEFT": {
+    "description": "",
+    "message": "Dagar kvar: %d"
+  },
+  "ECONOMY_TRADE": {
+    "description": "",
+    "message": "Ekonomi & handel"
+  },
+  "EFFECTS": {
+    "description": "",
+    "message": "Effekter:"
+  },
+  "ELITE": {
+    "description": "Player combat rating",
+    "message": "ELITE"
+  },
+  "EMPLOYMENT": {
+    "description": "",
+    "message": "Anställning"
+  },
+  "ENABLE_ANISOTROPIC_FILTERING": {
+    "description": "Use Anisotropic Filtering",
+    "message": "Anisotropiskt filter"
+  },
+  "ENABLE_AUTOSAVE": {
+    "description": "Allow the game to autosave when docking",
+    "message": "Spara automatiskt"
+  },
+  "ENABLE_COCKPIT": {
+    "description": "Game settings option: to use a cockpit 3D model",
+    "message": "Aktivera cockpit (EXPERIMENTELLT)"
+  },
+  "ENABLE_JOYSTICK": {
+    "description": "",
+    "message": "Aktivera joystick"
+  },
+  "END_GAME": {
+    "description": "",
+    "message": "End Game"
+  },
+  "ENGINEERING": {
+    "description": "Engineering skills of crew",
+    "message": "Ingenjör:"
+  },
+  "EQUIPMENT": {
+    "description": "",
+    "message": "Utrustning"
+  },
+  "EQUIPMENT_MARKET": {
+    "description": "",
+    "message": "Utrustningsmarknad"
+  },
+  "EQUIPPED": {
+    "description": "",
+    "message": "Utrustad"
+  },
+  "ERROR": {
+    "description": "",
+    "message": "Fel"
+  },
+  "ERROR_LANDING_GEAR_DOWN": {
+    "description": "",
+    "message": "Kan inte påbörja hopp; landningsställ är inte uppfällt!"
+  },
+  "ESCAPE_SPEED": {
+    "description": "",
+    "message": "Flykthastighet:"
+  },
+  "EXIT_THIS_GAME": {
+    "description": "",
+    "message": "Avsluta detta spel"
+  },
+  "EXPERIENCED": {
+    "description": "For player reputation",
+    "message": "Erfaren"
+  },
+  "EXPERT": {
+    "description": "For player reputation",
+    "message": "Expert"
+  },
+  "FAILED": {
+    "description": "When failed mission",
+    "message": "Misslyckades"
+  },
+  "FEMALE": {
+    "description": "",
+    "message": "Kvinna"
+  },
+  "FINAL_TARGET": {
+    "description": "Hyperjump planner, referring to star system target",
+    "message": "Final Target:"
+  },
+  "FLIGHT_STATE": {
+    "description": "",
+    "message": "Flight State"
+  },
+  "FLYING": {
+    "description": "",
+    "message": "Flying"
+  },
+  "FORWARD_ACCEL": {
+    "description": "",
+    "message": "Accelerera framåt"
+  },
+  "FORWARD_ACCEL_EMPTY": {
+    "description": "",
+    "message": "Acceleration framåt (tom)"
+  },
+  "FORWARD_ACCEL_FULL": {
+    "description": "",
+    "message": "Acceleration framåt (full)"
+  },
+  "FRACTAL_DETAIL": {
+    "description": "",
+    "message": "Fraktaldetaljer"
+  },
+  "FREE": {
+    "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
+    "message": "gratis"
+  },
+  "FRONT_WEAPON": {
+    "description": "",
+    "message": "Främre vapen"
+  },
+  "FUEL": {
+    "description": "",
+    "message": "Bränsle"
+  },
+  "FUEL_TANK_FULL": {
+    "description": "",
+    "message": "Bränsletank full."
+  },
+  "FUEL_WEIGHT": {
+    "description": "",
+    "message": "Bränslevikt"
+  },
+  "FULL_SCREEN": {
+    "description": "",
+    "message": "Helskärm"
+  },
+  "GAME_TIME": {
+    "description": "",
+    "message": "Game time"
+  },
+  "GENERAL_CREW": {
+    "description": "",
+    "message": "Generell besättning"
+  },
+  "GIVE_ORDERS_TO_CREW": {
+    "description": "",
+    "message": "Verkställ order"
+  },
+  "GOOD_RIDDANCE_TO_YOU_TOO": {
+    "description": "",
+    "message": "Hejdå till dig också."
+  },
+  "GPU_JOBS": {
+    "description": "",
+    "message": "GPU Jobs"
+  },
+  "GPU_JOBS_DESC": {
+    "description": "",
+    "message": "Utilize GPU for certain actions, possibly improving performance."
+  },
+  "HANG_UP": {
+    "description": "",
+    "message": "Lägg på."
+  },
+  "HARMLESS": {
+    "description": "Player combat rating",
+    "message": "Ofarlig"
+  },
+  "HEAVY_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "Tung lastskyttel"
+  },
+  "HEAVY_COURIER": {
+    "description": "",
+    "message": "Tung kurir"
+  },
+  "HEAVY_FIGHTER": {
+    "description": "",
+    "message": "Tungt jaktskepp"
+  },
+  "HEAVY_FREIGHTER": {
+    "description": "",
+    "message": "Tungt fraktskepp"
+  },
+  "HEAVY_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "Tung passagerarskyttel"
+  },
+  "HEAVY_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "Tung passagerartransport"
+  },
+  "HIGH": {
+    "description": "Game settings option: for graphics resolution",
+    "message": "Hög"
+  },
+  "HUD_2D_RADAR": {
+    "description": "Popup text: the name of the azimuthal equidistant projection radar",
+    "message": "2D azimuthal equidistant projection"
+  },
+  "HUD_3D_RADAR": {
+    "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
+    "message": "3D planprojektion"
+  },
+  "HUD_ATMOSPHERIC_PRESSURE": {
+    "description": "Tooltip: Atmospheric Pressure.",
+    "message": "Atmosfäriskt tryck"
+  },
+  "HUD_BACKWARD_GUN_TEMPERATURE": {
+    "description": "Tooltip: Backward Gun Temperature.",
+    "message": "Bakre kanon-temperatur"
+  },
+  "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS": {
+    "description": "Tooltip: The braking distance using the main thrusters.",
+    "message": "Stoppsträcka för huvudmotorerna"
+  },
+  "HUD_BUTTON_AUTOPILOT_DOCKING": {
+    "description": "Tooltip: Autopilot docking",
+    "message": "Autopilot dockar"
+  },
+  "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT": {
+    "description": "Tooltip: Autopilot entering orbit",
+    "message": "Autopilot går in i omlopp"
+  },
+  "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET": {
+    "description": "Tooltip: Autopilot flying to target",
+    "message": "Autopilot flyger till mål"
+  },
+  "HUD_BUTTON_BLASTOFF": {
+    "description": "Tooltip: Blastoff",
+    "message": "Blastoff"
+  },
+  "HUD_BUTTON_EQUIPMENT": {
+    "description": "Tooltip: Equipment",
+    "message": "Utrustning"
+  },
+  "HUD_BUTTON_EXTERNAL_VIEW": {
+    "description": "Tooltip: External camera view",
+    "message": "Extern vy"
+  },
+  "HUD_BUTTON_FIX_ANTINORMAL": {
+    "description": "Tooltip: fix heading antinormal",
+    "message": "Fix heading antinormal"
+  },
+  "HUD_BUTTON_FIX_NORMAL": {
+    "description": "Tooltip: fix heading normal",
+    "message": "Fix heading normal"
+  },
+  "HUD_BUTTON_FIX_PROGRADE": {
+    "description": "Tooltip: fix heading prograde",
+    "message": "Fix heading prograde"
+  },
+  "HUD_BUTTON_FIX_RADIAL_IN": {
+    "description": "Tooltip: fix heading radially inward",
+    "message": "Fix heading radially inward"
+  },
+  "HUD_BUTTON_FIX_RADIAL_OUT": {
+    "description": "Tooltip: fix heading radially outward",
+    "message": "Fix heading radially outward"
+  },
+  "HUD_BUTTON_FIX_RETROGRADE": {
+    "description": "Tooltip: fix heading retrograde",
+    "message": "Fix heading retrograde"
+  },
+  "HUD_BUTTON_HYPERDRIVE_DISABLED": {
+    "description": "Tooltip: Hyperdrive disabled (docked or landed)",
+    "message": "Hypermotor inaktiverad"
+  },
+  "HUD_BUTTON_INITIATE_HYPERJUMP": {
+    "description": "Tooltip: Initiate legal hyperjump",
+    "message": "Påbörja hopp"
+  },
+  "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP": {
+    "description": "Tooltip: Initiate illegal hyperjump",
+    "message": "Påbörja olagligt hopp"
+  },
+  "HUD_BUTTON_INTERNAL_VIEW": {
+    "description": "Tooltip: Internal camera view",
+    "message": "Intern vy"
+  },
+  "HUD_BUTTON_KILL_ROTATION": {
+    "description": "Tooltip: kill rotation",
+    "message": "Avbryt rotation"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_DOWN": {
+    "description": "Tooltip: Landing gear is down",
+    "message": "Landningsställ är nerfällt"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_MOVING": {
+    "description": "Tooltip: Landing gear is moving",
+    "message": "Landningsställ i rörelse"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_UP": {
+    "description": "Tooltip: Landing gear is up",
+    "message": "Landningsställ är uppfällt"
+  },
+  "HUD_BUTTON_MANUAL_CONTROL": {
+    "description": "Tooltip: Manual control",
+    "message": "Manuell kontroll"
+  },
+  "HUD_BUTTON_ROTATION_DAMPING_IS_OFF": {
+    "description": "Tooltip: Rotation damping is off",
+    "message": "Rotationsdämpning är av"
+  },
+  "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
+    "description": "Tooltip: Rotation damping is on",
+    "message": "Rotationsdämpare är på"
+  },
+  "HUD_BUTTON_SCANNER": {
+    "description": "Tooltip: Scanner",
+    "message": "Scanner"
+  },
+  "HUD_BUTTON_SET_SPEED": {
+    "description": "Tooltip: set speed",
+    "message": "Sätt hastighet"
+  },
+  "HUD_BUTTON_SHOW_COMMS": {
+    "description": "Tooltip: Show comms",
+    "message": "Visa kommunikationslog"
+  },
+  "HUD_BUTTON_SHOW_PERSONAL_INFO": {
+    "description": "Tooltip: Show personal info",
+    "message": "Visa person-information"
+  },
+  "HUD_BUTTON_SIDEREAL_VIEW": {
+    "description": "Tooltip: Sidereal camera view",
+    "message": "Sidovy"
+  },
+  "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
+    "description": "Tooltip: Switch to galaxy map",
+    "message": "Byt till galax-karta"
+  },
+  "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
+    "description": "Tooltip: Switch to sector map",
+    "message": "Byt till sektor-karta"
+  },
+  "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
+    "description": "Tooltip: Switch to system map",
+    "message": "Byt till system-karta"
+  },
+  "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW": {
+    "description": "Tooltip: Switch to system overview",
+    "message": "Byt till system-översikt"
+  },
+  "HUD_BUTTON_SWITCH_TO_WORLD_VIEW": {
+    "description": "Tooltip: Switch to world view",
+    "message": "Byt till världsvy"
+  },
+  "HUD_BUTTON_UNDOCK": {
+    "description": "Tooltip: Undock",
+    "message": "Lämna dockan"
+  },
+  "HUD_CARGO_MASS": {
+    "description": "Cargo Mass",
+    "message": "Lastmassa"
+  },
+  "HUD_CURRENT_COMBAT_TARGET": {
+    "description": "Tooltip: The current combat target.",
+    "message": "Nuvarande vapenmål"
+  },
+  "HUD_CURRENT_FRAME": {
+    "description": "Tooltip: The current frame of reference.",
+    "message": "Nuvarande referenssystrem"
+  },
+  "HUD_CURRENT_HEADING": {
+    "description": "Tooltip: the current heading.",
+    "message": "Nuvarande kurs"
+  },
+  "HUD_CURRENT_NAV_TARGET": {
+    "description": "Tooltip: The current navigational target.",
+    "message": "Nuvarande navigationsmål"
+  },
+  "HUD_CURRENT_PITCH": {
+    "description": "Tooltip: the current pitch.",
+    "message": "Nuvarande inklination"
+  },
+  "HUD_CURRENT_ROLL": {
+    "description": "Tooltip: the current roll.",
+    "message": "Nuvarande roll"
+  },
+  "HUD_DELTA_V": {
+    "description": "Tooltip: The remaining Δv.",
+    "message": "Återstående Δv"
+  },
+  "HUD_DELTA_V_OF_MANEUVER_BURN": {
+    "description": "Tooltip: The Δv for the maneuver burn.",
+    "message": "Δv för manöver"
+  },
+  "HUD_DELTA_V_PERCENT": {
+    "description": "Tooltip: The remaining Δv in percent.",
+    "message": "Återstående Δv"
+  },
+  "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
+    "description": "Tooltip: Distance to the surface of the frame of reference.",
+    "message": "Avstånd till ytan från referenssystemet"
+  },
+  "HUD_DISTANCE_TO_SURFACE_OF_TARGET": {
+    "description": "Tooltip: Distance to the surface of the target.",
+    "message": "Avstånd till målets yta"
+  },
+  "HUD_DURATION_OF_MANEUVER_BURN": {
+    "description": "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
+    "message": "Uppskattad varaktighet av manöver med huvudmotorerna "
+  },
+  "HUD_DURATION_UNTIL_MANEUVER_BURN": {
+    "description": "Tooltip: The duration until the middle of the maneuver burn.",
+    "message": "Hälften av tiden till manövrering"
+  },
+  "HUD_FORWARD_GUN_TEMPERATURE": {
+    "description": "Tooltip: Forward Gun Temperature.",
+    "message": "Främre kanon-temperatur"
+  },
+  "HUD_HULL_STRENGTH": {
+    "description": "Tooltip: Hull Strength.",
+    "message": "Skrovstyrka"
+  },
+  "HUD_HULL_TEMPERATURE": {
+    "description": "Tooltip: Hull Temperature.",
+    "message": "Skrovtemperatur"
+  },
+  "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
+    "description": "",
+    "message": "Hopp till {destination} om {countdown} sekunder "
+  },
+  "HUD_INDICATOR_AWAY_FROM_FRAME": {
+    "description": "Indicator: Away from the current frame.",
+    "message": "Från nuvarande referenssystem"
+  },
+  "HUD_INDICATOR_COMBAT_TARGET_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current combat target.",
+    "message": "Prograde relative to current combat target"
+  },
+  "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current combat target.",
+    "message": "Retrograde relative to current combat target"
+  },
+  "HUD_INDICATOR_FRAME_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current frame.",
+    "message": "Prograde relative to current frame of reference"
+  },
+  "HUD_INDICATOR_FRAME_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current frame.",
+    "message": "Retrograde relative to current frame of reference"
+  },
+  "HUD_INDICATOR_MANEUVER_PROGRADE": {
+    "description": "Indicator: The prograde direction for the maneuver burn.",
+    "message": "Prograde for maneuver burn"
+  },
+  "HUD_INDICATOR_NAV_TARGET_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current navigational target.",
+    "message": "Prograde relative to current navigational target"
+  },
+  "HUD_INDICATOR_NAV_TARGET_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current navigational target.",
+    "message": "Retrograde relative to current navigational target"
+  },
+  "HUD_IN_TRANSIT_TO_N_X_X_X": {
+    "description": "",
+    "message": "På väg mot {system} [{x},{y},{z}]"
+  },
+  "HUD_JUMP_COMPLETE": {
+    "description": "",
+    "message": "Hopp färdigt: {percent}%"
+  },
+  "HUD_MASS": {
+    "description": "Mass",
+    "message": "Massa"
+  },
+  "HUD_RADAR_DISTANCE": {
+    "description": "Tooltip: Current distance of the radar.",
+    "message": "Aktiv radaravstånd"
+  },
+  "HUD_REQUEST_TIME_ACCEL": {
+    "description": "Tooltip: Request time acceleration {time}",
+    "message": "Request time acceleration: {time}"
+  },
+  "HUD_SHIELD_STRENGTH": {
+    "description": "Tooltip: Shield Strength.",
+    "message": "Sköld-styrka"
+  },
+  "HUD_SHOW_COMBAT_TARGET": {
+    "description": "Tooltip: Show the current combat target.",
+    "message": "Visa nuvarande vapenmål"
+  },
+  "HUD_SHOW_FRAME": {
+    "description": "Tooltip: Show the current frame of reference.",
+    "message": "Visa nuvarande referenssystem"
+  },
+  "HUD_SHOW_NAV_TARGET": {
+    "description": "Tooltip: Show current navigational target.",
+    "message": "Visa nuvarande navigationsmål"
+  },
+  "HUD_SPEED_OF_APPROACH_TO_FRAME": {
+    "description": "Tooltip: The speed of approach towards the frame of reference.",
+    "message": "Hastighet relativt referenssystemet"
+  },
+  "HUD_SPEED_OF_APPROACH_TO_TARGET": {
+    "description": "Tooltip: The speed of approach relative to target.",
+    "message": "The speed of approach relative to target"
+  },
+  "HUD_SPEED_RELATIVE_TO_TARGET": {
+    "description": "Tooltip: The speed relative to the target.",
+    "message": "Hastighet relativt målet"
+  },
+  "HUD_THRUST_INDICATOR": {
+    "description": "Tooltip: describe what the thrust/velocity indicator shows",
+    "message": "Visa nuvarande hastighet för varje riktning (tunna linjer) och motorer (tjock bakgrund)"
+  },
+  "HULL_DOES_NOT_REQUIRE_REPAIR": {
+    "description": "",
+    "message": "Skrovet behöver inte repareras."
+  },
+  "HULL_INTEGRITY": {
+    "description": "",
+    "message": "Skrovhållfasthet"
+  },
+  "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
+    "description": "",
+    "message": "Skrovet reparerades av {name}, nu på {repairPercent}%"
+  },
+  "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE": {
+    "description": "",
+    "message": "Försöket att reparera skrovet misslyckades. Skrovet har fått en del små skador. "
+  },
+  "HYPERDRIVE": {
+    "description": "",
+    "message": "Hypermotor"
+  },
+  "HYPERDRIVE_FITTED": {
+    "description": "",
+    "message": "Installerad hypermotor:"
+  },
+  "HYPERJUMP_ROUTE": {
+    "description": "",
+    "message": "HyperJump Route"
+  },
+  "HYPERSPACE_RANGE": {
+    "description": "",
+    "message": "Hyperrymdsräckvidd"
+  },
+  "ILLEGAL_JUMP": {
+    "description": "A finable crime",
+    "message": "Vårdslös hyperhopp registrerat"
+  },
+  "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
+    "description": "",
+    "message": "Jag är trött på att arbeta för ingenting. Vet du inte vad ett kontrakt är?"
+  },
+  "INACTIVE": {
+    "description": "",
+    "message": "Inaktiv"
+  },
+  "INCOMPETENT": {
+    "description": "For player reputation",
+    "message": "Inkompetent"
+  },
+  "INEXPERIENCED": {
+    "description": "For player reputation",
+    "message": "Oerfaren"
+  },
+  "INSUFFICIENT_FUNDS": {
+    "description": "",
+    "message": "Otillräcklig likvid"
+  },
+  "INVERT_MOUSE_Y": {
+    "description": "",
+    "message": "Invertera mus Y"
+  },
+  "IN_CARGO_HOLD": {
+    "description": "",
+    "message": "I lastutrymme"
+  },
+  "IN_STOCK": {
+    "description": "",
+    "message": "I lager"
+  },
+  "ITEM_IS_OUT_OF_STOCK": {
+    "description": "",
+    "message": "Den här varan finns inte på lager."
+  },
+  "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
+    "description": "",
+    "message": "Det har varit bra att arbeta för dig. Om du behöver mig igen så kommer jag att vara här ett tag."
+  },
+  "JETTISON": {
+    "description": "",
+    "message": "Göra av med"
+  },
+  "JUMPING": {
+    "description": "Flight State",
+    "message": "Jumping"
+  },
+  "KILLS": {
+    "description": "",
+    "message": "Dödade:"
+  },
+  "LANGUAGE": {
+    "description": "",
+    "message": "Språk"
+  },
+  "LANGUAGE_RESTART_GAME_TO_APPLY": {
+    "description": "",
+    "message": "Språk (starta om för att tillämpa)"
+  },
+  "LAUNCH_PERMISSION_DENIED_BUSY": {
+    "description": "",
+    "message": "Tillstånd för uppskjutning nekat: landningsplats upptaget."
+  },
+  "LAUNCH_PERMISSION_DENIED_CREW": {
+    "description": "",
+    "message": "Tillstånd nekas: det fattas tillräcklig med besättning för detta skepp"
+  },
+  "LAUNCH_PERMISSION_DENIED_FINED": {
+    "description": "",
+    "message": "Uppskjutningstillstånd nekat: du har obetalda böter."
+  },
+  "LEGAL_STATUS": {
+    "description": "",
+    "message": "Legal status"
+  },
+  "LIGHT_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "Lätt lastskyttel"
+  },
+  "LIGHT_COURIER": {
+    "description": "",
+    "message": "Lätt kurir"
+  },
+  "LIGHT_FIGHTER": {
+    "description": "",
+    "message": "Lätt jaktskepp"
+  },
+  "LIGHT_FREIGHTER": {
+    "description": "",
+    "message": "Lätt fraktskepp"
+  },
+  "LIGHT_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "Lätt passagerarskyttel"
+  },
+  "LIGHT_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "Lätt passagerartransport"
+  },
+  "LOAD": {
+    "description": "",
+    "message": "Ladda"
+  },
+  "LOAD_GAME": {
+    "description": "",
+    "message": "Återuppta spel"
+  },
+  "LOBBY": {
+    "description": "",
+    "message": "Lobby"
+  },
+  "LOCAL_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Lokal arm"
+  },
+  "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
+    "description": "",
+    "message": "Befinner sig {distance}km från centrum av {name}:"
+  },
+  "LOCATION": {
+    "description": "",
+    "message": "Plats"
+  },
+  "LOW": {
+    "description": "",
+    "message": "Låg"
+  },
+  "LY": {
+    "description": "Light year",
+    "message": "ly"
+  },
+  "MAJOR_EXPORTS_ITEM": {
+    "description": "",
+    "message": "Major exports"
+  },
+  "MAJOR_IMPORTS_ITEM": {
+    "description": "",
+    "message": "Major imports"
+  },
+  "MAKE_NEW_FACE": {
+    "description": "",
+    "message": "Skapa nytt ansikte"
+  },
+  "MALE": {
+    "description": "",
+    "message": "Man"
+  },
+  "MARKET_BUYLINE": {
+    "description": "",
+    "message": "Köp {amount} enheter för {price}"
+  },
+  "MARKET_SELLINE": {
+    "description": "",
+    "message": "Sälj {amount} enheter för {price}"
+  },
+  "MASS": {
+    "description": "",
+    "message": "Massa"
+  },
+  "MASTER": {
+    "description": "For player reputation",
+    "message": "Mästare"
+  },
+  "MASTER_VOL": {
+    "description": "Master sound in settings option",
+    "message": "Mästare:"
+  },
+  "MAX": {
+    "description": "",
+    "message": "max"
+  },
+  "MAXIMUM_CREW": {
+    "description": "",
+    "message": "Maxbesättning"
+  },
+  "MEDIUM": {
+    "description": "Game settings option: graphics resolution",
+    "message": "Medium"
+  },
+  "MEDIUM_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "Medium lastskyttel"
+  },
+  "MEDIUM_COURIER": {
+    "description": "",
+    "message": "Medium kurir"
+  },
+  "MEDIUM_FIGHTER": {
+    "description": "",
+    "message": "Medium jaktskepp"
+  },
+  "MEDIUM_FREIGHTER": {
+    "description": "",
+    "message": "Medium fraktskepp"
+  },
+  "MEDIUM_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "Medium passagerarskyttel"
+  },
+  "MEDIUM_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "Medium passagerartransport"
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "Metallegeringar"
+  },
+  "MILITARY": {
+    "description": "",
+    "message": "Militär"
+  },
+  "MINIMUM_CREW": {
+    "description": "",
+    "message": "Minimumbesättning"
+  },
+  "MINOR_EXPORTS_ITEM": {
+    "description": "",
+    "message": "Minor exports"
+  },
+  "MINOR_IMPORTS_ITEM": {
+    "description": "",
+    "message": "Minor imports"
+  },
+  "MISSILE_MOUNTS": {
+    "description": "",
+    "message": "Missilpyloner"
+  },
+  "MISSIONS": {
+    "description": "",
+    "message": "Uppdrag"
+  },
+  "MISSION_DETAILS": {
+    "description": "",
+    "message": "Uppdragsdetaljer"
+  },
+  "MORE_INFO": {
+    "description": "",
+    "message": "Mer info..."
+  },
+  "MOSTLY_HARMLESS": {
+    "description": "",
+    "message": "Till största delen ofarlig"
+  },
+  "MOVE_DOWN": {
+    "description": "move selection down in list",
+    "message": "Move Down"
+  },
+  "MOVE_UP": {
+    "description": "move selection up in list",
+    "message": "Move Up"
+  },
+  "MULTISAMPLING": {
+    "description": "",
+    "message": "Multisampling"
+  },
+  "MULTISAMPLING_DESC": {
+    "description": "",
+    "message": "A graphical fine-tuning feature, used to reduce jagged, pixelated contours. It can be quite resource-intensive."
+  },
+  "MURDER": {
+    "description": "",
+    "message": "Mord"
+  },
+  "MUSIC": {
+    "description": "",
+    "message": "Musik:"
+  },
+  "MUTE": {
+    "description": "",
+    "message": "Tyst"
+  },
+  "NAME_OBJECT": {
+    "description": "For an item or object",
+    "message": "Namn"
+  },
+  "NAME_PERSON": {
+    "description": "For a person",
+    "message": "Namn"
+  },
+  "NAVIGATION": {
+    "description": "",
+    "message": "Navigation:"
+  },
+  "NAVIGATOR": {
+    "description": "",
+    "message": "Navigatör"
+  },
+  "NEGOTIATE": {
+    "description": "",
+    "message": "Förhandla"
+  },
+  "NEXT_PAID": {
+    "description": "",
+    "message": "Nästa betalning"
+  },
+  "NO": {
+    "description": "Negative answer to a question",
+    "message": "Nej"
+  },
+  "NOBODY": {
+    "description": "For player reputation",
+    "message": "Ingen"
+  },
+  "NONE": {
+    "description": "",
+    "message": "Inget"
+  },
+  "NONE_FOR_SALE_IN_THIS_STATION": {
+    "description": "",
+    "message": "Inget tillsalu vid denna station"
+  },
+  "NORMA_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Norma arm"
+  },
+  "NOTES": {
+    "description": "",
+    "message": "Anteckningar:"
+  },
+  "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
+    "description": "",
+    "message": "Inte tillräckligt med {alloy} för att försöka reparera"
+  },
+  "NOT_SUPPORTED_ON_THIS_SHIP": {
+    "description": "",
+    "message": "{equipment} stöds inte av den här skeppsmodellen"
+  },
+  "NO_MISSIONS": {
+    "description": "",
+    "message": "Inga uppdrag."
+  },
+  "N_LIGHT_YEARS_N_MAX": {
+    "description": "",
+    "message": "{range} ljusår ({maxRange} max)"
+  },
+  "N_OCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "{quantity} upptagna passagerarhytter"
+  },
+  "N_SHIELD_GENERATORS": {
+    "description": "",
+    "message": "{quantity} sköldgeneratorer"
+  },
+  "N_UNOCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "{quantity} tomma passagerarhytter"
+  },
+  "OFF": {
+    "description": "",
+    "message": "Av"
+  },
+  "OK": {
+    "description": "",
+    "message": "Ok"
+  },
+  "OPEN_USER_FOLDER": {
+    "description": "",
+    "message": "Användarkatalog"
+  },
+  "OPTIONS": {
+    "description": "",
+    "message": "Alternativ"
+  },
+  "ORBIT": {
+    "description": "",
+    "message": "Omloppsbana"
+  },
+  "ORBITAL_ANALYSIS": {
+    "description": "",
+    "message": "Analys av omloppsbana"
+  },
+  "ORBITAL_ANALYSIS_NOTES": {
+    "description": "",
+    "message": "Cirkulär omloppshastighet är angiven för en tangerande hastighet. Skeppet borde röras i 90° riktning mot skep/{name} axeln.\n\nNedstigningshastighet är ett absolut minimum och är också tangerande. En lägre hastighet eller lägre vinkel kommer att resultera i en kurs som korsar ytan på {name}.\n\nFlykthastighet fungerar i teorin i alla riktningar så länge inte skeppet krockar med {name} på vägen.\n\t\t"
+  },
+  "OUTER_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Yttre arm"
+  },
+  "OUTSTANDING_FINES": {
+    "description": "Unpaid fines for crimes committed",
+    "message": "Obetalda böter"
+  },
+  "OWED": {
+    "description": "Player owing money to crew members",
+    "message": "Skyldig"
+  },
+  "PAY_FINE_OF_N": {
+    "description": "",
+    "message": "Betala böter på {amount}"
+  },
+  "PERSEUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Perseus arm"
+  },
+  "PERSONAL_INFORMATION": {
+    "description": "",
+    "message": "Personlig information"
+  },
+  "PILOT": {
+    "description": "",
+    "message": "Pilot"
+  },
+  "PILOTING": {
+    "description": "",
+    "message": "Pilot:"
+  },
+  "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
+    "description": "",
+    "message": "Pilotens stol är nu upptagen av {name}"
+  },
+  "PIRACY": {
+    "description": "",
+    "message": "Ståtröveri"
+  },
+  "PLANET_DETAIL_DISTANCE": {
+    "description": "",
+    "message": "Detaljavstånd för planeter"
+  },
+  "PLANET_TEXTURES": {
+    "description": "",
+    "message": "Planettexturer"
+  },
+  "POLICE": {
+    "description": "",
+    "message": "Polis"
+  },
+  "POOR": {
+    "description": "Player combat rating",
+    "message": "Dålig"
+  },
+  "POSITION": {
+    "description": "The job title/position of crew memeber",
+    "message": "Befattning"
+  },
+  "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
+    "description": "",
+    "message": "Press a key or controller button or escape to clear"
+  },
+  "PRICE": {
+    "description": "",
+    "message": "Pris"
+  },
+  "PROFESSIONAL": {
+    "description": "For player reputation",
+    "message": "Professionell"
+  },
+  "PUMP_DOWN": {
+    "description": "Drain the fuel tank",
+    "message": "Pumpa tillbaka"
+  },
+  "QUALIFICATION_SCORES": {
+    "description": "",
+    "message": "Kvalificeringspoäng"
+  },
+  "QUIT": {
+    "description": "",
+    "message": "Avsluta"
+  },
+  "QUIT_CONFIRMATION": {
+    "description": "For the checkbox in settings window",
+    "message": "Bekräfta avslut"
+  },
+  "RANK": {
+    "description": "",
+    "message": "Rank:"
+  },
+  "RATING": {
+    "description": "",
+    "message": "Betyg:"
+  },
+  "REAR_WEAPON": {
+    "description": "",
+    "message": "Bakre vapen"
+  },
+  "REFUEL": {
+    "description": "",
+    "message": "Tanka"
+  },
+  "REFUEL_FULL": {
+    "description": "",
+    "message": "Tanka fullt"
+  },
+  "REGISTRATION_NUMBER": {
+    "description": "",
+    "message": "Registration number"
+  },
+  "RELIABLE": {
+    "description": "For player reputation",
+    "message": "Pålitlig"
+  },
+  "REMOVE_JUMP": {
+    "description": "UI-button: remove hyper jump from list of planned jumps",
+    "message": "Remove Jump"
+  },
+  "REMOVE_WHEN_COMPLETED": {
+    "description": "For UI hyperjump planner, referring to jump target system",
+    "message": "Remove jump when completed"
+  },
+  "REPAIR_X_HULL_DAMAGE_FOR_X": {
+    "description": "",
+    "message": "Reparera {damage}% skrov för {price}"
+  },
+  "REPUTATION": {
+    "description": "",
+    "message": "Rykte"
+  },
+  "REQUEST_LAUNCH": {
+    "description": "",
+    "message": "Uppskjutningstillstånd"
+  },
+  "REQUIRED_FUEL": {
+    "description": "Fuel usage for traveling to star system",
+    "message": "Required Fuel:"
+  },
+  "RESET": {
+    "description": "",
+    "message": "Återställ"
+  },
+  "RETURN_TO_GAME": {
+    "description": "",
+    "message": "Återgå till spelet"
+  },
+  "RETURN_TO_MENU": {
+    "description": "",
+    "message": "Återgå till meny"
+  },
+  "REVERSE_ACCEL_EMPTY": {
+    "description": "",
+    "message": "Accelerera bakåt (tom)"
+  },
+  "REVERSE_ACCEL_FULL": {
+    "description": "",
+    "message": "Accelerera bakåt (full)"
+  },
+  "REWARD": {
+    "description": "",
+    "message": "Belöning"
+  },
+  "ROUTE_INFO": {
+    "description": "For hyperjump planner",
+    "message": "Route Info"
+  },
+  "ROUTE_JUMPS": {
+    "description": "For hyperjump planner",
+    "message": "Route Jumps"
+  },
+  "SAGITTARIUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Sagittarius arm"
+  },
+  "SAVE": {
+    "description": "",
+    "message": "Spara"
+  },
+  "SCOOP_MOUNTS": {
+    "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
+    "message": "Skopfästen"
+  },
+  "SCUTUM_CENTAURUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Scutum-Centaurus arm"
+  },
+  "SELECT": {
+    "description": "",
+    "message": "Välj"
+  },
+  "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
+    "description": "",
+    "message": "Välj en fil att spara till eller skriv in ett nytt filnamn"
+  },
+  "SELECT_FILE": {
+    "description": "",
+    "message": "Välj fil..."
+  },
+  "SELECT_GAME_TO_LOAD": {
+    "description": "",
+    "message": "Välj spel att ladda..."
+  },
+  "SELL": {
+    "description": "Commodities and equipment prices",
+    "message": "Sälja"
+  },
+  "SENSORS": {
+    "description": "",
+    "message": "Sensorer:"
+  },
+  "SENSORS_AND_DEFENCE": {
+    "description": "",
+    "message": "Sensorer och försvar"
+  },
+  "SETTINGS": {
+    "description": "UI option",
+    "message": "Settings"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Använd destination som navigationsmål"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Skepp"
+  },
+  "SHIPS_ENGINEER": {
+    "description": "",
+    "message": "Skeppsingenjör"
+  },
+  "SHIP_INFORMATION": {
+    "description": "",
+    "message": "Skeppsinformation"
+  },
+  "SHIP_IS_ALREADY_FULLY_REPAIRED": {
+    "description": "",
+    "message": "Ditt skepp fungerar utmärkt."
+  },
+  "SHIP_IS_FULLY_EQUIPPED": {
+    "description": "",
+    "message": "Ditt skepp är fullt utrustat."
+  },
+  "SHIP_IS_FULLY_LADEN": {
+    "description": "",
+    "message": "Ditt skepp är fullastat."
+  },
+  "SHIP_MARKET": {
+    "description": "",
+    "message": "Skeppsmarknad"
+  },
+  "SHIP_REPAIRS": {
+    "description": "",
+    "message": "Skeppsreparationer"
+  },
+  "SHIP_VIEWING_WAS_SOLD": {
+    "description": "",
+    "message": "Skeppet du tittade på har blivit sålt"
+  },
+  "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
+    "description": "",
+    "message": "Simulerar universums evolution: {age} miljarder år ;-)"
+  },
+  "SOUND": {
+    "description": "",
+    "message": "Ljud"
+  },
+  "START_AT_BARNARDS_STAR": {
+    "description": "",
+    "message": "Starta vid Bernard's Stjärna"
+  },
+  "START_AT_BARNARDS_STAR_DESC": {
+    "description": "",
+    "message": "This is a difficult start from the System Administration Resting prison station."
+  },
+  "START_AT_EARTH": {
+    "description": "",
+    "message": "Starta på Jorden"
+  },
+  "START_AT_EARTH_DESC": {
+    "description": "",
+    "message": "This is an easy start from London on Earth in the Sol system."
+  },
+  "START_AT_NEW_HOPE": {
+    "description": "New Hope is an in game location",
+    "message": "Starta vid New Hope"
+  },
+  "START_AT_NEW_HOPE_DESC": {
+    "description": "",
+    "message": "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
+  },
+  "STAR_FIELD_DENSITY": {
+    "description": "",
+    "message": "Täthet i bakgrundssjärnor"
+  },
+  "STATION_MANAGER": {
+    "description": "",
+    "message": "Stationschef"
+  },
+  "STATION_ORBIT": {
+    "description": "Information shown in the station loby",
+    "message": "Vi är i en {orbit_period} dags period runt {parent_body}."
+  },
+  "STATUS": {
+    "description": "",
+    "message": "Status"
+  },
+  "TECH_CERTIFIED": {
+    "description": "Lobby screen shows the tech level (an integer number) of the station",
+    "message": "Denna station innehar nivå {tech_level} teknologi-certifikat "
+  },
+  "TECH_CERTIFIED_MILITARY": {
+    "description": "Lobby screen shows the tech level of the station",
+    "message": "Denna station är certifierad för militär utrustning."
+  },
+  "TEXTURE_COMPRESSION": {
+    "description": "",
+    "message": "This frees up more memory for the graphics card, which is likely what you want, at the expense of compressing them during game start."
+  },
+  "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
+    "description": "",
+    "message": "Tack för ditt köp. Kom ihåg att utrusta och köpa bränsle innan du åker."
+  },
+  "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
+    "description": "",
+    "message": "Det finns ingen annan ombord som kan flyga skeppet."
+  },
+  "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
+    "description": "",
+    "message": "Skeppet är under stationens kontroll kapten."
+  },
+  "THREE_KPC_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "3kpc arm"
+  },
+  "TOGGLE_MALE_FEMALE": {
+    "description": "player gender",
+    "message": "Växla mellan manlig/kvinnlig"
+  },
+  "TOO_SMALL_FOR_CURRENT_CREW": {
+    "description": "",
+    "message": "Skeppet för litet för nuvarande besättning"
+  },
+  "TOO_SMALL_TO_TRANSSHIP": {
+    "description": "Ship market error message",
+    "message": "Nytt skepp saknar kapacitet för nuvarande last och hypermotor."
+  },
+  "TOTAL": {
+    "description": "",
+    "message": "Totalt:"
+  },
+  "TOTAL_DISTANCE": {
+    "description": "Total distance of a (possibly series) of hyper jump(s)",
+    "message": "Total Distance:"
+  },
+  "TOTAL_DURATION": {
+    "description": "Total duration of a (possibly series) of hyper jump(s)",
+    "message": "Total Duration:"
+  },
+  "TOTAL_MASS": {
+    "description": "",
+    "message": "Total massa"
+  },
+  "TRADING_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Handla med illegalt gods"
+  },
+  "TRUSTWORTHY": {
+    "description": "For player reputation",
+    "message": "Tillförlitlig"
+  },
+  "TYPE": {
+    "description": "",
+    "message": "Typ"
+  },
+  "UNLAWFUL_WEAPONS_DISCHARGE": {
+    "description": "",
+    "message": "Olaglig vapenavfyring"
+  },
+  "UNRELIABLE": {
+    "description": "",
+    "message": "Opålitlig"
+  },
+  "UP_ACCEL": {
+    "description": "",
+    "message": "Accelerera upp"
+  },
+  "USED": {
+    "description": "",
+    "message": "Använd"
+  },
+  "VERY_HIGH": {
+    "description": "Game settings option: graphic resolution",
+    "message": "Mycket högt"
+  },
+  "VERY_LOW": {
+    "description": "Game settings option: graphic resolution",
+    "message": "Väldigt lågt"
+  },
+  "VICINITY_OF": {
+    "description": "",
+    "message": "In vicinity of"
+  },
+  "VIDEO": {
+    "description": "",
+    "message": "Video"
+  },
+  "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
+    "description": "",
+    "message": "Videokonfiguration (starta om spelet för att använda)"
+  },
+  "VIDEO_RESOLUTION": {
+    "description": "",
+    "message": "Videoupplösning"
+  },
+  "VIDEO_RESOLUTION_DESC": {
+    "description": "Tooltip for video mode/resultion setting",
+    "message": "Higher resolutions display more information at a smaller size and can decrease performance."
+  },
+  "VSYNC": {
+    "description": "For the checkbox in settings window",
+    "message": "Vsync"
+  },
+  "VSYNC_DESC": {
+    "description": "",
+    "message": "Vertical Sync can eliminate visual tearing or artifacts, and input latency."
+  },
+  "WAGE": {
+    "description": "Salary of crew shown in crew roster",
+    "message": "Lön"
+  },
+  "WEIGHT_EMPTY": {
+    "description": "",
+    "message": "Tom vikt"
+  },
+  "WEIGHT_FULLY_LOADED": {
+    "description": "",
+    "message": "Vikt full last"
+  },
+  "WE_ARE_IN_HYPERSPACE_COMMANDER": {
+    "description": "",
+    "message": "Vi är i hyperrymden kapten."
+  },
+  "WE_HAVE_NO_BUSINESS_WITH_YOU": {
+    "description": "Said by the police to law abiding player",
+    "message": "Du har inga polisiära ärenden."
+  },
+  "X_CANNOT_BE_TOLERATED_HERE": {
+    "description": "Message to be sent over comms by police when crime is committed by player",
+    "message": "{crime} tollereras inte här!"
+  },
+  "YES": {
+    "description": "Positive answer to a question",
+    "message": "Ja"
+  },
+  "YOURE_GOING_TO_REGRET_SACKING_ME": {
+    "description": "",
+    "message": "Du kommer att ångra att du sparkade mig!"
+  },
+  "YOUR_HULL_IS_AT_X_INTEGRITY": {
+    "description": "",
+    "message": "Ditt skrovs integritet är {value}%."
+  },
+  "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION": {
+    "description": "",
+    "message": "Du har inte tillräckligt med pengar för det valet."
+  },
+  "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD": {
+    "description": "",
+    "message": "Du har {units} enheter i din last"
+  },
+  "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
+    "description": "",
+    "message": "Du måste först välja ett stridsmål kapten."
+  },
+  "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER": {
+    "description": "",
+    "message": "Du måste först välja ett passande navigationsmål kapten."
+  },
+  "YOU_MUST_LAUNCH_FIRST_COMMANDER": {
+    "description": "",
+    "message": "Du måste först skjutas upp kapten."
+  },
+  "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER": {
+    "description": "",
+    "message": "Du måste begära uppskjutningstillstånd först kapten."
+  },
+  "YOU_NOT_ENOUGH_MONEY": {
+    "description": "",
+    "message": "Du har inte tillräckligt med pengar"
+  },
+  "ZOOM": {
+    "description": "Label for a zoom (magnification) control bar.",
+    "message": "Zoom"
+  }
 }

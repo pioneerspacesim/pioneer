@@ -1,10 +1,10 @@
 {
-   "PIONEERING_PILOTS_GUILD" : {
-      "description" : "",
-      "message" : "Pioneer-Pilotengilde"
-   },
-   "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED" : {
-      "description" : "",
-      "message" : "Sehr gut, Kommandant! Ihre Gefechtseinstufung hat sich verbessert!"
-   }
+  "PIONEERING_PILOTS_GUILD": {
+    "description": "",
+    "message": "Pioneer-Pilotengilde"
+  },
+  "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED": {
+    "description": "",
+    "message": "Sehr gut, Kommandant! Ihre Gefechtseinstufung hat sich verbessert!"
+  }
 }

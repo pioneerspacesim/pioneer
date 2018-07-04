@@ -1,94 +1,94 @@
 {
-   "ASK_CANDIDATE_TO_SIT_A_TEST" : {
-      "description" : "",
-      "message" : "Kandidat einen Test absolvieren lassen"
-   },
-   "CREWDETAILSHEETBB" : {
-      "description" : "",
-      "message" : "Name: {name}\nErfahrung: {experience}\nLohnforderung: {wage} pro Woche\n\n{response}\n"
-   },
-   "CREWMEMBER_WAGE_PER_WEEK" : {
-      "description" : "",
-      "message" : "{potentialCrewMember} ({wage}/Woche)"
-   },
-   "CREWTESTRESULTSBB" : {
-      "description" : "",
-      "message" : "Testergebnisse:\n\nGenerelle Crew-Kompetenzen: {general}%\nTechnik und Reperatur: {engineering}%\nSteuern und Raumflug: {piloting}%\nNavigation und Auswertung: {navigation}%\nSensoren und Abwehr: {sensors}%\nInsgesamtes Testergebnis: {overall}%"
-   },
-   "CREW_FOR_HIRE" : {
-      "description" : "",
-      "message" : "Anstellung gesucht"
-   },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Zurück"
-   },
-   "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
-      "description" : "",
-      "message" : "Entschuldigung, Ich kann wirklich nicht mehr tiefer gehen."
-   },
-   "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
-      "description" : "",
-      "message" : "Entschuldigung, das Angebot ist nicht attraktiv für mich."
-   },
-   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
-      "description" : "",
-      "message" : "Position auf dem Schiff mit dem festgelegten Lohn anbieten"
-   },
-   "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
-      "description" : "",
-      "message" : "Kurzzeitig angestellt auf Schiffen"
-   },
-   "NO_CREW_AVAILABLE" : {
-      "description" : "",
-      "message" : "Schade, keine Kandidaten wollen sich momentan auf {station} um eine Stelle bewerben"
-   },
-   "NO_EXPERIENCE" : {
-      "description" : "",
-      "message" : "Keine Erfahrung"
-   },
-   "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
-      "description" : "",
-      "message" : "OK, ich denke, dass das klar geht."
-   },
-   "POTENTIAL_CREW_MEMBERS" : {
-      "description" : "",
-      "message" : "Die folgenden potentiellen Crewmitglieder sind bei {station} als arbeitssuchend registriert:"
-   },
-   "SIMULATOR_TRAINING_ONLY" : {
-      "description" : "",
-      "message" : "Nur Simulatortraining"
-   },
-   "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
-      "description" : "",
-      "message" : "Etwas Erfahrung in kontrollierten Gebieten"
-   },
-   "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
-      "description" : "",
-      "message" : "Neuen Wochenlohn von {newAmount} vorschlagen"
-   },
-   "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
-      "description" : "",
-      "message" : "Danke, ich werde mich sofort an Bord begeben."
-   },
-   "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
-      "description" : "",
-      "message" : "Das ist wirklich extrem großzügig!"
-   },
-   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
-      "description" : "",
-      "message" : "So sieht das Angebot schon etwas besser aus!"
-   },
-   "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
-      "description" : "",
-      "message" : "Es scheint keinen Platz für mich an Bord zu geben!"
-   },
-   "TIME_SERVED_CREW_MEMBER" : {
-      "description" : "",
-      "message" : "Langzeitiges Crewmitglied"
-   },
-   "VETERAN_TIME_SERVED_CREW_MEMBER" : {
-      "description" : "",
-      "message" : "Veteran, langzeitiges Crewmitglied"
-   }
+  "ASK_CANDIDATE_TO_SIT_A_TEST": {
+    "description": "",
+    "message": "Kandidat einen Test absolvieren lassen"
+  },
+  "CREWDETAILSHEETBB": {
+    "description": "",
+    "message": "Name: {name}\nErfahrung: {experience}\nLohnforderung: {wage} pro Woche\n\n{response}\n"
+  },
+  "CREWMEMBER_WAGE_PER_WEEK": {
+    "description": "",
+    "message": "{potentialCrewMember} ({wage}/Woche)"
+  },
+  "CREWTESTRESULTSBB": {
+    "description": "",
+    "message": "Testergebnisse:\n\nGenerelle Crew-Kompetenzen: {general}%\nTechnik und Reperatur: {engineering}%\nSteuern und Raumflug: {piloting}%\nNavigation und Auswertung: {navigation}%\nSensoren und Abwehr: {sensors}%\nInsgesamtes Testergebnis: {overall}%"
+  },
+  "CREW_FOR_HIRE": {
+    "description": "",
+    "message": "Anstellung gesucht"
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Zurück"
+  },
+  "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER": {
+    "description": "",
+    "message": "Entschuldigung, Ich kann wirklich nicht mehr tiefer gehen."
+  },
+  "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
+    "description": "",
+    "message": "Entschuldigung, das Angebot ist nicht attraktiv für mich."
+  },
+  "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
+    "description": "",
+    "message": "Position auf dem Schiff mit dem festgelegten Lohn anbieten"
+  },
+  "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
+    "description": "",
+    "message": "Kurzzeitig angestellt auf Schiffen"
+  },
+  "NO_CREW_AVAILABLE": {
+    "description": "",
+    "message": "Schade, keine Kandidaten wollen sich momentan auf {station} um eine Stelle bewerben"
+  },
+  "NO_EXPERIENCE": {
+    "description": "",
+    "message": "Keine Erfahrung"
+  },
+  "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
+    "description": "",
+    "message": "OK, ich denke, dass das klar geht."
+  },
+  "POTENTIAL_CREW_MEMBERS": {
+    "description": "",
+    "message": "Die folgenden potentiellen Crewmitglieder sind bei {station} als arbeitssuchend registriert:"
+  },
+  "SIMULATOR_TRAINING_ONLY": {
+    "description": "",
+    "message": "Nur Simulatortraining"
+  },
+  "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS": {
+    "description": "",
+    "message": "Etwas Erfahrung in kontrollierten Gebieten"
+  },
+  "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
+    "description": "",
+    "message": "Neuen Wochenlohn von {newAmount} vorschlagen"
+  },
+  "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
+    "description": "",
+    "message": "Danke, ich werde mich sofort an Bord begeben."
+  },
+  "THATS_EXTREMELY_GENEROUS_OF_YOU": {
+    "description": "",
+    "message": "Das ist wirklich extrem großzügig!"
+  },
+  "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
+    "description": "",
+    "message": "So sieht das Angebot schon etwas besser aus!"
+  },
+  "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD": {
+    "description": "",
+    "message": "Es scheint keinen Platz für mich an Bord zu geben!"
+  },
+  "TIME_SERVED_CREW_MEMBER": {
+    "description": "",
+    "message": "Langzeitiges Crewmitglied"
+  },
+  "VETERAN_TIME_SERVED_CREW_MEMBER": {
+    "description": "",
+    "message": "Veteran, langzeitiges Crewmitglied"
+  }
 }

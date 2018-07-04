@@ -1,62 +1,62 @@
 {
-   "FLAVOUR_0_MESSAGE" : {
-      "description" : "",
-      "message" : "Proszę wybrać wysokość datku, jaką chcesz wesprzeć Kościół Latającego Potwora Spaghetti."
-   },
-   "FLAVOUR_0_TITLE" : {
-      "description" : "",
-      "message" : "WSPOMÓŻ! Kościół Latającego Potwora Spaghetti potrzebuje TWOICH pieniędzy by móc szerzyć słowo boże."
-   },
-   "FLAVOUR_1_MESSAGE" : {
-      "description" : "",
-      "message" : "Pokój z Tobą, bracie. Proszę wybrać wysokość datku dla Strażników Wolnego Ducha."
-   },
-   "FLAVOUR_1_TITLE" : {
-      "description" : "",
-      "message" : "WSPOMÓŻ. Strażnicy Wolnego Ducha pokornie proszą o wsparcie naszych klasztorów."
-   },
-   "FLAVOUR_2_MESSAGE" : {
-      "description" : "",
-      "message" : "Proszę wybrać wysokość datku, jaką chcesz wesprzeć Pomoc Sierotom Wojennym, i zakończ cierpienie dzieci w całej galaktyce."
-   },
-   "FLAVOUR_2_TITLE" : {
-      "description" : "",
-      "message" : "JESTEŚ HOJNY? Pomoc Sierotom Wojennym, potrzebuje twojego wsparcia by kontynuować swoją działalność."
-   },
-   "FLAVOUR_3_MESSAGE" : {
-      "description" : "",
-      "message" : "Proszę wybierz kwotę jaką chcesz wesprzeć GreenWatch, i zakończ zanieczyszczanie naszej galaktyki."
-   },
-   "FLAVOUR_3_TITLE" : {
-      "description" : "",
-      "message" : "PRZYŁĄCZ SIĘ. Kampania Galaktyczni Przyjaciele na rzecz 'Zakazu Napędów Wojskowych' potrzebuje twoich pieniędzy."
-   },
-   "FLAVOUR_4_MESSAGE" : {
-      "description" : "",
-      "message" : "Proszę wybrać wysokość wsparcia."
-   },
-   "FLAVOUR_4_TITLE" : {
-      "description" : "",
-      "message" : "DOFINANSUJ! Ocal nasz gatunek. Stop rzezi na nowo skolonizowanych światach."
-   },
-   "FLAVOUR_5_MESSAGE" : {
-      "description" : "",
-      "message" : "Wyzwól swój statek! Prosimy wybrać kwotę datku. Życzymy udanego hackingu."
-   },
-   "FLAVOUR_5_TITLE" : {
-      "description" : "",
-      "message" : "WSPOMÓŻ WOLNOŚĆ! Stop wielkim niesprawiedliwościom od oprogramowania nadzorującego sterowanie twoim statkiem."
-   },
-   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
-      "description" : "",
-      "message" : "Dziękuję. Cenimy każde wsparcie."
-   },
-   "WOW_THAT_WAS_VERY_GENEROUS" : {
-      "description" : "",
-      "message" : "O! Jesteś bardzo hojny."
-   },
-   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Nie masz dość pieniędzy."
-   }
+  "FLAVOUR_0_MESSAGE": {
+    "description": "",
+    "message": "Proszę wybrać wysokość datku, jaką chcesz wesprzeć Kościół Latającego Potwora Spaghetti."
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "",
+    "message": "WSPOMÓŻ! Kościół Latającego Potwora Spaghetti potrzebuje TWOICH pieniędzy by móc szerzyć słowo boże."
+  },
+  "FLAVOUR_1_MESSAGE": {
+    "description": "",
+    "message": "Pokój z Tobą, bracie. Proszę wybrać wysokość datku dla Strażników Wolnego Ducha."
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "",
+    "message": "WSPOMÓŻ. Strażnicy Wolnego Ducha pokornie proszą o wsparcie naszych klasztorów."
+  },
+  "FLAVOUR_2_MESSAGE": {
+    "description": "",
+    "message": "Proszę wybrać wysokość datku, jaką chcesz wesprzeć Pomoc Sierotom Wojennym, i zakończ cierpienie dzieci w całej galaktyce."
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "",
+    "message": "JESTEŚ HOJNY? Pomoc Sierotom Wojennym, potrzebuje twojego wsparcia by kontynuować swoją działalność."
+  },
+  "FLAVOUR_3_MESSAGE": {
+    "description": "",
+    "message": "Proszę wybierz kwotę jaką chcesz wesprzeć GreenWatch, i zakończ zanieczyszczanie naszej galaktyki."
+  },
+  "FLAVOUR_3_TITLE": {
+    "description": "",
+    "message": "PRZYŁĄCZ SIĘ. Kampania Galaktyczni Przyjaciele na rzecz 'Zakazu Napędów Wojskowych' potrzebuje twoich pieniędzy."
+  },
+  "FLAVOUR_4_MESSAGE": {
+    "description": "",
+    "message": "Proszę wybrać wysokość wsparcia."
+  },
+  "FLAVOUR_4_TITLE": {
+    "description": "",
+    "message": "DOFINANSUJ! Ocal nasz gatunek. Stop rzezi na nowo skolonizowanych światach."
+  },
+  "FLAVOUR_5_MESSAGE": {
+    "description": "",
+    "message": "Wyzwól swój statek! Prosimy wybrać kwotę datku. Życzymy udanego hackingu."
+  },
+  "FLAVOUR_5_TITLE": {
+    "description": "",
+    "message": "WSPOMÓŻ WOLNOŚĆ! Stop wielkim niesprawiedliwościom od oprogramowania nadzorującego sterowanie twoim statkiem."
+  },
+  "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
+    "description": "",
+    "message": "Dziękuję. Cenimy każde wsparcie."
+  },
+  "WOW_THAT_WAS_VERY_GENEROUS": {
+    "description": "",
+    "message": "O! Jesteś bardzo hojny."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
+    "description": "",
+    "message": "Nie masz dość pieniędzy."
+  }
 }

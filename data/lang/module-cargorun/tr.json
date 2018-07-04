@@ -1,626 +1,626 @@
 {
-   "ACCEPTED_1" : {
-      "description" : "",
-      "message" : "Harika. Malları gemine yükleyeceğim."
-   },
-   "ACCEPTED_2" : {
-      "description" : "",
-      "message" : "Çok güzel."
-   },
-   "ACCEPTED_3" : {
-      "description" : "",
-      "message" : "Tamam, güzel. Umarım sana güvenebilirim."
-   },
-   "ACCEPTED_4" : {
-      "description" : "",
-      "message" : "Anlaştık."
-   },
-   "ACCEPTED_PICKUP_1" : {
-      "description" : "",
-      "message" : "Tamam, malların nakliyata hazır olduğundan emin olacağım."
-   },
-   "ACCEPTED_PICKUP_2" : {
-      "description" : "",
-      "message" : "Anlaştık. Yolda olduğunu iş arkadaşlarıma söyleyeceğim."
-   },
-   "ADTEXT_1" : {
-      "description" : "",
-      "message" : "NAKLİYAT. {system} sistemine kargo teslimatı."
-   },
-   "ADTEXT_2" : {
-      "description" : "",
-      "message" : "TAŞIMA GEREKİYOR. {system} sisitemine mal sevkiyatı gerekiyor. Ödeme: {cash}."
-   },
-   "ADTEXT_EXPENSIVE_1" : {
-      "description" : "",
-      "message" : "TESLİMAT. {system} sistemine değerli kargo. Tecrübeli bir pilota {cash}."
-   },
-   "ADTEXT_LOCAL_1" : {
-      "description" : "",
-      "message" : "YEREL TESLİMAT. Malların {starport} istasyonuna sevkiyatı."
-   },
-   "ADTEXT_LOCAL_2" : {
-      "description" : "",
-      "message" : "NAKLİYE GEREKİYOR. Yerel kargonun {starport} istasyonuna teslimatı."
-   },
-   "ADTEXT_LOCAL_3" : {
-      "description" : "",
-      "message" : "YEREL NAKLİYAT. {starport} istasyonuna mal taşıma."
-   },
-   "ADTEXT_PICKUP_1" : {
-      "description" : "",
-      "message" : "KARGO. {system} sisteminden kargo getirilmesi gerekiyor."
-   },
-   "ADTEXT_PICKUP_LOCAL_1" : {
-      "description" : "",
-      "message" : "TAŞIMA. {starport} istasyonundan kargo getirilmesi gerekiyor."
-   },
-   "ADTEXT_WHOLESALER_1" : {
-      "description" : "",
-      "message" : "KARGO HİZMETİ. {system} sistemine kargo teslimatı yapacak bir gemi gerekiyor."
-   },
-   "ALUMINIUM_TUBES" : {
-      "description" : "custom cargo",
-      "message" : "Alüminyum tüp"
-   },
-   "AMOUNT" : {
-      "description" : "Shown in mission summary. The amount of cargo",
-      "message" : "Miktar:"
-   },
-   "ART_OBJECTS" : {
-      "description" : "custom cargo",
-      "message" : "Sanatsal eşyalar"
-   },
-   "CARGO" : {
-      "description" : "",
-      "message" : "Kargo:"
-   },
-   "CARGORUN" : {
-      "description" : "Name of mission type",
-      "message" : "Nakliyat"
-   },
-   "CEASE_FIRE" : {
-      "description" : "",
-      "message" : "Ateşkes, ateşkes! Ben sendenim!"
-   },
-   "CLUS" : {
-      "description" : "custom cargo",
-      "message" : "Konteynırlanmış canlılar"
-   },
-   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
-      "description" : "",
-      "message" : "Lütfen ilk isteğinizi tekrarlar mısınız?"
-   },
-   "DANGER" : {
-      "description" : "the risk level",
-      "message" : "Tehlike:"
-   },
-   "DEADLINE" : {
-      "description" : "Must be delivered by",
-      "message" : "Bitiş:"
-   },
-   "DELIVER_TO" : {
-      "description" : "Deliver to this location",
-      "message" : "Teslimat noktası:"
-   },
-   "DENY_1" : {
-      "description" : "",
-      "message" : "Üzgünüm, ama bu kargo tecrübesiz bir pilota veremeyeceğim kadar önemli."
-   },
-   "DENY_2" : {
-      "description" : "",
-      "message" : "Seni hiç duymadım. Seni tanımıyorum ve sana güvenmiyorum."
-   },
-   "DENY_3" : {
-      "description" : "",
-      "message" : "Üzgünüm, tecrübeli bir pilot arıyorum."
-   },
-   "DENY_4" : {
-      "description" : "",
-      "message" : "Affedersin, ama bu işi yapacak yeteneğin olduğunu düşünmüyorum."
-   },
-   "DENY_5" : {
-      "description" : "",
-      "message" : "Zamanımı boşa harcama. Daha çok tecrübesizsin."
-   },
-   "DENY_6" : {
-      "description" : "",
-      "message" : "Tecrübe kazandığın zaman geri gel."
-   },
-   "DIAMONDS" : {
-      "description" : "custom cargo",
-      "message" : "Elmas"
-   },
-   "DIGESTERS" : {
-      "description" : "custom cargo",
-      "message" : "Öğütücü"
-   },
-   "DISTANCE" : {
-      "description" : "distance in space, between two locations",
-      "message" : "Uzaklık:"
-   },
-   "ELECTRICAL_APPLIANCES" : {
-      "description" : "custom cargo",
-      "message" : "Elektrikli eşyalar"
-   },
-   "ESCORT_CHATTER_1" : {
-      "description" : "",
-      "message" : "Düşman aracı tespit edildi. Birlikte saldıralım."
-   },
-   "ESCORT_CHATTER_2" : {
-      "description" : "",
-      "message" : "Güzel. Bu korsan ilk skorum olacak."
-   },
-   "ESCORT_CHATTER_3" : {
-      "description" : "",
-      "message" : "Düşman tespit edildi. Saldırıya geçiliyor."
-   },
-   "ESCORT_CHATTER_4" : {
-      "description" : "",
-      "message" : "Yoluna devam et, seni koruyacağım."
-   },
-   "ESCORT_CHATTER_5" : {
-      "description" : "",
-      "message" : "Vira bismillah. Günün ilk balığını tutalım bakalım."
-   },
-   "EXPLOSIVES" : {
-      "description" : "custom cargo",
-      "message" : "Patlayıcılar"
-   },
-   "FAILUREMSG_1" : {
-      "description" : "",
-      "message" : "Geç teslimat yüzünden hayal kırıklığına uğradım. Ödeme almayacaksın."
-   },
-   "FAILUREMSG_2" : {
-      "description" : "",
-      "message" : "Çok geç kaldın! Şimdi bununla ne yapayım, artık değeri kalmadı!"
-   },
-   "FAILUREMSG_3" : {
-      "description" : "",
-      "message" : "Bak, teslim tarihi hakkında çok nettik. Paranı almayı unutabilirsin."
-   },
-   "FAILUREMSG_4" : {
-      "description" : "",
-      "message" : "Bundan sonra senden gelen iş tekliflerini reddedeceğim."
-   },
-   "FAILUREMSG_FLUFFY_1" : {
-      "description" : "",
-      "message" : "Seni canavar! Teslimat için çok bekledin. Bütün hayvanlarım açlıktan öldü!"
-   },
-   "FURNITURE" : {
-      "description" : "custom cargo",
-      "message" : "Ev eşyası"
-   },
-   "GREENHOUSES" : {
-      "description" : "custom cargo",
-      "message" : "Seralar"
-   },
-   "GUNS_GUNS_GUNS" : {
-      "description" : "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
-      "message" : "Ateş, ateş, ateş."
-   },
-   "HAZARDOUS_SUBSTANCES" : {
-      "description" : "custom cargo",
-      "message" : "Zararlı maddeler"
-   },
-   "HOWMUCH_1" : {
-      "description" : "regarding mass, always more than 1t",
-      "message" : "{amount} metrik ton."
-   },
-   "HOWMUCH_2" : {
-      "description" : "regarding mass, always more than 1t",
-      "message" : "{amount}t"
-   },
-   "HOWMUCH_3" : {
-      "description" : "regarding mass, always more than 1t",
-      "message" : "Kütle: {amount}t."
-   },
-   "HOWMUCH_4" : {
-      "description" : "regarding mass, always more than 1t",
-      "message" : "{amount}t mal var."
-   },
-   "HOWMUCH_SINGULAR_1" : {
-      "description" : "This string is only used for 1 metric tons (singular)",
-      "message" : "Sadece {amount}t."
-   },
-   "HOWMUCH_WHOLESALER_1" : {
-      "description" : "",
-      "message" : "{amount}t kadar {cargoname}."
-   },
-   "HOWMUCH_WHOLESALER_2" : {
-      "description" : "",
-      "message" : "{amount}t {cargoname}"
-   },
-   "HOW_MUCH_MASS" : {
-      "description" : "",
-      "message" : "Malların kütlesi ne kadar?"
-   },
-   "HOW_SOON_MUST_IT_BE_DELIVERED" : {
-      "description" : "",
-      "message" : "Ne zamana dek teslim edilmesi gerekiyor?"
-   },
-   "INTROTEXT_1" : {
-      "description" : "",
-      "message" : "Merhaba, ben {name}.  Eğer {dist} ıy uzaklığındaki {system} [{sectorx},{sectory},{sectorz}] sistemindeki {starport} istasyonuna {cargoname} taşırsan sana {cash} ödeme yapacağım. "
-   },
-   "INTROTEXT_2" : {
-      "description" : "{name} is the full name of a person",
-      "message" : "Selam! {name} Taşıma Hizmetleri {dist} ıy uzaklığındaki {system} ({sectorx}, {sectory}, {sectorz})\n sistemindeki {starport} istasyonuna {cargoname} taşımanızı istiyor. Zamanında ve güvenli bir teslimata {cash} teklif ediyoruz."
-   },
-   "INTROTEXT_3" : {
-      "description" : "",
-      "message" : "İyi günler.. Ben {name}, {name} Ltd'nin kurucusu. {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} istasyonuna {cargoname} taşıyacak güvenilir birisini istiyorum. {dist} ışık yıllık bu yolculuğa {cash} ödeyeceğim."
-   },
-   "INTROTEXT_EXPENSIVE_1" : {
-      "description" : "",
-      "message" : "Merhaba. {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına potansiyel olarak tehlikeli bir nakliyat istiyoruz. {cash} ödeyeceğiz. Mesafe {dist} ıy."
-   },
-   "INTROTEXT_FLUFFY_1" : {
-      "description" : "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
-      "message" : "Merhaba, adım {name}. {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına tüylü bir {cargoname} teslimatım var. Mesafe{dist} ıy. Bu teslimat için ödeyeceğim miktar {cash}."
-   },
-   "INTROTEXT_INFRASTRUCTURE_1" : {
-      "description" : "",
-      "message" : "Selamlar. Ben {name}. {system} hükumeti, {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına {cargoname} göndermek istiyor. Ödeme {cash}. {system} buradan {dist} ıy uzaklıkta."
-   },
-   "INTROTEXT_LOCAL_1" : {
-      "description" : "",
-      "message" : "Tanıştığımıza memnun oldum. Ben {name} ve {starport} idari işlerinde çalışıyorum. {starport} istasyonuna {cargoname} gönderecek birine {cash} ödeyeceğiz."
-   },
-   "INTROTEXT_LOCAL_2" : {
-      "description" : "",
-      "message" : "Merhaba. Ben {name} ve {starport} limanına kısa bir {cargoname} teslimatı için {cash} ödeyeceğim."
-   },
-   "INTROTEXT_LOCAL_3" : {
-      "description" : "",
-      "message" : "Benim adım {name} ve {starport} limanındaki bir müşterime {cargoname} teslim edeceğim. Nakliyat için {cash} teklif ediyorum."
-   },
-   "INTROTEXT_MINING_1" : {
-      "description" : "{name} is the full name of a person",
-      "message" : "Merhaba. {name} Madencilik {dist} ıy uzaklığındaki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına, yeni bir maden açmak için kullanılacak {cargoname} teslim edilmesini istiyor. Ödeme {cash}."
-   },
-   "INTROTEXT_PICKUP_1" : {
-      "description" : "",
-      "message" : "Nasıl gidiyor? Ben {name}, ve {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanından {cargoname} alarak {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) sistemindeki {dom_starport} limanına getirecek birine ihtiyacım var. {system} sistemine mesafe {dist} ıy. Bu nakliyat için {cash} ödeyeceğim."
-   },
-   "INTROTEXT_PICKUP_2" : {
-      "description" : "",
-      "message" : "Nasılsın? Ben {name}. Bir müşterim {dist} ıy uzaklığındaki {system} ({sectorx}, {sectory}, {sectorz}) sisteminden {cargoname} ithal etmek istiyor. Bu kargo teslimatı için {cash} ödeyecek. Kargoyu bırakmak için buraya, yani {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) sistemine geri dön."
-   },
-   "INTROTEXT_PICKUP_LOCAL_1" : {
-      "description" : "",
-      "message" : "Selamlar. Ben {name}. {starport} limanından {dom_starport} limanına {cargoname} teslim edecek birine {cash} ödeyeceğim."
-   },
-   "INTROTEXT_PICKUP_LOCAL_2" : {
-      "description" : "",
-      "message" : "Merhaba. Benim adım {name}. Patronum, {starport} limanından {dom_starport} limanındaki yeni mekanımıza {cargoname} taşıyarak atölyemizi taşımamıza yardım etmesi için {cash} ödeyerek birini kiralamak istiyor."
-   },
-   "INTROTEXT_WEDDING_1" : {
-      "description" : "",
-      "message" : "Selamlar. {system} ({sectorx}, {sectory}, {sectorz}) sisteminin {starport} limanındaki evlilik sezonunu duydun mu? Oraya {cargoname} göndermek istiyoruz. {dist} ıy uzaklıkta. Ödeme {cash}. Nasıl?"
-   },
-   "INTROTEXT_WHOLESALER_1" : {
-      "description" : "",
-      "message" : "Merhaba, benim adım {name}, {system} sisteminde bir toptancıyım. {dist} ıy uzaklığında bulunan {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına bir teslimat için {cash} ödeyeceğim."
-   },
-   "INTROTEXT_WHOLESALER_2" : {
-      "description" : "",
-      "message" : "Selamlar, benim adım {name} ve Haber Corp için çalışıyorum. {dist} ıy uzaklığında bulunan  {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına yapılacak bir teslimata {cash} ödeyeceğiz."
-   },
-   "I_AM_ON_MY_WAY" : {
-      "description" : "",
-      "message" : "Sensörlerim hasar aldığını gösteriyor. Yoldayım."
-   },
-   "I_HAVE_DEBITED_YOUR_ACCOUNT" : {
-      "description" : "",
-      "message" : "Kaybedilen malları hesabından tahsil ettim."
-   },
-   "I_NEED_HELP" : {
-      "description" : "",
-      "message" : "Hasar alıyorum, yardıma ihtiyacım var."
-   },
-   "LY" : {
-      "description" : "",
-      "message" : "ıy"
-   },
-   "MACHINE_TOOLS" : {
-      "description" : "custom cargo",
-      "message" : "Makine"
-   },
-   "NEPTUNIUM" : {
-      "description" : "custom cargo",
-      "message" : "Neptünyum"
-   },
-   "OK_AGREED" : {
-      "description" : "",
-      "message" : "Tamam, kabul."
-   },
-   "PICKUP_FROM" : {
-      "description" : "from a location",
-      "message" : "Mal yükleme noktası:"
-   },
-   "PIRATE_GRIPES_1" : {
-      "description" : "",
-      "message" : "Lanet olsun! Bunun hesabını ödeyeceksin!"
-   },
-   "PIRATE_GRIPES_2" : {
-      "description" : "",
-      "message" : "Hayır, olamaz! Zavallı gemim..."
-   },
-   "PIRATE_GRIPES_3" : {
-      "description" : "said with vengeance",
-      "message" : "Bekle, sana göstereceğim."
-   },
-   "PIRATE_TAUNTS_1" : {
-      "description" : "",
-      "message" : "Bu son teslimatın olacak!"
-   },
-   "PIRATE_TAUNTS_2" : {
-      "description" : "",
-      "message" : "{client} için mi çalışıyorsun? Bu senin sonun olacak!"
-   },
-   "PIRATE_TAUNTS_3" : {
-      "description" : "",
-      "message" : "Hey dostum, hemen malları ver bakalım. Şimdi!"
-   },
-   "PIRATE_TAUNTS_4" : {
-      "description" : "",
-      "message" : "Ahbap, hedefine asla erişemeyeceksin."
-   },
-   "PIRATE_TAUNTS_5" : {
-      "description" : "",
-      "message" : "Ah, {location} tarafına giden bir başka keklik."
-   },
-   "PIRATE_TAUNTS_6" : {
-      "description" : "",
-      "message" : "Öyle görünüyor ki yapabileceğinden daha fazlasını taşımaya çalışıyorsun. Bırak da yardım edeyim."
-   },
-   "PIRATE_TAUNTS_7" : {
-      "description" : "",
-      "message" : "Şanslı günlerin bitti!"
-   },
-   "PLUTONIUM" : {
-      "description" : "custom cargo",
-      "message" : "Plütonyum"
-   },
-   "QUIBBLES" : {
-      "description" : "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-      "message" : "Ivır-zıvır"
-   },
-   "RISK_1" : {
-      "description" : "",
-      "message" : "Tehlike beklemiyorum."
-   },
-   "RISK_2" : {
-      "description" : "",
-      "message" : "Olağandan daha fazla değil."
-   },
-   "RISK_3" : {
-      "description" : "",
-      "message" : "Bu değerli bir kargo, gözlerin açık olsun."
-   },
-   "RISK_4" : {
-      "description" : "",
-      "message" : "Tehlikeli olabilir, yeterince hazırlandığından emin olmalısın."
-   },
-   "RISK_5" : {
-      "description" : "",
-      "message" : "Bu çok riskli olabilir, önemli bir direnişle karşılaşabilirsin."
-   },
-   "RISK_6" : {
-      "description" : "",
-      "message" : "Hedefine güvenle varacağından emin olma."
-   },
-   "RISK_ART_1" : {
-      "description" : "",
-      "message" : "Bu malzemeler sanatseverler için çok önemli."
-   },
-   "RISK_EXPENSIVE_1" : {
-      "description" : "",
-      "message" : "Teslimatı gizli tutmak için her şeyi yaptık. Ama asla emin olamayız."
-   },
-   "RISK_EXPENSIVE_2" : {
-      "description" : "",
-      "message" : "Polis, bu sistemde bilinmeyen bir grup korsan olduğunu söyledi."
-   },
-   "RISK_GEMS_1" : {
-      "description" : "",
-      "message" : "Vicdansız bir tüccar bu kargoyu elde etmek isteyebilir."
-   },
-   "RISK_WHOLESALER_1" : {
-      "description" : "",
-      "message" : "Merak etme. Belaya karşı bir polis devriyesi hazır."
-   },
-   "RISK_WHOLESALER_2" : {
-      "description" : "",
-      "message" : "Bir risk olabilir. Ancak polis alanı devriye gezeceğine söz verdi."
-   },
-   "RISK_WHOLESALER_3" : {
-      "description" : "",
-      "message" : "Risk yüksek, ama seni koruyacak bir koruma hazır."
-   },
-   "SEMI_FINISHED_PRODUCTS" : {
-      "description" : "custom cargo",
-      "message" : "Yarı bitirilmiş ürünler"
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Navigasyon hedefi olarak seç"
-   },
-   "SET_RETURN_ROUTE" : {
-      "description" : "",
-      "message" : "Dönüş yolunu seç"
-   },
-   "SPACEPORT" : {
-      "description" : "",
-      "message" : "Yıldız Limanı:"
-   },
-   "SPACESHIP_PARTS" : {
-      "description" : "custom cargo",
-      "message" : "Uzay aracı parçaları"
-   },
-   "SUCCESSMSG_1" : {
-      "description" : "",
-      "message" : "Nakliyat için teşekkürler. Ödemeniz yapıldı."
-   },
-   "SUCCESSMSG_2" : {
-      "description" : "",
-      "message" : "Vaktinde teslimat için teşekkürler. Paranız hesaba aktarıldı."
-   },
-   "SUCCESSMSG_3" : {
-      "description" : "",
-      "message" : "Muhteşem, sizinle çalışmak bir zevkti. Ödemenizi yaptım."
-   },
-   "SUCCESSMSG_4" : {
-      "description" : "",
-      "message" : "Teşekkürler! Sizi mutlaka önereceğim. Paranız hesaba yatırıldı."
-   },
-   "SUCCESSMSG_FLUFFY_1" : {
-      "description" : "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
-      "message" : "Aman da aman, bu kadar tüylü yaratıkla ne yapacağım? Her neyse, paranız ödendi."
-   },
-   "SYSTEM" : {
-      "description" : "",
-      "message" : "Sistem:"
-   },
-   "TARGET_DESTROYED" : {
-      "description" : "",
-      "message" : "Hedef yok edildi."
-   },
-   "TITANIUM" : {
-      "description" : "custom cargo",
-      "message" : "Titanyum"
-   },
-   "TUNGSTEN" : {
-      "description" : "custom cargo",
-      "message" : "Tungsten"
-   },
-   "URANIUM" : {
-      "description" : "custom cargo",
-      "message" : "Uranyum"
-   },
-   "URGENCY_1" : {
-      "description" : "",
-      "message" : "Acelemiz yok. {date} tarihinden önce teslim edilmiş olsun."
-   },
-   "URGENCY_2" : {
-      "description" : "",
-      "message" : "{date} tarihinden önce teslim edilmeli."
-   },
-   "URGENCY_3" : {
-      "description" : "",
-      "message" : "Yoğun takvimimizden dolayı {date} tarihine kadar teslim edilmeli."
-   },
-   "URGENCY_4" : {
-      "description" : "",
-      "message" : "Acelemiz var, bu yüzden {date} tarihine dek teslim edilmeli."
-   },
-   "URGENCY_5" : {
-      "description" : "",
-      "message" : "Malların {date} tarihinden önce teslim edilmesi gerekiyor."
-   },
-   "URGENCY_FLUFFY_1" : {
-      "description" : "",
-      "message" : "Bu hayvanların çoğalma hızı ve konteynırdaki sınırlı yiyecekten dolayı, teslimat {date} öncesine kadar bitmiş olmalı."
-   },
-   "URGENCY_RADIOACTIVE_1" : {
-      "description" : "",
-      "message" : "Bu izotopun yarı ömründen dolayı, teslimat {date} öncesinde tamamlanmalı."
-   },
-   "WEDDING_DRESSES" : {
-      "description" : "custom cargo",
-      "message" : "Evlilik giysileri"
-   },
-   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP" : {
-      "description" : "",
-      "message" : "Kargoyu gemine yükledik."
-   },
-   "WHAT_IS_THIS" : {
-      "description" : "",
-      "message" : "Bu da ne? Kargomu attın mı? Sen deli misin?"
-   },
-   "WHYSOMUCH_1" : {
-      "description" : "",
-      "message" : "Bu standart ödeme."
-   },
-   "WHYSOMUCH_2" : {
-      "description" : "",
-      "message" : "Kabul et, ya da bırak git."
-   },
-   "WHYSOMUCH_3" : {
-      "description" : "",
-      "message" : "Neyin \"fazla\" olduğu görecelidir."
-   },
-   "WHYSOMUCH_4" : {
-      "description" : "",
-      "message" : "Bu ödeme kargonun zamanında ve güvenle teslimatına verdiğimiz önemi gösteriyor.."
-   },
-   "WHYSOMUCH_5" : {
-      "description" : "",
-      "message" : "Bu teslimatı gizli tutman için bir ödül gibi düşün."
-   },
-   "WHYSOMUCH_6" : {
-      "description" : "",
-      "message" : "Aslında sana daha az ödemek hoşumuza giderdi."
-   },
-   "WHYSOMUCH_CENTRIFUGES_1" : {
-      "description" : "",
-      "message" : "Bir miktar {cargoname}, yazılım hatası nedeniyle yok oldu ve yerine acilen yenisi gerekiyor."
-   },
-   "WHYSOMUCH_CHEMICAL_1" : {
-      "description" : "",
-      "message" : "Kimya tesisimizdeki üretim bu mallara bağlı ve durdurulmamalı. Hiçbir şey makineyi durdurmamalı."
-   },
-   "WHYSOMUCH_EXPENSIVE_1" : {
-      "description" : "",
-      "message" : "Değerli mallara talep çok."
-   },
-   "WHYSOMUCH_EXPENSIVE_2" : {
-      "description" : "",
-      "message" : "Bu mallar bayağı pahalı."
-   },
-   "WHYSOMUCH_FLUFFY_1" : {
-      "description" : "",
-      "message" : "{cargoname} bu sezon çok satıyor. Eğer para kazanmak istiyorsan yatırım yapacağın yer {cargoname}."
-   },
-   "WHYSOMUCH_INFRASTRUCTURE_1" : {
-      "description" : "",
-      "message" : "Bu malzemeler bir yapı projesi için gerekli."
-   },
-   "WHYSOMUCH_MINING_1" : {
-      "description" : "",
-      "message" : "Bu mallar yeni bir maden tesisi için gerekli."
-   },
-   "WHYSOMUCH_URGENT_1" : {
-      "description" : "",
-      "message" : "En sevdiğim pilotum hasta ve zaman kısıtlı."
-   },
-   "WHYSOMUCH_URGENT_2" : {
-      "description" : "",
-      "message" : "Eğer zamanında teslimat yapılmazsa, proje durma noktasına gelir."
-   },
-   "WHYSOMUCH_URGENT_3" : {
-      "description" : "",
-      "message" : "Bu mallara acil ihtiyaç var."
-   },
-   "WHYSOMUCH_WEDDING_1" : {
-      "description" : "",
-      "message" : "Bu teslimatı yapacak kimseyi bulamadım. Eğer sezon biterse malların değeri kalmaz."
-   },
-   "WHY_SO_MUCH_MONEY" : {
-      "description" : "",
-      "message" : "Neden bu kadar çok para?"
-   },
-   "WILL_I_BE_IN_ANY_DANGER" : {
-      "description" : "",
-      "message" : "Tehlikede olacak mıyım?"
-   },
-   "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP" : {
-      "description" : "",
-      "message" : "Gemide yeterli kargo alanı yok."
-   },
-   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Lütfen yeterli kargo alanın olunca tekrar gel."
-   }
+  "ACCEPTED_1": {
+    "description": "",
+    "message": "Harika. Malları gemine yükleyeceğim."
+  },
+  "ACCEPTED_2": {
+    "description": "",
+    "message": "Çok güzel."
+  },
+  "ACCEPTED_3": {
+    "description": "",
+    "message": "Tamam, güzel. Umarım sana güvenebilirim."
+  },
+  "ACCEPTED_4": {
+    "description": "",
+    "message": "Anlaştık."
+  },
+  "ACCEPTED_PICKUP_1": {
+    "description": "",
+    "message": "Tamam, malların nakliyata hazır olduğundan emin olacağım."
+  },
+  "ACCEPTED_PICKUP_2": {
+    "description": "",
+    "message": "Anlaştık. Yolda olduğunu iş arkadaşlarıma söyleyeceğim."
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "NAKLİYAT. {system} sistemine kargo teslimatı."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "TAŞIMA GEREKİYOR. {system} sisitemine mal sevkiyatı gerekiyor. Ödeme: {cash}."
+  },
+  "ADTEXT_EXPENSIVE_1": {
+    "description": "",
+    "message": "TESLİMAT. {system} sistemine değerli kargo. Tecrübeli bir pilota {cash}."
+  },
+  "ADTEXT_LOCAL_1": {
+    "description": "",
+    "message": "YEREL TESLİMAT. Malların {starport} istasyonuna sevkiyatı."
+  },
+  "ADTEXT_LOCAL_2": {
+    "description": "",
+    "message": "NAKLİYE GEREKİYOR. Yerel kargonun {starport} istasyonuna teslimatı."
+  },
+  "ADTEXT_LOCAL_3": {
+    "description": "",
+    "message": "YEREL NAKLİYAT. {starport} istasyonuna mal taşıma."
+  },
+  "ADTEXT_PICKUP_1": {
+    "description": "",
+    "message": "KARGO. {system} sisteminden kargo getirilmesi gerekiyor."
+  },
+  "ADTEXT_PICKUP_LOCAL_1": {
+    "description": "",
+    "message": "TAŞIMA. {starport} istasyonundan kargo getirilmesi gerekiyor."
+  },
+  "ADTEXT_WHOLESALER_1": {
+    "description": "",
+    "message": "KARGO HİZMETİ. {system} sistemine kargo teslimatı yapacak bir gemi gerekiyor."
+  },
+  "ALUMINIUM_TUBES": {
+    "description": "custom cargo",
+    "message": "Alüminyum tüp"
+  },
+  "AMOUNT": {
+    "description": "Shown in mission summary. The amount of cargo",
+    "message": "Miktar:"
+  },
+  "ART_OBJECTS": {
+    "description": "custom cargo",
+    "message": "Sanatsal eşyalar"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Kargo:"
+  },
+  "CARGORUN": {
+    "description": "Name of mission type",
+    "message": "Nakliyat"
+  },
+  "CEASE_FIRE": {
+    "description": "",
+    "message": "Ateşkes, ateşkes! Ben sendenim!"
+  },
+  "CLUS": {
+    "description": "custom cargo",
+    "message": "Konteynırlanmış canlılar"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Lütfen ilk isteğinizi tekrarlar mısınız?"
+  },
+  "DANGER": {
+    "description": "the risk level",
+    "message": "Tehlike:"
+  },
+  "DEADLINE": {
+    "description": "Must be delivered by",
+    "message": "Bitiş:"
+  },
+  "DELIVER_TO": {
+    "description": "Deliver to this location",
+    "message": "Teslimat noktası:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Üzgünüm, ama bu kargo tecrübesiz bir pilota veremeyeceğim kadar önemli."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Seni hiç duymadım. Seni tanımıyorum ve sana güvenmiyorum."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Üzgünüm, tecrübeli bir pilot arıyorum."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Affedersin, ama bu işi yapacak yeteneğin olduğunu düşünmüyorum."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Zamanımı boşa harcama. Daha çok tecrübesizsin."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "Tecrübe kazandığın zaman geri gel."
+  },
+  "DIAMONDS": {
+    "description": "custom cargo",
+    "message": "Elmas"
+  },
+  "DIGESTERS": {
+    "description": "custom cargo",
+    "message": "Öğütücü"
+  },
+  "DISTANCE": {
+    "description": "distance in space, between two locations",
+    "message": "Uzaklık:"
+  },
+  "ELECTRICAL_APPLIANCES": {
+    "description": "custom cargo",
+    "message": "Elektrikli eşyalar"
+  },
+  "ESCORT_CHATTER_1": {
+    "description": "",
+    "message": "Düşman aracı tespit edildi. Birlikte saldıralım."
+  },
+  "ESCORT_CHATTER_2": {
+    "description": "",
+    "message": "Güzel. Bu korsan ilk skorum olacak."
+  },
+  "ESCORT_CHATTER_3": {
+    "description": "",
+    "message": "Düşman tespit edildi. Saldırıya geçiliyor."
+  },
+  "ESCORT_CHATTER_4": {
+    "description": "",
+    "message": "Yoluna devam et, seni koruyacağım."
+  },
+  "ESCORT_CHATTER_5": {
+    "description": "",
+    "message": "Vira bismillah. Günün ilk balığını tutalım bakalım."
+  },
+  "EXPLOSIVES": {
+    "description": "custom cargo",
+    "message": "Patlayıcılar"
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "Geç teslimat yüzünden hayal kırıklığına uğradım. Ödeme almayacaksın."
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "Çok geç kaldın! Şimdi bununla ne yapayım, artık değeri kalmadı!"
+  },
+  "FAILUREMSG_3": {
+    "description": "",
+    "message": "Bak, teslim tarihi hakkında çok nettik. Paranı almayı unutabilirsin."
+  },
+  "FAILUREMSG_4": {
+    "description": "",
+    "message": "Bundan sonra senden gelen iş tekliflerini reddedeceğim."
+  },
+  "FAILUREMSG_FLUFFY_1": {
+    "description": "",
+    "message": "Seni canavar! Teslimat için çok bekledin. Bütün hayvanlarım açlıktan öldü!"
+  },
+  "FURNITURE": {
+    "description": "custom cargo",
+    "message": "Ev eşyası"
+  },
+  "GREENHOUSES": {
+    "description": "custom cargo",
+    "message": "Seralar"
+  },
+  "GUNS_GUNS_GUNS": {
+    "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
+    "message": "Ateş, ateş, ateş."
+  },
+  "HAZARDOUS_SUBSTANCES": {
+    "description": "custom cargo",
+    "message": "Zararlı maddeler"
+  },
+  "HOWMUCH_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount} metrik ton."
+  },
+  "HOWMUCH_2": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount}t"
+  },
+  "HOWMUCH_3": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Kütle: {amount}t."
+  },
+  "HOWMUCH_4": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount}t mal var."
+  },
+  "HOWMUCH_SINGULAR_1": {
+    "description": "This string is only used for 1 metric tons (singular)",
+    "message": "Sadece {amount}t."
+  },
+  "HOWMUCH_WHOLESALER_1": {
+    "description": "",
+    "message": "{amount}t kadar {cargoname}."
+  },
+  "HOWMUCH_WHOLESALER_2": {
+    "description": "",
+    "message": "{amount}t {cargoname}"
+  },
+  "HOW_MUCH_MASS": {
+    "description": "",
+    "message": "Malların kütlesi ne kadar?"
+  },
+  "HOW_SOON_MUST_IT_BE_DELIVERED": {
+    "description": "",
+    "message": "Ne zamana dek teslim edilmesi gerekiyor?"
+  },
+  "INTROTEXT_1": {
+    "description": "",
+    "message": "Merhaba, ben {name}.  Eğer {dist} ıy uzaklığındaki {system} [{sectorx},{sectory},{sectorz}] sistemindeki {starport} istasyonuna {cargoname} taşırsan sana {cash} ödeme yapacağım. "
+  },
+  "INTROTEXT_2": {
+    "description": "{name} is the full name of a person",
+    "message": "Selam! {name} Taşıma Hizmetleri {dist} ıy uzaklığındaki {system} ({sectorx}, {sectory}, {sectorz})\n sistemindeki {starport} istasyonuna {cargoname} taşımanızı istiyor. Zamanında ve güvenli bir teslimata {cash} teklif ediyoruz."
+  },
+  "INTROTEXT_3": {
+    "description": "",
+    "message": "İyi günler.. Ben {name}, {name} Ltd'nin kurucusu. {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} istasyonuna {cargoname} taşıyacak güvenilir birisini istiyorum. {dist} ışık yıllık bu yolculuğa {cash} ödeyeceğim."
+  },
+  "INTROTEXT_EXPENSIVE_1": {
+    "description": "",
+    "message": "Merhaba. {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına potansiyel olarak tehlikeli bir nakliyat istiyoruz. {cash} ödeyeceğiz. Mesafe {dist} ıy."
+  },
+  "INTROTEXT_FLUFFY_1": {
+    "description": "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
+    "message": "Merhaba, adım {name}. {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına tüylü bir {cargoname} teslimatım var. Mesafe{dist} ıy. Bu teslimat için ödeyeceğim miktar {cash}."
+  },
+  "INTROTEXT_INFRASTRUCTURE_1": {
+    "description": "",
+    "message": "Selamlar. Ben {name}. {system} hükumeti, {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına {cargoname} göndermek istiyor. Ödeme {cash}. {system} buradan {dist} ıy uzaklıkta."
+  },
+  "INTROTEXT_LOCAL_1": {
+    "description": "",
+    "message": "Tanıştığımıza memnun oldum. Ben {name} ve {starport} idari işlerinde çalışıyorum. {starport} istasyonuna {cargoname} gönderecek birine {cash} ödeyeceğiz."
+  },
+  "INTROTEXT_LOCAL_2": {
+    "description": "",
+    "message": "Merhaba. Ben {name} ve {starport} limanına kısa bir {cargoname} teslimatı için {cash} ödeyeceğim."
+  },
+  "INTROTEXT_LOCAL_3": {
+    "description": "",
+    "message": "Benim adım {name} ve {starport} limanındaki bir müşterime {cargoname} teslim edeceğim. Nakliyat için {cash} teklif ediyorum."
+  },
+  "INTROTEXT_MINING_1": {
+    "description": "{name} is the full name of a person",
+    "message": "Merhaba. {name} Madencilik {dist} ıy uzaklığındaki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına, yeni bir maden açmak için kullanılacak {cargoname} teslim edilmesini istiyor. Ödeme {cash}."
+  },
+  "INTROTEXT_PICKUP_1": {
+    "description": "",
+    "message": "Nasıl gidiyor? Ben {name}, ve {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanından {cargoname} alarak {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) sistemindeki {dom_starport} limanına getirecek birine ihtiyacım var. {system} sistemine mesafe {dist} ıy. Bu nakliyat için {cash} ödeyeceğim."
+  },
+  "INTROTEXT_PICKUP_2": {
+    "description": "",
+    "message": "Nasılsın? Ben {name}. Bir müşterim {dist} ıy uzaklığındaki {system} ({sectorx}, {sectory}, {sectorz}) sisteminden {cargoname} ithal etmek istiyor. Bu kargo teslimatı için {cash} ödeyecek. Kargoyu bırakmak için buraya, yani {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) sistemine geri dön."
+  },
+  "INTROTEXT_PICKUP_LOCAL_1": {
+    "description": "",
+    "message": "Selamlar. Ben {name}. {starport} limanından {dom_starport} limanına {cargoname} teslim edecek birine {cash} ödeyeceğim."
+  },
+  "INTROTEXT_PICKUP_LOCAL_2": {
+    "description": "",
+    "message": "Merhaba. Benim adım {name}. Patronum, {starport} limanından {dom_starport} limanındaki yeni mekanımıza {cargoname} taşıyarak atölyemizi taşımamıza yardım etmesi için {cash} ödeyerek birini kiralamak istiyor."
+  },
+  "INTROTEXT_WEDDING_1": {
+    "description": "",
+    "message": "Selamlar. {system} ({sectorx}, {sectory}, {sectorz}) sisteminin {starport} limanındaki evlilik sezonunu duydun mu? Oraya {cargoname} göndermek istiyoruz. {dist} ıy uzaklıkta. Ödeme {cash}. Nasıl?"
+  },
+  "INTROTEXT_WHOLESALER_1": {
+    "description": "",
+    "message": "Merhaba, benim adım {name}, {system} sisteminde bir toptancıyım. {dist} ıy uzaklığında bulunan {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına bir teslimat için {cash} ödeyeceğim."
+  },
+  "INTROTEXT_WHOLESALER_2": {
+    "description": "",
+    "message": "Selamlar, benim adım {name} ve Haber Corp için çalışıyorum. {dist} ıy uzaklığında bulunan  {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına yapılacak bir teslimata {cash} ödeyeceğiz."
+  },
+  "I_AM_ON_MY_WAY": {
+    "description": "",
+    "message": "Sensörlerim hasar aldığını gösteriyor. Yoldayım."
+  },
+  "I_HAVE_DEBITED_YOUR_ACCOUNT": {
+    "description": "",
+    "message": "Kaybedilen malları hesabından tahsil ettim."
+  },
+  "I_NEED_HELP": {
+    "description": "",
+    "message": "Hasar alıyorum, yardıma ihtiyacım var."
+  },
+  "LY": {
+    "description": "",
+    "message": "ıy"
+  },
+  "MACHINE_TOOLS": {
+    "description": "custom cargo",
+    "message": "Makine"
+  },
+  "NEPTUNIUM": {
+    "description": "custom cargo",
+    "message": "Neptünyum"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Tamam, kabul."
+  },
+  "PICKUP_FROM": {
+    "description": "from a location",
+    "message": "Mal yükleme noktası:"
+  },
+  "PIRATE_GRIPES_1": {
+    "description": "",
+    "message": "Lanet olsun! Bunun hesabını ödeyeceksin!"
+  },
+  "PIRATE_GRIPES_2": {
+    "description": "",
+    "message": "Hayır, olamaz! Zavallı gemim..."
+  },
+  "PIRATE_GRIPES_3": {
+    "description": "said with vengeance",
+    "message": "Bekle, sana göstereceğim."
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Bu son teslimatın olacak!"
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "{client} için mi çalışıyorsun? Bu senin sonun olacak!"
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Hey dostum, hemen malları ver bakalım. Şimdi!"
+  },
+  "PIRATE_TAUNTS_4": {
+    "description": "",
+    "message": "Ahbap, hedefine asla erişemeyeceksin."
+  },
+  "PIRATE_TAUNTS_5": {
+    "description": "",
+    "message": "Ah, {location} tarafına giden bir başka keklik."
+  },
+  "PIRATE_TAUNTS_6": {
+    "description": "",
+    "message": "Öyle görünüyor ki yapabileceğinden daha fazlasını taşımaya çalışıyorsun. Bırak da yardım edeyim."
+  },
+  "PIRATE_TAUNTS_7": {
+    "description": "",
+    "message": "Şanslı günlerin bitti!"
+  },
+  "PLUTONIUM": {
+    "description": "custom cargo",
+    "message": "Plütonyum"
+  },
+  "QUIBBLES": {
+    "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
+    "message": "Ivır-zıvır"
+  },
+  "RISK_1": {
+    "description": "",
+    "message": "Tehlike beklemiyorum."
+  },
+  "RISK_2": {
+    "description": "",
+    "message": "Olağandan daha fazla değil."
+  },
+  "RISK_3": {
+    "description": "",
+    "message": "Bu değerli bir kargo, gözlerin açık olsun."
+  },
+  "RISK_4": {
+    "description": "",
+    "message": "Tehlikeli olabilir, yeterince hazırlandığından emin olmalısın."
+  },
+  "RISK_5": {
+    "description": "",
+    "message": "Bu çok riskli olabilir, önemli bir direnişle karşılaşabilirsin."
+  },
+  "RISK_6": {
+    "description": "",
+    "message": "Hedefine güvenle varacağından emin olma."
+  },
+  "RISK_ART_1": {
+    "description": "",
+    "message": "Bu malzemeler sanatseverler için çok önemli."
+  },
+  "RISK_EXPENSIVE_1": {
+    "description": "",
+    "message": "Teslimatı gizli tutmak için her şeyi yaptık. Ama asla emin olamayız."
+  },
+  "RISK_EXPENSIVE_2": {
+    "description": "",
+    "message": "Polis, bu sistemde bilinmeyen bir grup korsan olduğunu söyledi."
+  },
+  "RISK_GEMS_1": {
+    "description": "",
+    "message": "Vicdansız bir tüccar bu kargoyu elde etmek isteyebilir."
+  },
+  "RISK_WHOLESALER_1": {
+    "description": "",
+    "message": "Merak etme. Belaya karşı bir polis devriyesi hazır."
+  },
+  "RISK_WHOLESALER_2": {
+    "description": "",
+    "message": "Bir risk olabilir. Ancak polis alanı devriye gezeceğine söz verdi."
+  },
+  "RISK_WHOLESALER_3": {
+    "description": "",
+    "message": "Risk yüksek, ama seni koruyacak bir koruma hazır."
+  },
+  "SEMI_FINISHED_PRODUCTS": {
+    "description": "custom cargo",
+    "message": "Yarı bitirilmiş ürünler"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Navigasyon hedefi olarak seç"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Dönüş yolunu seç"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Yıldız Limanı:"
+  },
+  "SPACESHIP_PARTS": {
+    "description": "custom cargo",
+    "message": "Uzay aracı parçaları"
+  },
+  "SUCCESSMSG_1": {
+    "description": "",
+    "message": "Nakliyat için teşekkürler. Ödemeniz yapıldı."
+  },
+  "SUCCESSMSG_2": {
+    "description": "",
+    "message": "Vaktinde teslimat için teşekkürler. Paranız hesaba aktarıldı."
+  },
+  "SUCCESSMSG_3": {
+    "description": "",
+    "message": "Muhteşem, sizinle çalışmak bir zevkti. Ödemenizi yaptım."
+  },
+  "SUCCESSMSG_4": {
+    "description": "",
+    "message": "Teşekkürler! Sizi mutlaka önereceğim. Paranız hesaba yatırıldı."
+  },
+  "SUCCESSMSG_FLUFFY_1": {
+    "description": "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
+    "message": "Aman da aman, bu kadar tüylü yaratıkla ne yapacağım? Her neyse, paranız ödendi."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Sistem:"
+  },
+  "TARGET_DESTROYED": {
+    "description": "",
+    "message": "Hedef yok edildi."
+  },
+  "TITANIUM": {
+    "description": "custom cargo",
+    "message": "Titanyum"
+  },
+  "TUNGSTEN": {
+    "description": "custom cargo",
+    "message": "Tungsten"
+  },
+  "URANIUM": {
+    "description": "custom cargo",
+    "message": "Uranyum"
+  },
+  "URGENCY_1": {
+    "description": "",
+    "message": "Acelemiz yok. {date} tarihinden önce teslim edilmiş olsun."
+  },
+  "URGENCY_2": {
+    "description": "",
+    "message": "{date} tarihinden önce teslim edilmeli."
+  },
+  "URGENCY_3": {
+    "description": "",
+    "message": "Yoğun takvimimizden dolayı {date} tarihine kadar teslim edilmeli."
+  },
+  "URGENCY_4": {
+    "description": "",
+    "message": "Acelemiz var, bu yüzden {date} tarihine dek teslim edilmeli."
+  },
+  "URGENCY_5": {
+    "description": "",
+    "message": "Malların {date} tarihinden önce teslim edilmesi gerekiyor."
+  },
+  "URGENCY_FLUFFY_1": {
+    "description": "",
+    "message": "Bu hayvanların çoğalma hızı ve konteynırdaki sınırlı yiyecekten dolayı, teslimat {date} öncesine kadar bitmiş olmalı."
+  },
+  "URGENCY_RADIOACTIVE_1": {
+    "description": "",
+    "message": "Bu izotopun yarı ömründen dolayı, teslimat {date} öncesinde tamamlanmalı."
+  },
+  "WEDDING_DRESSES": {
+    "description": "custom cargo",
+    "message": "Evlilik giysileri"
+  },
+  "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
+    "description": "",
+    "message": "Kargoyu gemine yükledik."
+  },
+  "WHAT_IS_THIS": {
+    "description": "",
+    "message": "Bu da ne? Kargomu attın mı? Sen deli misin?"
+  },
+  "WHYSOMUCH_1": {
+    "description": "",
+    "message": "Bu standart ödeme."
+  },
+  "WHYSOMUCH_2": {
+    "description": "",
+    "message": "Kabul et, ya da bırak git."
+  },
+  "WHYSOMUCH_3": {
+    "description": "",
+    "message": "Neyin \"fazla\" olduğu görecelidir."
+  },
+  "WHYSOMUCH_4": {
+    "description": "",
+    "message": "Bu ödeme kargonun zamanında ve güvenle teslimatına verdiğimiz önemi gösteriyor.."
+  },
+  "WHYSOMUCH_5": {
+    "description": "",
+    "message": "Bu teslimatı gizli tutman için bir ödül gibi düşün."
+  },
+  "WHYSOMUCH_6": {
+    "description": "",
+    "message": "Aslında sana daha az ödemek hoşumuza giderdi."
+  },
+  "WHYSOMUCH_CENTRIFUGES_1": {
+    "description": "",
+    "message": "Bir miktar {cargoname}, yazılım hatası nedeniyle yok oldu ve yerine acilen yenisi gerekiyor."
+  },
+  "WHYSOMUCH_CHEMICAL_1": {
+    "description": "",
+    "message": "Kimya tesisimizdeki üretim bu mallara bağlı ve durdurulmamalı. Hiçbir şey makineyi durdurmamalı."
+  },
+  "WHYSOMUCH_EXPENSIVE_1": {
+    "description": "",
+    "message": "Değerli mallara talep çok."
+  },
+  "WHYSOMUCH_EXPENSIVE_2": {
+    "description": "",
+    "message": "Bu mallar bayağı pahalı."
+  },
+  "WHYSOMUCH_FLUFFY_1": {
+    "description": "",
+    "message": "{cargoname} bu sezon çok satıyor. Eğer para kazanmak istiyorsan yatırım yapacağın yer {cargoname}."
+  },
+  "WHYSOMUCH_INFRASTRUCTURE_1": {
+    "description": "",
+    "message": "Bu malzemeler bir yapı projesi için gerekli."
+  },
+  "WHYSOMUCH_MINING_1": {
+    "description": "",
+    "message": "Bu mallar yeni bir maden tesisi için gerekli."
+  },
+  "WHYSOMUCH_URGENT_1": {
+    "description": "",
+    "message": "En sevdiğim pilotum hasta ve zaman kısıtlı."
+  },
+  "WHYSOMUCH_URGENT_2": {
+    "description": "",
+    "message": "Eğer zamanında teslimat yapılmazsa, proje durma noktasına gelir."
+  },
+  "WHYSOMUCH_URGENT_3": {
+    "description": "",
+    "message": "Bu mallara acil ihtiyaç var."
+  },
+  "WHYSOMUCH_WEDDING_1": {
+    "description": "",
+    "message": "Bu teslimatı yapacak kimseyi bulamadım. Eğer sezon biterse malların değeri kalmaz."
+  },
+  "WHY_SO_MUCH_MONEY": {
+    "description": "",
+    "message": "Neden bu kadar çok para?"
+  },
+  "WILL_I_BE_IN_ANY_DANGER": {
+    "description": "",
+    "message": "Tehlikede olacak mıyım?"
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP": {
+    "description": "",
+    "message": "Gemide yeterli kargo alanı yok."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
+    "description": "",
+    "message": "Lütfen yeterli kargo alanın olunca tekrar gel."
+  }
 }

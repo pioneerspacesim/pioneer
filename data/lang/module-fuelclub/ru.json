@@ -1,102 +1,102 @@
 {
-   "APPLY_FOR_MEMBERSHIP" : {
-      "description" : "",
-      "message" : "Мне заинтересовало ваше предложения. Вот моя заявка на вступление в Содружество."
-   },
-   "BEGIN_TRADE" : {
-      "description" : "",
-      "message" : "Провести сделку."
-   },
-   "FLAVOUR_0_CLUBNAME" : {
-      "description" : "",
-      "message" : "Космическое Топливное Содружество Пилотов"
-   },
-   "FLAVOUR_0_MEMBER_INTRO" : {
-      "description" : "",
-      "message" : "Здесь вы можете приобрести топливо и сдать {radioactives} на утилизацию."
-   },
-   "FLAVOUR_0_NONMEMBER_INTRO" : {
-      "description" : "",
-      "message" : "{clubname} независимая организация, предоставляющая своим членам хорошие скидки на топливо для кораблей. Вы можете найти филиалы по всей галактике. Преимущества от участия в организации включают:"
-   },
-   "FLAVOUR_0_WELCOME" : {
-      "description" : "",
-      "message" : "{clubname} приветствует вас, капитан!"
-   },
-   "FLAVOUR_1_CLUBNAME" : {
-      "description" : "Fuel club for the Federation faction",
-      "message" : "Федеральный Топливный Фонд"
-   },
-   "FLAVOUR_1_NONMEMBER_INTRO" : {
-      "description" : "For the Solar Federation faction",
-      "message" : "{clubname} является ведущим поставщиком топлива в Солнечной Федерации, предоставляющая своим членам хорошие скидки на топливо для кораблей. Членство даст вам следующие преимущества:"
-   },
-   "FLAVOUR_2_CLUBNAME" : {
-      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-      "message" : "Конфедеративный Топливный Союз"
-   },
-   "FLAVOUR_2_NONMEMBER_INTRO" : {
-      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
-      "message" : "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
-   },
-   "FLAVOUR_2_WELCOME" : {
-      "description" : "",
-      "message" : "Приветствуем вас! Надеемся, вам понравятся наши услуги."
-   },
-   "FLAVOUR_3_CLUBNAME" : {
-      "description" : "Fuel club for the Haber faction",
-      "message" : "Haber Propellant and Perishables Division"
-   },
-   "FLAVOUR_3_MEMBER_INTRO" : {
-      "description" : "For the greedy Haber faction, very corporate formulated",
-      "message" : "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
-   },
-   "FLAVOUR_3_NONMEMBER_INTRO" : {
-      "description" : "for the Haber faction",
-      "message" : "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
-   },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "[Назад]"
-   },
-   "LIST_BENEFITS_DISPOSAL" : {
-      "description" : "",
-      "message" : "Бесплатная утилизация {radioactives} (при соблюдении условий) "
-   },
-   "LIST_BENEFITS_FUEL" : {
-      "description" : "",
-      "message" : "{fuel} по выгодным ценам"
-   },
-   "LIST_BENEFITS_FUEL_INTRO" : {
-      "description" : "",
-      "message" : "Собственные запасы топлива, не зависящие от основного рынка"
-   },
-   "LIST_BENEFITS_FUEL_TANK" : {
-      "description" : "",
-      "message" : "Дозаправка топливом, при необходимости"
-   },
-   "LIST_BENEFITS_JOIN" : {
-      "description" : "",
-      "message" : "Вступайте сейчас! Стоимость годового членства всего {membership_fee}"
-   },
-   "WE_WILL_ONLY_DISPOSE_OF" : {
-      "description" : "",
-      "message" : "Вы можете сдать на утилизацию столько же тонн {radioactives}, сколько тонн {military_fuel} вы у нас приобрели."
-   },
-   "WHAT_CONDITIONS_APPLY" : {
-      "description" : "",
-      "message" : "Какие ограничения имеются для реализации бесплатной утилизации {radioactives}?"
-   },
-   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
-      "description" : "",
-      "message" : "Ваша заявка на вступление отклонена, сожалеем."
-   },
-   "YOU_ARE_NOW_A_MEMBER" : {
-      "description" : "",
-      "message" : "Ваша заявка одобрена Содружеством. Ваш членский билет действует до {expiry_date}."
-   },
-   "YOU_MUST_BUY" : {
-      "description" : "",
-      "message" : "Перед тем как сдать на утилизацию {radioactives}, вы должны приобрести у нас {military_fuel}."
-   }
+  "APPLY_FOR_MEMBERSHIP": {
+    "description": "",
+    "message": "Мне заинтересовало ваше предложения. Вот моя заявка на вступление в Содружество."
+  },
+  "BEGIN_TRADE": {
+    "description": "",
+    "message": "Провести сделку."
+  },
+  "FLAVOUR_0_CLUBNAME": {
+    "description": "",
+    "message": "Космическое Топливное Содружество Пилотов"
+  },
+  "FLAVOUR_0_MEMBER_INTRO": {
+    "description": "",
+    "message": "Здесь вы можете приобрести топливо и сдать {radioactives} на утилизацию."
+  },
+  "FLAVOUR_0_NONMEMBER_INTRO": {
+    "description": "",
+    "message": "{clubname} независимая организация, предоставляющая своим членам хорошие скидки на топливо для кораблей. Вы можете найти филиалы по всей галактике. Преимущества от участия в организации включают:"
+  },
+  "FLAVOUR_0_WELCOME": {
+    "description": "",
+    "message": "{clubname} приветствует вас, капитан!"
+  },
+  "FLAVOUR_1_CLUBNAME": {
+    "description": "Fuel club for the Federation faction",
+    "message": "Федеральный Топливный Фонд"
+  },
+  "FLAVOUR_1_NONMEMBER_INTRO": {
+    "description": "For the Solar Federation faction",
+    "message": "{clubname} является ведущим поставщиком топлива в Солнечной Федерации, предоставляющая своим членам хорошие скидки на топливо для кораблей. Членство даст вам следующие преимущества:"
+  },
+  "FLAVOUR_2_CLUBNAME": {
+    "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+    "message": "Конфедеративный Топливный Союз"
+  },
+  "FLAVOUR_2_NONMEMBER_INTRO": {
+    "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
+    "message": "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
+  },
+  "FLAVOUR_2_WELCOME": {
+    "description": "",
+    "message": "Приветствуем вас! Надеемся, вам понравятся наши услуги."
+  },
+  "FLAVOUR_3_CLUBNAME": {
+    "description": "Fuel club for the Haber faction",
+    "message": "Haber Propellant and Perishables Division"
+  },
+  "FLAVOUR_3_MEMBER_INTRO": {
+    "description": "For the greedy Haber faction, very corporate formulated",
+    "message": "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
+  },
+  "FLAVOUR_3_NONMEMBER_INTRO": {
+    "description": "for the Haber faction",
+    "message": "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "[Назад]"
+  },
+  "LIST_BENEFITS_DISPOSAL": {
+    "description": "",
+    "message": "Бесплатная утилизация {radioactives} (при соблюдении условий) "
+  },
+  "LIST_BENEFITS_FUEL": {
+    "description": "",
+    "message": "{fuel} по выгодным ценам"
+  },
+  "LIST_BENEFITS_FUEL_INTRO": {
+    "description": "",
+    "message": "Собственные запасы топлива, не зависящие от основного рынка"
+  },
+  "LIST_BENEFITS_FUEL_TANK": {
+    "description": "",
+    "message": "Дозаправка топливом, при необходимости"
+  },
+  "LIST_BENEFITS_JOIN": {
+    "description": "",
+    "message": "Вступайте сейчас! Стоимость годового членства всего {membership_fee}"
+  },
+  "WE_WILL_ONLY_DISPOSE_OF": {
+    "description": "",
+    "message": "Вы можете сдать на утилизацию столько же тонн {radioactives}, сколько тонн {military_fuel} вы у нас приобрели."
+  },
+  "WHAT_CONDITIONS_APPLY": {
+    "description": "",
+    "message": "Какие ограничения имеются для реализации бесплатной утилизации {radioactives}?"
+  },
+  "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
+    "description": "",
+    "message": "Ваша заявка на вступление отклонена, сожалеем."
+  },
+  "YOU_ARE_NOW_A_MEMBER": {
+    "description": "",
+    "message": "Ваша заявка одобрена Содружеством. Ваш членский билет действует до {expiry_date}."
+  },
+  "YOU_MUST_BUY": {
+    "description": "",
+    "message": "Перед тем как сдать на утилизацию {radioactives}, вы должны приобрести у нас {military_fuel}."
+  }
 }

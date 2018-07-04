@@ -1,58 +1,58 @@
 {
-   "ILLEGAL_GOODS_DETECTED" : {
-      "description" : "",
-      "message" : "Illegális rakományt találtunk."
-   },
-   "INITIATE_CARGO_SCAN_1" : {
-      "description" : "",
-      "message" : "Szkennelést megkezdeni."
-   },
-   "INITIATE_CARGO_SCAN_2" : {
-      "description" : "",
-      "message" : "Tartsa a sebességet és pályát az ellenőrzés folyamán."
-   },
-   "INITIATE_CARGO_SCAN_3" : {
-      "description" : "",
-      "message" : "Rakományellenőrzés."
-   },
-   "NOTHING_DETECTED" : {
-      "description" : "",
-      "message" : "Nem találtunk illegális rakományt. Távozhat."
-   },
-   "OUTLAW_DETECTED_1" : {
-      "description" : "",
-      "message" : "{ship_label} ismert bűnöző. Támadás!"
-   },
-   "OUTLAW_DETECTED_2" : {
-      "description" : "",
-      "message" : "A napjaid meg vannak számlálva!"
-   },
-   "OUTLAW_DETECTED_3" : {
-      "description" : "",
-      "message" : "Elkaptunk! Nem hagyod el élve a rendszert!"
-   },
-   "POLICE_TAUNT_1" : {
-      "description" : "",
-      "message" : "Haver, ez rossz ötlet volt."
-   },
-   "POLICE_TAUNT_2" : {
-      "description" : "",
-      "message" : "Csempész, ezért nagy árat fizetsz!"
-   },
-   "POLICE_TAUNT_3" : {
-      "description" : "",
-      "message" : "Bolond, a bűnözés nem kifizetődő!"
-   },
-   "RESPECT_THE_LAW_1" : {
-      "description" : "",
-      "message" : "Tartsa be a törvényt! {system} rendszerben a bűnözés nem kifizetődő!"
-   },
-   "RESPECT_THE_LAW_2" : {
-      "description" : "",
-      "message" : "{system} felségterületén tartózkodik. Tartsa tiszteletben törvényeinket!"
-   },
-   "TAKE_A_HIKE" : {
-      "description" : "",
-      "message" : "Kapsz egy utolsó lehetőséget. Tűnj el!"
-   }
+  "ILLEGAL_GOODS_DETECTED": {
+    "description": "",
+    "message": "Illegális rakományt találtunk."
+  },
+  "INITIATE_CARGO_SCAN_1": {
+    "description": "",
+    "message": "Szkennelést megkezdeni."
+  },
+  "INITIATE_CARGO_SCAN_2": {
+    "description": "",
+    "message": "Tartsa a sebességet és pályát az ellenőrzés folyamán."
+  },
+  "INITIATE_CARGO_SCAN_3": {
+    "description": "",
+    "message": "Rakományellenőrzés."
+  },
+  "NOTHING_DETECTED": {
+    "description": "",
+    "message": "Nem találtunk illegális rakományt. Távozhat."
+  },
+  "OUTLAW_DETECTED_1": {
+    "description": "",
+    "message": "{ship_label} ismert bűnöző. Támadás!"
+  },
+  "OUTLAW_DETECTED_2": {
+    "description": "",
+    "message": "A napjaid meg vannak számlálva!"
+  },
+  "OUTLAW_DETECTED_3": {
+    "description": "",
+    "message": "Elkaptunk! Nem hagyod el élve a rendszert!"
+  },
+  "POLICE_TAUNT_1": {
+    "description": "",
+    "message": "Haver, ez rossz ötlet volt."
+  },
+  "POLICE_TAUNT_2": {
+    "description": "",
+    "message": "Csempész, ezért nagy árat fizetsz!"
+  },
+  "POLICE_TAUNT_3": {
+    "description": "",
+    "message": "Bolond, a bűnözés nem kifizetődő!"
+  },
+  "RESPECT_THE_LAW_1": {
+    "description": "",
+    "message": "Tartsa be a törvényt! {system} rendszerben a bűnözés nem kifizetődő!"
+  },
+  "RESPECT_THE_LAW_2": {
+    "description": "",
+    "message": "{system} felségterületén tartózkodik. Tartsa tiszteletben törvényeinket!"
+  },
+  "TAKE_A_HIKE": {
+    "description": "",
+    "message": "Kapsz egy utolsó lehetőséget. Tűnj el!"
+  }
 }

@@ -1,94 +1,94 @@
 {
-   "ASK_CANDIDATE_TO_SIT_A_TEST" : {
-      "description" : "",
-      "message" : "Iarr air an tagraiche gum feuch e deuchainn"
-   },
-   "CREWDETAILSHEETBB" : {
-      "description" : "",
-      "message" : "Ainm: {name}\nEòlas: {experience}\nTuarastal: {wage} gach seachdain\n\n{response}\n"
-   },
-   "CREWMEMBER_WAGE_PER_WEEK" : {
-      "description" : "",
-      "message" : "{potentialCrewMember} ({wage}/seachd)"
-   },
-   "CREWTESTRESULTSBB" : {
-      "description" : "",
-      "message" : "Toraidhean an sgrùdaidh:\n\nComas sgioba coitcheann: {general}%\nInnleadaireachd is càradh: {engineering}%\nStiùireadh is itealadh fhànais: {piloting}%\nSeòladaireachd is mapachadh: {navigation}%\nMothaichearan is dìon: {sensors}%\nSgor iomlan na deuchainne: {overall}%"
-   },
-   "CREW_FOR_HIRE" : {
-      "description" : "",
-      "message" : "Daoine ag iarraidh fastadh"
-   },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Till"
-   },
-   "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
-      "description" : "",
-      "message" : "Tha mi duilich ach cha dèid mi nas ìsle."
-   },
-   "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
-      "description" : "",
-      "message" : "Tha mi duilich ach chan eil ur tairgse tarraingeach dhomh."
-   },
-   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
-      "description" : "",
-      "message" : "Tairg dreuchd san t-soitheach airson an airgid a chaidh innse"
-   },
-   "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
-      "description" : "",
-      "message" : "Ball-sgioba le beagan eòlais"
-   },
-   "NO_CREW_AVAILABLE" : {
-      "description" : "",
-      "message" : "Duilich ach chan eil duine a' sireadh fastadh aig {station}:"
-   },
-   "NO_EXPERIENCE" : {
-      "description" : "",
-      "message" : "Gun eòlas sam bith"
-   },
-   "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
-      "description" : "",
-      "message" : "Ceart gu leòr ma-thà."
-   },
-   "POTENTIAL_CREW_MEMBERS" : {
-      "description" : "",
-      "message" : "Clàraich daoine a' sireadh fastadh mar sgioba aig {station}:"
-   },
-   "SIMULATOR_TRAINING_ONLY" : {
-      "description" : "",
-      "message" : "Trèanadh ann an inneal-atharrais a-mhàin"
-   },
-   "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
-      "description" : "",
-      "message" : "Beagan eòlais ann an àrainneachd stiùirichte"
-   },
-   "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
-      "description" : "",
-      "message" : "Tairg tuarastal seachdaineil ùr de {newAmount}"
-   },
-   "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
-      "description" : "",
-      "message" : "Mòran taing, gabhaidh mi còmhnaidh air bòrd sa bhad."
-   },
-   "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
-      "description" : "",
-      "message" : "Nach tus' a tha fialaidh!"
-   },
-   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
-      "description" : "",
-      "message" : "Tha coltas nas fhearr air ur tairgse a-nis!"
-   },
-   "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
-      "description" : "",
-      "message" : "Saoilidh mi nach eil àite dhomh san t-soitheach!"
-   },
-   "TIME_SERVED_CREW_MEMBER" : {
-      "description" : "",
-      "message" : "Ball-sgioba eòlach"
-   },
-   "VETERAN_TIME_SERVED_CREW_MEMBER" : {
-      "description" : "",
-      "message" : "Seann-bhall-sgioba"
-   }
+  "ASK_CANDIDATE_TO_SIT_A_TEST": {
+    "description": "",
+    "message": "Iarr air an tagraiche gum feuch e deuchainn"
+  },
+  "CREWDETAILSHEETBB": {
+    "description": "",
+    "message": "Ainm: {name}\nEòlas: {experience}\nTuarastal: {wage} gach seachdain\n\n{response}\n"
+  },
+  "CREWMEMBER_WAGE_PER_WEEK": {
+    "description": "",
+    "message": "{potentialCrewMember} ({wage}/seachd)"
+  },
+  "CREWTESTRESULTSBB": {
+    "description": "",
+    "message": "Toraidhean an sgrùdaidh:\n\nComas sgioba coitcheann: {general}%\nInnleadaireachd is càradh: {engineering}%\nStiùireadh is itealadh fhànais: {piloting}%\nSeòladaireachd is mapachadh: {navigation}%\nMothaichearan is dìon: {sensors}%\nSgor iomlan na deuchainne: {overall}%"
+  },
+  "CREW_FOR_HIRE": {
+    "description": "",
+    "message": "Daoine ag iarraidh fastadh"
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Till"
+  },
+  "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER": {
+    "description": "",
+    "message": "Tha mi duilich ach cha dèid mi nas ìsle."
+  },
+  "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
+    "description": "",
+    "message": "Tha mi duilich ach chan eil ur tairgse tarraingeach dhomh."
+  },
+  "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
+    "description": "",
+    "message": "Tairg dreuchd san t-soitheach airson an airgid a chaidh innse"
+  },
+  "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
+    "description": "",
+    "message": "Ball-sgioba le beagan eòlais"
+  },
+  "NO_CREW_AVAILABLE": {
+    "description": "",
+    "message": "Duilich ach chan eil duine a' sireadh fastadh aig {station}:"
+  },
+  "NO_EXPERIENCE": {
+    "description": "",
+    "message": "Gun eòlas sam bith"
+  },
+  "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
+    "description": "",
+    "message": "Ceart gu leòr ma-thà."
+  },
+  "POTENTIAL_CREW_MEMBERS": {
+    "description": "",
+    "message": "Clàraich daoine a' sireadh fastadh mar sgioba aig {station}:"
+  },
+  "SIMULATOR_TRAINING_ONLY": {
+    "description": "",
+    "message": "Trèanadh ann an inneal-atharrais a-mhàin"
+  },
+  "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS": {
+    "description": "",
+    "message": "Beagan eòlais ann an àrainneachd stiùirichte"
+  },
+  "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
+    "description": "",
+    "message": "Tairg tuarastal seachdaineil ùr de {newAmount}"
+  },
+  "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
+    "description": "",
+    "message": "Mòran taing, gabhaidh mi còmhnaidh air bòrd sa bhad."
+  },
+  "THATS_EXTREMELY_GENEROUS_OF_YOU": {
+    "description": "",
+    "message": "Nach tus' a tha fialaidh!"
+  },
+  "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
+    "description": "",
+    "message": "Tha coltas nas fhearr air ur tairgse a-nis!"
+  },
+  "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD": {
+    "description": "",
+    "message": "Saoilidh mi nach eil àite dhomh san t-soitheach!"
+  },
+  "TIME_SERVED_CREW_MEMBER": {
+    "description": "",
+    "message": "Ball-sgioba eòlach"
+  },
+  "VETERAN_TIME_SERVED_CREW_MEMBER": {
+    "description": "",
+    "message": "Seann-bhall-sgioba"
+  }
 }
