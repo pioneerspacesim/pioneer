@@ -1561,7 +1561,7 @@
   },
   "SURFACE_GRAVITY": {
     "description": "",
-    "message": "Oberfläche der Schwerkraft"
+    "message": "Schwerkraft an der Oberfläche"
   },
   "SURFACE_TEMPERATURE": {
     "description": "",
