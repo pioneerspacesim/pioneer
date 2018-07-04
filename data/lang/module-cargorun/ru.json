@@ -79,6 +79,14 @@
     "description": "Name of mission type",
     "message": "Доставка груза"
   },
+  "CARGO_IS_LOADED": {
+    "description": "",
+    "message": "loaded"
+  },
+  "CARGO_IS_NOT_LOADED": {
+    "description": "",
+    "message": "not loaded"
+  },
   "CEASE_FIRE": {
     "description": "",
     "message": "Не стрелять, не стрелять! Я на твоей стороне!"

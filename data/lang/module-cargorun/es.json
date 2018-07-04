@@ -79,6 +79,14 @@
     "description": "Name of mission type",
     "message": "Envío de carga"
   },
+  "CARGO_IS_LOADED": {
+    "description": "",
+    "message": "loaded"
+  },
+  "CARGO_IS_NOT_LOADED": {
+    "description": "",
+    "message": "not loaded"
+  },
   "CEASE_FIRE": {
     "description": "",
     "message": "¡Cese el fuego! ¡Cese el fuego! ¡Estoy de su parte!"

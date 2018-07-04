@@ -79,6 +79,14 @@
     "description": "Name of mission type",
     "message": "Leverans."
   },
+  "CARGO_IS_LOADED": {
+    "description": "",
+    "message": "loaded"
+  },
+  "CARGO_IS_NOT_LOADED": {
+    "description": "",
+    "message": "not loaded"
+  },
   "CEASE_FIRE": {
     "description": "",
     "message": "Eld upphör! Jag är på din sida!"

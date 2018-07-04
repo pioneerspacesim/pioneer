@@ -79,6 +79,14 @@
     "description": "Name of mission type",
     "message": "Entrega"
   },
+  "CARGO_IS_LOADED": {
+    "description": "",
+    "message": "loaded"
+  },
+  "CARGO_IS_NOT_LOADED": {
+    "description": "",
+    "message": "not loaded"
+  },
   "CEASE_FIRE": {
     "description": "",
     "message": "Cessar fogo, cessar fogo! Eu estou do seu lado!"

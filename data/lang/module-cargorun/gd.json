@@ -79,6 +79,14 @@
     "description": "Name of mission type",
     "message": "Ruith carago"
   },
+  "CARGO_IS_LOADED": {
+    "description": "",
+    "message": "loaded"
+  },
+  "CARGO_IS_NOT_LOADED": {
+    "description": "",
+    "message": "not loaded"
+  },
   "CEASE_FIRE": {
     "description": "",
     "message": "Stad an losgaidh, stad an losgaidh! 'S ann air do thaobh-sa a tha mi!"
