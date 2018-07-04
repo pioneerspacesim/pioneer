@@ -469,7 +469,7 @@
   },
   "GRAIN": {
     "description": "like wheat or barley",
-    "message": "Grain"
+    "message": "Greno"
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -1657,7 +1657,7 @@
   },
   "TINY": {
     "description": "",
-    "message": "Tiny"
+    "message": "Malgrandega"
   },
   "TOGGLE_EQUIPMENT_VIEW": {
     "description": "Tooltip for the Equipment View button",
@@ -1669,7 +1669,7 @@
   },
   "TOGGLE_LUA_CONSOLE": {
     "description": "",
-    "message": "Toggle Lua console"
+    "message": "Baskuli Lua konzolo"
   },
   "TOGGLE_RADAR_MODE": {
     "description": "",
@@ -1801,7 +1801,7 @@
   },
   "WATER": {
     "description": "",
-    "message": "Water"
+    "message": "akvo"
   },
   "WEAPONS": {
     "description": "",

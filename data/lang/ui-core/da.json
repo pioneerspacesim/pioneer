@@ -429,7 +429,7 @@
   },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
-    "message": "gratis"
+    "message": "ledig"
   },
   "FRONT_WEAPON": {
     "description": "",
@@ -901,7 +901,7 @@
   },
   "JETTISON": {
     "description": "",
-    "message": "Udtøm"
+    "message": "Afkastning"
   },
   "JUMPING": {
     "description": "Flight State",
@@ -1181,7 +1181,7 @@
   },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
-    "message": "Ikke nok {alloy} til at reparere"
+    "message": "Ikke nok {metallegering} til at reparere"
   },
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
@@ -1245,7 +1245,7 @@
   },
   "OWED": {
     "description": "Player owing money to crew members",
-    "message": "Skyldte"
+    "message": "Skyld"
   },
   "PAY_FINE_OF_N": {
     "description": "",
@@ -1337,7 +1337,7 @@
   },
   "REFUEL": {
     "description": "",
-    "message": "Tanke op"
+    "message": "Tank op"
   },
   "REFUEL_FULL": {
     "description": "",
@@ -1565,7 +1565,7 @@
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
-    "message": "Skibet er under stationsmagt, Kommandør."
+    "message": "Skibet er under stationkontrol, Kommandør."
   },
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",

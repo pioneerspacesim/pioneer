@@ -1,11 +1,11 @@
 {
   "ADVICE_10_BODYTEXT": {
     "description": "",
-    "message": "Relocating to another faction might be a good idea when in trouble with local authorities."
+    "message": "Przenosiny do innej frakcji mogą być dobrym pomysłem, gdy masz problemy z lokalną władzą..."
   },
   "ADVICE_10_HEADLINE": {
     "description": "",
-    "message": "Know when to leave town"
+    "message": "Wiedz kiedy opuścić miasto"
   },
   "ADVICE_1_BODYTEXT": {
     "description": "",
@@ -13,11 +13,11 @@
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
-    "message": "Tame the Black Market"
+    "message": "Oswój Czarny Rynek"
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Many small distances are faster travelled than their sum."
+    "message": "Wiele małych skoków przebywa się szybciej, niż ich sumę."
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
@@ -37,39 +37,39 @@
   },
   "ADVICE_4_HEADLINE": {
     "description": "",
-    "message": "It's all relative"
+    "message": "Wszystko jest względne."
   },
   "ADVICE_5_BODYTEXT": {
     "description": "",
-    "message": "Buy low and sell high."
+    "message": "Kupuj tanio, sprzedawaj drożej."
   },
   "ADVICE_5_HEADLINE": {
     "description": "",
-    "message": "Never lose money"
+    "message": "Nigdy nie trać pieniędzy."
   },
   "ADVICE_6_BODYTEXT": {
     "description": "",
-    "message": "Pay close attention to any news reported, as information can affect market prices."
+    "message": "Zwracaj dużą uwagę na wszystkie komunikaty, gdyż informacje mogą wpływać na rynek."
   },
   "ADVICE_6_HEADLINE": {
     "description": "",
-    "message": "Keep your ear to the ground"
+    "message": "Miej oczy szeroko otwarte"
   },
   "ADVICE_7_BODYTEXT": {
     "description": "",
-    "message": "Donations can earn you a good standing in society, but not all charities will earn you a reputation."
+    "message": "Datki mogą podnieść twój status społeczny, ale niekoniecznie reputację."
   },
   "ADVICE_7_HEADLINE": {
     "description": "",
-    "message": "Be generous"
+    "message": "Bądź hojny"
   },
   "ADVICE_8_BODYTEXT": {
     "description": "",
-    "message": "When journeying to binary systems, make sure to target the right star."
+    "message": "Podróżując do układu podwójego, upewnij się, że celujesz na właściwą gwiazdę."
   },
   "ADVICE_8_HEADLINE": {
     "description": "",
-    "message": "Stay out of double trouble"
+    "message": "Trzymaj się z dala od podwójnych problemów."
   },
   "ADVICE_9_BODYTEXT": {
     "description": "",
@@ -77,11 +77,11 @@
   },
   "ADVICE_9_HEADLINE": {
     "description": "",
-    "message": "Treat your ship well"
+    "message": "Dbaj o swój okręt"
   },
   "RUMOUR": {
     "description": "Headline starts with this pre-headline",
-    "message": "RUMOUR"
+    "message": "PLOTKA"
   },
   "TALE_1_BODYTEXT": {
     "description": "",
@@ -89,14 +89,14 @@
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",
-    "message": "\"I've seen things you people wouldn't believe\""
+    "message": "\"Widziałem rzeczy o których wam się nie śniło\""
   },
   "TRAVELLERS_ADVICE": {
     "description": "Headline starts with this pre-headline",
-    "message": "TRAVELLER'S ADVICE"
+    "message": "RADA PODRÓŻNIKA"
   },
   "TRAVELLERS_TALE": {
     "description": "Headline starts with this pre-headline",
-    "message": "TRAVELLER'S TALE"
+    "message": "OPOWIEŚĆ PODRÓŻNIKA"
   }
 }

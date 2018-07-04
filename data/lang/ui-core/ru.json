@@ -9,7 +9,7 @@
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
-    "message": "Add Jump"
+    "message": "Добавить гиперпрыжок"
   },
   "AFTER_TRADE_IN": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
-    "message": "Auto Route"
+    "message": "Автоматический маршрут"
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
-    "message": "Center on System"
+    "message": "Центрировать на системе"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
@@ -153,7 +153,7 @@
   },
   "CLEAR_ROUTE": {
     "description": "Clear a planned route of hyperjumps",
-    "message": "Clear Route"
+    "message": "Очистить маршрут"
   },
   "CLIENT": {
     "description": "",
@@ -241,7 +241,7 @@
   },
   "CURRENT_FUEL": {
     "description": "For hyperjump planner",
-    "message": "Current Fuel:"
+    "message": "Топлива в наличии:"
   },
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
@@ -373,7 +373,7 @@
   },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
-    "message": "Can not initiate hyperjump; landing gear is not retracted!"
+    "message": "Невозможно активировать гиперпрыжок, шасси не убрано!"
   },
   "ESCAPE_SPEED": {
     "description": "",
@@ -401,7 +401,7 @@
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Final Target:"
+    "message": "Конечная цель:"
   },
   "FLIGHT_STATE": {
     "description": "",
@@ -533,7 +533,7 @@
   },
   "HUD_BUTTON_AUTOPILOT_DOCKING": {
     "description": "Tooltip: Autopilot docking",
-    "message": "Autopilot docking"
+    "message": "Автопилот выполняет стыковку"
   },
   "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT": {
     "description": "Tooltip: Autopilot entering orbit",
@@ -565,19 +565,19 @@
   },
   "HUD_BUTTON_FIX_PROGRADE": {
     "description": "Tooltip: fix heading prograde",
-    "message": "Fix heading prograde"
+    "message": "Удерживается направление по курсу"
   },
   "HUD_BUTTON_FIX_RADIAL_IN": {
     "description": "Tooltip: fix heading radially inward",
-    "message": "Fix heading radially inward"
+    "message": "Удерживается направление на систему отсчёта"
   },
   "HUD_BUTTON_FIX_RADIAL_OUT": {
     "description": "Tooltip: fix heading radially outward",
-    "message": "Fix heading radially outward"
+    "message": "Удерживается направление от системы отсчёта"
   },
   "HUD_BUTTON_FIX_RETROGRADE": {
     "description": "Tooltip: fix heading retrograde",
-    "message": "Fix heading retrograde"
+    "message": "Зафиксировано обратное направление"
   },
   "HUD_BUTTON_HYPERDRIVE_DISABLED": {
     "description": "Tooltip: Hyperdrive disabled (docked or landed)",
@@ -585,15 +585,15 @@
   },
   "HUD_BUTTON_INITIATE_HYPERJUMP": {
     "description": "Tooltip: Initiate legal hyperjump",
-    "message": "Initiate hyperjump"
+    "message": "Активировать гиперпрыжок"
   },
   "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP": {
     "description": "Tooltip: Initiate illegal hyperjump",
-    "message": "Initiate illegal hyperjump"
+    "message": "Активировать незаконный гиперпрыжок"
   },
   "HUD_BUTTON_INTERNAL_VIEW": {
     "description": "Tooltip: Internal camera view",
-    "message": "Обзор"
+    "message": "Вид из кабины"
   },
   "HUD_BUTTON_KILL_ROTATION": {
     "description": "Tooltip: kill rotation",
@@ -601,15 +601,15 @@
   },
   "HUD_BUTTON_LANDING_GEAR_IS_DOWN": {
     "description": "Tooltip: Landing gear is down",
-    "message": "Landing gear is down"
+    "message": "Шасси выпущено"
   },
   "HUD_BUTTON_LANDING_GEAR_IS_MOVING": {
     "description": "Tooltip: Landing gear is moving",
-    "message": "Landing gear is moving"
+    "message": "Шасси в движении"
   },
   "HUD_BUTTON_LANDING_GEAR_IS_UP": {
     "description": "Tooltip: Landing gear is up",
-    "message": "Посадочный механизм поднят"
+    "message": "Шасси убрано"
   },
   "HUD_BUTTON_MANUAL_CONTROL": {
     "description": "Tooltip: Manual control",
@@ -617,11 +617,11 @@
   },
   "HUD_BUTTON_ROTATION_DAMPING_IS_OFF": {
     "description": "Tooltip: Rotation damping is off",
-    "message": "Rotation damping is off"
+    "message": "Компенсация вращения выключена"
   },
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
-    "message": "Rotation damping is on"
+    "message": "Компенсация вращения включена"
   },
   "HUD_BUTTON_SCANNER": {
     "description": "Tooltip: Scanner",
@@ -661,7 +661,7 @@
   },
   "HUD_BUTTON_SWITCH_TO_WORLD_VIEW": {
     "description": "Tooltip: Switch to world view",
-    "message": "Switch to world view"
+    "message": "Переключиться на вид из корабля"
   },
   "HUD_BUTTON_UNDOCK": {
     "description": "Tooltip: Undock",
@@ -725,15 +725,15 @@
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
-    "message": "Forward Gun Temperature"
+    "message": "Температура переднего оружия"
   },
   "HUD_HULL_STRENGTH": {
     "description": "Tooltip: Hull Strength.",
-    "message": "Hull Strength"
+    "message": "Прочность корпуса"
   },
   "HUD_HULL_TEMPERATURE": {
     "description": "Tooltip: Hull Temperature.",
-    "message": "Hull Temperature"
+    "message": "Температура корпуса"
   },
   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
     "description": "",
@@ -793,7 +793,7 @@
   },
   "HUD_SHIELD_STRENGTH": {
     "description": "Tooltip: Shield Strength.",
-    "message": "Shield Strength"
+    "message": "Прочность щита"
   },
   "HUD_SHOW_COMBAT_TARGET": {
     "description": "Tooltip: Show the current combat target.",
@@ -821,7 +821,7 @@
   },
   "HUD_THRUST_INDICATOR": {
     "description": "Tooltip: describe what the thrust/velocity indicator shows",
-    "message": "Show current velocity for each direction (thin lines) and thrust (thick background)"
+    "message": "Показывает текущую скорость для каждого направления (тонкие линии) и тягу (фон)"
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
@@ -849,7 +849,7 @@
   },
   "HYPERJUMP_ROUTE": {
     "description": "",
-    "message": "HyperJump Route"
+    "message": "Маршрут гиперпрыжков"
   },
   "HYPERSPACE_RANGE": {
     "description": "",
@@ -857,7 +857,7 @@
   },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
-    "message": "Совершение рискованного гиперпрыжка"
+    "message": "Совершение незаконного гиперпрыжка"
   },
   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
     "description": "",
@@ -1105,11 +1105,11 @@
   },
   "MOVE_DOWN": {
     "description": "move selection down in list",
-    "message": "Move Down"
+    "message": "Опустить ниже"
   },
   "MOVE_UP": {
     "description": "move selection up in list",
-    "message": "Move Up"
+    "message": "Поднять выше"
   },
   "MULTISAMPLING": {
     "description": "",
@@ -1345,7 +1345,7 @@
   },
   "REGISTRATION_NUMBER": {
     "description": "",
-    "message": "Registration number"
+    "message": "Регистрационный номер"
   },
   "RELIABLE": {
     "description": "For player reputation",
@@ -1353,11 +1353,11 @@
   },
   "REMOVE_JUMP": {
     "description": "UI-button: remove hyper jump from list of planned jumps",
-    "message": "Remove Jump"
+    "message": "Удалить гиперпрыжок"
   },
   "REMOVE_WHEN_COMPLETED": {
     "description": "For UI hyperjump planner, referring to jump target system",
-    "message": "Remove jump when completed"
+    "message": "Удаление прыжка после завершения"
   },
   "REPAIR_X_HULL_DAMAGE_FOR_X": {
     "description": "",
@@ -1373,7 +1373,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Required Fuel:"
+    "message": "Требуется топлива:"
   },
   "RESET": {
     "description": "",
@@ -1401,11 +1401,11 @@
   },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
-    "message": "Route Info"
+    "message": "Информация о маршруте"
   },
   "ROUTE_JUMPS": {
     "description": "For hyperjump planner",
-    "message": "Route Jumps"
+    "message": "Прыжки маршрута"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",

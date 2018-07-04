@@ -9,7 +9,7 @@
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
-    "message": "Add Jump"
+    "message": "Cuir Léim Leis"
   },
   "AFTER_TRADE_IN": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
-    "message": "Auto Route"
+    "message": "Bealach Uathoibríoch"
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
-    "message": "Center on System"
+    "message": "Láraigh an Réaltchóras"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
@@ -153,7 +153,7 @@
   },
   "CLEAR_ROUTE": {
     "description": "Clear a planned route of hyperjumps",
-    "message": "Clear Route"
+    "message": "Glan an Bealach"
   },
   "CLIENT": {
     "description": "",
@@ -161,7 +161,7 @@
   },
   "CLOSE": {
     "description": "",
-    "message": "Close"
+    "message": "Dún"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -225,7 +225,7 @@
   },
   "CREDITS": {
     "description": "in game currency",
-    "message": "Credits"
+    "message": "Admhálacha"
   },
   "CREW_CABINS": {
     "description": "",
@@ -241,7 +241,7 @@
   },
   "CURRENT_FUEL": {
     "description": "For hyperjump planner",
-    "message": "Current Fuel:"
+    "message": "Breosla Reatha:"
   },
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
@@ -297,7 +297,7 @@
   },
   "DOCKED_AT": {
     "description": "",
-    "message": "Docked at"
+    "message": "Glasáilte ag"
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
@@ -349,7 +349,7 @@
   },
   "END_GAME": {
     "description": "",
-    "message": "End Game"
+    "message": "Cuir Deireadh leis an gCluiche"
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
@@ -401,15 +401,15 @@
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Final Target:"
+    "message": "An Sprioc Dheiridh:"
   },
   "FLIGHT_STATE": {
     "description": "",
-    "message": "Flight State"
+    "message": "Stádas na hEitilte"
   },
   "FLYING": {
     "description": "",
-    "message": "Flying"
+    "message": "Eitilt"
   },
   "FORWARD_ACCEL": {
     "description": "",
@@ -453,7 +453,7 @@
   },
   "GAME_TIME": {
     "description": "",
-    "message": "Game time"
+    "message": "Am cluiche"
   },
   "GENERAL_CREW": {
     "description": "",
@@ -469,11 +469,11 @@
   },
   "GPU_JOBS": {
     "description": "",
-    "message": "GPU Jobs"
+    "message": "Jabanna GPU"
   },
   "GPU_JOBS_DESC": {
     "description": "",
-    "message": "Utilize GPU for certain actions, possibly improving performance."
+    "message": "Úsáid GPU do ghníomhartha áirithe, le feidhmíocht níos fearr a fháil."
   },
   "HANG_UP": {
     "description": "",
@@ -557,27 +557,27 @@
   },
   "HUD_BUTTON_FIX_ANTINORMAL": {
     "description": "Tooltip: fix heading antinormal",
-    "message": "Fix heading antinormal"
+    "message": "Socraigh treoshuíomh frithnormalach"
   },
   "HUD_BUTTON_FIX_NORMAL": {
     "description": "Tooltip: fix heading normal",
-    "message": "Fix heading normal"
+    "message": "Socraigh treoshuíomh normalach"
   },
   "HUD_BUTTON_FIX_PROGRADE": {
     "description": "Tooltip: fix heading prograde",
-    "message": "Fix heading prograde"
+    "message": "Socraigh treoshuíomh forghrádach"
   },
   "HUD_BUTTON_FIX_RADIAL_IN": {
     "description": "Tooltip: fix heading radially inward",
-    "message": "Fix heading radially inward"
+    "message": "Socraigh treoshuíomh i dtreo an phláinéid"
   },
   "HUD_BUTTON_FIX_RADIAL_OUT": {
     "description": "Tooltip: fix heading radially outward",
-    "message": "Fix heading radially outward"
+    "message": "Socraigh treoshuíomh amach ón phláinéad"
   },
   "HUD_BUTTON_FIX_RETROGRADE": {
     "description": "Tooltip: fix heading retrograde",
-    "message": "Fix heading retrograde"
+    "message": "Socraigh treoshuíomh casiompaithe"
   },
   "HUD_BUTTON_HYPERDRIVE_DISABLED": {
     "description": "Tooltip: Hyperdrive disabled (docked or landed)",
@@ -813,7 +813,7 @@
   },
   "HUD_SPEED_OF_APPROACH_TO_TARGET": {
     "description": "Tooltip: The speed of approach relative to target.",
-    "message": "The speed of approach relative to target"
+    "message": "An luas ag teacht i gcoibhneas leis an sprioc"
   },
   "HUD_SPEED_RELATIVE_TO_TARGET": {
     "description": "Tooltip: The speed relative to the target.",
@@ -849,7 +849,7 @@
   },
   "HYPERJUMP_ROUTE": {
     "description": "",
-    "message": "HyperJump Route"
+    "message": "Bealach Hipirléime"
   },
   "HYPERSPACE_RANGE": {
     "description": "",
@@ -905,7 +905,7 @@
   },
   "JUMPING": {
     "description": "Flight State",
-    "message": "Jumping"
+    "message": "Léimneach"
   },
   "KILLS": {
     "description": "",
@@ -993,11 +993,11 @@
   },
   "MAJOR_EXPORTS_ITEM": {
     "description": "",
-    "message": "Major exports"
+    "message": "Príomheaspórtálacha"
   },
   "MAJOR_IMPORTS_ITEM": {
     "description": "",
-    "message": "Major imports"
+    "message": "Príomhiompórtálacha"
   },
   "MAKE_NEW_FACE": {
     "description": "",
@@ -1077,11 +1077,11 @@
   },
   "MINOR_EXPORTS_ITEM": {
     "description": "",
-    "message": "Minor exports"
+    "message": "Mioniompórtálacha"
   },
   "MINOR_IMPORTS_ITEM": {
     "description": "",
-    "message": "Minor imports"
+    "message": "Mioneaspórtálacha"
   },
   "MISSILE_MOUNTS": {
     "description": "",
@@ -1105,11 +1105,11 @@
   },
   "MOVE_DOWN": {
     "description": "move selection down in list",
-    "message": "Move Down"
+    "message": "Bog Síos"
   },
   "MOVE_UP": {
     "description": "move selection up in list",
-    "message": "Move Up"
+    "message": "Bog Suas"
   },
   "MULTISAMPLING": {
     "description": "",
@@ -1297,7 +1297,7 @@
   },
   "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
     "description": "",
-    "message": "Press a key or controller button or escape to clear"
+    "message": "Brúigh eochair nó cnaipe rialaithe le héalú nó le glanadh"
   },
   "PRICE": {
     "description": "",
@@ -1345,7 +1345,7 @@
   },
   "REGISTRATION_NUMBER": {
     "description": "",
-    "message": "Registration number"
+    "message": "Uimhir chláraithe"
   },
   "RELIABLE": {
     "description": "For player reputation",
@@ -1353,11 +1353,11 @@
   },
   "REMOVE_JUMP": {
     "description": "UI-button: remove hyper jump from list of planned jumps",
-    "message": "Remove Jump"
+    "message": "Bain Léim"
   },
   "REMOVE_WHEN_COMPLETED": {
     "description": "For UI hyperjump planner, referring to jump target system",
-    "message": "Remove jump when completed"
+    "message": "Bain an léim nuair a bheidh sí críochnaithe"
   },
   "REPAIR_X_HULL_DAMAGE_FOR_X": {
     "description": "",
@@ -1373,7 +1373,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Required Fuel:"
+    "message": "Breosla Riachtanach:"
   },
   "RESET": {
     "description": "",
@@ -1401,11 +1401,11 @@
   },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
-    "message": "Route Info"
+    "message": "Maidir leis an mBealach"
   },
   "ROUTE_JUMPS": {
     "description": "For hyperjump planner",
-    "message": "Route Jumps"
+    "message": "Léimeanna"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1453,7 +1453,7 @@
   },
   "SETTINGS": {
     "description": "UI option",
-    "message": "Settings"
+    "message": "Socruithe"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -1589,11 +1589,11 @@
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "Total Distance:"
+    "message": "Fad Iomlán:"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Total Duration:"
+    "message": "Fad Iomlán:"
   },
   "TOTAL_MASS": {
     "description": "",
@@ -1637,7 +1637,7 @@
   },
   "VICINITY_OF": {
     "description": "",
-    "message": "In vicinity of"
+    "message": "I ngar do"
   },
   "VIDEO": {
     "description": "",

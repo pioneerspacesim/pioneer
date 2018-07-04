@@ -337,7 +337,7 @@
   },
   "DOCKING_CLEARANCE_EXPIRED": {
     "description": "",
-    "message": "Autorisation d'atterrissage écoulée. Pour atterrir, veuillez refaire une demande."
+    "message": "Autorisation d'atterrissage expirée. Pour atterrir, veuillez refaire une demande."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -365,7 +365,7 @@
   },
   "EARTH_FEDERATION_DEMOCRACY": {
     "description": "",
-    "message": "Démocratie de la Fédération"
+    "message": "Démocratie de la Fédération Terrienne"
   },
   "ECCENTRICITY": {
     "description": "",
@@ -545,7 +545,7 @@
   },
   "HYPERSPACE_ARRIVAL_CLOUD": {
     "description": "",
-    "message": "Nuage d'arrivée hyperspatial"
+    "message": "Nuage d'arrivée hyperspatiale"
   },
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
@@ -1549,7 +1549,7 @@
   },
   "STAR_SYSTEM_INFORMATION": {
     "description": "",
-    "message": "Information système solaire"
+    "message": "Information système stellaire"
   },
   "STAR_S_BH": {
     "description": "",
@@ -1813,7 +1813,7 @@
   },
   "WHEELS_ARE_DOWN": {
     "description": "",
-    "message": "Trains d'atterrissage sorti"
+    "message": "Train d'atterrissage sorti"
   },
   "WHEELS_ARE_UP": {
     "description": "",

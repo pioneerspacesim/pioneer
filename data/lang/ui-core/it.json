@@ -1477,7 +1477,7 @@
   },
   "SHIP_IS_FULLY_EQUIPPED": {
     "description": "",
-    "message": "La tua astronave completamente equipaggiata."
+    "message": "La sua astronave è completamente attrezzata."
   },
   "SHIP_IS_FULLY_LADEN": {
     "description": "",

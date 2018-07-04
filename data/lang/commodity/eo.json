@@ -73,7 +73,7 @@
   },
   "GRAIN": {
     "description": "",
-    "message": "Grain"
+    "message": "Greno"
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -241,7 +241,7 @@
   },
   "WATER": {
     "description": "",
-    "message": "Water"
+    "message": "Akvo"
   },
   "WATER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

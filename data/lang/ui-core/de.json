@@ -373,7 +373,7 @@
   },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
-    "message": "Hyperraumsprung kann nicht eingeläutet werden; das Fahrgestell ist nicht eingefahren!"
+    "message": "Hyperraumsprung kann nicht eingeleitet werden; das Fahrgestell ist nicht eingefahren!"
   },
   "ESCAPE_SPEED": {
     "description": "",
@@ -585,11 +585,11 @@
   },
   "HUD_BUTTON_INITIATE_HYPERJUMP": {
     "description": "Tooltip: Initiate legal hyperjump",
-    "message": "Hyperraumsprung wird eingeläutet"
+    "message": "Hyperraumsprung wird eingeleitet"
   },
   "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP": {
     "description": "Tooltip: Initiate illegal hyperjump",
-    "message": "Illegaler Hyperraumsprung wird eingeläutet"
+    "message": "Illegaler Hyperraumsprung wird eingeleitet"
   },
   "HUD_BUTTON_INTERNAL_VIEW": {
     "description": "Tooltip: Internal camera view",
