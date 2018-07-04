@@ -1,102 +1,102 @@
 {
-   "APPLY_FOR_MEMBERSHIP" : {
-      "description" : "",
-      "message" : "Aplică pentru a deveni membru"
-   },
-   "BEGIN_TRADE" : {
-      "description" : "",
-      "message" : "Începe negoțul"
-   },
-   "FLAVOUR_0_CLUBNAME" : {
-      "description" : "",
-      "message" : "Cooperativa Combustibilului Piloților Interstelari"
-   },
-   "FLAVOUR_0_MEMBER_INTRO" : {
-      "description" : "",
-      "message" : "You may purchase fuel and dispose of {radioactives} here."
-   },
-   "FLAVOUR_0_NONMEMBER_INTRO" : {
-      "description" : "",
-      "message" : "{clubname} este o organizație independenta dedicată aprovizionării de combustibil naval mai ieftin membrilor ei. Filiale pot fi găsite de-a lungul galaxiei. Beneficii ale apartenenței includ:"
-   },
-   "FLAVOUR_0_WELCOME" : {
-      "description" : "",
-      "message" : "Bine ați venit în {clubname}"
-   },
-   "FLAVOUR_1_CLUBNAME" : {
-      "description" : "Fuel club for the Federation faction",
-      "message" : "The Federal Fuel Foundation"
-   },
-   "FLAVOUR_1_NONMEMBER_INTRO" : {
-      "description" : "For the Solar Federation faction",
-      "message" : "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
-   },
-   "FLAVOUR_2_CLUBNAME" : {
-      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-      "message" : "The Confederate Fuel Union"
-   },
-   "FLAVOUR_2_NONMEMBER_INTRO" : {
-      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
-      "message" : "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
-   },
-   "FLAVOUR_2_WELCOME" : {
-      "description" : "",
-      "message" : "Greetings and salutations! We hope you enjoy our services."
-   },
-   "FLAVOUR_3_CLUBNAME" : {
-      "description" : "Fuel club for the Haber faction",
-      "message" : "Haber Propellant and Perishables Division"
-   },
-   "FLAVOUR_3_MEMBER_INTRO" : {
-      "description" : "For the greedy Haber faction, very corporate formulated",
-      "message" : "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
-   },
-   "FLAVOUR_3_NONMEMBER_INTRO" : {
-      "description" : "for the Haber faction",
-      "message" : "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
-   },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Înapoi"
-   },
-   "LIST_BENEFITS_DISPOSAL" : {
-      "description" : "",
-      "message" : "{radioactives}, evacuare gratuită (condiții se aplică)"
-   },
-   "LIST_BENEFITS_FUEL" : {
-      "description" : "",
-      "message" : "{fuel} la prețuri reduse"
-   },
-   "LIST_BENEFITS_FUEL_INTRO" : {
-      "description" : "",
-      "message" : "Stocurile noastre de combustibil, independente de piața generală"
-   },
-   "LIST_BENEFITS_FUEL_TANK" : {
-      "description" : "",
-      "message" : "Reumplere rezervor, la nevoie"
-   },
-   "LIST_BENEFITS_JOIN" : {
-      "description" : "",
-      "message" : "Alăturați-vă acum! Parteneriatul anual costă doar {membership_fee}"
-   },
-   "WE_WILL_ONLY_DISPOSE_OF" : {
-      "description" : "",
-      "message" : "Vom evacua doar atâtea tone de {radioactives} câte tone de {military_fuel} ați cumpărat de la noi."
-   },
-   "WHAT_CONDITIONS_APPLY" : {
-      "description" : "",
-      "message" : "Ce condiții se aplică pentru evacuarea de {radioactives}?"
-   },
-   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
-      "description" : "",
-      "message" : "Cererea dvs. de înscriere a fost refuzată."
-   },
-   "YOU_ARE_NOW_A_MEMBER" : {
-      "description" : "",
-      "message" : "Acum sunteți membru. Contractul va expira pe {expiry_date}."
-   },
-   "YOU_MUST_BUY" : {
-      "description" : "",
-      "message" : "Trebuie să cumpărați {military_fuel} de la noi înainte să luăm {radioactives} de la dvs"
-   }
+  "APPLY_FOR_MEMBERSHIP": {
+    "description": "",
+    "message": "Aplică pentru a deveni membru"
+  },
+  "BEGIN_TRADE": {
+    "description": "",
+    "message": "Începe negoțul"
+  },
+  "FLAVOUR_0_CLUBNAME": {
+    "description": "",
+    "message": "Cooperativa Combustibilului Piloților Interstelari"
+  },
+  "FLAVOUR_0_MEMBER_INTRO": {
+    "description": "",
+    "message": "You may purchase fuel and dispose of {radioactives} here."
+  },
+  "FLAVOUR_0_NONMEMBER_INTRO": {
+    "description": "",
+    "message": "{clubname} este o organizație independenta dedicată aprovizionării de combustibil naval mai ieftin membrilor ei. Filiale pot fi găsite de-a lungul galaxiei. Beneficii ale apartenenței includ:"
+  },
+  "FLAVOUR_0_WELCOME": {
+    "description": "",
+    "message": "Bine ați venit în {clubname}"
+  },
+  "FLAVOUR_1_CLUBNAME": {
+    "description": "Fuel club for the Federation faction",
+    "message": "The Federal Fuel Foundation"
+  },
+  "FLAVOUR_1_NONMEMBER_INTRO": {
+    "description": "For the Solar Federation faction",
+    "message": "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
+  },
+  "FLAVOUR_2_CLUBNAME": {
+    "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+    "message": "The Confederate Fuel Union"
+  },
+  "FLAVOUR_2_NONMEMBER_INTRO": {
+    "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
+    "message": "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
+  },
+  "FLAVOUR_2_WELCOME": {
+    "description": "",
+    "message": "Greetings and salutations! We hope you enjoy our services."
+  },
+  "FLAVOUR_3_CLUBNAME": {
+    "description": "Fuel club for the Haber faction",
+    "message": "Haber Propellant and Perishables Division"
+  },
+  "FLAVOUR_3_MEMBER_INTRO": {
+    "description": "For the greedy Haber faction, very corporate formulated",
+    "message": "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
+  },
+  "FLAVOUR_3_NONMEMBER_INTRO": {
+    "description": "for the Haber faction",
+    "message": "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Înapoi"
+  },
+  "LIST_BENEFITS_DISPOSAL": {
+    "description": "",
+    "message": "{radioactives}, evacuare gratuită (condiții se aplică)"
+  },
+  "LIST_BENEFITS_FUEL": {
+    "description": "",
+    "message": "{fuel} la prețuri reduse"
+  },
+  "LIST_BENEFITS_FUEL_INTRO": {
+    "description": "",
+    "message": "Stocurile noastre de combustibil, independente de piața generală"
+  },
+  "LIST_BENEFITS_FUEL_TANK": {
+    "description": "",
+    "message": "Reumplere rezervor, la nevoie"
+  },
+  "LIST_BENEFITS_JOIN": {
+    "description": "",
+    "message": "Alăturați-vă acum! Parteneriatul anual costă doar {membership_fee}"
+  },
+  "WE_WILL_ONLY_DISPOSE_OF": {
+    "description": "",
+    "message": "Vom evacua doar atâtea tone de {radioactives} câte tone de {military_fuel} ați cumpărat de la noi."
+  },
+  "WHAT_CONDITIONS_APPLY": {
+    "description": "",
+    "message": "Ce condiții se aplică pentru evacuarea de {radioactives}?"
+  },
+  "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
+    "description": "",
+    "message": "Cererea dvs. de înscriere a fost refuzată."
+  },
+  "YOU_ARE_NOW_A_MEMBER": {
+    "description": "",
+    "message": "Acum sunteți membru. Contractul va expira pe {expiry_date}."
+  },
+  "YOU_MUST_BUY": {
+    "description": "",
+    "message": "Trebuie să cumpărați {military_fuel} de la noi înainte să luăm {radioactives} de la dvs"
+  }
 }

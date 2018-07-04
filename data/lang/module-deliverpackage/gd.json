@@ -1,354 +1,354 @@
 {
-   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
-      "description" : "",
-      "message" : "Dè an t-iarrtas a bh' agaibh a-rithist?"
-   },
-   "DANGER" : {
-      "description" : "",
-      "message" : "Cunnart:"
-   },
-   "DEADLINE" : {
-      "description" : "",
-      "message" : "Ceann-là:"
-   },
-   "DELIVERY" : {
-      "description" : "",
-      "message" : "Lìbhrigeadh"
-   },
-   "DENY_0" : {
-      "description" : "",
-      "message" : "Tha sin duilich ach chan eil earbsa agam annad gun lìbhrig thu seo."
-   },
-   "DENY_1" : {
-      "description" : "",
-      "message" : "Till nuair a bhios teisteanasan agad."
-   },
-   "DENY_2" : {
-      "description" : "",
-      "message" : "Cha chreid mi gur tusa am paidhleat a tha mi ag iarraidh."
-   },
-   "DENY_3" : {
-      "description" : "",
-      "message" : "Chan eil coltas ort gun lìbhrigeadh tu seo gu h-earbsach."
-   },
-   "DENY_4" : {
-      "description" : "",
-      "message" : "Cha tusa an seòrsa de phaidhleat a tha mi a' sireadh."
-   },
-   "DENY_5" : {
-      "description" : "",
-      "message" : "Cha chreid mi gu bheil eòlas gu leòr agad gus saothair cho cudromach sin a làimhseachadh."
-   },
-   "DENY_6" : {
-      "description" : "",
-      "message" : "Chan eil sgot agam cò thusa. Tha feum agam air seann-phaidhleat airson an lìbhrigidh seo."
-   },
-   "DENY_7" : {
-      "description" : "",
-      "message" : "Cha chuir mi an lìbhrigeadh seo fo chunnart le cuideigin aig nach eil teisteanas sam bith."
-   },
-   "DISTANCE" : {
-      "description" : "",
-      "message" : "Astar:"
-   },
-   "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
-      "description" : "",
-      "message" : "Glè mhath, innsidh mi dhan fhaightear gum bi e 'n dùil oirbh."
-   },
-   "FLAVOUR_0_ADTEXT" : {
-      "description" : "",
-      "message" : "A' DOL gu siostam {system}? Pàighidh sinn airson lìbhrigeadh pacaide bige."
-   },
-   "FLAVOUR_0_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Cha dèan seo a' chùis! Thug sibh fada ro fhada gus a lìbhrigeadh. Cha doir mi airgead dhuibh."
-   },
-   "FLAVOUR_0_INTROTEXT" : {
-      "description" : "",
-      "message" : "Haoigh, 's mise {name}. Pàighidh mi {cash} dhut ma bheir thu pacaid bheag gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
-   },
-   "FLAVOUR_0_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mòran taing airson a lìbhrigeadh. Fhuair thu pàigheadh slàn."
-   },
-   "FLAVOUR_0_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Dh'fhàg caraid aodach is seann-leabhraichean pàipeir leam às dèidh a tadhal orm. Bu toigh leam an tilleadh dhi."
-   },
-   "FLAVOUR_1_ADTEXT" : {
-      "description" : "",
-      "message" : "'GA IARRAIDH. Lìbhrigeadh pacaide gu siostam {system}."
-   },
-   "FLAVOUR_1_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Mhill lìbhrigeadh anmoch na pacaid mo dhùil is diùltaidh mi do phàigheadh."
-   },
-   "FLAVOUR_1_INTROTEXT" : {
-      "description" : "",
-      "message" : "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
-   },
-   "FLAVOUR_1_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Fhuaradh a' phacaid 's fhuair thu pàigheadh slàn."
-   },
-   "FLAVOUR_1_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Chan e dad sònraichte a th' ann."
-   },
-   "FLAVOUR_2_ADTEXT" : {
-      "description" : "",
-      "message" : "ÈIGINNEACH. Tha feum air soitheach luath gus pacaid a thoirt gu siostam {system}."
-   },
-   "FLAVOUR_2_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Thuirt mi dhut gu soilleir dè an ceann-latha is 's e briseadh-dùil mòr a th' anns an lìbhrigeadh anmoch. Cha dèid do phàigheadh."
-   },
-   "FLAVOUR_2_INTROTEXT" : {
-      "description" : "",
-      "message" : "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
-   },
-   "FLAVOUR_2_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Fhuair thu pàigheadh slàn airson an lìbhrigidh. Mòran taing."
-   },
-   "FLAVOUR_2_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "'S e tagradh rannsachaidh a th' ann agus feumaidh sinn a lìbhrigeadh ron cheann-latha ach am faigh sinn maoin."
-   },
-   "FLAVOUR_3_ADTEXT" : {
-      "description" : "",
-      "message" : "LÌBHRIGEADH. Sgrìobhainnean gu siostam {system}. Gheibh paidhleat eòlach {cash}."
-   },
-   "FLAVOUR_3_FAILUREMSG" : {
-      "description" : "",
-      "message" : "'S tusa gun fheum! Cha bhi mi an eisimeil dhut a-rithist gu bràth tuilleadh! Tuigidh tu nach faigh thu pàigheadh airson seo idir."
-   },
-   "FLAVOUR_3_INTROTEXT" : {
-      "description" : "",
-      "message" : "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
-   },
-   "FLAVOUR_3_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Tha sinn taingeil gun dug thu dhuinn e gu luath 's gu h-os ìosal. Fhuair thu pàigheadh slàn."
-   },
-   "FLAVOUR_3_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Fhuair mi greim air sgrìobhainnean dìomhair is tha mi dhen bheachd gun deach an leigeil air èalaidh a thracadh thugamsa."
-   },
-   "FLAVOUR_4_ADTEXT" : {
-      "description" : "",
-      "message" : "SEIRBHEIS PUIST. Tha sinn feumach air soitheach airson post a lìbhrigeadh gu siostam {system}."
-   },
-   "FLAVOUR_4_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Thug sin fa-near do chlàradh an t-soithich agad is diùltaidh sinn gach tairgse obrach uat."
-   },
-   "FLAVOUR_4_INTROTEXT" : {
-      "description" : "",
-      "message" : "Fàilte. Seo teachdaireachd fhèin-obrachail o Seirbheisean Teachdaire Àth na Beithe agus {name}. Pàighidh sinn {cash} airson ruith gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
-   },
-   "FLAVOUR_4_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Tha sinn taingeil gun dug thu dhuinn e gu luath 's gu h-os ìosal. Fhuair thu pàigheadh slàn."
-   },
-   "FLAVOUR_4_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Bhitheamaid toilichte nan gabhadh tu ri nas lugha de dh'airgead."
-   },
-   "FLAVOUR_5_ADTEXT" : {
-      "description" : "",
-      "message" : "AG IMRICH. Gluasad bathair-chruaidh gu {starport} on ionad-stòrais."
-   },
-   "FLAVOUR_5_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Dè tha seo? Obh obh, thug thu cho fada gun do dhìochuimhnich mi gun robh mi air seo a chur!"
-   },
-   "FLAVOUR_5_INTROTEXT" : {
-      "description" : "",
-      "message" : "'S math do choinneachadh. Is mise {name} is tha mi dèidheil {cash} a phàigheadh do chuideigin aig a bheil soitheach 's a chuidicheas mi gus mo shealbhan pearsanta a thoirt gu {starport}. Chan eil cabhag ann, chan e ach na tha air fhàgail o ghluasad gu taigh ùr a th' annta."
-   },
-   "FLAVOUR_5_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Sgoinneil! Tòisichidh mi air an dì-luchdadh sa bhad. Mòran taing a-rithist."
-   },
-   "FLAVOUR_5_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Torr, an e? Bu chòir dhomh beachdachadh air an tairgse agam a-rithist!"
-   },
-   "FLAVOUR_6_ADTEXT" : {
-      "description" : "",
-      "message" : "TEACHDAIRE ASTAIR BHIG. Lìbhrigeadh pacaide bige gu {starport}."
-   },
-   "FLAVOUR_6_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Bhiodh comas agam fhìn gus seo a lìbhrigeadh na bu luaithe. Cha phàigh mi thu."
-   },
-   "FLAVOUR_6_INTROTEXT" : {
-      "description" : "",
-      "message" : "Haoigh. 'S mise {name} is pàighidh mi {cash} do shoitheach a lìbhrigeas a' phacaid seo gu {starport}."
-   },
-   "FLAVOUR_6_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mòran taing airson na pacaide, fhuair thu pàigheadh slàn."
-   },
-   "FLAVOUR_6_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Saoilidh mi nach eil seo mòran."
-   },
-   "FLAVOUR_7_ADTEXT" : {
-      "description" : "",
-      "message" : "CARAGO EADAR PLANAIDEAN. Lìbhrigeadh carago ionadail gu {starport}."
-   },
-   "FLAVOUR_7_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Cha bhi an luchd-ceannach againn toilichte mu dhèidhinn seo. Na bi an dùil gun dèid do phàigheadh."
-   },
-   "FLAVOUR_7_INTROTEXT" : {
-      "description" : "",
-      "message" : "Shin thu. Tha na creataichean seo feumach air lìbhrigeadh gu {starport} cho luath 's a ghabhas. 'S e {cash} am pàigheadh àbhaisteach airson na lìbhrigidh seo."
-   },
-   "FLAVOUR_7_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Ma dha-rìribh, chuir sinn an t-airgead sa chunntas agad."
-   },
-   "FLAVOUR_7_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Reitichean àbhaisteach, tha sinn ag obair leis a' mhargadh."
-   },
-   "FLAVOUR_8_ADTEXT" : {
-      "description" : "",
-      "message" : "LÌBHRIGEADH DLÙTH. Tha nì feumach air lìbhrigeadh luath gu {starport}."
-   },
-   "FLAVOUR_8_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Thairg sinn duais airgid dhut airson lìbhrigeadh luath! Diùltaidh sinn pàigheadh airson seo."
-   },
-   "FLAVOUR_8_INTROTEXT" : {
-      "description" : "",
-      "message" : "Is mise {name} is feumaidh mi an nì seo a thoirt do charaid ann an {starport} sa bhad, pàighidh mi {cash} creideis dhut ma bheir tu an-siud e cho luath 's a tha iomchaidh."
-   },
-   "FLAVOUR_8_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Tha mi taingeil airson an lìbhrigidh luaith. Chuir mi an t-airgead iomchaidh sa chunntas agad."
-   },
-   "FLAVOUR_8_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Tha fìor-chabhag ann."
-   },
-   "FLAVOUR_9_ADTEXT" : {
-      "description" : "",
-      "message" : "LÌBHRIGEADH PACAIDE. Lìbhrigeadh stuthan meadhach gu {starport} le cabhag."
-   },
-   "FLAVOUR_9_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Tha e lobhte gu lèir 's gun fheum sam bith a-nis! Chan urrainn dhuinn do phàigheadh is cha phàigh."
-   },
-   "FLAVOUR_9_INTROTEXT" : {
-      "description" : "",
-      "message" : "Latha math, tha sinn air dheireadh le lìbhrigeadh an toraidh againn is feumaidh sinn a thoirt gu {starport} cho luath 's a ghabhas. Pàighidh sinn {cash} airson do thrioblaid."
-   },
-   "FLAVOUR_9_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Glan! Tòisichidh sinn air a' phacaid a thoirt a-mach sa bhad. Ùraichidh mi an cunntas gad an ceartuair."
-   },
-   "FLAVOUR_9_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Tha ar beòshlaint an eisimeil air."
-   },
-   "HOW_SOON_MUST_IT_BE_DELIVERED" : {
-      "description" : "",
-      "message" : "Cuine a dh'fheumas e bhith ann?"
-   },
-   "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED" : {
-      "description" : "",
-      "message" : "B' urrainn dha bhith cunnartach, dèan cinnteach gu bheil thu ullamh."
-   },
-   "IT_MUST_BE_DELIVERED_BY" : {
-      "description" : "",
-      "message" : "Tha e ri lìbhrigeadh gu ruige"
-   },
-   "I_HIGHLY_DOUBT_IT" : {
-      "description" : "",
-      "message" : "Cha chreid mi gum bi idir."
-   },
-   "LY" : {
-      "description" : "",
-      "message" : "bl-shol"
-   },
-   "NOT_ANY_MORE_THAN_USUAL" : {
-      "description" : "",
-      "message" : "Cha bhi ach mar as àbhaist."
-   },
-   "OK_AGREED" : {
-      "description" : "",
-      "message" : "Seadh, nì sinn seo."
-   },
-   "PIRATE_TAUNTS_0" : {
-      "description" : "",
-      "message" : "Bidh thu duilich gun do dhèilig thu ri {client}"
-   },
-   "PIRATE_TAUNTS_1" : {
-      "description" : "",
-      "message" : "Tha coltas gun d' fhuair mi m' airgead!"
-   },
-   "PIRATE_TAUNTS_2" : {
-      "description" : "",
-      "message" : "'Eil thu ag obair airson {client}? Seo droch-fhortan dhut."
-   },
-   "PIRATE_TAUNTS_3" : {
-      "description" : "",
-      "message" : "Do charago 's do bheatha, a phaidhleit!"
-   },
-   "PIRATE_TAUNTS_4" : {
-      "description" : "",
-      "message" : "Tha mi 'n dùil gum faigh sinn deagh airgead air a' mhargadh às"
-   },
-   "PIRATE_TAUNTS_5" : {
-      "description" : "",
-      "message" : "Cha dèid an-diugh leat! Ullaich airson do bhàs."
-   },
-   "PIRATE_TAUNTS_6" : {
-      "description" : "",
-      "message" : "Guidh laighe gun èirigh air an t-seann charaid {client} agam!"
-   },
-   "PIRATE_TAUNTS_7" : {
-      "description" : "",
-      "message" : "Cha ruig a' phacaid seo a cheann-uidhe an-diugh."
-   },
-   "PIRATE_TAUNTS_8" : {
-      "description" : "",
-      "message" : "Cha ruig thu {location} an-diugh!"
-   },
-   "PIRATE_TAUNTS_9" : {
-      "description" : "",
-      "message" : "Pàighidh tu airson a' charago seo le do bheatha."
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Cuir ceann-uidhe na seòladaireachd air"
-   },
-   "SPACEPORT" : {
-      "description" : "",
-      "message" : "Port-fhànais:"
-   },
-   "SYSTEM" : {
-      "description" : "",
-      "message" : "Siostam:"
-   },
-   "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
-      "description" : "",
-      "message" : "Seo pacaid phrìseil 's glèidh do shùil fosgailte."
-   },
-   "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE" : {
-      "description" : "",
-      "message" : "Tha cunnart mòr ann 's bidh strì romhad gun teagamh."
-   },
-   "WHY_SO_MUCH_MONEY" : {
-      "description" : "",
-      "message" : "Carson a gheibh mi torr airgid?"
-   },
-   "WILL_I_BE_IN_ANY_DANGER" : {
-      "description" : "",
-      "message" : "Am bi mi fo chunnart?"
-   }
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Dè an t-iarrtas a bh' agaibh a-rithist?"
+  },
+  "DANGER": {
+    "description": "",
+    "message": "Cunnart:"
+  },
+  "DEADLINE": {
+    "description": "",
+    "message": "Ceann-là:"
+  },
+  "DELIVERY": {
+    "description": "",
+    "message": "Lìbhrigeadh"
+  },
+  "DENY_0": {
+    "description": "",
+    "message": "Tha sin duilich ach chan eil earbsa agam annad gun lìbhrig thu seo."
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Till nuair a bhios teisteanasan agad."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Cha chreid mi gur tusa am paidhleat a tha mi ag iarraidh."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Chan eil coltas ort gun lìbhrigeadh tu seo gu h-earbsach."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Cha tusa an seòrsa de phaidhleat a tha mi a' sireadh."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Cha chreid mi gu bheil eòlas gu leòr agad gus saothair cho cudromach sin a làimhseachadh."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "Chan eil sgot agam cò thusa. Tha feum agam air seann-phaidhleat airson an lìbhrigidh seo."
+  },
+  "DENY_7": {
+    "description": "",
+    "message": "Cha chuir mi an lìbhrigeadh seo fo chunnart le cuideigin aig nach eil teisteanas sam bith."
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "Astar:"
+  },
+  "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY": {
+    "description": "",
+    "message": "Glè mhath, innsidh mi dhan fhaightear gum bi e 'n dùil oirbh."
+  },
+  "FLAVOUR_0_ADTEXT": {
+    "description": "",
+    "message": "A' DOL gu siostam {system}? Pàighidh sinn airson lìbhrigeadh pacaide bige."
+  },
+  "FLAVOUR_0_FAILUREMSG": {
+    "description": "",
+    "message": "Cha dèan seo a' chùis! Thug sibh fada ro fhada gus a lìbhrigeadh. Cha doir mi airgead dhuibh."
+  },
+  "FLAVOUR_0_INTROTEXT": {
+    "description": "",
+    "message": "Haoigh, 's mise {name}. Pàighidh mi {cash} dhut ma bheir thu pacaid bheag gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
+  },
+  "FLAVOUR_0_SUCCESSMSG": {
+    "description": "",
+    "message": "Mòran taing airson a lìbhrigeadh. Fhuair thu pàigheadh slàn."
+  },
+  "FLAVOUR_0_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Dh'fhàg caraid aodach is seann-leabhraichean pàipeir leam às dèidh a tadhal orm. Bu toigh leam an tilleadh dhi."
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "'GA IARRAIDH. Lìbhrigeadh pacaide gu siostam {system}."
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "Mhill lìbhrigeadh anmoch na pacaid mo dhùil is diùltaidh mi do phàigheadh."
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "",
+    "message": "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "Fhuaradh a' phacaid 's fhuair thu pàigheadh slàn."
+  },
+  "FLAVOUR_1_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Chan e dad sònraichte a th' ann."
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "ÈIGINNEACH. Tha feum air soitheach luath gus pacaid a thoirt gu siostam {system}."
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "Thuirt mi dhut gu soilleir dè an ceann-latha is 's e briseadh-dùil mòr a th' anns an lìbhrigeadh anmoch. Cha dèid do phàigheadh."
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Fhuair thu pàigheadh slàn airson an lìbhrigidh. Mòran taing."
+  },
+  "FLAVOUR_2_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "'S e tagradh rannsachaidh a th' ann agus feumaidh sinn a lìbhrigeadh ron cheann-latha ach am faigh sinn maoin."
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "LÌBHRIGEADH. Sgrìobhainnean gu siostam {system}. Gheibh paidhleat eòlach {cash}."
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "'S tusa gun fheum! Cha bhi mi an eisimeil dhut a-rithist gu bràth tuilleadh! Tuigidh tu nach faigh thu pàigheadh airson seo idir."
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "Tha sinn taingeil gun dug thu dhuinn e gu luath 's gu h-os ìosal. Fhuair thu pàigheadh slàn."
+  },
+  "FLAVOUR_3_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Fhuair mi greim air sgrìobhainnean dìomhair is tha mi dhen bheachd gun deach an leigeil air èalaidh a thracadh thugamsa."
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "SEIRBHEIS PUIST. Tha sinn feumach air soitheach airson post a lìbhrigeadh gu siostam {system}."
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "Thug sin fa-near do chlàradh an t-soithich agad is diùltaidh sinn gach tairgse obrach uat."
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "Fàilte. Seo teachdaireachd fhèin-obrachail o Seirbheisean Teachdaire Àth na Beithe agus {name}. Pàighidh sinn {cash} airson ruith gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "Tha sinn taingeil gun dug thu dhuinn e gu luath 's gu h-os ìosal. Fhuair thu pàigheadh slàn."
+  },
+  "FLAVOUR_4_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Bhitheamaid toilichte nan gabhadh tu ri nas lugha de dh'airgead."
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "AG IMRICH. Gluasad bathair-chruaidh gu {starport} on ionad-stòrais."
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "Dè tha seo? Obh obh, thug thu cho fada gun do dhìochuimhnich mi gun robh mi air seo a chur!"
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "'S math do choinneachadh. Is mise {name} is tha mi dèidheil {cash} a phàigheadh do chuideigin aig a bheil soitheach 's a chuidicheas mi gus mo shealbhan pearsanta a thoirt gu {starport}. Chan eil cabhag ann, chan e ach na tha air fhàgail o ghluasad gu taigh ùr a th' annta."
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "Sgoinneil! Tòisichidh mi air an dì-luchdadh sa bhad. Mòran taing a-rithist."
+  },
+  "FLAVOUR_5_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Torr, an e? Bu chòir dhomh beachdachadh air an tairgse agam a-rithist!"
+  },
+  "FLAVOUR_6_ADTEXT": {
+    "description": "",
+    "message": "TEACHDAIRE ASTAIR BHIG. Lìbhrigeadh pacaide bige gu {starport}."
+  },
+  "FLAVOUR_6_FAILUREMSG": {
+    "description": "",
+    "message": "Bhiodh comas agam fhìn gus seo a lìbhrigeadh na bu luaithe. Cha phàigh mi thu."
+  },
+  "FLAVOUR_6_INTROTEXT": {
+    "description": "",
+    "message": "Haoigh. 'S mise {name} is pàighidh mi {cash} do shoitheach a lìbhrigeas a' phacaid seo gu {starport}."
+  },
+  "FLAVOUR_6_SUCCESSMSG": {
+    "description": "",
+    "message": "Mòran taing airson na pacaide, fhuair thu pàigheadh slàn."
+  },
+  "FLAVOUR_6_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Saoilidh mi nach eil seo mòran."
+  },
+  "FLAVOUR_7_ADTEXT": {
+    "description": "",
+    "message": "CARAGO EADAR PLANAIDEAN. Lìbhrigeadh carago ionadail gu {starport}."
+  },
+  "FLAVOUR_7_FAILUREMSG": {
+    "description": "",
+    "message": "Cha bhi an luchd-ceannach againn toilichte mu dhèidhinn seo. Na bi an dùil gun dèid do phàigheadh."
+  },
+  "FLAVOUR_7_INTROTEXT": {
+    "description": "",
+    "message": "Shin thu. Tha na creataichean seo feumach air lìbhrigeadh gu {starport} cho luath 's a ghabhas. 'S e {cash} am pàigheadh àbhaisteach airson na lìbhrigidh seo."
+  },
+  "FLAVOUR_7_SUCCESSMSG": {
+    "description": "",
+    "message": "Ma dha-rìribh, chuir sinn an t-airgead sa chunntas agad."
+  },
+  "FLAVOUR_7_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Reitichean àbhaisteach, tha sinn ag obair leis a' mhargadh."
+  },
+  "FLAVOUR_8_ADTEXT": {
+    "description": "",
+    "message": "LÌBHRIGEADH DLÙTH. Tha nì feumach air lìbhrigeadh luath gu {starport}."
+  },
+  "FLAVOUR_8_FAILUREMSG": {
+    "description": "",
+    "message": "Thairg sinn duais airgid dhut airson lìbhrigeadh luath! Diùltaidh sinn pàigheadh airson seo."
+  },
+  "FLAVOUR_8_INTROTEXT": {
+    "description": "",
+    "message": "Is mise {name} is feumaidh mi an nì seo a thoirt do charaid ann an {starport} sa bhad, pàighidh mi {cash} creideis dhut ma bheir tu an-siud e cho luath 's a tha iomchaidh."
+  },
+  "FLAVOUR_8_SUCCESSMSG": {
+    "description": "",
+    "message": "Tha mi taingeil airson an lìbhrigidh luaith. Chuir mi an t-airgead iomchaidh sa chunntas agad."
+  },
+  "FLAVOUR_8_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Tha fìor-chabhag ann."
+  },
+  "FLAVOUR_9_ADTEXT": {
+    "description": "",
+    "message": "LÌBHRIGEADH PACAIDE. Lìbhrigeadh stuthan meadhach gu {starport} le cabhag."
+  },
+  "FLAVOUR_9_FAILUREMSG": {
+    "description": "",
+    "message": "Tha e lobhte gu lèir 's gun fheum sam bith a-nis! Chan urrainn dhuinn do phàigheadh is cha phàigh."
+  },
+  "FLAVOUR_9_INTROTEXT": {
+    "description": "",
+    "message": "Latha math, tha sinn air dheireadh le lìbhrigeadh an toraidh againn is feumaidh sinn a thoirt gu {starport} cho luath 's a ghabhas. Pàighidh sinn {cash} airson do thrioblaid."
+  },
+  "FLAVOUR_9_SUCCESSMSG": {
+    "description": "",
+    "message": "Glan! Tòisichidh sinn air a' phacaid a thoirt a-mach sa bhad. Ùraichidh mi an cunntas gad an ceartuair."
+  },
+  "FLAVOUR_9_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Tha ar beòshlaint an eisimeil air."
+  },
+  "HOW_SOON_MUST_IT_BE_DELIVERED": {
+    "description": "",
+    "message": "Cuine a dh'fheumas e bhith ann?"
+  },
+  "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED": {
+    "description": "",
+    "message": "B' urrainn dha bhith cunnartach, dèan cinnteach gu bheil thu ullamh."
+  },
+  "IT_MUST_BE_DELIVERED_BY": {
+    "description": "",
+    "message": "Tha e ri lìbhrigeadh gu ruige"
+  },
+  "I_HIGHLY_DOUBT_IT": {
+    "description": "",
+    "message": "Cha chreid mi gum bi idir."
+  },
+  "LY": {
+    "description": "",
+    "message": "bl-shol"
+  },
+  "NOT_ANY_MORE_THAN_USUAL": {
+    "description": "",
+    "message": "Cha bhi ach mar as àbhaist."
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Seadh, nì sinn seo."
+  },
+  "PIRATE_TAUNTS_0": {
+    "description": "",
+    "message": "Bidh thu duilich gun do dhèilig thu ri {client}"
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Tha coltas gun d' fhuair mi m' airgead!"
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "'Eil thu ag obair airson {client}? Seo droch-fhortan dhut."
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Do charago 's do bheatha, a phaidhleit!"
+  },
+  "PIRATE_TAUNTS_4": {
+    "description": "",
+    "message": "Tha mi 'n dùil gum faigh sinn deagh airgead air a' mhargadh às"
+  },
+  "PIRATE_TAUNTS_5": {
+    "description": "",
+    "message": "Cha dèid an-diugh leat! Ullaich airson do bhàs."
+  },
+  "PIRATE_TAUNTS_6": {
+    "description": "",
+    "message": "Guidh laighe gun èirigh air an t-seann charaid {client} agam!"
+  },
+  "PIRATE_TAUNTS_7": {
+    "description": "",
+    "message": "Cha ruig a' phacaid seo a cheann-uidhe an-diugh."
+  },
+  "PIRATE_TAUNTS_8": {
+    "description": "",
+    "message": "Cha ruig thu {location} an-diugh!"
+  },
+  "PIRATE_TAUNTS_9": {
+    "description": "",
+    "message": "Pàighidh tu airson a' charago seo le do bheatha."
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Cuir ceann-uidhe na seòladaireachd air"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Port-fhànais:"
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Siostam:"
+  },
+  "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN": {
+    "description": "",
+    "message": "Seo pacaid phrìseil 's glèidh do shùil fosgailte."
+  },
+  "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
+    "description": "",
+    "message": "Tha cunnart mòr ann 's bidh strì romhad gun teagamh."
+  },
+  "WHY_SO_MUCH_MONEY": {
+    "description": "",
+    "message": "Carson a gheibh mi torr airgid?"
+  },
+  "WILL_I_BE_IN_ANY_DANGER": {
+    "description": "",
+    "message": "Am bi mi fo chunnart?"
+  }
 }

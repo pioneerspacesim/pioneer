@@ -1,14 +1,14 @@
 {
-   "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
-      "description" : "",
-      "message" : "Seo {station}. Chan eil airgead gu leòr agaibh gus cìs an docachaidh de {fee} a phàigheadh."
-   },
-   "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
-      "description" : "Station welcome message, docking in orbit",
-      "message" : "Fàilte gu {station}. Chaidh cìs an docachaidh de {fee} a thogail uaibh."
-   },
-   "WELCOME_TO_STATION_FEE_DEDUCTED" : {
-      "description" : "Station welcome message, ground station landing",
-      "message" : "Fàilte gu {station}. Chaidh cìs an docachaidh de {fee} a thogail uaibh."
-   }
+  "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH": {
+    "description": "",
+    "message": "Seo {station}. Chan eil airgead gu leòr agaibh gus cìs an docachaidh de {fee} a phàigheadh."
+  },
+  "WELCOME_ABOARD_STATION_FEE_DEDUCTED": {
+    "description": "Station welcome message, docking in orbit",
+    "message": "Fàilte gu {station}. Chaidh cìs an docachaidh de {fee} a thogail uaibh."
+  },
+  "WELCOME_TO_STATION_FEE_DEDUCTED": {
+    "description": "Station welcome message, ground station landing",
+    "message": "Fàilte gu {station}. Chaidh cìs an docachaidh de {fee} a thogail uaibh."
+  }
 }

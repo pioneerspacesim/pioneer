@@ -1,58 +1,58 @@
 {
-   "ILLEGAL_GOODS_DETECTED" : {
-      "description" : "",
-      "message" : "Illegale Güter gefunden."
-   },
-   "INITIATE_CARGO_SCAN_1" : {
-      "description" : "",
-      "message" : "Largerraumscan eingeleitet."
-   },
-   "INITIATE_CARGO_SCAN_2" : {
-      "description" : "",
-      "message" : "Behalten Sie die Geschwindigkeit und den Kurs bei für einen Lagerraumscan."
-   },
-   "INITIATE_CARGO_SCAN_3" : {
-      "description" : "",
-      "message" : "Suche nach Schmuggelware eingeleitet."
-   },
-   "NOTHING_DETECTED" : {
-      "description" : "",
-      "message" : "Keine illegalen Güter gefunden. Du darfst passieren."
-   },
-   "OUTLAW_DETECTED_1" : {
-      "description" : "",
-      "message" : "{ship_label} wird von einem bekannten Gesetzlosen geflogen. Angreifen und zerstören!"
-   },
-   "OUTLAW_DETECTED_2" : {
-      "description" : "",
-      "message" : "Gesetzloser, deine Tage sind gezählt!"
-   },
-   "OUTLAW_DETECTED_3" : {
-      "description" : "",
-      "message" : "Hah, hab ich dich! Du wirst das System niemals lebend verlassen!"
-   },
-   "POLICE_TAUNT_1" : {
-      "description" : "",
-      "message" : "Junge, das war eine schlechte Idee!"
-   },
-   "POLICE_TAUNT_2" : {
-      "description" : "",
-      "message" : "Schmuggler, Sie werden den ultimativen Preis bezahlen!"
-   },
-   "POLICE_TAUNT_3" : {
-      "description" : "",
-      "message" : "Idiot, Verbrechen zahlt sich nicht aus!"
-   },
-   "RESPECT_THE_LAW_1" : {
-      "description" : "",
-      "message" : "Halten Sie sich an die Gesetze! Das Verbrechen zahlt sich im System „{system}“ nicht aus!"
-   },
-   "RESPECT_THE_LAW_2" : {
-      "description" : "",
-      "message" : "Sie haben das System „{system}“ erreicht. Beachten Sie die Gesetze!"
-   },
-   "TAKE_A_HIKE" : {
-      "description" : "",
-      "message" : "Okay, Sie kriegen eine zweite Chance. Verschwinden Sie!"
-   }
+  "ILLEGAL_GOODS_DETECTED": {
+    "description": "",
+    "message": "Illegale Güter gefunden."
+  },
+  "INITIATE_CARGO_SCAN_1": {
+    "description": "",
+    "message": "Largerraumscan eingeleitet."
+  },
+  "INITIATE_CARGO_SCAN_2": {
+    "description": "",
+    "message": "Behalten Sie die Geschwindigkeit und den Kurs bei für einen Lagerraumscan."
+  },
+  "INITIATE_CARGO_SCAN_3": {
+    "description": "",
+    "message": "Suche nach Schmuggelware eingeleitet."
+  },
+  "NOTHING_DETECTED": {
+    "description": "",
+    "message": "Keine illegalen Güter gefunden. Du darfst passieren."
+  },
+  "OUTLAW_DETECTED_1": {
+    "description": "",
+    "message": "{ship_label} wird von einem bekannten Gesetzlosen geflogen. Angreifen und zerstören!"
+  },
+  "OUTLAW_DETECTED_2": {
+    "description": "",
+    "message": "Gesetzloser, deine Tage sind gezählt!"
+  },
+  "OUTLAW_DETECTED_3": {
+    "description": "",
+    "message": "Hah, hab ich dich! Du wirst das System niemals lebend verlassen!"
+  },
+  "POLICE_TAUNT_1": {
+    "description": "",
+    "message": "Junge, das war eine schlechte Idee!"
+  },
+  "POLICE_TAUNT_2": {
+    "description": "",
+    "message": "Schmuggler, Sie werden den ultimativen Preis bezahlen!"
+  },
+  "POLICE_TAUNT_3": {
+    "description": "",
+    "message": "Idiot, Verbrechen zahlt sich nicht aus!"
+  },
+  "RESPECT_THE_LAW_1": {
+    "description": "",
+    "message": "Halten Sie sich an die Gesetze! Das Verbrechen zahlt sich im System „{system}“ nicht aus!"
+  },
+  "RESPECT_THE_LAW_2": {
+    "description": "",
+    "message": "Sie haben das System „{system}“ erreicht. Beachten Sie die Gesetze!"
+  },
+  "TAKE_A_HIKE": {
+    "description": "",
+    "message": "Okay, Sie kriegen eine zweite Chance. Verschwinden Sie!"
+  }
 }

@@ -1,698 +1,698 @@
 {
-   "AU" : {
-      "description" : "",
-      "message" : "AB"
-   },
-   "BOARDED_PASSENGER" : {
-      "description" : "",
-      "message" : "{name} gemiye bindi."
-   },
-   "COMMODITIES" : {
-      "description" : "",
-      "message" : "Mallar"
-   },
-   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
-      "description" : "",
-      "message" : "İlk isteğinizi tekrarlar mısınız?"
-   },
-   "CREW" : {
-      "description" : "",
-      "message" : "Mürettebat"
-   },
-   "DEADLINE" : {
-      "description" : "",
-      "message" : "Bitiş:"
-   },
-   "DELIVERED_PASSENGER" : {
-      "description" : "",
-      "message" : "{name} gemiden ayrıldı."
-   },
-   "DELIVERY" : {
-      "description" : "",
-      "message" : "TESLİMAT"
-   },
-   "DISTANCE" : {
-      "description" : "",
-      "message" : "Uzaklık:"
-   },
-   "ENTITY_FAMILY_BUSINESS_1" : {
-      "description" : "",
-      "message" : "{name} ve Oğulları"
-   },
-   "ENTITY_FAMILY_BUSINESS_10" : {
-      "description" : "",
-      "message" : "{name} Taksi Hizmetleri"
-   },
-   "ENTITY_FAMILY_BUSINESS_2" : {
-      "description" : "",
-      "message" : "{name} ve Kızları"
-   },
-   "ENTITY_FAMILY_BUSINESS_3" : {
-      "description" : "",
-      "message" : "{name} {locality} Çiçekleri"
-   },
-   "ENTITY_FAMILY_BUSINESS_4" : {
-      "description" : "",
-      "message" : "{name} Boyanmış Füzeler"
-   },
-   "ENTITY_FAMILY_BUSINESS_5" : {
-      "description" : "",
-      "message" : "{name} Kurye Servisleri"
-   },
-   "ENTITY_FAMILY_BUSINESS_6" : {
-      "description" : "",
-      "message" : "{name} Uzay Hayvanları"
-   },
-   "ENTITY_FAMILY_BUSINESS_7" : {
-      "description" : "",
-      "message" : "{name} & {name}"
-   },
-   "ENTITY_FAMILY_BUSINESS_8" : {
-      "description" : "",
-      "message" : "{name} Otantik {locality} Yemekleri"
-   },
-   "ENTITY_FAMILY_BUSINESS_9" : {
-      "description" : "",
-      "message" : "{name} Nakliyat"
-   },
-   "ENTITY_GENERAL_1" : {
-      "description" : "",
-      "message" : "{locality} Maden Arama Inc"
-   },
-   "ENTITY_GENERAL_10" : {
-      "description" : "",
-      "message" : "{locality} Sonsuz Enerji"
-   },
-   "ENTITY_GENERAL_2" : {
-      "description" : "",
-      "message" : "{locality} Ekolojik Koruma Topluluğu"
-   },
-   "ENTITY_GENERAL_3" : {
-      "description" : "",
-      "message" : "{locality} Insan Hakları Grupları"
-   },
-   "ENTITY_GENERAL_4" : {
-      "description" : "",
-      "message" : "{locality} Madenci Hakları Ofisi"
-   },
-   "ENTITY_GENERAL_5" : {
-      "description" : "",
-      "message" : "{locality} Toprak Sahipleri Birliği"
-   },
-   "ENTITY_GENERAL_6" : {
-      "description" : "",
-      "message" : "{locality} İstatistik Enstitüsü"
-   },
-   "ENTITY_GENERAL_7" : {
-      "description" : "",
-      "message" : "KozmoSeyahat'in {locality} şubesi"
-   },
-   "ENTITY_GENERAL_8" : {
-      "description" : "",
-      "message" : "{locality} iUydu Ltd"
-   },
-   "ENTITY_GENERAL_9" : {
-      "description" : "",
-      "message" : "{locality} Gömme Hizmetleri Şir"
-   },
-   "ENTITY_RESEARCH_1" : {
-      "description" : "",
-      "message" : "{locality} Biyoloji Topluluğu"
-   },
-   "ENTITY_RESEARCH_10" : {
-      "description" : "",
-      "message" : "{locality} Zoolojik Araştırma Merkezi"
-   },
-   "ENTITY_RESEARCH_2" : {
-      "description" : "",
-      "message" : "{locality} Mikrobiyoloji Topluluğu"
-   },
-   "ENTITY_RESEARCH_3" : {
-      "description" : "",
-      "message" : "{locality} Kimya Topluluğu"
-   },
-   "ENTITY_RESEARCH_4" : {
-      "description" : "",
-      "message" : "{locality} Astrobiyoloji Topluluğu"
-   },
-   "ENTITY_RESEARCH_5" : {
-      "description" : "",
-      "message" : "{locality} Jeoloji Topluluğu"
-   },
-   "ENTITY_RESEARCH_6" : {
-      "description" : "",
-      "message" : "{locality} Astropaleontoloji Toluluğu"
-   },
-   "ENTITY_RESEARCH_7" : {
-      "description" : "",
-      "message" : "{locality} Astrofizik Araştırma Merkezi"
-   },
-   "ENTITY_RESEARCH_8" : {
-      "description" : "",
-      "message" : "{locality} Astrokimya Araştırma Merkezi"
-   },
-   "ENTITY_RESEARCH_9" : {
-      "description" : "",
-      "message" : "{locality} Botanik Merkezi"
-   },
-   "EQUIPMENT" : {
-      "description" : "",
-      "message" : "Bu görev için yeterince donanımınız yok. {unit} {equipment} gerekli."
-   },
-   "FLAVOUR_1_ADTEXT" : {
-      "description" : "",
-      "message" : "GEMİ {planet} ÜZERİNE ACİL İNİŞ YAPTI"
-   },
-   "FLAVOUR_1_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Şu an döndüğüne inanamıyorum! Ne kadar zaman boşa gitti!"
-   },
-   "FLAVOUR_1_HOWMUCHTIMETEXT" : {
-      "description" : "",
-      "message" : "Giderlerinizin karşılanması için {due} tarihinden önce geri dönmelisiniz."
-   },
-   "FLAVOUR_1_INTROTEXT" : {
-      "description" : "",
-      "message" : "{starport} hava trafik kontrolü {planet} üzerine acil iniş yapan {ship} türü bir gemiye ACİL yardım götürmene ihtiyaç duyuyor! Hayat destek ünitesinin durumu bilinmiyor. Bu gemi {starport} istasyonu güvencesinde ve acil yardım için {cash} teklif ediyor."
-   },
-   "FLAVOUR_1_LOCATIONTEXT" : {
-      "description" : "",
-      "message" : "Bu geminin son bilinen konumu {planet} gezegeninde şu enlem/boylam koordinatlarında: {lat} / {long}. Gemi ID'si {shiplabel}."
-   },
-   "FLAVOUR_1_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Teşekkürler, bu içimizi rahatlattı! Parayı hemen teslim ediyoruz."
-   },
-   "FLAVOUR_1_TRANSFERMSG" : {
-      "description" : "",
-      "message" : "{unit} gemiye bindi."
-   },
-   "FLAVOUR_1_TYPEOFHELPTEXT" : {
-      "description" : "",
-      "message" : "{crew} kadar mürettebatın ve {pass} kadar yolcunun gemide olduğu biliniyor. Gemiyi bulup sağ kalanları alacak ve buraya getirecek birine ihtiyacımız var."
-   },
-   "FLAVOUR_2_ADTEXT" : {
-      "description" : "",
-      "message" : "{starport} yolunda GEMİNİN YAKITI BİTTİ"
-   },
-   "FLAVOUR_2_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Beni bu kadar beklettiğine inanamıyorum! Ödemeni unut!"
-   },
-   "FLAVOUR_2_HOWMUCHTIMETEXT" : {
-      "description" : "",
-      "message" : "Tam ödemeyi alabilmek için yakıtı {due} tarihinden önce teslim etmen gerekiyor."
-   },
-   "FLAVOUR_2_INTROTEXT" : {
-      "description" : "",
-      "message" : "{starport} hava trafik kontrolü, yaklaşmada olan {shiplabel} uçuşunun yakıtı bittiğini ve acil iniş yapmak zorunda kaldığını öğrendi. Pilot, yakıt almak için {cash} ödemeyi teklif ediyor."
-   },
-   "FLAVOUR_2_LOCATIONTEXT" : {
-      "description" : "",
-      "message" : "Gemi şu an {planet} üzerinde {lat} enlemi / {long} boylamında bekliyor."
-   },
-   "FLAVOUR_2_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Çok teşekkürler! Bütün ödülü hesabınıza aktardım."
-   },
-   "FLAVOUR_2_TRANSFERMSG" : {
-      "description" : "",
-      "message" : "{unit} tonluk yakıt aktarıldı."
-   },
-   "FLAVOUR_2_TYPEOFHELPTEXT" : {
-      "description" : "",
-      "message" : "Pilot {unit} tonluk {cargo} istiyor."
-   },
-   "FLAVOUR_3_ADTEXT" : {
-      "description" : "",
-      "message" : "{starport} yakınındaki gemide TIBBİ VAKA"
-   },
-   "FLAVOUR_3_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Kabul edilemez performans! Kayıtlarımızı hemen düzenleyeceğiz."
-   },
-   "FLAVOUR_3_HOWMUCHTIMETEXT" : {
-      "description" : "",
-      "message" : "Yedek pilot gemiye {due} tarihine kadar ulaşmış olmalı."
-   },
-   "FLAVOUR_3_INTROTEXT" : {
-      "description" : "",
-      "message" : "Ben {starport} hava trafik kontrolünden {name}. {starport} istikametinde ilerlerken mahsur kalan {shiplabel} uçuşuna medikal yardım gerekiyor."
-   },
-   "FLAVOUR_3_LOCATIONTEXT" : {
-      "description" : "",
-      "message" : "Gemi şu koordinatlara acil iniş yapmak zorunda kaldı: {lat} / {long}."
-   },
-   "FLAVOUR_3_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Teşekkürler, kaptan! Yardımınız unutulmayacak."
-   },
-   "FLAVOUR_3_TRANSFERMSG" : {
-      "description" : "",
-      "message" : "{unit} gemiden ayrıldı."
-   },
-   "FLAVOUR_3_TYPEOFHELPTEXT" : {
-      "description" : "",
-      "message" : "Lütfen gemiyi {starport} istasyonuna geri döndürecek bir pilotu ulaştırın."
-   },
-   "FLAVOUR_4_ADTEXT" : {
-      "description" : "",
-      "message" : "{planet} üzerinde GEMİNİN YAKITI BİTTİ"
-   },
-   "FLAVOUR_4_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Başka birini göndereceğim. Artık zahmet etme."
-   },
-   "FLAVOUR_4_HOWMUCHTIMETEXT" : {
-      "description" : "",
-      "message" : "Pilot, tam ödeme için yakıtın {due} tarihinden önce teslim edilmesini istiyor."
-   },
-   "FLAVOUR_4_INTROTEXT" : {
-      "description" : "",
-      "message" : "{shiplabel} gemisinin pilotu {starport} hava trafik kontrolü ile iletişim kurdu. Boş bir yakıt tankı ile mahsur kalan mürettebat, kendilerine yakıt yardımı yapacak kişiye {cash} teklif ediyor."
-   },
-   "FLAVOUR_4_LOCATIONTEXT" : {
-      "description" : "",
-      "message" : "Gemi {planet} gezegeninde {lat} / {long} koordinatlarında mahsur."
-   },
-   "FLAVOUR_4_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Çok güzel. Gelecek görevler için sizi önereceğiz."
-   },
-   "FLAVOUR_4_TRANSFERMSG" : {
-      "description" : "",
-      "message" : "{unit} tonluk yakıt aktarıldı."
-   },
-   "FLAVOUR_4_TYPEOFHELPTEXT" : {
-      "description" : "",
-      "message" : "Pilot {unit} tonluk {cargo} istiyor."
-   },
-   "FLAVOUR_5_ADTEXT" : {
-      "description" : "",
-      "message" : "{starport} yakınında GEMİNİN YAKITI BİTTİ"
-   },
-   "FLAVOUR_5_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Artık insanlara güven kalmadı."
-   },
-   "FLAVOUR_5_HOWMUCHTIMETEXT" : {
-      "description" : "",
-      "message" : "Lütfen yakıt aktarımı {due} tarihine kadar yapılmış olsun."
-   },
-   "FLAVOUR_5_INTROTEXT" : {
-      "description" : "",
-      "message" : "{starport} hava trafik kontrolü {shiplabel} ID'li gemiyi yakıtı bitmiş bir şekilde sürüklenirken tespit etti. {starport} istasyonuna gelmeleri için gerekn yakıtı verecek kişiye {cash} ödeyeceğiz."
-   },
-   "FLAVOUR_5_LOCATIONTEXT" : {
-      "description" : "",
-      "message" : "Hedef gemi şu an buradan {dist} km uzaklıkta. Tam konumu kendiniz belirlemeniz gerekecek."
-   },
-   "FLAVOUR_5_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Görevi vakitli bir şekilde tamamlamanızı unutmayacağız."
-   },
-   "FLAVOUR_5_TRANSFERMSG" : {
-      "description" : "",
-      "message" : "{unit} tonluk yakıt aktarıldı."
-   },
-   "FLAVOUR_5_TYPEOFHELPTEXT" : {
-      "description" : "",
-      "message" : "Gemiye {unit} tonluk {cargo} teslim edilmesini istiyoruz."
-   },
-   "FLAVOUR_6_ADTEXT" : {
-      "description" : "",
-      "message" : "{system} sisteminde YANIT VERMEYEN ARAÇ"
-   },
-   "FLAVOUR_6_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Bu bir felaket! Bu zavallı iş arkadaşlarımıza resmen bir ölüm fermanı!"
-   },
-   "FLAVOUR_6_HOWMUCHTIMETEXT" : {
-      "description" : "",
-      "message" : "{due} tarihine dek dönmüş olmalısın."
-   },
-   "FLAVOUR_6_INTROTEXT" : {
-      "description" : "",
-      "message" : "Ben {entity} şirketinden {name}. {problem} dolayısıyla {ship} {shiplabel} gemimizle iletişimimizi kaybettik. Acil yardım için {cash} teklif ediyoruz."
-   },
-   "FLAVOUR_6_LOCATIONTEXT" : {
-      "description" : "",
-      "message" : "Son bilinen konum {dist} ıy uzaklıktaki {system} [{sectorx},{sectory},{sectorz}] sisteminde {planet} gezegeni yakınlarındaydı."
-   },
-   "FLAVOUR_6_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Teşekkür ederim! Nasıl rahatladığımızı hayal edemezsiniz."
-   },
-   "FLAVOUR_6_TRANSFERMSG" : {
-      "description" : "",
-      "message" : "{unit} gemiye bindi."
-   },
-   "FLAVOUR_6_TYPEOFHELPTEXT" : {
-      "description" : "",
-      "message" : "Hemen yola koyulup iş arkadaşlarımızı {starport} istasyonuna döndürecek birine ihtiyacım var, hala hayatta olmalılar. Gemide {crew} mürettebat ve {pass} yolcu vardı."
-   },
-   "FLAVOUR_7_ADTEXT" : {
-      "description" : "",
-      "message" : "{system} sistemine ACİL MÜRETTEBAT AKTARIMI isteniyor"
-   },
-   "FLAVOUR_7_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Çok teşekkürler, ama çok geç kaldın!"
-   },
-   "FLAVOUR_7_HOWMUCHTIMETEXT" : {
-      "description" : "",
-      "message" : "Yeni mürettebat {due} tarihinden önce gemiye ulaşmalı."
-   },
-   "FLAVOUR_7_INTROTEXT" : {
-      "description" : "",
-      "message" : "Ben {entity} şirketinden {name}. Tek gemimiz, {ship} {shiplabel}, {problem} dolayısıyla {crew} mürettebatıyla birlikte mahsur kaldı. Acil yardım için {cash} teklif ediyorum."
-   },
-   "FLAVOUR_7_LOCATIONTEXT" : {
-      "description" : "",
-      "message" : "Gemiyi {dist} ıy uzaklıktaki {system} [{sectorx},{sectory},{sectorz}] sisteminde bulabilirsin. {planet} etrafında bir yörüngede tutuluyor."
-   },
-   "FLAVOUR_7_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Teşekkürler! Tam ödemeyi yapmak için izin aldım."
-   },
-   "FLAVOUR_7_TRANSFERMSG" : {
-      "description" : "",
-      "message" : "{unit} hedef gemiye aktarıldı."
-   },
-   "FLAVOUR_7_TYPEOFHELPTEXT" : {
-      "description" : "",
-      "message" : "Gemiyi minimum mürettebat olmadan geri döndüremeyiz. Yıldız gemimize acilen {deliver_crew} kişilik yeni bir mürettebat gönderecek birini arıyorum."
-   },
-   "FULL_CARGO" : {
-      "description" : "",
-      "message" : "Gemi doldu. Daha fazla kargo için alan yok."
-   },
-   "FULL_CREW" : {
-      "description" : "",
-      "message" : "Mürettebat listesi dolu. Daha faza mürettebat için yer yok."
-   },
-   "FULL_PASSENGERS" : {
-      "description" : "",
-      "message" : "Tüm kabinler dolu. Daha fazla yolcu için yer yok."
-   },
-   "HOW_FAR" : {
-      "description" : "",
-      "message" : "Hedef ne kadar uzakta?"
-   },
-   "HOW_MUCH_TIME" : {
-      "description" : "",
-      "message" : "Ne kadar zamanım var?"
-   },
-   "INTERACTION_ABORTED" : {
-      "description" : "",
-      "message" : "Etkileşim iptal edildi. Lütfen daha yakına gelip tekrar deneyin."
-   },
-   "INTERACTION_DISTANCE_REACHED" : {
-      "description" : "",
-      "message" : "Etkileşim mesafesine ulaşıldı."
-   },
-   "IT_MUST_BE_COMPLETED_BY" : {
-      "description" : "",
-      "message" : "Şu tarihten önce tamamlanmalı:"
-   },
-   "KM" : {
-      "description" : "",
-      "message" : "km"
-   },
-   "LAST_KNOWN_LOCATION" : {
-      "description" : "",
-      "message" : "Son bilinen konum:"
-   },
-   "LAT" : {
-      "description" : "",
-      "message" : "Enl:"
-   },
-   "LON" : {
-      "description" : "",
-      "message" : "Boy:"
-   },
-   "LY" : {
-      "description" : "",
-      "message" : "ıy"
-   },
-   "MISSING_COMM" : {
-      "description" : "",
-      "message" : "Aktarım tamamlanamıyor. {cargotype} eksik."
-   },
-   "MISSING_CREW" : {
-      "description" : "",
-      "message" : "Aktarım tamamlanamıyor. Mürettebat eksik."
-   },
-   "MISSING_PASS" : {
-      "description" : "",
-      "message" : "Yolcular eksik. Aktarma tamamlanamadı."
-   },
-   "MISSING_PASSENGER" : {
-      "description" : "",
-      "message" : "Aktarım tamamlanamıyor. Yolcu eksik."
-   },
-   "OK_AGREED" : {
-      "description" : "",
-      "message" : "Tamam, anlaştık."
-   },
-   "ORBIT" : {
-      "description" : "",
-      "message" : "Yörünge"
-   },
-   "PARTIAL" : {
-      "description" : "",
-      "message" : "Emekleriniz için teşekkürler. Umarım görevi tamamlamak üzere geri dönersiniz!"
-   },
-   "PASSENGERS" : {
-      "description" : "",
-      "message" : "Yolcular"
-   },
-   "PAYMENT_LOCATION" : {
-      "description" : "",
-      "message" : "Ödeme noktası:"
-   },
-   "PICKUP" : {
-      "description" : "",
-      "message" : "TAŞIMA"
-   },
-   "PLACE_OF_ASSISTANCE" : {
-      "description" : "",
-      "message" : "Yardım yerinde"
-   },
-   "PLEASE_LAND" : {
-      "description" : "",
-      "message" : "Lütfen aktarım için gemiyi indirin."
-   },
-   "PROBLEM_CREW_1" : {
-      "description" : "",
-      "message" : "mürettebat içindeki ölümcül bir kavga"
-   },
-   "PROBLEM_CREW_10" : {
-      "description" : "",
-      "message" : "bir isyan"
-   },
-   "PROBLEM_CREW_2" : {
-      "description" : "",
-      "message" : "mürettebat {locality} taraflarından gelen ölümcül bir yılanı kovalamak zorunda kaldı"
-   },
-   "PROBLEM_CREW_3" : {
-      "description" : "",
-      "message" : "{locality} örümceği diğer hepsini öldürdü"
-   },
-   "PROBLEM_CREW_4" : {
-      "description" : "",
-      "message" : "{locality} akrebinin biri gece mürettebat koğuşlarına girmiş gibi görünüyor"
-   },
-   "PROBLEM_CREW_5" : {
-      "description" : "",
-      "message" : "{locality} gribinin tehlikeli bir türü diğerlerini öldürdü"
-   },
-   "PROBLEM_CREW_6" : {
-      "description" : "",
-      "message" : "mürettebatın kalanı uzay yürüyüşünden geriye dönmedi"
-   },
-   "PROBLEM_CREW_7" : {
-      "description" : "",
-      "message" : "gemideki tehlikeli bir gıda zehirlenmesi"
-   },
-   "PROBLEM_CREW_8" : {
-      "description" : "",
-      "message" : "diğer herkesin uzaya fırlamasına sebep olan kötü bir kaza"
-   },
-   "PROBLEM_CREW_9" : {
-      "description" : "",
-      "message" : "alenen açıklayamayacağım bir durum"
-   },
-   "PROBLEM_GENERAL_1" : {
-      "description" : "",
-      "message" : "kargo bölümündeki bir yangın"
-   },
-   "PROBLEM_GENERAL_10" : {
-      "description" : "",
-      "message" : "{locality} civarlarından alınan bir yardım çağrısı"
-   },
-   "PROBLEM_GENERAL_2" : {
-      "description" : "",
-      "message" : "motor çekirdeğindeki bir güç kaybı"
-   },
-   "PROBLEM_GENERAL_3" : {
-      "description" : "",
-      "message" : "bir hava kaçağı"
-   },
-   "PROBLEM_GENERAL_4" : {
-      "description" : "",
-      "message" : "gemideki bütün personeli etkileyen güçlü bir gıda zehirlenmesi"
-   },
-   "PROBLEM_GENERAL_5" : {
-      "description" : "",
-      "message" : "küçük bir göktaşı çarpışması"
-   },
-   "PROBLEM_GENERAL_6" : {
-      "description" : "",
-      "message" : "mürettebat içindeki bir kavga"
-   },
-   "PROBLEM_GENERAL_7" : {
-      "description" : "",
-      "message" : "tanımlanamayan bir cisimle temas"
-   },
-   "PROBLEM_GENERAL_8" : {
-      "description" : "",
-      "message" : "rakip gemiyle bir tartışma"
-   },
-   "PROBLEM_GENERAL_9" : {
-      "description" : "",
-      "message" : "ana bilgisayarın yeniden başlatılması"
-   },
-   "PROBLEM_RESEARCH_1" : {
-      "description" : "",
-      "message" : "tepkime bölmelerinden birinde beklenmedik bir kimyasal tepkime"
-   },
-   "PROBLEM_RESEARCH_10" : {
-      "description" : "",
-      "message" : "{locality} civarlarında tespit edilen ancak henüz açıklayamayacağım büyük bir keşif"
-   },
-   "PROBLEM_RESEARCH_2" : {
-      "description" : "",
-      "message" : "{locality} civarlarına özgü bir patojenden etkilenen mürettebat"
-   },
-   "PROBLEM_RESEARCH_3" : {
-      "description" : "",
-      "message" : "deneysel patojenlerin hava destek ünitesine saçılması"
-   },
-   "PROBLEM_RESEARCH_4" : {
-      "description" : "",
-      "message" : "mürettebatın {locality} civarlarından toplanan numunelere maruz kalması"
-   },
-   "PROBLEM_RESEARCH_5" : {
-      "description" : "",
-      "message" : "duman filtrelerinden birindeki kimyasal patlama"
-   },
-   "PROBLEM_RESEARCH_6" : {
-      "description" : "",
-      "message" : "{locality} atmosferinin taklit edilmesi deneyi"
-   },
-   "PROBLEM_RESEARCH_7" : {
-      "description" : "",
-      "message" : "gemideki bilim adamlarının arasındaki tehlikeli anlaşmazlık"
-   },
-   "PROBLEM_RESEARCH_8" : {
-      "description" : "",
-      "message" : "gemideki baş müfettişin aniden ortadan kaybolması"
-   },
-   "PROBLEM_RESEARCH_9" : {
-      "description" : "",
-      "message" : "{locality} civarlarında toplanan uyumsuz numunelerin bir araya gelmesi"
-   },
-   "RESULT_DELIVERY_COMM" : {
-      "description" : "",
-      "message" : "Hedef gemiye {todo} tonluk {cargotype}'ın {done} tonluk kısmı aktarıldı."
-   },
-   "RESULT_DELIVERY_CREW" : {
-      "description" : "",
-      "message" : "Hedef gemiye {todo} mürettebatın {done} kadarı aktarıldı."
-   },
-   "RESULT_DELIVERY_PASS" : {
-      "description" : "",
-      "message" : "Hedef gemiye {todo} yolcunun {done} kadarı aktarıldı."
-   },
-   "RESULT_PICKUP_COMM" : {
-      "description" : "",
-      "message" : "Hedef gemiden {todo} tonluk {cargotype}'ın {done} tonu alındı."
-   },
-   "RESULT_PICKUP_CREW" : {
-      "description" : "",
-      "message" : "Hedef gemiden {todo} mürettebatın {done} kadarı alındı."
-   },
-   "RESULT_PICKUP_PASS" : {
-      "description" : "",
-      "message" : "Hedef gemiden {todo} yolcunun {done} kadarı alındı."
-   },
-   "RETURN_TO" : {
-      "description" : "",
-      "message" : "Şuraya dön:"
-   },
-   "REWARD" : {
-      "description" : "",
-      "message" : "Ödül:"
-   },
-   "SEARCH_RESCUE" : {
-      "description" : "",
-      "message" : "Arama & Kurtarma"
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Navigasyon hedefi olarak seç"
-   },
-   "SET_RETURN_ROUTE" : {
-      "description" : "",
-      "message" : "Dönüş yolunu seç"
-   },
-   "SHIP_UNRESPONSIVE" : {
-      "description" : "",
-      "message" : "Hedef gemi yanıt vermiyor."
-   },
-   "SYSTEM" : {
-      "description" : "",
-      "message" : "Sistem:"
-   },
-   "TARGET_SHIP_ID" : {
-      "description" : "",
-      "message" : "Hedef gemi ID'si:"
-   },
-   "THANK_YOU_ACCEPTANCE_TXT" : {
-      "description" : "",
-      "message" : "Çok teşekkür ederim. Yardımınız büyük takdir gördü."
-   },
-   "TONS_OF_FREE_CARGO_SPACE" : {
-      "description" : "",
-      "message" : "tonluk boş kargo alanı"
-   },
-   "TRANSFER_ABORTED" : {
-      "description" : "",
-      "message" : "Aktarım iptal edildi!"
-   },
-   "TRANSFER_COMPLETE" : {
-      "description" : "",
-      "message" : "Aktarım tamamlandı."
-   },
-   "TRANSFER_PARTIAL" : {
-      "description" : "",
-      "message" : "Aktarım kısmen tamamlandı. Lütfen aktarımı tamamlamak için geri dönün."
-   },
-   "TRANSFER_TIME" : {
-      "description" : "",
-      "message" : "Lütfen aktarım için {minutes} dakika bekleyin."
-   },
-   "TYPE_OF_HELP" : {
-      "description" : "",
-      "message" : "Ne tür yardım gerekiyor?"
-   },
-   "UNOCCUPIED_PASSENGER_CABINS" : {
-      "description" : "",
-      "message" : "boş yolcu kabini"
-   },
-   "WHERE_IS_THE_TARGET" : {
-      "description" : "",
-      "message" : "Hedefi nerede bulabilirim?"
-   }
+  "AU": {
+    "description": "",
+    "message": "AB"
+  },
+  "BOARDED_PASSENGER": {
+    "description": "",
+    "message": "{name} gemiye bindi."
+  },
+  "COMMODITIES": {
+    "description": "",
+    "message": "Mallar"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "İlk isteğinizi tekrarlar mısınız?"
+  },
+  "CREW": {
+    "description": "",
+    "message": "Mürettebat"
+  },
+  "DEADLINE": {
+    "description": "",
+    "message": "Bitiş:"
+  },
+  "DELIVERED_PASSENGER": {
+    "description": "",
+    "message": "{name} gemiden ayrıldı."
+  },
+  "DELIVERY": {
+    "description": "",
+    "message": "TESLİMAT"
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "Uzaklık:"
+  },
+  "ENTITY_FAMILY_BUSINESS_1": {
+    "description": "",
+    "message": "{name} ve Oğulları"
+  },
+  "ENTITY_FAMILY_BUSINESS_10": {
+    "description": "",
+    "message": "{name} Taksi Hizmetleri"
+  },
+  "ENTITY_FAMILY_BUSINESS_2": {
+    "description": "",
+    "message": "{name} ve Kızları"
+  },
+  "ENTITY_FAMILY_BUSINESS_3": {
+    "description": "",
+    "message": "{name} {locality} Çiçekleri"
+  },
+  "ENTITY_FAMILY_BUSINESS_4": {
+    "description": "",
+    "message": "{name} Boyanmış Füzeler"
+  },
+  "ENTITY_FAMILY_BUSINESS_5": {
+    "description": "",
+    "message": "{name} Kurye Servisleri"
+  },
+  "ENTITY_FAMILY_BUSINESS_6": {
+    "description": "",
+    "message": "{name} Uzay Hayvanları"
+  },
+  "ENTITY_FAMILY_BUSINESS_7": {
+    "description": "",
+    "message": "{name} & {name}"
+  },
+  "ENTITY_FAMILY_BUSINESS_8": {
+    "description": "",
+    "message": "{name} Otantik {locality} Yemekleri"
+  },
+  "ENTITY_FAMILY_BUSINESS_9": {
+    "description": "",
+    "message": "{name} Nakliyat"
+  },
+  "ENTITY_GENERAL_1": {
+    "description": "",
+    "message": "{locality} Maden Arama Inc"
+  },
+  "ENTITY_GENERAL_10": {
+    "description": "",
+    "message": "{locality} Sonsuz Enerji"
+  },
+  "ENTITY_GENERAL_2": {
+    "description": "",
+    "message": "{locality} Ekolojik Koruma Topluluğu"
+  },
+  "ENTITY_GENERAL_3": {
+    "description": "",
+    "message": "{locality} Insan Hakları Grupları"
+  },
+  "ENTITY_GENERAL_4": {
+    "description": "",
+    "message": "{locality} Madenci Hakları Ofisi"
+  },
+  "ENTITY_GENERAL_5": {
+    "description": "",
+    "message": "{locality} Toprak Sahipleri Birliği"
+  },
+  "ENTITY_GENERAL_6": {
+    "description": "",
+    "message": "{locality} İstatistik Enstitüsü"
+  },
+  "ENTITY_GENERAL_7": {
+    "description": "",
+    "message": "KozmoSeyahat'in {locality} şubesi"
+  },
+  "ENTITY_GENERAL_8": {
+    "description": "",
+    "message": "{locality} iUydu Ltd"
+  },
+  "ENTITY_GENERAL_9": {
+    "description": "",
+    "message": "{locality} Gömme Hizmetleri Şir"
+  },
+  "ENTITY_RESEARCH_1": {
+    "description": "",
+    "message": "{locality} Biyoloji Topluluğu"
+  },
+  "ENTITY_RESEARCH_10": {
+    "description": "",
+    "message": "{locality} Zoolojik Araştırma Merkezi"
+  },
+  "ENTITY_RESEARCH_2": {
+    "description": "",
+    "message": "{locality} Mikrobiyoloji Topluluğu"
+  },
+  "ENTITY_RESEARCH_3": {
+    "description": "",
+    "message": "{locality} Kimya Topluluğu"
+  },
+  "ENTITY_RESEARCH_4": {
+    "description": "",
+    "message": "{locality} Astrobiyoloji Topluluğu"
+  },
+  "ENTITY_RESEARCH_5": {
+    "description": "",
+    "message": "{locality} Jeoloji Topluluğu"
+  },
+  "ENTITY_RESEARCH_6": {
+    "description": "",
+    "message": "{locality} Astropaleontoloji Toluluğu"
+  },
+  "ENTITY_RESEARCH_7": {
+    "description": "",
+    "message": "{locality} Astrofizik Araştırma Merkezi"
+  },
+  "ENTITY_RESEARCH_8": {
+    "description": "",
+    "message": "{locality} Astrokimya Araştırma Merkezi"
+  },
+  "ENTITY_RESEARCH_9": {
+    "description": "",
+    "message": "{locality} Botanik Merkezi"
+  },
+  "EQUIPMENT": {
+    "description": "",
+    "message": "Bu görev için yeterince donanımınız yok. {unit} {equipment} gerekli."
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "GEMİ {planet} ÜZERİNE ACİL İNİŞ YAPTI"
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "Şu an döndüğüne inanamıyorum! Ne kadar zaman boşa gitti!"
+  },
+  "FLAVOUR_1_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "Giderlerinizin karşılanması için {due} tarihinden önce geri dönmelisiniz."
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "",
+    "message": "{starport} hava trafik kontrolü {planet} üzerine acil iniş yapan {ship} türü bir gemiye ACİL yardım götürmene ihtiyaç duyuyor! Hayat destek ünitesinin durumu bilinmiyor. Bu gemi {starport} istasyonu güvencesinde ve acil yardım için {cash} teklif ediyor."
+  },
+  "FLAVOUR_1_LOCATIONTEXT": {
+    "description": "",
+    "message": "Bu geminin son bilinen konumu {planet} gezegeninde şu enlem/boylam koordinatlarında: {lat} / {long}. Gemi ID'si {shiplabel}."
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "Teşekkürler, bu içimizi rahatlattı! Parayı hemen teslim ediyoruz."
+  },
+  "FLAVOUR_1_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} gemiye bindi."
+  },
+  "FLAVOUR_1_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "{crew} kadar mürettebatın ve {pass} kadar yolcunun gemide olduğu biliniyor. Gemiyi bulup sağ kalanları alacak ve buraya getirecek birine ihtiyacımız var."
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "{starport} yolunda GEMİNİN YAKITI BİTTİ"
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "Beni bu kadar beklettiğine inanamıyorum! Ödemeni unut!"
+  },
+  "FLAVOUR_2_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "Tam ödemeyi alabilmek için yakıtı {due} tarihinden önce teslim etmen gerekiyor."
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "{starport} hava trafik kontrolü, yaklaşmada olan {shiplabel} uçuşunun yakıtı bittiğini ve acil iniş yapmak zorunda kaldığını öğrendi. Pilot, yakıt almak için {cash} ödemeyi teklif ediyor."
+  },
+  "FLAVOUR_2_LOCATIONTEXT": {
+    "description": "",
+    "message": "Gemi şu an {planet} üzerinde {lat} enlemi / {long} boylamında bekliyor."
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Çok teşekkürler! Bütün ödülü hesabınıza aktardım."
+  },
+  "FLAVOUR_2_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} tonluk yakıt aktarıldı."
+  },
+  "FLAVOUR_2_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "Pilot {unit} tonluk {cargo} istiyor."
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "{starport} yakınındaki gemide TIBBİ VAKA"
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "Kabul edilemez performans! Kayıtlarımızı hemen düzenleyeceğiz."
+  },
+  "FLAVOUR_3_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "Yedek pilot gemiye {due} tarihine kadar ulaşmış olmalı."
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": "Ben {starport} hava trafik kontrolünden {name}. {starport} istikametinde ilerlerken mahsur kalan {shiplabel} uçuşuna medikal yardım gerekiyor."
+  },
+  "FLAVOUR_3_LOCATIONTEXT": {
+    "description": "",
+    "message": "Gemi şu koordinatlara acil iniş yapmak zorunda kaldı: {lat} / {long}."
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "Teşekkürler, kaptan! Yardımınız unutulmayacak."
+  },
+  "FLAVOUR_3_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} gemiden ayrıldı."
+  },
+  "FLAVOUR_3_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "Lütfen gemiyi {starport} istasyonuna geri döndürecek bir pilotu ulaştırın."
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "{planet} üzerinde GEMİNİN YAKITI BİTTİ"
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "Başka birini göndereceğim. Artık zahmet etme."
+  },
+  "FLAVOUR_4_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "Pilot, tam ödeme için yakıtın {due} tarihinden önce teslim edilmesini istiyor."
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "{shiplabel} gemisinin pilotu {starport} hava trafik kontrolü ile iletişim kurdu. Boş bir yakıt tankı ile mahsur kalan mürettebat, kendilerine yakıt yardımı yapacak kişiye {cash} teklif ediyor."
+  },
+  "FLAVOUR_4_LOCATIONTEXT": {
+    "description": "",
+    "message": "Gemi {planet} gezegeninde {lat} / {long} koordinatlarında mahsur."
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "Çok güzel. Gelecek görevler için sizi önereceğiz."
+  },
+  "FLAVOUR_4_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} tonluk yakıt aktarıldı."
+  },
+  "FLAVOUR_4_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "Pilot {unit} tonluk {cargo} istiyor."
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "{starport} yakınında GEMİNİN YAKITI BİTTİ"
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "Artık insanlara güven kalmadı."
+  },
+  "FLAVOUR_5_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "Lütfen yakıt aktarımı {due} tarihine kadar yapılmış olsun."
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "{starport} hava trafik kontrolü {shiplabel} ID'li gemiyi yakıtı bitmiş bir şekilde sürüklenirken tespit etti. {starport} istasyonuna gelmeleri için gerekn yakıtı verecek kişiye {cash} ödeyeceğiz."
+  },
+  "FLAVOUR_5_LOCATIONTEXT": {
+    "description": "",
+    "message": "Hedef gemi şu an buradan {dist} km uzaklıkta. Tam konumu kendiniz belirlemeniz gerekecek."
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "Görevi vakitli bir şekilde tamamlamanızı unutmayacağız."
+  },
+  "FLAVOUR_5_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} tonluk yakıt aktarıldı."
+  },
+  "FLAVOUR_5_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "Gemiye {unit} tonluk {cargo} teslim edilmesini istiyoruz."
+  },
+  "FLAVOUR_6_ADTEXT": {
+    "description": "",
+    "message": "{system} sisteminde YANIT VERMEYEN ARAÇ"
+  },
+  "FLAVOUR_6_FAILUREMSG": {
+    "description": "",
+    "message": "Bu bir felaket! Bu zavallı iş arkadaşlarımıza resmen bir ölüm fermanı!"
+  },
+  "FLAVOUR_6_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "{due} tarihine dek dönmüş olmalısın."
+  },
+  "FLAVOUR_6_INTROTEXT": {
+    "description": "",
+    "message": "Ben {entity} şirketinden {name}. {problem} dolayısıyla {ship} {shiplabel} gemimizle iletişimimizi kaybettik. Acil yardım için {cash} teklif ediyoruz."
+  },
+  "FLAVOUR_6_LOCATIONTEXT": {
+    "description": "",
+    "message": "Son bilinen konum {dist} ıy uzaklıktaki {system} [{sectorx},{sectory},{sectorz}] sisteminde {planet} gezegeni yakınlarındaydı."
+  },
+  "FLAVOUR_6_SUCCESSMSG": {
+    "description": "",
+    "message": "Teşekkür ederim! Nasıl rahatladığımızı hayal edemezsiniz."
+  },
+  "FLAVOUR_6_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} gemiye bindi."
+  },
+  "FLAVOUR_6_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "Hemen yola koyulup iş arkadaşlarımızı {starport} istasyonuna döndürecek birine ihtiyacım var, hala hayatta olmalılar. Gemide {crew} mürettebat ve {pass} yolcu vardı."
+  },
+  "FLAVOUR_7_ADTEXT": {
+    "description": "",
+    "message": "{system} sistemine ACİL MÜRETTEBAT AKTARIMI isteniyor"
+  },
+  "FLAVOUR_7_FAILUREMSG": {
+    "description": "",
+    "message": "Çok teşekkürler, ama çok geç kaldın!"
+  },
+  "FLAVOUR_7_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "Yeni mürettebat {due} tarihinden önce gemiye ulaşmalı."
+  },
+  "FLAVOUR_7_INTROTEXT": {
+    "description": "",
+    "message": "Ben {entity} şirketinden {name}. Tek gemimiz, {ship} {shiplabel}, {problem} dolayısıyla {crew} mürettebatıyla birlikte mahsur kaldı. Acil yardım için {cash} teklif ediyorum."
+  },
+  "FLAVOUR_7_LOCATIONTEXT": {
+    "description": "",
+    "message": "Gemiyi {dist} ıy uzaklıktaki {system} [{sectorx},{sectory},{sectorz}] sisteminde bulabilirsin. {planet} etrafında bir yörüngede tutuluyor."
+  },
+  "FLAVOUR_7_SUCCESSMSG": {
+    "description": "",
+    "message": "Teşekkürler! Tam ödemeyi yapmak için izin aldım."
+  },
+  "FLAVOUR_7_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} hedef gemiye aktarıldı."
+  },
+  "FLAVOUR_7_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "Gemiyi minimum mürettebat olmadan geri döndüremeyiz. Yıldız gemimize acilen {deliver_crew} kişilik yeni bir mürettebat gönderecek birini arıyorum."
+  },
+  "FULL_CARGO": {
+    "description": "",
+    "message": "Gemi doldu. Daha fazla kargo için alan yok."
+  },
+  "FULL_CREW": {
+    "description": "",
+    "message": "Mürettebat listesi dolu. Daha faza mürettebat için yer yok."
+  },
+  "FULL_PASSENGERS": {
+    "description": "",
+    "message": "Tüm kabinler dolu. Daha fazla yolcu için yer yok."
+  },
+  "HOW_FAR": {
+    "description": "",
+    "message": "Hedef ne kadar uzakta?"
+  },
+  "HOW_MUCH_TIME": {
+    "description": "",
+    "message": "Ne kadar zamanım var?"
+  },
+  "INTERACTION_ABORTED": {
+    "description": "",
+    "message": "Etkileşim iptal edildi. Lütfen daha yakına gelip tekrar deneyin."
+  },
+  "INTERACTION_DISTANCE_REACHED": {
+    "description": "",
+    "message": "Etkileşim mesafesine ulaşıldı."
+  },
+  "IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "Şu tarihten önce tamamlanmalı:"
+  },
+  "KM": {
+    "description": "",
+    "message": "km"
+  },
+  "LAST_KNOWN_LOCATION": {
+    "description": "",
+    "message": "Son bilinen konum:"
+  },
+  "LAT": {
+    "description": "",
+    "message": "Enl:"
+  },
+  "LON": {
+    "description": "",
+    "message": "Boy:"
+  },
+  "LY": {
+    "description": "",
+    "message": "ıy"
+  },
+  "MISSING_COMM": {
+    "description": "",
+    "message": "Aktarım tamamlanamıyor. {cargotype} eksik."
+  },
+  "MISSING_CREW": {
+    "description": "",
+    "message": "Aktarım tamamlanamıyor. Mürettebat eksik."
+  },
+  "MISSING_PASS": {
+    "description": "",
+    "message": "Yolcular eksik. Aktarma tamamlanamadı."
+  },
+  "MISSING_PASSENGER": {
+    "description": "",
+    "message": "Aktarım tamamlanamıyor. Yolcu eksik."
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Tamam, anlaştık."
+  },
+  "ORBIT": {
+    "description": "",
+    "message": "Yörünge"
+  },
+  "PARTIAL": {
+    "description": "",
+    "message": "Emekleriniz için teşekkürler. Umarım görevi tamamlamak üzere geri dönersiniz!"
+  },
+  "PASSENGERS": {
+    "description": "",
+    "message": "Yolcular"
+  },
+  "PAYMENT_LOCATION": {
+    "description": "",
+    "message": "Ödeme noktası:"
+  },
+  "PICKUP": {
+    "description": "",
+    "message": "TAŞIMA"
+  },
+  "PLACE_OF_ASSISTANCE": {
+    "description": "",
+    "message": "Yardım yerinde"
+  },
+  "PLEASE_LAND": {
+    "description": "",
+    "message": "Lütfen aktarım için gemiyi indirin."
+  },
+  "PROBLEM_CREW_1": {
+    "description": "",
+    "message": "mürettebat içindeki ölümcül bir kavga"
+  },
+  "PROBLEM_CREW_10": {
+    "description": "",
+    "message": "bir isyan"
+  },
+  "PROBLEM_CREW_2": {
+    "description": "",
+    "message": "mürettebat {locality} taraflarından gelen ölümcül bir yılanı kovalamak zorunda kaldı"
+  },
+  "PROBLEM_CREW_3": {
+    "description": "",
+    "message": "{locality} örümceği diğer hepsini öldürdü"
+  },
+  "PROBLEM_CREW_4": {
+    "description": "",
+    "message": "{locality} akrebinin biri gece mürettebat koğuşlarına girmiş gibi görünüyor"
+  },
+  "PROBLEM_CREW_5": {
+    "description": "",
+    "message": "{locality} gribinin tehlikeli bir türü diğerlerini öldürdü"
+  },
+  "PROBLEM_CREW_6": {
+    "description": "",
+    "message": "mürettebatın kalanı uzay yürüyüşünden geriye dönmedi"
+  },
+  "PROBLEM_CREW_7": {
+    "description": "",
+    "message": "gemideki tehlikeli bir gıda zehirlenmesi"
+  },
+  "PROBLEM_CREW_8": {
+    "description": "",
+    "message": "diğer herkesin uzaya fırlamasına sebep olan kötü bir kaza"
+  },
+  "PROBLEM_CREW_9": {
+    "description": "",
+    "message": "alenen açıklayamayacağım bir durum"
+  },
+  "PROBLEM_GENERAL_1": {
+    "description": "",
+    "message": "kargo bölümündeki bir yangın"
+  },
+  "PROBLEM_GENERAL_10": {
+    "description": "",
+    "message": "{locality} civarlarından alınan bir yardım çağrısı"
+  },
+  "PROBLEM_GENERAL_2": {
+    "description": "",
+    "message": "motor çekirdeğindeki bir güç kaybı"
+  },
+  "PROBLEM_GENERAL_3": {
+    "description": "",
+    "message": "bir hava kaçağı"
+  },
+  "PROBLEM_GENERAL_4": {
+    "description": "",
+    "message": "gemideki bütün personeli etkileyen güçlü bir gıda zehirlenmesi"
+  },
+  "PROBLEM_GENERAL_5": {
+    "description": "",
+    "message": "küçük bir göktaşı çarpışması"
+  },
+  "PROBLEM_GENERAL_6": {
+    "description": "",
+    "message": "mürettebat içindeki bir kavga"
+  },
+  "PROBLEM_GENERAL_7": {
+    "description": "",
+    "message": "tanımlanamayan bir cisimle temas"
+  },
+  "PROBLEM_GENERAL_8": {
+    "description": "",
+    "message": "rakip gemiyle bir tartışma"
+  },
+  "PROBLEM_GENERAL_9": {
+    "description": "",
+    "message": "ana bilgisayarın yeniden başlatılması"
+  },
+  "PROBLEM_RESEARCH_1": {
+    "description": "",
+    "message": "tepkime bölmelerinden birinde beklenmedik bir kimyasal tepkime"
+  },
+  "PROBLEM_RESEARCH_10": {
+    "description": "",
+    "message": "{locality} civarlarında tespit edilen ancak henüz açıklayamayacağım büyük bir keşif"
+  },
+  "PROBLEM_RESEARCH_2": {
+    "description": "",
+    "message": "{locality} civarlarına özgü bir patojenden etkilenen mürettebat"
+  },
+  "PROBLEM_RESEARCH_3": {
+    "description": "",
+    "message": "deneysel patojenlerin hava destek ünitesine saçılması"
+  },
+  "PROBLEM_RESEARCH_4": {
+    "description": "",
+    "message": "mürettebatın {locality} civarlarından toplanan numunelere maruz kalması"
+  },
+  "PROBLEM_RESEARCH_5": {
+    "description": "",
+    "message": "duman filtrelerinden birindeki kimyasal patlama"
+  },
+  "PROBLEM_RESEARCH_6": {
+    "description": "",
+    "message": "{locality} atmosferinin taklit edilmesi deneyi"
+  },
+  "PROBLEM_RESEARCH_7": {
+    "description": "",
+    "message": "gemideki bilim adamlarının arasındaki tehlikeli anlaşmazlık"
+  },
+  "PROBLEM_RESEARCH_8": {
+    "description": "",
+    "message": "gemideki baş müfettişin aniden ortadan kaybolması"
+  },
+  "PROBLEM_RESEARCH_9": {
+    "description": "",
+    "message": "{locality} civarlarında toplanan uyumsuz numunelerin bir araya gelmesi"
+  },
+  "RESULT_DELIVERY_COMM": {
+    "description": "",
+    "message": "Hedef gemiye {todo} tonluk {cargotype}'ın {done} tonluk kısmı aktarıldı."
+  },
+  "RESULT_DELIVERY_CREW": {
+    "description": "",
+    "message": "Hedef gemiye {todo} mürettebatın {done} kadarı aktarıldı."
+  },
+  "RESULT_DELIVERY_PASS": {
+    "description": "",
+    "message": "Hedef gemiye {todo} yolcunun {done} kadarı aktarıldı."
+  },
+  "RESULT_PICKUP_COMM": {
+    "description": "",
+    "message": "Hedef gemiden {todo} tonluk {cargotype}'ın {done} tonu alındı."
+  },
+  "RESULT_PICKUP_CREW": {
+    "description": "",
+    "message": "Hedef gemiden {todo} mürettebatın {done} kadarı alındı."
+  },
+  "RESULT_PICKUP_PASS": {
+    "description": "",
+    "message": "Hedef gemiden {todo} yolcunun {done} kadarı alındı."
+  },
+  "RETURN_TO": {
+    "description": "",
+    "message": "Şuraya dön:"
+  },
+  "REWARD": {
+    "description": "",
+    "message": "Ödül:"
+  },
+  "SEARCH_RESCUE": {
+    "description": "",
+    "message": "Arama & Kurtarma"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Navigasyon hedefi olarak seç"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Dönüş yolunu seç"
+  },
+  "SHIP_UNRESPONSIVE": {
+    "description": "",
+    "message": "Hedef gemi yanıt vermiyor."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Sistem:"
+  },
+  "TARGET_SHIP_ID": {
+    "description": "",
+    "message": "Hedef gemi ID'si:"
+  },
+  "THANK_YOU_ACCEPTANCE_TXT": {
+    "description": "",
+    "message": "Çok teşekkür ederim. Yardımınız büyük takdir gördü."
+  },
+  "TONS_OF_FREE_CARGO_SPACE": {
+    "description": "",
+    "message": "tonluk boş kargo alanı"
+  },
+  "TRANSFER_ABORTED": {
+    "description": "",
+    "message": "Aktarım iptal edildi!"
+  },
+  "TRANSFER_COMPLETE": {
+    "description": "",
+    "message": "Aktarım tamamlandı."
+  },
+  "TRANSFER_PARTIAL": {
+    "description": "",
+    "message": "Aktarım kısmen tamamlandı. Lütfen aktarımı tamamlamak için geri dönün."
+  },
+  "TRANSFER_TIME": {
+    "description": "",
+    "message": "Lütfen aktarım için {minutes} dakika bekleyin."
+  },
+  "TYPE_OF_HELP": {
+    "description": "",
+    "message": "Ne tür yardım gerekiyor?"
+  },
+  "UNOCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "boş yolcu kabini"
+  },
+  "WHERE_IS_THE_TARGET": {
+    "description": "",
+    "message": "Hedefi nerede bulabilirim?"
+  }
 }

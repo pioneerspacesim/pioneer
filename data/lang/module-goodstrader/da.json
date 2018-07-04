@@ -1,58 +1,58 @@
 {
-   "GOODS_TRADER_0" : {
-      "description" : "",
-      "message" : "Ærlige {name}s Varer"
-   },
-   "GOODS_TRADER_1" : {
-      "description" : "",
-      "message" : "{name}s Handelshus"
-   },
-   "GOODS_TRADER_2" : {
-      "description" : "",
-      "message" : "{name}s Varehus"
-   },
-   "GOODS_TRADER_3" : {
-      "description" : "",
-      "message" : "{name}s Varehandel"
-   },
-   "GOODS_TRADER_4" : {
-      "description" : "",
-      "message" : "{name} Varer"
-   },
-   "GOODS_TRADER_5" : {
-      "description" : "",
-      "message" : "{name} & Sønner"
-   },
-   "SLOGAN_0" : {
-      "description" : "",
-      "message" : "Vi handler med hvad andre ikke gør."
-   },
-   "SLOGAN_1" : {
-      "description" : "",
-      "message" : "Et ægte frit marked."
-   },
-   "SLOGAN_2" : {
-      "description" : "",
-      "message" : "Vi har de bedste ukonventionelle varer til dig!"
-   },
-   "SLOGAN_3" : {
-      "description" : "",
-      "message" : "Vi tror på et marked uden begrænsninger."
-   },
-   "SLOGAN_4" : {
-      "description" : "",
-      "message" : "Det uregulerede marked, for din frihed."
-   },
-   "SLOGAN_5" : {
-      "description" : "",
-      "message" : "Den troværdige forhandler."
-   },
-   "SLOGAN_6" : {
-      "description" : "",
-      "message" : "Altid en særlig pris, lige til dig."
-   },
-   "WELCOME_TO" : {
-      "description" : "",
-      "message" : "Velkommen til"
-   }
+  "GOODS_TRADER_0": {
+    "description": "",
+    "message": "Ærlige {name}s Varer"
+  },
+  "GOODS_TRADER_1": {
+    "description": "",
+    "message": "{name}s Handelshus"
+  },
+  "GOODS_TRADER_2": {
+    "description": "",
+    "message": "{name}s Varehus"
+  },
+  "GOODS_TRADER_3": {
+    "description": "",
+    "message": "{name}s Varehandel"
+  },
+  "GOODS_TRADER_4": {
+    "description": "",
+    "message": "{name} Varer"
+  },
+  "GOODS_TRADER_5": {
+    "description": "",
+    "message": "{name} & Sønner"
+  },
+  "SLOGAN_0": {
+    "description": "",
+    "message": "Vi handler med hvad andre ikke gør."
+  },
+  "SLOGAN_1": {
+    "description": "",
+    "message": "Et ægte frit marked."
+  },
+  "SLOGAN_2": {
+    "description": "",
+    "message": "Vi har de bedste ukonventionelle varer til dig!"
+  },
+  "SLOGAN_3": {
+    "description": "",
+    "message": "Vi tror på et marked uden begrænsninger."
+  },
+  "SLOGAN_4": {
+    "description": "",
+    "message": "Det uregulerede marked, for din frihed."
+  },
+  "SLOGAN_5": {
+    "description": "",
+    "message": "Den troværdige forhandler."
+  },
+  "SLOGAN_6": {
+    "description": "",
+    "message": "Altid en særlig pris, lige til dig."
+  },
+  "WELCOME_TO": {
+    "description": "",
+    "message": "Velkommen til"
+  }
 }

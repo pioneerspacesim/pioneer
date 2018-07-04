@@ -1,330 +1,330 @@
 {
-   "ADVANCED_TARGET_SCANNER" : {
-      "description" : "ship equipment showing target information/stats",
-      "message" : "Advanced target scanner"
-   },
-   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Long range target scanner with system wide coverage."
-   },
-   "ATMOSPHERIC_SHIELDING" : {
-      "description" : "",
-      "message" : "Atmosfeerschild"
-   },
-   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Beschermt uw schip tegen de hitte bij terugkeer in een atmosfeer."
-   },
-   "AUTOPILOT" : {
-      "description" : "",
-      "message" : "Automatische piloot"
-   },
-   "AUTOPILOT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Een boordvluchtcomputer."
-   },
-   "CARGO_LIFE_SUPPORT" : {
-      "description" : "",
-      "message" : "Laadruim Life Support"
-   },
-   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Maakt vervoer van levende vracht mogelijk."
-   },
-   "CARGO_SCOOP" : {
-      "description" : "",
-      "message" : "Vrachtinlaat"
-   },
-   "CARGO_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Maakt het mogelijk vrachtcontainers binnen te halen uit de ruimte."
-   },
-   "DRIVE_CLASS1" : {
-      "description" : "",
-      "message" : "Klasse 1 Hyperaandrijving"
-   },
-   "DRIVE_CLASS2" : {
-      "description" : "",
-      "message" : "Klasse 2 Hyperaandrijving"
-   },
-   "DRIVE_CLASS3" : {
-      "description" : "",
-      "message" : "Klasse 3 Hyperaandrijving"
-   },
-   "DRIVE_CLASS4" : {
-      "description" : "",
-      "message" : "Klasse 4 Hyperaandrijving"
-   },
-   "DRIVE_CLASS5" : {
-      "description" : "",
-      "message" : "Klasse 5 Hyperaandrijving"
-   },
-   "DRIVE_CLASS6" : {
-      "description" : "",
-      "message" : "Klasse 6 Hyperaandrijving"
-   },
-   "DRIVE_CLASS7" : {
-      "description" : "",
-      "message" : "Klasse 7 Hyperaandrijving"
-   },
-   "DRIVE_CLASS8" : {
-      "description" : "",
-      "message" : "Klasse 8 Hyperaandrijving"
-   },
-   "DRIVE_CLASS9" : {
-      "description" : "",
-      "message" : "Klasse 9 Hyperaandrijving"
-   },
-   "DRIVE_MIL1" : {
-      "description" : "",
-      "message" : "Klasse 1 Militaire aandrijving"
-   },
-   "DRIVE_MIL2" : {
-      "description" : "",
-      "message" : "Klasse 2 Militaire aandrijving"
-   },
-   "DRIVE_MIL3" : {
-      "description" : "",
-      "message" : "Klasse 3 Militaire aandrijving"
-   },
-   "DRIVE_MIL4" : {
-      "description" : "",
-      "message" : "Klasse 4 Militaire aandrijving"
-   },
-   "DRIVE_MIL5" : {
-      "description" : "",
-      "message" : "Class 5 Military drive"
-   },
-   "DRIVE_MIL6" : {
-      "description" : "",
-      "message" : "Class 6 Military drive"
-   },
-   "DRIVE_MIL7" : {
-      "description" : "",
-      "message" : "Class 7 Military drive"
-   },
-   "DRIVE_MIL8" : {
-      "description" : "",
-      "message" : "Class 8 Military drive"
-   },
-   "DRIVE_MIL9" : {
-      "description" : "",
-      "message" : "Class 9 Military drive"
-   },
-   "ECM_ADVANCED" : {
-      "description" : "",
-      "message" : "Geavanceerd ECM systeem"
-   },
-   "ECM_ADVANCED_DESCRIPTION" : {
-      "description" : "",
-      "message" : "'Electronic Countermeasure Missile'-verdedigingssysteem. In staat om geavanceerde varianten van doelzoekende raketten te vernietigen."
-   },
-   "ECM_BASIC" : {
-      "description" : "",
-      "message" : "ECM systeem"
-   },
-   "ECM_BASIC_DESCRIPTION" : {
-      "description" : "",
-      "message" : "'Electronic Countermeasure Missile'-verdedigingssysteem. In staat om doelzoekende raketten te vernietigen."
-   },
-   "FUEL_SCOOP" : {
-      "description" : "",
-      "message" : "Brandstofinlaat"
-   },
-   "FUEL_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Maakt het mogelijk om waterstof binnen te halen van gasreuzen."
-   },
-   "HULL_AUTOREPAIR" : {
-      "description" : "",
-      "message" : "Romp Auto-reparatie systeem"
-   },
-   "HULL_AUTOREPAIR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Repareert automatisch de scheepsromp in het geval van schade."
-   },
-   "HYPERCLOUD_ANALYZER" : {
-      "description" : "",
-      "message" : "Hyperspace-wolk Analysator"
-   },
-   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Analyseert hyperspace-wolken om bestemming en aankomst- of vertrektijd te bepalen."
-   },
-   "LARGE_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Grote plasma accelerator"
-   },
-   "LASER_COOLING_BOOSTER" : {
-      "description" : "",
-      "message" : "Laser koelsysteem"
-   },
-   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Een verbeterd koelsysteem voor uw wapens."
-   },
-   "MININGCANNON_17MW" : {
-      "description" : "",
-      "message" : "17MW mijnbouw kanon"
-   },
-   "MININGCANNON_17MW_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Wordt gebruikt om mineraal-rijke asteroïden te mijnen."
-   },
-   "MISSILE_GUIDED" : {
-      "description" : "",
-      "message" : "Geleide Raket"
-   },
-   "MISSILE_NAVAL" : {
-      "description" : "",
-      "message" : "Marine Raket"
-   },
-   "MISSILE_SMART" : {
-      "description" : "",
-      "message" : "Intelligente Raket"
-   },
-   "MISSILE_UNGUIDED" : {
-      "description" : "",
-      "message" : "R40 Ongeleide Raket"
-   },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi-inlaat"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Hoewel minder effectief dan een brandstofinlaat maakt het het binnenhalen van zowel brandstof als vracht mogelijk"
-   },
-   "OUT_OF_SCANRANGE" : {
-      "description" : "",
-      "message" : "Max scanbereik overschreden:"
-   },
-   "PASSENGER_CABIN" : {
-      "description" : "",
-      "message" : "Passenger cabin"
-   },
-   "PLANETSCANNER" : {
-      "description" : "Scans the nearest body for resources",
-      "message" : "Hemellichaamscan"
-   },
-   "PLANETSCANNER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Scan dichtstbijzijnde hemellichaam op grondstoffen"
-   },
-   "PULSECANNON_10MW" : {
-      "description" : "",
-      "message" : "10MW puls kanon"
-   },
-   "PULSECANNON_1MW" : {
-      "description" : "",
-      "message" : "1MW puls kanon"
-   },
-   "PULSECANNON_20MW" : {
-      "description" : "",
-      "message" : "20MW puls kanon"
-   },
-   "PULSECANNON_2MW" : {
-      "description" : "",
-      "message" : "2MW puls kanon"
-   },
-   "PULSECANNON_4MW" : {
-      "description" : "",
-      "message" : "4MW puls kanon"
-   },
-   "PULSECANNON_DUAL_1MW" : {
-      "description" : "",
-      "message" : "1MW dubbelloops puls kanon"
-   },
-   "PULSECANNON_RAPID_2MW" : {
-      "description" : "",
-      "message" : "2MW snelvuur puls kanon"
-   },
-   "RADAR" : {
-      "description" : "",
-      "message" : "Radar"
-   },
-   "RADAR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Projecteert een 3D-kaart van nabije schepen."
-   },
-   "SCAN_COMPLETED" : {
-      "description" : "",
-      "message" : "Scan voltooid"
-   },
-   "SCAN_RESUMED" : {
-      "description" : "",
-      "message" : "Scannen hervat"
-   },
-   "SHIELD_ENERGY_BOOSTER" : {
-      "description" : "",
-      "message" : "Schild-energie Aanjager"
-   },
-   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Verhoogt de ratio waarmee schilden opladen."
-   },
-   "SHIELD_GENERATOR" : {
-      "description" : "",
-      "message" : "Schild Generator"
-   },
-   "SHIELD_GENERATOR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Biedt per geïnstalleerde eenheid aanvullende bescherming van de scheepsromp."
-   },
-   "SMALL_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Kleine plasma accelerator"
-   },
-   "STARTING_SCAN" : {
-      "description" : "",
-      "message" : "Scan starten. Afstand tot doel is"
-   },
-   "TARGET_SCANNER" : {
-      "description" : "ship equipment showing target information/stats",
-      "message" : "Target Scanner"
-   },
-   "TARGET_SCANNER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Maakt het mogelijk om de uitrusting, lading of status van andere schepen van een afstand te bekijken."
-   },
-   "THRUSTERS_BASIC" : {
-      "description" : "",
-      "message" : "Modified Thrusters"
-   },
-   "THRUSTERS_BASIC_DESCRIPTION" : {
-      "description" : "",
-      "message" : "A modified type of thrusters approved for your ship."
-   },
-   "THRUSTERS_BEST" : {
-      "description" : "",
-      "message" : "Bespoke Thrusters"
-   },
-   "THRUSTERS_BEST_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Custom made thrusters that provide the best possible output."
-   },
-   "THRUSTERS_MEDIUM" : {
-      "description" : "",
-      "message" : "Optimised Thrusters"
-   },
-   "THRUSTERS_MEDIUM_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Thrusters that have been optimised to reduce inefficiencies and improve power output."
-   },
-   "TRADE_COMPUTER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade Computer"
-   },
-   "TRADE_COMPUTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Toon handelswaar die winstgevend is tussen de huidige en geselecteerde stelsels."
-   },
-   "UNOCCUPIED_CABIN" : {
-      "description" : "",
-      "message" : "Extra Passagierscabine"
-   },
-   "UNOCCUPIED_CABIN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Benodigd voor transport van een enkele passagier"
-   }
+  "ADVANCED_TARGET_SCANNER": {
+    "description": "ship equipment showing target information/stats",
+    "message": "Advanced target scanner"
+  },
+  "ADVANCED_TARGET_SCANNER_DESCRIPTION": {
+    "description": "",
+    "message": "Long range target scanner with system wide coverage."
+  },
+  "ATMOSPHERIC_SHIELDING": {
+    "description": "",
+    "message": "Atmosfeerschild"
+  },
+  "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
+    "description": "",
+    "message": "Beschermt uw schip tegen de hitte bij terugkeer in een atmosfeer."
+  },
+  "AUTOPILOT": {
+    "description": "",
+    "message": "Automatische piloot"
+  },
+  "AUTOPILOT_DESCRIPTION": {
+    "description": "",
+    "message": "Een boordvluchtcomputer."
+  },
+  "CARGO_LIFE_SUPPORT": {
+    "description": "",
+    "message": "Laadruim Life Support"
+  },
+  "CARGO_LIFE_SUPPORT_DESCRIPTION": {
+    "description": "",
+    "message": "Maakt vervoer van levende vracht mogelijk."
+  },
+  "CARGO_SCOOP": {
+    "description": "",
+    "message": "Vrachtinlaat"
+  },
+  "CARGO_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "Maakt het mogelijk vrachtcontainers binnen te halen uit de ruimte."
+  },
+  "DRIVE_CLASS1": {
+    "description": "",
+    "message": "Klasse 1 Hyperaandrijving"
+  },
+  "DRIVE_CLASS2": {
+    "description": "",
+    "message": "Klasse 2 Hyperaandrijving"
+  },
+  "DRIVE_CLASS3": {
+    "description": "",
+    "message": "Klasse 3 Hyperaandrijving"
+  },
+  "DRIVE_CLASS4": {
+    "description": "",
+    "message": "Klasse 4 Hyperaandrijving"
+  },
+  "DRIVE_CLASS5": {
+    "description": "",
+    "message": "Klasse 5 Hyperaandrijving"
+  },
+  "DRIVE_CLASS6": {
+    "description": "",
+    "message": "Klasse 6 Hyperaandrijving"
+  },
+  "DRIVE_CLASS7": {
+    "description": "",
+    "message": "Klasse 7 Hyperaandrijving"
+  },
+  "DRIVE_CLASS8": {
+    "description": "",
+    "message": "Klasse 8 Hyperaandrijving"
+  },
+  "DRIVE_CLASS9": {
+    "description": "",
+    "message": "Klasse 9 Hyperaandrijving"
+  },
+  "DRIVE_MIL1": {
+    "description": "",
+    "message": "Klasse 1 Militaire aandrijving"
+  },
+  "DRIVE_MIL2": {
+    "description": "",
+    "message": "Klasse 2 Militaire aandrijving"
+  },
+  "DRIVE_MIL3": {
+    "description": "",
+    "message": "Klasse 3 Militaire aandrijving"
+  },
+  "DRIVE_MIL4": {
+    "description": "",
+    "message": "Klasse 4 Militaire aandrijving"
+  },
+  "DRIVE_MIL5": {
+    "description": "",
+    "message": "Class 5 Military drive"
+  },
+  "DRIVE_MIL6": {
+    "description": "",
+    "message": "Class 6 Military drive"
+  },
+  "DRIVE_MIL7": {
+    "description": "",
+    "message": "Class 7 Military drive"
+  },
+  "DRIVE_MIL8": {
+    "description": "",
+    "message": "Class 8 Military drive"
+  },
+  "DRIVE_MIL9": {
+    "description": "",
+    "message": "Class 9 Military drive"
+  },
+  "ECM_ADVANCED": {
+    "description": "",
+    "message": "Geavanceerd ECM systeem"
+  },
+  "ECM_ADVANCED_DESCRIPTION": {
+    "description": "",
+    "message": "'Electronic Countermeasure Missile'-verdedigingssysteem. In staat om geavanceerde varianten van doelzoekende raketten te vernietigen."
+  },
+  "ECM_BASIC": {
+    "description": "",
+    "message": "ECM systeem"
+  },
+  "ECM_BASIC_DESCRIPTION": {
+    "description": "",
+    "message": "'Electronic Countermeasure Missile'-verdedigingssysteem. In staat om doelzoekende raketten te vernietigen."
+  },
+  "FUEL_SCOOP": {
+    "description": "",
+    "message": "Brandstofinlaat"
+  },
+  "FUEL_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "Maakt het mogelijk om waterstof binnen te halen van gasreuzen."
+  },
+  "HULL_AUTOREPAIR": {
+    "description": "",
+    "message": "Romp Auto-reparatie systeem"
+  },
+  "HULL_AUTOREPAIR_DESCRIPTION": {
+    "description": "",
+    "message": "Repareert automatisch de scheepsromp in het geval van schade."
+  },
+  "HYPERCLOUD_ANALYZER": {
+    "description": "",
+    "message": "Hyperspace-wolk Analysator"
+  },
+  "HYPERCLOUD_ANALYZER_DESCRIPTION": {
+    "description": "",
+    "message": "Analyseert hyperspace-wolken om bestemming en aankomst- of vertrektijd te bepalen."
+  },
+  "LARGE_PLASMA_ACCEL": {
+    "description": "",
+    "message": "Grote plasma accelerator"
+  },
+  "LASER_COOLING_BOOSTER": {
+    "description": "",
+    "message": "Laser koelsysteem"
+  },
+  "LASER_COOLING_BOOSTER_DESCRIPTION": {
+    "description": "",
+    "message": "Een verbeterd koelsysteem voor uw wapens."
+  },
+  "MININGCANNON_17MW": {
+    "description": "",
+    "message": "17MW mijnbouw kanon"
+  },
+  "MININGCANNON_17MW_DESCRIPTION": {
+    "description": "",
+    "message": "Wordt gebruikt om mineraal-rijke asteroïden te mijnen."
+  },
+  "MISSILE_GUIDED": {
+    "description": "",
+    "message": "Geleide Raket"
+  },
+  "MISSILE_NAVAL": {
+    "description": "",
+    "message": "Marine Raket"
+  },
+  "MISSILE_SMART": {
+    "description": "",
+    "message": "Intelligente Raket"
+  },
+  "MISSILE_UNGUIDED": {
+    "description": "",
+    "message": "R40 Ongeleide Raket"
+  },
+  "MULTI_SCOOP": {
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
+    "message": "Multi-inlaat"
+  },
+  "MULTI_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "Hoewel minder effectief dan een brandstofinlaat maakt het het binnenhalen van zowel brandstof als vracht mogelijk"
+  },
+  "OUT_OF_SCANRANGE": {
+    "description": "",
+    "message": "Max scanbereik overschreden:"
+  },
+  "PASSENGER_CABIN": {
+    "description": "",
+    "message": "Passenger cabin"
+  },
+  "PLANETSCANNER": {
+    "description": "Scans the nearest body for resources",
+    "message": "Hemellichaamscan"
+  },
+  "PLANETSCANNER_DESCRIPTION": {
+    "description": "",
+    "message": "Scan dichtstbijzijnde hemellichaam op grondstoffen"
+  },
+  "PULSECANNON_10MW": {
+    "description": "",
+    "message": "10MW puls kanon"
+  },
+  "PULSECANNON_1MW": {
+    "description": "",
+    "message": "1MW puls kanon"
+  },
+  "PULSECANNON_20MW": {
+    "description": "",
+    "message": "20MW puls kanon"
+  },
+  "PULSECANNON_2MW": {
+    "description": "",
+    "message": "2MW puls kanon"
+  },
+  "PULSECANNON_4MW": {
+    "description": "",
+    "message": "4MW puls kanon"
+  },
+  "PULSECANNON_DUAL_1MW": {
+    "description": "",
+    "message": "1MW dubbelloops puls kanon"
+  },
+  "PULSECANNON_RAPID_2MW": {
+    "description": "",
+    "message": "2MW snelvuur puls kanon"
+  },
+  "RADAR": {
+    "description": "",
+    "message": "Radar"
+  },
+  "RADAR_DESCRIPTION": {
+    "description": "",
+    "message": "Projecteert een 3D-kaart van nabije schepen."
+  },
+  "SCAN_COMPLETED": {
+    "description": "",
+    "message": "Scan voltooid"
+  },
+  "SCAN_RESUMED": {
+    "description": "",
+    "message": "Scannen hervat"
+  },
+  "SHIELD_ENERGY_BOOSTER": {
+    "description": "",
+    "message": "Schild-energie Aanjager"
+  },
+  "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
+    "description": "",
+    "message": "Verhoogt de ratio waarmee schilden opladen."
+  },
+  "SHIELD_GENERATOR": {
+    "description": "",
+    "message": "Schild Generator"
+  },
+  "SHIELD_GENERATOR_DESCRIPTION": {
+    "description": "",
+    "message": "Biedt per geïnstalleerde eenheid aanvullende bescherming van de scheepsromp."
+  },
+  "SMALL_PLASMA_ACCEL": {
+    "description": "",
+    "message": "Kleine plasma accelerator"
+  },
+  "STARTING_SCAN": {
+    "description": "",
+    "message": "Scan starten. Afstand tot doel is"
+  },
+  "TARGET_SCANNER": {
+    "description": "ship equipment showing target information/stats",
+    "message": "Target Scanner"
+  },
+  "TARGET_SCANNER_DESCRIPTION": {
+    "description": "",
+    "message": "Maakt het mogelijk om de uitrusting, lading of status van andere schepen van een afstand te bekijken."
+  },
+  "THRUSTERS_BASIC": {
+    "description": "",
+    "message": "Modified Thrusters"
+  },
+  "THRUSTERS_BASIC_DESCRIPTION": {
+    "description": "",
+    "message": "A modified type of thrusters approved for your ship."
+  },
+  "THRUSTERS_BEST": {
+    "description": "",
+    "message": "Bespoke Thrusters"
+  },
+  "THRUSTERS_BEST_DESCRIPTION": {
+    "description": "",
+    "message": "Custom made thrusters that provide the best possible output."
+  },
+  "THRUSTERS_MEDIUM": {
+    "description": "",
+    "message": "Optimised Thrusters"
+  },
+  "THRUSTERS_MEDIUM_DESCRIPTION": {
+    "description": "",
+    "message": "Thrusters that have been optimised to reduce inefficiencies and improve power output."
+  },
+  "TRADE_COMPUTER": {
+    "description": "Ship equipment computing profitable commodities to trade between two systems",
+    "message": "Trade Computer"
+  },
+  "TRADE_COMPUTER_DESCRIPTION": {
+    "description": "",
+    "message": "Toon handelswaar die winstgevend is tussen de huidige en geselecteerde stelsels."
+  },
+  "UNOCCUPIED_CABIN": {
+    "description": "",
+    "message": "Extra Passagierscabine"
+  },
+  "UNOCCUPIED_CABIN_DESCRIPTION": {
+    "description": "",
+    "message": "Benodigd voor transport van een enkele passagier"
+  }
 }

@@ -1,102 +1,102 @@
 {
-   "APPLY_FOR_MEMBERSHIP" : {
-      "description" : "",
-      "message" : "Iarr ballrachd"
-   },
-   "BEGIN_TRADE" : {
-      "description" : "",
-      "message" : "Tòisich air malart"
-   },
-   "FLAVOUR_0_CLUBNAME" : {
-      "description" : "",
-      "message" : "Co-chomann Connaidh nam Paidhleat Eadar-reultail"
-   },
-   "FLAVOUR_0_MEMBER_INTRO" : {
-      "description" : "",
-      "message" : "Faodaidh sibh connadh a cheannach is cuidhteas fhaighinn dhe {radioactives} an-seo."
-   },
-   "FLAVOUR_0_NONMEMBER_INTRO" : {
-      "description" : "",
-      "message" : "Tha {clubname} 'na bhuidheann neo-eisimeileach a tha ag amas connadh soithich-fhànais saor a thoirt dha bhuill. Tha meuran againn air feadh an reul-chriosa. Seo na buannachdan a gheibh thu ma ghabhas tu ballrachd:"
-   },
-   "FLAVOUR_0_WELCOME" : {
-      "description" : "",
-      "message" : "Fàilte gu {clubname}"
-   },
-   "FLAVOUR_1_CLUBNAME" : {
-      "description" : "Fuel club for the Federation faction",
-      "message" : "Fonndas Connaidh Feadarail"
-   },
-   "FLAVOUR_1_NONMEMBER_INTRO" : {
-      "description" : "For the Solar Federation faction",
-      "message" : "Tha {clubname} 'na phrìomh-sholaraiche airson connadh saor dha shoithichean-fànais a bhall ann an Caidreachas na Grèine. Seo na gheibh sibh às a' bhallrachd:"
-   },
-   "FLAVOUR_2_CLUBNAME" : {
-      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-      "message" : "Aonadh Com-pàirteachaidh Connaidh"
-   },
-   "FLAVOUR_2_NONMEMBER_INTRO" : {
-      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
-      "message" : "Air feadh fànais aibhsich Co-fhlaidheas nan Saoghal Neo-eisimeileach saor, 's e {clubname} a tha san t-solaraiche as fhearr dhut airson seirbheisean connaidh is stiùiridh sgudail saora. Seo na nì sinn airson ar ball:"
-   },
-   "FLAVOUR_2_WELCOME" : {
-      "description" : "",
-      "message" : "Fàilte! Tha sinn an dòchas gun còrd an t-seirbheis againn dhut."
-   },
-   "FLAVOUR_3_CLUBNAME" : {
-      "description" : "Fuel club for the Haber faction",
-      "message" : "Roinn Stutha-iomain is Meathach Haber"
-   },
-   "FLAVOUR_3_MEMBER_INTRO" : {
-      "description" : "For the greedy Haber faction, very corporate formulated",
-      "message" : "Fàilte, a phaidhleit. Chaidh na còirichean ath-chonnachaidh is glanaidh sgudail chumhaich a thoirt dhuibh."
-   },
-   "FLAVOUR_3_NONMEMBER_INTRO" : {
-      "description" : "for the Haber faction",
-      "message" : "Fàilte, a' phaidhleit. Seo Roinn Stutha-iomain is Meathach Haber agus tha sinn an urra ri sgaoileadh a' chonnaidh air feadh fànas muinntir Thàbair."
-   },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Till"
-   },
-   "LIST_BENEFITS_DISPOSAL" : {
-      "description" : "",
-      "message" : "{radioactives}, glanadh sgudail an-asgaidh (fo chumhaichean)"
-   },
-   "LIST_BENEFITS_FUEL" : {
-      "description" : "",
-      "message" : "{fuel} air prìsean saora"
-   },
-   "LIST_BENEFITS_FUEL_INTRO" : {
-      "description" : "",
-      "message" : "Stòrasan connaidh againn fhèin nach eil an eisimeil air a' mhargadh choitcheann"
-   },
-   "LIST_BENEFITS_FUEL_TANK" : {
-      "description" : "",
-      "message" : "Lìonadh an tanca connaidh nuair a bhios feum air"
-   },
-   "LIST_BENEFITS_JOIN" : {
-      "description" : "",
-      "message" : "Gabhaibh ballrachd an-dràsta! Chan eil ballrachd bliadhnail ach {membership_fee}"
-   },
-   "WE_WILL_ONLY_DISPOSE_OF" : {
-      "description" : "",
-      "message" : "Cha ghabh sinn cùram air an uiread de {radioactives} ach na cheannaich sibh dhe {military_fuel} uainn."
-   },
-   "WHAT_CONDITIONS_APPLY" : {
-      "description" : "",
-      "message" : "Dè na cumhaichean ach an gabh sibh cùram de {radioactives}?"
-   },
-   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
-      "description" : "",
-      "message" : "Chaidh do bhallrachd a dhiùltadh."
-   },
-   "YOU_ARE_NOW_A_MEMBER" : {
-      "description" : "",
-      "message" : "Tha thu 'nad bhall a-nis. Falbhaidh an ùine air do bhallrachd {expiry_date}."
-   },
-   "YOU_MUST_BUY" : {
-      "description" : "",
-      "message" : "Feumaidh tu {military_fuel} a cheannach uainn mus gabh sinn ris na {radioactives} agaibh"
-   }
+  "APPLY_FOR_MEMBERSHIP": {
+    "description": "",
+    "message": "Iarr ballrachd"
+  },
+  "BEGIN_TRADE": {
+    "description": "",
+    "message": "Tòisich air malart"
+  },
+  "FLAVOUR_0_CLUBNAME": {
+    "description": "",
+    "message": "Co-chomann Connaidh nam Paidhleat Eadar-reultail"
+  },
+  "FLAVOUR_0_MEMBER_INTRO": {
+    "description": "",
+    "message": "Faodaidh sibh connadh a cheannach is cuidhteas fhaighinn dhe {radioactives} an-seo."
+  },
+  "FLAVOUR_0_NONMEMBER_INTRO": {
+    "description": "",
+    "message": "Tha {clubname} 'na bhuidheann neo-eisimeileach a tha ag amas connadh soithich-fhànais saor a thoirt dha bhuill. Tha meuran againn air feadh an reul-chriosa. Seo na buannachdan a gheibh thu ma ghabhas tu ballrachd:"
+  },
+  "FLAVOUR_0_WELCOME": {
+    "description": "",
+    "message": "Fàilte gu {clubname}"
+  },
+  "FLAVOUR_1_CLUBNAME": {
+    "description": "Fuel club for the Federation faction",
+    "message": "Fonndas Connaidh Feadarail"
+  },
+  "FLAVOUR_1_NONMEMBER_INTRO": {
+    "description": "For the Solar Federation faction",
+    "message": "Tha {clubname} 'na phrìomh-sholaraiche airson connadh saor dha shoithichean-fànais a bhall ann an Caidreachas na Grèine. Seo na gheibh sibh às a' bhallrachd:"
+  },
+  "FLAVOUR_2_CLUBNAME": {
+    "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+    "message": "Aonadh Com-pàirteachaidh Connaidh"
+  },
+  "FLAVOUR_2_NONMEMBER_INTRO": {
+    "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
+    "message": "Air feadh fànais aibhsich Co-fhlaidheas nan Saoghal Neo-eisimeileach saor, 's e {clubname} a tha san t-solaraiche as fhearr dhut airson seirbheisean connaidh is stiùiridh sgudail saora. Seo na nì sinn airson ar ball:"
+  },
+  "FLAVOUR_2_WELCOME": {
+    "description": "",
+    "message": "Fàilte! Tha sinn an dòchas gun còrd an t-seirbheis againn dhut."
+  },
+  "FLAVOUR_3_CLUBNAME": {
+    "description": "Fuel club for the Haber faction",
+    "message": "Roinn Stutha-iomain is Meathach Haber"
+  },
+  "FLAVOUR_3_MEMBER_INTRO": {
+    "description": "For the greedy Haber faction, very corporate formulated",
+    "message": "Fàilte, a phaidhleit. Chaidh na còirichean ath-chonnachaidh is glanaidh sgudail chumhaich a thoirt dhuibh."
+  },
+  "FLAVOUR_3_NONMEMBER_INTRO": {
+    "description": "for the Haber faction",
+    "message": "Fàilte, a' phaidhleit. Seo Roinn Stutha-iomain is Meathach Haber agus tha sinn an urra ri sgaoileadh a' chonnaidh air feadh fànas muinntir Thàbair."
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Till"
+  },
+  "LIST_BENEFITS_DISPOSAL": {
+    "description": "",
+    "message": "{radioactives}, glanadh sgudail an-asgaidh (fo chumhaichean)"
+  },
+  "LIST_BENEFITS_FUEL": {
+    "description": "",
+    "message": "{fuel} air prìsean saora"
+  },
+  "LIST_BENEFITS_FUEL_INTRO": {
+    "description": "",
+    "message": "Stòrasan connaidh againn fhèin nach eil an eisimeil air a' mhargadh choitcheann"
+  },
+  "LIST_BENEFITS_FUEL_TANK": {
+    "description": "",
+    "message": "Lìonadh an tanca connaidh nuair a bhios feum air"
+  },
+  "LIST_BENEFITS_JOIN": {
+    "description": "",
+    "message": "Gabhaibh ballrachd an-dràsta! Chan eil ballrachd bliadhnail ach {membership_fee}"
+  },
+  "WE_WILL_ONLY_DISPOSE_OF": {
+    "description": "",
+    "message": "Cha ghabh sinn cùram air an uiread de {radioactives} ach na cheannaich sibh dhe {military_fuel} uainn."
+  },
+  "WHAT_CONDITIONS_APPLY": {
+    "description": "",
+    "message": "Dè na cumhaichean ach an gabh sibh cùram de {radioactives}?"
+  },
+  "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
+    "description": "",
+    "message": "Chaidh do bhallrachd a dhiùltadh."
+  },
+  "YOU_ARE_NOW_A_MEMBER": {
+    "description": "",
+    "message": "Tha thu 'nad bhall a-nis. Falbhaidh an ùine air do bhallrachd {expiry_date}."
+  },
+  "YOU_MUST_BUY": {
+    "description": "",
+    "message": "Feumaidh tu {military_fuel} a cheannach uainn mus gabh sinn ris na {radioactives} agaibh"
+  }
 }

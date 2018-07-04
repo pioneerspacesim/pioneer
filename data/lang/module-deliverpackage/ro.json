@@ -1,354 +1,354 @@
 {
-   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
-      "description" : "",
-      "message" : "Puteți repeta solicitarea inițială?"
-   },
-   "DANGER" : {
-      "description" : "",
-      "message" : "Pericol:"
-   },
-   "DEADLINE" : {
-      "description" : "",
-      "message" : "Termen limită:"
-   },
-   "DELIVERY" : {
-      "description" : "",
-      "message" : "Livrare"
-   },
-   "DENY_0" : {
-      "description" : "",
-      "message" : "Îmi pare rău, dar nu cred că pot să am încredere în dvs. pentru această livrare."
-   },
-   "DENY_1" : {
-      "description" : "",
-      "message" : "Întorceți-vă când sunteți mai calificați."
-   },
-   "DENY_2" : {
-      "description" : "",
-      "message" : "Nu cred că ești pilotul pe care îl caut."
-   },
-   "DENY_3" : {
-      "description" : "",
-      "message" : "Nu arătați ca cineva căruia să-i pot încredința această livrare."
-   },
-   "DENY_4" : {
-      "description" : "",
-      "message" : "Nu ești tipul de pilot pe care îl caut."
-   },
-   "DENY_5" : {
-      "description" : "",
-      "message" : "Păreți mult prea neexperimentat ca să vă ocupați de o sarcină atât de importantă."
-   },
-   "DENY_6" : {
-      "description" : "",
-      "message" : "Nu am auzit niciodată de dvs. Am nevoie de cineva cu experiență pentru această livrare."
-   },
-   "DENY_7" : {
-      "description" : "",
-      "message" : "Nu sunt de acord să risc să acord această livrare cuiva fără nicio calificare ca dvs."
-   },
-   "DISTANCE" : {
-      "description" : "",
-      "message" : "Distanța:"
-   },
-   "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
-      "description" : "",
-      "message" : "Excelent. O să anunț pe recipient că sunteți pe drum."
-   },
-   "FLAVOUR_0_ADTEXT" : {
-      "description" : "",
-      "message" : "MERGEȚI ÎN sistemul {system}? Plătesc pentru livrarea unui mic pachet."
-   },
-   "FLAVOUR_0_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Inacceptabil! Ți-a luat o veșnicie să faci livrarea. Nu sunt de acord să te plătesc."
-   },
-   "FLAVOUR_0_INTROTEXT" : {
-      "description" : "",
-      "message" : "Salut, sunt {name}. Ofer {cash} cui trimite un pachet mic la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}), la distanța de {dist} a.l."
-   },
-   "FLAVOUR_0_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mulțumim pentru livrare. Ați fost plătit integral."
-   },
-   "FLAVOUR_0_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Când m-a vizitat o prietenă a lăsat în urmă niște haine și niște broșuri antice. Mi-ar plăcea să i le returnez."
-   },
-   "FLAVOUR_1_ADTEXT" : {
-      "description" : "",
-      "message" : "CAUT. Livrarea unui packet în sistemul {system}."
-   },
-   "FLAVOUR_1_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Sunt frustrat de livrarea târzie a pachetului meu și refuz să vă plătesc."
-   },
-   "FLAVOUR_1_INTROTEXT" : {
-      "description" : "",
-      "message" : "Salut. Sunt {name}. Sunt dispus să plătesc {cash} pentru o navă care să ducă un packet la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}), la o distanță de {dist} a.l."
-   },
-   "FLAVOUR_1_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Packetul a fost primit și ați fost plătit integral."
-   },
-   "FLAVOUR_1_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Nimic special."
-   },
-   "FLAVOUR_2_ADTEXT" : {
-      "description" : "",
-      "message" : "URGENT. Navă rapidă care să ducă un pachet în sistemul {system}."
-   },
-   "FLAVOUR_2_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Am fost suficient de clar despre termenul limită și sunt foarte dezamăgit de livrarea întârziată. Nu veți fi plătit."
-   },
-   "FLAVOUR_2_INTROTEXT" : {
-      "description" : "",
-      "message" : "Salut. Sunt {name}. Sunt dispus să plătesc {cash} pentru o navă care să ducă un packet la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}), la o distanță de {dist} a.l."
-   },
-   "FLAVOUR_2_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Ați fost plătit integral pentru livrare. Mulțumesc."
-   },
-   "FLAVOUR_2_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Este o propunere de cercetare și trebuie livrată la termen, altfel nu primim fonduri."
-   },
-   "FLAVOUR_3_ADTEXT" : {
-      "description" : "",
-      "message" : "LIVRARE. Documente de trimis în sistemul {system}. {cash} pentru un pilot experimentat."
-   },
-   "FLAVOUR_3_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Inutil! Nu mă voi mai baza niciodată pe tine! Sper că e clar că nu primești niciun ban."
-   },
-   "FLAVOUR_3_INTROTEXT" : {
-      "description" : "",
-      "message" : "Salut. Sunt {name}. Sunt dispus să plătesc {cash} pentru o navă care să ducă un packet la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}), la o distanță de {dist} a.l."
-   },
-   "FLAVOUR_3_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Serviciul dumneavoastră discret și la timp este foarte apreciat. Ați fost plătit integral."
-   },
-   "FLAVOUR_3_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Niște documente extrem de importante au ajuns în mâinile mele și am motive să cred că mi-a fost luată urma."
-   },
-   "FLAVOUR_4_ADTEXT" : {
-      "description" : "",
-      "message" : "SERVICIU POȘTAL. Avem nevoie de o navă care să facă o cursă de livrare până în sistemul {system}."
-   },
-   "FLAVOUR_4_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Numărul de înregistrare al navei dvs. a fost reținut. Vom refuza toate cererile de muncă de la dvs."
-   },
-   "FLAVOUR_4_INTROTEXT" : {
-      "description" : "",
-      "message" : "Salut. Acesta este un mesaj automat de la Serviciile de Curierat Bedford și {name}. Plătim {cash} pentru o cursă pînă la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}) , la o distanță de {dist} a.l."
-   },
-   "FLAVOUR_4_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Serviciul dumneavoastră discret și la timp este foarte apreciat. Ați fost plătit integral."
-   },
-   "FLAVOUR_4_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Am fi încântați să vă dăm mai puțini bani."
-   },
-   "FLAVOUR_5_ADTEXT" : {
-      "description" : "",
-      "message" : "MUTARE ACASĂ. Mutarea unor obiecte de uz casnic la {starport} din depozit."
-   },
-   "FLAVOUR_5_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Ce-i cu astea? O, v-a luat așa mult că am și uitat că le-am trimis."
-   },
-   "FLAVOUR_5_INTROTEXT" : {
-      "description" : "",
-      "message" : "Încântat de cunoștință. Sunt {name} și sunt dispus(ă) să plătesc {cash} pentru cineva cu o navă care să mă ajute să-mi mut bunurile la {starport}. Nu e grabă, sunt doar niște lucruri rămase de când m-am mutat."
-   },
-   "FLAVOUR_5_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "O, minunat! Încep imediat să descarc. Mulțumesc din nou."
-   },
-   "FLAVOUR_5_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Este mult? Ar trebui să mă mai gândesc la oferta mea."
-   },
-   "FLAVOUR_6_ADTEXT" : {
-      "description" : "",
-      "message" : "CURIERAT PE O RAZĂ SCURTĂ. Livrarea unui pachet mic la {starport}."
-   },
-   "FLAVOUR_6_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Chiar și eu aș fi putut să fac livrarea mai repede. Nu primiți nimic."
-   },
-   "FLAVOUR_6_INTROTEXT" : {
-      "description" : "",
-      "message" : "Salut. Sunt {name} și plătesc {cash} pentru cineva care să-mi ducă acest pachet la {starport}."
-   },
-   "FLAVOUR_6_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mulțumim pentru pachet, ați fost plătit integral."
-   },
-   "FLAVOUR_6_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Nu cred că e mult."
-   },
-   "FLAVOUR_7_ADTEXT" : {
-      "description" : "",
-      "message" : "LIVRARE INTER-PLANETARĂ. Livrarea de marfă locală către {starport}."
-   },
-   "FLAVOUR_7_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Clienții noștri nu o să fie bucuroși cu asta. Nu vă așteptați să fiți plătiți."
-   },
-   "FLAVOUR_7_INTROTEXT" : {
-      "description" : "",
-      "message" : "Bună ziua. Avem nevoie de aceste cutii livrate la {starport} cât de repede posibil. Plata standard pentru această livrare este de {cash}."
-   },
-   "FLAVOUR_7_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Excelent, v-am virat banii în cont."
-   },
-   "FLAVOUR_7_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Rate standard, lucrăm cu magazinul."
-   },
-   "FLAVOUR_8_ADTEXT" : {
-      "description" : "",
-      "message" : "LIVRARE ÎN APROPIERE. Vrem o livrare rapidă a unui obiect la {starport}."
-   },
-   "FLAVOUR_8_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Vi s-a oferit o răsplată pentru o livrare rapidă! Refuz să plătesc pentru asta."
-   },
-   "FLAVOUR_8_INTROTEXT" : {
-      "description" : "",
-      "message" : "Numele meu este {name} și am nevoie să trimit acest obiect unui prieten din {starport} pronto. Vă voi plăti {cash} dacă ajungeți acolo în timp util."
-   },
-   "FLAVOUR_8_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Livrarea dvs. punctuală este apreciată. V-am adăugat creditat contul în mod corespunzător."
-   },
-   "FLAVOUR_8_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Este foarte urgent."
-   },
-   "FLAVOUR_9_ADTEXT" : {
-      "description" : "",
-      "message" : "EXPEDIERE PACHET. Expediere urgentă a unor perisabile la {starport}."
-   },
-   "FLAVOUR_9_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Este totul stricat, nu mai e de folos nimănui! Nu putem să vă plătim și nu vă vom plăti."
-   },
-   "FLAVOUR_9_INTROTEXT" : {
-      "description" : "",
-      "message" : "Salutare, suntem în urmă cu livrarea producției și avem nevoie să fie livrată la {starport} urgent. Vom plăti {cash} pentru deranj."
-   },
-   "FLAVOUR_9_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Superb! Vom începe să despacketăm imediat. Veți avea contul actualizat imediat."
-   },
-   "FLAVOUR_9_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Viața noastră depinde de asta."
-   },
-   "HOW_SOON_MUST_IT_BE_DELIVERED" : {
-      "description" : "",
-      "message" : "Cât de repede trebuie făcută livrarea?"
-   },
-   "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED" : {
-      "description" : "",
-      "message" : "S-ar putea să fie periculos, ar trebui să te asiguri că ești bine pregătit pentru asta."
-   },
-   "IT_MUST_BE_DELIVERED_BY" : {
-      "description" : "",
-      "message" : "Trebuie livrat până pe"
-   },
-   "I_HIGHLY_DOUBT_IT" : {
-      "description" : "",
-      "message" : "Mă îndoiesc amarnic."
-   },
-   "LY" : {
-      "description" : "",
-      "message" : "a.l."
-   },
-   "NOT_ANY_MORE_THAN_USUAL" : {
-      "description" : "",
-      "message" : "Nu mai mult ca de obicei."
-   },
-   "OK_AGREED" : {
-      "description" : "",
-      "message" : "Ok, de acord."
-   },
-   "PIRATE_TAUNTS_0" : {
-      "description" : "",
-      "message" : "O să regreți că ai lucrat cu {client}"
-   },
-   "PIRATE_TAUNTS_1" : {
-      "description" : "",
-      "message" : "Se pare că mi-a sosit plata!"
-   },
-   "PIRATE_TAUNTS_2" : {
-      "description" : "",
-      "message" : "Lucrezi pentru {client}? Ce idee proastă."
-   },
-   "PIRATE_TAUNTS_3" : {
-      "description" : "",
-      "message" : "Stai! Marfa și viața ta, pilot!"
-   },
-   "PIRATE_TAUNTS_4" : {
-      "description" : "",
-      "message" : "Sunt sigur că va aduce bani frumoși la piață"
-   },
-   "PIRATE_TAUNTS_5" : {
-      "description" : "",
-      "message" : "Azi nu e ziua ta norocoasă! Pregătește-te să mori."
-   },
-   "PIRATE_TAUNTS_6" : {
-      "description" : "",
-      "message" : "Spune-i vechii mele cunoștințe {client} că o să ne vedem în iad!"
-   },
-   "PIRATE_TAUNTS_7" : {
-      "description" : "",
-      "message" : "Acel packet nu o sa-și atingă destinația azi."
-   },
-   "PIRATE_TAUNTS_8" : {
-      "description" : "",
-      "message" : "Nu o să ajungi la {location} azi!"
-   },
-   "PIRATE_TAUNTS_9" : {
-      "description" : "",
-      "message" : "O să plătești pentru acea marfă cu viața ta."
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Selectați ca țintă navigare"
-   },
-   "SPACEPORT" : {
-      "description" : "",
-      "message" : "Port spațial:"
-   },
-   "SYSTEM" : {
-      "description" : "",
-      "message" : "Sistem:"
-   },
-   "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
-      "description" : "",
-      "message" : "Acesta e un pachet valoros, trebuie să țineți ochii în patru."
-   },
-   "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE" : {
-      "description" : "",
-      "message" : "Este foarte riscant, vei întâmpina aproape sigur opoziție."
-   },
-   "WHY_SO_MUCH_MONEY" : {
-      "description" : "",
-      "message" : "De ce atât de mulți bani?"
-   },
-   "WILL_I_BE_IN_ANY_DANGER" : {
-      "description" : "",
-      "message" : "Voi fi în pericol?"
-   }
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Puteți repeta solicitarea inițială?"
+  },
+  "DANGER": {
+    "description": "",
+    "message": "Pericol:"
+  },
+  "DEADLINE": {
+    "description": "",
+    "message": "Termen limită:"
+  },
+  "DELIVERY": {
+    "description": "",
+    "message": "Livrare"
+  },
+  "DENY_0": {
+    "description": "",
+    "message": "Îmi pare rău, dar nu cred că pot să am încredere în dvs. pentru această livrare."
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Întorceți-vă când sunteți mai calificați."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Nu cred că ești pilotul pe care îl caut."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Nu arătați ca cineva căruia să-i pot încredința această livrare."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Nu ești tipul de pilot pe care îl caut."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Păreți mult prea neexperimentat ca să vă ocupați de o sarcină atât de importantă."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "Nu am auzit niciodată de dvs. Am nevoie de cineva cu experiență pentru această livrare."
+  },
+  "DENY_7": {
+    "description": "",
+    "message": "Nu sunt de acord să risc să acord această livrare cuiva fără nicio calificare ca dvs."
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "Distanța:"
+  },
+  "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY": {
+    "description": "",
+    "message": "Excelent. O să anunț pe recipient că sunteți pe drum."
+  },
+  "FLAVOUR_0_ADTEXT": {
+    "description": "",
+    "message": "MERGEȚI ÎN sistemul {system}? Plătesc pentru livrarea unui mic pachet."
+  },
+  "FLAVOUR_0_FAILUREMSG": {
+    "description": "",
+    "message": "Inacceptabil! Ți-a luat o veșnicie să faci livrarea. Nu sunt de acord să te plătesc."
+  },
+  "FLAVOUR_0_INTROTEXT": {
+    "description": "",
+    "message": "Salut, sunt {name}. Ofer {cash} cui trimite un pachet mic la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}), la distanța de {dist} a.l."
+  },
+  "FLAVOUR_0_SUCCESSMSG": {
+    "description": "",
+    "message": "Mulțumim pentru livrare. Ați fost plătit integral."
+  },
+  "FLAVOUR_0_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Când m-a vizitat o prietenă a lăsat în urmă niște haine și niște broșuri antice. Mi-ar plăcea să i le returnez."
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "CAUT. Livrarea unui packet în sistemul {system}."
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "Sunt frustrat de livrarea târzie a pachetului meu și refuz să vă plătesc."
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "",
+    "message": "Salut. Sunt {name}. Sunt dispus să plătesc {cash} pentru o navă care să ducă un packet la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}), la o distanță de {dist} a.l."
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "Packetul a fost primit și ați fost plătit integral."
+  },
+  "FLAVOUR_1_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Nimic special."
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "URGENT. Navă rapidă care să ducă un pachet în sistemul {system}."
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "Am fost suficient de clar despre termenul limită și sunt foarte dezamăgit de livrarea întârziată. Nu veți fi plătit."
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "Salut. Sunt {name}. Sunt dispus să plătesc {cash} pentru o navă care să ducă un packet la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}), la o distanță de {dist} a.l."
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Ați fost plătit integral pentru livrare. Mulțumesc."
+  },
+  "FLAVOUR_2_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Este o propunere de cercetare și trebuie livrată la termen, altfel nu primim fonduri."
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "LIVRARE. Documente de trimis în sistemul {system}. {cash} pentru un pilot experimentat."
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "Inutil! Nu mă voi mai baza niciodată pe tine! Sper că e clar că nu primești niciun ban."
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": "Salut. Sunt {name}. Sunt dispus să plătesc {cash} pentru o navă care să ducă un packet la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}), la o distanță de {dist} a.l."
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "Serviciul dumneavoastră discret și la timp este foarte apreciat. Ați fost plătit integral."
+  },
+  "FLAVOUR_3_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Niște documente extrem de importante au ajuns în mâinile mele și am motive să cred că mi-a fost luată urma."
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "SERVICIU POȘTAL. Avem nevoie de o navă care să facă o cursă de livrare până în sistemul {system}."
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "Numărul de înregistrare al navei dvs. a fost reținut. Vom refuza toate cererile de muncă de la dvs."
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "Salut. Acesta este un mesaj automat de la Serviciile de Curierat Bedford și {name}. Plătim {cash} pentru o cursă pînă la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}) , la o distanță de {dist} a.l."
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "Serviciul dumneavoastră discret și la timp este foarte apreciat. Ați fost plătit integral."
+  },
+  "FLAVOUR_4_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Am fi încântați să vă dăm mai puțini bani."
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "MUTARE ACASĂ. Mutarea unor obiecte de uz casnic la {starport} din depozit."
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "Ce-i cu astea? O, v-a luat așa mult că am și uitat că le-am trimis."
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "Încântat de cunoștință. Sunt {name} și sunt dispus(ă) să plătesc {cash} pentru cineva cu o navă care să mă ajute să-mi mut bunurile la {starport}. Nu e grabă, sunt doar niște lucruri rămase de când m-am mutat."
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "O, minunat! Încep imediat să descarc. Mulțumesc din nou."
+  },
+  "FLAVOUR_5_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Este mult? Ar trebui să mă mai gândesc la oferta mea."
+  },
+  "FLAVOUR_6_ADTEXT": {
+    "description": "",
+    "message": "CURIERAT PE O RAZĂ SCURTĂ. Livrarea unui pachet mic la {starport}."
+  },
+  "FLAVOUR_6_FAILUREMSG": {
+    "description": "",
+    "message": "Chiar și eu aș fi putut să fac livrarea mai repede. Nu primiți nimic."
+  },
+  "FLAVOUR_6_INTROTEXT": {
+    "description": "",
+    "message": "Salut. Sunt {name} și plătesc {cash} pentru cineva care să-mi ducă acest pachet la {starport}."
+  },
+  "FLAVOUR_6_SUCCESSMSG": {
+    "description": "",
+    "message": "Mulțumim pentru pachet, ați fost plătit integral."
+  },
+  "FLAVOUR_6_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Nu cred că e mult."
+  },
+  "FLAVOUR_7_ADTEXT": {
+    "description": "",
+    "message": "LIVRARE INTER-PLANETARĂ. Livrarea de marfă locală către {starport}."
+  },
+  "FLAVOUR_7_FAILUREMSG": {
+    "description": "",
+    "message": "Clienții noștri nu o să fie bucuroși cu asta. Nu vă așteptați să fiți plătiți."
+  },
+  "FLAVOUR_7_INTROTEXT": {
+    "description": "",
+    "message": "Bună ziua. Avem nevoie de aceste cutii livrate la {starport} cât de repede posibil. Plata standard pentru această livrare este de {cash}."
+  },
+  "FLAVOUR_7_SUCCESSMSG": {
+    "description": "",
+    "message": "Excelent, v-am virat banii în cont."
+  },
+  "FLAVOUR_7_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Rate standard, lucrăm cu magazinul."
+  },
+  "FLAVOUR_8_ADTEXT": {
+    "description": "",
+    "message": "LIVRARE ÎN APROPIERE. Vrem o livrare rapidă a unui obiect la {starport}."
+  },
+  "FLAVOUR_8_FAILUREMSG": {
+    "description": "",
+    "message": "Vi s-a oferit o răsplată pentru o livrare rapidă! Refuz să plătesc pentru asta."
+  },
+  "FLAVOUR_8_INTROTEXT": {
+    "description": "",
+    "message": "Numele meu este {name} și am nevoie să trimit acest obiect unui prieten din {starport} pronto. Vă voi plăti {cash} dacă ajungeți acolo în timp util."
+  },
+  "FLAVOUR_8_SUCCESSMSG": {
+    "description": "",
+    "message": "Livrarea dvs. punctuală este apreciată. V-am adăugat creditat contul în mod corespunzător."
+  },
+  "FLAVOUR_8_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Este foarte urgent."
+  },
+  "FLAVOUR_9_ADTEXT": {
+    "description": "",
+    "message": "EXPEDIERE PACHET. Expediere urgentă a unor perisabile la {starport}."
+  },
+  "FLAVOUR_9_FAILUREMSG": {
+    "description": "",
+    "message": "Este totul stricat, nu mai e de folos nimănui! Nu putem să vă plătim și nu vă vom plăti."
+  },
+  "FLAVOUR_9_INTROTEXT": {
+    "description": "",
+    "message": "Salutare, suntem în urmă cu livrarea producției și avem nevoie să fie livrată la {starport} urgent. Vom plăti {cash} pentru deranj."
+  },
+  "FLAVOUR_9_SUCCESSMSG": {
+    "description": "",
+    "message": "Superb! Vom începe să despacketăm imediat. Veți avea contul actualizat imediat."
+  },
+  "FLAVOUR_9_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Viața noastră depinde de asta."
+  },
+  "HOW_SOON_MUST_IT_BE_DELIVERED": {
+    "description": "",
+    "message": "Cât de repede trebuie făcută livrarea?"
+  },
+  "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED": {
+    "description": "",
+    "message": "S-ar putea să fie periculos, ar trebui să te asiguri că ești bine pregătit pentru asta."
+  },
+  "IT_MUST_BE_DELIVERED_BY": {
+    "description": "",
+    "message": "Trebuie livrat până pe"
+  },
+  "I_HIGHLY_DOUBT_IT": {
+    "description": "",
+    "message": "Mă îndoiesc amarnic."
+  },
+  "LY": {
+    "description": "",
+    "message": "a.l."
+  },
+  "NOT_ANY_MORE_THAN_USUAL": {
+    "description": "",
+    "message": "Nu mai mult ca de obicei."
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Ok, de acord."
+  },
+  "PIRATE_TAUNTS_0": {
+    "description": "",
+    "message": "O să regreți că ai lucrat cu {client}"
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Se pare că mi-a sosit plata!"
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "Lucrezi pentru {client}? Ce idee proastă."
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Stai! Marfa și viața ta, pilot!"
+  },
+  "PIRATE_TAUNTS_4": {
+    "description": "",
+    "message": "Sunt sigur că va aduce bani frumoși la piață"
+  },
+  "PIRATE_TAUNTS_5": {
+    "description": "",
+    "message": "Azi nu e ziua ta norocoasă! Pregătește-te să mori."
+  },
+  "PIRATE_TAUNTS_6": {
+    "description": "",
+    "message": "Spune-i vechii mele cunoștințe {client} că o să ne vedem în iad!"
+  },
+  "PIRATE_TAUNTS_7": {
+    "description": "",
+    "message": "Acel packet nu o sa-și atingă destinația azi."
+  },
+  "PIRATE_TAUNTS_8": {
+    "description": "",
+    "message": "Nu o să ajungi la {location} azi!"
+  },
+  "PIRATE_TAUNTS_9": {
+    "description": "",
+    "message": "O să plătești pentru acea marfă cu viața ta."
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Selectați ca țintă navigare"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Port spațial:"
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Sistem:"
+  },
+  "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN": {
+    "description": "",
+    "message": "Acesta e un pachet valoros, trebuie să țineți ochii în patru."
+  },
+  "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
+    "description": "",
+    "message": "Este foarte riscant, vei întâmpina aproape sigur opoziție."
+  },
+  "WHY_SO_MUCH_MONEY": {
+    "description": "",
+    "message": "De ce atât de mulți bani?"
+  },
+  "WILL_I_BE_IN_ANY_DANGER": {
+    "description": "",
+    "message": "Voi fi în pericol?"
+  }
 }

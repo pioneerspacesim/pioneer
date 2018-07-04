@@ -1,102 +1,102 @@
 {
-   "APPLY_FOR_MEMBERSHIP" : {
-      "description" : "",
-      "message" : "申请会员资格"
-   },
-   "BEGIN_TRADE" : {
-      "description" : "",
-      "message" : "开始贸易"
-   },
-   "FLAVOUR_0_CLUBNAME" : {
-      "description" : "",
-      "message" : "星际飞行员燃料合作社"
-   },
-   "FLAVOUR_0_MEMBER_INTRO" : {
-      "description" : "",
-      "message" : "You may purchase fuel and dispose of {radioactives} here."
-   },
-   "FLAVOUR_0_NONMEMBER_INTRO" : {
-      "description" : "",
-      "message" : "{clubname} 是一个独立的组织,致力于向其成员提供价格便宜的星际飞船的燃料.分支机构遍布整个银河系.会员的好处包括:"
-   },
-   "FLAVOUR_0_WELCOME" : {
-      "description" : "",
-      "message" : "欢迎来到 {clubname}"
-   },
-   "FLAVOUR_1_CLUBNAME" : {
-      "description" : "Fuel club for the Federation faction",
-      "message" : "The Federal Fuel Foundation"
-   },
-   "FLAVOUR_1_NONMEMBER_INTRO" : {
-      "description" : "For the Solar Federation faction",
-      "message" : "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
-   },
-   "FLAVOUR_2_CLUBNAME" : {
-      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-      "message" : "The Confederate Fuel Union"
-   },
-   "FLAVOUR_2_NONMEMBER_INTRO" : {
-      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
-      "message" : "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
-   },
-   "FLAVOUR_2_WELCOME" : {
-      "description" : "",
-      "message" : "Greetings and salutations! We hope you enjoy our services."
-   },
-   "FLAVOUR_3_CLUBNAME" : {
-      "description" : "Fuel club for the Haber faction",
-      "message" : "Haber Propellant and Perishables Division"
-   },
-   "FLAVOUR_3_MEMBER_INTRO" : {
-      "description" : "For the greedy Haber faction, very corporate formulated",
-      "message" : "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
-   },
-   "FLAVOUR_3_NONMEMBER_INTRO" : {
-      "description" : "for the Haber faction",
-      "message" : "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
-   },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "返回"
-   },
-   "LIST_BENEFITS_DISPOSAL" : {
-      "description" : "",
-      "message" : "{radioactives}, 免费处理 (某些条件下适用)"
-   },
-   "LIST_BENEFITS_FUEL" : {
-      "description" : "",
-      "message" : "打折的 {fuel} 燃料."
-   },
-   "LIST_BENEFITS_FUEL_INTRO" : {
-      "description" : "",
-      "message" : "我们有自己的燃料库存, 跟市面上的库存是独立的."
-   },
-   "LIST_BENEFITS_FUEL_TANK" : {
-      "description" : "",
-      "message" : "在必要时加满燃料."
-   },
-   "LIST_BENEFITS_JOIN" : {
-      "description" : "",
-      "message" : "现在就加入吧! 年度会员费只要 {membership_fee}"
-   },
-   "WE_WILL_ONLY_DISPOSE_OF" : {
-      "description" : "",
-      "message" : "如果您在我们这儿购买 {military_fuel}, 我们就可以免费帮您处理一些 {radioactives}."
-   },
-   "WHAT_CONDITIONS_APPLY" : {
-      "description" : "",
-      "message" : "处置 {radioactives} 需要什么条件?"
-   },
-   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
-      "description" : "",
-      "message" : "您的会员申请已被拒绝."
-   },
-   "YOU_ARE_NOW_A_MEMBER" : {
-      "description" : "",
-      "message" : "您已经成为了我们的会员. 您的会员资格将在 {expiry_date} 到期."
-   },
-   "YOU_MUST_BUY" : {
-      "description" : "",
-      "message" : "在我们处理 {radioactives}前, 你必须先购买我们的 {military_fuel} ."
-   }
+  "APPLY_FOR_MEMBERSHIP": {
+    "description": "",
+    "message": "申请会员资格"
+  },
+  "BEGIN_TRADE": {
+    "description": "",
+    "message": "开始贸易"
+  },
+  "FLAVOUR_0_CLUBNAME": {
+    "description": "",
+    "message": "星际飞行员燃料合作社"
+  },
+  "FLAVOUR_0_MEMBER_INTRO": {
+    "description": "",
+    "message": "You may purchase fuel and dispose of {radioactives} here."
+  },
+  "FLAVOUR_0_NONMEMBER_INTRO": {
+    "description": "",
+    "message": "{clubname} 是一个独立的组织,致力于向其成员提供价格便宜的星际飞船的燃料.分支机构遍布整个银河系.会员的好处包括:"
+  },
+  "FLAVOUR_0_WELCOME": {
+    "description": "",
+    "message": "欢迎来到 {clubname}"
+  },
+  "FLAVOUR_1_CLUBNAME": {
+    "description": "Fuel club for the Federation faction",
+    "message": "The Federal Fuel Foundation"
+  },
+  "FLAVOUR_1_NONMEMBER_INTRO": {
+    "description": "For the Solar Federation faction",
+    "message": "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
+  },
+  "FLAVOUR_2_CLUBNAME": {
+    "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+    "message": "The Confederate Fuel Union"
+  },
+  "FLAVOUR_2_NONMEMBER_INTRO": {
+    "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
+    "message": "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
+  },
+  "FLAVOUR_2_WELCOME": {
+    "description": "",
+    "message": "Greetings and salutations! We hope you enjoy our services."
+  },
+  "FLAVOUR_3_CLUBNAME": {
+    "description": "Fuel club for the Haber faction",
+    "message": "Haber Propellant and Perishables Division"
+  },
+  "FLAVOUR_3_MEMBER_INTRO": {
+    "description": "For the greedy Haber faction, very corporate formulated",
+    "message": "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
+  },
+  "FLAVOUR_3_NONMEMBER_INTRO": {
+    "description": "for the Haber faction",
+    "message": "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "返回"
+  },
+  "LIST_BENEFITS_DISPOSAL": {
+    "description": "",
+    "message": "{radioactives}, 免费处理 (某些条件下适用)"
+  },
+  "LIST_BENEFITS_FUEL": {
+    "description": "",
+    "message": "打折的 {fuel} 燃料."
+  },
+  "LIST_BENEFITS_FUEL_INTRO": {
+    "description": "",
+    "message": "我们有自己的燃料库存, 跟市面上的库存是独立的."
+  },
+  "LIST_BENEFITS_FUEL_TANK": {
+    "description": "",
+    "message": "在必要时加满燃料."
+  },
+  "LIST_BENEFITS_JOIN": {
+    "description": "",
+    "message": "现在就加入吧! 年度会员费只要 {membership_fee}"
+  },
+  "WE_WILL_ONLY_DISPOSE_OF": {
+    "description": "",
+    "message": "如果您在我们这儿购买 {military_fuel}, 我们就可以免费帮您处理一些 {radioactives}."
+  },
+  "WHAT_CONDITIONS_APPLY": {
+    "description": "",
+    "message": "处置 {radioactives} 需要什么条件?"
+  },
+  "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
+    "description": "",
+    "message": "您的会员申请已被拒绝."
+  },
+  "YOU_ARE_NOW_A_MEMBER": {
+    "description": "",
+    "message": "您已经成为了我们的会员. 您的会员资格将在 {expiry_date} 到期."
+  },
+  "YOU_MUST_BUY": {
+    "description": "",
+    "message": "在我们处理 {radioactives}前, 你必须先购买我们的 {military_fuel} ."
+  }
 }

@@ -1,334 +1,334 @@
 {
-   "ASSASSINATION" : {
-      "description" : "",
-      "message" : "Assassinat"
-   },
-   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
-      "description" : "",
-      "message" : "Pourriez vous reformuler la demande d'origine ? "
-   },
-   "DENY_0" : {
-      "description" : "",
-      "message" : "Je suis désolé, mais je ne vous fais pas confiance."
-   },
-   "DENY_1" : {
-      "description" : "",
-      "message" : "Revenez quand vous serez mieux qualifiés."
-   },
-   "DENY_2" : {
-      "description" : "",
-      "message" : "Je ne pense pas que vous êtes celui/celle que je recherche"
-   },
-   "DENY_3" : {
-      "description" : "",
-      "message" : "Vous n'avez pas l'air de quelqu'un capable de faire ce qui doit être fait."
-   },
-   "DENY_4" : {
-      "description" : "",
-      "message" : "Vous n'êtes clairement pas la personne pour ce job."
-   },
-   "DENY_5" : {
-      "description" : "",
-      "message" : "Vous avez l'air trop peu expérimenté pour une tâche de cette envergure."
-   },
-   "DENY_6" : {
-      "description" : "",
-      "message" : "Je n'ai jamais entendu parler de vous. J'ai besoin de quelqu'un expérimenté pour ce contrat."
-   },
-   "DENY_7" : {
-      "description" : "",
-      "message" : "Je ne vais pas risquer ce contrat en le donnant à quelqu'un aussi inexpérimenté tel que vous."
-   },
-   "DISTANCE" : {
-      "description" : "",
-      "message" : "Distance:"
-   },
-   "EXCELLENT" : {
-      "description" : "",
-      "message" : "Excellent."
-   },
-   "FLAVOUR_0_ADTEXT" : {
-      "description" : "",
-      "message" : "ON RECHERCHE: Effacement de {target} du systeme {system}."
-   },
-   "FLAVOUR_0_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Je suis très mécontent de constater que {target} est toujour vivant. Inutile de vous dire que vous ne recevrez rien."
-   },
-   "FLAVOUR_0_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Le nettoyage de {target} n'a pas été fait par vous. Pas de payement cette fois ci."
-   },
-   "FLAVOUR_0_INTROTEXT" : {
-      "description" : "",
-      "message" : "Salut, je suis {name}. Je vous payerais {cash} pour me debarrasser de {target}."
-   },
-   "FLAVOUR_0_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "J'ai appris avec soulagement la nouvelle des grandes vacances de  {target}. Bien joué. J'ai donné des ordres pour le payement integral."
-   },
-   "FLAVOUR_1_ADTEXT" : {
-      "description" : "",
-      "message" : "ON RECHERCHE: Quelqu'un pour tuer {target} du systeme {system}. "
-   },
-   "FLAVOUR_1_FAILUREMSG" : {
-      "description" : "",
-      "message" : "J'ai entendu dire que {target} est en bonne santé. Cela me fait de la peine."
-   },
-   "FLAVOUR_1_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Le deces de {target} n'a pas été causé par vous, Donc inutile de réclamer un payement."
-   },
-   "FLAVOUR_1_INTROTEXT" : {
-      "description" : "",
-      "message" : "J'ai besoin que {target} sorte de la scene. je vous payerais {cash} pour ca .  "
-   },
-   "FLAVOUR_1_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Je suis vraiment triste d'apprendre le deces de {target}. Vous avez été payé en totalité."
-   },
-   "FLAVOUR_2_ADTEXT" : {
-      "description" : "",
-      "message" : "NETTOYAGE: {target} n'est plus souhaité dans le systeme {system}."
-   },
-   "FLAVOUR_2_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Il est très regrettable que {target} soie encore en vie et bien portant. Vous ne recevrez aucun payement puisque vous n'avez pas rempli votre contrat."
-   },
-   "FLAVOUR_2_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Le contrat a été rempli par un autre. Soyez plus rapide la prochaine fois !"
-   },
-   "FLAVOUR_2_INTROTEXT" : {
-      "description" : "",
-      "message" : "Je suis {name}, et je vous payerai  {cash} pour eliminer {target}."
-   },
-   "FLAVOUR_2_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Vous avez été payé en totalité pour avoir honoré cet important contrat."
-   },
-   "FLAVOUR_3_ADTEXT" : {
-      "description" : "",
-      "message" : "EFFACEMENT: : Quelqu'un pour eliminer {target} "
-   },
-   "FLAVOUR_3_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Vous payerez cher pour ne pas avoir éliminé {target}!"
-   },
-   "FLAVOUR_3_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Vous reclamez de l'argent pour un travail fait par un autre ? Allez vous faire voir !"
-   },
-   "FLAVOUR_3_INTROTEXT" : {
-      "description" : "",
-      "message" : " {target} doit etre reduit en poussière spaciale. Je vous offrirais {cash} pour ce travail."
-   },
-   "FLAVOUR_3_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "{target} est mort. Voici votre prime."
-   },
-   "FLAVOUR_4_ADTEXT" : {
-      "description" : "",
-      "message" : "RETRAITE: Quelqu'un pour mettre à la retraite {target}. "
-   },
-   "FLAVOUR_4_FAILUREMSG" : {
-      "description" : "",
-      "message" : "{target} respire toujours et je ne vous donne pas d'argent."
-   },
-   "FLAVOUR_4_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "La mise a la retraite de {target} a éte faite par quelqu'un d'autre. "
-   },
-   "FLAVOUR_4_INTROTEXT" : {
-      "description" : "",
-      "message" : "Pour {cash} nous voulons encourager  {target} a cesser son travail définitivement."
-   },
-   "FLAVOUR_4_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "J'ai apprisavec delice la nouvelle de la retraite de  {target}. Voici votre argent."
-   },
-   "FLAVOUR_5_ADTEXT" : {
-      "description" : "",
-      "message" : "BIOGRAPHIE: Quelques admirateurs souhaiteraient le dècés de  {target}."
-   },
-   "FLAVOUR_5_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Nous avons découvert que {target} est encore opérationel. Ceci nous attriste. "
-   },
-   "FLAVOUR_5_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "{target} a été neutralisé par quelqu'un d'autre."
-   },
-   "FLAVOUR_5_INTROTEXT" : {
-      "description" : "",
-      "message" : "Nous voulons que {target} finisse sa carrière dans le systeme {system} pour {cash}."
-   },
-   "FLAVOUR_5_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "j'ai recu avec joie le message concernant la fin de carrière de  {target}. Voici vos {cash}."
-   },
-   "HOW_SOON_MUST_IT_BE_DONE" : {
-      "description" : "",
-      "message" : "Quand cela doit-il être fait ?"
-   },
-   "HOW_WILL_I_BE_PAID" : {
-      "description" : "",
-      "message" : "Comment serai-je payé ?"
-   },
-   "IT_MUST_BE_DONE_AFTER" : {
-      "description" : "",
-      "message" : "Ce doit etre fait dès que {target} quitteras {spaceport}. Ne loupez pas cette opportunitée."
-   },
-   "LY" : {
-      "description" : "",
-      "message" : "al"
-   },
-   "OK_AGREED" : {
-      "description" : "",
-      "message" : "Ok, je suis d'accord."
-   },
-   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
-      "description" : "",
-      "message" : "Revenez ici a l'accomplissement du contrat et vous serez payé."
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Définir comme cible de navigation"
-   },
-   "SET_RETURN_ROUTE" : {
-      "description" : "",
-      "message" : "Définir le trajet de retour"
-   },
-   "SHIP" : {
-      "description" : "",
-      "message" : "Vaisseau:"
-   },
-   "SHIP_ID" : {
-      "description" : "",
-      "message" : "ID du vaisseau:"
-   },
-   "SPACEPORT" : {
-      "description" : "",
-      "message" : "Spacioport:"
-   },
-   "SYSTEM" : {
-      "description" : "",
-      "message" : "Systeme:"
-   },
-   "TARGET_NAME" : {
-      "description" : "",
-      "message" : "Nom de la cible:"
-   },
-   "TARGET_WILL_BE_LEAVING_SPACEPORT_AT" : {
-      "description" : "",
-      "message" : "La cible quittera le spacioport a:"
-   },
-   "TITLE_0" : {
-      "description" : "",
-      "message" : "Amiral"
-   },
-   "TITLE_1" : {
-      "description" : "",
-      "message" : "Ambassadeur"
-   },
-   "TITLE_10" : {
-      "description" : "",
-      "message" : "Enseigne"
-   },
-   "TITLE_11" : {
-      "description" : "",
-      "message" : "Général"
-   },
-   "TITLE_12" : {
-      "description" : "",
-      "message" : "Juge"
-   },
-   "TITLE_13" : {
-      "description" : "",
-      "message" : "Avocat"
-   },
-   "TITLE_14" : {
-      "description" : "",
-      "message" : "Lieutenant"
-   },
-   "TITLE_15" : {
-      "description" : "",
-      "message" : "Maréchal"
-   },
-   "TITLE_16" : {
-      "description" : "",
-      "message" : "Marchand"
-   },
-   "TITLE_17" : {
-      "description" : "",
-      "message" : "Officier"
-   },
-   "TITLE_18" : {
-      "description" : "",
-      "message" : "Détective"
-   },
-   "TITLE_19" : {
-      "description" : "",
-      "message" : "Professeur"
-   },
-   "TITLE_2" : {
-      "description" : "",
-      "message" : "Brigadier"
-   },
-   "TITLE_20" : {
-      "description" : "",
-      "message" : "Procureur"
-   },
-   "TITLE_21" : {
-      "description" : "",
-      "message" : "Prévot"
-   },
-   "TITLE_22" : {
-      "description" : "",
-      "message" : "Navigateur"
-   },
-   "TITLE_23" : {
-      "description" : "",
-      "message" : "Sénateur"
-   },
-   "TITLE_24" : {
-      "description" : "",
-      "message" : "Sergent"
-   },
-   "TITLE_3" : {
-      "description" : "",
-      "message" : "Cadet"
-   },
-   "TITLE_4" : {
-      "description" : "",
-      "message" : "Capitaine"
-   },
-   "TITLE_5" : {
-      "description" : "",
-      "message" : "Cardinal"
-   },
-   "TITLE_6" : {
-      "description" : "",
-      "message" : "Colonel"
-   },
-   "TITLE_7" : {
-      "description" : "",
-      "message" : "Commandant"
-   },
-   "TITLE_8" : {
-      "description" : "",
-      "message" : "Commandeur"
-   },
-   "TITLE_9" : {
-      "description" : "",
-      "message" : "Caporal"
-   },
-   "WHERE_CAN_I_FIND_X" : {
-      "description" : "",
-      "message" : "Ou puis-je trouver {target} ?"
-   },
-   "X_WILL_BE_LEAVING" : {
-      "description" : "",
-      "message" : "{target} quittera {spaceport} dans le systeme {system} ({sectorX}, {sectorY}, {sectorZ}),a une distance de {dist} al, en date du {date}. Le transport sera un modèle {shipname} et sera enregistré sous l'ID {shipregid}."
-   }
+  "ASSASSINATION": {
+    "description": "",
+    "message": "Assassinat"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Pourriez vous reformuler la demande d'origine ? "
+  },
+  "DENY_0": {
+    "description": "",
+    "message": "Je suis désolé, mais je ne vous fais pas confiance."
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Revenez quand vous serez mieux qualifiés."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Je ne pense pas que vous êtes celui/celle que je recherche"
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Vous n'avez pas l'air de quelqu'un capable de faire ce qui doit être fait."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Vous n'êtes clairement pas la personne pour ce job."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Vous avez l'air trop peu expérimenté pour une tâche de cette envergure."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "Je n'ai jamais entendu parler de vous. J'ai besoin de quelqu'un expérimenté pour ce contrat."
+  },
+  "DENY_7": {
+    "description": "",
+    "message": "Je ne vais pas risquer ce contrat en le donnant à quelqu'un aussi inexpérimenté tel que vous."
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "Distance:"
+  },
+  "EXCELLENT": {
+    "description": "",
+    "message": "Excellent."
+  },
+  "FLAVOUR_0_ADTEXT": {
+    "description": "",
+    "message": "ON RECHERCHE: Effacement de {target} du systeme {system}."
+  },
+  "FLAVOUR_0_FAILUREMSG": {
+    "description": "",
+    "message": "Je suis très mécontent de constater que {target} est toujour vivant. Inutile de vous dire que vous ne recevrez rien."
+  },
+  "FLAVOUR_0_FAILUREMSG2": {
+    "description": "",
+    "message": "Le nettoyage de {target} n'a pas été fait par vous. Pas de payement cette fois ci."
+  },
+  "FLAVOUR_0_INTROTEXT": {
+    "description": "",
+    "message": "Salut, je suis {name}. Je vous payerais {cash} pour me debarrasser de {target}."
+  },
+  "FLAVOUR_0_SUCCESSMSG": {
+    "description": "",
+    "message": "J'ai appris avec soulagement la nouvelle des grandes vacances de  {target}. Bien joué. J'ai donné des ordres pour le payement integral."
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "ON RECHERCHE: Quelqu'un pour tuer {target} du systeme {system}. "
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "J'ai entendu dire que {target} est en bonne santé. Cela me fait de la peine."
+  },
+  "FLAVOUR_1_FAILUREMSG2": {
+    "description": "",
+    "message": "Le deces de {target} n'a pas été causé par vous, Donc inutile de réclamer un payement."
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "",
+    "message": "J'ai besoin que {target} sorte de la scene. je vous payerais {cash} pour ca .  "
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "Je suis vraiment triste d'apprendre le deces de {target}. Vous avez été payé en totalité."
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "NETTOYAGE: {target} n'est plus souhaité dans le systeme {system}."
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "Il est très regrettable que {target} soie encore en vie et bien portant. Vous ne recevrez aucun payement puisque vous n'avez pas rempli votre contrat."
+  },
+  "FLAVOUR_2_FAILUREMSG2": {
+    "description": "",
+    "message": "Le contrat a été rempli par un autre. Soyez plus rapide la prochaine fois !"
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "Je suis {name}, et je vous payerai  {cash} pour eliminer {target}."
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Vous avez été payé en totalité pour avoir honoré cet important contrat."
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "EFFACEMENT: : Quelqu'un pour eliminer {target} "
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "Vous payerez cher pour ne pas avoir éliminé {target}!"
+  },
+  "FLAVOUR_3_FAILUREMSG2": {
+    "description": "",
+    "message": "Vous reclamez de l'argent pour un travail fait par un autre ? Allez vous faire voir !"
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": " {target} doit etre reduit en poussière spaciale. Je vous offrirais {cash} pour ce travail."
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "{target} est mort. Voici votre prime."
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "RETRAITE: Quelqu'un pour mettre à la retraite {target}. "
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "{target} respire toujours et je ne vous donne pas d'argent."
+  },
+  "FLAVOUR_4_FAILUREMSG2": {
+    "description": "",
+    "message": "La mise a la retraite de {target} a éte faite par quelqu'un d'autre. "
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "Pour {cash} nous voulons encourager  {target} a cesser son travail définitivement."
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "J'ai apprisavec delice la nouvelle de la retraite de  {target}. Voici votre argent."
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "BIOGRAPHIE: Quelques admirateurs souhaiteraient le dècés de  {target}."
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "Nous avons découvert que {target} est encore opérationel. Ceci nous attriste. "
+  },
+  "FLAVOUR_5_FAILUREMSG2": {
+    "description": "",
+    "message": "{target} a été neutralisé par quelqu'un d'autre."
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "Nous voulons que {target} finisse sa carrière dans le systeme {system} pour {cash}."
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "j'ai recu avec joie le message concernant la fin de carrière de  {target}. Voici vos {cash}."
+  },
+  "HOW_SOON_MUST_IT_BE_DONE": {
+    "description": "",
+    "message": "Quand cela doit-il être fait ?"
+  },
+  "HOW_WILL_I_BE_PAID": {
+    "description": "",
+    "message": "Comment serai-je payé ?"
+  },
+  "IT_MUST_BE_DONE_AFTER": {
+    "description": "",
+    "message": "Ce doit etre fait dès que {target} quitteras {spaceport}. Ne loupez pas cette opportunitée."
+  },
+  "LY": {
+    "description": "",
+    "message": "al"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Ok, je suis d'accord."
+  },
+  "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
+    "description": "",
+    "message": "Revenez ici a l'accomplissement du contrat et vous serez payé."
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Définir comme cible de navigation"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Définir le trajet de retour"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Vaisseau:"
+  },
+  "SHIP_ID": {
+    "description": "",
+    "message": "ID du vaisseau:"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Spacioport:"
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Systeme:"
+  },
+  "TARGET_NAME": {
+    "description": "",
+    "message": "Nom de la cible:"
+  },
+  "TARGET_WILL_BE_LEAVING_SPACEPORT_AT": {
+    "description": "",
+    "message": "La cible quittera le spacioport a:"
+  },
+  "TITLE_0": {
+    "description": "",
+    "message": "Amiral"
+  },
+  "TITLE_1": {
+    "description": "",
+    "message": "Ambassadeur"
+  },
+  "TITLE_10": {
+    "description": "",
+    "message": "Enseigne"
+  },
+  "TITLE_11": {
+    "description": "",
+    "message": "Général"
+  },
+  "TITLE_12": {
+    "description": "",
+    "message": "Juge"
+  },
+  "TITLE_13": {
+    "description": "",
+    "message": "Avocat"
+  },
+  "TITLE_14": {
+    "description": "",
+    "message": "Lieutenant"
+  },
+  "TITLE_15": {
+    "description": "",
+    "message": "Maréchal"
+  },
+  "TITLE_16": {
+    "description": "",
+    "message": "Marchand"
+  },
+  "TITLE_17": {
+    "description": "",
+    "message": "Officier"
+  },
+  "TITLE_18": {
+    "description": "",
+    "message": "Détective"
+  },
+  "TITLE_19": {
+    "description": "",
+    "message": "Professeur"
+  },
+  "TITLE_2": {
+    "description": "",
+    "message": "Brigadier"
+  },
+  "TITLE_20": {
+    "description": "",
+    "message": "Procureur"
+  },
+  "TITLE_21": {
+    "description": "",
+    "message": "Prévot"
+  },
+  "TITLE_22": {
+    "description": "",
+    "message": "Navigateur"
+  },
+  "TITLE_23": {
+    "description": "",
+    "message": "Sénateur"
+  },
+  "TITLE_24": {
+    "description": "",
+    "message": "Sergent"
+  },
+  "TITLE_3": {
+    "description": "",
+    "message": "Cadet"
+  },
+  "TITLE_4": {
+    "description": "",
+    "message": "Capitaine"
+  },
+  "TITLE_5": {
+    "description": "",
+    "message": "Cardinal"
+  },
+  "TITLE_6": {
+    "description": "",
+    "message": "Colonel"
+  },
+  "TITLE_7": {
+    "description": "",
+    "message": "Commandant"
+  },
+  "TITLE_8": {
+    "description": "",
+    "message": "Commandeur"
+  },
+  "TITLE_9": {
+    "description": "",
+    "message": "Caporal"
+  },
+  "WHERE_CAN_I_FIND_X": {
+    "description": "",
+    "message": "Ou puis-je trouver {target} ?"
+  },
+  "X_WILL_BE_LEAVING": {
+    "description": "",
+    "message": "{target} quittera {spaceport} dans le systeme {system} ({sectorX}, {sectorY}, {sectorZ}),a une distance de {dist} al, en date du {date}. Le transport sera un modèle {shipname} et sera enregistré sous l'ID {shipregid}."
+  }
 }

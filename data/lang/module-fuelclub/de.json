@@ -1,102 +1,102 @@
 {
-   "APPLY_FOR_MEMBERSHIP" : {
-      "description" : "",
-      "message" : "Für Mitgliedschaft bewerben"
-   },
-   "BEGIN_TRADE" : {
-      "description" : "",
-      "message" : "Handel beginnen"
-   },
-   "FLAVOUR_0_CLUBNAME" : {
-      "description" : "",
-      "message" : "Treibstoff-Kooperative Interstellarer Piloten"
-   },
-   "FLAVOUR_0_MEMBER_INTRO" : {
-      "description" : "",
-      "message" : "Sie dürfen hier Treibstoff kaufen und {radioactives} entsorgen."
-   },
-   "FLAVOUR_0_NONMEMBER_INTRO" : {
-      "description" : "",
-      "message" : "{clubname} ist eine unabhängige Organisation mit dem Ziel, ihren Mitgliedern\ngünstigen Raumschifftreibstoff zur Verfügung zu stellen. Zweigstellen gibt es in der gesamten Galaxis. Die Vorteile einer Mitgliedschaft umfassen:"
-   },
-   "FLAVOUR_0_WELCOME" : {
-      "description" : "",
-      "message" : "Wilkommen bei der {clubname}"
-   },
-   "FLAVOUR_1_CLUBNAME" : {
-      "description" : "Fuel club for the Federation faction",
-      "message" : "Die Treibstoff-Stiftung der Förderation"
-   },
-   "FLAVOUR_1_NONMEMBER_INTRO" : {
-      "description" : "For the Solar Federation faction",
-      "message" : "{clubname} ist der führende Anbieter für vergünstigten Treibstoff für die Raumschiffe seiner Mitglieder in der SolFed. Eine Mitgliedschaft heißt für Sie: "
-   },
-   "FLAVOUR_2_CLUBNAME" : {
-      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-      "message" : "Die Konföderierte Treibstoffunion"
-   },
-   "FLAVOUR_2_NONMEMBER_INTRO" : {
-      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
-      "message" : "In den Weiten des freien Commonwealth of Independent Worlds ist {clubname} als der beste Anbieter für günstigen Treibstoff und Abfallentsorgungs-Services. Für unsere Mitglieder bieten wir folgendes:"
-   },
-   "FLAVOUR_2_WELCOME" : {
-      "description" : "",
-      "message" : "Wir grüßen Sie! Wir hoffen, dass Sie mit unseren Diensten zufrieden sind."
-   },
-   "FLAVOUR_3_CLUBNAME" : {
-      "description" : "Fuel club for the Haber faction",
-      "message" : "Haber Treibmittel-und Abfallstoffdivision"
-   },
-   "FLAVOUR_3_MEMBER_INTRO" : {
-      "description" : "For the greedy Haber faction, very corporate formulated",
-      "message" : "Wir grüßen Sie, Pilot. Ihre Privilegien für Auftankung und Seitenproduktentsorgung wurden erteilt."
-   },
-   "FLAVOUR_3_NONMEMBER_INTRO" : {
-      "description" : "for the Haber faction",
-      "message" : "Die Haber Treibmittel-und Abfallstoffdivision grüßt Sie, Pilot. Uns wurde die wichtige Aufgabe anvertraut, die Treibstoffverteilung in den Haber-Systemen sicherzustellen."
-   },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Zurück"
-   },
-   "LIST_BENEFITS_DISPOSAL" : {
-      "description" : "",
-      "message" : "{radioactives}, kostenlose Entsorgung (siehe Konditionen)"
-   },
-   "LIST_BENEFITS_FUEL" : {
-      "description" : "",
-      "message" : "{fuel} zum Diskontpreis!"
-   },
-   "LIST_BENEFITS_FUEL_INTRO" : {
-      "description" : "",
-      "message" : "Unsere eigenen, vom Markt unabhängigen, Treibstoffvorräte"
-   },
-   "LIST_BENEFITS_FUEL_TANK" : {
-      "description" : "",
-      "message" : "Treibstoffnachfüllung, wo auch immer es notwendig sein sollte"
-   },
-   "LIST_BENEFITS_JOIN" : {
-      "description" : "",
-      "message" : "Jetzt anmelden! Die jährliche Gebühr beträgt nur {membership_fee}"
-   },
-   "WE_WILL_ONLY_DISPOSE_OF" : {
-      "description" : "",
-      "message" : "Wir werden maximal nur so viel {radioactives} entsorgen, wie Sie {military_fuel} von uns gekauft haben."
-   },
-   "WHAT_CONDITIONS_APPLY" : {
-      "description" : "",
-      "message" : "Welche Konditionen gelten bei der Entsorgung von {radioactives}?"
-   },
-   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
-      "description" : "",
-      "message" : "Ihre Bewerbung wurde abgelehnt."
-   },
-   "YOU_ARE_NOW_A_MEMBER" : {
-      "description" : "",
-      "message" : "Sie sind nun Mitglied. Die Mitgliedschaft verfällt am {expiry_date}."
-   },
-   "YOU_MUST_BUY" : {
-      "description" : "",
-      "message" : "Sie müssen unseren {military_fuel} kaufen, bevor wir Ihre {radioactives} annehmen"
-   }
+  "APPLY_FOR_MEMBERSHIP": {
+    "description": "",
+    "message": "Für Mitgliedschaft bewerben"
+  },
+  "BEGIN_TRADE": {
+    "description": "",
+    "message": "Handel beginnen"
+  },
+  "FLAVOUR_0_CLUBNAME": {
+    "description": "",
+    "message": "Treibstoff-Kooperative Interstellarer Piloten"
+  },
+  "FLAVOUR_0_MEMBER_INTRO": {
+    "description": "",
+    "message": "Sie dürfen hier Treibstoff kaufen und {radioactives} entsorgen."
+  },
+  "FLAVOUR_0_NONMEMBER_INTRO": {
+    "description": "",
+    "message": "{clubname} ist eine unabhängige Organisation mit dem Ziel, ihren Mitgliedern\ngünstigen Raumschifftreibstoff zur Verfügung zu stellen. Zweigstellen gibt es in der gesamten Galaxis. Die Vorteile einer Mitgliedschaft umfassen:"
+  },
+  "FLAVOUR_0_WELCOME": {
+    "description": "",
+    "message": "Wilkommen bei der {clubname}"
+  },
+  "FLAVOUR_1_CLUBNAME": {
+    "description": "Fuel club for the Federation faction",
+    "message": "Die Treibstoff-Stiftung der Förderation"
+  },
+  "FLAVOUR_1_NONMEMBER_INTRO": {
+    "description": "For the Solar Federation faction",
+    "message": "{clubname} ist der führende Anbieter für vergünstigten Treibstoff für die Raumschiffe seiner Mitglieder in der SolFed. Eine Mitgliedschaft heißt für Sie: "
+  },
+  "FLAVOUR_2_CLUBNAME": {
+    "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+    "message": "Die Konföderierte Treibstoffunion"
+  },
+  "FLAVOUR_2_NONMEMBER_INTRO": {
+    "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
+    "message": "In den Weiten des freien Commonwealth of Independent Worlds ist {clubname} als der beste Anbieter für günstigen Treibstoff und Abfallentsorgungs-Services. Für unsere Mitglieder bieten wir folgendes:"
+  },
+  "FLAVOUR_2_WELCOME": {
+    "description": "",
+    "message": "Wir grüßen Sie! Wir hoffen, dass Sie mit unseren Diensten zufrieden sind."
+  },
+  "FLAVOUR_3_CLUBNAME": {
+    "description": "Fuel club for the Haber faction",
+    "message": "Haber Treibmittel-und Abfallstoffdivision"
+  },
+  "FLAVOUR_3_MEMBER_INTRO": {
+    "description": "For the greedy Haber faction, very corporate formulated",
+    "message": "Wir grüßen Sie, Pilot. Ihre Privilegien für Auftankung und Seitenproduktentsorgung wurden erteilt."
+  },
+  "FLAVOUR_3_NONMEMBER_INTRO": {
+    "description": "for the Haber faction",
+    "message": "Die Haber Treibmittel-und Abfallstoffdivision grüßt Sie, Pilot. Uns wurde die wichtige Aufgabe anvertraut, die Treibstoffverteilung in den Haber-Systemen sicherzustellen."
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Zurück"
+  },
+  "LIST_BENEFITS_DISPOSAL": {
+    "description": "",
+    "message": "{radioactives}, kostenlose Entsorgung (siehe Konditionen)"
+  },
+  "LIST_BENEFITS_FUEL": {
+    "description": "",
+    "message": "{fuel} zum Diskontpreis!"
+  },
+  "LIST_BENEFITS_FUEL_INTRO": {
+    "description": "",
+    "message": "Unsere eigenen, vom Markt unabhängigen, Treibstoffvorräte"
+  },
+  "LIST_BENEFITS_FUEL_TANK": {
+    "description": "",
+    "message": "Treibstoffnachfüllung, wo auch immer es notwendig sein sollte"
+  },
+  "LIST_BENEFITS_JOIN": {
+    "description": "",
+    "message": "Jetzt anmelden! Die jährliche Gebühr beträgt nur {membership_fee}"
+  },
+  "WE_WILL_ONLY_DISPOSE_OF": {
+    "description": "",
+    "message": "Wir werden maximal nur so viel {radioactives} entsorgen, wie Sie {military_fuel} von uns gekauft haben."
+  },
+  "WHAT_CONDITIONS_APPLY": {
+    "description": "",
+    "message": "Welche Konditionen gelten bei der Entsorgung von {radioactives}?"
+  },
+  "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
+    "description": "",
+    "message": "Ihre Bewerbung wurde abgelehnt."
+  },
+  "YOU_ARE_NOW_A_MEMBER": {
+    "description": "",
+    "message": "Sie sind nun Mitglied. Die Mitgliedschaft verfällt am {expiry_date}."
+  },
+  "YOU_MUST_BUY": {
+    "description": "",
+    "message": "Sie müssen unseren {military_fuel} kaufen, bevor wir Ihre {radioactives} annehmen"
+  }
 }

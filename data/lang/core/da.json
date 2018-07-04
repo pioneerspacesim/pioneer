@@ -1,1870 +1,1870 @@
 {
-   "AIR_PROCESSORS" : {
-      "description" : "",
-      "message" : "Luftbehandlere"
-   },
-   "ALERT_CANCELLED" : {
-      "description" : "",
-      "message" : "Advarsel afbrudt."
-   },
-   "ALLEGIANCE" : {
-      "description" : "",
-      "message" : "Troskab:"
-   },
-   "ALT" : {
-      "description" : "Alt key on keyboard",
-      "message" : "Alt"
-   },
-   "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
-      "description" : "",
-      "message" : "\" og et meget komplekst økosystem.\""
-   },
-   "AND_INDIGENOUS_MICROBIAL_LIFE" : {
-      "description" : "",
-      "message" : "\" og indfødt mikrobisk liv.\""
-   },
-   "AND_INDIGENOUS_PLANT_LIFE" : {
-      "description" : "",
-      "message" : "\" og indfødt planteliv.\""
-   },
-   "ANIMAL_MEAT" : {
-      "description" : "",
-      "message" : "Dyrekød"
-   },
-   "APOAPSIS_DISTANCE" : {
-      "description" : "",
-      "message" : "Afstand til apoapse"
-   },
-   "AR_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" Argonatmosfære\""
-   },
-   "ASTEROID" : {
-      "description" : "",
-      "message" : "Asteroide"
-   },
-   "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "for star map, select star system when mouse close to it",
-      "message" : "Automatic system selection"
-   },
-   "AUTOPILOT_CONTROL" : {
-      "description" : "Indicating that ship is flying under autopilot control",
-      "message" : "Autopilot control"
-   },
-   "AUTOPILOT_DOCK_WITH_STATION" : {
-      "description" : "",
-      "message" : "Autopilot: Sammenkobl med rumstation"
-   },
-   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "Autopilot: Foretag højt kredsløb omkring %target"
-   },
-   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "Autopilot: Foretag lavt kredsløb omkring %target"
-   },
-   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "Autopilot: Foretag mellemhøjt kredsløb omkring %target"
-   },
-   "AUTOPILOT_FLY_TO_VICINITY_OF" : {
-      "description" : "",
-      "message" : "Autopilot: Flyv til nærheden af %target"
-   },
-   "AUTOPILOT_ON" : {
-      "description" : "",
-      "message" : "Autopilot aktiveret"
-   },
-   "AXIAL_TILT" : {
-      "description" : "",
-      "message" : "Aksehældning"
-   },
-   "A_FEW_THOUSAND" : {
-      "description" : "regarding population",
-      "message" : "Kun nogle få tusinde"
-   },
-   "BATTLE_WEAPONS" : {
-      "description" : "",
-      "message" : "Angrebsvåben"
-   },
-   "BINARY_SYSTEM" : {
-      "description" : "",
-      "message" : "Binært system"
-   },
-   "BODIES" : {
-      "description" : "space bodies",
-      "message" : "legemer"
-   },
-   "BODY" : {
-      "description" : "",
-      "message" : "krop"
-   },
-   "BROWN_DWARF" : {
-      "description" : "",
-      "message" : "Brun dværg sub-stjerneobjekt"
-   },
-   "BUTTON" : {
-      "description" : "",
-      "message" : "\" Knap \""
-   },
-   "CAMERA_BOTTOM_VIEW" : {
-      "description" : "",
-      "message" : "Underkamera"
-   },
-   "CAMERA_FRONT_VIEW" : {
-      "description" : "",
-      "message" : "Frontkamera"
-   },
-   "CAMERA_LEFT_VIEW" : {
-      "description" : "",
-      "message" : "Venstre kamera"
-   },
-   "CAMERA_REAR_VIEW" : {
-      "description" : "",
-      "message" : "Bagkamera"
-   },
-   "CAMERA_RIGHT_VIEW" : {
-      "description" : "",
-      "message" : "Højre kamera"
-   },
-   "CAMERA_TOP_VIEW" : {
-      "description" : "",
-      "message" : "Topkamera"
-   },
-   "CANT_SAVE_DEAD_PLAYER" : {
-      "description" : "",
-      "message" : "Can't save game after the player has died"
-   },
-   "CANT_SAVE_IN_HYPERSPACE" : {
-      "description" : "",
-      "message" : "Kan ikke gemme spillet i hyperrum"
-   },
-   "CAPITALIST" : {
-      "description" : "",
-      "message" : "Kapitalist"
-   },
-   "CARBON_ORE" : {
-      "description" : "",
-      "message" : "Kulmalm"
-   },
-   "CARGO" : {
-      "description" : "",
-      "message" : "Last"
-   },
-   "CARGO_BAY_LIFE_SUPPORT_LOST" : {
-      "description" : "",
-      "message" : "Sensorer meddeler kritisk livsstøtte i lastrummet."
-   },
-   "CARGO_N" : {
-      "description" : "",
-      "message" : "Last: %{mass}t"
-   },
-   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
-      "description" : "",
-      "message" : "Last-opsamler aktiv. Indsamlet 1 ton af %item."
-   },
-   "CARGO_SCOOP_ATTEMPTED" : {
-      "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
-   },
-   "CH4_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" Methanatmosfære\""
-   },
-   "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
-      "description" : "",
-      "message" : "Tilkoblingstilladelse allerede tildelt. Fortsæt til tilkoblingssted %bay."
-   },
-   "CLEARANCE_DENIED_NO_BAYS" : {
-      "description" : "",
-      "message" : "Tilkoblingstilladelse ikke givet. Der er ingen ledige tilkoblingssteder."
-   },
-   "CLEARANCE_GRANTED_BAY_N" : {
-      "description" : "",
-      "message" : "Tilkoblingstilladelse tildelt. Fortsæt til tilkoblingssted %bay."
-   },
-   "CO2_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" Kuldioxidatmosfære\""
-   },
-   "COMMA_HIGHLY_VOLCANIC" : {
-      "description" : "",
-      "message" : ", meget vulkansk"
-   },
-   "COMMODITY_NONE" : {
-      "description" : "When no commodities exist",
-      "message" : "Ingen"
-   },
-   "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
-      "description" : "",
-      "message" : "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
-   },
-   "COMMODITY_TRADE_ANALYSIS_SELF" : {
-      "description" : "",
-      "message" : "Commodity trade analysis of #fff%system#fff"
-   },
-   "COMMS" : {
-      "description" : "",
-      "message" : "Komm"
-   },
-   "COMMUNIST" : {
-      "description" : "",
-      "message" : "Kommunist"
-   },
-   "COMPASS_E" : {
-      "description" : "Abbreviation for compass direction: East",
-      "message" : "E"
-   },
-   "COMPASS_N" : {
-      "description" : "Abbreviation for compass direction: North",
-      "message" : "N"
-   },
-   "COMPASS_NE" : {
-      "description" : "Abbreviation for compass direction: North East",
-      "message" : "NE"
-   },
-   "COMPASS_NW" : {
-      "description" : "Abbreviation for compass direction: North West",
-      "message" : "NW"
-   },
-   "COMPASS_S" : {
-      "description" : "Abbreviation for compass direction: South",
-      "message" : "S"
-   },
-   "COMPASS_SE" : {
-      "description" : "Abbreviation for compass direction: South East",
-      "message" : "SE"
-   },
-   "COMPASS_SW" : {
-      "description" : "Abbreviation for compass direction: South West",
-      "message" : "SW"
-   },
-   "COMPASS_W" : {
-      "description" : "Abbreviation for compass direction: West",
-      "message" : "W"
-   },
-   "COMPUTERS" : {
-      "description" : "",
-      "message" : "Computere"
-   },
-   "COMPUTER_HEADING_CONTROL" : {
-      "description" : "",
-      "message" : "Computer kurskontrol"
-   },
-   "COMPUTER_SPEED_CONTROL" : {
-      "description" : "",
-      "message" : "Computer hastighedskontrol"
-   },
-   "CONSUMER_GOODS" : {
-      "description" : "",
-      "message" : "Forbrugervarer"
-   },
-   "CONTROLS" : {
-      "description" : "",
-      "message" : "Styring"
-   },
-   "CORPORATE_SYSTEM" : {
-      "description" : "",
-      "message" : "Virksomhedssystem"
-   },
-   "COULD_NOT_OPEN_FILENAME" : {
-      "description" : "",
-      "message" : "Kunne ikke åbne %path"
-   },
-   "COUNT_ON_SURFACE" : {
-      "description" : "",
-      "message" : "\" (%surfacecount på overfladen)\""
-   },
-   "COUNT_STARPORTS" : {
-      "description" : "",
-      "message" : "rumhavne"
-   },
-   "CO_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" Karbonmonooxidatmosfære\""
-   },
-   "CTRL" : {
-      "description" : "Ctrl key on keyboard",
-      "message" : "Ctrl"
-   },
-   "CURRENT_SYSTEM" : {
-      "description" : "selected current star system",
-      "message" : "Nuværende system"
-   },
-   "DATE_DUE_N" : {
-      "description" : "",
-      "message" : "Forfaldsdato: %date"
-   },
-   "DAY_LENGTH" : {
-      "description" : "",
-      "message" : "Dagslængde"
-   },
-   "DECREASE_RADAR_RANGE" : {
-      "description" : "",
-      "message" : "Decrease radar range"
-   },
-   "DECREASE_SET_SPEED" : {
-      "description" : "",
-      "message" : "Mindsk indstillet hastighed"
-   },
-   "DECREASE_TIME_ACCELERATION" : {
-      "description" : "",
-      "message" : "Decrease Time Acceleration"
-   },
-   "DEMOGRAPHICS" : {
-      "description" : "",
-      "message" : "Demografi"
-   },
-   "DESTINATION" : {
-      "description" : "",
-      "message" : "Destinatio"
-   },
-   "DIRECTION" : {
-      "description" : "Direction",
-      "message" : "\" Retning \""
-   },
-   "DISTANCE_LY" : {
-      "description" : "",
-      "message" : "Afstand: %distance{f.2} ly"
-   },
-   "DOCKED" : {
-      "description" : "",
-      "message" : "Tilkoblet"
-   },
-   "DOCKING" : {
-      "description" : "",
-      "message" : "Tilkobling"
-   },
-   "DOCKING_CLEARANCE_EXPIRED" : {
-      "description" : "",
-      "message" : "Tilkoblingstilladelse er udløbet. Hvis du vil sammenkoble, skal du gentage din anmodning."
-   },
-   "DOWNGRADING_ALERT_STATUS" : {
-      "description" : "",
-      "message" : "Ingen affyrede skud registreret i 60s, nedgraderer advarselsniveau."
-   },
-   "DRAW_OUT_RANGE_LABELS" : {
-      "description" : "",
-      "message" : "Markér systemer uden for rækkevidde"
-   },
-   "DRAW_UNINHABITED_LABELS" : {
-      "description" : "",
-      "message" : "Markér ubeboede systemer"
-   },
-   "DRAW_VERTICAL_LINES" : {
-      "description" : "",
-      "message" : "Tegn vertikale linjer"
-   },
-   "EARTH" : {
-      "description" : "",
-      "message" : "Jorden"
-   },
-   "EARTH_FEDERATION_COLONIAL_RULE" : {
-      "description" : "",
-      "message" : "Jordens Koloniforbund"
-   },
-   "EARTH_FEDERATION_DEMOCRACY" : {
-      "description" : "",
-      "message" : "Jordens Demokratiske Forbund"
-   },
-   "ECCENTRICITY" : {
-      "description" : "",
-      "message" : "Excentricitet"
-   },
-   "ECONOMIC_INFO" : {
-      "description" : "",
-      "message" : "Økonomisk info:"
-   },
-   "ECONOMY_TYPE" : {
-      "description" : "",
-      "message" : "Økonomitype:"
-   },
-   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
-      "description" : "",
-      "message" : "Ævkatorial-til-polær radiusforhold"
-   },
-   "EXACT_MATCH_X" : {
-      "description" : "",
-      "message" : "Eksakt match: %system"
-   },
-   "EXTENSIVE_MINING" : {
-      "description" : "",
-      "message" : "Omfattende minedrift."
-   },
-   "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
-      "description" : "",
-      "message" : "Eksternt atmosfærisk tryk"
-   },
-   "EXTERNAL_VIEW" : {
-      "description" : "",
-      "message" : "Udvendigt synspunkt"
-   },
-   "FARM_MACHINERY" : {
-      "description" : "",
-      "message" : "Landbrugsmaskineri"
-   },
-   "FERTILIZER" : {
-      "description" : "",
-      "message" : "Gødning"
-   },
-   "FIRE_LASER" : {
-      "description" : "",
-      "message" : "Fire weapon"
-   },
-   "FIRE_MISSILE" : {
-      "description" : "",
-      "message" : "Affyr missil"
-   },
-   "FOLLOWING_SELECTION" : {
-      "description" : "",
-      "message" : "følgende udvælgelse"
-   },
-   "FRUIT_AND_VEG" : {
-      "description" : "",
-      "message" : "Frugt og grøntsager"
-   },
-   "FUEL" : {
-      "description" : "",
-      "message" : "Brændstof"
-   },
-   "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
-      "description" : "",
-      "message" : "Brændstof-opsamler aktiv. Du har nu %quantity tons hydrogen."
-   },
-   "GALACTIC_VIEW" : {
-      "description" : "view galactic map",
-      "message" : "Galaktisk oversigt"
-   },
-   "GALAXY_SECTOR_VIEW" : {
-      "description" : "",
-      "message" : "Galaktisk sektor-oversigt"
-   },
-   "GAME_LOAD_CANNOT_OPEN" : {
-      "description" : "",
-      "message" : "Save file '%filename' could not be found (or the game does not have access to open it)."
-   },
-   "GAME_LOAD_CORRUPT" : {
-      "description" : "",
-      "message" : "Denne gemning kan ikke åbnes, da den indeholder fejl."
-   },
-   "GAME_LOAD_WRONG_VERSION" : {
-      "description" : "",
-      "message" : "Denne gemning kan ikke åbnes fordi den blev lavet i en anden version af Pioneer."
-   },
-   "GAME_SAVED_TO" : {
-      "description" : "",
-      "message" : "\"Spil gemt til \""
-   },
-   "GAME_SAVE_CANNOT_WRITE" : {
-      "description" : "",
-      "message" : "Denne gemning kunne ikke blive skrevet på grund af en system-fejl."
-   },
-   "GENERAL_VIEW_CONTROLS" : {
-      "description" : "",
-      "message" : "Generel synspunktsstyring"
-   },
-   "GOVERNMENT_TYPE" : {
-      "description" : "",
-      "message" : "Styreform:"
-   },
-   "GRAIN" : {
-      "description" : "like wheat or barley",
-      "message" : "Korn"
-   },
-   "HAND_WEAPONS" : {
-      "description" : "",
-      "message" : "Håndvåben"
-   },
-   "HARD_CAPITALIST" : {
-      "description" : "",
-      "message" : "Ren kapitalisme - ingen offentlige velfærdsydelser"
-   },
-   "HAT" : {
-      "description" : "Hat switch: Is the top button on a joystick",
-      "message" : "\" Hat\""
-   },
-   "HEADING_LOCK_ANTINORMAL" : {
-      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
-      "message" : "Hold anti-normal"
-   },
-   "HEADING_LOCK_BACKWARD" : {
-      "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-      "message" : "Hold retrograde"
-   },
-   "HEADING_LOCK_FORWARD" : {
-      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-      "message" : "Hold prograde"
-   },
-   "HEADING_LOCK_KILLROT" : {
-      "description" : "",
-      "message" : "Kill rotation"
-   },
-   "HEADING_LOCK_NORMAL" : {
-      "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-      "message" : "Hold normal"
-   },
-   "HEADING_LOCK_RADIALLY_INWARD" : {
-      "description" : "Autopilot direction, relative to orbit (face towards planet)",
-      "message" : "Hold radially in"
-   },
-   "HEADING_LOCK_RADIALLY_OUTWARD" : {
-      "description" : "Autopilot direction, relative to orbit (face away from palent)",
-      "message" : "Hold radially out"
-   },
-   "HEAVY_INDUSTRY" : {
-      "description" : "",
-      "message" : "Stor industri."
-   },
-   "HE_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" Heliumatmosfære\""
-   },
-   "HIGHLY_VOLCANIC" : {
-      "description" : "",
-      "message" : "Meget vulkansk"
-   },
-   "HIGH_POPULATION_OUTDOOR_WORLD" : {
-      "description" : "",
-      "message" : "Højbefolket udendørsverden."
-   },
-   "HULL_INTEGRITY" : {
-      "description" : "",
-      "message" : "Skrogintegritet"
-   },
-   "HULL_TEMP" : {
-      "description" : "",
-      "message" : "Skrogtemperatur"
-   },
-   "HYDROGEN" : {
-      "description" : "",
-      "message" : "Hydrogen"
-   },
-   "HYPERSPACE" : {
-      "description" : "",
-      "message" : "Hyperrum"
-   },
-   "HYPERSPACE_ARRIVAL_CLOUD" : {
-      "description" : "",
-      "message" : "Hyperrum ankomstsky"
-   },
-   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
-      "description" : "",
-      "message" : "Hyperrum ankomstsky rest"
-   },
-   "HYPERSPACE_DEPARTURE_CLOUD" : {
-      "description" : "",
-      "message" : "Hyperrum afgangssky"
-   },
-   "HYPERSPACE_JUMP_ABORT" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disengage Hyperdrive"
-   },
-   "HYPERSPACE_JUMP_ABORTED" : {
-      "description" : "",
-      "message" : "Hyperrum hop afbrudt."
-   },
-   "HYPERSPACE_JUMP_DISABLED" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Hyperdrive disabled"
-   },
-   "HYPERSPACE_JUMP_ENGAGE" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Engage Hyperdrive"
-   },
-   "HYPERSPACE_JUMP_FORBIDDEN" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Hyperdrive forbidden zone"
-   },
-   "HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Hyperrum mål"
-   },
-   "H_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" Hydrogenatmosfære\""
-   },
-   "ICE_WORLD" : {
-      "description" : "",
-      "message" : "\" isverden\""
-   },
-   "ILLEGAL_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Illegal (current system):"
-   },
-   "ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "Ulovlige varer:"
-   },
-   "IMPERIAL_RULE" : {
-      "description" : "",
-      "message" : "Kejserstyre"
-   },
-   "INCREASE_RADAR_RANGE" : {
-      "description" : "",
-      "message" : "Increase radar range"
-   },
-   "INCREASE_SET_SPEED" : {
-      "description" : "",
-      "message" : "Øg indstillet hastighed"
-   },
-   "INCREASE_TIME_ACCELERATION" : {
-      "description" : "",
-      "message" : "Increase Time Acceleration"
-   },
-   "INDUSTRIAL_COLONY" : {
-      "description" : "",
-      "message" : "Industriel koloni."
-   },
-   "INDUSTRIAL_HUB_SYSTEM" : {
-      "description" : "",
-      "message" : "Industriel knudepunktssystem."
-   },
-   "INDUSTRIAL_MACHINERY" : {
-      "description" : "",
-      "message" : "Industriel maskineri"
-   },
-   "INTERNAL_VIEW" : {
-      "description" : "",
-      "message" : "Invendigt synspunkt"
-   },
-   "JOY" : {
-      "description" : "Short for Joystick",
-      "message" : "Joy"
-   },
-   "JOYSTICK_INPUT" : {
-      "description" : "",
-      "message" : "Joystick input"
-   },
-   "JOY_AXIS" : {
-      "description" : "Regarding joystick",
-      "message" : "%{sign}%joyname %axis Axis"
-   },
-   "L4L5_DISPLAY_MODE_TOGGLE" : {
-      "description" : "Either show L4/L5 points or don't",
-      "message" : "Switch between Lagrange L4/L5 point display modes."
-   },
-   "LANDED" : {
-      "description" : "",
-      "message" : "Landet"
-   },
-   "LANG_NAME" : {
-      "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
-      "message" : "Dansk"
-   },
-   "LARGE" : {
-      "description" : "regarding terrestrial planet size (mass actually)",
-      "message" : "Stor"
-   },
-   "LARGE_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Stor gasgigant"
-   },
-   "LASER_FIRE_DETECTED" : {
-      "description" : "",
-      "message" : "Weapons fire detected."
-   },
-   "LATITUDE" : {
-      "description" : "Short for latitude",
-      "message" : "Lat:"
-   },
-   "LATITUDE_NORTH_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'north'",
-      "message" : "N"
-   },
-   "LATITUDE_SOUTH_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'south'",
-      "message" : "S"
-   },
-   "LEGAL_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Legal (current system):"
-   },
-   "LIBERAL_DEMOCRACY" : {
-      "description" : "",
-      "message" : "Liberalt demokrati"
-   },
-   "LIQUID_OXYGEN" : {
-      "description" : "",
-      "message" : "Flydende oxygen"
-   },
-   "LIQUOR" : {
-      "description" : "",
-      "message" : "Likør"
-   },
-   "LIVE_ANIMALS" : {
-      "description" : "",
-      "message" : "Levende Dyr"
-   },
-   "LOCKED" : {
-      "description" : "to lock a hyperspace target",
-      "message" : "låst"
-   },
-   "LONGITUDE" : {
-      "description" : "Short for longitude",
-      "message" : "Long:"
-   },
-   "LONGITUDE_EAST_ABBREV" : {
-      "description" : "Abbreviation letter for longitude 'east'",
-      "message" : "E"
-   },
-   "LONGITUDE_WEST_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'west'",
-      "message" : "W"
-   },
-   "MAJOR_EXPORTS" : {
-      "description" : "",
-      "message" : "Primær eksport:"
-   },
-   "MAJOR_EXPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major export (current system)"
-   },
-   "MAJOR_IMPORTS" : {
-      "description" : "",
-      "message" : "Primær import:"
-   },
-   "MAJOR_IMPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major import (current system)"
-   },
-   "MANUAL_CONTROL" : {
-      "description" : "",
-      "message" : "Manuel kontrol"
-   },
-   "MANUAL_CONTROL_MODE" : {
-      "description" : "",
-      "message" : "Manuel kontroltilstand"
-   },
-   "MAP_LOCK_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Lås hyperrum mål"
-   },
-   "MAP_TOGGLE_INFO_PANEL" : {
-      "description" : "",
-      "message" : "Aktivér Info-panel"
-   },
-   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
-      "description" : "",
-      "message" : "Aktivér Følging af markéring"
-   },
-   "MAP_VIEW_ROTATE_DOWN" : {
-      "description" : "",
-      "message" : "Rotér Synspunkt Ned"
-   },
-   "MAP_VIEW_ROTATE_LEFT" : {
-      "description" : "",
-      "message" : "Rotér Synspunkt Venstre"
-   },
-   "MAP_VIEW_ROTATE_RIGHT" : {
-      "description" : "",
-      "message" : "Rotér Synspunkt Højre"
-   },
-   "MAP_VIEW_ROTATE_UP" : {
-      "description" : "",
-      "message" : "Rotér Synspunkt Op"
-   },
-   "MAP_VIEW_SHIFT_BACKWARD" : {
-      "description" : "",
-      "message" : "Flyt Synspunkt Baglæns"
-   },
-   "MAP_VIEW_SHIFT_DOWN" : {
-      "description" : "",
-      "message" : "Flyt Synspunkt Ned"
-   },
-   "MAP_VIEW_SHIFT_FORWARD" : {
-      "description" : "",
-      "message" : "Flyt Synspunkt Fremad"
-   },
-   "MAP_VIEW_SHIFT_LEFT" : {
-      "description" : "",
-      "message" : "Flyt Synspunkt Venstre"
-   },
-   "MAP_VIEW_SHIFT_RIGHT" : {
-      "description" : "",
-      "message" : "Flyt Synspunkt Højre"
-   },
-   "MAP_VIEW_SHIFT_UP" : {
-      "description" : "",
-      "message" : "Flyt Synspunkt Op"
-   },
-   "MAP_WARP_TO_CURRENT_SYSTEM" : {
-      "description" : "",
-      "message" : "Hop til Nuværende System"
-   },
-   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Hop til Hyperrum mål"
-   },
-   "MAP_WARP_TO_SELECTED_SYSTEM" : {
-      "description" : "",
-      "message" : "Hop til det Valgte System"
-   },
-   "MASS" : {
-      "description" : "",
-      "message" : "Masse"
-   },
-   "MASSIVE" : {
-      "description" : "",
-      "message" : "Massiv"
-   },
-   "MASS_N_TONNES" : {
-      "description" : "",
-      "message" : "Masse: %{mass}t"
-   },
-   "MEDICINES" : {
-      "description" : "",
-      "message" : "Medicin"
-   },
-   "MEDIUM_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Mellem gasgigant"
-   },
-   "MESSAGE_FROM_X" : {
-      "description" : "",
-      "message" : "Besked fra %sender:"
-   },
-   "META" : {
-      "description" : "'Meta' key on keyboard",
-      "message" : "Meta"
-   },
-   "METAL_ALLOYS" : {
-      "description" : "",
-      "message" : "Metallegeringer"
-   },
-   "METAL_ORE" : {
-      "description" : "",
-      "message" : "Malm"
-   },
-   "MILITARY_DICTATORSHIP" : {
-      "description" : "",
-      "message" : "Militærdiktatur"
-   },
-   "MILITARY_FUEL" : {
-      "description" : "",
-      "message" : "Militærbrændstof"
-   },
-   "MINING_COLONY" : {
-      "description" : "",
-      "message" : "Minekoloni"
-   },
-   "MINING_MACHINERY" : {
-      "description" : "",
-      "message" : "Minedriftsmaskineri"
-   },
-   "MINOR_EXPORTS" : {
-      "description" : "",
-      "message" : "Sekundær eksport:"
-   },
-   "MINOR_EXPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor export (current system)"
-   },
-   "MINOR_IMPORTS" : {
-      "description" : "",
-      "message" : "Sekundær import:"
-   },
-   "MINOR_IMPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor import (current system)"
-   },
-   "MISCELLANEOUS" : {
-      "description" : "",
-      "message" : "Diverse"
-   },
-   "MISSILE" : {
-      "description" : "",
-      "message" : "missil"
-   },
-   "MIXED_ECONOMY" : {
-      "description" : "",
-      "message" : "Blandet økonomi"
-   },
-   "MONTH_APR" : {
-      "description" : "",
-      "message" : "Apr"
-   },
-   "MONTH_AUG" : {
-      "description" : "",
-      "message" : "Aug"
-   },
-   "MONTH_DEC" : {
-      "description" : "",
-      "message" : "Dec"
-   },
-   "MONTH_FEB" : {
-      "description" : "",
-      "message" : "Feb"
-   },
-   "MONTH_JAN" : {
-      "description" : "",
-      "message" : "Jan"
-   },
-   "MONTH_JUL" : {
-      "description" : "",
-      "message" : "Jul"
-   },
-   "MONTH_JUN" : {
-      "description" : "",
-      "message" : "Jun"
-   },
-   "MONTH_MAR" : {
-      "description" : "",
-      "message" : "Mar"
-   },
-   "MONTH_MAY" : {
-      "description" : "",
-      "message" : "Maj"
-   },
-   "MONTH_NOV" : {
-      "description" : "",
-      "message" : "Nov"
-   },
-   "MONTH_OCT" : {
-      "description" : "",
-      "message" : "Okt"
-   },
-   "MONTH_SEP" : {
-      "description" : "",
-      "message" : "Sep"
-   },
-   "NAME_OBJECT" : {
-      "description" : "For an item or object",
-      "message" : "Navn"
-   },
-   "NAME_PERSON" : {
-      "description" : "For a person",
-      "message" : "Navn"
-   },
-   "NARCOTICS" : {
-      "description" : "",
-      "message" : "Narkotika"
-   },
-   "NAVIGATION_STAR_MAPS" : {
-      "description" : "",
-      "message" : "Navigation og stjerne-kort"
-   },
-   "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
-      "description" : "",
-      "message" : "Navigationsmål i dette system"
-   },
-   "NERVE_GAS" : {
-      "description" : "",
-      "message" : "Nervegas"
-   },
-   "NOT_FOUND" : {
-      "description" : "searching star system in sector view",
-      "message" : "Ikke fundet"
-   },
-   "NOT_FOUND_BEST_MATCH_X" : {
-      "description" : "",
-      "message" : "Ikke fundet, bedste match: %system"
-   },
-   "NOW" : {
-      "description" : "In System Orbit View",
-      "message" : "Now"
-   },
-   "NO_ALERT" : {
-      "description" : "",
-      "message" : "Ingen advarsel"
-   },
-   "NO_CENTRAL_GOVERNANCE" : {
-      "description" : "",
-      "message" : "Intet centralt styre"
-   },
-   "NO_ESTABLISHED_ORDER" : {
-      "description" : "",
-      "message" : "Ingen etableret orden"
-   },
-   "NO_HYPERDRIVE" : {
-      "description" : "",
-      "message" : "Intet hyperdrev"
-   },
-   "NO_REGISTERED_INHABITANTS" : {
-      "description" : "",
-      "message" : "Ingen regristrede beboere"
-   },
-   "NO_TARGET_SELECTED" : {
-      "description" : "",
-      "message" : "Skibscomputer: Intet mål valgt"
-   },
-   "NUMBER_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.0} dage"
-   },
-   "NUMBER_DECIMAL_POINT" : {
-      "description" : "Decimal delimiter used in numbers.",
-      "message" : ","
-   },
-   "NUMBER_G" : {
-      "description" : "",
-      "message" : "%acceleration{f.1} G"
-   },
-   "NUMBER_GROUP_MIN" : {
-      "description" : "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
-      "message" : "1000"
-   },
-   "NUMBER_GROUP_NUM" : {
-      "description" : "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
-      "message" : "3"
-   },
-   "NUMBER_GROUP_SEP" : {
-      "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-      "message" : "."
-   },
-   "NUMBER_HOURS" : {
-      "description" : "",
-      "message" : "%hours{f.1} t"
-   },
-   "NUMBER_LY" : {
-      "description" : "",
-      "message" : "%distance{f.2} ly"
-   },
-   "NUMBER_TONNES" : {
-      "description" : "",
-      "message" : "%{mass}t"
-   },
-   "N_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" Nitrogenatmosfære\""
-   },
-   "N_CELSIUS" : {
-      "description" : "",
-      "message" : "%temperature C"
-   },
-   "N_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.1} dage"
-   },
-   "N_DEGREES" : {
-      "description" : "",
-      "message" : "%angle{f.1} grader"
-   },
-   "N_EARTH_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.1} Jord-dage"
-   },
-   "N_WHATEVER_MASSES" : {
-      "description" : "",
-      "message" : "%mass{f.3} %units masser"
-   },
-   "N_WHATEVER_RADII" : {
-      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-      "message" : "%radius{f.3} %units radii (%radkm{f.0} km)"
-   },
-   "N_YEARS" : {
-      "description" : "",
-      "message" : "%years{f.1} år"
-   },
-   "O2_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" Oxygenatmosfære\""
-   },
-   "OCEANICWORLD" : {
-      "description" : "",
-      "message" : "\" oceanisk verden\""
-   },
-   "ORBITAL_PERIOD" : {
-      "description" : "",
-      "message" : "Kredsløbsperiode"
-   },
-   "ORBITAL_STARPORT" : {
-      "description" : "",
-      "message" : "Rumhavn"
-   },
-   "OUTDOOR_AGRICULTURAL_WORLD" : {
-      "description" : "",
-      "message" : "Udendørs landbrugsverden."
-   },
-   "OVER_N_BILLION" : {
-      "description" : "",
-      "message" : "Over %population millarder"
-   },
-   "OVER_N_MILLION" : {
-      "description" : "",
-      "message" : "Over %poulation millioner"
-   },
-   "PASSENGER_CABIN" : {
-      "description" : "",
-      "message" : "Optaget Passagérkabine"
-   },
-   "PAUSED" : {
-      "description" : "",
-      "message" : "PAUSET"
-   },
-   "PAY_FINE_REMOTELY" : {
-      "description" : "",
-      "message" : "Betal bøde ved fjernbetaling (%amount)"
-   },
-   "PERIAPSIS_DISTANCE" : {
-      "description" : "",
-      "message" : "Afstand til periapse"
-   },
-   "PIONEER" : {
-      "description" : "",
-      "message" : "PIONEER"
-   },
-   "PITCH" : {
-      "description" : "",
-      "message" : "Højderor"
-   },
-   "PITCH_DOWN" : {
-      "description" : "",
-      "message" : "Højderor ned"
-   },
-   "PITCH_UP" : {
-      "description" : "",
-      "message" : "Højderor op"
-   },
-   "PLANETARY_INFO" : {
-      "description" : "",
-      "message" : "Planetarisk info"
-   },
-   "PLANET_CONTAINING_LIQUID_WATER" : {
-      "description" : "",
-      "message" : "\" planet, indeholdende flydende vand\""
-   },
-   "PLANET_WITH_SOME_ICE" : {
-      "description" : "",
-      "message" : "\" planet med is\""
-   },
-   "PLANNED_ECONOMY" : {
-      "description" : "",
-      "message" : "Centralt styret økonomi"
-   },
-   "PLANNER_RESET_FACTOR" : {
-      "description" : "For system orbit view",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
-   },
-   "PLANNER_RESET_NORMAL" : {
-      "description" : "For system orbit view",
-      "message" : "Normal delta-v. Click to reset to zero."
-   },
-   "PLANNER_RESET_PROGRADE" : {
-      "description" : "For system orbit view",
-      "message" : "Prograde delta-v. Click to reset to zero."
-   },
-   "PLANNER_RESET_RADIAL" : {
-      "description" : "For system orbit view",
-      "message" : "Radial delta-v. Click to reset to zero."
-   },
-   "PLANNER_RESET_START" : {
-      "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
-   },
-   "PLASTICS" : {
-      "description" : "",
-      "message" : "Plastik"
-   },
-   "PLUTOCRATIC_DICTATORSHIP" : {
-      "description" : "",
-      "message" : "Plutokratisk diktatur"
-   },
-   "POPULATION" : {
-      "description" : "",
-      "message" : "Befolkning:"
-   },
-   "PRECIOUS_METALS" : {
-      "description" : "",
-      "message" : "Ædelmetaller"
-   },
-   "PRESSURE_N_ATMOSPHERES" : {
-      "description" : "",
-      "message" : "P: %pressure{f.2} atm"
-   },
-   "QUADRUPLE_SYSTEM" : {
-      "description" : "",
-      "message" : "Kvadrupelt system"
-   },
-   "RADAR_CONTROL" : {
-      "description" : "",
-      "message" : "Radar control"
-   },
-   "RADIOACTIVES" : {
-      "description" : "",
-      "message" : "Radioaktivt affald"
-   },
-   "RADIUS" : {
-      "description" : "",
-      "message" : "Radius"
-   },
-   "RECENTLY_EXPLORED_SYSTEM" : {
-      "description" : "",
-      "message" : "This system was explored on %date."
-   },
-   "REQUEST_DOCKING_CLEARANCE" : {
-      "description" : "",
-      "message" : "Anmod om tilkoblingstilladelse"
-   },
-   "RESET" : {
-      "description" : "",
-      "message" : "Nulstil"
-   },
-   "RESET_ORIENTATION_AND_ZOOM" : {
-      "description" : "",
-      "message" : "Nulstil Synspunkt og Zoom"
-   },
-   "ROBOTS" : {
-      "description" : "",
-      "message" : "Robotter"
-   },
-   "ROCKY_PLANET" : {
-      "description" : "",
-      "message" : "\" klippeplanet\""
-   },
-   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
-      "description" : "",
-      "message" : "\" klippeplanet, indeholdende nogle væsker,\""
-   },
-   "ROLL" : {
-      "description" : "",
-      "message" : "Rul"
-   },
-   "ROLL_LEFT" : {
-      "description" : "",
-      "message" : "Krængeror venstre"
-   },
-   "ROLL_RIGHT" : {
-      "description" : "",
-      "message" : "Krængeror højre"
-   },
-   "ROTATE_DOWN" : {
-      "description" : "",
-      "message" : "Rotér Ned"
-   },
-   "ROTATE_LEFT" : {
-      "description" : "",
-      "message" : "Rotér Venstre"
-   },
-   "ROTATE_RIGHT" : {
-      "description" : "",
-      "message" : "Rotér Højre"
-   },
-   "ROTATE_UP" : {
-      "description" : "",
-      "message" : "Rotér Op"
-   },
-   "ROTATIONAL_PERIOD" : {
-      "description" : "",
-      "message" : "\" (roteringsperiode)\""
-   },
-   "ROTATION_DAMPING_OFF" : {
-      "description" : "",
-      "message" : "Rotationsdæmpning deaktiveret"
-   },
-   "ROTATION_DAMPING_ON" : {
-      "description" : "",
-      "message" : "Rotationsdæmpning aktiveret"
-   },
-   "RUBBISH" : {
-      "description" : "",
-      "message" : "Affald"
-   },
-   "SCOOP" : {
-      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
-      "message" : "Scoop"
-   },
-   "SCREENSHOT_FILENAME_TEMPLATE" : {
-      "description" : "",
-      "message" : "screenshot%index{d08}.png"
-   },
-   "SEARCH" : {
-      "description" : "",
-      "message" : "Søg"
-   },
-   "SEARCH_MAP" : {
-      "description" : "",
-      "message" : "Søg på Kort"
-   },
-   "SECTOR_COORDINATES" : {
-      "description" : "",
-      "message" : "Sektorkoordinater:"
-   },
-   "SECTOR_MAP_VIEW" : {
-      "description" : "",
-      "message" : "Sektor Kort-oversigt"
-   },
-   "SECTOR_X_Y_Z" : {
-      "description" : "",
-      "message" : "Sektor: %x,%y,%z"
-   },
-   "SELECTED_SYSTEM" : {
-      "description" : "",
-      "message" : "Valgte system"
-   },
-   "SELECT_A_TARGET" : {
-      "description" : "",
-      "message" : "Vælg et mål"
-   },
-   "SELECT_LOW_THRUST_POWER_LEVEL" : {
-      "description" : "",
-      "message" : "Vælg lavreaktionskraftniveau"
-   },
-   "SEMI_MAJOR_AXIS" : {
-      "description" : "",
-      "message" : "Halve storakse"
-   },
-   "SET_HYPERSPACE_DESTINATION_TO" : {
-      "description" : "",
-      "message" : "Sæt hyperrum destination til %system"
-   },
-   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
-      "description" : "",
-      "message" : "Hyperrums-skyanalysator: Sæt hyperrum-mål til at følge denne afgang"
-   },
-   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
-      "description" : "",
-      "message" : "Sæt lavreaktionskraftniveau til %power%%"
-   },
-   "SET_NAVTARGET_TO" : {
-      "description" : "",
-      "message" : "Set navigation target to: "
-   },
-   "SET_SPEED_KM_S" : {
-      "description" : "",
-      "message" : "Sæt hastighed: %speed{f.2} km/s"
-   },
-   "SET_SPEED_M_S" : {
-      "description" : "",
-      "message" : "Sæt hastighed: %speed{f.0} m/s"
-   },
-   "SHIELD_INTEGRITY" : {
-      "description" : "",
-      "message" : "Skjoldintegritet"
-   },
-   "SHIELD_STRENGTH_N" : {
-      "description" : "",
-      "message" : "Skjoldstyrke: %shields{f.2}"
-   },
-   "SHIFT" : {
-      "description" : "Shift key on keyboard",
-      "message" : "Shift"
-   },
-   "SHIP" : {
-      "description" : "",
-      "message" : "Skib"
-   },
-   "SHIPS_DISPLAY_MODE_TOGGLE" : {
-      "description" : "Either show no ships, show ships, or show ships + their orbits",
-      "message" : "Switch between ship display modes."
-   },
-   "SHIP_DETECTED_NEARBY" : {
-      "description" : "",
-      "message" : "Skib detekteret i nærheden."
-   },
-   "SHIP_INFORMATION" : {
-      "description" : "",
-      "message" : "Skibsinformation"
-   },
-   "SHIP_MASS_N_TONNES" : {
-      "description" : "",
-      "message" : "Skibsmasse: %{mass}t"
-   },
-   "SHIP_NEARBY" : {
-      "description" : "",
-      "message" : "Skib i nærheden"
-   },
-   "SHIP_ORIENTATION" : {
-      "description" : "",
-      "message" : "Skibsorientering"
-   },
-   "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
-      "description" : "",
-      "message" : "Skibshastighed ifht. referenceobjekt"
-   },
-   "SIDEREAL_VIEW" : {
-      "description" : "camera view setting",
-      "message" : "Sidelæns synspunkt"
-   },
-   "SLAVES" : {
-      "description" : "",
-      "message" : "Slaver"
-   },
-   "SMALL" : {
-      "description" : "",
-      "message" : "Lille"
-   },
-   "SMALL_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Lille gasgigant"
-   },
-   "SMALL_INDUSTRIAL_OUTPOST" : {
-      "description" : "",
-      "message" : "Lille industriel forpost."
-   },
-   "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
-      "description" : "",
-      "message" : "Lille undersøgelse. Ingen registrerede bebyggelser."
-   },
-   "SOCIAL_DEMOCRACY" : {
-      "description" : "",
-      "message" : "Socialdemokrati"
-   },
-   "SOLAR" : {
-      "description" : "",
-      "message" : "Sol"
-   },
-   "SOME_ESTABLISHED_MINING" : {
-      "description" : "",
-      "message" : "Etableret minedrift."
-   },
-   "SOURCE" : {
-      "description" : "tell source system of hyperjump entry cloud",
-      "message" : "Oprindelse"
-   },
-   "SPEED_CONTROL_MODE" : {
-      "description" : "",
-      "message" : "Hastigheds-kontroltilstand"
-   },
-   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
-      "description" : "",
-      "message" : "Stabilt system med %bodycount større %{body(r)} og %portcount %{starport(e)}"
-   },
-   "STARPORT" : {
-      "description" : "",
-      "message" : "Rumhavn"
-   },
-   "STARPORTS" : {
-      "description" : "",
-      "message" : "Rumhavne"
-   },
-   "STAR_A" : {
-      "description" : "",
-      "message" : "Type 'A' varm, hvid stjerne"
-   },
-   "STAR_AF_GIANT" : {
-      "description" : "",
-      "message" : "Hvid gigantstjerne"
-   },
-   "STAR_AF_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Hvid hyper gigantstjerne"
-   },
-   "STAR_AF_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Hvid super gigantstjerne"
-   },
-   "STAR_B" : {
-      "description" : "",
-      "message" : "Klar type 'B' blå stjerne"
-   },
-   "STAR_B_GIANT" : {
-      "description" : "",
-      "message" : "Blå gigantstjerne"
-   },
-   "STAR_B_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Blå hyper gigantstjerne"
-   },
-   "STAR_B_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Blå super gigantstjerne"
-   },
-   "STAR_B_WF" : {
-      "description" : "",
-      "message" : "Wolf-Rayet-stjerne - Risiko for kollaps"
-   },
-   "STAR_F" : {
-      "description" : "",
-      "message" : "Type 'F' hvid stjerne"
-   },
-   "STAR_G" : {
-      "description" : "",
-      "message" : "Type 'G' gul stjerne"
-   },
-   "STAR_G_GIANT" : {
-      "description" : "",
-      "message" : "Gul gigantstjerne - Ustabil"
-   },
-   "STAR_G_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Gul hyper gigantstjerne - Ustabil"
-   },
-   "STAR_G_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Gul super gigantstjerne"
-   },
-   "STAR_IM_BH" : {
-      "description" : "",
-      "message" : "Et medium-masse sort hul"
-   },
-   "STAR_K" : {
-      "description" : "",
-      "message" : "Type 'K' orange stjerne"
-   },
-   "STAR_K_GIANT" : {
-      "description" : "",
-      "message" : "Orange gigantstjerne - Ustabil"
-   },
-   "STAR_K_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Orange hyper gigantstjerne - Ustabil"
-   },
-   "STAR_K_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Orange super gigantstjerne"
-   },
-   "STAR_M" : {
-      "description" : "",
-      "message" : "Type 'M' rød stjerne"
-   },
-   "STAR_M_GIANT" : {
-      "description" : "",
-      "message" : "Rød gigantstjerne"
-   },
-   "STAR_M_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Rød hyper gigantstjerne"
-   },
-   "STAR_M_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Rød super gigantstjerne"
-   },
-   "STAR_M_WF" : {
-      "description" : "",
-      "message" : "Wolf-Rayet-stjerne - Ustabil"
-   },
-   "STAR_O" : {
-      "description" : "",
-      "message" : "Varm, massiv type 'O' stjerne"
-   },
-   "STAR_O_GIANT" : {
-      "description" : "",
-      "message" : "Varm blå gigantstjerne"
-   },
-   "STAR_O_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Varm blå hyper gigantstjerne"
-   },
-   "STAR_O_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Varm blå super gigantstjerne."
-   },
-   "STAR_O_WF" : {
-      "description" : "",
-      "message" : "Wolf-Rayet-stjerne - Forestående kollaps"
-   },
-   "STAR_SM_BH" : {
-      "description" : "",
-      "message" : "Vores galaktiske anker"
-   },
-   "STAR_SYSTEM_INFORMATION" : {
-      "description" : "",
-      "message" : "Stjerne-systeminformation"
-   },
-   "STAR_S_BH" : {
-      "description" : "",
-      "message" : "Et sort hul"
-   },
-   "SUGGESTED_RESPONSES" : {
-      "description" : "",
-      "message" : "Foreslåede svar:"
-   },
-   "SURFACE_GRAVITY" : {
-      "description" : "",
-      "message" : "Overfladetyngdekraft"
-   },
-   "SURFACE_TEMPERATURE" : {
-      "description" : "",
-      "message" : "Overfladetemperatur"
-   },
-   "SWAP_SELECTED_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Swap selected and hyperjump target"
-   },
-   "SWITCHED_TO_PARENT" : {
-      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "Switched heading display to system-wide coordinates."
-   },
-   "SWITCHED_TO_ROTATIONAL" : {
-      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "Switched heading display to planetary coordinates."
-   },
-   "SYSTEM" : {
-      "description" : "star system",
-      "message" : "System"
-   },
-   "SYSTEM_NUMBER" : {
-      "description" : "",
-      "message" : "Systemnummer:"
-   },
-   "SYSTEM_ORBIT_VIEW" : {
-      "description" : "",
-      "message" : "Systemkredsløbssynspunks"
-   },
-   "SYSTEM_TYPE" : {
-      "description" : "",
-      "message" : "Systemtype:"
-   },
-   "S_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" Sulfuric atmosphere\""
-   },
-   "TAKEOFF" : {
-      "description" : "",
-      "message" : "Takeoff"
-   },
-   "TARGET_OBJECT_IN_SIGHTS" : {
-      "description" : "",
-      "message" : "Målobjekt i sigtemiddel"
-   },
-   "TENUOUS" : {
-      "description" : "atmosphere thickness",
-      "message" : "svag"
-   },
-   "TEXTILES" : {
-      "description" : "",
-      "message" : "Tekstiler"
-   },
-   "THICK" : {
-      "description" : "",
-      "message" : "tyk"
-   },
-   "THIN" : {
-      "description" : "",
-      "message" : "tynd"
-   },
-   "THRIVING_OUTDOOR_WORLD" : {
-      "description" : "",
-      "message" : "Trivende udendørsverden."
-   },
-   "THRUSTER_DORSAL" : {
-      "description" : "",
-      "message" : "Reaktionsmotor nedad"
-   },
-   "THRUSTER_MAIN" : {
-      "description" : "",
-      "message" : "Reaktionsmotor fremad"
-   },
-   "THRUSTER_PORT" : {
-      "description" : "",
-      "message" : "Reaktionsmotor venstre"
-   },
-   "THRUSTER_RETRO" : {
-      "description" : "",
-      "message" : "Reaktionsmotor bagud"
-   },
-   "THRUSTER_STARBOARD" : {
-      "description" : "",
-      "message" : "Reaktionsmotor højre"
-   },
-   "THRUSTER_VENTRAL" : {
-      "description" : "",
-      "message" : "Reaktionsmotor op"
-   },
-   "TIME_POINT" : {
-      "description" : "",
-      "message" : "Tidspunkt:"
-   },
-   "TINY" : {
-      "description" : "",
-      "message" : "Lille"
-   },
-   "TOGGLE_EQUIPMENT_VIEW" : {
-      "description" : "Tooltip for the Equipment View button",
-      "message" : "Equipment View"
-   },
-   "TOGGLE_HUD_MODE" : {
-      "description" : "",
-      "message" : "Skift HUD-tilstand"
-   },
-   "TOGGLE_LUA_CONSOLE" : {
-      "description" : "",
-      "message" : "Aktivér Lua-konsol"
-   },
-   "TOGGLE_RADAR_MODE" : {
-      "description" : "",
-      "message" : "Toggle radar mode"
-   },
-   "TOGGLE_RADAR_VIEW" : {
-      "description" : "Tooltip for the Radar View button",
-      "message" : "Radar View"
-   },
-   "TOGGLE_ROTATION_DAMPING" : {
-      "description" : "",
-      "message" : "Aktivér rotationsdæmpning"
-   },
-   "TOMBSTONE_EPITAPH" : {
-      "description" : "shown on tombstone when player dies",
-      "message" : "RIP OLD BEAN"
-   },
-   "TRADING_ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "Handler ulovlige varer"
-   },
-   "TRIPLE_SYSTEM" : {
-      "description" : "",
-      "message" : "Tertiært system"
-   },
-   "UNDOCKING" : {
-      "description" : "Flight state of ship when leaving station",
-      "message" : "Undocking"
-   },
-   "UNEXPLORED_SYSTEM_NO_DATA" : {
-      "description" : "",
-      "message" : "Uudforsket system. Ikke mere data tilgængeligt."
-   },
-   "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
-      "description" : "",
-      "message" : "Uudforsket system. Systemsynspunkt ikke tilgængeligt."
-   },
-   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
-      "description" : "",
-      "message" : "Uudforsket system. Stjerneinformation er blevet samlet med fjernt teleskop, men der er ingen planetarisk information tilgængelig."
-   },
-   "UNIT_AU" : {
-      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
-      "message" : "AU"
-   },
-   "UNIT_DAYS" : {
-      "description" : "Duration unit: one 24-hour day",
-      "message" : "d"
-   },
-   "UNIT_HOURS" : {
-      "description" : "Duration unit: one 60-minute hour",
-      "message" : "h"
-   },
-   "UNIT_KILOMETERS" : {
-      "description" : "Distance unit: one kilometer",
-      "message" : "km"
-   },
-   "UNIT_KILOMETERS_PER_SECOND" : {
-      "description" : "Speed unit: one kilometer per second",
-      "message" : "km/s"
-   },
-   "UNIT_LY" : {
-      "description" : "Distance unit: a light year",
-      "message" : "ly"
-   },
-   "UNIT_METERS" : {
-      "description" : "Distance unit: one meter",
-      "message" : "m"
-   },
-   "UNIT_METERS_PER_SECOND" : {
-      "description" : "Speed unit: one meter per second",
-      "message" : "m/s"
-   },
-   "UNIT_MILLION_METERS" : {
-      "description" : "Distance unit: one million meters",
-      "message" : "Mm"
-   },
-   "UNIT_MILLION_METERS_PER_SECOND" : {
-      "description" : "Speed unit: one million meters per second",
-      "message" : "Mm/s"
-   },
-   "UNIT_MINUTES" : {
-      "description" : "Duration unit: one 60-second minute",
-      "message" : "m"
-   },
-   "UNIT_SECONDS" : {
-      "description" : "Duration unit: one second",
-      "message" : "s"
-   },
-   "UNIT_TONNES" : {
-      "description" : "Mass unit: one tonne (t)",
-      "message" : "t"
-   },
-   "UNIT_WEEKS" : {
-      "description" : "Duration unit: one 7-day week",
-      "message" : "w"
-   },
-   "UNKNOWN" : {
-      "description" : "",
-      "message" : "<ukendt>"
-   },
-   "UNSET_NAVTARGET" : {
-      "description" : "",
-      "message" : "Unset navigation target."
-   },
-   "USE_LOW_THRUST" : {
-      "description" : "",
-      "message" : "Brug lavreaktionskraft"
-   },
-   "VAST_STRIP_MINE" : {
-      "description" : "",
-      "message" : "Omfattende stribe-minekoloni."
-   },
-   "VERY_DENSE" : {
-      "description" : "",
-      "message" : "meget tæt"
-   },
-   "VERY_LARGE_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Meget stor gasgigant"
-   },
-   "VIEW" : {
-      "description" : "",
-      "message" : "Synspunkt"
-   },
-   "VIOLENT_ANARCHY" : {
-      "description" : "",
-      "message" : "Uorden - Styring bestrides af væbnede grupper"
-   },
-   "WATER" : {
-      "description" : "",
-      "message" : "Vand"
-   },
-   "WEAPONS" : {
-      "description" : "",
-      "message" : "Våben"
-   },
-   "WEAPON_TEMP" : {
-      "description" : "",
-      "message" : "Våbentemperatur"
-   },
-   "WHEELS_ARE_DOWN" : {
-      "description" : "",
-      "message" : "Hjul er nede"
-   },
-   "WHEELS_ARE_UP" : {
-      "description" : "",
-      "message" : "Hjul er oppe"
-   },
-   "WHITE_DWARF" : {
-      "description" : "",
-      "message" : "Levn fra hvid dvægstjerne"
-   },
-   "WITH_A" : {
-      "description" : "",
-      "message" : "\" med \""
-   },
-   "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" uden nogen betydningsfuld atmosfære\""
-   },
-   "X" : {
-      "description" : "keybinding: x axis",
-      "message" : "X"
-   },
-   "Y" : {
-      "description" : "keybinding: y axis",
-      "message" : "Y"
-   },
-   "YAW" : {
-      "description" : "",
-      "message" : "Sideror"
-   },
-   "YAW_LEFT" : {
-      "description" : "",
-      "message" : "Sideror venstre"
-   },
-   "YAW_RIGHT" : {
-      "description" : "",
-      "message" : "Sideror højre"
-   },
-   "YOUNG_FARMING_COLONY" : {
-      "description" : "",
-      "message" : "Ung landbrugskoloni."
-   },
-   "Z" : {
-      "description" : "keybinding: z axis",
-      "message" : "Z"
-   },
-   "ZOOM_IN" : {
-      "description" : "",
-      "message" : "Zoom ind"
-   },
-   "ZOOM_OUT" : {
-      "description" : "",
-      "message" : "Zoom ud"
-   }
+  "AIR_PROCESSORS": {
+    "description": "",
+    "message": "Luftbehandlere"
+  },
+  "ALERT_CANCELLED": {
+    "description": "",
+    "message": "Advarsel afbrudt."
+  },
+  "ALLEGIANCE": {
+    "description": "",
+    "message": "Troskab:"
+  },
+  "ALT": {
+    "description": "Alt key on keyboard",
+    "message": "Alt"
+  },
+  "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
+    "description": "",
+    "message": "\" og et meget komplekst økosystem.\""
+  },
+  "AND_INDIGENOUS_MICROBIAL_LIFE": {
+    "description": "",
+    "message": "\" og indfødt mikrobisk liv.\""
+  },
+  "AND_INDIGENOUS_PLANT_LIFE": {
+    "description": "",
+    "message": "\" og indfødt planteliv.\""
+  },
+  "ANIMAL_MEAT": {
+    "description": "",
+    "message": "Dyrekød"
+  },
+  "APOAPSIS_DISTANCE": {
+    "description": "",
+    "message": "Afstand til apoapse"
+  },
+  "AR_ATMOSPHERE": {
+    "description": "",
+    "message": "\" Argonatmosfære\""
+  },
+  "ASTEROID": {
+    "description": "",
+    "message": "Asteroide"
+  },
+  "AUTOMATIC_SYSTEM_SELECTION": {
+    "description": "for star map, select star system when mouse close to it",
+    "message": "Automatic system selection"
+  },
+  "AUTOPILOT_CONTROL": {
+    "description": "Indicating that ship is flying under autopilot control",
+    "message": "Autopilot control"
+  },
+  "AUTOPILOT_DOCK_WITH_STATION": {
+    "description": "",
+    "message": "Autopilot: Sammenkobl med rumstation"
+  },
+  "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilot: Foretag højt kredsløb omkring %target"
+  },
+  "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilot: Foretag lavt kredsløb omkring %target"
+  },
+  "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilot: Foretag mellemhøjt kredsløb omkring %target"
+  },
+  "AUTOPILOT_FLY_TO_VICINITY_OF": {
+    "description": "",
+    "message": "Autopilot: Flyv til nærheden af %target"
+  },
+  "AUTOPILOT_ON": {
+    "description": "",
+    "message": "Autopilot aktiveret"
+  },
+  "AXIAL_TILT": {
+    "description": "",
+    "message": "Aksehældning"
+  },
+  "A_FEW_THOUSAND": {
+    "description": "regarding population",
+    "message": "Kun nogle få tusinde"
+  },
+  "BATTLE_WEAPONS": {
+    "description": "",
+    "message": "Angrebsvåben"
+  },
+  "BINARY_SYSTEM": {
+    "description": "",
+    "message": "Binært system"
+  },
+  "BODIES": {
+    "description": "space bodies",
+    "message": "legemer"
+  },
+  "BODY": {
+    "description": "",
+    "message": "krop"
+  },
+  "BROWN_DWARF": {
+    "description": "",
+    "message": "Brun dværg sub-stjerneobjekt"
+  },
+  "BUTTON": {
+    "description": "",
+    "message": "\" Knap \""
+  },
+  "CAMERA_BOTTOM_VIEW": {
+    "description": "",
+    "message": "Underkamera"
+  },
+  "CAMERA_FRONT_VIEW": {
+    "description": "",
+    "message": "Frontkamera"
+  },
+  "CAMERA_LEFT_VIEW": {
+    "description": "",
+    "message": "Venstre kamera"
+  },
+  "CAMERA_REAR_VIEW": {
+    "description": "",
+    "message": "Bagkamera"
+  },
+  "CAMERA_RIGHT_VIEW": {
+    "description": "",
+    "message": "Højre kamera"
+  },
+  "CAMERA_TOP_VIEW": {
+    "description": "",
+    "message": "Topkamera"
+  },
+  "CANT_SAVE_DEAD_PLAYER": {
+    "description": "",
+    "message": "Can't save game after the player has died"
+  },
+  "CANT_SAVE_IN_HYPERSPACE": {
+    "description": "",
+    "message": "Kan ikke gemme spillet i hyperrum"
+  },
+  "CAPITALIST": {
+    "description": "",
+    "message": "Kapitalist"
+  },
+  "CARBON_ORE": {
+    "description": "",
+    "message": "Kulmalm"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Last"
+  },
+  "CARGO_BAY_LIFE_SUPPORT_LOST": {
+    "description": "",
+    "message": "Sensorer meddeler kritisk livsstøtte i lastrummet."
+  },
+  "CARGO_N": {
+    "description": "",
+    "message": "Last: %{mass}t"
+  },
+  "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
+    "description": "",
+    "message": "Last-opsamler aktiv. Indsamlet 1 ton af %item."
+  },
+  "CARGO_SCOOP_ATTEMPTED": {
+    "description": "",
+    "message": "Cargo scoop attempted. Not enough room in cargo hold."
+  },
+  "CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "\" Methanatmosfære\""
+  },
+  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Tilkoblingstilladelse allerede tildelt. Fortsæt til tilkoblingssted %bay."
+  },
+  "CLEARANCE_DENIED_NO_BAYS": {
+    "description": "",
+    "message": "Tilkoblingstilladelse ikke givet. Der er ingen ledige tilkoblingssteder."
+  },
+  "CLEARANCE_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Tilkoblingstilladelse tildelt. Fortsæt til tilkoblingssted %bay."
+  },
+  "CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "\" Kuldioxidatmosfære\""
+  },
+  "COMMA_HIGHLY_VOLCANIC": {
+    "description": "",
+    "message": ", meget vulkansk"
+  },
+  "COMMODITY_NONE": {
+    "description": "When no commodities exist",
+    "message": "Ingen"
+  },
+  "COMMODITY_TRADE_ANALYSIS_COMPARE": {
+    "description": "",
+    "message": "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
+  },
+  "COMMODITY_TRADE_ANALYSIS_SELF": {
+    "description": "",
+    "message": "Commodity trade analysis of #fff%system#fff"
+  },
+  "COMMS": {
+    "description": "",
+    "message": "Komm"
+  },
+  "COMMUNIST": {
+    "description": "",
+    "message": "Kommunist"
+  },
+  "COMPASS_E": {
+    "description": "Abbreviation for compass direction: East",
+    "message": "E"
+  },
+  "COMPASS_N": {
+    "description": "Abbreviation for compass direction: North",
+    "message": "N"
+  },
+  "COMPASS_NE": {
+    "description": "Abbreviation for compass direction: North East",
+    "message": "NE"
+  },
+  "COMPASS_NW": {
+    "description": "Abbreviation for compass direction: North West",
+    "message": "NW"
+  },
+  "COMPASS_S": {
+    "description": "Abbreviation for compass direction: South",
+    "message": "S"
+  },
+  "COMPASS_SE": {
+    "description": "Abbreviation for compass direction: South East",
+    "message": "SE"
+  },
+  "COMPASS_SW": {
+    "description": "Abbreviation for compass direction: South West",
+    "message": "SW"
+  },
+  "COMPASS_W": {
+    "description": "Abbreviation for compass direction: West",
+    "message": "W"
+  },
+  "COMPUTERS": {
+    "description": "",
+    "message": "Computere"
+  },
+  "COMPUTER_HEADING_CONTROL": {
+    "description": "",
+    "message": "Computer kurskontrol"
+  },
+  "COMPUTER_SPEED_CONTROL": {
+    "description": "",
+    "message": "Computer hastighedskontrol"
+  },
+  "CONSUMER_GOODS": {
+    "description": "",
+    "message": "Forbrugervarer"
+  },
+  "CONTROLS": {
+    "description": "",
+    "message": "Styring"
+  },
+  "CORPORATE_SYSTEM": {
+    "description": "",
+    "message": "Virksomhedssystem"
+  },
+  "COULD_NOT_OPEN_FILENAME": {
+    "description": "",
+    "message": "Kunne ikke åbne %path"
+  },
+  "COUNT_ON_SURFACE": {
+    "description": "",
+    "message": "\" (%surfacecount på overfladen)\""
+  },
+  "COUNT_STARPORTS": {
+    "description": "",
+    "message": "rumhavne"
+  },
+  "CO_ATMOSPHERE": {
+    "description": "",
+    "message": "\" Karbonmonooxidatmosfære\""
+  },
+  "CTRL": {
+    "description": "Ctrl key on keyboard",
+    "message": "Ctrl"
+  },
+  "CURRENT_SYSTEM": {
+    "description": "selected current star system",
+    "message": "Nuværende system"
+  },
+  "DATE_DUE_N": {
+    "description": "",
+    "message": "Forfaldsdato: %date"
+  },
+  "DAY_LENGTH": {
+    "description": "",
+    "message": "Dagslængde"
+  },
+  "DECREASE_RADAR_RANGE": {
+    "description": "",
+    "message": "Decrease radar range"
+  },
+  "DECREASE_SET_SPEED": {
+    "description": "",
+    "message": "Mindsk indstillet hastighed"
+  },
+  "DECREASE_TIME_ACCELERATION": {
+    "description": "",
+    "message": "Decrease Time Acceleration"
+  },
+  "DEMOGRAPHICS": {
+    "description": "",
+    "message": "Demografi"
+  },
+  "DESTINATION": {
+    "description": "",
+    "message": "Destinatio"
+  },
+  "DIRECTION": {
+    "description": "Direction",
+    "message": "\" Retning \""
+  },
+  "DISTANCE_LY": {
+    "description": "",
+    "message": "Afstand: %distance{f.2} ly"
+  },
+  "DOCKED": {
+    "description": "",
+    "message": "Tilkoblet"
+  },
+  "DOCKING": {
+    "description": "",
+    "message": "Tilkobling"
+  },
+  "DOCKING_CLEARANCE_EXPIRED": {
+    "description": "",
+    "message": "Tilkoblingstilladelse er udløbet. Hvis du vil sammenkoble, skal du gentage din anmodning."
+  },
+  "DOWNGRADING_ALERT_STATUS": {
+    "description": "",
+    "message": "Ingen affyrede skud registreret i 60s, nedgraderer advarselsniveau."
+  },
+  "DRAW_OUT_RANGE_LABELS": {
+    "description": "",
+    "message": "Markér systemer uden for rækkevidde"
+  },
+  "DRAW_UNINHABITED_LABELS": {
+    "description": "",
+    "message": "Markér ubeboede systemer"
+  },
+  "DRAW_VERTICAL_LINES": {
+    "description": "",
+    "message": "Tegn vertikale linjer"
+  },
+  "EARTH": {
+    "description": "",
+    "message": "Jorden"
+  },
+  "EARTH_FEDERATION_COLONIAL_RULE": {
+    "description": "",
+    "message": "Jordens Koloniforbund"
+  },
+  "EARTH_FEDERATION_DEMOCRACY": {
+    "description": "",
+    "message": "Jordens Demokratiske Forbund"
+  },
+  "ECCENTRICITY": {
+    "description": "",
+    "message": "Excentricitet"
+  },
+  "ECONOMIC_INFO": {
+    "description": "",
+    "message": "Økonomisk info:"
+  },
+  "ECONOMY_TYPE": {
+    "description": "",
+    "message": "Økonomitype:"
+  },
+  "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
+    "description": "",
+    "message": "Ævkatorial-til-polær radiusforhold"
+  },
+  "EXACT_MATCH_X": {
+    "description": "",
+    "message": "Eksakt match: %system"
+  },
+  "EXTENSIVE_MINING": {
+    "description": "",
+    "message": "Omfattende minedrift."
+  },
+  "EXTERNAL_ATMOSPHERIC_PRESSURE": {
+    "description": "",
+    "message": "Eksternt atmosfærisk tryk"
+  },
+  "EXTERNAL_VIEW": {
+    "description": "",
+    "message": "Udvendigt synspunkt"
+  },
+  "FARM_MACHINERY": {
+    "description": "",
+    "message": "Landbrugsmaskineri"
+  },
+  "FERTILIZER": {
+    "description": "",
+    "message": "Gødning"
+  },
+  "FIRE_LASER": {
+    "description": "",
+    "message": "Fire weapon"
+  },
+  "FIRE_MISSILE": {
+    "description": "",
+    "message": "Affyr missil"
+  },
+  "FOLLOWING_SELECTION": {
+    "description": "",
+    "message": "følgende udvælgelse"
+  },
+  "FRUIT_AND_VEG": {
+    "description": "",
+    "message": "Frugt og grøntsager"
+  },
+  "FUEL": {
+    "description": "",
+    "message": "Brændstof"
+  },
+  "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
+    "description": "",
+    "message": "Brændstof-opsamler aktiv. Du har nu %quantity tons hydrogen."
+  },
+  "GALACTIC_VIEW": {
+    "description": "view galactic map",
+    "message": "Galaktisk oversigt"
+  },
+  "GALAXY_SECTOR_VIEW": {
+    "description": "",
+    "message": "Galaktisk sektor-oversigt"
+  },
+  "GAME_LOAD_CANNOT_OPEN": {
+    "description": "",
+    "message": "Save file '%filename' could not be found (or the game does not have access to open it)."
+  },
+  "GAME_LOAD_CORRUPT": {
+    "description": "",
+    "message": "Denne gemning kan ikke åbnes, da den indeholder fejl."
+  },
+  "GAME_LOAD_WRONG_VERSION": {
+    "description": "",
+    "message": "Denne gemning kan ikke åbnes fordi den blev lavet i en anden version af Pioneer."
+  },
+  "GAME_SAVED_TO": {
+    "description": "",
+    "message": "\"Spil gemt til \""
+  },
+  "GAME_SAVE_CANNOT_WRITE": {
+    "description": "",
+    "message": "Denne gemning kunne ikke blive skrevet på grund af en system-fejl."
+  },
+  "GENERAL_VIEW_CONTROLS": {
+    "description": "",
+    "message": "Generel synspunktsstyring"
+  },
+  "GOVERNMENT_TYPE": {
+    "description": "",
+    "message": "Styreform:"
+  },
+  "GRAIN": {
+    "description": "like wheat or barley",
+    "message": "Korn"
+  },
+  "HAND_WEAPONS": {
+    "description": "",
+    "message": "Håndvåben"
+  },
+  "HARD_CAPITALIST": {
+    "description": "",
+    "message": "Ren kapitalisme - ingen offentlige velfærdsydelser"
+  },
+  "HAT": {
+    "description": "Hat switch: Is the top button on a joystick",
+    "message": "\" Hat\""
+  },
+  "HEADING_LOCK_ANTINORMAL": {
+    "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
+    "message": "Hold anti-normal"
+  },
+  "HEADING_LOCK_BACKWARD": {
+    "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
+    "message": "Hold retrograde"
+  },
+  "HEADING_LOCK_FORWARD": {
+    "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
+    "message": "Hold prograde"
+  },
+  "HEADING_LOCK_KILLROT": {
+    "description": "",
+    "message": "Kill rotation"
+  },
+  "HEADING_LOCK_NORMAL": {
+    "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
+    "message": "Hold normal"
+  },
+  "HEADING_LOCK_RADIALLY_INWARD": {
+    "description": "Autopilot direction, relative to orbit (face towards planet)",
+    "message": "Hold radially in"
+  },
+  "HEADING_LOCK_RADIALLY_OUTWARD": {
+    "description": "Autopilot direction, relative to orbit (face away from palent)",
+    "message": "Hold radially out"
+  },
+  "HEAVY_INDUSTRY": {
+    "description": "",
+    "message": "Stor industri."
+  },
+  "HE_ATMOSPHERE": {
+    "description": "",
+    "message": "\" Heliumatmosfære\""
+  },
+  "HIGHLY_VOLCANIC": {
+    "description": "",
+    "message": "Meget vulkansk"
+  },
+  "HIGH_POPULATION_OUTDOOR_WORLD": {
+    "description": "",
+    "message": "Højbefolket udendørsverden."
+  },
+  "HULL_INTEGRITY": {
+    "description": "",
+    "message": "Skrogintegritet"
+  },
+  "HULL_TEMP": {
+    "description": "",
+    "message": "Skrogtemperatur"
+  },
+  "HYDROGEN": {
+    "description": "",
+    "message": "Hydrogen"
+  },
+  "HYPERSPACE": {
+    "description": "",
+    "message": "Hyperrum"
+  },
+  "HYPERSPACE_ARRIVAL_CLOUD": {
+    "description": "",
+    "message": "Hyperrum ankomstsky"
+  },
+  "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
+    "description": "",
+    "message": "Hyperrum ankomstsky rest"
+  },
+  "HYPERSPACE_DEPARTURE_CLOUD": {
+    "description": "",
+    "message": "Hyperrum afgangssky"
+  },
+  "HYPERSPACE_JUMP_ABORT": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Disengage Hyperdrive"
+  },
+  "HYPERSPACE_JUMP_ABORTED": {
+    "description": "",
+    "message": "Hyperrum hop afbrudt."
+  },
+  "HYPERSPACE_JUMP_DISABLED": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Hyperdrive disabled"
+  },
+  "HYPERSPACE_JUMP_ENGAGE": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Engage Hyperdrive"
+  },
+  "HYPERSPACE_JUMP_FORBIDDEN": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Hyperdrive forbidden zone"
+  },
+  "HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Hyperrum mål"
+  },
+  "H_ATMOSPHERE": {
+    "description": "",
+    "message": "\" Hydrogenatmosfære\""
+  },
+  "ICE_WORLD": {
+    "description": "",
+    "message": "\" isverden\""
+  },
+  "ILLEGAL_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+    "message": "Illegal (current system):"
+  },
+  "ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Ulovlige varer:"
+  },
+  "IMPERIAL_RULE": {
+    "description": "",
+    "message": "Kejserstyre"
+  },
+  "INCREASE_RADAR_RANGE": {
+    "description": "",
+    "message": "Increase radar range"
+  },
+  "INCREASE_SET_SPEED": {
+    "description": "",
+    "message": "Øg indstillet hastighed"
+  },
+  "INCREASE_TIME_ACCELERATION": {
+    "description": "",
+    "message": "Increase Time Acceleration"
+  },
+  "INDUSTRIAL_COLONY": {
+    "description": "",
+    "message": "Industriel koloni."
+  },
+  "INDUSTRIAL_HUB_SYSTEM": {
+    "description": "",
+    "message": "Industriel knudepunktssystem."
+  },
+  "INDUSTRIAL_MACHINERY": {
+    "description": "",
+    "message": "Industriel maskineri"
+  },
+  "INTERNAL_VIEW": {
+    "description": "",
+    "message": "Invendigt synspunkt"
+  },
+  "JOY": {
+    "description": "Short for Joystick",
+    "message": "Joy"
+  },
+  "JOYSTICK_INPUT": {
+    "description": "",
+    "message": "Joystick input"
+  },
+  "JOY_AXIS": {
+    "description": "Regarding joystick",
+    "message": "%{sign}%joyname %axis Axis"
+  },
+  "L4L5_DISPLAY_MODE_TOGGLE": {
+    "description": "Either show L4/L5 points or don't",
+    "message": "Switch between Lagrange L4/L5 point display modes."
+  },
+  "LANDED": {
+    "description": "",
+    "message": "Landet"
+  },
+  "LANG_NAME": {
+    "description": "The name that native speakers use for this language. This will be used in the language selection screen.",
+    "message": "Dansk"
+  },
+  "LARGE": {
+    "description": "regarding terrestrial planet size (mass actually)",
+    "message": "Stor"
+  },
+  "LARGE_GAS_GIANT": {
+    "description": "",
+    "message": "Stor gasgigant"
+  },
+  "LASER_FIRE_DETECTED": {
+    "description": "",
+    "message": "Weapons fire detected."
+  },
+  "LATITUDE": {
+    "description": "Short for latitude",
+    "message": "Lat:"
+  },
+  "LATITUDE_NORTH_ABBREV": {
+    "description": "Abbreviation letter for latitude 'north'",
+    "message": "N"
+  },
+  "LATITUDE_SOUTH_ABBREV": {
+    "description": "Abbreviation letter for latitude 'south'",
+    "message": "S"
+  },
+  "LEGAL_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+    "message": "Legal (current system):"
+  },
+  "LIBERAL_DEMOCRACY": {
+    "description": "",
+    "message": "Liberalt demokrati"
+  },
+  "LIQUID_OXYGEN": {
+    "description": "",
+    "message": "Flydende oxygen"
+  },
+  "LIQUOR": {
+    "description": "",
+    "message": "Likør"
+  },
+  "LIVE_ANIMALS": {
+    "description": "",
+    "message": "Levende Dyr"
+  },
+  "LOCKED": {
+    "description": "to lock a hyperspace target",
+    "message": "låst"
+  },
+  "LONGITUDE": {
+    "description": "Short for longitude",
+    "message": "Long:"
+  },
+  "LONGITUDE_EAST_ABBREV": {
+    "description": "Abbreviation letter for longitude 'east'",
+    "message": "E"
+  },
+  "LONGITUDE_WEST_ABBREV": {
+    "description": "Abbreviation letter for latitude 'west'",
+    "message": "W"
+  },
+  "MAJOR_EXPORTS": {
+    "description": "",
+    "message": "Primær eksport:"
+  },
+  "MAJOR_EXPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Major export (current system)"
+  },
+  "MAJOR_IMPORTS": {
+    "description": "",
+    "message": "Primær import:"
+  },
+  "MAJOR_IMPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Major import (current system)"
+  },
+  "MANUAL_CONTROL": {
+    "description": "",
+    "message": "Manuel kontrol"
+  },
+  "MANUAL_CONTROL_MODE": {
+    "description": "",
+    "message": "Manuel kontroltilstand"
+  },
+  "MAP_LOCK_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Lås hyperrum mål"
+  },
+  "MAP_TOGGLE_INFO_PANEL": {
+    "description": "",
+    "message": "Aktivér Info-panel"
+  },
+  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
+    "description": "",
+    "message": "Aktivér Følging af markéring"
+  },
+  "MAP_VIEW_ROTATE_DOWN": {
+    "description": "",
+    "message": "Rotér Synspunkt Ned"
+  },
+  "MAP_VIEW_ROTATE_LEFT": {
+    "description": "",
+    "message": "Rotér Synspunkt Venstre"
+  },
+  "MAP_VIEW_ROTATE_RIGHT": {
+    "description": "",
+    "message": "Rotér Synspunkt Højre"
+  },
+  "MAP_VIEW_ROTATE_UP": {
+    "description": "",
+    "message": "Rotér Synspunkt Op"
+  },
+  "MAP_VIEW_SHIFT_BACKWARD": {
+    "description": "",
+    "message": "Flyt Synspunkt Baglæns"
+  },
+  "MAP_VIEW_SHIFT_DOWN": {
+    "description": "",
+    "message": "Flyt Synspunkt Ned"
+  },
+  "MAP_VIEW_SHIFT_FORWARD": {
+    "description": "",
+    "message": "Flyt Synspunkt Fremad"
+  },
+  "MAP_VIEW_SHIFT_LEFT": {
+    "description": "",
+    "message": "Flyt Synspunkt Venstre"
+  },
+  "MAP_VIEW_SHIFT_RIGHT": {
+    "description": "",
+    "message": "Flyt Synspunkt Højre"
+  },
+  "MAP_VIEW_SHIFT_UP": {
+    "description": "",
+    "message": "Flyt Synspunkt Op"
+  },
+  "MAP_WARP_TO_CURRENT_SYSTEM": {
+    "description": "",
+    "message": "Hop til Nuværende System"
+  },
+  "MAP_WARP_TO_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Hop til Hyperrum mål"
+  },
+  "MAP_WARP_TO_SELECTED_SYSTEM": {
+    "description": "",
+    "message": "Hop til det Valgte System"
+  },
+  "MASS": {
+    "description": "",
+    "message": "Masse"
+  },
+  "MASSIVE": {
+    "description": "",
+    "message": "Massiv"
+  },
+  "MASS_N_TONNES": {
+    "description": "",
+    "message": "Masse: %{mass}t"
+  },
+  "MEDICINES": {
+    "description": "",
+    "message": "Medicin"
+  },
+  "MEDIUM_GAS_GIANT": {
+    "description": "",
+    "message": "Mellem gasgigant"
+  },
+  "MESSAGE_FROM_X": {
+    "description": "",
+    "message": "Besked fra %sender:"
+  },
+  "META": {
+    "description": "'Meta' key on keyboard",
+    "message": "Meta"
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "Metallegeringer"
+  },
+  "METAL_ORE": {
+    "description": "",
+    "message": "Malm"
+  },
+  "MILITARY_DICTATORSHIP": {
+    "description": "",
+    "message": "Militærdiktatur"
+  },
+  "MILITARY_FUEL": {
+    "description": "",
+    "message": "Militærbrændstof"
+  },
+  "MINING_COLONY": {
+    "description": "",
+    "message": "Minekoloni"
+  },
+  "MINING_MACHINERY": {
+    "description": "",
+    "message": "Minedriftsmaskineri"
+  },
+  "MINOR_EXPORTS": {
+    "description": "",
+    "message": "Sekundær eksport:"
+  },
+  "MINOR_EXPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Minor export (current system)"
+  },
+  "MINOR_IMPORTS": {
+    "description": "",
+    "message": "Sekundær import:"
+  },
+  "MINOR_IMPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Minor import (current system)"
+  },
+  "MISCELLANEOUS": {
+    "description": "",
+    "message": "Diverse"
+  },
+  "MISSILE": {
+    "description": "",
+    "message": "missil"
+  },
+  "MIXED_ECONOMY": {
+    "description": "",
+    "message": "Blandet økonomi"
+  },
+  "MONTH_APR": {
+    "description": "",
+    "message": "Apr"
+  },
+  "MONTH_AUG": {
+    "description": "",
+    "message": "Aug"
+  },
+  "MONTH_DEC": {
+    "description": "",
+    "message": "Dec"
+  },
+  "MONTH_FEB": {
+    "description": "",
+    "message": "Feb"
+  },
+  "MONTH_JAN": {
+    "description": "",
+    "message": "Jan"
+  },
+  "MONTH_JUL": {
+    "description": "",
+    "message": "Jul"
+  },
+  "MONTH_JUN": {
+    "description": "",
+    "message": "Jun"
+  },
+  "MONTH_MAR": {
+    "description": "",
+    "message": "Mar"
+  },
+  "MONTH_MAY": {
+    "description": "",
+    "message": "Maj"
+  },
+  "MONTH_NOV": {
+    "description": "",
+    "message": "Nov"
+  },
+  "MONTH_OCT": {
+    "description": "",
+    "message": "Okt"
+  },
+  "MONTH_SEP": {
+    "description": "",
+    "message": "Sep"
+  },
+  "NAME_OBJECT": {
+    "description": "For an item or object",
+    "message": "Navn"
+  },
+  "NAME_PERSON": {
+    "description": "For a person",
+    "message": "Navn"
+  },
+  "NARCOTICS": {
+    "description": "",
+    "message": "Narkotika"
+  },
+  "NAVIGATION_STAR_MAPS": {
+    "description": "",
+    "message": "Navigation og stjerne-kort"
+  },
+  "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
+    "description": "",
+    "message": "Navigationsmål i dette system"
+  },
+  "NERVE_GAS": {
+    "description": "",
+    "message": "Nervegas"
+  },
+  "NOT_FOUND": {
+    "description": "searching star system in sector view",
+    "message": "Ikke fundet"
+  },
+  "NOT_FOUND_BEST_MATCH_X": {
+    "description": "",
+    "message": "Ikke fundet, bedste match: %system"
+  },
+  "NOW": {
+    "description": "In System Orbit View",
+    "message": "Now"
+  },
+  "NO_ALERT": {
+    "description": "",
+    "message": "Ingen advarsel"
+  },
+  "NO_CENTRAL_GOVERNANCE": {
+    "description": "",
+    "message": "Intet centralt styre"
+  },
+  "NO_ESTABLISHED_ORDER": {
+    "description": "",
+    "message": "Ingen etableret orden"
+  },
+  "NO_HYPERDRIVE": {
+    "description": "",
+    "message": "Intet hyperdrev"
+  },
+  "NO_REGISTERED_INHABITANTS": {
+    "description": "",
+    "message": "Ingen regristrede beboere"
+  },
+  "NO_TARGET_SELECTED": {
+    "description": "",
+    "message": "Skibscomputer: Intet mål valgt"
+  },
+  "NUMBER_DAYS": {
+    "description": "",
+    "message": "%days{f.0} dage"
+  },
+  "NUMBER_DECIMAL_POINT": {
+    "description": "Decimal delimiter used in numbers.",
+    "message": ","
+  },
+  "NUMBER_G": {
+    "description": "",
+    "message": "%acceleration{f.1} G"
+  },
+  "NUMBER_GROUP_MIN": {
+    "description": "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
+    "message": "1000"
+  },
+  "NUMBER_GROUP_NUM": {
+    "description": "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
+    "message": "3"
+  },
+  "NUMBER_GROUP_SEP": {
+    "description": "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
+    "message": "."
+  },
+  "NUMBER_HOURS": {
+    "description": "",
+    "message": "%hours{f.1} t"
+  },
+  "NUMBER_LY": {
+    "description": "",
+    "message": "%distance{f.2} ly"
+  },
+  "NUMBER_TONNES": {
+    "description": "",
+    "message": "%{mass}t"
+  },
+  "N_ATMOSPHERE": {
+    "description": "",
+    "message": "\" Nitrogenatmosfære\""
+  },
+  "N_CELSIUS": {
+    "description": "",
+    "message": "%temperature C"
+  },
+  "N_DAYS": {
+    "description": "",
+    "message": "%days{f.1} dage"
+  },
+  "N_DEGREES": {
+    "description": "",
+    "message": "%angle{f.1} grader"
+  },
+  "N_EARTH_DAYS": {
+    "description": "",
+    "message": "%days{f.1} Jord-dage"
+  },
+  "N_WHATEVER_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} %units masser"
+  },
+  "N_WHATEVER_RADII": {
+    "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
+    "message": "%radius{f.3} %units radii (%radkm{f.0} km)"
+  },
+  "N_YEARS": {
+    "description": "",
+    "message": "%years{f.1} år"
+  },
+  "O2_ATMOSPHERE": {
+    "description": "",
+    "message": "\" Oxygenatmosfære\""
+  },
+  "OCEANICWORLD": {
+    "description": "",
+    "message": "\" oceanisk verden\""
+  },
+  "ORBITAL_PERIOD": {
+    "description": "",
+    "message": "Kredsløbsperiode"
+  },
+  "ORBITAL_STARPORT": {
+    "description": "",
+    "message": "Rumhavn"
+  },
+  "OUTDOOR_AGRICULTURAL_WORLD": {
+    "description": "",
+    "message": "Udendørs landbrugsverden."
+  },
+  "OVER_N_BILLION": {
+    "description": "",
+    "message": "Over %population millarder"
+  },
+  "OVER_N_MILLION": {
+    "description": "",
+    "message": "Over %poulation millioner"
+  },
+  "PASSENGER_CABIN": {
+    "description": "",
+    "message": "Optaget Passagérkabine"
+  },
+  "PAUSED": {
+    "description": "",
+    "message": "PAUSET"
+  },
+  "PAY_FINE_REMOTELY": {
+    "description": "",
+    "message": "Betal bøde ved fjernbetaling (%amount)"
+  },
+  "PERIAPSIS_DISTANCE": {
+    "description": "",
+    "message": "Afstand til periapse"
+  },
+  "PIONEER": {
+    "description": "",
+    "message": "PIONEER"
+  },
+  "PITCH": {
+    "description": "",
+    "message": "Højderor"
+  },
+  "PITCH_DOWN": {
+    "description": "",
+    "message": "Højderor ned"
+  },
+  "PITCH_UP": {
+    "description": "",
+    "message": "Højderor op"
+  },
+  "PLANETARY_INFO": {
+    "description": "",
+    "message": "Planetarisk info"
+  },
+  "PLANET_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" planet, indeholdende flydende vand\""
+  },
+  "PLANET_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" planet med is\""
+  },
+  "PLANNED_ECONOMY": {
+    "description": "",
+    "message": "Centralt styret økonomi"
+  },
+  "PLANNER_RESET_FACTOR": {
+    "description": "For system orbit view",
+    "message": "Rate of increase of delta-v values. Click to reset to default."
+  },
+  "PLANNER_RESET_NORMAL": {
+    "description": "For system orbit view",
+    "message": "Normal delta-v. Click to reset to zero."
+  },
+  "PLANNER_RESET_PROGRADE": {
+    "description": "For system orbit view",
+    "message": "Prograde delta-v. Click to reset to zero."
+  },
+  "PLANNER_RESET_RADIAL": {
+    "description": "For system orbit view",
+    "message": "Radial delta-v. Click to reset to zero."
+  },
+  "PLANNER_RESET_START": {
+    "description": "For system orbit view",
+    "message": "Maneuver start. Click to reset to default."
+  },
+  "PLASTICS": {
+    "description": "",
+    "message": "Plastik"
+  },
+  "PLUTOCRATIC_DICTATORSHIP": {
+    "description": "",
+    "message": "Plutokratisk diktatur"
+  },
+  "POPULATION": {
+    "description": "",
+    "message": "Befolkning:"
+  },
+  "PRECIOUS_METALS": {
+    "description": "",
+    "message": "Ædelmetaller"
+  },
+  "PRESSURE_N_ATMOSPHERES": {
+    "description": "",
+    "message": "P: %pressure{f.2} atm"
+  },
+  "QUADRUPLE_SYSTEM": {
+    "description": "",
+    "message": "Kvadrupelt system"
+  },
+  "RADAR_CONTROL": {
+    "description": "",
+    "message": "Radar control"
+  },
+  "RADIOACTIVES": {
+    "description": "",
+    "message": "Radioaktivt affald"
+  },
+  "RADIUS": {
+    "description": "",
+    "message": "Radius"
+  },
+  "RECENTLY_EXPLORED_SYSTEM": {
+    "description": "",
+    "message": "This system was explored on %date."
+  },
+  "REQUEST_DOCKING_CLEARANCE": {
+    "description": "",
+    "message": "Anmod om tilkoblingstilladelse"
+  },
+  "RESET": {
+    "description": "",
+    "message": "Nulstil"
+  },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Nulstil Synspunkt og Zoom"
+  },
+  "ROBOTS": {
+    "description": "",
+    "message": "Robotter"
+  },
+  "ROCKY_PLANET": {
+    "description": "",
+    "message": "\" klippeplanet\""
+  },
+  "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
+    "description": "",
+    "message": "\" klippeplanet, indeholdende nogle væsker,\""
+  },
+  "ROLL": {
+    "description": "",
+    "message": "Rul"
+  },
+  "ROLL_LEFT": {
+    "description": "",
+    "message": "Krængeror venstre"
+  },
+  "ROLL_RIGHT": {
+    "description": "",
+    "message": "Krængeror højre"
+  },
+  "ROTATE_DOWN": {
+    "description": "",
+    "message": "Rotér Ned"
+  },
+  "ROTATE_LEFT": {
+    "description": "",
+    "message": "Rotér Venstre"
+  },
+  "ROTATE_RIGHT": {
+    "description": "",
+    "message": "Rotér Højre"
+  },
+  "ROTATE_UP": {
+    "description": "",
+    "message": "Rotér Op"
+  },
+  "ROTATIONAL_PERIOD": {
+    "description": "",
+    "message": "\" (roteringsperiode)\""
+  },
+  "ROTATION_DAMPING_OFF": {
+    "description": "",
+    "message": "Rotationsdæmpning deaktiveret"
+  },
+  "ROTATION_DAMPING_ON": {
+    "description": "",
+    "message": "Rotationsdæmpning aktiveret"
+  },
+  "RUBBISH": {
+    "description": "",
+    "message": "Affald"
+  },
+  "SCOOP": {
+    "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+    "message": "Scoop"
+  },
+  "SCREENSHOT_FILENAME_TEMPLATE": {
+    "description": "",
+    "message": "screenshot%index{d08}.png"
+  },
+  "SEARCH": {
+    "description": "",
+    "message": "Søg"
+  },
+  "SEARCH_MAP": {
+    "description": "",
+    "message": "Søg på Kort"
+  },
+  "SECTOR_COORDINATES": {
+    "description": "",
+    "message": "Sektorkoordinater:"
+  },
+  "SECTOR_MAP_VIEW": {
+    "description": "",
+    "message": "Sektor Kort-oversigt"
+  },
+  "SECTOR_X_Y_Z": {
+    "description": "",
+    "message": "Sektor: %x,%y,%z"
+  },
+  "SELECTED_SYSTEM": {
+    "description": "",
+    "message": "Valgte system"
+  },
+  "SELECT_A_TARGET": {
+    "description": "",
+    "message": "Vælg et mål"
+  },
+  "SELECT_LOW_THRUST_POWER_LEVEL": {
+    "description": "",
+    "message": "Vælg lavreaktionskraftniveau"
+  },
+  "SEMI_MAJOR_AXIS": {
+    "description": "",
+    "message": "Halve storakse"
+  },
+  "SET_HYPERSPACE_DESTINATION_TO": {
+    "description": "",
+    "message": "Sæt hyperrum destination til %system"
+  },
+  "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
+    "description": "",
+    "message": "Hyperrums-skyanalysator: Sæt hyperrum-mål til at følge denne afgang"
+  },
+  "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
+    "description": "",
+    "message": "Sæt lavreaktionskraftniveau til %power%%"
+  },
+  "SET_NAVTARGET_TO": {
+    "description": "",
+    "message": "Set navigation target to: "
+  },
+  "SET_SPEED_KM_S": {
+    "description": "",
+    "message": "Sæt hastighed: %speed{f.2} km/s"
+  },
+  "SET_SPEED_M_S": {
+    "description": "",
+    "message": "Sæt hastighed: %speed{f.0} m/s"
+  },
+  "SHIELD_INTEGRITY": {
+    "description": "",
+    "message": "Skjoldintegritet"
+  },
+  "SHIELD_STRENGTH_N": {
+    "description": "",
+    "message": "Skjoldstyrke: %shields{f.2}"
+  },
+  "SHIFT": {
+    "description": "Shift key on keyboard",
+    "message": "Shift"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Skib"
+  },
+  "SHIPS_DISPLAY_MODE_TOGGLE": {
+    "description": "Either show no ships, show ships, or show ships + their orbits",
+    "message": "Switch between ship display modes."
+  },
+  "SHIP_DETECTED_NEARBY": {
+    "description": "",
+    "message": "Skib detekteret i nærheden."
+  },
+  "SHIP_INFORMATION": {
+    "description": "",
+    "message": "Skibsinformation"
+  },
+  "SHIP_MASS_N_TONNES": {
+    "description": "",
+    "message": "Skibsmasse: %{mass}t"
+  },
+  "SHIP_NEARBY": {
+    "description": "",
+    "message": "Skib i nærheden"
+  },
+  "SHIP_ORIENTATION": {
+    "description": "",
+    "message": "Skibsorientering"
+  },
+  "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
+    "description": "",
+    "message": "Skibshastighed ifht. referenceobjekt"
+  },
+  "SIDEREAL_VIEW": {
+    "description": "camera view setting",
+    "message": "Sidelæns synspunkt"
+  },
+  "SLAVES": {
+    "description": "",
+    "message": "Slaver"
+  },
+  "SMALL": {
+    "description": "",
+    "message": "Lille"
+  },
+  "SMALL_GAS_GIANT": {
+    "description": "",
+    "message": "Lille gasgigant"
+  },
+  "SMALL_INDUSTRIAL_OUTPOST": {
+    "description": "",
+    "message": "Lille industriel forpost."
+  },
+  "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": {
+    "description": "",
+    "message": "Lille undersøgelse. Ingen registrerede bebyggelser."
+  },
+  "SOCIAL_DEMOCRACY": {
+    "description": "",
+    "message": "Socialdemokrati"
+  },
+  "SOLAR": {
+    "description": "",
+    "message": "Sol"
+  },
+  "SOME_ESTABLISHED_MINING": {
+    "description": "",
+    "message": "Etableret minedrift."
+  },
+  "SOURCE": {
+    "description": "tell source system of hyperjump entry cloud",
+    "message": "Oprindelse"
+  },
+  "SPEED_CONTROL_MODE": {
+    "description": "",
+    "message": "Hastigheds-kontroltilstand"
+  },
+  "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
+    "description": "",
+    "message": "Stabilt system med %bodycount større %{body(r)} og %portcount %{starport(e)}"
+  },
+  "STARPORT": {
+    "description": "",
+    "message": "Rumhavn"
+  },
+  "STARPORTS": {
+    "description": "",
+    "message": "Rumhavne"
+  },
+  "STAR_A": {
+    "description": "",
+    "message": "Type 'A' varm, hvid stjerne"
+  },
+  "STAR_AF_GIANT": {
+    "description": "",
+    "message": "Hvid gigantstjerne"
+  },
+  "STAR_AF_HYPER_GIANT": {
+    "description": "",
+    "message": "Hvid hyper gigantstjerne"
+  },
+  "STAR_AF_SUPER_GIANT": {
+    "description": "",
+    "message": "Hvid super gigantstjerne"
+  },
+  "STAR_B": {
+    "description": "",
+    "message": "Klar type 'B' blå stjerne"
+  },
+  "STAR_B_GIANT": {
+    "description": "",
+    "message": "Blå gigantstjerne"
+  },
+  "STAR_B_HYPER_GIANT": {
+    "description": "",
+    "message": "Blå hyper gigantstjerne"
+  },
+  "STAR_B_SUPER_GIANT": {
+    "description": "",
+    "message": "Blå super gigantstjerne"
+  },
+  "STAR_B_WF": {
+    "description": "",
+    "message": "Wolf-Rayet-stjerne - Risiko for kollaps"
+  },
+  "STAR_F": {
+    "description": "",
+    "message": "Type 'F' hvid stjerne"
+  },
+  "STAR_G": {
+    "description": "",
+    "message": "Type 'G' gul stjerne"
+  },
+  "STAR_G_GIANT": {
+    "description": "",
+    "message": "Gul gigantstjerne - Ustabil"
+  },
+  "STAR_G_HYPER_GIANT": {
+    "description": "",
+    "message": "Gul hyper gigantstjerne - Ustabil"
+  },
+  "STAR_G_SUPER_GIANT": {
+    "description": "",
+    "message": "Gul super gigantstjerne"
+  },
+  "STAR_IM_BH": {
+    "description": "",
+    "message": "Et medium-masse sort hul"
+  },
+  "STAR_K": {
+    "description": "",
+    "message": "Type 'K' orange stjerne"
+  },
+  "STAR_K_GIANT": {
+    "description": "",
+    "message": "Orange gigantstjerne - Ustabil"
+  },
+  "STAR_K_HYPER_GIANT": {
+    "description": "",
+    "message": "Orange hyper gigantstjerne - Ustabil"
+  },
+  "STAR_K_SUPER_GIANT": {
+    "description": "",
+    "message": "Orange super gigantstjerne"
+  },
+  "STAR_M": {
+    "description": "",
+    "message": "Type 'M' rød stjerne"
+  },
+  "STAR_M_GIANT": {
+    "description": "",
+    "message": "Rød gigantstjerne"
+  },
+  "STAR_M_HYPER_GIANT": {
+    "description": "",
+    "message": "Rød hyper gigantstjerne"
+  },
+  "STAR_M_SUPER_GIANT": {
+    "description": "",
+    "message": "Rød super gigantstjerne"
+  },
+  "STAR_M_WF": {
+    "description": "",
+    "message": "Wolf-Rayet-stjerne - Ustabil"
+  },
+  "STAR_O": {
+    "description": "",
+    "message": "Varm, massiv type 'O' stjerne"
+  },
+  "STAR_O_GIANT": {
+    "description": "",
+    "message": "Varm blå gigantstjerne"
+  },
+  "STAR_O_HYPER_GIANT": {
+    "description": "",
+    "message": "Varm blå hyper gigantstjerne"
+  },
+  "STAR_O_SUPER_GIANT": {
+    "description": "",
+    "message": "Varm blå super gigantstjerne."
+  },
+  "STAR_O_WF": {
+    "description": "",
+    "message": "Wolf-Rayet-stjerne - Forestående kollaps"
+  },
+  "STAR_SM_BH": {
+    "description": "",
+    "message": "Vores galaktiske anker"
+  },
+  "STAR_SYSTEM_INFORMATION": {
+    "description": "",
+    "message": "Stjerne-systeminformation"
+  },
+  "STAR_S_BH": {
+    "description": "",
+    "message": "Et sort hul"
+  },
+  "SUGGESTED_RESPONSES": {
+    "description": "",
+    "message": "Foreslåede svar:"
+  },
+  "SURFACE_GRAVITY": {
+    "description": "",
+    "message": "Overfladetyngdekraft"
+  },
+  "SURFACE_TEMPERATURE": {
+    "description": "",
+    "message": "Overfladetemperatur"
+  },
+  "SWAP_SELECTED_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Swap selected and hyperjump target"
+  },
+  "SWITCHED_TO_PARENT": {
+    "description": "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+    "message": "Switched heading display to system-wide coordinates."
+  },
+  "SWITCHED_TO_ROTATIONAL": {
+    "description": "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+    "message": "Switched heading display to planetary coordinates."
+  },
+  "SYSTEM": {
+    "description": "star system",
+    "message": "System"
+  },
+  "SYSTEM_NUMBER": {
+    "description": "",
+    "message": "Systemnummer:"
+  },
+  "SYSTEM_ORBIT_VIEW": {
+    "description": "",
+    "message": "Systemkredsløbssynspunks"
+  },
+  "SYSTEM_TYPE": {
+    "description": "",
+    "message": "Systemtype:"
+  },
+  "S_ATMOSPHERE": {
+    "description": "",
+    "message": "\" Sulfuric atmosphere\""
+  },
+  "TAKEOFF": {
+    "description": "",
+    "message": "Takeoff"
+  },
+  "TARGET_OBJECT_IN_SIGHTS": {
+    "description": "",
+    "message": "Målobjekt i sigtemiddel"
+  },
+  "TENUOUS": {
+    "description": "atmosphere thickness",
+    "message": "svag"
+  },
+  "TEXTILES": {
+    "description": "",
+    "message": "Tekstiler"
+  },
+  "THICK": {
+    "description": "",
+    "message": "tyk"
+  },
+  "THIN": {
+    "description": "",
+    "message": "tynd"
+  },
+  "THRIVING_OUTDOOR_WORLD": {
+    "description": "",
+    "message": "Trivende udendørsverden."
+  },
+  "THRUSTER_DORSAL": {
+    "description": "",
+    "message": "Reaktionsmotor nedad"
+  },
+  "THRUSTER_MAIN": {
+    "description": "",
+    "message": "Reaktionsmotor fremad"
+  },
+  "THRUSTER_PORT": {
+    "description": "",
+    "message": "Reaktionsmotor venstre"
+  },
+  "THRUSTER_RETRO": {
+    "description": "",
+    "message": "Reaktionsmotor bagud"
+  },
+  "THRUSTER_STARBOARD": {
+    "description": "",
+    "message": "Reaktionsmotor højre"
+  },
+  "THRUSTER_VENTRAL": {
+    "description": "",
+    "message": "Reaktionsmotor op"
+  },
+  "TIME_POINT": {
+    "description": "",
+    "message": "Tidspunkt:"
+  },
+  "TINY": {
+    "description": "",
+    "message": "Lille"
+  },
+  "TOGGLE_EQUIPMENT_VIEW": {
+    "description": "Tooltip for the Equipment View button",
+    "message": "Equipment View"
+  },
+  "TOGGLE_HUD_MODE": {
+    "description": "",
+    "message": "Skift HUD-tilstand"
+  },
+  "TOGGLE_LUA_CONSOLE": {
+    "description": "",
+    "message": "Aktivér Lua-konsol"
+  },
+  "TOGGLE_RADAR_MODE": {
+    "description": "",
+    "message": "Toggle radar mode"
+  },
+  "TOGGLE_RADAR_VIEW": {
+    "description": "Tooltip for the Radar View button",
+    "message": "Radar View"
+  },
+  "TOGGLE_ROTATION_DAMPING": {
+    "description": "",
+    "message": "Aktivér rotationsdæmpning"
+  },
+  "TOMBSTONE_EPITAPH": {
+    "description": "shown on tombstone when player dies",
+    "message": "RIP OLD BEAN"
+  },
+  "TRADING_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Handler ulovlige varer"
+  },
+  "TRIPLE_SYSTEM": {
+    "description": "",
+    "message": "Tertiært system"
+  },
+  "UNDOCKING": {
+    "description": "Flight state of ship when leaving station",
+    "message": "Undocking"
+  },
+  "UNEXPLORED_SYSTEM_NO_DATA": {
+    "description": "",
+    "message": "Uudforsket system. Ikke mere data tilgængeligt."
+  },
+  "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
+    "description": "",
+    "message": "Uudforsket system. Systemsynspunkt ikke tilgængeligt."
+  },
+  "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
+    "description": "",
+    "message": "Uudforsket system. Stjerneinformation er blevet samlet med fjernt teleskop, men der er ingen planetarisk information tilgængelig."
+  },
+  "UNIT_AU": {
+    "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
+    "message": "AU"
+  },
+  "UNIT_DAYS": {
+    "description": "Duration unit: one 24-hour day",
+    "message": "d"
+  },
+  "UNIT_HOURS": {
+    "description": "Duration unit: one 60-minute hour",
+    "message": "h"
+  },
+  "UNIT_KILOMETERS": {
+    "description": "Distance unit: one kilometer",
+    "message": "km"
+  },
+  "UNIT_KILOMETERS_PER_SECOND": {
+    "description": "Speed unit: one kilometer per second",
+    "message": "km/s"
+  },
+  "UNIT_LY": {
+    "description": "Distance unit: a light year",
+    "message": "ly"
+  },
+  "UNIT_METERS": {
+    "description": "Distance unit: one meter",
+    "message": "m"
+  },
+  "UNIT_METERS_PER_SECOND": {
+    "description": "Speed unit: one meter per second",
+    "message": "m/s"
+  },
+  "UNIT_MILLION_METERS": {
+    "description": "Distance unit: one million meters",
+    "message": "Mm"
+  },
+  "UNIT_MILLION_METERS_PER_SECOND": {
+    "description": "Speed unit: one million meters per second",
+    "message": "Mm/s"
+  },
+  "UNIT_MINUTES": {
+    "description": "Duration unit: one 60-second minute",
+    "message": "m"
+  },
+  "UNIT_SECONDS": {
+    "description": "Duration unit: one second",
+    "message": "s"
+  },
+  "UNIT_TONNES": {
+    "description": "Mass unit: one tonne (t)",
+    "message": "t"
+  },
+  "UNIT_WEEKS": {
+    "description": "Duration unit: one 7-day week",
+    "message": "w"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "<ukendt>"
+  },
+  "UNSET_NAVTARGET": {
+    "description": "",
+    "message": "Unset navigation target."
+  },
+  "USE_LOW_THRUST": {
+    "description": "",
+    "message": "Brug lavreaktionskraft"
+  },
+  "VAST_STRIP_MINE": {
+    "description": "",
+    "message": "Omfattende stribe-minekoloni."
+  },
+  "VERY_DENSE": {
+    "description": "",
+    "message": "meget tæt"
+  },
+  "VERY_LARGE_GAS_GIANT": {
+    "description": "",
+    "message": "Meget stor gasgigant"
+  },
+  "VIEW": {
+    "description": "",
+    "message": "Synspunkt"
+  },
+  "VIOLENT_ANARCHY": {
+    "description": "",
+    "message": "Uorden - Styring bestrides af væbnede grupper"
+  },
+  "WATER": {
+    "description": "",
+    "message": "Vand"
+  },
+  "WEAPONS": {
+    "description": "",
+    "message": "Våben"
+  },
+  "WEAPON_TEMP": {
+    "description": "",
+    "message": "Våbentemperatur"
+  },
+  "WHEELS_ARE_DOWN": {
+    "description": "",
+    "message": "Hjul er nede"
+  },
+  "WHEELS_ARE_UP": {
+    "description": "",
+    "message": "Hjul er oppe"
+  },
+  "WHITE_DWARF": {
+    "description": "",
+    "message": "Levn fra hvid dvægstjerne"
+  },
+  "WITH_A": {
+    "description": "",
+    "message": "\" med \""
+  },
+  "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
+    "description": "",
+    "message": "\" uden nogen betydningsfuld atmosfære\""
+  },
+  "X": {
+    "description": "keybinding: x axis",
+    "message": "X"
+  },
+  "Y": {
+    "description": "keybinding: y axis",
+    "message": "Y"
+  },
+  "YAW": {
+    "description": "",
+    "message": "Sideror"
+  },
+  "YAW_LEFT": {
+    "description": "",
+    "message": "Sideror venstre"
+  },
+  "YAW_RIGHT": {
+    "description": "",
+    "message": "Sideror højre"
+  },
+  "YOUNG_FARMING_COLONY": {
+    "description": "",
+    "message": "Ung landbrugskoloni."
+  },
+  "Z": {
+    "description": "keybinding: z axis",
+    "message": "Z"
+  },
+  "ZOOM_IN": {
+    "description": "",
+    "message": "Zoom ind"
+  },
+  "ZOOM_OUT": {
+    "description": "",
+    "message": "Zoom ud"
+  }
 }

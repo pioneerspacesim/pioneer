@@ -1,598 +1,598 @@
 {
-   "CORPORATIONS_0" : {
-      "description" : "",
-      "message" : "Sirius"
-   },
-   "CORPORATIONS_1" : {
-      "description" : "",
-      "message" : "ACME"
-   },
-   "CORPORATIONS_10" : {
-      "description" : "",
-      "message" : "Nave En-gros"
-   },
-   "CORPORATIONS_11" : {
-      "description" : "",
-      "message" : "Aerodinamice Arment"
-   },
-   "CORPORATIONS_2" : {
-      "description" : "",
-      "message" : "Cola Rece"
-   },
-   "CORPORATIONS_3" : {
-      "description" : "",
-      "message" : "Taranis"
-   },
-   "CORPORATIONS_4" : {
-      "description" : "",
-      "message" : "Constucții Nave Aquarian"
-   },
-   "CORPORATIONS_5" : {
-      "description" : "",
-      "message" : "Rockforth"
-   },
-   "CORPORATIONS_6" : {
-      "description" : "",
-      "message" : "Amaliel"
-   },
-   "CORPORATIONS_7" : {
-      "description" : "",
-      "message" : "Marett Space"
-   },
-   "CORPORATIONS_8" : {
-      "description" : "",
-      "message" : "Linia Vega"
-   },
-   "CORPORATIONS_9" : {
-      "description" : "",
-      "message" : "Digital"
-   },
-   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
-      "description" : "",
-      "message" : "Puteți repeta solicitarea inițială?"
-   },
-   "DANGER" : {
-      "description" : "",
-      "message" : "Pericol:"
-   },
-   "DEADLINE" : {
-      "description" : "",
-      "message" : "Termen limită:"
-   },
-   "DENY_0" : {
-      "description" : "",
-      "message" : "Imi cer scuze, dar nu cred că pot să-mi pun siguranța în mâinile dvs."
-   },
-   "DENY_1" : {
-      "description" : "",
-      "message" : "Întorceți-vă când sunteți mai calificați."
-   },
-   "DENY_2" : {
-      "description" : "",
-      "message" : "Nu cred că ești pilotul pe care îl caut."
-   },
-   "DENY_3" : {
-      "description" : "",
-      "message" : "Nu păreți a fi cineva capabil să transportați oameni."
-   },
-   "DENY_4" : {
-      "description" : "",
-      "message" : "Nu ești tipul de pilot pe care îl caut."
-   },
-   "DENY_5" : {
-      "description" : "",
-      "message" : "Păreți a fi prea lipsit de experiență pentru a vă ocupa de un transport atât de important."
-   },
-   "DENY_6" : {
-      "description" : "",
-      "message" : "Nu am auzit niciodată de dvs. Am nevoie de cineva cu experiență pentru această călătorie."
-   },
-   "DENY_7" : {
-      "description" : "",
-      "message" : "Nu sunt dispus(ă) să-mi risc viața cu cineva fără nicio calificare ca dvs."
-   },
-   "DISTANCE" : {
-      "description" : "",
-      "message" : "Distanța:"
-   },
-   "EXCELLENT" : {
-      "description" : "",
-      "message" : "Excelent."
-   },
-   "FLAVOUR_0_ADTEXT" : {
-      "description" : "",
-      "message" : "CAUT: Un mic grup caută traversarea în sistemul {system}. Vom plăti {cash}."
-   },
-   "FLAVOUR_0_DANGER" : {
-      "description" : "",
-      "message" : "Nu."
-   },
-   "FLAVOUR_0_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Inacceptabil! V-a luat o veșnicie. Nu suntem de acored să plătim."
-   },
-   "FLAVOUR_0_HOWMANY" : {
-      "description" : "",
-      "message" : "Suntem {group}."
-   },
-   "FLAVOUR_0_INTROTEXT" : {
-      "description" : "",
-      "message" : "Salut, sunt {name} și am nevoie de cineva care să transporte un mic grup de oameni în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
-   },
-   "FLAVOUR_0_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mulțumim pentru o călătorie plăcută. Ați fost plătit integral."
-   },
-   "FLAVOUR_0_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Unde suntem? Am așteptat suficient! Du-ne la cea mai apropiată stație ACUM!"
-   },
-   "FLAVOUR_0_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Vizităm un prieten."
-   },
-   "FLAVOUR_10_ADTEXT" : {
-      "description" : "",
-      "message" : "CAUT NAVĂ: Pentru o călătorie rapidă până în sistemul {system}."
-   },
-   "FLAVOUR_10_DANGER" : {
-      "description" : "",
-      "message" : "Cred că cineva mă urmărește."
-   },
-   "FLAVOUR_10_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Sunteți un pilot atât de prost. Nu o să plătesc pentru asta."
-   },
-   "FLAVOUR_10_HOWMANY" : {
-      "description" : "",
-      "message" : "Doar unul."
-   },
-   "FLAVOUR_10_INTROTEXT" : {
-      "description" : "",
-      "message" : "Numele meu este {name}. Vreau să ajung repede în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
-   },
-   "FLAVOUR_10_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mulţumim pentru transportul rapid. Ați fost plătit integral."
-   },
-   "FLAVOUR_10_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
-   },
-   "FLAVOUR_10_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Aș prefera să nu mă găsească nimeni."
-   },
-   "FLAVOUR_11_ADTEXT" : {
-      "description" : "",
-      "message" : "NAVĂ RAPIDĂ: Transportul pe o navă rapidă până în sistemul {system}."
-   },
-   "FLAVOUR_11_DANGER" : {
-      "description" : "",
-      "message" : "Uneori oamenii preferă să nu fie controlați."
-   },
-   "FLAVOUR_11_FAILUREMSG" : {
-      "description" : "",
-      "message" : "O să-mi pierd slujba din cauza incompetenței tale. Așa că am nevoie de bani mai mult decât tine."
-   },
-   "FLAVOUR_11_HOWMANY" : {
-      "description" : "",
-      "message" : "Doar unul."
-   },
-   "FLAVOUR_11_INTROTEXT" : {
-      "description" : "",
-      "message" : "Numele meu este {name}. Am nevoie să ajung rapid în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Voi plăti {cash}."
-   },
-   "FLAVOUR_11_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mulţumim pentru transportul rapid. Ați fost plătit integral."
-   },
-   "FLAVOUR_11_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
-   },
-   "FLAVOUR_11_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Sunt un inspector de fabrici care vreau să îmi fac turele."
-   },
-   "FLAVOUR_12_ADTEXT" : {
-      "description" : "",
-      "message" : "CAUT NAVĂ: Un drum până în sistemul {system}."
-   },
-   "FLAVOUR_12_DANGER" : {
-      "description" : "",
-      "message" : "Mă urmărește cineva."
-   },
-   "FLAVOUR_12_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Nu am suficienți bani. Scuze."
-   },
-   "FLAVOUR_12_HOWMANY" : {
-      "description" : "",
-      "message" : "Doar unul."
-   },
-   "FLAVOUR_12_INTROTEXT" : {
-      "description" : "",
-      "message" : "Numele meu este {name}. Am nevoie să merg în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Voi plăti {cash}."
-   },
-   "FLAVOUR_12_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mulțumim pentru călătorie. Ați fost plătit integral."
-   },
-   "FLAVOUR_12_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
-   },
-   "FLAVOUR_12_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Sunt dator cuiva și mă urmăresc."
-   },
-   "FLAVOUR_1_ADTEXT" : {
-      "description" : "",
-      "message" : "CAUT: Un mic grup caută traversarea în sistemul {system}. Vom plăti {cash}."
-   },
-   "FLAVOUR_1_DANGER" : {
-      "description" : "",
-      "message" : "Nu."
-   },
-   "FLAVOUR_1_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Inacceptabil! V-a luat o veșnicie. Nu suntem de acord să plătim."
-   },
-   "FLAVOUR_1_HOWMANY" : {
-      "description" : "",
-      "message" : "Suntem {group}."
-   },
-   "FLAVOUR_1_INTROTEXT" : {
-      "description" : "",
-      "message" : "Salut, sunt {name} și am nevoie de cineva care să transporte un mic grup de oameni în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
-   },
-   "FLAVOUR_1_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mulțumim pentru o călătorie plăcută. Ați fost plătit integral."
-   },
-   "FLAVOUR_1_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Unde suntem? Am așteptat suficient! Du-ne la cea mai apropiată stație ACUM!"
-   },
-   "FLAVOUR_1_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Lucrăm pentru firma {corp} și plătesc ei."
-   },
-   "FLAVOUR_2_ADTEXT" : {
-      "description" : "",
-      "message" : "CAUT: Un mic grup caută traversarea în sistemul {system}. Vom plăti {cash}."
-   },
-   "FLAVOUR_2_DANGER" : {
-      "description" : "",
-      "message" : "Nu."
-   },
-   "FLAVOUR_2_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Inacceptabil! V-a luat o veșnicie. Nu suntem de acored să plătim."
-   },
-   "FLAVOUR_2_HOWMANY" : {
-      "description" : "",
-      "message" : "Suntem {group}."
-   },
-   "FLAVOUR_2_INTROTEXT" : {
-      "description" : "",
-      "message" : "Salut, sunt {name} și am nevoie de cineva care să transporte un mic grup de oameni în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
-   },
-   "FLAVOUR_2_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mulțumim că ne-ați adus aici. Am plătit integral. Mult noroc!"
-   },
-   "FLAVOUR_2_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Unde suntem? Am așteptat suficient! Du-ne la cea mai apropiată stație ACUM!"
-   },
-   "FLAVOUR_2_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "E o călătorie normală de afaceri."
-   },
-   "FLAVOUR_3_ADTEXT" : {
-      "description" : "",
-      "message" : "CAUT NAVĂ: O cursă către sistemul {system}. Plătesc {cash}."
-   },
-   "FLAVOUR_3_DANGER" : {
-      "description" : "",
-      "message" : "Cred că mă urmărește un asasin și s-ar putea să vă urmărească."
-   },
-   "FLAVOUR_3_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Inacceptabil! V-a luat o veșnicie. Nu sunt de acord să plătesc."
-   },
-   "FLAVOUR_3_HOWMANY" : {
-      "description" : "",
-      "message" : "Sunt doar eu."
-   },
-   "FLAVOUR_3_INTROTEXT" : {
-      "description" : "",
-      "message" : "Salut, sunt {name} și am nevoie să ajung în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
-   },
-   "FLAVOUR_3_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mulțumim pentru o călătorie plăcută. Ați fost plătit integral."
-   },
-   "FLAVOUR_3_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
-   },
-   "FLAVOUR_3_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Un rival vechi de-al meu încearcă să mă omoare."
-   },
-   "FLAVOUR_4_ADTEXT" : {
-      "description" : "",
-      "message" : "CAUT NAVĂ: Călătorie în sistemul {system}. Plătesc {cash}."
-   },
-   "FLAVOUR_4_DANGER" : {
-      "description" : "",
-      "message" : "Nu."
-   },
-   "FLAVOUR_4_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Nici să nu încerci să-mi ceri să plătesc! Te voi raporta la autorități."
-   },
-   "FLAVOUR_4_HOWMANY" : {
-      "description" : "",
-      "message" : "Doar eu."
-   },
-   "FLAVOUR_4_INTROTEXT" : {
-      "description" : "",
-      "message" : "Salut, sunt {name} și am nevoie să ajung în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
-   },
-   "FLAVOUR_4_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mulțumesc că m-ați adus până aici. Am plătit integral. Mult noroc!"
-   },
-   "FLAVOUR_4_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
-   },
-   "FLAVOUR_4_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Sunt un vânzător ambulant."
-   },
-   "FLAVOUR_5_ADTEXT" : {
-      "description" : "",
-      "message" : "CAUT: Călătorie în sistemul {system}. Plătesc {cash}."
-   },
-   "FLAVOUR_5_DANGER" : {
-      "description" : "",
-      "message" : "S-ar putea să primiți atenție din partea presei. Vă rog să o ignorați."
-   },
-   "FLAVOUR_5_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Ce ai făcut! Mi-ai stricat turneul și mi-am pierdut jumătate din fani."
-   },
-   "FLAVOUR_5_HOWMANY" : {
-      "description" : "",
-      "message" : "Sunt doar eu."
-   },
-   "FLAVOUR_5_INTROTEXT" : {
-      "description" : "",
-      "message" : "Salut, sunt {name} și am nevoie să ajung în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
-   },
-   "FLAVOUR_5_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mulțumim pentru o călătorie plăcută. Ați fost plătit integral."
-   },
-   "FLAVOUR_5_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
-   },
-   "FLAVOUR_5_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Nu știți - sunt un actor bine cunoscut."
-   },
-   "FLAVOUR_6_ADTEXT" : {
-      "description" : "",
-      "message" : "CAUT NAVĂ: Pentru o călătorie în sistemul {system}. Plătesc {cash}."
-   },
-   "FLAVOUR_6_DANGER" : {
-      "description" : "",
-      "message" : "Nu."
-   },
-   "FLAVOUR_6_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Inacceptabil! V-a luat o veșnicie. Nu sunt de acord să plătesc."
-   },
-   "FLAVOUR_6_HOWMANY" : {
-      "description" : "",
-      "message" : "Sunt doar eu."
-   },
-   "FLAVOUR_6_INTROTEXT" : {
-      "description" : "",
-      "message" : "Salut, sunt {name} și am nevoie să ajung în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
-   },
-   "FLAVOUR_6_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mulțumim pentru o călătorie plăcută. Ați fost plătit integral."
-   },
-   "FLAVOUR_6_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
-   },
-   "FLAVOUR_6_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Sunt un jurnalist liber-profesionist."
-   },
-   "FLAVOUR_7_ADTEXT" : {
-      "description" : "",
-      "message" : "CAUT NAVĂ: Pentru o călătorie în siguranță până în sistemul {system}."
-   },
-   "FLAVOUR_7_DANGER" : {
-      "description" : "",
-      "message" : "Mafia nu iartă ușor oamenii care-i ajută pe inamicii lor."
-   },
-   "FLAVOUR_7_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Inacceptabil! V-a luat o veșnicie. Nu sunt de acord să plătesc."
-   },
-   "FLAVOUR_7_HOWMANY" : {
-      "description" : "",
-      "message" : "Eu și atât."
-   },
-   "FLAVOUR_7_INTROTEXT" : {
-      "description" : "",
-      "message" : "Salut, numele meu este {name} și am nevoie să ajung în siguranță în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
-   },
-   "FLAVOUR_7_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mulțumesc că m-ai adus aici în siguranță. Am plătit integral. Mult noroc!"
-   },
-   "FLAVOUR_7_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
-   },
-   "FLAVOUR_7_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Mafia mă vrea mort."
-   },
-   "FLAVOUR_8_ADTEXT" : {
-      "description" : "",
-      "message" : "CAUT NAVĂ: Pentru o călătorie rapidă până în sistemul {system}."
-   },
-   "FLAVOUR_8_DANGER" : {
-      "description" : "",
-      "message" : "Nu."
-   },
-   "FLAVOUR_8_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Inacceptabil! V-a luat o veșnicie. Nu sunt de acord să plătesc."
-   },
-   "FLAVOUR_8_HOWMANY" : {
-      "description" : "",
-      "message" : "Doar eu."
-   },
-   "FLAVOUR_8_INTROTEXT" : {
-      "description" : "",
-      "message" : "Numele meu este {name}. Am nevoie să ajung rapid în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Voi plăti {cash}."
-   },
-   "FLAVOUR_8_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mulţumim pentru transportul rapid. Ați fost plătit integral."
-   },
-   "FLAVOUR_8_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
-   },
-   "FLAVOUR_8_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Vizitez o rudă bolnavă."
-   },
-   "FLAVOUR_9_ADTEXT" : {
-      "description" : "",
-      "message" : "CAUT NAVĂ: Pentru o călătorie rapidă până în sistemul {system}."
-   },
-   "FLAVOUR_9_DANGER" : {
-      "description" : "",
-      "message" : "S-ar putea să vă oprească Poliția."
-   },
-   "FLAVOUR_9_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Inutil! V-a luat o veșnicie. Nu am de gând să plătesc."
-   },
-   "FLAVOUR_9_HOWMANY" : {
-      "description" : "",
-      "message" : "Doar eu."
-   },
-   "FLAVOUR_9_INTROTEXT" : {
-      "description" : "",
-      "message" : "Numele meu este {name}. Am nevoie să ajung rapid în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Voi plăti {cash}."
-   },
-   "FLAVOUR_9_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Mulţumim pentru transportul rapid. Ați fost plătit integral."
-   },
-   "FLAVOUR_9_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
-   },
-   "FLAVOUR_9_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Poliția are nevoie de ajutorul meu la niște cercetări."
-   },
-   "FROM" : {
-      "description" : "",
-      "message" : "De la:"
-   },
-   "GROUP_DETAILS" : {
-      "description" : "",
-      "message" : "Detalii grup:"
-   },
-   "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
-      "description" : "",
-      "message" : "Hei!?! O să plătești pentru asta!!!"
-   },
-   "HOW_MANY_OF_YOU_ARE_THERE" : {
-      "description" : "",
-      "message" : "Câți sunteți?"
-   },
-   "HOW_SOON_YOU_MUST_BE_THERE" : {
-      "description" : "",
-      "message" : "Cât de repede trebuie să ajungeți?"
-   },
-   "I_MUST_BE_THERE_BEFORE" : {
-      "description" : "",
-      "message" : "Trebuie să ajung acolo înainte de"
-   },
-   "LY" : {
-      "description" : "",
-      "message" : "a.l."
-   },
-   "OK_AGREED" : {
-      "description" : "",
-      "message" : "Ok, de acord."
-   },
-   "PIRATE_TAUNTS_0" : {
-      "description" : "",
-      "message" : "O să regreți că ai lucrat cu {client}"
-   },
-   "PIRATE_TAUNTS_1" : {
-      "description" : "",
-      "message" : "Aveți pe {client} la bord? N-a fost o mișcare prea inteligentă."
-   },
-   "PIRATE_TAUNTS_2" : {
-      "description" : "",
-      "message" : "Azi nu e ziua ta norocoasă! Pregătește-te să mori."
-   },
-   "PIRATE_TAUNTS_3" : {
-      "description" : "",
-      "message" : "Nu vei andoca azi!"
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Selectați ca țintă navigare"
-   },
-   "TAXI" : {
-      "description" : "",
-      "message" : "Taxi"
-   },
-   "TO" : {
-      "description" : "",
-      "message" : "Către:"
-   },
-   "WE_WANT_TO_BE_THERE_BEFORE" : {
-      "description" : "",
-      "message" : "Vrem să fim acolo înainte de"
-   },
-   "WHY_SO_MUCH_MONEY" : {
-      "description" : "",
-      "message" : "De ce atât de mulți bani?"
-   },
-   "WILL_I_BE_IN_ANY_DANGER" : {
-      "description" : "",
-      "message" : "Voi fi în pericol?"
-   },
-   "WRONG_SYSTEM" : {
-      "description" : "Shown if system name is right, but coordinates are wrong",
-      "message" : "Numele sistemului este corect, dar nu și coordonatele."
-   },
-   "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
-      "description" : "",
-      "message" : "Nu aveți destul spațiu în cabinele navei dvs."
-   }
+  "CORPORATIONS_0": {
+    "description": "",
+    "message": "Sirius"
+  },
+  "CORPORATIONS_1": {
+    "description": "",
+    "message": "ACME"
+  },
+  "CORPORATIONS_10": {
+    "description": "",
+    "message": "Nave En-gros"
+  },
+  "CORPORATIONS_11": {
+    "description": "",
+    "message": "Aerodinamice Arment"
+  },
+  "CORPORATIONS_2": {
+    "description": "",
+    "message": "Cola Rece"
+  },
+  "CORPORATIONS_3": {
+    "description": "",
+    "message": "Taranis"
+  },
+  "CORPORATIONS_4": {
+    "description": "",
+    "message": "Constucții Nave Aquarian"
+  },
+  "CORPORATIONS_5": {
+    "description": "",
+    "message": "Rockforth"
+  },
+  "CORPORATIONS_6": {
+    "description": "",
+    "message": "Amaliel"
+  },
+  "CORPORATIONS_7": {
+    "description": "",
+    "message": "Marett Space"
+  },
+  "CORPORATIONS_8": {
+    "description": "",
+    "message": "Linia Vega"
+  },
+  "CORPORATIONS_9": {
+    "description": "",
+    "message": "Digital"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Puteți repeta solicitarea inițială?"
+  },
+  "DANGER": {
+    "description": "",
+    "message": "Pericol:"
+  },
+  "DEADLINE": {
+    "description": "",
+    "message": "Termen limită:"
+  },
+  "DENY_0": {
+    "description": "",
+    "message": "Imi cer scuze, dar nu cred că pot să-mi pun siguranța în mâinile dvs."
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Întorceți-vă când sunteți mai calificați."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Nu cred că ești pilotul pe care îl caut."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Nu păreți a fi cineva capabil să transportați oameni."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Nu ești tipul de pilot pe care îl caut."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Păreți a fi prea lipsit de experiență pentru a vă ocupa de un transport atât de important."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "Nu am auzit niciodată de dvs. Am nevoie de cineva cu experiență pentru această călătorie."
+  },
+  "DENY_7": {
+    "description": "",
+    "message": "Nu sunt dispus(ă) să-mi risc viața cu cineva fără nicio calificare ca dvs."
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "Distanța:"
+  },
+  "EXCELLENT": {
+    "description": "",
+    "message": "Excelent."
+  },
+  "FLAVOUR_0_ADTEXT": {
+    "description": "",
+    "message": "CAUT: Un mic grup caută traversarea în sistemul {system}. Vom plăti {cash}."
+  },
+  "FLAVOUR_0_DANGER": {
+    "description": "",
+    "message": "Nu."
+  },
+  "FLAVOUR_0_FAILUREMSG": {
+    "description": "",
+    "message": "Inacceptabil! V-a luat o veșnicie. Nu suntem de acored să plătim."
+  },
+  "FLAVOUR_0_HOWMANY": {
+    "description": "",
+    "message": "Suntem {group}."
+  },
+  "FLAVOUR_0_INTROTEXT": {
+    "description": "",
+    "message": "Salut, sunt {name} și am nevoie de cineva care să transporte un mic grup de oameni în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
+  },
+  "FLAVOUR_0_SUCCESSMSG": {
+    "description": "",
+    "message": "Mulțumim pentru o călătorie plăcută. Ați fost plătit integral."
+  },
+  "FLAVOUR_0_WHEREAREWE": {
+    "description": "",
+    "message": "Unde suntem? Am așteptat suficient! Du-ne la cea mai apropiată stație ACUM!"
+  },
+  "FLAVOUR_0_WHYSOMUCH": {
+    "description": "",
+    "message": "Vizităm un prieten."
+  },
+  "FLAVOUR_10_ADTEXT": {
+    "description": "",
+    "message": "CAUT NAVĂ: Pentru o călătorie rapidă până în sistemul {system}."
+  },
+  "FLAVOUR_10_DANGER": {
+    "description": "",
+    "message": "Cred că cineva mă urmărește."
+  },
+  "FLAVOUR_10_FAILUREMSG": {
+    "description": "",
+    "message": "Sunteți un pilot atât de prost. Nu o să plătesc pentru asta."
+  },
+  "FLAVOUR_10_HOWMANY": {
+    "description": "",
+    "message": "Doar unul."
+  },
+  "FLAVOUR_10_INTROTEXT": {
+    "description": "",
+    "message": "Numele meu este {name}. Vreau să ajung repede în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
+  },
+  "FLAVOUR_10_SUCCESSMSG": {
+    "description": "",
+    "message": "Mulţumim pentru transportul rapid. Ați fost plătit integral."
+  },
+  "FLAVOUR_10_WHEREAREWE": {
+    "description": "",
+    "message": "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
+  },
+  "FLAVOUR_10_WHYSOMUCH": {
+    "description": "",
+    "message": "Aș prefera să nu mă găsească nimeni."
+  },
+  "FLAVOUR_11_ADTEXT": {
+    "description": "",
+    "message": "NAVĂ RAPIDĂ: Transportul pe o navă rapidă până în sistemul {system}."
+  },
+  "FLAVOUR_11_DANGER": {
+    "description": "",
+    "message": "Uneori oamenii preferă să nu fie controlați."
+  },
+  "FLAVOUR_11_FAILUREMSG": {
+    "description": "",
+    "message": "O să-mi pierd slujba din cauza incompetenței tale. Așa că am nevoie de bani mai mult decât tine."
+  },
+  "FLAVOUR_11_HOWMANY": {
+    "description": "",
+    "message": "Doar unul."
+  },
+  "FLAVOUR_11_INTROTEXT": {
+    "description": "",
+    "message": "Numele meu este {name}. Am nevoie să ajung rapid în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Voi plăti {cash}."
+  },
+  "FLAVOUR_11_SUCCESSMSG": {
+    "description": "",
+    "message": "Mulţumim pentru transportul rapid. Ați fost plătit integral."
+  },
+  "FLAVOUR_11_WHEREAREWE": {
+    "description": "",
+    "message": "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
+  },
+  "FLAVOUR_11_WHYSOMUCH": {
+    "description": "",
+    "message": "Sunt un inspector de fabrici care vreau să îmi fac turele."
+  },
+  "FLAVOUR_12_ADTEXT": {
+    "description": "",
+    "message": "CAUT NAVĂ: Un drum până în sistemul {system}."
+  },
+  "FLAVOUR_12_DANGER": {
+    "description": "",
+    "message": "Mă urmărește cineva."
+  },
+  "FLAVOUR_12_FAILUREMSG": {
+    "description": "",
+    "message": "Nu am suficienți bani. Scuze."
+  },
+  "FLAVOUR_12_HOWMANY": {
+    "description": "",
+    "message": "Doar unul."
+  },
+  "FLAVOUR_12_INTROTEXT": {
+    "description": "",
+    "message": "Numele meu este {name}. Am nevoie să merg în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Voi plăti {cash}."
+  },
+  "FLAVOUR_12_SUCCESSMSG": {
+    "description": "",
+    "message": "Mulțumim pentru călătorie. Ați fost plătit integral."
+  },
+  "FLAVOUR_12_WHEREAREWE": {
+    "description": "",
+    "message": "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
+  },
+  "FLAVOUR_12_WHYSOMUCH": {
+    "description": "",
+    "message": "Sunt dator cuiva și mă urmăresc."
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "CAUT: Un mic grup caută traversarea în sistemul {system}. Vom plăti {cash}."
+  },
+  "FLAVOUR_1_DANGER": {
+    "description": "",
+    "message": "Nu."
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "Inacceptabil! V-a luat o veșnicie. Nu suntem de acord să plătim."
+  },
+  "FLAVOUR_1_HOWMANY": {
+    "description": "",
+    "message": "Suntem {group}."
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "",
+    "message": "Salut, sunt {name} și am nevoie de cineva care să transporte un mic grup de oameni în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "Mulțumim pentru o călătorie plăcută. Ați fost plătit integral."
+  },
+  "FLAVOUR_1_WHEREAREWE": {
+    "description": "",
+    "message": "Unde suntem? Am așteptat suficient! Du-ne la cea mai apropiată stație ACUM!"
+  },
+  "FLAVOUR_1_WHYSOMUCH": {
+    "description": "",
+    "message": "Lucrăm pentru firma {corp} și plătesc ei."
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "CAUT: Un mic grup caută traversarea în sistemul {system}. Vom plăti {cash}."
+  },
+  "FLAVOUR_2_DANGER": {
+    "description": "",
+    "message": "Nu."
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "Inacceptabil! V-a luat o veșnicie. Nu suntem de acored să plătim."
+  },
+  "FLAVOUR_2_HOWMANY": {
+    "description": "",
+    "message": "Suntem {group}."
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "Salut, sunt {name} și am nevoie de cineva care să transporte un mic grup de oameni în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Mulțumim că ne-ați adus aici. Am plătit integral. Mult noroc!"
+  },
+  "FLAVOUR_2_WHEREAREWE": {
+    "description": "",
+    "message": "Unde suntem? Am așteptat suficient! Du-ne la cea mai apropiată stație ACUM!"
+  },
+  "FLAVOUR_2_WHYSOMUCH": {
+    "description": "",
+    "message": "E o călătorie normală de afaceri."
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "CAUT NAVĂ: O cursă către sistemul {system}. Plătesc {cash}."
+  },
+  "FLAVOUR_3_DANGER": {
+    "description": "",
+    "message": "Cred că mă urmărește un asasin și s-ar putea să vă urmărească."
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "Inacceptabil! V-a luat o veșnicie. Nu sunt de acord să plătesc."
+  },
+  "FLAVOUR_3_HOWMANY": {
+    "description": "",
+    "message": "Sunt doar eu."
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": "Salut, sunt {name} și am nevoie să ajung în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "Mulțumim pentru o călătorie plăcută. Ați fost plătit integral."
+  },
+  "FLAVOUR_3_WHEREAREWE": {
+    "description": "",
+    "message": "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
+  },
+  "FLAVOUR_3_WHYSOMUCH": {
+    "description": "",
+    "message": "Un rival vechi de-al meu încearcă să mă omoare."
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "CAUT NAVĂ: Călătorie în sistemul {system}. Plătesc {cash}."
+  },
+  "FLAVOUR_4_DANGER": {
+    "description": "",
+    "message": "Nu."
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "Nici să nu încerci să-mi ceri să plătesc! Te voi raporta la autorități."
+  },
+  "FLAVOUR_4_HOWMANY": {
+    "description": "",
+    "message": "Doar eu."
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "Salut, sunt {name} și am nevoie să ajung în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "Mulțumesc că m-ați adus până aici. Am plătit integral. Mult noroc!"
+  },
+  "FLAVOUR_4_WHEREAREWE": {
+    "description": "",
+    "message": "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
+  },
+  "FLAVOUR_4_WHYSOMUCH": {
+    "description": "",
+    "message": "Sunt un vânzător ambulant."
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "CAUT: Călătorie în sistemul {system}. Plătesc {cash}."
+  },
+  "FLAVOUR_5_DANGER": {
+    "description": "",
+    "message": "S-ar putea să primiți atenție din partea presei. Vă rog să o ignorați."
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "Ce ai făcut! Mi-ai stricat turneul și mi-am pierdut jumătate din fani."
+  },
+  "FLAVOUR_5_HOWMANY": {
+    "description": "",
+    "message": "Sunt doar eu."
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "Salut, sunt {name} și am nevoie să ajung în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "Mulțumim pentru o călătorie plăcută. Ați fost plătit integral."
+  },
+  "FLAVOUR_5_WHEREAREWE": {
+    "description": "",
+    "message": "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
+  },
+  "FLAVOUR_5_WHYSOMUCH": {
+    "description": "",
+    "message": "Nu știți - sunt un actor bine cunoscut."
+  },
+  "FLAVOUR_6_ADTEXT": {
+    "description": "",
+    "message": "CAUT NAVĂ: Pentru o călătorie în sistemul {system}. Plătesc {cash}."
+  },
+  "FLAVOUR_6_DANGER": {
+    "description": "",
+    "message": "Nu."
+  },
+  "FLAVOUR_6_FAILUREMSG": {
+    "description": "",
+    "message": "Inacceptabil! V-a luat o veșnicie. Nu sunt de acord să plătesc."
+  },
+  "FLAVOUR_6_HOWMANY": {
+    "description": "",
+    "message": "Sunt doar eu."
+  },
+  "FLAVOUR_6_INTROTEXT": {
+    "description": "",
+    "message": "Salut, sunt {name} și am nevoie să ajung în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
+  },
+  "FLAVOUR_6_SUCCESSMSG": {
+    "description": "",
+    "message": "Mulțumim pentru o călătorie plăcută. Ați fost plătit integral."
+  },
+  "FLAVOUR_6_WHEREAREWE": {
+    "description": "",
+    "message": "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
+  },
+  "FLAVOUR_6_WHYSOMUCH": {
+    "description": "",
+    "message": "Sunt un jurnalist liber-profesionist."
+  },
+  "FLAVOUR_7_ADTEXT": {
+    "description": "",
+    "message": "CAUT NAVĂ: Pentru o călătorie în siguranță până în sistemul {system}."
+  },
+  "FLAVOUR_7_DANGER": {
+    "description": "",
+    "message": "Mafia nu iartă ușor oamenii care-i ajută pe inamicii lor."
+  },
+  "FLAVOUR_7_FAILUREMSG": {
+    "description": "",
+    "message": "Inacceptabil! V-a luat o veșnicie. Nu sunt de acord să plătesc."
+  },
+  "FLAVOUR_7_HOWMANY": {
+    "description": "",
+    "message": "Eu și atât."
+  },
+  "FLAVOUR_7_INTROTEXT": {
+    "description": "",
+    "message": "Salut, numele meu este {name} și am nevoie să ajung în siguranță în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
+  },
+  "FLAVOUR_7_SUCCESSMSG": {
+    "description": "",
+    "message": "Mulțumesc că m-ai adus aici în siguranță. Am plătit integral. Mult noroc!"
+  },
+  "FLAVOUR_7_WHEREAREWE": {
+    "description": "",
+    "message": "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
+  },
+  "FLAVOUR_7_WHYSOMUCH": {
+    "description": "",
+    "message": "Mafia mă vrea mort."
+  },
+  "FLAVOUR_8_ADTEXT": {
+    "description": "",
+    "message": "CAUT NAVĂ: Pentru o călătorie rapidă până în sistemul {system}."
+  },
+  "FLAVOUR_8_DANGER": {
+    "description": "",
+    "message": "Nu."
+  },
+  "FLAVOUR_8_FAILUREMSG": {
+    "description": "",
+    "message": "Inacceptabil! V-a luat o veșnicie. Nu sunt de acord să plătesc."
+  },
+  "FLAVOUR_8_HOWMANY": {
+    "description": "",
+    "message": "Doar eu."
+  },
+  "FLAVOUR_8_INTROTEXT": {
+    "description": "",
+    "message": "Numele meu este {name}. Am nevoie să ajung rapid în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Voi plăti {cash}."
+  },
+  "FLAVOUR_8_SUCCESSMSG": {
+    "description": "",
+    "message": "Mulţumim pentru transportul rapid. Ați fost plătit integral."
+  },
+  "FLAVOUR_8_WHEREAREWE": {
+    "description": "",
+    "message": "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
+  },
+  "FLAVOUR_8_WHYSOMUCH": {
+    "description": "",
+    "message": "Vizitez o rudă bolnavă."
+  },
+  "FLAVOUR_9_ADTEXT": {
+    "description": "",
+    "message": "CAUT NAVĂ: Pentru o călătorie rapidă până în sistemul {system}."
+  },
+  "FLAVOUR_9_DANGER": {
+    "description": "",
+    "message": "S-ar putea să vă oprească Poliția."
+  },
+  "FLAVOUR_9_FAILUREMSG": {
+    "description": "",
+    "message": "Inutil! V-a luat o veșnicie. Nu am de gând să plătesc."
+  },
+  "FLAVOUR_9_HOWMANY": {
+    "description": "",
+    "message": "Doar eu."
+  },
+  "FLAVOUR_9_INTROTEXT": {
+    "description": "",
+    "message": "Numele meu este {name}. Am nevoie să ajung rapid în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Voi plăti {cash}."
+  },
+  "FLAVOUR_9_SUCCESSMSG": {
+    "description": "",
+    "message": "Mulţumim pentru transportul rapid. Ați fost plătit integral."
+  },
+  "FLAVOUR_9_WHEREAREWE": {
+    "description": "",
+    "message": "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
+  },
+  "FLAVOUR_9_WHYSOMUCH": {
+    "description": "",
+    "message": "Poliția are nevoie de ajutorul meu la niște cercetări."
+  },
+  "FROM": {
+    "description": "",
+    "message": "De la:"
+  },
+  "GROUP_DETAILS": {
+    "description": "",
+    "message": "Detalii grup:"
+  },
+  "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS": {
+    "description": "",
+    "message": "Hei!?! O să plătești pentru asta!!!"
+  },
+  "HOW_MANY_OF_YOU_ARE_THERE": {
+    "description": "",
+    "message": "Câți sunteți?"
+  },
+  "HOW_SOON_YOU_MUST_BE_THERE": {
+    "description": "",
+    "message": "Cât de repede trebuie să ajungeți?"
+  },
+  "I_MUST_BE_THERE_BEFORE": {
+    "description": "",
+    "message": "Trebuie să ajung acolo înainte de"
+  },
+  "LY": {
+    "description": "",
+    "message": "a.l."
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Ok, de acord."
+  },
+  "PIRATE_TAUNTS_0": {
+    "description": "",
+    "message": "O să regreți că ai lucrat cu {client}"
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Aveți pe {client} la bord? N-a fost o mișcare prea inteligentă."
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "Azi nu e ziua ta norocoasă! Pregătește-te să mori."
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Nu vei andoca azi!"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Selectați ca țintă navigare"
+  },
+  "TAXI": {
+    "description": "",
+    "message": "Taxi"
+  },
+  "TO": {
+    "description": "",
+    "message": "Către:"
+  },
+  "WE_WANT_TO_BE_THERE_BEFORE": {
+    "description": "",
+    "message": "Vrem să fim acolo înainte de"
+  },
+  "WHY_SO_MUCH_MONEY": {
+    "description": "",
+    "message": "De ce atât de mulți bani?"
+  },
+  "WILL_I_BE_IN_ANY_DANGER": {
+    "description": "",
+    "message": "Voi fi în pericol?"
+  },
+  "WRONG_SYSTEM": {
+    "description": "Shown if system name is right, but coordinates are wrong",
+    "message": "Numele sistemului este corect, dar nu și coordonatele."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP": {
+    "description": "",
+    "message": "Nu aveți destul spațiu în cabinele navei dvs."
+  }
 }

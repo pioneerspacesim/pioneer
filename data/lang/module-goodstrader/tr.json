@@ -1,58 +1,58 @@
 {
-   "GOODS_TRADER_0" : {
-      "description" : "",
-      "message" : "Dürüst {name} Ürün Pazarı"
-   },
-   "GOODS_TRADER_1" : {
-      "description" : "",
-      "message" : "{name} Ticaret Evi"
-   },
-   "GOODS_TRADER_2" : {
-      "description" : "",
-      "message" : "{name} Eşya Deposu"
-   },
-   "GOODS_TRADER_3" : {
-      "description" : "",
-      "message" : "{name} Ürün Borsası"
-   },
-   "GOODS_TRADER_4" : {
-      "description" : "",
-      "message" : "{name} Holding"
-   },
-   "GOODS_TRADER_5" : {
-      "description" : "",
-      "message" : "{name} ve Oğulları"
-   },
-   "SLOGAN_0" : {
-      "description" : "",
-      "message" : "Diğerlerinin yapmayacağı teklifler yapıyoruz."
-   },
-   "SLOGAN_1" : {
-      "description" : "",
-      "message" : "Gerçekten özgür bir pazar."
-   },
-   "SLOGAN_2" : {
-      "description" : "",
-      "message" : "En iyi alışılmadık ürünleri sunuyoruz!"
-   },
-   "SLOGAN_3" : {
-      "description" : "",
-      "message" : "Sınırları olmayan bir piyasaya inanıyoruz."
-   },
-   "SLOGAN_4" : {
-      "description" : "",
-      "message" : "Özgürlüğünüz için düzensiz market!"
-   },
-   "SLOGAN_5" : {
-      "description" : "",
-      "message" : "Güvenilir tüccar."
-   },
-   "SLOGAN_6" : {
-      "description" : "",
-      "message" : "Size her zaman özel fiyatlarımız var."
-   },
-   "WELCOME_TO" : {
-      "description" : "",
-      "message" : "Hoş geldiniz:"
-   }
+  "GOODS_TRADER_0": {
+    "description": "",
+    "message": "Dürüst {name} Ürün Pazarı"
+  },
+  "GOODS_TRADER_1": {
+    "description": "",
+    "message": "{name} Ticaret Evi"
+  },
+  "GOODS_TRADER_2": {
+    "description": "",
+    "message": "{name} Eşya Deposu"
+  },
+  "GOODS_TRADER_3": {
+    "description": "",
+    "message": "{name} Ürün Borsası"
+  },
+  "GOODS_TRADER_4": {
+    "description": "",
+    "message": "{name} Holding"
+  },
+  "GOODS_TRADER_5": {
+    "description": "",
+    "message": "{name} ve Oğulları"
+  },
+  "SLOGAN_0": {
+    "description": "",
+    "message": "Diğerlerinin yapmayacağı teklifler yapıyoruz."
+  },
+  "SLOGAN_1": {
+    "description": "",
+    "message": "Gerçekten özgür bir pazar."
+  },
+  "SLOGAN_2": {
+    "description": "",
+    "message": "En iyi alışılmadık ürünleri sunuyoruz!"
+  },
+  "SLOGAN_3": {
+    "description": "",
+    "message": "Sınırları olmayan bir piyasaya inanıyoruz."
+  },
+  "SLOGAN_4": {
+    "description": "",
+    "message": "Özgürlüğünüz için düzensiz market!"
+  },
+  "SLOGAN_5": {
+    "description": "",
+    "message": "Güvenilir tüccar."
+  },
+  "SLOGAN_6": {
+    "description": "",
+    "message": "Size her zaman özel fiyatlarımız var."
+  },
+  "WELCOME_TO": {
+    "description": "",
+    "message": "Hoş geldiniz:"
+  }
 }

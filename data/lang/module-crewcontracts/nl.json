@@ -1,94 +1,94 @@
 {
-   "ASK_CANDIDATE_TO_SIT_A_TEST" : {
-      "description" : "",
-      "message" : "Vraag kandidaat een test af te leggen"
-   },
-   "CREWDETAILSHEETBB" : {
-      "description" : "",
-      "message" : "Naam: {name}\nErvaring: {experience}\nVraagprijs: {wage} per week\n\n{response}\n"
-   },
-   "CREWMEMBER_WAGE_PER_WEEK" : {
-      "description" : "",
-      "message" : "{potentialCrewMember} ({wage}/wk)"
-   },
-   "CREWTESTRESULTSBB" : {
-      "description" : "",
-      "message" : "Examenresultaten:\n\nAlgemene bemanningsvaardigheden: {general}%\nWerktuigbouwkunde en reparaties: {engineering}%\nBesturing en ruimtevaart: {piloting}%\nNavigatie en koers uitzetten: {navigation}%\nSensoren en verdediging: {sensors}%\nTotale examenscore: {overall}%"
-   },
-   "CREW_FOR_HIRE" : {
-      "description" : "",
-      "message" : "Bemanning aangeboden"
-   },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Ga terug"
-   },
-   "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
-      "description" : "",
-      "message" : "Sorry, ik kan niet lager gaan."
-   },
-   "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
-      "description" : "",
-      "message" : "Sorry, uw aanbod vind ik niet aantrekkelijk."
-   },
-   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
-      "description" : "",
-      "message" : "Bied positie op schip aan voor gestelde bedrag"
-   },
-   "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
-      "description" : "",
-      "message" : "Minimale tijd doorgebracht aan boord"
-   },
-   "NO_CREW_AVAILABLE" : {
-      "description" : "",
-      "message" : "Sorry, no candidates are currently seeking employment at {station}"
-   },
-   "NO_EXPERIENCE" : {
-      "description" : "",
-      "message" : "Geen ervaring"
-   },
-   "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
-      "description" : "",
-      "message" : "OK, I ga er vanuit dat dat klopt."
-   },
-   "POTENTIAL_CREW_MEMBERS" : {
-      "description" : "",
-      "message" : "Potentiele bemanningsleden zijn geregistreerd als werkzoekend op {station}:"
-   },
-   "SIMULATOR_TRAINING_ONLY" : {
-      "description" : "",
-      "message" : "Alleen simulatortraining"
-   },
-   "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
-      "description" : "",
-      "message" : "Enige ervaring in gecontroleerde omgevingen"
-   },
-   "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
-      "description" : "",
-      "message" : "Stel nieuw weekloon van {newAmount} voor"
-   },
-   "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
-      "description" : "",
-      "message" : "Bedankt, ik installeer me meteen aan boord."
-   },
-   "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
-      "description" : "",
-      "message" : "Dat is extreem gul van u!"
-   },
-   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
-      "description" : "",
-      "message" : "Dat maakt dit aanbod een stuk mooier!"
-   },
-   "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
-      "description" : "",
-      "message" : "Er is helemaal geen plek voor mij aan boord!"
-   },
-   "TIME_SERVED_CREW_MEMBER" : {
-      "description" : "",
-      "message" : "Tijd doorgebracht als bemanningslid"
-   },
-   "VETERAN_TIME_SERVED_CREW_MEMBER" : {
-      "description" : "",
-      "message" : "Senior, tijd doorgebracht bemanningslid"
-   }
+  "ASK_CANDIDATE_TO_SIT_A_TEST": {
+    "description": "",
+    "message": "Vraag kandidaat een test af te leggen"
+  },
+  "CREWDETAILSHEETBB": {
+    "description": "",
+    "message": "Naam: {name}\nErvaring: {experience}\nVraagprijs: {wage} per week\n\n{response}\n"
+  },
+  "CREWMEMBER_WAGE_PER_WEEK": {
+    "description": "",
+    "message": "{potentialCrewMember} ({wage}/wk)"
+  },
+  "CREWTESTRESULTSBB": {
+    "description": "",
+    "message": "Examenresultaten:\n\nAlgemene bemanningsvaardigheden: {general}%\nWerktuigbouwkunde en reparaties: {engineering}%\nBesturing en ruimtevaart: {piloting}%\nNavigatie en koers uitzetten: {navigation}%\nSensoren en verdediging: {sensors}%\nTotale examenscore: {overall}%"
+  },
+  "CREW_FOR_HIRE": {
+    "description": "",
+    "message": "Bemanning aangeboden"
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Ga terug"
+  },
+  "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER": {
+    "description": "",
+    "message": "Sorry, ik kan niet lager gaan."
+  },
+  "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
+    "description": "",
+    "message": "Sorry, uw aanbod vind ik niet aantrekkelijk."
+  },
+  "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
+    "description": "",
+    "message": "Bied positie op schip aan voor gestelde bedrag"
+  },
+  "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
+    "description": "",
+    "message": "Minimale tijd doorgebracht aan boord"
+  },
+  "NO_CREW_AVAILABLE": {
+    "description": "",
+    "message": "Sorry, no candidates are currently seeking employment at {station}"
+  },
+  "NO_EXPERIENCE": {
+    "description": "",
+    "message": "Geen ervaring"
+  },
+  "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
+    "description": "",
+    "message": "OK, I ga er vanuit dat dat klopt."
+  },
+  "POTENTIAL_CREW_MEMBERS": {
+    "description": "",
+    "message": "Potentiele bemanningsleden zijn geregistreerd als werkzoekend op {station}:"
+  },
+  "SIMULATOR_TRAINING_ONLY": {
+    "description": "",
+    "message": "Alleen simulatortraining"
+  },
+  "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS": {
+    "description": "",
+    "message": "Enige ervaring in gecontroleerde omgevingen"
+  },
+  "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
+    "description": "",
+    "message": "Stel nieuw weekloon van {newAmount} voor"
+  },
+  "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
+    "description": "",
+    "message": "Bedankt, ik installeer me meteen aan boord."
+  },
+  "THATS_EXTREMELY_GENEROUS_OF_YOU": {
+    "description": "",
+    "message": "Dat is extreem gul van u!"
+  },
+  "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
+    "description": "",
+    "message": "Dat maakt dit aanbod een stuk mooier!"
+  },
+  "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD": {
+    "description": "",
+    "message": "Er is helemaal geen plek voor mij aan boord!"
+  },
+  "TIME_SERVED_CREW_MEMBER": {
+    "description": "",
+    "message": "Tijd doorgebracht als bemanningslid"
+  },
+  "VETERAN_TIME_SERVED_CREW_MEMBER": {
+    "description": "",
+    "message": "Senior, tijd doorgebracht bemanningslid"
+  }
 }

@@ -1,14 +1,14 @@
 {
-   "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
-      "description" : "",
-      "message" : "Qui {station}. Non avete abbastanza denaro per pagare la vostra tassa d'attracco di {fee}."
-   },
-   "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
-      "description" : "Station welcome message, docking in orbit",
-      "message" : "Benvenuti su {station}. Vi è stata dedotta una tassa d'attracco di {fee}."
-   },
-   "WELCOME_TO_STATION_FEE_DEDUCTED" : {
-      "description" : "Station welcome message, ground station landing",
-      "message" : "Benvenuti a {station}. Vi è stata dedotta una tassa di atterraggio di {fee}."
-   }
+  "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH": {
+    "description": "",
+    "message": "Qui {station}. Non avete abbastanza denaro per pagare la vostra tassa d'attracco di {fee}."
+  },
+  "WELCOME_ABOARD_STATION_FEE_DEDUCTED": {
+    "description": "Station welcome message, docking in orbit",
+    "message": "Benvenuti su {station}. Vi è stata dedotta una tassa d'attracco di {fee}."
+  },
+  "WELCOME_TO_STATION_FEE_DEDUCTED": {
+    "description": "Station welcome message, ground station landing",
+    "message": "Benvenuti a {station}. Vi è stata dedotta una tassa di atterraggio di {fee}."
+  }
 }

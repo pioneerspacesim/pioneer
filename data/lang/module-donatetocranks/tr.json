@@ -1,62 +1,62 @@
 {
-   "FLAVOUR_0_MESSAGE" : {
-      "description" : "",
-      "message" : "Lütfen İlahi Uçan Spagetti Canavarı Kilisesine yapmak istediğiniz bağışın miktarını seçiniz"
-   },
-   "FLAVOUR_0_TITLE" : {
-      "description" : "",
-      "message" : "BAĞIŞ YAPIN! İlahi Uçan Spagetti Canavarı Kilisesinin tanrının kelimelerini yaymak için SİZİN paranıza ihtiyacı var."
-   },
-   "FLAVOUR_1_MESSAGE" : {
-      "description" : "",
-      "message" : "Barış seninle olsun, kardeşim. Lütfen Özgür Ruhun Koruyucularına yapmak istediğiniz bağış miktarını seçiniz."
-   },
-   "FLAVOUR_1_TITLE" : {
-      "description" : "",
-      "message" : "BAĞIŞ YAPIN. Özgür Ruhun Koruyucuları manastırlarımızı korumak için sizin desteğinizi rica ediyor."
-   },
-   "FLAVOUR_2_MESSAGE" : {
-      "description" : "",
-      "message" : "Lütfen Savaş Yetimleri Vakfına yapmak istediğiniz bağış miktarını seçiniz ve tüm galaksideki çocukların çektikleri acılara son verin."
-   },
-   "FLAVOUR_2_TITLE" : {
-      "description" : "",
-      "message" : "CÖMERT Mİ HİSSEDİYORSUNUZ? Savaş Yetimleri Vakfı vazgeçilmez görevini yerine getirmek için sizin yardımınıza ihtiyacı var."
-   },
-   "FLAVOUR_3_MESSAGE" : {
-      "description" : "",
-      "message" : "Lütfen YeşilGözlem'e yapmak istediğiniz bağış miktarını seçiniz ve galaksimizdeki kirliliğe son verin."
-   },
-   "FLAVOUR_3_TITLE" : {
-      "description" : "",
-      "message" : "YARDIM EDİN. Galaktik 'Askeri Sürücüleri Yasaklayın' Dostları kampanyasının sizin paranıza ihtiyacı var."
-   },
-   "FLAVOUR_4_MESSAGE" : {
-      "description" : "",
-      "message" : "Lütfen bağış yapılacak miktarı seçin."
-   },
-   "FLAVOUR_4_TITLE" : {
-      "description" : "",
-      "message" : "BAĞIŞ YAPIN! Türümüzü kurtarın. Yeni yerleşilen dünyalardaki katliamları durdurun."
-   },
-   "FLAVOUR_5_MESSAGE" : {
-      "description" : "",
-      "message" : "Geminizi özgür kılın! Lütfen bağış yapılacak miktarı seçin. Mutlu kırmalar."
-   },
-   "FLAVOUR_5_TITLE" : {
-      "description" : "",
-      "message" : "ÖZGÜRLÜĞÜ DESTEKLEYİN! Geminizi kontrol eden ticari yazılımların büyük adaletsizliğine son verin."
-   },
-   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
-      "description" : "",
-      "message" : "Teşekkür ederiz. Tüm bağışlar takdir edilir."
-   },
-   "WOW_THAT_WAS_VERY_GENEROUS" : {
-      "description" : "",
-      "message" : "Bu çok cömertçeydi."
-   },
-   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Yeterli paranız yok."
-   }
+  "FLAVOUR_0_MESSAGE": {
+    "description": "",
+    "message": "Lütfen İlahi Uçan Spagetti Canavarı Kilisesine yapmak istediğiniz bağışın miktarını seçiniz"
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "",
+    "message": "BAĞIŞ YAPIN! İlahi Uçan Spagetti Canavarı Kilisesinin tanrının kelimelerini yaymak için SİZİN paranıza ihtiyacı var."
+  },
+  "FLAVOUR_1_MESSAGE": {
+    "description": "",
+    "message": "Barış seninle olsun, kardeşim. Lütfen Özgür Ruhun Koruyucularına yapmak istediğiniz bağış miktarını seçiniz."
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "",
+    "message": "BAĞIŞ YAPIN. Özgür Ruhun Koruyucuları manastırlarımızı korumak için sizin desteğinizi rica ediyor."
+  },
+  "FLAVOUR_2_MESSAGE": {
+    "description": "",
+    "message": "Lütfen Savaş Yetimleri Vakfına yapmak istediğiniz bağış miktarını seçiniz ve tüm galaksideki çocukların çektikleri acılara son verin."
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "",
+    "message": "CÖMERT Mİ HİSSEDİYORSUNUZ? Savaş Yetimleri Vakfı vazgeçilmez görevini yerine getirmek için sizin yardımınıza ihtiyacı var."
+  },
+  "FLAVOUR_3_MESSAGE": {
+    "description": "",
+    "message": "Lütfen YeşilGözlem'e yapmak istediğiniz bağış miktarını seçiniz ve galaksimizdeki kirliliğe son verin."
+  },
+  "FLAVOUR_3_TITLE": {
+    "description": "",
+    "message": "YARDIM EDİN. Galaktik 'Askeri Sürücüleri Yasaklayın' Dostları kampanyasının sizin paranıza ihtiyacı var."
+  },
+  "FLAVOUR_4_MESSAGE": {
+    "description": "",
+    "message": "Lütfen bağış yapılacak miktarı seçin."
+  },
+  "FLAVOUR_4_TITLE": {
+    "description": "",
+    "message": "BAĞIŞ YAPIN! Türümüzü kurtarın. Yeni yerleşilen dünyalardaki katliamları durdurun."
+  },
+  "FLAVOUR_5_MESSAGE": {
+    "description": "",
+    "message": "Geminizi özgür kılın! Lütfen bağış yapılacak miktarı seçin. Mutlu kırmalar."
+  },
+  "FLAVOUR_5_TITLE": {
+    "description": "",
+    "message": "ÖZGÜRLÜĞÜ DESTEKLEYİN! Geminizi kontrol eden ticari yazılımların büyük adaletsizliğine son verin."
+  },
+  "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
+    "description": "",
+    "message": "Teşekkür ederiz. Tüm bağışlar takdir edilir."
+  },
+  "WOW_THAT_WAS_VERY_GENEROUS": {
+    "description": "",
+    "message": "Bu çok cömertçeydi."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
+    "description": "",
+    "message": "Yeterli paranız yok."
+  }
 }

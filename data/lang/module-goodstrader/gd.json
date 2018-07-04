@@ -1,58 +1,58 @@
 {
-   "GOODS_TRADER_0" : {
-      "description" : "",
-      "message" : "gun taigh-bhathair onarach aig {name}"
-   },
-   "GOODS_TRADER_1" : {
-      "description" : "",
-      "message" : "gun taigh-mhalairt aig {name}"
-   },
-   "GOODS_TRADER_2" : {
-      "description" : "",
-      "message" : "gun taigh-bhathair aig {name}"
-   },
-   "GOODS_TRADER_3" : {
-      "description" : "",
-      "message" : "gun ionad malairt aig {name}"
-   },
-   "GOODS_TRADER_4" : {
-      "description" : "",
-      "message" : "batharnach {name}"
-   },
-   "GOODS_TRADER_5" : {
-      "description" : "",
-      "message" : "{name} ⁊ a mhac"
-   },
-   "SLOGAN_0" : {
-      "description" : "",
-      "message" : "Tha bathar againn nach fhaigh thu tric."
-   },
-   "SLOGAN_1" : {
-      "description" : "",
-      "message" : "Seo margadh a tha saor dha-rìribh."
-   },
-   "SLOGAN_2" : {
-      "description" : "",
-      "message" : "A' toirt brod a' bhathair neo-ghràthaich dhut!"
-   },
-   "SLOGAN_3" : {
-      "description" : "",
-      "message" : "Is miann leinn margadh gun chuingeachadh."
-   },
-   "SLOGAN_4" : {
-      "description" : "",
-      "message" : "Am margadh neo-riaghlaichte a chum do shaorsa."
-   },
-   "SLOGAN_5" : {
-      "description" : "",
-      "message" : "An reiceadair earbsach."
-   },
-   "SLOGAN_6" : {
-      "description" : "",
-      "message" : "Gheibh thu prìs shònraichte dhut an-còmhnaidh."
-   },
-   "WELCOME_TO" : {
-      "description" : "",
-      "message" : "Fàilte"
-   }
+  "GOODS_TRADER_0": {
+    "description": "",
+    "message": "gun taigh-bhathair onarach aig {name}"
+  },
+  "GOODS_TRADER_1": {
+    "description": "",
+    "message": "gun taigh-mhalairt aig {name}"
+  },
+  "GOODS_TRADER_2": {
+    "description": "",
+    "message": "gun taigh-bhathair aig {name}"
+  },
+  "GOODS_TRADER_3": {
+    "description": "",
+    "message": "gun ionad malairt aig {name}"
+  },
+  "GOODS_TRADER_4": {
+    "description": "",
+    "message": "batharnach {name}"
+  },
+  "GOODS_TRADER_5": {
+    "description": "",
+    "message": "{name} ⁊ a mhac"
+  },
+  "SLOGAN_0": {
+    "description": "",
+    "message": "Tha bathar againn nach fhaigh thu tric."
+  },
+  "SLOGAN_1": {
+    "description": "",
+    "message": "Seo margadh a tha saor dha-rìribh."
+  },
+  "SLOGAN_2": {
+    "description": "",
+    "message": "A' toirt brod a' bhathair neo-ghràthaich dhut!"
+  },
+  "SLOGAN_3": {
+    "description": "",
+    "message": "Is miann leinn margadh gun chuingeachadh."
+  },
+  "SLOGAN_4": {
+    "description": "",
+    "message": "Am margadh neo-riaghlaichte a chum do shaorsa."
+  },
+  "SLOGAN_5": {
+    "description": "",
+    "message": "An reiceadair earbsach."
+  },
+  "SLOGAN_6": {
+    "description": "",
+    "message": "Gheibh thu prìs shònraichte dhut an-còmhnaidh."
+  },
+  "WELCOME_TO": {
+    "description": "",
+    "message": "Fàilte"
+  }
 }

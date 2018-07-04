@@ -1,1734 +1,1734 @@
 {
-   "ABOVE_AVERAGE" : {
-      "description" : "",
-      "message" : "Выше среднего"
-   },
-   "ACTIVE" : {
-      "description" : "",
-      "message" : "Активно"
-   },
-   "ADD_JUMP" : {
-      "description" : "UI-button: Add hyper jump to list of planned jumps",
-      "message" : "Add Jump"
-   },
-   "AFTER_TRADE_IN" : {
-      "description" : "",
-      "message" : "С учётом вашего судна"
-   },
-   "ALLEGIANCE" : {
-      "description" : "",
-      "message" : "Лояльность:"
-   },
-   "ALL_UP_WEIGHT" : {
-      "description" : "",
-      "message" : "Общая масса"
-   },
-   "AMOUNT" : {
-      "description" : "",
-      "message" : "Кол-во"
-   },
-   "ANISOTROPIC_FILTERING_DESC" : {
-      "description" : "",
-      "message" : "Samples the texture across multiple mip levels to produce a much clearer texture when viewed at shallow angles. Stops the textures from becoming as blurred; however, it can come at a heavy performance cost."
-   },
-   "AN_ERROR_HAS_OCCURRED" : {
-      "description" : "",
-      "message" : "Произошла ошибка"
-   },
-   "ATMOSPHERIC_SHIELDING" : {
-      "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
-      "message" : "Атмосферный щит"
-   },
-   "ATTEMPT_TO_REPAIR_HULL" : {
-      "description" : "",
-      "message" : "Попытаться отремонтировать корпус"
-   },
-   "AUTO_ROUTE" : {
-      "description" : "Automatically find shortest jump route (measured in time) in star map",
-      "message" : "Auto Route"
-   },
-   "AVAILABLE_FOR_PURCHASE" : {
-      "description" : "",
-      "message" : "Доступно для покупки"
-   },
-   "AVERAGE" : {
-      "description" : "",
-      "message" : "Средний"
-   },
-   "BACKWARD_ACCEL" : {
-      "description" : "",
-      "message" : "Ускорение назад"
-   },
-   "BULLETIN_BOARD" : {
-      "description" : "",
-      "message" : "Служба объявлений"
-   },
-   "BUY" : {
-      "description" : "Commodities and equipment prices",
-      "message" : "[+]"
-   },
-   "BUY_SHIP" : {
-      "description" : "",
-      "message" : "Купить"
-   },
-   "CABINS" : {
-      "description" : "For passengers",
-      "message" : "Каюты"
-   },
-   "CABIN_FREE" : {
-      "description" : "Free capacity for passengers",
-      "message" : "{amount} свободно"
-   },
-   "CABIN_USED" : {
-      "description" : "Passengers using cabins",
-      "message" : "{amount} используется"
-   },
-   "CANCEL" : {
-      "description" : "",
-      "message" : "Отмена"
-   },
-   "CAPACITY" : {
-      "description" : "Capacity of ship to fit more equipment",
-      "message" : "Грузоподъёмность"
-   },
-   "CAPACITY_USED" : {
-      "description" : "",
-      "message" : "Загруженность"
-   },
-   "CARGO" : {
-      "description" : "",
-      "message" : "Трюм"
-   },
-   "CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Грузоподъёмность"
-   },
-   "CARGO_SPACE_USED" : {
-      "description" : "",
-      "message" : "Грузовой отсек"
-   },
-   "CARGO_T_FREE" : {
-      "description" : "t for tonne",
-      "message" : "{amount}т свободно"
-   },
-   "CARGO_T_USED" : {
-      "description" : "t for tonne",
-      "message" : "{amount}т загружено"
-   },
-   "CASH" : {
-      "description" : "",
-      "message" : "Счёт"
-   },
-   "CASH_N" : {
-      "description" : "",
-      "message" : "Счёт: {money}"
-   },
-   "CENTER_ON_SYSTEM" : {
-      "description" : "Center on selected star system",
-      "message" : "Center on System"
-   },
-   "CHANGE_BINDING" : {
-      "description" : "Key binding option",
-      "message" : "Назначить"
-   },
-   "CHIEF_MECHANIC" : {
-      "description" : "",
-      "message" : "Главный механик"
-   },
-   "CIRCULAR_ORBIT_SPEED" : {
-      "description" : "",
-      "message" : "Круговая скорость орбиты"
-   },
-   "CITY_DETAIL_LEVEL" : {
-      "description" : "Game graphics option",
-      "message" : "Уровень детализации городов"
-   },
-   "CLEAN" : {
-      "description" : "Legal status of player",
-      "message" : "Чистый"
-   },
-   "CLEAR" : {
-      "description" : "Clear an option in game settings/options menu",
-      "message" : "Очистить"
-   },
-   "CLEAR_ROUTE" : {
-      "description" : "Clear a planned route of hyperjumps",
-      "message" : "Clear Route"
-   },
-   "CLIENT" : {
-      "description" : "",
-      "message" : "Заказчик"
-   },
-   "CLOSE" : {
-      "description" : "",
-      "message" : "Close"
-   },
-   "COMBAT" : {
-      "description" : "Headline for kills and combat rating",
-      "message" : "Боевая статистика"
-   },
-   "COMMANDER" : {
-      "description" : "",
-      "message" : "Командир"
-   },
-   "COMMODITY_MARKET" : {
-      "description" : "",
-      "message" : "Торговый центр"
-   },
-   "COMPACT_RADAR" : {
-      "description" : "Game settings option",
-      "message" : "Компактный радар"
-   },
-   "COMPETENT" : {
-      "description" : "Combat rating",
-      "message" : "Квалифицированный"
-   },
-   "COMPLETED" : {
-      "description" : "",
-      "message" : "Завершено"
-   },
-   "COMPRESS_TEXTURES" : {
-      "description" : "graphics option in game settings menu ",
-      "message" : "Сжимать текстуры"
-   },
-   "CONFIRM_PURCHASE" : {
-      "description" : "",
-      "message" : "Подтвердить покупку"
-   },
-   "CONFIRM_SALE" : {
-      "description" : "",
-      "message" : "Подтвердить продажу"
-   },
-   "CONSTABLE" : {
-      "description" : "",
-      "message" : "Начальник охраны"
-   },
-   "CONTINUE_GAME" : {
-      "description" : "",
-      "message" : "Продолжить игру"
-   },
-   "CONTROLS" : {
-      "description" : "",
-      "message" : "Управление"
-   },
-   "CONTROL_OPTIONS" : {
-      "description" : "",
-      "message" : "Настройки управления"
-   },
-   "COULD_NOT_LOAD_GAME" : {
-      "description" : "",
-      "message" : "Не удалось загрузить игру:"
-   },
-   "CREDIBLE" : {
-      "description" : "For player reputation",
-      "message" : "Заслуживающий доверия"
-   },
-   "CREDITS" : {
-      "description" : "in game currency",
-      "message" : "Credits"
-   },
-   "CREW_CABINS" : {
-      "description" : "",
-      "message" : "Каюты для экипажа"
-   },
-   "CREW_ROSTER" : {
-      "description" : "",
-      "message" : "Список экипажа"
-   },
-   "CRIMINAL_RECORD" : {
-      "description" : "Past crimes / crime history of character",
-      "message" : "Досье"
-   },
-   "CURRENT_FUEL" : {
-      "description" : "For hyperjump planner",
-      "message" : "Current Fuel:"
-   },
-   "CURRENT_SYSTEM" : {
-      "description" : "For hyperjump planner",
-      "message" : "Текущая система"
-   },
-   "DANGEROUS" : {
-      "description" : "Player combat rating",
-      "message" : "Опасный"
-   },
-   "DEADLY" : {
-      "description" : "Player combat rating",
-      "message" : "Смертельный"
-   },
-   "DELTA_V" : {
-      "description" : "",
-      "message" : "Дельта v"
-   },
-   "DELTA_V_EMPTY" : {
-      "description" : "Delta-v capacity of a ship with no cargo or upgrades",
-      "message" : "Дельта v (пустой)"
-   },
-   "DELTA_V_FULL" : {
-      "description" : "Delta-v capacity of a ship with maximum cargo",
-      "message" : "Дельта v (полный)"
-   },
-   "DELTA_V_MAX" : {
-      "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
-      "message" : "Дельта v (макс.)"
-   },
-   "DESCENT_TO_GROUND_SPEED" : {
-      "description" : "",
-      "message" : "Скорость снижения:"
-   },
-   "DESTROY_ENEMY_SHIP" : {
-      "description" : "",
-      "message" : "Уничтожить корабль противника"
-   },
-   "DISMISS" : {
-      "description" : "Terminate crew memeber's contract",
-      "message" : "Уволить"
-   },
-   "DISPLAY_HUD_TRAILS" : {
-      "description" : "",
-      "message" : "Отображать HUD-тоннель"
-   },
-   "DISPLAY_NAV_TUNNELS" : {
-      "description" : "Settings option: hyperspace tunnel effect",
-      "message" : "Отображать навигационный тоннель"
-   },
-   "DISPLAY_SPEED_LINES" : {
-      "description" : "Settings option: effect when travelling in space",
-      "message" : "Отображать линии скорости"
-   },
-   "DOCKED_AT" : {
-      "description" : "",
-      "message" : "Docked at"
-   },
-   "DOCK_AT_CURRENT_TARGET" : {
-      "description" : "",
-      "message" : "Состыковаться с выбранной целью"
-   },
-   "DUE" : {
-      "description" : "mission deadline date",
-      "message" : "Сроки"
-   },
-   "DUMPING" : {
-      "description" : "The illegal act of dumping waste",
-      "message" : "Сбрасывание"
-   },
-   "D_DAYS_LEFT" : {
-      "description" : "",
-      "message" : "Осталось дней: %d"
-   },
-   "ECONOMY_TRADE" : {
-      "description" : "",
-      "message" : "Экономика и торговля"
-   },
-   "EFFECTS" : {
-      "description" : "",
-      "message" : "Эффекты:"
-   },
-   "ELITE" : {
-      "description" : "Player combat rating",
-      "message" : "ЭЛИТА"
-   },
-   "EMPLOYMENT" : {
-      "description" : "",
-      "message" : "Занятость"
-   },
-   "ENABLE_ANISOTROPIC_FILTERING" : {
-      "description" : "Use Anisotropic Filtering",
-      "message" : "Анизотропная фильтрация"
-   },
-   "ENABLE_AUTOSAVE" : {
-      "description" : "Allow the game to autosave when docking",
-      "message" : "Включить автосохранение"
-   },
-   "ENABLE_COCKPIT" : {
-      "description" : "Game settings option: to use a cockpit 3D model",
-      "message" : "Включить кабину (ЭКСПЕРИМЕНТАЛЬНО)"
-   },
-   "ENABLE_JOYSTICK" : {
-      "description" : "",
-      "message" : "Включить джойстик"
-   },
-   "END_GAME" : {
-      "description" : "",
-      "message" : "End Game"
-   },
-   "ENGINEERING" : {
-      "description" : "Engineering skills of crew",
-      "message" : "Инженерное дело:"
-   },
-   "EQUIPMENT" : {
-      "description" : "",
-      "message" : "Оснащение"
-   },
-   "EQUIPMENT_MARKET" : {
-      "description" : "",
-      "message" : "Магазин оборудования"
-   },
-   "EQUIPPED" : {
-      "description" : "",
-      "message" : "Оборудовано"
-   },
-   "ERROR" : {
-      "description" : "",
-      "message" : "Ошибка"
-   },
-   "ERROR_LANDING_GEAR_DOWN" : {
-      "description" : "",
-      "message" : "Can not initiate hyperjump; landing gear is not retracted!"
-   },
-   "ESCAPE_SPEED" : {
-      "description" : "",
-      "message" : "Параболическая скорость:"
-   },
-   "EXIT_THIS_GAME" : {
-      "description" : "",
-      "message" : "Выйти из игры"
-   },
-   "EXPERIENCED" : {
-      "description" : "For player reputation",
-      "message" : "Опытный"
-   },
-   "EXPERT" : {
-      "description" : "For player reputation",
-      "message" : "Эксперт"
-   },
-   "FAILED" : {
-      "description" : "When failed mission",
-      "message" : "Провалено"
-   },
-   "FEMALE" : {
-      "description" : "",
-      "message" : "Женщина"
-   },
-   "FINAL_TARGET" : {
-      "description" : "Hyperjump planner, referring to star system target",
-      "message" : "Final Target:"
-   },
-   "FLIGHT_STATE" : {
-      "description" : "",
-      "message" : "Flight State"
-   },
-   "FLYING" : {
-      "description" : "",
-      "message" : "Flying"
-   },
-   "FORWARD_ACCEL" : {
-      "description" : "",
-      "message" : "Ускорение вперёд"
-   },
-   "FORWARD_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Ускорение вперёд (пустой)"
-   },
-   "FORWARD_ACCEL_FULL" : {
-      "description" : "",
-      "message" : "Ускорение вперёд (полный)"
-   },
-   "FRACTAL_DETAIL" : {
-      "description" : "",
-      "message" : "Фрактальная детализация"
-   },
-   "FREE" : {
-      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
-      "message" : "свободно"
-   },
-   "FRONT_WEAPON" : {
-      "description" : "",
-      "message" : "Носовая турель"
-   },
-   "FUEL" : {
-      "description" : "",
-      "message" : "Топливо"
-   },
-   "FUEL_TANK_FULL" : {
-      "description" : "",
-      "message" : "Топливный бак полон."
-   },
-   "FUEL_WEIGHT" : {
-      "description" : "",
-      "message" : "Масса топлива"
-   },
-   "FULL_SCREEN" : {
-      "description" : "",
-      "message" : "Полноэкранный режим"
-   },
-   "GAME_TIME" : {
-      "description" : "",
-      "message" : "Game time"
-   },
-   "GENERAL_CREW" : {
-      "description" : "",
-      "message" : "Основной экипаж"
-   },
-   "GIVE_ORDERS_TO_CREW" : {
-      "description" : "",
-      "message" : "Отдать приказы экипажу"
-   },
-   "GOOD_RIDDANCE_TO_YOU_TOO" : {
-      "description" : "",
-      "message" : "Скатертью дорожка!"
-   },
-   "GPU_JOBS" : {
-      "description" : "",
-      "message" : "GPU Jobs"
-   },
-   "GPU_JOBS_DESC" : {
-      "description" : "",
-      "message" : "Utilize GPU for certain actions, possibly improving performance."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Спасибо за информацию, конец связи."
-   },
-   "HARMLESS" : {
-      "description" : "Player combat rating",
-      "message" : "Безобидный"
-   },
-   "HEAVY_CARGO_SHUTTLE" : {
-      "description" : "",
-      "message" : "Тяжёлый грузовой шаттл"
-   },
-   "HEAVY_COURIER" : {
-      "description" : "",
-      "message" : "Тяжёлый курьер"
-   },
-   "HEAVY_FIGHTER" : {
-      "description" : "",
-      "message" : "Тяжёлый истребитель"
-   },
-   "HEAVY_FREIGHTER" : {
-      "description" : "",
-      "message" : "Тяжёлый грузовой транспорт"
-   },
-   "HEAVY_PASSENGER_SHUTTLE" : {
-      "description" : "",
-      "message" : "Тяжёлый пассажирский челнок"
-   },
-   "HEAVY_PASSENGER_TRANSPORT" : {
-      "description" : "",
-      "message" : "Тяжёлый пассажирский транспорт"
-   },
-   "HIGH" : {
-      "description" : "Game settings option: for graphics resolution",
-      "message" : "Высокая"
-   },
-   "HUD_2D_RADAR" : {
-      "description" : "Popup text: the name of the azimuthal equidistant projection radar",
-      "message" : "2D азимутальная эквидистантная проекция"
-   },
-   "HUD_3D_RADAR" : {
-      "description" : "Popup text: the name of the planar projection radar (traditional frontier-style)",
-      "message" : "3D проская проекция"
-   },
-   "HUD_ATMOSPHERIC_PRESSURE" : {
-      "description" : "Tooltip: Atmospheric Pressure.",
-      "message" : "Атмосферное давление"
-   },
-   "HUD_BACKWARD_GUN_TEMPERATURE" : {
-      "description" : "Tooltip: Backward Gun Temperature.",
-      "message" : "Backward Gun Temperature"
-   },
-   "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
-      "description" : "Tooltip: The braking distance using the main thrusters.",
-      "message" : "Расстояние торможения с использованием главных ускорителей"
-   },
-   "HUD_BUTTON_AUTOPILOT_DOCKING" : {
-      "description" : "Tooltip: Autopilot docking",
-      "message" : "Autopilot docking"
-   },
-   "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT" : {
-      "description" : "Tooltip: Autopilot entering orbit",
-      "message" : "Автопилот выходит на орбиту"
-   },
-   "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET" : {
-      "description" : "Tooltip: Autopilot flying to target",
-      "message" : "Автопилот летит к цели"
-   },
-   "HUD_BUTTON_BLASTOFF" : {
-      "description" : "Tooltip: Blastoff",
-      "message" : "Взлёт"
-   },
-   "HUD_BUTTON_EQUIPMENT" : {
-      "description" : "Tooltip: Equipment",
-      "message" : "Оснащение"
-   },
-   "HUD_BUTTON_EXTERNAL_VIEW" : {
-      "description" : "Tooltip: External camera view",
-      "message" : "Внешний вид"
-   },
-   "HUD_BUTTON_FIX_ANTINORMAL" : {
-      "description" : "Tooltip: fix heading antinormal",
-      "message" : "Fix heading antinormal"
-   },
-   "HUD_BUTTON_FIX_NORMAL" : {
-      "description" : "Tooltip: fix heading normal",
-      "message" : "Fix heading normal"
-   },
-   "HUD_BUTTON_FIX_PROGRADE" : {
-      "description" : "Tooltip: fix heading prograde",
-      "message" : "Fix heading prograde"
-   },
-   "HUD_BUTTON_FIX_RADIAL_IN" : {
-      "description" : "Tooltip: fix heading radially inward",
-      "message" : "Fix heading radially inward"
-   },
-   "HUD_BUTTON_FIX_RADIAL_OUT" : {
-      "description" : "Tooltip: fix heading radially outward",
-      "message" : "Fix heading radially outward"
-   },
-   "HUD_BUTTON_FIX_RETROGRADE" : {
-      "description" : "Tooltip: fix heading retrograde",
-      "message" : "Fix heading retrograde"
-   },
-   "HUD_BUTTON_HYPERDRIVE_DISABLED" : {
-      "description" : "Tooltip: Hyperdrive disabled (docked or landed)",
-      "message" : "Гипердвигатель выключен"
-   },
-   "HUD_BUTTON_INITIATE_HYPERJUMP" : {
-      "description" : "Tooltip: Initiate legal hyperjump",
-      "message" : "Initiate hyperjump"
-   },
-   "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP" : {
-      "description" : "Tooltip: Initiate illegal hyperjump",
-      "message" : "Initiate illegal hyperjump"
-   },
-   "HUD_BUTTON_INTERNAL_VIEW" : {
-      "description" : "Tooltip: Internal camera view",
-      "message" : "Обзор"
-   },
-   "HUD_BUTTON_KILL_ROTATION" : {
-      "description" : "Tooltip: kill rotation",
-      "message" : "Стоп вращение"
-   },
-   "HUD_BUTTON_LANDING_GEAR_IS_DOWN" : {
-      "description" : "Tooltip: Landing gear is down",
-      "message" : "Landing gear is down"
-   },
-   "HUD_BUTTON_LANDING_GEAR_IS_MOVING" : {
-      "description" : "Tooltip: Landing gear is moving",
-      "message" : "Landing gear is moving"
-   },
-   "HUD_BUTTON_LANDING_GEAR_IS_UP" : {
-      "description" : "Tooltip: Landing gear is up",
-      "message" : "Посадочный механизм поднят"
-   },
-   "HUD_BUTTON_MANUAL_CONTROL" : {
-      "description" : "Tooltip: Manual control",
-      "message" : "Пилотаж"
-   },
-   "HUD_BUTTON_ROTATION_DAMPING_IS_OFF" : {
-      "description" : "Tooltip: Rotation damping is off",
-      "message" : "Rotation damping is off"
-   },
-   "HUD_BUTTON_ROTATION_DAMPING_IS_ON" : {
-      "description" : "Tooltip: Rotation damping is on",
-      "message" : "Rotation damping is on"
-   },
-   "HUD_BUTTON_SCANNER" : {
-      "description" : "Tooltip: Scanner",
-      "message" : "Сканер"
-   },
-   "HUD_BUTTON_SET_SPEED" : {
-      "description" : "Tooltip: set speed",
-      "message" : "Set speed"
-   },
-   "HUD_BUTTON_SHOW_COMMS" : {
-      "description" : "Tooltip: Show comms",
-      "message" : "Связь"
-   },
-   "HUD_BUTTON_SHOW_PERSONAL_INFO" : {
-      "description" : "Tooltip: Show personal info",
-      "message" : "Персональная информация"
-   },
-   "HUD_BUTTON_SIDEREAL_VIEW" : {
-      "description" : "Tooltip: Sidereal camera view",
-      "message" : "Вид со стороны"
-   },
-   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP" : {
-      "description" : "Tooltip: Switch to galaxy map",
-      "message" : "Карта галактики"
-   },
-   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP" : {
-      "description" : "Tooltip: Switch to sector map",
-      "message" : "Карта сектора"
-   },
-   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP" : {
-      "description" : "Tooltip: Switch to system map",
-      "message" : "Карта системы"
-   },
-   "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW" : {
-      "description" : "Tooltip: Switch to system overview",
-      "message" : "Обзор системы"
-   },
-   "HUD_BUTTON_SWITCH_TO_WORLD_VIEW" : {
-      "description" : "Tooltip: Switch to world view",
-      "message" : "Switch to world view"
-   },
-   "HUD_BUTTON_UNDOCK" : {
-      "description" : "Tooltip: Undock",
-      "message" : "Взлёт"
-   },
-   "HUD_CARGO_MASS" : {
-      "description" : "Cargo Mass",
-      "message" : "Cargo Mass"
-   },
-   "HUD_CURRENT_COMBAT_TARGET" : {
-      "description" : "Tooltip: The current combat target.",
-      "message" : "Текущая боевая цель"
-   },
-   "HUD_CURRENT_FRAME" : {
-      "description" : "Tooltip: The current frame of reference.",
-      "message" : "Текущая система отсчета"
-   },
-   "HUD_CURRENT_HEADING" : {
-      "description" : "Tooltip: the current heading.",
-      "message" : "Текущее направление"
-   },
-   "HUD_CURRENT_NAV_TARGET" : {
-      "description" : "Tooltip: The current navigational target.",
-      "message" : "Текущая цель навигации"
-   },
-   "HUD_CURRENT_PITCH" : {
-      "description" : "Tooltip: the current pitch.",
-      "message" : "Текущий угол наклона"
-   },
-   "HUD_CURRENT_ROLL" : {
-      "description" : "Tooltip: the current roll.",
-      "message" : "Текущий угол разворота"
-   },
-   "HUD_DELTA_V" : {
-      "description" : "Tooltip: The remaining Δv.",
-      "message" : "Осталось Δv"
-   },
-   "HUD_DELTA_V_OF_MANEUVER_BURN" : {
-      "description" : "Tooltip: The Δv for the maneuver burn.",
-      "message" : "Δv маневра"
-   },
-   "HUD_DELTA_V_PERCENT" : {
-      "description" : "Tooltip: The remaining Δv in percent.",
-      "message" : "Осталось Δv"
-   },
-   "HUD_DISTANCE_TO_SURFACE_OF_FRAME" : {
-      "description" : "Tooltip: Distance to the surface of the frame of reference.",
-      "message" : "Расстояние до поверхности системы отсчета"
-   },
-   "HUD_DISTANCE_TO_SURFACE_OF_TARGET" : {
-      "description" : "Tooltip: Distance to the surface of the target.",
-      "message" : "Расстояние до поверхности цели"
-   },
-   "HUD_DURATION_OF_MANEUVER_BURN" : {
-      "description" : "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
-      "message" : "Примерная продолжительность маневра с использованием главных ускорителей"
-   },
-   "HUD_DURATION_UNTIL_MANEUVER_BURN" : {
-      "description" : "Tooltip: The duration until the middle of the maneuver burn.",
-      "message" : "Продолжительность до середины маневра"
-   },
-   "HUD_FORWARD_GUN_TEMPERATURE" : {
-      "description" : "Tooltip: Forward Gun Temperature.",
-      "message" : "Forward Gun Temperature"
-   },
-   "HUD_HULL_STRENGTH" : {
-      "description" : "Tooltip: Hull Strength.",
-      "message" : "Hull Strength"
-   },
-   "HUD_HULL_TEMPERATURE" : {
-      "description" : "Tooltip: Hull Temperature.",
-      "message" : "Hull Temperature"
-   },
-   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS" : {
-      "description" : "",
-      "message" : "Гиперпрыжок в {destination} через {countdown} сек."
-   },
-   "HUD_INDICATOR_AWAY_FROM_FRAME" : {
-      "description" : "Indicator: Away from the current frame.",
-      "message" : "Удаляемся от текущей системы отсчета"
-   },
-   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
-      "description" : "Indicator: Prograde direction relative to the current combat target.",
-      "message" : "В  направлении относительно текущей боевой цели"
-   },
-   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
-      "description" : "Indicator: Retrograde direction relative to the current combat target.",
-      "message" : "В обратном направлении относительно текущей боевой цели"
-   },
-   "HUD_INDICATOR_FRAME_PROGRADE" : {
-      "description" : "Indicator: Prograde direction relative to the current frame.",
-      "message" : "В направлении относительно текущей системы отсчета"
-   },
-   "HUD_INDICATOR_FRAME_RETROGRADE" : {
-      "description" : "Indicator: Retrograde direction relative to the current frame.",
-      "message" : "В обратном направлении относительно текущей системы отсчета"
-   },
-   "HUD_INDICATOR_MANEUVER_PROGRADE" : {
-      "description" : "Indicator: The prograde direction for the maneuver burn.",
-      "message" : "В направлении маневра"
-   },
-   "HUD_INDICATOR_NAV_TARGET_PROGRADE" : {
-      "description" : "Indicator: Prograde direction relative to the current navigational target.",
-      "message" : "В направлении относительно текущей цели навигации"
-   },
-   "HUD_INDICATOR_NAV_TARGET_RETROGRADE" : {
-      "description" : "Indicator: Retrograde direction relative to the current navigational target.",
-      "message" : "В обратном направлении относительно текущей цели навигации"
-   },
-   "HUD_IN_TRANSIT_TO_N_X_X_X" : {
-      "description" : "",
-      "message" : "Прыжок в систему {system} [{x},{y},{z}]"
-   },
-   "HUD_JUMP_COMPLETE" : {
-      "description" : "",
-      "message" : "Гиперпрыжок завершён на {percent}%"
-   },
-   "HUD_MASS" : {
-      "description" : "Mass",
-      "message" : "Вес"
-   },
-   "HUD_RADAR_DISTANCE" : {
-      "description" : "Tooltip: Current distance of the radar.",
-      "message" : "Расстояние активного радара"
-   },
-   "HUD_REQUEST_TIME_ACCEL" : {
-      "description" : "Tooltip: Request time acceleration {time}",
-      "message" : "Ускорение времени: {time}"
-   },
-   "HUD_SHIELD_STRENGTH" : {
-      "description" : "Tooltip: Shield Strength.",
-      "message" : "Shield Strength"
-   },
-   "HUD_SHOW_COMBAT_TARGET" : {
-      "description" : "Tooltip: Show the current combat target.",
-      "message" : "Показать текущую боевую цель"
-   },
-   "HUD_SHOW_FRAME" : {
-      "description" : "Tooltip: Show the current frame of reference.",
-      "message" : "Показать текущую систему отсчета"
-   },
-   "HUD_SHOW_NAV_TARGET" : {
-      "description" : "Tooltip: Show current navigational target.",
-      "message" : "Показать текущую цель навигации"
-   },
-   "HUD_SPEED_OF_APPROACH_TO_FRAME" : {
-      "description" : "Tooltip: The speed of approach towards the frame of reference.",
-      "message" : "Скорость приближения к системе отсчета"
-   },
-   "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
-      "description" : "Tooltip: The speed of approach relative to target.",
-      "message" : "The speed of approach relative to target"
-   },
-   "HUD_SPEED_RELATIVE_TO_TARGET" : {
-      "description" : "Tooltip: The speed relative to the target.",
-      "message" : "Скорость относительно цели"
-   },
-   "HUD_THRUST_INDICATOR" : {
-      "description" : "Tooltip: describe what the thrust/velocity indicator shows",
-      "message" : "Show current velocity for each direction (thin lines) and thrust (thick background)"
-   },
-   "HULL_DOES_NOT_REQUIRE_REPAIR" : {
-      "description" : "",
-      "message" : "Корпус не требует ремонта."
-   },
-   "HULL_INTEGRITY" : {
-      "description" : "",
-      "message" : "Корпус"
-   },
-   "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
-      "description" : "",
-      "message" : "{name} отремонтировал корпус до {repairPercent}%"
-   },
-   "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
-      "description" : "",
-      "message" : "Попытка ремонта не удалась. Корпус получил незначительные повреждения."
-   },
-   "HYPERDRIVE" : {
-      "description" : "",
-      "message" : "Установленный двигатель"
-   },
-   "HYPERDRIVE_FITTED" : {
-      "description" : "",
-      "message" : "Установленный двигатель:"
-   },
-   "HYPERJUMP_ROUTE" : {
-      "description" : "",
-      "message" : "HyperJump Route"
-   },
-   "HYPERSPACE_RANGE" : {
-      "description" : "",
-      "message" : "Дальность гиперпрыжка"
-   },
-   "ILLEGAL_JUMP" : {
-      "description" : "A finable crime",
-      "message" : "Совершение рискованного гиперпрыжка"
-   },
-   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
-      "description" : "",
-      "message" : "Я устал работать даром. Разве вы не знаете, что такое контракт?"
-   },
-   "INACTIVE" : {
-      "description" : "",
-      "message" : "Неактивно"
-   },
-   "INCOMPETENT" : {
-      "description" : "For player reputation",
-      "message" : "Некомпетентный"
-   },
-   "INEXPERIENCED" : {
-      "description" : "For player reputation",
-      "message" : "Неопытный"
-   },
-   "INSUFFICIENT_FUNDS" : {
-      "description" : "",
-      "message" : "Недостаточно финансов."
-   },
-   "INVERT_MOUSE_Y" : {
-      "description" : "",
-      "message" : "Инвертировать мышь по оси Y"
-   },
-   "IN_CARGO_HOLD" : {
-      "description" : "",
-      "message" : "В грузовом отсеке"
-   },
-   "IN_STOCK" : {
-      "description" : "",
-      "message" : "На складе"
-   },
-   "ITEM_IS_OUT_OF_STOCK" : {
-      "description" : "",
-      "message" : "Этого товара нет на складе."
-   },
-   "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
-      "description" : "",
-      "message" : "Было приятно поработать на вас. Если я вам понадоблюсь снова, то я еще побуду здесь."
-   },
-   "JETTISON" : {
-      "description" : "",
-      "message" : "Сброс груза"
-   },
-   "JUMPING" : {
-      "description" : "Flight State",
-      "message" : "Jumping"
-   },
-   "KILLS" : {
-      "description" : "",
-      "message" : "Побед:"
-   },
-   "LANGUAGE" : {
-      "description" : "",
-      "message" : "Язык игры"
-   },
-   "LANGUAGE_RESTART_GAME_TO_APPLY" : {
-      "description" : "",
-      "message" : "Язык игры (требуется перезапуск игры)"
-   },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "В разрешении на взлёт отказано: стыковочная зона занята."
-   },
-   "LAUNCH_PERMISSION_DENIED_CREW" : {
-      "description" : "",
-      "message" : "В разрешении на взлёт отказано: на вашем корабле не укомплектован экипаж."
-   },
-   "LAUNCH_PERMISSION_DENIED_FINED" : {
-      "description" : "",
-      "message" : "В разрешении на взлёт отказано: у вас имеются неоплаченные штрафы."
-   },
-   "LEGAL_STATUS" : {
-      "description" : "",
-      "message" : "Правовой статус"
-   },
-   "LIGHT_CARGO_SHUTTLE" : {
-      "description" : "",
-      "message" : "Лёгкий грузовой челнок"
-   },
-   "LIGHT_COURIER" : {
-      "description" : "",
-      "message" : "Лёгкий курьер"
-   },
-   "LIGHT_FIGHTER" : {
-      "description" : "",
-      "message" : "Лёгкий истребитель"
-   },
-   "LIGHT_FREIGHTER" : {
-      "description" : "",
-      "message" : "Лёгкий грузовой транспорт"
-   },
-   "LIGHT_PASSENGER_SHUTTLE" : {
-      "description" : "",
-      "message" : "Лёгкий пассажирский челнок"
-   },
-   "LIGHT_PASSENGER_TRANSPORT" : {
-      "description" : "",
-      "message" : "Лёгкий пассажирский транспорт"
-   },
-   "LOAD" : {
-      "description" : "",
-      "message" : "Загрузка игры"
-   },
-   "LOAD_GAME" : {
-      "description" : "",
-      "message" : "Загрузить игру"
-   },
-   "LOBBY" : {
-      "description" : "",
-      "message" : "Информационный центр"
-   },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав Ориона"
-   },
-   "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
-      "description" : "",
-      "message" : "Положение: {distance}км от центра {name}:"
-   },
-   "LOCATION" : {
-      "description" : "",
-      "message" : "Система"
-   },
-   "LOW" : {
-      "description" : "",
-      "message" : "Низкая"
-   },
-   "LY" : {
-      "description" : "Light year",
-      "message" : "св. лет"
-   },
-   "MAJOR_EXPORTS_ITEM" : {
-      "description" : "",
-      "message" : "Major exports"
-   },
-   "MAJOR_IMPORTS_ITEM" : {
-      "description" : "",
-      "message" : "Major imports"
-   },
-   "MAKE_NEW_FACE" : {
-      "description" : "",
-      "message" : "Новое лицо"
-   },
-   "MALE" : {
-      "description" : "",
-      "message" : "Мужчина"
-   },
-   "MARKET_BUYLINE" : {
-      "description" : "",
-      "message" : "Купить {amount} ед. за {price}"
-   },
-   "MARKET_SELLINE" : {
-      "description" : "",
-      "message" : "Продать {amount} ед. за {price}"
-   },
-   "MASS" : {
-      "description" : "",
-      "message" : "Вес"
-   },
-   "MASTER" : {
-      "description" : "For player reputation",
-      "message" : "Мастер"
-   },
-   "MASTER_VOL" : {
-      "description" : "Master sound in settings option",
-      "message" : "Общая:"
-   },
-   "MAX" : {
-      "description" : "",
-      "message" : "макс."
-   },
-   "MAXIMUM_CREW" : {
-      "description" : "",
-      "message" : "Максимум экипажа"
-   },
-   "MEDIUM" : {
-      "description" : "Game settings option: graphics resolution",
-      "message" : "Средняя"
-   },
-   "MEDIUM_CARGO_SHUTTLE" : {
-      "description" : "",
-      "message" : "Средний грузовой челнок"
-   },
-   "MEDIUM_COURIER" : {
-      "description" : "",
-      "message" : "Средний курьер"
-   },
-   "MEDIUM_FIGHTER" : {
-      "description" : "",
-      "message" : "Средний истребитель"
-   },
-   "MEDIUM_FREIGHTER" : {
-      "description" : "",
-      "message" : "Средний грузовой транспорт"
-   },
-   "MEDIUM_PASSENGER_SHUTTLE" : {
-      "description" : "",
-      "message" : "Средний пассажирский челнок"
-   },
-   "MEDIUM_PASSENGER_TRANSPORT" : {
-      "description" : "",
-      "message" : "Средний пассажирский транспорт"
-   },
-   "METAL_ALLOYS" : {
-      "description" : "",
-      "message" : "Металлические сплавы"
-   },
-   "MILITARY" : {
-      "description" : "",
-      "message" : "Военная статистика"
-   },
-   "MINIMUM_CREW" : {
-      "description" : "",
-      "message" : "Минимальный экипаж"
-   },
-   "MINOR_EXPORTS_ITEM" : {
-      "description" : "",
-      "message" : "Minor exports"
-   },
-   "MINOR_IMPORTS_ITEM" : {
-      "description" : "",
-      "message" : "Minor imports"
-   },
-   "MISSILE_MOUNTS" : {
-      "description" : "",
-      "message" : "Крепления для ракет"
-   },
-   "MISSIONS" : {
-      "description" : "",
-      "message" : "Список заданий"
-   },
-   "MISSION_DETAILS" : {
-      "description" : "",
-      "message" : "Подробности миссии"
-   },
-   "MORE_INFO" : {
-      "description" : "",
-      "message" : "Доп.информация..."
-   },
-   "MOSTLY_HARMLESS" : {
-      "description" : "",
-      "message" : "Почти безобидный"
-   },
-   "MOVE_DOWN" : {
-      "description" : "move selection down in list",
-      "message" : "Move Down"
-   },
-   "MOVE_UP" : {
-      "description" : "move selection up in list",
-      "message" : "Move Up"
-   },
-   "MULTISAMPLING" : {
-      "description" : "",
-      "message" : "Сглаживание "
-   },
-   "MULTISAMPLING_DESC" : {
-      "description" : "",
-      "message" : "A graphical fine-tuning feature, used to reduce jagged, pixelated contours. It can be quite resource-intensive."
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Убийство"
-   },
-   "MUSIC" : {
-      "description" : "",
-      "message" : "Музыка:"
-   },
-   "MUTE" : {
-      "description" : "",
-      "message" : "Заглушить"
-   },
-   "NAME_OBJECT" : {
-      "description" : "For an item or object",
-      "message" : "Имя"
-   },
-   "NAME_PERSON" : {
-      "description" : "For a person",
-      "message" : "Имя"
-   },
-   "NAVIGATION" : {
-      "description" : "",
-      "message" : "Навигация:"
-   },
-   "NAVIGATOR" : {
-      "description" : "",
-      "message" : "Навигатор"
-   },
-   "NEGOTIATE" : {
-      "description" : "",
-      "message" : "Обсудить условия"
-   },
-   "NEXT_PAID" : {
-      "description" : "",
-      "message" : "День платежа"
-   },
-   "NO" : {
-      "description" : "Negative answer to a question",
-      "message" : "Нет"
-   },
-   "NOBODY" : {
-      "description" : "For player reputation",
-      "message" : " Пустое место"
-   },
-   "NONE" : {
-      "description" : "",
-      "message" : "<отсутствует>"
-   },
-   "NONE_FOR_SALE_IN_THIS_STATION" : {
-      "description" : "",
-      "message" : "Не подлежит продаже на этой станции."
-   },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав Лебедя"
-   },
-   "NOTES" : {
-      "description" : "",
-      "message" : "Примечание:"
-   },
-   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
-      "description" : "",
-      "message" : "Недостаточно {alloy} для проведения ремонта"
-   },
-   "NOT_SUPPORTED_ON_THIS_SHIP" : {
-      "description" : "",
-      "message" : "{equipment} неподдерживается на данной модели корабля"
-   },
-   "NO_MISSIONS" : {
-      "description" : "",
-      "message" : "Нет заданий."
-   },
-   "N_LIGHT_YEARS_N_MAX" : {
-      "description" : "",
-      "message" : "{range} св. лет (из {maxRange} макс.)"
-   },
-   "N_OCCUPIED_PASSENGER_CABINS" : {
-      "description" : "",
-      "message" : "{quantity} пассажирских кают занято"
-   },
-   "N_SHIELD_GENERATORS" : {
-      "description" : "",
-      "message" : "Генераторы защитного поля {quantity}"
-   },
-   "N_UNOCCUPIED_PASSENGER_CABINS" : {
-      "description" : "",
-      "message" : "{quantity} Свободных Пассажирских Кают"
-   },
-   "OFF" : {
-      "description" : "",
-      "message" : "Выкл."
-   },
-   "OK" : {
-      "description" : "",
-      "message" : "Хорошо"
-   },
-   "OPEN_USER_FOLDER" : {
-      "description" : "",
-      "message" : "Папка пользователя"
-   },
-   "OPTIONS" : {
-      "description" : "",
-      "message" : "Настройки"
-   },
-   "ORBIT" : {
-      "description" : "",
-      "message" : "Орбита"
-   },
-   "ORBITAL_ANALYSIS" : {
-      "description" : "",
-      "message" : "Анализ орбиты"
-   },
-   "ORBITAL_ANALYSIS_NOTES" : {
-      "description" : "",
-      "message" : "Круговая скорость орбиты выражает тангенциальную скорость. Корабль должен двигаться в направлении 90° к оси корабля-{name}.\n\nСкорость снижения это абсолютный минимум скорости, так-же являющейся тангенциальной. Меньшая скорость или меньший угол приведут к пересечению с поверхностью {name}.\n\nПараболическая скорость теоретически будет справедлива для любого направления, до тех пор пока корабль не пересекается с поверхностью {name}."
-   },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Внешний рукав"
-   },
-   "OUTSTANDING_FINES" : {
-      "description" : "Unpaid fines for crimes committed",
-      "message" : "Неоплаченные штрафы"
-   },
-   "OWED" : {
-      "description" : "Player owing money to crew members",
-      "message" : "Долг"
-   },
-   "PAY_FINE_OF_N" : {
-      "description" : "",
-      "message" : "Оплатить штраф в размере {amount}"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав Персея"
-   },
-   "PERSONAL_INFORMATION" : {
-      "description" : "",
-      "message" : "Персональная информация"
-   },
-   "PILOT" : {
-      "description" : "",
-      "message" : "Пилот"
-   },
-   "PILOTING" : {
-      "description" : "",
-      "message" : "Пилотирование:"
-   },
-   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
-      "description" : "",
-      "message" : "Обязанности пилота сейчас выполняет {name}."
-   },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Пиратство"
-   },
-   "PLANET_DETAIL_DISTANCE" : {
-      "description" : "",
-      "message" : "Расстояние детализации планет"
-   },
-   "PLANET_TEXTURES" : {
-      "description" : "",
-      "message" : "Текстуры планет"
-   },
-   "POLICE" : {
-      "description" : "",
-      "message" : "Служба безопасности"
-   },
-   "POOR" : {
-      "description" : "Player combat rating",
-      "message" : "Слабый"
-   },
-   "POSITION" : {
-      "description" : "The job title/position of crew memeber",
-      "message" : "Должность"
-   },
-   "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
-      "description" : "",
-      "message" : "Press a key or controller button or escape to clear"
-   },
-   "PRICE" : {
-      "description" : "",
-      "message" : "Цена"
-   },
-   "PROFESSIONAL" : {
-      "description" : "For player reputation",
-      "message" : "Профессионал"
-   },
-   "PUMP_DOWN" : {
-      "description" : "Drain the fuel tank",
-      "message" : "Откачать"
-   },
-   "QUALIFICATION_SCORES" : {
-      "description" : "",
-      "message" : "Оценка квалификации"
-   },
-   "QUIT" : {
-      "description" : "",
-      "message" : "Выход"
-   },
-   "QUIT_CONFIRMATION" : {
-      "description" : "For the checkbox in settings window",
-      "message" : "Подтверждение выхода из игры"
-   },
-   "RANK" : {
-      "description" : "",
-      "message" : "Ранг:"
-   },
-   "RATING" : {
-      "description" : "",
-      "message" : "Рейтинг:"
-   },
-   "REAR_WEAPON" : {
-      "description" : "",
-      "message" : "Кормовая турель"
-   },
-   "REFUEL" : {
-      "description" : "",
-      "message" : "Закачать"
-   },
-   "REFUEL_FULL" : {
-      "description" : "",
-      "message" : "Дозаправить полностью"
-   },
-   "REGISTRATION_NUMBER" : {
-      "description" : "",
-      "message" : "Registration number"
-   },
-   "RELIABLE" : {
-      "description" : "For player reputation",
-      "message" : "Надёжный"
-   },
-   "REMOVE_JUMP" : {
-      "description" : "UI-button: remove hyper jump from list of planned jumps",
-      "message" : "Remove Jump"
-   },
-   "REMOVE_WHEN_COMPLETED" : {
-      "description" : "For UI hyperjump planner, referring to jump target system",
-      "message" : "Remove jump when completed"
-   },
-   "REPAIR_X_HULL_DAMAGE_FOR_X" : {
-      "description" : "",
-      "message" : "Ремонт {damage}% повреждённого корпуса за {price}"
-   },
-   "REPUTATION" : {
-      "description" : "",
-      "message" : "Репутация"
-   },
-   "REQUEST_LAUNCH" : {
-      "description" : "",
-      "message" : "Запрос на взлёт"
-   },
-   "REQUIRED_FUEL" : {
-      "description" : "Fuel usage for traveling to star system",
-      "message" : "Required Fuel:"
-   },
-   "RESET" : {
-      "description" : "",
-      "message" : "Сброс"
-   },
-   "RETURN_TO_GAME" : {
-      "description" : "",
-      "message" : "Вернуться к игре"
-   },
-   "RETURN_TO_MENU" : {
-      "description" : "",
-      "message" : "Вернуться к меню"
-   },
-   "REVERSE_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Ускорение назад (пустой)"
-   },
-   "REVERSE_ACCEL_FULL" : {
-      "description" : "",
-      "message" : "Ускорение назад (полный)"
-   },
-   "REWARD" : {
-      "description" : "",
-      "message" : "Награда"
-   },
-   "ROUTE_INFO" : {
-      "description" : "For hyperjump planner",
-      "message" : "Route Info"
-   },
-   "ROUTE_JUMPS" : {
-      "description" : "For hyperjump planner",
-      "message" : "Route Jumps"
-   },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав Стрельца"
-   },
-   "SAVE" : {
-      "description" : "",
-      "message" : "Сохранить игру"
-   },
-   "SCOOP_MOUNTS" : {
-      "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-      "message" : "Крепления для заборника"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав Центавра"
-   },
-   "SELECT" : {
-      "description" : "",
-      "message" : "Выбрать"
-   },
-   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
-      "description" : "",
-      "message" : "Выберите файл для сохранения или введите новое имя"
-   },
-   "SELECT_FILE" : {
-      "description" : "",
-      "message" : "Выберите файл..."
-   },
-   "SELECT_GAME_TO_LOAD" : {
-      "description" : "",
-      "message" : "Выберите файл для загрузки..."
-   },
-   "SELL" : {
-      "description" : "Commodities and equipment prices",
-      "message" : "[-]"
-   },
-   "SENSORS" : {
-      "description" : "",
-      "message" : "Сенсоры:"
-   },
-   "SENSORS_AND_DEFENCE" : {
-      "description" : "",
-      "message" : "Сенсоры и защита"
-   },
-   "SETTINGS" : {
-      "description" : "UI option",
-      "message" : "Settings"
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Установить пункт назначения как цель для навигации."
-   },
-   "SHIP" : {
-      "description" : "",
-      "message" : "Корабль"
-   },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "Корабельный инженер"
-   },
-   "SHIP_INFORMATION" : {
-      "description" : "",
-      "message" : "Информация о корабле"
-   },
-   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
-      "description" : "",
-      "message" : "Ваш корабль находится в отличном состоянии."
-   },
-   "SHIP_IS_FULLY_EQUIPPED" : {
-      "description" : "",
-      "message" : "Ваш корабль полностью оснащён."
-   },
-   "SHIP_IS_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Ваш корабль полностью загружен."
-   },
-   "SHIP_MARKET" : {
-      "description" : "",
-      "message" : "Покупка кораблей"
-   },
-   "SHIP_REPAIRS" : {
-      "description" : "",
-      "message" : "Сервисный центр"
-   },
-   "SHIP_VIEWING_WAS_SOLD" : {
-      "description" : "",
-      "message" : "Корабль, который вы смотрели, был продан"
-   },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Моделируем эволюцию вселенной: {age} млрд. лет ;-)"
-   },
-   "SOUND" : {
-      "description" : "",
-      "message" : "Звук"
-   },
-   "START_AT_BARNARDS_STAR" : {
-      "description" : "",
-      "message" : "Новый старт: Barnard's Star"
-   },
-   "START_AT_BARNARDS_STAR_DESC" : {
-      "description" : "",
-      "message" : "This is a difficult start from the System Administration Resting prison station."
-   },
-   "START_AT_EARTH" : {
-      "description" : "",
-      "message" : "Новый старт: Earth"
-   },
-   "START_AT_EARTH_DESC" : {
-      "description" : "",
-      "message" : "This is an easy start from London on Earth in the Sol system."
-   },
-   "START_AT_NEW_HOPE" : {
-      "description" : "New Hope is an in game location",
-      "message" : "Новый старт: New Hope"
-   },
-   "START_AT_NEW_HOPE_DESC" : {
-      "description" : "",
-      "message" : "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
-   },
-   "STAR_FIELD_DENSITY" : {
-      "description" : "",
-      "message" : "Плотность звёздного поля"
-   },
-   "STATION_MANAGER" : {
-      "description" : "",
-      "message" : "Управляющий станцией"
-   },
-   "STATION_ORBIT" : {
-      "description" : "Information shown in the station loby",
-      "message" : "We are in a {orbit_period} day period orbit around {parent_body}."
-   },
-   "STATUS" : {
-      "description" : "",
-      "message" : "Статус"
-   },
-   "TECH_CERTIFIED" : {
-      "description" : "Lobby screen shows the tech level (an integer number) of the station",
-      "message" : "Эта станция имеет сертификацию {tech_level} технологического уровня."
-   },
-   "TECH_CERTIFIED_MILITARY" : {
-      "description" : "Lobby screen shows the tech level of the station",
-      "message" : "This installation holds a military technology clearance."
-   },
-   "TEXTURE_COMPRESSION" : {
-      "description" : "",
-      "message" : "This frees up more memory for the graphics card, which is likely what you want, at the expense of compressing them during game start."
-   },
-   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
-      "description" : "",
-      "message" : "Спасибо за покупку! Перед взлётом не забудьте оборудовать корабль и заправиться топливом."
-   },
-   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
-      "description" : "",
-      "message" : "На борту никого нет способного летать на этом корабле."
-   },
-   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
-      "description" : "",
-      "message" : "Корабль под контролем станции, Командир."
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав в 3 кпк от центра"
-   },
-   "TOGGLE_MALE_FEMALE" : {
-      "description" : "player gender",
-      "message" : "Пол муж./жен."
-   },
-   "TOO_SMALL_FOR_CURRENT_CREW" : {
-      "description" : "",
-      "message" : "Корабль слишком мал для вашей команды."
-   },
-   "TOO_SMALL_TO_TRANSSHIP" : {
-      "description" : "Ship market error message",
-      "message" : "У нового корабля не хватает вместимости для текущего груза и гипердвигателя."
-   },
-   "TOTAL" : {
-      "description" : "",
-      "message" : "Всего: "
-   },
-   "TOTAL_DISTANCE" : {
-      "description" : "Total distance of a (possibly series) of hyper jump(s)",
-      "message" : "Total Distance:"
-   },
-   "TOTAL_DURATION" : {
-      "description" : "Total duration of a (possibly series) of hyper jump(s)",
-      "message" : "Total Duration:"
-   },
-   "TOTAL_MASS" : {
-      "description" : "",
-      "message" : "Общая масса"
-   },
-   "TRADING_ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "Торговля нелегальным товаром"
-   },
-   "TRUSTWORTHY" : {
-      "description" : "For player reputation",
-      "message" : "Достойный доверия"
-   },
-   "TYPE" : {
-      "description" : "",
-      "message" : "Тип"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Незаконное применение орудия"
-   },
-   "UNRELIABLE" : {
-      "description" : "",
-      "message" : "Ненадёжный"
-   },
-   "UP_ACCEL" : {
-      "description" : "",
-      "message" : "Ускорение вверх"
-   },
-   "USED" : {
-      "description" : "",
-      "message" : "Занято"
-   },
-   "VERY_HIGH" : {
-      "description" : "Game settings option: graphic resolution",
-      "message" : "Очень высокая"
-   },
-   "VERY_LOW" : {
-      "description" : "Game settings option: graphic resolution",
-      "message" : "Очень низкая"
-   },
-   "VICINITY_OF" : {
-      "description" : "",
-      "message" : "In vicinity of"
-   },
-   "VIDEO" : {
-      "description" : "",
-      "message" : "Видео"
-   },
-   "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
-      "description" : "",
-      "message" : "Настройки видео (требуется перезапуск игры)"
-   },
-   "VIDEO_RESOLUTION" : {
-      "description" : "",
-      "message" : "Разрешение экрана"
-   },
-   "VIDEO_RESOLUTION_DESC" : {
-      "description" : "Tooltip for video mode/resultion setting",
-      "message" : "Higher resolutions display more information at a smaller size and can decrease performance."
-   },
-   "VSYNC" : {
-      "description" : "For the checkbox in settings window",
-      "message" : "Вертикальная синхронизация"
-   },
-   "VSYNC_DESC" : {
-      "description" : "",
-      "message" : "Vertical Sync can eliminate visual tearing or artifacts, and input latency."
-   },
-   "WAGE" : {
-      "description" : "Salary of crew shown in crew roster",
-      "message" : "Оклад"
-   },
-   "WEIGHT_EMPTY" : {
-      "description" : "",
-      "message" : "Масса корпуса"
-   },
-   "WEIGHT_FULLY_LOADED" : {
-      "description" : "",
-      "message" : "Масса при полной загрузке"
-   },
-   "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
-      "description" : "",
-      "message" : "Мы в гиперпространстве, Командир."
-   },
-   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "Said by the police to law abiding player",
-      "message" : "Ваш правовой статус чист. Всего доброго, Командир!"
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "Message to be sent over comms by police when crime is committed by player",
-      "message" : "{crime} нельзя допускать здесь!"
-   },
-   "YES" : {
-      "description" : "Positive answer to a question",
-      "message" : "Да"
-   },
-   "YOURE_GOING_TO_REGRET_SACKING_ME" : {
-      "description" : "",
-      "message" : "Вы пожалеете о том, что уволили меня!"
-   },
-   "YOUR_HULL_IS_AT_X_INTEGRITY" : {
-      "description" : "",
-      "message" : "Ваш корпус цел на {value}%."
-   },
-   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
-      "description" : "",
-      "message" : "У вас недостаточно средств для совершения этой операции."
-   },
-   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
-      "description" : "",
-      "message" : "В грузовом отсеке имеется {units} единиц "
-   },
-   "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
-      "description" : "",
-      "message" : "Сначала вы должны указать боевую цель, Командир."
-   },
-   "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
-      "description" : "",
-      "message" : "Сначала вы должны указать навигационную цель, Командир."
-   },
-   "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
-      "description" : "",
-      "message" : "Сначала вы должны взлететь, Командир."
-   },
-   "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
-      "description" : "",
-      "message" : "Сначала вы должны запросить разрешение на взлет, Командир."
-   },
-   "YOU_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "У вас недостаточно средств"
-   },
-   "ZOOM" : {
-      "description" : "Label for a zoom (magnification) control bar.",
-      "message" : "Масштаб"
-   }
+  "ABOVE_AVERAGE": {
+    "description": "",
+    "message": "Выше среднего"
+  },
+  "ACTIVE": {
+    "description": "",
+    "message": "Активно"
+  },
+  "ADD_JUMP": {
+    "description": "UI-button: Add hyper jump to list of planned jumps",
+    "message": "Add Jump"
+  },
+  "AFTER_TRADE_IN": {
+    "description": "",
+    "message": "С учётом вашего судна"
+  },
+  "ALLEGIANCE": {
+    "description": "",
+    "message": "Лояльность:"
+  },
+  "ALL_UP_WEIGHT": {
+    "description": "",
+    "message": "Общая масса"
+  },
+  "AMOUNT": {
+    "description": "",
+    "message": "Кол-во"
+  },
+  "ANISOTROPIC_FILTERING_DESC": {
+    "description": "",
+    "message": "Samples the texture across multiple mip levels to produce a much clearer texture when viewed at shallow angles. Stops the textures from becoming as blurred; however, it can come at a heavy performance cost."
+  },
+  "AN_ERROR_HAS_OCCURRED": {
+    "description": "",
+    "message": "Произошла ошибка"
+  },
+  "ATMOSPHERIC_SHIELDING": {
+    "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
+    "message": "Атмосферный щит"
+  },
+  "ATTEMPT_TO_REPAIR_HULL": {
+    "description": "",
+    "message": "Попытаться отремонтировать корпус"
+  },
+  "AUTO_ROUTE": {
+    "description": "Automatically find shortest jump route (measured in time) in star map",
+    "message": "Auto Route"
+  },
+  "AVAILABLE_FOR_PURCHASE": {
+    "description": "",
+    "message": "Доступно для покупки"
+  },
+  "AVERAGE": {
+    "description": "",
+    "message": "Средний"
+  },
+  "BACKWARD_ACCEL": {
+    "description": "",
+    "message": "Ускорение назад"
+  },
+  "BULLETIN_BOARD": {
+    "description": "",
+    "message": "Служба объявлений"
+  },
+  "BUY": {
+    "description": "Commodities and equipment prices",
+    "message": "[+]"
+  },
+  "BUY_SHIP": {
+    "description": "",
+    "message": "Купить"
+  },
+  "CABINS": {
+    "description": "For passengers",
+    "message": "Каюты"
+  },
+  "CABIN_FREE": {
+    "description": "Free capacity for passengers",
+    "message": "{amount} свободно"
+  },
+  "CABIN_USED": {
+    "description": "Passengers using cabins",
+    "message": "{amount} используется"
+  },
+  "CANCEL": {
+    "description": "",
+    "message": "Отмена"
+  },
+  "CAPACITY": {
+    "description": "Capacity of ship to fit more equipment",
+    "message": "Грузоподъёмность"
+  },
+  "CAPACITY_USED": {
+    "description": "",
+    "message": "Загруженность"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Трюм"
+  },
+  "CARGO_SPACE": {
+    "description": "",
+    "message": "Грузоподъёмность"
+  },
+  "CARGO_SPACE_USED": {
+    "description": "",
+    "message": "Грузовой отсек"
+  },
+  "CARGO_T_FREE": {
+    "description": "t for tonne",
+    "message": "{amount}т свободно"
+  },
+  "CARGO_T_USED": {
+    "description": "t for tonne",
+    "message": "{amount}т загружено"
+  },
+  "CASH": {
+    "description": "",
+    "message": "Счёт"
+  },
+  "CASH_N": {
+    "description": "",
+    "message": "Счёт: {money}"
+  },
+  "CENTER_ON_SYSTEM": {
+    "description": "Center on selected star system",
+    "message": "Center on System"
+  },
+  "CHANGE_BINDING": {
+    "description": "Key binding option",
+    "message": "Назначить"
+  },
+  "CHIEF_MECHANIC": {
+    "description": "",
+    "message": "Главный механик"
+  },
+  "CIRCULAR_ORBIT_SPEED": {
+    "description": "",
+    "message": "Круговая скорость орбиты"
+  },
+  "CITY_DETAIL_LEVEL": {
+    "description": "Game graphics option",
+    "message": "Уровень детализации городов"
+  },
+  "CLEAN": {
+    "description": "Legal status of player",
+    "message": "Чистый"
+  },
+  "CLEAR": {
+    "description": "Clear an option in game settings/options menu",
+    "message": "Очистить"
+  },
+  "CLEAR_ROUTE": {
+    "description": "Clear a planned route of hyperjumps",
+    "message": "Clear Route"
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "Заказчик"
+  },
+  "CLOSE": {
+    "description": "",
+    "message": "Close"
+  },
+  "COMBAT": {
+    "description": "Headline for kills and combat rating",
+    "message": "Боевая статистика"
+  },
+  "COMMANDER": {
+    "description": "",
+    "message": "Командир"
+  },
+  "COMMODITY_MARKET": {
+    "description": "",
+    "message": "Торговый центр"
+  },
+  "COMPACT_RADAR": {
+    "description": "Game settings option",
+    "message": "Компактный радар"
+  },
+  "COMPETENT": {
+    "description": "Combat rating",
+    "message": "Квалифицированный"
+  },
+  "COMPLETED": {
+    "description": "",
+    "message": "Завершено"
+  },
+  "COMPRESS_TEXTURES": {
+    "description": "graphics option in game settings menu ",
+    "message": "Сжимать текстуры"
+  },
+  "CONFIRM_PURCHASE": {
+    "description": "",
+    "message": "Подтвердить покупку"
+  },
+  "CONFIRM_SALE": {
+    "description": "",
+    "message": "Подтвердить продажу"
+  },
+  "CONSTABLE": {
+    "description": "",
+    "message": "Начальник охраны"
+  },
+  "CONTINUE_GAME": {
+    "description": "",
+    "message": "Продолжить игру"
+  },
+  "CONTROLS": {
+    "description": "",
+    "message": "Управление"
+  },
+  "CONTROL_OPTIONS": {
+    "description": "",
+    "message": "Настройки управления"
+  },
+  "COULD_NOT_LOAD_GAME": {
+    "description": "",
+    "message": "Не удалось загрузить игру:"
+  },
+  "CREDIBLE": {
+    "description": "For player reputation",
+    "message": "Заслуживающий доверия"
+  },
+  "CREDITS": {
+    "description": "in game currency",
+    "message": "Credits"
+  },
+  "CREW_CABINS": {
+    "description": "",
+    "message": "Каюты для экипажа"
+  },
+  "CREW_ROSTER": {
+    "description": "",
+    "message": "Список экипажа"
+  },
+  "CRIMINAL_RECORD": {
+    "description": "Past crimes / crime history of character",
+    "message": "Досье"
+  },
+  "CURRENT_FUEL": {
+    "description": "For hyperjump planner",
+    "message": "Current Fuel:"
+  },
+  "CURRENT_SYSTEM": {
+    "description": "For hyperjump planner",
+    "message": "Текущая система"
+  },
+  "DANGEROUS": {
+    "description": "Player combat rating",
+    "message": "Опасный"
+  },
+  "DEADLY": {
+    "description": "Player combat rating",
+    "message": "Смертельный"
+  },
+  "DELTA_V": {
+    "description": "",
+    "message": "Дельта v"
+  },
+  "DELTA_V_EMPTY": {
+    "description": "Delta-v capacity of a ship with no cargo or upgrades",
+    "message": "Дельта v (пустой)"
+  },
+  "DELTA_V_FULL": {
+    "description": "Delta-v capacity of a ship with maximum cargo",
+    "message": "Дельта v (полный)"
+  },
+  "DELTA_V_MAX": {
+    "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
+    "message": "Дельта v (макс.)"
+  },
+  "DESCENT_TO_GROUND_SPEED": {
+    "description": "",
+    "message": "Скорость снижения:"
+  },
+  "DESTROY_ENEMY_SHIP": {
+    "description": "",
+    "message": "Уничтожить корабль противника"
+  },
+  "DISMISS": {
+    "description": "Terminate crew memeber's contract",
+    "message": "Уволить"
+  },
+  "DISPLAY_HUD_TRAILS": {
+    "description": "",
+    "message": "Отображать HUD-тоннель"
+  },
+  "DISPLAY_NAV_TUNNELS": {
+    "description": "Settings option: hyperspace tunnel effect",
+    "message": "Отображать навигационный тоннель"
+  },
+  "DISPLAY_SPEED_LINES": {
+    "description": "Settings option: effect when travelling in space",
+    "message": "Отображать линии скорости"
+  },
+  "DOCKED_AT": {
+    "description": "",
+    "message": "Docked at"
+  },
+  "DOCK_AT_CURRENT_TARGET": {
+    "description": "",
+    "message": "Состыковаться с выбранной целью"
+  },
+  "DUE": {
+    "description": "mission deadline date",
+    "message": "Сроки"
+  },
+  "DUMPING": {
+    "description": "The illegal act of dumping waste",
+    "message": "Сбрасывание"
+  },
+  "D_DAYS_LEFT": {
+    "description": "",
+    "message": "Осталось дней: %d"
+  },
+  "ECONOMY_TRADE": {
+    "description": "",
+    "message": "Экономика и торговля"
+  },
+  "EFFECTS": {
+    "description": "",
+    "message": "Эффекты:"
+  },
+  "ELITE": {
+    "description": "Player combat rating",
+    "message": "ЭЛИТА"
+  },
+  "EMPLOYMENT": {
+    "description": "",
+    "message": "Занятость"
+  },
+  "ENABLE_ANISOTROPIC_FILTERING": {
+    "description": "Use Anisotropic Filtering",
+    "message": "Анизотропная фильтрация"
+  },
+  "ENABLE_AUTOSAVE": {
+    "description": "Allow the game to autosave when docking",
+    "message": "Включить автосохранение"
+  },
+  "ENABLE_COCKPIT": {
+    "description": "Game settings option: to use a cockpit 3D model",
+    "message": "Включить кабину (ЭКСПЕРИМЕНТАЛЬНО)"
+  },
+  "ENABLE_JOYSTICK": {
+    "description": "",
+    "message": "Включить джойстик"
+  },
+  "END_GAME": {
+    "description": "",
+    "message": "End Game"
+  },
+  "ENGINEERING": {
+    "description": "Engineering skills of crew",
+    "message": "Инженерное дело:"
+  },
+  "EQUIPMENT": {
+    "description": "",
+    "message": "Оснащение"
+  },
+  "EQUIPMENT_MARKET": {
+    "description": "",
+    "message": "Магазин оборудования"
+  },
+  "EQUIPPED": {
+    "description": "",
+    "message": "Оборудовано"
+  },
+  "ERROR": {
+    "description": "",
+    "message": "Ошибка"
+  },
+  "ERROR_LANDING_GEAR_DOWN": {
+    "description": "",
+    "message": "Can not initiate hyperjump; landing gear is not retracted!"
+  },
+  "ESCAPE_SPEED": {
+    "description": "",
+    "message": "Параболическая скорость:"
+  },
+  "EXIT_THIS_GAME": {
+    "description": "",
+    "message": "Выйти из игры"
+  },
+  "EXPERIENCED": {
+    "description": "For player reputation",
+    "message": "Опытный"
+  },
+  "EXPERT": {
+    "description": "For player reputation",
+    "message": "Эксперт"
+  },
+  "FAILED": {
+    "description": "When failed mission",
+    "message": "Провалено"
+  },
+  "FEMALE": {
+    "description": "",
+    "message": "Женщина"
+  },
+  "FINAL_TARGET": {
+    "description": "Hyperjump planner, referring to star system target",
+    "message": "Final Target:"
+  },
+  "FLIGHT_STATE": {
+    "description": "",
+    "message": "Flight State"
+  },
+  "FLYING": {
+    "description": "",
+    "message": "Flying"
+  },
+  "FORWARD_ACCEL": {
+    "description": "",
+    "message": "Ускорение вперёд"
+  },
+  "FORWARD_ACCEL_EMPTY": {
+    "description": "",
+    "message": "Ускорение вперёд (пустой)"
+  },
+  "FORWARD_ACCEL_FULL": {
+    "description": "",
+    "message": "Ускорение вперёд (полный)"
+  },
+  "FRACTAL_DETAIL": {
+    "description": "",
+    "message": "Фрактальная детализация"
+  },
+  "FREE": {
+    "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
+    "message": "свободно"
+  },
+  "FRONT_WEAPON": {
+    "description": "",
+    "message": "Носовая турель"
+  },
+  "FUEL": {
+    "description": "",
+    "message": "Топливо"
+  },
+  "FUEL_TANK_FULL": {
+    "description": "",
+    "message": "Топливный бак полон."
+  },
+  "FUEL_WEIGHT": {
+    "description": "",
+    "message": "Масса топлива"
+  },
+  "FULL_SCREEN": {
+    "description": "",
+    "message": "Полноэкранный режим"
+  },
+  "GAME_TIME": {
+    "description": "",
+    "message": "Game time"
+  },
+  "GENERAL_CREW": {
+    "description": "",
+    "message": "Основной экипаж"
+  },
+  "GIVE_ORDERS_TO_CREW": {
+    "description": "",
+    "message": "Отдать приказы экипажу"
+  },
+  "GOOD_RIDDANCE_TO_YOU_TOO": {
+    "description": "",
+    "message": "Скатертью дорожка!"
+  },
+  "GPU_JOBS": {
+    "description": "",
+    "message": "GPU Jobs"
+  },
+  "GPU_JOBS_DESC": {
+    "description": "",
+    "message": "Utilize GPU for certain actions, possibly improving performance."
+  },
+  "HANG_UP": {
+    "description": "",
+    "message": "Спасибо за информацию, конец связи."
+  },
+  "HARMLESS": {
+    "description": "Player combat rating",
+    "message": "Безобидный"
+  },
+  "HEAVY_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "Тяжёлый грузовой шаттл"
+  },
+  "HEAVY_COURIER": {
+    "description": "",
+    "message": "Тяжёлый курьер"
+  },
+  "HEAVY_FIGHTER": {
+    "description": "",
+    "message": "Тяжёлый истребитель"
+  },
+  "HEAVY_FREIGHTER": {
+    "description": "",
+    "message": "Тяжёлый грузовой транспорт"
+  },
+  "HEAVY_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "Тяжёлый пассажирский челнок"
+  },
+  "HEAVY_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "Тяжёлый пассажирский транспорт"
+  },
+  "HIGH": {
+    "description": "Game settings option: for graphics resolution",
+    "message": "Высокая"
+  },
+  "HUD_2D_RADAR": {
+    "description": "Popup text: the name of the azimuthal equidistant projection radar",
+    "message": "2D азимутальная эквидистантная проекция"
+  },
+  "HUD_3D_RADAR": {
+    "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
+    "message": "3D проская проекция"
+  },
+  "HUD_ATMOSPHERIC_PRESSURE": {
+    "description": "Tooltip: Atmospheric Pressure.",
+    "message": "Атмосферное давление"
+  },
+  "HUD_BACKWARD_GUN_TEMPERATURE": {
+    "description": "Tooltip: Backward Gun Temperature.",
+    "message": "Backward Gun Temperature"
+  },
+  "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS": {
+    "description": "Tooltip: The braking distance using the main thrusters.",
+    "message": "Расстояние торможения с использованием главных ускорителей"
+  },
+  "HUD_BUTTON_AUTOPILOT_DOCKING": {
+    "description": "Tooltip: Autopilot docking",
+    "message": "Autopilot docking"
+  },
+  "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT": {
+    "description": "Tooltip: Autopilot entering orbit",
+    "message": "Автопилот выходит на орбиту"
+  },
+  "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET": {
+    "description": "Tooltip: Autopilot flying to target",
+    "message": "Автопилот летит к цели"
+  },
+  "HUD_BUTTON_BLASTOFF": {
+    "description": "Tooltip: Blastoff",
+    "message": "Взлёт"
+  },
+  "HUD_BUTTON_EQUIPMENT": {
+    "description": "Tooltip: Equipment",
+    "message": "Оснащение"
+  },
+  "HUD_BUTTON_EXTERNAL_VIEW": {
+    "description": "Tooltip: External camera view",
+    "message": "Внешний вид"
+  },
+  "HUD_BUTTON_FIX_ANTINORMAL": {
+    "description": "Tooltip: fix heading antinormal",
+    "message": "Fix heading antinormal"
+  },
+  "HUD_BUTTON_FIX_NORMAL": {
+    "description": "Tooltip: fix heading normal",
+    "message": "Fix heading normal"
+  },
+  "HUD_BUTTON_FIX_PROGRADE": {
+    "description": "Tooltip: fix heading prograde",
+    "message": "Fix heading prograde"
+  },
+  "HUD_BUTTON_FIX_RADIAL_IN": {
+    "description": "Tooltip: fix heading radially inward",
+    "message": "Fix heading radially inward"
+  },
+  "HUD_BUTTON_FIX_RADIAL_OUT": {
+    "description": "Tooltip: fix heading radially outward",
+    "message": "Fix heading radially outward"
+  },
+  "HUD_BUTTON_FIX_RETROGRADE": {
+    "description": "Tooltip: fix heading retrograde",
+    "message": "Fix heading retrograde"
+  },
+  "HUD_BUTTON_HYPERDRIVE_DISABLED": {
+    "description": "Tooltip: Hyperdrive disabled (docked or landed)",
+    "message": "Гипердвигатель выключен"
+  },
+  "HUD_BUTTON_INITIATE_HYPERJUMP": {
+    "description": "Tooltip: Initiate legal hyperjump",
+    "message": "Initiate hyperjump"
+  },
+  "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP": {
+    "description": "Tooltip: Initiate illegal hyperjump",
+    "message": "Initiate illegal hyperjump"
+  },
+  "HUD_BUTTON_INTERNAL_VIEW": {
+    "description": "Tooltip: Internal camera view",
+    "message": "Обзор"
+  },
+  "HUD_BUTTON_KILL_ROTATION": {
+    "description": "Tooltip: kill rotation",
+    "message": "Стоп вращение"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_DOWN": {
+    "description": "Tooltip: Landing gear is down",
+    "message": "Landing gear is down"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_MOVING": {
+    "description": "Tooltip: Landing gear is moving",
+    "message": "Landing gear is moving"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_UP": {
+    "description": "Tooltip: Landing gear is up",
+    "message": "Посадочный механизм поднят"
+  },
+  "HUD_BUTTON_MANUAL_CONTROL": {
+    "description": "Tooltip: Manual control",
+    "message": "Пилотаж"
+  },
+  "HUD_BUTTON_ROTATION_DAMPING_IS_OFF": {
+    "description": "Tooltip: Rotation damping is off",
+    "message": "Rotation damping is off"
+  },
+  "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
+    "description": "Tooltip: Rotation damping is on",
+    "message": "Rotation damping is on"
+  },
+  "HUD_BUTTON_SCANNER": {
+    "description": "Tooltip: Scanner",
+    "message": "Сканер"
+  },
+  "HUD_BUTTON_SET_SPEED": {
+    "description": "Tooltip: set speed",
+    "message": "Set speed"
+  },
+  "HUD_BUTTON_SHOW_COMMS": {
+    "description": "Tooltip: Show comms",
+    "message": "Связь"
+  },
+  "HUD_BUTTON_SHOW_PERSONAL_INFO": {
+    "description": "Tooltip: Show personal info",
+    "message": "Персональная информация"
+  },
+  "HUD_BUTTON_SIDEREAL_VIEW": {
+    "description": "Tooltip: Sidereal camera view",
+    "message": "Вид со стороны"
+  },
+  "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
+    "description": "Tooltip: Switch to galaxy map",
+    "message": "Карта галактики"
+  },
+  "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
+    "description": "Tooltip: Switch to sector map",
+    "message": "Карта сектора"
+  },
+  "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
+    "description": "Tooltip: Switch to system map",
+    "message": "Карта системы"
+  },
+  "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW": {
+    "description": "Tooltip: Switch to system overview",
+    "message": "Обзор системы"
+  },
+  "HUD_BUTTON_SWITCH_TO_WORLD_VIEW": {
+    "description": "Tooltip: Switch to world view",
+    "message": "Switch to world view"
+  },
+  "HUD_BUTTON_UNDOCK": {
+    "description": "Tooltip: Undock",
+    "message": "Взлёт"
+  },
+  "HUD_CARGO_MASS": {
+    "description": "Cargo Mass",
+    "message": "Cargo Mass"
+  },
+  "HUD_CURRENT_COMBAT_TARGET": {
+    "description": "Tooltip: The current combat target.",
+    "message": "Текущая боевая цель"
+  },
+  "HUD_CURRENT_FRAME": {
+    "description": "Tooltip: The current frame of reference.",
+    "message": "Текущая система отсчета"
+  },
+  "HUD_CURRENT_HEADING": {
+    "description": "Tooltip: the current heading.",
+    "message": "Текущее направление"
+  },
+  "HUD_CURRENT_NAV_TARGET": {
+    "description": "Tooltip: The current navigational target.",
+    "message": "Текущая цель навигации"
+  },
+  "HUD_CURRENT_PITCH": {
+    "description": "Tooltip: the current pitch.",
+    "message": "Текущий угол наклона"
+  },
+  "HUD_CURRENT_ROLL": {
+    "description": "Tooltip: the current roll.",
+    "message": "Текущий угол разворота"
+  },
+  "HUD_DELTA_V": {
+    "description": "Tooltip: The remaining Δv.",
+    "message": "Осталось Δv"
+  },
+  "HUD_DELTA_V_OF_MANEUVER_BURN": {
+    "description": "Tooltip: The Δv for the maneuver burn.",
+    "message": "Δv маневра"
+  },
+  "HUD_DELTA_V_PERCENT": {
+    "description": "Tooltip: The remaining Δv in percent.",
+    "message": "Осталось Δv"
+  },
+  "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
+    "description": "Tooltip: Distance to the surface of the frame of reference.",
+    "message": "Расстояние до поверхности системы отсчета"
+  },
+  "HUD_DISTANCE_TO_SURFACE_OF_TARGET": {
+    "description": "Tooltip: Distance to the surface of the target.",
+    "message": "Расстояние до поверхности цели"
+  },
+  "HUD_DURATION_OF_MANEUVER_BURN": {
+    "description": "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
+    "message": "Примерная продолжительность маневра с использованием главных ускорителей"
+  },
+  "HUD_DURATION_UNTIL_MANEUVER_BURN": {
+    "description": "Tooltip: The duration until the middle of the maneuver burn.",
+    "message": "Продолжительность до середины маневра"
+  },
+  "HUD_FORWARD_GUN_TEMPERATURE": {
+    "description": "Tooltip: Forward Gun Temperature.",
+    "message": "Forward Gun Temperature"
+  },
+  "HUD_HULL_STRENGTH": {
+    "description": "Tooltip: Hull Strength.",
+    "message": "Hull Strength"
+  },
+  "HUD_HULL_TEMPERATURE": {
+    "description": "Tooltip: Hull Temperature.",
+    "message": "Hull Temperature"
+  },
+  "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
+    "description": "",
+    "message": "Гиперпрыжок в {destination} через {countdown} сек."
+  },
+  "HUD_INDICATOR_AWAY_FROM_FRAME": {
+    "description": "Indicator: Away from the current frame.",
+    "message": "Удаляемся от текущей системы отсчета"
+  },
+  "HUD_INDICATOR_COMBAT_TARGET_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current combat target.",
+    "message": "В  направлении относительно текущей боевой цели"
+  },
+  "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current combat target.",
+    "message": "В обратном направлении относительно текущей боевой цели"
+  },
+  "HUD_INDICATOR_FRAME_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current frame.",
+    "message": "В направлении относительно текущей системы отсчета"
+  },
+  "HUD_INDICATOR_FRAME_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current frame.",
+    "message": "В обратном направлении относительно текущей системы отсчета"
+  },
+  "HUD_INDICATOR_MANEUVER_PROGRADE": {
+    "description": "Indicator: The prograde direction for the maneuver burn.",
+    "message": "В направлении маневра"
+  },
+  "HUD_INDICATOR_NAV_TARGET_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current navigational target.",
+    "message": "В направлении относительно текущей цели навигации"
+  },
+  "HUD_INDICATOR_NAV_TARGET_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current navigational target.",
+    "message": "В обратном направлении относительно текущей цели навигации"
+  },
+  "HUD_IN_TRANSIT_TO_N_X_X_X": {
+    "description": "",
+    "message": "Прыжок в систему {system} [{x},{y},{z}]"
+  },
+  "HUD_JUMP_COMPLETE": {
+    "description": "",
+    "message": "Гиперпрыжок завершён на {percent}%"
+  },
+  "HUD_MASS": {
+    "description": "Mass",
+    "message": "Вес"
+  },
+  "HUD_RADAR_DISTANCE": {
+    "description": "Tooltip: Current distance of the radar.",
+    "message": "Расстояние активного радара"
+  },
+  "HUD_REQUEST_TIME_ACCEL": {
+    "description": "Tooltip: Request time acceleration {time}",
+    "message": "Ускорение времени: {time}"
+  },
+  "HUD_SHIELD_STRENGTH": {
+    "description": "Tooltip: Shield Strength.",
+    "message": "Shield Strength"
+  },
+  "HUD_SHOW_COMBAT_TARGET": {
+    "description": "Tooltip: Show the current combat target.",
+    "message": "Показать текущую боевую цель"
+  },
+  "HUD_SHOW_FRAME": {
+    "description": "Tooltip: Show the current frame of reference.",
+    "message": "Показать текущую систему отсчета"
+  },
+  "HUD_SHOW_NAV_TARGET": {
+    "description": "Tooltip: Show current navigational target.",
+    "message": "Показать текущую цель навигации"
+  },
+  "HUD_SPEED_OF_APPROACH_TO_FRAME": {
+    "description": "Tooltip: The speed of approach towards the frame of reference.",
+    "message": "Скорость приближения к системе отсчета"
+  },
+  "HUD_SPEED_OF_APPROACH_TO_TARGET": {
+    "description": "Tooltip: The speed of approach relative to target.",
+    "message": "The speed of approach relative to target"
+  },
+  "HUD_SPEED_RELATIVE_TO_TARGET": {
+    "description": "Tooltip: The speed relative to the target.",
+    "message": "Скорость относительно цели"
+  },
+  "HUD_THRUST_INDICATOR": {
+    "description": "Tooltip: describe what the thrust/velocity indicator shows",
+    "message": "Show current velocity for each direction (thin lines) and thrust (thick background)"
+  },
+  "HULL_DOES_NOT_REQUIRE_REPAIR": {
+    "description": "",
+    "message": "Корпус не требует ремонта."
+  },
+  "HULL_INTEGRITY": {
+    "description": "",
+    "message": "Корпус"
+  },
+  "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
+    "description": "",
+    "message": "{name} отремонтировал корпус до {repairPercent}%"
+  },
+  "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE": {
+    "description": "",
+    "message": "Попытка ремонта не удалась. Корпус получил незначительные повреждения."
+  },
+  "HYPERDRIVE": {
+    "description": "",
+    "message": "Установленный двигатель"
+  },
+  "HYPERDRIVE_FITTED": {
+    "description": "",
+    "message": "Установленный двигатель:"
+  },
+  "HYPERJUMP_ROUTE": {
+    "description": "",
+    "message": "HyperJump Route"
+  },
+  "HYPERSPACE_RANGE": {
+    "description": "",
+    "message": "Дальность гиперпрыжка"
+  },
+  "ILLEGAL_JUMP": {
+    "description": "A finable crime",
+    "message": "Совершение рискованного гиперпрыжка"
+  },
+  "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
+    "description": "",
+    "message": "Я устал работать даром. Разве вы не знаете, что такое контракт?"
+  },
+  "INACTIVE": {
+    "description": "",
+    "message": "Неактивно"
+  },
+  "INCOMPETENT": {
+    "description": "For player reputation",
+    "message": "Некомпетентный"
+  },
+  "INEXPERIENCED": {
+    "description": "For player reputation",
+    "message": "Неопытный"
+  },
+  "INSUFFICIENT_FUNDS": {
+    "description": "",
+    "message": "Недостаточно финансов."
+  },
+  "INVERT_MOUSE_Y": {
+    "description": "",
+    "message": "Инвертировать мышь по оси Y"
+  },
+  "IN_CARGO_HOLD": {
+    "description": "",
+    "message": "В грузовом отсеке"
+  },
+  "IN_STOCK": {
+    "description": "",
+    "message": "На складе"
+  },
+  "ITEM_IS_OUT_OF_STOCK": {
+    "description": "",
+    "message": "Этого товара нет на складе."
+  },
+  "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
+    "description": "",
+    "message": "Было приятно поработать на вас. Если я вам понадоблюсь снова, то я еще побуду здесь."
+  },
+  "JETTISON": {
+    "description": "",
+    "message": "Сброс груза"
+  },
+  "JUMPING": {
+    "description": "Flight State",
+    "message": "Jumping"
+  },
+  "KILLS": {
+    "description": "",
+    "message": "Побед:"
+  },
+  "LANGUAGE": {
+    "description": "",
+    "message": "Язык игры"
+  },
+  "LANGUAGE_RESTART_GAME_TO_APPLY": {
+    "description": "",
+    "message": "Язык игры (требуется перезапуск игры)"
+  },
+  "LAUNCH_PERMISSION_DENIED_BUSY": {
+    "description": "",
+    "message": "В разрешении на взлёт отказано: стыковочная зона занята."
+  },
+  "LAUNCH_PERMISSION_DENIED_CREW": {
+    "description": "",
+    "message": "В разрешении на взлёт отказано: на вашем корабле не укомплектован экипаж."
+  },
+  "LAUNCH_PERMISSION_DENIED_FINED": {
+    "description": "",
+    "message": "В разрешении на взлёт отказано: у вас имеются неоплаченные штрафы."
+  },
+  "LEGAL_STATUS": {
+    "description": "",
+    "message": "Правовой статус"
+  },
+  "LIGHT_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "Лёгкий грузовой челнок"
+  },
+  "LIGHT_COURIER": {
+    "description": "",
+    "message": "Лёгкий курьер"
+  },
+  "LIGHT_FIGHTER": {
+    "description": "",
+    "message": "Лёгкий истребитель"
+  },
+  "LIGHT_FREIGHTER": {
+    "description": "",
+    "message": "Лёгкий грузовой транспорт"
+  },
+  "LIGHT_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "Лёгкий пассажирский челнок"
+  },
+  "LIGHT_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "Лёгкий пассажирский транспорт"
+  },
+  "LOAD": {
+    "description": "",
+    "message": "Загрузка игры"
+  },
+  "LOAD_GAME": {
+    "description": "",
+    "message": "Загрузить игру"
+  },
+  "LOBBY": {
+    "description": "",
+    "message": "Информационный центр"
+  },
+  "LOCAL_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Рукав Ориона"
+  },
+  "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
+    "description": "",
+    "message": "Положение: {distance}км от центра {name}:"
+  },
+  "LOCATION": {
+    "description": "",
+    "message": "Система"
+  },
+  "LOW": {
+    "description": "",
+    "message": "Низкая"
+  },
+  "LY": {
+    "description": "Light year",
+    "message": "св. лет"
+  },
+  "MAJOR_EXPORTS_ITEM": {
+    "description": "",
+    "message": "Major exports"
+  },
+  "MAJOR_IMPORTS_ITEM": {
+    "description": "",
+    "message": "Major imports"
+  },
+  "MAKE_NEW_FACE": {
+    "description": "",
+    "message": "Новое лицо"
+  },
+  "MALE": {
+    "description": "",
+    "message": "Мужчина"
+  },
+  "MARKET_BUYLINE": {
+    "description": "",
+    "message": "Купить {amount} ед. за {price}"
+  },
+  "MARKET_SELLINE": {
+    "description": "",
+    "message": "Продать {amount} ед. за {price}"
+  },
+  "MASS": {
+    "description": "",
+    "message": "Вес"
+  },
+  "MASTER": {
+    "description": "For player reputation",
+    "message": "Мастер"
+  },
+  "MASTER_VOL": {
+    "description": "Master sound in settings option",
+    "message": "Общая:"
+  },
+  "MAX": {
+    "description": "",
+    "message": "макс."
+  },
+  "MAXIMUM_CREW": {
+    "description": "",
+    "message": "Максимум экипажа"
+  },
+  "MEDIUM": {
+    "description": "Game settings option: graphics resolution",
+    "message": "Средняя"
+  },
+  "MEDIUM_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "Средний грузовой челнок"
+  },
+  "MEDIUM_COURIER": {
+    "description": "",
+    "message": "Средний курьер"
+  },
+  "MEDIUM_FIGHTER": {
+    "description": "",
+    "message": "Средний истребитель"
+  },
+  "MEDIUM_FREIGHTER": {
+    "description": "",
+    "message": "Средний грузовой транспорт"
+  },
+  "MEDIUM_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "Средний пассажирский челнок"
+  },
+  "MEDIUM_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "Средний пассажирский транспорт"
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "Металлические сплавы"
+  },
+  "MILITARY": {
+    "description": "",
+    "message": "Военная статистика"
+  },
+  "MINIMUM_CREW": {
+    "description": "",
+    "message": "Минимальный экипаж"
+  },
+  "MINOR_EXPORTS_ITEM": {
+    "description": "",
+    "message": "Minor exports"
+  },
+  "MINOR_IMPORTS_ITEM": {
+    "description": "",
+    "message": "Minor imports"
+  },
+  "MISSILE_MOUNTS": {
+    "description": "",
+    "message": "Крепления для ракет"
+  },
+  "MISSIONS": {
+    "description": "",
+    "message": "Список заданий"
+  },
+  "MISSION_DETAILS": {
+    "description": "",
+    "message": "Подробности миссии"
+  },
+  "MORE_INFO": {
+    "description": "",
+    "message": "Доп.информация..."
+  },
+  "MOSTLY_HARMLESS": {
+    "description": "",
+    "message": "Почти безобидный"
+  },
+  "MOVE_DOWN": {
+    "description": "move selection down in list",
+    "message": "Move Down"
+  },
+  "MOVE_UP": {
+    "description": "move selection up in list",
+    "message": "Move Up"
+  },
+  "MULTISAMPLING": {
+    "description": "",
+    "message": "Сглаживание "
+  },
+  "MULTISAMPLING_DESC": {
+    "description": "",
+    "message": "A graphical fine-tuning feature, used to reduce jagged, pixelated contours. It can be quite resource-intensive."
+  },
+  "MURDER": {
+    "description": "",
+    "message": "Убийство"
+  },
+  "MUSIC": {
+    "description": "",
+    "message": "Музыка:"
+  },
+  "MUTE": {
+    "description": "",
+    "message": "Заглушить"
+  },
+  "NAME_OBJECT": {
+    "description": "For an item or object",
+    "message": "Имя"
+  },
+  "NAME_PERSON": {
+    "description": "For a person",
+    "message": "Имя"
+  },
+  "NAVIGATION": {
+    "description": "",
+    "message": "Навигация:"
+  },
+  "NAVIGATOR": {
+    "description": "",
+    "message": "Навигатор"
+  },
+  "NEGOTIATE": {
+    "description": "",
+    "message": "Обсудить условия"
+  },
+  "NEXT_PAID": {
+    "description": "",
+    "message": "День платежа"
+  },
+  "NO": {
+    "description": "Negative answer to a question",
+    "message": "Нет"
+  },
+  "NOBODY": {
+    "description": "For player reputation",
+    "message": " Пустое место"
+  },
+  "NONE": {
+    "description": "",
+    "message": "<отсутствует>"
+  },
+  "NONE_FOR_SALE_IN_THIS_STATION": {
+    "description": "",
+    "message": "Не подлежит продаже на этой станции."
+  },
+  "NORMA_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Рукав Лебедя"
+  },
+  "NOTES": {
+    "description": "",
+    "message": "Примечание:"
+  },
+  "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
+    "description": "",
+    "message": "Недостаточно {alloy} для проведения ремонта"
+  },
+  "NOT_SUPPORTED_ON_THIS_SHIP": {
+    "description": "",
+    "message": "{equipment} неподдерживается на данной модели корабля"
+  },
+  "NO_MISSIONS": {
+    "description": "",
+    "message": "Нет заданий."
+  },
+  "N_LIGHT_YEARS_N_MAX": {
+    "description": "",
+    "message": "{range} св. лет (из {maxRange} макс.)"
+  },
+  "N_OCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "{quantity} пассажирских кают занято"
+  },
+  "N_SHIELD_GENERATORS": {
+    "description": "",
+    "message": "Генераторы защитного поля {quantity}"
+  },
+  "N_UNOCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "{quantity} Свободных Пассажирских Кают"
+  },
+  "OFF": {
+    "description": "",
+    "message": "Выкл."
+  },
+  "OK": {
+    "description": "",
+    "message": "Хорошо"
+  },
+  "OPEN_USER_FOLDER": {
+    "description": "",
+    "message": "Папка пользователя"
+  },
+  "OPTIONS": {
+    "description": "",
+    "message": "Настройки"
+  },
+  "ORBIT": {
+    "description": "",
+    "message": "Орбита"
+  },
+  "ORBITAL_ANALYSIS": {
+    "description": "",
+    "message": "Анализ орбиты"
+  },
+  "ORBITAL_ANALYSIS_NOTES": {
+    "description": "",
+    "message": "Круговая скорость орбиты выражает тангенциальную скорость. Корабль должен двигаться в направлении 90° к оси корабля-{name}.\n\nСкорость снижения это абсолютный минимум скорости, так-же являющейся тангенциальной. Меньшая скорость или меньший угол приведут к пересечению с поверхностью {name}.\n\nПараболическая скорость теоретически будет справедлива для любого направления, до тех пор пока корабль не пересекается с поверхностью {name}."
+  },
+  "OUTER_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Внешний рукав"
+  },
+  "OUTSTANDING_FINES": {
+    "description": "Unpaid fines for crimes committed",
+    "message": "Неоплаченные штрафы"
+  },
+  "OWED": {
+    "description": "Player owing money to crew members",
+    "message": "Долг"
+  },
+  "PAY_FINE_OF_N": {
+    "description": "",
+    "message": "Оплатить штраф в размере {amount}"
+  },
+  "PERSEUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Рукав Персея"
+  },
+  "PERSONAL_INFORMATION": {
+    "description": "",
+    "message": "Персональная информация"
+  },
+  "PILOT": {
+    "description": "",
+    "message": "Пилот"
+  },
+  "PILOTING": {
+    "description": "",
+    "message": "Пилотирование:"
+  },
+  "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
+    "description": "",
+    "message": "Обязанности пилота сейчас выполняет {name}."
+  },
+  "PIRACY": {
+    "description": "",
+    "message": "Пиратство"
+  },
+  "PLANET_DETAIL_DISTANCE": {
+    "description": "",
+    "message": "Расстояние детализации планет"
+  },
+  "PLANET_TEXTURES": {
+    "description": "",
+    "message": "Текстуры планет"
+  },
+  "POLICE": {
+    "description": "",
+    "message": "Служба безопасности"
+  },
+  "POOR": {
+    "description": "Player combat rating",
+    "message": "Слабый"
+  },
+  "POSITION": {
+    "description": "The job title/position of crew memeber",
+    "message": "Должность"
+  },
+  "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
+    "description": "",
+    "message": "Press a key or controller button or escape to clear"
+  },
+  "PRICE": {
+    "description": "",
+    "message": "Цена"
+  },
+  "PROFESSIONAL": {
+    "description": "For player reputation",
+    "message": "Профессионал"
+  },
+  "PUMP_DOWN": {
+    "description": "Drain the fuel tank",
+    "message": "Откачать"
+  },
+  "QUALIFICATION_SCORES": {
+    "description": "",
+    "message": "Оценка квалификации"
+  },
+  "QUIT": {
+    "description": "",
+    "message": "Выход"
+  },
+  "QUIT_CONFIRMATION": {
+    "description": "For the checkbox in settings window",
+    "message": "Подтверждение выхода из игры"
+  },
+  "RANK": {
+    "description": "",
+    "message": "Ранг:"
+  },
+  "RATING": {
+    "description": "",
+    "message": "Рейтинг:"
+  },
+  "REAR_WEAPON": {
+    "description": "",
+    "message": "Кормовая турель"
+  },
+  "REFUEL": {
+    "description": "",
+    "message": "Закачать"
+  },
+  "REFUEL_FULL": {
+    "description": "",
+    "message": "Дозаправить полностью"
+  },
+  "REGISTRATION_NUMBER": {
+    "description": "",
+    "message": "Registration number"
+  },
+  "RELIABLE": {
+    "description": "For player reputation",
+    "message": "Надёжный"
+  },
+  "REMOVE_JUMP": {
+    "description": "UI-button: remove hyper jump from list of planned jumps",
+    "message": "Remove Jump"
+  },
+  "REMOVE_WHEN_COMPLETED": {
+    "description": "For UI hyperjump planner, referring to jump target system",
+    "message": "Remove jump when completed"
+  },
+  "REPAIR_X_HULL_DAMAGE_FOR_X": {
+    "description": "",
+    "message": "Ремонт {damage}% повреждённого корпуса за {price}"
+  },
+  "REPUTATION": {
+    "description": "",
+    "message": "Репутация"
+  },
+  "REQUEST_LAUNCH": {
+    "description": "",
+    "message": "Запрос на взлёт"
+  },
+  "REQUIRED_FUEL": {
+    "description": "Fuel usage for traveling to star system",
+    "message": "Required Fuel:"
+  },
+  "RESET": {
+    "description": "",
+    "message": "Сброс"
+  },
+  "RETURN_TO_GAME": {
+    "description": "",
+    "message": "Вернуться к игре"
+  },
+  "RETURN_TO_MENU": {
+    "description": "",
+    "message": "Вернуться к меню"
+  },
+  "REVERSE_ACCEL_EMPTY": {
+    "description": "",
+    "message": "Ускорение назад (пустой)"
+  },
+  "REVERSE_ACCEL_FULL": {
+    "description": "",
+    "message": "Ускорение назад (полный)"
+  },
+  "REWARD": {
+    "description": "",
+    "message": "Награда"
+  },
+  "ROUTE_INFO": {
+    "description": "For hyperjump planner",
+    "message": "Route Info"
+  },
+  "ROUTE_JUMPS": {
+    "description": "For hyperjump planner",
+    "message": "Route Jumps"
+  },
+  "SAGITTARIUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Рукав Стрельца"
+  },
+  "SAVE": {
+    "description": "",
+    "message": "Сохранить игру"
+  },
+  "SCOOP_MOUNTS": {
+    "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
+    "message": "Крепления для заборника"
+  },
+  "SCUTUM_CENTAURUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Рукав Центавра"
+  },
+  "SELECT": {
+    "description": "",
+    "message": "Выбрать"
+  },
+  "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
+    "description": "",
+    "message": "Выберите файл для сохранения или введите новое имя"
+  },
+  "SELECT_FILE": {
+    "description": "",
+    "message": "Выберите файл..."
+  },
+  "SELECT_GAME_TO_LOAD": {
+    "description": "",
+    "message": "Выберите файл для загрузки..."
+  },
+  "SELL": {
+    "description": "Commodities and equipment prices",
+    "message": "[-]"
+  },
+  "SENSORS": {
+    "description": "",
+    "message": "Сенсоры:"
+  },
+  "SENSORS_AND_DEFENCE": {
+    "description": "",
+    "message": "Сенсоры и защита"
+  },
+  "SETTINGS": {
+    "description": "UI option",
+    "message": "Settings"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Установить пункт назначения как цель для навигации."
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Корабль"
+  },
+  "SHIPS_ENGINEER": {
+    "description": "",
+    "message": "Корабельный инженер"
+  },
+  "SHIP_INFORMATION": {
+    "description": "",
+    "message": "Информация о корабле"
+  },
+  "SHIP_IS_ALREADY_FULLY_REPAIRED": {
+    "description": "",
+    "message": "Ваш корабль находится в отличном состоянии."
+  },
+  "SHIP_IS_FULLY_EQUIPPED": {
+    "description": "",
+    "message": "Ваш корабль полностью оснащён."
+  },
+  "SHIP_IS_FULLY_LADEN": {
+    "description": "",
+    "message": "Ваш корабль полностью загружен."
+  },
+  "SHIP_MARKET": {
+    "description": "",
+    "message": "Покупка кораблей"
+  },
+  "SHIP_REPAIRS": {
+    "description": "",
+    "message": "Сервисный центр"
+  },
+  "SHIP_VIEWING_WAS_SOLD": {
+    "description": "",
+    "message": "Корабль, который вы смотрели, был продан"
+  },
+  "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
+    "description": "",
+    "message": "Моделируем эволюцию вселенной: {age} млрд. лет ;-)"
+  },
+  "SOUND": {
+    "description": "",
+    "message": "Звук"
+  },
+  "START_AT_BARNARDS_STAR": {
+    "description": "",
+    "message": "Новый старт: Barnard's Star"
+  },
+  "START_AT_BARNARDS_STAR_DESC": {
+    "description": "",
+    "message": "This is a difficult start from the System Administration Resting prison station."
+  },
+  "START_AT_EARTH": {
+    "description": "",
+    "message": "Новый старт: Earth"
+  },
+  "START_AT_EARTH_DESC": {
+    "description": "",
+    "message": "This is an easy start from London on Earth in the Sol system."
+  },
+  "START_AT_NEW_HOPE": {
+    "description": "New Hope is an in game location",
+    "message": "Новый старт: New Hope"
+  },
+  "START_AT_NEW_HOPE_DESC": {
+    "description": "",
+    "message": "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
+  },
+  "STAR_FIELD_DENSITY": {
+    "description": "",
+    "message": "Плотность звёздного поля"
+  },
+  "STATION_MANAGER": {
+    "description": "",
+    "message": "Управляющий станцией"
+  },
+  "STATION_ORBIT": {
+    "description": "Information shown in the station loby",
+    "message": "We are in a {orbit_period} day period orbit around {parent_body}."
+  },
+  "STATUS": {
+    "description": "",
+    "message": "Статус"
+  },
+  "TECH_CERTIFIED": {
+    "description": "Lobby screen shows the tech level (an integer number) of the station",
+    "message": "Эта станция имеет сертификацию {tech_level} технологического уровня."
+  },
+  "TECH_CERTIFIED_MILITARY": {
+    "description": "Lobby screen shows the tech level of the station",
+    "message": "This installation holds a military technology clearance."
+  },
+  "TEXTURE_COMPRESSION": {
+    "description": "",
+    "message": "This frees up more memory for the graphics card, which is likely what you want, at the expense of compressing them during game start."
+  },
+  "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
+    "description": "",
+    "message": "Спасибо за покупку! Перед взлётом не забудьте оборудовать корабль и заправиться топливом."
+  },
+  "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
+    "description": "",
+    "message": "На борту никого нет способного летать на этом корабле."
+  },
+  "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
+    "description": "",
+    "message": "Корабль под контролем станции, Командир."
+  },
+  "THREE_KPC_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Рукав в 3 кпк от центра"
+  },
+  "TOGGLE_MALE_FEMALE": {
+    "description": "player gender",
+    "message": "Пол муж./жен."
+  },
+  "TOO_SMALL_FOR_CURRENT_CREW": {
+    "description": "",
+    "message": "Корабль слишком мал для вашей команды."
+  },
+  "TOO_SMALL_TO_TRANSSHIP": {
+    "description": "Ship market error message",
+    "message": "У нового корабля не хватает вместимости для текущего груза и гипердвигателя."
+  },
+  "TOTAL": {
+    "description": "",
+    "message": "Всего: "
+  },
+  "TOTAL_DISTANCE": {
+    "description": "Total distance of a (possibly series) of hyper jump(s)",
+    "message": "Total Distance:"
+  },
+  "TOTAL_DURATION": {
+    "description": "Total duration of a (possibly series) of hyper jump(s)",
+    "message": "Total Duration:"
+  },
+  "TOTAL_MASS": {
+    "description": "",
+    "message": "Общая масса"
+  },
+  "TRADING_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Торговля нелегальным товаром"
+  },
+  "TRUSTWORTHY": {
+    "description": "For player reputation",
+    "message": "Достойный доверия"
+  },
+  "TYPE": {
+    "description": "",
+    "message": "Тип"
+  },
+  "UNLAWFUL_WEAPONS_DISCHARGE": {
+    "description": "",
+    "message": "Незаконное применение орудия"
+  },
+  "UNRELIABLE": {
+    "description": "",
+    "message": "Ненадёжный"
+  },
+  "UP_ACCEL": {
+    "description": "",
+    "message": "Ускорение вверх"
+  },
+  "USED": {
+    "description": "",
+    "message": "Занято"
+  },
+  "VERY_HIGH": {
+    "description": "Game settings option: graphic resolution",
+    "message": "Очень высокая"
+  },
+  "VERY_LOW": {
+    "description": "Game settings option: graphic resolution",
+    "message": "Очень низкая"
+  },
+  "VICINITY_OF": {
+    "description": "",
+    "message": "In vicinity of"
+  },
+  "VIDEO": {
+    "description": "",
+    "message": "Видео"
+  },
+  "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
+    "description": "",
+    "message": "Настройки видео (требуется перезапуск игры)"
+  },
+  "VIDEO_RESOLUTION": {
+    "description": "",
+    "message": "Разрешение экрана"
+  },
+  "VIDEO_RESOLUTION_DESC": {
+    "description": "Tooltip for video mode/resultion setting",
+    "message": "Higher resolutions display more information at a smaller size and can decrease performance."
+  },
+  "VSYNC": {
+    "description": "For the checkbox in settings window",
+    "message": "Вертикальная синхронизация"
+  },
+  "VSYNC_DESC": {
+    "description": "",
+    "message": "Vertical Sync can eliminate visual tearing or artifacts, and input latency."
+  },
+  "WAGE": {
+    "description": "Salary of crew shown in crew roster",
+    "message": "Оклад"
+  },
+  "WEIGHT_EMPTY": {
+    "description": "",
+    "message": "Масса корпуса"
+  },
+  "WEIGHT_FULLY_LOADED": {
+    "description": "",
+    "message": "Масса при полной загрузке"
+  },
+  "WE_ARE_IN_HYPERSPACE_COMMANDER": {
+    "description": "",
+    "message": "Мы в гиперпространстве, Командир."
+  },
+  "WE_HAVE_NO_BUSINESS_WITH_YOU": {
+    "description": "Said by the police to law abiding player",
+    "message": "Ваш правовой статус чист. Всего доброго, Командир!"
+  },
+  "X_CANNOT_BE_TOLERATED_HERE": {
+    "description": "Message to be sent over comms by police when crime is committed by player",
+    "message": "{crime} нельзя допускать здесь!"
+  },
+  "YES": {
+    "description": "Positive answer to a question",
+    "message": "Да"
+  },
+  "YOURE_GOING_TO_REGRET_SACKING_ME": {
+    "description": "",
+    "message": "Вы пожалеете о том, что уволили меня!"
+  },
+  "YOUR_HULL_IS_AT_X_INTEGRITY": {
+    "description": "",
+    "message": "Ваш корпус цел на {value}%."
+  },
+  "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION": {
+    "description": "",
+    "message": "У вас недостаточно средств для совершения этой операции."
+  },
+  "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD": {
+    "description": "",
+    "message": "В грузовом отсеке имеется {units} единиц "
+  },
+  "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
+    "description": "",
+    "message": "Сначала вы должны указать боевую цель, Командир."
+  },
+  "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER": {
+    "description": "",
+    "message": "Сначала вы должны указать навигационную цель, Командир."
+  },
+  "YOU_MUST_LAUNCH_FIRST_COMMANDER": {
+    "description": "",
+    "message": "Сначала вы должны взлететь, Командир."
+  },
+  "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER": {
+    "description": "",
+    "message": "Сначала вы должны запросить разрешение на взлет, Командир."
+  },
+  "YOU_NOT_ENOUGH_MONEY": {
+    "description": "",
+    "message": "У вас недостаточно средств"
+  },
+  "ZOOM": {
+    "description": "Label for a zoom (magnification) control bar.",
+    "message": "Масштаб"
+  }
 }

@@ -1,330 +1,330 @@
 {
-   "ADVANCED_TARGET_SCANNER" : {
-      "description" : "ship equipment showing target information/stats",
-      "message" : "Advanced target scanner"
-   },
-   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Long range target scanner with system wide coverage."
-   },
-   "ATMOSPHERIC_SHIELDING" : {
-      "description" : "",
-      "message" : "Atmosferinis Skydas"
-   },
-   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Apsaugo jūsų laivą nuo atmosferinės trinties šilumos besileidžiant."
-   },
-   "AUTOPILOT" : {
-      "description" : "",
-      "message" : "Autopilotas"
-   },
-   "AUTOPILOT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Laivo skrydžio kompiuteris."
-   },
-   "CARGO_LIFE_SUPPORT" : {
-      "description" : "",
-      "message" : "Krovinių skyriaus gyvybės palaikymas"
-   },
-   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Leidžia pervežti gyvą krovinį."
-   },
-   "CARGO_SCOOP" : {
-      "description" : "",
-      "message" : "Krovinių semtuvas"
-   },
-   "CARGO_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Leidžia surinkti krovinių talpas iš erdvės."
-   },
-   "DRIVE_CLASS1" : {
-      "description" : "",
-      "message" : "1 klasės hipervariklis"
-   },
-   "DRIVE_CLASS2" : {
-      "description" : "",
-      "message" : "2 klasės hipervariklis"
-   },
-   "DRIVE_CLASS3" : {
-      "description" : "",
-      "message" : "3 klasės hipervariklis "
-   },
-   "DRIVE_CLASS4" : {
-      "description" : "",
-      "message" : "4 klasės hipervariklis"
-   },
-   "DRIVE_CLASS5" : {
-      "description" : "",
-      "message" : "5 klasės hipervariklis"
-   },
-   "DRIVE_CLASS6" : {
-      "description" : "",
-      "message" : "6 klasės hipervariklis"
-   },
-   "DRIVE_CLASS7" : {
-      "description" : "",
-      "message" : "7 klasės hipervariklis"
-   },
-   "DRIVE_CLASS8" : {
-      "description" : "",
-      "message" : "8 klasės hipervariklis"
-   },
-   "DRIVE_CLASS9" : {
-      "description" : "",
-      "message" : "9 klasės hipervariklis"
-   },
-   "DRIVE_MIL1" : {
-      "description" : "",
-      "message" : "1 klasės sukarintas variklis"
-   },
-   "DRIVE_MIL2" : {
-      "description" : "",
-      "message" : "2 klasės sukarintas variklis"
-   },
-   "DRIVE_MIL3" : {
-      "description" : "",
-      "message" : "3 klasės sukarintas variklis"
-   },
-   "DRIVE_MIL4" : {
-      "description" : "",
-      "message" : "4 klasės sukarintas variklis"
-   },
-   "DRIVE_MIL5" : {
-      "description" : "",
-      "message" : "Class 5 Military drive"
-   },
-   "DRIVE_MIL6" : {
-      "description" : "",
-      "message" : "Class 6 Military drive"
-   },
-   "DRIVE_MIL7" : {
-      "description" : "",
-      "message" : "Class 7 Military drive"
-   },
-   "DRIVE_MIL8" : {
-      "description" : "",
-      "message" : "Class 8 Military drive"
-   },
-   "DRIVE_MIL9" : {
-      "description" : "",
-      "message" : "Class 9 Military drive"
-   },
-   "ECM_ADVANCED" : {
-      "description" : "",
-      "message" : "Pažangi ECM sistema"
-   },
-   "ECM_ADVANCED_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Elektroninė priešraketinės gynybos sistema, gali sunaikinti pažangesnes nusitaikančias raketas. "
-   },
-   "ECM_BASIC" : {
-      "description" : "",
-      "message" : "ECM sistema"
-   },
-   "ECM_BASIC_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Elektroninė priešraketinė gynybos sistema, gali sunaikinti kai kurias nusitaikančias raketas."
-   },
-   "FUEL_SCOOP" : {
-      "description" : "",
-      "message" : "Kuro semtuvas"
-   },
-   "FUEL_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Leidžia pasisemti vandenilio kuro iš dujų milžinių planetų."
-   },
-   "HULL_AUTOREPAIR" : {
-      "description" : "",
-      "message" : "Korpuso auto-remonto sistema"
-   },
-   "HULL_AUTOREPAIR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Automatiškai remontuoja laivo kėbulą jei jis apgadintas."
-   },
-   "HYPERCLOUD_ANALYZER" : {
-      "description" : "",
-      "message" : "Hiperdebesies analizatorius"
-   },
-   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Analizuokite hipererdvės debesis kad nustatytumėte paskirties vietą ir atvykimo ar išvykimo laiką."
-   },
-   "LARGE_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Didelis plazmos greitintuvas"
-   },
-   "LASER_COOLING_BOOSTER" : {
-      "description" : "",
-      "message" : "Lazerių aušintuvas"
-   },
-   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Patobulinta šaldymo sistema jūsų ginklams."
-   },
-   "MININGCANNON_17MW" : {
-      "description" : "",
-      "message" : "17MW sprogstamoji kasybos patranka"
-   },
-   "MININGCANNON_17MW_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Naudojamas turtingų mineralais asteroidų sprogdyminei kasybai."
-   },
-   "MISSILE_GUIDED" : {
-      "description" : "",
-      "message" : "Valdoma raketa"
-   },
-   "MISSILE_NAVAL" : {
-      "description" : "",
-      "message" : "Karinės Laivybos Raketa"
-   },
-   "MISSILE_SMART" : {
-      "description" : "",
-      "message" : "Gudri raketa"
-   },
-   "MISSILE_UNGUIDED" : {
-      "description" : "",
-      "message" : "R40 Nevaldoma Raketa"
-   },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
-   },
-   "OUT_OF_SCANRANGE" : {
-      "description" : "",
-      "message" : "Max scan range exceeded:"
-   },
-   "PASSENGER_CABIN" : {
-      "description" : "",
-      "message" : "Passenger cabin"
-   },
-   "PLANETSCANNER" : {
-      "description" : "Scans the nearest body for resources",
-      "message" : "Body scan"
-   },
-   "PLANETSCANNER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Scan nearest body for resources."
-   },
-   "PULSECANNON_10MW" : {
-      "description" : "",
-      "message" : "10MW pulsinė patranka"
-   },
-   "PULSECANNON_1MW" : {
-      "description" : "",
-      "message" : "1MW pulsinė patranka"
-   },
-   "PULSECANNON_20MW" : {
-      "description" : "",
-      "message" : "20MW pulsinė patranka"
-   },
-   "PULSECANNON_2MW" : {
-      "description" : "",
-      "message" : "2MW pulsinė patranka"
-   },
-   "PULSECANNON_4MW" : {
-      "description" : "",
-      "message" : "4MW pulsinė patranka"
-   },
-   "PULSECANNON_DUAL_1MW" : {
-      "description" : "",
-      "message" : "1MW dviguba pulsinė patranka"
-   },
-   "PULSECANNON_RAPID_2MW" : {
-      "description" : "",
-      "message" : "2MW greitašaudė pulsinė patranka"
-   },
-   "RADAR" : {
-      "description" : "",
-      "message" : "Radar"
-   },
-   "RADAR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Parodo artimų laivų 3D žemėlapį."
-   },
-   "SCAN_COMPLETED" : {
-      "description" : "",
-      "message" : "Scanning completed"
-   },
-   "SCAN_RESUMED" : {
-      "description" : "",
-      "message" : "Scanning resumed"
-   },
-   "SHIELD_ENERGY_BOOSTER" : {
-      "description" : "",
-      "message" : "Skydo Energijos Stiprintuvas"
-   },
-   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Padidina skydo atsinaujinimo greitį."
-   },
-   "SHIELD_GENERATOR" : {
-      "description" : "",
-      "message" : "Skydo Generatorius"
-   },
-   "SHIELD_GENERATOR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Suteikia papildomą kėbulo apsaugą su kiekvienu įrengtu vienetu."
-   },
-   "SMALL_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Mažas plazmos greitintuvas"
-   },
-   "STARTING_SCAN" : {
-      "description" : "",
-      "message" : "Starting scan, target distance is"
-   },
-   "TARGET_SCANNER" : {
-      "description" : "ship equipment showing target information/stats",
-      "message" : "Target Scanner"
-   },
-   "TARGET_SCANNER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Naudojamas įvertinti kitų laivų krovinį ir būseną per atstumą."
-   },
-   "THRUSTERS_BASIC" : {
-      "description" : "",
-      "message" : "Modified Thrusters"
-   },
-   "THRUSTERS_BASIC_DESCRIPTION" : {
-      "description" : "",
-      "message" : "A modified type of thrusters approved for your ship."
-   },
-   "THRUSTERS_BEST" : {
-      "description" : "",
-      "message" : "Bespoke Thrusters"
-   },
-   "THRUSTERS_BEST_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Custom made thrusters that provide the best possible output."
-   },
-   "THRUSTERS_MEDIUM" : {
-      "description" : "",
-      "message" : "Optimised Thrusters"
-   },
-   "THRUSTERS_MEDIUM_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Thrusters that have been optimised to reduce inefficiencies and improve power output."
-   },
-   "TRADE_COMPUTER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade Computer"
-   },
-   "TRADE_COMPUTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
-   },
-   "UNOCCUPIED_CABIN" : {
-      "description" : "",
-      "message" : "Papildoma keleivio kajutė"
-   },
-   "UNOCCUPIED_CABIN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Reikalingas vieno keleivio transportavimui"
-   }
+  "ADVANCED_TARGET_SCANNER": {
+    "description": "ship equipment showing target information/stats",
+    "message": "Advanced target scanner"
+  },
+  "ADVANCED_TARGET_SCANNER_DESCRIPTION": {
+    "description": "",
+    "message": "Long range target scanner with system wide coverage."
+  },
+  "ATMOSPHERIC_SHIELDING": {
+    "description": "",
+    "message": "Atmosferinis Skydas"
+  },
+  "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
+    "description": "",
+    "message": "Apsaugo jūsų laivą nuo atmosferinės trinties šilumos besileidžiant."
+  },
+  "AUTOPILOT": {
+    "description": "",
+    "message": "Autopilotas"
+  },
+  "AUTOPILOT_DESCRIPTION": {
+    "description": "",
+    "message": "Laivo skrydžio kompiuteris."
+  },
+  "CARGO_LIFE_SUPPORT": {
+    "description": "",
+    "message": "Krovinių skyriaus gyvybės palaikymas"
+  },
+  "CARGO_LIFE_SUPPORT_DESCRIPTION": {
+    "description": "",
+    "message": "Leidžia pervežti gyvą krovinį."
+  },
+  "CARGO_SCOOP": {
+    "description": "",
+    "message": "Krovinių semtuvas"
+  },
+  "CARGO_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "Leidžia surinkti krovinių talpas iš erdvės."
+  },
+  "DRIVE_CLASS1": {
+    "description": "",
+    "message": "1 klasės hipervariklis"
+  },
+  "DRIVE_CLASS2": {
+    "description": "",
+    "message": "2 klasės hipervariklis"
+  },
+  "DRIVE_CLASS3": {
+    "description": "",
+    "message": "3 klasės hipervariklis "
+  },
+  "DRIVE_CLASS4": {
+    "description": "",
+    "message": "4 klasės hipervariklis"
+  },
+  "DRIVE_CLASS5": {
+    "description": "",
+    "message": "5 klasės hipervariklis"
+  },
+  "DRIVE_CLASS6": {
+    "description": "",
+    "message": "6 klasės hipervariklis"
+  },
+  "DRIVE_CLASS7": {
+    "description": "",
+    "message": "7 klasės hipervariklis"
+  },
+  "DRIVE_CLASS8": {
+    "description": "",
+    "message": "8 klasės hipervariklis"
+  },
+  "DRIVE_CLASS9": {
+    "description": "",
+    "message": "9 klasės hipervariklis"
+  },
+  "DRIVE_MIL1": {
+    "description": "",
+    "message": "1 klasės sukarintas variklis"
+  },
+  "DRIVE_MIL2": {
+    "description": "",
+    "message": "2 klasės sukarintas variklis"
+  },
+  "DRIVE_MIL3": {
+    "description": "",
+    "message": "3 klasės sukarintas variklis"
+  },
+  "DRIVE_MIL4": {
+    "description": "",
+    "message": "4 klasės sukarintas variklis"
+  },
+  "DRIVE_MIL5": {
+    "description": "",
+    "message": "Class 5 Military drive"
+  },
+  "DRIVE_MIL6": {
+    "description": "",
+    "message": "Class 6 Military drive"
+  },
+  "DRIVE_MIL7": {
+    "description": "",
+    "message": "Class 7 Military drive"
+  },
+  "DRIVE_MIL8": {
+    "description": "",
+    "message": "Class 8 Military drive"
+  },
+  "DRIVE_MIL9": {
+    "description": "",
+    "message": "Class 9 Military drive"
+  },
+  "ECM_ADVANCED": {
+    "description": "",
+    "message": "Pažangi ECM sistema"
+  },
+  "ECM_ADVANCED_DESCRIPTION": {
+    "description": "",
+    "message": "Elektroninė priešraketinės gynybos sistema, gali sunaikinti pažangesnes nusitaikančias raketas. "
+  },
+  "ECM_BASIC": {
+    "description": "",
+    "message": "ECM sistema"
+  },
+  "ECM_BASIC_DESCRIPTION": {
+    "description": "",
+    "message": "Elektroninė priešraketinė gynybos sistema, gali sunaikinti kai kurias nusitaikančias raketas."
+  },
+  "FUEL_SCOOP": {
+    "description": "",
+    "message": "Kuro semtuvas"
+  },
+  "FUEL_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "Leidžia pasisemti vandenilio kuro iš dujų milžinių planetų."
+  },
+  "HULL_AUTOREPAIR": {
+    "description": "",
+    "message": "Korpuso auto-remonto sistema"
+  },
+  "HULL_AUTOREPAIR_DESCRIPTION": {
+    "description": "",
+    "message": "Automatiškai remontuoja laivo kėbulą jei jis apgadintas."
+  },
+  "HYPERCLOUD_ANALYZER": {
+    "description": "",
+    "message": "Hiperdebesies analizatorius"
+  },
+  "HYPERCLOUD_ANALYZER_DESCRIPTION": {
+    "description": "",
+    "message": "Analizuokite hipererdvės debesis kad nustatytumėte paskirties vietą ir atvykimo ar išvykimo laiką."
+  },
+  "LARGE_PLASMA_ACCEL": {
+    "description": "",
+    "message": "Didelis plazmos greitintuvas"
+  },
+  "LASER_COOLING_BOOSTER": {
+    "description": "",
+    "message": "Lazerių aušintuvas"
+  },
+  "LASER_COOLING_BOOSTER_DESCRIPTION": {
+    "description": "",
+    "message": "Patobulinta šaldymo sistema jūsų ginklams."
+  },
+  "MININGCANNON_17MW": {
+    "description": "",
+    "message": "17MW sprogstamoji kasybos patranka"
+  },
+  "MININGCANNON_17MW_DESCRIPTION": {
+    "description": "",
+    "message": "Naudojamas turtingų mineralais asteroidų sprogdyminei kasybai."
+  },
+  "MISSILE_GUIDED": {
+    "description": "",
+    "message": "Valdoma raketa"
+  },
+  "MISSILE_NAVAL": {
+    "description": "",
+    "message": "Karinės Laivybos Raketa"
+  },
+  "MISSILE_SMART": {
+    "description": "",
+    "message": "Gudri raketa"
+  },
+  "MISSILE_UNGUIDED": {
+    "description": "",
+    "message": "R40 Nevaldoma Raketa"
+  },
+  "MULTI_SCOOP": {
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
+    "message": "Multi Scoop"
+  },
+  "MULTI_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+  },
+  "OUT_OF_SCANRANGE": {
+    "description": "",
+    "message": "Max scan range exceeded:"
+  },
+  "PASSENGER_CABIN": {
+    "description": "",
+    "message": "Passenger cabin"
+  },
+  "PLANETSCANNER": {
+    "description": "Scans the nearest body for resources",
+    "message": "Body scan"
+  },
+  "PLANETSCANNER_DESCRIPTION": {
+    "description": "",
+    "message": "Scan nearest body for resources."
+  },
+  "PULSECANNON_10MW": {
+    "description": "",
+    "message": "10MW pulsinė patranka"
+  },
+  "PULSECANNON_1MW": {
+    "description": "",
+    "message": "1MW pulsinė patranka"
+  },
+  "PULSECANNON_20MW": {
+    "description": "",
+    "message": "20MW pulsinė patranka"
+  },
+  "PULSECANNON_2MW": {
+    "description": "",
+    "message": "2MW pulsinė patranka"
+  },
+  "PULSECANNON_4MW": {
+    "description": "",
+    "message": "4MW pulsinė patranka"
+  },
+  "PULSECANNON_DUAL_1MW": {
+    "description": "",
+    "message": "1MW dviguba pulsinė patranka"
+  },
+  "PULSECANNON_RAPID_2MW": {
+    "description": "",
+    "message": "2MW greitašaudė pulsinė patranka"
+  },
+  "RADAR": {
+    "description": "",
+    "message": "Radar"
+  },
+  "RADAR_DESCRIPTION": {
+    "description": "",
+    "message": "Parodo artimų laivų 3D žemėlapį."
+  },
+  "SCAN_COMPLETED": {
+    "description": "",
+    "message": "Scanning completed"
+  },
+  "SCAN_RESUMED": {
+    "description": "",
+    "message": "Scanning resumed"
+  },
+  "SHIELD_ENERGY_BOOSTER": {
+    "description": "",
+    "message": "Skydo Energijos Stiprintuvas"
+  },
+  "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
+    "description": "",
+    "message": "Padidina skydo atsinaujinimo greitį."
+  },
+  "SHIELD_GENERATOR": {
+    "description": "",
+    "message": "Skydo Generatorius"
+  },
+  "SHIELD_GENERATOR_DESCRIPTION": {
+    "description": "",
+    "message": "Suteikia papildomą kėbulo apsaugą su kiekvienu įrengtu vienetu."
+  },
+  "SMALL_PLASMA_ACCEL": {
+    "description": "",
+    "message": "Mažas plazmos greitintuvas"
+  },
+  "STARTING_SCAN": {
+    "description": "",
+    "message": "Starting scan, target distance is"
+  },
+  "TARGET_SCANNER": {
+    "description": "ship equipment showing target information/stats",
+    "message": "Target Scanner"
+  },
+  "TARGET_SCANNER_DESCRIPTION": {
+    "description": "",
+    "message": "Naudojamas įvertinti kitų laivų krovinį ir būseną per atstumą."
+  },
+  "THRUSTERS_BASIC": {
+    "description": "",
+    "message": "Modified Thrusters"
+  },
+  "THRUSTERS_BASIC_DESCRIPTION": {
+    "description": "",
+    "message": "A modified type of thrusters approved for your ship."
+  },
+  "THRUSTERS_BEST": {
+    "description": "",
+    "message": "Bespoke Thrusters"
+  },
+  "THRUSTERS_BEST_DESCRIPTION": {
+    "description": "",
+    "message": "Custom made thrusters that provide the best possible output."
+  },
+  "THRUSTERS_MEDIUM": {
+    "description": "",
+    "message": "Optimised Thrusters"
+  },
+  "THRUSTERS_MEDIUM_DESCRIPTION": {
+    "description": "",
+    "message": "Thrusters that have been optimised to reduce inefficiencies and improve power output."
+  },
+  "TRADE_COMPUTER": {
+    "description": "Ship equipment computing profitable commodities to trade between two systems",
+    "message": "Trade Computer"
+  },
+  "TRADE_COMPUTER_DESCRIPTION": {
+    "description": "",
+    "message": "Shows profitable commodities to trade between selected and current system"
+  },
+  "UNOCCUPIED_CABIN": {
+    "description": "",
+    "message": "Papildoma keleivio kajutė"
+  },
+  "UNOCCUPIED_CABIN_DESCRIPTION": {
+    "description": "",
+    "message": "Reikalingas vieno keleivio transportavimui"
+  }
 }

@@ -1,626 +1,626 @@
 {
-   "ACCEPTED_1" : {
-      "description" : "",
-      "message" : "Excelente. Carregarei os bens à sua nave."
-   },
-   "ACCEPTED_2" : {
-      "description" : "",
-      "message" : "Muito bom."
-   },
-   "ACCEPTED_3" : {
-      "description" : "",
-      "message" : "Ok, bom. Espero que possa confiar em você."
-   },
-   "ACCEPTED_4" : {
-      "description" : "",
-      "message" : "Negócio fechado!"
-   },
-   "ACCEPTED_PICKUP_1" : {
-      "description" : "",
-      "message" : "Ok, me certificarei de que os bens estarão prontos para a coleta."
-   },
-   "ACCEPTED_PICKUP_2" : {
-      "description" : "",
-      "message" : "Negócio fechado! Avisarei aos meus colegas que você está a caminho."
-   },
-   "ADTEXT_1" : {
-      "description" : "",
-      "message" : "ENTREGA DE CARGA: Entrega de carga ao sistema {system}."
-   },
-   "ADTEXT_2" : {
-      "description" : "",
-      "message" : "PRECISO DE TRANSPORTE: Necessário transporte de bens para o sistema {system}. Pagamento de {cash}."
-   },
-   "ADTEXT_EXPENSIVE_1" : {
-      "description" : "",
-      "message" : "ENTREGA: Carga valiosa para o sistema {system}. {cash} para um piloto experiente."
-   },
-   "ADTEXT_LOCAL_1" : {
-      "description" : "",
-      "message" : "ENTREGA LOCAL: Movimentação de bens para {starport}."
-   },
-   "ADTEXT_LOCAL_2" : {
-      "description" : "",
-      "message" : "PRECISA-SE DE TRANSPORTE: Entrega de carga local para {starport}."
-   },
-   "ADTEXT_LOCAL_3" : {
-      "description" : "",
-      "message" : "ENTREGA LOCAL DE CARGA: Entrega de bens para {starport}."
-   },
-   "ADTEXT_PICKUP_1" : {
-      "description" : "",
-      "message" : "COLETA DE CARGA. Necessária coleta de carga do sistema {system}."
-   },
-   "ADTEXT_PICKUP_LOCAL_1" : {
-      "description" : "",
-      "message" : "REALOCAÇÃO. Necessária movimentação de carga de {starport}."
-   },
-   "ADTEXT_WHOLESALER_1" : {
-      "description" : "",
-      "message" : "SERVIÇO DE CARGA. Nós precisamos de uma nave para uma entrega para o sistema {system}."
-   },
-   "ALUMINIUM_TUBES" : {
-      "description" : "custom cargo",
-      "message" : "Tubos de alumínio"
-   },
-   "AMOUNT" : {
-      "description" : "Shown in mission summary. The amount of cargo",
-      "message" : "Quantidade:"
-   },
-   "ART_OBJECTS" : {
-      "description" : "custom cargo",
-      "message" : "Objetos de arte"
-   },
-   "CARGO" : {
-      "description" : "",
-      "message" : "Carga:"
-   },
-   "CARGORUN" : {
-      "description" : "Name of mission type",
-      "message" : "Entrega"
-   },
-   "CEASE_FIRE" : {
-      "description" : "",
-      "message" : "Cessar fogo, cessar fogo! Eu estou do seu lado!"
-   },
-   "CLUS" : {
-      "description" : "custom cargo",
-      "message" : "Unidades vivas armazenadas"
-   },
-   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
-      "description" : "",
-      "message" : "Poderia, por favor, repetir a requisição original?"
-   },
-   "DANGER" : {
-      "description" : "the risk level",
-      "message" : "Perigo:"
-   },
-   "DEADLINE" : {
-      "description" : "Must be delivered by",
-      "message" : "Prazo:"
-   },
-   "DELIVER_TO" : {
-      "description" : "Deliver to this location",
-      "message" : "Entrega a:"
-   },
-   "DENY_1" : {
-      "description" : "",
-      "message" : "Me desculpe, mas esta carga é muito valiosa para que eu deixe aos cuidados de um piloto inexperiente."
-   },
-   "DENY_2" : {
-      "description" : "",
-      "message" : "Nunca ouvi falar de você. Não conheço você e não confio em você."
-   },
-   "DENY_3" : {
-      "description" : "",
-      "message" : "Me desculpe, mas estou procurando por um piloto experiente."
-   },
-   "DENY_4" : {
-      "description" : "",
-      "message" : "Perdão, mas eu não acho que você tenha o que é preciso para concluir o trabalho."
-   },
-   "DENY_5" : {
-      "description" : "",
-      "message" : "Não gaste meu tempo! Você é muito inexperiente."
-   },
-   "DENY_6" : {
-      "description" : "",
-      "message" : "Volte quando você tiver mais experiência."
-   },
-   "DIAMONDS" : {
-      "description" : "custom cargo",
-      "message" : "Diamantes"
-   },
-   "DIGESTERS" : {
-      "description" : "custom cargo",
-      "message" : "Digestores"
-   },
-   "DISTANCE" : {
-      "description" : "distance in space, between two locations",
-      "message" : "Distância:"
-   },
-   "ELECTRICAL_APPLIANCES" : {
-      "description" : "custom cargo",
-      "message" : "Aparelhos elétricos"
-   },
-   "ESCORT_CHATTER_1" : {
-      "description" : "",
-      "message" : "Nave hostil detectada. Vamos atacá-la juntos."
-   },
-   "ESCORT_CHATTER_2" : {
-      "description" : "",
-      "message" : "Ótimo. Este pirata será minha primeira vítima."
-   },
-   "ESCORT_CHATTER_3" : {
-      "description" : "",
-      "message" : "Inimigo avistado. Começando ataque."
-   },
-   "ESCORT_CHATTER_4" : {
-      "description" : "",
-      "message" : "Continue ao seu destino. Eu te dou cobertura."
-   },
-   "ESCORT_CHATTER_5" : {
-      "description" : "",
-      "message" : "Pega. Esta será minha primeira captura de hoje."
-   },
-   "EXPLOSIVES" : {
-      "description" : "custom cargo",
-      "message" : "Explosivos"
-   },
-   "FAILUREMSG_1" : {
-      "description" : "",
-      "message" : "Estou muito desapontado com a entrega atrasada. Você não será pago."
-   },
-   "FAILUREMSG_2" : {
-      "description" : "",
-      "message" : "Você está muito atrasado! O que eu faço com isso agora, não vale mais nada!"
-   },
-   "FAILUREMSG_3" : {
-      "description" : "",
-      "message" : "Escuta, nós fomos bem claros quanto ao prazo. Você pode esquecer quanto a ser pago."
-   },
-   "FAILUREMSG_4" : {
-      "description" : "",
-      "message" : "De agora em diante, eu recusarei todas as requisições de emprego vindas de você."
-   },
-   "FAILUREMSG_FLUFFY_1" : {
-      "description" : "",
-      "message" : "Seu monstro! Você esperou muito por esta entrega. Todos os meus bichos de estimação fofos estão mortos de fome!"
-   },
-   "FURNITURE" : {
-      "description" : "custom cargo",
-      "message" : "Mobília"
-   },
-   "GREENHOUSES" : {
-      "description" : "custom cargo",
-      "message" : "Estufas"
-   },
-   "GUNS_GUNS_GUNS" : {
-      "description" : "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
-      "message" : "Armas de fogo, armas de fogo, armas de fogo."
-   },
-   "HAZARDOUS_SUBSTANCES" : {
-      "description" : "custom cargo",
-      "message" : "Substâncias perigosas"
-   },
-   "HOWMUCH_1" : {
-      "description" : "regarding mass, always more than 1t",
-      "message" : "{amount} toneladas métricas."
-   },
-   "HOWMUCH_2" : {
-      "description" : "regarding mass, always more than 1t",
-      "message" : "{amount}t"
-   },
-   "HOWMUCH_3" : {
-      "description" : "regarding mass, always more than 1t",
-      "message" : "A massa é de {amount}t."
-   },
-   "HOWMUCH_4" : {
-      "description" : "regarding mass, always more than 1t",
-      "message" : "São {amount}t."
-   },
-   "HOWMUCH_SINGULAR_1" : {
-      "description" : "This string is only used for 1 metric tons (singular)",
-      "message" : "É apenas {amount}t."
-   },
-   "HOWMUCH_WHOLESALER_1" : {
-      "description" : "",
-      "message" : "Há {amount}t de {cargoname}."
-   },
-   "HOWMUCH_WHOLESALER_2" : {
-      "description" : "",
-      "message" : "{amount}t {cargoname}"
-   },
-   "HOW_MUCH_MASS" : {
-      "description" : "",
-      "message" : "Quanta massa?"
-   },
-   "HOW_SOON_MUST_IT_BE_DELIVERED" : {
-      "description" : "",
-      "message" : "Quando deve ser entregue?"
-   },
-   "INTROTEXT_1" : {
-      "description" : "",
-      "message" : "Oi, sou {name}. Pagarei {cash} a você se você entregar {cargoname} a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}), uma distância de {dist} al."
-   },
-   "INTROTEXT_2" : {
-      "description" : "{name} is the full name of a person",
-      "message" : "Saudações! Serviços de Transporte {name} precisa que você entregue {cargoname} a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} al de distância. Nós pagamos {cash} por uma entrega segura e completa."
-   },
-   "INTROTEXT_3" : {
-      "description" : "",
-      "message" : "Bom dia. Sou {name}, fundador da {name} Ltda. Preciso de alguém confiável para entregar {cargoname} a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}). Pagarei {cash} pelo vôo de {dist} al de distância."
-   },
-   "INTROTEXT_EXPENSIVE_1" : {
-      "description" : "",
-      "message" : "Olá. Precisamos de alguém experiente para uma entrega potencialmente perigosa a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}). Nós pagaremos {cash}. A distância é de {dist} al."
-   },
-   "INTROTEXT_FLUFFY_1" : {
-      "description" : "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
-      "message" : "Oi, meu nome é {name}. Eu tenho uma remessa fofa de {cargoname} para entregar a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}). A distância é de {dist} al. Por esta entrega eu pagarei {cash} a você."
-   },
-   "INTROTEXT_INFRASTRUCTURE_1" : {
-      "description" : "",
-      "message" : "Saudações. Sou {name}. O governo de {system} quer entregar {cargoname} a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}). O pagamento é de {cash}. {system} fica a {dist} al daqui."
-   },
-   "INTROTEXT_LOCAL_1" : {
-      "description" : "",
-      "message" : "Prazer em conhecê-lo. Sou {name} e eu trabalho para a administração de {starport}. Pagamos {cash} para quem que seja capaz de levar {cargoname} a {starport}."
-   },
-   "INTROTEXT_LOCAL_2" : {
-      "description" : "",
-      "message" : "Oi. Sou {name} e pagarei {cash} por uma entrega curta de {cargoname} a {starport}."
-   },
-   "INTROTEXT_LOCAL_3" : {
-      "description" : "",
-      "message" : "Meu nome é {name} e preciso que {cargoname} seja entregue a um cliente em {starport}. Pagarei {cash} a você por esta entrega."
-   },
-   "INTROTEXT_MINING_1" : {
-      "description" : "{name} is the full name of a person",
-      "message" : "Olá. A Companhia de Mineração {name} quer entregar {cargoname} a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} al de distância, para construir uma nova mina. O pagamento é de {cash}."
-   },
-   "INTROTEXT_PICKUP_1" : {
-      "description" : "",
-      "message" : "Como vai? Meu nome é {name}, e eu preciso de uma nave que seja capaz de voar até {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}), para coletar {cargoname} e retornar a {dom_starport} no sistema {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) por {cash}. A distância até {system} é de {dist} al."
-   },
-   "INTROTEXT_PICKUP_2" : {
-      "description" : "",
-      "message" : "Como está? Eu sou {name}. Um dos meus clientes deseja importar {cargoname} de {starport}, no sisetma {system} ({sectorx}, {sectory}, {sectorz}), {dist} anos luz distante. Ele pagará {cash} por esse frete. Retorne aqui para {dom_starport}, no sistema {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) para entregar a carga."
-   },
-   "INTROTEXT_PICKUP_LOCAL_1" : {
-      "description" : "",
-      "message" : "Saudações. Sou {name}. Pagarei {cash} a quem quer que transporte {cargoname} de {starport} para {dom_starport}."
-   },
-   "INTROTEXT_PICKUP_LOCAL_2" : {
-      "description" : "",
-      "message" : "Olá. Meu nome é {name}. Meu empregador está disposto a contratar você por {cash} para nos ajudar a realocar nosso armazém através da movimentação de {cargoname} de {starport} para nosso novo domicílio {dom_starport}."
-   },
-   "INTROTEXT_WEDDING_1" : {
-      "description" : "",
-      "message" : "Saudações. Você ouviu falar da estação de casamentos de {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz})? Queremos transportar {cargoname} até lá. Fica a uma distância de {dist} al. O pagamento é de {cash}. Que tal?"
-   },
-   "INTROTEXT_WHOLESALER_1" : {
-      "description" : "",
-      "message" : "Olá, meu nome é {name} e sou um negociante por atacado no sistema {system}. Pagarei {cash} pela entrega a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} al."
-   },
-   "INTROTEXT_WHOLESALER_2" : {
-      "description" : "",
-      "message" : "Saudações, meu nome é {name} e eu trabalho para Haber Corp. Nós pagamos {cash} pela entrega a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}), a uma distância de {dist} al."
-   },
-   "I_AM_ON_MY_WAY" : {
-      "description" : "",
-      "message" : "Sensores mostram que você está sofrendo danos. Estou a caminho."
-   },
-   "I_HAVE_DEBITED_YOUR_ACCOUNT" : {
-      "description" : "",
-      "message" : "Eu debitei sua conta com os bens que estão faltando."
-   },
-   "I_NEED_HELP" : {
-      "description" : "",
-      "message" : "Estou sofrendo danos. Preciso de ajuda."
-   },
-   "LY" : {
-      "description" : "",
-      "message" : "Ano-luz"
-   },
-   "MACHINE_TOOLS" : {
-      "description" : "custom cargo",
-      "message" : "Ferramentas de máquina"
-   },
-   "NEPTUNIUM" : {
-      "description" : "custom cargo",
-      "message" : "Neptúnio"
-   },
-   "OK_AGREED" : {
-      "description" : "",
-      "message" : "OK, combinado."
-   },
-   "PICKUP_FROM" : {
-      "description" : "from a location",
-      "message" : "Coletar carga de:"
-   },
-   "PIRATE_GRIPES_1" : {
-      "description" : "",
-      "message" : "Droga! Você vai pagar por isso!"
-   },
-   "PIRATE_GRIPES_2" : {
-      "description" : "",
-      "message" : "Ah não. Minha pobre nave!"
-   },
-   "PIRATE_GRIPES_3" : {
-      "description" : "said with vengeance",
-      "message" : "Peraí, agora você vai ver."
-   },
-   "PIRATE_TAUNTS_1" : {
-      "description" : "",
-      "message" : "Esta será a sua última entrega!"
-   },
-   "PIRATE_TAUNTS_2" : {
-      "description" : "",
-      "message" : "Você trabalha para {client}? Este será o seu fim!"
-   },
-   "PIRATE_TAUNTS_3" : {
-      "description" : "",
-      "message" : "Ei chapa, passa os bens. Agora!"
-   },
-   "PIRATE_TAUNTS_4" : {
-      "description" : "",
-      "message" : "Amiguinho, você jamais alcançará seu destino."
-   },
-   "PIRATE_TAUNTS_5" : {
-      "description" : "",
-      "message" : "Ah, outro ganso gordo a caminho de {location}."
-   },
-   "PIRATE_TAUNTS_6" : {
-      "description" : "",
-      "message" : "Parece que você está carregando mais do que você aguenta. Permita-me ajudá-lo com isso."
-   },
-   "PIRATE_TAUNTS_7" : {
-      "description" : "",
-      "message" : "Sua sorte acabou!"
-   },
-   "PLUTONIUM" : {
-      "description" : "custom cargo",
-      "message" : "Plutônio"
-   },
-   "QUIBBLES" : {
-      "description" : "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-      "message" : "Quibbles"
-   },
-   "RISK_1" : {
-      "description" : "",
-      "message" : "Eu não espero nenhum aborrecimento."
-   },
-   "RISK_2" : {
-      "description" : "",
-      "message" : "Não muito mais do que o usual."
-   },
-   "RISK_3" : {
-      "description" : "",
-      "message" : "Isto é carga valiosa, você deve manter seus olhos bem abertos."
-   },
-   "RISK_4" : {
-      "description" : "",
-      "message" : "Poderia ser perigoso, você deveria se certificar de que está adequadamente preparado."
-   },
-   "RISK_5" : {
-      "description" : "",
-      "message" : "Isto pode ser muito arriscado, você pode vir a encontrar resistência significativa."
-   },
-   "RISK_6" : {
-      "description" : "",
-      "message" : "Não espere chegar até seu destino intacto."
-   },
-   "RISK_ART_1" : {
-      "description" : "",
-      "message" : "Os bens são muito procurados por amantes da arte."
-   },
-   "RISK_EXPENSIVE_1" : {
-      "description" : "",
-      "message" : "Nós fizemos tudo para manter secreta a entrega. Mas nunca há a certeza."
-   },
-   "RISK_EXPENSIVE_2" : {
-      "description" : "",
-      "message" : "A polícia nos informou que um grupo desconhecido de piratas está operando neste sistema."
-   },
-   "RISK_GEMS_1" : {
-      "description" : "",
-      "message" : "É possível que um comerciante de jóias sem escrúpulos queira interceptar a carga."
-   },
-   "RISK_WHOLESALER_1" : {
-      "description" : "",
-      "message" : "Não se preocupe. Uma patrulha da polícia está pronta caso haja problemas."
-   },
-   "RISK_WHOLESALER_2" : {
-      "description" : "",
-      "message" : "Talvez haja risco. Mas a polícia nos prometeu que patrulharia a área."
-   },
-   "RISK_WHOLESALER_3" : {
-      "description" : "",
-      "message" : "O risco é grande. Mas uma escota está pronta para proteger você."
-   },
-   "SEMI_FINISHED_PRODUCTS" : {
-      "description" : "custom cargo",
-      "message" : "Produtos semi-acabados"
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Definir como destino de navegação"
-   },
-   "SET_RETURN_ROUTE" : {
-      "description" : "",
-      "message" : "Definir rota de retorno"
-   },
-   "SPACEPORT" : {
-      "description" : "",
-      "message" : "Base de Lançamento:"
-   },
-   "SPACESHIP_PARTS" : {
-      "description" : "custom cargo",
-      "message" : "Partes de naves espaciais"
-   },
-   "SUCCESSMSG_1" : {
-      "description" : "",
-      "message" : "Obrigado(a) pela entrega. Você foi pago."
-   },
-   "SUCCESSMSG_2" : {
-      "description" : "",
-      "message" : "Obrigado(a) pela entrega oportuna. O dinheiro foi transferido."
-   },
-   "SUCCESSMSG_3" : {
-      "description" : "",
-      "message" : "Excelente, foi um prazer trabalhar com você. Eu paguei a conta."
-   },
-   "SUCCESSMSG_4" : {
-      "description" : "",
-      "message" : "Valeu! Definitivamente recomendarei você. O dinheiro foi transferido."
-   },
-   "SUCCESSMSG_FLUFFY_1" : {
-      "description" : "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
-      "message" : "Ai ai, o que fazer com tantos seres fofos. De qualquer maneira, o dinheiro foi enviado."
-   },
-   "SYSTEM" : {
-      "description" : "",
-      "message" : "Sistema:"
-   },
-   "TARGET_DESTROYED" : {
-      "description" : "",
-      "message" : "Alvo destruído."
-   },
-   "TITANIUM" : {
-      "description" : "custom cargo",
-      "message" : "Titânio"
-   },
-   "TUNGSTEN" : {
-      "description" : "custom cargo",
-      "message" : "Tungstênio"
-   },
-   "URANIUM" : {
-      "description" : "custom cargo",
-      "message" : "Urânio"
-   },
-   "URGENCY_1" : {
-      "description" : "",
-      "message" : "Não há pressa. Precisa ser entregue até {date}."
-   },
-   "URGENCY_2" : {
-      "description" : "",
-      "message" : "Deve necessariamente ser entregue até {date}."
-   },
-   "URGENCY_3" : {
-      "description" : "",
-      "message" : "Por causa da agenda apertada precisa ser entregue até {date}."
-   },
-   "URGENCY_4" : {
-      "description" : "",
-      "message" : "Nós estamos com pressa, então deve ser entregue até {date}."
-   },
-   "URGENCY_5" : {
-      "description" : "",
-      "message" : "É essencial que os bens tenham sido entregues antes de {date}."
-   },
-   "URGENCY_FLUFFY_1" : {
-      "description" : "",
-      "message" : "Por causa da taxa de reprodução dos animaizinhos e a comida limitada no contêiner, a entrega deve ser feita até {date}."
-   },
-   "URGENCY_RADIOACTIVE_1" : {
-      "description" : "",
-      "message" : "Por causa do período de meia-vida deste isótopo, a entrega deve ser feita até {date}."
-   },
-   "WEDDING_DRESSES" : {
-      "description" : "custom cargo",
-      "message" : "Vestidos de casamento"
-   },
-   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP" : {
-      "description" : "",
-      "message" : "Nós carregamos a carga à sua nave."
-   },
-   "WHAT_IS_THIS" : {
-      "description" : "",
-      "message" : "Que é isso? Você descartou minha carga? Você é louco?"
-   },
-   "WHYSOMUCH_1" : {
-      "description" : "",
-      "message" : "Está é a taxa padrão."
-   },
-   "WHYSOMUCH_2" : {
-      "description" : "",
-      "message" : "Aceite, ou deixe para lá."
-   },
-   "WHYSOMUCH_3" : {
-      "description" : "",
-      "message" : "O que é considerado \"muito\" é relativo."
-   },
-   "WHYSOMUCH_4" : {
-      "description" : "",
-      "message" : "O pagamento reflete nosso desejo de que os bens sejam entregues dentro do prazo e inteiros."
-   },
-   "WHYSOMUCH_5" : {
-      "description" : "",
-      "message" : "Encare como um bônus para você seja discreto quanto a esta entrega."
-   },
-   "WHYSOMUCH_6" : {
-      "description" : "",
-      "message" : "Bem, nós adoraríamos pagar menos a você."
-   },
-   "WHYSOMUCH_CENTRIFUGES_1" : {
-      "description" : "",
-      "message" : "Alguns(mas) {cargoname} foram destruídos(as) graças a um erro de software e precisam ser substituídos urgentemente."
-   },
-   "WHYSOMUCH_CHEMICAL_1" : {
-      "description" : "",
-      "message" : "A produção na usina química depende destes bens e não deve ser interrompida. Nada deve parar a máquina."
-   },
-   "WHYSOMUCH_EXPENSIVE_1" : {
-      "description" : "",
-      "message" : "Bens valiosos estão em grande demanda."
-   },
-   "WHYSOMUCH_EXPENSIVE_2" : {
-      "description" : "",
-      "message" : "Pelo simples motivo de que estes bens são bastante caros."
-   },
-   "WHYSOMUCH_FLUFFY_1" : {
-      "description" : "",
-      "message" : "{cargoname} são vendidos(as) rapidamente nesta estação. Você deveria investir em ações de {cargoname} se quiser ganhar muito dinheiro."
-   },
-   "WHYSOMUCH_INFRASTRUCTURE_1" : {
-      "description" : "",
-      "message" : "Esses bens são cruciais para um projeto de construção."
-   },
-   "WHYSOMUCH_MINING_1" : {
-      "description" : "",
-      "message" : "Estes bens são essenciais para a construção de uma nova mina."
-   },
-   "WHYSOMUCH_URGENT_1" : {
-      "description" : "",
-      "message" : "Meu piloto favorito está doente e o tempo é curto."
-   },
-   "WHYSOMUCH_URGENT_2" : {
-      "description" : "",
-      "message" : "Se nós não alcançarmos o prazo, o projeto chegará a um impasse."
-   },
-   "WHYSOMUCH_URGENT_3" : {
-      "description" : "",
-      "message" : "Estes bens são urgentemente necessários."
-   },
-   "WHYSOMUCH_WEDDING_1" : {
-      "description" : "",
-      "message" : "Até agora não consegui encontrar ninguém para fazer este transporte. Quando a estação acabar, minhas mercadorias perdem todo o valor."
-   },
-   "WHY_SO_MUCH_MONEY" : {
-      "description" : "",
-      "message" : "Por que tanto dinheiro?"
-   },
-   "WILL_I_BE_IN_ANY_DANGER" : {
-      "description" : "",
-      "message" : "Vou correr algum risco?"
-   },
-   "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP" : {
-      "description" : "",
-      "message" : "Você não tem espaço de carga suficiente na sua nave."
-   },
-   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Por favor volte quando tiver espaço de carga suficiente."
-   }
+  "ACCEPTED_1": {
+    "description": "",
+    "message": "Excelente. Carregarei os bens à sua nave."
+  },
+  "ACCEPTED_2": {
+    "description": "",
+    "message": "Muito bom."
+  },
+  "ACCEPTED_3": {
+    "description": "",
+    "message": "Ok, bom. Espero que possa confiar em você."
+  },
+  "ACCEPTED_4": {
+    "description": "",
+    "message": "Negócio fechado!"
+  },
+  "ACCEPTED_PICKUP_1": {
+    "description": "",
+    "message": "Ok, me certificarei de que os bens estarão prontos para a coleta."
+  },
+  "ACCEPTED_PICKUP_2": {
+    "description": "",
+    "message": "Negócio fechado! Avisarei aos meus colegas que você está a caminho."
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "ENTREGA DE CARGA: Entrega de carga ao sistema {system}."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "PRECISO DE TRANSPORTE: Necessário transporte de bens para o sistema {system}. Pagamento de {cash}."
+  },
+  "ADTEXT_EXPENSIVE_1": {
+    "description": "",
+    "message": "ENTREGA: Carga valiosa para o sistema {system}. {cash} para um piloto experiente."
+  },
+  "ADTEXT_LOCAL_1": {
+    "description": "",
+    "message": "ENTREGA LOCAL: Movimentação de bens para {starport}."
+  },
+  "ADTEXT_LOCAL_2": {
+    "description": "",
+    "message": "PRECISA-SE DE TRANSPORTE: Entrega de carga local para {starport}."
+  },
+  "ADTEXT_LOCAL_3": {
+    "description": "",
+    "message": "ENTREGA LOCAL DE CARGA: Entrega de bens para {starport}."
+  },
+  "ADTEXT_PICKUP_1": {
+    "description": "",
+    "message": "COLETA DE CARGA. Necessária coleta de carga do sistema {system}."
+  },
+  "ADTEXT_PICKUP_LOCAL_1": {
+    "description": "",
+    "message": "REALOCAÇÃO. Necessária movimentação de carga de {starport}."
+  },
+  "ADTEXT_WHOLESALER_1": {
+    "description": "",
+    "message": "SERVIÇO DE CARGA. Nós precisamos de uma nave para uma entrega para o sistema {system}."
+  },
+  "ALUMINIUM_TUBES": {
+    "description": "custom cargo",
+    "message": "Tubos de alumínio"
+  },
+  "AMOUNT": {
+    "description": "Shown in mission summary. The amount of cargo",
+    "message": "Quantidade:"
+  },
+  "ART_OBJECTS": {
+    "description": "custom cargo",
+    "message": "Objetos de arte"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Carga:"
+  },
+  "CARGORUN": {
+    "description": "Name of mission type",
+    "message": "Entrega"
+  },
+  "CEASE_FIRE": {
+    "description": "",
+    "message": "Cessar fogo, cessar fogo! Eu estou do seu lado!"
+  },
+  "CLUS": {
+    "description": "custom cargo",
+    "message": "Unidades vivas armazenadas"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Poderia, por favor, repetir a requisição original?"
+  },
+  "DANGER": {
+    "description": "the risk level",
+    "message": "Perigo:"
+  },
+  "DEADLINE": {
+    "description": "Must be delivered by",
+    "message": "Prazo:"
+  },
+  "DELIVER_TO": {
+    "description": "Deliver to this location",
+    "message": "Entrega a:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Me desculpe, mas esta carga é muito valiosa para que eu deixe aos cuidados de um piloto inexperiente."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Nunca ouvi falar de você. Não conheço você e não confio em você."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Me desculpe, mas estou procurando por um piloto experiente."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Perdão, mas eu não acho que você tenha o que é preciso para concluir o trabalho."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Não gaste meu tempo! Você é muito inexperiente."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "Volte quando você tiver mais experiência."
+  },
+  "DIAMONDS": {
+    "description": "custom cargo",
+    "message": "Diamantes"
+  },
+  "DIGESTERS": {
+    "description": "custom cargo",
+    "message": "Digestores"
+  },
+  "DISTANCE": {
+    "description": "distance in space, between two locations",
+    "message": "Distância:"
+  },
+  "ELECTRICAL_APPLIANCES": {
+    "description": "custom cargo",
+    "message": "Aparelhos elétricos"
+  },
+  "ESCORT_CHATTER_1": {
+    "description": "",
+    "message": "Nave hostil detectada. Vamos atacá-la juntos."
+  },
+  "ESCORT_CHATTER_2": {
+    "description": "",
+    "message": "Ótimo. Este pirata será minha primeira vítima."
+  },
+  "ESCORT_CHATTER_3": {
+    "description": "",
+    "message": "Inimigo avistado. Começando ataque."
+  },
+  "ESCORT_CHATTER_4": {
+    "description": "",
+    "message": "Continue ao seu destino. Eu te dou cobertura."
+  },
+  "ESCORT_CHATTER_5": {
+    "description": "",
+    "message": "Pega. Esta será minha primeira captura de hoje."
+  },
+  "EXPLOSIVES": {
+    "description": "custom cargo",
+    "message": "Explosivos"
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "Estou muito desapontado com a entrega atrasada. Você não será pago."
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "Você está muito atrasado! O que eu faço com isso agora, não vale mais nada!"
+  },
+  "FAILUREMSG_3": {
+    "description": "",
+    "message": "Escuta, nós fomos bem claros quanto ao prazo. Você pode esquecer quanto a ser pago."
+  },
+  "FAILUREMSG_4": {
+    "description": "",
+    "message": "De agora em diante, eu recusarei todas as requisições de emprego vindas de você."
+  },
+  "FAILUREMSG_FLUFFY_1": {
+    "description": "",
+    "message": "Seu monstro! Você esperou muito por esta entrega. Todos os meus bichos de estimação fofos estão mortos de fome!"
+  },
+  "FURNITURE": {
+    "description": "custom cargo",
+    "message": "Mobília"
+  },
+  "GREENHOUSES": {
+    "description": "custom cargo",
+    "message": "Estufas"
+  },
+  "GUNS_GUNS_GUNS": {
+    "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
+    "message": "Armas de fogo, armas de fogo, armas de fogo."
+  },
+  "HAZARDOUS_SUBSTANCES": {
+    "description": "custom cargo",
+    "message": "Substâncias perigosas"
+  },
+  "HOWMUCH_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount} toneladas métricas."
+  },
+  "HOWMUCH_2": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount}t"
+  },
+  "HOWMUCH_3": {
+    "description": "regarding mass, always more than 1t",
+    "message": "A massa é de {amount}t."
+  },
+  "HOWMUCH_4": {
+    "description": "regarding mass, always more than 1t",
+    "message": "São {amount}t."
+  },
+  "HOWMUCH_SINGULAR_1": {
+    "description": "This string is only used for 1 metric tons (singular)",
+    "message": "É apenas {amount}t."
+  },
+  "HOWMUCH_WHOLESALER_1": {
+    "description": "",
+    "message": "Há {amount}t de {cargoname}."
+  },
+  "HOWMUCH_WHOLESALER_2": {
+    "description": "",
+    "message": "{amount}t {cargoname}"
+  },
+  "HOW_MUCH_MASS": {
+    "description": "",
+    "message": "Quanta massa?"
+  },
+  "HOW_SOON_MUST_IT_BE_DELIVERED": {
+    "description": "",
+    "message": "Quando deve ser entregue?"
+  },
+  "INTROTEXT_1": {
+    "description": "",
+    "message": "Oi, sou {name}. Pagarei {cash} a você se você entregar {cargoname} a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}), uma distância de {dist} al."
+  },
+  "INTROTEXT_2": {
+    "description": "{name} is the full name of a person",
+    "message": "Saudações! Serviços de Transporte {name} precisa que você entregue {cargoname} a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} al de distância. Nós pagamos {cash} por uma entrega segura e completa."
+  },
+  "INTROTEXT_3": {
+    "description": "",
+    "message": "Bom dia. Sou {name}, fundador da {name} Ltda. Preciso de alguém confiável para entregar {cargoname} a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}). Pagarei {cash} pelo vôo de {dist} al de distância."
+  },
+  "INTROTEXT_EXPENSIVE_1": {
+    "description": "",
+    "message": "Olá. Precisamos de alguém experiente para uma entrega potencialmente perigosa a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}). Nós pagaremos {cash}. A distância é de {dist} al."
+  },
+  "INTROTEXT_FLUFFY_1": {
+    "description": "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
+    "message": "Oi, meu nome é {name}. Eu tenho uma remessa fofa de {cargoname} para entregar a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}). A distância é de {dist} al. Por esta entrega eu pagarei {cash} a você."
+  },
+  "INTROTEXT_INFRASTRUCTURE_1": {
+    "description": "",
+    "message": "Saudações. Sou {name}. O governo de {system} quer entregar {cargoname} a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}). O pagamento é de {cash}. {system} fica a {dist} al daqui."
+  },
+  "INTROTEXT_LOCAL_1": {
+    "description": "",
+    "message": "Prazer em conhecê-lo. Sou {name} e eu trabalho para a administração de {starport}. Pagamos {cash} para quem que seja capaz de levar {cargoname} a {starport}."
+  },
+  "INTROTEXT_LOCAL_2": {
+    "description": "",
+    "message": "Oi. Sou {name} e pagarei {cash} por uma entrega curta de {cargoname} a {starport}."
+  },
+  "INTROTEXT_LOCAL_3": {
+    "description": "",
+    "message": "Meu nome é {name} e preciso que {cargoname} seja entregue a um cliente em {starport}. Pagarei {cash} a você por esta entrega."
+  },
+  "INTROTEXT_MINING_1": {
+    "description": "{name} is the full name of a person",
+    "message": "Olá. A Companhia de Mineração {name} quer entregar {cargoname} a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} al de distância, para construir uma nova mina. O pagamento é de {cash}."
+  },
+  "INTROTEXT_PICKUP_1": {
+    "description": "",
+    "message": "Como vai? Meu nome é {name}, e eu preciso de uma nave que seja capaz de voar até {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}), para coletar {cargoname} e retornar a {dom_starport} no sistema {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) por {cash}. A distância até {system} é de {dist} al."
+  },
+  "INTROTEXT_PICKUP_2": {
+    "description": "",
+    "message": "Como está? Eu sou {name}. Um dos meus clientes deseja importar {cargoname} de {starport}, no sisetma {system} ({sectorx}, {sectory}, {sectorz}), {dist} anos luz distante. Ele pagará {cash} por esse frete. Retorne aqui para {dom_starport}, no sistema {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) para entregar a carga."
+  },
+  "INTROTEXT_PICKUP_LOCAL_1": {
+    "description": "",
+    "message": "Saudações. Sou {name}. Pagarei {cash} a quem quer que transporte {cargoname} de {starport} para {dom_starport}."
+  },
+  "INTROTEXT_PICKUP_LOCAL_2": {
+    "description": "",
+    "message": "Olá. Meu nome é {name}. Meu empregador está disposto a contratar você por {cash} para nos ajudar a realocar nosso armazém através da movimentação de {cargoname} de {starport} para nosso novo domicílio {dom_starport}."
+  },
+  "INTROTEXT_WEDDING_1": {
+    "description": "",
+    "message": "Saudações. Você ouviu falar da estação de casamentos de {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz})? Queremos transportar {cargoname} até lá. Fica a uma distância de {dist} al. O pagamento é de {cash}. Que tal?"
+  },
+  "INTROTEXT_WHOLESALER_1": {
+    "description": "",
+    "message": "Olá, meu nome é {name} e sou um negociante por atacado no sistema {system}. Pagarei {cash} pela entrega a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} al."
+  },
+  "INTROTEXT_WHOLESALER_2": {
+    "description": "",
+    "message": "Saudações, meu nome é {name} e eu trabalho para Haber Corp. Nós pagamos {cash} pela entrega a {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}), a uma distância de {dist} al."
+  },
+  "I_AM_ON_MY_WAY": {
+    "description": "",
+    "message": "Sensores mostram que você está sofrendo danos. Estou a caminho."
+  },
+  "I_HAVE_DEBITED_YOUR_ACCOUNT": {
+    "description": "",
+    "message": "Eu debitei sua conta com os bens que estão faltando."
+  },
+  "I_NEED_HELP": {
+    "description": "",
+    "message": "Estou sofrendo danos. Preciso de ajuda."
+  },
+  "LY": {
+    "description": "",
+    "message": "Ano-luz"
+  },
+  "MACHINE_TOOLS": {
+    "description": "custom cargo",
+    "message": "Ferramentas de máquina"
+  },
+  "NEPTUNIUM": {
+    "description": "custom cargo",
+    "message": "Neptúnio"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "OK, combinado."
+  },
+  "PICKUP_FROM": {
+    "description": "from a location",
+    "message": "Coletar carga de:"
+  },
+  "PIRATE_GRIPES_1": {
+    "description": "",
+    "message": "Droga! Você vai pagar por isso!"
+  },
+  "PIRATE_GRIPES_2": {
+    "description": "",
+    "message": "Ah não. Minha pobre nave!"
+  },
+  "PIRATE_GRIPES_3": {
+    "description": "said with vengeance",
+    "message": "Peraí, agora você vai ver."
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Esta será a sua última entrega!"
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "Você trabalha para {client}? Este será o seu fim!"
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Ei chapa, passa os bens. Agora!"
+  },
+  "PIRATE_TAUNTS_4": {
+    "description": "",
+    "message": "Amiguinho, você jamais alcançará seu destino."
+  },
+  "PIRATE_TAUNTS_5": {
+    "description": "",
+    "message": "Ah, outro ganso gordo a caminho de {location}."
+  },
+  "PIRATE_TAUNTS_6": {
+    "description": "",
+    "message": "Parece que você está carregando mais do que você aguenta. Permita-me ajudá-lo com isso."
+  },
+  "PIRATE_TAUNTS_7": {
+    "description": "",
+    "message": "Sua sorte acabou!"
+  },
+  "PLUTONIUM": {
+    "description": "custom cargo",
+    "message": "Plutônio"
+  },
+  "QUIBBLES": {
+    "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
+    "message": "Quibbles"
+  },
+  "RISK_1": {
+    "description": "",
+    "message": "Eu não espero nenhum aborrecimento."
+  },
+  "RISK_2": {
+    "description": "",
+    "message": "Não muito mais do que o usual."
+  },
+  "RISK_3": {
+    "description": "",
+    "message": "Isto é carga valiosa, você deve manter seus olhos bem abertos."
+  },
+  "RISK_4": {
+    "description": "",
+    "message": "Poderia ser perigoso, você deveria se certificar de que está adequadamente preparado."
+  },
+  "RISK_5": {
+    "description": "",
+    "message": "Isto pode ser muito arriscado, você pode vir a encontrar resistência significativa."
+  },
+  "RISK_6": {
+    "description": "",
+    "message": "Não espere chegar até seu destino intacto."
+  },
+  "RISK_ART_1": {
+    "description": "",
+    "message": "Os bens são muito procurados por amantes da arte."
+  },
+  "RISK_EXPENSIVE_1": {
+    "description": "",
+    "message": "Nós fizemos tudo para manter secreta a entrega. Mas nunca há a certeza."
+  },
+  "RISK_EXPENSIVE_2": {
+    "description": "",
+    "message": "A polícia nos informou que um grupo desconhecido de piratas está operando neste sistema."
+  },
+  "RISK_GEMS_1": {
+    "description": "",
+    "message": "É possível que um comerciante de jóias sem escrúpulos queira interceptar a carga."
+  },
+  "RISK_WHOLESALER_1": {
+    "description": "",
+    "message": "Não se preocupe. Uma patrulha da polícia está pronta caso haja problemas."
+  },
+  "RISK_WHOLESALER_2": {
+    "description": "",
+    "message": "Talvez haja risco. Mas a polícia nos prometeu que patrulharia a área."
+  },
+  "RISK_WHOLESALER_3": {
+    "description": "",
+    "message": "O risco é grande. Mas uma escota está pronta para proteger você."
+  },
+  "SEMI_FINISHED_PRODUCTS": {
+    "description": "custom cargo",
+    "message": "Produtos semi-acabados"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Definir como destino de navegação"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Definir rota de retorno"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Base de Lançamento:"
+  },
+  "SPACESHIP_PARTS": {
+    "description": "custom cargo",
+    "message": "Partes de naves espaciais"
+  },
+  "SUCCESSMSG_1": {
+    "description": "",
+    "message": "Obrigado(a) pela entrega. Você foi pago."
+  },
+  "SUCCESSMSG_2": {
+    "description": "",
+    "message": "Obrigado(a) pela entrega oportuna. O dinheiro foi transferido."
+  },
+  "SUCCESSMSG_3": {
+    "description": "",
+    "message": "Excelente, foi um prazer trabalhar com você. Eu paguei a conta."
+  },
+  "SUCCESSMSG_4": {
+    "description": "",
+    "message": "Valeu! Definitivamente recomendarei você. O dinheiro foi transferido."
+  },
+  "SUCCESSMSG_FLUFFY_1": {
+    "description": "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
+    "message": "Ai ai, o que fazer com tantos seres fofos. De qualquer maneira, o dinheiro foi enviado."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Sistema:"
+  },
+  "TARGET_DESTROYED": {
+    "description": "",
+    "message": "Alvo destruído."
+  },
+  "TITANIUM": {
+    "description": "custom cargo",
+    "message": "Titânio"
+  },
+  "TUNGSTEN": {
+    "description": "custom cargo",
+    "message": "Tungstênio"
+  },
+  "URANIUM": {
+    "description": "custom cargo",
+    "message": "Urânio"
+  },
+  "URGENCY_1": {
+    "description": "",
+    "message": "Não há pressa. Precisa ser entregue até {date}."
+  },
+  "URGENCY_2": {
+    "description": "",
+    "message": "Deve necessariamente ser entregue até {date}."
+  },
+  "URGENCY_3": {
+    "description": "",
+    "message": "Por causa da agenda apertada precisa ser entregue até {date}."
+  },
+  "URGENCY_4": {
+    "description": "",
+    "message": "Nós estamos com pressa, então deve ser entregue até {date}."
+  },
+  "URGENCY_5": {
+    "description": "",
+    "message": "É essencial que os bens tenham sido entregues antes de {date}."
+  },
+  "URGENCY_FLUFFY_1": {
+    "description": "",
+    "message": "Por causa da taxa de reprodução dos animaizinhos e a comida limitada no contêiner, a entrega deve ser feita até {date}."
+  },
+  "URGENCY_RADIOACTIVE_1": {
+    "description": "",
+    "message": "Por causa do período de meia-vida deste isótopo, a entrega deve ser feita até {date}."
+  },
+  "WEDDING_DRESSES": {
+    "description": "custom cargo",
+    "message": "Vestidos de casamento"
+  },
+  "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
+    "description": "",
+    "message": "Nós carregamos a carga à sua nave."
+  },
+  "WHAT_IS_THIS": {
+    "description": "",
+    "message": "Que é isso? Você descartou minha carga? Você é louco?"
+  },
+  "WHYSOMUCH_1": {
+    "description": "",
+    "message": "Está é a taxa padrão."
+  },
+  "WHYSOMUCH_2": {
+    "description": "",
+    "message": "Aceite, ou deixe para lá."
+  },
+  "WHYSOMUCH_3": {
+    "description": "",
+    "message": "O que é considerado \"muito\" é relativo."
+  },
+  "WHYSOMUCH_4": {
+    "description": "",
+    "message": "O pagamento reflete nosso desejo de que os bens sejam entregues dentro do prazo e inteiros."
+  },
+  "WHYSOMUCH_5": {
+    "description": "",
+    "message": "Encare como um bônus para você seja discreto quanto a esta entrega."
+  },
+  "WHYSOMUCH_6": {
+    "description": "",
+    "message": "Bem, nós adoraríamos pagar menos a você."
+  },
+  "WHYSOMUCH_CENTRIFUGES_1": {
+    "description": "",
+    "message": "Alguns(mas) {cargoname} foram destruídos(as) graças a um erro de software e precisam ser substituídos urgentemente."
+  },
+  "WHYSOMUCH_CHEMICAL_1": {
+    "description": "",
+    "message": "A produção na usina química depende destes bens e não deve ser interrompida. Nada deve parar a máquina."
+  },
+  "WHYSOMUCH_EXPENSIVE_1": {
+    "description": "",
+    "message": "Bens valiosos estão em grande demanda."
+  },
+  "WHYSOMUCH_EXPENSIVE_2": {
+    "description": "",
+    "message": "Pelo simples motivo de que estes bens são bastante caros."
+  },
+  "WHYSOMUCH_FLUFFY_1": {
+    "description": "",
+    "message": "{cargoname} são vendidos(as) rapidamente nesta estação. Você deveria investir em ações de {cargoname} se quiser ganhar muito dinheiro."
+  },
+  "WHYSOMUCH_INFRASTRUCTURE_1": {
+    "description": "",
+    "message": "Esses bens são cruciais para um projeto de construção."
+  },
+  "WHYSOMUCH_MINING_1": {
+    "description": "",
+    "message": "Estes bens são essenciais para a construção de uma nova mina."
+  },
+  "WHYSOMUCH_URGENT_1": {
+    "description": "",
+    "message": "Meu piloto favorito está doente e o tempo é curto."
+  },
+  "WHYSOMUCH_URGENT_2": {
+    "description": "",
+    "message": "Se nós não alcançarmos o prazo, o projeto chegará a um impasse."
+  },
+  "WHYSOMUCH_URGENT_3": {
+    "description": "",
+    "message": "Estes bens são urgentemente necessários."
+  },
+  "WHYSOMUCH_WEDDING_1": {
+    "description": "",
+    "message": "Até agora não consegui encontrar ninguém para fazer este transporte. Quando a estação acabar, minhas mercadorias perdem todo o valor."
+  },
+  "WHY_SO_MUCH_MONEY": {
+    "description": "",
+    "message": "Por que tanto dinheiro?"
+  },
+  "WILL_I_BE_IN_ANY_DANGER": {
+    "description": "",
+    "message": "Vou correr algum risco?"
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP": {
+    "description": "",
+    "message": "Você não tem espaço de carga suficiente na sua nave."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
+    "description": "",
+    "message": "Por favor volte quando tiver espaço de carga suficiente."
+  }
 }

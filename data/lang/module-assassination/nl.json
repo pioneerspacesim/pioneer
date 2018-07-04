@@ -1,334 +1,334 @@
 {
-   "ASSASSINATION" : {
-      "description" : "",
-      "message" : "Moord"
-   },
-   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
-      "description" : "",
-      "message" : "Kan je het orginele aanvraag herhalen?"
-   },
-   "DENY_0" : {
-      "description" : "",
-      "message" : "Het spijt me, maar ik vertrouw je niet."
-   },
-   "DENY_1" : {
-      "description" : "",
-      "message" : "Kom maar terug als je wat kwalificaties hebt."
-   },
-   "DENY_2" : {
-      "description" : "",
-      "message" : "Ik denk niet dat jij diegene bent waar ik naar op zoek ben."
-   },
-   "DENY_3" : {
-      "description" : "",
-      "message" : "Je ziet er niet uit als iemand die in staat is om te doen wat moet gebeuren."
-   },
-   "DENY_4" : {
-      "description" : "",
-      "message" : "Je bent duidelijk niet de juiste persoon voor deze klus."
-   },
-   "DENY_5" : {
-      "description" : "",
-      "message" : "Je bent veel te onervaren om zo'n belangrijke contract aan te kunnen."
-   },
-   "DENY_6" : {
-      "description" : "",
-      "message" : "Ik heb nog nooit van jouw gehoord. Ik heb iemand nodig met ervaring voor dit contract."
-   },
-   "DENY_7" : {
-      "description" : "",
-      "message" : "Ik ben niet bereid om dit contract te riskeren door het aan iemand als onervaren zoals jij te geven."
-   },
-   "DISTANCE" : {
-      "description" : "",
-      "message" : "Afstand:"
-   },
-   "EXCELLENT" : {
-      "description" : "",
-      "message" : "Uitmuntend."
-   },
-   "FLAVOUR_0_ADTEXT" : {
-      "description" : "",
-      "message" : "GEVRAAGD: Verwijdering van {target} in het {system}-stelsel."
-   },
-   "FLAVOUR_0_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Ik ben erg teleurgesteld om te horen dat {doelwit} nog steeds leeft. Onnodig om te zeggen dat je geen betaling ontvangt"
-   },
-   "FLAVOUR_0_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "{doelwit}'s verwijdering was niet gedaan bij jou. Geen betaling deze keer"
-   },
-   "FLAVOUR_0_INTROTEXT" : {
-      "description" : "",
-      "message" : "Hey, ik ben {naam}. Ik betaal je {geld} om af te komen van {doelwit}"
-   },
-   "FLAVOUR_0_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Nieuws van {target}s lange vakantie dankbaar ontvangen. Goed gedaan. Ik heb uw  volledige betaling gestart."
-   },
-   "FLAVOUR_1_ADTEXT" : {
-      "description" : "",
-      "message" : "GEVRAAGD: Iemand die {target} uit het {system}-stelsel afmaakt."
-   },
-   "FLAVOUR_1_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Ik hoor dat {doelwit} gezond is. Dit bezeert mij"
-   },
-   "FLAVOUR_1_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "{target}s ondergang is niet door u veroorzaakt, dus vraag niet om betaling."
-   },
-   "FLAVOUR_1_INTROTEXT" : {
-      "description" : "",
-      "message" : "Ik moet {doelwit} uit het plaatje hebben. Ik betaal je {geld} om dit te doen"
-   },
-   "FLAVOUR_1_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Ik ben bedroeft om te horen over {doelwit}'s ondergang. Je bent volledig betaalt "
-   },
-   "FLAVOUR_2_ADTEXT" : {
-      "description" : "",
-      "message" : "VERWIJDERING: {target} is niet langer gewenst in het {system}-stelsel."
-   },
-   "FLAVOUR_2_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Het is zonde dat {doelwit} nog steeds leeft. Je zal geen betaling krijgen doordat je niet je contract voltooid hebt"
-   },
-   "FLAVOUR_2_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Het contract was voltooid door iemand anders. Wees sneller de volgende keer!"
-   },
-   "FLAVOUR_2_INTROTEXT" : {
-      "description" : "",
-      "message" : "Ik ben {naam}, en ik betaal je {geld} om {doelwit} te elimineren "
-   },
-   "FLAVOUR_2_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Je bent volledig betaalt voor de voltooing van dat belangrijke contract"
-   },
-   "FLAVOUR_3_ADTEXT" : {
-      "description" : "",
-      "message" : "BEEINDIGING: Iemand die {target} elimineert."
-   },
-   "FLAVOUR_3_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Je zal boeten om niet {doelwit} gelimineerd te hebben!"
-   },
-   "FLAVOUR_3_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Ben je geld aan het vragen voor je contract ondertussen het gedaan is bij iemand anders? Hoepel op"
-   },
-   "FLAVOUR_3_INTROTEXT" : {
-      "description" : "",
-      "message" : "Het {doelwit} moest vermindert worden tot ruimte stof. Ik betaal je {geld} om dit te doen"
-   },
-   "FLAVOUR_3_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "{doelwit} is dood. Hier is je beloning"
-   },
-   "FLAVOUR_4_ADTEXT" : {
-      "description" : "",
-      "message" : "PENSIOEN: Iemand die {target} met pensioen stuurt."
-   },
-   "FLAVOUR_4_FAILUREMSG" : {
-      "description" : "",
-      "message" : "{doelwit} ademt nog steeds en ik geef geen geld aan jou"
-   },
-   "FLAVOUR_4_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Iemand anders heeft {target} met pensioen gestuurd."
-   },
-   "FLAVOUR_4_INTROTEXT" : {
-      "description" : "",
-      "message" : "Voor {geld} bemoedigen we om {doelwit} te stoppen met werken onmiddelijk"
-   },
-   "FLAVOUR_4_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Nieuws van {target}s pensioen met genoegen ontvangen. Hier is uw geld."
-   },
-   "FLAVOUR_5_ADTEXT" : {
-      "description" : "",
-      "message" : "BIOGRAPHISCH: Enkele fans willen {target} dood."
-   },
-   "FLAVOUR_5_FAILUREMSG" : {
-      "description" : "",
-      "message" : "We zijn erachtergekomen dat {target} nog steeds actief is. Dit stelt ons teleur."
-   },
-   "FLAVOUR_5_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "{target} is door iemand ander geneutraliseerd."
-   },
-   "FLAVOUR_5_INTROTEXT" : {
-      "description" : "",
-      "message" : "Wij wensen {target} een passend carriereneinde in het {system}-stelsel voor {cash}."
-   },
-   "FLAVOUR_5_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Bericht van {doelwit}'s einde carriere blij gekregen. Hier is je {geld}"
-   },
-   "HOW_SOON_MUST_IT_BE_DONE" : {
-      "description" : "",
-      "message" : "Hoe snel moet het gebeuren?"
-   },
-   "HOW_WILL_I_BE_PAID" : {
-      "description" : "",
-      "message" : "Hoe wordt ik betaald?"
-   },
-   "IT_MUST_BE_DONE_AFTER" : {
-      "description" : "",
-      "message" : "Het moet gebeurd zijn wanneer {target} de {spaceport} verlaat. Mis deze kans niet."
-   },
-   "LY" : {
-      "description" : "",
-      "message" : "lj"
-   },
-   "OK_AGREED" : {
-      "description" : "",
-      "message" : "Ok, akkoord."
-   },
-   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
-      "description" : "",
-      "message" : "Kom hier terug wanneer het contract is voldaan en je krijgt je geld."
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Set as navigation target"
-   },
-   "SET_RETURN_ROUTE" : {
-      "description" : "",
-      "message" : "Set return route"
-   },
-   "SHIP" : {
-      "description" : "",
-      "message" : "Schip:"
-   },
-   "SHIP_ID" : {
-      "description" : "",
-      "message" : "Schip ID:"
-   },
-   "SPACEPORT" : {
-      "description" : "",
-      "message" : "Ruimtepoort:"
-   },
-   "SYSTEM" : {
-      "description" : "",
-      "message" : "Stelsel:"
-   },
-   "TARGET_NAME" : {
-      "description" : "",
-      "message" : "Naam doel:"
-   },
-   "TARGET_WILL_BE_LEAVING_SPACEPORT_AT" : {
-      "description" : "",
-      "message" : "Doel verlaat het ruimtepoort om:"
-   },
-   "TITLE_0" : {
-      "description" : "",
-      "message" : "Admiraal"
-   },
-   "TITLE_1" : {
-      "description" : "",
-      "message" : "Ambassadeur"
-   },
-   "TITLE_10" : {
-      "description" : "",
-      "message" : "Kadet"
-   },
-   "TITLE_11" : {
-      "description" : "",
-      "message" : "Generaal"
-   },
-   "TITLE_12" : {
-      "description" : "",
-      "message" : "Rechter"
-   },
-   "TITLE_13" : {
-      "description" : "",
-      "message" : "Advocaat."
-   },
-   "TITLE_14" : {
-      "description" : "",
-      "message" : "Luitenant"
-   },
-   "TITLE_15" : {
-      "description" : "",
-      "message" : "Maarschalk"
-   },
-   "TITLE_16" : {
-      "description" : "",
-      "message" : "Koopman"
-   },
-   "TITLE_17" : {
-      "description" : "",
-      "message" : "Officier"
-   },
-   "TITLE_18" : {
-      "description" : "",
-      "message" : "Soldaat"
-   },
-   "TITLE_19" : {
-      "description" : "",
-      "message" : "Professor"
-   },
-   "TITLE_2" : {
-      "description" : "",
-      "message" : "Brigadier"
-   },
-   "TITLE_20" : {
-      "description" : "",
-      "message" : "Aanklager"
-   },
-   "TITLE_21" : {
-      "description" : "",
-      "message" : "Provoost"
-   },
-   "TITLE_22" : {
-      "description" : "",
-      "message" : "Zeeman"
-   },
-   "TITLE_23" : {
-      "description" : "",
-      "message" : "Senator"
-   },
-   "TITLE_24" : {
-      "description" : "",
-      "message" : "Sergeant"
-   },
-   "TITLE_3" : {
-      "description" : "",
-      "message" : "Kadet"
-   },
-   "TITLE_4" : {
-      "description" : "",
-      "message" : "Kapitein"
-   },
-   "TITLE_5" : {
-      "description" : "",
-      "message" : "Cardinaal"
-   },
-   "TITLE_6" : {
-      "description" : "",
-      "message" : "Kolonel"
-   },
-   "TITLE_7" : {
-      "description" : "",
-      "message" : "Commandant"
-   },
-   "TITLE_8" : {
-      "description" : "",
-      "message" : "Bevelhebber"
-   },
-   "TITLE_9" : {
-      "description" : "",
-      "message" : "Corporaal"
-   },
-   "WHERE_CAN_I_FIND_X" : {
-      "description" : "",
-      "message" : "Waar kan ik {target} vinden?"
-   },
-   "X_WILL_BE_LEAVING" : {
-      "description" : "",
-      "message" : "{target} zal vertrekken uit {spaceport} in het {system}-stelsel ({sectorX}, {sectorY}, {sectorZ}), afstand {dist} lj., datum {date}. Het schip heet {shipname} en heeft  registratie-id {shipregid}."
-   }
+  "ASSASSINATION": {
+    "description": "",
+    "message": "Moord"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Kan je het orginele aanvraag herhalen?"
+  },
+  "DENY_0": {
+    "description": "",
+    "message": "Het spijt me, maar ik vertrouw je niet."
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Kom maar terug als je wat kwalificaties hebt."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Ik denk niet dat jij diegene bent waar ik naar op zoek ben."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Je ziet er niet uit als iemand die in staat is om te doen wat moet gebeuren."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Je bent duidelijk niet de juiste persoon voor deze klus."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Je bent veel te onervaren om zo'n belangrijke contract aan te kunnen."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "Ik heb nog nooit van jouw gehoord. Ik heb iemand nodig met ervaring voor dit contract."
+  },
+  "DENY_7": {
+    "description": "",
+    "message": "Ik ben niet bereid om dit contract te riskeren door het aan iemand als onervaren zoals jij te geven."
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "Afstand:"
+  },
+  "EXCELLENT": {
+    "description": "",
+    "message": "Uitmuntend."
+  },
+  "FLAVOUR_0_ADTEXT": {
+    "description": "",
+    "message": "GEVRAAGD: Verwijdering van {target} in het {system}-stelsel."
+  },
+  "FLAVOUR_0_FAILUREMSG": {
+    "description": "",
+    "message": "Ik ben erg teleurgesteld om te horen dat {doelwit} nog steeds leeft. Onnodig om te zeggen dat je geen betaling ontvangt"
+  },
+  "FLAVOUR_0_FAILUREMSG2": {
+    "description": "",
+    "message": "{doelwit}'s verwijdering was niet gedaan bij jou. Geen betaling deze keer"
+  },
+  "FLAVOUR_0_INTROTEXT": {
+    "description": "",
+    "message": "Hey, ik ben {naam}. Ik betaal je {geld} om af te komen van {doelwit}"
+  },
+  "FLAVOUR_0_SUCCESSMSG": {
+    "description": "",
+    "message": "Nieuws van {target}s lange vakantie dankbaar ontvangen. Goed gedaan. Ik heb uw  volledige betaling gestart."
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "GEVRAAGD: Iemand die {target} uit het {system}-stelsel afmaakt."
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "Ik hoor dat {doelwit} gezond is. Dit bezeert mij"
+  },
+  "FLAVOUR_1_FAILUREMSG2": {
+    "description": "",
+    "message": "{target}s ondergang is niet door u veroorzaakt, dus vraag niet om betaling."
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "",
+    "message": "Ik moet {doelwit} uit het plaatje hebben. Ik betaal je {geld} om dit te doen"
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "Ik ben bedroeft om te horen over {doelwit}'s ondergang. Je bent volledig betaalt "
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "VERWIJDERING: {target} is niet langer gewenst in het {system}-stelsel."
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "Het is zonde dat {doelwit} nog steeds leeft. Je zal geen betaling krijgen doordat je niet je contract voltooid hebt"
+  },
+  "FLAVOUR_2_FAILUREMSG2": {
+    "description": "",
+    "message": "Het contract was voltooid door iemand anders. Wees sneller de volgende keer!"
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "Ik ben {naam}, en ik betaal je {geld} om {doelwit} te elimineren "
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Je bent volledig betaalt voor de voltooing van dat belangrijke contract"
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "BEEINDIGING: Iemand die {target} elimineert."
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "Je zal boeten om niet {doelwit} gelimineerd te hebben!"
+  },
+  "FLAVOUR_3_FAILUREMSG2": {
+    "description": "",
+    "message": "Ben je geld aan het vragen voor je contract ondertussen het gedaan is bij iemand anders? Hoepel op"
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": "Het {doelwit} moest vermindert worden tot ruimte stof. Ik betaal je {geld} om dit te doen"
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "{doelwit} is dood. Hier is je beloning"
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "PENSIOEN: Iemand die {target} met pensioen stuurt."
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "{doelwit} ademt nog steeds en ik geef geen geld aan jou"
+  },
+  "FLAVOUR_4_FAILUREMSG2": {
+    "description": "",
+    "message": "Iemand anders heeft {target} met pensioen gestuurd."
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "Voor {geld} bemoedigen we om {doelwit} te stoppen met werken onmiddelijk"
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "Nieuws van {target}s pensioen met genoegen ontvangen. Hier is uw geld."
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "BIOGRAPHISCH: Enkele fans willen {target} dood."
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "We zijn erachtergekomen dat {target} nog steeds actief is. Dit stelt ons teleur."
+  },
+  "FLAVOUR_5_FAILUREMSG2": {
+    "description": "",
+    "message": "{target} is door iemand ander geneutraliseerd."
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "Wij wensen {target} een passend carriereneinde in het {system}-stelsel voor {cash}."
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "Bericht van {doelwit}'s einde carriere blij gekregen. Hier is je {geld}"
+  },
+  "HOW_SOON_MUST_IT_BE_DONE": {
+    "description": "",
+    "message": "Hoe snel moet het gebeuren?"
+  },
+  "HOW_WILL_I_BE_PAID": {
+    "description": "",
+    "message": "Hoe wordt ik betaald?"
+  },
+  "IT_MUST_BE_DONE_AFTER": {
+    "description": "",
+    "message": "Het moet gebeurd zijn wanneer {target} de {spaceport} verlaat. Mis deze kans niet."
+  },
+  "LY": {
+    "description": "",
+    "message": "lj"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Ok, akkoord."
+  },
+  "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
+    "description": "",
+    "message": "Kom hier terug wanneer het contract is voldaan en je krijgt je geld."
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Set as navigation target"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Set return route"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Schip:"
+  },
+  "SHIP_ID": {
+    "description": "",
+    "message": "Schip ID:"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Ruimtepoort:"
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Stelsel:"
+  },
+  "TARGET_NAME": {
+    "description": "",
+    "message": "Naam doel:"
+  },
+  "TARGET_WILL_BE_LEAVING_SPACEPORT_AT": {
+    "description": "",
+    "message": "Doel verlaat het ruimtepoort om:"
+  },
+  "TITLE_0": {
+    "description": "",
+    "message": "Admiraal"
+  },
+  "TITLE_1": {
+    "description": "",
+    "message": "Ambassadeur"
+  },
+  "TITLE_10": {
+    "description": "",
+    "message": "Kadet"
+  },
+  "TITLE_11": {
+    "description": "",
+    "message": "Generaal"
+  },
+  "TITLE_12": {
+    "description": "",
+    "message": "Rechter"
+  },
+  "TITLE_13": {
+    "description": "",
+    "message": "Advocaat."
+  },
+  "TITLE_14": {
+    "description": "",
+    "message": "Luitenant"
+  },
+  "TITLE_15": {
+    "description": "",
+    "message": "Maarschalk"
+  },
+  "TITLE_16": {
+    "description": "",
+    "message": "Koopman"
+  },
+  "TITLE_17": {
+    "description": "",
+    "message": "Officier"
+  },
+  "TITLE_18": {
+    "description": "",
+    "message": "Soldaat"
+  },
+  "TITLE_19": {
+    "description": "",
+    "message": "Professor"
+  },
+  "TITLE_2": {
+    "description": "",
+    "message": "Brigadier"
+  },
+  "TITLE_20": {
+    "description": "",
+    "message": "Aanklager"
+  },
+  "TITLE_21": {
+    "description": "",
+    "message": "Provoost"
+  },
+  "TITLE_22": {
+    "description": "",
+    "message": "Zeeman"
+  },
+  "TITLE_23": {
+    "description": "",
+    "message": "Senator"
+  },
+  "TITLE_24": {
+    "description": "",
+    "message": "Sergeant"
+  },
+  "TITLE_3": {
+    "description": "",
+    "message": "Kadet"
+  },
+  "TITLE_4": {
+    "description": "",
+    "message": "Kapitein"
+  },
+  "TITLE_5": {
+    "description": "",
+    "message": "Cardinaal"
+  },
+  "TITLE_6": {
+    "description": "",
+    "message": "Kolonel"
+  },
+  "TITLE_7": {
+    "description": "",
+    "message": "Commandant"
+  },
+  "TITLE_8": {
+    "description": "",
+    "message": "Bevelhebber"
+  },
+  "TITLE_9": {
+    "description": "",
+    "message": "Corporaal"
+  },
+  "WHERE_CAN_I_FIND_X": {
+    "description": "",
+    "message": "Waar kan ik {target} vinden?"
+  },
+  "X_WILL_BE_LEAVING": {
+    "description": "",
+    "message": "{target} zal vertrekken uit {spaceport} in het {system}-stelsel ({sectorX}, {sectorY}, {sectorZ}), afstand {dist} lj., datum {date}. Het schip heet {shipname} en heeft  registratie-id {shipregid}."
+  }
 }
