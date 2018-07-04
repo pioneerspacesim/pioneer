@@ -89,7 +89,7 @@
   },
   "BINARY_SYSTEM": {
     "description": "",
-    "message": "Doppel-Sternsystem"
+    "message": "Doppelsternsystem"
   },
   "BODIES": {
     "description": "space bodies",
@@ -365,7 +365,7 @@
   },
   "EARTH_FEDERATION_DEMOCRACY": {
     "description": "",
-    "message": "Erd-Föderations-Demokratie"
+    "message": "Demokratische Erdföderation"
   },
   "ECCENTRICITY": {
     "description": "",
@@ -577,7 +577,7 @@
   },
   "HYPERSPACE_TARGET": {
     "description": "",
-    "message": "Hyperraumsprungsziel"
+    "message": "Hyperraumsprungziel"
   },
   "H_ATMOSPHERE": {
     "description": "",
