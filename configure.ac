@@ -341,6 +341,13 @@ if test "$with_external_liblua" = yes; then
 fi
 AM_CONDITIONAL([HAVE_LUA], [test "$HAVE_LUA" = yes])
 
+dnl Optionally use external libglew
+AC_ARG_WITH([external-libglew], AS_HELP_STRING([--with-external-libglew], [Use external libglew in place of our internal copy]), [], [with_external_libglew=no; HAVE_GLEW=no])
+if test "$with_external_libglew" = yes; then
+  PKG_CHECK_MODULES([GLEW], [glew >= 2.0.0], [HAVE_GLEW=yes], [AC_MSG_ERROR(["External libglew was requested but is not available"])])
+fi
+AM_CONDITIONAL([HAVE_GLEW], [test "$HAVE_GLEW" = yes])
+
 LUA_CFLAGS="$LUA_CFLAGS -DLUA_USE_APICHECK"
 case "$host" in
   i686-w64-mingw32.static)

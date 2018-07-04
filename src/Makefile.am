@@ -317,12 +317,11 @@ pioneer_LDADD = \
 	../contrib/PicoDDS/libpicodds.a \
 	../contrib/jenkins/libjenkins.a \
 	../contrib/json/libjson.a \
-	../contrib/glew/libglew.a \
 	../contrib/profiler/libprofiler.a \
 	../contrib/imgui/libimgui.a
 
 pioneer_LDADD += \
-	$(FREETYPE_LIBS) $(GL_LIBS) \
+	$(FREETYPE_LIBS) $(GL_LIBS) $(GLEW_LIBS) \
 	$(SDL2_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 	$(PNG_LIBS) $(CURL_LIBS) $(ASSIMP_LIBS) $(EXTRA_LIBS)
 
@@ -333,6 +332,10 @@ endif
 
 if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
+endif
+
+if !HAVE_GLEW
+pioneer_LDADD += ../contrib/glew/libglew.a
 endif
 
 if DO_STRIP
@@ -400,15 +403,18 @@ uitest_LDADD = \
 	../contrib/jenkins/libjenkins.a \
 	../contrib/PicoDDS/libpicodds.a \
 	../contrib/json/libjson.a \
-	../contrib/glew/libglew.a \
 	../contrib/profiler/libprofiler.a
 
 uitest_LDADD += \
-	$(FREETYPE_LIBS) $(GL_LIBS) \
+	$(FREETYPE_LIBS) $(GL_LIBS) $(GLEW_LIBS) \
 	$(SDL2_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 
 if !HAVE_LUA
 uitest_LDADD += ../contrib/lua/liblua.a
+endif
+
+if !HAVE_GLEW
+uitest_LDADD += ../contrib/glew/libglew.a
 endif
 
 textstress_SOURCES = \
@@ -428,15 +434,18 @@ textstress_LDADD = \
 	graphics/libgraphics.a \
 	posix/libposix.a \
 	../contrib/json/libjson.a \
-	../contrib/glew/libglew.a \
 	../contrib/profiler/libprofiler.a
 
 textstress_LDADD += \
-	$(FREETYPE_LIBS) $(GL_LIBS) \
+	$(FREETYPE_LIBS) $(GL_LIBS) $(GLEW_LIBS) \
 	$(SDL2_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 
 if !HAVE_LUA
 textstress_LDADD += ../contrib/lua/liblua.a
+endif
+
+if !HAVE_GLEW
+textstress_LDADD += ../contrib/glew/libglew.a
 endif
 
 modelcompiler_SOURCES = \
@@ -468,7 +477,6 @@ modelcompiler_LDADD = \
 	text/libtext.a \
 	../contrib/PicoDDS/libpicodds.a \
 	../contrib/json/libjson.a \
-	../contrib/glew/libglew.a \
 	../contrib/profiler/libprofiler.a
 
 modelcompiler_LDADD += \
@@ -478,6 +486,10 @@ modelcompiler_LDADD += \
 
 if !HAVE_LUA
 modelcompiler_LDADD += ../contrib/lua/liblua.a
+endif
+
+if !HAVE_GLEW
+modelcompiler_LDADD += ../contrib/glew/libglew.a
 endif
 
 AM_CPPFLAGS += -isystem @top_srcdir@/contrib
