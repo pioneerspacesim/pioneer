@@ -81,11 +81,11 @@
   },
   "CARGO_IS_LOADED": {
     "description": "",
-    "message": "loaded"
+    "message": "yüklendi"
   },
   "CARGO_IS_NOT_LOADED": {
     "description": "",
-    "message": "not loaded"
+    "message": "yüklenmedi"
   },
   "CEASE_FIRE": {
     "description": "",
