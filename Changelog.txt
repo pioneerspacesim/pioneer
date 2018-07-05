@@ -1,3 +1,12 @@
+July 2018
+   * Internal Changes
+     * Translation updates. running everything through jq, whitespace, sort (#4365)
+
+   * Fixes
+     * Check for nullptr (#4367)
+     * Fix misplaced ships in external view (#4361)
+     * Split what needs to be done for pick up mission for cargo run (#4360)
+
 June 2018
    * New Features
      * Audio alarms (#4335)
