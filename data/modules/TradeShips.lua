@@ -416,21 +416,29 @@ local spawnInitialShips = function (game_start)
 	for i = 0, num_trade_ships do
 		-- get the name of a ship, for example 'imperial_courier'
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
+		local can_equip_atmo = ShipDef[ship_name].equipSlotCapacity.atmo_shield > 0
 		local ship = nil
 
 		if game_start and i < num_trade_ships / 4 then
 			-- spawn the first quarter in port if at game start
-			local starport = starports[Engine.rand:Integer(1, #starports)]
-			local dockstatus = 'docked'
-			ship = Space.SpawnShipDocked(ship_name, starport)
-			if ship == nil then
-				-- the starport must have been full
-				ship = Space.SpawnShipNear(ship_name, starport, 10000000, 149598000) -- 10mkm - 1AU
-				dockstatus = 'inbound'
+			local starport = nil
+			if can_equip_atmo then
+				starport = starports[Engine.rand:Integer(1, #starports)]
+			elseif #vacuum_starports then
+				starport = vacuum_starports[Engine.rand:Integer(1, #vacuum_starports)]
 			end
-			trade_ships[ship] = { status = dockstatus, starport	= starport, ship_name = ship_name }
-			ship:SetLabel(Ship.MakeRandomLabel())
-			addShipEquip(ship)
+			if starport then
+				local dockstatus = 'docked'
+				ship = Space.SpawnShipDocked(ship_name, starport)
+				if ship == nil then
+					-- the starport must have been full
+					ship = Space.SpawnShipNear(ship_name, starport, 10000000, 149598000) -- 10mkm - 1AU
+					dockstatus = 'inbound'
+				end
+				trade_ships[ship] = { status = dockstatus, starport	= starport, ship_name = ship_name }
+				ship:SetLabel(Ship.MakeRandomLabel())
+				addShipEquip(ship)
+			end
 		elseif i < num_trade_ships * 0.75 then
 			-- spawn the first three quarters in space, or middle half if game start
 			local min_dist = range * i + 1
@@ -463,27 +471,29 @@ local spawnInitialShips = function (game_start)
 			}
 			addShipEquip(ship)
 		end
-		local trader = trade_ships[ship]
+		if ship then
+			local trader = trade_ships[ship]
 
-		-- add cargo
-		local fuel_added = addFuel(ship)
-		if trader.status == 'docked' then
-			local delay = fuel_added + addShipCargo(ship, 'export')
-			-- have ship wait 30-45 seconds per unit of cargo
-			if delay > 0 then
-				trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
+			-- add cargo
+			local fuel_added = addFuel(ship)
+			if trader.status == 'docked' then
+				local delay = fuel_added + addShipCargo(ship, 'export')
+				-- have ship wait 30-45 seconds per unit of cargo
+				if delay > 0 then
+					trader['delay'] = Game.time + (delay * Engine.rand:Number(30, 45))
+				else
+					trader['delay'] = Game.time + Engine.rand:Number(600, 3600)
+				end
+				Timer:CallAt(trader.delay, function () doUndock(ship) end)
 			else
-				trader['delay'] = Game.time + Engine.rand:Number(600, 3600)
-			end
-			Timer:CallAt(trader.delay, function () doUndock(ship) end)
-		else
-			addShipCargo(ship, 'import')
-			-- remove fuel used to get here
-			if fuel_added and fuel_added > 0 then
-				ship:RemoveEquip(e.cargo.hydrogen, Engine.rand:Integer(1, fuel_added))
-			end
-			if trader.status == 'inbound' then
-				ship:AIDockWith(trader.starport)
+				addShipCargo(ship, 'import')
+				-- remove fuel used to get here
+				if fuel_added and fuel_added > 0 then
+					ship:RemoveEquip(e.cargo.hydrogen, Engine.rand:Integer(1, fuel_added))
+				end
+				if trader.status == 'inbound' then
+					ship:AIDockWith(trader.starport)
+				end
 			end
 		end
 	end
