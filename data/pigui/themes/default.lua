@@ -233,6 +233,7 @@ theme.icons = {
    hud = 168,
    factory = 169,
    star = 170,
+   view_flyby = 191,
    -- TODO: manual / autopilot
 	 -- dummy, until actually defined correctly
 	 mouse_move_direction = 14,

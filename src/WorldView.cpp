@@ -70,6 +70,7 @@ WorldView::WorldView(const Json::Value &jsonObj, Game* game) : UIView(), m_game(
 	m_internalCameraController->LoadFromJson(worldViewObj);
 	m_externalCameraController->LoadFromJson(worldViewObj);
 	m_siderealCameraController->LoadFromJson(worldViewObj);
+	m_flybyCameraController->LoadFromJson(worldViewObj);
 }
 
 void WorldView::InitObject()
@@ -156,6 +157,7 @@ void WorldView::InitObject()
 	m_internalCameraController.reset(new InternalCameraController(m_cameraContext, Pi::player));
 	m_externalCameraController.reset(new ExternalCameraController(m_cameraContext, Pi::player));
 	m_siderealCameraController.reset(new SiderealCameraController(m_cameraContext, Pi::player));
+	m_flybyCameraController.reset(new FlyByCameraController(m_cameraContext, Pi::player));
 	SetCamType(m_camType); //set the active camera
 
 	m_onPlayerChangeTargetCon =
@@ -186,6 +188,7 @@ void WorldView::SaveToJson(Json::Value &jsonObj)
 	m_internalCameraController->SaveToJson(worldViewObj);
 	m_externalCameraController->SaveToJson(worldViewObj);
 	m_siderealCameraController->SaveToJson(worldViewObj);
+	m_flybyCameraController->SaveToJson(worldViewObj);
 
 	jsonObj["world_view"] = worldViewObj; // Add world view object to supplied object.
 }
@@ -211,6 +214,9 @@ void WorldView::SetCamType(enum CamType c)
 		break;
 	case CAM_SIDEREAL:
 		m_activeCameraController = m_siderealCameraController.get();
+		break;
+	case CAM_FLYBY:
+		m_activeCameraController = m_flybyCameraController.get();
 		break;
 	}
 
@@ -774,6 +780,7 @@ int WorldView::GetActiveWeapon() const
 
 		case CAM_EXTERNAL:
 		case CAM_SIDEREAL:
+		case CAM_FLYBY:
 		default:
 			return 0;
 	}

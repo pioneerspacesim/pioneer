@@ -591,6 +591,7 @@ static int l_game_get_world_cam_type(lua_State *l)
 	case WorldView::CAM_INTERNAL: lua_pushstring(l, "internal"); break;
 	case WorldView::CAM_EXTERNAL: lua_pushstring(l, "external"); break;
 	case WorldView::CAM_SIDEREAL: lua_pushstring(l, "sidereal"); break;
+	case WorldView::CAM_FLYBY:    lua_pushstring(l, "flyby");    break;
 	default: Output("Unknown world view cam type\n"); break;
 	}
 	return 1;
@@ -617,6 +618,8 @@ static int l_game_set_world_cam_type(lua_State *l)
 		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_EXTERNAL);
 	else if(!cam.compare("sidereal"))
 		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_SIDEREAL);
+	else if(!cam.compare("flyby"))
+		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_FLYBY);
 	else {
 		// TODO else error
 	}

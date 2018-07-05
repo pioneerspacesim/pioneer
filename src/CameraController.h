@@ -18,7 +18,8 @@ public:
 	enum Type { //can be used for serialization & identification
 		INTERNAL,
 		EXTERNAL,
-		SIDEREAL
+		SIDEREAL,
+		FLYBY
 	};
 
 	CameraController(RefCountedPtr<CameraContext> camera, const Ship *ship);
@@ -185,6 +186,35 @@ public:
 private:
 	double m_dist, m_distTo;
 	matrix3x3d m_sidOrient;
+};
+
+// Zoomable, fly by camera, always looks at the ship
+class FlyByCameraController : public MoveableCameraController {
+public:
+	FlyByCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship);
+
+	Type GetType() const { return FLYBY; }
+	const char *GetName() const { return Lang::FLYBY_VIEW; }
+
+	void RollLeft(float frameTime);
+	void RollRight(float frameTime);
+	void ZoomIn(float frameTime);
+	void ZoomOut(float frameTime);
+	void ZoomEvent(float amount);
+	void ZoomEventUpdate(float frameTime);
+	void Reset();
+	bool IsExternal() const { return true; }
+
+	void SaveToJson(Json::Value &jsonObj);
+	void LoadFromJson(const Json::Value &jsonObj);
+
+	void Update();
+
+private:
+	double m_dist, m_distTo;
+	float m_roll;
+	vector3d m_old_pos;
+	Frame *m_old_frame;
 };
 
 #endif
