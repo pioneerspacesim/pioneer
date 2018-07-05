@@ -128,7 +128,8 @@ bool EventDispatcher::Dispatch(const Event &event)
 			m_lastMousePosition = mouseButtonEvent.pos;
 
 			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAt(m_lastMousePosition));
-
+			if(!target)
+				return false;
 			switch (mouseButtonEvent.action) {
 
 				case MouseButtonEvent::BUTTON_DOWN: {
@@ -205,6 +206,8 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 			// widget directly under the mouse
 			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAt(m_lastMousePosition));
+			if(!target)
+				return false;
 
 			bool ret = false;
 			if (!target->IsDisabled() && target->IsOnTopLayer()) {
@@ -222,6 +225,8 @@ bool EventDispatcher::Dispatch(const Event &event)
 			m_lastMousePosition = mouseWheelEvent.pos;
 
 			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAt(m_lastMousePosition));
+			if(!target)
+				return false;
 			if (!target->IsOnTopLayer())
 				return false;
 
@@ -341,6 +346,8 @@ void EventDispatcher::LayoutUpdated()
 	m_baseContainer->CollectShortcuts(m_shortcuts);
 
 	RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAt(m_lastMousePosition));
+	if(!target)
+		return;
 	DispatchMouseOverOut(target.Get(), m_lastMousePosition);
 }
 
