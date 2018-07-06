@@ -8,6 +8,7 @@ Table of Contents
   1.5 OS X - XCode 4
   1.6 OS X - Homebrew
   1.7 Nix - Autotools
+  1.8 Linux - FlatPak
 2 pioneer-thirdparty
   2.1 Linux - Autotools
   2.2 Windows - MSVC
@@ -214,6 +215,29 @@ around where you like (/Applications is a nice place for it).
 Executing ./pioneer requires the development environment to be loaded,
 executing ./src/pioneer does not.
 
+
+1.8 Linux - FlatPak
+-------------------
+
+1. Install flatpak-builder.
+
+    sudo apt install flatpak-builder
+
+2. In the top-level directory, run:
+
+    make -C flatpak
+
+3. After a few minutes the file Pioneer.flatpak should be built inside the
+   flatpak folder.
+
+4. To install the FlatPak package:
+
+    * If it's the first time you're installing a FlatPak package, first
+      follow the setup instructions at https://flatpak.org/setup/
+
+    * Install the flatpak by typing:
+
+      flatpak install flatpak/Pioneer.flatpak
 
 2 pioneer-thirdparty
 ====================

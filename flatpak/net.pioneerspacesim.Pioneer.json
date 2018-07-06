@@ -1,0 +1,109 @@
+{
+	"app-id": "net.pioneerspacesim.Pioneer",
+	"runtime": "org.freedesktop.Platform",
+	"runtime-version": "1.6",
+	"sdk": "org.freedesktop.Sdk",
+	"command": "pioneer",
+
+	"finish-args": [
+		"--share=ipc",
+		"--socket=x11",
+		"--socket=wayland",
+		"--socket=pulseaudio",
+		"--device=dri",
+		"--persist=.pioneer"
+	],
+
+	"build-options" : {
+		"cflags": "-O3",
+		"cxxflags": "-O3",
+		"strip": true,
+		"env": {
+			"PIONEER_DATA_DIR": "/app/usr/share/pioneer"
+		}
+	},
+
+	"modules": [
+		{
+			"name": "sigcpp",
+			"sources": [
+				{
+					"type": "archive",
+					"url": "http://ftp.acc.umu.se/pub/GNOME/sources/libsigc++/2.10/libsigc++-2.10.0.tar.xz",
+					"sha256": "f843d6346260bfcb4426259e314512b99e296e8ca241d771d21ac64f28298d81"
+				}
+			]
+		},
+		{
+			"name": "assimp",
+			"buildsystem": "cmake",
+			"config-opts": [
+				"-DASSIMP_BUILD_ALL_IMPORTERS_BY_DEFAULT:BOOL=NO",
+				"-DASSIMP_BUILD_COLLADA_IMPORTER:BOOL=YES",
+				"-DASSIMP_BUILD_OBJ_IMPORTER:BOOL=YES",
+				"-DASSIMP_BUILD_3MF_IMPORTER:BOOL=YES",
+				"-DASSIMP_BUILD_ASSIMP_TOOLS:BOOL=NO",
+				"-DASSIMP_BUILD_TESTS:BOOL=NO"
+			],
+			"sources": [
+				{
+					"type": "archive",
+					"url": "https://github.com/assimp/assimp/archive/v4.1.0.tar.gz",
+					"sha256": "3520b1e9793b93a2ca3b797199e16f40d61762617e072f2d525fad70f9678a71"
+				}
+			]
+		},
+		{
+			"name": "libglu",
+			"buildsystem": "autotools",
+			"sources": [
+				{
+					"type": "archive",
+					"url": "ftp://ftp.freedesktop.org/pub/mesa/glu/glu-9.0.0.tar.bz2",
+					"sha256": "1f7ad0d379a722fcbd303aa5650c6d7d5544fde83196b42a73d1193568a4df12"
+				}
+			]
+		},
+		{
+			"name": "pioneer",
+			"buildsystem": "autotools",
+			"sources": [
+				{
+					"type": "git",
+					"url": "..",
+					"branch": "master"
+				}
+			]
+		},
+		{
+			"name": "pioneer-desktop-and-icon",
+			"buildsystem": "simple",
+			"build-commands": [
+				"install -Dm644 pioneer.desktop /app/share/applications/net.pioneerspacesim.Pioneer.desktop",
+				"install -Dm644 pioneer-16x16.png /app/share/icons/hicolor/16x16/apps/net.pioneerspacesim.Pioneer.png",
+				"install -Dm644 pioneer-22x22.png /app/share/icons/hicolor/22x22/apps/net.pioneerspacesim.Pioneer.png",
+				"install -Dm644 pioneer-24x24.png /app/share/icons/hicolor/24x24/apps/net.pioneerspacesim.Pioneer.png",
+				"install -Dm644 pioneer-32x32.png /app/share/icons/hicolor/32x32/apps/net.pioneerspacesim.Pioneer.png",
+				"install -Dm644 pioneer-40x40.png /app/share/icons/hicolor/40x40/apps/net.pioneerspacesim.Pioneer.png",
+				"install -Dm644 pioneer-48x48.png /app/share/icons/hicolor/48x48/apps/net.pioneerspacesim.Pioneer.png",
+				"install -Dm644 pioneer-64x64.png /app/share/icons/hicolor/64x64/apps/net.pioneerspacesim.Pioneer.png",
+				"install -Dm644 pioneer-128x128.png /app/share/icons/hicolor/128x128/apps/net.pioneerspacesim.Pioneer.png",
+				"install -Dm644 pioneer-256x256.png /app/share/icons/hicolor/256x256/apps/net.pioneerspacesim.Pioneer.png",
+				"install -Dm644 pioneer.appdata.xml /app/share/appdata/net.pioneerspacesim.Pioneer.appdata.xml"
+			],
+			"sources": [
+				{ "type": "file", "path": "pioneer.desktop" },
+				{ "type": "file", "path": "pioneer.appdata.xml" },
+				{ "type": "file", "path": "../application-icon/pngs/pioneer-16x16.png" },
+				{ "type": "file", "path": "../application-icon/pngs/pioneer-22x22.png" },
+				{ "type": "file", "path": "../application-icon/pngs/pioneer-24x24.png" },
+				{ "type": "file", "path": "../application-icon/pngs/pioneer-32x32.png" },
+				{ "type": "file", "path": "../application-icon/pngs/pioneer-40x40.png" },
+				{ "type": "file", "path": "../application-icon/pngs/pioneer-48x48.png" },
+				{ "type": "file", "path": "../application-icon/pngs/pioneer-64x64.png" },
+				{ "type": "file", "path": "../application-icon/pngs/pioneer-128x128.png" },
+				{ "type": "file", "path": "../application-icon/pngs/pioneer-256x256.png" }
+			]
+		}
+	]
+}
