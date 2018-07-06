@@ -139,7 +139,7 @@ local function showVideoOptions()
 	while curAA < maxAAs do
 		if curAA == 0 then
 			table.insert(aaLabels, lui.OFF)
-			table.insert(aaModes, curAA)
+			aaModes[lui.OFF] = curAA
 			curAA = 2
 		else
 			table.insert(aaLabels, 'x'..curAA)
