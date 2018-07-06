@@ -359,6 +359,14 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 		const SpaceStationType::SPort *const pPort = m_type->FindPortByBay(i);
 		if( !pPort ) continue;
 
+		// distance-to-station check
+		const double shipDist = s->GetPositionRelTo(this).Length();
+		double requestDist = 100000.0; //100km
+		if (s->IsType(Object::PLAYER) && shipDist > requestDist) {
+			outMsg = Lang::CLEARANCE_DENIED_TOO_FAR;
+			return false;
+		}
+
 		if( pPort->minShipSize < bboxRad && bboxRad < pPort->maxShipSize ) {
 			shipDocking_t &sd = m_shipDocking[i];
 			sd.ship = s;

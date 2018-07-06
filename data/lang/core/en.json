@@ -183,6 +183,10 @@
       "description" : "",
       "message" : "Clearance granted. Proceed to docking bay %bay."
    },
+   "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message" :  "Clearance denied. Your ship is too far away for ID verification."
+   },
    "CO2_ATMOSPHERE" : {
       "description" : "",
       "message" : "\" Carbon Dioxide atmosphere\""
