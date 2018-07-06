@@ -415,6 +415,10 @@
     "description": "",
     "message": "Scaoil diúracán"
   },
+  "FLYBY_VIEW": {
+    "description": "camera view setting",
+    "message": "Flyby view"
+  },
   "FOLLOWING_SELECTION": {
     "description": "",
     "message": "an chéad roghnú eile"

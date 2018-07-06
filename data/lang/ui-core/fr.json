@@ -579,6 +579,10 @@
     "description": "Tooltip: fix heading retrograde",
     "message": "Voir direction rétrograde (vers l'arrière par rapport au sens de déplacement)"
   },
+  "HUD_BUTTON_FLYBY_VIEW": {
+    "description": "Tooltip: Flyby camera view",
+    "message": "Vue survol"
+  },
   "HUD_BUTTON_HYPERDRIVE_DISABLED": {
     "description": "Tooltip: Hyperdrive disabled (docked or landed)",
     "message": "Hyperpropulsion desactivée"

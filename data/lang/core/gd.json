@@ -415,6 +415,10 @@
     "description": "",
     "message": "Loisg astas"
   },
+  "FLYBY_VIEW": {
+    "description": "camera view setting",
+    "message": "Flyby view"
+  },
   "FOLLOWING_SELECTION": {
     "description": "",
     "message": "an t-ath-taghadh"

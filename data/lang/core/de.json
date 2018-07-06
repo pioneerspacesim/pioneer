@@ -415,6 +415,10 @@
     "description": "",
     "message": "Rakete feuern"
   },
+  "FLYBY_VIEW": {
+    "description": "camera view setting",
+    "message": "Vorbeiflugsansicht"
+  },
   "FOLLOWING_SELECTION": {
     "description": "",
     "message": "Auswahl folgen"

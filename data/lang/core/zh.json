@@ -415,6 +415,10 @@
     "description": "",
     "message": "发射导弹"
   },
+  "FLYBY_VIEW": {
+    "description": "camera view setting",
+    "message": "Flyby view"
+  },
   "FOLLOWING_SELECTION": {
     "description": "",
     "message": "以下选项"

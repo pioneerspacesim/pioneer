@@ -415,6 +415,10 @@
     "description": "",
     "message": "Spara missile"
   },
+  "FLYBY_VIEW": {
+    "description": "camera view setting",
+    "message": "Sorvolo ravvicinato"
+  },
   "FOLLOWING_SELECTION": {
     "description": "",
     "message": "segue la selezione"

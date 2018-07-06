@@ -415,6 +415,10 @@
     "description": "",
     "message": "Fire missile"
   },
+  "FLYBY_VIEW": {
+    "description": "camera view setting",
+    "message": "Flyby view"
+  },
   "FOLLOWING_SELECTION": {
     "description": "",
     "message": "pratim odabir"

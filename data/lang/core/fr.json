@@ -415,6 +415,10 @@
     "description": "",
     "message": "Tire un missile"
   },
+  "FLYBY_VIEW": {
+    "description": "camera view setting",
+    "message": "Vue survol"
+  },
   "FOLLOWING_SELECTION": {
     "description": "",
     "message": "suivre la sélection"
