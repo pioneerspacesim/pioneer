@@ -829,8 +829,8 @@ void SystemView::Draw3D()
 
 	matrix4x4f trans = matrix4x4f::Identity();
 	trans.Translate(0,0,-DEFAULT_VIEW_DISTANCE);
-	trans.Rotate(DEG2RAD(m_rot_x), 1, 0, 0);
-	trans.Rotate(DEG2RAD(m_rot_z), 0, 0, 1);
+	trans.Rotate( DEG2RAD(m_rot_x), 1, 0, 0);
+	trans.Rotate(-DEG2RAD(m_rot_z), 0, 0, 1);
 	m_renderer->SetTransform(trans);
 
 	vector3d pos(0,0,0);
