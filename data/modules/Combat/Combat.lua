@@ -250,7 +250,7 @@ local makeAdvert = function (station)
 
 	local ref = station:AddAdvert({
 		description = ad.desc,
-		icon        = "default",
+		icon        = "combat",
 		onChat      = onChat,
 		onDelete    = onDelete,
 		isEnabled   = isEnabled})
