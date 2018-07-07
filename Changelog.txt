@@ -10,6 +10,7 @@ July 2018
      * Fix misplaced ships in external view (#4361)
      * Split what needs to be done for pick up mission for cargo run (#4360)
      * Equip ships spawned planet side with atmoshields (#4368)
+     * fix crash if user disables AntiAliasing (#4372)
 
 June 2018
    * New Features
