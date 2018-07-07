@@ -272,7 +272,7 @@ void CollisionSpace::CollideRaySphere(const vector3d &start, const vector3d &dir
 		}
 	}
 }
-#pragma optimize("",off)
+
 void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double len, CollisionContact *c, const Geom *ignore /*= nullptr*/)
 {
 	PROFILE_SCOPED()
