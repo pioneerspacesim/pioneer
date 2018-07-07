@@ -880,13 +880,13 @@ void Ship::DoThrusterSounds() const
 	float v_env = (Pi::game->GetWorldView()->GetCameraController()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 	static Sound::Event sndev;
 	float volBoth = 0.0f;
-	volBoth += 0.5f*fabs(GetPropulsion()->GetThrusterState().y);
-	volBoth += 0.5f*fabs(GetPropulsion()->GetThrusterState().z);
+	volBoth += 0.5f*fabs(GetPropulsion()->GetLinThrusterState().y);
+	volBoth += 0.5f*fabs(GetPropulsion()->GetLinThrusterState().z);
 
 	float targetVol[2] = { volBoth, volBoth };
-	if (GetPropulsion()->GetThrusterState().x > 0.0)
-		targetVol[0] += 0.5f*float(GetPropulsion()->GetThrusterState().x);
-	else targetVol[1] += -0.5f*float(GetPropulsion()->GetThrusterState().x);
+	if (GetPropulsion()->GetLinThrusterState().x > 0.0)
+		targetVol[0] += 0.5f*float(GetPropulsion()->GetLinThrusterState().x);
+	else targetVol[1] += -0.5f*float(GetPropulsion()->GetLinThrusterState().x);
 
 	targetVol[0] = v_env * Clamp(targetVol[0], 0.0f, 1.0f);
 	targetVol[1] = v_env * Clamp(targetVol[1], 0.0f, 1.0f);

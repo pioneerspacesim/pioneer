@@ -174,10 +174,6 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 		Output("In file \"%s.json\" directional thrusters custom color must be \"r\",\"g\" and \"b\"\n", modelName.c_str());
 		throw ShipTypeLoadError();
 	}
-	// invert values where necessary
-	linThrust[THRUSTER_FORWARD] *= -1.f;
-	linThrust[THRUSTER_LEFT] *= -1.f;
-	linThrust[THRUSTER_DOWN] *= -1.f;
 	// angthrust fudge (XXX: why?)
 	angThrust = angThrust * 0.5f;
 
@@ -277,10 +273,6 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	data["right_thrust"] = s.linThrust[ShipType::THRUSTER_RIGHT];
 	data["angular_thrust"] = s.angThrust;
 
-	// invert values where necessary
-	s.linThrust[ShipType::THRUSTER_FORWARD] *= -1.f;
-	s.linThrust[ShipType::THRUSTER_LEFT] *= -1.f;
-	s.linThrust[ShipType::THRUSTER_DOWN] *= -1.f;
 	// angthrust fudge (XXX: why?)
 	s.angThrust = s.angThrust / 2;
 
