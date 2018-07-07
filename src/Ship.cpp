@@ -620,8 +620,13 @@ void Ship::UpdateGunsStats() {
 			Properties().PushLuaTable();
 			LuaTable prop(Lua::manager->GetLuaState(), -1);
 
-			const Color c(prop.Get<float>(prefix+"rgba_r"), prop.Get<float>(prefix+"rgba_g"),
-					prop.Get<float>(prefix+"rgba_b"), prop.Get<float>(prefix+"rgba_a"));
+			const Color c(
+				prop.Get<float>(prefix+"rgba_r"),
+				prop.Get<float>(prefix+"rgba_g"),
+				prop.Get<float>(prefix+"rgba_b"),
+				prop.Get<float>(prefix+"rgba_a"));
+			const float heatrate = prop.Get<float>(prefix + "heatrate", 0.01f);
+			const float coolrate = prop.Get<float>(prefix + "coolrate", 0.01f);
 			const float lifespan = prop.Get<float>(prefix+"lifespan");
 			const float width = prop.Get<float>(prefix+"width");
 			const float length = prop.Get<float>(prefix+"length");
@@ -630,7 +635,7 @@ void Ship::UpdateGunsStats() {
 			const float recharge = prop.Get<float>(prefix+"rechargeTime");
 			const bool beam = prop.Get<int>(prefix+"beam");
 
-			GetFixedGuns()->MountGun( num, recharge, lifespan, damage, length, width, mining, c, speed, beam );
+			GetFixedGuns()->MountGun( num, recharge, lifespan, damage, length, width, mining, c, speed, beam, heatrate, coolrate);
 
 			if (prop.Get<int>(prefix+"dual")) GetFixedGuns()->IsDual( num, true );
 			else GetFixedGuns()->IsDual( num, false );

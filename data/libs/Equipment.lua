@@ -919,21 +919,24 @@ laser.beamlaser_1mw = LaserType.New({
 	l10n_key="BEAMLASER_1MW", price=2400, capabilities={mass=3},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
 		lifespan=8, speed=1000, damage=1500, rechargeTime=0.25, length=10000,
-		width=1, beam=1, dual=0, mining=0, rgba_r = 255, rgba_g = 51, rgba_b = 127, rgba_a = 255
+		width=1, beam=1, dual=0, mining=0, rgba_r = 255, rgba_g = 51, rgba_b = 127, rgba_a = 255,
+		heatrate=0.02, coolrate=0.01
 	}, purchasable=true, tech_level=4
 })
 laser.beamlaser_dual_1mw = LaserType.New({
 	l10n_key="BEAMLASER_DUAL_1MW", price=4800, capabilities={mass=6},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
 		lifespan=8, speed=1000, damage=1500, rechargeTime=0.5, length=10000,
-		width=1, beam=1, dual=1, mining=0, rgba_r = 255, rgba_g = 51, rgba_b = 127, rgba_a = 255
+		width=1, beam=1, dual=1, mining=0, rgba_r = 255, rgba_g = 51, rgba_b = 127, rgba_a = 255,
+		heatrate=0.02, coolrate=0.01
 	}, purchasable=true, tech_level=5
 })
 laser.beamlaser_2mw = LaserType.New({
 	l10n_key="BEAMLASER_RAPID_2MW", price=5600, capabilities={mass=7},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
 		lifespan=8, speed=1000, damage=3000, rechargeTime=0.13, length=20000,
-		width=1, beam=1, dual=0, mining=0, rgba_r = 255, rgba_g = 192, rgba_b = 192, rgba_a = 255
+		width=1, beam=1, dual=0, mining=0, rgba_r = 255, rgba_g = 192, rgba_b = 192, rgba_a = 255,
+		heatrate=0.02, coolrate=0.01
 	}, purchasable=true, tech_level=6
 })
 laser.pulsecannon_4mw = LaserType.New({
