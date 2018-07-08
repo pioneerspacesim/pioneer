@@ -11,6 +11,8 @@ July 2018
      * Split what needs to be done for pick up mission for cargo run (#4360)
      * Equip ships spawned planet side with atmoshields (#4368)
      * fix crash if user disables AntiAliasing (#4372)
+     * Combat mission icon (#4375)
+     * Disable bindings in settings view (#4364)
 
 June 2018
    * New Features
@@ -36,7 +38,6 @@ June 2018
      * Fix Ship positions in SystemView when not flying (#4347)
      * Fix tab not hiding sector view window (#4298)
      * Fix planets size "popping into view" as approaching from afar (#4190)
-     * Fix misplaced ships in external view (#4361)
 
 May 2018
    * New Features
