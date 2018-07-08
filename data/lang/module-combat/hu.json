@@ -9,7 +9,7 @@
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Good. We count on you!"
+    "message": "Remek! Számítunk rád!"
   },
   "ADTEXT_1": {
     "description": "",
@@ -17,7 +17,7 @@
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "CHALLENGE: Ship and crew wanted for a combat mission in the {system} system."
+    "message": "KIHÍVÁS: Hajó és legényéség kerestetik harci bevetésre a {system} rendszerben."
   },
   "ADTEXT_3": {
     "description": "",
@@ -45,15 +45,15 @@
   },
   "BONUS_2": {
     "description": "",
-    "message": "You have served us well! I pay you a bonus of {cash}."
+    "message": "Jó szolgálatot tettél. Kapsz is {cash} jutalmat."
   },
   "BONUS_3": {
     "description": "",
-    "message": "Very impressive! I'm authorized to pay you a bonus of {cash}."
+    "message": "Lenyűgöző! Engedélyt kaptam egy kis bónusz, {cash} kredit kifizetésére."
   },
   "BONUS_4": {
     "description": "",
-    "message": "I'm very pleased of your performance! I have transferred additional {cash} credits."
+    "message": "Elégedett vagyok a teljesítményeddel. Átutaltam a fizettségedet,  {cash}  kreditet."
   },
   "COMBAT": {
     "description": "Name of mission type",
@@ -185,7 +185,7 @@
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Meet me in the {rendezvous} system to finish the job!"
+    "message": "Találkozzunk a {rendezvous} rendszerben, és kifizetlek!"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
@@ -289,7 +289,7 @@
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Just land at a station with a {org} office."
+    "message": "Elég, ha egy olyan helyen landolsz, ahol van {org} iroda."
   },
   "RISK_1": {
     "description": "",
@@ -301,7 +301,7 @@
   },
   "RISK_3": {
     "description": "",
-    "message": "The competitor is well equipped. Please keep your eyes open!"
+    "message": "Jól felszerelt a konkurencia. Tartsd nyitva a szemed!"
   },
   "RISK_4": {
     "description": "",

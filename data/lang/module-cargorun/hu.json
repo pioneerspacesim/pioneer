@@ -81,11 +81,11 @@
   },
   "CARGO_IS_LOADED": {
     "description": "",
-    "message": "loaded"
+    "message": "berakodva"
   },
   "CARGO_IS_NOT_LOADED": {
     "description": "",
-    "message": "not loaded"
+    "message": "nincs berakodva"
   },
   "CEASE_FIRE": {
     "description": "",
