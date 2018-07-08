@@ -39,6 +39,7 @@ struct ShipType {
 	std::string cockpitName;
 	float linThrust[THRUSTER_MAX];
 	float angThrust;
+	float linAccelerationCap[THRUSTER_MAX];
 	std::map<std::string, int> slots;
 	std::map<std::string, bool> roles;
 	Color globalThrusterColor; // Override default color for thrusters
