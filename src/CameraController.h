@@ -198,6 +198,10 @@ public:
 
 	void RollLeft(float frameTime);
 	void RollRight(float frameTime);
+	void RotateDown(float frameTime);
+	void RotateLeft(float frameTime);
+	void RotateRight(float frameTime);
+	void RotateUp(float frameTime);
 	void ZoomIn(float frameTime);
 	void ZoomOut(float frameTime);
 	void ZoomEvent(float amount);
@@ -213,6 +217,7 @@ public:
 private:
 	double m_dist, m_distTo;
 	float m_roll;
+	matrix3x3d m_flybyOrient;
 	vector3d m_old_pos;
 	Frame *m_old_frame;
 };
