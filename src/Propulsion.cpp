@@ -202,8 +202,7 @@ vector3d Propulsion::GetThrustMax(const vector3d &dir) const
 float Propulsion::GetFuelUseRate()
 {
 	const float denominator = m_fuelTankMass * m_effectiveExhaustVelocity * 10;
-	return denominator > 0 ? GetThrust(THRUSTER_FORWARD)/denominator : 1e9;
-	//return denominator > 0 ? m_linThrust[THRUSTER_FORWARD]/denominator : 1e9;
+	return denominator > 0 ? m_linThrust[THRUSTER_FORWARD]/denominator : 1e9;
 }
 
 void Propulsion::UpdateFuel(const float timeStep)
