@@ -1485,7 +1485,7 @@ end
 
 local targetInteractionDistance = function (mission)
 	-- Determine if player is within interaction distance from mission target.
-	if Game.player:DistanceTo(mission.target) <= min_interaction_dist then
+	if mission.target and Game.player:DistanceTo(mission.target) <= min_interaction_dist then
 		return true
 	else
 		return false
