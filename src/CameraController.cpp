@@ -412,7 +412,8 @@ void SiderealCameraController::LoadFromJson(const Json::Value &jsonObj)
 FlyByCameraController::FlyByCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 MoveableCameraController(camera, ship),
 m_dist(500), m_distTo(m_dist),
-m_roll(0)
+m_roll(0),
+m_flybyOrient(matrix3x3d::Identity())
 {
 }
 
@@ -450,6 +451,30 @@ void FlyByCameraController::RollRight(float frameTime)
 	m_roll += -M_PI / 4 * frameTime;
 }
 
+void FlyByCameraController::RotateUp(float frameTime)
+{
+	const vector3d rotAxis = m_flybyOrient.VectorX();
+	m_flybyOrient = matrix3x3d::Rotate(-M_PI / 4 * frameTime, rotAxis) * m_flybyOrient;
+}
+
+void FlyByCameraController::RotateDown(float frameTime)
+{
+	const vector3d rotAxis = m_flybyOrient.VectorX();
+	m_flybyOrient = matrix3x3d::Rotate(M_PI / 4 * frameTime, rotAxis) * m_flybyOrient;
+}
+
+void FlyByCameraController::RotateLeft(float frameTime)
+{
+	const vector3d rotAxis = m_flybyOrient.VectorY();
+	m_flybyOrient = matrix3x3d::Rotate(-M_PI / 4 * frameTime, rotAxis) * m_flybyOrient;
+}
+
+void FlyByCameraController::RotateRight(float frameTime)
+{
+	const vector3d rotAxis = m_flybyOrient.VectorY();
+	m_flybyOrient = matrix3x3d::Rotate(M_PI / 4 * frameTime, rotAxis) * m_flybyOrient;
+}
+
 void FlyByCameraController::Reset()
 {
 	m_dist = 500;
@@ -479,7 +504,8 @@ void FlyByCameraController::Update()
 		m_old_frame = ship->GetFrame();
 	}
 
-	camerap = m_old_pos + vector3d(0, 0, 2) * m_dist;
+	m_flybyOrient.Renormalize();
+	camerap = m_old_pos + m_flybyOrient.VectorZ() * m_dist;
 	SetPosition(camerap);
 	camerao = LookAt(camerap, ship_pos, vector3d(0, 1, 0));
 	const vector3d rotAxis = camerao.VectorZ();
@@ -495,6 +521,7 @@ void FlyByCameraController::SaveToJson(Json::Value &jsonObj)
 
 	flybyCameraObj["roll"] = FloatToStr(m_roll);
 	flybyCameraObj["dist"] = DoubleToStr(m_dist);
+	MatrixToJson(flybyCameraObj, m_flybyOrient, "flyby_orient");
 
 	jsonObj["flyby"] = flybyCameraObj; // Add flyby camera object to supplied object.
 }
@@ -508,4 +535,7 @@ void FlyByCameraController::LoadFromJson(const Json::Value &jsonObj)
 	m_roll = StrToFloat(flybyCameraObj["roll"].asString());
 	m_dist = StrToDouble(flybyCameraObj["dist"].asString());
 	m_distTo = m_dist;
+
+	if (!flybyCameraObj.isMember("flyby_orient")) return;
+	JsonToMatrix(&m_flybyOrient, flybyCameraObj, "flyby_orient");
 }
