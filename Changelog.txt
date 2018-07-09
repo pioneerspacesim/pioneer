@@ -12,9 +12,10 @@ July 2018
      * Equip ships spawned planet side with atmoshields (#4368)
      * fix crash if user disables AntiAliasing (#4372)
      * Combat mission icon (#4375)
-     * Disable bindings in settings view (#4364)
      * Uninvert system map camera (#4373)
      * Do not toggle bindings when in settings view (#4364)
+     * Make it possible to change position of flyby camera (#4376)
+     * Deny docking request too far from station (#4371)
 
 June 2018
    * New Features
