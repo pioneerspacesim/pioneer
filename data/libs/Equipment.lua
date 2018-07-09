@@ -705,6 +705,11 @@ misc.atmospheric_shielding = EquipType.New({
 	capabilities={mass=1, atmo_shield=1},
 	purchasable=true, tech_level=3
 })
+misc.heavy_atmospheric_shielding = EquipType.New({
+	l10n_key="ATMOSPHERIC_SHIELDING_HEAVY", slots="atmo_shield", price=900,
+	capabilities={mass=2, atmo_shield=2},
+	purchasable=true, tech_level=5
+})
 misc.ecm_basic = EquipType.New({
 	l10n_key="ECM_BASIC", slots="ecm", price=6000,
 	capabilities={mass=2, ecm_power=2, ecm_recharge=5},
