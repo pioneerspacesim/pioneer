@@ -1532,6 +1532,7 @@ local pickupCrew = function (mission)
 			local resulttxt = string.interp(l.RESULT_PICKUP_CREW, {todo = todo, done = done})
 			Comms.ImportantMessage(resulttxt)
 			mission.pickup_crew_check = "COMPLETE"
+			mission.location = mission.system_local
 		end
 	end
 end
