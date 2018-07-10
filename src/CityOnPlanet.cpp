@@ -230,7 +230,6 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 	vector3d cent = p;
 	const int cellsize_i = 80;
 	const double cellsize = double(cellsize_i); // current widest building = 92
-	const double cellrad = cellsize / 2;
 	const double bodyradius = planet->GetSystemBody()->GetRadius(); // cache for bodyradius value
 
 	static const int gmid = (cityradius / cellsize_i);
