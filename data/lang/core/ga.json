@@ -179,6 +179,10 @@
     "description": "",
     "message": "Diúltaíodh cead. Níl aon bhá nasctha saor."
   },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Clearance denied. Your ship is too far away for ID verification."
+  },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
     "message": "Tugadh cead duit. Lean ar aghaidh go dtí bá nasctha %bay."

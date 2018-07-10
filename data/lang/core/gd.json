@@ -179,6 +179,10 @@
     "description": "",
     "message": "Chaidh cead a dhiùltadh. Chan eil bàgh docaidh saor ann."
   },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Clearance denied. Your ship is too far away for ID verification."
+  },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
     "message": "Chaidh cead a thoirt dhut. Lean air adhart gun bàgh docaidh %bay."

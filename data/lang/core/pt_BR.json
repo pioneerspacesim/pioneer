@@ -179,6 +179,10 @@
     "description": "",
     "message": "Permissão negada. Não há baías de atracação livres."
   },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Clearance denied. Your ship is too far away for ID verification."
+  },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
     "message": "Permissão concedida. Proceda atracação na baía %bay."

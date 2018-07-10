@@ -179,6 +179,10 @@
     "description": "",
     "message": "İzin reddedildi. Boş sabitlenme bölmesi yok."
   },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Clearance denied. Your ship is too far away for ID verification."
+  },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
     "message": "İzin verildi. %bay nolu kenetlenme bölmesine ilerleyin."
@@ -1001,7 +1005,7 @@
   },
   "NUMBER_G": {
     "description": "",
-    "message": " %acceleration{f.1} g"
+    "message": " %acceleration{f.1} G"
   },
   "NUMBER_GROUP_MIN": {
     "description": "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",

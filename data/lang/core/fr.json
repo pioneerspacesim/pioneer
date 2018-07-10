@@ -179,6 +179,10 @@
     "description": "",
     "message": "Autorisation refusée. Tous les docks sont occupés."
   },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Autorisation refusée. Votre vaisseau est trop éloigné pour un contrôle d'identité."
+  },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
     "message": "Autorisation accordée. Atterrissez sur le dock %bay."

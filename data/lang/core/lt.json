@@ -179,6 +179,10 @@
     "description": "",
     "message": "Leidimas neduotas. Nėra laisvų švartavimosi vietų."
   },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Clearance denied. Your ship is too far away for ID verification."
+  },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
     "message": "Leidimas duotas. Skriskite į švartavimosi doką %bay."

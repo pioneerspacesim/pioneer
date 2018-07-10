@@ -179,6 +179,10 @@
     "description": "",
     "message": "Andockerlaubnis verweigert. Alle Andockbuchten sind momentan belegt."
   },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Erlaubnis verweigert. Ihr Schiff ist zu weit weg für die ID-Verifikation."
+  },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
     "message": "Andockerlaubnis gewährt. Fliegen Sie zu Dock %bay."

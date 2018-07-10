@@ -179,6 +179,10 @@
     "description": "",
     "message": "请求驳回.没有空闲的停靠口了."
   },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Clearance denied. Your ship is too far away for ID verification."
+  },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
     "message": "请求已接受. 前往停靠口 %bay."

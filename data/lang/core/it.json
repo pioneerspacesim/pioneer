@@ -179,6 +179,10 @@
     "description": "",
     "message": "Autorizzazione negata. Non ci sono attracchi liberi."
   },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Autorizzazione negata. La vostra nave è troppo lontana per poter verificare l'ID."
+  },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
     "message": "Autorizzazione concessa. Procedere al ponte %bay."
