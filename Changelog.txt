@@ -4,6 +4,7 @@ July 2018
 
    * Internal Changes
      * Translation updates. running everything through jq, whitespace, sort (#4365)
+     * StarTypeInfo cleanup (#4366)
 
    * Fixes
      * Check for nullptr (#4367)
