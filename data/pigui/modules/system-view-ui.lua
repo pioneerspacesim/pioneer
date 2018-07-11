@@ -93,16 +93,16 @@ local function showOrbitPlannerWindow()
 
 									showDvLine(icons.left, icons.maneuver, icons.right, "factor", function(i) return i, "x" end, "Decrease delta factor", "Reset delta factor", "Increase delta factor")
 									showDvLine(icons.left, icons.eta, icons.right, "starttime",
-																					 function(i)
-																						 local now = Game.time
-																						 local start = Engine.SystemMapGetOrbitPlannerStartTime()
-																						 if start then
-																							 return ui.Format.Duration(math.floor(start - now)), ""
-																						 else
-																							 return "now", ""
-																						 end
-																					 end,
-																					 "Decrease time", "Reset time", "Increase time")
+														 function(i)
+															 local now = Game.time
+															 local start = Engine.SystemMapGetOrbitPlannerStartTime()
+															 if start then
+																 return ui.Format.Duration(math.floor(start - now)), ""
+															 else
+																 return "now", ""
+															 end
+														 end,
+														 "Decrease time", "Reset time", "Increase time")
 									showDvLine(icons.prograde, icons.maneuver, icons.retrograde, "prograde", ui.Format.Speed, "Thrust prograde", "Reset prograde thrust", "Thrust retrograde")
 									showDvLine(icons.normal, icons.maneuver, icons.antinormal, "normal", ui.Format.Speed, "Thrust normal", "Reset normal thrust", "Thrust antinormal")
 									showDvLine(icons.radial_in, icons.maneuver, icons.radial_out, "radial", ui.Format.Speed, "Thrust radially in", "Reset radial thrust", "Thrust radially out")
@@ -128,50 +128,56 @@ local function showOrbitPlannerWindow()
 			end)
 	end)
 end
+local function tabular(data)
+	ui.columns(2, "Attributes", true)
+	for _,item in pairs(data) do
+	-- ui.setColumnOffset(1, width / 4)
+		if item.value then
+			ui.text(item.name)
+			ui.nextColumn()
+			ui.text(item.value)
+			ui.nextColumn()
+		end
+	end
+	ui.columns(1, "NoAttributes", false)
+end
 local function showTargetInfoWindow(systemBody)
 	if not systemBody then
 		return
 	end
-	ui.setNextWindowSize(Vector(ui.screenWidth / 7, (ui.screenHeight / 5) * 2), "Always")
+	local width = ui.screenWidth / 7
+	local name = systemBody.name
+	local rp = systemBody.rotationPeriod * 24 * 60 * 60
+	local r = systemBody.radius
+	local radius = nil
+	if r and r > 0 then
+		local v,u = ui.Format.Distance(r)
+		radius = v .. u
+	end
+	local sma = systemBody.semiMajorAxis
+	local semimajoraxis = nil
+	if sma and sma > 0 then
+		local v,u = ui.Format.Distance(sma)
+		semimajoraxis = v .. u
+	end
+	local op = systemBody.orbitPeriod * 24 * 60 * 60
+	ui.setNextWindowSize(Vector(width, (ui.screenHeight / 5) * 2), "Always")
 	ui.setNextWindowPos(Vector(20, (ui.screenHeight / 5) * 2 + 20), "Always")
 	ui.withStyleColors({["WindowBg"] = colors.lightBlackBackground}, function()
 			ui.window("TargetInfoWindow", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 								function()
-									ui.columns(2, "Attributes", true)
-									ui.text(lc.NAME_OBJECT)
-									ui.nextColumn()
-									ui.text(systemBody.name)
-									ui.nextColumn()
-									local rp = systemBody.rotationPeriod * 24 * 60 * 60
-									if rp and rp > 0 then
-									ui.text(lc.DAY_LENGTH .. lc.ROTATIONAL_PERIOD)
-									ui.nextColumn()
-									ui.text(ui.Format.Duration(rp, 2))
-									ui.nextColumn()
-									end
-									local r = systemBody.radius
-									if r and r > 0 then
-									ui.text(lc.RADIUS)
-									ui.nextColumn()
-									local v,u = ui.Format.Distance(r)
-									ui.text(v .. " " .. u)
-									ui.nextColumn()
-									end
-									local sma = systemBody.semiMajorAxis
-									if sma and sma > 0 then
-									ui.text(lc.SEMI_MAJOR_AXIS)
-									ui.nextColumn()
-									v,u = ui.Format.Distance(sma)
-									ui.text(v .. " " .. u)
-									ui.nextColumn()
-									end
-									local op = systemBody.orbitPeriod * 24 * 60 * 60
-									if op and op > 0 then
-									ui.text(lc.ORBITAL_PERIOD)
-									ui.nextColumn()
-									ui.text(ui.Format.Duration(op, 2))
-									end
-									-- ui.columns(1, "NoAttributes", false)
+									tabular({
+											{ name = lc.NAME_OBJECT,
+												value = name },
+											{ name = lc.DAY_LENGTH .. lc.ROTATIONAL_PERIOD,
+												value = rp > 0 and ui.Format.Duration(rp, 2) or nil },
+											{ name = lc.RADIUS,
+												value = radius },
+											{ name = lc.SEMI_MAJOR_AXIS,
+												value = semimajoraxis },
+											{ name = lc.ORBITAL_PERIOD,
+												value = op and op > 0 and ui.Format.Duration(op, 2) or nil }
+									})
 			end)
 	end)
 end
