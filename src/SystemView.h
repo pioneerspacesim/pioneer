@@ -79,6 +79,7 @@ public:
 	double GetOrbitPlannerTime() const { return m_time; }
 	void OnClickAccel(float step);
 	void OnClickRealt();
+	vector3d Project(const vector3d &offset);
 private:
 	static const double PICK_OBJECT_RECT_SIZE;
 	static const Uint16 N_VERTICES_MAX;

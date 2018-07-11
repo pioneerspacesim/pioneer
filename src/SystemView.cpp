@@ -625,6 +625,16 @@ void SystemView::OnClickLagrange()
 {
 }
 
+vector3d SystemView::Project(const vector3d &offset)
+{
+  Gui::Screen::EnterOrtho();
+  vector3d pos;
+  if(!Gui::Screen::Project(offset * static_cast<double>(m_zoom), pos))
+	pos = vector3d(0,0,0);
+  Gui::Screen::LeaveOrtho();
+  return pos;
+}
+
 void SystemView::PutLabel(const SystemBody *b, const vector3d &offset)
 {
 	Gui::Screen::EnterOrtho();

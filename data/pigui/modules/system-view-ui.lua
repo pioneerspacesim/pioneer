@@ -91,7 +91,7 @@ local function showOrbitPlannerWindow()
 									end
 									ui.separator()
 
-									showDvLine(icons.left, icons.maneuver, icons.right, "factor", function(i) return i, "x" end, "Decrease delta factor", "Reset delta factor", "Increase delta factor")
+									showDvLine(icons.left, icons.maneuver, icons.right, "factor", function(i) return i, "x" end, "Increase delta factor", "Reset delta factor", "Decrease delta factor")
 									showDvLine(icons.left, icons.eta, icons.right, "starttime",
 														 function(i)
 															 local now = Game.time
@@ -102,7 +102,7 @@ local function showOrbitPlannerWindow()
 																 return "now", ""
 															 end
 														 end,
-														 "Decrease time", "Reset time", "Increase time")
+														 "Increase time", "Reset time", "Decrease time")
 									showDvLine(icons.prograde, icons.maneuver, icons.retrograde, "prograde", ui.Format.Speed, "Thrust prograde", "Reset prograde thrust", "Thrust retrograde")
 									showDvLine(icons.normal, icons.maneuver, icons.antinormal, "normal", ui.Format.Speed, "Thrust normal", "Reset normal thrust", "Thrust antinormal")
 									showDvLine(icons.radial_in, icons.maneuver, icons.radial_out, "radial", ui.Format.Speed, "Thrust radially in", "Reset radial thrust", "Thrust radially out")
@@ -129,17 +129,19 @@ local function showOrbitPlannerWindow()
 	end)
 end
 local function tabular(data)
-	ui.columns(2, "Attributes", true)
-	for _,item in pairs(data) do
-		-- ui.setColumnOffset(1, width / 4)
-		if item.value then
-			ui.text(item.name)
-			ui.nextColumn()
-			ui.text(item.value)
-			ui.nextColumn()
+	if data and #data > 0 then
+		ui.columns(2, "Attributes", true)
+		for _,item in pairs(data) do
+			-- ui.setColumnOffset(1, width / 4)
+			if item.value then
+				ui.text(item.name)
+				ui.nextColumn()
+				ui.text(item.value)
+				ui.nextColumn()
+			end
 		end
+		ui.columns(1, "NoAttributes", false)
 	end
-	ui.columns(1, "NoAttributes", false)
 end
 local function showTargetInfoWindow(systemBody, body)
 	local width = ui.screenWidth / 5
@@ -178,6 +180,10 @@ local function showTargetInfoWindow(systemBody, body)
 												value = op and op > 0 and ui.Format.Duration(op, 2) or nil }
 										}
 									elseif body and body:IsShip() then
+										local pos = Engine.SystemMapProject(body:GetPosition())
+										pos.x = pos.x / 800.0 * 1920.0
+										pos.y = pos.y / 600.0 * 1200.0
+										ui.addIcon(pos, icons.maneuver, colors.white, Vector(32,32), ui.anchor.center, ui.anchor.center, "TEST")
 										local name = body.label
 										data = {{ name = lc.NAME_OBJECT,
 															value = name },
