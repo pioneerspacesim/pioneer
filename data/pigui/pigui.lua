@@ -202,10 +202,21 @@ ui.Format = {
 		local minutes = math.floor(duration / 60 % 60)
 		local hours = math.floor(duration / 60 / 60 % 24)
 		local days = math.floor(duration / 60 / 60 / 24 % 7)
-		local weeks = math.floor(duration / 60 / 60 / 24 / 7)
+		local weeks = math.floor(duration / 60 / 60 / 24 / 7 % 52) 
+		local years = math.floor(duration / 52 / 60 / 60 / 24 / 7)
 		local i = elements or 5
 		local count = false
 		local result = ""
+		if i > 0 then
+			if years ~= 0 then
+				result = result .. years .. "y"
+				count = true
+			end
+			if count then
+				i = i - 1
+			end
+		end
+
 		if i > 0 then
 			if weeks ~= 0 then
 				result = result .. weeks .. "w"

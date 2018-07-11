@@ -1201,6 +1201,69 @@ static int l_engine_system_map_accelerate_time(lua_State *l)
 		return 0;
 }
 
+static int l_engine_transfer_planner_get(lua_State *l)
+{
+  std::string key = LuaPull<std::string>(l, 1);
+  if(key == "prograde") {
+	LuaPush<double>(l, Pi::planner->GetDv(BurnDirection::PROGRADE));
+  } else if(key == "normal") {
+	LuaPush<double>(l, Pi::planner->GetDv(BurnDirection::NORMAL));
+  } else if(key == "radial") {
+	LuaPush<double>(l, Pi::planner->GetDv(BurnDirection::RADIAL));
+  } else if(key == "starttime") {
+	LuaPush<double>(l, Pi::planner->GetStartTime());
+  } else if(key == "factor") {
+	LuaPush<double>(l, Pi::planner->GetFactor() * 10); // factor is shown as "x 10"
+  } else {
+	Warning("Unknown transfer planner key %s\n", key.c_str());
+	lua_pushnil(l);
+  }
+  return 1;
+}
+
+static int l_engine_transfer_planner_add(lua_State *l)
+{
+  std::string key = LuaPull<std::string>(l, 1);
+  double delta = LuaPull<double>(l, 2);
+  if(key == "prograde") {
+	Pi::planner->AddDv(BurnDirection::PROGRADE, delta);
+  } else if(key == "normal") {
+	Pi::planner->AddDv(BurnDirection::NORMAL, delta);
+  } else if(key == "radial") {
+	Pi::planner->AddDv(BurnDirection::RADIAL, delta);
+  } else if(key == "starttime") {
+	Pi::planner->AddStartTime(delta);
+  } else if(key == "factor") {
+	if(delta > 0)
+	  Pi::planner->IncreaseFactor();
+	else
+	  Pi::planner->DecreaseFactor();
+  } else {
+	Warning("Unknown transfer planner key %s\n", key.c_str());
+  }
+  return 0;
+}
+
+static int l_engine_transfer_planner_reset(lua_State *l)
+{
+  std::string key = LuaPull<std::string>(l, 1);
+  if(key == "prograde") {
+	Pi::planner->ResetDv(BurnDirection::PROGRADE);
+  } else if(key == "normal") {
+	Pi::planner->ResetDv(BurnDirection::NORMAL);
+  } else if(key == "radial") {
+	Pi::planner->ResetDv(BurnDirection::RADIAL);
+  } else if(key == "starttime") {
+	Pi::planner->ResetStartTime();
+  } else if(key == "factor") {
+	Pi::planner->ResetFactor();
+  } else {
+	Warning("Unknown transfer planner key %s\n", key.c_str());
+  }
+
+  return 0;
+}
+
 static int l_get_can_browse_user_folders(lua_State *l)
 {
 	lua_pushboolean(l, OS::SupportsFolderBrowser());
@@ -1326,6 +1389,9 @@ void LuaEngine::Register()
 		{ "SystemMapGetOrbitPlannerStartTime",      l_engine_system_map_get_orbit_planner_start_time },
 		{ "SystemMapGetOrbitPlannerTime",           l_engine_system_map_get_orbit_planner_time },
 		{ "SystemMapAccelerateTime",                l_engine_system_map_accelerate_time },
+		{ "TransferPlannerAdd",                     l_engine_transfer_planner_add },
+		{ "TransferPlannerGet",                     l_engine_transfer_planner_get },
+		{ "TransferPlannerReset",                   l_engine_transfer_planner_reset },
 
 
 		{ "SearchNearbyStarSystemsByName",  l_engine_search_nearby_star_systems_by_name },

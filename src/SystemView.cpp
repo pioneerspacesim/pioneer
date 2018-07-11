@@ -90,9 +90,8 @@ void TransferPlanner::ResetStartTime()
 	}
 }
 
-double TransferPlanner::GetStartTime() const
-{
-	return m_startTime;
+double TransferPlanner::GetStartTime() const {
+	return m_startTime < 0.0 ? 0.0 : m_startTime;
 }
 
 static std::string formatTime(double t)
@@ -171,8 +170,16 @@ void TransferPlanner::ResetDv()
 	}
 }
 
-std::string TransferPlanner::printDv(BurnDirection d)
-{
+double TransferPlanner::GetDv(BurnDirection d) {
+  	switch(d) {
+	case PROGRADE: return m_dvPrograde; break;
+	case NORMAL:   return m_dvNormal;   break;
+	case RADIAL:   return m_dvRadial;   break;
+	}
+	return 0.0;
+}
+
+std::string TransferPlanner::printDv(BurnDirection d) {
 	double dv = 0;
 	char buf[10];
 

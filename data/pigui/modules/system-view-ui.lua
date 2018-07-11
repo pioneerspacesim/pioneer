@@ -16,29 +16,35 @@ local icons = ui.theme.icons
 local mainButtonSize = Vector(24,24) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
 
-local prograde_thrust = 0
-local normal_thrust = 0
-local radial_thrust = 0
-local delta_factor = 1
-local time_start = 0
-local function showModLine(rightIcon, resetIcon, leftIcon, currentValue, delta_factor, resetValue, Formatter, rightTooltip, resetTooltip, leftTooltip)
-	ui.coloredSelectedIconButton(leftIcon, mainButtonSize, false, mainButtonFramePadding, colors.buttonBlue, colors.white, leftTooltip)
-	if ui.isItemActive() then
-		currentValue = currentValue - delta_factor
+local function showDvLine(rightIcon, resetIcon, leftIcon, key, Formatter, rightTooltip, resetTooltip, leftTooltip)
+	local wheel = function()
+		if ui.isItemHovered() then
+			local w = ui.getMouseWheel()
+			if w ~= 0 then
+				Engine.TransferPlannerAdd(key, w * 10)
+			end
+		end
 	end
+	local press = ui.coloredSelectedIconButton(leftIcon, mainButtonSize, false, mainButtonFramePadding, colors.buttonBlue, colors.white, leftTooltip)
+	if press or (key ~= "factor" and ui.isItemActive()) then
+		Engine.TransferPlannerAdd(key, -10)
+	end
+	wheel()
 	ui.sameLine()
 	if ui.coloredSelectedIconButton(resetIcon, mainButtonSize, false, mainButtonFramePadding, colors.buttonBlue, colors.white, resetTooltip) then
-		currentValue = resetValue
+		Engine.TransferPlannerReset(key)
 	end
+	wheel()
 	ui.sameLine()
-	ui.coloredSelectedIconButton(rightIcon, mainButtonSize, false, mainButtonFramePadding, colors.buttonBlue, colors.white, rightTooltip)
-	if ui.isItemActive() then
-		currentValue = currentValue + delta_factor
+	press = ui.coloredSelectedIconButton(rightIcon, mainButtonSize, false, mainButtonFramePadding, colors.buttonBlue, colors.white, rightTooltip)
+	if press or (key ~= "factor" and ui.isItemActive()) then
+		Engine.TransferPlannerAdd(key, 10)
 	end
+	wheel()
 	ui.sameLine()
-	local speed, speed_unit = Formatter(currentValue)
+	local speed, speed_unit = Formatter(Engine.TransferPlannerGet(key))
 	ui.text(speed .. " " .. speed_unit)
-	return currentValue
+	return 0
 end
 local time_selected_button_icon
 local function timeButton(icon, tooltip, factor)
@@ -85,8 +91,8 @@ local function showOrbitPlannerWindow()
 									end
 									ui.separator()
 
-									delta_factor = showModLine(icons.left, icons.maneuver, icons.right, delta_factor, 10, 1, function(i) return i, "x" end, "Decrease delta factor", "Reset delta factor", "Increase delta factor")
-									time_start = showModLine(icons.left, icons.eta, icons.right, time_start, 60, 0,
+									showDvLine(icons.left, icons.maneuver, icons.right, "factor", function(i) return i, "x" end, "Decrease delta factor", "Reset delta factor", "Increase delta factor")
+									showDvLine(icons.left, icons.eta, icons.right, "starttime",
 																					 function(i)
 																						 local now = Game.time
 																						 local start = Engine.SystemMapGetOrbitPlannerStartTime()
@@ -97,9 +103,9 @@ local function showOrbitPlannerWindow()
 																						 end
 																					 end,
 																					 "Decrease time", "Reset time", "Increase time")
-									prograde_thrust = showModLine(icons.prograde, icons.maneuver, icons.retrograde, prograde_thrust, delta_factor, 0, ui.Format.Speed, "Thrust prograde", "Reset prograde thrust", "Thrust retrograde")
-									normal_thrust = showModLine(icons.normal, icons.maneuver, icons.antinormal, normal_thrust, delta_factor, 0, ui.Format.Speed, "Thrust normal", "Reset normal thrust", "Thrust antinormal")
-									radial_thrust = showModLine(icons.radial_in, icons.maneuver, icons.radial_out, radial_thrust, delta_factor, 0, ui.Format.Speed, "Thrust radially in", "Reset radial thrust", "Thrust radially out")
+									showDvLine(icons.prograde, icons.maneuver, icons.retrograde, "prograde", ui.Format.Speed, "Thrust prograde", "Reset prograde thrust", "Thrust retrograde")
+									showDvLine(icons.normal, icons.maneuver, icons.antinormal, "normal", ui.Format.Speed, "Thrust normal", "Reset normal thrust", "Thrust antinormal")
+									showDvLine(icons.radial_in, icons.maneuver, icons.radial_out, "radial", ui.Format.Speed, "Thrust radially in", "Reset radial thrust", "Thrust radially out")
 
 									ui.separator()
 									local t = Engine.SystemMapGetOrbitPlannerTime()
@@ -132,12 +138,12 @@ local function showTargetInfoWindow(systemBody)
 			ui.window("TargetInfoWindow", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 								function()
 									ui.text(systemBody.name)
-									ui.text(string.format("%.1f days", systemBody.rotationPeriod))
+									ui.text(ui.Format.Duration(systemBody.rotationPeriod * 24 * 60 * 60, 2))
 									local v,u = ui.Format.Distance(systemBody.radius)
 									ui.text(v .. " " .. u)
-									local v,u = ui.Format.Distance(systemBody.semiMajorAxis)
+									v,u = ui.Format.Distance(systemBody.semiMajorAxis)
 									ui.text(v .. " " .. u)
-									ui.text(string.format("%.1f days", systemBody.orbitPeriod))
+									ui.text(ui.Format.Duration(systemBody.orbitPeriod * 24 * 60 * 60, 2))
 			end)
 	end)
 end
