@@ -437,21 +437,21 @@ void SystemView::OnIncreaseFactorButtonClick(void) { m_planner->IncreaseFactor()
 void SystemView::OnResetFactorButtonClick(void) { m_planner->ResetFactor(); }
 void SystemView::OnDecreaseFactorButtonClick(void) { m_planner->DecreaseFactor(); }
 
-void SystemView::OnToggleShipsButtonClick(void)
+void SystemView::SetShipDrawing(ShipDrawing drawing)
 {
-	switch (m_shipDrawing) {
-	case OFF:
-		m_shipDrawing = BOXES;
-		RefreshShips();
-		break;
-	case BOXES:
-		m_shipDrawing = ORBITS;
-		RefreshShips();
-		break;
-	case ORBITS:
-		m_shipDrawing = OFF;
-		m_shipLabels->Clear();
-		break;
+	m_shipDrawing = drawing;
+	switch(m_shipDrawing) {
+	case OFF: m_shipLabels->Clear(); break;
+	case BOXES:  RefreshShips(); break;
+	case ORBITS: RefreshShips(); break;
+	}
+}
+
+void SystemView::OnToggleShipsButtonClick(void) {
+	switch(m_shipDrawing) {
+	case OFF:    m_shipDrawing = BOXES;  RefreshShips(); break;
+	case BOXES:  m_shipDrawing = ORBITS; RefreshShips(); break;
+	case ORBITS: m_shipDrawing = OFF; m_shipLabels->Clear(); break;
 	}
 }
 
@@ -882,6 +882,17 @@ void SystemView::Draw3D()
 
 	UIView::Draw3D();
 }
+void SystemView::ZoomIn()
+{
+	const float ft = Pi::GetFrameTime();
+	m_zoomTo *= pow(ZOOM_IN_SPEED * Pi::GetMoveSpeedShiftModifier(), ft);
+}
+
+void SystemView::ZoomOut()
+{
+	const float ft = Pi::GetFrameTime();
+	m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), ft);
+}
 
 void SystemView::Update()
 {
@@ -890,10 +901,10 @@ void SystemView::Update()
 	if (!Pi::IsConsoleActive()) {
 		if (Pi::input.KeyState(SDLK_EQUALS) ||
 			m_zoomInButton->IsPressed())
-			m_zoomTo *= pow(ZOOM_IN_SPEED * Pi::GetMoveSpeedShiftModifier(), ft);
-		if (Pi::input.KeyState(SDLK_MINUS) ||
+			ZoomIn();
+		if (Pi::KeyState(SDLK_MINUS) ||
 			m_zoomOutButton->IsPressed())
-			m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), ft);
+			ZoomOut();
 
 		// transfer planner buttons
 		if (m_plannerIncreaseStartTimeButton->IsPressed()) {

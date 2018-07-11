@@ -502,15 +502,15 @@ ui.pi_4 = pi_4
 ui.pi = pi
 ui.withID = function(id, fun)
 		pigui.PushID(id)
-		fun()
+		local res = fun()
 		pigui.PopID()
+		return res
 end
 ui.imageButton = function(icon, size, frame_padding, bg_color, tint_color, tooltip)
 	local uv0, uv1 = get_icon_tex_coords(icon)
-	ui.withID(tooltip, function()
-								 local res = pigui.ImageButton(ui.icons_texture, size, uv0, uv1, frame_padding, bg_color, tint_color)
+	return ui.withID(tooltip, function()
+								 return pigui.ImageButton(ui.icons_texture, size, uv0, uv1, frame_padding, bg_color, tint_color)
 	end)
-	return res
 end
 ui.setCursorPos = pigui.SetCursorPos
 ui.getCursorPos = pigui.GetCursorPos

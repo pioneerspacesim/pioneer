@@ -68,7 +68,15 @@ public:
 	virtual ~SystemView();
 	virtual void Update();
 	virtual void Draw3D();
-
+	const SystemBody *GetSelectedObject() const { return m_selectedObject; }
+	void SetShipDrawing(ShipDrawing drawing);
+	void SetShowLagrange(ShowLagrange lagrange) { m_showL4L5 = lagrange; }
+	void ZoomIn();
+	void ZoomOut();
+	double GetOrbitPlannerStartTime() const { return m_planner->GetStartTime(); }
+	double GetOrbitPlannerTime() const { return m_time; }
+	void OnClickAccel(float step);
+	void OnClickRealt();
 private:
 	static const double PICK_OBJECT_RECT_SIZE;
 	static const Uint16 N_VERTICES_MAX;
@@ -80,8 +88,6 @@ private:
 	void GetTransformTo(const SystemBody *b, vector3d &pos);
 	void OnClickObject(const SystemBody *b);
 	void OnClickLagrange();
-	void OnClickAccel(float step);
-	void OnClickRealt();
 	void OnIncreaseFactorButtonClick(void), OnResetFactorButtonClick(void), OnDecreaseFactorButtonClick(void);
 	void OnIncreaseStartTimeButtonClick(void), OnResetStartTimeButtonClick(void), OnDecreaseStartTimeButtonClick(void);
 	void OnToggleShipsButtonClick(void);
