@@ -132,18 +132,46 @@ local function showTargetInfoWindow(systemBody)
 	if not systemBody then
 		return
 	end
-	ui.setNextWindowSize(Vector(ui.screenWidth / 5, (ui.screenHeight / 5) * 2), "Always")
+	ui.setNextWindowSize(Vector(ui.screenWidth / 7, (ui.screenHeight / 5) * 2), "Always")
 	ui.setNextWindowPos(Vector(20, (ui.screenHeight / 5) * 2 + 20), "Always")
 	ui.withStyleColors({["WindowBg"] = colors.lightBlackBackground}, function()
 			ui.window("TargetInfoWindow", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 								function()
+									ui.columns(2, "Attributes", true)
+									ui.text(lc.NAME_OBJECT)
+									ui.nextColumn()
 									ui.text(systemBody.name)
-									ui.text(ui.Format.Duration(systemBody.rotationPeriod * 24 * 60 * 60, 2))
-									local v,u = ui.Format.Distance(systemBody.radius)
+									ui.nextColumn()
+									local rp = systemBody.rotationPeriod * 24 * 60 * 60
+									if rp and rp > 0 then
+									ui.text(lc.DAY_LENGTH .. lc.ROTATIONAL_PERIOD)
+									ui.nextColumn()
+									ui.text(ui.Format.Duration(rp, 2))
+									ui.nextColumn()
+									end
+									local r = systemBody.radius
+									if r and r > 0 then
+									ui.text(lc.RADIUS)
+									ui.nextColumn()
+									local v,u = ui.Format.Distance(r)
 									ui.text(v .. " " .. u)
-									v,u = ui.Format.Distance(systemBody.semiMajorAxis)
+									ui.nextColumn()
+									end
+									local sma = systemBody.semiMajorAxis
+									if sma and sma > 0 then
+									ui.text(lc.SEMI_MAJOR_AXIS)
+									ui.nextColumn()
+									v,u = ui.Format.Distance(sma)
 									ui.text(v .. " " .. u)
-									ui.text(ui.Format.Duration(systemBody.orbitPeriod * 24 * 60 * 60, 2))
+									ui.nextColumn()
+									end
+									local op = systemBody.orbitPeriod * 24 * 60 * 60
+									if op and op > 0 then
+									ui.text(lc.ORBITAL_PERIOD)
+									ui.nextColumn()
+									ui.text(ui.Format.Duration(op, 2))
+									end
+									-- ui.columns(1, "NoAttributes", false)
 			end)
 	end)
 end
@@ -152,8 +180,10 @@ local function displaySystemViewUI()
 	local current_view = Game.CurrentView()
 
 	if current_view == "system" and not Game.InHyperspace() then
-		showOrbitPlannerWindow()
-		showTargetInfoWindow(Engine.SystemMapSelectedObject())
+		ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
+									showOrbitPlannerWindow()
+									showTargetInfoWindow(Engine.SystemMapSelectedObject())
+		end)
 	end
 end
 
