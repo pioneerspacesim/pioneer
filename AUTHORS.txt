@@ -203,6 +203,10 @@ Pioneer includes the following third-party software:
   Credit: NASA/JPL-Caltech/R. Hurt (SSC)
   See licenses/Image Use Policy - NASA Spitzer Space Telescope.html
 
+  units
+  Copyright (c) 2016 Nic Holthaus
+  Lucensed under the MIT license (see contrib/units/units.h)
+
 Acknowledgements
 ================
 
