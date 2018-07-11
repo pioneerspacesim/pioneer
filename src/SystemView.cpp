@@ -656,9 +656,9 @@ vector3d SystemView::Project(const Body *body, vector3d position)
 	  // needs to be adjusted.
 	  orbital = sb->GetOrbit().OrbitalPosAtTime(t);
 	  const SystemBody *parent = sb->GetParent();
-	  // if(parent) {
-	  // 	position = Pi::game->GetSpace()->GetBodyByIndex(parent->GetPath().bodyIndex)->GetPositionRelTo(rootFrame);
-	  // }
+	  if(parent) {
+		position = parent->GetOrbit().OrbitalPosAtTime(t);
+	   }
 	  if(sb->GetParent() != rootFrame->GetSystemBody()) {
 		// orbit is relative to non-root frame, add position
 		p = (position + orbital) * static_cast<double>(m_zoom) + offset;
