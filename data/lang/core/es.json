@@ -181,7 +181,7 @@
   },
   "CLEARANCE_DENIED_TOO_FAR": {
     "description": "Shown if player requests docking too far away from station",
-    "message": "Clearance denied. Your ship is too far away for ID verification."
+    "message": "Autorización denegada. Su nave se encuentra demasiado alejada para la verificación ID."
   },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
@@ -421,7 +421,7 @@
   },
   "FLYBY_VIEW": {
     "description": "camera view setting",
-    "message": "Flyby view"
+    "message": "Vista de vuelo"
   },
   "FOLLOWING_SELECTION": {
     "description": "",
