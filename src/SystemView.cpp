@@ -650,13 +650,10 @@ void SystemView::LabelShip(Ship *s, const vector3d &offset)
 	Gui::Screen::LeaveOrtho();
 }
 
-void SystemView::OnClickShip(Ship *s)
-{
-	if (!s) {
-		printf("clicked on ship label but ship wasn't there\n");
-		return;
-	}
-	if (Pi::player->GetNavTarget() == s) { //un-select ship if already selected
+void SystemView::OnClickShip(Ship *s) {
+	if(!s) { printf("clicked on ship label but ship wasn't there\n"); return; }
+	m_selectedObject = nullptr;
+	if(Pi::player->GetNavTarget() == s) { //un-select ship if already selected
 		Pi::player->SetNavTarget(0); // remove current
 		m_game->log->Add(Lang::UNSET_NAVTARGET);
 		m_infoLabel->SetText(""); // remove lingering text

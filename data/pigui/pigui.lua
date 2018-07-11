@@ -167,6 +167,9 @@ ui.circleSegments = function(radius)
 end
 
 ui.Format = {
+	MassT = function(tonnes)
+		return tonnes .. 't'
+	end,
 	Latitude = function(decimal_degrees)
 		local deg = math.floor(decimal_degrees + 0.5)
 		local dec = math.abs(decimal_degrees - deg)

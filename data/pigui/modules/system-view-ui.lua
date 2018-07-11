@@ -111,13 +111,13 @@ local function showOrbitPlannerWindow()
 									local t = Engine.SystemMapGetOrbitPlannerTime()
 									ui.text(t and ui.Format.Datetime(t) or "now")
 									local r = false
-									r = timeButton(icons.time_backward_100x, "-100x",-10000000) or r
-									r = timeButton(icons.time_backward_10x, "-10x", -100000) or r
-									r = timeButton(icons.time_backward_1x, "-1x", -1000) or r
+									r = timeButton(icons.time_backward_100x, "-10,000,000x",-10000000) or r
+									r = timeButton(icons.time_backward_10x, "-100,000x", -100000) or r
+									r = timeButton(icons.time_backward_1x, "-1,000x", -1000) or r
 									r = timeButton(icons.time_center, "Now", nil) or r
-									r = timeButton(icons.time_forward_1x, "1x", 1000) or r
-									r = timeButton(icons.time_forward_10x, "10x", 100000) or r
-									r = timeButton(icons.time_forward_100x, "100x", 10000000) or r
+									r = timeButton(icons.time_forward_1x, "1,000x", 1000) or r
+									r = timeButton(icons.time_forward_10x, "100,000x", 100000) or r
+									r = timeButton(icons.time_forward_100x, "10,000,000x", 10000000) or r
 									if not r then
 										if time_selected_button_icon == icons.time_center then
 											Engine.SystemMapAccelerateTime(nil)
@@ -131,7 +131,7 @@ end
 local function tabular(data)
 	ui.columns(2, "Attributes", true)
 	for _,item in pairs(data) do
-	-- ui.setColumnOffset(1, width / 4)
+		-- ui.setColumnOffset(1, width / 4)
 		if item.value then
 			ui.text(item.name)
 			ui.nextColumn()
@@ -141,32 +141,31 @@ local function tabular(data)
 	end
 	ui.columns(1, "NoAttributes", false)
 end
-local function showTargetInfoWindow(systemBody)
-	if not systemBody then
-		return
-	end
-	local width = ui.screenWidth / 7
-	local name = systemBody.name
-	local rp = systemBody.rotationPeriod * 24 * 60 * 60
-	local r = systemBody.radius
-	local radius = nil
-	if r and r > 0 then
-		local v,u = ui.Format.Distance(r)
-		radius = v .. u
-	end
-	local sma = systemBody.semiMajorAxis
-	local semimajoraxis = nil
-	if sma and sma > 0 then
-		local v,u = ui.Format.Distance(sma)
-		semimajoraxis = v .. u
-	end
-	local op = systemBody.orbitPeriod * 24 * 60 * 60
+local function showTargetInfoWindow(systemBody, body)
+	local width = ui.screenWidth / 5
 	ui.setNextWindowSize(Vector(width, (ui.screenHeight / 5) * 2), "Always")
 	ui.setNextWindowPos(Vector(20, (ui.screenHeight / 5) * 2 + 20), "Always")
 	ui.withStyleColors({["WindowBg"] = colors.lightBlackBackground}, function()
 			ui.window("TargetInfoWindow", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 								function()
-									tabular({
+									local data
+									if systemBody then
+										local name = systemBody.name
+										local rp = systemBody.rotationPeriod * 24 * 60 * 60
+										local r = systemBody.radius
+										local radius = nil
+										if r and r > 0 then
+											local v,u = ui.Format.Distance(r)
+											radius = v .. u
+										end
+										local sma = systemBody.semiMajorAxis
+										local semimajoraxis = nil
+										if sma and sma > 0 then
+											local v,u = ui.Format.Distance(sma)
+											semimajoraxis = v .. u
+										end
+										local op = systemBody.orbitPeriod * 24 * 60 * 60
+										data = {
 											{ name = lc.NAME_OBJECT,
 												value = name },
 											{ name = lc.DAY_LENGTH .. lc.ROTATIONAL_PERIOD,
@@ -177,7 +176,34 @@ local function showTargetInfoWindow(systemBody)
 												value = semimajoraxis },
 											{ name = lc.ORBITAL_PERIOD,
 												value = op and op > 0 and ui.Format.Duration(op, 2) or nil }
-									})
+										}
+									elseif body and body:IsShip() then
+										local name = body.label
+										data = {{ name = lc.NAME_OBJECT,
+															value = name },
+										}
+										-- TODO: the advanced target scanner should add additional data here,
+										-- but we really do not want to hardcode that here. there should be
+										-- some kind of hook that the target scanner can hook into to display
+										-- more info here.
+										-- This is what should be inserted:
+										table.insert(data, { name = "Ship Type",
+																				 value = body:GetShipType()
+										})
+										local hd = body:GetEquip("engine", 1)
+										table.insert(data, { name = "Hyperdrive",
+																				 value = hd and hd:GetName() or lc.NO_HYPERDRIVE
+										})
+										table.insert(data, { name = lc.MASS,
+																				 value = ui.Format.MassT(body:GetStats().staticMass)
+										})
+										table.insert(data, { name = lc.CARGO,
+																				 value = ui.Format.MassT(body:GetStats().usedCargo)
+										})
+									else
+										data = {}
+									end
+									tabular(data)
 			end)
 	end)
 end
@@ -188,7 +214,7 @@ local function displaySystemViewUI()
 	if current_view == "system" and not Game.InHyperspace() then
 		ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
 									showOrbitPlannerWindow()
-									showTargetInfoWindow(Engine.SystemMapSelectedObject())
+									showTargetInfoWindow(Engine.SystemMapSelectedObject(), player:GetNavTarget())
 		end)
 	end
 end
