@@ -205,7 +205,7 @@ Pioneer includes the following third-party software:
 
   units
   Copyright (c) 2016 Nic Holthaus
-  Lucensed under the MIT license (see contrib/units/units.h)
+  Licensed under the MIT license (see contrib/units/units.h)
 
 Acknowledgements
 ================
