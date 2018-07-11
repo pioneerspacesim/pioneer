@@ -127,12 +127,15 @@ vector3d Propulsion::ClampLinThrusterState(const vector3d &levels) const
 	Thruster thruster;
 
 	thruster = (clamped.x > 0) ? THRUSTER_RIGHT : THRUSTER_LEFT;
+	clamped.x = Clamp(clamped.x, -1.0, 1.0);
 	clamped.x *= GetThrust(thruster) / m_linThrust[thruster];
 
 	thruster = (clamped.y > 0) ? THRUSTER_UP : THRUSTER_DOWN;
+	clamped.y = Clamp(clamped.y, -1.0, 1.0);
 	clamped.y *= GetThrust(thruster) / m_linThrust[thruster];
 
 	thruster = (clamped.z > 0) ? THRUSTER_REVERSE : THRUSTER_FORWARD;
+	clamped.z = Clamp(clamped.z, -1.0, 1.0);
 	clamped.z *= GetThrust(thruster) / m_linThrust[thruster];
 
 	return clamped;
@@ -151,9 +154,6 @@ void Propulsion::SetLinThrusterState(const vector3d &levels)
 		m_linThrusters = vector3d(0.0);
 	} else {
 		m_linThrusters = ClampLinThrusterState(levels);
-		m_linThrusters[0] = ClampLinThrusterState(0, m_linThrusters[0]);
-		m_linThrusters[1] = ClampLinThrusterState(1, m_linThrusters[1]);
-		m_linThrusters[2] = ClampLinThrusterState(2, m_linThrusters[2]);
 	}
 }
 
