@@ -625,11 +625,50 @@ void SystemView::OnClickLagrange()
 {
 }
 
-vector3d SystemView::Project(const vector3d &offset)
+vector3d SystemView::Project(const Body *body, vector3d position)
 {
+  // TODO: orbital adjustment for moons
   Gui::Screen::EnterOrtho();
   vector3d pos;
-  if(!Gui::Screen::Project(offset * static_cast<double>(m_zoom), pos))
+  vector3d offset(0,0,0);
+  if (m_selectedObject) GetTransformTo(m_selectedObject, offset);
+  vector3d orbital(0,0,0);
+  double t = (m_time - m_game->GetTime());
+  vector3d p;
+  Frame *rootFrame = Pi::game->GetSpace()->GetRootFrame();
+  if(body && body->GetType() == Object::SHIP) {
+	Orbit orbit = static_cast<const Ship*>(body)->ComputeOrbit();
+	orbital = orbit.OrbitalPosAtTime(t);
+	Frame *frame = body->GetFrame();
+	if(frame != Pi::game->GetSpace()->GetRootFrame()) {
+	  // o	rbit is relative to non-root frame, add position
+	  p = (position + orbital) * static_cast<double>(m_zoom) + offset;
+	} else {
+	  // orbit	 is relative to root frame, already includes position
+	  p = orbital * static_cast<double>(m_zoom) + offset;
+	}
+  } else {
+	const SystemBody *sb = body->GetSystemBody();
+	if(sb) {
+	  // TODO: this needs to be a hierarchical recursion
+	  // Each body is interpolated along it's orbit, but offset by its parent's
+	  // interpolated position. The following code does *NOT* work correctly, and still
+	  // needs to be adjusted.
+	  orbital = sb->GetOrbit().OrbitalPosAtTime(t);
+	  const SystemBody *parent = sb->GetParent();
+	  // if(parent) {
+	  // 	position = Pi::game->GetSpace()->GetBodyByIndex(parent->GetPath().bodyIndex)->GetPositionRelTo(rootFrame);
+	  // }
+	  if(sb->GetParent() != rootFrame->GetSystemBody()) {
+		// orbit is relative to non-root frame, add position
+		p = (position + orbital) * static_cast<double>(m_zoom) + offset;
+	  } else {
+		// orbit is relative to root frame, already includes position
+		p = orbital * static_cast<double>(m_zoom) + offset;
+	  }
+	}
+  }
+  if(!Gui::Screen::Project(p, pos))
 	pos = vector3d(0,0,0);
   Gui::Screen::LeaveOrtho();
   return pos;

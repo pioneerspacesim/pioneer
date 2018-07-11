@@ -7,6 +7,7 @@ local Lang = import("Lang")
 local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core");
 local Equipment = import("Equipment")
+local Space = import("Space")
 local utils = import('utils')
 
 local player = nil
@@ -180,10 +181,6 @@ local function showTargetInfoWindow(systemBody, body)
 												value = op and op > 0 and ui.Format.Duration(op, 2) or nil }
 										}
 									elseif body and body:IsShip() then
-										local pos = Engine.SystemMapProject(body:GetPosition())
-										pos.x = pos.x / 800.0 * 1920.0
-										pos.y = pos.y / 600.0 * 1200.0
-										ui.addIcon(pos, icons.maneuver, colors.white, Vector(32,32), ui.anchor.center, ui.anchor.center, "TEST")
 										local name = body.label
 										data = {{ name = lc.NAME_OBJECT,
 															value = name },
@@ -213,6 +210,71 @@ local function showTargetInfoWindow(systemBody, body)
 			end)
 	end)
 end
+-- TODO: copied from game.lua, refactor!
+local function getBodyIcon(body)
+	local ASTEROID_RADIUS = 1500000
+	local st = body.superType
+	local t = body.type
+	if st == "STARPORT" then
+		if t == "STARPORT_ORBITAL" then
+			return icons.spacestation
+		elseif body.type == "STARPORT_SURFACE" then
+			return icons.starport
+		end
+	elseif st == "GAS_GIANT" then
+		return icons.gas_giant
+	elseif st == "STAR" then
+		return icons.sun
+	elseif st == "ROCKY_PLANET" then
+		if body:IsMoon() then
+			return icons.moon
+		else
+			local sb = body:GetSystemBody()
+			if sb.radius < ASTEROID_RADIUS then
+				return icons.asteroid_hollow
+			else
+				return icons.rocky_planet
+			end
+		end
+	elseif body:IsShip() then
+		local shipClass = body:GetShipClass()
+		if icons[shipClass] then
+			return icons[shipClass]
+		else
+			print("data/pigui/game.lua: getBodyIcon unknown ship class " .. (shipClass and shipClass or "nil"))
+			return icons.ship -- TODO: better icon
+		end
+	elseif body:IsHyperspaceCloud() then
+		return icons.hyperspace -- TODO: better icon
+	elseif body:IsMissile() then
+		return icons.bullseye -- TODO: better icon
+	elseif body:IsCargoContainer() then
+		return icons.rocky_planet
+	else
+		print("data/pigui/game.lua: getBodyIcon not sure how to process body, supertype: " .. (st and st or "nil") .. ", type: " .. (t and t or "nil"))
+		utils.print_r(body)
+		return icons.ship
+	end
+end
+
+local function showLabels()
+	local label_offset = 14
+	ui.setNextWindowPos(Vector(0, 0), "Always")
+	ui.setNextWindowSize(Vector(ui.screenWidth, ui.screenHeight), "Always")
+	ui.withStyleColors({ ["WindowBg"] = colors.transparent }, function()
+			ui.window("Labels", {"NoTitleBar", "NoResize", "NoMove", "NoInputs", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}, function()
+									for _,body in pairs(Space.GetBodies()) do
+										if body and body:IsShip() or body:GetSystemBody() then
+											local pos = Engine.SystemMapProject(body, body:GetPositionRelTo(Space.GetRootBody()))
+											pos.x = pos.x / 800.0 * ui.screenWidth
+											pos.y = pos.y / 600.0 * ui.screenHeight
+											ui.addIcon(pos, getBodyIcon(body), colors.white, Vector(32,32), ui.anchor.center, ui.anchor.center, "TEST")
+											ui.addStyledText(pos + Vector(label_offset, 0), ui.anchor.left, ui.anchor.center, body.label , colors.frame, ui.fonts.pionillium.medium)
+										end
+									end
+			end)
+	end)
+end
 local function displaySystemViewUI()
 	player = Game.player
 	local current_view = Game.CurrentView()
@@ -221,6 +283,7 @@ local function displaySystemViewUI()
 		ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
 									showOrbitPlannerWindow()
 									showTargetInfoWindow(Engine.SystemMapSelectedObject(), player:GetNavTarget())
+									showLabels()
 		end)
 	end
 end

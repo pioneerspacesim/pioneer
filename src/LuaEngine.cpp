@@ -1204,8 +1204,9 @@ static int l_engine_system_map_accelerate_time(lua_State *l)
 static int l_engine_system_map_project(lua_State *l)
 {
   SystemView *sv = Pi::game->GetSystemView();
-  vector3d v = LuaPull<vector3d>(l, 1);
-  LuaPush<vector3d>(l, sv->Project(v));
+  Body *b = LuaObject<Body>::CheckFromLua(1);
+  vector3d v = LuaPull<vector3d>(l, 2);
+  LuaPush<vector3d>(l, sv->Project(b, v));
   return 1;
 }
 
