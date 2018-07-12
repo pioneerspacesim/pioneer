@@ -14,7 +14,7 @@
 #include "WorldView.h"
 #include "StringF.h"
 #include "SystemView.h" // for the transfer planner
-
+#include "units_cpp.h"
 //Some player specific sounds
 static Sound::Event s_soundUndercarriage;
 static Sound::Event s_soundHyperdrive;
@@ -297,8 +297,8 @@ vector3d Player::GetManeuverVelocity() const {
 		return vector3d(0,0,0);
 	} else if(systemBody) {
 		Orbit playerOrbit = ComputeOrbit();
-		if(!is_zero_exact(playerOrbit.GetSemiMajorAxis())) {
-			double mass = systemBody->GetMass();
+		if(!is_zero_exact(playerOrbit.GetSemiMajorAxis().to<double>())) {
+			kilogram_t mass(systemBody->GetMass());
 			// XXX The best solution would be to store the mass(es) on Orbit
 			const vector3d velocity = (Pi::planner->GetVel() - playerOrbit.OrbitalVelocityAtTime(mass, playerOrbit.OrbitalTimeAtPos(Pi::planner->GetPosition(), mass)));
 			return velocity;

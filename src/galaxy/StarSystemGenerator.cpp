@@ -8,6 +8,17 @@
 #include "Sector.h"
 #include "Factions.h"
 #include "Lang.h"
+#define DISABLE_PREDEFINED_UNITS
+#define ENABLE_PREDEFINED_LENGTH_UNITS
+#define ENABLE_PREDEFINED_TIME_UNITS
+#define ENABLE_PREDEFINED_MASS_UNITS
+#include "units_cpp.h"
+
+using namespace units;
+using namespace units::time;
+using namespace units::mass;
+using namespace units::length;
+using namespace units::literals;
 
 static const fixed SUN_MASS_TO_EARTH_MASS = fixed(332998,1); // XXX Duplication from StarSystem.cpp
 // if binary stars have separation s, planets can have stable
@@ -330,10 +341,11 @@ void StarSystemLegacyGeneratorBase::PickRings(SystemBody* sbody, bool forceRings
 	sbody->m_rings.maxRadius = fixed();
 	sbody->m_rings.baseColor = Color(255,255,255,255);
 
-	Random ringRng(sbody->GetSeed() + 965467);
 	bool bHasRings = forceRings;
 	if (!bHasRings)
 	{
+		Random ringRng(sbody->GetSeed() + 965467);
+
 		// today's forecast:
 		if (sbody->GetType() == SystemBody::TYPE_PLANET_GAS_GIANT)
 		{
@@ -464,7 +476,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		kid->m_volcanicity    = csbody->volcanicity;
 		kid->m_atmosOxidizing = csbody->atmosOxidizing;
 		kid->m_life           = csbody->life;
-    kid->m_space_station_type = csbody->spaceStationType;
+		kid->m_space_station_type = csbody->spaceStationType;
 		kid->m_rotationPeriod = csbody->rotationPeriod;
 		kid->m_rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
 		kid->m_eccentricity = csbody->eccentricity;
@@ -486,22 +498,22 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		else
 			kid->m_orbit.SetShapeAroundPrimary(csbody->semiMajorAxis.ToDouble() * AU, parent->GetMass(), csbody->eccentricity.ToDouble());
 
-		kid->m_orbit.SetPhase(csbody->orbitalPhaseAtStart.ToDouble());
+		kid->m_orbit.SetPhase(radian_t(csbody->orbitalPhaseAtStart.ToDouble()));
 
 		if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
 			kid->m_orbit.SetPlane(matrix3x3d::RotateY(csbody->longitude) * matrix3x3d::RotateX(-0.5*M_PI + csbody->latitude));
 		} else {
-                        if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
-                            fixed lowestOrbit = fixed().FromDouble(parent->CalcAtmosphereParams().atmosRadius + 500000.0/EARTH_RADIUS);
-                            if (kid->m_orbit.GetSemiMajorAxis() < lowestOrbit.ToDouble()) {
-                                    Error("%s's orbit is too close to its parent (%.2f/%.2f)", csbody->name.c_str(),kid->m_orbit.GetSemiMajorAxis(),lowestOrbit.ToFloat());
-                            }
-                        }
-                        else {
-                            if (kid->m_orbit.GetSemiMajorAxis() < 1.2 * parent->GetRadius()) {
-                                    Error("%s's orbit is too close to its parent", csbody->name.c_str());
-                            }
-                        }
+			if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
+				fixed lowestOrbit = fixed().FromDouble(parent->CalcAtmosphereParams().atmosRadius + 500000.0/EARTH_RADIUS);
+				if (kid->m_orbit.GetSemiMajorAxis().to<double>() < lowestOrbit.ToDouble()) {
+					Error("%	s's orbit is too close to its parent (%.2f/%.2f)", csbody->name.c_str(),kid->m_orbit.GetSemiMajorAxis().to<double>(),lowestOrbit.ToFloat());
+			}
+			}
+			else {
+				if (kid->m_orbit.GetSemiMajorAxis().to<double>() < 1.2 * parent->GetRadius()) {
+					Error("%s's orbit is too close to its parent", csbody->name.c_str());
+				}
+			}
 			double offset = csbody->want_rand_offset ? rand.Double(2*M_PI) : (csbody->orbitalOffset.ToDouble());
 			kid->m_orbit.SetPlane(matrix3x3d::RotateY(offset) * matrix3x3d::RotateX(-0.5*M_PI + csbody->latitude));
 		}
@@ -887,14 +899,14 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 	//		invTidalLockTime.ToFloat(), semiMajorAxis.ToFloat(), radius.ToFloat(), parent->mass.ToFloat(), mass.ToFloat());
 
 	if(invTidalLockTime > 10) { // 10x faster than Moon, no chance not to be tidal-locked
-		sbody->m_rotationPeriod = fixed(int(round(sbody->GetOrbit().Period())),3600*24);
+		sbody->m_rotationPeriod = fixed(int(round(sbody->GetOrbit().Period().to<double>())),3600*24);
 		sbody->m_axialTilt = sbody->GetInclinationAsFixed();
 	} else if(invTidalLockTime > fixed(1,100)) { // rotation speed changed in favour of tidal lock
 		// XXX: there should be some chance the satellite was captured only recenly and ignore this
 		//		I'm ommiting that now, I do not want to change the Universe by additional rand call.
 
 		fixed lambda = invTidalLockTime/(fixed(1,20)+invTidalLockTime);
-		sbody->m_rotationPeriod = (1-lambda)*sbody->GetRotationPeriodAsFixed()+ lambda*sbody->GetOrbit().Period()/3600/24;
+		sbody->m_rotationPeriod = (1-lambda)*sbody->GetRotationPeriodAsFixed()+ lambda*sbody->GetOrbit().Period().to<double>()/3600/24;
 		sbody->m_axialTilt = (1-lambda)*sbody->GetAxialTiltAsFixed() + lambda*sbody->GetInclinationAsFixed();
 	} // else .. nothing happens to the satellite
 
@@ -1046,7 +1058,7 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 		double r1 = rand.Double(2*M_PI);		// function parameter evaluation order is implementation-dependent
 		double r2 = rand.NDouble(5);			// can't put two rands in the same expression
 		planet->m_orbit.SetPlane(matrix3x3d::RotateY(r1) * matrix3x3d::RotateX(-0.5*M_PI + r2*M_PI/2.0));
-		planet->m_orbit.SetPhase(rand.Double(2 * M_PI));
+		planet->m_orbit.SetPhase(radian_t(rand.Double(2 * M_PI)));
 
 		planet->m_inclination = FIXED_PI;
 		planet->m_inclination *= r2/2.0;
@@ -1572,13 +1584,13 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 
 			// Try to limit the inner orbit to at least three hours.
 			{
-				const double minHours = 3.0;
-				const double seconds = Orbit::OrbitalPeriod(innerOrbit.ToDouble() * AU, centralMass);
-				const double hours = seconds / (60.0*60.0);
+				const hour_t minHours = 3.0_hr;
+				const second_t seconds = Orbit::OrbitalPeriod(meter_t(innerOrbit.ToDouble() * AU), kilogram_t(centralMass));
+				const hour_t hours = seconds;
 				if (hours < minHours)
 				{
 					//knowing that T=2*pi*R/sqrt(G*M/R) find R for set T=4 hours:
-					fixed orbitFromPeriod = fixed().FromDouble((std::pow(G*centralMass, 1.0/3.0)*std::pow(minHours*60.0*60.0, 2.0/3.0))/(std::pow(2.0*M_PI, 2.0/3.0)*AU));
+					fixed orbitFromPeriod = fixed().FromDouble((std::pow(G*centralMass, 1.0/3.0)*std::pow(static_cast<second_t>(minHours).to<double>(), 2.0/3.0))/(std::pow(2.0*M_PI, 2.0/3.0)*AU));
 					// We can't go higher than our maximum so set it to that.
 					innerOrbit = std::min(orbMaxS, orbitFromPeriod);
 				}

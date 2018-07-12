@@ -105,16 +105,16 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 	}
 
 	if (b->GetParent()) {
-		float days = float(b->GetOrbit().Period()) / float(60*60*24);
+	  float days = float(b->GetOrbit().Period().to<double>()) / float(60*60*24);
 		if (days > 1000) {
 			data = stringf(Lang::N_YEARS, formatarg("years", days/365));
 		} else {
-			data = stringf(Lang::N_DAYS, formatarg("days", b->GetOrbit().Period() / (60*60*24)));
+		  data = stringf(Lang::N_DAYS, formatarg("days", b->GetOrbit().Period().to<double>() / (60*60*24)));
 		}
 		if (multiple) {
-			float pdays = float(b->GetParent()->GetOrbit().Period()) /float(60*60*24);
+		  float pdays = float(b->GetParent()->GetOrbit().Period().to<double>()) /float(60*60*24);
 			data += " (" + (pdays > 1000 ? stringf(Lang::N_YEARS, formatarg("years", pdays/365))
-										 : stringf(Lang::N_DAYS, formatarg("days", b->GetParent()->GetOrbit().Period() / (60*60*24)))) + ")";
+							: stringf(Lang::N_DAYS, formatarg("days", b->GetParent()->GetOrbit().Period().to<double>() / (60*60*24)))) + ")";
 		}
 		_add_label_and_value(Lang::ORBITAL_PERIOD, data);
 		_add_label_and_value(Lang::PERIAPSIS_DISTANCE, format_distance(b->GetOrbMin()*AU, 3) +

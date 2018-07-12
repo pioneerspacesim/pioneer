@@ -813,7 +813,7 @@ void SystemBody::Dump(FILE* file, const char* indent) const
 		m_isCustomBody ? "CUSTOM " : "");
 	fprintf(file, "%s\t\"%s\"\n", indent, m_name.c_str());
 	fprintf(file, "%s\tmass %.6f\n", indent, m_mass.ToDouble());
-	fprintf(file, "%s\torbit a=%.6f, e=%.6f, phase=%.6f\n", indent, m_orbit.GetSemiMajorAxis(), m_orbit.GetEccentricity(),
+	fprintf(file, "%s\torbit a=%.6f, e=%.6f, phase=%.6f\n", indent, m_orbit.GetSemiMajorAxis().to<double>(), m_orbit.GetEccentricity(),
 		m_orbit.GetOrbitalPhaseAtStart());
 	fprintf(file, "%s\torbit a=%.6f, e=%.6f, orbMin=%.6f, orbMax=%.6f\n", indent, m_semiMajorAxis.ToDouble(), m_eccentricity.ToDouble(),
 		m_orbMin.ToDouble(), m_orbMax.ToDouble());
@@ -955,15 +955,15 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body) {
 				"\t:rotational_phase_at_start(fixed.deg2rad(f(%d,%d)))\n"
 				"\t:orbital_phase_at_start(fixed.deg2rad(f(%d,%d)))\n"
 				"\t:orbital_offset(fixed.deg2rad(f(%d,%d)))\n",
-			body->GetSeed(), body->GetAverageTemp(),
-			int(round(body->GetOrbit().GetSemiMajorAxis()/AU*multiplier)), multiplier,
-			int(round(body->GetOrbit().GetEccentricity()*multiplier)), multiplier,
-			int(round(body->m_rotationPeriod.ToDouble()*multiplier)), multiplier,
-			int(round(body->GetAxialTilt()*multiplier)), multiplier,
-			int(round(body->m_rotationalPhaseAtStart.ToDouble()*multiplier*180/M_PI)), multiplier,
-			int(round(body->m_orbitalPhaseAtStart.ToDouble()*multiplier*180/M_PI)), multiplier,
-			int(round(body->m_orbitalOffset.ToDouble()*multiplier*180/M_PI)), multiplier
-		);
+				body->GetSeed(), body->GetAverageTemp(),
+				int(round(body->GetOrbit().GetSemiMajorAxis().to<double>()/AU*multiplier)), multiplier,
+				int(round(body->GetOrbit().GetEccentricity()*multiplier)), multiplier,
+				int(round(body->m_rotationPeriod.ToDouble()*multiplier)), multiplier,
+				int(round(body->GetAxialTilt()*multiplier)), multiplier,
+				int(round(body->m_rotationalPhaseAtStart.ToDouble()*multiplier*180/M_PI)), multiplier,
+				int(round(body->m_orbitalPhaseAtStart.ToDouble()*multiplier*180/M_PI)), multiplier,
+				int(round(body->m_orbitalOffset.ToDouble()*multiplier*180/M_PI)), multiplier
+				);
 
 		if(body->GetType() == SystemBody::TYPE_PLANET_TERRESTRIAL)
 			fprintf(f,

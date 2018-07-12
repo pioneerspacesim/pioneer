@@ -19,6 +19,7 @@
 #include "graphics/TextureBuilder.h"
 #include <sstream>
 #include <iomanip>
+#include "units_cpp.h"
 
 using namespace Graphics;
 
@@ -65,8 +66,8 @@ void TransferPlanner::AddStartTime(double timeStep) {
 		Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
 		Orbit playerOrbit = Orbit::FromBodyState(Pi::player->GetPositionRelTo(frame), Pi::player->GetVelocityRelTo(frame), frame->GetSystemBody()->GetMass());
 
-		m_position = playerOrbit.OrbitalPosAtTime(deltaT);
-		m_velocity = playerOrbit.OrbitalVelocityAtTime(frame->GetSystemBody()->GetMass(), deltaT);
+		m_position = playerOrbit.OrbitalPosAtTime(second_t(deltaT));
+		m_velocity = playerOrbit.OrbitalVelocityAtTime(kilogram_t(frame->GetSystemBody()->GetMass()), second_t(deltaT));
 	}
 	else
 		ResetStartTime();
@@ -465,7 +466,7 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 	unsigned short num_vertices = 0;
 	for (unsigned short i = 0; i < N_VERTICES_MAX; ++i) {
 		const double t = double(i) / double(N_VERTICES_MAX);
-		const vector3d pos = orbit->EvenSpacedPosTrajectory(t);
+		const vector3d pos = orbit->EvenSpacedPosTrajectory(second_t(t));
 		if (pos.Length() < planetRadius)
 		{
 			maxT = t;
@@ -482,7 +483,7 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 		const double t = double(i) / double(N_VERTICES_MAX) * maxT;
 		if(fadingColors == 0 && t >= startTrailPercent * maxT)
 			fadingColors = i;
-		const vector3d pos = orbit->EvenSpacedPosTrajectory(t, tMinust0);
+		const vector3d pos = orbit->EvenSpacedPosTrajectory(second_t(t), second_t(tMinust0));
 		m_orbitVts[i] = vector3f(offset + pos * double(m_zoom));
 		++num_vertices;
 		if (pos.Length() < planetRadius)
@@ -520,14 +521,14 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 	if (showLagrange && m_showL4L5!=LAG_OFF)
 	{
 		const Color LPointColor(0x00d6e2ff);
-		const vector3d posL4 = orbit->EvenSpacedPosTrajectory((1.0 / 360.0) * 60.0, tMinust0);
+		const vector3d posL4 = orbit->EvenSpacedPosTrajectory(second_t((1.0 / 360.0) * 60.0), second_t(tMinust0));
 		if (Gui::Screen::Project(offset + posL4 * double(m_zoom), pos)) {
 			m_l4Icon->Draw(Pi::renderer, vector2f(pos.x - 2, pos.y - 2), vector2f(4, 4), LPointColor);
 			if(m_showL4L5==LAG_ICONTEXT)
 				m_objectLabels->Add(std::string("L4"), sigc::mem_fun(this, &SystemView::OnClickLagrange), pos.x, pos.y);
 		}
 
-		const vector3d posL5 = orbit->EvenSpacedPosTrajectory((1.0 / 360.0) * 300.0, tMinust0);
+		const vector3d posL5 = orbit->EvenSpacedPosTrajectory(second_t((1.0 / 360.0) * 300.0), second_t(tMinust0));
 		if (Gui::Screen::Project(offset + posL5 * double(m_zoom), pos)) {
 			m_l5Icon->Draw(Pi::renderer, vector2f(pos.x - 2, pos.y - 2), vector2f(4, 4), LPointColor);
 			if (m_showL4L5 == LAG_ICONTEXT)
@@ -558,12 +559,12 @@ void SystemView::OnClickObject(const SystemBody *b)
 
 	if (b->GetParent()) {
 		desc += std::string(Lang::SEMI_MAJOR_AXIS);
-	desc += ":\n";
-		data += format_distance(b->GetOrbit().GetSemiMajorAxis())+"\n";
+		desc += ":\n";
+		data += format_distance(b->GetOrbit().GetSemiMajorAxis().to<double>())+"\n";
 
 		desc += std::string(Lang::ORBITAL_PERIOD);
-	desc += ":\n";
-		data += stringf(Lang::N_DAYS, formatarg("days", b->GetOrbit().Period() / (24*60*60))) + "\n";
+		desc += ":\n";
+		data += stringf(Lang::N_DAYS, formatarg("days", b->GetOrbit().Period().to<double>() / (24*60*60))) + "\n";
 	}
 	m_infoLabel->SetText(desc);
 	m_infoText->SetText(data);
@@ -716,13 +717,13 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 								  frame->GetSystemBody()->GetMass());
 			PutOrbit(&plannedOrbit, offset, Color::STEELBLUE, b->GetRadius());
 			if(std::fabs(m_time - t0) > 1. && (m_time - plannerStartTime) > 0.)
-				PutSelectionBox(offset + plannedOrbit.OrbitalPosAtTime(m_time - plannerStartTime) * static_cast<double>(m_zoom), Color::STEELBLUE);
+				PutSelectionBox(offset + plannedOrbit.OrbitalPosAtTime(second_t(m_time - plannerStartTime)) * static_cast<double>(m_zoom), Color::STEELBLUE);
 			else
 				PutSelectionBox(offset + m_planner->GetPosition() * static_cast<double>(m_zoom), Color::STEELBLUE);
 
 		}
 
-		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0)* double(m_zoom), Color::RED);
+		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(second_t(m_time - t0))* double(m_zoom), Color::RED);
 	}
 
 	// display all child bodies and their orbits
@@ -730,10 +731,10 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 	{
 		for(const SystemBody* kid : b->GetChildren())
 		{
-			if (is_zero_general(kid->GetOrbit().GetSemiMajorAxis()))
+			if (is_zero_general(kid->GetOrbit().GetSemiMajorAxis().to<double>()))
 				continue;
 
-			const double axisZoom = kid->GetOrbit().GetSemiMajorAxis() * m_zoom;
+			const double axisZoom = kid->GetOrbit().GetSemiMajorAxis().to<double>() * m_zoom;
 			if (axisZoom < DEFAULT_VIEW_DISTANCE)
 			{
 				const SystemBody::BodySuperType bst = kid->GetSuperType();
@@ -742,7 +743,7 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 			}
 
 			// not using current time yet
-			const vector3d pos = kid->GetOrbit().OrbitalPosAtTime(m_time) * double(m_zoom);
+			const vector3d pos = kid->GetOrbit().OrbitalPosAtTime(second_t(m_time)) * double(m_zoom);
 			PutBody(kid, offset + pos, trans);
 		}
 	}
@@ -759,7 +760,7 @@ void SystemView::PutSelectionBox(const SystemBody *b, const vector3d &rootPos, c
 	vector3d pos = rootPos;
 	// while (b->parent), not while (b) because the root SystemBody is defined to be at (0,0,0)
 	while (b->GetParent()) {
-		pos += b->GetOrbit().OrbitalPosAtTime(m_time) * double(m_zoom);
+		pos += b->GetOrbit().OrbitalPosAtTime(second_t(m_time)) * double(m_zoom);
 		b = b->GetParent();
 	}
 
@@ -795,7 +796,7 @@ void SystemView::GetTransformTo(const SystemBody *b, vector3d &pos)
 {
 	if (b->GetParent()) {
 		GetTransformTo(b->GetParent(), pos);
-		pos -= double(m_zoom) * b->GetOrbit().OrbitalPosAtTime(m_time);
+		pos -= double(m_zoom) * b->GetOrbit().OrbitalPosAtTime(second_t(m_time));
 	}
 }
 
@@ -947,7 +948,7 @@ void SystemView::DrawShips(const double t, const vector3d &offset) {
 			vector3d bpos = vector3d(0., 0., 0.);
 			if (frame != Pi::game->GetSpace()->GetRootFrame())
 			    bpos += frame->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
-			pos += (bpos + (*s).second.OrbitalPosAtTime(t)) * double(m_zoom);
+			pos += (bpos + (*s).second.OrbitalPosAtTime(second_t(t))) * double(m_zoom);
 		}
 		const bool isNavTarget = Pi::player->GetNavTarget() == (*s).first;
 		PutSelectionBox(pos, isNavTarget ? Color::GREEN : Color::BLUE);

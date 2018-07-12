@@ -293,7 +293,7 @@ static int l_sbody_attr_apoapsis(lua_State *l)
 static int l_sbody_attr_orbital_period(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushnumber(l, sbody->GetOrbit().Period() / float(60*60*24));
+	lua_pushnumber(l, sbody->GetOrbit().Period().to<double>() / float(60*60*24));
 	return 1;
 }
 
