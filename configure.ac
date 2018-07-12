@@ -125,14 +125,15 @@ AC_DEFUN([PIONEER_WARN_CPPFLAG], [_PIONEER_COMPILER_FLAG([CPP], [WARN], [CPP], [
 AC_DEFUN([PIONEER_WARN_C_CXX_FLAG],
 	[_PIONEER_COMPILER_FLAG([C], [WARN], [C], [$1], [$CC/$CXX], [WARN_CXXFLAGS="$WARN_CXXFLAGS $1"])])
 
-dnl Early check for C++11
+dnl Early check for C++14
 dnl     -std=c++11 defines __STRICT_ANSI__, which causes MinGW some problems so use gnu++11 on it instead
+dnl     Dunno if still necessary with c++14?
 case "$host" in
   i686-w64-mingw32.static)
-	_PIONEER_COMPILER_FLAG([C++], [STD], [CXX], [-std=gnu++11], [$CXX], [], [AC_MSG_ERROR([No compiler support for C++11. Unable to build])])
+	_PIONEER_COMPILER_FLAG([C++], [STD], [CXX], [-std=gnu++14], [$CXX], [], [AC_MSG_ERROR([No compiler support for C++14. Unable to build])])
 	;;
   *)
-	_PIONEER_COMPILER_FLAG([C++], [STD], [CXX], [-std=c++11], [$CXX], [], [AC_MSG_ERROR([No compiler support for C++11. Unable to build])])
+	_PIONEER_COMPILER_FLAG([C++], [STD], [CXX], [-std=c++14], [$CXX], [], [AC_MSG_ERROR([No compiler support for C++14. Unable to build])])
 esac
 
 
