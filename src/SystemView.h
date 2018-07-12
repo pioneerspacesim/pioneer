@@ -65,7 +65,9 @@ private:
 	double m_startTime;
 };
 
-class SystemView : public UIView {
+typedef std::vector<std::pair<std::pair<const Body*,const SystemBody*>, vector3d>> BodyPositionVector;
+
+class SystemView: public UIView {
 public:
 	SystemView(Game *game);
 	virtual ~SystemView();
@@ -81,6 +83,7 @@ public:
 	void OnClickAccel(float step);
 	void OnClickRealt();
 	vector3d Project(const Body *body, vector3d offset);
+	BodyPositionVector GetBodyPositions();
 private:
 	static const double PICK_OBJECT_RECT_SIZE;
 	static const Uint16 N_VERTICES_MAX;

@@ -625,66 +625,6 @@ void SystemView::OnClickLagrange()
 {
 }
 
-vector3d SystemView::Project(const Body *body, vector3d position)
-{
-  // TODO: orbital adjustment for moons
-  Gui::Screen::EnterOrtho();
-  vector3d pos;
-  vector3d offset(0,0,0);
-  if (m_selectedObject) GetTransformTo(m_selectedObject, offset);
-  vector3d orbital(0,0,0);
-  double t = (m_time - m_game->GetTime());
-  vector3d p;
-  Frame *rootFrame = Pi::game->GetSpace()->GetRootFrame();
-  SystemBody *rootSystemBody = rootFrame->GetSystemBody();
-  if(body && body->GetType() == Object::SHIP) {
-	Orbit orbit = static_cast<const Ship*>(body)->ComputeOrbit();
-	orbital = orbit.OrbitalPosAtTime(t);
-	Frame *frame = body->GetFrame();
-	if(frame != Pi::game->GetSpace()->GetRootFrame()) {
-	  // o	rbit is relative to non-root frame, add position
-	  p = (position + orbital) * static_cast<double>(m_zoom) + offset;
-	} else {
-	  // orbit	 is relative to root frame, already includes position
-	  p = orbital * static_cast<double>(m_zoom) + offset;
-	}
-  } else {
-	const SystemBody *sb = body->GetSystemBody();
-	if(sb) {
-	  // TODO: this needs to be a hierarchical recursion
-	  // Each body is interpolated along it's orbit, but offset by its parent's
-	  // interpolated position. The following code does *NOT* work correctly, and still
-	  // needs to be adjusted.
-	  orbital = sb->GetOrbit().OrbitalPosAtTime(t);
-	  const SystemBody *parent = sb->GetParent();
-	  if(parent)
-		position = vector3d(0,0,0);
-	  while(parent && parent != rootSystemBody) {
-		position += parent->GetOrbit().OrbitalPosAtTime(t);
-		parent = parent->GetParent();
-	  }
-	  // if(parent) {
-	  // 	position = parent->GetOrbit().OrbitalPosAtTime(t);
-	  // 	parent = parent->GetParent();
-	  // 	if(parent && parent != rootSystemBody) {
-	  // 	  position += parent->GetOrbit().OrbitalPosAtTime(t);
-	  // 	}
-	  // }
-	  if(sb->GetParent() != rootFrame->GetSystemBody()) {
-		// orbit is relative to non-root frame, add position
-		p = (position + orbital) * static_cast<double>(m_zoom) + offset;
-	  } else {
-		// orbit is relative to root frame, already includes position
-		p = orbital * static_cast<double>(m_zoom) + offset;
-	  }
-	}
-  }
-  if(!Gui::Screen::Project(p, pos))
-	pos = vector3d(0,0,0);
-  Gui::Screen::LeaveOrtho();
-  return pos;
-}
-
 void SystemView::PutLabel(const SystemBody *b, const vector3d &offset)
 {
 	Gui::Screen::EnterOrtho();
@@ -1083,4 +1023,89 @@ void SystemView::DrawShips(const double t, const vector3d &offset)
 		if (m_shipDrawing == ORBITS && (*s).first->GetFlightState() == Ship::FlightState::FLYING)
 			PutOrbit(&(*s).second, offset, isNavTarget ? Color::GREEN : Color::BLUE, 0);
 	}
+}
+
+vector3d SystemView::Project(const Body *body, vector3d position)
+{
+  // TODO: orbital adjustment for moons
+  Gui::Screen::EnterOrtho();
+  vector3d pos;
+  vector3d offset(0,0,0);
+  if (m_selectedObject) GetTransformTo(m_selectedObject, offset);
+  vector3d orbital(0,0,0);
+  double t = (m_time - m_game->GetTime());
+  vector3d p;
+  Frame *rootFrame = Pi::game->GetSpace()->GetRootFrame();
+  SystemBody *rootSystemBody = rootFrame->GetSystemBody();
+  if(body && body->GetType() == Object::SHIP) {
+	Orbit orbit = static_cast<const Ship*>(body)->ComputeOrbit();
+	orbital = orbit.OrbitalPosAtTime(t);
+	Frame *frame = body->GetFrame();
+	SystemBody *parent = frame->GetSystemBody();
+	if(parent)
+	  position = vector3d(0,0,0);
+	while(parent && parent != rootSystemBody) {
+	  position += parent->GetOrbit().OrbitalPosAtTime(t);
+	  parent = parent->GetParent();
+	}
+	if(frame != Pi::game->GetSpace()->GetRootFrame()) {
+	  // o	rbit is relative to non-root frame, add position
+	  p = (position + orbital) * static_cast<double>(m_zoom) + offset;
+	} else {
+	  // orbit	 is relative to root frame, already includes position
+	  p = orbital * static_cast<double>(m_zoom) + offset;
+	}
+  } else {
+	const SystemBody *sb = body->GetSystemBody();
+	if(sb) {
+	  // TODO: this needs to be a hierarchical recursion
+	  // Each body is interpolated along it's orbit, but offset by its parent's
+	  // interpolated position. The following code does *NOT* work correctly, and still
+	  // needs to be adjusted.
+	  orbital = sb->GetOrbit().OrbitalPosAtTime(t);
+	  const SystemBody *parent = sb->GetParent();
+	  if(parent)
+		position = vector3d(0,0,0);
+	  while(parent && parent != rootSystemBody) {
+		position += parent->GetOrbit().OrbitalPosAtTime(t);
+		parent = parent->GetParent();
+	  }
+	  // if(parent) {
+	  // 	position = parent->GetOrbit().OrbitalPosAtTime(t);
+	  // 	parent = parent->GetParent();
+	  // 	if(parent && parent != rootSystemBody) {
+	  // 	  position += parent->GetOrbit().OrbitalPosAtTime(t);
+	  // 	}
+	  // }
+	  if(sb->GetParent() != rootSystemBody) {
+		// orbit is relative to non-root frame, add position
+		p = (position + orbital) * static_cast<double>(m_zoom) + offset;
+	  } else {
+		// orbit is relative to root frame, already includes position
+		p = orbital * static_cast<double>(m_zoom) + offset;
+	  }
+	}
+  }
+  if(!Gui::Screen::Project(p, pos))
+	pos = vector3d(0,0,0);
+  Gui::Screen::LeaveOrtho();
+  return pos;
+}
+
+static void CalculateBodyPosition(SystemBody *sb, vector3d offset, BodyPositionVector &result)
+{
+}
+
+BodyPositionVector SystemView::GetBodyPositions()
+{
+  Gui::Screen::EnterOrtho();
+  vector3d pos(0,0,0);
+  BodyPositionVector result;
+  if (m_selectedObject) GetTransformTo(m_selectedObject, pos);
+
+  if (m_system->GetRootBody()) {
+	CalculateBodyPosition(m_system->GetRootBody().Get(), pos, result);
+  }
+
+  Gui::Screen::LeaveOrtho();
 }
