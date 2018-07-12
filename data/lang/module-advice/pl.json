@@ -9,7 +9,7 @@
   },
   "ADVICE_1_BODYTEXT": {
     "description": "",
-    "message": "Take note of which local business to trust or not, upon completing a transaction outside the confines of the law."
+    "message": "Zapamiętaj, którym lokalnym intereson ufać, a którym nie, po zakończeniu transakcji poza granicami prawa."
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
@@ -21,19 +21,19 @@
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
-    "message": "The Road Faster Taken"
+    "message": "Droga Brana Szybciej"
   },
   "ADVICE_3_BODYTEXT": {
     "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
-    "message": "Avoid jumping into uninhabited systems without the means to leave."
+    "message": "Unikaj skoków w niezamieszkane układy bez planu, jak je opuścić."
   },
   "ADVICE_3_HEADLINE": {
     "description": "",
-    "message": "Avoid getting stranded: plan your jump sequence ahead"
+    "message": "Unikaj wejścia na mieliznę: planuj z wyprzedzeniem swoją sekwencję skoków."
   },
   "ADVICE_4_BODYTEXT": {
     "description": "",
-    "message": "Choose your frame of reference. Especially when wanting to match speed and course of a moving target."
+    "message": "Wybierz swój układ odniesienia. Szczególnie, gdy chcesz zrównać prędkość i kurs z poruszającym się celem."
   },
   "ADVICE_4_HEADLINE": {
     "description": "",
@@ -73,7 +73,7 @@
   },
   "ADVICE_9_BODYTEXT": {
     "description": "",
-    "message": "Regularly maintain your engines, but remember: you get what you pay for."
+    "message": "Regularnie sprawdzaj swoje silniki, ale pamiętaj: masz to, za co zapłaciłeś."
   },
   "ADVICE_9_HEADLINE": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "TALE_1_BODYTEXT": {
     "description": "",
-    "message": "Don't miss the beautiful eclipse on New Hope as Hades blocks out the light from Epsilon Eridani."
+    "message": "Nie przegap pięknego zaćmienia na New Hope, gdy Hades zasłania światło z Epsilon Eridani."
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",

@@ -181,7 +181,7 @@
   },
   "CLEARANCE_DENIED_TOO_FAR": {
     "description": "Shown if player requests docking too far away from station",
-    "message": "Clearance denied. Your ship is too far away for ID verification."
+    "message": "İzin reddedildi. Geminiz kimlik doğrulaması için çok uzakta."
   },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
@@ -341,7 +341,7 @@
   },
   "DOCKING_CLEARANCE_EXPIRED": {
     "description": "",
-    "message": "Sabitlenme izin süresi doldu. Eğer sabitlenmek istiyorsanız isteğinizi tekrarlayın."
+    "message": "Kenetlenme izin süresi doldu. Eğer kenetlenmek istiyorsanız isteğinizi tekrarlayın."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
