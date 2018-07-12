@@ -438,7 +438,7 @@ static int l_sbodypath_parse_string(lua_State *l)
 		LuaObject<SystemPath>::PushToLua(syspath.SectorOnly());
 		return 1;
 	}
-	catch (SystemPath::ParseFailure pf)
+	catch (const SystemPath::ParseFailure&)
 	{
 		return 0;
 	}

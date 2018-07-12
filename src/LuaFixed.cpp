@@ -8,8 +8,8 @@
 static int l_fixed_new(lua_State *L)
 {
 	LUA_DEBUG_START(L);
-	Sint64 num = (Sint64) luaL_checknumber(L, 1);
-	Sint64 denom = (Sint64) luaL_checknumber(L, 2);		// use checknumber for >32-bit precision
+	Sint64 num = static_cast<Sint64>(luaL_checknumber(L, 1));
+	Sint64 denom = static_cast<Sint64>(luaL_checknumber(L, 2));		// use checknumber for >32-bit precision
 	if (!denom)
 		return luaL_error(L, "cannot construct a fixed-point value with a zero denominator");
 	LuaFixed::PushToLua(L, fixed(num, denom));

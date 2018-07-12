@@ -229,7 +229,7 @@ void write_screenshot(const Graphics::ScreendumpState &sd, const char* destFile)
 // strcasestr() adapted from gnulib
 // (c) 2005 FSF. GPL2+
 
-#define TOLOWER(c) (isupper((unsigned char)c) ? tolower((unsigned char)c) : ((unsigned char)c))
+#define TOLOWER(c) (isupper(static_cast<unsigned char>(c)) ? tolower(static_cast<unsigned char>(c)) : (static_cast<unsigned char>(c)))
 
 const char *pi_strcasestr (const char *haystack, const char *needle)
 {

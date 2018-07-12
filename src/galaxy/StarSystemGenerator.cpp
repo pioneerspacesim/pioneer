@@ -330,10 +330,10 @@ void StarSystemLegacyGeneratorBase::PickRings(SystemBody* sbody, bool forceRings
 	sbody->m_rings.maxRadius = fixed();
 	sbody->m_rings.baseColor = Color(255,255,255,255);
 
-	Random ringRng(sbody->GetSeed() + 965467);
 	bool bHasRings = forceRings;
 	if (!bHasRings)
 	{
+		Random ringRng(sbody->GetSeed() + 965467);
 		// today's forecast:
 		if (sbody->GetType() == SystemBody::TYPE_PLANET_GAS_GIANT)
 		{

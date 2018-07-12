@@ -347,12 +347,12 @@ SceneGraph::Model *Pi::FindModel(const std::string &name, bool allowPlaceholder)
 	SceneGraph::Model *m = 0;
 	try {
 		m = Pi::modelCache->FindModel(name);
-	} catch (ModelCache::ModelNotFoundException) {
+	} catch (const ModelCache::ModelNotFoundException&) {
 		Output("Could not find model: %s\n", name.c_str());
 		if (allowPlaceholder) {
 			try {
 				m = Pi::modelCache->FindModel("error");
-			} catch (ModelCache::ModelNotFoundException) {
+			} catch (const ModelCache::ModelNotFoundException&) {
 				Error("Could not find placeholder model");
 			}
 		}

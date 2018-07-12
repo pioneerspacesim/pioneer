@@ -36,7 +36,7 @@ void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint
 			const int dst_index = (y * stride) + x;
 			for (int channel = 0; channel < bytes_per_pixel; channel++)
 			{
-				((Uint8*)surface->pixels)[dst_index + channel] = bytes[src_index + channel];
+				(static_cast<Uint8*>(surface->pixels))[dst_index + channel] = bytes[src_index + channel];
 			}
 		}
 		srcy--;

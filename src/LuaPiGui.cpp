@@ -646,7 +646,7 @@ static int l_pigui_get_axisbinding(lua_State *l)
 
 	for (auto js : joysticks) {
 		std::vector<float> axes = js.second.axes;
-		for (auto a = 0; a < axes.size(); a++) {
+		for (size_t a = 0; a < axes.size(); a++) {
 			if (axes[a]>0.25 || axes[a]<-0.25) {
 				binding = "Joy" + Pi::JoystickGUIDString(js.first) + "/Axis" + std::to_string(a);
 				break;
@@ -704,13 +704,13 @@ static int l_pigui_get_keybinding(lua_State *l)
 
 		for (auto js : joysticks) {
 			std::vector<bool> buttons = js.second.buttons;
-			for (auto b = 0; b < buttons.size(); b++) {
+			for (size_t b = 0; b < buttons.size(); b++) {
 				if (buttons[b]) {
 					binding = "Joy" + Pi::JoystickGUIDString(js.first) + "/Button" + std::to_string(b);
 					break;
 				}
 			}
-			for (auto h = 0; h < js.second.hats.size(); h++) {
+			for (size_t h = 0; h < js.second.hats.size(); h++) {
 				if (js.second.hats[h]) {
 					binding = "Joy" + Pi::JoystickGUIDString(js.first) + "/Hat" + std::to_string(h) + "Dir" + std::to_string(js.second.hats[h]);
 					break;

@@ -549,7 +549,7 @@ void LuaConsole::OpenTCPDebugConnection(int portnumber) {
 	destination.sin_family = AF_INET;
 	destination.sin_port = htons(portnumber);
 	destination.sin_addr.s_addr = INADDR_ANY; // this should be localhost only!
-	if (bind(m_debugSocket, (struct sockaddr*)&destination, sizeof(destination)) < 0) {
+	if (bind(m_debugSocket, reinterpret_cast<struct sockaddr*>(&destination), sizeof(destination)) < 0) {
 		Output("Binding socket failed.\n");
 		if(m_debugSocket) {
 			close(m_debugSocket);
@@ -601,7 +601,7 @@ void LuaConsole::HandleNewDebugTCPConnection(int socket) {
 	}
 	// set to no buffering
 	int flag = 1;
-	setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (char *)&flag, sizeof(int));
+	setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, reinterpret_cast<char *>(&flag), sizeof(int));
 
 	m_debugConnections.push_back(sock);
 	std::string welcome = "** Welcome to the Pioneer Remote Debugging Console!\n> ";
