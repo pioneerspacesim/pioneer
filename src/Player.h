@@ -37,6 +37,7 @@ public:
 	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
 	void SetNavTarget(Body* const target, bool setSpeedTo = false);
 	void SetSetSpeedTarget(Body* const target);
+	void ChangeSetSpeed(double delta);
 
 	virtual Ship::HyperjumpStatus InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, const HyperdriveSoundsTable &sounds, LuaRef checks) override;
 	virtual void AbortHyperjump() override;

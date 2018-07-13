@@ -28,6 +28,7 @@ PlayerShipController::PlayerShipController() :
 	m_controlsLocked(false),
 	m_invertMouse(false),
 	m_mouseActive(false),
+	m_disableMouseFacing(false),
 	m_rotationDamping(true),
 	m_mouseX(0.0),
 	m_mouseY(0.0),
@@ -226,7 +227,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		{
 			// use ship rotation relative to system, unchanged by frame transitions
 			matrix3x3d rot = m_ship->GetOrientRelTo(m_ship->GetFrame()->GetNonRotFrame());
-			if (!m_mouseActive) {
+			if (!m_mouseActive && !m_disableMouseFacing) {
 				m_mouseDir = -rot.VectorZ();
 				m_mouseX = m_mouseY = 0;
 				m_mouseActive = true;
@@ -332,7 +333,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 			m_ship->AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
 		}
 
-		if (m_mouseActive) m_ship->AIFaceDirection(GetMouseDir());
+		if (m_mouseActive && !m_disableMouseFacing) m_ship->AIFaceDirection(GetMouseDir());
 	}
 }
 

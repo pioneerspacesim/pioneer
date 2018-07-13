@@ -36,6 +36,7 @@ public:
 
 	Point GetMousePos() const { return m_lastMousePosition; }
 
+	void ResetMouseActiveReceiver();
 private:
 	void DispatchMouseOverOut(Widget *target, const Point &mousePos);
 	void DispatchSelect(Widget *target);

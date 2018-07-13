@@ -504,6 +504,15 @@ static int l_ship_get_docked_with(lua_State *l)
 	return 1;
 }
 
+static int l_ship_request_docking_clearance(lua_State *l) {
+	Ship *player = LuaObject<Ship>::CheckFromLua(1);
+	SpaceStation *s = static_cast<SpaceStation*>(LuaObject<Body>::CheckFromLua(2));
+	std::string msg;
+	s->GetDockingClearance(player, msg);
+	lua_pushstring(l, msg.c_str());
+	return 1;
+}
+
 /*
  * Method: Undock
  *
@@ -1538,6 +1547,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "IsECMReady", l_ship_is_ecm_ready },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
+		{ "RequestDockingClearance", l_ship_request_docking_clearance },
 		{ "Undock",        l_ship_undock          },
 		{ "BlastOff",      l_ship_blast_off       },
 

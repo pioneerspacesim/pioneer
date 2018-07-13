@@ -313,13 +313,20 @@ void EventDispatcher::DeselectWidget(Widget *target)
 	DispatchSelect(0);
 }
 
+void EventDispatcher::ResetMouseActiveReceiver()
+{
+	if (m_mouseActiveReceiver) {
+		m_mouseActiveReceiver->TriggerMouseDeactivate();
+		m_mouseActiveReceiver.Reset();
+	}
+}
+
 void EventDispatcher::DisableWidget(Widget *target)
 {
 	DeselectWidget(target);
 
 	if (m_mouseActiveReceiver && m_mouseActiveReceiver.Get() == target) {
-		m_mouseActiveReceiver->TriggerMouseDeactivate();
-		m_mouseActiveReceiver.Reset();
+		ResetMouseActiveReceiver();
 	}
 
 	// if the mouse is over the target, then the mouse is also over all of the
