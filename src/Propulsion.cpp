@@ -188,7 +188,7 @@ double Propulsion::GetThrustMin() const
 	return val;
 }
 
-vector3d Propulsion::GetThrustMax(const vector3d &dir) const
+vector3d Propulsion::GetThrustUncapped(const vector3d &dir) const
 {
 	vector3d maxThrust;
 

@@ -40,13 +40,15 @@ class Propulsion : public RefCounted
 		void SetAccelerationCapMult(double p, const float lin_AccelerationCap[]);
 
 		// Thrust and thruster functions
+		// Everything's capped unless specified otherwise.
 		double GetThrust(Thruster thruster) const; // Maximum thrust possible within acceleration cap
 		vector3d GetThrust(const vector3d &dir) const;
 		inline double GetThrustFwd() const { return GetThrust(THRUSTER_FORWARD); }
 		inline double GetThrustRev() const { return GetThrust(THRUSTER_REVERSE); }
 		inline double GetThrustUp() const { return GetThrust(THRUSTER_UP); }
 		double GetThrustMin() const;
-		vector3d GetThrustMax(const vector3d &dir) const;
+
+		vector3d GetThrustUncapped(const vector3d &dir) const;
 
 		inline double GetAccel(Thruster thruster) const { return GetThrust(thruster) / m_dBody->GetMass(); }
 		inline double GetAccelFwd() const { return GetAccel(THRUSTER_FORWARD); } //GetThrustFwd() / m_dBody->GetMass(); }
@@ -54,9 +56,12 @@ class Propulsion : public RefCounted
 		inline double GetAccelUp() const { return GetAccel(THRUSTER_UP); } //GetThrustUp() / m_dBody->GetMass(); }
 		inline double GetAccelMin() const { return GetThrustMin() / m_dBody->GetMass(); }
 
+		// Clamp thruster levels and scale them down so that a level of 1
+		// corresponds to the thrust from GetThrust().
 		double ClampLinThrusterState(int axis, double level) const;
 		vector3d ClampLinThrusterState(const vector3d &levels) const;
 
+		// A level of 1 corresponds to the thrust from GetThrust().
 		void SetLinThrusterState(int axis, double level);
 		void SetLinThrusterState(const vector3d &levels);
 
@@ -69,7 +74,7 @@ class Propulsion : public RefCounted
 		inline void ClearLinThrusterState() { m_linThrusters = vector3d(0,0,0); }
 		inline void ClearAngThrusterState() { m_angThrusters = vector3d(0,0,0); }
 
-		inline vector3d GetActualLinThrust() const { return m_linThrusters * GetThrustMax(m_linThrusters); }
+		inline vector3d GetActualLinThrust() const { return m_linThrusters * GetThrustUncapped(m_linThrusters); }
 		inline vector3d GetActualAngThrust() const { return m_angThrusters * m_angThrust; }
 
 		// Fuel
