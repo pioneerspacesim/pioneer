@@ -124,7 +124,9 @@ local function button_comms(current_view)
 				Game.SetView("space_station")
 			end
 		else
-			Game.ToggleTargetActions()
+			if ui.toggleSystemTargets then
+				ui.toggleSystemTargets()
+			end
 		end
 	end
 end
