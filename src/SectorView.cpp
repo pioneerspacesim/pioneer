@@ -573,8 +573,12 @@ void SectorView::AddToRoute(const SystemPath &path)
 }
 
 bool SectorView::RemoveRouteItem(const std::vector<SystemPath>::size_type element) {
-	m_route.erase(m_route.begin() + element);
-	return true;
+	if (element >= 0 && element < m_route.size()) {
+		m_route.erase(m_route.begin() + element);
+		return true;
+	} else {
+		return false;
+	}
 }
 
 void SectorView::ClearRoute()
