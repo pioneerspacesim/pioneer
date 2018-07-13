@@ -78,7 +78,6 @@ void WorldView::InitObject()
 	float size[2];
 	GetSizeRequested(size);
 
-	m_showTargetActionsTimeout = 0;
 	m_labelsOn = true;
 	SetTransparency(true);
 
@@ -89,25 +88,6 @@ void WorldView::InitObject()
 	m_blendState = Pi::renderer->CreateRenderState(rsd); //XXX m_renderer not set yet
 	m_navTunnel = new NavTunnelWidget(this, m_blendState);
 	Add(m_navTunnel, 0, 0);
-
-	m_commsOptions = new Fixed(size[0], size[1]/1.8);
-	m_commsOptions->SetTransparency(true);
-	Add(m_commsOptions, 10, 150);
-
-	m_commsNavOptionsContainer = new Gui::HBox();
-	m_commsNavOptionsContainer->SetSpacing(5);
-	m_commsNavOptionsContainer->SetSizeRequest(220, size[1]-50);
-	Add(m_commsNavOptionsContainer, size[0]-230, 20);
-
-	Gui::VScrollPortal *portal = new Gui::VScrollPortal(200);
-	Gui::VScrollBar *scroll = new Gui::VScrollBar();
-	scroll->SetAdjustment(&portal->vscrollAdjust);
-	m_commsNavOptionsContainer->PackStart(scroll);
-	m_commsNavOptionsContainer->PackStart(portal);
-
-	m_commsNavOptions = new Gui::VBox();
-	m_commsNavOptions->SetSpacing(5);
-	portal->Add(m_commsNavOptions);
 
 #if WITH_DEVKEYS
 	Gui::Screen::PushFont("ConsoleFont");
@@ -351,19 +331,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 	else
 		m_pauseText->Hide();
 
-	if (m_showTargetActionsTimeout) {
-		if (SDL_GetTicks() - m_showTargetActionsTimeout > 20000) {
-			m_showTargetActionsTimeout = 0;
-			m_commsOptions->DeleteAllChildren();
-			m_commsNavOptions->DeleteAllChildren();
-		}
-		m_commsOptions->ShowAll();
-		m_commsNavOptionsContainer->ShowAll();
-	} else {
-		m_commsOptions->Hide();
-		m_commsNavOptionsContainer->Hide();
-	}
-
 #if WITH_DEVKEYS
 	if (Pi::showDebugInfo) {
 		std::ostringstream ss;
@@ -498,90 +465,6 @@ void WorldView::OnSwitchFrom()
 	Pi::DrawGUI = true;
 }
 
-void WorldView::ToggleTargetActions()
-{
-	if (m_game->IsHyperspace() || m_showTargetActionsTimeout)
-		HideTargetActions();
-	else
-		ShowTargetActions();
-}
-
-void WorldView::ShowTargetActions()
-{
-	m_showTargetActionsTimeout = SDL_GetTicks();
-	UpdateCommsOptions();
-}
-
-void WorldView::HideTargetActions()
-{
-	m_showTargetActionsTimeout = 0;
-	UpdateCommsOptions();
-}
-
-Gui::Button *WorldView::AddCommsOption(const std::string &msg, int ypos, int xoffset, int optnum)
-{
-	Gui::Label *l = new Gui::Label(msg);
-	m_commsOptions->Add(l, 50 + xoffset, float(ypos));
-
-	char buf[8];
-	snprintf(buf, sizeof(buf), "%d", optnum);
-	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label(buf));
-	b->SetShortcut(SDL_Keycode(SDLK_0 + optnum), KMOD_NONE);
-	// hide target actions when things get clicked on
-	b->onClick.connect(sigc::mem_fun(this, &WorldView::ToggleTargetActions));
-	m_commsOptions->Add(b, 16 + xoffset, float(ypos));
-	return b;
-}
-
-void WorldView::OnClickCommsNavOption(Body *target)
-{
-	Pi::player->SetNavTarget(target);
-	m_showTargetActionsTimeout = SDL_GetTicks();
-}
-
-void WorldView::AddCommsNavOption(const std::string &msg, Body *target)
-{
-	Gui::HBox *hbox = new Gui::HBox();
-	hbox->SetSpacing(5);
-
-	Gui::Label *l = new Gui::Label(msg);
-	hbox->PackStart(l);
-
-	Gui::Button *b = new Gui::SolidButton();
-	b->onClick.connect(sigc::bind(sigc::mem_fun(this, &WorldView::OnClickCommsNavOption), target));
-	hbox->PackStart(b);
-
-	m_commsNavOptions->PackEnd(hbox);
-}
-
-void WorldView::BuildCommsNavOptions()
-{
-	std::map< Uint32,std::vector<SystemBody*> > groups;
-
-	m_commsNavOptions->PackEnd(new Gui::Label(std::string("#ff0")+std::string(Lang::NAVIGATION_TARGETS_IN_THIS_SYSTEM)+std::string("\n")));
-
-	for (SystemBody* station : m_game->GetSpace()->GetStarSystem()->GetSpaceStations()) {
-		groups[station->GetParent()->GetPath().bodyIndex].push_back(station);
-	}
-
-	for ( std::map< Uint32,std::vector<SystemBody*> >::const_iterator i = groups.begin(); i != groups.end(); ++i ) {
-		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + m_game->GetSpace()->GetStarSystem()->GetBodies()[(*i).first]->GetName()));
-
-		for ( std::vector<SystemBody*>::const_iterator j = (*i).second.begin(); j != (*i).second.end(); ++j) {
-			SystemPath path = m_game->GetSpace()->GetStarSystem()->GetPathOf(*j);
-			Body *body = m_game->GetSpace()->FindBodyForPath(&path);
-			AddCommsNavOption((*j)->GetName(), body);
-		}
-	}
-}
-
-static void PlayerRequestDockingClearance(SpaceStation *s)
-{
-	std::string msg;
-	s->GetDockingClearance(Pi::player, msg);
-	Pi::game->log->Add(s->GetLabel(), msg, GameLog::Priority::PRIORITY_NORMAL);
-}
-
 // XXX paying fine remotely can't really be done until crime and
 // worldview are in Lua. I'm leaving this code here so its not
 // forgotten
@@ -619,157 +502,6 @@ void WorldView::OnPlayerChangeTarget()
 			m_game->GetSectorView()->FloatHyperspaceTarget();
 	}
 
-	UpdateCommsOptions();
-}
-
-static void autopilot_flyto(Body *b)
-{
-	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
-	Pi::player->AIFlyTo(b);
-}
-static void autopilot_dock(Body *b)
-{
-	if(Pi::player->GetFlightState() != Ship::FLYING)
-		return;
-
-	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
-	Pi::player->AIDock(static_cast<SpaceStation*>(b));
-}
-static void autopilot_orbit(Body *b, double alt)
-{
-	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
-	Pi::player->AIOrbit(b, alt);
-}
-
-static void player_target_hypercloud(HyperspaceCloud *cloud)
-{
-	Pi::game->GetSectorView()->SetHyperspaceTarget(cloud->GetShip()->GetHyperspaceDest());
-}
-
-static void OnCommsSelectAttitude(FlightControlState s) {
-	Pi::player->GetPlayerController()->SetFlightControlState(s);
-}
-
-void WorldView::UpdateCommsOptions()
-{
-	m_commsOptions->DeleteAllChildren();
-	m_commsNavOptions->DeleteAllChildren();
-
-	if (m_showTargetActionsTimeout == 0) return;
-
-	if (m_game->GetSpace()->GetStarSystem()->HasSpaceStations())
-	{
-		BuildCommsNavOptions();
-	}
-
-	Body * const navtarget = Pi::player->GetNavTarget();
-	Body * const comtarget = Pi::player->GetCombatTarget();
-	Gui::Button *button;
-	int ypos = 0;
-	int optnum = 1;
-	if (!(navtarget || comtarget)) {
-		m_commsOptions->Add(new Gui::Label("#0f0"+std::string(Lang::NO_TARGET_SELECTED)), 16, float(ypos));
-		ypos += 32;
-	}
-
-	int hasAutopilot = 0;
-	Pi::player->Properties().Get("autopilot_cap", hasAutopilot);
-	hasAutopilot = hasAutopilot && (Pi::player->GetFlightState() == Ship::FLYING);
-
-	if (navtarget) {
-		m_commsOptions->Add(new Gui::Label("#0f0"+navtarget->GetLabel()), 16, float(ypos));
-		ypos += 32;
-		if (navtarget->IsType(Object::SPACESTATION)) {
-			SpaceStation *pStation = static_cast<SpaceStation *>(navtarget);
-			if( pStation->GetMyDockingPort(Pi::player) == -1 )
-			{
-				button = AddCommsOption(Lang::REQUEST_DOCKING_CLEARANCE, ypos, 0, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), static_cast<SpaceStation*>(navtarget)));
-				ypos += 32;
-			}
-
-			if( hasAutopilot )
-			{
-				button = AddCommsOption(Lang::AUTOPILOT_DOCK_WITH_STATION, ypos, 0, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget));
-				ypos += 32;
-			}
-
-			// XXX paying fine remotely can't really be done until crime and
-			// worldview are in Lua. I'm leaving this code here so its not
-			// forgotten
-			/*
-			Sint64 crime, fine;
-			Polit::GetCrime(&crime, &fine);
-			if (fine) {
-				button = AddCommsOption(stringf(Lang::PAY_FINE_REMOTELY,
-							formatarg("amount", format_money(fine))), ypos, optnum++);
-				button->onClick.connect(sigc::ptr_fun(&PlayerPayFine));
-				ypos += 32;
-			}
-			*/
-		}
-		if (hasAutopilot) {
-			button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", navtarget->GetLabel())), ypos, 0, optnum++);
-			button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_flyto), navtarget));
-			ypos += 32;
-
-			if (navtarget->IsType(Object::PLANET) || navtarget->IsType(Object::STAR)) {
-				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_LOW_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, 0, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.2));
-				ypos += 32;
-
-				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, 0,  optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.6));
-				ypos += 32;
-
-				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_HIGH_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, 0, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 3.2));
-				ypos += 32;
-			}
-		}
-
-		int analyzer = 0;
-		Pi::player->Properties().Get("hypercloud_analyzer_cap", analyzer);
-		if (analyzer && navtarget->IsType(Object::HYPERSPACECLOUD)) {
-			HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(navtarget);
-			if (!cloud->IsArrival()) {
-				button = AddCommsOption(Lang::SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE, ypos, 0, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(player_target_hypercloud), cloud));
-				ypos += 32;
-			}
-		}
-	}
-	if (comtarget && hasAutopilot) {
-		m_commsOptions->Add(new Gui::Label("#f00"+comtarget->GetLabel()), 16, float(ypos));
-		ypos += 32;
-		button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", comtarget->GetLabel())), ypos, 0, optnum++);
-		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget));
-		ypos += 32;
-	}
-
-	if (Pi::player->GetFlightState() == Ship::FLYING) {
-		button = AddCommsOption(Lang::HEADING_LOCK_FORWARD, ypos, 0, optnum++);
-		button->onClick.connect(sigc::bind(sigc::ptr_fun(OnCommsSelectAttitude), CONTROL_FIXHEADING_FORWARD));
-
-		button = AddCommsOption(Lang::HEADING_LOCK_BACKWARD, ypos, 180, optnum++);
-		button->onClick.connect(sigc::bind(sigc::ptr_fun(OnCommsSelectAttitude), CONTROL_FIXHEADING_BACKWARD));
-		ypos += 32;
-
-		button = AddCommsOption(Lang::HEADING_LOCK_NORMAL, ypos, 0, optnum++);
-		button->onClick.connect(sigc::bind(sigc::ptr_fun(OnCommsSelectAttitude), CONTROL_FIXHEADING_NORMAL));
-
-		button = AddCommsOption(Lang::HEADING_LOCK_ANTINORMAL, ypos, 180, optnum++);
-		button->onClick.connect(sigc::bind(sigc::ptr_fun(OnCommsSelectAttitude), CONTROL_FIXHEADING_ANTINORMAL));
-		ypos += 32;
-
-		button = AddCommsOption(Lang::HEADING_LOCK_RADIALLY_INWARD, ypos, 0, optnum++);
-		button->onClick.connect(sigc::bind(sigc::ptr_fun(OnCommsSelectAttitude), CONTROL_FIXHEADING_RADIALLY_INWARD));
-
-		button = AddCommsOption(Lang::HEADING_LOCK_RADIALLY_OUTWARD, ypos, 180, optnum++);
-		button->onClick.connect(sigc::bind(sigc::ptr_fun(OnCommsSelectAttitude), CONTROL_FIXHEADING_RADIALLY_OUTWARD));
-		ypos += 32;
-	}
 }
 
 int WorldView::GetActiveWeapon() const
