@@ -340,8 +340,10 @@ local function displayDetailData(target, radius, combatTarget, navTarget, colorL
 	local uiPos = ui.pointOnClock(center, radius, 2.46)
 	-- label of target
 	local tooltip = reticuleTarget == "combatTarget" and lui.HUD_CURRENT_COMBAT_TARGET or (reticuleTarget == "navTarget" and lui.HUD_CURRENT_NAV_TARGET or lui.HUD_CURRENT_FRAME)
-	ui.addStyledText(uiPos, ui.anchor.left, ui.anchor.baseline, target.label, colorDark, pionillium.medium, tooltip, colors.lightBlackBackground)
-
+	local nameSize = ui.addStyledText(uiPos, ui.anchor.left, ui.anchor.baseline, target.label, colorDark, pionillium.medium, tooltip, colors.lightBlackBackground)
+	if ui.isMouseHoveringRect(uiPos - Vector(0, pionillium.medium.offset), uiPos + nameSize - Vector(0, pionillium.medium.offset)) and ui.isMouseClicked(1) and ui.noModifierHeld() then
+		ui.openDefaultRadialMenu(target)
+	end
 	-- current distance, relative speed
 	uiPos = ui.pointOnClock(center, radius, 2.75)
 	-- currently unused: local distance, distance_unit = ui.Format.Distance(player:DistanceTo(target))
@@ -774,8 +776,35 @@ local function displayHyperspaceCountdown()
 		ui.addStyledText(uiPos, ui.anchor.center, ui.anchor.bottom, string.interp(lui.HUD_HYPERSPACING_TO_N_IN_N_SECONDS ,{ destination = destName, countdown = countdown }), colors.hyperspaceInfo, pionillium.large)
 	end
 end
+local radial_menu_actions_orbital = {
+	{icon = ui.theme.icons.normal_thin,
+	 tooltip=lc.HEADING_LOCK_NORMAL,
+	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_NORMAL") end},
+	{icon = ui.theme.icons.radial_out_thin,
+	 tooltip=lc.HEADING_LOCK_RADIALLY_OUTWARD,
+	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_RADIALLY_OUTWARD") end},
+	{icon = ui.theme.icons.retrograde_thin,
+	 tooltip=lc.HEADING_LOCK_BACKWARD,
+	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_BACKWARD") end},
+	{icon = ui.theme.icons.antinormal_thin,
+	 tooltip=lc.HEADING_LOCK_ANTINORMAL,
+	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_ANTINORMAL") end},
+	{icon = ui.theme.icons.radial_in_thin,
+	 tooltip=lc.HEADING_LOCK_RADIALLY_INWARD,
+	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_RADIALLY_INWARD") end},
+	{icon = ui.theme.icons.prograde_thin,
+	 tooltip=lc.HEADING_LOCK_FORWARD,
+	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_FORWARD") end},
+}
 
 local function displayOnScreenObjects()
+	if ui.altHeld() and not ui.isMouseHoveringAnyWindow() and ui.isMouseClicked(1) then
+		local frame = player.frameBody
+		if frame then
+			ui.openRadialMenu(frame, 1, 30, radial_menu_actions_orbital)
+		end
+	end
+	ui.radialMenu("onscreenobjects")
 	local should_show_label = ui.shouldShowLabels()
 	local iconsize = 18
 	local label_offset = 14 -- enough so that the target rectangle fits
@@ -836,7 +865,14 @@ local function displayOnScreenObjects()
 			ui.addStyledText(coords + Vector(label_offset, 0), ui.anchor.left, ui.anchor.center, v.mainBody.label .. multipleText , colors.frame, pionillium.small)
 		end
 		local mp = ui.getMousePos()
-		-- click handler
+		-- mouse release handler
+		if (Vector(mp.x,mp.y) - coords):magnitude() < iconsize * 1.5 then
+			if not ui.isMouseHoveringAnyWindow() and ui.isMouseClicked(1) then
+				local body = v.mainBody.body
+				ui.openDefaultRadialMenu(body)
+			end
+		end
+		-- mouse release handler
 		if (Vector(mp.x,mp.y) - coords):magnitude() < iconsize * 1.5 then
 			if not ui.isMouseHoveringAnyWindow() and ui.isMouseReleased(0) then
 				if v.hasNavTarget then
@@ -920,10 +956,12 @@ ui.registerHandler(
 												displayTargetScanner()
 												displayHyperspaceCountdown()
 												callModules("game")
+												ui.radialMenu("worldloopworld")
 											end
 										else
 											if ui.shouldDrawUI() then
 												callModules("game")
+												ui.radialMenu("worldloopnotworld")
 											end
 										end
 				end)

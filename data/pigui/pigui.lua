@@ -1,6 +1,8 @@
 -- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+-- TODO: don't move pointer in radial menu
+
 local Format = import('Format')
 local Game = import('Game')
 local Player = import('Player')
@@ -450,9 +452,12 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 	return Vector(size.x, size.y)
 end
 
-ui.icon = function(icon, size, color)
+ui.icon = function(icon, size, color, tooltip)
 	local uv0, uv1 = get_icon_tex_coords(icon)
 	pigui.Image(ui.icons_texture, size, uv0, uv1, color)
+	if tooltip and ui.isItemHovered() then
+		ui.setTooltip(tooltip)
+	end
 end
 
 -- Forward selected functions
@@ -463,7 +468,12 @@ ui.setNextWindowPosCenter = pigui.SetNextWindowPosCenter
 ui.setNextWindowSize = pigui.SetNextWindowSize
 ui.setNextWindowSizeConstraints = pigui.SetNextWindowSizeConstraints
 ui.dummy = pigui.Dummy
-ui.sameLine = pigui.SameLine
+ui.sameLine = function(pos_x, spacing_w)
+	local px = pos_x or 0.0
+	local sw = spacing_w or -1.0
+	pigui.SameLine(px, sw)
+end
+ui.spacing = pigui.Spacing
 ui.text = pigui.Text
 ui.combo = pigui.Combo
 ui.listBox = pigui.ListBox
@@ -497,13 +507,15 @@ ui.withID = function(id, fun)
 end
 ui.imageButton = function(icon, size, frame_padding, bg_color, tint_color, tooltip)
 	local uv0, uv1 = get_icon_tex_coords(icon)
-	pigui.withID(tooltip, function()
+	ui.withID(tooltip, function()
 								 local res = pigui.ImageButton(ui.icons_texture, size, uv0, uv1, frame_padding, bg_color, tint_color)
 	end)
 	return res
 end
 ui.setCursorPos = pigui.SetCursorPos
 ui.getCursorPos = pigui.GetCursorPos
+ui.setCursorScreenPos = pigui.SetCursorScreenPos
+ui.getCursorScreenPos = pigui.GetCursorScreenPos
 ui.lowThrustButton = pigui.LowThrustButton
 ui.thrustIndicator = pigui.ThrustIndicator
 ui.oneOverSqrtTwo = one_over_sqrt_two
@@ -524,6 +536,7 @@ ui.openPopup = pigui.OpenPopup
 ui.shouldShowLabels = pigui.ShouldShowLabels
 ui.columns = pigui.Columns
 ui.nextColumn = pigui.NextColumn
+ui.setColumnOffset = pigui.SetColumnOffset
 ui.keys = pigui.keys
 ui.systemInfoViewNextPage = pigui.SystemInfoViewNextPage -- deprecated
 ui.isKeyReleased = pigui.IsKeyReleased
@@ -537,6 +550,131 @@ ui.shiftHeld = function() return pigui.key_shift end
 ui.noModifierHeld = function() return pigui.key_none end
 ui.vSliderInt = pigui.VSliderInt
 ui.sliderInt = pigui.SliderInt
+
+local shouldShowRadialMenu = false
+local radialMenuPos = Vector(0,0)
+local radialMenuSize = 10
+local radialMenuTarget = nil
+local radialMenuMouseButton = 1
+local radialMenuActions = {}
+local radialMenuMousePos = nil
+ui.openRadialMenu = function(target, mouse_button, size, actions)
+	ui.openPopup("##radialmenupopup")
+	shouldShowRadialMenu = true
+	radialMenuTarget = target
+	radialMenuPos = ui.getMousePos()
+	radialMenuSize = size
+	radialMenuMouseButton = mouse_button
+	radialMenuActions = actions
+	radialMenuMousePos = ui.getMousePos()
+	-- move away from screen edge
+	radialMenuPos.x = math.min(math.max(radialMenuPos.x, size*3), ui.screenWidth - size*3)
+	radialMenuPos.y = math.min(math.max(radialMenuPos.y, size*3), ui.screenHeight - size*3)
+end
+
+-- TODO: add cloud Lang::SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
+local radial_menu_actions_station = {
+	{icon=ui.theme.icons.comms, tooltip=lc.REQUEST_DOCKING_CLEARANCE,
+	 action=function(target)
+		 local msg = Game.player:RequestDockingClearance(target)
+		 Game.AddCommsLogLine(msg, target.label)
+		 Game.player:SetNavTarget(target)
+	end},
+	{icon=ui.theme.icons.autopilot_dock, tooltip=lc.AUTOPILOT_DOCK_WITH_STATION,
+	 action=function(target)
+		 Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
+		 Game.player:AIDockWith(target)
+		 Game.player:SetNavTarget(target)
+	end},
+}
+
+local radial_menu_actions_all_bodies = {
+	{icon=ui.theme.icons.autopilot_fly_to, tooltip=lc.AUTOPILOT_FLY_TO_VICINITY_OF,
+	 action=function(target)
+		 Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
+		 Game.player:AIFlyTo(target)
+		 Game.player:SetNavTarget(target)
+	end},
+}
+
+local radial_menu_actions_systembody = {
+	{icon=ui.theme.icons.autopilot_low_orbit, tooltip=lc.AUTOPILOT_ENTER_LOW_ORBIT_AROUND,
+	 action=function(target)
+		 Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
+		 Game.player:AIEnterLowOrbit(target)
+		 Game.player:SetNavTarget(target)
+	end},
+	{icon=ui.theme.icons.autopilot_medium_orbit, tooltip=lc.AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND,
+	 action=function(target)
+		 Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
+		 Game.player:AIEnterMediumOrbit(target)
+		 Game.player:SetNavTarget(target)
+	end},
+	{icon=ui.theme.icons.autopilot_high_orbit, tooltip=lc.AUTOPILOT_ENTER_HIGH_ORBIT_AROUND,
+	 action=function(target)
+		 Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
+		 Game.player:AIEnterHighOrbit(target)
+		 Game.player:SetNavTarget(target)
+	end},
+}
+
+ui.openDefaultRadialMenu = function(body)
+	if body then
+		local actions = {}
+		for _,v in pairs(radial_menu_actions_all_bodies) do
+			table.insert(actions, v)
+		end
+		if body:IsStation() then
+			for _,v in pairs(radial_menu_actions_station) do
+				table.insert(actions, v)
+			end
+		elseif body:GetSystemBody() then
+			for _,v in pairs(radial_menu_actions_systembody) do
+				table.insert(actions, v)
+			end
+		end
+		ui.openRadialMenu(body, 1, 30, actions)
+	end
+end
+local radialMenuWasOpen = {}
+ui.radialMenu = function(id)
+	if not radialMenuActions or #radialMenuActions == 0 then
+		return
+ 	end
+	local icons = {}
+	local tooltips = {}
+	for _,action in pairs(radialMenuActions) do
+		local uv0, uv1 = get_icon_tex_coords(action.icon)
+		table.insert(icons, { id = ui.icons_texture, uv0 = uv0, uv1 = uv1 })
+		-- TODO: don't just assume that radialMenuTarget is a Body
+		table.insert(tooltips, string.interp(action.tooltip, { target = radialMenuTarget and radialMenuTarget.label or "UNKNOWN" }))
+	end
+	local n = pigui.RadialMenu(radialMenuPos, "##radialmenupopup", radialMenuMouseButton, icons, radialMenuSize, tooltips)
+	if n == -1 then
+		pigui.DisableMouseFacing(true)
+		radialMenuWasOpen[id] = true
+	elseif n >= 0 or n == -2 then
+		radialMenuWasOpen[id] = false
+		shouldShowRadialMenu = false
+		local target = radialMenuTarget
+		radialMenuTarget = nil
+		pigui.DisableMouseFacing(false)
+		-- hack, imgui lets the press go through, but eats the release, so Pi still thinks rmb is held
+		pigui.SetMouseButtonState(3, false);
+		-- ui.setMousePos(radialMenuMousePos)
+		-- do this last, so it can theoretically open a new radial menu
+		-- though we can't as no button is pressed that could be released :-/
+		if n >= 0 then
+			radialMenuActions[n+1].action(target)
+		end
+	end
+	if n == -3 and radialMenuWasOpen[id] then
+		pigui.SetMouseButtonState(3, false)
+		pigui.DisableMouseFacing(false)
+		radialMenuWasOpen[id] = false
+	end
+	return n
+end
 ui.coloredSelectedButton = function(label, thesize, is_selected, bg_color, tooltip, enabled)
 	if is_selected then
 		pigui.PushStyleColor("Button", bg_color)

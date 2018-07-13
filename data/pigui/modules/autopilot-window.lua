@@ -130,6 +130,17 @@ local function button_flight_control()
 	if mainMenuButton(icon, false, tooltip) or (flightstate == "FLYING" and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
 		Game.ChangeFlightState()
 	end
+	if ui.isItemHovered() and flightcontrolstate == "CONTROL_FIXSPEED" then
+		local wheel = ui.getMouseWheel()
+		if wheel ~= 0 then
+			local delta = wheel
+			if ui.shiftHeld() then
+				delta = delta * 10
+			end
+			Game.player:ChangeSetSpeed(delta)
+		end
+	end
+
 end
 
 local function displayAutoPilotWindow()

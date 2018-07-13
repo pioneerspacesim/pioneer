@@ -173,6 +173,7 @@ theme.icons = {
    filter_bodies = 107,
    filter_stations = 108,
    filter_ships = 109,
+   system_overview = 111,
    -- eighth row
    heavy_freighter = 112,
    medium_freighter = 113,
@@ -188,6 +189,8 @@ theme.icons = {
    alert2 = 123,
 	 ecm_advanced = 124,
 	 systems_management = 125,
+	 distance = 126,
+	 filter = 127,
    -- ninth row
    view_internal = 128,
    view_external = 129,
