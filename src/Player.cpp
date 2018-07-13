@@ -247,6 +247,12 @@ void Player::SetSetSpeedTarget(Body* const target)
 	// TODO: not sure, do we actually need this? we are only changing the set speed target
 	Pi::onPlayerChangeTarget.emit();
 }
+
+void Player::ChangeSetSpeed(double delta)
+{
+	static_cast<PlayerShipController*>(m_controller)->ChangeSetSpeed(delta);
+}
+
 //temporary targeting stuff ends
 
 Ship::HyperjumpStatus Player::InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, const HyperdriveSoundsTable &sounds, LuaRef checks) {

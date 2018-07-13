@@ -13,6 +13,7 @@
 #include "EnumStrings.h"
 #include "SystemInfoView.h"
 #include "Sound.h"
+#include "ui/Context.h"
 
 // Windows defines RegisterClass as a macro, but we don't need that here.
 // undef it, to avoid including yet another header that undefs it
@@ -307,6 +308,13 @@ static int l_pigui_columns(lua_State *l) {
 	std::string id = LuaPull<std::string>(l, 2);
 	bool border = LuaPull<bool>(l, 3);
 	ImGui::Columns(columns, id.c_str(), border);
+	return 0;
+}
+
+static int l_pigui_set_column_offset(lua_State *l) {
+	int column_index = LuaPull<int>(l, 1);
+	double offset_x = LuaPull<double>(l, 2);
+	ImGui::SetColumnOffset(column_index, offset_x);
 	return 0;
 }
 
@@ -836,7 +844,9 @@ static int l_pigui_add_triangle_filled(lua_State *l) {
 }
 
 static int l_pigui_same_line(lua_State *l) {
-	ImGui::SameLine();
+	double pos_x = LuaPull<double>(l, 1);
+	double spacing_w = LuaPull<double>(l, 2);
+	ImGui::SameLine(pos_x, spacing_w);
 	return 0;
 }
 
@@ -1140,19 +1150,26 @@ static int l_pigui_get_targets_nearby(lua_State *l) {
   LuaPush(l, result);
 	return 1;
 }
-// static int l_pigui_disable_mouse_facing(lua_State *l) {
-// 	bool b = LuaPull<bool>(l, 1);
-// 	auto *p = Pi::player->GetPlayerController();
-// 	p->SetDisableMouseFacing(b);
-// 	return 0;
-// }
+static int l_pigui_disable_mouse_facing(lua_State *l) {
+	bool b = LuaPull<bool>(l, 1);
+	auto *p = Pi::player->GetPlayerController();
+	p->SetDisableMouseFacing(b);
+	return 0;
+}
 
-// static int l_pigui_set_mouse_button_state(lua_State *l) {
-// 	int button = LuaPull<int>(l, 1);
-// 	bool state = LuaPull<bool>(l, 2);
-// 	Pi::SetMouseButtonState(button, state);
-// 	return 0;
-// }
+static int l_pigui_set_mouse_button_state(lua_State *l) {
+	int button = LuaPull<int>(l, 1);
+	bool state = LuaPull<bool>(l, 2);
+	Pi::SetMouseButtonState(button, state);
+	if(state == false) {
+		// new UI caches which widget should receive the mouse up event
+		// after a mouse down. This function exists exactly because the mouse-up event
+		// never gets delivered after imgui uses it. So reset that context as well.
+		// This can go away when everything is moved to imgui.
+		Pi::ui->ResetMouseActiveReceiver();
+	}
+	return 0;
+}
 
 static int l_pigui_should_show_labels(lua_State *l)
 {
@@ -1247,11 +1264,12 @@ static int l_pigui_listbox(lua_State *l) {
 static int l_pigui_radial_menu(lua_State *l) {
 	ImVec2 center = LuaPull<ImVec2>(l, 1);
 	std::string id = LuaPull<std::string>(l, 2);
+	int mouse_button = LuaPull<int>(l, 3);
 	std::vector<ImTextureID> tex_ids;
 	std::vector<std::pair<ImVec2,ImVec2>> uvs;
 	int i = 0;
 	while(true) {
-		lua_rawgeti(l, 3, ++i);
+		lua_rawgeti(l, 4, ++i);
 		if(lua_isnil(l, -1)) {
 			lua_pop(l, 1);
 			break;
@@ -1276,15 +1294,13 @@ static int l_pigui_radial_menu(lua_State *l) {
 		uvs.push_back(std::pair<ImVec2,ImVec2>(uv0, uv1));
 	}
 
-	std::string fontname = LuaPull<std::string>(l, 4);
 	int size = LuaPull<int>(l, 5);
-	//	ImFont *font = get_font(fontname, size);
 	std::vector<std::string> tooltips;
 	LuaTable tts(l, 6);
 	for(LuaTable::VecIter<std::string> iter = tts.Begin<std::string>(); iter != tts.End<std::string>(); ++iter) {
 		tooltips.push_back(*iter);
 	}
-	int n = PiGui::RadialPopupSelectMenu(center, id, tex_ids, uvs, size, tooltips);
+	int n = PiGui::RadialPopupSelectMenu(center, id, mouse_button, tex_ids, uvs, size, tooltips);
 	LuaPush<int>(l, n);
 	return 1;
 }
@@ -1418,9 +1434,21 @@ static int l_pigui_get_cursor_pos(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_get_cursor_screen_pos(lua_State *l) {
+	ImVec2 v = ImGui::GetCursorScreenPos();
+	LuaPush<ImVec2>(l, v);
+	return 1;
+}
+
 static int l_pigui_set_cursor_pos(lua_State *l) {
 	ImVec2 v = LuaPull<ImVec2>(l, 1);
 	ImGui::SetCursorPos(v);
+	return 0;
+}
+
+static int l_pigui_set_cursor_screen_pos(lua_State *l) {
+	ImVec2 v = LuaPull<ImVec2>(l, 1);
+	ImGui::SetCursorScreenPos(v);
 	return 0;
 }
 
@@ -1534,6 +1562,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "PopStyleVar",            l_pigui_pop_style_var },
 		{ "Columns",                l_pigui_columns },
 		{ "NextColumn",             l_pigui_next_column },
+		{ "SetColumnOffset",        l_pigui_set_column_offset },
 		{ "Text",                   l_pigui_text },
 		{ "TextWrapped",            l_pigui_text_wrapped },
 		{ "TextColored",            l_pigui_text_colored },
@@ -1543,6 +1572,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "BeginGroup",             l_pigui_begin_group },
 		{ "SetCursorPos",           l_pigui_set_cursor_pos },
 		{ "GetCursorPos",           l_pigui_get_cursor_pos },
+		{ "SetCursorScreenPos",     l_pigui_set_cursor_screen_pos },
+		{ "GetCursorScreenPos",     l_pigui_get_cursor_screen_pos },
 		{ "EndGroup",               l_pigui_end_group },
 		{ "SameLine",               l_pigui_same_line },
 		{ "Separator",              l_pigui_separator },
@@ -1605,8 +1636,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "LowThrustButton",        l_pigui_low_thrust_button },
 		{ "ThrustIndicator",        l_pigui_thrust_indicator },
 		{ "PlaySfx",                l_pigui_play_sfx },
-		// { "DisableMouseFacing",     l_pigui_disable_mouse_facing },
-		// { "SetMouseButtonState",    l_pigui_set_mouse_button_state },
+		{ "DisableMouseFacing",     l_pigui_disable_mouse_facing },
+		{ "SetMouseButtonState",    l_pigui_set_mouse_button_state },
 		{ 0, 0 }
 	};
 

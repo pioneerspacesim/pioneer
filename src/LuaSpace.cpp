@@ -673,6 +673,22 @@ static int l_space_get_bodies(lua_State *l)
 	return 1;
 }
 
+static int l_space_attr_root_system_body(lua_State *l)
+{
+	if (!Pi::game) {
+		luaL_error(l, "Game is not started");
+		return 0;
+	}
+
+	LUA_DEBUG_START(l);
+
+	LuaObject<SystemBody>::PushToLua(Pi::game->GetSpace()->GetRootFrame()->GetSystemBody());
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
 void LuaSpace::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -692,8 +708,13 @@ void LuaSpace::Register()
 		{ 0, 0 }
 	};
 
+	static const luaL_Reg l_attrs[] = {
+		{ "rootSystemBody", l_space_attr_root_system_body },
+		{ 0, 0 }
+	};
+
 	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
-	LuaObjectBase::CreateObject(l_methods, 0, 0);
+	LuaObjectBase::CreateObject(l_methods, l_attrs, 0);
 	lua_setfield(l, -2, "Space");
 	lua_pop(l, 1);
 

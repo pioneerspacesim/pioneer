@@ -48,6 +48,7 @@ public:
 	virtual void SetFlightControlState(FlightControlState s) { }
 	virtual FlightControlState GetFlightControlState() const { return CONTROL_MANUAL; }
 	virtual double GetSetSpeed() const { return 0.0; }
+	virtual void ChangeSetSpeed(double delta) { }
 	virtual Body *GetSetSpeedTarget() const { return nullptr; }
 	Ship *m_ship;
 };
@@ -66,7 +67,9 @@ public:
 	// Poll controls, set thruster states, gun states and target velocity
 	void PollControls(float timeStep, const bool force_rotation_damping, int *mouseMotion);
 	bool IsMouseActive() const { return m_mouseActive; }
+	void SetDisableMouseFacing(bool disabled) { m_disableMouseFacing = disabled; }
 	double GetSetSpeed() const override { return m_setSpeed; }
+	void ChangeSetSpeed(double delta) override { m_setSpeed += delta; }
 	FlightControlState GetFlightControlState() const override { return m_flightControlState; }
 	vector3d GetMouseDir() const;		// in local frame
 	void SetMouseForRearView(bool enable) { m_invertMouse = enable; }
@@ -101,6 +104,7 @@ private:
 	bool m_controlsLocked;
 	bool m_invertMouse; // used for rear view, *not* for invert Y-axis option (which is Pi::IsMouseYInvert)
 	bool m_mouseActive;
+	bool m_disableMouseFacing;
 	bool m_rotationDamping;
 	double m_mouseX;
 	double m_mouseY;

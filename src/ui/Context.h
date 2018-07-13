@@ -143,6 +143,8 @@ public:
 	void DisableWidget(Widget *target) { m_eventDispatcher.DisableWidget(target); }
 	void EnableWidget(Widget *target) { m_eventDispatcher.EnableWidget(target); }
 
+	void ResetMouseActiveReceiver() { m_eventDispatcher.ResetMouseActiveReceiver(); }
+
 	virtual void Layout();
 	virtual void Update();
 	virtual void Draw();
