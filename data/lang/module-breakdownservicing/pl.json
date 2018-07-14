@@ -25,7 +25,7 @@
   },
   "FLAVOUR_1_PRICE": {
     "description": "",
-    "message": "The cost for servicing your {drive} will be {price}\n{lasttime}"
+    "message": "Koszt serwisowania twojego {drive} wyniesie {price}\n{lasttime}"
   },
   "FLAVOUR_1_RESPONSE": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "FLAVOUR_2_PRICE": {
     "description": "",
-    "message": "\n\n{lasttime}\nFor your {drive}, I'll be supervising the work myself, so you can be sure that a good job will be done, for the sum of {price}."
+    "message": "\n\n{lasttime}\nDla twojego {drive}, będę nadzorował pracę osobiście, możesz więc mieć pewność, że robota będzie dobrze zrobiona, za sumę {price}."
   },
   "FLAVOUR_2_RESPONSE": {
     "description": "",
@@ -65,7 +65,7 @@
   },
   "FLAVOUR_3_PRICE": {
     "description": "",
-    "message": "\n\n{lasttime}\nWe can tune your {drive} for just {price}.  There's nobody cheaper!"
+    "message": "\n\n{lasttime}\nMożemy podrasować twój {drive} za zaledwie {price}. Nie ma nikogo tańszego!"
   },
   "FLAVOUR_3_RESPONSE": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "FLAVOUR_4_PRICE": {
     "description": "",
-    "message": "\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?"
+    "message": "\n{lasttime}\nSerwisowanie twojego {drive} wyniesie {price}. Kontynuować?"
   },
   "FLAVOUR_4_RESPONSE": {
     "description": "",

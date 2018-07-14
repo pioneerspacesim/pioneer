@@ -53,23 +53,23 @@
   },
   "AUTOPILOT_DOCK_WITH_STATION": {
     "description": "",
-    "message": "自动飞行:停靠空间站"
+    "message": "Autopilot: Dock with {target}"
   },
   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
     "description": "",
-    "message": "自动飞行: 进入 %target 的高轨道"
+    "message": "Autopilot: Enter high orbit around {target}"
   },
   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
     "description": "",
-    "message": "自动飞行:进入 %target 的低轨道"
+    "message": "Autopilot: Enter low orbit around {target}"
   },
   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
     "description": "",
-    "message": "自动飞行:进入 %target 的中轨道"
+    "message": "Autopilot: Enter medium orbit around {target}"
   },
   "AUTOPILOT_FLY_TO_VICINITY_OF": {
     "description": "",
-    "message": "自动飞行: 飞到 %target 的附近"
+    "message": "Autopilot: Fly to vicinity of {target}"
   },
   "AUTOPILOT_ON": {
     "description": "",
@@ -493,15 +493,15 @@
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
-    "message": "锁定航向 (反法线)"
+    "message": "Hold {target} anti-normal"
   },
   "HEADING_LOCK_BACKWARD": {
     "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-    "message": "锁定航向 (船尾)"
+    "message": "Hold {target} retrograde"
   },
   "HEADING_LOCK_FORWARD": {
     "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-    "message": "锁定航向 (船首)"
+    "message": "Hold {target} prograde"
   },
   "HEADING_LOCK_KILLROT": {
     "description": "",
@@ -509,15 +509,15 @@
   },
   "HEADING_LOCK_NORMAL": {
     "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-    "message": "锁定航向 (法线)"
+    "message": "Hold {target} normal"
   },
   "HEADING_LOCK_RADIALLY_INWARD": {
     "description": "Autopilot direction, relative to orbit (face towards planet)",
-    "message": "锁定航向 (径向内)"
+    "message": "Hold {target} radially in"
   },
   "HEADING_LOCK_RADIALLY_OUTWARD": {
     "description": "Autopilot direction, relative to orbit (face away from palent)",
-    "message": "锁定航向 (径向外)"
+    "message": "Hold {target} radially out"
   },
   "HEAVY_INDUSTRY": {
     "description": "",
@@ -1201,7 +1201,7 @@
   },
   "REQUEST_DOCKING_CLEARANCE": {
     "description": "",
-    "message": "请求停靠许可"
+    "message": "Request docking clearance from {target}"
   },
   "RESET": {
     "description": "",

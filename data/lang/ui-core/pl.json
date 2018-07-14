@@ -9,7 +9,7 @@
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
-    "message": "Add Jump"
+    "message": "Dodaj skok"
   },
   "AFTER_TRADE_IN": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
-    "message": "Auto Route"
+    "message": "Dodaj trasę"
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
-    "message": "Center on System"
+    "message": "Środek układu"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
@@ -153,7 +153,7 @@
   },
   "CLEAR_ROUTE": {
     "description": "Clear a planned route of hyperjumps",
-    "message": "Clear Route"
+    "message": "Wyczyść trasę"
   },
   "CLIENT": {
     "description": "",
@@ -241,7 +241,7 @@
   },
   "CURRENT_FUEL": {
     "description": "For hyperjump planner",
-    "message": "Current Fuel:"
+    "message": "Stan paliwa:"
   },
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
@@ -373,7 +373,7 @@
   },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
-    "message": "Can not initiate hyperjump; landing gear is not retracted!"
+    "message": "Nie można inicjować hiperskoku: wysunięte podwozie!"
   },
   "ESCAPE_SPEED": {
     "description": "",
@@ -401,7 +401,7 @@
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Final Target:"
+    "message": "Końcowy cel:"
   },
   "FLIGHT_STATE": {
     "description": "",
@@ -513,39 +513,39 @@
   },
   "HUD_2D_RADAR": {
     "description": "Popup text: the name of the azimuthal equidistant projection radar",
-    "message": "2D azimuthal equidistant projection"
+    "message": "Azymutalna projekcja równoodległa 2D"
   },
   "HUD_3D_RADAR": {
     "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
-    "message": "3D planar projection"
+    "message": "Projekcja 3D na płaszczyźnie"
   },
   "HUD_ATMOSPHERIC_PRESSURE": {
     "description": "Tooltip: Atmospheric Pressure.",
-    "message": "Atmospheric Pressure"
+    "message": "Ciśnienie atmosferyczne"
   },
   "HUD_BACKWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Backward Gun Temperature.",
-    "message": "Backward Gun Temperature"
+    "message": "Temperatura tylnego działa"
   },
   "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS": {
     "description": "Tooltip: The braking distance using the main thrusters.",
-    "message": "The braking distance using the main thrusters"
+    "message": "Odległość hamowania na głównym napędzie."
   },
   "HUD_BUTTON_AUTOPILOT_DOCKING": {
     "description": "Tooltip: Autopilot docking",
-    "message": "Autopilot docking"
+    "message": "Autopilot dokuje"
   },
   "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT": {
     "description": "Tooltip: Autopilot entering orbit",
-    "message": "Autopilot entering orbit"
+    "message": "Autopilot wchodzi na orbitę"
   },
   "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET": {
     "description": "Tooltip: Autopilot flying to target",
-    "message": "Autopilot flying to target"
+    "message": "Autopilot leci do celu"
   },
   "HUD_BUTTON_BLASTOFF": {
     "description": "Tooltip: Blastoff",
-    "message": "Blastoff"
+    "message": "Wystrzelenie"
   },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
@@ -589,11 +589,11 @@
   },
   "HUD_BUTTON_INITIATE_HYPERJUMP": {
     "description": "Tooltip: Initiate legal hyperjump",
-    "message": "Initiate hyperjump"
+    "message": "Inicjuj hiperskok"
   },
   "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP": {
     "description": "Tooltip: Initiate illegal hyperjump",
-    "message": "Initiate illegal hyperjump"
+    "message": "Inicjuj nielegalny hiperskok"
   },
   "HUD_BUTTON_INTERNAL_VIEW": {
     "description": "Tooltip: Internal camera view",
@@ -605,15 +605,15 @@
   },
   "HUD_BUTTON_LANDING_GEAR_IS_DOWN": {
     "description": "Tooltip: Landing gear is down",
-    "message": "Landing gear is down"
+    "message": "Podwozie wypuszczone"
   },
   "HUD_BUTTON_LANDING_GEAR_IS_MOVING": {
     "description": "Tooltip: Landing gear is moving",
-    "message": "Landing gear is moving"
+    "message": "Podwozie w ruchu"
   },
   "HUD_BUTTON_LANDING_GEAR_IS_UP": {
     "description": "Tooltip: Landing gear is up",
-    "message": "Landing gear is up"
+    "message": "Podwozie schowane"
   },
   "HUD_BUTTON_MANUAL_CONTROL": {
     "description": "Tooltip: Manual control",
@@ -621,11 +621,11 @@
   },
   "HUD_BUTTON_ROTATION_DAMPING_IS_OFF": {
     "description": "Tooltip: Rotation damping is off",
-    "message": "Rotation damping is off"
+    "message": "Tłumienie rotacji wyłączone"
   },
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
-    "message": "Rotation damping is on"
+    "message": "Tłumienie rotacji włączone"
   },
   "HUD_BUTTON_SCANNER": {
     "description": "Tooltip: Scanner",
@@ -633,7 +633,7 @@
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
-    "message": "Set speed"
+    "message": "Ustaw prędkość"
   },
   "HUD_BUTTON_SHOW_COMMS": {
     "description": "Tooltip: Show comms",
@@ -641,7 +641,7 @@
   },
   "HUD_BUTTON_SHOW_PERSONAL_INFO": {
     "description": "Tooltip: Show personal info",
-    "message": "Show personal info"
+    "message": "Pokaż dane osobiste"
   },
   "HUD_BUTTON_SIDEREAL_VIEW": {
     "description": "Tooltip: Sidereal camera view",
@@ -649,31 +649,31 @@
   },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
-    "message": "Switch to galaxy map"
+    "message": "Przełącz do mapy galaktyki"
   },
   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
     "description": "Tooltip: Switch to sector map",
-    "message": "Switch to sector map"
+    "message": "Przełącz do mapy sektora"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
-    "message": "Switch to system map"
+    "message": "Przełącz do mapy układu"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW": {
     "description": "Tooltip: Switch to system overview",
-    "message": "Switch to system overview"
+    "message": "Przełącz na pogląd układu"
   },
   "HUD_BUTTON_SWITCH_TO_WORLD_VIEW": {
     "description": "Tooltip: Switch to world view",
-    "message": "Switch to world view"
+    "message": "Przełącz do widoku świata"
   },
   "HUD_BUTTON_UNDOCK": {
     "description": "Tooltip: Undock",
-    "message": "Undock"
+    "message": "Oddokuj"
   },
   "HUD_CARGO_MASS": {
     "description": "Cargo Mass",
-    "message": "Cargo Mass"
+    "message": "Masa ładunku"
   },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
@@ -681,7 +681,7 @@
   },
   "HUD_CURRENT_FRAME": {
     "description": "Tooltip: The current frame of reference.",
-    "message": "The current frame of reference"
+    "message": "Bierzący układ odniesienia"
   },
   "HUD_CURRENT_HEADING": {
     "description": "Tooltip: the current heading.",
@@ -693,27 +693,27 @@
   },
   "HUD_CURRENT_PITCH": {
     "description": "Tooltip: the current pitch.",
-    "message": "The current pitch"
+    "message": "Bierząca rotacja"
   },
   "HUD_CURRENT_ROLL": {
     "description": "Tooltip: the current roll.",
-    "message": "The current roll"
+    "message": "Bierzący przechył"
   },
   "HUD_DELTA_V": {
     "description": "Tooltip: The remaining Δv.",
-    "message": "Remaining Δv"
+    "message": "Pozostała Δv"
   },
   "HUD_DELTA_V_OF_MANEUVER_BURN": {
     "description": "Tooltip: The Δv for the maneuver burn.",
-    "message": "The Δv for the maneuver burn"
+    "message": "Δv manewru"
   },
   "HUD_DELTA_V_PERCENT": {
     "description": "Tooltip: The remaining Δv in percent.",
-    "message": "Remaining Δv"
+    "message": "Pozostała Δv"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
     "description": "Tooltip: Distance to the surface of the frame of reference.",
-    "message": "Distance to the surface of the frame of reference"
+    "message": "Odległość do powierzchni układu odniesienia"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_TARGET": {
     "description": "Tooltip: Distance to the surface of the target.",
@@ -721,67 +721,67 @@
   },
   "HUD_DURATION_OF_MANEUVER_BURN": {
     "description": "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
-    "message": "The approximate duration of the maneuver burn with main thrusters"
+    "message": "Przybliżony czas twania manewru na głównym napędzie."
   },
   "HUD_DURATION_UNTIL_MANEUVER_BURN": {
     "description": "Tooltip: The duration until the middle of the maneuver burn.",
-    "message": "The duration until the middle of the maneuver burn"
+    "message": "Czas do wykonania połowy manewru"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
-    "message": "Forward Gun Temperature"
+    "message": "Temperatura przedniego działa"
   },
   "HUD_HULL_STRENGTH": {
     "description": "Tooltip: Hull Strength.",
-    "message": "Hull Strength"
+    "message": "Siła kadłuba"
   },
   "HUD_HULL_TEMPERATURE": {
     "description": "Tooltip: Hull Temperature.",
-    "message": "Hull Temperature"
+    "message": "Temperatura kadłuba"
   },
   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
     "description": "",
-    "message": "Hyperspacing to {destination} in {countdown} seconds"
+    "message": "Hiperskok do {destination} za {countdown} sekund"
   },
   "HUD_INDICATOR_AWAY_FROM_FRAME": {
     "description": "Indicator: Away from the current frame.",
-    "message": "Away from the current frame"
+    "message": "Od bierzącego układu odniesienia"
   },
   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current combat target.",
-    "message": "Prograde relative to current combat target"
+    "message": "Napród względem bierzącego celu walki"
   },
   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current combat target.",
-    "message": "Retrograde relative to current combat target"
+    "message": "Wsteczny względem celu walki"
   },
   "HUD_INDICATOR_FRAME_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current frame.",
-    "message": "Prograde relative to current frame of reference"
+    "message": "Kierunek względem bierzącego układu odniesienia"
   },
   "HUD_INDICATOR_FRAME_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current frame.",
-    "message": "Retrograde relative to current frame of reference"
+    "message": "Ruch wsteczny względem bierzącego układu odniesienia"
   },
   "HUD_INDICATOR_MANEUVER_PROGRADE": {
     "description": "Indicator: The prograde direction for the maneuver burn.",
-    "message": "Prograde for maneuver burn"
+    "message": "Kierunek przebiegu manewru"
   },
   "HUD_INDICATOR_NAV_TARGET_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current navigational target.",
-    "message": "Prograde relative to current navigational target"
+    "message": "Kierunek manewru względem obecnego celu nawigacyjnego"
   },
   "HUD_INDICATOR_NAV_TARGET_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current navigational target.",
-    "message": "Retrograde relative to current navigational target"
+    "message": "Wsteczny względem bierzącego celu nawigacyjnego"
   },
   "HUD_IN_TRANSIT_TO_N_X_X_X": {
     "description": "",
-    "message": "In transit to {system} [{x},{y},{z}]"
+    "message": "W tranzycie do {system} [{x},{y},{z}]"
   },
   "HUD_JUMP_COMPLETE": {
     "description": "",
-    "message": "Jump complete: {percent}%"
+    "message": "Skok ukończony w {percent}%"
   },
   "HUD_MASS": {
     "description": "Mass",
@@ -789,15 +789,15 @@
   },
   "HUD_RADAR_DISTANCE": {
     "description": "Tooltip: Current distance of the radar.",
-    "message": "Active radar distance"
+    "message": "Odległość radaru aktywnego"
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
-    "message": "Request time acceleration: {time}"
+    "message": "Rządanie przyspieszenia czasu: {czas}"
   },
   "HUD_SHIELD_STRENGTH": {
     "description": "Tooltip: Shield Strength.",
-    "message": "Shield Strength"
+    "message": "Siła osłony"
   },
   "HUD_SHOW_COMBAT_TARGET": {
     "description": "Tooltip: Show the current combat target.",
@@ -805,7 +805,7 @@
   },
   "HUD_SHOW_FRAME": {
     "description": "Tooltip: Show the current frame of reference.",
-    "message": "Show the current frame of reference"
+    "message": "Pokaż bierzący układ odniesienia"
   },
   "HUD_SHOW_NAV_TARGET": {
     "description": "Tooltip: Show current navigational target.",
@@ -813,19 +813,19 @@
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
-    "message": "The speed of approach towards the frame of reference"
+    "message": "Prędkość zbliżania do układu odniesienia"
   },
   "HUD_SPEED_OF_APPROACH_TO_TARGET": {
     "description": "Tooltip: The speed of approach relative to target.",
-    "message": "The speed of approach relative to target"
+    "message": "Prędkość zbliżania względem celu"
   },
   "HUD_SPEED_RELATIVE_TO_TARGET": {
     "description": "Tooltip: The speed relative to the target.",
-    "message": "The speed relative to the target"
+    "message": "Prędkośc względem celu"
   },
   "HUD_THRUST_INDICATOR": {
     "description": "Tooltip: describe what the thrust/velocity indicator shows",
-    "message": "Show current velocity for each direction (thin lines) and thrust (thick background)"
+    "message": "Pokaż bierzącą prędkość dla każdego kierunku (cienkie linie) oraz napęd (grube tło)"
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
@@ -853,7 +853,7 @@
   },
   "HYPERJUMP_ROUTE": {
     "description": "",
-    "message": "HyperJump Route"
+    "message": "Trasa hiperskoków"
   },
   "HYPERSPACE_RANGE": {
     "description": "",
@@ -997,11 +997,11 @@
   },
   "MAJOR_EXPORTS_ITEM": {
     "description": "",
-    "message": "Major exports"
+    "message": "Główny eksport"
   },
   "MAJOR_IMPORTS_ITEM": {
     "description": "",
-    "message": "Major imports"
+    "message": "Główny import"
   },
   "MAKE_NEW_FACE": {
     "description": "",
@@ -1081,11 +1081,11 @@
   },
   "MINOR_EXPORTS_ITEM": {
     "description": "",
-    "message": "Minor exports"
+    "message": "Poboczny eksport"
   },
   "MINOR_IMPORTS_ITEM": {
     "description": "",
-    "message": "Minor imports"
+    "message": "Poboczny import"
   },
   "MISSILE_MOUNTS": {
     "description": "",
@@ -1109,11 +1109,11 @@
   },
   "MOVE_DOWN": {
     "description": "move selection down in list",
-    "message": "Move Down"
+    "message": "Idź na dół"
   },
   "MOVE_UP": {
     "description": "move selection up in list",
-    "message": "Move Up"
+    "message": "Idź w górę"
   },
   "MULTISAMPLING": {
     "description": "",
@@ -1191,6 +1191,10 @@
     "description": "",
     "message": "{equipment} - nie można zainstalować w tym modelu statku"
   },
+  "NO_FILTER_MATCHES": {
+    "description": "No matches to this filter.",
+    "message": "Nothing matches that filter"
+  },
   "NO_MISSIONS": {
     "description": "",
     "message": "Brak misji."
@@ -1247,6 +1251,10 @@
     "description": "Unpaid fines for crimes committed",
     "message": "Zaległe grzywny"
   },
+  "OVERVIEW_NAME_FILTER": {
+    "description": "Filter overview window entries by name",
+    "message": "Filter overview window entries by name"
+  },
   "OWED": {
     "description": "Player owing money to crew members",
     "message": "Zalegasz"
@@ -1301,7 +1309,7 @@
   },
   "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
     "description": "",
-    "message": "Press a key or controller button or escape to clear"
+    "message": "Przyciśnij klawisz lub przycisk kontrolera. Wciśnij Esc, aby wyczyścić."
   },
   "PRICE": {
     "description": "",
@@ -1349,7 +1357,7 @@
   },
   "REGISTRATION_NUMBER": {
     "description": "",
-    "message": "Registration number"
+    "message": "Numer rejestracyjny"
   },
   "RELIABLE": {
     "description": "For player reputation",
@@ -1357,11 +1365,11 @@
   },
   "REMOVE_JUMP": {
     "description": "UI-button: remove hyper jump from list of planned jumps",
-    "message": "Remove Jump"
+    "message": "Usuń skok"
   },
   "REMOVE_WHEN_COMPLETED": {
     "description": "For UI hyperjump planner, referring to jump target system",
-    "message": "Remove jump when completed"
+    "message": "Usuń skok, gdy się zakończy"
   },
   "REPAIR_X_HULL_DAMAGE_FOR_X": {
     "description": "",
@@ -1377,7 +1385,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Required Fuel:"
+    "message": "Potrzeba paliwa:"
   },
   "RESET": {
     "description": "",
@@ -1405,11 +1413,11 @@
   },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
-    "message": "Route Info"
+    "message": "Informacje o trasie"
   },
   "ROUTE_JUMPS": {
     "description": "For hyperjump planner",
-    "message": "Route Jumps"
+    "message": "Trasuj skoki"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1457,7 +1465,7 @@
   },
   "SETTINGS": {
     "description": "UI option",
-    "message": "Settings"
+    "message": "Ustawienia"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -1541,7 +1549,7 @@
   },
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
-    "message": "We are in a {orbit_period} day period orbit around {parent_body}."
+    "message": "Jesteśmy w trakcie {orbit_period} okresu dziennego orbity wokół {parent_body}."
   },
   "STATUS": {
     "description": "",
@@ -1579,6 +1587,22 @@
     "description": "player gender",
     "message": "Mężczyzna/Kobieta"
   },
+  "TOGGLE_OVERVIEW_SHOW_MOONS": {
+    "description": "toggle whether the overview window shows moons or not",
+    "message": "Toggle showing moons in the overview"
+  },
+  "TOGGLE_OVERVIEW_SHOW_STATIONS": {
+    "description": "toggle whether the overview window shows stations or not",
+    "message": "Toggle showing stations in the overview"
+  },
+  "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
+    "description": "toggle whether the overview window sorts by distance from the player or from the system center",
+    "message": "Switch between sorting by distance from player and distance from system center"
+  },
+  "TOGGLE_OVERVIEW_WINDOW": {
+    "description": "show/hide the overview window / navigation window",
+    "message": "Toggle the overview window"
+  },
   "TOO_SMALL_FOR_CURRENT_CREW": {
     "description": "",
     "message": "Statek jest zbyt mały dla obecnej ilości załogi."
@@ -1593,11 +1617,11 @@
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "Total Distance:"
+    "message": "Całkowity dystans:"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Total Duration:"
+    "message": "Całkowity czas trwania"
   },
   "TOTAL_MASS": {
     "description": "",

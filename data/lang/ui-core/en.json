@@ -1159,10 +1159,6 @@
     "description": "",
     "message": "Next paid"
   },
-  "NO_FILTER_MATCHES": {
-    "description": "No matches to this filter.",
-    "message": "Nothing matches that filter"
-  },
   "NO": {
     "description": "Negative answer to a question",
     "message": "No"
@@ -1194,6 +1190,10 @@
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
     "message": "{equipment} is not supported on this ship model"
+  },
+  "NO_FILTER_MATCHES": {
+    "description": "No matches to this filter.",
+    "message": "Nothing matches that filter"
   },
   "NO_MISSIONS": {
     "description": "",
@@ -1587,10 +1587,6 @@
     "description": "player gender",
     "message": "Toggle male/female"
   },
-  "TOGGLE_OVERVIEW_WINDOW": {
-    "description": "show/hide the overview window / navigation window",
-    "message": "Toggle the overview window"
-  },
   "TOGGLE_OVERVIEW_SHOW_MOONS": {
     "description": "toggle whether the overview window shows moons or not",
     "message": "Toggle showing moons in the overview"
@@ -1602,6 +1598,10 @@
   "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
     "description": "toggle whether the overview window sorts by distance from the player or from the system center",
     "message": "Switch between sorting by distance from player and distance from system center"
+  },
+  "TOGGLE_OVERVIEW_WINDOW": {
+    "description": "show/hide the overview window / navigation window",
+    "message": "Toggle the overview window"
   },
   "TOO_SMALL_FOR_CURRENT_CREW": {
     "description": "",

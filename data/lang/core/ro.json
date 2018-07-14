@@ -53,23 +53,23 @@
   },
   "AUTOPILOT_DOCK_WITH_STATION": {
     "description": "",
-    "message": "Autopilot: Andochează în stația spațială"
+    "message": "Autopilot: Dock with {target}"
   },
   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Intră în orbita superioară în jurul %target"
+    "message": "Autopilot: Enter high orbit around {target}"
   },
   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Intră în orbita inferioară în jurul %target"
+    "message": "Autopilot: Enter low orbit around {target}"
   },
   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Intră în orbita medie în jurul %target"
+    "message": "Autopilot: Enter medium orbit around {target}"
   },
   "AUTOPILOT_FLY_TO_VICINITY_OF": {
     "description": "",
-    "message": "Autopilot: Zboară în apropierea %target"
+    "message": "Autopilot: Fly to vicinity of {target}"
   },
   "AUTOPILOT_ON": {
     "description": "",
@@ -493,15 +493,15 @@
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
-    "message": "Oprește înclinația anti-normală"
+    "message": "Hold {target} anti-normal"
   },
   "HEADING_LOCK_BACKWARD": {
     "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-    "message": "Oprește înclinația retrogradă"
+    "message": "Hold {target} retrograde"
   },
   "HEADING_LOCK_FORWARD": {
     "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-    "message": "Oprește înclinația directă"
+    "message": "Hold {target} prograde"
   },
   "HEADING_LOCK_KILLROT": {
     "description": "",
@@ -509,15 +509,15 @@
   },
   "HEADING_LOCK_NORMAL": {
     "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-    "message": "Oprește înclinația normală"
+    "message": "Hold {target} normal"
   },
   "HEADING_LOCK_RADIALLY_INWARD": {
     "description": "Autopilot direction, relative to orbit (face towards planet)",
-    "message": "Oprește înclinația radial interior"
+    "message": "Hold {target} radially in"
   },
   "HEADING_LOCK_RADIALLY_OUTWARD": {
     "description": "Autopilot direction, relative to orbit (face away from palent)",
-    "message": "Oprește înclinația radial exterior"
+    "message": "Hold {target} radially out"
   },
   "HEAVY_INDUSTRY": {
     "description": "",
@@ -1201,7 +1201,7 @@
   },
   "REQUEST_DOCKING_CLEARANCE": {
     "description": "",
-    "message": "Cereți permisiunea de a andoca"
+    "message": "Request docking clearance from {target}"
   },
   "RESET": {
     "description": "",
