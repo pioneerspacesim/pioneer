@@ -21,7 +21,7 @@
   },
   "ACCEPTED_PICKUP_2": {
     "description": "",
-    "message": "It's a deal! I will let my colleagues know that you are on your way."
+    "message": "To jest handel! Dam znać współpracownikom, że jesteś w drodze."
   },
   "ADTEXT_1": {
     "description": "",
@@ -49,15 +49,15 @@
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "CARGO PICKUP. Pickup of cargo from the {system} system required."
+    "message": "ODBIÓR TOWARU. Potrzeba odebrać ładunek z układu {system}."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "RELOCATION. Move of cargo from {starport} required."
+    "message": "PRZEPROWADZKA. Potrzeba przenieść ładunek z {starport}."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "CARGO SERVICE. We require a ship for a delivery to {system} system."
+    "message": "USŁUGA TRANSPORTOWA. Potrzebujemy statku do dostarczenia przesyłki do układu {system}."
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
@@ -249,71 +249,71 @@
   },
   "INTROTEXT_1": {
     "description": "",
-    "message": "Hi, I'm {name}. I'll pay you {cash} if you will deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+    "message": "Hej, jestem {name}. Zapłacę ci {cash} za dostarczenie {cargoname} do {starport} w układzie {system}, ({sectorx},{sectory},{sectorz}), w odległości {dist} lś."
   },
   "INTROTEXT_2": {
     "description": "{name} is the full name of a person",
-    "message": "Greetings! {name} Transport Services needs you to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly away. We pay {cash} for a safe and complete delivery."
+    "message": "Pozdrowienia! Firma Transportowa {name} potrzebuje cię do dostarczenia {cargoname} do {starport} w układzie {system} ({sectorx},{sectory},{sectorz}), {dist} lś stąd. Zapłacimy {cash} za bezpieczne i kompletne dostarczenie."
   },
   "INTROTEXT_3": {
     "description": "",
-    "message": "Good day. I'm {name}, founder of the {name} Ltd. I need someone trustworthy to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. I will pay {cash} for the {dist} ly long flight."
+    "message": "Dzień dobry. Jestem {name}, założyciel {name} Sp. z o. o. Potrzebuję kogoś zaufanego do dostarczenia {cargoname} do {starport} w układzie {system} ({sectorx}, {sectory}, {sectorz}). Zapłacę {cash} za podróż {dist} lś stąd."
   },
   "INTROTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "Hello. We need someone experienced for a potentially dangerous run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. We'll pay {cash}. The distance is {dist} ly."
+    "message": "Cześć. Potrzebujemy kogoś doświadczonego do potencjalnie niebezpiecznego przelotu do {starport} w układzie system} ({sectorx}, {sectory}, {sectorz}). Zapłacimy {cash}. Odległość wynosi {dist} lś."
   },
   "INTROTEXT_FLUFFY_1": {
     "description": "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
-    "message": "Hi, my name is {name}. I have a fluffy shipment of {cargoname} for delivery to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. The distance is {dist} ly. For this delivery I will pay you {cash}."
+    "message": "Hej, nazywam się {name}. Mam puchatą wysyłkę, {cargoname}, do dostarczenia do {starport} w układzie {system} ({sectorx}, {sectory}, {sectorz}). Odległość wynosi {dist} lś. Za dostarczenie zapłacę {cash}."
   },
   "INTROTEXT_INFRASTRUCTURE_1": {
     "description": "",
-    "message": "Greetings. I'm {name}. The {system} government wants to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. The pay is {cash}. {system} is located {dist} ly from here."
+    "message": "Pozdrowienia. Jestem {name}. Rząd układu {system} pragnie dostarczenia {cargoname} do {starport} w układzie {system} ({sectorx}, {sectory}, {sectorz}). Zapłata wynosi {cash}. Układ jest {dist} lś stąd."
   },
   "INTROTEXT_LOCAL_1": {
     "description": "",
-    "message": "Nice to meet you. I'm {name} and I work for the {starport} administration. We pay {cash} to someone who is able to move {cargoname} to {starport}."
+    "message": "Miło cię spotkać. Jestem {name} i pracuję dla administracji {starport}. Zapłacimy {cash} za przewóz {cargoname} do {starport}."
   },
   "INTROTEXT_LOCAL_2": {
     "description": "",
-    "message": "Hi. I'm {name} and I will pay {cash} for a short delivery of {cargoname} to {starport}."
+    "message": "Hej. Jestem {name} i zapłacę {cash} za krótką dostawę {cargoname} do {starport}."
   },
   "INTROTEXT_LOCAL_3": {
     "description": "",
-    "message": "My name is {name} and I need {cargoname} delivered to a client at {starport}. I'll pay you {cash} for this run."
+    "message": "Moje imię to {name} i potrzebuję dostarczyć {cargoname} do klienta w {starport}. Zapłacę za ten kurs {cash}."
   },
   "INTROTEXT_MINING_1": {
     "description": "{name} is the full name of a person",
-    "message": "Hello. The {name} Mining Company wants to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly away, to build a new mine. The pay is {cash}."
+    "message": "Cześć. Firma Górnicza {name} chce dostarczyć {cargoname} do {starport}, w układzie {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś stąd, aby wybudować nową kopalnię. Płacimy {cash}."
   },
   "INTROTEXT_PICKUP_1": {
     "description": "",
-    "message": "How do you do? My name is {name}, and I need a ship that is able to fly to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, to pickup {cargoname} and return to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system for {cash}. The distance to {system} is {dist} ly."
+    "message": "Jak się masz? Nazywam się {name} i potrzebuję statku, który poleciałby do {starport} w układzie {system} ({sectorx}, {sectory}, {sectorz}), zabrał stamtąd {cargoname} i wrócił do {dom_starport} w układzie {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}), za cenę {cash}. Odległość do układu {system} wynosi {dist} lś."
   },
   "INTROTEXT_PICKUP_2": {
     "description": "",
-    "message": "How are you? I'm {name}. One of my clients wants to import {cargoname} from {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
+    "message": "Jak się masz Jestem {name}. Jeden z moich klientów chce zaimportować {cargoname} z {starport} w układzie {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś stąd. Zapłaci {cash}. Wróć potem do {dom_starport} w układzie {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) celem rozładunku."
   },
   "INTROTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "Greetings. I'm {name}. I will pay {cash} to someone who will transport {cargoname} from {starport} to {dom_starport}."
+    "message": "Pozdrowienia. Jestem {name}. Zapłacę {cash} komuś, kto przewiezie {cargoname} z {starport} do {dom_starport}."
   },
   "INTROTEXT_PICKUP_LOCAL_2": {
     "description": "",
-    "message": "Hello. My name is {name}. My employer is willing to hire you for {cash} to help us relocate our warehouse by moving {cargoname} from {starport} to our new domicile {dom_starport}."
+    "message": "Cześć. Nazywam się {name}. Mój pracownik chce cię zatrudnić za {cash} celem pomocy w przeniesieniu naszego magazynu, przewożąc {cargoname} z {starport} do naszego nowego miejsca pobytu w {dom_starport}."
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",
-    "message": "Greetings. Have you heard of the wedding season of {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system? We want to transport {cargoname} there. It's {dist} ly away. The pay is {cash}. How about it?"
+    "message": "Pozdrowienia. Czy słyszałeś o sezonie ślubów w {starport} w układzie {system} ({sectorx}, {sectory}, {sectorz})? Chcemy tam dostarczyć {cargoname}. To {dist} lś stąd. Zapłacimy {cash}. Co ty na to?"
   },
   "INTROTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Hello, my name is {name} and I'm a wholesale dealer in the {system} system. I pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly."
+    "message": "Cześć, nazywam się {name} i jestem hurtowym dilerem w układzie {system}. Płacę {cash} za lot do {starport} w układzie {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś."
   },
   "INTROTEXT_WHOLESALER_2": {
     "description": "",
-    "message": "Greetings, my name is {name} and I work for Haber Corp. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+    "message": "Pozdrowienia, nazywam się {name} i pracuję dla Haber Corp. Zapłacimy {cash} za przelot do {starport} w układzie {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś stąd."
   },
   "I_AM_ON_MY_WAY": {
     "description": "",
