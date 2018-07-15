@@ -3,6 +3,7 @@ July 2018
      * Add flyby camera view (#4355)
      * Add new hold-right-mouse-button menu for autopilot and orbital commands (#4369)
      * Add new in-flight system overview window (F4 while flying) (#4369)
+     * F4 screen in-flight, replaced by system overview window and rmb-menu (#4369)
 
    * Internal Changes
      * Translation updates. running everything through jq, whitespace, sort (#4365)
@@ -19,8 +20,7 @@ July 2018
      * Do not toggle bindings when in settings view (#4364)
      * Make it possible to change position of flyby camera (#4376)
      * Deny docking request too far from station (#4371)
-   * Removed
-     * F4 screen in-flight, replaced by system overview window and rmb-menu (#4369)
+     * Fix issue 4383 (#4384)
 
 June 2018
    * New Features
