@@ -81,15 +81,15 @@
   },
   "CARGO_IS_LOADED": {
     "description": "",
-    "message": "loaded"
+    "message": "załadowane"
   },
   "CARGO_IS_NOT_LOADED": {
     "description": "",
-    "message": "not loaded"
+    "message": "niezaładowane"
   },
   "CEASE_FIRE": {
     "description": "",
-    "message": "Cease fire, cease fire! I'm on your side!"
+    "message": "Wstrzymaj ogień, wstrzymaj ogień! Jestem po twojej stronie!"
   },
   "CLUS": {
     "description": "custom cargo",
@@ -113,27 +113,27 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "I'm sorry, but this cargo is too valuable for me to hand over to an inexperienced pilot."
+    "message": "Przykro mi, ten ładunek jest zbyt cenny, aby powierzać go niedoświadczonemu pilotowi."
   },
   "DENY_2": {
     "description": "",
-    "message": "I've never heard of you. I don't know you and I don't trust you."
+    "message": "Nigdy o tobie nie słyszałem. Nie znam cię ani ci nie ufam."
   },
   "DENY_3": {
     "description": "",
-    "message": "I'm sorry, I'm looking for an experienced pilot."
+    "message": "Przykro mi, szukam doświadczonego pilota."
   },
   "DENY_4": {
     "description": "",
-    "message": "Excuse me, but I don't think you have what it takes to get the job done."
+    "message": "Wybacz, ale nie sądzę, czy masz co trzeba, aby wykonać tą robotę."
   },
   "DENY_5": {
     "description": "",
-    "message": "Don't waste my time! You are too wet behind the ears."
+    "message": "Nie marnuj mojego czasu! Masz za dużo za uszami."
   },
   "DENY_6": {
     "description": "",
-    "message": "Come back when you're more experienced."
+    "message": "Wróć, gdy będziesz bardziej doświadczony."
   },
   "DIAMONDS": {
     "description": "custom cargo",
@@ -165,11 +165,11 @@
   },
   "ESCORT_CHATTER_4": {
     "description": "",
-    "message": "Proceed to your destination. I'll cover you."
+    "message": "Zmierzam do twojego celu. Będę cię osłaniał."
   },
   "ESCORT_CHATTER_5": {
     "description": "",
-    "message": "Tally ho. This will be my first catch today."
+    "message": "Tam jest. To będzie dziś moja pierwsza zdobycz."
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
@@ -177,23 +177,23 @@
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "I'm very disappointed by the late delivery. You will not be paid."
+    "message": "Jestem bardzo zawiedziony opóźnieniem. Nie dostaniesz zapłaty."
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "You are too late! What should I do with this now, it's worthless!"
+    "message": "Jesteś zbyt późno! Co mam z tym teraz zrobić? Jest bezużyteczne!"
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "Listen, we were clear about the deadline. You can forget about getting payed."
+    "message": "Słuchaj, wyraźnie ustaliliśmy termin. Zapomnij o zapłacie."
   },
   "FAILUREMSG_4": {
     "description": "",
-    "message": "From now on, I will reject all job requests from you."
+    "message": "Od teraz będę odrzucał każdą twoją ofertę."
   },
   "FAILUREMSG_FLUFFY_1": {
     "description": "",
-    "message": "You monster! You've waited too long for this delivery. All my fluffy pets are starved!"
+    "message": "Ty potworze! Czekałeś zbyt długo z dostawą. Wszystkie moje pluszaki są zagłodzone!"
   },
   "FURNITURE": {
     "description": "custom cargo",
@@ -233,7 +233,7 @@
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "There are {amount}t of {cargoname}."
+    "message": "{amount}t {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
@@ -317,15 +317,15 @@
   },
   "I_AM_ON_MY_WAY": {
     "description": "",
-    "message": "Sensors show that you are taking damage. I'm on my way."
+    "message": "Czujniki wskazują, że masz uszkodzenia. Jestem w drodze."
   },
   "I_HAVE_DEBITED_YOUR_ACCOUNT": {
     "description": "",
-    "message": "I've debited your account with the missing goods."
+    "message": "Obciążyłem twoje konto za brakujące dobra."
   },
   "I_NEED_HELP": {
     "description": "",
-    "message": "I'm taking damage. I need help."
+    "message": "Odniosłem uszkodzenia. Potrzebuję pomocy."
   },
   "LY": {
     "description": "",
@@ -333,7 +333,7 @@
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
-    "message": "Machine tools"
+    "message": "Maszyneria"
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
@@ -393,11 +393,11 @@
   },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-    "message": "Quibbles"
+    "message": "Quibble"
   },
   "RISK_1": {
     "description": "",
-    "message": "I expect no hassle."
+    "message": "Nie przewiduję kłopotów."
   },
   "RISK_2": {
     "description": "",
@@ -405,7 +405,7 @@
   },
   "RISK_3": {
     "description": "",
-    "message": "This is valuable cargo, you should keep your eyes open."
+    "message": "To cenny ładunek, trzymaj oczy otwarte."
   },
   "RISK_4": {
     "description": "",
@@ -413,39 +413,39 @@
   },
   "RISK_5": {
     "description": "",
-    "message": "This might be very risky, you could run into some significant resistance."
+    "message": "To może być bardzo ryzykowne, możesz napotkać znaczące  trudności."
   },
   "RISK_6": {
     "description": "",
-    "message": "Don't count on reaching your destination unharmed."
+    "message": "Nie licz na dotarcie do celu w stanie nienaruszonym."
   },
   "RISK_ART_1": {
     "description": "",
-    "message": "The goods are very sought after by art lovers."
+    "message": "Te dobra są bardzo poszukiwane przez miłośników sztuki."
   },
   "RISK_EXPENSIVE_1": {
     "description": "",
-    "message": "We have done everything to keep the delivery secret. But we can never be certain."
+    "message": "Zrobiliśmy, co się dało, aby utrzymać przesyłkę w sekrecie. Ale nigdy nie możemy być pewni."
   },
   "RISK_EXPENSIVE_2": {
     "description": "",
-    "message": "The police informed us that an unknown group of pirates is operating in this system."
+    "message": "Policja poinformowała nas o nieznanej grupie piratów, działającej w tym układzie."
   },
   "RISK_GEMS_1": {
     "description": "",
-    "message": "It is possible that an unscrupulous jewel trader wants to intercept the cargo."
+    "message": "Możliwe, że pozbawiony skrupułów handlarz biżuterią chce przechwycić ładunek."
   },
   "RISK_WHOLESALER_1": {
     "description": "",
-    "message": "Don't worry. A police patrol is ready in case of trouble."
+    "message": "Bez obaw. Patrol policji jest gotów w razie problemów."
   },
   "RISK_WHOLESALER_2": {
     "description": "",
-    "message": "Maybe there's a risk. But the police have promised us to patrol the area."
+    "message": "Może istnieć ryzyko. Ale policja obiecała nam patrolować ten rejon."
   },
   "RISK_WHOLESALER_3": {
     "description": "",
-    "message": "The risk is high. But an escort is ready to guard you."
+    "message": "Ryzyko jest wysokie. Ale jest eskorta gotowa cię ubezpieczać."
   },
   "SEMI_FINISHED_PRODUCTS": {
     "description": "custom cargo",
@@ -469,23 +469,23 @@
   },
   "SUCCESSMSG_1": {
     "description": "",
-    "message": "Thank you for the delivery. You have been paid."
+    "message": "Dziękuję ci za dostarczenie. Dostaniesz zapłatę."
   },
   "SUCCESSMSG_2": {
     "description": "",
-    "message": "Thanks for the timely delivery. The money was transferred."
+    "message": "Dzięki za terminową dostawę. Pieniądze przelane."
   },
   "SUCCESSMSG_3": {
     "description": "",
-    "message": "Excellent, it was a pleasure to work with you. I have paid the bill."
+    "message": "Doskonale, praca z tobą była przyjemnością. Wypłacę należność."
   },
   "SUCCESSMSG_4": {
     "description": "",
-    "message": "Thanks! I will definitely recommend you. Money has been transferred."
+    "message": "Dzięki! Zdecydowanie zarekomenduję cię. Pieniądze są już przelane."
   },
   "SUCCESSMSG_FLUFFY_1": {
     "description": "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
-    "message": "Oh dear, what to do with so many fluffy beings. Either way, money has been sent."
+    "message": "O jeju, co zrobić  taką ilością puchatych stworzeń. Swoją drogą, pieniądze są już przelane."
   },
   "SYSTEM": {
     "description": "",
@@ -509,31 +509,31 @@
   },
   "URGENCY_1": {
     "description": "",
-    "message": "There is no rush. It must be delivered by {date}."
+    "message": "Nie ma pośpiechu. Trzeba to dostarczyć do {date}."
   },
   "URGENCY_2": {
     "description": "",
-    "message": "It must necessarily be delivered by {date}."
+    "message": "Trzeba to koniecznie dostarczyć do {date}."
   },
   "URGENCY_3": {
     "description": "",
-    "message": "Because of the tight schedule it must be delivered by {date}."
+    "message": "Ze względu na napięty harmonogram, należy to dostarczyć do {date}."
   },
   "URGENCY_4": {
     "description": "",
-    "message": "We are in a hurry, so it must be delivered by {date}."
+    "message": "Śpieszy nam się, więc trzeba to dostarczyć do {date}."
   },
   "URGENCY_5": {
     "description": "",
-    "message": "It is essential that the goods have been delivered before {date}."
+    "message": "Najważniejsze, aby dostarczyć te rzeczy przed {date}."
   },
   "URGENCY_FLUFFY_1": {
     "description": "",
-    "message": "Because of the reproduction rate of the little animals and the limited food in the container, the delivery must be completed until {date}."
+    "message": "Ze względu na tempo reprodukcji tych małych zwierzątek i ograniczoną ilość żywności w kontenerze, przesyłkę należy dostarczyć przed {date}."
   },
   "URGENCY_RADIOACTIVE_1": {
     "description": "",
-    "message": "Because of the half-life period of this isotope, delivery must be completed by {date}."
+    "message": "Ze względu na półokres rozpadu izotopu, przesyłka musi dotrzeć do {date}."
   },
   "WEDDING_DRESSES": {
     "description": "custom cargo",
@@ -545,75 +545,75 @@
   },
   "WHAT_IS_THIS": {
     "description": "",
-    "message": "What's this? Have you jettisoned my cargo? Are you crazy?"
+    "message": "Co to jest? Wyrzuciłeś mój ładunek? Jesteś normalny?"
   },
   "WHYSOMUCH_1": {
     "description": "",
-    "message": "This is the standard fee."
+    "message": "To standardowa stawka."
   },
   "WHYSOMUCH_2": {
     "description": "",
-    "message": "Accept it, or leave it be."
+    "message": "Zaakceptuj lub odrzuć."
   },
   "WHYSOMUCH_3": {
     "description": "",
-    "message": "What is considered \"much\" is relative."
+    "message": "\"Dużo\" to pojęcie względne."
   },
   "WHYSOMUCH_4": {
     "description": "",
-    "message": "The pay reflects our wish for the goods to be delivered on time and in one piece."
+    "message": "Cena odzwierciedla nasze życzenie, aby dobra dostarczono na czas i w jednym kawałku."
   },
   "WHYSOMUCH_5": {
     "description": "",
-    "message": "See it as a bonus for you to be discreet about this delivery."
+    "message": "Patrz na to jak na bonus za dyskrecję."
   },
   "WHYSOMUCH_6": {
     "description": "",
-    "message": "Well, we would be happy to pay you less."
+    "message": "Cóż, bylibyśmy szczęśliwi móc zapłacić ci mniej."
   },
   "WHYSOMUCH_CENTRIFUGES_1": {
     "description": "",
-    "message": "Some {cargoname} were destroyed due to a software error and have to be replaced urgently."
+    "message": "Część {cargoname}  zostało zniszczonych prze błąd oprogramowania i należy je szybko zastąpić."
   },
   "WHYSOMUCH_CHEMICAL_1": {
     "description": "",
-    "message": "The production in the chemical plant depends on these goods and must not be interrupted. Nothing must stop the machine."
+    "message": "Produkcja w zakładzie chemicznym zależy od tych dóbr i nie może mieć przestojów. Nic nie może zatrzymać maszyny."
   },
   "WHYSOMUCH_EXPENSIVE_1": {
     "description": "",
-    "message": "Valuable goods are in great demand."
+    "message": "Na cenne dobra jest duży popyt."
   },
   "WHYSOMUCH_EXPENSIVE_2": {
     "description": "",
-    "message": "Because these goods are quite expensive."
+    "message": "Ponieważ te dobra są dość kosztowne."
   },
   "WHYSOMUCH_FLUFFY_1": {
     "description": "",
-    "message": "{cargoname} is a fast seller this season. You should invest in {cargoname} shares if you want to make a lot of money."
+    "message": "{cargoname} dobrze się sprzedaje w tym sezonie. Powinieneś zainwestować w akcje {cargoname}, jeżeli chcesz dobrze zarobić."
   },
   "WHYSOMUCH_INFRASTRUCTURE_1": {
     "description": "",
-    "message": "These goods are crucial for a construction project."
+    "message": "Te dobra są kluczowe dla projektu konstrukcyjnego."
   },
   "WHYSOMUCH_MINING_1": {
     "description": "",
-    "message": "These goods are essential for the construction of a new mine."
+    "message": "Te dobra są kluczowe przy konstrukcji nowej kopalni."
   },
   "WHYSOMUCH_URGENT_1": {
     "description": "",
-    "message": "My favourite pilot is sick and time is short."
+    "message": "Mój ulubiony pilot jest chory a czas się kończy."
   },
   "WHYSOMUCH_URGENT_2": {
     "description": "",
-    "message": "If we do not meet the delivery date, the project will come to a standstill."
+    "message": "Jeżeli nie zmieścimy się w terminie, projekt stanie w martwym punkcie."
   },
   "WHYSOMUCH_URGENT_3": {
     "description": "",
-    "message": "These goods are urgently needed."
+    "message": "Te dobra są pilnie potrzebne."
   },
   "WHYSOMUCH_WEDDING_1": {
     "description": "",
-    "message": "So far I could not find anyone to perform this transport. When the season is over, my merchandise is worthless."
+    "message": "Jak dotąd nie znalazłem nikogo, kto by wykonał ten transport Gdy sezon się skończy, towar się zmarnuje."
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",

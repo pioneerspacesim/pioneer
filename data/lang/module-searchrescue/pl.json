@@ -165,31 +165,31 @@
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "I can't believe you are just returning now! How much time has been wasted!"
+    "message": "Nie mogę uwierzyć, że właśnie wróciłeś! Ile czasu zmarnowano!"
   },
   "FLAVOUR_1_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "For full reimbursement of expenses you have to be back by {due}."
+    "message": "Celem pełnej rekompensaty kosztów musisz wrócić do {due}."
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+    "message": "Kontrola ruchu {starport}  potrzebuje NATYCHMIASTOWEJ pomocy w odpowiedzi na awaryjne lądowanie statku typu {ship} na planecie {planet}. Status układów podrzymania życia jest nieznany. Statek był ubezpieczony w porcie {starport} i ubezpieczenie pokrywa {cash} zwrotu kostów w przypadku nagłego wezwania."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
-    "message": "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+    "message": "Ostatnia znana pozycja statku to planeta {planet} na współrzędnych szer/dł: {lat}/{long}. ID statku: {shiplabel}."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you, this is a great relief! We will transmit the money momentarily."
+    "message": "Dzięki ci, to wielka pomoc! Zaraz prześlemy pieniądze."
   },
   "FLAVOUR_1_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has boarded the ship."
+    "message": "Na pokładzie jest {unit}."
   },
   "FLAVOUR_1_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+    "message": "Donoszono, że na pokładzie jest {crew} członków załogi i {pass} pasażerów. Potrzebujemy kogoś do zlokalizowania statku, zabrania wszystkich ocalałych z rejonu i zabrania ich tutaj natychmiast."
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
@@ -197,7 +197,7 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "I can't believe you kept me waiting out here this long! Forget about your payment!"
+    "message": "Nie mogę uwieryć, że trzymałeś mnie tu tak długo! Zapomnij o zapłacie!"
   },
   "FLAVOUR_2_HOWMUCHTIMETEXT": {
     "description": "",
@@ -345,7 +345,7 @@
   },
   "FLAVOUR_6_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has boarded the ship."
+    "message": "Na pokładzie jest {unit}."
   },
   "FLAVOUR_6_TYPEOFHELPTEXT": {
     "description": "",
@@ -637,7 +637,7 @@
   },
   "SEARCH_RESCUE": {
     "description": "",
-    "message": "Search & Rescue"
+    "message": "Znajdź i uratuj"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -661,7 +661,7 @@
   },
   "THANK_YOU_ACCEPTANCE_TXT": {
     "description": "",
-    "message": "Thank you so much. Your help is greatly appreciated."
+    "message": "Dziekuję ci bardzo. Bardzo doceniam twoją pomoc."
   },
   "TONS_OF_FREE_CARGO_SPACE": {
     "description": "",
