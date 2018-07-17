@@ -557,27 +557,27 @@
   },
   "HUD_BUTTON_FIX_ANTINORMAL": {
     "description": "Tooltip: fix heading antinormal",
-    "message": "Fix heading antinormal"
+    "message": "Utrzymaj przodem do antynormalnej"
   },
   "HUD_BUTTON_FIX_NORMAL": {
     "description": "Tooltip: fix heading normal",
-    "message": "Fix heading normal"
+    "message": "Utrzymaj przodem do normalnej"
   },
   "HUD_BUTTON_FIX_PROGRADE": {
     "description": "Tooltip: fix heading prograde",
-    "message": "Fix heading prograde"
+    "message": "Utrzymaj przodem do orbity"
   },
   "HUD_BUTTON_FIX_RADIAL_IN": {
     "description": "Tooltip: fix heading radially inward",
-    "message": "Fix heading radially inward"
+    "message": "Utrzymaj przodem radialnie do wewnątrz"
   },
   "HUD_BUTTON_FIX_RADIAL_OUT": {
     "description": "Tooltip: fix heading radially outward",
-    "message": "Fix heading radially outward"
+    "message": "Utrzymaj przodem radialnie na zewnątrz"
   },
   "HUD_BUTTON_FIX_RETROGRADE": {
     "description": "Tooltip: fix heading retrograde",
-    "message": "Fix heading retrograde"
+    "message": "Utrzymaj tyłem do orbity"
   },
   "HUD_BUTTON_FLYBY_VIEW": {
     "description": "Tooltip: Flyby camera view",
@@ -637,7 +637,7 @@
   },
   "HUD_BUTTON_SHOW_COMMS": {
     "description": "Tooltip: Show comms",
-    "message": "Show comms"
+    "message": "Pokaż komendy"
   },
   "HUD_BUTTON_SHOW_PERSONAL_INFO": {
     "description": "Tooltip: Show personal info",
@@ -885,7 +885,7 @@
   },
   "INVERT_MOUSE_Y": {
     "description": "",
-    "message": "Odwróć Oś Y"
+    "message": "Odwróć oś Y"
   },
   "IN_CARGO_HOLD": {
     "description": "",
@@ -1253,7 +1253,7 @@
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
-    "message": "Filter overview window entries by name"
+    "message": "Filtruj okna poglądu według nazwy"
   },
   "OWED": {
     "description": "Player owing money to crew members",

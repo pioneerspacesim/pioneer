@@ -1193,7 +1193,7 @@
   },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
-    "message": "Nothing matches that filter"
+    "message": "Filtro sin coincidencias"
   },
   "NO_MISSIONS": {
     "description": "",
@@ -1253,7 +1253,7 @@
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
-    "message": "Filter overview window entries by name"
+    "message": "Filtrar por nombre las entradas de la ventana de vista general"
   },
   "OWED": {
     "description": "Player owing money to crew members",
@@ -1589,19 +1589,19 @@
   },
   "TOGGLE_OVERVIEW_SHOW_MOONS": {
     "description": "toggle whether the overview window shows moons or not",
-    "message": "Toggle showing moons in the overview"
+    "message": "Alternar mostrar lunas en la vista general"
   },
   "TOGGLE_OVERVIEW_SHOW_STATIONS": {
     "description": "toggle whether the overview window shows stations or not",
-    "message": "Toggle showing stations in the overview"
+    "message": "Alternar mostrar estaciones en la vista general"
   },
   "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
     "description": "toggle whether the overview window sorts by distance from the player or from the system center",
-    "message": "Switch between sorting by distance from player and distance from system center"
+    "message": "Alternar entre clasificación por distancia del jugador y distancia desde el centro del sistema"
   },
   "TOGGLE_OVERVIEW_WINDOW": {
     "description": "show/hide the overview window / navigation window",
-    "message": "Toggle the overview window"
+    "message": "Alternar la ventana de vista general"
   },
   "TOO_SMALL_FOR_CURRENT_CREW": {
     "description": "",
