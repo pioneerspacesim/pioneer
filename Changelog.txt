@@ -9,6 +9,7 @@ July 2018
    * Internal Changes
      * Translation updates. running everything through jq, whitespace, sort (#4365)
      * StarTypeInfo cleanup (#4366)
+     * Turn ship towards destination at end of voyage (#4362)
 
    * Fixes
      * Check for nullptr (#4367)
