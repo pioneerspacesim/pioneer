@@ -23,6 +23,7 @@ July 2018
      * Make it possible to change position of flyby camera (#4376)
      * Deny docking request too far from station (#4371)
      * Fix issue 4383 (#4384)
+     * Fix spotted issues with SAR mission (#4379)
 
 June 2018
    * New Features
