@@ -5,6 +5,7 @@ July 2018
      * Add new in-flight system overview window (F4 while flying) (#4369)
      * F4 screen in-flight, replaced by system overview window and rmb-menu (#4369)
      * New ship Lodos, medium freighter (#4374)
+     * More music! (#4385)
 
    * Internal Changes
      * Translation updates. running everything through jq, whitespace, sort (#4365)
