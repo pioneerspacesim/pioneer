@@ -319,24 +319,6 @@ def nice_int(n):
     return "{:,}".format(int(n))
 
 
-def define_ship2(ship_table):
-    forward_thrust_empty = round(thrust(ship_table['forward_thrust'],
-                                        ship_table['hull_mass'],
-                                        ship_table['fuel_tank_mass']), 1)
-    angular_thrust_empty = round(thrust(ship_table['angular_thrust'],
-                                        ship_table['hull_mass'],
-                                        ship_table['fuel_tank_mass']), 1)
-    print("|-")
-    print("|[[%s]]" % ship_table['name'])
-    print("|%s" % ship_table['max_laser'])
-    print("|%s" % ship_table['max_missile'])
-    print("|%s" % ship_table['max_cargo'])
-    print("|%s" % forward_thrust_empty)
-    print("|%s" % angular_thrust_empty)
-    print("|%s" % ship_table['price'])
-
-
-
 def make_chart(ship_folder):
     "Make wiki table from ships/*.json path"
 
@@ -355,25 +337,40 @@ def make_chart(ship_folder):
 
     # Print wiki header (prefixed by "!")
     print("! Name")
+    print("!")
     print("! Ship Class")
     print("! Laser Mounts")
     print("! Missile Capacity")
-    print("! Cargo Capacity")
-    print("! Forward Thrust")
-    print("! Angular Thrust")
+    print("! Cargo Capacity (t)")
+    print("! Forward Thrust (G)")
+    print("! Angular Thrust (G)")
     print("! Price")
-
-    header = ['slots'+DELIM+'laser_front', 'slots'+DELIM+'missile',\
-              'capacity', 'forward_thrust', 'angular_thrust', 'price']
 
     # for each print stats
     for filename in sorted(ships):
+        ship_table = ships[filename]
+        forward_thrust = ship_table['forward_thrust']
+        forward_thrust_empty = round(thrust(forward_thrust,
+                                            ship_table['hull_mass'],
+                                            ship_table['fuel_tank_mass']), 1)
+        angular_thrust = ship_table['angular_thrust']
+        angular_thrust_empty = round(thrust(angular_thrust,
+                                            ship_table['hull_mass'],
+                                            ship_table['fuel_tank_mass']), 1)
+        [fwd_thrust_rounded,fwd_thrust_suffix] = get_si_suffix(forward_thrust)
+        [ang_thrust_rounded,ang_thrust_suffix] = get_si_suffix(angular_thrust)
         print("|-")             # new table row
         name = ships[filename]['name']
-        print("[[" + name.replace(" ", "_") + "|" + name + "]]")
-        print(ships[filename]['ship_class'].replace("_"," ").capitalize())
-        for prop in header:
-                print(ships[filename][prop])
+        print("|[[" + name.replace(" ", "_") + "|" + name + "]]")
+        shipclass = ships[filename]['ship_class']
+        print("|" + "[[File:Ship_class_" + shipclass + ".png]]")
+        print("|" + shipclass.replace("_"," ").capitalize())
+        print("| %s" % ships[filename]['slots-laser_front'])
+        print("| %s" % ships[filename]['slots-missile'])
+        print("| %s" % nice_int(ships[filename]['capacity']))
+        print("| %s (%.0f%sN)" % (forward_thrust_empty, fwd_thrust_rounded, fwd_thrust_suffix))
+        print("| %s (%.0f%sN)" % (angular_thrust_empty, ang_thrust_rounded, ang_thrust_suffix))
+        print("| %s" % nice_int(ships[filename]['price']))
 
     print('|}')                 # table end
 
