@@ -210,15 +210,16 @@ def export_to_csv(path):
         f.write(row)
     f.close()
 
-
-
+def load_sketchfab(filename):
+    with open(filename, 'r') as data_file:
+        return json.load(data_file)
 
 def get_ship_type(s):
-    return "%s [[File:%s.png]]" % (s.replace('_', ' ').capitalize(), s)
+    return "%s [[File:ship_class_%s.png]]" % (s.replace('_', ' ').capitalize(), s)
 
 # hard coded mapping:
 manufacturers = {
-    "albr" : "Albr Corp.",
+    "albr" : "Albr Corp",
     "auronox" : "Auronox Corporation",
     "haber" : "Haber Corporation",
     "kaluri" : "OKB Kaluri",
@@ -284,7 +285,12 @@ def print_ship_as_wiki_infobox(ship_name):
     print('{{Infobox_Ship')
     print("|name = %s" % shipTable['name'])
     print("|type = %s" % get_ship_type(shipTable['ship_class']))
-    # sketchfab
+    sketchfab = load_sketchfab("sketchfab.json")
+    model = shipTable['model']
+    if model in sketchfab:
+        print("|sketchfab = <sketchfab>%s</sketchfab>" % sketchfab[model])
+    else:
+        print("|sketchfab = ''")
     print("|manufacturer = %s" % manufacturers[shipTable['manufacturer']])
     print("|effective_exhaust_velocity_empty = %skm/s\n|effective_exhaust_velocity_full = %skm/s" % (nice_int(deltaV_empty), nice_int(deltaV_full)))
     for d in ['forward', 'reverse', 'up', 'down', 'left', 'right', 'angular']:
