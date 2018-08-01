@@ -1,3 +1,7 @@
+August 2018
+   * Internal Changes
+     * Ship parser script for wiki (json -> wiki, and json->csv) now working (#4169)
+
 July 2018
    * New Features
      * Add flyby camera view (#4355)
