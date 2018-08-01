@@ -252,22 +252,7 @@ def myround(number, significant=1):
     factor = 10.0**significant
     return factor * int(number / factor + 0.5)
 
-    # last_number = number * 10**(significant+1)
-    # last_number = math.floor(last_number)
-    # length = len(str(last_number))
-    # last_number = last_number[length:]
-
-    # number = number * 10**significant
-    # if float(last_number) < 5:
-    #     number = math.floor(number)
-    # else:
-    #     number = math.ceil(number)
-
-    # number = number / 10**significant
-    # return float(number)
-
-
-def define_ship(ship_name):
+def print_ship_as_wiki_infobox(ship_name):
     "Write a given <ship>.json file to Infobox_Ship tempate for wiki"
 
     with open(ship_name, 'r') as ship_file:
@@ -291,37 +276,41 @@ def define_ship(ship_name):
                   math.log((shipTable['hull_mass'] + shipTable['fuel_tank_mass'] + shipTable['capacity']) /
                            (shipTable['hull_mass'] + shipTable['capacity']))
 
-    deltaV_empty = myround(deltaV_empty, -3) / 1000
-    deltaV_full = myround(deltaV_full, -3) / 1000
+#    deltaV_empty = myround(deltaV_empty, -3) / 1000
+#    deltaV_full = myround(deltaV_full, -3) / 1000
+    deltaV_empty = round(deltaV_empty/1000)
+    deltaV_full = round(deltaV_full/1000)
 
     print('{{Infobox_Ship')
     print("|name = %s" % shipTable['name'])
     print("|type = %s" % get_ship_type(shipTable['ship_class']))
+    # sketchfab
     print("|manufacturer = %s" % manufacturers[shipTable['manufacturer']])
-
+    print("|effective_exhaust_velocity_empty = %skm/s\n|effective_exhaust_velocity_full = %skm/s" % (nice_int(deltaV_empty), nice_int(deltaV_full)))
     for d in ['forward', 'reverse', 'up', 'down', 'left', 'right', 'angular']:
-        empty = myround(thrust(shipTable[d + '_thrust'], shipTable['hull_mass'],
-                               shipTable['fuel_tank_mass'], shipTable['capacity']), 1)
-        full = myround(thrust(shipTable[d + '_thrust'], shipTable['hull_mass'],
-                              shipTable['fuel_tank_mass']), 1)
-        print("|%s_thrust = empty: %sG full: %sG" % (d, empty, full))
+        thrust_n = shipTable[d + '_thrust']
+        [thrust_rounded,thrust_suffix] = get_si_suffix(thrust_n)
+        empty    = thrust(thrust_n, shipTable['hull_mass'], shipTable['fuel_tank_mass'])
+        full     = thrust(thrust_n, shipTable['hull_mass'], shipTable['fuel_tank_mass'], shipTable['capacity'])
+        print("|%s_thrust_empty = %.1fG (%.2f%sN)\n|%s_thrust_full = %.1fG" % (d, empty, thrust_rounded, thrust_suffix, d, full))
 
-    print("|max_cargo = %s" % shipTable['slots']['cargo'])
+    print("|max_cargo = %s" % nice_int(shipTable['slots']['cargo']))
     print("|max_laser = %s" % shipTable['slots']['laser_front'])
     print("|max_missile = %s" % shipTable['slots']['missile'])
     print("|max_scoop_mounts = %s" % shipTable['slots']['scoop'])
     print("|hyperdrive_class = %s" % shipTable['hyperdrive_class'])
     print("|min_crew = %s" % shipTable['min_crew'])
     print("|max_crew = %s" % shipTable['max_crew'])
-    print("|capacity = %s" % shipTable['capacity'])
-    print("|hull_mass = %s" % shipTable['hull_mass'])
-    print("|fuel_tank_mass = %s" % shipTable['fuel_tank_mass'])
-    print("|effective_exhaust_velocity = empty: %skm/s full: %skm/s" % (deltaV_empty, deltaV_full))
-    print("|price = %s" % shipTable['price'])
+    print("|capacity = %s" % nice_int(shipTable['capacity']))
+    print("|hull_mass = %s" % nice_int(shipTable['hull_mass']))
+    print("|fuel_tank_mass = %s" % nice_int(shipTable['fuel_tank_mass']))
+    # https://stackoverflow.com/questions/1823058/how-to-print-number-with-commas-as-thousands-separators#10742904
+    print("|price = %s" % nice_int(shipTable['price']))
     print("|max_engine = " + max_engine)
     print("}}")
 
-
+def nice_int(n):
+    return "{:,}".format(int(n))
 
 
 def define_ship2(ship_table):
@@ -383,10 +372,80 @@ def make_chart(ship_folder):
     print('|}')                 # table end
 
 
+# https://stackoverflow.com/questions/10969759/python-library-to-convert-between-si-unit-prefixes#10970888
+def get_si_suffix(number):
+    "Return the number and the proper si suffix. 123000 -> [123,'k']"
+    si = {
+        -18 : {'multiplier' : 10 ** 18, 'prefix' : 'a'},
+        -17 : {'multiplier' : 10 ** 18, 'prefix' : 'a'},
+        -16 : {'multiplier' : 10 ** 18, 'prefix' : 'a'},
+        -15 : {'multiplier' : 10 ** 15, 'prefix' : 'f'},
+        -14 : {'multiplier' : 10 ** 15, 'prefix' : 'f'},
+        -13 : {'multiplier' : 10 ** 15, 'prefix' : 'f'},
+        -12 : {'multiplier' : 10 ** 12, 'prefix' : 'p'},
+        -11 : {'multiplier' : 10 ** 12, 'prefix' : 'p'},
+        -10 : {'multiplier' : 10 ** 12, 'prefix' : 'p'},
+        -9 : {'multiplier' : 10 ** 9, 'prefix' : 'n'},
+        -8 : {'multiplier' : 10 ** 9, 'prefix' : 'n'},
+        -7 : {'multiplier' : 10 ** 9, 'prefix' : 'n'},
+        -6 : {'multiplier' : 10 ** 6, 'prefix' : 'u'},
+        -5 : {'multiplier' : 10 ** 6, 'prefix' : 'u'},
+        -4 : {'multiplier' : 10 ** 6, 'prefix' : 'u'},
+        -3 : {'multiplier' : 10 ** 3, 'prefix' : 'm'},
+        -2 : {'multiplier' : 10 ** 2, 'prefix' : 'c'},
+        -1 : {'multiplier' : 10 ** 1, 'prefix' : 'd'},
+        0 : {'multiplier' : 1, 'prefix' : ''},
+        1 : {'multiplier' : 10 ** 1, 'prefix' : 'd'},
+        2 : {'multiplier' : 10 ** 3, 'prefix' : 'k'},
+        3 : {'multiplier' : 10 ** 3, 'prefix' : 'k'},
+        4 : {'multiplier' : 10 ** 3, 'prefix' : 'k'},
+        5 : {'multiplier' : 10 ** 3, 'prefix' : 'k'},
+        6 : {'multiplier' : 10 ** 6, 'prefix' : 'M'},
+        7 : {'multiplier' : 10 ** 6, 'prefix' : 'M'},
+        8 : {'multiplier' : 10 ** 6, 'prefix' : 'M'},
+        9 : {'multiplier' : 10 ** 9, 'prefix' : 'G'},
+        10 : {'multiplier' : 10 ** 9, 'prefix' : 'G'},
+        11 : {'multiplier' : 10 ** 9, 'prefix' : 'G'},
+        12 : {'multiplier' : 10 ** 12, 'prefix' : 'T'},
+        13 : {'multiplier' : 10 ** 12, 'prefix' : 'T'},
+        14 : {'multiplier' : 10 ** 12, 'prefix' : 'T'},
+        15 : {'multiplier' : 10 ** 15, 'prefix' : 'P'},
+        16 : {'multiplier' : 10 ** 15, 'prefix' : 'P'},
+        17 : {'multiplier' : 10 ** 15, 'prefix' : 'P'},
+        18 : {'multiplier' : 10 ** 18, 'prefix' : 'E'},
+        }
+        # Checking if its negative or positive
+    if number < 0:
+        negative = True;
+    else:
+        negative = False;
+
+    # if its negative converting to positive (math.log()....)
+    if negative:
+        number = number - (number*2);
+
+    # Taking the exponent
+    exponent = int(math.log10(number));
+
+    # Checking if it was negative converting it back to negative
+    if negative:
+        number = number - (number*2);
+
+    # If the exponent is smaler than 0 dividing the exponent with -1
+    if exponent < 0:
+        exponent = exponent-1;
+        return [number * si[exponent]['multiplier'], si[exponent]['prefix']];
+    # If the exponent bigger than 0 just return it
+    elif exponent > 0:
+        return [number / si[exponent]['multiplier'], si[exponent]['prefix']];
+    # If the exponent is 0 than return only the value
+    elif exponent == 0:
+        return [number, ''];
+
 def main(args):
 
     if args.ship_from_file:
-        define_ship(args.read_path)
+        print_ship_as_wiki_infobox(args.read_path)
     elif args.export_from_path:
         export_to_csv(args.read_path)
     elif args.chart_from_path:
