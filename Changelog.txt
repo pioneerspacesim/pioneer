@@ -1,6 +1,7 @@
 August 2018
    * Internal Changes
      * Ship parser script for wiki (json -> wiki, and json->csv) now working (#4169)
+     * Added more tooltips in settings menu (#4387)
 
 July 2018
    * New Features
