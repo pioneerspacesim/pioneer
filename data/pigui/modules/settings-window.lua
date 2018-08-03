@@ -214,50 +214,50 @@ local function showVideoOptions()
 
 
 	ui.separator()
-	c,selectedDetail = combo(lui.PLANET_DETAIL_DISTANCE, selectedDetail, detailLabels)
+	c,selectedDetail = combo(lui.PLANET_DETAIL_DISTANCE, selectedDetail, detailLabels, lui.DETAIL_DESC)
 	if c then
 		local detail = detailLevels[detailLabels[selectedDetail+1]]
 		Engine.SetPlanetDetailLevel(detail)
 	end
 
-	c,planetTextures = checkbox(lui.PLANET_TEXTURES, planetTextures)
+	c,planetTextures = checkbox(lui.PLANET_TEXTURES, planetTextures, lui.TEXTURE_COMPRESSION)
 	if c then
 		Engine.SetPlanetFractalColourEnabled(planetTextures)
 	end
 
-	c,fractalDetail = combo(lui.FRACTAL_DETAIL, fractalDetail, detailLabels)
+	c,fractalDetail = combo(lui.FRACTAL_DETAIL, fractalDetail, detailLabels, lui.DETAIL_DESC)
 	if c then
 		local detail = detailLevels[detailLabels[fractalDetail+1]]
 		Engine.SetFractalDetailLevel(detail)
 	end
 
-	c,cityDetail = combo(lui.CITY_DETAIL_LEVEL, cityDetail, detailLabels)
+	c,cityDetail = combo(lui.CITY_DETAIL_LEVEL, cityDetail, detailLabels, lui.DETAIL_DESC)
 	if c then
 		local detail = detailLevels[detailLabels[cityDetail+1]]
 		Engine.SetCityDetailLevel(detail)
 	end
 
-	c,displayNavTunnels = checkbox(lui.DISPLAY_NAV_TUNNELS, displayNavTunnels)
+	c,displayNavTunnels = checkbox(lui.DISPLAY_NAV_TUNNELS, displayNavTunnels, lui.DISPLAY_NAV_TUNNELS_DESC)
 	if c then
 		Engine.SetDisplayNavTunnels(displayNavTunnels)
 	end
 
-	c,displaySpeedLines = checkbox(lui.DISPLAY_SPEED_LINES, displaySpeedLines)
+	c,displaySpeedLines = checkbox(lui.DISPLAY_SPEED_LINES, displaySpeedLines, lui.DISPLAY_SPEED_LINES_DESC)
 	if c then
 		Engine.SetDisplaySpeedLines(displaySpeedLines)
 	end
 
-	c,displayHudTrails = checkbox(lui.DISPLAY_HUD_TRAILS, displayHudTrails)
+	c,displayHudTrails = checkbox(lui.DISPLAY_HUD_TRAILS, displayHudTrails, lui.DISPLAY_HUD_TRAILS_DESC)
 	if c then
 		Engine.SetDisplayHudTrails(displayHudTrails)
 	end
 
-	c,enableCockpit = checkbox(lui.ENABLE_COCKPIT, enableCockpit)
+	c,enableCockpit = checkbox(lui.ENABLE_COCKPIT, enableCockpit, lui.ENABLE_COCKPIT_DESC)
 	if c then
 		Engine.SetCockpitEnabled(enableCockpit)
 	end
 
-	c,enableAutoSave = checkbox(lui.ENABLE_AUTOSAVE, enableAutoSave)
+	c,enableAutoSave = checkbox(lui.ENABLE_AUTOSAVE, enableAutoSave, lui.ENABLE_AUTOSAVE_DESC)
 	if c then
 		Engine.SetAutosaveEnabled(enableAutoSave)
 	end
@@ -508,4 +508,3 @@ ui.registerModule("game", optionsWindow)
 ui.registerModule("mainMenu", optionsWindow)
 
 return {}
-
