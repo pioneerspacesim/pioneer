@@ -279,6 +279,10 @@
     "description": "",
     "message": "Detruire le vaisseau ennemi"
   },
+  "DETAIL_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Une valeur plus basse signifie de meilleures performances, mais une esthétique visuelle amoindrie."
+  },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
     "message": "Renvoyer"
@@ -287,13 +291,25 @@
     "description": "",
     "message": "Afficher les trainées HUD"
   },
+  "DISPLAY_HUD_TRAILS_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Aide visuelle affichant la trajectoire des vaisseaux sur le HUD (affichage tête haute)"
+  },
   "DISPLAY_NAV_TUNNELS": {
     "description": "Settings option: hyperspace tunnel effect",
     "message": "Afficher tunnels de nav."
   },
+  "DISPLAY_NAV_TUNNELS_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Affiche un tunnel virtuel vers la cible selectionnée sur le HUD (affichage tête haute)"
+  },
   "DISPLAY_SPEED_LINES": {
     "description": "Settings option: effect when travelling in space",
     "message": "Montrer effets de vitesse"
+  },
+  "DISPLAY_SPEED_LINES_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Assiste le sens de direction du mouvement dans l'espace"
   },
   "DOCKED_AT": {
     "description": "",
@@ -339,9 +355,17 @@
     "description": "Allow the game to autosave when docking",
     "message": "Activer la sauvegarde automatique"
   },
+  "ENABLE_AUTOSAVE_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Sauvegarder lors de l'arrimage. Peut causer de la latence selon la rapidité de votre disque dur."
+  },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
     "message": "Activer cockpit (EXPERIMENTAL)"
+  },
+  "ENABLE_COCKPIT_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Affiche un modèle 3D du tableau de bord. (Le modèle est temporaire)"
   },
   "ENABLE_JOYSTICK": {
     "description": "",

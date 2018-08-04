@@ -279,6 +279,10 @@
     "description": "",
     "message": "Düşman gemisini yok et"
   },
+  "DETAIL_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Düşük ayarlar, görsel estetiği azaltıp performansı arttırır."
+  },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
     "message": "Gidebilirsin"
@@ -287,13 +291,25 @@
     "description": "",
     "message": "HUD izlerini göster"
   },
+  "DISPLAY_HUD_TRAILS_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Gemilerin izlediği yolu HUD ekranında gösterir"
+  },
   "DISPLAY_NAV_TUNNELS": {
     "description": "Settings option: hyperspace tunnel effect",
     "message": "Nav tünellerini göster"
   },
+  "DISPLAY_NAV_TUNNELS_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "HUD ekranında hedefe doğru sanal bir tünel gösterir"
+  },
   "DISPLAY_SPEED_LINES": {
     "description": "Settings option: effect when travelling in space",
     "message": "Hız çizgilerini göster"
+  },
+  "DISPLAY_SPEED_LINES_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Uzayda hareket yönünü anlamanıza yardımcı olur"
   },
   "DOCKED_AT": {
     "description": "",
@@ -339,9 +355,17 @@
     "description": "Allow the game to autosave when docking",
     "message": "Otomatik Kayıt"
   },
+  "ENABLE_AUTOSAVE_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Kenetlenme sırasında kaydeder, disk erişimi süresine bağlı olarak gecikme yaratabilir"
+  },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
     "message": "Kokpiti etkinleştir (DENEYSEL)"
+  },
+  "ENABLE_COCKPIT_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "3B bir kokpit modeli göster. (Şu anki gösterge paneli deneyseldir.)"
   },
   "ENABLE_JOYSTICK": {
     "description": "",

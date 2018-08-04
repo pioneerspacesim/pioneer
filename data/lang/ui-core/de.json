@@ -279,6 +279,10 @@
     "description": "",
     "message": "Feindliches Schiff zerstören"
   },
+  "DETAIL_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Niedriger gibt eine bessere Performanz auf Kosten der Grafikqualität"
+  },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
     "message": "Entlassen"
@@ -287,13 +291,25 @@
     "description": "",
     "message": "Schiffsspuren zeigen"
   },
+  "DISPLAY_HUD_TRAILS_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Hilft dem Auge, indem die Flugbahn von Schiffen in der HUD angezeigt wird"
+  },
   "DISPLAY_NAV_TUNNELS": {
     "description": "Settings option: hyperspace tunnel effect",
     "message": "Navigationstunnel anzeigen"
   },
+  "DISPLAY_NAV_TUNNELS_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Zeigt einen virtuellen Tunnel zum momentan gewählten Ziel in der HUD"
+  },
   "DISPLAY_SPEED_LINES": {
     "description": "Settings option: effect when travelling in space",
     "message": "Geschwindigkeitslinien anzeigen"
+  },
+  "DISPLAY_SPEED_LINES_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Hilft dem Richtungssinn bei der Bewegung im Weltraum"
   },
   "DOCKED_AT": {
     "description": "",
@@ -339,9 +355,17 @@
     "description": "Allow the game to autosave when docking",
     "message": "Autospeichern aktivieren"
   },
+  "ENABLE_AUTOSAVE_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Spielstand beim Andocken speichern; kann abhängig von der Datenträgerzugriffszeit eine gewisse Verzögerung verursachen"
+  },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
     "message": "Cockpit aktivieren (EXPERIMENTELL)"
+  },
+  "ENABLE_COCKPIT_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Ein 3-D-Modell des Pilotencockpits zeigen. (Momentan ist das Dashboard ein Platzhalter)"
   },
   "ENABLE_JOYSTICK": {
     "description": "",

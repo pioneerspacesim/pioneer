@@ -279,6 +279,10 @@
     "description": "",
     "message": "Lődd ki az ellenséges hajót."
   },
+  "DETAIL_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Lower gives better performance, at cost of visual aesthetics"
+  },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
     "message": "Elbocsájt"
@@ -287,13 +291,25 @@
     "description": "",
     "message": "HUD nyomvonalak"
   },
+  "DISPLAY_HUD_TRAILS_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Guides the eye by showing the trajectory of ships on the HUD"
+  },
   "DISPLAY_NAV_TUNNELS": {
     "description": "Settings option: hyperspace tunnel effect",
     "message": "Navigációs alagút"
   },
+  "DISPLAY_NAV_TUNNELS_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Shows a virtual tunnel to current selected target on the HUD"
+  },
   "DISPLAY_SPEED_LINES": {
     "description": "Settings option: effect when travelling in space",
     "message": "Sebességjelző vonalak"
+  },
+  "DISPLAY_SPEED_LINES_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Assists the sense of direction of movement in space"
   },
   "DOCKED_AT": {
     "description": "",
@@ -339,9 +355,17 @@
     "description": "Allow the game to autosave when docking",
     "message": "Enable Autosave"
   },
+  "ENABLE_AUTOSAVE_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "save state when docking, might cause some lag depending on disk access time"
+  },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
     "message": "Kabin bekapcsolása (KISÉRLETI)"
+  },
+  "ENABLE_COCKPIT_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Display a 3D model of the pilot's cockpit. (Currently the dashboard is a placeholder)"
   },
   "ENABLE_JOYSTICK": {
     "description": "",
