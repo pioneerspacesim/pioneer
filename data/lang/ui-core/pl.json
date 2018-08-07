@@ -281,7 +281,7 @@
   },
   "DETAIL_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Lower gives better performance, at cost of visual aesthetics"
+    "message": "Niższy daje lepszą wydajność, kosztem estetyki"
   },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
@@ -293,7 +293,7 @@
   },
   "DISPLAY_HUD_TRAILS_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Guides the eye by showing the trajectory of ships on the HUD"
+    "message": "Prowadzi, pokazując trajektorię statków na HUDzie."
   },
   "DISPLAY_NAV_TUNNELS": {
     "description": "Settings option: hyperspace tunnel effect",
@@ -301,7 +301,7 @@
   },
   "DISPLAY_NAV_TUNNELS_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Shows a virtual tunnel to current selected target on the HUD"
+    "message": "Pokazuje wirtualny tunel do wybranego bierząco celu na HUDzie"
   },
   "DISPLAY_SPEED_LINES": {
     "description": "Settings option: effect when travelling in space",
@@ -309,7 +309,7 @@
   },
   "DISPLAY_SPEED_LINES_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Assists the sense of direction of movement in space"
+    "message": "Wspomaga orientację kierunku ruchu w przestrzeni"
   },
   "DOCKED_AT": {
     "description": "",
@@ -357,7 +357,7 @@
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "save state when docking, might cause some lag depending on disk access time"
+    "message": "zachowuje stan podczas dokowania, co może powodować pewne zacięcia, w zależności od czasu dostępu do dysku"
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
@@ -365,7 +365,7 @@
   },
   "ENABLE_COCKPIT_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Display a 3D model of the pilot's cockpit. (Currently the dashboard is a placeholder)"
+    "message": "Wyświetla model 3D kokpitu pilota. (Obecnie deska rozdzielcza jest atrapą)"
   },
   "ENABLE_JOYSTICK": {
     "description": "",

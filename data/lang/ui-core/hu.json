@@ -281,7 +281,7 @@
   },
   "DETAIL_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Lower gives better performance, at cost of visual aesthetics"
+    "message": "Alacsonyabb beállítással kevésbe lassul a játék, a látvány minőségének rovására"
   },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
@@ -293,7 +293,7 @@
   },
   "DISPLAY_HUD_TRAILS_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Guides the eye by showing the trajectory of ships on the HUD"
+    "message": "Megjeleníti a hajók nyomvonalát, repülési irányuk könnyebb meghatározhatósága érdekében"
   },
   "DISPLAY_NAV_TUNNELS": {
     "description": "Settings option: hyperspace tunnel effect",
@@ -301,7 +301,7 @@
   },
   "DISPLAY_NAV_TUNNELS_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Shows a virtual tunnel to current selected target on the HUD"
+    "message": "Virtuális alagút megjelenítése a kiválasztott célponthoz a HUD-on"
   },
   "DISPLAY_SPEED_LINES": {
     "description": "Settings option: effect when travelling in space",
@@ -309,7 +309,7 @@
   },
   "DISPLAY_SPEED_LINES_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Assists the sense of direction of movement in space"
+    "message": "Segít az űrhajó mozgásirányának meghatározásában."
   },
   "DOCKED_AT": {
     "description": "",
@@ -357,7 +357,7 @@
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "save state when docking, might cause some lag depending on disk access time"
+    "message": "Mentés dokkoláskor. Rövidebb megállást eredményezhet a háttértár sebességétől és az adatmennyiségtől függően"
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
@@ -365,7 +365,7 @@
   },
   "ENABLE_COCKPIT_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Display a 3D model of the pilot's cockpit. (Currently the dashboard is a placeholder)"
+    "message": "Pilótafülke 3D model megjelenítése (jelenlegi kabin modell ideiglenes)"
   },
   "ENABLE_JOYSTICK": {
     "description": "",
@@ -1217,7 +1217,7 @@
   },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
-    "message": "Nothing matches that filter"
+    "message": "Nincs találat"
   },
   "NO_MISSIONS": {
     "description": "",
@@ -1277,7 +1277,7 @@
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
-    "message": "Filter overview window entries by name"
+    "message": "Név szerinti szűrés"
   },
   "OWED": {
     "description": "Player owing money to crew members",
@@ -1613,19 +1613,19 @@
   },
   "TOGGLE_OVERVIEW_SHOW_MOONS": {
     "description": "toggle whether the overview window shows moons or not",
-    "message": "Toggle showing moons in the overview"
+    "message": "Holdak mutatása az áttekintő ablakban"
   },
   "TOGGLE_OVERVIEW_SHOW_STATIONS": {
     "description": "toggle whether the overview window shows stations or not",
-    "message": "Toggle showing stations in the overview"
+    "message": "Állomások mutatása az áttekintő ablakban"
   },
   "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
     "description": "toggle whether the overview window sorts by distance from the player or from the system center",
-    "message": "Switch between sorting by distance from player and distance from system center"
+    "message": "Lista rendezése űrhajótól, vagy csillagtól való távolság alapján"
   },
   "TOGGLE_OVERVIEW_WINDOW": {
     "description": "show/hide the overview window / navigation window",
-    "message": "Toggle the overview window"
+    "message": "Áttekintő nézet"
   },
   "TOO_SMALL_FOR_CURRENT_CREW": {
     "description": "",
