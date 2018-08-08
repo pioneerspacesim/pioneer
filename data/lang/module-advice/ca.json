@@ -1,102 +1,102 @@
 {
   "ADVICE_10_BODYTEXT": {
     "description": "",
-    "message": "Relocating to another faction might be a good idea when in trouble with local authorities."
+    "message": "Canviar de facció pot ser una bona idea quan tens problemes amb les autoritats locals."
   },
   "ADVICE_10_HEADLINE": {
     "description": "",
-    "message": "Know when to leave town"
+    "message": "Aprèn a tocar el dos"
   },
   "ADVICE_1_BODYTEXT": {
     "description": "",
-    "message": "Take note of which local business to trust or not, upon completing a transaction outside the confines of the law."
+    "message": "Pren nota de quins negocis són de fiar i quins no, abans de completar una transacció més enllà dels confins de la llei."
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
-    "message": "Tame the Black Market"
+    "message": "Domina el Mercat Negre"
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Many small distances are faster travelled than their sum."
+    "message": "És més ràpid recòrrer molts trajectes petits que la seva suma."
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
-    "message": "The Road Faster Taken"
+    "message": "El camí més ràpid"
   },
   "ADVICE_3_BODYTEXT": {
     "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
-    "message": "Avoid jumping into uninhabited systems without the means to leave."
+    "message": "Evita saltar a sistemes deshabitats si no tens els mitjans per sortir-ne."
   },
   "ADVICE_3_HEADLINE": {
     "description": "",
-    "message": "Avoid getting stranded: plan your jump sequence ahead"
+    "message": "Evita quedar atrapat: planifica bé els teus salts"
   },
   "ADVICE_4_BODYTEXT": {
     "description": "",
-    "message": "Choose your frame of reference. Especially when wanting to match speed and course of a moving target."
+    "message": "Tria el teu marc de referència. Especialment quan vulguis igualar la teva velocitat i rumb amb un objectiu mòbil."
   },
   "ADVICE_4_HEADLINE": {
     "description": "",
-    "message": "It's all relative"
+    "message": "Tot és relatiu"
   },
   "ADVICE_5_BODYTEXT": {
     "description": "",
-    "message": "Buy low and sell high."
+    "message": "Compra barat i ven car."
   },
   "ADVICE_5_HEADLINE": {
     "description": "",
-    "message": "Never lose money"
+    "message": "Mai no perdis diners"
   },
   "ADVICE_6_BODYTEXT": {
     "description": "",
-    "message": "Pay close attention to any news reported, as information can affect market prices."
+    "message": "Para molta atenció a les notícies, doncs la informació pot afectar als preus de mercat."
   },
   "ADVICE_6_HEADLINE": {
     "description": "",
-    "message": "Keep your ear to the ground"
+    "message": "Para bé l'orella"
   },
   "ADVICE_7_BODYTEXT": {
     "description": "",
-    "message": "Donations can earn you a good standing in society, but not all charities will earn you a reputation."
+    "message": "Les donacions poden millorar la teva posició social, però no tots els actes de caritat et faran guanyar reputació."
   },
   "ADVICE_7_HEADLINE": {
     "description": "",
-    "message": "Be generous"
+    "message": "Sigues generós"
   },
   "ADVICE_8_BODYTEXT": {
     "description": "",
-    "message": "When journeying to binary systems, make sure to target the right star."
+    "message": "Quan viatgis cap a sistemes binaris assegura't de seleccionar l'estrella correcta."
   },
   "ADVICE_8_HEADLINE": {
     "description": "",
-    "message": "Stay out of double trouble"
+    "message": "No et busquis problemes dobles"
   },
   "ADVICE_9_BODYTEXT": {
     "description": "",
-    "message": "Regularly maintain your engines, but remember: you get what you pay for."
+    "message": "Fes el manteniment dels teus motors regularment, però recorda: obtindràs allò que paguis."
   },
   "ADVICE_9_HEADLINE": {
     "description": "",
-    "message": "Treat your ship well"
+    "message": "Tracta bé la teva nau"
   },
   "RUMOUR": {
     "description": "Headline starts with this pre-headline",
-    "message": "RUMOUR"
+    "message": "RUMOR"
   },
   "TALE_1_BODYTEXT": {
     "description": "",
-    "message": "Don't miss the beautiful eclipse on New Hope as Hades blocks out the light from Epsilon Eridani."
+    "message": "No et perdis el preciós eclipsi de New Hope quan Hades bloqueja la llum d'Epsilon Eridani."
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",
-    "message": "\"I've seen things you people wouldn't believe\""
+    "message": "\"Jo he vist coses que vosaltres mai no creuríeu.\""
   },
   "TRAVELLERS_ADVICE": {
     "description": "Headline starts with this pre-headline",
-    "message": "TRAVELLER'S ADVICE"
+    "message": "CONSELL DEL VIATGER"
   },
   "TRAVELLERS_TALE": {
     "description": "Headline starts with this pre-headline",
-    "message": "TRAVELLER'S TALE"
+    "message": "RELAT DEL VIATGER"
   }
 }
