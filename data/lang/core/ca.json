@@ -329,7 +329,7 @@
   },
   "DISTANCE_LY": {
     "description": "",
-    "message": "Distància: %distance{f.2} ly"
+    "message": "Distància: %distance{f.2} al"
   },
   "DOCKED": {
     "description": "",
@@ -465,7 +465,7 @@
   },
   "GAME_SAVE_CANNOT_WRITE": {
     "description": "",
-    "message": "La partida no s'ha pogut desar degut a un error del sistema."
+    "message": "La partida no s'ha pogut desar per un error del sistema."
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
@@ -1025,7 +1025,7 @@
   },
   "NUMBER_LY": {
     "description": "",
-    "message": "%distance{f.2} ly"
+    "message": "%distance{f.2} al"
   },
   "NUMBER_TONNES": {
     "description": "",
@@ -1741,7 +1741,7 @@
   },
   "UNIT_LY": {
     "description": "Distance unit: a light year",
-    "message": "ly"
+    "message": "al"
   },
   "UNIT_METERS": {
     "description": "Distance unit: one meter",

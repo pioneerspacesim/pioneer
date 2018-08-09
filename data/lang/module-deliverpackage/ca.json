@@ -5,11 +5,11 @@
   },
   "DANGER": {
     "description": "",
-    "message": "Danger:"
+    "message": "Risc:"
   },
   "DEADLINE": {
     "description": "",
-    "message": "Deadline:"
+    "message": "Data límit:"
   },
   "DELIVERY": {
     "description": "",
@@ -257,11 +257,11 @@
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
-    "message": "How soon must it be delivered?"
+    "message": "Quina és la data d'entrega?"
   },
   "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED": {
     "description": "",
-    "message": "It could be dangerous, you should make sure you're adequately prepared."
+    "message": "Podria ser perillós, val més que estigueu ben preparat."
   },
   "IT_MUST_BE_DELIVERED_BY": {
     "description": "",
@@ -277,7 +277,7 @@
   },
   "NOT_ANY_MORE_THAN_USUAL": {
     "description": "",
-    "message": "Not any more than usual."
+    "message": "No més de l'habitual."
   },
   "OK_AGREED": {
     "description": "",
@@ -345,10 +345,10 @@
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",
-    "message": "Why so much money?"
+    "message": "Perquè tants diners?"
   },
   "WILL_I_BE_IN_ANY_DANGER": {
     "description": "",
-    "message": "Will I be in any danger?"
+    "message": "Serà gaire perillós?"
   }
 }

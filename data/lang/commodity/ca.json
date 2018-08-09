@@ -125,7 +125,7 @@
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Degut en part a raons ètiques, econòmiques i ecològiques, la cria i comerç d'animals està estrictament regulada, o fins i tot és il·legal, a molts sistemes del nucli. Tot anant cap a l'exterior, el bestiar esdevé una part més important de l'activitat humana, ja sigui com a font de nutrients o com a bèstia de càrrega. Zoològics exòtics i reserves naturals contribueixen al comerç d'animals vius per tota la galàxia, generalment sota estrictes regulacions governamentals, establertes per combatre la caça furtiva."
+    "message": "Per raons ètiques, econòmiques i ecològiques, la cria i comerç d'animals està estrictament regulada, o fins i tot és il·legal, a molts sistemes del nucli. Tot anant cap a l'exterior, el bestiar esdevé una part més important de l'activitat humana, ja sigui com a font de nutrients o com a bèstia de càrrega. Zoològics exòtics i reserves naturals contribueixen al comerç d'animals vius per tota la galàxia, generalment sota estrictes regulacions governamentals, establertes per combatre la caça furtiva."
   },
   "MEDICINES": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Emprat com a combustible als impulsors militars més avançats. Aquests impulsors produeixen residus nuclears en operar, que cal eliminar. Degut a la seva naturalesa sintètica, el combustible militar és més car i menys comú que l'hidrogen, i no es pot trobar a la natura."
+    "message": "Emprat com a combustible als impulsors militars més avançats. Aquests impulsors produeixen residus nuclears en operar, que cal eliminar. Per la seva naturalesa sintètica, el combustible militar és més car i menys comú que l'hidrogen, i no es pot trobar a la natura."
   },
   "MINING_MACHINERY": {
     "description": "",

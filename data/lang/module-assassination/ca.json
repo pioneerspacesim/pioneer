@@ -181,7 +181,7 @@
   },
   "LY": {
     "description": "",
-    "message": "ly"
+    "message": "al"
   },
   "OK_AGREED": {
     "description": "",
@@ -193,7 +193,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Establir com objectiu de navegació"
+    "message": "Establir com a objectiu de navegació"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -329,6 +329,6 @@
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
-    "message": "El {target} sortirà de {spaceport} al sistema {system}({sectorX}, {sectorY}, {sectorZ}), distància {dist} ly, en data {date}. La nau és una {shipname} amb ID de registre  {shipregid}."
+    "message": "El {target} sortirà de {spaceport} al sistema {system}({sectorX}, {sectorY}, {sectorZ}), distància {dist} al, en data {date}. La nau és una {shipname} registrada amb ID {shipregid}."
   }
 }
