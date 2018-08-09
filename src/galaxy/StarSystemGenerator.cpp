@@ -224,6 +224,7 @@ bool StarSystemFromSectorGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gal
 	system->SetFaction(galaxy->GetFactions()->GetNearestClaimant(&secSys));
 	system->SetSeed(secSys.GetSeed());
 	system->SetName(secSys.GetName());
+	system->SetOtherNames(secSys.GetOtherNames());
 	system->SetExplored(secSys.GetExplored(), secSys.GetExploredTime());
 	return true;
 }

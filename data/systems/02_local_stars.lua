@@ -232,7 +232,7 @@ CustomSystem:new('Gliese 203',{'STAR_M'}):add_to_sector(3,-1,0,v(0.460,0.514,0.5
 CustomSystem:new('Xi Boötis',{'STAR_G','STAR_K'}):add_to_sector(-2,1,0,v(0.245,0.892,0.894))
 CustomSystem:new('Gliese 205',{'STAR_M'}):add_to_sector(2,-1,-1,v(0.297,0.712,0.851))
 CustomSystem:new('NN 3976',{'STAR_M'}):add_to_sector(-4,1,1,v(0.402,0.118,0.557))
-CustomSystem:new('Toliman',{'STAR_G','STAR_K'}):add_to_sector(-1,0,-1,v(0.828,0.204,0.520))
+CustomSystem:new('Toliman',{'STAR_G','STAR_K'}):other_names({"Bungula", "Gliese 559", "FK5 538", "GC 19728", "CCDM J14396-6050", "Alpha Centauri", "α Centauri"}):add_to_sector(-1,0,-1,v(0.828,0.204,0.520))
 -- That's Alpha Centauri, or Rigil Kent., btw (-:
 CustomSystem:new('NN 3801',{'STAR_M'}):add_to_sector(-2,2,2,v(0.656,0.795,0.036))
 CustomSystem:new('NN 3804',{'STAR_M'}):add_to_sector(-2,3,-2,v(0.030,0.957,0.566))

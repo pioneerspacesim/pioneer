@@ -465,6 +465,20 @@ static int l_starsystem_attr_name(lua_State *l)
 	return 1;
 }
 
+static int l_starsystem_attr_other_names(lua_State *l)
+{
+	PROFILE_SCOPED();
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	LuaTable names(l);
+	int i = 1;
+	for(std::string n : s->GetOtherNames()) {
+		LuaPush(l, i++);
+		LuaPush(l, n);
+		lua_settable(l, -3);
+	}
+	return 1;
+}
+
 /*
  * Attribute: path
  *
@@ -646,6 +660,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 
 	static const luaL_Reg l_attrs[] = {
 		{ "name", l_starsystem_attr_name },
+		{ "other_names", l_starsystem_attr_other_names },
 		{ "path", l_starsystem_attr_path },
 
 		{ "lawlessness", l_starsystem_attr_lawlessness },

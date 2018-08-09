@@ -71,6 +71,7 @@ public:
 	~CustomSystem();
 
 	std::string            name;
+	std::vector<std::string> other_names;
     CustomSystemBody*      sBody;
 	SystemBody::BodyType   primaryType[4];
 	unsigned               numStars;
