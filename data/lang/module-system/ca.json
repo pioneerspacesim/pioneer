@@ -17,18 +17,18 @@
   },
   "DISCOVERED_HIDDEN_BASES": {
     "description": "",
-    "message": "You have discovered {portcount} hidden {bases}!"
+    "message": "Heu descobert {portcount} {bases} ocultes!"
   },
   "EXPLORING_SYSTEM": {
     "description": "",
-    "message": "Exploring system with {bodycount} major {bodies}."
+    "message": "Explorant sistema amb {bodycount} {bodies} principals."
   },
   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
     "description": "",
-    "message": "Your fuel tank is almost empty."
+    "message": "Els dipòsits de combustible estan gairebé buits."
   },
   "YOUR_FUEL_TANK_IS_EMPTY": {
     "description": "",
-    "message": "Your fuel tank is empty."
+    "message": "Els dipòsits de combustible estan buits."
   }
 }

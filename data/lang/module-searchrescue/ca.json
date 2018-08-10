@@ -469,7 +469,7 @@
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Payment location:"
+    "message": "Lloc de pagament:"
   },
   "PICKUP": {
     "description": "",
