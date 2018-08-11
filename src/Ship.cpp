@@ -1183,7 +1183,9 @@ void Ship::StaticUpdate(const float timeStep)
 		{
 			if (fg->IsBeam(i))
 			{
-				m_beamLaser[i].Play("Beam_laser");
+				float vl, vr;
+				Sound::CalculateStereo(this, 1.0f, &vl, &vr);
+				m_beamLaser[i].Play("Beam_laser", vl, vr, Sound::OP_REPEAT);
 			}
 			else
 			{
@@ -1194,9 +1196,17 @@ void Ship::StaticUpdate(const float timeStep)
 
 		if (fg->IsBeam(i))
 		{
-			if (fg->IsFiring(i) && !m_beamLaser[i].IsPlaying())
+			if (fg->IsFiring(i))
 			{
-				m_beamLaser[i].Play("Beam_laser");
+				float vl, vr;
+				Sound::CalculateStereo(this, 1.0f, &vl, &vr);
+				if (!m_beamLaser[i].IsPlaying()) {
+					m_beamLaser[i].Play("Beam_laser", vl, vr, Sound::OP_REPEAT);
+				}
+				else {
+					// update volume
+					m_beamLaser[i].SetVolume(vl, vr);
+				}
 			}
 			else if (!fg->IsFiring(i) && m_beamLaser[i].IsPlaying())
 			{

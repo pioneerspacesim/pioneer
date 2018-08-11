@@ -131,32 +131,35 @@ float GetSfxVolume()
 	return m_sfxVol;
 }
 
-eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
+void CalculateStereo(const Body *b, float vol, float *volLeftOut, float *volRightOut)
 {
-	vector3d pos;
+	vector3d pos(0.0);
 
-	if (b == Pi::player) {
-		pos = vector3d(0.0);
-	} else {
+	if (b != Pi::player) {
 		pos = b->GetPositionRelTo(Pi::player);
 		pos = pos * Pi::player->GetOrient();
 	}
 
-	float len = pos.Length();
-	float v[2];
-	if (! is_zero_general(len)) {
+	const float len = pos.Length();
+	if (!is_zero_general(len)) {
 		vol = vol / (0.002*len);
 		double dot = pos.Normalized().x * vol;
 
-		v[0] = vol * (2.0f - (1.0+dot));
-		v[1] = vol * (1.0 + dot);
-	} else {
-		v[0] = v[1] = vol;
+		(*volLeftOut) = vol * (2.0f - (1.0 + dot));
+		(*volRightOut) = vol * (1.0 + dot);
 	}
-	v[0] = Clamp(v[0], 0.0f, 1.0f);
-	v[1] = Clamp(v[1], 0.0f, 1.0f);
+	else {
+		(*volLeftOut) = (*volRightOut) = vol;
+	}
+	(*volLeftOut) = Clamp((*volLeftOut), 0.0f, 1.0f);
+	(*volRightOut) = Clamp((*volRightOut), 0.0f, 1.0f);
+}
 
-	return Sound::PlaySfx(sfx, v[0], v[1], 0);
+eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
+{
+	float vl, vr;
+	CalculateStereo(b, vol, &vl, &vr);
+	return Sound::PlaySfx(sfx, vl, vr, 0);
 }
 
 struct SoundEvent {

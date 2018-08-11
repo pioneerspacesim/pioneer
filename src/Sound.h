@@ -62,6 +62,7 @@ void Pause (int on);
 eventid PlaySfx (const char *fx, const float volume_left, const float volume_right, const Op op);
 eventid PlayMusic (const char *fx, const float volume_left, const float volume_right, const Op op);
 inline static eventid PlaySfx (const char *fx) { return PlaySfx(fx, 1.0f, 1.0f, 0); }
+void CalculateStereo(const Body *b, float vol, float *volLeftOut, float *volRightOut);
 eventid BodyMakeNoise(const Body *b, const char *fx, float vol);
 void SetMasterVolume(const float vol);
 float GetMasterVolume();
