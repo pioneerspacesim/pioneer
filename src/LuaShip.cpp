@@ -234,6 +234,11 @@ static int l_ship_set_fuel_percent(lua_State *l)
 	}
 
 	s->SetFuel(percent/100.0);
+	// This is required for the fuel to properly update when the game is paused.
+	// Without this we can sell fuel indefinitely, or buy fuel without receiving
+	// anything. This is a workaround - the proper fix is to prevent interactions
+	// with stations while the game is paused.
+	s->TimeStepUpdate(0.0);
 
 	LUA_DEBUG_END(l, 0);
 
@@ -496,6 +501,15 @@ static int l_ship_get_docked_with(lua_State *l)
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	if (s->GetFlightState() != Ship::DOCKED) return 0;
 	LuaObject<SpaceStation>::PushToLua(s->GetDockedWith());
+	return 1;
+}
+
+static int l_ship_request_docking_clearance(lua_State *l) {
+	Ship *player = LuaObject<Ship>::CheckFromLua(1);
+	SpaceStation *s = static_cast<SpaceStation*>(LuaObject<Body>::CheckFromLua(2));
+	std::string msg;
+	s->GetDockingClearance(player, msg);
+	lua_pushstring(l, msg.c_str());
 	return 1;
 }
 
@@ -1533,6 +1547,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "IsECMReady", l_ship_is_ecm_ready },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
+		{ "RequestDockingClearance", l_ship_request_docking_clearance },
 		{ "Undock",        l_ship_undock          },
 		{ "BlastOff",      l_ship_blast_off       },
 

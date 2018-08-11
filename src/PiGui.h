@@ -107,7 +107,7 @@ public:
 	static bool WantCaptureKeyboard() {
 		return ImGui::GetIO().WantCaptureKeyboard;
 	}
-	static int RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std::vector<ImTextureID> tex_ids, std::vector<std::pair<ImVec2,ImVec2>> uvs, unsigned int size, std::vector<std::string> tooltips);
+	static int RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, int mouse_button, std::vector<ImTextureID> tex_ids, std::vector<std::pair<ImVec2,ImVec2>> uvs, unsigned int size, std::vector<std::string> tooltips);
 	static bool CircularSlider(const ImVec2 &center, float *v, float v_min, float v_max);
 
 	void Cleanup();

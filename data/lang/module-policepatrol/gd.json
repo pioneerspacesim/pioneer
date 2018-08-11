@@ -1,58 +1,58 @@
 {
-   "ILLEGAL_GOODS_DETECTED" : {
-      "description" : "",
-      "message" : "Mhothaich sinn dha bhathar mhì-laghail."
-   },
-   "INITIATE_CARGO_SCAN_1" : {
-      "description" : "",
-      "message" : "A' toiseach air sganadh air a' charago."
-   },
-   "INITIATE_CARGO_SCAN_2" : {
-      "description" : "",
-      "message" : "Cumaibh ur luaths is comhair a chom sganadh carago."
-   },
-   "INITIATE_CARGO_SCAN_3" : {
-      "description" : "",
-      "message" : "A' tòiseachadh air lorg stuthan-toirmisgte."
-   },
-   "NOTHING_DETECTED" : {
-      "description" : "",
-      "message" : "Cha do mhothaich sinn dha charago mì-laghail. Faodaidh sibh dol air adhart."
-   },
-   "OUTLAW_DETECTED_1" : {
-      "description" : "",
-      "message" : "Tha fògrach as aithne dhuinn a’ stiùireadh {ship_label}. Gabhamaid air gus a mhilleadh!"
-   },
-   "OUTLAW_DETECTED_2" : {
-      "description" : "",
-      "message" : "Cuiridh sinn crìoch ort, a shlaighteir!"
-   },
-   "OUTLAW_DETECTED_3" : {
-      "description" : "",
-      "message" : "Haoth, fhuair sinn greim ort! Chan fhaigh thusa beò as an t-siostam seo!"
-   },
-   "POLICE_TAUNT_1" : {
-      "description" : "",
-      "message" : "Dragh a' choin!"
-   },
-   "POLICE_TAUNT_2" : {
-      "description" : "",
-      "message" : "A chùiltear, is daor a cheannach ort a-nis!"
-   },
-   "POLICE_TAUNT_3" : {
-      "description" : "",
-      "message" : "Chan fhiach an eucoir, amadain!"
-   },
-   "RESPECT_THE_LAW_1" : {
-      "description" : "",
-      "message" : "Thoiribh urram dhan lagh! Chan fhiach an eucoir ann an siostam {system}!"
-   },
-   "RESPECT_THE_LAW_2" : {
-      "description" : "",
-      "message" : "Thàinig sibh a-steach do shiostam {system}. Thoiribh urram dhan lagh!"
-   },
-   "TAKE_A_HIKE" : {
-      "description" : "",
-      "message" : "Fhuair thu às leis. Tog ort ma-thà!"
-   }
+  "ILLEGAL_GOODS_DETECTED": {
+    "description": "",
+    "message": "Mhothaich sinn dha bhathar mhì-laghail."
+  },
+  "INITIATE_CARGO_SCAN_1": {
+    "description": "",
+    "message": "A' toiseach air sganadh air a' charago."
+  },
+  "INITIATE_CARGO_SCAN_2": {
+    "description": "",
+    "message": "Cumaibh ur luaths is comhair a chom sganadh carago."
+  },
+  "INITIATE_CARGO_SCAN_3": {
+    "description": "",
+    "message": "A' tòiseachadh air lorg stuthan-toirmisgte."
+  },
+  "NOTHING_DETECTED": {
+    "description": "",
+    "message": "Cha do mhothaich sinn dha charago mì-laghail. Faodaidh sibh dol air adhart."
+  },
+  "OUTLAW_DETECTED_1": {
+    "description": "",
+    "message": "Tha fògrach as aithne dhuinn a’ stiùireadh {ship_label}. Gabhamaid air gus a mhilleadh!"
+  },
+  "OUTLAW_DETECTED_2": {
+    "description": "",
+    "message": "Cuiridh sinn crìoch ort, a shlaighteir!"
+  },
+  "OUTLAW_DETECTED_3": {
+    "description": "",
+    "message": "Haoth, fhuair sinn greim ort! Chan fhaigh thusa beò as an t-siostam seo!"
+  },
+  "POLICE_TAUNT_1": {
+    "description": "",
+    "message": "Dragh a' choin!"
+  },
+  "POLICE_TAUNT_2": {
+    "description": "",
+    "message": "A chùiltear, is daor a cheannach ort a-nis!"
+  },
+  "POLICE_TAUNT_3": {
+    "description": "",
+    "message": "Chan fhiach an eucoir, amadain!"
+  },
+  "RESPECT_THE_LAW_1": {
+    "description": "",
+    "message": "Thoiribh urram dhan lagh! Chan fhiach an eucoir ann an siostam {system}!"
+  },
+  "RESPECT_THE_LAW_2": {
+    "description": "",
+    "message": "Thàinig sibh a-steach do shiostam {system}. Thoiribh urram dhan lagh!"
+  },
+  "TAKE_A_HIKE": {
+    "description": "",
+    "message": "Fhuair thu às leis. Tog ort ma-thà!"
+  }
 }

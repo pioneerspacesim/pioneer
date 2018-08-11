@@ -1,62 +1,62 @@
 {
-   "FLAVOUR_0_MESSAGE" : {
-      "description" : "",
-      "message" : "Please select an amount to donate to the Church of the Celestial Flying Spaghetti Monster."
-   },
-   "FLAVOUR_0_TITLE" : {
-      "description" : "",
-      "message" : "DONATE! The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
-   },
-   "FLAVOUR_1_MESSAGE" : {
-      "description" : "",
-      "message" : "تصحبك السلامة، أخي. من فضلك حدد الكمية المُتبرع بها إلي \"المدافعون عن الروح الحرة\"."
-   },
-   "FLAVOUR_1_TITLE" : {
-      "description" : "",
-      "message" : "تبرع. \"المدافعون عن الروح الحرة\" بتواضع يقبلون تبرعك لدعم أديرتنا."
-   },
-   "FLAVOUR_2_MESSAGE" : {
-      "description" : "",
-      "message" : "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy."
-   },
-   "FLAVOUR_2_TITLE" : {
-      "description" : "",
-      "message" : "FEELING GENEROUS? War Orphan's Support needs your help to keep up its essential work."
-   },
-   "FLAVOUR_3_MESSAGE" : {
-      "description" : "",
-      "message" : "من فضلك حدد كمية لكي تتبرع بها إلي \"مراقبة الطبيعة\"، و أنهي التلوث من مجرتنا."
-   },
-   "FLAVOUR_3_TITLE" : {
-      "description" : "",
-      "message" : "CONTRIBUTE. The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
-   },
-   "FLAVOUR_4_MESSAGE" : {
-      "description" : "",
-      "message" : "من فضلك حدد كمية ليتم التبرع بها."
-   },
-   "FLAVOUR_4_TITLE" : {
-      "description" : "",
-      "message" : "DONATE! Save our species. Stop the carnage of newly settled worlds."
-   },
-   "FLAVOUR_5_MESSAGE" : {
-      "description" : "",
-      "message" : "Liberate your ship! Please choose amount to donate. Happy hacking."
-   },
-   "FLAVOUR_5_TITLE" : {
-      "description" : "",
-      "message" : "SUPPORT FREEDOM! Stop the great injustice of proprietary software controlling your ship."
-   },
-   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
-      "description" : "",
-      "message" : "شكراً لك. كل التبرعات مُرحب بها."
-   },
-   "WOW_THAT_WAS_VERY_GENEROUS" : {
-      "description" : "",
-      "message" : "واو! هذا كان كريم جداً."
-   },
-   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "أنت لا تملك مالاً كافياً."
-   }
+  "FLAVOUR_0_MESSAGE": {
+    "description": "",
+    "message": "Please select an amount to donate to the Church of the Celestial Flying Spaghetti Monster."
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "",
+    "message": "DONATE! The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+  },
+  "FLAVOUR_1_MESSAGE": {
+    "description": "",
+    "message": "تصحبك السلامة، أخي. من فضلك حدد الكمية المُتبرع بها إلي \"المدافعون عن الروح الحرة\"."
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "",
+    "message": "تبرع. \"المدافعون عن الروح الحرة\" بتواضع يقبلون تبرعك لدعم أديرتنا."
+  },
+  "FLAVOUR_2_MESSAGE": {
+    "description": "",
+    "message": "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy."
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "",
+    "message": "FEELING GENEROUS? War Orphan's Support needs your help to keep up its essential work."
+  },
+  "FLAVOUR_3_MESSAGE": {
+    "description": "",
+    "message": "من فضلك حدد كمية لكي تتبرع بها إلي \"مراقبة الطبيعة\"، و أنهي التلوث من مجرتنا."
+  },
+  "FLAVOUR_3_TITLE": {
+    "description": "",
+    "message": "CONTRIBUTE. The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+  },
+  "FLAVOUR_4_MESSAGE": {
+    "description": "",
+    "message": "من فضلك حدد كمية ليتم التبرع بها."
+  },
+  "FLAVOUR_4_TITLE": {
+    "description": "",
+    "message": "DONATE! Save our species. Stop the carnage of newly settled worlds."
+  },
+  "FLAVOUR_5_MESSAGE": {
+    "description": "",
+    "message": "Liberate your ship! Please choose amount to donate. Happy hacking."
+  },
+  "FLAVOUR_5_TITLE": {
+    "description": "",
+    "message": "SUPPORT FREEDOM! Stop the great injustice of proprietary software controlling your ship."
+  },
+  "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
+    "description": "",
+    "message": "شكراً لك. كل التبرعات مُرحب بها."
+  },
+  "WOW_THAT_WAS_VERY_GENEROUS": {
+    "description": "",
+    "message": "واو! هذا كان كريم جداً."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
+    "description": "",
+    "message": "أنت لا تملك مالاً كافياً."
+  }
 }

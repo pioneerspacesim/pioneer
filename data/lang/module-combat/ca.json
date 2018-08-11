@@ -1,0 +1,346 @@
+{
+  "ACCEPTED_1": {
+    "description": "",
+    "message": "Molt bé. Bona sort!"
+  },
+  "ACCEPTED_2": {
+    "description": "",
+    "message": "Excel·lent!"
+  },
+  "ACCEPTED_3": {
+    "description": "",
+    "message": "Perfecte. Comptem amb vos!"
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "ES BUSCA PILOT FIABLE: Pagarem {cash}."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "DESAFIAMENT: Es busca nau i tripulació per a una missió de combat al sistema {system}."
+  },
+  "ADTEXT_3": {
+    "description": "",
+    "message": "COMBAT: Es necessita mercenari qualificat amb nau ben equipada."
+  },
+  "ADTEXT_4": {
+    "description": "",
+    "message": "ES BUSCA MERCENARI AUDAÇ: Paguem {cash} per una missió al sistema {system}."
+  },
+  "ADTEXT_5": {
+    "description": "",
+    "message": "Missió de {mission}: Salari {cash}."
+  },
+  "AGENT": {
+    "description": "Secret Service Agent",
+    "message": "Agent"
+  },
+  "AREA": {
+    "description": "An allotted area for the mission",
+    "message": "Àrea:"
+  },
+  "BONUS_1": {
+    "description": "",
+    "message": "El meu supervisor ha quedat impressionat pel vostre rendiment i ha autoritzat una bonificació de {cash} per a aquesta missió."
+  },
+  "BONUS_2": {
+    "description": "",
+    "message": "Ens heu servit bé! Us pagarem una bonificació de {cash}."
+  },
+  "BONUS_3": {
+    "description": "",
+    "message": "Impressionant! Estic autoritzat a pagar-vos una bonificació de {cash}."
+  },
+  "BONUS_4": {
+    "description": "",
+    "message": "Estic molt satisfet amb el vostre rendiment! Us he transferit {cash} crèdits addicionals."
+  },
+  "COMBAT": {
+    "description": "Name of mission type",
+    "message": "Combat"
+  },
+  "CORPORATION_1": {
+    "description": "Name of a corporation",
+    "message": "Fundació Mercaderies Precioses"
+  },
+  "CORPORATION_2": {
+    "description": "Name of a corporation",
+    "message": "Companyia Minera Omega"
+  },
+  "CORPORATION_3": {
+    "description": "Name of a corporation",
+    "message": "Sindicat Miner Unificat"
+  },
+  "CORPORATION_4": {
+    "description": "Name of a corporation",
+    "message": "Corporació d'Exploració Galàctica"
+  },
+  "CORPORATION_5": {
+    "description": "Name of a corporation",
+    "message": "Corporació Haber"
+  },
+  "CORPORATION_6": {
+    "description": "Name of a corporation",
+    "message": "Prospectors de Metalls Preciosos S.L."
+  },
+  "CORPORATION_7": {
+    "description": "Name of a corporation",
+    "message": "Prospeccions {name} S.L.U."
+  },
+  "CORPORATION_8": {
+    "description": "Name of a corporation",
+    "message": "{name} S.L."
+  },
+  "DANGER": {
+    "description": "The risk level",
+    "message": "Risc:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Ho lamento, necessito un pilot amb més experiència de combat."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Disculpeu-me, senyor. Necessito un autèntic professional."
+  },
+  "DETECTIVE": {
+    "description": "Police Detective",
+    "message": "Detectiu"
+  },
+  "DISTANCE": {
+    "description": "Distance in space, between two locations",
+    "message": "Distància:"
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "Sou una vergonya. No us vull ni veure."
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "Arribeu massa tard! Heu causat grans pèrdues. No us pagarem!"
+  },
+  "FAILUREMSG_3": {
+    "description": "",
+    "message": "Sou una desgràcia de pilot! No us puc pagar!"
+  },
+  "FAILUREMSG_4": {
+    "description": "",
+    "message": "Heu fracassat! No us penso pagar!"
+  },
+  "GREETING_1": {
+    "description": "",
+    "message": "Hola, sóc en {name}."
+  },
+  "GREETING_2": {
+    "description": "",
+    "message": "Hola. Em dic {name}."
+  },
+  "GREETING_3": {
+    "description": "",
+    "message": "Com esteu. Sóc en {name}."
+  },
+  "GREETING_4": {
+    "description": "",
+    "message": "Salutacions! Em dic {name}."
+  },
+  "GREETING_5": {
+    "description": "",
+    "message": "Bon dia. Em dic {name}."
+  },
+  "HARVESTING_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "{org} pagarà {cash} per dur a terme una missió de {mission} al sistema {system} ({sectorx}, {sectory}, {sectorz}). Tenim motius per creure que un competidor despietat és responsable de la desaparició de les nostres naus de càrrega a {area}. La distància a l'àrea objectiu és de {dist} al."
+  },
+  "HARVESTING_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "El nostre competidor al mercat reclama fermament la propietat de {area} al sistema {system} ({sectorx}, {sectory}, {sectorz}). Des de {org} discrepem totalment i estem disposats a pagar {cash} per una missió de combat a {area}. {area} es troba a {dist} anys llum."
+  },
+  "HARVESTING_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Auxili! Hem rebut un senyal d'emergència d'una de les nostres naus de càrrega a l'òrbita de {area} al sistema {system} ({sectorx}, {sectory}, {sectorz}). El senyal s'ha interromput, així que ens temem el pitjor. La distància a {system} és de {dist} al. La paga són {cash}."
+  },
+  "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "És important que la missió s'hagi completat el {date}. Si us plau, guardeu silenci sobre aquesta operació."
+  },
+  "HARVESTING_LAND_THERE": {
+    "description": "",
+    "message": "Tenim un agent comercial a cada sistema estel·lar proper. Aquesta persona es posarà en contacte amb vos quan aterreu."
+  },
+  "HOW_WILL_I_BE_PAID": {
+    "description": "",
+    "message": "Com se'm pagarà?"
+  },
+  "IS_THERE_A_TIME_LIMIT": {
+    "description": "",
+    "message": "Hi ha un límit de temps?"
+  },
+  "LY": {
+    "description": "",
+    "message": "al"
+  },
+  "MANAGER": {
+    "description": "",
+    "message": "Gerent"
+  },
+  "MEET_ME_THERE": {
+    "description": "",
+    "message": "Ens trobarem al sistema {rendezvous} per acabar la feina!"
+  },
+  "MILITARY_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "La intel·ligència militar creu que una facció hostil ha establert un post d'escolta secret a {area} al sistema {system} ({sectorx}, {sectory}, {sectorz}). El govern no ho pot tolerar i ha autoritzat un seguit d'operacions per esborrar del mapa aquesta instal·lació. L'enemic intenta disfressar el seu origen fent servir només naus de tipus civil. Nosaltres farem el mateix! Així que volem contractar un mercenari per {cash}. {area} es troba a {dist} anys llum d'aquí."
+  },
+  "MILITARY_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "En resposta a un cas de pirateria al sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} al, les autoritats locals ofereixen {cash} per una missió de combat a {area}."
+  },
+  "MILITARY_3": {
+    "description": "",
+    "message": "La divisió de contraespionatge necessita un pilot civil que no faci preguntes per a una missió de {mission} al sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} al. La paga són {cash}."
+  },
+  "MILITARY_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "Es reunirà un operatiu especial per recuperar el control de {area}. És important que la missió es completi amb èxit abans del {date}."
+  },
+  "MILITARY_LAND_THERE": {
+    "description": "",
+    "message": "Visiteu una estació al territori protegit per {org}!"
+  },
+  "MINING_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "{org} es troba en disputa amb una companyia rival a {area} al sistema {system} ({sectorx}, {sectory}, {sectorz}). Per portar a terme les nostres reclamacions necessitem un mercenari fiable i amb experiència de combat. Oferim {cash} per les despeses. La distància a {system} es de {dist} al."
+  },
+  "MINING_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Sóc el gerent de {org}. Necessitem ajuda addicional en una llarga disputa legal amb un competidor sobre els drets d'explotació minera al sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} al. Se'ns ha acabat la paciència i voldríem accelerar els tràmits fora dels jutjats. La vostra missió seria saltar a {area} per {cash}."
+  },
+  "MINING_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Represento a {org}. Algunes de les nostres naus de càrrega arribaran aviat a {area} al sistema {system} ({sectorx}, {sectory}, {sectorz}). Per incrementar la seguretat dels nostres empleats i protegir l'equipament estem disposats a pagar {cash} per una missió de {mission}. La distància a {area} és de {dist} al."
+  },
+  "MINING_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "Hi ha un comboi en ruta cap a {area}. És essencial que la missió es completi abans del {date}."
+  },
+  "MINING_LAND_THERE": {
+    "description": "",
+    "message": "Tenim empleats a tots els sistemes estel·lars propers. Simplement visiteu l'estació més propera i contacteu amb la nostra oficina local."
+  },
+  "MISSION": {
+    "description": "",
+    "message": "Missió:"
+  },
+  "MISSION_COMPLETE": {
+    "description": "Message from the ship computer",
+    "message": "Objectiu de la missió principal completat"
+  },
+  "MISSION_TYPE_1": {
+    "description": "Name of mission type",
+    "message": "Reconeixement"
+  },
+  "MISSION_TYPE_2": {
+    "description": "Name of mission type",
+    "message": "Reconeixement armat"
+  },
+  "MISSION_TYPE_3": {
+    "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "Escombratge d'àrea"
+  },
+  "OBJECTIVE_1": {
+    "description": "",
+    "message": "No és necessari atacar a l'enemic. Volem dades sobre la capacitat defensiva i el temps de resposta."
+  },
+  "OBJECTIVE_2": {
+    "description": "",
+    "message": "Afebliu la força de l'enemic tant com pugueu i després salteu a un lloc segur."
+  },
+  "OBJECTIVE_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Netegeu l'àrea al voltant de {area}. Acabeu amb qualsevol resistència."
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Molt bé, d'acord."
+  },
+  "PAYMENT_LOCATION": {
+    "description": "",
+    "message": "Lloc de pagament:"
+  },
+  "PLEASE_REPEAT_THE_MISSION_DETAILS": {
+    "description": "",
+    "message": "Repetiu els detalls de la missió, si us plau!"
+  },
+  "POLICE_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Detectius de la policia han descobert que un grup de pirates intenta establir una base fortificada a {area} al sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} al. Això no es pot permetre. Les autoritats locals ofereixen {cash} per una missió a {area} com a preparació d'una operació policial."
+  },
+  "POLICE_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "{org} pagarà {cash} per una missió de combat al sistema {system} ({sectorx}, {sectory}, {sectorz}). Anem curts de naus i pilots. Per tant, aquesta serà una oportunitat de fer calés per a un ciutadà lleial. L'objectiu és una petita base pirata a {area}. Us caldrà combustible d'hiperimpulsor per a {dist} anys llum, i una quantitat addicional per retornar."
+  },
+  "POLICE_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Els nostres mercats estan inundats de contraban. S'ha rastrejat l'origen fins a una base oculta a {area} al sistema {system} ({sectorx}, {sectory}, {sectorz}). Una distància de només {dist} al. A causa del reduït pressupost policial les autoritats locals voldrien subcontractar aquesta missió i han autoritzat {cash} crèdits per a aquesta operació."
+  },
+  "POLICE_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "És important que la missió s'hagi completat el {date}, perquè més naus hostils venen de camí."
+  },
+  "POLICE_LAND_THERE": {
+    "description": "",
+    "message": "Simplement amarreu a una estació amb delegació de {org}."
+  },
+  "RISK_1": {
+    "description": "",
+    "message": "El competidor només té recursos limitats. Res que no pugueu manejar."
+  },
+  "RISK_2": {
+    "description": "",
+    "message": "El nostre competidor només disposa de recursos menors. Però defensarà la seva posició si és necessari."
+  },
+  "RISK_3": {
+    "description": "",
+    "message": "La competència està ben equipada. Teniu els ulls ben oberts!"
+  },
+  "RISK_4": {
+    "description": "",
+    "message": "L'enemic està molt ben equipat i té accés a l'última tecnologia. Aneu amb compte!"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Establir com a objectiu de navegació"
+  },
+  "SUCCESSMSG_1": {
+    "description": "",
+    "message": "Sabia que éreu la persona adequada per a una missió com aquesta. Aquí teniu els diners."
+  },
+  "SUCCESSMSG_2": {
+    "description": "",
+    "message": "Gràcies per fer-ho possible. Us he transferit els diners."
+  },
+  "SUCCESSMSG_3": {
+    "description": "",
+    "message": "Espero que no hagueu tingut grans problemes. Us acabo de pagar."
+  },
+  "SUCCESSMSG_4": {
+    "description": "",
+    "message": "Molt ben fet. Ja he pagat la factura."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Sistema:"
+  },
+  "TIME_LIMIT": {
+    "description": "",
+    "message": "Límit de temps:"
+  },
+  "WHAT_ARE_THE_MISSION_OBJECTIVES": {
+    "description": "",
+    "message": "Quins són els objectius de la missió?"
+  },
+  "WILL_I_BE_IN_TROUBLE": {
+    "description": "",
+    "message": "Em trobaré problemes?"
+  }
+}

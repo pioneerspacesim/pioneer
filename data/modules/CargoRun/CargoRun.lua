@@ -843,7 +843,7 @@ end
 local loaded_data
 
 local onGameStart = function ()
-	if loaded_data then
+	if loaded_data and loaded_data.ads then
 		ads = {}
 		missions = {}
 		custom_cargo = {}
@@ -978,7 +978,15 @@ local onClick = function (mission)
 		:SetColumn(1, {
 			ui:VBox(10):PackEnd(InfoFace.New(mission.client))
 		})
-	else return ui:Grid(2,1)
+	else
+		local is_cargo_loaded
+
+		if mission.cargo_picked_up then
+			is_cargo_loaded = l.CARGO_IS_LOADED
+		else
+			is_cargo_loaded = l.CARGO_IS_NOT_LOADED
+		end
+		return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox():PackEnd({ui:MultiLineText((mission.introtext):interp({name = mission.client.name,
 											cargoname = mission.cargotype:GetName(),
 											starport = mission.location:GetSystemBody().name,
@@ -1101,7 +1109,7 @@ local onClick = function (mission)
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:Label(mission.amount.."t")
+													ui:Label(mission.amount.."t "..is_cargo_loaded)
 												})
 											}),
 										ui:Grid(2,1)

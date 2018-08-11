@@ -1,1870 +1,1878 @@
 {
-   "AIR_PROCESSORS" : {
-      "description" : "",
-      "message" : "Pròiseasaran adhair"
-   },
-   "ALERT_CANCELLED" : {
-      "description" : "",
-      "message" : "Sguireadh dhen rabhadh."
-   },
-   "ALLEGIANCE" : {
-      "description" : "",
-      "message" : "Dìlseachd:"
-   },
-   "ALT" : {
-      "description" : "Alt key on keyboard",
-      "message" : "Alt"
-   },
-   "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
-      "description" : "",
-      "message" : "\" agus èiceo-shiostam fìor ioma-fhillte.\""
-   },
-   "AND_INDIGENOUS_MICROBIAL_LIFE" : {
-      "description" : "",
-      "message" : "\" is tùs-bhitheagan.\""
-   },
-   "AND_INDIGENOUS_PLANT_LIFE" : {
-      "description" : "",
-      "message" : "\" is tùs-lusan.\""
-   },
-   "ANIMAL_MEAT" : {
-      "description" : "",
-      "message" : "Feòil bheathaichean"
-   },
-   "APOAPSIS_DISTANCE" : {
-      "description" : "",
-      "message" : "Astar an apoapsis"
-   },
-   "AR_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" àile argoin\""
-   },
-   "ASTEROID" : {
-      "description" : "",
-      "message" : "Dreag"
-   },
-   "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "for star map, select star system when mouse close to it",
-      "message" : "Taghadh fèin-obrachail an t-siostaim"
-   },
-   "AUTOPILOT_CONTROL" : {
-      "description" : "Indicating that ship is flying under autopilot control",
-      "message" : "Stiùireadh fèin-obrachail"
-   },
-   "AUTOPILOT_DOCK_WITH_STATION" : {
-      "description" : "",
-      "message" : "Fèin-stiùireadh: Docaich leis an stèisean-fànais"
-   },
-   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "Fèin-stiùireadh: Rach air reul-chuairt àrd timcheall air %target"
-   },
-   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "Fèin-stiùireadh: Rach air reul-chuairt Ìosal timcheall air %target"
-   },
-   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "Fèin-stiùireadh: Rach air reul-chuairt mheadhanach timcheall air %target"
-   },
-   "AUTOPILOT_FLY_TO_VICINITY_OF" : {
-      "description" : "",
-      "message" : "Fèin-stiùireadh: Rach gu faisg air %target"
-   },
-   "AUTOPILOT_ON" : {
-      "description" : "",
-      "message" : "Fèin-stiùireadh air"
-   },
-   "AXIAL_TILT" : {
-      "description" : "",
-      "message" : "Claonadh aisealach"
-   },
-   "A_FEW_THOUSAND" : {
-      "description" : "regarding population",
-      "message" : "Mìle no dhà"
-   },
-   "BATTLE_WEAPONS" : {
-      "description" : "",
-      "message" : "Airm catha"
-   },
-   "BINARY_SYSTEM" : {
-      "description" : "",
-      "message" : "Siostam càraideach"
-   },
-   "BODIES" : {
-      "description" : "space bodies",
-      "message" : "bodhaigean"
-   },
-   "BODY" : {
-      "description" : "",
-      "message" : "bodhaig"
-   },
-   "BROWN_DWARF" : {
-      "description" : "",
-      "message" : "Troich dhonn - nì fo-reultach"
-   },
-   "BUTTON" : {
-      "description" : "",
-      "message" : "\" Putan \""
-   },
-   "CAMERA_BOTTOM_VIEW" : {
-      "description" : "",
-      "message" : "Camara a' bhuinn"
-   },
-   "CAMERA_FRONT_VIEW" : {
-      "description" : "",
-      "message" : "Camara a' bheulaibh"
-   },
-   "CAMERA_LEFT_VIEW" : {
-      "description" : "",
-      "message" : "Camara taobh clì"
-   },
-   "CAMERA_REAR_VIEW" : {
-      "description" : "",
-      "message" : "Camara a' chùlaibh"
-   },
-   "CAMERA_RIGHT_VIEW" : {
-      "description" : "",
-      "message" : "Camara taobh deas"
-   },
-   "CAMERA_TOP_VIEW" : {
-      "description" : "",
-      "message" : "Camara a' bharra"
-   },
-   "CANT_SAVE_DEAD_PLAYER" : {
-      "description" : "",
-      "message" : "Cha ghabh an geama sàbhaladh nuair a fhuair an cluicheadair bàs"
-   },
-   "CANT_SAVE_IN_HYPERSPACE" : {
-      "description" : "",
-      "message" : "Chan urrainn dhut an geama a shàbhaladh fhad 's a bhios tu san os-fhànais"
-   },
-   "CAPITALIST" : {
-      "description" : "",
-      "message" : "Calpach"
-   },
-   "CARBON_ORE" : {
-      "description" : "",
-      "message" : "Clach-carboin"
-   },
-   "CARGO" : {
-      "description" : "",
-      "message" : "Carago"
-   },
-   "CARGO_BAY_LIFE_SUPPORT_LOST" : {
-      "description" : "",
-      "message" : "Tha na mothaichearan ag innse mu staid èiginneach na taice-beatha san ionad charago."
-   },
-   "CARGO_N" : {
-      "description" : "",
-      "message" : "Carago: %{mass}t"
-   },
-   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
-      "description" : "",
-      "message" : "Tha sgiob carago gnìomhach. Chruinnich thu 1 tunna de %item"
-   },
-   "CARGO_SCOOP_ATTEMPTED" : {
-      "description" : "",
-      "message" : "Fheuch thu ri sgobadh carago. Chan eil rum gu leòr agad san roinn carago."
-   },
-   "CH4_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" àile meatain\""
-   },
-   "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
-      "description" : "",
-      "message" : "Chaidh cead a thoirt dhut mar-thà. Lean air adhart gun bhàgh docaidh %bay."
-   },
-   "CLEARANCE_DENIED_NO_BAYS" : {
-      "description" : "",
-      "message" : "Chaidh cead a dhiùltadh. Chan eil bàgh docaidh saor ann."
-   },
-   "CLEARANCE_GRANTED_BAY_N" : {
-      "description" : "",
-      "message" : "Chaidh cead a thoirt dhut. Lean air adhart gun bàgh docaidh %bay."
-   },
-   "CO2_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" àile dà-ogsaid carboin\""
-   },
-   "COMMA_HIGHLY_VOLCANIC" : {
-      "description" : "",
-      "message" : ", glè bheinn-theinnteach"
-   },
-   "COMMODITY_NONE" : {
-      "description" : "When no commodities exist",
-      "message" : "Chan eil gin"
-   },
-   "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
-      "description" : "",
-      "message" : "Sgrùdadh air malart bathair-amh ann an #ff0%selected_system#fff (air a thaghadh) an coimeas ri #ff0%current_system#fff (far a bheil thu):"
-   },
-   "COMMODITY_TRADE_ANALYSIS_SELF" : {
-      "description" : "",
-      "message" : "Sgrùdadh air malart bathair-amh ann an #fff%system#fff"
-   },
-   "COMMS" : {
-      "description" : "",
-      "message" : "Conaltradh"
-   },
-   "COMMUNIST" : {
-      "description" : "",
-      "message" : "Co-mhaoineachas"
-   },
-   "COMPASS_E" : {
-      "description" : "Abbreviation for compass direction: East",
-      "message" : "E"
-   },
-   "COMPASS_N" : {
-      "description" : "Abbreviation for compass direction: North",
-      "message" : "T"
-   },
-   "COMPASS_NE" : {
-      "description" : "Abbreviation for compass direction: North East",
-      "message" : "ETh"
-   },
-   "COMPASS_NW" : {
-      "description" : "Abbreviation for compass direction: North West",
-      "message" : "ITh"
-   },
-   "COMPASS_S" : {
-      "description" : "Abbreviation for compass direction: South",
-      "message" : "D"
-   },
-   "COMPASS_SE" : {
-      "description" : "Abbreviation for compass direction: South East",
-      "message" : "EDh"
-   },
-   "COMPASS_SW" : {
-      "description" : "Abbreviation for compass direction: South West",
-      "message" : "IDh"
-   },
-   "COMPASS_W" : {
-      "description" : "Abbreviation for compass direction: West",
-      "message" : "D"
-   },
-   "COMPUTERS" : {
-      "description" : "",
-      "message" : "Coimpiutairean"
-   },
-   "COMPUTER_HEADING_CONTROL" : {
-      "description" : "",
-      "message" : "Smachd a' choimpiutair air a' chomhair"
-   },
-   "COMPUTER_SPEED_CONTROL" : {
-      "description" : "",
-      "message" : "Smachd a' choimpiutair air an luaths"
-   },
-   "CONSUMER_GOODS" : {
-      "description" : "",
-      "message" : "Bathar caitheimh"
-   },
-   "CONTROLS" : {
-      "description" : "",
-      "message" : "Uidheaman-smachd"
-   },
-   "CORPORATE_SYSTEM" : {
-      "description" : "",
-      "message" : "Siostam corporra"
-   },
-   "COULD_NOT_OPEN_FILENAME" : {
-      "description" : "",
-      "message" : "Cha b' urrainn dhuinn %path fhosgladh"
-   },
-   "COUNT_ON_SURFACE" : {
-      "description" : "",
-      "message" : "\" (%surfacecount air an uachdar)\""
-   },
-   "COUNT_STARPORTS" : {
-      "description" : "",
-      "message" : "reul-phuirt"
-   },
-   "CO_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" àile aon-ogsaid carboin\""
-   },
-   "CTRL" : {
-      "description" : "Ctrl key on keyboard",
-      "message" : "Ctrl"
-   },
-   "CURRENT_SYSTEM" : {
-      "description" : "selected current star system",
-      "message" : "An siostam làithreach"
-   },
-   "DATE_DUE_N" : {
-      "description" : "",
-      "message" : "Ceann-ama: %date"
-   },
-   "DAY_LENGTH" : {
-      "description" : "",
-      "message" : "Faide latha"
-   },
-   "DECREASE_RADAR_RANGE" : {
-      "description" : "",
-      "message" : "Lùghdaich rainse an rèideir"
-   },
-   "DECREASE_SET_SPEED" : {
-      "description" : "",
-      "message" : "Ìslich an luaths suidhichte"
-   },
-   "DECREASE_TIME_ACCELERATION" : {
-      "description" : "",
-      "message" : "Lùghdaich luathachadh an ama"
-   },
-   "DEMOGRAPHICS" : {
-      "description" : "",
-      "message" : "Eòlas-sluaigh"
-   },
-   "DESTINATION" : {
-      "description" : "",
-      "message" : "Ceann-uidhe"
-   },
-   "DIRECTION" : {
-      "description" : "Direction",
-      "message" : "\"Comhair\""
-   },
-   "DISTANCE_LY" : {
-      "description" : "",
-      "message" : "Astar: %distance{f.2} bl-shol"
-   },
-   "DOCKED" : {
-      "description" : "",
-      "message" : "Docaichte"
-   },
-   "DOCKING" : {
-      "description" : "",
-      "message" : "Docadh"
-   },
-   "DOCKING_CLEARANCE_EXPIRED" : {
-      "description" : "",
-      "message" : "Dh'fhalbh an ùine air a' chead laighe agad. Ma tha thu airson docadh, feumaidh tu iarrtas a chur ann a-rithist."
-   },
-   "DOWNGRADING_ALERT_STATUS" : {
-      "description" : "",
-      "message" : "Cha deach mothachadh do theine fad 60 diog, ag ìsleachadh ìre an rabhaidh."
-   },
-   "DRAW_OUT_RANGE_LABELS" : {
-      "description" : "",
-      "message" : "Seall leubailean nan siostaman nach gabh ruigsinn"
-   },
-   "DRAW_UNINHABITED_LABELS" : {
-      "description" : "",
-      "message" : "Seall leubailean nan siostaman gun chòmhnadh"
-   },
-   "DRAW_VERTICAL_LINES" : {
-      "description" : "",
-      "message" : "Tarraing loidhnichean inghearach"
-   },
-   "EARTH" : {
-      "description" : "",
-      "message" : "An Talamh"
-   },
-   "EARTH_FEDERATION_COLONIAL_RULE" : {
-      "description" : "",
-      "message" : "'Na choileanaidh fo riaghladh Co-nasgadh na Talmhainn"
-   },
-   "EARTH_FEDERATION_DEMOCRACY" : {
-      "description" : "",
-      "message" : "Deamocrasaidh Caidreachas na Talmhainn"
-   },
-   "ECCENTRICITY" : {
-      "description" : "",
-      "message" : "Neo-mheadhanachd"
-   },
-   "ECONOMIC_INFO" : {
-      "description" : "",
-      "message" : "Fiosrachadh eaconamach"
-   },
-   "ECONOMY_TYPE" : {
-      "description" : "",
-      "message" : "Seòrsa an eaconamaidh:"
-   },
-   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
-      "description" : "",
-      "message" : "Co-rèir an rèideas meadhan-chriosach 's pòlarach"
-   },
-   "EXACT_MATCH_X" : {
-      "description" : "",
-      "message" : "Maids pongail: %system"
-   },
-   "EXTENSIVE_MINING" : {
-      "description" : "",
-      "message" : "Mèinnearachd farsaing."
-   },
-   "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
-      "description" : "",
-      "message" : "Brùthadh an àile a-muigh"
-   },
-   "EXTERNAL_VIEW" : {
-      "description" : "",
-      "message" : "Sealladh taobh a-muigh"
-   },
-   "FARM_MACHINERY" : {
-      "description" : "",
-      "message" : "Acainnean tuathanais"
-   },
-   "FERTILIZER" : {
-      "description" : "",
-      "message" : "Todhar"
-   },
-   "FIRE_LASER" : {
-      "description" : "",
-      "message" : "Loisg arm"
-   },
-   "FIRE_MISSILE" : {
-      "description" : "",
-      "message" : "Loisg astas"
-   },
-   "FOLLOWING_SELECTION" : {
-      "description" : "",
-      "message" : "an t-ath-taghadh"
-   },
-   "FRUIT_AND_VEG" : {
-      "description" : "",
-      "message" : "Measan 's glasraich"
-   },
-   "FUEL" : {
-      "description" : "",
-      "message" : "Connadh"
-   },
-   "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
-      "description" : "",
-      "message" : "Tha sgiob a' chonnaidh gnìomhach. Tha %quantity tunna a hàidhdreaidean agad a-nis."
-   },
-   "GALACTIC_VIEW" : {
-      "description" : "view galactic map",
-      "message" : "Sealladh an reul-chriosa"
-   },
-   "GALAXY_SECTOR_VIEW" : {
-      "description" : "",
-      "message" : "Sealladh earrann an reul-chriosa"
-   },
-   "GAME_LOAD_CANNOT_OPEN" : {
-      "description" : "",
-      "message" : "Cha do lorg sinn am faidhle air a shàbhaladh \"%filename\" (no chan eil inntrigeadh aig a' gheama dha gus fhosgladh)."
-   },
-   "GAME_LOAD_CORRUPT" : {
-      "description" : "",
-      "message" : "Cha ghabh an geama air a shàbhaladh luchdadh ri linn mearachd a tha 'na bhroinn."
-   },
-   "GAME_LOAD_WRONG_VERSION" : {
-      "description" : "",
-      "message" : "Cha ghabh an geama air a shàbhaladh seo a luchdadh on a chaidh a chruthachadh le tionndadh eile de Pioneer."
-   },
-   "GAME_SAVED_TO" : {
-      "description" : "",
-      "message" : "\"Geama air a shàbhaladh gu \""
-   },
-   "GAME_SAVE_CANNOT_WRITE" : {
-      "description" : "",
-      "message" : "Cha b' urrainn dhuinn am faidhle a sgrìobhadh ri linn mearachd an t-siostaim."
-   },
-   "GENERAL_VIEW_CONTROLS" : {
-      "description" : "",
-      "message" : "Uidheaman-smachd coitcheann"
-   },
-   "GOVERNMENT_TYPE" : {
-      "description" : "",
-      "message" : "Seòrsa an riaghaltais:"
-   },
-   "GRAIN" : {
-      "description" : "like wheat or barley",
-      "message" : "Gràn"
-   },
-   "HAND_WEAPONS" : {
-      "description" : "",
-      "message" : "Airm làimhe"
-   },
-   "HARD_CAPITALIST" : {
-      "description" : "",
-      "message" : "Calpach gu tur - gun riaghaltas no sochair"
-   },
-   "HAT" : {
-      "description" : "Hat switch: Is the top button on a joystick",
-      "message" : "\" Ad\""
-   },
-   "HEADING_LOCK_ANTINORMAL" : {
-      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
-      "message" : "Cumail an-àbhaisteach"
-   },
-   "HEADING_LOCK_BACKWARD" : {
-      "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-      "message" : "Cum ceum air ais"
-   },
-   "HEADING_LOCK_FORWARD" : {
-      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-      "message" : "Cum ceum air adhart"
-   },
-   "HEADING_LOCK_KILLROT" : {
-      "description" : "",
-      "message" : "Stad an cuairteachadh"
-   },
-   "HEADING_LOCK_NORMAL" : {
-      "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-      "message" : "Cumail àbhaisteach"
-   },
-   "HEADING_LOCK_RADIALLY_INWARD" : {
-      "description" : "Autopilot direction, relative to orbit (face towards planet)",
-      "message" : "Cumail rèideal a-steach"
-   },
-   "HEADING_LOCK_RADIALLY_OUTWARD" : {
-      "description" : "Autopilot direction, relative to orbit (face away from palent)",
-      "message" : "Cumail rèideal a-mach"
-   },
-   "HEAVY_INDUSTRY" : {
-      "description" : "",
-      "message" : "Gnìomhachas trom."
-   },
-   "HE_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" àile hilium\""
-   },
-   "HIGHLY_VOLCANIC" : {
-      "description" : "",
-      "message" : "Glè bheinn-theinnteach"
-   },
-   "HIGH_POPULATION_OUTDOOR_WORLD" : {
-      "description" : "",
-      "message" : "Saoghal le sluagh mòr a' fuireach a-muigh."
-   },
-   "HULL_INTEGRITY" : {
-      "description" : "",
-      "message" : "Cor na slige"
-   },
-   "HULL_TEMP" : {
-      "description" : "",
-      "message" : "Teothachd na slige"
-   },
-   "HYDROGEN" : {
-      "description" : "",
-      "message" : "Hàidhdreaidean"
-   },
-   "HYPERSPACE" : {
-      "description" : "",
-      "message" : "Os-fhànais"
-   },
-   "HYPERSPACE_ARRIVAL_CLOUD" : {
-      "description" : "",
-      "message" : "Neul ruigsinn os-fhànais"
-   },
-   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
-      "description" : "",
-      "message" : "Iarsmadh neòil ruigsinn os-fhànais"
-   },
-   "HYPERSPACE_DEPARTURE_CLOUD" : {
-      "description" : "",
-      "message" : "Neul falbh os-fhànais"
-   },
-   "HYPERSPACE_JUMP_ABORT" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Cuir an draibh os-fhànais dheth"
-   },
-   "HYPERSPACE_JUMP_ABORTED" : {
-      "description" : "",
-      "message" : "Chaidh sgur dhen leum os-fhànais."
-   },
-   "HYPERSPACE_JUMP_DISABLED" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Os-dhraibh à comas"
-   },
-   "HYPERSPACE_JUMP_ENGAGE" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Cuir an draibh os-fhànais air"
-   },
-   "HYPERSPACE_JUMP_FORBIDDEN" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Chan eil os-dhraibh ceadaichte an-seo"
-   },
-   "HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Amas os-fhànais"
-   },
-   "H_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" àile hàidhdreaidein\""
-   },
-   "ICE_WORLD" : {
-      "description" : "",
-      "message" : "\" saoghal deighe\""
-   },
-   "ILLEGAL_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Mì-laghail (far a bheil thu):"
-   },
-   "ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "Bathar mì-laghail:"
-   },
-   "IMPERIAL_RULE" : {
-      "description" : "",
-      "message" : "Riaghladh impireil"
-   },
-   "INCREASE_RADAR_RANGE" : {
-      "description" : "",
-      "message" : "Meudaich rainse an rèideir"
-   },
-   "INCREASE_SET_SPEED" : {
-      "description" : "",
-      "message" : "Suidhich luaths nas àirde"
-   },
-   "INCREASE_TIME_ACCELERATION" : {
-      "description" : "",
-      "message" : "Meudaich luathachadh an ama"
-   },
-   "INDUSTRIAL_COLONY" : {
-      "description" : "",
-      "message" : "Tuineachadh gnìomhachail."
-   },
-   "INDUSTRIAL_HUB_SYSTEM" : {
-      "description" : "",
-      "message" : "Siostam ionaid ghnìomhachail."
-   },
-   "INDUSTRIAL_MACHINERY" : {
-      "description" : "",
-      "message" : "Innealan gnìomhachail"
-   },
-   "INTERNAL_VIEW" : {
-      "description" : "",
-      "message" : "Sealladh taobh a-staigh"
-   },
-   "JOY" : {
-      "description" : "Short for Joystick",
-      "message" : "Joy"
-   },
-   "JOYSTICK_INPUT" : {
-      "description" : "",
-      "message" : "Ion-chur a' joystick"
-   },
-   "JOY_AXIS" : {
-      "description" : "Regarding joystick",
-      "message" : "%{sign}%joyname aiseal %axis"
-   },
-   "L4L5_DISPLAY_MODE_TOGGLE" : {
-      "description" : "Either show L4/L5 points or don't",
-      "message" : "Gearr leum eadar modhan sealltainn puing Lagrange L4/L5."
-   },
-   "LANDED" : {
-      "description" : "",
-      "message" : "Air tìr"
-   },
-   "LANG_NAME" : {
-      "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
-      "message" : "Gàidhlig"
-   },
-   "LARGE" : {
-      "description" : "regarding terrestrial planet size (mass actually)",
-      "message" : "Mòr"
-   },
-   "LARGE_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Mòr-phlanaid gasa mòr"
-   },
-   "LASER_FIRE_DETECTED" : {
-      "description" : "",
-      "message" : "Mhothaich sinn dha losgadh airm."
-   },
-   "LATITUDE" : {
-      "description" : "Short for latitude",
-      "message" : "D-leud:"
-   },
-   "LATITUDE_NORTH_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'north'",
-      "message" : "T"
-   },
-   "LATITUDE_SOUTH_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'south'",
-      "message" : "D"
-   },
-   "LEGAL_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Laghail (far a bheil thu):"
-   },
-   "LIBERAL_DEMOCRACY" : {
-      "description" : "",
-      "message" : "Deamocrasaidh libearalach"
-   },
-   "LIQUID_OXYGEN" : {
-      "description" : "",
-      "message" : "Ogsaidean leannach"
-   },
-   "LIQUOR" : {
-      "description" : "",
-      "message" : "Deoch làidir"
-   },
-   "LIVE_ANIMALS" : {
-      "description" : "",
-      "message" : "Beathaichean beò"
-   },
-   "LOCKED" : {
-      "description" : "to lock a hyperspace target",
-      "message" : "glaiste"
-   },
-   "LONGITUDE" : {
-      "description" : "Short for longitude",
-      "message" : "D-fhad:"
-   },
-   "LONGITUDE_EAST_ABBREV" : {
-      "description" : "Abbreviation letter for longitude 'east'",
-      "message" : "E"
-   },
-   "LONGITUDE_WEST_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'west'",
-      "message" : "D"
-   },
-   "MAJOR_EXPORTS" : {
-      "description" : "",
-      "message" : "Prìomh às-phortachadh:"
-   },
-   "MAJOR_EXPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Prìomh às-phortachadh (far a bheil thu):"
-   },
-   "MAJOR_IMPORTS" : {
-      "description" : "",
-      "message" : "Prìomh ion-phortachadh:"
-   },
-   "MAJOR_IMPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Prìomh ion-phortachadh (far a bheil thu):"
-   },
-   "MANUAL_CONTROL" : {
-      "description" : "",
-      "message" : "Stiùireadh a làimh"
-   },
-   "MANUAL_CONTROL_MODE" : {
-      "description" : "",
-      "message" : "Modh stiùireadh a làimh"
-   },
-   "MAP_LOCK_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Glais an ceann-uidhe os-fhànais"
-   },
-   "MAP_TOGGLE_INFO_PANEL" : {
-      "description" : "",
-      "message" : "Toglaich am panail-fhiosrachaidh"
-   },
-   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
-      "description" : "",
-      "message" : "Toglaich sealladh leantainneach an taghaidh"
-   },
-   "MAP_VIEW_ROTATE_DOWN" : {
-      "description" : "",
-      "message" : "Cuairtich an sealladh sìos"
-   },
-   "MAP_VIEW_ROTATE_LEFT" : {
-      "description" : "",
-      "message" : "Cuairtich an sealladh gu clì"
-   },
-   "MAP_VIEW_ROTATE_RIGHT" : {
-      "description" : "",
-      "message" : "Cuairtich an sealladh gu deas"
-   },
-   "MAP_VIEW_ROTATE_UP" : {
-      "description" : "",
-      "message" : "Cuairtich an sealladh suas"
-   },
-   "MAP_VIEW_SHIFT_BACKWARD" : {
-      "description" : "",
-      "message" : "Càraich an sealladh an comhair a' chùil"
-   },
-   "MAP_VIEW_SHIFT_DOWN" : {
-      "description" : "",
-      "message" : "Càraich an sealladh sìos"
-   },
-   "MAP_VIEW_SHIFT_FORWARD" : {
-      "description" : "",
-      "message" : "Càraich an sealladh air adhart"
-   },
-   "MAP_VIEW_SHIFT_LEFT" : {
-      "description" : "",
-      "message" : "Càraich an sealladh gu clì"
-   },
-   "MAP_VIEW_SHIFT_RIGHT" : {
-      "description" : "",
-      "message" : "Càraich an sealladh gu deas"
-   },
-   "MAP_VIEW_SHIFT_UP" : {
-      "description" : "",
-      "message" : "Càraich an sealladh suas"
-   },
-   "MAP_WARP_TO_CURRENT_SYSTEM" : {
-      "description" : "",
-      "message" : "Lùb dhan t-siostam làithreach"
-   },
-   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Lùb dhan cheann-uidhe os-fhànais"
-   },
-   "MAP_WARP_TO_SELECTED_SYSTEM" : {
-      "description" : "",
-      "message" : "Lùb dhan t-siostam air a thaghadh"
-   },
-   "MASS" : {
-      "description" : "",
-      "message" : "Tomad"
-   },
-   "MASSIVE" : {
-      "description" : "",
-      "message" : "Tomadach"
-   },
-   "MASS_N_TONNES" : {
-      "description" : "",
-      "message" : "Tomad: %{mass}t"
-   },
-   "MEDICINES" : {
-      "description" : "",
-      "message" : "Leigheas"
-   },
-   "MEDIUM_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Mòr-phlanaid gasa meadhanach"
-   },
-   "MESSAGE_FROM_X" : {
-      "description" : "",
-      "message" : "Teachdaireachd o %sender:"
-   },
-   "META" : {
-      "description" : "'Meta' key on keyboard",
-      "message" : "Meta"
-   },
-   "METAL_ALLOYS" : {
-      "description" : "",
-      "message" : "Co-mheatailtean"
-   },
-   "METAL_ORE" : {
-      "description" : "",
-      "message" : "Clach-mhèinnir"
-   },
-   "MILITARY_DICTATORSHIP" : {
-      "description" : "",
-      "message" : "Ceannsalachd an airm"
-   },
-   "MILITARY_FUEL" : {
-      "description" : "",
-      "message" : "Connadh an airm"
-   },
-   "MINING_COLONY" : {
-      "description" : "",
-      "message" : "Tuineachadh mèinnearachd."
-   },
-   "MINING_MACHINERY" : {
-      "description" : "",
-      "message" : "Acainn mèinnearachd"
-   },
-   "MINOR_EXPORTS" : {
-      "description" : "",
-      "message" : "Beagan às-phortachaidh:"
-   },
-   "MINOR_EXPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Beagan às-phortachaidh (far a bheil thu):"
-   },
-   "MINOR_IMPORTS" : {
-      "description" : "",
-      "message" : "Beagan ion-phortachaidh:"
-   },
-   "MINOR_IMPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Beagan ion-phortachaidh (far a bheil thu):"
-   },
-   "MISCELLANEOUS" : {
-      "description" : "",
-      "message" : "Measgaichte"
-   },
-   "MISSILE" : {
-      "description" : "",
-      "message" : "astas"
-   },
-   "MIXED_ECONOMY" : {
-      "description" : "",
-      "message" : "Eaconamaidh measgaichte"
-   },
-   "MONTH_APR" : {
-      "description" : "",
-      "message" : "Gibl"
-   },
-   "MONTH_AUG" : {
-      "description" : "",
-      "message" : "Lùna"
-   },
-   "MONTH_DEC" : {
-      "description" : "",
-      "message" : "Dùbh"
-   },
-   "MONTH_FEB" : {
-      "description" : "",
-      "message" : "Gearr"
-   },
-   "MONTH_JAN" : {
-      "description" : "",
-      "message" : "Faoi"
-   },
-   "MONTH_JUL" : {
-      "description" : "",
-      "message" : "Iuch"
-   },
-   "MONTH_JUN" : {
-      "description" : "",
-      "message" : "Ògmh"
-   },
-   "MONTH_MAR" : {
-      "description" : "",
-      "message" : "Màrt"
-   },
-   "MONTH_MAY" : {
-      "description" : "",
-      "message" : "Cèit"
-   },
-   "MONTH_NOV" : {
-      "description" : "",
-      "message" : "Samh"
-   },
-   "MONTH_OCT" : {
-      "description" : "",
-      "message" : "Dàmh"
-   },
-   "MONTH_SEP" : {
-      "description" : "",
-      "message" : "Sult"
-   },
-   "NAME_OBJECT" : {
-      "description" : "For an item or object",
-      "message" : "Ainm"
-   },
-   "NAME_PERSON" : {
-      "description" : "For a person",
-      "message" : "Ainm"
-   },
-   "NARCOTICS" : {
-      "description" : "",
-      "message" : "Drugaichean"
-   },
-   "NAVIGATION_STAR_MAPS" : {
-      "description" : "",
-      "message" : "Seòladaireachd 's mapaichean-reul"
-   },
-   "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
-      "description" : "",
-      "message" : "Cinn-uidhe seòladaireachd san t-siostam seo"
-   },
-   "NERVE_GAS" : {
-      "description" : "",
-      "message" : "Nearbh-ghas"
-   },
-   "NOT_FOUND" : {
-      "description" : "searching star system in sector view",
-      "message" : "Cha deach a lorg"
-   },
-   "NOT_FOUND_BEST_MATCH_X" : {
-      "description" : "",
-      "message" : "Cha deach a lorg, am maids as fearr: %system"
-   },
-   "NOW" : {
-      "description" : "In System Orbit View",
-      "message" : "An-dràsta"
-   },
-   "NO_ALERT" : {
-      "description" : "",
-      "message" : "Chan eil rabhadh ann"
-   },
-   "NO_CENTRAL_GOVERNANCE" : {
-      "description" : "",
-      "message" : "Gun riaghaltas coitcheann"
-   },
-   "NO_ESTABLISHED_ORDER" : {
-      "description" : "",
-      "message" : "Gun rian stèidhichte"
-   },
-   "NO_HYPERDRIVE" : {
-      "description" : "",
-      "message" : "Gun draibh os-fhànais"
-   },
-   "NO_REGISTERED_INHABITANTS" : {
-      "description" : "",
-      "message" : "Gun luchd-còmhnaidh clàraichte"
-   },
-   "NO_TARGET_SELECTED" : {
-      "description" : "",
-      "message" : "Coimpiutair an t-soithich: Cha deach ceann-uidhe a thaghadh"
-   },
-   "NUMBER_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.0} latha"
-   },
-   "NUMBER_DECIMAL_POINT" : {
-      "description" : "Decimal delimiter used in numbers.",
-      "message" : "."
-   },
-   "NUMBER_G" : {
-      "description" : "",
-      "message" : "%acceleration{f.1} G"
-   },
-   "NUMBER_GROUP_MIN" : {
-      "description" : "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
-      "message" : "1000"
-   },
-   "NUMBER_GROUP_NUM" : {
-      "description" : "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
-      "message" : "3"
-   },
-   "NUMBER_GROUP_SEP" : {
-      "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-      "message" : ","
-   },
-   "NUMBER_HOURS" : {
-      "description" : "",
-      "message" : "%hours{f.1} uair"
-   },
-   "NUMBER_LY" : {
-      "description" : "",
-      "message" : "%distance{f.2} bl-shol"
-   },
-   "NUMBER_TONNES" : {
-      "description" : "",
-      "message" : "%{mass}t"
-   },
-   "N_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" àile naidhtreoidsean\""
-   },
-   "N_CELSIUS" : {
-      "description" : "",
-      "message" : "%temperature C"
-   },
-   "N_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.1} latha"
-   },
-   "N_DEGREES" : {
-      "description" : "",
-      "message" : "%angle{f.1} ceum"
-   },
-   "N_EARTH_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.1} làithean talmhainn"
-   },
-   "N_WHATEVER_MASSES" : {
-      "description" : "",
-      "message" : "%mass{f.3} %units tomadan"
-   },
-   "N_WHATEVER_RADII" : {
-      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-      "message" : "%radius{f.3} %units rèideas (%radkm{f.0} km)"
-   },
-   "N_YEARS" : {
-      "description" : "",
-      "message" : "%years{f.1} bliadhna"
-   },
-   "O2_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" àile ogsaidein\""
-   },
-   "OCEANICWORLD" : {
-      "description" : "",
-      "message" : "\" saoghal cuantach\""
-   },
-   "ORBITAL_PERIOD" : {
-      "description" : "",
-      "message" : "Ùine na reul-chuairte"
-   },
-   "ORBITAL_STARPORT" : {
-      "description" : "",
-      "message" : "Reul-phort air reul-chuairt"
-   },
-   "OUTDOOR_AGRICULTURAL_WORLD" : {
-      "description" : "",
-      "message" : "Saoghal àiteachais le sluagh a' fuireach a-muigh."
-   },
-   "OVER_N_BILLION" : {
-      "description" : "",
-      "message" : "Còrr is %population billean "
-   },
-   "OVER_N_MILLION" : {
-      "description" : "",
-      "message" : "Barrachd air %population millean"
-   },
-   "PASSENGER_CABIN" : {
-      "description" : "",
-      "message" : "Cèibinn thaistealach trang"
-   },
-   "PAUSED" : {
-      "description" : "",
-      "message" : "'NA STAD"
-   },
-   "PAY_FINE_REMOTELY" : {
-      "description" : "",
-      "message" : "Pàigh a' chìs le tar-chur cèin (%amount)"
-   },
-   "PERIAPSIS_DISTANCE" : {
-      "description" : "",
-      "message" : "Astar a' pheriapsis"
-   },
-   "PIONEER" : {
-      "description" : "",
-      "message" : "PIONEER"
-   },
-   "PITCH" : {
-      "description" : "",
-      "message" : "Pids"
-   },
-   "PITCH_DOWN" : {
-      "description" : "",
-      "message" : "Pids sìos"
-   },
-   "PITCH_UP" : {
-      "description" : "",
-      "message" : "Pids suas"
-   },
-   "PLANETARY_INFO" : {
-      "description" : "",
-      "message" : "Fiosrachadh na planaid"
-   },
-   "PLANET_CONTAINING_LIQUID_WATER" : {
-      "description" : "",
-      "message" : "\" planaid aig a bheil uisge leannach\""
-   },
-   "PLANET_WITH_SOME_ICE" : {
-      "description" : "",
-      "message" : "\" planaid le beagan deighe\""
-   },
-   "PLANNED_ECONOMY" : {
-      "description" : "",
-      "message" : "Àrd-riaghaltas le plana-eaconamaidh "
-   },
-   "PLANNER_RESET_FACTOR" : {
-      "description" : "For system orbit view",
-      "message" : "Reat meudachaidh nan luachan delta-v. Brig gus a shuidheachadh air a' bhun-roghainn."
-   },
-   "PLANNER_RESET_NORMAL" : {
-      "description" : "For system orbit view",
-      "message" : "Delta-v àbhaisteach. Briog gus a shuidheachadh air neoni."
-   },
-   "PLANNER_RESET_PROGRADE" : {
-      "description" : "For system orbit view",
-      "message" : "Delta-v ceum air adhart. Briog gus a shuidheachadh air neoni."
-   },
-   "PLANNER_RESET_RADIAL" : {
-      "description" : "For system orbit view",
-      "message" : "Delta-v rèideal. Briog gus a shuidheachadh air neoni."
-   },
-   "PLANNER_RESET_START" : {
-      "description" : "For system orbit view",
-      "message" : "Toiseach an obrachaidh. Briog gus a shuidheachadh air a' bhun-roghainn."
-   },
-   "PLASTICS" : {
-      "description" : "",
-      "message" : "Plastaig"
-   },
-   "PLUTOCRATIC_DICTATORSHIP" : {
-      "description" : "",
-      "message" : "Deachdaireachd maoin-fhlaitheasach"
-   },
-   "POPULATION" : {
-      "description" : "",
-      "message" : "Sluagh:"
-   },
-   "PRECIOUS_METALS" : {
-      "description" : "",
-      "message" : "Meatailtean uasail"
-   },
-   "PRESSURE_N_ATMOSPHERES" : {
-      "description" : "",
-      "message" : "B: %pressure{f.2} atm"
-   },
-   "QUADRUPLE_SYSTEM" : {
-      "description" : "",
-      "message" : "Siostam ceithir-fillte"
-   },
-   "RADAR_CONTROL" : {
-      "description" : "",
-      "message" : "Stiùireadh an rèideir"
-   },
-   "RADIOACTIVES" : {
-      "description" : "",
-      "message" : "Sgudal rèidio-beò"
-   },
-   "RADIUS" : {
-      "description" : "",
-      "message" : "Rèideas"
-   },
-   "RECENTLY_EXPLORED_SYSTEM" : {
-      "description" : "",
-      "message" : "Chaidh an siostam seo a rùrachadh %date."
-   },
-   "REQUEST_DOCKING_CLEARANCE" : {
-      "description" : "",
-      "message" : "Iarr cead laighe"
-   },
-   "RESET" : {
-      "description" : "",
-      "message" : "Ath-shuidhich"
-   },
-   "RESET_ORIENTATION_AND_ZOOM" : {
-      "description" : "",
-      "message" : "Ath-shuidhich a' chomhair agus an sùm"
-   },
-   "ROBOTS" : {
-      "description" : "",
-      "message" : "Robotairean"
-   },
-   "ROCKY_PLANET" : {
-      "description" : "",
-      "message" : "\" planaid chreagach\""
-   },
-   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
-      "description" : "",
-      "message" : "\" planaid creagach le beagan lionna,\""
-   },
-   "ROLL" : {
-      "description" : "",
-      "message" : "Roiligeadh"
-   },
-   "ROLL_LEFT" : {
-      "description" : "",
-      "message" : "Roilig gu clì"
-   },
-   "ROLL_RIGHT" : {
-      "description" : "",
-      "message" : "Roilig gu deas"
-   },
-   "ROTATE_DOWN" : {
-      "description" : "",
-      "message" : "Cuairtich sìos"
-   },
-   "ROTATE_LEFT" : {
-      "description" : "",
-      "message" : "Cuairtich gu clì"
-   },
-   "ROTATE_RIGHT" : {
-      "description" : "",
-      "message" : "Cuairtich gu deas"
-   },
-   "ROTATE_UP" : {
-      "description" : "",
-      "message" : "Cuairtich suas"
-   },
-   "ROTATIONAL_PERIOD" : {
-      "description" : "",
-      "message" : "\" (ùine chuairteil)\""
-   },
-   "ROTATION_DAMPING_OFF" : {
-      "description" : "",
-      "message" : "Lasachadh a' chuairteachaidh dheth"
-   },
-   "ROTATION_DAMPING_ON" : {
-      "description" : "",
-      "message" : "Lasachadh a' chuairteachaidh air"
-   },
-   "RUBBISH" : {
-      "description" : "",
-      "message" : "Sgudal"
-   },
-   "SCOOP" : {
-      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
-      "message" : "Sgiob"
-   },
-   "SCREENSHOT_FILENAME_TEMPLATE" : {
-      "description" : "",
-      "message" : "glacadh-sgrìn%index{d08}.png"
-   },
-   "SEARCH" : {
-      "description" : "",
-      "message" : "Lorg"
-   },
-   "SEARCH_MAP" : {
-      "description" : "",
-      "message" : "Lorg air a' mhapa"
-   },
-   "SECTOR_COORDINATES" : {
-      "description" : "",
-      "message" : "Co-chomharran na h-earrainn:"
-   },
-   "SECTOR_MAP_VIEW" : {
-      "description" : "",
-      "message" : "Sealladh mapa na h-earrainn"
-   },
-   "SECTOR_X_Y_Z" : {
-      "description" : "",
-      "message" : "Earrann: %x,%y,%z"
-   },
-   "SELECTED_SYSTEM" : {
-      "description" : "",
-      "message" : "An siostam a thagh thu"
-   },
-   "SELECT_A_TARGET" : {
-      "description" : "",
-      "message" : "Tagh amas"
-   },
-   "SELECT_LOW_THRUST_POWER_LEVEL" : {
-      "description" : "",
-      "message" : "Tagh lùths ìosal a' phutaidh"
-   },
-   "SEMI_MAJOR_AXIS" : {
-      "description" : "",
-      "message" : "Leth-mhòr-aiseal"
-   },
-   "SET_HYPERSPACE_DESTINATION_TO" : {
-      "description" : "",
-      "message" : "Suidhich an ceann-uidhe os-fhànais air %system"
-   },
-   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
-      "description" : "",
-      "message" : "Sgrùdaiche neul os-fhànais: suidhich amas os-fhanais a leanas tu às dèidh fhàgail"
-   },
-   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
-      "description" : "",
-      "message" : "Suidhidh lùths ìosal a' phutaidh air %power%%"
-   },
-   "SET_NAVTARGET_TO" : {
-      "description" : "",
-      "message" : "Cuir ceann-uidhe na seòladaireachd air:"
-   },
-   "SET_SPEED_KM_S" : {
-      "description" : "",
-      "message" : "Luaths suidhichte: %speed{f.2} km/s"
-   },
-   "SET_SPEED_M_S" : {
-      "description" : "",
-      "message" : "Luaths suidhichte: %speed{f.0} m/s"
-   },
-   "SHIELD_INTEGRITY" : {
-      "description" : "",
-      "message" : "Cor na sgèithe"
-   },
-   "SHIELD_STRENGTH_N" : {
-      "description" : "",
-      "message" : "Neart na sgèithe: %shields{f.2}"
-   },
-   "SHIFT" : {
-      "description" : "Shift key on keyboard",
-      "message" : "Shift"
-   },
-   "SHIP" : {
-      "description" : "",
-      "message" : "Soitheach"
-   },
-   "SHIPS_DISPLAY_MODE_TOGGLE" : {
-      "description" : "Either show no ships, show ships, or show ships + their orbits",
-      "message" : "Gearr leum eadar modhan sealltainn an t-soithich."
-   },
-   "SHIP_DETECTED_NEARBY" : {
-      "description" : "",
-      "message" : "Mhothaich sinn air soitheach am fagas."
-   },
-   "SHIP_INFORMATION" : {
-      "description" : "",
-      "message" : "Fiosrachadh an t-soithich"
-   },
-   "SHIP_MASS_N_TONNES" : {
-      "description" : "",
-      "message" : "Tomad soithich: %{mass}t"
-   },
-   "SHIP_NEARBY" : {
-      "description" : "",
-      "message" : "Soitheach am fagas"
-   },
-   "SHIP_ORIENTATION" : {
-      "description" : "",
-      "message" : "Comhair an t-soithich"
-   },
-   "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
-      "description" : "",
-      "message" : "Luaths an t-soithich a-rèir oibseact lorgaidh"
-   },
-   "SIDEREAL_VIEW" : {
-      "description" : "camera view setting",
-      "message" : "Sealladh ùine nan reul"
-   },
-   "SLAVES" : {
-      "description" : "",
-      "message" : "Tràillean"
-   },
-   "SMALL" : {
-      "description" : "",
-      "message" : "Beag"
-   },
-   "SMALL_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Mòr-phlanaid gasa beag"
-   },
-   "SMALL_INDUSTRIAL_OUTPOST" : {
-      "description" : "",
-      "message" : "Tuineachadh gnìomhachail beag."
-   },
-   "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
-      "description" : "",
-      "message" : "Tochladh air ìre bheag. Gun tuineachadh clàraichte."
-   },
-   "SOCIAL_DEMOCRACY" : {
-      "description" : "",
-      "message" : "Deamocrasaidh sòisealta"
-   },
-   "SOLAR" : {
-      "description" : "",
-      "message" : "Grianail"
-   },
-   "SOME_ESTABLISHED_MINING" : {
-      "description" : "",
-      "message" : "Beagan mèinnearachd seasmhaich."
-   },
-   "SOURCE" : {
-      "description" : "tell source system of hyperjump entry cloud",
-      "message" : "Tùs"
-   },
-   "SPEED_CONTROL_MODE" : {
-      "description" : "",
-      "message" : "Modh stiùireadh an luaiths"
-   },
-   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
-      "description" : "",
-      "message" : "Siostam seasmhach le %bodycount %{body(s)} mòra agus %portcount %{starport(s)}"
-   },
-   "STARPORT" : {
-      "description" : "",
-      "message" : "Reul-phort"
-   },
-   "STARPORTS" : {
-      "description" : "",
-      "message" : "Reul-phuirt"
-   },
-   "STAR_A" : {
-      "description" : "",
-      "message" : "Reul theth bhàn seòrsa \"A\""
-   },
-   "STAR_AF_GIANT" : {
-      "description" : "",
-      "message" : "Mòr-reul gheal"
-   },
-   "STAR_AF_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Os-mhòr-reul gheal"
-   },
-   "STAR_AF_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Àrd-mhòr-reul gheal"
-   },
-   "STAR_B" : {
-      "description" : "",
-      "message" : "Reul shoilleir ghorm seòrsa \"B\""
-   },
-   "STAR_B_GIANT" : {
-      "description" : "",
-      "message" : "Mòr-reul ghorm"
-   },
-   "STAR_B_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Os-mhòr-reul ghorm"
-   },
-   "STAR_B_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Àrd-mhòr-reul ghorm"
-   },
-   "STAR_B_WF" : {
-      "description" : "",
-      "message" : "Reul Wolf-Rayet - cunnart teannachaidh"
-   },
-   "STAR_F" : {
-      "description" : "",
-      "message" : "Reul bhàn seòrsa \"F\""
-   },
-   "STAR_G" : {
-      "description" : "",
-      "message" : "Reul bhuidhe seòrsa \"G\""
-   },
-   "STAR_G_GIANT" : {
-      "description" : "",
-      "message" : "Mòr-reul bhuidhe - neo-sheasmhach"
-   },
-   "STAR_G_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Os-mhòr-reul bhuidhe - neo-sheasmhach"
-   },
-   "STAR_G_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Àrd-mhòr-reul bhuidhe"
-   },
-   "STAR_IM_BH" : {
-      "description" : "",
-      "message" : "Toll-dubh le tomad meadhanach"
-   },
-   "STAR_K" : {
-      "description" : "",
-      "message" : "Reul orains seòrsa \"K\""
-   },
-   "STAR_K_GIANT" : {
-      "description" : "",
-      "message" : "Mòr-reul orains - neo-sheasmhach"
-   },
-   "STAR_K_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Os-mhòr-reul orains - neo-sheasmhach"
-   },
-   "STAR_K_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Àrd-mhòr-reul orains"
-   },
-   "STAR_M" : {
-      "description" : "",
-      "message" : "Reul dhearg seòrsa \"M\""
-   },
-   "STAR_M_GIANT" : {
-      "description" : "",
-      "message" : "Mòr-reul dhearg"
-   },
-   "STAR_M_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Os-mhòr-reul dhearg"
-   },
-   "STAR_M_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Àrd-mhòr-reul dhearg"
-   },
-   "STAR_M_WF" : {
-      "description" : "",
-      "message" : "Reul Wolf-Rayet - neo-sheasmhach"
-   },
-   "STAR_O" : {
-      "description" : "",
-      "message" : "Reul thomadach theth seòrsa \"O\""
-   },
-   "STAR_O_GIANT" : {
-      "description" : "",
-      "message" : "Mòr-reul theth ghorm"
-   },
-   "STAR_O_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Os-mhòr-reul theth ghorm"
-   },
-   "STAR_O_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Àrd-mhòr-reul theth ghorm"
-   },
-   "STAR_O_WF" : {
-      "description" : "",
-      "message" : "Reul Wolf-Rayet - gu bhith teannachadh"
-   },
-   "STAR_SM_BH" : {
-      "description" : "",
-      "message" : "Acair ar reul-chriosa"
-   },
-   "STAR_SYSTEM_INFORMATION" : {
-      "description" : "",
-      "message" : "Fiosrachadh an t-siostaim rèile"
-   },
-   "STAR_S_BH" : {
-      "description" : "",
-      "message" : "Toll-dubh reultail"
-   },
-   "SUGGESTED_RESPONSES" : {
-      "description" : "",
-      "message" : "Freagairtean molta:"
-   },
-   "SURFACE_GRAVITY" : {
-      "description" : "",
-      "message" : "Iom-tharraing an uachdair"
-   },
-   "SURFACE_TEMPERATURE" : {
-      "description" : "",
-      "message" : "Teothachd an uachdair"
-   },
-   "SWAP_SELECTED_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Dèan amas os-fhànais dhe na thagh thu"
-   },
-   "SWITCHED_TO_PARENT" : {
-      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "Chaidh taisbeanadh na comhair atharrachadh gu co-chomharradh coitcheann an t-siostaim."
-   },
-   "SWITCHED_TO_ROTATIONAL" : {
-      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "Chaidh taisbeanadh na comhair atharrachadh gu co-chomharradh na planaide."
-   },
-   "SYSTEM" : {
-      "description" : "star system",
-      "message" : "Siostam"
-   },
-   "SYSTEM_NUMBER" : {
-      "description" : "",
-      "message" : "Àireamh an t-siostaim:"
-   },
-   "SYSTEM_ORBIT_VIEW" : {
-      "description" : "",
-      "message" : "Sealladh reul-chuairt an t-siostaim"
-   },
-   "SYSTEM_TYPE" : {
-      "description" : "",
-      "message" : "Seòrsa an t-siostaim:"
-   },
-   "S_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" àile pronnaisg\""
-   },
-   "TAKEOFF" : {
-      "description" : "",
-      "message" : "Losgadh"
-   },
-   "TARGET_OBJECT_IN_SIGHTS" : {
-      "description" : "",
-      "message" : "Tha an t-amas sa chrois-ribe"
-   },
-   "TENUOUS" : {
-      "description" : "atmosphere thickness",
-      "message" : "tana"
-   },
-   "TEXTILES" : {
-      "description" : "",
-      "message" : "Obair-aodaich"
-   },
-   "THICK" : {
-      "description" : "",
-      "message" : "tiugh"
-   },
-   "THIN" : {
-      "description" : "",
-      "message" : "tana"
-   },
-   "THRIVING_OUTDOOR_WORLD" : {
-      "description" : "",
-      "message" : "Saoghal soirbheachail le sluagh a' fuireach a-muigh."
-   },
-   "THRUSTER_DORSAL" : {
-      "description" : "",
-      "message" : "Put sìos"
-   },
-   "THRUSTER_MAIN" : {
-      "description" : "",
-      "message" : "Put air adhart"
-   },
-   "THRUSTER_PORT" : {
-      "description" : "",
-      "message" : "Put gu clì"
-   },
-   "THRUSTER_RETRO" : {
-      "description" : "",
-      "message" : "Put an comhair a' chùil"
-   },
-   "THRUSTER_STARBOARD" : {
-      "description" : "",
-      "message" : "Put gu deas"
-   },
-   "THRUSTER_VENTRAL" : {
-      "description" : "",
-      "message" : "Put suas"
-   },
-   "TIME_POINT" : {
-      "description" : "",
-      "message" : "Puing ama:"
-   },
-   "TINY" : {
-      "description" : "",
-      "message" : "Beag bìodach"
-   },
-   "TOGGLE_EQUIPMENT_VIEW" : {
-      "description" : "Tooltip for the Equipment View button",
-      "message" : "Sealladh na h-uidheamachd"
-   },
-   "TOGGLE_HUD_MODE" : {
-      "description" : "",
-      "message" : "Toglaich modh a' HUD"
-   },
-   "TOGGLE_LUA_CONSOLE" : {
-      "description" : "",
-      "message" : "Toglaich a' chonsoil Lua"
-   },
-   "TOGGLE_RADAR_MODE" : {
-      "description" : "",
-      "message" : "Toglaich modh  an rèideir"
-   },
-   "TOGGLE_RADAR_VIEW" : {
-      "description" : "Tooltip for the Radar View button",
-      "message" : "Sealladh an rèideir"
-   },
-   "TOGGLE_ROTATION_DAMPING" : {
-      "description" : "",
-      "message" : "Toglaich lasachadh a' chuairteachaidh"
-   },
-   "TOMBSTONE_EPITAPH" : {
-      "description" : "shown on tombstone when player dies",
-      "message" : "AIG FOIS SÌORRAIDH"
-   },
-   "TRADING_ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "Malart bathar mì-laghail"
-   },
-   "TRIPLE_SYSTEM" : {
-      "description" : "",
-      "message" : "Siostam trì-fillteach"
-   },
-   "UNDOCKING" : {
-      "description" : "Flight state of ship when leaving station",
-      "message" : "A' neo-dhocachadh"
-   },
-   "UNEXPLORED_SYSTEM_NO_DATA" : {
-      "description" : "",
-      "message" : "Siostam gun rùrachadh. Chan eil barrachd dàta ri làimh."
-   },
-   "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
-      "description" : "",
-      "message" : "Siostam gun rùrachadh. Chan eil sealladh an t-siostaim ri fhaighinn."
-   },
-   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
-      "description" : "",
-      "message" : "Siostam gun rùrachadh. Chaidh fiosrachadh rèile a chruinneachadh le prosbaig aig astar, ach chan eil fiosrachadh mu na planaidean ri làimh."
-   },
-   "UNIT_AU" : {
-      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
-      "message" : "AU"
-   },
-   "UNIT_DAYS" : {
-      "description" : "Duration unit: one 24-hour day",
-      "message" : "l"
-   },
-   "UNIT_HOURS" : {
-      "description" : "Duration unit: one 60-minute hour",
-      "message" : "u"
-   },
-   "UNIT_KILOMETERS" : {
-      "description" : "Distance unit: one kilometer",
-      "message" : "km"
-   },
-   "UNIT_KILOMETERS_PER_SECOND" : {
-      "description" : "Speed unit: one kilometer per second",
-      "message" : "km/s"
-   },
-   "UNIT_LY" : {
-      "description" : "Distance unit: a light year",
-      "message" : "bl-shol"
-   },
-   "UNIT_METERS" : {
-      "description" : "Distance unit: one meter",
-      "message" : "m"
-   },
-   "UNIT_METERS_PER_SECOND" : {
-      "description" : "Speed unit: one meter per second",
-      "message" : "m/s"
-   },
-   "UNIT_MILLION_METERS" : {
-      "description" : "Distance unit: one million meters",
-      "message" : "Mm"
-   },
-   "UNIT_MILLION_METERS_PER_SECOND" : {
-      "description" : "Speed unit: one million meters per second",
-      "message" : "Mm/s"
-   },
-   "UNIT_MINUTES" : {
-      "description" : "Duration unit: one 60-second minute",
-      "message" : "m"
-   },
-   "UNIT_SECONDS" : {
-      "description" : "Duration unit: one second",
-      "message" : "d"
-   },
-   "UNIT_TONNES" : {
-      "description" : "Mass unit: one tonne (t)",
-      "message" : "t"
-   },
-   "UNIT_WEEKS" : {
-      "description" : "Duration unit: one 7-day week",
-      "message" : "s"
-   },
-   "UNKNOWN" : {
-      "description" : "",
-      "message" : "<chan eil fhios>"
-   },
-   "UNSET_NAVTARGET" : {
-      "description" : "",
-      "message" : "Neo-shuidhich ceann-uidhe na seòladaireachd."
-   },
-   "USE_LOW_THRUST" : {
-      "description" : "",
-      "message" : "Cleachd putadh ìosal"
-   },
-   "VAST_STRIP_MINE" : {
-      "description" : "",
-      "message" : "Tuineachadh le mòr-mhèinnearachd."
-   },
-   "VERY_DENSE" : {
-      "description" : "",
-      "message" : "glè dhùmhail"
-   },
-   "VERY_LARGE_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Mòr-phlanaid gasa glè mhòr"
-   },
-   "VIEW" : {
-      "description" : "",
-      "message" : "Sealladh"
-   },
-   "VIOLENT_ANARCHY" : {
-      "description" : "",
-      "message" : "Gun rian - tha buidhnean fo airm an còmhstri"
-   },
-   "WATER" : {
-      "description" : "",
-      "message" : "Uisge"
-   },
-   "WEAPONS" : {
-      "description" : "",
-      "message" : "Airm"
-   },
-   "WEAPON_TEMP" : {
-      "description" : "",
-      "message" : "Teòthachd an airm"
-   },
-   "WHEELS_ARE_DOWN" : {
-      "description" : "",
-      "message" : "Tha na cuibhlichean shìos"
-   },
-   "WHEELS_ARE_UP" : {
-      "description" : "",
-      "message" : "Tha na cuibhlichean shuas"
-   },
-   "WHITE_DWARF" : {
-      "description" : "",
-      "message" : "Throich bhàn - iarsmadh rèile"
-   },
-   "WITH_A" : {
-      "description" : "",
-      "message" : "\" le \""
-   },
-   "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" gun àile ceart\""
-   },
-   "X" : {
-      "description" : "keybinding: x axis",
-      "message" : "X"
-   },
-   "Y" : {
-      "description" : "keybinding: y axis",
-      "message" : "Y"
-   },
-   "YAW" : {
-      "description" : "",
-      "message" : "Claonadh"
-   },
-   "YAW_LEFT" : {
-      "description" : "",
-      "message" : "Claon gu clì"
-   },
-   "YAW_RIGHT" : {
-      "description" : "",
-      "message" : "Claon gu deas"
-   },
-   "YOUNG_FARMING_COLONY" : {
-      "description" : "",
-      "message" : "Tuineachadh àiteachais òg."
-   },
-   "Z" : {
-      "description" : "keybinding: z axis",
-      "message" : "Z"
-   },
-   "ZOOM_IN" : {
-      "description" : "",
-      "message" : "Sùm a-steach"
-   },
-   "ZOOM_OUT" : {
-      "description" : "",
-      "message" : "Sùm a-mach"
-   }
+  "AIR_PROCESSORS": {
+    "description": "",
+    "message": "Pròiseasaran adhair"
+  },
+  "ALERT_CANCELLED": {
+    "description": "",
+    "message": "Sguireadh dhen rabhadh."
+  },
+  "ALLEGIANCE": {
+    "description": "",
+    "message": "Dìlseachd:"
+  },
+  "ALT": {
+    "description": "Alt key on keyboard",
+    "message": "Alt"
+  },
+  "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
+    "description": "",
+    "message": "\" agus èiceo-shiostam fìor ioma-fhillte.\""
+  },
+  "AND_INDIGENOUS_MICROBIAL_LIFE": {
+    "description": "",
+    "message": "\" is tùs-bhitheagan.\""
+  },
+  "AND_INDIGENOUS_PLANT_LIFE": {
+    "description": "",
+    "message": "\" is tùs-lusan.\""
+  },
+  "ANIMAL_MEAT": {
+    "description": "",
+    "message": "Feòil bheathaichean"
+  },
+  "APOAPSIS_DISTANCE": {
+    "description": "",
+    "message": "Astar an apoapsis"
+  },
+  "AR_ATMOSPHERE": {
+    "description": "",
+    "message": "\" àile argoin\""
+  },
+  "ASTEROID": {
+    "description": "",
+    "message": "Dreag"
+  },
+  "AUTOMATIC_SYSTEM_SELECTION": {
+    "description": "for star map, select star system when mouse close to it",
+    "message": "Taghadh fèin-obrachail an t-siostaim"
+  },
+  "AUTOPILOT_CONTROL": {
+    "description": "Indicating that ship is flying under autopilot control",
+    "message": "Stiùireadh fèin-obrachail"
+  },
+  "AUTOPILOT_DOCK_WITH_STATION": {
+    "description": "",
+    "message": "Autopilot: Dock with {target}"
+  },
+  "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilot: Enter high orbit around {target}"
+  },
+  "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilot: Enter low orbit around {target}"
+  },
+  "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilot: Enter medium orbit around {target}"
+  },
+  "AUTOPILOT_FLY_TO_VICINITY_OF": {
+    "description": "",
+    "message": "Autopilot: Fly to vicinity of {target}"
+  },
+  "AUTOPILOT_ON": {
+    "description": "",
+    "message": "Fèin-stiùireadh air"
+  },
+  "AXIAL_TILT": {
+    "description": "",
+    "message": "Claonadh aisealach"
+  },
+  "A_FEW_THOUSAND": {
+    "description": "regarding population",
+    "message": "Mìle no dhà"
+  },
+  "BATTLE_WEAPONS": {
+    "description": "",
+    "message": "Airm catha"
+  },
+  "BINARY_SYSTEM": {
+    "description": "",
+    "message": "Siostam càraideach"
+  },
+  "BODIES": {
+    "description": "space bodies",
+    "message": "bodhaigean"
+  },
+  "BODY": {
+    "description": "",
+    "message": "bodhaig"
+  },
+  "BROWN_DWARF": {
+    "description": "",
+    "message": "Troich dhonn - nì fo-reultach"
+  },
+  "BUTTON": {
+    "description": "",
+    "message": "\" Putan \""
+  },
+  "CAMERA_BOTTOM_VIEW": {
+    "description": "",
+    "message": "Camara a' bhuinn"
+  },
+  "CAMERA_FRONT_VIEW": {
+    "description": "",
+    "message": "Camara a' bheulaibh"
+  },
+  "CAMERA_LEFT_VIEW": {
+    "description": "",
+    "message": "Camara taobh clì"
+  },
+  "CAMERA_REAR_VIEW": {
+    "description": "",
+    "message": "Camara a' chùlaibh"
+  },
+  "CAMERA_RIGHT_VIEW": {
+    "description": "",
+    "message": "Camara taobh deas"
+  },
+  "CAMERA_TOP_VIEW": {
+    "description": "",
+    "message": "Camara a' bharra"
+  },
+  "CANT_SAVE_DEAD_PLAYER": {
+    "description": "",
+    "message": "Cha ghabh an geama sàbhaladh nuair a fhuair an cluicheadair bàs"
+  },
+  "CANT_SAVE_IN_HYPERSPACE": {
+    "description": "",
+    "message": "Chan urrainn dhut an geama a shàbhaladh fhad 's a bhios tu san os-fhànais"
+  },
+  "CAPITALIST": {
+    "description": "",
+    "message": "Calpach"
+  },
+  "CARBON_ORE": {
+    "description": "",
+    "message": "Clach-carboin"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Carago"
+  },
+  "CARGO_BAY_LIFE_SUPPORT_LOST": {
+    "description": "",
+    "message": "Tha na mothaichearan ag innse mu staid èiginneach na taice-beatha san ionad charago."
+  },
+  "CARGO_N": {
+    "description": "",
+    "message": "Carago: %{mass}t"
+  },
+  "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
+    "description": "",
+    "message": "Tha sgiob carago gnìomhach. Chruinnich thu 1 tunna de %item"
+  },
+  "CARGO_SCOOP_ATTEMPTED": {
+    "description": "",
+    "message": "Fheuch thu ri sgobadh carago. Chan eil rum gu leòr agad san roinn carago."
+  },
+  "CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "\" àile meatain\""
+  },
+  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Chaidh cead a thoirt dhut mar-thà. Lean air adhart gun bhàgh docaidh %bay."
+  },
+  "CLEARANCE_DENIED_NO_BAYS": {
+    "description": "",
+    "message": "Chaidh cead a dhiùltadh. Chan eil bàgh docaidh saor ann."
+  },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Clearance denied. Your ship is too far away for ID verification."
+  },
+  "CLEARANCE_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Chaidh cead a thoirt dhut. Lean air adhart gun bàgh docaidh %bay."
+  },
+  "CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "\" àile dà-ogsaid carboin\""
+  },
+  "COMMA_HIGHLY_VOLCANIC": {
+    "description": "",
+    "message": ", glè bheinn-theinnteach"
+  },
+  "COMMODITY_NONE": {
+    "description": "When no commodities exist",
+    "message": "Chan eil gin"
+  },
+  "COMMODITY_TRADE_ANALYSIS_COMPARE": {
+    "description": "",
+    "message": "Sgrùdadh air malart bathair-amh ann an #ff0%selected_system#fff (air a thaghadh) an coimeas ri #ff0%current_system#fff (far a bheil thu):"
+  },
+  "COMMODITY_TRADE_ANALYSIS_SELF": {
+    "description": "",
+    "message": "Sgrùdadh air malart bathair-amh ann an #fff%system#fff"
+  },
+  "COMMS": {
+    "description": "",
+    "message": "Conaltradh"
+  },
+  "COMMUNIST": {
+    "description": "",
+    "message": "Co-mhaoineachas"
+  },
+  "COMPASS_E": {
+    "description": "Abbreviation for compass direction: East",
+    "message": "E"
+  },
+  "COMPASS_N": {
+    "description": "Abbreviation for compass direction: North",
+    "message": "T"
+  },
+  "COMPASS_NE": {
+    "description": "Abbreviation for compass direction: North East",
+    "message": "ETh"
+  },
+  "COMPASS_NW": {
+    "description": "Abbreviation for compass direction: North West",
+    "message": "ITh"
+  },
+  "COMPASS_S": {
+    "description": "Abbreviation for compass direction: South",
+    "message": "D"
+  },
+  "COMPASS_SE": {
+    "description": "Abbreviation for compass direction: South East",
+    "message": "EDh"
+  },
+  "COMPASS_SW": {
+    "description": "Abbreviation for compass direction: South West",
+    "message": "IDh"
+  },
+  "COMPASS_W": {
+    "description": "Abbreviation for compass direction: West",
+    "message": "D"
+  },
+  "COMPUTERS": {
+    "description": "",
+    "message": "Coimpiutairean"
+  },
+  "COMPUTER_HEADING_CONTROL": {
+    "description": "",
+    "message": "Smachd a' choimpiutair air a' chomhair"
+  },
+  "COMPUTER_SPEED_CONTROL": {
+    "description": "",
+    "message": "Smachd a' choimpiutair air an luaths"
+  },
+  "CONSUMER_GOODS": {
+    "description": "",
+    "message": "Bathar caitheimh"
+  },
+  "CONTROLS": {
+    "description": "",
+    "message": "Uidheaman-smachd"
+  },
+  "CORPORATE_SYSTEM": {
+    "description": "",
+    "message": "Siostam corporra"
+  },
+  "COULD_NOT_OPEN_FILENAME": {
+    "description": "",
+    "message": "Cha b' urrainn dhuinn %path fhosgladh"
+  },
+  "COUNT_ON_SURFACE": {
+    "description": "",
+    "message": "\" (%surfacecount air an uachdar)\""
+  },
+  "COUNT_STARPORTS": {
+    "description": "",
+    "message": "reul-phuirt"
+  },
+  "CO_ATMOSPHERE": {
+    "description": "",
+    "message": "\" àile aon-ogsaid carboin\""
+  },
+  "CTRL": {
+    "description": "Ctrl key on keyboard",
+    "message": "Ctrl"
+  },
+  "CURRENT_SYSTEM": {
+    "description": "selected current star system",
+    "message": "An siostam làithreach"
+  },
+  "DATE_DUE_N": {
+    "description": "",
+    "message": "Ceann-ama: %date"
+  },
+  "DAY_LENGTH": {
+    "description": "",
+    "message": "Faide latha"
+  },
+  "DECREASE_RADAR_RANGE": {
+    "description": "",
+    "message": "Lùghdaich rainse an rèideir"
+  },
+  "DECREASE_SET_SPEED": {
+    "description": "",
+    "message": "Ìslich an luaths suidhichte"
+  },
+  "DECREASE_TIME_ACCELERATION": {
+    "description": "",
+    "message": "Lùghdaich luathachadh an ama"
+  },
+  "DEMOGRAPHICS": {
+    "description": "",
+    "message": "Eòlas-sluaigh"
+  },
+  "DESTINATION": {
+    "description": "",
+    "message": "Ceann-uidhe"
+  },
+  "DIRECTION": {
+    "description": "Direction",
+    "message": "\"Comhair\""
+  },
+  "DISTANCE_LY": {
+    "description": "",
+    "message": "Astar: %distance{f.2} bl-shol"
+  },
+  "DOCKED": {
+    "description": "",
+    "message": "Docaichte"
+  },
+  "DOCKING": {
+    "description": "",
+    "message": "Docadh"
+  },
+  "DOCKING_CLEARANCE_EXPIRED": {
+    "description": "",
+    "message": "Dh'fhalbh an ùine air a' chead laighe agad. Ma tha thu airson docadh, feumaidh tu iarrtas a chur ann a-rithist."
+  },
+  "DOWNGRADING_ALERT_STATUS": {
+    "description": "",
+    "message": "Cha deach mothachadh do theine fad 60 diog, ag ìsleachadh ìre an rabhaidh."
+  },
+  "DRAW_OUT_RANGE_LABELS": {
+    "description": "",
+    "message": "Seall leubailean nan siostaman nach gabh ruigsinn"
+  },
+  "DRAW_UNINHABITED_LABELS": {
+    "description": "",
+    "message": "Seall leubailean nan siostaman gun chòmhnadh"
+  },
+  "DRAW_VERTICAL_LINES": {
+    "description": "",
+    "message": "Tarraing loidhnichean inghearach"
+  },
+  "EARTH": {
+    "description": "",
+    "message": "An Talamh"
+  },
+  "EARTH_FEDERATION_COLONIAL_RULE": {
+    "description": "",
+    "message": "'Na choileanaidh fo riaghladh Co-nasgadh na Talmhainn"
+  },
+  "EARTH_FEDERATION_DEMOCRACY": {
+    "description": "",
+    "message": "Deamocrasaidh Caidreachas na Talmhainn"
+  },
+  "ECCENTRICITY": {
+    "description": "",
+    "message": "Neo-mheadhanachd"
+  },
+  "ECONOMIC_INFO": {
+    "description": "",
+    "message": "Fiosrachadh eaconamach"
+  },
+  "ECONOMY_TYPE": {
+    "description": "",
+    "message": "Seòrsa an eaconamaidh:"
+  },
+  "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
+    "description": "",
+    "message": "Co-rèir an rèideas meadhan-chriosach 's pòlarach"
+  },
+  "EXACT_MATCH_X": {
+    "description": "",
+    "message": "Maids pongail: %system"
+  },
+  "EXTENSIVE_MINING": {
+    "description": "",
+    "message": "Mèinnearachd farsaing."
+  },
+  "EXTERNAL_ATMOSPHERIC_PRESSURE": {
+    "description": "",
+    "message": "Brùthadh an àile a-muigh"
+  },
+  "EXTERNAL_VIEW": {
+    "description": "",
+    "message": "Sealladh taobh a-muigh"
+  },
+  "FARM_MACHINERY": {
+    "description": "",
+    "message": "Acainnean tuathanais"
+  },
+  "FERTILIZER": {
+    "description": "",
+    "message": "Todhar"
+  },
+  "FIRE_LASER": {
+    "description": "",
+    "message": "Loisg arm"
+  },
+  "FIRE_MISSILE": {
+    "description": "",
+    "message": "Loisg astas"
+  },
+  "FLYBY_VIEW": {
+    "description": "camera view setting",
+    "message": "Flyby view"
+  },
+  "FOLLOWING_SELECTION": {
+    "description": "",
+    "message": "an t-ath-taghadh"
+  },
+  "FRUIT_AND_VEG": {
+    "description": "",
+    "message": "Measan 's glasraich"
+  },
+  "FUEL": {
+    "description": "",
+    "message": "Connadh"
+  },
+  "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
+    "description": "",
+    "message": "Tha sgiob a' chonnaidh gnìomhach. Tha %quantity tunna a hàidhdreaidean agad a-nis."
+  },
+  "GALACTIC_VIEW": {
+    "description": "view galactic map",
+    "message": "Sealladh an reul-chriosa"
+  },
+  "GALAXY_SECTOR_VIEW": {
+    "description": "",
+    "message": "Sealladh earrann an reul-chriosa"
+  },
+  "GAME_LOAD_CANNOT_OPEN": {
+    "description": "",
+    "message": "Cha do lorg sinn am faidhle air a shàbhaladh \"%filename\" (no chan eil inntrigeadh aig a' gheama dha gus fhosgladh)."
+  },
+  "GAME_LOAD_CORRUPT": {
+    "description": "",
+    "message": "Cha ghabh an geama air a shàbhaladh luchdadh ri linn mearachd a tha 'na bhroinn."
+  },
+  "GAME_LOAD_WRONG_VERSION": {
+    "description": "",
+    "message": "Cha ghabh an geama air a shàbhaladh seo a luchdadh on a chaidh a chruthachadh le tionndadh eile de Pioneer."
+  },
+  "GAME_SAVED_TO": {
+    "description": "",
+    "message": "\"Geama air a shàbhaladh gu \""
+  },
+  "GAME_SAVE_CANNOT_WRITE": {
+    "description": "",
+    "message": "Cha b' urrainn dhuinn am faidhle a sgrìobhadh ri linn mearachd an t-siostaim."
+  },
+  "GENERAL_VIEW_CONTROLS": {
+    "description": "",
+    "message": "Uidheaman-smachd coitcheann"
+  },
+  "GOVERNMENT_TYPE": {
+    "description": "",
+    "message": "Seòrsa an riaghaltais:"
+  },
+  "GRAIN": {
+    "description": "like wheat or barley",
+    "message": "Gràn"
+  },
+  "HAND_WEAPONS": {
+    "description": "",
+    "message": "Airm làimhe"
+  },
+  "HARD_CAPITALIST": {
+    "description": "",
+    "message": "Calpach gu tur - gun riaghaltas no sochair"
+  },
+  "HAT": {
+    "description": "Hat switch: Is the top button on a joystick",
+    "message": "\" Ad\""
+  },
+  "HEADING_LOCK_ANTINORMAL": {
+    "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
+    "message": "Hold {target} anti-normal"
+  },
+  "HEADING_LOCK_BACKWARD": {
+    "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
+    "message": "Hold {target} retrograde"
+  },
+  "HEADING_LOCK_FORWARD": {
+    "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
+    "message": "Hold {target} prograde"
+  },
+  "HEADING_LOCK_KILLROT": {
+    "description": "",
+    "message": "Stad an cuairteachadh"
+  },
+  "HEADING_LOCK_NORMAL": {
+    "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
+    "message": "Hold {target} normal"
+  },
+  "HEADING_LOCK_RADIALLY_INWARD": {
+    "description": "Autopilot direction, relative to orbit (face towards planet)",
+    "message": "Hold {target} radially in"
+  },
+  "HEADING_LOCK_RADIALLY_OUTWARD": {
+    "description": "Autopilot direction, relative to orbit (face away from palent)",
+    "message": "Hold {target} radially out"
+  },
+  "HEAVY_INDUSTRY": {
+    "description": "",
+    "message": "Gnìomhachas trom."
+  },
+  "HE_ATMOSPHERE": {
+    "description": "",
+    "message": "\" àile hilium\""
+  },
+  "HIGHLY_VOLCANIC": {
+    "description": "",
+    "message": "Glè bheinn-theinnteach"
+  },
+  "HIGH_POPULATION_OUTDOOR_WORLD": {
+    "description": "",
+    "message": "Saoghal le sluagh mòr a' fuireach a-muigh."
+  },
+  "HULL_INTEGRITY": {
+    "description": "",
+    "message": "Cor na slige"
+  },
+  "HULL_TEMP": {
+    "description": "",
+    "message": "Teothachd na slige"
+  },
+  "HYDROGEN": {
+    "description": "",
+    "message": "Hàidhdreaidean"
+  },
+  "HYPERSPACE": {
+    "description": "",
+    "message": "Os-fhànais"
+  },
+  "HYPERSPACE_ARRIVAL_CLOUD": {
+    "description": "",
+    "message": "Neul ruigsinn os-fhànais"
+  },
+  "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
+    "description": "",
+    "message": "Iarsmadh neòil ruigsinn os-fhànais"
+  },
+  "HYPERSPACE_DEPARTURE_CLOUD": {
+    "description": "",
+    "message": "Neul falbh os-fhànais"
+  },
+  "HYPERSPACE_JUMP_ABORT": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Cuir an draibh os-fhànais dheth"
+  },
+  "HYPERSPACE_JUMP_ABORTED": {
+    "description": "",
+    "message": "Chaidh sgur dhen leum os-fhànais."
+  },
+  "HYPERSPACE_JUMP_DISABLED": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Os-dhraibh à comas"
+  },
+  "HYPERSPACE_JUMP_ENGAGE": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Cuir an draibh os-fhànais air"
+  },
+  "HYPERSPACE_JUMP_FORBIDDEN": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Chan eil os-dhraibh ceadaichte an-seo"
+  },
+  "HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Amas os-fhànais"
+  },
+  "H_ATMOSPHERE": {
+    "description": "",
+    "message": "\" àile hàidhdreaidein\""
+  },
+  "ICE_WORLD": {
+    "description": "",
+    "message": "\" saoghal deighe\""
+  },
+  "ILLEGAL_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+    "message": "Mì-laghail (far a bheil thu):"
+  },
+  "ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Bathar mì-laghail:"
+  },
+  "IMPERIAL_RULE": {
+    "description": "",
+    "message": "Riaghladh impireil"
+  },
+  "INCREASE_RADAR_RANGE": {
+    "description": "",
+    "message": "Meudaich rainse an rèideir"
+  },
+  "INCREASE_SET_SPEED": {
+    "description": "",
+    "message": "Suidhich luaths nas àirde"
+  },
+  "INCREASE_TIME_ACCELERATION": {
+    "description": "",
+    "message": "Meudaich luathachadh an ama"
+  },
+  "INDUSTRIAL_COLONY": {
+    "description": "",
+    "message": "Tuineachadh gnìomhachail."
+  },
+  "INDUSTRIAL_HUB_SYSTEM": {
+    "description": "",
+    "message": "Siostam ionaid ghnìomhachail."
+  },
+  "INDUSTRIAL_MACHINERY": {
+    "description": "",
+    "message": "Innealan gnìomhachail"
+  },
+  "INTERNAL_VIEW": {
+    "description": "",
+    "message": "Sealladh taobh a-staigh"
+  },
+  "JOY": {
+    "description": "Short for Joystick",
+    "message": "Joy"
+  },
+  "JOYSTICK_INPUT": {
+    "description": "",
+    "message": "Ion-chur a' joystick"
+  },
+  "JOY_AXIS": {
+    "description": "Regarding joystick",
+    "message": "%{sign}%joyname aiseal %axis"
+  },
+  "L4L5_DISPLAY_MODE_TOGGLE": {
+    "description": "Either show L4/L5 points or don't",
+    "message": "Gearr leum eadar modhan sealltainn puing Lagrange L4/L5."
+  },
+  "LANDED": {
+    "description": "",
+    "message": "Air tìr"
+  },
+  "LANG_NAME": {
+    "description": "The name that native speakers use for this language. This will be used in the language selection screen.",
+    "message": "Gàidhlig"
+  },
+  "LARGE": {
+    "description": "regarding terrestrial planet size (mass actually)",
+    "message": "Mòr"
+  },
+  "LARGE_GAS_GIANT": {
+    "description": "",
+    "message": "Mòr-phlanaid gasa mòr"
+  },
+  "LASER_FIRE_DETECTED": {
+    "description": "",
+    "message": "Mhothaich sinn dha losgadh airm."
+  },
+  "LATITUDE": {
+    "description": "Short for latitude",
+    "message": "D-leud:"
+  },
+  "LATITUDE_NORTH_ABBREV": {
+    "description": "Abbreviation letter for latitude 'north'",
+    "message": "T"
+  },
+  "LATITUDE_SOUTH_ABBREV": {
+    "description": "Abbreviation letter for latitude 'south'",
+    "message": "D"
+  },
+  "LEGAL_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+    "message": "Laghail (far a bheil thu):"
+  },
+  "LIBERAL_DEMOCRACY": {
+    "description": "",
+    "message": "Deamocrasaidh libearalach"
+  },
+  "LIQUID_OXYGEN": {
+    "description": "",
+    "message": "Ogsaidean leannach"
+  },
+  "LIQUOR": {
+    "description": "",
+    "message": "Deoch làidir"
+  },
+  "LIVE_ANIMALS": {
+    "description": "",
+    "message": "Beathaichean beò"
+  },
+  "LOCKED": {
+    "description": "to lock a hyperspace target",
+    "message": "glaiste"
+  },
+  "LONGITUDE": {
+    "description": "Short for longitude",
+    "message": "D-fhad:"
+  },
+  "LONGITUDE_EAST_ABBREV": {
+    "description": "Abbreviation letter for longitude 'east'",
+    "message": "E"
+  },
+  "LONGITUDE_WEST_ABBREV": {
+    "description": "Abbreviation letter for latitude 'west'",
+    "message": "D"
+  },
+  "MAJOR_EXPORTS": {
+    "description": "",
+    "message": "Prìomh às-phortadh:"
+  },
+  "MAJOR_EXPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Prìomh às-phortadh (far a bheil thu):"
+  },
+  "MAJOR_IMPORTS": {
+    "description": "",
+    "message": "Prìomh ion-phortadh:"
+  },
+  "MAJOR_IMPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Prìomh ion-phortadh (far a bheil thu):"
+  },
+  "MANUAL_CONTROL": {
+    "description": "",
+    "message": "Stiùireadh a làimh"
+  },
+  "MANUAL_CONTROL_MODE": {
+    "description": "",
+    "message": "Modh stiùireadh a làimh"
+  },
+  "MAP_LOCK_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Glais an ceann-uidhe os-fhànais"
+  },
+  "MAP_TOGGLE_INFO_PANEL": {
+    "description": "",
+    "message": "Toglaich am panail-fhiosrachaidh"
+  },
+  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
+    "description": "",
+    "message": "Toglaich sealladh leantainneach an taghaidh"
+  },
+  "MAP_VIEW_ROTATE_DOWN": {
+    "description": "",
+    "message": "Cuairtich an sealladh sìos"
+  },
+  "MAP_VIEW_ROTATE_LEFT": {
+    "description": "",
+    "message": "Cuairtich an sealladh gu clì"
+  },
+  "MAP_VIEW_ROTATE_RIGHT": {
+    "description": "",
+    "message": "Cuairtich an sealladh gu deas"
+  },
+  "MAP_VIEW_ROTATE_UP": {
+    "description": "",
+    "message": "Cuairtich an sealladh suas"
+  },
+  "MAP_VIEW_SHIFT_BACKWARD": {
+    "description": "",
+    "message": "Càraich an sealladh an comhair a' chùil"
+  },
+  "MAP_VIEW_SHIFT_DOWN": {
+    "description": "",
+    "message": "Càraich an sealladh sìos"
+  },
+  "MAP_VIEW_SHIFT_FORWARD": {
+    "description": "",
+    "message": "Càraich an sealladh air adhart"
+  },
+  "MAP_VIEW_SHIFT_LEFT": {
+    "description": "",
+    "message": "Càraich an sealladh gu clì"
+  },
+  "MAP_VIEW_SHIFT_RIGHT": {
+    "description": "",
+    "message": "Càraich an sealladh gu deas"
+  },
+  "MAP_VIEW_SHIFT_UP": {
+    "description": "",
+    "message": "Càraich an sealladh suas"
+  },
+  "MAP_WARP_TO_CURRENT_SYSTEM": {
+    "description": "",
+    "message": "Lùb dhan t-siostam làithreach"
+  },
+  "MAP_WARP_TO_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Lùb dhan cheann-uidhe os-fhànais"
+  },
+  "MAP_WARP_TO_SELECTED_SYSTEM": {
+    "description": "",
+    "message": "Lùb dhan t-siostam air a thaghadh"
+  },
+  "MASS": {
+    "description": "",
+    "message": "Tomad"
+  },
+  "MASSIVE": {
+    "description": "",
+    "message": "Tomadach"
+  },
+  "MASS_N_TONNES": {
+    "description": "",
+    "message": "Tomad: %{mass}t"
+  },
+  "MEDICINES": {
+    "description": "",
+    "message": "Leigheas"
+  },
+  "MEDIUM_GAS_GIANT": {
+    "description": "",
+    "message": "Mòr-phlanaid gasa meadhanach"
+  },
+  "MESSAGE_FROM_X": {
+    "description": "",
+    "message": "Teachdaireachd o %sender:"
+  },
+  "META": {
+    "description": "'Meta' key on keyboard",
+    "message": "Meta"
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "Co-mheatailtean"
+  },
+  "METAL_ORE": {
+    "description": "",
+    "message": "Clach-mhèinnir"
+  },
+  "MILITARY_DICTATORSHIP": {
+    "description": "",
+    "message": "Ceannsalachd an airm"
+  },
+  "MILITARY_FUEL": {
+    "description": "",
+    "message": "Connadh an airm"
+  },
+  "MINING_COLONY": {
+    "description": "",
+    "message": "Tuineachadh mèinnearachd."
+  },
+  "MINING_MACHINERY": {
+    "description": "",
+    "message": "Acainn mèinnearachd"
+  },
+  "MINOR_EXPORTS": {
+    "description": "",
+    "message": "Beagan às-phortaidh:"
+  },
+  "MINOR_EXPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Beagan às-phortaidh (far a bheil thu):"
+  },
+  "MINOR_IMPORTS": {
+    "description": "",
+    "message": "Beagan ion-phortaidh:"
+  },
+  "MINOR_IMPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Beagan ion-phortaidh (far a bheil thu):"
+  },
+  "MISCELLANEOUS": {
+    "description": "",
+    "message": "Measgaichte"
+  },
+  "MISSILE": {
+    "description": "",
+    "message": "astas"
+  },
+  "MIXED_ECONOMY": {
+    "description": "",
+    "message": "Eaconamaidh measgaichte"
+  },
+  "MONTH_APR": {
+    "description": "",
+    "message": "Gibl"
+  },
+  "MONTH_AUG": {
+    "description": "",
+    "message": "Lùna"
+  },
+  "MONTH_DEC": {
+    "description": "",
+    "message": "Dùbh"
+  },
+  "MONTH_FEB": {
+    "description": "",
+    "message": "Gearr"
+  },
+  "MONTH_JAN": {
+    "description": "",
+    "message": "Faoi"
+  },
+  "MONTH_JUL": {
+    "description": "",
+    "message": "Iuch"
+  },
+  "MONTH_JUN": {
+    "description": "",
+    "message": "Ògmh"
+  },
+  "MONTH_MAR": {
+    "description": "",
+    "message": "Màrt"
+  },
+  "MONTH_MAY": {
+    "description": "",
+    "message": "Cèit"
+  },
+  "MONTH_NOV": {
+    "description": "",
+    "message": "Samh"
+  },
+  "MONTH_OCT": {
+    "description": "",
+    "message": "Dàmh"
+  },
+  "MONTH_SEP": {
+    "description": "",
+    "message": "Sult"
+  },
+  "NAME_OBJECT": {
+    "description": "For an item or object",
+    "message": "Ainm"
+  },
+  "NAME_PERSON": {
+    "description": "For a person",
+    "message": "Ainm"
+  },
+  "NARCOTICS": {
+    "description": "",
+    "message": "Drugaichean"
+  },
+  "NAVIGATION_STAR_MAPS": {
+    "description": "",
+    "message": "Seòladaireachd 's mapaichean-reul"
+  },
+  "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
+    "description": "",
+    "message": "Cinn-uidhe seòladaireachd san t-siostam seo"
+  },
+  "NERVE_GAS": {
+    "description": "",
+    "message": "Nearbh-ghas"
+  },
+  "NOT_FOUND": {
+    "description": "searching star system in sector view",
+    "message": "Cha deach a lorg"
+  },
+  "NOT_FOUND_BEST_MATCH_X": {
+    "description": "",
+    "message": "Cha deach a lorg, am maids as fearr: %system"
+  },
+  "NOW": {
+    "description": "In System Orbit View",
+    "message": "An-dràsta"
+  },
+  "NO_ALERT": {
+    "description": "",
+    "message": "Chan eil rabhadh ann"
+  },
+  "NO_CENTRAL_GOVERNANCE": {
+    "description": "",
+    "message": "Gun riaghaltas coitcheann"
+  },
+  "NO_ESTABLISHED_ORDER": {
+    "description": "",
+    "message": "Gun rian stèidhichte"
+  },
+  "NO_HYPERDRIVE": {
+    "description": "",
+    "message": "Gun draibh os-fhànais"
+  },
+  "NO_REGISTERED_INHABITANTS": {
+    "description": "",
+    "message": "Gun luchd-còmhnaidh clàraichte"
+  },
+  "NO_TARGET_SELECTED": {
+    "description": "",
+    "message": "Coimpiutair an t-soithich: Cha deach ceann-uidhe a thaghadh"
+  },
+  "NUMBER_DAYS": {
+    "description": "",
+    "message": "%days{f.0} latha"
+  },
+  "NUMBER_DECIMAL_POINT": {
+    "description": "Decimal delimiter used in numbers.",
+    "message": "."
+  },
+  "NUMBER_G": {
+    "description": "",
+    "message": "%acceleration{f.1} G"
+  },
+  "NUMBER_GROUP_MIN": {
+    "description": "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
+    "message": "1000"
+  },
+  "NUMBER_GROUP_NUM": {
+    "description": "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
+    "message": "3"
+  },
+  "NUMBER_GROUP_SEP": {
+    "description": "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
+    "message": ","
+  },
+  "NUMBER_HOURS": {
+    "description": "",
+    "message": "%hours{f.1} uair"
+  },
+  "NUMBER_LY": {
+    "description": "",
+    "message": "%distance{f.2} bl-shol"
+  },
+  "NUMBER_TONNES": {
+    "description": "",
+    "message": "%{mass}t"
+  },
+  "N_ATMOSPHERE": {
+    "description": "",
+    "message": "\" àile naidhtreoidsean\""
+  },
+  "N_CELSIUS": {
+    "description": "",
+    "message": "%temperature C"
+  },
+  "N_DAYS": {
+    "description": "",
+    "message": "%days{f.1} latha"
+  },
+  "N_DEGREES": {
+    "description": "",
+    "message": "%angle{f.1} ceum"
+  },
+  "N_EARTH_DAYS": {
+    "description": "",
+    "message": "%days{f.1} làithean talmhainn"
+  },
+  "N_WHATEVER_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} %units tomadan"
+  },
+  "N_WHATEVER_RADII": {
+    "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
+    "message": "%radius{f.3} %units rèideas (%radkm{f.0} km)"
+  },
+  "N_YEARS": {
+    "description": "",
+    "message": "%years{f.1} bliadhna"
+  },
+  "O2_ATMOSPHERE": {
+    "description": "",
+    "message": "\" àile ogsaidein\""
+  },
+  "OCEANICWORLD": {
+    "description": "",
+    "message": "\" saoghal cuantach\""
+  },
+  "ORBITAL_PERIOD": {
+    "description": "",
+    "message": "Ùine na reul-chuairte"
+  },
+  "ORBITAL_STARPORT": {
+    "description": "",
+    "message": "Reul-phort air reul-chuairt"
+  },
+  "OUTDOOR_AGRICULTURAL_WORLD": {
+    "description": "",
+    "message": "Saoghal àiteachais le sluagh a' fuireach a-muigh."
+  },
+  "OVER_N_BILLION": {
+    "description": "",
+    "message": "Còrr is %population billean "
+  },
+  "OVER_N_MILLION": {
+    "description": "",
+    "message": "Barrachd air %population millean"
+  },
+  "PASSENGER_CABIN": {
+    "description": "",
+    "message": "Cèibinn thaistealach trang"
+  },
+  "PAUSED": {
+    "description": "",
+    "message": "'NA STAD"
+  },
+  "PAY_FINE_REMOTELY": {
+    "description": "",
+    "message": "Pàigh a' chìs le tar-chur cèin (%amount)"
+  },
+  "PERIAPSIS_DISTANCE": {
+    "description": "",
+    "message": "Astar a' pheriapsis"
+  },
+  "PIONEER": {
+    "description": "",
+    "message": "PIONEER"
+  },
+  "PITCH": {
+    "description": "",
+    "message": "Pids"
+  },
+  "PITCH_DOWN": {
+    "description": "",
+    "message": "Pids sìos"
+  },
+  "PITCH_UP": {
+    "description": "",
+    "message": "Pids suas"
+  },
+  "PLANETARY_INFO": {
+    "description": "",
+    "message": "Fiosrachadh na planaid"
+  },
+  "PLANET_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" planaid aig a bheil uisge leannach\""
+  },
+  "PLANET_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" planaid le beagan deighe\""
+  },
+  "PLANNED_ECONOMY": {
+    "description": "",
+    "message": "Àrd-riaghaltas le plana-eaconamaidh "
+  },
+  "PLANNER_RESET_FACTOR": {
+    "description": "For system orbit view",
+    "message": "Reat meudachaidh nan luachan delta-v. Brig gus a shuidheachadh air a' bhun-roghainn."
+  },
+  "PLANNER_RESET_NORMAL": {
+    "description": "For system orbit view",
+    "message": "Delta-v àbhaisteach. Briog gus a shuidheachadh air neoni."
+  },
+  "PLANNER_RESET_PROGRADE": {
+    "description": "For system orbit view",
+    "message": "Delta-v ceum air adhart. Briog gus a shuidheachadh air neoni."
+  },
+  "PLANNER_RESET_RADIAL": {
+    "description": "For system orbit view",
+    "message": "Delta-v rèideal. Briog gus a shuidheachadh air neoni."
+  },
+  "PLANNER_RESET_START": {
+    "description": "For system orbit view",
+    "message": "Toiseach an obrachaidh. Briog gus a shuidheachadh air a' bhun-roghainn."
+  },
+  "PLASTICS": {
+    "description": "",
+    "message": "Plastaig"
+  },
+  "PLUTOCRATIC_DICTATORSHIP": {
+    "description": "",
+    "message": "Deachdaireachd maoin-fhlaitheasach"
+  },
+  "POPULATION": {
+    "description": "",
+    "message": "Sluagh:"
+  },
+  "PRECIOUS_METALS": {
+    "description": "",
+    "message": "Meatailtean uasail"
+  },
+  "PRESSURE_N_ATMOSPHERES": {
+    "description": "",
+    "message": "B: %pressure{f.2} atm"
+  },
+  "QUADRUPLE_SYSTEM": {
+    "description": "",
+    "message": "Siostam ceithir-fillte"
+  },
+  "RADAR_CONTROL": {
+    "description": "",
+    "message": "Stiùireadh an rèideir"
+  },
+  "RADIOACTIVES": {
+    "description": "",
+    "message": "Sgudal rèidio-beò"
+  },
+  "RADIUS": {
+    "description": "",
+    "message": "Rèideas"
+  },
+  "RECENTLY_EXPLORED_SYSTEM": {
+    "description": "",
+    "message": "Chaidh an siostam seo a rùrachadh %date."
+  },
+  "REQUEST_DOCKING_CLEARANCE": {
+    "description": "",
+    "message": "Request docking clearance from {target}"
+  },
+  "RESET": {
+    "description": "",
+    "message": "Ath-shuidhich"
+  },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Ath-shuidhich a' chomhair agus an sùm"
+  },
+  "ROBOTS": {
+    "description": "",
+    "message": "Robotairean"
+  },
+  "ROCKY_PLANET": {
+    "description": "",
+    "message": "\" planaid chreagach\""
+  },
+  "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
+    "description": "",
+    "message": "\" planaid creagach le beagan lionna,\""
+  },
+  "ROLL": {
+    "description": "",
+    "message": "Roiligeadh"
+  },
+  "ROLL_LEFT": {
+    "description": "",
+    "message": "Roilig gu clì"
+  },
+  "ROLL_RIGHT": {
+    "description": "",
+    "message": "Roilig gu deas"
+  },
+  "ROTATE_DOWN": {
+    "description": "",
+    "message": "Cuairtich sìos"
+  },
+  "ROTATE_LEFT": {
+    "description": "",
+    "message": "Cuairtich gu clì"
+  },
+  "ROTATE_RIGHT": {
+    "description": "",
+    "message": "Cuairtich gu deas"
+  },
+  "ROTATE_UP": {
+    "description": "",
+    "message": "Cuairtich suas"
+  },
+  "ROTATIONAL_PERIOD": {
+    "description": "",
+    "message": "\" (ùine chuairteil)\""
+  },
+  "ROTATION_DAMPING_OFF": {
+    "description": "",
+    "message": "Lasachadh a' chuairteachaidh dheth"
+  },
+  "ROTATION_DAMPING_ON": {
+    "description": "",
+    "message": "Lasachadh a' chuairteachaidh air"
+  },
+  "RUBBISH": {
+    "description": "",
+    "message": "Sgudal"
+  },
+  "SCOOP": {
+    "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+    "message": "Sgiob"
+  },
+  "SCREENSHOT_FILENAME_TEMPLATE": {
+    "description": "",
+    "message": "glacadh-sgrìn%index{d08}.png"
+  },
+  "SEARCH": {
+    "description": "",
+    "message": "Lorg"
+  },
+  "SEARCH_MAP": {
+    "description": "",
+    "message": "Lorg air a' mhapa"
+  },
+  "SECTOR_COORDINATES": {
+    "description": "",
+    "message": "Co-chomharran na h-earrainn:"
+  },
+  "SECTOR_MAP_VIEW": {
+    "description": "",
+    "message": "Sealladh mapa na h-earrainn"
+  },
+  "SECTOR_X_Y_Z": {
+    "description": "",
+    "message": "Earrann: %x,%y,%z"
+  },
+  "SELECTED_SYSTEM": {
+    "description": "",
+    "message": "An siostam a thagh thu"
+  },
+  "SELECT_A_TARGET": {
+    "description": "",
+    "message": "Tagh amas"
+  },
+  "SELECT_LOW_THRUST_POWER_LEVEL": {
+    "description": "",
+    "message": "Tagh lùths ìosal a' phutaidh"
+  },
+  "SEMI_MAJOR_AXIS": {
+    "description": "",
+    "message": "Leth-mhòr-aiseal"
+  },
+  "SET_HYPERSPACE_DESTINATION_TO": {
+    "description": "",
+    "message": "Suidhich an ceann-uidhe os-fhànais air %system"
+  },
+  "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
+    "description": "",
+    "message": "Sgrùdaiche neul os-fhànais: suidhich amas os-fhanais a leanas tu às dèidh fhàgail"
+  },
+  "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
+    "description": "",
+    "message": "Suidhidh lùths ìosal a' phutaidh air %power%%"
+  },
+  "SET_NAVTARGET_TO": {
+    "description": "",
+    "message": "Cuir ceann-uidhe na seòladaireachd air:"
+  },
+  "SET_SPEED_KM_S": {
+    "description": "",
+    "message": "Luaths suidhichte: %speed{f.2} km/s"
+  },
+  "SET_SPEED_M_S": {
+    "description": "",
+    "message": "Luaths suidhichte: %speed{f.0} m/s"
+  },
+  "SHIELD_INTEGRITY": {
+    "description": "",
+    "message": "Cor na sgèithe"
+  },
+  "SHIELD_STRENGTH_N": {
+    "description": "",
+    "message": "Neart na sgèithe: %shields{f.2}"
+  },
+  "SHIFT": {
+    "description": "Shift key on keyboard",
+    "message": "Shift"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Soitheach"
+  },
+  "SHIPS_DISPLAY_MODE_TOGGLE": {
+    "description": "Either show no ships, show ships, or show ships + their orbits",
+    "message": "Gearr leum eadar modhan sealltainn an t-soithich."
+  },
+  "SHIP_DETECTED_NEARBY": {
+    "description": "",
+    "message": "Mhothaich sinn air soitheach am fagas."
+  },
+  "SHIP_INFORMATION": {
+    "description": "",
+    "message": "Fiosrachadh an t-soithich"
+  },
+  "SHIP_MASS_N_TONNES": {
+    "description": "",
+    "message": "Tomad soithich: %{mass}t"
+  },
+  "SHIP_NEARBY": {
+    "description": "",
+    "message": "Soitheach am fagas"
+  },
+  "SHIP_ORIENTATION": {
+    "description": "",
+    "message": "Comhair an t-soithich"
+  },
+  "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
+    "description": "",
+    "message": "Luaths an t-soithich a-rèir oibseact lorgaidh"
+  },
+  "SIDEREAL_VIEW": {
+    "description": "camera view setting",
+    "message": "Sealladh ùine nan reul"
+  },
+  "SLAVES": {
+    "description": "",
+    "message": "Tràillean"
+  },
+  "SMALL": {
+    "description": "",
+    "message": "Beag"
+  },
+  "SMALL_GAS_GIANT": {
+    "description": "",
+    "message": "Mòr-phlanaid gasa beag"
+  },
+  "SMALL_INDUSTRIAL_OUTPOST": {
+    "description": "",
+    "message": "Tuineachadh gnìomhachail beag."
+  },
+  "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": {
+    "description": "",
+    "message": "Tochladh air ìre bheag. Gun tuineachadh clàraichte."
+  },
+  "SOCIAL_DEMOCRACY": {
+    "description": "",
+    "message": "Deamocrasaidh sòisealta"
+  },
+  "SOLAR": {
+    "description": "",
+    "message": "Grianail"
+  },
+  "SOME_ESTABLISHED_MINING": {
+    "description": "",
+    "message": "Beagan mèinnearachd seasmhaich."
+  },
+  "SOURCE": {
+    "description": "tell source system of hyperjump entry cloud",
+    "message": "Tùs"
+  },
+  "SPEED_CONTROL_MODE": {
+    "description": "",
+    "message": "Modh stiùireadh an luaiths"
+  },
+  "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
+    "description": "",
+    "message": "Siostam seasmhach le %bodycount %{body(s)} mòra agus %portcount %{starport(s)}"
+  },
+  "STARPORT": {
+    "description": "",
+    "message": "Reul-phort"
+  },
+  "STARPORTS": {
+    "description": "",
+    "message": "Reul-phuirt"
+  },
+  "STAR_A": {
+    "description": "",
+    "message": "Reul theth bhàn seòrsa \"A\""
+  },
+  "STAR_AF_GIANT": {
+    "description": "",
+    "message": "Mòr-reul gheal"
+  },
+  "STAR_AF_HYPER_GIANT": {
+    "description": "",
+    "message": "Os-mhòr-reul gheal"
+  },
+  "STAR_AF_SUPER_GIANT": {
+    "description": "",
+    "message": "Àrd-mhòr-reul gheal"
+  },
+  "STAR_B": {
+    "description": "",
+    "message": "Reul shoilleir ghorm seòrsa \"B\""
+  },
+  "STAR_B_GIANT": {
+    "description": "",
+    "message": "Mòr-reul ghorm"
+  },
+  "STAR_B_HYPER_GIANT": {
+    "description": "",
+    "message": "Os-mhòr-reul ghorm"
+  },
+  "STAR_B_SUPER_GIANT": {
+    "description": "",
+    "message": "Àrd-mhòr-reul ghorm"
+  },
+  "STAR_B_WF": {
+    "description": "",
+    "message": "Reul Wolf-Rayet - cunnart teannachaidh"
+  },
+  "STAR_F": {
+    "description": "",
+    "message": "Reul bhàn seòrsa \"F\""
+  },
+  "STAR_G": {
+    "description": "",
+    "message": "Reul bhuidhe seòrsa \"G\""
+  },
+  "STAR_G_GIANT": {
+    "description": "",
+    "message": "Mòr-reul bhuidhe - neo-sheasmhach"
+  },
+  "STAR_G_HYPER_GIANT": {
+    "description": "",
+    "message": "Os-mhòr-reul bhuidhe - neo-sheasmhach"
+  },
+  "STAR_G_SUPER_GIANT": {
+    "description": "",
+    "message": "Àrd-mhòr-reul bhuidhe"
+  },
+  "STAR_IM_BH": {
+    "description": "",
+    "message": "Toll-dubh le tomad meadhanach"
+  },
+  "STAR_K": {
+    "description": "",
+    "message": "Reul orains seòrsa \"K\""
+  },
+  "STAR_K_GIANT": {
+    "description": "",
+    "message": "Mòr-reul orains - neo-sheasmhach"
+  },
+  "STAR_K_HYPER_GIANT": {
+    "description": "",
+    "message": "Os-mhòr-reul orains - neo-sheasmhach"
+  },
+  "STAR_K_SUPER_GIANT": {
+    "description": "",
+    "message": "Àrd-mhòr-reul orains"
+  },
+  "STAR_M": {
+    "description": "",
+    "message": "Reul dhearg seòrsa \"M\""
+  },
+  "STAR_M_GIANT": {
+    "description": "",
+    "message": "Mòr-reul dhearg"
+  },
+  "STAR_M_HYPER_GIANT": {
+    "description": "",
+    "message": "Os-mhòr-reul dhearg"
+  },
+  "STAR_M_SUPER_GIANT": {
+    "description": "",
+    "message": "Àrd-mhòr-reul dhearg"
+  },
+  "STAR_M_WF": {
+    "description": "",
+    "message": "Reul Wolf-Rayet - neo-sheasmhach"
+  },
+  "STAR_O": {
+    "description": "",
+    "message": "Reul thomadach theth seòrsa \"O\""
+  },
+  "STAR_O_GIANT": {
+    "description": "",
+    "message": "Mòr-reul theth ghorm"
+  },
+  "STAR_O_HYPER_GIANT": {
+    "description": "",
+    "message": "Os-mhòr-reul theth ghorm"
+  },
+  "STAR_O_SUPER_GIANT": {
+    "description": "",
+    "message": "Àrd-mhòr-reul theth ghorm"
+  },
+  "STAR_O_WF": {
+    "description": "",
+    "message": "Reul Wolf-Rayet - gu bhith teannachadh"
+  },
+  "STAR_SM_BH": {
+    "description": "",
+    "message": "Acair ar reul-chriosa"
+  },
+  "STAR_SYSTEM_INFORMATION": {
+    "description": "",
+    "message": "Fiosrachadh an t-siostaim rèile"
+  },
+  "STAR_S_BH": {
+    "description": "",
+    "message": "Toll-dubh reultail"
+  },
+  "SUGGESTED_RESPONSES": {
+    "description": "",
+    "message": "Freagairtean molta:"
+  },
+  "SURFACE_GRAVITY": {
+    "description": "",
+    "message": "Iom-tharraing an uachdair"
+  },
+  "SURFACE_TEMPERATURE": {
+    "description": "",
+    "message": "Teothachd an uachdair"
+  },
+  "SWAP_SELECTED_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Dèan amas os-fhànais dhe na thagh thu"
+  },
+  "SWITCHED_TO_PARENT": {
+    "description": "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+    "message": "Chaidh taisbeanadh na comhair atharrachadh gu co-chomharradh coitcheann an t-siostaim."
+  },
+  "SWITCHED_TO_ROTATIONAL": {
+    "description": "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+    "message": "Chaidh taisbeanadh na comhair atharrachadh gu co-chomharradh na planaide."
+  },
+  "SYSTEM": {
+    "description": "star system",
+    "message": "Siostam"
+  },
+  "SYSTEM_NUMBER": {
+    "description": "",
+    "message": "Àireamh an t-siostaim:"
+  },
+  "SYSTEM_ORBIT_VIEW": {
+    "description": "",
+    "message": "Sealladh reul-chuairt an t-siostaim"
+  },
+  "SYSTEM_TYPE": {
+    "description": "",
+    "message": "Seòrsa an t-siostaim:"
+  },
+  "S_ATMOSPHERE": {
+    "description": "",
+    "message": "\" àile pronnaisg\""
+  },
+  "TAKEOFF": {
+    "description": "",
+    "message": "Losgadh"
+  },
+  "TARGET_OBJECT_IN_SIGHTS": {
+    "description": "",
+    "message": "Tha an t-amas sa chrois-ribe"
+  },
+  "TENUOUS": {
+    "description": "atmosphere thickness",
+    "message": "tana"
+  },
+  "TEXTILES": {
+    "description": "",
+    "message": "Obair-aodaich"
+  },
+  "THICK": {
+    "description": "",
+    "message": "tiugh"
+  },
+  "THIN": {
+    "description": "",
+    "message": "tana"
+  },
+  "THRIVING_OUTDOOR_WORLD": {
+    "description": "",
+    "message": "Saoghal soirbheachail le sluagh a' fuireach a-muigh."
+  },
+  "THRUSTER_DORSAL": {
+    "description": "",
+    "message": "Put sìos"
+  },
+  "THRUSTER_MAIN": {
+    "description": "",
+    "message": "Put air adhart"
+  },
+  "THRUSTER_PORT": {
+    "description": "",
+    "message": "Put gu clì"
+  },
+  "THRUSTER_RETRO": {
+    "description": "",
+    "message": "Put an comhair a' chùil"
+  },
+  "THRUSTER_STARBOARD": {
+    "description": "",
+    "message": "Put gu deas"
+  },
+  "THRUSTER_VENTRAL": {
+    "description": "",
+    "message": "Put suas"
+  },
+  "TIME_POINT": {
+    "description": "",
+    "message": "Puing ama:"
+  },
+  "TINY": {
+    "description": "",
+    "message": "Beag bìodach"
+  },
+  "TOGGLE_EQUIPMENT_VIEW": {
+    "description": "Tooltip for the Equipment View button",
+    "message": "Sealladh na h-uidheamachd"
+  },
+  "TOGGLE_HUD_MODE": {
+    "description": "",
+    "message": "Toglaich modh a' HUD"
+  },
+  "TOGGLE_LUA_CONSOLE": {
+    "description": "",
+    "message": "Toglaich a' chonsoil Lua"
+  },
+  "TOGGLE_RADAR_MODE": {
+    "description": "",
+    "message": "Toglaich modh  an rèideir"
+  },
+  "TOGGLE_RADAR_VIEW": {
+    "description": "Tooltip for the Radar View button",
+    "message": "Sealladh an rèideir"
+  },
+  "TOGGLE_ROTATION_DAMPING": {
+    "description": "",
+    "message": "Toglaich lasachadh a' chuairteachaidh"
+  },
+  "TOMBSTONE_EPITAPH": {
+    "description": "shown on tombstone when player dies",
+    "message": "AIG FOIS SÌORRAIDH"
+  },
+  "TRADING_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Malart bathar mì-laghail"
+  },
+  "TRIPLE_SYSTEM": {
+    "description": "",
+    "message": "Siostam trì-fillteach"
+  },
+  "UNDOCKING": {
+    "description": "Flight state of ship when leaving station",
+    "message": "A' neo-dhocachadh"
+  },
+  "UNEXPLORED_SYSTEM_NO_DATA": {
+    "description": "",
+    "message": "Siostam gun rùrachadh. Chan eil barrachd dàta ri làimh."
+  },
+  "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
+    "description": "",
+    "message": "Siostam gun rùrachadh. Chan eil sealladh an t-siostaim ri fhaighinn."
+  },
+  "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
+    "description": "",
+    "message": "Siostam gun rùrachadh. Chaidh fiosrachadh rèile a chruinneachadh le prosbaig aig astar, ach chan eil fiosrachadh mu na planaidean ri làimh."
+  },
+  "UNIT_AU": {
+    "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
+    "message": "AU"
+  },
+  "UNIT_DAYS": {
+    "description": "Duration unit: one 24-hour day",
+    "message": "l"
+  },
+  "UNIT_HOURS": {
+    "description": "Duration unit: one 60-minute hour",
+    "message": "u"
+  },
+  "UNIT_KILOMETERS": {
+    "description": "Distance unit: one kilometer",
+    "message": "km"
+  },
+  "UNIT_KILOMETERS_PER_SECOND": {
+    "description": "Speed unit: one kilometer per second",
+    "message": "km/s"
+  },
+  "UNIT_LY": {
+    "description": "Distance unit: a light year",
+    "message": "bl-shol"
+  },
+  "UNIT_METERS": {
+    "description": "Distance unit: one meter",
+    "message": "m"
+  },
+  "UNIT_METERS_PER_SECOND": {
+    "description": "Speed unit: one meter per second",
+    "message": "m/s"
+  },
+  "UNIT_MILLION_METERS": {
+    "description": "Distance unit: one million meters",
+    "message": "Mm"
+  },
+  "UNIT_MILLION_METERS_PER_SECOND": {
+    "description": "Speed unit: one million meters per second",
+    "message": "Mm/s"
+  },
+  "UNIT_MINUTES": {
+    "description": "Duration unit: one 60-second minute",
+    "message": "m"
+  },
+  "UNIT_SECONDS": {
+    "description": "Duration unit: one second",
+    "message": "d"
+  },
+  "UNIT_TONNES": {
+    "description": "Mass unit: one tonne (t)",
+    "message": "t"
+  },
+  "UNIT_WEEKS": {
+    "description": "Duration unit: one 7-day week",
+    "message": "s"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "<chan eil fhios>"
+  },
+  "UNSET_NAVTARGET": {
+    "description": "",
+    "message": "Neo-shuidhich ceann-uidhe na seòladaireachd."
+  },
+  "USE_LOW_THRUST": {
+    "description": "",
+    "message": "Cleachd putadh ìosal"
+  },
+  "VAST_STRIP_MINE": {
+    "description": "",
+    "message": "Tuineachadh le mòr-mhèinnearachd."
+  },
+  "VERY_DENSE": {
+    "description": "",
+    "message": "glè dhùmhail"
+  },
+  "VERY_LARGE_GAS_GIANT": {
+    "description": "",
+    "message": "Mòr-phlanaid gasa glè mhòr"
+  },
+  "VIEW": {
+    "description": "",
+    "message": "Sealladh"
+  },
+  "VIOLENT_ANARCHY": {
+    "description": "",
+    "message": "Gun rian - tha buidhnean fo airm an còmhstri"
+  },
+  "WATER": {
+    "description": "",
+    "message": "Uisge"
+  },
+  "WEAPONS": {
+    "description": "",
+    "message": "Airm"
+  },
+  "WEAPON_TEMP": {
+    "description": "",
+    "message": "Teòthachd an airm"
+  },
+  "WHEELS_ARE_DOWN": {
+    "description": "",
+    "message": "Tha na cuibhlichean shìos"
+  },
+  "WHEELS_ARE_UP": {
+    "description": "",
+    "message": "Tha na cuibhlichean shuas"
+  },
+  "WHITE_DWARF": {
+    "description": "",
+    "message": "Throich bhàn - iarsmadh rèile"
+  },
+  "WITH_A": {
+    "description": "",
+    "message": "\" le \""
+  },
+  "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
+    "description": "",
+    "message": "\" gun àile ceart\""
+  },
+  "X": {
+    "description": "keybinding: x axis",
+    "message": "X"
+  },
+  "Y": {
+    "description": "keybinding: y axis",
+    "message": "Y"
+  },
+  "YAW": {
+    "description": "",
+    "message": "Claonadh"
+  },
+  "YAW_LEFT": {
+    "description": "",
+    "message": "Claon gu clì"
+  },
+  "YAW_RIGHT": {
+    "description": "",
+    "message": "Claon gu deas"
+  },
+  "YOUNG_FARMING_COLONY": {
+    "description": "",
+    "message": "Tuineachadh àiteachais òg."
+  },
+  "Z": {
+    "description": "keybinding: z axis",
+    "message": "Z"
+  },
+  "ZOOM_IN": {
+    "description": "",
+    "message": "Sùm a-steach"
+  },
+  "ZOOM_OUT": {
+    "description": "",
+    "message": "Sùm a-mach"
+  }
 }

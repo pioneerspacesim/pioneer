@@ -55,20 +55,17 @@ public:
 	enum CamType {
 		CAM_INTERNAL,
 		CAM_EXTERNAL,
-		CAM_SIDEREAL
+		CAM_SIDEREAL,
+		CAM_FLYBY
 	};
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const { return m_camType; }
 	CameraController *GetCameraController() const { return m_activeCameraController; }
 
 	/* start deprecated */
-	void ToggleTargetActions();
-	void ToggleLowThrustPowerOptions();
 	void ChangeFlightState();
 	/* end deprecated */
 
-	void ShowTargetActions();
-	void HideTargetActions();
 	int GetActiveWeapon() const;
 	void OnClickBlastoff();
 
@@ -95,7 +92,6 @@ private:
 	void InitObject();
 
 	void RefreshButtonStateAndVisibility();
-	void UpdateCommsOptions();
 
 	void ChangeInternalCameraMode(InternalCameraController::Mode m);
 	void UpdateCameraName();
@@ -128,15 +124,6 @@ private:
 	void DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c);
 	void DrawEdgeMarker(const Indicator &marker, const Color &c);
 
-	Gui::Button *AddCommsOption(const std::string &msg, int ypos, int xoffset, int optnum);
-	void AddCommsNavOption(const std::string &msg, Body *target);
-	void OnClickCommsNavOption(Body *target);
-	void BuildCommsNavOptions();
-
-	void HideLowThrustPowerOptions();
-	void ShowLowThrustPowerOptions();
-	void OnSelectLowThrustPower(float power);
-
 	void OnPlayerDockOrUndock();
 	void OnPlayerChangeTarget();
 	void OnPlayerChangeFlightControlState();
@@ -153,16 +140,8 @@ private:
 	std::unique_ptr<SpeedLines> m_speedLines;
 
 	Gui::Label *m_pauseText;
-	Gui::Label *m_showCameraName;
-	Gui::Fixed *m_commsOptions;
-	Gui::VBox *m_commsNavOptions;
-	Gui::HBox *m_commsNavOptionsContainer;
-	Gui::Fixed *m_lowThrustPowerOptions;
-	Gui::Label *m_debugText;
 	bool m_labelsOn;
 	enum CamType m_camType;
-	Uint32 m_showTargetActionsTimeout;
-	Uint32 m_showLowThrustPowerTimeout;
 
 #if WITH_DEVKEYS
 	Gui::Label *m_debugInfo;
@@ -187,6 +166,7 @@ private:
 	std::unique_ptr<InternalCameraController> m_internalCameraController;
 	std::unique_ptr<ExternalCameraController> m_externalCameraController;
 	std::unique_ptr<SiderealCameraController> m_siderealCameraController;
+	std::unique_ptr<FlyByCameraController> m_flybyCameraController;
 	CameraController *m_activeCameraController; //one of the above
 
 	Indicator m_combatTargetIndicator;

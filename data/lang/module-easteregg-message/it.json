@@ -1,0 +1,18 @@
+{
+  "FLAVOUR_0_BODY": {
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
+    "message": "Chiama 36 24 36, sono sempre in casa. Mi occupo di:\n- Scarpe di cemento,\n- Cianuro,\n- TNT,\n- Cravatte,\n- Contratti,\n- Alta tensione,\n\n...oppure semplici chiamate di cortesia."
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "The 'all caps' title should probably not be translated, as it's an AC/DC song title reference. Either way, it's a very rare 'Easter egg'",
+    "message": "LAVORI SPORCHI A PREZZO STRACCIATO, se sei nei guai, chiamami in qualsiasi momento"
+  },
+  "FLAVOUR_1_BODY": {
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to https://en.wikipedia.org/wiki/867-5309/Jenny",
+    "message": "Tu, non mi conosci, ma chiamami; 867-5309 / Jenny"
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "A very rare Easter egg, and reference to a line from a famous song.",
+    "message": "HAI BISOGNO DI QUALCUNO A CUI RIVOLGERTI?"
+  }
+}

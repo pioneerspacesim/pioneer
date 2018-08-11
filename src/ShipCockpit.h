@@ -16,6 +16,8 @@ static const float COCKPIT_ACCEL_INTERP_MULTIPLIER = 0.5f;
 static const float COCKPIT_MAX_GFORCE = 10000.0f;
 static const float COCKPIT_ACCEL_OFFSET = 0.075f;
 
+class Player;
+
 class ShipCockpit : public ModelBody
 {
 public:
@@ -24,10 +26,10 @@ public:
 
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 
-	void Update(float timeStep);
+	void Update(const Player *player, float timeStep);
 	void RenderCockpit(Graphics::Renderer* renderer, const Camera* camera, Frame* frame);
-	void OnActivated();
-       void resetInternalCameraController(void);
+	void OnActivated(const Player *player);
+	void resetInternalCameraController(void);
 
 protected:
 	float CalculateSignedForwardVelocity(const vector3d &forward, const vector3d &velocity);
@@ -47,6 +49,6 @@ private:
 	float m_shipVel;           // current ship velocity
 	vector3d m_translate;      // cockpit translation
 	matrix4x4d m_transform;    // cockpit transformation
-       InternalCameraController* m_icc;
+	InternalCameraController* m_icc;
 };
 #endif

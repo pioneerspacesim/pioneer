@@ -88,6 +88,8 @@ void Player::InitCockpit()
 	}
 	if (!cockpitModelName.empty())
 		m_cockpit.reset(new ShipCockpit(cockpitModelName));
+
+	OnCockpitActivated();
 }
 
 bool Player::DoCrushDamage(float kgDamage)
@@ -193,7 +195,6 @@ void Player::OnEnterHyperspace()
 	SetNavTarget(0);
 	SetCombatTarget(0);
 
-	Pi::game->GetWorldView()->HideTargetActions(); // hide the comms menu
 	m_controller->SetFlightControlState(CONTROL_MANUAL); //could set CONTROL_HYPERDRIVE
 	ClearThrusterState();
 	Pi::game->WantHyperspace();
@@ -245,6 +246,12 @@ void Player::SetSetSpeedTarget(Body* const target)
 	// TODO: not sure, do we actually need this? we are only changing the set speed target
 	Pi::onPlayerChangeTarget.emit();
 }
+
+void Player::ChangeSetSpeed(double delta)
+{
+	static_cast<PlayerShipController*>(m_controller)->ChangeSetSpeed(delta);
+}
+
 //temporary targeting stuff ends
 
 Ship::HyperjumpStatus Player::InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, const HyperdriveSoundsTable &sounds, LuaRef checks) {
@@ -265,7 +272,7 @@ void Player::AbortHyperjump()
 void Player::OnCockpitActivated()
 {
 	if (m_cockpit)
-		m_cockpit->OnActivated();
+		m_cockpit->OnActivated(this);
 }
 
 void Player::StaticUpdate(const float timeStep)
@@ -275,7 +282,7 @@ void Player::StaticUpdate(const float timeStep)
 	// XXX even when not on screen. hacky, but really cockpit shouldn't be here
 	// anyway so this will do for now
 	if (m_cockpit)
-		m_cockpit->Update(timeStep);
+		m_cockpit->Update(this, timeStep);
 }
 
 int Player::GetManeuverTime() const {

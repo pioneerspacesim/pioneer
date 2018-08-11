@@ -43,7 +43,8 @@ static std::vector<std::pair<std::string,int>> keycodes
 		{"f9", to_keycode(SDLK_F9)},
 		{"f10", to_keycode(SDLK_F10)},
 		{"f11", to_keycode(SDLK_F11)},
-		{"f12", to_keycode(SDLK_F12)}
+		{"f12", to_keycode(SDLK_F12)},
+		{"tab", to_keycode(SDLK_TAB)},
 };
 
 ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height) {
@@ -198,9 +199,14 @@ void PiGui::Init(SDL_Window *window) {
 
 }
 
-int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std::vector<ImTextureID> tex_ids, std::vector<std::pair<ImVec2,ImVec2>> uvs, unsigned int size, std::vector<std::string> tooltips)
+int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, int mouse_button, std::vector<ImTextureID> tex_ids, std::vector<std::pair<ImVec2,ImVec2>> uvs, unsigned int size, std::vector<std::string> tooltips)
 {
-	int ret = -1;
+	// return:
+	// 0 - n for item selected
+	// -1 for nothing chosen, but menu open
+	// -2 for menu closed without an icon chosen
+	// -3 for menu not open
+	int ret = -3;
 
 	// FIXME: Missing a call to query if Popup is open so we can move the PushStyleColor inside the BeginPopupBlock (e.g. IsPopupOpen() in imgui.cpp)
 	// FIXME: Our PathFill function only handle convex polygons, so we can't have items spanning an arc too large else inner concave edge artifact is too visible, hence the ImMax(7,items_count)
@@ -208,6 +214,7 @@ int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std
 	ImGui::PushStyleColor(ImGuiCol_PopupBg, ImVec4(0,0,0,0));
 	ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0,0,0,0));
 	if (ImGui::BeginPopup(popup_id.c_str())) {
+		ret = -1;
 		const ImVec2 drag_delta = ImVec2(ImGui::GetIO().MousePos.x - center.x, ImGui::GetIO().MousePos.y - center.y);
 		const float drag_dist2 = drag_delta.x*drag_delta.x + drag_delta.y*drag_delta.y;
 
@@ -215,7 +222,7 @@ int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std
 		const float RADIUS_MIN = 20.0f;
 		const float RADIUS_MAX = 90.0f;
 		const float RADIUS_INTERACT_MIN = 20.0f;
-		const int ITEMS_MIN = 5;
+		const int ITEMS_MIN = 4;
 		const float border_inout = 12.0f;
 		const float border_thickness = 4.0f;
 		ImDrawList* draw_list = ImGui::GetWindowDrawList();
@@ -271,7 +278,7 @@ int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std
 		}
 		draw_list->PopClipRect();
 
-		if (ImGui::IsMouseReleased(1)) {
+		if (ImGui::IsMouseReleased(mouse_button)) {
 			ImGui::CloseCurrentPopup();
 			if(item_hovered == -1)
 				ret = -2;
@@ -279,6 +286,8 @@ int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std
 				ret = item_hovered;
 		}
 		ImGui::EndPopup();
+	} else {
+	  // Output("WARNING: RadialPopupSelectMenu BeginPopup failed: %s\n", popup_id.c_str());
 	}
 	ImGui::PopStyleColor(3);
 	return ret;

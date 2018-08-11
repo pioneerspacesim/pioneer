@@ -60,8 +60,9 @@ static int l_lang_get_resource(lua_State *l)
 
 	Lang::Resource res(resourceName, langCode);
 	if (!res.Load()) {
-		lua_pushnil(l);
-		return 1;
+		std::string msg = std::string("Translation of '") + resourceName + std::string("' into language '") + langCode + std::string("' not found! This should be in 'data/lang/") + resourceName + std::string("/") + langCode + std::string(".json'.");
+		lua_pushstring(l, msg.c_str());
+		lua_error(l);
 	}
 
 	lua_newtable(l);

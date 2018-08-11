@@ -1,0 +1,346 @@
+{
+  "ACCEPTED_1": {
+    "description": "",
+    "message": "Sehr schön. Viel Glück!"
+  },
+  "ACCEPTED_2": {
+    "description": "",
+    "message": "Exzellent!"
+  },
+  "ACCEPTED_3": {
+    "description": "",
+    "message": "Gut. Wir zählen auf Sie!"
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "VERANTWORTUNGSVOLLER PILOT GESUCHT: Zahle {cash}."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "HERAUSFORDERUNG: Schiff und Crew gesucht für eine Kampfmission im {system}-System."
+  },
+  "ADTEXT_3": {
+    "description": "",
+    "message": "KAMPF: Brauche qualifizierten Söldner mit gut ausgerüstetem Schiff."
+  },
+  "ADTEXT_4": {
+    "description": "",
+    "message": "FURCHTLOSER KOPFEGEDLJÄGER GESUCHT: Zahle {cash} für eine Mission im {system}-System."
+  },
+  "ADTEXT_5": {
+    "description": "",
+    "message": "{mission} Mission: Lohn {cash}"
+  },
+  "AGENT": {
+    "description": "Secret Service Agent",
+    "message": "Agent"
+  },
+  "AREA": {
+    "description": "An allotted area for the mission",
+    "message": "Gebiet:"
+  },
+  "BONUS_1": {
+    "description": "",
+    "message": "Mein Vorgesetzter war von Ihrer Leistung beeindruckt und zahlt Ihnen einen Bonus von {cash} für diese Mission."
+  },
+  "BONUS_2": {
+    "description": "",
+    "message": "Sie haben uns gute Dienste geleistet. Ich zahle Ihnen einen Bonus von {cash}."
+  },
+  "BONUS_3": {
+    "description": "",
+    "message": "Sehr eindrucksvoll! Mir wurde die Genehmigung erteilt, Ihnen einen Bonus von {cash} zu zahlen."
+  },
+  "BONUS_4": {
+    "description": "",
+    "message": "Ich bin mehr als zufrieden mit Ihren Leistungen! Ich habe Ihnen noch einmal {cash} Credits als kleinen Dank überwiesen."
+  },
+  "COMBAT": {
+    "description": "Name of mission type",
+    "message": "Kampf"
+  },
+  "CORPORATION_1": {
+    "description": "Name of a corporation",
+    "message": "Stiftung Luxuswaren"
+  },
+  "CORPORATION_2": {
+    "description": "Name of a corporation",
+    "message": "Omega Schürfungen GmbH"
+  },
+  "CORPORATION_3": {
+    "description": "Name of a corporation",
+    "message": "Vereinigtes Erzmininensyndikat"
+  },
+  "CORPORATION_4": {
+    "description": "Name of a corporation",
+    "message": "Galaktische Forschungsgesellschaft"
+  },
+  "CORPORATION_5": {
+    "description": "Name of a corporation",
+    "message": "Haber Corporation"
+  },
+  "CORPORATION_6": {
+    "description": "Name of a corporation",
+    "message": "Edelmetallschürfer GmbH"
+  },
+  "CORPORATION_7": {
+    "description": "Name of a corporation",
+    "message": "{name} Erzsucher AG"
+  },
+  "CORPORATION_8": {
+    "description": "Name of a corporation",
+    "message": "{name} GmbH"
+  },
+  "DANGER": {
+    "description": "The risk level",
+    "message": "Gefahr:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Tut mir leid, aber ich brauche einen Piloten mit größerer Kampferfahrung."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Tut mir Leid, Sir. Ich brauche einen echten Spezialisten."
+  },
+  "DETECTIVE": {
+    "description": "Police Detective",
+    "message": "Detetktiv"
+  },
+  "DISTANCE": {
+    "description": "Distance in space, between two locations",
+    "message": "Distanz:"
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "Schämen Sie sich und gehen sie mir aus den Augen."
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "Sie sind zu spät! Sie haben große Verluste verursacht und werden deshalb nicht bezahlt!"
+  },
+  "FAILUREMSG_3": {
+    "description": "",
+    "message": "Sie sind eine Schande für alle Piloten. Ich kann Sie nicht bezahlen!"
+  },
+  "FAILUREMSG_4": {
+    "description": "",
+    "message": "Sie haben versagt! Ich werde Sie nicht bezahlen!"
+  },
+  "GREETING_1": {
+    "description": "",
+    "message": "Hi, ich bin {name}."
+  },
+  "GREETING_2": {
+    "description": "",
+    "message": "Hallo. Ich bin {name}."
+  },
+  "GREETING_3": {
+    "description": "",
+    "message": "Wie geht es Ihnen? Ich bin {name}."
+  },
+  "GREETING_4": {
+    "description": "",
+    "message": "Grüß Gott! Nennen Sie mich {name}."
+  },
+  "GREETING_5": {
+    "description": "",
+    "message": "Guten Tag. Mein Name ist {name}."
+  },
+  "HARVESTING_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "{org} wird {cash} für eine Mission vom Typ „{mission}“ im System {system} ({sectorx}, {sectory}, {sectorz}) bezahlen. Wir haben Grund zu der Annahme, dass ein rücksichtsloser Wettbewerber verantwortlich für das Verschwinden unserer Frachter bei {area} ist. Die Entfernung des Zielgebiets beträgt {dist} Lj."
+  },
+  "HARVESTING_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Unser Wettbewerber behauptet allen Ernstes, dass er der Eigentümer von {area} im System {system} ({sectorx}, {sectory}, {sectorz}) sei. {org} widerspricht dem vehement und ist bereit, {cash} für eine Kampfmission bei {area} zu bezahlen. {area} ist {dist} Lj entfernt."
+  },
+  "HARVESTING_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Bitte helfen Sie! Wir haben einen Notruf von einen unserer Frachter im Orbit um {area} im System {system} ({sectorx}, {sectory}, {sectorz}) erhalten. Der Notruf wurde unterbrochen, also befürchten wir das Schlimmste. Die Entfernung zu {system} beträgt {dist} Lj. Die Bezahlung ist {cash}."
+  },
+  "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "Es ist wichtig, dass die Mission bis {date} abgeschlossen ist. Bitte plaudern sie nichts über diese Operation aus."
+  },
+  "HARVESTING_LAND_THERE": {
+    "description": "",
+    "message": "Wir haben einen Händler in jedem Sonnensystem in der Nähe. Diese Person wird mit Ihnen in Kontakt treten, sobald Sie gelandet sind."
+  },
+  "HOW_WILL_I_BE_PAID": {
+    "description": "",
+    "message": "Wie werde ich bezahlt?"
+  },
+  "IS_THERE_A_TIME_LIMIT": {
+    "description": "",
+    "message": "Gibt es ein Zeitlimit?"
+  },
+  "LY": {
+    "description": "",
+    "message": "Lj"
+  },
+  "MANAGER": {
+    "description": "",
+    "message": "Manager"
+  },
+  "MEET_ME_THERE": {
+    "description": "",
+    "message": "Treffen Sie mich im {rendezvous}-System um den Auftrag zu vollenden."
+  },
+  "MILITARY_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Die Militäraufklärung glaubt, dass eine feindliche Splittergruppe einen geheimen Spionageposten auf {area} im System {system} ({sectorx}, {sectory}, {sectorz}) aufgebaut hat. Die Regierung kann dies nicht tolerieren und stimmte einer Reihe von Unternehmungen zu, um diese Einrichtung zu zerstören. Der Feind versucht, seine Herkunft zu verbergen, indem er nur zivile Raumschifftypen benutzt. Also werden wir das genau so tun! Wir sind bereit, einen Söldner für {cash} anzuheuern. {area} befindet sich in einer Entfernung von {dist} Lj von hier."
+  },
+  "MILITARY_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Als Antwort auf einen Fall von Piraterie im {system}-System ({sectorx}, {sectory}, {sectorz}), {dist} Lj, zahlen die lokalen Behörden eine Summe von {cash} für eine Kampfmission bei {area}."
+  },
+  "MILITARY_3": {
+    "description": "",
+    "message": "Die Spionageabwehr braucht einen zivilen Piloten, der keine Fragen stellt, für eine Mission (Typ „{mission}“) im System {system} ({sectorx}, {sectory}, {sectorz}), {dist} Lj. Bezahlung ist {cash}."
+  },
+  "MILITARY_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "Eine Task Force wird aufgestellt um die Kontrolle über {area} zurückzugewinnen. Die Mission muss dringend vor {date} erfolgreich beendet sein."
+  },
+  "MILITARY_LAND_THERE": {
+    "description": "",
+    "message": "Besuchen Sie eine Station im Territorium, das von {org} beschützt wird."
+  },
+  "MINING_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "{org} hat einen Disput mit einem konkurrierenden Unternehmen über {area} im System {system} ({sectorx}, {sectory}, {sectorz}). Um unseren Forderungen Nachdruck zu verleihen, brauchen wir einen zuverlässigen und kampferprobten Söldner. Als Aufwandsentschädigung bieten wir {cash}. Entfernung zum System: {dist} Lj."
+  },
+  "MINING_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Ich bin ein Abteilungsleiter von {org}. Wir brauchen zusätzliche Hilfe in einem langanhaltenden Rechtsstreit mit einem Konkurrenten über die Schürfrechte im System {system} ({sectorx}, {sectory}, {sectorz}), {dist} Lj. Wir haben die Geduld verloren und wollen die Sache außergerichtlich beschleunigen. Ihre Mission besteht darin, nach {area} für {cash} zu springen."
+  },
+  "MINING_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Ich arbeite für {org}. Einige unserer Frachter werden demnächst bei {area} im System {system} ({sectorx}, {sectory}, {sectorz}) ankommen. Um die Sicherheit unserer Mitarbeiter zu erhöhen und das Equipment zu schützen, sind wir bereit, {cash} für eine Mission (Typ „{mission}“) zu bezahlen. Die Entfernung zu {area} beträgt {dist} Lj."
+  },
+  "MINING_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "Ein Konvoi ist unterwegs nach {area}. Es ist äußerst wichtig, dass die Mission bis {date} abgeschlossen ist."
+  },
+  "MINING_LAND_THERE": {
+    "description": "",
+    "message": "Wir haben Angestellte in allen angrenzenden Sonnensystemen. Besuchen Sie einfach die nächstgelegene Station und kontaktieren Sie die lokale Geschäftsstelle."
+  },
+  "MISSION": {
+    "description": "",
+    "message": "Mission:"
+  },
+  "MISSION_COMPLETE": {
+    "description": "Message from the ship computer",
+    "message": "Primäres Missionsziel erfüllt"
+  },
+  "MISSION_TYPE_1": {
+    "description": "Name of mission type",
+    "message": "Aufklärung"
+  },
+  "MISSION_TYPE_2": {
+    "description": "Name of mission type",
+    "message": "Bewaffnete Aufklärung"
+  },
+  "MISSION_TYPE_3": {
+    "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "Gebiet durchkämmen"
+  },
+  "OBJECTIVE_1": {
+    "description": "",
+    "message": "Es ist nicht nötig, den Feind anzugreifen. Wir wollen Daten über die Verteidigungsfähigkeiten und die Reaktionszeit."
+  },
+  "OBJECTIVE_2": {
+    "description": "",
+    "message": "Schwächen SIe den Feind so stark wie möglich und machen Sie dann einen Hyperjump in Sicherheit."
+  },
+  "OBJECTIVE_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Säubern Sie die Gegend um {area}. Jeglichen Widerstand muss zerschmettert werden."
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Ok, ich bin dabei."
+  },
+  "PAYMENT_LOCATION": {
+    "description": "",
+    "message": "Bezahlungsort:"
+  },
+  "PLEASE_REPEAT_THE_MISSION_DETAILS": {
+    "description": "",
+    "message": "Bitte wiederholen sie die Details der Mission."
+  },
+  "POLICE_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Polizeikräfte haben entdeckt, dass eine Gruppe Piraten versucht, eine Festung auf {area} im {system}-System ({sectorx}, {sectory}, {sectorz}) aufzubauen. Das darf nicht geschehen. Die lokalen Behörden zahlen {cash} für eine Mission in der Gegend von {area}, die als Vorbereitung für den Polizeieinsatz dient."
+  },
+  "POLICE_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "{org} wird {cash} für eine Kampfmission im System {system} ({sectorx}, {sectory}, {sectorz}) bezahlen. Wir haben kaum Piloten und Schiffe. Also wird dies eine Gelegenheit für einen loyalen Bürger sein, um Geld zu verdienen. Das Ziel ist eine kleine Piratenbasis auf {area}. Sie brauchen Hyperraumantriebstreibstoff für {dist} Lj und zusätzlichen Treibstoff für den Rückweg."
+  },
+  "POLICE_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Unsere Märkte wurden mit Schmuggelwaren überflutet. Ermittlungen haben ergeben, dass die Quelle eine versteckte Basis auf {area} im System {system} ({sectorx}, {sectory}, {sectorz}) ist. Nur eine Entfernung von {dist} Lj. Aufgrund des verringerten Polizeibudgets wollen die lokalen Behörden diese Aufgabe einen Externen übergeben und haben {cash} Credits für diese Operation bereitgestellt."
+  },
+  "POLICE_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "Es ist wichtig, dass die Mission bis {date} abgeschlossen ist, denn es sind noch mehr feindliche Schiffe unterwegs."
+  },
+  "POLICE_LAND_THERE": {
+    "description": "",
+    "message": "Landen Sie einfach auf einer Station mit einer {org}-Außenstelle."
+  },
+  "RISK_1": {
+    "description": "",
+    "message": "Der Konkurrent hat nur begrenzte Ressourcen. Also nichts, was Sie nicht handhaben könnten."
+  },
+  "RISK_2": {
+    "description": "",
+    "message": "Der Wettbewerber hat nur begrenzte Mittel. Aber er wird seine Position verteidigen, wenn es nötig ist."
+  },
+  "RISK_3": {
+    "description": "",
+    "message": "Die Konkurrenz ist gut ausgerüstet. Bitte halten Sie ihre Augen offen."
+  },
+  "RISK_4": {
+    "description": "",
+    "message": "Der Feind ist sehr gut ausgerüstet und hat Zugriff auf die neuesten Technologien. Seien Sie vorsichtig!"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Als Navigationsziel setzen"
+  },
+  "SUCCESSMSG_1": {
+    "description": "",
+    "message": "Ich wusste, dass Sie die richtige Person für solch eine Mission sind. Hier ist Ihre Bezahlung."
+  },
+  "SUCCESSMSG_2": {
+    "description": "",
+    "message": "Danke, dass Sie es geschafft haben. Ich habe das Geld überwiesen."
+  },
+  "SUCCESSMSG_3": {
+    "description": "",
+    "message": "Ich hoffen, sie hatten nicht viel Ärger. Die Zahlung habe ich soeben getätigt."
+  },
+  "SUCCESSMSG_4": {
+    "description": "",
+    "message": "Sehr gute Arbeit! Ich habe die Rechnung bezahlt."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "System:"
+  },
+  "TIME_LIMIT": {
+    "description": "",
+    "message": "Zeitlimit:"
+  },
+  "WHAT_ARE_THE_MISSION_OBJECTIVES": {
+    "description": "",
+    "message": "Was sind die Missionsziele?"
+  },
+  "WILL_I_BE_IN_TROUBLE": {
+    "description": "",
+    "message": "Werde ich Schwierigkeiten bekommen?"
+  }
+}

@@ -1,1566 +1,1786 @@
 {
-   "ABOVE_AVERAGE" : {
-      "description" : "",
-      "message" : "Nadprůměrný"
-   },
-   "ACTIVE" : {
-      "description" : "",
-      "message" : "Probíhá"
-   },
-   "AFTER_TRADE_IN" : {
-      "description" : "",
-      "message" : "Na protiúčet"
-   },
-   "ALLEGIANCE" : {
-      "description" : "",
-      "message" : "Příslušnost:"
-   },
-   "ALL_UP_WEIGHT" : {
-      "description" : "",
-      "message" : "Celková hmotnost"
-   },
-   "AMOUNT" : {
-      "description" : "",
-      "message" : "Množství"
-   },
-   "AN_ERROR_HAS_OCCURRED" : {
-      "description" : "",
-      "message" : "Vyskytla se chyba"
-   },
-   "ATMOSPHERIC_SHIELDING" : {
-      "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
-      "message" : "Atmosférický štít"
-   },
-   "ATTEMPT_TO_REPAIR_HULL" : {
-      "description" : "",
-      "message" : "Zkus opravit trup"
-   },
-   "AVAILABLE_FOR_PURCHASE" : {
-      "description" : "",
-      "message" : "Skladem"
-   },
-   "AVERAGE" : {
-      "description" : "",
-      "message" : "Průměrný"
-   },
-   "BACKWARD_ACCEL" : {
-      "description" : "",
-      "message" : "Zrychlení vzad"
-   },
-   "BULLETIN_BOARD" : {
-      "description" : "",
-      "message" : "Bulletin: Zprávy / Mise"
-   },
-   "BUY" : {
-      "description" : "Commodities and equipment prices",
-      "message" : "[+]"
-   },
-   "BUY_SHIP" : {
-      "description" : "",
-      "message" : "Koupit loď"
-   },
-   "CABINS" : {
-      "description" : "For passengers",
-      "message" : "Kabiny"
-   },
-   "CABIN_FREE" : {
-      "description" : "Free capacity for passengers",
-      "message" : "{amount} volných"
-   },
-   "CABIN_USED" : {
-      "description" : "Passengers using cabins",
-      "message" : "{amount} použito"
-   },
-   "CANCEL" : {
-      "description" : "",
-      "message" : "Zrušit"
-   },
-   "CAPACITY" : {
-      "description" : "Capacity of ship to fit more equipment",
-      "message" : "Kapacita"
-   },
-   "CAPACITY_USED" : {
-      "description" : "",
-      "message" : "Využitá kapacita"
-   },
-   "CARGO" : {
-      "description" : "",
-      "message" : "Náklad"
-   },
-   "CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Nákladový prostor"
-   },
-   "CARGO_SPACE_USED" : {
-      "description" : "",
-      "message" : "Náklad"
-   },
-   "CARGO_T_FREE" : {
-      "description" : "t for tonne",
-      "message" : "{amount}t volných"
-   },
-   "CARGO_T_USED" : {
-      "description" : "t for tonne",
-      "message" : "{amount}t použito"
-   },
-   "CASH" : {
-      "description" : "",
-      "message" : "Hotovost"
-   },
-   "CASH_N" : {
-      "description" : "",
-      "message" : "Peníze: {money}"
-   },
-   "CHANGE_BINDING" : {
-      "description" : "Key binding option",
-      "message" : "Změnit kl."
-   },
-   "CHIEF_MECHANIC" : {
-      "description" : "",
-      "message" : "Hlavní mechanik"
-   },
-   "CIRCULAR_ORBIT_SPEED" : {
-      "description" : "",
-      "message" : "Kruhová orbitální rychlost"
-   },
-   "CITY_DETAIL_LEVEL" : {
-      "description" : "Game graphics option",
-      "message" : "Detaily měst"
-   },
-   "CLEAN" : {
-      "description" : "Legal status of player",
-      "message" : "Čistý"
-   },
-   "CLEAR" : {
-      "description" : "Clear an option in game settings/options menu",
-      "message" : "Smazat"
-   },
-   "CLIENT" : {
-      "description" : "",
-      "message" : "Klient"
-   },
-   "COMBAT" : {
-      "description" : "Headline for kills and combat rating",
-      "message" : "Bojové"
-   },
-   "COMMANDER" : {
-      "description" : "",
-      "message" : "Velitel"
-   },
-   "COMMODITY_MARKET" : {
-      "description" : "",
-      "message" : "Obchod s komoditami"
-   },
-   "COMPACT_RADAR" : {
-      "description" : "Game settings option",
-      "message" : "Compact radar"
-   },
-   "COMPETENT" : {
-      "description" : "Combat rating",
-      "message" : "Schopný"
-   },
-   "COMPLETED" : {
-      "description" : "",
-      "message" : "Dokončený"
-   },
-   "COMPRESS_TEXTURES" : {
-      "description" : "graphics option in game settings menu ",
-      "message" : "Komprimovat textury"
-   },
-   "CONFIRM_PURCHASE" : {
-      "description" : "",
-      "message" : "Confirm purchase"
-   },
-   "CONFIRM_SALE" : {
-      "description" : "",
-      "message" : "Confirm sale"
-   },
-   "CONSTABLE" : {
-      "description" : "",
-      "message" : "Policista"
-   },
-   "CONTINUE_GAME" : {
-      "description" : "",
-      "message" : "Pokračovat ve hře"
-   },
-   "CONTROLS" : {
-      "description" : "",
-      "message" : "Ovládání"
-   },
-   "CONTROL_OPTIONS" : {
-      "description" : "",
-      "message" : "Možnosti ovládání"
-   },
-   "COULD_NOT_LOAD_GAME" : {
-      "description" : "",
-      "message" : "Nelze načíst pozici:"
-   },
-   "CREDIBLE" : {
-      "description" : "For player reputation",
-      "message" : "Důvěryhodný"
-   },
-   "CREW_CABINS" : {
-      "description" : "",
-      "message" : "Kabin pro posádku"
-   },
-   "CREW_ROSTER" : {
-      "description" : "",
-      "message" : "Seznam posádky"
-   },
-   "CRIMINAL_RECORD" : {
-      "description" : "Past crimes / crime history of character",
-      "message" : "Trestní rejstřík"
-   },
-   "DANGEROUS" : {
-      "description" : "Player combat rating",
-      "message" : "Nebezpečný"
-   },
-   "DEADLY" : {
-      "description" : "Player combat rating",
-      "message" : "Smrtící"
-   },
-   "DELTA_V" : {
-      "description" : "",
-      "message" : "Delta-v"
-   },
-   "DELTA_V_EMPTY" : {
-      "description" : "Delta-v capacity of a ship with no cargo or upgrades",
-      "message" : "Delta-v (prázdná)"
-   },
-   "DELTA_V_FULL" : {
-      "description" : "Delta-v capacity of a ship with maximum cargo",
-      "message" : "Delta-v (plná)"
-   },
-   "DELTA_V_MAX" : {
-      "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
-      "message" : "Delta-v (max)"
-   },
-   "DESCENT_TO_GROUND_SPEED" : {
-      "description" : "",
-      "message" : "Přistávací rychlost:"
-   },
-   "DESTROY_ENEMY_SHIP" : {
-      "description" : "",
-      "message" : "Znič nepřátelskou loď"
-   },
-   "DISMISS" : {
-      "description" : "Terminate crew memeber's contract",
-      "message" : "Propustit"
-   },
-   "DISPLAY_HUD_TRAILS" : {
-      "description" : "",
-      "message" : "Zobrazovat HUD trails"
-   },
-   "DISPLAY_NAV_TUNNELS" : {
-      "description" : "Settings option: hyperspace tunnel effect",
-      "message" : "Zobrazovat navigační tunel"
-   },
-   "DISPLAY_SPEED_LINES" : {
-      "description" : "Settings option: effect when travelling in space",
-      "message" : "Zobrazovat rychlostní čáry"
-   },
-   "DOCK_AT_CURRENT_TARGET" : {
-      "description" : "",
-      "message" : "Přistaň na zvoleném cíli"
-   },
-   "DUE" : {
-      "description" : "mission deadline date",
-      "message" : "Splatnost"
-   },
-   "DUMPING" : {
-      "description" : "The illegal act of dumping waste",
-      "message" : "Dumping"
-   },
-   "D_DAYS_LEFT" : {
-      "description" : "",
-      "message" : "Zbývá dnů: %d"
-   },
-   "ECONOMY_TRADE" : {
-      "description" : "",
-      "message" : "Ekonomika & obchod"
-   },
-   "EFFECTS" : {
-      "description" : "",
-      "message" : "Efekty:"
-   },
-   "ELITE" : {
-      "description" : "Player combat rating",
-      "message" : "ELITA"
-   },
-   "EMPLOYMENT" : {
-      "description" : "",
-      "message" : "Zaměstnanost"
-   },
-   "ENABLE_ANISOTROPIC_FILTERING" : {
-      "description" : "Use Anisotropic Filtering",
-      "message" : "Anisotropic Filtering"
-   },
-   "ENABLE_AUTOSAVE" : {
-      "description" : "Allow the game to autosave when docking",
-      "message" : "Enable Autosave"
-   },
-   "ENABLE_COCKPIT" : {
-      "description" : "Game settings option: to use a cockpit 3D model",
-      "message" : "Zapnout 3D kokpit (EXPERIMENTALNÍ)"
-   },
-   "ENABLE_JOYSTICK" : {
-      "description" : "",
-      "message" : "Zapnout ovládání joystickem"
-   },
-   "ENGINEERING" : {
-      "description" : "Engineering skills of crew",
-      "message" : "Údržba:"
-   },
-   "EQUIPMENT" : {
-      "description" : "",
-      "message" : "Vybavení"
-   },
-   "EQUIPMENT_MARKET" : {
-      "description" : "",
-      "message" : "Obchod s vybavením"
-   },
-   "EQUIPPED" : {
-      "description" : "",
-      "message" : "Vybavení lodi"
-   },
-   "ERROR" : {
-      "description" : "",
-      "message" : "Chyba"
-   },
-   "ERROR_LANDING_GEAR_DOWN" : {
-      "description" : "",
-      "message" : "Can not initiate hyperjump; landing gear is not retracted!"
-   },
-   "ESCAPE_SPEED" : {
-      "description" : "",
-      "message" : "Úniková rychlost:"
-   },
-   "EXIT_THIS_GAME" : {
-      "description" : "",
-      "message" : "Ukončit hru"
-   },
-   "EXPERIENCED" : {
-      "description" : "For player reputation",
-      "message" : "Zkušený"
-   },
-   "EXPERT" : {
-      "description" : "For player reputation",
-      "message" : "Expert"
-   },
-   "FAILED" : {
-      "description" : "When failed mission",
-      "message" : "Neúspěšný"
-   },
-   "FEMALE" : {
-      "description" : "",
-      "message" : "Žena"
-   },
-   "FORWARD_ACCEL" : {
-      "description" : "",
-      "message" : "Zrychlení vpřed"
-   },
-   "FORWARD_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Zrychlení vpřed (prázdná)"
-   },
-   "FORWARD_ACCEL_FULL" : {
-      "description" : "",
-      "message" : "Zrychlení vpřed (plná)"
-   },
-   "FRACTAL_DETAIL" : {
-      "description" : "",
-      "message" : "Detaily fraktálů"
-   },
-   "FREE" : {
-      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
-      "message" : "volných"
-   },
-   "FRONT_WEAPON" : {
-      "description" : "",
-      "message" : "Přední zbraň"
-   },
-   "FUEL" : {
-      "description" : "",
-      "message" : "Palivo"
-   },
-   "FUEL_TANK_FULL" : {
-      "description" : "",
-      "message" : "Palivová nádrž je plná."
-   },
-   "FUEL_WEIGHT" : {
-      "description" : "",
-      "message" : "Hmotnost paliva"
-   },
-   "FULL_SCREEN" : {
-      "description" : "",
-      "message" : "Celá obrazovka"
-   },
-   "GENERAL_CREW" : {
-      "description" : "",
-      "message" : "Základní posádka"
-   },
-   "GIVE_ORDERS_TO_CREW" : {
-      "description" : "",
-      "message" : "Dát posádce rozkazy"
-   },
-   "GOOD_RIDDANCE_TO_YOU_TOO" : {
-      "description" : "",
-      "message" : "Spánembohem i tobě."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Konec"
-   },
-   "HARMLESS" : {
-      "description" : "Player combat rating",
-      "message" : "Neškodný"
-   },
-   "HEAVY_CARGO_SHUTTLE" : {
-      "description" : "",
-      "message" : "Těžký nákladní raketoplán"
-   },
-   "HEAVY_COURIER" : {
-      "description" : "",
-      "message" : "Těžký kurýr"
-   },
-   "HEAVY_FIGHTER" : {
-      "description" : "",
-      "message" : "Těžký stíhač"
-   },
-   "HEAVY_FREIGHTER" : {
-      "description" : "",
-      "message" : "Těžká nákladní loď"
-   },
-   "HEAVY_PASSENGER_SHUTTLE" : {
-      "description" : "",
-      "message" : "Těžký přepravní raketoplán"
-   },
-   "HEAVY_PASSENGER_TRANSPORT" : {
-      "description" : "",
-      "message" : "Těžký přepravní transportér"
-   },
-   "HIGH" : {
-      "description" : "Game settings option: for graphics resolution",
-      "message" : "Vysoké"
-   },
-   "HUD_2D_RADAR" : {
-      "description" : "Popup text: the name of the azimuthal equidistant projection radar",
-      "message" : "2D azimuthal equidistant projection"
-   },
-   "HUD_3D_RADAR" : {
-      "description" : "Popup text: the name of the planar projection radar (traditional frontier-style)",
-      "message" : "3D planar projection"
-   },
-   "HUD_ATMOSPHERIC_PRESSURE" : {
-      "description" : "Tooltip: Atmospheric Pressure.",
-      "message" : "Atmospheric Pressure"
-   },
-   "HUD_BACKWARD_GUN_TEMPERATURE" : {
-      "description" : "Tooltip: Backward Gun Temperature.",
-      "message" : "Backward Gun Temperature"
-   },
-   "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
-      "description" : "Tooltip: The braking distance using the main thrusters.",
-      "message" : "The braking distance using the main thrusters"
-   },
-   "HUD_BUTTON_AUTOPILOT_DOCKING" : {
-      "description" : "Tooltip: Autopilot docking",
-      "message" : "Autopilot docking"
-   },
-   "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT" : {
-      "description" : "Tooltip: Autopilot entering orbit",
-      "message" : "Autopilot entering orbit"
-   },
-   "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET" : {
-      "description" : "Tooltip: Autopilot flying to target",
-      "message" : "Autopilot flying to target"
-   },
-   "HUD_BUTTON_BLASTOFF" : {
-      "description" : "Tooltip: Blastoff",
-      "message" : "Blastoff"
-   },
-   "HUD_BUTTON_EQUIPMENT" : {
-      "description" : "Tooltip: Equipment",
-      "message" : "Vybavení"
-   },
-   "HUD_BUTTON_EXTERNAL_VIEW" : {
-      "description" : "Tooltip: External camera view",
-      "message" : "Pohled zvenku"
-   },
-   "HUD_BUTTON_FIX_ANTINORMAL" : {
-      "description" : "Tooltip: fix heading antinormal",
-      "message" : "Fix heading antinormal"
-   },
-   "HUD_BUTTON_FIX_NORMAL" : {
-      "description" : "Tooltip: fix heading normal",
-      "message" : "Fix heading normal"
-   },
-   "HUD_BUTTON_FIX_PROGRADE" : {
-      "description" : "Tooltip: fix heading prograde",
-      "message" : "Fix heading prograde"
-   },
-   "HUD_BUTTON_FIX_RADIAL_IN" : {
-      "description" : "Tooltip: fix heading radially inward",
-      "message" : "Fix heading radially inward"
-   },
-   "HUD_BUTTON_FIX_RADIAL_OUT" : {
-      "description" : "Tooltip: fix heading radially outward",
-      "message" : "Fix heading radially outward"
-   },
-   "HUD_BUTTON_FIX_RETROGRADE" : {
-      "description" : "Tooltip: fix heading retrograde",
-      "message" : "Fix heading retrograde"
-   },
-   "HUD_BUTTON_HYPERDRIVE_DISABLED" : {
-      "description" : "Tooltip: Hyperdrive disabled (docked or landed)",
-      "message" : "Hyperdrive disabled"
-   },
-   "HUD_BUTTON_INITIATE_HYPERJUMP" : {
-      "description" : "Tooltip: Initiate legal hyperjump",
-      "message" : "Initiate hyperjump"
-   },
-   "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP" : {
-      "description" : "Tooltip: Initiate illegal hyperjump",
-      "message" : "Initiate illegal hyperjump"
-   },
-   "HUD_BUTTON_INTERNAL_VIEW" : {
-      "description" : "Tooltip: Internal camera view",
-      "message" : "Pohled zevnitř"
-   },
-   "HUD_BUTTON_KILL_ROTATION" : {
-      "description" : "Tooltip: kill rotation",
-      "message" : "Zastavit rotaci"
-   },
-   "HUD_BUTTON_LANDING_GEAR_IS_DOWN" : {
-      "description" : "Tooltip: Landing gear is down",
-      "message" : "Landing gear is down"
-   },
-   "HUD_BUTTON_LANDING_GEAR_IS_MOVING" : {
-      "description" : "Tooltip: Landing gear is moving",
-      "message" : "Landing gear is moving"
-   },
-   "HUD_BUTTON_LANDING_GEAR_IS_UP" : {
-      "description" : "Tooltip: Landing gear is up",
-      "message" : "Landing gear is up"
-   },
-   "HUD_BUTTON_MANUAL_CONTROL" : {
-      "description" : "Tooltip: Manual control",
-      "message" : "Manuální ovládání"
-   },
-   "HUD_BUTTON_ROTATION_DAMPING_IS_OFF" : {
-      "description" : "Tooltip: Rotation damping is off",
-      "message" : "Rotation damping is off"
-   },
-   "HUD_BUTTON_ROTATION_DAMPING_IS_ON" : {
-      "description" : "Tooltip: Rotation damping is on",
-      "message" : "Rotation damping is on"
-   },
-   "HUD_BUTTON_SCANNER" : {
-      "description" : "Tooltip: Scanner",
-      "message" : "Radar"
-   },
-   "HUD_BUTTON_SET_SPEED" : {
-      "description" : "Tooltip: set speed",
-      "message" : "Set speed"
-   },
-   "HUD_BUTTON_SHOW_COMMS" : {
-      "description" : "Tooltip: Show comms",
-      "message" : "Show comms"
-   },
-   "HUD_BUTTON_SHOW_PERSONAL_INFO" : {
-      "description" : "Tooltip: Show personal info",
-      "message" : "Show personal info"
-   },
-   "HUD_BUTTON_SIDEREAL_VIEW" : {
-      "description" : "Tooltip: Sidereal camera view",
-      "message" : "Pohled hvězdný"
-   },
-   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP" : {
-      "description" : "Tooltip: Switch to galaxy map",
-      "message" : "Switch to galaxy map"
-   },
-   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP" : {
-      "description" : "Tooltip: Switch to sector map",
-      "message" : "Switch to sector map"
-   },
-   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP" : {
-      "description" : "Tooltip: Switch to system map",
-      "message" : "Switch to system map"
-   },
-   "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW" : {
-      "description" : "Tooltip: Switch to system overview",
-      "message" : "Switch to system overview"
-   },
-   "HUD_BUTTON_SWITCH_TO_WORLD_VIEW" : {
-      "description" : "Tooltip: Switch to world view",
-      "message" : "Switch to world view"
-   },
-   "HUD_BUTTON_UNDOCK" : {
-      "description" : "Tooltip: Undock",
-      "message" : "Undock"
-   },
-   "HUD_CARGO_MASS" : {
-      "description" : "Cargo Mass",
-      "message" : "Cargo Mass"
-   },
-   "HUD_CURRENT_COMBAT_TARGET" : {
-      "description" : "Tooltip: The current combat target.",
-      "message" : "The current combat target"
-   },
-   "HUD_CURRENT_FRAME" : {
-      "description" : "Tooltip: The current frame of reference.",
-      "message" : "The current frame of reference"
-   },
-   "HUD_CURRENT_HEADING" : {
-      "description" : "Tooltip: the current heading.",
-      "message" : "The current heading"
-   },
-   "HUD_CURRENT_NAV_TARGET" : {
-      "description" : "Tooltip: The current navigational target.",
-      "message" : "The current navigational target"
-   },
-   "HUD_CURRENT_PITCH" : {
-      "description" : "Tooltip: the current pitch.",
-      "message" : "The current pitch"
-   },
-   "HUD_CURRENT_ROLL" : {
-      "description" : "Tooltip: the current roll.",
-      "message" : "The current roll"
-   },
-   "HUD_DELTA_V" : {
-      "description" : "Tooltip: The remaining Δv.",
-      "message" : "Remaining Δv"
-   },
-   "HUD_DELTA_V_OF_MANEUVER_BURN" : {
-      "description" : "Tooltip: The Δv for the maneuver burn.",
-      "message" : "The Δv for the maneuver burn"
-   },
-   "HUD_DELTA_V_PERCENT" : {
-      "description" : "Tooltip: The remaining Δv in percent.",
-      "message" : "Remaining Δv"
-   },
-   "HUD_DISTANCE_TO_SURFACE_OF_FRAME" : {
-      "description" : "Tooltip: Distance to the surface of the frame of reference.",
-      "message" : "Distance to the surface of the frame of reference"
-   },
-   "HUD_DISTANCE_TO_SURFACE_OF_TARGET" : {
-      "description" : "Tooltip: Distance to the surface of the target.",
-      "message" : "Distance to the surface of the target"
-   },
-   "HUD_DURATION_OF_MANEUVER_BURN" : {
-      "description" : "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
-      "message" : "The approximate duration of the maneuver burn with main thrusters"
-   },
-   "HUD_DURATION_UNTIL_MANEUVER_BURN" : {
-      "description" : "Tooltip: The duration until the middle of the maneuver burn.",
-      "message" : "The duration until the middle of the maneuver burn"
-   },
-   "HUD_FORWARD_GUN_TEMPERATURE" : {
-      "description" : "Tooltip: Forward Gun Temperature.",
-      "message" : "Forward Gun Temperature"
-   },
-   "HUD_HULL_STRENGTH" : {
-      "description" : "Tooltip: Hull Strength.",
-      "message" : "Hull Strength"
-   },
-   "HUD_HULL_TEMPERATURE" : {
-      "description" : "Tooltip: Hull Temperature.",
-      "message" : "Hull Temperature"
-   },
-   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS" : {
-      "description" : "",
-      "message" : "Hyperspacing to {destination} in {countdown} seconds"
-   },
-   "HUD_INDICATOR_AWAY_FROM_FRAME" : {
-      "description" : "Indicator: Away from the current frame.",
-      "message" : "Away from the current frame"
-   },
-   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
-      "description" : "Indicator: Prograde direction relative to the current combat target.",
-      "message" : "Prograde relative to current combat target"
-   },
-   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
-      "description" : "Indicator: Retrograde direction relative to the current combat target.",
-      "message" : "Retrograde relative to current combat target"
-   },
-   "HUD_INDICATOR_FRAME_PROGRADE" : {
-      "description" : "Indicator: Prograde direction relative to the current frame.",
-      "message" : "Prograde relative to current frame of reference"
-   },
-   "HUD_INDICATOR_FRAME_RETROGRADE" : {
-      "description" : "Indicator: Retrograde direction relative to the current frame.",
-      "message" : "Retrograde relative to current frame of reference"
-   },
-   "HUD_INDICATOR_MANEUVER_PROGRADE" : {
-      "description" : "Indicator: The prograde direction for the maneuver burn.",
-      "message" : "Prograde for maneuver burn"
-   },
-   "HUD_INDICATOR_NAV_TARGET_PROGRADE" : {
-      "description" : "Indicator: Prograde direction relative to the current navigational target.",
-      "message" : "Prograde relative to current navigational target"
-   },
-   "HUD_INDICATOR_NAV_TARGET_RETROGRADE" : {
-      "description" : "Indicator: Retrograde direction relative to the current navigational target.",
-      "message" : "Retrograde relative to current navigational target"
-   },
-   "HUD_IN_TRANSIT_TO_N_X_X_X" : {
-      "description" : "",
-      "message" : "In transit to {system} [{x},{y},{z}]"
-   },
-   "HUD_JUMP_COMPLETE" : {
-      "description" : "",
-      "message" : "Jump complete: {percent}%"
-   },
-   "HUD_MASS" : {
-      "description" : "Mass",
-      "message" : "Hmotnost"
-   },
-   "HUD_RADAR_DISTANCE" : {
-      "description" : "Tooltip: Current distance of the radar.",
-      "message" : "Active radar distance"
-   },
-   "HUD_REQUEST_TIME_ACCEL" : {
-      "description" : "Tooltip: Request time acceleration {time}",
-      "message" : "Request time acceleration: {time}"
-   },
-   "HUD_SHIELD_STRENGTH" : {
-      "description" : "Tooltip: Shield Strength.",
-      "message" : "Shield Strength"
-   },
-   "HUD_SHOW_COMBAT_TARGET" : {
-      "description" : "Tooltip: Show the current combat target.",
-      "message" : "Show the current combat target"
-   },
-   "HUD_SHOW_FRAME" : {
-      "description" : "Tooltip: Show the current frame of reference.",
-      "message" : "Show the current frame of reference"
-   },
-   "HUD_SHOW_NAV_TARGET" : {
-      "description" : "Tooltip: Show current navigational target.",
-      "message" : "Show the current navigational target"
-   },
-   "HUD_SPEED_OF_APPROACH_TO_FRAME" : {
-      "description" : "Tooltip: The speed of approach towards the frame of reference.",
-      "message" : "The speed of approach towards the frame of reference"
-   },
-   "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
-      "description" : "Tooltip: The speed of approach towards the target.",
-      "message" : "The speed of approach towards the target"
-   },
-   "HUD_SPEED_RELATIVE_TO_TARGET" : {
-      "description" : "Tooltip: The speed relative to the target.",
-      "message" : "The speed relative to the target"
-   },
-   "HUD_THRUST_INDICATOR" : {
-      "description" : "Tooltip: describe what the thrust/velocity indicator shows",
-      "message" : "Show current velocity for each direction (thin lines) and thrust (thick background)"
-   },
-   "HULL_DOES_NOT_REQUIRE_REPAIR" : {
-      "description" : "",
-      "message" : "Trup nepotřebuje opravu."
-   },
-   "HULL_INTEGRITY" : {
-      "description" : "",
-      "message" : "Integrita trupu"
-   },
-   "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
-      "description" : "",
-      "message" : "{name} opravil trup, stav {repairPercent}%"
-   },
-   "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
-      "description" : "",
-      "message" : "Neúspěšný pokus o opravu trupu. Trup utrpěl menší poškození."
-   },
-   "HYPERDRIVE" : {
-      "description" : "",
-      "message" : "Hypermotor"
-   },
-   "HYPERDRIVE_FITTED" : {
-      "description" : "",
-      "message" : "Hypermotor:"
-   },
-   "HYPERSPACE_RANGE" : {
-      "description" : "",
-      "message" : "Hyperprostorový dosah"
-   },
-   "ILLEGAL_JUMP" : {
-      "description" : "A finable crime",
-      "message" : "Reckless hyperjump registered"
-   },
-   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
-      "description" : "",
-      "message" : "Už mě unavuje pracovat pro nic za nic. Víš vůbec co je to smlouva?"
-   },
-   "INACTIVE" : {
-      "description" : "",
-      "message" : "Neprobíhá"
-   },
-   "INCOMPETENT" : {
-      "description" : "For player reputation",
-      "message" : "Neschopný"
-   },
-   "INEXPERIENCED" : {
-      "description" : "For player reputation",
-      "message" : "Nezkušený"
-   },
-   "INSUFFICIENT_FUNDS" : {
-      "description" : "",
-      "message" : "Insufficient funds."
-   },
-   "INVERT_MOUSE_Y" : {
-      "description" : "",
-      "message" : "Invertovat osu Y"
-   },
-   "IN_CARGO_HOLD" : {
-      "description" : "",
-      "message" : "V nákladovém prostoru"
-   },
-   "IN_STOCK" : {
-      "description" : "",
-      "message" : "Skladem"
-   },
-   "ITEM_IS_OUT_OF_STOCK" : {
-      "description" : "",
-      "message" : "Tato položka není skladem."
-   },
-   "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
-      "description" : "",
-      "message" : "Dobře se mi s tebou pracovalo. Pokud bys mě potřeboval(a), ještě tu chvíli zůstanu."
-   },
-   "JETTISON" : {
-      "description" : "",
-      "message" : "Odhodit"
-   },
-   "KILLS" : {
-      "description" : "",
-      "message" : "Zabitých:"
-   },
-   "LANGUAGE" : {
-      "description" : "",
-      "message" : "Jazyk"
-   },
-   "LANGUAGE_RESTART_GAME_TO_APPLY" : {
-      "description" : "",
-      "message" : "Jazyk (nutný restart hry)"
-   },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Povolení ke startu zamítnuto: dokovací prostor je obsazen."
-   },
-   "LAUNCH_PERMISSION_DENIED_CREW" : {
-      "description" : "",
-      "message" : "Permission to launch denied: not enough crew to handle this ship."
-   },
-   "LAUNCH_PERMISSION_DENIED_FINED" : {
-      "description" : "",
-      "message" : "Povolení ke startu zamítnuto: máte nezaplacené pokuty."
-   },
-   "LEGAL_STATUS" : {
-      "description" : "",
-      "message" : "Trestní rejstřík"
-   },
-   "LIGHT_CARGO_SHUTTLE" : {
-      "description" : "",
-      "message" : "Lehký nákladní raketoplán"
-   },
-   "LIGHT_COURIER" : {
-      "description" : "",
-      "message" : "Lehký kurýr"
-   },
-   "LIGHT_FIGHTER" : {
-      "description" : "",
-      "message" : "Lehký stíhač"
-   },
-   "LIGHT_FREIGHTER" : {
-      "description" : "",
-      "message" : "Lehká nákladní loď"
-   },
-   "LIGHT_PASSENGER_SHUTTLE" : {
-      "description" : "",
-      "message" : "Lehký přepravní raketoplán"
-   },
-   "LIGHT_PASSENGER_TRANSPORT" : {
-      "description" : "",
-      "message" : "Lehký přepravní transportér"
-   },
-   "LOAD" : {
-      "description" : "",
-      "message" : "Načíst"
-   },
-   "LOAD_GAME" : {
-      "description" : "",
-      "message" : "Načíst hru"
-   },
-   "LOBBY" : {
-      "description" : "",
-      "message" : "Lobby"
-   },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
-   },
-   "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
-      "description" : "",
-      "message" : "{distance}km od centra {name}:"
-   },
-   "LOCATION" : {
-      "description" : "",
-      "message" : "Pozice"
-   },
-   "LOW" : {
-      "description" : "",
-      "message" : "Nízké"
-   },
-   "LY" : {
-      "description" : "Light year",
-      "message" : "ly"
-   },
-   "MAKE_NEW_FACE" : {
-      "description" : "",
-      "message" : "Vytvořit jiný obličej"
-   },
-   "MALE" : {
-      "description" : "",
-      "message" : "Muž"
-   },
-   "MARKET_BUYLINE" : {
-      "description" : "",
-      "message" : "Buy {amount} units for {price}"
-   },
-   "MARKET_SELLINE" : {
-      "description" : "",
-      "message" : "Sell {amount} units for {price}"
-   },
-   "MASS" : {
-      "description" : "",
-      "message" : "Hmotnost"
-   },
-   "MASTER" : {
-      "description" : "For player reputation",
-      "message" : "Hlavní"
-   },
-   "MASTER_VOL" : {
-      "description" : "Master sound in settings option",
-      "message" : "Hlavní:"
-   },
-   "MAX" : {
-      "description" : "",
-      "message" : "max"
-   },
-   "MAXIMUM_CREW" : {
-      "description" : "",
-      "message" : "Maximální posádka"
-   },
-   "MEDIUM" : {
-      "description" : "Game settings option: graphics resolution",
-      "message" : "Střední"
-   },
-   "MEDIUM_CARGO_SHUTTLE" : {
-      "description" : "",
-      "message" : "Střední nákladní raketoplán"
-   },
-   "MEDIUM_COURIER" : {
-      "description" : "",
-      "message" : "Střední kurýr"
-   },
-   "MEDIUM_FIGHTER" : {
-      "description" : "",
-      "message" : "Střední stíhač"
-   },
-   "MEDIUM_FREIGHTER" : {
-      "description" : "",
-      "message" : "Středí nákladní loď"
-   },
-   "MEDIUM_PASSENGER_SHUTTLE" : {
-      "description" : "",
-      "message" : "Střední přepravní raketoplán"
-   },
-   "MEDIUM_PASSENGER_TRANSPORT" : {
-      "description" : "",
-      "message" : "Střední přepravní transportér"
-   },
-   "METAL_ALLOYS" : {
-      "description" : "",
-      "message" : "Kovové slitiny"
-   },
-   "MILITARY" : {
-      "description" : "",
-      "message" : "Vojenské"
-   },
-   "MINIMUM_CREW" : {
-      "description" : "",
-      "message" : "Minimální posádka"
-   },
-   "MISSILE_MOUNTS" : {
-      "description" : "",
-      "message" : "Podvěsy střel"
-   },
-   "MISSIONS" : {
-      "description" : "",
-      "message" : "Mise"
-   },
-   "MISSION_DETAILS" : {
-      "description" : "",
-      "message" : "Detaily mise"
-   },
-   "MORE_INFO" : {
-      "description" : "",
-      "message" : "Další info..."
-   },
-   "MOSTLY_HARMLESS" : {
-      "description" : "",
-      "message" : "Převážně neškodný"
-   },
-   "MULTISAMPLING" : {
-      "description" : "",
-      "message" : "Multisampling"
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Vražda"
-   },
-   "MUSIC" : {
-      "description" : "",
-      "message" : "Hudba:"
-   },
-   "MUTE" : {
-      "description" : "",
-      "message" : "Ztlumit"
-   },
-   "NAME_OBJECT" : {
-      "description" : "For an item or object",
-      "message" : "Název"
-   },
-   "NAME_PERSON" : {
-      "description" : "For a person",
-      "message" : "Jméno"
-   },
-   "NAVIGATION" : {
-      "description" : "",
-      "message" : "Navigace:"
-   },
-   "NAVIGATOR" : {
-      "description" : "",
-      "message" : "Navigátor"
-   },
-   "NEGOTIATE" : {
-      "description" : "",
-      "message" : "Vyjenávat"
-   },
-   "NEXT_PAID" : {
-      "description" : "",
-      "message" : "Další platba"
-   },
-   "NO" : {
-      "description" : "Negative answer to a question",
-      "message" : "Ne"
-   },
-   "NOBODY" : {
-      "description" : "For player reputation",
-      "message" : "Nikdo"
-   },
-   "NONE" : {
-      "description" : "",
-      "message" : "Nic"
-   },
-   "NONE_FOR_SALE_IN_THIS_STATION" : {
-      "description" : "",
-      "message" : "None for sale in this station."
-   },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "rameno Pravítko"
-   },
-   "NOTES" : {
-      "description" : "",
-      "message" : "Poznámky:"
-   },
-   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
-      "description" : "",
-      "message" : "Nedostatek {alloy} k pokusu o opravu"
-   },
-   "NOT_SUPPORTED_ON_THIS_SHIP" : {
-      "description" : "",
-      "message" : "{equipment} nelze na tuto loď přidat"
-   },
-   "NO_MISSIONS" : {
-      "description" : "",
-      "message" : "Žádné mise."
-   },
-   "N_LIGHT_YEARS_N_MAX" : {
-      "description" : "",
-      "message" : "{range} ly ({maxRange} max)"
-   },
-   "N_OCCUPIED_PASSENGER_CABINS" : {
-      "description" : "",
-      "message" : "{quantity} obsazených pasažérských kabin"
-   },
-   "N_SHIELD_GENERATORS" : {
-      "description" : "",
-      "message" : "{quantity} generátory štítů"
-   },
-   "N_UNOCCUPIED_PASSENGER_CABINS" : {
-      "description" : "",
-      "message" : "{quantity} volných pasažérských kabin"
-   },
-   "OFF" : {
-      "description" : "",
-      "message" : "Vypnuto"
-   },
-   "OK" : {
-      "description" : "",
-      "message" : "Ok"
-   },
-   "OPEN_USER_FOLDER" : {
-      "description" : "",
-      "message" : "User Folder"
-   },
-   "OPTIONS" : {
-      "description" : "",
-      "message" : "Nastavení"
-   },
-   "ORBIT" : {
-      "description" : "",
-      "message" : "Orbita"
-   },
-   "ORBITAL_ANALYSIS" : {
-      "description" : "",
-      "message" : "Orbitální analýza"
-   },
-   "ORBITAL_ANALYSIS_NOTES" : {
-      "description" : "",
-      "message" : "Úhlová orbitální rychlost je vztažena k tangenciální rychlosti. Loď by se měla pohybovat v úhlu 90° k ose lodi/{name}.\n\nRychlost sestupu je absolutní minimum a je taktéž tangenciální. Menší rychlost nebo menší úhel bude mít za následek trajektorii, která se protíná s povrchem {name}.\n\nÚniková rychlost může být teoreticky libovolná ve všech směrech, dokud se trajektorie lodi nenáchází na kolizním kurzu s {name}.\n\t\t"
-   },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "rameno Labuť"
-   },
-   "OUTSTANDING_FINES" : {
-      "description" : "Unpaid fines for crimes committed",
-      "message" : "Outstanding fines"
-   },
-   "OWED" : {
-      "description" : "Player owing money to crew members",
-      "message" : "Dluh"
-   },
-   "PAY_FINE_OF_N" : {
-      "description" : "",
-      "message" : "Zaplať pokutu {amount}"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "rameno Perseus"
-   },
-   "PERSONAL_INFORMATION" : {
-      "description" : "",
-      "message" : "Osobní informace"
-   },
-   "PILOT" : {
-      "description" : "",
-      "message" : "Pilot"
-   },
-   "PILOTING" : {
-      "description" : "",
-      "message" : "Pilotáž:"
-   },
-   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
-      "description" : "",
-      "message" : "Nyní pilotuje {name}"
-   },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Pirátství"
-   },
-   "PLANET_DETAIL_DISTANCE" : {
-      "description" : "",
-      "message" : "Detaily planet"
-   },
-   "PLANET_TEXTURES" : {
-      "description" : "",
-      "message" : "Textury planet"
-   },
-   "POLICE" : {
-      "description" : "",
-      "message" : "Policie"
-   },
-   "POOR" : {
-      "description" : "Player combat rating",
-      "message" : "Ubohý"
-   },
-   "POSITION" : {
-      "description" : "The job title/position of crew memeber",
-      "message" : "Pozice"
-   },
-   "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
-      "description" : "",
-      "message" : "Stiskni klávesu nebo tlačítko na ovladači"
-   },
-   "PRICE" : {
-      "description" : "",
-      "message" : "Cena"
-   },
-   "PROFESSIONAL" : {
-      "description" : "For player reputation",
-      "message" : "Profesionál"
-   },
-   "PUMP_DOWN" : {
-      "description" : "Drain the fuel tank",
-      "message" : "Pump down"
-   },
-   "QUALIFICATION_SCORES" : {
-      "description" : "",
-      "message" : "Kvalifikační hodnocení"
-   },
-   "QUIT" : {
-      "description" : "",
-      "message" : "Ukončit"
-   },
-   "QUIT_CONFIRMATION" : {
-      "description" : "For the checkbox in settings window",
-      "message" : "Quit confirmation"
-   },
-   "RANK" : {
-      "description" : "",
-      "message" : "Hodnost:"
-   },
-   "RATING" : {
-      "description" : "",
-      "message" : "Hodnocení:"
-   },
-   "REAR_WEAPON" : {
-      "description" : "",
-      "message" : "Zadní zbraň"
-   },
-   "REFUEL" : {
-      "description" : "",
-      "message" : "Natankovat"
-   },
-   "REFUEL_FULL" : {
-      "description" : "",
-      "message" : "Natankovat palivo"
-   },
-   "RELIABLE" : {
-      "description" : "For player reputation",
-      "message" : "Spolehlivý"
-   },
-   "REPAIR_X_HULL_DAMAGE_FOR_X" : {
-      "description" : "",
-      "message" : "Opravit {damage}% poškození trupu za {price}"
-   },
-   "REPUTATION" : {
-      "description" : "",
-      "message" : "Pověst"
-   },
-   "REQUEST_LAUNCH" : {
-      "description" : "",
-      "message" : "Požádat o povolení k odletu"
-   },
-   "RESET" : {
-      "description" : "",
-      "message" : "Reset"
-   },
-   "RETURN_TO_GAME" : {
-      "description" : "",
-      "message" : "Návrat do hry"
-   },
-   "RETURN_TO_MENU" : {
-      "description" : "",
-      "message" : "Návrat do menu"
-   },
-   "REVERSE_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Zrychlení vzad (prázdná)"
-   },
-   "REVERSE_ACCEL_FULL" : {
-      "description" : "",
-      "message" : "Zrychlení vzad (plné)"
-   },
-   "REWARD" : {
-      "description" : "",
-      "message" : "Odměna"
-   },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "rameno Střelec"
-   },
-   "SAVE" : {
-      "description" : "",
-      "message" : "Uložit"
-   },
-   "SCOOP_MOUNTS" : {
-      "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-      "message" : "Podvěsy sběračů"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "rameno Štít/Jižní kříž"
-   },
-   "SELECT" : {
-      "description" : "",
-      "message" : "Otevřít"
-   },
-   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
-      "description" : "",
-      "message" : "Vyber soubor do kterého uložit, nebo zadej nový název"
-   },
-   "SELECT_FILE" : {
-      "description" : "",
-      "message" : "Vyber soubor..."
-   },
-   "SELECT_GAME_TO_LOAD" : {
-      "description" : "",
-      "message" : "Vyber uloženou hru..."
-   },
-   "SELL" : {
-      "description" : "Commodities and equipment prices",
-      "message" : "[-]"
-   },
-   "SENSORS" : {
-      "description" : "",
-      "message" : "Senzory:"
-   },
-   "SENSORS_AND_DEFENCE" : {
-      "description" : "",
-      "message" : "Senzory a obrana lodi"
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Set destination as navigation target."
-   },
-   "SHIP" : {
-      "description" : "",
-      "message" : "Loď"
-   },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "Údržba lodi"
-   },
-   "SHIP_INFORMATION" : {
-      "description" : "",
-      "message" : "Informace o lodi"
-   },
-   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
-      "description" : "",
-      "message" : "Vaše loď je v perfektním stavu."
-   },
-   "SHIP_IS_FULLY_EQUIPPED" : {
-      "description" : "",
-      "message" : "Vaše loď je plně vybavena."
-   },
-   "SHIP_IS_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Vaše loď je plně naložena."
-   },
-   "SHIP_MARKET" : {
-      "description" : "",
-      "message" : "Obchod s loděmi"
-   },
-   "SHIP_REPAIRS" : {
-      "description" : "",
-      "message" : "Opravna lodí"
-   },
-   "SHIP_VIEWING_WAS_SOLD" : {
-      "description" : "",
-      "message" : "Loď, kterou si prohlížíte, byla prodána"
-   },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Simulating evolution of the universe: {age} billion years ;-)"
-   },
-   "SOUND" : {
-      "description" : "",
-      "message" : "Zvuk"
-   },
-   "START_AT_BARNARDS_STAR" : {
-      "description" : "",
-      "message" : "Start: Barnard's Star"
-   },
-   "START_AT_EARTH" : {
-      "description" : "",
-      "message" : "Start: Earth"
-   },
-   "START_AT_NEW_HOPE" : {
-      "description" : "New Hope is an in game location",
-      "message" : "Start: New Hope"
-   },
-   "STAR_FIELD_DENSITY" : {
-      "description" : "",
-      "message" : "Density of Star field"
-   },
-   "STATION_MANAGER" : {
-      "description" : "",
-      "message" : "Správce stanice"
-   },
-   "STATION_ORBIT" : {
-      "description" : "Information shown in the station loby",
-      "message" : "We are in a {orbit_period} day period orbit around {parent_body}."
-   },
-   "STATUS" : {
-      "description" : "",
-      "message" : "Status"
-   },
-   "TECH_CERTIFIED" : {
-      "description" : "Lobby screen shows the tech level (an integer number) of the station",
-      "message" : "This station holds a level {tech_level} technology certificate."
-   },
-   "TECH_CERTIFIED_MILITARY" : {
-      "description" : "Lobby screen shows the tech level of the station",
-      "message" : "This installation holds a military technology clearance."
-   },
-   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
-      "description" : "",
-      "message" : "Děkujeme za nákup. Nezapomeňte před odletem nakoupit palivo a vybavení."
-   },
-   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
-      "description" : "",
-      "message" : "Na palubě není nikdo jiný kdo je schopný pilotovat tuto loď."
-   },
-   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
-      "description" : "",
-      "message" : "Loď je pod kontrolou stanice, veliteli."
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc arm"
-   },
-   "TOGGLE_MALE_FEMALE" : {
-      "description" : "player gender",
-      "message" : "Změnit muž/žena"
-   },
-   "TOO_SMALL_FOR_CURRENT_CREW" : {
-      "description" : "",
-      "message" : "Loď je pro současnou posádku příliš malá."
-   },
-   "TOO_SMALL_TO_TRANSSHIP" : {
-      "description" : "Ship market error message",
-      "message" : "New ship lacks capacity for current cargo and hyperdrive."
-   },
-   "TOTAL" : {
-      "description" : "",
-      "message" : "Celkem: "
-   },
-   "TOTAL_MASS" : {
-      "description" : "",
-      "message" : "Celková hmotnost"
-   },
-   "TRADING_ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "Obchod s nelegálním zbožím"
-   },
-   "TRUSTWORTHY" : {
-      "description" : "For player reputation",
-      "message" : "Věrný"
-   },
-   "TYPE" : {
-      "description" : "",
-      "message" : "Typ"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Nezákonnou střelbu"
-   },
-   "UNRELIABLE" : {
-      "description" : "",
-      "message" : "Nespolehlivý"
-   },
-   "UP_ACCEL" : {
-      "description" : "",
-      "message" : "Zrychlení nahoru"
-   },
-   "USED" : {
-      "description" : "",
-      "message" : "Použitý"
-   },
-   "VERY_HIGH" : {
-      "description" : "Game settings option: graphic resolution",
-      "message" : "Velmi vysoké"
-   },
-   "VERY_LOW" : {
-      "description" : "Game settings option: graphic resolution",
-      "message" : "Velmi nízké"
-   },
-   "VIDEO" : {
-      "description" : "",
-      "message" : "Grafika"
-   },
-   "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
-      "description" : "",
-      "message" : "Nastavení grafiky (nutný restart hry)"
-   },
-   "VIDEO_RESOLUTION" : {
-      "description" : "",
-      "message" : "Rozlišení obrazovky"
-   },
-   "VSYNC" : {
-      "description" : "For the checkbox in settings window",
-      "message" : "VSync"
-   },
-   "WAGE" : {
-      "description" : "Salary of crew shown in crew roster",
-      "message" : "Mzda"
-   },
-   "WEIGHT_EMPTY" : {
-      "description" : "",
-      "message" : "Prázdná váha"
-   },
-   "WEIGHT_FULLY_LOADED" : {
-      "description" : "",
-      "message" : "Plná váha"
-   },
-   "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
-      "description" : "",
-      "message" : "Jsme v hyperprostoru, veliteli."
-   },
-   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "Said by the police to law abiding player",
-      "message" : "Momentálně s tebou nemáme uzavřen žádný obchod."
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "Message to be sent over comms by police when crime is committed by player",
-      "message" : "{crime} cannot be tolerated here!"
-   },
-   "YES" : {
-      "description" : "Positive answer to a question",
-      "message" : "Ano"
-   },
-   "YOURE_GOING_TO_REGRET_SACKING_ME" : {
-      "description" : "",
-      "message" : "Budeš litovat žes mě naštval!"
-   },
-   "YOUR_HULL_IS_AT_X_INTEGRITY" : {
-      "description" : "",
-      "message" : "Integrita trupu je {value}%."
-   },
-   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
-      "description" : "",
-      "message" : "Nemáš dostatek peněz."
-   },
-   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
-      "description" : "",
-      "message" : "You have {units} units in your cargohold"
-   },
-   "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
-      "description" : "",
-      "message" : "Nejdříve je nutné označit cíl, veliteli."
-   },
-   "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
-      "description" : "",
-      "message" : "Nejdříve je nutné vyžádat povolení k odletu, veliteli."
-   },
-   "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
-      "description" : "",
-      "message" : "Nejdříve je nutné odstartovat, veliteli."
-   },
-   "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
-      "description" : "",
-      "message" : "Nejdřív je nutné vyžádat si povolení k odletu, veliteli."
-   },
-   "YOU_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Nemáš dostatek peněz"
-   },
-   "ZOOM" : {
-      "description" : "Label for a zoom (magnification) control bar.",
-      "message" : "Zoom"
-   }
+  "ABOVE_AVERAGE": {
+    "description": "",
+    "message": "Nadprůměrný"
+  },
+  "ACTIVE": {
+    "description": "",
+    "message": "Probíhá"
+  },
+  "ADD_JUMP": {
+    "description": "UI-button: Add hyper jump to list of planned jumps",
+    "message": "Add Jump"
+  },
+  "AFTER_TRADE_IN": {
+    "description": "",
+    "message": "Na protiúčet"
+  },
+  "ALLEGIANCE": {
+    "description": "",
+    "message": "Příslušnost:"
+  },
+  "ALL_UP_WEIGHT": {
+    "description": "",
+    "message": "Celková hmotnost"
+  },
+  "AMOUNT": {
+    "description": "",
+    "message": "Množství"
+  },
+  "ANISOTROPIC_FILTERING_DESC": {
+    "description": "",
+    "message": "Samples the texture across multiple mip levels to produce a much clearer texture when viewed at shallow angles. Stops the textures from becoming as blurred; however, it can come at a heavy performance cost."
+  },
+  "AN_ERROR_HAS_OCCURRED": {
+    "description": "",
+    "message": "Vyskytla se chyba"
+  },
+  "ATMOSPHERIC_SHIELDING": {
+    "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
+    "message": "Atmosférický štít"
+  },
+  "ATTEMPT_TO_REPAIR_HULL": {
+    "description": "",
+    "message": "Zkus opravit trup"
+  },
+  "AUTO_ROUTE": {
+    "description": "Automatically find shortest jump route (measured in time) in star map",
+    "message": "Auto Route"
+  },
+  "AVAILABLE_FOR_PURCHASE": {
+    "description": "",
+    "message": "Skladem"
+  },
+  "AVERAGE": {
+    "description": "",
+    "message": "Průměrný"
+  },
+  "BACKWARD_ACCEL": {
+    "description": "",
+    "message": "Zrychlení vzad"
+  },
+  "BULLETIN_BOARD": {
+    "description": "",
+    "message": "Bulletin: Zprávy / Mise"
+  },
+  "BUY": {
+    "description": "Commodities and equipment prices",
+    "message": "[+]"
+  },
+  "BUY_SHIP": {
+    "description": "",
+    "message": "Koupit loď"
+  },
+  "CABINS": {
+    "description": "For passengers",
+    "message": "Kabiny"
+  },
+  "CABIN_FREE": {
+    "description": "Free capacity for passengers",
+    "message": "{amount} volných"
+  },
+  "CABIN_USED": {
+    "description": "Passengers using cabins",
+    "message": "{amount} použito"
+  },
+  "CANCEL": {
+    "description": "",
+    "message": "Zrušit"
+  },
+  "CAPACITY": {
+    "description": "Capacity of ship to fit more equipment",
+    "message": "Kapacita"
+  },
+  "CAPACITY_USED": {
+    "description": "",
+    "message": "Využitá kapacita"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Náklad"
+  },
+  "CARGO_SPACE": {
+    "description": "",
+    "message": "Nákladový prostor"
+  },
+  "CARGO_SPACE_USED": {
+    "description": "",
+    "message": "Náklad"
+  },
+  "CARGO_T_FREE": {
+    "description": "t for tonne",
+    "message": "{amount}t volných"
+  },
+  "CARGO_T_USED": {
+    "description": "t for tonne",
+    "message": "{amount}t použito"
+  },
+  "CASH": {
+    "description": "",
+    "message": "Hotovost"
+  },
+  "CASH_N": {
+    "description": "",
+    "message": "Peníze: {money}"
+  },
+  "CENTER_ON_SYSTEM": {
+    "description": "Center on selected star system",
+    "message": "Center on System"
+  },
+  "CHANGE_BINDING": {
+    "description": "Key binding option",
+    "message": "Změnit kl."
+  },
+  "CHIEF_MECHANIC": {
+    "description": "",
+    "message": "Hlavní mechanik"
+  },
+  "CIRCULAR_ORBIT_SPEED": {
+    "description": "",
+    "message": "Kruhová orbitální rychlost"
+  },
+  "CITY_DETAIL_LEVEL": {
+    "description": "Game graphics option",
+    "message": "Detaily měst"
+  },
+  "CLEAN": {
+    "description": "Legal status of player",
+    "message": "Čistý"
+  },
+  "CLEAR": {
+    "description": "Clear an option in game settings/options menu",
+    "message": "Smazat"
+  },
+  "CLEAR_ROUTE": {
+    "description": "Clear a planned route of hyperjumps",
+    "message": "Clear Route"
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "Klient"
+  },
+  "CLOSE": {
+    "description": "",
+    "message": "Close"
+  },
+  "COMBAT": {
+    "description": "Headline for kills and combat rating",
+    "message": "Bojové"
+  },
+  "COMMANDER": {
+    "description": "",
+    "message": "Velitel"
+  },
+  "COMMODITY_MARKET": {
+    "description": "",
+    "message": "Obchod s komoditami"
+  },
+  "COMPACT_RADAR": {
+    "description": "Game settings option",
+    "message": "Compact radar"
+  },
+  "COMPETENT": {
+    "description": "Combat rating",
+    "message": "Schopný"
+  },
+  "COMPLETED": {
+    "description": "",
+    "message": "Dokončený"
+  },
+  "COMPRESS_TEXTURES": {
+    "description": "graphics option in game settings menu ",
+    "message": "Komprimovat textury"
+  },
+  "CONFIRM_PURCHASE": {
+    "description": "",
+    "message": "Confirm purchase"
+  },
+  "CONFIRM_SALE": {
+    "description": "",
+    "message": "Confirm sale"
+  },
+  "CONSTABLE": {
+    "description": "",
+    "message": "Policista"
+  },
+  "CONTINUE_GAME": {
+    "description": "",
+    "message": "Pokračovat ve hře"
+  },
+  "CONTROLS": {
+    "description": "",
+    "message": "Ovládání"
+  },
+  "CONTROL_OPTIONS": {
+    "description": "",
+    "message": "Možnosti ovládání"
+  },
+  "COULD_NOT_LOAD_GAME": {
+    "description": "",
+    "message": "Nelze načíst pozici:"
+  },
+  "CREDIBLE": {
+    "description": "For player reputation",
+    "message": "Důvěryhodný"
+  },
+  "CREDITS": {
+    "description": "in game currency",
+    "message": "Credits"
+  },
+  "CREW_CABINS": {
+    "description": "",
+    "message": "Kabin pro posádku"
+  },
+  "CREW_ROSTER": {
+    "description": "",
+    "message": "Seznam posádky"
+  },
+  "CRIMINAL_RECORD": {
+    "description": "Past crimes / crime history of character",
+    "message": "Trestní rejstřík"
+  },
+  "CURRENT_FUEL": {
+    "description": "For hyperjump planner",
+    "message": "Current Fuel:"
+  },
+  "CURRENT_SYSTEM": {
+    "description": "For hyperjump planner",
+    "message": "Aktuální systém"
+  },
+  "DANGEROUS": {
+    "description": "Player combat rating",
+    "message": "Nebezpečný"
+  },
+  "DEADLY": {
+    "description": "Player combat rating",
+    "message": "Smrtící"
+  },
+  "DELTA_V": {
+    "description": "",
+    "message": "Delta-v"
+  },
+  "DELTA_V_EMPTY": {
+    "description": "Delta-v capacity of a ship with no cargo or upgrades",
+    "message": "Delta-v (prázdná)"
+  },
+  "DELTA_V_FULL": {
+    "description": "Delta-v capacity of a ship with maximum cargo",
+    "message": "Delta-v (plná)"
+  },
+  "DELTA_V_MAX": {
+    "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
+    "message": "Delta-v (max)"
+  },
+  "DESCENT_TO_GROUND_SPEED": {
+    "description": "",
+    "message": "Přistávací rychlost:"
+  },
+  "DESTROY_ENEMY_SHIP": {
+    "description": "",
+    "message": "Znič nepřátelskou loď"
+  },
+  "DETAIL_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Lower gives better performance, at cost of visual aesthetics"
+  },
+  "DISMISS": {
+    "description": "Terminate crew memeber's contract",
+    "message": "Propustit"
+  },
+  "DISPLAY_HUD_TRAILS": {
+    "description": "",
+    "message": "Zobrazovat HUD trails"
+  },
+  "DISPLAY_HUD_TRAILS_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Guides the eye by showing the trajectory of ships on the HUD"
+  },
+  "DISPLAY_NAV_TUNNELS": {
+    "description": "Settings option: hyperspace tunnel effect",
+    "message": "Zobrazovat navigační tunel"
+  },
+  "DISPLAY_NAV_TUNNELS_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Shows a virtual tunnel to current selected target on the HUD"
+  },
+  "DISPLAY_SPEED_LINES": {
+    "description": "Settings option: effect when travelling in space",
+    "message": "Zobrazovat rychlostní čáry"
+  },
+  "DISPLAY_SPEED_LINES_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Assists the sense of direction of movement in space"
+  },
+  "DOCKED_AT": {
+    "description": "",
+    "message": "Docked at"
+  },
+  "DOCK_AT_CURRENT_TARGET": {
+    "description": "",
+    "message": "Přistaň na zvoleném cíli"
+  },
+  "DUE": {
+    "description": "mission deadline date",
+    "message": "Splatnost"
+  },
+  "DUMPING": {
+    "description": "The illegal act of dumping waste",
+    "message": "Dumping"
+  },
+  "D_DAYS_LEFT": {
+    "description": "",
+    "message": "Zbývá dnů: %d"
+  },
+  "ECONOMY_TRADE": {
+    "description": "",
+    "message": "Ekonomika & obchod"
+  },
+  "EFFECTS": {
+    "description": "",
+    "message": "Efekty:"
+  },
+  "ELITE": {
+    "description": "Player combat rating",
+    "message": "ELITA"
+  },
+  "EMPLOYMENT": {
+    "description": "",
+    "message": "Zaměstnanost"
+  },
+  "ENABLE_ANISOTROPIC_FILTERING": {
+    "description": "Use Anisotropic Filtering",
+    "message": "Anisotropic Filtering"
+  },
+  "ENABLE_AUTOSAVE": {
+    "description": "Allow the game to autosave when docking",
+    "message": "Enable Autosave"
+  },
+  "ENABLE_AUTOSAVE_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "save state when docking, might cause some lag depending on disk access time"
+  },
+  "ENABLE_COCKPIT": {
+    "description": "Game settings option: to use a cockpit 3D model",
+    "message": "Zapnout 3D kokpit (EXPERIMENTALNÍ)"
+  },
+  "ENABLE_COCKPIT_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Display a 3D model of the pilot's cockpit. (Currently the dashboard is a placeholder)"
+  },
+  "ENABLE_JOYSTICK": {
+    "description": "",
+    "message": "Zapnout ovládání joystickem"
+  },
+  "END_GAME": {
+    "description": "",
+    "message": "End Game"
+  },
+  "ENGINEERING": {
+    "description": "Engineering skills of crew",
+    "message": "Údržba:"
+  },
+  "EQUIPMENT": {
+    "description": "",
+    "message": "Vybavení"
+  },
+  "EQUIPMENT_MARKET": {
+    "description": "",
+    "message": "Obchod s vybavením"
+  },
+  "EQUIPPED": {
+    "description": "",
+    "message": "Vybavení lodi"
+  },
+  "ERROR": {
+    "description": "",
+    "message": "Chyba"
+  },
+  "ERROR_LANDING_GEAR_DOWN": {
+    "description": "",
+    "message": "Can not initiate hyperjump; landing gear is not retracted!"
+  },
+  "ESCAPE_SPEED": {
+    "description": "",
+    "message": "Úniková rychlost:"
+  },
+  "EXIT_THIS_GAME": {
+    "description": "",
+    "message": "Ukončit hru"
+  },
+  "EXPERIENCED": {
+    "description": "For player reputation",
+    "message": "Zkušený"
+  },
+  "EXPERT": {
+    "description": "For player reputation",
+    "message": "Expert"
+  },
+  "FAILED": {
+    "description": "When failed mission",
+    "message": "Neúspěšný"
+  },
+  "FEMALE": {
+    "description": "",
+    "message": "Žena"
+  },
+  "FINAL_TARGET": {
+    "description": "Hyperjump planner, referring to star system target",
+    "message": "Final Target:"
+  },
+  "FLIGHT_STATE": {
+    "description": "",
+    "message": "Flight State"
+  },
+  "FLYING": {
+    "description": "",
+    "message": "Flying"
+  },
+  "FORWARD_ACCEL": {
+    "description": "",
+    "message": "Zrychlení vpřed"
+  },
+  "FORWARD_ACCEL_EMPTY": {
+    "description": "",
+    "message": "Zrychlení vpřed (prázdná)"
+  },
+  "FORWARD_ACCEL_FULL": {
+    "description": "",
+    "message": "Zrychlení vpřed (plná)"
+  },
+  "FRACTAL_DETAIL": {
+    "description": "",
+    "message": "Detaily fraktálů"
+  },
+  "FREE": {
+    "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
+    "message": "volných"
+  },
+  "FRONT_WEAPON": {
+    "description": "",
+    "message": "Přední zbraň"
+  },
+  "FUEL": {
+    "description": "",
+    "message": "Palivo"
+  },
+  "FUEL_TANK_FULL": {
+    "description": "",
+    "message": "Palivová nádrž je plná."
+  },
+  "FUEL_WEIGHT": {
+    "description": "",
+    "message": "Hmotnost paliva"
+  },
+  "FULL_SCREEN": {
+    "description": "",
+    "message": "Celá obrazovka"
+  },
+  "GAME_TIME": {
+    "description": "",
+    "message": "Game time"
+  },
+  "GENERAL_CREW": {
+    "description": "",
+    "message": "Základní posádka"
+  },
+  "GIVE_ORDERS_TO_CREW": {
+    "description": "",
+    "message": "Dát posádce rozkazy"
+  },
+  "GOOD_RIDDANCE_TO_YOU_TOO": {
+    "description": "",
+    "message": "Spánembohem i tobě."
+  },
+  "GPU_JOBS": {
+    "description": "",
+    "message": "GPU Jobs"
+  },
+  "GPU_JOBS_DESC": {
+    "description": "",
+    "message": "Utilize GPU for certain actions, possibly improving performance."
+  },
+  "HANG_UP": {
+    "description": "",
+    "message": "Konec"
+  },
+  "HARMLESS": {
+    "description": "Player combat rating",
+    "message": "Neškodný"
+  },
+  "HEAVY_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "Těžký nákladní raketoplán"
+  },
+  "HEAVY_COURIER": {
+    "description": "",
+    "message": "Těžký kurýr"
+  },
+  "HEAVY_FIGHTER": {
+    "description": "",
+    "message": "Těžký stíhač"
+  },
+  "HEAVY_FREIGHTER": {
+    "description": "",
+    "message": "Těžká nákladní loď"
+  },
+  "HEAVY_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "Těžký přepravní raketoplán"
+  },
+  "HEAVY_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "Těžký přepravní transportér"
+  },
+  "HIGH": {
+    "description": "Game settings option: for graphics resolution",
+    "message": "Vysoké"
+  },
+  "HUD_2D_RADAR": {
+    "description": "Popup text: the name of the azimuthal equidistant projection radar",
+    "message": "2D azimuthal equidistant projection"
+  },
+  "HUD_3D_RADAR": {
+    "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
+    "message": "3D planar projection"
+  },
+  "HUD_ATMOSPHERIC_PRESSURE": {
+    "description": "Tooltip: Atmospheric Pressure.",
+    "message": "Atmospheric Pressure"
+  },
+  "HUD_BACKWARD_GUN_TEMPERATURE": {
+    "description": "Tooltip: Backward Gun Temperature.",
+    "message": "Backward Gun Temperature"
+  },
+  "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS": {
+    "description": "Tooltip: The braking distance using the main thrusters.",
+    "message": "The braking distance using the main thrusters"
+  },
+  "HUD_BUTTON_AUTOPILOT_DOCKING": {
+    "description": "Tooltip: Autopilot docking",
+    "message": "Autopilot docking"
+  },
+  "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT": {
+    "description": "Tooltip: Autopilot entering orbit",
+    "message": "Autopilot entering orbit"
+  },
+  "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET": {
+    "description": "Tooltip: Autopilot flying to target",
+    "message": "Autopilot flying to target"
+  },
+  "HUD_BUTTON_BLASTOFF": {
+    "description": "Tooltip: Blastoff",
+    "message": "Blastoff"
+  },
+  "HUD_BUTTON_EQUIPMENT": {
+    "description": "Tooltip: Equipment",
+    "message": "Vybavení"
+  },
+  "HUD_BUTTON_EXTERNAL_VIEW": {
+    "description": "Tooltip: External camera view",
+    "message": "Pohled zvenku"
+  },
+  "HUD_BUTTON_FIX_ANTINORMAL": {
+    "description": "Tooltip: fix heading antinormal",
+    "message": "Fix heading antinormal"
+  },
+  "HUD_BUTTON_FIX_NORMAL": {
+    "description": "Tooltip: fix heading normal",
+    "message": "Fix heading normal"
+  },
+  "HUD_BUTTON_FIX_PROGRADE": {
+    "description": "Tooltip: fix heading prograde",
+    "message": "Fix heading prograde"
+  },
+  "HUD_BUTTON_FIX_RADIAL_IN": {
+    "description": "Tooltip: fix heading radially inward",
+    "message": "Fix heading radially inward"
+  },
+  "HUD_BUTTON_FIX_RADIAL_OUT": {
+    "description": "Tooltip: fix heading radially outward",
+    "message": "Fix heading radially outward"
+  },
+  "HUD_BUTTON_FIX_RETROGRADE": {
+    "description": "Tooltip: fix heading retrograde",
+    "message": "Fix heading retrograde"
+  },
+  "HUD_BUTTON_FLYBY_VIEW": {
+    "description": "Tooltip: Flyby camera view",
+    "message": "Flyby view"
+  },
+  "HUD_BUTTON_HYPERDRIVE_DISABLED": {
+    "description": "Tooltip: Hyperdrive disabled (docked or landed)",
+    "message": "Hyperdrive disabled"
+  },
+  "HUD_BUTTON_INITIATE_HYPERJUMP": {
+    "description": "Tooltip: Initiate legal hyperjump",
+    "message": "Initiate hyperjump"
+  },
+  "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP": {
+    "description": "Tooltip: Initiate illegal hyperjump",
+    "message": "Initiate illegal hyperjump"
+  },
+  "HUD_BUTTON_INTERNAL_VIEW": {
+    "description": "Tooltip: Internal camera view",
+    "message": "Pohled zevnitř"
+  },
+  "HUD_BUTTON_KILL_ROTATION": {
+    "description": "Tooltip: kill rotation",
+    "message": "Zastavit rotaci"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_DOWN": {
+    "description": "Tooltip: Landing gear is down",
+    "message": "Landing gear is down"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_MOVING": {
+    "description": "Tooltip: Landing gear is moving",
+    "message": "Landing gear is moving"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_UP": {
+    "description": "Tooltip: Landing gear is up",
+    "message": "Landing gear is up"
+  },
+  "HUD_BUTTON_MANUAL_CONTROL": {
+    "description": "Tooltip: Manual control",
+    "message": "Manuální ovládání"
+  },
+  "HUD_BUTTON_ROTATION_DAMPING_IS_OFF": {
+    "description": "Tooltip: Rotation damping is off",
+    "message": "Rotation damping is off"
+  },
+  "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
+    "description": "Tooltip: Rotation damping is on",
+    "message": "Rotation damping is on"
+  },
+  "HUD_BUTTON_SCANNER": {
+    "description": "Tooltip: Scanner",
+    "message": "Radar"
+  },
+  "HUD_BUTTON_SET_SPEED": {
+    "description": "Tooltip: set speed",
+    "message": "Set speed"
+  },
+  "HUD_BUTTON_SHOW_COMMS": {
+    "description": "Tooltip: Show comms",
+    "message": "Show comms"
+  },
+  "HUD_BUTTON_SHOW_PERSONAL_INFO": {
+    "description": "Tooltip: Show personal info",
+    "message": "Show personal info"
+  },
+  "HUD_BUTTON_SIDEREAL_VIEW": {
+    "description": "Tooltip: Sidereal camera view",
+    "message": "Pohled hvězdný"
+  },
+  "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
+    "description": "Tooltip: Switch to galaxy map",
+    "message": "Switch to galaxy map"
+  },
+  "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
+    "description": "Tooltip: Switch to sector map",
+    "message": "Switch to sector map"
+  },
+  "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
+    "description": "Tooltip: Switch to system map",
+    "message": "Switch to system map"
+  },
+  "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW": {
+    "description": "Tooltip: Switch to system overview",
+    "message": "Switch to system overview"
+  },
+  "HUD_BUTTON_SWITCH_TO_WORLD_VIEW": {
+    "description": "Tooltip: Switch to world view",
+    "message": "Switch to world view"
+  },
+  "HUD_BUTTON_UNDOCK": {
+    "description": "Tooltip: Undock",
+    "message": "Undock"
+  },
+  "HUD_CARGO_MASS": {
+    "description": "Cargo Mass",
+    "message": "Cargo Mass"
+  },
+  "HUD_CURRENT_COMBAT_TARGET": {
+    "description": "Tooltip: The current combat target.",
+    "message": "The current combat target"
+  },
+  "HUD_CURRENT_FRAME": {
+    "description": "Tooltip: The current frame of reference.",
+    "message": "The current frame of reference"
+  },
+  "HUD_CURRENT_HEADING": {
+    "description": "Tooltip: the current heading.",
+    "message": "The current heading"
+  },
+  "HUD_CURRENT_NAV_TARGET": {
+    "description": "Tooltip: The current navigational target.",
+    "message": "The current navigational target"
+  },
+  "HUD_CURRENT_PITCH": {
+    "description": "Tooltip: the current pitch.",
+    "message": "The current pitch"
+  },
+  "HUD_CURRENT_ROLL": {
+    "description": "Tooltip: the current roll.",
+    "message": "The current roll"
+  },
+  "HUD_DELTA_V": {
+    "description": "Tooltip: The remaining Δv.",
+    "message": "Remaining Δv"
+  },
+  "HUD_DELTA_V_OF_MANEUVER_BURN": {
+    "description": "Tooltip: The Δv for the maneuver burn.",
+    "message": "The Δv for the maneuver burn"
+  },
+  "HUD_DELTA_V_PERCENT": {
+    "description": "Tooltip: The remaining Δv in percent.",
+    "message": "Remaining Δv"
+  },
+  "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
+    "description": "Tooltip: Distance to the surface of the frame of reference.",
+    "message": "Distance to the surface of the frame of reference"
+  },
+  "HUD_DISTANCE_TO_SURFACE_OF_TARGET": {
+    "description": "Tooltip: Distance to the surface of the target.",
+    "message": "Distance to the surface of the target"
+  },
+  "HUD_DURATION_OF_MANEUVER_BURN": {
+    "description": "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
+    "message": "The approximate duration of the maneuver burn with main thrusters"
+  },
+  "HUD_DURATION_UNTIL_MANEUVER_BURN": {
+    "description": "Tooltip: The duration until the middle of the maneuver burn.",
+    "message": "The duration until the middle of the maneuver burn"
+  },
+  "HUD_FORWARD_GUN_TEMPERATURE": {
+    "description": "Tooltip: Forward Gun Temperature.",
+    "message": "Forward Gun Temperature"
+  },
+  "HUD_HULL_STRENGTH": {
+    "description": "Tooltip: Hull Strength.",
+    "message": "Hull Strength"
+  },
+  "HUD_HULL_TEMPERATURE": {
+    "description": "Tooltip: Hull Temperature.",
+    "message": "Hull Temperature"
+  },
+  "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
+    "description": "",
+    "message": "Hyperspacing to {destination} in {countdown} seconds"
+  },
+  "HUD_INDICATOR_AWAY_FROM_FRAME": {
+    "description": "Indicator: Away from the current frame.",
+    "message": "Away from the current frame"
+  },
+  "HUD_INDICATOR_COMBAT_TARGET_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current combat target.",
+    "message": "Prograde relative to current combat target"
+  },
+  "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current combat target.",
+    "message": "Retrograde relative to current combat target"
+  },
+  "HUD_INDICATOR_FRAME_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current frame.",
+    "message": "Prograde relative to current frame of reference"
+  },
+  "HUD_INDICATOR_FRAME_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current frame.",
+    "message": "Retrograde relative to current frame of reference"
+  },
+  "HUD_INDICATOR_MANEUVER_PROGRADE": {
+    "description": "Indicator: The prograde direction for the maneuver burn.",
+    "message": "Prograde for maneuver burn"
+  },
+  "HUD_INDICATOR_NAV_TARGET_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current navigational target.",
+    "message": "Prograde relative to current navigational target"
+  },
+  "HUD_INDICATOR_NAV_TARGET_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current navigational target.",
+    "message": "Retrograde relative to current navigational target"
+  },
+  "HUD_IN_TRANSIT_TO_N_X_X_X": {
+    "description": "",
+    "message": "In transit to {system} [{x},{y},{z}]"
+  },
+  "HUD_JUMP_COMPLETE": {
+    "description": "",
+    "message": "Jump complete: {percent}%"
+  },
+  "HUD_MASS": {
+    "description": "Mass",
+    "message": "Hmotnost"
+  },
+  "HUD_RADAR_DISTANCE": {
+    "description": "Tooltip: Current distance of the radar.",
+    "message": "Active radar distance"
+  },
+  "HUD_REQUEST_TIME_ACCEL": {
+    "description": "Tooltip: Request time acceleration {time}",
+    "message": "Request time acceleration: {time}"
+  },
+  "HUD_SHIELD_STRENGTH": {
+    "description": "Tooltip: Shield Strength.",
+    "message": "Shield Strength"
+  },
+  "HUD_SHOW_COMBAT_TARGET": {
+    "description": "Tooltip: Show the current combat target.",
+    "message": "Show the current combat target"
+  },
+  "HUD_SHOW_FRAME": {
+    "description": "Tooltip: Show the current frame of reference.",
+    "message": "Show the current frame of reference"
+  },
+  "HUD_SHOW_NAV_TARGET": {
+    "description": "Tooltip: Show current navigational target.",
+    "message": "Show the current navigational target"
+  },
+  "HUD_SPEED_OF_APPROACH_TO_FRAME": {
+    "description": "Tooltip: The speed of approach towards the frame of reference.",
+    "message": "The speed of approach towards the frame of reference"
+  },
+  "HUD_SPEED_OF_APPROACH_TO_TARGET": {
+    "description": "Tooltip: The speed of approach relative to target.",
+    "message": "The speed of approach relative to target"
+  },
+  "HUD_SPEED_RELATIVE_TO_TARGET": {
+    "description": "Tooltip: The speed relative to the target.",
+    "message": "The speed relative to the target"
+  },
+  "HUD_THRUST_INDICATOR": {
+    "description": "Tooltip: describe what the thrust/velocity indicator shows",
+    "message": "Show current velocity for each direction (thin lines) and thrust (thick background)"
+  },
+  "HULL_DOES_NOT_REQUIRE_REPAIR": {
+    "description": "",
+    "message": "Trup nepotřebuje opravu."
+  },
+  "HULL_INTEGRITY": {
+    "description": "",
+    "message": "Integrita trupu"
+  },
+  "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
+    "description": "",
+    "message": "{name} opravil trup, stav {repairPercent}%"
+  },
+  "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE": {
+    "description": "",
+    "message": "Neúspěšný pokus o opravu trupu. Trup utrpěl menší poškození."
+  },
+  "HYPERDRIVE": {
+    "description": "",
+    "message": "Hypermotor"
+  },
+  "HYPERDRIVE_FITTED": {
+    "description": "",
+    "message": "Hypermotor:"
+  },
+  "HYPERJUMP_ROUTE": {
+    "description": "",
+    "message": "HyperJump Route"
+  },
+  "HYPERSPACE_RANGE": {
+    "description": "",
+    "message": "Hyperprostorový dosah"
+  },
+  "ILLEGAL_JUMP": {
+    "description": "A finable crime",
+    "message": "Reckless hyperjump registered"
+  },
+  "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
+    "description": "",
+    "message": "Už mě unavuje pracovat pro nic za nic. Víš vůbec co je to smlouva?"
+  },
+  "INACTIVE": {
+    "description": "",
+    "message": "Neprobíhá"
+  },
+  "INCOMPETENT": {
+    "description": "For player reputation",
+    "message": "Neschopný"
+  },
+  "INEXPERIENCED": {
+    "description": "For player reputation",
+    "message": "Nezkušený"
+  },
+  "INSUFFICIENT_FUNDS": {
+    "description": "",
+    "message": "Insufficient funds."
+  },
+  "INVERT_MOUSE_Y": {
+    "description": "",
+    "message": "Invertovat osu Y"
+  },
+  "IN_CARGO_HOLD": {
+    "description": "",
+    "message": "V nákladovém prostoru"
+  },
+  "IN_STOCK": {
+    "description": "",
+    "message": "Skladem"
+  },
+  "ITEM_IS_OUT_OF_STOCK": {
+    "description": "",
+    "message": "Tato položka není skladem."
+  },
+  "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
+    "description": "",
+    "message": "Dobře se mi s tebou pracovalo. Pokud bys mě potřeboval(a), ještě tu chvíli zůstanu."
+  },
+  "JETTISON": {
+    "description": "",
+    "message": "Odhodit"
+  },
+  "JUMPING": {
+    "description": "Flight State",
+    "message": "Jumping"
+  },
+  "KILLS": {
+    "description": "",
+    "message": "Zabitých:"
+  },
+  "LANGUAGE": {
+    "description": "",
+    "message": "Jazyk"
+  },
+  "LANGUAGE_RESTART_GAME_TO_APPLY": {
+    "description": "",
+    "message": "Jazyk (nutný restart hry)"
+  },
+  "LAUNCH_PERMISSION_DENIED_BUSY": {
+    "description": "",
+    "message": "Povolení ke startu zamítnuto: dokovací prostor je obsazen."
+  },
+  "LAUNCH_PERMISSION_DENIED_CREW": {
+    "description": "",
+    "message": "Permission to launch denied: not enough crew to handle this ship."
+  },
+  "LAUNCH_PERMISSION_DENIED_FINED": {
+    "description": "",
+    "message": "Povolení ke startu zamítnuto: máte nezaplacené pokuty."
+  },
+  "LEGAL_STATUS": {
+    "description": "",
+    "message": "Trestní rejstřík"
+  },
+  "LIGHT_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "Lehký nákladní raketoplán"
+  },
+  "LIGHT_COURIER": {
+    "description": "",
+    "message": "Lehký kurýr"
+  },
+  "LIGHT_FIGHTER": {
+    "description": "",
+    "message": "Lehký stíhač"
+  },
+  "LIGHT_FREIGHTER": {
+    "description": "",
+    "message": "Lehká nákladní loď"
+  },
+  "LIGHT_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "Lehký přepravní raketoplán"
+  },
+  "LIGHT_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "Lehký přepravní transportér"
+  },
+  "LOAD": {
+    "description": "",
+    "message": "Načíst"
+  },
+  "LOAD_GAME": {
+    "description": "",
+    "message": "Načíst hru"
+  },
+  "LOBBY": {
+    "description": "",
+    "message": "Lobby"
+  },
+  "LOCAL_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Local arm"
+  },
+  "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
+    "description": "",
+    "message": "{distance}km od centra {name}:"
+  },
+  "LOCATION": {
+    "description": "",
+    "message": "Pozice"
+  },
+  "LOW": {
+    "description": "",
+    "message": "Nízké"
+  },
+  "LY": {
+    "description": "Light year",
+    "message": "ly"
+  },
+  "MAJOR_EXPORTS_ITEM": {
+    "description": "",
+    "message": "Major exports"
+  },
+  "MAJOR_IMPORTS_ITEM": {
+    "description": "",
+    "message": "Major imports"
+  },
+  "MAKE_NEW_FACE": {
+    "description": "",
+    "message": "Vytvořit jiný obličej"
+  },
+  "MALE": {
+    "description": "",
+    "message": "Muž"
+  },
+  "MARKET_BUYLINE": {
+    "description": "",
+    "message": "Buy {amount} units for {price}"
+  },
+  "MARKET_SELLINE": {
+    "description": "",
+    "message": "Sell {amount} units for {price}"
+  },
+  "MASS": {
+    "description": "",
+    "message": "Hmotnost"
+  },
+  "MASTER": {
+    "description": "For player reputation",
+    "message": "Hlavní"
+  },
+  "MASTER_VOL": {
+    "description": "Master sound in settings option",
+    "message": "Hlavní:"
+  },
+  "MAX": {
+    "description": "",
+    "message": "max"
+  },
+  "MAXIMUM_CREW": {
+    "description": "",
+    "message": "Maximální posádka"
+  },
+  "MEDIUM": {
+    "description": "Game settings option: graphics resolution",
+    "message": "Střední"
+  },
+  "MEDIUM_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "Střední nákladní raketoplán"
+  },
+  "MEDIUM_COURIER": {
+    "description": "",
+    "message": "Střední kurýr"
+  },
+  "MEDIUM_FIGHTER": {
+    "description": "",
+    "message": "Střední stíhač"
+  },
+  "MEDIUM_FREIGHTER": {
+    "description": "",
+    "message": "Středí nákladní loď"
+  },
+  "MEDIUM_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "Střední přepravní raketoplán"
+  },
+  "MEDIUM_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "Střední přepravní transportér"
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "Kovové slitiny"
+  },
+  "MILITARY": {
+    "description": "",
+    "message": "Vojenské"
+  },
+  "MINIMUM_CREW": {
+    "description": "",
+    "message": "Minimální posádka"
+  },
+  "MINOR_EXPORTS_ITEM": {
+    "description": "",
+    "message": "Minor exports"
+  },
+  "MINOR_IMPORTS_ITEM": {
+    "description": "",
+    "message": "Minor imports"
+  },
+  "MISSILE_MOUNTS": {
+    "description": "",
+    "message": "Podvěsy střel"
+  },
+  "MISSIONS": {
+    "description": "",
+    "message": "Mise"
+  },
+  "MISSION_DETAILS": {
+    "description": "",
+    "message": "Detaily mise"
+  },
+  "MORE_INFO": {
+    "description": "",
+    "message": "Další info..."
+  },
+  "MOSTLY_HARMLESS": {
+    "description": "",
+    "message": "Převážně neškodný"
+  },
+  "MOVE_DOWN": {
+    "description": "move selection down in list",
+    "message": "Move Down"
+  },
+  "MOVE_UP": {
+    "description": "move selection up in list",
+    "message": "Move Up"
+  },
+  "MULTISAMPLING": {
+    "description": "",
+    "message": "Multisampling"
+  },
+  "MULTISAMPLING_DESC": {
+    "description": "",
+    "message": "A graphical fine-tuning feature, used to reduce jagged, pixelated contours. It can be quite resource-intensive."
+  },
+  "MURDER": {
+    "description": "",
+    "message": "Vražda"
+  },
+  "MUSIC": {
+    "description": "",
+    "message": "Hudba:"
+  },
+  "MUTE": {
+    "description": "",
+    "message": "Ztlumit"
+  },
+  "NAME_OBJECT": {
+    "description": "For an item or object",
+    "message": "Název"
+  },
+  "NAME_PERSON": {
+    "description": "For a person",
+    "message": "Jméno"
+  },
+  "NAVIGATION": {
+    "description": "",
+    "message": "Navigace:"
+  },
+  "NAVIGATOR": {
+    "description": "",
+    "message": "Navigátor"
+  },
+  "NEGOTIATE": {
+    "description": "",
+    "message": "Vyjenávat"
+  },
+  "NEXT_PAID": {
+    "description": "",
+    "message": "Další platba"
+  },
+  "NO": {
+    "description": "Negative answer to a question",
+    "message": "Ne"
+  },
+  "NOBODY": {
+    "description": "For player reputation",
+    "message": "Nikdo"
+  },
+  "NONE": {
+    "description": "",
+    "message": "Nic"
+  },
+  "NONE_FOR_SALE_IN_THIS_STATION": {
+    "description": "",
+    "message": "None for sale in this station."
+  },
+  "NORMA_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "rameno Pravítko"
+  },
+  "NOTES": {
+    "description": "",
+    "message": "Poznámky:"
+  },
+  "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
+    "description": "",
+    "message": "Nedostatek {alloy} k pokusu o opravu"
+  },
+  "NOT_SUPPORTED_ON_THIS_SHIP": {
+    "description": "",
+    "message": "{equipment} nelze na tuto loď přidat"
+  },
+  "NO_FILTER_MATCHES": {
+    "description": "No matches to this filter.",
+    "message": "Nothing matches that filter"
+  },
+  "NO_MISSIONS": {
+    "description": "",
+    "message": "Žádné mise."
+  },
+  "N_LIGHT_YEARS_N_MAX": {
+    "description": "",
+    "message": "{range} ly ({maxRange} max)"
+  },
+  "N_OCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "{quantity} obsazených pasažérských kabin"
+  },
+  "N_SHIELD_GENERATORS": {
+    "description": "",
+    "message": "{quantity} generátory štítů"
+  },
+  "N_UNOCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "{quantity} volných pasažérských kabin"
+  },
+  "OFF": {
+    "description": "",
+    "message": "Vypnuto"
+  },
+  "OK": {
+    "description": "",
+    "message": "Ok"
+  },
+  "OPEN_USER_FOLDER": {
+    "description": "",
+    "message": "User Folder"
+  },
+  "OPTIONS": {
+    "description": "",
+    "message": "Nastavení"
+  },
+  "ORBIT": {
+    "description": "",
+    "message": "Orbita"
+  },
+  "ORBITAL_ANALYSIS": {
+    "description": "",
+    "message": "Orbitální analýza"
+  },
+  "ORBITAL_ANALYSIS_NOTES": {
+    "description": "",
+    "message": "Úhlová orbitální rychlost je vztažena k tangenciální rychlosti. Loď by se měla pohybovat v úhlu 90° k ose lodi/{name}.\n\nRychlost sestupu je absolutní minimum a je taktéž tangenciální. Menší rychlost nebo menší úhel bude mít za následek trajektorii, která se protíná s povrchem {name}.\n\nÚniková rychlost může být teoreticky libovolná ve všech směrech, dokud se trajektorie lodi nenáchází na kolizním kurzu s {name}.\n\t\t"
+  },
+  "OUTER_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "rameno Labuť"
+  },
+  "OUTSTANDING_FINES": {
+    "description": "Unpaid fines for crimes committed",
+    "message": "Outstanding fines"
+  },
+  "OVERVIEW_NAME_FILTER": {
+    "description": "Filter overview window entries by name",
+    "message": "Filter overview window entries by name"
+  },
+  "OWED": {
+    "description": "Player owing money to crew members",
+    "message": "Dluh"
+  },
+  "PAY_FINE_OF_N": {
+    "description": "",
+    "message": "Zaplať pokutu {amount}"
+  },
+  "PERSEUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "rameno Perseus"
+  },
+  "PERSONAL_INFORMATION": {
+    "description": "",
+    "message": "Osobní informace"
+  },
+  "PILOT": {
+    "description": "",
+    "message": "Pilot"
+  },
+  "PILOTING": {
+    "description": "",
+    "message": "Pilotáž:"
+  },
+  "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
+    "description": "",
+    "message": "Nyní pilotuje {name}"
+  },
+  "PIRACY": {
+    "description": "",
+    "message": "Pirátství"
+  },
+  "PLANET_DETAIL_DISTANCE": {
+    "description": "",
+    "message": "Detaily planet"
+  },
+  "PLANET_TEXTURES": {
+    "description": "",
+    "message": "Textury planet"
+  },
+  "POLICE": {
+    "description": "",
+    "message": "Policie"
+  },
+  "POOR": {
+    "description": "Player combat rating",
+    "message": "Ubohý"
+  },
+  "POSITION": {
+    "description": "The job title/position of crew memeber",
+    "message": "Pozice"
+  },
+  "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
+    "description": "",
+    "message": "Press a key or controller button or escape to clear"
+  },
+  "PRICE": {
+    "description": "",
+    "message": "Cena"
+  },
+  "PROFESSIONAL": {
+    "description": "For player reputation",
+    "message": "Profesionál"
+  },
+  "PUMP_DOWN": {
+    "description": "Drain the fuel tank",
+    "message": "Pump down"
+  },
+  "QUALIFICATION_SCORES": {
+    "description": "",
+    "message": "Kvalifikační hodnocení"
+  },
+  "QUIT": {
+    "description": "",
+    "message": "Ukončit"
+  },
+  "QUIT_CONFIRMATION": {
+    "description": "For the checkbox in settings window",
+    "message": "Quit confirmation"
+  },
+  "RANK": {
+    "description": "",
+    "message": "Hodnost:"
+  },
+  "RATING": {
+    "description": "",
+    "message": "Hodnocení:"
+  },
+  "REAR_WEAPON": {
+    "description": "",
+    "message": "Zadní zbraň"
+  },
+  "REFUEL": {
+    "description": "",
+    "message": "Natankovat"
+  },
+  "REFUEL_FULL": {
+    "description": "",
+    "message": "Natankovat palivo"
+  },
+  "REGISTRATION_NUMBER": {
+    "description": "",
+    "message": "Registration number"
+  },
+  "RELIABLE": {
+    "description": "For player reputation",
+    "message": "Spolehlivý"
+  },
+  "REMOVE_JUMP": {
+    "description": "UI-button: remove hyper jump from list of planned jumps",
+    "message": "Remove Jump"
+  },
+  "REMOVE_WHEN_COMPLETED": {
+    "description": "For UI hyperjump planner, referring to jump target system",
+    "message": "Remove jump when completed"
+  },
+  "REPAIR_X_HULL_DAMAGE_FOR_X": {
+    "description": "",
+    "message": "Opravit {damage}% poškození trupu za {price}"
+  },
+  "REPUTATION": {
+    "description": "",
+    "message": "Pověst"
+  },
+  "REQUEST_LAUNCH": {
+    "description": "",
+    "message": "Požádat o povolení k odletu"
+  },
+  "REQUIRED_FUEL": {
+    "description": "Fuel usage for traveling to star system",
+    "message": "Required Fuel:"
+  },
+  "RESET": {
+    "description": "",
+    "message": "Reset"
+  },
+  "RETURN_TO_GAME": {
+    "description": "",
+    "message": "Návrat do hry"
+  },
+  "RETURN_TO_MENU": {
+    "description": "",
+    "message": "Návrat do menu"
+  },
+  "REVERSE_ACCEL_EMPTY": {
+    "description": "",
+    "message": "Zrychlení vzad (prázdná)"
+  },
+  "REVERSE_ACCEL_FULL": {
+    "description": "",
+    "message": "Zrychlení vzad (plné)"
+  },
+  "REWARD": {
+    "description": "",
+    "message": "Odměna"
+  },
+  "ROUTE_INFO": {
+    "description": "For hyperjump planner",
+    "message": "Route Info"
+  },
+  "ROUTE_JUMPS": {
+    "description": "For hyperjump planner",
+    "message": "Route Jumps"
+  },
+  "SAGITTARIUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "rameno Střelec"
+  },
+  "SAVE": {
+    "description": "",
+    "message": "Uložit"
+  },
+  "SCOOP_MOUNTS": {
+    "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
+    "message": "Podvěsy sběračů"
+  },
+  "SCUTUM_CENTAURUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "rameno Štít/Jižní kříž"
+  },
+  "SELECT": {
+    "description": "",
+    "message": "Otevřít"
+  },
+  "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
+    "description": "",
+    "message": "Vyber soubor do kterého uložit, nebo zadej nový název"
+  },
+  "SELECT_FILE": {
+    "description": "",
+    "message": "Vyber soubor..."
+  },
+  "SELECT_GAME_TO_LOAD": {
+    "description": "",
+    "message": "Vyber uloženou hru..."
+  },
+  "SELL": {
+    "description": "Commodities and equipment prices",
+    "message": "[-]"
+  },
+  "SENSORS": {
+    "description": "",
+    "message": "Senzory:"
+  },
+  "SENSORS_AND_DEFENCE": {
+    "description": "",
+    "message": "Senzory a obrana lodi"
+  },
+  "SETTINGS": {
+    "description": "UI option",
+    "message": "Settings"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Set destination as navigation target."
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Loď"
+  },
+  "SHIPS_ENGINEER": {
+    "description": "",
+    "message": "Údržba lodi"
+  },
+  "SHIP_INFORMATION": {
+    "description": "",
+    "message": "Informace o lodi"
+  },
+  "SHIP_IS_ALREADY_FULLY_REPAIRED": {
+    "description": "",
+    "message": "Vaše loď je v perfektním stavu."
+  },
+  "SHIP_IS_FULLY_EQUIPPED": {
+    "description": "",
+    "message": "Vaše loď je plně vybavena."
+  },
+  "SHIP_IS_FULLY_LADEN": {
+    "description": "",
+    "message": "Vaše loď je plně naložena."
+  },
+  "SHIP_MARKET": {
+    "description": "",
+    "message": "Obchod s loděmi"
+  },
+  "SHIP_REPAIRS": {
+    "description": "",
+    "message": "Opravna lodí"
+  },
+  "SHIP_VIEWING_WAS_SOLD": {
+    "description": "",
+    "message": "Loď, kterou si prohlížíte, byla prodána"
+  },
+  "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
+    "description": "",
+    "message": "Simulating evolution of the universe: {age} billion years ;-)"
+  },
+  "SOUND": {
+    "description": "",
+    "message": "Zvuk"
+  },
+  "START_AT_BARNARDS_STAR": {
+    "description": "",
+    "message": "Start: Barnard's Star"
+  },
+  "START_AT_BARNARDS_STAR_DESC": {
+    "description": "",
+    "message": "This is a difficult start from the System Administration Resting prison station."
+  },
+  "START_AT_EARTH": {
+    "description": "",
+    "message": "Start: Earth"
+  },
+  "START_AT_EARTH_DESC": {
+    "description": "",
+    "message": "This is an easy start from London on Earth in the Sol system."
+  },
+  "START_AT_NEW_HOPE": {
+    "description": "New Hope is an in game location",
+    "message": "Start: New Hope"
+  },
+  "START_AT_NEW_HOPE_DESC": {
+    "description": "",
+    "message": "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
+  },
+  "STAR_FIELD_DENSITY": {
+    "description": "",
+    "message": "Density of Star field"
+  },
+  "STATION_MANAGER": {
+    "description": "",
+    "message": "Správce stanice"
+  },
+  "STATION_ORBIT": {
+    "description": "Information shown in the station loby",
+    "message": "We are in a {orbit_period} day period orbit around {parent_body}."
+  },
+  "STATUS": {
+    "description": "",
+    "message": "Status"
+  },
+  "TECH_CERTIFIED": {
+    "description": "Lobby screen shows the tech level (an integer number) of the station",
+    "message": "This station holds a level {tech_level} technology certificate."
+  },
+  "TECH_CERTIFIED_MILITARY": {
+    "description": "Lobby screen shows the tech level of the station",
+    "message": "This installation holds a military technology clearance."
+  },
+  "TEXTURE_COMPRESSION": {
+    "description": "",
+    "message": "This frees up more memory for the graphics card, which is likely what you want, at the expense of compressing them during game start."
+  },
+  "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
+    "description": "",
+    "message": "Děkujeme za nákup. Nezapomeňte před odletem nakoupit palivo a vybavení."
+  },
+  "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
+    "description": "",
+    "message": "Na palubě není nikdo jiný kdo je schopný pilotovat tuto loď."
+  },
+  "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
+    "description": "",
+    "message": "Loď je pod kontrolou stanice, veliteli."
+  },
+  "THREE_KPC_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "3kpc arm"
+  },
+  "TOGGLE_MALE_FEMALE": {
+    "description": "player gender",
+    "message": "Změnit muž/žena"
+  },
+  "TOGGLE_OVERVIEW_SHOW_MOONS": {
+    "description": "toggle whether the overview window shows moons or not",
+    "message": "Toggle showing moons in the overview"
+  },
+  "TOGGLE_OVERVIEW_SHOW_STATIONS": {
+    "description": "toggle whether the overview window shows stations or not",
+    "message": "Toggle showing stations in the overview"
+  },
+  "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
+    "description": "toggle whether the overview window sorts by distance from the player or from the system center",
+    "message": "Switch between sorting by distance from player and distance from system center"
+  },
+  "TOGGLE_OVERVIEW_WINDOW": {
+    "description": "show/hide the overview window / navigation window",
+    "message": "Toggle the overview window"
+  },
+  "TOO_SMALL_FOR_CURRENT_CREW": {
+    "description": "",
+    "message": "Loď je pro současnou posádku příliš malá."
+  },
+  "TOO_SMALL_TO_TRANSSHIP": {
+    "description": "Ship market error message",
+    "message": "New ship lacks capacity for current cargo and hyperdrive."
+  },
+  "TOTAL": {
+    "description": "",
+    "message": "Celkem: "
+  },
+  "TOTAL_DISTANCE": {
+    "description": "Total distance of a (possibly series) of hyper jump(s)",
+    "message": "Total Distance:"
+  },
+  "TOTAL_DURATION": {
+    "description": "Total duration of a (possibly series) of hyper jump(s)",
+    "message": "Total Duration:"
+  },
+  "TOTAL_MASS": {
+    "description": "",
+    "message": "Celková hmotnost"
+  },
+  "TRADING_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Obchod s nelegálním zbožím"
+  },
+  "TRUSTWORTHY": {
+    "description": "For player reputation",
+    "message": "Věrný"
+  },
+  "TYPE": {
+    "description": "",
+    "message": "Typ"
+  },
+  "UNLAWFUL_WEAPONS_DISCHARGE": {
+    "description": "",
+    "message": "Nezákonnou střelbu"
+  },
+  "UNRELIABLE": {
+    "description": "",
+    "message": "Nespolehlivý"
+  },
+  "UP_ACCEL": {
+    "description": "",
+    "message": "Zrychlení nahoru"
+  },
+  "USED": {
+    "description": "",
+    "message": "Použitý"
+  },
+  "VERY_HIGH": {
+    "description": "Game settings option: graphic resolution",
+    "message": "Velmi vysoké"
+  },
+  "VERY_LOW": {
+    "description": "Game settings option: graphic resolution",
+    "message": "Velmi nízké"
+  },
+  "VICINITY_OF": {
+    "description": "",
+    "message": "In vicinity of"
+  },
+  "VIDEO": {
+    "description": "",
+    "message": "Grafika"
+  },
+  "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
+    "description": "",
+    "message": "Nastavení grafiky (nutný restart hry)"
+  },
+  "VIDEO_RESOLUTION": {
+    "description": "",
+    "message": "Rozlišení obrazovky"
+  },
+  "VIDEO_RESOLUTION_DESC": {
+    "description": "Tooltip for video mode/resultion setting",
+    "message": "Higher resolutions display more information at a smaller size and can decrease performance."
+  },
+  "VSYNC": {
+    "description": "For the checkbox in settings window",
+    "message": "VSync"
+  },
+  "VSYNC_DESC": {
+    "description": "",
+    "message": "Vertical Sync can eliminate visual tearing or artifacts, and input latency."
+  },
+  "WAGE": {
+    "description": "Salary of crew shown in crew roster",
+    "message": "Mzda"
+  },
+  "WEIGHT_EMPTY": {
+    "description": "",
+    "message": "Prázdná váha"
+  },
+  "WEIGHT_FULLY_LOADED": {
+    "description": "",
+    "message": "Plná váha"
+  },
+  "WE_ARE_IN_HYPERSPACE_COMMANDER": {
+    "description": "",
+    "message": "Jsme v hyperprostoru, veliteli."
+  },
+  "WE_HAVE_NO_BUSINESS_WITH_YOU": {
+    "description": "Said by the police to law abiding player",
+    "message": "Momentálně s tebou nemáme uzavřen žádný obchod."
+  },
+  "X_CANNOT_BE_TOLERATED_HERE": {
+    "description": "Message to be sent over comms by police when crime is committed by player",
+    "message": "{crime} cannot be tolerated here!"
+  },
+  "YES": {
+    "description": "Positive answer to a question",
+    "message": "Ano"
+  },
+  "YOURE_GOING_TO_REGRET_SACKING_ME": {
+    "description": "",
+    "message": "Budeš litovat žes mě naštval!"
+  },
+  "YOUR_HULL_IS_AT_X_INTEGRITY": {
+    "description": "",
+    "message": "Integrita trupu je {value}%."
+  },
+  "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION": {
+    "description": "",
+    "message": "Nemáš dostatek peněz."
+  },
+  "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD": {
+    "description": "",
+    "message": "You have {units} units in your cargohold"
+  },
+  "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
+    "description": "",
+    "message": "Nejdříve je nutné označit cíl, veliteli."
+  },
+  "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER": {
+    "description": "",
+    "message": "Nejdříve je nutné vyžádat povolení k odletu, veliteli."
+  },
+  "YOU_MUST_LAUNCH_FIRST_COMMANDER": {
+    "description": "",
+    "message": "Nejdříve je nutné odstartovat, veliteli."
+  },
+  "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER": {
+    "description": "",
+    "message": "Nejdřív je nutné vyžádat si povolení k odletu, veliteli."
+  },
+  "YOU_NOT_ENOUGH_MONEY": {
+    "description": "",
+    "message": "Nemáš dostatek peněz"
+  },
+  "ZOOM": {
+    "description": "Label for a zoom (magnification) control bar.",
+    "message": "Zoom"
+  }
 }

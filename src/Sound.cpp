@@ -404,10 +404,18 @@ static void fill_audio(void *udata, Uint8 *dsp_buf, int len)
 		wavstream[i].ascend[1] = (wavstream[i].targetVolume[1] > wavstream[i].volume[1]);
 
 		if (wavstream[i].op & OP_STOP_AT_TARGET_VOLUME) {
-			if ((wavstream[i].targetVolume[0] <= wavstream[i].volume[0]) &&
-			    (wavstream[i].targetVolume[1] <= wavstream[i].volume[1])) {
-				DestroyEvent(&wavstream[i]);
-				continue;
+			if (wavstream[i].ascend[0] && wavstream[i].ascend[1]) {
+				if ((wavstream[i].targetVolume[0] <= wavstream[i].volume[0]) &&
+				    (wavstream[i].targetVolume[1] <= wavstream[i].volume[1])) {
+					DestroyEvent(&wavstream[i]);
+					continue;
+				}
+			} else {
+				if ((wavstream[i].targetVolume[0] >= wavstream[i].volume[0]) &&
+				    (wavstream[i].targetVolume[1] >= wavstream[i].volume[1])) {
+					DestroyEvent(&wavstream[i]);
+					continue;
+				}
 			}
 		}
 

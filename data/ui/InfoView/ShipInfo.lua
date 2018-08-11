@@ -22,11 +22,11 @@ local yes_no = function (binary)
 end
 
 local shipInfo = function (args)
-	local shipDef = ShipDef[Game.player.shipId]
-
-	local hyperdrive =              table.unpack(Game.player:GetEquip("engine"))
-	local frontWeapon =             table.unpack(Game.player:GetEquip("laser_front"))
-	local rearWeapon =              table.unpack(Game.player:GetEquip("laser_rear"))
+	local shipDef     =    ShipDef[Game.player.shipId]
+	local shipLabel   =    Game.player:GetLabel()
+	local hyperdrive  =    table.unpack(Game.player:GetEquip("engine"))
+	local frontWeapon =    table.unpack(Game.player:GetEquip("laser_front"))
+	local rearWeapon  =    table.unpack(Game.player:GetEquip("laser_rear"))
 
 	hyperdrive =  hyperdrive  or nil
 	frontWeapon = frontWeapon or nil
@@ -84,6 +84,7 @@ local shipInfo = function (args)
 			:SetColumn(0, {
 				ui:Table():AddRows({
 					ui:Table():SetColumnSpacing(10):AddRows({
+						{ l.REGISTRATION_NUMBER..":",  shipLabel},
 						{ l.HYPERDRIVE..":", hyperdrive and hyperdrive:GetName() or l.NONE },
 						{
 							l.HYPERSPACE_RANGE..":",

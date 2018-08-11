@@ -45,9 +45,9 @@ DynamicBody::DynamicBody()
 void DynamicBody::AddFeature( Feature f ) {
 	m_features[f] = true;
 	if(f == Feature::PROPULSION && m_propulsion == nullptr) {
-		m_propulsion = new Propulsion();
+		m_propulsion.Reset(new Propulsion());
 	} else if(f == Feature::FIXED_GUNS && m_fixedGuns == nullptr) {
-		m_fixedGuns = new FixedGuns();
+		m_fixedGuns.Reset(new FixedGuns());
 	}
 }
 
@@ -133,22 +133,22 @@ void DynamicBody::PostLoadFixup(Space *space)
 
 const Propulsion *DynamicBody::GetPropulsion() const {
 	assert(m_propulsion != nullptr);
-	return m_propulsion;
+	return m_propulsion.Get();
 }
 
 Propulsion *DynamicBody::GetPropulsion() {
 	assert(m_propulsion != nullptr);
-	return m_propulsion;
+	return m_propulsion.Get();
 }
 
 const FixedGuns *DynamicBody::GetFixedGuns() const {
 	assert(m_fixedGuns != nullptr);
-	return m_fixedGuns;
+	return m_fixedGuns.Get();
 }
 
 FixedGuns *DynamicBody::GetFixedGuns() {
 	assert(m_fixedGuns != nullptr);
-	return m_fixedGuns;
+	return m_fixedGuns.Get();
 }
 
 void DynamicBody::SetTorque(const vector3d &t)
@@ -290,10 +290,8 @@ vector3d DynamicBody::GetAngularMomentum() const
 
 DynamicBody::~DynamicBody()
 {
-	if(m_propulsion != nullptr)
-		delete m_propulsion;
-	if(m_fixedGuns != nullptr)
-		delete m_fixedGuns;
+	m_propulsion.Reset();
+	m_fixedGuns.Reset();
 }
 
 vector3d DynamicBody::GetVelocity() const

@@ -20,7 +20,7 @@ local icons = ui.theme.icons
 local MAX_RADAR_SIZE = 1000000000
 local MIN_RADAR_SIZE = 1000
 
-local shouldDisplay2DRadar = false
+local shouldDisplay2DRadar
 local current_radar_size = 10000
 
 local function getColorFor(item)
@@ -103,6 +103,7 @@ end
 local click_on_radar = false
 -- display either the 3D or the 2D radar, show a popup on right click to select
 local function displayRadar()
+	if ui.showOptionsWindow then return end
 	player = Game.player
 	local radar = player:GetEquip("radar")
 	-- only display if there actually *is* a radar installed
@@ -144,19 +145,33 @@ local function displayRadar()
 end
 
 Event.Register('changeMFD', function(selected)
-								 Event.Queue('onChangeMFD', selected)
+	Event.Queue('onChangeMFD', selected)
 end)
 
 Event.Register('onChangeMFD', function(selected)
-								 if selected == "radar" then
-									 shouldDisplay2DRadar = true;
-									 Game.SetRadarVisible(false)
-								 elseif selected == "scanner" then
-									 Game.SetRadarVisible(true)
-									 shouldDisplay2DRadar = false;
-								 end
+	if selected == "radar" then
+		shouldDisplay2DRadar = true;
+		Game.SetRadarVisible(false)
+	elseif selected == "scanner" then
+		Game.SetRadarVisible(true)
+		shouldDisplay2DRadar = false;
+	end
 end)
 
+-- reset the radar at game start
+Event.Register("onGameStart", function()
+	if shouldDisplay2DRadar then
+		Game.SetRadarVisible(false)
+	else
+		Game.SetRadarVisible(true)
+	end
+end)
+
+-- reset radar to default at game end
+Event.Register("onGameEnd", function() shouldDisplay2DRadar = false end)
+
+-- save/load preference
+import("Serializer"):Register("PiguiRadar", function () return shouldDisplay2DRadar end, function (data) shouldDisplay2DRadar = data end)
 
 ui.registerModule("game", displayRadar)
 

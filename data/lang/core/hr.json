@@ -1,1870 +1,1878 @@
 {
-   "AIR_PROCESSORS" : {
-      "description" : "",
-      "message" : "Procesori zraka"
-   },
-   "ALERT_CANCELLED" : {
-      "description" : "",
-      "message" : "Uzbuna prekinuta."
-   },
-   "ALLEGIANCE" : {
-      "description" : "",
-      "message" : "Odanost:"
-   },
-   "ALT" : {
-      "description" : "Alt key on keyboard",
-      "message" : "Alt"
-   },
-   "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
-      "description" : "",
-      "message" : "\" i vrlo kopleksnim ekosustavom.\""
-   },
-   "AND_INDIGENOUS_MICROBIAL_LIFE" : {
-      "description" : "",
-      "message" : "\" i autohtonim mikrobnim svijetom.\""
-   },
-   "AND_INDIGENOUS_PLANT_LIFE" : {
-      "description" : "",
-      "message" : "\" i autohtonim biljnim svijetom.\""
-   },
-   "ANIMAL_MEAT" : {
-      "description" : "",
-      "message" : "Životinjsko meso"
-   },
-   "APOAPSIS_DISTANCE" : {
-      "description" : "",
-      "message" : "Apoapsis udaljenost"
-   },
-   "AR_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" argonskom atmosferom\""
-   },
-   "ASTEROID" : {
-      "description" : "",
-      "message" : "Asteroid"
-   },
-   "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "for star map, select star system when mouse close to it",
-      "message" : "Automatic system selection"
-   },
-   "AUTOPILOT_CONTROL" : {
-      "description" : "Indicating that ship is flying under autopilot control",
-      "message" : "Autopilot control"
-   },
-   "AUTOPILOT_DOCK_WITH_STATION" : {
-      "description" : "",
-      "message" : "Autopilot: spoji se sa svemirskom lukom"
-   },
-   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "Autopilot: uđi u visoku orbitu oko %target"
-   },
-   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "Autopilot: uđi u nisku orbitu oko %target"
-   },
-   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "Autopilot: uđi u srednju orbitu oko %target"
-   },
-   "AUTOPILOT_FLY_TO_VICINITY_OF" : {
-      "description" : "",
-      "message" : "Autopilot: leti do blizine %target"
-   },
-   "AUTOPILOT_ON" : {
-      "description" : "",
-      "message" : "Autopilot uključen"
-   },
-   "AXIAL_TILT" : {
-      "description" : "",
-      "message" : "Aksijalni nagib"
-   },
-   "A_FEW_THOUSAND" : {
-      "description" : "regarding population",
-      "message" : "Tek nekoliko tisuća"
-   },
-   "BATTLE_WEAPONS" : {
-      "description" : "",
-      "message" : "Teško oružje"
-   },
-   "BINARY_SYSTEM" : {
-      "description" : "",
-      "message" : "Dvostruki sustav"
-   },
-   "BODIES" : {
-      "description" : "space bodies",
-      "message" : "tijela"
-   },
-   "BODY" : {
-      "description" : "",
-      "message" : "tijelo"
-   },
-   "BROWN_DWARF" : {
-      "description" : "",
-      "message" : "Smeđi patuljak pod-zvijezdani objekt"
-   },
-   "BUTTON" : {
-      "description" : "",
-      "message" : "\" Tipka \""
-   },
-   "CAMERA_BOTTOM_VIEW" : {
-      "description" : "",
-      "message" : "Bottom camera"
-   },
-   "CAMERA_FRONT_VIEW" : {
-      "description" : "",
-      "message" : "Prednji pogled"
-   },
-   "CAMERA_LEFT_VIEW" : {
-      "description" : "",
-      "message" : "Left camera"
-   },
-   "CAMERA_REAR_VIEW" : {
-      "description" : "",
-      "message" : "Stražnji pogled"
-   },
-   "CAMERA_RIGHT_VIEW" : {
-      "description" : "",
-      "message" : "Right camera"
-   },
-   "CAMERA_TOP_VIEW" : {
-      "description" : "",
-      "message" : "Top camera"
-   },
-   "CANT_SAVE_DEAD_PLAYER" : {
-      "description" : "",
-      "message" : "Can't save game after the player has died"
-   },
-   "CANT_SAVE_IN_HYPERSPACE" : {
-      "description" : "",
-      "message" : "Can't save game while in hyperspace"
-   },
-   "CAPITALIST" : {
-      "description" : "",
-      "message" : "Kapitalizam"
-   },
-   "CARBON_ORE" : {
-      "description" : "",
-      "message" : "Ugljikova rudača"
-   },
-   "CARGO" : {
-      "description" : "",
-      "message" : "Teret"
-   },
-   "CARGO_BAY_LIFE_SUPPORT_LOST" : {
-      "description" : "",
-      "message" : "Senzori javljaju kritično po život opasne uvjete u prostoru za teret."
-   },
-   "CARGO_N" : {
-      "description" : "",
-      "message" : "Teret: %{mass}t"
-   },
-   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
-      "description" : "",
-      "message" : "Crpka za teret je aktivirana. Prikupljena 1 tona %item."
-   },
-   "CARGO_SCOOP_ATTEMPTED" : {
-      "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
-   },
-   "CH4_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" metanskom atmosferom\""
-   },
-   "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
-      "description" : "",
-      "message" : "Odobrenje već dano. Produžite u sobu %bay."
-   },
-   "CLEARANCE_DENIED_NO_BAYS" : {
-      "description" : "",
-      "message" : "Spajanje odbijeno. Nema slobodnih mjesta."
-   },
-   "CLEARANCE_GRANTED_BAY_N" : {
-      "description" : "",
-      "message" : "Odobreno spajanje. Produžite u sobu %bay."
-   },
-   "CO2_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" ugljično dioksidna atmosfera\""
-   },
-   "COMMA_HIGHLY_VOLCANIC" : {
-      "description" : "",
-      "message" : ", veoma vulkanski"
-   },
-   "COMMODITY_NONE" : {
-      "description" : "When no commodities exist",
-      "message" : "Ništa"
-   },
-   "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
-      "description" : "",
-      "message" : "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
-   },
-   "COMMODITY_TRADE_ANALYSIS_SELF" : {
-      "description" : "",
-      "message" : "Commodity trade analysis of #fff%system#fff"
-   },
-   "COMMS" : {
-      "description" : "",
-      "message" : "Komunikacije"
-   },
-   "COMMUNIST" : {
-      "description" : "",
-      "message" : "Komunizam"
-   },
-   "COMPASS_E" : {
-      "description" : "Abbreviation for compass direction: East",
-      "message" : "E"
-   },
-   "COMPASS_N" : {
-      "description" : "Abbreviation for compass direction: North",
-      "message" : "N"
-   },
-   "COMPASS_NE" : {
-      "description" : "Abbreviation for compass direction: North East",
-      "message" : "NE"
-   },
-   "COMPASS_NW" : {
-      "description" : "Abbreviation for compass direction: North West",
-      "message" : "NW"
-   },
-   "COMPASS_S" : {
-      "description" : "Abbreviation for compass direction: South",
-      "message" : "S"
-   },
-   "COMPASS_SE" : {
-      "description" : "Abbreviation for compass direction: South East",
-      "message" : "SE"
-   },
-   "COMPASS_SW" : {
-      "description" : "Abbreviation for compass direction: South West",
-      "message" : "SW"
-   },
-   "COMPASS_W" : {
-      "description" : "Abbreviation for compass direction: West",
-      "message" : "W"
-   },
-   "COMPUTERS" : {
-      "description" : "",
-      "message" : "Računala"
-   },
-   "COMPUTER_HEADING_CONTROL" : {
-      "description" : "",
-      "message" : "Computer heading control"
-   },
-   "COMPUTER_SPEED_CONTROL" : {
-      "description" : "",
-      "message" : "Kompjuterska kontrola brzine"
-   },
-   "CONSUMER_GOODS" : {
-      "description" : "",
-      "message" : "Potrošačka roba"
-   },
-   "CONTROLS" : {
-      "description" : "",
-      "message" : "Kontrole"
-   },
-   "CORPORATE_SYSTEM" : {
-      "description" : "",
-      "message" : "Korporativni sustav"
-   },
-   "COULD_NOT_OPEN_FILENAME" : {
-      "description" : "",
-      "message" : "Nemogu pristupiti %path"
-   },
-   "COUNT_ON_SURFACE" : {
-      "description" : "",
-      "message" : "\" (%surfacecount on surface)\""
-   },
-   "COUNT_STARPORTS" : {
-      "description" : "",
-      "message" : "svemirske luke"
-   },
-   "CO_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" ugljično monoksidna atmosfera\""
-   },
-   "CTRL" : {
-      "description" : "Ctrl key on keyboard",
-      "message" : "Ctrl"
-   },
-   "CURRENT_SYSTEM" : {
-      "description" : "selected current star system",
-      "message" : "Trenutni sustav"
-   },
-   "DATE_DUE_N" : {
-      "description" : "",
-      "message" : "Datum dospijeća: %date"
-   },
-   "DAY_LENGTH" : {
-      "description" : "",
-      "message" : "Trajanje dana"
-   },
-   "DECREASE_RADAR_RANGE" : {
-      "description" : "",
-      "message" : "Decrease radar range"
-   },
-   "DECREASE_SET_SPEED" : {
-      "description" : "",
-      "message" : "Smanji postavljenu brzinu"
-   },
-   "DECREASE_TIME_ACCELERATION" : {
-      "description" : "",
-      "message" : "Decrease Time Acceleration"
-   },
-   "DEMOGRAPHICS" : {
-      "description" : "",
-      "message" : "Demografija"
-   },
-   "DESTINATION" : {
-      "description" : "",
-      "message" : "Cilj"
-   },
-   "DIRECTION" : {
-      "description" : "Direction",
-      "message" : "\" Smjer \""
-   },
-   "DISTANCE_LY" : {
-      "description" : "",
-      "message" : "Udaljenost: %distance{f.2} sg"
-   },
-   "DOCKED" : {
-      "description" : "",
-      "message" : "Spojen"
-   },
-   "DOCKING" : {
-      "description" : "",
-      "message" : "Spajanje"
-   },
-   "DOCKING_CLEARANCE_EXPIRED" : {
-      "description" : "",
-      "message" : "Odobrenje za spajanje isteklo. Ako se želite spojiti ponovite zahtjev."
-   },
-   "DOWNGRADING_ALERT_STATUS" : {
-      "description" : "",
-      "message" : "Bez paljbe već 60 sekunda, smanjujem status uzbune."
-   },
-   "DRAW_OUT_RANGE_LABELS" : {
-      "description" : "",
-      "message" : "Label out-of-range systems"
-   },
-   "DRAW_UNINHABITED_LABELS" : {
-      "description" : "",
-      "message" : "Label uninhabited systems"
-   },
-   "DRAW_VERTICAL_LINES" : {
-      "description" : "",
-      "message" : "Draw vertical lines"
-   },
-   "EARTH" : {
-      "description" : "",
-      "message" : "zemaljskih"
-   },
-   "EARTH_FEDERATION_COLONIAL_RULE" : {
-      "description" : "",
-      "message" : "Zemaljska federativna kolonijalna uprava"
-   },
-   "EARTH_FEDERATION_DEMOCRACY" : {
-      "description" : "",
-      "message" : "Zamaljska federativna demokracija"
-   },
-   "ECCENTRICITY" : {
-      "description" : "",
-      "message" : "Ekcentricitet"
-   },
-   "ECONOMIC_INFO" : {
-      "description" : "",
-      "message" : "Ekonomski podaci"
-   },
-   "ECONOMY_TYPE" : {
-      "description" : "",
-      "message" : "Tip ekonomije:"
-   },
-   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
-      "description" : "",
-      "message" : "Equatorial to polar radius ratio"
-   },
-   "EXACT_MATCH_X" : {
-      "description" : "",
-      "message" : "Potpuno odgovara: %system"
-   },
-   "EXTENSIVE_MINING" : {
-      "description" : "",
-      "message" : "Opsežno rudarenje."
-   },
-   "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
-      "description" : "",
-      "message" : "Vanjski atmosferski pritisak"
-   },
-   "EXTERNAL_VIEW" : {
-      "description" : "",
-      "message" : "Vanjski pogled"
-   },
-   "FARM_MACHINERY" : {
-      "description" : "",
-      "message" : "Poljoprivredna mehanizacija"
-   },
-   "FERTILIZER" : {
-      "description" : "",
-      "message" : "Gnojivo"
-   },
-   "FIRE_LASER" : {
-      "description" : "",
-      "message" : "Fire weapon"
-   },
-   "FIRE_MISSILE" : {
-      "description" : "",
-      "message" : "Fire missile"
-   },
-   "FOLLOWING_SELECTION" : {
-      "description" : "",
-      "message" : "pratim odabir"
-   },
-   "FRUIT_AND_VEG" : {
-      "description" : "",
-      "message" : "Voće i povrće"
-   },
-   "FUEL" : {
-      "description" : "",
-      "message" : "Fuel"
-   },
-   "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
-      "description" : "",
-      "message" : "Crpka za gorivo je aktivna. Imate sada %quantity tona vodika."
-   },
-   "GALACTIC_VIEW" : {
-      "description" : "view galactic map",
-      "message" : "Pogled na galaksiju"
-   },
-   "GALAXY_SECTOR_VIEW" : {
-      "description" : "",
-      "message" : "Pogled na sektor galaksije"
-   },
-   "GAME_LOAD_CANNOT_OPEN" : {
-      "description" : "",
-      "message" : "Save file '%filename' could not be found (or the game does not have access to open it)."
-   },
-   "GAME_LOAD_CORRUPT" : {
-      "description" : "",
-      "message" : "Ova spremljena igra se ne može učitati jer sadrži greške."
-   },
-   "GAME_LOAD_WRONG_VERSION" : {
-      "description" : "",
-      "message" : "This saved game cannot be loaded because it was created by a different version of Pioneer."
-   },
-   "GAME_SAVED_TO" : {
-      "description" : "",
-      "message" : "\"Igra spremljena u \""
-   },
-   "GAME_SAVE_CANNOT_WRITE" : {
-      "description" : "",
-      "message" : "This saved game file could not be written because of a system error."
-   },
-   "GENERAL_VIEW_CONTROLS" : {
-      "description" : "",
-      "message" : "General View Controls"
-   },
-   "GOVERNMENT_TYPE" : {
-      "description" : "",
-      "message" : "Tip uprave:"
-   },
-   "GRAIN" : {
-      "description" : "like wheat or barley",
-      "message" : "Žito"
-   },
-   "HAND_WEAPONS" : {
-      "description" : "",
-      "message" : "Lako oružje"
-   },
-   "HARD_CAPITALIST" : {
-      "description" : "",
-      "message" : "Potpuni kapitalizam - bez vladinih socijalnih davanja"
-   },
-   "HAT" : {
-      "description" : "Hat switch: Is the top button on a joystick",
-      "message" : "\" Hat\""
-   },
-   "HEADING_LOCK_ANTINORMAL" : {
-      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
-      "message" : "Hold anti-normal"
-   },
-   "HEADING_LOCK_BACKWARD" : {
-      "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-      "message" : "Hold retrograde"
-   },
-   "HEADING_LOCK_FORWARD" : {
-      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-      "message" : "Hold prograde"
-   },
-   "HEADING_LOCK_KILLROT" : {
-      "description" : "",
-      "message" : "Kill rotation"
-   },
-   "HEADING_LOCK_NORMAL" : {
-      "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-      "message" : "Hold normal"
-   },
-   "HEADING_LOCK_RADIALLY_INWARD" : {
-      "description" : "Autopilot direction, relative to orbit (face towards planet)",
-      "message" : "Hold radially in"
-   },
-   "HEADING_LOCK_RADIALLY_OUTWARD" : {
-      "description" : "Autopilot direction, relative to orbit (face away from palent)",
-      "message" : "Hold radially out"
-   },
-   "HEAVY_INDUSTRY" : {
-      "description" : "",
-      "message" : "Teška industrija."
-   },
-   "HE_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" helijskom atmosferom\""
-   },
-   "HIGHLY_VOLCANIC" : {
-      "description" : "",
-      "message" : "Veoma vulkanski"
-   },
-   "HIGH_POPULATION_OUTDOOR_WORLD" : {
-      "description" : "",
-      "message" : "Vanjski svijet ogromne populacije."
-   },
-   "HULL_INTEGRITY" : {
-      "description" : "",
-      "message" : "Integritet trupa"
-   },
-   "HULL_TEMP" : {
-      "description" : "",
-      "message" : "Temperatura trupa"
-   },
-   "HYDROGEN" : {
-      "description" : "",
-      "message" : "Vodik"
-   },
-   "HYPERSPACE" : {
-      "description" : "",
-      "message" : "Hiperprostor"
-   },
-   "HYPERSPACE_ARRIVAL_CLOUD" : {
-      "description" : "",
-      "message" : "Dolazni hiperprostorni oblak"
-   },
-   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
-      "description" : "",
-      "message" : "Ostatak dolaznog hiperprostornog oblaka"
-   },
-   "HYPERSPACE_DEPARTURE_CLOUD" : {
-      "description" : "",
-      "message" : "Odlazni hiperprostorni oblak"
-   },
-   "HYPERSPACE_JUMP_ABORT" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disengage Hyperdrive"
-   },
-   "HYPERSPACE_JUMP_ABORTED" : {
-      "description" : "",
-      "message" : "Hiperprostorni skok prekinut."
-   },
-   "HYPERSPACE_JUMP_DISABLED" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Hyperdrive disabled"
-   },
-   "HYPERSPACE_JUMP_ENGAGE" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Engage Hyperdrive"
-   },
-   "HYPERSPACE_JUMP_FORBIDDEN" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Hyperdrive forbidden zone"
-   },
-   "HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Hiperprostorna meta"
-   },
-   "H_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" vodikovom atmosferom\""
-   },
-   "ICE_WORLD" : {
-      "description" : "",
-      "message" : "\" zaleđen svijet\""
-   },
-   "ILLEGAL_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Illegal (current system):"
-   },
-   "ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "Ilegalna roba:"
-   },
-   "IMPERIAL_RULE" : {
-      "description" : "",
-      "message" : "Imperijalna uprava"
-   },
-   "INCREASE_RADAR_RANGE" : {
-      "description" : "",
-      "message" : "Increase radar range"
-   },
-   "INCREASE_SET_SPEED" : {
-      "description" : "",
-      "message" : "Povećaj postavljenu brzinu"
-   },
-   "INCREASE_TIME_ACCELERATION" : {
-      "description" : "",
-      "message" : "Increase Time Acceleration"
-   },
-   "INDUSTRIAL_COLONY" : {
-      "description" : "",
-      "message" : "Industrijska kolonija."
-   },
-   "INDUSTRIAL_HUB_SYSTEM" : {
-      "description" : "",
-      "message" : "Industijski centar."
-   },
-   "INDUSTRIAL_MACHINERY" : {
-      "description" : "",
-      "message" : "Industrijski strojevi"
-   },
-   "INTERNAL_VIEW" : {
-      "description" : "",
-      "message" : "Internal view"
-   },
-   "JOY" : {
-      "description" : "Short for Joystick",
-      "message" : "Joy"
-   },
-   "JOYSTICK_INPUT" : {
-      "description" : "",
-      "message" : "Joystick ulaz"
-   },
-   "JOY_AXIS" : {
-      "description" : "Regarding joystick",
-      "message" : "%{sign}%joyname %axis Axis"
-   },
-   "L4L5_DISPLAY_MODE_TOGGLE" : {
-      "description" : "Either show L4/L5 points or don't",
-      "message" : "Switch between Lagrange L4/L5 point display modes."
-   },
-   "LANDED" : {
-      "description" : "",
-      "message" : "Prizemljen"
-   },
-   "LANG_NAME" : {
-      "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
-      "message" : "Hrvatski"
-   },
-   "LARGE" : {
-      "description" : "regarding terrestrial planet size (mass actually)",
-      "message" : "Veliki"
-   },
-   "LARGE_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Veliki plinoviti div"
-   },
-   "LASER_FIRE_DETECTED" : {
-      "description" : "",
-      "message" : "Weapons fire detected."
-   },
-   "LATITUDE" : {
-      "description" : "Short for latitude",
-      "message" : "Lat:"
-   },
-   "LATITUDE_NORTH_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'north'",
-      "message" : "N"
-   },
-   "LATITUDE_SOUTH_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'south'",
-      "message" : "S"
-   },
-   "LEGAL_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Legal (current system):"
-   },
-   "LIBERAL_DEMOCRACY" : {
-      "description" : "",
-      "message" : "Liberalna demokracija"
-   },
-   "LIQUID_OXYGEN" : {
-      "description" : "",
-      "message" : "Tekući kisik"
-   },
-   "LIQUOR" : {
-      "description" : "",
-      "message" : "Alkohol"
-   },
-   "LIVE_ANIMALS" : {
-      "description" : "",
-      "message" : "Žive životinje"
-   },
-   "LOCKED" : {
-      "description" : "to lock a hyperspace target",
-      "message" : "zaključano"
-   },
-   "LONGITUDE" : {
-      "description" : "Short for longitude",
-      "message" : "Long:"
-   },
-   "LONGITUDE_EAST_ABBREV" : {
-      "description" : "Abbreviation letter for longitude 'east'",
-      "message" : "E"
-   },
-   "LONGITUDE_WEST_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'west'",
-      "message" : "W"
-   },
-   "MAJOR_EXPORTS" : {
-      "description" : "",
-      "message" : "Glavni izvozi:"
-   },
-   "MAJOR_EXPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major export (current system)"
-   },
-   "MAJOR_IMPORTS" : {
-      "description" : "",
-      "message" : "Glavni uvozi:"
-   },
-   "MAJOR_IMPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major import (current system)"
-   },
-   "MANUAL_CONTROL" : {
-      "description" : "",
-      "message" : "Ručno upravljanje"
-   },
-   "MANUAL_CONTROL_MODE" : {
-      "description" : "",
-      "message" : "Ručna kontrola"
-   },
-   "MAP_LOCK_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Lock Hyperspace Target"
-   },
-   "MAP_TOGGLE_INFO_PANEL" : {
-      "description" : "",
-      "message" : "Toggle Info Panel"
-   },
-   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
-      "description" : "",
-      "message" : "Toggle Selection Following View"
-   },
-   "MAP_VIEW_ROTATE_DOWN" : {
-      "description" : "",
-      "message" : "Rotate View Down"
-   },
-   "MAP_VIEW_ROTATE_LEFT" : {
-      "description" : "",
-      "message" : "Rotate View Left"
-   },
-   "MAP_VIEW_ROTATE_RIGHT" : {
-      "description" : "",
-      "message" : "Rotate View Right"
-   },
-   "MAP_VIEW_ROTATE_UP" : {
-      "description" : "",
-      "message" : "Rotate View Up"
-   },
-   "MAP_VIEW_SHIFT_BACKWARD" : {
-      "description" : "",
-      "message" : "Shift View Backwards"
-   },
-   "MAP_VIEW_SHIFT_DOWN" : {
-      "description" : "",
-      "message" : "Shift View Down"
-   },
-   "MAP_VIEW_SHIFT_FORWARD" : {
-      "description" : "",
-      "message" : "Shift View Forwards"
-   },
-   "MAP_VIEW_SHIFT_LEFT" : {
-      "description" : "",
-      "message" : "Shift View Left"
-   },
-   "MAP_VIEW_SHIFT_RIGHT" : {
-      "description" : "",
-      "message" : "Shift View Right"
-   },
-   "MAP_VIEW_SHIFT_UP" : {
-      "description" : "",
-      "message" : "Shift View Up"
-   },
-   "MAP_WARP_TO_CURRENT_SYSTEM" : {
-      "description" : "",
-      "message" : "Warp to Current System"
-   },
-   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Warp to Hyperspace Target"
-   },
-   "MAP_WARP_TO_SELECTED_SYSTEM" : {
-      "description" : "",
-      "message" : "Warp to Selected System"
-   },
-   "MASS" : {
-      "description" : "",
-      "message" : "Masa"
-   },
-   "MASSIVE" : {
-      "description" : "",
-      "message" : "Masivan"
-   },
-   "MASS_N_TONNES" : {
-      "description" : "",
-      "message" : "Masa: %{mass}t"
-   },
-   "MEDICINES" : {
-      "description" : "",
-      "message" : "Lijekovi"
-   },
-   "MEDIUM_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Srednji plinoviti div"
-   },
-   "MESSAGE_FROM_X" : {
-      "description" : "",
-      "message" : "Poruka od %sender:"
-   },
-   "META" : {
-      "description" : "'Meta' key on keyboard",
-      "message" : "Meta"
-   },
-   "METAL_ALLOYS" : {
-      "description" : "",
-      "message" : "Metalne legure"
-   },
-   "METAL_ORE" : {
-      "description" : "",
-      "message" : "Željezna rudača"
-   },
-   "MILITARY_DICTATORSHIP" : {
-      "description" : "",
-      "message" : "Vojna diktatura"
-   },
-   "MILITARY_FUEL" : {
-      "description" : "",
-      "message" : "Vojno gorivo"
-   },
-   "MINING_COLONY" : {
-      "description" : "",
-      "message" : "Rudarska kolonija."
-   },
-   "MINING_MACHINERY" : {
-      "description" : "",
-      "message" : "Rudarski strojevi"
-   },
-   "MINOR_EXPORTS" : {
-      "description" : "",
-      "message" : "Sporedni izvozi:"
-   },
-   "MINOR_EXPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor export (current system)"
-   },
-   "MINOR_IMPORTS" : {
-      "description" : "",
-      "message" : "Sporedni uvozi:"
-   },
-   "MINOR_IMPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor import (current system)"
-   },
-   "MISCELLANEOUS" : {
-      "description" : "",
-      "message" : "Miscellaneous"
-   },
-   "MISSILE" : {
-      "description" : "",
-      "message" : "raketa"
-   },
-   "MIXED_ECONOMY" : {
-      "description" : "",
-      "message" : "Miješana ekonomija"
-   },
-   "MONTH_APR" : {
-      "description" : "",
-      "message" : "Apr"
-   },
-   "MONTH_AUG" : {
-      "description" : "",
-      "message" : "Aug"
-   },
-   "MONTH_DEC" : {
-      "description" : "",
-      "message" : "Dec"
-   },
-   "MONTH_FEB" : {
-      "description" : "",
-      "message" : "Feb"
-   },
-   "MONTH_JAN" : {
-      "description" : "",
-      "message" : "Jan"
-   },
-   "MONTH_JUL" : {
-      "description" : "",
-      "message" : "Jul"
-   },
-   "MONTH_JUN" : {
-      "description" : "",
-      "message" : "Jun"
-   },
-   "MONTH_MAR" : {
-      "description" : "",
-      "message" : "Mar"
-   },
-   "MONTH_MAY" : {
-      "description" : "",
-      "message" : "May"
-   },
-   "MONTH_NOV" : {
-      "description" : "",
-      "message" : "Nov"
-   },
-   "MONTH_OCT" : {
-      "description" : "",
-      "message" : "Oct"
-   },
-   "MONTH_SEP" : {
-      "description" : "",
-      "message" : "Sep"
-   },
-   "NAME_OBJECT" : {
-      "description" : "For an item or object",
-      "message" : "Ime"
-   },
-   "NAME_PERSON" : {
-      "description" : "For a person",
-      "message" : "Ime"
-   },
-   "NARCOTICS" : {
-      "description" : "",
-      "message" : "Opojne droge"
-   },
-   "NAVIGATION_STAR_MAPS" : {
-      "description" : "",
-      "message" : "Navigacija i zvijezdane karte"
-   },
-   "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
-      "description" : "",
-      "message" : "Navigacijska odredišta u ovom sustavu"
-   },
-   "NERVE_GAS" : {
-      "description" : "",
-      "message" : "Nervni plin"
-   },
-   "NOT_FOUND" : {
-      "description" : "searching star system in sector view",
-      "message" : "Nije pronađen"
-   },
-   "NOT_FOUND_BEST_MATCH_X" : {
-      "description" : "",
-      "message" : "Nije pronađen, najbolje odgovara: %system"
-   },
-   "NOW" : {
-      "description" : "In System Orbit View",
-      "message" : "Now"
-   },
-   "NO_ALERT" : {
-      "description" : "",
-      "message" : "Nema uzbune"
-   },
-   "NO_CENTRAL_GOVERNANCE" : {
-      "description" : "",
-      "message" : "Bez središnje uprave"
-   },
-   "NO_ESTABLISHED_ORDER" : {
-      "description" : "",
-      "message" : "Bez uspostavljenog uređenja"
-   },
-   "NO_HYPERDRIVE" : {
-      "description" : "",
-      "message" : "Bez hiperpogona"
-   },
-   "NO_REGISTERED_INHABITANTS" : {
-      "description" : "",
-      "message" : "Bez registriranih stanovnika"
-   },
-   "NO_TARGET_SELECTED" : {
-      "description" : "",
-      "message" : "Brodsko računalo: nema odabranog odredišta"
-   },
-   "NUMBER_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.0} dana"
-   },
-   "NUMBER_DECIMAL_POINT" : {
-      "description" : "Decimal delimiter used in numbers.",
-      "message" : "."
-   },
-   "NUMBER_G" : {
-      "description" : "",
-      "message" : "%acceleration{f.1} G"
-   },
-   "NUMBER_GROUP_MIN" : {
-      "description" : "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
-      "message" : "1000"
-   },
-   "NUMBER_GROUP_NUM" : {
-      "description" : "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
-      "message" : "3"
-   },
-   "NUMBER_GROUP_SEP" : {
-      "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-      "message" : ","
-   },
-   "NUMBER_HOURS" : {
-      "description" : "",
-      "message" : "%hours{f.1} sati"
-   },
-   "NUMBER_LY" : {
-      "description" : "",
-      "message" : "%distance{f.2} sg"
-   },
-   "NUMBER_TONNES" : {
-      "description" : "",
-      "message" : "%{mass}t"
-   },
-   "N_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" dušičnom atmosferom\""
-   },
-   "N_CELSIUS" : {
-      "description" : "",
-      "message" : "%temperature C"
-   },
-   "N_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.1} dana"
-   },
-   "N_DEGREES" : {
-      "description" : "",
-      "message" : "%angle{f.1} stupnjeva"
-   },
-   "N_EARTH_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.1} zemaljskih dana"
-   },
-   "N_WHATEVER_MASSES" : {
-      "description" : "",
-      "message" : "%mass{f.3} %units masa"
-   },
-   "N_WHATEVER_RADII" : {
-      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-      "message" : "%radius{f.3} %units radii (%radkm{f.0} km)"
-   },
-   "N_YEARS" : {
-      "description" : "",
-      "message" : "%years{f.1} godina"
-   },
-   "O2_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" kisikovom atmosferom\""
-   },
-   "OCEANICWORLD" : {
-      "description" : "",
-      "message" : "\" vodeni svijet\""
-   },
-   "ORBITAL_PERIOD" : {
-      "description" : "",
-      "message" : "Orbitalni period"
-   },
-   "ORBITAL_STARPORT" : {
-      "description" : "",
-      "message" : "Orbitna zvjezdana luka"
-   },
-   "OUTDOOR_AGRICULTURAL_WORLD" : {
-      "description" : "",
-      "message" : "Vanjski poljoprivredni svijet."
-   },
-   "OVER_N_BILLION" : {
-      "description" : "",
-      "message" : "Preko %population miljardi"
-   },
-   "OVER_N_MILLION" : {
-      "description" : "",
-      "message" : "Preko %population miljuna"
-   },
-   "PASSENGER_CABIN" : {
-      "description" : "",
-      "message" : "Occupied Passenger Cabin"
-   },
-   "PAUSED" : {
-      "description" : "",
-      "message" : "PAUSED"
-   },
-   "PAY_FINE_REMOTELY" : {
-      "description" : "",
-      "message" : "Plati globu preko udaljenog transfera (%amount)"
-   },
-   "PERIAPSIS_DISTANCE" : {
-      "description" : "",
-      "message" : "Periapsis udaljenost"
-   },
-   "PIONEER" : {
-      "description" : "",
-      "message" : "PIONEER"
-   },
-   "PITCH" : {
-      "description" : "",
-      "message" : "Nagib"
-   },
-   "PITCH_DOWN" : {
-      "description" : "",
-      "message" : "Nagib prema dolje"
-   },
-   "PITCH_UP" : {
-      "description" : "",
-      "message" : "Nagib prema gore"
-   },
-   "PLANETARY_INFO" : {
-      "description" : "",
-      "message" : "Podaci o planetu"
-   },
-   "PLANET_CONTAINING_LIQUID_WATER" : {
-      "description" : "",
-      "message" : "\" planet sa tekućom vodom\""
-   },
-   "PLANET_WITH_SOME_ICE" : {
-      "description" : "",
-      "message" : "\" planet sa nešto leda\""
-   },
-   "PLANNED_ECONOMY" : {
-      "description" : "",
-      "message" : "Centralno planirana ekonomija"
-   },
-   "PLANNER_RESET_FACTOR" : {
-      "description" : "For system orbit view",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
-   },
-   "PLANNER_RESET_NORMAL" : {
-      "description" : "For system orbit view",
-      "message" : "Normal delta-v. Click to reset to zero."
-   },
-   "PLANNER_RESET_PROGRADE" : {
-      "description" : "For system orbit view",
-      "message" : "Prograde delta-v. Click to reset to zero."
-   },
-   "PLANNER_RESET_RADIAL" : {
-      "description" : "For system orbit view",
-      "message" : "Radial delta-v. Click to reset to zero."
-   },
-   "PLANNER_RESET_START" : {
-      "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
-   },
-   "PLASTICS" : {
-      "description" : "",
-      "message" : "Plastika"
-   },
-   "PLUTOCRATIC_DICTATORSHIP" : {
-      "description" : "",
-      "message" : "Plutokratska diktatura"
-   },
-   "POPULATION" : {
-      "description" : "",
-      "message" : "Populacija:"
-   },
-   "PRECIOUS_METALS" : {
-      "description" : "",
-      "message" : "Precizni metali"
-   },
-   "PRESSURE_N_ATMOSPHERES" : {
-      "description" : "",
-      "message" : "P: %pressure{f.2} atm"
-   },
-   "QUADRUPLE_SYSTEM" : {
-      "description" : "",
-      "message" : "Četverostruki sustav"
-   },
-   "RADAR_CONTROL" : {
-      "description" : "",
-      "message" : "Radar control"
-   },
-   "RADIOACTIVES" : {
-      "description" : "",
-      "message" : "Radioaktivni otpad"
-   },
-   "RADIUS" : {
-      "description" : "",
-      "message" : "Radijus"
-   },
-   "RECENTLY_EXPLORED_SYSTEM" : {
-      "description" : "",
-      "message" : "This system was explored on %date."
-   },
-   "REQUEST_DOCKING_CLEARANCE" : {
-      "description" : "",
-      "message" : "Zatraži dopuštenje za spajanje"
-   },
-   "RESET" : {
-      "description" : "",
-      "message" : "Reset"
-   },
-   "RESET_ORIENTATION_AND_ZOOM" : {
-      "description" : "",
-      "message" : "Reset Orientation and Zoom"
-   },
-   "ROBOTS" : {
-      "description" : "",
-      "message" : "Roboti"
-   },
-   "ROCKY_PLANET" : {
-      "description" : "",
-      "message" : "\" stjenovit planet\""
-   },
-   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
-      "description" : "",
-      "message" : "\" stjenovit planet sa nešto tekućine,\""
-   },
-   "ROLL" : {
-      "description" : "",
-      "message" : "Okretanje"
-   },
-   "ROLL_LEFT" : {
-      "description" : "",
-      "message" : "Okretanje lijevo"
-   },
-   "ROLL_RIGHT" : {
-      "description" : "",
-      "message" : "Okretanje desno"
-   },
-   "ROTATE_DOWN" : {
-      "description" : "",
-      "message" : "Rotate Down"
-   },
-   "ROTATE_LEFT" : {
-      "description" : "",
-      "message" : "Rotate Left"
-   },
-   "ROTATE_RIGHT" : {
-      "description" : "",
-      "message" : "Rotate Right"
-   },
-   "ROTATE_UP" : {
-      "description" : "",
-      "message" : "Rotate Up"
-   },
-   "ROTATIONAL_PERIOD" : {
-      "description" : "",
-      "message" : "\" (rotacijski period)\""
-   },
-   "ROTATION_DAMPING_OFF" : {
-      "description" : "",
-      "message" : "Rotation damping off"
-   },
-   "ROTATION_DAMPING_ON" : {
-      "description" : "",
-      "message" : "Rotation damping on"
-   },
-   "RUBBISH" : {
-      "description" : "",
-      "message" : "Smeće"
-   },
-   "SCOOP" : {
-      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
-      "message" : "Scoop"
-   },
-   "SCREENSHOT_FILENAME_TEMPLATE" : {
-      "description" : "",
-      "message" : "screenshot%index{d08}.png"
-   },
-   "SEARCH" : {
-      "description" : "",
-      "message" : "Traži"
-   },
-   "SEARCH_MAP" : {
-      "description" : "",
-      "message" : "Search Map"
-   },
-   "SECTOR_COORDINATES" : {
-      "description" : "",
-      "message" : "Kordinate sektora:"
-   },
-   "SECTOR_MAP_VIEW" : {
-      "description" : "",
-      "message" : "Sector Map View"
-   },
-   "SECTOR_X_Y_Z" : {
-      "description" : "",
-      "message" : "Sektor: %x,%y,%z"
-   },
-   "SELECTED_SYSTEM" : {
-      "description" : "",
-      "message" : "Označen sustav"
-   },
-   "SELECT_A_TARGET" : {
-      "description" : "",
-      "message" : "Označi metu"
-   },
-   "SELECT_LOW_THRUST_POWER_LEVEL" : {
-      "description" : "",
-      "message" : "Select low thrust power level"
-   },
-   "SEMI_MAJOR_AXIS" : {
-      "description" : "",
-      "message" : "Velika poluos"
-   },
-   "SET_HYPERSPACE_DESTINATION_TO" : {
-      "description" : "",
-      "message" : "Postavi hiperprostornu destinaciju na %system"
-   },
-   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
-      "description" : "",
-      "message" : "Analizator hiperprostornog oblaka: postavi hiperprostorno odredište da prati ovaj odlazak"
-   },
-   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
-      "description" : "",
-      "message" : "Set low thrust power level to %power%%"
-   },
-   "SET_NAVTARGET_TO" : {
-      "description" : "",
-      "message" : "Set navigation target to: "
-   },
-   "SET_SPEED_KM_S" : {
-      "description" : "",
-      "message" : "Postavi brzinu: %speed{f.2} km/s"
-   },
-   "SET_SPEED_M_S" : {
-      "description" : "",
-      "message" : "Postavi brzinu: %speed{f.0} m/s"
-   },
-   "SHIELD_INTEGRITY" : {
-      "description" : "",
-      "message" : "Integritet štita"
-   },
-   "SHIELD_STRENGTH_N" : {
-      "description" : "",
-      "message" : "Snaga štita: %shields{f.2}"
-   },
-   "SHIFT" : {
-      "description" : "Shift key on keyboard",
-      "message" : "Shift"
-   },
-   "SHIP" : {
-      "description" : "",
-      "message" : "Brod"
-   },
-   "SHIPS_DISPLAY_MODE_TOGGLE" : {
-      "description" : "Either show no ships, show ships, or show ships + their orbits",
-      "message" : "Switch between ship display modes."
-   },
-   "SHIP_DETECTED_NEARBY" : {
-      "description" : "",
-      "message" : "Brod primjećen u blizini."
-   },
-   "SHIP_INFORMATION" : {
-      "description" : "",
-      "message" : "Podaci o brodu"
-   },
-   "SHIP_MASS_N_TONNES" : {
-      "description" : "",
-      "message" : "Masa broda: %{mass}t"
-   },
-   "SHIP_NEARBY" : {
-      "description" : "",
-      "message" : "Brod u blizini"
-   },
-   "SHIP_ORIENTATION" : {
-      "description" : "",
-      "message" : "Orijentacija broda"
-   },
-   "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
-      "description" : "",
-      "message" : "Brzina broda od referentne točke"
-   },
-   "SIDEREAL_VIEW" : {
-      "description" : "camera view setting",
-      "message" : "Sidereal view"
-   },
-   "SLAVES" : {
-      "description" : "",
-      "message" : "Robovi"
-   },
-   "SMALL" : {
-      "description" : "",
-      "message" : "Mali"
-   },
-   "SMALL_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Mali plinoviti div"
-   },
-   "SMALL_INDUSTRIAL_OUTPOST" : {
-      "description" : "",
-      "message" : "Mala industrijska straža."
-   },
-   "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
-      "description" : "",
-      "message" : "Bez većih planova. Nema registriranih naselja."
-   },
-   "SOCIAL_DEMOCRACY" : {
-      "description" : "",
-      "message" : "Socijalna demokracija"
-   },
-   "SOLAR" : {
-      "description" : "",
-      "message" : "sunčevih"
-   },
-   "SOME_ESTABLISHED_MINING" : {
-      "description" : "",
-      "message" : "Nešto uspostavljenog rudarenja."
-   },
-   "SOURCE" : {
-      "description" : "tell source system of hyperjump entry cloud",
-      "message" : "Ishodište"
-   },
-   "SPEED_CONTROL_MODE" : {
-      "description" : "",
-      "message" : "Kontrola brzine"
-   },
-   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
-      "description" : "",
-      "message" : "Stabilan sustav sa %bodycount glavnih %{body(s)} i %portcount %{starport(s)}."
-   },
-   "STARPORT" : {
-      "description" : "",
-      "message" : "zvijezdana luka"
-   },
-   "STARPORTS" : {
-      "description" : "",
-      "message" : "Svemirske luke"
-   },
-   "STAR_A" : {
-      "description" : "",
-      "message" : "Tip 'A' vruća bijela zvijezda"
-   },
-   "STAR_AF_GIANT" : {
-      "description" : "",
-      "message" : "Bijela divovska zvijezda"
-   },
-   "STAR_AF_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Bijela hiper divovska zvijezda"
-   },
-   "STAR_AF_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Bijela super divovska zvijezda"
-   },
-   "STAR_B" : {
-      "description" : "",
-      "message" : "Svijetli tip 'B' plava zvijezda"
-   },
-   "STAR_B_GIANT" : {
-      "description" : "",
-      "message" : "Plava divovska zvijezda"
-   },
-   "STAR_B_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Plava hiper divovska zvijezda"
-   },
-   "STAR_B_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Plava super divovska zvijezda"
-   },
-   "STAR_B_WF" : {
-      "description" : "",
-      "message" : "Wolf-Rayet zvijezda - rizik od kolapsa"
-   },
-   "STAR_F" : {
-      "description" : "",
-      "message" : "Tip 'F' bijela zvijezda"
-   },
-   "STAR_G" : {
-      "description" : "",
-      "message" : "Tip 'G' žuta zvijezda"
-   },
-   "STAR_G_GIANT" : {
-      "description" : "",
-      "message" : "Žuta divovska zvijezda - nestabilna"
-   },
-   "STAR_G_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Žuta hiper divovska zvijezda - nestabilna"
-   },
-   "STAR_G_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Žuta super divovska zvijezda"
-   },
-   "STAR_IM_BH" : {
-      "description" : "",
-      "message" : "Srednje velika crna rupa"
-   },
-   "STAR_K" : {
-      "description" : "",
-      "message" : "Tip 'K' narančasta zvijezda"
-   },
-   "STAR_K_GIANT" : {
-      "description" : "",
-      "message" : "Narančasta divovska zvijezda - nestabilna"
-   },
-   "STAR_K_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Narančasta hiper divovska zvijezda - nestabilna"
-   },
-   "STAR_K_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Narančasta super divovska zvijezda"
-   },
-   "STAR_M" : {
-      "description" : "",
-      "message" : "Tip 'M' crvena zvijezda"
-   },
-   "STAR_M_GIANT" : {
-      "description" : "",
-      "message" : "Crvena divovska zvijezda"
-   },
-   "STAR_M_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Crvena hiper divovska zvijezda"
-   },
-   "STAR_M_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Crvena super divovska zvijezda"
-   },
-   "STAR_M_WF" : {
-      "description" : "",
-      "message" : "Wolf-Rayet zvijezda - nestabilna"
-   },
-   "STAR_O" : {
-      "description" : "",
-      "message" : "Vruća, masivna tip 'O' zvijezda"
-   },
-   "STAR_O_GIANT" : {
-      "description" : "",
-      "message" : "Vruća plava divovska zvijezda"
-   },
-   "STAR_O_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Vruća plava hiper divovska zvijezda"
-   },
-   "STAR_O_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Vruća plava super divovska zvijezda"
-   },
-   "STAR_O_WF" : {
-      "description" : "",
-      "message" : "Wolf-Rayet zvijezda - predstojeći kolaps"
-   },
-   "STAR_SM_BH" : {
-      "description" : "",
-      "message" : "Sidrište ove galaksije"
-   },
-   "STAR_SYSTEM_INFORMATION" : {
-      "description" : "",
-      "message" : "Informacije o zvijezdanom sustavu"
-   },
-   "STAR_S_BH" : {
-      "description" : "",
-      "message" : "Zvijezdana crna rupa"
-   },
-   "SUGGESTED_RESPONSES" : {
-      "description" : "",
-      "message" : "Predloženi odgovori:"
-   },
-   "SURFACE_GRAVITY" : {
-      "description" : "",
-      "message" : "Gravitacija na površini"
-   },
-   "SURFACE_TEMPERATURE" : {
-      "description" : "",
-      "message" : "Temperatura na površini"
-   },
-   "SWAP_SELECTED_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Swap selected and hyperjump target"
-   },
-   "SWITCHED_TO_PARENT" : {
-      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "Switched heading display to system-wide coordinates."
-   },
-   "SWITCHED_TO_ROTATIONAL" : {
-      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "Switched heading display to planetary coordinates."
-   },
-   "SYSTEM" : {
-      "description" : "star system",
-      "message" : "sustavu"
-   },
-   "SYSTEM_NUMBER" : {
-      "description" : "",
-      "message" : "Broj sistema:"
-   },
-   "SYSTEM_ORBIT_VIEW" : {
-      "description" : "",
-      "message" : "Pogled na orbite u sustavu"
-   },
-   "SYSTEM_TYPE" : {
-      "description" : "",
-      "message" : "Tip sistema:"
-   },
-   "S_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" supmornom atmosferom\""
-   },
-   "TAKEOFF" : {
-      "description" : "",
-      "message" : "Uzleti"
-   },
-   "TARGET_OBJECT_IN_SIGHTS" : {
-      "description" : "",
-      "message" : "Nišani objekt u nišanskom-kursoru"
-   },
-   "TENUOUS" : {
-      "description" : "atmosphere thickness",
-      "message" : "beznačajnom"
-   },
-   "TEXTILES" : {
-      "description" : "",
-      "message" : "Tekstil"
-   },
-   "THICK" : {
-      "description" : "",
-      "message" : "gustom"
-   },
-   "THIN" : {
-      "description" : "",
-      "message" : "rijetkom"
-   },
-   "THRIVING_OUTDOOR_WORLD" : {
-      "description" : "",
-      "message" : "Napredan vanjski svijet."
-   },
-   "THRUSTER_DORSAL" : {
-      "description" : "",
-      "message" : "Potisak dolje"
-   },
-   "THRUSTER_MAIN" : {
-      "description" : "",
-      "message" : "Potisak naprijed"
-   },
-   "THRUSTER_PORT" : {
-      "description" : "",
-      "message" : "Potisak lijevo"
-   },
-   "THRUSTER_RETRO" : {
-      "description" : "",
-      "message" : "Potisak nazad"
-   },
-   "THRUSTER_STARBOARD" : {
-      "description" : "",
-      "message" : "Potisak desno"
-   },
-   "THRUSTER_VENTRAL" : {
-      "description" : "",
-      "message" : "Potisak gore"
-   },
-   "TIME_POINT" : {
-      "description" : "",
-      "message" : "Vremenska točka:"
-   },
-   "TINY" : {
-      "description" : "",
-      "message" : "Majušan"
-   },
-   "TOGGLE_EQUIPMENT_VIEW" : {
-      "description" : "Tooltip for the Equipment View button",
-      "message" : "Equipment View"
-   },
-   "TOGGLE_HUD_MODE" : {
-      "description" : "",
-      "message" : "Toggle HUD mode"
-   },
-   "TOGGLE_LUA_CONSOLE" : {
-      "description" : "",
-      "message" : "Prekidač Lua konzole"
-   },
-   "TOGGLE_RADAR_MODE" : {
-      "description" : "",
-      "message" : "Toggle radar mode"
-   },
-   "TOGGLE_RADAR_VIEW" : {
-      "description" : "Tooltip for the Radar View button",
-      "message" : "Radar View"
-   },
-   "TOGGLE_ROTATION_DAMPING" : {
-      "description" : "",
-      "message" : "Toggle rotation damping"
-   },
-   "TOMBSTONE_EPITAPH" : {
-      "description" : "shown on tombstone when player dies",
-      "message" : "POČIVAJ U MIRU"
-   },
-   "TRADING_ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "Nezakonito trgovanje dobrima"
-   },
-   "TRIPLE_SYSTEM" : {
-      "description" : "",
-      "message" : "Trostruki sustav"
-   },
-   "UNDOCKING" : {
-      "description" : "Flight state of ship when leaving station",
-      "message" : "Undocking"
-   },
-   "UNEXPLORED_SYSTEM_NO_DATA" : {
-      "description" : "",
-      "message" : "Neistražen sustav. Nema dostupnih podataka."
-   },
-   "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
-      "description" : "",
-      "message" : "Neistražen sustav. Pogled na sustav nije dostupan."
-   },
-   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
-      "description" : "",
-      "message" : "Neistražen sustav. Informacije o zvijezdi dobivene promatranjem teleskopom, nema dostupnih informacija o planetima."
-   },
-   "UNIT_AU" : {
-      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
-      "message" : "AU"
-   },
-   "UNIT_DAYS" : {
-      "description" : "Duration unit: one 24-hour day",
-      "message" : "d"
-   },
-   "UNIT_HOURS" : {
-      "description" : "Duration unit: one 60-minute hour",
-      "message" : "h"
-   },
-   "UNIT_KILOMETERS" : {
-      "description" : "Distance unit: one kilometer",
-      "message" : "km"
-   },
-   "UNIT_KILOMETERS_PER_SECOND" : {
-      "description" : "Speed unit: one kilometer per second",
-      "message" : "km/s"
-   },
-   "UNIT_LY" : {
-      "description" : "Distance unit: a light year",
-      "message" : "ly"
-   },
-   "UNIT_METERS" : {
-      "description" : "Distance unit: one meter",
-      "message" : "m"
-   },
-   "UNIT_METERS_PER_SECOND" : {
-      "description" : "Speed unit: one meter per second",
-      "message" : "m/s"
-   },
-   "UNIT_MILLION_METERS" : {
-      "description" : "Distance unit: one million meters",
-      "message" : "Mm"
-   },
-   "UNIT_MILLION_METERS_PER_SECOND" : {
-      "description" : "Speed unit: one million meters per second",
-      "message" : "Mm/s"
-   },
-   "UNIT_MINUTES" : {
-      "description" : "Duration unit: one 60-second minute",
-      "message" : "m"
-   },
-   "UNIT_SECONDS" : {
-      "description" : "Duration unit: one second",
-      "message" : "s"
-   },
-   "UNIT_TONNES" : {
-      "description" : "Mass unit: one tonne (t)",
-      "message" : "t"
-   },
-   "UNIT_WEEKS" : {
-      "description" : "Duration unit: one 7-day week",
-      "message" : "w"
-   },
-   "UNKNOWN" : {
-      "description" : "",
-      "message" : "<nepoznat>"
-   },
-   "UNSET_NAVTARGET" : {
-      "description" : "",
-      "message" : "Unset navigation target."
-   },
-   "USE_LOW_THRUST" : {
-      "description" : "",
-      "message" : "Use low thrust"
-   },
-   "VAST_STRIP_MINE" : {
-      "description" : "",
-      "message" : "Kolonija neizmjernog rudarenja."
-   },
-   "VERY_DENSE" : {
-      "description" : "",
-      "message" : "vrlo gustom"
-   },
-   "VERY_LARGE_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Vrlo veliki plinoviti div"
-   },
-   "VIEW" : {
-      "description" : "",
-      "message" : "Pogledaj"
-   },
-   "VIOLENT_ANARCHY" : {
-      "description" : "",
-      "message" : "Anarhija - sveukupna vlast raspodjeljena na oružane frakcije"
-   },
-   "WATER" : {
-      "description" : "",
-      "message" : "Voda"
-   },
-   "WEAPONS" : {
-      "description" : "",
-      "message" : "Oružja"
-   },
-   "WEAPON_TEMP" : {
-      "description" : "",
-      "message" : "Temperatura oružja"
-   },
-   "WHEELS_ARE_DOWN" : {
-      "description" : "",
-      "message" : "Kotači su spušteni"
-   },
-   "WHEELS_ARE_UP" : {
-      "description" : "",
-      "message" : "Kotači su podignuti"
-   },
-   "WHITE_DWARF" : {
-      "description" : "",
-      "message" : "Bijeli patuljak zvijedani ostatak"
-   },
-   "WITH_A" : {
-      "description" : "",
-      "message" : "\" sa \""
-   },
-   "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" sa beznačajnom atmosferom\""
-   },
-   "X" : {
-      "description" : "keybinding: x axis",
-      "message" : "X"
-   },
-   "Y" : {
-      "description" : "keybinding: y axis",
-      "message" : "Y"
-   },
-   "YAW" : {
-      "description" : "",
-      "message" : "Skretanje"
-   },
-   "YAW_LEFT" : {
-      "description" : "",
-      "message" : "Skretanje lijevo"
-   },
-   "YAW_RIGHT" : {
-      "description" : "",
-      "message" : "Skretanje desno"
-   },
-   "YOUNG_FARMING_COLONY" : {
-      "description" : "",
-      "message" : "Mlada poljoprivredna kolonija."
-   },
-   "Z" : {
-      "description" : "keybinding: z axis",
-      "message" : "Z"
-   },
-   "ZOOM_IN" : {
-      "description" : "",
-      "message" : "Povećaj"
-   },
-   "ZOOM_OUT" : {
-      "description" : "",
-      "message" : "Smanji"
-   }
+  "AIR_PROCESSORS": {
+    "description": "",
+    "message": "Procesori zraka"
+  },
+  "ALERT_CANCELLED": {
+    "description": "",
+    "message": "Uzbuna prekinuta."
+  },
+  "ALLEGIANCE": {
+    "description": "",
+    "message": "Odanost:"
+  },
+  "ALT": {
+    "description": "Alt key on keyboard",
+    "message": "Alt"
+  },
+  "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
+    "description": "",
+    "message": "\" i vrlo kopleksnim ekosustavom.\""
+  },
+  "AND_INDIGENOUS_MICROBIAL_LIFE": {
+    "description": "",
+    "message": "\" i autohtonim mikrobnim svijetom.\""
+  },
+  "AND_INDIGENOUS_PLANT_LIFE": {
+    "description": "",
+    "message": "\" i autohtonim biljnim svijetom.\""
+  },
+  "ANIMAL_MEAT": {
+    "description": "",
+    "message": "Životinjsko meso"
+  },
+  "APOAPSIS_DISTANCE": {
+    "description": "",
+    "message": "Apoapsis udaljenost"
+  },
+  "AR_ATMOSPHERE": {
+    "description": "",
+    "message": "\" argonskom atmosferom\""
+  },
+  "ASTEROID": {
+    "description": "",
+    "message": "Asteroid"
+  },
+  "AUTOMATIC_SYSTEM_SELECTION": {
+    "description": "for star map, select star system when mouse close to it",
+    "message": "Automatic system selection"
+  },
+  "AUTOPILOT_CONTROL": {
+    "description": "Indicating that ship is flying under autopilot control",
+    "message": "Autopilot control"
+  },
+  "AUTOPILOT_DOCK_WITH_STATION": {
+    "description": "",
+    "message": "Autopilot: Dock with {target}"
+  },
+  "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilot: Enter high orbit around {target}"
+  },
+  "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilot: Enter low orbit around {target}"
+  },
+  "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilot: Enter medium orbit around {target}"
+  },
+  "AUTOPILOT_FLY_TO_VICINITY_OF": {
+    "description": "",
+    "message": "Autopilot: Fly to vicinity of {target}"
+  },
+  "AUTOPILOT_ON": {
+    "description": "",
+    "message": "Autopilot uključen"
+  },
+  "AXIAL_TILT": {
+    "description": "",
+    "message": "Aksijalni nagib"
+  },
+  "A_FEW_THOUSAND": {
+    "description": "regarding population",
+    "message": "Tek nekoliko tisuća"
+  },
+  "BATTLE_WEAPONS": {
+    "description": "",
+    "message": "Teško oružje"
+  },
+  "BINARY_SYSTEM": {
+    "description": "",
+    "message": "Dvostruki sustav"
+  },
+  "BODIES": {
+    "description": "space bodies",
+    "message": "tijela"
+  },
+  "BODY": {
+    "description": "",
+    "message": "tijelo"
+  },
+  "BROWN_DWARF": {
+    "description": "",
+    "message": "Smeđi patuljak pod-zvijezdani objekt"
+  },
+  "BUTTON": {
+    "description": "",
+    "message": "\" Tipka \""
+  },
+  "CAMERA_BOTTOM_VIEW": {
+    "description": "",
+    "message": "Bottom camera"
+  },
+  "CAMERA_FRONT_VIEW": {
+    "description": "",
+    "message": "Prednji pogled"
+  },
+  "CAMERA_LEFT_VIEW": {
+    "description": "",
+    "message": "Left camera"
+  },
+  "CAMERA_REAR_VIEW": {
+    "description": "",
+    "message": "Stražnji pogled"
+  },
+  "CAMERA_RIGHT_VIEW": {
+    "description": "",
+    "message": "Right camera"
+  },
+  "CAMERA_TOP_VIEW": {
+    "description": "",
+    "message": "Top camera"
+  },
+  "CANT_SAVE_DEAD_PLAYER": {
+    "description": "",
+    "message": "Can't save game after the player has died"
+  },
+  "CANT_SAVE_IN_HYPERSPACE": {
+    "description": "",
+    "message": "Can't save game while in hyperspace"
+  },
+  "CAPITALIST": {
+    "description": "",
+    "message": "Kapitalizam"
+  },
+  "CARBON_ORE": {
+    "description": "",
+    "message": "Ugljikova rudača"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Teret"
+  },
+  "CARGO_BAY_LIFE_SUPPORT_LOST": {
+    "description": "",
+    "message": "Senzori javljaju kritično po život opasne uvjete u prostoru za teret."
+  },
+  "CARGO_N": {
+    "description": "",
+    "message": "Teret: %{mass}t"
+  },
+  "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
+    "description": "",
+    "message": "Crpka za teret je aktivirana. Prikupljena 1 tona %item."
+  },
+  "CARGO_SCOOP_ATTEMPTED": {
+    "description": "",
+    "message": "Cargo scoop attempted. Not enough room in cargo hold."
+  },
+  "CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "\" metanskom atmosferom\""
+  },
+  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Odobrenje već dano. Produžite u sobu %bay."
+  },
+  "CLEARANCE_DENIED_NO_BAYS": {
+    "description": "",
+    "message": "Spajanje odbijeno. Nema slobodnih mjesta."
+  },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Clearance denied. Your ship is too far away for ID verification."
+  },
+  "CLEARANCE_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Odobreno spajanje. Produžite u sobu %bay."
+  },
+  "CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "\" ugljično dioksidna atmosfera\""
+  },
+  "COMMA_HIGHLY_VOLCANIC": {
+    "description": "",
+    "message": ", veoma vulkanski"
+  },
+  "COMMODITY_NONE": {
+    "description": "When no commodities exist",
+    "message": "Ništa"
+  },
+  "COMMODITY_TRADE_ANALYSIS_COMPARE": {
+    "description": "",
+    "message": "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
+  },
+  "COMMODITY_TRADE_ANALYSIS_SELF": {
+    "description": "",
+    "message": "Commodity trade analysis of #fff%system#fff"
+  },
+  "COMMS": {
+    "description": "",
+    "message": "Komunikacije"
+  },
+  "COMMUNIST": {
+    "description": "",
+    "message": "Komunizam"
+  },
+  "COMPASS_E": {
+    "description": "Abbreviation for compass direction: East",
+    "message": "E"
+  },
+  "COMPASS_N": {
+    "description": "Abbreviation for compass direction: North",
+    "message": "N"
+  },
+  "COMPASS_NE": {
+    "description": "Abbreviation for compass direction: North East",
+    "message": "NE"
+  },
+  "COMPASS_NW": {
+    "description": "Abbreviation for compass direction: North West",
+    "message": "NW"
+  },
+  "COMPASS_S": {
+    "description": "Abbreviation for compass direction: South",
+    "message": "S"
+  },
+  "COMPASS_SE": {
+    "description": "Abbreviation for compass direction: South East",
+    "message": "SE"
+  },
+  "COMPASS_SW": {
+    "description": "Abbreviation for compass direction: South West",
+    "message": "SW"
+  },
+  "COMPASS_W": {
+    "description": "Abbreviation for compass direction: West",
+    "message": "W"
+  },
+  "COMPUTERS": {
+    "description": "",
+    "message": "Računala"
+  },
+  "COMPUTER_HEADING_CONTROL": {
+    "description": "",
+    "message": "Computer heading control"
+  },
+  "COMPUTER_SPEED_CONTROL": {
+    "description": "",
+    "message": "Kompjuterska kontrola brzine"
+  },
+  "CONSUMER_GOODS": {
+    "description": "",
+    "message": "Potrošačka roba"
+  },
+  "CONTROLS": {
+    "description": "",
+    "message": "Kontrole"
+  },
+  "CORPORATE_SYSTEM": {
+    "description": "",
+    "message": "Korporativni sustav"
+  },
+  "COULD_NOT_OPEN_FILENAME": {
+    "description": "",
+    "message": "Nemogu pristupiti %path"
+  },
+  "COUNT_ON_SURFACE": {
+    "description": "",
+    "message": "\" (%surfacecount on surface)\""
+  },
+  "COUNT_STARPORTS": {
+    "description": "",
+    "message": "svemirske luke"
+  },
+  "CO_ATMOSPHERE": {
+    "description": "",
+    "message": "\" ugljično monoksidna atmosfera\""
+  },
+  "CTRL": {
+    "description": "Ctrl key on keyboard",
+    "message": "Ctrl"
+  },
+  "CURRENT_SYSTEM": {
+    "description": "selected current star system",
+    "message": "Trenutni sustav"
+  },
+  "DATE_DUE_N": {
+    "description": "",
+    "message": "Datum dospijeća: %date"
+  },
+  "DAY_LENGTH": {
+    "description": "",
+    "message": "Trajanje dana"
+  },
+  "DECREASE_RADAR_RANGE": {
+    "description": "",
+    "message": "Decrease radar range"
+  },
+  "DECREASE_SET_SPEED": {
+    "description": "",
+    "message": "Smanji postavljenu brzinu"
+  },
+  "DECREASE_TIME_ACCELERATION": {
+    "description": "",
+    "message": "Decrease Time Acceleration"
+  },
+  "DEMOGRAPHICS": {
+    "description": "",
+    "message": "Demografija"
+  },
+  "DESTINATION": {
+    "description": "",
+    "message": "Cilj"
+  },
+  "DIRECTION": {
+    "description": "Direction",
+    "message": "\" Smjer \""
+  },
+  "DISTANCE_LY": {
+    "description": "",
+    "message": "Udaljenost: %distance{f.2} sg"
+  },
+  "DOCKED": {
+    "description": "",
+    "message": "Spojen"
+  },
+  "DOCKING": {
+    "description": "",
+    "message": "Spajanje"
+  },
+  "DOCKING_CLEARANCE_EXPIRED": {
+    "description": "",
+    "message": "Odobrenje za spajanje isteklo. Ako se želite spojiti ponovite zahtjev."
+  },
+  "DOWNGRADING_ALERT_STATUS": {
+    "description": "",
+    "message": "Bez paljbe već 60 sekunda, smanjujem status uzbune."
+  },
+  "DRAW_OUT_RANGE_LABELS": {
+    "description": "",
+    "message": "Label out-of-range systems"
+  },
+  "DRAW_UNINHABITED_LABELS": {
+    "description": "",
+    "message": "Label uninhabited systems"
+  },
+  "DRAW_VERTICAL_LINES": {
+    "description": "",
+    "message": "Draw vertical lines"
+  },
+  "EARTH": {
+    "description": "",
+    "message": "zemaljskih"
+  },
+  "EARTH_FEDERATION_COLONIAL_RULE": {
+    "description": "",
+    "message": "Zemaljska federativna kolonijalna uprava"
+  },
+  "EARTH_FEDERATION_DEMOCRACY": {
+    "description": "",
+    "message": "Zamaljska federativna demokracija"
+  },
+  "ECCENTRICITY": {
+    "description": "",
+    "message": "Ekcentricitet"
+  },
+  "ECONOMIC_INFO": {
+    "description": "",
+    "message": "Ekonomski podaci"
+  },
+  "ECONOMY_TYPE": {
+    "description": "",
+    "message": "Tip ekonomije:"
+  },
+  "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
+    "description": "",
+    "message": "Equatorial to polar radius ratio"
+  },
+  "EXACT_MATCH_X": {
+    "description": "",
+    "message": "Potpuno odgovara: %system"
+  },
+  "EXTENSIVE_MINING": {
+    "description": "",
+    "message": "Opsežno rudarenje."
+  },
+  "EXTERNAL_ATMOSPHERIC_PRESSURE": {
+    "description": "",
+    "message": "Vanjski atmosferski pritisak"
+  },
+  "EXTERNAL_VIEW": {
+    "description": "",
+    "message": "Vanjski pogled"
+  },
+  "FARM_MACHINERY": {
+    "description": "",
+    "message": "Poljoprivredna mehanizacija"
+  },
+  "FERTILIZER": {
+    "description": "",
+    "message": "Gnojivo"
+  },
+  "FIRE_LASER": {
+    "description": "",
+    "message": "Fire weapon"
+  },
+  "FIRE_MISSILE": {
+    "description": "",
+    "message": "Fire missile"
+  },
+  "FLYBY_VIEW": {
+    "description": "camera view setting",
+    "message": "Flyby view"
+  },
+  "FOLLOWING_SELECTION": {
+    "description": "",
+    "message": "pratim odabir"
+  },
+  "FRUIT_AND_VEG": {
+    "description": "",
+    "message": "Voće i povrće"
+  },
+  "FUEL": {
+    "description": "",
+    "message": "Fuel"
+  },
+  "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
+    "description": "",
+    "message": "Crpka za gorivo je aktivna. Imate sada %quantity tona vodika."
+  },
+  "GALACTIC_VIEW": {
+    "description": "view galactic map",
+    "message": "Pogled na galaksiju"
+  },
+  "GALAXY_SECTOR_VIEW": {
+    "description": "",
+    "message": "Pogled na sektor galaksije"
+  },
+  "GAME_LOAD_CANNOT_OPEN": {
+    "description": "",
+    "message": "Save file '%filename' could not be found (or the game does not have access to open it)."
+  },
+  "GAME_LOAD_CORRUPT": {
+    "description": "",
+    "message": "Ova spremljena igra se ne može učitati jer sadrži greške."
+  },
+  "GAME_LOAD_WRONG_VERSION": {
+    "description": "",
+    "message": "This saved game cannot be loaded because it was created by a different version of Pioneer."
+  },
+  "GAME_SAVED_TO": {
+    "description": "",
+    "message": "\"Igra spremljena u \""
+  },
+  "GAME_SAVE_CANNOT_WRITE": {
+    "description": "",
+    "message": "This saved game file could not be written because of a system error."
+  },
+  "GENERAL_VIEW_CONTROLS": {
+    "description": "",
+    "message": "General View Controls"
+  },
+  "GOVERNMENT_TYPE": {
+    "description": "",
+    "message": "Tip uprave:"
+  },
+  "GRAIN": {
+    "description": "like wheat or barley",
+    "message": "Žito"
+  },
+  "HAND_WEAPONS": {
+    "description": "",
+    "message": "Lako oružje"
+  },
+  "HARD_CAPITALIST": {
+    "description": "",
+    "message": "Potpuni kapitalizam - bez vladinih socijalnih davanja"
+  },
+  "HAT": {
+    "description": "Hat switch: Is the top button on a joystick",
+    "message": "\" Hat\""
+  },
+  "HEADING_LOCK_ANTINORMAL": {
+    "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
+    "message": "Hold {target} anti-normal"
+  },
+  "HEADING_LOCK_BACKWARD": {
+    "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
+    "message": "Hold {target} retrograde"
+  },
+  "HEADING_LOCK_FORWARD": {
+    "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
+    "message": "Hold {target} prograde"
+  },
+  "HEADING_LOCK_KILLROT": {
+    "description": "",
+    "message": "Kill rotation"
+  },
+  "HEADING_LOCK_NORMAL": {
+    "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
+    "message": "Hold {target} normal"
+  },
+  "HEADING_LOCK_RADIALLY_INWARD": {
+    "description": "Autopilot direction, relative to orbit (face towards planet)",
+    "message": "Hold {target} radially in"
+  },
+  "HEADING_LOCK_RADIALLY_OUTWARD": {
+    "description": "Autopilot direction, relative to orbit (face away from palent)",
+    "message": "Hold {target} radially out"
+  },
+  "HEAVY_INDUSTRY": {
+    "description": "",
+    "message": "Teška industrija."
+  },
+  "HE_ATMOSPHERE": {
+    "description": "",
+    "message": "\" helijskom atmosferom\""
+  },
+  "HIGHLY_VOLCANIC": {
+    "description": "",
+    "message": "Veoma vulkanski"
+  },
+  "HIGH_POPULATION_OUTDOOR_WORLD": {
+    "description": "",
+    "message": "Vanjski svijet ogromne populacije."
+  },
+  "HULL_INTEGRITY": {
+    "description": "",
+    "message": "Integritet trupa"
+  },
+  "HULL_TEMP": {
+    "description": "",
+    "message": "Temperatura trupa"
+  },
+  "HYDROGEN": {
+    "description": "",
+    "message": "Vodik"
+  },
+  "HYPERSPACE": {
+    "description": "",
+    "message": "Hiperprostor"
+  },
+  "HYPERSPACE_ARRIVAL_CLOUD": {
+    "description": "",
+    "message": "Dolazni hiperprostorni oblak"
+  },
+  "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
+    "description": "",
+    "message": "Ostatak dolaznog hiperprostornog oblaka"
+  },
+  "HYPERSPACE_DEPARTURE_CLOUD": {
+    "description": "",
+    "message": "Odlazni hiperprostorni oblak"
+  },
+  "HYPERSPACE_JUMP_ABORT": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Disengage Hyperdrive"
+  },
+  "HYPERSPACE_JUMP_ABORTED": {
+    "description": "",
+    "message": "Hiperprostorni skok prekinut."
+  },
+  "HYPERSPACE_JUMP_DISABLED": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Hyperdrive disabled"
+  },
+  "HYPERSPACE_JUMP_ENGAGE": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Engage Hyperdrive"
+  },
+  "HYPERSPACE_JUMP_FORBIDDEN": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Hyperdrive forbidden zone"
+  },
+  "HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Hiperprostorna meta"
+  },
+  "H_ATMOSPHERE": {
+    "description": "",
+    "message": "\" vodikovom atmosferom\""
+  },
+  "ICE_WORLD": {
+    "description": "",
+    "message": "\" zaleđen svijet\""
+  },
+  "ILLEGAL_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+    "message": "Illegal (current system):"
+  },
+  "ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Ilegalna roba:"
+  },
+  "IMPERIAL_RULE": {
+    "description": "",
+    "message": "Imperijalna uprava"
+  },
+  "INCREASE_RADAR_RANGE": {
+    "description": "",
+    "message": "Increase radar range"
+  },
+  "INCREASE_SET_SPEED": {
+    "description": "",
+    "message": "Povećaj postavljenu brzinu"
+  },
+  "INCREASE_TIME_ACCELERATION": {
+    "description": "",
+    "message": "Increase Time Acceleration"
+  },
+  "INDUSTRIAL_COLONY": {
+    "description": "",
+    "message": "Industrijska kolonija."
+  },
+  "INDUSTRIAL_HUB_SYSTEM": {
+    "description": "",
+    "message": "Industijski centar."
+  },
+  "INDUSTRIAL_MACHINERY": {
+    "description": "",
+    "message": "Industrijski strojevi"
+  },
+  "INTERNAL_VIEW": {
+    "description": "",
+    "message": "Internal view"
+  },
+  "JOY": {
+    "description": "Short for Joystick",
+    "message": "Joy"
+  },
+  "JOYSTICK_INPUT": {
+    "description": "",
+    "message": "Joystick ulaz"
+  },
+  "JOY_AXIS": {
+    "description": "Regarding joystick",
+    "message": "%{sign}%joyname %axis Axis"
+  },
+  "L4L5_DISPLAY_MODE_TOGGLE": {
+    "description": "Either show L4/L5 points or don't",
+    "message": "Switch between Lagrange L4/L5 point display modes."
+  },
+  "LANDED": {
+    "description": "",
+    "message": "Prizemljen"
+  },
+  "LANG_NAME": {
+    "description": "The name that native speakers use for this language. This will be used in the language selection screen.",
+    "message": "Hrvatski"
+  },
+  "LARGE": {
+    "description": "regarding terrestrial planet size (mass actually)",
+    "message": "Veliki"
+  },
+  "LARGE_GAS_GIANT": {
+    "description": "",
+    "message": "Veliki plinoviti div"
+  },
+  "LASER_FIRE_DETECTED": {
+    "description": "",
+    "message": "Weapons fire detected."
+  },
+  "LATITUDE": {
+    "description": "Short for latitude",
+    "message": "Lat:"
+  },
+  "LATITUDE_NORTH_ABBREV": {
+    "description": "Abbreviation letter for latitude 'north'",
+    "message": "N"
+  },
+  "LATITUDE_SOUTH_ABBREV": {
+    "description": "Abbreviation letter for latitude 'south'",
+    "message": "S"
+  },
+  "LEGAL_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+    "message": "Legal (current system):"
+  },
+  "LIBERAL_DEMOCRACY": {
+    "description": "",
+    "message": "Liberalna demokracija"
+  },
+  "LIQUID_OXYGEN": {
+    "description": "",
+    "message": "Tekući kisik"
+  },
+  "LIQUOR": {
+    "description": "",
+    "message": "Alkohol"
+  },
+  "LIVE_ANIMALS": {
+    "description": "",
+    "message": "Žive životinje"
+  },
+  "LOCKED": {
+    "description": "to lock a hyperspace target",
+    "message": "zaključano"
+  },
+  "LONGITUDE": {
+    "description": "Short for longitude",
+    "message": "Long:"
+  },
+  "LONGITUDE_EAST_ABBREV": {
+    "description": "Abbreviation letter for longitude 'east'",
+    "message": "E"
+  },
+  "LONGITUDE_WEST_ABBREV": {
+    "description": "Abbreviation letter for latitude 'west'",
+    "message": "W"
+  },
+  "MAJOR_EXPORTS": {
+    "description": "",
+    "message": "Glavni izvozi:"
+  },
+  "MAJOR_EXPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Major export (current system)"
+  },
+  "MAJOR_IMPORTS": {
+    "description": "",
+    "message": "Glavni uvozi:"
+  },
+  "MAJOR_IMPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Major import (current system)"
+  },
+  "MANUAL_CONTROL": {
+    "description": "",
+    "message": "Ručno upravljanje"
+  },
+  "MANUAL_CONTROL_MODE": {
+    "description": "",
+    "message": "Ručna kontrola"
+  },
+  "MAP_LOCK_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Lock Hyperspace Target"
+  },
+  "MAP_TOGGLE_INFO_PANEL": {
+    "description": "",
+    "message": "Toggle Info Panel"
+  },
+  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
+    "description": "",
+    "message": "Toggle Selection Following View"
+  },
+  "MAP_VIEW_ROTATE_DOWN": {
+    "description": "",
+    "message": "Rotate View Down"
+  },
+  "MAP_VIEW_ROTATE_LEFT": {
+    "description": "",
+    "message": "Rotate View Left"
+  },
+  "MAP_VIEW_ROTATE_RIGHT": {
+    "description": "",
+    "message": "Rotate View Right"
+  },
+  "MAP_VIEW_ROTATE_UP": {
+    "description": "",
+    "message": "Rotate View Up"
+  },
+  "MAP_VIEW_SHIFT_BACKWARD": {
+    "description": "",
+    "message": "Shift View Backwards"
+  },
+  "MAP_VIEW_SHIFT_DOWN": {
+    "description": "",
+    "message": "Shift View Down"
+  },
+  "MAP_VIEW_SHIFT_FORWARD": {
+    "description": "",
+    "message": "Shift View Forwards"
+  },
+  "MAP_VIEW_SHIFT_LEFT": {
+    "description": "",
+    "message": "Shift View Left"
+  },
+  "MAP_VIEW_SHIFT_RIGHT": {
+    "description": "",
+    "message": "Shift View Right"
+  },
+  "MAP_VIEW_SHIFT_UP": {
+    "description": "",
+    "message": "Shift View Up"
+  },
+  "MAP_WARP_TO_CURRENT_SYSTEM": {
+    "description": "",
+    "message": "Warp to Current System"
+  },
+  "MAP_WARP_TO_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Warp to Hyperspace Target"
+  },
+  "MAP_WARP_TO_SELECTED_SYSTEM": {
+    "description": "",
+    "message": "Warp to Selected System"
+  },
+  "MASS": {
+    "description": "",
+    "message": "Masa"
+  },
+  "MASSIVE": {
+    "description": "",
+    "message": "Masivan"
+  },
+  "MASS_N_TONNES": {
+    "description": "",
+    "message": "Masa: %{mass}t"
+  },
+  "MEDICINES": {
+    "description": "",
+    "message": "Lijekovi"
+  },
+  "MEDIUM_GAS_GIANT": {
+    "description": "",
+    "message": "Srednji plinoviti div"
+  },
+  "MESSAGE_FROM_X": {
+    "description": "",
+    "message": "Poruka od %sender:"
+  },
+  "META": {
+    "description": "'Meta' key on keyboard",
+    "message": "Meta"
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "Metalne legure"
+  },
+  "METAL_ORE": {
+    "description": "",
+    "message": "Željezna rudača"
+  },
+  "MILITARY_DICTATORSHIP": {
+    "description": "",
+    "message": "Vojna diktatura"
+  },
+  "MILITARY_FUEL": {
+    "description": "",
+    "message": "Vojno gorivo"
+  },
+  "MINING_COLONY": {
+    "description": "",
+    "message": "Rudarska kolonija."
+  },
+  "MINING_MACHINERY": {
+    "description": "",
+    "message": "Rudarski strojevi"
+  },
+  "MINOR_EXPORTS": {
+    "description": "",
+    "message": "Sporedni izvozi:"
+  },
+  "MINOR_EXPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Minor export (current system)"
+  },
+  "MINOR_IMPORTS": {
+    "description": "",
+    "message": "Sporedni uvozi:"
+  },
+  "MINOR_IMPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Minor import (current system)"
+  },
+  "MISCELLANEOUS": {
+    "description": "",
+    "message": "Miscellaneous"
+  },
+  "MISSILE": {
+    "description": "",
+    "message": "raketa"
+  },
+  "MIXED_ECONOMY": {
+    "description": "",
+    "message": "Miješana ekonomija"
+  },
+  "MONTH_APR": {
+    "description": "",
+    "message": "Apr"
+  },
+  "MONTH_AUG": {
+    "description": "",
+    "message": "Aug"
+  },
+  "MONTH_DEC": {
+    "description": "",
+    "message": "Dec"
+  },
+  "MONTH_FEB": {
+    "description": "",
+    "message": "Feb"
+  },
+  "MONTH_JAN": {
+    "description": "",
+    "message": "Jan"
+  },
+  "MONTH_JUL": {
+    "description": "",
+    "message": "Jul"
+  },
+  "MONTH_JUN": {
+    "description": "",
+    "message": "Jun"
+  },
+  "MONTH_MAR": {
+    "description": "",
+    "message": "Mar"
+  },
+  "MONTH_MAY": {
+    "description": "",
+    "message": "May"
+  },
+  "MONTH_NOV": {
+    "description": "",
+    "message": "Nov"
+  },
+  "MONTH_OCT": {
+    "description": "",
+    "message": "Oct"
+  },
+  "MONTH_SEP": {
+    "description": "",
+    "message": "Sep"
+  },
+  "NAME_OBJECT": {
+    "description": "For an item or object",
+    "message": "Ime"
+  },
+  "NAME_PERSON": {
+    "description": "For a person",
+    "message": "Ime"
+  },
+  "NARCOTICS": {
+    "description": "",
+    "message": "Opojne droge"
+  },
+  "NAVIGATION_STAR_MAPS": {
+    "description": "",
+    "message": "Navigacija i zvijezdane karte"
+  },
+  "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
+    "description": "",
+    "message": "Navigacijska odredišta u ovom sustavu"
+  },
+  "NERVE_GAS": {
+    "description": "",
+    "message": "Nervni plin"
+  },
+  "NOT_FOUND": {
+    "description": "searching star system in sector view",
+    "message": "Nije pronađen"
+  },
+  "NOT_FOUND_BEST_MATCH_X": {
+    "description": "",
+    "message": "Nije pronađen, najbolje odgovara: %system"
+  },
+  "NOW": {
+    "description": "In System Orbit View",
+    "message": "Now"
+  },
+  "NO_ALERT": {
+    "description": "",
+    "message": "Nema uzbune"
+  },
+  "NO_CENTRAL_GOVERNANCE": {
+    "description": "",
+    "message": "Bez središnje uprave"
+  },
+  "NO_ESTABLISHED_ORDER": {
+    "description": "",
+    "message": "Bez uspostavljenog uređenja"
+  },
+  "NO_HYPERDRIVE": {
+    "description": "",
+    "message": "Bez hiperpogona"
+  },
+  "NO_REGISTERED_INHABITANTS": {
+    "description": "",
+    "message": "Bez registriranih stanovnika"
+  },
+  "NO_TARGET_SELECTED": {
+    "description": "",
+    "message": "Brodsko računalo: nema odabranog odredišta"
+  },
+  "NUMBER_DAYS": {
+    "description": "",
+    "message": "%days{f.0} dana"
+  },
+  "NUMBER_DECIMAL_POINT": {
+    "description": "Decimal delimiter used in numbers.",
+    "message": "."
+  },
+  "NUMBER_G": {
+    "description": "",
+    "message": "%acceleration{f.1} G"
+  },
+  "NUMBER_GROUP_MIN": {
+    "description": "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
+    "message": "1000"
+  },
+  "NUMBER_GROUP_NUM": {
+    "description": "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
+    "message": "3"
+  },
+  "NUMBER_GROUP_SEP": {
+    "description": "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
+    "message": ","
+  },
+  "NUMBER_HOURS": {
+    "description": "",
+    "message": "%hours{f.1} sati"
+  },
+  "NUMBER_LY": {
+    "description": "",
+    "message": "%distance{f.2} sg"
+  },
+  "NUMBER_TONNES": {
+    "description": "",
+    "message": "%{mass}t"
+  },
+  "N_ATMOSPHERE": {
+    "description": "",
+    "message": "\" dušičnom atmosferom\""
+  },
+  "N_CELSIUS": {
+    "description": "",
+    "message": "%temperature C"
+  },
+  "N_DAYS": {
+    "description": "",
+    "message": "%days{f.1} dana"
+  },
+  "N_DEGREES": {
+    "description": "",
+    "message": "%angle{f.1} stupnjeva"
+  },
+  "N_EARTH_DAYS": {
+    "description": "",
+    "message": "%days{f.1} zemaljskih dana"
+  },
+  "N_WHATEVER_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} %units masa"
+  },
+  "N_WHATEVER_RADII": {
+    "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
+    "message": "%radius{f.3} %units radii (%radkm{f.0} km)"
+  },
+  "N_YEARS": {
+    "description": "",
+    "message": "%years{f.1} godina"
+  },
+  "O2_ATMOSPHERE": {
+    "description": "",
+    "message": "\" kisikovom atmosferom\""
+  },
+  "OCEANICWORLD": {
+    "description": "",
+    "message": "\" vodeni svijet\""
+  },
+  "ORBITAL_PERIOD": {
+    "description": "",
+    "message": "Orbitalni period"
+  },
+  "ORBITAL_STARPORT": {
+    "description": "",
+    "message": "Orbitna zvjezdana luka"
+  },
+  "OUTDOOR_AGRICULTURAL_WORLD": {
+    "description": "",
+    "message": "Vanjski poljoprivredni svijet."
+  },
+  "OVER_N_BILLION": {
+    "description": "",
+    "message": "Preko %population miljardi"
+  },
+  "OVER_N_MILLION": {
+    "description": "",
+    "message": "Preko %population miljuna"
+  },
+  "PASSENGER_CABIN": {
+    "description": "",
+    "message": "Occupied Passenger Cabin"
+  },
+  "PAUSED": {
+    "description": "",
+    "message": "PAUSED"
+  },
+  "PAY_FINE_REMOTELY": {
+    "description": "",
+    "message": "Plati globu preko udaljenog transfera (%amount)"
+  },
+  "PERIAPSIS_DISTANCE": {
+    "description": "",
+    "message": "Periapsis udaljenost"
+  },
+  "PIONEER": {
+    "description": "",
+    "message": "PIONEER"
+  },
+  "PITCH": {
+    "description": "",
+    "message": "Nagib"
+  },
+  "PITCH_DOWN": {
+    "description": "",
+    "message": "Nagib prema dolje"
+  },
+  "PITCH_UP": {
+    "description": "",
+    "message": "Nagib prema gore"
+  },
+  "PLANETARY_INFO": {
+    "description": "",
+    "message": "Podaci o planetu"
+  },
+  "PLANET_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" planet sa tekućom vodom\""
+  },
+  "PLANET_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" planet sa nešto leda\""
+  },
+  "PLANNED_ECONOMY": {
+    "description": "",
+    "message": "Centralno planirana ekonomija"
+  },
+  "PLANNER_RESET_FACTOR": {
+    "description": "For system orbit view",
+    "message": "Rate of increase of delta-v values. Click to reset to default."
+  },
+  "PLANNER_RESET_NORMAL": {
+    "description": "For system orbit view",
+    "message": "Normal delta-v. Click to reset to zero."
+  },
+  "PLANNER_RESET_PROGRADE": {
+    "description": "For system orbit view",
+    "message": "Prograde delta-v. Click to reset to zero."
+  },
+  "PLANNER_RESET_RADIAL": {
+    "description": "For system orbit view",
+    "message": "Radial delta-v. Click to reset to zero."
+  },
+  "PLANNER_RESET_START": {
+    "description": "For system orbit view",
+    "message": "Maneuver start. Click to reset to default."
+  },
+  "PLASTICS": {
+    "description": "",
+    "message": "Plastika"
+  },
+  "PLUTOCRATIC_DICTATORSHIP": {
+    "description": "",
+    "message": "Plutokratska diktatura"
+  },
+  "POPULATION": {
+    "description": "",
+    "message": "Populacija:"
+  },
+  "PRECIOUS_METALS": {
+    "description": "",
+    "message": "Precizni metali"
+  },
+  "PRESSURE_N_ATMOSPHERES": {
+    "description": "",
+    "message": "P: %pressure{f.2} atm"
+  },
+  "QUADRUPLE_SYSTEM": {
+    "description": "",
+    "message": "Četverostruki sustav"
+  },
+  "RADAR_CONTROL": {
+    "description": "",
+    "message": "Radar control"
+  },
+  "RADIOACTIVES": {
+    "description": "",
+    "message": "Radioaktivni otpad"
+  },
+  "RADIUS": {
+    "description": "",
+    "message": "Radijus"
+  },
+  "RECENTLY_EXPLORED_SYSTEM": {
+    "description": "",
+    "message": "This system was explored on %date."
+  },
+  "REQUEST_DOCKING_CLEARANCE": {
+    "description": "",
+    "message": "Request docking clearance from {target}"
+  },
+  "RESET": {
+    "description": "",
+    "message": "Reset"
+  },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Reset Orientation and Zoom"
+  },
+  "ROBOTS": {
+    "description": "",
+    "message": "Roboti"
+  },
+  "ROCKY_PLANET": {
+    "description": "",
+    "message": "\" stjenovit planet\""
+  },
+  "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
+    "description": "",
+    "message": "\" stjenovit planet sa nešto tekućine,\""
+  },
+  "ROLL": {
+    "description": "",
+    "message": "Okretanje"
+  },
+  "ROLL_LEFT": {
+    "description": "",
+    "message": "Okretanje lijevo"
+  },
+  "ROLL_RIGHT": {
+    "description": "",
+    "message": "Okretanje desno"
+  },
+  "ROTATE_DOWN": {
+    "description": "",
+    "message": "Rotate Down"
+  },
+  "ROTATE_LEFT": {
+    "description": "",
+    "message": "Rotate Left"
+  },
+  "ROTATE_RIGHT": {
+    "description": "",
+    "message": "Rotate Right"
+  },
+  "ROTATE_UP": {
+    "description": "",
+    "message": "Rotate Up"
+  },
+  "ROTATIONAL_PERIOD": {
+    "description": "",
+    "message": "\" (rotacijski period)\""
+  },
+  "ROTATION_DAMPING_OFF": {
+    "description": "",
+    "message": "Rotation damping off"
+  },
+  "ROTATION_DAMPING_ON": {
+    "description": "",
+    "message": "Rotation damping on"
+  },
+  "RUBBISH": {
+    "description": "",
+    "message": "Smeće"
+  },
+  "SCOOP": {
+    "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+    "message": "Scoop"
+  },
+  "SCREENSHOT_FILENAME_TEMPLATE": {
+    "description": "",
+    "message": "screenshot%index{d08}.png"
+  },
+  "SEARCH": {
+    "description": "",
+    "message": "Traži"
+  },
+  "SEARCH_MAP": {
+    "description": "",
+    "message": "Search Map"
+  },
+  "SECTOR_COORDINATES": {
+    "description": "",
+    "message": "Kordinate sektora:"
+  },
+  "SECTOR_MAP_VIEW": {
+    "description": "",
+    "message": "Sector Map View"
+  },
+  "SECTOR_X_Y_Z": {
+    "description": "",
+    "message": "Sektor: %x,%y,%z"
+  },
+  "SELECTED_SYSTEM": {
+    "description": "",
+    "message": "Označen sustav"
+  },
+  "SELECT_A_TARGET": {
+    "description": "",
+    "message": "Označi metu"
+  },
+  "SELECT_LOW_THRUST_POWER_LEVEL": {
+    "description": "",
+    "message": "Select low thrust power level"
+  },
+  "SEMI_MAJOR_AXIS": {
+    "description": "",
+    "message": "Velika poluos"
+  },
+  "SET_HYPERSPACE_DESTINATION_TO": {
+    "description": "",
+    "message": "Postavi hiperprostornu destinaciju na %system"
+  },
+  "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
+    "description": "",
+    "message": "Analizator hiperprostornog oblaka: postavi hiperprostorno odredište da prati ovaj odlazak"
+  },
+  "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
+    "description": "",
+    "message": "Set low thrust power level to %power%%"
+  },
+  "SET_NAVTARGET_TO": {
+    "description": "",
+    "message": "Set navigation target to: "
+  },
+  "SET_SPEED_KM_S": {
+    "description": "",
+    "message": "Postavi brzinu: %speed{f.2} km/s"
+  },
+  "SET_SPEED_M_S": {
+    "description": "",
+    "message": "Postavi brzinu: %speed{f.0} m/s"
+  },
+  "SHIELD_INTEGRITY": {
+    "description": "",
+    "message": "Integritet štita"
+  },
+  "SHIELD_STRENGTH_N": {
+    "description": "",
+    "message": "Snaga štita: %shields{f.2}"
+  },
+  "SHIFT": {
+    "description": "Shift key on keyboard",
+    "message": "Shift"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Brod"
+  },
+  "SHIPS_DISPLAY_MODE_TOGGLE": {
+    "description": "Either show no ships, show ships, or show ships + their orbits",
+    "message": "Switch between ship display modes."
+  },
+  "SHIP_DETECTED_NEARBY": {
+    "description": "",
+    "message": "Brod primjećen u blizini."
+  },
+  "SHIP_INFORMATION": {
+    "description": "",
+    "message": "Podaci o brodu"
+  },
+  "SHIP_MASS_N_TONNES": {
+    "description": "",
+    "message": "Masa broda: %{mass}t"
+  },
+  "SHIP_NEARBY": {
+    "description": "",
+    "message": "Brod u blizini"
+  },
+  "SHIP_ORIENTATION": {
+    "description": "",
+    "message": "Orijentacija broda"
+  },
+  "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
+    "description": "",
+    "message": "Brzina broda od referentne točke"
+  },
+  "SIDEREAL_VIEW": {
+    "description": "camera view setting",
+    "message": "Sidereal view"
+  },
+  "SLAVES": {
+    "description": "",
+    "message": "Robovi"
+  },
+  "SMALL": {
+    "description": "",
+    "message": "Mali"
+  },
+  "SMALL_GAS_GIANT": {
+    "description": "",
+    "message": "Mali plinoviti div"
+  },
+  "SMALL_INDUSTRIAL_OUTPOST": {
+    "description": "",
+    "message": "Mala industrijska straža."
+  },
+  "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": {
+    "description": "",
+    "message": "Bez većih planova. Nema registriranih naselja."
+  },
+  "SOCIAL_DEMOCRACY": {
+    "description": "",
+    "message": "Socijalna demokracija"
+  },
+  "SOLAR": {
+    "description": "",
+    "message": "sunčevih"
+  },
+  "SOME_ESTABLISHED_MINING": {
+    "description": "",
+    "message": "Nešto uspostavljenog rudarenja."
+  },
+  "SOURCE": {
+    "description": "tell source system of hyperjump entry cloud",
+    "message": "Ishodište"
+  },
+  "SPEED_CONTROL_MODE": {
+    "description": "",
+    "message": "Kontrola brzine"
+  },
+  "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
+    "description": "",
+    "message": "Stabilan sustav sa %bodycount glavnih %{body(s)} i %portcount %{starport(s)}."
+  },
+  "STARPORT": {
+    "description": "",
+    "message": "zvijezdana luka"
+  },
+  "STARPORTS": {
+    "description": "",
+    "message": "Svemirske luke"
+  },
+  "STAR_A": {
+    "description": "",
+    "message": "Tip 'A' vruća bijela zvijezda"
+  },
+  "STAR_AF_GIANT": {
+    "description": "",
+    "message": "Bijela divovska zvijezda"
+  },
+  "STAR_AF_HYPER_GIANT": {
+    "description": "",
+    "message": "Bijela hiper divovska zvijezda"
+  },
+  "STAR_AF_SUPER_GIANT": {
+    "description": "",
+    "message": "Bijela super divovska zvijezda"
+  },
+  "STAR_B": {
+    "description": "",
+    "message": "Svijetli tip 'B' plava zvijezda"
+  },
+  "STAR_B_GIANT": {
+    "description": "",
+    "message": "Plava divovska zvijezda"
+  },
+  "STAR_B_HYPER_GIANT": {
+    "description": "",
+    "message": "Plava hiper divovska zvijezda"
+  },
+  "STAR_B_SUPER_GIANT": {
+    "description": "",
+    "message": "Plava super divovska zvijezda"
+  },
+  "STAR_B_WF": {
+    "description": "",
+    "message": "Wolf-Rayet zvijezda - rizik od kolapsa"
+  },
+  "STAR_F": {
+    "description": "",
+    "message": "Tip 'F' bijela zvijezda"
+  },
+  "STAR_G": {
+    "description": "",
+    "message": "Tip 'G' žuta zvijezda"
+  },
+  "STAR_G_GIANT": {
+    "description": "",
+    "message": "Žuta divovska zvijezda - nestabilna"
+  },
+  "STAR_G_HYPER_GIANT": {
+    "description": "",
+    "message": "Žuta hiper divovska zvijezda - nestabilna"
+  },
+  "STAR_G_SUPER_GIANT": {
+    "description": "",
+    "message": "Žuta super divovska zvijezda"
+  },
+  "STAR_IM_BH": {
+    "description": "",
+    "message": "Srednje velika crna rupa"
+  },
+  "STAR_K": {
+    "description": "",
+    "message": "Tip 'K' narančasta zvijezda"
+  },
+  "STAR_K_GIANT": {
+    "description": "",
+    "message": "Narančasta divovska zvijezda - nestabilna"
+  },
+  "STAR_K_HYPER_GIANT": {
+    "description": "",
+    "message": "Narančasta hiper divovska zvijezda - nestabilna"
+  },
+  "STAR_K_SUPER_GIANT": {
+    "description": "",
+    "message": "Narančasta super divovska zvijezda"
+  },
+  "STAR_M": {
+    "description": "",
+    "message": "Tip 'M' crvena zvijezda"
+  },
+  "STAR_M_GIANT": {
+    "description": "",
+    "message": "Crvena divovska zvijezda"
+  },
+  "STAR_M_HYPER_GIANT": {
+    "description": "",
+    "message": "Crvena hiper divovska zvijezda"
+  },
+  "STAR_M_SUPER_GIANT": {
+    "description": "",
+    "message": "Crvena super divovska zvijezda"
+  },
+  "STAR_M_WF": {
+    "description": "",
+    "message": "Wolf-Rayet zvijezda - nestabilna"
+  },
+  "STAR_O": {
+    "description": "",
+    "message": "Vruća, masivna tip 'O' zvijezda"
+  },
+  "STAR_O_GIANT": {
+    "description": "",
+    "message": "Vruća plava divovska zvijezda"
+  },
+  "STAR_O_HYPER_GIANT": {
+    "description": "",
+    "message": "Vruća plava hiper divovska zvijezda"
+  },
+  "STAR_O_SUPER_GIANT": {
+    "description": "",
+    "message": "Vruća plava super divovska zvijezda"
+  },
+  "STAR_O_WF": {
+    "description": "",
+    "message": "Wolf-Rayet zvijezda - predstojeći kolaps"
+  },
+  "STAR_SM_BH": {
+    "description": "",
+    "message": "Sidrište ove galaksije"
+  },
+  "STAR_SYSTEM_INFORMATION": {
+    "description": "",
+    "message": "Informacije o zvijezdanom sustavu"
+  },
+  "STAR_S_BH": {
+    "description": "",
+    "message": "Zvijezdana crna rupa"
+  },
+  "SUGGESTED_RESPONSES": {
+    "description": "",
+    "message": "Predloženi odgovori:"
+  },
+  "SURFACE_GRAVITY": {
+    "description": "",
+    "message": "Gravitacija na površini"
+  },
+  "SURFACE_TEMPERATURE": {
+    "description": "",
+    "message": "Temperatura na površini"
+  },
+  "SWAP_SELECTED_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Swap selected and hyperjump target"
+  },
+  "SWITCHED_TO_PARENT": {
+    "description": "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+    "message": "Switched heading display to system-wide coordinates."
+  },
+  "SWITCHED_TO_ROTATIONAL": {
+    "description": "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+    "message": "Switched heading display to planetary coordinates."
+  },
+  "SYSTEM": {
+    "description": "star system",
+    "message": "sustavu"
+  },
+  "SYSTEM_NUMBER": {
+    "description": "",
+    "message": "Broj sistema:"
+  },
+  "SYSTEM_ORBIT_VIEW": {
+    "description": "",
+    "message": "Pogled na orbite u sustavu"
+  },
+  "SYSTEM_TYPE": {
+    "description": "",
+    "message": "Tip sistema:"
+  },
+  "S_ATMOSPHERE": {
+    "description": "",
+    "message": "\" supmornom atmosferom\""
+  },
+  "TAKEOFF": {
+    "description": "",
+    "message": "Uzleti"
+  },
+  "TARGET_OBJECT_IN_SIGHTS": {
+    "description": "",
+    "message": "Nišani objekt u nišanskom-kursoru"
+  },
+  "TENUOUS": {
+    "description": "atmosphere thickness",
+    "message": "beznačajnom"
+  },
+  "TEXTILES": {
+    "description": "",
+    "message": "Tekstil"
+  },
+  "THICK": {
+    "description": "",
+    "message": "gustom"
+  },
+  "THIN": {
+    "description": "",
+    "message": "rijetkom"
+  },
+  "THRIVING_OUTDOOR_WORLD": {
+    "description": "",
+    "message": "Napredan vanjski svijet."
+  },
+  "THRUSTER_DORSAL": {
+    "description": "",
+    "message": "Potisak dolje"
+  },
+  "THRUSTER_MAIN": {
+    "description": "",
+    "message": "Potisak naprijed"
+  },
+  "THRUSTER_PORT": {
+    "description": "",
+    "message": "Potisak lijevo"
+  },
+  "THRUSTER_RETRO": {
+    "description": "",
+    "message": "Potisak nazad"
+  },
+  "THRUSTER_STARBOARD": {
+    "description": "",
+    "message": "Potisak desno"
+  },
+  "THRUSTER_VENTRAL": {
+    "description": "",
+    "message": "Potisak gore"
+  },
+  "TIME_POINT": {
+    "description": "",
+    "message": "Vremenska točka:"
+  },
+  "TINY": {
+    "description": "",
+    "message": "Majušan"
+  },
+  "TOGGLE_EQUIPMENT_VIEW": {
+    "description": "Tooltip for the Equipment View button",
+    "message": "Equipment View"
+  },
+  "TOGGLE_HUD_MODE": {
+    "description": "",
+    "message": "Toggle HUD mode"
+  },
+  "TOGGLE_LUA_CONSOLE": {
+    "description": "",
+    "message": "Prekidač Lua konzole"
+  },
+  "TOGGLE_RADAR_MODE": {
+    "description": "",
+    "message": "Toggle radar mode"
+  },
+  "TOGGLE_RADAR_VIEW": {
+    "description": "Tooltip for the Radar View button",
+    "message": "Radar View"
+  },
+  "TOGGLE_ROTATION_DAMPING": {
+    "description": "",
+    "message": "Toggle rotation damping"
+  },
+  "TOMBSTONE_EPITAPH": {
+    "description": "shown on tombstone when player dies",
+    "message": "POČIVAJ U MIRU"
+  },
+  "TRADING_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Nezakonito trgovanje dobrima"
+  },
+  "TRIPLE_SYSTEM": {
+    "description": "",
+    "message": "Trostruki sustav"
+  },
+  "UNDOCKING": {
+    "description": "Flight state of ship when leaving station",
+    "message": "Undocking"
+  },
+  "UNEXPLORED_SYSTEM_NO_DATA": {
+    "description": "",
+    "message": "Neistražen sustav. Nema dostupnih podataka."
+  },
+  "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
+    "description": "",
+    "message": "Neistražen sustav. Pogled na sustav nije dostupan."
+  },
+  "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
+    "description": "",
+    "message": "Neistražen sustav. Informacije o zvijezdi dobivene promatranjem teleskopom, nema dostupnih informacija o planetima."
+  },
+  "UNIT_AU": {
+    "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
+    "message": "AU"
+  },
+  "UNIT_DAYS": {
+    "description": "Duration unit: one 24-hour day",
+    "message": "d"
+  },
+  "UNIT_HOURS": {
+    "description": "Duration unit: one 60-minute hour",
+    "message": "h"
+  },
+  "UNIT_KILOMETERS": {
+    "description": "Distance unit: one kilometer",
+    "message": "km"
+  },
+  "UNIT_KILOMETERS_PER_SECOND": {
+    "description": "Speed unit: one kilometer per second",
+    "message": "km/s"
+  },
+  "UNIT_LY": {
+    "description": "Distance unit: a light year",
+    "message": "ly"
+  },
+  "UNIT_METERS": {
+    "description": "Distance unit: one meter",
+    "message": "m"
+  },
+  "UNIT_METERS_PER_SECOND": {
+    "description": "Speed unit: one meter per second",
+    "message": "m/s"
+  },
+  "UNIT_MILLION_METERS": {
+    "description": "Distance unit: one million meters",
+    "message": "Mm"
+  },
+  "UNIT_MILLION_METERS_PER_SECOND": {
+    "description": "Speed unit: one million meters per second",
+    "message": "Mm/s"
+  },
+  "UNIT_MINUTES": {
+    "description": "Duration unit: one 60-second minute",
+    "message": "m"
+  },
+  "UNIT_SECONDS": {
+    "description": "Duration unit: one second",
+    "message": "s"
+  },
+  "UNIT_TONNES": {
+    "description": "Mass unit: one tonne (t)",
+    "message": "t"
+  },
+  "UNIT_WEEKS": {
+    "description": "Duration unit: one 7-day week",
+    "message": "w"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "<nepoznat>"
+  },
+  "UNSET_NAVTARGET": {
+    "description": "",
+    "message": "Unset navigation target."
+  },
+  "USE_LOW_THRUST": {
+    "description": "",
+    "message": "Use low thrust"
+  },
+  "VAST_STRIP_MINE": {
+    "description": "",
+    "message": "Kolonija neizmjernog rudarenja."
+  },
+  "VERY_DENSE": {
+    "description": "",
+    "message": "vrlo gustom"
+  },
+  "VERY_LARGE_GAS_GIANT": {
+    "description": "",
+    "message": "Vrlo veliki plinoviti div"
+  },
+  "VIEW": {
+    "description": "",
+    "message": "Pogledaj"
+  },
+  "VIOLENT_ANARCHY": {
+    "description": "",
+    "message": "Anarhija - sveukupna vlast raspodjeljena na oružane frakcije"
+  },
+  "WATER": {
+    "description": "",
+    "message": "Voda"
+  },
+  "WEAPONS": {
+    "description": "",
+    "message": "Oružja"
+  },
+  "WEAPON_TEMP": {
+    "description": "",
+    "message": "Temperatura oružja"
+  },
+  "WHEELS_ARE_DOWN": {
+    "description": "",
+    "message": "Kotači su spušteni"
+  },
+  "WHEELS_ARE_UP": {
+    "description": "",
+    "message": "Kotači su podignuti"
+  },
+  "WHITE_DWARF": {
+    "description": "",
+    "message": "Bijeli patuljak zvijedani ostatak"
+  },
+  "WITH_A": {
+    "description": "",
+    "message": "\" sa \""
+  },
+  "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
+    "description": "",
+    "message": "\" sa beznačajnom atmosferom\""
+  },
+  "X": {
+    "description": "keybinding: x axis",
+    "message": "X"
+  },
+  "Y": {
+    "description": "keybinding: y axis",
+    "message": "Y"
+  },
+  "YAW": {
+    "description": "",
+    "message": "Skretanje"
+  },
+  "YAW_LEFT": {
+    "description": "",
+    "message": "Skretanje lijevo"
+  },
+  "YAW_RIGHT": {
+    "description": "",
+    "message": "Skretanje desno"
+  },
+  "YOUNG_FARMING_COLONY": {
+    "description": "",
+    "message": "Mlada poljoprivredna kolonija."
+  },
+  "Z": {
+    "description": "keybinding: z axis",
+    "message": "Z"
+  },
+  "ZOOM_IN": {
+    "description": "",
+    "message": "Povećaj"
+  },
+  "ZOOM_OUT": {
+    "description": "",
+    "message": "Smanji"
+  }
 }

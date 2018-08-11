@@ -1,7 +1,7 @@
 material Fuselage
 diffuse 1.0 1.0 1.0
 specular 0.8 0.8 0.8
-#use_patterns
+use_patterns
 tex_diff bluenose_diff.dds
 tex_spec bluenose_spec.dds
 tex_glow bluenose_glow.dds

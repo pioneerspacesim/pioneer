@@ -94,8 +94,14 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 		case SystemBody::TYPE_STAR_O_HYPER_GIANT:
 		case SystemBody::TYPE_STAR_O_SUPER_GIANT:
 		case SystemBody::TYPE_STAR_O_WF:
-			gi = InstanceGenerator<TerrainHeightEllipsoid,TerrainColorSolid>;
-		break;
+			gi = InstanceGenerator<TerrainHeightEllipsoid,TerrainColorWhite>;
+			break;
+
+		case SystemBody::TYPE_STAR_S_BH:
+		case SystemBody::TYPE_STAR_IM_BH:
+		case SystemBody::TYPE_STAR_SM_BH:
+			gi = InstanceGenerator<TerrainHeightEllipsoid, TerrainColorBlack>;
+			break;
 
 		case SystemBody::TYPE_PLANET_GAS_GIANT: {
 			const GeneratorInstancer choices[] = {
@@ -343,7 +349,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 		}
 
 		default:
-			gi = InstanceGenerator<TerrainHeightFlat,TerrainColorSolid>;
+			gi = InstanceGenerator<TerrainHeightFlat,TerrainColorWhite>;
 			break;
 	}
 

@@ -1,1870 +1,1878 @@
 {
-   "AIR_PROCESSORS" : {
-      "description" : "",
-      "message" : "Processeurs d'air"
-   },
-   "ALERT_CANCELLED" : {
-      "description" : "",
-      "message" : "Alerte annulée."
-   },
-   "ALLEGIANCE" : {
-      "description" : "",
-      "message" : "Allégeance :"
-   },
-   "ALT" : {
-      "description" : "Alt key on keyboard",
-      "message" : "Alt"
-   },
-   "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
-      "description" : "",
-      "message" : "\" et un écosystème extrêmement complexe\""
-   },
-   "AND_INDIGENOUS_MICROBIAL_LIFE" : {
-      "description" : "",
-      "message" : "\" et de la vie microbienne indigène\""
-   },
-   "AND_INDIGENOUS_PLANT_LIFE" : {
-      "description" : "",
-      "message" : "\" et de la vie végétale indigène\""
-   },
-   "ANIMAL_MEAT" : {
-      "description" : "",
-      "message" : "Viande animale"
-   },
-   "APOAPSIS_DISTANCE" : {
-      "description" : "",
-      "message" : "Distance d'apogée"
-   },
-   "AR_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" atmosphère Argonique\""
-   },
-   "ASTEROID" : {
-      "description" : "",
-      "message" : "Astéroïde"
-   },
-   "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "for star map, select star system when mouse close to it",
-      "message" : "Sélection automatique de système"
-   },
-   "AUTOPILOT_CONTROL" : {
-      "description" : "Indicating that ship is flying under autopilot control",
-      "message" : "Autopilot control"
-   },
-   "AUTOPILOT_DOCK_WITH_STATION" : {
-      "description" : "",
-      "message" : "Pilote auto : Docker avec la station spatiale"
-   },
-   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "Pilote auto : Rentrer en orbite haute autour de %target"
-   },
-   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "Pilote auto : Rentrer en orbite basse autour de %target"
-   },
-   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "Pilote auto : Rentrer en orbite moyenne autour de %target"
-   },
-   "AUTOPILOT_FLY_TO_VICINITY_OF" : {
-      "description" : "",
-      "message" : "Pilote auto : Voler à proximité de %target"
-   },
-   "AUTOPILOT_ON" : {
-      "description" : "",
-      "message" : "Pilote automatique ON"
-   },
-   "AXIAL_TILT" : {
-      "description" : "",
-      "message" : "Mouvement axial"
-   },
-   "A_FEW_THOUSAND" : {
-      "description" : "regarding population",
-      "message" : "Seulement quelques milliers"
-   },
-   "BATTLE_WEAPONS" : {
-      "description" : "",
-      "message" : "Armes de guerre"
-   },
-   "BINARY_SYSTEM" : {
-      "description" : "",
-      "message" : "Système binaire"
-   },
-   "BODIES" : {
-      "description" : "space bodies",
-      "message" : "corps majeurs"
-   },
-   "BODY" : {
-      "description" : "",
-      "message" : "Corps"
-   },
-   "BROWN_DWARF" : {
-      "description" : "",
-      "message" : "Naine brune sous-stellaire."
-   },
-   "BUTTON" : {
-      "description" : "",
-      "message" : "\"bouton\""
-   },
-   "CAMERA_BOTTOM_VIEW" : {
-      "description" : "",
-      "message" : "Vue Inférieure"
-   },
-   "CAMERA_FRONT_VIEW" : {
-      "description" : "",
-      "message" : "Vue avant"
-   },
-   "CAMERA_LEFT_VIEW" : {
-      "description" : "",
-      "message" : "Vue gauche"
-   },
-   "CAMERA_REAR_VIEW" : {
-      "description" : "",
-      "message" : "Vue arrière"
-   },
-   "CAMERA_RIGHT_VIEW" : {
-      "description" : "",
-      "message" : "Vue droite"
-   },
-   "CAMERA_TOP_VIEW" : {
-      "description" : "",
-      "message" : "Vue de dessus"
-   },
-   "CANT_SAVE_DEAD_PLAYER" : {
-      "description" : "",
-      "message" : "Impossible de sauvegarder une fois que le joueur est mort."
-   },
-   "CANT_SAVE_IN_HYPERSPACE" : {
-      "description" : "",
-      "message" : "Impossible de sauvegarder en hyperspace"
-   },
-   "CAPITALIST" : {
-      "description" : "",
-      "message" : "Capitaliste"
-   },
-   "CARBON_ORE" : {
-      "description" : "",
-      "message" : "Carbone"
-   },
-   "CARGO" : {
-      "description" : "",
-      "message" : "Cargaison"
-   },
-   "CARGO_BAY_LIFE_SUPPORT_LOST" : {
-      "description" : "",
-      "message" : "Les capteurs indiquent une déprésurisation de la soute d'organismes vivants."
-   },
-   "CARGO_N" : {
-      "description" : "",
-      "message" : "Cargo : %{mass}t"
-   },
-   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
-      "description" : "",
-      "message" : "Récupérateur de cargaison actif: 1t de %item récupérée"
-   },
-   "CARGO_SCOOP_ATTEMPTED" : {
-      "description" : "",
-      "message" : "Tentative de récupération de cargo avortée. Pas assez de place dans la soute."
-   },
-   "CH4_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" atmosphère méthanique\""
-   },
-   "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
-      "description" : "",
-      "message" : "Vous avez déjà l'autorisation. Atterrissez sur le dock %bay."
-   },
-   "CLEARANCE_DENIED_NO_BAYS" : {
-      "description" : "",
-      "message" : "Autorisation refusée. Tous les docks sont occupés."
-   },
-   "CLEARANCE_GRANTED_BAY_N" : {
-      "description" : "",
-      "message" : "Autorisation accordée. Atterrissez sur le dock %bay."
-   },
-   "CO2_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" atmosphère à base de CO2\""
-   },
-   "COMMA_HIGHLY_VOLCANIC" : {
-      "description" : "",
-      "message" : ", hautement volcanique"
-   },
-   "COMMODITY_NONE" : {
-      "description" : "When no commodities exist",
-      "message" : "Aucun"
-   },
-   "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
-      "description" : "",
-      "message" : "Comparaison des marchés des systèmes #ff0%selected_system#fff (sélectionné) et #ff0%current_system#fff (actuel):"
-   },
-   "COMMODITY_TRADE_ANALYSIS_SELF" : {
-      "description" : "",
-      "message" : "Analyse du marché du système #fff%system#fff"
-   },
-   "COMMS" : {
-      "description" : "",
-      "message" : "Comms"
-   },
-   "COMMUNIST" : {
-      "description" : "",
-      "message" : "Communiste"
-   },
-   "COMPASS_E" : {
-      "description" : "Abbreviation for compass direction: East",
-      "message" : "E"
-   },
-   "COMPASS_N" : {
-      "description" : "Abbreviation for compass direction: North",
-      "message" : "N"
-   },
-   "COMPASS_NE" : {
-      "description" : "Abbreviation for compass direction: North East",
-      "message" : "NE"
-   },
-   "COMPASS_NW" : {
-      "description" : "Abbreviation for compass direction: North West",
-      "message" : "NO"
-   },
-   "COMPASS_S" : {
-      "description" : "Abbreviation for compass direction: South",
-      "message" : "S"
-   },
-   "COMPASS_SE" : {
-      "description" : "Abbreviation for compass direction: South East",
-      "message" : "SE"
-   },
-   "COMPASS_SW" : {
-      "description" : "Abbreviation for compass direction: South West",
-      "message" : "SO"
-   },
-   "COMPASS_W" : {
-      "description" : "Abbreviation for compass direction: West",
-      "message" : "O"
-   },
-   "COMPUTERS" : {
-      "description" : "",
-      "message" : "Ordinateurs"
-   },
-   "COMPUTER_HEADING_CONTROL" : {
-      "description" : "",
-      "message" : "Direction contrôlée par ordi."
-   },
-   "COMPUTER_SPEED_CONTROL" : {
-      "description" : "",
-      "message" : "Vitesse auto"
-   },
-   "CONSUMER_GOODS" : {
-      "description" : "",
-      "message" : "Biens de consommation"
-   },
-   "CONTROLS" : {
-      "description" : "",
-      "message" : "Controles"
-   },
-   "CORPORATE_SYSTEM" : {
-      "description" : "",
-      "message" : "Système Corporatiste"
-   },
-   "COULD_NOT_OPEN_FILENAME" : {
-      "description" : "",
-      "message" : "Ne peut pas ouvrir %path"
-   },
-   "COUNT_ON_SURFACE" : {
-      "description" : "",
-      "message" : "\" (%surfacecount en surface)\""
-   },
-   "COUNT_STARPORTS" : {
-      "description" : "",
-      "message" : "Spatioports"
-   },
-   "CO_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" atmosphère à base de monoxide de carbone\""
-   },
-   "CTRL" : {
-      "description" : "Ctrl key on keyboard",
-      "message" : "Ctrl\n\n"
-   },
-   "CURRENT_SYSTEM" : {
-      "description" : "selected current star system",
-      "message" : "Système actuel"
-   },
-   "DATE_DUE_N" : {
-      "description" : "",
-      "message" : "Date d'arrivée : %date"
-   },
-   "DAY_LENGTH" : {
-      "description" : "",
-      "message" : "Durée du jour"
-   },
-   "DECREASE_RADAR_RANGE" : {
-      "description" : "",
-      "message" : "Diminuer la portée du radar"
-   },
-   "DECREASE_SET_SPEED" : {
-      "description" : "",
-      "message" : "Diminue vitesse auto"
-   },
-   "DECREASE_TIME_ACCELERATION" : {
-      "description" : "",
-      "message" : "Diminuer l'accélération du temps"
-   },
-   "DEMOGRAPHICS" : {
-      "description" : "",
-      "message" : "Démographie"
-   },
-   "DESTINATION" : {
-      "description" : "",
-      "message" : "Destination"
-   },
-   "DIRECTION" : {
-      "description" : "Direction",
-      "message" : "\" Doc \""
-   },
-   "DISTANCE_LY" : {
-      "description" : "",
-      "message" : "Distance: %distance{f.2} al"
-   },
-   "DOCKED" : {
-      "description" : "",
-      "message" : "Arrimé"
-   },
-   "DOCKING" : {
-      "description" : "",
-      "message" : "Arrimage"
-   },
-   "DOCKING_CLEARANCE_EXPIRED" : {
-      "description" : "",
-      "message" : "Autorisation d'atterrissage écoulée. Pour atterrir, veuillez refaire une demande."
-   },
-   "DOWNGRADING_ALERT_STATUS" : {
-      "description" : "",
-      "message" : "Pas d'attaque depuis 60 secondes, niveau d'alerte réduit."
-   },
-   "DRAW_OUT_RANGE_LABELS" : {
-      "description" : "",
-      "message" : "Def. Systemes distants"
-   },
-   "DRAW_UNINHABITED_LABELS" : {
-      "description" : "",
-      "message" : "Label des systèmes inhabités"
-   },
-   "DRAW_VERTICAL_LINES" : {
-      "description" : "",
-      "message" : "Montrer les tiges verticales"
-   },
-   "EARTH" : {
-      "description" : "",
-      "message" : "Terriennes"
-   },
-   "EARTH_FEDERATION_COLONIAL_RULE" : {
-      "description" : "",
-      "message" : "Loi coloniale de la Fédération"
-   },
-   "EARTH_FEDERATION_DEMOCRACY" : {
-      "description" : "",
-      "message" : "Démocratie de la Fédération"
-   },
-   "ECCENTRICITY" : {
-      "description" : "",
-      "message" : "Excentricité"
-   },
-   "ECONOMIC_INFO" : {
-      "description" : "",
-      "message" : "Informations Économiques"
-   },
-   "ECONOMY_TYPE" : {
-      "description" : "",
-      "message" : "Type d'économie :"
-   },
-   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
-      "description" : "",
-      "message" : "Équatorial vers ratio de rayon polaire"
-   },
-   "EXACT_MATCH_X" : {
-      "description" : "",
-      "message" : "Résultat exact: %system"
-   },
-   "EXTENSIVE_MINING" : {
-      "description" : "",
-      "message" : "Importantes opérations minières."
-   },
-   "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
-      "description" : "",
-      "message" : "Pression atmosphérique extérieure"
-   },
-   "EXTERNAL_VIEW" : {
-      "description" : "",
-      "message" : "Vue extérieure"
-   },
-   "FARM_MACHINERY" : {
-      "description" : "",
-      "message" : "Machines agricoles"
-   },
-   "FERTILIZER" : {
-      "description" : "",
-      "message" : "Fertilisant"
-   },
-   "FIRE_LASER" : {
-      "description" : "",
-      "message" : "Utiliser arme"
-   },
-   "FIRE_MISSILE" : {
-      "description" : "",
-      "message" : "Tire un missile"
-   },
-   "FOLLOWING_SELECTION" : {
-      "description" : "",
-      "message" : "suivre la sélection"
-   },
-   "FRUIT_AND_VEG" : {
-      "description" : "",
-      "message" : "Fruits & légumes"
-   },
-   "FUEL" : {
-      "description" : "",
-      "message" : "Carburant"
-   },
-   "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
-      "description" : "",
-      "message" : "Écope à carburant activée. Vous avez %quantity tonnes d'hydrogène."
-   },
-   "GALACTIC_VIEW" : {
-      "description" : "view galactic map",
-      "message" : "Vue galactique"
-   },
-   "GALAXY_SECTOR_VIEW" : {
-      "description" : "",
-      "message" : "Vue secteurs galactiques"
-   },
-   "GAME_LOAD_CANNOT_OPEN" : {
-      "description" : "",
-      "message" : "Sauvegarde '%filename' introuvable (ou le jeu n'a pas les droits nécessaires)."
-   },
-   "GAME_LOAD_CORRUPT" : {
-      "description" : "",
-      "message" : "Cette sauvegarde ne peut être chargée car elle est corrompue."
-   },
-   "GAME_LOAD_WRONG_VERSION" : {
-      "description" : "",
-      "message" : "Cette sauvegarde ne peut etre chargée : elle vient d'une autre  version de Pioneer"
-   },
-   "GAME_SAVED_TO" : {
-      "description" : "",
-      "message" : "Partie sauvegardée sur"
-   },
-   "GAME_SAVE_CANNOT_WRITE" : {
-      "description" : "",
-      "message" : "Impossible d'écrire la sauvegarde à cause d'une erreur système."
-   },
-   "GENERAL_VIEW_CONTROLS" : {
-      "description" : "",
-      "message" : "Contrôles de vue généraux"
-   },
-   "GOVERNMENT_TYPE" : {
-      "description" : "",
-      "message" : "Type de gouvernement :"
-   },
-   "GRAIN" : {
-      "description" : "like wheat or barley",
-      "message" : "Grain"
-   },
-   "HAND_WEAPONS" : {
-      "description" : "",
-      "message" : "Armes de poing"
-   },
-   "HARD_CAPITALIST" : {
-      "description" : "",
-      "message" : "Entièrement capitaliste - pas de gouvernement réel"
-   },
-   "HAT" : {
-      "description" : "Hat switch: Is the top button on a joystick",
-      "message" : "\"Couv\""
-   },
-   "HEADING_LOCK_ANTINORMAL" : {
-      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
-      "message" : "Hold anti-normal"
-   },
-   "HEADING_LOCK_BACKWARD" : {
-      "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-      "message" : "Maintenir rétropoussée"
-   },
-   "HEADING_LOCK_FORWARD" : {
-      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-      "message" : "Maintenir poussée"
-   },
-   "HEADING_LOCK_KILLROT" : {
-      "description" : "",
-      "message" : "Stop la rotation"
-   },
-   "HEADING_LOCK_NORMAL" : {
-      "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-      "message" : "Maintenir cap"
-   },
-   "HEADING_LOCK_RADIALLY_INWARD" : {
-      "description" : "Autopilot direction, relative to orbit (face towards planet)",
-      "message" : "Hold radially in"
-   },
-   "HEADING_LOCK_RADIALLY_OUTWARD" : {
-      "description" : "Autopilot direction, relative to orbit (face away from palent)",
-      "message" : "Hold radially out"
-   },
-   "HEAVY_INDUSTRY" : {
-      "description" : "",
-      "message" : "Industrie lourde."
-   },
-   "HE_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" atmosphère à base d'Helium\""
-   },
-   "HIGHLY_VOLCANIC" : {
-      "description" : "",
-      "message" : "Hautement volcanique"
-   },
-   "HIGH_POPULATION_OUTDOOR_WORLD" : {
-      "description" : "",
-      "message" : "Monde habitable hautement peuplé."
-   },
-   "HULL_INTEGRITY" : {
-      "description" : "",
-      "message" : "Intégrité coque"
-   },
-   "HULL_TEMP" : {
-      "description" : "",
-      "message" : "Temp. coque"
-   },
-   "HYDROGEN" : {
-      "description" : "",
-      "message" : "Hydrogène"
-   },
-   "HYPERSPACE" : {
-      "description" : "",
-      "message" : "Hyperespace"
-   },
-   "HYPERSPACE_ARRIVAL_CLOUD" : {
-      "description" : "",
-      "message" : "Nuage d'arrivée hyperspatial"
-   },
-   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
-      "description" : "",
-      "message" : "Résidu d'arrivée hyperspatiale"
-   },
-   "HYPERSPACE_DEPARTURE_CLOUD" : {
-      "description" : "",
-      "message" : "Nuage de départ hyperspatial"
-   },
-   "HYPERSPACE_JUMP_ABORT" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Désactiver l'hyper-propulsion."
-   },
-   "HYPERSPACE_JUMP_ABORTED" : {
-      "description" : "",
-      "message" : "Saut hyperspatial avorté."
-   },
-   "HYPERSPACE_JUMP_DISABLED" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Hyperpropulsion desactivée"
-   },
-   "HYPERSPACE_JUMP_ENGAGE" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Activer l'hyper-propulsion."
-   },
-   "HYPERSPACE_JUMP_FORBIDDEN" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Zone interdite à l'hyperpropulsion"
-   },
-   "HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Cible hyperspatiale"
-   },
-   "H_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" atmosphère hydrogénée\""
-   },
-   "ICE_WORLD" : {
-      "description" : "",
-      "message" : "\" Monde glacé\""
-   },
-   "ILLEGAL_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Illégal (système actuel):"
-   },
-   "ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "Contrebande:"
-   },
-   "IMPERIAL_RULE" : {
-      "description" : "",
-      "message" : "Loi Impériale"
-   },
-   "INCREASE_RADAR_RANGE" : {
-      "description" : "",
-      "message" : "Augmenter la portée du radar"
-   },
-   "INCREASE_SET_SPEED" : {
-      "description" : "",
-      "message" : "Augmenter vitesse auto"
-   },
-   "INCREASE_TIME_ACCELERATION" : {
-      "description" : "",
-      "message" : "Augmenter l'accélération du temps"
-   },
-   "INDUSTRIAL_COLONY" : {
-      "description" : "",
-      "message" : "Colonie Industrielle."
-   },
-   "INDUSTRIAL_HUB_SYSTEM" : {
-      "description" : "",
-      "message" : "Système industriel logistique."
-   },
-   "INDUSTRIAL_MACHINERY" : {
-      "description" : "",
-      "message" : "Machines industrielles"
-   },
-   "INTERNAL_VIEW" : {
-      "description" : "",
-      "message" : "Vue cockpit"
-   },
-   "JOY" : {
-      "description" : "Short for Joystick",
-      "message" : "joy"
-   },
-   "JOYSTICK_INPUT" : {
-      "description" : "",
-      "message" : "Joystick"
-   },
-   "JOY_AXIS" : {
-      "description" : "Regarding joystick",
-      "message" : "%{sign}%joyname Axe %axis"
-   },
-   "L4L5_DISPLAY_MODE_TOGGLE" : {
-      "description" : "Either show L4/L5 points or don't",
-      "message" : "Afficher/Cacher les points Lagrange L4/L5."
-   },
-   "LANDED" : {
-      "description" : "",
-      "message" : "Au sol"
-   },
-   "LANG_NAME" : {
-      "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
-      "message" : "Français"
-   },
-   "LARGE" : {
-      "description" : "regarding terrestrial planet size (mass actually)",
-      "message" : "Grande"
-   },
-   "LARGE_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Grande géante gazeuse"
-   },
-   "LASER_FIRE_DETECTED" : {
-      "description" : "",
-      "message" : "Utilisation d'armes détectée."
-   },
-   "LATITUDE" : {
-      "description" : "Short for latitude",
-      "message" : "Lat:"
-   },
-   "LATITUDE_NORTH_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'north'",
-      "message" : "N"
-   },
-   "LATITUDE_SOUTH_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'south'",
-      "message" : "S"
-   },
-   "LEGAL_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Légal (système actuel)"
-   },
-   "LIBERAL_DEMOCRACY" : {
-      "description" : "",
-      "message" : "Démocratie libérale"
-   },
-   "LIQUID_OXYGEN" : {
-      "description" : "",
-      "message" : "Oxygène Liquide"
-   },
-   "LIQUOR" : {
-      "description" : "",
-      "message" : "Alcool"
-   },
-   "LIVE_ANIMALS" : {
-      "description" : "",
-      "message" : "Animaux vivants"
-   },
-   "LOCKED" : {
-      "description" : "to lock a hyperspace target",
-      "message" : "verrouillé"
-   },
-   "LONGITUDE" : {
-      "description" : "Short for longitude",
-      "message" : "Long:"
-   },
-   "LONGITUDE_EAST_ABBREV" : {
-      "description" : "Abbreviation letter for longitude 'east'",
-      "message" : "E"
-   },
-   "LONGITUDE_WEST_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'west'",
-      "message" : "O"
-   },
-   "MAJOR_EXPORTS" : {
-      "description" : "",
-      "message" : "Exportations majeures :"
-   },
-   "MAJOR_EXPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Exportations principales (système actuel)"
-   },
-   "MAJOR_IMPORTS" : {
-      "description" : "",
-      "message" : "Importations majeures :"
-   },
-   "MAJOR_IMPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Importations principales (système actuel)"
-   },
-   "MANUAL_CONTROL" : {
-      "description" : "",
-      "message" : "Contrôle manuel"
-   },
-   "MANUAL_CONTROL_MODE" : {
-      "description" : "",
-      "message" : "Mode contrôle manuel"
-   },
-   "MAP_LOCK_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Verrouille  la cible d'hyperespace"
-   },
-   "MAP_TOGGLE_INFO_PANEL" : {
-      "description" : "",
-      "message" : "Bascule vers le panneau d'information"
-   },
-   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
-      "description" : "",
-      "message" : "Bascule vers la vue de sélection"
-   },
-   "MAP_VIEW_ROTATE_DOWN" : {
-      "description" : "",
-      "message" : "Rotation vue vers le bas"
-   },
-   "MAP_VIEW_ROTATE_LEFT" : {
-      "description" : "",
-      "message" : "Rotation vue vers la gauche"
-   },
-   "MAP_VIEW_ROTATE_RIGHT" : {
-      "description" : "",
-      "message" : "Rotation vue vers la droite"
-   },
-   "MAP_VIEW_ROTATE_UP" : {
-      "description" : "",
-      "message" : "Rotation vue vers le haut"
-   },
-   "MAP_VIEW_SHIFT_BACKWARD" : {
-      "description" : "",
-      "message" : "Change la vue vers l'arrière"
-   },
-   "MAP_VIEW_SHIFT_DOWN" : {
-      "description" : "",
-      "message" : "Change la vue vers le bas"
-   },
-   "MAP_VIEW_SHIFT_FORWARD" : {
-      "description" : "",
-      "message" : "Change la vue vers l'avant"
-   },
-   "MAP_VIEW_SHIFT_LEFT" : {
-      "description" : "",
-      "message" : "Change la vue à gauche"
-   },
-   "MAP_VIEW_SHIFT_RIGHT" : {
-      "description" : "",
-      "message" : "Change la vue à droite"
-   },
-   "MAP_VIEW_SHIFT_UP" : {
-      "description" : "",
-      "message" : "Change la vue en haut"
-   },
-   "MAP_WARP_TO_CURRENT_SYSTEM" : {
-      "description" : "",
-      "message" : "Saute au système en cours"
-   },
-   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Saute vers la cible d'hyperespace"
-   },
-   "MAP_WARP_TO_SELECTED_SYSTEM" : {
-      "description" : "",
-      "message" : "Saute vers le système sélectionné"
-   },
-   "MASS" : {
-      "description" : "",
-      "message" : "Masse"
-   },
-   "MASSIVE" : {
-      "description" : "",
-      "message" : "Massive"
-   },
-   "MASS_N_TONNES" : {
-      "description" : "",
-      "message" : "Masse : %{mass}t"
-   },
-   "MEDICINES" : {
-      "description" : "",
-      "message" : "Médicaments"
-   },
-   "MEDIUM_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Géante gazeuse moyenne"
-   },
-   "MESSAGE_FROM_X" : {
-      "description" : "",
-      "message" : "Message de %sender:"
-   },
-   "META" : {
-      "description" : "'Meta' key on keyboard",
-      "message" : "Meta"
-   },
-   "METAL_ALLOYS" : {
-      "description" : "",
-      "message" : "Alliages métalliques"
-   },
-   "METAL_ORE" : {
-      "description" : "",
-      "message" : "Minerai métallique"
-   },
-   "MILITARY_DICTATORSHIP" : {
-      "description" : "",
-      "message" : "Dictature militaire"
-   },
-   "MILITARY_FUEL" : {
-      "description" : "",
-      "message" : "Carburant militaire"
-   },
-   "MINING_COLONY" : {
-      "description" : "",
-      "message" : "Colonie minière."
-   },
-   "MINING_MACHINERY" : {
-      "description" : "",
-      "message" : "Machines minières"
-   },
-   "MINOR_EXPORTS" : {
-      "description" : "",
-      "message" : "Exportations mineures :"
-   },
-   "MINOR_EXPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Exportations secondaires (système actuel)"
-   },
-   "MINOR_IMPORTS" : {
-      "description" : "",
-      "message" : "Importations mineures :"
-   },
-   "MINOR_IMPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Importations secondaires (système actuel)"
-   },
-   "MISCELLANEOUS" : {
-      "description" : "",
-      "message" : "Divers"
-   },
-   "MISSILE" : {
-      "description" : "",
-      "message" : "Missile"
-   },
-   "MIXED_ECONOMY" : {
-      "description" : "",
-      "message" : "Économie mixte"
-   },
-   "MONTH_APR" : {
-      "description" : "",
-      "message" : "Avr"
-   },
-   "MONTH_AUG" : {
-      "description" : "",
-      "message" : "Aoû"
-   },
-   "MONTH_DEC" : {
-      "description" : "",
-      "message" : "Dec"
-   },
-   "MONTH_FEB" : {
-      "description" : "",
-      "message" : "Fev"
-   },
-   "MONTH_JAN" : {
-      "description" : "",
-      "message" : "Janv"
-   },
-   "MONTH_JUL" : {
-      "description" : "",
-      "message" : "Juil"
-   },
-   "MONTH_JUN" : {
-      "description" : "",
-      "message" : "Juin"
-   },
-   "MONTH_MAR" : {
-      "description" : "",
-      "message" : "Mars"
-   },
-   "MONTH_MAY" : {
-      "description" : "",
-      "message" : "Mai"
-   },
-   "MONTH_NOV" : {
-      "description" : "",
-      "message" : "Nov"
-   },
-   "MONTH_OCT" : {
-      "description" : "",
-      "message" : "Oct"
-   },
-   "MONTH_SEP" : {
-      "description" : "",
-      "message" : "Sept"
-   },
-   "NAME_OBJECT" : {
-      "description" : "For an item or object",
-      "message" : "Nom"
-   },
-   "NAME_PERSON" : {
-      "description" : "For a person",
-      "message" : "Nom"
-   },
-   "NARCOTICS" : {
-      "description" : "",
-      "message" : "Drogues"
-   },
-   "NAVIGATION_STAR_MAPS" : {
-      "description" : "",
-      "message" : "Navigation et cartes stellaires"
-   },
-   "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
-      "description" : "",
-      "message" : "Points de navigation dans ce système"
-   },
-   "NERVE_GAS" : {
-      "description" : "",
-      "message" : "Gaz neurotox."
-   },
-   "NOT_FOUND" : {
-      "description" : "searching star system in sector view",
-      "message" : "Non trouvé"
-   },
-   "NOT_FOUND_BEST_MATCH_X" : {
-      "description" : "",
-      "message" : "Non trouvé, meilleur choix: %system"
-   },
-   "NOW" : {
-      "description" : "In System Orbit View",
-      "message" : "Maintenant"
-   },
-   "NO_ALERT" : {
-      "description" : "",
-      "message" : "Aucune alerte"
-   },
-   "NO_CENTRAL_GOVERNANCE" : {
-      "description" : "",
-      "message" : "Pas de gouvernement central"
-   },
-   "NO_ESTABLISHED_ORDER" : {
-      "description" : "",
-      "message" : "Aucun ordre établi"
-   },
-   "NO_HYPERDRIVE" : {
-      "description" : "",
-      "message" : "Pas d'hyperpropulsion"
-   },
-   "NO_REGISTERED_INHABITANTS" : {
-      "description" : "",
-      "message" : "Aucun habitant enregistré"
-   },
-   "NO_TARGET_SELECTED" : {
-      "description" : "",
-      "message" : "Ordinateur de vaisseau : pas de cible"
-   },
-   "NUMBER_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.0} jours"
-   },
-   "NUMBER_DECIMAL_POINT" : {
-      "description" : "Decimal delimiter used in numbers.",
-      "message" : "."
-   },
-   "NUMBER_G" : {
-      "description" : "",
-      "message" : "%acceleration{f.1} G"
-   },
-   "NUMBER_GROUP_MIN" : {
-      "description" : "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
-      "message" : "1000"
-   },
-   "NUMBER_GROUP_NUM" : {
-      "description" : "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
-      "message" : "3"
-   },
-   "NUMBER_GROUP_SEP" : {
-      "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-      "message" : ","
-   },
-   "NUMBER_HOURS" : {
-      "description" : "",
-      "message" : "%hours{f.1}h"
-   },
-   "NUMBER_LY" : {
-      "description" : "",
-      "message" : "%distance{f.2} al"
-   },
-   "NUMBER_TONNES" : {
-      "description" : "",
-      "message" : "%{mass}t"
-   },
-   "N_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" Atmosphère ammoniaquée\""
-   },
-   "N_CELSIUS" : {
-      "description" : "",
-      "message" : "%température °C"
-   },
-   "N_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.1} jours"
-   },
-   "N_DEGREES" : {
-      "description" : "",
-      "message" : "%angle{f.1} degrés"
-   },
-   "N_EARTH_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.1} jours terrestres"
-   },
-   "N_WHATEVER_MASSES" : {
-      "description" : "",
-      "message" : "%mass{f.3} masses %units"
-   },
-   "N_WHATEVER_RADII" : {
-      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-      "message" : "%radius{f.3} %unités radiale (%radkm{f.0} km)"
-   },
-   "N_YEARS" : {
-      "description" : "",
-      "message" : "%years{f.1} années"
-   },
-   "O2_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" atmosphère oxygénée\""
-   },
-   "OCEANICWORLD" : {
-      "description" : "",
-      "message" : "\" monde océanique\""
-   },
-   "ORBITAL_PERIOD" : {
-      "description" : "",
-      "message" : "Période orbitale"
-   },
-   "ORBITAL_STARPORT" : {
-      "description" : "",
-      "message" : "Station Orbitale"
-   },
-   "OUTDOOR_AGRICULTURAL_WORLD" : {
-      "description" : "",
-      "message" : "Monde agricole à l'air libre."
-   },
-   "OVER_N_BILLION" : {
-      "description" : "",
-      "message" : "Plus de %population milliards"
-   },
-   "OVER_N_MILLION" : {
-      "description" : "",
-      "message" : "Plus de %population millions"
-   },
-   "PASSENGER_CABIN" : {
-      "description" : "",
-      "message" : "Cabine passager occupée"
-   },
-   "PAUSED" : {
-      "description" : "",
-      "message" : "EN PAUSE"
-   },
-   "PAY_FINE_REMOTELY" : {
-      "description" : "",
-      "message" : "Payer l'amende par transfert à distance: (%amount)"
-   },
-   "PERIAPSIS_DISTANCE" : {
-      "description" : "",
-      "message" : "Distance de périhélie"
-   },
-   "PIONEER" : {
-      "description" : "",
-      "message" : "PIONEER"
-   },
-   "PITCH" : {
-      "description" : "",
-      "message" : "Lancement"
-   },
-   "PITCH_DOWN" : {
-      "description" : "",
-      "message" : "Piquer"
-   },
-   "PITCH_UP" : {
-      "description" : "",
-      "message" : "Redresser"
-   },
-   "PLANETARY_INFO" : {
-      "description" : "",
-      "message" : "Informations Planétaire"
-   },
-   "PLANET_CONTAINING_LIQUID_WATER" : {
-      "description" : "",
-      "message" : "\" planète possédant de l'eau liquide\""
-   },
-   "PLANET_WITH_SOME_ICE" : {
-      "description" : "",
-      "message" : "\" planète avec un peu de glace\""
-   },
-   "PLANNED_ECONOMY" : {
-      "description" : "",
-      "message" : "Économie planifiée et centralisée"
-   },
-   "PLANNER_RESET_FACTOR" : {
-      "description" : "For system orbit view",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
-   },
-   "PLANNER_RESET_NORMAL" : {
-      "description" : "For system orbit view",
-      "message" : "Normal delta-v. Click to reset to zero."
-   },
-   "PLANNER_RESET_PROGRADE" : {
-      "description" : "For system orbit view",
-      "message" : "Prograde delta-v. Click to reset to zero."
-   },
-   "PLANNER_RESET_RADIAL" : {
-      "description" : "For system orbit view",
-      "message" : "Radial delta-v. Click to reset to zero."
-   },
-   "PLANNER_RESET_START" : {
-      "description" : "For system orbit view",
-      "message" : "Démarrage de la manœuvre. Cliquez pour réinitialisez aux valeurs par défaut."
-   },
-   "PLASTICS" : {
-      "description" : "",
-      "message" : "Plastiques"
-   },
-   "PLUTOCRATIC_DICTATORSHIP" : {
-      "description" : "",
-      "message" : "Dictature ploutocratique"
-   },
-   "POPULATION" : {
-      "description" : "",
-      "message" : "Population :"
-   },
-   "PRECIOUS_METALS" : {
-      "description" : "",
-      "message" : "Métaux précieux"
-   },
-   "PRESSURE_N_ATMOSPHERES" : {
-      "description" : "",
-      "message" : "P: %pressure{f.2} atm"
-   },
-   "QUADRUPLE_SYSTEM" : {
-      "description" : "",
-      "message" : "Système quadruple"
-   },
-   "RADAR_CONTROL" : {
-      "description" : "",
-      "message" : "Contrôle Radar"
-   },
-   "RADIOACTIVES" : {
-      "description" : "",
-      "message" : "Déchets radioactifs"
-   },
-   "RADIUS" : {
-      "description" : "",
-      "message" : "Rayon"
-   },
-   "RECENTLY_EXPLORED_SYSTEM" : {
-      "description" : "",
-      "message" : "Ce système a été exploré le %date"
-   },
-   "REQUEST_DOCKING_CLEARANCE" : {
-      "description" : "",
-      "message" : "Demander une autorisation d'atterrissage"
-   },
-   "RESET" : {
-      "description" : "",
-      "message" : "Reset"
-   },
-   "RESET_ORIENTATION_AND_ZOOM" : {
-      "description" : "",
-      "message" : "Réinitialise l'orientation et le zoom"
-   },
-   "ROBOTS" : {
-      "description" : "",
-      "message" : "Robots"
-   },
-   "ROCKY_PLANET" : {
-      "description" : "",
-      "message" : "\" planète tellurique\""
-   },
-   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
-      "description" : "",
-      "message" : "\" planète rocheuse contenant quelques liquides\""
-   },
-   "ROLL" : {
-      "description" : "",
-      "message" : "Roulade"
-   },
-   "ROLL_LEFT" : {
-      "description" : "",
-      "message" : "Roulade a gauche"
-   },
-   "ROLL_RIGHT" : {
-      "description" : "",
-      "message" : "Roulade a droite"
-   },
-   "ROTATE_DOWN" : {
-      "description" : "",
-      "message" : "Piquer"
-   },
-   "ROTATE_LEFT" : {
-      "description" : "",
-      "message" : "Rotation gauche"
-   },
-   "ROTATE_RIGHT" : {
-      "description" : "",
-      "message" : "Rotation a droite"
-   },
-   "ROTATE_UP" : {
-      "description" : "",
-      "message" : "Redresser"
-   },
-   "ROTATIONAL_PERIOD" : {
-      "description" : "",
-      "message" : "\" (période de rotation)\""
-   },
-   "ROTATION_DAMPING_OFF" : {
-      "description" : "",
-      "message" : "Amortisseur de rotation OFF"
-   },
-   "ROTATION_DAMPING_ON" : {
-      "description" : "",
-      "message" : "Amortisseur de rotation ON"
-   },
-   "RUBBISH" : {
-      "description" : "",
-      "message" : "Détritus"
-   },
-   "SCOOP" : {
-      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
-      "message" : "Scoop"
-   },
-   "SCREENSHOT_FILENAME_TEMPLATE" : {
-      "description" : "",
-      "message" : "capture_d_ecran%index{d08}.png"
-   },
-   "SEARCH" : {
-      "description" : "",
-      "message" : "Recherche"
-   },
-   "SEARCH_MAP" : {
-      "description" : "",
-      "message" : "Cherche sur la carte"
-   },
-   "SECTOR_COORDINATES" : {
-      "description" : "",
-      "message" : "Coordonnées du secteur :"
-   },
-   "SECTOR_MAP_VIEW" : {
-      "description" : "",
-      "message" : "Vue de la carte du secteur"
-   },
-   "SECTOR_X_Y_Z" : {
-      "description" : "",
-      "message" : "Secteur: %x,%y,%z"
-   },
-   "SELECTED_SYSTEM" : {
-      "description" : "",
-      "message" : "Système sélectionné"
-   },
-   "SELECT_A_TARGET" : {
-      "description" : "",
-      "message" : "Sélectionnez cible"
-   },
-   "SELECT_LOW_THRUST_POWER_LEVEL" : {
-      "description" : "",
-      "message" : "Regl. petite vitesse"
-   },
-   "SEMI_MAJOR_AXIS" : {
-      "description" : "",
-      "message" : "Axe demi-majeur"
-   },
-   "SET_HYPERSPACE_DESTINATION_TO" : {
-      "description" : "",
-      "message" : "Regl. Destination hyperspatiale : %system"
-   },
-   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
-      "description" : "",
-      "message" : "Analyseur hyperspatial: Sélectionner le système pour suivre ce départ"
-   },
-   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
-      "description" : "",
-      "message" : "Regl. vitesse mini sur  %power%%"
-   },
-   "SET_NAVTARGET_TO" : {
-      "description" : "",
-      "message" : "Régler la destination sur : "
-   },
-   "SET_SPEED_KM_S" : {
-      "description" : "",
-      "message" : "Vit. ét.: %speed{f.2} km/s"
-   },
-   "SET_SPEED_M_S" : {
-      "description" : "",
-      "message" : "Vit ét: %speed{f.0} m/s"
-   },
-   "SHIELD_INTEGRITY" : {
-      "description" : "",
-      "message" : "Niv. Boucliers"
-   },
-   "SHIELD_STRENGTH_N" : {
-      "description" : "",
-      "message" : "Force boucliers : %shields{f.2}"
-   },
-   "SHIFT" : {
-      "description" : "Shift key on keyboard",
-      "message" : "Shift"
-   },
-   "SHIP" : {
-      "description" : "",
-      "message" : "Vaisseau"
-   },
-   "SHIPS_DISPLAY_MODE_TOGGLE" : {
-      "description" : "Either show no ships, show ships, or show ships + their orbits",
-      "message" : "Bascule entre les modes d'affichage vaisseau"
-   },
-   "SHIP_DETECTED_NEARBY" : {
-      "description" : "",
-      "message" : "Vaisseau proche détecté!"
-   },
-   "SHIP_INFORMATION" : {
-      "description" : "",
-      "message" : "Information sur le vaisseau"
-   },
-   "SHIP_MASS_N_TONNES" : {
-      "description" : "",
-      "message" : "Masse du vaisseau : %{mass}t"
-   },
-   "SHIP_NEARBY" : {
-      "description" : "",
-      "message" : "Vaisseau proche"
-   },
-   "SHIP_ORIENTATION" : {
-      "description" : "",
-      "message" : "Orientation du vaisseau"
-   },
-   "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
-      "description" : "",
-      "message" : "Vitesse du vaisseau en référence à l'objet"
-   },
-   "SIDEREAL_VIEW" : {
-      "description" : "camera view setting",
-      "message" : "Vue sidérale"
-   },
-   "SLAVES" : {
-      "description" : "",
-      "message" : "Esclaves"
-   },
-   "SMALL" : {
-      "description" : "",
-      "message" : "Petit"
-   },
-   "SMALL_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Petite géante gazeuse"
-   },
-   "SMALL_INDUSTRIAL_OUTPOST" : {
-      "description" : "",
-      "message" : "Petit avant-poste industriel."
-   },
-   "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
-      "description" : "",
-      "message" : "Petites opérations minières, pas de colonies enregistrées."
-   },
-   "SOCIAL_DEMOCRACY" : {
-      "description" : "",
-      "message" : "Démocratie sociale"
-   },
-   "SOLAR" : {
-      "description" : "",
-      "message" : "Solaires"
-   },
-   "SOME_ESTABLISHED_MINING" : {
-      "description" : "",
-      "message" : "Quelques opérations minières établies."
-   },
-   "SOURCE" : {
-      "description" : "tell source system of hyperjump entry cloud",
-      "message" : "Origine"
-   },
-   "SPEED_CONTROL_MODE" : {
-      "description" : "",
-      "message" : "Mode Vitesse controlée"
-   },
-   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
-      "description" : "",
-      "message" : "Système stable avec %bodycount %{body(s)} et %portcount %{starport(s)}."
-   },
-   "STARPORT" : {
-      "description" : "",
-      "message" : "Spatioport"
-   },
-   "STARPORTS" : {
-      "description" : "",
-      "message" : "Spatioports"
-   },
-   "STAR_A" : {
-      "description" : "",
-      "message" : "Étoile blanche chaude de type 'A'"
-   },
-   "STAR_AF_GIANT" : {
-      "description" : "",
-      "message" : "Géante blanche"
-   },
-   "STAR_AF_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Hyper géante blanche"
-   },
-   "STAR_AF_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Super Géante Blanche"
-   },
-   "STAR_B" : {
-      "description" : "",
-      "message" : "Étoile bleue de type 'B'"
-   },
-   "STAR_B_GIANT" : {
-      "description" : "",
-      "message" : "Géante bleue"
-   },
-   "STAR_B_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Hyper géante bleue"
-   },
-   "STAR_B_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Super Géante Bleue"
-   },
-   "STAR_B_WF" : {
-      "description" : "",
-      "message" : "Étoile de Wolf-Rayet, risque d'effondrement"
-   },
-   "STAR_F" : {
-      "description" : "",
-      "message" : "Étoile blanche de type 'F'"
-   },
-   "STAR_G" : {
-      "description" : "",
-      "message" : "Étoile jaune de type 'G'"
-   },
-   "STAR_G_GIANT" : {
-      "description" : "",
-      "message" : "Géante jaune, instable"
-   },
-   "STAR_G_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Hyper géante jaune, instable"
-   },
-   "STAR_G_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Super Géante Jaune"
-   },
-   "STAR_IM_BH" : {
-      "description" : "",
-      "message" : "Trou noir intermédiaire"
-   },
-   "STAR_K" : {
-      "description" : "",
-      "message" : "Étoile orange de type 'K'"
-   },
-   "STAR_K_GIANT" : {
-      "description" : "",
-      "message" : "Géante orange, instable"
-   },
-   "STAR_K_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Hyper géante orange, instable"
-   },
-   "STAR_K_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Super Géante Orange"
-   },
-   "STAR_M" : {
-      "description" : "",
-      "message" : "Étoile rouge de type 'M'"
-   },
-   "STAR_M_GIANT" : {
-      "description" : "",
-      "message" : "Géante rouge"
-   },
-   "STAR_M_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Hyper géante rouge"
-   },
-   "STAR_M_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Super Géante Rouge"
-   },
-   "STAR_M_WF" : {
-      "description" : "",
-      "message" : "Étoile de Wolf-Rayet, instable"
-   },
-   "STAR_O" : {
-      "description" : "",
-      "message" : "Étoile de type 'O', chaude et massive"
-   },
-   "STAR_O_GIANT" : {
-      "description" : "",
-      "message" : "Géante bleue, chaude"
-   },
-   "STAR_O_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Hyper géante bleue, chaude"
-   },
-   "STAR_O_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Super Géante Bleue, chaude"
-   },
-   "STAR_O_WF" : {
-      "description" : "",
-      "message" : "Étoile de Wolf-Rayet, effondrement imminent"
-   },
-   "STAR_SM_BH" : {
-      "description" : "",
-      "message" : "Notre origine galactique"
-   },
-   "STAR_SYSTEM_INFORMATION" : {
-      "description" : "",
-      "message" : "Information système solaire"
-   },
-   "STAR_S_BH" : {
-      "description" : "",
-      "message" : "Trou noir stellaire"
-   },
-   "SUGGESTED_RESPONSES" : {
-      "description" : "",
-      "message" : "Réponses suggérées:"
-   },
-   "SURFACE_GRAVITY" : {
-      "description" : "",
-      "message" : "Gravité en surface"
-   },
-   "SURFACE_TEMPERATURE" : {
-      "description" : "",
-      "message" : "Température de surface"
-   },
-   "SWAP_SELECTED_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Marque sélection comme destination de saut hyper-espace"
-   },
-   "SWITCHED_TO_PARENT" : {
-      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "Cap du vaisseau, coordonnées célestes"
-   },
-   "SWITCHED_TO_ROTATIONAL" : {
-      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "Cap du vaisseau, coordonnées planétaires"
-   },
-   "SYSTEM" : {
-      "description" : "star system",
-      "message" : "Système"
-   },
-   "SYSTEM_NUMBER" : {
-      "description" : "",
-      "message" : "Numéro du système :"
-   },
-   "SYSTEM_ORBIT_VIEW" : {
-      "description" : "",
-      "message" : "Vue orbitale du système"
-   },
-   "SYSTEM_TYPE" : {
-      "description" : "",
-      "message" : "Type de système :"
-   },
-   "S_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" atmoshère Sulfurique\""
-   },
-   "TAKEOFF" : {
-      "description" : "",
-      "message" : "Décollage"
-   },
-   "TARGET_OBJECT_IN_SIGHTS" : {
-      "description" : "",
-      "message" : "Cible l'objet visé"
-   },
-   "TENUOUS" : {
-      "description" : "atmosphere thickness",
-      "message" : "ténue"
-   },
-   "TEXTILES" : {
-      "description" : "",
-      "message" : "Etoffes"
-   },
-   "THICK" : {
-      "description" : "",
-      "message" : "maigre"
-   },
-   "THIN" : {
-      "description" : "",
-      "message" : "fine"
-   },
-   "THRIVING_OUTDOOR_WORLD" : {
-      "description" : "",
-      "message" : "Monde avec une faune impressionnante."
-   },
-   "THRUSTER_DORSAL" : {
-      "description" : "",
-      "message" : "Moteur dorsal"
-   },
-   "THRUSTER_MAIN" : {
-      "description" : "",
-      "message" : "Accélération"
-   },
-   "THRUSTER_PORT" : {
-      "description" : "",
-      "message" : "Moteur gauche"
-   },
-   "THRUSTER_RETRO" : {
-      "description" : "",
-      "message" : "Décélération"
-   },
-   "THRUSTER_STARBOARD" : {
-      "description" : "",
-      "message" : "Moteur droite"
-   },
-   "THRUSTER_VENTRAL" : {
-      "description" : "",
-      "message" : "Moteur ventral"
-   },
-   "TIME_POINT" : {
-      "description" : "",
-      "message" : "Point temporel :"
-   },
-   "TINY" : {
-      "description" : "",
-      "message" : "Minuscule"
-   },
-   "TOGGLE_EQUIPMENT_VIEW" : {
-      "description" : "Tooltip for the Equipment View button",
-      "message" : "Vue équipement"
-   },
-   "TOGGLE_HUD_MODE" : {
-      "description" : "",
-      "message" : "regl mode HUD"
-   },
-   "TOGGLE_LUA_CONSOLE" : {
-      "description" : "",
-      "message" : "Console LUA on/off"
-   },
-   "TOGGLE_RADAR_MODE" : {
-      "description" : "",
-      "message" : "Activer/désactiver le mode Radar"
-   },
-   "TOGGLE_RADAR_VIEW" : {
-      "description" : "Tooltip for the Radar View button",
-      "message" : "Vue Radar"
-   },
-   "TOGGLE_ROTATION_DAMPING" : {
-      "description" : "",
-      "message" : "Réglage de l'amortisseur de rotation"
-   },
-   "TOMBSTONE_EPITAPH" : {
-      "description" : "shown on tombstone when player dies",
-      "message" : "Reposes en paix"
-   },
-   "TRADING_ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "Contrebande de produits illégaux"
-   },
-   "TRIPLE_SYSTEM" : {
-      "description" : "",
-      "message" : "Système ternaire"
-   },
-   "UNDOCKING" : {
-      "description" : "Flight state of ship when leaving station",
-      "message" : "Désammarrage."
-   },
-   "UNEXPLORED_SYSTEM_NO_DATA" : {
-      "description" : "",
-      "message" : "Système non-exploré. Aucune donnée disponible."
-   },
-   "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
-      "description" : "",
-      "message" : "Système inconnu. Pas de vue orbitale disponible."
-   },
-   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
-      "description" : "",
-      "message" : "Système non-exploré. Les informations ont été réunies par un téléscope distant, mais aucune information planétaire n'est disponible."
-   },
-   "UNIT_AU" : {
-      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
-      "message" : "UA"
-   },
-   "UNIT_DAYS" : {
-      "description" : "Duration unit: one 24-hour day",
-      "message" : "j"
-   },
-   "UNIT_HOURS" : {
-      "description" : "Duration unit: one 60-minute hour",
-      "message" : "h"
-   },
-   "UNIT_KILOMETERS" : {
-      "description" : "Distance unit: one kilometer",
-      "message" : "km"
-   },
-   "UNIT_KILOMETERS_PER_SECOND" : {
-      "description" : "Speed unit: one kilometer per second",
-      "message" : "km/s"
-   },
-   "UNIT_LY" : {
-      "description" : "Distance unit: a light year",
-      "message" : "al"
-   },
-   "UNIT_METERS" : {
-      "description" : "Distance unit: one meter",
-      "message" : "m"
-   },
-   "UNIT_METERS_PER_SECOND" : {
-      "description" : "Speed unit: one meter per second",
-      "message" : "m/s"
-   },
-   "UNIT_MILLION_METERS" : {
-      "description" : "Distance unit: one million meters",
-      "message" : "Mm"
-   },
-   "UNIT_MILLION_METERS_PER_SECOND" : {
-      "description" : "Speed unit: one million meters per second",
-      "message" : "Mm/s"
-   },
-   "UNIT_MINUTES" : {
-      "description" : "Duration unit: one 60-second minute",
-      "message" : "m"
-   },
-   "UNIT_SECONDS" : {
-      "description" : "Duration unit: one second",
-      "message" : "sec."
-   },
-   "UNIT_TONNES" : {
-      "description" : "Mass unit: one tonne (t)",
-      "message" : "t"
-   },
-   "UNIT_WEEKS" : {
-      "description" : "Duration unit: one 7-day week",
-      "message" : "sem."
-   },
-   "UNKNOWN" : {
-      "description" : "",
-      "message" : "<inconnu>"
-   },
-   "UNSET_NAVTARGET" : {
-      "description" : "",
-      "message" : "Aucune destination définie."
-   },
-   "USE_LOW_THRUST" : {
-      "description" : "",
-      "message" : "Utiliser vitesse lente"
-   },
-   "VAST_STRIP_MINE" : {
-      "description" : "",
-      "message" : "Vaste colonie minière, extraction à ciel ouvert."
-   },
-   "VERY_DENSE" : {
-      "description" : "",
-      "message" : "très dense"
-   },
-   "VERY_LARGE_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Très grande géante gazeuse"
-   },
-   "VIEW" : {
-      "description" : "",
-      "message" : "Vue"
-   },
-   "VIOLENT_ANARCHY" : {
-      "description" : "",
-      "message" : "Anarchique - Gouvernement contesté par des factions armées."
-   },
-   "WATER" : {
-      "description" : "",
-      "message" : "Eau"
-   },
-   "WEAPONS" : {
-      "description" : "",
-      "message" : "Armes"
-   },
-   "WEAPON_TEMP" : {
-      "description" : "",
-      "message" : "Temp. arme"
-   },
-   "WHEELS_ARE_DOWN" : {
-      "description" : "",
-      "message" : "Trains d'atterrissage sorti"
-   },
-   "WHEELS_ARE_UP" : {
-      "description" : "",
-      "message" : "Train d'atterrissage rentré"
-   },
-   "WHITE_DWARF" : {
-      "description" : "",
-      "message" : "Naine Blanche."
-   },
-   "WITH_A" : {
-      "description" : "",
-      "message" : "\" avec un(e)\""
-   },
-   "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" sans atmosphère significative\""
-   },
-   "X" : {
-      "description" : "keybinding: x axis",
-      "message" : "X"
-   },
-   "Y" : {
-      "description" : "keybinding: y axis",
-      "message" : "Y"
-   },
-   "YAW" : {
-      "description" : "",
-      "message" : "Lacets"
-   },
-   "YAW_LEFT" : {
-      "description" : "",
-      "message" : "lacet a gauche"
-   },
-   "YAW_RIGHT" : {
-      "description" : "",
-      "message" : "lacet a droite"
-   },
-   "YOUNG_FARMING_COLONY" : {
-      "description" : "",
-      "message" : "Jeune colonie agricole."
-   },
-   "Z" : {
-      "description" : "keybinding: z axis",
-      "message" : "Z"
-   },
-   "ZOOM_IN" : {
-      "description" : "",
-      "message" : "Zoom avant"
-   },
-   "ZOOM_OUT" : {
-      "description" : "",
-      "message" : "Zoom arrière"
-   }
+  "AIR_PROCESSORS": {
+    "description": "",
+    "message": "Processeurs d'air"
+  },
+  "ALERT_CANCELLED": {
+    "description": "",
+    "message": "Alerte annulée."
+  },
+  "ALLEGIANCE": {
+    "description": "",
+    "message": "Allégeance :"
+  },
+  "ALT": {
+    "description": "Alt key on keyboard",
+    "message": "Alt"
+  },
+  "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
+    "description": "",
+    "message": "\" et un écosystème extrêmement complexe\""
+  },
+  "AND_INDIGENOUS_MICROBIAL_LIFE": {
+    "description": "",
+    "message": "\" et de la vie microbienne indigène\""
+  },
+  "AND_INDIGENOUS_PLANT_LIFE": {
+    "description": "",
+    "message": "\" et de la vie végétale indigène\""
+  },
+  "ANIMAL_MEAT": {
+    "description": "",
+    "message": "Viande animale"
+  },
+  "APOAPSIS_DISTANCE": {
+    "description": "",
+    "message": "Distance d'apogée"
+  },
+  "AR_ATMOSPHERE": {
+    "description": "",
+    "message": "\" atmosphère Argonique\""
+  },
+  "ASTEROID": {
+    "description": "",
+    "message": "Astéroïde"
+  },
+  "AUTOMATIC_SYSTEM_SELECTION": {
+    "description": "for star map, select star system when mouse close to it",
+    "message": "Sélection automatique de système"
+  },
+  "AUTOPILOT_CONTROL": {
+    "description": "Indicating that ship is flying under autopilot control",
+    "message": "Autopilot control"
+  },
+  "AUTOPILOT_DOCK_WITH_STATION": {
+    "description": "",
+    "message": "Pilote automatique: S'arrimer à {target}"
+  },
+  "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
+    "description": "",
+    "message": "Pilote automatique: Entrer en orbite haute autour de {target}"
+  },
+  "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
+    "description": "",
+    "message": "Pilote automatique: Entrer en orbite basse autour de {target}"
+  },
+  "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
+    "description": "",
+    "message": "Pilote automatique: Entrer en orbite moyenne autour de {target}"
+  },
+  "AUTOPILOT_FLY_TO_VICINITY_OF": {
+    "description": "",
+    "message": "Pilote automatique: Voler à proximité de {target}"
+  },
+  "AUTOPILOT_ON": {
+    "description": "",
+    "message": "Pilote automatique ON"
+  },
+  "AXIAL_TILT": {
+    "description": "",
+    "message": "Mouvement axial"
+  },
+  "A_FEW_THOUSAND": {
+    "description": "regarding population",
+    "message": "Seulement quelques milliers"
+  },
+  "BATTLE_WEAPONS": {
+    "description": "",
+    "message": "Armes de guerre"
+  },
+  "BINARY_SYSTEM": {
+    "description": "",
+    "message": "Système binaire"
+  },
+  "BODIES": {
+    "description": "space bodies",
+    "message": "corps majeurs"
+  },
+  "BODY": {
+    "description": "",
+    "message": "Corps"
+  },
+  "BROWN_DWARF": {
+    "description": "",
+    "message": "Naine brune sous-stellaire."
+  },
+  "BUTTON": {
+    "description": "",
+    "message": "\"bouton\""
+  },
+  "CAMERA_BOTTOM_VIEW": {
+    "description": "",
+    "message": "Vue Inférieure"
+  },
+  "CAMERA_FRONT_VIEW": {
+    "description": "",
+    "message": "Vue avant"
+  },
+  "CAMERA_LEFT_VIEW": {
+    "description": "",
+    "message": "Vue gauche"
+  },
+  "CAMERA_REAR_VIEW": {
+    "description": "",
+    "message": "Vue arrière"
+  },
+  "CAMERA_RIGHT_VIEW": {
+    "description": "",
+    "message": "Vue droite"
+  },
+  "CAMERA_TOP_VIEW": {
+    "description": "",
+    "message": "Vue de dessus"
+  },
+  "CANT_SAVE_DEAD_PLAYER": {
+    "description": "",
+    "message": "Impossible de sauvegarder une fois que le joueur est mort."
+  },
+  "CANT_SAVE_IN_HYPERSPACE": {
+    "description": "",
+    "message": "Impossible de sauvegarder en hyperspace"
+  },
+  "CAPITALIST": {
+    "description": "",
+    "message": "Capitaliste"
+  },
+  "CARBON_ORE": {
+    "description": "",
+    "message": "Carbone"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Cargaison"
+  },
+  "CARGO_BAY_LIFE_SUPPORT_LOST": {
+    "description": "",
+    "message": "Les capteurs indiquent une déprésurisation de la soute d'organismes vivants."
+  },
+  "CARGO_N": {
+    "description": "",
+    "message": "Cargo : %{mass}t"
+  },
+  "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
+    "description": "",
+    "message": "Récupérateur de cargaison actif: 1t de %item récupérée"
+  },
+  "CARGO_SCOOP_ATTEMPTED": {
+    "description": "",
+    "message": "Tentative de récupération de cargo avortée. Pas assez de place dans la soute."
+  },
+  "CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "\" atmosphère méthanique\""
+  },
+  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Vous avez déjà l'autorisation. Atterrissez sur le dock %bay."
+  },
+  "CLEARANCE_DENIED_NO_BAYS": {
+    "description": "",
+    "message": "Autorisation refusée. Tous les docks sont occupés."
+  },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Autorisation refusée. Votre vaisseau est trop éloigné pour un contrôle d'identité."
+  },
+  "CLEARANCE_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Autorisation accordée. Atterrissez sur le dock %bay."
+  },
+  "CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "\" atmosphère à base de CO2\""
+  },
+  "COMMA_HIGHLY_VOLCANIC": {
+    "description": "",
+    "message": ", hautement volcanique"
+  },
+  "COMMODITY_NONE": {
+    "description": "When no commodities exist",
+    "message": "Aucun"
+  },
+  "COMMODITY_TRADE_ANALYSIS_COMPARE": {
+    "description": "",
+    "message": "Comparaison des marchés des systèmes #ff0%selected_system#fff (sélectionné) et #ff0%current_system#fff (actuel):"
+  },
+  "COMMODITY_TRADE_ANALYSIS_SELF": {
+    "description": "",
+    "message": "Analyse du marché du système #fff%system#fff"
+  },
+  "COMMS": {
+    "description": "",
+    "message": "Comms"
+  },
+  "COMMUNIST": {
+    "description": "",
+    "message": "Communiste"
+  },
+  "COMPASS_E": {
+    "description": "Abbreviation for compass direction: East",
+    "message": "E"
+  },
+  "COMPASS_N": {
+    "description": "Abbreviation for compass direction: North",
+    "message": "N"
+  },
+  "COMPASS_NE": {
+    "description": "Abbreviation for compass direction: North East",
+    "message": "NE"
+  },
+  "COMPASS_NW": {
+    "description": "Abbreviation for compass direction: North West",
+    "message": "NO"
+  },
+  "COMPASS_S": {
+    "description": "Abbreviation for compass direction: South",
+    "message": "S"
+  },
+  "COMPASS_SE": {
+    "description": "Abbreviation for compass direction: South East",
+    "message": "SE"
+  },
+  "COMPASS_SW": {
+    "description": "Abbreviation for compass direction: South West",
+    "message": "SO"
+  },
+  "COMPASS_W": {
+    "description": "Abbreviation for compass direction: West",
+    "message": "O"
+  },
+  "COMPUTERS": {
+    "description": "",
+    "message": "Ordinateurs"
+  },
+  "COMPUTER_HEADING_CONTROL": {
+    "description": "",
+    "message": "Direction contrôlée par ordi."
+  },
+  "COMPUTER_SPEED_CONTROL": {
+    "description": "",
+    "message": "Vitesse auto"
+  },
+  "CONSUMER_GOODS": {
+    "description": "",
+    "message": "Biens de consommation"
+  },
+  "CONTROLS": {
+    "description": "",
+    "message": "Controles"
+  },
+  "CORPORATE_SYSTEM": {
+    "description": "",
+    "message": "Système Corporatiste"
+  },
+  "COULD_NOT_OPEN_FILENAME": {
+    "description": "",
+    "message": "Ne peut pas ouvrir %path"
+  },
+  "COUNT_ON_SURFACE": {
+    "description": "",
+    "message": "\" (%surfacecount en surface)\""
+  },
+  "COUNT_STARPORTS": {
+    "description": "",
+    "message": "Spatioports"
+  },
+  "CO_ATMOSPHERE": {
+    "description": "",
+    "message": "\" atmosphère à base de monoxide de carbone\""
+  },
+  "CTRL": {
+    "description": "Ctrl key on keyboard",
+    "message": "Ctrl\n\n"
+  },
+  "CURRENT_SYSTEM": {
+    "description": "selected current star system",
+    "message": "Système actuel"
+  },
+  "DATE_DUE_N": {
+    "description": "",
+    "message": "Date d'arrivée : %date"
+  },
+  "DAY_LENGTH": {
+    "description": "",
+    "message": "Durée du jour"
+  },
+  "DECREASE_RADAR_RANGE": {
+    "description": "",
+    "message": "Diminuer la portée du radar"
+  },
+  "DECREASE_SET_SPEED": {
+    "description": "",
+    "message": "Diminue vitesse auto"
+  },
+  "DECREASE_TIME_ACCELERATION": {
+    "description": "",
+    "message": "Diminuer l'accélération du temps"
+  },
+  "DEMOGRAPHICS": {
+    "description": "",
+    "message": "Démographie"
+  },
+  "DESTINATION": {
+    "description": "",
+    "message": "Destination"
+  },
+  "DIRECTION": {
+    "description": "Direction",
+    "message": "\" Doc \""
+  },
+  "DISTANCE_LY": {
+    "description": "",
+    "message": "Distance: %distance{f.2} al"
+  },
+  "DOCKED": {
+    "description": "",
+    "message": "Arrimé"
+  },
+  "DOCKING": {
+    "description": "",
+    "message": "Arrimage"
+  },
+  "DOCKING_CLEARANCE_EXPIRED": {
+    "description": "",
+    "message": "Autorisation d'atterrissage expirée. Pour atterrir, veuillez refaire une demande."
+  },
+  "DOWNGRADING_ALERT_STATUS": {
+    "description": "",
+    "message": "Pas d'attaque depuis 60 secondes, niveau d'alerte réduit."
+  },
+  "DRAW_OUT_RANGE_LABELS": {
+    "description": "",
+    "message": "Def. Systemes distants"
+  },
+  "DRAW_UNINHABITED_LABELS": {
+    "description": "",
+    "message": "Label des systèmes inhabités"
+  },
+  "DRAW_VERTICAL_LINES": {
+    "description": "",
+    "message": "Montrer les tiges verticales"
+  },
+  "EARTH": {
+    "description": "",
+    "message": "Terriennes"
+  },
+  "EARTH_FEDERATION_COLONIAL_RULE": {
+    "description": "",
+    "message": "Loi coloniale de la Fédération"
+  },
+  "EARTH_FEDERATION_DEMOCRACY": {
+    "description": "",
+    "message": "Démocratie de la Fédération Terrienne"
+  },
+  "ECCENTRICITY": {
+    "description": "",
+    "message": "Excentricité"
+  },
+  "ECONOMIC_INFO": {
+    "description": "",
+    "message": "Informations Économiques"
+  },
+  "ECONOMY_TYPE": {
+    "description": "",
+    "message": "Type d'économie :"
+  },
+  "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
+    "description": "",
+    "message": "Équatorial vers ratio de rayon polaire"
+  },
+  "EXACT_MATCH_X": {
+    "description": "",
+    "message": "Résultat exact: %system"
+  },
+  "EXTENSIVE_MINING": {
+    "description": "",
+    "message": "Importantes opérations minières."
+  },
+  "EXTERNAL_ATMOSPHERIC_PRESSURE": {
+    "description": "",
+    "message": "Pression atmosphérique extérieure"
+  },
+  "EXTERNAL_VIEW": {
+    "description": "",
+    "message": "Vue extérieure"
+  },
+  "FARM_MACHINERY": {
+    "description": "",
+    "message": "Machines agricoles"
+  },
+  "FERTILIZER": {
+    "description": "",
+    "message": "Fertilisant"
+  },
+  "FIRE_LASER": {
+    "description": "",
+    "message": "Utiliser arme"
+  },
+  "FIRE_MISSILE": {
+    "description": "",
+    "message": "Tire un missile"
+  },
+  "FLYBY_VIEW": {
+    "description": "camera view setting",
+    "message": "Vue survol"
+  },
+  "FOLLOWING_SELECTION": {
+    "description": "",
+    "message": "suivre la sélection"
+  },
+  "FRUIT_AND_VEG": {
+    "description": "",
+    "message": "Fruits & légumes"
+  },
+  "FUEL": {
+    "description": "",
+    "message": "Carburant"
+  },
+  "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
+    "description": "",
+    "message": "Écope à carburant activée. Vous avez %quantity tonnes d'hydrogène."
+  },
+  "GALACTIC_VIEW": {
+    "description": "view galactic map",
+    "message": "Vue galactique"
+  },
+  "GALAXY_SECTOR_VIEW": {
+    "description": "",
+    "message": "Vue secteurs galactiques"
+  },
+  "GAME_LOAD_CANNOT_OPEN": {
+    "description": "",
+    "message": "Sauvegarde '%filename' introuvable (ou le jeu n'a pas les droits nécessaires)."
+  },
+  "GAME_LOAD_CORRUPT": {
+    "description": "",
+    "message": "Cette sauvegarde ne peut être chargée car elle est corrompue."
+  },
+  "GAME_LOAD_WRONG_VERSION": {
+    "description": "",
+    "message": "Cette sauvegarde ne peut etre chargée : elle vient d'une autre  version de Pioneer"
+  },
+  "GAME_SAVED_TO": {
+    "description": "",
+    "message": "Partie sauvegardée sur"
+  },
+  "GAME_SAVE_CANNOT_WRITE": {
+    "description": "",
+    "message": "Impossible d'écrire la sauvegarde à cause d'une erreur système."
+  },
+  "GENERAL_VIEW_CONTROLS": {
+    "description": "",
+    "message": "Contrôles de vue généraux"
+  },
+  "GOVERNMENT_TYPE": {
+    "description": "",
+    "message": "Type de gouvernement :"
+  },
+  "GRAIN": {
+    "description": "like wheat or barley",
+    "message": "Grain"
+  },
+  "HAND_WEAPONS": {
+    "description": "",
+    "message": "Armes de poing"
+  },
+  "HARD_CAPITALIST": {
+    "description": "",
+    "message": "Entièrement capitaliste - pas de gouvernement réel"
+  },
+  "HAT": {
+    "description": "Hat switch: Is the top button on a joystick",
+    "message": "\"Couv\""
+  },
+  "HEADING_LOCK_ANTINORMAL": {
+    "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
+    "message": "Maintenir {target} en direction anti-normale"
+  },
+  "HEADING_LOCK_BACKWARD": {
+    "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
+    "message": "Maintenir {target} en direction rétrograde"
+  },
+  "HEADING_LOCK_FORWARD": {
+    "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
+    "message": "Maintenir {target} en direction prograde"
+  },
+  "HEADING_LOCK_KILLROT": {
+    "description": "",
+    "message": "Stop la rotation"
+  },
+  "HEADING_LOCK_NORMAL": {
+    "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
+    "message": "Maintenir {target} en direction normale"
+  },
+  "HEADING_LOCK_RADIALLY_INWARD": {
+    "description": "Autopilot direction, relative to orbit (face towards planet)",
+    "message": "Maintenir {target} vers l'intérieur de l'orbite"
+  },
+  "HEADING_LOCK_RADIALLY_OUTWARD": {
+    "description": "Autopilot direction, relative to orbit (face away from palent)",
+    "message": "Maintenir {target} vers l'extérieur de l'orbite"
+  },
+  "HEAVY_INDUSTRY": {
+    "description": "",
+    "message": "Industrie lourde."
+  },
+  "HE_ATMOSPHERE": {
+    "description": "",
+    "message": "\" atmosphère à base d'Helium\""
+  },
+  "HIGHLY_VOLCANIC": {
+    "description": "",
+    "message": "Hautement volcanique"
+  },
+  "HIGH_POPULATION_OUTDOOR_WORLD": {
+    "description": "",
+    "message": "Monde habitable hautement peuplé."
+  },
+  "HULL_INTEGRITY": {
+    "description": "",
+    "message": "Intégrité coque"
+  },
+  "HULL_TEMP": {
+    "description": "",
+    "message": "Temp. coque"
+  },
+  "HYDROGEN": {
+    "description": "",
+    "message": "Hydrogène"
+  },
+  "HYPERSPACE": {
+    "description": "",
+    "message": "Hyperespace"
+  },
+  "HYPERSPACE_ARRIVAL_CLOUD": {
+    "description": "",
+    "message": "Nuage d'arrivée hyperspatiale"
+  },
+  "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
+    "description": "",
+    "message": "Résidu d'arrivée hyperspatiale"
+  },
+  "HYPERSPACE_DEPARTURE_CLOUD": {
+    "description": "",
+    "message": "Nuage de départ hyperspatial"
+  },
+  "HYPERSPACE_JUMP_ABORT": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Désactiver l'hyper-propulsion."
+  },
+  "HYPERSPACE_JUMP_ABORTED": {
+    "description": "",
+    "message": "Saut hyperspatial avorté."
+  },
+  "HYPERSPACE_JUMP_DISABLED": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Hyperpropulsion desactivée"
+  },
+  "HYPERSPACE_JUMP_ENGAGE": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Activer l'hyper-propulsion."
+  },
+  "HYPERSPACE_JUMP_FORBIDDEN": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Zone interdite à l'hyperpropulsion"
+  },
+  "HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Cible hyperspatiale"
+  },
+  "H_ATMOSPHERE": {
+    "description": "",
+    "message": "\" atmosphère hydrogénée\""
+  },
+  "ICE_WORLD": {
+    "description": "",
+    "message": "\" Monde glacé\""
+  },
+  "ILLEGAL_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+    "message": "Illégal (système actuel):"
+  },
+  "ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Contrebande:"
+  },
+  "IMPERIAL_RULE": {
+    "description": "",
+    "message": "Loi Impériale"
+  },
+  "INCREASE_RADAR_RANGE": {
+    "description": "",
+    "message": "Augmenter la portée du radar"
+  },
+  "INCREASE_SET_SPEED": {
+    "description": "",
+    "message": "Augmenter vitesse auto"
+  },
+  "INCREASE_TIME_ACCELERATION": {
+    "description": "",
+    "message": "Augmenter l'accélération du temps"
+  },
+  "INDUSTRIAL_COLONY": {
+    "description": "",
+    "message": "Colonie Industrielle."
+  },
+  "INDUSTRIAL_HUB_SYSTEM": {
+    "description": "",
+    "message": "Système industriel logistique."
+  },
+  "INDUSTRIAL_MACHINERY": {
+    "description": "",
+    "message": "Machines industrielles"
+  },
+  "INTERNAL_VIEW": {
+    "description": "",
+    "message": "Vue cockpit"
+  },
+  "JOY": {
+    "description": "Short for Joystick",
+    "message": "joy"
+  },
+  "JOYSTICK_INPUT": {
+    "description": "",
+    "message": "Joystick"
+  },
+  "JOY_AXIS": {
+    "description": "Regarding joystick",
+    "message": "%{sign}%joyname Axe %axis"
+  },
+  "L4L5_DISPLAY_MODE_TOGGLE": {
+    "description": "Either show L4/L5 points or don't",
+    "message": "Afficher/Cacher les points Lagrange L4/L5."
+  },
+  "LANDED": {
+    "description": "",
+    "message": "Au sol"
+  },
+  "LANG_NAME": {
+    "description": "The name that native speakers use for this language. This will be used in the language selection screen.",
+    "message": "Français"
+  },
+  "LARGE": {
+    "description": "regarding terrestrial planet size (mass actually)",
+    "message": "Grande"
+  },
+  "LARGE_GAS_GIANT": {
+    "description": "",
+    "message": "Grande géante gazeuse"
+  },
+  "LASER_FIRE_DETECTED": {
+    "description": "",
+    "message": "Utilisation d'armes détectée."
+  },
+  "LATITUDE": {
+    "description": "Short for latitude",
+    "message": "Lat:"
+  },
+  "LATITUDE_NORTH_ABBREV": {
+    "description": "Abbreviation letter for latitude 'north'",
+    "message": "N"
+  },
+  "LATITUDE_SOUTH_ABBREV": {
+    "description": "Abbreviation letter for latitude 'south'",
+    "message": "S"
+  },
+  "LEGAL_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+    "message": "Légal (système actuel)"
+  },
+  "LIBERAL_DEMOCRACY": {
+    "description": "",
+    "message": "Démocratie libérale"
+  },
+  "LIQUID_OXYGEN": {
+    "description": "",
+    "message": "Oxygène Liquide"
+  },
+  "LIQUOR": {
+    "description": "",
+    "message": "Alcool"
+  },
+  "LIVE_ANIMALS": {
+    "description": "",
+    "message": "Animaux vivants"
+  },
+  "LOCKED": {
+    "description": "to lock a hyperspace target",
+    "message": "verrouillé"
+  },
+  "LONGITUDE": {
+    "description": "Short for longitude",
+    "message": "Long:"
+  },
+  "LONGITUDE_EAST_ABBREV": {
+    "description": "Abbreviation letter for longitude 'east'",
+    "message": "E"
+  },
+  "LONGITUDE_WEST_ABBREV": {
+    "description": "Abbreviation letter for latitude 'west'",
+    "message": "O"
+  },
+  "MAJOR_EXPORTS": {
+    "description": "",
+    "message": "Exportations majeures :"
+  },
+  "MAJOR_EXPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Exportations principales (système actuel)"
+  },
+  "MAJOR_IMPORTS": {
+    "description": "",
+    "message": "Importations majeures :"
+  },
+  "MAJOR_IMPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Importations principales (système actuel)"
+  },
+  "MANUAL_CONTROL": {
+    "description": "",
+    "message": "Contrôle manuel"
+  },
+  "MANUAL_CONTROL_MODE": {
+    "description": "",
+    "message": "Mode contrôle manuel"
+  },
+  "MAP_LOCK_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Verrouille  la cible d'hyperespace"
+  },
+  "MAP_TOGGLE_INFO_PANEL": {
+    "description": "",
+    "message": "Bascule vers le panneau d'information"
+  },
+  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
+    "description": "",
+    "message": "Bascule vers la vue de sélection"
+  },
+  "MAP_VIEW_ROTATE_DOWN": {
+    "description": "",
+    "message": "Rotation vue vers le bas"
+  },
+  "MAP_VIEW_ROTATE_LEFT": {
+    "description": "",
+    "message": "Rotation vue vers la gauche"
+  },
+  "MAP_VIEW_ROTATE_RIGHT": {
+    "description": "",
+    "message": "Rotation vue vers la droite"
+  },
+  "MAP_VIEW_ROTATE_UP": {
+    "description": "",
+    "message": "Rotation vue vers le haut"
+  },
+  "MAP_VIEW_SHIFT_BACKWARD": {
+    "description": "",
+    "message": "Change la vue vers l'arrière"
+  },
+  "MAP_VIEW_SHIFT_DOWN": {
+    "description": "",
+    "message": "Change la vue vers le bas"
+  },
+  "MAP_VIEW_SHIFT_FORWARD": {
+    "description": "",
+    "message": "Change la vue vers l'avant"
+  },
+  "MAP_VIEW_SHIFT_LEFT": {
+    "description": "",
+    "message": "Change la vue à gauche"
+  },
+  "MAP_VIEW_SHIFT_RIGHT": {
+    "description": "",
+    "message": "Change la vue à droite"
+  },
+  "MAP_VIEW_SHIFT_UP": {
+    "description": "",
+    "message": "Change la vue en haut"
+  },
+  "MAP_WARP_TO_CURRENT_SYSTEM": {
+    "description": "",
+    "message": "Saute au système en cours"
+  },
+  "MAP_WARP_TO_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Saute vers la cible d'hyperespace"
+  },
+  "MAP_WARP_TO_SELECTED_SYSTEM": {
+    "description": "",
+    "message": "Saute vers le système sélectionné"
+  },
+  "MASS": {
+    "description": "",
+    "message": "Masse"
+  },
+  "MASSIVE": {
+    "description": "",
+    "message": "Massive"
+  },
+  "MASS_N_TONNES": {
+    "description": "",
+    "message": "Masse : %{mass}t"
+  },
+  "MEDICINES": {
+    "description": "",
+    "message": "Médicaments"
+  },
+  "MEDIUM_GAS_GIANT": {
+    "description": "",
+    "message": "Géante gazeuse moyenne"
+  },
+  "MESSAGE_FROM_X": {
+    "description": "",
+    "message": "Message de %sender:"
+  },
+  "META": {
+    "description": "'Meta' key on keyboard",
+    "message": "Meta"
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "Alliages métalliques"
+  },
+  "METAL_ORE": {
+    "description": "",
+    "message": "Minerai métallique"
+  },
+  "MILITARY_DICTATORSHIP": {
+    "description": "",
+    "message": "Dictature militaire"
+  },
+  "MILITARY_FUEL": {
+    "description": "",
+    "message": "Carburant militaire"
+  },
+  "MINING_COLONY": {
+    "description": "",
+    "message": "Colonie minière."
+  },
+  "MINING_MACHINERY": {
+    "description": "",
+    "message": "Machines minières"
+  },
+  "MINOR_EXPORTS": {
+    "description": "",
+    "message": "Exportations mineures :"
+  },
+  "MINOR_EXPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Exportations secondaires (système actuel)"
+  },
+  "MINOR_IMPORTS": {
+    "description": "",
+    "message": "Importations mineures :"
+  },
+  "MINOR_IMPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Importations secondaires (système actuel)"
+  },
+  "MISCELLANEOUS": {
+    "description": "",
+    "message": "Divers"
+  },
+  "MISSILE": {
+    "description": "",
+    "message": "Missile"
+  },
+  "MIXED_ECONOMY": {
+    "description": "",
+    "message": "Économie mixte"
+  },
+  "MONTH_APR": {
+    "description": "",
+    "message": "Avr"
+  },
+  "MONTH_AUG": {
+    "description": "",
+    "message": "Aoû"
+  },
+  "MONTH_DEC": {
+    "description": "",
+    "message": "Dec"
+  },
+  "MONTH_FEB": {
+    "description": "",
+    "message": "Fev"
+  },
+  "MONTH_JAN": {
+    "description": "",
+    "message": "Janv"
+  },
+  "MONTH_JUL": {
+    "description": "",
+    "message": "Juil"
+  },
+  "MONTH_JUN": {
+    "description": "",
+    "message": "Juin"
+  },
+  "MONTH_MAR": {
+    "description": "",
+    "message": "Mars"
+  },
+  "MONTH_MAY": {
+    "description": "",
+    "message": "Mai"
+  },
+  "MONTH_NOV": {
+    "description": "",
+    "message": "Nov"
+  },
+  "MONTH_OCT": {
+    "description": "",
+    "message": "Oct"
+  },
+  "MONTH_SEP": {
+    "description": "",
+    "message": "Sept"
+  },
+  "NAME_OBJECT": {
+    "description": "For an item or object",
+    "message": "Nom"
+  },
+  "NAME_PERSON": {
+    "description": "For a person",
+    "message": "Nom"
+  },
+  "NARCOTICS": {
+    "description": "",
+    "message": "Drogues"
+  },
+  "NAVIGATION_STAR_MAPS": {
+    "description": "",
+    "message": "Navigation et cartes stellaires"
+  },
+  "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
+    "description": "",
+    "message": "Points de navigation dans ce système"
+  },
+  "NERVE_GAS": {
+    "description": "",
+    "message": "Gaz neurotox."
+  },
+  "NOT_FOUND": {
+    "description": "searching star system in sector view",
+    "message": "Non trouvé"
+  },
+  "NOT_FOUND_BEST_MATCH_X": {
+    "description": "",
+    "message": "Non trouvé, meilleur choix: %system"
+  },
+  "NOW": {
+    "description": "In System Orbit View",
+    "message": "Maintenant"
+  },
+  "NO_ALERT": {
+    "description": "",
+    "message": "Aucune alerte"
+  },
+  "NO_CENTRAL_GOVERNANCE": {
+    "description": "",
+    "message": "Pas de gouvernement central"
+  },
+  "NO_ESTABLISHED_ORDER": {
+    "description": "",
+    "message": "Aucun ordre établi"
+  },
+  "NO_HYPERDRIVE": {
+    "description": "",
+    "message": "Pas d'hyperpropulsion"
+  },
+  "NO_REGISTERED_INHABITANTS": {
+    "description": "",
+    "message": "Aucun habitant enregistré"
+  },
+  "NO_TARGET_SELECTED": {
+    "description": "",
+    "message": "Ordinateur de vaisseau : pas de cible"
+  },
+  "NUMBER_DAYS": {
+    "description": "",
+    "message": "%days{f.0} jours"
+  },
+  "NUMBER_DECIMAL_POINT": {
+    "description": "Decimal delimiter used in numbers.",
+    "message": "."
+  },
+  "NUMBER_G": {
+    "description": "",
+    "message": "%acceleration{f.1} G"
+  },
+  "NUMBER_GROUP_MIN": {
+    "description": "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
+    "message": "1000"
+  },
+  "NUMBER_GROUP_NUM": {
+    "description": "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
+    "message": "3"
+  },
+  "NUMBER_GROUP_SEP": {
+    "description": "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
+    "message": ","
+  },
+  "NUMBER_HOURS": {
+    "description": "",
+    "message": "%hours{f.1}h"
+  },
+  "NUMBER_LY": {
+    "description": "",
+    "message": "%distance{f.2} al"
+  },
+  "NUMBER_TONNES": {
+    "description": "",
+    "message": "%{mass}t"
+  },
+  "N_ATMOSPHERE": {
+    "description": "",
+    "message": "\" Atmosphère ammoniaquée\""
+  },
+  "N_CELSIUS": {
+    "description": "",
+    "message": "%température °C"
+  },
+  "N_DAYS": {
+    "description": "",
+    "message": "%days{f.1} jours"
+  },
+  "N_DEGREES": {
+    "description": "",
+    "message": "%angle{f.1} degrés"
+  },
+  "N_EARTH_DAYS": {
+    "description": "",
+    "message": "%days{f.1} jours terrestres"
+  },
+  "N_WHATEVER_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} masses %units"
+  },
+  "N_WHATEVER_RADII": {
+    "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
+    "message": "%radius{f.3} %unités radiale (%radkm{f.0} km)"
+  },
+  "N_YEARS": {
+    "description": "",
+    "message": "%years{f.1} années"
+  },
+  "O2_ATMOSPHERE": {
+    "description": "",
+    "message": "\" atmosphère oxygénée\""
+  },
+  "OCEANICWORLD": {
+    "description": "",
+    "message": "\" monde océanique\""
+  },
+  "ORBITAL_PERIOD": {
+    "description": "",
+    "message": "Période orbitale"
+  },
+  "ORBITAL_STARPORT": {
+    "description": "",
+    "message": "Station Orbitale"
+  },
+  "OUTDOOR_AGRICULTURAL_WORLD": {
+    "description": "",
+    "message": "Monde agricole à l'air libre."
+  },
+  "OVER_N_BILLION": {
+    "description": "",
+    "message": "Plus de %population milliards"
+  },
+  "OVER_N_MILLION": {
+    "description": "",
+    "message": "Plus de %population millions"
+  },
+  "PASSENGER_CABIN": {
+    "description": "",
+    "message": "Cabine passager occupée"
+  },
+  "PAUSED": {
+    "description": "",
+    "message": "EN PAUSE"
+  },
+  "PAY_FINE_REMOTELY": {
+    "description": "",
+    "message": "Payer l'amende par transfert à distance: (%amount)"
+  },
+  "PERIAPSIS_DISTANCE": {
+    "description": "",
+    "message": "Distance de périhélie"
+  },
+  "PIONEER": {
+    "description": "",
+    "message": "PIONEER"
+  },
+  "PITCH": {
+    "description": "",
+    "message": "Lancement"
+  },
+  "PITCH_DOWN": {
+    "description": "",
+    "message": "Piquer"
+  },
+  "PITCH_UP": {
+    "description": "",
+    "message": "Redresser"
+  },
+  "PLANETARY_INFO": {
+    "description": "",
+    "message": "Informations Planétaire"
+  },
+  "PLANET_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" planète possédant de l'eau liquide\""
+  },
+  "PLANET_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" planète avec un peu de glace\""
+  },
+  "PLANNED_ECONOMY": {
+    "description": "",
+    "message": "Économie planifiée et centralisée"
+  },
+  "PLANNER_RESET_FACTOR": {
+    "description": "For system orbit view",
+    "message": "Rate of increase of delta-v values. Click to reset to default."
+  },
+  "PLANNER_RESET_NORMAL": {
+    "description": "For system orbit view",
+    "message": "Normal delta-v. Click to reset to zero."
+  },
+  "PLANNER_RESET_PROGRADE": {
+    "description": "For system orbit view",
+    "message": "Prograde delta-v. Click to reset to zero."
+  },
+  "PLANNER_RESET_RADIAL": {
+    "description": "For system orbit view",
+    "message": "Radial delta-v. Click to reset to zero."
+  },
+  "PLANNER_RESET_START": {
+    "description": "For system orbit view",
+    "message": "Démarrage de la manœuvre. Cliquez pour réinitialisez aux valeurs par défaut."
+  },
+  "PLASTICS": {
+    "description": "",
+    "message": "Plastiques"
+  },
+  "PLUTOCRATIC_DICTATORSHIP": {
+    "description": "",
+    "message": "Dictature ploutocratique"
+  },
+  "POPULATION": {
+    "description": "",
+    "message": "Population :"
+  },
+  "PRECIOUS_METALS": {
+    "description": "",
+    "message": "Métaux précieux"
+  },
+  "PRESSURE_N_ATMOSPHERES": {
+    "description": "",
+    "message": "P: %pressure{f.2} atm"
+  },
+  "QUADRUPLE_SYSTEM": {
+    "description": "",
+    "message": "Système quadruple"
+  },
+  "RADAR_CONTROL": {
+    "description": "",
+    "message": "Contrôle Radar"
+  },
+  "RADIOACTIVES": {
+    "description": "",
+    "message": "Déchets radioactifs"
+  },
+  "RADIUS": {
+    "description": "",
+    "message": "Rayon"
+  },
+  "RECENTLY_EXPLORED_SYSTEM": {
+    "description": "",
+    "message": "Ce système a été exploré le %date"
+  },
+  "REQUEST_DOCKING_CLEARANCE": {
+    "description": "",
+    "message": "Demande d'autorisation d'arrimage à {target}"
+  },
+  "RESET": {
+    "description": "",
+    "message": "Reset"
+  },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Réinitialise l'orientation et le zoom"
+  },
+  "ROBOTS": {
+    "description": "",
+    "message": "Robots"
+  },
+  "ROCKY_PLANET": {
+    "description": "",
+    "message": "\" planète tellurique\""
+  },
+  "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
+    "description": "",
+    "message": "\" planète rocheuse contenant quelques liquides\""
+  },
+  "ROLL": {
+    "description": "",
+    "message": "Roulade"
+  },
+  "ROLL_LEFT": {
+    "description": "",
+    "message": "Roulade a gauche"
+  },
+  "ROLL_RIGHT": {
+    "description": "",
+    "message": "Roulade a droite"
+  },
+  "ROTATE_DOWN": {
+    "description": "",
+    "message": "Piquer"
+  },
+  "ROTATE_LEFT": {
+    "description": "",
+    "message": "Rotation gauche"
+  },
+  "ROTATE_RIGHT": {
+    "description": "",
+    "message": "Rotation a droite"
+  },
+  "ROTATE_UP": {
+    "description": "",
+    "message": "Redresser"
+  },
+  "ROTATIONAL_PERIOD": {
+    "description": "",
+    "message": "\" (période de rotation)\""
+  },
+  "ROTATION_DAMPING_OFF": {
+    "description": "",
+    "message": "Amortisseur de rotation OFF"
+  },
+  "ROTATION_DAMPING_ON": {
+    "description": "",
+    "message": "Amortisseur de rotation ON"
+  },
+  "RUBBISH": {
+    "description": "",
+    "message": "Détritus"
+  },
+  "SCOOP": {
+    "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+    "message": "Scoop"
+  },
+  "SCREENSHOT_FILENAME_TEMPLATE": {
+    "description": "",
+    "message": "capture_d_ecran%index{d08}.png"
+  },
+  "SEARCH": {
+    "description": "",
+    "message": "Recherche"
+  },
+  "SEARCH_MAP": {
+    "description": "",
+    "message": "Cherche sur la carte"
+  },
+  "SECTOR_COORDINATES": {
+    "description": "",
+    "message": "Coordonnées du secteur :"
+  },
+  "SECTOR_MAP_VIEW": {
+    "description": "",
+    "message": "Vue de la carte du secteur"
+  },
+  "SECTOR_X_Y_Z": {
+    "description": "",
+    "message": "Secteur: %x,%y,%z"
+  },
+  "SELECTED_SYSTEM": {
+    "description": "",
+    "message": "Système sélectionné"
+  },
+  "SELECT_A_TARGET": {
+    "description": "",
+    "message": "Sélectionnez cible"
+  },
+  "SELECT_LOW_THRUST_POWER_LEVEL": {
+    "description": "",
+    "message": "Regl. petite vitesse"
+  },
+  "SEMI_MAJOR_AXIS": {
+    "description": "",
+    "message": "Axe demi-majeur"
+  },
+  "SET_HYPERSPACE_DESTINATION_TO": {
+    "description": "",
+    "message": "Regl. Destination hyperspatiale : %system"
+  },
+  "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
+    "description": "",
+    "message": "Analyseur hyperspatial: Sélectionner le système pour suivre ce départ"
+  },
+  "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
+    "description": "",
+    "message": "Regl. vitesse mini sur  %power%%"
+  },
+  "SET_NAVTARGET_TO": {
+    "description": "",
+    "message": "Régler la destination sur : "
+  },
+  "SET_SPEED_KM_S": {
+    "description": "",
+    "message": "Vit. ét.: %speed{f.2} km/s"
+  },
+  "SET_SPEED_M_S": {
+    "description": "",
+    "message": "Vit ét: %speed{f.0} m/s"
+  },
+  "SHIELD_INTEGRITY": {
+    "description": "",
+    "message": "Niv. Boucliers"
+  },
+  "SHIELD_STRENGTH_N": {
+    "description": "",
+    "message": "Force boucliers : %shields{f.2}"
+  },
+  "SHIFT": {
+    "description": "Shift key on keyboard",
+    "message": "Shift"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Vaisseau"
+  },
+  "SHIPS_DISPLAY_MODE_TOGGLE": {
+    "description": "Either show no ships, show ships, or show ships + their orbits",
+    "message": "Bascule entre les modes d'affichage vaisseau"
+  },
+  "SHIP_DETECTED_NEARBY": {
+    "description": "",
+    "message": "Vaisseau proche détecté!"
+  },
+  "SHIP_INFORMATION": {
+    "description": "",
+    "message": "Information sur le vaisseau"
+  },
+  "SHIP_MASS_N_TONNES": {
+    "description": "",
+    "message": "Masse du vaisseau : %{mass}t"
+  },
+  "SHIP_NEARBY": {
+    "description": "",
+    "message": "Vaisseau proche"
+  },
+  "SHIP_ORIENTATION": {
+    "description": "",
+    "message": "Orientation du vaisseau"
+  },
+  "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
+    "description": "",
+    "message": "Vitesse du vaisseau en référence à l'objet"
+  },
+  "SIDEREAL_VIEW": {
+    "description": "camera view setting",
+    "message": "Vue sidérale"
+  },
+  "SLAVES": {
+    "description": "",
+    "message": "Esclaves"
+  },
+  "SMALL": {
+    "description": "",
+    "message": "Petit"
+  },
+  "SMALL_GAS_GIANT": {
+    "description": "",
+    "message": "Petite géante gazeuse"
+  },
+  "SMALL_INDUSTRIAL_OUTPOST": {
+    "description": "",
+    "message": "Petit avant-poste industriel."
+  },
+  "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": {
+    "description": "",
+    "message": "Petites opérations minières, pas de colonies enregistrées."
+  },
+  "SOCIAL_DEMOCRACY": {
+    "description": "",
+    "message": "Démocratie sociale"
+  },
+  "SOLAR": {
+    "description": "",
+    "message": "Solaires"
+  },
+  "SOME_ESTABLISHED_MINING": {
+    "description": "",
+    "message": "Quelques opérations minières établies."
+  },
+  "SOURCE": {
+    "description": "tell source system of hyperjump entry cloud",
+    "message": "Origine"
+  },
+  "SPEED_CONTROL_MODE": {
+    "description": "",
+    "message": "Mode Vitesse controlée"
+  },
+  "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
+    "description": "",
+    "message": "Système stable avec %bodycount %{body(s)} et %portcount %{starport(s)}."
+  },
+  "STARPORT": {
+    "description": "",
+    "message": "Spatioport"
+  },
+  "STARPORTS": {
+    "description": "",
+    "message": "Spatioports"
+  },
+  "STAR_A": {
+    "description": "",
+    "message": "Étoile blanche chaude de type 'A'"
+  },
+  "STAR_AF_GIANT": {
+    "description": "",
+    "message": "Géante blanche"
+  },
+  "STAR_AF_HYPER_GIANT": {
+    "description": "",
+    "message": "Hyper géante blanche"
+  },
+  "STAR_AF_SUPER_GIANT": {
+    "description": "",
+    "message": "Super Géante Blanche"
+  },
+  "STAR_B": {
+    "description": "",
+    "message": "Étoile bleue de type 'B'"
+  },
+  "STAR_B_GIANT": {
+    "description": "",
+    "message": "Géante bleue"
+  },
+  "STAR_B_HYPER_GIANT": {
+    "description": "",
+    "message": "Hyper géante bleue"
+  },
+  "STAR_B_SUPER_GIANT": {
+    "description": "",
+    "message": "Super Géante Bleue"
+  },
+  "STAR_B_WF": {
+    "description": "",
+    "message": "Étoile de Wolf-Rayet, risque d'effondrement"
+  },
+  "STAR_F": {
+    "description": "",
+    "message": "Étoile blanche de type 'F'"
+  },
+  "STAR_G": {
+    "description": "",
+    "message": "Étoile jaune de type 'G'"
+  },
+  "STAR_G_GIANT": {
+    "description": "",
+    "message": "Géante jaune, instable"
+  },
+  "STAR_G_HYPER_GIANT": {
+    "description": "",
+    "message": "Hyper géante jaune, instable"
+  },
+  "STAR_G_SUPER_GIANT": {
+    "description": "",
+    "message": "Super Géante Jaune"
+  },
+  "STAR_IM_BH": {
+    "description": "",
+    "message": "Trou noir intermédiaire"
+  },
+  "STAR_K": {
+    "description": "",
+    "message": "Étoile orange de type 'K'"
+  },
+  "STAR_K_GIANT": {
+    "description": "",
+    "message": "Géante orange, instable"
+  },
+  "STAR_K_HYPER_GIANT": {
+    "description": "",
+    "message": "Hyper géante orange, instable"
+  },
+  "STAR_K_SUPER_GIANT": {
+    "description": "",
+    "message": "Super Géante Orange"
+  },
+  "STAR_M": {
+    "description": "",
+    "message": "Étoile rouge de type 'M'"
+  },
+  "STAR_M_GIANT": {
+    "description": "",
+    "message": "Géante rouge"
+  },
+  "STAR_M_HYPER_GIANT": {
+    "description": "",
+    "message": "Hyper géante rouge"
+  },
+  "STAR_M_SUPER_GIANT": {
+    "description": "",
+    "message": "Super Géante Rouge"
+  },
+  "STAR_M_WF": {
+    "description": "",
+    "message": "Étoile de Wolf-Rayet, instable"
+  },
+  "STAR_O": {
+    "description": "",
+    "message": "Étoile de type 'O', chaude et massive"
+  },
+  "STAR_O_GIANT": {
+    "description": "",
+    "message": "Géante bleue, chaude"
+  },
+  "STAR_O_HYPER_GIANT": {
+    "description": "",
+    "message": "Hyper géante bleue, chaude"
+  },
+  "STAR_O_SUPER_GIANT": {
+    "description": "",
+    "message": "Super Géante Bleue, chaude"
+  },
+  "STAR_O_WF": {
+    "description": "",
+    "message": "Étoile de Wolf-Rayet, effondrement imminent"
+  },
+  "STAR_SM_BH": {
+    "description": "",
+    "message": "Notre origine galactique"
+  },
+  "STAR_SYSTEM_INFORMATION": {
+    "description": "",
+    "message": "Information système stellaire"
+  },
+  "STAR_S_BH": {
+    "description": "",
+    "message": "Trou noir stellaire"
+  },
+  "SUGGESTED_RESPONSES": {
+    "description": "",
+    "message": "Réponses suggérées:"
+  },
+  "SURFACE_GRAVITY": {
+    "description": "",
+    "message": "Gravité en surface"
+  },
+  "SURFACE_TEMPERATURE": {
+    "description": "",
+    "message": "Température de surface"
+  },
+  "SWAP_SELECTED_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Marque sélection comme destination de saut hyper-espace"
+  },
+  "SWITCHED_TO_PARENT": {
+    "description": "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+    "message": "Cap du vaisseau, coordonnées célestes"
+  },
+  "SWITCHED_TO_ROTATIONAL": {
+    "description": "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+    "message": "Cap du vaisseau, coordonnées planétaires"
+  },
+  "SYSTEM": {
+    "description": "star system",
+    "message": "Système"
+  },
+  "SYSTEM_NUMBER": {
+    "description": "",
+    "message": "Numéro du système :"
+  },
+  "SYSTEM_ORBIT_VIEW": {
+    "description": "",
+    "message": "Vue orbitale du système"
+  },
+  "SYSTEM_TYPE": {
+    "description": "",
+    "message": "Type de système :"
+  },
+  "S_ATMOSPHERE": {
+    "description": "",
+    "message": "\" atmoshère Sulfurique\""
+  },
+  "TAKEOFF": {
+    "description": "",
+    "message": "Décollage"
+  },
+  "TARGET_OBJECT_IN_SIGHTS": {
+    "description": "",
+    "message": "Cible l'objet visé"
+  },
+  "TENUOUS": {
+    "description": "atmosphere thickness",
+    "message": "ténue"
+  },
+  "TEXTILES": {
+    "description": "",
+    "message": "Etoffes"
+  },
+  "THICK": {
+    "description": "",
+    "message": "maigre"
+  },
+  "THIN": {
+    "description": "",
+    "message": "fine"
+  },
+  "THRIVING_OUTDOOR_WORLD": {
+    "description": "",
+    "message": "Monde avec une faune impressionnante."
+  },
+  "THRUSTER_DORSAL": {
+    "description": "",
+    "message": "Moteur dorsal"
+  },
+  "THRUSTER_MAIN": {
+    "description": "",
+    "message": "Accélération"
+  },
+  "THRUSTER_PORT": {
+    "description": "",
+    "message": "Moteur gauche"
+  },
+  "THRUSTER_RETRO": {
+    "description": "",
+    "message": "Décélération"
+  },
+  "THRUSTER_STARBOARD": {
+    "description": "",
+    "message": "Moteur droite"
+  },
+  "THRUSTER_VENTRAL": {
+    "description": "",
+    "message": "Moteur ventral"
+  },
+  "TIME_POINT": {
+    "description": "",
+    "message": "Point temporel :"
+  },
+  "TINY": {
+    "description": "",
+    "message": "Minuscule"
+  },
+  "TOGGLE_EQUIPMENT_VIEW": {
+    "description": "Tooltip for the Equipment View button",
+    "message": "Vue équipement"
+  },
+  "TOGGLE_HUD_MODE": {
+    "description": "",
+    "message": "regl mode HUD"
+  },
+  "TOGGLE_LUA_CONSOLE": {
+    "description": "",
+    "message": "Console LUA on/off"
+  },
+  "TOGGLE_RADAR_MODE": {
+    "description": "",
+    "message": "Activer/désactiver le mode Radar"
+  },
+  "TOGGLE_RADAR_VIEW": {
+    "description": "Tooltip for the Radar View button",
+    "message": "Vue Radar"
+  },
+  "TOGGLE_ROTATION_DAMPING": {
+    "description": "",
+    "message": "Réglage de l'amortisseur de rotation"
+  },
+  "TOMBSTONE_EPITAPH": {
+    "description": "shown on tombstone when player dies",
+    "message": "Reposes en paix"
+  },
+  "TRADING_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Contrebande de produits illégaux"
+  },
+  "TRIPLE_SYSTEM": {
+    "description": "",
+    "message": "Système ternaire"
+  },
+  "UNDOCKING": {
+    "description": "Flight state of ship when leaving station",
+    "message": "Désammarrage."
+  },
+  "UNEXPLORED_SYSTEM_NO_DATA": {
+    "description": "",
+    "message": "Système non-exploré. Aucune donnée disponible."
+  },
+  "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
+    "description": "",
+    "message": "Système inconnu. Pas de vue orbitale disponible."
+  },
+  "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
+    "description": "",
+    "message": "Système non-exploré. Les informations ont été réunies par un téléscope distant, mais aucune information planétaire n'est disponible."
+  },
+  "UNIT_AU": {
+    "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
+    "message": "UA"
+  },
+  "UNIT_DAYS": {
+    "description": "Duration unit: one 24-hour day",
+    "message": "j"
+  },
+  "UNIT_HOURS": {
+    "description": "Duration unit: one 60-minute hour",
+    "message": "h"
+  },
+  "UNIT_KILOMETERS": {
+    "description": "Distance unit: one kilometer",
+    "message": "km"
+  },
+  "UNIT_KILOMETERS_PER_SECOND": {
+    "description": "Speed unit: one kilometer per second",
+    "message": "km/s"
+  },
+  "UNIT_LY": {
+    "description": "Distance unit: a light year",
+    "message": "al"
+  },
+  "UNIT_METERS": {
+    "description": "Distance unit: one meter",
+    "message": "m"
+  },
+  "UNIT_METERS_PER_SECOND": {
+    "description": "Speed unit: one meter per second",
+    "message": "m/s"
+  },
+  "UNIT_MILLION_METERS": {
+    "description": "Distance unit: one million meters",
+    "message": "Mm"
+  },
+  "UNIT_MILLION_METERS_PER_SECOND": {
+    "description": "Speed unit: one million meters per second",
+    "message": "Mm/s"
+  },
+  "UNIT_MINUTES": {
+    "description": "Duration unit: one 60-second minute",
+    "message": "m"
+  },
+  "UNIT_SECONDS": {
+    "description": "Duration unit: one second",
+    "message": "sec."
+  },
+  "UNIT_TONNES": {
+    "description": "Mass unit: one tonne (t)",
+    "message": "t"
+  },
+  "UNIT_WEEKS": {
+    "description": "Duration unit: one 7-day week",
+    "message": "sem."
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "<inconnu>"
+  },
+  "UNSET_NAVTARGET": {
+    "description": "",
+    "message": "Aucune destination définie."
+  },
+  "USE_LOW_THRUST": {
+    "description": "",
+    "message": "Utiliser vitesse lente"
+  },
+  "VAST_STRIP_MINE": {
+    "description": "",
+    "message": "Vaste colonie minière, extraction à ciel ouvert."
+  },
+  "VERY_DENSE": {
+    "description": "",
+    "message": "très dense"
+  },
+  "VERY_LARGE_GAS_GIANT": {
+    "description": "",
+    "message": "Très grande géante gazeuse"
+  },
+  "VIEW": {
+    "description": "",
+    "message": "Vue"
+  },
+  "VIOLENT_ANARCHY": {
+    "description": "",
+    "message": "Anarchique - Gouvernement contesté par des factions armées."
+  },
+  "WATER": {
+    "description": "",
+    "message": "Eau"
+  },
+  "WEAPONS": {
+    "description": "",
+    "message": "Armes"
+  },
+  "WEAPON_TEMP": {
+    "description": "",
+    "message": "Temp. arme"
+  },
+  "WHEELS_ARE_DOWN": {
+    "description": "",
+    "message": "Train d'atterrissage sorti"
+  },
+  "WHEELS_ARE_UP": {
+    "description": "",
+    "message": "Train d'atterrissage rentré"
+  },
+  "WHITE_DWARF": {
+    "description": "",
+    "message": "Naine Blanche."
+  },
+  "WITH_A": {
+    "description": "",
+    "message": "\" avec un(e)\""
+  },
+  "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
+    "description": "",
+    "message": "\" sans atmosphère significative\""
+  },
+  "X": {
+    "description": "keybinding: x axis",
+    "message": "X"
+  },
+  "Y": {
+    "description": "keybinding: y axis",
+    "message": "Y"
+  },
+  "YAW": {
+    "description": "",
+    "message": "Lacets"
+  },
+  "YAW_LEFT": {
+    "description": "",
+    "message": "lacet a gauche"
+  },
+  "YAW_RIGHT": {
+    "description": "",
+    "message": "lacet a droite"
+  },
+  "YOUNG_FARMING_COLONY": {
+    "description": "",
+    "message": "Jeune colonie agricole."
+  },
+  "Z": {
+    "description": "keybinding: z axis",
+    "message": "Z"
+  },
+  "ZOOM_IN": {
+    "description": "",
+    "message": "Zoom avant"
+  },
+  "ZOOM_OUT": {
+    "description": "",
+    "message": "Zoom arrière"
+  }
 }

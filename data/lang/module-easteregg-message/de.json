@@ -1,0 +1,18 @@
+{
+  "FLAVOUR_0_BODY": {
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
+    "message": "Ruf einfach 36 24 36 an, ich bin immer zu Hause. Ich handle mit:\n- Betonschuhen,\n- Zyanit,\n- TNT,\n- Krawatten,\n- Verträgen\n- Hochspannung,\n\n… oder besuch mich einfach privat."
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "The 'all caps' title should probably not be translated, as it's an AC/DC song title reference. Either way, it's a very rare 'Easter egg'",
+    "message": "KRUMME DINGER SPOTTBILLIG GEDREHT, wenn du Probleme hast, ruf mich jederzeit an"
+  },
+  "FLAVOUR_1_BODY": {
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to https://en.wikipedia.org/wiki/867-5309/Jenny",
+    "message": "Du kennst mich nicht, aber ruf mich an: 867-5309 / Jenny"
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "A very rare Easter egg, and reference to a line from a famous song.",
+    "message": "BRAUCHST DU JEMANDEN, AN DEN MAN SICH WENDEN KANN?"
+  }
+}

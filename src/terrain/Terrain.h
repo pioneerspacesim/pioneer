@@ -246,6 +246,7 @@ class TerrainHeightWaterSolid;
 
 class TerrainColorAsteroid;
 class TerrainColorBandedRock;
+class TerrainColorBlack;
 class TerrainColorDeadWithWater;
 class TerrainColorDesert;
 /*ColorEarthlike uses features not yet included in all terrain colours
@@ -264,7 +265,7 @@ class TerrainColorIce;
 class TerrainColorMethane;
 class TerrainColorRock2;
 class TerrainColorRock;
-class TerrainColorSolid;
+class TerrainColorWhite;
 class TerrainColorStarBrownDwarf;
 class TerrainColorStarG;
 class TerrainColorStarK;

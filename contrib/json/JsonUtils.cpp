@@ -33,7 +33,7 @@ namespace {
 		c = ((packed >> 8) & 0xff);
 		d = (packed & 0xff);
 	}
-};
+}
 
 #define USE_STRING_VERSIONS
 

@@ -1,1870 +1,1878 @@
 {
-   "AIR_PROCESSORS" : {
-      "description" : "",
-      "message" : "Výrobník vzduchu"
-   },
-   "ALERT_CANCELLED" : {
-      "description" : "",
-      "message" : "Poplach zrušen."
-   },
-   "ALLEGIANCE" : {
-      "description" : "",
-      "message" : "Příslušnost:"
-   },
-   "ALT" : {
-      "description" : "Alt key on keyboard",
-      "message" : "Alt"
-   },
-   "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
-      "description" : "",
-      "message" : "\" a velmi složitým ekosystémem.\""
-   },
-   "AND_INDIGENOUS_MICROBIAL_LIFE" : {
-      "description" : "",
-      "message" : "\" a domorodým mikrobiálním životem.\""
-   },
-   "AND_INDIGENOUS_PLANT_LIFE" : {
-      "description" : "",
-      "message" : "\" a domorodými rostlinami.\""
-   },
-   "ANIMAL_MEAT" : {
-      "description" : "",
-      "message" : "Maso"
-   },
-   "APOAPSIS_DISTANCE" : {
-      "description" : "",
-      "message" : "Afel (odsluní)"
-   },
-   "AR_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" argonovou atmosférou\""
-   },
-   "ASTEROID" : {
-      "description" : "",
-      "message" : "Asteroid"
-   },
-   "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "for star map, select star system when mouse close to it",
-      "message" : "Automatický výběr systému"
-   },
-   "AUTOPILOT_CONTROL" : {
-      "description" : "Indicating that ship is flying under autopilot control",
-      "message" : "Autopilot control"
-   },
-   "AUTOPILOT_DOCK_WITH_STATION" : {
-      "description" : "",
-      "message" : "Autopilot: Přistát na stanici"
-   },
-   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "Autopilot: Vstoupit na vysokou orbitu kolem %target"
-   },
-   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "Autopilot: Vstoupit na nízkou orbitu kolem %target"
-   },
-   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
-      "description" : "",
-      "message" : "Autopilot: Vstoupit na střední orbitu kolem %target"
-   },
-   "AUTOPILOT_FLY_TO_VICINITY_OF" : {
-      "description" : "",
-      "message" : "Autopilot: Letět do blízkosti %target"
-   },
-   "AUTOPILOT_ON" : {
-      "description" : "",
-      "message" : "Autopilot zapnut"
-   },
-   "AXIAL_TILT" : {
-      "description" : "",
-      "message" : "Sklon rotační osy"
-   },
-   "A_FEW_THOUSAND" : {
-      "description" : "regarding population",
-      "message" : "Pouze několik tisíc"
-   },
-   "BATTLE_WEAPONS" : {
-      "description" : "",
-      "message" : "Válečné zbraně"
-   },
-   "BINARY_SYSTEM" : {
-      "description" : "",
-      "message" : "Binární systém"
-   },
-   "BODIES" : {
-      "description" : "space bodies",
-      "message" : "tělesy"
-   },
-   "BODY" : {
-      "description" : "",
-      "message" : "tělesem"
-   },
-   "BROWN_DWARF" : {
-      "description" : "",
-      "message" : "Hnědý trpaslík (podhvězda)"
-   },
-   "BUTTON" : {
-      "description" : "",
-      "message" : "\" klávesa \""
-   },
-   "CAMERA_BOTTOM_VIEW" : {
-      "description" : "",
-      "message" : "Pohled zdola"
-   },
-   "CAMERA_FRONT_VIEW" : {
-      "description" : "",
-      "message" : "Pohled dopředu"
-   },
-   "CAMERA_LEFT_VIEW" : {
-      "description" : "",
-      "message" : "Pohled doleva"
-   },
-   "CAMERA_REAR_VIEW" : {
-      "description" : "",
-      "message" : "Pohled dozadu"
-   },
-   "CAMERA_RIGHT_VIEW" : {
-      "description" : "",
-      "message" : "Pohled doprava"
-   },
-   "CAMERA_TOP_VIEW" : {
-      "description" : "",
-      "message" : "Pohled shora"
-   },
-   "CANT_SAVE_DEAD_PLAYER" : {
-      "description" : "",
-      "message" : "Nelze uložit hru po smrti hráče"
-   },
-   "CANT_SAVE_IN_HYPERSPACE" : {
-      "description" : "",
-      "message" : "V hyperprostoru nelze hru ukládat"
-   },
-   "CAPITALIST" : {
-      "description" : "",
-      "message" : "Kapitalismus"
-   },
-   "CARBON_ORE" : {
-      "description" : "",
-      "message" : "Uhlíková ruda"
-   },
-   "CARGO" : {
-      "description" : "",
-      "message" : "Náklad"
-   },
-   "CARGO_BAY_LIFE_SUPPORT_LOST" : {
-      "description" : "",
-      "message" : "Senzory hlásí kritický stav podpory života v nákladovém prostoru."
-   },
-   "CARGO_N" : {
-      "description" : "",
-      "message" : "Náklad: %{mass}t"
-   },
-   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
-      "description" : "",
-      "message" : "Sběrač nákladu aktivní. Naložena 1 t %item."
-   },
-   "CARGO_SCOOP_ATTEMPTED" : {
-      "description" : "",
-      "message" : "Sezbírání nákladu selhalo. V nákladovém prostoru není dostatek místa."
-   },
-   "CH4_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" metanovou atmosférou\""
-   },
-   "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
-      "description" : "",
-      "message" : "Povolení již bylo uděleno. Pokračujte do doku %bay."
-   },
-   "CLEARANCE_DENIED_NO_BAYS" : {
-      "description" : "",
-      "message" : "Povolení zamítnuto. Všechny doky jsou obsazeny."
-   },
-   "CLEARANCE_GRANTED_BAY_N" : {
-      "description" : "",
-      "message" : "Povolení uděleno. Pokračujte do doku %bay."
-   },
-   "CO2_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" oxido-uhličitou atmosférou\""
-   },
-   "COMMA_HIGHLY_VOLCANIC" : {
-      "description" : "",
-      "message" : ", vysoce vulkanická"
-   },
-   "COMMODITY_NONE" : {
-      "description" : "When no commodities exist",
-      "message" : "Nic"
-   },
-   "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
-      "description" : "",
-      "message" : "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
-   },
-   "COMMODITY_TRADE_ANALYSIS_SELF" : {
-      "description" : "",
-      "message" : "Analýza trhu komoditami v systému #fff%system#fff"
-   },
-   "COMMS" : {
-      "description" : "",
-      "message" : "Kom.linka"
-   },
-   "COMMUNIST" : {
-      "description" : "",
-      "message" : "Komunismus"
-   },
-   "COMPASS_E" : {
-      "description" : "Abbreviation for compass direction: East",
-      "message" : "E"
-   },
-   "COMPASS_N" : {
-      "description" : "Abbreviation for compass direction: North",
-      "message" : "N"
-   },
-   "COMPASS_NE" : {
-      "description" : "Abbreviation for compass direction: North East",
-      "message" : "NE"
-   },
-   "COMPASS_NW" : {
-      "description" : "Abbreviation for compass direction: North West",
-      "message" : "NW"
-   },
-   "COMPASS_S" : {
-      "description" : "Abbreviation for compass direction: South",
-      "message" : "S"
-   },
-   "COMPASS_SE" : {
-      "description" : "Abbreviation for compass direction: South East",
-      "message" : "SE"
-   },
-   "COMPASS_SW" : {
-      "description" : "Abbreviation for compass direction: South West",
-      "message" : "SW"
-   },
-   "COMPASS_W" : {
-      "description" : "Abbreviation for compass direction: West",
-      "message" : "W"
-   },
-   "COMPUTERS" : {
-      "description" : "",
-      "message" : "Počítače"
-   },
-   "COMPUTER_HEADING_CONTROL" : {
-      "description" : "",
-      "message" : "Automatické ovládání směru"
-   },
-   "COMPUTER_SPEED_CONTROL" : {
-      "description" : "",
-      "message" : "Automatické ovládání rychlosti"
-   },
-   "CONSUMER_GOODS" : {
-      "description" : "",
-      "message" : "Spotřební zboží"
-   },
-   "CONTROLS" : {
-      "description" : "",
-      "message" : "Ovládání"
-   },
-   "CORPORATE_SYSTEM" : {
-      "description" : "",
-      "message" : "Korporátní systém"
-   },
-   "COULD_NOT_OPEN_FILENAME" : {
-      "description" : "",
-      "message" : "Nemohu otevřít cestu %path"
-   },
-   "COUNT_ON_SURFACE" : {
-      "description" : "",
-      "message" : "\" (%surfacecount na povrchu)\""
-   },
-   "COUNT_STARPORTS" : {
-      "description" : "",
-      "message" : "stanicemi"
-   },
-   "CO_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" oxido-uhelnatou atmosférou\""
-   },
-   "CTRL" : {
-      "description" : "Ctrl key on keyboard",
-      "message" : "Ctrl"
-   },
-   "CURRENT_SYSTEM" : {
-      "description" : "selected current star system",
-      "message" : "Aktuální systém"
-   },
-   "DATE_DUE_N" : {
-      "description" : "",
-      "message" : "Termín: %date"
-   },
-   "DAY_LENGTH" : {
-      "description" : "",
-      "message" : "Délka dne"
-   },
-   "DECREASE_RADAR_RANGE" : {
-      "description" : "",
-      "message" : "Decrease radar range"
-   },
-   "DECREASE_SET_SPEED" : {
-      "description" : "",
-      "message" : "Snížit nastavenou rychlost"
-   },
-   "DECREASE_TIME_ACCELERATION" : {
-      "description" : "",
-      "message" : "Decrease Time Acceleration"
-   },
-   "DEMOGRAPHICS" : {
-      "description" : "",
-      "message" : "Demografie"
-   },
-   "DESTINATION" : {
-      "description" : "",
-      "message" : "Destinace"
-   },
-   "DIRECTION" : {
-      "description" : "Direction",
-      "message" : "\" směr \""
-   },
-   "DISTANCE_LY" : {
-      "description" : "",
-      "message" : "Vzdálenost: %distance{f.2} ly"
-   },
-   "DOCKED" : {
-      "description" : "",
-      "message" : "Docked"
-   },
-   "DOCKING" : {
-      "description" : "",
-      "message" : "Docking"
-   },
-   "DOCKING_CLEARANCE_EXPIRED" : {
-      "description" : "",
-      "message" : "Povolení k přistání vypršelo. Pokud chcete přistát zopakujte svůj požadavek."
-   },
-   "DOWNGRADING_ALERT_STATUS" : {
-      "description" : "",
-      "message" : "Žádná střelba po dobu 1 minuty, snižuji pohotovost."
-   },
-   "DRAW_OUT_RANGE_LABELS" : {
-      "description" : "",
-      "message" : "Zobrazit systémy mimo dosah"
-   },
-   "DRAW_UNINHABITED_LABELS" : {
-      "description" : "",
-      "message" : "Zobrazit neobydlené systémy"
-   },
-   "DRAW_VERTICAL_LINES" : {
-      "description" : "",
-      "message" : "Zobrazit svislé čáry"
-   },
-   "EARTH" : {
-      "description" : "",
-      "message" : "Zemí"
-   },
-   "EARTH_FEDERATION_COLONIAL_RULE" : {
-      "description" : "",
-      "message" : "Koloniální řád Federace Země"
-   },
-   "EARTH_FEDERATION_DEMOCRACY" : {
-      "description" : "",
-      "message" : "Demokratická Federace Země"
-   },
-   "ECCENTRICITY" : {
-      "description" : "",
-      "message" : "Výstřednost"
-   },
-   "ECONOMIC_INFO" : {
-      "description" : "",
-      "message" : "Ekonomika"
-   },
-   "ECONOMY_TYPE" : {
-      "description" : "",
-      "message" : "Druh ekonomiky:"
-   },
-   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
-      "description" : "",
-      "message" : "Poměr poloměrů (rovníkový/polární)"
-   },
-   "EXACT_MATCH_X" : {
-      "description" : "",
-      "message" : "Nalezen: %system"
-   },
-   "EXTENSIVE_MINING" : {
-      "description" : "",
-      "message" : "Rozsáhlá důlní činnost."
-   },
-   "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
-      "description" : "",
-      "message" : "Okolní atmosférický tlak"
-   },
-   "EXTERNAL_VIEW" : {
-      "description" : "",
-      "message" : "Pohled zvenku"
-   },
-   "FARM_MACHINERY" : {
-      "description" : "",
-      "message" : "Zemědělské stroje"
-   },
-   "FERTILIZER" : {
-      "description" : "",
-      "message" : "Hnojivo"
-   },
-   "FIRE_LASER" : {
-      "description" : "",
-      "message" : "Fire weapon"
-   },
-   "FIRE_MISSILE" : {
-      "description" : "",
-      "message" : "Vypustit střelu"
-   },
-   "FOLLOWING_SELECTION" : {
-      "description" : "",
-      "message" : "Následovat výběr"
-   },
-   "FRUIT_AND_VEG" : {
-      "description" : "",
-      "message" : "Ovoce a zelenina"
-   },
-   "FUEL" : {
-      "description" : "",
-      "message" : "Palivo"
-   },
-   "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
-      "description" : "",
-      "message" : "Sběrač paliva aktivní. Nyní máte %quantity t paliva."
-   },
-   "GALACTIC_VIEW" : {
-      "description" : "view galactic map",
-      "message" : "Galaktický náhled"
-   },
-   "GALAXY_SECTOR_VIEW" : {
-      "description" : "",
-      "message" : "Sektorový náhled"
-   },
-   "GAME_LOAD_CANNOT_OPEN" : {
-      "description" : "",
-      "message" : "Save file '%filename' could not be found (or the game does not have access to open it)."
-   },
-   "GAME_LOAD_CORRUPT" : {
-      "description" : "",
-      "message" : "Tento soubor nelze načíst, protože obsahuje chyby."
-   },
-   "GAME_LOAD_WRONG_VERSION" : {
-      "description" : "",
-      "message" : "Tento soubor nelze načíst, protože byl vytvořen jinou verzí hry Pioneer."
-   },
-   "GAME_SAVED_TO" : {
-      "description" : "",
-      "message" : "\"Hra uložena do \""
-   },
-   "GAME_SAVE_CANNOT_WRITE" : {
-      "description" : "",
-      "message" : "Tento soubor nelze zapsat z důvodu systémové chyby."
-   },
-   "GENERAL_VIEW_CONTROLS" : {
-      "description" : "",
-      "message" : "Ovládací prvky celkového pohledu"
-   },
-   "GOVERNMENT_TYPE" : {
-      "description" : "",
-      "message" : "Druh vlády:"
-   },
-   "GRAIN" : {
-      "description" : "like wheat or barley",
-      "message" : "Obilí"
-   },
-   "HAND_WEAPONS" : {
-      "description" : "",
-      "message" : "Ruční zbraně"
-   },
-   "HARD_CAPITALIST" : {
-      "description" : "",
-      "message" : "Naprostý kapitalismus - žádný státní sociální systém"
-   },
-   "HAT" : {
-      "description" : "Hat switch: Is the top button on a joystick",
-      "message" : "\" klobouk\""
-   },
-   "HEADING_LOCK_ANTINORMAL" : {
-      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
-      "message" : "Hold anti-normal"
-   },
-   "HEADING_LOCK_BACKWARD" : {
-      "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-      "message" : "Hold retrograde"
-   },
-   "HEADING_LOCK_FORWARD" : {
-      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-      "message" : "Hold prograde"
-   },
-   "HEADING_LOCK_KILLROT" : {
-      "description" : "",
-      "message" : "Zastavit rotaci"
-   },
-   "HEADING_LOCK_NORMAL" : {
-      "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-      "message" : "Hold normal"
-   },
-   "HEADING_LOCK_RADIALLY_INWARD" : {
-      "description" : "Autopilot direction, relative to orbit (face towards planet)",
-      "message" : "Hold radially in"
-   },
-   "HEADING_LOCK_RADIALLY_OUTWARD" : {
-      "description" : "Autopilot direction, relative to orbit (face away from palent)",
-      "message" : "Hold radially out"
-   },
-   "HEAVY_INDUSTRY" : {
-      "description" : "",
-      "message" : "Těžký průmysl."
-   },
-   "HE_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" héliovou atmosférou\""
-   },
-   "HIGHLY_VOLCANIC" : {
-      "description" : "",
-      "message" : "Vysoce vulkanická"
-   },
-   "HIGH_POPULATION_OUTDOOR_WORLD" : {
-      "description" : "",
-      "message" : "Planeta s městy pod širým nebem s vysokou hustotou obyvatelstva."
-   },
-   "HULL_INTEGRITY" : {
-      "description" : "",
-      "message" : "Integrita trupu"
-   },
-   "HULL_TEMP" : {
-      "description" : "",
-      "message" : "Teplota trupu"
-   },
-   "HYDROGEN" : {
-      "description" : "",
-      "message" : "Vodík"
-   },
-   "HYPERSPACE" : {
-      "description" : "",
-      "message" : "Hyperprostor"
-   },
-   "HYPERSPACE_ARRIVAL_CLOUD" : {
-      "description" : "",
-      "message" : "Příletové hyperprostorové okno"
-   },
-   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
-      "description" : "",
-      "message" : "Pozůstatek příletového hyperprostorového okna"
-   },
-   "HYPERSPACE_DEPARTURE_CLOUD" : {
-      "description" : "",
-      "message" : "Odletové hyperprostorové okno"
-   },
-   "HYPERSPACE_JUMP_ABORT" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disengage Hyperdrive"
-   },
-   "HYPERSPACE_JUMP_ABORTED" : {
-      "description" : "",
-      "message" : "Hyperprostorový skok zrušen."
-   },
-   "HYPERSPACE_JUMP_DISABLED" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Hyperdrive disabled"
-   },
-   "HYPERSPACE_JUMP_ENGAGE" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Engage Hyperdrive"
-   },
-   "HYPERSPACE_JUMP_FORBIDDEN" : {
-      "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Hyperdrive forbidden zone"
-   },
-   "HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Hyperprostorový cíl"
-   },
-   "H_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" vodíkovou atmosférou\""
-   },
-   "ICE_WORLD" : {
-      "description" : "",
-      "message" : "\" ledová planeta\""
-   },
-   "ILLEGAL_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Ilegalní (current system):"
-   },
-   "ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "Nelegální zboží:"
-   },
-   "IMPERIAL_RULE" : {
-      "description" : "",
-      "message" : "Imperiální vláda"
-   },
-   "INCREASE_RADAR_RANGE" : {
-      "description" : "",
-      "message" : "Increase radar range"
-   },
-   "INCREASE_SET_SPEED" : {
-      "description" : "",
-      "message" : "Zvýšit nastavenou rychlost"
-   },
-   "INCREASE_TIME_ACCELERATION" : {
-      "description" : "",
-      "message" : "Increase Time Acceleration"
-   },
-   "INDUSTRIAL_COLONY" : {
-      "description" : "",
-      "message" : "Průmyslová kolonie."
-   },
-   "INDUSTRIAL_HUB_SYSTEM" : {
-      "description" : "",
-      "message" : "Průmyslové obchodní centrum."
-   },
-   "INDUSTRIAL_MACHINERY" : {
-      "description" : "",
-      "message" : "Průmyslové stroje"
-   },
-   "INTERNAL_VIEW" : {
-      "description" : "",
-      "message" : "Pohled zevnitř"
-   },
-   "JOY" : {
-      "description" : "Short for Joystick",
-      "message" : "Joy"
-   },
-   "JOYSTICK_INPUT" : {
-      "description" : "",
-      "message" : "Ovládání joystickem"
-   },
-   "JOY_AXIS" : {
-      "description" : "Regarding joystick",
-      "message" : "%{sign}%joyname osa %axis"
-   },
-   "L4L5_DISPLAY_MODE_TOGGLE" : {
-      "description" : "Either show L4/L5 points or don't",
-      "message" : "Switch between Lagrange L4/L5 point display modes."
-   },
-   "LANDED" : {
-      "description" : "",
-      "message" : "Landed"
-   },
-   "LANG_NAME" : {
-      "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
-      "message" : "Česky"
-   },
-   "LARGE" : {
-      "description" : "regarding terrestrial planet size (mass actually)",
-      "message" : "Velká"
-   },
-   "LARGE_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Velký plynný obr"
-   },
-   "LASER_FIRE_DETECTED" : {
-      "description" : "",
-      "message" : "Weapons fire detected."
-   },
-   "LATITUDE" : {
-      "description" : "Short for latitude",
-      "message" : "Lat:"
-   },
-   "LATITUDE_NORTH_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'north'",
-      "message" : "N"
-   },
-   "LATITUDE_SOUTH_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'south'",
-      "message" : "S"
-   },
-   "LEGAL_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Legální (current system):"
-   },
-   "LIBERAL_DEMOCRACY" : {
-      "description" : "",
-      "message" : "Liberální demokracie"
-   },
-   "LIQUID_OXYGEN" : {
-      "description" : "",
-      "message" : "Tekutý kyslík"
-   },
-   "LIQUOR" : {
-      "description" : "",
-      "message" : "Alkohol"
-   },
-   "LIVE_ANIMALS" : {
-      "description" : "",
-      "message" : "Živá zvířata"
-   },
-   "LOCKED" : {
-      "description" : "to lock a hyperspace target",
-      "message" : "zaměřen"
-   },
-   "LONGITUDE" : {
-      "description" : "Short for longitude",
-      "message" : "Long:"
-   },
-   "LONGITUDE_EAST_ABBREV" : {
-      "description" : "Abbreviation letter for longitude 'east'",
-      "message" : "E"
-   },
-   "LONGITUDE_WEST_ABBREV" : {
-      "description" : "Abbreviation letter for latitude 'west'",
-      "message" : "W"
-   },
-   "MAJOR_EXPORTS" : {
-      "description" : "",
-      "message" : "Hlavní export:"
-   },
-   "MAJOR_EXPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Hlavní export (aktuální systém)"
-   },
-   "MAJOR_IMPORTS" : {
-      "description" : "",
-      "message" : "Hlavní import:"
-   },
-   "MAJOR_IMPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Hlavní import (aktuální systém)"
-   },
-   "MANUAL_CONTROL" : {
-      "description" : "",
-      "message" : "Manuální ovládání"
-   },
-   "MANUAL_CONTROL_MODE" : {
-      "description" : "",
-      "message" : "Manuální ovládání"
-   },
-   "MAP_LOCK_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Zaměřit hyperprostorový cíl"
-   },
-   "MAP_TOGGLE_INFO_PANEL" : {
-      "description" : "",
-      "message" : "Info panel"
-   },
-   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
-      "description" : "",
-      "message" : "Výběr následuje pohled"
-   },
-   "MAP_VIEW_ROTATE_DOWN" : {
-      "description" : "",
-      "message" : "Otáčet pohled dolů"
-   },
-   "MAP_VIEW_ROTATE_LEFT" : {
-      "description" : "",
-      "message" : "Otáčet pohled doleva"
-   },
-   "MAP_VIEW_ROTATE_RIGHT" : {
-      "description" : "",
-      "message" : "Otáčet pohled doprava"
-   },
-   "MAP_VIEW_ROTATE_UP" : {
-      "description" : "",
-      "message" : "Otáčet pohled nahoru"
-   },
-   "MAP_VIEW_SHIFT_BACKWARD" : {
-      "description" : "",
-      "message" : "Posouvat pohled vzad"
-   },
-   "MAP_VIEW_SHIFT_DOWN" : {
-      "description" : "",
-      "message" : "Posouvat pohled dolů"
-   },
-   "MAP_VIEW_SHIFT_FORWARD" : {
-      "description" : "",
-      "message" : "Posouvat pohled vpřed"
-   },
-   "MAP_VIEW_SHIFT_LEFT" : {
-      "description" : "",
-      "message" : "Posouvat pohled doleva"
-   },
-   "MAP_VIEW_SHIFT_RIGHT" : {
-      "description" : "",
-      "message" : "Posouvat pohled doprava"
-   },
-   "MAP_VIEW_SHIFT_UP" : {
-      "description" : "",
-      "message" : "Posouvat pohled nahoru"
-   },
-   "MAP_WARP_TO_CURRENT_SYSTEM" : {
-      "description" : "",
-      "message" : "Warp do aktuálního systému"
-   },
-   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Warp do hyperprostorového cíle"
-   },
-   "MAP_WARP_TO_SELECTED_SYSTEM" : {
-      "description" : "",
-      "message" : "Warp do zvoleného systému"
-   },
-   "MASS" : {
-      "description" : "",
-      "message" : "Hmotnost"
-   },
-   "MASSIVE" : {
-      "description" : "",
-      "message" : "Masivní"
-   },
-   "MASS_N_TONNES" : {
-      "description" : "",
-      "message" : "Hmotnost: %{mass}t"
-   },
-   "MEDICINES" : {
-      "description" : "",
-      "message" : "Léky"
-   },
-   "MEDIUM_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Střední plynný obr"
-   },
-   "MESSAGE_FROM_X" : {
-      "description" : "",
-      "message" : "Zpráva od %sender:"
-   },
-   "META" : {
-      "description" : "'Meta' key on keyboard",
-      "message" : "Meta"
-   },
-   "METAL_ALLOYS" : {
-      "description" : "",
-      "message" : "Kovové slitiny"
-   },
-   "METAL_ORE" : {
-      "description" : "",
-      "message" : "Železná ruda"
-   },
-   "MILITARY_DICTATORSHIP" : {
-      "description" : "",
-      "message" : "Vojenská diktatura"
-   },
-   "MILITARY_FUEL" : {
-      "description" : "",
-      "message" : "Vojenské palivo"
-   },
-   "MINING_COLONY" : {
-      "description" : "",
-      "message" : "Důlní kolonie."
-   },
-   "MINING_MACHINERY" : {
-      "description" : "",
-      "message" : "Důlní stroje"
-   },
-   "MINOR_EXPORTS" : {
-      "description" : "",
-      "message" : "Drobný export:"
-   },
-   "MINOR_EXPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Drobný export (aktuální systém)"
-   },
-   "MINOR_IMPORTS" : {
-      "description" : "",
-      "message" : "Drobný import:"
-   },
-   "MINOR_IMPORT_CURRENT_SYSTEM" : {
-      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Drobný import (aktuální systém)"
-   },
-   "MISCELLANEOUS" : {
-      "description" : "",
-      "message" : "Různé"
-   },
-   "MISSILE" : {
-      "description" : "",
-      "message" : "Střela"
-   },
-   "MIXED_ECONOMY" : {
-      "description" : "",
-      "message" : "Smíšený ekonomický systém"
-   },
-   "MONTH_APR" : {
-      "description" : "",
-      "message" : "Dub"
-   },
-   "MONTH_AUG" : {
-      "description" : "",
-      "message" : "Srp"
-   },
-   "MONTH_DEC" : {
-      "description" : "",
-      "message" : "Pro"
-   },
-   "MONTH_FEB" : {
-      "description" : "",
-      "message" : "Úno"
-   },
-   "MONTH_JAN" : {
-      "description" : "",
-      "message" : "Led"
-   },
-   "MONTH_JUL" : {
-      "description" : "",
-      "message" : "Čvc"
-   },
-   "MONTH_JUN" : {
-      "description" : "",
-      "message" : "Čer"
-   },
-   "MONTH_MAR" : {
-      "description" : "",
-      "message" : "Bře"
-   },
-   "MONTH_MAY" : {
-      "description" : "",
-      "message" : "Kvě"
-   },
-   "MONTH_NOV" : {
-      "description" : "",
-      "message" : "Lis"
-   },
-   "MONTH_OCT" : {
-      "description" : "",
-      "message" : "Říj"
-   },
-   "MONTH_SEP" : {
-      "description" : "",
-      "message" : "Zář"
-   },
-   "NAME_OBJECT" : {
-      "description" : "For an item or object",
-      "message" : "Jméno"
-   },
-   "NAME_PERSON" : {
-      "description" : "For a person",
-      "message" : "Jméno"
-   },
-   "NARCOTICS" : {
-      "description" : "",
-      "message" : "Drogy"
-   },
-   "NAVIGATION_STAR_MAPS" : {
-      "description" : "",
-      "message" : "Navigace a hvězdné mapy"
-   },
-   "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
-      "description" : "",
-      "message" : "Navigační cíle v tomto systému"
-   },
-   "NERVE_GAS" : {
-      "description" : "",
-      "message" : "Nervový plyn"
-   },
-   "NOT_FOUND" : {
-      "description" : "searching star system in sector view",
-      "message" : "Nenalezen"
-   },
-   "NOT_FOUND_BEST_MATCH_X" : {
-      "description" : "",
-      "message" : "Nenalezen, nejbližší výsledek: %system"
-   },
-   "NOW" : {
-      "description" : "In System Orbit View",
-      "message" : "Now"
-   },
-   "NO_ALERT" : {
-      "description" : "",
-      "message" : "Žádný poplach"
-   },
-   "NO_CENTRAL_GOVERNANCE" : {
-      "description" : "",
-      "message" : "Bez centrální vlády"
-   },
-   "NO_ESTABLISHED_ORDER" : {
-      "description" : "",
-      "message" : "Bez stanoveného zřízení"
-   },
-   "NO_HYPERDRIVE" : {
-      "description" : "",
-      "message" : "Žádný hypermotor"
-   },
-   "NO_REGISTERED_INHABITANTS" : {
-      "description" : "",
-      "message" : "Žádní registrovaní obyvatelé"
-   },
-   "NO_TARGET_SELECTED" : {
-      "description" : "",
-      "message" : "Počítač: Není označen cíl"
-   },
-   "NUMBER_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.0} dnů"
-   },
-   "NUMBER_DECIMAL_POINT" : {
-      "description" : "Decimal delimiter used in numbers.",
-      "message" : "."
-   },
-   "NUMBER_G" : {
-      "description" : "",
-      "message" : "%acceleration{f.1} G"
-   },
-   "NUMBER_GROUP_MIN" : {
-      "description" : "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
-      "message" : "1000"
-   },
-   "NUMBER_GROUP_NUM" : {
-      "description" : "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
-      "message" : "3"
-   },
-   "NUMBER_GROUP_SEP" : {
-      "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-      "message" : ","
-   },
-   "NUMBER_HOURS" : {
-      "description" : "",
-      "message" : "%hours{f.1} hodin"
-   },
-   "NUMBER_LY" : {
-      "description" : "",
-      "message" : "%distance{f.2} ly"
-   },
-   "NUMBER_TONNES" : {
-      "description" : "",
-      "message" : "%{mass}t"
-   },
-   "N_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" dusíkovou atmosférou\""
-   },
-   "N_CELSIUS" : {
-      "description" : "",
-      "message" : "%temperature °C"
-   },
-   "N_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.1} dnů"
-   },
-   "N_DEGREES" : {
-      "description" : "",
-      "message" : "%angle{f.1}°"
-   },
-   "N_EARTH_DAYS" : {
-      "description" : "",
-      "message" : "%days{f.1} pozemských dnů"
-   },
-   "N_WHATEVER_MASSES" : {
-      "description" : "",
-      "message" : "%mass{f.3} %units"
-   },
-   "N_WHATEVER_RADII" : {
-      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-      "message" : "%radius{f.3} %units"
-   },
-   "N_YEARS" : {
-      "description" : "",
-      "message" : "%years{f.1} let"
-   },
-   "O2_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" kyslíkovou atmosférou\""
-   },
-   "OCEANICWORLD" : {
-      "description" : "",
-      "message" : "\" vodní planeta\""
-   },
-   "ORBITAL_PERIOD" : {
-      "description" : "",
-      "message" : "Perioda (oběžná doba)"
-   },
-   "ORBITAL_STARPORT" : {
-      "description" : "",
-      "message" : "Orbitální stanice"
-   },
-   "OUTDOOR_AGRICULTURAL_WORLD" : {
-      "description" : "",
-      "message" : "Planeta se zemědělstvím pod širým nebem."
-   },
-   "OVER_N_BILLION" : {
-      "description" : "",
-      "message" : "Více než %population miliard"
-   },
-   "OVER_N_MILLION" : {
-      "description" : "",
-      "message" : "Více než %population miliónů"
-   },
-   "PASSENGER_CABIN" : {
-      "description" : "",
-      "message" : "Obsazená pasažérská kabina"
-   },
-   "PAUSED" : {
-      "description" : "",
-      "message" : "PAUZA"
-   },
-   "PAY_FINE_REMOTELY" : {
-      "description" : "",
-      "message" : "Zaplatit pokutu dálkovým převodem (%amount)"
-   },
-   "PERIAPSIS_DISTANCE" : {
-      "description" : "",
-      "message" : "Perihel (přísluní)"
-   },
-   "PIONEER" : {
-      "description" : "",
-      "message" : "PIONEER"
-   },
-   "PITCH" : {
-      "description" : "",
-      "message" : "Stoupání/klesání"
-   },
-   "PITCH_DOWN" : {
-      "description" : "",
-      "message" : "Dolů"
-   },
-   "PITCH_UP" : {
-      "description" : "",
-      "message" : "Nahoru"
-   },
-   "PLANETARY_INFO" : {
-      "description" : "",
-      "message" : "Planetární info"
-   },
-   "PLANET_CONTAINING_LIQUID_WATER" : {
-      "description" : "",
-      "message" : "\" planeta s kapalnou vodou\""
-   },
-   "PLANET_WITH_SOME_ICE" : {
-      "description" : "",
-      "message" : "\" planeta obsahující led\""
-   },
-   "PLANNED_ECONOMY" : {
-      "description" : "",
-      "message" : "Plánované hospodářství"
-   },
-   "PLANNER_RESET_FACTOR" : {
-      "description" : "For system orbit view",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
-   },
-   "PLANNER_RESET_NORMAL" : {
-      "description" : "For system orbit view",
-      "message" : "Normal delta-v. Click to reset to zero."
-   },
-   "PLANNER_RESET_PROGRADE" : {
-      "description" : "For system orbit view",
-      "message" : "Prograde delta-v. Click to reset to zero."
-   },
-   "PLANNER_RESET_RADIAL" : {
-      "description" : "For system orbit view",
-      "message" : "Radial delta-v. Click to reset to zero."
-   },
-   "PLANNER_RESET_START" : {
-      "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
-   },
-   "PLASTICS" : {
-      "description" : "",
-      "message" : "Plasty"
-   },
-   "PLUTOCRATIC_DICTATORSHIP" : {
-      "description" : "",
-      "message" : "Plutokratická diktatura"
-   },
-   "POPULATION" : {
-      "description" : "",
-      "message" : "Populace:"
-   },
-   "PRECIOUS_METALS" : {
-      "description" : "",
-      "message" : "Drahé kovy"
-   },
-   "PRESSURE_N_ATMOSPHERES" : {
-      "description" : "",
-      "message" : "Tlak: %pressure{f.2} atm"
-   },
-   "QUADRUPLE_SYSTEM" : {
-      "description" : "",
-      "message" : "Kvadrární systém"
-   },
-   "RADAR_CONTROL" : {
-      "description" : "",
-      "message" : "Radar control"
-   },
-   "RADIOACTIVES" : {
-      "description" : "",
-      "message" : "Radioaktivní odpad"
-   },
-   "RADIUS" : {
-      "description" : "",
-      "message" : "Rovníkový poloměr"
-   },
-   "RECENTLY_EXPLORED_SYSTEM" : {
-      "description" : "",
-      "message" : "Systém byl prozkoumán %date."
-   },
-   "REQUEST_DOCKING_CLEARANCE" : {
-      "description" : "",
-      "message" : "Vyžádat povolení k přistání"
-   },
-   "RESET" : {
-      "description" : "",
-      "message" : "Reset"
-   },
-   "RESET_ORIENTATION_AND_ZOOM" : {
-      "description" : "",
-      "message" : "Reset orientace a zoomu"
-   },
-   "ROBOTS" : {
-      "description" : "",
-      "message" : "Roboti"
-   },
-   "ROCKY_PLANET" : {
-      "description" : "",
-      "message" : "\" skalnatá planeta\""
-   },
-   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
-      "description" : "",
-      "message" : "\" skalnatá planeta obsahující kapaliny,\""
-   },
-   "ROLL" : {
-      "description" : "",
-      "message" : "Klonění"
-   },
-   "ROLL_LEFT" : {
-      "description" : "",
-      "message" : "Klonit doleva"
-   },
-   "ROLL_RIGHT" : {
-      "description" : "",
-      "message" : "Klonit doprava"
-   },
-   "ROTATE_DOWN" : {
-      "description" : "",
-      "message" : "Klopit dolů"
-   },
-   "ROTATE_LEFT" : {
-      "description" : "",
-      "message" : "Otáčet doleva"
-   },
-   "ROTATE_RIGHT" : {
-      "description" : "",
-      "message" : "Otáčet doprava"
-   },
-   "ROTATE_UP" : {
-      "description" : "",
-      "message" : "Klopit nahoru"
-   },
-   "ROTATIONAL_PERIOD" : {
-      "description" : "",
-      "message" : "\" (perioda rotace)\""
-   },
-   "ROTATION_DAMPING_OFF" : {
-      "description" : "",
-      "message" : "Tlumení rotace vypnuto"
-   },
-   "ROTATION_DAMPING_ON" : {
-      "description" : "",
-      "message" : "Tlumení rotace zapnuto"
-   },
-   "RUBBISH" : {
-      "description" : "",
-      "message" : "Odpadky"
-   },
-   "SCOOP" : {
-      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
-      "message" : "Scoop"
-   },
-   "SCREENSHOT_FILENAME_TEMPLATE" : {
-      "description" : "",
-      "message" : "pioneer_screenshot%index{d08}.png"
-   },
-   "SEARCH" : {
-      "description" : "",
-      "message" : "Najít"
-   },
-   "SEARCH_MAP" : {
-      "description" : "",
-      "message" : "Prohledat mapu"
-   },
-   "SECTOR_COORDINATES" : {
-      "description" : "",
-      "message" : "Souřadnice sektoru:"
-   },
-   "SECTOR_MAP_VIEW" : {
-      "description" : "",
-      "message" : "Mapa sektorů"
-   },
-   "SECTOR_X_Y_Z" : {
-      "description" : "",
-      "message" : "Sektor: %x,%y,%z"
-   },
-   "SELECTED_SYSTEM" : {
-      "description" : "",
-      "message" : "Zvolený systém"
-   },
-   "SELECT_A_TARGET" : {
-      "description" : "",
-      "message" : "Vyber cíl"
-   },
-   "SELECT_LOW_THRUST_POWER_LEVEL" : {
-      "description" : "",
-      "message" : "Zapnout režim nízkého tahu"
-   },
-   "SEMI_MAJOR_AXIS" : {
-      "description" : "",
-      "message" : "Velká poloosa dráhy"
-   },
-   "SET_HYPERSPACE_DESTINATION_TO" : {
-      "description" : "",
-      "message" : "Nastavit cíl hyperskoku na %system"
-   },
-   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
-      "description" : "",
-      "message" : "Analyzátor hyperprostorových oken: Zvolit cíl k pronásledovaní tohoto odletu"
-   },
-   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
-      "description" : "",
-      "message" : "Nastavit režim nízkého tahu na %power%%"
-   },
-   "SET_NAVTARGET_TO" : {
-      "description" : "",
-      "message" : "Zvolit navigační cíl na:"
-   },
-   "SET_SPEED_KM_S" : {
-      "description" : "",
-      "message" : "Rychlost: %speed{f.2} km/s"
-   },
-   "SET_SPEED_M_S" : {
-      "description" : "",
-      "message" : "Rychlost: %speed{f.0} m/s"
-   },
-   "SHIELD_INTEGRITY" : {
-      "description" : "",
-      "message" : "Integrita štítů"
-   },
-   "SHIELD_STRENGTH_N" : {
-      "description" : "",
-      "message" : "Síla štítů: %shields{f.2}"
-   },
-   "SHIFT" : {
-      "description" : "Shift key on keyboard",
-      "message" : "Shift"
-   },
-   "SHIP" : {
-      "description" : "",
-      "message" : "Loď"
-   },
-   "SHIPS_DISPLAY_MODE_TOGGLE" : {
-      "description" : "Either show no ships, show ships, or show ships + their orbits",
-      "message" : "Switch between ship display modes."
-   },
-   "SHIP_DETECTED_NEARBY" : {
-      "description" : "",
-      "message" : "Detekována loď v blízkosti."
-   },
-   "SHIP_INFORMATION" : {
-      "description" : "",
-      "message" : "Informace o lodi"
-   },
-   "SHIP_MASS_N_TONNES" : {
-      "description" : "",
-      "message" : "Hmotnost lodi: %{mass}t"
-   },
-   "SHIP_NEARBY" : {
-      "description" : "",
-      "message" : "Loď v blízkosti"
-   },
-   "SHIP_ORIENTATION" : {
-      "description" : "",
-      "message" : "Orientace lodi (vzhledem k HUD)"
-   },
-   "SHIP_VELOCITY_BY_REFERENCE_OBJECT" : {
-      "description" : "",
-      "message" : "Rychlost vzhledem k referenčnímu objektu"
-   },
-   "SIDEREAL_VIEW" : {
-      "description" : "camera view setting",
-      "message" : "Pohled hvězdný"
-   },
-   "SLAVES" : {
-      "description" : "",
-      "message" : "Otroci"
-   },
-   "SMALL" : {
-      "description" : "",
-      "message" : "Malá"
-   },
-   "SMALL_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Malý plynný obr"
-   },
-   "SMALL_INDUSTRIAL_OUTPOST" : {
-      "description" : "",
-      "message" : "Malá průmyslová základna."
-   },
-   "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
-      "description" : "",
-      "message" : "Průzkumné práce malého rozsahu (nerosty/drahé kovy). Žádné registrované osady."
-   },
-   "SOCIAL_DEMOCRACY" : {
-      "description" : "",
-      "message" : "Sociální demokracie"
-   },
-   "SOLAR" : {
-      "description" : "",
-      "message" : "Sluncí"
-   },
-   "SOME_ESTABLISHED_MINING" : {
-      "description" : "",
-      "message" : "Důlní činnost malého rozsahu."
-   },
-   "SOURCE" : {
-      "description" : "tell source system of hyperjump entry cloud",
-      "message" : "Původ"
-   },
-   "SPEED_CONTROL_MODE" : {
-      "description" : "",
-      "message" : "Ovládání rychlosti"
-   },
-   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
-      "description" : "",
-      "message" : "Stabilní systém s %bodycount hlavními %{body(s)} a %portcount %{starport(s)}"
-   },
-   "STARPORT" : {
-      "description" : "",
-      "message" : "Stanice"
-   },
-   "STARPORTS" : {
-      "description" : "",
-      "message" : "Stanice"
-   },
-   "STAR_A" : {
-      "description" : "",
-      "message" : "Typ 'A' horká bílá hvězda"
-   },
-   "STAR_AF_GIANT" : {
-      "description" : "",
-      "message" : "Bílý obr"
-   },
-   "STAR_AF_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Bílý hyperobr"
-   },
-   "STAR_AF_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Bílý veleobr"
-   },
-   "STAR_B" : {
-      "description" : "",
-      "message" : "Typ 'B' jasná modrá hvězda"
-   },
-   "STAR_B_GIANT" : {
-      "description" : "",
-      "message" : "Modrý obr"
-   },
-   "STAR_B_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Modrý hyperobr"
-   },
-   "STAR_B_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Modrý veleobr"
-   },
-   "STAR_B_WF" : {
-      "description" : "",
-      "message" : "Wolf-Rayetova hvězda - riziko zhroucení"
-   },
-   "STAR_F" : {
-      "description" : "",
-      "message" : "Typ 'F' bílá hvězda"
-   },
-   "STAR_G" : {
-      "description" : "",
-      "message" : "Typ 'G' žlutá hvězda"
-   },
-   "STAR_G_GIANT" : {
-      "description" : "",
-      "message" : "Žlutý obr - nestabilní"
-   },
-   "STAR_G_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Žlutý hyperobr - nestabilní"
-   },
-   "STAR_G_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Žlutý veleobr"
-   },
-   "STAR_IM_BH" : {
-      "description" : "",
-      "message" : "Středně hmotná černá díra"
-   },
-   "STAR_K" : {
-      "description" : "",
-      "message" : "Typ 'K' oranžová hvězda"
-   },
-   "STAR_K_GIANT" : {
-      "description" : "",
-      "message" : "Oranžový obr - nestabilní"
-   },
-   "STAR_K_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Oranžový hyperobr - nestabilní"
-   },
-   "STAR_K_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Oranžový veleobr"
-   },
-   "STAR_M" : {
-      "description" : "",
-      "message" : "Typ 'M' červená hvězda"
-   },
-   "STAR_M_GIANT" : {
-      "description" : "",
-      "message" : "Červený obr"
-   },
-   "STAR_M_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Červený hyperobr"
-   },
-   "STAR_M_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Červený veleobr"
-   },
-   "STAR_M_WF" : {
-      "description" : "",
-      "message" : "Wolf-Rayetova hvězda - nestabilní"
-   },
-   "STAR_O" : {
-      "description" : "",
-      "message" : "Typ 'O' horká, masivní hvězda"
-   },
-   "STAR_O_GIANT" : {
-      "description" : "",
-      "message" : "Horký modrý obr"
-   },
-   "STAR_O_HYPER_GIANT" : {
-      "description" : "",
-      "message" : "Horký modrý hyperobr"
-   },
-   "STAR_O_SUPER_GIANT" : {
-      "description" : "",
-      "message" : "Horký modrý veleobr"
-   },
-   "STAR_O_WF" : {
-      "description" : "",
-      "message" : "Wolf-Rayetova hvězda - nastávající zhroucení"
-   },
-   "STAR_SM_BH" : {
-      "description" : "",
-      "message" : "Supermasivní černá díra"
-   },
-   "STAR_SYSTEM_INFORMATION" : {
-      "description" : "",
-      "message" : "Informace o systému"
-   },
-   "STAR_S_BH" : {
-      "description" : "",
-      "message" : "Hvězdná černá díra"
-   },
-   "SUGGESTED_RESPONSES" : {
-      "description" : "",
-      "message" : "Navrhované odpovědi:"
-   },
-   "SURFACE_GRAVITY" : {
-      "description" : "",
-      "message" : "Gravitace na rovníku"
-   },
-   "SURFACE_TEMPERATURE" : {
-      "description" : "",
-      "message" : "Povrchová teplota"
-   },
-   "SWAP_SELECTED_HYPERSPACE_TARGET" : {
-      "description" : "",
-      "message" : "Swap selected and hyperjump target"
-   },
-   "SWITCHED_TO_PARENT" : {
-      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "Switched heading display to system-wide coordinates."
-   },
-   "SWITCHED_TO_ROTATIONAL" : {
-      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "Switched heading display to planetary coordinates."
-   },
-   "SYSTEM" : {
-      "description" : "star system",
-      "message" : "Systém"
-   },
-   "SYSTEM_NUMBER" : {
-      "description" : "",
-      "message" : "Číslo systému:"
-   },
-   "SYSTEM_ORBIT_VIEW" : {
-      "description" : "",
-      "message" : "Orbitální náhled"
-   },
-   "SYSTEM_TYPE" : {
-      "description" : "",
-      "message" : "Druh systému:"
-   },
-   "S_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" sirnou atmosférou\""
-   },
-   "TAKEOFF" : {
-      "description" : "",
-      "message" : "Start"
-   },
-   "TARGET_OBJECT_IN_SIGHTS" : {
-      "description" : "",
-      "message" : "Označit cíl v zaměřovači"
-   },
-   "TENUOUS" : {
-      "description" : "atmosphere thickness",
-      "message" : "velmi řídkou"
-   },
-   "TEXTILES" : {
-      "description" : "",
-      "message" : "Textil"
-   },
-   "THICK" : {
-      "description" : "",
-      "message" : "hustou"
-   },
-   "THIN" : {
-      "description" : "",
-      "message" : "řídkou"
-   },
-   "THRIVING_OUTDOOR_WORLD" : {
-      "description" : "",
-      "message" : "Prosperující kolonie pod širým nebem."
-   },
-   "THRUSTER_DORSAL" : {
-      "description" : "",
-      "message" : "Tah dolů"
-   },
-   "THRUSTER_MAIN" : {
-      "description" : "",
-      "message" : "Tah vpřed"
-   },
-   "THRUSTER_PORT" : {
-      "description" : "",
-      "message" : "Tah doleva"
-   },
-   "THRUSTER_RETRO" : {
-      "description" : "",
-      "message" : "Tah vzad"
-   },
-   "THRUSTER_STARBOARD" : {
-      "description" : "",
-      "message" : "Tah doprava"
-   },
-   "THRUSTER_VENTRAL" : {
-      "description" : "",
-      "message" : "Tah nahoru"
-   },
-   "TIME_POINT" : {
-      "description" : "",
-      "message" : "Časová značka:"
-   },
-   "TINY" : {
-      "description" : "",
-      "message" : "Drobná"
-   },
-   "TOGGLE_EQUIPMENT_VIEW" : {
-      "description" : "Tooltip for the Equipment View button",
-      "message" : "Equipment View"
-   },
-   "TOGGLE_HUD_MODE" : {
-      "description" : "",
-      "message" : "HUD mód"
-   },
-   "TOGGLE_LUA_CONSOLE" : {
-      "description" : "",
-      "message" : "Lua konzole"
-   },
-   "TOGGLE_RADAR_MODE" : {
-      "description" : "",
-      "message" : "Toggle radar mode"
-   },
-   "TOGGLE_RADAR_VIEW" : {
-      "description" : "Tooltip for the Radar View button",
-      "message" : "Radar View"
-   },
-   "TOGGLE_ROTATION_DAMPING" : {
-      "description" : "",
-      "message" : "Tlumení rotace"
-   },
-   "TOMBSTONE_EPITAPH" : {
-      "description" : "shown on tombstone when player dies",
-      "message" : "R.I.P."
-   },
-   "TRADING_ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "Obchod s nelegálním zbožím"
-   },
-   "TRIPLE_SYSTEM" : {
-      "description" : "",
-      "message" : "Trinární systém"
-   },
-   "UNDOCKING" : {
-      "description" : "Flight state of ship when leaving station",
-      "message" : "Undocking"
-   },
-   "UNEXPLORED_SYSTEM_NO_DATA" : {
-      "description" : "",
-      "message" : "Neprozkoumaný systém. Další informace nejsou k dispozici."
-   },
-   "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
-      "description" : "",
-      "message" : "Neprozkoumaný systém. Pohled není k dispozici."
-   },
-   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
-      "description" : "",
-      "message" : "Neprozkoumaný systém. Informace o hvězdě získány pomocí dálkového teleskopu, ale nejsou k dispozici žádné informace o planetách."
-   },
-   "UNIT_AU" : {
-      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
-      "message" : "AU"
-   },
-   "UNIT_DAYS" : {
-      "description" : "Duration unit: one 24-hour day",
-      "message" : "d"
-   },
-   "UNIT_HOURS" : {
-      "description" : "Duration unit: one 60-minute hour",
-      "message" : "h"
-   },
-   "UNIT_KILOMETERS" : {
-      "description" : "Distance unit: one kilometer",
-      "message" : "km"
-   },
-   "UNIT_KILOMETERS_PER_SECOND" : {
-      "description" : "Speed unit: one kilometer per second",
-      "message" : "km/s"
-   },
-   "UNIT_LY" : {
-      "description" : "Distance unit: a light year",
-      "message" : "ly"
-   },
-   "UNIT_METERS" : {
-      "description" : "Distance unit: one meter",
-      "message" : "m"
-   },
-   "UNIT_METERS_PER_SECOND" : {
-      "description" : "Speed unit: one meter per second",
-      "message" : "m/s"
-   },
-   "UNIT_MILLION_METERS" : {
-      "description" : "Distance unit: one million meters",
-      "message" : "Mm"
-   },
-   "UNIT_MILLION_METERS_PER_SECOND" : {
-      "description" : "Speed unit: one million meters per second",
-      "message" : "Mm/s"
-   },
-   "UNIT_MINUTES" : {
-      "description" : "Duration unit: one 60-second minute",
-      "message" : "m"
-   },
-   "UNIT_SECONDS" : {
-      "description" : "Duration unit: one second",
-      "message" : "s"
-   },
-   "UNIT_TONNES" : {
-      "description" : "Mass unit: one tonne (t)",
-      "message" : "t"
-   },
-   "UNIT_WEEKS" : {
-      "description" : "Duration unit: one 7-day week",
-      "message" : "w"
-   },
-   "UNKNOWN" : {
-      "description" : "",
-      "message" : "<neznámé>"
-   },
-   "UNSET_NAVTARGET" : {
-      "description" : "",
-      "message" : "Unset navigation target."
-   },
-   "USE_LOW_THRUST" : {
-      "description" : "",
-      "message" : "Použít slabý tah"
-   },
-   "VAST_STRIP_MINE" : {
-      "description" : "",
-      "message" : "Rozsáhlá kolonie pro povrchovou těžbu."
-   },
-   "VERY_DENSE" : {
-      "description" : "",
-      "message" : "velmi hustou"
-   },
-   "VERY_LARGE_GAS_GIANT" : {
-      "description" : "",
-      "message" : "Velmi velký plynný obr"
-   },
-   "VIEW" : {
-      "description" : "",
-      "message" : "Pohled"
-   },
-   "VIOLENT_ANARCHY" : {
-      "description" : "",
-      "message" : "Anarchie (o celkovou nadvládu bojují různé ozbrojené frakce)"
-   },
-   "WATER" : {
-      "description" : "",
-      "message" : "Voda"
-   },
-   "WEAPONS" : {
-      "description" : "",
-      "message" : "Zbraně"
-   },
-   "WEAPON_TEMP" : {
-      "description" : "",
-      "message" : "Teplota zbraně"
-   },
-   "WHEELS_ARE_DOWN" : {
-      "description" : "",
-      "message" : "Podvozek vysunut"
-   },
-   "WHEELS_ARE_UP" : {
-      "description" : "",
-      "message" : "Podvozek zasunut"
-   },
-   "WHITE_DWARF" : {
-      "description" : "",
-      "message" : "Bílý trpaslík (pozůstatek hvězdy)"
-   },
-   "WITH_A" : {
-      "description" : "",
-      "message" : "\" s \""
-   },
-   "WITH_NO_SIGNIFICANT_ATMOSPHERE" : {
-      "description" : "",
-      "message" : "\" bez výrazné atmosféry\""
-   },
-   "X" : {
-      "description" : "keybinding: x axis",
-      "message" : "X"
-   },
-   "Y" : {
-      "description" : "keybinding: y axis",
-      "message" : "Y"
-   },
-   "YAW" : {
-      "description" : "",
-      "message" : "Zatáčení"
-   },
-   "YAW_LEFT" : {
-      "description" : "",
-      "message" : "Zatočit doleva"
-   },
-   "YAW_RIGHT" : {
-      "description" : "",
-      "message" : "Zatočit doprava"
-   },
-   "YOUNG_FARMING_COLONY" : {
-      "description" : "",
-      "message" : "Nová zemědělská kolonie."
-   },
-   "Z" : {
-      "description" : "keybinding: z axis",
-      "message" : "Z"
-   },
-   "ZOOM_IN" : {
-      "description" : "",
-      "message" : "Zvětšit"
-   },
-   "ZOOM_OUT" : {
-      "description" : "",
-      "message" : "Zmenšit"
-   }
+  "AIR_PROCESSORS": {
+    "description": "",
+    "message": "Výrobník vzduchu"
+  },
+  "ALERT_CANCELLED": {
+    "description": "",
+    "message": "Poplach zrušen."
+  },
+  "ALLEGIANCE": {
+    "description": "",
+    "message": "Příslušnost:"
+  },
+  "ALT": {
+    "description": "Alt key on keyboard",
+    "message": "Alt"
+  },
+  "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
+    "description": "",
+    "message": "\" a velmi složitým ekosystémem.\""
+  },
+  "AND_INDIGENOUS_MICROBIAL_LIFE": {
+    "description": "",
+    "message": "\" a domorodým mikrobiálním životem.\""
+  },
+  "AND_INDIGENOUS_PLANT_LIFE": {
+    "description": "",
+    "message": "\" a domorodými rostlinami.\""
+  },
+  "ANIMAL_MEAT": {
+    "description": "",
+    "message": "Maso"
+  },
+  "APOAPSIS_DISTANCE": {
+    "description": "",
+    "message": "Afel (odsluní)"
+  },
+  "AR_ATMOSPHERE": {
+    "description": "",
+    "message": "\" argonovou atmosférou\""
+  },
+  "ASTEROID": {
+    "description": "",
+    "message": "Asteroid"
+  },
+  "AUTOMATIC_SYSTEM_SELECTION": {
+    "description": "for star map, select star system when mouse close to it",
+    "message": "Automatický výběr systému"
+  },
+  "AUTOPILOT_CONTROL": {
+    "description": "Indicating that ship is flying under autopilot control",
+    "message": "Autopilot control"
+  },
+  "AUTOPILOT_DOCK_WITH_STATION": {
+    "description": "",
+    "message": "Autopilot: Dock with {target}"
+  },
+  "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilot: Enter high orbit around {target}"
+  },
+  "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilot: Enter low orbit around {target}"
+  },
+  "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilot: Enter medium orbit around {target}"
+  },
+  "AUTOPILOT_FLY_TO_VICINITY_OF": {
+    "description": "",
+    "message": "Autopilot: Fly to vicinity of {target}"
+  },
+  "AUTOPILOT_ON": {
+    "description": "",
+    "message": "Autopilot zapnut"
+  },
+  "AXIAL_TILT": {
+    "description": "",
+    "message": "Sklon rotační osy"
+  },
+  "A_FEW_THOUSAND": {
+    "description": "regarding population",
+    "message": "Pouze několik tisíc"
+  },
+  "BATTLE_WEAPONS": {
+    "description": "",
+    "message": "Válečné zbraně"
+  },
+  "BINARY_SYSTEM": {
+    "description": "",
+    "message": "Binární systém"
+  },
+  "BODIES": {
+    "description": "space bodies",
+    "message": "tělesy"
+  },
+  "BODY": {
+    "description": "",
+    "message": "tělesem"
+  },
+  "BROWN_DWARF": {
+    "description": "",
+    "message": "Hnědý trpaslík (podhvězda)"
+  },
+  "BUTTON": {
+    "description": "",
+    "message": "\" klávesa \""
+  },
+  "CAMERA_BOTTOM_VIEW": {
+    "description": "",
+    "message": "Pohled zdola"
+  },
+  "CAMERA_FRONT_VIEW": {
+    "description": "",
+    "message": "Pohled dopředu"
+  },
+  "CAMERA_LEFT_VIEW": {
+    "description": "",
+    "message": "Pohled doleva"
+  },
+  "CAMERA_REAR_VIEW": {
+    "description": "",
+    "message": "Pohled dozadu"
+  },
+  "CAMERA_RIGHT_VIEW": {
+    "description": "",
+    "message": "Pohled doprava"
+  },
+  "CAMERA_TOP_VIEW": {
+    "description": "",
+    "message": "Pohled shora"
+  },
+  "CANT_SAVE_DEAD_PLAYER": {
+    "description": "",
+    "message": "Nelze uložit hru po smrti hráče"
+  },
+  "CANT_SAVE_IN_HYPERSPACE": {
+    "description": "",
+    "message": "V hyperprostoru nelze hru ukládat"
+  },
+  "CAPITALIST": {
+    "description": "",
+    "message": "Kapitalismus"
+  },
+  "CARBON_ORE": {
+    "description": "",
+    "message": "Uhlíková ruda"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Náklad"
+  },
+  "CARGO_BAY_LIFE_SUPPORT_LOST": {
+    "description": "",
+    "message": "Senzory hlásí kritický stav podpory života v nákladovém prostoru."
+  },
+  "CARGO_N": {
+    "description": "",
+    "message": "Náklad: %{mass}t"
+  },
+  "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
+    "description": "",
+    "message": "Sběrač nákladu aktivní. Naložena 1 t %item."
+  },
+  "CARGO_SCOOP_ATTEMPTED": {
+    "description": "",
+    "message": "Sezbírání nákladu selhalo. V nákladovém prostoru není dostatek místa."
+  },
+  "CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "\" metanovou atmosférou\""
+  },
+  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Povolení již bylo uděleno. Pokračujte do doku %bay."
+  },
+  "CLEARANCE_DENIED_NO_BAYS": {
+    "description": "",
+    "message": "Povolení zamítnuto. Všechny doky jsou obsazeny."
+  },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Clearance denied. Your ship is too far away for ID verification."
+  },
+  "CLEARANCE_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Povolení uděleno. Pokračujte do doku %bay."
+  },
+  "CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "\" oxido-uhličitou atmosférou\""
+  },
+  "COMMA_HIGHLY_VOLCANIC": {
+    "description": "",
+    "message": ", vysoce vulkanická"
+  },
+  "COMMODITY_NONE": {
+    "description": "When no commodities exist",
+    "message": "Nic"
+  },
+  "COMMODITY_TRADE_ANALYSIS_COMPARE": {
+    "description": "",
+    "message": "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
+  },
+  "COMMODITY_TRADE_ANALYSIS_SELF": {
+    "description": "",
+    "message": "Analýza trhu komoditami v systému #fff%system#fff"
+  },
+  "COMMS": {
+    "description": "",
+    "message": "Kom.linka"
+  },
+  "COMMUNIST": {
+    "description": "",
+    "message": "Komunismus"
+  },
+  "COMPASS_E": {
+    "description": "Abbreviation for compass direction: East",
+    "message": "E"
+  },
+  "COMPASS_N": {
+    "description": "Abbreviation for compass direction: North",
+    "message": "N"
+  },
+  "COMPASS_NE": {
+    "description": "Abbreviation for compass direction: North East",
+    "message": "NE"
+  },
+  "COMPASS_NW": {
+    "description": "Abbreviation for compass direction: North West",
+    "message": "NW"
+  },
+  "COMPASS_S": {
+    "description": "Abbreviation for compass direction: South",
+    "message": "S"
+  },
+  "COMPASS_SE": {
+    "description": "Abbreviation for compass direction: South East",
+    "message": "SE"
+  },
+  "COMPASS_SW": {
+    "description": "Abbreviation for compass direction: South West",
+    "message": "SW"
+  },
+  "COMPASS_W": {
+    "description": "Abbreviation for compass direction: West",
+    "message": "W"
+  },
+  "COMPUTERS": {
+    "description": "",
+    "message": "Počítače"
+  },
+  "COMPUTER_HEADING_CONTROL": {
+    "description": "",
+    "message": "Automatické ovládání směru"
+  },
+  "COMPUTER_SPEED_CONTROL": {
+    "description": "",
+    "message": "Automatické ovládání rychlosti"
+  },
+  "CONSUMER_GOODS": {
+    "description": "",
+    "message": "Spotřební zboží"
+  },
+  "CONTROLS": {
+    "description": "",
+    "message": "Ovládání"
+  },
+  "CORPORATE_SYSTEM": {
+    "description": "",
+    "message": "Korporátní systém"
+  },
+  "COULD_NOT_OPEN_FILENAME": {
+    "description": "",
+    "message": "Nemohu otevřít cestu %path"
+  },
+  "COUNT_ON_SURFACE": {
+    "description": "",
+    "message": "\" (%surfacecount na povrchu)\""
+  },
+  "COUNT_STARPORTS": {
+    "description": "",
+    "message": "stanicemi"
+  },
+  "CO_ATMOSPHERE": {
+    "description": "",
+    "message": "\" oxido-uhelnatou atmosférou\""
+  },
+  "CTRL": {
+    "description": "Ctrl key on keyboard",
+    "message": "Ctrl"
+  },
+  "CURRENT_SYSTEM": {
+    "description": "selected current star system",
+    "message": "Aktuální systém"
+  },
+  "DATE_DUE_N": {
+    "description": "",
+    "message": "Termín: %date"
+  },
+  "DAY_LENGTH": {
+    "description": "",
+    "message": "Délka dne"
+  },
+  "DECREASE_RADAR_RANGE": {
+    "description": "",
+    "message": "Decrease radar range"
+  },
+  "DECREASE_SET_SPEED": {
+    "description": "",
+    "message": "Snížit nastavenou rychlost"
+  },
+  "DECREASE_TIME_ACCELERATION": {
+    "description": "",
+    "message": "Decrease Time Acceleration"
+  },
+  "DEMOGRAPHICS": {
+    "description": "",
+    "message": "Demografie"
+  },
+  "DESTINATION": {
+    "description": "",
+    "message": "Destinace"
+  },
+  "DIRECTION": {
+    "description": "Direction",
+    "message": "\" směr \""
+  },
+  "DISTANCE_LY": {
+    "description": "",
+    "message": "Vzdálenost: %distance{f.2} ly"
+  },
+  "DOCKED": {
+    "description": "",
+    "message": "Docked"
+  },
+  "DOCKING": {
+    "description": "",
+    "message": "Docking"
+  },
+  "DOCKING_CLEARANCE_EXPIRED": {
+    "description": "",
+    "message": "Povolení k přistání vypršelo. Pokud chcete přistát zopakujte svůj požadavek."
+  },
+  "DOWNGRADING_ALERT_STATUS": {
+    "description": "",
+    "message": "Žádná střelba po dobu 1 minuty, snižuji pohotovost."
+  },
+  "DRAW_OUT_RANGE_LABELS": {
+    "description": "",
+    "message": "Zobrazit systémy mimo dosah"
+  },
+  "DRAW_UNINHABITED_LABELS": {
+    "description": "",
+    "message": "Zobrazit neobydlené systémy"
+  },
+  "DRAW_VERTICAL_LINES": {
+    "description": "",
+    "message": "Zobrazit svislé čáry"
+  },
+  "EARTH": {
+    "description": "",
+    "message": "Zemí"
+  },
+  "EARTH_FEDERATION_COLONIAL_RULE": {
+    "description": "",
+    "message": "Koloniální řád Federace Země"
+  },
+  "EARTH_FEDERATION_DEMOCRACY": {
+    "description": "",
+    "message": "Demokratická Federace Země"
+  },
+  "ECCENTRICITY": {
+    "description": "",
+    "message": "Výstřednost"
+  },
+  "ECONOMIC_INFO": {
+    "description": "",
+    "message": "Ekonomika"
+  },
+  "ECONOMY_TYPE": {
+    "description": "",
+    "message": "Druh ekonomiky:"
+  },
+  "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
+    "description": "",
+    "message": "Poměr poloměrů (rovníkový/polární)"
+  },
+  "EXACT_MATCH_X": {
+    "description": "",
+    "message": "Nalezen: %system"
+  },
+  "EXTENSIVE_MINING": {
+    "description": "",
+    "message": "Rozsáhlá důlní činnost."
+  },
+  "EXTERNAL_ATMOSPHERIC_PRESSURE": {
+    "description": "",
+    "message": "Okolní atmosférický tlak"
+  },
+  "EXTERNAL_VIEW": {
+    "description": "",
+    "message": "Pohled zvenku"
+  },
+  "FARM_MACHINERY": {
+    "description": "",
+    "message": "Zemědělské stroje"
+  },
+  "FERTILIZER": {
+    "description": "",
+    "message": "Hnojivo"
+  },
+  "FIRE_LASER": {
+    "description": "",
+    "message": "Fire weapon"
+  },
+  "FIRE_MISSILE": {
+    "description": "",
+    "message": "Vypustit střelu"
+  },
+  "FLYBY_VIEW": {
+    "description": "camera view setting",
+    "message": "Flyby view"
+  },
+  "FOLLOWING_SELECTION": {
+    "description": "",
+    "message": "Následovat výběr"
+  },
+  "FRUIT_AND_VEG": {
+    "description": "",
+    "message": "Ovoce a zelenina"
+  },
+  "FUEL": {
+    "description": "",
+    "message": "Palivo"
+  },
+  "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
+    "description": "",
+    "message": "Sběrač paliva aktivní. Nyní máte %quantity t paliva."
+  },
+  "GALACTIC_VIEW": {
+    "description": "view galactic map",
+    "message": "Galaktický náhled"
+  },
+  "GALAXY_SECTOR_VIEW": {
+    "description": "",
+    "message": "Sektorový náhled"
+  },
+  "GAME_LOAD_CANNOT_OPEN": {
+    "description": "",
+    "message": "Save file '%filename' could not be found (or the game does not have access to open it)."
+  },
+  "GAME_LOAD_CORRUPT": {
+    "description": "",
+    "message": "Tento soubor nelze načíst, protože obsahuje chyby."
+  },
+  "GAME_LOAD_WRONG_VERSION": {
+    "description": "",
+    "message": "Tento soubor nelze načíst, protože byl vytvořen jinou verzí hry Pioneer."
+  },
+  "GAME_SAVED_TO": {
+    "description": "",
+    "message": "\"Hra uložena do \""
+  },
+  "GAME_SAVE_CANNOT_WRITE": {
+    "description": "",
+    "message": "Tento soubor nelze zapsat z důvodu systémové chyby."
+  },
+  "GENERAL_VIEW_CONTROLS": {
+    "description": "",
+    "message": "Ovládací prvky celkového pohledu"
+  },
+  "GOVERNMENT_TYPE": {
+    "description": "",
+    "message": "Druh vlády:"
+  },
+  "GRAIN": {
+    "description": "like wheat or barley",
+    "message": "Obilí"
+  },
+  "HAND_WEAPONS": {
+    "description": "",
+    "message": "Ruční zbraně"
+  },
+  "HARD_CAPITALIST": {
+    "description": "",
+    "message": "Naprostý kapitalismus - žádný státní sociální systém"
+  },
+  "HAT": {
+    "description": "Hat switch: Is the top button on a joystick",
+    "message": "\" klobouk\""
+  },
+  "HEADING_LOCK_ANTINORMAL": {
+    "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
+    "message": "Hold {target} anti-normal"
+  },
+  "HEADING_LOCK_BACKWARD": {
+    "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
+    "message": "Hold {target} retrograde"
+  },
+  "HEADING_LOCK_FORWARD": {
+    "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
+    "message": "Hold {target} prograde"
+  },
+  "HEADING_LOCK_KILLROT": {
+    "description": "",
+    "message": "Zastavit rotaci"
+  },
+  "HEADING_LOCK_NORMAL": {
+    "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
+    "message": "Hold {target} normal"
+  },
+  "HEADING_LOCK_RADIALLY_INWARD": {
+    "description": "Autopilot direction, relative to orbit (face towards planet)",
+    "message": "Hold {target} radially in"
+  },
+  "HEADING_LOCK_RADIALLY_OUTWARD": {
+    "description": "Autopilot direction, relative to orbit (face away from palent)",
+    "message": "Hold {target} radially out"
+  },
+  "HEAVY_INDUSTRY": {
+    "description": "",
+    "message": "Těžký průmysl."
+  },
+  "HE_ATMOSPHERE": {
+    "description": "",
+    "message": "\" héliovou atmosférou\""
+  },
+  "HIGHLY_VOLCANIC": {
+    "description": "",
+    "message": "Vysoce vulkanická"
+  },
+  "HIGH_POPULATION_OUTDOOR_WORLD": {
+    "description": "",
+    "message": "Planeta s městy pod širým nebem s vysokou hustotou obyvatelstva."
+  },
+  "HULL_INTEGRITY": {
+    "description": "",
+    "message": "Integrita trupu"
+  },
+  "HULL_TEMP": {
+    "description": "",
+    "message": "Teplota trupu"
+  },
+  "HYDROGEN": {
+    "description": "",
+    "message": "Vodík"
+  },
+  "HYPERSPACE": {
+    "description": "",
+    "message": "Hyperprostor"
+  },
+  "HYPERSPACE_ARRIVAL_CLOUD": {
+    "description": "",
+    "message": "Příletové hyperprostorové okno"
+  },
+  "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
+    "description": "",
+    "message": "Pozůstatek příletového hyperprostorového okna"
+  },
+  "HYPERSPACE_DEPARTURE_CLOUD": {
+    "description": "",
+    "message": "Odletové hyperprostorové okno"
+  },
+  "HYPERSPACE_JUMP_ABORT": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Disengage Hyperdrive"
+  },
+  "HYPERSPACE_JUMP_ABORTED": {
+    "description": "",
+    "message": "Hyperprostorový skok zrušen."
+  },
+  "HYPERSPACE_JUMP_DISABLED": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Hyperdrive disabled"
+  },
+  "HYPERSPACE_JUMP_ENGAGE": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Engage Hyperdrive"
+  },
+  "HYPERSPACE_JUMP_FORBIDDEN": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Hyperdrive forbidden zone"
+  },
+  "HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Hyperprostorový cíl"
+  },
+  "H_ATMOSPHERE": {
+    "description": "",
+    "message": "\" vodíkovou atmosférou\""
+  },
+  "ICE_WORLD": {
+    "description": "",
+    "message": "\" ledová planeta\""
+  },
+  "ILLEGAL_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+    "message": "Ilegalní (current system):"
+  },
+  "ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Nelegální zboží:"
+  },
+  "IMPERIAL_RULE": {
+    "description": "",
+    "message": "Imperiální vláda"
+  },
+  "INCREASE_RADAR_RANGE": {
+    "description": "",
+    "message": "Increase radar range"
+  },
+  "INCREASE_SET_SPEED": {
+    "description": "",
+    "message": "Zvýšit nastavenou rychlost"
+  },
+  "INCREASE_TIME_ACCELERATION": {
+    "description": "",
+    "message": "Increase Time Acceleration"
+  },
+  "INDUSTRIAL_COLONY": {
+    "description": "",
+    "message": "Průmyslová kolonie."
+  },
+  "INDUSTRIAL_HUB_SYSTEM": {
+    "description": "",
+    "message": "Průmyslové obchodní centrum."
+  },
+  "INDUSTRIAL_MACHINERY": {
+    "description": "",
+    "message": "Průmyslové stroje"
+  },
+  "INTERNAL_VIEW": {
+    "description": "",
+    "message": "Pohled zevnitř"
+  },
+  "JOY": {
+    "description": "Short for Joystick",
+    "message": "Joy"
+  },
+  "JOYSTICK_INPUT": {
+    "description": "",
+    "message": "Ovládání joystickem"
+  },
+  "JOY_AXIS": {
+    "description": "Regarding joystick",
+    "message": "%{sign}%joyname osa %axis"
+  },
+  "L4L5_DISPLAY_MODE_TOGGLE": {
+    "description": "Either show L4/L5 points or don't",
+    "message": "Switch between Lagrange L4/L5 point display modes."
+  },
+  "LANDED": {
+    "description": "",
+    "message": "Landed"
+  },
+  "LANG_NAME": {
+    "description": "The name that native speakers use for this language. This will be used in the language selection screen.",
+    "message": "Česky"
+  },
+  "LARGE": {
+    "description": "regarding terrestrial planet size (mass actually)",
+    "message": "Velká"
+  },
+  "LARGE_GAS_GIANT": {
+    "description": "",
+    "message": "Velký plynný obr"
+  },
+  "LASER_FIRE_DETECTED": {
+    "description": "",
+    "message": "Weapons fire detected."
+  },
+  "LATITUDE": {
+    "description": "Short for latitude",
+    "message": "Lat:"
+  },
+  "LATITUDE_NORTH_ABBREV": {
+    "description": "Abbreviation letter for latitude 'north'",
+    "message": "N"
+  },
+  "LATITUDE_SOUTH_ABBREV": {
+    "description": "Abbreviation letter for latitude 'south'",
+    "message": "S"
+  },
+  "LEGAL_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+    "message": "Legální (current system):"
+  },
+  "LIBERAL_DEMOCRACY": {
+    "description": "",
+    "message": "Liberální demokracie"
+  },
+  "LIQUID_OXYGEN": {
+    "description": "",
+    "message": "Tekutý kyslík"
+  },
+  "LIQUOR": {
+    "description": "",
+    "message": "Alkohol"
+  },
+  "LIVE_ANIMALS": {
+    "description": "",
+    "message": "Živá zvířata"
+  },
+  "LOCKED": {
+    "description": "to lock a hyperspace target",
+    "message": "zaměřen"
+  },
+  "LONGITUDE": {
+    "description": "Short for longitude",
+    "message": "Long:"
+  },
+  "LONGITUDE_EAST_ABBREV": {
+    "description": "Abbreviation letter for longitude 'east'",
+    "message": "E"
+  },
+  "LONGITUDE_WEST_ABBREV": {
+    "description": "Abbreviation letter for latitude 'west'",
+    "message": "W"
+  },
+  "MAJOR_EXPORTS": {
+    "description": "",
+    "message": "Hlavní export:"
+  },
+  "MAJOR_EXPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Hlavní export (aktuální systém)"
+  },
+  "MAJOR_IMPORTS": {
+    "description": "",
+    "message": "Hlavní import:"
+  },
+  "MAJOR_IMPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Hlavní import (aktuální systém)"
+  },
+  "MANUAL_CONTROL": {
+    "description": "",
+    "message": "Manuální ovládání"
+  },
+  "MANUAL_CONTROL_MODE": {
+    "description": "",
+    "message": "Manuální ovládání"
+  },
+  "MAP_LOCK_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Zaměřit hyperprostorový cíl"
+  },
+  "MAP_TOGGLE_INFO_PANEL": {
+    "description": "",
+    "message": "Info panel"
+  },
+  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
+    "description": "",
+    "message": "Výběr následuje pohled"
+  },
+  "MAP_VIEW_ROTATE_DOWN": {
+    "description": "",
+    "message": "Otáčet pohled dolů"
+  },
+  "MAP_VIEW_ROTATE_LEFT": {
+    "description": "",
+    "message": "Otáčet pohled doleva"
+  },
+  "MAP_VIEW_ROTATE_RIGHT": {
+    "description": "",
+    "message": "Otáčet pohled doprava"
+  },
+  "MAP_VIEW_ROTATE_UP": {
+    "description": "",
+    "message": "Otáčet pohled nahoru"
+  },
+  "MAP_VIEW_SHIFT_BACKWARD": {
+    "description": "",
+    "message": "Posouvat pohled vzad"
+  },
+  "MAP_VIEW_SHIFT_DOWN": {
+    "description": "",
+    "message": "Posouvat pohled dolů"
+  },
+  "MAP_VIEW_SHIFT_FORWARD": {
+    "description": "",
+    "message": "Posouvat pohled vpřed"
+  },
+  "MAP_VIEW_SHIFT_LEFT": {
+    "description": "",
+    "message": "Posouvat pohled doleva"
+  },
+  "MAP_VIEW_SHIFT_RIGHT": {
+    "description": "",
+    "message": "Posouvat pohled doprava"
+  },
+  "MAP_VIEW_SHIFT_UP": {
+    "description": "",
+    "message": "Posouvat pohled nahoru"
+  },
+  "MAP_WARP_TO_CURRENT_SYSTEM": {
+    "description": "",
+    "message": "Warp do aktuálního systému"
+  },
+  "MAP_WARP_TO_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Warp do hyperprostorového cíle"
+  },
+  "MAP_WARP_TO_SELECTED_SYSTEM": {
+    "description": "",
+    "message": "Warp do zvoleného systému"
+  },
+  "MASS": {
+    "description": "",
+    "message": "Hmotnost"
+  },
+  "MASSIVE": {
+    "description": "",
+    "message": "Masivní"
+  },
+  "MASS_N_TONNES": {
+    "description": "",
+    "message": "Hmotnost: %{mass}t"
+  },
+  "MEDICINES": {
+    "description": "",
+    "message": "Léky"
+  },
+  "MEDIUM_GAS_GIANT": {
+    "description": "",
+    "message": "Střední plynný obr"
+  },
+  "MESSAGE_FROM_X": {
+    "description": "",
+    "message": "Zpráva od %sender:"
+  },
+  "META": {
+    "description": "'Meta' key on keyboard",
+    "message": "Meta"
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "Kovové slitiny"
+  },
+  "METAL_ORE": {
+    "description": "",
+    "message": "Železná ruda"
+  },
+  "MILITARY_DICTATORSHIP": {
+    "description": "",
+    "message": "Vojenská diktatura"
+  },
+  "MILITARY_FUEL": {
+    "description": "",
+    "message": "Vojenské palivo"
+  },
+  "MINING_COLONY": {
+    "description": "",
+    "message": "Důlní kolonie."
+  },
+  "MINING_MACHINERY": {
+    "description": "",
+    "message": "Důlní stroje"
+  },
+  "MINOR_EXPORTS": {
+    "description": "",
+    "message": "Drobný export:"
+  },
+  "MINOR_EXPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Drobný export (aktuální systém)"
+  },
+  "MINOR_IMPORTS": {
+    "description": "",
+    "message": "Drobný import:"
+  },
+  "MINOR_IMPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Drobný import (aktuální systém)"
+  },
+  "MISCELLANEOUS": {
+    "description": "",
+    "message": "Různé"
+  },
+  "MISSILE": {
+    "description": "",
+    "message": "Střela"
+  },
+  "MIXED_ECONOMY": {
+    "description": "",
+    "message": "Smíšený ekonomický systém"
+  },
+  "MONTH_APR": {
+    "description": "",
+    "message": "Dub"
+  },
+  "MONTH_AUG": {
+    "description": "",
+    "message": "Srp"
+  },
+  "MONTH_DEC": {
+    "description": "",
+    "message": "Pro"
+  },
+  "MONTH_FEB": {
+    "description": "",
+    "message": "Úno"
+  },
+  "MONTH_JAN": {
+    "description": "",
+    "message": "Led"
+  },
+  "MONTH_JUL": {
+    "description": "",
+    "message": "Čvc"
+  },
+  "MONTH_JUN": {
+    "description": "",
+    "message": "Čer"
+  },
+  "MONTH_MAR": {
+    "description": "",
+    "message": "Bře"
+  },
+  "MONTH_MAY": {
+    "description": "",
+    "message": "Kvě"
+  },
+  "MONTH_NOV": {
+    "description": "",
+    "message": "Lis"
+  },
+  "MONTH_OCT": {
+    "description": "",
+    "message": "Říj"
+  },
+  "MONTH_SEP": {
+    "description": "",
+    "message": "Zář"
+  },
+  "NAME_OBJECT": {
+    "description": "For an item or object",
+    "message": "Jméno"
+  },
+  "NAME_PERSON": {
+    "description": "For a person",
+    "message": "Jméno"
+  },
+  "NARCOTICS": {
+    "description": "",
+    "message": "Drogy"
+  },
+  "NAVIGATION_STAR_MAPS": {
+    "description": "",
+    "message": "Navigace a hvězdné mapy"
+  },
+  "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
+    "description": "",
+    "message": "Navigační cíle v tomto systému"
+  },
+  "NERVE_GAS": {
+    "description": "",
+    "message": "Nervový plyn"
+  },
+  "NOT_FOUND": {
+    "description": "searching star system in sector view",
+    "message": "Nenalezen"
+  },
+  "NOT_FOUND_BEST_MATCH_X": {
+    "description": "",
+    "message": "Nenalezen, nejbližší výsledek: %system"
+  },
+  "NOW": {
+    "description": "In System Orbit View",
+    "message": "Now"
+  },
+  "NO_ALERT": {
+    "description": "",
+    "message": "Žádný poplach"
+  },
+  "NO_CENTRAL_GOVERNANCE": {
+    "description": "",
+    "message": "Bez centrální vlády"
+  },
+  "NO_ESTABLISHED_ORDER": {
+    "description": "",
+    "message": "Bez stanoveného zřízení"
+  },
+  "NO_HYPERDRIVE": {
+    "description": "",
+    "message": "Žádný hypermotor"
+  },
+  "NO_REGISTERED_INHABITANTS": {
+    "description": "",
+    "message": "Žádní registrovaní obyvatelé"
+  },
+  "NO_TARGET_SELECTED": {
+    "description": "",
+    "message": "Počítač: Není označen cíl"
+  },
+  "NUMBER_DAYS": {
+    "description": "",
+    "message": "%days{f.0} dnů"
+  },
+  "NUMBER_DECIMAL_POINT": {
+    "description": "Decimal delimiter used in numbers.",
+    "message": "."
+  },
+  "NUMBER_G": {
+    "description": "",
+    "message": "%acceleration{f.1} G"
+  },
+  "NUMBER_GROUP_MIN": {
+    "description": "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
+    "message": "1000"
+  },
+  "NUMBER_GROUP_NUM": {
+    "description": "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
+    "message": "3"
+  },
+  "NUMBER_GROUP_SEP": {
+    "description": "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
+    "message": ","
+  },
+  "NUMBER_HOURS": {
+    "description": "",
+    "message": "%hours{f.1} hodin"
+  },
+  "NUMBER_LY": {
+    "description": "",
+    "message": "%distance{f.2} ly"
+  },
+  "NUMBER_TONNES": {
+    "description": "",
+    "message": "%{mass}t"
+  },
+  "N_ATMOSPHERE": {
+    "description": "",
+    "message": "\" dusíkovou atmosférou\""
+  },
+  "N_CELSIUS": {
+    "description": "",
+    "message": "%temperature °C"
+  },
+  "N_DAYS": {
+    "description": "",
+    "message": "%days{f.1} dnů"
+  },
+  "N_DEGREES": {
+    "description": "",
+    "message": "%angle{f.1}°"
+  },
+  "N_EARTH_DAYS": {
+    "description": "",
+    "message": "%days{f.1} pozemských dnů"
+  },
+  "N_WHATEVER_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} %units"
+  },
+  "N_WHATEVER_RADII": {
+    "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
+    "message": "%radius{f.3} %units"
+  },
+  "N_YEARS": {
+    "description": "",
+    "message": "%years{f.1} let"
+  },
+  "O2_ATMOSPHERE": {
+    "description": "",
+    "message": "\" kyslíkovou atmosférou\""
+  },
+  "OCEANICWORLD": {
+    "description": "",
+    "message": "\" vodní planeta\""
+  },
+  "ORBITAL_PERIOD": {
+    "description": "",
+    "message": "Perioda (oběžná doba)"
+  },
+  "ORBITAL_STARPORT": {
+    "description": "",
+    "message": "Orbitální stanice"
+  },
+  "OUTDOOR_AGRICULTURAL_WORLD": {
+    "description": "",
+    "message": "Planeta se zemědělstvím pod širým nebem."
+  },
+  "OVER_N_BILLION": {
+    "description": "",
+    "message": "Více než %population miliard"
+  },
+  "OVER_N_MILLION": {
+    "description": "",
+    "message": "Více než %population miliónů"
+  },
+  "PASSENGER_CABIN": {
+    "description": "",
+    "message": "Obsazená pasažérská kabina"
+  },
+  "PAUSED": {
+    "description": "",
+    "message": "PAUZA"
+  },
+  "PAY_FINE_REMOTELY": {
+    "description": "",
+    "message": "Zaplatit pokutu dálkovým převodem (%amount)"
+  },
+  "PERIAPSIS_DISTANCE": {
+    "description": "",
+    "message": "Perihel (přísluní)"
+  },
+  "PIONEER": {
+    "description": "",
+    "message": "PIONEER"
+  },
+  "PITCH": {
+    "description": "",
+    "message": "Stoupání/klesání"
+  },
+  "PITCH_DOWN": {
+    "description": "",
+    "message": "Dolů"
+  },
+  "PITCH_UP": {
+    "description": "",
+    "message": "Nahoru"
+  },
+  "PLANETARY_INFO": {
+    "description": "",
+    "message": "Planetární info"
+  },
+  "PLANET_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" planeta s kapalnou vodou\""
+  },
+  "PLANET_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" planeta obsahující led\""
+  },
+  "PLANNED_ECONOMY": {
+    "description": "",
+    "message": "Plánované hospodářství"
+  },
+  "PLANNER_RESET_FACTOR": {
+    "description": "For system orbit view",
+    "message": "Rate of increase of delta-v values. Click to reset to default."
+  },
+  "PLANNER_RESET_NORMAL": {
+    "description": "For system orbit view",
+    "message": "Normal delta-v. Click to reset to zero."
+  },
+  "PLANNER_RESET_PROGRADE": {
+    "description": "For system orbit view",
+    "message": "Prograde delta-v. Click to reset to zero."
+  },
+  "PLANNER_RESET_RADIAL": {
+    "description": "For system orbit view",
+    "message": "Radial delta-v. Click to reset to zero."
+  },
+  "PLANNER_RESET_START": {
+    "description": "For system orbit view",
+    "message": "Maneuver start. Click to reset to default."
+  },
+  "PLASTICS": {
+    "description": "",
+    "message": "Plasty"
+  },
+  "PLUTOCRATIC_DICTATORSHIP": {
+    "description": "",
+    "message": "Plutokratická diktatura"
+  },
+  "POPULATION": {
+    "description": "",
+    "message": "Populace:"
+  },
+  "PRECIOUS_METALS": {
+    "description": "",
+    "message": "Drahé kovy"
+  },
+  "PRESSURE_N_ATMOSPHERES": {
+    "description": "",
+    "message": "Tlak: %pressure{f.2} atm"
+  },
+  "QUADRUPLE_SYSTEM": {
+    "description": "",
+    "message": "Kvadrární systém"
+  },
+  "RADAR_CONTROL": {
+    "description": "",
+    "message": "Radar control"
+  },
+  "RADIOACTIVES": {
+    "description": "",
+    "message": "Radioaktivní odpad"
+  },
+  "RADIUS": {
+    "description": "",
+    "message": "Rovníkový poloměr"
+  },
+  "RECENTLY_EXPLORED_SYSTEM": {
+    "description": "",
+    "message": "Systém byl prozkoumán %date."
+  },
+  "REQUEST_DOCKING_CLEARANCE": {
+    "description": "",
+    "message": "Request docking clearance from {target}"
+  },
+  "RESET": {
+    "description": "",
+    "message": "Reset"
+  },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Reset orientace a zoomu"
+  },
+  "ROBOTS": {
+    "description": "",
+    "message": "Roboti"
+  },
+  "ROCKY_PLANET": {
+    "description": "",
+    "message": "\" skalnatá planeta\""
+  },
+  "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
+    "description": "",
+    "message": "\" skalnatá planeta obsahující kapaliny,\""
+  },
+  "ROLL": {
+    "description": "",
+    "message": "Klonění"
+  },
+  "ROLL_LEFT": {
+    "description": "",
+    "message": "Klonit doleva"
+  },
+  "ROLL_RIGHT": {
+    "description": "",
+    "message": "Klonit doprava"
+  },
+  "ROTATE_DOWN": {
+    "description": "",
+    "message": "Klopit dolů"
+  },
+  "ROTATE_LEFT": {
+    "description": "",
+    "message": "Otáčet doleva"
+  },
+  "ROTATE_RIGHT": {
+    "description": "",
+    "message": "Otáčet doprava"
+  },
+  "ROTATE_UP": {
+    "description": "",
+    "message": "Klopit nahoru"
+  },
+  "ROTATIONAL_PERIOD": {
+    "description": "",
+    "message": "\" (perioda rotace)\""
+  },
+  "ROTATION_DAMPING_OFF": {
+    "description": "",
+    "message": "Tlumení rotace vypnuto"
+  },
+  "ROTATION_DAMPING_ON": {
+    "description": "",
+    "message": "Tlumení rotace zapnuto"
+  },
+  "RUBBISH": {
+    "description": "",
+    "message": "Odpadky"
+  },
+  "SCOOP": {
+    "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+    "message": "Scoop"
+  },
+  "SCREENSHOT_FILENAME_TEMPLATE": {
+    "description": "",
+    "message": "pioneer_screenshot%index{d08}.png"
+  },
+  "SEARCH": {
+    "description": "",
+    "message": "Najít"
+  },
+  "SEARCH_MAP": {
+    "description": "",
+    "message": "Prohledat mapu"
+  },
+  "SECTOR_COORDINATES": {
+    "description": "",
+    "message": "Souřadnice sektoru:"
+  },
+  "SECTOR_MAP_VIEW": {
+    "description": "",
+    "message": "Mapa sektorů"
+  },
+  "SECTOR_X_Y_Z": {
+    "description": "",
+    "message": "Sektor: %x,%y,%z"
+  },
+  "SELECTED_SYSTEM": {
+    "description": "",
+    "message": "Zvolený systém"
+  },
+  "SELECT_A_TARGET": {
+    "description": "",
+    "message": "Vyber cíl"
+  },
+  "SELECT_LOW_THRUST_POWER_LEVEL": {
+    "description": "",
+    "message": "Zapnout režim nízkého tahu"
+  },
+  "SEMI_MAJOR_AXIS": {
+    "description": "",
+    "message": "Velká poloosa dráhy"
+  },
+  "SET_HYPERSPACE_DESTINATION_TO": {
+    "description": "",
+    "message": "Nastavit cíl hyperskoku na %system"
+  },
+  "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
+    "description": "",
+    "message": "Analyzátor hyperprostorových oken: Zvolit cíl k pronásledovaní tohoto odletu"
+  },
+  "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
+    "description": "",
+    "message": "Nastavit režim nízkého tahu na %power%%"
+  },
+  "SET_NAVTARGET_TO": {
+    "description": "",
+    "message": "Zvolit navigační cíl na:"
+  },
+  "SET_SPEED_KM_S": {
+    "description": "",
+    "message": "Rychlost: %speed{f.2} km/s"
+  },
+  "SET_SPEED_M_S": {
+    "description": "",
+    "message": "Rychlost: %speed{f.0} m/s"
+  },
+  "SHIELD_INTEGRITY": {
+    "description": "",
+    "message": "Integrita štítů"
+  },
+  "SHIELD_STRENGTH_N": {
+    "description": "",
+    "message": "Síla štítů: %shields{f.2}"
+  },
+  "SHIFT": {
+    "description": "Shift key on keyboard",
+    "message": "Shift"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Loď"
+  },
+  "SHIPS_DISPLAY_MODE_TOGGLE": {
+    "description": "Either show no ships, show ships, or show ships + their orbits",
+    "message": "Switch between ship display modes."
+  },
+  "SHIP_DETECTED_NEARBY": {
+    "description": "",
+    "message": "Detekována loď v blízkosti."
+  },
+  "SHIP_INFORMATION": {
+    "description": "",
+    "message": "Informace o lodi"
+  },
+  "SHIP_MASS_N_TONNES": {
+    "description": "",
+    "message": "Hmotnost lodi: %{mass}t"
+  },
+  "SHIP_NEARBY": {
+    "description": "",
+    "message": "Loď v blízkosti"
+  },
+  "SHIP_ORIENTATION": {
+    "description": "",
+    "message": "Orientace lodi (vzhledem k HUD)"
+  },
+  "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
+    "description": "",
+    "message": "Rychlost vzhledem k referenčnímu objektu"
+  },
+  "SIDEREAL_VIEW": {
+    "description": "camera view setting",
+    "message": "Pohled hvězdný"
+  },
+  "SLAVES": {
+    "description": "",
+    "message": "Otroci"
+  },
+  "SMALL": {
+    "description": "",
+    "message": "Malá"
+  },
+  "SMALL_GAS_GIANT": {
+    "description": "",
+    "message": "Malý plynný obr"
+  },
+  "SMALL_INDUSTRIAL_OUTPOST": {
+    "description": "",
+    "message": "Malá průmyslová základna."
+  },
+  "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": {
+    "description": "",
+    "message": "Průzkumné práce malého rozsahu (nerosty/drahé kovy). Žádné registrované osady."
+  },
+  "SOCIAL_DEMOCRACY": {
+    "description": "",
+    "message": "Sociální demokracie"
+  },
+  "SOLAR": {
+    "description": "",
+    "message": "Sluncí"
+  },
+  "SOME_ESTABLISHED_MINING": {
+    "description": "",
+    "message": "Důlní činnost malého rozsahu."
+  },
+  "SOURCE": {
+    "description": "tell source system of hyperjump entry cloud",
+    "message": "Původ"
+  },
+  "SPEED_CONTROL_MODE": {
+    "description": "",
+    "message": "Ovládání rychlosti"
+  },
+  "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
+    "description": "",
+    "message": "Stabilní systém s %bodycount hlavními %{body(s)} a %portcount %{starport(s)}"
+  },
+  "STARPORT": {
+    "description": "",
+    "message": "Stanice"
+  },
+  "STARPORTS": {
+    "description": "",
+    "message": "Stanice"
+  },
+  "STAR_A": {
+    "description": "",
+    "message": "Typ 'A' horká bílá hvězda"
+  },
+  "STAR_AF_GIANT": {
+    "description": "",
+    "message": "Bílý obr"
+  },
+  "STAR_AF_HYPER_GIANT": {
+    "description": "",
+    "message": "Bílý hyperobr"
+  },
+  "STAR_AF_SUPER_GIANT": {
+    "description": "",
+    "message": "Bílý veleobr"
+  },
+  "STAR_B": {
+    "description": "",
+    "message": "Typ 'B' jasná modrá hvězda"
+  },
+  "STAR_B_GIANT": {
+    "description": "",
+    "message": "Modrý obr"
+  },
+  "STAR_B_HYPER_GIANT": {
+    "description": "",
+    "message": "Modrý hyperobr"
+  },
+  "STAR_B_SUPER_GIANT": {
+    "description": "",
+    "message": "Modrý veleobr"
+  },
+  "STAR_B_WF": {
+    "description": "",
+    "message": "Wolf-Rayetova hvězda - riziko zhroucení"
+  },
+  "STAR_F": {
+    "description": "",
+    "message": "Typ 'F' bílá hvězda"
+  },
+  "STAR_G": {
+    "description": "",
+    "message": "Typ 'G' žlutá hvězda"
+  },
+  "STAR_G_GIANT": {
+    "description": "",
+    "message": "Žlutý obr - nestabilní"
+  },
+  "STAR_G_HYPER_GIANT": {
+    "description": "",
+    "message": "Žlutý hyperobr - nestabilní"
+  },
+  "STAR_G_SUPER_GIANT": {
+    "description": "",
+    "message": "Žlutý veleobr"
+  },
+  "STAR_IM_BH": {
+    "description": "",
+    "message": "Středně hmotná černá díra"
+  },
+  "STAR_K": {
+    "description": "",
+    "message": "Typ 'K' oranžová hvězda"
+  },
+  "STAR_K_GIANT": {
+    "description": "",
+    "message": "Oranžový obr - nestabilní"
+  },
+  "STAR_K_HYPER_GIANT": {
+    "description": "",
+    "message": "Oranžový hyperobr - nestabilní"
+  },
+  "STAR_K_SUPER_GIANT": {
+    "description": "",
+    "message": "Oranžový veleobr"
+  },
+  "STAR_M": {
+    "description": "",
+    "message": "Typ 'M' červená hvězda"
+  },
+  "STAR_M_GIANT": {
+    "description": "",
+    "message": "Červený obr"
+  },
+  "STAR_M_HYPER_GIANT": {
+    "description": "",
+    "message": "Červený hyperobr"
+  },
+  "STAR_M_SUPER_GIANT": {
+    "description": "",
+    "message": "Červený veleobr"
+  },
+  "STAR_M_WF": {
+    "description": "",
+    "message": "Wolf-Rayetova hvězda - nestabilní"
+  },
+  "STAR_O": {
+    "description": "",
+    "message": "Typ 'O' horká, masivní hvězda"
+  },
+  "STAR_O_GIANT": {
+    "description": "",
+    "message": "Horký modrý obr"
+  },
+  "STAR_O_HYPER_GIANT": {
+    "description": "",
+    "message": "Horký modrý hyperobr"
+  },
+  "STAR_O_SUPER_GIANT": {
+    "description": "",
+    "message": "Horký modrý veleobr"
+  },
+  "STAR_O_WF": {
+    "description": "",
+    "message": "Wolf-Rayetova hvězda - nastávající zhroucení"
+  },
+  "STAR_SM_BH": {
+    "description": "",
+    "message": "Supermasivní černá díra"
+  },
+  "STAR_SYSTEM_INFORMATION": {
+    "description": "",
+    "message": "Informace o systému"
+  },
+  "STAR_S_BH": {
+    "description": "",
+    "message": "Hvězdná černá díra"
+  },
+  "SUGGESTED_RESPONSES": {
+    "description": "",
+    "message": "Navrhované odpovědi:"
+  },
+  "SURFACE_GRAVITY": {
+    "description": "",
+    "message": "Gravitace na rovníku"
+  },
+  "SURFACE_TEMPERATURE": {
+    "description": "",
+    "message": "Povrchová teplota"
+  },
+  "SWAP_SELECTED_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Swap selected and hyperjump target"
+  },
+  "SWITCHED_TO_PARENT": {
+    "description": "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+    "message": "Switched heading display to system-wide coordinates."
+  },
+  "SWITCHED_TO_ROTATIONAL": {
+    "description": "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+    "message": "Switched heading display to planetary coordinates."
+  },
+  "SYSTEM": {
+    "description": "star system",
+    "message": "Systém"
+  },
+  "SYSTEM_NUMBER": {
+    "description": "",
+    "message": "Číslo systému:"
+  },
+  "SYSTEM_ORBIT_VIEW": {
+    "description": "",
+    "message": "Orbitální náhled"
+  },
+  "SYSTEM_TYPE": {
+    "description": "",
+    "message": "Druh systému:"
+  },
+  "S_ATMOSPHERE": {
+    "description": "",
+    "message": "\" sirnou atmosférou\""
+  },
+  "TAKEOFF": {
+    "description": "",
+    "message": "Start"
+  },
+  "TARGET_OBJECT_IN_SIGHTS": {
+    "description": "",
+    "message": "Označit cíl v zaměřovači"
+  },
+  "TENUOUS": {
+    "description": "atmosphere thickness",
+    "message": "velmi řídkou"
+  },
+  "TEXTILES": {
+    "description": "",
+    "message": "Textil"
+  },
+  "THICK": {
+    "description": "",
+    "message": "hustou"
+  },
+  "THIN": {
+    "description": "",
+    "message": "řídkou"
+  },
+  "THRIVING_OUTDOOR_WORLD": {
+    "description": "",
+    "message": "Prosperující kolonie pod širým nebem."
+  },
+  "THRUSTER_DORSAL": {
+    "description": "",
+    "message": "Tah dolů"
+  },
+  "THRUSTER_MAIN": {
+    "description": "",
+    "message": "Tah vpřed"
+  },
+  "THRUSTER_PORT": {
+    "description": "",
+    "message": "Tah doleva"
+  },
+  "THRUSTER_RETRO": {
+    "description": "",
+    "message": "Tah vzad"
+  },
+  "THRUSTER_STARBOARD": {
+    "description": "",
+    "message": "Tah doprava"
+  },
+  "THRUSTER_VENTRAL": {
+    "description": "",
+    "message": "Tah nahoru"
+  },
+  "TIME_POINT": {
+    "description": "",
+    "message": "Časová značka:"
+  },
+  "TINY": {
+    "description": "",
+    "message": "Drobná"
+  },
+  "TOGGLE_EQUIPMENT_VIEW": {
+    "description": "Tooltip for the Equipment View button",
+    "message": "Equipment View"
+  },
+  "TOGGLE_HUD_MODE": {
+    "description": "",
+    "message": "HUD mód"
+  },
+  "TOGGLE_LUA_CONSOLE": {
+    "description": "",
+    "message": "Lua konzole"
+  },
+  "TOGGLE_RADAR_MODE": {
+    "description": "",
+    "message": "Toggle radar mode"
+  },
+  "TOGGLE_RADAR_VIEW": {
+    "description": "Tooltip for the Radar View button",
+    "message": "Radar View"
+  },
+  "TOGGLE_ROTATION_DAMPING": {
+    "description": "",
+    "message": "Tlumení rotace"
+  },
+  "TOMBSTONE_EPITAPH": {
+    "description": "shown on tombstone when player dies",
+    "message": "R.I.P."
+  },
+  "TRADING_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Obchod s nelegálním zbožím"
+  },
+  "TRIPLE_SYSTEM": {
+    "description": "",
+    "message": "Trinární systém"
+  },
+  "UNDOCKING": {
+    "description": "Flight state of ship when leaving station",
+    "message": "Undocking"
+  },
+  "UNEXPLORED_SYSTEM_NO_DATA": {
+    "description": "",
+    "message": "Neprozkoumaný systém. Další informace nejsou k dispozici."
+  },
+  "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
+    "description": "",
+    "message": "Neprozkoumaný systém. Pohled není k dispozici."
+  },
+  "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
+    "description": "",
+    "message": "Neprozkoumaný systém. Informace o hvězdě získány pomocí dálkového teleskopu, ale nejsou k dispozici žádné informace o planetách."
+  },
+  "UNIT_AU": {
+    "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
+    "message": "AU"
+  },
+  "UNIT_DAYS": {
+    "description": "Duration unit: one 24-hour day",
+    "message": "d"
+  },
+  "UNIT_HOURS": {
+    "description": "Duration unit: one 60-minute hour",
+    "message": "h"
+  },
+  "UNIT_KILOMETERS": {
+    "description": "Distance unit: one kilometer",
+    "message": "km"
+  },
+  "UNIT_KILOMETERS_PER_SECOND": {
+    "description": "Speed unit: one kilometer per second",
+    "message": "km/s"
+  },
+  "UNIT_LY": {
+    "description": "Distance unit: a light year",
+    "message": "ly"
+  },
+  "UNIT_METERS": {
+    "description": "Distance unit: one meter",
+    "message": "m"
+  },
+  "UNIT_METERS_PER_SECOND": {
+    "description": "Speed unit: one meter per second",
+    "message": "m/s"
+  },
+  "UNIT_MILLION_METERS": {
+    "description": "Distance unit: one million meters",
+    "message": "Mm"
+  },
+  "UNIT_MILLION_METERS_PER_SECOND": {
+    "description": "Speed unit: one million meters per second",
+    "message": "Mm/s"
+  },
+  "UNIT_MINUTES": {
+    "description": "Duration unit: one 60-second minute",
+    "message": "m"
+  },
+  "UNIT_SECONDS": {
+    "description": "Duration unit: one second",
+    "message": "s"
+  },
+  "UNIT_TONNES": {
+    "description": "Mass unit: one tonne (t)",
+    "message": "t"
+  },
+  "UNIT_WEEKS": {
+    "description": "Duration unit: one 7-day week",
+    "message": "w"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "<neznámé>"
+  },
+  "UNSET_NAVTARGET": {
+    "description": "",
+    "message": "Unset navigation target."
+  },
+  "USE_LOW_THRUST": {
+    "description": "",
+    "message": "Použít slabý tah"
+  },
+  "VAST_STRIP_MINE": {
+    "description": "",
+    "message": "Rozsáhlá kolonie pro povrchovou těžbu."
+  },
+  "VERY_DENSE": {
+    "description": "",
+    "message": "velmi hustou"
+  },
+  "VERY_LARGE_GAS_GIANT": {
+    "description": "",
+    "message": "Velmi velký plynný obr"
+  },
+  "VIEW": {
+    "description": "",
+    "message": "Pohled"
+  },
+  "VIOLENT_ANARCHY": {
+    "description": "",
+    "message": "Anarchie (o celkovou nadvládu bojují různé ozbrojené frakce)"
+  },
+  "WATER": {
+    "description": "",
+    "message": "Voda"
+  },
+  "WEAPONS": {
+    "description": "",
+    "message": "Zbraně"
+  },
+  "WEAPON_TEMP": {
+    "description": "",
+    "message": "Teplota zbraně"
+  },
+  "WHEELS_ARE_DOWN": {
+    "description": "",
+    "message": "Podvozek vysunut"
+  },
+  "WHEELS_ARE_UP": {
+    "description": "",
+    "message": "Podvozek zasunut"
+  },
+  "WHITE_DWARF": {
+    "description": "",
+    "message": "Bílý trpaslík (pozůstatek hvězdy)"
+  },
+  "WITH_A": {
+    "description": "",
+    "message": "\" s \""
+  },
+  "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
+    "description": "",
+    "message": "\" bez výrazné atmosféry\""
+  },
+  "X": {
+    "description": "keybinding: x axis",
+    "message": "X"
+  },
+  "Y": {
+    "description": "keybinding: y axis",
+    "message": "Y"
+  },
+  "YAW": {
+    "description": "",
+    "message": "Zatáčení"
+  },
+  "YAW_LEFT": {
+    "description": "",
+    "message": "Zatočit doleva"
+  },
+  "YAW_RIGHT": {
+    "description": "",
+    "message": "Zatočit doprava"
+  },
+  "YOUNG_FARMING_COLONY": {
+    "description": "",
+    "message": "Nová zemědělská kolonie."
+  },
+  "Z": {
+    "description": "keybinding: z axis",
+    "message": "Z"
+  },
+  "ZOOM_IN": {
+    "description": "",
+    "message": "Zvětšit"
+  },
+  "ZOOM_OUT": {
+    "description": "",
+    "message": "Zmenšit"
+  }
 }

@@ -1485,7 +1485,7 @@ end
 
 local targetInteractionDistance = function (mission)
 	-- Determine if player is within interaction distance from mission target.
-	if Game.player:DistanceTo(mission.target) <= min_interaction_dist then
+	if mission.target and Game.player:DistanceTo(mission.target) <= min_interaction_dist then
 		return true
 	else
 		return false
@@ -1532,6 +1532,7 @@ local pickupCrew = function (mission)
 			local resulttxt = string.interp(l.RESULT_PICKUP_CREW, {todo = todo, done = done})
 			Comms.ImportantMessage(resulttxt)
 			mission.pickup_crew_check = "COMPLETE"
+			mission.location = mission.system_local
 		end
 	end
 end
@@ -2089,7 +2090,7 @@ local onGameStart = function ()
 	ads = {}
 	missions = {}
 
-	if not loaded_data then return end
+	if not loaded_data or not loaded_data.ads then return end
 
 	-- fill the global containers with previously saved data if this is a reload
 	for _,ad in pairs(loaded_data.ads) do

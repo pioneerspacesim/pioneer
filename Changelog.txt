@@ -1,5 +1,94 @@
+August 2018
+   * Internal Changes
+     * Ship parser script for wiki (json -> wiki, and json->csv) now working (#4169)
+     * Added more tooltips in settings menu (#4387)
+
+July 2018
+   * New Features
+     * Add flyby camera view (#4355)
+     * Add new hold-right-mouse-button menu for autopilot and orbital commands (#4369)
+     * Add new in-flight system overview window (F4 while flying) (#4369)
+     * F4 screen in-flight, replaced by system overview window and rmb-menu (#4369)
+     * New ship Lodos, medium freighter (#4374)
+     * More music! (#4385)
+
+   * Internal Changes
+     * Translation updates. running everything through jq, whitespace, sort (#4365)
+     * StarTypeInfo cleanup (#4366)
+     * Turn ship towards destination at end of voyage (#4362)
+
+   * Fixes
+     * Check for nullptr (#4367)
+     * Fix misplaced ships in external view (#4361)
+     * Split what needs to be done for pick up mission for cargo run (#4360)
+     * Equip ships spawned planet side with atmoshields (#4368)
+     * fix crash if user disables AntiAliasing (#4372)
+     * Combat mission icon (#4375)
+     * Uninvert system map camera (#4373)
+     * Do not toggle bindings when in settings view (#4364)
+     * Make it possible to change position of flyby camera (#4376)
+     * Deny docking request too far from station (#4371)
+     * Fix issue 4383 (#4384)
+     * Fix spotted issues with SAR mission (#4379)
+
+June 2018
+   * New Features
+     * Audio alarms (#4335)
+
+   * Internal Changes
+     * Correct minor formatting/indentation (#4321)
+     * Do not callback if button if disabled (#4342)
+     * Add MSVC2017 to COMPILING.txt (#4344)
+     * Check also for local_data.ads in all mission modules (#4349)
+     * Make assassination mission time depends on distance (#4348)
+
+   * Fixes
+     * Cleanup minor warnings, header inclusion, Windows versioning (#4339)
+     * Fix various isuess when saving/loading games (#4338)
+     * Reinstate searching by Sector coordinates (#4341)
+     * Update changed files so vs2015 builds again (#4346)
+     * Small saveloadgame script cleanup (#4343)
+     * Fix possible crash in system info view (#4351)
+     * Improve quality of docking4 music track (#4345)
+     * Various small GUI tweaks (#4354)
+     * Fix audio crossfade and do not play planet ambient sounds in hyperspace (#4356)
+     * Fix Ship positions in SystemView when not flying (#4347)
+     * Fix tab not hiding sector view window (#4298)
+     * Fix planets size "popping into view" as approaching from afar (#4190)
+
+May 2018
+   * New Features
+     * New mission: Combat #4319
+
+   * Fixes
+     * fix spoiled eggs (#4334)
+     * Bug fix for large Star Rendering (#4332)
+     * Invoke dummy Ship::TimeStepUpdate when refueling (#4320)
+
+April 2018
+   * Fixes
+     * Don't crash when missing translation (#4328)
+
+March 2018
+   * New Features
+     * Keepers orbital texture updates and patterns (#4315)
+     * Small BBS Easter egg added (#4316)
+     * New music added (#4293)
+
+February 2018
+   * New Features
+     * Main menu converted to ImGui (#4299)
+
+   * Fixes
+     * Don't crash when opening sector view in hyperspace (#4303)
+     * Bugfix for new main menu changes (#4310)
+     * Fix startup crash, m_prop was null (#4312)
+     * Activate the cockpit if it's being used (#4313)
+
 January 2018
    * New Features
+     * F2 sector view UI moved to ImGui (#4204)
+     * Hyperjump planner for F2 sector view (#4241)
      * Lua API StarSystem has new 'govtype' attribute (#4236)
      * Unexplored systems in the sector view zoomed out mode are now grey. (#4229)
      * Commodity market shows description of the commodity selected (#4213)
@@ -8,18 +97,41 @@ January 2018
      * CustomSystem input syntax adapted for easier data entry (#4238)
      * Sectorview zoomout prettier homeworld labels (#4245)
      * Hydrogen scooping from small planets with hydrogen atmosphere (#4254)
+     * Commodity market shows import/export icons if trade computer exists (#4227)
+     * access all systembody attributes in lua (#4256)
+     * Move LowThrust Setting to ImGui (#4261)
+     * Small display changes (#4279)
+     * Keepers new textures and patterns for ships (#4286)
 
    * Internal Changes
      * Happy new year! (#4240)
-     * Errors parsing Ship and Space Station data files will now make the game
-       fail during load, instead of leaving those objects in an indeterminate
-       state to cause a hard-to-diagnose crash later. (#4230)
+     * Errors parsing Ship and Space Station data files will now make the game fail during load, instead of leaving those objects in an indeterminate state to cause a hard-to-diagnose crash later. (#4230)
      * Fix spelling error in docs (#4244)
      * Remove unused strings (#4250)
-     * Add forgotten copyright headers to pigui-files (#4263)
+     * Add forgotten copyright headers to ImGui-files (#4263)
      * Trivial micro change of variable (#4264)
      * Some hash_random related fixes (#4257)
      * Change lua_pushinteger for lua_pushnumber to preserve value of seed (#4255)
+     * Updatefuel code duplication (#4262)
+     * CityOnPlanet rewrite: recursive to iterative (#4266)
+     * New calculations for station commodity stocks (#4267)
+     * Asteroid mining results controlled by lua (#4272)
+     * Route planner optimisations (#4283)
+     * Remove unused variable and update the comment (#4290)
+     * CityOnPlanet setuserdata optimized (#4289)
+     * Updates to Geom class (#4292)
+     * Minor optimisations around avoiding isqrt (#4294)
+     * Square the values now that the isqrt was removed (#4301)
+
+   * Fixes
+     * Planar and azimuthal radar at same time (#4265)
+     * Tradeships getSystemAndJump checking (#4268)
+     * Fudge-fix projectile ray tracing (#4278)
+     * Fix ship stat CSV output (#4277)
+     * Make the black hole system navigable (#4282)
+     * Modelcompiler fixes for x64 linking (#4285)
+     * Set the user data for city geom objects (#4284)
+     * Fix broken Lua->C seed transfers in Face & CustomSystem (#4296)
 
 December 2017
    * New Features

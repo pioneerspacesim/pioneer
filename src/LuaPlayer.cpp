@@ -86,6 +86,14 @@ static int l_set_set_speed_target(lua_State *l)
 	return 0;
 }
 
+static int l_change_set_speed(lua_State *l)
+{
+	Player *p = LuaObject<Player>::CheckFromLua(1);
+	double delta = LuaPull<double>(l, 2);
+	p->ChangeSetSpeed(delta);
+	return 0;
+}
+
 /*
  * Method: GetCombatTarget
  *
@@ -244,6 +252,14 @@ static int l_get_is_mouse_active(lua_State *l)
 	Player *player = LuaObject<Player>::CheckFromLua(1);
 	LuaPush(l, player->GetPlayerController()->IsMouseActive());
 	return 1;
+}
+
+static int l_player_set_flight_control_state(lua_State *l) {
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	std::string stateName = LuaPull<std::string>(l, 2);
+	FlightControlState state = static_cast<FlightControlState>(EnumStrings::GetValue("ShipControllerFlightControlState", stateName.c_str()));
+	player->GetPlayerController()->SetFlightControlState(state);
+	return 0;
 }
 
 /*
@@ -593,6 +609,7 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "GetNavTarget",        l_get_nav_target    },
 		{ "SetNavTarget",        l_set_nav_target    },
 		{ "SetSetSpeedTarget",   l_set_set_speed_target },
+		{ "ChangeSetSpeed",      l_change_set_speed },
 		{ "GetCombatTarget",     l_get_combat_target },
 		{ "SetCombatTarget",     l_set_combat_target },
 		{ "GetHyperspaceTarget", l_get_hyperspace_target },
@@ -616,7 +633,7 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "SetLowThrustPower",   l_set_low_thrust_power },
 		{ "IsHyperspaceActive",      l_player_is_hyperspace_active },
 		{ "GetHyperspaceCountdown",  l_player_get_hyperspace_countdown },
-			
+		{ "SetFlightControlState",  l_player_set_flight_control_state },
 		{ 0, 0 }
 	};
 

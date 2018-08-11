@@ -145,9 +145,7 @@ void ModelBody::RebuildCollisionMesh()
 	double maxRadius= m_collMesh->GetAabb().GetRadius();
 
 	//static geom
-	m_geom = new Geom(m_collMesh->GetGeomTree());
-	m_geom->SetUserData(static_cast<void*>(this));
-	m_geom->MoveTo(GetOrient(), GetPosition());
+	m_geom = new Geom(m_collMesh->GetGeomTree(), GetOrient(), GetPosition(), this);
 
 	SetPhysRadius(maxRadius);
 
@@ -157,9 +155,7 @@ void ModelBody::RebuildCollisionMesh()
 
 	//dynamic geoms
 	for (auto it = m_collMesh->GetDynGeomTrees().begin(); it != m_collMesh->GetDynGeomTrees().end(); ++it) {
-		Geom *dynG = new Geom(*it);
-		dynG->SetUserData(static_cast<void*>(this));
-		dynG->MoveTo(GetOrient(), GetPosition());
+		Geom *dynG = new Geom(*it, GetOrient(), GetPosition(), this);
 		dynG->m_animTransform = matrix4x4d::Identity();
 		SceneGraph::CollisionGeometry *cg = dgf.GetCgForTree(*it);
 		if (cg)

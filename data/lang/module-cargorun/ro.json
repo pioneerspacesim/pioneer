@@ -1,626 +1,634 @@
 {
-   "ACCEPTED_1" : {
-      "description" : "",
-      "message" : "Excelent. O să încarc toată marfa pe nava dvs."
-   },
-   "ACCEPTED_2" : {
-      "description" : "",
-      "message" : "Foarte bine."
-   },
-   "ACCEPTED_3" : {
-      "description" : "",
-      "message" : "Ok, bine. Sper că pot avea încredere în dvs."
-   },
-   "ACCEPTED_4" : {
-      "description" : "",
-      "message" : "Am căzut la învoială!"
-   },
-   "ACCEPTED_PICKUP_1" : {
-      "description" : "",
-      "message" : "Ok, o să mă asigur că bunurile sunt gata pentru colectare."
-   },
-   "ACCEPTED_PICKUP_2" : {
-      "description" : "",
-      "message" : "De acord! O să-mi anunț colegii că sunteți pe drum."
-   },
-   "ADTEXT_1" : {
-      "description" : "",
-      "message" : "TRANSPORT MARFĂ. Transportarea de marfă în sistemul {system}."
-   },
-   "ADTEXT_2" : {
-      "description" : "",
-      "message" : "CAUT TRANSPORT. Am nevoie de transportul unor bunuri în sistemul {system}. Plătesc {cash}."
-   },
-   "ADTEXT_EXPENSIVE_1" : {
-      "description" : "",
-      "message" : "LIVRARE. Transportul unor mărfuri valoroase către sistemul {system}. {cash} pentru un pilot experimentat."
-   },
-   "ADTEXT_LOCAL_1" : {
-      "description" : "",
-      "message" : "LIVRARE LOCALĂ. Mutarea unor bunuri la {starport}."
-   },
-   "ADTEXT_LOCAL_2" : {
-      "description" : "",
-      "message" : "CAUT TRANSPORT. Livrarea locală a unor mărfuri la {starport}."
-   },
-   "ADTEXT_LOCAL_3" : {
-      "description" : "",
-      "message" : "LIVRARE MARFĂ LOCALĂ. Livrarea unor bunuri la {starport}."
-   },
-   "ADTEXT_PICKUP_1" : {
-      "description" : "",
-      "message" : "RIDICARE MARFĂ. Necesit ridicarea unor mărfuri din sistemul {system}."
-   },
-   "ADTEXT_PICKUP_LOCAL_1" : {
-      "description" : "",
-      "message" : "RELOCARE. Doresc mutarea unor mărfuri din {starport}."
-   },
-   "ADTEXT_WHOLESALER_1" : {
-      "description" : "",
-      "message" : "SERVICIU LIVRARE. Avem nevoie de o navă pentru livrare în sistemul {system}."
-   },
-   "ALUMINIUM_TUBES" : {
-      "description" : "custom cargo",
-      "message" : "Tuburi de aluminiu"
-   },
-   "AMOUNT" : {
-      "description" : "Shown in mission summary. The amount of cargo",
-      "message" : "Cantitate:"
-   },
-   "ART_OBJECTS" : {
-      "description" : "custom cargo",
-      "message" : "Obiecte de artă"
-   },
-   "CARGO" : {
-      "description" : "",
-      "message" : "Marfă:"
-   },
-   "CARGORUN" : {
-      "description" : "Name of mission type",
-      "message" : "Livrare"
-   },
-   "CEASE_FIRE" : {
-      "description" : "",
-      "message" : "Nu trageți, nu trageți! Sunt de partea voastră!"
-   },
-   "CLUS" : {
-      "description" : "custom cargo",
-      "message" : "Unități de locuință modularizate"
-   },
-   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
-      "description" : "",
-      "message" : "Puteți vă rog să repetați solicitarea inițială?"
-   },
-   "DANGER" : {
-      "description" : "the risk level",
-      "message" : "Pericol:"
-   },
-   "DEADLINE" : {
-      "description" : "Must be delivered by",
-      "message" : "Termen limită:"
-   },
-   "DELIVER_TO" : {
-      "description" : "Deliver to this location",
-      "message" : "Livrare la:"
-   },
-   "DENY_1" : {
-      "description" : "",
-      "message" : "Îmi pare rău, dar marfa e prea valoroasă pentru a o da în mâinile unui pilot neexperimentat."
-   },
-   "DENY_2" : {
-      "description" : "",
-      "message" : "Nu am auzit de dvs. Nu vă cunosc și nu pot să am încredere în dvs."
-   },
-   "DENY_3" : {
-      "description" : "",
-      "message" : "Îmi pare rău, dar caut un pilot experimentat."
-   },
-   "DENY_4" : {
-      "description" : "",
-      "message" : "Mă scuzați, dar nu cred că sunteți în stare să duceți treaba până la capăt."
-   },
-   "DENY_5" : {
-      "description" : "",
-      "message" : "Nu-mi irosiți timpul! Sunteți încă prea crud pentru asta."
-   },
-   "DENY_6" : {
-      "description" : "",
-      "message" : "Veniți înapoi când aveți mai multă experiență."
-   },
-   "DIAMONDS" : {
-      "description" : "custom cargo",
-      "message" : "Diamante"
-   },
-   "DIGESTERS" : {
-      "description" : "custom cargo",
-      "message" : "Autoclave"
-   },
-   "DISTANCE" : {
-      "description" : "distance in space, between two locations",
-      "message" : "Distanța:"
-   },
-   "ELECTRICAL_APPLIANCES" : {
-      "description" : "custom cargo",
-      "message" : "Aparate electrice"
-   },
-   "ESCORT_CHATTER_1" : {
-      "description" : "",
-      "message" : "Am depistat o navă ostilă. Hai să o atacăm împreună."
-   },
-   "ESCORT_CHATTER_2" : {
-      "description" : "",
-      "message" : "Grozav. Piratul ăsta o să fie prima mea victimă."
-   },
-   "ESCORT_CHATTER_3" : {
-      "description" : "",
-      "message" : "Inamic la orizont. Încep atacul."
-   },
-   "ESCORT_CHATTER_4" : {
-      "description" : "",
-      "message" : "Mergi la destinație. Te acopăr eu."
-   },
-   "ESCORT_CHATTER_5" : {
-      "description" : "",
-      "message" : "O ho ho. Asta o să fie prima mea captură pe ziua de azi."
-   },
-   "EXPLOSIVES" : {
-      "description" : "custom cargo",
-      "message" : "Explozive"
-   },
-   "FAILUREMSG_1" : {
-      "description" : "",
-      "message" : "Sunt foarte dezamăgit de livrarea întârziată. Nu veți fi plătit."
-   },
-   "FAILUREMSG_2" : {
-      "description" : "",
-      "message" : "Ați întârziat prea mult! Ce pot să mai fac cu asta acum, nu mai are nicio valoare!"
-   },
-   "FAILUREMSG_3" : {
-      "description" : "",
-      "message" : "Știți ce, am fost destul de clari în legătură cu termenul limită. Puteți să vă luați gândul de la bani."
-   },
-   "FAILUREMSG_4" : {
-      "description" : "",
-      "message" : "De acum, voi refuza să mai fac afaceri cu dumneata."
-   },
-   "FAILUREMSG_FLUFFY_1" : {
-      "description" : "",
-      "message" : "Monstrule! Am așteptat prea mult această livrare. Toate animăluțele mele pufoase au murit de foame."
-   },
-   "FURNITURE" : {
-      "description" : "custom cargo",
-      "message" : "Mobilă"
-   },
-   "GREENHOUSES" : {
-      "description" : "custom cargo",
-      "message" : "Sere"
-   },
-   "GUNS_GUNS_GUNS" : {
-      "description" : "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
-      "message" : "Arme, arme, arme."
-   },
-   "HAZARDOUS_SUBSTANCES" : {
-      "description" : "custom cargo",
-      "message" : "Substanțe hazardoase"
-   },
-   "HOWMUCH_1" : {
-      "description" : "regarding mass, always more than 1t",
-      "message" : "{amount} tone metrice."
-   },
-   "HOWMUCH_2" : {
-      "description" : "regarding mass, always more than 1t",
-      "message" : "{amount}t"
-   },
-   "HOWMUCH_3" : {
-      "description" : "regarding mass, always more than 1t",
-      "message" : "Masa este de {amount}t."
-   },
-   "HOWMUCH_4" : {
-      "description" : "regarding mass, always more than 1t",
-      "message" : "Sunt {amount}t."
-   },
-   "HOWMUCH_SINGULAR_1" : {
-      "description" : "This string is only used for 1 metric tons (singular)",
-      "message" : "Sunt doar {amount}t."
-   },
-   "HOWMUCH_WHOLESALER_1" : {
-      "description" : "",
-      "message" : "Sunt {amount}t de {cargoname}."
-   },
-   "HOWMUCH_WHOLESALER_2" : {
-      "description" : "",
-      "message" : "{amount}t {cargoname}"
-   },
-   "HOW_MUCH_MASS" : {
-      "description" : "",
-      "message" : "Care este masa?"
-   },
-   "HOW_SOON_MUST_IT_BE_DELIVERED" : {
-      "description" : "",
-      "message" : "Cât de repede trebuie făcută livrarea?"
-   },
-   "INTROTEXT_1" : {
-      "description" : "",
-      "message" : "Salut, sunt {name}. Plătesc {cash} dacă îmi livrați {cargoname} la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}) care este la {dist} a.l."
-   },
-   "INTROTEXT_2" : {
-      "description" : "{name} is the full name of a person",
-      "message" : "Salutări! Serviciile de Transport {name} au nevoie de dumneavoastră să livrați {cargoname} la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}), la distanță de {dist} a.l. Plătim {cash} pentru o livrare sigură și completă."
-   },
-   "INTROTEXT_3" : {
-      "description" : "",
-      "message" : "Bună ziua. Sunt {name}, fondatorul S.C. {name}. Am nevoie de cineva de încredere să livreze {cargoname} la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}). Voi plăti {cash} pentru drumul de {dist} a.l."
-   },
-   "INTROTEXT_EXPENSIVE_1" : {
-      "description" : "",
-      "message" : "Salut. Avem nevoie de cineva experimentat pentru o livrare posibil periculoasă la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}). Plătesc {cash}. Distanța e de {dist} a.l."
-   },
-   "INTROTEXT_FLUFFY_1" : {
-      "description" : "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
-      "message" : "Salut, mă numesc {name}. Am niște animăluțe pufoase: {cargoname} de livrat la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}). Distanța e de {dist} a.l. Pentru această livrare vă plătesc {cash}."
-   },
-   "INTROTEXT_INFRASTRUCTURE_1" : {
-      "description" : "",
-      "message" : "Salut. Sunt {name}. Guvernul sistemului {system} dorește să livreze {cargoname} la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}). Plata este de {cash}. Sistemul {system} se află la {dist} a.l. de aici."
-   },
-   "INTROTEXT_LOCAL_1" : {
-      "description" : "",
-      "message" : "Încântat de cunoștință. Sunt {name} și lucrez în administrația portului {starport}. Plătesc {cash} pentru cineva care poate să mute marfa: {cargoname} la {starport}."
-   },
-   "INTROTEXT_LOCAL_2" : {
-      "description" : "",
-      "message" : "Salut. Sunt {name} și plătesc {cash} pentru o mică livrare a produsului: {cargoname} la {starport}."
-   },
-   "INTROTEXT_LOCAL_3" : {
-      "description" : "",
-      "message" : "Numele meu este {name} și am nevoie de produsul: {cargoname} livrat la un client din {starport}. Vă plătesc cu {cash} pentru această livrare."
-   },
-   "INTROTEXT_MINING_1" : {
-      "description" : "{name} is the full name of a person",
-      "message" : "Salut. Compania Minieră {name} dorește să livreze {cargoname} la {starport} în sistemul ({sectorx}, {sectory}, {sectorz}) care este la distanță de {dist} a.l. în vederea construirii unei noi mine. Plata este de {cash}."
-   },
-   "INTROTEXT_PICKUP_1" : {
-      "description" : "",
-      "message" : "Bună ziua. Numele meu este {name} și am nevoie de o navă capabilă să facă o cursă până în {starport} din sistemul {system} ({sectorx}, {sectory}, {sectorz}) ca să ridice niște marfă: {cargoname} și s-o aducă în {dom_starport} din sistemul {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz})  pentru {cash}. Distanța până la {system} e de {dist} a.l."
-   },
-   "INTROTEXT_PICKUP_2" : {
-      "description" : "",
-      "message" : "How are you? I'm {name}. One of my clients wants to import {cargoname} from {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
-   },
-   "INTROTEXT_PICKUP_LOCAL_1" : {
-      "description" : "",
-      "message" : "Salutări. Mă numesc {name}. Ofer {cash} celui care îmi transportă și mie produsul: {cargoname} din {starport} până în {dom_starport}."
-   },
-   "INTROTEXT_PICKUP_LOCAL_2" : {
-      "description" : "",
-      "message" : "Salut. Numele meu este {name}. Angajatorul meu vrea să vă contracteze pentru {cash} să ne ajutați cu relocarea depozitului nostru mutând produsul: {cargoname} din {starport} la noul nostru sediu din {dom_starport}."
-   },
-   "INTROTEXT_WEDDING_1" : {
-      "description" : "",
-      "message" : "Salutări. Ați auzit că e sezon de nunți la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz})? Vrem să livrăm niște marfă: {cargoname} acolo. Este la distanță de {dist} a.l. Plata este de {cash}. Ce ziceți?"
-   },
-   "INTROTEXT_WHOLESALER_1" : {
-      "description" : "",
-      "message" : "Salut, numele meu este {name} și sunt un vânzător de angro în sistemul {system}. Plătesc {cash} pentru o cursă până în {starport} din sistemul {system} ({sectorx}, {sectory}, {sectorz}), care este la {dist} a.l."
-   },
-   "INTROTEXT_WHOLESALER_2" : {
-      "description" : "",
-      "message" : "Salutări, numele meu este {name} și lucrez pentru Haber Corp. Plătim {cash} pentru o cursă către {starport} din sistemul {system} ({sectorx}, {sectory}, {sectorz}) care e la o distanță de {dist} a.l."
-   },
-   "I_AM_ON_MY_WAY" : {
-      "description" : "",
-      "message" : "Senzorii îmi arată că ești atacat. Vin acum."
-   },
-   "I_HAVE_DEBITED_YOUR_ACCOUNT" : {
-      "description" : "",
-      "message" : "V-am debitat contul cu valoarea mărfii lipsă."
-   },
-   "I_NEED_HELP" : {
-      "description" : "",
-      "message" : "Sunt atacat! Am nevoie de ajutor!"
-   },
-   "LY" : {
-      "description" : "",
-      "message" : "a.l."
-   },
-   "MACHINE_TOOLS" : {
-      "description" : "custom cargo",
-      "message" : "Unelte pentru mașinării"
-   },
-   "NEPTUNIUM" : {
-      "description" : "custom cargo",
-      "message" : "Neptuniu"
-   },
-   "OK_AGREED" : {
-      "description" : "",
-      "message" : "OK, de acord."
-   },
-   "PICKUP_FROM" : {
-      "description" : "from a location",
-      "message" : "Ridicare marfă de la:"
-   },
-   "PIRATE_GRIPES_1" : {
-      "description" : "",
-      "message" : "Fir-ar! O să plătești pentru asta!"
-   },
-   "PIRATE_GRIPES_2" : {
-      "description" : "",
-      "message" : "Oh, nu. Nava mea!"
-   },
-   "PIRATE_GRIPES_3" : {
-      "description" : "said with vengeance",
-      "message" : "Stai că-ți arăt eu."
-   },
-   "PIRATE_TAUNTS_1" : {
-      "description" : "",
-      "message" : "Aceasta va fi ultima ta cursă!"
-   },
-   "PIRATE_TAUNTS_2" : {
-      "description" : "",
-      "message" : "Lucrezi pentru {client}? Până aici ți-a fost!"
-   },
-   "PIRATE_TAUNTS_3" : {
-      "description" : "",
-      "message" : "Hei, prietene, dă bunurile încoace. Acum!"
-   },
-   "PIRATE_TAUNTS_4" : {
-      "description" : "",
-      "message" : "Prietene, n-o să ajungi niciodată la destinație."
-   },
-   "PIRATE_TAUNTS_5" : {
-      "description" : "",
-      "message" : "O, încă o pradă bogată în drum spre {location}."
-   },
-   "PIRATE_TAUNTS_6" : {
-      "description" : "",
-      "message" : "Se pare că duci mai mult decât poți. Dă-mi voie să te ajut."
-   },
-   "PIRATE_TAUNTS_7" : {
-      "description" : "",
-      "message" : "Ți s-a terminat norocul!"
-   },
-   "PLUTONIUM" : {
-      "description" : "custom cargo",
-      "message" : "Plutoniu"
-   },
-   "QUIBBLES" : {
-      "description" : "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-      "message" : "Pufoșenii"
-   },
-   "RISK_1" : {
-      "description" : "",
-      "message" : "Nu mă aștept să fie dificultăți."
-   },
-   "RISK_2" : {
-      "description" : "",
-      "message" : "Nu mai mult ca de obicei."
-   },
-   "RISK_3" : {
-      "description" : "",
-      "message" : "Aceasta e o marfă valoroasă, ar trebui să țineți ochii în patru."
-   },
-   "RISK_4" : {
-      "description" : "",
-      "message" : "S-ar putea să fie periculos, ar trebui să te asiguri că ești bine pregătit pentru asta."
-   },
-   "RISK_5" : {
-      "description" : "",
-      "message" : "S-ar putea să fie foarte riscant, ați putea întâmpina opoziție semnificativă."
-   },
-   "RISK_6" : {
-      "description" : "",
-      "message" : "Nu vă bazați că o să ajungeți teferi la destinație."
-   },
-   "RISK_ART_1" : {
-      "description" : "",
-      "message" : "Bunurile sunt foarte dorite de iubitori de artă."
-   },
-   "RISK_EXPENSIVE_1" : {
-      "description" : "",
-      "message" : "Am făcut tot posibilul să ținem această livrare secretă. Dar nu putem fi niciodată siguri."
-   },
-   "RISK_EXPENSIVE_2" : {
-      "description" : "",
-      "message" : "Poliția ne-a informat că un grup necunoscut de pirați operează în acest sistem."
-   },
-   "RISK_GEMS_1" : {
-      "description" : "",
-      "message" : "E posibil ca un comerciant de bijuterii fără scrupule să dorească să intercepteze această livrare."
-   },
-   "RISK_WHOLESALER_1" : {
-      "description" : "",
-      "message" : "Nu vă îngrijorați. O patrulă de poliție e gata în caz de probleme."
-   },
-   "RISK_WHOLESALER_2" : {
-      "description" : "",
-      "message" : "E posibil să existe riscuri. Dar poliția a promis că patrulează zona."
-   },
-   "RISK_WHOLESALER_3" : {
-      "description" : "",
-      "message" : "Riscul e mare. Dar o escortă e gata să vă apere."
-   },
-   "SEMI_FINISHED_PRODUCTS" : {
-      "description" : "custom cargo",
-      "message" : "Produse semi-fabricate"
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Selectați ca țintă navigare"
-   },
-   "SET_RETURN_ROUTE" : {
-      "description" : "",
-      "message" : "Set return route"
-   },
-   "SPACEPORT" : {
-      "description" : "",
-      "message" : "Port spațial:"
-   },
-   "SPACESHIP_PARTS" : {
-      "description" : "custom cargo",
-      "message" : "Componente aeronave"
-   },
-   "SUCCESSMSG_1" : {
-      "description" : "",
-      "message" : "Mulțumim pentru livrare. Ați fost plătit."
-   },
-   "SUCCESSMSG_2" : {
-      "description" : "",
-      "message" : "Mulțumim pentru livrarea rapidă. Banii au fost transferați."
-   },
-   "SUCCESSMSG_3" : {
-      "description" : "",
-      "message" : "Excelent, a fost o plăcere să lucrez cu dvs. Am plătit factura."
-   },
-   "SUCCESSMSG_4" : {
-      "description" : "",
-      "message" : "Mulțumesc! O să vă recomand cu siguranță. Banii au fost transferați."
-   },
-   "SUCCESSMSG_FLUFFY_1" : {
-      "description" : "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
-      "message" : "Oh, Doamne, ce-o să fac cu atâtea vietăți pufoase? Oricum, banii v-au fost transferați."
-   },
-   "SYSTEM" : {
-      "description" : "",
-      "message" : "Sistem:"
-   },
-   "TARGET_DESTROYED" : {
-      "description" : "",
-      "message" : "Ținta distrusă."
-   },
-   "TITANIUM" : {
-      "description" : "custom cargo",
-      "message" : "Titan"
-   },
-   "TUNGSTEN" : {
-      "description" : "custom cargo",
-      "message" : "Wolfram"
-   },
-   "URANIUM" : {
-      "description" : "custom cargo",
-      "message" : "Uraniu"
-   },
-   "URGENCY_1" : {
-      "description" : "",
-      "message" : "Nu-i grabă. Trebuie livrat până pe {date}."
-   },
-   "URGENCY_2" : {
-      "description" : "",
-      "message" : "Trebuie făcută livrarea neapărat până pe {date}."
-   },
-   "URGENCY_3" : {
-      "description" : "",
-      "message" : "Din cauza unui regim strict trebuie livrat până pe {date}."
-   },
-   "URGENCY_4" : {
-      "description" : "",
-      "message" : "Suntem cam în grabă, așa că ne trebuie făcută livrarea până pe {date}."
-   },
-   "URGENCY_5" : {
-      "description" : "",
-      "message" : "E esențial să avem bunurile livrate înainte de {date}."
-   },
-   "URGENCY_FLUFFY_1" : {
-      "description" : "",
-      "message" : "Din cauza perioadei de reproducere a micilor animale și a spațiului limitat pentru mâncare din container, livrarea trebuie făcută până pe {date}."
-   },
-   "URGENCY_RADIOACTIVE_1" : {
-      "description" : "",
-      "message" : "Din cauza perioadei de înjumătățire a acestui izotop, livrarea trebuie făcută până pe {date}."
-   },
-   "WEDDING_DRESSES" : {
-      "description" : "custom cargo",
-      "message" : "Rochii de mireasă"
-   },
-   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP" : {
-      "description" : "",
-      "message" : "Am încărcat marfa pe nava dvs."
-   },
-   "WHAT_IS_THIS" : {
-      "description" : "",
-      "message" : "Ce înseamnă asta? Ai aruncat marfa mea în spațiu? Ești nebun?"
-   },
-   "WHYSOMUCH_1" : {
-      "description" : "",
-      "message" : "Aceasta este plata standard."
-   },
-   "WHYSOMUCH_2" : {
-      "description" : "",
-      "message" : "Aceasta e oferta. O luați sau nu?"
-   },
-   "WHYSOMUCH_3" : {
-      "description" : "",
-      "message" : "Ce este considerat \"mult\" este relativ."
-   },
-   "WHYSOMUCH_4" : {
-      "description" : "",
-      "message" : "Banii oferiți reflectă dorința noastră ca bunurile să fie livrate la timp și într-o bucată."
-   },
-   "WHYSOMUCH_5" : {
-      "description" : "",
-      "message" : "Vedeți asta ca pe un bonus ca să fiți discret în legătură cu această livrare."
-   },
-   "WHYSOMUCH_6" : {
-      "description" : "",
-      "message" : "Păi, am fi încântați să vă dăm mai puțini bani."
-   },
-   "WHYSOMUCH_CENTRIFUGES_1" : {
-      "description" : "",
-      "message" : "Niste bunuri ({cargoname}) au fost distruse din cauze unei erori de software si trebuie înlocuite urgent."
-   },
-   "WHYSOMUCH_CHEMICAL_1" : {
-      "description" : "",
-      "message" : "Producția din fabrica de produse chimice depinde de aceste bunuri și nu trebuie să fie întreruptă. Nimic nu trebuie să oprească mașinăria."
-   },
-   "WHYSOMUCH_EXPENSIVE_1" : {
-      "description" : "",
-      "message" : "Bunuri valoroase sunt la mare căutare."
-   },
-   "WHYSOMUCH_EXPENSIVE_2" : {
-      "description" : "",
-      "message" : "Pentru că aceste bunuri sunt foarte scumpe."
-   },
-   "WHYSOMUCH_FLUFFY_1" : {
-      "description" : "",
-      "message" : "Produsul {cargoname} se vinde foarte bine sezonul acesta. Ar trebui să investiți în acțiunile acestui produs dacă vreți să faceți mulți bani."
-   },
-   "WHYSOMUCH_INFRASTRUCTURE_1" : {
-      "description" : "",
-      "message" : "These goods are crucial for a construction project."
-   },
-   "WHYSOMUCH_MINING_1" : {
-      "description" : "",
-      "message" : "Bunurile acestea sunt esențiale pentru contruirea unei noi mine."
-   },
-   "WHYSOMUCH_URGENT_1" : {
-      "description" : "",
-      "message" : "Pilotul meu favorit este bolnav și nu e suficient timp."
-   },
-   "WHYSOMUCH_URGENT_2" : {
-      "description" : "",
-      "message" : "Dacă nu respectăm termenul de livrare, proiectul va sta pe loc."
-   },
-   "WHYSOMUCH_URGENT_3" : {
-      "description" : "",
-      "message" : "Aceste bunuri sunt necesare urgent."
-   },
-   "WHYSOMUCH_WEDDING_1" : {
-      "description" : "",
-      "message" : "Până acum nu am putut găsi pe nimeni care să facă această livrare. Când se va termina sezonul, marfa mea nu va mai avea nicio valoare."
-   },
-   "WHY_SO_MUCH_MONEY" : {
-      "description" : "",
-      "message" : "De ce atât de mulți bani?"
-   },
-   "WILL_I_BE_IN_ANY_DANGER" : {
-      "description" : "",
-      "message" : "Voi fi în pericol?"
-   },
-   "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP" : {
-      "description" : "",
-      "message" : "Nu aveși suficient spațiu în hala navei dvs."
-   },
-   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Vă rog să vă întoarceți când aveți suficient spațiu în hală."
-   }
+  "ACCEPTED_1": {
+    "description": "",
+    "message": "Excelent. O să încarc toată marfa pe nava dvs."
+  },
+  "ACCEPTED_2": {
+    "description": "",
+    "message": "Foarte bine."
+  },
+  "ACCEPTED_3": {
+    "description": "",
+    "message": "Ok, bine. Sper că pot avea încredere în dvs."
+  },
+  "ACCEPTED_4": {
+    "description": "",
+    "message": "Am căzut la învoială!"
+  },
+  "ACCEPTED_PICKUP_1": {
+    "description": "",
+    "message": "Ok, o să mă asigur că bunurile sunt gata pentru colectare."
+  },
+  "ACCEPTED_PICKUP_2": {
+    "description": "",
+    "message": "De acord! O să-mi anunț colegii că sunteți pe drum."
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "TRANSPORT MARFĂ. Transportarea de marfă în sistemul {system}."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "CAUT TRANSPORT. Am nevoie de transportul unor bunuri în sistemul {system}. Plătesc {cash}."
+  },
+  "ADTEXT_EXPENSIVE_1": {
+    "description": "",
+    "message": "LIVRARE. Transportul unor mărfuri valoroase către sistemul {system}. {cash} pentru un pilot experimentat."
+  },
+  "ADTEXT_LOCAL_1": {
+    "description": "",
+    "message": "LIVRARE LOCALĂ. Mutarea unor bunuri la {starport}."
+  },
+  "ADTEXT_LOCAL_2": {
+    "description": "",
+    "message": "CAUT TRANSPORT. Livrarea locală a unor mărfuri la {starport}."
+  },
+  "ADTEXT_LOCAL_3": {
+    "description": "",
+    "message": "LIVRARE MARFĂ LOCALĂ. Livrarea unor bunuri la {starport}."
+  },
+  "ADTEXT_PICKUP_1": {
+    "description": "",
+    "message": "RIDICARE MARFĂ. Necesit ridicarea unor mărfuri din sistemul {system}."
+  },
+  "ADTEXT_PICKUP_LOCAL_1": {
+    "description": "",
+    "message": "RELOCARE. Doresc mutarea unor mărfuri din {starport}."
+  },
+  "ADTEXT_WHOLESALER_1": {
+    "description": "",
+    "message": "SERVICIU LIVRARE. Avem nevoie de o navă pentru livrare în sistemul {system}."
+  },
+  "ALUMINIUM_TUBES": {
+    "description": "custom cargo",
+    "message": "Tuburi de aluminiu"
+  },
+  "AMOUNT": {
+    "description": "Shown in mission summary. The amount of cargo",
+    "message": "Cantitate:"
+  },
+  "ART_OBJECTS": {
+    "description": "custom cargo",
+    "message": "Obiecte de artă"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Marfă:"
+  },
+  "CARGORUN": {
+    "description": "Name of mission type",
+    "message": "Livrare"
+  },
+  "CARGO_IS_LOADED": {
+    "description": "",
+    "message": "loaded"
+  },
+  "CARGO_IS_NOT_LOADED": {
+    "description": "",
+    "message": "not loaded"
+  },
+  "CEASE_FIRE": {
+    "description": "",
+    "message": "Nu trageți, nu trageți! Sunt de partea voastră!"
+  },
+  "CLUS": {
+    "description": "custom cargo",
+    "message": "Unități de locuință modularizate"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Puteți vă rog să repetați solicitarea inițială?"
+  },
+  "DANGER": {
+    "description": "the risk level",
+    "message": "Pericol:"
+  },
+  "DEADLINE": {
+    "description": "Must be delivered by",
+    "message": "Termen limită:"
+  },
+  "DELIVER_TO": {
+    "description": "Deliver to this location",
+    "message": "Livrare la:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Îmi pare rău, dar marfa e prea valoroasă pentru a o da în mâinile unui pilot neexperimentat."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Nu am auzit de dvs. Nu vă cunosc și nu pot să am încredere în dvs."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Îmi pare rău, dar caut un pilot experimentat."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Mă scuzați, dar nu cred că sunteți în stare să duceți treaba până la capăt."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Nu-mi irosiți timpul! Sunteți încă prea crud pentru asta."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "Veniți înapoi când aveți mai multă experiență."
+  },
+  "DIAMONDS": {
+    "description": "custom cargo",
+    "message": "Diamante"
+  },
+  "DIGESTERS": {
+    "description": "custom cargo",
+    "message": "Autoclave"
+  },
+  "DISTANCE": {
+    "description": "distance in space, between two locations",
+    "message": "Distanța:"
+  },
+  "ELECTRICAL_APPLIANCES": {
+    "description": "custom cargo",
+    "message": "Aparate electrice"
+  },
+  "ESCORT_CHATTER_1": {
+    "description": "",
+    "message": "Am depistat o navă ostilă. Hai să o atacăm împreună."
+  },
+  "ESCORT_CHATTER_2": {
+    "description": "",
+    "message": "Grozav. Piratul ăsta o să fie prima mea victimă."
+  },
+  "ESCORT_CHATTER_3": {
+    "description": "",
+    "message": "Inamic la orizont. Încep atacul."
+  },
+  "ESCORT_CHATTER_4": {
+    "description": "",
+    "message": "Mergi la destinație. Te acopăr eu."
+  },
+  "ESCORT_CHATTER_5": {
+    "description": "",
+    "message": "O ho ho. Asta o să fie prima mea captură pe ziua de azi."
+  },
+  "EXPLOSIVES": {
+    "description": "custom cargo",
+    "message": "Explozive"
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "Sunt foarte dezamăgit de livrarea întârziată. Nu veți fi plătit."
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "Ați întârziat prea mult! Ce pot să mai fac cu asta acum, nu mai are nicio valoare!"
+  },
+  "FAILUREMSG_3": {
+    "description": "",
+    "message": "Știți ce, am fost destul de clari în legătură cu termenul limită. Puteți să vă luați gândul de la bani."
+  },
+  "FAILUREMSG_4": {
+    "description": "",
+    "message": "De acum, voi refuza să mai fac afaceri cu dumneata."
+  },
+  "FAILUREMSG_FLUFFY_1": {
+    "description": "",
+    "message": "Monstrule! Am așteptat prea mult această livrare. Toate animăluțele mele pufoase au murit de foame."
+  },
+  "FURNITURE": {
+    "description": "custom cargo",
+    "message": "Mobilă"
+  },
+  "GREENHOUSES": {
+    "description": "custom cargo",
+    "message": "Sere"
+  },
+  "GUNS_GUNS_GUNS": {
+    "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
+    "message": "Arme, arme, arme."
+  },
+  "HAZARDOUS_SUBSTANCES": {
+    "description": "custom cargo",
+    "message": "Substanțe hazardoase"
+  },
+  "HOWMUCH_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount} tone metrice."
+  },
+  "HOWMUCH_2": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount}t"
+  },
+  "HOWMUCH_3": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Masa este de {amount}t."
+  },
+  "HOWMUCH_4": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Sunt {amount}t."
+  },
+  "HOWMUCH_SINGULAR_1": {
+    "description": "This string is only used for 1 metric tons (singular)",
+    "message": "Sunt doar {amount}t."
+  },
+  "HOWMUCH_WHOLESALER_1": {
+    "description": "",
+    "message": "Sunt {amount}t de {cargoname}."
+  },
+  "HOWMUCH_WHOLESALER_2": {
+    "description": "",
+    "message": "{amount}t {cargoname}"
+  },
+  "HOW_MUCH_MASS": {
+    "description": "",
+    "message": "Care este masa?"
+  },
+  "HOW_SOON_MUST_IT_BE_DELIVERED": {
+    "description": "",
+    "message": "Cât de repede trebuie făcută livrarea?"
+  },
+  "INTROTEXT_1": {
+    "description": "",
+    "message": "Salut, sunt {name}. Plătesc {cash} dacă îmi livrați {cargoname} la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}) care este la {dist} a.l."
+  },
+  "INTROTEXT_2": {
+    "description": "{name} is the full name of a person",
+    "message": "Salutări! Serviciile de Transport {name} au nevoie de dumneavoastră să livrați {cargoname} la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}), la distanță de {dist} a.l. Plătim {cash} pentru o livrare sigură și completă."
+  },
+  "INTROTEXT_3": {
+    "description": "",
+    "message": "Bună ziua. Sunt {name}, fondatorul S.C. {name}. Am nevoie de cineva de încredere să livreze {cargoname} la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}). Voi plăti {cash} pentru drumul de {dist} a.l."
+  },
+  "INTROTEXT_EXPENSIVE_1": {
+    "description": "",
+    "message": "Salut. Avem nevoie de cineva experimentat pentru o livrare posibil periculoasă la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}). Plătesc {cash}. Distanța e de {dist} a.l."
+  },
+  "INTROTEXT_FLUFFY_1": {
+    "description": "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
+    "message": "Salut, mă numesc {name}. Am niște animăluțe pufoase: {cargoname} de livrat la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}). Distanța e de {dist} a.l. Pentru această livrare vă plătesc {cash}."
+  },
+  "INTROTEXT_INFRASTRUCTURE_1": {
+    "description": "",
+    "message": "Salut. Sunt {name}. Guvernul sistemului {system} dorește să livreze {cargoname} la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}). Plata este de {cash}. Sistemul {system} se află la {dist} a.l. de aici."
+  },
+  "INTROTEXT_LOCAL_1": {
+    "description": "",
+    "message": "Încântat de cunoștință. Sunt {name} și lucrez în administrația portului {starport}. Plătesc {cash} pentru cineva care poate să mute marfa: {cargoname} la {starport}."
+  },
+  "INTROTEXT_LOCAL_2": {
+    "description": "",
+    "message": "Salut. Sunt {name} și plătesc {cash} pentru o mică livrare a produsului: {cargoname} la {starport}."
+  },
+  "INTROTEXT_LOCAL_3": {
+    "description": "",
+    "message": "Numele meu este {name} și am nevoie de produsul: {cargoname} livrat la un client din {starport}. Vă plătesc cu {cash} pentru această livrare."
+  },
+  "INTROTEXT_MINING_1": {
+    "description": "{name} is the full name of a person",
+    "message": "Salut. Compania Minieră {name} dorește să livreze {cargoname} la {starport} în sistemul ({sectorx}, {sectory}, {sectorz}) care este la distanță de {dist} a.l. în vederea construirii unei noi mine. Plata este de {cash}."
+  },
+  "INTROTEXT_PICKUP_1": {
+    "description": "",
+    "message": "Bună ziua. Numele meu este {name} și am nevoie de o navă capabilă să facă o cursă până în {starport} din sistemul {system} ({sectorx}, {sectory}, {sectorz}) ca să ridice niște marfă: {cargoname} și s-o aducă în {dom_starport} din sistemul {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz})  pentru {cash}. Distanța până la {system} e de {dist} a.l."
+  },
+  "INTROTEXT_PICKUP_2": {
+    "description": "",
+    "message": "How are you? I'm {name}. One of my clients wants to import {cargoname} from {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
+  },
+  "INTROTEXT_PICKUP_LOCAL_1": {
+    "description": "",
+    "message": "Salutări. Mă numesc {name}. Ofer {cash} celui care îmi transportă și mie produsul: {cargoname} din {starport} până în {dom_starport}."
+  },
+  "INTROTEXT_PICKUP_LOCAL_2": {
+    "description": "",
+    "message": "Salut. Numele meu este {name}. Angajatorul meu vrea să vă contracteze pentru {cash} să ne ajutați cu relocarea depozitului nostru mutând produsul: {cargoname} din {starport} la noul nostru sediu din {dom_starport}."
+  },
+  "INTROTEXT_WEDDING_1": {
+    "description": "",
+    "message": "Salutări. Ați auzit că e sezon de nunți la {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz})? Vrem să livrăm niște marfă: {cargoname} acolo. Este la distanță de {dist} a.l. Plata este de {cash}. Ce ziceți?"
+  },
+  "INTROTEXT_WHOLESALER_1": {
+    "description": "",
+    "message": "Salut, numele meu este {name} și sunt un vânzător de angro în sistemul {system}. Plătesc {cash} pentru o cursă până în {starport} din sistemul {system} ({sectorx}, {sectory}, {sectorz}), care este la {dist} a.l."
+  },
+  "INTROTEXT_WHOLESALER_2": {
+    "description": "",
+    "message": "Salutări, numele meu este {name} și lucrez pentru Haber Corp. Plătim {cash} pentru o cursă către {starport} din sistemul {system} ({sectorx}, {sectory}, {sectorz}) care e la o distanță de {dist} a.l."
+  },
+  "I_AM_ON_MY_WAY": {
+    "description": "",
+    "message": "Senzorii îmi arată că ești atacat. Vin acum."
+  },
+  "I_HAVE_DEBITED_YOUR_ACCOUNT": {
+    "description": "",
+    "message": "V-am debitat contul cu valoarea mărfii lipsă."
+  },
+  "I_NEED_HELP": {
+    "description": "",
+    "message": "Sunt atacat! Am nevoie de ajutor!"
+  },
+  "LY": {
+    "description": "",
+    "message": "a.l."
+  },
+  "MACHINE_TOOLS": {
+    "description": "custom cargo",
+    "message": "Unelte pentru mașinării"
+  },
+  "NEPTUNIUM": {
+    "description": "custom cargo",
+    "message": "Neptuniu"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "OK, de acord."
+  },
+  "PICKUP_FROM": {
+    "description": "from a location",
+    "message": "Ridicare marfă de la:"
+  },
+  "PIRATE_GRIPES_1": {
+    "description": "",
+    "message": "Fir-ar! O să plătești pentru asta!"
+  },
+  "PIRATE_GRIPES_2": {
+    "description": "",
+    "message": "Oh, nu. Nava mea!"
+  },
+  "PIRATE_GRIPES_3": {
+    "description": "said with vengeance",
+    "message": "Stai că-ți arăt eu."
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Aceasta va fi ultima ta cursă!"
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "Lucrezi pentru {client}? Până aici ți-a fost!"
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Hei, prietene, dă bunurile încoace. Acum!"
+  },
+  "PIRATE_TAUNTS_4": {
+    "description": "",
+    "message": "Prietene, n-o să ajungi niciodată la destinație."
+  },
+  "PIRATE_TAUNTS_5": {
+    "description": "",
+    "message": "O, încă o pradă bogată în drum spre {location}."
+  },
+  "PIRATE_TAUNTS_6": {
+    "description": "",
+    "message": "Se pare că duci mai mult decât poți. Dă-mi voie să te ajut."
+  },
+  "PIRATE_TAUNTS_7": {
+    "description": "",
+    "message": "Ți s-a terminat norocul!"
+  },
+  "PLUTONIUM": {
+    "description": "custom cargo",
+    "message": "Plutoniu"
+  },
+  "QUIBBLES": {
+    "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
+    "message": "Pufoșenii"
+  },
+  "RISK_1": {
+    "description": "",
+    "message": "Nu mă aștept să fie dificultăți."
+  },
+  "RISK_2": {
+    "description": "",
+    "message": "Nu mai mult ca de obicei."
+  },
+  "RISK_3": {
+    "description": "",
+    "message": "Aceasta e o marfă valoroasă, ar trebui să țineți ochii în patru."
+  },
+  "RISK_4": {
+    "description": "",
+    "message": "S-ar putea să fie periculos, ar trebui să te asiguri că ești bine pregătit pentru asta."
+  },
+  "RISK_5": {
+    "description": "",
+    "message": "S-ar putea să fie foarte riscant, ați putea întâmpina opoziție semnificativă."
+  },
+  "RISK_6": {
+    "description": "",
+    "message": "Nu vă bazați că o să ajungeți teferi la destinație."
+  },
+  "RISK_ART_1": {
+    "description": "",
+    "message": "Bunurile sunt foarte dorite de iubitori de artă."
+  },
+  "RISK_EXPENSIVE_1": {
+    "description": "",
+    "message": "Am făcut tot posibilul să ținem această livrare secretă. Dar nu putem fi niciodată siguri."
+  },
+  "RISK_EXPENSIVE_2": {
+    "description": "",
+    "message": "Poliția ne-a informat că un grup necunoscut de pirați operează în acest sistem."
+  },
+  "RISK_GEMS_1": {
+    "description": "",
+    "message": "E posibil ca un comerciant de bijuterii fără scrupule să dorească să intercepteze această livrare."
+  },
+  "RISK_WHOLESALER_1": {
+    "description": "",
+    "message": "Nu vă îngrijorați. O patrulă de poliție e gata în caz de probleme."
+  },
+  "RISK_WHOLESALER_2": {
+    "description": "",
+    "message": "E posibil să existe riscuri. Dar poliția a promis că patrulează zona."
+  },
+  "RISK_WHOLESALER_3": {
+    "description": "",
+    "message": "Riscul e mare. Dar o escortă e gata să vă apere."
+  },
+  "SEMI_FINISHED_PRODUCTS": {
+    "description": "custom cargo",
+    "message": "Produse semi-fabricate"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Selectați ca țintă navigare"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Set return route"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Port spațial:"
+  },
+  "SPACESHIP_PARTS": {
+    "description": "custom cargo",
+    "message": "Componente aeronave"
+  },
+  "SUCCESSMSG_1": {
+    "description": "",
+    "message": "Mulțumim pentru livrare. Ați fost plătit."
+  },
+  "SUCCESSMSG_2": {
+    "description": "",
+    "message": "Mulțumim pentru livrarea rapidă. Banii au fost transferați."
+  },
+  "SUCCESSMSG_3": {
+    "description": "",
+    "message": "Excelent, a fost o plăcere să lucrez cu dvs. Am plătit factura."
+  },
+  "SUCCESSMSG_4": {
+    "description": "",
+    "message": "Mulțumesc! O să vă recomand cu siguranță. Banii au fost transferați."
+  },
+  "SUCCESSMSG_FLUFFY_1": {
+    "description": "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
+    "message": "Oh, Doamne, ce-o să fac cu atâtea vietăți pufoase? Oricum, banii v-au fost transferați."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Sistem:"
+  },
+  "TARGET_DESTROYED": {
+    "description": "",
+    "message": "Ținta distrusă."
+  },
+  "TITANIUM": {
+    "description": "custom cargo",
+    "message": "Titan"
+  },
+  "TUNGSTEN": {
+    "description": "custom cargo",
+    "message": "Wolfram"
+  },
+  "URANIUM": {
+    "description": "custom cargo",
+    "message": "Uraniu"
+  },
+  "URGENCY_1": {
+    "description": "",
+    "message": "Nu-i grabă. Trebuie livrat până pe {date}."
+  },
+  "URGENCY_2": {
+    "description": "",
+    "message": "Trebuie făcută livrarea neapărat până pe {date}."
+  },
+  "URGENCY_3": {
+    "description": "",
+    "message": "Din cauza unui regim strict trebuie livrat până pe {date}."
+  },
+  "URGENCY_4": {
+    "description": "",
+    "message": "Suntem cam în grabă, așa că ne trebuie făcută livrarea până pe {date}."
+  },
+  "URGENCY_5": {
+    "description": "",
+    "message": "E esențial să avem bunurile livrate înainte de {date}."
+  },
+  "URGENCY_FLUFFY_1": {
+    "description": "",
+    "message": "Din cauza perioadei de reproducere a micilor animale și a spațiului limitat pentru mâncare din container, livrarea trebuie făcută până pe {date}."
+  },
+  "URGENCY_RADIOACTIVE_1": {
+    "description": "",
+    "message": "Din cauza perioadei de înjumătățire a acestui izotop, livrarea trebuie făcută până pe {date}."
+  },
+  "WEDDING_DRESSES": {
+    "description": "custom cargo",
+    "message": "Rochii de mireasă"
+  },
+  "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
+    "description": "",
+    "message": "Am încărcat marfa pe nava dvs."
+  },
+  "WHAT_IS_THIS": {
+    "description": "",
+    "message": "Ce înseamnă asta? Ai aruncat marfa mea în spațiu? Ești nebun?"
+  },
+  "WHYSOMUCH_1": {
+    "description": "",
+    "message": "Aceasta este plata standard."
+  },
+  "WHYSOMUCH_2": {
+    "description": "",
+    "message": "Aceasta e oferta. O luați sau nu?"
+  },
+  "WHYSOMUCH_3": {
+    "description": "",
+    "message": "Ce este considerat \"mult\" este relativ."
+  },
+  "WHYSOMUCH_4": {
+    "description": "",
+    "message": "Banii oferiți reflectă dorința noastră ca bunurile să fie livrate la timp și într-o bucată."
+  },
+  "WHYSOMUCH_5": {
+    "description": "",
+    "message": "Vedeți asta ca pe un bonus ca să fiți discret în legătură cu această livrare."
+  },
+  "WHYSOMUCH_6": {
+    "description": "",
+    "message": "Păi, am fi încântați să vă dăm mai puțini bani."
+  },
+  "WHYSOMUCH_CENTRIFUGES_1": {
+    "description": "",
+    "message": "Niste bunuri ({cargoname}) au fost distruse din cauze unei erori de software si trebuie înlocuite urgent."
+  },
+  "WHYSOMUCH_CHEMICAL_1": {
+    "description": "",
+    "message": "Producția din fabrica de produse chimice depinde de aceste bunuri și nu trebuie să fie întreruptă. Nimic nu trebuie să oprească mașinăria."
+  },
+  "WHYSOMUCH_EXPENSIVE_1": {
+    "description": "",
+    "message": "Bunuri valoroase sunt la mare căutare."
+  },
+  "WHYSOMUCH_EXPENSIVE_2": {
+    "description": "",
+    "message": "Pentru că aceste bunuri sunt foarte scumpe."
+  },
+  "WHYSOMUCH_FLUFFY_1": {
+    "description": "",
+    "message": "Produsul {cargoname} se vinde foarte bine sezonul acesta. Ar trebui să investiți în acțiunile acestui produs dacă vreți să faceți mulți bani."
+  },
+  "WHYSOMUCH_INFRASTRUCTURE_1": {
+    "description": "",
+    "message": "These goods are crucial for a construction project."
+  },
+  "WHYSOMUCH_MINING_1": {
+    "description": "",
+    "message": "Bunurile acestea sunt esențiale pentru contruirea unei noi mine."
+  },
+  "WHYSOMUCH_URGENT_1": {
+    "description": "",
+    "message": "Pilotul meu favorit este bolnav și nu e suficient timp."
+  },
+  "WHYSOMUCH_URGENT_2": {
+    "description": "",
+    "message": "Dacă nu respectăm termenul de livrare, proiectul va sta pe loc."
+  },
+  "WHYSOMUCH_URGENT_3": {
+    "description": "",
+    "message": "Aceste bunuri sunt necesare urgent."
+  },
+  "WHYSOMUCH_WEDDING_1": {
+    "description": "",
+    "message": "Până acum nu am putut găsi pe nimeni care să facă această livrare. Când se va termina sezonul, marfa mea nu va mai avea nicio valoare."
+  },
+  "WHY_SO_MUCH_MONEY": {
+    "description": "",
+    "message": "De ce atât de mulți bani?"
+  },
+  "WILL_I_BE_IN_ANY_DANGER": {
+    "description": "",
+    "message": "Voi fi în pericol?"
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP": {
+    "description": "",
+    "message": "Nu aveși suficient spațiu în hala navei dvs."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
+    "description": "",
+    "message": "Vă rog să vă întoarceți când aveți suficient spațiu în hală."
+  }
 }

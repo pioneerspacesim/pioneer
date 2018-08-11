@@ -1,0 +1,18 @@
+{
+  "FLAVOUR_0_BODY": {
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
+    "message": "Zadzwoń pod 36 24 36, Jestem w zawsze w domu. Handluję:\n - Betonowymi butami,\n - Cyjankiem,\n - Dynamitem,\n - Krawatami,\n - Kontraktami,\n - Wysokim napięciem,\n\n ...albo po prostu pogadaj."
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "The 'all caps' title should probably not be translated, as it's an AC/DC song title reference. Either way, it's a very rare 'Easter egg'",
+    "message": "BRUDNE ZLECENIA ZA ŚMIESZĄ CENĘ, jeżeli masz problemy, zadzwoń do mnie kiedykolwiek"
+  },
+  "FLAVOUR_1_BODY": {
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to https://en.wikipedia.org/wiki/867-5309/Jenny",
+    "message": "Nie znasz mnie ale zadzwoń; 867-5309 / Jenny"
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "A very rare Easter egg, and reference to a line from a famous song.",
+    "message": "TRZEBA SIĘ ZA KOGOŚ ZABRAĆ?"
+  }
+}

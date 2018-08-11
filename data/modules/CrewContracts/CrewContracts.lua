@@ -423,7 +423,7 @@ Event.Register("onGameStart", function()
 	-- XXX Need to re-initialise these until Lua is re-initialised with a new game
 	nonPersistentCharactersForCrew = {}
 	stationsWithAdverts = {}
-	if loaded_data then
+	if loaded_data and loaded_data.stationsWithAdverts then
 		nonPersistentCharactersForCrew = loaded_data.nonPersistentCharactersForCrew
 		for k,station in pairs(loaded_data.stationsWithAdverts) do
 		stationsWithAdverts[station:AddAdvert({

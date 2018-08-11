@@ -27,8 +27,8 @@ end
 
 local currentView = "internal"
 
-local next_cam_type = { ["internal"] = "external", ["external"] = "sidereal", ["sidereal"] = "internal" }
-local cam_tooltip = { ["internal"] = lui.HUD_BUTTON_INTERNAL_VIEW, ["external"] = lui.HUD_BUTTON_EXTERNAL_VIEW, ["sidereal"] = lui.HUD_BUTTON_SIDEREAL_VIEW }
+local next_cam_type = { ["internal"] = "external", ["external"] = "sidereal", ["sidereal"] = "internal", ["flyby"] = "internal" }
+local cam_tooltip = { ["internal"] = lui.HUD_BUTTON_INTERNAL_VIEW, ["external"] = lui.HUD_BUTTON_EXTERNAL_VIEW, ["sidereal"] = lui.HUD_BUTTON_SIDEREAL_VIEW, ["flyby"] = lui.HUD_BUTTON_FLYBY_VIEW }
 local function button_world(current_view)
 	ui.sameLine()
 	if current_view ~= "world" then
@@ -39,6 +39,9 @@ local function button_world(current_view)
 		local camtype = Game.GetWorldCamType()
 		if mainMenuButton(icons["view_" .. camtype], true, cam_tooltip[camtype]) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f1)) then
 			Game.SetWorldCamType(next_cam_type[camtype])
+		end
+		if (ui.altHeld() and ui.isKeyReleased(ui.keys.f1)) then
+			Game.SetWorldCamType("flyby")
 		end
 	end
 end
@@ -121,17 +124,19 @@ local function button_comms(current_view)
 				Game.SetView("space_station")
 			end
 		else
-			Game.ToggleTargetActions()
+			if ui.toggleSystemTargets then
+				ui.toggleSystemTargets()
+			end
 		end
 	end
 end
 
 local function displayFxWindow()
+	if ui.showOptionsWindow then return end
 	player = Game.player
 	local current_view = Game.CurrentView()
-	local buttons = 7
-	ui.setNextWindowSize(Vector((mainButtonSize.x + mainButtonFramePadding * 2) * 9, (mainButtonSize.y + mainButtonFramePadding * 2) * 1.5), "Always")
-	ui.setNextWindowPos(Vector(ui.screenWidth/2 - (mainButtonSize.x + 4 * mainButtonFramePadding) * buttons/2, 0) , "Always")
+	ui.setNextWindowSize(Vector((mainButtonSize.x + mainButtonFramePadding * 2) * 10, (mainButtonSize.y + mainButtonFramePadding * 2) * 1.5), "Always")
+	ui.setNextWindowPos(Vector(ui.screenWidth/2 - (mainButtonSize.x + 4 * mainButtonFramePadding) * 7.5/2, 0) , "Always")
 	ui.window("Fx", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 						function()
 							button_world(current_view)

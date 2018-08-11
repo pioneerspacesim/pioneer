@@ -160,7 +160,7 @@ static int l_csb_radius_km(lua_State *L)
 static int l_csb_seed(lua_State *L)
 {
 	CustomSystemBody *csb = l_csb_check(L, 1);
-	csb->seed = luaL_checkinteger(L, 2);
+	csb->seed = luaL_checkunsigned(L, 2);
 	csb->want_rand_seed = false;
 	lua_settop(L, 1);
 	return 1;
@@ -378,7 +378,7 @@ static int l_csys_new(lua_State *L)
 static int l_csys_seed(lua_State *L)
 {
 	CustomSystem *cs = l_csys_check(L, 1);
-	cs->seed = luaL_checkinteger(L, 2);
+	cs->seed = luaL_checkunsigned(L, 2);
 	lua_settop(L, 1);
 	return 1;
 }

@@ -96,6 +96,7 @@ public:
 	static bool AreHudTrailsDisplayed() { return hudTrailsDisplayed; }
 	static void SetHudTrailsDisplayed(bool state) { hudTrailsDisplayed = state; }
 	static int MouseButtonState(int button) { return mouseButton[button]; }
+	static void SetMouseButtonState(int button, bool state) { mouseButton[button] = state; }
 	// Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
 	// This is a default value only, centralized here to promote uniform user expericience.
 	static float GetMoveSpeedShiftModifier();
@@ -133,7 +134,7 @@ public:
 #endif
 
 	static RefCountedPtr<UI::Context> ui;
-    static RefCountedPtr<PiGui> pigui;
+	static RefCountedPtr<PiGui> pigui;
 
 	static Random rng;
 	static int statSceneTris;
@@ -232,6 +233,9 @@ private:
 
 	static bool isRecordingVideo;
 	static FILE *ffmpegFile;
+
+public:
+	static std::map<SDL_JoystickID, JoystickState> GetJoysticksState() { return joysticks; }
 };
 
 #endif /* _PI_H */

@@ -79,6 +79,29 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 	float znear, zfar;
 	renderer->GetNearFarRange(znear, zfar);
 
+	//stars very far away are downscaled, because they cannot be
+	//accurately drawn using actual distances
+	int shrink = 0;
+	if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR)
+	{
+		double len = fpos.Length();
+		double dist_to_horizon;
+		for (;;) {
+			if (len < rad) // player inside radius case
+				break;
+
+			dist_to_horizon = sqrt(len*len - rad * rad);
+
+			if (dist_to_horizon < zfar*0.5)
+				break;
+
+			rad *= 0.25;
+			fpos = 0.25*fpos;
+			len *= 0.25;
+			++shrink;
+		}
+	}
+
 	vector3d campos = fpos;
 	ftran.ClearToRotOnly();
 	campos = ftran.Inverse() * campos;
@@ -100,6 +123,10 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 
 	ftran.Translate(campos.x, campos.y, campos.z);
 	SubRender(renderer, ftran, campos);
+
+	//clear depth buffer, shrunken objects should not interact with foreground
+	if (shrink)
+		renderer->ClearDepthBuffer();
 }
 
 void TerrainBody::SetFrame(Frame *f)

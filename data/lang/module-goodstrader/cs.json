@@ -1,58 +1,58 @@
 {
-   "GOODS_TRADER_0" : {
-      "description" : "",
-      "message" : "{name}'s vyhlášené obchodní středisko"
-   },
-   "GOODS_TRADER_1" : {
-      "description" : "",
-      "message" : "{name}'s tržnice"
-   },
-   "GOODS_TRADER_2" : {
-      "description" : "",
-      "message" : "{name}'s skladiště"
-   },
-   "GOODS_TRADER_3" : {
-      "description" : "",
-      "message" : "{name}'s burza"
-   },
-   "GOODS_TRADER_4" : {
-      "description" : "",
-      "message" : "{name} a.s."
-   },
-   "GOODS_TRADER_5" : {
-      "description" : "",
-      "message" : "{name} & synové"
-   },
-   "SLOGAN_0" : {
-      "description" : "",
-      "message" : "We deal in what others don't."
-   },
-   "SLOGAN_1" : {
-      "description" : "",
-      "message" : "A truly free market."
-   },
-   "SLOGAN_2" : {
-      "description" : "",
-      "message" : "Bringing the best unconventional goods to you!"
-   },
-   "SLOGAN_3" : {
-      "description" : "",
-      "message" : "We believe in a market without restrictions."
-   },
-   "SLOGAN_4" : {
-      "description" : "",
-      "message" : "The unregulated market, for your freedom."
-   },
-   "SLOGAN_5" : {
-      "description" : "",
-      "message" : "The trustworthy dealer."
-   },
-   "SLOGAN_6" : {
-      "description" : "",
-      "message" : "Allways a special price just for you."
-   },
-   "WELCOME_TO" : {
-      "description" : "",
-      "message" : "Vítá vás "
-   }
+  "GOODS_TRADER_0": {
+    "description": "",
+    "message": "{name}'s vyhlášené obchodní středisko"
+  },
+  "GOODS_TRADER_1": {
+    "description": "",
+    "message": "{name}'s tržnice"
+  },
+  "GOODS_TRADER_2": {
+    "description": "",
+    "message": "{name}'s skladiště"
+  },
+  "GOODS_TRADER_3": {
+    "description": "",
+    "message": "{name}'s burza"
+  },
+  "GOODS_TRADER_4": {
+    "description": "",
+    "message": "{name} a.s."
+  },
+  "GOODS_TRADER_5": {
+    "description": "",
+    "message": "{name} & synové"
+  },
+  "SLOGAN_0": {
+    "description": "",
+    "message": "We deal in what others don't."
+  },
+  "SLOGAN_1": {
+    "description": "",
+    "message": "A truly free market."
+  },
+  "SLOGAN_2": {
+    "description": "",
+    "message": "Bringing the best unconventional goods to you!"
+  },
+  "SLOGAN_3": {
+    "description": "",
+    "message": "We believe in a market without restrictions."
+  },
+  "SLOGAN_4": {
+    "description": "",
+    "message": "The unregulated market, for your freedom."
+  },
+  "SLOGAN_5": {
+    "description": "",
+    "message": "The trustworthy dealer."
+  },
+  "SLOGAN_6": {
+    "description": "",
+    "message": "Allways a special price just for you."
+  },
+  "WELCOME_TO": {
+    "description": "",
+    "message": "Vítá vás "
+  }
 }

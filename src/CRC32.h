@@ -5,7 +5,6 @@
 #define _CRC32_H
 
 #include <SDL_stdinc.h>
-#include <vector>
 
 class CRC32 {
 public:

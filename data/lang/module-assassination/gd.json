@@ -1,334 +1,334 @@
 {
-   "ASSASSINATION" : {
-      "description" : "",
-      "message" : "Foill-mhort"
-   },
-   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
-      "description" : "",
-      "message" : "Dè an t-iarrtas a bh' agaibh a-rithist?"
-   },
-   "DENY_0" : {
-      "description" : "",
-      "message" : "Tha mi duilich ach chan eil earbsa agam annad."
-   },
-   "DENY_1" : {
-      "description" : "",
-      "message" : "Till nuair a bhios teisteanasan agad."
-   },
-   "DENY_2" : {
-      "description" : "",
-      "message" : "Cha chreid mi gur tusa am murtair a tha mi ag iarraidh."
-   },
-   "DENY_3" : {
-      "description" : "",
-      "message" : "Chan eil coltas ort gu bheil comas agad na dh'fheumas a dhèanamh."
-   },
-   "DENY_4" : {
-      "description" : "",
-      "message" : "'S follaiseach nach tusa an neach ceart airson na h-obrach seo."
-   },
-   "DENY_5" : {
-      "description" : "",
-      "message" : "Cha chreid mi gu bheil eòlas gu leòr agad gus cùmhnant cho cudromach sin a làimhseachadh."
-   },
-   "DENY_6" : {
-      "description" : "",
-      "message" : "Chan eil sgot agam cò thusa. Tha feum agam air seann-phaidhleat airson a' chùmhnaint seo."
-   },
-   "DENY_7" : {
-      "description" : "",
-      "message" : "Cha chuir mi an cùmhnant seo fo chunnart 's cha doir mi do chuideigin aig nach eil teisteanas sam bith e."
-   },
-   "DISTANCE" : {
-      "description" : "",
-      "message" : "Astar:"
-   },
-   "EXCELLENT" : {
-      "description" : "",
-      "message" : "Sgoinneil."
-   },
-   "FLAVOUR_0_ADTEXT" : {
-      "description" : "",
-      "message" : "'GA IARRAIDH: Toirt air falbh {target} o shiostam {system}."
-   },
-   "FLAVOUR_0_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Tha mi uabhasach mì-thoilichte gu bheil {target} beò fhathast. Cha chan sinn guth mun phàigheadh nach fhaigh thu."
-   },
-   "FLAVOUR_0_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Cha tusa a dh'fhaisg {target}. Chan fhaigh tu pàigheadh an turas seo."
-   },
-   "FLAVOUR_0_INTROTEXT" : {
-      "description" : "",
-      "message" : "Haoigh, 's mise {name}. Pàighidh mi {cash} dhut gus cuidhteas fhaighinn dhe {target}."
-   },
-   "FLAVOUR_0_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Tha sinn taingeil a chluinntinn gun deach {target} air saor-làithean mòra. Math thu fhèin! Chuir mi am pàigheadh slàn thugad."
-   },
-   "FLAVOUR_1_ADTEXT" : {
-      "description" : "",
-      "message" : "'GA IARRAIDH: Cuideigin a mharbhas {target} à siostam {system}."
-   },
-   "FLAVOUR_1_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Chuala mi gu bheil deagh-shlàinte air {target}. 'S duilich leam."
-   },
-   "FLAVOUR_1_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Cha bu tusa a thug am bàs air {target}, mar sin na iarr pàigheadh."
-   },
-   "FLAVOUR_1_INTROTEXT" : {
-      "description" : "",
-      "message" : "Feumaidh mi gun dèid {target} a-mach à sealladh. Pàighidh mi {cash} dhut air a shon."
-   },
-   "FLAVOUR_1_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Tha mi glè bhrònach gun do chaochail {target}. Fhuair thu pàigheadh slàn."
-   },
-   "FLAVOUR_2_ADTEXT" : {
-      "description" : "",
-      "message" : "TOIRT AIR FALBH: Chan eilear ag iarraidh {target} ann an siostam {system} tuilleadh."
-   },
-   "FLAVOUR_2_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Tha sinn duilich a chluinntinn gu bheil {target} slàn sàbhailte fhathast. Chan fhaigh tu pàigheadh oir cha do choilean thu an cùmhnant agad."
-   },
-   "FLAVOUR_2_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Chaidh an cùmhnant a choileanadh le cuideigin eile. Bi nas luaithe an ath thuras!"
-   },
-   "FLAVOUR_2_INTROTEXT" : {
-      "description" : "",
-      "message" : "'S mise {name} is pàighidh mi {cash} dhut gus crìoch a chur air {target}."
-   },
-   "FLAVOUR_2_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Fhuair thu pàigheadh slàn airson an cùmhnant cudromach seo a choileanadh."
-   },
-   "FLAVOUR_3_ADTEXT" : {
-      "description" : "",
-      "message" : "CRÌOCH: Cuideigin a chuireas crìoch air {target}."
-   },
-   "FLAVOUR_3_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Pàighidh tu airson gun a bhith a' cur crìoch air {target}!"
-   },
-   "FLAVOUR_3_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "A bheil thu ag iarraidh airgead airson obair a rinn cuideigin eile? Thalla."
-   },
-   "FLAVOUR_3_INTROTEXT" : {
-      "description" : "",
-      "message" : "Feumaidh {target} siubhal dhan fhànas. Bheir mi duais dhe {cash} dhut gus seo a chur an cèill."
-   },
-   "FLAVOUR_3_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Tha {target} marbh. Seo do dhuais."
-   },
-   "FLAVOUR_4_ADTEXT" : {
-      "description" : "",
-      "message" : "CLUAINEAS: Cuideigin a chuireas {target} air cluaineas."
-   },
-   "FLAVOUR_4_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Tha {target} a' togail anail fhathast agus cha doir mi airgead dhut."
-   },
-   "FLAVOUR_4_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Chuir cuideigin eile {target} air cluaineas."
-   },
-   "FLAVOUR_4_INTROTEXT" : {
-      "description" : "",
-      "message" : "Air {cash}, bu toigh leinn moladh dha {target} gun sguir e dhen obair aige gu buan."
-   },
-   "FLAVOUR_4_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Fhuair sinn an naidheachd mun chluaineas aig {target} le aoibhneas. Seo an t-airgead agad dhut."
-   },
-   "FLAVOUR_5_ADTEXT" : {
-      "description" : "",
-      "message" : "SGEUL-BEATHA: Tha luchd-gràidh ag iarraidh gum faigh {target} bàs."
-   },
-   "FLAVOUR_5_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Fhuair sinn a-mach gu bheil {target} ag obair co-dhiù. Tha sin bochd."
-   },
-   "FLAVOUR_5_FAILUREMSG2" : {
-      "description" : "",
-      "message" : "Chaidh {target} a neonicheadh le cuideigin eile."
-   },
-   "FLAVOUR_5_INTROTEXT" : {
-      "description" : "",
-      "message" : "Bu mhiann leinn gun dig crìoch air an rèim aig {target} ann an dòigh iomchaidh ann an siostam {system} air {cash}."
-   },
-   "FLAVOUR_5_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Tha sinn toilichte gun d' fhuair sinn an naidheachd gun do leig {target} dheth a dhreuchd. Seo {cash} dhut."
-   },
-   "HOW_SOON_MUST_IT_BE_DONE" : {
-      "description" : "",
-      "message" : "Dè cho luath 's a dh'fheumas mi a dhèanamh?"
-   },
-   "HOW_WILL_I_BE_PAID" : {
-      "description" : "",
-      "message" : "Ciamar a thèid mo phàigheadh?"
-   },
-   "IT_MUST_BE_DONE_AFTER" : {
-      "description" : "",
-      "message" : "Feumaidh tu a dhèanamh às dèidh {target} {spaceport} fhàgail. Na caill an cothrom seo."
-   },
-   "LY" : {
-      "description" : "",
-      "message" : "bl-shol"
-   },
-   "OK_AGREED" : {
-      "description" : "",
-      "message" : "Seadh, nì sinn seo."
-   },
-   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
-      "description" : "",
-      "message" : "Till an-seo nuair a bhios tu air an cùmhnant a choileanadh is thèid do phàigheadh."
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Cuir ceann-uidhe na seòladaireachd air"
-   },
-   "SET_RETURN_ROUTE" : {
-      "description" : "",
-      "message" : "Suidhich cùrsa tillidh"
-   },
-   "SHIP" : {
-      "description" : "",
-      "message" : "Soitheach:"
-   },
-   "SHIP_ID" : {
-      "description" : "",
-      "message" : "Aithnichear an t-soithich:"
-   },
-   "SPACEPORT" : {
-      "description" : "",
-      "message" : "Port-fhànais:"
-   },
-   "SYSTEM" : {
-      "description" : "",
-      "message" : "Siostam:"
-   },
-   "TARGET_NAME" : {
-      "description" : "",
-      "message" : "Ainm an amais:"
-   },
-   "TARGET_WILL_BE_LEAVING_SPACEPORT_AT" : {
-      "description" : "",
-      "message" : "Fàgaidh an t-amas am port-fhànais:"
-   },
-   "TITLE_0" : {
-      "description" : "",
-      "message" : "Àrd-mharaiche"
-   },
-   "TITLE_1" : {
-      "description" : "",
-      "message" : "Tosgaire"
-   },
-   "TITLE_10" : {
-      "description" : "",
-      "message" : "Neach-brataich"
-   },
-   "TITLE_11" : {
-      "description" : "",
-      "message" : "Ceann-armailt"
-   },
-   "TITLE_12" : {
-      "description" : "",
-      "message" : "Britheamh"
-   },
-   "TITLE_13" : {
-      "description" : "",
-      "message" : "Neach-lagha"
-   },
-   "TITLE_14" : {
-      "description" : "",
-      "message" : "Fo-cheannard"
-   },
-   "TITLE_15" : {
-      "description" : "",
-      "message" : "Marasgal"
-   },
-   "TITLE_16" : {
-      "description" : "",
-      "message" : "Marsanta"
-   },
-   "TITLE_17" : {
-      "description" : "",
-      "message" : "Oifigear"
-   },
-   "TITLE_18" : {
-      "description" : "",
-      "message" : "Prìobhaideach"
-   },
-   "TITLE_19" : {
-      "description" : "",
-      "message" : "Àrd-ollamh"
-   },
-   "TITLE_2" : {
-      "description" : "",
-      "message" : "Ceannard-feadhna"
-   },
-   "TITLE_20" : {
-      "description" : "",
-      "message" : "Neach-casaid"
-   },
-   "TITLE_21" : {
-      "description" : "",
-      "message" : "Probhaist"
-   },
-   "TITLE_22" : {
-      "description" : "",
-      "message" : "Maraiche"
-   },
-   "TITLE_23" : {
-      "description" : "",
-      "message" : "Seanaiche"
-   },
-   "TITLE_24" : {
-      "description" : "",
-      "message" : "Sàirdseant"
-   },
-   "TITLE_3" : {
-      "description" : "",
-      "message" : "Òglach"
-   },
-   "TITLE_4" : {
-      "description" : "",
-      "message" : "Caiptean"
-   },
-   "TITLE_5" : {
-      "description" : "",
-      "message" : "Càirdineal"
-   },
-   "TITLE_6" : {
-      "description" : "",
-      "message" : "Còirneal"
-   },
-   "TITLE_7" : {
-      "description" : "",
-      "message" : "Comandair"
-   },
-   "TITLE_8" : {
-      "description" : "",
-      "message" : "Ceannard-cabhlaich"
-   },
-   "TITLE_9" : {
-      "description" : "",
-      "message" : "Coirpileir"
-   },
-   "WHERE_CAN_I_FIND_X" : {
-      "description" : "",
-      "message" : "Càite an lorg mi {target}?"
-   },
-   "X_WILL_BE_LEAVING" : {
-      "description" : "",
-      "message" : "Bidh {target} a' fàgail {spaceport} ann an siostam {system} ({sectorX}, {sectorY}, {sectorZ}), {dist} bliadhna-sholais a dh'astar {date}. Is {shipname} an soitheach agus is {shipregid} an t-aithnichear clàraidh a tha air."
-   }
+  "ASSASSINATION": {
+    "description": "",
+    "message": "Foill-mhort"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Dè an t-iarrtas a bh' agaibh a-rithist?"
+  },
+  "DENY_0": {
+    "description": "",
+    "message": "Tha mi duilich ach chan eil earbsa agam annad."
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Till nuair a bhios teisteanasan agad."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Cha chreid mi gur tusa am murtair a tha mi ag iarraidh."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Chan eil coltas ort gu bheil comas agad na dh'fheumas a dhèanamh."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "'S follaiseach nach tusa an neach ceart airson na h-obrach seo."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Cha chreid mi gu bheil eòlas gu leòr agad gus cùmhnant cho cudromach sin a làimhseachadh."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "Chan eil sgot agam cò thusa. Tha feum agam air seann-phaidhleat airson a' chùmhnaint seo."
+  },
+  "DENY_7": {
+    "description": "",
+    "message": "Cha chuir mi an cùmhnant seo fo chunnart 's cha doir mi do chuideigin aig nach eil teisteanas sam bith e."
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "Astar:"
+  },
+  "EXCELLENT": {
+    "description": "",
+    "message": "Sgoinneil."
+  },
+  "FLAVOUR_0_ADTEXT": {
+    "description": "",
+    "message": "'GA IARRAIDH: Toirt air falbh {target} o shiostam {system}."
+  },
+  "FLAVOUR_0_FAILUREMSG": {
+    "description": "",
+    "message": "Tha mi uabhasach mì-thoilichte gu bheil {target} beò fhathast. Cha chan sinn guth mun phàigheadh nach fhaigh thu."
+  },
+  "FLAVOUR_0_FAILUREMSG2": {
+    "description": "",
+    "message": "Cha tusa a dh'fhaisg {target}. Chan fhaigh tu pàigheadh an turas seo."
+  },
+  "FLAVOUR_0_INTROTEXT": {
+    "description": "",
+    "message": "Haoigh, 's mise {name}. Pàighidh mi {cash} dhut gus cuidhteas fhaighinn dhe {target}."
+  },
+  "FLAVOUR_0_SUCCESSMSG": {
+    "description": "",
+    "message": "Tha sinn taingeil a chluinntinn gun deach {target} air saor-làithean mòra. Math thu fhèin! Chuir mi am pàigheadh slàn thugad."
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "'GA IARRAIDH: Cuideigin a mharbhas {target} à siostam {system}."
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "Chuala mi gu bheil deagh-shlàinte air {target}. 'S duilich leam."
+  },
+  "FLAVOUR_1_FAILUREMSG2": {
+    "description": "",
+    "message": "Cha bu tusa a thug am bàs air {target}, mar sin na iarr pàigheadh."
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "",
+    "message": "Feumaidh mi gun dèid {target} a-mach à sealladh. Pàighidh mi {cash} dhut air a shon."
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "Tha mi glè bhrònach gun do chaochail {target}. Fhuair thu pàigheadh slàn."
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "TOIRT AIR FALBH: Chan eilear ag iarraidh {target} ann an siostam {system} tuilleadh."
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "Tha sinn duilich a chluinntinn gu bheil {target} slàn sàbhailte fhathast. Chan fhaigh tu pàigheadh oir cha do choilean thu an cùmhnant agad."
+  },
+  "FLAVOUR_2_FAILUREMSG2": {
+    "description": "",
+    "message": "Chaidh an cùmhnant a choileanadh le cuideigin eile. Bi nas luaithe an ath thuras!"
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "'S mise {name} is pàighidh mi {cash} dhut gus crìoch a chur air {target}."
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Fhuair thu pàigheadh slàn airson an cùmhnant cudromach seo a choileanadh."
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "CRÌOCH: Cuideigin a chuireas crìoch air {target}."
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "Pàighidh tu airson gun a bhith a' cur crìoch air {target}!"
+  },
+  "FLAVOUR_3_FAILUREMSG2": {
+    "description": "",
+    "message": "A bheil thu ag iarraidh airgead airson obair a rinn cuideigin eile? Thalla."
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": "Feumaidh {target} siubhal dhan fhànas. Bheir mi duais dhe {cash} dhut gus seo a chur an cèill."
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "Tha {target} marbh. Seo do dhuais."
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "CLUAINEAS: Cuideigin a chuireas {target} air cluaineas."
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "Tha {target} a' togail anail fhathast agus cha doir mi airgead dhut."
+  },
+  "FLAVOUR_4_FAILUREMSG2": {
+    "description": "",
+    "message": "Chuir cuideigin eile {target} air cluaineas."
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "Air {cash}, bu toigh leinn moladh dha {target} gun sguir e dhen obair aige gu buan."
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "Fhuair sinn an naidheachd mun chluaineas aig {target} le aoibhneas. Seo an t-airgead agad dhut."
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "SGEUL-BEATHA: Tha luchd-gràidh ag iarraidh gum faigh {target} bàs."
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "Fhuair sinn a-mach gu bheil {target} ag obair co-dhiù. Tha sin bochd."
+  },
+  "FLAVOUR_5_FAILUREMSG2": {
+    "description": "",
+    "message": "Chaidh {target} a neonicheadh le cuideigin eile."
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "Bu mhiann leinn gun dig crìoch air an rèim aig {target} ann an dòigh iomchaidh ann an siostam {system} air {cash}."
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "Tha sinn toilichte gun d' fhuair sinn an naidheachd gun do leig {target} dheth a dhreuchd. Seo {cash} dhut."
+  },
+  "HOW_SOON_MUST_IT_BE_DONE": {
+    "description": "",
+    "message": "Dè cho luath 's a dh'fheumas mi a dhèanamh?"
+  },
+  "HOW_WILL_I_BE_PAID": {
+    "description": "",
+    "message": "Ciamar a thèid mo phàigheadh?"
+  },
+  "IT_MUST_BE_DONE_AFTER": {
+    "description": "",
+    "message": "Feumaidh tu a dhèanamh às dèidh {target} {spaceport} fhàgail. Na caill an cothrom seo."
+  },
+  "LY": {
+    "description": "",
+    "message": "bl-shol"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Seadh, nì sinn seo."
+  },
+  "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
+    "description": "",
+    "message": "Till an-seo nuair a bhios tu air an cùmhnant a choileanadh is thèid do phàigheadh."
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Cuir ceann-uidhe na seòladaireachd air"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Suidhich cùrsa tillidh"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Soitheach:"
+  },
+  "SHIP_ID": {
+    "description": "",
+    "message": "Aithnichear an t-soithich:"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Port-fhànais:"
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Siostam:"
+  },
+  "TARGET_NAME": {
+    "description": "",
+    "message": "Ainm an amais:"
+  },
+  "TARGET_WILL_BE_LEAVING_SPACEPORT_AT": {
+    "description": "",
+    "message": "Fàgaidh an t-amas am port-fhànais:"
+  },
+  "TITLE_0": {
+    "description": "",
+    "message": "Àrd-mharaiche"
+  },
+  "TITLE_1": {
+    "description": "",
+    "message": "Tosgaire"
+  },
+  "TITLE_10": {
+    "description": "",
+    "message": "Neach-brataich"
+  },
+  "TITLE_11": {
+    "description": "",
+    "message": "Ceann-armailt"
+  },
+  "TITLE_12": {
+    "description": "",
+    "message": "Britheamh"
+  },
+  "TITLE_13": {
+    "description": "",
+    "message": "Neach-lagha"
+  },
+  "TITLE_14": {
+    "description": "",
+    "message": "Fo-cheannard"
+  },
+  "TITLE_15": {
+    "description": "",
+    "message": "Marasgal"
+  },
+  "TITLE_16": {
+    "description": "",
+    "message": "Marsanta"
+  },
+  "TITLE_17": {
+    "description": "",
+    "message": "Oifigear"
+  },
+  "TITLE_18": {
+    "description": "",
+    "message": "Prìobhaideach"
+  },
+  "TITLE_19": {
+    "description": "",
+    "message": "Àrd-ollamh"
+  },
+  "TITLE_2": {
+    "description": "",
+    "message": "Ceannard-feadhna"
+  },
+  "TITLE_20": {
+    "description": "",
+    "message": "Neach-casaid"
+  },
+  "TITLE_21": {
+    "description": "",
+    "message": "Probhaist"
+  },
+  "TITLE_22": {
+    "description": "",
+    "message": "Maraiche"
+  },
+  "TITLE_23": {
+    "description": "",
+    "message": "Seanaiche"
+  },
+  "TITLE_24": {
+    "description": "",
+    "message": "Sàirdseant"
+  },
+  "TITLE_3": {
+    "description": "",
+    "message": "Òglach"
+  },
+  "TITLE_4": {
+    "description": "",
+    "message": "Caiptean"
+  },
+  "TITLE_5": {
+    "description": "",
+    "message": "Càirdineal"
+  },
+  "TITLE_6": {
+    "description": "",
+    "message": "Còirneal"
+  },
+  "TITLE_7": {
+    "description": "",
+    "message": "Comandair"
+  },
+  "TITLE_8": {
+    "description": "",
+    "message": "Ceannard-cabhlaich"
+  },
+  "TITLE_9": {
+    "description": "",
+    "message": "Coirpileir"
+  },
+  "WHERE_CAN_I_FIND_X": {
+    "description": "",
+    "message": "Càite an lorg mi {target}?"
+  },
+  "X_WILL_BE_LEAVING": {
+    "description": "",
+    "message": "Bidh {target} a' fàgail {spaceport} ann an siostam {system} ({sectorX}, {sectorY}, {sectorZ}), {dist} bliadhna-sholais a dh'astar {date}. Is {shipname} an soitheach agus is {shipregid} an t-aithnichear clàraidh a tha air."
+  }
 }

@@ -1,74 +1,74 @@
 {
-   "BUY" : {
-      "description" : "Buy a piece of ship equipment",
-      "message" : "Comprar"
-   },
-   "FITTING_IS_INCLUDED_IN_THE_PRICE" : {
-      "description" : "Regarding installing a component on the ship",
-      "message" : "Fitting is included in the price."
-   },
-   "FLAVOUR_0_BODY" : {
-      "description" : "",
-      "message" : "Hi! My name is {name} and I'm selling off my {equipment} from my old rusty bucket. I want {price} for it."
-   },
-   "FLAVOUR_0_TITLE" : {
-      "description" : "Selling second hand ship equipment",
-      "message" : "FOR SALE: Special offer, selling one {equipment}."
-   },
-   "FLAVOUR_1_BODY" : {
-      "description" : "",
-      "message" : "Hi! My name is {name}. I have an almost brand new {equipment} which I'm selling for just {price}."
-   },
-   "FLAVOUR_1_TITLE" : {
-      "description" : "Selling second hand ship equipment",
-      "message" : "SELLING: Practically unused {equipment}, at an affordable price!"
-   },
-   "FLAVOUR_2_BODY" : {
-      "description" : "",
-      "message" : "Greetings! I'm {name} and I have a very fine {equipment} which could be yours for just {price}."
-   },
-   "FLAVOUR_2_TITLE" : {
-      "description" : "Selling second hand ship equipment",
-      "message" : "SELLING: One {equipment}, for a reasonable price!"
-   },
-   "FLAVOUR_3_BODY" : {
-      "description" : "",
-      "message" : "Hello! I have an extra {equipment} which I need to get off my hands, my asking price is {price}."
-   },
-   "FLAVOUR_3_TITLE" : {
-      "description" : "Selling second hand ship equipment",
-      "message" : "FOR SALE: One {equipment}, in good condition."
-   },
-   "FLAVOUR_4_BODY" : {
-      "description" : "",
-      "message" : "Hi! We have an extra {equipment} which could be yours for {price}."
-   },
-   "FLAVOUR_4_TITLE" : {
-      "description" : "Selling second hand ship equipment",
-      "message" : "FOR SALE: Leftover {equipment}, in fine condition."
-   },
-   "FLAVOUR_5_BODY" : {
-      "description" : "",
-      "message" : "Greetings! Do you want to buy my old {equipment}? It has served me well, but I have now upgraded and don't need it. The price is {price}."
-   },
-   "FLAVOUR_5_TITLE" : {
-      "description" : "Selling second hand ship equipment",
-      "message" : "FOR SALE: Old {equipment}, in working condition."
-   },
-   "HAS_BEEN_FITTED_TO_YOUR_SHIP" : {
-      "description" : "",
-      "message" : "The {equipment} has been fitted to your ship."
-   },
-   "HOW_DO_I_FITT_IT" : {
-      "description" : "Regarding installing a component on the ship",
-      "message" : "How do I fit it?"
-   },
-   "REPEAT_OFFER" : {
-      "description" : "",
-      "message" : "Repeat offer"
-   },
-   "YOU_DONT_HAVE_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "You don't have enough money."
-   }
+  "BUY": {
+    "description": "Buy a piece of ship equipment",
+    "message": "Comprar"
+  },
+  "FITTING_IS_INCLUDED_IN_THE_PRICE": {
+    "description": "Regarding installing a component on the ship",
+    "message": "El muntatge està inclòs al preu."
+  },
+  "FLAVOUR_0_BODY": {
+    "description": "",
+    "message": "Hola! Em dic {name} i em vull desfer del {equipment} de la meva vella closca de nou rovellada. En demano {price}."
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "OFERTA: Oferta especial, es ven {equipment}."
+  },
+  "FLAVOUR_1_BODY": {
+    "description": "",
+    "message": "Hola! Em dic {name}. Tinc un {equipment} gairebé nou i me'l venc per només {price}."
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "EN VENDA: {equipment} pràcticament nou, a un preu assequible!"
+  },
+  "FLAVOUR_2_BODY": {
+    "description": "",
+    "message": "Salutacions! sóc en {name} i tinc un magnífic {equipment} que pot ser vostre per només {price}."
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "EN VENDA: {equipment}, per un preu raonable!"
+  },
+  "FLAVOUR_3_BODY": {
+    "description": "",
+    "message": "Hola! Tinc un {equipment} sobrant que em voldria treure del damunt. El meu preu inicial és de {price}."
+  },
+  "FLAVOUR_3_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "ES VEN: {equipment}, en bon estat."
+  },
+  "FLAVOUR_4_BODY": {
+    "description": "",
+    "message": "Hola! Tenim un {equipment} sobrant que pot ser vostre per {price}."
+  },
+  "FLAVOUR_4_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "ES VEN: {equipment} sobrant, en bon estat."
+  },
+  "FLAVOUR_5_BODY": {
+    "description": "",
+    "message": "Salutacions! Us interessa comprar el meu vell {equipment}? M'ha fet un bon servei, però ara m'he actualitzat la nau i ja no el necessito. El preu és de {price}."
+  },
+  "FLAVOUR_5_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "ES VEN: Vell {equipment}, encara funciona."
+  },
+  "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
+    "description": "",
+    "message": "El {equipment} s'ha instal·lat a la vostra nau."
+  },
+  "HOW_DO_I_FITT_IT": {
+    "description": "Regarding installing a component on the ship",
+    "message": "Com l'instal·lo?"
+  },
+  "REPEAT_OFFER": {
+    "description": "",
+    "message": "Repetiu l'oferta"
+  },
+  "YOU_DONT_HAVE_ENOUGH_MONEY": {
+    "description": "",
+    "message": "No teniu prou diners."
+  }
 }

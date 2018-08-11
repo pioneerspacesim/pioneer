@@ -15,7 +15,6 @@ public:
 class StarSystemLegacyGeneratorBase : public StarSystemGeneratorStage {
 protected:
 	struct StarTypeInfo {
-		SystemBody::BodySuperType supertype;
 		int mass[2]; // min,max % sol for stars, unused for planets
 		int radius[2]; // min,max % sol radii for stars, % earth radii for planets
 		int tempMin, tempMax;

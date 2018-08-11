@@ -1,102 +1,102 @@
 {
-   "APPLY_FOR_MEMBERSHIP" : {
-      "description" : "",
-      "message" : "تقدم بطلب العضوية"
-   },
-   "BEGIN_TRADE" : {
-      "description" : "",
-      "message" : "إبدا التجارة"
-   },
-   "FLAVOUR_0_CLUBNAME" : {
-      "description" : "",
-      "message" : "Interstellar Pilots' Fuel Co-operative"
-   },
-   "FLAVOUR_0_MEMBER_INTRO" : {
-      "description" : "",
-      "message" : "أنت ربما تشتري الوقود و تتخلص من {radioactives} هنا."
-   },
-   "FLAVOUR_0_NONMEMBER_INTRO" : {
-      "description" : "",
-      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
-   },
-   "FLAVOUR_0_WELCOME" : {
-      "description" : "",
-      "message" : "أهلا في  {clubname}"
-   },
-   "FLAVOUR_1_CLUBNAME" : {
-      "description" : "Fuel club for the Federation faction",
-      "message" : "منظمة الوقود الفيدرالية"
-   },
-   "FLAVOUR_1_NONMEMBER_INTRO" : {
-      "description" : "For the Solar Federation faction",
-      "message" : "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
-   },
-   "FLAVOUR_2_CLUBNAME" : {
-      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-      "message" : "الإتحاد الفيدرالي للوقود"
-   },
-   "FLAVOUR_2_NONMEMBER_INTRO" : {
-      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
-      "message" : "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
-   },
-   "FLAVOUR_2_WELCOME" : {
-      "description" : "",
-      "message" : "Greetings and salutations! We hope you enjoy our services."
-   },
-   "FLAVOUR_3_CLUBNAME" : {
-      "description" : "Fuel club for the Haber faction",
-      "message" : "Haber Propellant and Perishables Division"
-   },
-   "FLAVOUR_3_MEMBER_INTRO" : {
-      "description" : "For the greedy Haber faction, very corporate formulated",
-      "message" : "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
-   },
-   "FLAVOUR_3_NONMEMBER_INTRO" : {
-      "description" : "for the Haber faction",
-      "message" : "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
-   },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "إرجع"
-   },
-   "LIST_BENEFITS_DISPOSAL" : {
-      "description" : "",
-      "message" : "{radioactives}, free disposal (conditions apply)"
-   },
-   "LIST_BENEFITS_FUEL" : {
-      "description" : "",
-      "message" : "{fuel} بأسعار مخفضة"
-   },
-   "LIST_BENEFITS_FUEL_INTRO" : {
-      "description" : "",
-      "message" : "Our own stocks of fuel, independent of the general market"
-   },
-   "LIST_BENEFITS_FUEL_TANK" : {
-      "description" : "",
-      "message" : "إعادة تعبئة خزانات الوقود، حينما يكون ضرورياً"
-   },
-   "LIST_BENEFITS_JOIN" : {
-      "description" : "",
-      "message" : "إنضم الأن! سعر الإشتراك السنوي يكلف فقط {membership_fee}"
-   },
-   "WE_WILL_ONLY_DISPOSE_OF" : {
-      "description" : "",
-      "message" : "We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."
-   },
-   "WHAT_CONDITIONS_APPLY" : {
-      "description" : "",
-      "message" : "ما الظروف التي تطبق علي {radioactives} المتخلص منها؟"
-   },
-   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
-      "description" : "",
-      "message" : "طلب عضويتك قد رُفض."
-   },
-   "YOU_ARE_NOW_A_MEMBER" : {
-      "description" : "",
-      "message" : "أنت الأن عضو، عضويتك سوف تنتهي في {expiry_date}."
-   },
-   "YOU_MUST_BUY" : {
-      "description" : "",
-      "message" : "يجب عليك أن تشتري {military_fuel} الخاص بنا قبل أن نأخذ {radioactives} الخاص بك"
-   }
+  "APPLY_FOR_MEMBERSHIP": {
+    "description": "",
+    "message": "تقدم بطلب العضوية"
+  },
+  "BEGIN_TRADE": {
+    "description": "",
+    "message": "إبدا التجارة"
+  },
+  "FLAVOUR_0_CLUBNAME": {
+    "description": "",
+    "message": "Interstellar Pilots' Fuel Co-operative"
+  },
+  "FLAVOUR_0_MEMBER_INTRO": {
+    "description": "",
+    "message": "أنت ربما تشتري الوقود و تتخلص من {radioactives} هنا."
+  },
+  "FLAVOUR_0_NONMEMBER_INTRO": {
+    "description": "",
+    "message": "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
+  },
+  "FLAVOUR_0_WELCOME": {
+    "description": "",
+    "message": "أهلا في  {clubname}"
+  },
+  "FLAVOUR_1_CLUBNAME": {
+    "description": "Fuel club for the Federation faction",
+    "message": "منظمة الوقود الفيدرالية"
+  },
+  "FLAVOUR_1_NONMEMBER_INTRO": {
+    "description": "For the Solar Federation faction",
+    "message": "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
+  },
+  "FLAVOUR_2_CLUBNAME": {
+    "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+    "message": "الإتحاد الفيدرالي للوقود"
+  },
+  "FLAVOUR_2_NONMEMBER_INTRO": {
+    "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
+    "message": "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
+  },
+  "FLAVOUR_2_WELCOME": {
+    "description": "",
+    "message": "Greetings and salutations! We hope you enjoy our services."
+  },
+  "FLAVOUR_3_CLUBNAME": {
+    "description": "Fuel club for the Haber faction",
+    "message": "Haber Propellant and Perishables Division"
+  },
+  "FLAVOUR_3_MEMBER_INTRO": {
+    "description": "For the greedy Haber faction, very corporate formulated",
+    "message": "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
+  },
+  "FLAVOUR_3_NONMEMBER_INTRO": {
+    "description": "for the Haber faction",
+    "message": "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "إرجع"
+  },
+  "LIST_BENEFITS_DISPOSAL": {
+    "description": "",
+    "message": "{radioactives}, free disposal (conditions apply)"
+  },
+  "LIST_BENEFITS_FUEL": {
+    "description": "",
+    "message": "{fuel} بأسعار مخفضة"
+  },
+  "LIST_BENEFITS_FUEL_INTRO": {
+    "description": "",
+    "message": "Our own stocks of fuel, independent of the general market"
+  },
+  "LIST_BENEFITS_FUEL_TANK": {
+    "description": "",
+    "message": "إعادة تعبئة خزانات الوقود، حينما يكون ضرورياً"
+  },
+  "LIST_BENEFITS_JOIN": {
+    "description": "",
+    "message": "إنضم الأن! سعر الإشتراك السنوي يكلف فقط {membership_fee}"
+  },
+  "WE_WILL_ONLY_DISPOSE_OF": {
+    "description": "",
+    "message": "We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."
+  },
+  "WHAT_CONDITIONS_APPLY": {
+    "description": "",
+    "message": "ما الظروف التي تطبق علي {radioactives} المتخلص منها؟"
+  },
+  "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
+    "description": "",
+    "message": "طلب عضويتك قد رُفض."
+  },
+  "YOU_ARE_NOW_A_MEMBER": {
+    "description": "",
+    "message": "أنت الأن عضو، عضويتك سوف تنتهي في {expiry_date}."
+  },
+  "YOU_MUST_BUY": {
+    "description": "",
+    "message": "يجب عليك أن تشتري {military_fuel} الخاص بنا قبل أن نأخذ {radioactives} الخاص بك"
+  }
 }

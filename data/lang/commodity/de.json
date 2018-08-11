@@ -1,250 +1,250 @@
 {
-   "AIR_PROCESSORS" : {
-      "description" : "",
-      "message" : "Luftaufbereiter"
-   },
-   "AIR_PROCESSORS_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Clean air is only taken for granted when already abundant. The technique behind air purification is rumoured to come from alien artifacts found on Mars. Many companies produce various types of air processors, capable of turning even the most hostile atmospheres into a workable environment, and governments do not tolerate monopoly on air production."
-   },
-   "ANIMAL_MEAT" : {
-      "description" : "",
-      "message" : "Fleisch"
-   },
-   "ANIMAL_MEAT_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "A major point of controversy, meat is the flesh of animals. With synthetic protein readily available, most people believe that animals should not be killed. While meats are illegal in most core systems, live animals and their meat is an important part of the lives of people on more traditional worlds."
-   },
-   "BATTLE_WEAPONS" : {
-      "description" : "",
-      "message" : "Kriegswaffen"
-   },
-   "BATTLE_WEAPONS_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Heavy military-grade weapons, like armoured hover tanks, and surface-to-space missiles. Trading in them is usually a governmental monopoly. On the black market, however, these can often fetch a hefty sum of money."
-   },
-   "CARBON_ORE" : {
-      "description" : "",
-      "message" : "Kohlenstofferz"
-   },
-   "CARBON_ORE_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Kohlenstoff ist eins der diversesten Elemente, das wir kennen. Er ist ein günstiger, aber wichtiger Rostoff, der in fast allem von Kunststoff bis hin zu Legierungen benutzt wird. Fast alle industriellen Siedlungen importieren darum Kohlenstofferz."
-   },
-   "COMPUTERS" : {
-      "description" : "",
-      "message" : "Computer"
-   },
-   "COMPUTERS_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
-   },
-   "CONSUMER_GOODS" : {
-      "description" : "",
-      "message" : "Konsumgüter"
-   },
-   "CONSUMER_GOODS_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
-   },
-   "FARM_MACHINERY" : {
-      "description" : "",
-      "message" : "Agrarmaschinen"
-   },
-   "FARM_MACHINERY_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
-   },
-   "FERTILIZER" : {
-      "description" : "",
-      "message" : "Düngemittel"
-   },
-   "FERTILIZER_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Fertilizers are crucial for growing crops at an industrial scale, allowing mono-cultures, and yielding higher dividends than possible using plain dirt. This often comes with an ecological cost, not evident at the onset."
-   },
-   "FRUIT_AND_VEG" : {
-      "description" : "",
-      "message" : "Obst und Gemüse"
-   },
-   "FRUIT_AND_VEG_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "While there are lots of synthetic alternatives, real fruits and vegetables are still an important part of our cuisine and nutrition. Grown on agricultural worlds or as part of the life support of habitats, and exported to systems in which growing plants is not feasible."
-   },
-   "GRAIN" : {
-      "description" : "",
-      "message" : "Getreide"
-   },
-   "GRAIN_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
-   },
-   "HAND_WEAPONS" : {
-      "description" : "",
-      "message" : "Handfeuerwaffen"
-   },
-   "HAND_WEAPONS_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Providing insurance beyond the long arm of the law, hand weapons are essential for space traders in far-out systems. However, many governments see them as a threat to their own control over their population and strictly control their trade and possession."
-   },
-   "HYDROGEN" : {
-      "description" : "",
-      "message" : "Wasserstoff"
-   },
-   "HYDROGEN_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
-   },
-   "INDUSTRIAL_MACHINERY" : {
-      "description" : "",
-      "message" : "Industriemaschinen"
-   },
-   "INDUSTRIAL_MACHINERY_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Needed for assembly lines, refineries, smelters, and production of machinery that will in turn produce other goods. High competence is needed to produce these advanced machines."
-   },
-   "LIQUID_OXYGEN" : {
-      "description" : "",
-      "message" : "Flüssigsauerstoff"
-   },
-   "LIQUID_OXYGEN_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Liquid oxygen has many purposes, most commonly in medical and industrial applications and sometimes also used in waste treatment. It is very affordable, as oxygen is easy to obtain from water."
-   },
-   "LIQUOR" : {
-      "description" : "",
-      "message" : "Spirituosen"
-   },
-   "LIQUOR_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
-   },
-   "LIVE_ANIMALS" : {
-      "description" : "",
-      "message" : "Lebende Tiere"
-   },
-   "LIVE_ANIMALS_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Partly due to humanistic, economic and ecological reasons, animal rearing and trade is strictly regulated, or even illegal in many core systems. Going outward, livestock becomes a more important part of the livelihood of the people, both as a source of nutrition and a beast of burden. Exotic zoos and wildlife reserves contribute to the trade of animals around the galaxy, usually under strict state regulations, to combat illegal hunting grounds."
-   },
-   "MEDICINES" : {
-      "description" : "",
-      "message" : "Pharmazeutika"
-   },
-   "MEDICINES_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Derived from natural sources, or synthesized artificially, medicines are needed everywhere humans go. From curing the common cold to combat the adverse effects of prolonged space travel, medicines are essential to the prosperity of an interstellar humanity. Carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
-   },
-   "METAL_ALLOYS" : {
-      "description" : "",
-      "message" : "Legierungen"
-   },
-   "METAL_ALLOYS_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "After metal ore is extracted and refined, it is processed and ends up as various alloys. An alloy is an amalgamation of metals, rather than a single pure element, combined in exact proportions to gain specific desirable traits. Therefore, most consumer metals are alloys."
-   },
-   "METAL_ORE" : {
-      "description" : "",
-      "message" : "Metallerz"
-   },
-   "METAL_ORE_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
-   },
-   "MILITARY_FUEL" : {
-      "description" : "",
-      "message" : "Militärtreibstoff"
-   },
-   "MILITARY_FUEL_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Used as fuel in the more advanced military drives. These drives produce nuclear waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
-   },
-   "MINING_MACHINERY" : {
-      "description" : "",
-      "message" : "Bergbaumaschinen"
-   },
-   "MINING_MACHINERY_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The traditionally back breaking work of mining is alleviated by the use of machines that help miners in locating and retrieving various ores, and transporting them to the closest processing facilities."
-   },
-   "NARCOTICS" : {
-      "description" : "",
-      "message" : "Narkotika"
-   },
-   "NARCOTICS_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Natural or synthetic substances that alter the state of mind and body. Although the use of narcotics, both for recreational and medical purposes, is as old as humanity itself, shipping and trading is commonly outlawed."
-   },
-   "NERVE_GAS" : {
-      "description" : "",
-      "message" : "Nervengas"
-   },
-   "NERVE_GAS_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Es wird generell als Massenvernichtungswaffe angesehen und selbst vom Militär der meisten Systeme gemieden. Besitz von Nervengas ist fast überall illegal."
-   },
-   "PLASTICS" : {
-      "description" : "",
-      "message" : "Kunststoffe"
-   },
-   "PLASTICS_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Synthetical and semi-synthetical materials used in everything from everyday items to spaceship construction. They are relatively easy to use in manufacture, versatile and cheap to make, thus an important part of human civilization."
-   },
-   "PRECIOUS_METALS" : {
-      "description" : "",
-      "message" : "Edelmetalle"
-   },
-   "PRECIOUS_METALS_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Precious metals are, generally, less reactive, more difficult to mine, and more scarce, resulting in a considerable economic value. This often includes gold, silver, platinum, and rare earths. Certain elements such as gold and silicon, or rare earths, are crucial for the construction of computers and other electronics."
-   },
-   "RADIOACTIVES" : {
-      "description" : "",
-      "message" : "Radioaktives Gefahrgut"
-   },
-   "RADIOACTIVES_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Created by nuclear reactors, and military hyperdrives, nuclear waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping nuclear waste is a severe offence."
-   },
-   "ROBOTS" : {
-      "description" : "",
-      "message" : "Roboter"
-   },
-   "ROBOTS_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Robots are often imported into industrial and mining systems, due to their ability to easily perform tasks that would be too difficult, tedious, or unsafe for human workers. They can also serve as politicians and lawyers."
-   },
-   "RUBBISH" : {
-      "description" : "",
-      "message" : "Abfälle"
-   },
-   "RUBBISH_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "The byproduct of civilization, consisting of industrial waste, household garbage, and worn down equipment. Most waste is reprocessed, recycled or sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal. Starports usually charge a fee for waste disposal, but will also pay you to take it away."
-   },
-   "SLAVES" : {
-      "description" : "",
-      "message" : "Sklaven"
-   },
-   "SLAVES_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "As machines have replaced slaves as the engine that powers civilization, slavery is now almost universally seen as immoral, and transgression against a ban draws the strictest punishment. However, despite the best efforts of humanitarians, slavery is still prevalent, even in developed worlds."
-   },
-   "TEXTILES" : {
-      "description" : "",
-      "message" : "Textilien"
-   },
-   "TEXTILES_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Textiles are simple fabric, woven from either synthetic, plant or animal derived yarn. Usually produced by robots in large factories, it is still possible to find the occasional weaver who makes their own textiles."
-   },
-   "WATER" : {
-      "description" : "",
-      "message" : "Wasser"
-   },
-   "WATER_DESCRIPTION" : {
-      "description" : "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-      "message" : "Essential for life as we know it, an often overlooked commodity, water is needed wherever humanity roams. As such, the vast majority of off-world colonies import water from comets or planets like Earth. Water is used on a massive scale for hydrogen and oxygen production."
-   }
+  "AIR_PROCESSORS": {
+    "description": "",
+    "message": "Luftaufbereiter"
+  },
+  "AIR_PROCESSORS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Saubere Luft wird nur als selbstverständlich wahrgenommen, wenn sie frei verfügbar ist. Gerüchten zufolge soll die Technologie der Luftaufbereitung von Alien-Artefakten vom Mars stammen. Viele Firmen produzieren Luftaufbereiter, die selbst die lebensfeindlichste Atmosphäre in nutzbare Luft umwandeln kann."
+  },
+  "ANIMAL_MEAT": {
+    "description": "",
+    "message": "Fleisch"
+  },
+  "ANIMAL_MEAT_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Das Fleisch von Tieren ist ein großer Streitpunkt. Da künstliche Proteine überall erhältlich sind, denken die meisten Leute, dass es unnötig ist, Tiere zu töten. Während Fleisch in den meisten inneren Systemen verboten ist, sind lebende Tiere und deren Fleisch ein wichtiger Teil des Lebens für die Menschen in den traditionelleren Welten."
+  },
+  "BATTLE_WEAPONS": {
+    "description": "",
+    "message": "Kriegswaffen"
+  },
+  "BATTLE_WEAPONS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Schwere Waffen, wie gepanzerte Schwebepanzer und Boden-Weltraum-Raketen. Der Handel mit ihnen ist üblicherweise der Regierung vorbehalten. Auf dem Schwarzmarkt können damit aber enorme Summen erzielt werden."
+  },
+  "CARBON_ORE": {
+    "description": "",
+    "message": "Kohlenstofferz"
+  },
+  "CARBON_ORE_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Kohlenstoff ist eins der verbreitetsten Elemente das wir kennen. Er ist ein günstiger, aber wichtiger Rohstoff, der in fast allem vom Kunststoff bis hin zu Legierungen benutzt wird. Fast alle industriellen Siedlungen importieren darum Kohlenstofferz."
+  },
+  "COMPUTERS": {
+    "description": "",
+    "message": "Computer"
+  },
+  "COMPUTERS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Vom Abakus über den PDP-11 und den Motorola 68k-Chip bis zu den modernen HAL 9001 und Multivac-Systemen, Rechenanlagen sind in unserem Informationszeitalter unverzichtbar geworden. Ebenso unverzichtbar für Hyperraumsprünge, wie für das UniNet-Streamen von süßen Quibbles-Videos."
+  },
+  "CONSUMER_GOODS": {
+    "description": "",
+    "message": "Konsumgüter"
+  },
+  "CONSUMER_GOODS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Produkte, bereit für die breiten Massen, ohne dass weitere Bearbeitungsschritte benötigt werden. Diese Kategorie reicht von Zahnbürsten über Küchengeräten bis zu fliegenden Autos."
+  },
+  "FARM_MACHINERY": {
+    "description": "",
+    "message": "Agrarmaschinen"
+  },
+  "FARM_MACHINERY_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Nur noch selten sieht man den Bauer mit einem von Ochsen gezogenen Pflug das Land bestellen. Die landwirtschaftliche Arbeit wird heute hauptsächlich von Maschinen verrichtet, sei es in den unterirdischen Hydrokulturen oder auf den endlosen Feldern einer Agrarwelt."
+  },
+  "FERTILIZER": {
+    "description": "",
+    "message": "Düngemittel"
+  },
+  "FERTILIZER_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Düngemittel sind unverzichtbar um Pflanzen in industriellem Maßstab anzubauen, wodurch Monokulturen und höhere Ertragsraten als mit unmodifizierter Erde erreicht werden können. Oft kommt der Einsatz mit Ökologischen Kosten, die am Anfang noch nicht vorauszusehen sind."
+  },
+  "FRUIT_AND_VEG": {
+    "description": "",
+    "message": "Obst und Gemüse"
+  },
+  "FRUIT_AND_VEG_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Während es viele, synthetische Alternativen gibt, sind echtes Obst und Gemüse immer noch wichtig in Küche und Ernährung. Von landwirtschaftlich genutzten Welten oder Gewächshäusern in Habitaten werden sie in Systeme exportiert, in denen die Pflanzenzucht unmöglich ist."
+  },
+  "GRAIN": {
+    "description": "",
+    "message": "Getreide"
+  },
+  "GRAIN_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Für die meisten Leute der Hauptbestandteil ihrer Diäten. Es wird in der Landwirtschaft benutzt, um Tiere zu füttern, als eine Ergänzung zu synthetischem Futter. Getreide wird auch oft für normale Nahrung benutzt, z.B. Haferflocken und Backwaren. Die meisten Kulturen, die in der Raumfahrt envolviert sind, pflanzen verschiedene Getreide an und essen auch selbst ein paar Getreidesorten, aber nur diejenigen, die an das Klima ihres Lebensraums angepasst sind."
+  },
+  "HAND_WEAPONS": {
+    "description": "",
+    "message": "Handfeuerwaffen"
+  },
+  "HAND_WEAPONS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Indem sie eine gewisse Sicherheit zur Verüfung stellen, die über den langen Arm des Gesetztes hinausgeht, sind Handwaffen essentiell wichtig für Weltraum-Händler in abgelegenen Systemen. Allerdings betrachten viele Regierungen diese als Bedrohung für ihre Macht über die Bevölkerung und regulieren deshalb den Handel und Besitz von Handwaffen strengstens."
+  },
+  "HYDROGEN": {
+    "description": "",
+    "message": "Wasserstoff"
+  },
+  "HYDROGEN_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Wasserstoff wird als Brennstoff für Hyperraumantriebe und als Treibstoff für Raumschiffe benutzt und ist auch sonst ein extrem wichtiges Element. Unglücklicherweise ist es auch das am öftesten vorkommende Element im ganzen Universum, obwohl seine Lagerung nicht gerade einfach ist. Gewöhnlich ist es eine der billigsten Handelswaren auf dem Markt, und Raumhäfen haben eigentlich immer genug davon auf Lager."
+  },
+  "INDUSTRIAL_MACHINERY": {
+    "description": "",
+    "message": "Industriemaschinen"
+  },
+  "INDUSTRIAL_MACHINERY_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Benötigt für Fertigungsstraßen, Raffinerien, Schmelzöfen und die Herstellung von Maschinen, die wiederum andere Güter herstellen. Fachwissen ist nötig, um diese fortgeschrittenen Maschinen herzustellen."
+  },
+  "LIQUID_OXYGEN": {
+    "description": "",
+    "message": "Flüssigsauerstoff"
+  },
+  "LIQUID_OXYGEN_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Flüssiger Sauerstoff hat viele Anwendungen und wird häufig im medizinischen und industriellen Umfeld eingesetzt, manchmal auch in der Abfallverwertung. Es ist recht günstig, da Sauerstoff leicht aus Wasser gewonnen werden kann."
+  },
+  "LIQUOR": {
+    "description": "",
+    "message": "Spirituosen"
+  },
+  "LIQUOR_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Die meisten Außenposten haben ihr eigenes Gebräu, das Fremde als schwer verdaulich empfinden. Alkohol kann in manchen Systemen verboten sein, da gesagt wird, dass er das Gehirn vernebeln soll. Unabhängig vom Gesetz ist für einen gewissen Preis fast immer ein Schuss Whisky auf dem Schwarzmarkt verfügbar."
+  },
+  "LIVE_ANIMALS": {
+    "description": "",
+    "message": "Lebende Tiere"
+  },
+  "LIVE_ANIMALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Teils aus humanistischen, ökonomischen und ökologischen Gründen werden Tieraufzucht und -Handel in den meisten Kernsystemen streng reguliert, oder sogar verboten. Weiter auswärts ist Vieh eine wichtige Existenzgrundlage, sowohl für die Ernährung als auch als Arbeitstier. Exotische Zoos und Wildreservate tragen zum Handel mit Tieren in der ganzen Galaxie bei, meistens unter strenger Regulation. um Wilderei zu bekämpfen."
+  },
+  "MEDICINES": {
+    "description": "",
+    "message": "Pharmazeutika"
+  },
+  "MEDICINES_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Von natürlichen Ressourcen bezogen oder künstlich hergestellt, werden Medikamente überall dort gebraucht, wo Menschen sind. Von der Heilung einer gewöhnlichen Erkältung bis zur Bekämpfung der Effekte des Raumflugs über längere Zeit, sind Medikamente essentiell für das Gedeihen der interstellaren Menschheit. Da es nicht unüblich ist, Rauschgift als medizinische Drogen zu tarnen, wird deren Handel sorgfältig von den Behörden überwacht."
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "Legierungen"
+  },
+  "METAL_ALLOYS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Nachdem das Metall gewonnen und verarbeitet wurde, wird es zu verschiedenen Legierungen verarbeitet. Legierungen ist eine Vermengung mehrerer Metalle, anstatt eines einzelnen Elements, um Materialien mit besseren Eigenschaften zu gewinnen. Die meisten Metalle für den gemeinen Gebrauch sind deshalb Legierungen."
+  },
+  "METAL_ORE": {
+    "description": "",
+    "message": "Metallerz"
+  },
+  "METAL_ORE_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Viele Kolonien schürfen Metallerz für den Export, um dann veredelt und in der Industrie verarbeitet zu werden. Metall wird in überall verwendet, von kleinen Spielzeugen bis zu Raumschiffen, und ist in allen Formen lebenswichtig für die moderne Zivilisation."
+  },
+  "MILITARY_FUEL": {
+    "description": "",
+    "message": "Militärtreibstoff"
+  },
+  "MILITARY_FUEL_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Wird in hochwertigen militärischen Antrieben genutzt. Diese Antriebe produzieren nukleare Abfälle, die sicher entsorgt werden müssen. Wegen seiner synthetischen Natur ist er teurer und weniger verbreitet als Wasserstoff und kommt nicht frei in der Umwelt vor."
+  },
+  "MINING_MACHINERY": {
+    "description": "",
+    "message": "Bergbaumaschinen"
+  },
+  "MINING_MACHINERY_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Die traditionell zermürbende Arbeit in den Minen wird durch Maschinen gemildert, die Minenarbeitern dabei hilft, Erz zu finden und zu fördern, sowie es zur nächsten Verarbeitungsanlage zu transportieren."
+  },
+  "NARCOTICS": {
+    "description": "",
+    "message": "Narkotika"
+  },
+  "NARCOTICS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Natürliche und synthetische Substanzen, die den Zustand des Verstandes und Körpers verändern. Obwohl die Verwendung von narkotisierenden Substanzen für Erholung und Medizin so alt ist wie die Menschheit selbst, ist Transport und Handel vielerorts illegal."
+  },
+  "NERVE_GAS": {
+    "description": "",
+    "message": "Nervengas"
+  },
+  "NERVE_GAS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Es wird generell als Massenvernichtungswaffe angesehen und selbst vom Militär der meisten Systeme gemieden. Besitz von Nervengas ist fast überall illegal."
+  },
+  "PLASTICS": {
+    "description": "",
+    "message": "Kunststoffe"
+  },
+  "PLASTICS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Synthetische und halbsynthetische Materialien, die von Alltagsgegenständen bis zum Raumschiffbau überall eingesetzt werden. Sie sind relativ einfach zu verwenden und herzustellen, vielseitig, und einfach herzustellen und somit ein wichtiger Teil der menschlichen Zivilisation."
+  },
+  "PRECIOUS_METALS": {
+    "description": "",
+    "message": "Edelmetalle"
+  },
+  "PRECIOUS_METALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Wertvolle Metalle sind, normalerweise, weniger reaktiv, schwieriger abzubauen und seltener, woraus sich ein enormer Wert ergibt. Das umfasst oft Gold, Silber, Platin und seltene Erden. Gewisse Elemente wie Gold, Silizium oder seltene Erden sind unverzichtbar für die Konstruktion von Computern und anderer Elektronik."
+  },
+  "RADIOACTIVES": {
+    "description": "",
+    "message": "Radioaktives Gefahrgut"
+  },
+  "RADIOACTIVES_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Nuklearer Abfall wird von nuklearen Reaktoren und militärischen Hyperraumantrieben erzeugt und ist die vermutlich die gefährlichste und am schwierigsten zu entsorgende Fracht. Viele Raumhäfen zahlen gut, um ihre Abfälle loszuwerden. Nukleare Abfälle einfach auszulassen ist ein schweres Vergehen."
+  },
+  "ROBOTS": {
+    "description": "",
+    "message": "Roboter"
+  },
+  "ROBOTS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Roboter werden häufig in industrielle Systeme und Systemen mit Erzminen eingesetzt, da sie einfach Aufgaben erfüllen können, die zu schwierig, aufwendig oder unsicher für menschliche Arbeiter sind. Sie können auch als Politiker und Anwälte verwendet werden."
+  },
+  "RUBBISH": {
+    "description": "",
+    "message": "Abfälle"
+  },
+  "RUBBISH_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Als Beiprodukt der Zivilisation fällt Müll, bestehend aus Industrieabfällen, Haushaltsabfällen und defekten Gerätschaften, überall an. Die meisten Abfälle werden wiederverwendet, recycled oder für die weitere Verarbeitung verschifft. Abfälle einfach in unbewohnten oder sogar bewohnten Systemen abzulassen ist fast immer illegal. Weltraumbahnhöfe verlangen normalerweise eine Gebühr für die Entsorgung von Abfällen, sie zahlen aber auch jeden, der den Müll für sie entsorgt."
+  },
+  "SLAVES": {
+    "description": "",
+    "message": "Sklaven"
+  },
+  "SLAVES_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Wo früher Sklaven gearbeitet haben, arbeiten heute Maschinen. Sklaverei wird fast universell als unmoralisch gesehen und ein Verstoß gegen das Verbot zieht schwere Strafen nach sich. Trotz dieses Verbotes und abschreckender Strafen ist Sklaverei aber noch immer verbreitet, selbst auf entwickelten Welten."
+  },
+  "TEXTILES": {
+    "description": "",
+    "message": "Textilien"
+  },
+  "TEXTILES_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Textilien sind einfache Stoffe, gewebt von synthetischen, pflanzlichen oder tierisch gewonnenem Garn. Obwohl es meistens von Robotern in großen Fabriken hergestellt wird gibt es immer noch einige Weber, die ihre eigenen Textilien herstellen."
+  },
+  "WATER": {
+    "description": "",
+    "message": "Wasser"
+  },
+  "WATER_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Wasser gilt oft als selbstverständlich, ist aber lebenswichtig und wird überall benötigt, wo Menschen siedeln. Weltraumbasen brauchen deshalb große Mengen Wasser, das aus Kometen oder von Planeten wie der Erde gewonnen wird. Wasser wird außerdem im großen Maßstab für die Sauerstoff- und Wasserstoffproduktion verwendet."
+  }
 }

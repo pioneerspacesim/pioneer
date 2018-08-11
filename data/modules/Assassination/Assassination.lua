@@ -172,8 +172,8 @@ local makeAdvert = function (station)
 	local nearbystations = nearbysystem:GetStationPaths()
 	local location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
 	local dist = location:DistanceTo(Game.system)
-	local time = Engine.rand:Number(0.3, 3)
-	local due = Game.time + Engine.rand:Number(7*60*60*24, time * 31*60*60*24)
+	local time = Engine.rand:Number(1, 4)
+	local due = Game.time + dist / max_ass_dist * time * 22*60*60*24 + Engine.rand:Number(7*60*60*24, 31*60*60*24)
 	local danger = Engine.rand:Integer(1,4)
 	local reward = Engine.rand:Number(2100, 7000) * danger
 	reward = math.ceil(reward)
@@ -457,7 +457,7 @@ local onGameStart = function ()
 	ads = {}
 	missions = {}
 
-	if not loaded_data then return end
+	if not loaded_data or not loaded_data.ads then return end
 
 	for k,ad in pairs(loaded_data.ads) do
 		local ref = ad.station:AddAdvert({

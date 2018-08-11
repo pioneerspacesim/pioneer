@@ -130,13 +130,24 @@ local function button_flight_control()
 	if mainMenuButton(icon, false, tooltip) or (flightstate == "FLYING" and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
 		Game.ChangeFlightState()
 	end
+	if ui.isItemHovered() and flightcontrolstate == "CONTROL_FIXSPEED" then
+		local wheel = ui.getMouseWheel()
+		if wheel ~= 0 then
+			local delta = wheel
+			if ui.shiftHeld() then
+				delta = delta * 10
+			end
+			Game.player:ChangeSetSpeed(delta)
+		end
+	end
+
 end
 
 local function displayAutoPilotWindow()
+	if ui.showOptionsWindow then return end
 	player = Game.player
 	local current_view = Game.CurrentView()
-	local buttons = 3
-	ui.setNextWindowSize(Vector(mainButtonSize.x * 5, mainButtonSize.y * 2), "Always")
+	ui.setNextWindowSize(Vector(mainButtonSize.x * 6, mainButtonSize.y * 2), "Always")
 	ui.setNextWindowPos(Vector(ui.screenWidth/2 + ui.reticuleCircleRadius / 4 * 3, ui.screenHeight - mainButtonSize.y * 1.5 - 8) , "Always")
 	ui.window("AutoPilot", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 						function()

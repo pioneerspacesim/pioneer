@@ -389,6 +389,61 @@ static int l_sbodypath_get_system_body(lua_State *l)
 	return 1;
 }
 
+static int l_sbodypath_is_body_path(lua_State *l)
+{
+	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
+	LuaPush(l, path->IsBodyPath());
+	return 1;
+}
+
+static int l_sbodypath_is_sector_path(lua_State *l)
+{
+	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
+	LuaPush(l, path->IsSectorPath());
+	return 1;
+}
+
+static int l_sbodypath_is_system_path(lua_State *l)
+{
+	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
+	LuaPush(l, path->IsSystemPath());
+	return 1;
+}
+
+/*
+* Method: ParseString
+*
+* Parse a string and try to make a SystemPath from it
+*
+* > sector_path = SystemPath.Parse()
+*
+* Return:
+*
+*   sector_path - the SystemPath that represents just the sector
+*
+* Availability:
+*
+*   2018-06-16
+*
+* Status:
+*
+*   experimental
+*/
+static int l_sbodypath_parse_string(lua_State *l)
+{
+	std::string path = LuaPull<std::string>(l, 1);
+	try
+	{
+		SystemPath syspath = SystemPath::Parse(path.c_str());
+		LuaObject<SystemPath>::PushToLua(syspath.SectorOnly());
+		return 1;
+	}
+	catch (const SystemPath::ParseFailure&)
+	{
+		return 0;
+	}
+	return 0;
+}
 
 /*
  * Attribute: sectorX
@@ -578,7 +633,10 @@ template <> void LuaObject<SystemPath>::RegisterClass()
 
 		{ "GetStarSystem", l_sbodypath_get_star_system },
 		{ "GetSystemBody", l_sbodypath_get_system_body },
-
+		{ "IsSystemPath",  l_sbodypath_is_system_path },
+		{ "IsSectorPath",  l_sbodypath_is_sector_path },
+		{ "IsBodyPath",    l_sbodypath_is_body_path },
+		{ "ParseString",   l_sbodypath_parse_string},
 		{ 0, 0 }
 	};
 

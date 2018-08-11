@@ -17,7 +17,6 @@
 #include <windows.h>
 #include <shellapi.h>
 
-
 extern "C" {
 	// This is the quickest and easiest way to enable using the nVidia GPU on a Windows laptop with a dedicated nVidia GPU and Optimus tech.
 	// enable optimus!
@@ -41,10 +40,28 @@ ExceptionHandler* exceptionHandler = nullptr;
 #pragma warning(disable: 4996)
 #endif
 
-namespace OS {
-
-	namespace {
+namespace OS
+{
+	// anonymous namespace
+	namespace
+	{
 		static const std::string s_NoOSIdentified("No OS Identified\n");
+
+		struct OSVersion {
+			DWORD major;
+			DWORD minor;
+			const char *name;
+		};
+		static const struct OSVersion osVersions[] = {
+			{ 10,0, "Windows 10" },
+			{ 6, 3, "Windows 8.1" },
+			{ 6, 2, "Windows 8" },
+			{ 6, 1, "Windows 7" },
+			{ 6, 0, "Windows Vista" },
+			{ 5, 1, "Windows XP" },
+			{ 5, 0, "Windows 2000" },
+			{ 0, 0, nullptr }
+		};
 	};
 
 // Notify Windows that the window may become unresponsive
@@ -139,7 +156,7 @@ const std::string GetHardwareInfo()
 		Processor type: %u\n  \
 		Minimum application address: %p\n  \
 		Maximum application address: %p\n  \
-		Active processor mask: %u\n\n",
+		Active processor mask: %I64u\n\n",
 		siSysInfo.dwOemId,
 		siSysInfo.dwNumberOfProcessors,
 		siSysInfo.dwPageSize,
@@ -151,45 +168,98 @@ const std::string GetHardwareInfo()
 	return std::string(infoString);
 }
 
+// Define the RtlGetVersion function pointer
+typedef void (WINAPI *RtlGetVersion) (OSVERSIONINFOEXW*);
+
+// Due to the miserable way that Windows handles version reporting to programs
+// we're forced to improvise to find out what OS we're REALLY running on.
+// This works by loading the NTDLL.dll, finding the RtlGetVersion function and
+// calling that to ask what Windows that _it_ thinks that it is running.
+BOOL GetVersionHackNTDLL(OSVERSIONINFOEX* os)
+{
+	HMODULE hMod;
+	RtlGetVersion func = nullptr;
+#ifdef UNICODE
+	OSVERSIONINFOEXW* osw = os;
+#else
+	OSVERSIONINFOEXW o;
+	OSVERSIONINFOEXW* osw = &o;
+#endif
+
+	hMod = LoadLibrary(TEXT("ntdll.dll"));
+	if (hMod) {
+		func = (RtlGetVersion)GetProcAddress(hMod, "RtlGetVersion");
+		if (func == nullptr) {
+			FreeLibrary(hMod);
+			return FALSE;
+		}
+		ZeroMemory(osw, sizeof(*osw));
+		osw->dwOSVersionInfoSize = sizeof(*osw);
+		func(osw);
+#ifndef UNICODE
+		os->dwBuildNumber = osw->dwBuildNumber;
+		os->dwMajorVersion = osw->dwMajorVersion;
+		os->dwMinorVersion = osw->dwMinorVersion;
+		os->dwPlatformId = osw->dwPlatformId;
+		os->dwOSVersionInfoSize = sizeof(*os);
+		DWORD sz = sizeof(os->szCSDVersion);
+		WCHAR* src = osw->szCSDVersion;
+		unsigned char* dtc = (unsigned char*)os->szCSDVersion;
+		while(*src)
+			*dtc++ = (unsigned char)*src++;
+		*dtc = '\0';
+#endif
+		osw->dwBuildNumber;
+	}
+	else
+	{
+		return FALSE;
+	}
+	FreeLibrary(hMod);
+	return TRUE;
+}
+
 const std::string GetOSInfoString()
 {
 	const std::string hwInfo = GetHardwareInfo();
 
-	struct OSVersion {
-		DWORD major;
-		DWORD minor;
-		const char *name;
-	};
-	static const struct OSVersion osVersions[] = {
-		{ 6, 3, "Windows 8.1"   },
-		{ 6, 2, "Windows 8"     },
-		{ 6, 1, "Windows 7"     },
-		{ 6, 0, "Windows Vista" },
-		{ 5, 1, "Windows XP"    },
-		{ 5, 0, "Windows 2000"  },
-		{ 0, 0, nullptr         }
-	};
-
-	OSVERSIONINFOA osv;
-	osv.dwOSVersionInfoSize = sizeof(OSVERSIONINFOA);
-	GetVersionExA(&osv);
-
 	std::string name;
-	for (const OSVersion *scan = osVersions; scan->name; scan++) {
-		if (osv.dwMajorVersion == scan->major && osv.dwMinorVersion == scan->minor) {
-			name = scan->name;
-			break;
+
+	OSVERSIONINFOEX os;
+	if (GetVersionHackNTDLL(&os) == TRUE)
+	{
+		for (const OSVersion *scan = osVersions; scan->name; scan++) {
+			if (os.dwMajorVersion >= scan->major && os.dwMinorVersion >= scan->minor) {
+				name = scan->name;
+				break;
+			}
 		}
+		char verString[256];
+		snprintf(verString, sizeof(verString), " (%u, %u, Build %u)", os.dwMajorVersion, os.dwMinorVersion, os.dwBuildNumber);
+		name += std::string(verString);
 	}
+	else
+	{
+		// fallback option
+		OSVERSIONINFOA osa;
+		osa.dwOSVersionInfoSize = sizeof(OSVERSIONINFOA);
+		GetVersionExA(&osa);
+
+		for (const OSVersion *scan = osVersions; scan->name; scan++) {
+			if (osa.dwMajorVersion >= scan->major && osa.dwMinorVersion >= scan->minor) {
+				name = scan->name;
+				break;
+			}
+		}
+		char verString[256];
+		snprintf(verString, sizeof(verString), " (%u, %u, Build %u)", osa.dwMajorVersion, osa.dwMinorVersion, osa.dwBuildNumber);
+		name += std::string(verString);
+	}
+
 	if (name.empty())
 		return hwInfo + s_NoOSIdentified;
 
-	std::string patchName(osv.szCSDVersion);
-
-	if (patchName.empty())
-		return hwInfo + name;
-
-	return hwInfo + name + " (" + patchName + ")";
+	return hwInfo + name;
 }
 
 #ifdef WITH_BREAKPAD

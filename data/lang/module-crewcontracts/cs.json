@@ -1,94 +1,94 @@
 {
-   "ASK_CANDIDATE_TO_SIT_A_TEST" : {
-      "description" : "",
-      "message" : "Zeptat se zájemnce, zda podstoupí test"
-   },
-   "CREWDETAILSHEETBB" : {
-      "description" : "",
-      "message" : "Jméno: {name}\nZkušenosti: {experience}\nPožadovaný plat: {wage} týdně\n\n{response}\n"
-   },
-   "CREWMEMBER_WAGE_PER_WEEK" : {
-      "description" : "",
-      "message" : "{potentialCrewMember} ({wage}/wk)"
-   },
-   "CREWTESTRESULTSBB" : {
-      "description" : "",
-      "message" : "Výsledek testu:\n\nRozsah působnosti: {general}%\nStrojnictví a opravy: {engineering}%\nPilotáž: {piloting}%\nNavigace: {navigation}%\nSenzory a obrana: {sensors}%\nCelkový výsledek testu: {overall}%"
-   },
-   "CREW_FOR_HIRE" : {
-      "description" : "",
-      "message" : "Najmout posádku"
-   },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Zpět"
-   },
-   "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
-      "description" : "",
-      "message" : "Promiňte, ale níž už nepůjdu."
-   },
-   "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
-      "description" : "",
-      "message" : "Promiňte, ale vaše nabídka mi nepřijde zajímavá."
-   },
-   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
-      "description" : "",
-      "message" : "Učinit nabídku pozice na lodi za uvedenou částku"
-   },
-   "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
-      "description" : "",
-      "message" : "Krátký čas sloužil(a) na palubě lodi"
-   },
-   "NO_CREW_AVAILABLE" : {
-      "description" : "",
-      "message" : "Sorry, no candidates are currently seeking employment at {station}"
-   },
-   "NO_EXPERIENCE" : {
-      "description" : "",
-      "message" : "Bez zkušeností"
-   },
-   "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
-      "description" : "",
-      "message" : "OK, domnívám se, že je to v pořádku."
-   },
-   "POTENTIAL_CREW_MEMBERS" : {
-      "description" : "",
-      "message" : "Potencionální členové posádky, hledající práci, registrovaní na stanici {station}:"
-   },
-   "SIMULATOR_TRAINING_ONLY" : {
-      "description" : "",
-      "message" : "Pouze trénink na simulátoru"
-   },
-   "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
-      "description" : "",
-      "message" : "Nějaké zkušenosti v kontrolovaném prostředí"
-   },
-   "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
-      "description" : "",
-      "message" : "Navrhnout novou částku týdenní výplaty ve výši {newAmount}"
-   },
-   "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
-      "description" : "",
-      "message" : "Děkuji, ihned se nalodím."
-   },
-   "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
-      "description" : "",
-      "message" : "To je od vás velkorysé!"
-   },
-   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
-      "description" : "",
-      "message" : "To jistě učiní vaši nabídku zajímavějsí!"
-   },
-   "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
-      "description" : "",
-      "message" : "Vypadá to, že na lodi pro mě není místo!"
-   },
-   "TIME_SERVED_CREW_MEMBER" : {
-      "description" : "",
-      "message" : "Časem prověřený člen posádky"
-   },
-   "VETERAN_TIME_SERVED_CREW_MEMBER" : {
-      "description" : "",
-      "message" : "Veterán, časem prověřený člen posádky"
-   }
+  "ASK_CANDIDATE_TO_SIT_A_TEST": {
+    "description": "",
+    "message": "Zeptat se zájemnce, zda podstoupí test"
+  },
+  "CREWDETAILSHEETBB": {
+    "description": "",
+    "message": "Jméno: {name}\nZkušenosti: {experience}\nPožadovaný plat: {wage} týdně\n\n{response}\n"
+  },
+  "CREWMEMBER_WAGE_PER_WEEK": {
+    "description": "",
+    "message": "{potentialCrewMember} ({wage}/wk)"
+  },
+  "CREWTESTRESULTSBB": {
+    "description": "",
+    "message": "Výsledek testu:\n\nRozsah působnosti: {general}%\nStrojnictví a opravy: {engineering}%\nPilotáž: {piloting}%\nNavigace: {navigation}%\nSenzory a obrana: {sensors}%\nCelkový výsledek testu: {overall}%"
+  },
+  "CREW_FOR_HIRE": {
+    "description": "",
+    "message": "Najmout posádku"
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Zpět"
+  },
+  "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER": {
+    "description": "",
+    "message": "Promiňte, ale níž už nepůjdu."
+  },
+  "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
+    "description": "",
+    "message": "Promiňte, ale vaše nabídka mi nepřijde zajímavá."
+  },
+  "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
+    "description": "",
+    "message": "Učinit nabídku pozice na lodi za uvedenou částku"
+  },
+  "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
+    "description": "",
+    "message": "Krátký čas sloužil(a) na palubě lodi"
+  },
+  "NO_CREW_AVAILABLE": {
+    "description": "",
+    "message": "Sorry, no candidates are currently seeking employment at {station}"
+  },
+  "NO_EXPERIENCE": {
+    "description": "",
+    "message": "Bez zkušeností"
+  },
+  "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
+    "description": "",
+    "message": "OK, domnívám se, že je to v pořádku."
+  },
+  "POTENTIAL_CREW_MEMBERS": {
+    "description": "",
+    "message": "Potencionální členové posádky, hledající práci, registrovaní na stanici {station}:"
+  },
+  "SIMULATOR_TRAINING_ONLY": {
+    "description": "",
+    "message": "Pouze trénink na simulátoru"
+  },
+  "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS": {
+    "description": "",
+    "message": "Nějaké zkušenosti v kontrolovaném prostředí"
+  },
+  "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
+    "description": "",
+    "message": "Navrhnout novou částku týdenní výplaty ve výši {newAmount}"
+  },
+  "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
+    "description": "",
+    "message": "Děkuji, ihned se nalodím."
+  },
+  "THATS_EXTREMELY_GENEROUS_OF_YOU": {
+    "description": "",
+    "message": "To je od vás velkorysé!"
+  },
+  "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
+    "description": "",
+    "message": "To jistě učiní vaši nabídku zajímavějsí!"
+  },
+  "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD": {
+    "description": "",
+    "message": "Vypadá to, že na lodi pro mě není místo!"
+  },
+  "TIME_SERVED_CREW_MEMBER": {
+    "description": "",
+    "message": "Časem prověřený člen posádky"
+  },
+  "VETERAN_TIME_SERVED_CREW_MEMBER": {
+    "description": "",
+    "message": "Veterán, časem prověřený člen posádky"
+  }
 }

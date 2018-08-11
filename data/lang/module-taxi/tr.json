@@ -1,598 +1,598 @@
 {
-   "CORPORATIONS_0" : {
-      "description" : "",
-      "message" : "Sirius"
-   },
-   "CORPORATIONS_1" : {
-      "description" : "",
-      "message" : "ACME"
-   },
-   "CORPORATIONS_10" : {
-      "description" : "",
-      "message" : "Toptan Gemi"
-   },
-   "CORPORATIONS_11" : {
-      "description" : "",
-      "message" : "Arment Aerodinamik"
-   },
-   "CORPORATIONS_2" : {
-      "description" : "",
-      "message" : "Ferah Kola"
-   },
-   "CORPORATIONS_3" : {
-      "description" : "",
-      "message" : "Taranis"
-   },
-   "CORPORATIONS_4" : {
-      "description" : "",
-      "message" : "Kova Tersanesi"
-   },
-   "CORPORATIONS_5" : {
-      "description" : "",
-      "message" : "Rockforth"
-   },
-   "CORPORATIONS_6" : {
-      "description" : "",
-      "message" : "Amaliel"
-   },
-   "CORPORATIONS_7" : {
-      "description" : "",
-      "message" : "Marett Uzay"
-   },
-   "CORPORATIONS_8" : {
-      "description" : "",
-      "message" : "Vega Line"
-   },
-   "CORPORATIONS_9" : {
-      "description" : "",
-      "message" : "Dijital"
-   },
-   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
-      "description" : "",
-      "message" : "İlk isteğinizi tekrarlar mısınız?"
-   },
-   "DANGER" : {
-      "description" : "",
-      "message" : "Tehlike:"
-   },
-   "DEADLINE" : {
-      "description" : "",
-      "message" : "Bitiş:"
-   },
-   "DENY_0" : {
-      "description" : "",
-      "message" : "Üzgünüm, fakat güvenliğim konusunda size güvenebileceğimi düşünmüyorum."
-   },
-   "DENY_1" : {
-      "description" : "",
-      "message" : "Bazı vasıflar edindikden sonra geri gel."
-   },
-   "DENY_2" : {
-      "description" : "",
-      "message" : "Aradığım pilotun siz olduğunu düşünmüyorum."
-   },
-   "DENY_3" : {
-      "description" : "",
-      "message" : "İnsanları taşıma kabiliyeti olan birine benzemiyorsunuz."
-   },
-   "DENY_4" : {
-      "description" : "",
-      "message" : "Aradığım türden bir pilot değilsiniz."
-   },
-   "DENY_5" : {
-      "description" : "",
-      "message" : "Bu önemde bir taşımayla başa çıkmak için çok deneyimsiz görünüyorsunuz."
-   },
-   "DENY_6" : {
-      "description" : "",
-      "message" : "Sizi hiç duymadım. Bu yolculuk için deneyimli birine ihtiyacım var."
-   },
-   "DENY_7" : {
-      "description" : "",
-      "message" : "Sizin gibi hiç bir vasfı olmayan biriyle hayatımı riske atmak istemiyorum."
-   },
-   "DISTANCE" : {
-      "description" : "",
-      "message" : "Uzaklık:"
-   },
-   "EXCELLENT" : {
-      "description" : "",
-      "message" : "Mükemmel."
-   },
-   "FLAVOUR_0_ADTEXT" : {
-      "description" : "",
-      "message" : "ARANIYOR: Küçük bir grup için {system} sistemine geçiş. {cash} ödenecek."
-   },
-   "FLAVOUR_0_DANGER" : {
-      "description" : "",
-      "message" : "Hayır."
-   },
-   "FLAVOUR_0_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Kabul edilemez! Çok oyalandın. Sana ödeme yapmak istemiyoruz."
-   },
-   "FLAVOUR_0_HOWMANY" : {
-      "description" : "",
-      "message" : "Bizden {group} kişi var."
-   },
-   "FLAVOUR_0_INTROTEXT" : {
-      "description" : "",
-      "message" : "Merhaba, ben {name} ve {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine küçük bir grup ile geçiş yapmalıyım. {cash} ödeyeceğim."
-   },
-   "FLAVOUR_0_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Güzel yolculuk için teşekkürler. Tam ödeme yapıldı."
-   },
-   "FLAVOUR_0_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Neredeyiz? Yeterince bekledik - bizi en yakın istasyona götür ŞİMDİ!"
-   },
-   "FLAVOUR_0_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Bir arkadaşı ziyaret ediyoruz."
-   },
-   "FLAVOUR_10_ADTEXT" : {
-      "description" : "",
-      "message" : "GEMİ ARANIYOR: Hızlı bir gemiyle {system} sistemine geçiş."
-   },
-   "FLAVOUR_10_DANGER" : {
-      "description" : "",
-      "message" : "Beni birinin takip ettiğini düşünüyorum."
-   },
-   "FLAVOUR_10_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Çok deneyimsiz bir pilotsun. Bunun için ödeme yapmayacağım."
-   },
-   "FLAVOUR_10_HOWMANY" : {
-      "description" : "",
-      "message" : "Yalnız bir."
-   },
-   "FLAVOUR_10_INTROTEXT" : {
-      "description" : "",
-      "message" : "Benim adım {name}. {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine hızlı bir geçiş istiyorum. {cash} ödenecek."
-   },
-   "FLAVOUR_10_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Hızlı yolculuk için teşekkürler. Tam ödeme yapıldı."
-   },
-   "FLAVOUR_10_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
-   },
-   "FLAVOUR_10_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Birinin beni bulmamasını tercih ederim."
-   },
-   "FLAVOUR_11_ADTEXT" : {
-      "description" : "",
-      "message" : "HIZLI GEMİ: Hızlı bir gemiyle {system} sistemine geçiş."
-   },
-   "FLAVOUR_11_DANGER" : {
-      "description" : "",
-      "message" : "Bazen insanlar incelenmek istemezler."
-   },
-   "FLAVOUR_11_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Beceriksizliğin yüzünden işimi kaybedeceğim. Bu yüzden o paraya senden daha fazla ihtiyacım var."
-   },
-   "FLAVOUR_11_HOWMANY" : {
-      "description" : "",
-      "message" : "Yalnız bir."
-   },
-   "FLAVOUR_11_INTROTEXT" : {
-      "description" : "",
-      "message" : "Benim adım {name}. {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine hızlı bir geçiş yapmalıyım. {cash} ödenecek."
-   },
-   "FLAVOUR_11_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Hızlı yolculuk için teşekkürler. Tam ödeme yapıldı."
-   },
-   "FLAVOUR_11_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
-   },
-   "FLAVOUR_11_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Turumu yapan bir fabrika müfettişiyim."
-   },
-   "FLAVOUR_12_ADTEXT" : {
-      "description" : "",
-      "message" : "GEMİ LAZIM: {system} sistemine geçiş."
-   },
-   "FLAVOUR_12_DANGER" : {
-      "description" : "",
-      "message" : "Biri beni kovalıyor."
-   },
-   "FLAVOUR_12_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Yeteri kadar param yok. Üzgünüm."
-   },
-   "FLAVOUR_12_HOWMANY" : {
-      "description" : "",
-      "message" : "Yalnız bir."
-   },
-   "FLAVOUR_12_INTROTEXT" : {
-      "description" : "",
-      "message" : "Benim adım {name}. {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine hızlı bir geçiş yapmalıyım. {cash} ödenecek."
-   },
-   "FLAVOUR_12_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Yolculuk için teşekkürler. Tam ödeme yapıldı."
-   },
-   "FLAVOUR_12_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
-   },
-   "FLAVOUR_12_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Birilerine biraz borcum var ve onlar peşimde."
-   },
-   "FLAVOUR_1_ADTEXT" : {
-      "description" : "",
-      "message" : "ARANIYOR: Küçük bir grup için {system} sistemine geçiş. {cash} ödenecek."
-   },
-   "FLAVOUR_1_DANGER" : {
-      "description" : "",
-      "message" : "Hayır."
-   },
-   "FLAVOUR_1_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Kabul edilemez! Çok oyalandın. Sana ödeme yapmak istemiyoruz."
-   },
-   "FLAVOUR_1_HOWMANY" : {
-      "description" : "",
-      "message" : "Bizden {group} kişi var."
-   },
-   "FLAVOUR_1_INTROTEXT" : {
-      "description" : "",
-      "message" : "Merhaba, ben {name} ve {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine küçük bir grup ile geçiş yapmalıyım. {cash} ödeyeceğim."
-   },
-   "FLAVOUR_1_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Güzel yolculuk için teşekkürler. Tam ödeme yapıldı."
-   },
-   "FLAVOUR_1_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Neredeyiz? Yeterince bekledik - bizi en yakın istasyona götür ŞİMDİ!"
-   },
-   "FLAVOUR_1_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "{corp} şirketi için çalışıyoruz ve onlar ödüyor."
-   },
-   "FLAVOUR_2_ADTEXT" : {
-      "description" : "",
-      "message" : "ARANIYOR: Küçük bir grup için {system} sistemine geçiş. {cash} ödenecek."
-   },
-   "FLAVOUR_2_DANGER" : {
-      "description" : "",
-      "message" : "Hayır."
-   },
-   "FLAVOUR_2_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Kabul edilemez! Çok oyalandın. Sana ödeme yapmak istemiyoruz."
-   },
-   "FLAVOUR_2_HOWMANY" : {
-      "description" : "",
-      "message" : "Bizden {group} kişi var."
-   },
-   "FLAVOUR_2_INTROTEXT" : {
-      "description" : "",
-      "message" : "Merhaba, ben {name} ve {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine küçük bir grup ile geçiş yapmalıyım. {cash} ödeyeceğim."
-   },
-   "FLAVOUR_2_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Bizi buraya bıraktığınız için teşekkürler. Tam ödeme yaptık. İyi şanslar!"
-   },
-   "FLAVOUR_2_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Neredeyiz? Yeterince bekledik - bizi en yakın istasyona götür ŞİMDİ!"
-   },
-   "FLAVOUR_2_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Olağan bir iş gezisi."
-   },
-   "FLAVOUR_3_ADTEXT" : {
-      "description" : "",
-      "message" : "GEMİ LAZIM: {system} sistemine geçiş. {cash} ödenecek."
-   },
-   "FLAVOUR_3_DANGER" : {
-      "description" : "",
-      "message" : "Peşimde bir suikastçi olduğunu düşünüyorum ve senin peşinden gelebilirler."
-   },
-   "FLAVOUR_3_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Kabul edilemez! Çok oyalandın. Sana ödeme yapmak istemiyorum."
-   },
-   "FLAVOUR_3_HOWMANY" : {
-      "description" : "",
-      "message" : "Sadece ben varım."
-   },
-   "FLAVOUR_3_INTROTEXT" : {
-      "description" : "",
-      "message" : "Merhaba, ben {name} ve {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine geçiş yapmalıyım. {cash} ödeyeceğim."
-   },
-   "FLAVOUR_3_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Güzel yolculuk için teşekkürler. Tam ödeme yapıldı."
-   },
-   "FLAVOUR_3_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
-   },
-   "FLAVOUR_3_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Eski bir rakibim beni öldürmek istiyor."
-   },
-   "FLAVOUR_4_ADTEXT" : {
-      "description" : "",
-      "message" : "GEMİ ARANIYOR: {system} sistemine geçiş. {cash} ödenecek."
-   },
-   "FLAVOUR_4_DANGER" : {
-      "description" : "",
-      "message" : "Hayır."
-   },
-   "FLAVOUR_4_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Sakın ödeme isteme! Seni yetklilere rapor edeceğim."
-   },
-   "FLAVOUR_4_HOWMANY" : {
-      "description" : "",
-      "message" : "Yalnız ben."
-   },
-   "FLAVOUR_4_INTROTEXT" : {
-      "description" : "",
-      "message" : "Merhaba, ben {name} ve {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine geçiş yapmalıyım. {cash} ödeyeceğim."
-   },
-   "FLAVOUR_4_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Beni buraya getirdiğiniz için teşekkürler. Tam ödeme yaptım. İyi şanslar!"
-   },
-   "FLAVOUR_4_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
-   },
-   "FLAVOUR_4_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Gezgin satıcıyım"
-   },
-   "FLAVOUR_5_ADTEXT" : {
-      "description" : "",
-      "message" : "ARANIYOR: {system} sistemine geçiş. {cash} ödenecek."
-   },
-   "FLAVOUR_5_DANGER" : {
-      "description" : "",
-      "message" : "Basından biraz ilgi görebilirsin. Onları dikkate alma."
-   },
-   "FLAVOUR_5_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Ne yaptın sen! Turnem mahvoldu ve hayranlarımın yarısını kaybettim."
-   },
-   "FLAVOUR_5_HOWMANY" : {
-      "description" : "",
-      "message" : "Sadece ben varım."
-   },
-   "FLAVOUR_5_INTROTEXT" : {
-      "description" : "",
-      "message" : "Merhaba, ben {name} ve {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine geçiş yapmalıyım. {cash} ödeyeceğim."
-   },
-   "FLAVOUR_5_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Güzel yolculuk için teşekkürler. Tam ödeme yapıldı."
-   },
-   "FLAVOUR_5_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Neredeyiz? Yeterince bekledik - bizi en yakın istasyona götür ŞİMDİ!"
-   },
-   "FLAVOUR_5_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Bilmiyor muydun - Ben iyi bilinen bir rüya yıldızım."
-   },
-   "FLAVOUR_6_ADTEXT" : {
-      "description" : "",
-      "message" : "GEMİ ARANIYOR: {system} sistemine geçiş. {cash} ödenecek."
-   },
-   "FLAVOUR_6_DANGER" : {
-      "description" : "",
-      "message" : "Hayır."
-   },
-   "FLAVOUR_6_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Kabul edilemez! Çok oyalandın. Sana ödeme yapmak istemiyorum."
-   },
-   "FLAVOUR_6_HOWMANY" : {
-      "description" : "",
-      "message" : "Sadece ben varım."
-   },
-   "FLAVOUR_6_INTROTEXT" : {
-      "description" : "",
-      "message" : "Merhaba, ben {name} ve {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine geçiş yapmalıyım. {cash} ödeyeceğim."
-   },
-   "FLAVOUR_6_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Güzel yolculuk için teşekkürler. Tam ödeme yapıldı."
-   },
-   "FLAVOUR_6_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
-   },
-   "FLAVOUR_6_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Serbest gazeteciyim."
-   },
-   "FLAVOUR_7_ADTEXT" : {
-      "description" : "",
-      "message" : "GEMİ ARANIYOR: {system} sistemine güvenli geçiş. {cash} ödenecek."
-   },
-   "FLAVOUR_7_DANGER" : {
-      "description" : "",
-      "message" : "Mafya düşmanlarına yardım eden insanları hoş karşılamıyor."
-   },
-   "FLAVOUR_7_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Kabul edilemez! Çok oyalandın. Sana ödeme yapmak istemiyorum."
-   },
-   "FLAVOUR_7_HOWMANY" : {
-      "description" : "",
-      "message" : "Ben ve başka hiç kimse."
-   },
-   "FLAVOUR_7_INTROTEXT" : {
-      "description" : "",
-      "message" : "Merhaba, benim adım {name} ve {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine güvenli geçiş yapmalıyım. {cash} ödeyeceğim."
-   },
-   "FLAVOUR_7_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Beni buraya güvenle getirdiğiniz için teşekkürler. Tam ödeme yaptım. İyi şanslar!"
-   },
-   "FLAVOUR_7_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
-   },
-   "FLAVOUR_7_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Mafya ölmemi istiyor."
-   },
-   "FLAVOUR_8_ADTEXT" : {
-      "description" : "",
-      "message" : "GEMİ ARANIYOR: Hızlı bir gemiyle {system} sistemine geçiş."
-   },
-   "FLAVOUR_8_DANGER" : {
-      "description" : "",
-      "message" : "Hayır."
-   },
-   "FLAVOUR_8_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Kabul edilemez! Çok oyalandın. Sana ödeme yapmak istemiyorum."
-   },
-   "FLAVOUR_8_HOWMANY" : {
-      "description" : "",
-      "message" : "Sadece ben."
-   },
-   "FLAVOUR_8_INTROTEXT" : {
-      "description" : "",
-      "message" : "Benim adım {name}. {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine geçiş yapmalıyım. {cash} ödenecek."
-   },
-   "FLAVOUR_8_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Hızlı yolculuk için teşekkürler. Tam ödeme yapıldı."
-   },
-   "FLAVOUR_8_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
-   },
-   "FLAVOUR_8_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Hasta bir yakınımı ziyaret ediyorum."
-   },
-   "FLAVOUR_9_ADTEXT" : {
-      "description" : "",
-      "message" : "GEMİ ARANIYOR: Hızlı bir gemiyle {system} sistemine geçiş."
-   },
-   "FLAVOUR_9_DANGER" : {
-      "description" : "",
-      "message" : "Polis durdurmaya çalışabilir."
-   },
-   "FLAVOUR_9_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Faydasız! Çok oyalandın. Sana ödeme yapmak istemiyorum."
-   },
-   "FLAVOUR_9_HOWMANY" : {
-      "description" : "",
-      "message" : "Sadece ben."
-   },
-   "FLAVOUR_9_INTROTEXT" : {
-      "description" : "",
-      "message" : "Benim adım {name}. {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine hızlı bir geçiş yapmalıyım. {cash} ödenecek."
-   },
-   "FLAVOUR_9_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Hızlı yolculuk için teşekkürler. Tam ödeme yapıldı."
-   },
-   "FLAVOUR_9_WHEREAREWE" : {
-      "description" : "",
-      "message" : "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
-   },
-   "FLAVOUR_9_WHYSOMUCH" : {
-      "description" : "",
-      "message" : "Polis soruşturmalarına yardım etmemi istiyor."
-   },
-   "FROM" : {
-      "description" : "",
-      "message" : "Gönderen:"
-   },
-   "GROUP_DETAILS" : {
-      "description" : "",
-      "message" : "Grup detayı:"
-   },
-   "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
-      "description" : "",
-      "message" : "Hey!?! Bunun bedelini ödeyeceksin!!!"
-   },
-   "HOW_MANY_OF_YOU_ARE_THERE" : {
-      "description" : "",
-      "message" : "Kaç kişisiniz?"
-   },
-   "HOW_SOON_YOU_MUST_BE_THERE" : {
-      "description" : "",
-      "message" : "Ne zaman orada olmanız gerekiyor?"
-   },
-   "I_MUST_BE_THERE_BEFORE" : {
-      "description" : "",
-      "message" : "Şu tarihten önce orada olmalıyım:"
-   },
-   "LY" : {
-      "description" : "",
-      "message" : "ıy"
-   },
-   "OK_AGREED" : {
-      "description" : "",
-      "message" : "Tamam, anlaştık."
-   },
-   "PIRATE_TAUNTS_0" : {
-      "description" : "",
-      "message" : " {client} ile anlaştığına pişman olacaksın"
-   },
-   "PIRATE_TAUNTS_1" : {
-      "description" : "",
-      "message" : "{client} güvertende mi var? Bu kötü bir fikirdi."
-   },
-   "PIRATE_TAUNTS_2" : {
-      "description" : "",
-      "message" : "Bugün şanslı günü değil! Ölmeye hazırlan."
-   },
-   "PIRATE_TAUNTS_3" : {
-      "description" : "",
-      "message" : "Bugün kenetlenemeyeceksin!"
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Navigasyon hedefi olarak seç"
-   },
-   "TAXI" : {
-      "description" : "",
-      "message" : "Taksi"
-   },
-   "TO" : {
-      "description" : "",
-      "message" : "Alıcı:"
-   },
-   "WE_WANT_TO_BE_THERE_BEFORE" : {
-      "description" : "",
-      "message" : "Şu tarihten önce orada olmak istiyoruz:"
-   },
-   "WHY_SO_MUCH_MONEY" : {
-      "description" : "",
-      "message" : "Neden bu kadar çok para?"
-   },
-   "WILL_I_BE_IN_ANY_DANGER" : {
-      "description" : "",
-      "message" : "Tehlikede olacak mıyım?"
-   },
-   "WRONG_SYSTEM" : {
-      "description" : "Shown if system name is right, but coordinates are wrong",
-      "message" : "Sistem adı doğru, ama koordinatlar yanlış."
-   },
-   "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
-      "description" : "",
-      "message" : "Geminizde yeterli kabin yeri yok."
-   }
+  "CORPORATIONS_0": {
+    "description": "",
+    "message": "Sirius"
+  },
+  "CORPORATIONS_1": {
+    "description": "",
+    "message": "ACME"
+  },
+  "CORPORATIONS_10": {
+    "description": "",
+    "message": "Toptan Gemi"
+  },
+  "CORPORATIONS_11": {
+    "description": "",
+    "message": "Arment Aerodinamik"
+  },
+  "CORPORATIONS_2": {
+    "description": "",
+    "message": "Ferah Kola"
+  },
+  "CORPORATIONS_3": {
+    "description": "",
+    "message": "Taranis"
+  },
+  "CORPORATIONS_4": {
+    "description": "",
+    "message": "Kova Tersanesi"
+  },
+  "CORPORATIONS_5": {
+    "description": "",
+    "message": "Rockforth"
+  },
+  "CORPORATIONS_6": {
+    "description": "",
+    "message": "Amaliel"
+  },
+  "CORPORATIONS_7": {
+    "description": "",
+    "message": "Marett Uzay"
+  },
+  "CORPORATIONS_8": {
+    "description": "",
+    "message": "Vega Line"
+  },
+  "CORPORATIONS_9": {
+    "description": "",
+    "message": "Dijital"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "İlk isteğinizi tekrarlar mısınız?"
+  },
+  "DANGER": {
+    "description": "",
+    "message": "Tehlike:"
+  },
+  "DEADLINE": {
+    "description": "",
+    "message": "Bitiş:"
+  },
+  "DENY_0": {
+    "description": "",
+    "message": "Üzgünüm, fakat güvenliğim konusunda size güvenebileceğimi düşünmüyorum."
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Bazı vasıflar edindikden sonra geri gel."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Aradığım pilotun siz olduğunu düşünmüyorum."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "İnsanları taşıma kabiliyeti olan birine benzemiyorsunuz."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Aradığım türden bir pilot değilsiniz."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Bu önemde bir taşımayla başa çıkmak için çok deneyimsiz görünüyorsunuz."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "Sizi hiç duymadım. Bu yolculuk için deneyimli birine ihtiyacım var."
+  },
+  "DENY_7": {
+    "description": "",
+    "message": "Sizin gibi hiç bir vasfı olmayan biriyle hayatımı riske atmak istemiyorum."
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "Uzaklık:"
+  },
+  "EXCELLENT": {
+    "description": "",
+    "message": "Mükemmel."
+  },
+  "FLAVOUR_0_ADTEXT": {
+    "description": "",
+    "message": "ARANIYOR: Küçük bir grup için {system} sistemine geçiş. {cash} ödenecek."
+  },
+  "FLAVOUR_0_DANGER": {
+    "description": "",
+    "message": "Hayır."
+  },
+  "FLAVOUR_0_FAILUREMSG": {
+    "description": "",
+    "message": "Kabul edilemez! Çok oyalandın. Sana ödeme yapmak istemiyoruz."
+  },
+  "FLAVOUR_0_HOWMANY": {
+    "description": "",
+    "message": "Bizden {group} kişi var."
+  },
+  "FLAVOUR_0_INTROTEXT": {
+    "description": "",
+    "message": "Merhaba, ben {name} ve {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine küçük bir grup ile geçiş yapmalıyım. {cash} ödeyeceğim."
+  },
+  "FLAVOUR_0_SUCCESSMSG": {
+    "description": "",
+    "message": "Güzel yolculuk için teşekkürler. Tam ödeme yapıldı."
+  },
+  "FLAVOUR_0_WHEREAREWE": {
+    "description": "",
+    "message": "Neredeyiz? Yeterince bekledik - bizi en yakın istasyona götür ŞİMDİ!"
+  },
+  "FLAVOUR_0_WHYSOMUCH": {
+    "description": "",
+    "message": "Bir arkadaşı ziyaret ediyoruz."
+  },
+  "FLAVOUR_10_ADTEXT": {
+    "description": "",
+    "message": "GEMİ ARANIYOR: Hızlı bir gemiyle {system} sistemine geçiş."
+  },
+  "FLAVOUR_10_DANGER": {
+    "description": "",
+    "message": "Beni birinin takip ettiğini düşünüyorum."
+  },
+  "FLAVOUR_10_FAILUREMSG": {
+    "description": "",
+    "message": "Çok deneyimsiz bir pilotsun. Bunun için ödeme yapmayacağım."
+  },
+  "FLAVOUR_10_HOWMANY": {
+    "description": "",
+    "message": "Yalnız bir."
+  },
+  "FLAVOUR_10_INTROTEXT": {
+    "description": "",
+    "message": "Benim adım {name}. {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine hızlı bir geçiş istiyorum. {cash} ödenecek."
+  },
+  "FLAVOUR_10_SUCCESSMSG": {
+    "description": "",
+    "message": "Hızlı yolculuk için teşekkürler. Tam ödeme yapıldı."
+  },
+  "FLAVOUR_10_WHEREAREWE": {
+    "description": "",
+    "message": "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
+  },
+  "FLAVOUR_10_WHYSOMUCH": {
+    "description": "",
+    "message": "Birinin beni bulmamasını tercih ederim."
+  },
+  "FLAVOUR_11_ADTEXT": {
+    "description": "",
+    "message": "HIZLI GEMİ: Hızlı bir gemiyle {system} sistemine geçiş."
+  },
+  "FLAVOUR_11_DANGER": {
+    "description": "",
+    "message": "Bazen insanlar incelenmek istemezler."
+  },
+  "FLAVOUR_11_FAILUREMSG": {
+    "description": "",
+    "message": "Beceriksizliğin yüzünden işimi kaybedeceğim. Bu yüzden o paraya senden daha fazla ihtiyacım var."
+  },
+  "FLAVOUR_11_HOWMANY": {
+    "description": "",
+    "message": "Yalnız bir."
+  },
+  "FLAVOUR_11_INTROTEXT": {
+    "description": "",
+    "message": "Benim adım {name}. {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine hızlı bir geçiş yapmalıyım. {cash} ödenecek."
+  },
+  "FLAVOUR_11_SUCCESSMSG": {
+    "description": "",
+    "message": "Hızlı yolculuk için teşekkürler. Tam ödeme yapıldı."
+  },
+  "FLAVOUR_11_WHEREAREWE": {
+    "description": "",
+    "message": "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
+  },
+  "FLAVOUR_11_WHYSOMUCH": {
+    "description": "",
+    "message": "Turumu yapan bir fabrika müfettişiyim."
+  },
+  "FLAVOUR_12_ADTEXT": {
+    "description": "",
+    "message": "GEMİ LAZIM: {system} sistemine geçiş."
+  },
+  "FLAVOUR_12_DANGER": {
+    "description": "",
+    "message": "Biri beni kovalıyor."
+  },
+  "FLAVOUR_12_FAILUREMSG": {
+    "description": "",
+    "message": "Yeteri kadar param yok. Üzgünüm."
+  },
+  "FLAVOUR_12_HOWMANY": {
+    "description": "",
+    "message": "Yalnız bir."
+  },
+  "FLAVOUR_12_INTROTEXT": {
+    "description": "",
+    "message": "Benim adım {name}. {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine hızlı bir geçiş yapmalıyım. {cash} ödenecek."
+  },
+  "FLAVOUR_12_SUCCESSMSG": {
+    "description": "",
+    "message": "Yolculuk için teşekkürler. Tam ödeme yapıldı."
+  },
+  "FLAVOUR_12_WHEREAREWE": {
+    "description": "",
+    "message": "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
+  },
+  "FLAVOUR_12_WHYSOMUCH": {
+    "description": "",
+    "message": "Birilerine biraz borcum var ve onlar peşimde."
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "ARANIYOR: Küçük bir grup için {system} sistemine geçiş. {cash} ödenecek."
+  },
+  "FLAVOUR_1_DANGER": {
+    "description": "",
+    "message": "Hayır."
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "Kabul edilemez! Çok oyalandın. Sana ödeme yapmak istemiyoruz."
+  },
+  "FLAVOUR_1_HOWMANY": {
+    "description": "",
+    "message": "Bizden {group} kişi var."
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "",
+    "message": "Merhaba, ben {name} ve {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine küçük bir grup ile geçiş yapmalıyım. {cash} ödeyeceğim."
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "Güzel yolculuk için teşekkürler. Tam ödeme yapıldı."
+  },
+  "FLAVOUR_1_WHEREAREWE": {
+    "description": "",
+    "message": "Neredeyiz? Yeterince bekledik - bizi en yakın istasyona götür ŞİMDİ!"
+  },
+  "FLAVOUR_1_WHYSOMUCH": {
+    "description": "",
+    "message": "{corp} şirketi için çalışıyoruz ve onlar ödüyor."
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "ARANIYOR: Küçük bir grup için {system} sistemine geçiş. {cash} ödenecek."
+  },
+  "FLAVOUR_2_DANGER": {
+    "description": "",
+    "message": "Hayır."
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "Kabul edilemez! Çok oyalandın. Sana ödeme yapmak istemiyoruz."
+  },
+  "FLAVOUR_2_HOWMANY": {
+    "description": "",
+    "message": "Bizden {group} kişi var."
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "Merhaba, ben {name} ve {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine küçük bir grup ile geçiş yapmalıyım. {cash} ödeyeceğim."
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Bizi buraya bıraktığınız için teşekkürler. Tam ödeme yaptık. İyi şanslar!"
+  },
+  "FLAVOUR_2_WHEREAREWE": {
+    "description": "",
+    "message": "Neredeyiz? Yeterince bekledik - bizi en yakın istasyona götür ŞİMDİ!"
+  },
+  "FLAVOUR_2_WHYSOMUCH": {
+    "description": "",
+    "message": "Olağan bir iş gezisi."
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "GEMİ LAZIM: {system} sistemine geçiş. {cash} ödenecek."
+  },
+  "FLAVOUR_3_DANGER": {
+    "description": "",
+    "message": "Peşimde bir suikastçi olduğunu düşünüyorum ve senin peşinden gelebilirler."
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "Kabul edilemez! Çok oyalandın. Sana ödeme yapmak istemiyorum."
+  },
+  "FLAVOUR_3_HOWMANY": {
+    "description": "",
+    "message": "Sadece ben varım."
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": "Merhaba, ben {name} ve {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine geçiş yapmalıyım. {cash} ödeyeceğim."
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "Güzel yolculuk için teşekkürler. Tam ödeme yapıldı."
+  },
+  "FLAVOUR_3_WHEREAREWE": {
+    "description": "",
+    "message": "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
+  },
+  "FLAVOUR_3_WHYSOMUCH": {
+    "description": "",
+    "message": "Eski bir rakibim beni öldürmek istiyor."
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "GEMİ ARANIYOR: {system} sistemine geçiş. {cash} ödenecek."
+  },
+  "FLAVOUR_4_DANGER": {
+    "description": "",
+    "message": "Hayır."
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "Sakın ödeme isteme! Seni yetklilere rapor edeceğim."
+  },
+  "FLAVOUR_4_HOWMANY": {
+    "description": "",
+    "message": "Yalnız ben."
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "Merhaba, ben {name} ve {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine geçiş yapmalıyım. {cash} ödeyeceğim."
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "Beni buraya getirdiğiniz için teşekkürler. Tam ödeme yaptım. İyi şanslar!"
+  },
+  "FLAVOUR_4_WHEREAREWE": {
+    "description": "",
+    "message": "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
+  },
+  "FLAVOUR_4_WHYSOMUCH": {
+    "description": "",
+    "message": "Gezgin satıcıyım"
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "ARANIYOR: {system} sistemine geçiş. {cash} ödenecek."
+  },
+  "FLAVOUR_5_DANGER": {
+    "description": "",
+    "message": "Basından biraz ilgi görebilirsin. Onları dikkate alma."
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "Ne yaptın sen! Turnem mahvoldu ve hayranlarımın yarısını kaybettim."
+  },
+  "FLAVOUR_5_HOWMANY": {
+    "description": "",
+    "message": "Sadece ben varım."
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "Merhaba, ben {name} ve {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine geçiş yapmalıyım. {cash} ödeyeceğim."
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "Güzel yolculuk için teşekkürler. Tam ödeme yapıldı."
+  },
+  "FLAVOUR_5_WHEREAREWE": {
+    "description": "",
+    "message": "Neredeyiz? Yeterince bekledik - bizi en yakın istasyona götür ŞİMDİ!"
+  },
+  "FLAVOUR_5_WHYSOMUCH": {
+    "description": "",
+    "message": "Bilmiyor muydun - Ben iyi bilinen bir rüya yıldızım."
+  },
+  "FLAVOUR_6_ADTEXT": {
+    "description": "",
+    "message": "GEMİ ARANIYOR: {system} sistemine geçiş. {cash} ödenecek."
+  },
+  "FLAVOUR_6_DANGER": {
+    "description": "",
+    "message": "Hayır."
+  },
+  "FLAVOUR_6_FAILUREMSG": {
+    "description": "",
+    "message": "Kabul edilemez! Çok oyalandın. Sana ödeme yapmak istemiyorum."
+  },
+  "FLAVOUR_6_HOWMANY": {
+    "description": "",
+    "message": "Sadece ben varım."
+  },
+  "FLAVOUR_6_INTROTEXT": {
+    "description": "",
+    "message": "Merhaba, ben {name} ve {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine geçiş yapmalıyım. {cash} ödeyeceğim."
+  },
+  "FLAVOUR_6_SUCCESSMSG": {
+    "description": "",
+    "message": "Güzel yolculuk için teşekkürler. Tam ödeme yapıldı."
+  },
+  "FLAVOUR_6_WHEREAREWE": {
+    "description": "",
+    "message": "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
+  },
+  "FLAVOUR_6_WHYSOMUCH": {
+    "description": "",
+    "message": "Serbest gazeteciyim."
+  },
+  "FLAVOUR_7_ADTEXT": {
+    "description": "",
+    "message": "GEMİ ARANIYOR: {system} sistemine güvenli geçiş. {cash} ödenecek."
+  },
+  "FLAVOUR_7_DANGER": {
+    "description": "",
+    "message": "Mafya düşmanlarına yardım eden insanları hoş karşılamıyor."
+  },
+  "FLAVOUR_7_FAILUREMSG": {
+    "description": "",
+    "message": "Kabul edilemez! Çok oyalandın. Sana ödeme yapmak istemiyorum."
+  },
+  "FLAVOUR_7_HOWMANY": {
+    "description": "",
+    "message": "Ben ve başka hiç kimse."
+  },
+  "FLAVOUR_7_INTROTEXT": {
+    "description": "",
+    "message": "Merhaba, benim adım {name} ve {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine güvenli geçiş yapmalıyım. {cash} ödeyeceğim."
+  },
+  "FLAVOUR_7_SUCCESSMSG": {
+    "description": "",
+    "message": "Beni buraya güvenle getirdiğiniz için teşekkürler. Tam ödeme yaptım. İyi şanslar!"
+  },
+  "FLAVOUR_7_WHEREAREWE": {
+    "description": "",
+    "message": "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
+  },
+  "FLAVOUR_7_WHYSOMUCH": {
+    "description": "",
+    "message": "Mafya ölmemi istiyor."
+  },
+  "FLAVOUR_8_ADTEXT": {
+    "description": "",
+    "message": "GEMİ ARANIYOR: Hızlı bir gemiyle {system} sistemine geçiş."
+  },
+  "FLAVOUR_8_DANGER": {
+    "description": "",
+    "message": "Hayır."
+  },
+  "FLAVOUR_8_FAILUREMSG": {
+    "description": "",
+    "message": "Kabul edilemez! Çok oyalandın. Sana ödeme yapmak istemiyorum."
+  },
+  "FLAVOUR_8_HOWMANY": {
+    "description": "",
+    "message": "Sadece ben."
+  },
+  "FLAVOUR_8_INTROTEXT": {
+    "description": "",
+    "message": "Benim adım {name}. {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine geçiş yapmalıyım. {cash} ödenecek."
+  },
+  "FLAVOUR_8_SUCCESSMSG": {
+    "description": "",
+    "message": "Hızlı yolculuk için teşekkürler. Tam ödeme yapıldı."
+  },
+  "FLAVOUR_8_WHEREAREWE": {
+    "description": "",
+    "message": "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
+  },
+  "FLAVOUR_8_WHYSOMUCH": {
+    "description": "",
+    "message": "Hasta bir yakınımı ziyaret ediyorum."
+  },
+  "FLAVOUR_9_ADTEXT": {
+    "description": "",
+    "message": "GEMİ ARANIYOR: Hızlı bir gemiyle {system} sistemine geçiş."
+  },
+  "FLAVOUR_9_DANGER": {
+    "description": "",
+    "message": "Polis durdurmaya çalışabilir."
+  },
+  "FLAVOUR_9_FAILUREMSG": {
+    "description": "",
+    "message": "Faydasız! Çok oyalandın. Sana ödeme yapmak istemiyorum."
+  },
+  "FLAVOUR_9_HOWMANY": {
+    "description": "",
+    "message": "Sadece ben."
+  },
+  "FLAVOUR_9_INTROTEXT": {
+    "description": "",
+    "message": "Benim adım {name}. {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemine hızlı bir geçiş yapmalıyım. {cash} ödenecek."
+  },
+  "FLAVOUR_9_SUCCESSMSG": {
+    "description": "",
+    "message": "Hızlı yolculuk için teşekkürler. Tam ödeme yapıldı."
+  },
+  "FLAVOUR_9_WHEREAREWE": {
+    "description": "",
+    "message": "Neredeyiz? Yeterince bekledim - beni en yakın istasyona götür ŞİMDİ!"
+  },
+  "FLAVOUR_9_WHYSOMUCH": {
+    "description": "",
+    "message": "Polis soruşturmalarına yardım etmemi istiyor."
+  },
+  "FROM": {
+    "description": "",
+    "message": "Gönderen:"
+  },
+  "GROUP_DETAILS": {
+    "description": "",
+    "message": "Grup detayı:"
+  },
+  "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS": {
+    "description": "",
+    "message": "Hey!?! Bunun bedelini ödeyeceksin!!!"
+  },
+  "HOW_MANY_OF_YOU_ARE_THERE": {
+    "description": "",
+    "message": "Kaç kişisiniz?"
+  },
+  "HOW_SOON_YOU_MUST_BE_THERE": {
+    "description": "",
+    "message": "Ne zaman orada olmanız gerekiyor?"
+  },
+  "I_MUST_BE_THERE_BEFORE": {
+    "description": "",
+    "message": "Şu tarihten önce orada olmalıyım:"
+  },
+  "LY": {
+    "description": "",
+    "message": "ıy"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Tamam, anlaştık."
+  },
+  "PIRATE_TAUNTS_0": {
+    "description": "",
+    "message": " {client} ile anlaştığına pişman olacaksın"
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "{client} güvertende mi var? Bu kötü bir fikirdi."
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "Bugün şanslı günü değil! Ölmeye hazırlan."
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Bugün kenetlenemeyeceksin!"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Navigasyon hedefi olarak seç"
+  },
+  "TAXI": {
+    "description": "",
+    "message": "Taksi"
+  },
+  "TO": {
+    "description": "",
+    "message": "Alıcı:"
+  },
+  "WE_WANT_TO_BE_THERE_BEFORE": {
+    "description": "",
+    "message": "Şu tarihten önce orada olmak istiyoruz:"
+  },
+  "WHY_SO_MUCH_MONEY": {
+    "description": "",
+    "message": "Neden bu kadar çok para?"
+  },
+  "WILL_I_BE_IN_ANY_DANGER": {
+    "description": "",
+    "message": "Tehlikede olacak mıyım?"
+  },
+  "WRONG_SYSTEM": {
+    "description": "Shown if system name is right, but coordinates are wrong",
+    "message": "Sistem adı doğru, ama koordinatlar yanlış."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP": {
+    "description": "",
+    "message": "Geminizde yeterli kabin yeri yok."
+  }
 }

@@ -52,6 +52,7 @@ The Pioneer Developers are:
 * jmf
 * John Bartholomew
 * John Jordan
+* Jon Jenkins
 * Joshua Mathews
 * Karl Fogelmark
 * Kimmo Kotajärvi

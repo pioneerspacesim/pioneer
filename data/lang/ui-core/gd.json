@@ -1,1566 +1,1786 @@
 {
-   "ABOVE_AVERAGE" : {
-      "description" : "",
-      "message" : "Cuibheasach 's a chorr"
-   },
-   "ACTIVE" : {
-      "description" : "",
-      "message" : "Gnìomhach"
-   },
-   "AFTER_TRADE_IN" : {
-      "description" : "",
-      "message" : "Às dèidh malairt"
-   },
-   "ALLEGIANCE" : {
-      "description" : "",
-      "message" : "Dìlseachd:"
-   },
-   "ALL_UP_WEIGHT" : {
-      "description" : "",
-      "message" : "Cuideam iomlan"
-   },
-   "AMOUNT" : {
-      "description" : "",
-      "message" : "Uiread"
-   },
-   "AN_ERROR_HAS_OCCURRED" : {
-      "description" : "",
-      "message" : "Thachair mearachd"
-   },
-   "ATMOSPHERIC_SHIELDING" : {
-      "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
-      "message" : "Dìonadh àile"
-   },
-   "ATTEMPT_TO_REPAIR_HULL" : {
-      "description" : "",
-      "message" : "A' feuchainn ris an t-slige a chàradh"
-   },
-   "AVAILABLE_FOR_PURCHASE" : {
-      "description" : "",
-      "message" : "Ri cheannach"
-   },
-   "AVERAGE" : {
-      "description" : "",
-      "message" : "Cuibheasach"
-   },
-   "BACKWARD_ACCEL" : {
-      "description" : "",
-      "message" : "Luathachadh air ais"
-   },
-   "BULLETIN_BOARD" : {
-      "description" : "",
-      "message" : "Bòrd-brath"
-   },
-   "BUY" : {
-      "description" : "Commodities and equipment prices",
-      "message" : "Ceannaich"
-   },
-   "BUY_SHIP" : {
-      "description" : "",
-      "message" : "Ceannaich soitheach"
-   },
-   "CABINS" : {
-      "description" : "For passengers",
-      "message" : "Cèibinnean"
-   },
-   "CABIN_FREE" : {
-      "description" : "Free capacity for passengers",
-      "message" : "{amount} saor"
-   },
-   "CABIN_USED" : {
-      "description" : "Passengers using cabins",
-      "message" : "{amount} 'ga chleachdadh"
-   },
-   "CANCEL" : {
-      "description" : "",
-      "message" : "Sguir dheth"
-   },
-   "CAPACITY" : {
-      "description" : "Capacity of ship to fit more equipment",
-      "message" : "Tomhas-lìonaidh"
-   },
-   "CAPACITY_USED" : {
-      "description" : "",
-      "message" : "Tomhas 'ga chleachdadh"
-   },
-   "CARGO" : {
-      "description" : "",
-      "message" : "Carago"
-   },
-   "CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Rum airson carago"
-   },
-   "CARGO_SPACE_USED" : {
-      "description" : "",
-      "message" : "Rum a chleachdas an carago"
-   },
-   "CARGO_T_FREE" : {
-      "description" : "t for tonne",
-      "message" : "{amount}t saor"
-   },
-   "CARGO_T_USED" : {
-      "description" : "t for tonne",
-      "message" : "{amount}t 'ga chleachdadh"
-   },
-   "CASH" : {
-      "description" : "",
-      "message" : "Airgead"
-   },
-   "CASH_N" : {
-      "description" : "",
-      "message" : "Airgead: {money}"
-   },
-   "CHANGE_BINDING" : {
-      "description" : "Key binding option",
-      "message" : "Atharraich an nasgadh"
-   },
-   "CHIEF_MECHANIC" : {
-      "description" : "",
-      "message" : "Prìomh innleadair"
-   },
-   "CIRCULAR_ORBIT_SPEED" : {
-      "description" : "",
-      "message" : "Luaths cuairteach na reul-chuairte"
-   },
-   "CITY_DETAIL_LEVEL" : {
-      "description" : "Game graphics option",
-      "message" : "Leibheil mion-shealladh nam bailtean"
-   },
-   "CLEAN" : {
-      "description" : "Legal status of player",
-      "message" : "Glan"
-   },
-   "CLEAR" : {
-      "description" : "Clear an option in game settings/options menu",
-      "message" : "Falamhaich"
-   },
-   "CLIENT" : {
-      "description" : "",
-      "message" : "Ceannaiche"
-   },
-   "COMBAT" : {
-      "description" : "Headline for kills and combat rating",
-      "message" : "Còmhrag"
-   },
-   "COMMANDER" : {
-      "description" : "",
-      "message" : "Comandair"
-   },
-   "COMMODITY_MARKET" : {
-      "description" : "",
-      "message" : "Margadh bathair-àmh"
-   },
-   "COMPACT_RADAR" : {
-      "description" : "Game settings option",
-      "message" : "Rèidear teannta"
-   },
-   "COMPETENT" : {
-      "description" : "Combat rating",
-      "message" : "Comasach"
-   },
-   "COMPLETED" : {
-      "description" : "",
-      "message" : "Coileanta"
-   },
-   "COMPRESS_TEXTURES" : {
-      "description" : "graphics option in game settings menu ",
-      "message" : "Dùmhlaich na h-innich"
-   },
-   "CONFIRM_PURCHASE" : {
-      "description" : "",
-      "message" : "Dearbhaich an ceannach"
-   },
-   "CONFIRM_SALE" : {
-      "description" : "",
-      "message" : "Dearbhaich an reic"
-   },
-   "CONSTABLE" : {
-      "description" : "",
-      "message" : "Constabal"
-   },
-   "CONTINUE_GAME" : {
-      "description" : "",
-      "message" : "Lean air a' gheama"
-   },
-   "CONTROLS" : {
-      "description" : "",
-      "message" : "Uidheaman-smachd"
-   },
-   "CONTROL_OPTIONS" : {
-      "description" : "",
-      "message" : "Roghainnean an stiùiridh"
-   },
-   "COULD_NOT_LOAD_GAME" : {
-      "description" : "",
-      "message" : "Cha b' urrainn dhuinn an geama a luchdadh:"
-   },
-   "CREDIBLE" : {
-      "description" : "For player reputation",
-      "message" : "Creideasach"
-   },
-   "CREW_CABINS" : {
-      "description" : "",
-      "message" : "Cèibinnean sgioba"
-   },
-   "CREW_ROSTER" : {
-      "description" : "",
-      "message" : "Clàr an sgioba"
-   },
-   "CRIMINAL_RECORD" : {
-      "description" : "Past crimes / crime history of character",
-      "message" : "Clàr nan eucoir"
-   },
-   "DANGEROUS" : {
-      "description" : "Player combat rating",
-      "message" : "Cunnartach"
-   },
-   "DEADLY" : {
-      "description" : "Player combat rating",
-      "message" : "Marbhtach"
-   },
-   "DELTA_V" : {
-      "description" : "",
-      "message" : "Delta-v"
-   },
-   "DELTA_V_EMPTY" : {
-      "description" : "Delta-v capacity of a ship with no cargo or upgrades",
-      "message" : "Delta-v (falamh)"
-   },
-   "DELTA_V_FULL" : {
-      "description" : "Delta-v capacity of a ship with maximum cargo",
-      "message" : "Delta-v (làn)"
-   },
-   "DELTA_V_MAX" : {
-      "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
-      "message" : "Delta-v (as motha)"
-   },
-   "DESCENT_TO_GROUND_SPEED" : {
-      "description" : "",
-      "message" : "Luaths teàrnadh dhan làr:"
-   },
-   "DESTROY_ENEMY_SHIP" : {
-      "description" : "",
-      "message" : "Mill soitheach an nàmhaid"
-   },
-   "DISMISS" : {
-      "description" : "Terminate crew memeber's contract",
-      "message" : "Leig seachad"
-   },
-   "DISPLAY_HUD_TRAILS" : {
-      "description" : "",
-      "message" : "Seall staranan HUD"
-   },
-   "DISPLAY_NAV_TUNNELS" : {
-      "description" : "Settings option: hyperspace tunnel effect",
-      "message" : "Seall tunailean seòladaireachd"
-   },
-   "DISPLAY_SPEED_LINES" : {
-      "description" : "Settings option: effect when travelling in space",
-      "message" : "Seall loidhnichean luaiths"
-   },
-   "DOCK_AT_CURRENT_TARGET" : {
-      "description" : "",
-      "message" : "Docaich aig an targaid làithreach"
-   },
-   "DUE" : {
-      "description" : "mission deadline date",
-      "message" : "Ceann-latha pàighidh"
-   },
-   "DUMPING" : {
-      "description" : "The illegal act of dumping waste",
-      "message" : "Dumpadh"
-   },
-   "D_DAYS_LEFT" : {
-      "description" : "",
-      "message" : "Làithean air am fàgail: %d"
-   },
-   "ECONOMY_TRADE" : {
-      "description" : "",
-      "message" : "Eaconamaidh ⁊ malart"
-   },
-   "EFFECTS" : {
-      "description" : "",
-      "message" : "Èifeachdan:"
-   },
-   "ELITE" : {
-      "description" : "Player combat rating",
-      "message" : "SEANN-EÒLACH"
-   },
-   "EMPLOYMENT" : {
-      "description" : "",
-      "message" : "Obair"
-   },
-   "ENABLE_ANISOTROPIC_FILTERING" : {
-      "description" : "Use Anisotropic Filtering",
-      "message" : "Criathradh an-iosa-tropach"
-   },
-   "ENABLE_AUTOSAVE" : {
-      "description" : "Allow the game to autosave when docking",
-      "message" : "Cuir fèin-sàbhaladh an comas"
-   },
-   "ENABLE_COCKPIT" : {
-      "description" : "Game settings option: to use a cockpit 3D model",
-      "message" : "Cuir cockpit an comas (DEUCHAINNEACH)"
-   },
-   "ENABLE_JOYSTICK" : {
-      "description" : "",
-      "message" : "Cuir joystick an comas"
-   },
-   "ENGINEERING" : {
-      "description" : "Engineering skills of crew",
-      "message" : "Innleadaireachd:"
-   },
-   "EQUIPMENT" : {
-      "description" : "",
-      "message" : "Uidheamachd"
-   },
-   "EQUIPMENT_MARKET" : {
-      "description" : "",
-      "message" : "Margadh uidheamachd"
-   },
-   "EQUIPPED" : {
-      "description" : "",
-      "message" : "Uidheamaichte"
-   },
-   "ERROR" : {
-      "description" : "",
-      "message" : "Mearachd"
-   },
-   "ERROR_LANDING_GEAR_DOWN" : {
-      "description" : "",
-      "message" : "Cha ghabh leum os-fhànais a thòiseachadh; cha deach an uidheamachd landaidh a chur suas"
-   },
-   "ESCAPE_SPEED" : {
-      "description" : "",
-      "message" : "Luaths teichidh:"
-   },
-   "EXIT_THIS_GAME" : {
-      "description" : "",
-      "message" : "Fàg an geama seo"
-   },
-   "EXPERIENCED" : {
-      "description" : "For player reputation",
-      "message" : "Eòlach"
-   },
-   "EXPERT" : {
-      "description" : "For player reputation",
-      "message" : "Fiosrachail"
-   },
-   "FAILED" : {
-      "description" : "When failed mission",
-      "message" : "Air fhàilligeadh"
-   },
-   "FEMALE" : {
-      "description" : "",
-      "message" : "Boireann"
-   },
-   "FORWARD_ACCEL" : {
-      "description" : "",
-      "message" : "Luathachadh air adhart"
-   },
-   "FORWARD_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Luathachadh air adhart (falamh)"
-   },
-   "FORWARD_ACCEL_FULL" : {
-      "description" : "",
-      "message" : "Luathachadh air adhart (làn)"
-   },
-   "FRACTAL_DETAIL" : {
-      "description" : "",
-      "message" : "Mion-shealladh fractalach"
-   },
-   "FREE" : {
-      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
-      "message" : "saor"
-   },
-   "FRONT_WEAPON" : {
-      "description" : "",
-      "message" : "Arm beulaibh"
-   },
-   "FUEL" : {
-      "description" : "",
-      "message" : "Connadh"
-   },
-   "FUEL_TANK_FULL" : {
-      "description" : "",
-      "message" : "Tha an tanca-connaidh làn."
-   },
-   "FUEL_WEIGHT" : {
-      "description" : "",
-      "message" : "Cuideam a' connaidh"
-   },
-   "FULL_SCREEN" : {
-      "description" : "",
-      "message" : "Làn-sgrìn"
-   },
-   "GENERAL_CREW" : {
-      "description" : "",
-      "message" : "Sgioba coitcheann"
-   },
-   "GIVE_ORDERS_TO_CREW" : {
-      "description" : "",
-      "message" : "Thoir òrduighean dhan sgioba"
-   },
-   "GOOD_RIDDANCE_TO_YOU_TOO" : {
-      "description" : "",
-      "message" : "'S math cuidhteas fhaighinn dhutsa cuideachd."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Cuir crìoch air a' ghairm."
-   },
-   "HARMLESS" : {
-      "description" : "Player combat rating",
-      "message" : "Neoichiontach"
-   },
-   "HEAVY_CARGO_SHUTTLE" : {
-      "description" : "",
-      "message" : "Aiseag carago trom"
-   },
-   "HEAVY_COURIER" : {
-      "description" : "",
-      "message" : "Teachdaire trom"
-   },
-   "HEAVY_FIGHTER" : {
-      "description" : "",
-      "message" : "Soitheach-cogaidh trom"
-   },
-   "HEAVY_FREIGHTER" : {
-      "description" : "",
-      "message" : "Soitheach-carago trom"
-   },
-   "HEAVY_PASSENGER_SHUTTLE" : {
-      "description" : "",
-      "message" : "Aiseag thaistealach trom"
-   },
-   "HEAVY_PASSENGER_TRANSPORT" : {
-      "description" : "",
-      "message" : "Soitheach thaistealach trom"
-   },
-   "HIGH" : {
-      "description" : "Game settings option: for graphics resolution",
-      "message" : "Àrd"
-   },
-   "HUD_2D_RADAR" : {
-      "description" : "Popup text: the name of the azimuthal equidistant projection radar",
-      "message" : "Tilg-shealladh co-astarail azimuthach 2D"
-   },
-   "HUD_3D_RADAR" : {
-      "description" : "Popup text: the name of the planar projection radar (traditional frontier-style)",
-      "message" : "Tilg-shealladh plèanach 3D"
-   },
-   "HUD_ATMOSPHERIC_PRESSURE" : {
-      "description" : "Tooltip: Atmospheric Pressure.",
-      "message" : "Brùthadh an àile"
-   },
-   "HUD_BACKWARD_GUN_TEMPERATURE" : {
-      "description" : "Tooltip: Backward Gun Temperature.",
-      "message" : "Teothachd a’ ghunna-cùil"
-   },
-   "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS" : {
-      "description" : "Tooltip: The braking distance using the main thrusters.",
-      "message" : "Astar brèigidh a' cleachdadh nam prìomh-phutairean"
-   },
-   "HUD_BUTTON_AUTOPILOT_DOCKING" : {
-      "description" : "Tooltip: Autopilot docking",
-      "message" : "Docadh fèin-stiùiridh"
-   },
-   "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT" : {
-      "description" : "Tooltip: Autopilot entering orbit",
-      "message" : "Tha am fèin-stiùireadh a’ tòiseachadh air reul-chuairt"
-   },
-   "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET" : {
-      "description" : "Tooltip: Autopilot flying to target",
-      "message" : "Tha am fèin-stiùireadh a’ sgiathadh dhan amas"
-   },
-   "HUD_BUTTON_BLASTOFF" : {
-      "description" : "Tooltip: Blastoff",
-      "message" : "Losgadh"
-   },
-   "HUD_BUTTON_EQUIPMENT" : {
-      "description" : "Tooltip: Equipment",
-      "message" : "Uidheamachd"
-   },
-   "HUD_BUTTON_EXTERNAL_VIEW" : {
-      "description" : "Tooltip: External camera view",
-      "message" : "Sealladh taobh a-muigh"
-   },
-   "HUD_BUTTON_FIX_ANTINORMAL" : {
-      "description" : "Tooltip: fix heading antinormal",
-      "message" : "Ceartaich an-àbhaisteach na comhair"
-   },
-   "HUD_BUTTON_FIX_NORMAL" : {
-      "description" : "Tooltip: fix heading normal",
-      "message" : "Ceartaich àbhaisteach na comhair"
-   },
-   "HUD_BUTTON_FIX_PROGRADE" : {
-      "description" : "Tooltip: fix heading prograde",
-      "message" : "Ceartaich ceum air adhart na comhair"
-   },
-   "HUD_BUTTON_FIX_RADIAL_IN" : {
-      "description" : "Tooltip: fix heading radially inward",
-      "message" : "Ceartaich rèideal a-steach na comhair"
-   },
-   "HUD_BUTTON_FIX_RADIAL_OUT" : {
-      "description" : "Tooltip: fix heading radially outward",
-      "message" : "Ceartaich rèideal a-mach na comhair"
-   },
-   "HUD_BUTTON_FIX_RETROGRADE" : {
-      "description" : "Tooltip: fix heading retrograde",
-      "message" : "Ceartaich ceum air ais na comhair"
-   },
-   "HUD_BUTTON_HYPERDRIVE_DISABLED" : {
-      "description" : "Tooltip: Hyperdrive disabled (docked or landed)",
-      "message" : "Os-dhraibh à comas"
-   },
-   "HUD_BUTTON_INITIATE_HYPERJUMP" : {
-      "description" : "Tooltip: Initiate legal hyperjump",
-      "message" : "Tòisich air leum os-fhànais"
-   },
-   "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP" : {
-      "description" : "Tooltip: Initiate illegal hyperjump",
-      "message" : "Tòisich air leum os-fhànais mì-laghail"
-   },
-   "HUD_BUTTON_INTERNAL_VIEW" : {
-      "description" : "Tooltip: Internal camera view",
-      "message" : "Sealladh taobh a-staigh"
-   },
-   "HUD_BUTTON_KILL_ROTATION" : {
-      "description" : "Tooltip: kill rotation",
-      "message" : "Stad an cuairteachadh"
-   },
-   "HUD_BUTTON_LANDING_GEAR_IS_DOWN" : {
-      "description" : "Tooltip: Landing gear is down",
-      "message" : "Tha an uidheamachd landaidh shìos"
-   },
-   "HUD_BUTTON_LANDING_GEAR_IS_MOVING" : {
-      "description" : "Tooltip: Landing gear is moving",
-      "message" : "Tha an uidheamachd landaidh a’ gluasad"
-   },
-   "HUD_BUTTON_LANDING_GEAR_IS_UP" : {
-      "description" : "Tooltip: Landing gear is up",
-      "message" : "Tha an uidheamachd landaidh shuas"
-   },
-   "HUD_BUTTON_MANUAL_CONTROL" : {
-      "description" : "Tooltip: Manual control",
-      "message" : "Stiùireadh a làimh"
-   },
-   "HUD_BUTTON_ROTATION_DAMPING_IS_OFF" : {
-      "description" : "Tooltip: Rotation damping is off",
-      "message" : "Tha lasachadh a' chuairteachaidh dheth"
-   },
-   "HUD_BUTTON_ROTATION_DAMPING_IS_ON" : {
-      "description" : "Tooltip: Rotation damping is on",
-      "message" : "Tha lasachadh a' chuairteachaidh air"
-   },
-   "HUD_BUTTON_SCANNER" : {
-      "description" : "Tooltip: Scanner",
-      "message" : "Sganair"
-   },
-   "HUD_BUTTON_SET_SPEED" : {
-      "description" : "Tooltip: set speed",
-      "message" : "Suidhich an luaths"
-   },
-   "HUD_BUTTON_SHOW_COMMS" : {
-      "description" : "Tooltip: Show comms",
-      "message" : "Seall an conaltradh"
-   },
-   "HUD_BUTTON_SHOW_PERSONAL_INFO" : {
-      "description" : "Tooltip: Show personal info",
-      "message" : "Seall am fiosrachadh pearsanta"
-   },
-   "HUD_BUTTON_SIDEREAL_VIEW" : {
-      "description" : "Tooltip: Sidereal camera view",
-      "message" : "Sealladh ùine nan reul"
-   },
-   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP" : {
-      "description" : "Tooltip: Switch to galaxy map",
-      "message" : "Atharraich gu mapa a’ reul-chriosa"
-   },
-   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP" : {
-      "description" : "Tooltip: Switch to sector map",
-      "message" : "Atharraich gu mapa na h-earrainn"
-   },
-   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP" : {
-      "description" : "Tooltip: Switch to system map",
-      "message" : "Atharraich gu mapa an t-siostaim"
-   },
-   "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW" : {
-      "description" : "Tooltip: Switch to system overview",
-      "message" : "Atharraich gu foir-shealladh an t-siostaim"
-   },
-   "HUD_BUTTON_SWITCH_TO_WORLD_VIEW" : {
-      "description" : "Tooltip: Switch to world view",
-      "message" : "Atharraich gu sealladh na cruinne"
-   },
-   "HUD_BUTTON_UNDOCK" : {
-      "description" : "Tooltip: Undock",
-      "message" : "Dì-dhocaich"
-   },
-   "HUD_CARGO_MASS" : {
-      "description" : "Cargo Mass",
-      "message" : "Tomad a’ charago"
-   },
-   "HUD_CURRENT_COMBAT_TARGET" : {
-      "description" : "Tooltip: The current combat target.",
-      "message" : "Amas làithreach na còmhraige"
-   },
-   "HUD_CURRENT_FRAME" : {
-      "description" : "Tooltip: The current frame of reference.",
-      "message" : "Am frèam-lorgaidh làithreach"
-   },
-   "HUD_CURRENT_HEADING" : {
-      "description" : "Tooltip: the current heading.",
-      "message" : "A' chomhair làithreach"
-   },
-   "HUD_CURRENT_NAV_TARGET" : {
-      "description" : "Tooltip: The current navigational target.",
-      "message" : "Amas làithreach na seòladaireachd"
-   },
-   "HUD_CURRENT_PITCH" : {
-      "description" : "Tooltip: the current pitch.",
-      "message" : "A' phids làithreach"
-   },
-   "HUD_CURRENT_ROLL" : {
-      "description" : "Tooltip: the current roll.",
-      "message" : "An roiligeadh làithreach"
-   },
-   "HUD_DELTA_V" : {
-      "description" : "Tooltip: The remaining Δv.",
-      "message" : "Δv air fhàgail"
-   },
-   "HUD_DELTA_V_OF_MANEUVER_BURN" : {
-      "description" : "Tooltip: The Δv for the maneuver burn.",
-      "message" : "Δv airson an losgaidh-obrachaidh"
-   },
-   "HUD_DELTA_V_PERCENT" : {
-      "description" : "Tooltip: The remaining Δv in percent.",
-      "message" : "Δv air fhàgail"
-   },
-   "HUD_DISTANCE_TO_SURFACE_OF_FRAME" : {
-      "description" : "Tooltip: Distance to the surface of the frame of reference.",
-      "message" : "An t-astar gu uachdar an fhrèam-lorgaidh"
-   },
-   "HUD_DISTANCE_TO_SURFACE_OF_TARGET" : {
-      "description" : "Tooltip: Distance to the surface of the target.",
-      "message" : "An t-astar gu uachdar an amais"
-   },
-   "HUD_DURATION_OF_MANEUVER_BURN" : {
-      "description" : "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
-      "message" : "An ùine thuaireamach a bheir an losgadh-obrachaidh leis na prìomh-phutairean"
-   },
-   "HUD_DURATION_UNTIL_MANEUVER_BURN" : {
-      "description" : "Tooltip: The duration until the middle of the maneuver burn.",
-      "message" : "An ùine gu meadhan an losgaidh-obrachaidh"
-   },
-   "HUD_FORWARD_GUN_TEMPERATURE" : {
-      "description" : "Tooltip: Forward Gun Temperature.",
-      "message" : "Teothachd a’ ghunna-bheòil"
-   },
-   "HUD_HULL_STRENGTH" : {
-      "description" : "Tooltip: Hull Strength.",
-      "message" : "Neart na slige"
-   },
-   "HUD_HULL_TEMPERATURE" : {
-      "description" : "Tooltip: Hull Temperature.",
-      "message" : "Teothachd na slige"
-   },
-   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS" : {
-      "description" : "",
-      "message" : "Gu bhith dol dhan os-fhànais gu {destination} an ceann {countdown} diog(an)"
-   },
-   "HUD_INDICATOR_AWAY_FROM_FRAME" : {
-      "description" : "Indicator: Away from the current frame.",
-      "message" : "Air falbh on fhrèam làithreach"
-   },
-   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE" : {
-      "description" : "Indicator: Prograde direction relative to the current combat target.",
-      "message" : "Gabh ceum air adhart an dàimh ri amas làithreach na còmhraige"
-   },
-   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE" : {
-      "description" : "Indicator: Retrograde direction relative to the current combat target.",
-      "message" : "Gabh ceum air ais an dàimh ri amas làithreach na còmhraige"
-   },
-   "HUD_INDICATOR_FRAME_PROGRADE" : {
-      "description" : "Indicator: Prograde direction relative to the current frame.",
-      "message" : "Gabh ceum air adhart gu dàimheil ris an fhrèam-lorgaidh làithreach"
-   },
-   "HUD_INDICATOR_FRAME_RETROGRADE" : {
-      "description" : "Indicator: Retrograde direction relative to the current frame.",
-      "message" : "Gabh ceum air ais gu dàimheil ris an fhrèam-lorgaidh làithreach"
-   },
-   "HUD_INDICATOR_MANEUVER_PROGRADE" : {
-      "description" : "Indicator: The prograde direction for the maneuver burn.",
-      "message" : "Gabh ceum air adhart airson losgadh-obrachaidh"
-   },
-   "HUD_INDICATOR_NAV_TARGET_PROGRADE" : {
-      "description" : "Indicator: Prograde direction relative to the current navigational target.",
-      "message" : "Gabh ceum air adhart gu dàimheil ri amas làithreach na seòladaireachd"
-   },
-   "HUD_INDICATOR_NAV_TARGET_RETROGRADE" : {
-      "description" : "Indicator: Retrograde direction relative to the current navigational target.",
-      "message" : "Gabh ceum air ais gu dàimheil ri amas làithreach na seòladaireachd"
-   },
-   "HUD_IN_TRANSIT_TO_N_X_X_X" : {
-      "description" : "",
-      "message" : "A’ siubhal gu {system} [{x},{y},{z}]"
-   },
-   "HUD_JUMP_COMPLETE" : {
-      "description" : "",
-      "message" : "Adhartas an leuma: {percent}%"
-   },
-   "HUD_MASS" : {
-      "description" : "Mass",
-      "message" : "Tomad"
-   },
-   "HUD_RADAR_DISTANCE" : {
-      "description" : "Tooltip: Current distance of the radar.",
-      "message" : "Rainse ghnìomhach an rèideir"
-   },
-   "HUD_REQUEST_TIME_ACCEL" : {
-      "description" : "Tooltip: Request time acceleration {time}",
-      "message" : "Iarr luathachadh an ama: {time}"
-   },
-   "HUD_SHIELD_STRENGTH" : {
-      "description" : "Tooltip: Shield Strength.",
-      "message" : "Neart na sgèithe"
-   },
-   "HUD_SHOW_COMBAT_TARGET" : {
-      "description" : "Tooltip: Show the current combat target.",
-      "message" : "Seall amas làithreach na còmhraige"
-   },
-   "HUD_SHOW_FRAME" : {
-      "description" : "Tooltip: Show the current frame of reference.",
-      "message" : "Seall am frèam-lorgaidh làithreach"
-   },
-   "HUD_SHOW_NAV_TARGET" : {
-      "description" : "Tooltip: Show current navigational target.",
-      "message" : "Seall amas làithreach na seòladaireachd"
-   },
-   "HUD_SPEED_OF_APPROACH_TO_FRAME" : {
-      "description" : "Tooltip: The speed of approach towards the frame of reference.",
-      "message" : "Luaths an teannaidh an comhair an fhrèam-lorgaidh"
-   },
-   "HUD_SPEED_OF_APPROACH_TO_TARGET" : {
-      "description" : "Tooltip: The speed of approach towards the target.",
-      "message" : "Luaths an teannaidh dhan amas"
-   },
-   "HUD_SPEED_RELATIVE_TO_TARGET" : {
-      "description" : "Tooltip: The speed relative to the target.",
-      "message" : "An luaths dàimheil ris an amas"
-   },
-   "HUD_THRUST_INDICATOR" : {
-      "description" : "Tooltip: describe what the thrust/velocity indicator shows",
-      "message" : "Seall an luaths làithreach air gach comhair (loidhnichean tana) ’s am putadh (cùlaibh tiugh)"
-   },
-   "HULL_DOES_NOT_REQUIRE_REPAIR" : {
-      "description" : "",
-      "message" : "Chan eil càradh a dhìth air an t-slige."
-   },
-   "HULL_INTEGRITY" : {
-      "description" : "",
-      "message" : "Cor na slige"
-   },
-   "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
-      "description" : "",
-      "message" : "Chaidh an t-slige a chàradh le {name}, air {repairPercent}% a-nis"
-   },
-   "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
-      "description" : "",
-      "message" : "Dh'fhàillig le càradh na slige. Fhuair an t-slige beagan dochainn."
-   },
-   "HYPERDRIVE" : {
-      "description" : "",
-      "message" : "Os-dhraibh"
-   },
-   "HYPERDRIVE_FITTED" : {
-      "description" : "",
-      "message" : "Os-dhraibh suidhichte:"
-   },
-   "HYPERSPACE_RANGE" : {
-      "description" : "",
-      "message" : "Rainse os-fhànais"
-   },
-   "ILLEGAL_JUMP" : {
-      "description" : "A finable crime",
-      "message" : "Chaidh os-leum cion-umhail a chlàradh"
-   },
-   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
-      "description" : "",
-      "message" : "Tha mi sgìth dhen a bhith 'g obair gun phàigheadh. Nach eil fhios agaibh dè th' ann an cùmhnant?"
-   },
-   "INACTIVE" : {
-      "description" : "",
-      "message" : "Neo-ghnìomhach"
-   },
-   "INCOMPETENT" : {
-      "description" : "For player reputation",
-      "message" : "Neo-chomasach"
-   },
-   "INEXPERIENCED" : {
-      "description" : "For player reputation",
-      "message" : "Aineolach"
-   },
-   "INSUFFICIENT_FUNDS" : {
-      "description" : "",
-      "message" : "Chan eil airgead gu leòr agad."
-   },
-   "INVERT_MOUSE_Y" : {
-      "description" : "",
-      "message" : "Ais-tionndaidh Y na luchaige"
-   },
-   "IN_CARGO_HOLD" : {
-      "description" : "",
-      "message" : "San roinn carago"
-   },
-   "IN_STOCK" : {
-      "description" : "",
-      "message" : "San stoc"
-   },
-   "ITEM_IS_OUT_OF_STOCK" : {
-      "description" : "",
-      "message" : "Chan eil an nì seo san stoc tuilleadh."
-   },
-   "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
-      "description" : "",
-      "message" : "Chòrd e rium obair air ur son. Bidh mi an-seo greis fhathast ma bhios feum agaibh orm a-rithist."
-   },
-   "JETTISON" : {
-      "description" : "",
-      "message" : "Tilg a-mach"
-   },
-   "KILLS" : {
-      "description" : "",
-      "message" : "Air a mhilleadh"
-   },
-   "LANGUAGE" : {
-      "description" : "",
-      "message" : "Cànan"
-   },
-   "LANGUAGE_RESTART_GAME_TO_APPLY" : {
-      "description" : "",
-      "message" : "Cànan (tòisich an geama às ùr gus a chur an sàs)"
-   },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Chaidh an t-iarrtas losgaidh a dhiùltadh: tha an t-ionad docaidh trang."
-   },
-   "LAUNCH_PERMISSION_DENIED_CREW" : {
-      "description" : "",
-      "message" : "Chaidh cead losgaidh a dhiùltadh: tha an sgioba agad ro bheag gus an soitheach seo a làimhseachadh."
-   },
-   "LAUNCH_PERMISSION_DENIED_FINED" : {
-      "description" : "",
-      "message" : "Chaidh cead losgaidh a dhiùltadh: tha cìsean againn ort."
-   },
-   "LEGAL_STATUS" : {
-      "description" : "",
-      "message" : "Laghail"
-   },
-   "LIGHT_CARGO_SHUTTLE" : {
-      "description" : "",
-      "message" : "Aiseag carago aotrom"
-   },
-   "LIGHT_COURIER" : {
-      "description" : "",
-      "message" : "Teachdaire aotrom"
-   },
-   "LIGHT_FIGHTER" : {
-      "description" : "",
-      "message" : "Soitheach-cogaidh aotrom"
-   },
-   "LIGHT_FREIGHTER" : {
-      "description" : "",
-      "message" : "Soitheach-carago aotrom"
-   },
-   "LIGHT_PASSENGER_SHUTTLE" : {
-      "description" : "",
-      "message" : "Aiseag thaistealach aotrom"
-   },
-   "LIGHT_PASSENGER_TRANSPORT" : {
-      "description" : "",
-      "message" : "Soitheach thaistealach aotrom"
-   },
-   "LOAD" : {
-      "description" : "",
-      "message" : "Luchdaich"
-   },
-   "LOAD_GAME" : {
-      "description" : "",
-      "message" : "Luchdaich geama"
-   },
-   "LOBBY" : {
-      "description" : "",
-      "message" : "Lobaidh"
-   },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Gobhal ionadail"
-   },
-   "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
-      "description" : "",
-      "message" : "{distance}km air falbh o mheadhan {name}:"
-   },
-   "LOCATION" : {
-      "description" : "",
-      "message" : "Ionad"
-   },
-   "LOW" : {
-      "description" : "",
-      "message" : "Ìseal"
-   },
-   "LY" : {
-      "description" : "Light year",
-      "message" : "bl-shol"
-   },
-   "MAKE_NEW_FACE" : {
-      "description" : "",
-      "message" : "Cruthaich aodann ùr"
-   },
-   "MALE" : {
-      "description" : "",
-      "message" : "Fireann"
-   },
-   "MARKET_BUYLINE" : {
-      "description" : "",
-      "message" : "Ceannaich {amount} aonad(an) air {price}"
-   },
-   "MARKET_SELLINE" : {
-      "description" : "",
-      "message" : "Reic {amount} aonad(an) air {price}"
-   },
-   "MASS" : {
-      "description" : "",
-      "message" : "Tomad"
-   },
-   "MASTER" : {
-      "description" : "For player reputation",
-      "message" : "Maighstir"
-   },
-   "MASTER_VOL" : {
-      "description" : "Master sound in settings option",
-      "message" : "Iomlan:"
-   },
-   "MAX" : {
-      "description" : "",
-      "message" : "as motha"
-   },
-   "MAXIMUM_CREW" : {
-      "description" : "",
-      "message" : "An sgioba as motha"
-   },
-   "MEDIUM" : {
-      "description" : "Game settings option: graphics resolution",
-      "message" : "Meadhanach"
-   },
-   "MEDIUM_CARGO_SHUTTLE" : {
-      "description" : "",
-      "message" : "Aiseag carago meadhanach"
-   },
-   "MEDIUM_COURIER" : {
-      "description" : "",
-      "message" : "Teachdaire meadhanach"
-   },
-   "MEDIUM_FIGHTER" : {
-      "description" : "",
-      "message" : "Soitheach-cogaidh meadhanach"
-   },
-   "MEDIUM_FREIGHTER" : {
-      "description" : "",
-      "message" : "Soitheach-carago meadhanach"
-   },
-   "MEDIUM_PASSENGER_SHUTTLE" : {
-      "description" : "",
-      "message" : "Aiseag thaistealach meadhanach"
-   },
-   "MEDIUM_PASSENGER_TRANSPORT" : {
-      "description" : "",
-      "message" : "Soitheach thaistealach meadhanach"
-   },
-   "METAL_ALLOYS" : {
-      "description" : "",
-      "message" : "Co-mheatailtean"
-   },
-   "MILITARY" : {
-      "description" : "",
-      "message" : "An arm"
-   },
-   "MINIMUM_CREW" : {
-      "description" : "",
-      "message" : "An sgioba as lugha"
-   },
-   "MISSILE_MOUNTS" : {
-      "description" : "",
-      "message" : "Ionadan astais"
-   },
-   "MISSIONS" : {
-      "description" : "",
-      "message" : "Miseanan"
-   },
-   "MISSION_DETAILS" : {
-      "description" : "",
-      "message" : "Fiosrachadh a' mhisein"
-   },
-   "MORE_INFO" : {
-      "description" : "",
-      "message" : "Barrachd fiosrachaidh..."
-   },
-   "MOSTLY_HARMLESS" : {
-      "description" : "",
-      "message" : "Cha mhòr neo-chiontach"
-   },
-   "MULTISAMPLING" : {
-      "description" : "",
-      "message" : "Ioma-shamplachadh"
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Murt"
-   },
-   "MUSIC" : {
-      "description" : "",
-      "message" : "Ceòl:"
-   },
-   "MUTE" : {
-      "description" : "",
-      "message" : "Mùch"
-   },
-   "NAME_OBJECT" : {
-      "description" : "For an item or object",
-      "message" : "Ainm"
-   },
-   "NAME_PERSON" : {
-      "description" : "For a person",
-      "message" : "Ainm"
-   },
-   "NAVIGATION" : {
-      "description" : "",
-      "message" : "Seòladaireachd:"
-   },
-   "NAVIGATOR" : {
-      "description" : "",
-      "message" : "Seòladair"
-   },
-   "NEGOTIATE" : {
-      "description" : "",
-      "message" : "Rèitich"
-   },
-   "NEXT_PAID" : {
-      "description" : "",
-      "message" : "An t-ath phàigheadh"
-   },
-   "NO" : {
-      "description" : "Negative answer to a question",
-      "message" : "Chan eil"
-   },
-   "NOBODY" : {
-      "description" : "For player reputation",
-      "message" : "Gun urram"
-   },
-   "NONE" : {
-      "description" : "",
-      "message" : "Chan eil gin"
-   },
-   "NONE_FOR_SALE_IN_THIS_STATION" : {
-      "description" : "",
-      "message" : "Chan eil gin 'ga reic san stèisean seo."
-   },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Gobhal na Riaghailte"
-   },
-   "NOTES" : {
-      "description" : "",
-      "message" : "Nòtaichean:"
-   },
-   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
-      "description" : "",
-      "message" : "Chan eil {alloy} gu leòr agad gus feuchainn ris a chàradh"
-   },
-   "NOT_SUPPORTED_ON_THIS_SHIP" : {
-      "description" : "",
-      "message" : "Cha chuir am modal soithich seo taic ri {equipment}"
-   },
-   "NO_MISSIONS" : {
-      "description" : "",
-      "message" : "Chan eil misean agad."
-   },
-   "N_LIGHT_YEARS_N_MAX" : {
-      "description" : "",
-      "message" : "{range} bl-sholais ({maxRange} as motha)"
-   },
-   "N_OCCUPIED_PASSENGER_CABINS" : {
-      "description" : "",
-      "message" : "{quantity} cèibinn(ean) taistealaich air an còmhnadh"
-   },
-   "N_SHIELD_GENERATORS" : {
-      "description" : "",
-      "message" : "{quantity} gineadairean sgèithe"
-   },
-   "N_UNOCCUPIED_PASSENGER_CABINS" : {
-      "description" : "",
-      "message" : "{quantity} cèibinn(ean) taistealaich gun chòmhnadh"
-   },
-   "OFF" : {
-      "description" : "",
-      "message" : "Dheth"
-   },
-   "OK" : {
-      "description" : "",
-      "message" : "Ceart ma-thà"
-   },
-   "OPEN_USER_FOLDER" : {
-      "description" : "",
-      "message" : "Pasgan a' chleachdaiche"
-   },
-   "OPTIONS" : {
-      "description" : "",
-      "message" : "Roghainnean"
-   },
-   "ORBIT" : {
-      "description" : "",
-      "message" : "Reul-chuairt"
-   },
-   "ORBITAL_ANALYSIS" : {
-      "description" : "",
-      "message" : "Sgrùdadh na reul-chuairte"
-   },
-   "ORBITAL_ANALYSIS_NOTES" : {
-      "description" : "",
-      "message" : "Thèid luaths cearcallach na reul-cuairte a shealltainn mar luaths beantanach. Mu chòir dhan t-soitheach a bhith a' siubhal le 90° an comhair aiseal an t-soithich/{name}.\n\nTha an luaths teàrnaidh cho beag 's a ghabhas agus tha e beantanach cuideachd. Bheir luaths as ìsle le ceum as ìsle cùrsa dhut a dh'eadar-ghearras ris an uachdar aig {name}.\n\nBu chòir don luaths teichidh obrachadh air comhair sam bith cho fad 's nach buail an soitheach ri {name} air an t-slighe.\n\t\t"
-   },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Gobhal a-muigh"
-   },
-   "OUTSTANDING_FINES" : {
-      "description" : "Unpaid fines for crimes committed",
-      "message" : "Càintean ri am pàigheadh"
-   },
-   "OWED" : {
-      "description" : "Player owing money to crew members",
-      "message" : "Fiachan"
-   },
-   "PAY_FINE_OF_N" : {
-      "description" : "",
-      "message" : "Pàigh càin de {amount}"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Gobhal Pherseus"
-   },
-   "PERSONAL_INFORMATION" : {
-      "description" : "",
-      "message" : "Fiosrachadh pearsanta"
-   },
-   "PILOT" : {
-      "description" : "",
-      "message" : "Paidhleat"
-   },
-   "PILOTING" : {
-      "description" : "",
-      "message" : "Stiùireadh:"
-   },
-   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
-      "description" : "",
-      "message" : "Tha {name} 'na phaidhleat a-nis"
-   },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Spùinneadaireachd"
-   },
-   "PLANET_DETAIL_DISTANCE" : {
-      "description" : "",
-      "message" : "Astar mion-shealladh nam planaidean"
-   },
-   "PLANET_TEXTURES" : {
-      "description" : "",
-      "message" : "Innich nam planaidean"
-   },
-   "POLICE" : {
-      "description" : "",
-      "message" : "A' phoileas"
-   },
-   "POOR" : {
-      "description" : "Player combat rating",
-      "message" : "Bochd"
-   },
-   "POSITION" : {
-      "description" : "The job title/position of crew memeber",
-      "message" : "Dreuchd"
-   },
-   "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
-      "description" : "",
-      "message" : "Brùth air iuchair no putan uidheim-smachd"
-   },
-   "PRICE" : {
-      "description" : "",
-      "message" : "Prìs"
-   },
-   "PROFESSIONAL" : {
-      "description" : "For player reputation",
-      "message" : "Ceàirdeach"
-   },
-   "PUMP_DOWN" : {
-      "description" : "Drain the fuel tank",
-      "message" : "Pump sìos"
-   },
-   "QUALIFICATION_SCORES" : {
-      "description" : "",
-      "message" : "Sgòran teisteanais"
-   },
-   "QUIT" : {
-      "description" : "",
-      "message" : "Fàg an-seo"
-   },
-   "QUIT_CONFIRMATION" : {
-      "description" : "For the checkbox in settings window",
-      "message" : "Dearbhadh an fhàgail"
-   },
-   "RANK" : {
-      "description" : "",
-      "message" : "Rang:"
-   },
-   "RATING" : {
-      "description" : "",
-      "message" : "Rangachadh:"
-   },
-   "REAR_WEAPON" : {
-      "description" : "",
-      "message" : "Arm cùlaibh"
-   },
-   "REFUEL" : {
-      "description" : "",
-      "message" : "Tog connadh"
-   },
-   "REFUEL_FULL" : {
-      "description" : "",
-      "message" : "Lìon an connadh"
-   },
-   "RELIABLE" : {
-      "description" : "For player reputation",
-      "message" : "Earbsach"
-   },
-   "REPAIR_X_HULL_DAMAGE_FOR_X" : {
-      "description" : "",
-      "message" : "Càraich {damage}% dhen dochann air an t-slige le {price}"
-   },
-   "REPUTATION" : {
-      "description" : "",
-      "message" : "Cliù"
-   },
-   "REQUEST_LAUNCH" : {
-      "description" : "",
-      "message" : "Iarr cead losgaidh"
-   },
-   "RESET" : {
-      "description" : "",
-      "message" : "Ath-shuidhich"
-   },
-   "RETURN_TO_GAME" : {
-      "description" : "",
-      "message" : "Till dhan gheama"
-   },
-   "RETURN_TO_MENU" : {
-      "description" : "",
-      "message" : "Till dhan chlàr-taice"
-   },
-   "REVERSE_ACCEL_EMPTY" : {
-      "description" : "",
-      "message" : "Luathachadh air ais (falamh)"
-   },
-   "REVERSE_ACCEL_FULL" : {
-      "description" : "",
-      "message" : "Luathachadh air ais (làn)"
-   },
-   "REWARD" : {
-      "description" : "",
-      "message" : "Duais"
-   },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Gobhal a' Bhoghadair"
-   },
-   "SAVE" : {
-      "description" : "",
-      "message" : "Sàbhail"
-   },
-   "SCOOP_MOUNTS" : {
-      "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-      "message" : "Tàthaidhean sgioba"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Gobhal Scutum-Centaurus"
-   },
-   "SELECT" : {
-      "description" : "",
-      "message" : "Tagh"
-   },
-   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
-      "description" : "",
-      "message" : "Tagh faidhle airson sàbhaladh no cuir a-steach ainm faidhle ùr"
-   },
-   "SELECT_FILE" : {
-      "description" : "",
-      "message" : "Tagh faidhle..."
-   },
-   "SELECT_GAME_TO_LOAD" : {
-      "description" : "",
-      "message" : "Tagh geama gus a luchdadh..."
-   },
-   "SELL" : {
-      "description" : "Commodities and equipment prices",
-      "message" : "Reic"
-   },
-   "SENSORS" : {
-      "description" : "",
-      "message" : "Mothaichearan:"
-   },
-   "SENSORS_AND_DEFENCE" : {
-      "description" : "",
-      "message" : "Mothaichearan 's dìon"
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Suidhich an ceann-uidhe mar cheann-uidhe na seòladaireachd."
-   },
-   "SHIP" : {
-      "description" : "",
-      "message" : "Soitheach"
-   },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "Innleadair luinge"
-   },
-   "SHIP_INFORMATION" : {
-      "description" : "",
-      "message" : "Fiosrachadh an t-soithich"
-   },
-   "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
-      "description" : "",
-      "message" : "Tha cor do shoitheach foirfe."
-   },
-   "SHIP_IS_FULLY_EQUIPPED" : {
-      "description" : "",
-      "message" : "Tha an soitheach agad uidheamaichte gu slàn."
-   },
-   "SHIP_IS_FULLY_LADEN" : {
-      "description" : "",
-      "message" : "Tha an soitheach agad làn."
-   },
-   "SHIP_MARKET" : {
-      "description" : "",
-      "message" : "Margadh shoithichean"
-   },
-   "SHIP_REPAIRS" : {
-      "description" : "",
-      "message" : "Càradh shoithich"
-   },
-   "SHIP_VIEWING_WAS_SOLD" : {
-      "description" : "",
-      "message" : "Tha an soitheach a bha thu a' coimhead air rèic"
-   },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "A' cruthachadh gnè an domhain: {age} billean bliadhna ;-)"
-   },
-   "SOUND" : {
-      "description" : "",
-      "message" : "Fuaim"
-   },
-   "START_AT_BARNARDS_STAR" : {
-      "description" : "",
-      "message" : "Tòisich air Reul Bharnard"
-   },
-   "START_AT_EARTH" : {
-      "description" : "",
-      "message" : "Tòisich air an Talamh"
-   },
-   "START_AT_NEW_HOPE" : {
-      "description" : "New Hope is an in game location",
-      "message" : "Tòisich air Dòchas Ùr"
-   },
-   "STAR_FIELD_DENSITY" : {
-      "description" : "",
-      "message" : "Dùmhlachd an reul-raoin"
-   },
-   "STATION_MANAGER" : {
-      "description" : "",
-      "message" : "Stiùiriche an stèisein"
-   },
-   "STATION_ORBIT" : {
-      "description" : "Information shown in the station loby",
-      "message" : "Tha sinn a’ reul-chuairteachadh {parent_body} gach {orbit_period} là(ithean)."
-   },
-   "STATUS" : {
-      "description" : "",
-      "message" : "Staid"
-   },
-   "TECH_CERTIFIED" : {
-      "description" : "Lobby screen shows the tech level (an integer number) of the station",
-      "message" : "Tha teisteanas teicneolais ìre {tech_level} aig an stèisean seo."
-   },
-   "TECH_CERTIFIED_MILITARY" : {
-      "description" : "Lobby screen shows the tech level of the station",
-      "message" : "Tha cead airson teicneolas an airm aig an ionad seo."
-   },
-   "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
-      "description" : "",
-      "message" : "Mòran taing airson ur ceannach. Na dìochnaichibh uidheamachd a shuidheachadh agus connadh a cheannach mus fhalbh sibh."
-   },
-   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
-      "description" : "",
-      "message" : "Chan eil duine sam bith eile air bòrd air a bhiodh comas gus an soitheach seo a stiùireadh."
-   },
-   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
-      "description" : "",
-      "message" : "Tha an soitheach fo smachd an stèisein, a Chomandair."
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Gobhal 3kpc"
-   },
-   "TOGGLE_MALE_FEMALE" : {
-      "description" : "player gender",
-      "message" : "Toglaich fireann/boireann"
-   },
-   "TOO_SMALL_FOR_CURRENT_CREW" : {
-      "description" : "",
-      "message" : "Tha an soitheach ro bheag airson an sgioba agad."
-   },
-   "TOO_SMALL_TO_TRANSSHIP" : {
-      "description" : "Ship market error message",
-      "message" : "Chan eil rum aig soithichean ùra airson a' charago 's draibh os-fhànais seo."
-   },
-   "TOTAL" : {
-      "description" : "",
-      "message" : "Iomlan:"
-   },
-   "TOTAL_MASS" : {
-      "description" : "",
-      "message" : "Tomad iomlan"
-   },
-   "TRADING_ILLEGAL_GOODS" : {
-      "description" : "",
-      "message" : "Malart bathar mì-laghail"
-   },
-   "TRUSTWORTHY" : {
-      "description" : "For player reputation",
-      "message" : "Urrasach"
-   },
-   "TYPE" : {
-      "description" : "",
-      "message" : "Seòrsa"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Losgadh airm mì-laghail"
-   },
-   "UNRELIABLE" : {
-      "description" : "",
-      "message" : "Neo-earbsach"
-   },
-   "UP_ACCEL" : {
-      "description" : "",
-      "message" : "Luathachadh suas"
-   },
-   "USED" : {
-      "description" : "",
-      "message" : "Cleachd."
-   },
-   "VERY_HIGH" : {
-      "description" : "Game settings option: graphic resolution",
-      "message" : "Glè àrd"
-   },
-   "VERY_LOW" : {
-      "description" : "Game settings option: graphic resolution",
-      "message" : "Glè ìseal"
-   },
-   "VIDEO" : {
-      "description" : "",
-      "message" : "Video"
-   },
-   "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
-      "description" : "",
-      "message" : "Rèiteachadh video (bidh feum air ath-thòiseachadh)"
-   },
-   "VIDEO_RESOLUTION" : {
-      "description" : "",
-      "message" : "Dùmhlachd-bhreacaidh"
-   },
-   "VSYNC" : {
-      "description" : "For the checkbox in settings window",
-      "message" : "VSync"
-   },
-   "WAGE" : {
-      "description" : "Salary of crew shown in crew roster",
-      "message" : "Tuarastal"
-   },
-   "WEIGHT_EMPTY" : {
-      "description" : "",
-      "message" : "Cuideam falamh"
-   },
-   "WEIGHT_FULLY_LOADED" : {
-      "description" : "",
-      "message" : "Cuideam làn"
-   },
-   "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
-      "description" : "",
-      "message" : "Tha sinn san os-fhànais, a Chomandair."
-   },
-   "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "Said by the police to law abiding player",
-      "message" : "Chan eil gnothach againn ruibh aig an àm seo."
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "Message to be sent over comms by police when crime is committed by player",
-      "message" : "Chan fhulaing sinn {crime} ann a sheo!"
-   },
-   "YES" : {
-      "description" : "Positive answer to a question",
-      "message" : "Tha"
-   },
-   "YOURE_GOING_TO_REGRET_SACKING_ME" : {
-      "description" : "",
-      "message" : "Bidh sibh duilich gun dug sibh a' bhròg dhomh!"
-   },
-   "YOUR_HULL_IS_AT_X_INTEGRITY" : {
-      "description" : "",
-      "message" : "Tha {value}% a dh'iomlanachd aig an t-slige agad."
-   },
-   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
-      "description" : "",
-      "message" : "Chan eil airgead gu leòr agad airson na roghainn seo."
-   },
-   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
-      "description" : "",
-      "message" : "Tha {units} aonad(an) san roinn carago agad."
-   },
-   "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
-      "description" : "",
-      "message" : "Feumaidh sibh targaid còmhraige a thaghadh an toiseach, a Chomandair."
-   },
-   "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
-      "description" : "",
-      "message" : "Feumaidh sibh targaid seòladaireachd a thaghadh an toiseach, a Chomandair."
-   },
-   "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
-      "description" : "",
-      "message" : "Feumaidh sibh losgadh an toiseach, a Chomandair."
-   },
-   "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
-      "description" : "",
-      "message" : "Feumaidh sibh cead falbh iarraidh an toiseachd, a Chomandair."
-   },
-   "YOU_NOT_ENOUGH_MONEY" : {
-      "description" : "",
-      "message" : "Chan eil airgead gu leòr agad"
-   },
-   "ZOOM" : {
-      "description" : "Label for a zoom (magnification) control bar.",
-      "message" : "Sùm"
-   }
+  "ABOVE_AVERAGE": {
+    "description": "",
+    "message": "Cuibheasach 's a chorr"
+  },
+  "ACTIVE": {
+    "description": "",
+    "message": "Gnìomhach"
+  },
+  "ADD_JUMP": {
+    "description": "UI-button: Add hyper jump to list of planned jumps",
+    "message": "Cuir leum ris"
+  },
+  "AFTER_TRADE_IN": {
+    "description": "",
+    "message": "Às dèidh malairt"
+  },
+  "ALLEGIANCE": {
+    "description": "",
+    "message": "Dìlseachd:"
+  },
+  "ALL_UP_WEIGHT": {
+    "description": "",
+    "message": "Cuideam iomlan"
+  },
+  "AMOUNT": {
+    "description": "",
+    "message": "Uiread"
+  },
+  "ANISOTROPIC_FILTERING_DESC": {
+    "description": "",
+    "message": "Gabhaidh seo sampallan o inneach air iomadh leibheil mip ach am faigh thu inneach mòran nas soilleire nuair a choimheadas tu orra air ceàrnan staoine. Cha bhi uiread a sgleò air na h-innich an uairsin ach tha an t-àireamhachadh glè chosgail."
+  },
+  "AN_ERROR_HAS_OCCURRED": {
+    "description": "",
+    "message": "Thachair mearachd"
+  },
+  "ATMOSPHERIC_SHIELDING": {
+    "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
+    "message": "Dìonadh àile"
+  },
+  "ATTEMPT_TO_REPAIR_HULL": {
+    "description": "",
+    "message": "A' feuchainn ris an t-slige a chàradh"
+  },
+  "AUTO_ROUTE": {
+    "description": "Automatically find shortest jump route (measured in time) in star map",
+    "message": "Cùrsa fèin-obrachail"
+  },
+  "AVAILABLE_FOR_PURCHASE": {
+    "description": "",
+    "message": "Ri cheannach"
+  },
+  "AVERAGE": {
+    "description": "",
+    "message": "Cuibheasach"
+  },
+  "BACKWARD_ACCEL": {
+    "description": "",
+    "message": "Luathachadh air ais"
+  },
+  "BULLETIN_BOARD": {
+    "description": "",
+    "message": "Bòrd-brath"
+  },
+  "BUY": {
+    "description": "Commodities and equipment prices",
+    "message": "Ceannaich"
+  },
+  "BUY_SHIP": {
+    "description": "",
+    "message": "Ceannaich soitheach"
+  },
+  "CABINS": {
+    "description": "For passengers",
+    "message": "Cèibinnean"
+  },
+  "CABIN_FREE": {
+    "description": "Free capacity for passengers",
+    "message": "{amount} saor"
+  },
+  "CABIN_USED": {
+    "description": "Passengers using cabins",
+    "message": "{amount} 'ga chleachdadh"
+  },
+  "CANCEL": {
+    "description": "",
+    "message": "Sguir dheth"
+  },
+  "CAPACITY": {
+    "description": "Capacity of ship to fit more equipment",
+    "message": "Tomhas-lìonaidh"
+  },
+  "CAPACITY_USED": {
+    "description": "",
+    "message": "Tomhas 'ga chleachdadh"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Carago"
+  },
+  "CARGO_SPACE": {
+    "description": "",
+    "message": "Rum airson carago"
+  },
+  "CARGO_SPACE_USED": {
+    "description": "",
+    "message": "Rum a chleachdas an carago"
+  },
+  "CARGO_T_FREE": {
+    "description": "t for tonne",
+    "message": "{amount}t saor"
+  },
+  "CARGO_T_USED": {
+    "description": "t for tonne",
+    "message": "{amount}t 'ga chleachdadh"
+  },
+  "CASH": {
+    "description": "",
+    "message": "Airgead"
+  },
+  "CASH_N": {
+    "description": "",
+    "message": "Airgead: {money}"
+  },
+  "CENTER_ON_SYSTEM": {
+    "description": "Center on selected star system",
+    "message": "Meadhanaich air an t-siosam"
+  },
+  "CHANGE_BINDING": {
+    "description": "Key binding option",
+    "message": "Atharraich an nasgadh"
+  },
+  "CHIEF_MECHANIC": {
+    "description": "",
+    "message": "Prìomh innleadair"
+  },
+  "CIRCULAR_ORBIT_SPEED": {
+    "description": "",
+    "message": "Luaths cuairteach na reul-chuairte"
+  },
+  "CITY_DETAIL_LEVEL": {
+    "description": "Game graphics option",
+    "message": "Leibheil mion-shealladh nam bailtean"
+  },
+  "CLEAN": {
+    "description": "Legal status of player",
+    "message": "Glan"
+  },
+  "CLEAR": {
+    "description": "Clear an option in game settings/options menu",
+    "message": "Falamhaich"
+  },
+  "CLEAR_ROUTE": {
+    "description": "Clear a planned route of hyperjumps",
+    "message": "Falamhaich an cùrsa"
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "Ceannaiche"
+  },
+  "CLOSE": {
+    "description": "",
+    "message": "Dùin"
+  },
+  "COMBAT": {
+    "description": "Headline for kills and combat rating",
+    "message": "Còmhrag"
+  },
+  "COMMANDER": {
+    "description": "",
+    "message": "Comandair"
+  },
+  "COMMODITY_MARKET": {
+    "description": "",
+    "message": "Margadh bathair-àmh"
+  },
+  "COMPACT_RADAR": {
+    "description": "Game settings option",
+    "message": "Rèidear teannta"
+  },
+  "COMPETENT": {
+    "description": "Combat rating",
+    "message": "Comasach"
+  },
+  "COMPLETED": {
+    "description": "",
+    "message": "Coileanta"
+  },
+  "COMPRESS_TEXTURES": {
+    "description": "graphics option in game settings menu ",
+    "message": "Dùmhlaich na h-innich"
+  },
+  "CONFIRM_PURCHASE": {
+    "description": "",
+    "message": "Dearbhaich an ceannach"
+  },
+  "CONFIRM_SALE": {
+    "description": "",
+    "message": "Dearbhaich an reic"
+  },
+  "CONSTABLE": {
+    "description": "",
+    "message": "Constabal"
+  },
+  "CONTINUE_GAME": {
+    "description": "",
+    "message": "Lean air a' gheama"
+  },
+  "CONTROLS": {
+    "description": "",
+    "message": "Uidheaman-smachd"
+  },
+  "CONTROL_OPTIONS": {
+    "description": "",
+    "message": "Roghainnean an stiùiridh"
+  },
+  "COULD_NOT_LOAD_GAME": {
+    "description": "",
+    "message": "Cha b' urrainn dhuinn an geama a luchdadh:"
+  },
+  "CREDIBLE": {
+    "description": "For player reputation",
+    "message": "Creideasach"
+  },
+  "CREDITS": {
+    "description": "in game currency",
+    "message": "Urram"
+  },
+  "CREW_CABINS": {
+    "description": "",
+    "message": "Cèibinnean sgioba"
+  },
+  "CREW_ROSTER": {
+    "description": "",
+    "message": "Clàr an sgioba"
+  },
+  "CRIMINAL_RECORD": {
+    "description": "Past crimes / crime history of character",
+    "message": "Clàr nan eucoir"
+  },
+  "CURRENT_FUEL": {
+    "description": "For hyperjump planner",
+    "message": "An connadh a th’ agad:"
+  },
+  "CURRENT_SYSTEM": {
+    "description": "For hyperjump planner",
+    "message": "An siostam làithreach"
+  },
+  "DANGEROUS": {
+    "description": "Player combat rating",
+    "message": "Cunnartach"
+  },
+  "DEADLY": {
+    "description": "Player combat rating",
+    "message": "Marbhtach"
+  },
+  "DELTA_V": {
+    "description": "",
+    "message": "Delta-v"
+  },
+  "DELTA_V_EMPTY": {
+    "description": "Delta-v capacity of a ship with no cargo or upgrades",
+    "message": "Delta-v (falamh)"
+  },
+  "DELTA_V_FULL": {
+    "description": "Delta-v capacity of a ship with maximum cargo",
+    "message": "Delta-v (làn)"
+  },
+  "DELTA_V_MAX": {
+    "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
+    "message": "Delta-v (as motha)"
+  },
+  "DESCENT_TO_GROUND_SPEED": {
+    "description": "",
+    "message": "Luaths teàrnadh dhan làr:"
+  },
+  "DESTROY_ENEMY_SHIP": {
+    "description": "",
+    "message": "Mill soitheach an nàmhaid"
+  },
+  "DETAIL_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Lower gives better performance, at cost of visual aesthetics"
+  },
+  "DISMISS": {
+    "description": "Terminate crew memeber's contract",
+    "message": "Leig seachad"
+  },
+  "DISPLAY_HUD_TRAILS": {
+    "description": "",
+    "message": "Seall staranan HUD"
+  },
+  "DISPLAY_HUD_TRAILS_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Guides the eye by showing the trajectory of ships on the HUD"
+  },
+  "DISPLAY_NAV_TUNNELS": {
+    "description": "Settings option: hyperspace tunnel effect",
+    "message": "Seall tunailean seòladaireachd"
+  },
+  "DISPLAY_NAV_TUNNELS_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Shows a virtual tunnel to current selected target on the HUD"
+  },
+  "DISPLAY_SPEED_LINES": {
+    "description": "Settings option: effect when travelling in space",
+    "message": "Seall loidhnichean luaiths"
+  },
+  "DISPLAY_SPEED_LINES_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Assists the sense of direction of movement in space"
+  },
+  "DOCKED_AT": {
+    "description": "",
+    "message": "Docaichte aig"
+  },
+  "DOCK_AT_CURRENT_TARGET": {
+    "description": "",
+    "message": "Docaich aig an targaid làithreach"
+  },
+  "DUE": {
+    "description": "mission deadline date",
+    "message": "Ceann-latha pàighidh"
+  },
+  "DUMPING": {
+    "description": "The illegal act of dumping waste",
+    "message": "Dumpadh"
+  },
+  "D_DAYS_LEFT": {
+    "description": "",
+    "message": "Làithean air am fàgail: %d"
+  },
+  "ECONOMY_TRADE": {
+    "description": "",
+    "message": "Eaconamaidh ⁊ malart"
+  },
+  "EFFECTS": {
+    "description": "",
+    "message": "Èifeachdan:"
+  },
+  "ELITE": {
+    "description": "Player combat rating",
+    "message": "SEANN-EÒLACH"
+  },
+  "EMPLOYMENT": {
+    "description": "",
+    "message": "Obair"
+  },
+  "ENABLE_ANISOTROPIC_FILTERING": {
+    "description": "Use Anisotropic Filtering",
+    "message": "Criathradh an-iosa-tropach"
+  },
+  "ENABLE_AUTOSAVE": {
+    "description": "Allow the game to autosave when docking",
+    "message": "Cuir fèin-sàbhaladh an comas"
+  },
+  "ENABLE_AUTOSAVE_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "save state when docking, might cause some lag depending on disk access time"
+  },
+  "ENABLE_COCKPIT": {
+    "description": "Game settings option: to use a cockpit 3D model",
+    "message": "Cuir cockpit an comas (DEUCHAINNEACH)"
+  },
+  "ENABLE_COCKPIT_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Display a 3D model of the pilot's cockpit. (Currently the dashboard is a placeholder)"
+  },
+  "ENABLE_JOYSTICK": {
+    "description": "",
+    "message": "Cuir joystick an comas"
+  },
+  "END_GAME": {
+    "description": "",
+    "message": "Cuir crìoch air a’ gheama"
+  },
+  "ENGINEERING": {
+    "description": "Engineering skills of crew",
+    "message": "Innleadaireachd:"
+  },
+  "EQUIPMENT": {
+    "description": "",
+    "message": "Uidheamachd"
+  },
+  "EQUIPMENT_MARKET": {
+    "description": "",
+    "message": "Margadh uidheamachd"
+  },
+  "EQUIPPED": {
+    "description": "",
+    "message": "Uidheamaichte"
+  },
+  "ERROR": {
+    "description": "",
+    "message": "Mearachd"
+  },
+  "ERROR_LANDING_GEAR_DOWN": {
+    "description": "",
+    "message": "Cha ghabh leum os-fhànais a thòiseachadh; cha deach an uidheamachd landaidh a chur suas"
+  },
+  "ESCAPE_SPEED": {
+    "description": "",
+    "message": "Luaths teichidh:"
+  },
+  "EXIT_THIS_GAME": {
+    "description": "",
+    "message": "Fàg an geama seo"
+  },
+  "EXPERIENCED": {
+    "description": "For player reputation",
+    "message": "Eòlach"
+  },
+  "EXPERT": {
+    "description": "For player reputation",
+    "message": "Fiosrachail"
+  },
+  "FAILED": {
+    "description": "When failed mission",
+    "message": "Air fhàilligeadh"
+  },
+  "FEMALE": {
+    "description": "",
+    "message": "Boireann"
+  },
+  "FINAL_TARGET": {
+    "description": "Hyperjump planner, referring to star system target",
+    "message": "An ceann-uidhe:"
+  },
+  "FLIGHT_STATE": {
+    "description": "",
+    "message": "Staid an iteil"
+  },
+  "FLYING": {
+    "description": "",
+    "message": "Ag itealadh"
+  },
+  "FORWARD_ACCEL": {
+    "description": "",
+    "message": "Luathachadh air adhart"
+  },
+  "FORWARD_ACCEL_EMPTY": {
+    "description": "",
+    "message": "Luathachadh air adhart (falamh)"
+  },
+  "FORWARD_ACCEL_FULL": {
+    "description": "",
+    "message": "Luathachadh air adhart (làn)"
+  },
+  "FRACTAL_DETAIL": {
+    "description": "",
+    "message": "Mion-shealladh fractalach"
+  },
+  "FREE": {
+    "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
+    "message": "saor"
+  },
+  "FRONT_WEAPON": {
+    "description": "",
+    "message": "Arm beulaibh"
+  },
+  "FUEL": {
+    "description": "",
+    "message": "Connadh"
+  },
+  "FUEL_TANK_FULL": {
+    "description": "",
+    "message": "Tha an tanca-connaidh làn."
+  },
+  "FUEL_WEIGHT": {
+    "description": "",
+    "message": "Cuideam a' connaidh"
+  },
+  "FULL_SCREEN": {
+    "description": "",
+    "message": "Làn-sgrìn"
+  },
+  "GAME_TIME": {
+    "description": "",
+    "message": "Àm a’ gheama"
+  },
+  "GENERAL_CREW": {
+    "description": "",
+    "message": "Sgioba coitcheann"
+  },
+  "GIVE_ORDERS_TO_CREW": {
+    "description": "",
+    "message": "Thoir òrduighean dhan sgioba"
+  },
+  "GOOD_RIDDANCE_TO_YOU_TOO": {
+    "description": "",
+    "message": "'S math cuidhteas fhaighinn dhutsa cuideachd."
+  },
+  "GPU_JOBS": {
+    "description": "",
+    "message": "Obraichean GPU"
+  },
+  "GPU_JOBS_DESC": {
+    "description": "",
+    "message": "Cleachd an GPU airson cuid a ghnìomhan le beagan buannachd air an dèanadas, ’s docha."
+  },
+  "HANG_UP": {
+    "description": "",
+    "message": "Cuir crìoch air a' ghairm."
+  },
+  "HARMLESS": {
+    "description": "Player combat rating",
+    "message": "Neoichiontach"
+  },
+  "HEAVY_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "Aiseag carago trom"
+  },
+  "HEAVY_COURIER": {
+    "description": "",
+    "message": "Teachdaire trom"
+  },
+  "HEAVY_FIGHTER": {
+    "description": "",
+    "message": "Soitheach-cogaidh trom"
+  },
+  "HEAVY_FREIGHTER": {
+    "description": "",
+    "message": "Soitheach-carago trom"
+  },
+  "HEAVY_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "Aiseag thaistealach trom"
+  },
+  "HEAVY_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "Soitheach thaistealach trom"
+  },
+  "HIGH": {
+    "description": "Game settings option: for graphics resolution",
+    "message": "Àrd"
+  },
+  "HUD_2D_RADAR": {
+    "description": "Popup text: the name of the azimuthal equidistant projection radar",
+    "message": "Tilg-shealladh co-astarail azimuthach 2D"
+  },
+  "HUD_3D_RADAR": {
+    "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
+    "message": "Tilg-shealladh plèanach 3D"
+  },
+  "HUD_ATMOSPHERIC_PRESSURE": {
+    "description": "Tooltip: Atmospheric Pressure.",
+    "message": "Brùthadh an àile"
+  },
+  "HUD_BACKWARD_GUN_TEMPERATURE": {
+    "description": "Tooltip: Backward Gun Temperature.",
+    "message": "Teothachd a’ ghunna-cùil"
+  },
+  "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS": {
+    "description": "Tooltip: The braking distance using the main thrusters.",
+    "message": "Astar brèigidh a' cleachdadh nam prìomh-phutairean"
+  },
+  "HUD_BUTTON_AUTOPILOT_DOCKING": {
+    "description": "Tooltip: Autopilot docking",
+    "message": "Docadh fèin-stiùiridh"
+  },
+  "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT": {
+    "description": "Tooltip: Autopilot entering orbit",
+    "message": "Tha am fèin-stiùireadh a’ tòiseachadh air reul-chuairt"
+  },
+  "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET": {
+    "description": "Tooltip: Autopilot flying to target",
+    "message": "Tha am fèin-stiùireadh a’ sgiathadh dhan amas"
+  },
+  "HUD_BUTTON_BLASTOFF": {
+    "description": "Tooltip: Blastoff",
+    "message": "Losgadh"
+  },
+  "HUD_BUTTON_EQUIPMENT": {
+    "description": "Tooltip: Equipment",
+    "message": "Uidheamachd"
+  },
+  "HUD_BUTTON_EXTERNAL_VIEW": {
+    "description": "Tooltip: External camera view",
+    "message": "Sealladh taobh a-muigh"
+  },
+  "HUD_BUTTON_FIX_ANTINORMAL": {
+    "description": "Tooltip: fix heading antinormal",
+    "message": "Ceartaich an-àbhaisteach na comhair"
+  },
+  "HUD_BUTTON_FIX_NORMAL": {
+    "description": "Tooltip: fix heading normal",
+    "message": "Ceartaich àbhaisteach na comhair"
+  },
+  "HUD_BUTTON_FIX_PROGRADE": {
+    "description": "Tooltip: fix heading prograde",
+    "message": "Ceartaich ceum air adhart na comhair"
+  },
+  "HUD_BUTTON_FIX_RADIAL_IN": {
+    "description": "Tooltip: fix heading radially inward",
+    "message": "Ceartaich rèideal a-steach na comhair"
+  },
+  "HUD_BUTTON_FIX_RADIAL_OUT": {
+    "description": "Tooltip: fix heading radially outward",
+    "message": "Ceartaich rèideal a-mach na comhair"
+  },
+  "HUD_BUTTON_FIX_RETROGRADE": {
+    "description": "Tooltip: fix heading retrograde",
+    "message": "Ceartaich ceum air ais na comhair"
+  },
+  "HUD_BUTTON_FLYBY_VIEW": {
+    "description": "Tooltip: Flyby camera view",
+    "message": "Flyby view"
+  },
+  "HUD_BUTTON_HYPERDRIVE_DISABLED": {
+    "description": "Tooltip: Hyperdrive disabled (docked or landed)",
+    "message": "Os-dhraibh à comas"
+  },
+  "HUD_BUTTON_INITIATE_HYPERJUMP": {
+    "description": "Tooltip: Initiate legal hyperjump",
+    "message": "Tòisich air leum os-fhànais"
+  },
+  "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP": {
+    "description": "Tooltip: Initiate illegal hyperjump",
+    "message": "Tòisich air leum os-fhànais mì-laghail"
+  },
+  "HUD_BUTTON_INTERNAL_VIEW": {
+    "description": "Tooltip: Internal camera view",
+    "message": "Sealladh taobh a-staigh"
+  },
+  "HUD_BUTTON_KILL_ROTATION": {
+    "description": "Tooltip: kill rotation",
+    "message": "Stad an cuairteachadh"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_DOWN": {
+    "description": "Tooltip: Landing gear is down",
+    "message": "Tha an uidheamachd landaidh shìos"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_MOVING": {
+    "description": "Tooltip: Landing gear is moving",
+    "message": "Tha an uidheamachd landaidh a’ gluasad"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_UP": {
+    "description": "Tooltip: Landing gear is up",
+    "message": "Tha an uidheamachd landaidh shuas"
+  },
+  "HUD_BUTTON_MANUAL_CONTROL": {
+    "description": "Tooltip: Manual control",
+    "message": "Stiùireadh a làimh"
+  },
+  "HUD_BUTTON_ROTATION_DAMPING_IS_OFF": {
+    "description": "Tooltip: Rotation damping is off",
+    "message": "Tha lasachadh a' chuairteachaidh dheth"
+  },
+  "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
+    "description": "Tooltip: Rotation damping is on",
+    "message": "Tha lasachadh a' chuairteachaidh air"
+  },
+  "HUD_BUTTON_SCANNER": {
+    "description": "Tooltip: Scanner",
+    "message": "Sganair"
+  },
+  "HUD_BUTTON_SET_SPEED": {
+    "description": "Tooltip: set speed",
+    "message": "Suidhich an luaths"
+  },
+  "HUD_BUTTON_SHOW_COMMS": {
+    "description": "Tooltip: Show comms",
+    "message": "Seall an conaltradh"
+  },
+  "HUD_BUTTON_SHOW_PERSONAL_INFO": {
+    "description": "Tooltip: Show personal info",
+    "message": "Seall am fiosrachadh pearsanta"
+  },
+  "HUD_BUTTON_SIDEREAL_VIEW": {
+    "description": "Tooltip: Sidereal camera view",
+    "message": "Sealladh ùine nan reul"
+  },
+  "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
+    "description": "Tooltip: Switch to galaxy map",
+    "message": "Atharraich gu mapa a’ reul-chriosa"
+  },
+  "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
+    "description": "Tooltip: Switch to sector map",
+    "message": "Atharraich gu mapa na h-earrainn"
+  },
+  "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
+    "description": "Tooltip: Switch to system map",
+    "message": "Atharraich gu mapa an t-siostaim"
+  },
+  "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW": {
+    "description": "Tooltip: Switch to system overview",
+    "message": "Atharraich gu foir-shealladh an t-siostaim"
+  },
+  "HUD_BUTTON_SWITCH_TO_WORLD_VIEW": {
+    "description": "Tooltip: Switch to world view",
+    "message": "Atharraich gu sealladh na cruinne"
+  },
+  "HUD_BUTTON_UNDOCK": {
+    "description": "Tooltip: Undock",
+    "message": "Dì-dhocaich"
+  },
+  "HUD_CARGO_MASS": {
+    "description": "Cargo Mass",
+    "message": "Tomad a’ charago"
+  },
+  "HUD_CURRENT_COMBAT_TARGET": {
+    "description": "Tooltip: The current combat target.",
+    "message": "Amas làithreach na còmhraige"
+  },
+  "HUD_CURRENT_FRAME": {
+    "description": "Tooltip: The current frame of reference.",
+    "message": "Am frèam-lorgaidh làithreach"
+  },
+  "HUD_CURRENT_HEADING": {
+    "description": "Tooltip: the current heading.",
+    "message": "A' chomhair làithreach"
+  },
+  "HUD_CURRENT_NAV_TARGET": {
+    "description": "Tooltip: The current navigational target.",
+    "message": "Amas làithreach na seòladaireachd"
+  },
+  "HUD_CURRENT_PITCH": {
+    "description": "Tooltip: the current pitch.",
+    "message": "A' phids làithreach"
+  },
+  "HUD_CURRENT_ROLL": {
+    "description": "Tooltip: the current roll.",
+    "message": "An roiligeadh làithreach"
+  },
+  "HUD_DELTA_V": {
+    "description": "Tooltip: The remaining Δv.",
+    "message": "Δv air fhàgail"
+  },
+  "HUD_DELTA_V_OF_MANEUVER_BURN": {
+    "description": "Tooltip: The Δv for the maneuver burn.",
+    "message": "Δv airson an losgaidh-obrachaidh"
+  },
+  "HUD_DELTA_V_PERCENT": {
+    "description": "Tooltip: The remaining Δv in percent.",
+    "message": "Δv air fhàgail"
+  },
+  "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
+    "description": "Tooltip: Distance to the surface of the frame of reference.",
+    "message": "An t-astar gu uachdar an fhrèam-lorgaidh"
+  },
+  "HUD_DISTANCE_TO_SURFACE_OF_TARGET": {
+    "description": "Tooltip: Distance to the surface of the target.",
+    "message": "An t-astar gu uachdar an amais"
+  },
+  "HUD_DURATION_OF_MANEUVER_BURN": {
+    "description": "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
+    "message": "An ùine thuaireamach a bheir an losgadh-obrachaidh leis na prìomh-phutairean"
+  },
+  "HUD_DURATION_UNTIL_MANEUVER_BURN": {
+    "description": "Tooltip: The duration until the middle of the maneuver burn.",
+    "message": "An ùine gu meadhan an losgaidh-obrachaidh"
+  },
+  "HUD_FORWARD_GUN_TEMPERATURE": {
+    "description": "Tooltip: Forward Gun Temperature.",
+    "message": "Teothachd a’ ghunna-bheòil"
+  },
+  "HUD_HULL_STRENGTH": {
+    "description": "Tooltip: Hull Strength.",
+    "message": "Neart na slige"
+  },
+  "HUD_HULL_TEMPERATURE": {
+    "description": "Tooltip: Hull Temperature.",
+    "message": "Teothachd na slige"
+  },
+  "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
+    "description": "",
+    "message": "Gu bhith dol dhan os-fhànais gu {destination} an ceann {countdown} diog(an)"
+  },
+  "HUD_INDICATOR_AWAY_FROM_FRAME": {
+    "description": "Indicator: Away from the current frame.",
+    "message": "Air falbh on fhrèam làithreach"
+  },
+  "HUD_INDICATOR_COMBAT_TARGET_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current combat target.",
+    "message": "Gabh ceum air adhart an dàimh ri amas làithreach na còmhraige"
+  },
+  "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current combat target.",
+    "message": "Gabh ceum air ais an dàimh ri amas làithreach na còmhraige"
+  },
+  "HUD_INDICATOR_FRAME_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current frame.",
+    "message": "Gabh ceum air adhart gu dàimheil ris an fhrèam-lorgaidh làithreach"
+  },
+  "HUD_INDICATOR_FRAME_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current frame.",
+    "message": "Gabh ceum air ais gu dàimheil ris an fhrèam-lorgaidh làithreach"
+  },
+  "HUD_INDICATOR_MANEUVER_PROGRADE": {
+    "description": "Indicator: The prograde direction for the maneuver burn.",
+    "message": "Gabh ceum air adhart airson losgadh-obrachaidh"
+  },
+  "HUD_INDICATOR_NAV_TARGET_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current navigational target.",
+    "message": "Gabh ceum air adhart gu dàimheil ri amas làithreach na seòladaireachd"
+  },
+  "HUD_INDICATOR_NAV_TARGET_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current navigational target.",
+    "message": "Gabh ceum air ais gu dàimheil ri amas làithreach na seòladaireachd"
+  },
+  "HUD_IN_TRANSIT_TO_N_X_X_X": {
+    "description": "",
+    "message": "A’ siubhal gu {system} [{x},{y},{z}]"
+  },
+  "HUD_JUMP_COMPLETE": {
+    "description": "",
+    "message": "Adhartas an leuma: {percent}%"
+  },
+  "HUD_MASS": {
+    "description": "Mass",
+    "message": "Tomad"
+  },
+  "HUD_RADAR_DISTANCE": {
+    "description": "Tooltip: Current distance of the radar.",
+    "message": "Rainse ghnìomhach an rèideir"
+  },
+  "HUD_REQUEST_TIME_ACCEL": {
+    "description": "Tooltip: Request time acceleration {time}",
+    "message": "Iarr luathachadh an ama: {time}"
+  },
+  "HUD_SHIELD_STRENGTH": {
+    "description": "Tooltip: Shield Strength.",
+    "message": "Neart na sgèithe"
+  },
+  "HUD_SHOW_COMBAT_TARGET": {
+    "description": "Tooltip: Show the current combat target.",
+    "message": "Seall amas làithreach na còmhraige"
+  },
+  "HUD_SHOW_FRAME": {
+    "description": "Tooltip: Show the current frame of reference.",
+    "message": "Seall am frèam-lorgaidh làithreach"
+  },
+  "HUD_SHOW_NAV_TARGET": {
+    "description": "Tooltip: Show current navigational target.",
+    "message": "Seall amas làithreach na seòladaireachd"
+  },
+  "HUD_SPEED_OF_APPROACH_TO_FRAME": {
+    "description": "Tooltip: The speed of approach towards the frame of reference.",
+    "message": "Luaths an teannaidh an comhair an fhrèam-lorgaidh"
+  },
+  "HUD_SPEED_OF_APPROACH_TO_TARGET": {
+    "description": "Tooltip: The speed of approach relative to target.",
+    "message": "Luaths an teannaidh dàimheil ris an amas"
+  },
+  "HUD_SPEED_RELATIVE_TO_TARGET": {
+    "description": "Tooltip: The speed relative to the target.",
+    "message": "An luaths dàimheil ris an amas"
+  },
+  "HUD_THRUST_INDICATOR": {
+    "description": "Tooltip: describe what the thrust/velocity indicator shows",
+    "message": "Seall an luaths làithreach air gach comhair (loidhnichean tana) ’s am putadh (cùlaibh tiugh)"
+  },
+  "HULL_DOES_NOT_REQUIRE_REPAIR": {
+    "description": "",
+    "message": "Chan eil càradh a dhìth air an t-slige."
+  },
+  "HULL_INTEGRITY": {
+    "description": "",
+    "message": "Cor na slige"
+  },
+  "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
+    "description": "",
+    "message": "Chaidh an t-slige a chàradh le {name}, air {repairPercent}% a-nis"
+  },
+  "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE": {
+    "description": "",
+    "message": "Dh'fhàillig le càradh na slige. Fhuair an t-slige beagan dochainn."
+  },
+  "HYPERDRIVE": {
+    "description": "",
+    "message": "Os-dhraibh"
+  },
+  "HYPERDRIVE_FITTED": {
+    "description": "",
+    "message": "Os-dhraibh suidhichte:"
+  },
+  "HYPERJUMP_ROUTE": {
+    "description": "",
+    "message": "Cùrsa os-leum"
+  },
+  "HYPERSPACE_RANGE": {
+    "description": "",
+    "message": "Rainse os-fhànais"
+  },
+  "ILLEGAL_JUMP": {
+    "description": "A finable crime",
+    "message": "Chaidh os-leum cion-umhail a chlàradh"
+  },
+  "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
+    "description": "",
+    "message": "Tha mi sgìth dhen a bhith 'g obair gun phàigheadh. Nach eil fhios agaibh dè th' ann an cùmhnant?"
+  },
+  "INACTIVE": {
+    "description": "",
+    "message": "Neo-ghnìomhach"
+  },
+  "INCOMPETENT": {
+    "description": "For player reputation",
+    "message": "Neo-chomasach"
+  },
+  "INEXPERIENCED": {
+    "description": "For player reputation",
+    "message": "Aineolach"
+  },
+  "INSUFFICIENT_FUNDS": {
+    "description": "",
+    "message": "Chan eil airgead gu leòr agad."
+  },
+  "INVERT_MOUSE_Y": {
+    "description": "",
+    "message": "Ais-tionndaidh Y na luchaige"
+  },
+  "IN_CARGO_HOLD": {
+    "description": "",
+    "message": "San roinn carago"
+  },
+  "IN_STOCK": {
+    "description": "",
+    "message": "San stoc"
+  },
+  "ITEM_IS_OUT_OF_STOCK": {
+    "description": "",
+    "message": "Chan eil an nì seo san stoc tuilleadh."
+  },
+  "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
+    "description": "",
+    "message": "Chòrd e rium obair air ur son. Bidh mi an-seo greis fhathast ma bhios feum agaibh orm a-rithist."
+  },
+  "JETTISON": {
+    "description": "",
+    "message": "Tilg a-mach"
+  },
+  "JUMPING": {
+    "description": "Flight State",
+    "message": "Leum"
+  },
+  "KILLS": {
+    "description": "",
+    "message": "Air a mhilleadh"
+  },
+  "LANGUAGE": {
+    "description": "",
+    "message": "Cànan"
+  },
+  "LANGUAGE_RESTART_GAME_TO_APPLY": {
+    "description": "",
+    "message": "Cànan (tòisich an geama às ùr gus a chur an sàs)"
+  },
+  "LAUNCH_PERMISSION_DENIED_BUSY": {
+    "description": "",
+    "message": "Chaidh an t-iarrtas losgaidh a dhiùltadh: tha an t-ionad docaidh trang."
+  },
+  "LAUNCH_PERMISSION_DENIED_CREW": {
+    "description": "",
+    "message": "Chaidh cead losgaidh a dhiùltadh: tha an sgioba agad ro bheag gus an soitheach seo a làimhseachadh."
+  },
+  "LAUNCH_PERMISSION_DENIED_FINED": {
+    "description": "",
+    "message": "Chaidh cead losgaidh a dhiùltadh: tha cìsean againn ort."
+  },
+  "LEGAL_STATUS": {
+    "description": "",
+    "message": "Laghail"
+  },
+  "LIGHT_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "Aiseag carago aotrom"
+  },
+  "LIGHT_COURIER": {
+    "description": "",
+    "message": "Teachdaire aotrom"
+  },
+  "LIGHT_FIGHTER": {
+    "description": "",
+    "message": "Soitheach-cogaidh aotrom"
+  },
+  "LIGHT_FREIGHTER": {
+    "description": "",
+    "message": "Soitheach-carago aotrom"
+  },
+  "LIGHT_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "Aiseag thaistealach aotrom"
+  },
+  "LIGHT_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "Soitheach thaistealach aotrom"
+  },
+  "LOAD": {
+    "description": "",
+    "message": "Luchdaich"
+  },
+  "LOAD_GAME": {
+    "description": "",
+    "message": "Luchdaich geama"
+  },
+  "LOBBY": {
+    "description": "",
+    "message": "Lobaidh"
+  },
+  "LOCAL_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Gobhal ionadail"
+  },
+  "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
+    "description": "",
+    "message": "{distance}km air falbh o mheadhan {name}:"
+  },
+  "LOCATION": {
+    "description": "",
+    "message": "Ionad"
+  },
+  "LOW": {
+    "description": "",
+    "message": "Ìseal"
+  },
+  "LY": {
+    "description": "Light year",
+    "message": "bl-shol"
+  },
+  "MAJOR_EXPORTS_ITEM": {
+    "description": "",
+    "message": "Prìomh às-phortadh"
+  },
+  "MAJOR_IMPORTS_ITEM": {
+    "description": "",
+    "message": "Prìomh ion-phortadh"
+  },
+  "MAKE_NEW_FACE": {
+    "description": "",
+    "message": "Cruthaich aodann ùr"
+  },
+  "MALE": {
+    "description": "",
+    "message": "Fireann"
+  },
+  "MARKET_BUYLINE": {
+    "description": "",
+    "message": "Ceannaich {amount} aonad(an) air {price}"
+  },
+  "MARKET_SELLINE": {
+    "description": "",
+    "message": "Reic {amount} aonad(an) air {price}"
+  },
+  "MASS": {
+    "description": "",
+    "message": "Tomad"
+  },
+  "MASTER": {
+    "description": "For player reputation",
+    "message": "Maighstir"
+  },
+  "MASTER_VOL": {
+    "description": "Master sound in settings option",
+    "message": "Iomlan:"
+  },
+  "MAX": {
+    "description": "",
+    "message": "as motha"
+  },
+  "MAXIMUM_CREW": {
+    "description": "",
+    "message": "An sgioba as motha"
+  },
+  "MEDIUM": {
+    "description": "Game settings option: graphics resolution",
+    "message": "Meadhanach"
+  },
+  "MEDIUM_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "Aiseag carago meadhanach"
+  },
+  "MEDIUM_COURIER": {
+    "description": "",
+    "message": "Teachdaire meadhanach"
+  },
+  "MEDIUM_FIGHTER": {
+    "description": "",
+    "message": "Soitheach-cogaidh meadhanach"
+  },
+  "MEDIUM_FREIGHTER": {
+    "description": "",
+    "message": "Soitheach-carago meadhanach"
+  },
+  "MEDIUM_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "Aiseag thaistealach meadhanach"
+  },
+  "MEDIUM_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "Soitheach thaistealach meadhanach"
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "Co-mheatailtean"
+  },
+  "MILITARY": {
+    "description": "",
+    "message": "An arm"
+  },
+  "MINIMUM_CREW": {
+    "description": "",
+    "message": "An sgioba as lugha"
+  },
+  "MINOR_EXPORTS_ITEM": {
+    "description": "",
+    "message": "Beagan às-phortaidh"
+  },
+  "MINOR_IMPORTS_ITEM": {
+    "description": "",
+    "message": "Beagan ion-phortaidh"
+  },
+  "MISSILE_MOUNTS": {
+    "description": "",
+    "message": "Ionadan astais"
+  },
+  "MISSIONS": {
+    "description": "",
+    "message": "Miseanan"
+  },
+  "MISSION_DETAILS": {
+    "description": "",
+    "message": "Fiosrachadh a' mhisein"
+  },
+  "MORE_INFO": {
+    "description": "",
+    "message": "Barrachd fiosrachaidh..."
+  },
+  "MOSTLY_HARMLESS": {
+    "description": "",
+    "message": "Cha mhòr neo-chiontach"
+  },
+  "MOVE_DOWN": {
+    "description": "move selection down in list",
+    "message": "Gluais sìos"
+  },
+  "MOVE_UP": {
+    "description": "move selection up in list",
+    "message": "Gluais suas"
+  },
+  "MULTISAMPLING": {
+    "description": "",
+    "message": "Ioma-shamplachadh"
+  },
+  "MULTISAMPLING_DESC": {
+    "description": "",
+    "message": "Gleusadh na grafaigeachd a chleachdar gus oir-loidhnichean nas rèidhe fhaighinn. Dh’fhaoidte gum bi seo cosgail air an stòras."
+  },
+  "MURDER": {
+    "description": "",
+    "message": "Murt"
+  },
+  "MUSIC": {
+    "description": "",
+    "message": "Ceòl:"
+  },
+  "MUTE": {
+    "description": "",
+    "message": "Mùch"
+  },
+  "NAME_OBJECT": {
+    "description": "For an item or object",
+    "message": "Ainm"
+  },
+  "NAME_PERSON": {
+    "description": "For a person",
+    "message": "Ainm"
+  },
+  "NAVIGATION": {
+    "description": "",
+    "message": "Seòladaireachd:"
+  },
+  "NAVIGATOR": {
+    "description": "",
+    "message": "Seòladair"
+  },
+  "NEGOTIATE": {
+    "description": "",
+    "message": "Rèitich"
+  },
+  "NEXT_PAID": {
+    "description": "",
+    "message": "An t-ath phàigheadh"
+  },
+  "NO": {
+    "description": "Negative answer to a question",
+    "message": "Chan eil"
+  },
+  "NOBODY": {
+    "description": "For player reputation",
+    "message": "Gun urram"
+  },
+  "NONE": {
+    "description": "",
+    "message": "Chan eil gin"
+  },
+  "NONE_FOR_SALE_IN_THIS_STATION": {
+    "description": "",
+    "message": "Chan eil gin 'ga reic san stèisean seo."
+  },
+  "NORMA_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Gobhal na Riaghailte"
+  },
+  "NOTES": {
+    "description": "",
+    "message": "Nòtaichean:"
+  },
+  "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
+    "description": "",
+    "message": "Chan eil {alloy} gu leòr agad gus feuchainn ris a chàradh"
+  },
+  "NOT_SUPPORTED_ON_THIS_SHIP": {
+    "description": "",
+    "message": "Cha chuir am modal soithich seo taic ri {equipment}"
+  },
+  "NO_FILTER_MATCHES": {
+    "description": "No matches to this filter.",
+    "message": "Nothing matches that filter"
+  },
+  "NO_MISSIONS": {
+    "description": "",
+    "message": "Chan eil misean agad."
+  },
+  "N_LIGHT_YEARS_N_MAX": {
+    "description": "",
+    "message": "{range} bl-sholais ({maxRange} as motha)"
+  },
+  "N_OCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "{quantity} cèibinn(ean) taistealaich air an còmhnadh"
+  },
+  "N_SHIELD_GENERATORS": {
+    "description": "",
+    "message": "{quantity} gineadairean sgèithe"
+  },
+  "N_UNOCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "{quantity} cèibinn(ean) taistealaich gun chòmhnadh"
+  },
+  "OFF": {
+    "description": "",
+    "message": "Dheth"
+  },
+  "OK": {
+    "description": "",
+    "message": "Ceart ma-thà"
+  },
+  "OPEN_USER_FOLDER": {
+    "description": "",
+    "message": "Pasgan a' chleachdaiche"
+  },
+  "OPTIONS": {
+    "description": "",
+    "message": "Roghainnean"
+  },
+  "ORBIT": {
+    "description": "",
+    "message": "Reul-chuairt"
+  },
+  "ORBITAL_ANALYSIS": {
+    "description": "",
+    "message": "Sgrùdadh na reul-chuairte"
+  },
+  "ORBITAL_ANALYSIS_NOTES": {
+    "description": "",
+    "message": "Thèid luaths cearcallach na reul-cuairte a shealltainn mar luaths beantanach. Mu chòir dhan t-soitheach a bhith a' siubhal le 90° an comhair aiseal an t-soithich/{name}.\n\nTha an luaths teàrnaidh cho beag 's a ghabhas agus tha e beantanach cuideachd. Bheir luaths as ìsle le ceum as ìsle cùrsa dhut a dh'eadar-ghearras ris an uachdar aig {name}.\n\nBu chòir don luaths teichidh obrachadh air comhair sam bith cho fad 's nach buail an soitheach ri {name} air an t-slighe.\n\t\t"
+  },
+  "OUTER_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Gobhal a-muigh"
+  },
+  "OUTSTANDING_FINES": {
+    "description": "Unpaid fines for crimes committed",
+    "message": "Càintean ri am pàigheadh"
+  },
+  "OVERVIEW_NAME_FILTER": {
+    "description": "Filter overview window entries by name",
+    "message": "Filter overview window entries by name"
+  },
+  "OWED": {
+    "description": "Player owing money to crew members",
+    "message": "Fiachan"
+  },
+  "PAY_FINE_OF_N": {
+    "description": "",
+    "message": "Pàigh càin de {amount}"
+  },
+  "PERSEUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Gobhal Pherseus"
+  },
+  "PERSONAL_INFORMATION": {
+    "description": "",
+    "message": "Fiosrachadh pearsanta"
+  },
+  "PILOT": {
+    "description": "",
+    "message": "Paidhleat"
+  },
+  "PILOTING": {
+    "description": "",
+    "message": "Stiùireadh:"
+  },
+  "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
+    "description": "",
+    "message": "Tha {name} 'na phaidhleat a-nis"
+  },
+  "PIRACY": {
+    "description": "",
+    "message": "Spùinneadaireachd"
+  },
+  "PLANET_DETAIL_DISTANCE": {
+    "description": "",
+    "message": "Astar mion-shealladh nam planaidean"
+  },
+  "PLANET_TEXTURES": {
+    "description": "",
+    "message": "Innich nam planaidean"
+  },
+  "POLICE": {
+    "description": "",
+    "message": "A' phoileas"
+  },
+  "POOR": {
+    "description": "Player combat rating",
+    "message": "Bochd"
+  },
+  "POSITION": {
+    "description": "The job title/position of crew memeber",
+    "message": "Dreuchd"
+  },
+  "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
+    "description": "",
+    "message": "Brùth air iuchair no putan uidheim-smachd no air escape airson fhalamhachadh"
+  },
+  "PRICE": {
+    "description": "",
+    "message": "Prìs"
+  },
+  "PROFESSIONAL": {
+    "description": "For player reputation",
+    "message": "Ceàirdeach"
+  },
+  "PUMP_DOWN": {
+    "description": "Drain the fuel tank",
+    "message": "Pump sìos"
+  },
+  "QUALIFICATION_SCORES": {
+    "description": "",
+    "message": "Sgòran teisteanais"
+  },
+  "QUIT": {
+    "description": "",
+    "message": "Fàg an-seo"
+  },
+  "QUIT_CONFIRMATION": {
+    "description": "For the checkbox in settings window",
+    "message": "Dearbhadh an fhàgail"
+  },
+  "RANK": {
+    "description": "",
+    "message": "Rang:"
+  },
+  "RATING": {
+    "description": "",
+    "message": "Rangachadh:"
+  },
+  "REAR_WEAPON": {
+    "description": "",
+    "message": "Arm cùlaibh"
+  },
+  "REFUEL": {
+    "description": "",
+    "message": "Tog connadh"
+  },
+  "REFUEL_FULL": {
+    "description": "",
+    "message": "Lìon an connadh"
+  },
+  "REGISTRATION_NUMBER": {
+    "description": "",
+    "message": "Àireamh clàraidh"
+  },
+  "RELIABLE": {
+    "description": "For player reputation",
+    "message": "Earbsach"
+  },
+  "REMOVE_JUMP": {
+    "description": "UI-button: remove hyper jump from list of planned jumps",
+    "message": "Thoir air falbh an leum"
+  },
+  "REMOVE_WHEN_COMPLETED": {
+    "description": "For UI hyperjump planner, referring to jump target system",
+    "message": "Thoir air falbh an leum nuair a bhios e deiseil"
+  },
+  "REPAIR_X_HULL_DAMAGE_FOR_X": {
+    "description": "",
+    "message": "Càraich {damage}% dhen dochann air an t-slige le {price}"
+  },
+  "REPUTATION": {
+    "description": "",
+    "message": "Cliù"
+  },
+  "REQUEST_LAUNCH": {
+    "description": "",
+    "message": "Iarr cead losgaidh"
+  },
+  "REQUIRED_FUEL": {
+    "description": "Fuel usage for traveling to star system",
+    "message": "Connadh air a bheil feum:"
+  },
+  "RESET": {
+    "description": "",
+    "message": "Ath-shuidhich"
+  },
+  "RETURN_TO_GAME": {
+    "description": "",
+    "message": "Till dhan gheama"
+  },
+  "RETURN_TO_MENU": {
+    "description": "",
+    "message": "Till dhan chlàr-taice"
+  },
+  "REVERSE_ACCEL_EMPTY": {
+    "description": "",
+    "message": "Luathachadh air ais (falamh)"
+  },
+  "REVERSE_ACCEL_FULL": {
+    "description": "",
+    "message": "Luathachadh air ais (làn)"
+  },
+  "REWARD": {
+    "description": "",
+    "message": "Duais"
+  },
+  "ROUTE_INFO": {
+    "description": "For hyperjump planner",
+    "message": "Fiosrachadh a’ chùrsa"
+  },
+  "ROUTE_JUMPS": {
+    "description": "For hyperjump planner",
+    "message": "Leuman a’ chùrsa"
+  },
+  "SAGITTARIUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Gobhal a' Bhoghadair"
+  },
+  "SAVE": {
+    "description": "",
+    "message": "Sàbhail"
+  },
+  "SCOOP_MOUNTS": {
+    "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
+    "message": "Tàthaidhean sgioba"
+  },
+  "SCUTUM_CENTAURUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Gobhal Scutum-Centaurus"
+  },
+  "SELECT": {
+    "description": "",
+    "message": "Tagh"
+  },
+  "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
+    "description": "",
+    "message": "Tagh faidhle airson sàbhaladh no cuir a-steach ainm faidhle ùr"
+  },
+  "SELECT_FILE": {
+    "description": "",
+    "message": "Tagh faidhle..."
+  },
+  "SELECT_GAME_TO_LOAD": {
+    "description": "",
+    "message": "Tagh geama gus a luchdadh..."
+  },
+  "SELL": {
+    "description": "Commodities and equipment prices",
+    "message": "Reic"
+  },
+  "SENSORS": {
+    "description": "",
+    "message": "Mothaichearan:"
+  },
+  "SENSORS_AND_DEFENCE": {
+    "description": "",
+    "message": "Mothaichearan 's dìon"
+  },
+  "SETTINGS": {
+    "description": "UI option",
+    "message": "Roghainnean"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Suidhich an ceann-uidhe mar cheann-uidhe na seòladaireachd."
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Soitheach"
+  },
+  "SHIPS_ENGINEER": {
+    "description": "",
+    "message": "Innleadair luinge"
+  },
+  "SHIP_INFORMATION": {
+    "description": "",
+    "message": "Fiosrachadh an t-soithich"
+  },
+  "SHIP_IS_ALREADY_FULLY_REPAIRED": {
+    "description": "",
+    "message": "Tha cor do shoitheach foirfe."
+  },
+  "SHIP_IS_FULLY_EQUIPPED": {
+    "description": "",
+    "message": "Tha an soitheach agad uidheamaichte gu slàn."
+  },
+  "SHIP_IS_FULLY_LADEN": {
+    "description": "",
+    "message": "Tha an soitheach agad làn."
+  },
+  "SHIP_MARKET": {
+    "description": "",
+    "message": "Margadh shoithichean"
+  },
+  "SHIP_REPAIRS": {
+    "description": "",
+    "message": "Càradh shoithich"
+  },
+  "SHIP_VIEWING_WAS_SOLD": {
+    "description": "",
+    "message": "Tha an soitheach a bha thu a' coimhead air rèic"
+  },
+  "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
+    "description": "",
+    "message": "A' cruthachadh gnè an domhain: {age} billean bliadhna ;-)"
+  },
+  "SOUND": {
+    "description": "",
+    "message": "Fuaim"
+  },
+  "START_AT_BARNARDS_STAR": {
+    "description": "",
+    "message": "Tòisich air Reul Bharnard"
+  },
+  "START_AT_BARNARDS_STAR_DESC": {
+    "description": "",
+    "message": "This is a difficult start from the System Administration Resting prison station."
+  },
+  "START_AT_EARTH": {
+    "description": "",
+    "message": "Tòisich air an Talamh"
+  },
+  "START_AT_EARTH_DESC": {
+    "description": "",
+    "message": "This is an easy start from London on Earth in the Sol system."
+  },
+  "START_AT_NEW_HOPE": {
+    "description": "New Hope is an in game location",
+    "message": "Tòisich air Dòchas Ùr"
+  },
+  "START_AT_NEW_HOPE_DESC": {
+    "description": "",
+    "message": "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
+  },
+  "STAR_FIELD_DENSITY": {
+    "description": "",
+    "message": "Dùmhlachd an reul-raoin"
+  },
+  "STATION_MANAGER": {
+    "description": "",
+    "message": "Stiùiriche an stèisein"
+  },
+  "STATION_ORBIT": {
+    "description": "Information shown in the station loby",
+    "message": "Tha sinn a’ reul-chuairteachadh {parent_body} gach {orbit_period} là(ithean)."
+  },
+  "STATUS": {
+    "description": "",
+    "message": "Staid"
+  },
+  "TECH_CERTIFIED": {
+    "description": "Lobby screen shows the tech level (an integer number) of the station",
+    "message": "Tha teisteanas teicneolais ìre {tech_level} aig an stèisean seo."
+  },
+  "TECH_CERTIFIED_MILITARY": {
+    "description": "Lobby screen shows the tech level of the station",
+    "message": "Tha cead airson teicneolas an airm aig an ionad seo."
+  },
+  "TEXTURE_COMPRESSION": {
+    "description": "",
+    "message": "This frees up more memory for the graphics card, which is likely what you want, at the expense of compressing them during game start."
+  },
+  "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
+    "description": "",
+    "message": "Mòran taing airson ur ceannach. Na dìochnaichibh uidheamachd a shuidheachadh agus connadh a cheannach mus fhalbh sibh."
+  },
+  "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
+    "description": "",
+    "message": "Chan eil duine sam bith eile air bòrd air a bhiodh comas gus an soitheach seo a stiùireadh."
+  },
+  "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
+    "description": "",
+    "message": "Tha an soitheach fo smachd an stèisein, a Chomandair."
+  },
+  "THREE_KPC_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Gobhal 3kpc"
+  },
+  "TOGGLE_MALE_FEMALE": {
+    "description": "player gender",
+    "message": "Toglaich fireann/boireann"
+  },
+  "TOGGLE_OVERVIEW_SHOW_MOONS": {
+    "description": "toggle whether the overview window shows moons or not",
+    "message": "Toggle showing moons in the overview"
+  },
+  "TOGGLE_OVERVIEW_SHOW_STATIONS": {
+    "description": "toggle whether the overview window shows stations or not",
+    "message": "Toggle showing stations in the overview"
+  },
+  "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
+    "description": "toggle whether the overview window sorts by distance from the player or from the system center",
+    "message": "Switch between sorting by distance from player and distance from system center"
+  },
+  "TOGGLE_OVERVIEW_WINDOW": {
+    "description": "show/hide the overview window / navigation window",
+    "message": "Toggle the overview window"
+  },
+  "TOO_SMALL_FOR_CURRENT_CREW": {
+    "description": "",
+    "message": "Tha an soitheach ro bheag airson an sgioba agad."
+  },
+  "TOO_SMALL_TO_TRANSSHIP": {
+    "description": "Ship market error message",
+    "message": "Chan eil rum aig soithichean ùra airson a' charago 's draibh os-fhànais seo."
+  },
+  "TOTAL": {
+    "description": "",
+    "message": "Iomlan:"
+  },
+  "TOTAL_DISTANCE": {
+    "description": "Total distance of a (possibly series) of hyper jump(s)",
+    "message": "An t-astar iomlan:"
+  },
+  "TOTAL_DURATION": {
+    "description": "Total duration of a (possibly series) of hyper jump(s)",
+    "message": "Am fad iomlan:"
+  },
+  "TOTAL_MASS": {
+    "description": "",
+    "message": "Tomad iomlan"
+  },
+  "TRADING_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Malart bathar mì-laghail"
+  },
+  "TRUSTWORTHY": {
+    "description": "For player reputation",
+    "message": "Urrasach"
+  },
+  "TYPE": {
+    "description": "",
+    "message": "Seòrsa"
+  },
+  "UNLAWFUL_WEAPONS_DISCHARGE": {
+    "description": "",
+    "message": "Losgadh airm mì-laghail"
+  },
+  "UNRELIABLE": {
+    "description": "",
+    "message": "Neo-earbsach"
+  },
+  "UP_ACCEL": {
+    "description": "",
+    "message": "Luathachadh suas"
+  },
+  "USED": {
+    "description": "",
+    "message": "Cleachd."
+  },
+  "VERY_HIGH": {
+    "description": "Game settings option: graphic resolution",
+    "message": "Glè àrd"
+  },
+  "VERY_LOW": {
+    "description": "Game settings option: graphic resolution",
+    "message": "Glè ìseal"
+  },
+  "VICINITY_OF": {
+    "description": "",
+    "message": "Faisg air"
+  },
+  "VIDEO": {
+    "description": "",
+    "message": "Video"
+  },
+  "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
+    "description": "",
+    "message": "Rèiteachadh video (bidh feum air ath-thòiseachadh)"
+  },
+  "VIDEO_RESOLUTION": {
+    "description": "",
+    "message": "Dùmhlachd-bhreacaidh"
+  },
+  "VIDEO_RESOLUTION_DESC": {
+    "description": "Tooltip for video mode/resultion setting",
+    "message": "Higher resolutions display more information at a smaller size and can decrease performance."
+  },
+  "VSYNC": {
+    "description": "For the checkbox in settings window",
+    "message": "VSync"
+  },
+  "VSYNC_DESC": {
+    "description": "",
+    "message": "Vertical Sync can eliminate visual tearing or artifacts, and input latency."
+  },
+  "WAGE": {
+    "description": "Salary of crew shown in crew roster",
+    "message": "Tuarastal"
+  },
+  "WEIGHT_EMPTY": {
+    "description": "",
+    "message": "Cuideam falamh"
+  },
+  "WEIGHT_FULLY_LOADED": {
+    "description": "",
+    "message": "Cuideam làn"
+  },
+  "WE_ARE_IN_HYPERSPACE_COMMANDER": {
+    "description": "",
+    "message": "Tha sinn san os-fhànais, a Chomandair."
+  },
+  "WE_HAVE_NO_BUSINESS_WITH_YOU": {
+    "description": "Said by the police to law abiding player",
+    "message": "Chan eil gnothach againn ruibh aig an àm seo."
+  },
+  "X_CANNOT_BE_TOLERATED_HERE": {
+    "description": "Message to be sent over comms by police when crime is committed by player",
+    "message": "Chan fhulaing sinn {crime} ann a sheo!"
+  },
+  "YES": {
+    "description": "Positive answer to a question",
+    "message": "Tha"
+  },
+  "YOURE_GOING_TO_REGRET_SACKING_ME": {
+    "description": "",
+    "message": "Bidh sibh duilich gun dug sibh a' bhròg dhomh!"
+  },
+  "YOUR_HULL_IS_AT_X_INTEGRITY": {
+    "description": "",
+    "message": "Tha {value}% a dh'iomlanachd aig an t-slige agad."
+  },
+  "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION": {
+    "description": "",
+    "message": "Chan eil airgead gu leòr agad airson na roghainn seo."
+  },
+  "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD": {
+    "description": "",
+    "message": "Tha {units} aonad(an) san roinn carago agad."
+  },
+  "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
+    "description": "",
+    "message": "Feumaidh sibh targaid còmhraige a thaghadh an toiseach, a Chomandair."
+  },
+  "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER": {
+    "description": "",
+    "message": "Feumaidh sibh targaid seòladaireachd a thaghadh an toiseach, a Chomandair."
+  },
+  "YOU_MUST_LAUNCH_FIRST_COMMANDER": {
+    "description": "",
+    "message": "Feumaidh sibh losgadh an toiseach, a Chomandair."
+  },
+  "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER": {
+    "description": "",
+    "message": "Feumaidh sibh cead falbh iarraidh an toiseachd, a Chomandair."
+  },
+  "YOU_NOT_ENOUGH_MONEY": {
+    "description": "",
+    "message": "Chan eil airgead gu leòr agad"
+  },
+  "ZOOM": {
+    "description": "Label for a zoom (magnification) control bar.",
+    "message": "Sùm"
+  }
 }

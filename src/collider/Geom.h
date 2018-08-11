@@ -15,39 +15,40 @@ struct BVHNode;
 
 class Geom {
 public:
-	Geom(const GeomTree *);
+	Geom(const GeomTree *geomtree, const matrix4x4d &m, const vector3d &pos, void *data);
 	void MoveTo(const matrix4x4d &m);
 	void MoveTo(const matrix4x4d &m, const vector3d &pos);
-	const matrix4x4d &GetInvTransform() const { return m_invOrient; }
-	const matrix4x4d &GetTransform() const { return m_orient; }
-	matrix4x4d GetRotation() const;
-	vector3d GetPosition() const;
-	void Enable() { m_active = true; }
-	void Disable() { m_active = false; }
-	bool IsEnabled() { return m_active; }
-	const GeomTree *GetGeomTree() { return m_geomtree; }
-	void Collide(Geom *b, void (*callback)(CollisionContact*));
-	void CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*));
-	void SetUserData(void *d) { m_data = d; }
-	void *GetUserData() { return m_data; }
-	void SetMailboxIndex(int idx) { m_mailboxIndex = idx; }
-	int GetMailboxIndex() const { return m_mailboxIndex; }
-	void SetGroup(int g) { m_group = g; }
-	int GetGroup() const { return m_group; }
+	inline const matrix4x4d &GetInvTransform() const { return m_invOrient; }
+	inline const matrix4x4d &GetTransform() const { return m_orient; }
+	//matrix4x4d GetRotation() const;
+	inline const vector3d& GetPosition() const { return m_pos; }
+	inline void Enable() { m_active = true; }
+	inline void Disable() { m_active = false; }
+	inline bool IsEnabled() const { return m_active; }
+	inline const GeomTree* GetGeomTree() const { return m_geomtree; }
+	void Collide(Geom *b, void (*callback)(CollisionContact*)) const;
+	void CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*)) const;
+	inline void* GetUserData() const { return m_data; }
+	inline void SetMailboxIndex(int idx) { m_mailboxIndex = idx; }
+	inline int GetMailboxIndex() const { return m_mailboxIndex; }
+	inline void SetGroup(int g) { m_group = g; }
+	inline int GetGroup() const { return m_group; }
 
 	matrix4x4d m_animTransform;
 
 private:
-	void CollideEdgesWithTrisOf(int &maxContacts, Geom *b, const matrix4x4d &transTo, void (*callback)(CollisionContact*));
+	void CollideEdgesWithTrisOf(int &maxContacts, const Geom *b, const matrix4x4d &transTo, void (*callback)(CollisionContact*)) const;
 	void CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const matrix4x4d &transToB,
-		Geom *b, const BVHNode *btriNode, void (*callback)(CollisionContact*));
-	int m_mailboxIndex; // used to avoid duplicate collisions
+		const Geom *b, const BVHNode *btriNode, void (*callback)(CollisionContact*)) const;
+	
 	// double-buffer position so we can keep previous position
 	matrix4x4d m_orient, m_invOrient;
-	bool m_active;
+	vector3d m_pos;
 	const GeomTree *m_geomtree;
 	void *m_data;
 	int m_group;
+	int m_mailboxIndex; // used to avoid duplicate collisions
+	bool m_active;
 };
 
 #endif /* _GEOM_H */

@@ -27,6 +27,7 @@ Pioneer is known to build on the following platforms and build systems:
 
 Linux: GNU Autotools with GCC or Clang
 Windows: Microsoft Visual C++ 2015 (Community or Pro)
+         Microsoft Visual C++ 2017 (Community or Pro)
 Windows: GNU Autotools with MXE (MinGW GCC) (cross-compile on Linux)
 OS X: XCode 4 or Homebrew or GNU Autotools
 
@@ -85,6 +86,7 @@ irc.freenode.net.
    relative path to it is included in the project files.
 
 2. Open the pioneer solution from /win32/vc2015/pioneer.sln
+   or /win32/vc2017/pioneer.sln according to your MSVC version.
 
 3. Build and run the project or solution.
 

@@ -1,626 +1,634 @@
 {
-   "ACCEPTED_1" : {
-      "description" : "",
-      "message" : "Utmärkt. Jag lastar varorna ombord på dit skepp."
-   },
-   "ACCEPTED_2" : {
-      "description" : "",
-      "message" : "Mycket bra."
-   },
-   "ACCEPTED_3" : {
-      "description" : "",
-      "message" : "OK, bra. Jag hoppas du är att lita på."
-   },
-   "ACCEPTED_4" : {
-      "description" : "",
-      "message" : "Taget!"
-   },
-   "ACCEPTED_PICKUP_1" : {
-      "description" : "",
-      "message" : "OK, jag säkerställer att varorna är klara för upphämtning."
-   },
-   "ACCEPTED_PICKUP_2" : {
-      "description" : "",
-      "message" : "Överenskommet! Jag meddelar mina kollegor att du är på väg."
-   },
-   "ADTEXT_1" : {
-      "description" : "",
-      "message" : "TRANSPORT. Leverans av last till {system} systemet."
-   },
-   "ADTEXT_2" : {
-      "description" : "",
-      "message" : "TRANSPORT ÖNSKAS. Behöver transport av varor från {system} systemet. Betalar {cash}."
-   },
-   "ADTEXT_EXPENSIVE_1" : {
-      "description" : "",
-      "message" : "LEVERANS. Värdefull last till {system} systemet. {cash} till en erfaren pilot."
-   },
-   "ADTEXT_LOCAL_1" : {
-      "description" : "",
-      "message" : "LOKAL LEVERANS: Flytt av varor till {starport}."
-   },
-   "ADTEXT_LOCAL_2" : {
-      "description" : "",
-      "message" : "TRANSPORT EFTERSÖKES. Lokalleverans av varor till {starport} "
-   },
-   "ADTEXT_LOCAL_3" : {
-      "description" : "",
-      "message" : "LOKAL VARUTRANSPORT. Leverans av varor till {starport}."
-   },
-   "ADTEXT_PICKUP_1" : {
-      "description" : "",
-      "message" : "HÄMTNING AV LAST. Önskar hämtning av last från {system} systemet."
-   },
-   "ADTEXT_PICKUP_LOCAL_1" : {
-      "description" : "",
-      "message" : "OMLOKALISERING. Flytt av varor från {starport} önskas."
-   },
-   "ADTEXT_WHOLESALER_1" : {
-      "description" : "",
-      "message" : "LASTTJÄNST. Vi behöver ett skepp för leverans till {system} systemet."
-   },
-   "ALUMINIUM_TUBES" : {
-      "description" : "custom cargo",
-      "message" : "Aluminiumtuber"
-   },
-   "AMOUNT" : {
-      "description" : "Shown in mission summary. The amount of cargo",
-      "message" : "Mängd:"
-   },
-   "ART_OBJECTS" : {
-      "description" : "custom cargo",
-      "message" : "Konstföremål"
-   },
-   "CARGO" : {
-      "description" : "",
-      "message" : "Last:"
-   },
-   "CARGORUN" : {
-      "description" : "Name of mission type",
-      "message" : "Leverans."
-   },
-   "CEASE_FIRE" : {
-      "description" : "",
-      "message" : "Eld upphör! Jag är på din sida!"
-   },
-   "CLUS" : {
-      "description" : "custom cargo",
-      "message" : "Bostadsmoduler"
-   },
-   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
-      "description" : "",
-      "message" : "Vänligen reppetera din ursprungliga uttalande."
-   },
-   "DANGER" : {
-      "description" : "the risk level",
-      "message" : "Varning:"
-   },
-   "DEADLINE" : {
-      "description" : "Must be delivered by",
-      "message" : "Deadline:"
-   },
-   "DELIVER_TO" : {
-      "description" : "Deliver to this location",
-      "message" : "Leverera till:"
-   },
-   "DENY_1" : {
-      "description" : "",
-      "message" : "Tyvärr, men denna last är för dyrbar för att jag skall betro dig med den."
-   },
-   "DENY_2" : {
-      "description" : "",
-      "message" : "Jag har aldrig hört talas om dig. Jag varken känner eller litar på dig."
-   },
-   "DENY_3" : {
-      "description" : "",
-      "message" : "Tyvärr, men jag vill ha en erfaren pilot."
-   },
-   "DENY_4" : {
-      "description" : "",
-      "message" : "Ursäkta mig, men jag tror inte du har vad som krävs för att göra detta jobb."
-   },
-   "DENY_5" : {
-      "description" : "",
-      "message" : "Slösa inte bort min tid. Du är ju knappt torr bakom öronen."
-   },
-   "DENY_6" : {
-      "description" : "",
-      "message" : "Kom tillbaka när du är mer erfaren."
-   },
-   "DIAMONDS" : {
-      "description" : "custom cargo",
-      "message" : "Diamanter"
-   },
-   "DIGESTERS" : {
-      "description" : "custom cargo",
-      "message" : "Idisslare"
-   },
-   "DISTANCE" : {
-      "description" : "distance in space, between two locations",
-      "message" : "Avstånd:"
-   },
-   "ELECTRICAL_APPLIANCES" : {
-      "description" : "custom cargo",
-      "message" : "Elektriska hushållsvaror"
-   },
-   "ESCORT_CHATTER_1" : {
-      "description" : "",
-      "message" : "Fientligt skepp detekterat. Låt oss attackera det samtidigt."
-   },
-   "ESCORT_CHATTER_2" : {
-      "description" : "",
-      "message" : "Bra. Detta blir min första döda pirat."
-   },
-   "ESCORT_CHATTER_3" : {
-      "description" : "",
-      "message" : "Fiende upptäckt. Påbörjar attack."
-   },
-   "ESCORT_CHATTER_4" : {
-      "description" : "",
-      "message" : "Fortsätt mot din destination, jag täcker dig."
-   },
-   "ESCORT_CHATTER_5" : {
-      "description" : "",
-      "message" : "Detta blir dagens första fångst."
-   },
-   "EXPLOSIVES" : {
-      "description" : "custom cargo",
-      "message" : "Sprängämnen"
-   },
-   "FAILUREMSG_1" : {
-      "description" : "",
-      "message" : "Jag är mycket besviken på dig för denna sena leverans. Du kommer inte bli betald."
-   },
-   "FAILUREMSG_2" : {
-      "description" : "",
-      "message" : "Du är försen! Vad skall jag göra med detta nu, när det är värdelöst?"
-   },
-   "FAILUREMSG_3" : {
-      "description" : "",
-      "message" : "Vi var överens om tidsfristen, så du kan glömma att få betalt."
-   },
-   "FAILUREMSG_4" : {
-      "description" : "",
-      "message" : "Från och med nu kommer jag avslå alla dina erbjudanden."
-   },
-   "FAILUREMSG_FLUFFY_1" : {
-      "description" : "",
-      "message" : "Ditt monster! Du dröjde förlänge med denna leverans. Alla mina fluffiga husdjur har svultit ihjäl."
-   },
-   "FURNITURE" : {
-      "description" : "custom cargo",
-      "message" : "Möbler"
-   },
-   "GREENHOUSES" : {
-      "description" : "custom cargo",
-      "message" : "Växthus"
-   },
-   "GUNS_GUNS_GUNS" : {
-      "description" : "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
-      "message" : "Vapen, vapen, vapen."
-   },
-   "HAZARDOUS_SUBSTANCES" : {
-      "description" : "custom cargo",
-      "message" : "Farligt gods"
-   },
-   "HOWMUCH_1" : {
-      "description" : "regarding mass, always more than 1t",
-      "message" : "{amount} ton."
-   },
-   "HOWMUCH_2" : {
-      "description" : "regarding mass, always more than 1t",
-      "message" : "{amount}t"
-   },
-   "HOWMUCH_3" : {
-      "description" : "regarding mass, always more than 1t",
-      "message" : "Massan är {amount}t"
-   },
-   "HOWMUCH_4" : {
-      "description" : "regarding mass, always more than 1t",
-      "message" : "Det är {amount}t."
-   },
-   "HOWMUCH_SINGULAR_1" : {
-      "description" : "This string is only used for 1 metric tons (singular)",
-      "message" : "Det är bara {amount}t"
-   },
-   "HOWMUCH_WHOLESALER_1" : {
-      "description" : "",
-      "message" : "Det är {amount}t av {cargoname}."
-   },
-   "HOWMUCH_WHOLESALER_2" : {
-      "description" : "",
-      "message" : "{amount}t {cargoname}"
-   },
-   "HOW_MUCH_MASS" : {
-      "description" : "",
-      "message" : "Hur mycket massa?"
-   },
-   "HOW_SOON_MUST_IT_BE_DELIVERED" : {
-      "description" : "",
-      "message" : "Hur snabbt måste det levereras?"
-   },
-   "INTROTEXT_1" : {
-      "description" : "",
-      "message" : "Hej! Jag heter {name}. Jag betalar dig {cash} om du levererar {cargoname} till {starport} i {system} ({sectorx},{sectory},{sectorz}) systemet, en sträcka på {dist} lå."
-   },
-   "INTROTEXT_2" : {
-      "description" : "{name} is the full name of a person",
-      "message" : "Var hälsad! {name} transportservice behöver {cargoname} till {starport} i {system} ({sectorx},{sectory},{sectorz}) systemet, {dist} lå fjärran. Vi betalar {cash} för pålitlig leverans."
-   },
-   "INTROTEXT_3" : {
-      "description" : "",
-      "message" : "God dag. Jag är {name} Ltd. Jag behöver någon pålitlig som levererar {cargoname} till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}). Jag betalar {cash} för det {dist} ly långa flygningen."
-   },
-   "INTROTEXT_EXPENSIVE_1" : {
-      "description" : "",
-      "message" : "Hej! Vi behöver någon erfaren för en potentiellt farligt transport till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}). Vi betalar {cash}. Avståndet är {dist} ly."
-   },
-   "INTROTEXT_FLUFFY_1" : {
-      "description" : "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
-      "message" : "Hej, mitt namn är {name}. Jag har ett fluffig transport {cargoname} för leverans till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}). Avståndet är {dist} ly. För den här leveransen betalar jag dig {cash}."
-   },
-   "INTROTEXT_INFRASTRUCTURE_1" : {
-      "description" : "",
-      "message" : "Hälsningar. Jag är {name}. Regeringen i {system} vill leverera {cargoname} till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}). Betalningen är {cash}. {system} befinner sig {dist} ly härifrån."
-   },
-   "INTROTEXT_LOCAL_1" : {
-      "description" : "",
-      "message" : "Trevligt att träffa dig. Jag är {name} och jag jobbar för {starport} administrationen. Vi betalar {cash} till någon som kan flytta {cargoname} till {starport}."
-   },
-   "INTROTEXT_LOCAL_2" : {
-      "description" : "",
-      "message" : "Hej. Jag är {name} och jag betalar {cash} för en kort leverans av {cargoname} till {starport}."
-   },
-   "INTROTEXT_LOCAL_3" : {
-      "description" : "",
-      "message" : "Mitt namn är {name} och jag behöver få {cargoname} levererat till en klient på {starport}. Jag betalar dig {cash} för den här leveransen."
-   },
-   "INTROTEXT_MINING_1" : {
-      "description" : "{name} is the full name of a person",
-      "message" : "Hej. Gruvföretaget {name} vill leverera {cargoname} till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly bort, för att bygga en ny gruva. Betalningen är {cash}."
-   },
-   "INTROTEXT_PICKUP_1" : {
-      "description" : "",
-      "message" : "Hur är det med dig? Mitt namn är {name}, och jag behöver ett skepp som kan flyga till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}) för att hämta upp {cargoname} och komma tillbaka till {dom_starport} i systemet {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) för {cash}. Avståndet till {system} är {dist} ly."
-   },
-   "INTROTEXT_PICKUP_2" : {
-      "description" : "",
-      "message" : "Hur är det med dig? Mitt namn är {name}. En av mina klienter vill importera {cargoname} från {starport} i {system} ({sectorx}, {sectory}, {sectorz}) systemet, {dist} härifrån. Han betalar {cash} för denna transport. Återvänd hit till {dom_starport} i {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) systemet för att lasta av."
-   },
-   "INTROTEXT_PICKUP_LOCAL_1" : {
-      "description" : "",
-      "message" : "Hälsningar. Jag är {name}. Jag betalar {cash} till någon som vill transportera {cargoname} från {starport} till {dom_starport}."
-   },
-   "INTROTEXT_PICKUP_LOCAL_2" : {
-      "description" : "",
-      "message" : "Hej. Mitt namn är {name}. Min arbetsgivare är beredd att hyra dig för {cash} för att hjälpa oss att omlokalisera vårt lager genom att flytta {cargoname} från {starport} till vår nya hemvist i {dom_starport}."
-   },
-   "INTROTEXT_WEDDING_1" : {
-      "description" : "",
-      "message" : "Hälsningar. Har du hört talas om bröllopssäsongen på {startport} i systemet {system} ({sectorx}, {sectory}, {sectorz})? Vi vill transportera {cargoname} dit. Det är {dist} ly bort. Betalningen är {cash}. Vad säger du?"
-   },
-   "INTROTEXT_WHOLESALER_1" : {
-      "description" : "",
-      "message" : "Hej, mitt namn är {name}. Jag är en grossist i systemet {system}. Jag betalar {cash} för leveransen till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly."
-   },
-   "INTROTEXT_WHOLESALER_2" : {
-      "description" : "",
-      "message" : "Hälsningar, mitt namn är {name} och jag jobbar för hamnföretaget. Vi betalar {cash} för en leverans till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), ett avstånd på {dist} ly."
-   },
-   "I_AM_ON_MY_WAY" : {
-      "description" : "",
-      "message" : "Mina sensorer visar att du är skadad. Jag är på väg till din undsättning."
-   },
-   "I_HAVE_DEBITED_YOUR_ACCOUNT" : {
-      "description" : "",
-      "message" : "De skanade varorna har nu dragits av från ditt konto."
-   },
-   "I_NEED_HELP" : {
-      "description" : "",
-      "message" : "Jag är skadad. Jag behöver hjälp."
-   },
-   "LY" : {
-      "description" : "",
-      "message" : "ly"
-   },
-   "MACHINE_TOOLS" : {
-      "description" : "custom cargo",
-      "message" : "Maskinverktyg"
-   },
-   "NEPTUNIUM" : {
-      "description" : "custom cargo",
-      "message" : "Neptunium"
-   },
-   "OK_AGREED" : {
-      "description" : "",
-      "message" : "OK, överenskommet."
-   },
-   "PICKUP_FROM" : {
-      "description" : "from a location",
-      "message" : "Hämta last från:"
-   },
-   "PIRATE_GRIPES_1" : {
-      "description" : "",
-      "message" : "Attans! Du skall få sona för detta!"
-   },
-   "PIRATE_GRIPES_2" : {
-      "description" : "",
-      "message" : "Oh, nej. Mitt arma skepp!"
-   },
-   "PIRATE_GRIPES_3" : {
-      "description" : "said with vengeance",
-      "message" : "Vänta du bara!"
-   },
-   "PIRATE_TAUNTS_1" : {
-      "description" : "",
-      "message" : "Detta kommer att bli din svanesång."
-   },
-   "PIRATE_TAUNTS_2" : {
-      "description" : "",
-      "message" : "Tjänar du {client}? Det kommer att bli din död."
-   },
-   "PIRATE_TAUNTS_3" : {
-      "description" : "",
-      "message" : "Ro hit med varorna, omedelbums!"
-   },
-   "PIRATE_TAUNTS_4" : {
-      "description" : "",
-      "message" : "Du kommer aldrig att komma fram."
-   },
-   "PIRATE_TAUNTS_5" : {
-      "description" : "",
-      "message" : "Ytterligare en tjock gris på väg till {location}."
-   },
-   "PIRATE_TAUNTS_6" : {
-      "description" : "",
-      "message" : "Du ser lite överlastad ut. Låt mig hjälpa dig."
-   },
-   "PIRATE_TAUNTS_7" : {
-      "description" : "",
-      "message" : "Nu har vinden vänt för dig."
-   },
-   "PLUTONIUM" : {
-      "description" : "custom cargo",
-      "message" : "Plutonium"
-   },
-   "QUIBBLES" : {
-      "description" : "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-      "message" : "Quibbler"
-   },
-   "RISK_1" : {
-      "description" : "",
-      "message" : "Jag förväntar mig inga problem."
-   },
-   "RISK_2" : {
-      "description" : "",
-      "message" : "Inte mer än vanligt."
-   },
-   "RISK_3" : {
-      "description" : "",
-      "message" : "Lasten är dyrbar, så håll ögonen öppna."
-   },
-   "RISK_4" : {
-      "description" : "",
-      "message" : "Det kan vara farligt, du borde försäkra dig om att du är tillräckligt förberedd."
-   },
-   "RISK_5" : {
-      "description" : "",
-      "message" : "Detta kan bli riskabelt. Du skulle kunna stöta på hårt motstånd."
-   },
-   "RISK_6" : {
-      "description" : "",
-      "message" : "Räkna inte med att nå fram oskadd."
-   },
-   "RISK_ART_1" : {
-      "description" : "",
-      "message" : "Denna last är åtråvärd för konstkännare."
-   },
-   "RISK_EXPENSIVE_1" : {
-      "description" : "",
-      "message" : "Vi har gjort vad vi kan för att hemlighålla leveransen, men man kan aldrig vara säker."
-   },
-   "RISK_EXPENSIVE_2" : {
-      "description" : "",
-      "message" : "Enligt polisen är en grupp pirater verksamma i systemet."
-   },
-   "RISK_GEMS_1" : {
-      "description" : "",
-      "message" : "Det är inte otänkbart att en samvetslös juvelare vill komma åt lasten."
-   },
-   "RISK_WHOLESALER_1" : {
-      "description" : "",
-      "message" : "Oroa dig inte. Det finns en polispatrull redo i fall det skulle behövas."
-   },
-   "RISK_WHOLESALER_2" : {
-      "description" : "",
-      "message" : "Polisen har lovat oss en paturll i området."
-   },
-   "RISK_WHOLESALER_3" : {
-      "description" : "",
-      "message" : "Risken är hög, men det finns en eskort som vaktar dig."
-   },
-   "SEMI_FINISHED_PRODUCTS" : {
-      "description" : "custom cargo",
-      "message" : "Halvfärdiga produkter"
-   },
-   "SET_AS_TARGET" : {
-      "description" : "",
-      "message" : "Använd destination som navigationsmål"
-   },
-   "SET_RETURN_ROUTE" : {
-      "description" : "",
-      "message" : "Sätt som returmål"
-   },
-   "SPACEPORT" : {
-      "description" : "",
-      "message" : "Rymdstation:"
-   },
-   "SPACESHIP_PARTS" : {
-      "description" : "custom cargo",
-      "message" : "Rymdskeppsdelar"
-   },
-   "SUCCESSMSG_1" : {
-      "description" : "",
-      "message" : "Tack för leveransen. Du har nu fått betalt."
-   },
-   "SUCCESSMSG_2" : {
-      "description" : "",
-      "message" : "Tack för den punktliga leveransen. Pengarna har förts över."
-   },
-   "SUCCESSMSG_3" : {
-      "description" : "",
-      "message" : "Utmärkt! Det har varit ett sant nöje att anlita dig. Jag har betalat,"
-   },
-   "SUCCESSMSG_4" : {
-      "description" : "",
-      "message" : "Tack! Jag skall definitivt rekommendera dig. Pengarna har förts över."
-   },
-   "SUCCESSMSG_FLUFFY_1" : {
-      "description" : "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
-      "message" : "Kära nån, vad skall jag göra med alla dessa lurviga tingest. Hur som helst, pengarna har förts över."
-   },
-   "SYSTEM" : {
-      "description" : "",
-      "message" : "System:"
-   },
-   "TARGET_DESTROYED" : {
-      "description" : "",
-      "message" : "Målet bekämpat."
-   },
-   "TITANIUM" : {
-      "description" : "custom cargo",
-      "message" : "Titan"
-   },
-   "TUNGSTEN" : {
-      "description" : "custom cargo",
-      "message" : "Volfram"
-   },
-   "URANIUM" : {
-      "description" : "custom cargo",
-      "message" : "Uran"
-   },
-   "URGENCY_1" : {
-      "description" : "",
-      "message" : "Ingen brådska. Det skall vara leverarat till {date}."
-   },
-   "URGENCY_2" : {
-      "description" : "",
-      "message" : "Det måste vara levererat till {date}."
-   },
-   "URGENCY_3" : {
-      "description" : "",
-      "message" : "Eftersom vi har kort om tid måste det vara levererat till {date}."
-   },
-   "URGENCY_4" : {
-      "description" : "",
-      "message" : "Det är brådskande, så det måste vara levererat till {date}."
-   },
-   "URGENCY_5" : {
-      "description" : "",
-      "message" : "Det är avgörande att varorna har levererats före {date}."
-   },
-   "URGENCY_FLUFFY_1" : {
-      "description" : "",
-      "message" : "På grund av dessa små djurs reproduktionstakt och begränsningen av mat så måste leveransen vara slutförd till {date}."
-   },
-   "URGENCY_RADIOACTIVE_1" : {
-      "description" : "",
-      "message" : "På grund av halveringstiden för denna isotop så måste leveransen vara mottagaren tillhanda till {date}."
-   },
-   "WEDDING_DRESSES" : {
-      "description" : "custom cargo",
-      "message" : "Bröllopsklänningar"
-   },
-   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP" : {
-      "description" : "",
-      "message" : "Vi har lastat ditt skepp."
-   },
-   "WHAT_IS_THIS" : {
-      "description" : "",
-      "message" : "Vad är detta? Har du dumpat min last? Är du galen?"
-   },
-   "WHYSOMUCH_1" : {
-      "description" : "",
-      "message" : "Det är standardbeloppet."
-   },
-   "WHYSOMUCH_2" : {
-      "description" : "",
-      "message" : "Ta det eller låt det vara."
-   },
-   "WHYSOMUCH_3" : {
-      "description" : "",
-      "message" : "\"Mycket\" är en relativ term."
-   },
-   "WHYSOMUCH_4" : {
-      "description" : "",
-      "message" : "Betalningen reflekterar vår vilja att det levereras helt och i tid."
-   },
-   "WHYSOMUCH_5" : {
-      "description" : "",
-      "message" : "Du kan tolka det som en bonus för att vara diskret."
-   },
-   "WHYSOMUCH_6" : {
-      "description" : "",
-      "message" : "Vi skulle gärna betalat dig mindre."
-   },
-   "WHYSOMUCH_CENTRIFUGES_1" : {
-      "description" : "",
-      "message" : "Några {cargoname} blev förstörda på grund av mjukvarufel och måste ersättas omgående."
-   },
-   "WHYSOMUCH_CHEMICAL_1" : {
-      "description" : "",
-      "message" : "Produktionen i kemifabriken är avhängit dessa varor. Inget får hindra maskinen."
-   },
-   "WHYSOMUCH_EXPENSIVE_1" : {
-      "description" : "",
-      "message" : "Det finns en stor efterfrågan på dyra varor."
-   },
-   "WHYSOMUCH_EXPENSIVE_2" : {
-      "description" : "",
-      "message" : "Därför att dessa varor är ganska dyra."
-   },
-   "WHYSOMUCH_FLUFFY_1" : {
-      "description" : "",
-      "message" : "{cargoname} är storsäljaren den här säsongen. Du borde investera i {cargoname} aktier om du vill tjäna massor av pengar."
-   },
-   "WHYSOMUCH_INFRASTRUCTURE_1" : {
-      "description" : "",
-      "message" : "Ett byggprojekt är avhängigt dessa varor"
-   },
-   "WHYSOMUCH_MINING_1" : {
-      "description" : "",
-      "message" : "Dessa varor är nödvändiga för färdigställandet av en ny gruva."
-   },
-   "WHYSOMUCH_URGENT_1" : {
-      "description" : "",
-      "message" : "Min favoritpilot är sjuk och det är ont om tid."
-   },
-   "WHYSOMUCH_URGENT_2" : {
-      "description" : "",
-      "message" : "Om leveransen försenas kommer projektet att bli stillastående."
-   },
-   "WHYSOMUCH_URGENT_3" : {
-      "description" : "",
-      "message" : "Dessa varor behövs brådskande."
-   },
-   "WHYSOMUCH_WEDDING_1" : {
-      "description" : "",
-      "message" : "Än så länge har jag inte kunnat hitta någon som utför den här leveransen. När säsongen är över är mina handelsvaror värdelösa."
-   },
-   "WHY_SO_MUCH_MONEY" : {
-      "description" : "",
-      "message" : "Varför så mycket pengar?"
-   },
-   "WILL_I_BE_IN_ANY_DANGER" : {
-      "description" : "",
-      "message" : "Kommer jag att hamna i någon fara?"
-   },
-   "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP" : {
-      "description" : "",
-      "message" : "Du har inte tilltäckligt med lastutrymme på ditt skepp."
-   },
-   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE" : {
-      "description" : "",
-      "message" : "Kom tillbaka när du har tillräckligt med lastutrymme."
-   }
+  "ACCEPTED_1": {
+    "description": "",
+    "message": "Utmärkt. Jag lastar varorna ombord på dit skepp."
+  },
+  "ACCEPTED_2": {
+    "description": "",
+    "message": "Mycket bra."
+  },
+  "ACCEPTED_3": {
+    "description": "",
+    "message": "OK, bra. Jag hoppas du är att lita på."
+  },
+  "ACCEPTED_4": {
+    "description": "",
+    "message": "Taget!"
+  },
+  "ACCEPTED_PICKUP_1": {
+    "description": "",
+    "message": "OK, jag säkerställer att varorna är klara för upphämtning."
+  },
+  "ACCEPTED_PICKUP_2": {
+    "description": "",
+    "message": "Överenskommet! Jag meddelar mina kollegor att du är på väg."
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "TRANSPORT. Leverans av last till {system} systemet."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "TRANSPORT ÖNSKAS. Behöver transport av varor från {system} systemet. Betalar {cash}."
+  },
+  "ADTEXT_EXPENSIVE_1": {
+    "description": "",
+    "message": "LEVERANS. Värdefull last till {system} systemet. {cash} till en erfaren pilot."
+  },
+  "ADTEXT_LOCAL_1": {
+    "description": "",
+    "message": "LOKAL LEVERANS: Flytt av varor till {starport}."
+  },
+  "ADTEXT_LOCAL_2": {
+    "description": "",
+    "message": "TRANSPORT EFTERSÖKES. Lokalleverans av varor till {starport} "
+  },
+  "ADTEXT_LOCAL_3": {
+    "description": "",
+    "message": "LOKAL VARUTRANSPORT. Leverans av varor till {starport}."
+  },
+  "ADTEXT_PICKUP_1": {
+    "description": "",
+    "message": "HÄMTNING AV LAST. Önskar hämtning av last från {system} systemet."
+  },
+  "ADTEXT_PICKUP_LOCAL_1": {
+    "description": "",
+    "message": "OMLOKALISERING. Flytt av varor från {starport} önskas."
+  },
+  "ADTEXT_WHOLESALER_1": {
+    "description": "",
+    "message": "LASTTJÄNST. Vi behöver ett skepp för leverans till {system} systemet."
+  },
+  "ALUMINIUM_TUBES": {
+    "description": "custom cargo",
+    "message": "Aluminiumtuber"
+  },
+  "AMOUNT": {
+    "description": "Shown in mission summary. The amount of cargo",
+    "message": "Mängd:"
+  },
+  "ART_OBJECTS": {
+    "description": "custom cargo",
+    "message": "Konstföremål"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Last:"
+  },
+  "CARGORUN": {
+    "description": "Name of mission type",
+    "message": "Leverans."
+  },
+  "CARGO_IS_LOADED": {
+    "description": "",
+    "message": "loaded"
+  },
+  "CARGO_IS_NOT_LOADED": {
+    "description": "",
+    "message": "not loaded"
+  },
+  "CEASE_FIRE": {
+    "description": "",
+    "message": "Eld upphör! Jag är på din sida!"
+  },
+  "CLUS": {
+    "description": "custom cargo",
+    "message": "Bostadsmoduler"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Vänligen reppetera din ursprungliga uttalande."
+  },
+  "DANGER": {
+    "description": "the risk level",
+    "message": "Varning:"
+  },
+  "DEADLINE": {
+    "description": "Must be delivered by",
+    "message": "Deadline:"
+  },
+  "DELIVER_TO": {
+    "description": "Deliver to this location",
+    "message": "Leverera till:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Tyvärr, men denna last är för dyrbar för att jag skall betro dig med den."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Jag har aldrig hört talas om dig. Jag varken känner eller litar på dig."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Tyvärr, men jag vill ha en erfaren pilot."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Ursäkta mig, men jag tror inte du har vad som krävs för att göra detta jobb."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Slösa inte bort min tid. Du är ju knappt torr bakom öronen."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "Kom tillbaka när du är mer erfaren."
+  },
+  "DIAMONDS": {
+    "description": "custom cargo",
+    "message": "Diamanter"
+  },
+  "DIGESTERS": {
+    "description": "custom cargo",
+    "message": "Idisslare"
+  },
+  "DISTANCE": {
+    "description": "distance in space, between two locations",
+    "message": "Avstånd:"
+  },
+  "ELECTRICAL_APPLIANCES": {
+    "description": "custom cargo",
+    "message": "Elektriska hushållsvaror"
+  },
+  "ESCORT_CHATTER_1": {
+    "description": "",
+    "message": "Fientligt skepp detekterat. Låt oss attackera det samtidigt."
+  },
+  "ESCORT_CHATTER_2": {
+    "description": "",
+    "message": "Bra. Detta blir min första döda pirat."
+  },
+  "ESCORT_CHATTER_3": {
+    "description": "",
+    "message": "Fiende upptäckt. Påbörjar attack."
+  },
+  "ESCORT_CHATTER_4": {
+    "description": "",
+    "message": "Fortsätt mot din destination, jag täcker dig."
+  },
+  "ESCORT_CHATTER_5": {
+    "description": "",
+    "message": "Detta blir dagens första fångst."
+  },
+  "EXPLOSIVES": {
+    "description": "custom cargo",
+    "message": "Sprängämnen"
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "Jag är mycket besviken på dig för denna sena leverans. Du kommer inte bli betald."
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "Du är försen! Vad skall jag göra med detta nu, när det är värdelöst?"
+  },
+  "FAILUREMSG_3": {
+    "description": "",
+    "message": "Vi var överens om tidsfristen, så du kan glömma att få betalt."
+  },
+  "FAILUREMSG_4": {
+    "description": "",
+    "message": "Från och med nu kommer jag avslå alla dina erbjudanden."
+  },
+  "FAILUREMSG_FLUFFY_1": {
+    "description": "",
+    "message": "Ditt monster! Du dröjde förlänge med denna leverans. Alla mina fluffiga husdjur har svultit ihjäl."
+  },
+  "FURNITURE": {
+    "description": "custom cargo",
+    "message": "Möbler"
+  },
+  "GREENHOUSES": {
+    "description": "custom cargo",
+    "message": "Växthus"
+  },
+  "GUNS_GUNS_GUNS": {
+    "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
+    "message": "Vapen, vapen, vapen."
+  },
+  "HAZARDOUS_SUBSTANCES": {
+    "description": "custom cargo",
+    "message": "Farligt gods"
+  },
+  "HOWMUCH_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount} ton."
+  },
+  "HOWMUCH_2": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount}t"
+  },
+  "HOWMUCH_3": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Massan är {amount}t"
+  },
+  "HOWMUCH_4": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Det är {amount}t."
+  },
+  "HOWMUCH_SINGULAR_1": {
+    "description": "This string is only used for 1 metric tons (singular)",
+    "message": "Det är bara {amount}t"
+  },
+  "HOWMUCH_WHOLESALER_1": {
+    "description": "",
+    "message": "Det är {amount}t av {cargoname}."
+  },
+  "HOWMUCH_WHOLESALER_2": {
+    "description": "",
+    "message": "{amount}t {cargoname}"
+  },
+  "HOW_MUCH_MASS": {
+    "description": "",
+    "message": "Hur mycket massa?"
+  },
+  "HOW_SOON_MUST_IT_BE_DELIVERED": {
+    "description": "",
+    "message": "Hur snabbt måste det levereras?"
+  },
+  "INTROTEXT_1": {
+    "description": "",
+    "message": "Hej! Jag heter {name}. Jag betalar dig {cash} om du levererar {cargoname} till {starport} i {system} ({sectorx},{sectory},{sectorz}) systemet, en sträcka på {dist} lå."
+  },
+  "INTROTEXT_2": {
+    "description": "{name} is the full name of a person",
+    "message": "Var hälsad! {name} transportservice behöver {cargoname} till {starport} i {system} ({sectorx},{sectory},{sectorz}) systemet, {dist} lå fjärran. Vi betalar {cash} för pålitlig leverans."
+  },
+  "INTROTEXT_3": {
+    "description": "",
+    "message": "God dag. Jag är {name} Ltd. Jag behöver någon pålitlig som levererar {cargoname} till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}). Jag betalar {cash} för det {dist} ly långa flygningen."
+  },
+  "INTROTEXT_EXPENSIVE_1": {
+    "description": "",
+    "message": "Hej! Vi behöver någon erfaren för en potentiellt farligt transport till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}). Vi betalar {cash}. Avståndet är {dist} ly."
+  },
+  "INTROTEXT_FLUFFY_1": {
+    "description": "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
+    "message": "Hej, mitt namn är {name}. Jag har ett fluffig transport {cargoname} för leverans till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}). Avståndet är {dist} ly. För den här leveransen betalar jag dig {cash}."
+  },
+  "INTROTEXT_INFRASTRUCTURE_1": {
+    "description": "",
+    "message": "Hälsningar. Jag är {name}. Regeringen i {system} vill leverera {cargoname} till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}). Betalningen är {cash}. {system} befinner sig {dist} ly härifrån."
+  },
+  "INTROTEXT_LOCAL_1": {
+    "description": "",
+    "message": "Trevligt att träffa dig. Jag är {name} och jag jobbar för {starport} administrationen. Vi betalar {cash} till någon som kan flytta {cargoname} till {starport}."
+  },
+  "INTROTEXT_LOCAL_2": {
+    "description": "",
+    "message": "Hej. Jag är {name} och jag betalar {cash} för en kort leverans av {cargoname} till {starport}."
+  },
+  "INTROTEXT_LOCAL_3": {
+    "description": "",
+    "message": "Mitt namn är {name} och jag behöver få {cargoname} levererat till en klient på {starport}. Jag betalar dig {cash} för den här leveransen."
+  },
+  "INTROTEXT_MINING_1": {
+    "description": "{name} is the full name of a person",
+    "message": "Hej. Gruvföretaget {name} vill leverera {cargoname} till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly bort, för att bygga en ny gruva. Betalningen är {cash}."
+  },
+  "INTROTEXT_PICKUP_1": {
+    "description": "",
+    "message": "Hur är det med dig? Mitt namn är {name}, och jag behöver ett skepp som kan flyga till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}) för att hämta upp {cargoname} och komma tillbaka till {dom_starport} i systemet {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) för {cash}. Avståndet till {system} är {dist} ly."
+  },
+  "INTROTEXT_PICKUP_2": {
+    "description": "",
+    "message": "Hur är det med dig? Mitt namn är {name}. En av mina klienter vill importera {cargoname} från {starport} i {system} ({sectorx}, {sectory}, {sectorz}) systemet, {dist} härifrån. Han betalar {cash} för denna transport. Återvänd hit till {dom_starport} i {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) systemet för att lasta av."
+  },
+  "INTROTEXT_PICKUP_LOCAL_1": {
+    "description": "",
+    "message": "Hälsningar. Jag är {name}. Jag betalar {cash} till någon som vill transportera {cargoname} från {starport} till {dom_starport}."
+  },
+  "INTROTEXT_PICKUP_LOCAL_2": {
+    "description": "",
+    "message": "Hej. Mitt namn är {name}. Min arbetsgivare är beredd att hyra dig för {cash} för att hjälpa oss att omlokalisera vårt lager genom att flytta {cargoname} från {starport} till vår nya hemvist i {dom_starport}."
+  },
+  "INTROTEXT_WEDDING_1": {
+    "description": "",
+    "message": "Hälsningar. Har du hört talas om bröllopssäsongen på {startport} i systemet {system} ({sectorx}, {sectory}, {sectorz})? Vi vill transportera {cargoname} dit. Det är {dist} ly bort. Betalningen är {cash}. Vad säger du?"
+  },
+  "INTROTEXT_WHOLESALER_1": {
+    "description": "",
+    "message": "Hej, mitt namn är {name}. Jag är en grossist i systemet {system}. Jag betalar {cash} för leveransen till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly."
+  },
+  "INTROTEXT_WHOLESALER_2": {
+    "description": "",
+    "message": "Hälsningar, mitt namn är {name} och jag jobbar för hamnföretaget. Vi betalar {cash} för en leverans till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), ett avstånd på {dist} ly."
+  },
+  "I_AM_ON_MY_WAY": {
+    "description": "",
+    "message": "Mina sensorer visar att du är skadad. Jag är på väg till din undsättning."
+  },
+  "I_HAVE_DEBITED_YOUR_ACCOUNT": {
+    "description": "",
+    "message": "De skanade varorna har nu dragits av från ditt konto."
+  },
+  "I_NEED_HELP": {
+    "description": "",
+    "message": "Jag är skadad. Jag behöver hjälp."
+  },
+  "LY": {
+    "description": "",
+    "message": "ly"
+  },
+  "MACHINE_TOOLS": {
+    "description": "custom cargo",
+    "message": "Maskinverktyg"
+  },
+  "NEPTUNIUM": {
+    "description": "custom cargo",
+    "message": "Neptunium"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "OK, överenskommet."
+  },
+  "PICKUP_FROM": {
+    "description": "from a location",
+    "message": "Hämta last från:"
+  },
+  "PIRATE_GRIPES_1": {
+    "description": "",
+    "message": "Attans! Du skall få sona för detta!"
+  },
+  "PIRATE_GRIPES_2": {
+    "description": "",
+    "message": "Oh, nej. Mitt arma skepp!"
+  },
+  "PIRATE_GRIPES_3": {
+    "description": "said with vengeance",
+    "message": "Vänta du bara!"
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Detta kommer att bli din svanesång."
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "Tjänar du {client}? Det kommer att bli din död."
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Ro hit med varorna, omedelbums!"
+  },
+  "PIRATE_TAUNTS_4": {
+    "description": "",
+    "message": "Du kommer aldrig att komma fram."
+  },
+  "PIRATE_TAUNTS_5": {
+    "description": "",
+    "message": "Ytterligare en tjock gris på väg till {location}."
+  },
+  "PIRATE_TAUNTS_6": {
+    "description": "",
+    "message": "Du ser lite överlastad ut. Låt mig hjälpa dig."
+  },
+  "PIRATE_TAUNTS_7": {
+    "description": "",
+    "message": "Nu har vinden vänt för dig."
+  },
+  "PLUTONIUM": {
+    "description": "custom cargo",
+    "message": "Plutonium"
+  },
+  "QUIBBLES": {
+    "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
+    "message": "Quibbler"
+  },
+  "RISK_1": {
+    "description": "",
+    "message": "Jag förväntar mig inga problem."
+  },
+  "RISK_2": {
+    "description": "",
+    "message": "Inte mer än vanligt."
+  },
+  "RISK_3": {
+    "description": "",
+    "message": "Lasten är dyrbar, så håll ögonen öppna."
+  },
+  "RISK_4": {
+    "description": "",
+    "message": "Det kan vara farligt, du borde försäkra dig om att du är tillräckligt förberedd."
+  },
+  "RISK_5": {
+    "description": "",
+    "message": "Detta kan bli riskabelt. Du skulle kunna stöta på hårt motstånd."
+  },
+  "RISK_6": {
+    "description": "",
+    "message": "Räkna inte med att nå fram oskadd."
+  },
+  "RISK_ART_1": {
+    "description": "",
+    "message": "Denna last är åtråvärd för konstkännare."
+  },
+  "RISK_EXPENSIVE_1": {
+    "description": "",
+    "message": "Vi har gjort vad vi kan för att hemlighålla leveransen, men man kan aldrig vara säker."
+  },
+  "RISK_EXPENSIVE_2": {
+    "description": "",
+    "message": "Enligt polisen är en grupp pirater verksamma i systemet."
+  },
+  "RISK_GEMS_1": {
+    "description": "",
+    "message": "Det är inte otänkbart att en samvetslös juvelare vill komma åt lasten."
+  },
+  "RISK_WHOLESALER_1": {
+    "description": "",
+    "message": "Oroa dig inte. Det finns en polispatrull redo i fall det skulle behövas."
+  },
+  "RISK_WHOLESALER_2": {
+    "description": "",
+    "message": "Polisen har lovat oss en paturll i området."
+  },
+  "RISK_WHOLESALER_3": {
+    "description": "",
+    "message": "Risken är hög, men det finns en eskort som vaktar dig."
+  },
+  "SEMI_FINISHED_PRODUCTS": {
+    "description": "custom cargo",
+    "message": "Halvfärdiga produkter"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Använd destination som navigationsmål"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Sätt som returmål"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Rymdstation:"
+  },
+  "SPACESHIP_PARTS": {
+    "description": "custom cargo",
+    "message": "Rymdskeppsdelar"
+  },
+  "SUCCESSMSG_1": {
+    "description": "",
+    "message": "Tack för leveransen. Du har nu fått betalt."
+  },
+  "SUCCESSMSG_2": {
+    "description": "",
+    "message": "Tack för den punktliga leveransen. Pengarna har förts över."
+  },
+  "SUCCESSMSG_3": {
+    "description": "",
+    "message": "Utmärkt! Det har varit ett sant nöje att anlita dig. Jag har betalat,"
+  },
+  "SUCCESSMSG_4": {
+    "description": "",
+    "message": "Tack! Jag skall definitivt rekommendera dig. Pengarna har förts över."
+  },
+  "SUCCESSMSG_FLUFFY_1": {
+    "description": "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
+    "message": "Kära nån, vad skall jag göra med alla dessa lurviga tingest. Hur som helst, pengarna har förts över."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "System:"
+  },
+  "TARGET_DESTROYED": {
+    "description": "",
+    "message": "Målet bekämpat."
+  },
+  "TITANIUM": {
+    "description": "custom cargo",
+    "message": "Titan"
+  },
+  "TUNGSTEN": {
+    "description": "custom cargo",
+    "message": "Volfram"
+  },
+  "URANIUM": {
+    "description": "custom cargo",
+    "message": "Uran"
+  },
+  "URGENCY_1": {
+    "description": "",
+    "message": "Ingen brådska. Det skall vara leverarat till {date}."
+  },
+  "URGENCY_2": {
+    "description": "",
+    "message": "Det måste vara levererat till {date}."
+  },
+  "URGENCY_3": {
+    "description": "",
+    "message": "Eftersom vi har kort om tid måste det vara levererat till {date}."
+  },
+  "URGENCY_4": {
+    "description": "",
+    "message": "Det är brådskande, så det måste vara levererat till {date}."
+  },
+  "URGENCY_5": {
+    "description": "",
+    "message": "Det är avgörande att varorna har levererats före {date}."
+  },
+  "URGENCY_FLUFFY_1": {
+    "description": "",
+    "message": "På grund av dessa små djurs reproduktionstakt och begränsningen av mat så måste leveransen vara slutförd till {date}."
+  },
+  "URGENCY_RADIOACTIVE_1": {
+    "description": "",
+    "message": "På grund av halveringstiden för denna isotop så måste leveransen vara mottagaren tillhanda till {date}."
+  },
+  "WEDDING_DRESSES": {
+    "description": "custom cargo",
+    "message": "Bröllopsklänningar"
+  },
+  "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
+    "description": "",
+    "message": "Vi har lastat ditt skepp."
+  },
+  "WHAT_IS_THIS": {
+    "description": "",
+    "message": "Vad är detta? Har du dumpat min last? Är du galen?"
+  },
+  "WHYSOMUCH_1": {
+    "description": "",
+    "message": "Det är standardbeloppet."
+  },
+  "WHYSOMUCH_2": {
+    "description": "",
+    "message": "Ta det eller låt det vara."
+  },
+  "WHYSOMUCH_3": {
+    "description": "",
+    "message": "\"Mycket\" är en relativ term."
+  },
+  "WHYSOMUCH_4": {
+    "description": "",
+    "message": "Betalningen reflekterar vår vilja att det levereras helt och i tid."
+  },
+  "WHYSOMUCH_5": {
+    "description": "",
+    "message": "Du kan tolka det som en bonus för att vara diskret."
+  },
+  "WHYSOMUCH_6": {
+    "description": "",
+    "message": "Vi skulle gärna betalat dig mindre."
+  },
+  "WHYSOMUCH_CENTRIFUGES_1": {
+    "description": "",
+    "message": "Några {cargoname} blev förstörda på grund av mjukvarufel och måste ersättas omgående."
+  },
+  "WHYSOMUCH_CHEMICAL_1": {
+    "description": "",
+    "message": "Produktionen i kemifabriken är avhängit dessa varor. Inget får hindra maskinen."
+  },
+  "WHYSOMUCH_EXPENSIVE_1": {
+    "description": "",
+    "message": "Det finns en stor efterfrågan på dyra varor."
+  },
+  "WHYSOMUCH_EXPENSIVE_2": {
+    "description": "",
+    "message": "Därför att dessa varor är ganska dyra."
+  },
+  "WHYSOMUCH_FLUFFY_1": {
+    "description": "",
+    "message": "{cargoname} är storsäljaren den här säsongen. Du borde investera i {cargoname} aktier om du vill tjäna massor av pengar."
+  },
+  "WHYSOMUCH_INFRASTRUCTURE_1": {
+    "description": "",
+    "message": "Ett byggprojekt är avhängigt dessa varor"
+  },
+  "WHYSOMUCH_MINING_1": {
+    "description": "",
+    "message": "Dessa varor är nödvändiga för färdigställandet av en ny gruva."
+  },
+  "WHYSOMUCH_URGENT_1": {
+    "description": "",
+    "message": "Min favoritpilot är sjuk och det är ont om tid."
+  },
+  "WHYSOMUCH_URGENT_2": {
+    "description": "",
+    "message": "Om leveransen försenas kommer projektet att bli stillastående."
+  },
+  "WHYSOMUCH_URGENT_3": {
+    "description": "",
+    "message": "Dessa varor behövs brådskande."
+  },
+  "WHYSOMUCH_WEDDING_1": {
+    "description": "",
+    "message": "Än så länge har jag inte kunnat hitta någon som utför den här leveransen. När säsongen är över är mina handelsvaror värdelösa."
+  },
+  "WHY_SO_MUCH_MONEY": {
+    "description": "",
+    "message": "Varför så mycket pengar?"
+  },
+  "WILL_I_BE_IN_ANY_DANGER": {
+    "description": "",
+    "message": "Kommer jag att hamna i någon fara?"
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP": {
+    "description": "",
+    "message": "Du har inte tilltäckligt med lastutrymme på ditt skepp."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
+    "description": "",
+    "message": "Kom tillbaka när du har tillräckligt med lastutrymme."
+  }
 }

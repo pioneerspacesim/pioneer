@@ -233,6 +233,7 @@
     <ClCompile Include="..\..\..\src\terrain\Terrain.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorAsteroid.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorBandedRock.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainColorBlack.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorDeadWithWater.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorDesert.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorEarthLike.cpp" />
@@ -247,7 +248,6 @@
     <ClCompile Include="..\..\..\src\terrain\TerrainColorMethane.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorRock.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorRock2.cpp" />
-    <ClCompile Include="..\..\..\src\terrain\TerrainColorSolid.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorStarBrownDwarf.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorStarG.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorStarK.cpp" />
@@ -256,6 +256,7 @@
     <ClCompile Include="..\..\..\src\terrain\TerrainColorTFGood.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorTFPoor.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainColorVolcanic.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainColorWhite.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainFeature.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainHeightAsteroid.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainHeightAsteroid2.cpp" />

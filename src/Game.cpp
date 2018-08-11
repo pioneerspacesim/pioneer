@@ -230,6 +230,47 @@ void Game::ToJson(Json::Value &jsonObj)
 	// lua
 	Pi::luaSerializer->ToJson(jsonObj);
 
+	// Stuff to show in the preview in load game window
+	// some may be redundant, but this won't require loading up a game to get it all
+	Json::Value gameInfo(Json::objectValue);
+	float credits = LuaObject<Player>::CallMethod<float>(Pi::player, "GetMoney");
+
+	gameInfo["system"] = Pi::game->GetSpace()->GetStarSystem()->GetName();
+	gameInfo["credits"] = credits;
+	gameInfo["ship"] = Pi::player->GetShipType()->modelName;
+	if (Pi::player->IsDocked()) {
+		gameInfo["docked_at"] = Pi::player->GetDockedWith()->GetSystemBody()->GetName();
+	}
+
+	switch (Pi::player->GetFlightState()) {
+	case Ship::FlightState::DOCKED:
+		gameInfo["flight_state"] = "docked";
+		break;
+	case Ship::FlightState::DOCKING:
+		gameInfo["flight_state"] = "docking";
+		break;
+	case Ship::FlightState::FLYING:
+		gameInfo["flight_state"] = "flying";
+		break;
+	case Ship::FlightState::HYPERSPACE:
+		gameInfo["flight_state"] = "hyperspace";
+		break;
+	case Ship::FlightState::JUMPING:
+		gameInfo["flight_state"] = "jumping";
+		break;
+	case Ship::FlightState::LANDED:
+		gameInfo["flight_state"] = "landed";
+		break;
+	case Ship::FlightState::UNDOCKING:
+		gameInfo["flight_state"] = "undocking";
+		break;
+	default:
+		gameInfo["flight_state"] = "unknown";
+		break;
+	}
+
+	jsonObj["game_info"] = gameInfo;
+
 	// trailing signature
 	jsonObj["trailing_signature"] = s_saveEnd; // Don't really need this anymore.
 
@@ -675,7 +716,6 @@ void Game::RequestTimeAccelDec(bool force)
 Game::Views::Views()
 	: m_sectorView(nullptr)
 	, m_galacticView(nullptr)
-	, m_settingsView(nullptr)
 	, m_systemInfoView(nullptr)
 	, m_systemView(nullptr)
 	, m_worldView(nullptr)
@@ -711,7 +751,6 @@ void Game::Views::Init(Game* game)
 	m_spaceStationView = new UIView("StationView");
 	m_infoView = new UIView("InfoView");
 	m_deathView = new DeathView(game);
-	m_settingsView = new UIView("SettingsInGame");
 
 #if WITH_OBJECTVIEWER
 	m_objectViewerView = new ObjectViewerView();
@@ -732,7 +771,6 @@ void Game::Views::LoadFromJson(const Json::Value &jsonObj, Game* game)
 	m_spaceStationView = new UIView("StationView");
 	m_infoView = new UIView("InfoView");
 	m_deathView = new DeathView(game);
-	m_settingsView = new UIView("SettingsInGame");
 
 #if WITH_OBJECTVIEWER
 	m_objectViewerView = new ObjectViewerView();
@@ -747,7 +785,6 @@ Game::Views::~Views()
 	delete m_objectViewerView;
 #endif
 
-	delete m_settingsView;
 	delete m_deathView;
 	delete m_infoView;
 	delete m_spaceStationView;
@@ -840,7 +877,6 @@ Game *Game::LoadGame(const std::string &filename)
 
 bool Game::CanLoadGame(const std::string &filename)
 {
-	Output("Game::CanLoadGame('%s')\n", filename.c_str());
 	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 	if (!file)
 		return false;

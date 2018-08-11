@@ -1,102 +1,102 @@
 {
-   "APPLY_FOR_MEMBERSHIP" : {
-      "description" : "",
-      "message" : "Tagság igénylése"
-   },
-   "BEGIN_TRADE" : {
-      "description" : "",
-      "message" : "Üzlet megkezdése"
-   },
-   "FLAVOUR_0_CLUBNAME" : {
-      "description" : "",
-      "message" : "Csillagközi Pilóták Üzemanyag Szövetsége"
-   },
-   "FLAVOUR_0_MEMBER_INTRO" : {
-      "description" : "",
-      "message" : "You may purchase fuel and dispose of {radioactives} here."
-   },
-   "FLAVOUR_0_NONMEMBER_INTRO" : {
-      "description" : "",
-      "message" : "{clubname} egy független szervezet, mely tagjainak kedvezményes áron kínál üzemanyagot. Fiókjai galaxis-szerte megtalálhatóak. A tagságal jár:"
-   },
-   "FLAVOUR_0_WELCOME" : {
-      "description" : "",
-      "message" : "Üdvözlünk a {clubname}ben."
-   },
-   "FLAVOUR_1_CLUBNAME" : {
-      "description" : "Fuel club for the Federation faction",
-      "message" : "Föderációs Üzemanyag-klub"
-   },
-   "FLAVOUR_1_NONMEMBER_INTRO" : {
-      "description" : "For the Solar Federation faction",
-      "message" : "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
-   },
-   "FLAVOUR_2_CLUBNAME" : {
-      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-      "message" : "Nemzetközösségi Üzemanyag-klub"
-   },
-   "FLAVOUR_2_NONMEMBER_INTRO" : {
-      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
-      "message" : "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
-   },
-   "FLAVOUR_2_WELCOME" : {
-      "description" : "",
-      "message" : "Greetings and salutations! We hope you enjoy our services."
-   },
-   "FLAVOUR_3_CLUBNAME" : {
-      "description" : "Fuel club for the Haber faction",
-      "message" : "Haber hajtóanyag és romlandó-árú Divízió"
-   },
-   "FLAVOUR_3_MEMBER_INTRO" : {
-      "description" : "For the greedy Haber faction, very corporate formulated",
-      "message" : "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
-   },
-   "FLAVOUR_3_NONMEMBER_INTRO" : {
-      "description" : "for the Haber faction",
-      "message" : "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
-   },
-   "GO_BACK" : {
-      "description" : "",
-      "message" : "Vissza"
-   },
-   "LIST_BENEFITS_DISPOSAL" : {
-      "description" : "",
-      "message" : "{radioactives} ingyen átvétele (feltételekkel)"
-   },
-   "LIST_BENEFITS_FUEL" : {
-      "description" : "",
-      "message" : "Kedvezményes {fuel} árak"
-   },
-   "LIST_BENEFITS_FUEL_INTRO" : {
-      "description" : "",
-      "message" : "Üzemanyag a klub saját készleteiből, a piactól függetlenül"
-   },
-   "LIST_BENEFITS_FUEL_TANK" : {
-      "description" : "",
-      "message" : "Üzemanyag űjratöltése, ha szükséges"
-   },
-   "LIST_BENEFITS_JOIN" : {
-      "description" : "",
-      "message" : "Csatlakozzon még ma! Éves tagsági díj mindössze {membership_fee}"
-   },
-   "WE_WILL_ONLY_DISPOSE_OF" : {
-      "description" : "",
-      "message" : "Annyi tonna {radioactives} semlegesítését vállaljuk, amennyi {military_fuel} vásárolsz tőlünk."
-   },
-   "WHAT_CONDITIONS_APPLY" : {
-      "description" : "",
-      "message" : "Mik a feltételei a {radioactives} kezelésének?"
-   },
-   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
-      "description" : "",
-      "message" : "A belépési igényedet visszautasítottuk."
-   },
-   "YOU_ARE_NOW_A_MEMBER" : {
-      "description" : "",
-      "message" : "Immáron tag vagy. A tagságod {expiry_date} napján jár le."
-   },
-   "YOU_MUST_BUY" : {
-      "description" : "",
-      "message" : "Csak a nálunk vásárolt {military_fuel}-ból keletkezett {radioactives}ot vesszük át."
-   }
+  "APPLY_FOR_MEMBERSHIP": {
+    "description": "",
+    "message": "Tagság igénylése"
+  },
+  "BEGIN_TRADE": {
+    "description": "",
+    "message": "Üzlet megkezdése"
+  },
+  "FLAVOUR_0_CLUBNAME": {
+    "description": "",
+    "message": "Csillagközi Pilóták Üzemanyag Szövetsége"
+  },
+  "FLAVOUR_0_MEMBER_INTRO": {
+    "description": "",
+    "message": "You may purchase fuel and dispose of {radioactives} here."
+  },
+  "FLAVOUR_0_NONMEMBER_INTRO": {
+    "description": "",
+    "message": "{clubname} egy független szervezet, mely tagjainak kedvezményes áron kínál üzemanyagot. Fiókjai galaxis-szerte megtalálhatóak. A tagságal jár:"
+  },
+  "FLAVOUR_0_WELCOME": {
+    "description": "",
+    "message": "Üdvözlünk a {clubname}ben."
+  },
+  "FLAVOUR_1_CLUBNAME": {
+    "description": "Fuel club for the Federation faction",
+    "message": "Föderációs Üzemanyag-klub"
+  },
+  "FLAVOUR_1_NONMEMBER_INTRO": {
+    "description": "For the Solar Federation faction",
+    "message": "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
+  },
+  "FLAVOUR_2_CLUBNAME": {
+    "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+    "message": "Nemzetközösségi Üzemanyag-klub"
+  },
+  "FLAVOUR_2_NONMEMBER_INTRO": {
+    "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
+    "message": "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
+  },
+  "FLAVOUR_2_WELCOME": {
+    "description": "",
+    "message": "Greetings and salutations! We hope you enjoy our services."
+  },
+  "FLAVOUR_3_CLUBNAME": {
+    "description": "Fuel club for the Haber faction",
+    "message": "Haber hajtóanyag és romlandó-árú Divízió"
+  },
+  "FLAVOUR_3_MEMBER_INTRO": {
+    "description": "For the greedy Haber faction, very corporate formulated",
+    "message": "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
+  },
+  "FLAVOUR_3_NONMEMBER_INTRO": {
+    "description": "for the Haber faction",
+    "message": "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Vissza"
+  },
+  "LIST_BENEFITS_DISPOSAL": {
+    "description": "",
+    "message": "{radioactives} ingyen átvétele (feltételekkel)"
+  },
+  "LIST_BENEFITS_FUEL": {
+    "description": "",
+    "message": "Kedvezményes {fuel} árak"
+  },
+  "LIST_BENEFITS_FUEL_INTRO": {
+    "description": "",
+    "message": "Üzemanyag a klub saját készleteiből, a piactól függetlenül"
+  },
+  "LIST_BENEFITS_FUEL_TANK": {
+    "description": "",
+    "message": "Üzemanyag űjratöltése, ha szükséges"
+  },
+  "LIST_BENEFITS_JOIN": {
+    "description": "",
+    "message": "Csatlakozzon még ma! Éves tagsági díj mindössze {membership_fee}"
+  },
+  "WE_WILL_ONLY_DISPOSE_OF": {
+    "description": "",
+    "message": "Annyi tonna {radioactives} semlegesítését vállaljuk, amennyi {military_fuel} vásárolsz tőlünk."
+  },
+  "WHAT_CONDITIONS_APPLY": {
+    "description": "",
+    "message": "Mik a feltételei a {radioactives} kezelésének?"
+  },
+  "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
+    "description": "",
+    "message": "A belépési igényedet visszautasítottuk."
+  },
+  "YOU_ARE_NOW_A_MEMBER": {
+    "description": "",
+    "message": "Immáron tag vagy. A tagságod {expiry_date} napján jár le."
+  },
+  "YOU_MUST_BUY": {
+    "description": "",
+    "message": "Csak a nálunk vásárolt {military_fuel}-ból keletkezett {radioactives}ot vesszük át."
+  }
 }

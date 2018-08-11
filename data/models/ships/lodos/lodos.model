@@ -1,0 +1,17 @@
+material lodos
+diffuse 1.0 1.0 1.0
+specular 0.8 0.8 0.8
+use_patterns
+tex_diff lodos-diffuse.dds
+tex_spec lodos-specular.dds
+tex_glow lodos-glow.dds
+
+mesh lodos-hi.dae
+mesh lodos_shield.dae
+
+anim gear_down 1 121
+
+collision lodos-col.dae
+
+lod 20
+mesh lodos-lo.dae

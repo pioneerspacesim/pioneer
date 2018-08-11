@@ -1,90 +1,90 @@
 {
-   "MSG_1" : {
-      "description" : "",
-      "message" : "Dizer {yes} para sair daqui e voltar aos seus programas entediantes?"
-   },
-   "MSG_10" : {
-      "description" : "",
-      "message" : "Por favor escolha {no} para gastar mais algumas horas produtivas. Por favor?"
-   },
-   "MSG_11" : {
-      "description" : "",
-      "message" : "Exploradores não desistem, mas vá em frente e clique em {yes} se você não é um."
-   },
-   "MSG_12" : {
-      "description" : "",
-      "message" : "Escolha {no} se você é um caçador de recompensas durão, se não, clique meigamente em {yes}."
-   },
-   "MSG_13" : {
-      "description" : "\"Seeing\" as in having an affair / being unfaithful",
-      "message" : "Nós nunca mais conversamos. Você está saindo com outra pessoa?"
-   },
-   "MSG_14" : {
-      "description" : "",
-      "message" : "Você realmente tem algo melhor pra fazer?"
-   },
-   "MSG_15" : {
-      "description" : "",
-      "message" : "Desistindo tão rápido?"
-   },
-   "MSG_16" : {
-      "description" : "A little homage to the movie 2001 A Space Odyssey",
-      "message" : "O que você pensa que está fazendo, Dave?"
-   },
-   "MSG_17" : {
-      "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
-      "message" : "Fernão de Magalhães não desistiu."
-   },
-   "MSG_18" : {
-      "description" : "Catch phrase of 2016?",
-      "message" : "Faça Pioneer grande novamente! Apenas perdedores desistem. Tem certeza sobre isso?"
-   },
-   "MSG_19" : {
-      "description" : "Alluding to / inviting the player to contribute content to the game",
-      "message" : "Testes feitos, voltar a contribuir?"
-   },
-   "MSG_2" : {
-      "description" : "",
-      "message" : "Não vá agora, tem um pirata esperando por você no outro programa."
-   },
-   "MSG_3" : {
-      "description" : "",
-      "message" : "Você tem certeza de que quer sair desse ótimo jogo que não custa nada?"
-   },
-   "MSG_4" : {
-      "description" : "",
-      "message" : "Desejas sair com tal abandono apressado?"
-   },
-   "MSG_5" : {
-      "description" : "(Inspired by Wolfenstein 3D)",
-      "message" : "Escolha {no} para armas de fogo e glória, {sim} para trabalho e preocupação."
-   },
-   "MSG_6" : {
-      "description" : "",
-      "message" : "Clique em {no} para ser bravo, clique em {yes} para se acovardar com vergonha."
-   },
-   "MSG_7" : {
-      "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
-      "message" : "Eu não sairia se fosse você. A linha de comando é muito pior."
-   },
-   "MSG_8" : {
-      "description" : "",
-      "message" : "Estou pensando que você quer clicar em {no} para jogar mais. Faça-o."
-   },
-   "MSG_9" : {
-      "description" : "",
-      "message" : "Clicar em {yes} significa que você deve retornar à monotonia do mundo de trabalho."
-   },
-   "NO" : {
-      "description" : "No, don't quit program",
-      "message" : "Não."
-   },
-   "QUIT" : {
-      "description" : "Quit game, as a question",
-      "message" : "Sair?"
-   },
-   "YES" : {
-      "description" : "Yes, quit program",
-      "message" : "Sim."
-   }
+  "MSG_1": {
+    "description": "",
+    "message": "Dizer {yes} para sair daqui e voltar aos seus programas entediantes?"
+  },
+  "MSG_10": {
+    "description": "",
+    "message": "Por favor escolha {no} para gastar mais algumas horas produtivas. Por favor?"
+  },
+  "MSG_11": {
+    "description": "",
+    "message": "Exploradores não desistem, mas vá em frente e clique em {yes} se você não é um."
+  },
+  "MSG_12": {
+    "description": "",
+    "message": "Escolha {no} se você é um caçador de recompensas durão, se não, clique meigamente em {yes}."
+  },
+  "MSG_13": {
+    "description": "\"Seeing\" as in having an affair / being unfaithful",
+    "message": "Nós nunca mais conversamos. Você está saindo com outra pessoa?"
+  },
+  "MSG_14": {
+    "description": "",
+    "message": "Você realmente tem algo melhor pra fazer?"
+  },
+  "MSG_15": {
+    "description": "",
+    "message": "Desistindo tão rápido?"
+  },
+  "MSG_16": {
+    "description": "A little homage to the movie 2001 A Space Odyssey",
+    "message": "O que você pensa que está fazendo, Dave?"
+  },
+  "MSG_17": {
+    "description": "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
+    "message": "Fernão de Magalhães não desistiu."
+  },
+  "MSG_18": {
+    "description": "Catch phrase of 2016?",
+    "message": "Faça Pioneer grande novamente! Apenas perdedores desistem. Tem certeza sobre isso?"
+  },
+  "MSG_19": {
+    "description": "Alluding to / inviting the player to contribute content to the game",
+    "message": "Testes feitos, voltar a contribuir?"
+  },
+  "MSG_2": {
+    "description": "",
+    "message": "Não vá agora, tem um pirata esperando por você no outro programa."
+  },
+  "MSG_3": {
+    "description": "",
+    "message": "Você tem certeza de que quer sair desse ótimo jogo que não custa nada?"
+  },
+  "MSG_4": {
+    "description": "",
+    "message": "Desejas sair com tal abandono apressado?"
+  },
+  "MSG_5": {
+    "description": "(Inspired by Wolfenstein 3D)",
+    "message": "Escolha {no} para armas de fogo e glória, {sim} para trabalho e preocupação."
+  },
+  "MSG_6": {
+    "description": "",
+    "message": "Clique em {no} para ser bravo, clique em {yes} para se acovardar com vergonha."
+  },
+  "MSG_7": {
+    "description": "Doom 1 anyone? Although it said DOS instead of Command line",
+    "message": "Eu não sairia se fosse você. A linha de comando é muito pior."
+  },
+  "MSG_8": {
+    "description": "",
+    "message": "Estou pensando que você quer clicar em {no} para jogar mais. Faça-o."
+  },
+  "MSG_9": {
+    "description": "",
+    "message": "Clicar em {yes} significa que você deve retornar à monotonia do mundo de trabalho."
+  },
+  "NO": {
+    "description": "No, don't quit program",
+    "message": "Não."
+  },
+  "QUIT": {
+    "description": "Quit game, as a question",
+    "message": "Sair?"
+  },
+  "YES": {
+    "description": "Yes, quit program",
+    "message": "Sim."
+  }
 }
