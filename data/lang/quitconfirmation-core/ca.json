@@ -1,79 +1,79 @@
 {
   "MSG_1": {
     "description": "",
-    "message": "Say {yes} to get out of here and go back to your boring programs?"
+    "message": "Dir que {yes} per sortir d'aquí i tornar als teus programes avorrits?"
   },
   "MSG_10": {
     "description": "",
-    "message": "Please choose {no} to waste a few more productive hours. Please?"
+    "message": "Si us plau, tria {no} per dilapidar unes quantes hores productives més. Si us plau?"
   },
   "MSG_11": {
     "description": "",
-    "message": "Explorers don't quit, but go ahead and click {yes} if you aren't one."
+    "message": "Els exploradors no abandonen, però continua i clica {yes} si no n'ets un."
   },
   "MSG_12": {
     "description": "",
-    "message": "Choose {no} If you are a tough bounty hunter, if not, click {yes} daintily."
+    "message": "Tria {no} si ets un caçarecompenses aguerrit; en cas contrari, clica {yes} delicadament."
   },
   "MSG_13": {
     "description": "\"Seeing\" as in having an affair / being unfaithful",
-    "message": "We never talk anymore. Are you seeing someone else?"
+    "message": "Ja no parlem mai com abans. T'estàs veient amb algú altre?"
   },
   "MSG_14": {
     "description": "",
-    "message": "Do you really have something better to do?"
+    "message": "Realment tens res millor a fer?"
   },
   "MSG_15": {
     "description": "",
-    "message": "Giving up already?"
+    "message": "Ja et rendeixes?"
   },
   "MSG_16": {
     "description": "A little homage to the movie 2001 A Space Odyssey",
-    "message": "Just what do you think you're doing, Dave?"
+    "message": "Què penses que estàs fent, Dave?"
   },
   "MSG_17": {
     "description": "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
-    "message": "Quitting is for WIMPs!"
+    "message": "Abandonar és de CAGACALCES!"
   },
   "MSG_18": {
     "description": "Catch phrase of 2016?",
-    "message": "Make Pioneer great again! Only losers quit, sure about this?"
+    "message": "Fes que Pioneer torni a ser gran! Només els perdedors abandonen, segur que vols sortir-ne?"
   },
   "MSG_19": {
     "description": "Alluding to / inviting the player to contribute content to the game",
-    "message": "Done testing, back to contributing?"
+    "message": "Ja l'has provat, no et ve de gust contribuir-hi?"
   },
   "MSG_2": {
     "description": "",
-    "message": "Don't go now, there's a pirate waiting for you in the other program."
+    "message": "No hi vagis ara, a l'altre programa hi ha un pirata esperant-te."
   },
   "MSG_3": {
     "description": "",
-    "message": "Are you sure you want to quit this great game that cost you nothing?"
+    "message": "Segur que vols abandonar aquest fantàstic joc que t'ha sortit gratis?"
   },
   "MSG_4": {
     "description": "",
-    "message": "Doest thou wish to leave with such hasty abandon?"
+    "message": "Voleu sortir-ne amb tal precipitat abandonament?"
   },
   "MSG_5": {
     "description": "(Inspired by Wolfenstein 3D)",
-    "message": "Choose {no} for guns and glory, {yes} for work and worry."
+    "message": "Tria {no} per a armes i glòria, {yes} per a feina i preocupacions."
   },
   "MSG_6": {
     "description": "",
-    "message": "Click {no} to be brave, click {yes} to cower in shame."
+    "message": "Clica {no} per ser valent, clica {yes} per avergonyir-te covardament."
   },
   "MSG_7": {
     "description": "Doom 1 anyone? Although it said DOS instead of Command line",
-    "message": "I wouldn't leave if I were you. The command line is much worse."
+    "message": "Jo de tu no sortiria. La línia d'ordres és molt pitjor."
   },
   "MSG_8": {
     "description": "",
-    "message": "I'm thinking you want to click {no} to play more. You do it."
+    "message": "Em penso que el que vols és clicar {no} per jugar-hi més. Fes-ho."
   },
   "MSG_9": {
     "description": "",
-    "message": "Clicking {yes} means you must return to the humdrum workday world."
+    "message": "Clicar {yes} implica tornar al teu avorrit món de treball i rutina."
   },
   "NO": {
     "description": "No, don't quit program",
@@ -81,10 +81,10 @@
   },
   "QUIT": {
     "description": "Quit game, as a question",
-    "message": "Quit?"
+    "message": "Abandonar?"
   },
   "YES": {
     "description": "Yes, quit program",
-    "message": "Yes"
+    "message": "Sí"
   }
 }
