@@ -51,7 +51,7 @@ TerrainHeightFractal<TerrainHeightEllipsoid>::TerrainHeightFractal(const SystemB
 //                                R(t) = ar/sqrt(x_^2+ar^2*y_^2) (eqn. 9) (substituting using eqn. 7 and eqn. 8)
 
 template <>
-double TerrainHeightFractal<TerrainHeightEllipsoid>::GetHeightInner(const vector3d &p) const
+double TerrainHeightFractal<TerrainHeightEllipsoid>::GetHeight(const vector3d &p) const
 {
 	const double ar = m_minBody.m_aspectRatio;
 	// x_^2 = (p.z^2+p.x^2) (eqn. 5)

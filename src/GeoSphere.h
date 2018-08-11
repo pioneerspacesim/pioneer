@@ -37,7 +37,8 @@ public:
 	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override;
 
 	virtual double GetHeight(const vector3d &p) const override final {
-		const double h = m_terrain->GetHeight(p);
+		double h = m_terrain->GetHeight(p);
+		ApplySimpleHeightRegions(h, p);
 #ifdef DEBUG
 		// XXX don't remove this. Fix your fractals instead
 		// Fractals absolutely MUST return heights >= 0.0 (one planet radius)
@@ -78,6 +79,16 @@ private:
 	}
 	void ProcessQuadSplitRequests();
 
+	// data about regions from feature to heightmap code go here
+	struct RegionType {
+		vector3d position;
+		double height;
+		double inner;
+		double outer;
+	};
+	void SetCityRegions(const std::vector<RegionType> &regions);
+	void ApplySimpleHeightRegions(double &h, const vector3d &p) const;
+
 	std::unique_ptr<GeoPatch> m_patches[6];
 	struct TDistanceRequest {
 		TDistanceRequest(double dist, SQuadSplitRequest *pRequest, GeoPatch *pRequester) :
@@ -112,6 +123,9 @@ private:
 	EGSInitialisationStage m_initStage;
 
 	Sint32 m_maxDepth;
+
+	// used for region based terrain e.g. cities
+	std::vector<RegionType> m_regions[3][3][3];
 };
 
 #endif /* _GEOSPHERE_H */

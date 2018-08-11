@@ -338,7 +338,7 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 						geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->GetEdgeLen()-2,
-						ctx->GetFrac(), geosphere->GetTerrain());
+						ctx->GetFrac(), geosphere);
 
 			// add to the GeoSphere to be processed at end of all LODUpdate requests
 			geosphere->AddQuadSplitRequest(centroidDist, ssrd, this);
@@ -365,7 +365,7 @@ void GeoPatch::RequestSinglePatch()
         assert(!mHasJobRequest);
 		mHasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-					geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->GetEdgeLen()-2, ctx->GetFrac(), geosphere->GetTerrain());
+					geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->GetEdgeLen()-2, ctx->GetFrac(), geosphere);
 		m_job = Pi::GetAsyncJobQueue()->Queue(new SinglePatchJob(ssrd));
 	}
 }

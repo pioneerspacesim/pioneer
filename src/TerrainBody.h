@@ -44,7 +44,7 @@ protected:
 private:
 	const SystemBody *m_sbody;
 	double m_mass;
-	std::unique_ptr<BaseSphere> m_baseSphere;
+	RefCountedPtr<BaseSphere> m_baseSphere;
 	double m_maxFeatureHeight;
 };
 

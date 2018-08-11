@@ -9,11 +9,12 @@
 #include "vector3.h"
 #include "Random.h"
 #include "galaxy/StarSystem.h"
-#include "terrain/Terrain.h"
+//#include "terrain/Terrain.h"
 #include "GeoPatchID.h"
 #include "JobQueue.h"
 
 class GeoSphere;
+class BaseSphere;
 
 #define BORDER_SIZE 1
 
@@ -21,10 +22,10 @@ class SBaseRequest {
 public:
 	SBaseRequest(const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const vector3d &cn,
 		const uint32_t depth_, const SystemPath &sysPath_, const GeoPatchID &patchID_, const int edgeLen_, const double fracStep_,
-		Terrain *pTerrain_)
+		BaseSphere *pTerrain_)
 		: v0(v0_), v1(v1_), v2(v2_), v3(v3_), centroid(cn), depth(depth_),
 		sysPath(sysPath_), patchID(patchID_), edgeLen(edgeLen_), fracStep(fracStep_),
-		pTerrain(pTerrain_)
+		baseSphere(pTerrain_)
 	{
 	}
 
@@ -37,7 +38,7 @@ public:
 	const GeoPatchID patchID;
 	const int edgeLen;
 	const double fracStep;
-	RefCountedPtr<Terrain> pTerrain;
+	RefCountedPtr<BaseSphere> baseSphere;
 
 protected:
 	// deliberately prevent copy constructor access
@@ -48,7 +49,7 @@ class SQuadSplitRequest : public SBaseRequest {
 public:
 	SQuadSplitRequest(const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const vector3d &cn,
 		const uint32_t depth_, const SystemPath &sysPath_, const GeoPatchID &patchID_, const int edgeLen_, const double fracStep_,
-		Terrain *pTerrain_)
+		BaseSphere *pTerrain_)
 		: SBaseRequest(v0_, v1_, v2_, v3_, cn, depth_, sysPath_, patchID_, edgeLen_, fracStep_, pTerrain_)
 	{
 		const int numVerts = NUMVERTICES(edgeLen_);
@@ -81,7 +82,7 @@ class SSingleSplitRequest : public SBaseRequest {
 public:
 	SSingleSplitRequest(const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const vector3d &cn,
 		const uint32_t depth_, const SystemPath &sysPath_, const GeoPatchID &patchID_, const int edgeLen_, const double fracStep_,
-		Terrain *pTerrain_)
+		BaseSphere *pTerrain_)
 		: SBaseRequest(v0_, v1_, v2_, v3_, cn, depth_, sysPath_, patchID_, edgeLen_, fracStep_, pTerrain_)
 	{
 		const int numVerts = NUMVERTICES(edgeLen_);
@@ -232,7 +233,7 @@ private:
 	// Generates full-detail vertices, and also non-edge normals and colors
 	void GenerateMesh(double *heights, vector3f *normals, Color3ub *colors, double *borderHeights, vector3d *borderVertexs,
 		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
-		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
+		const int edgeLen, const double fracStep, const BaseSphere *baseSphere) const;
 
 	std::unique_ptr<SSingleSplitRequest> mData;
 	SSingleSplitResult *mpResults;
@@ -254,11 +255,11 @@ private:
 	// Generates full-detail vertices, and also non-edge normals and colors
 	void GenerateBorderedData(double *borderHeights, vector3d *borderVertexs,
 		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
-		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
+		const int edgeLen, const double fracStep, const BaseSphere *baseSphere) const;
 
 	void GenerateSubPatchData(double *heights, vector3f *normals, Color3ub *colors, double *borderHeights, vector3d *borderVertexs,
 		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
-		const int edgeLen, const int xoff, const int yoff, const int borderedEdgeLen, const double fracStep, const Terrain *pTerrain) const;
+		const int edgeLen, const int xoff, const int yoff, const int borderedEdgeLen, const double fracStep, const BaseSphere *baseSphere) const;
 
 	std::unique_ptr<SQuadSplitRequest> mData;
 	SQuadSplitResult *mpResults;

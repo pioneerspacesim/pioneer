@@ -14,7 +14,7 @@ TerrainHeightFractal<TerrainHeightMapped2>::TerrainHeightFractal(const SystemBod
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightMapped2>::GetHeightInner(const vector3d &p) const
+double TerrainHeightFractal<TerrainHeightMapped2>::GetHeight(const vector3d &p) const
 {
 	double latitude = -asin(p.y);
 	if (p.y < -1.0) latitude = -0.5*M_PI;

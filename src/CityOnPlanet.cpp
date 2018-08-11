@@ -191,7 +191,7 @@ CityOnPlanet::~CityOnPlanet()
 		delete m_buildings[i].geom;
 	}
 }
-
+#pragma optimize("",off)
 CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 seed)
 {
 	// beware, these are not used in this function, but are used in subroutines!
@@ -206,8 +206,8 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 	const matrix4x4d &m = station->GetOrient();
 	const vector3d p = station->GetPosition();
 
-	vector3d mx = m*vector3d(1,0,0);
-	vector3d mz = m*vector3d(0,0,1);
+	const vector3d mx = m*vector3d(1,0,0);
+	const vector3d mz = m*vector3d(0,0,1);
 
 	Random rand;
 	rand.seed(seed);
@@ -241,10 +241,10 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 	std::memset(cellgrid, 0, sizeof(cellgrid));
 
 	// calculate the size of the station model
-	int x1 = floor(aabb.min.x / cellsize);
-	int x2 = ceil(aabb.max.x / cellsize);
-	int z1 = floor(aabb.min.z / cellsize);
-	int z2 = ceil(aabb.max.z / cellsize);
+	const int x1 = floor(aabb.min.x / cellsize);
+	const int x2 = ceil(aabb.max.x / cellsize);
+	const int z1 = floor(aabb.min.z / cellsize);
+	const int z2 = ceil(aabb.max.z / cellsize);
 
 	// Clear the cells where the station is
 	for (int x = 0; x <= gsize; x++)
@@ -265,10 +265,10 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 	orientcalc[2] = m * matrix4x4d::RotateYMatrix(M_PI * 0.5 * 2);
 	orientcalc[3] = m * matrix4x4d::RotateYMatrix(M_PI * 0.5 * 3);
 	
-	double maxdist = pow(gmid+0.333, 2);
+	const double maxdist = pow(gmid+0.333, 2);
 	for (int x = 0; x <= gsize; x++)
 	{
-		double distx = pow((x - gmid),2);
+		const double distx = pow((x - gmid),2);
 		for (int z = 0; z <= gsize; z++)
 		{
 			if (cellgrid[x][z] > 0)
@@ -276,7 +276,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 				// This cell has been allocated for something already
 				continue;
 			}
-			double distz = pow((z - gmid),2);
+			const double distz = pow((z - gmid),2);
 			if ((distz + distx) > maxdist)
 				continue;
 
@@ -287,7 +287,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 			cent = p + mz*((z - gmid) * cellsize) + mx* ((x - gmid) * cellsize);
 			cent = cent.Normalized();
 			
-			double height = planet->GetTerrainHeight(cent);
+			const double height = planet->GetTerrainHeight(cent);
 			if ((height - bodyradius) < 0) // don't position below sealevel
 				continue;
 				
@@ -298,7 +298,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 			const CollMesh* cmesh = bt.collMesh.Get(); // collision mesh
 			
 			// rotate the building to face a random direction
-			int32_t orient = rand.Int32(4);
+			const int32_t orient = rand.Int32(4);
 			Geom *geom = new Geom(cmesh->GetGeomTree(), orientcalc[orient], cent, this);
 			
 			// add it to the list of buildings to render

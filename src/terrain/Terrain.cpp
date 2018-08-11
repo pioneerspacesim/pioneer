@@ -621,60 +621,6 @@ Terrain::~Terrain()
 {
 }
 
-// Set up region data for each of the system body's child surface starports
-void Terrain::SetCityRegions(const std::vector<vector3d> &positions, const std::vector<RegionType> &regionTypes)
-{
-	m_positions = positions;
-	m_regionTypes = regionTypes;
-}
-
-void Terrain::ApplySimpleHeightRegions(double &h, const vector3d &p) const
-{
-	const double dynamicRangeHeight = 60.0/m_planetRadius; //in radii
-	for (size_t i = 0, iEnd = m_positions.size(); i < iEnd; i++)
-	{
-		if (m_regionTypes[i].Valid)
-		{
-			const vector3d &pos = m_positions[i];
-			const RegionType &rt = m_regionTypes[i];
-			const double th = rt.height; // target height
-			if (pos.Dot(p) > rt.outer)
-			{
-				const double outer = rt.outer;
-				const double inner = rt.inner;
-
-				// maximum variation in height with respect to target height
-				const double delta_h = fabs(h-th);
-				const double neg = (h-th>0.0) ? 1.0 : -1.0;
-
-				// Make up an expression to compress delta_h: 
-				// Compress delta_h between 0 and 1
-				//    1.1 use compression of the form c = (delta_h+a)/(a+(delta_h+a)) (eqn. 1)
-				//    1.2 this gives c in the interval [0.5, 1] for delta_h [0, +inf] with c=0.5 at delta_h=0.
-				//  2.0 Use compressed_h = dynamic range*(sign(h-th)*(c-0.5)) (eqn. 2) to get h between th-0.5*dynamic range, th+0.5*dynamic range
-				
-				// Choosing a value for a
-				//    3.1 c [0.5, 0.8] occurs when delta_h [a to 3a] (3x difference) which is roughly the expressible range (above or below that the function changes slowly)
-				//    3.2 Find an expression for the expected variation and divide by around 3
-				
-				// It may become necessary calculate expected variation based on intermediate quantities generated (e.g. distribution fractals)
-				// or to store a per planet estimation of variation when fracdefs are calculated.
-				const double variationEstimate = rt.heightVariation;
-				const double a = variationEstimate*(1.0/3.0); // point 3.2 
-				
-				const double c = (delta_h+a)/(2.0*a+delta_h); // point 1.1 
-				const double compressed_h = dynamicRangeHeight*(neg*(c-0.5))+th;// point 2.0
-
-				#define blend(a,b,v) a*(1.0-v)+b*v
-				h = blend(h, compressed_h, Clamp((pos.Dot(p)-outer)/(inner-outer), 0.0, 1.0)); // blends from compressed height-terrain height as pos goes inner to outer
-				#undef blend
-				break; 
-			}
-		}
-	}
-}
-
-
 /**
  * Feature width means roughly one perlin noise blob or grain.
  * This will end up being one hill, mountain or continent, roughly.
