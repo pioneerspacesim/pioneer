@@ -29,6 +29,8 @@ class FixedGuns : public RefCounted
 		void UpdateGuns( float timeStep );
 		bool Fire( const int num, Body* b );
 		bool IsFiring();
+		bool IsFiring(const int num);
+		bool IsBeam(const int num);
 		float GetGunTemperature(int idx) const;
 		inline void IsDual( int idx, bool dual ) { m_gun[idx].dual = dual; };
 		void MountGun( const int num, const float recharge, const float lifespan, const float damage, const float length,

@@ -21,6 +21,16 @@ bool FixedGuns::IsFiring()
 	return gunstate;
 }
 
+bool FixedGuns::IsFiring(const int num)
+{
+	return m_is_firing[num];
+}
+
+bool FixedGuns::IsBeam(const int num)
+{
+	return m_gun[num].projData.beam;
+}
+
 void FixedGuns::Init(DynamicBody *b)
 {
 	for (int i=0; i<Guns::GUNMOUNT_MAX; i++) {
