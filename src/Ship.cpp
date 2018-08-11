@@ -13,7 +13,6 @@
 #include "Beam.h"
 #include "ShipAICmd.h"
 #include "ShipController.h"
-#include "Sound.h"
 #include "Sfx.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
@@ -1176,12 +1175,35 @@ void Ship::StaticUpdate(const float timeStep)
 		m_launchLockTimeout = 0;
 
 	// lasers
-	GetFixedGuns()->UpdateGuns( timeStep );
-	for (int i=0; i<2; i++)
-		if (GetFixedGuns()->Fire(i, this)) {
-			Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
+	FixedGuns *fg = GetFixedGuns();
+	fg->UpdateGuns( timeStep );
+	for (int i = 0; i < 2; i++)
+	{
+		if (fg->Fire(i, this))
+		{
+			if (fg->IsBeam(i))
+			{
+				m_beamLaser[i].Play("Beam_laser");
+			}
+			else
+			{
+				Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
+			}
 			LuaEvent::Queue("onShipFiring", this);
-		};
+		}
+
+		if (fg->IsBeam(i))
+		{
+			if (fg->IsFiring(i) && !m_beamLaser[i].IsPlaying())
+			{
+				m_beamLaser[i].Play("Beam_laser");
+			}
+			else if (!fg->IsFiring(i) && m_beamLaser[i].IsPlaying())
+			{
+				m_beamLaser[i].Stop();
+			}
+		}
+	}
 
 	if (m_ecmRecharge > 0.0f) {
 		m_ecmRecharge = std::max(0.0f, m_ecmRecharge - timeStep);

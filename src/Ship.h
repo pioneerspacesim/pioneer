@@ -15,6 +15,7 @@
 #include "Space.h"
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
+#include "Sound.h"
 #include "LuaTable.h"
 #include <list>
 #include <unordered_map>
@@ -277,6 +278,8 @@ private:
 	shipstats_t m_stats;
 	const ShipType *m_type;
 	SceneGraph::ModelSkin m_skin;
+
+	Sound::Event m_beamLaser[2];
 
 	FlightState m_flightState;
 	bool m_testLanded;
