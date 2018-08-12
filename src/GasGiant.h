@@ -38,7 +38,7 @@ public:
 	virtual void Update() override;
 	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override;
 
-	virtual double GetHeight(const vector3d &p) const override { return 0.0; }
+	virtual double GetHeight(const vector3d &p) const override final { return 0.0; }
 
 	// in sbody radii
 	virtual double GetMaxFeatureHeight() const override { return 0.0; }

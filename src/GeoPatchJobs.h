@@ -230,9 +230,7 @@ public:
 
 private:
 	// Generates full-detail vertices, and also non-edge normals and colors
-	void GenerateMesh(double *heights, vector3f *normals, Color3ub *colors, double *borderHeights, vector3d *borderVertexs,
-		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
-		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
+	void GenerateMesh(const SSingleSplitRequest *data) const;
 
 	std::unique_ptr<SSingleSplitRequest> mData;
 	SSingleSplitResult *mpResults;
@@ -252,9 +250,7 @@ public:
 
 private:
 	// Generates full-detail vertices, and also non-edge normals and colors
-	void GenerateBorderedData(double *borderHeights, vector3d *borderVertexs,
-		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
-		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
+	void GenerateBorderedData(const SQuadSplitRequest *data) const;
 
 	void GenerateSubPatchData(double *heights, vector3f *normals, Color3ub *colors, double *borderHeights, vector3d *borderVertexs,
 		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,

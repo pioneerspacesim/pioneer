@@ -36,7 +36,7 @@ public:
 	virtual void Update() override;
 	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override;
 
-	virtual double GetHeight(const vector3d &p) const override {
+	virtual double GetHeight(const vector3d &p) const override final {
 		const double h = m_terrain->GetHeight(p);
 #ifdef DEBUG
 		// XXX don't remove this. Fix your fractals instead

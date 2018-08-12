@@ -20,7 +20,7 @@ namespace MathUtil {
 
 	// interpolation, glsl style naming "mix"
 	template< class T, class F >
-	T mix(const T& v1, const T& v2, const F t){
+	inline T mix(const T& v1, const T& v2, const F t){
 		return t*v2 + (F(1.0)-t)*v1;
 	}
 
