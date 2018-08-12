@@ -194,13 +194,22 @@ bool FixedGuns::Fire( const int num, Body* b )
 void FixedGuns::UpdateGuns( float timeStep )
 {
 	for (int i=0; i<Guns::GUNMOUNT_MAX; i++) {
-		if ( !m_gun_present[i] ) continue;
+		if ( !m_gun_present[i] )
+			continue;
+
 		m_recharge_stat[i] -= timeStep;
+
 		float rateCooling = m_gun[i].temp_cool_rate;
 		rateCooling *= m_cooler_boost;
 		m_temperature_stat[i] -= rateCooling*timeStep;
-		if (m_temperature_stat[i] < 0.0f) m_temperature_stat[i] = 0;
-		if (m_recharge_stat[i] < 0.0f) m_recharge_stat[i] = 0;
+
+		if (m_temperature_stat[i] < 0.0f)
+			m_temperature_stat[i] = 0;
+		else if (m_temperature_stat[i] > 1.0f)
+			m_is_firing[i] = false;
+
+		if (m_recharge_stat[i] < 0.0f)
+			m_recharge_stat[i] = 0;
 	}
 
 }
