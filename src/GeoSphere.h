@@ -28,6 +28,24 @@ class SSingleSplitResult;
 
 #define NUM_PATCHES 6
 
+class Regions : public RefCounted
+{
+public:
+	// data about regions from feature to heightmap code go here
+	struct RegionType {
+		vector3d position;
+		double height;
+		double inner;
+		double outer;
+	};
+	void SetCityRegions(const std::vector<RegionType> &regions);
+	double ApplySimpleHeightRegions(const double h, const vector3d &p) const;
+
+private:
+	// used for region based terrain e.g. cities
+	std::vector<RegionType> m_regions[3][3][3];
+};
+
 class GeoSphere : public BaseSphere {
 public:
 	GeoSphere(const SystemBody *body);
@@ -36,8 +54,9 @@ public:
 	virtual void Update() override;
 	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override;
 
-	virtual double GetHeight(const vector3d &p) const override {
-		const double h = m_terrain->GetHeight(p);
+	virtual double GetHeight(const vector3d &p) const override final {
+		double h = m_terrain->GetHeight(p);
+		h = m_regions->ApplySimpleHeightRegions(h, p);
 #ifdef DEBUG
 		// XXX don't remove this. Fix your fractals instead
 		// Fractals absolutely MUST return heights >= 0.0 (one planet radius)
@@ -67,6 +86,7 @@ public:
 	virtual void Reset() override;
 
 	inline Sint32 GetMaxDepth() const { return m_maxDepth; }
+	inline Regions* GetRegions() const { return m_regions.Get(); }
 
 	void AddQuadSplitRequest(double, SQuadSplitRequest*, GeoPatch*);
 
@@ -112,6 +132,8 @@ private:
 	EGSInitialisationStage m_initStage;
 
 	Sint32 m_maxDepth;
+
+	RefCountedPtr<Regions> m_regions;
 };
 
 #endif /* _GEOSPHERE_H */

@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
+#include "CityOnPlanetData.h"
 #include "GeoSphere.h"
 #include "GeoPatchContext.h"
 #include "GeoPatch.h"
@@ -16,6 +17,7 @@
 #include "graphics/Texture.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
+#include "MathUtil.h"
 #include "vcacheopt/vcacheopt.h"
 #include <deque>
 #include <algorithm>
@@ -178,8 +180,6 @@ void GeoSphere::Reset()
 	m_initStage = eBuildFirstPatches;
 }
 
-#define GEOSPHERE_TYPE	(GetSystemBody()->type)
-
 GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
 	m_hasTempCampos(false), m_tempCampos(0.0), m_tempFrustum(800, 600, 0.5, 1.0, 1000.0),
 	m_initStage(eBuildFirstPatches), m_maxDepth(0)
@@ -191,6 +191,46 @@ GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
 	CalculateMaxPatchDepth();
 
 	//SetUpMaterials is not called until first Render since light count is zero :)
+
+	std::vector<vector3d> cityPositions;
+	std::vector<Regions::RegionType> regionTypes;
+	const double planetRadius = body->GetRadius();
+	const double invPlanetRadius = 1.0 / planetRadius;
+
+	const double delta = (0.75 * CITY_ON_PLANET_RADIUS / planetRadius);
+
+	const double citySize_m = CITY_ON_PLANET_RADIUS * 1.1;
+	const double size = fabs(cos(std::min(citySize_m, 0.2 * planetRadius) / planetRadius)); // angle between city center/boundary = 2pi*city size/(perimeter great circle = 2pi r)
+
+	// step through the planet's sbody's children and set up regions for surface starports
+	for (SystemBody* kid : body->GetChildren()) {
+		if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+			// calculate position of starport
+			const vector3d pos = (kid->GetOrbit().GetPlane() * vector3d(0, 1, 0));
+
+			// set up regions which contain the details for region implementation
+			Regions::RegionType rt;
+
+			// Calculate average variation of four points about star port
+			// points do not need to be on the planet surface
+			double avgHeight = m_terrain->GetHeight(vector3d(pos.x + delta, pos.y, pos.z));
+			avgHeight += m_terrain->GetHeight(vector3d(pos.x - delta, pos.y, pos.z));
+			avgHeight += m_terrain->GetHeight(vector3d(pos.x, pos.y, pos.z + delta));
+			avgHeight += m_terrain->GetHeight(vector3d(pos.x, pos.y, pos.z - delta));
+			avgHeight *= 0.25;
+			rt.height = avgHeight;
+			
+			rt.outer = size; // city center pos and current point will be dotted, and compared against size
+			rt.inner = (1.0 - size) * 0.5 + size;
+
+			//Output("City position: %.2f, %.2f, %.2f and avg Height: %.6f\n", pos.x, pos.y, pos.z, avgHeight);
+			rt.position = pos;
+			regionTypes.push_back(rt);
+		}
+	}
+
+	m_regions.Reset(new Regions());
+	m_regions->SetCityRegions(regionTypes);
 }
 
 GeoSphere::~GeoSphere()
@@ -539,4 +579,60 @@ void GeoSphere::SetUpMaterials()
 		m_atmosphereMaterial->texture0 = nullptr;
 		m_atmosphereMaterial->texture1 = nullptr;
 	}
+}
+
+// Set up region data for each of the system body's child surface starports
+void Regions::SetCityRegions(const std::vector<RegionType> &regions)
+{
+	Uint32 px, py, pz;
+	for (int i = 0; i < regions.size(); i++) {
+		const vector3d &pos = regions[i].position;
+
+		// build an index into the 3x3x3 partition table
+		px = (Uint32)floor(pos.x + 0.5) + 1;
+		py = (Uint32)floor(pos.y + 0.5) + 1;
+		pz = (Uint32)floor(pos.z + 0.5) + 1;
+
+		// sanity check
+		assert(px >= 0 && px < 3);
+		assert(py >= 0 && py < 3);
+		assert(pz >= 0 && pz < 3);
+
+		// add the region to the partition table
+		m_regions[px][py][pz].push_back(regions[i]);
+	}
+}
+
+double Regions::ApplySimpleHeightRegions(const double h, const vector3d &p) const
+{
+	// lookup the region
+	Uint32 px, py, pz;
+	px = (Uint32)floor(p.x + 0.5) + 1;
+	py = (Uint32)floor(p.y + 0.5) + 1;
+	pz = (Uint32)floor(p.z + 0.5) + 1;
+	// test sanity
+	assert(px >= 0 && px < 3);
+	assert(py >= 0 && py < 3);
+	assert(pz >= 0 && pz < 3);
+	// grab region(s)
+	const std::vector<RegionType> &regions = m_regions[px][py][pz];
+
+	// bail early, bail often
+	if (regions.empty())
+		return h;
+
+	// apply heights
+	for (size_t i = 0, iEnd = regions.size(); i < iEnd; i++)
+	{
+		const RegionType &rt = regions[i];
+		const vector3d &pos = rt.position;
+		const double posDotp = pos.Dot(p);
+		if (posDotp > rt.outer)
+		{
+			// lerp from height to target height as pos goes from inner to outer
+			return MathUtil::mix(h, rt.height, Clamp((posDotp - rt.outer) / (rt.inner - rt.outer), 0.0, 1.0));
+		}
+	}
+
+	return h;
 }

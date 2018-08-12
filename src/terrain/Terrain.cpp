@@ -621,7 +621,6 @@ Terrain::~Terrain()
 {
 }
 
-
 /**
  * Feature width means roughly one perlin noise blob or grain.
  * This will end up being one hill, mountain or continent, roughly.

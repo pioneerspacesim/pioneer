@@ -29,6 +29,7 @@ public:
 	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows)=0;
 
 	virtual double GetHeight(const vector3d &p) const { return 0.0; }
+	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const { return m_terrain->GetColor(p, height, norm); }
 
 	static void Init();
 	static void Uninit();

@@ -10,14 +10,13 @@
 #include "CollMesh.h"
 #include "collider/Geom.h"
 #include "galaxy/StarSystem.h"
+#include "CityOnPlanetData.h"
 
 class Planet;
 class SpaceStation;
 class Frame;
 namespace Graphics { class Renderer; class Frustum; }
 namespace SceneGraph { class Model; class Animation; }
-
-#define CITY_ON_PLANET_RADIUS 5000.0
 
 class CityOnPlanet: public Object {
 public:
@@ -31,7 +30,6 @@ public:
 	static void Uninit();
 	static void SetCityModelPatterns(const SystemPath &path);
 private:
-	void PutCityBit(Random &rand, const matrix4x4d &rot, const vector3d &p1, const vector3d &p2, const vector3d &p3, const vector3d &p4);
 	void AddStaticGeomsToCollisionSpace();
 	void RemoveStaticGeomsFromCollisionSpace();
 

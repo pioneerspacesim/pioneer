@@ -19,7 +19,6 @@ struct fracdef_t {
 	int octaves;
 };
 
-
 template <typename,typename> class TerrainGenerator;
 
 
@@ -57,7 +56,6 @@ private:
 	static Terrain *InstanceGenerator(const SystemBody *body) { return new TerrainGenerator<HeightFractal,ColorFractal>(body); }
 
 	typedef Terrain* (*GeneratorInstancer)(const SystemBody *);
-
 
 protected:
 	Terrain(const SystemBody *body);
