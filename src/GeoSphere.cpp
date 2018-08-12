@@ -178,8 +178,6 @@ void GeoSphere::Reset()
 	m_initStage = eBuildFirstPatches;
 }
 
-#define GEOSPHERE_TYPE	(GetSystemBody()->type)
-
 GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
 	m_hasTempCampos(false), m_tempCampos(0.0), m_tempFrustum(800, 600, 0.5, 1.0, 1000.0),
 	m_initStage(eBuildFirstPatches), m_maxDepth(0)
