@@ -193,7 +193,7 @@ GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
 	//SetUpMaterials is not called until first Render since light count is zero :)
 
 	std::vector<vector3d> cityPositions;
-	std::vector<RegionType> regionTypes;
+	std::vector<Regions::RegionType> regionTypes;
 	const double planetRadius = body->GetRadius();
 	const double invPlanetRadius = 1.0 / planetRadius;
 
@@ -209,7 +209,7 @@ GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
 			const vector3d pos = (kid->GetOrbit().GetPlane() * vector3d(0, 1, 0));
 
 			// set up regions which contain the details for region implementation
-			RegionType rt;
+			Regions::RegionType rt;
 
 			// Calculate average variation of four points about star port
 			// points do not need to be on the planet surface
@@ -229,7 +229,8 @@ GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
 		}
 	}
 
-	SetCityRegions(regionTypes);
+	m_regions.Reset(new Regions());
+	m_regions->SetCityRegions(regionTypes);
 }
 
 GeoSphere::~GeoSphere()
@@ -581,7 +582,7 @@ void GeoSphere::SetUpMaterials()
 }
 
 // Set up region data for each of the system body's child surface starports
-void GeoSphere::SetCityRegions(const std::vector<RegionType> &regions)
+void Regions::SetCityRegions(const std::vector<RegionType> &regions)
 {
 	Uint32 px, py, pz;
 	for (int i = 0; i < regions.size(); i++) {
@@ -602,7 +603,7 @@ void GeoSphere::SetCityRegions(const std::vector<RegionType> &regions)
 	}
 }
 
-void GeoSphere::ApplySimpleHeightRegions(double &h, const vector3d &p) const
+double Regions::ApplySimpleHeightRegions(const double h, const vector3d &p) const
 {
 	// lookup the region
 	Uint32 px, py, pz;
@@ -618,7 +619,7 @@ void GeoSphere::ApplySimpleHeightRegions(double &h, const vector3d &p) const
 
 	// bail early, bail often
 	if (regions.empty())
-		return;
+		return h;
 
 	// apply heights
 	for (size_t i = 0, iEnd = regions.size(); i < iEnd; i++)
@@ -629,8 +630,9 @@ void GeoSphere::ApplySimpleHeightRegions(double &h, const vector3d &p) const
 		if (posDotp > rt.outer)
 		{
 			// lerp from height to target height as pos goes from inner to outer
-			h = MathUtil::mix(h, rt.height, Clamp((posDotp - rt.outer) / (rt.inner - rt.outer), 0.0, 1.0));
-			break;
+			return MathUtil::mix(h, rt.height, Clamp((posDotp - rt.outer) / (rt.inner - rt.outer), 0.0, 1.0));
 		}
 	}
+
+	return h;
 }

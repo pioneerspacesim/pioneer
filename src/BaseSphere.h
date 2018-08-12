@@ -20,7 +20,7 @@ namespace Graphics {
 }
 class SystemBody;
 
-class BaseSphere : public RefCounted {
+class BaseSphere {
 public:
 	BaseSphere(const SystemBody *body);
 	virtual ~BaseSphere();

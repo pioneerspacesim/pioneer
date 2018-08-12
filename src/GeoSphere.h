@@ -28,6 +28,24 @@ class SSingleSplitResult;
 
 #define NUM_PATCHES 6
 
+class Regions : public RefCounted
+{
+public:
+	// data about regions from feature to heightmap code go here
+	struct RegionType {
+		vector3d position;
+		double height;
+		double inner;
+		double outer;
+	};
+	void SetCityRegions(const std::vector<RegionType> &regions);
+	double ApplySimpleHeightRegions(const double h, const vector3d &p) const;
+
+private:
+	// used for region based terrain e.g. cities
+	std::vector<RegionType> m_regions[3][3][3];
+};
+
 class GeoSphere : public BaseSphere {
 public:
 	GeoSphere(const SystemBody *body);
@@ -38,7 +56,7 @@ public:
 
 	virtual double GetHeight(const vector3d &p) const override final {
 		double h = m_terrain->GetHeight(p);
-		ApplySimpleHeightRegions(h, p);
+		h = m_regions->ApplySimpleHeightRegions(h, p);
 #ifdef DEBUG
 		// XXX don't remove this. Fix your fractals instead
 		// Fractals absolutely MUST return heights >= 0.0 (one planet radius)
@@ -68,6 +86,7 @@ public:
 	virtual void Reset() override;
 
 	inline Sint32 GetMaxDepth() const { return m_maxDepth; }
+	inline Regions* GetRegions() const { return m_regions.Get(); }
 
 	void AddQuadSplitRequest(double, SQuadSplitRequest*, GeoPatch*);
 
@@ -78,16 +97,6 @@ private:
 		return m_terrain->GetColor(p, height, norm);
 	}
 	void ProcessQuadSplitRequests();
-
-	// data about regions from feature to heightmap code go here
-	struct RegionType {
-		vector3d position;
-		double height;
-		double inner;
-		double outer;
-	};
-	void SetCityRegions(const std::vector<RegionType> &regions);
-	void ApplySimpleHeightRegions(double &h, const vector3d &p) const;
 
 	std::unique_ptr<GeoPatch> m_patches[6];
 	struct TDistanceRequest {
@@ -124,8 +133,7 @@ private:
 
 	Sint32 m_maxDepth;
 
-	// used for region based terrain e.g. cities
-	std::vector<RegionType> m_regions[3][3][3];
+	RefCountedPtr<Regions> m_regions;
 };
 
 #endif /* _GEOSPHERE_H */

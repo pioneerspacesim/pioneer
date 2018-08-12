@@ -29,7 +29,7 @@ TerrainBody::TerrainBody() :
 
 TerrainBody::~TerrainBody()
 {
-	m_baseSphere.Reset();
+	m_baseSphere.reset();
 }
 
 void TerrainBody::InitTerrainBody()
@@ -38,9 +38,9 @@ void TerrainBody::InitTerrainBody()
 	m_mass = m_sbody->GetMass();
 	if (!m_baseSphere) {
 		if ( SystemBody::SUPERTYPE_GAS_GIANT==m_sbody->GetSuperType() ) {
-			m_baseSphere.Reset(new GasGiant(m_sbody));
+			m_baseSphere.reset(new GasGiant(m_sbody));
 		} else {
-			m_baseSphere.Reset(new GeoSphere(m_sbody));
+			m_baseSphere.reset(new GeoSphere(m_sbody));
 		}
 	}
 	m_maxFeatureHeight = (m_baseSphere->GetMaxFeatureHeight() + 1.0) * m_sbody->GetRadius();
