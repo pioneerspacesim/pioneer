@@ -33,7 +33,15 @@ local equipmentMarket = function (args)
 		stationColumns = { "name", "buy", "sell", "mass", "stock" },
 		shipColumns = { "name", "amount", "mass", "massTotal" },
 
-		canTrade = function (e) return e.purchasable and hasTech(e) and not e:IsValidSlot("cargo", Game.player) end,
+		canTrade = function (e) return e.purchasable and not e:IsValidSlot("cargo", Game.player) end,
+		-- how much of this item do we have in stock?
+		getStock = function (e)
+			if hasTech(e) then
+				return Game.player:GetDockedWith():GetEquipmentStock(e)
+			else
+				return 0
+			end
+		end,
 	})
 
 	return
