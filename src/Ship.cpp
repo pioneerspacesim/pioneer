@@ -1089,7 +1089,10 @@ void Ship::StaticUpdate(const float timeStep)
 			double pressure, density;
 			p->GetAtmosphericState(dist, &pressure, &density);
 
-			if (pressure > m_type->atmosphericPressureLimit) {
+			int atmo_shield_cap = 0;
+			const_cast<Ship *>(this)->Properties().Get("atmo_shield_cap", atmo_shield_cap);
+			atmo_shield_cap = std::max(atmo_shield_cap, 1); // needs to have some shielding by default
+			if (pressure > (m_type->atmosphericPressureLimit * atmo_shield_cap)) {
 				float damage = float(pressure - m_type->atmosphericPressureLimit);
 				DoCrushDamage(damage);
 			}
