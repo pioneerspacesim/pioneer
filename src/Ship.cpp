@@ -614,7 +614,6 @@ void Ship::UpdateGunsStats() {
 		Properties().Get(prefix+"damage", damage);
 		if (!damage) {
 			GetFixedGuns()->UnMountGun(num);
-			return;
 		} else {
 			Properties().PushLuaTable();
 			LuaTable prop(Lua::manager->GetLuaState(), -1);

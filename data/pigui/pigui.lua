@@ -755,7 +755,7 @@ ui.gauge_height = 25
 ui.gauge_width = 275
 
 ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color, tooltip)
-	local percent = (value - minimum) / (maximum - minimum)
+	local percent = math.clamp((value - minimum) / (maximum - minimum), 0, 1)
 	local offset = 60
 	local uiPos = position
 	ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
