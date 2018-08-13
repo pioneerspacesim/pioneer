@@ -15,6 +15,14 @@
     "description": "",
     "message": "Shields your spaceship from the heat of atmospheric re-entry."
   },
+  "ATMOSPHERIC_SHIELDING_HEAVY": {
+    "description": "Will withstand higher pressures than normal Atmospheric Shielding",
+    "message": "Heavy Atmospheric Shielding"
+  },
+  "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
+    "description": "",
+    "message": "A more capable version of Atmospheric Shields"
+  },
   "AUTOPILOT": {
     "description": "",
     "message": "Pilot otomatis"
