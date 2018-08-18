@@ -1,49 +1,37 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _PROJECTILE_H
-#define _PROJECTILE_H
+#pragma once
+
+#ifndef _BEAM_H
+#define _BEAM_H
 
 #include "libs.h"
 #include "Body.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
 
-struct ProjectileData {
-	float lifespan;
-	float damage;
-	float length;
-	float width;
-	float speed;
-	Color color;
-	bool mining;
-	bool beam;
-};
-
-
 class Frame;
 namespace Graphics {
 	class Renderer;
 	class VertexArray;
 }
+struct ProjectileData;
 
-class Projectile: public Body {
+class Beam: public Body {
 public:
-	OBJDEF(Projectile, Body, PROJECTILE);
+	OBJDEF(Beam, Body, PROJECTILE);
 
-	static void Add(Body *parent, float lifespan, float dam, float length, float width, bool mining, const Color& color, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel);
-	static void Add(Body *parent, const ProjectileData& prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel ) {
-		Add( parent, prData.lifespan, prData.damage, prData.length, prData.width, prData.mining, prData.color, pos, baseVel, dirVel );
-	}
+	static void Add(Body *parent, const ProjectileData& prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dir);
 
-	Projectile();
-	virtual ~Projectile();
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)  override final;
+	Beam();
+	virtual ~Beam();
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override final;
 	void TimeStepUpdate(const float timeStep) override final;
 	void StaticUpdate(const float timeStep) override final;
 	virtual void NotifyRemoved(const Body* const removedBody) override final;
-	virtual void UpdateInterpTransform(double alpha) override final;
 	virtual void PostLoadFixup(Space *space) override final;
+	virtual void UpdateInterpTransform(double alpha) override final;
 
 	static void FreeModel();
 
@@ -56,14 +44,13 @@ private:
 	double GetRadius() const;
 	Body *m_parent;
 	vector3d m_baseVel;
-	vector3d m_dirVel;
-	float m_age;
-	float m_lifespan;
+	vector3d m_dir;
+	Color m_color;
 	float m_baseDam;
 	float m_length;
-	float m_width;
+	float m_age;
 	bool m_mining;
-	Color m_color;
+	bool m_active;
 
 	int m_parentIndex; // deserialisation
 
@@ -76,4 +63,4 @@ private:
 	static Graphics::RenderState *s_renderState;
 };
 
-#endif /* _PROJECTILE_H */
+#endif /* _BEAM_H */

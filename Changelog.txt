@@ -1,7 +1,8 @@
 August 2018
    * New Features
      * Add heavy atmospheric shielding, allows easier fuel scooping (#4377)
-     
+     * Laser Beam Weapons (PEW-PEW!) added (#4331)
+
    * Internal Changes
      * Ship parser script for wiki (json -> wiki, and json->csv) now working (#4169)
      * Added more tooltips in settings menu (#4387)

@@ -10,9 +10,9 @@
 #include "Missile.h"
 #include "Player.h"
 #include "Projectile.h"
+#include "Beam.h"
 #include "ShipAICmd.h"
 #include "ShipController.h"
-#include "Sound.h"
 #include "Sfx.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
@@ -619,16 +619,22 @@ void Ship::UpdateGunsStats() {
 			Properties().PushLuaTable();
 			LuaTable prop(Lua::manager->GetLuaState(), -1);
 
-			const Color c(prop.Get<float>(prefix+"rgba_r"), prop.Get<float>(prefix+"rgba_g"),
-					prop.Get<float>(prefix+"rgba_b"), prop.Get<float>(prefix+"rgba_a"));
+			const Color c(
+				prop.Get<float>(prefix+"rgba_r"),
+				prop.Get<float>(prefix+"rgba_g"),
+				prop.Get<float>(prefix+"rgba_b"),
+				prop.Get<float>(prefix+"rgba_a"));
+			const float heatrate = prop.Get<float>(prefix + "heatrate", 0.01f);
+			const float coolrate = prop.Get<float>(prefix + "coolrate", 0.01f);
 			const float lifespan = prop.Get<float>(prefix+"lifespan");
 			const float width = prop.Get<float>(prefix+"width");
 			const float length = prop.Get<float>(prefix+"length");
 			const bool mining = prop.Get<int>(prefix+"mining");
 			const float speed = prop.Get<float>(prefix+"speed");
 			const float recharge = prop.Get<float>(prefix+"rechargeTime");
+			const bool beam = prop.Get<int>(prefix+"beam");
 
-			GetFixedGuns()->MountGun( num, recharge, lifespan, damage, length, width, mining, c, speed );
+			GetFixedGuns()->MountGun( num, recharge, lifespan, damage, length, width, mining, c, speed, beam, heatrate, coolrate);
 
 			if (prop.Get<int>(prefix+"dual")) GetFixedGuns()->IsDual( num, true );
 			else GetFixedGuns()->IsDual( num, false );
@@ -1169,12 +1175,45 @@ void Ship::StaticUpdate(const float timeStep)
 		m_launchLockTimeout = 0;
 
 	// lasers
-	GetFixedGuns()->UpdateGuns( timeStep );
-	for (int i=0; i<2; i++)
-		if (GetFixedGuns()->Fire(i, this)) {
-			Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
+	FixedGuns *fg = GetFixedGuns();
+	fg->UpdateGuns( timeStep );
+	for (int i = 0; i < 2; i++)
+	{
+		if (fg->Fire(i, this))
+		{
+			if (fg->IsBeam(i))
+			{
+				float vl, vr;
+				Sound::CalculateStereo(this, 1.0f, &vl, &vr);
+				m_beamLaser[i].Play("Beam_laser", vl, vr, Sound::OP_REPEAT);
+			}
+			else
+			{
+				Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
+			}
 			LuaEvent::Queue("onShipFiring", this);
-		};
+		}
+
+		if (fg->IsBeam(i))
+		{
+			if (fg->IsFiring(i))
+			{
+				float vl, vr;
+				Sound::CalculateStereo(this, 1.0f, &vl, &vr);
+				if (!m_beamLaser[i].IsPlaying()) {
+					m_beamLaser[i].Play("Beam_laser", vl, vr, Sound::OP_REPEAT);
+				}
+				else {
+					// update volume
+					m_beamLaser[i].SetVolume(vl, vr);
+				}
+			}
+			else if (!fg->IsFiring(i) && m_beamLaser[i].IsPlaying())
+			{
+				m_beamLaser[i].Stop();
+			}
+		}
+	}
 
 	if (m_ecmRecharge > 0.0f) {
 		m_ecmRecharge = std::max(0.0f, m_ecmRecharge - timeStep);

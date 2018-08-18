@@ -3,6 +3,7 @@
 
 #include "FixedGuns.h"
 #include "GameSaveError.h"
+#include "Beam.h"
 
 FixedGuns::FixedGuns()
 {
@@ -20,13 +21,24 @@ bool FixedGuns::IsFiring()
 	return gunstate;
 }
 
+bool FixedGuns::IsFiring(const int num)
+{
+	return m_is_firing[num];
+}
+
+bool FixedGuns::IsBeam(const int num)
+{
+	return m_gun[num].projData.beam;
+}
+
 void FixedGuns::Init(DynamicBody *b)
 {
 	for (int i=0; i<Guns::GUNMOUNT_MAX; i++) {
 		// Initialize structs
 		m_is_firing[i] = false;
 		m_gun[i].recharge = 0;
-		m_gun[i].temp_slope = 0;
+		m_gun[i].temp_heat_rate = 0;
+		m_gun[i].temp_cool_rate = 0;
 		m_gun[i].projData.lifespan = 0;
 		m_gun[i].projData.damage = 0;
 		m_gun[i].projData.length = 0;
@@ -93,14 +105,16 @@ void FixedGuns::InitGun( SceneGraph::Model *m, const char *tag, int num)
 	}
 }
 
-void FixedGuns::MountGun(int num, float recharge, float lifespan, float damage, float length, float width, bool mining, const Color& color, float speed )
+void FixedGuns::MountGun(const int num, const float recharge, const float lifespan, const float damage, const float length,
+	const float width, const bool mining, const Color& color, const float speed, const bool beam, const float heatrate, const float coolrate )
 {
 	if(num >= Guns::GUNMOUNT_MAX)
 		return;
 	// Here we have projectile data MORE recharge time
 	m_is_firing[num] = false;
 	m_gun[num].recharge = recharge;
-	m_gun[num].temp_slope = 0.01; // TODO: More fun if you have a variable "speed" for temperature
+	m_gun[num].temp_heat_rate = heatrate; // TODO: More fun if you have a variable "speed" for temperature
+	m_gun[num].temp_cool_rate = coolrate;
 	m_gun[num].projData.lifespan = lifespan;
 	m_gun[num].projData.damage = damage;
 	m_gun[num].projData.length = length;
@@ -108,6 +122,7 @@ void FixedGuns::MountGun(int num, float recharge, float lifespan, float damage, 
 	m_gun[num].projData.mining = mining;
 	m_gun[num].projData.color = color;
 	m_gun[num].projData.speed = speed;
+	m_gun[num].projData.beam = beam;
 	m_gun_present[num] = true;
 };
 
@@ -119,7 +134,8 @@ void FixedGuns::UnMountGun( int num )
 		return;
 	m_is_firing[num] = false;
 	m_gun[num].recharge = 0;
-	m_gun[num].temp_slope = 0;
+	m_gun[num].temp_heat_rate = 0;
+	m_gun[num].temp_cool_rate = 0;
 	m_gun[num].projData.lifespan = 0;
 	m_gun[num].projData.damage = 0;
 	m_gun[num].projData.length = 0;
@@ -130,7 +146,7 @@ void FixedGuns::UnMountGun( int num )
 	m_gun_present[num] = false;
 }
 
-bool FixedGuns::Fire( int num, Body* b )
+bool FixedGuns::Fire( const int num, Body* b ) 
 {
 	if (!m_gun_present[num]) return false;
 	if (!m_is_firing[num]) return false;
@@ -145,18 +161,32 @@ bool FixedGuns::Fire( int num, Body* b )
 	const vector3d pos = b->GetOrient() * vector3d(m_gun[num].pos) + b->GetPosition();
 	const vector3d dirVel = m_gun[num].projData.speed * dir.Normalized();
 
-	m_temperature_stat[num] += m_gun[num].temp_slope;
+	m_temperature_stat[num] += m_gun[num].temp_heat_rate;
 	m_recharge_stat[num] = m_gun[num].recharge;
 
 	if ( m_gun[num].dual )
 	{
 		const vector3d orient_norm = b->GetOrient().VectorY();
 		const vector3d sep = 5.0 * dir.Cross(orient_norm).NormalizedSafe();
-
-		Projectile::Add( b, m_gun[num].projData, pos + sep, b->GetVelocity(), dirVel);
-		Projectile::Add( b, m_gun[num].projData, pos - sep, b->GetVelocity(), dirVel);
+		if(m_gun[num].projData.beam)
+		{
+			Beam::Add(b, m_gun[num].projData, pos + sep, b->GetVelocity(), dir.Normalized());
+			Beam::Add(b, m_gun[num].projData, pos - sep, b->GetVelocity(), dir.Normalized());
+		}
+		else
+		{
+			Projectile::Add(b, m_gun[num].projData, pos + sep, b->GetVelocity(), dirVel);
+			Projectile::Add(b, m_gun[num].projData, pos - sep, b->GetVelocity(), dirVel);
+		}
 	} else {
-		Projectile::Add( b, m_gun[num].projData, pos, b->GetVelocity(), dirVel);
+		if(m_gun[num].projData.beam)
+		{
+			Beam::Add(b, m_gun[num].projData, pos, b->GetVelocity(), dir.Normalized());
+		}
+		else
+		{
+			Projectile::Add(b, m_gun[num].projData, pos, b->GetVelocity(), dirVel);
+		}
 	}
 	return true;
 };
@@ -164,13 +194,22 @@ bool FixedGuns::Fire( int num, Body* b )
 void FixedGuns::UpdateGuns( float timeStep )
 {
 	for (int i=0; i<Guns::GUNMOUNT_MAX; i++) {
-		if ( !m_gun_present[i] ) continue;
+		if ( !m_gun_present[i] )
+			continue;
+
 		m_recharge_stat[i] -= timeStep;
-		float rateCooling = m_gun[i].temp_slope;
+
+		float rateCooling = m_gun[i].temp_cool_rate;
 		rateCooling *= m_cooler_boost;
 		m_temperature_stat[i] -= rateCooling*timeStep;
-		if (m_temperature_stat[i] < 0.0f) m_temperature_stat[i] = 0;
-		if (m_recharge_stat[i] < 0.0f) m_recharge_stat[i] = 0;
+
+		if (m_temperature_stat[i] < 0.0f)
+			m_temperature_stat[i] = 0;
+		else if (m_temperature_stat[i] > 1.0f)
+			m_is_firing[i] = false;
+
+		if (m_recharge_stat[i] < 0.0f)
+			m_recharge_stat[i] = 0;
 	}
 
 }

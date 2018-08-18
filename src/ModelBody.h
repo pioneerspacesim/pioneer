@@ -31,6 +31,7 @@ public:
 	const Aabb &GetAabb() const { return m_collMesh->GetAabb(); }
 	SceneGraph::Model *GetModel() const { return m_model; }
 	CollMesh *GetCollMesh() { return m_collMesh.Get(); }
+	Geom* GetGeom() const { return m_geom;  }
 
 	void SetModel(const char *modelName);
 

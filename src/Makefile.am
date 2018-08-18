@@ -20,6 +20,7 @@ noinst_HEADERS = \
 	AnimationCurves.h \
 	Background.h \
 	BaseSphere.h \
+	Beam.h \
 	Body.h \
 	ByteRange.h \
 	Camera.h \
@@ -164,6 +165,7 @@ pioneer_SOURCES	= \
 	AmbientSounds.cpp \
 	Background.cpp \
 	BaseSphere.cpp \
+	Beam.cpp \
 	Body.cpp \
 	Camera.cpp \
 	CameraController.cpp \

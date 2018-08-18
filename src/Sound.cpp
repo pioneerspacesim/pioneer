@@ -29,14 +29,14 @@ class OggFileDataStream {
 public:
 	static const ov_callbacks CALLBACKS;
 
-	OggFileDataStream(): m_cursor(0) {}
+	OggFileDataStream(): m_cursor(nullptr) {}
 	explicit OggFileDataStream(const RefCountedPtr<FileSystem::FileData> &data):
 		m_data(data), m_cursor(data->GetData()) { assert(data); }
 
 	void Reset()
 	{
 		m_data.Reset();
-		m_cursor = 0;
+		m_cursor = nullptr;
 	}
 
 	void Reset(const RefCountedPtr<FileSystem::FileData> &data)
@@ -80,7 +80,7 @@ public:
 	{
 		if (m_data) {
 			m_data.Reset();
-			m_cursor = 0;
+			m_cursor = nullptr;
 			return 0;
 		} else {
 			return -1;
@@ -131,32 +131,35 @@ float GetSfxVolume()
 	return m_sfxVol;
 }
 
-eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
+void CalculateStereo(const Body *b, float vol, float *volLeftOut, float *volRightOut)
 {
-	vector3d pos;
+	vector3d pos(0.0);
 
-	if (b == Pi::player) {
-		pos = vector3d(0.0);
-	} else {
+	if (b != Pi::player) {
 		pos = b->GetPositionRelTo(Pi::player);
 		pos = pos * Pi::player->GetOrient();
 	}
 
-	float len = pos.Length();
-	float v[2];
-	if (! is_zero_general(len)) {
+	const float len = pos.Length();
+	if (!is_zero_general(len)) {
 		vol = vol / (0.002*len);
 		double dot = pos.Normalized().x * vol;
 
-		v[0] = vol * (2.0f - (1.0+dot));
-		v[1] = vol * (1.0 + dot);
-	} else {
-		v[0] = v[1] = vol;
+		(*volLeftOut) = vol * (2.0f - (1.0 + dot));
+		(*volRightOut) = vol * (1.0 + dot);
 	}
-	v[0] = Clamp(v[0], 0.0f, 1.0f);
-	v[1] = Clamp(v[1], 0.0f, 1.0f);
+	else {
+		(*volLeftOut) = (*volRightOut) = vol;
+	}
+	(*volLeftOut) = Clamp((*volLeftOut), 0.0f, 1.0f);
+	(*volRightOut) = Clamp((*volRightOut), 0.0f, 1.0f);
+}
 
-	return Sound::PlaySfx(sfx, v[0], v[1], 0);
+eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
+{
+	float vl, vr;
+	CalculateStereo(b, vol, &vl, &vr);
+	return Sound::PlaySfx(sfx, vl, vr, 0);
 }
 
 struct SoundEvent {
@@ -192,7 +195,7 @@ static SoundEvent *GetEvent(eventid id)
 		if (wavstream[i].sample && (wavstream[i].identifier == id))
 			return &wavstream[i];
 	}
-	return 0;
+	return nullptr;
 }
 
 bool SetOp(eventid id, Op op)
@@ -218,7 +221,7 @@ static void DestroyEvent(SoundEvent *ev)
 		ev->oggv = 0;
 		ev->ogg_data_stream.Reset();
 	}
-	ev->sample = 0;
+	ev->sample = nullptr;
 }
 
 /*
@@ -270,7 +273,7 @@ eventid PlayMusic(const char *fx, const float volume_left, const float volume_ri
 	if (wavstream[idx].sample)
 		DestroyEvent(&wavstream[idx]);
 	wavstream[idx].sample = GetSample(fx);
-	wavstream[idx].oggv = 0;
+	wavstream[idx].oggv = nullptr;
 	wavstream[idx].buf_pos = 0;
 	wavstream[idx].volume[0] = volume_left;
 	wavstream[idx].volume[1] = volume_right;
@@ -309,14 +312,14 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 				RefCountedPtr<FileSystem::FileData> oggdata = FileSystem::gameDataFiles.ReadFile(ev.sample->path);
 				if (!oggdata) {
 					Output("Could not open '%s'", ev.sample->path.c_str());
-					ev.sample = 0;
+					ev.sample = nullptr;
 					return;
 				}
 				ev.ogg_data_stream.Reset(oggdata);
 				oggdata.Reset();
 				if (ov_open_callbacks(&ev.ogg_data_stream, ev.oggv, 0, 0, OggFileDataStream::CALLBACKS) < 0) {
 					Output("Vorbis could not understand '%s'", ev.sample->path.c_str());
-					ev.sample = 0;
+					ev.sample = nullptr;
 					return;
 				}
 			}
@@ -591,7 +594,7 @@ bool Event::Stop()
 			DestroyEvent(s);
 		}
 		SDL_UnlockAudio();
-		return s != 0;
+		return s != nullptr;
 	} else {
 		return false;
 	}
@@ -600,7 +603,7 @@ bool Event::Stop()
 bool Event::IsPlaying() const
 {
 	if (eid == 0) return false;
-	else return GetEvent(eid) != 0;
+	else return GetEvent(eid) != nullptr;
 }
 
 bool Event::SetOp(Op op) {
@@ -627,7 +630,7 @@ bool Event::VolumeAnimate(const float targetVol1, const float targetVol2, const 
 		ev->rateOfChange[1] = dv_dt2 / float(FREQ);
 	}
 	SDL_UnlockAudio();
-	return (ev != 0);
+	return (ev != nullptr);
 }
 
 bool Event::SetVolume(const float vol_left, const float vol_right)

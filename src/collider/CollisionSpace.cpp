@@ -273,7 +273,7 @@ void CollisionSpace::CollideRaySphere(const vector3d &start, const vector3d &dir
 	}
 }
 
-void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double len, CollisionContact *c)
+void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double len, CollisionContact *c, const Geom *ignore /*= nullptr*/)
 {
 	PROFILE_SCOPED()
 	vector3d invDir(1.0/dir.x, 1.0/dir.y, 1.0/dir.z);
@@ -334,6 +334,7 @@ pop_jizz:
 	}
 
 	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
+		if ((*i) == ignore) continue;
 		if ((*i)->IsEnabled()) {
 			const matrix4x4d &invTrans = (*i)->GetInvTransform();
 			vector3d ms = invTrans * start;
