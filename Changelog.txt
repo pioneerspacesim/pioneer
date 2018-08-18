@@ -8,6 +8,7 @@ August 2018
      * Added more tooltips in settings menu (#4387)
      * Cleanup PatchJobs code (#4393)
      * Update COMPILING.txt (#4396)
+     * Add support for building using the system install of libGLEW (#4391)
 
 July 2018
    * New Features
