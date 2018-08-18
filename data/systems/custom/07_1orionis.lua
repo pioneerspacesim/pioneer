@@ -1,10 +1,7 @@
 -- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
---Une ville doit avoir un nom en Dun (Duncan, Dunvegan, Dun More), Ard (Ardfern)
---Shin, terminaison
---Aber signifie estuaire
-
+--Names don't infringe any copyright (see comments after each name)
 
 
 local s = CustomSystem:new('1 Orionis',{ 'STAR_F' }) --Alt name will be "Cluaran", means "thisle" in scottish
