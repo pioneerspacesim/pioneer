@@ -5,6 +5,7 @@ local Engine = import("Engine")
 local Game = import("Game")
 local Music = import("Music")
 local Event = import("Event")
+local SystemPath = import("SystemPath")
 
 local music = {}
 
@@ -57,6 +58,11 @@ end
 local playAmbient = function ()
 	local category
 
+	local current_system = Game.system
+	local sol = SystemPath.New(0, 0, 0)
+	local distToSol = current_system:DistanceTo(sol)
+	local unexplored_distance = 690
+
 	-- if we're near a planet or spacestation then choose something specific
 	-- player can usually be in a planet's frame but still be so far away that
 	-- they'd say they're not near it, so only use its rotating frame (which
@@ -73,7 +79,11 @@ local playAmbient = function ()
 
 	-- not near anything interesting so just use the normal space music
 	if not category then
-		playRandomSongFromCategory("space")
+		if distToSol > unexplored_distance then
+			playRandomSongFromCategory("unexplored")
+		else
+			playRandomSongFromCategory("space")
+		end
 		return
 	end
 
@@ -81,7 +91,11 @@ local playAmbient = function ()
 	-- have any specific music) then fall back to normal space music
 	playRandomSongFromCategory(category)
 	if not Music.IsPlaying() then
-		playRandomSongFromCategory("space")
+		if distToSol > unexplored_distance then
+			playRandomSongFromCategory("unexplored")
+		else
+			playRandomSongFromCategory("space")
+		end
 	end
 end
 
