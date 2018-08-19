@@ -14,6 +14,8 @@
 #include <curl/curlver.h>
 #endif
 
+#include <GL/glew.h>
+
 void OutputVersioningInfo()
 {
 	SDL_version ver;
@@ -34,5 +36,7 @@ void OutputVersioningInfo()
 #ifdef ENABLE_SERVER_AGENT
 	Output("LibCurl Version: %s", LIBCURL_VERSION);
 #endif
+
+	Output("GLEW dynamic version: %s\n", glewGetString(GLEW_VERSION));
 	Output("--------------------\n\n");
 }
