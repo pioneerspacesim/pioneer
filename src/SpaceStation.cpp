@@ -21,7 +21,7 @@
 #include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
 #include "scenegraph/ModelSkin.h"
-#include "json/JsonUtils.h"
+#include "JsonUtils.h"
 #include "GameSaveError.h"
 #include <algorithm>
 

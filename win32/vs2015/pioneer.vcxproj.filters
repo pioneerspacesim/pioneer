@@ -381,6 +381,9 @@
     <ClCompile Include="..\..\src\JobQueue.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\JsonUtils.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\contrib\PicoDDS\PicoDDS.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -849,6 +852,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\JobQueue.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\JsonUtils.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\contrib\PicoDDS\PicoDDS.h">

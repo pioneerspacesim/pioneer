@@ -54,6 +54,7 @@ noinst_HEADERS = \
 	Intro.h \
 	IterationProxy.h \
 	JobQueue.h \
+	JsonUtils.h \
 	GameConfig.h \
 	GameSaveError.h \
 	KeyBindings.h \
@@ -200,6 +201,7 @@ pioneer_SOURCES	= \
 	IniConfig.cpp \
 	Intro.cpp \
 	JobQueue.cpp \
+	JsonUtils.cpp \
 	GameConfig.cpp \
 	KeyBindings.cpp \
 	Lang.cpp \
@@ -459,6 +461,7 @@ modelcompiler_SOURCES = \
 	IniConfig.cpp \
 	GameConfig.cpp \
 	JobQueue.cpp \
+	JsonUtils.cpp \
 	Lang.cpp \
 	ModManager.cpp \
 	NavLights.cpp \

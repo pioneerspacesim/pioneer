@@ -7,7 +7,7 @@
 #include "Pi.h"
 #include "Game.h"
 #include "GameSaveError.h"
-#include "json/JsonUtils.h"
+#include "JsonUtils.h"
 
 CameraController::CameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 m_camera(camera),

@@ -9,7 +9,7 @@
 #include "galaxy/StarSystem.h"
 #include "Pi.h"
 #include "Game.h"
-#include "json/JsonUtils.h"
+#include "JsonUtils.h"
 #include "GameSaveError.h"
 #include <algorithm>
 

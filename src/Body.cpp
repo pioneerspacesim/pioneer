@@ -18,7 +18,7 @@
 #include "Game.h"
 #include "LuaEvent.h"
 #include "GameSaveError.h"
-#include "json/JsonUtils.h"
+#include "JsonUtils.h"
 
 Body::Body() : PropertiedObject(Lua::manager)
 	, m_flags(0)

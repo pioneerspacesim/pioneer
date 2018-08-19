@@ -4,7 +4,7 @@
 #include "LuaSerializer.h"
 #include "LuaObject.h"
 #include "GameSaveError.h"
-#include "json/JsonUtils.h"
+#include "JsonUtils.h"
 
 // every module can save one object. that will usually be a table.  we call
 // each serializer in turn and capture its return value we build a table like

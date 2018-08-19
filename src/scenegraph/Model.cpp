@@ -8,7 +8,7 @@
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
 #include "StringF.h"
-#include "json/JsonUtils.h"
+#include "JsonUtils.h"
 #include "FindNodeVisitor.h"
 #include "Thruster.h"
 #include "utils.h"

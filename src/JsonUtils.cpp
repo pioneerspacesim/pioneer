@@ -4,10 +4,11 @@
 #ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
 #endif
+
 #include <cmath>
 #include "JsonUtils.h"
-#include "../../src/utils.h"
-#include "../../src/GameSaveError.h" // Need this for the exceptions
+#include "utils.h"
+#include "GameSaveError.h" // Need this for the exceptions
 
 extern "C" {
 #ifdef __GNUC__

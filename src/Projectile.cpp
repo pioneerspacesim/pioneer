@@ -22,7 +22,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
-#include "json/JsonUtils.h"
+#include "JsonUtils.h"
 #include "GameSaveError.h"
 
 std::unique_ptr<Graphics::VertexArray> Projectile::s_sideVerts;
