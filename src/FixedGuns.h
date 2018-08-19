@@ -8,7 +8,7 @@
 #include "libs.h"
 #include "Space.h"
 #include "Camera.h"
-#include "json/JsonUtils.h"
+#include "JsonUtils.h"
 #include "scenegraph/Model.h"
 #include "Projectile.h"
 #include "DynamicBody.h"

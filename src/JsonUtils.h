@@ -5,11 +5,11 @@
 #define _JSON_UTILS_H
 
 #include "json/json.h"
-#include "../../src/vector3.h"
-#include "../../src/Quaternion.h"
-#include "../../src/matrix3x3.h"
-#include "../../src/matrix4x4.h"
-#include "../../src/Color.h"
+#include "vector3.h"
+#include "Quaternion.h"
+#include "matrix3x3.h"
+#include "matrix4x4.h"
+#include "Color.h"
 
 // To-JSON functions.
 void VectorToJson(Json::Value &jsonObj, const vector3f &vec, const std::string &name);

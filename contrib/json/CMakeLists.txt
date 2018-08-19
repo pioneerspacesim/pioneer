@@ -2,7 +2,7 @@ project(json LANGUAGES CXX)
 
 set(BUILD_SHARED_LIBS OFF)
 
-add_library(${PROJECT_NAME} jsoncpp.cpp JsonUtils.cpp)
+add_library(${PROJECT_NAME} jsoncpp.cpp)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
 	CXX_STANDARD 11

@@ -5,7 +5,7 @@
 #include "Model.h"
 #include "StringF.h"
 #include "graphics/TextureBuilder.h"
-#include "json/JsonUtils.h"
+#include "JsonUtils.h"
 #include "GameSaveError.h"
 
 #include "RandomColor.h"

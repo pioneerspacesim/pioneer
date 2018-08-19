@@ -15,7 +15,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "graphics/RenderState.h"
-#include "json/JsonUtils.h"
+#include "JsonUtils.h"
 #include "GameSaveError.h"
 
 using namespace Graphics;
