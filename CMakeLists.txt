@@ -123,7 +123,7 @@ include_directories(
 
 if (NOT USE_SYSTEM_LIBGLEW)
 	add_subdirectory(contrib/glew)
-	set(GLEW_LIBRARIES glew)
+	add_library(GLEW::GLEW ALIAS glew)
 endif (NOT USE_SYSTEM_LIBGLEW)
 add_subdirectory(contrib/imgui)
 add_subdirectory(contrib/jenkins)
@@ -147,7 +147,7 @@ target_link_libraries(${PROJECT_NAME} LINK_PRIVATE
 	${SIGCPP_LIBRARIES}
 	${VORBISFILE_LIBRARIES}
 	${LUA_LIBRARIES}
-	${GLEW_LIBRARIES}
+	GLEW::GLEW
 	imgui
 	jenkins
 	json

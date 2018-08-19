@@ -6,6 +6,6 @@
 #ifndef _GL2_OPENGLIBS_H
 #define _GL2_OPENGLIBS_H
 
-#include "glew/glew.h"
+#include <GL/glew.h>
 
 #endif
