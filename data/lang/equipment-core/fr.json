@@ -33,15 +33,15 @@
   },
   "BEAMLASER_1MW": {
     "description": "",
-    "message": "1MW beam laser"
+    "message": "Laser 1MV"
   },
   "BEAMLASER_DUAL_1MW": {
     "description": "",
-    "message": "1MW dual-fire beam laser"
+    "message": "Laser 1MV (double tir)"
   },
   "BEAMLASER_RAPID_2MW": {
     "description": "",
-    "message": "2MW rapid-fire beam laser"
+    "message": "Laser 2MV (tir rapide)"
   },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
@@ -233,31 +233,31 @@
   },
   "PULSECANNON_10MW": {
     "description": "",
-    "message": "Canon laser 10MW"
+    "message": "Canon à impulsion 10MW"
   },
   "PULSECANNON_1MW": {
     "description": "",
-    "message": "Canon laser 1MW"
+    "message": "Canon à impulsion 1MW"
   },
   "PULSECANNON_20MW": {
     "description": "",
-    "message": "Canon laser 20MW"
+    "message": "Canon à impulsion 20MW"
   },
   "PULSECANNON_2MW": {
     "description": "",
-    "message": "Canon laser 2MW"
+    "message": "Canon à impulsion 2MW"
   },
   "PULSECANNON_4MW": {
     "description": "",
-    "message": "Canon laser 4MW"
+    "message": "Canon à impulsion 4MW"
   },
   "PULSECANNON_DUAL_1MW": {
     "description": "",
-    "message": "Canon laser 1MW double"
+    "message": "Canon à impulsion 1MW (tir double)"
   },
   "PULSECANNON_RAPID_2MW": {
     "description": "",
-    "message": "Canon laser rapide 2MW"
+    "message": "Canon à impulsion 2MW (tir rapide)"
   },
   "RADAR": {
     "description": "",
