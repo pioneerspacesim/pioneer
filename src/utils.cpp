@@ -111,7 +111,7 @@ void Error(const char *format, ...)
 	va_end(ap);
 
 	Output("error: %s\n", buf);
-	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Pioneer error", buf, 0);
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Pioneer guru meditation error", buf, 0);
 
 	exit(1);
 }
