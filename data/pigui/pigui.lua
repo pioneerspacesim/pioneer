@@ -581,7 +581,7 @@ local radial_menu_actions_station = {
 		 		Game.AddCommsLogLine(msg, target.label)
 		 		Game.player:SetNavTarget(target)
 		 	else 
-				Game.AddCommsLogLine("Error activating autopilot: No autopilot installed")
+				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
 	end},
 	{icon=ui.theme.icons.autopilot_dock, tooltip=lc.AUTOPILOT_DOCK_WITH_STATION,
@@ -591,7 +591,7 @@ local radial_menu_actions_station = {
 		 		Game.player:AIDockWith(target)
 		 		Game.player:SetNavTarget(target)
 			else 
-				Game.AddCommsLogLine("Error activating autopilot: No autopilot installed")
+				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
 	end},
 }
@@ -604,7 +604,7 @@ local radial_menu_actions_all_bodies = {
 		 	Game.player:AIFlyTo(target)
 		 	Game.player:SetNavTarget(target)
 		else 
-			Game.AddCommsLogLine("Error activating autopilot: No autopilot installed")
+			Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 		end
 		
 	end},
@@ -618,7 +618,7 @@ local radial_menu_actions_systembody = {
 		 		Game.player:AIEnterLowOrbit(target)
 		 		Game.player:SetNavTarget(target)
 		 	else 
-				Game.AddCommsLogLine("Error activating autopilot: No autopilot installed")
+				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
 	end},
 	{icon=ui.theme.icons.autopilot_medium_orbit, tooltip=lc.AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND,
@@ -628,7 +628,7 @@ local radial_menu_actions_systembody = {
 		 		Game.player:AIEnterMediumOrbit(target)
 		 		Game.player:SetNavTarget(target)
 		 	else 
-				Game.AddCommsLogLine("Error activating autopilot: No autopilot installed")
+				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
 	end},
 	{icon=ui.theme.icons.autopilot_high_orbit, tooltip=lc.AUTOPILOT_ENTER_HIGH_ORBIT_AROUND,
@@ -638,7 +638,7 @@ local radial_menu_actions_systembody = {
 		 		Game.player:AIEnterHighOrbit(target)
 		 		Game.player:SetNavTarget(target)
 		 	else 
-				Game.AddCommsLogLine("Error activating autopilot: No autopilot installed")
+				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
 	end},
 }
