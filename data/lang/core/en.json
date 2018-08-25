@@ -75,7 +75,6 @@
     "description": "",
     "message": "Autopilot on"
   },
-  
   "AXIAL_TILT": {
     "description": "",
     "message": "Axial tilt"
