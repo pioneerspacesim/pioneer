@@ -75,10 +75,7 @@
     "description": "",
     "message": "Autopilot on"
   },
-  "AUTOPILOT_NOT_INSTALLED": {
-      "description": "",
-      "message": "Autopilot not installed on ship, cannot enable autopilot"
-  },
+  
   "AXIAL_TILT": {
     "description": "",
     "message": "Axial tilt"
@@ -1066,6 +1063,10 @@
   "N_YEARS": {
     "description": "",
     "message": "%years{f.1} years"
+  },
+   "NO_AUTOPILOT_INSTALLED": {
+      "description": "",
+      "message": "Autopilot not installed on ship, cannot enable autopilot"
   },
   "O2_ATMOSPHERE": {
     "description": "",
