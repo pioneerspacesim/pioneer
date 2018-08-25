@@ -5,8 +5,8 @@ Table of Contents
   1.2 Windows - MSVC
   1.3 Windows - Autotools (Linux cross-compile)
   1.4 OS X - Autotools
-  1.5 OS X - XCode 4
-  1.6 OS X - Homebrew
+  1.5 OS X - Homebrew
+  1.6 OS X - CMake and XCode
   1.7 Nix - Autotools
 2 pioneer-thirdparty
   2.1 Linux - Autotools
@@ -156,31 +156,7 @@ Note: Compiling from source this way isn't recommended as it doesn't allow you
       bundle). It also isn't the 'Apple way', To do that you need to use XCode.
 
 
-1.5 OS X - XCode 6
-------------------
-
-You will need the following libraries installed. The best method I found was to install macports (http://www.macports.org/) and install the following ports (sudo port install xxxx):
-
-     autoconf
-     automake
-     pkgconfig
-     assimp
-     freetype
-     libsigcxx2
-     libsdl2
-     libsdl2_image
-     libvorbis
-     libvorbisfile
-
-Alternatively you can also run the script in the ./osx folder install_ports.sh
-
-The latest XCode project files are located in ./osx. Simply build the
-aplication bundle. The XCode project uses the mac port libraries that you
-have installed above. Once the pioneer.app bundle is complete you can move it
-around where you like (/Applications is a nice place for it).
-
-
-1.6 OS X - Homebrew
+1.5 OS X - Homebrew
 -------------------
 
 1. Install Homebrew package manager (http://brew.sh/) if you don't have one yet.
@@ -198,6 +174,23 @@ around where you like (/Applications is a nice place for it).
 
      brew install --HEAD pioneer
 
+
+1.6 OS X - CMake and XCode
+--------------------------
+
+THESE INSTRUCTIONS ARE APPROXIMATE AND ARE UNTESTED; PLEASE SUBMIT CORRECTIONS!
+
+1. Install XCode (free download from Apple) as in the 'OS X Autotools'
+   instructions.
+
+2. Install required libraries, as in the 'OS X Autotools' instructions.
+
+3. Install CMake, from https://cmake.org/download/, or via MacPorts.
+
+4. Create a new directory for the build files. Use the CMake GUI to generate
+   an XCode project in the new directory.
+
+5. Open the project in XCode and build 'pioneer'.
 
 1.7 Nix - Autotools
 -------------------
