@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = contrib $(PLATFORM_SUBDIRS) src data osx
+SUBDIRS = contrib $(PLATFORM_SUBDIRS) src data
 
 PATH := @MXE_PATH@:$(PATH)
 

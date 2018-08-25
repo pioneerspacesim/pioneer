@@ -451,6 +451,5 @@ AC_CONFIG_FILES([
 	contrib/vcacheopt/Makefile
 	contrib/glew/Makefile
 	contrib/profiler/Makefile
-	osx/Makefile
 	win32/Makefile])
 AC_OUTPUT
