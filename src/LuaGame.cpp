@@ -98,7 +98,11 @@ static int l_game_savegame_stats(lua_State *l)
 	std::string filename = LuaPull<std::string>(l, 1);
 
 	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
-	if (!file) throw CouldNotOpenFileException();
+	if (!file) {
+		const std::string message = stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", filename));
+		lua_pushlstring(l, message.c_str(), message.size());
+		return lua_error(l);
+	}
 	const auto compressed_data = file->AsByteRange();
 	try {
 		const std::string plain_data = gzip::DecompressDeflateOrGZip(reinterpret_cast<const unsigned char*>(compressed_data.begin), compressed_data.Size());
@@ -131,8 +135,12 @@ static int l_game_savegame_stats(lua_State *l)
 		}
 	}
 	catch (gzip::DecompressionFailedException) {
-		throw SavedGameCorruptException();
-		lua_pushnil(l);
+		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
+		return 0;
+	}
+	catch (SavedGameCorruptException) {
+		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
+		return 0;
 	}
 
 	return 1;
