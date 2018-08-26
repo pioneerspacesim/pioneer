@@ -8,7 +8,7 @@ August 2018
      * Added more tooltips in settings menu (#4387)
      * Cleanup PatchJobs code (#4393)
      * Update COMPILING.txt (#4396)
-     * Add support for building using the system install of libGLEW (#4391)
+     * Add support for building using the system install of libGLEW (#4391, #4414)
      * Add support for building using CMake (#4104)
      * Delete unmaintained premake configuration and XCode project files (#4407)
      * Fixes to the Nix build config and instructions (#4412)
