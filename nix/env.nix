@@ -1,6 +1,6 @@
 { pkgs ? import <nixpkgs> { } }:
 let
-  assimp = pkgs.assimp or pkgs.callPackage ./assimp.nix { };
+  assimp = pkgs.assimp or (pkgs.callPackage ./assimp.nix { });
 in
 pkgs.myEnvFun {
   name = "pioneer";
