@@ -76,7 +76,7 @@ static int l_game_start_game(lua_State *l)
 /*
 * Function: SaveGameStats
 *
-* Start a new game.
+* Return stats about a game.
 *
 * > Game.SaveGameStats(filename)
 *
