@@ -195,16 +195,19 @@ THESE INSTRUCTIONS ARE APPROXIMATE AND ARE UNTESTED; PLEASE SUBMIT CORRECTIONS!
 1.7 Nix - Autotools
 -------------------
 
-1. Install the development environment using the included expressions.
+1. Install nix-shell.
 
-    nix-env -i -f nix/env.nix         # build and install the environment
-    load-env-pioneer                  # load the environment
+2. Install and load the development environment using the included expressions.
 
-2. Run ./bootstrap to generate your 'configure' file
+    nix-shell nix/env.nix             # build, install and load the environment
 
-3. Run ./configure to configure the build.
+3. Run ./bootstrap to generate your 'configure' file.
 
-4. Run make to build everything
+4. Run ./configure to configure the build.
+
+5. Run make to build everything
+
+6. Exit the development environment by exiting the shell.
 
 Executing ./pioneer requires the development environment to be loaded,
 executing ./src/pioneer does not.
