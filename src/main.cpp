@@ -8,6 +8,7 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/Galaxy.h"
 #include "utils.h"
+#include "versioningInfo.h"
 #include <cstdio>
 #include <cstdlib>
 
@@ -206,6 +207,7 @@ start:
 			std::string version(PIONEER_VERSION);
 			if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
 			Output("pioneer %s\n", version.c_str());
+			OutputVersioningInfo();
 			break;
 		}
 
