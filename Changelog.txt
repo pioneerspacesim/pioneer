@@ -13,6 +13,9 @@ August 2018
      * Delete unmaintained premake configuration and XCode project files (#4407)
      * Fixes to the Nix build config and instructions (#4412)
 
+   * Fixes
+     * In the game load dialog, detect and handle unloadable save files (#4415, #4416)
+
 July 2018
    * New Features
      * Add flyby camera view (#4355)
