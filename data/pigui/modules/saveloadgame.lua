@@ -46,8 +46,13 @@ local function getSaveTooltip(name)
 	if saveFileCache[name] then
 		stats = saveFileCache[name]
 	else
-		stats = Game.SaveGameStats(name)
-		saveFileCache[name] = stats
+		local ok
+		ok, stats = pcall(Game.SaveGameStats, name)
+		if ok then
+			saveFileCache[name] = stats
+		else
+			return stats  -- the error
+		end
 	end
 	ret = lui.GAME_TIME..":    " .. Format.Date(stats.time)
 	if stats.system then    ret = ret .. "\n"..lc.SYSTEM..": " .. stats.system end
