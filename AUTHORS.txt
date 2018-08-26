@@ -110,6 +110,7 @@ The Pioneer Developers are:
 * Vincent Teerling
 * Vladimir Rutsky
 * Wayne Ashworth
+* 42triangles
 
 Licensing
 =========
