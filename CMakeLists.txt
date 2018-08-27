@@ -3,6 +3,11 @@ project(pioneer LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+# If both libGL.so and libOpenGL.so are found, default to the latter
+# (former is a legacy name).
+# Set OpenGL_GL_PREFERENCE=LEGACY to force it to use the former.
+cmake_policy(SET CMP0072 NEW)
+
 include(GNUInstallDirs)
 
 if (CMAKE_COMPILER_IS_GNUCXX)
