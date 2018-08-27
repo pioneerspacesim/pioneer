@@ -4,6 +4,7 @@
 #include "FixedGuns.h"
 #include "GameSaveError.h"
 #include "Beam.h"
+#include "StringF.h"
 
 FixedGuns::FixedGuns()
 {
@@ -90,18 +91,44 @@ void FixedGuns::LoadFromJson( const Json::Value &jsonObj, Space *space )
 	}
 };
 
-void FixedGuns::InitGun( SceneGraph::Model *m, const char *tag, int num)
+void FixedGuns::InitGuns( SceneGraph::Model *m)
 {
-	const SceneGraph::MatrixTransform *mt = m->FindTagByName(tag);
-	if (mt) {
-		const matrix4x4f &trans = mt->GetTransform();
-		m_gun[num].pos = trans.GetTranslate();
-		m_gun[num].dir = trans.GetOrient().VectorZ();
-	} else {
-		// Output("WARNING: tag %s not found for gun %i\n", tag, num);
-		// XXX deprecated
-		m_gun[num].pos = (num==Guns::GUN_FRONT) ? vector3f(0,0,0) : vector3f(0,0,0);
-		m_gun[num].dir = (num==Guns::GUN_REAR) ? vector3f(0,0,-1) : vector3f(0,0,1);
+	for (int num = 0; num < Guns::GUNMOUNT_MAX; num++)
+	{
+		int found = 0;
+		// probably 4 is fine 99% of the time (X-Wings)
+		m_gun[num].locs.reserve(4);
+		// 32 is a crazy number... 
+		for (int gun = 0; gun < 32; gun++)
+		{
+			const std::string tag = stringf("tag_gunmount_%0{d}_multi_%1{d}", num, gun); //"gunmount_0_multi_0";
+			const SceneGraph::MatrixTransform *mt = m->FindTagByName(tag);
+			if (mt) {
+				++found;
+				const matrix4x4f &trans = mt->GetTransform();
+				GunData::GunLoc loc;
+				loc.pos = vector3d(trans.GetTranslate());
+				loc.dir = vector3d(trans.GetOrient().VectorZ());
+				m_gun[num].locs.push_back(loc);
+			}
+			else if (found == 0)
+			{
+				// look for legacy "tag_gunmount_0" or "tag_gunmount_1" tags
+				const std::string tag = stringf("tag_gunmount_%0{d}", num); //"gunmount_0";
+				const SceneGraph::MatrixTransform *mt = m->FindTagByName(tag);
+				if (mt) {
+					++found;
+					const matrix4x4f &trans = mt->GetTransform();
+					GunData::GunLoc loc;
+					loc.pos = vector3d(trans.GetTranslate());
+					loc.dir = vector3d(trans.GetOrient().VectorZ());
+					m_gun[num].locs.push_back(loc);
+				}
+				break; // definitely no more "gun"s for this "num" if we've come down this path
+			}
+			else
+				break;
+		}
 	}
 }
 
@@ -157,37 +184,27 @@ bool FixedGuns::Fire( const int num, Body* b )
 	if (m_temperature_stat[num] > 1.0) return false;
 	// Output(" temperature stat <= 1.0\n");
 
-	const vector3d dir = b->GetOrient() * vector3d(m_gun[num].dir);
-	const vector3d pos = b->GetOrient() * vector3d(m_gun[num].pos) + b->GetPosition();
-	const vector3d dirVel = m_gun[num].projData.speed * dir.Normalized();
-
 	m_temperature_stat[num] += m_gun[num].temp_heat_rate;
 	m_recharge_stat[num] = m_gun[num].recharge;
 
-	if ( m_gun[num].dual )
+	const int maxBarrels = std::min(size_t(m_gun[num].dual ? 2 : 1), m_gun[num].locs.size());
+
+	for (int iBarrel = 0; iBarrel < maxBarrels; iBarrel++)
 	{
-		const vector3d orient_norm = b->GetOrient().VectorY();
-		const vector3d sep = 5.0 * dir.Cross(orient_norm).NormalizedSafe();
-		if(m_gun[num].projData.beam)
+		const vector3d dir = (b->GetOrient() * vector3d(m_gun[num].locs[iBarrel].dir)).Normalized();
+		const vector3d pos = b->GetOrient() * vector3d(m_gun[num].locs[iBarrel].pos) + b->GetPosition();
+
+		if (m_gun[num].projData.beam)
 		{
-			Beam::Add(b, m_gun[num].projData, pos + sep, b->GetVelocity(), dir.Normalized());
-			Beam::Add(b, m_gun[num].projData, pos - sep, b->GetVelocity(), dir.Normalized());
+			Beam::Add(b, m_gun[num].projData, pos, b->GetVelocity(), dir);
 		}
 		else
 		{
-			Projectile::Add(b, m_gun[num].projData, pos + sep, b->GetVelocity(), dirVel);
-			Projectile::Add(b, m_gun[num].projData, pos - sep, b->GetVelocity(), dirVel);
-		}
-	} else {
-		if(m_gun[num].projData.beam)
-		{
-			Beam::Add(b, m_gun[num].projData, pos, b->GetVelocity(), dir.Normalized());
-		}
-		else
-		{
+			const vector3d dirVel = m_gun[num].projData.speed * dir;
 			Projectile::Add(b, m_gun[num].projData, pos, b->GetVelocity(), dirVel);
 		}
 	}
+	
 	return true;
 };
 
