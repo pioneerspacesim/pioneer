@@ -85,6 +85,7 @@ endif (WIN32)
 
 option(USE_SYSTEM_LIBGLEW "Use the system's libglew" OFF)
 if (USE_SYSTEM_LIBGLEW)
+	add_library(GLEW::GLEW INTERFACE IMPORTED)
 	find_package(GLEW REQUIRED)
 endif (USE_SYSTEM_LIBGLEW)
 
