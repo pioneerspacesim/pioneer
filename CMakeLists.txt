@@ -54,9 +54,12 @@ string(TIMESTAMP PROJECT_VERSION "%Y%m%d")
 add_definitions(-DPIONEER_VERSION="${PROJECT_VERSION}")
 
 if (NOT PIONEER_DATA_DIR)
-	file(TO_NATIVE_PATH ${CMAKE_INSTALL_FULL_DATADIR}/pioneer/data PIONEER_DATA_DIR)
-endif(NOT PIONEER_DATA_DIR)
-add_definitions(-DPIONEER_DATA_DIR="${PIONEER_DATA_DIR}")
+	set(PIONEER_DATA_DIR ${CMAKE_INSTALL_FULL_DATADIR}/pioneer/data CACHE PATH
+		"Path where game data will be installed" FORCE)
+endif (NOT PIONEER_DATA_DIR)
+
+file(TO_NATIVE_PATH ${PIONEER_DATA_DIR} _PIONEER_DATA_DIR)
+add_definitions(-DPIONEER_DATA_DIR="${_PIONEER_DATA_DIR}")
 
 if (MINGW)
 	# Enable PRIxYY macros on MinGW
@@ -232,8 +235,8 @@ set_target_properties(${PROJECT_NAME} modelcompiler savegamedump pioneerLib PROP
 install(TARGETS ${PROJECT_NAME} modelcompiler savegamedump
 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
-install(DIRECTORY data
-	DESTINATION ${CMAKE_INSTALL_DATADIR}/pioneer
+install(DIRECTORY data/
+	DESTINATION ${PIONEER_DATA_DIR}
 	PATTERN "listdata.*" EXCLUDE
 	PATTERN "Makefile.am" EXCLUDE
 )
