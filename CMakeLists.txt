@@ -248,6 +248,8 @@ install(DIRECTORY data/
 )
 
 if (WIN32)
+	configure_file(pioneer.iss.cmakein pioneer.iss @ONLY)
+
 	install(CODE "include(BundleUtilities)
 	fixup_bundle(\"$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/pioneer.exe\" \"\" \"${CMAKE_PROGRAM_PATH}\")"
 	COMPONENT Runtime)
