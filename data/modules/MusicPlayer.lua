@@ -58,9 +58,7 @@ end
 local playAmbient = function ()
 	local category
 
-	local current_system = Game.system
 	local sol = SystemPath.New(0, 0, 0)
-	local distToSol = current_system:DistanceTo(sol)
 	local unexplored_distance = 690
 
 	-- if we're near a planet or spacestation then choose something specific
@@ -79,10 +77,14 @@ local playAmbient = function ()
 
 	-- not near anything interesting so just use the normal space music
 	if not category then
-		if distToSol > unexplored_distance then
-			playRandomSongFromCategory("unexplored")
+		if Game.system then
+			if Game.system:DistanceTo(sol) > unexplored_distance then
+				playRandomSongFromCategory("unexplored")
+			else
+				playRandomSongFromCategory("space")
+			end
 		else
-			playRandomSongFromCategory("space")
+			playRandomSongFromCategory("unexplored")
 		end
 		return
 	end
@@ -91,10 +93,14 @@ local playAmbient = function ()
 	-- have any specific music) then fall back to normal space music
 	playRandomSongFromCategory(category)
 	if not Music.IsPlaying() then
-		if distToSol > unexplored_distance then
-			playRandomSongFromCategory("unexplored")
+		if Game.system then
+			if Game.system:DistanceTo(sol) > unexplored_distance then
+				playRandomSongFromCategory("unexplored")
+			else
+				playRandomSongFromCategory("space")
+			end
 		else
-			playRandomSongFromCategory("space")
+			playRandomSongFromCategory("unexplored")
 		end
 	end
 end
