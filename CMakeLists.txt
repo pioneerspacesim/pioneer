@@ -18,6 +18,11 @@ endif()
 
 include(GNUInstallDirs)
 
+# We don't want a 'bin' folder on Windows
+if (WIN32)
+	set(CMAKE_INSTALL_BINDIR ${CMAKE_INSTALL_PREFIX})
+endif (WIN32)
+
 if (CMAKE_COMPILER_IS_GNUCXX)
     if (NOT IS_TRAVIS)
         add_compile_options(-fdiagnostics-color)
