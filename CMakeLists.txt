@@ -175,7 +175,13 @@ endif (NOT USE_SYSTEM_LIBLUA)
 
 add_library(pioneerLib STATIC ${CXX_FILES})
 
-add_executable(${PROJECT_NAME} WIN32 src/main.cpp)
+if (WIN32)
+	string(TIMESTAMP BUILD_YEAR "%Y")
+	set(RESOURCES ${CMAKE_BINARY_DIR}/pioneer.rc)
+	configure_file(pioneer.rc.cmakein ${RESOURCES} @ONLY)
+endif()
+
+add_executable(${PROJECT_NAME} WIN32 src/main.cpp ${RESOURCES})
 add_executable(modelcompiler WIN32 src/modelcompiler.cpp)
 add_executable(savegamedump WIN32
 	src/savegamedump.cpp

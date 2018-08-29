@@ -1,0 +1,29 @@
+#include <windows.h>
+AppIcon ICON DISCARDABLE "@CMAKE_SOURCE_DIR@/application-icon/pioneer.ico"
+
+LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION @PROJECT_VERSION@
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "FileVersion",        "@PROJECT_VERSION@"
+            VALUE "CompanyName",        "Pioneer developers"
+            VALUE "FileDescription",    "Pioneer Space Simulator"
+            VALUE "InternalName",       "Pioneer"
+            VALUE "LegalCopyright",     "Copyright 2008-@BUILD_YEAR@ Pioneer developers"
+            VALUE "LegalTrademarks",    "https://www.gnu.org/licenses/gpl-3.0.en.html"
+            VALUE "OriginalFilename",   "pioneer.exe"
+            VALUE "ProductName",        "Pioneer"
+            VALUE "ProductVersion",     "@PROJECT_VERSION@"
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
