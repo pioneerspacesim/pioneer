@@ -33,7 +33,7 @@
   },
   "AN_ERROR_HAS_OCCURRED": {
     "description": "",
-    "message": "An error has occurred"
+    "message": "Ha hagut un error"
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
@@ -69,7 +69,7 @@
   },
   "BUY_SHIP": {
     "description": "",
-    "message": "Buy Ship"
+    "message": "Comprar nau"
   },
   "CABINS": {
     "description": "For passengers",
@@ -81,11 +81,11 @@
   },
   "CABIN_USED": {
     "description": "Passengers using cabins",
-    "message": "{amount} used"
+    "message": "{amount} usat"
   },
   "CANCEL": {
     "description": "",
-    "message": "Cancel"
+    "message": "Cancelar"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -93,7 +93,7 @@
   },
   "CAPACITY_USED": {
     "description": "",
-    "message": "Capacity used"
+    "message": "Capacitat usada"
   },
   "CARGO": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "CARGO_SPACE_USED": {
     "description": "",
-    "message": "Cargo space used"
+    "message": "Espai de carrega usat"
   },
   "CARGO_T_FREE": {
     "description": "t for tonne",
@@ -125,7 +125,7 @@
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
-    "message": "Center on System"
+    "message": "Centrar en sistema"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
@@ -133,15 +133,15 @@
   },
   "CHIEF_MECHANIC": {
     "description": "",
-    "message": "Chief Mechanic"
+    "message": "Cap Mecànic"
   },
   "CIRCULAR_ORBIT_SPEED": {
     "description": "",
-    "message": "Circular orbit speed"
+    "message": "Velocitat orbital circular"
   },
   "CITY_DETAIL_LEVEL": {
     "description": "Game graphics option",
-    "message": "City detail level"
+    "message": "Nivell de detall de ciutat"
   },
   "CLEAN": {
     "description": "Legal status of player",
@@ -149,11 +149,11 @@
   },
   "CLEAR": {
     "description": "Clear an option in game settings/options menu",
-    "message": "Clear"
+    "message": "Netejar"
   },
   "CLEAR_ROUTE": {
     "description": "Clear a planned route of hyperjumps",
-    "message": "Clear Route"
+    "message": "Netejar ruta"
   },
   "CLIENT": {
     "description": "",
@@ -161,7 +161,7 @@
   },
   "CLOSE": {
     "description": "",
-    "message": "Close"
+    "message": "Tancar"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -169,7 +169,7 @@
   },
   "COMMANDER": {
     "description": "",
-    "message": "Commander"
+    "message": "Comandant"
   },
   "COMMODITY_MARKET": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "COMPACT_RADAR": {
     "description": "Game settings option",
-    "message": "Compact radar"
+    "message": "Radar compacte"
   },
   "COMPETENT": {
     "description": "Combat rating",
@@ -185,27 +185,27 @@
   },
   "COMPLETED": {
     "description": "",
-    "message": "Completed"
+    "message": "Completat"
   },
   "COMPRESS_TEXTURES": {
     "description": "graphics option in game settings menu ",
-    "message": "Compress Textures"
+    "message": "Comprimir textures"
   },
   "CONFIRM_PURCHASE": {
     "description": "",
-    "message": "Confirm purchase"
+    "message": "Confirmar compra"
   },
   "CONFIRM_SALE": {
     "description": "",
-    "message": "Confirm sale"
+    "message": "Confirmar venda"
   },
   "CONSTABLE": {
     "description": "",
-    "message": "Constable"
+    "message": "Policia"
   },
   "CONTINUE_GAME": {
     "description": "",
-    "message": "Continue game"
+    "message": "Continuar joc"
   },
   "CONTROLS": {
     "description": "",
@@ -225,7 +225,7 @@
   },
   "CREDITS": {
     "description": "in game currency",
-    "message": "Credits"
+    "message": "Crèdits"
   },
   "CREW_CABINS": {
     "description": "",
