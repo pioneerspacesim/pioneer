@@ -62,6 +62,14 @@ local function getBodyIcon(body)
 end
 
 local function sortByPlayerDistance(a,b)
+	if a.body == nil then
+		return false;
+	end
+	
+	if b.body == nil then
+		return false;
+	end
+	
 	return a.body:DistanceTo(Game.player) < b.body:DistanceTo(Game.player)
 end
 
