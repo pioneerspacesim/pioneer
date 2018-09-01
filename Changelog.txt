@@ -1,3 +1,9 @@
+September 2018
+   * Fixes
+     * Quick fix for 4418, disallow zero length buffers (#4420)
+     * Fix crash when changing distance sort choice (#4428)
+     * Fix for issue 4386 (#4404)
+
 August 2018
    * New Features
      * Add heavy atmospheric shielding, allows easier fuel scooping (#4377)
