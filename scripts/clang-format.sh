@@ -47,5 +47,6 @@ fi
 printf "\n*** The following differences were found between the code to commit "
 printf "and the clang-format rules:\n-----\n"
 cat "$patch"
+rm -f "$patch"
 printf "\n*** Aborting, please fix your commit(s) with 'git commit --amend' or 'git rebase -i <hash>'\n"
 exit 1
