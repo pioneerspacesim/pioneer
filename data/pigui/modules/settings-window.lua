@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import('Engine')
+local Input = import('Input')
 local Game = import('Game')
 local ui = import('pigui/pigui.lua')
 local Vector = import('Vector')
@@ -170,7 +171,7 @@ local function showVideoOptions()
 	local enableAutoSave = Engine.GetAutosaveEnabled()
 	local starDensity = Engine.GetAmountStars() * 100
 
-
+	local c
 	ui.text(lui.VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY)
 
 	c,selectedVideoMode = combo(lui.VIDEO_RESOLUTION, selectedVideoMode,videoModeItems,lui.VIDEO_RESOLUTION_DESC)
@@ -301,8 +302,8 @@ local function captureBinding(id,num)
 				local setBinding = false
 				if(bindingKey and num==1 and bindingKey~=info.binding1) or (bindingKey and num==2 and bindingKey~=info.binding2) then setBinding = true end
 
-				if setBinding and  num == 1 then Engine.SetKeyBinding(info.id, bindingKey, info.binding2)
-				elseif setBinding and num==2 then Engine.SetKeyBinding(info.id, info.binding1, bindingKey)
+				if setBinding and  num == 1 then Input.SetKeyBinding(info.id, bindingKey, info.binding2)
+				elseif setBinding and num==2 then Input.SetKeyBinding(info.id, info.binding1, bindingKey)
 				end
 			elseif info.type == "AXIS" then
 				local desc
@@ -312,7 +313,7 @@ local function captureBinding(id,num)
 				local bindingAxis = Engine.pigui.GetAxisBinding()
 
 				if bindingAxis and bindingAxis~=info.binding1 then
-					Engine.SetKeyBinding(info.id, bindingAxis, info.binding2)
+					Input.SetKeyBinding(info.id, bindingAxis, info.binding2)
 				end
 			end
 
@@ -328,6 +329,8 @@ local function showSoundOptions()
 	local musicLevel = Engine.GetMusicVolume()*100
 	local effectsMuted = Engine.GetEffectsMuted()
 	local effectsLevel = Engine.GetEffectsVolume()*100
+
+	local c
 
 	c,masterMuted = checkbox(lui.MUTE.."##master", masterMuted)
 	if c then Engine.SetMasterMuted(masterMuted) end
@@ -406,16 +409,16 @@ end
 local function showControlsOptions()
 	ui.text(lui.CONTROL_OPTIONS)
 
-	local mouseYInvert = Engine.GetMouseYInverted()
-	local joystickEnabled = Engine.GetJoystickEnabled()
-	binding_pages = Engine.GetKeyBindings()
+	local mouseYInvert = Input.GetMouseYInverted()
+	local joystickEnabled = Input.GetJoystickEnabled()
+	binding_pages = Input.GetKeyBindings()
 	local c
 
 	c,mouseYInvert = checkbox(lui.INVERT_MOUSE_Y, mouseYInvert)
-	if c then Engine.SetMouseYInverted(mouseYInvert) end
+	if c then Input.SetMouseYInverted(mouseYInvert) end
 
 	c,joystickEnabled = checkbox(lui.ENABLE_JOYSTICK, joystickEnabled)
-	if c then Engine.SetJoystickEnabled(joystickEnabled) end
+	if c then Input.SetJoystickEnabled(joystickEnabled) end
 
 	for _,page in pairs(binding_pages) do
 		ui.separator()
@@ -481,7 +484,7 @@ local function optionsWindow()
 					ui.showOptionsWindow = false
 					if Game.player then
 						Game.SetTimeAcceleration("1x")
-						Engine.EnableBindings();
+						Input.EnableBindings();
 					end
 				end)
 
@@ -492,7 +495,7 @@ local function optionsWindow()
 					ui.sameLine()
 					optionTextButton(lui.END_GAME, nil, true, function()
 						ui.showOptionsWindow = false
-						Engine.EnableBindings();
+						Input.EnableBindings();
 						Game.EndGame()
 					end)
 				end

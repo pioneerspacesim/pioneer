@@ -176,7 +176,7 @@ void SectorView::InitObject()
 	m_disk.reset(new Graphics::Drawables::Disk(m_renderer, m_solidState, Color::WHITE, 0.2f));
 
 	m_onMouseWheelCon =
-		Pi::onMouseWheel.connect(sigc::mem_fun(this, &SectorView::MouseWheel));
+		Pi::input.onMouseWheel.connect(sigc::mem_fun(this, &SectorView::MouseWheel));
 }
 
 SectorView::~SectorView()
@@ -1005,7 +1005,7 @@ void SectorView::OnSwitchTo()
 
 	if (!m_onKeyPressConnection.connected())
 		m_onKeyPressConnection =
-			Pi::onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPressed));
+			Pi::input.onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPressed));
 
 	UIView::OnSwitchTo();
 
@@ -1040,7 +1040,7 @@ void SectorView::OnKeyPressed(SDL_Keysym *keysym)
 	bool reset_view = false;
 
 	// fast move selection to current player system or hyperspace target
-	const bool shifted = (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT));
+	const bool shifted = (Pi::input.KeyState(SDLK_LSHIFT) || Pi::input.KeyState(SDLK_RSHIFT));
 	if (KeyBindings::mapWarpToCurrent.Matches(keysym)) {
 		GotoSystem(m_current);
 		reset_view = shifted;
@@ -1108,9 +1108,9 @@ void SectorView::Update()
 		if (KeyBindings::mapViewRotateDown.IsActive()) m_rotXMovingTo += 0.5f * moveSpeed;
 	}
 
-	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
+	if (Pi::input.MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int motion[2];
-		Pi::GetMouseMotion(motion);
+		Pi::input.GetMouseMotion(motion);
 
 		m_rotXMovingTo += 0.2f*float(motion[1]);
 		m_rotZMovingTo += 0.2f*float(motion[0]);

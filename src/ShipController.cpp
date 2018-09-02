@@ -108,7 +108,7 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 	SDL_GetRelativeMouseState (mouseMotion+0, mouseMotion+1);	// call to flush
 
 	// external camera mouselook
-	if (Pi::MouseButtonState(SDL_BUTTON_MIDDLE)) {
+	if (Pi::input.MouseButtonState(SDL_BUTTON_MIDDLE)) {
             MoveableCameraController *mcc = static_cast<MoveableCameraController*>(Pi::game->GetWorldView()->GetCameraController());
             const double accel = 0.01; // XXX configurable?
             mcc->RotateLeft(mouseMotion[0] * accel);
@@ -223,7 +223,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		const float linearThrustPower = (KeyBindings::thrustLowPower.IsActive() ? m_lowThrustPower : 1.0f);
 
 		// have to use this function. SDL mouse position event is bugged in windows
-		if (Pi::MouseButtonState(SDL_BUTTON_RIGHT))
+		if (Pi::input.MouseButtonState(SDL_BUTTON_RIGHT))
 		{
 			// use ship rotation relative to system, unchanged by frame transitions
 			matrix3x3d rot = m_ship->GetOrientRelTo(m_ship->GetFrame()->GetNonRotFrame());
@@ -242,7 +242,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 			double modx = clipmouse(objDir.x, m_mouseX);
 			m_mouseX -= modx;
 
-			const bool invertY = (Pi::IsMouseYInvert() ? !m_invertMouse : m_invertMouse);
+			const bool invertY = (Pi::input.IsMouseYInvert() ? !m_invertMouse : m_invertMouse);
 
 			m_mouseY += mouseMotion[1] * accel * radiansPerPixel * (invertY ? -1 : 1);
 			double mody = clipmouse(objDir.y, m_mouseY);
@@ -289,7 +289,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		if (KeyBindings::thrustLeft.IsActive()) m_ship->SetThrusterState(0, -linearThrustPower);
 		if (KeyBindings::thrustRight.IsActive()) m_ship->SetThrusterState(0, linearThrustPower);
 
-		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(SDL_BUTTON_LEFT) && Pi::MouseButtonState(SDL_BUTTON_RIGHT))) {
+		if (KeyBindings::fireLaser.IsActive() || (Pi::input.MouseButtonState(SDL_BUTTON_LEFT) && Pi::input.MouseButtonState(SDL_BUTTON_RIGHT))) {
 				//XXX worldview? madness, ask from ship instead
 				m_ship->SetGunState(Pi::game->GetWorldView()->GetActiveWeapon(), 1);
 		}
