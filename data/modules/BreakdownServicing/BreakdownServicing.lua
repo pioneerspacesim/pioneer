@@ -15,6 +15,8 @@ local Equipment = import("Equipment")
 local l = Lang.GetResource("module-breakdownservicing")
 local lui = Lang.GetResource("ui-core")
 
+local pigui = import('pigui/pigui.lua')
+
 -- Default numeric values --
 ----------------------------
 local oneyear = 31557600 -- One standard Julian year
@@ -282,6 +284,11 @@ local onEnterSystem = function (ship)
 		else
 			-- Destroy the engine
 			local engine = ship:GetEquip('engine',1)
+			if engine.fuel == Equipment.cargo.military_fuel then
+				pigui.playSfx("Hyperdrive_Breakdown_Military", 1.0, 1.0)
+			else
+				pigui.playSfx("Hyperdrive_Breakdown", 1.0, 1.0)
+			end
 			ship:RemoveEquip(engine)
 			ship:AddEquip(Equipment.cargo.rubbish, engine.capabilities.mass)
 			Comms.Message(l.THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION)
