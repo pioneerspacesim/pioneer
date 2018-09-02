@@ -975,6 +975,10 @@
     "description": "",
     "message": "Угроза отсутствует"
   },
+  "NO_AUTOPILOT_INSTALLED": {
+    "description": "",
+    "message": "Autopilot not installed on ship, cannot enable autopilot"
+  },
   "NO_CENTRAL_GOVERNANCE": {
     "description": "",
     "message": "Нет центральной власти"
