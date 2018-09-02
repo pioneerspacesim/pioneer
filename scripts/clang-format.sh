@@ -14,9 +14,15 @@ else
     RANGE=HEAD
 fi
 
+if [ -n "$TRAVIS" ]; then
+    GIT_DIFF_TOOL="git diff-tree"
+else
+    GIT_DIFF_TOOL="git diff-index"
+fi
+
 # Allow manually specifiying the files.
 if [ -z "$FILES" ]; then
-    FILES=$(git diff-tree --no-commit-id --name-only -r $RANGE | grep -v contrib/ | grep -E "\.(c|h|cpp|hpp|cc|hh|cxx|m|mm|inc)$")
+    FILES=$($GIT_DIFF_TOOL --no-commit-id --name-only -r $RANGE | grep -v contrib/ | grep -E "\.(c|h|cpp|hpp|cc|hh|cxx|m|mm|inc)$")
 fi
 echo -e "Checking files:\n$FILES"
 
@@ -39,7 +45,7 @@ fi
 
 # a patch has been created, notify the user and exit
 printf "\n*** The following differences were found between the code to commit "
-printf "and the clang-format rules:\n\n"
+printf "and the clang-format rules:\n-----\n"
 cat "$patch"
 printf "\n*** Aborting, please fix your commit(s) with 'git commit --amend' or 'git rebase -i <hash>'\n"
 exit 1
