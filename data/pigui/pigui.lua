@@ -576,13 +576,9 @@ end
 local radial_menu_actions_station = {
 	{icon=ui.theme.icons.comms, tooltip=lc.REQUEST_DOCKING_CLEARANCE,
 	 action=function(target)
-			if next(Game.player:GetEquip('autopilot')) ~= nil then
-		 		local msg = Game.player:RequestDockingClearance(target)
-		 		Game.AddCommsLogLine(msg, target.label)
-		 		Game.player:SetNavTarget(target)
-		 	else 
-				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
-			end
+			local msg = Game.player:RequestDockingClearance(target)
+		 	Game.AddCommsLogLine(msg, target.label)
+		 	Game.player:SetNavTarget(target)
 	end},
 	{icon=ui.theme.icons.autopilot_dock, tooltip=lc.AUTOPILOT_DOCK_WITH_STATION,
 	 action=function(target)
