@@ -1,4 +1,7 @@
 September 2018
+   * New Features
+     * Add hyperdrive breakdown sound effect (#4401)
+
    * Fixes
      * Quick fix for 4418, disallow zero length buffers (#4420)
      * Fix crash when changing distance sort choice (#4428)
