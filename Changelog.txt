@@ -6,6 +6,7 @@ September 2018
      * Quick fix for 4418, disallow zero length buffers (#4420)
      * Fix crash when changing distance sort choice (#4428)
      * Fix for issue 4386 (#4404)
+     * The docking request does not require an Autopilot (#4431)
 
 August 2018
    * New Features
