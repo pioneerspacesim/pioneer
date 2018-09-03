@@ -86,12 +86,14 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 		m_infoBox->PackStart(l);
 	}
 
-	_add_label_and_value(Lang::MASS, stringf(Lang::N_WHATEVER_MASSES, formatarg("mass", b->GetMassAsFixed().ToDouble()),
-		formatarg("units", std::string(b->GetSuperType() == SystemBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH))));
+	if (b->GetType() != SystemBody::TYPE_STARPORT_ORBITAL) {
+		_add_label_and_value(Lang::MASS, stringf(Lang::N_WHATEVER_MASSES, formatarg("mass", b->GetMassAsFixed().ToDouble()),
+			formatarg("units", std::string(b->GetSuperType() == SystemBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH))));
 
-	_add_label_and_value(Lang::RADIUS, stringf(Lang::N_WHATEVER_RADII, formatarg("radius", b->GetRadiusAsFixed().ToDouble()),
-		formatarg("units", std::string(b->GetSuperType() == SystemBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH)),
-		formatarg("radkm", b->GetRadius() / 1000.0)));
+		_add_label_and_value(Lang::RADIUS, stringf(Lang::N_WHATEVER_RADII, formatarg("radius", b->GetRadiusAsFixed().ToDouble()),
+			formatarg("units", std::string(b->GetSuperType() == SystemBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH)),
+			formatarg("radkm", b->GetRadius() / 1000.0)));
+	}
 
 	if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		_add_label_and_value(Lang::EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO, stringf("%0{f.3}", b->GetAspectRatio()));
