@@ -60,9 +60,7 @@ function EquipType:Serialize()
 	local tmp = EquipType.Super().Serialize(self)
 	local ret = {}
 	for k,v in pairs(tmp) do
-		if type(v) ~= "function" then
-			ret[k] = v
-		end
+		ret[k] = v
 	end
 
 	if debug.dmodeenabled() and self.slots == "cargo" then
@@ -405,6 +403,18 @@ end
 
 function SensorType:DoCallBack()
 	if self.callback then self.callback(self.progress, self.state) end
+end
+
+function SensorType:Serialize()
+	local tmp = SensorType.Super().Serialize(self)
+	local ret = {}
+	for k,v in pairs(tmp) do
+		if type(v) ~= "function" then
+			ret[k] = v
+		end
+	end
+	ret.volatile = nil
+	return ret
 end
 
 local BodyScannerType = utils.inherits(SensorType, "BodyScannerType")

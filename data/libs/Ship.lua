@@ -651,7 +651,10 @@ end
 -- Starts the equipped sensor
 --
 -- Parameters:
---   idx - the index of the sensor in the equipment slots
+--   idx - The index of the sensor in the equipment slots
+--   callback - optional. Callback function to monitor the sensor progress taking two arguments: progress and state
+--       progress - Number or table. When state is "DONE" a table with the results else the precentual progress
+--       state - String representing the state of the scan. this can be DONE, PAUSED, RUNNING or HALTED
 --
 -- Availability:
 --
@@ -662,9 +665,12 @@ end
 --   experimental
 --
 
-function Ship:StartSensor(idx)
+function Ship:StartSensor(idx, callback)
+	if callback == nil then
+		callback = function(progress, state) end
+	end
 	local sensor = self:GetEquip("sensor", idx)
-	sensor:BeginAcquisition(function(progress, state) end)
+	sensor:BeginAcquisition(callback)
 end
 
 -- Method: StopSensor
