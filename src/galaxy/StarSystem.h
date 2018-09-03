@@ -303,6 +303,7 @@ public:
 	void ExportToLua(const char *filename);
 
 	const std::string &GetName() const { return m_name; }
+	std::vector<std::string> GetOtherNames() const { return m_other_names; }
 	SystemPath GetPathOf(const SystemBody *sbody) const;
 	SystemBody *GetBodyByPath(const SystemPath &path) const;
 	static void ToJson(Json::Value &jsonObj, StarSystem *);
@@ -379,6 +380,7 @@ private:
 	SystemPath m_path;
 	unsigned m_numStars;
 	std::string m_name;
+	std::vector<std::string> m_other_names;
 	std::string m_shortDesc, m_longDesc;
 	SysPolit m_polit;
 
@@ -423,6 +425,7 @@ public:
 	void SetRootBody(RefCountedPtr<SystemBody> rootBody) { m_rootBody = rootBody; }
 	void SetRootBody(SystemBody* rootBody) { m_rootBody.Reset(rootBody); }
 	void SetName(const std::string& name) { m_name = name; }
+	void SetOtherNames(const std::vector<std::string>& other_names) { m_other_names = other_names; }
 	void SetLongDesc(const std::string& desc) { m_longDesc = desc; }
 	void SetExplored(ExplorationState explored, double time) { m_explored = explored; m_exploredTime = time; }
 	void SetSeed(Uint32 seed) { m_seed = seed; }

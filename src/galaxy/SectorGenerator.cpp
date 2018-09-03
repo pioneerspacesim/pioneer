@@ -38,6 +38,7 @@ bool SectorCustomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 		Sector::System s(sector.Get(), sx, sy, sz, sysIdx);
 		s.m_pos = Sector::SIZE*cs->pos;
 		s.m_name = cs->name;
+		s.m_other_names = cs->other_names;
 		for (s.m_numStars=0; s.m_numStars<cs->numStars; s.m_numStars++) {
 			if (cs->primaryType[s.m_numStars] == 0) break;
 			s.m_starType[s.m_numStars] = cs->primaryType[s.m_numStars];

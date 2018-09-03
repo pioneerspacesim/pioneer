@@ -428,6 +428,26 @@ static int l_csys_faction(lua_State *L)
 	return 1;
 }
 
+static int l_csys_other_names(lua_State *L)
+{
+	CustomSystem *cs = l_csys_check(L, 1);
+	std::vector<std::string> other_names;
+	if(lua_istable(L, 2)) {
+		lua_pushnil(L);
+		while(lua_next(L, -2) != 0) {
+			if(lua_isstring(L, -2)) {
+				std::string n(lua_tostring(L, -1));
+				other_names.push_back(n);
+			}
+			lua_pop(L, 1); // pop value, keep key for lua_next
+		}
+		lua_pop(L, 1); // pop table
+	}
+	cs->other_names = other_names;
+	lua_settop(L, 1);
+	return 1;
+}
+
 static int l_csys_govtype(lua_State *L)
 {
 	CustomSystem *cs = l_csys_check(L, 1);
@@ -571,6 +591,7 @@ static luaL_Reg LuaCustomSystem_meta[] = {
 	{ "govtype", &l_csys_govtype },
 	{ "lawlessness", &l_csys_lawlessness },
 	{ "bodies", &l_csys_bodies },
+	{ "other_names", &l_csys_other_names },
 	{ "add_to_sector", &l_csys_add_to_sector },
 	{ "__gc", &l_csys_gc },
 	{ 0, 0 }

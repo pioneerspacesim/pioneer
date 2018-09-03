@@ -45,6 +45,7 @@ public:
 		// Check that we've had our habitation status set
 
 		const std::string& GetName() const { return m_name; }
+		const std::vector<std::string>& GetOtherNames() const { return m_other_names; }
 		const vector3f& GetPosition() const { return m_pos; }
 		vector3f GetFullPosition() const { return Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + m_pos; };
 		unsigned GetNumStars() const { return m_numStars; }
@@ -80,6 +81,7 @@ public:
 
 		Sector* m_sector;
 		std::string m_name;
+		std::vector<std::string> m_other_names;
 		vector3f m_pos;
 		unsigned m_numStars;
 		SystemBody::BodyType m_starType[4];
