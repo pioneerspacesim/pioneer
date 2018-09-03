@@ -16,26 +16,23 @@ public:
 	void InitGame();
 
 	// The Page->Group->Binding system serves as a thin veneer for the UI to make
-	// sane reasonings about how to structure the Options dialog. Bindings are just
-	// stored by raw ID, and do not
-	struct BindingPage {
-		BindingGroup* GetBindingGroup(std::string id) { return &groups[id]; }
-		bool RemoveBindingGroup(std::string id) { groups.erase(id);}
-
-		std::map<std::string, BindingGroup> groups;
-	}
-
+	// sane reasonings about how to structure the Options dialog.
 	struct BindingGroup {
 		enum EntryType {
 			ENTRY_ACTION,
 			ENTRY_AXIS
-		}
+		};
 
 		std::map<std::string, EntryType> bindings;
-	}
+	};
+
+	struct BindingPage {
+		BindingGroup* GetBindingGroup(std::string id) { return &groups[id]; }
+
+		std::map<std::string, BindingGroup> groups;
+	};
 
 	BindingPage* GetBindingPage(std::string id) { return &bindingPages[id]; }
-	bool RemoveBindingPage(std::string id);
 
 	// Creates a new action binding, copying the provided binding.
 	// The returned binding pointer points to the actual binding.
@@ -43,7 +40,6 @@ public:
 	KeyBindings::ActionBinding* GetActionBinding(std::string id) {
 		return actionBindings.count(id) ? &actionBindings[id] : nullptr;
 	}
-	bool RemoveActionBinding(std::string id);
 
 	// Creates a new axis binding, copying the provided binding.
 	// The returned binding pointer points to the actual binding.
@@ -51,7 +47,6 @@ public:
 	KeyBindings::AxisBinding* GetAxisBinding(std::string id) {
 		return axisBindings.count(id) ? &axisBindings[id] : nullptr;
 	}
-	bool RemoveAxisBinding(std::string id);
 
 	bool KeyState(SDL_Keycode k) { return keyState[k]; }
 	int KeyModState() { return keyModState; }
@@ -113,8 +108,8 @@ private:
 	std::map<SDL_JoystickID,JoystickState> joysticks;
 
 	std::map<std::string, BindingPage> bindingPages;
-	std::map<std::string, KeyBinding::ActionBinding> actionBindings;
-	std::map<std::string, KeyBinding::AxisBinding> axisBindings;
+	std::map<std::string, KeyBindings::ActionBinding> actionBindings;
+	std::map<std::string, KeyBindings::AxisBinding> axisBindings;
 };
 
 #endif

@@ -73,7 +73,7 @@ static void push_bindings(lua_State *l, const KeyBindings::BindingPrototype *pro
 					lua_setfield(l, -2, "bindingDescription2");
 				}
 			} else if (proto->ab) {
-				const KeyBindings::AxisBinding &ab = *proto->ab;
+				const KeyBindings::JoyAxisBinding &ab = *proto->ab;
 				lua_pushstring(l, ab.ToString().c_str());
 				lua_setfield(l, -2, "binding1");
 				lua_pushstring(l, ab.Description().c_str());
@@ -188,11 +188,11 @@ static int set_key_binding(lua_State *l, const char *config_id, KeyBindings::Act
 	return 0;
 }
 
-static int set_axis_binding(lua_State *l, const char *config_id, KeyBindings::AxisBinding *binding) {
+static int set_axis_binding(lua_State *l, const char *config_id, KeyBindings::JoyAxisBinding *binding) {
 	const char *binding_config = lua_tostring(l, 2);
-	KeyBindings::AxisBinding ab;
+	KeyBindings::JoyAxisBinding ab;
 	if (binding_config) {
-		if (!KeyBindings::AxisBinding::FromString(binding_config, ab))
+		if (!KeyBindings::JoyAxisBinding::FromString(binding_config, ab))
 			return luaL_error(l, "invalid axis binding given to Engine.SetKeyBinding");
 	} else
 		ab.Clear();

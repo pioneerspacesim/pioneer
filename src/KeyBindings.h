@@ -85,8 +85,14 @@ namespace KeyBindings {
 		sigc::signal<void> onRelease;
 
 		ActionBinding() { }
-		ActionBinding(KeyBinding b1, KeyBindingb2 = KeyBinding())
+		ActionBinding(KeyBinding b1, KeyBinding b2 = KeyBinding())
 			: binding1(b1), binding2(b2) { }
+		// This constructor is just a programmer shortcut.
+		ActionBinding(SDL_Keycode k1, SDL_Keycode k2 = SDLK_UNKNOWN)
+		{
+			binding1 = KeyBinding(k1);
+			if(k2 != SDLK_UNKNOWN) binding2 = KeyBinding(k2);
+		}
 
 		void SetFromString(const char *str);
 		std::string ToString() const;
@@ -104,8 +110,11 @@ namespace KeyBindings {
 
 	struct JoyAxisBinding {
 		public:
-			JoyAxisBinding();
-			JoyAxisBinding(Uint8 joystick, Uint8 axis, AxisDirection direction, float deadzone = 0.0f, float sensitivity = 1.0f);
+			JoyAxisBinding() : joystick(JOYSTICK_DISABLED), axis(0), direction(POSITIVE) { }
+			JoyAxisBinding(Uint8 joystick_, Uint8 axis_, AxisDirection direction_, float deadzone_ = 0.0f, float sensitivity_ = 1.0f)
+				: joystick(joystick_), axis(axis_), direction(direction_),
+				deadzone(deadzone_), sensitivity(sensitivity_) { }
+
 			float GetValue();
 			std::string Description() const;
 
@@ -136,9 +145,9 @@ namespace KeyBindings {
 			enum { JOYSTICK_DISABLED = Uint8(-1) };
 			Uint8 joystick;
 			Uint8 axis;
+			AxisDirection direction;
 			float deadzone;
 			float sensitivity;
-			AxisDirection direction;
 	};
 
 	struct AxisBinding {
@@ -149,6 +158,9 @@ namespace KeyBindings {
 		AxisBinding() { }
 		AxisBinding(JoyAxisBinding ax, KeyBinding pos = KeyBinding(), KeyBinding neg = KeyBinding())
 			: axis(ax), positive(pos), negative(neg) { }
+		// This constructor is just a programmer shortcut.
+		AxisBinding(SDL_Keycode k1, SDL_Keycode k2)
+			: positive(KeyBinding(k1)), negative(KeyBinding(k2)) { }
 
 		sigc::signal<void, float> onAxis;
 
@@ -166,7 +178,7 @@ namespace KeyBindings {
 	struct BindingPrototype {
 		const char *label, *function;
 		ActionBinding *kb;
-		AxisBinding *ab;
+		JoyAxisBinding *ab;
 	};
 
 	void InitBindings();
@@ -177,7 +189,7 @@ namespace KeyBindings {
 	void DispatchSDLEvent(const SDL_Event *event);
 
 #define KEY_BINDING(name,a,b,c,d) extern ActionBinding name;
-#define AXIS_BINDING(name,a,b,c) extern AxisBinding name;
+#define AXIS_BINDING(name,a,b,c) extern JoyAxisBinding name;
 #include "KeyBindings.inc.h"
 
 #define BINDING_PAGE(name) extern const BindingPrototype BINDING_PROTOS_ ## name[];

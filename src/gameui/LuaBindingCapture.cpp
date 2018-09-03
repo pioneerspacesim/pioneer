@@ -14,7 +14,7 @@ inline void pi_lua_generic_push(lua_State * l, const KeyBindings::KeyBinding &va
 	}
 }
 
-inline void pi_lua_generic_push(lua_State * l, const KeyBindings::AxisBinding &value) {
+inline void pi_lua_generic_push(lua_State * l, const KeyBindings::JoyAxisBinding &value) {
 	pi_lua_generic_push(l, value.ToString());
 }
 
@@ -80,7 +80,7 @@ public:
 
 	static int l_attr_on_capture(lua_State *l) {
 		AxisBindingCapture *abc = LuaObject<GameUI::AxisBindingCapture>::CheckFromLua(1);
-		UI::LuaSignal<const KeyBindings::AxisBinding &>().Wrap(l, abc->onCapture);
+		UI::LuaSignal<const KeyBindings::JoyAxisBinding &>().Wrap(l, abc->onCapture);
 		return 1;
 	}
 };

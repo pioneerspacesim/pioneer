@@ -13,7 +13,7 @@ static bool m_disableBindings = 0;
 namespace KeyBindings {
 
 #define KEY_BINDING(name,a,b,c,d) ActionBinding name;
-#define AXIS_BINDING(name,a,b,c) AxisBinding name;
+#define AXIS_BINDING(name,a,b,c) JoyAxisBinding name;
 #include "KeyBindings.inc.h"
 
 // create the BindingPrototype sets for use by the UI
@@ -368,22 +368,6 @@ void ActionBinding::CheckSDLEventAndDispatch(const SDL_Event *event) {
 	}
 }
 
-JoyAxisBinding::JoyAxisBinding() :
-	joystick(JOYSTICK_DISABLED),
-	axis(0),
-	direction(POSITIVE)
-{
-}
-
-JoyAxisBinding::JoyAxisBinding(Uint8 joystick_, Uint8 axis_, AxisDirection direction_, float deadzone_ = 0.0f, float sensitivity_ = 1.0f) :
-	joystick(joystick_),
-	axis(axis_),
-	direction(direction_),
-	deadzone(deadzone_),
-	sensitivity(sensitivity_)
-{
-}
-
 float JoyAxisBinding::GetValue() {
 	if (!Enabled()) return 0.0f;
 
@@ -515,7 +499,7 @@ void InitKeyBinding(ActionBinding &kb, const std::string &bindName, Uint32 defau
 	kb.SetFromString(keyName.c_str());
 }
 
-void InitAxisBinding(AxisBinding &ab, const std::string &bindName, const std::string &defaultAxis) {
+void InitAxisBinding(JoyAxisBinding &ab, const std::string &bindName, const std::string &defaultAxis) {
 	std::string axisName = Pi::config->String(bindName.c_str());
 	if (axisName.length() == 0) {
 		axisName = defaultAxis;
@@ -523,7 +507,7 @@ void InitAxisBinding(AxisBinding &ab, const std::string &bindName, const std::st
 	}
 
 	// set the binding from the configured or default value
-	if (!AxisBinding::FromString(axisName.c_str(), ab)) {
+	if (!JoyAxisBinding::FromString(axisName.c_str(), ab)) {
 		Output("invalid axis binding '%s' in config file for %s\n", axisName.c_str(), bindName.c_str());
 		ab.Clear();
 	}

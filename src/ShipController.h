@@ -10,6 +10,11 @@
 #include "libs.h"
 #include "json/json.h"
 
+namespace KeyBindings {
+	struct ActionBinding;
+	struct AxisBinding;
+}
+
 class Body;
 class Ship;
 class Space;
@@ -95,22 +100,37 @@ public:
 	sigc::signal<void> onRotationDampingChanged;
 
 private:
-	struct InputBinding {
-		using KeyBindings::AxisBinding, KeyBindings::ActionBinding;
-		// Rotation
+	static struct InputBinding {
+		// We create a local alias for ease of typing these bindings.
+		typedef KeyBindings::AxisBinding AxisBinding;
+		typedef KeyBindings::ActionBinding ActionBinding;
+
+		// Weapons
+		ActionBinding* targetObject;
+		ActionBinding* primaryFire;
+		ActionBinding* secondaryFire;
+
+		// Flight
 		AxisBinding* pitch;
 		AxisBinding* yaw;
 		AxisBinding* roll;
+		ActionBinding* killRot;
 
-		// Translation
+		// Manual Control
 		AxisBinding* thrustForward;
 		AxisBinding* thrustUp;
 		AxisBinding* thrustLeft;
+		ActionBinding* thrustLowPower;
 
-		// Misc.
-		ActionBinding* killRot;
+		// Speed Control
+		ActionBinding* increaseSpeed;
+		ActionBinding* decreaseSpeed;
+		AxisBinding* throttleAxis;
 
+		// Miscellaneous
+		ActionBinding* toggleRotationDamping;
 	} InputBindings;
+
 	bool IsAnyAngularThrusterKeyDown();
 	bool IsAnyLinearThrusterKeyDown();
 	//do a variety of checks to see if input is allowed

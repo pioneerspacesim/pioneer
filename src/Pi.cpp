@@ -54,6 +54,7 @@
 #include "Sfx.h"
 #include "ShipCpanel.h"
 #include "ShipType.h"
+#include "ShipController.h"
 #include "Sound.h"
 #include "SoundMusic.h"
 #include "Space.h"
@@ -407,6 +408,13 @@ void TestGPUJobsSupport()
 	}
 }
 
+// TODO: make this a part of the class and/or improve the mechanism
+void RegisterInputBindings() {
+	PlayerShipController::RegisterInputBindings();
+
+
+}
+
 void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 {
 #ifdef PIONEER_PROFILER
@@ -507,6 +515,8 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	// we can only do bindings once joysticks are initialised.
 	if (!no_gui) // This re-saves the config file. With no GUI we want to allow multiple instances in parallel.
 		KeyBindings::InitBindings();
+
+	RegisterInputBindings();
 
 	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
 	speedLinesDisplayed = (config->Int("SpeedLines")) ? true : false;
