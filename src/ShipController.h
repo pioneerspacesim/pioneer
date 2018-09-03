@@ -59,6 +59,7 @@ class PlayerShipController : public ShipController
 public:
 	PlayerShipController();
 	~PlayerShipController();
+	static void RegisterInputBindings();
 	Type GetType() override { return PLAYER; }
 	void SaveToJson(Json::Value &jsonObj, Space *s) override;
 	void LoadFromJson(const Json::Value &jsonObj) override;
@@ -94,6 +95,22 @@ public:
 	sigc::signal<void> onRotationDampingChanged;
 
 private:
+	struct InputBinding {
+		using KeyBindings::AxisBinding, KeyBindings::ActionBinding;
+		// Rotation
+		AxisBinding* pitch;
+		AxisBinding* yaw;
+		AxisBinding* roll;
+
+		// Translation
+		AxisBinding* thrustForward;
+		AxisBinding* thrustUp;
+		AxisBinding* thrustLeft;
+
+		// Misc.
+		ActionBinding* killRot;
+
+	} InputBindings;
 	bool IsAnyAngularThrusterKeyDown();
 	bool IsAnyLinearThrusterKeyDown();
 	//do a variety of checks to see if input is allowed

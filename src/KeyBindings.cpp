@@ -12,7 +12,7 @@ static bool m_disableBindings = 0;
 
 namespace KeyBindings {
 
-#define KEY_BINDING(name,a,b,c,d) KeyAction name;
+#define KEY_BINDING(name,a,b,c,d) ActionBinding name;
 #define AXIS_BINDING(name,a,b,c) AxisBinding name;
 #include "KeyBindings.inc.h"
 
@@ -28,7 +28,7 @@ namespace KeyBindings {
 #include "KeyBindings.inc.h"
 
 // static binding object lists for use by the dispatch function
-static KeyAction* const s_KeyBindings[] = {
+static ActionBinding* const s_KeyBindings[] = {
 #define KEY_BINDING(name, a,b,c,d) &KeyBindings::name,
 #include "KeyBindings.inc.h"
 	0
@@ -280,12 +280,12 @@ KeyBinding KeyBinding::FromJoystickHat(Uint8 joystick, Uint8 hat, Uint8 directio
 	return kb;
 }
 
-void KeyAction::SetFromString(const char *str)
+void ActionBinding::SetFromString(const char *str)
 {
 	const size_t BUF_SIZE = 64;
 	const size_t len = strlen(str);
 	if (len >= BUF_SIZE) {
-		Output("invalid KeyAction string\n");
+		Output("invalid ActionBinding string\n");
 		binding1 = KeyBinding::FromString(str);
 		binding2.Clear();
 	} else {
@@ -307,7 +307,7 @@ void KeyAction::SetFromString(const char *str)
 	}
 }
 
-std::string KeyAction::ToString() const
+std::string ActionBinding::ToString() const
 {
 	std::ostringstream oss;
 	if (binding1.Enabled() && binding2.Enabled()) {
@@ -322,15 +322,15 @@ std::string KeyAction::ToString() const
 	return oss.str();
 }
 
-bool KeyAction::IsActive() const {
+bool ActionBinding::IsActive() const {
 	return binding1.IsActive() || binding2.IsActive();
 }
 
-bool KeyAction::Matches(const SDL_Keysym *sym) const {
+bool ActionBinding::Matches(const SDL_Keysym *sym) const {
 	return binding1.Matches(sym) || binding2.Matches(sym);
 }
 
-void KeyAction::CheckSDLEventAndDispatch(const SDL_Event *event) {
+void ActionBinding::CheckSDLEventAndDispatch(const SDL_Event *event) {
 	if (m_disableBindings) return;
 	switch (event->type) {
 		case SDL_KEYDOWN:
@@ -368,21 +368,23 @@ void KeyAction::CheckSDLEventAndDispatch(const SDL_Event *event) {
 	}
 }
 
-AxisBinding::AxisBinding() :
+JoyAxisBinding::JoyAxisBinding() :
 	joystick(JOYSTICK_DISABLED),
 	axis(0),
 	direction(POSITIVE)
 {
 }
 
-AxisBinding::AxisBinding(Uint8 joystick_, Uint8 axis_, AxisDirection direction_) :
+JoyAxisBinding::JoyAxisBinding(Uint8 joystick_, Uint8 axis_, AxisDirection direction_, float deadzone_ = 0.0f, float sensitivity_ = 1.0f) :
 	joystick(joystick_),
 	axis(axis_),
-	direction(direction_)
+	direction(direction_),
+	deadzone(deadzone_),
+	sensitivity(sensitivity_)
 {
 }
 
-float AxisBinding::GetValue() {
+float JoyAxisBinding::GetValue() {
 	if (!Enabled()) return 0.0f;
 
 	float value = Pi::input.JoystickAxisState(joystick, axis);
@@ -393,7 +395,7 @@ float AxisBinding::GetValue() {
 		return -value;
 }
 
-std::string AxisBinding::Description() const {
+std::string JoyAxisBinding::Description() const {
 	if (!Enabled()) return std::string();
 
 	const char *axis_names[] = {Lang::X, Lang::Y, Lang::Z};
@@ -409,7 +411,7 @@ std::string AxisBinding::Description() const {
 	);
 }
 
-bool AxisBinding::FromString(const char *str, AxisBinding &ab) {
+bool JoyAxisBinding::FromString(const char *str, JoyAxisBinding &ab) {
 	if (strcmp(str, "disabled") == 0) {
 		ab.Clear();
 		return true;
@@ -455,14 +457,14 @@ bool AxisBinding::FromString(const char *str, AxisBinding &ab) {
 	return true;
 }
 
-AxisBinding AxisBinding::FromString(const char *str) {
-	AxisBinding ab;
-	if (!AxisBinding::FromString(str, ab))
+JoyAxisBinding JoyAxisBinding::FromString(const char *str) {
+	JoyAxisBinding ab;
+	if (!JoyAxisBinding::FromString(str, ab))
 		ab.Clear();
 	return ab;
 }
 
-std::string AxisBinding::ToString() const {
+std::string JoyAxisBinding::ToString() const {
 	std::ostringstream oss;
 	if (Enabled()) {
 		if (direction == NEGATIVE)
@@ -472,6 +474,8 @@ std::string AxisBinding::ToString() const {
 		oss << Pi::input.JoystickGUIDString(joystick);
 		oss << "/Axis";
 		oss << int(axis);
+		oss << "DZ" << deadzone;
+		oss << "E" << sensitivity;
 	} else {
 		oss << "disabled";
 	}
@@ -490,12 +494,12 @@ void DispatchSDLEvent(const SDL_Event *event) {
 	}
 
 	// simplest possible approach here: just check each binding and dispatch if it matches
-	for (KeyAction * const *binding = s_KeyBindings; *binding; ++binding) {
+	for (ActionBinding * const *binding = s_KeyBindings; *binding; ++binding) {
 		(*binding)->CheckSDLEventAndDispatch(event);
 	}
 }
 
-void InitKeyBinding(KeyAction &kb, const std::string &bindName, Uint32 defaultKey1, Uint32 defaultKey2) {
+void InitKeyBinding(ActionBinding &kb, const std::string &bindName, Uint32 defaultKey1, Uint32 defaultKey2) {
 	std::string keyName = Pi::config->String(bindName.c_str());
 	if (keyName.length() == 0) {
 		if (defaultKey1 && defaultKey2) {

@@ -13,6 +13,8 @@ void Input::Init()
 	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
 
     InitJoysticks();
+
+    AddBindingPage("default", "", "");
 }
 
 void Input::InitGame()
@@ -28,6 +30,55 @@ void Input::InitGame()
 		std::fill(state.hats.begin(), state.hats.end(), 0);
 		std::fill(state.axes.begin(), state.axes.end(), 0.f);
 	}
+}
+
+Input::BindingPage* Input::AddBindingPage(std::string id, std::string name, std::string description)
+{
+    return &(bindingPages[id] = BindingPage(name, description));
+}
+
+bool Input::RemoveBindingPage(std::string id)
+{
+    if (!bindingPages.count(id)) return false;
+    auto page = bindingPages[id];
+    // Delete the bindings in this page.
+    for (auto binding : page.actions) RemoveActionBinding(binding.first);
+    for (auto binding : page.axes) RemoveAxisBinding(binding.first);
+}
+
+KeyBindings::ActionBinding* Input::AddActionBinding(std::string id, BindingGroup* group, KeyBindings::ActionBinding binding)
+{
+    // TODO: should we throw an error if we attempt to bind over an already-bound action?
+    group->bindings[id] = BindingGroup::ENTRY_ACTION;
+    return &(actionBindings[id] = binding);
+}
+
+bool Input::RemoveActionBinding(std::string id)
+{
+    bool exists = actionBindings.count(id);
+    if (exists) actionBindings.erase(id);
+    return exists;
+}
+
+KeyBindings::AxisBinding* Input::AddAxisBinding(std::string id, BindingGroup* group, KeyBindings::AxisBinding binding)
+{
+    // TODO: should we throw an error if we attempt to bind over an already-bound axis?
+    group->bindings[id] = BindingGroup::ENTRY_AXIS;
+    return &(axisBindings[id] = binding);
+}
+
+bool Input::RemoveAxisBinding(std::string id)
+{
+    bool exists = axisBindings.count(id);
+    if (exists) axisBindings.erase(id);
+    // Loop through the pages
+    for (auto it : bindingPages) {
+        // Loop through the groups
+        for (auto it : it.second) {
+
+        }
+    }
+    return exists;
 }
 
 void Input::HandleSDLEvent(SDL_Event &event)

@@ -44,9 +44,9 @@ public:
 
 	virtual bool IsSelectable() const { return true; }
 
-	const KeyBindings::AxisBinding &GetBinding() const { return m_binding; }
+	const KeyBindings::JoyAxisBinding &GetBinding() const { return m_binding; }
 
-	sigc::signal<void,const KeyBindings::AxisBinding &> onCapture;
+	sigc::signal<void,const KeyBindings::JoyAxisBinding &> onCapture;
 
 protected:
 	virtual void HandleVisible();
@@ -58,7 +58,7 @@ private:
 	bool OnJoystickAxisMove(const UI::JoystickAxisMotionEvent &event);
 
 	sigc::connection m_connJoystickAxisMove;
-	KeyBindings::AxisBinding m_binding;
+	KeyBindings::JoyAxisBinding m_binding;
 };
 
 }

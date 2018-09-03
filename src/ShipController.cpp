@@ -50,6 +50,22 @@ PlayerShipController::PlayerShipController() :
 
 }
 
+PlayerShipController::InputBinding PlayerShipController::InputBindings;
+
+void PlayerShipController::RegisterInputBindings()
+{
+	using namespace KeyBindings;
+	auto controlsPage = Pi::input.GetBindingPage("Controls");
+	auto flightGroup = controlsPage->GetBindingGroup("Flight");
+
+	InputBindings.pitch = Pi::input.AddAxisBinding("BindAxisPitch", flightGroup,
+		AxisBinding(JoyAxisBinding(), KeyBinding(SDLK_k), KeyBinding(SDLK_i));
+	InputBindings.yaw = Pi::input.AddAxisBinding("BindAxisYaw", flightGroup,
+		AxisBinding(JoyAxisBinding(), KeyBinding(SDLK_j), KeyBinding(SDLK_l));
+	InputBindings.roll = Pi::input.AddAxisBinding("BindAxisRoll", flightGroup,
+		AxisBinding(JoyAxisBinding(), KeyBinding(SDLK_u), KeyBinding(SDLK_o)));
+}
+
 PlayerShipController::~PlayerShipController()
 {
 	m_connRotationDampingToggleKey.disconnect();
@@ -109,14 +125,14 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 
 	// external camera mouselook
 	if (Pi::input.MouseButtonState(SDL_BUTTON_MIDDLE)) {
-            MoveableCameraController *mcc = static_cast<MoveableCameraController*>(Pi::game->GetWorldView()->GetCameraController());
-            const double accel = 0.01; // XXX configurable?
-            mcc->RotateLeft(mouseMotion[0] * accel);
-            mcc->RotateUp(  mouseMotion[1] * accel);
-            // only mouselook if the player presses both mmb and rmb
-            mouseMotion[0] = 0;
-            mouseMotion[1] = 0;
-        }
+			MoveableCameraController *mcc = static_cast<MoveableCameraController*>(Pi::game->GetWorldView()->GetCameraController());
+			const double accel = 0.01; // XXX configurable?
+			mcc->RotateLeft(mouseMotion[0] * accel);
+			mcc->RotateUp(  mouseMotion[1] * accel);
+			// only mouselook if the player presses both mmb and rmb
+			mouseMotion[0] = 0;
+			mouseMotion[1] = 0;
+		}
 
 	if (m_ship->GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
@@ -140,10 +156,10 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 			if (IsAnyAngularThrusterKeyDown()) break;
 			v = m_ship->GetVelocity().NormalizedSafe();
 			if (m_flightControlState == CONTROL_FIXHEADING_BACKWARD ||
-			    m_flightControlState == CONTROL_FIXHEADING_ANTINORMAL)
+				m_flightControlState == CONTROL_FIXHEADING_ANTINORMAL)
 				v = -v;
 			if (m_flightControlState == CONTROL_FIXHEADING_NORMAL ||
-			    m_flightControlState == CONTROL_FIXHEADING_ANTINORMAL)
+				m_flightControlState == CONTROL_FIXHEADING_ANTINORMAL)
 				v = v.Cross(m_ship->GetPosition().NormalizedSafe());
 			if (m_flightControlState == CONTROL_FIXHEADING_RADIALLY_INWARD)
 				v = -m_ship->GetPosition().NormalizedSafe();
@@ -217,7 +233,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		m_ship->SetGunState(0,0);
 		m_ship->SetGunState(1,0);
 
-		vector3d wantAngVel(0.0);
+		// vector3d wantAngVel(0.0);
 		double angThrustSoftness = 10.0;
 
 		const float linearThrustPower = (KeyBindings::thrustLowPower.IsActive() ? m_lowThrustPower : 1.0f);
@@ -294,17 +310,24 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 				m_ship->SetGunState(Pi::game->GetWorldView()->GetActiveWeapon(), 1);
 		}
 
+		vector3d wantAngVel = vector3vector3d(
+			InputBindings.pitch->GetValue(),
+			InputBindings.yaw->GetValue(),
+			InputBindings.roll->GetValue());
+#if 0 // OLD CODE, can remove
 		if (KeyBindings::yawLeft.IsActive()) wantAngVel.y += 1.0;
 		if (KeyBindings::yawRight.IsActive()) wantAngVel.y += -1.0;
 		if (KeyBindings::pitchDown.IsActive()) wantAngVel.x += -1.0;
 		if (KeyBindings::pitchUp.IsActive()) wantAngVel.x += 1.0;
 		if (KeyBindings::rollLeft.IsActive()) wantAngVel.z += 1.0;
 		if (KeyBindings::rollRight.IsActive()) wantAngVel.z -= 1.0;
+#endif
 		if (KeyBindings::killRot.IsActive()) SetFlightControlState(CONTROL_FIXHEADING_KILLROT);
 
 		if (KeyBindings::thrustLowPower.IsActive())
 			angThrustSoftness = 50.0;
 
+#if 0 // TODO: handle deadzone, etc. in Input code.
 		vector3d changeVec;
 		changeVec.x = KeyBindings::pitchAxis.GetValue();
 		changeVec.y = KeyBindings::yawAxis.GetValue();
@@ -323,6 +346,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		}
 
 		wantAngVel += changeVec;
+#endif
 
 		if (wantAngVel.Length() >= 0.001 || force_rotation_damping || m_rotationDamping) {
 			if (Pi::game->GetTimeAccel()!=Game::TIMEACCEL_1X) {
@@ -340,12 +364,9 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 bool PlayerShipController::IsAnyAngularThrusterKeyDown()
 {
 	return !Pi::IsConsoleActive() && (
-		KeyBindings::pitchUp.IsActive()   ||
-		KeyBindings::pitchDown.IsActive() ||
-		KeyBindings::yawLeft.IsActive()   ||
-		KeyBindings::yawRight.IsActive()  ||
-		KeyBindings::rollLeft.IsActive()  ||
-		KeyBindings::rollRight.IsActive()
+		InputBindings::pitch.IsActive()	||
+		InputBindings::yaw.IsActive()	||
+		InputBindings::roll.IsActive()	||
 	);
 }
 

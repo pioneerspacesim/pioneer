@@ -167,7 +167,7 @@ static int l_input_disable_bindings(lua_State *l)
 	return 0;
 }
 
-static int set_key_binding(lua_State *l, const char *config_id, KeyBindings::KeyAction *action) {
+static int set_key_binding(lua_State *l, const char *config_id, KeyBindings::ActionBinding *action) {
 	const char *binding_config_1 = lua_tostring(l, 2);
 	const char *binding_config_2 = lua_tostring(l, 3);
 	KeyBindings::KeyBinding kb1, kb2;

@@ -12,7 +12,8 @@ namespace KeyBindings {
 		BINDING_DISABLED,
 		KEYBOARD_KEY,
 		JOYSTICK_BUTTON,
-		JOYSTICK_HAT
+		JOYSTICK_HAT,
+		MOUSE_BUTTON // TODO: implementme!
 	};
 
 	struct KeyBinding {
@@ -24,9 +25,13 @@ namespace KeyBindings {
 			static KeyBinding FromJoystickButton(Uint8 joystick, Uint8 button);
 			static KeyBinding FromJoystickHat(Uint8 joystick, Uint8 hat, Uint8 direction);
 
-			KeyBinding(): type(BINDING_DISABLED) {
+			KeyBinding() : type(BINDING_DISABLED) {
 				u.keyboard.key = SDLK_UNKNOWN;
 				u.keyboard.mod = KMOD_NONE;
+			}
+			KeyBinding(SDL_Keycode key, SDL_Keymod mod = KMOD_NONE) : type(KEYBOARD_KEY) {
+				u.keyboard.key = key;
+				u.keyboard.mod = mod;
 			}
 
 			std::string ToString() const; // for serialisation
@@ -61,15 +66,27 @@ namespace KeyBindings {
 					Uint8 hat;
 					Uint8 direction;
 				} joystickHat;
+
+				/* TODO: implement binding mouse buttons.
+				struct {
+					Uint8 button;
+					// TODO: implement binding multiple clicks as their own action.
+					Uint8 clicks;
+				} mouseButton;
+				*/
 			} u;
 	};
 
-	struct KeyAction {
+	struct ActionBinding {
 		KeyBinding binding1;
 		KeyBinding binding2;
 
 		sigc::signal<void> onPress;
 		sigc::signal<void> onRelease;
+
+		ActionBinding() { }
+		ActionBinding(KeyBinding b1, KeyBindingb2 = KeyBinding())
+			: binding1(b1), binding2(b2) { }
 
 		void SetFromString(const char *str);
 		std::string ToString() const;
@@ -85,10 +102,10 @@ namespace KeyBindings {
 		NEGATIVE
 	};
 
-	struct AxisBinding {
+	struct JoyAxisBinding {
 		public:
-			AxisBinding();
-			AxisBinding(Uint8 joystick, Uint8 axis, AxisDirection direction);
+			JoyAxisBinding();
+			JoyAxisBinding(Uint8 joystick, Uint8 axis, AxisDirection direction, float deadzone = 0.0f, float sensitivity = 1.0f);
 			float GetValue();
 			std::string Description() const;
 
@@ -96,23 +113,59 @@ namespace KeyBindings {
 				joystick = JOYSTICK_DISABLED;
 				axis = 0;
 				direction = POSITIVE;
+				deadzone = 0.0f;
+				sensitivity = 1.0f;
 			}
 
 			bool Enabled() const { return (joystick != JOYSTICK_DISABLED); }
 
-			static bool FromString(const char *str, AxisBinding &binding);
-			static AxisBinding FromString(const char *str);
+			static bool FromString(const char *str, JoyAxisBinding &binding);
+			static JoyAxisBinding FromString(const char *str);
 			std::string ToString() const;
+
+			bool IsInverted() { return direction == NEGATIVE; }
+			AxisDirection GetDirection() { return direction; }
+			void SetDirection(AxisDirection dir) { direction = dir; }
+
+			float GetDeadzone() { return deadzone; }
+			void SetDeadzone(float dz) { deadzone = dz; }
+
+			float GetSensitivity() { return sensitivity; }
+			void SetSensitivity(float sens) { sensitivity = sens; }
 		private:
 			enum { JOYSTICK_DISABLED = Uint8(-1) };
 			Uint8 joystick;
 			Uint8 axis;
+			float deadzone;
+			float sensitivity;
 			AxisDirection direction;
+	};
+
+	struct AxisBinding {
+		JoyAxisBinding axis;
+		KeyBinding positive;
+		KeyBinding negative;
+
+		AxisBinding() { }
+		AxisBinding(JoyAxisBinding ax, KeyBinding pos = KeyBinding(), KeyBinding neg = KeyBinding())
+			: axis(ax), positive(pos), negative(neg) { }
+
+		sigc::signal<void, float> onAxis;
+
+		void SetFromString(const char *str);
+		std::string ToString() const;
+
+		bool IsActive() const;
+		float GetValue() const;
+		void CheckSDLEventAndDispatch(const SDL_Event *event);
+
+		bool Matches(const SDL_Event *event) const;
+		bool Matches(const SDL_Keysym *sym) const;
 	};
 
 	struct BindingPrototype {
 		const char *label, *function;
-		KeyAction *kb;
+		ActionBinding *kb;
 		AxisBinding *ab;
 	};
 
@@ -123,7 +176,7 @@ namespace KeyBindings {
 
 	void DispatchSDLEvent(const SDL_Event *event);
 
-#define KEY_BINDING(name,a,b,c,d) extern KeyAction name;
+#define KEY_BINDING(name,a,b,c,d) extern ActionBinding name;
 #define AXIS_BINDING(name,a,b,c) extern AxisBinding name;
 #include "KeyBindings.inc.h"
 
