@@ -95,6 +95,7 @@ namespace KeyBindings {
 		}
 
 		void SetFromString(const char *str);
+		void SetFromString(const std::string &str);
 		std::string ToString() const;
 
 		bool IsActive() const;
@@ -115,7 +116,7 @@ namespace KeyBindings {
 				: joystick(joystick_), axis(axis_), direction(direction_),
 				deadzone(deadzone_), sensitivity(sensitivity_) { }
 
-			float GetValue();
+			float GetValue() const;
 			std::string Description() const;
 
 			void Clear() {
@@ -131,6 +132,9 @@ namespace KeyBindings {
 			static bool FromString(const char *str, JoyAxisBinding &binding);
 			static JoyAxisBinding FromString(const char *str);
 			std::string ToString() const;
+
+			bool Matches(const SDL_Event *event) const;
+			bool IsActive() const;
 
 			bool IsInverted() { return direction == NEGATIVE; }
 			AxisDirection GetDirection() { return direction; }
@@ -165,14 +169,12 @@ namespace KeyBindings {
 		sigc::signal<void, float> onAxis;
 
 		void SetFromString(const char *str);
+		void SetFromString(const std::string str);
 		std::string ToString() const;
 
 		bool IsActive() const;
 		float GetValue() const;
 		void CheckSDLEventAndDispatch(const SDL_Event *event);
-
-		bool Matches(const SDL_Event *event) const;
-		bool Matches(const SDL_Keysym *sym) const;
 	};
 
 	struct BindingPrototype {

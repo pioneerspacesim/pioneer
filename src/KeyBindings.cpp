@@ -368,15 +368,37 @@ void ActionBinding::CheckSDLEventAndDispatch(const SDL_Event *event) {
 	}
 }
 
-float JoyAxisBinding::GetValue() {
+bool JoyAxisBinding::IsActive() const
+{
+	// If the stick is within the deadzone, it's not active.
+	return fabs(Pi::input.JoystickAxisState(joystick, axis)) > deadzone;
+}
+
+float JoyAxisBinding::GetValue() const
+{
 	if (!Enabled()) return 0.0f;
 
 	float value = Pi::input.JoystickAxisState(joystick, axis);
 
-	if (direction == POSITIVE)
-		return value;
-	else
-		return -value;
+	// Deadzone with normalisation
+	if (fabs(value) < deadzone) {
+		return 0.0f;
+	} else {
+		// subtract deadzone and re-normalise to full range
+		value = copysign((fabs(value) - deadzone) / (1.0f - deadzone), value);
+	}
+
+	// Apply sensitivity scaling and clamp.
+	value = fmax(fmin(value * sensitivity, 1.0f), -1.0f);
+
+	// Invert as necessary.
+	return direction == POSITIVE ? value : -value;
+}
+
+bool JoyAxisBinding::Matches(const SDL_Event *event) const
+{
+	if (event->type != SDL_JOYAXISMOTION) return false;
+	return event->jaxis.which == joystick && event->jaxis.axis == axis;
 }
 
 std::string JoyAxisBinding::Description() const {
@@ -464,6 +486,94 @@ std::string JoyAxisBinding::ToString() const {
 		oss << "disabled";
 	}
 	return oss.str();
+}
+
+void AxisBinding::SetFromString(const std::string str)
+{
+	size_t ofs = 0;
+	size_t nextpos = str.find(',');
+	if (nextpos == std::string::npos) return;
+
+	if (str.substr(ofs, 8) != "disabled")
+		axis = JoyAxisBinding::FromString(str.substr(0, nextpos).c_str());
+
+	ofs = nextpos + 1;
+	nextpos = str.find(',', ofs);
+	if (str.substr(ofs, 8) != "disabled")
+		positive = KeyBinding::FromString(str.substr(ofs, nextpos - ofs).c_str());
+
+	ofs = nextpos + 1;
+	if (str.substr(ofs, 8) != "disabled")
+		negative = KeyBinding::FromString(str.substr(ofs).c_str());
+}
+
+// TODO: deprecate this method of calling.
+void AxisBinding::SetFromString(const char *str)
+{
+	return AxisBinding::SetFromString(std::string(str));
+}
+
+std::string AxisBinding::ToString() const
+{
+	std::ostringstream oss;
+	oss << axis.ToString() << ',';
+	oss << positive.ToString() << ',';
+	oss << negative.ToString();
+	return oss.str();
+}
+
+bool AxisBinding::IsActive() const
+{
+	return axis.IsActive() || positive.IsActive() || negative.IsActive();
+}
+
+float AxisBinding::GetValue() const
+{
+	// Holding the positive and negative keys cancel each other out,
+	float value = 0.0f;
+	value += positive.IsActive() ? 1.0 : 0.0;
+	value -= negative.IsActive() ? 1.0 : 0.0;
+
+	// And input on the axis device supercedes both of them.
+	return axis.IsActive() ? axis.GetValue() : value;
+}
+
+void AxisBinding::CheckSDLEventAndDispatch(const SDL_Event *event)
+{
+	if (m_disableBindings) return;
+	float value = GetValue();
+	switch (event->type) {
+		case SDL_KEYDOWN:
+		case SDL_KEYUP:
+		{
+			if (positive.Matches(&event->key.keysym) && negative.Matches(&event->key.keysym)) {
+				onAxis.emit(value);
+			}
+			break;
+		}
+		case SDL_JOYBUTTONDOWN:
+		case SDL_JOYBUTTONUP:
+		{
+			if (positive.Matches(&event->jbutton) || negative.Matches(&event->jbutton)) {
+				onAxis.emit(value);
+			}
+			break;
+		}
+		case SDL_JOYHATMOTION:
+		{
+			if (positive.Matches(&event->jhat) || positive.Matches(&event->jhat)) {
+				onAxis.emit(value);
+				// XXX to emit onRelease, we need to have access to the state of the joystick hat prior to this event,
+				// so that we can detect the case of switching from a direction that matches the binding to some other direction
+			}
+			break;
+		}
+		case SDL_JOYAXISMOTION:
+		{
+			if (axis.Matches(event)) onAxis.emit(value);
+		}
+		default: break;
+	}
 }
 
 void DispatchSDLEvent(const SDL_Event *event) {

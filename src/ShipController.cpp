@@ -342,27 +342,6 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		if (InputBindings.thrustLowPower->IsActive())
 			angThrustSoftness = 50.0;
 
-#if 0 // TODO: handle deadzone, etc. in Input code.
-		vector3d changeVec;
-		changeVec.x = KeyBindings::pitchAxis.GetValue();
-		changeVec.y = KeyBindings::yawAxis.GetValue();
-		changeVec.z = KeyBindings::rollAxis.GetValue();
-
-		// Deadzone per-axis with normalisation
-		const float dz = m_joystickDeadzone;
-		for (int axis=0; axis<3; axis++) {
-			if (fabs(changeVec[axis]) < dz) {
-				// no input
-				changeVec[axis] = 0.0f;
-			} else {
-				// subtract deadzone and re-normalise to full range
-				changeVec[axis] = (changeVec[axis] - dz) / (1.0f - dz);
-			}
-		}
-
-		wantAngVel += changeVec;
-#endif
-
 		if (wantAngVel.Length() >= 0.001 || force_rotation_damping || m_rotationDamping) {
 			if (Pi::game->GetTimeAccel()!=Game::TIMEACCEL_1X) {
 				for (int axis=0; axis<3; axis++)
