@@ -301,7 +301,7 @@
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "{starport} hava trafik kontrolü {shiplabel} ID'li gemiyi yakıtı bitmiş bir şekilde sürüklenirken tespit etti. {starport} istasyonuna gelmeleri için gerekn yakıtı verecek kişiye {cash} ödeyeceğiz."
+    "message": "{starport} hava trafik kontrolü {shiplabel} ID'li gemiyi yakıtı bitmiş bir şekilde sürüklenirken tespit etti. {starport} istasyonuna gelmeleri için gereken yakıtı verecek kişiye {cash} ödeyeceğiz."
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",

@@ -1555,6 +1555,14 @@
     "description": "",
     "message": "Bu, Sol sistemindeki Dünya'da bulunan Londra'dan yapılan kolay başlangıç."
   },
+  "START_AT_MARS": {
+    "description": "",
+    "message": "Start on Mars"
+  },
+  "START_AT_MARS_DESC": {
+    "description": "",
+    "message": "This is an easy start from Cydonia on Mars in the Sol system."
+  },
   "START_AT_NEW_HOPE": {
     "description": "New Hope is an in game location",
     "message": "Yeni Ümit'te Başla"

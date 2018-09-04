@@ -605,11 +605,11 @@
   },
   "HUD_BUTTON_FLYBY_VIEW": {
     "description": "Tooltip: Flyby camera view",
-    "message": "Flyby view"
+    "message": "Voorbijvlieg aanzicht"
   },
   "HUD_BUTTON_HYPERDRIVE_DISABLED": {
     "description": "Tooltip: Hyperdrive disabled (docked or landed)",
-    "message": "Hyperdrive disabled"
+    "message": "Hyperdrive uitgeschakeld"
   },
   "HUD_BUTTON_INITIATE_HYPERJUMP": {
     "description": "Tooltip: Initiate legal hyperjump",
@@ -1554,6 +1554,14 @@
   "START_AT_EARTH_DESC": {
     "description": "",
     "message": "This is an easy start from London on Earth in the Sol system."
+  },
+  "START_AT_MARS": {
+    "description": "",
+    "message": "Start on Mars"
+  },
+  "START_AT_MARS_DESC": {
+    "description": "",
+    "message": "This is an easy start from Cydonia on Mars in the Sol system."
   },
   "START_AT_NEW_HOPE": {
     "description": "New Hope is an in game location",

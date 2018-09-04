@@ -1,102 +1,102 @@
 {
   "ADVICE_10_BODYTEXT": {
     "description": "",
-    "message": "Relocating to another faction might be a good idea when in trouble with local authorities."
+    "message": "Verhuizen naar een andere factie kan een goed idee zijn wanneer u problemen heeft met de lokale authoriteiten."
   },
   "ADVICE_10_HEADLINE": {
     "description": "",
-    "message": "Know when to leave town"
+    "message": "Weet wanneer je er vandoor moet gaan"
   },
   "ADVICE_1_BODYTEXT": {
     "description": "",
-    "message": "Take note of which local business to trust or not, upon completing a transaction outside the confines of the law."
+    "message": "Wanneer je buiten wettelijk gecontroleerd gebied werkt, zorg dan dat je erachter komt wie je kunt vertrouwen en wie niet."
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
-    "message": "Tame the Black Market"
+    "message": "Leer de zwarte markt kennen"
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Many small distances are faster travelled than their sum."
+    "message": "Veel kleine afstanden worden sneller afgelegd dan hun totaal."
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
-    "message": "The Road Faster Taken"
+    "message": "De Weg Sneller Genomen"
   },
   "ADVICE_3_BODYTEXT": {
     "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
-    "message": "Avoid jumping into uninhabited systems without the means to leave."
+    "message": "Zorg dat je onbewoonde stelsel waar je in beland ook weer kunt verlaten."
   },
   "ADVICE_3_HEADLINE": {
     "description": "",
-    "message": "Avoid getting stranded: plan your jump sequence ahead"
+    "message": "Vermijd te stranden: plan uw sprongen vooraf"
   },
   "ADVICE_4_BODYTEXT": {
     "description": "",
-    "message": "Choose your frame of reference. Especially when wanting to match speed and course of a moving target."
+    "message": "Kies een referentiekader, speciaal wanneer het erom gaat een bewegend doel in snelheid en koers te matchen."
   },
   "ADVICE_4_HEADLINE": {
     "description": "",
-    "message": "It's all relative"
+    "message": "Alles is relatief"
   },
   "ADVICE_5_BODYTEXT": {
     "description": "",
-    "message": "Buy low and sell high."
+    "message": "Koop laag in en verkoop hoog."
   },
   "ADVICE_5_HEADLINE": {
     "description": "",
-    "message": "Never lose money"
+    "message": "Verlies nooit geld"
   },
   "ADVICE_6_BODYTEXT": {
     "description": "",
-    "message": "Pay close attention to any news reported, as information can affect market prices."
+    "message": "Let goed op nieuwsberichten, omdat informatie de markt kan beïnvloeden."
   },
   "ADVICE_6_HEADLINE": {
     "description": "",
-    "message": "Keep your ear to the ground"
+    "message": "Leg uw oor te luisteren"
   },
   "ADVICE_7_BODYTEXT": {
     "description": "",
-    "message": "Donations can earn you a good standing in society, but not all charities will earn you a reputation."
+    "message": "Sommige donaties kunnen een goede reputatie opleveren, maar niet alle doelen zijn goede doelen."
   },
   "ADVICE_7_HEADLINE": {
     "description": "",
-    "message": "Be generous"
+    "message": "Wees vrijgevig"
   },
   "ADVICE_8_BODYTEXT": {
     "description": "",
-    "message": "When journeying to binary systems, make sure to target the right star."
+    "message": "Wanneer u naar een binair stelsel springt, kies dan de juiste ster."
   },
   "ADVICE_8_HEADLINE": {
     "description": "",
-    "message": "Stay out of double trouble"
+    "message": "Vermijd dubbele problemen"
   },
   "ADVICE_9_BODYTEXT": {
     "description": "",
-    "message": "Regularly maintain your engines, but remember: you get what you pay for."
+    "message": "Zorg voor regelmatig onderhoud aan uw motoren, maar onhoud: goedkoop is duurkoop."
   },
   "ADVICE_9_HEADLINE": {
     "description": "",
-    "message": "Treat your ship well"
+    "message": "Behandel uw ship goed"
   },
   "RUMOUR": {
     "description": "Headline starts with this pre-headline",
-    "message": "RUMOUR"
+    "message": "GERUCHT"
   },
   "TALE_1_BODYTEXT": {
     "description": "",
-    "message": "Don't miss the beautiful eclipse on New Hope as Hades blocks out the light from Epsilon Eridani."
+    "message": "Mis de prachtige zonsverduistering op New Hope niet wanneer Hades het licht van Epsilon Eridani tegenhoudt."
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",
-    "message": "\"I've seen things you people wouldn't believe\""
+    "message": "\"Ik heb dingen gezien die niemand zou geloven\""
   },
   "TRAVELLERS_ADVICE": {
     "description": "Headline starts with this pre-headline",
-    "message": "TRAVELLER'S ADVICE"
+    "message": "REIZIGERSADVIES"
   },
   "TRAVELLERS_TALE": {
     "description": "Headline starts with this pre-headline",
-    "message": "TRAVELLER'S TALE"
+    "message": "REISVERHAAL"
   }
 }

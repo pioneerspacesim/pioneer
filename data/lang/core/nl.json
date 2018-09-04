@@ -53,23 +53,23 @@
   },
   "AUTOPILOT_DOCK_WITH_STATION": {
     "description": "",
-    "message": "Autopilot: Dock with {target}"
+    "message": "Autopilot: Afmeren bij {target}"
   },
   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter high orbit around {target}"
+    "message": "Autopilot: Hoge omloopbaan om {target}"
   },
   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter low orbit around {target}"
+    "message": "Autopilot: Lage omloopbaan om {target}"
   },
   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter medium orbit around {target}"
+    "message": "Autopilot: Midden-omloopbaan om {target}"
   },
   "AUTOPILOT_FLY_TO_VICINITY_OF": {
     "description": "",
-    "message": "Autopilot: Fly to vicinity of {target}"
+    "message": "Autopilot: Vlieg naar de nabijheid van {target}"
   },
   "AUTOPILOT_ON": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "CLEARANCE_DENIED_TOO_FAR": {
     "description": "Shown if player requests docking too far away from station",
-    "message": "Clearance denied. Your ship is too far away for ID verification."
+    "message": "Geen toegang. Uw schip is te ver weg voor ID-controle."
   },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
@@ -217,7 +217,7 @@
   },
   "COMPASS_E": {
     "description": "Abbreviation for compass direction: East",
-    "message": "E"
+    "message": "O"
   },
   "COMPASS_N": {
     "description": "Abbreviation for compass direction: North",
@@ -225,7 +225,7 @@
   },
   "COMPASS_NE": {
     "description": "Abbreviation for compass direction: North East",
-    "message": "NE"
+    "message": "NO"
   },
   "COMPASS_NW": {
     "description": "Abbreviation for compass direction: North West",
@@ -233,15 +233,15 @@
   },
   "COMPASS_S": {
     "description": "Abbreviation for compass direction: South",
-    "message": "S"
+    "message": "Z"
   },
   "COMPASS_SE": {
     "description": "Abbreviation for compass direction: South East",
-    "message": "SE"
+    "message": "ZO"
   },
   "COMPASS_SW": {
     "description": "Abbreviation for compass direction: South West",
-    "message": "SW"
+    "message": "ZW"
   },
   "COMPASS_W": {
     "description": "Abbreviation for compass direction: West",
@@ -305,7 +305,7 @@
   },
   "DECREASE_RADAR_RANGE": {
     "description": "",
-    "message": "Decrease radar range"
+    "message": "Verklein radarbereik"
   },
   "DECREASE_SET_SPEED": {
     "description": "",
@@ -385,7 +385,7 @@
   },
   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
     "description": "",
-    "message": "Equatorial to polar radius ratio"
+    "message": "Equatoriaal naar polair radius ratio"
   },
   "EXACT_MATCH_X": {
     "description": "",
@@ -413,7 +413,7 @@
   },
   "FIRE_LASER": {
     "description": "",
-    "message": "Fire weapon"
+    "message": "Vuur wapen"
   },
   "FIRE_MISSILE": {
     "description": "",
@@ -421,7 +421,7 @@
   },
   "FLYBY_VIEW": {
     "description": "camera view setting",
-    "message": "Flyby view"
+    "message": "Voorbij-vlieg aanzicht"
   },
   "FOLLOWING_SELECTION": {
     "description": "",
@@ -493,7 +493,7 @@
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
-    "message": "Hold {target} anti-normal"
+    "message": "Behoud {target} anti-normaal"
   },
   "HEADING_LOCK_BACKWARD": {
     "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
@@ -505,7 +505,7 @@
   },
   "HEADING_LOCK_KILLROT": {
     "description": "",
-    "message": "Kill rotation"
+    "message": "Stop daaiing"
   },
   "HEADING_LOCK_NORMAL": {
     "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
@@ -573,7 +573,7 @@
   },
   "HYPERSPACE_JUMP_DISABLED": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
-    "message": "Hyperdrive disabled"
+    "message": "Hyperdrive uitgeschakeld"
   },
   "HYPERSPACE_JUMP_ENGAGE": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
@@ -581,7 +581,7 @@
   },
   "HYPERSPACE_JUMP_FORBIDDEN": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
-    "message": "Hyperdrive forbidden zone"
+    "message": "Hyperdrive verboden zone"
   },
   "HYPERSPACE_TARGET": {
     "description": "",
@@ -609,7 +609,7 @@
   },
   "INCREASE_RADAR_RANGE": {
     "description": "",
-    "message": "Increase radar range"
+    "message": "Radarbereik vergroten"
   },
   "INCREASE_SET_SPEED": {
     "description": "",
@@ -669,7 +669,7 @@
   },
   "LASER_FIRE_DETECTED": {
     "description": "",
-    "message": "Weapons fire detected."
+    "message": "Wapenvuur gedetecteerd"
   },
   "LATITUDE": {
     "description": "Short for latitude",
@@ -681,7 +681,7 @@
   },
   "LATITUDE_SOUTH_ABBREV": {
     "description": "Abbreviation letter for latitude 'south'",
-    "message": "S"
+    "message": "Z"
   },
   "LEGAL_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -713,7 +713,7 @@
   },
   "LONGITUDE_EAST_ABBREV": {
     "description": "Abbreviation letter for longitude 'east'",
-    "message": "E"
+    "message": "O"
   },
   "LONGITUDE_WEST_ABBREV": {
     "description": "Abbreviation letter for latitude 'west'",
@@ -749,7 +749,7 @@
   },
   "MAP_TOGGLE_INFO_PANEL": {
     "description": "",
-    "message": "Toggle Info Panel"
+    "message": "Wissel Info-paneel"
   },
   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
     "description": "",
@@ -977,7 +977,7 @@
   },
   "NO_AUTOPILOT_INSTALLED": {
     "description": "",
-    "message": "Autopilot not installed on ship, cannot enable autopilot"
+    "message": "Automatische piloot niet beschikbaar: niet geïnstalleerd"
   },
   "NO_CENTRAL_GOVERNANCE": {
     "description": "",
@@ -1145,7 +1145,7 @@
   },
   "PLANNER_RESET_FACTOR": {
     "description": "For system orbit view",
-    "message": "Rate of increase of delta-v values. Click to reset to default."
+    "message": "Vergrotingssnelheid delta-v waarden. Click om opnieuw in te stellen."
   },
   "PLANNER_RESET_NORMAL": {
     "description": "For system orbit view",
@@ -1189,7 +1189,7 @@
   },
   "RADAR_CONTROL": {
     "description": "",
-    "message": "Radar control"
+    "message": "Radarbesturing"
   },
   "RADIOACTIVES": {
     "description": "",
@@ -1205,7 +1205,7 @@
   },
   "REQUEST_DOCKING_CLEARANCE": {
     "description": "",
-    "message": "Request docking clearance from {target}"
+    "message": "Vraag toestemming van {target} om af te meren"
   },
   "RESET": {
     "description": "",
@@ -1213,7 +1213,7 @@
   },
   "RESET_ORIENTATION_AND_ZOOM": {
     "description": "",
-    "message": "Reset Orientation and Zoom"
+    "message": "Herinstellen Oriëntatie en Zoom"
   },
   "ROBOTS": {
     "description": "",
@@ -1293,7 +1293,7 @@
   },
   "SECTOR_MAP_VIEW": {
     "description": "",
-    "message": "Sector Map View"
+    "message": "Sectorkaart aanzicht"
   },
   "SECTOR_X_Y_Z": {
     "description": "",
@@ -1357,7 +1357,7 @@
   },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
     "description": "Either show no ships, show ships, or show ships + their orbits",
-    "message": "Switch between ship display modes."
+    "message": "Wissel tussen scheeps-kijkmodi"
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1581,15 +1581,15 @@
   },
   "SWAP_SELECTED_HYPERSPACE_TARGET": {
     "description": "",
-    "message": "Swap selected and hyperjump target"
+    "message": "Verwissel gekozen en hyperjump-doel"
   },
   "SWITCHED_TO_PARENT": {
     "description": "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-    "message": "Switched heading display to system-wide coordinates."
+    "message": "Verwissel kijkrichting naar stelselbrede coördinaten."
   },
   "SWITCHED_TO_ROTATIONAL": {
     "description": "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-    "message": "Switched heading display to planetary coordinates."
+    "message": "Verwissel kijkrichting naar planetaire coördinaten."
   },
   "SYSTEM": {
     "description": "star system",
@@ -1685,11 +1685,11 @@
   },
   "TOGGLE_RADAR_MODE": {
     "description": "",
-    "message": "Toggle radar mode"
+    "message": "Wissel radarmodus"
   },
   "TOGGLE_RADAR_VIEW": {
     "description": "Tooltip for the Radar View button",
-    "message": "Radar View"
+    "message": "Radarzicht"
   },
   "TOGGLE_ROTATION_DAMPING": {
     "description": "",
@@ -1733,7 +1733,7 @@
   },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
-    "message": "h"
+    "message": "u"
   },
   "UNIT_KILOMETERS": {
     "description": "Distance unit: one kilometer",
@@ -1785,7 +1785,7 @@
   },
   "UNSET_NAVTARGET": {
     "description": "",
-    "message": "Unset navigation target."
+    "message": "Wis navigatiedoel."
   },
   "USE_LOW_THRUST": {
     "description": "",

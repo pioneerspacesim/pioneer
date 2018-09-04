@@ -1555,6 +1555,14 @@
     "description": "",
     "message": "This is an easy start from London on Earth in the Sol system."
   },
+  "START_AT_MARS": {
+    "description": "",
+    "message": "Start on Mars"
+  },
+  "START_AT_MARS_DESC": {
+    "description": "",
+    "message": "This is an easy start from Cydonia on Mars in the Sol system."
+  },
   "START_AT_NEW_HOPE": {
     "description": "New Hope is an in game location",
     "message": "Começar em Nova Esperança"

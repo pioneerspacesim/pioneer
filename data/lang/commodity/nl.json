@@ -5,15 +5,15 @@
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Clean air is only taken for granted when already abundant. The technique behind air purification is rumoured to come from alien artifacts found on Mars. Many companies produce various types of air processors, capable of turning even the most hostile atmospheres into a workable environment, and governments do not tolerate monopoly on air production."
+    "message": "Schone lucht wordt alleen voor lief genomen als het volop voorhanden is. Er gaan geruchten dat de techniek achter luchtpurificatie van buitenaardse bodemvonsten op Mars afkomstig is. Veel bedrijven maken verschillende soorten luchtprocessors die in staat zijn zelfs de meest vijandige atmosferen om te zetten in bruikbare lucht en regeringen staan monopolies hierop niet toe."
   },
   "ANIMAL_MEAT": {
     "description": "",
-    "message": "Animal meat"
+    "message": "Dierenvlees"
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "A major point of controversy, meat is the flesh of animals. With synthetic protein readily available, most people believe that animals should not be killed. While meats are illegal in most core systems, live animals and their meat is an important part of the lives of people on more traditional worlds."
+    "message": "Dierenvlees is controversieel. Omdat kunstmatige eiwitten volop beschikbaar zijn, vinden de meeste mensen dat het doden van dieren niet kan. Hoewel vlees verboden is in de meeste kernstelsels, zijn levenden dieren en hun vlees een belangrijk onderdeel van het leven van mensen op traditionelere werelden."
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -21,7 +21,7 @@
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Heavy military-grade weapons, like armoured hover tanks, and surface-to-space missiles. Trading in them is usually a governmental monopoly. On the black market, however, these can often fetch a hefty sum of money."
+    "message": "Zware militaire wapens, zoals gepantserde zweeftanks en oppervlak-naar-ruimteraketten. Handel hierin is normaal gesproken een regeringsmonopolie. Op de zwarte markt kunnen ze echter een stevige winst opleveren."
   },
   "CARBON_ORE": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Carbon is one of the most diverse elements we know of. Used in almost everything from plastics to alloys and sometimes even power production, carbon is an inexpensive, but important commodity. As such, almost all industrial settlements import carbon ore."
+    "message": "Koolstof is een van de meest diverse elementen die we kennen. Het wordt toegepast in vrijwel alles, van plastic to metaallegeringen en soms zelfs energieopwekking. Koolstof is goedkoop maar belangrijk. Daarom importeren bijna alle industriële vestigingen koolstoferts."
   },
   "COMPUTERS": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
+    "message": "Sinds duizend jaar geleden, met de Abacus, PDP-11 and Motorola 68k-chip tot onze moderne HAL 9001 en Multivac-lijn, stonden computers aan het begin van het informatietijdperk. Evenzeer verantwoordelijk voor het binnengaan van de hyperruimte als voor het delen van schattige video's over het UniNet."
   },
   "CONSUMER_GOODS": {
     "description": "",
@@ -45,15 +45,15 @@
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
+    "message": "Eindproducten die klaar zijn om te worden gebruikt door consumenten, van tandenbortels en  keukenapparatuur tot zweefauto's."
   },
   "FARM_MACHINERY": {
     "description": "",
-    "message": "Landbouw apparatuur"
+    "message": "Landbouw-apparatuur"
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
+    "message": "Hoewel zeldzaam, is het nog steeds mogelijk een boer te zien die zijn land omploegt met een os. Maar vrijwel overal waar landbouw plaatsvindt worden machines gebruikt om het land te cultiveren, zowel in ondergrondse hydroponics als op de eindeloze velden van een tuinwereld."
   },
   "FERTILIZER": {
     "description": "",
@@ -61,15 +61,15 @@
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Fertilizers are crucial for growing crops at an industrial scale, allowing mono-cultures, and yielding higher dividends than possible using plain dirt. This often comes with an ecological cost, not evident at the onset."
+    "message": "Kunstmest is van groot belang voor het begroeien van land op industriële schaal, waardoor monoculturen en grotere opbrengst mogelijk zijn dan met gewone grond. Meestal wordt hiervoor een ecologische prijs betaald die bij aanvang niet duidelijk is."
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "Fruit & vegetables"
+    "message": "Fruit & groenten"
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "While there are lots of synthetic alternatives, real fruits and vegetables are still an important part of our cuisine and nutrition. Grown on agricultural worlds or as part of the life support of habitats, and exported to systems in which growing plants is not feasible."
+    "message": "Hoewel er vele kunstmatige alternatieven bestaan, zijn echte fruit en groenten nog steeds een belangrijk deel van onze keuken en voeding. Het wordt verbouwd op agriculturele werelden of als onderdeel van de life support van habitats, en geëxporteerd naar stelsels waar landbouw niet mogelijk is."
   },
   "GRAIN": {
     "description": "",

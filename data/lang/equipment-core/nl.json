@@ -1,11 +1,11 @@
 {
   "ADVANCED_TARGET_SCANNER": {
     "description": "ship equipment showing target information/stats",
-    "message": "Advanced target scanner"
+    "message": "Gevorderde doelscanner"
   },
   "ADVANCED_TARGET_SCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Long range target scanner with system wide coverage."
+    "message": "Lange-afstands doelscanner met stelselbrede dekking."
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "",
@@ -17,11 +17,11 @@
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
-    "message": "Heavy Atmospheric Shielding"
+    "message": "Zware atmosfeerschilden"
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
-    "message": "A more capable version of Atmospheric Shields"
+    "message": "Een capabelere versie van atmosfeerschilden"
   },
   "AUTOPILOT": {
     "description": "",
@@ -33,15 +33,15 @@
   },
   "BEAMLASER_1MW": {
     "description": "",
-    "message": "1MW beam laser"
+    "message": "1MW straallaser"
   },
   "BEAMLASER_DUAL_1MW": {
     "description": "",
-    "message": "1MW dual-fire beam laser"
+    "message": "1MW dubbelvurende straallaser"
   },
   "BEAMLASER_RAPID_2MW": {
     "description": "",
-    "message": "2MW rapid-fire beam laser"
+    "message": "2MW snelvurende straallaser"
   },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
@@ -113,23 +113,23 @@
   },
   "DRIVE_MIL5": {
     "description": "",
-    "message": "Class 5 Military drive"
+    "message": "Class 5 Militaire drive"
   },
   "DRIVE_MIL6": {
     "description": "",
-    "message": "Class 6 Military drive"
+    "message": "Class 6 Militaire drive"
   },
   "DRIVE_MIL7": {
     "description": "",
-    "message": "Class 7 Military drive"
+    "message": "Class 7 Militaire drive"
   },
   "DRIVE_MIL8": {
     "description": "",
-    "message": "Class 8 Military drive"
+    "message": "Class 8 Militaire drive"
   },
   "DRIVE_MIL9": {
     "description": "",
-    "message": "Class 9 Military drive"
+    "message": "Class 9 Militaire drive"
   },
   "ECM_ADVANCED": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "PASSENGER_CABIN": {
     "description": "",
-    "message": "Passenger cabin"
+    "message": "Passagierscabine"
   },
   "PLANETSCANNER": {
     "description": "Scans the nearest body for resources",
@@ -301,7 +301,7 @@
   },
   "TARGET_SCANNER": {
     "description": "ship equipment showing target information/stats",
-    "message": "Target Scanner"
+    "message": "Doelscanner"
   },
   "TARGET_SCANNER_DESCRIPTION": {
     "description": "",
@@ -309,31 +309,31 @@
   },
   "THRUSTERS_BASIC": {
     "description": "",
-    "message": "Modified Thrusters"
+    "message": "Gemodificeerde stuurraketten"
   },
   "THRUSTERS_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "A modified type of thrusters approved for your ship."
+    "message": "Een gemodificeerd type stuurraket, gecertificeerd voor uw ship."
   },
   "THRUSTERS_BEST": {
     "description": "",
-    "message": "Bespoke Thrusters"
+    "message": "Op maat gemaakte stuurraketten"
   },
   "THRUSTERS_BEST_DESCRIPTION": {
     "description": "",
-    "message": "Custom made thrusters that provide the best possible output."
+    "message": "Speciaal op maat gemaakte stuurraketten zorgen voor de best mogelijke output."
   },
   "THRUSTERS_MEDIUM": {
     "description": "",
-    "message": "Optimised Thrusters"
+    "message": "Geoptimaliseerde stuurraketten"
   },
   "THRUSTERS_MEDIUM_DESCRIPTION": {
     "description": "",
-    "message": "Thrusters that have been optimised to reduce inefficiencies and improve power output."
+    "message": "Voor output en efficiëntie geoptimaliseerde stuurraketten."
   },
   "TRADE_COMPUTER": {
     "description": "Ship equipment computing profitable commodities to trade between two systems",
-    "message": "Trade Computer"
+    "message": "Handelscomputer"
   },
   "TRADE_COMPUTER_DESCRIPTION": {
     "description": "",
