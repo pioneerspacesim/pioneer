@@ -33,6 +33,7 @@ public:
 	};
 
 	BindingPage* GetBindingPage(std::string id) { return &bindingPages[id]; }
+	std::map<std::string, BindingPage> GetBindingPages() { return bindingPages; }
 
 	// Creates a new action binding, copying the provided binding.
 	// The returned binding pointer points to the actual binding.

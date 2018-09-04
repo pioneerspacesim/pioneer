@@ -460,6 +460,20 @@ bool JoyAxisBinding::FromString(const char *str, JoyAxisBinding &ab) {
 	p += 4;
 	ab.axis = atoi(p);
 
+	// Skip past the axis integer
+	if (!(p = strstr(p, "/DZ")))
+		return true; // deadzone is optional
+
+	p += 2;
+	ab.deadzone = atof(p);
+
+	// Skip past the deadzone float
+	if (!(p = strstr(p, "/E")))
+		return true; // sensitivity is optional
+
+	p += 1;
+	ab.sensitivity = atof(p);
+
 	return true;
 }
 
@@ -480,8 +494,8 @@ std::string JoyAxisBinding::ToString() const {
 		oss << Pi::input.JoystickGUIDString(joystick);
 		oss << "/Axis";
 		oss << int(axis);
-		oss << "DZ" << deadzone;
-		oss << "E" << sensitivity;
+		oss << "/DZ" << deadzone;
+		oss << "/E" << sensitivity;
 	} else {
 		oss << "disabled";
 	}

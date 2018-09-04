@@ -111,7 +111,7 @@ namespace KeyBindings {
 
 	struct JoyAxisBinding {
 		public:
-			JoyAxisBinding() : joystick(JOYSTICK_DISABLED), axis(0), direction(POSITIVE) { }
+			JoyAxisBinding() : joystick(JOYSTICK_DISABLED), axis(0), direction(POSITIVE), deadzone(0.0f), sensitivity(1.0f) { }
 			JoyAxisBinding(Uint8 joystick_, Uint8 axis_, AxisDirection direction_, float deadzone_ = 0.0f, float sensitivity_ = 1.0f)
 				: joystick(joystick_), axis(axis_), direction(direction_),
 				deadzone(deadzone_), sensitivity(sensitivity_) { }

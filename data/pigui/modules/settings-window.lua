@@ -275,7 +275,7 @@ local function captureBinding(id,num)
 
 	for _,page in pairs(binding_pages) do
 		for _,group in pairs(page) do
-			if group.label then
+			if group.id then
 				for _,i in pairs(group) do
 					if i.id == id then
 						info = i
@@ -288,10 +288,11 @@ local function captureBinding(id,num)
 	ui.setNextWindowPosCenter('Always')
 	ui.withStyleColors({["WindowBg"] = Color(20, 20, 80, 230)}, function()
 		ui.window("captureBinding", {"NoTitleBar", "NoResize", "ShowBorders"}, function()
-			ui.text(info.label)
+			-- TODO: localizations for binding IDs
+			ui.text(info.id)
 			ui.text(lui.PRESS_A_KEY_OR_CONTROLLER_BUTTON)
 
-			if info.type == 'KEY' then
+			if info.type == 'action' then
 				local desc
 				if num == 1 then desc = info.bindingDescription1
 				else desc = info.bindingDescription2 end
@@ -302,18 +303,34 @@ local function captureBinding(id,num)
 				local setBinding = false
 				if(bindingKey and num==1 and bindingKey~=info.binding1) or (bindingKey and num==2 and bindingKey~=info.binding2) then setBinding = true end
 
-				if setBinding and  num == 1 then Input.SetKeyBinding(info.id, bindingKey, info.binding2)
-				elseif setBinding and num==2 then Input.SetKeyBinding(info.id, info.binding1, bindingKey)
+				if setBinding and  num == 1 then Input.SetActionBinding(info.id, bindingKey, info.binding2)
+				elseif setBinding and num==2 then Input.SetActionBinding(info.id, info.binding1, bindingKey)
 				end
-			elseif info.type == "AXIS" then
+			elseif info.type == 'axis' then
 				local desc
-				desc = info.bindingDescription1 or '<None>'
+				if num == 1 then desc = info.axisDescription
+				elseif num == 2 then desc = info.positiveDescription
+				else desc = info.negativeDescription end
+				desc = desc or '<None>'
 				ui.text(desc)
 
-				local bindingAxis = Engine.pigui.GetAxisBinding()
+				if num == 1 then
+					local bindingAxis = Engine.pigui.GetAxisBinding()
 
-				if bindingAxis and bindingAxis~=info.binding1 then
-					Input.SetKeyBinding(info.id, bindingAxis, info.binding2)
+					if bindingAxis and bindingAxis~=info.axis then
+						Input.SetAxisBinding(info.id, bindingAxis, info.positive, info.negative)
+					end
+				elseif num == 2 then
+					local bindingKey = Engine.pigui.GetKeyBinding()
+
+					if bindingKey and bindingKey ~= info.positive then
+						Input.SetAxisBinding(info.id, info.axis, bindingKey, info.negative)
+					end
+				else
+					local bindingKey = Engine.pigui.GetKeyBinding()
+					if bindingKey and bindingKey ~= info.negative then
+						Input.SetAxisBinding(info.id, info.axis, info.positive, bindingKey)
+					end
 				end
 			end
 
@@ -372,12 +389,13 @@ local function showLanguageOptions()
 	end
 end
 
-local function keyBinding(info)
+local function actionBinding(info)
 	local bindings = { info.binding1, info.binding2 }
 	local descs = { info.bindingDescription1, info.bindingDescription2 }
 
 	ui.columns(3,"##bindings",false)
-	ui.text(info.label)
+	-- TODO: localizations for binding IDs
+	ui.text(info.id)
 	ui.nextColumn()
 	bindingTextButton((descs[1] or '')..'##'..info.id..'1', (descs[1] or ''), true, function()
 		showKeyCapture = true
@@ -394,14 +412,31 @@ local function keyBinding(info)
 end
 
 local function axisBinding(info)
-	local desc = info.bindingDescription1 or ''
-	ui.columns(3,"##bindings",false)
-	ui.text(info.label)
+	local bindings = { info.axis, info.positive, info.negative }
+	local descs = { info.axisDescription, info.positiveDescription, info.negativeDescription }
+	ui.columns(3,"##axisjoybindings",false)
+	-- TODO: localizations for binding IDs
+	ui.text(info.id)
 	ui.nextColumn()
-	bindingTextButton(desc, desc, true, function()
+	bindingTextButton((descs[1] or '')..'##'..info.id..'axis', (descs[1] or ''), true, function()
 		showKeyCapture = true
 		keyCaptureId = info.id
 		keyCaptureNum = 1
+	end)
+	ui.columns(3,"##axiskeybindings",false)
+	-- TODO: translate this string
+	ui.text("Key Bindings")
+	ui.nextColumn()
+	bindingTextButton((descs[2] or '')..'##'..info.id..'positive', (descs[2] or ''), true, function()
+		showKeyCapture = true
+		keyCaptureId = info.id
+		keyCaptureNum = 2
+	end)
+	ui.nextColumn()
+	bindingTextButton((descs[3] or '')..'##'..info.id..'negative', (descs[3] or ''), true, function()
+		showKeyCapture = true
+		keyCaptureId = info.id
+		keyCaptureNum = 3
 	end)
 	ui.columns(1,"",false)
 end
@@ -411,7 +446,7 @@ local function showControlsOptions()
 
 	local mouseYInvert = Input.GetMouseYInverted()
 	local joystickEnabled = Input.GetJoystickEnabled()
-	binding_pages = Input.GetKeyBindings()
+	binding_pages = Input.GetBindings()
 	local c
 
 	c,mouseYInvert = checkbox(lui.INVERT_MOUSE_Y, mouseYInvert)
@@ -420,17 +455,19 @@ local function showControlsOptions()
 	c,joystickEnabled = checkbox(lui.ENABLE_JOYSTICK, joystickEnabled)
 	if c then Input.SetJoystickEnabled(joystickEnabled) end
 
-	for _,page in pairs(binding_pages) do
+	for _,page in ipairs(binding_pages) do
 		ui.separator()
-		ui.withFont(pionillium.medium.name, bindingPageFontSize, function() ui.text(page.label) end)
-		for _,group in pairs(page) do
-			if group.label then
+		-- TODO: localizations for page IDs
+		ui.withFont(pionillium.medium.name, bindingPageFontSize, function() ui.text(page.id) end)
+		for _,group in ipairs(page) do
+			if group.id then
 				ui.separator()
-				ui.withFont(pionillium.medium.name, bindingGroupFontSize, function() ui.text(group.label) end)
-				for _,info in pairs(group) do
-					if info.type == 'KEY' then
-						keyBinding(info)
-					elseif info.type == 'AXIS' then
+				-- TODO: localizations for group IDs
+				ui.withFont(pionillium.medium.name, bindingGroupFontSize, function() ui.text(group.id) end)
+				for _,info in ipairs(group) do
+					if info.type == 'action' then
+						actionBinding(info)
+					elseif info.type == 'axis' then
 						axisBinding(info)
 					end
 				end

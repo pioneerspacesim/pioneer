@@ -16,92 +16,32 @@
  *
  */
 
-static void push_bindings(lua_State *l, const KeyBindings::BindingPrototype *protos) {
-	LUA_DEBUG_START(l);
+static void setup_binding_table(lua_State *l, const char *id, const char *type)
+{
+	lua_newtable(l);
 
-	lua_newtable(l); // [-1] bindings
-	lua_pushnil(l); // [-2] bindings, [-1] group (no current group)
+	lua_pushstring(l, id); // set the "id" field to the id of the page
+	lua_setfield(l, -2, "id");
 
-	assert(!protos[0].function); // first entry should be a group header
-
-	int group_idx = 1;
-	int binding_idx = 1;
-	for (const KeyBindings::BindingPrototype *proto = protos; proto->label; ++proto) {
-		if (! proto->function) {
-			// start a new named binding group
-
-			// [-2] bindings, [-1] group
-			lua_pop(l, 1);
-			// [-1] bindings
-			lua_newtable(l);
-			lua_pushstring(l, proto->label);
-			lua_setfield(l, -2, "label");
-			// [-2] bindings, [-1] group
-			lua_pushvalue(l, -1);
-			// [-3] bindings, [-2] group, [-1] group copy
-			lua_rawseti(l, -3, group_idx);
-			++group_idx;
-
-			binding_idx = 1;
-		} else {
-			// key or axis binding prototype
-
-			// [-2] bindings, [-1] group
-			lua_createtable(l, 0, 5);
-			// [-3] bindings, [-2] group, [-1] binding
-
-			// fields are: type ('KEY' or 'AXIS'), id ('BindIncreaseSpeed'), label ('Increase Speed'), binding ('Key13'), bindingDescription ('')
-			lua_pushstring(l, (proto->kb ? "KEY" : "AXIS"));
-			lua_setfield(l, -2, "type");
-			lua_pushstring(l, proto->function);
-			lua_setfield(l, -2, "id");
-			lua_pushstring(l, proto->label);
-			lua_setfield(l, -2, "label");
-			if (proto->kb) {
-				const KeyBindings::KeyBinding kb1 = proto->kb->binding1;
-				if (kb1.Enabled()) {
-					lua_pushstring(l, kb1.ToString().c_str());
-					lua_setfield(l, -2, "binding1");
-					lua_pushstring(l, kb1.Description().c_str());
-					lua_setfield(l, -2, "bindingDescription1");
-				}
-				const KeyBindings::KeyBinding kb2 = proto->kb->binding2;
-				if (kb2.Enabled()) {
-					lua_pushstring(l, kb2.ToString().c_str());
-					lua_setfield(l, -2, "binding2");
-					lua_pushstring(l, kb2.Description().c_str());
-					lua_setfield(l, -2, "bindingDescription2");
-				}
-			} else if (proto->ab) {
-				const KeyBindings::JoyAxisBinding &ab = *proto->ab;
-				lua_pushstring(l, ab.ToString().c_str());
-				lua_setfield(l, -2, "binding1");
-				lua_pushstring(l, ab.Description().c_str());
-				lua_setfield(l, -2, "bindingDescription1");
-			} else {
-				assert(0); // invalid prototype binding
-			}
-
-			// [-3] bindings, [-2] group, [-1] binding
-			lua_rawseti(l, -2, binding_idx);
-			++binding_idx;
-		}
-
-		LUA_DEBUG_CHECK(l, 2); // [-2] bindings, [-1] group
-	}
-
-	// pop the group table (which should already have been put in the bindings table)
-	lua_pop(l, 1);
-
-	LUA_DEBUG_END(l, 1);
+	lua_pushstring(l, type); // set the "type" field to "Page"
+	lua_setfield(l, -2, "type");
 }
 
+static void push_key_binding(lua_State *l, KeyBindings::KeyBinding *kb, const char *binding, const char *description)
+{
+	if (kb->Enabled()) {
+		lua_pushstring(l, kb->ToString().c_str());
+		lua_setfield(l, -2, binding);
+		lua_pushstring(l, kb->Description().c_str());
+		lua_setfield(l, -2, description);
+	}
+}
 /*
- * Function: GetKeyBindings
+ * Function: GetBindings
  *
  * Get a table listing all the current key and axis bindings.
  *
- * > bindings = Input.GetKeyBindings()
+ * > bindings = Input.GetBindings()
  *
  * Returns:
  *
@@ -110,48 +50,99 @@ static void push_bindings(lua_State *l, const KeyBindings::BindingPrototype *pro
  * The bindings table has the following structure (in Lua syntax):
  *
  * > bindings = {
- * >   { -- a page
- * >      label = 'CONTROLS', -- the (translated) name of the page
- * >      { -- a group
- * >          label = 'Miscellaneous', -- the (translated) name of the group
- * >          { -- a binding
- * >              type = 'KEY', -- the type of binding; can be 'KEY' or 'AXIS'
- * >              id = 'BindToggleLuaConsole', -- the internal ID of the binding; pass this to Engine.SetKeyBinding
- * >              label = 'Toggle Lua console', -- the (translated) label for the binding
- * >              binding1 = 'Key96', -- the first bound key or axis (value stored in config file)
- * >              bindingDescription1 = '`', -- display text for the first bound key or axis
- * >              binding2 = 'Key96', -- the second bound key or axis (value stored in config file)
- * >              bindingDescription2 = '`', -- display text for the second bound key or axis
- * >          },
- * >          -- ... more bindings
- * >      },
- * >      -- ... more groups
- * >   },
- * >   -- ... more pages
+ * >	{ -- a page
+ * >		id = 'CONTROLS', -- the translation key of the page's label
+ * >		{ -- a group
+ * >			id = 'Miscellaneous', -- the translation key of the name of the group
+ * >			{ -- a binding
+ * >				type = 'action', -- the type of binding; can be 'action' or 'axis'
+ * >				id = 'BindToggleLuaConsole', -- the internal ID of the binding; used as a translation key and passed to Input.SetKeyBinding
+ * >				binding1 = 'Key96', -- the first bound key or axis (value stored in config file)
+ * >				bindingDescription1 = '`', -- display text for the first bound key or axis
+ * >				binding2 = 'Key96', -- the second bound key or axis (value stored in config file)
+ * >				bindingDescription2 = '`', -- display text for the second bound key or axis
+ * >			},
+ * >			{ -- an axis binding
+ * >				type = 'axis',
+ * >				id = 'BindAxisPitch',
+ * >				axis = 'Joy[UUID]/Axis3/DZ0.0/E1.0', -- The joystick binding (value stored in the config file)
+ * >				positive = 'Key96', -- the key bound to the positive half of the axis
+ * >				positiveDescription = '`', -- as normal for key bindings
+ * >				negative = 'Key96', -- the key bound to the negative half of the axis
+ * >				negativeDescription = '`', -- as normal for key bindings
+ * >			}
+ * >			-- ... more bindings
+ * >		},
+ * >		-- ... more groups
+ * >	},
+ * >	-- ... more pages
  * > }
  *
  * Availability:
  *
- *   October 2013
+ *   September 2018
  *
  * Status:
  *
- *   temporary
+ *   permanent
  */
-static int l_input_get_key_bindings(lua_State *l)
+static int l_input_get_bindings(lua_State *l)
 {
-	// XXX maybe this key-bindings table should be cached in the Lua registry?
+	LUA_DEBUG_START(l);
 
-	int idx = 1;
-	lua_newtable(l);
+	lua_newtable(l); // [-1] bindings
+	using namespace KeyBindings;
 
-#define BINDING_PAGE(name) \
-	push_bindings(l, KeyBindings :: BINDING_PROTOS_ ## name); \
-	lua_pushstring(l, Lang :: name); \
-	lua_setfield(l, -2, "label"); \
-	lua_rawseti(l, -2, idx++);
-#include "KeyBindings.inc.h"
+	int page_idx = 1;
+	for (auto page : Pi::input.GetBindingPages()) {
+		lua_pushunsigned(l, page_idx++);
+		setup_binding_table(l, page.first.c_str(), "page");
 
+		int group_idx = 1;
+		for (auto group : page.second.groups) {
+			lua_pushunsigned(l, group_idx++);
+			setup_binding_table(l, group.first.c_str(), "group");
+
+			int binding_idx = 1;
+			for (auto type : group.second.bindings) {
+				lua_pushunsigned(l, binding_idx++);
+				if (type.second == Input::BindingGroup::EntryType::ENTRY_ACTION) {
+					ActionBinding *ab = Pi::input.GetActionBinding(type.first);
+					if (!ab) continue; // Should never happen, but include it here for future proofing.
+					setup_binding_table(l, type.first.c_str(), "action");
+
+					push_key_binding(l, &ab->binding1, "binding1", "bindingDescription1");
+					push_key_binding(l, &ab->binding2, "binding2", "bindingDescription2");
+				}
+				else {
+					AxisBinding *ab = Pi::input.GetAxisBinding(type.first);
+					if (!ab) continue; // Should never happen, but include it here for future proofing.
+					setup_binding_table(l, type.first.c_str(), "axis");
+
+					if (ab->axis.Enabled()) {
+						lua_pushstring(l, ab->axis.ToString().c_str());
+						lua_setfield(l, -2, "axis");
+						lua_pushstring(l, ab->axis.Description().c_str());
+						lua_setfield(l, -2, "axisDescription");
+					}
+
+					push_key_binding(l, &ab->positive, "positive", "positiveDescription");
+					push_key_binding(l, &ab->negative, "negative", "negativeDescription");
+				}
+
+				// [-3] group, [-2] idx, [-1] binding
+				lua_settable(l, -3);
+			}
+
+			// [-3] page, [-2] idx, [-1] group
+			lua_settable(l, -3);
+		}
+
+		// [-3] bindings, [-2] idx, [-1] group
+		lua_settable(l, -3);
+	}
+
+	LUA_DEBUG_END(l, 1);
 	return 1;
 }
 
@@ -167,53 +158,59 @@ static int l_input_disable_bindings(lua_State *l)
 	return 0;
 }
 
-static int set_key_binding(lua_State *l, const char *config_id, KeyBindings::ActionBinding *action) {
+static int l_input_set_action_binding(lua_State *l) {
+	const char *binding_id = luaL_checkstring(l, 1);
 	const char *binding_config_1 = lua_tostring(l, 2);
 	const char *binding_config_2 = lua_tostring(l, 3);
+	KeyBindings::ActionBinding *action = Pi::input.GetActionBinding(binding_id);
+
 	KeyBindings::KeyBinding kb1, kb2;
 	if (binding_config_1) {
 		if (!KeyBindings::KeyBinding::FromString(binding_config_1, kb1))
-			return luaL_error(l, "invalid first key binding given to Engine.SetKeyBinding");
+			return luaL_error(l, "invalid first key binding given to Input.SetKeyBinding");
 	} else
 		kb1.Clear();
 	if (binding_config_2) {
 		if (!KeyBindings::KeyBinding::FromString(binding_config_2, kb2))
-			return luaL_error(l, "invalid second key binding given to Engine.SetKeyBinding");
+			return luaL_error(l, "invalid second key binding given to Input.SetKeyBinding");
 	} else
 		kb2.Clear();
 	action->binding1 = kb1;
 	action->binding2 = kb2;
-	Pi::config->SetString(config_id, action->ToString());
+	Pi::config->SetString(binding_id, action->ToString());
 	Pi::config->Save();
 	return 0;
 }
 
-static int set_axis_binding(lua_State *l, const char *config_id, KeyBindings::JoyAxisBinding *binding) {
-	const char *binding_config = lua_tostring(l, 2);
-	KeyBindings::JoyAxisBinding ab;
-	if (binding_config) {
-		if (!KeyBindings::JoyAxisBinding::FromString(binding_config, ab))
-			return luaL_error(l, "invalid axis binding given to Engine.SetKeyBinding");
-	} else
-		ab.Clear();
-	*binding = ab;
-	Pi::config->SetString(config_id, ab.ToString());
-	Pi::config->Save();
-	return 0;
-}
-
-static int l_input_set_key_binding(lua_State *l)
-{
+static int l_input_set_axis_binding(lua_State *l) {
 	const char *binding_id = luaL_checkstring(l, 1);
+	const char *binding_config_axis = lua_tostring(l, 2);
+	const char *binding_config_positive = lua_tostring(l, 3);
+	const char *binding_config_negative = lua_tostring(l, 4);
+	KeyBindings::AxisBinding *binding = Pi::input.GetAxisBinding(binding_id);
 
-#define KEY_BINDING(action, config_id, label, def1, def2) \
-	if (strcmp(binding_id, config_id) == 0) { return set_key_binding(l, config_id, &KeyBindings :: action); }
-#define AXIS_BINDING(action, config_id, label, default_axis) \
-	if (strcmp(binding_id, config_id) == 0) { return set_axis_binding(l, config_id, &KeyBindings :: action); }
+	KeyBindings::JoyAxisBinding ab;
+	if (binding_config_axis) {
+		if (!KeyBindings::JoyAxisBinding::FromString(binding_config_axis, ab))
+			return luaL_error(l, "invalid axis binding given to Input.SetKeyBinding");
+	} else ab.Clear();
 
-#include "KeyBindings.inc.h"
+	KeyBindings::KeyBinding kb1, kb2;
+	if (binding_config_positive) {
+		if (!KeyBindings::KeyBinding::FromString(binding_config_positive, kb1))
+			return luaL_error(l, "invalid first key binding given to Input.SetKeyBinding");
+	} else kb1.Clear();
+	if (binding_config_negative) {
+		if (!KeyBindings::KeyBinding::FromString(binding_config_negative, kb2))
+			return luaL_error(l, "invalid second key binding given to Input.SetKeyBinding");
+	} else kb2.Clear();
 
-	return luaL_error(l, "Invalid binding ID given to Engine.SetKeyBinding");
+	binding->axis = ab;
+	binding->positive = kb1;
+	binding->negative = kb2;
+	Pi::config->SetString(binding_id, binding->ToString());
+	Pi::config->Save();
+	return 0;
 }
 
 static int l_input_get_mouse_y_inverted(lua_State *l)
@@ -256,14 +253,15 @@ void LuaInput::Register() {
 	LUA_DEBUG_START(l);
 
     static const luaL_Reg l_methods[] = {
-        { "EnableBindings", l_input_enable_bindings },
-		{ "DisableBindings", l_input_disable_bindings },
-		{ "GetKeyBindings", l_input_get_key_bindings },
-		{ "SetKeyBinding", l_input_set_key_binding },
-		{ "GetMouseYInverted", l_input_get_mouse_y_inverted },
-		{ "SetMouseYInverted", l_input_set_mouse_y_inverted },
-		{ "GetJoystickEnabled", l_input_get_joystick_enabled },
-		{ "SetJoystickEnabled", l_input_set_joystick_enabled },
+        { "EnableBindings",		l_input_enable_bindings },
+		{ "DisableBindings",	l_input_disable_bindings },
+		{ "GetBindings",		l_input_get_bindings },
+		{ "SetActionBinding",	l_input_set_action_binding },
+		{ "SetAxisBinding",		l_input_set_axis_binding },
+		{ "GetMouseYInverted",	l_input_get_mouse_y_inverted },
+		{ "SetMouseYInverted",	l_input_set_mouse_y_inverted },
+		{ "GetJoystickEnabled",	l_input_get_joystick_enabled },
+		{ "SetJoystickEnabled",	l_input_set_joystick_enabled },
         { NULL, NULL }
     };
 
