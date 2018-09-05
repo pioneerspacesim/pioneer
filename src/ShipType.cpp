@@ -33,7 +33,7 @@ const std::string ShipType::MISSILE_UNGUIDED	= "missile_unguided";
 float ShipType::GetFuelUseRate() const
 {
 	const float denominator = fuelTankMass * effectiveExhaustVelocity * 10;
-	return denominator > 0 ? -linThrust[THRUSTER_FORWARD]/denominator : 1e9;
+	return denominator > 0 ? linThrust[THRUSTER_FORWARD]/denominator : 1e9;
 }
 
 // returns velocity of engine exhausts in m/s
@@ -90,6 +90,13 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	linThrust[THRUSTER_LEFT] = data.get("left_thrust", 0.0f).asFloat();
 	linThrust[THRUSTER_RIGHT] = data.get("right_thrust", 0.0f).asFloat();
 	angThrust = data.get("angular_thrust", 0.0f).asFloat();
+
+	linAccelerationCap[THRUSTER_REVERSE] = data.get("reverse_acceleration_cap", INFINITY).asFloat();
+	linAccelerationCap[THRUSTER_FORWARD] = data.get("forward_acceleration_cap", INFINITY).asFloat();
+	linAccelerationCap[THRUSTER_UP] = data.get("up_acceleration_cap", INFINITY).asFloat();
+	linAccelerationCap[THRUSTER_DOWN] = data.get("down_acceleration_cap", INFINITY).asFloat();
+	linAccelerationCap[THRUSTER_LEFT] = data.get("left_acceleration_cap", INFINITY).asFloat();
+	linAccelerationCap[THRUSTER_RIGHT] = data.get("right_acceleration_cap", INFINITY).asFloat();
 
 	// Parse global thrusters color
 	bool error = false;
@@ -174,10 +181,6 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 		Output("In file \"%s.json\" directional thrusters custom color must be \"r\",\"g\" and \"b\"\n", modelName.c_str());
 		throw ShipTypeLoadError();
 	}
-	// invert values where necessary
-	linThrust[THRUSTER_FORWARD] *= -1.f;
-	linThrust[THRUSTER_LEFT] *= -1.f;
-	linThrust[THRUSTER_DOWN] *= -1.f;
 	// angthrust fudge (XXX: why?)
 	angThrust = angThrust * 0.5f;
 
@@ -268,6 +271,13 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	s.linThrust[ShipType::THRUSTER_RIGHT] = t.Get("right_thrust", 0.0f);
 	s.angThrust = t.Get("angular_thrust", 0.0f);
 
+	s.linAccelerationCap[ShipType::THRUSTER_REVERSE] = t.Get("reverse_acceleration_cap", INFINITY);
+	s.linAccelerationCap[ShipType::THRUSTER_FORWARD] = t.Get("forward_acceleration_cap", INFINITY);
+	s.linAccelerationCap[ShipType::THRUSTER_UP] = t.Get("up_acceleration_cap", INFINITY);
+	s.linAccelerationCap[ShipType::THRUSTER_DOWN] = t.Get("down_acceleration_cap", INFINITY);
+	s.linAccelerationCap[ShipType::THRUSTER_LEFT] = t.Get("left_acceleration_cap", INFINITY);
+	s.linAccelerationCap[ShipType::THRUSTER_RIGHT] = t.Get("right_acceleration_cap", INFINITY);
+
 	data["cockpit"] = s.cockpitName;
 	data["reverse_thrust"] = s.linThrust[ShipType::THRUSTER_REVERSE];
 	data["forward_thrust"] = s.linThrust[ShipType::THRUSTER_FORWARD];
@@ -277,10 +287,13 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	data["right_thrust"] = s.linThrust[ShipType::THRUSTER_RIGHT];
 	data["angular_thrust"] = s.angThrust;
 
-	// invert values where necessary
-	s.linThrust[ShipType::THRUSTER_FORWARD] *= -1.f;
-	s.linThrust[ShipType::THRUSTER_LEFT] *= -1.f;
-	s.linThrust[ShipType::THRUSTER_DOWN] *= -1.f;
+	data["reverse_acceleration_cap"] = s.linAccelerationCap[ShipType::THRUSTER_REVERSE];
+	data["forward_acceleration_cap"] = s.linAccelerationCap[ShipType::THRUSTER_FORWARD];
+	data["up_acceleration_cap"] = s.linAccelerationCap[ShipType::THRUSTER_UP];
+	data["down_acceleration_cap"] = s.linAccelerationCap[ShipType::THRUSTER_DOWN];
+	data["left_acceleration_cap"] = s.linAccelerationCap[ShipType::THRUSTER_LEFT];
+	data["right_acceleration_cap"] = s.linAccelerationCap[ShipType::THRUSTER_RIGHT];
+
 	// angthrust fudge (XXX: why?)
 	s.angThrust = s.angThrust / 2;
 

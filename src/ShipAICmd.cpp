@@ -371,7 +371,7 @@ bool AICmdKill::TimeStepUpdate()
 			// else no evade thrust
 		}
 	}
-	else evadethrust = m_prop->GetThrusterState();
+	else evadethrust = m_prop->GetLinThrusterState();
 
 
 	// todo: some logic behind desired range? pass from higher level
@@ -395,8 +395,8 @@ bool AICmdKill::TimeStepUpdate()
 		else if (vdiff*vdiff < 400.0) evadethrust.z = 0.0;
 		else evadethrust.z = (vdiff > 0.0) ? -1.0 : 1.0;
 	}
-	else evadethrust.z = m_prop->GetThrusterState().z;
-	m_prop->SetThrusterState(evadethrust);
+	else evadethrust.z = m_prop->GetLinThrusterState().z;
+	m_prop->SetLinThrusterState(evadethrust);
 
 	return false;
 }
@@ -801,7 +801,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 #ifdef DEBUG_AUTOPILOT
 if (m_ship->IsType(Object::PLAYER))
 Output("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
-	targdist, relvel.Length(), m_ship->GetThrusterState().z, m_state);
+	targdist, relvel.Length(), m_ship->GetLinThrusterState().z, m_state);
 #endif
 
 	// frame switch stuff - clear children/collision state
@@ -1087,7 +1087,7 @@ bool AICmdDock::TimeStepUpdate()
 
 #ifdef DEBUG_AUTOPILOT
 Output("AICmdDock dist = %.1f, speed = %.1f, ythrust = %.2f, state = %i\n",
-	targdist, relvel.Length(), m_ship->GetThrusterState().y, m_state);
+	targdist, relvel.Length(), m_ship->GetLinThrusterState().y, m_state);
 #endif
 
 	return false;
@@ -1226,9 +1226,9 @@ bool AICmdFlyAround::TimeStepUpdate()
 //	m_ship->AIFaceDirection(newhead-m_ship->GetPosition());
 
 	// termination condition for orbits
-	vector3d thrust = m_prop->GetThrusterState();
+	vector3d thrust = m_prop->GetLinThrusterState();
 	if (m_targmode >= 2 && thrust.LengthSqr() < 0.01) m_targmode++;
-	if (m_targmode == 4) { m_prop->SetThrusterState(vector3d(0.0)); return true; }
+	if (m_targmode == 4) { m_prop->SetLinThrusterState(vector3d(0.0)); return true; }
 	return false;
 }
 
