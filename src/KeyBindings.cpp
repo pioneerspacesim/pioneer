@@ -378,21 +378,24 @@ float JoyAxisBinding::GetValue() const
 {
 	if (!Enabled()) return 0.0f;
 
-	float value = Pi::input.JoystickAxisState(joystick, axis);
+	const float o_val = Pi::input.JoystickAxisState(joystick, axis);
 
 	// Deadzone with normalisation
-	if (fabs(value) < deadzone) {
+	float value = fabs(o_val);
+	if (value < deadzone) {
 		return 0.0f;
 	} else {
 		// subtract deadzone and re-normalise to full range
-		value = copysign((fabs(value) - deadzone) / (1.0f - deadzone), value);
+		value = (value - deadzone) / (1.0f - deadzone);
 	}
 
 	// Apply sensitivity scaling and clamp.
-	value = fmax(fmin(value * sensitivity, 1.0f), -1.0f);
+	value = fmax(fmin(value * sensitivity, 1.0f), 0.0f);
+
+	value = copysign(value, o_val);
 
 	// Invert as necessary.
-	return direction == POSITIVE ? value : -value;
+	return direction == POSITIVE ? value : 0.0f - value;
 }
 
 bool JoyAxisBinding::Matches(const SDL_Event *event) const
@@ -464,14 +467,14 @@ bool JoyAxisBinding::FromString(const char *str, JoyAxisBinding &ab) {
 	if (!(p = strstr(p, "/DZ")))
 		return true; // deadzone is optional
 
-	p += 2;
+	p += 3;
 	ab.deadzone = atof(p);
 
 	// Skip past the deadzone float
 	if (!(p = strstr(p, "/E")))
 		return true; // sensitivity is optional
 
-	p += 1;
+	p += 2;
 	ab.sensitivity = atof(p);
 
 	return true;
@@ -519,12 +522,6 @@ void AxisBinding::SetFromString(const std::string str)
 	ofs = nextpos + 1;
 	if (str.substr(ofs, 8) != "disabled")
 		negative = KeyBinding::FromString(str.substr(ofs).c_str());
-}
-
-// TODO: deprecate this method of calling.
-void AxisBinding::SetFromString(const char *str)
-{
-	return AxisBinding::SetFromString(std::string(str));
 }
 
 std::string AxisBinding::ToString() const

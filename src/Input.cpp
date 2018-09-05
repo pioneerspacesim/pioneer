@@ -34,6 +34,11 @@ KeyBindings::ActionBinding* Input::AddActionBinding(std::string id, BindingGroup
 {
     // TODO: should we throw an error if we attempt to bind over an already-bound action?
     group->bindings[id] = BindingGroup::ENTRY_ACTION;
+
+    // Load from the config
+    std::string config_str = Pi::config->String(id.c_str());
+    if (config_str.length() > 0) binding.SetFromString(config_str);
+
     return &(actionBindings[id] = binding);
 }
 
@@ -41,6 +46,11 @@ KeyBindings::AxisBinding* Input::AddAxisBinding(std::string id, BindingGroup* gr
 {
     // TODO: should we throw an error if we attempt to bind over an already-bound axis?
     group->bindings[id] = BindingGroup::ENTRY_AXIS;
+
+    // Load from the config
+    std::string config_str = Pi::config->String(id.c_str());
+    if (config_str.length() > 0) binding.SetFromString(config_str);
+
     return &(axisBindings[id] = binding);
 }
 
@@ -100,7 +110,8 @@ void Input::HandleSDLEvent(SDL_Event &event)
     }
 }
 
-void Input::InitJoysticks() {
+void Input::InitJoysticks()
+{
 	int joy_count = SDL_NumJoysticks();
 	for (int n = 0; n < joy_count; n++) {
 		JoystickState state;
@@ -120,11 +131,13 @@ void Input::InitJoysticks() {
 	}
 }
 
-std::string Input::JoystickName(int joystick) {
+std::string Input::JoystickName(int joystick)
+{
 	return std::string(SDL_JoystickName(joysticks[joystick].joystick));
 }
 
-std::string Input::JoystickGUIDString(int joystick) {
+std::string Input::JoystickGUIDString(int joystick)
+{
 	const int guidBufferLen = 33; // as documented by SDL
 	char	guidBuffer[guidBufferLen];
 
@@ -133,18 +146,21 @@ std::string Input::JoystickGUIDString(int joystick) {
 }
 
 // conveniance version of JoystickFromGUID below that handles the string mangling.
-int Input::JoystickFromGUIDString(const std::string &guid) {
+int Input::JoystickFromGUIDString(const std::string &guid)
+{
 	return JoystickFromGUIDString(guid.c_str());
 }
 
 // conveniance version of JoystickFromGUID below that handles the string mangling.
-int Input::JoystickFromGUIDString(const char *guid) {
+int Input::JoystickFromGUIDString(const char *guid)
+{
 	return JoystickFromGUID(SDL_JoystickGetGUIDFromString(guid));
 }
 
 // return the internal ID of the stated joystick guid.
 // returns -1 if we couldn't find the joystick in question.
-int Input::JoystickFromGUID(SDL_JoystickGUID guid) {
+int Input::JoystickFromGUID(SDL_JoystickGUID guid)
+{
 	const int guidLength = 16; // as defined
 	for (std::map<SDL_JoystickID, JoystickState>::iterator stick = joysticks.begin(); stick != joysticks.end(); ++stick) {
 		JoystickState &state = stick->second;
@@ -155,11 +171,13 @@ int Input::JoystickFromGUID(SDL_JoystickGUID guid) {
 	return -1;
 }
 
-SDL_JoystickGUID Input::JoystickGUID(int joystick) {
+SDL_JoystickGUID Input::JoystickGUID(int joystick)
+{
 	return joysticks[joystick].guid;
 }
 
-int Input::JoystickButtonState(int joystick, int button) {
+int Input::JoystickButtonState(int joystick, int button)
+{
 	if (!joystickEnabled) return 0;
 	if (joystick < 0 || joystick >= int(joysticks.size()))
 		return 0;
@@ -170,7 +188,8 @@ int Input::JoystickButtonState(int joystick, int button) {
 	return joysticks[joystick].buttons[button];
 }
 
-int Input::JoystickHatState(int joystick, int hat) {
+int Input::JoystickHatState(int joystick, int hat)
+{
 	if (!joystickEnabled) return 0;
 	if (joystick < 0 || joystick >= int(joysticks.size()))
 		return 0;
@@ -181,7 +200,8 @@ int Input::JoystickHatState(int joystick, int hat) {
 	return joysticks[joystick].hats[hat];
 }
 
-float Input::JoystickAxisState(int joystick, int axis) {
+float Input::JoystickAxisState(int joystick, int axis)
+{
 	if (!joystickEnabled) return 0;
 	if (joystick < 0 || joystick >= int(joysticks.size()))
 		return 0;

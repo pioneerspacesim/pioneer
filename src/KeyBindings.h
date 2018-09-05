@@ -95,7 +95,7 @@ namespace KeyBindings {
 		}
 
 		void SetFromString(const char *str);
-		void SetFromString(const std::string &str);
+		void SetFromString(const std::string str) { return SetFromString(str.c_str()); }
 		std::string ToString() const;
 
 		bool IsActive() const;
@@ -113,8 +113,7 @@ namespace KeyBindings {
 		public:
 			JoyAxisBinding() : joystick(JOYSTICK_DISABLED), axis(0), direction(POSITIVE), deadzone(0.0f), sensitivity(1.0f) { }
 			JoyAxisBinding(Uint8 joystick_, Uint8 axis_, AxisDirection direction_, float deadzone_ = 0.0f, float sensitivity_ = 1.0f)
-				: joystick(joystick_), axis(axis_), direction(direction_),
-				deadzone(deadzone_), sensitivity(sensitivity_) { }
+				: joystick(joystick_), axis(axis_), direction(direction_), deadzone(deadzone_), sensitivity(sensitivity_) { }
 
 			float GetValue() const;
 			std::string Description() const;
@@ -168,7 +167,7 @@ namespace KeyBindings {
 
 		sigc::signal<void, float> onAxis;
 
-		void SetFromString(const char *str);
+		void SetFromString(const char *str) { return SetFromString(std::string(str)); }
 		void SetFromString(const std::string str);
 		std::string ToString() const;
 
