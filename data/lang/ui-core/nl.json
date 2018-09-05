@@ -9,7 +9,7 @@
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
-    "message": "Add Jump"
+    "message": "Sprong toevoegen"
   },
   "AFTER_TRADE_IN": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "ANISOTROPIC_FILTERING_DESC": {
     "description": "",
-    "message": "Samples the texture across multiple mip levels to produce a much clearer texture when viewed at shallow angles. Stops the textures from becoming as blurred; however, it can come at a heavy performance cost."
+    "message": "Hierbij wordt de texture over meerder MIP-levels gesampeld om een gedetailleerdere texture vanuit kleine kijkhoeken te krijgen. Voorkomt vertroebeling van de textures maar kost behoorlijk veel performance."
   },
   "AN_ERROR_HAS_OCCURRED": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
-    "message": "Atmospheric shielding"
+    "message": "Atmosfeerschilden"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
-    "message": "Auto Route"
+    "message": "Zoek route"
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "",
@@ -77,11 +77,11 @@
   },
   "CABIN_FREE": {
     "description": "Free capacity for passengers",
-    "message": "{amount} free"
+    "message": "{amount} vrij"
   },
   "CABIN_USED": {
     "description": "Passengers using cabins",
-    "message": "{amount} used"
+    "message": "{amount} gebruikt"
   },
   "CANCEL": {
     "description": "",
@@ -105,15 +105,15 @@
   },
   "CARGO_SPACE_USED": {
     "description": "",
-    "message": "Cargo space used"
+    "message": "Laadruimte gebruikt"
   },
   "CARGO_T_FREE": {
     "description": "t for tonne",
-    "message": "{amount}t free"
+    "message": "{amount}t vrij"
   },
   "CARGO_T_USED": {
     "description": "t for tonne",
-    "message": "{amount}t used"
+    "message": "{amount}t verbruikt"
   },
   "CASH": {
     "description": "",
@@ -125,11 +125,11 @@
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
-    "message": "Center on System"
+    "message": "Centreer op Stelsel"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
-    "message": "Change Binding"
+    "message": "Verander toetsinstelling"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -153,7 +153,7 @@
   },
   "CLEAR_ROUTE": {
     "description": "Clear a planned route of hyperjumps",
-    "message": "Clear Route"
+    "message": "Wis route"
   },
   "CLIENT": {
     "description": "",
@@ -161,7 +161,7 @@
   },
   "CLOSE": {
     "description": "",
-    "message": "Close"
+    "message": "Dichtbij"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -177,7 +177,7 @@
   },
   "COMPACT_RADAR": {
     "description": "Game settings option",
-    "message": "Compact radar"
+    "message": "Compacte radar"
   },
   "COMPETENT": {
     "description": "Combat rating",
@@ -241,7 +241,7 @@
   },
   "CURRENT_FUEL": {
     "description": "For hyperjump planner",
-    "message": "Current Fuel:"
+    "message": "Huidige brandstof:"
   },
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
@@ -281,7 +281,7 @@
   },
   "DETAIL_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Lower gives better performance, at cost of visual aesthetics"
+    "message": "Lager vergoot performance maar kost ziet er minder goed uit"
   },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
@@ -293,15 +293,15 @@
   },
   "DISPLAY_HUD_TRAILS_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Guides the eye by showing the trajectory of ships on the HUD"
+    "message": "Toont het traject van schepen op de HUD"
   },
   "DISPLAY_NAV_TUNNELS": {
     "description": "Settings option: hyperspace tunnel effect",
-    "message": "Toon nav tunnels"
+    "message": "Toon nav-tunnels"
   },
   "DISPLAY_NAV_TUNNELS_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Shows a virtual tunnel to current selected target on the HUD"
+    "message": "Toont een virtuele tunnel naar het gekozen reisdoel op de HUD"
   },
   "DISPLAY_SPEED_LINES": {
     "description": "Settings option: effect when travelling in space",
@@ -309,11 +309,11 @@
   },
   "DISPLAY_SPEED_LINES_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Assists the sense of direction of movement in space"
+    "message": "Helpt met richtingsgevoel bij bewegen in de ruimte"
   },
   "DOCKED_AT": {
     "description": "",
-    "message": "Docked at"
+    "message": "Afgemeerd op"
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
@@ -321,7 +321,7 @@
   },
   "DUE": {
     "description": "mission deadline date",
-    "message": "Due"
+    "message": "Uiterlijk"
   },
   "DUMPING": {
     "description": "The illegal act of dumping waste",
@@ -349,23 +349,23 @@
   },
   "ENABLE_ANISOTROPIC_FILTERING": {
     "description": "Use Anisotropic Filtering",
-    "message": "Anisotropic Filtering"
+    "message": "Anisotropische Filtering"
   },
   "ENABLE_AUTOSAVE": {
     "description": "Allow the game to autosave when docking",
-    "message": "Enable Autosave"
+    "message": "Zet Automatisch opslaan aan"
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "save state when docking, might cause some lag depending on disk access time"
+    "message": "spelstaat opslaan bij het afmeren, kan wat lag veroorzaken door wachten op de disk"
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
-    "message": "Enable cockpit (EXPERIMENTAL)"
+    "message": "Zet cockpit aan (EXPERIMENTAL)"
   },
   "ENABLE_COCKPIT_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Display a 3D model of the pilot's cockpit. (Currently the dashboard is a placeholder)"
+    "message": "Toon een 3D-model van de cockpit (De dashboard is momenteel een placeholder)"
   },
   "ENABLE_JOYSTICK": {
     "description": "",
@@ -373,7 +373,7 @@
   },
   "END_GAME": {
     "description": "",
-    "message": "End Game"
+    "message": "Stop spel"
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
