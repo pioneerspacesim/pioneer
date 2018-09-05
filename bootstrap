@@ -1,4 +1,12 @@
 #! /bin/sh
 
-autoreconf -fvi
-
+if [ -z "$1" ] || [ "$1" == "automake" ]; then
+    autoreconf -fvi
+elif [ "$1" == "cmake" ]; then
+    shift 1
+    mkdir -p build; cd build
+    cmake .. "$@"
+else
+    echo "Unknown build method $1"
+    echo "Available options are 'automake' (default) or 'cmake'"
+fi

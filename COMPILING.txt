@@ -1,7 +1,9 @@
 Table of Contents
 =================
 1 How to compile Pioneer
-  1.1 Linux - Autotools
+  1.1 Linux
+    1.1.a Autotools
+    1.1.b CMake
   1.2 Windows - MSVC
   1.3 Windows - Autotools (Linux cross-compile)
   1.4 OS X - Autotools
@@ -26,6 +28,7 @@ Table of Contents
 Pioneer is known to build on the following platforms and build systems:
 
 Linux: GNU Autotools with GCC or Clang
+       CMake with GCC or Clang
 Windows: Microsoft Visual C++ 2015 (Community or Pro)
          Microsoft Visual C++ 2017 (Community or Pro)
 Windows: GNU Autotools with MXE (MinGW GCC) (cross-compile on Linux)
@@ -44,8 +47,8 @@ If you're having trouble compiling, please ask in #pioneer on
 irc.freenode.net.
 
 
-1.1 Linux - Autotools
----------------------
+1.1 Linux
+---------
 
 1. Install the following libraries (with development headers) for your system.
    If your system is not Debian/Ubuntu based, they may have different names.
@@ -66,17 +69,34 @@ irc.freenode.net.
     libassimp-dev >= 3.2
     mesa-common-dev
 
+   If you are building with CMake instead of Autotools, you'll need to install
+   the cmake package instead of the automake package.
+
    If your platform doesn't have assimp 3.2, you'll need to build it from
    source. It's available in pioneer-thirdparty, see below.
 
-2. Run ./bootstrap to generate your 'configure' file
+1.1.a Linux - Autotools
+-----------------------
 
-3. Run ./configure to configure the build. If you're using the
+1. Run ./bootstrap to generate your 'configure' file
+
+2. Run ./configure to configure the build. If you're using the
    pioneer-thirdparty repository, pass
    --with-thirdparty=/path/to/pioneer-thirdparty to configure.
 
-4. Run make to build everything
+3. Run make to build everything
 
+1.1.b Linux - CMake
+-------------------
+
+1. Run './bootstrap cmake' to generate CMake build files in the 'build' folder.
+
+2. Either run 'cd build; make -jX' or 'cmake --build ./build -j X', where X is
+   the number of CPU cores you have. If in doubt, 4 is a good default.
+
+3. To run pioneer, you will need to use the invocation './build/pioneer' from
+   the project root. Just running ./pioneer will invoke the autotools build
+   process.
 
 1.2 Windows - MSVC
 ------------------
@@ -88,8 +108,8 @@ irc.freenode.net.
 2. Open the pioneer solution from /win32/vc2015/pioneer.sln
    or /win32/vc2017/pioneer.sln according to your MSVC version.
 
-3. Build and run the project or solution. Note: the default is to build debug 
-   version, which is what you want if developing, but release gives an executable 
+3. Build and run the project or solution. Note: the default is to build debug
+   version, which is what you want if developing, but release gives an executable
    optimized for performance.
 
 
