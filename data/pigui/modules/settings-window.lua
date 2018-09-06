@@ -286,7 +286,7 @@ local function captureBinding(id,num)
 
 	ui.setNextWindowPosCenter('Always')
 	ui.withStyleColors({["WindowBg"] = Color(20, 20, 80, 230)}, function()
-		ui.window("captureBinding", {"NoTitleBar", "NoResize", "ShowBorders"}, function()
+		ui.window("captureBinding", {"NoTitleBar", "NoResize"}, function()
 			ui.text(info.label)
 			ui.text(lui.PRESS_A_KEY_OR_CONTROLLER_BUTTON)
 
@@ -448,7 +448,7 @@ local function optionsWindow()
 		ui.setNextWindowSize(optionsWinSize, 'Always')
 		ui.setNextWindowPosCenter('Always')
 		ui.withStyleColors({["WindowBg"] = Color(20, 20, 80, 230)}, function()
-			ui.window("Options", {"NoTitleBar", "NoResize", "ShowBorders"}, function()
+			ui.window("Options", {"NoTitleBar", "NoResize"}, function()
 				mainButton(icons.view_sidereal, lui.VIDEO, showTab=='video', function()
 					showTab = 'video'
 				end)

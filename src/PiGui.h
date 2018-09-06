@@ -92,7 +92,7 @@ public:
 
 	static void EndFrame();
 
-	static void RenderImGui() { ImGui::Render(); }
+	static void RenderImGui();
 
 	static bool ProcessEvent(SDL_Event *event);
 

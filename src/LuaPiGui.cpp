@@ -144,16 +144,16 @@ void pi_lua_generic_pull(lua_State *l, int index, ImGuiInputTextFlags_ &theflags
 	theflags = parse_imgui_flags(l, index, imguiInputTextFlagsTable, "ImGuiInputTextFlagsTable");
 }
 
-static std::map<std::string, ImGuiSetCond_> imguiSetCondTable
+static std::map<std::string, ImGuiCond_> imguiCondTable
 = {
-	{ "Always", ImGuiSetCond_Always },
-	{ "Once", ImGuiSetCond_Once },
-	{ "FirstUseEver", ImGuiSetCond_FirstUseEver },
-	{ "Appearing", ImGuiSetCond_Appearing }
+	{ "Always", ImGuiCond_Always },
+	{ "Once", ImGuiCond_Once },
+	{ "FirstUseEver", ImGuiCond_FirstUseEver },
+	{ "Appearing", ImGuiCond_Appearing }
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiSetCond_ &value) {
-	value = parse_imgui_enum(l, index, imguiSetCondTable, "ImGuiSetCond");
+void pi_lua_generic_pull(lua_State *l, int index, ImGuiCond_ &value) {
+	value = parse_imgui_enum(l, index, imguiCondTable, "ImGuiCond");
 }
 
 static std::map<std::string, ImGuiCol_> imguiColTable
@@ -161,7 +161,7 @@ static std::map<std::string, ImGuiCol_> imguiColTable
 	{"Text", ImGuiCol_Text},
 	{"TextDisabled", ImGuiCol_TextDisabled},
 	{"WindowBg", ImGuiCol_WindowBg},
-	{"ChildWindowBg", ImGuiCol_ChildWindowBg},
+	{"ChildBg", ImGuiCol_ChildBg},
 	{"PopupBg", ImGuiCol_PopupBg},
 	{"Border", ImGuiCol_Border},
 	{"BorderShadow", ImGuiCol_BorderShadow},
@@ -169,14 +169,13 @@ static std::map<std::string, ImGuiCol_> imguiColTable
 	{"FrameBgHovered", ImGuiCol_FrameBgHovered},
 	{"FrameBgActive", ImGuiCol_FrameBgActive},
 	{"TitleBg", ImGuiCol_TitleBg},
-	{"TitleBgCollapsed", ImGuiCol_TitleBgCollapsed},
 	{"TitleBgActive", ImGuiCol_TitleBgActive},
+	{"TitleBgCollapsed", ImGuiCol_TitleBgCollapsed},
 	{"MenuBarBg", ImGuiCol_MenuBarBg},
 	{"ScrollbarBg", ImGuiCol_ScrollbarBg},
 	{"ScrollbarGrab", ImGuiCol_ScrollbarGrab},
 	{"ScrollbarGrabHovered", ImGuiCol_ScrollbarGrabHovered},
 	{"ScrollbarGrabActive", ImGuiCol_ScrollbarGrabActive},
-	{"ComboBg", ImGuiCol_ComboBg},
 	{"CheckMark", ImGuiCol_CheckMark},
 	{"SliderGrab", ImGuiCol_SliderGrab},
 	{"SliderGrabActive", ImGuiCol_SliderGrabActive},
@@ -186,21 +185,21 @@ static std::map<std::string, ImGuiCol_> imguiColTable
 	{"Header", ImGuiCol_Header},
 	{"HeaderHovered", ImGuiCol_HeaderHovered},
 	{"HeaderActive", ImGuiCol_HeaderActive},
-	{"Column", ImGuiCol_Column},
-	{"ColumnHovered", ImGuiCol_ColumnHovered},
-	{"ColumnActive", ImGuiCol_ColumnActive},
+	{"Separator", ImGuiCol_Separator},
+	{"SeparatorHovered", ImGuiCol_SeparatorHovered},
+	{"SeparatorActive", ImGuiCol_SeparatorActive},
 	{"ResizeGrip", ImGuiCol_ResizeGrip},
 	{"ResizeGripHovered", ImGuiCol_ResizeGripHovered},
 	{"ResizeGripActive", ImGuiCol_ResizeGripActive},
-	{"CloseButton", ImGuiCol_CloseButton},
-	{"CloseButtonHovered", ImGuiCol_CloseButtonHovered},
-	{"CloseButtonActive", ImGuiCol_CloseButtonActive},
 	{"PlotLines", ImGuiCol_PlotLines},
 	{"PlotLinesHovered", ImGuiCol_PlotLinesHovered},
 	{"PlotHistogram", ImGuiCol_PlotHistogram},
 	{"PlotHistogramHovered", ImGuiCol_PlotHistogramHovered},
 	{"TextSelectedBg", ImGuiCol_TextSelectedBg},
-	{"ModalWindowDarkening", ImGuiCol_ModalWindowDarkening}
+	{"ModalWindowDarkening", ImGuiCol_ModalWindowDarkening},
+	{"DragDropTarget", ImGuiCol_DragDropTarget},
+	{"NavHighlight", ImGuiCol_NavHighlight},
+	{"NavWindowingHighlight", ImGuiCol_NavWindowingHighlight}
 };
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiCol_ &value) {
@@ -229,23 +228,26 @@ void pi_lua_generic_pull(lua_State *l, int index, ImGuiStyleVar_ &value) {
 
 static std::map<std::string, ImGuiWindowFlags_> imguiWindowFlagsTable
 = {
-	{ "NoTitleBar", ImGuiWindowFlags_NoTitleBar },
-	{ "NoResize", ImGuiWindowFlags_NoResize },
-	{ "NoMove", ImGuiWindowFlags_NoMove },
-	{ "NoScrollbar", ImGuiWindowFlags_NoScrollbar },
-	{ "NoScrollWithMouse", ImGuiWindowFlags_NoScrollWithMouse },
-	{ "NoCollapse", ImGuiWindowFlags_NoCollapse },
-	{ "AlwaysAutoResize", ImGuiWindowFlags_AlwaysAutoResize },
-	{ "ShowBorders", ImGuiWindowFlags_ShowBorders },
-	{ "NoSavedSettings", ImGuiWindowFlags_NoSavedSettings },
-	{ "NoInputs", ImGuiWindowFlags_NoInputs },
-	{ "MenuBar", ImGuiWindowFlags_MenuBar },
-	{ "HorizontalScrollbar", ImGuiWindowFlags_HorizontalScrollbar },
-	{ "NoFocusOnAppearing", ImGuiWindowFlags_NoFocusOnAppearing },
-	{ "NoBringToFrontOnFocus", ImGuiWindowFlags_NoBringToFrontOnFocus },
-	{ "AlwaysVerticalScrollbar", ImGuiWindowFlags_AlwaysVerticalScrollbar },
-	{ "AlwaysHorizontalScrollbar", ImGuiWindowFlags_AlwaysHorizontalScrollbar },
-	{ "AlwaysUseWindowPadding", ImGuiWindowFlags_AlwaysUseWindowPadding }
+	{"NoTitleBar", ImGuiWindowFlags_NoTitleBar},
+	{"NoResize", ImGuiWindowFlags_NoResize},
+	{"NoMove", ImGuiWindowFlags_NoMove},
+	{"NoScrollbar", ImGuiWindowFlags_NoScrollbar},
+	{"NoScrollWithMouse", ImGuiWindowFlags_NoScrollWithMouse},
+	{"NoCollapse", ImGuiWindowFlags_NoCollapse},
+	{"AlwaysAutoResize", ImGuiWindowFlags_AlwaysAutoResize},
+	{"NoSavedSettings", ImGuiWindowFlags_NoSavedSettings},
+	{"NoInputs", ImGuiWindowFlags_NoInputs},
+	{"MenuBar", ImGuiWindowFlags_MenuBar},
+	{"HorizontalScrollbar", ImGuiWindowFlags_HorizontalScrollbar},
+	{"NoFocusOnAppearing", ImGuiWindowFlags_NoFocusOnAppearing},
+	{"NoBringToFrontOnFocus", ImGuiWindowFlags_NoBringToFrontOnFocus},
+	{"AlwaysVerticalScrollbar", ImGuiWindowFlags_AlwaysVerticalScrollbar},
+	{"AlwaysHorizontalScrollbar", ImGuiWindowFlags_AlwaysHorizontalScrollbar},
+	{"AlwaysUseWindowPadding", ImGuiWindowFlags_AlwaysUseWindowPadding},
+	{"ResizeFromAnySide", ImGuiWindowFlags_ResizeFromAnySide},
+	{"NoNavInputs", ImGuiWindowFlags_NoNavInputs},
+	{"NoNavFocus", ImGuiWindowFlags_NoNavFocus},
+	{"NoNav", ImGuiWindowFlags_NoNav}
 };
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiWindowFlags_ &theflags) {
@@ -359,13 +361,13 @@ static int l_pigui_push_clip_rect_full_screen(lua_State *l) {
 
 static int l_pigui_set_next_window_pos(lua_State *l) {
 	ImVec2 pos = LuaPull<ImVec2>(l, 1);
-	int cond = LuaPull<ImGuiSetCond_>(l, 2);
+	int cond = LuaPull<ImGuiCond_>(l, 2);
 	ImGui::SetNextWindowPos(pos, cond);
 	return 0;
 }
 
 static int l_pigui_set_next_window_pos_center(lua_State *l) {
-	int cond = LuaPull<ImGuiSetCond_>(l, 1);
+	int cond = LuaPull<ImGuiCond_>(l, 1);
 	ImGui::SetNextWindowPosCenter(cond);
 	return 0;
 }
@@ -383,7 +385,7 @@ static int l_pigui_set_window_focus(lua_State *l) {
 
 static int l_pigui_set_next_window_size(lua_State *l) {
 	ImVec2 size = LuaPull<ImVec2>(l, 1);
-	int cond = LuaPull<ImGuiSetCond_>(l, 2);
+	int cond = LuaPull<ImGuiCond_>(l, 2);
 	ImGui::SetNextWindowSize(size, cond);
 	return 0;
 }
@@ -397,7 +399,7 @@ static int l_pigui_set_next_window_size_constraints(lua_State *l) {
 
 static int l_pigui_push_style_color(lua_State *l) {
 	int style = LuaPull<ImGuiCol_>(l, 1);
-	ImColor color = LuaPull<ImColor>(l, 2);
+	ImU32 color = LuaPull<ImColor>(l, 2);
 	ImGui::PushStyleColor(style, color);
 	return 0;
 }
@@ -1475,7 +1477,6 @@ static int l_pigui_add_convex_poly_filled(lua_State *l) {
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	LuaTable pnts(l, 1);
 	ImColor col = LuaPull<ImColor>(l, 2);
-	bool anti_aliased = LuaPull<bool>(l, 3);
 	std::vector<ImVec2> ps;
 	int i = 0;
 	double x = 0.0, y = 0.0;
@@ -1486,7 +1487,7 @@ static int l_pigui_add_convex_poly_filled(lua_State *l) {
 		} else
 			x = *iter;
 	}
-	draw_list->AddConvexPolyFilled(ps.data(), ps.size(), col, anti_aliased);
+	draw_list->AddConvexPolyFilled(ps.data(), ps.size(), col);
 	return 0;
 }
 

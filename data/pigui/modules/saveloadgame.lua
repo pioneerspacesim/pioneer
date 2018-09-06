@@ -121,7 +121,7 @@ local function savedGameWindow()
 	if ui.showSavedGameWindow then
 		ui.setNextWindowPosCenter('Always')
 		ui.withStyleColors({["WindowBg"] = Color(20, 20, 80, 230)}, function()
-			ui.window("LoadGame", {"NoTitleBar", "NoResize", "ShowBorders", "AlwaysAutoResize"}, function()
+			ui.window("LoadGame", {"NoTitleBar", "NoResize", "AlwaysAutoResize"}, function()
 				local mode
 				mode = ui.showSavedGameWindow == 'SAVE' and lui.SAVE or lui.LOAD
 				optionTextButton(mode, nil, selectedSave~=nil, closeAndLoadOrSave)
