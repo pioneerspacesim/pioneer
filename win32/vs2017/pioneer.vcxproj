@@ -406,6 +406,7 @@
     <ClCompile Include="..\..\src\HudTrail.cpp" />
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp" />
     <ClCompile Include="..\..\src\IniConfig.cpp" />
+    <ClCompile Include="..\..\src\Input.cpp" />
     <ClCompile Include="..\..\src\Intro.cpp" />
     <ClCompile Include="..\..\src\JobQueue.cpp" />
     <ClCompile Include="..\..\src\JsonUtils.cpp" />
@@ -426,6 +427,7 @@
     <ClCompile Include="..\..\src\LuaFormat.cpp" />
     <ClCompile Include="..\..\src\LuaGame.cpp" />
     <ClCompile Include="..\..\src\LuaHyperspaceCloud.cpp" />
+    <ClCompile Include="..\..\src\LuaInput.cpp" />
     <ClCompile Include="..\..\src\LuaLang.cpp" />
     <ClCompile Include="..\..\src\LuaManager.cpp" />
     <ClCompile Include="..\..\src\LuaMatrix.cpp" />
@@ -585,6 +587,7 @@
     <ClInclude Include="..\..\src\HudTrail.h" />
     <ClInclude Include="..\..\src\HyperspaceCloud.h" />
     <ClInclude Include="..\..\src\IniConfig.h" />
+    <ClInclude Include="..\..\src\Input.h" />
     <ClInclude Include="..\..\src\Intro.h" />
     <ClInclude Include="..\..\src\JobQueue.h" />
     <ClInclude Include="..\..\src\JsonUtils.h" />
@@ -601,6 +604,7 @@
     <ClInclude Include="..\..\src\LuaFixed.h" />
     <ClInclude Include="..\..\src\LuaFormat.h" />
     <ClInclude Include="..\..\src\LuaGame.h" />
+    <ClInclude Include="..\..\src\LuaInput.h" />
     <ClInclude Include="..\..\src\LuaLang.h" />
     <ClInclude Include="..\..\src\LuaManager.h" />
     <ClInclude Include="..\..\src\LuaMatrix.h" />

@@ -477,6 +477,12 @@
     <ClCompile Include="..\..\src\JsonUtils.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaInput.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Input.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -951,6 +957,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\JsonUtils.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Input.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaInput.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
