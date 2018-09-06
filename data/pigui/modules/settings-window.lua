@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import('Engine')
+local Input = import('Input')
 local Game = import('Game')
 local ui = import('pigui/pigui.lua')
 local Vector = import('Vector')
@@ -20,7 +21,7 @@ local pionillium = ui.fonts.pionillium
 
 local mainButtonSize = Vector(40,40) * (ui.screenHeight / 1200)
 local optionButtonSize = Vector(125,40) * (ui.screenHeight / 1200)
-local bindingButtonSize = Vector(135,25) * (ui.screenHeight / 1200)
+local bindingButtonSize = Vector(175,25) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
 
 local bindingPageFontSize = 36 * (ui.screenHeight / 1200)
@@ -170,7 +171,7 @@ local function showVideoOptions()
 	local enableAutoSave = Engine.GetAutosaveEnabled()
 	local starDensity = Engine.GetAmountStars() * 100
 
-
+	local c
 	ui.text(lui.VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY)
 
 	c,selectedVideoMode = combo(lui.VIDEO_RESOLUTION, selectedVideoMode,videoModeItems,lui.VIDEO_RESOLUTION_DESC)
@@ -274,7 +275,7 @@ local function captureBinding(id,num)
 
 	for _,page in pairs(binding_pages) do
 		for _,group in pairs(page) do
-			if group.label then
+			if group.id then
 				for _,i in pairs(group) do
 					if i.id == id then
 						info = i
@@ -287,10 +288,11 @@ local function captureBinding(id,num)
 	ui.setNextWindowPosCenter('Always')
 	ui.withStyleColors({["WindowBg"] = Color(20, 20, 80, 230)}, function()
 		ui.window("captureBinding", {"NoTitleBar", "NoResize", "ShowBorders"}, function()
-			ui.text(info.label)
+			-- TODO: localizations for binding IDs
+			ui.text(info.id)
 			ui.text(lui.PRESS_A_KEY_OR_CONTROLLER_BUTTON)
 
-			if info.type == 'KEY' then
+			if info.type == 'action' then
 				local desc
 				if num == 1 then desc = info.bindingDescription1
 				else desc = info.bindingDescription2 end
@@ -301,18 +303,34 @@ local function captureBinding(id,num)
 				local setBinding = false
 				if(bindingKey and num==1 and bindingKey~=info.binding1) or (bindingKey and num==2 and bindingKey~=info.binding2) then setBinding = true end
 
-				if setBinding and  num == 1 then Engine.SetKeyBinding(info.id, bindingKey, info.binding2)
-				elseif setBinding and num==2 then Engine.SetKeyBinding(info.id, info.binding1, bindingKey)
+				if setBinding and  num == 1 then Input.SetActionBinding(info.id, bindingKey, info.binding2)
+				elseif setBinding and num==2 then Input.SetActionBinding(info.id, info.binding1, bindingKey)
 				end
-			elseif info.type == "AXIS" then
+			elseif info.type == 'axis' then
 				local desc
-				desc = info.bindingDescription1 or '<None>'
+				if num == 1 then desc = info.axisDescription
+				elseif num == 2 then desc = info.positiveDescription
+				else desc = info.negativeDescription end
+				desc = desc or '<None>'
 				ui.text(desc)
 
-				local bindingAxis = Engine.pigui.GetAxisBinding()
+				if num == 1 then
+					local bindingAxis = Engine.pigui.GetAxisBinding()
 
-				if bindingAxis and bindingAxis~=info.binding1 then
-					Engine.SetKeyBinding(info.id, bindingAxis, info.binding2)
+					if bindingAxis and bindingAxis~=info.axis then
+						Input.SetAxisBinding(info.id, bindingAxis, info.positive, info.negative)
+					end
+				elseif num == 2 then
+					local bindingKey = Engine.pigui.GetKeyBinding()
+
+					if bindingKey and bindingKey ~= info.positive then
+						Input.SetAxisBinding(info.id, info.axis, bindingKey, info.negative)
+					end
+				else
+					local bindingKey = Engine.pigui.GetKeyBinding()
+					if bindingKey and bindingKey ~= info.negative then
+						Input.SetAxisBinding(info.id, info.axis, info.positive, bindingKey)
+					end
 				end
 			end
 
@@ -328,6 +346,8 @@ local function showSoundOptions()
 	local musicLevel = Engine.GetMusicVolume()*100
 	local effectsMuted = Engine.GetEffectsMuted()
 	local effectsLevel = Engine.GetEffectsVolume()*100
+
+	local c
 
 	c,masterMuted = checkbox(lui.MUTE.."##master", masterMuted)
 	if c then Engine.SetMasterMuted(masterMuted) end
@@ -369,12 +389,13 @@ local function showLanguageOptions()
 	end
 end
 
-local function keyBinding(info)
+local function actionBinding(info)
 	local bindings = { info.binding1, info.binding2 }
 	local descs = { info.bindingDescription1, info.bindingDescription2 }
 
 	ui.columns(3,"##bindings",false)
-	ui.text(info.label)
+	-- TODO: localizations for binding IDs
+	ui.text(info.id)
 	ui.nextColumn()
 	bindingTextButton((descs[1] or '')..'##'..info.id..'1', (descs[1] or ''), true, function()
 		showKeyCapture = true
@@ -391,14 +412,54 @@ local function keyBinding(info)
 end
 
 local function axisBinding(info)
-	local desc = info.bindingDescription1 or ''
-	ui.columns(3,"##bindings",false)
-	ui.text(info.label)
+	local bindings = { info.axis, info.positive, info.negative }
+	local descs = { info.axisDescription, info.positiveDescription, info.negativeDescription }
+	ui.columns(3,"##axisjoybindings",false)
+	-- TODO: localizations for binding IDs
+	ui.text(info.id)
 	ui.nextColumn()
-	bindingTextButton(desc, desc, true, function()
+	bindingTextButton((descs[1] or '')..'##'..info.id..'axis', (descs[1] or ''), true, function()
 		showKeyCapture = true
 		keyCaptureId = info.id
 		keyCaptureNum = 1
+	end)
+	ui.nextColumn()
+	if info.axis then
+		local c, inverted, deadzone, sensitivity = nil, info.axis:sub(1,1) == "-",
+			tonumber(info.axis:match"/DZ(%d+%.%d*)" or 0) * 100,
+			tonumber(info.axis:match"/E(%d+%.%d*)" or 1) * 100
+		local axis = info.axis:match("Joy[0-9a-f]+/Axis%d+")
+		local function set_axis()
+			local _ax = (inverted and "-" or "") .. axis .. "/DZ" .. deadzone / 100.0 .. "/E" .. sensitivity / 100.0
+			Input.SetAxisBinding(info.id, _ax, info.positive, info.negative)
+		end
+		-- TODO: localize this and find a better way to handle it.
+		c,inverted = ui.checkbox("Inverted##"..info.id, inverted, "Invert Axis")
+		set_axis()
+		ui.columns(3, "##axisinfo", false)
+		-- TODO: localize all of these
+		ui.text("Options:")
+		ui.nextColumn()
+		c, deadzone = slider("Deadzone##"..info.id, deadzone, 0, 100, "Axis Deadzone")
+		set_axis()
+		ui.nextColumn()
+		c,sensitivity = slider("Sensitivity##"..info.id, sensitivity, 0, 100, "Axis Sensitivity")
+		set_axis()
+	end
+	ui.columns(3,"##axiskeybindings",false)
+	-- TODO: translate this string
+	ui.text("Key Bindings:")
+	ui.nextColumn()
+	bindingTextButton((descs[2] or '')..'##'..info.id..'positive', (descs[2] or ''), true, function()
+		showKeyCapture = true
+		keyCaptureId = info.id
+		keyCaptureNum = 2
+	end)
+	ui.nextColumn()
+	bindingTextButton((descs[3] or '')..'##'..info.id..'negative', (descs[3] or ''), true, function()
+		showKeyCapture = true
+		keyCaptureId = info.id
+		keyCaptureNum = 3
 	end)
 	ui.columns(1,"",false)
 end
@@ -406,28 +467,30 @@ end
 local function showControlsOptions()
 	ui.text(lui.CONTROL_OPTIONS)
 
-	local mouseYInvert = Engine.GetMouseYInverted()
-	local joystickEnabled = Engine.GetJoystickEnabled()
-	binding_pages = Engine.GetKeyBindings()
+	local mouseYInvert = Input.GetMouseYInverted()
+	local joystickEnabled = Input.GetJoystickEnabled()
+	binding_pages = Input.GetBindings()
 	local c
 
 	c,mouseYInvert = checkbox(lui.INVERT_MOUSE_Y, mouseYInvert)
-	if c then Engine.SetMouseYInverted(mouseYInvert) end
+	if c then Input.SetMouseYInverted(mouseYInvert) end
 
 	c,joystickEnabled = checkbox(lui.ENABLE_JOYSTICK, joystickEnabled)
-	if c then Engine.SetJoystickEnabled(joystickEnabled) end
+	if c then Input.SetJoystickEnabled(joystickEnabled) end
 
-	for _,page in pairs(binding_pages) do
+	for _,page in ipairs(binding_pages) do
 		ui.separator()
-		ui.withFont(pionillium.medium.name, bindingPageFontSize, function() ui.text(page.label) end)
-		for _,group in pairs(page) do
-			if group.label then
+		-- TODO: localizations for page IDs
+		ui.withFont(pionillium.medium.name, bindingPageFontSize, function() ui.text(page.id) end)
+		for _,group in ipairs(page) do
+			if group.id then
 				ui.separator()
-				ui.withFont(pionillium.medium.name, bindingGroupFontSize, function() ui.text(group.label) end)
-				for _,info in pairs(group) do
-					if info.type == 'KEY' then
-						keyBinding(info)
-					elseif info.type == 'AXIS' then
+				-- TODO: localizations for group IDs
+				ui.withFont(pionillium.medium.name, bindingGroupFontSize, function() ui.text(group.id) end)
+				for _,info in ipairs(group) do
+					if info.type == 'action' then
+						actionBinding(info)
+					elseif info.type == 'axis' then
 						axisBinding(info)
 					end
 				end
@@ -481,7 +544,7 @@ local function optionsWindow()
 					ui.showOptionsWindow = false
 					if Game.player then
 						Game.SetTimeAcceleration("1x")
-						Engine.EnableBindings();
+						Input.EnableBindings();
 					end
 				end)
 
@@ -492,7 +555,7 @@ local function optionsWindow()
 					ui.sameLine()
 					optionTextButton(lui.END_GAME, nil, true, function()
 						ui.showOptionsWindow = false
-						Engine.EnableBindings();
+						Input.EnableBindings();
 						Game.EndGame()
 					end)
 				end

@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import('Engine')
+local Input = import('Input')
 local Game = import('Game')
 local ui = import('pigui')
 local Vector = import('Vector')
@@ -971,12 +972,11 @@ ui.registerHandler(
 			if not ui.showOptionsWindow then
 				Game.SetTimeAcceleration("paused")
 				ui.showOptionsWindow = true
-				Engine.DisableBindings();
+				Input.DisableBindings();
 			else
 				Game.SetTimeAcceleration("1x")
 				ui.showOptionsWindow = false
-				Engine.EnableBindings();
+				Input.EnableBindings();
 			end
 		end
 end)
-

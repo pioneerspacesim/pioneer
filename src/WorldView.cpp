@@ -143,7 +143,7 @@ void WorldView::InitObject()
 	m_onPlayerChangeTargetCon =
 		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
 	m_onMouseWheelCon =
-		Pi::onMouseWheel.connect(sigc::mem_fun(this, &WorldView::MouseWheel));
+		Pi::input.onMouseWheel.connect(sigc::mem_fun(this, &WorldView::MouseWheel));
 
 	Pi::player->GetPlayerController()->SetMouseForRearView(GetCamType() == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 	m_onToggleHudModeCon = KeyBindings::toggleHudMode.onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
@@ -220,7 +220,7 @@ void WorldView::ChangeFlightState()
 {
 	Pi::BoinkNoise();
 	static int newState = CONTROL_MANUAL;
-	if (Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL)) {
+	if (Pi::input.KeyState(SDLK_LCTRL) || Pi::input.KeyState(SDLK_RCTRL)) {
 		// skip certain states
 		switch (newState) {
 		case CONTROL_MANUAL: // fallthrough

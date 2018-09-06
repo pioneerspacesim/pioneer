@@ -13,6 +13,7 @@
 #include "Frame.h"
 #include "Game.h"
 #include "BaseSphere.h"
+#include "Input.h"
 #include "Intro.h"
 #include "Lang.h"
 #include "LuaComms.h"
@@ -24,6 +25,7 @@
 #include "LuaFileSystem.h"
 #include "LuaFormat.h"
 #include "LuaGame.h"
+#include "LuaInput.h"
 #include "LuaLang.h"
 #include "LuaManager.h"
 #include "LuaMissile.h"
@@ -52,6 +54,7 @@
 #include "Sfx.h"
 #include "ShipCpanel.h"
 #include "ShipType.h"
+#include "ShipController.h"
 #include "Sound.h"
 #include "SoundMusic.h"
 #include "Space.h"
@@ -103,11 +106,6 @@
 #endif
 
 float Pi::gameTickAlpha;
-sigc::signal<void, SDL_Keysym*> Pi::onKeyPress;
-sigc::signal<void, SDL_Keysym*> Pi::onKeyRelease;
-sigc::signal<void, int, int, int> Pi::onMouseButtonUp;
-sigc::signal<void, int, int, int> Pi::onMouseButtonDown;
-sigc::signal<void, bool> Pi::onMouseWheel;
 sigc::signal<void> Pi::onPlayerChangeTarget;
 sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 LuaSerializer *Pi::luaSerializer;
@@ -116,11 +114,7 @@ LuaNameGen *Pi::luaNameGen;
 #ifdef ENABLE_SERVER_AGENT
 ServerAgent *Pi::serverAgent;
 #endif
-int Pi::keyModState;
-std::map<SDL_Keycode,bool> Pi::keyState; // XXX SDL2 SDLK_LAST
-char Pi::mouseButton[6];
-int Pi::mouseMotion[2];
-bool Pi::doingMouseGrab = false;
+Input Pi::input;
 Player *Pi::player;
 View *Pi::currentView;
 TransferPlanner *Pi::planner;
@@ -128,6 +122,7 @@ LuaConsole *Pi::luaConsole;
 Game *Pi::game;
 Random Pi::rng;
 float Pi::frameTime;
+bool Pi::doingMouseGrab;
 #if WITH_DEVKEYS
 bool Pi::showDebugInfo = false;
 #endif
@@ -140,9 +135,6 @@ int Pi::statSceneTris = 0;
 int Pi::statNumPatches = 0;
 GameConfig *Pi::config;
 DetailLevel Pi::detail;
-bool Pi::joystickEnabled;
-bool Pi::mouseYInvert;
-std::map<SDL_JoystickID,Pi::JoystickState> Pi::joysticks;
 bool Pi::navTunnelDisplayed = false;
 bool Pi::speedLinesDisplayed = false;
 bool Pi::hudTrailsDisplayed = false;
@@ -295,6 +287,7 @@ static void LuaInit()
 	LuaConstants::Register(Lua::manager->GetLuaState());
 	LuaLang::Register();
 	LuaEngine::Register();
+	LuaInput::Register();
 	LuaFileSystem::Register();
 #ifdef ENABLE_SERVER_AGENT
 	LuaServerAgent::Register();
@@ -415,6 +408,13 @@ void TestGPUJobsSupport()
 	}
 }
 
+// TODO: make this a part of the class and/or improve the mechanism
+void RegisterInputBindings() {
+	PlayerShipController::RegisterInputBindings();
+
+
+}
+
 void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 {
 #ifdef PIONEER_PROFILER
@@ -509,14 +509,14 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Pi::rng.IncRefCount(); // so nothing tries to free it
 	Pi::rng.seed(time(0));
 
-	InitJoysticks();
+	input.Init();
+	input.onKeyPress.connect(sigc::ptr_fun(&Pi::HandleKeyDown));
 
 	// we can only do bindings once joysticks are initialised.
 	if (!no_gui) // This re-saves the config file. With no GUI we want to allow multiple instances in parallel.
 		KeyBindings::InitBindings();
 
-	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
-	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
+	RegisterInputBindings();
 
 	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
 	speedLinesDisplayed = (config->Int("SpeedLines")) ? true : false;
@@ -823,6 +823,209 @@ void Pi::OnChangeDetailLevel()
 	BaseSphere::OnChangeDetailLevel();
 }
 
+void Pi::HandleKeyDown(SDL_Keysym *key)
+{
+	if (key->sym == SDLK_ESCAPE) {
+		if (Pi::game) {
+			// only accessible once game started
+			HandleEscKey();
+		}
+		return;
+	}
+	const bool CTRL = input.KeyState(SDLK_LCTRL) || input.KeyState(SDLK_RCTRL);
+
+	// special keys.
+	if (CTRL) {
+		switch (key->sym) {
+			case SDLK_q: // Quit
+				if (Pi::game)
+					Pi::EndGame();
+				Pi::Quit();
+				break;
+			case SDLK_PRINTSCREEN: // print
+			case SDLK_KP_MULTIPLY: // screen
+			{
+				char buf[256];
+				const time_t t = time(0);
+				struct tm *_tm = localtime(&t);
+				strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.png", _tm);
+				Graphics::ScreendumpState sd;
+				Pi::renderer->Screendump(sd);
+				write_screenshot(sd, buf);
+				break;
+			}
+
+			case SDLK_SCROLLLOCK: // toggle video recording
+				Pi::isRecordingVideo = !Pi::isRecordingVideo;
+				if (Pi::isRecordingVideo) {
+					char videoName[256];
+					const time_t t = time(0);
+					struct tm *_tm = localtime(&t);
+					strftime(videoName, sizeof(videoName), "pioneer-%Y%m%d-%H%M%S", _tm);
+					const std::string dir = "videos";
+					FileSystem::userFiles.MakeDirectory(dir);
+					const std::string fname = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot() + "/" + dir, videoName);
+					Output("Video Recording started to %s.\n", fname.c_str());
+					// start ffmpeg telling it to expect raw rgba 720p-60hz frames
+					// -i - tells it to read frames from stdin
+					// if given no frame rate (-r 60), it will just use vfr
+					char cmd[256] = { 0 };
+					snprintf(cmd, sizeof(cmd), "ffmpeg -f rawvideo -pix_fmt rgba -s %dx%d -i - -threads 0 -preset fast -y -pix_fmt yuv420p -crf 21 -vf vflip %s.mp4", config->Int("ScrWidth"), config->Int("ScrHeight"), fname.c_str());
+
+					// open pipe to ffmpeg's stdin in binary write mode
+#if defined(_MSC_VER) || defined(__MINGW32__)
+					Pi::ffmpegFile = _popen(cmd, "wb");
+#else
+					Pi::ffmpegFile = _popen(cmd, "w");
+#endif
+				} else {
+					Output("Video Recording ended.\n");
+					if (Pi::ffmpegFile != nullptr) {
+						_pclose(Pi::ffmpegFile);
+						Pi::ffmpegFile = nullptr;
+					}
+				}
+				break;
+#if WITH_DEVKEYS
+			case SDLK_i: // Toggle Debug info
+				Pi::showDebugInfo = !Pi::showDebugInfo;
+				break;
+
+#ifdef PIONEER_PROFILER
+			case SDLK_p: // alert it that we want to profile
+				if (input.KeyState(SDLK_LSHIFT) || input.KeyState(SDLK_RSHIFT))
+					Pi::doProfileOne = true;
+				else {
+					Pi::doProfileSlow = !Pi::doProfileSlow;
+					Output("slow frame profiling %s\n", Pi::doProfileSlow ? "enabled" : "disabled");
+				}
+				break;
+#endif
+
+			case SDLK_F12:
+			{
+				if(Pi::game) {
+					vector3d dir = -Pi::player->GetOrient().VectorZ();
+					/* add test object */
+					if (input.KeyState(SDLK_RSHIFT)) {
+						Missile *missile =
+							new Missile(ShipType::MISSILE_GUIDED, Pi::player);
+						missile->SetOrient(Pi::player->GetOrient());
+						missile->SetFrame(Pi::player->GetFrame());
+						missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
+						missile->SetVelocity(Pi::player->GetVelocity());
+						game->GetSpace()->AddBody(missile);
+						missile->AIKamikaze(Pi::player->GetCombatTarget());
+					} else if (input.KeyState(SDLK_LSHIFT)) {
+						SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
+						if (s) {
+							Ship *ship = new Ship(ShipType::POLICE);
+							int port = s->GetFreeDockingPort(ship);
+							if (port != -1) {
+								Output("Putting ship into station\n");
+								// Make police ship intent on killing the player
+								ship->AIKill(Pi::player);
+								ship->SetFrame(Pi::player->GetFrame());
+								ship->SetDockedWith(s, port);
+								game->GetSpace()->AddBody(ship);
+							} else {
+								delete ship;
+								Output("No docking ports free dude\n");
+							}
+						} else {
+								Output("Select a space station...\n");
+						}
+					} else {
+						Ship *ship = new Ship(ShipType::POLICE);
+						if( !input.KeyState(SDLK_LALT)) { //Left ALT = no AI
+							if( !input.KeyState(SDLK_LCTRL) )
+								ship->AIFlyTo(Pi::player);	// a less lethal option
+							else
+								ship->AIKill(Pi::player);	// a really lethal option!
+						}
+						lua_State *l = Lua::manager->GetLuaState();
+						pi_lua_import(l, "Equipment");
+						LuaTable equip(l, -1);
+						LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("laser").Sub("pulsecannon_dual_1mw"));
+						LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("misc").Sub("laser_cooling_booster"));
+						LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("misc").Sub("atmospheric_shielding"));
+						lua_pop(l, 5);
+						ship->SetFrame(Pi::player->GetFrame());
+						ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
+						ship->SetVelocity(Pi::player->GetVelocity());
+						ship->UpdateEquipStats();
+						game->GetSpace()->AddBody(ship);
+					}
+				}
+				break;
+			}
+#endif /* DEVKEYS */
+#if WITH_OBJECTVIEWER
+			case SDLK_F10:
+				Pi::SetView(Pi::game->GetObjectViewerView());
+				break;
+#endif
+			case SDLK_F11:
+				// XXX only works on X11
+				//SDL_WM_ToggleFullScreen(Pi::scrSurface);
+#if WITH_DEVKEYS
+				renderer->ReloadShaders();
+#endif
+				break;
+			case SDLK_F9: // Quicksave
+			{
+				if(Pi::game) {
+					if (Pi::game->IsHyperspace())
+						Pi::game->log->Add(Lang::CANT_SAVE_IN_HYPERSPACE);
+
+					else {
+						const std::string name = "_quicksave";
+						const std::string path = FileSystem::JoinPath(GetSaveDir(), name);
+						try {
+							Game::SaveGame(name, Pi::game);
+							Pi::game->log->Add(Lang::GAME_SAVED_TO + path);
+						} catch (CouldNotOpenFileException) {
+							Pi::game->log->Add(stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path)));
+						}
+						catch (CouldNotWriteToFileException) {
+							Pi::game->log->Add(Lang::GAME_SAVE_CANNOT_WRITE);
+						}
+					}
+				}
+				break;
+			}
+			default:
+				break; // This does nothing but it stops the compiler warnings
+		}
+	}
+}
+
+void Pi::HandleEscKey() {
+	if (currentView != 0) {
+		if (currentView == Pi::game->GetSectorView()) {
+			SetView(Pi::game->GetWorldView());
+		}
+		else if ((currentView == Pi::game->GetSystemView()) || (currentView == Pi::game->GetSystemInfoView())) {
+			SetView(Pi::game->GetSectorView());
+		}
+		else {
+			UIView* view = dynamic_cast<UIView*>(currentView);
+			if (view) {
+				// checks the template name
+				const char* tname = view->GetTemplateName();
+				if(tname) {
+					if (!strcmp(tname, "GalacticView")) {
+						SetView(Pi::game->GetSectorView());
+					}
+					else if (!strcmp(tname, "InfoView") || !strcmp(tname, "StationView")) {
+						SetView(Pi::game->GetWorldView());
+					}
+				}
+			}
+		}
+	}
+}
+
 void Pi::HandleEvents()
 {
 	PROFILE_SCOPED()
@@ -838,7 +1041,7 @@ void Pi::HandleEvents()
 	// unified input system
 	bool skipTextInput = false;
 
-	Pi::mouseMotion[0] = Pi::mouseMotion[1] = 0;
+	Pi::input.mouseMotion[0] = Pi::input.mouseMotion[1] = 0;
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_QUIT) {
 			if (Pi::game)
@@ -891,257 +1094,7 @@ void Pi::HandleEvents()
 			continue;
 
 		Gui::HandleSDLEvent(&event);
-
-		switch (event.type) {
-			case SDL_KEYDOWN:
-				if (event.key.keysym.sym == SDLK_ESCAPE) {
-					if (Pi::game) {
-						// only accessible once game started
-						HandleEscKey();
-					}
-					break;
-				}
-				// special keys. LCTRL+turd
-				if ((KeyState(SDLK_LCTRL) || (KeyState(SDLK_RCTRL)))) {
-					switch (event.key.keysym.sym) {
-						case SDLK_q: // Quit
-							if (Pi::game)
-								Pi::EndGame();
-							Pi::Quit();
-							break;
-						case SDLK_PRINTSCREEN: // print
-						case SDLK_KP_MULTIPLY: // screen
-						{
-							char buf[256];
-							const time_t t = time(0);
-							struct tm *_tm = localtime(&t);
-							strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.png", _tm);
-							Graphics::ScreendumpState sd;
-							Pi::renderer->Screendump(sd);
-							write_screenshot(sd, buf);
-							break;
-						}
-
-						case SDLK_SCROLLLOCK: // toggle video recording
-							Pi::isRecordingVideo = !Pi::isRecordingVideo;
-							if (Pi::isRecordingVideo) {
-								char videoName[256];
-								const time_t t = time(0);
-								struct tm *_tm = localtime(&t);
-								strftime(videoName, sizeof(videoName), "pioneer-%Y%m%d-%H%M%S", _tm);
-								const std::string dir = "videos";
-								FileSystem::userFiles.MakeDirectory(dir);
-								const std::string fname = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot() + "/" + dir, videoName);
-								Output("Video Recording started to %s.\n", fname.c_str());
-								// start ffmpeg telling it to expect raw rgba 720p-60hz frames
-								// -i - tells it to read frames from stdin
-								// if given no frame rate (-r 60), it will just use vfr
-								char cmd[256] = { 0 };
-								snprintf(cmd, sizeof(cmd), "ffmpeg -f rawvideo -pix_fmt rgba -s %dx%d -i - -threads 0 -preset fast -y -pix_fmt yuv420p -crf 21 -vf vflip %s.mp4", config->Int("ScrWidth"), config->Int("ScrHeight"), fname.c_str());
-
-								// open pipe to ffmpeg's stdin in binary write mode
-#if defined(_MSC_VER) || defined(__MINGW32__)
-								Pi::ffmpegFile = _popen(cmd, "wb");
-#else
-								Pi::ffmpegFile = _popen(cmd, "w");
-#endif
-							} else {
-								Output("Video Recording ended.\n");
-								if (Pi::ffmpegFile != nullptr) {
-									_pclose(Pi::ffmpegFile);
-									Pi::ffmpegFile = nullptr;
-								}
-							}
-							break;
-#if WITH_DEVKEYS
-						case SDLK_i: // Toggle Debug info
-							Pi::showDebugInfo = !Pi::showDebugInfo;
-							break;
-
-#ifdef PIONEER_PROFILER
-						case SDLK_p: // alert it that we want to profile
-							if (KeyState(SDLK_LSHIFT) || KeyState(SDLK_RSHIFT))
-								Pi::doProfileOne = true;
-							else {
-								Pi::doProfileSlow = !Pi::doProfileSlow;
-								Output("slow frame profiling %s\n", Pi::doProfileSlow ? "enabled" : "disabled");
-							}
-							break;
-#endif
-
-						case SDLK_F12:
-						{
-							if(Pi::game) {
-								vector3d dir = -Pi::player->GetOrient().VectorZ();
-								/* add test object */
-								if (KeyState(SDLK_RSHIFT)) {
-									Missile *missile =
-										new Missile(ShipType::MISSILE_GUIDED, Pi::player);
-									missile->SetOrient(Pi::player->GetOrient());
-									missile->SetFrame(Pi::player->GetFrame());
-									missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
-									missile->SetVelocity(Pi::player->GetVelocity());
-									game->GetSpace()->AddBody(missile);
-									missile->AIKamikaze(Pi::player->GetCombatTarget());
-								} else if (KeyState(SDLK_LSHIFT)) {
-									SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
-									if (s) {
-										Ship *ship = new Ship(ShipType::POLICE);
-										int port = s->GetFreeDockingPort(ship);
-										if (port != -1) {
-											Output("Putting ship into station\n");
-											// Make police ship intent on killing the player
-											ship->AIKill(Pi::player);
-											ship->SetFrame(Pi::player->GetFrame());
-											ship->SetDockedWith(s, port);
-											game->GetSpace()->AddBody(ship);
-										} else {
-											delete ship;
-											Output("No docking ports free dude\n");
-										}
-									} else {
-											Output("Select a space station...\n");
-									}
-								} else {
-									Ship *ship = new Ship(ShipType::POLICE);
-									if( !KeyState(SDLK_LALT)) { //Left ALT = no AI
-										if( !KeyState(SDLK_LCTRL) )
-											ship->AIFlyTo(Pi::player);	// a less lethal option
-										else
-											ship->AIKill(Pi::player);	// a really lethal option!
-									}
-									lua_State *l = Lua::manager->GetLuaState();
-									pi_lua_import(l, "Equipment");
-									LuaTable equip(l, -1);
-									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("laser").Sub("pulsecannon_dual_1mw"));
-									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("misc").Sub("laser_cooling_booster"));
-									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("misc").Sub("atmospheric_shielding"));
-									lua_pop(l, 5);
-									ship->SetFrame(Pi::player->GetFrame());
-									ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
-									ship->SetVelocity(Pi::player->GetVelocity());
-									ship->UpdateEquipStats();
-									game->GetSpace()->AddBody(ship);
-								}
-							}
-							break;
-						}
-#endif /* DEVKEYS */
-#if WITH_OBJECTVIEWER
-						case SDLK_F10:
-							Pi::SetView(Pi::game->GetObjectViewerView());
-							break;
-#endif
-						case SDLK_F11:
-							// XXX only works on X11
-							//SDL_WM_ToggleFullScreen(Pi::scrSurface);
-#if WITH_DEVKEYS
-							renderer->ReloadShaders();
-#endif
-							break;
-						case SDLK_F9: // Quicksave
-						{
-							if(Pi::game) {
-								if (Pi::game->IsHyperspace())
-									Pi::game->log->Add(Lang::CANT_SAVE_IN_HYPERSPACE);
-
-								else {
-									const std::string name = "_quicksave";
-									const std::string path = FileSystem::JoinPath(GetSaveDir(), name);
-									try {
-										Game::SaveGame(name, Pi::game);
-										Pi::game->log->Add(Lang::GAME_SAVED_TO + path);
-									} catch (CouldNotOpenFileException) {
-										Pi::game->log->Add(stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path)));
-									}
-									catch (CouldNotWriteToFileException) {
-										Pi::game->log->Add(Lang::GAME_SAVE_CANNOT_WRITE);
-									}
-								}
-							}
-							break;
-						}
-						default:
-							break; // This does nothing but it stops the compiler warnings
-					}
-				}
-				Pi::keyState[event.key.keysym.sym] = true;
-				Pi::keyModState = event.key.keysym.mod;
-				Pi::onKeyPress.emit(&event.key.keysym);
-				break;
-			case SDL_KEYUP:
-				Pi::keyState[event.key.keysym.sym] = false;
-				Pi::keyModState = event.key.keysym.mod;
-				Pi::onKeyRelease.emit(&event.key.keysym);
-				break;
-			case SDL_MOUSEBUTTONDOWN:
-				if (event.button.button < COUNTOF(Pi::mouseButton)) {
-					Pi::mouseButton[event.button.button] = 1;
-					Pi::onMouseButtonDown.emit(event.button.button,
-							event.button.x, event.button.y);
-				}
-				break;
-			case SDL_MOUSEBUTTONUP:
-				if (event.button.button < COUNTOF(Pi::mouseButton)) {
-					Pi::mouseButton[event.button.button] = 0;
-					Pi::onMouseButtonUp.emit(event.button.button,
-							event.button.x, event.button.y);
-				}
-				break;
-			case SDL_MOUSEWHEEL:
-				Pi::onMouseWheel.emit(event.wheel.y > 0); // true = up
-				break;
-			case SDL_MOUSEMOTION:
-				Pi::mouseMotion[0] += event.motion.xrel;
-				Pi::mouseMotion[1] += event.motion.yrel;
-		//		SDL_GetRelativeMouseState(&Pi::mouseMotion[0], &Pi::mouseMotion[1]);
-				break;
-			case SDL_JOYAXISMOTION:
-				if (!joysticks[event.jaxis.which].joystick)
-					break;
-				if (event.jaxis.value == -32768)
-					joysticks[event.jaxis.which].axes[event.jaxis.axis] = 1.f;
-				else
-					joysticks[event.jaxis.which].axes[event.jaxis.axis] = -event.jaxis.value / 32767.f;
-				break;
-			case SDL_JOYBUTTONUP:
-			case SDL_JOYBUTTONDOWN:
-				if (!joysticks[event.jaxis.which].joystick)
-					break;
-				joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state != 0;
-				break;
-			case SDL_JOYHATMOTION:
-				if (!joysticks[event.jaxis.which].joystick)
-					break;
-				joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
-				break;
-		}
-	}
-}
-
-void Pi::HandleEscKey() {
-	if (currentView != 0) {
-		if (currentView == Pi::game->GetSectorView()) {
-			SetView(Pi::game->GetWorldView());
-		}
-		else if ((currentView == Pi::game->GetSystemView()) || (currentView == Pi::game->GetSystemInfoView())) {
-			SetView(Pi::game->GetSectorView());
-		}
-		else {
-			UIView* view = dynamic_cast<UIView*>(currentView);
-			if (view) {
-				// checks the template name
-				const char* tname = view->GetTemplateName();
-				if(tname) {
-					if (!strcmp(tname, "GalacticView")) {
-						SetView(Pi::game->GetSectorView());
-					}
-					else if (!strcmp(tname, "InfoView") || !strcmp(tname, "StationView")) {
-						SetView(Pi::game->GetWorldView());
-					}
-				}
-			}
-		}
+		input.HandleSDLEvent(event);
 	}
 }
 
@@ -1168,7 +1121,7 @@ void Pi::TombStoneLoop()
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
-	} while (!((_time > 2.0) && ((Pi::MouseButtonState(SDL_BUTTON_LEFT)) || Pi::KeyState(SDLK_SPACE)) ));
+	} while (!((_time > 2.0) && ((input.MouseButtonState(SDL_BUTTON_LEFT)) || input.KeyState(SDLK_SPACE)) ));
 }
 
 void Pi::InitGame()
@@ -1176,17 +1129,7 @@ void Pi::InitGame()
 	// this is a bit brittle. skank may be forgotten and survive between
 	// games
 
-	//reset input states
-	keyState.clear();
-	keyModState = 0;
-	std::fill(mouseButton, mouseButton + COUNTOF(mouseButton), 0);
-	std::fill(mouseMotion, mouseMotion + COUNTOF(mouseMotion), 0);
-	for (std::map<SDL_JoystickID,JoystickState>::iterator stick = joysticks.begin(); stick != joysticks.end(); ++stick) {
-		JoystickState &state = stick->second;
-		std::fill(state.buttons.begin(), state.buttons.end(), false);
-		std::fill(state.hats.begin(), state.hats.end(), 0);
-		std::fill(state.axes.begin(), state.axes.end(), 0.f);
-	}
+	input.InitGame();
 
 	if (!config->Int("DisableSound")) AmbientSounds::Init();
 
@@ -1263,6 +1206,7 @@ void Pi::Start(const int& startPlanet)
 					}
 				}
 
+#if 0 // Moved to Input::HandleSDLEvent, can be deleted when confirmed working
 				// joystick stuff for the options window
 				switch (event.type) {
 				case SDL_JOYAXISMOTION:
@@ -1286,7 +1230,9 @@ void Pi::Start(const int& startPlanet)
 					break;
 				default: break;
 				}
+#endif
 				ui->DispatchSDLEvent(event);
+				input.HandleSDLEvent(event);
 			}
 			// XXX hack
 			// if we hit our exit conditions then ignore further queued events
@@ -1430,7 +1376,7 @@ void Pi::MainLoop()
 		}
 		frame_stat++;
 
-		// fuckadoodledoo, did the player die?
+		// did the player die?
 		if (Pi::player->IsDead()) {
 			if (time_player_died > 0.0) {
 				if (Pi::game->GetTime() - time_player_died > 8.0) {
@@ -1463,7 +1409,7 @@ void Pi::MainLoop()
 		currentView->Draw3D();
 
 		// hide cursor for ship control. Do this before imgui runs, to prevent the mouse pointer from jumping
-		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT) | Pi::MouseButtonState(SDL_BUTTON_MIDDLE));
+		Pi::SetMouseGrab(input.MouseButtonState(SDL_BUTTON_RIGHT) | input.MouseButtonState(SDL_BUTTON_MIDDLE));
 
 		// XXX HandleEvents at the moment must be after view->Draw3D and before
 		// Gui::Draw so that labels drawn to screen can have mouse events correctly
@@ -1638,96 +1584,11 @@ void Pi::MainLoop()
 	}
 }
 
-void Pi::InitJoysticks() {
-	int joy_count = SDL_NumJoysticks();
-	for (int n = 0; n < joy_count; n++) {
-		JoystickState state;
-
-		state.joystick = SDL_JoystickOpen(n);
-		if (!state.joystick) {
-			Output("SDL_JoystickOpen(%i): %s\n", n, SDL_GetError());
-			continue;
-		}
-		state.guid = SDL_JoystickGetGUID(state.joystick);
-		state.axes.resize(SDL_JoystickNumAxes(state.joystick));
-		state.buttons.resize(SDL_JoystickNumButtons(state.joystick));
-		state.hats.resize(SDL_JoystickNumHats(state.joystick));
-
-		SDL_JoystickID joyID = SDL_JoystickInstanceID(state.joystick);
-		joysticks[joyID] = state;
-	}
-}
-
-std::string Pi::JoystickName(int joystick) {
-	return std::string(SDL_JoystickName(joysticks[joystick].joystick));
-}
-
-std::string Pi::JoystickGUIDString(int joystick) {
-	const int guidBufferLen = 33; // as documented by SDL
-	char	guidBuffer[guidBufferLen];
-
-	SDL_JoystickGetGUIDString(joysticks[joystick].guid, guidBuffer, guidBufferLen);
-	return std::string(guidBuffer);
-}
-
-// conveniance version of JoystickFromGUID below that handles the string mangling.
-int Pi::JoystickFromGUIDString(const std::string &guid) {
-	return Pi::JoystickFromGUIDString(guid.c_str());
-}
-
-// conveniance version of JoystickFromGUID below that handles the string mangling.
-int Pi::JoystickFromGUIDString(const char *guid) {
-	return Pi::JoystickFromGUID(SDL_JoystickGetGUIDFromString(guid));
-}
-
-// return the internal ID of the stated joystick guid.
-// returns -1 if we couldn't find the joystick in question.
-int Pi::JoystickFromGUID(SDL_JoystickGUID guid) {
-	const int guidLength = 16; // as defined
-	for (std::map<SDL_JoystickID, JoystickState>::iterator stick = joysticks.begin(); stick != joysticks.end(); ++stick) {
-		JoystickState &state = stick->second;
-		if (0 == memcmp(state.guid.data, guid.data, guidLength)) {
-			return static_cast<int>(stick->first);
-		}
-	}
-	return -1;
-}
-
-SDL_JoystickGUID Pi::JoystickGUID(int joystick) {
-	return joysticks[joystick].guid;
-}
-
-int Pi::JoystickButtonState(int joystick, int button) {
-	if (!joystickEnabled) return 0;
-	if (joystick < 0 || joystick >= int(joysticks.size()))
-		return 0;
-
-	if (button < 0 || button >= int(joysticks[joystick].buttons.size()))
-		return 0;
-
-	return joysticks[joystick].buttons[button];
-}
-
-int Pi::JoystickHatState(int joystick, int hat) {
-	if (!joystickEnabled) return 0;
-	if (joystick < 0 || joystick >= int(joysticks.size()))
-		return 0;
-
-	if (hat < 0 || hat >= int(joysticks[joystick].hats.size()))
-		return 0;
-
-	return joysticks[joystick].hats[hat];
-}
-
-float Pi::JoystickAxisState(int joystick, int axis) {
-	if (!joystickEnabled) return 0;
-	if (joystick < 0 || joystick >= int(joysticks.size()))
-		return 0;
-
-	if (axis < 0 || axis >= int(joysticks[joystick].axes.size()))
-		return 0;
-
-	return joysticks[joystick].axes[axis];
+float Pi::GetMoveSpeedShiftModifier() {
+	// Suggestion: make x1000 speed on pressing both keys?
+	if (input.KeyState(SDLK_LSHIFT)) return 100.f;
+	if (input.KeyState(SDLK_RSHIFT)) return 10.f;
+	return 1;
 }
 
 void Pi::SetMouseGrab(bool on)
@@ -1742,13 +1603,6 @@ void Pi::SetMouseGrab(bool on)
 		Pi::ui->SetMousePointerEnabled(true);
 		doingMouseGrab = false;
 	}
-}
-
-float Pi::GetMoveSpeedShiftModifier() {
-	// Suggestion: make x1000 speed on pressing both keys?
-	if (Pi::KeyState(SDLK_LSHIFT)) return 100.f;
-	if (Pi::KeyState(SDLK_RSHIFT)) return 10.f;
-	return 1;
 }
 
 void Pi::DrawPiGui(double delta, std::string handler) {

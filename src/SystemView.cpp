@@ -387,7 +387,7 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 	Add(b, time_controls_left + 121, time_controls_top);
 
 	m_onMouseWheelCon =
-		Pi::onMouseWheel.connect(sigc::mem_fun(this, &SystemView::MouseWheel));
+		Pi::input.onMouseWheel.connect(sigc::mem_fun(this, &SystemView::MouseWheel));
 
 	Graphics::TextureBuilder b1 = Graphics::TextureBuilder::UI("icons/periapsis.png");
 	m_periapsisIcon.reset(new Gui::TexturedQuad(b1.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
@@ -866,10 +866,10 @@ void SystemView::Update()
 	const float ft = Pi::GetFrameTime();
 	// XXX ugly hack checking for console here
 	if (!Pi::IsConsoleActive()) {
-		if (Pi::KeyState(SDLK_EQUALS) ||
+		if (Pi::input.KeyState(SDLK_EQUALS) ||
 			m_zoomInButton->IsPressed())
 				m_zoomTo *= pow(ZOOM_IN_SPEED * Pi::GetMoveSpeedShiftModifier(), ft);
-		if (Pi::KeyState(SDLK_MINUS) ||
+		if (Pi::input.KeyState(SDLK_MINUS) ||
 			m_zoomOutButton->IsPressed())
 				m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), ft);
 
@@ -899,9 +899,9 @@ void SystemView::Update()
 	m_zoom = Clamp(m_zoom, MIN_ZOOM, MAX_ZOOM);
 	AnimationCurves::Approach(m_zoom, m_zoomTo, ft);
 
-	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
+	if (Pi::input.MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int motion[2];
-		Pi::GetMouseMotion(motion);
+		Pi::input.GetMouseMotion(motion);
 		m_rot_x += motion[1]*20*ft;
 		m_rot_z += motion[0]*20*ft;
 	}

@@ -51,6 +51,7 @@ noinst_HEADERS = \
 	HudTrail.h \
 	HyperspaceCloud.h \
 	IniConfig.h \
+  Input.h \
 	Intro.h \
 	IterationProxy.h \
 	JobQueue.h \
@@ -70,6 +71,7 @@ noinst_HEADERS = \
 	LuaFileSystem.h \
 	LuaFormat.h \
 	LuaGame.h \
+	LuaInput.h \
 	LuaLang.h \
 	LuaMatrix.h \
 	LuaVector.h \
@@ -199,6 +201,7 @@ pioneer_SOURCES	= \
 	HudTrail.cpp \
 	HyperspaceCloud.cpp \
 	IniConfig.cpp \
+  Input.cpp \
 	Intro.cpp \
 	JobQueue.cpp \
 	JsonUtils.cpp \
@@ -219,6 +222,7 @@ pioneer_SOURCES	= \
 	LuaFormat.cpp \
 	LuaGame.cpp \
 	LuaHyperspaceCloud.cpp \
+  LuaInput.cpp \
 	LuaLang.cpp \
 	LuaMatrix.cpp \
 	LuaVector.cpp \

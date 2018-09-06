@@ -6,6 +6,7 @@
 
 #include "utils.h"
 #include "gui/Gui.h"
+#include "Input.h"
 #include "Random.h"
 #include "gameconsts.h"
 #include "GameConfig.h"
@@ -70,41 +71,23 @@ public:
 	static void Quit() __attribute((noreturn));
 	static float GetFrameTime() { return frameTime; }
 	static float GetGameTickAlpha() { return gameTickAlpha; }
-	static bool KeyState(SDL_Keycode k) { return keyState[k]; }
-	static int KeyModState() { return keyModState; }
+
 	static bool IsConsoleActive();
-	static int JoystickButtonState(int joystick, int button);
-	static int JoystickHatState(int joystick, int hat);
-	static float JoystickAxisState(int joystick, int axis);
-	static bool IsJoystickEnabled() { return joystickEnabled; }
-	static void SetJoystickEnabled(bool state) { joystickEnabled = state; }
-	// User display name for the joystick from the API/OS.
-	static std::string JoystickName(int joystick);
-	static std::string JoystickGUIDString(int joystick);
-	// reverse map a JoystickGUID to the actual internal ID.
-	static int JoystickFromGUIDString(const std::string &guid);
-	static int JoystickFromGUIDString(const char *guid);
-	static int JoystickFromGUID(SDL_JoystickGUID guid);
-	// fetch the GUID for the named joystick
-	static SDL_JoystickGUID JoystickGUID(int joystick);
-	static void SetMouseYInvert(bool state) { mouseYInvert = state; }
-	static bool IsMouseYInvert() { return mouseYInvert; }
+
 	static bool IsNavTunnelDisplayed() { return navTunnelDisplayed; }
 	static void SetNavTunnelDisplayed(bool state) { navTunnelDisplayed = state; }
 	static bool AreSpeedLinesDisplayed() { return speedLinesDisplayed; }
 	static void SetSpeedLinesDisplayed(bool state) { speedLinesDisplayed = state; }
 	static bool AreHudTrailsDisplayed() { return hudTrailsDisplayed; }
 	static void SetHudTrailsDisplayed(bool state) { hudTrailsDisplayed = state; }
-	static int MouseButtonState(int button) { return mouseButton[button]; }
-	static void SetMouseButtonState(int button, bool state) { mouseButton[button] = state; }
-	// Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
-	// This is a default value only, centralized here to promote uniform user expericience.
-	static float GetMoveSpeedShiftModifier();
-	static void GetMouseMotion(int motion[2]) {
-		memcpy(motion, mouseMotion, sizeof(int)*2);
-	}
+
 	static void SetMouseGrab(bool on);
 	static bool DoingMouseGrab() { return doingMouseGrab; }
+
+    // Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
+	// This is a default value only, centralized here to promote uniform user expericience.
+	static float GetMoveSpeedShiftModifier();
+
 	static void BoinkNoise();
 	static std::string GetSaveDir();
 	static SceneGraph::Model *FindModel(const std::string&, bool allowPlaceholder = true);
@@ -116,11 +99,6 @@ public:
 
 	static const char SAVE_DIR_NAME[];
 
-	static sigc::signal<void, SDL_Keysym*> onKeyPress;
-	static sigc::signal<void, SDL_Keysym*> onKeyRelease;
-	static sigc::signal<void, int, int, int> onMouseButtonUp;
-	static sigc::signal<void, int, int, int> onMouseButtonDown;
-	static sigc::signal<void, bool> onMouseWheel;
 	static sigc::signal<void> onPlayerChangeTarget; // navigation or combat
 	static sigc::signal<void> onPlayerChangeFlightControlState;
 
@@ -161,6 +139,7 @@ public:
 	static bool doProfileOne;
 #endif
 
+	static Input input;
 	static Player *player;
 	static TransferPlanner *planner;
 	static LuaConsole *luaConsole;
@@ -181,11 +160,10 @@ public:
 	static bool DrawGUI;
 
 private:
+	static void HandleKeyDown(SDL_Keysym *key);
 	static void HandleEvents();
 	// Handler for ESC key press
 	static void HandleEscKey();
-	static void InitJoysticks();
-
 	static const Uint32 SYNC_JOBS_PER_LOOP = 1;
 	static std::unique_ptr<AsyncJobQueue> asyncJobQueue;
 	static std::unique_ptr<SyncJobQueue> syncJobQueue;
@@ -200,22 +178,7 @@ private:
 	  */
 	static float gameTickAlpha;
 	static float frameTime;
-	static std::map<SDL_Keycode,bool> keyState;
-	static int keyModState;
-	static char mouseButton[6];
-	static int mouseMotion[2];
-	static bool doingMouseGrab;
 
-	static bool joystickEnabled;
-	static bool mouseYInvert;
-	struct JoystickState {
-		SDL_Joystick *joystick;
-		SDL_JoystickGUID guid;
-		std::vector<bool> buttons;
-		std::vector<int> hats;
-		std::vector<float> axes;
-	};
-	static std::map<SDL_JoystickID,JoystickState> joysticks;
 	static Sound::MusicPlayer musicPlayer;
 
 	static bool navTunnelDisplayed;
@@ -229,13 +192,11 @@ private:
 	static std::unique_ptr<Graphics::Drawables::TexturedQuad> renderQuad;
 	static Graphics::RenderState *quadRenderState;
 
+	static bool doingMouseGrab;
 	static bool bRequestEndGame;
 
 	static bool isRecordingVideo;
 	static FILE *ffmpegFile;
-
-public:
-	static std::map<SDL_JoystickID, JoystickState> GetJoysticksState() { return joysticks; }
 };
 
 #endif /* _PI_H */
