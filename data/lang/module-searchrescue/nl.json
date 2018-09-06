@@ -641,11 +641,11 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Stel in als navigatiedoel"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "Stel route terugweg in"
   },
   "SHIP_UNRESPONSIVE": {
     "description": "",

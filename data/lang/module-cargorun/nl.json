@@ -81,11 +81,11 @@
   },
   "CARGO_IS_LOADED": {
     "description": "",
-    "message": "loaded"
+    "message": "Geladen"
   },
   "CARGO_IS_NOT_LOADED": {
     "description": "",
-    "message": "not loaded"
+    "message": "Niet geladen"
   },
   "CEASE_FIRE": {
     "description": "",
@@ -293,7 +293,7 @@
   },
   "INTROTEXT_PICKUP_2": {
     "description": "",
-    "message": "How are you? I'm {name}. One of my clients wants to import {cargoname} from {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
+    "message": "Hoe gaat het? Ik ben {name}. Een van mijn klanten wil  {cargoname} van {starport} in het {system}-stelsel ({sectorx}, {sectory}, {sectorz}), importeren, op {dist} lj hier vandaan. Hij biedt {cash} voor het transport. Kom hier terug in {dom_starport} in het {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz})-stelsel voor het afleveren."
   },
   "INTROTEXT_PICKUP_LOCAL_1": {
     "description": "",
@@ -453,11 +453,11 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Stel in als navigatiedoel"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "Stel route terugweg in"
   },
   "SPACEPORT": {
     "description": "",
@@ -593,7 +593,7 @@
   },
   "WHYSOMUCH_INFRASTRUCTURE_1": {
     "description": "",
-    "message": "These goods are crucial for a construction project."
+    "message": "Deze goederen zijn cruciaal voor een bouwproject."
   },
   "WHYSOMUCH_MINING_1": {
     "description": "",

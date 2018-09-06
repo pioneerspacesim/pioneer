@@ -397,7 +397,7 @@
   },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
-    "message": "Can not initiate hyperjump; landing gear is not retracted!"
+    "message": "Can hyperjump niet initiëren; landingsgestel is niet ingetrokken!"
   },
   "ESCAPE_SPEED": {
     "description": "",
@@ -425,15 +425,15 @@
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Final Target:"
+    "message": "Laatste Doel:"
   },
   "FLIGHT_STATE": {
     "description": "",
-    "message": "Flight State"
+    "message": "Vluchtstatus"
   },
   "FLYING": {
     "description": "",
-    "message": "Flying"
+    "message": "Vliegende"
   },
   "FORWARD_ACCEL": {
     "description": "",
@@ -477,7 +477,7 @@
   },
   "GAME_TIME": {
     "description": "",
-    "message": "Game time"
+    "message": "Speltijd"
   },
   "GENERAL_CREW": {
     "description": "",
@@ -493,11 +493,11 @@
   },
   "GPU_JOBS": {
     "description": "",
-    "message": "GPU Jobs"
+    "message": "GPU jobs"
   },
   "GPU_JOBS_DESC": {
     "description": "",
-    "message": "Utilize GPU for certain actions, possibly improving performance."
+    "message": "Gebruik GPU voor een aantal acties, mogelijkerwijs de performance verhogend."
   },
   "HANG_UP": {
     "description": "",
@@ -537,39 +537,39 @@
   },
   "HUD_2D_RADAR": {
     "description": "Popup text: the name of the azimuthal equidistant projection radar",
-    "message": "2D azimuthal equidistant projection"
+    "message": "2D azimutale equidistante projectie"
   },
   "HUD_3D_RADAR": {
     "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
-    "message": "3D planar projection"
+    "message": "3D vlakke projectie"
   },
   "HUD_ATMOSPHERIC_PRESSURE": {
     "description": "Tooltip: Atmospheric Pressure.",
-    "message": "Atmospheric Pressure"
+    "message": "Atmosfeerdruk"
   },
   "HUD_BACKWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Backward Gun Temperature.",
-    "message": "Backward Gun Temperature"
+    "message": "Temperatuur Achterwaards Wapen"
   },
   "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS": {
     "description": "Tooltip: The braking distance using the main thrusters.",
-    "message": "The braking distance using the main thrusters"
+    "message": "De remafstand van de hoofd-thrusters"
   },
   "HUD_BUTTON_AUTOPILOT_DOCKING": {
     "description": "Tooltip: Autopilot docking",
-    "message": "Autopilot docking"
+    "message": "Autopiloot aan het afmeren"
   },
   "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT": {
     "description": "Tooltip: Autopilot entering orbit",
-    "message": "Autopilot entering orbit"
+    "message": "Autopiloot gaat omloopbaan in"
   },
   "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET": {
     "description": "Tooltip: Autopilot flying to target",
-    "message": "Autopilot flying to target"
+    "message": "Autopiloot vliegt naar doel"
   },
   "HUD_BUTTON_BLASTOFF": {
     "description": "Tooltip: Blastoff",
-    "message": "Blastoff"
+    "message": "Lanceer"
   },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
@@ -581,27 +581,27 @@
   },
   "HUD_BUTTON_FIX_ANTINORMAL": {
     "description": "Tooltip: fix heading antinormal",
-    "message": "Fix heading antinormal"
+    "message": "Fix antinormale richting "
   },
   "HUD_BUTTON_FIX_NORMAL": {
     "description": "Tooltip: fix heading normal",
-    "message": "Fix heading normal"
+    "message": "Fix normale richting "
   },
   "HUD_BUTTON_FIX_PROGRADE": {
     "description": "Tooltip: fix heading prograde",
-    "message": "Fix heading prograde"
+    "message": "Fix prograde richting "
   },
   "HUD_BUTTON_FIX_RADIAL_IN": {
     "description": "Tooltip: fix heading radially inward",
-    "message": "Fix heading radially inward"
+    "message": "Fix radiaal inwaardse richting"
   },
   "HUD_BUTTON_FIX_RADIAL_OUT": {
     "description": "Tooltip: fix heading radially outward",
-    "message": "Fix heading radially outward"
+    "message": "Fix radiaal uitwaards richting"
   },
   "HUD_BUTTON_FIX_RETROGRADE": {
     "description": "Tooltip: fix heading retrograde",
-    "message": "Fix heading retrograde"
+    "message": "Fix retrograde richting"
   },
   "HUD_BUTTON_FLYBY_VIEW": {
     "description": "Tooltip: Flyby camera view",
@@ -613,11 +613,11 @@
   },
   "HUD_BUTTON_INITIATE_HYPERJUMP": {
     "description": "Tooltip: Initiate legal hyperjump",
-    "message": "Initiate hyperjump"
+    "message": "Start hypersprong"
   },
   "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP": {
     "description": "Tooltip: Initiate illegal hyperjump",
-    "message": "Initiate illegal hyperjump"
+    "message": "Start illegale hypersprong"
   },
   "HUD_BUTTON_INTERNAL_VIEW": {
     "description": "Tooltip: Internal camera view",
@@ -629,15 +629,15 @@
   },
   "HUD_BUTTON_LANDING_GEAR_IS_DOWN": {
     "description": "Tooltip: Landing gear is down",
-    "message": "Landing gear is down"
+    "message": "Landingsgestel is neer"
   },
   "HUD_BUTTON_LANDING_GEAR_IS_MOVING": {
     "description": "Tooltip: Landing gear is moving",
-    "message": "Landing gear is moving"
+    "message": "Landingsgestel beweegt"
   },
   "HUD_BUTTON_LANDING_GEAR_IS_UP": {
     "description": "Tooltip: Landing gear is up",
-    "message": "Landing gear is up"
+    "message": "Landingsgestel is in"
   },
   "HUD_BUTTON_MANUAL_CONTROL": {
     "description": "Tooltip: Manual control",
@@ -645,11 +645,11 @@
   },
   "HUD_BUTTON_ROTATION_DAMPING_IS_OFF": {
     "description": "Tooltip: Rotation damping is off",
-    "message": "Rotation damping is off"
+    "message": "Draaiingsdemping is uit"
   },
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
-    "message": "Rotation damping is on"
+    "message": "Draaiingsdemping is aan"
   },
   "HUD_BUTTON_SCANNER": {
     "description": "Tooltip: Scanner",
@@ -657,15 +657,15 @@
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
-    "message": "Set speed"
+    "message": "Ingestelde snelheid"
   },
   "HUD_BUTTON_SHOW_COMMS": {
     "description": "Tooltip: Show comms",
-    "message": "Show comms"
+    "message": "Toon berichten"
   },
   "HUD_BUTTON_SHOW_PERSONAL_INFO": {
     "description": "Tooltip: Show personal info",
-    "message": "Show personal info"
+    "message": "Toon persoonlijke info"
   },
   "HUD_BUTTON_SIDEREAL_VIEW": {
     "description": "Tooltip: Sidereal camera view",
@@ -673,139 +673,139 @@
   },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
-    "message": "Switch to galaxy map"
+    "message": "Ga naar de Melkwegkaart"
   },
   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
     "description": "Tooltip: Switch to sector map",
-    "message": "Switch to sector map"
+    "message": "Ga naar de sectorkaart"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
-    "message": "Switch to system map"
+    "message": "Ga naar de stelselkaart"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW": {
     "description": "Tooltip: Switch to system overview",
-    "message": "Switch to system overview"
+    "message": "Ga naar het stelseloverzicht"
   },
   "HUD_BUTTON_SWITCH_TO_WORLD_VIEW": {
     "description": "Tooltip: Switch to world view",
-    "message": "Switch to world view"
+    "message": "Ga naar het wereldaanzicht"
   },
   "HUD_BUTTON_UNDOCK": {
     "description": "Tooltip: Undock",
-    "message": "Undock"
+    "message": "Vertrek"
   },
   "HUD_CARGO_MASS": {
     "description": "Cargo Mass",
-    "message": "Cargo Mass"
+    "message": "Ladingsmassa"
   },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
-    "message": "The current combat target"
+    "message": "Het huidige gevechtsdoel"
   },
   "HUD_CURRENT_FRAME": {
     "description": "Tooltip: The current frame of reference.",
-    "message": "The current frame of reference"
+    "message": "Het huidige referentiekader"
   },
   "HUD_CURRENT_HEADING": {
     "description": "Tooltip: the current heading.",
-    "message": "The current heading"
+    "message": "De huidige richting"
   },
   "HUD_CURRENT_NAV_TARGET": {
     "description": "Tooltip: The current navigational target.",
-    "message": "The current navigational target"
+    "message": "Het huidige navigatiedoel"
   },
   "HUD_CURRENT_PITCH": {
     "description": "Tooltip: the current pitch.",
-    "message": "The current pitch"
+    "message": "De huidige hellingshoek"
   },
   "HUD_CURRENT_ROLL": {
     "description": "Tooltip: the current roll.",
-    "message": "The current roll"
+    "message": "De huidige stampingshoek"
   },
   "HUD_DELTA_V": {
     "description": "Tooltip: The remaining Δv.",
-    "message": "Remaining Δv"
+    "message": "Δv over"
   },
   "HUD_DELTA_V_OF_MANEUVER_BURN": {
     "description": "Tooltip: The Δv for the maneuver burn.",
-    "message": "The Δv for the maneuver burn"
+    "message": "De Δv voor de manoeuvre-burn"
   },
   "HUD_DELTA_V_PERCENT": {
     "description": "Tooltip: The remaining Δv in percent.",
-    "message": "Remaining Δv"
+    "message": "Δv over"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
     "description": "Tooltip: Distance to the surface of the frame of reference.",
-    "message": "Distance to the surface of the frame of reference"
+    "message": "Afstand tot het oppervlak van het referentiekader"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_TARGET": {
     "description": "Tooltip: Distance to the surface of the target.",
-    "message": "Distance to the surface of the target"
+    "message": "Afstand tot het oppervlak van het doel"
   },
   "HUD_DURATION_OF_MANEUVER_BURN": {
     "description": "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
-    "message": "The approximate duration of the maneuver burn with main thrusters"
+    "message": "De ruwe tijd van de manoeuvre-burn met de hoofdthrusters"
   },
   "HUD_DURATION_UNTIL_MANEUVER_BURN": {
     "description": "Tooltip: The duration until the middle of the maneuver burn.",
-    "message": "The duration until the middle of the maneuver burn"
+    "message": "The tijd tot het midden van de manoeuvre-burn"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
-    "message": "Forward Gun Temperature"
+    "message": "Temperatuur Voorwaards Wapen"
   },
   "HUD_HULL_STRENGTH": {
     "description": "Tooltip: Hull Strength.",
-    "message": "Hull Strength"
+    "message": "Sterkte scheepshuid"
   },
   "HUD_HULL_TEMPERATURE": {
     "description": "Tooltip: Hull Temperature.",
-    "message": "Hull Temperature"
+    "message": "Temperatuur scheepshuid"
   },
   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
     "description": "",
-    "message": "Hyperspacing to {destination} in {countdown} seconds"
+    "message": "Hypersprong naar {destination} in {countdown} seconden"
   },
   "HUD_INDICATOR_AWAY_FROM_FRAME": {
     "description": "Indicator: Away from the current frame.",
-    "message": "Away from the current frame"
+    "message": "Van het huidige kader vandaan"
   },
   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current combat target.",
-    "message": "Prograde relative to current combat target"
+    "message": "Prograde relatief tot huidige gevechtsdoel"
   },
   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current combat target.",
-    "message": "Retrograde relative to current combat target"
+    "message": "Retrograde relatief tot huidige gevechtsdoel"
   },
   "HUD_INDICATOR_FRAME_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current frame.",
-    "message": "Prograde relative to current frame of reference"
+    "message": "Prograde relatief tot huidige refentiekader"
   },
   "HUD_INDICATOR_FRAME_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current frame.",
-    "message": "Retrograde relative to current frame of reference"
+    "message": "Retrograde relatief tot huidige refentiekader"
   },
   "HUD_INDICATOR_MANEUVER_PROGRADE": {
     "description": "Indicator: The prograde direction for the maneuver burn.",
-    "message": "Prograde for maneuver burn"
+    "message": "Prograde voor manoeuvre-burn"
   },
   "HUD_INDICATOR_NAV_TARGET_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current navigational target.",
-    "message": "Prograde relative to current navigational target"
+    "message": "Prograde relatief tot huidige navigatiedoel"
   },
   "HUD_INDICATOR_NAV_TARGET_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current navigational target.",
-    "message": "Retrograde relative to current navigational target"
+    "message": "Retrograde relatief tot huidige navigatiedoel"
   },
   "HUD_IN_TRANSIT_TO_N_X_X_X": {
     "description": "",
-    "message": "In transit to {system} [{x},{y},{z}]"
+    "message": "Onderweg naar {system} [{x},{y},{z}]"
   },
   "HUD_JUMP_COMPLETE": {
     "description": "",
-    "message": "Jump complete: {percent}%"
+    "message": "Sprong compleet: {percent}%"
   },
   "HUD_MASS": {
     "description": "Mass",
@@ -813,43 +813,43 @@
   },
   "HUD_RADAR_DISTANCE": {
     "description": "Tooltip: Current distance of the radar.",
-    "message": "Active radar distance"
+    "message": "Actieve radarafstand"
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
-    "message": "Request time acceleration: {time}"
+    "message": "Verzoek tot tijdversnelling: {time}"
   },
   "HUD_SHIELD_STRENGTH": {
     "description": "Tooltip: Shield Strength.",
-    "message": "Shield Strength"
+    "message": "Schildsterkte"
   },
   "HUD_SHOW_COMBAT_TARGET": {
     "description": "Tooltip: Show the current combat target.",
-    "message": "Show the current combat target"
+    "message": "Toon het huidige gevechtsdoel"
   },
   "HUD_SHOW_FRAME": {
     "description": "Tooltip: Show the current frame of reference.",
-    "message": "Show the current frame of reference"
+    "message": "Toon het huidige referentiekader"
   },
   "HUD_SHOW_NAV_TARGET": {
     "description": "Tooltip: Show current navigational target.",
-    "message": "Show the current navigational target"
+    "message": "Toon het huidige navigatiedoel"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
-    "message": "The speed of approach towards the frame of reference"
+    "message": "De naderingssnelheid tot het referentiekader"
   },
   "HUD_SPEED_OF_APPROACH_TO_TARGET": {
     "description": "Tooltip: The speed of approach relative to target.",
-    "message": "The speed of approach relative to target"
+    "message": "De naderingssnelheid relatief tot het doel"
   },
   "HUD_SPEED_RELATIVE_TO_TARGET": {
     "description": "Tooltip: The speed relative to the target.",
-    "message": "The speed relative to the target"
+    "message": "De snelheid relatief tot het doel"
   },
   "HUD_THRUST_INDICATOR": {
     "description": "Tooltip: describe what the thrust/velocity indicator shows",
-    "message": "Show current velocity for each direction (thin lines) and thrust (thick background)"
+    "message": "Toont huidige snelheid in elke richting (dunne lijnen) en thrust (dikke achtergrond)"
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
@@ -877,23 +877,23 @@
   },
   "HYPERJUMP_ROUTE": {
     "description": "",
-    "message": "HyperJump Route"
+    "message": "Hypersprong-route"
   },
   "HYPERSPACE_RANGE": {
     "description": "",
-    "message": "Hyperspace-bereik"
+    "message": "Hyperruimte-bereik"
   },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
-    "message": "Reckless hyperjump registered"
+    "message": "Roekeloze hypersprong geregistreerd"
   },
   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
     "description": "",
-    "message": "I'm tired of working for nothing. Don't you know what a contract is?"
+    "message": "Ik ben het zat voor niets te werken. Weet je niet wat een contract is?"
   },
   "INACTIVE": {
     "description": "",
-    "message": "Niet actief"
+    "message": "Inactief"
   },
   "INCOMPETENT": {
     "description": "For player reputation",
@@ -901,11 +901,11 @@
   },
   "INEXPERIENCED": {
     "description": "For player reputation",
-    "message": "Inexperienced"
+    "message": "Onervaren"
   },
   "INSUFFICIENT_FUNDS": {
     "description": "",
-    "message": "Insufficient funds."
+    "message": "Onvoldoende saldo"
   },
   "INVERT_MOUSE_Y": {
     "description": "",
@@ -925,7 +925,7 @@
   },
   "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
     "description": "",
-    "message": "It's been great working for you. If you need me again, I'll be here a while."
+    "message": "Het was fijn voor u te werken. Als u me opnieuw nodig hebt, ik blijf voorlopig hier."
   },
   "JETTISON": {
     "description": "",
@@ -933,7 +933,7 @@
   },
   "JUMPING": {
     "description": "Flight State",
-    "message": "Jumping"
+    "message": "In sprong"
   },
   "KILLS": {
     "description": "",
@@ -949,15 +949,15 @@
   },
   "LAUNCH_PERMISSION_DENIED_BUSY": {
     "description": "",
-    "message": "Permissie om op te stijgen geweigerd: drukte in baai."
+    "message": "Geen toestemming om te lanceren: haven is druk."
   },
   "LAUNCH_PERMISSION_DENIED_CREW": {
     "description": "",
-    "message": "Permission to launch denied: not enough crew to handle this ship."
+    "message": "Geen toestemming om te lanceren: te weinig personeel beschikbaar."
   },
   "LAUNCH_PERMISSION_DENIED_FINED": {
     "description": "",
-    "message": "Permission to launch denied: you have outstanding fines."
+    "message": "Geen toestemming om te lanceren: u heeft onbetaalde boetes."
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1009,7 +1009,7 @@
   },
   "LOCATION": {
     "description": "",
-    "message": "Location"
+    "message": "Locatie"
   },
   "LOW": {
     "description": "",
@@ -1021,11 +1021,11 @@
   },
   "MAJOR_EXPORTS_ITEM": {
     "description": "",
-    "message": "Major exports"
+    "message": "Belangrijkste export"
   },
   "MAJOR_IMPORTS_ITEM": {
     "description": "",
-    "message": "Major imports"
+    "message": "Belangrijkste import"
   },
   "MAKE_NEW_FACE": {
     "description": "",
@@ -1037,11 +1037,11 @@
   },
   "MARKET_BUYLINE": {
     "description": "",
-    "message": "Buy {amount} units for {price}"
+    "message": "Koop {amount} stuks voor {price}"
   },
   "MARKET_SELLINE": {
     "description": "",
-    "message": "Sell {amount} units for {price}"
+    "message": "Verkoop {amount} stuks voor {price}"
   },
   "MASS": {
     "description": "",
@@ -1053,7 +1053,7 @@
   },
   "MASTER_VOL": {
     "description": "Master sound in settings option",
-    "message": "Master:"
+    "message": "Meester:"
   },
   "MAX": {
     "description": "",
@@ -1061,7 +1061,7 @@
   },
   "MAXIMUM_CREW": {
     "description": "",
-    "message": "Maximum crew"
+    "message": "Maximum bemanning"
   },
   "MEDIUM": {
     "description": "Game settings option: graphics resolution",
@@ -1069,27 +1069,27 @@
   },
   "MEDIUM_CARGO_SHUTTLE": {
     "description": "",
-    "message": "Medium cargo shuttle"
+    "message": "Medium vracht-shuttle"
   },
   "MEDIUM_COURIER": {
     "description": "",
-    "message": "Medium courier"
+    "message": "Medium koerier"
   },
   "MEDIUM_FIGHTER": {
     "description": "",
-    "message": "Medium fighter"
+    "message": "Medium jachtschip"
   },
   "MEDIUM_FREIGHTER": {
     "description": "",
-    "message": "Medium freighter"
+    "message": "Medium vrachtschip"
   },
   "MEDIUM_PASSENGER_SHUTTLE": {
     "description": "",
-    "message": "Medium passenger shuttle"
+    "message": "Medium passagiers-shuttle"
   },
   "MEDIUM_PASSENGER_TRANSPORT": {
     "description": "",
-    "message": "Medium passenger transport"
+    "message": "Medium passagiers-transport"
   },
   "METAL_ALLOYS": {
     "description": "",
@@ -1105,15 +1105,15 @@
   },
   "MINOR_EXPORTS_ITEM": {
     "description": "",
-    "message": "Minor exports"
+    "message": "Overige export"
   },
   "MINOR_IMPORTS_ITEM": {
     "description": "",
-    "message": "Minor imports"
+    "message": "Overige import"
   },
   "MISSILE_MOUNTS": {
     "description": "",
-    "message": "Missile mounts"
+    "message": "Raketmonturen"
   },
   "MISSIONS": {
     "description": "",
@@ -1133,11 +1133,11 @@
   },
   "MOVE_DOWN": {
     "description": "move selection down in list",
-    "message": "Move Down"
+    "message": "Ga omlaag"
   },
   "MOVE_UP": {
     "description": "move selection up in list",
-    "message": "Move Up"
+    "message": "Ga omhoog"
   },
   "MULTISAMPLING": {
     "description": "",
@@ -1145,7 +1145,7 @@
   },
   "MULTISAMPLING_DESC": {
     "description": "",
-    "message": "A graphical fine-tuning feature, used to reduce jagged, pixelated contours. It can be quite resource-intensive."
+    "message": "Een grafische manier van scherpstellen, om hoekige pixel-contouren te verminderen. Kan zeer resource-intensief zijn."
   },
   "MURDER": {
     "description": "",
@@ -1181,15 +1181,15 @@
   },
   "NEXT_PAID": {
     "description": "",
-    "message": "Next paid"
+    "message": "Volgende betaling"
   },
   "NO": {
     "description": "Negative answer to a question",
-    "message": "No"
+    "message": "Nee"
   },
   "NOBODY": {
     "description": "For player reputation",
-    "message": "Nobody"
+    "message": "Niemand"
   },
   "NONE": {
     "description": "",
@@ -1197,11 +1197,11 @@
   },
   "NONE_FOR_SALE_IN_THIS_STATION": {
     "description": "",
-    "message": "None for sale in this station."
+    "message": "Niet te koop in dit station."
   },
   "NORMA_ARM": {
     "description": "Arm of the Milky Way galaxy",
-    "message": "Norma arm"
+    "message": "Norma-arm"
   },
   "NOTES": {
     "description": "",
@@ -1213,11 +1213,11 @@
   },
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
-    "message": "{equipment} is not supported on this ship model"
+    "message": "{equipment} wordt niet ondersteund op dit model schip"
   },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
-    "message": "Nothing matches that filter"
+    "message": "Geen resultaten voor dat filter"
   },
   "NO_MISSIONS": {
     "description": "",
@@ -1233,15 +1233,15 @@
   },
   "N_SHIELD_GENERATORS": {
     "description": "",
-    "message": "{quantity} Schildgenerator"
+    "message": "{quantity} Schildgeneratoren"
   },
   "N_UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "{quantity} Unoccupied Passenger Cabins"
+    "message": "{quantity} Lege Passagierscabines"
   },
   "OFF": {
     "description": "",
-    "message": "Off"
+    "message": "Uit"
   },
   "OK": {
     "description": "",
@@ -1249,11 +1249,11 @@
   },
   "OPEN_USER_FOLDER": {
     "description": "",
-    "message": "User Folder"
+    "message": "Directory"
   },
   "OPTIONS": {
     "description": "",
-    "message": "Options"
+    "message": "Opties"
   },
   "ORBIT": {
     "description": "",
@@ -1273,11 +1273,11 @@
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
-    "message": "Outstanding fines"
+    "message": "Onbetaalde boetes"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
-    "message": "Filter overview window entries by name"
+    "message": "Filter overzicht-window entries op naam"
   },
   "OWED": {
     "description": "Player owing money to crew members",
@@ -1289,11 +1289,11 @@
   },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
-    "message": "Perseus arm"
+    "message": "Perseus-arm"
   },
   "PERSONAL_INFORMATION": {
     "description": "",
-    "message": "Personal Information"
+    "message": "Persoonlijke Informatie"
   },
   "PILOT": {
     "description": "",
@@ -1301,11 +1301,11 @@
   },
   "PILOTING": {
     "description": "",
-    "message": "Piloot"
+    "message": "Piloot:"
   },
   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
     "description": "",
-    "message": "Pilot seat is now occupied by {name}"
+    "message": "Pilootstoel wordt nu bezet door {name}"
   },
   "PIRACY": {
     "description": "",
@@ -1313,7 +1313,7 @@
   },
   "PLANET_DETAIL_DISTANCE": {
     "description": "",
-    "message": "Afstand planeetdetail"
+    "message": "Paneetdetail afstand"
   },
   "PLANET_TEXTURES": {
     "description": "",
@@ -1333,7 +1333,7 @@
   },
   "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
     "description": "",
-    "message": "Press a key or controller button or escape to clear"
+    "message": "Druk op een toets of controller-knop of escape om te wissen"
   },
   "PRICE": {
     "description": "",
@@ -1341,7 +1341,7 @@
   },
   "PROFESSIONAL": {
     "description": "For player reputation",
-    "message": "Professional"
+    "message": "Professioneel"
   },
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
@@ -1357,7 +1357,7 @@
   },
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
-    "message": "Quit confirmation"
+    "message": "Bevestig stoppen"
   },
   "RANK": {
     "description": "",
@@ -1377,11 +1377,11 @@
   },
   "REFUEL_FULL": {
     "description": "",
-    "message": "Refuel full"
+    "message": "Brandstoftank vol"
   },
   "REGISTRATION_NUMBER": {
     "description": "",
-    "message": "Registration number"
+    "message": "Registratienummer"
   },
   "RELIABLE": {
     "description": "For player reputation",
@@ -1389,27 +1389,27 @@
   },
   "REMOVE_JUMP": {
     "description": "UI-button: remove hyper jump from list of planned jumps",
-    "message": "Remove Jump"
+    "message": "Sprong verwijderen"
   },
   "REMOVE_WHEN_COMPLETED": {
     "description": "For UI hyperjump planner, referring to jump target system",
-    "message": "Remove jump when completed"
+    "message": "Verwijder sprong na afloop"
   },
   "REPAIR_X_HULL_DAMAGE_FOR_X": {
     "description": "",
-    "message": "Repair {damage}% hull damage for {price}"
+    "message": "Repareer {damage}% rompschade voor {price}"
   },
   "REPUTATION": {
     "description": "",
-    "message": "Reputation"
+    "message": "Reputatie"
   },
   "REQUEST_LAUNCH": {
     "description": "",
-    "message": "Verzoek om toestemming om te vertrekken"
+    "message": "Verzoek Lanceertoestemming"
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Required Fuel:"
+    "message": "Benodigde brandstof:"
   },
   "RESET": {
     "description": "",
@@ -1417,7 +1417,7 @@
   },
   "RETURN_TO_GAME": {
     "description": "",
-    "message": "Return to game"
+    "message": "Terug naar spel"
   },
   "RETURN_TO_MENU": {
     "description": "",
@@ -1425,11 +1425,11 @@
   },
   "REVERSE_ACCEL_EMPTY": {
     "description": "",
-    "message": "Achterwaartse acceleratie (leeg)"
+    "message": "Achterwaartse versnelling (leeg)"
   },
   "REVERSE_ACCEL_FULL": {
     "description": "",
-    "message": "Reverse accel (full)"
+    "message": "Achterwaartse versnelling (vol)"
   },
   "REWARD": {
     "description": "",
@@ -1437,15 +1437,15 @@
   },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
-    "message": "Route Info"
+    "message": "Route-info"
   },
   "ROUTE_JUMPS": {
     "description": "For hyperjump planner",
-    "message": "Route Jumps"
+    "message": "Route-sprongen"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
-    "message": "Sagittarius arm"
+    "message": "Sagittarius-arm"
   },
   "SAVE": {
     "description": "",
@@ -1489,11 +1489,11 @@
   },
   "SETTINGS": {
     "description": "UI option",
-    "message": "Settings"
+    "message": "Instellingen"
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set destination as navigation target."
+    "message": "Stel bestemming als navigatiedoel in"
   },
   "SHIP": {
     "description": "",
@@ -1533,7 +1533,7 @@
   },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
-    "message": "Simulating evolution of the universe: {age} billion years ;-)"
+    "message": "Simuleren van de evolutie van het Universum: {age} miljard jaar ;-)"
   },
   "SOUND": {
     "description": "",
@@ -1545,7 +1545,7 @@
   },
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
-    "message": "This is a difficult start from the System Administration Resting prison station."
+    "message": "Dit is een lastig begin van het Stelsel Regering Rusten gevangenisstation."
   },
   "START_AT_EARTH": {
     "description": "",
@@ -1553,15 +1553,15 @@
   },
   "START_AT_EARTH_DESC": {
     "description": "",
-    "message": "This is an easy start from London on Earth in the Sol system."
+    "message": "Dit is een eenvoudig begin in Londen op Aarde in het Sol-stelsel."
   },
   "START_AT_MARS": {
     "description": "",
-    "message": "Start on Mars"
+    "message": "Begin op Mars"
   },
   "START_AT_MARS_DESC": {
     "description": "",
-    "message": "This is an easy start from Cydonia on Mars in the Sol system."
+    "message": "Dit is een eenvoudige start in Cydonia op Mars in het Sol-stelsel."
   },
   "START_AT_NEW_HOPE": {
     "description": "New Hope is an in game location",
@@ -1569,7 +1569,7 @@
   },
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
-    "message": "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
+    "message": "Dit is een wat moeilijker start in Itzalean op New Hope in het Epsilon Eridani-stelsel"
   },
   "STAR_FIELD_DENSITY": {
     "description": "",
@@ -1581,7 +1581,7 @@
   },
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
-    "message": "We are in a {orbit_period} day period orbit around {parent_body}."
+    "message": "We zitten in een omloopbaan met een periode van {orbit_period} dagen rond {parent_body}."
   },
   "STATUS": {
     "description": "",
@@ -1597,7 +1597,7 @@
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
-    "message": "This frees up more memory for the graphics card, which is likely what you want, at the expense of compressing them during game start."
+    "message": "Dit maakt meer geheugen vrij voor de grafische kaart, wat vermoedelijk is wat je wil, ten koste van het comprimeren ervan tijdens het starten van het spel."
   },
   "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
     "description": "",
@@ -1613,7 +1613,7 @@
   },
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
-    "message": "3kpc arm"
+    "message": "3kpc-arm"
   },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",
@@ -1621,19 +1621,19 @@
   },
   "TOGGLE_OVERVIEW_SHOW_MOONS": {
     "description": "toggle whether the overview window shows moons or not",
-    "message": "Toggle showing moons in the overview"
+    "message": "Wissel manen tonen in het overzicht"
   },
   "TOGGLE_OVERVIEW_SHOW_STATIONS": {
     "description": "toggle whether the overview window shows stations or not",
-    "message": "Toggle showing stations in the overview"
+    "message": "Wissel stations tonen in het overzicht"
   },
   "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
     "description": "toggle whether the overview window sorts by distance from the player or from the system center",
-    "message": "Switch between sorting by distance from player and distance from system center"
+    "message": "Wissel tussen sorteren op afstand van de speler en afstand tot het centrum van het stelsel"
   },
   "TOGGLE_OVERVIEW_WINDOW": {
     "description": "show/hide the overview window / navigation window",
-    "message": "Toggle the overview window"
+    "message": "Toon of verberg het overzichtsscherm"
   },
   "TOO_SMALL_FOR_CURRENT_CREW": {
     "description": "",
@@ -1641,7 +1641,7 @@
   },
   "TOO_SMALL_TO_TRANSSHIP": {
     "description": "Ship market error message",
-    "message": "New ship lacks capacity for current cargo and hyperdrive."
+    "message": "Nieuwe schip heeft niet de huidige vrachtruimte en hyperdrive"
   },
   "TOTAL": {
     "description": "",
@@ -1649,11 +1649,11 @@
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "Total Distance:"
+    "message": "Totale Afstand:"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Total Duration:"
+    "message": "Totale Duur:"
   },
   "TOTAL_MASS": {
     "description": "",
@@ -1697,7 +1697,7 @@
   },
   "VICINITY_OF": {
     "description": "",
-    "message": "In vicinity of"
+    "message": "Nabij"
   },
   "VIDEO": {
     "description": "",
@@ -1713,7 +1713,7 @@
   },
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",
-    "message": "Higher resolutions display more information at a smaller size and can decrease performance."
+    "message": "Hogere resoluties tonen meer informatie op minder oppervlak en kunnen performance verminderen."
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",
@@ -1721,7 +1721,7 @@
   },
   "VSYNC_DESC": {
     "description": "",
-    "message": "Vertical Sync can eliminate visual tearing or artifacts, and input latency."
+    "message": "Verticale sync kan tearing, artefacten en invoer-latency verhelpen"
   },
   "WAGE": {
     "description": "Salary of crew shown in crew roster",

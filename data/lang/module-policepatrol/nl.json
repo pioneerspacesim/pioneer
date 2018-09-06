@@ -1,58 +1,58 @@
 {
   "ILLEGAL_GOODS_DETECTED": {
     "description": "",
-    "message": "Illegal goods detected."
+    "message": "Smokkelwaar gedetecteerd."
   },
   "INITIATE_CARGO_SCAN_1": {
     "description": "",
-    "message": "Initiate cargo scan."
+    "message": "Start ladingscan"
   },
   "INITIATE_CARGO_SCAN_2": {
     "description": "",
-    "message": "Maintain speed and course for a cargo scan."
+    "message": "Houdt snelheid en koers aan voor een ladingsscan."
   },
   "INITIATE_CARGO_SCAN_3": {
     "description": "",
-    "message": "Initiate contraband search."
+    "message": "Start zoeken naar illegale vracht"
   },
   "NOTHING_DETECTED": {
     "description": "",
-    "message": "No illegal cargo detected. You may proceed."
+    "message": "Geen illegale vracht gedetecteerd. U kunt verder gaan."
   },
   "OUTLAW_DETECTED_1": {
     "description": "",
-    "message": "{ship_label} is flown by a known outlaw. Attack and destroy!"
+    "message": "{ship_label} wordt gevlogen door een beruchte crimineel. Aanvallen en vernietigen!"
   },
   "OUTLAW_DETECTED_2": {
     "description": "",
-    "message": "Bandit, your days are numbered!"
+    "message": "Bandiet, je dagen zijn geteld!"
   },
   "OUTLAW_DETECTED_3": {
     "description": "",
-    "message": "Hah, caught! You will not leave this system alive!"
+    "message": "Ha, gesnapt! Je zult dit stelsel niet levend verlaten!"
   },
   "POLICE_TAUNT_1": {
     "description": "",
-    "message": "Boy, this was a bad idea!"
+    "message": "Tsjonge, dit was een slecht idee!"
   },
   "POLICE_TAUNT_2": {
     "description": "",
-    "message": "Smuggler, you will pay the utimate price!"
+    "message": "Smokkelaar, je gaat de hoogste prijs betalen!"
   },
   "POLICE_TAUNT_3": {
     "description": "",
-    "message": "Fool, crime doesn't pay off!"
+    "message": "Idioot, misdaad loont niet!"
   },
   "RESPECT_THE_LAW_1": {
     "description": "",
-    "message": "Respect the law! Crime doesn't pay off in the {system} system!"
+    "message": "Houd je aan de wet! Misdaad loont niet in het {system}-stelsel!"
   },
   "RESPECT_THE_LAW_2": {
     "description": "",
-    "message": "You have entered the {system} system. Respect the law!"
+    "message": "Je bevindt je in het {system}-stelsel. Houd je aan de wet!"
   },
   "TAKE_A_HIKE": {
     "description": "",
-    "message": "Ok, you got a second chance. Take a hike!"
+    "message": "Ok, ik geef je nog een kans. Opkrassen!"
   }
 }
