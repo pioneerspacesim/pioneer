@@ -394,7 +394,8 @@ CustomSystem:new('Ross 154',{'STAR_M'}):add_to_sector(-2,-1,-1,v(0.918,0.761,0.5
 --System already customized in custom\08_61cygni.lua
 CustomSystem:new('Gamma Leporis',{'STAR_F','STAR_K'}):add_to_sector(3,-1,-2,v(0.372,0.771,0.604))
 CustomSystem:new('Gliese 873',{'STAR_M'}):add_to_sector(-1,-2,1,v(0.538,0.602,0.439))
-CustomSystem:new('Lacaille 8760',{'STAR_M'}):add_to_sector(-1,-1,-2,v(0.183,0.05,0.990))
+--CustomSystem:new('Lacaille 8760',{'STAR_M'}):add_to_sector(-1,-1,-2,v(0.183,0.05,0.990))
+--System already customized in custom\10_ayizan_lacaille8760.lua
 CustomSystem:new('Gliese 876',{'STAR_M'}):add_to_sector(-1,-2,-1,v(0.467,0.219,0.528))
 CustomSystem:new('Gliese 748',{'STAR_M'}):add_to_sector(-4,-2,0,v(0.072,0.719,0.208))
 CustomSystem:new('Groombridge 1830',{'STAR_G','STAR_M'}):add_to_sector(0,2,2,v(0.091,0.951,0.285))
