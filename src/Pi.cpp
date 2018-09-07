@@ -65,6 +65,7 @@
 #include "SystemView.h"
 #include "Tombstone.h"
 #include "UIView.h"
+#include "WorldView.h"
 #include "KeyBindings.h"
 #include "EnumStrings.h"
 #include "ServerAgent.h"
@@ -412,7 +413,7 @@ void TestGPUJobsSupport()
 void RegisterInputBindings() {
 	PlayerShipController::RegisterInputBindings();
 
-
+	WorldView::RegisterInputBindings();
 }
 
 void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)

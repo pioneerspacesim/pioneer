@@ -12,6 +12,7 @@
 #include "Background.h"
 #include "Camera.h"
 #include "CameraController.h"
+#include "KeyBindings.h"
 
 class Body;
 class Frame;
@@ -42,6 +43,7 @@ namespace UI {
 
 class WorldView: public UIView {
 public:
+	static void RegisterInputBindings();
 	friend class NavTunnelWidget;
 	WorldView(Game* game);
 	WorldView(const Json::Value &jsonObj, Game* game);
@@ -176,6 +178,29 @@ private:
 
 	Graphics::Drawables::Line3D m_edgeMarker;
 	Graphics::Drawables::Lines m_indicator;
+
+	static struct InputBinding {
+		typedef KeyBindings::ActionBinding ActionBinding;
+		typedef KeyBindings::AxisBinding AxisBinding;
+
+		ActionBinding *toggleHudMode;
+		ActionBinding *increaseTimeAcceleration;
+		ActionBinding *decreaseTimeAcceleration;
+
+		AxisBinding *viewZoom;
+
+		ActionBinding *frontCamera;
+		ActionBinding *rearCamera;
+		ActionBinding *leftCamera;
+		ActionBinding *rightCamera;
+		ActionBinding *topCamera;
+		ActionBinding *bottomCamera;
+
+		AxisBinding *cameraRoll;
+		AxisBinding *cameraPitch;
+		AxisBinding *cameraYaw;
+		ActionBinding *resetCamera;
+	} InputBindings;
 };
 
 class NavTunnelWidget: public Gui::Widget {

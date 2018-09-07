@@ -17,7 +17,7 @@
 #include "SpaceStation.h"
 #include "galaxy/StarSystem.h"
 #include "HyperspaceCloud.h"
-#include "KeyBindings.h"
+#include "Input.h"
 #include "perlin.h"
 #include "Lang.h"
 #include "StringF.h"
@@ -71,6 +71,43 @@ WorldView::WorldView(const Json::Value &jsonObj, Game* game) : UIView(), m_game(
 	m_externalCameraController->LoadFromJson(worldViewObj);
 	m_siderealCameraController->LoadFromJson(worldViewObj);
 	m_flybyCameraController->LoadFromJson(worldViewObj);
+}
+
+WorldView::InputBinding WorldView::InputBindings;
+
+void WorldView::RegisterInputBindings()
+{
+	using namespace KeyBindings;
+	Input::BindingPage *page = Pi::input.GetBindingPage("VIEW");
+	Input::BindingGroup *group;
+
+	#define BINDING_GROUP(n) group = page->GetBindingGroup(#n);
+	#define KEY_BINDING(n, id, k1, k2) InputBindings.n = Pi::input.AddActionBinding(id, group,\
+		ActionBinding(k1, k2));
+	#define AXIS_BINDING(n, id, k1, k2) InputBindings.n = Pi::input.AddAxisBinding(id, group,\
+		AxisBinding(k1, k2));
+
+	BINDING_GROUP(MISCELLANEOUS)
+	KEY_BINDING(toggleHudMode, "BindToggleHudMode", SDLK_TAB, 0)
+	KEY_BINDING(increaseTimeAcceleration, "BindIncreaseTimeAcceleration", SDLK_PAGEUP, 0)
+	KEY_BINDING(decreaseTimeAcceleration, "BindDecreaseTimeAcceleration", SDLK_PAGEDOWN, 0)
+
+	BINDING_GROUP(GENERAL_VIEW_CONTROLS)
+	AXIS_BINDING(viewZoom, "BindViewZoom", SDLK_EQUALS, SDLK_MINUS)
+
+	BINDING_GROUP(INTERNAL_VIEW)
+	KEY_BINDING(frontCamera, "BindFrontCamera", SDLK_KP_8, SDLK_UP)
+	KEY_BINDING(rearCamera, "BindRearCamera", SDLK_KP_2, SDLK_DOWN)
+	KEY_BINDING(leftCamera, "BindLeftCamera", SDLK_KP_4, SDLK_LEFT)
+	KEY_BINDING(rightCamera, "BindRightCamera", SDLK_KP_6, SDLK_RIGHT)
+	KEY_BINDING(topCamera, "BindTopCamera", SDLK_KP_9, 0)
+	KEY_BINDING(bottomCamera, "BindBottomCamera", SDLK_KP_3, 0)
+
+	BINDING_GROUP(EXTERNAL_VIEW)
+	AXIS_BINDING(cameraRoll, "BindCameraRoll", SDLK_KP_1, SDLK_KP_3)
+	AXIS_BINDING(cameraPitch, "BindCameraPitch", SDLK_KP_2, SDLK_KP_8)
+	AXIS_BINDING(cameraYaw, "BindCameraYaw", SDLK_KP_4, SDLK_KP_6)
+	KEY_BINDING(resetCamera, "BindResetCamera", SDLK_HOME, 0)
 }
 
 void WorldView::InitObject()
@@ -146,9 +183,9 @@ void WorldView::InitObject()
 		Pi::input.onMouseWheel.connect(sigc::mem_fun(this, &WorldView::MouseWheel));
 
 	Pi::player->GetPlayerController()->SetMouseForRearView(GetCamType() == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
-	m_onToggleHudModeCon = KeyBindings::toggleHudMode.onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
-	m_onIncTimeAccelCon = KeyBindings::increaseTimeAcceleration.onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelInc));
-	m_onDecTimeAccelCon = KeyBindings::decreaseTimeAcceleration.onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelDec));
+	m_onToggleHudModeCon = InputBindings.toggleHudMode->onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
+	m_onIncTimeAccelCon = InputBindings.increaseTimeAcceleration->onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelInc));
+	m_onDecTimeAccelCon = InputBindings.decreaseTimeAcceleration->onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelDec));
 }
 
 WorldView::~WorldView()
@@ -385,24 +422,29 @@ void WorldView::Update()
 	// XXX ugly hack checking for console here
 	if (!Pi::IsConsoleActive()) {
 		if (GetCamType() == CAM_INTERNAL) {
-			if      (KeyBindings::frontCamera.IsActive())  ChangeInternalCameraMode(InternalCameraController::MODE_FRONT);
-			else if (KeyBindings::rearCamera.IsActive())   ChangeInternalCameraMode(InternalCameraController::MODE_REAR);
-			else if (KeyBindings::leftCamera.IsActive())   ChangeInternalCameraMode(InternalCameraController::MODE_LEFT);
-			else if (KeyBindings::rightCamera.IsActive())  ChangeInternalCameraMode(InternalCameraController::MODE_RIGHT);
-			else if (KeyBindings::topCamera.IsActive())    ChangeInternalCameraMode(InternalCameraController::MODE_TOP);
-			else if (KeyBindings::bottomCamera.IsActive()) ChangeInternalCameraMode(InternalCameraController::MODE_BOTTOM);
+			if      (InputBindings.frontCamera->IsActive())  ChangeInternalCameraMode(InternalCameraController::MODE_FRONT);
+			else if (InputBindings.rearCamera->IsActive())   ChangeInternalCameraMode(InternalCameraController::MODE_REAR);
+			else if (InputBindings.leftCamera->IsActive())   ChangeInternalCameraMode(InternalCameraController::MODE_LEFT);
+			else if (InputBindings.rightCamera->IsActive())  ChangeInternalCameraMode(InternalCameraController::MODE_RIGHT);
+			else if (InputBindings.topCamera->IsActive())    ChangeInternalCameraMode(InternalCameraController::MODE_TOP);
+			else if (InputBindings.bottomCamera->IsActive()) ChangeInternalCameraMode(InternalCameraController::MODE_BOTTOM);
 		}
 		else {
 			MoveableCameraController *cam = static_cast<MoveableCameraController*>(m_activeCameraController);
-			if (KeyBindings::cameraRotateUp.IsActive()) cam->RotateUp(frameTime);
-			if (KeyBindings::cameraRotateDown.IsActive()) cam->RotateDown(frameTime);
-			if (KeyBindings::cameraRotateLeft.IsActive()) cam->RotateLeft(frameTime);
-			if (KeyBindings::cameraRotateRight.IsActive()) cam->RotateRight(frameTime);
-			if (KeyBindings::viewZoomOut.IsActive()) cam->ZoomEvent(ZOOM_SPEED*frameTime);		// Zoom out
-			if (KeyBindings::viewZoomIn.IsActive()) cam->ZoomEvent(-ZOOM_SPEED*frameTime);
-			if (KeyBindings::cameraRollLeft.IsActive()) cam->RollLeft(frameTime);
-			if (KeyBindings::cameraRollRight.IsActive()) cam->RollRight(frameTime);
-			if (KeyBindings::resetCamera.IsActive()) cam->Reset();
+			vector3d rotate = vector3d(
+				-InputBindings.cameraPitch->GetValue(),
+				InputBindings.cameraYaw->GetValue(),
+				InputBindings.cameraRoll->GetValue());
+
+			// Horribly abuse our knowledge of the internals of cam->RotateUp/Down.
+			if (rotate.x != 0.0) cam->RotateUp(frameTime * rotate.x);
+			if (rotate.y != 0.0) cam->RotateLeft(frameTime * rotate.y);
+			if (rotate.z != 0.0) cam->RollLeft(frameTime * rotate.z);
+
+			if (InputBindings.viewZoom->IsActive())
+				cam->ZoomEvent(-InputBindings.viewZoom->GetValue() * ZOOM_SPEED*frameTime);
+			if (InputBindings.resetCamera->IsActive())
+				cam->Reset();
 			cam->ZoomEventUpdate(frameTime);
 		}
 

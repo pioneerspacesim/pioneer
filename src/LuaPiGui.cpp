@@ -720,7 +720,17 @@ static int l_pigui_get_keybinding(lua_State *l)
 			}
 			for (size_t h = 0; h < js.second.hats.size(); h++) {
 				if (js.second.hats[h]) {
-					binding = "Joy" + Pi::input.JoystickGUIDString(js.first) + "/Hat" + std::to_string(h) + "Dir" + std::to_string(js.second.hats[h]);
+					int hatDir = js.second.hats[h];
+					switch (hatDir) {
+						case SDL_HAT_LEFT:
+						case SDL_HAT_RIGHT:
+						case SDL_HAT_UP:
+						case SDL_HAT_DOWN:
+							binding = "Joy" + Pi::input.JoystickGUIDString(js.first) + "/Hat" + std::to_string(h) + "Dir" + std::to_string(js.second.hats[h]);
+							break;
+						default:
+							continue;
+					}
 					break;
 				}
 			}
