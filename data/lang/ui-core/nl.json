@@ -161,7 +161,7 @@
   },
   "CLOSE": {
     "description": "",
-    "message": "Dichtbij"
+    "message": "Sluiten"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -205,7 +205,7 @@
   },
   "CONTINUE_GAME": {
     "description": "",
-    "message": "Continue game"
+    "message": "Verder spelen"
   },
   "CONTROLS": {
     "description": "",
@@ -397,7 +397,7 @@
   },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
-    "message": "Can hyperjump niet initiëren; landingsgestel is niet ingetrokken!"
+    "message": "Kan hypersprong niet initiëren; landingsgestel is niet ingetrokken!"
   },
   "ESCAPE_SPEED": {
     "description": "",
@@ -409,7 +409,7 @@
   },
   "EXPERIENCED": {
     "description": "For player reputation",
-    "message": "Experienced"
+    "message": "Ervaren"
   },
   "EXPERT": {
     "description": "For player reputation",
@@ -473,7 +473,7 @@
   },
   "FULL_SCREEN": {
     "description": "",
-    "message": "Full screen"
+    "message": "Volledig scherm"
   },
   "GAME_TIME": {
     "description": "",
@@ -1465,7 +1465,7 @@
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",
-    "message": "Select a file to save to or enter a new filename"
+    "message": "Kies een bestand of voer een nieuwe bestandsnaam in"
   },
   "SELECT_FILE": {
     "description": "",
@@ -1513,7 +1513,7 @@
   },
   "SHIP_IS_FULLY_EQUIPPED": {
     "description": "",
-    "message": "Your ship is fully equipped."
+    "message": "Uw schip is volledig uitgerust."
   },
   "SHIP_IS_FULLY_LADEN": {
     "description": "",
@@ -1521,15 +1521,15 @@
   },
   "SHIP_MARKET": {
     "description": "",
-    "message": "Ship Market"
+    "message": "Schepenmarkt"
   },
   "SHIP_REPAIRS": {
     "description": "",
-    "message": "Ship Repairs"
+    "message": "Schip Reparaties"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",
-    "message": "The ship you were viewing has been sold"
+    "message": "Het schip dat u bekeek is verkocht"
   },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
@@ -1545,11 +1545,11 @@
   },
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
-    "message": "Dit is een lastig begin van het Stelsel Regering Rusten gevangenisstation."
+    "message": "Dit is een lastig begin van het System Administration Resting-gevangenisstation."
   },
   "START_AT_EARTH": {
     "description": "",
-    "message": "Start at Earth"
+    "message": "Begin op Aarde"
   },
   "START_AT_EARTH_DESC": {
     "description": "",
@@ -1573,11 +1573,11 @@
   },
   "STAR_FIELD_DENSITY": {
     "description": "",
-    "message": "Density of Star field"
+    "message": "Sterrendichtheid"
   },
   "STATION_MANAGER": {
     "description": "",
-    "message": "Station manager"
+    "message": "Stationsmanager"
   },
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
@@ -1589,11 +1589,11 @@
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
-    "message": "This station holds a level {tech_level} technology certificate."
+    "message": "Dit station heeft een  niveau {tech_level} technologie-certificaat."
   },
   "TECH_CERTIFIED_MILITARY": {
     "description": "Lobby screen shows the tech level of the station",
-    "message": "This installation holds a military technology clearance."
+    "message": "Deze installatie heeft een militaire technologie-uitklaring."
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -1601,15 +1601,15 @@
   },
   "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
     "description": "",
-    "message": "Dank u voor uw aankoop. Denk aan de installatie van uitrusting en het kopen van brandstof voor u vertrekt."
+    "message": "Dank u voor uw aankoop. Denk eraan uitrusting te installeren en brandstof te kopen voor u vertrekt."
   },
   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
     "description": "",
-    "message": "There is nobody else on board able to fly this ship."
+    "message": "Er is niemand anders aan boord die dit schip kan besturen."
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
-    "message": "The ship is under station control, Commander."
+    "message": "Het schip in onder stationsbeheer, Commandant."
   },
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1657,7 +1657,7 @@
   },
   "TOTAL_MASS": {
     "description": "",
-    "message": "Total mass"
+    "message": "Totale massa"
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
@@ -1665,7 +1665,7 @@
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
-    "message": "Trustworthy"
+    "message": "Betrouwbaar"
   },
   "TYPE": {
     "description": "",
@@ -1677,7 +1677,7 @@
   },
   "UNRELIABLE": {
     "description": "",
-    "message": "Unreliable"
+    "message": "Onbetrouwbaar"
   },
   "UP_ACCEL": {
     "description": "",
@@ -1729,7 +1729,7 @@
   },
   "WEIGHT_EMPTY": {
     "description": "",
-    "message": "Gewicht ledig"
+    "message": "Ledig gewicht"
   },
   "WEIGHT_FULLY_LOADED": {
     "description": "",
@@ -1745,11 +1745,11 @@
   },
   "X_CANNOT_BE_TOLERATED_HERE": {
     "description": "Message to be sent over comms by police when crime is committed by player",
-    "message": "{crime} cannot be tolerated here!"
+    "message": "{crime} wordt hier niet getolereerd!"
   },
   "YES": {
     "description": "Positive answer to a question",
-    "message": "Yes"
+    "message": "Ja"
   },
   "YOURE_GOING_TO_REGRET_SACKING_ME": {
     "description": "",
@@ -1757,11 +1757,11 @@
   },
   "YOUR_HULL_IS_AT_X_INTEGRITY": {
     "description": "",
-    "message": "Your hull is at {value}% integrity."
+    "message": "Uw romp is voor {value}% onbeschadigd."
   },
   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION": {
     "description": "",
-    "message": "You don't have enough money for that option."
+    "message": "U heeft te weinig saldo voor die optie."
   },
   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD": {
     "description": "",
