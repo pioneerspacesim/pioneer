@@ -1,35 +1,35 @@
 {
   "ACCEPTED_1": {
     "description": "",
-    "message": "Very well. Good luck!"
+    "message": "Zeer goed. Veel geluk!"
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "Excellent!"
+    "message": "Geweldig!"
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Good. We count on you!"
+    "message": "Goed. We rekenen op u!"
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "RELIABLE PILOT WANTED: Pay {cash}."
+    "message": "BETROUWBARE PILOOT GEVRAAGD: Betaal {cash}"
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "CHALLENGE: Ship and crew wanted for a combat mission in the {system} system."
+    "message": "UITDAGING: Schip en bemanning gevraagd voor een gevechtsmissie in het {system}-stelsel."
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "COMBAT: Need qualified mercenary with well-equipped ship."
+    "message": "VECHTEN: Gekwalificeerde huurling gevraagd met goed uitgerust schip."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "FEARLESS MERCENARY WANTED: Pay {cash} for a mission to the {system} system."
+    "message": "ONVERSCHROKKEN HUURLING GEVRAAGD: Betaal {cash} voor een missie naar het {system}-stelsel."
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "{mission} Mission: Salary {cash}."
+    "message": "{mission} Missie: Betaling {cash}."
   },
   "AGENT": {
     "description": "Secret Service Agent",
@@ -37,23 +37,23 @@
   },
   "AREA": {
     "description": "An allotted area for the mission",
-    "message": "Area:"
+    "message": "Gebied:"
   },
   "BONUS_1": {
     "description": "",
-    "message": "My supervisor was impressed about your performance and has allotted a bonus of {cash} for this mission."
+    "message": "Mijn leidinggevende was onder de indruk van uw prestatie en heeft een bonus van {cash} toegekend voor deze missie."
   },
   "BONUS_2": {
     "description": "",
-    "message": "You have served us well! I pay you a bonus of {cash}."
+    "message": "U bent ons goed van dienst geweest! Ik geeft u een bonus van {cash}."
   },
   "BONUS_3": {
     "description": "",
-    "message": "Very impressive! I'm authorized to pay you a bonus of {cash}."
+    "message": "Zeer indrukwekkend! Ik ben bevoegd u een bonus van {cash} te betalen."
   },
   "BONUS_4": {
     "description": "",
-    "message": "I'm very pleased of your performance! I have transferred additional {cash} credits."
+    "message": "Ik ben erg blij met uw prestatie! Ik heb {cash} credits extra overgemaakt"
   },
   "COMBAT": {
     "description": "Name of mission type",
@@ -61,35 +61,35 @@
   },
   "CORPORATION_1": {
     "description": "Name of a corporation",
-    "message": "Precious Goods Foundation"
+    "message": "Kostbare Goederen Stichting"
   },
   "CORPORATION_2": {
     "description": "Name of a corporation",
-    "message": "Omega Mining Company"
+    "message": "Omega Mijnbouw Bedrijf"
   },
   "CORPORATION_3": {
     "description": "Name of a corporation",
-    "message": "United Ore Mines Syndicate"
+    "message": "Verenigde Ertsen Mijnbouw Syndicaat"
   },
   "CORPORATION_4": {
     "description": "Name of a corporation",
-    "message": "Galactic Explorer Corporation"
+    "message": "Galactische Ontdekkingsreizigers Corporatie"
   },
   "CORPORATION_5": {
     "description": "Name of a corporation",
-    "message": "Haber Corporation"
+    "message": "Haber Corporatie"
   },
   "CORPORATION_6": {
     "description": "Name of a corporation",
-    "message": "Precious Metal Prospectors LLC"
+    "message": "Kostbare Metalen Onderzoekers BV"
   },
   "CORPORATION_7": {
     "description": "Name of a corporation",
-    "message": "{name} Ore Seeker PLC"
+    "message": "Ertsen Zoekers NV"
   },
   "CORPORATION_8": {
     "description": "Name of a corporation",
-    "message": "{name} LLC"
+    "message": "{name} BV"
   },
   "DANGER": {
     "description": "The risk level",
@@ -97,11 +97,11 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "Sorry, I need a pilot who has more combat experience."
+    "message": "Sorry, ik heb een piloot nodig met meer gevechtservaring."
   },
   "DENY_2": {
     "description": "",
-    "message": "Excuse me sir. I need a real professional."
+    "message": "Mijn verontschuldigingen. Ik heb een beroeps nodig."
   },
   "DETECTIVE": {
     "description": "Police Detective",
@@ -113,59 +113,59 @@
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "Shame on you. Get out of my sight."
+    "message": "Schaamt u zich. Verdwijn uit mijn ogen."
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "You are too late! You have caused great losses. You will not be paid!"
+    "message": "U bent te laat! U heeft grote schade veroorzaakt. U wordt niet betaald!"
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "You're a disgrace to all pilots. I cannot pay you!"
+    "message": "U bent een schande voor alle piloten. Ik kan u niet betalen!"
   },
   "FAILUREMSG_4": {
     "description": "",
-    "message": "You failed! I will not pay you!"
+    "message": "U heeft gefaald! Ik betaal u niet!"
   },
   "GREETING_1": {
     "description": "",
-    "message": "Hi, I'm {name}."
+    "message": "Hai, ik ben {name}."
   },
   "GREETING_2": {
     "description": "",
-    "message": "Hello. My name is {name}."
+    "message": "Hallo. Mijn naam is {name}."
   },
   "GREETING_3": {
     "description": "",
-    "message": "How are you. I'm {name}."
+    "message": "Hoe gaat het? Ik ben {name}."
   },
   "GREETING_4": {
     "description": "",
-    "message": "Greetings! Call me {name}."
+    "message": "Gegroet! U mag mij {name} noemen."
   },
   "GREETING_5": {
     "description": "",
-    "message": "Good day. My name is {name}."
+    "message": "Goedendag. Mijn naam is {name}."
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We have reason to believe that a ruthless market competitor is responsible for the disappearance of our freighters at {area}. Distance to the target area is {dist} ly."
+    "message": "De {org} betaalt {cash} voor een {mission}-missie het {system}-stelsel ({sectorx}, {sectory}, {sectorz}). We hebben redenen om te geloven dat een medogenloze marktconcurrent verantwoordelijk het verdwijnen van onze vrachtschepen bij  {area}. Afstand tot {area} is {dist} lj."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "Our market competitor is seriously claiming he has ownership of {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The {org} totally disagree and is willing to pay {cash} for a combat mission at {area}. {area} is in a distance of {dist} ly."
+    "message": "Onze concurrent stelt dat zij in bezit zijn van {area} in het {system}-stelsel ({sectorx}, {sectory}, {sectorz}). De {org} is het hier niet mee eens en is bereid {cash} te betalen voor een gevechtsmissie bij {area}. {area} ligt op een afstand van {dist} lj."
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Please help! We received a distress call from one of our freighters orbiting {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The call was interrupted, so we fear the worst. Distance to {system} is {dist} ly. The pay is {cash}."
+    "message": "Help! We hebben een noodoproep ontvangen van een van onze vrachtschepen in een baan rond {area} in het {system}-stelsel. ({sectorx}, {sectory}, {sectorz}). De oproep werd onderbroken, dus we vrezen het ergste. Afstand tot {system} is {dist} lj. We betalen {cash}."
   },
   "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}. Please keep quiet about this operation."
+    "message": "Het is belangrijk dat de missie klaar is op {date}, maar wees er alstublieft stil over."
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "We have a salesperson in every nearby star system. This person will get in contact with you when landed."
+    "message": "We hebben een verkoper in elk stelsel in de omgeving. Deze persoon zal contact met u opnemen zodra u geland bent."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "IS_THERE_A_TIME_LIMIT": {
     "description": "",
-    "message": "Is there a time limit?"
+    "message": "Is er een tijdslimiet?"
   },
   "LY": {
     "description": "",
@@ -185,83 +185,83 @@
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Meet me in the {rendezvous} system to finish the job!"
+    "message": "Tref me in het {rendezvous}-stelsel om de klus te klaren!"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Military intelligence believe that a hostile faction has set up a secret listening outpost on {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The government can not tolerate this and have approved a series of operations to wipe out this facility. The enemy tries to disguise its origin by using only civilian spacecraft types. We do it like this too! So we are willing to hire a mercenary for {cash}. {area} is located {dist} ly from here."
+    "message": "Militaire inlichtingen geloven dat een vijandige groepering een geheime luisterpost heeft opgezet op {area} in het {system}-stelsel ({sectorx}, {sectory}, {sectorz}). De regering kan dit niet toestaan en heeft toestemming gegeven voor een serie operaties om deze faciliteit te laten verdwijnen. De vijand probeert zijn herkomst te verbergen door alleen burgerschepen te gebruiken. Zo doen wij het ook! Dus zijn we bereid een huurling in te huren voor {cash}. {area} bevindt zich op {dist} lj van hier."
   },
   "MILITARY_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "In response to a case of piracy in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly, the local authorities pay {cash} for a combat mission at {area}."
+    "message": "In reactie op piraterij in het {system}-stelsel ({sectorx}, {sectory}, {sectorz}), {dist} lj betalen de lokale authoriteiten {cash} voor een gevechtsmissie bij {area}."
   },
   "MILITARY_3": {
     "description": "",
-    "message": "The counter intelligence corps needs a civil pilot who asks no questions for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pay is {cash}."
+    "message": "Ons corps contraspionage heeft een burgerpiloot nodig die geen vragen stelt voor een {mission}-missie in het {system}-stelsel ({sectorx}, {sectory}, {sectorz}), {dist} lj. Betaling is {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "A task force will be assembled to regain control of {area}. It's important that the mission is successfully completed by {date}."
+    "message": "Een taskforce wordt samengesteld om de controle over {area} terug te krijgen. Het is belangrijk dat de missie klaar is op {date}."
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Visit a station in the territory protected by the {org}!"
+    "message": "Bezoek een station in het territorium dat beschermd wordt door de {org}!"
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} is in a dispute with a rival company about {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To push through our claims we need a reliable and combat experienced mercenary. We offer {cash} for the expenses. Distance to {system} is {dist} ly."
+    "message": "De {org} is in conflict met een rivaliseerden bedrijf over {area} in het {system}-stelsel ({sectorx}, {sectory}, {sectorz}). Om onze claims door te drukken hebben we een betrouwbare en ervaren huurling nodig. We bieden {cash} voor de onkosten. Afstand tot {system} is {dist} lj."
   },
   "MINING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "I'm a manager of the {org}. We need additional help in a longtime legal dispute with a competitor about the mining rights in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. We lost patience and would like to speed things up outside of the courtroom. Your mission would be to jump to {area} for {cash}."
+    "message": "Ik ben een manager van de {org}. We hebben extra hulp nodig in een langdurig juridisch conflict met een concurrent over de mijnbouwrechten in het {system}-stelsel ({sectorx}, {sectory}, {sectorz}), {dist} lj. We hebben ons geduld verloren en willen het proces graag vlottrekken buiten de rechtzaal. Uw missie zou zijn om naar {area} te springen voor {cash}."
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "I work for the {org}. Some of our freighters will arrive shortly at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To increase the safety of our employees and to protect the equipment we are willing to pay {cash} for a {mission} mission. Distance to {area} is {dist} ly."
+    "message": "I werk voor de {org}. Enkele van onze vrachtschepen zullen binnenkort aankomen bij {area} in het {system}-stelsel ({sectorx}, {sectory}, {sectorz}). Om de veiligheid van onze medewerkers te vergroten en het materiaal te beschermen zijn we bereid  {cash} te betalen voor een {mission}-missie. Afstand tot {area} is {dist} lj."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "A convoy is enroute to {area}. It is essential that the mission is completed by {date}."
+    "message": "Een konvooi is op weg naar {area}. Het is essentieel dat de missie voltooid wordt op {date}."
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "We have employees in every nearby star system. Just visit the nearest station and get in contact with the local office there."
+    "message": "We hebben medewerkers in elk stelsel in de omgeving. Bezoek gewoon het dichtstbijzijnde station en neem contact op met ons kantoor daar."
   },
   "MISSION": {
     "description": "",
-    "message": "Mission:"
+    "message": "Missie:"
   },
   "MISSION_COMPLETE": {
     "description": "Message from the ship computer",
-    "message": "Primary mission objective complete"
+    "message": "Primair missiedoel voltooid"
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
-    "message": "Reconnaissance"
+    "message": "Verkenning"
   },
   "MISSION_TYPE_2": {
     "description": "Name of mission type",
-    "message": "Armed Reconnaissance"
+    "message": "Gewapende Verkenning"
   },
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
-    "message": "Area Sweep"
+    "message": "Gebied Bestrijken"
   },
   "OBJECTIVE_1": {
     "description": "",
-    "message": "It's not necessary to attack the enemy. We want data about the defence capability and response time."
+    "message": "Het is niet nodig de vijand aan te vallen. We willen data over de verdedigingscapaciteit en de reactietijd."
   },
   "OBJECTIVE_2": {
     "description": "",
-    "message": "Weaken the enemy's strength as much as possible and then jump to safety."
+    "message": "Verzwak de vijand zoveel mogelijk en spring dan naar de veiligheid."
   },
   "OBJECTIVE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Clear the area around {area}. Break any resistance."
+    "message": "Veeg het gebied rond {area} schoon. Breek elk verzet."
   },
   "OK_AGREED": {
     "description": "",
-    "message": "OK, agreed."
+    "message": "OK, akkoord."
   },
   "PAYMENT_LOCATION": {
     "description": "",
@@ -269,43 +269,43 @@
   },
   "PLEASE_REPEAT_THE_MISSION_DETAILS": {
     "description": "",
-    "message": "Please repeat the mission details!"
+    "message": "Herhaal alstublieft de missiedetails!"
   },
   "POLICE_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Police detectives have discovered that a group of pirates try to establish a stronghold on {area} in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. This must not happen. The local authorities pay {cash} for a mission to {area} as preparation of a police operation."
+    "message": "Inspecteurs van de politie hebben ontdekt dat een groep piraten proberen een bolwerk te vestigen op {area} in het {system}-stelsel ({sectorx}, {sectory}, {sectorz}), {dist} lj. Dit mag niet gebeuren. De lokale autoriteiten betalen {cash} voor een  missie naar {area} als voorbereiding op een politie-operatie."
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for a combat mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We are short on pilots and ships. So this will be an opportunity for a loyal citizen to make money. The target is a small pirate base on {area}. You need hyperdrive propellant for {dist} ly and additional fuel for the return route."
+    "message": "De {org} betaalt {cash} voor een gevechtsmissie in het {system}-stelsel ({sectorx}, {sectory}, {sectorz}). We hebben een tekort aan piloten en schepen. Dus dit is een kans voor een loyale burger om geld te verdienen. Het doel is een kleine piratenbasis op {area}. Je hebt hyperdrive-brandstof nodig voor  {dist} lj en extra brandstof voor de terugreis."
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Our markets were flooded by contraband. The source has been traced back to a hidden base at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). Only a distance of {dist} ly. Because of the reduced police budget the local authorities would like to outsource this mission and have allotted {cash} credits for this operation."
+    "message": "Onze markten zijn overspoeld door smokkelwaar. De herkomst is teruggevoerd op een verborgen basis op {area} in het  {system}-stelsel ({sectorx}, {sectory}, {sectorz}). Slechts  {dist} lj. van hier. Vanwege het gereduceerde politiebudget willen de lokale autoriteiten deze missie graag outsourcen en hebben daarvoor {cash} credits beschikbaar gesteld."
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}, because more hostile ships are on there way."
+    "message": "Het is belangrijk dat de missie voltooid is op {date}, want er zijn meer vijandige schepen onderweg."
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Just land at a station with a {org} office."
+    "message": "Land gewoon bij een station met een {org}-kantoor."
   },
   "RISK_1": {
     "description": "",
-    "message": "The competitor has only limited resources. Nothing you can't handle."
+    "message": "De concurrent heeft maar beperkte middelen. Niets wat je niet aankunt."
   },
   "RISK_2": {
     "description": "",
-    "message": "The competitor has only minor resources. But he will defend his position if necessary."
+    "message": "De concurrent heeft maar beperkte middelen. Maar hij zal zijn positie verdedigen als dat nodig is."
   },
   "RISK_3": {
     "description": "",
-    "message": "The competitor is well equipped. Please keep your eyes open!"
+    "message": "De concurrent is goed uitgerust. Houd uw ogen open!"
   },
   "RISK_4": {
     "description": "",
-    "message": "The enemy is very well equiped and has access to the latest technology. Be careful!"
+    "message": "De vijand is zeer goed uitgerust en heeft toegang tot de nieuwste technologie. Wees voorzichtig!"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -313,19 +313,19 @@
   },
   "SUCCESSMSG_1": {
     "description": "",
-    "message": "I knew you were the right person for such a mission. Here is your payment."
+    "message": "Ik wist wel dat u de juiste persoon voor zo'n missie zou zijn. Hier is het geld."
   },
   "SUCCESSMSG_2": {
     "description": "",
-    "message": "Thank you for making it. I have transferred the money."
+    "message": "Bedankt dat het gelukt is. Ik heb het geld overgemaakt."
   },
   "SUCCESSMSG_3": {
     "description": "",
-    "message": "I hope you had no big trouble. I just paid you."
+    "message": "Ik hoop dat u geen grote problemen had. Ik heb u net betaald."
   },
   "SUCCESSMSG_4": {
     "description": "",
-    "message": "Very well done. I have paid the bill."
+    "message": "Zeer goed gedaan. Ik heb de rekening betaald."
   },
   "SYSTEM": {
     "description": "",
@@ -333,14 +333,14 @@
   },
   "TIME_LIMIT": {
     "description": "",
-    "message": "Time limit:"
+    "message": "Tijdslimiet:"
   },
   "WHAT_ARE_THE_MISSION_OBJECTIVES": {
     "description": "",
-    "message": "What are the mission objectives?"
+    "message": "Wat zijn de missiedoelen?"
   },
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
-    "message": "Will I be in trouble?"
+    "message": "Kom ik in de problemen?"
   }
 }

@@ -77,15 +77,15 @@
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+    "message": "De basis van het dieet van veel mensen. Het wordt gebruikt in landbouw, als diervoeder, en als toevoeging aan kunstmatige voeding. Graan wordt ook gebruikt in veel ander voedsel, zoals havermout en baksels. Veel door de ruimte reizende culturen verbouwen en consumeren graan, aangepast aan het klimaat van hun leefomgeving."
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Small arms"
+    "message": "Kleine wapens"
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Providing insurance beyond the long arm of the law, hand weapons are essential for space traders in far-out systems. However, many governments see them as a threat to their own control over their population and strictly control their trade and possession."
+    "message": "Handwapens bieden bescherming die verder gaat dan de lange arm van de wet en zijn essentieel voor ruimtehandelaren in ver weg gelegen stelsels. Veel regeringen zien ze echter als bedreiging voor de controle over hun bevolkingen en houden strikte controle over de handel en het bezit."
   },
   "HYDROGEN": {
     "description": "",

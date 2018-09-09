@@ -41,7 +41,7 @@
   },
   "NO_CREW_AVAILABLE": {
     "description": "",
-    "message": "Sorry, no candidates are currently seeking employment at {station}"
+    "message": "Sorry, momenteel zijn er geen kandidaten die werk zoeken op {station}"
   },
   "NO_EXPERIENCE": {
     "description": "",
