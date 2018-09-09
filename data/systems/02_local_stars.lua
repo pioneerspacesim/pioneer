@@ -234,7 +234,7 @@ CustomSystem:new('Gliese 203',{'STAR_M'}):add_to_sector(3,-1,0,v(0.460,0.514,0.5
 CustomSystem:new('Xi Boötis',{'STAR_G','STAR_K'}):add_to_sector(-2,1,0,v(0.245,0.892,0.894))
 CustomSystem:new('Gliese 205',{'STAR_M'}):add_to_sector(2,-1,-1,v(0.297,0.712,0.851))
 CustomSystem:new('NN 3976',{'STAR_M'}):add_to_sector(-4,1,1,v(0.402,0.118,0.557))
-CustomSystem:new('Toliman',{'STAR_G','STAR_K'}):other_names({"Bungula", "Gliese 559", "FK5 538", "GC 19728", "CCDM J14396-6050", "Alpha Centauri", "α Centauri"}):add_to_sector(-1,0,-1,v(0.828,0.204,0.520))
+CustomSystem:new('Toliman',{'STAR_G','STAR_K'}):add_to_sector(-1,0,-1,v(0.828,0.204,0.520))--:other_names({"Bungula", "Gliese 559", "FK5 538", "GC 19728", "CCDM J14396-6050", "Alpha Centauri", "α Centauri"})
 -- That's Alpha Centauri, or Rigil Kent., btw (-:
 CustomSystem:new('NN 3801',{'STAR_M'}):add_to_sector(-2,2,2,v(0.656,0.795,0.036))
 CustomSystem:new('NN 3804',{'STAR_M'}):add_to_sector(-2,3,-2,v(0.030,0.957,0.566))
@@ -305,7 +305,8 @@ CustomSystem:new('Gliese 338',{'STAR_M','STAR_K'}):add_to_sector(1,1,2,v(0.011,0
 CustomSystem:new('Ross 614',{'STAR_M','STAR_M'}):add_to_sector(1,0,-1,v(0.663,0.213,0.918))
 CustomSystem:new('Gliese 54',{'STAR_K'}):add_to_sector(0,-2,-4,v(0.385,0.787,0.935))
 CustomSystem:new('Proxima Centauri',{'STAR_M'}):add_to_sector(-1,0,-1,v(0.853,0.191,0.531))
-CustomSystem:new('Wolf 1061',{'STAR_M'}):add_to_sector(-2,0,-1,v(0.432,0.647,0.619))
+--CustomSystem:new('Wolf 1061',{'STAR_M'}):add_to_sector(-2,0,-1,v(0.432,0.647,0.619))
+--System already customized in custom\11_noril_wolf1061.lua
 CustomSystem:new('Gliese 625',{'STAR_M'}):add_to_sector(-2,0,2,v(0.566,0.628,0.179))
 CustomSystem:new('Gliese 791.2',{'STAR_M'}):add_to_sector(-3,-3,0,v(0.206,0.861,0.601))
 CustomSystem:new('Gliese 623',{'STAR_M'}):add_to_sector(-2,0,2,v(0.009,0.885,0.450))
