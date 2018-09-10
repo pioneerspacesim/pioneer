@@ -1932,18 +1932,24 @@ struct ImFont
     float                       Ascent, Descent;    //              // Ascent: distance from top to bottom of e.g. 'A' [0..FontSize]
     bool                        DirtyLookupTables;
     int                         MetricsTotalSurface;//              // Total surface in pixels to get an idea of the font rasterization/texture cost (not exact, we approximate the cost of padding between glyphs)
+    mutable bool                GlyphsMissing;
+    mutable ImVector<unsigned int> MissingGlyphsVector;
 
     // Methods
     IMGUI_API ImFont();
     IMGUI_API ~ImFont();
     IMGUI_API void              ClearOutputData();
     IMGUI_API void              BuildLookupTable();
-    IMGUI_API const ImFontGlyph*FindGlyph(ImWchar c) const;
+    IMGUI_API const ImFontGlyph*FindGlyph(ImWchar c, bool report_missing = false) const;
     IMGUI_API const ImFontGlyph*FindGlyphNoFallback(ImWchar c) const;
     IMGUI_API void              SetFallbackChar(ImWchar c);
     float                       GetCharAdvance(ImWchar c) const     { return ((int)c < IndexAdvanceX.Size) ? IndexAdvanceX[(int)c] : FallbackAdvanceX; }
     bool                        IsLoaded() const                    { return ContainerAtlas != NULL; }
     const char*                 GetDebugName() const                { return ConfigData ? ConfigData->Name : "<unknown>"; }
+
+    bool                        AreGlyphsMissing() const            { return GlyphsMissing; }
+    const ImVector<unsigned int> &MissingGlyphs() const          { return MissingGlyphsVector; }
+    void                        ResetMissingGlyphs() const          { GlyphsMissing = false; MissingGlyphsVector.clear(); }
 
     // 'max_width' stops rendering after a certain width (could be turned into a 2d size). FLT_MAX to disable.
     // 'wrap_width' enable automatic word-wrapping across multiple lines to fit into given width. 0.0f to disable.
