@@ -377,7 +377,7 @@
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
-    "message": "Engineering:"
+    "message": "Techniek:"
   },
   "EQUIPMENT": {
     "description": "",
@@ -609,7 +609,7 @@
   },
   "HUD_BUTTON_HYPERDRIVE_DISABLED": {
     "description": "Tooltip: Hyperdrive disabled (docked or landed)",
-    "message": "Hyperdrive uitgeschakeld"
+    "message": "Hyper-aandrijving uitgeschakeld"
   },
   "HUD_BUTTON_INITIATE_HYPERJUMP": {
     "description": "Tooltip: Initiate legal hyperjump",
@@ -869,11 +869,11 @@
   },
   "HYPERDRIVE": {
     "description": "",
-    "message": "Hyperruimteaandrijving"
+    "message": "Hyper-aandrijving"
   },
   "HYPERDRIVE_FITTED": {
     "description": "",
-    "message": "Hyperaandrijving geinstalleerd:"
+    "message": "Hyper-aandrijving geïnstalleerd:"
   },
   "HYPERJUMP_ROUTE": {
     "description": "",
@@ -1501,7 +1501,7 @@
   },
   "SHIPS_ENGINEER": {
     "description": "",
-    "message": "Scheepswerktuigbouwkundige"
+    "message": "Scheepstechnicus"
   },
   "SHIP_INFORMATION": {
     "description": "",
@@ -1641,7 +1641,7 @@
   },
   "TOO_SMALL_TO_TRANSSHIP": {
     "description": "Ship market error message",
-    "message": "Nieuwe schip heeft niet de huidige vrachtruimte en hyperdrive"
+    "message": "Nieuwe schip heeft niet de huidige vrachtruimte en hyper-aandrijving"
   },
   "TOTAL": {
     "description": "",

@@ -565,7 +565,7 @@
   },
   "HYPERSPACE_JUMP_ABORT": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
-    "message": "Stop hyperaandrijving"
+    "message": "Stop hyper-aandrijving"
   },
   "HYPERSPACE_JUMP_ABORTED": {
     "description": "",
@@ -573,15 +573,15 @@
   },
   "HYPERSPACE_JUMP_DISABLED": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
-    "message": "Hyperdrive uitgeschakeld"
+    "message": "Hyper-aandrijving uitgeschakeld"
   },
   "HYPERSPACE_JUMP_ENGAGE": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
-    "message": "Start hyperaandrijving"
+    "message": "Start hyper-aandrijving"
   },
   "HYPERSPACE_JUMP_FORBIDDEN": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
-    "message": "Hyperdrive verboden zone"
+    "message": "Hyper-aandrijving verboden zone"
   },
   "HYPERSPACE_TARGET": {
     "description": "",
@@ -673,7 +673,7 @@
   },
   "LATITUDE": {
     "description": "Short for latitude",
-    "message": "Lat:"
+    "message": "Bre:"
   },
   "LATITUDE_NORTH_ABBREV": {
     "description": "Abbreviation letter for latitude 'north'",
@@ -989,7 +989,7 @@
   },
   "NO_HYPERDRIVE": {
     "description": "",
-    "message": "Geen hyperaandrijving"
+    "message": "Geen hyper-aandrijving"
   },
   "NO_REGISTERED_INHABITANTS": {
     "description": "",

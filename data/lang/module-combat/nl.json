@@ -1,7 +1,7 @@
 {
   "ACCEPTED_1": {
     "description": "",
-    "message": "Zeer goed. Veel geluk!"
+    "message": "Heel goed. Succes!"
   },
   "ACCEPTED_2": {
     "description": "",
@@ -277,7 +277,7 @@
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "De {org} betaalt {cash} voor een gevechtsmissie in het {system}-stelsel ({sectorx}, {sectory}, {sectorz}). We hebben een tekort aan piloten en schepen. Dus dit is een kans voor een loyale burger om geld te verdienen. Het doel is een kleine piratenbasis op {area}. Je hebt hyperdrive-brandstof nodig voor  {dist} lj en extra brandstof voor de terugreis."
+    "message": "De {org} betaalt {cash} voor een gevechtsmissie in het {system}-stelsel ({sectorx}, {sectory}, {sectorz}). We hebben een tekort aan piloten en schepen. Dus dit is een kans voor een loyale burger om geld te verdienen. Het doel is een kleine piratenbasis op {area}. Je hebt hyper-aandrijvingbrandstof nodig voor {dist} lj en extra brandstof voor de terugreis."
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",

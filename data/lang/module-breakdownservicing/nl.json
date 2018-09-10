@@ -1,27 +1,27 @@
 {
   "FLAVOUR_0_INTRO": {
     "description": "",
-    "message": "Vermijd het ongemak van een hyperspace-motor die stukgaat. Laat hem vandaag nog onderhouden, door de officieel aangeraden {name} Motor Onderhouds Bedrijf.\n"
+    "message": "Vermijd het ongemak van een hyperspace-aandrijving die stukgaat. Laat hem vandaag nog onderhouden, door de officieel aangeraden {name} Aandrijving Onderhoudsbedrijf.\n"
   },
   "FLAVOUR_0_PRICE": {
     "description": "",
-    "message": "\nMotor: {drive}\nService: {price}\nGarantie: 18 maanden\n{lasttime}"
+    "message": "\nAandrijving: {drive}\nOnderhoud: {price}\nGarantie: 18 maanden\n{lasttime}"
   },
   "FLAVOUR_0_RESPONSE": {
     "description": "",
-    "message": "Uw hyperaandrijving heeft een servicebeurt gekregen."
+    "message": "Uw aandrijving heeft een servicebeurt gekregen."
   },
   "FLAVOUR_0_TITLE": {
     "description": "",
-    "message": "{name} Motor-service B.V."
+    "message": "{name} Aandrijving Onderhoudsbedrijf B.V."
   },
   "FLAVOUR_0_YESPLEASE": {
     "description": "",
-    "message": "Ik wil een servicebeurt"
+    "message": "Onderhoud Hyperruimte-aandrijving"
   },
   "FLAVOUR_1_INTRO": {
     "description": "",
-    "message": "Ik ben {proprietor}. Ik kan onderhoud op uw hyperdrive uitvoeren en garandeer tenminste een jaar probleemloze werking."
+    "message": "Ik ben {proprietor}. Ik kan onderhoud op uw hyper-aandrijving uitvoeren en garandeer tenminste een jaar probleemloze werking."
   },
   "FLAVOUR_1_PRICE": {
     "description": "",
@@ -29,11 +29,11 @@
   },
   "FLAVOUR_1_RESPONSE": {
     "description": "",
-    "message": "Ik heb uw hyperaandrijving een beurt gegeven."
+    "message": "Ik heb uw hyper-aandrijving een beurt gegeven."
   },
   "FLAVOUR_1_TITLE": {
     "description": "",
-    "message": "{proprietor}: Hyperaandrijving onderhouds-specialist"
+    "message": "{proprietor}: Hyper-aandrijving onderhouds-specialist"
   },
   "FLAVOUR_1_YESPLEASE": {
     "description": "",
@@ -41,7 +41,7 @@
   },
   "FLAVOUR_2_INTRO": {
     "description": "",
-    "message": "Hallo daar.  Wij van {proprietor} & Co zetten onze reputatie op ons werk in.\nWe kunnen de hyperdrive van uw schip afstemmen en verzekeren 12 maanden van probleemloze werking."
+    "message": "Hallo daar.  Wij van {proprietor} & Co zetten onze reputatie op ons werk in.\nWe kunnen de hyper-aandrijving van uw schip afstemmen en verzekeren 12 maanden van probleemloze werking."
   },
   "FLAVOUR_2_PRICE": {
     "description": "",
@@ -57,11 +57,11 @@
   },
   "FLAVOUR_2_YESPLEASE": {
     "description": "",
-    "message": "Stemt u alstublieft mijn hyperdrive af voor de genoemde prijs."
+    "message": "Stemt u alstublieft mijn hyper-aandrijving af voor de genoemde prijs."
   },
   "FLAVOUR_3_INTRO": {
     "description": "",
-    "message": "Welkom bij SuperFix Onderhoud. Tijd voor uw tweejaarlijkse onderhoud? Laat ons uw hyperdrive  SuperFixen!"
+    "message": "Welkom bij SuperFix Onderhoud. Tijd voor uw tweejaarlijkse onderhoud? Laat ons uw hyper-aandrijving SuperFixen!"
   },
   "FLAVOUR_3_PRICE": {
     "description": "",
@@ -81,7 +81,7 @@
   },
   "FLAVOUR_4_INTRO": {
     "description": "",
-    "message": "Welkome bij Tijd en Ruimte.\n\nWij zijn gespecialiseerd in interstellaire motoren. Alle onderhoudswerk gegarandeerd voor twee jaar."
+    "message": "Welkome bij Tijd en Ruimte.\n\nWij zijn gespecialiseerd in interstellaire aandrijving. Alle onderhoudswerk gegarandeerd voor twee jaar."
   },
   "FLAVOUR_4_PRICE": {
     "description": "",
@@ -89,11 +89,11 @@
   },
   "FLAVOUR_4_RESPONSE": {
     "description": "",
-    "message": "We hebben het werk aan uw hyperaandrijving voltooid."
+    "message": "We hebben het werk aan uw hyper-aandrijving voltooid."
   },
   "FLAVOUR_4_TITLE": {
     "description": "",
-    "message": "Tijd en Ruimte Motoren, B.V."
+    "message": "Tijd en Ruimte Aandrijving, N.V."
   },
   "FLAVOUR_4_YESPLEASE": {
     "description": "",
@@ -101,23 +101,23 @@
   },
   "FLAVOUR_5_INTRO": {
     "description": "",
-    "message": "Vermijd het ongemak van een hyperspace-motor die stukgaat.  Laat hem vandaag nog onderhouden.\n"
+    "message": "Vermijd het ongemak van een hyperspace-aandrijving die stukgaat.  Laat hem vandaag nog onderhouden.\n"
   },
   "FLAVOUR_5_PRICE": {
     "description": "",
-    "message": "\nMotor: {drive}\nOnderhoud: {price}\n{lasttime}"
+    "message": "\nAandrijving: {drive}\nOnderhoud: {price}\n{lasttime}"
   },
   "FLAVOUR_5_RESPONSE": {
     "description": "",
-    "message": "Uw hyperaandrijving heeft een servicebeurt gekregen."
+    "message": "Uw aandrijving heeft een onderhoudsbeurt gekregen."
   },
   "FLAVOUR_5_TITLE": {
     "description": "",
-    "message": "{proprietor} Motor-service B.V."
+    "message": "{proprietor} Aandrijving Onderhoudsbedrijf"
   },
   "FLAVOUR_5_YESPLEASE": {
     "description": "",
-    "message": "Ik wil een servicebeurt"
+    "message": "Onderhoud Hyperruimte-aandrijving"
   },
   "I_DONT_HAVE_ENOUGH_MONEY": {
     "description": "",
@@ -125,11 +125,11 @@
   },
   "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
     "description": "",
-    "message": "Ik heb de hyperaandrijving gerepareerd voordat die het begaf."
+    "message": "Ik heb de hyper-aandrijving gerepareerd voordat die het begaf."
   },
   "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION": {
     "description": "",
-    "message": "De hyperaandrijving van het schip is vernietigd door een defect"
+    "message": "De hyper-aandrijving van het schip is vernietigd door een defect"
   },
   "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED": {
     "description": "",
@@ -145,6 +145,6 @@
   },
   "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
     "description": "",
-    "message": "U heeft de hyperaandrijving gerepareerd voordat die het begaf."
+    "message": "U heeft de hyper-aandrijving gerepareerd voordat die het begaf."
   }
 }

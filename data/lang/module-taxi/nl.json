@@ -9,7 +9,7 @@
   },
   "CORPORATIONS_10": {
     "description": "",
-    "message": "Bulk Ships"
+    "message": "Bulk-vrachtschepen"
   },
   "CORPORATIONS_11": {
     "description": "",
@@ -281,7 +281,7 @@
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
-    "message": "Thanks for bringing us here. We've now paid in full. Good Luck!"
+    "message": "Bedankt dat u ons hierheen gebracht hebt. We hebben u volledig betaald. Succes verder!"
   },
   "FLAVOUR_2_WHEREAREWE": {
     "description": "",
@@ -345,7 +345,7 @@
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Thanks for carrying me here. I've paid in full. Good Luck!"
+    "message": "Bedankt dat u me hierheen gebracht hebt. Ik heb u volledig betaald. Succes verder!"
   },
   "FLAVOUR_4_WHEREAREWE": {
     "description": "",
@@ -441,7 +441,7 @@
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
-    "message": "Thanks for carrying me safely here. I've paid in full. Good Luck!"
+    "message": "Bedankt dat u me hier veilig heengebracht hebt. Ik heb u volledig betaald. Succes verder!"
   },
   "FLAVOUR_7_WHEREAREWE": {
     "description": "",

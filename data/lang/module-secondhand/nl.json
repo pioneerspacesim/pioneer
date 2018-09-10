@@ -5,7 +5,7 @@
   },
   "FITTING_IS_INCLUDED_IN_THE_PRICE": {
     "description": "Regarding installing a component on the ship",
-    "message": "Fitting is included in the price."
+    "message": "De prijs is inclusief montage."
   },
   "FLAVOUR_0_BODY": {
     "description": "",
@@ -13,7 +13,7 @@
   },
   "FLAVOUR_0_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE: Special offer, selling one {equipment}."
+    "message": "TE KOOP: Speciale aanbieding, verkoop één {equipment}."
   },
   "FLAVOUR_1_BODY": {
     "description": "",

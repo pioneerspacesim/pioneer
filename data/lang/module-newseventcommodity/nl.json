@@ -9,7 +9,7 @@
   },
   "FLAVOUR_10_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Company threatening continual survival of {system} system."
+    "message": "NIEUWS {date}: Bedrijf bedreigt voortdurende overleving van  {system}-stelsel."
   },
   "FLAVOUR_10_NEWSBODY": {
     "description": "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
@@ -89,7 +89,7 @@
   },
   "FLAVOUR_1_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Conflict escalates in {system} system."
+    "message": "NIEUWS {date}: Conflict escaleert in {system}-stelsel"
   },
   "FLAVOUR_1_NEWSBODY": {
     "description": "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",

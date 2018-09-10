@@ -5,15 +5,15 @@
   },
   "BEGIN_TRADE": {
     "description": "",
-    "message": "Begin trade"
+    "message": "Start handel"
   },
   "FLAVOUR_0_CLUBNAME": {
     "description": "",
-    "message": "Interstellar Pilots' Fuel Co-operative"
+    "message": "Brandsof-Coöperatie van de Interstellaire Piloten"
   },
   "FLAVOUR_0_MEMBER_INTRO": {
     "description": "",
-    "message": "You may purchase fuel and dispose of {radioactives} here."
+    "message": "U kunt brandstof aanschaffen en uw {radioactives} hier achterlaten."
   },
   "FLAVOUR_0_NONMEMBER_INTRO": {
     "description": "",

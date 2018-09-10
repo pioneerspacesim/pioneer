@@ -13,7 +13,7 @@
   },
   "CREWTESTRESULTSBB": {
     "description": "",
-    "message": "Examenresultaten:\n\nAlgemene bemanningsvaardigheden: {general}%\nWerktuigbouwkunde en reparaties: {engineering}%\nBesturing en ruimtevaart: {piloting}%\nNavigatie en koers uitzetten: {navigation}%\nSensoren en verdediging: {sensors}%\nTotale examenscore: {overall}%"
+    "message": "Examenresultaten:\n\nAlgemene bemanningsvaardigheden: {general}%\nTechniek en reparaties: {engineering}%\nBesturing en ruimtevaart: {piloting}%\nNavigatie en koers uitzetten: {navigation}%\nSensoren en verdediging: {sensors}%\nTotale examenscore: {overall}%"
   },
   "CREW_FOR_HIRE": {
     "description": "",

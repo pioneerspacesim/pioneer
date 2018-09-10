@@ -5,7 +5,7 @@
   },
   "BOARDED_PASSENGER": {
     "description": "",
-    "message": "{name} has boarded the ship."
+    "message": "{name} is aan boord gegaan."
   },
   "COMMODITIES": {
     "description": "",
@@ -25,7 +25,7 @@
   },
   "DELIVERED_PASSENGER": {
     "description": "",
-    "message": "{name} has left the ship."
+    "message": "{name} is van boord gegaan."
   },
   "DELIVERY": {
     "description": "",
@@ -37,31 +37,31 @@
   },
   "ENTITY_FAMILY_BUSINESS_1": {
     "description": "",
-    "message": "{name} and Sons"
+    "message": "{name} en Zonen"
   },
   "ENTITY_FAMILY_BUSINESS_10": {
     "description": "",
-    "message": "{name} Taxi Services"
+    "message": "{name} Taxibedrijf"
   },
   "ENTITY_FAMILY_BUSINESS_2": {
     "description": "",
-    "message": "{name} and Daughters"
+    "message": "{name} en Dochters"
   },
   "ENTITY_FAMILY_BUSINESS_3": {
     "description": "",
-    "message": "{name} Flowers of {locality}"
+    "message": "{name} Bloemen uit {locality}"
   },
   "ENTITY_FAMILY_BUSINESS_4": {
     "description": "",
-    "message": "{name} Custom Painted Missiles"
+    "message": "{name} Speciaal Gedecoreerde Raketten"
   },
   "ENTITY_FAMILY_BUSINESS_5": {
     "description": "",
-    "message": "{name} Courier Services"
+    "message": "{name} Pakketbezorging"
   },
   "ENTITY_FAMILY_BUSINESS_6": {
     "description": "",
-    "message": "{name} Space Pets"
+    "message": "{name} Ruimte Huisdieren"
   },
   "ENTITY_FAMILY_BUSINESS_7": {
     "description": "",
@@ -69,95 +69,95 @@
   },
   "ENTITY_FAMILY_BUSINESS_8": {
     "description": "",
-    "message": "{name} Authentic {locality} Foods"
+    "message": "{name} Authentieke {locality} Specialiteiten"
   },
   "ENTITY_FAMILY_BUSINESS_9": {
     "description": "",
-    "message": "{name} Transports"
+    "message": "{name} Transport"
   },
   "ENTITY_GENERAL_1": {
     "description": "",
-    "message": "the {locality} General Prospectors Inc"
+    "message": "the {locality} Onderzoek Maatschappij NV"
   },
   "ENTITY_GENERAL_10": {
     "description": "",
-    "message": "{locality} Infinity Energy One"
+    "message": "{locality} Eerste Oneindigheid Energie"
   },
   "ENTITY_GENERAL_2": {
     "description": "",
-    "message": "the {locality} Society for Ecological Preservation"
+    "message": "de {locality} Vereniging voor Ecologische Bescherming"
   },
   "ENTITY_GENERAL_3": {
     "description": "",
-    "message": "the Interest Rights Groups for {locality}"
+    "message": "de Rente Rechten Groep voor {locality}"
   },
   "ENTITY_GENERAL_4": {
     "description": "",
-    "message": "the {locality} Mining Rights Office"
+    "message": "het {locality} Mijnbouwrechten Kantoor"
   },
   "ENTITY_GENERAL_5": {
     "description": "",
-    "message": "the Landowners Association of {locality}"
+    "message": "de Landbezitters Associatie van {locality}"
   },
   "ENTITY_GENERAL_6": {
     "description": "",
-    "message": "the Statistical Institute of {locality}"
+    "message": "het Statistisch Instituut van {locality}"
   },
   "ENTITY_GENERAL_7": {
     "description": "",
-    "message": "the {locality} branch office of SpaceCruise Inc"
+    "message": "het {locality} kantoor van RuimteCruises NV"
   },
   "ENTITY_GENERAL_8": {
     "description": "",
-    "message": "{locality} iSatellite Ltd"
+    "message": "{locality} iSatelliet NV"
   },
   "ENTITY_GENERAL_9": {
     "description": "",
-    "message": "{locality} Burial-Services Corp"
+    "message": "{locality} Begravenisdiensten BV"
   },
   "ENTITY_RESEARCH_1": {
     "description": "",
-    "message": "the {locality} Biological Society"
+    "message": "de {locality} Biologische Sociëteit"
   },
   "ENTITY_RESEARCH_10": {
     "description": "",
-    "message": "the {locality} Center of Zoological Research"
+    "message": "het {locality} Centrum van Zoölogisch Onderzoek"
   },
   "ENTITY_RESEARCH_2": {
     "description": "",
-    "message": "the {locality} Microbiological Society"
+    "message": "het {locality} Microbiologische Sociëteit"
   },
   "ENTITY_RESEARCH_3": {
     "description": "",
-    "message": "the {locality} Chemical Society"
+    "message": "de {locality} Chemische Sociëteit"
   },
   "ENTITY_RESEARCH_4": {
     "description": "",
-    "message": "the {locality} Astrobiological Society"
+    "message": "de {locality} Astrobiologiche Sociëteit"
   },
   "ENTITY_RESEARCH_5": {
     "description": "",
-    "message": "the {locality} Geological Society"
+    "message": "de {locality} Geologische Sociëteit"
   },
   "ENTITY_RESEARCH_6": {
     "description": "",
-    "message": "the {locality} Society for Astropaleontology"
+    "message": "de {locality} Sociëteit voor Astropaleontologie"
   },
   "ENTITY_RESEARCH_7": {
     "description": "",
-    "message": "the {locality} Astrophysics Research Center"
+    "message": "het {locality} Astronatuurkundig Onderzoekscentrum"
   },
   "ENTITY_RESEARCH_8": {
     "description": "",
-    "message": "the {locality} Astrochemistry Research Center"
+    "message": "het {locality} Astroscheikundig Onderzoekscentrum"
   },
   "ENTITY_RESEARCH_9": {
     "description": "",
-    "message": "the {locality} Center for Botany"
+    "message": "het {locality} Centrum voor Plantkunde"
   },
   "EQUIPMENT": {
     "description": "",
-    "message": "You are not equipped to handle this mission. {unit} {equipment} required."
+    "message": "U bent niet goed toegerust voor deze missie. {unit} {equipment}  is vereist."
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
@@ -169,7 +169,7 @@
   },
   "FLAVOUR_1_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "For full reimbursement of expenses you have to be back by {due}."
+    "message": "Voor volledige vergoeding van uitgaven moet u terug zijn op {due}."
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
@@ -177,15 +177,15 @@
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
-    "message": "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+    "message": "De laatst bekende lokatie van het schip was {planet} op breedte/lengte coördinaten: {lat} / {long}. Scheepskenmerk is {shiplabel}."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you, this is a great relief! We will transmit the money momentarily."
+    "message": "Dank u, dit is een grote opluchting! We zullen het geld meteen overmaken."
   },
   "FLAVOUR_1_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has boarded the ship."
+    "message": "{unit} is aan boord gegaan."
   },
   "FLAVOUR_1_TYPEOFHELPTEXT": {
     "description": "",
@@ -197,11 +197,11 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "I can't believe you kept me waiting out here this long! Forget about your payment!"
+    "message": "Ongelooflijk dat u me zo lang hier buiten hebt laten wachten! Vergeet die betaling maar!"
   },
   "FLAVOUR_2_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "To receive full payment you are asked to deliver the fuel by {due}."
+    "message": "Om volledig betaald te worden dient u de brandstof op {due} af te leveren."
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
@@ -209,19 +209,19 @@
   },
   "FLAVOUR_2_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+    "message": "Het schip wacht momenteel op breedte {lat} / lengte {long} op planeet {planet}."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you so much! I have transferred the full reward."
+    "message": "Ontzettend bedankt! Ik heb het hele bedrag overgemaakt."
   },
   "FLAVOUR_2_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit} ton brandstof is overgebracht."
   },
   "FLAVOUR_2_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is requesting {unit} tons of {cargo}."
+    "message": "De piloot vraagt om {unit} ton {cargo}."
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
@@ -229,43 +229,43 @@
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "Unacceptable performance! We will update our records accordingly."
+    "message": "Onacceptabele prestatie! Dit slaan we op."
   },
   "FLAVOUR_3_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "The substitute pilot will need to reach the ship by {due}."
+    "message": "De vervangende piloot moet het schip bereiken op {due}."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+    "message": "Ik ben {name} van {starport} verkeerscontrole. Ik vraag om hulp in verband met een medisch noodgeval waarbij de piloot van vlucht {shiplabel} richting {starport} betrokken is."
   },
   "FLAVOUR_3_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship had to emergency land at the coordinates: {lat} / {long}. "
+    "message": "Het schip moet een noodlanding maken op de coördinaten: {lat} / {long}. "
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you, commander! Your help has been duly noted."
+    "message": "Dank u, commandant! Uw hulp wordt gewaardeerd."
   },
   "FLAVOUR_3_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has left the ship."
+    "message": "{unit} is van boord gegaan."
   },
   "FLAVOUR_3_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+    "message": "Brengt u alstublieft een vervangende piloot van {starport} naar het schip zodat zij het schip terug kunnen vliegen naar  {starport}."
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "SHIP OUT OF FUEL on {planet}."
+    "message": "SCHIP ZONDER BRANDSTOF op {planet}."
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "I will send someone else. Don't bother anymore."
+    "message": "Ik stuur wel iemand anders. Laat maar zitten."
   },
   "FLAVOUR_4_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "For full pay the pilot expects you to deliver the fuel by {due}."
+    "message": "Voor volledige betaling verwacht de piloot dat u de brandstof bezorgt op {due}."
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
@@ -273,31 +273,31 @@
   },
   "FLAVOUR_4_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship is stranded on {planet} at coordinates {lat} / {long}."
+    "message": "Het schip is gestrand op {planet} op coördinaten {lat} / {long}."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Very good. We will recommend you for future assignments."
+    "message": "Heel goed. We zullen aan u denken bij toekomstige opdrachten."
   },
   "FLAVOUR_4_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit} ton brandstof is overgebracht."
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is asking for {unit} tons of {cargo}."
+    "message": "De piloot vraag om {unit} ton {cargo}."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "SHIP OUT OF FUEL close to {starport}."
+    "message": "SCHIP ZONDER BRANDSTOF vlakbij {starport}."
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "People are just not dependable anymore."
+    "message": "Niemand is tegenwoordig nog te vertrouwen."
   },
   "FLAVOUR_5_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "Please complete refueling by {due}."
+    "message": "Voltooi het tanken a.u.b. op {due}."
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
@@ -305,47 +305,47 @@
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
-    "message": "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+    "message": "Het schip in kwestie is momenteel op drift binnen {dist} km hier vandaan. Je zult de exacte locatie zelf moeten vinden."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "We will make record of your timely completion of the task."
+    "message": "We maken een notitie van uw tijdige voltooiing van de taak."
   },
   "FLAVOUR_5_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit} ton brandstof is overgebracht."
   },
   "FLAVOUR_5_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "We request the delivery of {unit} tons of {cargo} to the ship."
+    "message": "We vragen om de levering van {unit} ton {cargo} aan het schip."
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "VESSEL UNRESPONSIVE in the {system} system."
+    "message": "SCHIP REAGEERT NIET in het {system}-stelsel."
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
-    "message": "What a disaster! This is the death sentence to our poor colleagues!"
+    "message": "Wat een ramp! Dit is een doodsvonnis voor onze arme collega's!"
   },
   "FLAVOUR_6_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "You have to be back by {due}."
+    "message": "Je moet terug zijn op {due}."
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+    "message": "Ik ben {name} van {entity}. Wij zijn het contact kwijt met ons {ship} {shiplabel} na {problem}. We zijn bereid {cash} te betalen voor onmiddellijke hulp."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
-    "message": "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+    "message": "De laatst bekende positie was de omgeving van {planet} in het {system} [{sectorx},{sectory},{sectorz}]-stelsel, {dist} lj hier vandaan."
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you! You can't imagine how relieved we are."
+    "message": "Dankuwel! U kunt zich niet voorstellen hoe opgelucht we zijn."
   },
   "FLAVOUR_6_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has boarded the ship."
+    "message": "{unit} is aan boord gegaan."
   },
   "FLAVOUR_6_TYPEOFHELPTEXT": {
     "description": "",
@@ -353,15 +353,15 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "IMMEDIATE CREW TRANSPORT to the {system} system requested."
+    "message": "ONMIDDELLIJK BEMANNINGSTRANSPORT naar het {system}-stelsel gevraagd."
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
-    "message": "Thank you very much, but you are too late!"
+    "message": "Dank u zeer, maar u bent te laat!"
   },
   "FLAVOUR_7_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "The replacement crew has to reach the ship by {due}."
+    "message": "De vervangende bemanning moet het schip hebben bereikt op {due}."
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",
@@ -369,51 +369,51 @@
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
-    "message": "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+    "message": "U zult het schip aantreffen in het {system} [{sectorx},{sectory},{sectorz}]-stelsel, {dist} lj hier vandaan. Het wordt in een baan rond {planet} gehouden."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you! I have been authorized to transmit the full payment."
+    "message": "Danku! Ik ben gemachtigd het volledige bedrag over te maken,"
   },
   "FLAVOUR_7_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has transferred to the target ship."
+    "message": "{unit} is overgebracht naar het schip in kwestie."
   },
   "FLAVOUR_7_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
+    "message": "We kunnen het schip niet terugbrengen zonder het minimale aantal bemanningsleden. Ik zoek naar iemand die een vervangende bemanning onmiddelijk wil vervoeren van {deliver_crew} naar ons ruimteschip."
   },
   "FULL_CARGO": {
     "description": "",
-    "message": "Ship full. No more room for additional cargo."
+    "message": "Schip vol. Geen ruimte over voor extra lading."
   },
   "FULL_CREW": {
     "description": "",
-    "message": "Crew roster full. No more space for more crew."
+    "message": "Bemanning compleet. Geen ruimte over voor extra bemanning."
   },
   "FULL_PASSENGERS": {
     "description": "",
-    "message": "All cabins full. No more space for more passengers."
+    "message": "Alle hutten vol. Geen ruimte over voor meer passagiers."
   },
   "HOW_FAR": {
     "description": "",
-    "message": "How far away is the target?"
+    "message": "Hoe ver is het doel?"
   },
   "HOW_MUCH_TIME": {
     "description": "",
-    "message": "How much time do I have?"
+    "message": "Hoeveel tijd heb ik?"
   },
   "INTERACTION_ABORTED": {
     "description": "",
-    "message": "Interaction aborted. Please come closer and try again."
+    "message": "Contact verbroken. Kom alstublieft dichterbij en probeer opnieuw."
   },
   "INTERACTION_DISTANCE_REACHED": {
     "description": "",
-    "message": "Interaction distance reached."
+    "message": "Contactafstand bereikt."
   },
   "IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It must be completed by "
+    "message": "Het moet klaar zijn op"
   },
   "KM": {
     "description": "",
@@ -425,11 +425,11 @@
   },
   "LAT": {
     "description": "",
-    "message": "Lat:"
+    "message": "Bre:"
   },
   "LON": {
     "description": "",
-    "message": "Lon:"
+    "message": "LEN"
   },
   "LY": {
     "description": "",
@@ -437,19 +437,19 @@
   },
   "MISSING_COMM": {
     "description": "",
-    "message": "Cannot complete transfer. {cargotype} missing."
+    "message": "Kan het transport niet voltooien. {cargotype} mist."
   },
   "MISSING_CREW": {
     "description": "",
-    "message": "Cannot complete transfer. Crew missing."
+    "message": "Kan het transport niet voltooien. Bemanning mist."
   },
   "MISSING_PASS": {
     "description": "",
-    "message": "Cannot complete transfer. Passengers missing."
+    "message": "Kan het transport niet voltooien. Passagiers missen."
   },
   "MISSING_PASSENGER": {
     "description": "",
-    "message": "Cannot complete transfer. Passenger missing."
+    "message": "Kan het transport niet voltooien. Passagier mist."
   },
   "OK_AGREED": {
     "description": "",
@@ -461,7 +461,7 @@
   },
   "PARTIAL": {
     "description": "",
-    "message": "Thank you for your efforts. I hope you will return to complete the task!"
+    "message": "Danku voor de moeite. Ik hoop dat u terug zult keren om de taak af te maken."
   },
   "PASSENGERS": {
     "description": "",
@@ -481,151 +481,151 @@
   },
   "PLEASE_LAND": {
     "description": "",
-    "message": "Please land ship to allow transfer."
+    "message": "Landt uw schip a.u.b. om de overdracht te kunnen doen."
   },
   "PROBLEM_CREW_1": {
     "description": "",
-    "message": "a deadly fight among the crew members"
+    "message": "een vechtpartij met dodelijke afloop tussen bemanningsleden"
   },
   "PROBLEM_CREW_10": {
     "description": "",
-    "message": "a mutiny"
+    "message": "een muiterij"
   },
   "PROBLEM_CREW_2": {
     "description": "",
-    "message": "the crew had to chase a deadly {locality} snake found loose on the ship"
+    "message": "De bemanning moest een dodelijke {locality}-slang vangen die ontsnapt was op het schip"
   },
   "PROBLEM_CREW_3": {
     "description": "",
-    "message": "a {locality} spider killed all the others"
+    "message": "een {locality}-spin heeft alle anderen gedood"
   },
   "PROBLEM_CREW_4": {
     "description": "",
-    "message": "what it seems like a {locality} scorpion got into the crew quarters at night"
+    "message": "het lijkt erop dat een  {locality}-schorpioen 's nachts de bemanningsverblijven is binnengegaan"
   },
   "PROBLEM_CREW_5": {
     "description": "",
-    "message": "a severe form of {locality} fever killed the others"
+    "message": "een hevige vorm van {locality}-koorts heeft de anderen gedood"
   },
   "PROBLEM_CREW_6": {
     "description": "",
-    "message": "the other crew members did not return from a space walk"
+    "message": "De andere bemanningsleden zijn niet teruggekeerd van de ruimtewandeling"
   },
   "PROBLEM_CREW_7": {
     "description": "",
-    "message": "a severe form of food poisoning on the ship"
+    "message": "Een hevige vorm van voedselvergiftiging op het schip"
   },
   "PROBLEM_CREW_8": {
     "description": "",
-    "message": "a terrible accident that lead to the ejection of the others into space"
+    "message": "Een vreselijk ongeluk heeft geleid tot het uitwerpen van de anderen in de ruimte"
   },
   "PROBLEM_CREW_9": {
     "description": "",
-    "message": "a circumstance that I can't comment on publicly"
+    "message": "een omstandigheid waarover ik niet publiek kan spreken"
   },
   "PROBLEM_GENERAL_1": {
     "description": "",
-    "message": "a fire in the cargo hold"
+    "message": "een brand in de vrachtruimte"
   },
   "PROBLEM_GENERAL_10": {
     "description": "",
-    "message": "the receipt of a distress call from within {locality}"
+    "message": "het verslag van een noodoproep uit {locality}"
   },
   "PROBLEM_GENERAL_2": {
     "description": "",
-    "message": "a power failure in the engine core"
+    "message": "falen van de stroomtoevoer in de aandrijfkern"
   },
   "PROBLEM_GENERAL_3": {
     "description": "",
-    "message": "an air leak"
+    "message": "een luchtlek"
   },
   "PROBLEM_GENERAL_4": {
     "description": "",
-    "message": "a severe form of food poisoning involving all personnel on board the ship"
+    "message": "een hevige vorm van voedselvergiftiging van alle bemanningsleden aan boord."
   },
   "PROBLEM_GENERAL_5": {
     "description": "",
-    "message": "a small meteor impact"
+    "message": "een kleine meteoorinslag"
   },
   "PROBLEM_GENERAL_6": {
     "description": "",
-    "message": "a fight among crew members"
+    "message": "een vechtpartij tussen bemanningsleden"
   },
   "PROBLEM_GENERAL_7": {
     "description": "",
-    "message": "contact with an unidentified flight object"
+    "message": "contact met een onvoorzien vluchtobject"
   },
   "PROBLEM_GENERAL_8": {
     "description": "",
-    "message": "a dispute with a competitor's vessel"
+    "message": "een onenigheid met een concurrerend vaartuig"
   },
   "PROBLEM_GENERAL_9": {
     "description": "",
-    "message": "a reboot of the main computer"
+    "message": "een herstart van de hoofdcomputer"
   },
   "PROBLEM_RESEARCH_1": {
     "description": "",
-    "message": "an unexpected chemical reaction in one of the reaction chambers"
+    "message": "een onverwachte chemische reactie in een van de reactorkamers"
   },
   "PROBLEM_RESEARCH_10": {
     "description": "",
-    "message": "a major discovery at {locality} that I am not at liberty to disclose at this time"
+    "message": "een belangrijke ontdekking op {locality} die ik op dit moment niet mag onthullen."
   },
   "PROBLEM_RESEARCH_2": {
     "description": "",
-    "message": "an infection of a crew member with a pathogen local to {locality}"
+    "message": "een besmetting van een bemanningslid met een pathogeen dat alleen voorkomt in {locality}"
   },
   "PROBLEM_RESEARCH_3": {
     "description": "",
-    "message": "a leak of experimental pathogens into the main air supply"
+    "message": "het lekken van experimentele pathogenen in de hoofdluchttoevoer"
   },
   "PROBLEM_RESEARCH_4": {
     "description": "",
-    "message": "crew exposure to a specimen collected at {locality}"
+    "message": "bemanning blootgesteld aan een monster meegenomen van {locality}"
   },
   "PROBLEM_RESEARCH_5": {
     "description": "",
-    "message": "a chemical explosion in one of the on-board fume hoods"
+    "message": "een chemische ontploffing is een van de zuurkasten aan boord"
   },
   "PROBLEM_RESEARCH_6": {
     "description": "",
-    "message": "an experimental recreation of {locality} atmospheric gases"
+    "message": "een experimentele recreatie van atmosfeergassen van {locality}"
   },
   "PROBLEM_RESEARCH_7": {
     "description": "",
-    "message": "a heated dispute between scientists on board the ship"
+    "message": "een verhit meningsverschil tussen wetenschappers aan boord"
   },
   "PROBLEM_RESEARCH_8": {
     "description": "",
-    "message": "the sudden disappearance of a lead investigator on board the ship"
+    "message": "de plotselinge verdwijning van het hoofd onderzoek aan boord"
   },
   "PROBLEM_RESEARCH_9": {
     "description": "",
-    "message": "the accidental combination of incompatible specimens from {locality}"
+    "message": "de onopzettelijke combinatie van onverenigbare monsters van {locality}"
   },
   "RESULT_DELIVERY_COMM": {
     "description": "",
-    "message": "Transferred {done} of {todo} tons of {cargotype} to target ship."
+    "message": "Vervoerde {done} van {todo} ton {cargotype} naar het schip in kwestie"
   },
   "RESULT_DELIVERY_CREW": {
     "description": "",
-    "message": "Transferred {done} of {todo} crew members to target ship."
+    "message": "Vervoerde {done} van {todo} bemanningsleden naar het schip in kwestie"
   },
   "RESULT_DELIVERY_PASS": {
     "description": "",
-    "message": "Transferred {done} of {todo} passengers to target ship."
+    "message": "Vervoeder {done} van {todo} passagiers naar het schip in kwestie"
   },
   "RESULT_PICKUP_COMM": {
     "description": "",
-    "message": "Picked up {done} of {todo} tons of {cargotype} from target ship."
+    "message": "{done} van {todo} ton {cargotype} opgehaald van het schip in kwestie."
   },
   "RESULT_PICKUP_CREW": {
     "description": "",
-    "message": "Picked up {done} of {todo} crew members from target ship."
+    "message": "{done} van {todo} bemanningsleden opgehaald van het schip in kwestie."
   },
   "RESULT_PICKUP_PASS": {
     "description": "",
-    "message": "Picked up {done} of {todo} passengers from target ship."
+    "message": "{done} van {todo} passagiers lopgehaald van het schip in kwestie."
   },
   "RETURN_TO": {
     "description": "",
@@ -649,7 +649,7 @@
   },
   "SHIP_UNRESPONSIVE": {
     "description": "",
-    "message": "Target ship unresponsive."
+    "message": "Schip in kwestie reageert niet"
   },
   "SYSTEM": {
     "description": "",
@@ -665,34 +665,34 @@
   },
   "TONS_OF_FREE_CARGO_SPACE": {
     "description": "",
-    "message": "tons of free cargo space"
+    "message": "ton vrije vrachtruimte"
   },
   "TRANSFER_ABORTED": {
     "description": "",
-    "message": "Transfer has been aborted!"
+    "message": "Vervoer is afgebroken!"
   },
   "TRANSFER_COMPLETE": {
     "description": "",
-    "message": "Transfer has been completed!"
+    "message": "Vervoer is voltooid!"
   },
   "TRANSFER_PARTIAL": {
     "description": "",
-    "message": "Transfer has been partially completed. Please return to finish transfer."
+    "message": "Vervoer is deels voltooid. Keer a.u.b. terug om het te voltooien."
   },
   "TRANSFER_TIME": {
     "description": "",
-    "message": "Please allow {minutes} minutes for transfer."
+    "message": "Ga uit van {minutes} minuten voor het vervoer."
   },
   "TYPE_OF_HELP": {
     "description": "",
-    "message": "What type of help is needed?"
+    "message": "Wat voor hulp is er nodig?"
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "unoccupied passenger cabins"
+    "message": "lege passagiershutten"
   },
   "WHERE_IS_THE_TARGET": {
     "description": "",
-    "message": "Where do I find the target?"
+    "message": "Waar vind ik het doel?"
   }
 }

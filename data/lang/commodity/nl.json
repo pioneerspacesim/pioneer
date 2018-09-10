@@ -93,7 +93,7 @@
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
+    "message": "Waterstof wordt gebruikt als brandstof voor hyper- en scheepsaandrijving en is een zeer belangrijk element. Gelukkig is het het meest voorkomende element in het universum, hoewel het niet eenvoudig op te slaan is. Gewoonlijk hoort het tot de goedkoopste waren op de markt. Ruimtehavens zijn altijd goed voorzien."
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
@@ -101,15 +101,15 @@
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Needed for assembly lines, refineries, smelters, and production of machinery that will in turn produce other goods. High competence is needed to produce these advanced machines."
+    "message": "Nodig voor assemblagelijnen, raffinaderijen, hoogovens en productie van machines die andere goederen produceren. Om deze geavanceerde machines te maken is grote competentie vereist."
   },
   "LIQUID_OXYGEN": {
     "description": "",
-    "message": "Liquid oxygen"
+    "message": "Vloeibare Zuurstof"
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Liquid oxygen has many purposes, most commonly in medical and industrial applications and sometimes also used in waste treatment. It is very affordable, as oxygen is easy to obtain from water."
+    "message": "Vloeibare zuurstof heeft vele toepassingen, meestal medisch of industrieel en soms ook bij afvalverwerking. Het is zeer betaalbaar doordat het eenvoudig uit water te verkrijgen is."
   },
   "LIQUOR": {
     "description": "",
@@ -117,15 +117,15 @@
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
+    "message": "De meeste buitenposten hebben een lokale brouw die voor buitenstaanders moeilijk te verteren is. Alcohol is in sommige stelsels verboden vanwege de benevelende effecten. De wet daargelaten is er altijd wel een ouwe jenever op de zwarte markt te vinden, voor een prijs."
   },
   "LIVE_ANIMALS": {
     "description": "",
-    "message": "Live animals"
+    "message": "Levende Dieren"
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Partly due to humanistic, economic and ecological reasons, animal rearing and trade is strictly regulated, or even illegal in many core systems. Going outward, livestock becomes a more important part of the livelihood of the people, both as a source of nutrition and a beast of burden. Exotic zoos and wildlife reserves contribute to the trade of animals around the galaxy, usually under strict state regulations, to combat illegal hunting grounds."
+    "message": "Deels vanwege humanistische, economische en ecologische redenen wordt het grootbrengen van en handelen in dieren strikt gereguleerd, en is het zelfs verboden in veel centrale stelsels. Verder naar buiten wordt vee een belangrijk deel van het levensonderhoud, zowel als lastdier als voor voeding. Exotische dierentuinen en dierenreservaten dragen bij aan de handel in dieren rond de Melkweg, gewoonlijk onder strikte overheidsregels, om illegale jacht te bestrijden."
   },
   "MEDICINES": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Derived from natural sources, or synthesized artificially, medicines are needed everywhere humans go. From curing the common cold to combat the adverse effects of prolonged space travel, medicines are essential to the prosperity of an interstellar humanity. Carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
+    "message": "Medicijnen zijn overal waar mensen heen gaan nodig. Ze worden gewonnen uit natuurlijke bronnen of kunstmatig geproduceerd. Ze zijn essentieel voor de voorspoed van een interstellaire mensheid, van het genezen van een verkoudheid tot het bestrijden van de nadelige gevolgen van lange ruimtereizen. Medicijnen worden goed in de gaten gehouden door douanemensen, omdat het niet ongebruikelijk is om drugs als medicijnen voor het doen."
   },
   "METAL_ALLOYS": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "After metal ore is extracted and refined, it is processed and ends up as various alloys. An alloy is an amalgamation of metals, rather than a single pure element, combined in exact proportions to gain specific desirable traits. Therefore, most consumer metals are alloys."
+    "message": "Nadat metaalerts gedolven en geraffineerd is wordt het verwerkt in diverse legeringen. Een legering is een vermenging van metalen, en geen puur element, gecombineerd in exacte verhoudingen om specifieke gewenste eigenschappen te krijgen. Daarom zijn de meeste metalen voor consumenten legeringen."
   },
   "METAL_ORE": {
     "description": "",
@@ -149,7 +149,7 @@
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
+    "message": "Veel koloniën delven metaalertsen om te exporteren, om geraffineerd en gebruikt te worden in industriële fabricage. Metaal is in al zijn vormen essentieel voor de moderne beschaving, omdat het gebruikt worden in alles van klein speelgoed tot ruimteschepen."
   },
   "MILITARY_FUEL": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel in the more advanced military drives. These drives produce nuclear waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
+    "message": "Wordt gebruikt als brandstof voor geavanceerdere militaire hyperruimte-aandrijvingen. Deze aandrijvingen produceren terwijl ze werken kernafval, die moet worden verwijderd. Door zijn kunstmatige aard is militaire brandstof duurder en minder beschikbaar dan waterstof en kan niet in de natuur worden gevonden."
   },
   "MINING_MACHINERY": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The traditionally back breaking work of mining is alleviated by the use of machines that help miners in locating and retrieving various ores, and transporting them to the closest processing facilities."
+    "message": "De oorspronkelijk ongezonde mijnwerkzaamheden wordt verlicht door het gebruik van machines die mijnwerkers helpen bij het vinden en delven van diverse ertsen, en ze te transporteren naar de dichtstbijzijnde verwerkingsfaciliteiten."
   },
   "NARCOTICS": {
     "description": "",
@@ -173,15 +173,15 @@
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Natural or synthetic substances that alter the state of mind and body. Although the use of narcotics, both for recreational and medical purposes, is as old as humanity itself, shipping and trading is commonly outlawed."
+    "message": "Natuurlijke of kunstmatige bewustzijnsverruimende substanties. Hoewel het gebruik van drugs, zowel voor recreatie als voor medische doeleinden, zo oud is als de mensheid zelf, is het transport en de handel erin tegenwoordig verboden,"
   },
   "NERVE_GAS": {
     "description": "",
-    "message": "Nerve gas"
+    "message": "Zenuwgas"
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "It is generally accepted to be a weapon of mass destruction, shunned even by the military in most systems, and thus illegal in most systems."
+    "message": "Algemeen wordt het gezien als een massavernietigingswapen, zelfs door de militairen in de meeste stelsels gemeden, en daardoor illegaal in de meeste stelsels."
   },
   "PLASTICS": {
     "description": "",
@@ -201,11 +201,11 @@
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Radioactives"
+    "message": "Radioactieve elementen"
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Created by nuclear reactors, and military hyperdrives, nuclear waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping nuclear waste is a severe offence."
+    "message": "Kernafval wordt geproduceerd door kernreactors en militaire hyper-aandrijvingen en is de moeilijkste en gevaarlijkste vorm van afval om te vervoeren of te verwerken. Hierom betalen de meeste ruimtehavens om van hun overschot af te komen. Kernafvaldumping is een zwaar misdrijf."
   },
   "ROBOTS": {
     "description": "",
@@ -229,7 +229,7 @@
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "As machines have replaced slaves as the engine that powers civilization, slavery is now almost universally seen as immoral, and transgression against a ban draws the strictest punishment. However, despite the best efforts of humanitarians, slavery is still prevalent, even in developed worlds."
+    "message": "Sinds machines slaven hebben vervangen als de machine die de beschaving vooruit helpt, wordt slavernij nu bijna algemeen als immoreel gezien, en wordt illegale slavernij hard bestraft. Toch kom je het hier en daar nog steeds tegen, zelfs op ontwikkelde werelden."
   },
   "TEXTILES": {
     "description": "",
