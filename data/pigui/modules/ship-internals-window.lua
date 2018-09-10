@@ -42,11 +42,11 @@ local function button_lowThrustPower()
 			if ui.lowThrustButton("lowthrust", mainButtonSize, thrust * 100, colors.lightBlueBackground, mainButtonFramePadding, gauge_fg, gauge_bg)  then
                 show_thrust_slider = not show_thrust_slider
 			end
-            
+
             if show_thrust_slider then
                 local p = winpos + pos - Vector(8,100+9)
                 ui.setNextWindowPos(p,'Always')
-                
+
                 ui.window("ThrustSliderWindow", {"NoTitleBar", "NoResize"},
                     function()
                         ui.withStyleColors({["SliderGrab"] =colors.white, ["SliderGrabActive"]=colors.buttonBlue},function()

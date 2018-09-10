@@ -902,41 +902,39 @@ local function displayOnScreenObjects()
 		end
 		-- popup content
 		ui.popup("navtarget" .. v.mainBody.label, function()
-							 local size = Vector(16,16)
-							 ui.icon(getBodyIcon(v.mainBody.body), size, colors.frame)
-							 ui.sameLine()
-							 if ui.selectable(v.mainBody.label, v.mainBody.body == navTarget, {}) then
-								 if v.mainBody.body:IsShip() then
-									 player:SetCombatTarget(v.mainBody.body)
-								 else
-									 player:SetNavTarget(v.mainBody.body)
-								 end
-								 if ui.ctrlHeld() then
-									 local target = v.mainBody.body
-									 if target == player:GetSetSpeedTarget() then
-										 target = nil
-									 end
-									 player:SetSetSpeedTarget(target)
-								 end
-							 end
-							 for k,v in pairs(v.others) do
-								 ui.icon(getBodyIcon(v.body), size, colors.frame)
-								 ui.sameLine()
-								 if ui.selectable(v.label, v.body == navTarget, {}) then
-									 if v.body:IsShip() then
-										 player:SetCombatTarget(v.body)
-									 else
-										 player:SetNavTarget(v.body)
-									 end
-								 end
-							 end
+			local size = Vector(16,16)
+			ui.icon(getBodyIcon(v.mainBody.body), size, colors.frame)
+			ui.sameLine()
+			if ui.selectable(v.mainBody.label, v.mainBody.body == navTarget, {}) then
+				if v.mainBody.body:IsShip() then
+					player:SetCombatTarget(v.mainBody.body)
+				else
+					player:SetNavTarget(v.mainBody.body)
+				end
+				if ui.ctrlHeld() then
+					local target = v.mainBody.body
+					if target == player:GetSetSpeedTarget() then
+						target = nil
+					end
+					player:SetSetSpeedTarget(target)
+				end
+			end
+			for k,v in pairs(v.others) do
+				ui.icon(getBodyIcon(v.body), size, colors.frame)
+				ui.sameLine()
+				if ui.selectable(v.label, v.body == navTarget, {}) then
+					if v.body:IsShip() then
+						player:SetCombatTarget(v.body)
+					else
+						player:SetNavTarget(v.body)
+					end
+				end
+			end
 		end)
 	end
 end
 
-ui.registerHandler(
-	'game',
-	function(delta_t)
+ui.registerHandler('game', function(delta_t)
 		-- delta_t is ignored for now
 		player = Game.player
 		colors = ui.theme.colors -- if the theme changes
@@ -944,28 +942,28 @@ ui.registerHandler(
 		ui.setNextWindowPos(Vector(0, 0), "Always")
 		ui.setNextWindowSize(Vector(ui.screenWidth, ui.screenHeight), "Always")
 		ui.withStyleColors({ ["WindowBg"] = colors.transparent }, function()
-				ui.window("HUD", {"NoTitleBar", "NoResize", "NoMove", "NoInputs", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}, function()
-										center = Vector(ui.screenWidth / 2, ui.screenHeight / 2)
-										if Game.CurrentView() == "world" and ui.shouldDrawUI() then
-											if Game.InHyperspace() then
-												displayHyperspace()
-												callModules("hyperspace")
-											else
-												displayOnScreenObjects()
-												displayReticule()
-												ui.displayPlayerGauges()
-												displayTargetScanner()
-												displayHyperspaceCountdown()
-												callModules("game")
-												ui.radialMenu("worldloopworld")
-											end
-										else
-											if ui.shouldDrawUI() then
-												callModules("game")
-												ui.radialMenu("worldloopnotworld")
-											end
-										end
-				end)
+			ui.window("HUD", {"NoTitleBar", "NoResize", "NoMove", "NoInputs", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}, function()
+				center = Vector(ui.screenWidth / 2, ui.screenHeight / 2)
+				if Game.CurrentView() == "world" and ui.shouldDrawUI() then
+					if Game.InHyperspace() then
+						displayHyperspace()
+						callModules("hyperspace")
+					else
+						displayOnScreenObjects()
+						displayReticule()
+						ui.displayPlayerGauges()
+						displayTargetScanner()
+						displayHyperspaceCountdown()
+						callModules("game")
+						ui.radialMenu("worldloopworld")
+					end
+				else
+					if ui.shouldDrawUI() then
+						callModules("game")
+						ui.radialMenu("worldloopnotworld")
+					end
+				end
+			end)
 		end)
 
 		if Game.CurrentView() == "world" and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.escape) then

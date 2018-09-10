@@ -60,7 +60,7 @@ local function getSaveTooltip(name)
 	if stats.ship   then    ret = ret .. "\n"..lc.SHIP..": " .. stats.ship end
 	if stats.flight_state then
 		ret = ret .. "\n"..lui.FLIGHT_STATE..": "
-		if stats.flight_state == "docked" then ret = ret .. lc.DOCKED 
+		if stats.flight_state == "docked" then ret = ret .. lc.DOCKED
 		elseif stats.flight_state == "docking" then ret = ret .. lc.DOCKING
 		elseif stats.flight_state == "flying" then ret = ret .. lui.FLYING
 		elseif stats.flight_state == "hyperspace" then ret = ret .. lc.HYPERSPACE
@@ -69,7 +69,7 @@ local function getSaveTooltip(name)
 		elseif stats.flight_state == "undocking" then ret = ret .. lui.UNDOCKING
 		else ret = ret .. lc.UNKNOWN end
 	end
-	
+
 	if stats.docked_at then ret = ret .. "\n"..lui.DOCKED_AT..": " .. stats.docked_at end
 	if stats.frame then ret = ret .. "\n"..lui.VICINITY_OF..": " .. stats.frame end
 
@@ -121,7 +121,8 @@ local function savedGameWindow()
 	if ui.showSavedGameWindow then
 		ui.setNextWindowPosCenter('Always')
 		ui.withStyleColors({["WindowBg"] = Color(20, 20, 80, 230)}, function()
-			ui.window("LoadGame", {"NoTitleBar", "NoResize", "ShowBorders", "AlwaysAutoResize"}, function()
+			-- TODO: this window should be ShowBorders
+			ui.window("LoadGame", {"NoTitleBar", "NoResize", "AlwaysAutoResize"}, function()
 				local mode
 				mode = ui.showSavedGameWindow == 'SAVE' and lui.SAVE or lui.LOAD
 				optionTextButton(mode, nil, selectedSave~=nil, closeAndLoadOrSave)
@@ -142,4 +143,3 @@ ui.registerModule("game", savedGameWindow)
 ui.registerModule("mainMenu", savedGameWindow)
 
 return {}
-

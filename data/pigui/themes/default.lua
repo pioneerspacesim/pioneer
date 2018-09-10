@@ -247,4 +247,10 @@ theme.icons = {
 	 missile_naval = 214,
 }
 
+-- TODO: apply these styles at startup.
+theme.styles = {
+	WindowBorderSize = 0.0,
+	FrameBorderSize = 0.0
+}
+
 return theme
