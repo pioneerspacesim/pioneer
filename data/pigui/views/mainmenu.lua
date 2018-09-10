@@ -164,10 +164,14 @@ local function showMainMenu()
 		end)
 	end)
 
-	ui.setNextWindowPos(Vector(ui.screenWidth-250,ui.screenHeight-50),'Always')
-	ui.withStyleColors({["WindowBg"]=colors.transparent}, function()
-		ui.window("buildLabel", {"NoTitleBar","NoResize","NoFocusOnAppearing","NoBringToFrontOnFocus","AlwaysAutoResize"}, function()
-			ui.withFont("orbiteer",20 * (ui.screenHeight/1200),function() ui.text("(build: "..Engine.version..")") end)
+	local buildText = "(build: "..Engine.version..")"
+	ui.withFont("orbiteer",20 * (ui.screenHeight/1200),function()
+		local textWidth = ui.calcTextSize(buildText)
+		ui.setNextWindowPos(Vector(ui.screenWidth-textWidth.x - 50,ui.screenHeight-50),'Always')
+		ui.withStyleColors({["WindowBg"]=colors.transparent}, function()
+			ui.window("buildLabel", {"NoTitleBar","NoResize","NoFocusOnAppearing","NoBringToFrontOnFocus","AlwaysAutoResize"}, function()
+				ui.text(buildText)
+			end)
 		end)
 	end)
 

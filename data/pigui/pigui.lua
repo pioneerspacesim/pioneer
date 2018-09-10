@@ -44,10 +44,14 @@ ui.fonts = {
 	},
 	pionillium = {
 		large = { name = "pionillium", size = 30 * font_factor, offset = 24 * font_factor},
+		medlarge = { name = "pionillium", size = 24 * font_factor, offset = 18 * font_factor},
 		medium = { name = "pionillium", size = 18 * font_factor, offset = 14 * font_factor},
 		-- 		medsmall = { name = "pionillium", size = 15, offset = 12 },
 		small = { name = "pionillium", size = 12 * font_factor, offset = 10 * font_factor},
 		tiny = { name = "pionillium", size = 8 * font_factor, offset = 7 * font_factor},
+	},
+	orbiteer = {
+		large = { name = "orbiteer", size = 30 * font_factor, offset = 24 * font_factor }
 	}
 }
 

@@ -319,6 +319,7 @@ static void LuaInit()
 	pi_lua_import(l, "pigui/init.lua", true);
 	pi_lua_import(l, "pigui/mainmenu.lua", true);
 	pi_lua_import_recursive(l, "pigui/modules");
+	pi_lua_import_recursive(l, "pigui/views");
 	pi_lua_import_recursive(l, "modules");
 
 	Pi::luaNameGen = new LuaNameGen(Lua::manager);

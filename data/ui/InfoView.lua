@@ -19,6 +19,7 @@ local l = Lang.GetResource("ui-core");
 
 local tabGroup
 ui.templates.InfoView = function (args)
+	do return ui:Label("") end
 	if tabGroup then
 		tabGroup:SwitchFirst()
 		return tabGroup.widget
