@@ -4,6 +4,11 @@
 #include "Pi.h"
 #include "graphics/opengl/TextureGL.h" // nasty, usage of GL is implementation specific
 #include "PiGui.h"
+// Use GLEW instead of GL3W.
+#define IMGUI_IMPL_OPENGL_LOADER_GLEW 1
+#include "imgui/examples/imgui_impl_opengl3.h"
+#include "imgui/examples/imgui_impl_opengl2.h"
+#include "imgui/examples/imgui_impl_sdl.h"
 // to get ImVec2 + ImVec2
 #define IMGUI_DEFINE_MATH_OPERATORS true
 #include "imgui/imgui_internal.h"
@@ -20,9 +25,9 @@
 std::vector<Graphics::Texture*> PiGui::m_svg_textures;
 
 static int to_keycode(int key) {
-	if(key & SDLK_SCANCODE_MASK) {
+	/*if(key & SDLK_SCANCODE_MASK) {
 		return (key & ~SDLK_SCANCODE_MASK) | 0x100;
-	}
+	}*/
 	return key;
 }
 
@@ -158,7 +163,12 @@ ImFont *PiGui::AddFont(const std::string &name, int size) {
 void PiGui::RefreshFontsTexture() {
 	// TODO: fix this, do the right thing, don't just re-create *everything* :)
 	ImGui::GetIO().Fonts->Build();
-	ImGui_ImplSdlGL3_CreateDeviceObjects();
+	ImGui_ImplOpenGL3_CreateDeviceObjects();
+}
+
+void PiDefaultStyle(ImGuiStyle &style)
+{
+    style.WindowBorderSize        = 0.0f;             // Thickness of border around windows. Generally set to 0.0f or 1.0f. Other values not well tested.
 }
 
 void PiGui::Init(SDL_Window *window) {
@@ -175,21 +185,34 @@ void PiGui::Init(SDL_Window *window) {
 		keys.Set(p.first, p.second);
 	}
 
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+
+	// TODO: FIXME before upgrading! The sdl_gl_context parameter is currently
+	// unused, but that is slated to change very soon.
+	// We will need to fill this with a valid pointer to the OpenGL context.
+	ImGui_ImplSDL2_InitForOpenGL(window, NULL);
 	switch(Pi::renderer->GetRendererType())
-		{
-		default:
-		case Graphics::RENDERER_DUMMY:
-			Error("RENDERER_DUMMY is not a valid renderer, aborting.");
-			return;
-		case Graphics::RENDERER_OPENGL_21:
-			ImGui_ImplSdl_Init(window);
-			break;
-		case Graphics::RENDERER_OPENGL_3x:
-			ImGui_ImplSdlGL3_Init(window);
-			break;
-		}
+	{
+	default:
+	case Graphics::RENDERER_DUMMY:
+		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
+		return;
+	case Graphics::RENDERER_OPENGL_21:
+		ImGui_ImplOpenGL2_Init();
+		break;
+	case Graphics::RENDERER_OPENGL_3x:
+		ImGui_ImplOpenGL3_Init();
+		break;
+	}
 
 	ImGuiIO &io = ImGui::GetIO();
+	// Apply the base style
+	ImGui::StyleColorsDark();
+
+	// Apply Pioneer's style.
+	// TODO: load this from Lua.
+	PiDefaultStyle(ImGui::GetStyle());
 
 	std::string imguiIni = FileSystem::JoinPath(FileSystem::GetUserDir(), "imgui.ini");
 	// this will be leaked, not sure how to deal with it properly in imgui...
@@ -230,7 +253,7 @@ int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, int
 		draw_list->PathArcTo(center, (RADIUS_MIN + RADIUS_MAX)*0.5f, 0.0f, IM_PI*2.0f*0.99f, 64);   // FIXME: 0.99f look like full arc with closed thick stroke has a bug now
 		draw_list->PathStroke(ImColor(18,44,67,210), true, RADIUS_MAX - RADIUS_MIN);
 
-		const float item_arc_span = 2*IM_PI / ImMax(ITEMS_MIN, tex_ids.size());
+		const float item_arc_span = 2*IM_PI / ImMax<int>(ITEMS_MIN, tex_ids.size());
 		float drag_angle = atan2f(drag_delta.y, drag_delta.x);
 		if (drag_angle < -0.5f*item_arc_span)
 			drag_angle += 2.0f*IM_PI;
@@ -256,7 +279,7 @@ int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, int
 			draw_list->PathArcTo(center, RADIUS_MAX - border_inout, item_outer_ang_min, item_outer_ang_max, arc_segments);
 			draw_list->PathArcTo(center, RADIUS_MIN + border_inout, item_inner_ang_max, item_inner_ang_min, arc_segments);
 
-			draw_list->PathFill(hovered ? ImColor(102,147,189) : selected ? ImColor(48,81,111) : ImColor(48,81,111));
+			draw_list->PathFillConvex(hovered ? ImColor(102,147,189) : selected ? ImColor(48,81,111) : ImColor(48,81,111));
 			if(hovered) {
 				// draw outer / inner extra segments
 				draw_list->PathArcTo(center, RADIUS_MAX - border_thickness, item_outer_ang_min, item_outer_ang_max, arc_segments);
@@ -300,24 +323,14 @@ bool PiGui::CircularSlider(const ImVec2 &center, float *v, float v_min, float v_
 	draw_list->AddCircle(center, 17, ImColor(100, 100, 100), 128, 12.0);
 	draw_list->PathArcTo(center, 17, 0, M_PI * 2.0 * (*v - v_min) / (v_max - v_min), 64);
 	draw_list->PathStroke(ImColor(200,200,200), false, 12.0);
-	return ImGui::SliderBehavior(ImRect(center.x - 17, center.y - 17, center.x + 17, center.y + 17), id, v, v_min, v_max, 1.0, 4);
+	ImRect grab_bb;
+	return ImGui::SliderBehavior(ImRect(center.x - 17, center.y - 17, center.x + 17, center.y + 17),
+		id, ImGuiDataType_Float, v, &v_min, &v_max, "%.4f", 1.0, ImGuiSliderFlags_None, &grab_bb);
 }
 
 bool PiGui::ProcessEvent(SDL_Event *event)
 {
-	switch(Pi::renderer->GetRendererType())
-		{
-		default:
-		case Graphics::RENDERER_DUMMY:
-			Error("RENDERER_DUMMY is not a valid renderer, aborting.");
-			break;
-		case Graphics::RENDERER_OPENGL_21:
-			ImGui_ImplSdl_ProcessEvent(event);
-			break;
-		case Graphics::RENDERER_OPENGL_3x:
-			ImGui_ImplSdlGL3_ProcessEvent(event);
-			break;
-		}
+	ImGui_ImplSDL2_ProcessEvent(event);
 	return false;
 }
 
@@ -329,8 +342,8 @@ void *PiGui::makeTexture(unsigned char *pixels, int width, int height)
 	const vector2f texSize(1.0f, 1.0f);
 	const vector2f dataSize(width, height);
 	const Graphics::TextureDescriptor texDesc(Graphics::TEXTURE_RGBA_8888,
-																						dataSize, texSize, Graphics::LINEAR_CLAMP,
-																						false, false, false, 0, Graphics::TEXTURE_2D);
+		dataSize, texSize, Graphics::LINEAR_CLAMP,
+		false, false, false, 0, Graphics::TEXTURE_2D);
 	// Create the texture, calling it via renderer directly avoids the caching call of TextureBuilder
 	// However interestingly this gets called twice which would have been a WIN for the TextureBuilder :/
 	Graphics::Texture *pTex = Pi::renderer->CreateTexture(texDesc);
@@ -351,33 +364,34 @@ void PiGui::NewFrame(SDL_Window *window) {
 	// Ask ImGui to hide OS cursor if GUI is not being drawn:
 	// it will do this if MouseDrawCursor is true. After the frame
 	// is created, we set the actual cursor draw state.
-	if (!Pi::DrawGUI)
-		{
-			ImGui::GetIO().MouseDrawCursor = true;
-		}
-	switch(Pi::renderer->GetRendererType())
-		{
-		default:
-		case Graphics::RENDERER_DUMMY:
-			Error("RENDERER_DUMMY is not a valid renderer, aborting.");
-			return;
-		case Graphics::RENDERER_OPENGL_21:
-			ImGui_ImplSdl_NewFrame(window);
-			break;
-		case Graphics::RENDERER_OPENGL_3x:
-			ImGui_ImplSdlGL3_NewFrame(window);
-			break;
-		}
+	if (!Pi::DrawGUI) {
+		ImGui::GetIO().MouseDrawCursor = true;
+	}
+	switch(Pi::renderer->GetRendererType()) {
+	default:
+	case Graphics::RENDERER_DUMMY:
+		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
+		return;
+	case Graphics::RENDERER_OPENGL_21:
+		ImGui_ImplOpenGL2_NewFrame();
+		break;
+	case Graphics::RENDERER_OPENGL_3x:
+		ImGui_ImplOpenGL3_NewFrame();
+		break;
+	}
+	ImGui_ImplSDL2_NewFrame(window);
+	ImGui::NewFrame();
+
 	Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 	ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
-	if(Pi::DoingMouseGrab() || !Pi::DrawGUI)
-		{
-			ImGui::GetIO().MouseDrawCursor = false;
-		}
-	else
-		{
-			ImGui::GetIO().MouseDrawCursor = true;
-		}
+#if 0 // Mouse cursors are set via the OS facilities.
+	// We may want to revisit this at a later date.
+	if(Pi::DoingMouseGrab() || !Pi::DrawGUI) {
+		ImGui::GetIO().MouseDrawCursor = false;
+	} else {
+		ImGui::GetIO().MouseDrawCursor = true;
+	}
+#endif
 }
 void PiGui::Render(double delta, std::string handler) {
 	ScopedTable t(m_handlers);
@@ -388,6 +402,8 @@ void PiGui::Render(double delta, std::string handler) {
 	// Explicitly end frame, to show tooltips. Otherwise, they are shown at the next NextFrame,
 	// which might crash because the font atlas was rebuilt, and the old fonts were cached inside imgui.
 	EndFrame();
+
+	// Iterate through our fonts and check if IMGUI wants a character we don't have.
 	for(auto &iter : m_fonts) {
 		ImFont *font = iter.second;
 		// font might be nullptr, if it wasn't baked yet
@@ -399,9 +415,26 @@ void PiGui::Render(double delta, std::string handler) {
 			font->ResetMissingGlyphs();
 		}
 	}
+
 	// Bake fonts *after* a frame is done, so the font atlas is not needed any longer
 	if(m_should_bake_fonts) {
 		BakeFonts();
+	}
+}
+
+void PiGui::RenderImGui() {
+	ImGui::Render();
+
+	switch(Pi::renderer->GetRendererType()) {
+	default:
+	case Graphics::RENDERER_DUMMY:
+		return;
+	case Graphics::RENDERER_OPENGL_21:
+		ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+		break;
+	case Graphics::RENDERER_OPENGL_3x:
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		break;
 	}
 }
 
@@ -413,10 +446,10 @@ void PiGui::ClearFonts() {
 	io.Fonts->Clear();
 }
 
-void PiGui::BakeFont(const PiFont &font) {
+void PiGui::BakeFont(PiFont &font) {
 	ImGuiIO &io = ImGui::GetIO();
 	ImFont *imfont = nullptr;
-	for(const PiFace &face : font.faces()) {
+	for(PiFace &face : font.faces()) {
 		ImFontConfig config;
 		config.MergeMode = true;
 		float size = font.pixelsize() * face.sizefactor();
@@ -424,16 +457,18 @@ void PiGui::BakeFont(const PiFont &font) {
 		//		Output("- baking face %s at size %f\n", path.c_str(), size);
 		face.sortUsedRanges();
 		if(face.used_ranges().size() > 0) {
-			unsigned short *glyph_ranges = new unsigned short[face.used_ranges().size() * 2 + 2];
-			unsigned short *gr = glyph_ranges;
+			face.m_imgui_ranges.clear();
+			ImFontAtlas::GlyphRangesBuilder gb;
+			// Always include the default range
+			gb.AddRanges(io.Fonts->GetGlyphRangesDefault());
+			ImWchar gr[3] = { 0, 0, 0 };
 			for(auto &range : face.used_ranges()) {
-				// 				Output("  - 0x%x .. 0x%x\n", range.first, range.second);
-				*gr++ = range.first;
-				*gr++ = range.second;
+				// Output("Used range: %x - %x", range.first, range.second);
+				gr[0] = range.first; gr[1] = range.second;
+				gb.AddRanges(gr);
 			}
-			*gr++ = 0;
-			*gr = 0;
-			ImFont *f = io.Fonts->AddFontFromFileTTF(path.c_str(), size, imfont == nullptr ? nullptr : &config, glyph_ranges);
+			gb.BuildRanges(&face.m_imgui_ranges);
+			ImFont *f = io.Fonts->AddFontFromFileTTF(path.c_str(), size, imfont == nullptr ? nullptr : &config, face.m_imgui_ranges.Data);
 			assert(f);
 			if(imfont != nullptr)
 				assert(f == imfont);
@@ -490,9 +525,9 @@ static void drawThrust(ImDrawList* draw_list, const ImVec2 &center, const ImVec2
 	const ImVec2 minimum(fmin(bb_upperleft.x, bb_lowerright.x), fmin(bb_upperleft.y, bb_lowerright.y));
 	const ImVec2 maximum(fmax(bb_upperleft.x, bb_lowerright.x), fmax(bb_upperleft.y, bb_lowerright.y));
 	ImVec2 points[] = { c, leftmiddle, lefttop, righttop, rightmiddle };
-	draw_list->AddConvexPolyFilled(points, 5, bg, false);
+	draw_list->AddConvexPolyFilled(points, 5, bg);
 	draw_list->PushClipRect(minimum - ImVec2(1,1), maximum + ImVec2(1,1));
-	draw_list->AddConvexPolyFilled(points, 5, fg, false);
+	draw_list->AddConvexPolyFilled(points, 5, fg);
 	draw_list->PopClipRect();
 }
 
@@ -516,11 +551,11 @@ void PiGui::ThrustIndicator(const std::string &id_string, const ImVec2& size_arg
 	const ImRect inner_bb(pos + padding, pos + padding + size);
 
 	ImGui::ItemSize(bb, style.FramePadding.y);
-	if (!ImGui::ItemAdd(bb, &id))
+	if (!ImGui::ItemAdd(bb, id))
 		return;
 
 	// Render
-	const ImU32 col = ImGui::GetColorU32(ImGuiCol_Button);
+	const ImU32 col = ImGui::GetColorU32(static_cast<ImGuiCol>(ImGuiCol_Button));
 	ImGui::RenderFrame(bb.Min, bb.Max, col, true, style.FrameRounding);
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	if (bg_col.w > 0.0f)
@@ -580,7 +615,7 @@ bool PiGui::LowThrustButton(const char* id_string, const ImVec2& size_arg, int t
 	const ImRect inner_bb(pos + padding, pos + padding + size);
 
 	ImGui::ItemSize(bb, style.FramePadding.y);
-	if (!ImGui::ItemAdd(bb, &id))
+	if (!ImGui::ItemAdd(bb, id))
 		return false;
 
 	// if (window->DC.ButtonRepeat) flags |= ImGuiButtonFlags_Repeat;
@@ -588,7 +623,7 @@ bool PiGui::LowThrustButton(const char* id_string, const ImVec2& size_arg, int t
 	bool pressed = ImGui::ButtonBehavior(bb, id, &hovered, &held, 0); // flags
 
 	// Render
-	const ImU32 col = ImGui::GetColorU32((hovered && held) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
+	const ImU32 col = ImGui::GetColorU32(static_cast<ImGuiCol>((hovered && held) ? ImGuiCol_ButtonActive : (hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button)));
 	ImGui::RenderFrame(bb.Min, bb.Max, col, true, style.FrameRounding);
 	const ImVec2 center = (inner_bb.Min + inner_bb.Max) / 2;
 	float radius = (inner_bb.Max.x - inner_bb.Min.x) * 0.4;
@@ -615,24 +650,39 @@ void PiGui::Cleanup() {
 	for(auto tex : m_svg_textures) {
 		delete tex;
 	}
+
+	switch(Pi::renderer->GetRendererType()) {
+	default:
+	case Graphics::RENDERER_DUMMY:
+		return;
+	case Graphics::RENDERER_OPENGL_21:
+		ImGui_ImplOpenGL2_Shutdown();
+		break;
+	case Graphics::RENDERER_OPENGL_3x:
+		ImGui_ImplOpenGL3_Shutdown();
+		break;
+	}
+
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
 }
 
-PiGui::PiGui() : m_should_bake_fonts(true) {
-	PiFont uiheading("orbiteer",
-									 { PiFace("DejaVuSans.ttf", /*18.0/20.0*/ 1.2, {{0x400, 0x4ff}, {0x500, 0x527}}),
-											 PiFace("wqy-microhei.ttc", 1.0, {{0x4e00, 0x9fff},{0x3400,0x4dff}}),
-											 PiFace("Orbiteer-Bold.ttf", 1.0, {{0, 0xffff}}) // imgui only supports 0xffff, not 0x10ffff
-											 });
-	PiFont guifont("pionillium",
-								 {
-									 PiFace("DejaVuSans.ttf", 13.0/14.0, {{0x400, 0x4ff}, {0x500, 0x527}}),
-										 PiFace("wqy-microhei.ttc", 1.0, {{0x4e00, 0x9fff},{0x3400,0x4dff}}),
-										 PiFace("PionilliumText22L-Medium.ttf", 1.0, {{0, 0xffff}})
-										 });
+PiGui::PiGui() : m_should_bake_fonts(true)
+{
+	PiFont uiheading("orbiteer", {
+		PiFace("DejaVuSans.ttf", /*18.0/20.0*/ 1.2, {{0x400, 0x4ff}, {0x500, 0x527}}),
+		PiFace("wqy-microhei.ttc", 1.0, {{0x4e00, 0x9fff},{0x3400,0x4dff}}),
+		PiFace("Orbiteer-Bold.ttf", 1.0, {{0, 0xffff}}) // imgui only supports 0xffff, not 0x10ffff
+	});
+	PiFont guifont("pionillium", {
+		PiFace("DejaVuSans.ttf", 13.0/14.0, {{0x400, 0x4ff}, {0x500, 0x527}}),
+		PiFace("wqy-microhei.ttc", 1.0, {{0x4e00, 0x9fff},{0x3400,0x4dff}}),
+		PiFace("PionilliumText22L-Medium.ttf", 1.0, {{0, 0xffff}})
+	});
 	AddFontDefinition(uiheading);
 	AddFontDefinition(guifont);
 
-	Output("Fonts:\n");
+	// Output("Fonts:\n");
 	for(auto entry : m_font_definitions) {
 		//		Output("  entry %s:\n", entry.first.c_str());
 		entry.second.describe();
@@ -640,7 +690,6 @@ PiGui::PiGui() : m_should_bake_fonts(true) {
 
 	// ensure the tooltip font exists
 	GetFont("pionillium", 14);
-
 };
 
 const bool PiFace::containsGlyph(unsigned short glyph) const {

@@ -22,7 +22,7 @@ local iconSize = Vector(16,16)
 
 local font = pionillium.medium
 local width = 120 + 120 * (ui.screenWidth / 1200)
-local height = math.max(iconSize.y, font.size) * 3
+local height = math.max(iconSize.y, font.size) * 3 + 4
 
 local function displayPlanetaryInfo()
 	local player = Game.player

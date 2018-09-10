@@ -98,7 +98,8 @@ local function confirmQuit()
 	ui.setNextWindowPosCenter('Always')
 
 	ui.withStyleColors({["WindowBg"] = colors.commsWindowBackground}, function()
-		ui.window("MainMenuQuitConfirm", {"NoTitleBar", "NoResize", "ShowBorders", "AlwaysAutoResize"}, function()
+		-- TODO: this window should be ShowBorders
+		ui.window("MainMenuQuitConfirm", {"NoTitleBar", "NoResize", "AlwaysAutoResize"}, function()
 			ui.withFont(pionillium.large.name, mainButtonFontSize, function()
 				ui.text(qlc.QUIT)
 			end)
@@ -211,4 +212,3 @@ end -- showMainMenu
 ui.registerHandler('mainMenu',function(delta)
 	showMainMenu()
 end)
-

@@ -8,14 +8,14 @@
 #include "LuaTable.h"
 #include "FileSystem.h"
 #include "imgui/imgui.h"
-#include "imgui/examples/sdl_opengl3_example/imgui_impl_sdl_gl3.h"
-#include "imgui/examples/sdl_opengl2_example/imgui_impl_sdl.h"
 
 class PiFace {
+	friend class PiGui; // need acces to some private data
 	std::string m_ttfname; // only the ttf name, it is automatically sought in data/fonts/
 	float m_sizefactor; // the requested pixelsize is multiplied by this factor
 	std::vector<std::pair<unsigned short, unsigned short>> m_ranges;
 	mutable std::vector<std::pair<unsigned short, unsigned short>> m_used_ranges;
+	ImVector<ImWchar> m_imgui_ranges;
 public:
 	PiFace(const std::string &ttfname, float sizefactor) : m_ttfname(ttfname), m_sizefactor(sizefactor) {}
 	PiFace(const std::string &ttfname, float sizefactor, const std::vector<std::pair<unsigned short, unsigned short>> &ranges) : m_ttfname(ttfname), m_sizefactor(sizefactor), m_ranges(ranges) {}
@@ -60,9 +60,8 @@ class PiGui : public RefCounted {
 
 	std::map<std::string,PiFont> m_font_definitions;
 
-	void AddGlyph(ImFont *font, unsigned short glyph);
 	void BakeFonts();
-	void BakeFont(const PiFont &font);
+	void BakeFont(PiFont &font);
 	void AddFontDefinition(const PiFont &font) { m_font_definitions[font.name()] = font; }
 	void ClearFonts();
 public:
@@ -86,13 +85,15 @@ public:
 	}
 	ImFont *AddFont(const std::string &name, int size);
 
+	void AddGlyph(ImFont *font, unsigned short glyph);
+
 	static ImTextureID RenderSVG(std::string svgFilename, int width, int height);
 
 	static void NewFrame(SDL_Window *window);
 
 	static void EndFrame();
 
-	static void RenderImGui() { ImGui::Render(); }
+	static void RenderImGui();
 
 	static bool ProcessEvent(SDL_Event *event);
 
