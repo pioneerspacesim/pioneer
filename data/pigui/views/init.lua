@@ -2,7 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import('Engine')
-local ui = import('pigui')
+local ui = import('pigui/pigui.lua')
 local Color = import('Color')
 local Lang = import("Lang")
 local lc = Lang.GetResource("core");

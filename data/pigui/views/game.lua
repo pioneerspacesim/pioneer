@@ -4,7 +4,7 @@
 local Engine = import('Engine')
 local Input = import('Input')
 local Game = import('Game')
-local ui = import('pigui')
+local ui = import('pigui/pigui.lua')
 local Color = import('Color')
 local Lang = import("Lang")
 local lc = Lang.GetResource("core");
@@ -388,7 +388,7 @@ local function displayCombatTargetIndicator(combatTarget)
 	local pos = combatTarget:GetPositionRelTo(player)
 	local vel = -combatTarget:GetVelocityRelTo(player)
 	local onscreen,position,direction = Engine.WorldSpaceToScreenSpace(pos)
-	
+
 	displayIndicator(onscreen, position, direction, icons.square, colors.combatTarget, true)
 	onscreen,position,direction = Engine.WorldSpaceToScreenSpace(vel)
 	displayIndicator(onscreen, position, direction, icons.prograde, colors.combatTarget, true, lui.HUD_INDICATOR_COMBAT_TARGET_PROGRADE)
