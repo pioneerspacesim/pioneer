@@ -173,7 +173,7 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+    "message": "{starport} verkeersleiding heeft uw ONMIDDELLIJKE hulp nodig bij {ship}-type ruimteschip dat op {planet} een noodlanding gemaakt heeft. Status van levensondersteunende systemen is onbekend. Het schip is verzekerd door {starport} Ruimtehaven Verzekeringen en verzekeraar vergoed {cash} voor assistentie bij noodgevallen."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
@@ -189,7 +189,7 @@
   },
   "FLAVOUR_1_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+    "message": "Aan boord zijn {crew} bemanningsleden en {pass} passagiers. We hebben iemand nodig die het schip opzoekt, de overlevenden ophaalt en ze hier onmiddellijk heen brengt."
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+    "message": "{starport} verkeersleiding heeft zojuist een bericht ontvangen dat inkomende vlucht {shiplabel} zonder brandstof is komen te zitten en een noodlanding moest maken. De piloot is bereid {cash} te betalen voor brandstoflevering."
   },
   "FLAVOUR_2_LOCATIONTEXT": {
     "description": "",
@@ -269,7 +269,7 @@
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+    "message": "{starport} verkeersleiding heeft contact gehad met de piloot van vlucht {shiplabel}. Ze zijn gestrand met een lege brandstoftank en hebben toegezegd {cash} te betalen aan wie hun schip van brandstof voorziet."
   },
   "FLAVOUR_4_LOCATIONTEXT": {
     "description": "",
@@ -301,7 +301,7 @@
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+    "message": "{starport} verkeersleiding heeft in deze omgeving een ruimteschip geïdentificeerd met kenmerk {shiplabel} op drift zonder brandstof. We zullen {cash} betalen aan wie het schip bijtankt zodat ze de omgeving van {starport} kunnen verlaten."
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
@@ -333,7 +333,7 @@
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",
-    "message": "Ik ben {name} van {entity}. Wij zijn het contact kwijt met ons {ship} {shiplabel} na {problem}. We zijn bereid {cash} te betalen voor onmiddellijke hulp."
+    "message": "Ik ben {name} van {entity}. Wij zijn het contact kwijt met onze {ship} {shiplabel} na {problem}. We zijn bereid {cash} te betalen voor onmiddellijke hulp."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
@@ -349,7 +349,7 @@
   },
   "FLAVOUR_6_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
+    "message": "I heb iemand nodig die bereid is meteen te vertrekken en onze collega's terugbrengt naar {starport}, als ze nog leven. Het schip had {crew} bemanningsleden en {pass} passagiers aan boord."
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
@@ -365,7 +365,7 @@
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
+    "message": "Ik ben {name} van {entity}. Ons enig schip, {ship} {shiplabel}, is op drift met een bemanning van {crew} na {problem}. Ik ben bereid {cash} te betalen voor onmiddellijke hulp."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
@@ -625,7 +625,7 @@
   },
   "RESULT_PICKUP_PASS": {
     "description": "",
-    "message": "{done} van {todo} passagiers lopgehaald van het schip in kwestie."
+    "message": "{done} van {todo} passagiers opgehaald van het schip in kwestie."
   },
   "RETURN_TO": {
     "description": "",
@@ -669,11 +669,11 @@
   },
   "TRANSFER_ABORTED": {
     "description": "",
-    "message": "Vervoer is afgebroken!"
+    "message": "Transport is afgebroken!"
   },
   "TRANSFER_COMPLETE": {
     "description": "",
-    "message": "Vervoer is voltooid!"
+    "message": "Transport is voltooid!"
   },
   "TRANSFER_PARTIAL": {
     "description": "",

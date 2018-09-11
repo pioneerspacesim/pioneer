@@ -25,7 +25,7 @@
   },
   "CORPORATIONS_4": {
     "description": "",
-    "message": "Aquarian Shipbuilding"
+    "message": "Aquarian Scheepswerf"
   },
   "CORPORATIONS_5": {
     "description": "",
@@ -189,11 +189,11 @@
   },
   "FLAVOUR_11_WHEREAREWE": {
     "description": "",
-    "message": "Where are we? I've waited enough - take me to the nearest station NOW!"
+    "message": "Waar zijn we? Ik heb lang genoeg gewacht - breng me NU naar de dichtstbijzijnde ruimtehaven!"
   },
   "FLAVOUR_11_WHYSOMUCH": {
     "description": "",
-    "message": "I'm a factory inspector doing my rounds."
+    "message": "Ik doe mijn ronde als fabrieksinspecteur."
   },
   "FLAVOUR_12_ADTEXT": {
     "description": "",
@@ -201,11 +201,11 @@
   },
   "FLAVOUR_12_DANGER": {
     "description": "",
-    "message": "Someone is chasing me."
+    "message": "Iemand zit achter me aan."
   },
   "FLAVOUR_12_FAILUREMSG": {
     "description": "",
-    "message": "I do not have enough money. Sorry."
+    "message": "Ik heb niet genoeg geld. Sorry."
   },
   "FLAVOUR_12_HOWMANY": {
     "description": "",

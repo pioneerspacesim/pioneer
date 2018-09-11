@@ -413,7 +413,7 @@
   },
   "FIRE_LASER": {
     "description": "",
-    "message": "Vuur wapen"
+    "message": "Afvuren wapen"
   },
   "FIRE_MISSILE": {
     "description": "",
@@ -597,7 +597,7 @@
   },
   "ILLEGAL_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-    "message": "ILLEGAAL_HUIDIG_SYSTEEM"
+    "message": "Illegaal (huidig stelsel)"
   },
   "ILLEGAL_GOODS": {
     "description": "",
@@ -605,7 +605,7 @@
   },
   "IMPERIAL_RULE": {
     "description": "",
-    "message": "Imperiaal regime"
+    "message": "Keizerlijk regering"
   },
   "INCREASE_RADAR_RANGE": {
     "description": "",
@@ -613,7 +613,7 @@
   },
   "INCREASE_SET_SPEED": {
     "description": "",
-    "message": "Accelereer snelheid"
+    "message": "Ingestelde snelheid vergroten"
   },
   "INCREASE_TIME_ACCELERATION": {
     "description": "",
@@ -685,7 +685,7 @@
   },
   "LEGAL_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-    "message": "LEGAAL_HUIDIG_SYSTEEM"
+    "message": "Legaal (huidig stelsel)"
   },
   "LIBERAL_DEMOCRACY": {
     "description": "",
@@ -721,11 +721,11 @@
   },
   "MAJOR_EXPORTS": {
     "description": "",
-    "message": "Voornaamste export:"
+    "message": "Belangrijkste exports:"
   },
   "MAJOR_EXPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "GROOT_UITVOER_HUIDIG_SYSTEEM"
+    "message": "Belangrijkste exports (huidig stelsel)"
   },
   "MAJOR_IMPORTS": {
     "description": "",
@@ -733,7 +733,7 @@
   },
   "MAJOR_IMPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "GROOT_INVOER_HUIDIG_SYSTEEM"
+    "message": "Belangrijkste imports (huidig stelsel)"
   },
   "MANUAL_CONTROL": {
     "description": "",
@@ -797,15 +797,15 @@
   },
   "MAP_WARP_TO_CURRENT_SYSTEM": {
     "description": "",
-    "message": "Warp naar huidig systeem"
+    "message": "Spring naar huidig systeem"
   },
   "MAP_WARP_TO_HYPERSPACE_TARGET": {
     "description": "",
-    "message": "Warp naar hyperspace-bestemming"
+    "message": "Spring naar hyperspace-bestemming"
   },
   "MAP_WARP_TO_SELECTED_SYSTEM": {
     "description": "",
-    "message": "Warp naar geselecteerd systeem"
+    "message": "Spring naar geselecteerd systeem"
   },
   "MASS": {
     "description": "",
@@ -837,7 +837,7 @@
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "Metaal legeringen"
+    "message": "Metaallegeringen"
   },
   "METAL_ORE": {
     "description": "",
@@ -845,7 +845,7 @@
   },
   "MILITARY_DICTATORSHIP": {
     "description": "",
-    "message": "Militair dictatorschap"
+    "message": "Militaire dictatuur"
   },
   "MILITARY_FUEL": {
     "description": "",
@@ -853,11 +853,11 @@
   },
   "MINING_COLONY": {
     "description": "",
-    "message": "Mijnbouw kolonie."
+    "message": "Mijnbouwkolonie."
   },
   "MINING_MACHINERY": {
     "description": "",
-    "message": "Mijnbouw apparatuur"
+    "message": "Mijnbouwapparatuur"
   },
   "MINOR_EXPORTS": {
     "description": "",
@@ -865,7 +865,7 @@
   },
   "MINOR_EXPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "KLEIN_UITVOER_HUIDIG_SYSTEEM"
+    "message": "Kleinere exports (huidig stelsel)"
   },
   "MINOR_IMPORTS": {
     "description": "",
@@ -873,7 +873,7 @@
   },
   "MINOR_IMPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "KLEIN_INVOER_HUIDIG_SYSTEEM"
+    "message": "Kleinere imports (huidig stelsel)"
   },
   "MISCELLANEOUS": {
     "description": "",
@@ -945,7 +945,7 @@
   },
   "NARCOTICS": {
     "description": "",
-    "message": "Narcotica"
+    "message": "Drugs"
   },
   "NAVIGATION_STAR_MAPS": {
     "description": "",
@@ -1009,7 +1009,7 @@
   },
   "NUMBER_G": {
     "description": "",
-    "message": "%versnelling{f.1} G"
+    "message": "%acceleration{f.1} G"
   },
   "NUMBER_GROUP_MIN": {
     "description": "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
@@ -1361,7 +1361,7 @@
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
-    "message": "Nabij schip gedetecteerd."
+    "message": "Schip dichtbij gedetecteerd."
   },
   "SHIP_INFORMATION": {
     "description": "",
@@ -1373,7 +1373,7 @@
   },
   "SHIP_NEARBY": {
     "description": "",
-    "message": "Schip nabij"
+    "message": "Schip dichtbij"
   },
   "SHIP_ORIENTATION": {
     "description": "",

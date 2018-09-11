@@ -37,7 +37,7 @@
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Sinds duizend jaar geleden, met de Abacus, PDP-11 and Motorola 68k-chip tot onze moderne HAL 9001 en Multivac-lijn, stonden computers aan het begin van het informatietijdperk. Evenzeer verantwoordelijk voor het binnengaan van de hyperruimte als voor het delen van schattige video's over het UniNet."
+    "message": "Sinds duizend jaar geleden, met de Abacus, PDP-11 and Motorola 68k-chip tot onze moderne HAL 9001 en Multivac-lijn, stonden computers aan het begin van het informatietijdperk. Net zo belangrijk voor het binnengaan van de hyperruimte als voor het delen van schattige video's over het UniNet."
   },
   "CONSUMER_GOODS": {
     "description": "",
@@ -189,7 +189,7 @@
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Synthetical and semi-synthetical materials used in everything from everyday items to spaceship construction. They are relatively easy to use in manufacture, versatile and cheap to make, thus an important part of human civilization."
+    "message": "Kunstmatige en semi-kunstmatige materialen die in alles gebruikt worden van dagelijkse voorwerpen tot ruimtescheepsbouw. Ze zijn betrekkelijk eenvoudig te gebruiken in fabricage, veelzijdig en goedkoop te maken, en zijn daardoor een belangrijk onderdeel van menselijke beschaving."
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -197,7 +197,7 @@
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Precious metals are, generally, less reactive, more difficult to mine, and more scarce, resulting in a considerable economic value. This often includes gold, silver, platinum, and rare earths. Certain elements such as gold and silicon, or rare earths, are crucial for the construction of computers and other electronics."
+    "message": "Zeldzame metalen reageren in het algemeen minder, zijn moeilijker te delven en schaarser, wat resulteert in een aanzienlijke economische waarde. Voorbeelden zijn goud, zilver, platina, en zeldzame mineralen. Deze zijn cruciaal voor de constructie van computers en andere elektronica."
   },
   "RADIOACTIVES": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Robots are often imported into industrial and mining systems, due to their ability to easily perform tasks that would be too difficult, tedious, or unsafe for human workers. They can also serve as politicians and lawyers."
+    "message": "Robots worden vaak geïmporteerd in industrie- en mijnbouwstelsels, vanwege hun betrouwbaarheid en hun capaciteit taken uit te voeren die te moeilijk, eentonig of onveilig zijn voor menselijke arbeiders. Ze kunnen ook dienst doen als politieagenten en advocaten."
   },
   "RUBBISH": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The byproduct of civilization, consisting of industrial waste, household garbage, and worn down equipment. Most waste is reprocessed, recycled or sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal. Starports usually charge a fee for waste disposal, but will also pay you to take it away."
+    "message": "Het bijproduct van beschaving, industrieel afval, huishoudafval en versleten apparaten. Het meeste wordt verwerkt, gerecycled of naar ruimtehavens gestuurd om ergens anders heen te worden gebracht. Afvaldumping is in bewoonde stelsels altijd verboden. Ruimtehavens rekenen geld voor afvalverwerking en betalen als je het van ze afneemt. "
   },
   "SLAVES": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Textiles are simple fabric, woven from either synthetic, plant or animal derived yarn. Usually produced by robots in large factories, it is still possible to find the occasional weaver who makes their own textiles."
+    "message": "Textiel is een eenvoudige stof, geweven van kunstmatige, plantaardige of dierlijke garen. Hoewel gewoonlijk geproduceerd door robots in grote fabrieken is het nog steeds mogelijk hier en daar een wever te vinden die zijn eigen textiel maakt."
   },
   "WATER": {
     "description": "",
@@ -245,6 +245,6 @@
   },
   "WATER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Essential for life as we know it, an often overlooked commodity, water is needed wherever humanity roams. As such, the vast majority of off-world colonies import water from comets or planets like Earth. Water is used on a massive scale for hydrogen and oxygen production."
+    "message": "Water is essentieel voor het leven zoals we dat kennen, vaak voor lief genomen maar overal nodig waar mensen komen. Daarom importeren de meeste buitenwereldse koloniën water van kometen en planeten als de Aarde. Water wordt in enorme hoeveelheden gebruikt voor waterstof- en zuurstofproductie."
   }
 }

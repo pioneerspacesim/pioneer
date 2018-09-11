@@ -21,7 +21,7 @@
   },
   "ALL_UP_WEIGHT": {
     "description": "",
-    "message": "All-up weight"
+    "message": "Totaal gewicht"
   },
   "AMOUNT": {
     "description": "",
@@ -73,7 +73,7 @@
   },
   "CABINS": {
     "description": "For passengers",
-    "message": "Cabines"
+    "message": "Hutten"
   },
   "CABIN_FREE": {
     "description": "Free capacity for passengers",
@@ -189,15 +189,15 @@
   },
   "COMPRESS_TEXTURES": {
     "description": "graphics option in game settings menu ",
-    "message": "Compress Textures"
+    "message": "Comprimeer Textures"
   },
   "CONFIRM_PURCHASE": {
     "description": "",
-    "message": "Confirm purchase"
+    "message": "Bevestig aankoop"
   },
   "CONFIRM_SALE": {
     "description": "",
-    "message": "Confirm sale"
+    "message": "Bevestig verkoop"
   },
   "CONSTABLE": {
     "description": "",
@@ -229,7 +229,7 @@
   },
   "CREW_CABINS": {
     "description": "",
-    "message": "Bemanningscabines"
+    "message": "Bemanningshutten"
   },
   "CREW_ROSTER": {
     "description": "",
@@ -457,7 +457,7 @@
   },
   "FRONT_WEAPON": {
     "description": "",
-    "message": "Wapen voorkant"
+    "message": "Wapen voor"
   },
   "FUEL": {
     "description": "",
@@ -597,7 +597,7 @@
   },
   "HUD_BUTTON_FIX_RADIAL_OUT": {
     "description": "Tooltip: fix heading radially outward",
-    "message": "Fix radiaal uitwaards richting"
+    "message": "Fix radiaal uitwaardse richting"
   },
   "HUD_BUTTON_FIX_RETROGRADE": {
     "description": "Tooltip: fix heading retrograde",
@@ -625,7 +625,7 @@
   },
   "HUD_BUTTON_KILL_ROTATION": {
     "description": "Tooltip: kill rotation",
-    "message": "Kill rotation"
+    "message": "Stop draaiing"
   },
   "HUD_BUTTON_LANDING_GEAR_IS_DOWN": {
     "description": "Tooltip: Landing gear is down",
@@ -745,15 +745,15 @@
   },
   "HUD_DURATION_OF_MANEUVER_BURN": {
     "description": "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
-    "message": "De ruwe tijd van de manoeuvre-burn met de hoofdthrusters"
+    "message": "De ruwe tijd van de manoeuvre met de hoofdthrusters"
   },
   "HUD_DURATION_UNTIL_MANEUVER_BURN": {
     "description": "Tooltip: The duration until the middle of the maneuver burn.",
-    "message": "The tijd tot het midden van de manoeuvre-burn"
+    "message": "De tijd tot het midden van de manoeuvre"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
-    "message": "Temperatuur Voorwaards Wapen"
+    "message": "Temperatuur Wapen Voor"
   },
   "HUD_HULL_STRENGTH": {
     "description": "Tooltip: Hull Strength.",
@@ -817,7 +817,7 @@
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
-    "message": "Verzoek tot tijdversnelling: {time}"
+    "message": "Verzoek tijdversnelling: {time}"
   },
   "HUD_SHIELD_STRENGTH": {
     "description": "Tooltip: Shield Strength.",
@@ -861,7 +861,7 @@
   },
   "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
     "description": "",
-    "message": "Rom gerepareerd door {name}, nu op {repairPercent}%"
+    "message": "Romp gerepareerd door {name}, nu op {repairPercent}%"
   },
   "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE": {
     "description": "",
@@ -1005,7 +1005,7 @@
   },
   "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
     "description": "",
-    "message": "Located {distance}km from the centre of {name}:"
+    "message": "Op {distance} km van het centrum van {name}:"
   },
   "LOCATION": {
     "description": "",
@@ -1229,7 +1229,7 @@
   },
   "N_OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "{quantity} Bezette passagierscabines"
+    "message": "{quantity} Bezette passagiershutten"
   },
   "N_SHIELD_GENERATORS": {
     "description": "",
@@ -1237,7 +1237,7 @@
   },
   "N_UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "{quantity} Lege Passagierscabines"
+    "message": "{quantity} Lege Passagiershutten"
   },
   "OFF": {
     "description": "",
@@ -1369,7 +1369,7 @@
   },
   "REAR_WEAPON": {
     "description": "",
-    "message": "Achterwaards wapen"
+    "message": "Wapen achter"
   },
   "REFUEL": {
     "description": "",
@@ -1405,7 +1405,7 @@
   },
   "REQUEST_LAUNCH": {
     "description": "",
-    "message": "Verzoek Lanceertoestemming"
+    "message": "Vraag lanceertoestemming"
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",

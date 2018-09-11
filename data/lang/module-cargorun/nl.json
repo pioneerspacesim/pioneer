@@ -21,31 +21,31 @@
   },
   "ACCEPTED_PICKUP_2": {
     "description": "",
-    "message": "Akkoord! I laat mijn collega's weten dat u onderweg bent."
+    "message": "Akkoord! Ik laat mijn collega's weten dat u onderweg bent."
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "CARGO RUN. Delivery of cargo to the {system} system."
+    "message": "VRACHT. Levering van vracht aan het {system}-stelsel."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "NEED TRANSPORTATION. Transport of goods to the {system} system needed. Pay {cash}."
+    "message": "TRANSPORT BENODIGD. Transport van goederen naar het {system}-stelsel benodigd. Betaal {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "DELIVERY. Valuable cargo to the {system} system. {cash} to an experienced pilot."
+    "message": "LEVERING. Waardevolle lading naar het {system}-stelsel. {cash} voor een ervaren piloot."
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
-    "message": "LOCAL DELIVERY. Move of goods to {starport}."
+    "message": "LOKALE LEVERING. Verplaatsing van goederen aan {starport}."
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "TRANSPORT NEEDED. Delivery of local cargo to {starport}."
+    "message": "TRANSPORT BENODIGD. Lokale levering van vracht aan {starport}."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
-    "message": "LOCAL CARGO RUN. Delivery of goods to {starport}."
+    "message": "LOKALE VRACHT. Levering van goederen aan {starport}."
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
@@ -185,23 +185,23 @@
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "Listen, we were clear about the deadline. You can forget about getting payed."
+    "message": "Luister, we waren duidelijk in de deadline. Die betaling kun je vergeten."
   },
   "FAILUREMSG_4": {
     "description": "",
-    "message": "From now on, I will reject all job requests from you."
+    "message": "Vanaf nu zal ik al uw verzoeken om werk afwijzen."
   },
   "FAILUREMSG_FLUFFY_1": {
     "description": "",
-    "message": "You monster! You've waited too long for this delivery. All my fluffy pets are starved!"
+    "message": "Monster! U hebt te lang met deze levering gewacht. Al mijn aaibare huisdieren zijn verhongerd!"
   },
   "FURNITURE": {
     "description": "custom cargo",
-    "message": "Furniture"
+    "message": "Meubels"
   },
   "GREENHOUSES": {
     "description": "custom cargo",
-    "message": "Greenhouses"
+    "message": "Broeikassen"
   },
   "GUNS_GUNS_GUNS": {
     "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
@@ -209,7 +209,7 @@
   },
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
-    "message": "Hazardous substances"
+    "message": "Gevaarlijke substanties"
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
@@ -261,7 +261,7 @@
   },
   "INTROTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "Hello. We need someone experienced for a potentially dangerous run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. We'll pay {cash}. The distance is {dist} ly."
+    "message": "Hallo. We hebben een ervaren piloot nodig voor een mogelijk gevaarlijke vlucht naar {starport} in het {system} ({sectorx}, {sectory}, {sectorz})-stelsel. We betalen {cash}. De afstand is {dist} lj."
   },
   "INTROTEXT_FLUFFY_1": {
     "description": "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
@@ -285,7 +285,7 @@
   },
   "INTROTEXT_MINING_1": {
     "description": "{name} is the full name of a person",
-    "message": "Hello. The {name} Mining Company wants to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly away, to build a new mine. The pay is {cash}."
+    "message": "Hallo. Het {name} Mijnbouwbedrijf wil {cargoname} aan {starport} in het {system} ({sectorx}, {sectory}, {sectorz})-stelsel leveren, {dist} lj hier vandaan, om een nieuwe mijn te bouwen. De betaling is {cash}."
   },
   "INTROTEXT_PICKUP_1": {
     "description": "",
@@ -301,7 +301,7 @@
   },
   "INTROTEXT_PICKUP_LOCAL_2": {
     "description": "",
-    "message": "Hello. My name is {name}. My employer is willing to hire you for {cash} to help us relocate our warehouse by moving {cargoname} from {starport} to our new domicile {dom_starport}."
+    "message": "Hallo. Mijn naam is {name}. Mijn werkgever is bereid u in te huren voor {cash} om ons te helpen onze opslagplaats te verhuizen door {cargoname} van {starport} naar onze nieuwe huisvesting {dom_starport} te vervoeren."
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",
@@ -309,7 +309,7 @@
   },
   "INTROTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Hello, my name is {name} and I'm a wholesale dealer in the {system} system. I pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly."
+    "message": "Hallo, mijn naam is {name} en ik ben groothandelaar in het {system}-stelsel. Ik betaal {cash} voor een vlucht naar {starport} in het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, {dist} lj."
   },
   "INTROTEXT_WHOLESALER_2": {
     "description": "",
@@ -397,7 +397,7 @@
   },
   "RISK_1": {
     "description": "",
-    "message": "I expect no hassle."
+    "message": "Ik verwacht geen gedoe"
   },
   "RISK_2": {
     "description": "",
@@ -553,7 +553,7 @@
   },
   "WHYSOMUCH_2": {
     "description": "",
-    "message": "Accept it, or leave it be."
+    "message": "Doe je het nou of niet?"
   },
   "WHYSOMUCH_3": {
     "description": "",
@@ -577,19 +577,19 @@
   },
   "WHYSOMUCH_CHEMICAL_1": {
     "description": "",
-    "message": "The production in the chemical plant depends on these goods and must not be interrupted. Nothing must stop the machine."
+    "message": "De productie in de chemische fabriek hangt af van deze goederen en moet niet worden onderbroken. Niets mag de machine stoppen."
   },
   "WHYSOMUCH_EXPENSIVE_1": {
     "description": "",
-    "message": "Valuable goods are in great demand."
+    "message": "Waardevolle goederen zijn erg gewild."
   },
   "WHYSOMUCH_EXPENSIVE_2": {
     "description": "",
-    "message": "Because these goods are quite expensive."
+    "message": "Omdat deze goederen heel duur zijn."
   },
   "WHYSOMUCH_FLUFFY_1": {
     "description": "",
-    "message": "{cargoname} is a fast seller this season. You should invest in {cargoname} shares if you want to make a lot of money."
+    "message": "{cargoname} wordt snel verkocht dit seizoen. U zou moeten investeren in {cargoname}-aandelen als u veel geld wilt verdienen."
   },
   "WHYSOMUCH_INFRASTRUCTURE_1": {
     "description": "",
@@ -597,15 +597,15 @@
   },
   "WHYSOMUCH_MINING_1": {
     "description": "",
-    "message": "These goods are essential for the construction of a new mine."
+    "message": "Deze goederen zijn essentieel voor de constructie van een nieuwe mijn."
   },
   "WHYSOMUCH_URGENT_1": {
     "description": "",
-    "message": "My favourite pilot is sick and time is short."
+    "message": "Mijn favoriete piloot is ziek en er is weinig tijd."
   },
   "WHYSOMUCH_URGENT_2": {
     "description": "",
-    "message": "If we do not meet the delivery date, the project will come to a standstill."
+    "message": "Als we de leverdatum niet halen, komt het project tot stilstand."
   },
   "WHYSOMUCH_URGENT_3": {
     "description": "",
@@ -613,7 +613,7 @@
   },
   "WHYSOMUCH_WEDDING_1": {
     "description": "",
-    "message": "So far I could not find anyone to perform this transport. When the season is over, my merchandise is worthless."
+    "message": "Tot nu toe heb ik niemand kunnen vinden voor dit transport. Als het seizoen voorbij is, is mijn handelswaar waardeloos."
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",
@@ -625,10 +625,10 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP": {
     "description": "",
-    "message": "You do not have enough cargo space on your ship."
+    "message": "U heeft niet genoeg laadruimte op uw schip."
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Please come back when you have sufficient cargo space."
+    "message": "Komt u terug als u voldoende laadruimte heeft."
   }
 }

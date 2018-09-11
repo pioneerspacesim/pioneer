@@ -17,7 +17,7 @@
   },
   "FLAVOUR_11_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Mysterious disappearance of cattle in the {system} system."
+    "message": "NIEUWS {date}: Mysterieuze verdwijning van vee in het {system}-stelsel."
   },
   "FLAVOUR_11_NEWSBODY": {
     "description": "Imply high demand of ANIMAL_MEAT.",
@@ -25,7 +25,7 @@
   },
   "FLAVOUR_12_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Infrastructure breakdown as computers malfunction in the {system} system."
+    "message": "NIEUWS {date}: Infrastructuur stort in door niet functionerende computers in het {system}-stelsel."
   },
   "FLAVOUR_12_NEWSBODY": {
     "description": "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
@@ -33,7 +33,7 @@
   },
   "FLAVOUR_13_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Robot uprising in the {system} system."
+    "message": "NIEUWS {date}: Robotopstand in het {system}-stelsel."
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
@@ -41,7 +41,7 @@
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Solar flare causes biggest black out in a millennium in the {system} system."
+    "message": "NIEUWS {date}: Zonnevlam zorgt voor grootste Black Out in een millennium in het {system}-stelsel."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
@@ -197,11 +197,11 @@
   },
   "GRATEFUL_GREETING_1": {
     "description": "",
-    "message": "Your arrival is most welcome, as is your shipment of {cargo}!"
+    "message": "Uw komst is zeer welkom, net als uw scheepslading {cargo}!"
   },
   "GRATEFUL_GREETING_2": {
     "description": "",
-    "message": "Greetings and salutations! You should have no trouble selling {cargo} here."
+    "message": "Gegroet! U zult geen problemen ondervinden hier uw {cargo} te verkopen."
   },
   "GRATEFUL_GREETING_3": {
     "description": "",

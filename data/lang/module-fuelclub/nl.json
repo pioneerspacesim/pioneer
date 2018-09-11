@@ -17,31 +17,31 @@
   },
   "FLAVOUR_0_NONMEMBER_INTRO": {
     "description": "",
-    "message": "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
+    "message": "{clubname} is een onafhankelijke organisatie toegewijd aan het voorzien van afgeprijsde ruimteschipbrandstof aan haar leden. Door de hele Melkweg zijn afdelingen te vinden. Voordelen voor leden zijn o.a.:"
   },
   "FLAVOUR_0_WELCOME": {
     "description": "",
-    "message": "Welcome to {clubname}"
+    "message": "Welkom bij {clubname}"
   },
   "FLAVOUR_1_CLUBNAME": {
     "description": "Fuel club for the Federation faction",
-    "message": "The Federal Fuel Foundation"
+    "message": "De Federale Brandstofstichting"
   },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
-    "message": "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
+    "message": "{clubname} is marktleider onder de leveranciers van afgeprijsde brandstof voor de schepen van aan zijn leden in de Sol Federatie. Lidmaatschap verleidt u tot het volgende:"
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-    "message": "The Confederate Fuel Union"
+    "message": "De Geconfedereerde Brandstofunie"
   },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
-    "message": "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
+    "message": "Overal in het grote Gemenebest van Onafhankelijke Werelden kom je {clubname} tegen als de beste plek om afgeprijsde brandstof en afvalverwerking te vinden. Voor onze leden doen we:"
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",
-    "message": "Greetings and salutations! We hope you enjoy our services."
+    "message": "Gegroet! We hopen dat u van onze diensten geniet."
   },
   "FLAVOUR_3_CLUBNAME": {
     "description": "Fuel club for the Haber faction",
@@ -49,11 +49,11 @@
   },
   "FLAVOUR_3_MEMBER_INTRO": {
     "description": "For the greedy Haber faction, very corporate formulated",
-    "message": "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
+    "message": "Gegroet piloot. Uw privileges voor tanken en het verwerken van bijproducten (voorwaardelijk) zijn toegekend."
   },
   "FLAVOUR_3_NONMEMBER_INTRO": {
     "description": "for the Haber faction",
-    "message": "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
+    "message": "Gegroet piloot. Dit is de Haber Drijfstof en Bederfelijke Waren Divisie, aan wie het beheren van de brandstofdistributie is toegekend binnen alle door Haber bezeten ruimte."
   },
   "GO_BACK": {
     "description": "",
@@ -65,7 +65,7 @@
   },
   "LIST_BENEFITS_FUEL": {
     "description": "",
-    "message": "{fuel} at discount prices"
+    "message": "Afgeprijsde {fuel}"
   },
   "LIST_BENEFITS_FUEL_INTRO": {
     "description": "",

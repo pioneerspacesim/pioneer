@@ -17,7 +17,7 @@
   },
   "DENY_0": {
     "description": "",
-    "message": "I'm sorry, but I don't think I can trust you with this delivery."
+    "message": "Sorry, maar ik denk niet dat ik je deze levering kan toevertrouwen."
   },
   "DENY_1": {
     "description": "",
@@ -25,23 +25,23 @@
   },
   "DENY_2": {
     "description": "",
-    "message": "I don't think you're the pilot I'm looking for."
+    "message": "Ik denk niet dat u de piloot bent die ik zoek."
   },
   "DENY_3": {
     "description": "",
-    "message": "You don't look like someone I can trust with this delivery."
+    "message": "U ziet er niet uit als iemand die ik met deze levering kan vertrouwen."
   },
   "DENY_4": {
     "description": "",
-    "message": "You're not the kind of pilot I'm looking for."
+    "message": "U bent niet het soort piloot waar ik naar zoek."
   },
   "DENY_5": {
     "description": "",
-    "message": "You seem much too inexperienced to handle a task of this importance."
+    "message": "Jij lijkt veel te onervaren voor zo'n belangrijke taak."
   },
   "DENY_6": {
     "description": "",
-    "message": "I have never heard of you. I need someone experienced for this delivery."
+    "message": "Ik heb nog nooit van u gehoord. Ik heb iemand met ervaring nodig voor deze levering."
   },
   "DENY_7": {
     "description": "",
@@ -57,7 +57,7 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "GOING TO the {system} system? Money paid for delivery of a small package."
+    "message": "GA JE NAAR het {system}-stelsel? Betaling voor het afleveren van een klein pakketje."
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -137,7 +137,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "POSTAL SERVICE. We require a ship for the delivery run to {system} system."
+    "message": "POSTBEZORGING. We hebben een schip nodig voor een levering in het {system}-stelsel."
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -161,7 +161,7 @@
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "What are these? Oh, you took so long that I forgot I'd even sent this!"
+    "message": "Wat is dit? Oh, u heeft er zo lang over gedaan dat ik gewoon vergeten ben dat ik het opgestuurd had!"
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "SHORT-RANGE COURIER. Delivery of a small package to {starport}."
+    "message": "KORTE_AFSTANDSKOERIER. Afleveren van een klein pakketje aan {starport}."
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
@@ -189,27 +189,27 @@
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you for the package, you have been paid in full."
+    "message": "Bedankt voor het pakket, u wordt volledig betaald."
   },
   "FLAVOUR_6_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "I don't think it's a lot."
+    "message": "Ik denk niet dat het veel is."
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "INTER-PLANETAIRE VRACHT. Transport van lokale vracht naar {starport}."
+    "message": "INTER-PLANETAIRE VRACHT. Lokaal transport van vracht naar {starport}."
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
-    "message": "Our customers are not going to be happy with this. Do not expect to be paid."
+    "message": "Onze klanten zullen hier niet blij mee zijn. Denk maar niet dat u betaald wordt.."
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",
-    "message": "Hello. We need these crates delivered to {starport} as soon as possible. Standard payment for this shipment is {cash}."
+    "message": "Hallo. Deze containers moeten zo snel mogelijk aan {starport} worden geleverd. Standaardbetaling hiervoor is {cash}."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
-    "message": "Excellent, we've credited the funds into your account."
+    "message": "Uitstekend, heb hebben het bedrag naar uw rekening overgemaakt."
   },
   "FLAVOUR_7_WHYSOMUCHTEXT": {
     "description": "",
@@ -217,11 +217,11 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "NEARBY DELIVERY. Require quick delivery of an item to {starport}."
+    "message": "LEVERING DICHTBIJ. Heb een snelle levering nodig van een voorwerp naar {starport}."
   },
   "FLAVOUR_8_FAILUREMSG": {
     "description": "",
-    "message": "You were offered a premium for quick delivery! I refuse to pay for this."
+    "message": "We hadden je een bonus beloofd voor snelle levering! Ik weiger hiervoor te betalen."
   },
   "FLAVOUR_8_INTROTEXT": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "PACKAGE DROP. Urgent dispatch of perishables to {starport}."
+    "message": "PAKKETBEZORGING. Dringende bezorging van bederfelijke waar naar {starport}."
   },
   "FLAVOUR_9_FAILUREMSG": {
     "description": "",
@@ -265,7 +265,7 @@
   },
   "IT_MUST_BE_DELIVERED_BY": {
     "description": "",
-    "message": "Het moet afgeleverd zijn op"
+    "message": "Het moet afgeleverd zijn op "
   },
   "I_HIGHLY_DOUBT_IT": {
     "description": "",

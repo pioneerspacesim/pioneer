@@ -17,7 +17,7 @@
   },
   "DISCOVERED_HIDDEN_BASES": {
     "description": "",
-    "message": "You have discovered {portcount} hidden {bases}!"
+    "message": "U heeft {portcount} verborgen {bases} ontdekt!"
   },
   "EXPLORING_SYSTEM": {
     "description": "",
@@ -25,10 +25,10 @@
   },
   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
     "description": "",
-    "message": "Je brandstof tank is bijna leeg."
+    "message": "Je brandstoftank is bijna leeg."
   },
   "YOUR_FUEL_TANK_IS_EMPTY": {
     "description": "",
-    "message": "Je brandstof tank is leeg."
+    "message": "Je brandstoftank is leeg."
   }
 }

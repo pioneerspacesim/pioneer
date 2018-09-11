@@ -21,7 +21,7 @@
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
-    "message": "Een capabelere versie van atmosfeerschilden"
+    "message": "Een betere versie van atmosfeerschilden"
   },
   "AUTOPILOT": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "LARGE_PLASMA_ACCEL": {
     "description": "",
-    "message": "Grote plasma accelerator"
+    "message": "Grote plasmaversneller"
   },
   "LASER_COOLING_BOOSTER": {
     "description": "",
@@ -197,11 +197,11 @@
   },
   "MISSILE_NAVAL": {
     "description": "",
-    "message": "Marine Raket"
+    "message": "Zeeraket"
   },
   "MISSILE_SMART": {
     "description": "",
-    "message": "Intelligente Raket"
+    "message": "Slimme Raket"
   },
   "MISSILE_UNGUIDED": {
     "description": "",
@@ -293,7 +293,7 @@
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
-    "message": "Kleine plasma accelerator"
+    "message": "Kleine plasmaversneller"
   },
   "STARTING_SCAN": {
     "description": "",

@@ -1,7 +1,7 @@
 {
   "FLAVOUR_0_MESSAGE": {
     "description": "",
-    "message": "Please select an amount to donate to the Church of the Celestial Flying Spaghetti Monster."
+    "message": "Doneer een bedrag naar keuze aan de Kerk van het Hemelse Vliegende Spaghettimonster."
   },
   "FLAVOUR_0_TITLE": {
     "description": "",
@@ -9,7 +9,7 @@
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
-    "message": "Vrede zij met u, broeder. Kiest u a.u.b. een bedrag om te doneren aan de Wachters van de Vrije Geest."
+    "message": "Vrede zij met u, broeder. Doneer een bedrag naar keuze aan de Wachters van de Vrije Geest."
   },
   "FLAVOUR_1_TITLE": {
     "description": "",
@@ -17,35 +17,35 @@
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
-    "message": "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy."
+    "message": "Doneer een bedrag naar keuze aan Steun voor Oorlogswezen, en stop van het lijden van kinderen door de hele Melkweg."
   },
   "FLAVOUR_2_TITLE": {
     "description": "",
-    "message": "FEELING GENEROUS? War Orphan's Support needs your help to keep up its essential work."
+    "message": "VRIJGEVIG? Steun voor Oorlogswezen heeft uw hulp nodig om ons belangrijke werk voort te kunnen zetten."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
-    "message": "Please select an amount to donate to the GreenWatch, and end the pollution of our galaxy."
+    "message": "Doneer een bedrag naar keuze aan de GroenWacht en maak een einde aan de vervuiling van de Melkweg."
   },
   "FLAVOUR_3_TITLE": {
     "description": "",
-    "message": "CONTRIBUTE. The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+    "message": "BIJDRAGE. De Vrienden van de Melkweg 'Verbied Militaire Aandrijving'-campagne heeft uw geld nodig."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
-    "message": "Please select an amount to donate."
+    "message": "Doneer een bedrag naar keuze."
   },
   "FLAVOUR_4_TITLE": {
     "description": "",
-    "message": "DONATE! Save our species. Stop the carnage of newly settled worlds."
+    "message": "DONEER! Redt onze soort. Stop het bloedbad van nieuw gevestigde werelden."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",
-    "message": "Liberate your ship! Please choose amount to donate. Happy hacking."
+    "message": "Bevrijd je schip! Doneer een bedrag naar keuze. Veel plezier met hacken."
   },
   "FLAVOUR_5_TITLE": {
     "description": "",
-    "message": "SUPPORT FREEDOM! Stop the great injustice of proprietary software controlling your ship."
+    "message": "STEUN VRIJHEID! Stop het grote onrecht van gesloten software die uw schip bestuurt."
   },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
