@@ -69,6 +69,7 @@ foreach (each IN LISTS SRC_FOLDERS)
 endforeach (each IN LISTS SRC_FOLDERS)
 
 list(REMOVE_ITEM CXX_FILES
+	src/main.cpp
 	src/modelcompiler.cpp
 	src/tests.cpp
 	src/textstress.cpp
@@ -142,8 +143,35 @@ if (NOT USE_SYSTEM_LIBLUA)
 	include_directories(contrib/lua)
 endif (NOT USE_SYSTEM_LIBLUA)
 
-add_executable(${PROJECT_NAME} WIN32 ${CXX_FILES})
+if (WIN32)
+	string(TIMESTAMP BUILD_YEAR "%Y")
+	set(RESOURCES ${CMAKE_BINARY_DIR}/pioneer.rc)
+	configure_file(pioneer.rc.cmakein ${RESOURCES} @ONLY)
+endif()
+
+add_library(AllObjs OBJECT ${CXX_FILES})
+
+add_executable(${PROJECT_NAME} WIN32 src/main.cpp $<TARGET_OBJECTS:AllObjs> ${RESOURCES})
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE
+	${ASSIMP_LIBRARIES}
+	${FREETYPE_LIBRARIES}
+	${OPENGL_LIBRARIES}
+	${PNG_LIBRARIES}
+	${SDL2_LIBRARIES}
+	${SDL2_IMAGE_LIBRARIES}
+	${SIGCPP_LIBRARIES}
+	${VORBISFILE_LIBRARIES}
+	${LUA_LIBRARIES}
+	GLEW::GLEW
+	imgui
+	jenkins
+	json
+	picodds
+	profiler
+)
+
+add_executable(modelcompiler src/modelcompiler.cpp $<TARGET_OBJECTS:AllObjs>)
+target_link_libraries(modelcompiler LINK_PRIVATE
 	${ASSIMP_LIBRARIES}
 	${FREETYPE_LIBRARIES}
 	${OPENGL_LIBRARIES}
@@ -163,6 +191,7 @@ target_link_libraries(${PROJECT_NAME} LINK_PRIVATE
 
 if (WIN32)
 	target_link_libraries(${PROJECT_NAME} LINK_PRIVATE shlwapi)
+	target_link_libraries(modelcompiler LINK_PRIVATE shlwapi)
 endif (WIN32)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -171,9 +200,15 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 	CXX_EXTENSIONS ON
 )
 
-install(TARGETS ${PROJECT_NAME}
-	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+set_target_properties(modelcompiler PROPERTIES
+	CXX_STANDARD 11
+	CXX_STANDARD_REQUIRED ON
+	CXX_EXTENSIONS ON
 )
+
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS modelcompiler RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
 install(DIRECTORY data
 	DESTINATION ${CMAKE_INSTALL_DATADIR}/pioneer
 	PATTERN "listdata.*" EXCLUDE
