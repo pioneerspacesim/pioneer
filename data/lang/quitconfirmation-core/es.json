@@ -5,7 +5,7 @@
   },
   "MSG_10": {
     "description": "",
-    "message": "Por favor elige {no} para perder unas pocas horas productivas más. ¿Si?"
+    "message": "Por favor elige {no} para perder unas pocas horas productivas más. ¿Sí?"
   },
   "MSG_11": {
     "description": "",
@@ -85,6 +85,6 @@
   },
   "YES": {
     "description": "Yes, quit program",
-    "message": "Si"
+    "message": "Sí"
   }
 }
