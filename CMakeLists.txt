@@ -73,6 +73,7 @@ list(REMOVE_ITEM CXX_FILES
 	src/tests.cpp
 	src/textstress.cpp
 	src/uitest.cpp
+	src/main.cpp
 )
 
 if (WIN32)
@@ -142,8 +143,8 @@ if (NOT USE_SYSTEM_LIBLUA)
 	include_directories(contrib/lua)
 endif (NOT USE_SYSTEM_LIBLUA)
 
-add_executable(${PROJECT_NAME} WIN32 ${CXX_FILES})
-target_link_libraries(${PROJECT_NAME} LINK_PRIVATE
+add_library(libpioneer STATIC ${CXX_FILES})
+target_link_libraries(libpioneer LINK_PRIVATE
 	${ASSIMP_LIBRARIES}
 	${FREETYPE_LIBRARIES}
 	${OPENGL_LIBRARIES}
@@ -162,10 +163,16 @@ target_link_libraries(${PROJECT_NAME} LINK_PRIVATE
 )
 
 if (WIN32)
-	target_link_libraries(${PROJECT_NAME} LINK_PRIVATE shlwapi)
+	target_link_libraries(libpioneer LINK_PRIVATE shlwapi)
 endif (WIN32)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES
+add_executable(${PROJECT_NAME} WIN32 src/main.cpp)
+target_link_libraries(${PROJECT_NAME} LINK_PRIVATE libpioneer)
+
+add_executable(modelcompiler src/modelcompiler.cpp)
+target_link_libraries(modelcompiler LINK_PRIVATE libpioneer)
+
+set_target_properties(${PROJECT_NAME} libpioneer modelcompiler PROPERTIES
 	CXX_STANDARD 11
 	CXX_STANDARD_REQUIRED ON
 	CXX_EXTENSIONS ON
