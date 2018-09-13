@@ -2,9 +2,22 @@ dist: trusty
 language: cpp
 compiler:
   - gcc
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - mesa-common-dev
+      - libfreetype6-dev
+      - libfreeimage-dev
+      - libglew-dev
+      - libsigc++-2.0-dev
+      - libvorbis-dev
 matrix:
   include:
-    - env: STATIC_CHECKS=yes
+    - name: Static Checks
+      env: STATIC_CHECKS=yes
+      before_install: skip
       addons:
         apt:
           sources:
@@ -15,20 +28,30 @@ matrix:
             - libstdc++6 # >= 4.9 needed for clang-format-6.0
       script: sh ./scripts/clang-format.sh
 
-    - env: STATIC_CHECKS=no
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - mesa-common-dev
-            - libfreetype6-dev
-            - libfreeimage-dev
-            - libglew-dev
-            - libsigc++-2.0-dev
-            - libvorbis-dev
-      before_install:
-        - git clone --depth 1 git://github.com/pioneerspacesim/pioneer-thirdparty.git pioneer-thirdparty
-        - cd pioneer-thirdparty/ && autoconf && ./configure && make assimp && make sdl2 && make sdl2_image && cd ../
+    - name: build-gcc
       script:
         - ./bootstrap && ./configure --with-thirdparty=$(pwd)/pioneer-thirdparty LIBS="-ldl -lrt -lpthread" && make
+
+    - name: build-mxe
+      env: CONFIGURE_OPTS=--with-mxe BUILD_TYPE=mxe
+      script:
+        - ./bootstrap && ./configure --with-thirdparty=$(pwd)/pioneer-thirdparty LIBS="-ldl -lrt -lpthread" --with-mxe && make
+
+before_install:
+  - git clone --depth 1 git://github.com/pioneerspacesim/pioneer-thirdparty.git pioneer-thirdparty
+  - cd pioneer-thirdparty/ && autoconf && ./configure "$CONFIGURE_OPTS" && make assimp && make sdl2 && make sdl2_image && cd ../
+
+before_deploy:
+  - make sgm
+  - ./scripts/build-travis.sh
+
+deploy:
+  provider: releases
+  api_key:
+    secure: # ENCRYPTED API KEY HERE
+  skip_cleanup: true
+  file_glob: true
+  file: release/zip/*
+  on:
+    repo: pioneerspacesim/pioneer
+    tags: true

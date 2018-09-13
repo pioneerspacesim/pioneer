@@ -78,3 +78,4 @@ result
 *.user
 *.exp
 *.VC.db
+/release
