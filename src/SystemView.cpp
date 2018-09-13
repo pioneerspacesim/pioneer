@@ -1108,4 +1108,5 @@ BodyPositionVector SystemView::GetBodyPositions()
   }
 
   Gui::Screen::LeaveOrtho();
+  return result;
 }
