@@ -6,17 +6,18 @@
 
 #include "Body.h"
 #include "ModelBody.h"
-#include "vector3.h"
-#include "matrix4x4.h"
 #include "Orbit.h"
+#include "matrix4x4.h"
+#include "vector3.h"
 
 class Propulsion;
 class FixedGuns;
 
-class DynamicBody: public ModelBody {
+class DynamicBody : public ModelBody {
 private:
 	friend class Propulsion;
 	friend class FixedGuns;
+
 public:
 	OBJDEF(DynamicBody, ModelBody, DYNAMICBODY);
 	DynamicBody();
@@ -32,7 +33,7 @@ public:
 	void SetMassDistributionFromModel();
 	void SetMoving(bool isMoving) { m_isMoving = isMoving; }
 	bool IsMoving() const { return m_isMoving; }
-	virtual double GetMass() const override { return m_mass; }	// XXX don't override this
+	virtual double GetMass() const override { return m_mass; } // XXX don't override this
 	virtual void TimeStepUpdate(const float timeStep) override;
 	double CalcAtmosphericForce(double dragCoeff) const;
 	void CalcExternalForce();
@@ -62,12 +63,17 @@ public:
 	 * in line 83)
 	*/
 	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_ public>
-		AIERROR_NONE=0,
+		AIERROR_NONE = 0,
 		AIERROR_GRAV_TOO_HIGH,
 		AIERROR_REFUSED_PERM,
 		AIERROR_ORBIT_IMPOSSIBLE
 	};
-	AIError AIMessage(AIError msg=AIERROR_NONE) { AIError tmp = m_aiMessage; m_aiMessage = msg; return tmp; }
+	AIError AIMessage(AIError msg = AIERROR_NONE)
+	{
+		AIError tmp = m_aiMessage;
+		m_aiMessage = msg;
+		return tmp;
+	}
 
 	enum Feature {
 		PROPULSION = 0,
@@ -75,13 +81,14 @@ public:
 		MAX_FEATURE = 2,
 	};
 
-	bool Have( Feature f ) const { return m_features[f]; };
+	bool Have(Feature f) const { return m_features[f]; };
 	void SetDecelerating(bool decel) { m_decelerating = decel; }
 	const Propulsion *GetPropulsion() const;
 	Propulsion *GetPropulsion();
 	const FixedGuns *GetFixedGuns() const;
 	FixedGuns *GetFixedGuns();
-	void AddFeature( Feature f );
+	void AddFeature(Feature f);
+
 protected:
 	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
 	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
@@ -91,6 +98,7 @@ protected:
 
 	bool m_decelerating;
 	AIError m_aiMessage;
+
 private:
 	vector3d m_oldPos;
 	vector3d m_oldAngDisplacement;

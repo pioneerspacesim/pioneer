@@ -4,15 +4,15 @@
 #ifndef _SPACESTATION_H
 #define _SPACESTATION_H
 
-#include "libs.h"
 #include "Camera.h"
 #include "ModelBody.h"
 #include "NavLights.h"
 #include "Quaternion.h"
 #include "ShipType.h"
 #include "SpaceStationType.h"
+#include "libs.h"
 
-#define MAX_DOCKING_PORTS		240	//256-(0x10), 0x10 is used because the collision surfaces use it as an identifying flag
+#define MAX_DOCKING_PORTS 240 //256-(0x10), 0x10 is used because the collision surfaces use it as an identifying flag
 
 class CityOnPlanet;
 class CollMeshSet;
@@ -20,28 +20,33 @@ class Planet;
 class Ship;
 class SpaceStation;
 class SystemBody;
-namespace Graphics { class Renderer; }
-namespace SceneGraph { class Animation; }
+namespace Graphics {
+	class Renderer;
+}
+namespace SceneGraph {
+	class Animation;
+}
 
-class SpaceStation: public ModelBody {
+class SpaceStation : public ModelBody {
 public:
 	OBJDEF(SpaceStation, ModelBody, SPACESTATION);
 	static void Init();
 
 	// Should point to SystemBody in Pi::currentSystem
 	SpaceStation(const SystemBody *);
-	SpaceStation() : m_type(nullptr) {}
+	SpaceStation() :
+		m_type(nullptr) {}
 	virtual ~SpaceStation();
-	virtual vector3d GetAngVelocity() const { return vector3d(0,m_type->AngVel(),0); }
+	virtual vector3d GetAngVelocity() const { return vector3d(0, m_type->AngVel(), 0); }
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel) override;
-	bool DoShipDamage(Ship* s, Uint32 flags, double relVel);
+	bool DoShipDamage(Ship *s, Uint32 flags, double relVel);
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 	virtual void StaticUpdate(const float timeStep) override;
 	virtual void TimeStepUpdate(const float timeStep) override;
 
 	virtual const SystemBody *GetSystemBody() const override { return m_sbody; }
 	virtual void PostLoadFixup(Space *space) override;
-	virtual void NotifyRemoved(const Body* const removedBody) override;
+	virtual void NotifyRemoved(const Body *const removedBody) override;
 
 	virtual void SetLabel(const std::string &label) override;
 
@@ -60,7 +65,7 @@ public:
 	const SpaceStationType *GetStationType() const { return m_type; }
 	bool IsGroundStation() const;
 
-	bool AllocateStaticSlot(int& slot);
+	bool AllocateStaticSlot(int &slot);
 
 	// use docking bay position, if player has been granted permission
 	virtual vector3d GetTargetIndicatorPosition(const Frame *relTo) const override;
@@ -91,9 +96,13 @@ private:
 	 * Stage -1 to -m_type->numUndockStages is undocking animation
 	 */
 	struct shipDocking_t {
-		shipDocking_t():
-			ship(0), shipIndex(0), stage(0), stagePos(0),
-			fromPos(0.0), fromRot(1.0, 0.0, 0.0, 0.0),
+		shipDocking_t() :
+			ship(0),
+			shipIndex(0),
+			stage(0),
+			stagePos(0),
+			fromPos(0.0),
+			fromRot(1.0, 0.0, 0.0, 0.0),
 			maxOffset(0)
 		{}
 
@@ -105,8 +114,8 @@ private:
 		Quaterniond fromRot;
 		double maxOffset;
 	};
-	typedef std::vector<shipDocking_t>::const_iterator	constShipDockingIter;
-	typedef std::vector<shipDocking_t>::iterator		shipDockingIter;
+	typedef std::vector<shipDocking_t>::const_iterator constShipDockingIter;
+	typedef std::vector<shipDocking_t>::iterator shipDockingIter;
 	std::vector<shipDocking_t> m_shipDocking;
 
 	SpaceStationType::TPorts m_ports;

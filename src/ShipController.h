@@ -7,13 +7,13 @@
  * Ship movement controller class
  * Controls thrusters, autopilot according to player input or AI
  */
-#include "libs.h"
 #include "json/json.h"
+#include "libs.h"
 
 namespace KeyBindings {
 	struct ActionBinding;
 	struct AxisBinding;
-}
+} // namespace KeyBindings
 
 class Body;
 class Ship;
@@ -35,32 +35,30 @@ enum FlightControlState { // <enum scope='FlightControlState' name=ShipControlle
 };
 
 // only AI
-class ShipController
-{
+class ShipController {
 public:
 	//needed for serialization
 	enum Type {
 		AI = 0,
 		PLAYER = 1
 	};
-	ShipController() { }
-	virtual ~ShipController() { }
+	ShipController() {}
+	virtual ~ShipController() {}
 	virtual Type GetType() { return AI; }
-	virtual void SaveToJson(Json::Value &jsonObj, Space *s) { }
-	virtual void LoadFromJson(const Json::Value &jsonObj) { }
-	virtual void PostLoadFixup(Space *) { }
+	virtual void SaveToJson(Json::Value &jsonObj, Space *s) {}
+	virtual void LoadFromJson(const Json::Value &jsonObj) {}
+	virtual void PostLoadFixup(Space *) {}
 	virtual void StaticUpdate(float timeStep);
-	virtual void SetFlightControlState(FlightControlState s) { }
+	virtual void SetFlightControlState(FlightControlState s) {}
 	virtual FlightControlState GetFlightControlState() const { return CONTROL_MANUAL; }
 	virtual double GetSetSpeed() const { return 0.0; }
-	virtual void ChangeSetSpeed(double delta) { }
+	virtual void ChangeSetSpeed(double delta) {}
 	virtual Body *GetSetSpeedTarget() const { return nullptr; }
 	Ship *m_ship;
 };
 
 // autopilot AI + input
-class PlayerShipController : public ShipController
-{
+class PlayerShipController : public ShipController {
 public:
 	PlayerShipController();
 	~PlayerShipController();
@@ -77,7 +75,7 @@ public:
 	double GetSetSpeed() const override { return m_setSpeed; }
 	void ChangeSetSpeed(double delta) override { m_setSpeed += delta; }
 	FlightControlState GetFlightControlState() const override { return m_flightControlState; }
-	vector3d GetMouseDir() const;		// in local frame
+	vector3d GetMouseDir() const; // in local frame
 	void SetMouseForRearView(bool enable) { m_invertMouse = enable; }
 	void SetFlightControlState(FlightControlState s) override;
 	float GetLowThrustPower() const { return m_lowThrustPower; }
@@ -93,9 +91,9 @@ public:
 	Body *GetCombatTarget() const;
 	Body *GetNavTarget() const;
 	Body *GetSetSpeedTarget() const override;
-	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
-	void SetNavTarget(Body* const target, bool setSpeedTo = false);
-	void SetSetSpeedTarget(Body* const target);
+	void SetCombatTarget(Body *const target, bool setSpeedTo = false);
+	void SetNavTarget(Body *const target, bool setSpeedTo = false);
+	void SetSetSpeedTarget(Body *const target);
 
 	sigc::signal<void> onRotationDampingChanged;
 
@@ -106,38 +104,38 @@ private:
 		typedef KeyBindings::ActionBinding ActionBinding;
 
 		// Weapons
-		ActionBinding* targetObject;
-		ActionBinding* primaryFire;
-		ActionBinding* secondaryFire;
+		ActionBinding *targetObject;
+		ActionBinding *primaryFire;
+		ActionBinding *secondaryFire;
 
 		// Flight
-		AxisBinding* pitch;
-		AxisBinding* yaw;
-		AxisBinding* roll;
-		ActionBinding* killRot;
+		AxisBinding *pitch;
+		AxisBinding *yaw;
+		AxisBinding *roll;
+		ActionBinding *killRot;
 
 		// Manual Control
-		AxisBinding* thrustForward;
-		AxisBinding* thrustUp;
-		AxisBinding* thrustLeft;
-		ActionBinding* thrustLowPower;
+		AxisBinding *thrustForward;
+		AxisBinding *thrustUp;
+		AxisBinding *thrustLeft;
+		ActionBinding *thrustLowPower;
 
 		// Speed Control
-		ActionBinding* increaseSpeed;
-		ActionBinding* decreaseSpeed;
-		AxisBinding* throttleAxis;
+		ActionBinding *increaseSpeed;
+		ActionBinding *decreaseSpeed;
+		AxisBinding *throttleAxis;
 
 		// Miscellaneous
-		ActionBinding* toggleRotationDamping;
+		ActionBinding *toggleRotationDamping;
 	} InputBindings;
 
 	bool IsAnyAngularThrusterKeyDown();
 	bool IsAnyLinearThrusterKeyDown();
 	//do a variety of checks to see if input is allowed
 	void CheckControlsLock();
-	Body* m_combatTarget;
-	Body* m_navTarget;
-	Body* m_setSpeedTarget;
+	Body *m_combatTarget;
+	Body *m_navTarget;
+	Body *m_setSpeedTarget;
 	bool m_controlsLocked;
 	bool m_invertMouse; // used for rear view, *not* for invert Y-axis option (which is Pi::input.IsMouseYInvert)
 	bool m_mouseActive;

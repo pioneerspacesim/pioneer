@@ -1,19 +1,19 @@
 // Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "libs.h"
 #include "GeoPatchContext.h"
-#include "perlin.h"
 #include "Pi.h"
 #include "RefCounted.h"
-#include "graphics/Material.h"
-#include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
+#include "libs.h"
+#include "perlin.h"
 #include "vcacheopt/vcacheopt.h"
-#include <deque>
 #include <algorithm>
+#include <deque>
 
 // static instances
 int GeoPatchContext::edgeLen = 0;
@@ -36,7 +36,7 @@ void GeoPatchContext::GenerateIndices()
 	{
 		// calculate how many tri's there are
 		tri_count = (VBO_COUNT_MID_IDX() / 3);
-		for (int i = 0; i<4; ++i) {
+		for (int i = 0; i < 4; ++i) {
 			tri_count += (VBO_COUNT_HI_EDGE() / 3);
 		}
 
@@ -44,30 +44,30 @@ void GeoPatchContext::GenerateIndices()
 		pl_short.reserve(tri_count);
 
 		// add all of the middle indices
-		for (int i = 0; i<VBO_COUNT_MID_IDX(); ++i) {
+		for (int i = 0; i < VBO_COUNT_MID_IDX(); ++i) {
 			pl_short.push_back(0);
 		}
 		// add the HI detail indices
-		for (int i = 0; i<4; i++) {
-			for (int j = 0; j<VBO_COUNT_HI_EDGE(); ++j) {
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < VBO_COUNT_HI_EDGE(); ++j) {
 				pl_short.push_back(0);
 			}
 		}
 	}
 	// want vtx indices for tris
 	idx = &pl_short[0];
-	for (int x = 0; x<edgeLen - 1; x++) {
-		for (int y = 0; y<edgeLen - 1; y++) {
+	for (int x = 0; x < edgeLen - 1; x++) {
+		for (int y = 0; y < edgeLen - 1; y++) {
 			// 1st tri
-			idx[0] = x + edgeLen*y;
-			idx[1] = x + 1 + edgeLen*y;
-			idx[2] = x + edgeLen*(y + 1);
+			idx[0] = x + edgeLen * y;
+			idx[1] = x + 1 + edgeLen * y;
+			idx[2] = x + edgeLen * (y + 1);
 			idx += 3;
 
 			// 2nd tri
-			idx[0] = x + 1 + edgeLen*y;
-			idx[1] = x + 1 + edgeLen*(y + 1);
-			idx[2] = x + edgeLen*(y + 1);
+			idx[0] = x + 1 + edgeLen * y;
+			idx[1] = x + 1 + edgeLen * (y + 1);
+			idx[2] = x + edgeLen * (y + 1);
 			idx += 3;
 		}
 	}
@@ -80,7 +80,7 @@ void GeoPatchContext::GenerateIndices()
 		assert(0 == res);
 		//create buffer & copy
 		indices.Reset(Pi::renderer->CreateIndexBuffer(pl_short.size(), Graphics::BUFFER_USAGE_STATIC));
-		Uint32* idxPtr = indices->Map(Graphics::BUFFER_MAP_WRITE);
+		Uint32 *idxPtr = indices->Map(Graphics::BUFFER_MAP_WRITE);
 		for (Uint32 j = 0; j < pl_short.size(); j++) {
 			idxPtr[j] = pl_short[j];
 		}
@@ -92,9 +92,8 @@ void GeoPatchContext::GenerateIndices()
 
 void GeoPatchContext::Init()
 {
-	frac = 1.0 / double(edgeLen-3);
-	numTris = 2*(edgeLen-1)*(edgeLen-1);
+	frac = 1.0 / double(edgeLen - 3);
+	numTris = 2 * (edgeLen - 1) * (edgeLen - 1);
 
 	GenerateIndices();
 }
-

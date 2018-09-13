@@ -5,10 +5,10 @@
 #define _USE_MATH_DEFINES
 #endif
 
-#include <cmath>
 #include "JsonUtils.h"
-#include "utils.h"
 #include "GameSaveError.h" // Need this for the exceptions
+#include "utils.h"
+#include <cmath>
 
 extern "C" {
 #ifdef __GNUC__
@@ -34,7 +34,7 @@ namespace {
 		c = ((packed >> 8) & 0xff);
 		d = (packed & 0xff);
 	}
-}
+} // namespace
 
 #define USE_STRING_VERSIONS
 
@@ -243,7 +243,7 @@ void BinStrToJson(Json::Value &jsonObj, const std::string &binStr, const std::st
 		binStrArray.resize(outSize); // Pre-Allocate (packed) space for it
 		// Packed everything that fits into our 4-byte packing
 		for (uint32_t charIndex = 0; charIndex < outSize; ++charIndex) {
-			binStrArray[charIndex] = int(((uint8_t*)pCompressedData)[charIndex]);
+			binStrArray[charIndex] = int(((uint8_t *)pCompressedData)[charIndex]);
 		}
 		// Add compressed and packed binary string array to supplied object.
 		jsonObj[name] = binStrArray;
@@ -501,7 +501,7 @@ std::string JsonToBinStr(const Json::Value &jsonObj, const std::string &name)
 	std::string binStr;
 	if (pDecompressedData) {
 		for (size_t charIndex = 0; charIndex < outSize; ++charIndex) {
-			binStr += static_cast<char*>(pDecompressedData)[charIndex];
+			binStr += static_cast<char *>(pDecompressedData)[charIndex];
 		}
 		mz_free(pDecompressedData);
 	} else {

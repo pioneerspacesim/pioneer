@@ -6,14 +6,14 @@
 #include "graphics/RenderState.h"
 
 namespace Graphics {
-namespace OGL {
+	namespace OGL {
 
-class RenderState : public Graphics::RenderState {
-public:
-	RenderState(const RenderStateDesc&);
-	void Apply();
-};
+		class RenderState : public Graphics::RenderState {
+		public:
+			RenderState(const RenderStateDesc &);
+			void Apply();
+		};
 
-}
-}
+	} // namespace OGL
+} // namespace Graphics
 #endif

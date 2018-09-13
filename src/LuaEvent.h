@@ -4,9 +4,9 @@
 #ifndef _LUAEVENT_H
 #define _LUAEVENT_H
 
+#include "DeleteEmitter.h"
 #include "Lua.h"
 #include "LuaObject.h"
-#include "DeleteEmitter.h"
 #include "Pi.h"
 
 namespace LuaEvent {
@@ -18,51 +18,59 @@ namespace LuaEvent {
 		virtual void PrepareStack() const = 0;
 	};
 
-	template <typename T0=void, typename T1=void>
+	template <typename T0 = void, typename T1 = void>
 	class Args : public ArgsBase {
 	public:
-		Args(T0 *_arg0, T1 *_arg1) : arg0(_arg0), arg1(_arg1) { }
+		Args(T0 *_arg0, T1 *_arg1) :
+			arg0(_arg0),
+			arg1(_arg1) {}
 		virtual ~Args() {}
 
 		T0 *arg0;
 		T1 *arg1;
 
-		inline void PrepareStack() const {
+		inline void PrepareStack() const
+		{
 			LuaObject<T0>::PushToLua(arg0);
 			LuaObject<T1>::PushToLua(arg1);
 		}
 	};
 
 	template <typename T0>
-	class Args<T0,void> : public ArgsBase {
+	class Args<T0, void> : public ArgsBase {
 	public:
-		Args(T0 *_arg0) : arg0(_arg0) { }
+		Args(T0 *_arg0) :
+			arg0(_arg0) {}
 		virtual ~Args() {}
 
 		T0 *arg0;
 
-		inline void PrepareStack() const {
+		inline void PrepareStack() const
+		{
 			LuaObject<T0>::PushToLua(arg0);
 		}
 	};
 
 	template <typename T0>
-	class Args<T0,const char*> : public ArgsBase {
+	class Args<T0, const char *> : public ArgsBase {
 	public:
-		Args(T0 *_arg0, const char *_arg1) : arg0(_arg0), arg1(_arg1) {}
+		Args(T0 *_arg0, const char *_arg1) :
+			arg0(_arg0),
+			arg1(_arg1) {}
 		virtual ~Args() {}
 
-		T0         *arg0;
+		T0 *arg0;
 		const char *arg1;
 
-		inline void PrepareStack() const {
+		inline void PrepareStack() const
+		{
 			LuaObject<T0>::PushToLua(arg0);
 			lua_pushstring(Lua::manager->GetLuaState(), arg1);
 		}
 	};
 
 	template <>
-	class Args<void,void> : public ArgsBase {
+	class Args<void, void> : public ArgsBase {
 	public:
 		Args() {}
 		virtual ~Args() {}
@@ -76,23 +84,27 @@ namespace LuaEvent {
 	void Queue(const char *event, const ArgsBase &args);
 
 	template <typename T0, typename T1>
-	void Queue(const char *event, T0 *arg0, T1 *arg1) {
+	void Queue(const char *event, T0 *arg0, T1 *arg1)
+	{
 		Queue(event, Args<T0, T1>(arg0, arg1));
 	}
 
 	template <typename T0>
-	void Queue(const char *event, T0 *arg0, const char *arg1) {
+	void Queue(const char *event, T0 *arg0, const char *arg1)
+	{
 		Queue(event, Args<T0, const char *>(arg0, arg1));
 	}
 
 	template <typename T0>
-	void Queue(const char *event, T0 *arg0) {
+	void Queue(const char *event, T0 *arg0)
+	{
 		Queue(event, Args<T0>(arg0));
 	}
 
-	inline void Queue(const char *event) {
+	inline void Queue(const char *event)
+	{
 		Queue(event, Args<>());
 	}
-}
+} // namespace LuaEvent
 
 #endif

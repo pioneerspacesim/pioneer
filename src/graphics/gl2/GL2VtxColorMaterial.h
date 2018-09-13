@@ -23,7 +23,7 @@ namespace Graphics {
 		public:
 			virtual Program *CreateProgram(const MaterialDescriptor &);
 		};
-	}
-}
+	} // namespace GL2
+} // namespace Graphics
 
 #endif

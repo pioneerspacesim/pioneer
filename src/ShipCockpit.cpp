@@ -2,12 +2,12 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipCockpit.h"
-#include "ShipType.h"
+#include "CameraController.h"
+#include "Easing.h"
+#include "Game.h"
 #include "Pi.h"
 #include "Player.h"
-#include "Easing.h"
-#include "CameraController.h"
-#include "Game.h"
+#include "ShipType.h"
 #include "WorldView.h"
 
 ShipCockpit::ShipCockpit(const std::string &modelName) :
@@ -32,7 +32,6 @@ ShipCockpit::ShipCockpit(const std::string &modelName) :
 
 ShipCockpit::~ShipCockpit()
 {
-
 }
 
 void ShipCockpit::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
@@ -41,8 +40,9 @@ void ShipCockpit::Render(Graphics::Renderer *renderer, const Camera *camera, con
 	RenderModel(renderer, camera, viewCoords, viewTransform);
 }
 
-inline void ShipCockpit::resetInternalCameraController() {
-	m_icc = static_cast<InternalCameraController*>(Pi::game->GetWorldView()->GetCameraController());
+inline void ShipCockpit::resetInternalCameraController()
+{
+	m_icc = static_cast<InternalCameraController *>(Pi::game->GetWorldView()->GetCameraController());
 }
 
 void ShipCockpit::Update(const Player *player, float timeStep)
@@ -69,7 +69,7 @@ void ShipCockpit::Update(const Player *player, float timeStep)
 	//---------------------------------------- Acceleration
 	float cur_vel = CalculateSignedForwardVelocity(-cur_dir, player->GetVelocity()); // Forward is -Z
 	float gforce = Clamp(floorf(((fabs(cur_vel) - m_shipVel) / timeStep) / 9.8f), -COCKPIT_MAX_GFORCE, COCKPIT_MAX_GFORCE);
-	if (fabs(cur_vel) > 500000.0f ||      // Limit gforce measurement so we don't get astronomical fluctuations
+	if (fabs(cur_vel) > 500000.0f || // Limit gforce measurement so we don't get astronomical fluctuations
 		fabs(gforce - m_gForce) > 100.0) { // Smooth out gforce one frame spikes, sometimes happens when hitting max speed due to the thrust limiters
 		gforce = 0.0f;
 	}
@@ -180,7 +180,7 @@ void ShipCockpit::Update(const Player *player, float timeStep)
 	}
 }
 
-void ShipCockpit::RenderCockpit(Graphics::Renderer* renderer, const Camera* camera, Frame* frame)
+void ShipCockpit::RenderCockpit(Graphics::Renderer *renderer, const Camera *camera, Frame *frame)
 {
 	PROFILE_SCOPED()
 	renderer->ClearDepthBuffer();
@@ -199,7 +199,8 @@ void ShipCockpit::OnActivated(const Player *player)
 	m_shipVel = CalculateSignedForwardVelocity(-m_shipDir, player->GetVelocity());
 }
 
-float ShipCockpit::CalculateSignedForwardVelocity(const vector3d &normalized_forward, const vector3d &velocity) {
+float ShipCockpit::CalculateSignedForwardVelocity(const vector3d &normalized_forward, const vector3d &velocity)
+{
 	float velz_cos = velocity.Dot(normalized_forward);
 	return (velz_cos * normalized_forward).Length() * (velz_cos < 0.0 ? -1.0 : 1.0);
 }

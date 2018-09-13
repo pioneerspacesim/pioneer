@@ -5,24 +5,26 @@
 /*
  * Billboard sphere impostor
  */
-#include "libs.h"
 #include "GL2Material.h"
 #include "GL2Program.h"
+#include "libs.h"
 namespace Graphics {
 
 	namespace GL2 {
 
 		class SphereImpostorMaterial : public Material {
 		public:
-			Program *CreateProgram(const MaterialDescriptor &) override {
+			Program *CreateProgram(const MaterialDescriptor &) override
+			{
 				return new Program("billboard_sphereimpostor", "");
 			}
 
-			virtual void Apply() override {
+			virtual void Apply() override
+			{
 				GL2::Material::Apply();
 				m_program->sceneAmbient.Set(m_renderer->GetAmbientColor());
 			}
 		};
-	}
-}
+	} // namespace GL2
+} // namespace Graphics
 #endif

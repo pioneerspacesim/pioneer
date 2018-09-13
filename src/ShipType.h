@@ -4,13 +4,13 @@
 #ifndef _SHIPTYPE_H
 #define _SHIPTYPE_H
 
+#include "FixedGuns.h"
+#include "Propulsion.h"
 #include "libs.h"
 #include "vector3.h"
-#include <vector>
 #include <map>
 #include <string>
-#include "Propulsion.h"
-#include "FixedGuns.h"
+#include <vector>
 
 struct ShipType {
 	enum DualLaserOrientation { // <enum scope='ShipType' name='DualLaserOrientation' prefix='DUAL_LASERS_' public>
@@ -26,7 +26,7 @@ struct ShipType {
 	};
 	typedef std::string Id;
 
-	ShipType() {};
+	ShipType(){};
 	ShipType(const Id &id, const std::string &path);
 
 	////////
@@ -76,10 +76,13 @@ struct ShipType {
 	static std::vector<Id> missile_ships;
 
 	static void Init();
-	static const ShipType *Get(const char *name) {
+	static const ShipType *Get(const char *name)
+	{
 		std::map<Id, const ShipType>::iterator t = types.find(name);
-		if (t == types.end()) return 0;
-		else return &(*t).second;
+		if (t == types.end())
+			return 0;
+		else
+			return &(*t).second;
 	}
 };
 

@@ -2,36 +2,36 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GL2RingMaterial.h"
-#include "StringF.h"
-#include "graphics/Graphics.h"
 #include "GL2Renderer.h"
 #include "GL2Texture.h"
+#include "StringF.h"
+#include "graphics/Graphics.h"
 
 namespace Graphics {
-namespace GL2 {
+	namespace GL2 {
 
-Program *RingMaterial::CreateProgram(const MaterialDescriptor &desc)
-{
-	assert(desc.textures == 1);
-	//pick light count and some defines
-	unsigned int numLights = Clamp(desc.dirLights, 1u, 4u);
-	std::string defines = stringf("#define NUM_LIGHTS %0{u}\n", numLights);
-	return new Program("planetrings", defines);
-}
+		Program *RingMaterial::CreateProgram(const MaterialDescriptor &desc)
+		{
+			assert(desc.textures == 1);
+			//pick light count and some defines
+			unsigned int numLights = Clamp(desc.dirLights, 1u, 4u);
+			std::string defines = stringf("#define NUM_LIGHTS %0{u}\n", numLights);
+			return new Program("planetrings", defines);
+		}
 
-void RingMaterial::Apply()
-{
-	m_program->Use();
-	m_program->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
-	assert(this->texture0);
-	static_cast<GL2Texture*>(texture0)->Bind();
-	m_program->texture0.Set(0);
-}
+		void RingMaterial::Apply()
+		{
+			m_program->Use();
+			m_program->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
+			assert(this->texture0);
+			static_cast<GL2Texture *>(texture0)->Bind();
+			m_program->texture0.Set(0);
+		}
 
-void RingMaterial::Unapply()
-{
-	static_cast<GL2Texture*>(texture0)->Unbind();
-}
+		void RingMaterial::Unapply()
+		{
+			static_cast<GL2Texture *>(texture0)->Unbind();
+		}
 
-}
-}
+	} // namespace GL2
+} // namespace Graphics

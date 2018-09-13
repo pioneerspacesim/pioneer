@@ -26,7 +26,7 @@ namespace Graphics {
 			virtual void Apply() override final;
 			virtual void Unapply() override final;
 		};
-	}
-}
+	} // namespace GL2
+} // namespace Graphics
 
 #endif

@@ -4,11 +4,13 @@
 #ifndef _LUAUTILS_H
 #define _LUAUTILS_H
 
-#include <string>
-#include <lua.hpp>
 #include "utils.h"
+#include <lua.hpp>
+#include <string>
 
-namespace FileSystem { class FileData; }
+namespace FileSystem {
+	class FileData;
+}
 
 inline void pi_lua_settable(lua_State *l, const char *key, bool value)
 {
@@ -69,33 +71,33 @@ void pi_lua_readonly_table_original(lua_State *l, int index);
 bool pi_lua_import(lua_State *l, const std::string &importName, bool isFullName = false);
 void pi_lua_import_recursive(lua_State *L, const std::string &basepath);
 
-int  pi_lua_panic(lua_State *l) __attribute((noreturn));
-void pi_lua_protected_call(lua_State* state, int nargs, int nresults);
+int pi_lua_panic(lua_State *l) __attribute((noreturn));
+void pi_lua_protected_call(lua_State *state, int nargs, int nresults);
 int pi_lua_loadfile(lua_State *l, const FileSystem::FileData &code);
 void pi_lua_dofile(lua_State *l, const std::string &path);
 void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath);
 
-void pi_lua_warn(lua_State *l, const char *format, ...) __attribute((format(printf,2,3)));
+void pi_lua_warn(lua_State *l, const char *format, ...) __attribute((format(printf, 2, 3)));
 
 bool pi_lua_split_table_path(lua_State *l, const std::string &path);
 
 int secure_trampoline(lua_State *l);
 
 #ifdef DEBUG
-# define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr)
-# define LUA_DEBUG_END(luaptr, expectedStackDiff) \
-	do { \
-		const int __luaEndStackDepth = lua_gettop(luaptr); \
-		if ( __luaEndStackDepth-expectedStackDiff != __luaStartStackDepth) { \
-			Error("%s:%d: lua stack difference is %d, expected %d", \
-				__FILE__, __LINE__, __luaEndStackDepth-__luaStartStackDepth, expectedStackDiff); \
-		} \
+#define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr)
+#define LUA_DEBUG_END(luaptr, expectedStackDiff)                                                   \
+	do {                                                                                           \
+		const int __luaEndStackDepth = lua_gettop(luaptr);                                         \
+		if (__luaEndStackDepth - expectedStackDiff != __luaStartStackDepth) {                      \
+			Error("%s:%d: lua stack difference is %d, expected %d",                                \
+				__FILE__, __LINE__, __luaEndStackDepth - __luaStartStackDepth, expectedStackDiff); \
+		}                                                                                          \
 	} while (0)
-# define LUA_DEBUG_CHECK(luaptr, expectedStackDiff) LUA_DEBUG_END(luaptr, expectedStackDiff)
+#define LUA_DEBUG_CHECK(luaptr, expectedStackDiff) LUA_DEBUG_END(luaptr, expectedStackDiff)
 #else
-# define LUA_DEBUG_START(luaptr)
-# define LUA_DEBUG_END(luaptr, expectedStackDiff)
-# define LUA_DEBUG_CHECK(luaptr, expectedStackDiff)
+#define LUA_DEBUG_START(luaptr)
+#define LUA_DEBUG_END(luaptr, expectedStackDiff)
+#define LUA_DEBUG_CHECK(luaptr, expectedStackDiff)
 #endif
 
 #endif

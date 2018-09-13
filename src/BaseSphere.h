@@ -6,10 +6,10 @@
 
 #include <SDL_stdinc.h>
 
-#include "vector3.h"
 #include "Camera.h"
 #include "galaxy/StarSystem.h"
 #include "terrain/Terrain.h"
+#include "vector3.h"
 
 #include <deque>
 
@@ -17,7 +17,7 @@ namespace Graphics {
 	class Renderer;
 	class RenderState;
 	class Material;
-}
+} // namespace Graphics
 class SystemBody;
 
 class BaseSphere {
@@ -25,8 +25,8 @@ public:
 	BaseSphere(const SystemBody *body);
 	virtual ~BaseSphere();
 
-	virtual void Update()=0;
-	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows)=0;
+	virtual void Update() = 0;
+	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) = 0;
 
 	virtual double GetHeight(const vector3d &p) const { return 0.0; }
 
@@ -49,14 +49,14 @@ public:
 		Sint32 maxPatchDepth;
 	};
 
-	virtual void Reset()=0;
+	virtual void Reset() = 0;
 
 	const SystemBody *GetSystemBody() const { return m_sbody; }
-	Terrain* GetTerrain() const { return m_terrain.Get(); }
+	Terrain *GetTerrain() const { return m_terrain.Get(); }
 
-	Graphics::RenderState* GetSurfRenderState() const { return m_surfRenderState; }
+	Graphics::RenderState *GetSurfRenderState() const { return m_surfRenderState; }
 	RefCountedPtr<Graphics::Material> GetSurfaceMaterial() const { return m_surfaceMaterial; }
-	MaterialParameters& GetMaterialParameters() { return m_materialParameters; }
+	MaterialParameters &GetMaterialParameters() { return m_materialParameters; }
 
 protected:
 	const SystemBody *m_sbody;
@@ -64,7 +64,7 @@ protected:
 	// all variables for GetHeight(), GetColor()
 	RefCountedPtr<Terrain> m_terrain;
 
-	virtual void SetUpMaterials()=0;
+	virtual void SetUpMaterials() = 0;
 
 	Graphics::RenderState *m_surfRenderState;
 	Graphics::RenderState *m_atmosRenderState;

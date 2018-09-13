@@ -24,6 +24,7 @@ namespace Graphics {
 			Uniform hitPos[MAX_SHIELD_HITS];
 			Uniform radii[MAX_SHIELD_HITS];
 			Uniform numHits;
+
 		protected:
 			virtual void InitUniforms();
 		};
@@ -33,7 +34,7 @@ namespace Graphics {
 			virtual Program *CreateProgram(const MaterialDescriptor &);
 			virtual void Apply();
 		};
-	}
-}
+	} // namespace GL2
+} // namespace Graphics
 
 #endif

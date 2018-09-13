@@ -8,29 +8,32 @@
  * This does nothing very special except toggle POINT_SIZE
  * The Program requires setting intensity using the generic emission parameter
  */
-#include "OpenGLLibs.h"
 #include "GL2Material.h"
 #include "GL2Program.h"
+#include "OpenGLLibs.h"
 
 namespace Graphics {
 	namespace GL2 {
 		class StarfieldMaterial : public Material {
 		public:
-			Program *CreateProgram(const MaterialDescriptor &) {
+			Program *CreateProgram(const MaterialDescriptor &)
+			{
 				return new Program("starfield", "");
 			}
 
-			virtual void Apply() {
+			virtual void Apply()
+			{
 				glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 				m_program->Use();
 				m_program->emission.Set(this->emissive);
 			}
 
-			virtual void Unapply() {
+			virtual void Unapply()
+			{
 				glDisable(GL_VERTEX_PROGRAM_POINT_SIZE);
 			}
 		};
-	}
-}
+	} // namespace GL2
+} // namespace Graphics
 
 #endif

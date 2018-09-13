@@ -6,9 +6,9 @@
 /*
  * Planet ring material
  */
-#include "libs.h"
 #include "GL2Material.h"
 #include "GL2Program.h"
+#include "libs.h"
 namespace Graphics {
 
 	namespace GL2 {
@@ -19,6 +19,6 @@ namespace Graphics {
 			void Apply();
 			void Unapply();
 		};
-	}
-}
+	} // namespace GL2
+} // namespace Graphics
 #endif

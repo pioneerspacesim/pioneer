@@ -7,14 +7,14 @@
  * The new 'Shader' class
  * This is a base class without specific uniforms
  */
-#include "libs.h"
 #include "GL2Uniform.h"
+#include "libs.h"
 
 namespace Graphics {
 
 	namespace GL2 {
 
-		struct ShaderException { };
+		struct ShaderException {};
 
 		class Program {
 		public:
@@ -62,14 +62,14 @@ namespace Graphics {
 		protected:
 			static GLuint s_curProgram;
 
-			void LoadShaders(const std::string&, const std::string &defines);
+			void LoadShaders(const std::string &, const std::string &defines);
 			virtual void InitUniforms();
 			std::string m_name;
 			std::string m_defines;
 			GLuint m_program;
 		};
 
-	}
+	} // namespace GL2
 
-}
+} // namespace Graphics
 #endif

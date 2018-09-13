@@ -1,30 +1,31 @@
 // Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "NumberLabel.h"
 #include "LuaObject.h"
+#include "NumberLabel.h"
 
 namespace UI {
 
-class LuaNumberLabel {
-public:
+	class LuaNumberLabel {
+	public:
+		static int l_set_value(lua_State *l)
+		{
+			UI::NumberLabel *label = LuaObject<UI::NumberLabel>::CheckFromLua(1);
+			double v = luaL_checknumber(l, 2);
+			label->SetValue(v);
+			return 0;
+		}
+	};
 
-	static int l_set_value(lua_State *l) {
-		UI::NumberLabel *label = LuaObject<UI::NumberLabel>::CheckFromLua(1);
-		double v = luaL_checknumber(l, 2);
-		label->SetValue(v);
-		return 0;
-	}
-
-};
-
-}
+} // namespace UI
 
 using namespace UI;
 
-template <> const char *LuaObject<UI::NumberLabel>::s_type = "UI.NumberLabel";
+template <>
+const char *LuaObject<UI::NumberLabel>::s_type = "UI.NumberLabel";
 
-template <> void LuaObject<UI::NumberLabel>::RegisterClass()
+template <>
+void LuaObject<UI::NumberLabel>::RegisterClass()
 {
 	static const char *l_parent = "UI.Label";
 

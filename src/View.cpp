@@ -5,11 +5,13 @@
 #include "Pi.h"
 #include "ShipCpanel.h"
 
-ShipCpanel* View::s_cpan = nullptr;
+ShipCpanel *View::s_cpan = nullptr;
 
-View::View(): Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()-64)) {
+View::View() :
+	Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight() - 64))
+{
 	m_rightButtonBar = new Gui::Fixed(128, 26);
-	m_rightButtonBar->SetBgColor(Color(160,160,160,255));
+	m_rightButtonBar->SetBgColor(Color(160, 160, 160, 255));
 
 	m_rightRegion2 = new Gui::Fixed(126, 17);
 	m_rightRegion2->SetTransparency(true);
@@ -18,7 +20,8 @@ View::View(): Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetH
 	m_rightRegion1->SetTransparency(true);
 }
 
-View::~View() {
+View::~View()
+{
 	Gui::Screen::RemoveBaseWidget(m_rightButtonBar);
 	Gui::Screen::RemoveBaseWidget(m_rightRegion2);
 	Gui::Screen::RemoveBaseWidget(m_rightRegion1);
@@ -29,7 +32,8 @@ View::~View() {
 	delete m_rightRegion1;
 }
 
-void View::Attach() {
+void View::Attach()
+{
 	OnSwitchTo();
 
 	const float w = float(Gui::Screen::GetWidth());
@@ -38,10 +42,10 @@ void View::Attach() {
 	Gui::Screen::AddBaseWidget(this, 0, 0);
 
 	if (s_cpan) {
-		Gui::Screen::AddBaseWidget(s_cpan, 0, h-80);
-		Gui::Screen::AddBaseWidget(m_rightButtonBar, w-128, h-26);
-		Gui::Screen::AddBaseWidget(m_rightRegion2, w-128, h-68);
-		Gui::Screen::AddBaseWidget(m_rightRegion1, w-123, h-62);
+		Gui::Screen::AddBaseWidget(s_cpan, 0, h - 80);
+		Gui::Screen::AddBaseWidget(m_rightButtonBar, w - 128, h - 26);
+		Gui::Screen::AddBaseWidget(m_rightRegion2, w - 128, h - 68);
+		Gui::Screen::AddBaseWidget(m_rightRegion1, w - 123, h - 62);
 
 		m_rightButtonBar->ShowAll();
 		m_rightRegion2->ShowAll();
@@ -51,7 +55,8 @@ void View::Attach() {
 	ShowAll();
 }
 
-void View::Detach() {
+void View::Detach()
+{
 	Gui::Screen::RemoveBaseWidget(m_rightButtonBar);
 	Gui::Screen::RemoveBaseWidget(m_rightRegion2);
 	Gui::Screen::RemoveBaseWidget(m_rightRegion1);

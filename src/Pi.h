@@ -4,18 +4,18 @@
 #ifndef _PI_H
 #define _PI_H
 
-#include "utils.h"
-#include "gui/Gui.h"
-#include "Input.h"
-#include "Random.h"
-#include "gameconsts.h"
+#include "CargoBody.h"
 #include "GameConfig.h"
+#include "Input.h"
+#include "JobQueue.h"
 #include "LuaSerializer.h"
 #include "LuaTimer.h"
-#include "CargoBody.h"
+#include "Random.h"
 #include "Space.h"
-#include "JobQueue.h"
 #include "galaxy/Galaxy.h"
+#include "gameconsts.h"
+#include "gui/Gui.h"
+#include "utils.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -36,10 +36,18 @@ class SDLGraphics;
 #if ENABLE_SERVER_AGENT
 class ServerAgent;
 #endif
-namespace Graphics { class Renderer; }
-namespace SceneGraph { class Model; }
-namespace Sound { class MusicPlayer; }
-namespace UI { class Context; }
+namespace Graphics {
+	class Renderer;
+}
+namespace SceneGraph {
+	class Model;
+}
+namespace Sound {
+	class MusicPlayer;
+}
+namespace UI {
+	class Context;
+}
 
 #if WITH_OBJECTVIEWER
 class ObjectViewerView;
@@ -47,7 +55,11 @@ class ObjectViewerView;
 
 class DetailLevel {
 public:
-	DetailLevel() : planets(0), textures(0), fracmult(0), cities(0) {}
+	DetailLevel() :
+		planets(0),
+		textures(0),
+		fracmult(0),
+		cities(0) {}
 	int planets;
 	int textures;
 	int fracmult;
@@ -59,12 +71,12 @@ class Game;
 
 class Pi {
 public:
-	static void Init(const std::map<std::string,std::string> &options, bool no_gui = false);
+	static void Init(const std::map<std::string, std::string> &options, bool no_gui = false);
 	static void InitGame();
 	static void StartGame();
 	static void RequestEndGame(); // request that the game is ended as soon as safely possible
 	static void EndGame();
-	static void Start(const int& startPlanet);
+	static void Start(const int &startPlanet);
 	static void MainLoop();
 	static void TombStoneLoop();
 	static void OnChangeDetailLevel();
@@ -84,13 +96,13 @@ public:
 	static void SetMouseGrab(bool on);
 	static bool DoingMouseGrab() { return doingMouseGrab; }
 
-    // Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
+	// Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
 	// This is a default value only, centralized here to promote uniform user expericience.
 	static float GetMoveSpeedShiftModifier();
 
 	static void BoinkNoise();
 	static std::string GetSaveDir();
-	static SceneGraph::Model *FindModel(const std::string&, bool allowPlaceholder = true);
+	static SceneGraph::Model *FindModel(const std::string &, bool allowPlaceholder = true);
 
 	static void CreateRenderTarget(const Uint16 width, const Uint16 height);
 	static void DrawRenderTarget();
@@ -122,9 +134,14 @@ public:
 	static void SetView(View *v);
 	static View *GetView() { return currentView; }
 
-	static void SetAmountBackgroundStars(const float pc) { amountOfBackgroundStarsDisplayed = Clamp(pc, 0.01f, 1.0f); bRefreshBackgroundStars = true; }
+	static void SetAmountBackgroundStars(const float pc)
+	{
+		amountOfBackgroundStarsDisplayed = Clamp(pc, 0.01f, 1.0f);
+		bRefreshBackgroundStars = true;
+	}
 	static float GetAmountBackgroundStars() { return amountOfBackgroundStarsDisplayed; }
-	static bool MustRefreshBackgroundClearFlag() {
+	static bool MustRefreshBackgroundClearFlag()
+	{
 		const bool bRet = bRefreshBackgroundStars;
 		bRefreshBackgroundStars = false;
 		return bRet;
@@ -154,8 +171,8 @@ public:
 	static DetailLevel detail;
 	static GameConfig *config;
 
-	static JobQueue *GetAsyncJobQueue() { return asyncJobQueue.get();}
-	static JobQueue *GetSyncJobQueue() { return syncJobQueue.get();}
+	static JobQueue *GetAsyncJobQueue() { return asyncJobQueue.get(); }
+	static JobQueue *GetSyncJobQueue() { return syncJobQueue.get(); }
 
 	static bool DrawGUI;
 

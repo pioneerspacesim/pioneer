@@ -2,11 +2,11 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaComms.h"
+#include "GameLog.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Pi.h"
 #include "ShipCpanel.h"
-#include "GameLog.h"
 
 /*
  * Interface: Comms
@@ -104,7 +104,7 @@ void LuaComms::Register()
 	LUA_DEBUG_START(l);
 
 	static const luaL_Reg l_methods[] = {
-		{ "Message",          l_comms_message           },
+		{ "Message", l_comms_message },
 		{ "ImportantMessage", l_comms_important_message },
 		{ 0, 0 }
 	};

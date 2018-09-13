@@ -2,17 +2,15 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GL2UIMaterial.h"
-#include "graphics/Material.h"
-#include "graphics/Graphics.h"
-#include "GL2Texture.h"
 #include "GL2Renderer.h"
-#include <sstream>
+#include "GL2Texture.h"
 #include "StringF.h"
+#include "graphics/Graphics.h"
+#include "graphics/Material.h"
+#include <sstream>
 
-namespace Graphics
-{
-	namespace GL2
-	{
+namespace Graphics {
+	namespace GL2 {
 		///////////////////////////////////////////////////////////////////////
 		UIProgram::UIProgram(const MaterialDescriptor &desc)
 		{
@@ -32,7 +30,7 @@ namespace Graphics
 		{
 			GL2::Material::Apply();
 
-			UIProgram *p = static_cast<UIProgram*>(m_program);
+			UIProgram *p = static_cast<UIProgram *>(m_program);
 
 			p->diffuse.Set(this->diffuse);
 
@@ -43,13 +41,13 @@ namespace Graphics
 		void UIMaterial::Unapply()
 		{
 			// Might not be necessary to unbind textures, but let's not old graphics code (eg, old-UI)
-			if ( texture1 ) {
-				static_cast<GL2Texture*>(texture1)->Unbind();
+			if (texture1) {
+				static_cast<GL2Texture *>(texture1)->Unbind();
 				glActiveTexture(GL_TEXTURE0);
 			}
-			if ( texture0 ) {
-				static_cast<GL2Texture*>(texture0)->Unbind();
+			if (texture0) {
+				static_cast<GL2Texture *>(texture0)->Unbind();
 			}
 		}
-	}
-}
+	} // namespace GL2
+} // namespace Graphics

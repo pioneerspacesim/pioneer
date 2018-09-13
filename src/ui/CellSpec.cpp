@@ -6,19 +6,20 @@
 
 namespace UI {
 
-CellSpec CellSpec::FromLuaTable(lua_State *l, int idx) {
-	const int table = lua_absindex(l, idx);
-	assert(lua_istable(l, table));
+	CellSpec CellSpec::FromLuaTable(lua_State *l, int idx)
+	{
+		const int table = lua_absindex(l, idx);
+		assert(lua_istable(l, table));
 
-	const int len = lua_rawlen(l, table);
-	std::vector<float> cellPercent(len);
-	for (int i = 0; i < len; i++) {
-		lua_rawgeti(l, table, i+1);
-		cellPercent[i] = luaL_checknumber(l, -1);
-		lua_pop(l, 1);
+		const int len = lua_rawlen(l, table);
+		std::vector<float> cellPercent(len);
+		for (int i = 0; i < len; i++) {
+			lua_rawgeti(l, table, i + 1);
+			cellPercent[i] = luaL_checknumber(l, -1);
+			lua_pop(l, 1);
+		}
+
+		return CellSpec(cellPercent);
 	}
 
-	return CellSpec(cellPercent);
-}
-
-}
+} // namespace UI

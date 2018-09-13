@@ -8,10 +8,10 @@
 const float UPDATE_INTERVAL = 0.1f;
 const Uint16 MAX_POINTS = 100;
 
-HudTrail::HudTrail(Body *b, const Color& c)
-: m_body(b)
-, m_updateTime(0.f)
-, m_color(c)
+HudTrail::HudTrail(Body *b, const Color &c) :
+	m_body(b),
+	m_updateTime(0.f),
+	m_color(c)
 {
 	m_currentFrame = b->GetFrame();
 
@@ -30,12 +30,12 @@ void HudTrail::Update(float time)
 		m_updateTime = 0.f;
 		const Frame *bodyFrame = m_body->GetFrame();
 
-		if( !m_currentFrame ) {
+		if (!m_currentFrame) {
 			m_currentFrame = bodyFrame;
 			m_trailPoints.clear();
 		}
 
-		if( bodyFrame==m_currentFrame )
+		if (bodyFrame == m_currentFrame)
 			m_trailPoints.push_back(m_body->GetInterpPosition());
 	}
 
@@ -66,7 +66,7 @@ void HudTrail::Render(Graphics::Renderer *r)
 		float alpha = 1.f;
 		const float decrement = 1.f / m_trailPoints.size();
 		const Color tcolor = m_color;
-		for (size_t i = m_trailPoints.size()-1; i > 0; i--) {
+		for (size_t i = m_trailPoints.size() - 1; i > 0; i--) {
 			tvts.push_back(-vector3f(curpos - m_trailPoints[i]));
 			alpha -= decrement;
 			colors.push_back(tcolor);

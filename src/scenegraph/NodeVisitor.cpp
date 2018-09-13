@@ -5,8 +5,8 @@
 #include "Billboard.h"
 #include "CollisionGeometry.h"
 #include "Group.h"
-#include "Label3D.h"
 #include "LOD.h"
+#include "Label3D.h"
 #include "MatrixTransform.h"
 #include "Node.h"
 #include "StaticGeometry.h"
@@ -14,49 +14,49 @@
 
 namespace SceneGraph {
 
-void NodeVisitor::ApplyNode(Node &n)
-{
-	n.Traverse(*this);
-}
+	void NodeVisitor::ApplyNode(Node &n)
+	{
+		n.Traverse(*this);
+	}
 
-void NodeVisitor::ApplyGroup(Group &g)
-{
-	ApplyNode(static_cast<Node&>(g));
-}
+	void NodeVisitor::ApplyGroup(Group &g)
+	{
+		ApplyNode(static_cast<Node &>(g));
+	}
 
-void NodeVisitor::ApplyStaticGeometry(StaticGeometry &g)
-{
-	ApplyNode(static_cast<Node&>(g));
-}
+	void NodeVisitor::ApplyStaticGeometry(StaticGeometry &g)
+	{
+		ApplyNode(static_cast<Node &>(g));
+	}
 
-void NodeVisitor::ApplyLabel(Label3D &l)
-{
-	ApplyNode(static_cast<Node&>(l));
-}
+	void NodeVisitor::ApplyLabel(Label3D &l)
+	{
+		ApplyNode(static_cast<Node &>(l));
+	}
 
-void NodeVisitor::ApplyMatrixTransform(MatrixTransform &m)
-{
-	ApplyGroup(static_cast<Group&>(m));
-}
+	void NodeVisitor::ApplyMatrixTransform(MatrixTransform &m)
+	{
+		ApplyGroup(static_cast<Group &>(m));
+	}
 
-void NodeVisitor::ApplyBillboard(Billboard &b)
-{
-	ApplyNode(static_cast<Node&>(b));
-}
+	void NodeVisitor::ApplyBillboard(Billboard &b)
+	{
+		ApplyNode(static_cast<Node &>(b));
+	}
 
-void NodeVisitor::ApplyThruster(Thruster &t)
-{
-	ApplyNode(static_cast<Node&>(t));
-}
+	void NodeVisitor::ApplyThruster(Thruster &t)
+	{
+		ApplyNode(static_cast<Node &>(t));
+	}
 
-void NodeVisitor::ApplyLOD(LOD &l)
-{
-	ApplyGroup(static_cast<Group&>(l));
-}
+	void NodeVisitor::ApplyLOD(LOD &l)
+	{
+		ApplyGroup(static_cast<Group &>(l));
+	}
 
-void NodeVisitor::ApplyCollisionGeometry(CollisionGeometry &g)
-{
-	ApplyNode(static_cast<Node&>(g));
-}
+	void NodeVisitor::ApplyCollisionGeometry(CollisionGeometry &g)
+	{
+		ApplyNode(static_cast<Node &>(g));
+	}
 
-}
+} // namespace SceneGraph

@@ -7,14 +7,13 @@
 #include "ModelSkin.h"
 
 namespace SceneGraph {
-namespace Lua {
+	namespace Lua {
 
-void Init()
-{
-    LuaObject<SceneGraph::Model>::RegisterClass();
-    LuaObject<SceneGraph::ModelSkin>::RegisterClass();
-}
+		void Init()
+		{
+			LuaObject<SceneGraph::Model>::RegisterClass();
+			LuaObject<SceneGraph::ModelSkin>::RegisterClass();
+		}
 
-}
-}
-
+	} // namespace Lua
+} // namespace SceneGraph

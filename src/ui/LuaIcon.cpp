@@ -6,26 +6,27 @@
 
 namespace UI {
 
-class LuaIcon {
-public:
+	class LuaIcon {
+	public:
+		static int l_set_color(lua_State *l)
+		{
+			UI::Icon *icon = LuaObject<UI::Icon>::CheckFromLua(1);
+			Color c = Color::FromLuaTable(l, 2);
+			icon->SetColor(c);
+			lua_pushvalue(l, 1);
+			return 1;
+		}
+	};
 
-	static int l_set_color(lua_State *l) {
-		UI::Icon *icon = LuaObject<UI::Icon>::CheckFromLua(1);
-		Color c = Color::FromLuaTable(l, 2);
-		icon->SetColor(c);
-		lua_pushvalue(l, 1);
-		return 1;
-	}
-
-};
-
-}
+} // namespace UI
 
 using namespace UI;
 
-template <> const char *LuaObject<UI::Icon>::s_type = "UI.Icon";
+template <>
+const char *LuaObject<UI::Icon>::s_type = "UI.Icon";
 
-template <> void LuaObject<UI::Icon>::RegisterClass()
+template <>
+void LuaObject<UI::Icon>::RegisterClass()
 {
 	static const char *l_parent = "UI.Widget";
 

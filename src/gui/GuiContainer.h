@@ -8,11 +8,11 @@
  */
 
 #include "GuiWidget.h"
-#include <list>
 #include <SDL_stdinc.h>
+#include <list>
 
 namespace Gui {
-	class Container: public Widget {
+	class Container : public Widget {
 	public:
 		Container();
 		virtual ~Container();
@@ -35,7 +35,8 @@ namespace Gui {
 		virtual void UpdateAllChildSizes() = 0;
 		void RemoveChild(Widget *w);
 		// only fired if child widgets do not eat event
-		sigc::signal<void, MouseButtonEvent*> onMouseButtonEvent;
+		sigc::signal<void, MouseButtonEvent *> onMouseButtonEvent;
+
 	private:
 		void _OnMouseLeave();
 		void _OnSetSize();
@@ -43,6 +44,7 @@ namespace Gui {
 		Color m_bgcol;
 		bool m_transparent;
 		std::unique_ptr<Graphics::Drawables::Rect> m_rect;
+
 	protected:
 		struct widget_pos {
 			Widget *w;
@@ -59,7 +61,6 @@ namespace Gui {
 
 		WidgetList m_children;
 	};
-}
+} // namespace Gui
 
 #endif /* _GUICONTAINER_H */
-

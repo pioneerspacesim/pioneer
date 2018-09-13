@@ -4,16 +4,15 @@
 #ifndef CAMERACONTROLLER_H
 #define CAMERACONTROLLER_H
 
-#include "vector3.h"
-#include "matrix4x4.h"
-#include "Lang.h"
 #include "Camera.h"
+#include "Lang.h"
 #include "json/json.h"
+#include "matrix4x4.h"
+#include "vector3.h"
 
 class Ship;
 
-class CameraController
-{
+class CameraController {
 public:
 	enum Type { //can be used for serialization & identification
 		INTERNAL,
@@ -29,8 +28,8 @@ public:
 
 	virtual Type GetType() const = 0;
 	virtual const char *GetName() const { return ""; }
-	virtual void SaveToJson(Json::Value &jsonObj) { }
-	virtual void LoadFromJson(const Json::Value &jsonObj) { }
+	virtual void SaveToJson(Json::Value &jsonObj) {}
+	virtual void LoadFromJson(const Json::Value &jsonObj) {}
 	virtual bool IsExternal() const { return false; }
 
 	// camera position relative to the body
@@ -56,23 +55,23 @@ class MoveableCameraController : public CameraController {
 public:
 	MoveableCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 		CameraController(camera, ship) {}
-	virtual void Reset() { }
+	virtual void Reset() {}
 
-	virtual void RollLeft(float frameTime) { }
-	virtual void RollRight(float frameTime) { }
-	virtual void RotateDown(float frameTime) { }
-	virtual void RotateLeft(float frameTime) { }
-	virtual void RotateRight(float frameTime) { }
-	virtual void RotateUp(float frameTime) { }
+	virtual void RollLeft(float frameTime) {}
+	virtual void RollRight(float frameTime) {}
+	virtual void RotateDown(float frameTime) {}
+	virtual void RotateLeft(float frameTime) {}
+	virtual void RotateRight(float frameTime) {}
+	virtual void RotateUp(float frameTime) {}
 	/// Zooming with this method will interrupt any animation launched by ZoomEvent().
-	virtual void ZoomIn(float frameTime) { }
+	virtual void ZoomIn(float frameTime) {}
 	/// Zooming with this method will interrupt any animation launched by ZoomEvent().
-	virtual void ZoomOut(float frameTime) { }
+	virtual void ZoomOut(float frameTime) {}
 	/// Animated zoom trigger (on each event), primarily designed for mouse wheel.
 	///\param amount The zoom delta to add or substract (>0: zoom out, <0: zoom in), indirectly controling the zoom animation speed.
-	virtual void ZoomEvent(float amount) { }
+	virtual void ZoomEvent(float amount) {}
 	/// Animated zoom update (on each frame), primarily designed for mouse wheel.
-	virtual void ZoomEventUpdate(float frameTime) { }
+	virtual void ZoomEventUpdate(float frameTime) {}
 };
 
 class InternalCameraController : public MoveableCameraController {
@@ -88,7 +87,7 @@ public:
 
 	InternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship);
 	virtual void Reset();
-       virtual void Update();
+	virtual void Update();
 
 	Type GetType() const { return INTERNAL; }
 	const char *GetName() const { return m_name; }
@@ -102,18 +101,24 @@ public:
 	void RotateRight(float frameTime);
 	void RotateUp(float frameTime);
 
-       void getRots(double &rotX, double &rotY);
+	void getRots(double &rotX, double &rotY);
 
- private:
+private:
 	Mode m_mode;
 	const char *m_name;
 
-	vector3d m_frontPos;  matrix3x3d m_frontOrient;
-	vector3d m_rearPos;   matrix3x3d m_rearOrient;
-	vector3d m_leftPos;   matrix3x3d m_leftOrient;
-	vector3d m_rightPos;  matrix3x3d m_rightOrient;
-	vector3d m_topPos;    matrix3x3d m_topOrient;
-	vector3d m_bottomPos; matrix3x3d m_bottomOrient;
+	vector3d m_frontPos;
+	matrix3x3d m_frontOrient;
+	vector3d m_rearPos;
+	matrix3x3d m_rearOrient;
+	vector3d m_leftPos;
+	matrix3x3d m_leftOrient;
+	vector3d m_rightPos;
+	matrix3x3d m_rightOrient;
+	vector3d m_topPos;
+	matrix3x3d m_topOrient;
+	vector3d m_bottomPos;
+	matrix3x3d m_bottomOrient;
 
 	double m_rotX; //vertical rot
 	double m_rotY; //horizontal rot
@@ -139,7 +144,8 @@ public:
 	void ZoomEventUpdate(float frameTime);
 	void Reset();
 	bool IsExternal() const { return true; }
-	void SetRotationAngles(double x, double y) {
+	void SetRotationAngles(double x, double y)
+	{
 		m_rotX = x;
 		m_rotY = y;
 	}
@@ -155,7 +161,6 @@ private:
 	double m_rotY; //horizontal rot
 	matrix3x3d m_extOrient;
 };
-
 
 // Much like external camera, but does not turn when the ship turns
 class SiderealCameraController : public MoveableCameraController {

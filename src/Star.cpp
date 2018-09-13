@@ -2,27 +2,29 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Star.h"
+#include "Pi.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "gui/Gui.h"
-#include "Pi.h"
 #include <SDL_stdinc.h>
 
 using namespace Graphics;
 
-Star::Star() : TerrainBody()
+Star::Star() :
+	TerrainBody()
 {
 }
 
-Star::Star(SystemBody *sbody): TerrainBody(sbody)
+Star::Star(SystemBody *sbody) :
+	TerrainBody(sbody)
 {
 	InitStar();
 }
 
 void Star::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
-	TerrainBody::LoadFromJson(jsonObj, space);		// to get sbody
+	TerrainBody::LoadFromJson(jsonObj, space); // to get sbody
 	InitStar();
 }
 
@@ -53,7 +55,7 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	while (len > 1000.0f) {
 		rad *= 0.25;
-		fpos = 0.25*fpos;
+		fpos = 0.25 * fpos;
 		len *= 0.25;
 	}
 
@@ -62,7 +64,7 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	// face the camera dammit
 	vector3d zaxis = viewCoords.NormalizedSafe();
-	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
+	vector3d xaxis = vector3d(0, 1, 0).Cross(zaxis).Normalized();
 	vector3d yaxis = zaxis.Cross(xaxis);
 	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).Inverse();
 
@@ -76,8 +78,8 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	const Color dark(Color::BLANK);
 
 	va.Add(vector3f(0.f), bright);
-	for (float ang=0; ang<2*M_PI; ang+=0.26183+rand.Double(0,0.4)) {
-		va.Add(vector3f(rad*sin(ang), rad*cos(ang), 0), dark);
+	for (float ang = 0; ang < 2 * M_PI; ang += 0.26183 + rand.Double(0, 0.4)) {
+		va.Add(vector3f(rad * sin(ang), rad * cos(ang), 0), dark);
 	}
 	va.Add(vector3f(0.f, rad, 0.f), dark);
 

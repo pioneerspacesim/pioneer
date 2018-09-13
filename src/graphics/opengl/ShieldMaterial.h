@@ -24,6 +24,7 @@ namespace Graphics {
 			Uniform hitPos[MAX_SHIELD_HITS];
 			Uniform radii[MAX_SHIELD_HITS];
 			Uniform numHits;
+
 		protected:
 			virtual void InitUniforms() override;
 		};
@@ -33,7 +34,7 @@ namespace Graphics {
 			virtual Program *CreateProgram(const MaterialDescriptor &) override;
 			virtual void Apply() override;
 		};
-	}
-}
+	} // namespace OGL
+} // namespace Graphics
 
 #endif

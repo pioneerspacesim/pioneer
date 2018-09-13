@@ -4,9 +4,9 @@
 #ifndef _MATHUTIL_H
 #define _MATHUTIL_H
 
-#include "vector3.h"
 #include "matrix3x3.h"
 #include "matrix4x4.h"
+#include "vector3.h"
 
 namespace MathUtil {
 
@@ -19,12 +19,13 @@ namespace MathUtil {
 	inline vector3d RandomPointOnCircle(double radius) { return RandomPointInCircle(radius, radius); }
 
 	// interpolation, glsl style naming "mix"
-	template< class T, class F >
-	inline T mix(const T& v1, const T& v2, const F t){
-		return t*v2 + (F(1.0)-t)*v1;
+	template <class T, class F>
+	inline T mix(const T &v1, const T &v2, const F t)
+	{
+		return t * v2 + (F(1.0) - t) * v1;
 	}
 
-	inline float Dot(const vector3f &a, const vector3f &b) { return a.x*b.x + a.y*b.y + a.z*b.z; }
+	inline float Dot(const vector3f &a, const vector3f &b) { return a.x * b.x + a.y * b.y + a.z * b.z; }
 
 	// matrix4x4f utility functions
 	matrix4x4f Inverse(const matrix4x4f &);
@@ -36,13 +37,13 @@ namespace MathUtil {
 	matrix3x3f Transpose(const matrix3x3f &);
 
 	// distince from a line segment:
-	float DistanceFromLineSegment(const vector3f& start, const vector3f& end, const vector3f& pos, bool& isWithinLineSegment);
-	float DistanceFromLine(const vector3f& start, const vector3f& end, const vector3f& pos);
+	float DistanceFromLineSegment(const vector3f &start, const vector3f &end, const vector3f &pos, bool &isWithinLineSegment);
+	float DistanceFromLine(const vector3f &start, const vector3f &end, const vector3f &pos);
 
 //#define TEST_MATHUTIL
 #ifdef TEST_MATHUTIL
 	bool TestDistanceFromLine();
 #endif
-}
+} // namespace MathUtil
 
 #endif

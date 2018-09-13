@@ -1,25 +1,27 @@
 // Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "libs.h"
-#include "Pi.h"
 #include "ShipCpanel.h"
-#include "Player.h"
-#include "WorldView.h"
-#include "SpaceStation.h"
-#include "ShipCpanelMultiFuncDisplays.h"
-#include "SectorView.h"
-#include "SystemView.h"
-#include "SystemInfoView.h"
-#include "UIView.h"
-#include "Lang.h"
 #include "Game.h"
 #include "GameSaveError.h"
+#include "Lang.h"
+#include "Pi.h"
+#include "Player.h"
+#include "SectorView.h"
+#include "ShipCpanelMultiFuncDisplays.h"
+#include "SpaceStation.h"
+#include "SystemInfoView.h"
+#include "SystemView.h"
+#include "UIView.h"
+#include "WorldView.h"
+#include "libs.h"
 
 // XXX duplicated in WorldView. should probably be a theme variable
-static const Color s_hudTextColor(0,255,0,204);
+static const Color s_hudTextColor(0, 255, 0, 204);
 
-ShipCpanel::ShipCpanel(Graphics::Renderer *r, Game* game): Gui::Fixed(float(Gui::Screen::GetWidth()), 80), m_game(game)
+ShipCpanel::ShipCpanel(Graphics::Renderer *r, Game *game) :
+	Gui::Fixed(float(Gui::Screen::GetWidth()), 80),
+	m_game(game)
 {
 	m_radar = new RadarWidget(r);
 
@@ -29,8 +31,9 @@ ShipCpanel::ShipCpanel(Graphics::Renderer *r, Game* game): Gui::Fixed(float(Gui:
 	m_radar->ShowAll();
 }
 
-ShipCpanel::ShipCpanel(const Json::Value &jsonObj, Graphics::Renderer *r, Game* game) : Gui::Fixed(float(Gui::Screen::GetWidth()), 80),
-m_game(game)
+ShipCpanel::ShipCpanel(const Json::Value &jsonObj, Graphics::Renderer *r, Game *game) :
+	Gui::Fixed(float(Gui::Screen::GetWidth()), 80),
+	m_game(game)
 {
 	if (!jsonObj.isMember("ship_c_panel")) throw SavedGameCorruptException();
 	Json::Value shipCPanelObj = jsonObj["ship_c_panel"];

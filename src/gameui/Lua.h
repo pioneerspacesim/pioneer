@@ -4,15 +4,14 @@
 #ifndef GAMEUI_LUA_H
 #define GAMEUI_LUA_H
 
-#include "LuaObject.h"
 #include "GameUI.h"
+#include "LuaObject.h"
 
 namespace GameUI {
-namespace Lua {
+	namespace Lua {
 
-	void Init();
-
-}
-}
+		void Init();
+	}
+} // namespace GameUI
 
 #endif

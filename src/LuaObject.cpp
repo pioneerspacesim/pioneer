@@ -1,11 +1,11 @@
 // Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "libs.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "PropertiedObject.h"
 #include "PropertyMap.h"
+#include "libs.h"
 
 #include <map>
 #include <utility>
@@ -93,18 +93,20 @@
 // singleton is. This will cause LuaObject to crash during garbage collection
 static bool instantiated = false;
 
-static std::map< std::string, std::map<std::string,PromotionTest> > *promotions;
-static std::map< std::string, SerializerPair > *serializers;
+static std::map<std::string, std::map<std::string, PromotionTest>> *promotions;
+static std::map<std::string, SerializerPair> *serializers;
 
-static void _teardown() {
+static void _teardown()
+{
 	delete promotions;
 	delete serializers;
 }
 
-static inline void _instantiate() {
+static inline void _instantiate()
+{
 	if (!instantiated) {
-		promotions = new std::map< std::string, std::map<std::string,PromotionTest> >;
-		serializers = new std::map< std::string, SerializerPair >;
+		promotions = new std::map<std::string, std::map<std::string, PromotionTest>>;
+		serializers = new std::map<std::string, SerializerPair>;
 
 		// XXX atexit is not a very nice way to deal with this in C++
 		atexit(_teardown);
@@ -116,7 +118,7 @@ static inline void _instantiate() {
 int LuaObjectBase::l_exists(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
-	LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, 1));
+	LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, 1));
 	lua_pushboolean(l, lo->GetObject() != 0);
 	return 1;
 }
@@ -149,12 +151,12 @@ int LuaObjectBase::l_unsetprop(lua_State *l)
 	if (lua_isnil(l, -1))
 		return luaL_error(l, "Object has no property map");
 
-	LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, 1));
+	LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, 1));
 	LuaWrappable *o = lo->GetObject();
 	if (!o)
 		return luaL_error(l, "Object is no longer valid");
 
-	PropertiedObject *po = dynamic_cast<PropertiedObject*>(o);
+	PropertiedObject *po = dynamic_cast<PropertiedObject *>(o);
 	assert(po);
 
 	po->Properties().PushLuaTable();
@@ -181,12 +183,12 @@ int LuaObjectBase::l_setprop(lua_State *l)
 	if (lua_isnil(l, -1))
 		return luaL_error(l, "Object has no property map");
 
-	LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, 1));
+	LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, 1));
 	LuaWrappable *o = lo->GetObject();
 	if (!o)
 		return luaL_error(l, "Object is no longer valid");
 
-	PropertiedObject *po = dynamic_cast<PropertiedObject*>(o);
+	PropertiedObject *po = dynamic_cast<PropertiedObject *>(o);
 	assert(po);
 
 	if (isnum)
@@ -200,7 +202,7 @@ int LuaObjectBase::l_setprop(lua_State *l)
 int LuaObjectBase::l_isa(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
-	LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, 1));
+	LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, 1));
 	if (!lo->GetObject())
 		return luaL_error(l, "Object is no longer valid");
 
@@ -211,7 +213,7 @@ int LuaObjectBase::l_isa(lua_State *l)
 int LuaObjectBase::l_gc(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
-	LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, 1));
+	LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, 1));
 
 	Deregister(lo);
 
@@ -239,28 +241,28 @@ static void get_next_method_table(lua_State *l)
 
 	// get the type from the table
 	lua_pushstring(l, "type");
-	lua_rawget(l, -2);                 // object, metatable, type
+	lua_rawget(l, -2); // object, metatable, type
 
 	const std::string type(lua_tostring(l, -1));
-	lua_pop(l, 1);                     // object, metatable
-	pi_lua_split_table_path(l, type);  // object, metatable, "global" table, leaf type name
-	lua_rawget(l, -2);                 // object, metatable, "global" table, method table
-	lua_remove(l, -2);                 // object, metatable, method table
+	lua_pop(l, 1); // object, metatable
+	pi_lua_split_table_path(l, type); // object, metatable, "global" table, leaf type name
+	lua_rawget(l, -2); // object, metatable, "global" table, method table
+	lua_remove(l, -2); // object, metatable, method table
 
 	// see if the metatable has a parent
 	lua_pushstring(l, "parent");
-	lua_rawget(l, -3);                 // object, metatable, method table, parent type
+	lua_rawget(l, -3); // object, metatable, method table, parent type
 
 	// it does, lets fetch it
 	if (!lua_isnil(l, -1)) {
 		lua_rawget(l, LUA_REGISTRYINDEX); // object, metatable, method table, parent metatable
-		lua_replace(l, -3);               // object, parent metatable, method table
+		lua_replace(l, -3); // object, parent metatable, method table
 		LUA_DEBUG_END(l, 1);
 		return;
 	}
 
 	// no parent
-	                    // object, metatable, method table, nil
+	// object, metatable, method table, nil
 	lua_replace(l, -3); // object, nil, method table
 
 	LUA_DEBUG_END(l, 1);
@@ -285,7 +287,7 @@ static bool get_method_or_attr(lua_State *l)
 	lua_pop(l, 1);
 
 	// didn't find a method, so now we go looking for an attribute handler
-	lua_pushstring(l, (std::string("__attribute_")+lua_tostring(l, -1)).c_str());
+	lua_pushstring(l, (std::string("__attribute_") + lua_tostring(l, -1)).c_str());
 	lua_rawget(l, -3);
 
 	// found something, return it
@@ -430,7 +432,7 @@ void LuaObjectBase::GetNames(std::vector<std::string> &names, const std::string 
 	if (typeless) {
 		// Check the metatable indexes
 		lua_pushvalue(l, -1);
-		while(lua_getmetatable(l, -1)) {
+		while (lua_getmetatable(l, -1)) {
 			lua_pushstring(l, "__index");
 			lua_gettable(l, -2);
 
@@ -563,12 +565,12 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 
 	// create table, attach methods to it, leave it on the stack
 	lua_newtable(l);
-    if (methods) luaL_setfuncs(l, methods, 0);
+	if (methods) luaL_setfuncs(l, methods, 0);
 
 	// add attributes
 	if (attrs) {
 		for (const luaL_Reg *attr = attrs; attr->name; attr++) {
-			lua_pushstring(l, (std::string("__attribute_")+attr->name).c_str());
+			lua_pushstring(l, (std::string("__attribute_") + attr->name).c_str());
 			lua_pushcfunction(l, attr->func);
 			lua_rawset(l, -3);
 		}
@@ -689,15 +691,14 @@ void LuaObjectBase::Register(LuaObjectBase *lo)
 	bool tried_promote = false;
 
 	while (have_promotions && !tried_promote) {
-		std::map< std::string, std::map<std::string,PromotionTest> >::const_iterator base_iter = promotions->find(lo->m_type);
+		std::map<std::string, std::map<std::string, PromotionTest>>::const_iterator base_iter = promotions->find(lo->m_type);
 		if (base_iter != promotions->end()) {
 			tried_promote = true;
 
 			for (
-				std::map<std::string,PromotionTest>::const_iterator target_iter = (*base_iter).second.begin();
+				std::map<std::string, PromotionTest>::const_iterator target_iter = (*base_iter).second.begin();
 				target_iter != (*base_iter).second.end();
-				++target_iter)
-			{
+				++target_iter) {
 				if ((*target_iter).second(lo->GetObject())) {
 					lo->m_type = (*target_iter).first.c_str();
 					tried_promote = false;
@@ -705,27 +706,26 @@ void LuaObjectBase::Register(LuaObjectBase *lo)
 			}
 
 			assert(lo->Isa((*base_iter).first.c_str()));
-		}
-		else
+		} else
 			have_promotions = false;
 	}
 
 	lua_State *l = Lua::manager->GetLuaState();
 
-	LUA_DEBUG_START(l);                                         // lo userdata
+	LUA_DEBUG_START(l); // lo userdata
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");    // lo userdata, registry table
+	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry"); // lo userdata, registry table
 	assert(lua_istable(l, -1));
 
-	lua_pushlightuserdata(l, lo->GetObject());                  // lo userdata, registry table, o lightuserdata
-	lua_pushvalue(l, -3);                                       // lo userdata, registry table, o lightuserdata, lo userdata
-	lua_settable(l, -3);                                        // lo userdata, registry table
+	lua_pushlightuserdata(l, lo->GetObject()); // lo userdata, registry table, o lightuserdata
+	lua_pushvalue(l, -3); // lo userdata, registry table, o lightuserdata, lo userdata
+	lua_settable(l, -3); // lo userdata, registry table
 
-	lua_pop(l, 1);                                              // lo userdata
+	lua_pop(l, 1); // lo userdata
 
-	luaL_getmetatable(l, lo->m_type);                           // lo userdata, lo metatable
+	luaL_getmetatable(l, lo->m_type); // lo userdata, lo metatable
 
-	lua_pushvalue(l, -1);										// Copy the metatable to begin the search.
+	lua_pushvalue(l, -1); // Copy the metatable to begin the search.
 
 	// Now let's go digging around to find a suitable constructor.
 	// Shameless lift from l_dispatch_index
@@ -757,19 +757,18 @@ void LuaObjectBase::Register(LuaObjectBase *lo)
 
 	//
 	// attach properties table if available
-	PropertiedObject *po = dynamic_cast<PropertiedObject*>(lo->GetObject());
+	PropertiedObject *po = dynamic_cast<PropertiedObject *>(lo->GetObject());
 	if (po) {
 		po->Properties().PushLuaTable();
 		lua_setuservalue(l, -4);
 	}
 
-
 	// Call the lua constructor if it ain't nil
 	// We didn't do this when we got it, because one might want to use the nice stuff
 	// such as the properties in the bloody constructor. Setprop, anyone? :)
 	if (lua_isfunction(l, -1)) {
-		lua_pushvalue(l, -3);			// lo userdata, lo mt, cons, lo userdata
-		lua_call(l, 1, 0);				// lo userdata, lo mt
+		lua_pushvalue(l, -3); // lo userdata, lo mt, cons, lo userdata
+		lua_call(l, 1, 0); // lo userdata, lo mt
 		lua_pop(l, 1); // Pop the metatable, we're done with it
 	} else {
 		lua_pop(l, 2); // Pop the junk AND the metatable.
@@ -807,7 +806,7 @@ LuaWrappable *LuaObjectBase::CheckFromLua(int index, const char *type)
 	lua_State *l = Lua::manager->GetLuaState();
 
 	luaL_checktype(l, index, LUA_TUSERDATA);
-	LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, index));
+	LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, index));
 
 	LuaWrappable *o = lo->GetObject();
 	if (!o) {
@@ -831,7 +830,7 @@ LuaWrappable *LuaObjectBase::GetFromLua(int index, const char *type)
 	if (lua_type(l, index) != LUA_TUSERDATA)
 		return 0;
 
-	LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, index));
+	LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, index));
 
 	LuaWrappable *o = lo->GetObject();
 	if (!o)
@@ -929,7 +928,8 @@ bool LuaObjectBase::Deserialize(const char *stream, const char **next)
 	return (*i).second.deserialize(end, next);
 }
 
-void *LuaObjectBase::Allocate(size_t n) {
+void *LuaObjectBase::Allocate(size_t n)
+{
 	lua_State *l = Lua::manager->GetLuaState();
 	return lua_newuserdata(l, n);
 }

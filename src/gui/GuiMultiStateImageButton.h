@@ -10,7 +10,7 @@
 #include <vector>
 
 namespace Gui {
-	class MultiStateImageButton: public Button, public ISelectable {
+	class MultiStateImageButton : public Button, public ISelectable {
 	public:
 		MultiStateImageButton();
 		virtual void Draw();
@@ -23,12 +23,14 @@ namespace Gui {
 		void StateNext();
 		void StatePrev();
 		virtual void OnActivate();
-		sigc::signal<void, MultiStateImageButton*> onClick;
+		sigc::signal<void, MultiStateImageButton *> onClick;
 		virtual void SetSelected(bool state);
 		void SetActiveState(int state);
 		void SetRenderDimensions(const float wide, const float high);
+
 	protected:
 		virtual std::string GetOverrideTooltip();
+
 	private:
 		struct State {
 			int state;
@@ -40,6 +42,6 @@ namespace Gui {
 		int m_curState;
 		bool m_isSelected;
 	};
-}
+} // namespace Gui
 
 #endif /* _GUIMULTISTATEIMAGEBUTTON_H */

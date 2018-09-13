@@ -3,18 +3,18 @@
 
 #include "Camera.h"
 #include "Frame.h"
-#include "galaxy/StarSystem.h"
-#include "Space.h"
-#include "Player.h"
-#include "Pi.h"
-#include "Sfx.h"
 #include "Game.h"
+#include "Pi.h"
 #include "Planet.h"
+#include "Player.h"
+#include "Sfx.h"
+#include "Space.h"
+#include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
-#include "graphics/Renderer.h"
-#include "graphics/VertexArray.h"
 #include "graphics/Material.h"
+#include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/VertexArray.h"
 
 #include <SDL_stdinc.h>
 
@@ -60,7 +60,7 @@ void CameraContext::BeginFrame()
 
 	// make sure old orient and interpolated orient (rendering orient) are not rubbish
 	m_camFrame->ClearMovement();
-	m_camFrame->UpdateInterpTransform(1.0);			// update root-relative pos/orient
+	m_camFrame->UpdateInterpTransform(1.0); // update root-relative pos/orient
 }
 
 void CameraContext::EndFrame()
@@ -75,10 +75,9 @@ void CameraContext::EndFrame()
 
 void CameraContext::ApplyDrawTransforms(Graphics::Renderer *r)
 {
-	r->SetPerspectiveProjection(m_fovAng, m_width/m_height, m_zNear, m_zFar);
+	r->SetPerspectiveProjection(m_fovAng, m_width / m_height, m_zNear, m_zFar);
 	r->SetTransform(matrix4x4f::Identity());
 }
-
 
 Camera::Camera(RefCountedPtr<CameraContext> context, Graphics::Renderer *renderer) :
 	m_context(context),
@@ -102,7 +101,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 	if (body && !frame->IsRotFrame() && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
 		vector3d lpos = frame->GetPositionRelTo(camFrame);
 		const double dist = lpos.Length() / AU;
-		lpos *= 1.0/dist; // normalize
+		lpos *= 1.0 / dist; // normalize
 
 		const Color &col = StarSystem::starRealColors[body->GetType()];
 
@@ -112,7 +111,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 		lights.push_back(Camera::LightSource(frame->GetBody(), light));
 	}
 
-	for (Frame* kid : frame->GetChildren()) {
+	for (Frame *kid : frame->GetChildren()) {
 		position_system_lights(camFrame, kid, lights);
 	}
 }
@@ -123,13 +122,13 @@ void Camera::Update()
 
 	// evaluate each body and determine if/where/how to draw it
 	m_sortedBodies.clear();
-	for (Body* b : Pi::game->GetSpace()->GetBodies()) {
+	for (Body *b : Pi::game->GetSpace()->GetBodies()) {
 		BodyAttrs attrs;
 		attrs.body = b;
 		attrs.billboard = false; // false by default
 
 		// determine position and transform for draw
-//		Frame::GetFrameTransform(b->GetFrame(), camFrame, attrs.viewTransform);		// doesn't use interp coords, so breaks in some cases
+		//		Frame::GetFrameTransform(b->GetFrame(), camFrame, attrs.viewTransform);		// doesn't use interp coords, so breaks in some cases
 		attrs.viewTransform = b->GetFrame()->GetInterpOrientRelTo(camFrame);
 		attrs.viewTransform.SetTranslate(b->GetFrame()->GetInterpPositionRelTo(camFrame));
 		attrs.viewCoords = attrs.viewTransform * b->GetInterpPosition();
@@ -159,19 +158,17 @@ void Camera::Update()
 				attrs.billboardSize = std::max(1.0f, pixSize);
 				if (b->IsType(Object::STAR)) {
 					attrs.billboardColor = StarSystem::starRealColors[b->GetSystemBody()->GetType()];
-				}
-				else if (b->IsType(Object::PLANET)) {
+				} else if (b->IsType(Object::PLANET)) {
 					// XXX this should incorporate some lighting effect
 					// (ie, colour of the illuminating star(s))
 					attrs.billboardColor = b->GetSystemBody()->GetAlbedo();
-				}
-				else {
+				} else {
 					attrs.billboardColor = Color::WHITE;
 				}
 
 				// this should always be the main star in the system - except for the star itself!
-				if( !m_lightSources.empty() && !b->IsType(Object::STAR) ) {
-					const Graphics::Light& light = m_lightSources[0].GetLight();
+				if (!m_lightSources.empty() && !b->IsType(Object::STAR)) {
+					const Graphics::Light &light = m_lightSources[0].GetLight();
 					attrs.billboardColor *= light.GetDiffuse(); // colour the billboard a little with the Starlight
 				}
 
@@ -188,7 +185,7 @@ void Camera::Update()
 	m_sortedBodies.sort();
 }
 
-void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
+void Camera::Draw(const Body *excludeBody, ShipCockpit *cockpit)
 {
 	PROFILE_SCOPED()
 
@@ -217,18 +214,16 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 		//check if camera is near a planet
 		Body *camParentBody = camFrame->GetParent()->GetBody();
 		if (camParentBody && camParentBody->IsType(Object::PLANET)) {
-			Planet *planet = static_cast<Planet*>(camParentBody);
+			Planet *planet = static_cast<Planet *>(camParentBody);
 			const vector3f relpos(planet->GetInterpPositionRelTo(camFrame));
 			double altitude(relpos.Length());
 			double pressure, density;
 			planet->GetAtmosphericState(altitude, &pressure, &density);
-			if (pressure >= 0.001)
-			{
+			if (pressure >= 0.001) {
 				//go through all lights to calculate something resembling light intensity
 				float intensity = 0.f;
-				const Player* pBody = Pi::game->GetPlayer();
-				for( Uint32 i=0; i<m_lightSources.size() ; i++ )
-				{
+				const Player *pBody = Pi::game->GetPlayer();
+				for (Uint32 i = 0; i < m_lightSources.size(); i++) {
 					// Set up data for eclipses. All bodies are assumed to be spheres.
 					const LightSource &it = m_lightSources[i];
 					const vector3f lightDir(it.GetLight().GetPosition().Normalized());
@@ -266,8 +261,7 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 			m_renderer->SetTransform(matrix4x4d::Identity());
 			m_billboardMaterial->diffuse = attrs->billboardColor;
 			m_renderer->DrawPointSprites(1, &attrs->billboardPos, SfxManager::additiveAlphaState, m_billboardMaterial.get(), attrs->billboardSize);
-		}
-		else
+		} else
 			attrs->body->Render(m_renderer, this, attrs->viewCoords, attrs->viewTransform);
 	}
 
@@ -279,11 +273,12 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 	// Render cockpit
 	// XXX only here because it needs a frame for lighting calc
 	// should really be in WorldView, immediately after camera draw
-	if(cockpit)
+	if (cockpit)
 		cockpit->RenderCockpit(m_renderer, this, camFrame);
 }
 
-void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const {
+void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const
+{
 	// Set up data for eclipses. All bodies are assumed to be spheres.
 	const Body *lightBody = m_lightSources[lightNum].GetBody();
 	if (!lightBody)
@@ -294,19 +289,21 @@ void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> 
 	const vector3d lightDir = bLightPos.Normalized();
 
 	double bRadius;
-	if (b->IsType(Object::TERRAINBODY)) bRadius = b->GetSystemBody()->GetRadius();
-	else bRadius = b->GetPhysRadius();
+	if (b->IsType(Object::TERRAINBODY))
+		bRadius = b->GetSystemBody()->GetRadius();
+	else
+		bRadius = b->GetPhysRadius();
 
 	// Look for eclipsing third bodies:
 	for (const Body *b2 : Pi::game->GetSpace()->GetBodies()) {
-		if ( b2 == b || b2 == lightBody || !(b2->IsType(Object::PLANET) || b2->IsType(Object::STAR)))
+		if (b2 == b || b2 == lightBody || !(b2->IsType(Object::PLANET) || b2->IsType(Object::STAR)))
 			continue;
 
 		double b2Radius = b2->GetSystemBody()->GetRadius();
 		vector3d b2pos = b2->GetPositionRelTo(b);
 		const double perpDist = lightDir.Dot(b2pos);
 
-		if ( perpDist <= 0 || perpDist > bLightPos.Length())
+		if (perpDist <= 0 || perpDist > bLightPos.Length())
 			// b2 isn't between b and lightBody; no eclipse
 			continue;
 
@@ -320,12 +317,12 @@ void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> 
 		// disc of radius srad centred at projectedCentre-p. To determine the light intensity at p, we
 		// then just need to estimate the proportion of the light disc being occulted.
 		const double srad = b2Radius / bRadius;
-		const double lrad = (lightRadius/bLightPos.Length())*perpDist / bRadius;
+		const double lrad = (lightRadius / bLightPos.Length()) * perpDist / bRadius;
 		if (srad / lrad < 0.01) {
 			// any eclipse would have negligible effect - ignore
 			continue;
 		}
-		const vector3d projectedCentre = ( b2pos - perpDist*lightDir ) / bRadius;
+		const vector3d projectedCentre = (b2pos - perpDist * lightDir) / bRadius;
 		if (projectedCentre.Length() < 1 + srad + lrad) {
 			// some part of b is (partially) eclipsed
 			Camera::Shadow shadow = { projectedCentre, static_cast<float>(srad), static_cast<float>(lrad) };
@@ -334,7 +331,8 @@ void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> 
 	}
 }
 
-float discCovered(const float dist, const float rad) {
+float discCovered(const float dist, const float rad)
+{
 	// proportion of unit disc covered by a second disc of radius rad placed
 	// dist from centre of first disc.
 	//
@@ -343,10 +341,10 @@ float discCovered(const float dist, const float rad) {
 	// xs = normalised leftwards distance from centre of second disc to intersection.
 	// d = vertical distance to an intersection point
 	// The clampings handle the cases where one disc contains the other.
-	const float radsq = rad*rad;
-	const float xl = Clamp((dist*dist + 1.f - radsq) / (2.f*std::max(0.001f,dist)), -1.f, 1.f);
-	const float xs = Clamp((dist - xl)/std::max(0.001f,rad), -1.f, 1.f);
-	const float d = sqrt(std::max(0.f, 1.f - xl*xl));
+	const float radsq = rad * rad;
+	const float xl = Clamp((dist * dist + 1.f - radsq) / (2.f * std::max(0.001f, dist)), -1.f, 1.f);
+	const float xs = Clamp((dist - xl) / std::max(0.001f, rad), -1.f, 1.f);
+	const float d = sqrt(std::max(0.f, 1.f - xl * xl));
 
 	const float th = Clamp(acosf(xl), 0.f, float(M_PI));
 	const float th2 = Clamp(acosf(xs), 0.f, float(M_PI));
@@ -355,23 +353,25 @@ float discCovered(const float dist, const float rad) {
 
 	// covered area can be calculated as the sum of segments from the two
 	// discs plus/minus some triangles, and it works out as follows:
-	return Clamp((th + radsq*th2 - dist*d)/float(M_PI), 0.f, 1.f);
+	return Clamp((th + radsq * th2 - dist * d) / float(M_PI), 0.f, 1.f);
 }
 
 static std::vector<Camera::Shadow> shadows;
 
-float Camera::ShadowedIntensity(const int lightNum, const Body *b) const {
+float Camera::ShadowedIntensity(const int lightNum, const Body *b) const
+{
 	shadows.clear();
 	shadows.reserve(16);
 	CalcShadows(lightNum, b, shadows);
 	float product = 1.0;
-	for (std::vector<Camera::Shadow>::const_iterator it = shadows.begin(), itEnd = shadows.end(); it!=itEnd; ++it)
+	for (std::vector<Camera::Shadow>::const_iterator it = shadows.begin(), itEnd = shadows.end(); it != itEnd; ++it)
 		product *= 1.0 - discCovered(it->centre.Length() / it->lrad, it->srad / it->lrad);
 	return product;
 }
 
 // PrincipalShadows(b,n): returns the n biggest shadows on b in order of size
-void Camera::PrincipalShadows(const Body *b, const int n, std::vector<Shadow> &shadowsOut) const {
+void Camera::PrincipalShadows(const Body *b, const int n, std::vector<Shadow> &shadowsOut) const
+{
 	shadows.clear();
 	shadows.reserve(16);
 	for (size_t i = 0; i < 4 && i < m_lightSources.size(); i++) {

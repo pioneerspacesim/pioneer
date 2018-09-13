@@ -2,9 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaFormat.h"
+#include "Lang.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
-#include "Lang.h"
 #include "StringF.h"
 #include "utils.h"
 #include <math.h>
@@ -111,12 +111,11 @@ static int l_format_money(lua_State *l)
 {
 	double t = luaL_checknumber(l, 1);
 	double intpart;
-	modf(t*100.0, &intpart);
-	if (lua_isboolean(l, 2)){
+	modf(t * 100.0, &intpart);
+	if (lua_isboolean(l, 2)) {
 		bool show_cents = lua_toboolean(l, 2);
 		lua_pushstring(l, format_money(intpart, show_cents).c_str());
-	}
-	else
+	} else
 		lua_pushstring(l, format_money(intpart).c_str());
 
 	return 1;
@@ -152,12 +151,12 @@ void LuaFormat::Register()
 	LUA_DEBUG_START(l);
 
 	static const luaL_Reg l_methods[] = {
-		{ "Date",       l_format_date        },
-		{ "Distance",   l_format_distance    },
-		{ "Money",      l_format_money       },
-		{ "AccelG",     l_format_accel_g     },
+		{ "Date", l_format_date },
+		{ "Distance", l_format_distance },
+		{ "Money", l_format_money },
+		{ "AccelG", l_format_accel_g },
 		{ "MassTonnes", l_format_mass_tonnes },
-		{ "Duration",   l_format_duration    },
+		{ "Duration", l_format_duration },
 		{ 0, 0 }
 	};
 

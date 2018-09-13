@@ -4,21 +4,21 @@
 #ifndef _PLANET_H
 #define _PLANET_H
 
+#include "SmartPtr.h"
 #include "TerrainBody.h"
 #include "graphics/VertexArray.h"
-#include "SmartPtr.h"
 
 namespace Graphics {
 	class Renderer;
 	class RenderState;
 	class Texture;
 	class Material;
-}
+} // namespace Graphics
 
-class Planet: public TerrainBody {
+class Planet : public TerrainBody {
 public:
 	OBJDEF(Planet, TerrainBody, PLANET);
-	Planet(SystemBody*);
+	Planet(SystemBody *);
 	Planet();
 
 	virtual void SubRender(Graphics::Renderer *r, const matrix4x4d &viewTran, const vector3d &camPos) override;
@@ -34,7 +34,7 @@ protected:
 	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
 
 private:
-	void InitParams(const SystemBody*);
+	void InitParams(const SystemBody *);
 	void GenerateRings(Graphics::Renderer *renderer);
 	void DrawGasGiantRings(Graphics::Renderer *r, const matrix4x4d &modelView);
 

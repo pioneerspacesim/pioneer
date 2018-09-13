@@ -4,31 +4,34 @@
 #ifndef _TERRAIN_H
 #define _TERRAIN_H
 
-#include "libs.h"
 #include "galaxy/StarSystem.h"
+#include "libs.h"
 
 #ifdef _MSC_VER
-#pragma warning(disable : 4250)			// workaround for MSVC 2008 multiple inheritance bug
+#pragma warning(disable : 4250) // workaround for MSVC 2008 multiple inheritance bug
 #endif
 
 struct fracdef_t {
-	fracdef_t() : amplitude(0.0), frequency(0.0), lacunarity(0.0), octaves(0) {}
+	fracdef_t() :
+		amplitude(0.0),
+		frequency(0.0),
+		lacunarity(0.0),
+		octaves(0) {}
 	double amplitude;
 	double frequency;
 	double lacunarity;
 	int octaves;
 };
 
-
-template <typename,typename> class TerrainGenerator;
-
+template <typename, typename>
+class TerrainGenerator;
 
 class Terrain : public RefCounted {
 public:
 	// location and intensity of effects are controlled by the colour fractals;
 	// it's possible for a Terrain to have a flag set but not actually to exhibit any of that effect
 	enum SurfaceEffectFlags {
-		EFFECT_LAVA  = 1 << 0,
+		EFFECT_LAVA = 1 << 0,
 		EFFECT_WATER = 2
 		// can add other effect flags here (e.g., water, snow, ice)
 	};
@@ -38,7 +41,11 @@ public:
 	virtual ~Terrain();
 
 	void SetFracDef(const unsigned int index, const double featureHeightMeters, const double featureWidthMeters, const double smallestOctaveMeters = 20.0);
-	inline const fracdef_t &GetFracDef(const unsigned int index) const { assert(index>=0 && index<MAX_FRACDEFS); return m_fracdef[index]; }
+	inline const fracdef_t &GetFracDef(const unsigned int index) const
+	{
+		assert(index >= 0 && index < MAX_FRACDEFS);
+		return m_fracdef[index];
+	}
 
 	virtual double GetHeight(const vector3d &p) const = 0;
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const = 0;
@@ -54,10 +61,9 @@ public:
 
 private:
 	template <typename HeightFractal, typename ColorFractal>
-	static Terrain *InstanceGenerator(const SystemBody *body) { return new TerrainGenerator<HeightFractal,ColorFractal>(body); }
+	static Terrain *InstanceGenerator(const SystemBody *body) { return new TerrainGenerator<HeightFractal, ColorFractal>(body); }
 
-	typedef Terrain* (*GeneratorInstancer)(const SystemBody *);
-
+	typedef Terrain *(*GeneratorInstancer)(const SystemBody *);
 
 protected:
 	Terrain(const SystemBody *body);
@@ -110,7 +116,8 @@ protected:
 	fracdef_t m_fracdef[MAX_FRACDEFS];
 
 	struct MinBodyData {
-		MinBodyData(const SystemBody* body) {
+		MinBodyData(const SystemBody *body)
+		{
 			m_radius = body->GetRadius();
 			m_aspectRatio = body->GetAspectRatio();
 			m_path = body->GetPath();
@@ -124,14 +131,15 @@ protected:
 	MinBodyData m_minBody;
 };
 
-
 template <typename HeightFractal>
 class TerrainHeightFractal : virtual public Terrain {
 public:
 	virtual double GetHeight(const vector3d &p) const;
 	virtual const char *GetHeightFractalName() const;
+
 protected:
 	TerrainHeightFractal(const SystemBody *body);
+
 private:
 	TerrainHeightFractal() {}
 };
@@ -141,17 +149,21 @@ class TerrainColorFractal : virtual public Terrain {
 public:
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const;
 	virtual const char *GetColorFractalName() const;
+
 protected:
 	TerrainColorFractal(const SystemBody *body);
+
 private:
 	TerrainColorFractal() {}
 };
 
-
 template <typename HeightFractal, typename ColorFractal>
 class TerrainGenerator : public TerrainHeightFractal<HeightFractal>, public TerrainColorFractal<ColorFractal> {
 public:
-	TerrainGenerator(const SystemBody *body) : Terrain(body), TerrainHeightFractal<HeightFractal>(body), TerrainColorFractal<ColorFractal>(body) {}
+	TerrainGenerator(const SystemBody *body) :
+		Terrain(body),
+		TerrainHeightFractal<HeightFractal>(body),
+		TerrainColorFractal<ColorFractal>(body) {}
 
 private:
 	TerrainGenerator() {}
@@ -197,14 +209,12 @@ class TerrainHeightMountainsCraters;
 class TerrainHeightMountainsNormal;
 // Based on TerrainHeightMountainsNormal :
 class TerrainHeightMountainsRivers;
- /*Pictures from the above two terrains generating Earth-like worlds:
+/*Pictures from the above two terrains generating Earth-like worlds:
  http://www.spacesimcentral.com/forum/download/file.php?id=1533&mode=view
  http://www.spacesimcentral.com/forum/download/file.php?id=1544&mode=view
  http://www.spacesimcentral.com/forum/download/file.php?id=1550&mode=view
  http://www.spacesimcentral.com/forum/download/file.php?id=1540&mode=view
  */
-
-
 
 // Older terrains:
 class TerrainHeightMountainsRidged;
@@ -222,7 +232,6 @@ only terrain to use the much neglected impact crater function
 (basically I forgot about it;) ) **It makes cool looking sunken craters** */
 class TerrainHeightWaterSolidCanyons;
 class TerrainHeightWaterSolid;
-
 
 class TerrainColorAsteroid;
 class TerrainColorBandedRock;

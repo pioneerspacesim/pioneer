@@ -8,7 +8,7 @@
 #include <string>
 
 namespace Gui {
-	class ToolTip: public Widget {
+	class ToolTip : public Widget {
 	public:
 		ToolTip(Widget *owner, const char *text);
 		ToolTip(Widget *owner, std::string &text);
@@ -17,6 +17,7 @@ namespace Gui {
 		virtual void GetSizeRequested(float size[2]);
 		void SetText(const char *text);
 		void SetText(std::string &text);
+
 	private:
 		void CalcSize();
 		Widget *m_owner;
@@ -26,6 +27,6 @@ namespace Gui {
 		Graphics::Drawables::Lines m_outlines;
 		std::unique_ptr<Graphics::Drawables::Rect> m_background;
 	};
-}
+} // namespace Gui
 
 #endif /* _GUITOOLTIP_H */

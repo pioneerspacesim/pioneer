@@ -4,15 +4,15 @@
 #ifndef _LUAOBJECT_H
 #define _LUAOBJECT_H
 
+#include "DeleteEmitter.h"
 #include "Lua.h"
-#include "LuaRef.h"
 #include "LuaPushPull.h"
+#include "LuaRef.h"
 #include "LuaUtils.h"
 #include "LuaWrappable.h"
 #include "RefCounted.h"
-#include "DeleteEmitter.h"
-#include <typeinfo>
 #include <tuple>
+#include <typeinfo>
 
 //
 // LuaObject provides proxy objects and tracking facilities to safely get
@@ -64,7 +64,6 @@
 // - Add the new file to the build system
 //
 
-
 // type for promotion test callbacks
 typedef bool (*PromotionTest)(LuaWrappable *o);
 
@@ -87,7 +86,6 @@ struct SerializerPair {
 	Deserializer deserialize;
 };
 
-
 // wrapper baseclass, and extra bits for getting at certain parts of the
 // LuaObject layer
 class LuaObjectBase {
@@ -106,7 +104,8 @@ public:
 
 protected:
 	// base class constructor, called by the wrapper Push* methods
-	LuaObjectBase(const char *type) : m_type(type) {};
+	LuaObjectBase(const char *type) :
+		m_type(type){};
 	virtual ~LuaObjectBase() {}
 
 	// creates a class in the lua vm with the given name and attaches the
@@ -148,11 +147,11 @@ protected:
 	std::string Serialize();
 	static bool Deserialize(const char *stream, const char **next);
 
-    // allocate n bytes from Lua memory and leave it an associated userdata on
-    // the stack. this is a wrapper around lua_newuserdata
+	// allocate n bytes from Lua memory and leave it an associated userdata on
+	// the stack. this is a wrapper around lua_newuserdata
 	static void *Allocate(size_t n);
 
-    // get a pointer to the underlying object
+	// get a pointer to the underlying object
 	virtual LuaWrappable *GetObject() const = 0;
 
 	const char *GetType() const { return m_type; }
@@ -188,68 +187,68 @@ private:
 	// __index metamethod
 	static int l_dispatch_index(lua_State *l);
 
-    // determine if the object has a class in its ancestry
-    bool Isa(const char *base) const;
+	// determine if the object has a class in its ancestry
+	bool Isa(const char *base) const;
 
 	// lua type (ie method/metatable name)
 	const char *m_type;
 };
 
-
 // templated portion of the wrapper baseclass
 template <typename T>
 class LuaObject : public LuaObjectBase {
 public:
-
 	// registers the class with the lua vm
 	static void RegisterClass();
 
 	// wrap an object and push it onto the stack. these create a wrapper
 	// object that knows how to deal with the type of object
 	static inline void PushToLua(DeleteEmitter *o); // LuaCoreObject
-	static inline void PushToLua(RefCounted *o);    // LuaSharedObject
-	static inline void PushToLua(const T &o);       // LuaCopyObject
+	static inline void PushToLua(RefCounted *o); // LuaSharedObject
+	static inline void PushToLua(const T &o); // LuaCopyObject
 
-	template <typename Ret, typename Key, typename ...Args>
-		static inline Ret CallMethod(T* o, const Key &key, const Args &...args);
-	template <typename Key, typename ...Args>
-		static inline void CallMethod(T* o, const Key &key, const Args &...args) {
-			CallMethod<bool>(o, key, args...);
-		}
+	template <typename Ret, typename Key, typename... Args>
+	static inline Ret CallMethod(T *o, const Key &key, const Args &... args);
+	template <typename Key, typename... Args>
+	static inline void CallMethod(T *o, const Key &key, const Args &... args)
+	{
+		CallMethod<bool>(o, key, args...);
+	}
 
-	template <typename Ret1, typename Ret2, typename ...Ret, typename Key, typename ...Args>
-		static inline std::tuple<Ret1, Ret2, Ret...> CallMethod(T* o, const Key &key, const Args &...args);
+	template <typename Ret1, typename Ret2, typename... Ret, typename Key, typename... Args>
+	static inline std::tuple<Ret1, Ret2, Ret...> CallMethod(T *o, const Key &key, const Args &... args);
 
 	// pull an object off the stack, unwrap and return it
 	// if not found or doesn't match the type, throws a lua exception
-	static inline T *CheckFromLua(int idx) {
+	static inline T *CheckFromLua(int idx)
+	{
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #endif
-		return dynamic_cast<T*>(LuaObjectBase::CheckFromLua(idx, s_type));
+		return dynamic_cast<T *>(LuaObjectBase::CheckFromLua(idx, s_type));
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
-
 	}
 
 	// same but without error checks. returns 0 on failure
-	static inline T *GetFromLua(int idx) {
+	static inline T *GetFromLua(int idx)
+	{
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #endif
-		return dynamic_cast<T*>(LuaObjectBase::GetFromLua(idx, s_type));
+		return dynamic_cast<T *>(LuaObjectBase::GetFromLua(idx, s_type));
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
-
 	}
 
 	// standard cast promotion test for convenience
-	static inline bool DynamicCastPromotionTest(LuaWrappable *o) {
-		return dynamic_cast<T*>(o);
+	static inline bool DynamicCastPromotionTest(LuaWrappable *o)
+	{
+		return dynamic_cast<T *>(o);
 	}
 
 protected:
@@ -257,7 +256,9 @@ protected:
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundefined-var-template"
 #endif
-	LuaObject() : LuaObjectBase(s_type) {}
+	LuaObject() :
+		LuaObjectBase(s_type)
+	{}
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
@@ -274,21 +275,26 @@ private:
 template <typename T>
 class LuaCoreObject : public LuaObject<T> {
 public:
-	LuaCoreObject(T *o) : m_object(o) {
+	LuaCoreObject(T *o) :
+		m_object(o)
+	{
 		m_deleteConnection = m_object->DeleteEmitter::onDelete.connect(sigc::mem_fun(this, &LuaCoreObject::OnDelete));
 	}
 
-	~LuaCoreObject() {
+	~LuaCoreObject()
+	{
 		if (m_deleteConnection.connected())
 			m_deleteConnection.disconnect();
 	}
 
-	LuaWrappable *GetObject() const {
+	LuaWrappable *GetObject() const
+	{
 		return m_object;
 	}
 
 private:
-	void OnDelete() {
+	void OnDelete()
+	{
 		LuaObjectBase::Deregister(this);
 		m_object = 0;
 	}
@@ -297,7 +303,6 @@ private:
 	sigc::connection m_deleteConnection;
 };
 
-
 // wrapper for a "shared" object - one that can comfortably exist in both
 // environments. usually for long-lived (StarSystem) or standalone (UI
 // widget) objects
@@ -305,9 +310,11 @@ private:
 template <typename T>
 class LuaSharedObject : public LuaObject<T> {
 public:
-	LuaSharedObject(T *o) : m_object(o) {}
+	LuaSharedObject(T *o) :
+		m_object(o) {}
 
-	LuaWrappable *GetObject() const {
+	LuaWrappable *GetObject() const
+	{
 		return m_object.Get();
 	}
 
@@ -315,26 +322,28 @@ private:
 	RefCountedPtr<T> m_object;
 };
 
-
 // wrapper for a "copied" object. a new one is created via the copy
 // constructor and fully owned by Lua. good for lightweight POD-style objects
 // (eg SystemPath)
 template <typename T>
 class LuaCopyObject : public LuaObject<T> {
 public:
-	LuaCopyObject(const T &o) {
+	LuaCopyObject(const T &o)
+	{
 		lua_State *l = Lua::manager->GetLuaState();
 		m_object = new (LuaObjectBase::Allocate(sizeof(T))) T(o);
 		m_ref = LuaRef(l, -1);
 		lua_pop(l, 1);
 	}
 
-	~LuaCopyObject() {
+	~LuaCopyObject()
+	{
 		m_object->~T();
 		m_object = 0;
 	}
 
-	LuaWrappable *GetObject() const {
+	LuaWrappable *GetObject() const
+	{
 		return m_object;
 	}
 
@@ -343,38 +352,44 @@ private:
 	LuaRef m_ref;
 };
 
-
 // push methods, create wrappers if necessary
 // wrappers are allocated from Lua memory
-template <typename T> inline void LuaObject<T>::PushToLua(DeleteEmitter *o) {
+template <typename T>
+inline void LuaObject<T>::PushToLua(DeleteEmitter *o)
+{
 	if (!PushRegistered(o))
-		Register(new (LuaObjectBase::Allocate(sizeof(LuaCoreObject<T>))) LuaCoreObject<T>(static_cast<T*>(o)));
+		Register(new (LuaObjectBase::Allocate(sizeof(LuaCoreObject<T>))) LuaCoreObject<T>(static_cast<T *>(o)));
 }
 
-template <typename T> inline void LuaObject<T>::PushToLua(RefCounted *o) {
+template <typename T>
+inline void LuaObject<T>::PushToLua(RefCounted *o)
+{
 	if (!PushRegistered(o))
-		Register(new (LuaObjectBase::Allocate(sizeof(LuaSharedObject<T>))) LuaSharedObject<T>(static_cast<T*>(o)));
+		Register(new (LuaObjectBase::Allocate(sizeof(LuaSharedObject<T>))) LuaSharedObject<T>(static_cast<T *>(o)));
 }
 
-template <typename T> inline void LuaObject<T>::PushToLua(const T &o) {
+template <typename T>
+inline void LuaObject<T>::PushToLua(const T &o)
+{
 	Register(new (LuaObjectBase::Allocate(sizeof(LuaCopyObject<T>))) LuaCopyObject<T>(o));
 }
 
 template <typename T>
-template <typename Ret, typename Key, typename ...Args>
-inline Ret LuaObject<T>::CallMethod(T* o, const Key &key, const Args &...args) {
+template <typename Ret, typename Key, typename... Args>
+inline Ret LuaObject<T>::CallMethod(T *o, const Key &key, const Args &... args)
+{
 	lua_State *l = Lua::manager->GetLuaState();
 	LUA_DEBUG_START(l);
 	Ret return_value;
 
-	lua_checkstack(l, sizeof...(args)+5);
+	lua_checkstack(l, sizeof...(args) + 5);
 	PushToLua(o);
 	pi_lua_generic_push(l, key);
 	lua_gettable(l, -2);
 	lua_pushvalue(l, -2);
 	lua_remove(l, -3);
 	pi_lua_multiple_push(l, args...);
-	pi_lua_protected_call(l, sizeof...(args)+1, 1);
+	pi_lua_protected_call(l, sizeof...(args) + 1, 1);
 	pi_lua_generic_pull(l, -1, return_value);
 	lua_pop(l, 1);
 	LUA_DEBUG_END(l, 0);
@@ -382,42 +397,50 @@ inline Ret LuaObject<T>::CallMethod(T* o, const Key &key, const Args &...args) {
 }
 
 template <typename T>
-template <typename Ret1, typename Ret2, typename ...Ret, typename Key, typename ...Args>
-inline std::tuple<Ret1, Ret2, Ret...> LuaObject<T>::CallMethod(T* o, const Key &key, const Args &...args) {
+template <typename Ret1, typename Ret2, typename... Ret, typename Key, typename... Args>
+inline std::tuple<Ret1, Ret2, Ret...> LuaObject<T>::CallMethod(T *o, const Key &key, const Args &... args)
+{
 	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
-	lua_checkstack(l, sizeof...(args)+5);
+	lua_checkstack(l, sizeof...(args) + 5);
 	PushToLua(o);
 	pi_lua_generic_push(l, key);
 	lua_gettable(l, -2);
 	lua_pushvalue(l, -2);
 	lua_remove(l, -3);
 	pi_lua_multiple_push(l, args...);
-	pi_lua_protected_call(l, sizeof...(args)+1, 2+sizeof...(Ret));
-	auto ret_values = pi_lua_multiple_pull<Ret1, Ret2, Ret...>(l, -2-static_cast<int>(sizeof...(Ret)));
-	lua_pop(l, 2+static_cast<int>(sizeof...(Ret)));
+	pi_lua_protected_call(l, sizeof...(args) + 1, 2 + sizeof...(Ret));
+	auto ret_values = pi_lua_multiple_pull<Ret1, Ret2, Ret...>(l, -2 - static_cast<int>(sizeof...(Ret)));
+	lua_pop(l, 2 + static_cast<int>(sizeof...(Ret)));
 	LUA_DEBUG_END(l, 0);
 	return ret_values;
 }
 
 // specialise for SystemPath, which needs custom machinery to deduplicate system paths
 class SystemPath;
-template <> void LuaObject<SystemPath>::PushToLua(const SystemPath &o);
+template <>
+void LuaObject<SystemPath>::PushToLua(const SystemPath &o);
 
 // LuaPushPull stuff.
-template <class T> void pi_lua_generic_pull(lua_State * l, int index, T* & out) {
+template <class T>
+void pi_lua_generic_pull(lua_State *l, int index, T *&out)
+{
 	assert(l == Lua::manager->GetLuaState());
 	out = LuaObject<T>::CheckFromLua(index);
 }
 
-template <class T> bool pi_lua_strict_pull(lua_State * l, int index, T* & out) {
+template <class T>
+bool pi_lua_strict_pull(lua_State *l, int index, T *&out)
+{
 	assert(l == Lua::manager->GetLuaState());
 	out = LuaObject<T>::GetFromLua(index);
 	return out != 0;
 }
 
-template <class T> void pi_lua_generic_push(lua_State * l, T* value) {
+template <class T>
+void pi_lua_generic_push(lua_State *l, T *value)
+{
 	assert(l == Lua::manager->GetLuaState());
 	if (value)
 		LuaObject<T>::PushToLua(value);

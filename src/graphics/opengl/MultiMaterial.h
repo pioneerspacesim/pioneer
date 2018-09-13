@@ -16,7 +16,7 @@ namespace Graphics {
 	namespace OGL {
 		class MultiProgram : public Program {
 		public:
-			MultiProgram(const MaterialDescriptor &, int numLights=0);
+			MultiProgram(const MaterialDescriptor &, int numLights = 0);
 		};
 
 		class MultiMaterial : public Material { //unlit
@@ -38,10 +38,10 @@ namespace Graphics {
 			virtual void Apply() override;
 
 		private:
-			Program* m_programs[5];
+			Program *m_programs[5];
 			Uint32 m_curNumLights;
 		};
-	}
-}
+	} // namespace OGL
+} // namespace Graphics
 
 #endif

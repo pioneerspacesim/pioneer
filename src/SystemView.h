@@ -4,10 +4,10 @@
 #ifndef _SYSTEMVIEW_H
 #define _SYSTEMVIEW_H
 
-#include "libs.h"
-#include "gui/Gui.h"
 #include "UIView.h"
 #include "graphics/Drawables.h"
+#include "gui/Gui.h"
+#include "libs.h"
 
 class StarSystem;
 class SystemBody;
@@ -40,7 +40,7 @@ public:
 	vector3d GetOffsetVel() const;
 	vector3d GetPosition() const;
 	double GetStartTime() const;
-	void SetPosition(const vector3d& position);
+	void SetPosition(const vector3d &position);
 	void IncreaseFactor(), ResetFactor(), DecreaseFactor();
 	void AddStartTime(double timeStep);
 	void ResetStartTime();
@@ -50,23 +50,25 @@ public:
 	std::string printDeltaTime();
 	std::string printDv(BurnDirection d);
 	std::string printFactor();
+
 private:
 	double m_dvPrograde;
 	double m_dvNormal;
 	double m_dvRadial;
-	double m_factor;       // dv multiplier
+	double m_factor; // dv multiplier
 	const double m_factorFactor = 5.0; // m_factor multiplier
 	vector3d m_position;
 	vector3d m_velocity;
 	double m_startTime;
 };
 
-class SystemView: public UIView {
+class SystemView : public UIView {
 public:
-	SystemView(Game* game);
+	SystemView(Game *game);
 	virtual ~SystemView();
 	virtual void Update();
 	virtual void Draw3D();
+
 private:
 	static const double PICK_OBJECT_RECT_SIZE;
 	static const Uint16 N_VERTICES_MAX;
@@ -91,13 +93,13 @@ private:
 	void LabelShip(Ship *s, const vector3d &offset);
 	void OnClickShip(Ship *s);
 
-	Game* m_game;
+	Game *m_game;
 	RefCountedPtr<StarSystem> m_system;
 	const SystemBody *m_selectedObject;
 	bool m_unexplored;
 	ShowLagrange m_showL4L5;
 	TransferPlanner *m_planner;
-	std::list<std::pair<Ship*, Orbit>> m_contacts;
+	std::list<std::pair<Ship *, Orbit>> m_contacts;
 	Gui::LabelSet *m_shipLabels;
 	ShipDrawing m_shipDrawing;
 	float m_rot_x, m_rot_z;

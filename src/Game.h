@@ -4,12 +4,12 @@
 #ifndef _GAME_H
 #define _GAME_H
 
-#include <string>
-#include "libs.h"
-#include "gameconsts.h"
 #include "GameLog.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/SystemPath.h"
+#include "gameconsts.h"
+#include "libs.h"
+#include <string>
 
 class HyperspaceCloud;
 class Player;
@@ -21,7 +21,8 @@ struct CannotSaveInHyperspace : public CannotSaveCurrentGameState {};
 struct CannotSaveDeadPlayer : public CannotSaveCurrentGameState {};
 struct InvalidGameStartLocation {
 	std::string error;
-	InvalidGameStartLocation(const std::string& error_) : error(error_) {}
+	InvalidGameStartLocation(const std::string &error_) :
+		error(error_) {}
 };
 
 class SectorView;
@@ -81,9 +82,9 @@ public:
 	double GetHyperspaceDuration() const { return m_hyperspaceDuration; }
 	double GetHyperspaceEndTime() const { return m_hyperspaceEndTime; }
 	double GetHyperspaceArrivalProbability() const;
-	const SystemPath& GetHyperspaceDest() const { return m_hyperspaceDest; }
-	const SystemPath& GetHyperspaceSource() const { return m_hyperspaceSource; }
-	void RemoveHyperspaceCloud(HyperspaceCloud*);
+	const SystemPath &GetHyperspaceDest() const { return m_hyperspaceDest; }
+	const SystemPath &GetHyperspaceSource() const { return m_hyperspaceSource; }
+	void RemoveHyperspaceCloud(HyperspaceCloud *);
 
 	enum TimeAccel {
 		TIMEACCEL_PAUSED,
@@ -93,7 +94,7 @@ public:
 		TIMEACCEL_1000X,
 		TIMEACCEL_10000X,
 		TIMEACCEL_HYPERSPACE
-    };
+	};
 
 	void SetTimeAccel(TimeAccel t);
 	void RequestTimeAccel(TimeAccel t, bool force = false);
@@ -112,19 +113,22 @@ public:
 	float GetTimeAccelRate() const { return s_timeAccelRates[m_timeAccel]; }
 	float GetInvTimeAccelRate() const { return s_timeInvAccelRates[m_timeAccel]; }
 
-	float GetTimeStep() const { return s_timeAccelRates[m_timeAccel]*(1.0f/PHYSICS_HZ); }
+	float GetTimeStep() const { return s_timeAccelRates[m_timeAccel] * (1.0f / PHYSICS_HZ); }
 
-	SectorView* GetSectorView() const { return m_gameViews->m_sectorView; }
-	UIView* GetGalacticView() const { return m_gameViews->m_galacticView; }
-	SystemInfoView* GetSystemInfoView() const { return m_gameViews->m_systemInfoView; }
-	SystemView* GetSystemView() const { return m_gameViews->m_systemView; }
-	WorldView* GetWorldView() const { return m_gameViews->m_worldView; }
-	DeathView* GetDeathView() const { return m_gameViews->m_deathView; }
-	UIView* GetSpaceStationView() const { return m_gameViews->m_spaceStationView; }
-	UIView* GetInfoView() const { return m_gameViews->m_infoView; }
-	ShipCpanel* GetCpan() const { return m_gameViews->m_cpan; }
+	SectorView *GetSectorView() const { return m_gameViews->m_sectorView; }
+	UIView *GetGalacticView() const { return m_gameViews->m_galacticView; }
+	SystemInfoView *GetSystemInfoView() const { return m_gameViews->m_systemInfoView; }
+	SystemView *GetSystemView() const { return m_gameViews->m_systemView; }
+	WorldView *GetWorldView() const { return m_gameViews->m_worldView; }
+	DeathView *GetDeathView() const { return m_gameViews->m_deathView; }
+	UIView *GetSpaceStationView() const { return m_gameViews->m_spaceStationView; }
+	UIView *GetInfoView() const { return m_gameViews->m_infoView; }
+	ShipCpanel *GetCpan() const { return m_gameViews->m_cpan; }
 #if WITH_OBJECTVIEWER
-	ObjectViewerView* GetObjectViewerView() const { return m_gameViews->m_objectViewerView; }
+	ObjectViewerView *GetObjectViewerView() const
+	{
+		return m_gameViews->m_objectViewerView;
+	}
 #endif
 
 	GameLog *log;
@@ -133,23 +137,23 @@ private:
 	class Views {
 	public:
 		Views();
-		void Init(Game* game);
-		void LoadFromJson(const Json::Value &jsonObj, Game* game);
+		void Init(Game *game);
+		void LoadFromJson(const Json::Value &jsonObj, Game *game);
 		~Views();
 
 		void SetRenderer(Graphics::Renderer *r);
 
-		SectorView* m_sectorView;
-		UIView* m_galacticView;
-		SystemInfoView* m_systemInfoView;
-		SystemView* m_systemView;
-		WorldView* m_worldView;
-		DeathView* m_deathView;
-		UIView* m_spaceStationView;
-		UIView* m_infoView;
-		ShipCpanel* m_cpan;
+		SectorView *m_sectorView;
+		UIView *m_galacticView;
+		SystemInfoView *m_systemInfoView;
+		SystemView *m_systemView;
+		WorldView *m_worldView;
+		DeathView *m_deathView;
+		UIView *m_spaceStationView;
+		UIView *m_infoView;
+		ShipCpanel *m_cpan;
 #if WITH_OBJECTVIEWER
-		ObjectViewerView* m_objectViewerView;
+		ObjectViewerView *m_objectViewerView;
 #endif
 	};
 
@@ -177,7 +181,7 @@ private:
 
 	bool m_wantHyperspace;
 
-	std::list<HyperspaceCloud*> m_hyperspaceClouds;
+	std::list<HyperspaceCloud *> m_hyperspaceClouds;
 	SystemPath m_hyperspaceSource;
 	SystemPath m_hyperspaceDest;
 	double m_hyperspaceProgress;

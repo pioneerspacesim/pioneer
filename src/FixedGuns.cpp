@@ -2,8 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "FixedGuns.h"
-#include "GameSaveError.h"
 #include "Beam.h"
+#include "GameSaveError.h"
 
 FixedGuns::FixedGuns()
 {
@@ -33,7 +33,7 @@ bool FixedGuns::IsBeam(const int num)
 
 void FixedGuns::Init(DynamicBody *b)
 {
-	for (int i=0; i<Guns::GUNMOUNT_MAX; i++) {
+	for (int i = 0; i < Guns::GUNMOUNT_MAX; i++) {
 		// Initialize structs
 		m_is_firing[i] = false;
 		m_gun[i].recharge = 0;
@@ -51,16 +51,15 @@ void FixedGuns::Init(DynamicBody *b)
 		m_recharge_stat[i] = 0.0;
 		m_temperature_stat[i] = 0.0;
 	};
-	b->AddFeature( DynamicBody::FIXED_GUNS );
+	b->AddFeature(DynamicBody::FIXED_GUNS);
 }
 
-void FixedGuns::SaveToJson( Json::Value &jsonObj, Space *space )
+void FixedGuns::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 
 	Json::Value gunArray(Json::arrayValue); // Create JSON array to contain gun data.
 
-	for (int i = 0; i<Guns::GUNMOUNT_MAX; i++)
-	{
+	for (int i = 0; i < Guns::GUNMOUNT_MAX; i++) {
 		Json::Value gunArrayEl(Json::objectValue); // Create JSON object to contain gun.
 		gunArrayEl["state"] = m_is_firing[i];
 		gunArrayEl["recharge"] = FloatToStr(m_recharge_stat[i]);
@@ -70,15 +69,14 @@ void FixedGuns::SaveToJson( Json::Value &jsonObj, Space *space )
 	jsonObj["guns"] = gunArray; // Add gun array to ship object.
 };
 
-void FixedGuns::LoadFromJson( const Json::Value &jsonObj, Space *space )
+void FixedGuns::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
 	Json::Value gunArray = jsonObj["guns"];
 
 	if (!gunArray.isArray()) throw SavedGameCorruptException();
 	assert(Guns::GUNMOUNT_MAX == gunArray.size());
 
-	for (unsigned int i = 0; i < Guns::GUNMOUNT_MAX; i++)
-	{
+	for (unsigned int i = 0; i < Guns::GUNMOUNT_MAX; i++) {
 		Json::Value gunArrayEl = gunArray[i];
 		if (!gunArrayEl.isMember("state")) throw SavedGameCorruptException();
 		if (!gunArrayEl.isMember("recharge")) throw SavedGameCorruptException();
@@ -90,7 +88,7 @@ void FixedGuns::LoadFromJson( const Json::Value &jsonObj, Space *space )
 	}
 };
 
-void FixedGuns::InitGun( SceneGraph::Model *m, const char *tag, int num)
+void FixedGuns::InitGun(SceneGraph::Model *m, const char *tag, int num)
 {
 	const SceneGraph::MatrixTransform *mt = m->FindTagByName(tag);
 	if (mt) {
@@ -100,15 +98,15 @@ void FixedGuns::InitGun( SceneGraph::Model *m, const char *tag, int num)
 	} else {
 		// Output("WARNING: tag %s not found for gun %i\n", tag, num);
 		// XXX deprecated
-		m_gun[num].pos = (num==Guns::GUN_FRONT) ? vector3f(0,0,0) : vector3f(0,0,0);
-		m_gun[num].dir = (num==Guns::GUN_REAR) ? vector3f(0,0,-1) : vector3f(0,0,1);
+		m_gun[num].pos = (num == Guns::GUN_FRONT) ? vector3f(0, 0, 0) : vector3f(0, 0, 0);
+		m_gun[num].dir = (num == Guns::GUN_REAR) ? vector3f(0, 0, -1) : vector3f(0, 0, 1);
 	}
 }
 
 void FixedGuns::MountGun(const int num, const float recharge, const float lifespan, const float damage, const float length,
-	const float width, const bool mining, const Color& color, const float speed, const bool beam, const float heatrate, const float coolrate )
+	const float width, const bool mining, const Color &color, const float speed, const bool beam, const float heatrate, const float coolrate)
 {
-	if(num >= Guns::GUNMOUNT_MAX)
+	if (num >= Guns::GUNMOUNT_MAX)
 		return;
 	// Here we have projectile data MORE recharge time
 	m_is_firing[num] = false;
@@ -126,11 +124,11 @@ void FixedGuns::MountGun(const int num, const float recharge, const float lifesp
 	m_gun_present[num] = true;
 };
 
-void FixedGuns::UnMountGun( int num )
+void FixedGuns::UnMountGun(int num)
 {
-	if(num >= Guns::GUNMOUNT_MAX)
+	if (num >= Guns::GUNMOUNT_MAX)
 		return;
-	if(!m_gun_present[num])
+	if (!m_gun_present[num])
 		return;
 	m_is_firing[num] = false;
 	m_gun[num].recharge = 0;
@@ -146,13 +144,13 @@ void FixedGuns::UnMountGun( int num )
 	m_gun_present[num] = false;
 }
 
-bool FixedGuns::Fire( const int num, Body* b ) 
+bool FixedGuns::Fire(const int num, Body *b)
 {
 	if (!m_gun_present[num]) return false;
 	if (!m_is_firing[num]) return false;
 	// Output("Firing gun %i, present\n", num);
 	// Output(" is firing\n");
-	if (m_recharge_stat[num]>0) return false;
+	if (m_recharge_stat[num] > 0) return false;
 	// Output(" recharge stat <= 0\n");
 	if (m_temperature_stat[num] > 1.0) return false;
 	// Output(" temperature stat <= 1.0\n");
@@ -164,44 +162,37 @@ bool FixedGuns::Fire( const int num, Body* b )
 	m_temperature_stat[num] += m_gun[num].temp_heat_rate;
 	m_recharge_stat[num] = m_gun[num].recharge;
 
-	if ( m_gun[num].dual )
-	{
+	if (m_gun[num].dual) {
 		const vector3d orient_norm = b->GetOrient().VectorY();
 		const vector3d sep = 5.0 * dir.Cross(orient_norm).NormalizedSafe();
-		if(m_gun[num].projData.beam)
-		{
+		if (m_gun[num].projData.beam) {
 			Beam::Add(b, m_gun[num].projData, pos + sep, b->GetVelocity(), dir.Normalized());
 			Beam::Add(b, m_gun[num].projData, pos - sep, b->GetVelocity(), dir.Normalized());
-		}
-		else
-		{
+		} else {
 			Projectile::Add(b, m_gun[num].projData, pos + sep, b->GetVelocity(), dirVel);
 			Projectile::Add(b, m_gun[num].projData, pos - sep, b->GetVelocity(), dirVel);
 		}
 	} else {
-		if(m_gun[num].projData.beam)
-		{
+		if (m_gun[num].projData.beam) {
 			Beam::Add(b, m_gun[num].projData, pos, b->GetVelocity(), dir.Normalized());
-		}
-		else
-		{
+		} else {
 			Projectile::Add(b, m_gun[num].projData, pos, b->GetVelocity(), dirVel);
 		}
 	}
 	return true;
 };
 
-void FixedGuns::UpdateGuns( float timeStep )
+void FixedGuns::UpdateGuns(float timeStep)
 {
-	for (int i=0; i<Guns::GUNMOUNT_MAX; i++) {
-		if ( !m_gun_present[i] )
+	for (int i = 0; i < Guns::GUNMOUNT_MAX; i++) {
+		if (!m_gun_present[i])
 			continue;
 
 		m_recharge_stat[i] -= timeStep;
 
 		float rateCooling = m_gun[i].temp_cool_rate;
 		rateCooling *= m_cooler_boost;
-		m_temperature_stat[i] -= rateCooling*timeStep;
+		m_temperature_stat[i] -= rateCooling * timeStep;
 
 		if (m_temperature_stat[i] < 0.0f)
 			m_temperature_stat[i] = 0;
@@ -211,10 +202,10 @@ void FixedGuns::UpdateGuns( float timeStep )
 		if (m_recharge_stat[i] < 0.0f)
 			m_recharge_stat[i] = 0;
 	}
-
 }
-float FixedGuns::GetGunTemperature(int idx) const {
-	if(m_gun_present[idx])
+float FixedGuns::GetGunTemperature(int idx) const
+{
+	if (m_gun_present[idx])
 		return m_temperature_stat[idx];
 	else
 		return 0.0f;

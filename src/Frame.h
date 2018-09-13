@@ -4,11 +4,11 @@
 #ifndef _FRAME_H
 #define _FRAME_H
 
-#include "libs.h"
 #include "IterationProxy.h"
 #include "json/json.h"
-#include <string>
+#include "libs.h"
 #include <list>
+#include <string>
 
 class Body;
 class CollisionSpace;
@@ -21,7 +21,9 @@ class Space;
 
 class Frame {
 public:
-	enum { FLAG_DEFAULT=(0), FLAG_ROTATING=(1<<1), FLAG_HAS_ROT=(1<<2) };
+	enum { FLAG_DEFAULT = (0),
+		FLAG_ROTATING = (1 << 1),
+		FLAG_HAS_ROT = (1 << 2) };
 
 	Frame();
 	Frame(Frame *parent, const char *label);
@@ -54,7 +56,11 @@ public:
 	const Frame *GetRotFrame() const { return HasRotFrame() ? m_children.front() : this; }
 	Frame *GetRotFrame() { return HasRotFrame() ? m_children.front() : this; }
 
-	void SetBodies(SystemBody *s, Body *b) { m_sbody = s; m_astroBody = b; }
+	void SetBodies(SystemBody *s, Body *b)
+	{
+		m_sbody = s;
+		m_astroBody = b;
+	}
 	SystemBody *GetSystemBody() const { return m_sbody; }
 	Body *GetBody() const { return m_astroBody; }
 
@@ -62,8 +68,8 @@ public:
 	void RemoveChild(Frame *f);
 	bool HasChildren() const { return !m_children.empty(); }
 	unsigned GetNumChildren() const { return static_cast<Uint32>(m_children.size()); }
-	IterationProxy<std::vector<Frame*> > GetChildren() { return MakeIterationProxy(m_children); }
-	const IterationProxy<const std::vector<Frame*> > GetChildren() const { return MakeIterationProxy(m_children); }
+	IterationProxy<std::vector<Frame *>> GetChildren() { return MakeIterationProxy(m_children); }
+	const IterationProxy<const std::vector<Frame *>> GetChildren() const { return MakeIterationProxy(m_children); }
 
 	void AddGeom(Geom *);
 	void RemoveGeom(Geom *);
@@ -78,7 +84,7 @@ public:
 
 	// For an object in a rotating frame, relative to non-rotating frames it
 	// must attain this velocity within rotating frame to be stationary.
-	vector3d GetStasisVelocity(const vector3d &pos) const { return -vector3d(0,m_angSpeed,0).Cross(pos); }
+	vector3d GetStasisVelocity(const vector3d &pos) const { return -vector3d(0, m_angSpeed, 0).Cross(pos); }
 
 	vector3d GetPositionRelTo(const Frame *relTo) const;
 	vector3d GetVelocityRelTo(const Frame *relTo) const;
@@ -91,16 +97,16 @@ public:
 
 	static void GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m);
 
-	std::unique_ptr<SfxManager> m_sfx;			// the last survivor. actually m_children is pretty grim too.
+	std::unique_ptr<SfxManager> m_sfx; // the last survivor. actually m_children is pretty grim too.
 
 private:
 	void Init(Frame *parent, const char *label, unsigned int flags);
 	void UpdateRootRelativeVars();
 
-	Frame *m_parent;				// if parent is null then frame position is absolute
-	std::vector<Frame*> m_children;	// child frames, first may be rotating
-	SystemBody *m_sbody; 			// points to SBodies in Pi::current_system
-	Body *m_astroBody; 				// if frame contains a star or planet or something
+	Frame *m_parent; // if parent is null then frame position is absolute
+	std::vector<Frame *> m_children; // child frames, first may be rotating
+	SystemBody *m_sbody; // points to SBodies in Pi::current_system
+	Body *m_astroBody; // if frame contains a star or planet or something
 
 	vector3d m_pos;
 	vector3d m_oldPos;
@@ -109,7 +115,7 @@ private:
 	matrix3x3d m_orient;
 	matrix3x3d m_interpOrient;
 	vector3d m_vel; // note we don't use this to move frame. rather,
-			// orbital rails determine velocity.
+		// orbital rails determine velocity.
 	double m_angSpeed; // this however *is* directly applied (for rotating frames)
 	double m_oldAngDisplacement;
 	std::string m_label;
@@ -117,11 +123,11 @@ private:
 	int m_flags;
 	CollisionSpace *m_collisionSpace;
 
-	vector3d m_rootVel;			// velocity, position and orient relative to root frame
-	vector3d m_rootPos;			// updated by UpdateOrbitRails
+	vector3d m_rootVel; // velocity, position and orient relative to root frame
+	vector3d m_rootPos; // updated by UpdateOrbitRails
 	matrix3x3d m_rootOrient;
-	vector3d m_rootInterpPos;		// interp position and orient relative to root frame
-	matrix3x3d m_rootInterpOrient;	// updated by UpdateInterpTransform
+	vector3d m_rootInterpPos; // interp position and orient relative to root frame
+	matrix3x3d m_rootInterpOrient; // updated by UpdateInterpTransform
 
 	int m_astroBodyIndex; // deserialisation
 };

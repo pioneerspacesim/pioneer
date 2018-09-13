@@ -4,14 +4,15 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "utils.h"
 #include "KeyBindings.h"
+#include "utils.h"
 
 class Input {
 	// TODO: better decouple these two classes.
 	friend class Pi;
+
 public:
-	Input() { };
+	Input(){};
 	void Init();
 	void InitGame();
 
@@ -27,25 +28,27 @@ public:
 	};
 
 	struct BindingPage {
-		BindingGroup* GetBindingGroup(std::string id) { return &groups[id]; }
+		BindingGroup *GetBindingGroup(std::string id) { return &groups[id]; }
 
 		std::map<std::string, BindingGroup> groups;
 	};
 
-	BindingPage* GetBindingPage(std::string id) { return &bindingPages[id]; }
+	BindingPage *GetBindingPage(std::string id) { return &bindingPages[id]; }
 	std::map<std::string, BindingPage> GetBindingPages() { return bindingPages; }
 
 	// Creates a new action binding, copying the provided binding.
 	// The returned binding pointer points to the actual binding.
-	KeyBindings::ActionBinding* AddActionBinding(std::string id, BindingGroup* group, KeyBindings::ActionBinding binding);
-	KeyBindings::ActionBinding* GetActionBinding(std::string id) {
+	KeyBindings::ActionBinding *AddActionBinding(std::string id, BindingGroup *group, KeyBindings::ActionBinding binding);
+	KeyBindings::ActionBinding *GetActionBinding(std::string id)
+	{
 		return actionBindings.count(id) ? &actionBindings[id] : nullptr;
 	}
 
 	// Creates a new axis binding, copying the provided binding.
 	// The returned binding pointer points to the actual binding.
-	KeyBindings::AxisBinding* AddAxisBinding(std::string id, BindingGroup* group, KeyBindings::AxisBinding binding);
-	KeyBindings::AxisBinding* GetAxisBinding(std::string id) {
+	KeyBindings::AxisBinding *AddAxisBinding(std::string id, BindingGroup *group, KeyBindings::AxisBinding binding);
+	KeyBindings::AxisBinding *GetAxisBinding(std::string id)
+	{
 		return axisBindings.count(id) ? &axisBindings[id] : nullptr;
 	}
 
@@ -85,12 +88,13 @@ public:
 	int MouseButtonState(int button) { return mouseButton[button]; }
 	void SetMouseButtonState(int button, bool state) { mouseButton[button] = state; }
 
-	void GetMouseMotion(int motion[2]) {
-		memcpy(motion, mouseMotion, sizeof(int)*2);
+	void GetMouseMotion(int motion[2])
+	{
+		memcpy(motion, mouseMotion, sizeof(int) * 2);
 	}
 
-	sigc::signal<void, SDL_Keysym*> onKeyPress;
-	sigc::signal<void, SDL_Keysym*> onKeyRelease;
+	sigc::signal<void, SDL_Keysym *> onKeyPress;
+	sigc::signal<void, SDL_Keysym *> onKeyRelease;
 	sigc::signal<void, int, int, int> onMouseButtonUp;
 	sigc::signal<void, int, int, int> onMouseButtonDown;
 	sigc::signal<void, bool> onMouseWheel;
@@ -99,14 +103,14 @@ private:
 	void HandleSDLEvent(SDL_Event &ev);
 	void InitJoysticks();
 
-	std::map<SDL_Keycode,bool> keyState;
+	std::map<SDL_Keycode, bool> keyState;
 	int keyModState;
 	char mouseButton[6];
 	int mouseMotion[2];
 
 	bool joystickEnabled;
 	bool mouseYInvert;
-	std::map<SDL_JoystickID,JoystickState> joysticks;
+	std::map<SDL_JoystickID, JoystickState> joysticks;
 
 	std::map<std::string, BindingPage> bindingPages;
 	std::map<std::string, KeyBindings::ActionBinding> actionBindings;

@@ -4,11 +4,11 @@
 //this file includes common headers
 #ifndef _SCENEGRAPH_H
 #define _SCENEGRAPH_H
-#include "Model.h"
 #include "Billboard.h"
 #include "Label3D.h"
 #include "Loader.h"
 #include "MatrixTransform.h"
+#include "Model.h"
 #include "ModelNode.h"
 #include "StaticGeometry.h"
 #include "Thruster.h"

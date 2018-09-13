@@ -4,16 +4,16 @@
 #include "Lua.h"
 
 namespace GameUI {
-namespace Lua {
+	namespace Lua {
 
-void Init()
-{
-	LuaObject<GameUI::Face>::RegisterClass();
-	LuaObject<GameUI::GalaxyMap>::RegisterClass();
-	LuaObject<GameUI::ModelSpinner>::RegisterClass();
-	LuaObject<GameUI::KeyBindingCapture>::RegisterClass();
-	LuaObject<GameUI::AxisBindingCapture>::RegisterClass();
-}
+		void Init()
+		{
+			LuaObject<GameUI::Face>::RegisterClass();
+			LuaObject<GameUI::GalaxyMap>::RegisterClass();
+			LuaObject<GameUI::ModelSpinner>::RegisterClass();
+			LuaObject<GameUI::KeyBindingCapture>::RegisterClass();
+			LuaObject<GameUI::AxisBindingCapture>::RegisterClass();
+		}
 
-}
-}
+	} // namespace Lua
+} // namespace GameUI

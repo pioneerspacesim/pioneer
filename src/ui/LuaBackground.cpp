@@ -6,18 +6,19 @@
 
 namespace UI {
 
-class LuaBackground {
-public:
+	class LuaBackground {
+	public:
+	};
 
-};
-
-}
+} // namespace UI
 
 using namespace UI;
 
-template <> const char *LuaObject<UI::Background>::s_type = "UI.Background";
+template <>
+const char *LuaObject<UI::Background>::s_type = "UI.Background";
 
-template <> void LuaObject<UI::Background>::RegisterClass()
+template <>
+void LuaObject<UI::Background>::RegisterClass()
 {
 	static const char *l_parent = "UI.Single";
 

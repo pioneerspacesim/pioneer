@@ -2,17 +2,17 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Missile.h"
-#include "Space.h"
+#include "Game.h"
+#include "Lang.h"
+#include "LuaEvent.h"
+#include "Pi.h"
 #include "Sfx.h"
 #include "ShipType.h"
-#include "Lang.h"
-#include "Pi.h"
-#include "Game.h"
-#include "LuaEvent.h"
+#include "Space.h"
 
-Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)//: Ship(shipId)
+Missile::Missile(const ShipType::Id &shipId, Body *owner, int power) //: Ship(shipId)
 {
-	AddFeature( Feature::PROPULSION ); // add component propulsion
+	AddFeature(Feature::PROPULSION); // add component propulsion
 	if (power < 0) {
 		m_power = 0;
 		if (shipId == ShipType::MISSILE_GUIDED) m_power = 1;
@@ -24,7 +24,7 @@ Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)//: Ship(shi
 	m_owner = owner;
 	m_type = &ShipType::types[shipId];
 
-	SetMass(m_type->hullMass*1000);
+	SetMass(m_type->hullMass * 1000);
 
 	SetModel(m_type->modelName.c_str());
 	SetMassDistributionFromModel();
@@ -40,8 +40,7 @@ Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)//: Ship(shi
 	m_aiMessage = AIERROR_NONE;
 	m_decelerating = false;
 
-	GetPropulsion()->Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
-
+	GetPropulsion()->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
 }
 
 Missile::~Missile()
@@ -99,8 +98,7 @@ void Missile::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_power = missileObj["power"].asInt();
 	m_armed = missileObj["armed"].asBool();
 
-	GetPropulsion()->Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
-
+	GetPropulsion()->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
 }
 
 void Missile::PostLoadFixup(Space *space)
@@ -117,18 +115,17 @@ void Missile::StaticUpdate(const float timeStep)
 	if (!m_curAICmd) {
 		GetPropulsion()->ClearLinThrusterState();
 		GetPropulsion()->ClearAngThrusterState();
-	}
-	else if (m_curAICmd->TimeStepUpdate()) {
+	} else if (m_curAICmd->TimeStepUpdate()) {
 		delete m_curAICmd;
 		m_curAICmd = nullptr;
 	}
 	//Add smoke trails for missiles on thruster state
 	static double s_timeAccum = 0.0;
 	s_timeAccum += timeStep;
-	if (!is_equal_exact(GetPropulsion()->GetLinThrusterState().LengthSqr(), 0.0) && (s_timeAccum > 4 || 0.1*Pi::rng.Double() < timeStep)) {
+	if (!is_equal_exact(GetPropulsion()->GetLinThrusterState().LengthSqr(), 0.0) && (s_timeAccum > 4 || 0.1 * Pi::rng.Double() < timeStep)) {
 		s_timeAccum = 0.0;
-		const vector3d pos = GetOrient() * vector3d(0, 0 , 5);
-		const float speed = std::min(10.0*GetVelocity().Length()*std::max(1.0,fabs(GetPropulsion()->GetLinThrusterState().z)),100.0);
+		const vector3d pos = GetOrient() * vector3d(0, 0, 5);
+		const float speed = std::min(10.0 * GetVelocity().Length() * std::max(1.0, fabs(GetPropulsion()->GetLinThrusterState().z)), 100.0);
 		SfxManager::AddThrustSmoke(this, speed, pos);
 	}
 }
@@ -136,9 +133,9 @@ void Missile::StaticUpdate(const float timeStep)
 void Missile::TimeStepUpdate(const float timeStep)
 {
 
-	const vector3d thrust=GetPropulsion()->GetActualLinThrust();
-	AddRelForce( thrust );
-	AddRelTorque( GetPropulsion()->GetActualAngThrust() );
+	const vector3d thrust = GetPropulsion()->GetActualLinThrust();
+	AddRelForce(thrust);
+	AddRelTorque(GetPropulsion()->GetActualAngThrust());
 
 	DynamicBody::TimeStepUpdate(timeStep);
 	GetPropulsion()->UpdateFuel(timeStep);
@@ -168,7 +165,7 @@ bool Missile::OnCollision(Object *o, Uint32 flags, double relVel)
 	return true;
 }
 
-bool Missile::OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData)
+bool Missile::OnDamage(Object *attacker, float kgDamage, const CollisionContact &contactData)
 {
 	if (!IsDead()) {
 		Explode();
@@ -193,14 +190,14 @@ void Missile::Explode()
 			// linear damage decay with distance
 			(*i)->OnDamage(m_owner, kgDamage * (damageRadius - dist) / damageRadius, dummy);
 			if ((*i)->IsType(Object::SHIP))
-				LuaEvent::Queue("onShipHit", dynamic_cast<Ship*>(*i), m_owner);
+				LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(*i), m_owner);
 		}
 	}
 
 	SfxManager::Add(this, TYPE_EXPLOSION);
 }
 
-void Missile::NotifyRemoved(const Body* const removedBody)
+void Missile::NotifyRemoved(const Body *const removedBody)
 {
 	if (m_curAICmd) m_curAICmd->OnDeleted(removedBody);
 	if (m_owner == removedBody) {
@@ -225,14 +222,14 @@ void Missile::Render(Graphics::Renderer *renderer, const Camera *camera, const v
 {
 	if (IsDead()) return;
 
-	GetPropulsion()->Render( renderer, camera, viewCoords, viewTransform );
+	GetPropulsion()->Render(renderer, camera, viewCoords, viewTransform);
 	RenderModel(renderer, camera, viewCoords, viewTransform);
 }
 
 void Missile::AIKamikaze(Body *target)
 {
 	//AIClearInstructions();
-	if (m_curAICmd!=0)
+	if (m_curAICmd != 0)
 		delete m_curAICmd;
 	m_curAICmd = new AICmdKamikaze(this, target);
 }

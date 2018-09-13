@@ -4,26 +4,26 @@
 #ifndef UI_COLORBACKGROUND_H
 #define UI_COLORBACKGROUND_H
 
-#include "Single.h"
 #include "Color.h"
+#include "Single.h"
 #include "graphics/Material.h"
 
 namespace UI {
 
-class ColorBackground : public Single {
-public:
-	virtual void Draw();
+	class ColorBackground : public Single {
+	public:
+		virtual void Draw();
 
-	void SetColor(const Color &color) { m_color = color; }
+		void SetColor(const Color &color) { m_color = color; }
 
-protected:
-	friend class Context;
-	ColorBackground(Context *context, const Color &color);
+	protected:
+		friend class Context;
+		ColorBackground(Context *context, const Color &color);
 
-private:
-	Color m_color;
-};
+	private:
+		Color m_color;
+	};
 
-}
+} // namespace UI
 
 #endif

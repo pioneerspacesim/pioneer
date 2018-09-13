@@ -6,9 +6,9 @@
 
 namespace GalacticEconomy {
 	enum EconType { // <enum scope=GalacticEconomy name=EconType prefix=ECON_ public>
-		ECON_MINING      = 1<<0,
-		ECON_AGRICULTURE = 1<<1,
-		ECON_INDUSTRY    = 1<<2
+		ECON_MINING = 1 << 0,
+		ECON_AGRICULTURE = 1 << 1,
+		ECON_INDUSTRY = 1 << 2
 	};
 
 	enum class Commodity { // <enum scope='GalacticEconomy::Commodity' name=CommodityType public>
@@ -62,6 +62,6 @@ namespace GalacticEconomy {
 	};
 
 	extern const CommodityInfo COMMODITY_DATA[];
-}
+} // namespace GalacticEconomy
 
 #endif

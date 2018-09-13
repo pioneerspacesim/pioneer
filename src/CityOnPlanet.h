@@ -4,22 +4,28 @@
 #ifndef _CITYONPLANET_H
 #define _CITYONPLANET_H
 
-#include "libs.h"
-#include "Random.h"
-#include "Object.h"
 #include "CollMesh.h"
+#include "Object.h"
+#include "Random.h"
 #include "collider/Geom.h"
 #include "galaxy/StarSystem.h"
+#include "libs.h"
 
 class Planet;
 class SpaceStation;
 class Frame;
-namespace Graphics { class Renderer; class Frustum; }
-namespace SceneGraph { class Model; class Animation; }
+namespace Graphics {
+	class Renderer;
+	class Frustum;
+} // namespace Graphics
+namespace SceneGraph {
+	class Model;
+	class Animation;
+} // namespace SceneGraph
 
 #define CITY_ON_PLANET_RADIUS 5000.0
 
-class CityOnPlanet: public Object {
+class CityOnPlanet : public Object {
 public:
 	OBJDEF(CityOnPlanet, Object, CITYONPLANET);
 	CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 seed);
@@ -30,6 +36,7 @@ public:
 	static void Init();
 	static void Uninit();
 	static void SetCityModelPatterns(const SystemPath &path);
+
 private:
 	void AddStaticGeomsToCollisionSpace();
 	void RemoveStaticGeomsFromCollisionSpace();

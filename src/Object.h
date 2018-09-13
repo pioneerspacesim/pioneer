@@ -11,28 +11,32 @@ class Object : public DeleteEmitter {
 public:
 	// only creating enum strings for types that are exposed to Lua
 	enum Type { // <enum scope='Object' name=PhysicsObjectType public>
-		OBJECT,         // <enum skip>
+		OBJECT, // <enum skip>
 		BODY,
 		MODELBODY,
-		DYNAMICBODY,    // <enum skip>
+		DYNAMICBODY, // <enum skip>
 		SHIP,
 		PLAYER,
 		SPACESTATION,
-		TERRAINBODY,    // <enum skip>
+		TERRAINBODY, // <enum skip>
 		PLANET,
 		STAR,
 		CARGOBODY,
-		CITYONPLANET,   // <enum skip>
-		PROJECTILE,     // <enum skip>
+		CITYONPLANET, // <enum skip>
+		PROJECTILE, // <enum skip>
 		MISSILE,
 		HYPERSPACECLOUD // <enum skip>
 	};
 	virtual Type GetType() const { return OBJECT; }
 	virtual bool IsType(Type c) const { return GetType() == c; }
 };
-#define OBJDEF(__thisClass,__parentClass,__TYPE) \
+#define OBJDEF(__thisClass, __parentClass, __TYPE)                           \
 	virtual Object::Type GetType() const override { return Object::__TYPE; } \
-	virtual bool IsType(Type c) const override { \
-	if (__thisClass::GetType() == (c)) return true; \
-	else return __parentClass::IsType(c); }
+	virtual bool IsType(Type c) const override                               \
+	{                                                                        \
+		if (__thisClass::GetType() == (c))                                   \
+			return true;                                                     \
+		else                                                                 \
+			return __parentClass::IsType(c);                                 \
+	}
 #endif /* _OBJECT_H */

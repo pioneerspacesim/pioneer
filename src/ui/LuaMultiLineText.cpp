@@ -1,41 +1,44 @@
 // Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "MultiLineText.h"
 #include "LuaObject.h"
+#include "MultiLineText.h"
 
 namespace UI {
 
-class LuaMultiLineText {
-public:
+	class LuaMultiLineText {
+	public:
+		static int l_set_text(lua_State *l)
+		{
+			UI::MultiLineText *mlt = LuaObject<UI::MultiLineText>::CheckFromLua(1);
+			const std::string text(luaL_checkstring(l, 2));
+			mlt->SetText(text);
+			return 0;
+		}
 
-	static int l_set_text(lua_State *l) {
-		UI::MultiLineText *mlt = LuaObject<UI::MultiLineText>::CheckFromLua(1);
-		const std::string text(luaL_checkstring(l, 2));
-		mlt->SetText(text);
-		return 0;
-	}
+		static int l_append_text(lua_State *l)
+		{
+			UI::MultiLineText *mlt = LuaObject<UI::MultiLineText>::CheckFromLua(1);
+			const std::string text(luaL_checkstring(l, 2));
+			mlt->AppendText(text);
+			return 0;
+		}
+	};
 
-	static int l_append_text(lua_State *l) {
-		UI::MultiLineText *mlt = LuaObject<UI::MultiLineText>::CheckFromLua(1);
-		const std::string text(luaL_checkstring(l, 2));
-		mlt->AppendText(text);
-		return 0;
-	}
-};
-
-}
+} // namespace UI
 
 using namespace UI;
 
-template <> const char *LuaObject<UI::MultiLineText>::s_type = "UI.MultiLineText";
+template <>
+const char *LuaObject<UI::MultiLineText>::s_type = "UI.MultiLineText";
 
-template <> void LuaObject<UI::MultiLineText>::RegisterClass()
+template <>
+void LuaObject<UI::MultiLineText>::RegisterClass()
 {
 	static const char *l_parent = "UI.Widget";
 
 	static const luaL_Reg l_methods[] = {
-		{ "SetText",    &LuaMultiLineText::l_set_text    },
+		{ "SetText", &LuaMultiLineText::l_set_text },
 		{ "AppendText", &LuaMultiLineText::l_append_text },
 		{ 0, 0 }
 	};

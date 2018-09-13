@@ -6,18 +6,17 @@
 
 // virtual space dust to give a sense of movement
 
-#include "libs.h"
 #include "graphics/Renderer.h"
+#include "libs.h"
 
 class Ship;
 
-class SpeedLines
-{
+class SpeedLines {
 public:
-	SpeedLines(Ship*);
+	SpeedLines(Ship *);
 
 	void Update(float time);
-	void Render(Graphics::Renderer*);
+	void Render(Graphics::Renderer *);
 
 	void SetTransform(const matrix4x4d &t) { m_transform = t; }
 
@@ -26,7 +25,7 @@ public:
 private:
 	static void Init();
 	static float BOUNDS;
-	static int   DEPTH;
+	static int DEPTH;
 	static float SPACING;
 	static float MAX_VEL;
 

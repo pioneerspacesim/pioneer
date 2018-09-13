@@ -1,18 +1,19 @@
 #include "DateTime.h"
 
+#include "libs.h"
+#include <stdio.h>
+#include <cassert>
+#include <cstdint>
 #include <tuple>
 #include <utility>
-#include <stdio.h>
-#include <cstdint>
-#include <cassert>
-#include "libs.h"
 
 static char month_days[2][12] = {
-	{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
-	{31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+	{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
+	{ 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
 };
 
-static bool is_leap_year(int year) {
+static bool is_leap_year(int year)
+{
 	return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 }
 
@@ -35,7 +36,8 @@ enum {
 //
 // divmod_euclid provides a division operation that always gives a non-negative remainder
 template <typename T>
-static std::pair<T,T> divmod_euclid(const T dividend, const T divisor) {
+static std::pair<T, T> divmod_euclid(const T dividend, const T divisor)
+{
 	T quot = dividend / divisor, rem = dividend % divisor;
 	if (rem < 0) {
 		if (divisor > 0) {
@@ -50,11 +52,13 @@ static std::pair<T,T> divmod_euclid(const T dividend, const T divisor) {
 }
 
 template <typename T>
-static std::pair<T,T> divmod_trunc(const T a, const T b) {
+static std::pair<T, T> divmod_trunc(const T a, const T b)
+{
 	return std::make_pair(a / b, a % b);
 }
 
-Time::DateTime::DateTime(int year, int month, int day, int hour, int minute, int second, int microsecond) {
+Time::DateTime::DateTime(int year, int month, int day, int hour, int minute, int second, int microsecond)
+{
 	// minimum year is just a sanity check; the code should work for earlier years
 	assert(year >= 1600 && year <= APPROX_MAX_YEAR);
 	assert(month >= 1 && month <= 12);
@@ -66,35 +70,31 @@ Time::DateTime::DateTime(int year, int month, int day, int hour, int minute, int
 
 	const int yoffset = (year - 2001);
 	// C99 and C++11 specify that integer division truncates toward zero
-	const int nleap = (yoffset >= 0)
-		? (yoffset/400 - yoffset/100 + yoffset/4)
-		: ((yoffset-399)/400 - (yoffset-99)/100 + (yoffset-3)/4);
+	const int nleap = (yoffset >= 0) ? (yoffset / 400 - yoffset / 100 + yoffset / 4) : ((yoffset - 399) / 400 - (yoffset - 99) / 100 + (yoffset - 3) / 4);
 
-	int days = 365*yoffset + nleap;
+	int days = 365 * yoffset + nleap;
 
 	// month offset
 	const bool leap = is_leap_year(year);
 	for (int i = 1; i < month; ++i) {
-		days += month_days[leap][i-1];
+		days += month_days[leap][i - 1];
 	}
 
 	// day offset
 	days += (day - 1);
 
 	// final timestamp
-	m_timestamp
-		= days * Time::Day
-		+ hour * Time::Hour
-		+ minute * Time::Minute
-		+ second * Time::Second
-		+ microsecond * Time::Microsecond;
+	m_timestamp = days * Time::Day + hour * Time::Hour + minute * Time::Minute + second * Time::Second + microsecond * Time::Microsecond;
 }
 
-Time::DateTime::DateTime(double gameTime) : DateTime(3200,1,1,0,0,0) {
+Time::DateTime::DateTime(double gameTime) :
+	DateTime(3200, 1, 1, 0, 0, 0)
+{
 	*this += Time::TimeDelta(gameTime, Time::Second);
 }
 
-void Time::DateTime::GetDateParts(int *out_year, int *out_month, int *out_day) const {
+void Time::DateTime::GetDateParts(int *out_year, int *out_month, int *out_day) const
+{
 	if (out_year || out_month || out_day) {
 		static_assert(Time::Day > (Sint64(1) << 32),
 			"code below assumes that the 'date' part of a 64-bit timestamp fits in 32 bits");
@@ -106,13 +106,13 @@ void Time::DateTime::GetDateParts(int *out_year, int *out_month, int *out_day) c
 		// computed such that n400 may be negative, but all other values must be positive
 
 		int n400, n100, n4, n1;
-		std::tie(n400, days) = divmod_euclid(days, 365*400 + 97);
+		std::tie(n400, days) = divmod_euclid(days, 365 * 400 + 97);
 		// days must be non-negative after this, so we can use truncating division from here
-		std::tie(n100, days) = divmod_trunc(days, 365*100 + 24);
-		std::tie(n4, days) = divmod_trunc(days, 365*4 + 1);
+		std::tie(n100, days) = divmod_trunc(days, 365 * 100 + 24);
+		std::tie(n4, days) = divmod_trunc(days, 365 * 4 + 1);
 		std::tie(n1, days) = divmod_trunc(days, 365);
 
-		int year = 2001 + 400*n400 + 100*n100 + 4*n4 + n1;
+		int year = 2001 + 400 * n400 + 100 * n100 + 4 * n4 + n1;
 		int day = days;
 
 		// the last day in a 400-year or a 4-year cycle are handled incorrectly,
@@ -134,30 +134,46 @@ void Time::DateTime::GetDateParts(int *out_year, int *out_month, int *out_day) c
 			assert(month < 12);
 		}
 
-		if (out_year) { *out_year = year; }
-		if (out_month) { *out_month = month + 1; }
-		if (out_day) { *out_day = day + 1; }
+		if (out_year) {
+			*out_year = year;
+		}
+		if (out_month) {
+			*out_month = month + 1;
+		}
+		if (out_day) {
+			*out_day = day + 1;
+		}
 	}
 }
 
-void Time::DateTime::GetTimeParts(int *out_hour, int *out_minute, int *out_second, int *out_microsecond) const {
+void Time::DateTime::GetTimeParts(int *out_hour, int *out_minute, int *out_second, int *out_microsecond) const
+{
 	if (out_hour || out_minute || out_second || out_microsecond) {
 		const Sint64 tstamp = divmod_euclid(m_timestamp, Sint64(Time::Day)).second;
 		assert(tstamp >= 0);
 
-		if (out_microsecond) { *out_microsecond = (tstamp / Time::Microsecond) % 1000000; }
+		if (out_microsecond) {
+			*out_microsecond = (tstamp / Time::Microsecond) % 1000000;
+		}
 
 		const int seconds = (tstamp / Time::Second);
-		assert(seconds >= 0 && seconds < 24*60*60);
+		assert(seconds >= 0 && seconds < 24 * 60 * 60);
 
-		if (out_hour)   {   *out_hour = (seconds / 3600); }
-		if (out_minute) { *out_minute = (seconds /   60) % 60; }
-		if (out_second) { *out_second = (seconds /    1) % 60; }
+		if (out_hour) {
+			*out_hour = (seconds / 3600);
+		}
+		if (out_minute) {
+			*out_minute = (seconds / 60) % 60;
+		}
+		if (out_second) {
+			*out_second = (seconds / 1) % 60;
+		}
 	}
 }
 
-double Time::DateTime::ToGameTime() const {
-	const Time::DateTime base(3200,1,1, 0,0,0);
+double Time::DateTime::ToGameTime() const
+{
+	const Time::DateTime base(3200, 1, 1, 0, 0, 0);
 	Time::TimeDelta tstamp = (*this - base);
 	if (*this < base) {
 		// adjustment to give correct rounding for GetTotalSeconds()
@@ -166,7 +182,8 @@ double Time::DateTime::ToGameTime() const {
 	return double(tstamp.GetTotalSeconds());
 }
 
-std::string Time::DateTime::ToDateString() const {
+std::string Time::DateTime::ToDateString() const
+{
 	char buf[32];
 	int year, month, day;
 	GetDateParts(&year, &month, &day);
@@ -174,7 +191,8 @@ std::string Time::DateTime::ToDateString() const {
 	return std::string(buf);
 }
 
-std::string Time::DateTime::ToTimeString() const {
+std::string Time::DateTime::ToTimeString() const
+{
 	char buf[16];
 	int hour, minute, second;
 	GetTimeParts(&hour, &minute, &second);
@@ -182,7 +200,8 @@ std::string Time::DateTime::ToTimeString() const {
 	return std::string(buf);
 }
 
-std::string Time::DateTime::ToStringISO8601() const {
+std::string Time::DateTime::ToStringISO8601() const
+{
 	char buf[64];
 	int year, month, day, hour, minute, second;
 	GetDateParts(&year, &month, &day);

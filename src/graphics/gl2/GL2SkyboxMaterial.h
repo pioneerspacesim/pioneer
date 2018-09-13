@@ -7,27 +7,29 @@
 /*
  * Renders a cube map as a skybox.
  */
-#include "libs.h"
 #include "GL2Program.h"
+#include "libs.h"
 
 namespace Graphics {
 	namespace GL2 {
 		class SkyboxMaterial : public Material {
 		private:
-
 		public:
-			SkyboxMaterial() {
+			SkyboxMaterial()
+			{
 				texture0 = nullptr;
 				fSkyboxFactor = 0.8f;
 			}
 
-			Program *CreateProgram(const MaterialDescriptor &) {
+			Program *CreateProgram(const MaterialDescriptor &)
+			{
 				return new Program("skybox", "");
 			}
 
-			virtual void Apply() {
+			virtual void Apply()
+			{
 				m_program->Use();
-				if(texture0) {
+				if (texture0) {
 					m_program->texture0.Set(texture0, 0);
 				}
 				const float em = (float(emissive.r) * 0.003921568627451f);
@@ -37,7 +39,7 @@ namespace Graphics {
 			// Skybox multiplier
 			float fSkyboxFactor;
 		};
-	}
-}
+	} // namespace GL2
+} // namespace Graphics
 
 #endif

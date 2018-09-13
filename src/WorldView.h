@@ -4,14 +4,14 @@
 #ifndef _WORLDVIEW_H
 #define _WORLDVIEW_H
 
-#include "libs.h"
-#include "gui/Gui.h"
-#include "gui/GuiWidget.h"
-#include "UIView.h"
-#include "SpeedLines.h"
 #include "Background.h"
 #include "Camera.h"
 #include "CameraController.h"
+#include "SpeedLines.h"
+#include "UIView.h"
+#include "gui/Gui.h"
+#include "gui/GuiWidget.h"
+#include "libs.h"
 
 class Body;
 class Frame;
@@ -32,19 +32,21 @@ enum PlaneType {
 	PARENT
 };
 
-namespace Gui { class TexturedQuad; }
+namespace Gui {
+	class TexturedQuad;
+}
 
 namespace UI {
 	class Widget;
 	class Single;
 	class Label;
-}
+} // namespace UI
 
-class WorldView: public UIView {
+class WorldView : public UIView {
 public:
 	friend class NavTunnelWidget;
-	WorldView(Game* game);
-	WorldView(const Json::Value &jsonObj, Game* game);
+	WorldView(Game *game);
+	WorldView(const Json::Value &jsonObj, Game *game);
 	virtual ~WorldView();
 	virtual void ShowAll();
 	virtual void Update();
@@ -84,10 +86,12 @@ public:
 	void EndCameraFrame() { m_cameraContext->EndFrame(); };
 
 	bool ShouldShowLabels() { return m_labelsOn; }
+
 protected:
 	virtual void BuildUI(UI::Single *container);
 	virtual void OnSwitchTo();
 	virtual void OnSwitchFrom();
+
 private:
 	void InitObject();
 
@@ -110,7 +114,11 @@ private:
 		vector2f realpos;
 		IndicatorSide side;
 		Gui::Label *label;
-		Indicator(): pos(0.0f, 0.0f), realpos(0.0f, 0.0f), side(INDICATOR_HIDDEN), label(0) {}
+		Indicator() :
+			pos(0.0f, 0.0f),
+			realpos(0.0f, 0.0f),
+			side(INDICATOR_HIDDEN),
+			label(0) {}
 	};
 
 	void UpdateProjectedObjects();
@@ -134,7 +142,7 @@ private:
 	void SelectBody(Body *, bool reselectIsDeselect);
 	void MouseWheel(bool up);
 
-	Game* m_game;
+	Game *m_game;
 
 	NavTunnelWidget *m_navTunnel;
 	std::unique_ptr<SpeedLines> m_speedLines;
@@ -178,9 +186,9 @@ private:
 	Graphics::Drawables::Lines m_indicator;
 };
 
-class NavTunnelWidget: public Gui::Widget {
+class NavTunnelWidget : public Gui::Widget {
 public:
-	NavTunnelWidget(WorldView *worldView, Graphics::RenderState*);
+	NavTunnelWidget(WorldView *worldView, Graphics::RenderState *);
 	virtual void Draw();
 	virtual void GetSizeRequested(float size[2]);
 	void DrawTargetGuideSquare(const vector2f &pos, const float size, const Color &c);

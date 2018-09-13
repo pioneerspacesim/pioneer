@@ -9,35 +9,35 @@
 
 namespace UI {
 
-class NumberLabel : public Label {
-public:
-	enum Format { // <enum scope='UI::NumberLabel' name=UINumberLabelFormat prefix=FORMAT_>
-		FORMAT_NUMBER,
-		FORMAT_NUMBER_2DP,
-		FORMAT_INTEGER,
-		FORMAT_PERCENT,
-		FORMAT_PERCENT_INTEGER,
-		FORMAT_MONEY,
-		FORMAT_MASS_TONNES,
-		FORMAT_DISTANCE_M,
-		FORMAT_DISTANCE_LY,
+	class NumberLabel : public Label {
+	public:
+		enum Format { // <enum scope='UI::NumberLabel' name=UINumberLabelFormat prefix=FORMAT_>
+			FORMAT_NUMBER,
+			FORMAT_NUMBER_2DP,
+			FORMAT_INTEGER,
+			FORMAT_PERCENT,
+			FORMAT_PERCENT_INTEGER,
+			FORMAT_MONEY,
+			FORMAT_MASS_TONNES,
+			FORMAT_DISTANCE_M,
+			FORMAT_DISTANCE_LY,
+		};
+
+		NumberLabel *SetValue(double v);
+		double GetValue() const { return m_value; }
+
+	protected:
+		friend class Context;
+		NumberLabel(Context *context, Format format);
+
+	private:
+		void BindValue(PropertyMap &p, const std::string &k);
+		void BindValuePercent(PropertyMap &p, const std::string &k);
+
+		Format m_format;
+		double m_value;
 	};
 
-	NumberLabel *SetValue(double v);
-	double GetValue() const { return m_value; }
-
-protected:
-	friend class Context;
-	NumberLabel(Context *context, Format format);
-
-private:
-	void BindValue(PropertyMap &p, const std::string &k);
-	void BindValuePercent(PropertyMap &p, const std::string &k);
-
-	Format m_format;
-	double m_value;
-};
-
-}
+} // namespace UI
 
 #endif

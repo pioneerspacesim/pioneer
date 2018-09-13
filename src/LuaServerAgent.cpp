@@ -6,8 +6,8 @@
 #include "LuaServerAgent.h"
 #include "LuaObject.h"
 #include "LuaRef.h"
-#include "ServerAgent.h"
 #include "Pi.h"
+#include "ServerAgent.h"
 #include <json/json.h>
 
 /*
@@ -26,7 +26,7 @@ struct CallbackPair {
 		lua(l),
 		successCallback(l, successIndex),
 		failCallback(l, failIndex)
-		{}
+	{}
 	lua_State *lua;
 	LuaRef successCallback;
 	LuaRef failCallback;
@@ -37,38 +37,38 @@ static Json::Value _lua_to_json(lua_State *l, int idx)
 	int data = lua_absindex(l, idx);
 
 	switch (lua_type(l, data)) {
-		case LUA_TNIL:
-			return Json::Value();
+	case LUA_TNIL:
+		return Json::Value();
 
-		case LUA_TNUMBER:
-			return Json::Value(lua_tonumber(l, data));
+	case LUA_TNUMBER:
+		return Json::Value(lua_tonumber(l, data));
 
-		case LUA_TBOOLEAN:
-			return Json::Value(lua_toboolean(l, data));
+	case LUA_TBOOLEAN:
+		return Json::Value(lua_toboolean(l, data));
 
-		case LUA_TSTRING:
-			return Json::Value(lua_tostring(l, data));
+	case LUA_TSTRING:
+		return Json::Value(lua_tostring(l, data));
 
-		case LUA_TTABLE: {
+	case LUA_TTABLE: {
 
-			// XXX handle arrays
+		// XXX handle arrays
 
-			Json::Value object(Json::objectValue);
+		Json::Value object(Json::objectValue);
 
-			lua_pushnil(l);
-			while (lua_next(l, data)) {
-				const std::string key(luaL_checkstring(l, -2));
-				Json::Value value(_lua_to_json(l, -1));
-				object[key] = value;
-				lua_pop(l, 1);
-			}
-
-			return object;
+		lua_pushnil(l);
+		while (lua_next(l, data)) {
+			const std::string key(luaL_checkstring(l, -2));
+			Json::Value value(_lua_to_json(l, -1));
+			object[key] = value;
+			lua_pop(l, 1);
 		}
 
-		default:
-			luaL_error(l, "can't convert Lua type %s to JSON", lua_typename(l, lua_type(l, idx)));
-			return Json::Value();
+		return object;
+	}
+
+	default:
+		luaL_error(l, "can't convert Lua type %s to JSON", lua_typename(l, lua_type(l, idx)));
+		return Json::Value();
 	}
 
 	// shouldn't get here
@@ -82,46 +82,46 @@ static void _json_to_lua(lua_State *l, const Json::Value &data)
 	LUA_DEBUG_START(l);
 
 	switch (data.type()) {
-		case Json::nullValue:
-			lua_pushnil(l);
-			break;
+	case Json::nullValue:
+		lua_pushnil(l);
+		break;
 
-		case Json::intValue:
-		case Json::uintValue:
-		case Json::realValue:
-			lua_pushnumber(l, data.asDouble());
-			break;
+	case Json::intValue:
+	case Json::uintValue:
+	case Json::realValue:
+		lua_pushnumber(l, data.asDouble());
+		break;
 
-		case Json::stringValue: {
-			const std::string &str(data.asString());
-			lua_pushlstring(l, str.c_str(), str.size());
-			break;
+	case Json::stringValue: {
+		const std::string &str(data.asString());
+		lua_pushlstring(l, str.c_str(), str.size());
+		break;
+	}
+
+	case Json::booleanValue:
+		lua_pushboolean(l, data.asBool());
+		break;
+
+	case Json::arrayValue: {
+		lua_newtable(l);
+		for (int i = 0; i < int(data.size()); i++) {
+			lua_pushinteger(l, i + 1);
+			_json_to_lua(l, data[i]);
+			lua_rawset(l, -3);
 		}
+		break;
+	}
 
-		case Json::booleanValue:
-			lua_pushboolean(l, data.asBool());
-			break;
-
-		case Json::arrayValue: {
-			lua_newtable(l);
-			for (int i = 0; i < int(data.size()); i++) {
-				lua_pushinteger(l, i+1);
-				_json_to_lua(l, data[i]);
-				lua_rawset(l, -3);
-			}
-			break;
+	case Json::objectValue: {
+		lua_newtable(l);
+		for (Json::Value::const_iterator i = data.begin(); i != data.end(); ++i) {
+			const std::string &key(i.key().asString());
+			lua_pushlstring(l, key.c_str(), key.size());
+			_json_to_lua(l, *i);
+			lua_rawset(l, -3);
 		}
-
-		case Json::objectValue: {
-			lua_newtable(l);
-			for (Json::Value::const_iterator i = data.begin(); i != data.end(); ++i) {
-				const std::string &key(i.key().asString());
-				lua_pushlstring(l, key.c_str(), key.size());
-				_json_to_lua(l, *i);
-				lua_rawset(l, -3);
-			}
-			break;
-		}
+		break;
+	}
 	}
 
 	LUA_DEBUG_END(l, 1);
@@ -129,7 +129,7 @@ static void _json_to_lua(lua_State *l, const Json::Value &data)
 
 static void _success_callback(const Json::Value &data, void *userdata)
 {
-	CallbackPair *cp = reinterpret_cast<CallbackPair*>(userdata);
+	CallbackPair *cp = reinterpret_cast<CallbackPair *>(userdata);
 	if (!cp->successCallback.IsValid()) return;
 
 	cp->successCallback.PushCopyToStack();
@@ -142,7 +142,7 @@ static void _success_callback(const Json::Value &data, void *userdata)
 
 static void _fail_callback(const std::string &error, void *userdata)
 {
-	CallbackPair *cp = reinterpret_cast<CallbackPair*>(userdata);
+	CallbackPair *cp = reinterpret_cast<CallbackPair *>(userdata);
 	if (!cp->failCallback.IsValid()) return;
 
 	cp->failCallback.PushCopyToStack();

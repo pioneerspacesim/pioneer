@@ -19,7 +19,7 @@ static int ParseInt(const char *&ss)
 	}
 }
 
-SystemPath SystemPath::Parse(const char * const str)
+SystemPath SystemPath::Parse(const char *const str)
 {
 	assert(str);
 
@@ -30,24 +30,42 @@ SystemPath SystemPath::Parse(const char * const str)
 
 	int x, y, z;
 
-	while (isspace(*s)) { ++s; }
-	if (*s == '(') { ++s; }
+	while (isspace(*s)) {
+		++s;
+	}
+	if (*s == '(') {
+		++s;
+	}
 
 	x = ParseInt(s); // note: ParseInt (actually, strtol) skips leading whitespace itself
 
-	while (isspace(*s)) { ++s; }
-	if (*s == ',' || *s == '.') { ++s; }
+	while (isspace(*s)) {
+		++s;
+	}
+	if (*s == ',' || *s == '.') {
+		++s;
+	}
 
 	y = ParseInt(s);
 
-	while (isspace(*s)) { ++s; }
-	if (*s == ',' || *s == '.') { ++s; }
+	while (isspace(*s)) {
+		++s;
+	}
+	if (*s == ',' || *s == '.') {
+		++s;
+	}
 
 	z = ParseInt(s);
 
-	while (isspace(*s)) { ++s; }
-	if (*s == ')') { ++s; }
-	while (isspace(*s)) { ++s; }
+	while (isspace(*s)) {
+		++s;
+	}
+	if (*s == ')') {
+		++s;
+	}
+	while (isspace(*s)) {
+		++s;
+	}
 
 	if (*s) // extra unexpected text after the system path
 		throw SystemPath::ParseFailure();
@@ -55,7 +73,8 @@ SystemPath SystemPath::Parse(const char * const str)
 		return SystemPath(x, y, z);
 }
 
-void SystemPath::ToJson(Json::Value &jsonObj) const {
+void SystemPath::ToJson(Json::Value &jsonObj) const
+{
 	Json::Value systemPathObj(Json::objectValue); // Create JSON object to contain system path data.
 	systemPathObj["sector_x"] = sectorX;
 	systemPathObj["sector_y"] = sectorY;
@@ -65,7 +84,8 @@ void SystemPath::ToJson(Json::Value &jsonObj) const {
 	jsonObj["system_path"] = systemPathObj; // Add system path object to supplied object.
 }
 
-SystemPath SystemPath::FromJson(const Json::Value &jsonObj) {
+SystemPath SystemPath::FromJson(const Json::Value &jsonObj)
+{
 	if (!jsonObj.isMember("system_path")) throw SavedGameCorruptException();
 	Json::Value systemPathObj = jsonObj["system_path"];
 	if (!systemPathObj.isMember("sector_x")) throw SavedGameCorruptException();

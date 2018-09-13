@@ -1,35 +1,36 @@
 // Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "libs.h"
 #include "Body.h"
-#include "Frame.h"
-#include "Star.h"
-#include "Planet.h"
 #include "CargoBody.h"
-#include "SpaceStation.h"
-#include "Ship.h"
+#include "Frame.h"
+#include "Game.h"
+#include "GameSaveError.h"
+#include "HyperspaceCloud.h"
+#include "JsonUtils.h"
+#include "LuaEvent.h"
+#include "Missile.h"
+#include "Pi.h"
+#include "Planet.h"
 #include "Player.h"
 #include "Projectile.h"
-#include "Missile.h"
-#include "HyperspaceCloud.h"
-#include "Pi.h"
+#include "Ship.h"
 #include "Space.h"
-#include "Game.h"
-#include "LuaEvent.h"
-#include "GameSaveError.h"
-#include "JsonUtils.h"
+#include "SpaceStation.h"
+#include "Star.h"
+#include "libs.h"
 
-Body::Body() : PropertiedObject(Lua::manager)
-	, m_flags(0)
-	, m_interpPos(0.0)
-	, m_interpOrient(matrix3x3d::Identity())
-	, m_pos(0.0)
-	, m_orient(matrix3x3d::Identity())
-	, m_frame(0)
-	, m_dead(false)
-	, m_clipRadius(0.0)
-	, m_physRadius(0.0)
+Body::Body() :
+	PropertiedObject(Lua::manager),
+	m_flags(0),
+	m_interpPos(0.0),
+	m_interpOrient(matrix3x3d::Identity()),
+	m_pos(0.0),
+	m_orient(matrix3x3d::Identity()),
+	m_frame(0),
+	m_dead(false),
+	m_clipRadius(0.0),
+	m_physRadius(0.0)
 {
 	Properties().Set("label", m_label);
 }
@@ -107,23 +108,32 @@ Body *Body::FromJson(const Json::Value &jsonObj, Space *space)
 	Object::Type type = Object::Type(jsonObj["body_type"].asInt());
 	switch (type) {
 	case Object::STAR:
-		b = new Star(); break;
+		b = new Star();
+		break;
 	case Object::PLANET:
-		b = new Planet(); break;
+		b = new Planet();
+		break;
 	case Object::SPACESTATION:
-		b = new SpaceStation(); break;
+		b = new SpaceStation();
+		break;
 	case Object::SHIP:
-		b = new Ship(); break;
+		b = new Ship();
+		break;
 	case Object::PLAYER:
-		b = new Player(); break;
+		b = new Player();
+		break;
 	case Object::MISSILE:
-		b = new Missile(); break;
+		b = new Missile();
+		break;
 	case Object::PROJECTILE:
-		b = new Projectile(); break;
+		b = new Projectile();
+		break;
 	case Object::CARGOBODY:
-		b = new CargoBody(); break;
+		b = new CargoBody();
+		break;
 	case Object::HYPERSPACECLOUD:
-		b = new HyperspaceCloud(); break;
+		b = new HyperspaceCloud();
+		break;
 	default:
 		assert(0);
 	}
@@ -182,16 +192,16 @@ vector3d Body::GetVelocityRelTo(const Body *relTo) const
 
 void Body::OrientOnSurface(double radius, double latitude, double longitude)
 {
-	vector3d up = vector3d(cos(latitude)*cos(longitude), sin(latitude)*cos(longitude), sin(longitude));
+	vector3d up = vector3d(cos(latitude) * cos(longitude), sin(latitude) * cos(longitude), sin(longitude));
 	SetPosition(radius * up);
 
-	vector3d right = up.Cross(vector3d(0,0,1)).Normalized();
+	vector3d right = up.Cross(vector3d(0, 0, 1)).Normalized();
 	SetOrient(matrix3x3d::FromVectors(right, up));
 }
 
 void Body::SwitchToFrame(Frame *newFrame)
 {
-	const vector3d vel = GetVelocityRelTo(newFrame);		// do this first because it uses position
+	const vector3d vel = GetVelocityRelTo(newFrame); // do this first because it uses position
 	const vector3d fpos = m_frame->GetPositionRelTo(newFrame);
 	const matrix3x3d forient = m_frame->GetOrientRelTo(newFrame);
 	SetPosition(forient * GetPosition() + fpos);
@@ -209,7 +219,7 @@ void Body::UpdateFrame()
 	// falling out of frames
 	if (m_frame->GetRadius() < GetPosition().Length()) {
 		Frame *newFrame = GetFrame()->GetParent();
-		if (newFrame) { 						// don't fall out of root frame
+		if (newFrame) { // don't fall out of root frame
 			Output("%s leaves frame %s\n", GetLabel().c_str(), GetFrame()->GetLabel().c_str());
 			SwitchToFrame(newFrame);
 			return;
@@ -217,7 +227,7 @@ void Body::UpdateFrame()
 	}
 
 	// entering into frames
-	for (Frame* kid : m_frame->GetChildren()) {
+	for (Frame *kid : m_frame->GetChildren()) {
 		const vector3d pos = GetPositionRelTo(kid);
 		if (pos.Length() >= kid->GetRadius()) continue;
 		SwitchToFrame(kid);

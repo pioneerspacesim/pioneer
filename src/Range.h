@@ -37,17 +37,19 @@ namespace RandomColorGenerator {
 		int Upper;
 
 		Range() {}
-        Range(int lower, int upper) 
-        {
+		Range(int lower, int upper)
+		{
 			Lower = lower;
 			Upper = upper;
-        }
+		}
 
-        // Gets the lower range for an index of 0 and the upper for an index of 1.
+		// Gets the lower range for an index of 0 and the upper for an index of 1.
 		const int &operator[](const size_t index) const
 		{
-			if(index==0) return Lower;
-			else return Upper;
+			if (index == 0)
+				return Lower;
+			else
+				return Upper;
 		}
 	};
 } // namespace RandomColorGenerator

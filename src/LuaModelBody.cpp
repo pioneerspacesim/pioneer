@@ -13,19 +13,20 @@
 
 class LuaModelBody {
 public:
-
 	static int l_attr_model(lua_State *l)
 	{
 		ModelBody *mb = LuaObject<ModelBody>::CheckFromLua(1);
 		LuaObject<SceneGraph::Model>::PushToLua(mb->GetModel());
 		return 1;
 	}
-
 };
 
-template <> const char *LuaObject<ModelBody>::s_type = "ModelBody";
+template <>
+const char *LuaObject<ModelBody>::s_type = "ModelBody";
 
-template <> void LuaObject<ModelBody>::RegisterClass() {
+template <>
+void LuaObject<ModelBody>::RegisterClass()
+{
 	const char *l_parent = "Body";
 
 	static luaL_Reg l_attrs[] = {

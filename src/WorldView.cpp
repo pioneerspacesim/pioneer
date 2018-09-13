@@ -2,63 +2,67 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "WorldView.h"
-#include "Pi.h"
 #include "Frame.h"
+#include "Game.h"
+#include "GameSaveError.h"
 #include "HudTrail.h"
-#include "Player.h"
+#include "HyperspaceCloud.h"
+#include "KeyBindings.h"
+#include "Lang.h"
+#include "LuaObject.h"
+#include "Pi.h"
 #include "Planet.h"
-#include "galaxy/Galaxy.h"
-#include "galaxy/Sector.h"
-#include "galaxy/GalaxyCache.h"
+#include "Player.h"
+#include "Quaternion.h"
 #include "SectorView.h"
-#include "SystemView.h"
 #include "Sound.h"
 #include "Space.h"
 #include "SpaceStation.h"
-#include "galaxy/StarSystem.h"
-#include "HyperspaceCloud.h"
-#include "KeyBindings.h"
-#include "perlin.h"
-#include "Lang.h"
 #include "StringF.h"
-#include "Game.h"
-#include "ui/Context.h"
-#include "ui/Align.h"
-#include "ui/Label.h"
+#include "SystemView.h"
+#include "galaxy/Galaxy.h"
+#include "galaxy/GalaxyCache.h"
+#include "galaxy/Sector.h"
+#include "galaxy/StarSystem.h"
+#include "graphics/Drawables.h"
+#include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
-#include "graphics/Frustum.h"
 #include "graphics/TextureBuilder.h"
-#include "graphics/Drawables.h"
 #include "matrix4x4.h"
-#include "Quaternion.h"
-#include "LuaObject.h"
+#include "perlin.h"
+#include "ui/Align.h"
+#include "ui/Context.h"
+#include "ui/Label.h"
 #include "utils.h"
-#include "GameSaveError.h"
-#include <algorithm>
-#include <sstream>
-#include <iomanip>
 #include <SDL_stdinc.h>
+#include <algorithm>
+#include <iomanip>
+#include <sstream>
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 namespace {
-	static const Color s_hudTextColor(0,255,0,230);
+	static const Color s_hudTextColor(0, 255, 0, 230);
 	static const float ZOOM_SPEED = 1.f;
-	static const float WHEEL_SENSITIVITY = .05f;	// Should be a variable in user settings.
+	static const float WHEEL_SENSITIVITY = .05f; // Should be a variable in user settings.
 	static const float HUD_CROSSHAIR_SIZE = 8.0f;
 	static const Color white(255, 255, 255, 204);
 	static const Color green(0, 255, 0, 204);
 	static const Color yellow(230, 230, 77, 255);
 	static const Color red(255, 0, 0, 128);
-}
+} // namespace
 
-WorldView::WorldView(Game* game): UIView(), m_game(game)
+WorldView::WorldView(Game *game) :
+	UIView(),
+	m_game(game)
 {
 	m_camType = CAM_INTERNAL;
 	InitObject();
 }
 
-WorldView::WorldView(const Json::Value &jsonObj, Game* game) : UIView(), m_game(game)
+WorldView::WorldView(const Json::Value &jsonObj, Game *game) :
+	UIView(),
+	m_game(game)
 {
 	if (!jsonObj.isMember("world_view")) throw SavedGameCorruptException();
 	Json::Value worldViewObj = jsonObj["world_view"];
@@ -184,7 +188,7 @@ void WorldView::SetCamType(enum CamType c)
 
 	m_camType = c;
 
-	switch(m_camType) {
+	switch (m_camType) {
 	case CAM_INTERNAL:
 		m_activeCameraController = m_internalCameraController.get();
 		Pi::player->OnCockpitActivated();
@@ -269,15 +273,15 @@ void WorldView::OnRequestTimeAccelDec()
 void WorldView::Draw3D()
 {
 	PROFILE_SCOPED()
-		assert(m_game);
+	assert(m_game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
 	m_cameraContext->ApplyDrawTransforms(m_renderer);
 
-	Body* excludeBody = nullptr;
-	ShipCockpit* cockpit = nullptr;
-	if(GetCamType() == CAM_INTERNAL) {
+	Body *excludeBody = nullptr;
+	ShipCockpit *cockpit = nullptr;
+	if (GetCamType() == CAM_INTERNAL) {
 		excludeBody = Pi::player;
 		if (m_internalCameraController->GetMode() == InternalCameraController::MODE_FRONT)
 			cockpit = Pi::player->GetCockpit();
@@ -290,7 +294,7 @@ void WorldView::Draw3D()
 		m_speedLines->Render(m_renderer);
 
 	// Contact trails
-	if( Pi::AreHudTrailsDisplayed() ) {
+	if (Pi::AreHudTrailsDisplayed()) {
 		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
 			it->trail->Render(m_renderer);
 	}
@@ -346,10 +350,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 			const SystemPath &path(playerFrame->GetSystemBody()->GetPath());
 			ss << stringf("Rel-to: %0 [%1{d},%2{d},%3{d},%4{u},%5{u}] ",
-										playerFrame->GetLabel(),
-										path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex);
+				playerFrame->GetLabel(),
+				path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex);
 			ss << stringf("(%0{f.2} km), rotating: %1, has rotation: %2\n",
-										pos.Length()/1000, (playerFrame->IsRotFrame() ? "yes" : "no"), (playerFrame->HasRotFrame() ? "yes" : "no"));
+				pos.Length() / 1000, (playerFrame->IsRotFrame() ? "yes" : "no"), (playerFrame->HasRotFrame() ? "yes" : "no"));
 
 			//Calculate lat/lon for ship position
 			const vector3d dir = pos.NormalizedSafe();
@@ -360,7 +364,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 		}
 
 		char aibuf[256];
-		Pi::player->AIGetStatusText(aibuf); aibuf[255] = 0;
+		Pi::player->AIGetStatusText(aibuf);
+		aibuf[255] = 0;
 		ss << aibuf << std::endl;
 
 		m_debugInfo->SetText(ss.str());
@@ -385,27 +390,31 @@ void WorldView::Update()
 	// XXX ugly hack checking for console here
 	if (!Pi::IsConsoleActive()) {
 		if (GetCamType() == CAM_INTERNAL) {
-			if      (KeyBindings::frontCamera.IsActive())  ChangeInternalCameraMode(InternalCameraController::MODE_FRONT);
-			else if (KeyBindings::rearCamera.IsActive())   ChangeInternalCameraMode(InternalCameraController::MODE_REAR);
-			else if (KeyBindings::leftCamera.IsActive())   ChangeInternalCameraMode(InternalCameraController::MODE_LEFT);
-			else if (KeyBindings::rightCamera.IsActive())  ChangeInternalCameraMode(InternalCameraController::MODE_RIGHT);
-			else if (KeyBindings::topCamera.IsActive())    ChangeInternalCameraMode(InternalCameraController::MODE_TOP);
-			else if (KeyBindings::bottomCamera.IsActive()) ChangeInternalCameraMode(InternalCameraController::MODE_BOTTOM);
-		}
-		else {
-			MoveableCameraController *cam = static_cast<MoveableCameraController*>(m_activeCameraController);
+			if (KeyBindings::frontCamera.IsActive())
+				ChangeInternalCameraMode(InternalCameraController::MODE_FRONT);
+			else if (KeyBindings::rearCamera.IsActive())
+				ChangeInternalCameraMode(InternalCameraController::MODE_REAR);
+			else if (KeyBindings::leftCamera.IsActive())
+				ChangeInternalCameraMode(InternalCameraController::MODE_LEFT);
+			else if (KeyBindings::rightCamera.IsActive())
+				ChangeInternalCameraMode(InternalCameraController::MODE_RIGHT);
+			else if (KeyBindings::topCamera.IsActive())
+				ChangeInternalCameraMode(InternalCameraController::MODE_TOP);
+			else if (KeyBindings::bottomCamera.IsActive())
+				ChangeInternalCameraMode(InternalCameraController::MODE_BOTTOM);
+		} else {
+			MoveableCameraController *cam = static_cast<MoveableCameraController *>(m_activeCameraController);
 			if (KeyBindings::cameraRotateUp.IsActive()) cam->RotateUp(frameTime);
 			if (KeyBindings::cameraRotateDown.IsActive()) cam->RotateDown(frameTime);
 			if (KeyBindings::cameraRotateLeft.IsActive()) cam->RotateLeft(frameTime);
 			if (KeyBindings::cameraRotateRight.IsActive()) cam->RotateRight(frameTime);
-			if (KeyBindings::viewZoomOut.IsActive()) cam->ZoomEvent(ZOOM_SPEED*frameTime);		// Zoom out
-			if (KeyBindings::viewZoomIn.IsActive()) cam->ZoomEvent(-ZOOM_SPEED*frameTime);
+			if (KeyBindings::viewZoomOut.IsActive()) cam->ZoomEvent(ZOOM_SPEED * frameTime); // Zoom out
+			if (KeyBindings::viewZoomIn.IsActive()) cam->ZoomEvent(-ZOOM_SPEED * frameTime);
 			if (KeyBindings::cameraRollLeft.IsActive()) cam->RollLeft(frameTime);
 			if (KeyBindings::cameraRollRight.IsActive()) cam->RollRight(frameTime);
 			if (KeyBindings::resetCamera.IsActive()) cam->Reset();
 			cam->ZoomEventUpdate(frameTime);
 		}
-
 	}
 
 	m_activeCameraController->Update();
@@ -426,7 +435,7 @@ void WorldView::Update()
 		matrix4x4d trans;
 		Frame::GetFrameTransform(playerFrame, camFrame, trans);
 
-		if ( m_speedLines.get() && Pi::AreSpeedLinesDisplayed() ) {
+		if (m_speedLines.get() && Pi::AreSpeedLinesDisplayed()) {
 			m_speedLines->Update(m_game->GetTimeStep());
 
 			trans[12] = trans[13] = trans[14] = 0.0;
@@ -435,8 +444,7 @@ void WorldView::Update()
 		}
 	}
 
-	if( Pi::AreHudTrailsDisplayed() )
-	{
+	if (Pi::AreHudTrailsDisplayed()) {
 		matrix4x4d trans;
 		Frame::GetFrameTransform(playerFrame, camFrame, trans);
 
@@ -497,24 +505,23 @@ void WorldView::OnPlayerChangeTarget()
 	Body *b = Pi::player->GetNavTarget();
 	if (b) {
 		Sound::PlaySfx("OK");
-		Ship *s = b->IsType(Object::HYPERSPACECLOUD) ? static_cast<HyperspaceCloud*>(b)->GetShip() : 0;
+		Ship *s = b->IsType(Object::HYPERSPACECLOUD) ? static_cast<HyperspaceCloud *>(b)->GetShip() : 0;
 		if (!s || !m_game->GetSectorView()->GetHyperspaceTarget().IsSameSystem(s->GetHyperspaceDest()))
 			m_game->GetSectorView()->FloatHyperspaceTarget();
 	}
-
 }
 
 int WorldView::GetActiveWeapon() const
 {
 	switch (GetCamType()) {
-		case CAM_INTERNAL:
-			return m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR ? 1 : 0;
+	case CAM_INTERNAL:
+		return m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR ? 1 : 0;
 
-		case CAM_EXTERNAL:
-		case CAM_SIDEREAL:
-		case CAM_FLYBY:
-		default:
-			return 0;
+	case CAM_EXTERNAL:
+	case CAM_SIDEREAL:
+	case CAM_FLYBY:
+	default:
+		return 0;
 	}
 }
 
@@ -548,19 +555,19 @@ void WorldView::UpdateProjectedObjects()
 		double projspeed = 0;
 		if (GetCamType() == CAM_INTERNAL) {
 			switch (m_internalCameraController->GetMode()) {
-				case InternalCameraController::MODE_FRONT: laser = 0; break;
-				case InternalCameraController::MODE_REAR:  laser = 1; break;
-				default: break;
+			case InternalCameraController::MODE_FRONT: laser = 0; break;
+			case InternalCameraController::MODE_REAR: laser = 1; break;
+			default: break;
 			}
 		}
 
 		if (laser >= 0) {
-			Pi::player->Properties().Get(laser?"laser_rear_speed":"laser_front_speed", projspeed);
+			Pi::player->Properties().Get(laser ? "laser_rear_speed" : "laser_front_speed", projspeed);
 		}
 		if (projspeed > 0) { // only display target lead position on views with lasers
 			const vector3d targvel = enemy->GetVelocityRelTo(Pi::player) * cam_rot;
-			vector3d leadpos = targpos + targvel*(targpos.Length()/projspeed);
-			leadpos = targpos + targvel*(leadpos.Length()/projspeed); // second order approx
+			vector3d leadpos = targpos + targvel * (targpos.Length() / projspeed);
+			leadpos = targpos + targvel * (leadpos.Length() / projspeed); // second order approx
 
 			// now the text speed/distance
 			// want to calculate closing velocity that you couldn't counter with retros
@@ -570,11 +577,11 @@ void WorldView::UpdateProjectedObjects()
 				Pi::player->GetShipType()->linThrust[Thruster::THRUSTER_REVERSE] / Pi::player->GetMass();
 
 			double c = Clamp(vel / sqrt(2.0 * raccel * dist), -1.0, 1.0);
-			float r = float(0.2+(c+1.0)*0.4);
-			float b = float(0.2+(1.0-c)*0.4);
+			float r = float(0.2 + (c + 1.0) * 0.4);
+			float b = float(0.2 + (1.0 - c) * 0.4);
 
-			m_combatTargetIndicator.label->Color(r*255, 0, b*255);
-			m_targetLeadIndicator.label->Color(r*255, 0, b*255);
+			m_combatTargetIndicator.label->Color(r * 255, 0, b * 255);
+			m_targetLeadIndicator.label->Color(r * 255, 0, b * 255);
 
 			UpdateIndicator(m_targetLeadIndicator, leadpos);
 
@@ -608,14 +615,14 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 	const float h = Gui::Screen::GetHeight();
 
 	if (cameraSpacePos.LengthSqr() < 1e-6) { // length < 1e-3
-		indicator.pos.x = w/2.0f;
-		indicator.pos.y = h/2.0f;
+		indicator.pos.x = w / 2.0f;
+		indicator.pos.y = h / 2.0f;
 		indicator.side = INDICATOR_ONSCREEN;
 	} else {
 		vector3d proj;
 		bool success = project_to_screen(cameraSpacePos, proj, frustum, guiSize);
-		if (! success)
-			proj = vector3d(w/2.0, h/2.0, 0.0);
+		if (!success)
+			proj = vector3d(w / 2.0, h / 2.0, 0.0);
 
 		indicator.realpos.x = int(proj.x);
 		indicator.realpos.y = int(proj.y);
@@ -631,14 +638,14 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 			indicator.side = INDICATOR_ONSCREEN;
 		} else {
 			// homogeneous 2D points and lines are really useful
-			const vector3d ptCentre(w/2.0, h/2.0, 1.0);
+			const vector3d ptCentre(w / 2.0, h / 2.0, 1.0);
 			const vector3d ptProj(proj.x, proj.y, 1.0);
 			const vector3d lnDir = ptProj.Cross(ptCentre);
 
 			indicator.side = INDICATOR_TOP;
 
 			// this fallback is used if direction is close to (0, 0, +ve)
-			indicator.pos.x = w/2.0;
+			indicator.pos.x = w / 2.0;
 			indicator.pos.y = BORDER;
 
 			if (cameraSpacePos.x < -1e-3) {
@@ -650,7 +657,7 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 					indicator.side = INDICATOR_LEFT;
 				}
 			} else if (cameraSpacePos.x > 1e-3) {
-				vector3d ptRight = lnDir.Cross(vector3d(-1.0, 0.0,  w - BORDER));
+				vector3d ptRight = lnDir.Cross(vector3d(-1.0, 0.0, w - BORDER));
 				ptRight /= ptRight.z;
 				if (ptRight.y >= BORDER && ptRight.y < h - BORDER_BOTTOM) {
 					indicator.pos.x = ptRight.x;
@@ -662,7 +669,7 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 			if (cameraSpacePos.y < -1e-3) {
 				vector3d ptBottom = lnDir.Cross(vector3d(0.0, -1.0, h - BORDER_BOTTOM));
 				ptBottom /= ptBottom.z;
-				if (ptBottom.x >= BORDER && ptBottom.x < w-BORDER) {
+				if (ptBottom.x >= BORDER && ptBottom.x < w - BORDER) {
 					indicator.pos.x = ptBottom.x;
 					indicator.pos.y = ptBottom.y;
 					indicator.side = INDICATOR_BOTTOM;
@@ -685,30 +692,30 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 			float labelSize[2] = { 500.0f, 500.0f };
 			indicator.label->GetSizeRequested(labelSize);
 
-			int pos[2] = {0,0};
+			int pos[2] = { 0, 0 };
 			switch (indicator.side) {
 			case INDICATOR_HIDDEN: break;
 			case INDICATOR_ONSCREEN: // when onscreen, default to label-below unless it would clamp to be on top of the marker
-				pos[0] = -(labelSize[0]/2.0f);
+				pos[0] = -(labelSize[0] / 2.0f);
 				if (indicator.pos.y + pos[1] + labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f > h - BORDER_BOTTOM)
 					pos[1] = -(labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f);
 				else
 					pos[1] = HUD_CROSSHAIR_SIZE + 2.0f;
 				break;
 			case INDICATOR_TOP:
-				pos[0] = -(labelSize[0]/2.0f);
+				pos[0] = -(labelSize[0] / 2.0f);
 				pos[1] = HUD_CROSSHAIR_SIZE + 2.0f;
 				break;
 			case INDICATOR_LEFT:
 				pos[0] = HUD_CROSSHAIR_SIZE + 2.0f;
-				pos[1] = -(labelSize[1]/2.0f);
+				pos[1] = -(labelSize[1] / 2.0f);
 				break;
 			case INDICATOR_RIGHT:
 				pos[0] = -(labelSize[0] + HUD_CROSSHAIR_SIZE + 2.0f);
-				pos[1] = -(labelSize[1]/2.0f);
+				pos[1] = -(labelSize[1] / 2.0f);
 				break;
 			case INDICATOR_BOTTOM:
-				pos[0] = -(labelSize[0]/2.0f);
+				pos[0] = -(labelSize[0] / 2.0f);
 				pos[1] = -(labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f);
 				break;
 			}
@@ -754,22 +761,24 @@ void WorldView::SeparateLabels(Gui::Label *a, Gui::Label *b)
 		if (overlapX <= 4.0f) {
 			// small horizontal overlap; bump horizontally
 			if (posa[0] > posb[0]) overlapX *= -1.0f;
-			MoveChild(a, posa[0] - overlapX*0.5f - sizea[0], posa[1] - sizea[1]);
-			MoveChild(b, posb[0] + overlapX*0.5f - sizeb[0], posb[1] - sizeb[1]);
+			MoveChild(a, posa[0] - overlapX * 0.5f - sizea[0], posa[1] - sizea[1]);
+			MoveChild(b, posb[0] + overlapX * 0.5f - sizeb[0], posb[1] - sizeb[1]);
 		} else {
 			// large horizonal overlap; bump vertically
 			if (posa[1] > posb[1]) overlapY *= -1.0f;
-			MoveChild(a, posa[0] - sizea[0], posa[1] - overlapY*0.5f - sizea[1]);
-			MoveChild(b, posb[0] - sizeb[0], posb[1] + overlapY*0.5f - sizeb[1]);
+			MoveChild(a, posa[0] - sizea[0], posa[1] - overlapY * 0.5f - sizea[1]);
+			MoveChild(b, posb[0] - sizeb[0], posb[1] + overlapY * 0.5f - sizeb[1]);
 		}
 	}
 }
 
-double getSquareDistance(double initialDist, double scalingFactor, int num) {
+double getSquareDistance(double initialDist, double scalingFactor, int num)
+{
 	return pow(scalingFactor, num - 1) * num * initialDist;
 }
 
-double getSquareHeight(double distance, double angle) {
+double getSquareHeight(double distance, double angle)
+{
 	return distance * tan(angle);
 }
 
@@ -795,7 +804,7 @@ void WorldView::Draw()
 	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);
 
 	// glLineWidth(1.0f);
-	m_renderer->CheckRenderErrors(__FUNCTION__,__LINE__);
+	m_renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 }
 
 void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c)
@@ -808,11 +817,13 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 
 		float xd = x2 - x1, yd = y2 - y1;
 		if (lead.side != INDICATOR_ONSCREEN) {
-			xd = 1.0f; yd = 0.0f;
+			xd = 1.0f;
+			yd = 0.0f;
 		} else {
-			float len = xd*xd + yd*yd;
+			float len = xd * xd + yd * yd;
 			if (len < 1e-6) {
-				xd = 1.0f; yd = 0.0f;
+				xd = 1.0f;
+				yd = 0.0f;
 			} else {
 				len = sqrt(len);
 				xd /= len;
@@ -822,24 +833,24 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 
 		const vector3f vts[] = {
 			// target crosshairs
-			vector3f(x1+10*xd, y1+10*yd, 0.0f),
-			vector3f(x1+20*xd, y1+20*yd, 0.0f),
-			vector3f(x1-10*xd, y1-10*yd, 0.0f),
-			vector3f(x1-20*xd, y1-20*yd, 0.0f),
-			vector3f(x1-10*yd, y1+10*xd, 0.0f),
-			vector3f(x1-20*yd, y1+20*xd, 0.0f),
-			vector3f(x1+10*yd, y1-10*xd, 0.0f),
-			vector3f(x1+20*yd, y1-20*xd, 0.0f),
+			vector3f(x1 + 10 * xd, y1 + 10 * yd, 0.0f),
+			vector3f(x1 + 20 * xd, y1 + 20 * yd, 0.0f),
+			vector3f(x1 - 10 * xd, y1 - 10 * yd, 0.0f),
+			vector3f(x1 - 20 * xd, y1 - 20 * yd, 0.0f),
+			vector3f(x1 - 10 * yd, y1 + 10 * xd, 0.0f),
+			vector3f(x1 - 20 * yd, y1 + 20 * xd, 0.0f),
+			vector3f(x1 + 10 * yd, y1 - 10 * xd, 0.0f),
+			vector3f(x1 + 20 * yd, y1 - 20 * xd, 0.0f),
 
 			// lead crosshairs
-			vector3f(x2-10*xd, y2-10*yd, 0.0f),
-			vector3f(x2+10*xd, y2+10*yd, 0.0f),
-			vector3f(x2-10*yd, y2+10*xd, 0.0f),
-			vector3f(x2+10*yd, y2-10*xd, 0.0f),
+			vector3f(x2 - 10 * xd, y2 - 10 * yd, 0.0f),
+			vector3f(x2 + 10 * xd, y2 + 10 * yd, 0.0f),
+			vector3f(x2 - 10 * yd, y2 + 10 * xd, 0.0f),
+			vector3f(x2 + 10 * yd, y2 - 10 * xd, 0.0f),
 
 			// line between crosshairs
-			vector3f(x1+20*xd, y1+20*yd, 0.0f),
-			vector3f(x2-10*xd, y2-10*yd, 0.0f)
+			vector3f(x1 + 20 * xd, y1 + 20 * yd, 0.0f),
+			vector3f(x2 - 10 * xd, y2 - 10 * yd, 0.0f)
 		};
 		if (lead.side == INDICATOR_ONSCREEN) {
 			m_indicator.SetData(14, vts, c);
@@ -854,10 +865,10 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 
 void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 {
-	const vector2f screenCentre(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f);
+	const vector2f screenCentre(Gui::Screen::GetWidth() / 2.0f, Gui::Screen::GetHeight() / 2.0f);
 	vector2f dir = screenCentre - marker.pos;
 	float len = dir.Length();
-	dir *= HUD_CROSSHAIR_SIZE/len;
+	dir *= HUD_CROSSHAIR_SIZE / len;
 	m_edgeMarker.SetColor(c);
 	m_edgeMarker.SetStart(vector3f(marker.pos, 0.0f));
 	m_edgeMarker.SetEnd(vector3f(marker.pos + dir, 0.0f));
@@ -866,26 +877,26 @@ void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 
 void WorldView::MouseWheel(bool up)
 {
-	if (this == Pi::GetView())
-	{
+	if (this == Pi::GetView()) {
 		if (m_activeCameraController->IsExternal()) {
-			MoveableCameraController *cam = static_cast<MoveableCameraController*>(m_activeCameraController);
+			MoveableCameraController *cam = static_cast<MoveableCameraController *>(m_activeCameraController);
 
-			if (!up)	// Zoom out
-				cam->ZoomEvent( ZOOM_SPEED * WHEEL_SENSITIVITY);
+			if (!up) // Zoom out
+				cam->ZoomEvent(ZOOM_SPEED * WHEEL_SENSITIVITY);
 			else
 				cam->ZoomEvent(-ZOOM_SPEED * WHEEL_SENSITIVITY);
 		}
 	}
 }
-NavTunnelWidget::NavTunnelWidget(WorldView *worldview, Graphics::RenderState *rs)
-	: Widget()
-	, m_worldView(worldview)
-	, m_renderState(rs)
+NavTunnelWidget::NavTunnelWidget(WorldView *worldview, Graphics::RenderState *rs) :
+	Widget(),
+	m_worldView(worldview),
+	m_renderState(rs)
 {
 }
 
-void NavTunnelWidget::Draw() {
+void NavTunnelWidget::Draw()
+{
 	if (!Pi::IsNavTunnelDisplayed()) return;
 
 	Body *navtarget = Pi::player->GetNavTarget();
@@ -908,7 +919,7 @@ void NavTunnelWidget::Draw() {
 
 		double dist = 0.0;
 		const double scalingFactor = 1.6; // scales distance between squares: closer to 1.0, more squares
-		for (int squareNum = 1; ; squareNum++) {
+		for (int squareNum = 1;; squareNum++) {
 			dist = getSquareDistance(10.0, scalingFactor, squareNum);
 			if (dist > distToDest)
 				break;
@@ -916,7 +927,7 @@ void NavTunnelWidget::Draw() {
 			const double sqh = getSquareHeight(dist, angle);
 			if (sqh >= 10) {
 				const vector2f off = distDiff * (dist / distToDest);
-				const vector2f sqpos(tpos-off);
+				const vector2f sqpos(tpos - off);
 				DrawTargetGuideSquare(sqpos, sqh, green);
 			}
 		}
@@ -933,25 +944,26 @@ void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float siz
 	Color black(c);
 	black.a = c.a / 6;
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, 8);
-	va.Add(vector3f(x1,    y1,    0.f),	c);
-	va.Add(vector3f(pos.x, y1,    0.f),	black);
-	va.Add(vector3f(x2,    y1,    0.f),	c);
-	va.Add(vector3f(x2,    pos.y, 0.f),	black);
-	va.Add(vector3f(x2,    y2,    0.f),	c);
-	va.Add(vector3f(pos.x, y2,    0.f),	black);
-	va.Add(vector3f(x1,    y2,    0.f),	c);
-	va.Add(vector3f(x1,    pos.y, 0.f),	black);
+	va.Add(vector3f(x1, y1, 0.f), c);
+	va.Add(vector3f(pos.x, y1, 0.f), black);
+	va.Add(vector3f(x2, y1, 0.f), c);
+	va.Add(vector3f(x2, pos.y, 0.f), black);
+	va.Add(vector3f(x2, y2, 0.f), c);
+	va.Add(vector3f(pos.x, y2, 0.f), black);
+	va.Add(vector3f(x1, y2, 0.f), c);
+	va.Add(vector3f(x1, pos.y, 0.f), black);
 
-	if( !m_vbuffer.get() ) {
-		CreateVertexBuffer( 8 );
+	if (!m_vbuffer.get()) {
+		CreateVertexBuffer(8);
 	}
 
-	m_vbuffer->Populate( va );
+	m_vbuffer->Populate(va);
 
 	m_worldView->m_renderer->DrawBuffer(m_vbuffer.get(), m_renderState, m_material.Get(), Graphics::LINE_LOOP);
 }
 
-void NavTunnelWidget::GetSizeRequested(float size[2]) {
+void NavTunnelWidget::GetSizeRequested(float size[2])
+{
 	size[0] = Gui::Screen::GetWidth();
 	size[1] = Gui::Screen::GetHeight();
 }
@@ -975,12 +987,14 @@ void NavTunnelWidget::CreateVertexBuffer(const Uint32 size)
 }
 
 // project vector vec onto plane (normal must be normalized)
-static vector3d projectVecOntoPlane(const vector3d &vec, const vector3d &normal) {
-	return (vec - vec.Dot(normal)*normal);
+static vector3d projectVecOntoPlane(const vector3d &vec, const vector3d &normal)
+{
+	return (vec - vec.Dot(normal) * normal);
 }
 
-static double wrapAngleToPositive(const double theta) {
-	return (theta >= 0.0 ? theta : M_PI*2 + theta);
+static double wrapAngleToPositive(const double theta)
+{
+	return (theta >= 0.0 ? theta : M_PI * 2 + theta);
 }
 
 /*
@@ -991,10 +1005,11 @@ static double wrapAngleToPositive(const double theta) {
   pitch  0 - level with surface
   pitch 90 - up
 */
-std::tuple<double, double, double> WorldView::CalculateHeadingPitchRoll(PlaneType pt) {
-	auto frame  = Pi::player->GetFrame();
+std::tuple<double, double, double> WorldView::CalculateHeadingPitchRoll(PlaneType pt)
+{
+	auto frame = Pi::player->GetFrame();
 
-	if(pt == ROTATIONAL)
+	if (pt == ROTATIONAL)
 		frame = frame->GetRotFrame();
 	else if (pt == PARENT)
 		frame = frame->GetNonRotFrame();
@@ -1002,7 +1017,7 @@ std::tuple<double, double, double> WorldView::CalculateHeadingPitchRoll(PlaneTyp
 	// construct a frame of reference aligned with the ground plane
 	// and with lines of longitude and latitude
 	const vector3d up = Pi::player->GetPositionRelTo(frame).NormalizedSafe();
-	const vector3d north = projectVecOntoPlane(vector3d(0,1,0), up).NormalizedSafe();
+	const vector3d north = projectVecOntoPlane(vector3d(0, 1, 0), up).NormalizedSafe();
 	const vector3d east = north.Cross(up);
 
 	// find the direction that the ship is facing
@@ -1024,7 +1039,8 @@ std::tuple<double, double, double> WorldView::CalculateHeadingPitchRoll(PlaneTyp
 		std::isnan(roll) ? 0.0 : roll);
 }
 
-static vector3d projectToScreenSpace(vector3d pos, RefCountedPtr<CameraContext> cameraContext, bool adjustZ = true) {
+static vector3d projectToScreenSpace(vector3d pos, RefCountedPtr<CameraContext> cameraContext, bool adjustZ = true)
+{
 	const Graphics::Frustum frustum = cameraContext->GetFrustum();
 	const float h = Graphics::GetScreenHeight();
 	const float w = Graphics::GetScreenWidth();
@@ -1035,13 +1051,14 @@ static vector3d projectToScreenSpace(vector3d pos, RefCountedPtr<CameraContext> 
 	proj.x *= w;
 	proj.y = h - proj.y * h;
 	// set z to -1 if in front of camera, 1 else
-	if(adjustZ)
+	if (adjustZ)
 		proj.z = pos.z < 0 ? -1 : 1;
 	return proj;
 }
 
 // needs to run inside m_cameraContext->Begin/EndFrame();
-vector3d WorldView::WorldSpaceToScreenSpace(Body *body) const {
+vector3d WorldView::WorldSpaceToScreenSpace(Body *body) const
+{
 	if (body->IsType(Object::PLAYER) && GetCamType() == CAM_INTERNAL)
 		return vector3d(0, 0, 0);
 	const Frame *cam_frame = m_cameraContext->GetCamFrame();
@@ -1050,7 +1067,8 @@ vector3d WorldView::WorldSpaceToScreenSpace(Body *body) const {
 }
 
 // needs to run inside m_cameraContext->Begin/EndFrame();
-vector3d WorldView::WorldSpaceToScreenSpace(vector3d position) const {
+vector3d WorldView::WorldSpaceToScreenSpace(vector3d position) const
+{
 	const Frame *cam_frame = m_cameraContext->GetCamFrame();
 	matrix3x3d cam_rot = cam_frame->GetInterpOrient();
 	vector3d pos = position * cam_rot;
@@ -1058,7 +1076,8 @@ vector3d WorldView::WorldSpaceToScreenSpace(vector3d position) const {
 }
 
 // needs to run inside m_cameraContext->Begin/EndFrame();
-vector3d WorldView::ShipSpaceToScreenSpace(vector3d pos) const {
+vector3d WorldView::ShipSpaceToScreenSpace(vector3d pos) const
+{
 	matrix3x3d orient = Pi::player->GetInterpOrient();
 	const Frame *cam_frame = m_cameraContext->GetCamFrame();
 	matrix3x3d cam_rot = cam_frame->GetInterpOrient();
@@ -1067,12 +1086,14 @@ vector3d WorldView::ShipSpaceToScreenSpace(vector3d pos) const {
 }
 
 // needs to run inside m_cameraContext->Begin/EndFrame();
-vector3d WorldView::CameraSpaceToScreenSpace(vector3d pos) const {
+vector3d WorldView::CameraSpaceToScreenSpace(vector3d pos) const
+{
 	return projectToScreenSpace(pos, m_cameraContext);
 }
 
 // needs to run inside m_cameraContext->Begin/EndFrame();
-vector3d WorldView::GetTargetIndicatorScreenPosition(Body *body) const {
+vector3d WorldView::GetTargetIndicatorScreenPosition(Body *body) const
+{
 	if (body->IsType(Object::PLAYER) && GetCamType() == CAM_INTERNAL)
 		return vector3d(0, 0, 0);
 	const Frame *cam_frame = m_cameraContext->GetCamFrame();
@@ -1081,7 +1102,8 @@ vector3d WorldView::GetTargetIndicatorScreenPosition(Body *body) const {
 }
 
 // needs to run inside m_cameraContext->Begin/EndFrame();
-vector3d WorldView::GetMouseDirection() const {
+vector3d WorldView::GetMouseDirection() const
+{
 	// orientation according to mouse
 	const Frame *cam_frame = m_cameraContext->GetCamFrame();
 	matrix3x3d cam_rot = cam_frame->GetInterpOrient();

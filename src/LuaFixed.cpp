@@ -1,15 +1,15 @@
 // Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "libs.h"
 #include "LuaFixed.h"
 #include "LuaUtils.h"
+#include "libs.h"
 
 static int l_fixed_new(lua_State *L)
 {
 	LUA_DEBUG_START(L);
 	Sint64 num = static_cast<Sint64>(luaL_checknumber(L, 1));
-	Sint64 denom = static_cast<Sint64>(luaL_checknumber(L, 2));		// use checknumber for >32-bit precision
+	Sint64 denom = static_cast<Sint64>(luaL_checknumber(L, 2)); // use checknumber for >32-bit precision
 	if (!denom)
 		return luaL_error(L, "cannot construct a fixed-point value with a zero denominator");
 	LuaFixed::PushToLua(L, fixed(num, denom));
@@ -97,7 +97,7 @@ static int l_fixed_tonumber(lua_State *L)
 static int l_fixed_deg2rad(lua_State *L)
 {
 	const fixed *v = LuaFixed::CheckFromLua(L, 1);
-	LuaFixed::PushToLua(L, (*v) * fixed(31416,1800000));
+	LuaFixed::PushToLua(L, (*v) * fixed(31416, 1800000));
 	return 1;
 }
 
@@ -148,7 +148,7 @@ void LuaFixed::Register(lua_State *L)
 void LuaFixed::PushToLua(lua_State *L, const fixed &v)
 {
 	LUA_DEBUG_START(L);
-	fixed *ptr = static_cast<fixed*>(lua_newuserdata(L, sizeof(fixed)));
+	fixed *ptr = static_cast<fixed *>(lua_newuserdata(L, sizeof(fixed)));
 	*ptr = v;
 	luaL_setmetatable(L, LuaFixed::TypeName);
 	LUA_DEBUG_END(L, 1);
@@ -156,10 +156,10 @@ void LuaFixed::PushToLua(lua_State *L, const fixed &v)
 
 const fixed *LuaFixed::GetFromLua(lua_State *L, int idx)
 {
-	return static_cast<fixed*>(luaL_testudata(L, idx, LuaFixed::TypeName));
+	return static_cast<fixed *>(luaL_testudata(L, idx, LuaFixed::TypeName));
 }
 
 const fixed *LuaFixed::CheckFromLua(lua_State *L, int idx)
 {
-	return static_cast<fixed*>(luaL_checkudata(L, idx, LuaFixed::TypeName));
+	return static_cast<fixed *>(luaL_checkudata(L, idx, LuaFixed::TypeName));
 }

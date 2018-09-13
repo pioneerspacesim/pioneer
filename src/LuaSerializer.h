@@ -4,10 +4,10 @@
 #ifndef _LUASERIALIZER_H
 #define _LUASERIALIZER_H
 
+#include "DeleteEmitter.h"
 #include "LuaManager.h"
 #include "LuaObject.h"
 #include "LuaRef.h"
-#include "DeleteEmitter.h"
 
 class LuaSerializer : public DeleteEmitter {
 	friend class LuaObject<LuaSerializer>;

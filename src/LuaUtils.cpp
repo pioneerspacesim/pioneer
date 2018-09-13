@@ -2,8 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaUtils.h"
-#include "libs.h"
 #include "FileSystem.h"
+#include "libs.h"
 
 extern "C" {
 #include "jenkins/lookup3.h"
@@ -55,28 +55,26 @@ static int l_hash_random(lua_State *L)
 
 	luaL_checkany(L, 1);
 	switch (lua_type(L, 1)) {
-		case LUA_TSTRING:
-		{
-			size_t sz;
-			const char *str = lua_tolstring(L, 1, &sz);
-			// jenkins/lookup3
-			lookup3_hashlittle2(str, sz, &hashA, &hashB);
-			break;
-		}
-		case LUA_TNUMBER:
-		{
-			double n = lua_tonumber(L, 1);
-			assert(!is_nan(n));
-			// jenkins/lookup3
-			// There are assumptions here that 'double' has the same in-memory
-			// representation on all platforms we care about. Also since we're
-			// taking a number as input, the source of that number (Lua code)
-			// needs to compute it in a way that gives the same result on all
-			// platforms, which may be tricky in some cases.
-			lookup3_hashlittle2(&n, sizeof(n), &hashA, &hashB);
-			break;
-		}
-		default: return luaL_error(L, "expected a string or a number for argument 1");
+	case LUA_TSTRING: {
+		size_t sz;
+		const char *str = lua_tolstring(L, 1, &sz);
+		// jenkins/lookup3
+		lookup3_hashlittle2(str, sz, &hashA, &hashB);
+		break;
+	}
+	case LUA_TNUMBER: {
+		double n = lua_tonumber(L, 1);
+		assert(!is_nan(n));
+		// jenkins/lookup3
+		// There are assumptions here that 'double' has the same in-memory
+		// representation on all platforms we care about. Also since we're
+		// taking a number as input, the source of that number (Lua code)
+		// needs to compute it in a way that gives the same result on all
+		// platforms, which may be tricky in some cases.
+		lookup3_hashlittle2(&n, sizeof(n), &hashA, &hashB);
+		break;
+	}
+	default: return luaL_error(L, "expected a string or a number for argument 1");
 	}
 
 	if (numargs == 1) {
@@ -98,13 +96,19 @@ static int l_hash_random(lua_State *L)
 		Sint64 m = Sint64(lua_tonumber(L, 2));
 		Sint64 n = Sint64(lua_tonumber(L, 3));
 
-		if (m > n) { return luaL_error(L, "arguments invalid (m > n not allowed)"); }
+		if (m > n) {
+			return luaL_error(L, "arguments invalid (m > n not allowed)");
+		}
 
 		// Restrict to 32-bit output. This is a bit weird because we allow both signed and unsigned.
 		if (m < 0) {
-			if (m < INT32_MIN || n > INT32_MAX) { return luaL_error(L, "arguments out of range for signed 32-bit int"); }
+			if (m < INT32_MIN || n > INT32_MAX) {
+				return luaL_error(L, "arguments out of range for signed 32-bit int");
+			}
 		} else {
-			if (n > UINT32_MAX) { return luaL_error(L, "arguments out of range for unsigned 32-bit int"); }
+			if (n > UINT32_MAX) {
+				return luaL_error(L, "arguments out of range for unsigned 32-bit int");
+			}
 		}
 
 		Uint64 range = n - m + 1;
@@ -141,7 +145,7 @@ static int l_trim(lua_State *l)
 	size_t len;
 	const char *str = luaL_checklstring(l, 1, &len);
 
-	if (len == 0 || (!isspace(str[0]) && !isspace(str[len-1]))) {
+	if (len == 0 || (!isspace(str[0]) && !isspace(str[len - 1]))) {
 		// empty string, or the string beings & ends with non-whitespace
 		// just return the same value
 		lua_pushvalue(l, 1);
@@ -149,8 +153,14 @@ static int l_trim(lua_State *l)
 	} else {
 		const char *first = str;
 		const char *last = str + (len - 1);
-		while (len && isspace(*first)) { ++first; --len; }
-		while (len && isspace(*last)) { --last; --len; }
+		while (len && isspace(*first)) {
+			++first;
+			--len;
+		}
+		while (len && isspace(*last)) {
+			--last;
+			--len;
+		}
 		lua_pushlstring(l, first, len);
 		return 1;
 	}
@@ -195,24 +205,23 @@ static bool _import_core(lua_State *L, const std::string &importName)
 
 #undef DEBUG_IMPORT
 #ifdef DEBUG_IMPORT
-	#define DEBUG_PRINTF Output
-	#define DEBUG_INDENTED_PRINTF IndentedOutput
-	#define DEBUG_INDENT_INCREASE IndentIncrease
-	#define DEBUG_INDENT_DECREASE IndentDecrease
+#define DEBUG_PRINTF Output
+#define DEBUG_INDENTED_PRINTF IndentedOutput
+#define DEBUG_INDENT_INCREASE IndentIncrease
+#define DEBUG_INDENT_DECREASE IndentDecrease
 #else
-	#define DEBUG_PRINTF(...)
-	#define DEBUG_INDENTED_PRINTF(...)
-	#define DEBUG_INDENT_INCREASE(...)
-	#define DEBUG_INDENT_DECREASE(...)
+#define DEBUG_PRINTF(...)
+#define DEBUG_INDENTED_PRINTF(...)
+#define DEBUG_INDENT_INCREASE(...)
+#define DEBUG_INDENT_DECREASE(...)
 #endif
 
 // simple struct to pass data between functions
-struct ImportInfo
-{
-	const std::string& importName; // original name argument from "import(importName)"
-	std::string& fileName; // name of the existing file
-	const bool& isFullName; // if true import will no try to load relative to the importDirectories
-	std::vector<std::string>& importDirectories; // contans list of paths where file can be imported
+struct ImportInfo {
+	const std::string &importName; // original name argument from "import(importName)"
+	std::string &fileName; // name of the existing file
+	const bool &isFullName; // if true import will no try to load relative to the importDirectories
+	std::vector<std::string> &importDirectories; // contans list of paths where file can be imported
 };
 
 /**
@@ -228,8 +237,7 @@ static std::string get_caller(lua_State *L)
 	lua_Debug ar;
 
 	// if have stack and caller in the stack
-	if (lua_getstack(L, 1, &ar) && lua_getinfo(L, "S", &ar) && ar.source)
-	{
+	if (lua_getstack(L, 1, &ar) && lua_getinfo(L, "S", &ar) && ar.source) {
 		int start = 0;
 		int end = strlen(ar.source);
 
@@ -255,7 +263,7 @@ static std::string get_caller(lua_State *L)
 * Requires a existing table in the stack at index -1.
 * Returns true if field exists and not nil, puts value to lua stack.
 */
-static bool get_cached(lua_State *L, const std::string& name)
+static bool get_cached(lua_State *L, const std::string &name)
 {
 	LUA_DEBUG_START(L);
 	assert(lua_istable(L, -1));
@@ -278,7 +286,7 @@ static bool get_cached(lua_State *L, const std::string& name)
 * Require a existing cache table in the stack at index -1.
 * Returns true if field not nil (exists), puts value to lua stack.
 */
-static bool import_from_cache(lua_State *L, const ImportInfo& importInfo)
+static bool import_from_cache(lua_State *L, const ImportInfo &importInfo)
 {
 	LUA_DEBUG_START(L);
 	assert(lua_istable(L, -1));
@@ -293,24 +301,23 @@ static bool import_from_cache(lua_State *L, const ImportInfo& importInfo)
 
 	// check original name, with lua extension and relative by dirs by same rule
 	// if isFullName is true, loop pass once and check only original importName
-	for (size_t i = 0; i < dirsToCheck; i++)
-	{
-		if (i == 0) cacheName = importInfo.importName;
-		else cacheName = FileSystem::NormalisePath( // normalize for relative paths as "../target"
-			FileSystem::JoinPath(importInfo.importDirectories[i - 1], importInfo.importName));
+	for (size_t i = 0; i < dirsToCheck; i++) {
+		if (i == 0)
+			cacheName = importInfo.importName;
+		else
+			cacheName = FileSystem::NormalisePath( // normalize for relative paths as "../target"
+				FileSystem::JoinPath(importInfo.importDirectories[i - 1], importInfo.importName));
 
 		// check original name
 		isImported = get_cached(L, cacheName);
 
 		// check name with extension
-		if (!isImported && !importInfo.isFullName)
-		{
+		if (!isImported && !importInfo.isFullName) {
 			cacheName += ".lua";
 			isImported = get_cached(L, cacheName);
 		}
 
-		if (isImported)
-		{
+		if (isImported) {
 			DEBUG_PRINTF(" found cached %s\n", cacheName.c_str());
 			break;
 		}
@@ -327,15 +334,14 @@ static bool import_from_cache(lua_State *L, const ImportInfo& importInfo)
 * Tries to load file.
 * Returns true if file exists and puts return of dofile to stack.
 */
-static bool load_file(lua_State *L, const std::string& name)
+static bool load_file(lua_State *L, const std::string &name)
 {
 	LUA_DEBUG_START(L);
 
 	RefCountedPtr<FileSystem::FileData> fileData = FileSystem::gameDataFiles.ReadFile(name);
 
 	// if file exists
-	if (fileData)
-	{
+	if (fileData) {
 		DEBUG_PRINTF(" loading %s...\n", name.c_str());
 		pi_lua_dofile(L, *fileData, 1);
 	}
@@ -349,7 +355,7 @@ static bool load_file(lua_State *L, const std::string& name)
 * If file found returns true, puts return of dofile to stack, no matter nil it or value.
 * If import was successful, changes fileName in the importInfo to the filename that was found.
 */
-static bool import_from_file(lua_State *L, ImportInfo& importInfo)
+static bool import_from_file(lua_State *L, ImportInfo &importInfo)
 {
 	LUA_DEBUG_START(L);
 	DEBUG_INDENTED_PRINTF("import [%s]: trying to load a file...", importInfo.importName.c_str());
@@ -363,24 +369,23 @@ static bool import_from_file(lua_State *L, ImportInfo& importInfo)
 
 	// load file with original name, with lua extension and relative by dirs by same rule
 	// if isFullName is true, loop pass once and check only original importName
-	for (size_t i = 0; i < dirsToCheck; i++)
-	{
-		if (i == 0) fileName = importInfo.importName;
-		else fileName = FileSystem::NormalisePath( // normalize for relative paths as "../target"
-			FileSystem::JoinPath(importInfo.importDirectories[i - 1], importInfo.importName));
+	for (size_t i = 0; i < dirsToCheck; i++) {
+		if (i == 0)
+			fileName = importInfo.importName;
+		else
+			fileName = FileSystem::NormalisePath( // normalize for relative paths as "../target"
+				FileSystem::JoinPath(importInfo.importDirectories[i - 1], importInfo.importName));
 
 		// check original name
 		isImported = load_file(L, fileName);
 
 		// check name with extension
-		if (!isImported && !importInfo.isFullName)
-		{
+		if (!isImported && !importInfo.isFullName) {
 			fileName += ".lua";
 			isImported = load_file(L, fileName);
 		}
 
-		if (isImported)
-		{
+		if (isImported) {
 			DEBUG_INDENTED_PRINTF("import [%s]: file %s loaded\n", importInfo.importName.c_str(), fileName.c_str());
 			importInfo.fileName = fileName;
 			break;
@@ -398,7 +403,7 @@ static bool import_from_file(lua_State *L, ImportInfo& importInfo)
 * Tries to import from core.
 * Returns true if imported, puts value to the stack.
 */
-static bool import_from_core(lua_State *L, const ImportInfo& importInfo)
+static bool import_from_core(lua_State *L, const ImportInfo &importInfo)
 {
 	LUA_DEBUG_START(L);
 	DEBUG_INDENTED_PRINTF("import [%s]: trying core import...", importInfo.importName.c_str());
@@ -417,25 +422,22 @@ static bool import_from_core(lua_State *L, const ImportInfo& importInfo)
 /**
 * Saves value with index -1 to table with index -2
 */
-static void save_to_cache(lua_State *L, const ImportInfo& importInfo)
+static void save_to_cache(lua_State *L, const ImportInfo &importInfo)
 {
 	LUA_DEBUG_START(L);
 
 	DEBUG_INDENTED_PRINTF("import [%s]: entering into cache...", importInfo.importName.c_str());
 
 	// cache if got not nil
-	if (!lua_isnil(L, -1))
-	{
+	if (!lua_isnil(L, -1)) {
 		lua_pushvalue(L, -1);
 		lua_setfield(L, -3, importInfo.fileName.c_str());
 		DEBUG_PRINTF(" saved with name %s\n", importInfo.fileName.c_str());
-	}
-	else
+	} else
 		DEBUG_PRINTF(" aborted because imported module returned nil\n");
 
 	LUA_DEBUG_END(L, 0); // function does not change the stack
 }
-
 
 /**
 * Imports from file or loads from cache lua module.
@@ -445,21 +447,20 @@ static void save_to_cache(lua_State *L, const ImportInfo& importInfo)
 * If isFullName disabled tries to check with .lua extension and also
 * relative by importDirectories. Else checks only by importName.
 */
-static bool _import(lua_State *L, const std::string& importName, bool isFullName = false)
+static bool _import(lua_State *L, const std::string &importName, bool isFullName = false)
 {
 	LUA_DEBUG_START(L);
 
 	bool isImported = false;
 	std::string fileName;
 
-	const std::string& caller = get_caller(L);
+	const std::string &caller = get_caller(L);
 	std::string callerDirectory;
 
 	if (!caller.empty())
 		callerDirectory = caller.substr(0, caller.find_last_of('/'));
 
-	std::vector<std::string> importDirectories
-	{
+	std::vector<std::string> importDirectories{
 		"libs"
 	};
 
@@ -476,15 +477,12 @@ static bool _import(lua_State *L, const std::string& importName, bool isFullName
 		importInfo.importName.c_str(), caller.empty() ? "core" : caller.c_str());
 
 	// add caller directory to import directories if exists
-	if (!isFullName && !callerDirectory.empty())
-	{
+	if (!isFullName && !callerDirectory.empty()) {
 		bool directoryExists = false;
 
 		// check if caller not exists in import directory
-		for (auto it = importInfo.importDirectories.begin(); it != importInfo.importDirectories.end(); ++it)
-		{
-			if (*it == callerDirectory)
-			{
+		for (auto it = importInfo.importDirectories.begin(); it != importInfo.importDirectories.end(); ++it) {
+			if (*it == callerDirectory) {
 				directoryExists = true;
 				break;
 			}
@@ -523,21 +521,16 @@ static bool _import(lua_State *L, const std::string& importName, bool isFullName
 
 	// generate error messages
 	DEBUG_INDENTED_PRINTF("import [%s]: generating error messages...", importInfo.importName.c_str());
-	if (isImported)
-	{
+	if (isImported) {
 		// usually happens when file not returns nothing or nil
-		if (lua_isnil(L, -1))
-		{
+		if (lua_isnil(L, -1)) {
 			lua_pop(L, 1);
 			DEBUG_PRINTF(" got error: %s did not return anything\n", importInfo.fileName.c_str());
 			lua_pushfstring(L, "import [%s]: %s did not return anything", importInfo.importName.c_str(), importInfo.fileName.c_str());
 			isImported = false;
-		}
-		else
+		} else
 			DEBUG_PRINTF(" no errors\n");
-	}
-	else
-	{
+	} else {
 		// if just not imported
 		DEBUG_PRINTF(" got error: not found\n");
 		lua_pushfstring(L, "import [%s]: not found", importInfo.importName.c_str());
@@ -549,7 +542,6 @@ static bool _import(lua_State *L, const std::string& importName, bool isFullName
 
 	return isImported;
 }
-
 
 static int l_d_null_userdata(lua_State *L)
 {
@@ -567,9 +559,9 @@ static int l_base_import(lua_State *L)
 bool pi_lua_import(lua_State *L, const std::string &importName, bool isFullName)
 {
 	if (!_import(L, importName, isFullName)) {
-		#ifndef DEBUG_IMPORT // already have extended info
+#ifndef DEBUG_IMPORT // already have extended info
 		Output("%s\n", lua_tostring(L, -1));
-		#endif
+#endif
 		lua_pop(L, 1);
 		return false;
 	}
@@ -582,14 +574,12 @@ void pi_lua_import_recursive(lua_State *L, const std::string &basepath)
 	DEBUG_INDENTED_PRINTF("import recursive [%s]: started\n", basepath.c_str());
 	DEBUG_INDENT_INCREASE();
 
-	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, basepath, FileSystem::FileEnumerator::IncludeDirs); !files.Finished(); files.Next())
-	{
+	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, basepath, FileSystem::FileEnumerator::IncludeDirs); !files.Finished(); files.Next()) {
 		const FileSystem::FileInfo &info = files.Current();
 		const std::string &fpath = info.GetPath();
 		if (info.IsDir()) {
 			pi_lua_import_recursive(L, fpath);
-		}
-		else {
+		} else {
 			assert(info.IsFile());
 			if (ends_with_ci(fpath, ".lua")) {
 				if (pi_lua_import(L, fpath, true))
@@ -683,7 +673,6 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_setglobal(L, "load");
 	lua_pushnil(L);
 	lua_setglobal(L, "loadstring");
-
 
 	// import table and function
 	lua_newtable(L);
@@ -834,7 +823,8 @@ int pi_lua_panic(lua_State *L)
 	RETURN_ZERO_NONGNU_ONLY;
 }
 
-void pi_lua_protected_call(lua_State* L, int nargs, int nresults) {
+void pi_lua_protected_call(lua_State *L, int nargs, int nresults)
+{
 	int handleridx = lua_gettop(L) - nargs;
 	lua_pushcfunction(L, &l_handle_error);
 	lua_insert(L, handleridx);
@@ -886,21 +876,23 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nr
 	int ret = lua_pcall(l, 0, nret, panicidx);
 	if (ret) {
 		const char *emsg = lua_tostring(l, -1);
-		if (emsg) { Output("lua error: %s\n", emsg); }
+		if (emsg) {
+			Output("lua error: %s\n", emsg);
+		}
 		switch (ret) {
-			case LUA_ERRRUN:
-				Output("Lua runtime error in pi_lua_dofile('%s')\n",
-						code.GetInfo().GetAbsolutePath().c_str());
-				break;
-			case LUA_ERRMEM:
-				Output("Memory allocation error in Lua pi_lua_dofile('%s')\n",
-						code.GetInfo().GetAbsolutePath().c_str());
-				break;
-			case LUA_ERRERR:
-				Output("Error running error handler in pi_lua_dofile('%s')\n",
-						code.GetInfo().GetAbsolutePath().c_str());
-				break;
-			default: abort();
+		case LUA_ERRRUN:
+			Output("Lua runtime error in pi_lua_dofile('%s')\n",
+				code.GetInfo().GetAbsolutePath().c_str());
+			break;
+		case LUA_ERRMEM:
+			Output("Memory allocation error in Lua pi_lua_dofile('%s')\n",
+				code.GetInfo().GetAbsolutePath().c_str());
+			break;
+		case LUA_ERRERR:
+			Output("Error running error handler in pi_lua_dofile('%s')\n",
+				code.GetInfo().GetAbsolutePath().c_str());
+			break;
+		default: abort();
 		}
 		lua_pop(l, 1);
 	}
@@ -929,8 +921,7 @@ void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath)
 {
 	LUA_DEBUG_START(l);
 
-	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, basepath, FileSystem::FileEnumerator::IncludeDirs); !files.Finished(); files.Next())
-	{
+	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, basepath, FileSystem::FileEnumerator::IncludeDirs); !files.Finished(); files.Next()) {
 		const FileSystem::FileInfo &info = files.Current();
 		const std::string &fpath = info.GetPath();
 		if (info.IsDir()) {
@@ -1050,4 +1041,3 @@ int secure_trampoline(lua_State *l)
 	lua_CFunction fn = lua_tocfunction(l, lua_upvalueindex(1));
 	return fn(l);
 }
-

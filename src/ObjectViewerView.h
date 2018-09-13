@@ -4,27 +4,29 @@
 #ifndef _OBJECTVIEWERVIEW_H
 #define _OBJECTVIEWERVIEW_H
 
-#include "libs.h"
-#include "gui/Gui.h"
-#include "UIView.h"
 #include "Camera.h"
+#include "UIView.h"
+#include "gui/Gui.h"
+#include "libs.h"
 
 #if WITH_OBJECTVIEWER
 
 class Body;
 
-class ObjectViewerView: public UIView {
+class ObjectViewerView : public UIView {
 public:
 	ObjectViewerView();
 	virtual void Update();
 	virtual void Draw3D();
+
 protected:
 	virtual void OnSwitchTo();
+
 private:
 	float viewingDist;
 	Gui::Label *m_infoLabel;
 	Gui::VBox *m_vbox;
-	const Body* lastTarget;
+	const Body *lastTarget;
 	matrix4x4d m_camRot;
 
 	RefCountedPtr<CameraContext> m_cameraContext;

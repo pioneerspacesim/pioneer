@@ -8,17 +8,18 @@
 
 namespace UI {
 
-class Button: public Single {
-public:
-	virtual Point PreferredSize();
-	virtual void Layout();
-	virtual void Draw();
+	class Button : public Single {
+	public:
+		virtual Point PreferredSize();
+		virtual void Layout();
+		virtual void Draw();
 
-protected:
-	friend class Context;
-	Button(Context *context): Single(context) {}
-};
+	protected:
+		friend class Context;
+		Button(Context *context) :
+			Single(context) {}
+	};
 
-}
+} // namespace UI
 
 #endif
