@@ -12,6 +12,7 @@ September 2018
      * Improve Joystick / Input Handling (#4432)
      * Update bundled IMGUI to v1.64 (#4437)
      * Added a clang-format harness (#4429)
+     * More Input Improvements (#4440)
 
    * Fixes
      * Quick fix for 4418, disallow zero length buffers (#4420)
