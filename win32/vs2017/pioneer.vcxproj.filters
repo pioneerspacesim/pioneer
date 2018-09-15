@@ -447,9 +447,6 @@
     <ClCompile Include="..\..\contrib\imgui\imgui_draw.cpp">
       <Filter>src\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\contrib\imgui\examples\sdl_opengl3_example\imgui_impl_sdl_gl3.cpp">
-      <Filter>src\imgui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LuaPiGui.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -461,9 +458,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Propulsion.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\contrib\imgui\examples\sdl_opengl2_example\imgui_impl_sdl.cpp">
-      <Filter>src\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GZipFormat.cpp">
       <Filter>src</Filter>
@@ -482,6 +476,18 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Input.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\contrib\imgui\imgui_widgets.cpp">
+      <Filter>src\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\contrib\imgui\examples\imgui_impl_opengl2.cpp">
+      <Filter>src\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\contrib\imgui\examples\imgui_impl_opengl3.cpp">
+      <Filter>src\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\contrib\imgui\examples\imgui_impl_sdl.cpp">
+      <Filter>src\imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -923,9 +929,6 @@
     <ClInclude Include="..\..\contrib\imgui\imgui.h">
       <Filter>src\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\contrib\imgui\examples\sdl_opengl3_example\imgui_impl_sdl_gl3.h">
-      <Filter>src\imgui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\contrib\nanosvg\nanosvg.h">
       <Filter>src\nanosvg</Filter>
     </ClInclude>
@@ -944,9 +947,6 @@
     <ClInclude Include="..\..\src\Propulsion.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\contrib\imgui\examples\sdl_opengl2_example\imgui_impl_sdl.h">
-      <Filter>src\imgui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\GZipFormat.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -964,6 +964,30 @@
     </ClInclude>
     <ClInclude Include="..\..\src\LuaInput.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\imgui\imconfig.h">
+      <Filter>src\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\imgui\imgui_internal.h">
+      <Filter>src\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\imgui\stb_rect_pack.h">
+      <Filter>src\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\imgui\stb_textedit.h">
+      <Filter>src\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\imgui\stb_truetype.h">
+      <Filter>src\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\imgui\examples\imgui_impl_opengl2.h">
+      <Filter>src\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\imgui\examples\imgui_impl_opengl3.h">
+      <Filter>src\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\imgui\examples\imgui_impl_sdl.h">
+      <Filter>src\imgui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
