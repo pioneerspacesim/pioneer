@@ -586,7 +586,7 @@ local radial_menu_actions_station = {
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIDockWith(target)
 		 		Game.player:SetNavTarget(target)
-			else 
+			else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
 	end},
@@ -599,10 +599,10 @@ local radial_menu_actions_all_bodies = {
 		 	Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 	Game.player:AIFlyTo(target)
 		 	Game.player:SetNavTarget(target)
-		else 
+		else
 			Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 		end
-		
+
 	end},
 }
 
@@ -613,7 +613,7 @@ local radial_menu_actions_systembody = {
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIEnterLowOrbit(target)
 		 		Game.player:SetNavTarget(target)
-		 	else 
+		 	else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
 	end},
@@ -623,7 +623,7 @@ local radial_menu_actions_systembody = {
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIEnterMediumOrbit(target)
 		 		Game.player:SetNavTarget(target)
-		 	else 
+		 	else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
 	end},
@@ -633,7 +633,7 @@ local radial_menu_actions_systembody = {
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIEnterHighOrbit(target)
 		 		Game.player:SetNavTarget(target)
-		 	else 
+		 	else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
 	end},

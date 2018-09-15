@@ -54,7 +54,9 @@ bool KeyBinding::IsActive() const
 	} else if (type == JOYSTICK_BUTTON) {
 		return Pi::input.JoystickButtonState(u.joystickButton.joystick, u.joystickButton.button) != 0;
 	} else if (type == JOYSTICK_HAT) {
-		return Pi::input.JoystickHatState(u.joystickHat.joystick, u.joystickHat.hat) == u.joystickHat.direction;
+		// SDL_HAT generates diagonal directions by ORing two cardinal directions.
+		int hatState = Pi::input.JoystickHatState(u.joystickHat.joystick, u.joystickHat.hat);
+		return (hatState & u.joystickHat.direction) == u.joystickHat.direction;
 	} else
 		abort();
 

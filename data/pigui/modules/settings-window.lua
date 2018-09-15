@@ -21,7 +21,7 @@ local pionillium = ui.fonts.pionillium
 
 local mainButtonSize = Vector(40,40) * (ui.screenHeight / 1200)
 local optionButtonSize = Vector(125,40) * (ui.screenHeight / 1200)
-local bindingButtonSize = Vector(175,25) * (ui.screenHeight / 1200)
+local bindingButtonSize = Vector(177,25) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
 
 local bindingPageFontSize = 36 * (ui.screenHeight / 1200)
@@ -394,75 +394,85 @@ local function actionBinding(info)
 	local bindings = { info.binding1, info.binding2 }
 	local descs = { info.bindingDescription1, info.bindingDescription2 }
 
-	ui.columns(3,"##bindings",false)
 	-- TODO: localizations for binding IDs
-	ui.text(info.id)
-	ui.nextColumn()
-	bindingTextButton((descs[1] or '')..'##'..info.id..'1', (descs[1] or ''), true, function()
-		showKeyCapture = true
-		keyCaptureId = info.id
-		keyCaptureNum = 1
-	end)
-	ui.nextColumn()
-	bindingTextButton((descs[2] or '')..'##'..info.id..'2', (descs[2] or ''), true, function()
-		showKeyCapture = true
-		keyCaptureId = info.id
-		keyCaptureNum = 2
-	end)
-	ui.columns(1,"",false)
+	if (ui.collapsingHeader(info.id)) then
+		ui.columns(3,"##bindings",false)
+		ui.nextColumn()
+		ui.text("Binding")
+		bindingTextButton((descs[1] or '')..'##'..info.id..'1', (descs[1] or ''), true, function()
+			showKeyCapture = true
+			keyCaptureId = info.id
+			keyCaptureNum = 1
+		end)
+		ui.nextColumn()
+		ui.text("Alt. Binding")
+		bindingTextButton((descs[2] or '')..'##'..info.id..'2', (descs[2] or ''), true, function()
+			showKeyCapture = true
+			keyCaptureId = info.id
+			keyCaptureNum = 2
+		end)
+		ui.columns(1,"",false)
+	end
 end
 
 local function axisBinding(info)
 	local bindings = { info.axis, info.positive, info.negative }
 	local descs = { info.axisDescription, info.positiveDescription, info.negativeDescription }
-	ui.columns(3,"##axisjoybindings",false)
 	-- TODO: localizations for binding IDs
-	ui.text(info.id)
-	ui.nextColumn()
-	bindingTextButton((descs[1] or '')..'##'..info.id..'axis', (descs[1] or ''), true, function()
-		showKeyCapture = true
-		keyCaptureId = info.id
-		keyCaptureNum = 1
-	end)
-	ui.nextColumn()
-	if info.axis then
-		local c, inverted, deadzone, sensitivity = nil, info.axis:sub(1,1) == "-",
-			tonumber(info.axis:match"/DZ(%d+%.%d*)" or 0) * 100,
-			tonumber(info.axis:match"/E(%d+%.%d*)" or 1) * 100
-		local axis = info.axis:match("Joy[0-9a-f]+/Axis%d+")
-		local function set_axis()
-			local _ax = (inverted and "-" or "") .. axis .. "/DZ" .. deadzone / 100.0 .. "/E" .. sensitivity / 100.0
-			Input.SetAxisBinding(info.id, _ax, info.positive, info.negative)
+	if (ui.collapsingHeader(info.id)) then
+		ui.columns(3,"##axisjoybindings",false)
+		ui.text("Axis:")
+		ui.nextColumn()
+		bindingTextButton((descs[1] or '')..'##'..info.id..'axis', (descs[1] or ''), true, function()
+			showKeyCapture = true
+			keyCaptureId = info.id
+			keyCaptureNum = 1
+		end)
+		ui.nextColumn()
+		if info.axis then
+			local c, inverted, deadzone, sensitivity = nil, info.axis:sub(1,1) == "-",
+				tonumber(info.axis:match"/DZ(%d+%.%d*)" or 0) * 100,
+				tonumber(info.axis:match"/E(%d+%.%d*)" or 1) * 100
+			local axis = info.axis:match("Joy[0-9a-f]+/Axis%d+")
+			local function set_axis()
+				local _ax = (inverted and "-" or "") .. axis .. "/DZ" .. deadzone / 100.0 .. "/E" .. sensitivity / 100.0
+				Input.SetAxisBinding(info.id, _ax, info.positive, info.negative)
+			end
+			-- TODO: localize this and find a better way to handle it.
+			c,inverted = ui.checkbox("Inverted##"..info.id, inverted, "Invert Axis")
+			set_axis()
+			ui.nextColumn()
+			ui.nextColumn()
+			-- ui.columns(3, "##axisinfo", false)
+			-- TODO: localize all of these
+			-- ui.text("Options:")
+			-- ui.nextColumn()
+			c, deadzone = slider("Deadzone##"..info.id, deadzone, 0, 100, "Axis Deadzone")
+			set_axis()
+			ui.nextColumn()
+			c,sensitivity = slider("Sensitivity##"..info.id, sensitivity, 0, 100, "Axis Sensitivity")
+			set_axis()
 		end
-		-- TODO: localize this and find a better way to handle it.
-		c,inverted = ui.checkbox("Inverted##"..info.id, inverted, "Invert Axis")
-		set_axis()
-		ui.columns(3, "##axisinfo", false)
-		-- TODO: localize all of these
-		ui.text("Options:")
 		ui.nextColumn()
-		c, deadzone = slider("Deadzone##"..info.id, deadzone, 0, 100, "Axis Deadzone")
-		set_axis()
+		ui.columns(3,"##axiskeybindings",false)
+		-- TODO: translate this string
+		ui.text("Key Bindings:")
 		ui.nextColumn()
-		c,sensitivity = slider("Sensitivity##"..info.id, sensitivity, 0, 100, "Axis Sensitivity")
-		set_axis()
+		ui.text("Positive:")
+		bindingTextButton((descs[2] or '')..'##'..info.id..'positive', (descs[2] or ''), true, function()
+			showKeyCapture = true
+			keyCaptureId = info.id
+			keyCaptureNum = 2
+		end)
+		ui.nextColumn()
+		ui.text("Negative:")
+		bindingTextButton((descs[3] or '')..'##'..info.id..'negative', (descs[3] or ''), true, function()
+			showKeyCapture = true
+			keyCaptureId = info.id
+			keyCaptureNum = 3
+		end)
+		ui.columns(1,"",false)
 	end
-	ui.columns(3,"##axiskeybindings",false)
-	-- TODO: translate this string
-	ui.text("Key Bindings:")
-	ui.nextColumn()
-	bindingTextButton((descs[2] or '')..'##'..info.id..'positive', (descs[2] or ''), true, function()
-		showKeyCapture = true
-		keyCaptureId = info.id
-		keyCaptureNum = 2
-	end)
-	ui.nextColumn()
-	bindingTextButton((descs[3] or '')..'##'..info.id..'negative', (descs[3] or ''), true, function()
-		showKeyCapture = true
-		keyCaptureId = info.id
-		keyCaptureNum = 3
-	end)
-	ui.columns(1,"",false)
 end
 
 local function showControlsOptions()
