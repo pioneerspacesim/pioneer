@@ -13,6 +13,7 @@ September 2018
      * Update bundled IMGUI to v1.64 (#4437)
      * Added a clang-format harness (#4429)
      * More Input Improvements (#4440)
+     * Update CMakeLists.txt to build the modelcompiler (#4447)
 
    * Fixes
      * Quick fix for 4418, disallow zero length buffers (#4420)
