@@ -69,6 +69,7 @@ foreach (each IN LISTS SRC_FOLDERS)
 endforeach (each IN LISTS SRC_FOLDERS)
 
 list(REMOVE_ITEM CXX_FILES
+	src/main.cpp
 	src/modelcompiler.cpp
 	src/tests.cpp
 	src/textstress.cpp
@@ -142,8 +143,12 @@ if (NOT USE_SYSTEM_LIBLUA)
 	include_directories(contrib/lua)
 endif (NOT USE_SYSTEM_LIBLUA)
 
-add_executable(${PROJECT_NAME} WIN32 ${CXX_FILES})
-target_link_libraries(${PROJECT_NAME} LINK_PRIVATE
+add_library(pioneerLib OBJECT ${CXX_FILES})
+
+add_executable(${PROJECT_NAME} WIN32 src/main.cpp)
+add_executable(modelcompiler WIN32 src/modelcompiler.cpp)
+
+list(APPEND pioneerLibs
 	${ASSIMP_LIBRARIES}
 	${FREETYPE_LIBRARIES}
 	${OPENGL_LIBRARIES}
@@ -159,19 +164,23 @@ target_link_libraries(${PROJECT_NAME} LINK_PRIVATE
 	json
 	picodds
 	profiler
+	pioneerLib
 )
 
+target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs})
+target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs})
+
 if (WIN32)
-	target_link_libraries(${PROJECT_NAME} LINK_PRIVATE shlwapi)
+	target_link_libraries(${PROJECT_NAME} modelcompiler LINK_PRIVATE shlwapi)
 endif (WIN32)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES
+set_target_properties(${PROJECT_NAME} modelcompiler PROPERTIES
 	CXX_STANDARD 11
 	CXX_STANDARD_REQUIRED ON
 	CXX_EXTENSIONS ON
 )
 
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS ${PROJECT_NAME} modelcompiler
 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 install(DIRECTORY data
