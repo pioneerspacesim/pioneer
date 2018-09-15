@@ -7,7 +7,6 @@
 // Use GLEW instead of GL3W.
 #define IMGUI_IMPL_OPENGL_LOADER_GLEW 1
 #include "imgui/examples/imgui_impl_opengl3.h"
-#include "imgui/examples/imgui_impl_opengl2.h"
 #include "imgui/examples/imgui_impl_sdl.h"
 // to get ImVec2 + ImVec2
 #define IMGUI_DEFINE_MATH_OPERATORS true
@@ -198,9 +197,6 @@ void PiGui::Init(SDL_Window *window) {
 	case Graphics::RENDERER_DUMMY:
 		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
 		return;
-	case Graphics::RENDERER_OPENGL_21:
-		ImGui_ImplOpenGL2_Init();
-		break;
 	case Graphics::RENDERER_OPENGL_3x:
 		ImGui_ImplOpenGL3_Init();
 		break;
@@ -372,9 +368,6 @@ void PiGui::NewFrame(SDL_Window *window) {
 	case Graphics::RENDERER_DUMMY:
 		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
 		return;
-	case Graphics::RENDERER_OPENGL_21:
-		ImGui_ImplOpenGL2_NewFrame();
-		break;
 	case Graphics::RENDERER_OPENGL_3x:
 		ImGui_ImplOpenGL3_NewFrame();
 		break;
@@ -429,9 +422,6 @@ void PiGui::RenderImGui() {
 	default:
 	case Graphics::RENDERER_DUMMY:
 		return;
-	case Graphics::RENDERER_OPENGL_21:
-		ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-		break;
 	case Graphics::RENDERER_OPENGL_3x:
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		break;
@@ -655,9 +645,6 @@ void PiGui::Cleanup() {
 	default:
 	case Graphics::RENDERER_DUMMY:
 		return;
-	case Graphics::RENDERER_OPENGL_21:
-		ImGui_ImplOpenGL2_Shutdown();
-		break;
 	case Graphics::RENDERER_OPENGL_3x:
 		ImGui_ImplOpenGL3_Shutdown();
 		break;

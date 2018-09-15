@@ -74,7 +74,6 @@
 #include "galaxy/StarSystem.h"
 #include "gameui/Lua.h"
 // ------------------------------------------------------------
-#include "graphics/gl2/GL2Renderer.h"
 #include "graphics/opengl/RendererGL.h"
 // ------------------------------------------------------------
 #include "graphics/Graphics.h"
@@ -473,20 +472,15 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	OutputVersioningInfo();
 
-	Graphics::RendererGL2::RegisterRenderer();
 	Graphics::RendererOGL::RegisterRenderer();
 
 	// determine what renderer we should use, default to Opengl 3.x
 	const std::string rendererName = config->String("RendererName", Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x));
 	Graphics::RendererType rType = Graphics::RENDERER_OPENGL_3x;
-	if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_21))
-	{
-		rType = Graphics::RENDERER_OPENGL_21;
-	}
-	else if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x))
-	{
-		rType = Graphics::RENDERER_OPENGL_3x;
-	}
+	//if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x))
+	//{
+	//	rType = Graphics::RENDERER_OPENGL_3x;
+	//}
 
 	// Do rest of SDL video initialization and create Renderer
 	Graphics::Settings videoSettings = {};

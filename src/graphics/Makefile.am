@@ -1,4 +1,4 @@
-SUBDIRS = opengl gl2 dummy
+SUBDIRS = opengl dummy
 
 include $(top_srcdir)/Makefile.common
 
