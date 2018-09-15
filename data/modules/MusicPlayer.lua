@@ -58,7 +58,7 @@ end
 local playAmbient = function ()
 	local category
 
-	local sol = SystemPath.New(0, 0, 0)
+	local sol = SystemPath.New(0, 0, 0, 0, 0)
 	local unexplored_distance = 690
 
 	-- if we're near a planet or spacestation then choose something specific

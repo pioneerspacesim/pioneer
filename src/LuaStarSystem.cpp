@@ -359,9 +359,17 @@ static int l_starsystem_distance_to(lua_State *l)
 	RefCountedPtr<const Sector> sec1 = s->m_galaxy->GetSector(*loc1);
 	RefCountedPtr<const Sector> sec2 = s->m_galaxy->GetSector(*loc2);
 
-	double dist = Sector::DistanceBetween(sec1, loc1->systemIndex, sec2, loc2->systemIndex);
-
-	lua_pushnumber(l, dist);
+	// this only works if the SystemPath is valid
+	if (loc1->HasValidSystem() && loc2->HasValidSystem())
+	{
+		double dist = Sector::DistanceBetween(sec1, loc1->systemIndex, sec2, loc2->systemIndex);
+		lua_pushnumber(l, dist);
+	}
+	else
+	{
+		lua_pushnumber(l, FLT_MAX);
+		return luaL_error(l, "Cannot compare non-systemPaths");
+	}
 
 	LUA_DEBUG_END(l, 1);
 	return 1;
