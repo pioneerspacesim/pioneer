@@ -115,7 +115,8 @@ CustomSystem:new('NN 3149',{'STAR_M'}):add_to_sector(2,-4,-3,v(0.229,0.712,0.616
 CustomSystem:new('Alpha Mensae',{'STAR_G'}):add_to_sector(1,0,-4,v(0.087,0.049,0.008))
 CustomSystem:new('NN 3146',{'STAR_M'}):add_to_sector(1,-3,0,v(0.881,0.224,0.811))
 CustomSystem:new('NN 3140',{'STAR_M'}):add_to_sector(2,-4,0,v(0.389,0.259,0.906))
-CustomSystem:new('Tau Ceti',{'STAR_G'}):add_to_sector(0,-2,-1,v(0.627,0.715,0.592))
+--CustomSystem:new('Tau Ceti',{'STAR_G'}):add_to_sector(0,-2,-1,v(0.627,0.715,0.592))
+--System already customized in custom\12_tau_ceti.lua
 CustomSystem:new('GJ 1128',{'STAR_M'}):add_to_sector(0,0,-3,v(0.513,0.753,0.637))
 CustomSystem:new('Gliese 609',{'STAR_M'}):add_to_sector(-4,1,1,v(0.651,0.877,0.443))
 CustomSystem:new('GJ 1148',{'STAR_M'}):add_to_sector(0,3,3,v(0.263,0.292,0.053))
