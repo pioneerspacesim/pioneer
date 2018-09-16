@@ -20,6 +20,7 @@ September 2018
      * Fix crash when changing distance sort choice (#4428)
      * Fix for issue 4386 (#4404)
      * The docking request does not require an Autopilot (#4431)
+     * SystemPath was not fully specified causing a crash (#4449)
 
 August 2018
    * New Features
