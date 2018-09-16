@@ -24,6 +24,17 @@
 
 //#define DEBUG_DUMP
 
+namespace
+{
+	bool InvalidSystemNameChar (char c)
+	{
+		return !(
+			(c >= 'a' && c <= 'z') ||
+			(c >= 'A' && c <= 'Z') ||
+			(c >= '0' && c <= '9'));
+	}
+}
+
 // indexed by enum type turd
 const Color StarSystem::starColors[] = {
 	{ 0, 0, 0 }, // gravpoint
@@ -898,54 +909,51 @@ RefCountedPtr<StarSystem> StarSystem::FromJson(RefCountedPtr<Galaxy> galaxy, con
 	return galaxy->GetStarSystem(SystemPath(sec_x, sec_y, sec_z, sys_idx));
 }
 
-std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body) {
+std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body)
+{
 	const int multiplier = 10000;
-	int i;
 
+	// strip characters that will not work in Lua
 	std::string code_name = body->GetName();
 	std::transform(code_name.begin(), code_name.end(), code_name.begin(), ::tolower);
-	code_name.erase(remove_if(code_name.begin(), code_name.end(), isspace), code_name.end());
-	for(unsigned int j = 0; j < code_name.length(); j++) {
-		if(code_name[j] == ',')
-			code_name[j] = 'X';
-		if(!((code_name[j] >= 'a' && code_name[j] <= 'z') ||
-				(code_name[j] >= 'A' && code_name[j] <= 'Z') ||
-				(code_name[j] >= '0' && code_name[j] <= '9')))
-			code_name[j] = 'Y';
-	}
+	code_name.erase(remove_if(code_name.begin(), code_name.end(), InvalidSystemNameChar), code_name.end());
 
-	std::string code_list = code_name;
-
-	for(i = 0; ENUM_BodyType[i].name != 0; i++) {
-		if(ENUM_BodyType[i].value == body->GetType())
+	// find the body type index so we can lookup the name
+	const char *pBodyTypeName = nullptr;
+	for (int bodyTypeIdx = 0; ENUM_BodyType[bodyTypeIdx].name != 0; bodyTypeIdx++) {
+		if (ENUM_BodyType[bodyTypeIdx].value == body->GetType()) {
+			pBodyTypeName = ENUM_BodyType[bodyTypeIdx].name;
 			break;
+		}
 	}
 
-	if(body->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+	if (body->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
+	{
 		fprintf(f,
 			"local %s = CustomSystemBody:new(\"%s\", '%s')\n"
-				"\t:latitude(math.deg2rad(%.1f))\n"
-                "\t:longitude(math.deg2rad(%.1f))\n",
+			"\t:latitude(math.deg2rad(%.1f))\n"
+			"\t:longitude(math.deg2rad(%.1f))\n",
 
-				code_name.c_str(),
-				body->GetName().c_str(), ENUM_BodyType[i].name,
-				body->m_inclination.ToDouble()*180/M_PI,
-				body->m_orbitalOffset.ToDouble()*180/M_PI
-				);
-	} else {
-
+			code_name.c_str(),
+			body->GetName().c_str(), pBodyTypeName,
+			body->m_inclination.ToDouble() * 180 / M_PI,
+			body->m_orbitalOffset.ToDouble() * 180 / M_PI
+		);
+	}
+	else
+	{
 		fprintf(f,
-				"local %s = CustomSystemBody:new(\"%s\", '%s')\n"
-				"\t:radius(f(%d,%d))\n"
-				"\t:mass(f(%d,%d))\n",
-				code_name.c_str(),
-				body->GetName().c_str(), ENUM_BodyType[i].name,
-				int(round(body->GetRadiusAsFixed().ToDouble()*multiplier)), multiplier,
-				int(round(body->GetMassAsFixed().ToDouble()*multiplier)), multiplier
+			"local %s = CustomSystemBody:new(\"%s\", '%s')\n"
+			"\t:radius(f(%d,%d))\n"
+			"\t:mass(f(%d,%d))\n",
+			code_name.c_str(),
+			body->GetName().c_str(), pBodyTypeName,
+			int(round(body->GetRadiusAsFixed().ToDouble()*multiplier)), multiplier,
+			int(round(body->GetMassAsFixed().ToDouble()*multiplier)), multiplier
 		);
 
-		if(body->GetType() != SystemBody::TYPE_GRAVPOINT)
-		fprintf(f,
+		if (body->GetType() != SystemBody::TYPE_GRAVPOINT)
+			fprintf(f,
 				"\t:seed(%u)\n"
 				"\t:temp(%d)\n"
 				"\t:semi_major_axis(f(%d,%d))\n"
@@ -955,25 +963,25 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body) {
 				"\t:rotational_phase_at_start(fixed.deg2rad(f(%d,%d)))\n"
 				"\t:orbital_phase_at_start(fixed.deg2rad(f(%d,%d)))\n"
 				"\t:orbital_offset(fixed.deg2rad(f(%d,%d)))\n",
-			body->GetSeed(), body->GetAverageTemp(),
-			int(round(body->GetOrbit().GetSemiMajorAxis()/AU*multiplier)), multiplier,
-			int(round(body->GetOrbit().GetEccentricity()*multiplier)), multiplier,
-			int(round(body->m_rotationPeriod.ToDouble()*multiplier)), multiplier,
-			int(round(body->GetAxialTilt()*multiplier)), multiplier,
-			int(round(body->m_rotationalPhaseAtStart.ToDouble()*multiplier*180/M_PI)), multiplier,
-			int(round(body->m_orbitalPhaseAtStart.ToDouble()*multiplier*180/M_PI)), multiplier,
-			int(round(body->m_orbitalOffset.ToDouble()*multiplier*180/M_PI)), multiplier
-		);
+				body->GetSeed(), body->GetAverageTemp(),
+				int(round(body->GetOrbit().GetSemiMajorAxis() / AU * multiplier)), multiplier,
+				int(round(body->GetOrbit().GetEccentricity()*multiplier)), multiplier,
+				int(round(body->m_rotationPeriod.ToDouble()*multiplier)), multiplier,
+				int(round(body->GetAxialTilt()*multiplier)), multiplier,
+				int(round(body->m_rotationalPhaseAtStart.ToDouble()*multiplier * 180 / M_PI)), multiplier,
+				int(round(body->m_orbitalPhaseAtStart.ToDouble()*multiplier * 180 / M_PI)), multiplier,
+				int(round(body->m_orbitalOffset.ToDouble()*multiplier * 180 / M_PI)), multiplier
+			);
 
-		if(body->GetType() == SystemBody::TYPE_PLANET_TERRESTRIAL)
+		if (body->GetType() == SystemBody::TYPE_PLANET_TERRESTRIAL)
 			fprintf(f,
-					"\t:metallicity(f(%d,%d))\n"
-					"\t:volcanicity(f(%d,%d))\n"
-					"\t:atmos_density(f(%d,%d))\n"
-					"\t:atmos_oxidizing(f(%d,%d))\n"
-					"\t:ocean_cover(f(%d,%d))\n"
-					"\t:ice_cover(f(%d,%d))\n"
-					"\t:life(f(%d,%d))\n",
+				"\t:metallicity(f(%d,%d))\n"
+				"\t:volcanicity(f(%d,%d))\n"
+				"\t:atmos_density(f(%d,%d))\n"
+				"\t:atmos_oxidizing(f(%d,%d))\n"
+				"\t:ocean_cover(f(%d,%d))\n"
+				"\t:ice_cover(f(%d,%d))\n"
+				"\t:life(f(%d,%d))\n",
 				int(round(body->GetMetallicity()*multiplier)), multiplier,
 				int(round(body->GetVolcanicity()*multiplier)), multiplier,
 				int(round(body->GetVolatileGas()*multiplier)), multiplier,
@@ -986,7 +994,8 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body) {
 
 	fprintf(f, "\n");
 
-	if(body->m_children.size() > 0) {
+	std::string code_list = code_name;
+	if (body->m_children.size() > 0) {
 		code_list = code_list + ", \n\t{\n";
 		for (Uint32 ii = 0; ii < body->m_children.size(); ii++) {
 			code_list = code_list + "\t" + ExportBodyToLua(f, body->m_children[ii]) + ", \n";
@@ -995,20 +1004,19 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body) {
 	}
 
 	return code_list;
-
 }
 
 std::string StarSystem::GetStarTypes(SystemBody *body) {
-	int i = 0;
+	int bodyTypeIdx = 0;
 	std::string types = "";
 
 	if(body->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
-		for(i = 0; ENUM_BodyType[i].name != 0; i++) {
-			if(ENUM_BodyType[i].value == body->GetType())
+		for(bodyTypeIdx = 0; ENUM_BodyType[bodyTypeIdx].name != 0; bodyTypeIdx++) {
+			if(ENUM_BodyType[bodyTypeIdx].value == body->GetType())
 				break;
 		}
 
-		types = types + "'" + ENUM_BodyType[i].name + "', ";
+		types = types + "'" + ENUM_BodyType[bodyTypeIdx].name + "', ";
 	}
 
 	for (Uint32 ii = 0; ii < body->m_children.size(); ii++) {
