@@ -6,7 +6,7 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-    packages:
+    packages: &packages
       - mesa-common-dev
       - libfreetype6-dev
       - libfreeimage-dev
@@ -31,11 +31,6 @@ matrix:
     - name: build-gcc
       script:
         - ./bootstrap && ./configure --with-thirdparty=$(pwd)/pioneer-thirdparty LIBS="-ldl -lrt -lpthread" && make
-
-    - name: build-mxe
-      env: CONFIGURE_OPTS=--with-mxe BUILD_TYPE=mxe
-      script:
-        - ./bootstrap && ./configure --with-thirdparty=$(pwd)/pioneer-thirdparty LIBS="-ldl -lrt -lpthread" --with-mxe && make
 
 before_install:
   - git clone --depth 1 git://github.com/pioneerspacesim/pioneer-thirdparty.git pioneer-thirdparty

@@ -17,7 +17,7 @@ mkdir -p $COPY_DIR
 echo "Starting release process..."
 
 # Copy binaries
-cp "${BINARIES[*]}" $COPY_DIR
+cp "${BINARIES[@]}" $COPY_DIR
 if [ "$BUILD_TYPE" == "mxe" ]; then
     cp src/pioneer.map src/modelcompiler.map $COPY_DIR
 fi
@@ -28,12 +28,12 @@ echo "Copied binaries."
 ls *.txt | grep -v -E '(COMPILING\.txt|SAVEBUMP\.txt|CMakeLists\.txt)' | xargs cp -t $COPY_DIR
 cp README.md $COPY_DIR
 # Copy the licenses
-cp -r licenses $COPY_DIR/licenses
+cp -r licenses -t $COPY_DIR
 
 echo "Copied text files."
 
 # Copy the text files
-cp -r data $COPY_DIR/data
+cp -r data -t $COPY_DIR
 
 echo "Copied data files."
 
