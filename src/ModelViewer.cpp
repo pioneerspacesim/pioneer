@@ -3,7 +3,6 @@
 
 #include "ModelViewer.h"
 #include "FileSystem.h"
-#include "graphics/gl2/GL2Renderer.h"
 #include "graphics/opengl/RendererGL.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
@@ -148,20 +147,15 @@ void ModelViewer::Run(const std::string &modelName)
 
 	ModManager::Init();
 
-	Graphics::RendererGL2::RegisterRenderer();
 	Graphics::RendererOGL::RegisterRenderer();
 
 	// determine what renderer we should use, default to Opengl 3.x
 	const std::string rendererName = config->String("RendererName", Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x));
 	Graphics::RendererType rType = Graphics::RENDERER_OPENGL_3x;
-	if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_21))
-	{
-		rType = Graphics::RENDERER_OPENGL_21;
-	}
-	else if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x))
-	{
-		rType = Graphics::RENDERER_OPENGL_3x;
-	}
+	//if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x))
+	//{
+	//	rType = Graphics::RENDERER_OPENGL_3x;
+	//}
 
 	//video
 	Graphics::Settings videoSettings = {};

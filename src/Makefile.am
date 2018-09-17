@@ -313,7 +313,6 @@ pioneer_LDADD = \
 	gui/libgui.a \
 	graphics/libgraphics.a \
 	graphics/opengl/libgraphicsopengl.a \
-	graphics/gl2/libgraphicsgl2.a \
 	galaxy/libgalaxy.a \
 	scenegraph/libscenegraph.a \
 	text/libtext.a \
@@ -404,7 +403,6 @@ uitest_LDADD = \
 	text/libtext.a \
 	graphics/libgraphics.a \
 	graphics/opengl/libgraphicsopengl.a \
-	graphics/gl2/libgraphicsgl2.a \
 	posix/libposix.a \
 	../contrib/jenkins/libjenkins.a \
 	../contrib/PicoDDS/libpicodds.a \

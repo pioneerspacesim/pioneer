@@ -54,7 +54,6 @@ list(APPEND SRC_FOLDERS
 	src/gameui
 	src/graphics
 	src/graphics/dummy
-	src/graphics/gl2
 	src/graphics/opengl
 	src/gui
 	src/scenegraph

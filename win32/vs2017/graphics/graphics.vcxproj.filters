@@ -71,54 +71,6 @@
     <ClCompile Include="..\..\..\src\graphics\opengl\BillboardMaterial.cpp">
       <Filter>opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2FresnelColourMaterial.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2GasGiantMaterial.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2GeoSphereMaterial.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2Material.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2MultiMaterial.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2Program.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2Renderer.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2RenderState.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2RenderTarget.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2RingMaterial.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2ShieldMaterial.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2Texture.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2UIMaterial.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2Uniform.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2VertexBuffer.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2VtxColorMaterial.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
@@ -219,69 +171,6 @@
     <ClInclude Include="..\..\..\src\graphics\opengl\BillboardMaterial.h">
       <Filter>opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2Debug.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2FresnelColourMaterial.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2GasGiantMaterial.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2GeoSphereMaterial.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2Material.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2MultiMaterial.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2Program.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2Renderer.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2RenderState.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2RenderTarget.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2RingMaterial.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2ShieldMaterial.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2SkyboxMaterial.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2SphereImpostorMaterial.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2StarfieldMaterial.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2Texture.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2UIMaterial.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2Uniform.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2VertexBuffer.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2VtxColorMaterial.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\gl2\OpenGLLibs.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">
@@ -292,9 +181,6 @@
     </Filter>
     <Filter Include="dummy">
       <UniqueIdentifier>{613c7313-f10f-43ec-92f0-5f0c66d0cfc6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="gl2">
-      <UniqueIdentifier>{49b68888-98a5-4d7e-a571-7b150c0b0726}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
