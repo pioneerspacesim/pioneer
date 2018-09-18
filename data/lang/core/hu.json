@@ -977,7 +977,7 @@
   },
   "NO_AUTOPILOT_INSTALLED": {
     "description": "",
-    "message": "Autopilot not installed on ship, cannot enable autopilot"
+    "message": "Nincs robotpilóta telepítve, nem aktiválható."
   },
   "NO_CENTRAL_GOVERNANCE": {
     "description": "",
