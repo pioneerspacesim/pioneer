@@ -103,11 +103,11 @@ void LuaRef::SaveToJson(Json::Value &jsonObj)
 		return;
 	}
 
-	std::string out;
+	Json::Value out;
 	PushCopyToStack();
-	serializer->pickle(m_lua, -1, out);
+	LuaSerializer::pickle_json(m_lua, -1, out);
 	lua_pop(m_lua, 1);
-	jsonObj["lua_ref"] = out;
+	jsonObj["lua_ref_json"] = out;
 
 	LUA_DEBUG_END(m_lua, 0);
 }
@@ -115,10 +115,6 @@ void LuaRef::SaveToJson(Json::Value &jsonObj)
 void LuaRef::LoadFromJson(const Json::Value &jsonObj)
 {
 	if (!m_lua) { m_lua = Lua::manager->GetLuaState(); }
-
-	if (!jsonObj.isMember("lua_ref")) throw SavedGameCorruptException();
-
-	std::string pickled = jsonObj["lua_ref"].asString();
 
 	LUA_DEBUG_START(m_lua);
 
@@ -131,7 +127,16 @@ void LuaRef::LoadFromJson(const Json::Value &jsonObj)
 		return;
 	}
 
-	serializer->unpickle(m_lua, pickled.c_str()); // loaded
+	if (jsonObj.isMember("lua_ref_json")) {
+		LuaSerializer::unpickle_json(m_lua, jsonObj["lua_ref_json"]);
+	} else if (jsonObj.isMember("lua_ref")) {
+		std::string pickled = jsonObj["lua_ref"].asString();
+		LuaSerializer::unpickle(m_lua, pickled.c_str());
+	} else {
+		throw SavedGameCorruptException();
+	}
+
+	// Lua stack: loaded
 	lua_getfield(m_lua, LUA_REGISTRYINDEX, "PiLuaRefLoadTable"); // loaded, reftable
 	lua_pushvalue(m_lua, -2); // loaded, reftable, copy
 	lua_gettable(m_lua, -2);  // loaded, reftable, luaref

@@ -738,22 +738,8 @@ static int l_body_get_target_indicator_screen_position(lua_State *l)
 	return pushOnScreenPositionDirection(l, p);
 }
 
-static std::string _body_serializer(LuaWrappable *o)
-{
-	static char buf[256];
-	Body *b = static_cast<Body*>(o);
-	snprintf(buf, sizeof(buf), "%u\n", Pi::game->GetSpace()->GetIndexForBody(b));
-	return std::string(buf);
-}
-
-static bool _body_deserializer(const char *pos, const char **next)
-{
-	Uint32 n = strtoul(pos, const_cast<char**>(next), 0);
-	if (pos == *next) return false;
-	(*next)++; // skip newline
-
-	Body *body = Pi::game->GetSpace()->GetBodyByIndex(n);
-
+static bool push_body_to_lua(Body *body) {
+	assert(body);
 	switch (body->GetType()) {
 	case Object::BODY:
 		LuaObject<Body>::PushToLua(body);
@@ -788,8 +774,38 @@ static bool _body_deserializer(const char *pos, const char **next)
 	default:
 		return false;
 	}
-
 	return true;
+}
+
+static std::string _body_serializer(LuaWrappable *o)
+{
+	static char buf[256];
+	Body *b = static_cast<Body*>(o);
+	snprintf(buf, sizeof(buf), "%u\n", Pi::game->GetSpace()->GetIndexForBody(b));
+	return std::string(buf);
+}
+
+static bool _body_deserializer(const char *pos, const char **next)
+{
+	Uint32 n = strtoul(pos, const_cast<char**>(next), 0);
+	if (pos == *next) return false;
+	(*next)++; // skip newline
+
+	Body *body = Pi::game->GetSpace()->GetBodyByIndex(n);
+	return push_body_to_lua(body);
+}
+
+static void _body_to_json(Json::Value &out, LuaWrappable *o)
+{
+	Body *b = static_cast<Body*>(o);
+	out = Json::Value(Pi::game->GetSpace()->GetIndexForBody(b));
+}
+
+static bool _body_from_json(const Json::Value &obj)
+{
+	if (!obj.isIntegral()) return false;
+	Body *body = Pi::game->GetSpace()->GetBodyByIndex(obj.asUInt());
+	return push_body_to_lua(body);
 }
 
 template <> const char *LuaObject<Body>::s_type = "Body";
@@ -835,18 +851,20 @@ template <> void LuaObject<Body>::RegisterClass()
 		{ 0, 0 }
 	};
 
+	const SerializerPair body_serializers(_body_serializer, _body_deserializer, _body_to_json, _body_from_json);
+
 	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Body>::DynamicCastPromotionTest);
-	LuaObjectBase::RegisterSerializer(s_type, SerializerPair(_body_serializer, _body_deserializer));
+	LuaObjectBase::RegisterSerializer(s_type, body_serializers);
 
 	// we're also the serializer for our subclasses
-	LuaObjectBase::RegisterSerializer("ModelBody",    SerializerPair(_body_serializer, _body_deserializer));
-	LuaObjectBase::RegisterSerializer("Ship",         SerializerPair(_body_serializer, _body_deserializer));
-	LuaObjectBase::RegisterSerializer("Player",       SerializerPair(_body_serializer, _body_deserializer));
-	LuaObjectBase::RegisterSerializer("SpaceStation", SerializerPair(_body_serializer, _body_deserializer));
-	LuaObjectBase::RegisterSerializer("Planet",       SerializerPair(_body_serializer, _body_deserializer));
-	LuaObjectBase::RegisterSerializer("Star",         SerializerPair(_body_serializer, _body_deserializer));
-	LuaObjectBase::RegisterSerializer("CargoBody",    SerializerPair(_body_serializer, _body_deserializer));
-	LuaObjectBase::RegisterSerializer("Missile",      SerializerPair(_body_serializer, _body_deserializer));
-	LuaObjectBase::RegisterSerializer("HyperspaceCloud",      SerializerPair(_body_serializer, _body_deserializer));
+	LuaObjectBase::RegisterSerializer("ModelBody",       body_serializers);
+	LuaObjectBase::RegisterSerializer("Ship",            body_serializers);
+	LuaObjectBase::RegisterSerializer("Player",          body_serializers);
+	LuaObjectBase::RegisterSerializer("SpaceStation",    body_serializers);
+	LuaObjectBase::RegisterSerializer("Planet",          body_serializers);
+	LuaObjectBase::RegisterSerializer("Star",            body_serializers);
+	LuaObjectBase::RegisterSerializer("CargoBody",       body_serializers);
+	LuaObjectBase::RegisterSerializer("Missile",         body_serializers);
+	LuaObjectBase::RegisterSerializer("HyperspaceCloud", body_serializers);
 }

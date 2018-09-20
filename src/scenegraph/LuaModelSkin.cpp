@@ -128,6 +128,20 @@ static bool _modelskin_deserializer(const char *pos, const char **next)
 	return true;
 }
 
+static void _modelskin_to_json(Json::Value &out, LuaWrappable *o)
+{
+	SceneGraph::ModelSkin *skin = static_cast<SceneGraph::ModelSkin*>(o);
+	skin->SaveToJson(out);
+}
+
+static bool _modelskin_from_json(const Json::Value &obj)
+{
+	SceneGraph::ModelSkin skin;
+	skin.LoadFromJson(obj);
+	LuaObject<SceneGraph::ModelSkin>::PushToLua(skin);
+	return true;
+}
+
 using namespace SceneGraph;
 
 template <> const char *LuaObject<SceneGraph::ModelSkin>::s_type = "SceneGraph.ModelSkin";
@@ -146,6 +160,7 @@ template <> void LuaObject<SceneGraph::ModelSkin>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, 0, l_methods, 0, 0);
-	LuaObjectBase::RegisterSerializer(s_type, SerializerPair(_modelskin_serializer, _modelskin_deserializer));
+	LuaObjectBase::RegisterSerializer(s_type, SerializerPair(
+		_modelskin_serializer, _modelskin_deserializer, _modelskin_to_json, _modelskin_from_json));
 }
 
