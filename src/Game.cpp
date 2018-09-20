@@ -175,12 +175,6 @@ m_forceTimeAccel(false)
 
 	Pi::luaSerializer->UninitTableRefs();
 
-	// signature check (don't really need this anymore)
-	if (!jsonObj.isMember("trailing_signature")) throw SavedGameCorruptException();
-	Json::Value trailingSignature = jsonObj["trailing_signature"];
-	if (trailingSignature.isString() && trailingSignature.asString().compare(s_saveEnd) == 0) {}
-	else throw SavedGameCorruptException();
-
 	EmitPauseState(IsPaused());
 }
 
@@ -270,9 +264,6 @@ void Game::ToJson(Json::Value &jsonObj)
 	}
 
 	jsonObj["game_info"] = gameInfo;
-
-	// trailing signature
-	jsonObj["trailing_signature"] = s_saveEnd; // Don't really need this anymore.
 
 	Pi::luaSerializer->UninitTableRefs();
 }
