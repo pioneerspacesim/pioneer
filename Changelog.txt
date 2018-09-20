@@ -17,6 +17,7 @@ September 2018
      * Update CMakeLists.txt to build the modelcompiler (#4447)
      * Cleanup ExportBodyToLua and the names it uses for output (#4451)
      * Remove OpenGL 2.1 code from the project (#4450)
+     * Pickle Lua values to JSON (#4207)
 
    * Fixes
      * Quick fix for 4418, disallow zero length buffers (#4420)
