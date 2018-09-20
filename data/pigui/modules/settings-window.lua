@@ -395,7 +395,7 @@ local function actionBinding(info)
 	local descs = { info.bindingDescription1, info.bindingDescription2 }
 
 	-- TODO: localizations for binding IDs
-	if (ui.collapsingHeader(info.id)) then
+	if (ui.collapsingHeader(info.id, {})) then
 		ui.columns(3,"##bindings",false)
 		ui.nextColumn()
 		ui.text("Binding")
@@ -419,7 +419,7 @@ local function axisBinding(info)
 	local bindings = { info.axis, info.positive, info.negative }
 	local descs = { info.axisDescription, info.positiveDescription, info.negativeDescription }
 	-- TODO: localizations for binding IDs
-	if (ui.collapsingHeader(info.id)) then
+	if (ui.collapsingHeader(info.id, {})) then
 		ui.columns(3,"##axisjoybindings",false)
 		ui.text("Axis:")
 		ui.nextColumn()
