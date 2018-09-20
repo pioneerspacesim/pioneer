@@ -412,4 +412,7 @@ static inline void matrix4x4dtof(const matrix4x4d &in, matrix4x4f &out)
 		out[i] = float(in[i]);
 }
 
+static const matrix4x4f matrix4x4fIdentity(matrix4x4f::Identity());
+static const matrix4x4d matrix4x4dIdentity(matrix4x4d::Identity());
+
 #endif /* _MATRIX4X4_H */

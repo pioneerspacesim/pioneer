@@ -185,4 +185,7 @@ static inline void matrix3x3dtof(const matrix3x3d &in, matrix3x3f &out)
 		out[i] = float(in[i]);
 }
 
+static const matrix3x3f matrix3x3fIdentity(matrix3x3f::Identity());
+static const matrix3x3d matrix3x3dIdentity(matrix3x3d::Identity());
+
 #endif /* _MATRIX3x3_H */

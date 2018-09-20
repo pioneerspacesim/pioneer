@@ -107,7 +107,7 @@ void LuaSerializer::pickle(lua_State *l, int to_serialize, std::string &out, std
 			break;
 
 		case LUA_TNUMBER: {
-			snprintf(buf, sizeof(buf), "f%f\n", lua_tonumber(l, idx));
+			snprintf(buf, sizeof(buf), "f%g\n", lua_tonumber(l, idx));
 			out += buf;
 			break;
 		}
@@ -119,13 +119,11 @@ void LuaSerializer::pickle(lua_State *l, int to_serialize, std::string &out, std
 		}
 
 		case LUA_TSTRING: {
-			lua_pushvalue(l, idx);
 			size_t len;
-			const char *str = lua_tolstring(l, -1, &len);
+			const char *str = lua_tolstring(l, idx, &len);
 			snprintf(buf, sizeof(buf), "s" SIZET_FMT "\n", len);
 			out += buf;
 			out.append(str, len);
-			lua_pop(l, 1);
 			break;
 		}
 
@@ -220,8 +218,7 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 
 		case 'b': {
 			if (*pos != '0' && *pos != '1') throw SavedGameCorruptException();
-			bool b = (*pos == '0') ? false : true;
-			lua_pushboolean(l, b);
+			lua_pushboolean(l, *pos == '1');
 			pos++;
 			break;
 		}
