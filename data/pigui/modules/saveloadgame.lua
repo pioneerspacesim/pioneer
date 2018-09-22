@@ -66,7 +66,7 @@ local function getSaveTooltip(name)
 		elseif stats.flight_state == "hyperspace" then ret = ret .. lc.HYPERSPACE
 		elseif stats.flight_state == "jumping" then ret = ret .. lui.JUMPING
 		elseif stats.flight_state == "landed" then ret = ret .. lc.LANDED
-		elseif stats.flight_state == "undocking" then ret = ret .. lui.UNDOCKING
+		elseif stats.flight_state == "undocking" then ret = ret .. lc.UNDOCKING
 		else ret = ret .. lc.UNKNOWN end
 	end
 
