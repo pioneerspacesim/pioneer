@@ -902,7 +902,11 @@ void Game::SaveGame(const std::string &filename, Game *game)
 	Json::Value rootNode; // Create the root JSON value for receiving the game data.
 	game->ToJson(rootNode); // Encode the game data as JSON and give to the root value.
 	Json::FastWriter jsonWriter; // Create writer for writing the JSON data to string.
-	const std::string jsonDataStr = jsonWriter.write(rootNode); // Write the JSON data.
+	std::string jsonDataStr;
+	{
+		PROFILE_SCOPED_DESC("jsonWriter.write");
+		jsonDataStr = jsonWriter.write(rootNode); // Write the JSON data.
+	}
 
 	FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 	if (!f) throw CouldNotOpenFileException();
