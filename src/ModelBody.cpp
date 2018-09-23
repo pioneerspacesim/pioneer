@@ -93,22 +93,6 @@ void ModelBody::SaveToJson(Json::Value &jsonObj, Space *space)
 	jsonObj["model_body"] = modelBodyObj; // Add model body object to supplied object.
 }
 
-void ModelBody::SetStatic(bool isStatic)
-{
-	if (isStatic == m_isStatic) return;
-	m_isStatic = isStatic;
-	if (!m_geom) return;
-
-	if (m_isStatic) {
-		GetFrame()->RemoveGeom(m_geom);
-		GetFrame()->AddStaticGeom(m_geom);
-	}
-	else {
-		GetFrame()->RemoveStaticGeom(m_geom);
-		GetFrame()->AddGeom(m_geom);
-	}
-}
-
 void ModelBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
 	Body::LoadFromJson(jsonObj, space);
@@ -125,6 +109,22 @@ void ModelBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	SetModel(modelBodyObj["model_name"].asString().c_str());
 	m_model->LoadFromJson(modelBodyObj);
 	m_shields->LoadFromJson(modelBodyObj);
+}
+
+void ModelBody::SetStatic(bool isStatic)
+{
+	if (isStatic == m_isStatic) return;
+	m_isStatic = isStatic;
+	if (!m_geom) return;
+
+	if (m_isStatic) {
+		GetFrame()->RemoveGeom(m_geom);
+		GetFrame()->AddStaticGeom(m_geom);
+	}
+	else {
+		GetFrame()->RemoveStaticGeom(m_geom);
+		GetFrame()->AddGeom(m_geom);
+	}
 }
 
 void ModelBody::SetColliding(bool colliding)
