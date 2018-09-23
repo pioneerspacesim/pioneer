@@ -532,7 +532,7 @@ public:
 	{
 		const matrix4x4f &m = node.GetTransform();
 		Json::Value matrixTransformObj(Json::objectValue); // Create JSON object to contain matrix transform data.
-		MatrixToJson(matrixTransformObj, m, "matrix_transform");
+		MatrixToJson(matrixTransformObj, m, "m");
 		m_jsonArray.append(matrixTransformObj); // Append matrix transform object to array.
 	}
 
@@ -566,7 +566,11 @@ public:
 	void ApplyMatrixTransform(MatrixTransform &node)
 	{
 		matrix4x4f m;
-		JsonToMatrix(&m, m_jsonArray[m_arrayIndex++], "matrix_transform");
+		if(m_jsonArray[m_arrayIndex].isMember("matrix_transform"))
+			JsonToMatrix(&m, m_jsonArray[m_arrayIndex], "matrix_transform"); // for backwards compatibility
+		else
+			JsonToMatrix(&m, m_jsonArray[m_arrayIndex], "m");
+		++m_arrayIndex;
 		node.SetTransform(m);
 	}
 
