@@ -55,6 +55,7 @@
 
 void LuaSerializer::pickle(lua_State *l, int to_serialize, std::string &out, std::string key)
 {
+	PROFILE_SCOPED()
 	static char buf[256];
 
 	LUA_DEBUG_START(l);
@@ -195,6 +196,7 @@ void LuaSerializer::pickle(lua_State *l, int to_serialize, std::string &out, std
 
 const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 {
+	PROFILE_SCOPED()
 	LUA_DEBUG_START(l);
 
 	// tables are also unpickled recursively, so we can run out of Lua stack space if we're not careful
@@ -326,8 +328,9 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 	return pos;
 }
 
-void LuaSerializer::pickle_json(lua_State *l, int to_serialize, Json::Value &out, std::string key)
+void LuaSerializer::pickle_json(lua_State *l, int to_serialize, Json::Value &out, const std::string &key)
 {
+	PROFILE_SCOPED()
 	LUA_DEBUG_START(l);
 
 	// tables are pickled recursively, so we can run out of Lua stack space if we're not careful
@@ -475,6 +478,7 @@ void LuaSerializer::pickle_json(lua_State *l, int to_serialize, Json::Value &out
 
 void LuaSerializer::unpickle_json(lua_State *l, const Json::Value &value)
 {
+	PROFILE_SCOPED()
 	LUA_DEBUG_START(l);
 
 	// tables are also unpickled recursively, so we can run out of Lua stack space if we're not careful
@@ -661,6 +665,7 @@ void LuaSerializer::ToJson(Json::Value &jsonObj)
 
 void LuaSerializer::FromJson(const Json::Value &jsonObj)
 {
+	PROFILE_SCOPED()
 	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
