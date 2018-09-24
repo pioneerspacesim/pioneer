@@ -149,7 +149,7 @@
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org} wird {cash} für eine Mission vom Typ „{mission}“ im System {system} ({sectorx}, {sectory}, {sectorz}) bezahlen. Wir haben Grund zu der Annahme, dass ein rücksichtsloser Wettbewerber verantwortlich für das Verschwinden unserer Frachter bei {area} ist. Die Entfernung des Zielgebiets beträgt {dist} Lj."
+    "message": "{org} wird {cash} für eine Mission vom Typ „{mission}“ im System {system} ({sectorx}, {sectory}, {sectorz}) bezahlen. Wir haben Grund zu der Annahme, dass ein rücksichtsloser Wettbewerber verantwortlich für das Verschwinden unserer Frachter bei {area} ist. Die Entfernung zum Zielgebiet beträgt {dist} Lj."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
@@ -161,7 +161,7 @@
   },
   "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Es ist wichtig, dass die Mission bis {date} abgeschlossen ist. Bitte plaudern sie nichts über diese Operation aus."
+    "message": "Es ist wichtig, dass die Mission bis {date} abgeschlossen ist. Bitte plaudern sie nichts aus über diese Operation."
   },
   "HARVESTING_LAND_THERE": {
     "description": "",

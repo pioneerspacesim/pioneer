@@ -25,7 +25,7 @@
   },
   "FLAVOUR_2_BODY": {
     "description": "",
-    "message": "Seid gegrüßt! Mein Name ist {name} und verkaufe höchstwertige Ersatzteile. 1 {equipment} zum Preis von {price} wäre mein Angebot an Euch."
+    "message": "Seid gegrüßt! Mein Name ist {name} und verkaufe hochwertige Ersatzteile. 1 {equipment} zum Preis von {price} wäre mein Angebot an Euch."
   },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",
