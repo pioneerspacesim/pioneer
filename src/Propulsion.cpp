@@ -23,8 +23,6 @@ void Propulsion::SaveToJson(Json::Value &jsonObj, Space *space)
 void Propulsion::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
 
-	if (!jsonObj.isMember("ang_thrusters")) throw SavedGameCorruptException();
-	if (!jsonObj.isMember("thrusters")) throw SavedGameCorruptException();
 	if (!jsonObj.isMember("thruster_fuel")) throw SavedGameCorruptException();
 	if (!jsonObj.isMember("reserve_fuel")) throw SavedGameCorruptException();
 	// !!! This is commented to avoid savegame bumps:

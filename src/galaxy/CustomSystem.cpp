@@ -623,7 +623,6 @@ static void RegisterCustomSystemsAPI(lua_State *L)
 
 void CustomSystemsDatabase::Init()
 {
-	PROFILE_SCOPED()
 	assert(!s_activeCustomSystemsDatabase);
 	s_activeCustomSystemsDatabase = this;
 	lua_State *L = luaL_newstate();
@@ -663,7 +662,6 @@ void CustomSystemsDatabase::Init()
 
 CustomSystemsDatabase::~CustomSystemsDatabase()
 {
-	PROFILE_SCOPED()
 	for (SectorMap::iterator secIt = m_sectorMap.begin(); secIt != m_sectorMap.end(); ++secIt) {
 		for (CustomSystemsDatabase::SystemList::iterator
 				sysIt = secIt->second.begin(); sysIt != secIt->second.end(); ++sysIt) {
@@ -675,7 +673,6 @@ CustomSystemsDatabase::~CustomSystemsDatabase()
 
 const CustomSystemsDatabase::SystemList &CustomSystemsDatabase::GetCustomSystemsForSector(int x, int y, int z) const
 {
-	PROFILE_SCOPED()
 	SystemPath path(x,y,z);
 	SectorMap::const_iterator it = m_sectorMap.find(path);
 	return (it != m_sectorMap.end()) ? it->second : s_emptySystemList;
@@ -696,7 +693,6 @@ CustomSystem::CustomSystem():
 	govType(Polit::GOV_INVALID),
 	want_rand_lawlessness(true)
 {
-	PROFILE_SCOPED()
 	for (int i = 0; i < 4; ++i)
 		primaryType[i] = SystemBody::TYPE_GRAVPOINT;
 }
@@ -717,7 +713,6 @@ CustomSystemBody::CustomSystemBody():
 	seed(0),
 	want_rand_seed(true)
 {
-	PROFILE_SCOPED()
 }
 
 CustomSystemBody::~CustomSystemBody()

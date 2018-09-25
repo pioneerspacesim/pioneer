@@ -28,9 +28,8 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "GameSaveError.h"
 
-static const int  s_saveVersion   = 84;
+static const int  s_saveVersion   = 85;
 static const char s_saveStart[]   = "PIONEER";
-static const char s_saveEnd[]     = "END";
 
 Game::Game(const SystemPath &path, double time) :
 	m_galaxy(GalaxyGenerator::Create()),
@@ -175,12 +174,6 @@ m_forceTimeAccel(false)
 
 	Pi::luaSerializer->UninitTableRefs();
 
-	// signature check (don't really need this anymore)
-	if (!jsonObj.isMember("trailing_signature")) throw SavedGameCorruptException();
-	Json::Value trailingSignature = jsonObj["trailing_signature"];
-	if (trailingSignature.isString() && trailingSignature.asString().compare(s_saveEnd) == 0) {}
-	else throw SavedGameCorruptException();
-
 	EmitPauseState(IsPaused());
 }
 
@@ -270,9 +263,6 @@ void Game::ToJson(Json::Value &jsonObj)
 	}
 
 	jsonObj["game_info"] = gameInfo;
-
-	// trailing signature
-	jsonObj["trailing_signature"] = s_saveEnd; // Don't really need this anymore.
 
 	Pi::luaSerializer->UninitTableRefs();
 }
@@ -911,7 +901,11 @@ void Game::SaveGame(const std::string &filename, Game *game)
 	Json::Value rootNode; // Create the root JSON value for receiving the game data.
 	game->ToJson(rootNode); // Encode the game data as JSON and give to the root value.
 	Json::FastWriter jsonWriter; // Create writer for writing the JSON data to string.
-	const std::string jsonDataStr = jsonWriter.write(rootNode); // Write the JSON data.
+	std::string jsonDataStr;
+	{
+		PROFILE_SCOPED_DESC("jsonWriter.write");
+		jsonDataStr = jsonWriter.write(rootNode); // Write the JSON data.
+	}
 
 	FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 	if (!f) throw CouldNotOpenFileException();

@@ -133,7 +133,8 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json::Value &jsonOb
 
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
-	m_rootFrame.reset(Frame::FromJson(spaceObj, this, 0, at_time));
+	if (!spaceObj.isMember("frame")) throw SavedGameCorruptException();
+	m_rootFrame.reset(Frame::FromJson(spaceObj["frame"], this, 0, at_time));
 	RebuildFrameIndex();
 
 	if (!spaceObj.isMember("bodies")) throw SavedGameCorruptException();
@@ -177,7 +178,9 @@ void Space::ToJson(Json::Value &jsonObj)
 
 	StarSystem::ToJson(spaceObj, m_starSystem.Get());
 
-	Frame::ToJson(spaceObj, m_rootFrame.get(), this);
+	Json::Value frameObj(Json::objectValue);
+	Frame::ToJson(frameObj, m_rootFrame.get(), this);
+	spaceObj["frame"] = frameObj;
 
 	Json::Value bodyArray(Json::arrayValue); // Create JSON array to contain body data.
 	for (Body* b : m_bodies)

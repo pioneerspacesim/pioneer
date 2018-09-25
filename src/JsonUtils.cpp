@@ -34,6 +34,11 @@ namespace {
 		c = ((packed >> 8) & 0xff);
 		d = (packed & 0xff);
 	}
+
+	static const vector3f zeroVector3f(0.0f);
+	static const vector3d zeroVector3d(0.0);
+	static const Quaternionf identityQuaternionf(1.0f, 0.0f, 0.0f, 0.0f);
+	static const Quaterniond identityQuaterniond(1.0, 0.0, 0.0, 0.0);
 }
 
 #define USE_STRING_VERSIONS
@@ -43,6 +48,9 @@ void VectorToJson(Json::Value &jsonObj, const vector3f &vec, const std::string &
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 #ifdef USE_STRING_VERSIONS
+	if (vec == zeroVector3f)
+		return; // don't store zero vector
+
 	char str[128];
 	Vector3fToStr(vec, str, 128);
 	jsonObj[name] = str; // Add vector array to supplied object.
@@ -60,6 +68,8 @@ void VectorToJson(Json::Value &jsonObj, const vector3d &vec, const std::string &
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 #ifdef USE_STRING_VERSIONS
+	if (vec == zeroVector3d)
+		return; // don't store zero vector
 	char str[128];
 	Vector3dToStr(vec, str, 128);
 	jsonObj[name] = str; // Add vector array to supplied object.
@@ -77,6 +87,9 @@ void QuaternionToJson(Json::Value &jsonObj, const Quaternionf &quat, const std::
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 
+	if (memcmp(&quat, &identityQuaternionf, sizeof(Quaternionf)) == 0)
+		return;
+
 	Json::Value quatArray(Json::arrayValue); // Create JSON array to contain quaternion data.
 	quatArray[0] = FloatToStr(quat.w);
 	quatArray[1] = FloatToStr(quat.x);
@@ -89,6 +102,8 @@ void QuaternionToJson(Json::Value &jsonObj, const Quaterniond &quat, const std::
 {
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
+	if (memcmp(&quat, &identityQuaterniond, sizeof(Quaterniond)) == 0)
+		return;
 
 	Json::Value quatArray(Json::arrayValue); // Create JSON array to contain quaternion data.
 	quatArray[0] = DoubleToStr(quat.w);
@@ -103,9 +118,12 @@ void MatrixToJson(Json::Value &jsonObj, const matrix3x3f &mat, const std::string
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 #ifdef USE_STRING_VERSIONS
-	char str[512];
-	Matrix3x3fToStr(mat, str, 512);
-	jsonObj[name] = str;
+	if (memcmp(&matrix3x3fIdentity, &mat, sizeof(matrix3x3f)) != 0)
+	{
+		char str[512];
+		Matrix3x3fToStr(mat, str, 512);
+		jsonObj[name] = str;
+	}
 #else
 	Json::Value matArray(Json::arrayValue); // Create JSON array to contain matrix data.
 	matArray[0] = FloatToStr(mat[0]);
@@ -126,9 +144,12 @@ void MatrixToJson(Json::Value &jsonObj, const matrix3x3d &mat, const std::string
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 #ifdef USE_STRING_VERSIONS
-	char str[512];
-	Matrix3x3dToStr(mat, str, 512);
-	jsonObj[name] = str;
+	if (memcmp(&matrix3x3dIdentity, &mat, sizeof(matrix3x3d)) != 0)
+	{
+		char str[512];
+		Matrix3x3dToStr(mat, str, 512);
+		jsonObj[name] = str;
+	}
 #else
 	Json::Value matArray(Json::arrayValue); // Create JSON array to contain matrix data.
 	matArray[0] = DoubleToStr(mat[0]);
@@ -149,9 +170,12 @@ void MatrixToJson(Json::Value &jsonObj, const matrix4x4f &mat, const std::string
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 #ifdef USE_STRING_VERSIONS
-	char str[512];
-	Matrix4x4fToStr(mat, str, 512);
-	jsonObj[name] = str;
+	if (memcmp(&matrix4x4fIdentity, &mat, sizeof(matrix4x4f)) != 0)
+	{
+		char str[512];
+		Matrix4x4fToStr(mat, str, 512);
+		jsonObj[name] = str;
+	}
 #else
 	Json::Value matArray(Json::arrayValue); // Create JSON array to contain matrix data.
 	matArray[0] = FloatToStr(mat[0]);
@@ -179,9 +203,12 @@ void MatrixToJson(Json::Value &jsonObj, const matrix4x4d &mat, const std::string
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 #ifdef USE_STRING_VERSIONS
-	char str[512];
-	Matrix4x4dToStr(mat, str, 512);
-	jsonObj[name] = str;
+	if (memcmp(&matrix4x4dIdentity, &mat, sizeof(matrix4x4d)) != 0)
+	{
+		char str[512];
+		Matrix4x4dToStr(mat, str, 512);
+		jsonObj[name] = str;
+	}
 #else
 	Json::Value matArray(Json::arrayValue); // Create JSON array to contain matrix data.
 	matArray[0] = DoubleToStr(mat[0]);
@@ -257,11 +284,16 @@ void JsonToVector(vector3f *pVec, const Json::Value &jsonObj, const std::string 
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 #ifdef USE_STRING_VERSIONS
-	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
-	Json::Value vecStr = jsonObj[name.c_str()];
-	if (!vecStr.isString()) throw SavedGameCorruptException();
-
-	StrToVector3f(vecStr.asCString(), *pVec);
+	if (!jsonObj.isMember(name.c_str()))
+	{
+		*pVec = vector3f(0.0f);
+	}
+	else
+	{
+		Json::Value vecStr = jsonObj[name];
+		if (!vecStr.isString()) throw SavedGameCorruptException();
+		StrToVector3f(vecStr.asCString(), *pVec);
+	}
 #else
 	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
 	Json::Value vecArray = jsonObj[name.c_str()];
@@ -279,11 +311,16 @@ void JsonToVector(vector3d *pVec, const Json::Value &jsonObj, const std::string 
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 #ifdef USE_STRING_VERSIONS
-	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
-	Json::Value vecStr = jsonObj[name.c_str()];
-	if (!vecStr.isString()) throw SavedGameCorruptException();
-
-	StrToVector3d(vecStr.asCString(), *pVec);
+	if (!jsonObj.isMember(name.c_str()))
+	{
+		*pVec = vector3d(0.0f);
+	}
+	else
+	{
+		Json::Value vecStr = jsonObj[name.c_str()];
+		if (!vecStr.isString()) throw SavedGameCorruptException();
+		StrToVector3d(vecStr.asCString(), *pVec);
+	}
 #else
 	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
 	Json::Value vecArray = jsonObj[name.c_str()];
@@ -301,7 +338,12 @@ void JsonToQuaternion(Quaternionf *pQuat, const Json::Value &jsonObj, const std:
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 
-	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
+	if (!jsonObj.isMember(name.c_str()))
+	{
+		*pQuat = identityQuaternionf;
+		return;
+	}
+
 	Json::Value quatArray = jsonObj[name.c_str()];
 	if (!quatArray.isArray()) throw SavedGameCorruptException();
 	if (quatArray.size() != 4) throw SavedGameCorruptException();
@@ -317,7 +359,12 @@ void JsonToQuaternion(Quaterniond *pQuat, const Json::Value &jsonObj, const std:
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 
-	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
+	if (!jsonObj.isMember(name.c_str()))
+	{
+		*pQuat = identityQuaterniond;
+		return;
+	}
+
 	Json::Value quatArray = jsonObj[name.c_str()];
 	if (!quatArray.isArray()) throw SavedGameCorruptException();
 	if (quatArray.size() != 4) throw SavedGameCorruptException();
@@ -333,10 +380,16 @@ void JsonToMatrix(matrix3x3f *pMat, const Json::Value &jsonObj, const std::strin
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 #ifdef USE_STRING_VERSIONS
-	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
-	Json::Value matStr = jsonObj[name.c_str()];
-	if (!matStr.isString()) throw SavedGameCorruptException();
-	StrToMatrix3x3f(matStr.asCString(), *pMat);
+	if (!jsonObj.isMember(name))
+	{
+		*pMat = matrix3x3fIdentity;
+	}
+	else
+	{
+		Json::Value matStr = jsonObj[name.c_str()];
+		if (!matStr.isString()) throw SavedGameCorruptException();
+		StrToMatrix3x3f(matStr.asCString(), *pMat);
+	}
 #else
 	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
 	Json::Value matArray = jsonObj[name.c_str()];
@@ -360,10 +413,16 @@ void JsonToMatrix(matrix3x3d *pMat, const Json::Value &jsonObj, const std::strin
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 #ifdef USE_STRING_VERSIONS
-	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
-	Json::Value matStr = jsonObj[name.c_str()];
-	if (!matStr.isString()) throw SavedGameCorruptException();
-	StrToMatrix3x3d(matStr.asCString(), *pMat);
+	if (!jsonObj.isMember(name))
+	{
+		*pMat = matrix3x3dIdentity;
+	}
+	else
+	{
+		Json::Value matStr = jsonObj[name.c_str()];
+		if (!matStr.isString()) throw SavedGameCorruptException();
+		StrToMatrix3x3d(matStr.asCString(), *pMat);
+	}
 #else
 	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
 	Json::Value matArray = jsonObj[name.c_str()];
@@ -387,10 +446,16 @@ void JsonToMatrix(matrix4x4f *pMat, const Json::Value &jsonObj, const std::strin
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 #ifdef USE_STRING_VERSIONS
-	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
-	Json::Value matStr = jsonObj[name.c_str()];
-	if (!matStr.isString()) throw SavedGameCorruptException();
-	StrToMatrix4x4f(matStr.asCString(), *pMat);
+	if (!jsonObj.isMember(name))
+	{
+		*pMat = matrix4x4fIdentity;
+	}
+	else
+	{
+		Json::Value matStr = jsonObj[name.c_str()];
+		if (!matStr.isString()) throw SavedGameCorruptException();
+		StrToMatrix4x4f(matStr.asCString(), *pMat);
+	}
 #else
 	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
 	Json::Value matArray = jsonObj[name.c_str()];
@@ -421,10 +486,16 @@ void JsonToMatrix(matrix4x4d *pMat, const Json::Value &jsonObj, const std::strin
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 #ifdef USE_STRING_VERSIONS
-	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
-	Json::Value matStr = jsonObj[name.c_str()];
-	if (!matStr.isString()) throw SavedGameCorruptException();
-	StrToMatrix4x4d(matStr.asCString(), *pMat);
+	if (!jsonObj.isMember(name))
+	{
+		*pMat = matrix4x4dIdentity;
+	}
+	else
+	{
+		Json::Value matStr = jsonObj[name.c_str()];
+		if (!matStr.isString()) throw SavedGameCorruptException();
+		StrToMatrix4x4d(matStr.asCString(), *pMat);
+	}
 #else
 	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
 	Json::Value matArray = jsonObj[name.c_str()];

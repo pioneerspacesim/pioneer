@@ -153,7 +153,6 @@ void Beam::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	if (!jsonObj.isMember("projectile")) throw SavedGameCorruptException();
 	Json::Value projectileObj = jsonObj["projectile"];
 
-	if (!projectileObj.isMember("dir")) throw SavedGameCorruptException();
 	if (!projectileObj.isMember("base_dam")) throw SavedGameCorruptException();
 	if (!projectileObj.isMember("length")) throw SavedGameCorruptException();
 	if (!projectileObj.isMember("mining")) throw SavedGameCorruptException();
