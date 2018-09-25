@@ -28,9 +28,8 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "GameSaveError.h"
 
-static const int  s_saveVersion   = 84;
+static const int  s_saveVersion   = 85;
 static const char s_saveStart[]   = "PIONEER";
-static const char s_saveEnd[]     = "END";
 
 Game::Game(const SystemPath &path, double time) :
 	m_galaxy(GalaxyGenerator::Create()),
