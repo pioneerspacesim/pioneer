@@ -154,8 +154,6 @@ void Projectile::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	if (!jsonObj.isMember("projectile")) throw SavedGameCorruptException();
 	Json::Value projectileObj = jsonObj["projectile"];
 
-	if (!projectileObj.isMember("base_vel")) throw SavedGameCorruptException();
-	if (!projectileObj.isMember("dir_vel")) throw SavedGameCorruptException();
 	if (!projectileObj.isMember("age")) throw SavedGameCorruptException();
 	if (!projectileObj.isMember("life_span")) throw SavedGameCorruptException();
 	if (!projectileObj.isMember("base_dam")) throw SavedGameCorruptException();

@@ -101,10 +101,6 @@ void DynamicBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	if (!jsonObj.isMember("dynamic_body")) throw SavedGameCorruptException();
 	Json::Value dynamicBodyObj = jsonObj["dynamic_body"];
 
-	if (!dynamicBodyObj.isMember("force")) throw SavedGameCorruptException();
-	if (!dynamicBodyObj.isMember("torque")) throw SavedGameCorruptException();
-	if (!dynamicBodyObj.isMember("vel")) throw SavedGameCorruptException();
-	if (!dynamicBodyObj.isMember("ang_vel")) throw SavedGameCorruptException();
 	if (!dynamicBodyObj.isMember("mass")) throw SavedGameCorruptException();
 	if (!dynamicBodyObj.isMember("mass_radius")) throw SavedGameCorruptException();
 	if (!dynamicBodyObj.isMember("ang_inertia")) throw SavedGameCorruptException();

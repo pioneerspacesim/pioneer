@@ -61,7 +61,6 @@ Frame *Frame::FromJson(const Json::Value &frameObj, Space *space, Frame *parent,
 	if (!frameObj.isMember("flags")) throw SavedGameCorruptException();
 	if (!frameObj.isMember("radius")) throw SavedGameCorruptException();
 	if (!frameObj.isMember("label")) throw SavedGameCorruptException();
-	if (!frameObj.isMember("pos")) throw SavedGameCorruptException();
 	if (!frameObj.isMember("ang_speed")) throw SavedGameCorruptException();
 	if (!frameObj.isMember("index_for_system_body")) throw SavedGameCorruptException();
 	if (!frameObj.isMember("index_for_astro_body")) throw SavedGameCorruptException();

@@ -97,7 +97,6 @@ void HyperspaceCloud::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	if (!jsonObj.isMember("hyperspace_cloud")) throw SavedGameCorruptException();
 	Json::Value hyperspaceCloudObj = jsonObj["hyperspace_cloud"];
 
-	if (!hyperspaceCloudObj.isMember("vel")) throw SavedGameCorruptException();
 	if (!hyperspaceCloudObj.isMember("birth_date")) throw SavedGameCorruptException();
 	if (!hyperspaceCloudObj.isMember("due")) throw SavedGameCorruptException();
 	if (!hyperspaceCloudObj.isMember("is_arrival")) throw SavedGameCorruptException();

@@ -83,9 +83,6 @@ public:
 	}
 	AICmdDock(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_DOCK) {
 		if (!jsonObj.isMember("index_for_target")) throw SavedGameCorruptException();
-		if (!jsonObj.isMember("dock_pos")) throw SavedGameCorruptException();
-		if (!jsonObj.isMember("dock_dir")) throw SavedGameCorruptException();
-		if (!jsonObj.isMember("dock_up_dir")) throw SavedGameCorruptException();
 		if (!jsonObj.isMember("state")) throw SavedGameCorruptException();
 		m_targetIndex = jsonObj["index_for_target"].asInt();
 		JsonToVector(&m_dockpos, jsonObj, "dock_pos");
@@ -163,8 +160,6 @@ public:
 		if (!jsonObj.isMember("index_for_target")) throw SavedGameCorruptException();
 		if (!jsonObj.isMember("dist")) throw SavedGameCorruptException();
 		if (!jsonObj.isMember("index_for_target_frame")) throw SavedGameCorruptException();
-		if (!jsonObj.isMember("pos_off")) throw SavedGameCorruptException();
-		if (!jsonObj.isMember("end_vel")) throw SavedGameCorruptException();
 		if (!jsonObj.isMember("tangent")) throw SavedGameCorruptException();
 		if (!jsonObj.isMember("state")) throw SavedGameCorruptException();
 		m_targetIndex = jsonObj["index_for_target"].asInt();

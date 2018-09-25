@@ -70,8 +70,6 @@ void Sfx::LoadFromJson(const Json::Value &jsonObj)
 {
 	if (!jsonObj.isMember("sfx")) throw SavedGameCorruptException();
 	Json::Value sfxObj = jsonObj["sfx"];
-	if (!sfxObj.isMember("pos")) throw SavedGameCorruptException();
-	if (!sfxObj.isMember("vel")) throw SavedGameCorruptException();
 	if (!sfxObj.isMember("age")) throw SavedGameCorruptException();
 	if (!sfxObj.isMember("type")) throw SavedGameCorruptException();
 
