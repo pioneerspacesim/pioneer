@@ -48,7 +48,8 @@ CustomSystem:new('Gliese 339.1',{'WHITE_DWARF'}):add_to_sector(1,1,3,v(0.647,0.8
 CustomSystem:new('NN 4285',{'STAR_M'}):add_to_sector(-1,-2,-3,v(0.602,0.936,0.470))
 CustomSystem:new('Gliese 480.1',{'STAR_M'}):add_to_sector(-1,2,-3,v(0.599,0.227,0.847))
 CustomSystem:new('NN 4281',{'STAR_M'}):add_to_sector(-2,-4,-2,v(0.330,0.021,0.971))
-CustomSystem:new('Fomalhaut',{'STAR_A'}):add_to_sector(-1,-3,-2,v(0.268,0.376,0.451))
+--CustomSystem:new('Fomalhaut',{'STAR_A'}):add_to_sector(-1,-3,-2,v(0.268,0.376,0.451))
+--System already customized in custom\13_fomalhaut.lua
 CustomSystem:new('Gliese 232',{'STAR_M'}):add_to_sector(3,0,1,v(0.099,0.334,0.352))
 CustomSystem:new('NN 3988',{'STAR_K'}):add_to_sector(-3,0,3,v(0.655,0.591,0.029))
 CustomSystem:new('HD 285968',{'STAR_M'}):add_to_sector(3,-2,1,v(0.429,0.8,0.248))
