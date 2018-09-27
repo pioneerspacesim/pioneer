@@ -17,6 +17,7 @@ matrix:
   include:
     - name: Static Checks
       env: STATIC_CHECKS=yes
+      deploy: false
       before_install: skip
       addons:
         apt:
