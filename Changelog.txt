@@ -6,6 +6,7 @@ September 2018
      * Move start location to Mars (Douglas Quaid!!!) (#4363)
      * Custom systems continued (#4439)
      * Adds the Fomalhaut custom system (#4455)
+     * Star Icons overhaul (#4308)
 
    * Internal Changes
      * Provide other_names to add multiple names to custom systems (#4388)
