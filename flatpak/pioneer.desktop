@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Pioneer
+GenericName=Pioneer Space Simulator
+Comment=A game of lonely space adventure
+Exec=/app/bin/pioneer
+Icon=net.pioneerspacesim.Pioneer
+Terminal=false
+Type=Application
+Categories=Game

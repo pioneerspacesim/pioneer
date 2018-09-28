@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+	<id>net.pioneerspacesim.Pioneer</id>
+	<metadata_license>CC0-1.0</metadata_license>
+	<project_license>GPL-3.0-only</project_license>
+	<name>Pioneer</name>
+	<summary>A game of lonely space adventure</summary>
+	<url type="homepage">https://pioneerspacesim.net/</url>
+	<url type="faq">https://pioneerwiki.com/wiki/FAQ</url>
+	<launchable type="desktop-id">net.pioneerspacesim.Pioneer</launchable>
+
+	<description>
+		<p>Pioneer is a space adventure game set in our galaxy at the
+			turn of the 31st century.
+		</p>
+		<p>The game is open-ended, and you are free to eke out whatever
+			kind of space-faring existence you can think of. Look
+			for fame or fortune by exploring the millions of star
+			systems. Turn to a life of crime as a pirate, smuggler
+			or bounty hunter. Forge and break alliances with the
+			various factions fighting for power, freedom or
+			self-determination. The universe is whatever you make
+			of it.
+		</p>
+		<p>Pioneer is under constant development and has a friendly
+			community of players, modders and developers around it.
+			We release a new version almost every day. We'd love
+			for you to try it and make part of the galaxy your own!
+		</p>
+	</description>
+
+	<categories>
+		<category>Game</category>
+		<category>AdventureGame</category>
+	</categories>
+
+	<content_rating type="oars-1.1">
+		<content_attribute id="violence-fantasy">moderate</content_attribute>
+		<content_attribute id="violence-slavery">mild</content_attribute>
+		<content_attribute id="drugs-alcohol">mild</content_attribute>
+		<content_attribute id="drugs-narcotics">mild</content_attribute>
+	</content_rating>
+
+	<screenshots>
+		<screenshot type="default">
+			<image type="source">https://pioneerspacesim.net/assets/ss1.png</image>
+		</screenshot>
+		<screenshot>
+			<image type="source">https://pioneerspacesim.net/assets/ss2.png</image>
+		</screenshot>
+		<screenshot>
+			<image type="source">https://pioneerspacesim.net/assets/ss3.png</image>
+		</screenshot>
+		<screenshot>
+			<image type="source">https://pioneerspacesim.net/assets/ss4.png</image>
+		</screenshot>
+		<screenshot>
+			<image type="source">https://pioneerspacesim.net/assets/ss5.png</image>
+		</screenshot>
+		<screenshot>
+			<image type="source">https://pioneerspacesim.net/assets/ss6.png</image>
+		</screenshot>
+		<screenshot>
+			<image type="source">https://pioneerspacesim.net/assets/ss7.png</image>
+		</screenshot>
+		<screenshot>
+			<image type="source">https://pioneerspacesim.net/assets/ss8.png</image>
+		</screenshot>
+		<screenshot>
+			<image type="source">https://pioneerspacesim.net/assets/ss9.png</image>
+		</screenshot>
+		<screenshot>
+			<image type="source">https://pioneerspacesim.net/assets/ss10.png</image>
+		</screenshot>
+	</screenshots>
+</component>
