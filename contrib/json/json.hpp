@@ -14230,7 +14230,8 @@ class basic_json
         // const operator[] only works for arrays
         if (JSON_LIKELY(is_array()))
         {
-            return m_value.array->operator[](idx);
+            return at(idx);
+            // return m_value.array->operator[](idx);
         }
 
         JSON_THROW(type_error::create(305, "cannot use operator[] with " + std::string(type_name())));
@@ -14317,8 +14318,9 @@ class basic_json
         // const operator[] only works for objects
         if (JSON_LIKELY(is_object()))
         {
-            assert(m_value.object->find(key) != m_value.object->end());
-            return m_value.object->find(key)->second;
+            return at(key);
+            // assert(m_value.object->find(key) != m_value.object->end());
+            // return m_value.object->find(key)->second;
         }
 
         JSON_THROW(type_error::create(305, "cannot use operator[] with " + std::string(type_name())));

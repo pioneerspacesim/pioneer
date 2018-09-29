@@ -127,6 +127,13 @@ static int l_game_savegame_stats(lua_State *l)
 		lua_pushlstring(l, message.c_str(), message.size());
 		return lua_error(l);
 	}
+	catch (Json::type_error) {
+		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
+		return 0;
+	}
+	catch (Json::out_of_range) {
+		return luaL_error(l, Lang::GAME_LOAD_CORRUPT);
+	}
 	catch (SavedGameCorruptException) {
 		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
 		return 0;

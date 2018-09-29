@@ -648,46 +648,46 @@ void Game::RequestTimeAccel(TimeAccel t, bool force)
 
 void Game::RequestTimeAccelInc(bool force)
 {
-    switch(m_requestedTimeAccel) {
-        case Game::TIMEACCEL_1X:
-            m_requestedTimeAccel = Game::TIMEACCEL_10X;
-            break;
-        case Game::TIMEACCEL_10X:
-            m_requestedTimeAccel = Game::TIMEACCEL_100X;
-            break;
-        case Game::TIMEACCEL_100X:
-            m_requestedTimeAccel = Game::TIMEACCEL_1000X;
-            break;
-        case Game::TIMEACCEL_1000X:
-            m_requestedTimeAccel = Game::TIMEACCEL_10000X;
-            break;
-        default:
-            // ignore if paused, hyperspace or 10000X
-            break;
-    }
-    m_forceTimeAccel = force;
+	switch(m_requestedTimeAccel) {
+		case Game::TIMEACCEL_1X:
+			m_requestedTimeAccel = Game::TIMEACCEL_10X;
+			break;
+		case Game::TIMEACCEL_10X:
+			m_requestedTimeAccel = Game::TIMEACCEL_100X;
+			break;
+		case Game::TIMEACCEL_100X:
+			m_requestedTimeAccel = Game::TIMEACCEL_1000X;
+			break;
+		case Game::TIMEACCEL_1000X:
+			m_requestedTimeAccel = Game::TIMEACCEL_10000X;
+			break;
+		default:
+			// ignore if paused, hyperspace or 10000X
+			break;
+	}
+	m_forceTimeAccel = force;
 }
 
 void Game::RequestTimeAccelDec(bool force)
 {
-    switch(m_requestedTimeAccel) {
-        case Game::TIMEACCEL_10X:
-            m_requestedTimeAccel = Game::TIMEACCEL_1X;
-            break;
-        case Game::TIMEACCEL_100X:
-            m_requestedTimeAccel = Game::TIMEACCEL_10X;
-            break;
-        case Game::TIMEACCEL_1000X:
-            m_requestedTimeAccel = Game::TIMEACCEL_100X;
-            break;
-        case Game::TIMEACCEL_10000X:
-            m_requestedTimeAccel = Game::TIMEACCEL_1000X;
-            break;
-        default:
-            // ignore if paused, hyperspace or 1X
-            break;
-    }
-    m_forceTimeAccel = force;
+	switch(m_requestedTimeAccel) {
+		case Game::TIMEACCEL_10X:
+			m_requestedTimeAccel = Game::TIMEACCEL_1X;
+			break;
+		case Game::TIMEACCEL_100X:
+			m_requestedTimeAccel = Game::TIMEACCEL_10X;
+			break;
+		case Game::TIMEACCEL_1000X:
+			m_requestedTimeAccel = Game::TIMEACCEL_100X;
+			break;
+		case Game::TIMEACCEL_10000X:
+			m_requestedTimeAccel = Game::TIMEACCEL_1000X;
+			break;
+		default:
+			// ignore if paused, hyperspace or 1X
+			break;
+	}
+	m_forceTimeAccel = force;
 }
 
 Game::Views::Views()
@@ -834,7 +834,11 @@ Json Game::LoadGameToJson(const std::string &filename)
 {
 	Json rootNode = JsonUtils::LoadJsonSaveFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename), FileSystem::userFiles);
 	if (!rootNode.is_object()) {
-		Output("Loading saved game '%s' failed:\n", filename.c_str());
+		Output("Loading saved game '%s' failed.\n", filename.c_str());
+		throw SavedGameCorruptException();
+	}
+	if (!rootNode["version"].is_number_integer() || rootNode["version"].get<int>() != s_saveVersion) {
+		Output("Loading saved game '%s' failed: wrong save file version.\n", filename.c_str());
 		throw SavedGameCorruptException();
 	}
 	return rootNode;
@@ -845,7 +849,16 @@ Game *Game::LoadGame(const std::string &filename)
 	Output("Game::LoadGame('%s')\n", filename.c_str());
 
 	Json rootNode = LoadGameToJson(filename);
-	return new Game(rootNode);
+
+	try {
+		return new Game(rootNode);
+	}
+	catch (Json::type_error) {
+		throw SavedGameCorruptException();
+	}
+	catch (Json::out_of_range) {
+		throw SavedGameCorruptException();
+	}
 }
 
 bool Game::CanLoadGame(const std::string &filename)

@@ -69,8 +69,8 @@ Frame *Frame::FromJson(const Json &frameObj, Space *space, Frame *parent, double
 		f->m_astroBodyIndex = frameObj["index_for_astro_body"];
 		f->m_vel = vector3d(0.0); // m_vel is set to zero.
 
-		Json childFrameArray = frameObj["child_frames"];
-		if (childFrameArray.is_array()) {
+		if (frameObj.count("child_frames") && frameObj["child_frames"].is_array()) {
+            Json childFrameArray = frameObj["child_frames"];
 			for (unsigned int i = 0; i < childFrameArray.size(); ++i) {
 				f->m_children.push_back(FromJson(childFrameArray[i], space, f, at_time));
 			}

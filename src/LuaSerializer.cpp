@@ -553,7 +553,7 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json &value)
 				}
 
 				if (value.count("lua_class")) {
-					const char *cl = value["lua_class"].get<std::string>().c_str();
+					const char *cl = value["lua_class"].get_ref<const std::string &>().c_str();
 					// If this was a full definition (not just a reference) then run the class's unserialiser function.
 					if (value.count("table")) {
 						lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerClasses");
@@ -562,7 +562,7 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json &value)
 						lua_remove(l, -2);
 
 						if (lua_isnil(l, -1)) {
-							lua_pop(l, 2);
+							lua_pop(l, 1);
 						} else {
 							lua_getfield(l, -1, "Unserialize");  // [t] [klass] [klass.Unserialize]
 							if (lua_isnil(l, -1)) {
