@@ -16,6 +16,9 @@
     <Filter Include="src\nanosvg">
       <UniqueIdentifier>{a4f6a456-a451-445c-9017-dd2865551018}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\json">
+      <UniqueIdentifier>{9493c942-fe23-49f7-9cfe-0984403ead6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\AmbientSounds.cpp">
@@ -485,6 +488,9 @@
     </ClCompile>
     <ClCompile Include="..\..\contrib\imgui\examples\imgui_impl_sdl.cpp">
       <Filter>src\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaJson.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -982,6 +988,18 @@
     </ClInclude>
     <ClInclude Include="..\..\contrib\imgui\examples\imgui_impl_sdl.h">
       <Filter>src\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\base64\base64.hpp">
+      <Filter>src\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\json\json.hpp">
+      <Filter>src\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\json\json_fwd.hpp">
+      <Filter>src\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaJson.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
