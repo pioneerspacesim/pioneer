@@ -171,7 +171,8 @@ CustomSystem:new('Lalande 21185',{'STAR_M'}):add_to_sector(0,0,0,v(0.206,0.815,0
 CustomSystem:new('NN 3991',{'STAR_M'}):add_to_sector(-3,0,2,v(0.913,0.466,0.043))
 CustomSystem:new('NN 3992',{'STAR_M'}):add_to_sector(-4,0,3,v(0.244,0.806,0.049))
 CustomSystem:new('Lambda Aurigae',{'STAR_G'}):add_to_sector(3,-1,3,v(0.881,0.301,0.321))
-CustomSystem:new('Sirius',{'STAR_A','WHITE_DWARF'}):add_to_sector(1,0,-1,v(0.010,0.201,0.691))
+--CustomSystem:new('Sirius',{'STAR_A','WHITE_DWARF'}):add_to_sector(1,0,-1,v(0.010,0.201,0.691))
+--System already customized in custom\14_sirius.lua
 CustomSystem:new('Gliese 514',{'STAR_M'}):add_to_sector(-2,2,0,v(0.830,0.826,0.560))
 CustomSystem:new('Gliese 453',{'STAR_K'}):add_to_sector(0,3,-2,v(0.033,0.677,0.069))
 CustomSystem:new('Gliese 519',{'STAR_M'}):add_to_sector(-2,3,2,v(0.511,0.287,0.595))
