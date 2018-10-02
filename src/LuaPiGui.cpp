@@ -1025,6 +1025,16 @@ static int l_pigui_get_window_pos(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_get_window_size(lua_State *l) {
+	pi_lua_generic_push(l, ImGui::GetWindowSize());
+	return 1;
+}
+
+static int l_pigui_get_content_region(lua_State *l) {
+	pi_lua_generic_push(l, ImGui::GetContentRegionAvail());
+	return 1;
+}
+
 static int l_pigui_image(lua_State *l) {
 	ImTextureID id = pi_lua_checklightuserdata(l, 1);
 	ImVec2 size = LuaPull<ImVec2>(l, 2);
@@ -1628,6 +1638,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "IsKeyReleased",          l_pigui_is_key_released },
 		{ "DragInt4",               l_pigui_drag_int_4 },
 		{ "GetWindowPos",           l_pigui_get_window_pos },
+		{ "GetWindowSize",          l_pigui_get_window_size },
+		{ "GetContentRegion",       l_pigui_get_content_region },
 		{ "InputText",              l_pigui_input_text },
 		{ "Combo",                  l_pigui_combo },
 		{ "ListBox",                l_pigui_listbox },
