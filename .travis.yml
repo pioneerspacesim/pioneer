@@ -34,7 +34,8 @@ matrix:
       compiler: gcc
       env: CC=gcc-4.9 CXX=g++-4.9
       script:
-        - ./bootstrap && ./configure --with-thirdparty=$(pwd)/pioneer-thirdparty LIBS="-ldl -lrt -lpthread" && make
+        - ./bootstrap cmake -DUSE_PIONEER_THIRDPARTY && make -C build -j2
+        # ./bootstrap && ./configure --with-thirdparty=$(pwd)/pioneer-thirdparty LIBS="-ldl -lrt -lpthread" && make
 
 before_install:
   - git clone --depth 1 git://github.com/pioneerspacesim/pioneer-thirdparty.git pioneer-thirdparty

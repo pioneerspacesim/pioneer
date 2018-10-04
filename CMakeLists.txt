@@ -92,6 +92,10 @@ else (WIN32)
 endif (WIN32)
 
 LIST(APPEND CXX_FILES ${FILESYSTEM_CXX_FILES})
+option(USE_PIONEER_THIRDPARTY "Use pioneer's thirdparty library repository." OFF)
+if (USE_PIONEER_THIRDPARTY)
+    list(APPEND CMAKE_INCLUDE_PATH pioneer-thirdparty/)
+endif (USE_PIONEER_THIRDPARTY)
 
 option(USE_SYSTEM_LIBGLEW "Use the system's libglew" OFF)
 if (USE_SYSTEM_LIBGLEW)
