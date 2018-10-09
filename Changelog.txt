@@ -1,3 +1,7 @@
+October 2018
+   * New Features
+     * Adds two custom systems (#4462)
+
 September 2018
    * New Features
      * Add hyperdrive breakdown sound effect (#4401)
