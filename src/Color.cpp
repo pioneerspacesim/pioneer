@@ -24,6 +24,7 @@ const Color4ub Color::YELLOW  = Color(255, 255, 0, 255);
 const Color4ub Color::GRAY    = Color(128,128,128,255);
 const Color4ub Color::STEELBLUE = Color(68, 130, 181, 255);
 const Color4ub Color::BLANK = Color(0, 0, 0, 0);
+const Color4ub Color::PINK	= Color(252, 15, 192, 255); // debug pink
 
 const Color3ub Color3ub::BLACK   = Color3ub(0, 0, 0);
 const Color3ub Color3ub::WHITE   = Color3ub(255, 255, 255);

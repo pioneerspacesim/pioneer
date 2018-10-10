@@ -69,14 +69,13 @@ namespace Background
 
 	private:
 		void Init();
-		#define BG_STAR_MAX 100000
-		#define BG_STAR_MIN 1000
+
 		std::unique_ptr<Graphics::Drawables::PointSprites> m_pointSprites;
 		Graphics::RenderState* m_renderState; // NB: we don't own RenderState pointers, just borrow them
 
 		//hyperspace animation vertex data
-		vector3f m_hyperVtx[BG_STAR_MAX*3];
-		Color m_hyperCol[BG_STAR_MAX*3];
+		std::unique_ptr<vector3f[]> m_hyperVtx;// BG_STAR_MAX * 3
+		std::unique_ptr<Color[]> m_hyperCol;// BG_STAR_MAX * 3
 		std::unique_ptr<Graphics::VertexBuffer> m_animBuffer;
 	};
 
