@@ -22,8 +22,8 @@ public:
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) override;
 	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData) override;
 protected:
-	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
+	virtual void SaveToJson(Json &jsonObj, Space *space) override;
+	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 private:
 	void Init();
 	LuaRef m_cargo;

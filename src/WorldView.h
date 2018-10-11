@@ -46,14 +46,14 @@ public:
 	static void RegisterInputBindings();
 	friend class NavTunnelWidget;
 	WorldView(Game* game);
-	WorldView(const Json::Value &jsonObj, Game* game);
+	WorldView(const Json &jsonObj, Game* game);
 	virtual ~WorldView();
 	virtual void ShowAll();
 	virtual void Update();
 	virtual void Draw3D();
 	virtual void Draw();
 	static const double PICK_OBJECT_RECT_SIZE;
-	virtual void SaveToJson(Json::Value &jsonObj);
+	virtual void SaveToJson(Json &jsonObj);
 	enum CamType {
 		CAM_INTERNAL,
 		CAM_EXTERNAL,

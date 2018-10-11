@@ -28,23 +28,23 @@ Frame::Frame(Frame *parent, const char *label, unsigned int flags)
 	Init(parent, label, flags);
 }
 
-void Frame::ToJson(Json::Value &frameObj, Frame *f, Space *space)
+void Frame::ToJson(Json &frameObj, Frame *f, Space *space)
 {
 	frameObj["flags"] = f->m_flags;
-	frameObj["radius"] = DoubleToStr(f->m_radius);
+	frameObj["radius"] = f->m_radius;
 	frameObj["label"] = f->m_label;
-	VectorToJson(frameObj, f->m_pos, "pos");
-	frameObj["ang_speed"] = DoubleToStr(f->m_angSpeed);
-	MatrixToJson(frameObj, f->m_initialOrient, "init_orient");
+	frameObj["pos"] = f->m_pos;
+	frameObj["ang_speed"] = f->m_angSpeed;
+	frameObj["init_orient"] = f->m_initialOrient;
 	frameObj["index_for_system_body"] = space->GetIndexForSystemBody(f->m_sbody);
 	frameObj["index_for_astro_body"] = space->GetIndexForBody(f->m_astroBody);
 
-	Json::Value childFrameArray(Json::arrayValue); // Create JSON array to contain child frame data.
+	Json childFrameArray = Json::array(); // Create JSON array to contain child frame data.
 	for (Frame* kid : f->GetChildren())
 	{
-		Json::Value childFrameArrayEl(Json::objectValue); // Create JSON object to contain child frame.
+		Json childFrameArrayEl = Json::object(); // Create JSON object to contain child frame.
 		Frame::ToJson(childFrameArrayEl, kid, space);
-		childFrameArray.append(childFrameArrayEl); // Append child frame object to array.
+		childFrameArray.push_back(childFrameArrayEl); // Append child frame object to array.
 	}
 	if (!childFrameArray.empty())
 		frameObj["child_frames"] = childFrameArray; // Add child frame array to frame object.
@@ -53,38 +53,32 @@ void Frame::ToJson(Json::Value &frameObj, Frame *f, Space *space)
 	SfxManager::ToJson(frameObj, f);
 }
 
-Frame *Frame::FromJson(const Json::Value &frameObj, Space *space, Frame *parent, double at_time)
+Frame *Frame::FromJson(const Json &frameObj, Space *space, Frame *parent, double at_time)
 {
 	Frame *f = new Frame();
 	f->m_parent = parent;
 
-	if (!frameObj.isMember("flags")) throw SavedGameCorruptException();
-	if (!frameObj.isMember("radius")) throw SavedGameCorruptException();
-	if (!frameObj.isMember("label")) throw SavedGameCorruptException();
-	if (!frameObj.isMember("ang_speed")) throw SavedGameCorruptException();
-	if (!frameObj.isMember("index_for_system_body")) throw SavedGameCorruptException();
-	if (!frameObj.isMember("index_for_astro_body")) throw SavedGameCorruptException();
+	try {
+		f->m_flags = frameObj["flags"];
+		f->m_radius = frameObj["radius"];
+		f->m_label = frameObj["label"];
+		f->m_pos = frameObj["pos"];
+		f->m_angSpeed = frameObj["ang_speed"];
+		f->SetInitialOrient(frameObj["init_orient"], at_time);
+		f->m_sbody = space->GetSystemBodyByIndex(frameObj["index_for_system_body"]);
+		f->m_astroBodyIndex = frameObj["index_for_astro_body"];
+		f->m_vel = vector3d(0.0); // m_vel is set to zero.
 
-	f->m_flags = frameObj["flags"].asInt();
-	f->m_radius = StrToDouble(frameObj["radius"].asString());
-	f->m_label = frameObj["label"].asString();
-	JsonToVector(&(f->m_pos), frameObj, "pos");
-	f->m_angSpeed = StrToDouble(frameObj["ang_speed"].asString());
-	matrix3x3d orient;
-	JsonToMatrix(&orient, frameObj, "init_orient");
-	f->SetInitialOrient(orient, at_time);
-	f->m_sbody = space->GetSystemBodyByIndex(frameObj["index_for_system_body"].asUInt());
-	f->m_astroBodyIndex = frameObj["index_for_astro_body"].asUInt();
-	f->m_vel = vector3d(0.0); // m_vel is set to zero.
-
-	if (frameObj.isMember("child_frames")) {
-		Json::Value childFrameArray = frameObj["child_frames"];
-		if (!childFrameArray.isArray()) throw SavedGameCorruptException();
-		for (unsigned int i = 0; i < childFrameArray.size(); ++i) {
-			f->m_children.push_back(FromJson(childFrameArray[i], space, f, at_time));
+		if (frameObj.count("child_frames") && frameObj["child_frames"].is_array()) {
+            Json childFrameArray = frameObj["child_frames"];
+			for (unsigned int i = 0; i < childFrameArray.size(); ++i) {
+				f->m_children.push_back(FromJson(childFrameArray[i], space, f, at_time));
+			}
+		} else {
+			f->m_children.clear();
 		}
-	} else {
-		f->m_children.clear();
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
 	}
 
 	SfxManager::FromJson(frameObj, f);

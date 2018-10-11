@@ -94,36 +94,29 @@ void ModelSkin::Load(Serializer::Reader &rd)
 	m_label = rd.String();
 }
 
-void ModelSkin::LoadFromJson(const Json::Value &jsonObj)
+void ModelSkin::LoadFromJson(const Json &jsonObj)
 {
-	if (!jsonObj.isMember("model_skin")) throw SavedGameCorruptException();
-	Json::Value modelSkinObj = jsonObj["model_skin"];
+    try {
+    	Json modelSkinObj = jsonObj["model_skin"];
 
-	if (!modelSkinObj.isMember("colors")) throw SavedGameCorruptException();
-	if (!modelSkinObj.isMember("decals")) throw SavedGameCorruptException();
-	if (!modelSkinObj.isMember("label")) throw SavedGameCorruptException();
+    	Json colorsArray = modelSkinObj["colors"].get<Json::array_t>();
+    	if (colorsArray.size() != 3) throw SavedGameCorruptException();
+    	for (unsigned int i = 0; i < 3; i++) {
+            Json arrayElem = colorsArray[i];
+            m_colors[i] = arrayElem["color"];
+        }
 
-	Json::Value colorsArray = modelSkinObj["colors"];
-	if (!colorsArray.isArray()) throw SavedGameCorruptException();
-	if (colorsArray.size() != 3) throw SavedGameCorruptException();
-	for (unsigned int i = 0; i < 3; i++)
-	{
-		Json::Value colorsArrayEl = colorsArray[i];
-		if (!colorsArrayEl.isMember("color")) throw SavedGameCorruptException();
-		JsonToColor(&(m_colors[i]), colorsArrayEl, "color");
+    	Json decalsArray = modelSkinObj["decals"].get<Json::array_t>();
+    	if (decalsArray.size() != MAX_DECAL_MATERIALS) throw SavedGameCorruptException();
+    	for (unsigned int i = 0; i < MAX_DECAL_MATERIALS; i++) {
+            Json arrayElem = decalsArray[i];
+            m_decals[i] = arrayElem["decal"];
+        }
+
+    	m_label = modelSkinObj["label"];
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
 	}
-
-	Json::Value decalsArray = modelSkinObj["decals"];
-	if (!decalsArray.isArray()) throw SavedGameCorruptException();
-	if (decalsArray.size() != MAX_DECAL_MATERIALS) throw SavedGameCorruptException();
-	for (unsigned int i = 0; i < MAX_DECAL_MATERIALS; i++)
-	{
-		Json::Value decalsArrayEl = decalsArray[i];
-		if (!decalsArrayEl.isMember("decal")) throw SavedGameCorruptException();
-		m_decals[i] = decalsArrayEl["decal"].asString();
-	}
-
-	m_label = modelSkinObj["label"].asString();
 }
 
 void ModelSkin::Save(Serializer::Writer &wr) const
@@ -138,27 +131,27 @@ void ModelSkin::Save(Serializer::Writer &wr) const
 	wr.String(m_label);
 }
 
-void ModelSkin::SaveToJson(Json::Value &jsonObj) const
+void ModelSkin::SaveToJson(Json &jsonObj) const
 {
-	Json::Value modelSkinObj(Json::objectValue); // Create JSON object to contain model skin data.
+	Json modelSkinObj({}); // Create JSON object to contain model skin data.
 
-	Json::Value colorsArray(Json::arrayValue); // Create JSON array to contain colors data.
-	for (unsigned int i = 0; i < 3; i++)
-	{
-		Json::Value colorsArrayEl(Json::objectValue); // Create JSON object to contain color.
-		ColorToJson(colorsArrayEl, m_colors[i], "color");
-		colorsArray.append(colorsArrayEl); // Append color object to colors array.
-	}
-	modelSkinObj["colors"] = colorsArray; // Add colors array to model skin object.
+	Json colorsArray = Json::array(); // Create JSON array to contain colors data.
+	for (unsigned int i = 0; i < 3; i++) {
+        Json arrayElem({});
+        arrayElem["color"] = m_colors[i];
+        colorsArray.push_back(arrayElem);
+    }
 
-	Json::Value decalsArray(Json::arrayValue); // Create JSON array to contain decals data.
-	for (unsigned int i = 0; i < MAX_DECAL_MATERIALS; i++)
-	{
-		Json::Value decalsArrayEl(Json::objectValue); // Create JSON object to contain decal.
-		decalsArrayEl["decal"] = m_decals[i];
-		decalsArray.append(decalsArrayEl); // Append decal object to decals array.
-	}
-	modelSkinObj["decals"] = decalsArray; // Add decals array to model skin object.
+    modelSkinObj["colors"] = colorsArray; // Add colors array to model skin object.
+
+	Json decalsArray = Json::array(); // Create JSON array to contain decals data.
+	for (unsigned int i = 0; i < MAX_DECAL_MATERIALS; i++) {
+        Json arrayElem({});
+        arrayElem["decal"] = m_decals[i];
+        decalsArray.push_back(arrayElem);
+    }
+
+    modelSkinObj["decals"] = decalsArray; // Add decals array to model skin object.
 
 	modelSkinObj["label"] = m_label;
 

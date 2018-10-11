@@ -43,8 +43,8 @@ class FixedGuns : public RefCounted
 			if(m_gun_present[idx])
 				m_is_firing[idx] = s;
 		};
-		virtual void SaveToJson( Json::Value &jsonObj, Space *space);
-		virtual void LoadFromJson( const Json::Value &jsonObj, Space *space);
+		virtual void SaveToJson( Json &jsonObj, Space *space);
+		virtual void LoadFromJson( const Json &jsonObj, Space *space);
 	private:
 
 		struct GunData {

@@ -8,7 +8,7 @@
 #include "SpaceStation.h"
 #include "Pi.h"
 #include "Game.h"
-#include "JsonUtils.h"
+#include "JsonFwd.h"
 #include "GameSaveError.h"
 #include "libs.h"
 
@@ -40,9 +40,9 @@ public:
 	}
 
 	// Serialisation functions
-	static AICommand *LoadFromJson(const Json::Value &jsonObj);
-	AICommand(const Json::Value &jsonObj, CmdName name);
-	virtual void SaveToJson(Json::Value &jsonObj);
+	static AICommand *LoadFromJson(const Json &jsonObj);
+	AICommand(const Json &jsonObj, CmdName name);
+	virtual void SaveToJson(Json &jsonObj);
 	virtual void PostLoadFixup(Space *space);
 
 	// Signal functions
@@ -70,26 +70,8 @@ public:
 		if (m_child) m_child->GetStatusText(str);
 		else snprintf(str, 255, "Dock: target %s, state %i", m_target->GetLabel().c_str(), m_state);
 	}
-	virtual void SaveToJson(Json::Value &jsonObj) {
-		Space *space = Pi::game->GetSpace();
-		Json::Value aiCommandObj(Json::objectValue); // Create JSON object to contain ai command data.
-		AICommand::SaveToJson(aiCommandObj);
-		aiCommandObj["index_for_target"] = space->GetIndexForBody(m_target);
-		VectorToJson(aiCommandObj, m_dockpos, "dock_pos");
-		VectorToJson(aiCommandObj, m_dockdir, "dock_dir");
-		VectorToJson(aiCommandObj, m_dockupdir, "dock_up_dir");
-		aiCommandObj["state"] = Json::Value::Int(m_state);
-		jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
-	}
-	AICmdDock(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_DOCK) {
-		if (!jsonObj.isMember("index_for_target")) throw SavedGameCorruptException();
-		if (!jsonObj.isMember("state")) throw SavedGameCorruptException();
-		m_targetIndex = jsonObj["index_for_target"].asInt();
-		JsonToVector(&m_dockpos, jsonObj, "dock_pos");
-		JsonToVector(&m_dockdir, jsonObj, "dock_dir");
-		JsonToVector(&m_dockupdir, jsonObj, "dock_up_dir");
-		m_state = EDockingStates(jsonObj["state"].asInt());
-	}
+	virtual void SaveToJson(Json &jsonObj);
+	AICmdDock(const Json &jsonObj);
 	virtual void PostLoadFixup(Space *space) {
 		AICommand::PostLoadFixup(space);
 		m_target = static_cast<SpaceStation *>(space->GetBodyByIndex(m_targetIndex));
@@ -143,33 +125,8 @@ public:
 		else snprintf(str, 255, "FlyTo: %s, dist %.1fkm, endvel %.1fkm/s, state %i",
 			m_targframe->GetLabel().c_str(), m_posoff.Length()/1000.0, m_endvel/1000.0, m_state);
 	}
-	virtual void SaveToJson(Json::Value &jsonObj) {
-		if (m_child) { m_child.reset(); }
-		Json::Value aiCommandObj(Json::objectValue); // Create JSON object to contain ai command data.
-		AICommand::SaveToJson(aiCommandObj);
-		aiCommandObj["index_for_target"] = Pi::game->GetSpace()->GetIndexForBody(m_target);
-		aiCommandObj["dist"] = DoubleToStr(m_dist);
-		aiCommandObj["index_for_target_frame"] = Pi::game->GetSpace()->GetIndexForFrame(m_targframe);
-		VectorToJson(aiCommandObj, m_posoff, "pos_off");
-		aiCommandObj["end_vel"] = DoubleToStr(m_endvel);
-		aiCommandObj["tangent"] = m_tangent;
-		aiCommandObj["state"] = m_state;
-		jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
-	}
-	AICmdFlyTo(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_FLYTO) {
-		if (!jsonObj.isMember("index_for_target")) throw SavedGameCorruptException();
-		if (!jsonObj.isMember("dist")) throw SavedGameCorruptException();
-		if (!jsonObj.isMember("index_for_target_frame")) throw SavedGameCorruptException();
-		if (!jsonObj.isMember("tangent")) throw SavedGameCorruptException();
-		if (!jsonObj.isMember("state")) throw SavedGameCorruptException();
-		m_targetIndex = jsonObj["index_for_target"].asInt();
-		m_dist = StrToDouble(jsonObj["dist"].asString());
-		m_targframeIndex = jsonObj["index_for_target_frame"].asInt();
-		JsonToVector(&m_posoff, jsonObj, "pos_off");
-		m_endvel = StrToDouble(jsonObj["end_vel"].asString());
-		m_tangent = jsonObj["tangent"].asBool();
-		m_state = jsonObj["state"].asInt();
-	}
+	virtual void SaveToJson(Json &jsonObj);
+	AICmdFlyTo(const Json &jsonObj);
 	virtual void PostLoadFixup(Space *space) {
 		AICommand::PostLoadFixup(space);
 		m_target = space->GetBodyByIndex(m_targetIndex);
@@ -210,26 +167,8 @@ public:
 		else snprintf(str, 255, "FlyAround: alt %.1fkm, vel %.1fkm/s, mode %i",
 			m_alt/1000.0, m_vel/1000.0, m_targmode);
 	}
-	virtual void SaveToJson(Json::Value &jsonObj) {
-		if (m_child) { m_child.reset(); }
-		Json::Value aiCommandObj(Json::objectValue); // Create JSON object to contain ai command data.
-		AICommand::SaveToJson(aiCommandObj);
-		aiCommandObj["index_for_obstructor"] = Pi::game->GetSpace()->GetIndexForBody(m_obstructor);
-		aiCommandObj["vel"] = DoubleToStr(m_vel);
-		aiCommandObj["alt"] = DoubleToStr(m_alt);
-		aiCommandObj["targ_mode"] = m_targmode;
-		jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
-	}
-	AICmdFlyAround(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_FLYAROUND) {
-		if (!jsonObj.isMember("index_for_obstructor")) throw SavedGameCorruptException();
-		if (!jsonObj.isMember("vel")) throw SavedGameCorruptException();
-		if (!jsonObj.isMember("alt")) throw SavedGameCorruptException();
-		if (!jsonObj.isMember("targ_mode")) throw SavedGameCorruptException();
-		m_obstructorIndex = jsonObj["index_for_obstructor"].asInt();
-		m_vel = StrToDouble(jsonObj["vel"].asString());
-		m_alt = StrToDouble(jsonObj["alt"].asString());
-		m_targmode = jsonObj["targ_mode"].asInt();
-	}
+	virtual void SaveToJson(Json &jsonObj);
+	AICmdFlyAround(const Json &jsonObj);
 	virtual void PostLoadFixup(Space *space) {
 		AICommand::PostLoadFixup(space);
 		m_obstructor = space->GetBodyByIndex(m_obstructorIndex);
@@ -273,17 +212,8 @@ public:
 	}
 
 	// don't actually need to save all this crap
-	virtual void SaveToJson(Json::Value &jsonObj) {
-		Space *space = Pi::game->GetSpace();
-		Json::Value aiCommandObj(Json::objectValue); // Create JSON object to contain ai command data.
-		AICommand::SaveToJson(aiCommandObj);
-		aiCommandObj["index_for_target"] = space->GetIndexForBody(m_target);
-		jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
-	}
-	AICmdKill(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_KILL) {
-		if (!jsonObj.isMember("index_for_target")) throw SavedGameCorruptException();
-		m_targetIndex = jsonObj["index_for_target"].asInt();
-	}
+	virtual void SaveToJson(Json &jsonObj);
+	AICmdKill(const Json &jsonObj);
 
 	virtual void PostLoadFixup(Space *space) {
 		AICommand::PostLoadFixup(space);
@@ -318,17 +248,8 @@ public:
 		assert(m_prop!=nullptr);
 	}
 
-	virtual void SaveToJson(Json::Value &jsonObj) {
-		Space *space = Pi::game->GetSpace();
-		Json::Value aiCommandObj(Json::objectValue); // Create JSON object to contain ai command data.
-		AICommand::SaveToJson(aiCommandObj);
-		aiCommandObj["index_for_target"] = space->GetIndexForBody(m_target);
-		jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
-	}
-	AICmdKamikaze(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_KAMIKAZE) {
-		if (!jsonObj.isMember("index_for_target")) throw SavedGameCorruptException();
-		m_targetIndex = jsonObj["index_for_target"].asInt();
-	}
+	virtual void SaveToJson(Json &jsonObj);
+	AICmdKamikaze(const Json &jsonObj);
 	virtual void PostLoadFixup(Space *space) {
 		AICommand::PostLoadFixup(space);
 		m_target = space->GetBodyByIndex(m_targetIndex);
@@ -354,7 +275,7 @@ public:
 		m_prop.Reset(m_dBody->GetPropulsion());
 		assert(m_prop!=nullptr);
 	}
-	AICmdHoldPosition(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_HOLDPOSITION) {
+	AICmdHoldPosition(const Json &jsonObj) : AICommand(jsonObj, CMD_HOLDPOSITION) {
 		// Ensure needed sub-system:
 		m_prop.Reset(m_dBody->GetPropulsion());
 		assert(m_prop!=nullptr);
@@ -371,20 +292,8 @@ public:
 		else snprintf(str, 255, "Formation: %s, dist %.1fkm",
 			m_target->GetLabel().c_str(), m_posoff.Length()/1000.0);
 	}
-	virtual void SaveToJson(Json::Value &jsonObj) {
-		if (m_child) { m_child.reset(); }
-		Json::Value aiCommandObj(Json::objectValue); // Create JSON object to contain ai command data.
-		AICommand::SaveToJson(aiCommandObj);
-		aiCommandObj["index_for_target"] = Pi::game->GetSpace()->GetIndexForBody(m_target);
-		VectorToJson(aiCommandObj, m_posoff, "pos_off");
-		jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
-	}
-	AICmdFormation(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_FORMATION) {
-		if (!jsonObj.isMember("index_for_target")) throw SavedGameCorruptException();
-		if (!jsonObj.isMember("pos_off")) throw SavedGameCorruptException();
-		m_targetIndex = jsonObj["index_for_target"].asInt();
-		JsonToVector(&m_posoff, jsonObj, "pos_off");
-	}
+	virtual void SaveToJson(Json &jsonObj);
+	AICmdFormation(const Json &jsonObj);
 	virtual void PostLoadFixup(Space *space) {
 		AICommand::PostLoadFixup(space);
 		m_target = static_cast<Ship*>(space->GetBodyByIndex(m_targetIndex));

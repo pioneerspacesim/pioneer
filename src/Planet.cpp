@@ -39,7 +39,7 @@ Planet::Planet(SystemBody *sbody)
 	InitParams(sbody);
 }
 
-void Planet::LoadFromJson(const Json::Value &jsonObj, Space *space)
+void Planet::LoadFromJson(const Json &jsonObj, Space *space)
 {
 	TerrainBody::LoadFromJson(jsonObj, space);
 

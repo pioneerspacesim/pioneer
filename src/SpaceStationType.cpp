@@ -9,7 +9,7 @@
 #include "StringF.h"
 #include "scenegraph/Model.h"
 #include "OS.h"
-#include "json/json.h"
+#include "Json.h"
 
 #include <algorithm>
 
@@ -32,23 +32,15 @@ SpaceStationType::SpaceStationType(const std::string &id_, const std::string &pa
 	, parkingDistance(0)
 	, parkingGapSize(0)
 {
-	Json::Reader reader;
-	Json::Value data;
-
-	auto fd = FileSystem::gameDataFiles.ReadFile(path_);
-	if (!fd) {
-		Output("couldn't open station def '%s'\n", path_.c_str());
+	Json data = JsonUtils::LoadJsonDataFile(path_);
+	if (data.is_null()) {
+		Output("couldn't read station def '%s'\n", path_.c_str());
 		throw StationTypeLoadError();
 	}
 
-	if (!reader.parse(fd->GetData(), fd->GetData()+fd->GetSize(), data)) {
-		Output("couldn't read station def '%s': %s\n", path_.c_str(), reader.getFormattedErrorMessages().c_str());
-		throw StationTypeLoadError();
-	}
+	modelName = data.value("model", "");
 
-	modelName = data.get("model", "").asString();
-
-	const std::string type(data.get("type", "").asString());
+	const std::string type = data.value("type", "");
 	if (type == "surface")
 		dockMethod = SURFACE;
 	else if (type == "orbital")
@@ -58,12 +50,12 @@ SpaceStationType::SpaceStationType(const std::string &id_, const std::string &pa
 		throw StationTypeLoadError();
 	}
 
-	angVel = data.get("angular_velocity", 0.0f).asFloat();
+	angVel = data.value("angular_velocity", 0.0f);
 
-	parkingDistance = data.get("parking_distance", 0.0f).asFloat();
-	parkingGapSize = data.get("parking_gap_size", 0.0f).asFloat();
+	parkingDistance = data.value("parking_distance", 0.0f);
+	parkingGapSize = data.value("parking_gap_size", 0.0f);
 
-	padOffset = data.get("pad_offset", 150.f).asFloat();
+	padOffset = data.value("pad_offset", 150.f);
 
 	model = Pi::FindModel(modelName, /* allowPlaceholder = */ false);
 	if (!model) {

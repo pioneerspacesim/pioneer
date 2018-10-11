@@ -1,1 +1,1 @@
-SUBDIRS = lua miniz jenkins json PicoDDS vcacheopt glew profiler imgui
+SUBDIRS = lua miniz jenkins PicoDDS vcacheopt glew profiler imgui

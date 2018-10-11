@@ -70,23 +70,28 @@ endforeach (each IN LISTS SRC_FOLDERS)
 list(REMOVE_ITEM CXX_FILES
 	src/main.cpp
 	src/modelcompiler.cpp
+	src/savegamedump.cpp
 	src/tests.cpp
 	src/textstress.cpp
 	src/uitest.cpp
 )
 
+list(APPEND FILESYSTEM_CXX_FILES)
+
 if (WIN32)
-	list(APPEND CXX_FILES
+	list(APPEND FILESYSTEM_CXX_FILES
 		src/win32/FileSystemWin32.cpp
 		src/win32/OSWin32.cpp
 		src/win32/TextUtils.cpp
 	)
 else (WIN32)
-	list(APPEND CXX_FILES
+	list(APPEND FILESYSTEM_CXX_FILES
 		src/posix/FileSystemPosix.cpp
 		src/posix/OSPosix.cpp
 	)
 endif (WIN32)
+
+LIST(APPEND CXX_FILES ${FILESYSTEM_CXX_FILES})
 
 option(USE_SYSTEM_LIBGLEW "Use the system's libglew" OFF)
 if (USE_SYSTEM_LIBGLEW)
@@ -133,7 +138,6 @@ if (NOT USE_SYSTEM_LIBGLEW)
 endif (NOT USE_SYSTEM_LIBGLEW)
 add_subdirectory(contrib/imgui)
 add_subdirectory(contrib/jenkins)
-add_subdirectory(contrib/json)
 add_subdirectory(contrib/PicoDDS)
 add_subdirectory(contrib/profiler)
 if (NOT USE_SYSTEM_LIBLUA)
@@ -146,6 +150,19 @@ add_library(pioneerLib OBJECT ${CXX_FILES})
 
 add_executable(${PROJECT_NAME} WIN32 src/main.cpp)
 add_executable(modelcompiler WIN32 src/modelcompiler.cpp)
+add_executable(savegamedump WIN32
+	src/savegamedump.cpp
+	src/JsonUtils.cpp
+	src/FileSystem.cpp
+	src/utils.cpp
+	src/StringF.cpp
+	src/GZipFormat.cpp
+	src/DateTime.cpp
+	src/Lang.cpp
+	${FILESYSTEM_CXX_FILES}
+	# This one's in here because there's no such thing as separation in the codebase.
+	src/PngWriter.cpp
+)
 
 list(APPEND pioneerLibs
 	${ASSIMP_LIBRARIES}
@@ -160,7 +177,6 @@ list(APPEND pioneerLibs
 	GLEW::GLEW
 	imgui
 	jenkins
-	json
 	picodds
 	profiler
 	pioneerLib
@@ -168,18 +184,19 @@ list(APPEND pioneerLibs
 
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs})
 target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs})
+target_link_libraries(savegamedump LINK_PRIVATE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
 
 if (WIN32)
 	target_link_libraries(${PROJECT_NAME} modelcompiler LINK_PRIVATE shlwapi)
 endif (WIN32)
 
-set_target_properties(${PROJECT_NAME} modelcompiler PROPERTIES
+set_target_properties(${PROJECT_NAME} modelcompiler savegamedump PROPERTIES
 	CXX_STANDARD 11
 	CXX_STANDARD_REQUIRED ON
 	CXX_EXTENSIONS ON
 )
 
-install(TARGETS ${PROJECT_NAME} modelcompiler
+install(TARGETS ${PROJECT_NAME} modelcompiler savegamedump
 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 install(DIRECTORY data

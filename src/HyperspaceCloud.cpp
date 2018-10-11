@@ -70,19 +70,19 @@ void HyperspaceCloud::SetIsArrival(bool isArrival)
 	SetLabel(isArrival ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 }
 
-void HyperspaceCloud::SaveToJson(Json::Value &jsonObj, Space *space)
+void HyperspaceCloud::SaveToJson(Json &jsonObj, Space *space)
 {
 	Body::SaveToJson(jsonObj, space);
 
-	Json::Value hyperspaceCloudObj(Json::objectValue); // Create JSON object to contain hyperspace cloud data.
+	Json hyperspaceCloudObj = Json::object(); // Create JSON object to contain hyperspace cloud data.
 
-	VectorToJson(hyperspaceCloudObj, m_vel, "vel");
-	hyperspaceCloudObj["birth_date"] = DoubleToStr(m_birthdate);
-	hyperspaceCloudObj["due"] = DoubleToStr(m_due);
+	hyperspaceCloudObj["vel"] = m_vel;
+	hyperspaceCloudObj["birth_date"] = m_birthdate;
+	hyperspaceCloudObj["due"] = m_due;
 	hyperspaceCloudObj["is_arrival"] = m_isArrival;
 	if (m_ship)
 	{
-		Json::Value shipObj(Json::objectValue); // Create JSON object to contain ship data.
+		Json shipObj = Json::object(); // Create JSON object to contain ship data.
 		m_ship->ToJson(shipObj, space);
 		hyperspaceCloudObj["ship"] = shipObj; // Add ship object to hyperpace cloud object.
 	}
@@ -90,26 +90,25 @@ void HyperspaceCloud::SaveToJson(Json::Value &jsonObj, Space *space)
 	jsonObj["hyperspace_cloud"] = hyperspaceCloudObj; // Add hyperspace cloud object to supplied object.
 }
 
-void HyperspaceCloud::LoadFromJson(const Json::Value &jsonObj, Space *space)
+void HyperspaceCloud::LoadFromJson(const Json &jsonObj, Space *space)
 {
 	Body::LoadFromJson(jsonObj, space);
 
-	if (!jsonObj.isMember("hyperspace_cloud")) throw SavedGameCorruptException();
-	Json::Value hyperspaceCloudObj = jsonObj["hyperspace_cloud"];
+	try {
+		Json hyperspaceCloudObj = jsonObj["hyperspace_cloud"];
 
-	if (!hyperspaceCloudObj.isMember("birth_date")) throw SavedGameCorruptException();
-	if (!hyperspaceCloudObj.isMember("due")) throw SavedGameCorruptException();
-	if (!hyperspaceCloudObj.isMember("is_arrival")) throw SavedGameCorruptException();
+		m_vel = hyperspaceCloudObj["vel"];
+		m_birthdate = hyperspaceCloudObj["birth_date"];
+		m_due = hyperspaceCloudObj["due"];
+		m_isArrival = hyperspaceCloudObj["is_arrival"];
 
-	JsonToVector(&m_vel, hyperspaceCloudObj, "vel");
-	m_birthdate = StrToDouble(hyperspaceCloudObj["birth_date"].asString());
-	m_due = StrToDouble(hyperspaceCloudObj["due"].asString());
-	m_isArrival = hyperspaceCloudObj["is_arrival"].asBool();
-
-	if (hyperspaceCloudObj.isMember("ship"))
-	{
-		Json::Value shipObj = hyperspaceCloudObj["ship"];
-		m_ship = static_cast<Ship*>(Body::FromJson(shipObj, space));
+		if (hyperspaceCloudObj["ship"].is_object())
+		{
+			Json shipObj = hyperspaceCloudObj["ship"];
+			m_ship = static_cast<Ship*>(Body::FromJson(shipObj, space));
+		}
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
 	}
 }
 

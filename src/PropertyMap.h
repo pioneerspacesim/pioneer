@@ -30,8 +30,8 @@ public:
 		return m_signals[k].connect(fn);
 	}
 
-	void SaveToJson(Json::Value &jsonObj);
-	void LoadFromJson(const Json::Value &jsonObj);
+	void SaveToJson(Json &jsonObj);
+	void LoadFromJson(const Json &jsonObj);
 
 private:
 	LuaRef m_table;

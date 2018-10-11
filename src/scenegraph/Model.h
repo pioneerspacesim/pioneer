@@ -70,7 +70,7 @@
 #include "graphics/Drawables.h"
 #include "Serializer.h"
 #include "DeleteEmitter.h"
-#include "json/json.h"
+#include "Json.h"
 #include <stdexcept>
 
 namespace Graphics {
@@ -157,8 +157,8 @@ public:
 	void SetThrusterColor(const std::string &name, const Color &color);
 	void SetThrusterColor(const Color &color);
 
-	void SaveToJson(Json::Value &jsonObj) const;
-	void LoadFromJson(const Json::Value &jsonObj);
+	void SaveToJson(Json &jsonObj) const;
+	void LoadFromJson(const Json &jsonObj);
 
 	//serialization aid
 	std::string GetNameForMaterial(Graphics::Material*) const;

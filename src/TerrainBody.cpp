@@ -46,27 +46,29 @@ void TerrainBody::InitTerrainBody()
 	m_maxFeatureHeight = (m_baseSphere->GetMaxFeatureHeight() + 1.0) * m_sbody->GetRadius();
 }
 
-void TerrainBody::SaveToJson(Json::Value &jsonObj, Space *space)
+void TerrainBody::SaveToJson(Json &jsonObj, Space *space)
 {
 	Body::SaveToJson(jsonObj, space);
 
-	Json::Value terrainBodyObj(Json::objectValue); // Create JSON object to contain terrain body data.
+	Json terrainBodyObj({}); // Create JSON object to contain terrain body data.
 
 	terrainBodyObj["index_for_system_body"] = space->GetIndexForSystemBody(m_sbody);
 
 	jsonObj["terrain_body"] = terrainBodyObj; // Add terrain body object to supplied object.
 }
 
-void TerrainBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
+void TerrainBody::LoadFromJson(const Json &jsonObj, Space *space)
 {
 	Body::LoadFromJson(jsonObj, space);
 
-	if (!jsonObj.isMember("terrain_body")) throw SavedGameCorruptException();
-	Json::Value terrainBodyObj = jsonObj["terrain_body"];
+	try {
+		Json terrainBodyObj = jsonObj["terrain_body"];
 
-	if (!terrainBodyObj.isMember("index_for_system_body")) throw SavedGameCorruptException();
+		m_sbody = space->GetSystemBodyByIndex(terrainBodyObj["index_for_system_body"]);
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
 
-	m_sbody = space->GetSystemBodyByIndex(terrainBodyObj["index_for_system_body"].asInt());
 	InitTerrainBody();
 }
 

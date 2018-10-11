@@ -8,7 +8,7 @@
 #include "Serializer.h"
 #include "Random.h"
 #include "LuaWrappable.h"
-#include "json/json.h"
+#include "Json.h"
 #include <string>
 
 namespace SceneGraph {
@@ -34,9 +34,9 @@ public:
 	void SetLabel(const std::string &label);
 
 	void Load(Serializer::Reader &rd);
-	void LoadFromJson(const Json::Value &jsonObj);
+	void LoadFromJson(const Json &jsonObj);
 	void Save(Serializer::Writer &wr) const;
-	void SaveToJson(Json::Value &jsonObj) const;
+	void SaveToJson(Json &jsonObj) const;
 
 	const std::vector<Color>& GetColors() const { return m_colors; }
 

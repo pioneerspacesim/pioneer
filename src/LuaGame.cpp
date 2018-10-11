@@ -97,53 +97,47 @@ static int l_game_savegame_stats(lua_State *l)
 {
 	std::string filename = LuaPull<std::string>(l, 1);
 
-	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
-	if (!file) {
+	try {
+		Json rootNode = Game::LoadGameToJson(filename);
+
+		LuaTable t(l);
+
+		t.Set("time", rootNode["time"].get<double>());
+
+		// if this is a newer saved game, show the embedded info
+		if (rootNode["game_info"].is_object()) {
+			Json gameInfo = rootNode["game_info"];
+			t.Set("system", gameInfo["system"].get<std::string>());
+			t.Set("ship", gameInfo["ship"].get<std::string>());
+			t.Set("credits", gameInfo["credits"].get<float>());
+			t.Set("flight_state", gameInfo["flight_state"].get<std::string>());
+			if (gameInfo["docked_at"].is_string())
+				t.Set("docked_at", gameInfo["docked_at"].get<std::string>());
+		} else {
+			// this is an older saved game...try to show something useful
+			Json shipNode = rootNode["space"]["bodies"][rootNode["player"].get<int>() - 1];
+			t.Set("frame", rootNode["space"]["bodies"][shipNode["body"]["index_for_frame"].get<int>() - 1]["body"]["label"].get<std::string>());
+			t.Set("ship", shipNode["model_body"]["model_name"].get<std::string>());
+		}
+
+		return 1;
+	}
+	catch (CouldNotOpenFileException &e) {
 		const std::string message = stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", filename));
 		lua_pushlstring(l, message.c_str(), message.size());
 		return lua_error(l);
 	}
-	const auto compressed_data = file->AsByteRange();
-	try {
-		const std::string plain_data = gzip::DecompressDeflateOrGZip(reinterpret_cast<const unsigned char*>(compressed_data.begin), compressed_data.Size());
-		const char *pdata = plain_data.data();
-		Json::Reader jsonReader;
-		Json::Value rootNode;
-		if (!jsonReader.parse(pdata, pdata + plain_data.size(), rootNode)) {
-			Output("Game load failed: %s\n", jsonReader.getFormattedErrorMessages().c_str());
-			throw SavedGameCorruptException();
-		}
-		if (!rootNode.isObject()) throw SavedGameCorruptException();
-
-		LuaTable t(l);
-
-		t.Set("time", StrToDouble(rootNode["time"].asString()));
-
-		// if this is a newer saved game, show the embedded info
-		if (rootNode.isMember("game_info")) {
-			Json::Value gameInfo = rootNode["game_info"];
-			t.Set("system", gameInfo["system"].asString());
-			t.Set("ship", gameInfo["ship"].asString());
-			t.Set("credits", gameInfo["credits"].asFloat());
-			t.Set("flight_state", gameInfo["flight_state"].asString());
-			if (gameInfo.isMember("docked_at")) t.Set("docked_at", gameInfo["docked_at"].asString());
-		} else {
-			// this is an older saved game...try to show something useful
-			Json::Value shipNode = rootNode["space"]["bodies"][rootNode["player"].asInt() - 1];
-			t.Set("frame", rootNode["space"]["bodies"][shipNode["body"]["index_for_frame"].asInt() - 1]["body"]["label"].asString());
-			t.Set("ship", shipNode["model_body"]["model_name"].asString());
-		}
-	}
-	catch (gzip::DecompressionFailedException) {
+	catch (Json::type_error) {
 		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
 		return 0;
+	}
+	catch (Json::out_of_range) {
+		return luaL_error(l, Lang::GAME_LOAD_CORRUPT);
 	}
 	catch (SavedGameCorruptException) {
 		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
 		return 0;
 	}
-
-	return 1;
 }
 
 /*
@@ -185,8 +179,7 @@ static int l_game_load_game(lua_State *l)
 		luaL_error(l, Lang::GAME_LOAD_WRONG_VERSION);
 	}
 	catch (CouldNotOpenFileException) {
-		const std::string msg = stringf(Lang::GAME_LOAD_CANNOT_OPEN,
-																		formatarg("filename", filename));
+		const std::string msg = stringf(Lang::GAME_LOAD_CANNOT_OPEN, formatarg("filename", filename));
 		luaL_error(l, msg.c_str());
 	}
 

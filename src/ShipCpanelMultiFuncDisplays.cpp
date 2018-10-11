@@ -51,22 +51,20 @@ RadarWidget::RadarWidget(Graphics::Renderer *r) :
 	InitObject();
 }
 
-RadarWidget::RadarWidget(Graphics::Renderer *r, const Json::Value &jsonObj) :
+RadarWidget::RadarWidget(Graphics::Renderer *r, const Json &jsonObj) :
 m_renderer(r)
 {
-	// Radar used to be called "scanner" for Frontier-reasons
-	if (!jsonObj.isMember("scanner")) throw SavedGameCorruptException();
-	Json::Value radarObj = jsonObj["scanner"];
+	try {
+		// Radar used to be called "scanner" for Frontier-reasons
+		Json radarObj = jsonObj["scanner"];
 
-	if (!radarObj.isMember("mode")) throw SavedGameCorruptException();
-	if (!radarObj.isMember("current_range")) throw SavedGameCorruptException();
-	if (!radarObj.isMember("manual_range")) throw SavedGameCorruptException();
-	if (!radarObj.isMember("target_range")) throw SavedGameCorruptException();
-
-	m_mode = RadarMode(radarObj["mode"].asInt());
-	m_currentRange = StrToFloat(radarObj["current_range"].asString());
-	m_manualRange = StrToFloat(radarObj["manual_range"].asString());
-	m_targetRange = StrToFloat(radarObj["target_range"].asString());
+		m_mode = radarObj["mode"];
+		m_currentRange = radarObj["current_range"];
+		m_manualRange = radarObj["manual_range"];
+		m_targetRange = radarObj["target_range"];
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
 
 	InitObject();
 }
@@ -474,16 +472,15 @@ void RadarWidget::TimeStepUpdate(float step)
 	m_scale = RADAR_SCALE * (RADAR_RANGE_MAX / m_currentRange);
 }
 
-void RadarWidget::SaveToJson(Json::Value &jsonObj)
+void RadarWidget::SaveToJson(Json &jsonObj)
 {
-	Json::Value radarObj(Json::objectValue); // Create JSON object to contain radar data.
+	Json radarObj({}); // Create JSON object to contain radar data.
 
-	radarObj["mode"] = Sint32(m_mode);
-	radarObj["current_range"] = FloatToStr(m_currentRange);
-	radarObj["manual_range"] = FloatToStr(m_manualRange);
-	radarObj["target_range"] = FloatToStr(m_targetRange);
+	radarObj["mode"] = m_mode;
+	radarObj["current_range"] = m_currentRange;
+	radarObj["manual_range"] = m_manualRange;
+	radarObj["target_range"] = m_targetRange;
 
 	// Radar used to be called "scanner".
 	jsonObj["scanner"] = radarObj; // Add radar object to supplied object.
 }
-

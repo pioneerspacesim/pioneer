@@ -43,17 +43,14 @@ end
 local function getSaveTooltip(name)
 	local ret
 	local stats
-	if saveFileCache[name] then
-		stats = saveFileCache[name]
-	else
-		local ok
-		ok, stats = pcall(Game.SaveGameStats, name)
-		if ok then
-			saveFileCache[name] = stats
-		else
-			return stats  -- the error
-		end
+	if not saveFileCache[name] then
+        local ok
+        ok, saveFileCache[name] = pcall(Game.SaveGameStats, name)
 	end
+    stats = saveFileCache[name]
+    if (type(stats) == "string") then -- file could not be loaded, this is the error
+        return stats
+    end
 	ret = lui.GAME_TIME..":    " .. Format.Date(stats.time)
 	if stats.system then    ret = ret .. "\n"..lc.SYSTEM..": " .. stats.system end
 	if stats.credits then   ret = ret .. "\n"..lui.CREDITS..": " .. Format.Money(stats.credits) end

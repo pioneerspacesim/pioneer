@@ -10,6 +10,7 @@
 #include "GameLog.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/SystemPath.h"
+#include "JsonFwd.h"
 
 class HyperspaceCloud;
 class Player;
@@ -39,6 +40,7 @@ class ObjectViewerView;
 
 class Game {
 public:
+	static Json LoadGameToJson(const std::string &filename);
 	// LoadGame and SaveGame throw exceptions on failure
 	static Game *LoadGame(const std::string &filename);
 	static bool CanLoadGame(const std::string &filename);
@@ -50,12 +52,12 @@ public:
 	Game(const SystemPath &path, double time = 0.0);
 
 	// load game
-	Game(const Json::Value &jsonObj);
+	Game(const Json &jsonObj);
 
 	~Game();
 
 	// save game
-	void ToJson(Json::Value &jsonObj);
+	void ToJson(Json &jsonObj);
 
 	// various game states
 	bool IsNormalSpace() const { return m_state == STATE_NORMAL; }
@@ -134,7 +136,7 @@ private:
 	public:
 		Views();
 		void Init(Game* game);
-		void LoadFromJson(const Json::Value &jsonObj, Game* game);
+		void LoadFromJson(const Json &jsonObj, Game* game);
 		~Views();
 
 		void SetRenderer(Graphics::Renderer *r);
@@ -154,7 +156,7 @@ private:
 	};
 
 	void CreateViews();
-	void LoadViewsFromJson(const Json::Value &jsonObj);
+	void LoadViewsFromJson(const Json &jsonObj);
 	void DestroyViews();
 
 	static void EmitPauseState(bool paused);

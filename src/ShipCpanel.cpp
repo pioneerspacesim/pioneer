@@ -29,11 +29,11 @@ ShipCpanel::ShipCpanel(Graphics::Renderer *r, Game* game): Gui::Fixed(float(Gui:
 	m_radar->ShowAll();
 }
 
-ShipCpanel::ShipCpanel(const Json::Value &jsonObj, Graphics::Renderer *r, Game* game) : Gui::Fixed(float(Gui::Screen::GetWidth()), 80),
+ShipCpanel::ShipCpanel(const Json &jsonObj, Graphics::Renderer *r, Game* game) : Gui::Fixed(float(Gui::Screen::GetWidth()), 80),
 m_game(game)
 {
-	if (!jsonObj.isMember("ship_c_panel")) throw SavedGameCorruptException();
-	Json::Value shipCPanelObj = jsonObj["ship_c_panel"];
+	if (jsonObj["ship_c_panel"].is_null()) throw SavedGameCorruptException();
+	Json shipCPanelObj = jsonObj["ship_c_panel"];
 
 	m_radar = new RadarWidget(r, shipCPanelObj);
 
@@ -78,9 +78,7 @@ void ShipCpanel::TimeStepUpdate(float step)
 	m_radar->TimeStepUpdate(step);
 }
 
-void ShipCpanel::SaveToJson(Json::Value &jsonObj)
+void ShipCpanel::SaveToJson(Json &jsonObj)
 {
-	Json::Value shipCPanelObj(Json::objectValue); // Create JSON object to contain ship control panel data.
-	m_radar->SaveToJson(shipCPanelObj);
-	jsonObj["ship_c_panel"] = shipCPanelObj; // Add ship control panel object to supplied object.
+	m_radar->SaveToJson(jsonObj["ship_c_panel"]);
 }

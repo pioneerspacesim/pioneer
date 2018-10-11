@@ -20,7 +20,7 @@ Star::Star(SystemBody *sbody): TerrainBody(sbody)
 	InitStar();
 }
 
-void Star::LoadFromJson(const Json::Value &jsonObj, Space *space)
+void Star::LoadFromJson(const Json &jsonObj, Space *space)
 {
 	TerrainBody::LoadFromJson(jsonObj, space);		// to get sbody
 	InitStar();

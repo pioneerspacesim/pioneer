@@ -3,7 +3,7 @@
 
 #include "SystemPath.h"
 #include "GameSaveError.h"
-#include "json/json.h"
+#include "Json.h"
 #include <cstdlib>
 
 static int ParseInt(const char *&ss)
@@ -55,8 +55,8 @@ SystemPath SystemPath::Parse(const char * const str)
 		return SystemPath(x, y, z);
 }
 
-void SystemPath::ToJson(Json::Value &jsonObj) const {
-	Json::Value systemPathObj(Json::objectValue); // Create JSON object to contain system path data.
+void SystemPath::ToJson(Json &jsonObj) const {
+	Json systemPathObj({}); // Create JSON object to contain system path data.
 	systemPathObj["sector_x"] = sectorX;
 	systemPathObj["sector_y"] = sectorY;
 	systemPathObj["sector_z"] = sectorZ;
@@ -65,18 +65,18 @@ void SystemPath::ToJson(Json::Value &jsonObj) const {
 	jsonObj["system_path"] = systemPathObj; // Add system path object to supplied object.
 }
 
-SystemPath SystemPath::FromJson(const Json::Value &jsonObj) {
-	if (!jsonObj.isMember("system_path")) throw SavedGameCorruptException();
-	Json::Value systemPathObj = jsonObj["system_path"];
-	if (!systemPathObj.isMember("sector_x")) throw SavedGameCorruptException();
-	if (!systemPathObj.isMember("sector_y")) throw SavedGameCorruptException();
-	if (!systemPathObj.isMember("sector_z")) throw SavedGameCorruptException();
-	if (!systemPathObj.isMember("system_index")) throw SavedGameCorruptException();
-	if (!systemPathObj.isMember("body_index")) throw SavedGameCorruptException();
-	Sint32 x = systemPathObj["sector_x"].asInt();
-	Sint32 y = systemPathObj["sector_y"].asInt();
-	Sint32 z = systemPathObj["sector_z"].asInt();
-	Uint32 si = systemPathObj["system_index"].asUInt();
-	Uint32 bi = systemPathObj["body_index"].asUInt();
-	return SystemPath(x, y, z, si, bi);
+SystemPath SystemPath::FromJson(const Json &jsonObj) {
+	try {
+		Json systemPathObj = jsonObj["system_path"];
+
+		Sint32 x = systemPathObj["sector_x"];
+		Sint32 y = systemPathObj["sector_y"];
+		Sint32 z = systemPathObj["sector_z"];
+		Uint32 si = systemPathObj["system_index"];
+		Uint32 bi = systemPathObj["body_index"];
+
+		return SystemPath(x, y, z, si, bi);
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
 }

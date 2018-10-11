@@ -16,6 +16,9 @@
     <Filter Include="Win32">
       <UniqueIdentifier>{1d302f47-f764-4c47-a347-368ea89b5822}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\json">
+      <UniqueIdentifier>{2f1a4c06-480d-443b-84ca-e2f7a74efd36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\modelcompiler.cpp">
@@ -82,6 +85,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\JsonUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GZipFormat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -174,6 +180,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\JobQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\base64\base64.hpp">
+      <Filter>Header Files\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\json\json.hpp">
+      <Filter>Header Files\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\json\json_fwd.hpp">
+      <Filter>Header Files\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GZipFormat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

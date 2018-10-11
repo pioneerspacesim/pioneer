@@ -38,8 +38,8 @@ protected:
 
 	void InitTerrainBody();
 
-	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
+	virtual void SaveToJson(Json &jsonObj, Space *space) override;
+	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 private:
 	const SystemBody *m_sbody;

@@ -77,43 +77,32 @@ SectorView::SectorView(Game* game) : UIView(), m_galaxy(game->GetGalaxy())
 	InitObject();
 }
 
-SectorView::SectorView(const Json::Value &jsonObj, Game* game) : UIView(), m_galaxy(game->GetGalaxy())
+SectorView::SectorView(const Json &jsonObj, Game* game) : UIView(), m_galaxy(game->GetGalaxy())
 {
 	InitDefaults();
 
-	if (!jsonObj.isMember("sector_view")) throw SavedGameCorruptException();
-	Json::Value sectorViewObj = jsonObj["sector_view"];
+	try {
+		Json sectorViewObj = jsonObj["sector_view"];
 
-	if (!sectorViewObj.isMember("pos_x")) throw SavedGameCorruptException();
-	if (!sectorViewObj.isMember("pos_y")) throw SavedGameCorruptException();
-	if (!sectorViewObj.isMember("pos_z")) throw SavedGameCorruptException();
-	if (!sectorViewObj.isMember("rot_x")) throw SavedGameCorruptException();
-	if (!sectorViewObj.isMember("rot_z")) throw SavedGameCorruptException();
-	if (!sectorViewObj.isMember("zoom")) throw SavedGameCorruptException();
-	if (!sectorViewObj.isMember("in_system")) throw SavedGameCorruptException();
-	if (!sectorViewObj.isMember("current")) throw SavedGameCorruptException();
-	if (!sectorViewObj.isMember("selected")) throw SavedGameCorruptException();
-	if (!sectorViewObj.isMember("hyperspace")) throw SavedGameCorruptException();
-	if (!sectorViewObj.isMember("match_target_to_selection")) throw SavedGameCorruptException();
-	if (!sectorViewObj.isMember("automatic_system_selection")) throw SavedGameCorruptException();
-	if (!sectorViewObj.isMember("detail_box_visible")) throw SavedGameCorruptException();
-
-	m_pos.x = m_posMovingTo.x = StrToFloat(sectorViewObj["pos_x"].asString());
-	m_pos.y = m_posMovingTo.y = StrToFloat(sectorViewObj["pos_y"].asString());
-	m_pos.z = m_posMovingTo.z = StrToFloat(sectorViewObj["pos_z"].asString());
-	m_rotX = m_rotXMovingTo = StrToFloat(sectorViewObj["rot_x"].asString());
-	m_rotZ = m_rotZMovingTo = StrToFloat(sectorViewObj["rot_z"].asString());
-	m_zoom = m_zoomMovingTo = StrToFloat(sectorViewObj["zoom"].asString());
-	// XXX I have no idea if this is correct,
-	// I just copied it from the one other place m_zoomClamped is set
-	m_zoomClamped = Clamp(m_zoom, 1.f, FAR_LIMIT);
-	m_inSystem = sectorViewObj["in_system"].asBool();
-	m_current = SystemPath::FromJson(sectorViewObj["current"]);
-	m_selected = SystemPath::FromJson(sectorViewObj["selected"]);
-	m_hyperspaceTarget = SystemPath::FromJson(sectorViewObj["hyperspace"]);
-	m_matchTargetToSelection = sectorViewObj["match_target_to_selection"].asBool();
-	m_automaticSystemSelection = sectorViewObj["automatic_system_selection"].asBool();
-	m_detailBoxVisible = sectorViewObj["detail_box_visible"].asUInt();
+		m_pos.x = m_posMovingTo.x = sectorViewObj["pos_x"];
+		m_pos.y = m_posMovingTo.y = sectorViewObj["pos_y"];
+		m_pos.z = m_posMovingTo.z = sectorViewObj["pos_z"];
+		m_rotX = m_rotXMovingTo = sectorViewObj["rot_x"];
+		m_rotZ = m_rotZMovingTo = sectorViewObj["rot_z"];
+		m_zoom = m_zoomMovingTo = sectorViewObj["zoom"];
+		// XXX I have no idea if this is correct,
+		// I just copied it from the one other place m_zoomClamped is set
+		m_zoomClamped = Clamp(m_zoom, 1.f, FAR_LIMIT);
+		m_inSystem = sectorViewObj["in_system"];
+		m_current = SystemPath::FromJson(sectorViewObj["current"]);
+		m_selected = SystemPath::FromJson(sectorViewObj["selected"]);
+		m_hyperspaceTarget = SystemPath::FromJson(sectorViewObj["hyperspace"]);
+		m_matchTargetToSelection = sectorViewObj["match_target_to_selection"];
+		m_automaticSystemSelection = sectorViewObj["automatic_system_selection"];
+		m_detailBoxVisible = sectorViewObj["detail_box_visible"];
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
 
 	InitObject();
 }
@@ -185,33 +174,33 @@ SectorView::~SectorView()
 	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
 }
 
-void SectorView::SaveToJson(Json::Value &jsonObj)
+void SectorView::SaveToJson(Json &jsonObj)
 {
-	Json::Value sectorViewObj(Json::objectValue); // Create JSON object to contain sector view data.
+	Json sectorViewObj({}); // Create JSON object to contain sector view data.
 
-	sectorViewObj["pos_x"] = FloatToStr(m_pos.x);
-	sectorViewObj["pos_y"] = FloatToStr(m_pos.y);
-	sectorViewObj["pos_z"] = FloatToStr(m_pos.z);
-	sectorViewObj["rot_x"] = FloatToStr(m_rotX);
-	sectorViewObj["rot_z"] = FloatToStr(m_rotZ);
-	sectorViewObj["zoom"] = FloatToStr(m_zoom);
+	sectorViewObj["pos_x"] = m_pos.x;
+	sectorViewObj["pos_y"] = m_pos.y;
+	sectorViewObj["pos_z"] = m_pos.z;
+	sectorViewObj["rot_x"] = m_rotX;
+	sectorViewObj["rot_z"] = m_rotZ;
+	sectorViewObj["zoom"] = m_zoom;
 	sectorViewObj["in_system"] = m_inSystem;
 
-	Json::Value currentSystemObj(Json::objectValue); // Create JSON object to contain current system data.
+	Json currentSystemObj({}); // Create JSON object to contain current system data.
 	m_current.ToJson(currentSystemObj);
 	sectorViewObj["current"] = currentSystemObj; // Add current system object to sector view object.
 
-	Json::Value selectedSystemObj(Json::objectValue); // Create JSON object to contain selected system data.
+	Json selectedSystemObj({}); // Create JSON object to contain selected system data.
 	m_selected.ToJson(selectedSystemObj);
 	sectorViewObj["selected"] = selectedSystemObj; // Add selected system object to sector view object.
 
-	Json::Value hyperspaceSystemObj(Json::objectValue); // Create JSON object to contain hyperspace system data.
+	Json hyperspaceSystemObj({}); // Create JSON object to contain hyperspace system data.
 	m_hyperspaceTarget.ToJson(hyperspaceSystemObj);
 	sectorViewObj["hyperspace"] = hyperspaceSystemObj; // Add hyperspace system object to sector view object.
 
 	sectorViewObj["match_target_to_selection"] = m_matchTargetToSelection;
 	sectorViewObj["automatic_system_selection"] = m_automaticSystemSelection;
-	sectorViewObj["detail_box_visible"] = Json::Value::Int(m_detailBoxVisible);
+	sectorViewObj["detail_box_visible"] = m_detailBoxVisible;
 
 	jsonObj["sector_view"] = sectorViewObj; // Add sector view object to supplied object.
 }

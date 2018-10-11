@@ -9,7 +9,7 @@
 #include "Factions.h"
 #include "CustomSystem.h"
 #include "GalaxyCache.h"
-#include "json/json.h"
+#include "Json.h"
 
 struct SDL_Surface;
 class GalaxyGenerator;
@@ -28,8 +28,8 @@ public:
 	const float SOL_OFFSET_X;
 	const float SOL_OFFSET_Y;
 
-	static RefCountedPtr<Galaxy> LoadFromJson(const Json::Value &jsonObj);
-	void ToJson(Json::Value &jsonObj);
+	static RefCountedPtr<Galaxy> LoadFromJson(const Json &jsonObj);
+	void ToJson(Json &jsonObj);
 
 	~Galaxy();
 

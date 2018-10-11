@@ -19,17 +19,17 @@ Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, flo
 }
 
 //static
-RefCountedPtr<Galaxy> Galaxy::LoadFromJson(const Json::Value &jsonObj)
+RefCountedPtr<Galaxy> Galaxy::LoadFromJson(const Json &jsonObj)
 {
-	if (!jsonObj.isMember("galaxy_generator")) throw SavedGameCorruptException();
-	Json::Value galaxyGenObj = jsonObj["galaxy_generator"];
+	if (!jsonObj.count("galaxy_generator")) throw SavedGameCorruptException();
+	Json galaxyGenObj = jsonObj["galaxy_generator"];
 
 	RefCountedPtr<Galaxy> galaxy = GalaxyGenerator::CreateFromJson(galaxyGenObj);
 	galaxy->m_galaxyGenerator->FromJson(galaxyGenObj, galaxy);
 	return galaxy;
 }
 
-void Galaxy::ToJson(Json::Value &jsonObj)
+void Galaxy::ToJson(Json &jsonObj)
 {
 	m_galaxyGenerator->ToJson(jsonObj, RefCountedPtr<Galaxy>(this));
 }

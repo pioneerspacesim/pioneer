@@ -83,8 +83,8 @@ public:
 	FixedGuns *GetFixedGuns();
 	void AddFeature( Feature f );
 protected:
-	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
+	virtual void SaveToJson(Json &jsonObj, Space *space) override;
+	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 	static const double DEFAULT_DRAG_COEFF;
 	double m_dragCoeff;

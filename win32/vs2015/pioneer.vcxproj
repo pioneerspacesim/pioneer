@@ -190,7 +190,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>glew.lib;profiler.lib;json.lib;assimp-vc140-mt.lib;shlwapi.lib;libogg_static_vc2015_debug.lib;libvorbis_static_v140_debug.lib;libvorbisfile_static_v140_debug.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew.lib;profiler.lib;assimp-vc140-mt.lib;shlwapi.lib;libogg_static_vc2015_debug.lib;libvorbis_static_v140_debug.lib;libvorbisfile_static_v140_debug.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2015;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LargeAddressAware>true</LargeAddressAware>
@@ -211,7 +211,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>glew.lib;profiler.lib;json.lib;assimp-vc140-mt.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew.lib;profiler.lib;assimp-vc140-mt.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2015;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LargeAddressAware>true</LargeAddressAware>
@@ -225,7 +225,7 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>glew.lib;profiler.lib;json.lib;assimp-vc140-mt.lib;shlwapi.lib;libogg_static_vc2015_release.lib;libvorbis_static_v140_release.lib;libvorbisfile_static_v140_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew.lib;profiler.lib;assimp-vc140-mt.lib;shlwapi.lib;libogg_static_vc2015_release.lib;libvorbis_static_v140_release.lib;libvorbisfile_static_v140_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2015;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
@@ -246,7 +246,7 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>glew.lib;profiler.lib;json.lib;assimp-vc140-mt.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew.lib;profiler.lib;assimp-vc140-mt.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2015;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
@@ -268,7 +268,7 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>glew.lib;profiler.lib;json.lib;assimp-vc140-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2015_release.lib;libvorbis_static_v140_release.lib;libvorbisfile_static_v140_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew.lib;profiler.lib;assimp-vc140-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2015_release.lib;libvorbis_static_v140_release.lib;libvorbisfile_static_v140_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2015;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
@@ -292,7 +292,7 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>glew.lib;profiler.lib;json.lib;assimp-vc140-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew.lib;profiler.lib;assimp-vc140-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2015;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
@@ -317,7 +317,7 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>glew.lib;profiler.lib;json.lib;assimp-vc140-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2015_release.lib;libvorbis_static_v140_release.lib;libvorbisfile_static_v140_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew.lib;profiler.lib;assimp-vc140-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2015_release.lib;libvorbis_static_v140_release.lib;libvorbisfile_static_v140_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2015;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
@@ -341,7 +341,7 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>glew.lib;profiler.lib;json.lib;assimp-vc140-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew.lib;profiler.lib;assimp-vc140-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2015;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
@@ -429,6 +429,7 @@
     <ClCompile Include="..\..\src\LuaGame.cpp" />
     <ClCompile Include="..\..\src\LuaHyperspaceCloud.cpp" />
     <ClCompile Include="..\..\src\LuaInput.cpp" />
+    <ClCompile Include="..\..\src\LuaJson.cpp" />
     <ClCompile Include="..\..\src\LuaLang.cpp" />
     <ClCompile Include="..\..\src\LuaManager.cpp" />
     <ClCompile Include="..\..\src\LuaMatrix.cpp" />
@@ -537,6 +538,7 @@
     <ClCompile Include="..\..\src\WorldView.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\contrib\base64\base64.hpp" />
     <ClInclude Include="..\..\contrib\imgui\examples\imgui_impl_opengl3.h" />
     <ClInclude Include="..\..\contrib\imgui\examples\imgui_impl_sdl.h" />
     <ClInclude Include="..\..\contrib\imgui\imconfig.h" />
@@ -545,6 +547,8 @@
     <ClInclude Include="..\..\contrib\imgui\stb_rect_pack.h" />
     <ClInclude Include="..\..\contrib\imgui\stb_textedit.h" />
     <ClInclude Include="..\..\contrib\imgui\stb_truetype.h" />
+    <ClInclude Include="..\..\contrib\json\json.hpp" />
+    <ClInclude Include="..\..\contrib\json\json_fwd.hpp" />
     <ClInclude Include="..\..\contrib\nanosvg\nanosvg.h" />
     <ClInclude Include="..\..\contrib\nanosvg\nanosvgrast.h" />
     <ClInclude Include="..\..\contrib\PicoDDS\PicoDDS.h" />
@@ -611,6 +615,7 @@
     <ClInclude Include="..\..\src\LuaFormat.h" />
     <ClInclude Include="..\..\src\LuaGame.h" />
     <ClInclude Include="..\..\src\LuaInput.h" />
+    <ClInclude Include="..\..\src\LuaJson.h" />
     <ClInclude Include="..\..\src\LuaLang.h" />
     <ClInclude Include="..\..\src\LuaManager.h" />
     <ClInclude Include="..\..\src\LuaMatrix.h" />

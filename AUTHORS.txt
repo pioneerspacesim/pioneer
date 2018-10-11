@@ -156,9 +156,13 @@ Pioneer includes the following third-party software:
   GTL and PicoDDS are licensed under the zlib License
     (see contrib/PicoDDS/PicoDDS.h)
 
-  jsoncpp
-  Copyright (c) 2007-2010 Baptiste Lepilleur
-  Licensed under the MIT licence (see contrib/json/json.h)
+  JSON for Modern C++
+  Copyright © 2013-2018 Niels Lohmann.
+  Licensed under the MIT License (see contrib/json/json.hpp)
+
+  Base64 Encode / Decode
+  Copyright © 2013 Tomas Kislan, Adam Rudd
+  Licensed under the MIT License (see contrib/base64/base64.hpp)
 
   High Performance C++ Profiler
   https://code.google.com/p/high-performance-cplusplus-profiler/

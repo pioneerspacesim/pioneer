@@ -51,12 +51,12 @@ void Player::SetShipType(const ShipType::Id &shipId) {
 	InitCockpit();
 }
 
-void Player::SaveToJson(Json::Value &jsonObj, Space *space)
+void Player::SaveToJson(Json &jsonObj, Space *space)
 {
 	Ship::SaveToJson(jsonObj, space);
 }
 
-void Player::LoadFromJson(const Json::Value &jsonObj, Space *space)
+void Player::LoadFromJson(const Json &jsonObj, Space *space)
 {
 	Pi::player = this;
 	Ship::LoadFromJson(jsonObj, space);

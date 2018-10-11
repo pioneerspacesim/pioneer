@@ -128,13 +128,13 @@ static bool _modelskin_deserializer(const char *pos, const char **next)
 	return true;
 }
 
-static void _modelskin_to_json(Json::Value &out, LuaWrappable *o)
+static void _modelskin_to_json(Json &out, LuaWrappable *o)
 {
 	SceneGraph::ModelSkin *skin = static_cast<SceneGraph::ModelSkin*>(o);
 	skin->SaveToJson(out);
 }
 
-static bool _modelskin_from_json(const Json::Value &obj)
+static bool _modelskin_from_json(const Json &obj)
 {
 	SceneGraph::ModelSkin skin;
 	skin.LoadFromJson(obj);

@@ -211,6 +211,7 @@ namespace FileSystem {
 		void RemoveSource(FileSource *fs);
 
 		virtual FileInfo Lookup(const std::string &path);
+		std::vector<FileInfo> LookupAll(const std::string &path);
 		virtual RefCountedPtr<FileData> ReadFile(const std::string &path);
 		virtual bool ReadDirectory(const std::string &path, std::vector<FileInfo> &output);
 

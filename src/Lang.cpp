@@ -7,7 +7,7 @@
 #include "StringRange.h"
 #include "utils.h"
 #include "text/TextSupport.h"
-#include "json/json.h"
+#include "JsonUtils.h"
 #include <map>
 #include <set>
 
@@ -37,25 +37,15 @@ bool Resource::Load()
 	if (m_loaded)
 		return true;
 
-	Json::Reader reader;
-	Json::Value data;
-
 	std::string filename = "lang/" + m_name + "/" + m_langCode + ".json";
-	RefCountedPtr<FileSystem::FileData> fd = FileSystem::gameDataFiles.ReadFile(filename);
-	if (!fd) {
-		Output("couldn't open language file '%s'\n", filename.c_str());
+	Json data = JsonUtils::LoadJsonDataFile(filename);
+	if (data.is_null()) {
+		Output("couldn't read language file '%s'\n", filename.c_str());
 		return false;
 	}
 
-	if (!reader.parse(fd->GetData(), fd->GetData()+fd->GetSize(), data)) {
-		Output("couldn't read language file '%s': %s\n", filename.c_str(), reader.getFormattedErrorMessages().c_str());
-		return false;
-	}
-
-	fd.Reset();
-
-	for (Json::Value::iterator i = data.begin(); i != data.end(); ++i) {
-		const std::string token(i.key().asString());
+	for (Json::iterator i = data.begin(); i != data.end(); ++i) {
+		const std::string token = i.key();
 		if (token.empty()) {
 			Output("%s: found empty token, skipping it\n", filename.c_str());
 			continue;
@@ -65,18 +55,18 @@ bool Resource::Load()
 			continue;
 		}
 
-		Json::Value message((*i).get("message", Json::nullValue));
-		if (message.isNull()) {
+		Json message = i.value()["message"];
+		if (message.is_null()) {
 			Output("%s: no 'message' key for token '%s', skipping it\n", filename.c_str(), token.c_str());
 			continue;
 		}
 
-		if (!message.isString()) {
+		if (!message.is_string()) {
 			Output("%s: value for token '%s' is not a string, skipping it\n", filename.c_str(), token.c_str());
 			continue;
 		}
 
-		std::string text(message.asString());
+		std::string text = message;
 		if (text.empty()) {
 			Output("%s: empty value for token '%s', skipping it\n", filename.c_str(), token.c_str());
 			continue;

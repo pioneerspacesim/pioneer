@@ -22,8 +22,8 @@ public:
 	OBJDEF(Body, Object, BODY);
 	Body();
 	virtual ~Body();
-	void ToJson(Json::Value &jsonObj, Space *space);
-	static Body *FromJson(const Json::Value &jsonObj, Space *space);
+	void ToJson(Json &jsonObj, Space *space);
+	static Body *FromJson(const Json &jsonObj, Space *space);
 	virtual void PostLoadFixup(Space *space) {};
 
 	virtual void SetPosition(const vector3d &p) { m_pos = p; }
@@ -101,8 +101,8 @@ public:
 			FLAG_DRAW_LAST = (1<<2) };		// causes the body drawn after other bodies in the z-sort
 
 protected:
-	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
+	virtual void SaveToJson(Json &jsonObj, Space *space);
+	virtual void LoadFromJson(const Json &jsonObj, Space *space);
 	unsigned int m_flags;
 
 	// Interpolated draw orientation-position

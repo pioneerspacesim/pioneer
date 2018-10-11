@@ -6,7 +6,7 @@
 
 #include "gui/Gui.h"
 #include "Object.h"
-#include "json/json.h"
+#include "JsonFwd.h"
 
 class Body;
 namespace Graphics { class Renderer; }
@@ -27,7 +27,7 @@ public:
 class RadarWidget: public IMultiFunc, public Gui::Widget {
 public:
 	RadarWidget(Graphics::Renderer *r);
-	RadarWidget(Graphics::Renderer *r, const Json::Value &jsonObj);
+	RadarWidget(Graphics::Renderer *r, const Json &jsonObj);
 	virtual ~RadarWidget();
 	void GetSizeRequested(float size[2]);
 	void ToggleMode();
@@ -37,7 +37,7 @@ public:
 
 	void TimeStepUpdate(float step);
 
-	void SaveToJson(Json::Value &jsonObj);
+	void SaveToJson(Json &jsonObj);
 
 private:
 	void InitObject();

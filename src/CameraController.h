@@ -8,7 +8,7 @@
 #include "matrix4x4.h"
 #include "Lang.h"
 #include "Camera.h"
-#include "json/json.h"
+#include "JsonFwd.h"
 
 class Ship;
 
@@ -29,8 +29,8 @@ public:
 
 	virtual Type GetType() const = 0;
 	virtual const char *GetName() const { return ""; }
-	virtual void SaveToJson(Json::Value &jsonObj) { }
-	virtual void LoadFromJson(const Json::Value &jsonObj) { }
+	virtual void SaveToJson(Json &jsonObj) { }
+	virtual void LoadFromJson(const Json &jsonObj) { }
 	virtual bool IsExternal() const { return false; }
 
 	// camera position relative to the body
@@ -94,8 +94,8 @@ public:
 	const char *GetName() const { return m_name; }
 	void SetMode(Mode m);
 	Mode GetMode() const { return m_mode; }
-	void SaveToJson(Json::Value &jsonObj);
-	void LoadFromJson(const Json::Value &jsonObj);
+	void SaveToJson(Json &jsonObj);
+	void LoadFromJson(const Json &jsonObj);
 
 	void RotateDown(float frameTime);
 	void RotateLeft(float frameTime);
@@ -144,8 +144,8 @@ public:
 		m_rotY = y;
 	}
 
-	void SaveToJson(Json::Value &jsonObj);
-	void LoadFromJson(const Json::Value &jsonObj);
+	void SaveToJson(Json &jsonObj);
+	void LoadFromJson(const Json &jsonObj);
 
 	void Update();
 
@@ -178,8 +178,8 @@ public:
 	void Reset();
 	bool IsExternal() const { return true; }
 
-	void SaveToJson(Json::Value &jsonObj);
-	void LoadFromJson(const Json::Value &jsonObj);
+	void SaveToJson(Json &jsonObj);
+	void LoadFromJson(const Json &jsonObj);
 
 	void Update();
 
@@ -209,8 +209,8 @@ public:
 	void Reset();
 	bool IsExternal() const { return true; }
 
-	void SaveToJson(Json::Value &jsonObj);
-	void LoadFromJson(const Json::Value &jsonObj);
+	void SaveToJson(Json &jsonObj);
+	void LoadFromJson(const Json &jsonObj);
 
 	void Update();
 

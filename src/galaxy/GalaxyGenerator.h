@@ -26,7 +26,7 @@ public:
 	static RefCountedPtr<Galaxy> Create() {
 		return Create(s_defaultGenerator, s_defaultVersion);
 	}
-	static RefCountedPtr<Galaxy> CreateFromJson(const Json::Value &jsonObj);
+	static RefCountedPtr<Galaxy> CreateFromJson(const Json &jsonObj);
 
 	static std::string GetDefaultGeneratorName() { return s_defaultGenerator; }
 	static Version GetDefaultGeneratorVersion() { return s_defaultVersion; }
@@ -39,8 +39,8 @@ public:
 
 	bool IsDefault() const { return m_name == s_defaultGenerator && m_version == s_defaultVersion; }
 
-	void ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy);
-	void FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy);
+	void ToJson(Json &jsonObj, RefCountedPtr<Galaxy> galaxy);
+	void FromJson(const Json &jsonObj, RefCountedPtr<Galaxy> galaxy);
 
 	// Templated for the template cache class.
 	template <typename T, typename Cache>
@@ -92,8 +92,8 @@ class GalaxyGeneratorStage {
 public:
 	virtual ~GalaxyGeneratorStage() { }
 
-	virtual void ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy) { }
-	virtual void FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy) { }
+	virtual void ToJson(Json &jsonObj, RefCountedPtr<Galaxy> galaxy) { }
+	virtual void FromJson(const Json &jsonObj, RefCountedPtr<Galaxy> galaxy) { }
 
 protected:
 	GalaxyGeneratorStage() : m_galaxyGenerator(nullptr) { }

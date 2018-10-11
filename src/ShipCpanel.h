@@ -18,14 +18,14 @@ namespace Graphics { class Renderer; }
 class ShipCpanel: public Gui::Fixed {
 public:
 	ShipCpanel(Graphics::Renderer *r, Game* game);
-	ShipCpanel(const Json::Value &jsonObj, Graphics::Renderer *r, Game* game);
+	ShipCpanel(const Json &jsonObj, Graphics::Renderer *r, Game* game);
 	virtual ~ShipCpanel();
 	virtual void Draw();
 	void Update();
 
 	void TimeStepUpdate(float step);
 
-	void SaveToJson(Json::Value &jsonObj);
+	void SaveToJson(Json &jsonObj);
 
 	void SetRadarVisible(bool visible) { if(visible) m_radar->Show(); else m_radar->Hide(); }
 

@@ -795,16 +795,16 @@ static bool _body_deserializer(const char *pos, const char **next)
 	return push_body_to_lua(body);
 }
 
-static void _body_to_json(Json::Value &out, LuaWrappable *o)
+static void _body_to_json(Json &out, LuaWrappable *o)
 {
 	Body *b = static_cast<Body*>(o);
-	out = Json::Value(Pi::game->GetSpace()->GetIndexForBody(b));
+	out = Json(Pi::game->GetSpace()->GetIndexForBody(b));
 }
 
-static bool _body_from_json(const Json::Value &obj)
+static bool _body_from_json(const Json &obj)
 {
-	if (!obj.isIntegral()) return false;
-	Body *body = Pi::game->GetSpace()->GetBodyByIndex(obj.asUInt());
+	if (!obj.is_number_integer()) return false;
+	Body *body = Pi::game->GetSpace()->GetBodyByIndex(obj);
 	return push_body_to_lua(body);
 }
 
