@@ -31,7 +31,7 @@ public:
 #endif
 
 protected:
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
+	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 private:
 	void InitParams(const SystemBody*);

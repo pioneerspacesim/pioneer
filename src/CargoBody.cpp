@@ -14,37 +14,36 @@
 #include "scenegraph/ModelSkin.h"
 #include "GameSaveError.h"
 
-void CargoBody::SaveToJson(Json::Value &jsonObj, Space *space)
+void CargoBody::SaveToJson(Json &jsonObj, Space *space)
 {
 	DynamicBody::SaveToJson(jsonObj, space);
 
-	Json::Value cargoBodyObj(Json::objectValue); // Create JSON object to contain cargo body data.
+	Json cargoBodyObj = Json::object(); // Create JSON object to contain cargo body data.
 
 	m_cargo.SaveToJson(cargoBodyObj);
-	cargoBodyObj["hit_points"] = FloatToStr(m_hitpoints);
-	cargoBodyObj["self_destruct_timer"] = FloatToStr(m_selfdestructTimer);
+	cargoBodyObj["hit_points"] = m_hitpoints;
+	cargoBodyObj["self_destruct_timer"] = m_selfdestructTimer;
 	cargoBodyObj["has_self_destruct"] = m_hasSelfdestruct;
 
 	jsonObj["cargo_body"] = cargoBodyObj; // Add cargo body object to supplied object.
 }
 
-void CargoBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
+void CargoBody::LoadFromJson(const Json &jsonObj, Space *space)
 {
 	DynamicBody::LoadFromJson(jsonObj, space);
 	GetModel()->SetLabel(GetLabel());
 
-	if (!jsonObj.isMember("cargo_body")) throw SavedGameCorruptException();
-	Json::Value cargoBodyObj = jsonObj["cargo_body"];
+	try {
+		Json cargoBodyObj = jsonObj["cargo_body"];
 
-	if (!cargoBodyObj.isMember("hit_points")) throw SavedGameCorruptException();
-	if (!cargoBodyObj.isMember("self_destruct_timer")) throw SavedGameCorruptException();
-	if (!cargoBodyObj.isMember("has_self_destruct")) throw SavedGameCorruptException();
-
-	m_cargo.LoadFromJson(cargoBodyObj);
-	Init();
-	m_hitpoints = StrToFloat(cargoBodyObj["hit_points"].asString());
-	m_selfdestructTimer = StrToFloat(cargoBodyObj["self_destruct_timer"].asString());
-	m_hasSelfdestruct = cargoBodyObj["has_self_destruct"].asBool();
+		m_cargo.LoadFromJson(cargoBodyObj);
+		Init();
+		m_hitpoints = cargoBodyObj["hit_points"];
+		m_selfdestructTimer = cargoBodyObj["self_destruct_timer"];
+		m_hasSelfdestruct = cargoBodyObj["has_self_destruct"];
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
 }
 
 void CargoBody::Init()

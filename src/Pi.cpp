@@ -27,6 +27,7 @@
 #include "LuaGame.h"
 #include "LuaInput.h"
 #include "LuaLang.h"
+#include "LuaJson.h"
 #include "LuaManager.h"
 #include "LuaMissile.h"
 #include "LuaMusic.h"
@@ -289,6 +290,7 @@ static void LuaInit()
 	LuaEngine::Register();
 	LuaInput::Register();
 	LuaFileSystem::Register();
+	LuaJson::Register();
 #ifdef ENABLE_SERVER_AGENT
 	LuaServerAgent::Register();
 #endif

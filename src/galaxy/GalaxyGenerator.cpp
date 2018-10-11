@@ -79,24 +79,26 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string& name, Version v
 }
 
 // static
-RefCountedPtr<Galaxy> GalaxyGenerator::CreateFromJson(const Json::Value &jsonObj)
+RefCountedPtr<Galaxy> GalaxyGenerator::CreateFromJson(const Json &jsonObj)
 {
-	if (!jsonObj.isMember("name")) throw SavedGameCorruptException();
-	if (!jsonObj.isMember("version")) throw SavedGameCorruptException();
+	try {
+		std::string genName = jsonObj["name"];
+		GalaxyGenerator::Version genVersion = jsonObj["version"];
 
-	std::string genName = jsonObj["name"].asString();
-	GalaxyGenerator::Version genVersion = jsonObj["version"].asInt();
-	RefCountedPtr<Galaxy> galaxy = GalaxyGenerator::Create(genName, genVersion);
-	if (!galaxy) {
-		Output("can't load savefile, unsupported galaxy generator %s, version %d\n", genName.c_str(), genVersion);
-		throw SavedGameWrongVersionException();
+		RefCountedPtr<Galaxy> galaxy = GalaxyGenerator::Create(genName, genVersion);
+		if (!galaxy) {
+			Output("can't load savefile, unsupported galaxy generator %s, version %d\n", genName.c_str(), genVersion);
+			throw SavedGameWrongVersionException();
+		}
+		return galaxy;
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
 	}
-	return galaxy;
 }
 
-void GalaxyGenerator::ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)
+void GalaxyGenerator::ToJson(Json &jsonObj, RefCountedPtr<Galaxy> galaxy)
 {
-	Json::Value galaxyGenObj(Json::objectValue); // Create JSON object to contain galaxy data.
+	Json galaxyGenObj({}); // Create JSON object to contain galaxy data.
 
 	galaxyGenObj["name"] = m_name;
 
@@ -105,19 +107,19 @@ void GalaxyGenerator::ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)
 	else
 		galaxyGenObj["version"] = m_version;
 
-	Json::Value sectorStageArray(Json::arrayValue); // Create JSON array to contain sector stage data.
+	Json sectorStageArray = Json::array(); // Create JSON array to contain sector stage data.
 	for (SectorGeneratorStage* secgen : m_sectorStage)
 	{
-		Json::Value sectorStageArrayEl(Json::objectValue); // Create JSON object to contain sector stage element.
+		Json sectorStageArrayEl({}); // Create JSON object to contain sector stage element.
 		secgen->ToJson(sectorStageArrayEl, galaxy);
-		sectorStageArray.append(sectorStageArrayEl); // Append sector stage object to array.
+		sectorStageArray.push_back(sectorStageArrayEl); // Append sector stage object to array.
 	}
-	Json::Value starSystemStageArray(Json::arrayValue); // Create JSON array to contain system stage data.
+	Json starSystemStageArray = Json::array(); // Create JSON array to contain system stage data.
 	for (StarSystemGeneratorStage* sysgen : m_starSystemStage)
 	{
-		Json::Value starSystemStageArrayEl(Json::objectValue); // Create JSON object to contain system stage element.
+		Json starSystemStageArrayEl({}); // Create JSON object to contain system stage element.
 		sysgen->ToJson(starSystemStageArrayEl, galaxy);
-		starSystemStageArray.append(starSystemStageArrayEl); // Append system stage object to array.
+		starSystemStageArray.push_back(starSystemStageArrayEl); // Append system stage object to array.
 	}
 	galaxyGenObj["sector_stage"] = sectorStageArray; // Add sector stage array to galaxy generator object.
 	galaxyGenObj["star_system_stage"] = starSystemStageArray; // Add system stage array to galaxy generator object.
@@ -125,21 +127,21 @@ void GalaxyGenerator::ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)
 	jsonObj["galaxy_generator"] = galaxyGenObj; // Add galaxy generator object to supplied object.
 }
 
-void GalaxyGenerator::FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)
+void GalaxyGenerator::FromJson(const Json &jsonObj, RefCountedPtr<Galaxy> galaxy)
 {
-	if (!jsonObj.isMember("sector_stage")) throw SavedGameCorruptException();
-	if (!jsonObj.isMember("star_system_stage")) throw SavedGameCorruptException();
-	Json::Value sectorStageArray = jsonObj["sector_stage"];
-	Json::Value starSystemStageArray = jsonObj["star_system_stage"];
-	if (!sectorStageArray.isArray()) throw SavedGameCorruptException();
-	if (!starSystemStageArray.isArray()) throw SavedGameCorruptException();
+	try {
+		Json sectorStageArray = jsonObj["sector_stage"].get<Json::array_t>();
+		Json starSystemStageArray = jsonObj["star_system_stage"].get<Json::array_t>();
 
-	unsigned int arrayIndex = 0;
-	for (SectorGeneratorStage* secgen : m_sectorStage)
+		unsigned int arrayIndex = 0;
+		for (SectorGeneratorStage* secgen : m_sectorStage)
 		secgen->FromJson(sectorStageArray[arrayIndex++], galaxy);
-	arrayIndex = 0;
-	for (StarSystemGeneratorStage* sysgen : m_starSystemStage)
+		arrayIndex = 0;
+		for (StarSystemGeneratorStage* sysgen : m_starSystemStage)
 		sysgen->FromJson(starSystemStageArray[arrayIndex++], galaxy);
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
 }
 
 GalaxyGenerator::~GalaxyGenerator()

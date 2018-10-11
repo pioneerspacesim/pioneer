@@ -449,7 +449,6 @@ AC_CONFIG_FILES([
 	contrib/jenkins/Makefile
 	contrib/imgui/Makefile
 	contrib/nanosvg/Makefile
-	contrib/json/Makefile
 	contrib/PicoDDS/Makefile
 	contrib/vcacheopt/Makefile
 	contrib/glew/Makefile

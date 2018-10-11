@@ -1,9 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 if BUILD_WIN32
-    PLATFORM_SUBDIRS = win32
+	PLATFORM_SUBDIRS = win32
 endif
 if BUILD_POSIX
-    PLATFORM_SUBDIRS = posix
+	PLATFORM_SUBDIRS = posix
 endif
 SUBDIRS = collider gui graphics galaxy scenegraph terrain text ui gameui $(PLATFORM_SUBDIRS)
 
@@ -51,7 +51,7 @@ noinst_HEADERS = \
 	HudTrail.h \
 	HyperspaceCloud.h \
 	IniConfig.h \
-  Input.h \
+	Input.h \
 	Intro.h \
 	IterationProxy.h \
 	JobQueue.h \
@@ -72,6 +72,7 @@ noinst_HEADERS = \
 	LuaFormat.h \
 	LuaGame.h \
 	LuaInput.h \
+	LuaJson.h \
 	LuaLang.h \
 	LuaMatrix.h \
 	LuaVector.h \
@@ -201,7 +202,7 @@ pioneer_SOURCES	= \
 	HudTrail.cpp \
 	HyperspaceCloud.cpp \
 	IniConfig.cpp \
-  Input.cpp \
+	Input.cpp \
 	Intro.cpp \
 	JobQueue.cpp \
 	JsonUtils.cpp \
@@ -222,7 +223,8 @@ pioneer_SOURCES	= \
 	LuaFormat.cpp \
 	LuaGame.cpp \
 	LuaHyperspaceCloud.cpp \
-  LuaInput.cpp \
+	LuaInput.cpp \
+	LuaJson.cpp \
 	LuaLang.cpp \
 	LuaMatrix.cpp \
 	LuaVector.cpp \
@@ -321,7 +323,6 @@ pioneer_LDADD = \
 	gameui/libgameui.a \
 	../contrib/PicoDDS/libpicodds.a \
 	../contrib/jenkins/libjenkins.a \
-	../contrib/json/libjson.a \
 	../contrib/profiler/libprofiler.a \
 	../contrib/imgui/libimgui.a
 
@@ -369,7 +370,7 @@ tests_LDADD = \
 	gui/libgui.a \
 	graphics/libgraphics.a \
 	terrain/libterrain.a \
-    posix/libposix.a \
+	posix/libposix.a \
 	../contrib/PicoDDS/libpicodds.a \
 	../contrib/jenkins/libjenkins.a \
 	$(SIGC_LIBS)
@@ -406,7 +407,6 @@ uitest_LDADD = \
 	posix/libposix.a \
 	../contrib/jenkins/libjenkins.a \
 	../contrib/PicoDDS/libpicodds.a \
-	../contrib/json/libjson.a \
 	../contrib/profiler/libprofiler.a
 
 uitest_LDADD += \
@@ -437,7 +437,6 @@ textstress_LDADD = \
 	text/libtext.a \
 	graphics/libgraphics.a \
 	posix/libposix.a \
-	../contrib/json/libjson.a \
 	../contrib/profiler/libprofiler.a
 
 textstress_LDADD += \
@@ -460,6 +459,7 @@ modelcompiler_SOURCES = \
 	FileSourceZip.cpp \
 	FileSystem.cpp \
 	FontCache.cpp \
+	GZipFormat.cpp \
 	IniConfig.cpp \
 	GameConfig.cpp \
 	JobQueue.cpp \
@@ -481,7 +481,6 @@ modelcompiler_LDADD = \
 	collider/libcollider.a \
 	text/libtext.a \
 	../contrib/PicoDDS/libpicodds.a \
-	../contrib/json/libjson.a \
 	../contrib/profiler/libprofiler.a
 
 modelcompiler_LDADD += \
@@ -503,13 +502,13 @@ AM_CPPFLAGS += -isystem @top_srcdir@/contrib/lua
 endif
 
 if BUILD_WIN32
-    pioneer_LDADD += win32/libwin32.a $(MINGW_LIBS)
-    modelcompiler_LDADD += win32/libwin32.a $(MINGW_LIBS)
+	pioneer_LDADD += win32/libwin32.a $(MINGW_LIBS)
+	modelcompiler_LDADD += win32/libwin32.a $(MINGW_LIBS)
 endif
 
 if BUILD_POSIX
-    pioneer_LDADD += posix/libposix.a
-    modelcompiler_LDADD += posix/libposix.a
+	pioneer_LDADD += posix/libposix.a
+	modelcompiler_LDADD += posix/libposix.a
 endif
 
 if HAVE_WINDRES

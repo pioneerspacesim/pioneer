@@ -1,12 +1,12 @@
 dist: trusty
-language: cpp
-compiler:
-  - gcc
+language: minimal
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages: &packages
+      - gcc-4.9
+      - g++-4.9
       - mesa-common-dev
       - libfreetype6-dev
       - libfreeimage-dev
@@ -30,6 +30,9 @@ matrix:
       script: sh ./scripts/clang-format.sh
 
     - name: build-gcc
+      # >= 4.9 needed for C++11 support
+      compiler: gcc
+      env: CC=gcc-4.9 CXX=g++-4.9
       script:
         - ./bootstrap && ./configure --with-thirdparty=$(pwd)/pioneer-thirdparty LIBS="-ldl -lrt -lpthread" && make
 

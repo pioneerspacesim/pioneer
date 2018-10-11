@@ -8,7 +8,7 @@
  * Controls thrusters, autopilot according to player input or AI
  */
 #include "libs.h"
-#include "json/json.h"
+#include "JsonFwd.h"
 
 namespace KeyBindings {
 	struct ActionBinding;
@@ -46,8 +46,8 @@ public:
 	ShipController() { }
 	virtual ~ShipController() { }
 	virtual Type GetType() { return AI; }
-	virtual void SaveToJson(Json::Value &jsonObj, Space *s) { }
-	virtual void LoadFromJson(const Json::Value &jsonObj) { }
+	virtual void SaveToJson(Json &jsonObj, Space *s) { }
+	virtual void LoadFromJson(const Json &jsonObj) { }
 	virtual void PostLoadFixup(Space *) { }
 	virtual void StaticUpdate(float timeStep);
 	virtual void SetFlightControlState(FlightControlState s) { }
@@ -66,8 +66,8 @@ public:
 	~PlayerShipController();
 	static void RegisterInputBindings();
 	Type GetType() override { return PLAYER; }
-	void SaveToJson(Json::Value &jsonObj, Space *s) override;
-	void LoadFromJson(const Json::Value &jsonObj) override;
+	void SaveToJson(Json &jsonObj, Space *s) override;
+	void LoadFromJson(const Json &jsonObj) override;
 	void PostLoadFixup(Space *s) override;
 	void StaticUpdate(float timeStep) override;
 	// Poll controls, set thruster states, gun states and target velocity

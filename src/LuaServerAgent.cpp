@@ -32,33 +32,33 @@ struct CallbackPair {
 	LuaRef failCallback;
 };
 
-static Json::Value _lua_to_json(lua_State *l, int idx)
+static Json _lua_to_json(lua_State *l, int idx)
 {
 	int data = lua_absindex(l, idx);
 
 	switch (lua_type(l, data)) {
 		case LUA_TNIL:
-			return Json::Value();
+			return Json();
 
 		case LUA_TNUMBER:
-			return Json::Value(lua_tonumber(l, data));
+			return Json(lua_tonumber(l, data));
 
 		case LUA_TBOOLEAN:
-			return Json::Value(lua_toboolean(l, data));
+			return Json(lua_toboolean(l, data));
 
 		case LUA_TSTRING:
-			return Json::Value(lua_tostring(l, data));
+			return Json(lua_tostring(l, data));
 
 		case LUA_TTABLE: {
 
 			// XXX handle arrays
 
-			Json::Value object(Json::objectValue);
+			Json object(Json::objectValue);
 
 			lua_pushnil(l);
 			while (lua_next(l, data)) {
 				const std::string key(luaL_checkstring(l, -2));
-				Json::Value value(_lua_to_json(l, -1));
+				Json value(_lua_to_json(l, -1));
 				object[key] = value;
 				lua_pop(l, 1);
 			}
@@ -68,16 +68,16 @@ static Json::Value _lua_to_json(lua_State *l, int idx)
 
 		default:
 			luaL_error(l, "can't convert Lua type %s to JSON", lua_typename(l, lua_type(l, idx)));
-			return Json::Value();
+			return Json();
 	}
 
 	// shouldn't get here
 	assert(0);
 
-	return Json::Value();
+	return Json();
 }
 
-static void _json_to_lua(lua_State *l, const Json::Value &data)
+static void _json_to_lua(lua_State *l, const Json &data)
 {
 	LUA_DEBUG_START(l);
 
@@ -114,7 +114,7 @@ static void _json_to_lua(lua_State *l, const Json::Value &data)
 
 		case Json::objectValue: {
 			lua_newtable(l);
-			for (Json::Value::const_iterator i = data.begin(); i != data.end(); ++i) {
+			for (Json::const_iterator i = data.begin(); i != data.end(); ++i) {
 				const std::string &key(i.key().asString());
 				lua_pushlstring(l, key.c_str(), key.size());
 				_json_to_lua(l, *i);
@@ -127,7 +127,7 @@ static void _json_to_lua(lua_State *l, const Json::Value &data)
 	LUA_DEBUG_END(l, 1);
 }
 
-static void _success_callback(const Json::Value &data, void *userdata)
+static void _success_callback(const Json &data, void *userdata)
 {
 	CallbackPair *cp = reinterpret_cast<CallbackPair*>(userdata);
 	if (!cp->successCallback.IsValid()) return;
@@ -186,7 +186,7 @@ static void _fail_callback(const std::string &error, void *userdata)
 static int l_serveragent_call(lua_State *l)
 {
 	const std::string method(luaL_checkstring(l, 1));
-	const Json::Value data(_lua_to_json(l, 2));
+	const Json data(_lua_to_json(l, 2));
 
 	int successIndex = LUA_NOREF, failIndex = LUA_NOREF;
 

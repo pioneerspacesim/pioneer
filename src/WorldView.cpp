@@ -58,13 +58,13 @@ WorldView::WorldView(Game* game): UIView(), m_game(game)
 	InitObject();
 }
 
-WorldView::WorldView(const Json::Value &jsonObj, Game* game) : UIView(), m_game(game)
+WorldView::WorldView(const Json &jsonObj, Game* game) : UIView(), m_game(game)
 {
-	if (!jsonObj.isMember("world_view")) throw SavedGameCorruptException();
-	Json::Value worldViewObj = jsonObj["world_view"];
+	if (!jsonObj["world_view"].is_object()) throw SavedGameCorruptException();
+	Json worldViewObj = jsonObj["world_view"];
 
-	if (!worldViewObj.isMember("cam_type")) throw SavedGameCorruptException();
-	m_camType = CamType(worldViewObj["cam_type"].asInt());
+	if (!worldViewObj["cam_type"].is_number_integer()) throw SavedGameCorruptException();
+	m_camType = CamType(worldViewObj["cam_type"]);
 	InitObject();
 
 	m_internalCameraController->LoadFromJson(worldViewObj);
@@ -197,9 +197,9 @@ WorldView::~WorldView()
 	m_onDecTimeAccelCon.disconnect();
 }
 
-void WorldView::SaveToJson(Json::Value &jsonObj)
+void WorldView::SaveToJson(Json &jsonObj)
 {
-	Json::Value worldViewObj(Json::objectValue); // Create JSON object to contain world view data.
+	Json worldViewObj = Json::object(); // Create JSON object to contain world view data.
 
 	worldViewObj["cam_type"] = int(m_camType);
 	m_internalCameraController->SaveToJson(worldViewObj);

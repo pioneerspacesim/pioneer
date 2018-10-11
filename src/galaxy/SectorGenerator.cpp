@@ -367,7 +367,7 @@ bool SectorPersistenceGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> galaxy
 	return true;
 }
 
-void SectorPersistenceGenerator::FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)
+void SectorPersistenceGenerator::FromJson(const Json &jsonObj, RefCountedPtr<Galaxy> galaxy)
 {
 	m_exploredSystems.clear();
 	if (m_version < 1) { return; }
@@ -375,30 +375,29 @@ void SectorPersistenceGenerator::FromJson(const Json::Value &jsonObj, RefCounted
 	// The layout of this data is really weird for historical reasons.
 	// It used to be stored by a general System-information container type called PersistSystemData<>.
 
-	if (!jsonObj.isMember("dict")) throw SavedGameCorruptException();
-	Json::Value dictArray = jsonObj["dict"];
-	if (!dictArray.isArray()) throw SavedGameCorruptException();
-	for (unsigned int arrayIndex = 0; arrayIndex < dictArray.size(); ++arrayIndex) {
-		const Json::Value &dictArrayEl = dictArray[arrayIndex];
-		if (!dictArrayEl.isMember("value")) throw SavedGameCorruptException();
-		SystemPath path = SystemPath::FromJson(dictArrayEl);
-		Sint32 val;
-		StrToAuto(&val, dictArrayEl["value"].asString());
-		m_exploredSystems[path] = val;
-	}
+    try {
+        Json dictArray = jsonObj["dict"].get<Json::array_t>();
+        for (unsigned int arrayIndex = 0; arrayIndex < dictArray.size(); ++arrayIndex) {
+            const Json &dictArrayEl = dictArray[arrayIndex];
+            SystemPath path = SystemPath::FromJson(dictArrayEl);
+            StrToAuto(&m_exploredSystems[path], dictArrayEl["value"]);
+        }
+    } catch (Json::type_error &e) {
+        throw SavedGameCorruptException();
+    }
 }
 
-void SectorPersistenceGenerator::ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)
+void SectorPersistenceGenerator::ToJson(Json &jsonObj, RefCountedPtr<Galaxy> galaxy)
 {
 	// The layout of this data is really weird for historical reasons.
 	// It used to be stored by a general System-information container type called PersistSystemData<>.
 
-	Json::Value dictArray(Json::arrayValue); // Create JSON array to contain dict data.
+	Json dictArray = Json::array(); // Create JSON array to contain dict data.
 	for (const auto &element : m_exploredSystems) {
-		Json::Value dictArrayEl(Json::objectValue); // Create JSON object to contain dict element.
+		Json dictArrayEl({}); // Create JSON object to contain dict element.
 		element.first.ToJson(dictArrayEl);
 		dictArrayEl["value"] = AutoToStr(element.second);
-		dictArray.append(dictArrayEl); // Append dict object to array.
+		dictArray.push_back(dictArrayEl); // Append dict object to array.
 	}
 	jsonObj["dict"] = dictArray; // Add dict array to supplied object.
 }

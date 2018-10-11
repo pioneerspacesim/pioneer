@@ -38,47 +38,45 @@ Body::~Body()
 {
 }
 
-void Body::SaveToJson(Json::Value &jsonObj, Space *space)
+void Body::SaveToJson(Json &jsonObj, Space *space)
 {
-	Json::Value bodyObj(Json::objectValue); // Create JSON object to contain body data.
+	Json bodyObj = Json::object(); // Create JSON object to contain body data.
 
 	Properties().SaveToJson(bodyObj);
 	bodyObj["index_for_frame"] = space->GetIndexForFrame(m_frame);
 	bodyObj["label"] = m_label;
 	bodyObj["dead"] = m_dead;
 
-	VectorToJson(bodyObj, m_pos, "pos");
-	MatrixToJson(bodyObj, m_orient, "orient");
-	bodyObj["phys_radius"] = DoubleToStr(m_physRadius);
-	bodyObj["clip_radius"] = DoubleToStr(m_clipRadius);
+	bodyObj["pos"] = m_pos;
+	bodyObj["orient"] = m_orient;
+	bodyObj["phys_radius"] = m_physRadius;
+	bodyObj["clip_radius"] = m_clipRadius;
 
 	jsonObj["body"] = bodyObj; // Add body object to supplied object.
 }
 
-void Body::LoadFromJson(const Json::Value &jsonObj, Space *space)
+void Body::LoadFromJson(const Json &jsonObj, Space *space)
 {
-	if (!jsonObj.isMember("body")) throw SavedGameCorruptException();
-	Json::Value bodyObj = jsonObj["body"];
+	try {
+		Json bodyObj = jsonObj["body"];
 
-	if (!bodyObj.isMember("index_for_frame")) throw SavedGameCorruptException();
-	if (!bodyObj.isMember("label")) throw SavedGameCorruptException();
-	if (!bodyObj.isMember("dead")) throw SavedGameCorruptException();
-	if (!bodyObj.isMember("phys_radius")) throw SavedGameCorruptException();
-	if (!bodyObj.isMember("clip_radius")) throw SavedGameCorruptException();
+		Properties().LoadFromJson(bodyObj);
+		m_frame = space->GetFrameByIndex(bodyObj["index_for_frame"]);
+		m_label = bodyObj["label"];
+		Properties().Set("label", m_label);
+		m_dead = bodyObj["dead"];
 
-	Properties().LoadFromJson(bodyObj);
-	m_frame = space->GetFrameByIndex(bodyObj["index_for_frame"].asUInt());
-	m_label = bodyObj["label"].asString();
-	Properties().Set("label", m_label);
-	m_dead = bodyObj["dead"].asBool();
-
-	JsonToVector(&m_pos, bodyObj, "pos");
-	JsonToMatrix(&m_orient, bodyObj, "orient");
-	m_physRadius = StrToDouble(bodyObj["phys_radius"].asString());
-	m_clipRadius = StrToDouble(bodyObj["clip_radius"].asString());
+		m_pos = bodyObj["pos"];
+		m_orient = bodyObj["orient"];
+		m_physRadius = bodyObj["phys_radius"];
+		m_clipRadius = bodyObj["clip_radius"];
+	}
+	catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
 }
 
-void Body::ToJson(Json::Value &jsonObj, Space *space)
+void Body::ToJson(Json &jsonObj, Space *space)
 {
 	jsonObj["body_type"] = int(GetType());
 
@@ -99,12 +97,13 @@ void Body::ToJson(Json::Value &jsonObj, Space *space)
 	}
 }
 
-Body *Body::FromJson(const Json::Value &jsonObj, Space *space)
+Body *Body::FromJson(const Json &jsonObj, Space *space)
 {
-	if (!jsonObj.isMember("body_type")) throw SavedGameCorruptException();
+	if (!jsonObj["body_type"].is_number_integer())
+		throw SavedGameCorruptException();
 
 	Body *b = 0;
-	Object::Type type = Object::Type(jsonObj["body_type"].asInt());
+	Object::Type type = Object::Type(jsonObj["body_type"]);
 	switch (type) {
 	case Object::STAR:
 		b = new Star(); break;

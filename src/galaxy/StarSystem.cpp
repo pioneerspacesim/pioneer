@@ -878,11 +878,11 @@ StarSystem::~StarSystem()
 		m_cache->RemoveFromAttic(m_path);
 }
 
-void StarSystem::ToJson(Json::Value &jsonObj, StarSystem *s)
+void StarSystem::ToJson(Json &jsonObj, StarSystem *s)
 {
 	if (s)
 	{
-		Json::Value starSystemObj(Json::objectValue); // Create JSON object to contain star system data.
+		Json starSystemObj({}); // Create JSON object to contain star system data.
 		starSystemObj["sector_x"] = s->m_path.sectorX;
 		starSystemObj["sector_y"] = s->m_path.sectorY;
 		starSystemObj["sector_z"] = s->m_path.sectorZ;
@@ -891,22 +891,20 @@ void StarSystem::ToJson(Json::Value &jsonObj, StarSystem *s)
 	}
 }
 
-RefCountedPtr<StarSystem> StarSystem::FromJson(RefCountedPtr<Galaxy> galaxy, const Json::Value &jsonObj)
+RefCountedPtr<StarSystem> StarSystem::FromJson(RefCountedPtr<Galaxy> galaxy, const Json &jsonObj)
 {
-	if (!jsonObj.isMember("star_system")) return RefCountedPtr<StarSystem>(0); // No star system
+	try {
+		Json starSystemObj = jsonObj["star_system"];
 
-	Json::Value starSystemObj = jsonObj["star_system"];
-
-	if (!starSystemObj.isMember("sector_x")) throw SavedGameCorruptException();
-	if (!starSystemObj.isMember("sector_y")) throw SavedGameCorruptException();
-	if (!starSystemObj.isMember("sector_z")) throw SavedGameCorruptException();
-	if (!starSystemObj.isMember("system_index")) throw SavedGameCorruptException();
-
-	int sec_x = starSystemObj["sector_x"].asInt();
-	int sec_y = starSystemObj["sector_y"].asInt();
-	int sec_z = starSystemObj["sector_z"].asInt();
-	int sys_idx = starSystemObj["system_index"].asUInt();
-	return galaxy->GetStarSystem(SystemPath(sec_x, sec_y, sec_z, sys_idx));
+		int sec_x = starSystemObj["sector_x"];
+		int sec_y = starSystemObj["sector_y"];
+		int sec_z = starSystemObj["sector_z"];
+		int sys_idx = starSystemObj["system_index"];
+		
+		return galaxy->GetStarSystem(SystemPath(sec_x, sec_y, sec_z, sys_idx));
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
 }
 
 std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body)

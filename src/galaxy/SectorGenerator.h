@@ -30,8 +30,8 @@ class SectorPersistenceGenerator : public SectorGeneratorStage {
 public:
 	SectorPersistenceGenerator(GalaxyGenerator::Version version) : m_version(version) { }
 	virtual bool Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config);
-	virtual void FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy);
-	virtual void ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy);
+	virtual void FromJson(const Json &jsonObj, RefCountedPtr<Galaxy> galaxy);
+	virtual void ToJson(Json &jsonObj, RefCountedPtr<Galaxy> galaxy);
 
 private:
 	void SetExplored(Sector::System* sys, StarSystem::ExplorationState e, double time);

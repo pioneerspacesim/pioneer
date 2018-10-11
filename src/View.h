@@ -6,7 +6,7 @@
 
 #include "libs.h"
 #include "gui/Gui.h"
-#include "json/json.h"
+#include "JsonFwd.h"
 
 namespace Graphics { class Renderer; }
 
@@ -27,8 +27,8 @@ public:
 	virtual void Draw3D() = 0;
 	// for checking key states, mouse crud
 	virtual void Update() = 0;
-	virtual void SaveToJson(Json::Value &jsonObj) {}
-	virtual void LoadFromJson(const Json::Value &jsonObj) {}
+	virtual void SaveToJson(Json &jsonObj) {}
+	virtual void LoadFromJson(const Json &jsonObj) {}
 
 	void Attach();
 	void Detach();

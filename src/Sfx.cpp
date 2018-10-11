@@ -54,29 +54,30 @@ Sfx::Sfx(const Sfx &b) :
 {
 }
 
-void Sfx::SaveToJson(Json::Value &jsonObj)
+void Sfx::SaveToJson(Json &jsonObj)
 {
-	Json::Value sfxObj(Json::objectValue); // Create JSON object to contain sfx data.
+	Json sfxObj({}); // Create JSON object to contain sfx data.
 
-	VectorToJson(sfxObj, m_pos, "pos");
-	VectorToJson(sfxObj, m_vel, "vel");
-	sfxObj["age"] = FloatToStr(m_age);
-	sfxObj["type"] = Json::Value::Int(m_type);
+	sfxObj["pos"] = m_pos;
+	sfxObj["vel"] = m_vel;
+	sfxObj["age"] = m_age;
+	sfxObj["type"] = m_type;
 
 	jsonObj["sfx"] = sfxObj; // Add sfx object to supplied object.
 }
 
-void Sfx::LoadFromJson(const Json::Value &jsonObj)
+void Sfx::LoadFromJson(const Json &jsonObj)
 {
-	if (!jsonObj.isMember("sfx")) throw SavedGameCorruptException();
-	Json::Value sfxObj = jsonObj["sfx"];
-	if (!sfxObj.isMember("age")) throw SavedGameCorruptException();
-	if (!sfxObj.isMember("type")) throw SavedGameCorruptException();
+	try {
+		Json sfxObj = jsonObj["sfx"];
 
-	JsonToVector(&m_pos, sfxObj, "pos");
-	JsonToVector(&m_vel, sfxObj, "vel");
-	m_age = StrToFloat(sfxObj["age"].asString());
-	m_type = static_cast<SFX_TYPE>(sfxObj["type"].asInt());
+		m_pos = jsonObj["pos"];
+		m_vel = jsonObj["vel"];
+		m_age = sfxObj["age"];
+		m_type = sfxObj["type"];
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
 }
 
 void Sfx::SetPosition(const vector3d &p)
@@ -117,9 +118,9 @@ SfxManager::SfxManager()
 	}
 }
 
-void SfxManager::ToJson(Json::Value &jsonObj, const Frame *f)
+void SfxManager::ToJson(Json &jsonObj, const Frame *f)
 {
-	Json::Value sfxArray(Json::arrayValue); // Create JSON array to contain sfx data.
+	Json sfxArray = Json::array(); // Create JSON array to contain sfx data.
 
 	if (f->m_sfx)
 	{
@@ -130,9 +131,9 @@ void SfxManager::ToJson(Json::Value &jsonObj, const Frame *f)
 				Sfx &inst(f->m_sfx->GetInstanceByIndex(SFX_TYPE(t), i));
 				if (inst.m_type != TYPE_NONE)
 				{
-					Json::Value sfxArrayEl(Json::objectValue); // Create JSON object to contain sfx element.
+					Json sfxArrayEl({}); // Create JSON object to contain sfx element.
 					inst.SaveToJson(sfxArrayEl);
-					sfxArray.append(sfxArrayEl); // Append sfx object to array.
+					sfxArray.push_back(sfxArrayEl); // Append sfx object to array.
 				}
 			}
 		}
@@ -141,11 +142,9 @@ void SfxManager::ToJson(Json::Value &jsonObj, const Frame *f)
 	jsonObj["sfx_array"] = sfxArray; // Add sfx array to supplied object.
 }
 
-void SfxManager::FromJson(const Json::Value &jsonObj, Frame *f)
+void SfxManager::FromJson(const Json &jsonObj, Frame *f)
 {
-	if (!jsonObj.isMember("sfx_array")) throw SavedGameCorruptException();
-	Json::Value sfxArray = jsonObj["sfx_array"];
-	if (!sfxArray.isArray()) throw SavedGameCorruptException();
+	Json sfxArray = jsonObj["sfx_array"].get<Json::array_t>();
 
 	if (sfxArray.size()) f->m_sfx.reset(new SfxManager);
 	for (unsigned int i = 0; i < sfxArray.size(); ++i)

@@ -176,22 +176,24 @@ void InternalCameraController::RotateRight(float frameTime)
 	m_rotY += 45.0f * frameTime;
 }
 
-void InternalCameraController::SaveToJson(Json::Value &jsonObj)
+void InternalCameraController::SaveToJson(Json &jsonObj)
 {
-	Json::Value internalCameraObj(Json::objectValue); // Create JSON object to contain internal camera data.
+	Json internalCameraObj = Json::object(); // Create JSON object to contain internal camera data.
 
-	internalCameraObj["mode"] = Json::Value::Int(m_mode);
+	internalCameraObj["mode"] = m_mode;
 
 	jsonObj["internal"] = internalCameraObj; // Add internal camera object to supplied object.
 }
 
-void InternalCameraController::LoadFromJson(const Json::Value &jsonObj)
+void InternalCameraController::LoadFromJson(const Json &jsonObj)
 {
-	if (!jsonObj.isMember("internal")) throw SavedGameCorruptException();
-	Json::Value internalCameraObj = jsonObj["internal"];
-	if (!internalCameraObj.isMember("mode")) throw SavedGameCorruptException();
-
-	SetMode(static_cast<Mode>(internalCameraObj["mode"].asInt()));
+	try {
+		Json internalCameraObj = jsonObj["internal"];
+		SetMode(internalCameraObj["mode"].get<Mode>());
+	}
+	catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
 }
 
 ExternalCameraController::ExternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
@@ -277,28 +279,29 @@ void ExternalCameraController::Update()
 	CameraController::Update();
 }
 
-void ExternalCameraController::SaveToJson(Json::Value &jsonObj)
+void ExternalCameraController::SaveToJson(Json &jsonObj)
 {
-	Json::Value externalCameraObj(Json::objectValue); // Create JSON object to contain external camera data.
+	Json externalCameraObj = Json::object(); // Create JSON object to contain external camera data.
 
-	externalCameraObj["rot_x"] = DoubleToStr(m_rotX);
-	externalCameraObj["rot_y"] = DoubleToStr(m_rotY);
-	externalCameraObj["dist"] = DoubleToStr(m_dist);
+	externalCameraObj["rot_x"] = m_rotX;
+	externalCameraObj["rot_y"] = m_rotY;
+	externalCameraObj["dist"] = m_dist;
 
 	jsonObj["external"] = externalCameraObj; // Add external camera object to supplied object.
 }
 
-void ExternalCameraController::LoadFromJson(const Json::Value &jsonObj)
+void ExternalCameraController::LoadFromJson(const Json &jsonObj)
 {
-	if (!jsonObj.isMember("external")) throw SavedGameCorruptException();
-	Json::Value externalCameraObj = jsonObj["external"];
-	if (!externalCameraObj.isMember("rot_x")) throw SavedGameCorruptException();
-	if (!externalCameraObj.isMember("rot_y")) throw SavedGameCorruptException();
-	if (!externalCameraObj.isMember("dist")) throw SavedGameCorruptException();
+	try {
+		Json externalCameraObj = jsonObj["external"];
 
-	m_rotX = StrToDouble(externalCameraObj["rot_x"].asString());
-	m_rotY = StrToDouble(externalCameraObj["rot_y"].asString());
-	m_dist = StrToDouble(externalCameraObj["dist"].asString());
+		m_rotX = externalCameraObj["rot_x"];
+		m_rotY = externalCameraObj["rot_y"];
+		m_dist = externalCameraObj["dist"];
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
+
 	m_distTo = m_dist;
 }
 
@@ -388,24 +391,27 @@ void SiderealCameraController::Update()
 	CameraController::Update();
 }
 
-void SiderealCameraController::SaveToJson(Json::Value &jsonObj)
+void SiderealCameraController::SaveToJson(Json &jsonObj)
 {
-	Json::Value siderealCameraObj(Json::objectValue); // Create JSON object to contain sidereal camera data.
+	Json siderealCameraObj = Json::object(); // Create JSON object to contain sidereal camera data.
 
-	MatrixToJson(siderealCameraObj, m_sidOrient, "sid_orient");
-	siderealCameraObj["dist"] = DoubleToStr(m_dist);
+	MatrixToJson(siderealCameraObj["sid_orient"], m_sidOrient);
+	siderealCameraObj["dist"] = m_dist;
 
 	jsonObj["sidereal"] = siderealCameraObj; // Add sidereal camera object to supplied object.
 }
 
-void SiderealCameraController::LoadFromJson(const Json::Value &jsonObj)
+void SiderealCameraController::LoadFromJson(const Json &jsonObj)
 {
-	if (!jsonObj.isMember("sidereal")) throw SavedGameCorruptException();
-	Json::Value siderealCameraObj = jsonObj["sidereal"];
-	if (!siderealCameraObj.isMember("dist")) throw SavedGameCorruptException();
+	try {
+		Json siderealCameraObj = jsonObj["sidereal"];
 
-	JsonToMatrix(&m_sidOrient, siderealCameraObj, "sid_orient");
-	m_dist = StrToDouble(siderealCameraObj["dist"].asString());
+		JsonToMatrix(&m_sidOrient, siderealCameraObj["sid_orient"]);
+		m_dist = siderealCameraObj["dist"];
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
+
 	m_distTo = m_dist;
 }
 
@@ -515,27 +521,29 @@ void FlyByCameraController::Update()
 	CameraController::Update();
 }
 
-void FlyByCameraController::SaveToJson(Json::Value &jsonObj)
+void FlyByCameraController::SaveToJson(Json &jsonObj)
 {
-	Json::Value flybyCameraObj(Json::objectValue); // Create JSON object to contain flyby camera data.
+	Json flybyCameraObj = Json::object(); // Create JSON object to contain flyby camera data.
 
-	flybyCameraObj["roll"] = FloatToStr(m_roll);
-	flybyCameraObj["dist"] = DoubleToStr(m_dist);
-	MatrixToJson(flybyCameraObj, m_flybyOrient, "flyby_orient");
+	flybyCameraObj["roll"] = m_roll;
+	flybyCameraObj["dist"] = m_dist;
+	MatrixToJson(flybyCameraObj["flyby_orient"], m_flybyOrient);
 
 	jsonObj["flyby"] = flybyCameraObj; // Add flyby camera object to supplied object.
 }
 
-void FlyByCameraController::LoadFromJson(const Json::Value &jsonObj)
+void FlyByCameraController::LoadFromJson(const Json &jsonObj)
 {
-	if (!jsonObj.isMember("flyby")) return; //throw SavedGameCorruptException();
-	Json::Value flybyCameraObj = jsonObj["flyby"];
-	if (!flybyCameraObj.isMember("dist")) throw SavedGameCorruptException();
+	try {
+		Json flybyCameraObj = jsonObj["flyby"];
 
-	m_roll = StrToFloat(flybyCameraObj["roll"].asString());
-	m_dist = StrToDouble(flybyCameraObj["dist"].asString());
+		m_roll = flybyCameraObj["roll"];
+		m_dist = flybyCameraObj["dist"];
+
+		JsonToMatrix(&m_flybyOrient, flybyCameraObj["flyby_orient"]);
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
+
 	m_distTo = m_dist;
-
-	if (!flybyCameraObj.isMember("flyby_orient")) return;
-	JsonToMatrix(&m_flybyOrient, flybyCameraObj, "flyby_orient");
 }

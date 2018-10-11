@@ -137,26 +137,26 @@ NavLights::~NavLights()
 {
 }
 
-void NavLights::SaveToJson(Json::Value &jsonObj)
+void NavLights::SaveToJson(Json &jsonObj)
 {
-	Json::Value navLightsObj(Json::objectValue); // Create JSON object to contain nav lights data.
+	Json navLightsObj = Json::object(); // Create JSON object to contain nav lights data.
 
-	navLightsObj["time"] = FloatToStr(m_time);
+	navLightsObj["time"] = m_time;
 	navLightsObj["enabled"] = m_enabled;
 
 	jsonObj["nav_lights"] = navLightsObj; // Add nav lights object to supplied object.
 }
 
-void NavLights::LoadFromJson(const Json::Value &jsonObj)
+void NavLights::LoadFromJson(const Json &jsonObj)
 {
-	if (!jsonObj.isMember("nav_lights")) throw SavedGameCorruptException();
-	Json::Value navLightsObj = jsonObj["nav_lights"];
+	try {
+		Json navLightsObj = jsonObj["nav_lights"];
 
-	if (!navLightsObj.isMember("time")) throw SavedGameCorruptException();
-	if (!navLightsObj.isMember("enabled")) throw SavedGameCorruptException();
-
-	m_time = StrToFloat(navLightsObj["time"].asString());
-	m_enabled = navLightsObj["enabled"].asBool();
+		m_time = navLightsObj["time"];
+		m_enabled = navLightsObj["enabled"];
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
 }
 
 void NavLights::Update(float time)

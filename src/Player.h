@@ -53,8 +53,8 @@ public:
 	virtual int GetManeuverTime() const;
 
 protected:
-	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
+	virtual void SaveToJson(Json &jsonObj, Space *space) override;
+	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 	virtual void OnEnterSystem() override;
 	virtual void OnEnterHyperspace() override;

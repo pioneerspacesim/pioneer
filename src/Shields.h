@@ -7,7 +7,7 @@
  * Mesh shields for ships and other objects.
  */
 #include "libs.h"
-#include "json/json.h"
+#include "JsonFwd.h"
 #include <deque>
 
 namespace Graphics { class Renderer; }
@@ -35,8 +35,8 @@ public:
 
 	Shields(SceneGraph::Model*);
 	virtual ~Shields();
-	virtual void SaveToJson(Json::Value &jsonObj);
-	virtual void LoadFromJson(const Json::Value &jsonObj);
+	virtual void SaveToJson(Json &jsonObj);
+	virtual void LoadFromJson(const Json &jsonObj);
 
 	void SetEnabled(const bool on) { m_enabled = on; }
 	void Update(const float coolDown, const float shieldStrength);

@@ -33,8 +33,8 @@ public:
 	bool IsArrival() const { return m_isArrival; }
 	virtual void UpdateInterpTransform(double alpha) override;
 protected:
-	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
+	virtual void SaveToJson(Json &jsonObj, Space *space) override;
+	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 private:
 	void InitGraphics();

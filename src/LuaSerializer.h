@@ -11,12 +11,12 @@
 
 class LuaSerializer : public DeleteEmitter {
 	friend class LuaObject<LuaSerializer>;
-	friend void LuaRef::SaveToJson(Json::Value &jsonObj);
-	friend void LuaRef::LoadFromJson(const Json::Value &jsonObj);
+	friend void LuaRef::SaveToJson(Json &jsonObj);
+	friend void LuaRef::LoadFromJson(const Json &jsonObj);
 
 public:
-	void ToJson(Json::Value &jsonObj);
-	void FromJson(const Json::Value &jsonObj);
+	void ToJson(Json &jsonObj);
+	void FromJson(const Json &jsonObj);
 
 	void InitTableRefs();
 	void UninitTableRefs();
@@ -28,8 +28,8 @@ private:
 	static void pickle(lua_State *l, int idx, std::string &out, std::string key = "");
 	static const char *unpickle(lua_State *l, const char *pos);
 
-	static void pickle_json(lua_State *l, int idx, Json::Value &out, const std::string &key = "");
-	static void unpickle_json(lua_State *l, const Json::Value &value);
+	static void pickle_json(lua_State *l, int idx, Json &out, const std::string &key = "");
+	static void unpickle_json(lua_State *l, const Json &value);
 };
 
 #endif

@@ -130,41 +130,38 @@ Beam::~Beam()
 {
 }
 
-void Beam::SaveToJson(Json::Value &jsonObj, Space *space)
+void Beam::SaveToJson(Json &jsonObj, Space *space)
 {
 	Body::SaveToJson(jsonObj, space);
 
-	Json::Value projectileObj(Json::objectValue); // Create JSON object to contain projectile data.
+	Json projectileObj({}); // Create JSON object to contain projectile data.
 
-	VectorToJson(projectileObj, m_dir, "dir");
-	projectileObj["base_dam"] = FloatToStr(m_baseDam);
-	projectileObj["length"] = FloatToStr(m_length);
+	projectileObj["dir"] = m_dir;
+	projectileObj["base_dam"] = m_baseDam;
+	projectileObj["length"] = m_length;
 	projectileObj["mining"] = m_mining;
-	ColorToJson(projectileObj, m_color, "color");
+	projectileObj["color"] = m_color;
 	projectileObj["index_for_body"] = space->GetIndexForBody(m_parent);
 
 	jsonObj["projectile"] = projectileObj; // Add projectile object to supplied object.
 }
 
-void Beam::LoadFromJson(const Json::Value &jsonObj, Space *space)
+void Beam::LoadFromJson(const Json &jsonObj, Space *space)
 {
 	Body::LoadFromJson(jsonObj, space);
 
-	if (!jsonObj.isMember("projectile")) throw SavedGameCorruptException();
-	Json::Value projectileObj = jsonObj["projectile"];
+	try {
+		Json projectileObj = jsonObj["projectile"];
 
-	if (!projectileObj.isMember("base_dam")) throw SavedGameCorruptException();
-	if (!projectileObj.isMember("length")) throw SavedGameCorruptException();
-	if (!projectileObj.isMember("mining")) throw SavedGameCorruptException();
-	if (!projectileObj.isMember("color")) throw SavedGameCorruptException();
-	if (!projectileObj.isMember("index_for_body")) throw SavedGameCorruptException();
-
-	JsonToVector(&m_dir, projectileObj, "dir");
-	m_baseDam = StrToFloat(projectileObj["base_dam"].asString());
-	m_length = StrToFloat(projectileObj["length"].asString());
-	m_mining = projectileObj["mining"].asBool();
-	JsonToColor(&m_color, projectileObj, "color");
-	m_parentIndex = projectileObj["index_for_body"].asInt();
+		JsonToVector(&m_dir, projectileObj["dir"]);
+		m_baseDam = projectileObj["base_dam"];
+		m_length = projectileObj["length"];
+		m_mining = projectileObj["mining"];
+		JsonToColor(&m_color, projectileObj["color"]);
+		m_parentIndex = projectileObj["index_for_body"];
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
 }
 
 void Beam::PostLoadFixup(Space *space)
@@ -182,7 +179,7 @@ void Beam::UpdateInterpTransform(double alpha)
 
 void Beam::NotifyRemoved(const Body* const removedBody)
 {
-	if (m_parent == removedBody) 
+	if (m_parent == removedBody)
 		m_parent = nullptr;
 }
 

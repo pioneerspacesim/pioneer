@@ -15,7 +15,7 @@
 #include "StringF.h"
 #include <curl/curl.h>
 
-void NullServerAgent::Call(const std::string &method, const Json::Value &data, SuccessCallback onSuccess, FailCallback onFail, void *userdata)
+void NullServerAgent::Call(const std::string &method, const Json &data, SuccessCallback onSuccess, FailCallback onFail, void *userdata)
 {
 	m_queue.push(Response(onFail, userdata));
 }
@@ -86,7 +86,7 @@ HTTPServerAgent::~HTTPServerAgent()
 	curl_easy_cleanup(m_curl);
 }
 
-void HTTPServerAgent::Call(const std::string &method, const Json::Value &data, SuccessCallback onSuccess, FailCallback onFail, void *userdata)
+void HTTPServerAgent::Call(const std::string &method, const Json &data, SuccessCallback onSuccess, FailCallback onFail, void *userdata)
 {
 	SDL_LockMutex(m_requestQueueLock);
 	m_requestQueue.push(Request(method, data, onSuccess, onFail, userdata));

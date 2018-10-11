@@ -29,8 +29,8 @@ public:
 
 private:
 	void TimeStepUpdate(const float timeStep);
-	void SaveToJson(Json::Value &jsonObj);
-	void LoadFromJson(const Json::Value &jsonObj);
+	void SaveToJson(Json &jsonObj);
+	void LoadFromJson(const Json &jsonObj);
 
 	vector3d m_pos;
 	vector3d m_vel;
@@ -49,8 +49,8 @@ public:
 	static void AddThrustSmoke(const Body *b, float speed, const vector3d &adjustpos);
 	static void TimeStepAll(const float timeStep, Frame *f);
 	static void RenderAll(Graphics::Renderer *r, Frame *f, const Frame *camFrame);
-	static void ToJson(Json::Value &jsonObj, const Frame *f);
-	static void FromJson(const Json::Value &jsonObj, Frame *f);
+	static void ToJson(Json &jsonObj, const Frame *f);
+	static void FromJson(const Json &jsonObj, Frame *f);
 
 	//create shared models
 	static void Init(Graphics::Renderer *r);

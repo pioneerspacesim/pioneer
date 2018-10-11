@@ -8,38 +8,32 @@
 #include "KeyBindings.h" // <- same here
 #include "GameSaveError.h"
 
-void Propulsion::SaveToJson(Json::Value &jsonObj, Space *space)
+void Propulsion::SaveToJson(Json &jsonObj, Space *space)
 {
-	//Json::Value PropulsionObj(Json::objectValue); // Create JSON object to contain propulsion data.
-	VectorToJson(jsonObj, m_angThrusters, "ang_thrusters");
-	VectorToJson(jsonObj, m_linThrusters, "thrusters");
-	jsonObj["thruster_fuel"] = DoubleToStr( m_thrusterFuel );
-	jsonObj["reserve_fuel"] = DoubleToStr( m_reserveFuel );
+	//Json PropulsionObj(Json::objectValue); // Create JSON object to contain propulsion data.
+	jsonObj["ang_thrusters"] = m_angThrusters;
+	jsonObj["thrusters"] = m_linThrusters;
+	jsonObj["thruster_fuel"] = m_thrusterFuel;
+	jsonObj["reserve_fuel"] = m_reserveFuel;
 	// !!! These are commented to avoid savegame bumps:
 	//jsonObj["tank_mass"] = m_fuelTankMass;
 	//jsonObj["propulsion"] = PropulsionObj;
 };
 
-void Propulsion::LoadFromJson(const Json::Value &jsonObj, Space *space)
+void Propulsion::LoadFromJson(const Json &jsonObj, Space *space)
 {
+	try {
+		SetAngThrusterState(jsonObj["ang_thrusters"]);
+		SetLinThrusterState(jsonObj["thrusters"]);
 
-	if (!jsonObj.isMember("thruster_fuel")) throw SavedGameCorruptException();
-	if (!jsonObj.isMember("reserve_fuel")) throw SavedGameCorruptException();
-	// !!! This is commented to avoid savegame bumps:
-	//if (!jsonObj.isMember("tank_mass")) throw SavedGameCorruptException();
+		m_thrusterFuel = jsonObj["thruster_fuel"];
+		m_reserveFuel = jsonObj["reserve_fuel"];
 
-	vector3d temp_vector;
-	JsonToVector(&temp_vector, jsonObj, "ang_thrusters");
-	SetAngThrusterState(temp_vector);
-
-	JsonToVector(&temp_vector, jsonObj, "thrusters");
-	SetLinThrusterState(temp_vector);
-
-	m_thrusterFuel = StrToDouble(jsonObj["thruster_fuel"].asString());
-	m_reserveFuel = StrToDouble(jsonObj["reserve_fuel"].asString());
-
-	// !!! This is commented to avoid savegame bumps:
-	//m_fuelTankMass = jsonObj["tank_mass"].asInt();
+		// !!! This is commented to avoid savegame bumps:
+		//m_fuelTankMass = jsonObj["tank_mass"].asInt();
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
 };
 
 Propulsion::Propulsion()
@@ -459,4 +453,3 @@ vector3d Propulsion::AIGetLeadDir(const Body *target, const vector3d& targaccel,
 	}
 	return leadpos.Normalized();
 }
-

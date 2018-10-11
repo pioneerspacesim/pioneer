@@ -6,7 +6,7 @@
 
 #include "libs.h"
 #include "IterationProxy.h"
-#include "json/json.h"
+#include "JsonFwd.h"
 #include <string>
 #include <list>
 
@@ -27,9 +27,9 @@ public:
 	Frame(Frame *parent, const char *label);
 	Frame(Frame *parent, const char *label, unsigned int flags);
 	~Frame();
-	static void ToJson(Json::Value &jsonObj, Frame *f, Space *space);
+	static void ToJson(Json &jsonObj, Frame *f, Space *space);
 	static void PostUnserializeFixup(Frame *f, Space *space);
-	static Frame *FromJson(const Json::Value &jsonObj, Space *space, Frame *parent, double at_time);
+	static Frame *FromJson(const Json &jsonObj, Space *space, Frame *parent, double at_time);
 	const std::string &GetLabel() const { return m_label; }
 	void SetLabel(const char *label) { m_label = label; }
 

@@ -7,7 +7,7 @@
  * Blinking navigation lights for ships and stations
  */
 #include "libs.h"
-#include "json/json.h"
+#include "JsonFwd.h"
 #include "graphics/RenderState.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
@@ -36,8 +36,8 @@ public:
 
 	NavLights(SceneGraph::Model*, float period = 2.f);
 	virtual ~NavLights();
-	virtual void SaveToJson(Json::Value &jsonObj);
-	virtual void LoadFromJson(const Json::Value &jsonObj);
+	virtual void SaveToJson(Json &jsonObj);
+	virtual void LoadFromJson(const Json &jsonObj);
 
 	void SetEnabled(bool on) { m_enabled = on; }
 	void Update(float time);

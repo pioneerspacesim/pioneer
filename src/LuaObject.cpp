@@ -6,6 +6,7 @@
 #include "LuaUtils.h"
 #include "PropertiedObject.h"
 #include "PropertyMap.h"
+#include "Json.h"
 
 #include <map>
 #include <utility>
@@ -929,7 +930,7 @@ bool LuaObjectBase::Deserialize(const char *stream, const char **next)
 	return (*i).second.deserialize(end, next);
 }
 
-void LuaObjectBase::ToJson(Json::Value &out)
+void LuaObjectBase::ToJson(Json &out)
 {
 	lua_State *l = Lua::manager->GetLuaState();
 
@@ -939,16 +940,16 @@ void LuaObjectBase::ToJson(Json::Value &out)
 		abort();
 	}
 
-	out["cpp_class"] = Json::Value(m_type);
-	Json::Value inner(Json::objectValue);
+	out["cpp_class"] = Json(m_type);
+	Json inner = Json::object();
 	it->second.to_json(inner, GetObject());
 	out["inner"] = inner;
 }
 
-bool LuaObjectBase::FromJson(const Json::Value &obj)
+bool LuaObjectBase::FromJson(const Json &obj)
 {
-	if (!obj.isMember("cpp_class") || !obj.isMember("inner")) return false;
-	const std::string type = obj["cpp_class"].asString();
+	if (obj["cpp_class"].is_null() || obj["inner"].is_null()) return false;
+	const std::string type = obj["cpp_class"];
 	auto it = serializers->find(type);
 	if (it == serializers->end()) {
 		lua_State *l = Lua::manager->GetLuaState();

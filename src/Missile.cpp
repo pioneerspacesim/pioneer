@@ -57,11 +57,11 @@ void Missile::ECMAttack(int power_val)
 	}
 }
 
-void Missile::SaveToJson(Json::Value &jsonObj, Space *space)
+void Missile::SaveToJson(Json &jsonObj, Space *space)
 {
 	DynamicBody::SaveToJson(jsonObj, space);
 	GetPropulsion()->SaveToJson(jsonObj, space);
-	Json::Value missileObj(Json::objectValue); // Create JSON object to contain missile data.
+	Json missileObj = Json::object(); // Create JSON object to contain missile data.
 
 	if (m_curAICmd) m_curAICmd->SaveToJson(missileObj);
 
@@ -74,30 +74,26 @@ void Missile::SaveToJson(Json::Value &jsonObj, Space *space)
 	jsonObj["missile"] = missileObj; // Add missile object to supplied object.
 }
 
-void Missile::LoadFromJson(const Json::Value &jsonObj, Space *space)
+void Missile::LoadFromJson(const Json &jsonObj, Space *space)
 {
 	DynamicBody::LoadFromJson(jsonObj, space);
 	GetPropulsion()->LoadFromJson(jsonObj, space);
+	Json missileObj = jsonObj["missile"];
 
-	if (!jsonObj.isMember("missile")) throw SavedGameCorruptException();
-	Json::Value missileObj = jsonObj["missile"];
+	try {
+		m_type = &ShipType::types[missileObj["ship_type_id"]];
+		SetModel(m_type->modelName.c_str());
 
-	if (!missileObj.isMember("index_for_body")) throw SavedGameCorruptException();
-	if (!missileObj.isMember("power")) throw SavedGameCorruptException();
-	if (!missileObj.isMember("armed")) throw SavedGameCorruptException();
-	if (!missileObj.isMember("ai_message")) throw SavedGameCorruptException();
-	if (!missileObj.isMember("ship_type_id")) throw SavedGameCorruptException();
+		m_curAICmd = 0;
+		m_curAICmd = AICommand::LoadFromJson(missileObj);
+		m_aiMessage = AIError(missileObj["ai_message"]);
 
-	m_type = &ShipType::types[missileObj["ship_type_id"].asString()];
-	SetModel(m_type->modelName.c_str());
-
-	m_curAICmd = 0;
-	m_curAICmd = AICommand::LoadFromJson(missileObj);
-	m_aiMessage = AIError(missileObj["ai_message"].asInt());
-
-	m_ownerIndex = missileObj["index_for_body"].asUInt();
-	m_power = missileObj["power"].asInt();
-	m_armed = missileObj["armed"].asBool();
+		m_ownerIndex = missileObj["index_for_body"];
+		m_power = missileObj["power"];
+		m_armed = missileObj["armed"];
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
 
 	GetPropulsion()->Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
 

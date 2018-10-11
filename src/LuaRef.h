@@ -5,7 +5,7 @@
 #define _LUAREF_H
 
 #include <lua.hpp>
-#include "json/json.h"
+#include "JsonFwd.h"
 #include <vector>
 #include <cassert>
 
@@ -24,8 +24,8 @@ public:
 
 	bool IsValid() const { return m_lua && m_id != LUA_NOREF; }
 
-	void SaveToJson(Json::Value &jsonObj);
-	void LoadFromJson(const Json::Value &jsonObj);
+	void SaveToJson(Json &jsonObj);
+	void LoadFromJson(const Json &jsonObj);
 	void Unref();
 private:
 	lua_State * m_lua;

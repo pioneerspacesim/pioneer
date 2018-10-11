@@ -526,32 +526,31 @@ void Model::SetThrusterColor(const Color &color)
 
 class SaveVisitorJson : public NodeVisitor {
 public:
-	SaveVisitorJson(Json::Value &jsonObj) : m_jsonArray(jsonObj) {}
+	SaveVisitorJson(Json &jsonObj) : m_jsonArray(jsonObj) {}
 
 	void ApplyMatrixTransform(MatrixTransform &node)
 	{
 		const matrix4x4f &m = node.GetTransform();
-		Json::Value matrixTransformObj(Json::objectValue); // Create JSON object to contain matrix transform data.
-		MatrixToJson(matrixTransformObj, m, "m");
-		m_jsonArray.append(matrixTransformObj); // Append matrix transform object to array.
+		Json matrixTransformObj({}); // Create JSON object to contain matrix transform data.
+		matrixTransformObj["m"] = m;
+		m_jsonArray.push_back(matrixTransformObj); // Append matrix transform object to array.
 	}
 
 private:
-	Json::Value &m_jsonArray;
+	Json &m_jsonArray;
 };
 
-void Model::SaveToJson(Json::Value &jsonObj) const
+void Model::SaveToJson(Json &jsonObj) const
 {
-	Json::Value modelObj(Json::objectValue); // Create JSON object to contain model data.
+	Json modelObj({}); // Create JSON object to contain model data.
 
-	Json::Value visitorArray(Json::arrayValue); // Create JSON array to contain visitor data.
+	Json visitorArray = Json::array(); // Create JSON array to contain visitor data.
 	SaveVisitorJson sv(visitorArray);
 	m_root->Accept(sv);
 	modelObj["visitor"] = visitorArray; // Add visitor array to model object.
 
-	Json::Value animationArray(Json::arrayValue); // Create JSON array to contain animation data.
-	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
-		animationArray.append(DoubleToStr((*i)->GetProgress()));
+	Json animationArray = Json::array(); // Create JSON array to contain animation data.
+	for (auto i : m_animations) animationArray.push_back(i->GetProgress());
 	modelObj["animations"] = animationArray; // Add animation array to model object.
 
 	modelObj["cur_pattern_index"] = m_curPatternIndex;
@@ -561,46 +560,38 @@ void Model::SaveToJson(Json::Value &jsonObj) const
 
 class LoadVisitorJson : public NodeVisitor {
 public:
-	LoadVisitorJson(const Json::Value &jsonObj) : m_jsonArray(jsonObj), m_arrayIndex(0) {}
+	LoadVisitorJson(const Json &jsonObj) : m_jsonArray(jsonObj), m_arrayIndex(0) {}
 
 	void ApplyMatrixTransform(MatrixTransform &node)
 	{
-		matrix4x4f m;
-		if(m_jsonArray[m_arrayIndex].isMember("matrix_transform"))
-			JsonToMatrix(&m, m_jsonArray[m_arrayIndex], "matrix_transform"); // for backwards compatibility
-		else
-			JsonToMatrix(&m, m_jsonArray[m_arrayIndex], "m");
-		++m_arrayIndex;
-		node.SetTransform(m);
+		node.SetTransform(m_jsonArray[m_arrayIndex++]["m"]);
 	}
 
 private:
-	const Json::Value &m_jsonArray;
+	const Json &m_jsonArray;
 	unsigned int m_arrayIndex;
 };
 
-void Model::LoadFromJson(const Json::Value &jsonObj)
+void Model::LoadFromJson(const Json &jsonObj)
 {
-	if (!jsonObj.isMember("model")) throw SavedGameCorruptException();
-	Json::Value modelObj = jsonObj["model"];
-	if (!modelObj.isMember("visitor")) throw SavedGameCorruptException();
-	if (!modelObj.isMember("animations")) throw SavedGameCorruptException();
-	if (!modelObj.isMember("cur_pattern_index")) throw SavedGameCorruptException();
+	try {
+		Json modelObj = jsonObj["model"];
 
-	Json::Value visitorArray = modelObj["visitor"];
-	if (!visitorArray.isArray()) throw SavedGameCorruptException();
-	LoadVisitorJson lv(visitorArray);
-	m_root->Accept(lv);
+		Json visitorArray = modelObj["visitor"].get<Json::array_t>();
+		LoadVisitorJson lv(visitorArray);
+		m_root->Accept(lv);
 
-	Json::Value animationArray = modelObj["animations"];
-	if (!animationArray.isArray()) throw SavedGameCorruptException();
-	assert(m_animations.size() == animationArray.size());
-	unsigned int arrayIndex = 0;
-	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
-		(*i)->SetProgress(StrToDouble(animationArray[arrayIndex++].asString()));
-	UpdateAnimations();
+		Json animationArray = modelObj["animations"].get<Json::array_t>();
+		assert(m_animations.size() == animationArray.size());
+		unsigned int arrayIndex = 0;
+		for (auto i : m_animations) i->SetProgress(animationArray[arrayIndex++]);
+		UpdateAnimations();
 
-	SetPattern(modelObj["cur_pattern_index"].asUInt());
+		SetPattern(modelObj["cur_pattern_index"]);
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
+	}
+
 }
 
 std::string Model::GetNameForMaterial(Graphics::Material *mat) const

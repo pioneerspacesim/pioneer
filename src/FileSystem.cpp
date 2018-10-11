@@ -189,6 +189,18 @@ namespace FileSystem {
 		return MakeFileInfo(path, FileInfo::FT_NON_EXISTENT);
 	}
 
+	std::vector<FileInfo> FileSourceUnion::LookupAll(const std::string &path)
+	{
+		std::vector<FileInfo> outFiles;
+
+		for (FileSource *fs : m_sources) {
+			FileInfo info = fs->Lookup(path);
+			if (info.Exists()) outFiles.push_back(info);
+		}
+
+		return outFiles;
+	}
+
 	RefCountedPtr<FileData> FileSourceUnion::ReadFile(const std::string &path)
 	{
 		for (std::vector<FileSource*>::const_iterator

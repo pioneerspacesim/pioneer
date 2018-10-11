@@ -306,8 +306,8 @@ public:
 	std::vector<std::string> GetOtherNames() const { return m_other_names; }
 	SystemPath GetPathOf(const SystemBody *sbody) const;
 	SystemBody *GetBodyByPath(const SystemPath &path) const;
-	static void ToJson(Json::Value &jsonObj, StarSystem *);
-	static RefCountedPtr<StarSystem> FromJson(RefCountedPtr<Galaxy> galaxy, const Json::Value &jsonObj);
+	static void ToJson(Json &jsonObj, StarSystem *);
+	static RefCountedPtr<StarSystem> FromJson(RefCountedPtr<Galaxy> galaxy, const Json &jsonObj);
 	const SystemPath &GetPath() const { return m_path; }
 	const std::string& GetShortDescription() const { return m_shortDesc; }
 	const std::string& GetLongDescription() const { return m_longDesc; }

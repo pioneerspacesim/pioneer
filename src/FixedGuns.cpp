@@ -54,39 +54,38 @@ void FixedGuns::Init(DynamicBody *b)
 	b->AddFeature( DynamicBody::FIXED_GUNS );
 }
 
-void FixedGuns::SaveToJson( Json::Value &jsonObj, Space *space )
+void FixedGuns::SaveToJson( Json &jsonObj, Space *space )
 {
 
-	Json::Value gunArray(Json::arrayValue); // Create JSON array to contain gun data.
+	Json gunArray = Json::array(); // Create JSON array to contain gun data.
 
 	for (int i = 0; i<Guns::GUNMOUNT_MAX; i++)
 	{
-		Json::Value gunArrayEl(Json::objectValue); // Create JSON object to contain gun.
+		Json gunArrayEl = Json::object(); // Create JSON object to contain gun.
 		gunArrayEl["state"] = m_is_firing[i];
-		gunArrayEl["recharge"] = FloatToStr(m_recharge_stat[i]);
-		gunArrayEl["temperature"] = FloatToStr(m_temperature_stat[i]);
-		gunArray.append(gunArrayEl); // Append gun object to array.
+		gunArrayEl["recharge"] = m_recharge_stat[i];
+		gunArrayEl["temperature"] = m_temperature_stat[i];
+		gunArray.push_back(gunArrayEl); // Append gun object to array.
 	}
 	jsonObj["guns"] = gunArray; // Add gun array to ship object.
 };
 
-void FixedGuns::LoadFromJson( const Json::Value &jsonObj, Space *space )
+void FixedGuns::LoadFromJson( const Json &jsonObj, Space *space )
 {
-	Json::Value gunArray = jsonObj["guns"];
-
-	if (!gunArray.isArray()) throw SavedGameCorruptException();
+	Json gunArray = jsonObj["guns"].get<Json::array_t>();
 	assert(Guns::GUNMOUNT_MAX == gunArray.size());
 
-	for (unsigned int i = 0; i < Guns::GUNMOUNT_MAX; i++)
-	{
-		Json::Value gunArrayEl = gunArray[i];
-		if (!gunArrayEl.isMember("state")) throw SavedGameCorruptException();
-		if (!gunArrayEl.isMember("recharge")) throw SavedGameCorruptException();
-		if (!gunArrayEl.isMember("temperature")) throw SavedGameCorruptException();
+	try {
+		for (unsigned int i = 0; i < Guns::GUNMOUNT_MAX; i++)
+		{
+			Json gunArrayEl = gunArray[i];
 
-		m_is_firing[i] = gunArrayEl["state"].asBool();
-		m_recharge_stat[i] = StrToFloat(gunArrayEl["recharge"].asString());
-		m_temperature_stat[i] = StrToFloat(gunArrayEl["temperature"].asString());
+			m_is_firing[i] = gunArrayEl["state"];
+			m_recharge_stat[i] = gunArrayEl["recharge"];
+			m_temperature_stat[i] = gunArrayEl["temperature"];
+		}
+	} catch (Json::type_error &e) {
+		throw SavedGameCorruptException();
 	}
 };
 
@@ -146,7 +145,7 @@ void FixedGuns::UnMountGun( int num )
 	m_gun_present[num] = false;
 }
 
-bool FixedGuns::Fire( const int num, Body* b ) 
+bool FixedGuns::Fire( const int num, Body* b )
 {
 	if (!m_gun_present[num]) return false;
 	if (!m_is_firing[num]) return false;

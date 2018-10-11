@@ -8,10 +8,7 @@
 #include <stdexcept>
 #include <SDL_stdinc.h>
 #include <cassert>
-
-namespace Json {
-	class Value;
-}
+#include "JsonFwd.h"
 
 class SystemPath : public LuaWrappable {
 public:
@@ -140,8 +137,8 @@ public:
 		return SystemPath(sectorX, sectorY, sectorZ, systemIndex);
 	}
 
-	void ToJson(Json::Value &jsonObj) const;
-	static SystemPath FromJson(const Json::Value &jsonObj);
+	void ToJson(Json &jsonObj) const;
+	static SystemPath FromJson(const Json &jsonObj);
 
 	// sometimes it's useful to be able to get the SystemPath data as a blob
 	// (for example, to be used for hashing)
