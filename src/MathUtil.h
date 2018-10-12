@@ -39,6 +39,15 @@ namespace MathUtil {
 	float DistanceFromLineSegment(const vector3f& start, const vector3f& end, const vector3f& pos, bool& isWithinLineSegment);
 	float DistanceFromLine(const vector3f& start, const vector3f& end, const vector3f& pos);
 
+	inline static matrix3x3d LookAt(const vector3d eye, const vector3d target, const vector3d up)
+	{
+		const vector3d z = (eye - target).NormalizedSafe();
+		const vector3d x = (up.Cross(z)).NormalizedSafe();
+		const vector3d y = (z.Cross(x)).NormalizedSafe();
+
+		return matrix3x3d::FromVectors(x, y, z);
+	}
+
 //#define TEST_MATHUTIL
 #ifdef TEST_MATHUTIL
 	bool TestDistanceFromLine();

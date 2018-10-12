@@ -207,15 +207,7 @@ namespace GasGiantJobs
 	void SGPUGenResult::OnCancel()	{
 		if( mData.texture ) { mData.texture.Reset(); }
 	}
-
-	//static matrix3x3f LookAt (const vector3f &eye, const vector3f &target, const vector3f &up) {
-	//	const vector3f viewDir  = (target - eye).Normalized();
-	//	const vector3f viewUp   = (up - up.Dot(viewDir) * viewDir).Normalized();
-	//	const vector3f viewSide = viewDir.Cross(viewUp);
-	//
-	//	return matrix3x3f::FromVectors(viewSide, viewUp, -viewDir);
-	//}
-
+	
 	// ********************************************************************************
 	// Overloaded JobGPU class to handle generating the mesh for each patch
 	// ********************************************************************************

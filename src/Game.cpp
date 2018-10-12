@@ -488,6 +488,7 @@ void Game::SwitchToNormalSpace()
 	{
 		auto dest = m_hyperspaceDest;
 
+		// find the primary body in this system
 		Body *primary = nullptr;
 		if (dest.IsBodyPath()) {
 			assert(dest.bodyIndex < m_space->GetStarSystem()->GetNumBodies());
@@ -499,11 +500,12 @@ void Game::SwitchToNormalSpace()
 		}
 		if (!primary) {
 			// find the first non-gravpoint. should be the primary star
-			for (Body* b : m_space->GetBodies())
+			for (Body* b : m_space->GetBodies()) {
 				if (b->GetSystemBody()->GetType() != SystemBody::TYPE_GRAVPOINT) {
 					primary = b;
 					break;
 				}
+			}
 		}
 		assert(primary);
 
@@ -521,7 +523,6 @@ void Game::SwitchToNormalSpace()
 		// generate suitable velocity if none provided
 		double minacc = m_player->GetPropulsion()->GetAccelMin();
 		double mass = primary->IsType(Object::TERRAINBODY) ? primary->GetMass() : 0;
-
 		double vel = sqrt(alt * 0.8 * minacc + mass * G / alt);
 
 		// ...there are so many things wrong with this...
@@ -529,7 +530,8 @@ void Game::SwitchToNormalSpace()
 		vector3d tangent(direction.Cross(up).Normalized());
 		orbVelocity = tangent * vel;
 
-		//orientation = matrix3x3d::FromVectors(tangent, direction);
+		// finally orient the ship in the direction in which we exited from hyperspace
+		orientation = MathUtil::LookAt(position, position + tangent.Normalized(), vector3d(0.0, 1.0, 0.0)); // this probably doesn't always want to be "up"
 	}
 	m_player->SetVelocity(orbVelocity);
 	m_player->SetOrient(orientation);
