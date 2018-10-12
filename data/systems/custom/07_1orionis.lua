@@ -468,7 +468,7 @@ local orionisk_moons = {
 		:ice_cover(f(110,1000))
 		:life(f(0,10)),
 
-	CustomSystemBody:new('Càrn nan Cat', 'PLANET_TERRESTRIAL') --Real scottish island
+	CustomSystemBody:new('Càrn nan Cat', 'PLANET_TERRESTRIAL') --Real scottish town, and who doesn't like cats ;)
 		:seed(-1679030052)
 		:radius(f(6769,10000))
 		:mass(f(3103,10000))
