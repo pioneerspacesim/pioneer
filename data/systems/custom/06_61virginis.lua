@@ -26,7 +26,7 @@ local virginisa = CustomSystemBody:new('61 Virginis a', 'PLANET_GAS_GIANT')
 	:inclination(math.deg2rad(5.64))
 	:rotation_period(f(327,10))
 	:axial_tilt(fixed.deg2rad(f(0,10)))
-	
+
 local virginisb = CustomSystemBody:new('61 Virginis b', 'PLANET_GAS_GIANT')
 	:radius(f(10402,1000))
 	:mass(f(108204,1000))
@@ -37,8 +37,8 @@ local virginisb = CustomSystemBody:new('61 Virginis b', 'PLANET_GAS_GIANT')
 	:rotation_period(f(833,10))
 	:axial_tilt(fixed.deg2rad(f(124,10)))
 
-local abundancia = CustomSystemBody:new('Abundancia', 'PLANET_TERRESTRIAL')
-	:seed(216)	
+local abundancia = CustomSystemBody:new('Abundância', 'PLANET_TERRESTRIAL')
+	:seed(216)
 	:radius(f(2078,1000))
 	:mass(f(4319,1000))
 	:temp(292)
@@ -58,7 +58,7 @@ local abundancia_starports =	{
 		CustomSystemBody:new('Colheita', 'STARPORT_SURFACE') --Means "harvest" in portuguese
 			:latitude(math.deg2rad(5.7541))
 			:longitude(math.deg2rad(4.14)),
-		
+
 		CustomSystemBody:new('Gergelim', 'STARPORT_SURFACE') --Means "sesame" in portuguese
 			:latitude(math.deg2rad(38.1))
 			:longitude(math.deg2rad(159.1)),
