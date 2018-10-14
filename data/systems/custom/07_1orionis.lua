@@ -9,11 +9,11 @@ local s = CustomSystem:new('1 Orionis',{ 'STAR_F' }) --Alt name will be "Cluaran
 	:govtype('CISLIBDEM')
 	:lawlessness(f(5,100)) -- 1/100th from a peaceful eden
 	:short_desc('A proudly independent hisoric colony')
-	:long_desc([["Proud World for Proud People". 
+	:long_desc([["Proud World for Proud People".
 1 Orionis' motto can be traced back to year 2325, as the "Evergreen" -one of the legacy colony ships launched before the era of hyperspace travel- landed on planet Saorsa. Its founding fathers vowed to never live again under Terran oppression,
 This heritage still shapes the system’s values to this day : independence, pride, and freedom.
 1 Orionis acively took part in the War of Hope (2723-2725), as its volunteer forces fought alongside Epsilon Eridani against Sol’s attempt of hegemony. The system is a founding member of the Commonwealth of Independent Worlds and remains politically influent to this day.
-In present day, the systems boasts a strong industry and is the birthplace of many an elite pilot of the Confederation Fleet. 
+In present day, the systems boasts a strong industry and is the birthplace of many an elite pilot of the Confederation Fleet.
 Travellers will also find the citizens are a proud lot : be it of their tradition, their chilly climate, their language, their gas giants...]])
 
 local orionis = CustomSystemBody:new('1 Orionis', 'STAR_F') --Alt name will be "Cluaran", means "thisle" in scottish
@@ -21,7 +21,7 @@ local orionis = CustomSystemBody:new('1 Orionis', 'STAR_F') --Alt name will be "
 	:mass(f(161,100))
 	:temp(6387)
 
-local orionisa = CustomSystemBody:new('Rannoch', 'PLANET_TERRESTRIAL') --Real scottish town
+local orionisa = CustomSystemBody:new('Raineach', 'PLANET_TERRESTRIAL') --Real scottish town
 	:radius(f(2676,10000))
 	:mass(f(1918,100000))
 	:temp(1495)
@@ -37,8 +37,8 @@ local orionisa = CustomSystemBody:new('Rannoch', 'PLANET_TERRESTRIAL') --Real sc
 	:ocean_cover(f(0,1))
 	:ice_cover(f(0,1))
 	:life(f(0,1))
-	
-local orionisb = CustomSystemBody:new('Glennoch', 'PLANET_TERRESTRIAL') --Made up, but sure sounds scottish enough ;)
+
+local orionisb = CustomSystemBody:new('Gearrloch', 'PLANET_TERRESTRIAL') --Real scottish town
 	:radius(f(5403,10000))
 	:mass(f(1578,10000))
 	:temp(929)
@@ -55,7 +55,7 @@ local orionisb = CustomSystemBody:new('Glennoch', 'PLANET_TERRESTRIAL') --Made u
 	:ice_cover(f(0,1))
 	:life(f(0,1))
 
-local orionisc = CustomSystemBody:new('Dornoch', 'PLANET_TERRESTRIAL') --Real scottish town
+local orionisc = CustomSystemBody:new('Dòrnach', 'PLANET_TERRESTRIAL') --Real scottish town
 	:radius(f(7154,10000))
 	:mass(f(3661,10000))
 	:temp(639)
@@ -71,9 +71,9 @@ local orionisc = CustomSystemBody:new('Dornoch', 'PLANET_TERRESTRIAL') --Real sc
 	:ocean_cover(f(0,1))
 	:ice_cover(f(0,1))
 	:life(f(0,1))
-	
+
 local orionisc_starport =	{
-		CustomSystemBody:new('Ardfern', 'STARPORT_ORBITAL') -- Real scottish town
+		CustomSystemBody:new('Àird Fheàrna', 'STARPORT_ORBITAL') -- Real scottish town
 			:semi_major_axis(f(8068,100000000))
 			:rotation_period(f(11,24))
 	}
@@ -95,7 +95,7 @@ local orionisd = CustomSystemBody:new('Neart', 'PLANET_TERRESTRIAL') --Means "st
 	:ice_cover(f(5,1000))
 	:life(f(0,1))
 
-local orionisf = CustomSystemBody:new('Iona', 'PLANET_GAS_GIANT') --Real scottish island
+local orionisf = CustomSystemBody:new('Ì', 'PLANET_GAS_GIANT') --Real scottish island
 	:radius(f(33959,10000))
 	:mass(f(115321,10000))
 	:temp(249)
@@ -114,7 +114,7 @@ local orionisf = CustomSystemBody:new('Iona', 'PLANET_GAS_GIANT') --Real scottis
 
 local saorsa = {
 	CustomSystemBody:new('Saorsa', 'PLANET_TERRESTRIAL') --means "freedom" in Scottish
-		:seed(65)		
+		:seed(65)
 		:radius(f(9589,10000))
 		:mass(f(8818,10000))
 		:temp(278)
@@ -131,7 +131,7 @@ local saorsa = {
 		:ice_cover(f(467,1000))
 		:life(f(45,100)),
 	{
-		CustomSystemBody:new('New Edinburgh', 'STARPORT_SURFACE')
+		CustomSystemBody:new('Dùn Éideann Ùr', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(13.1308))
 			:longitude(math.deg2rad(-80.1142)),
 		CustomSystemBody:new('Talmine', 'STARPORT_SURFACE') --Real Scottish town
@@ -144,8 +144,8 @@ local saorsa = {
 	}
 
 
-local orionisg = CustomSystemBody:new('Uabhar', 'PLANET_TERRESTRIAL') -- Uabhar means "pride" in scottish
-	:seed(-419185643)	
+local orionisg = CustomSystemBody:new('Pròis', 'PLANET_TERRESTRIAL') -- Pròis means "pride" in scottish
+	:seed(-419185643)
 	:radius(f(13314,10000))
 	:mass(f(17727,10000))
 	:temp(119)
@@ -163,8 +163,8 @@ local orionisg = CustomSystemBody:new('Uabhar', 'PLANET_TERRESTRIAL') -- Uabhar 
 	:life(f(0,1))
 
 local orionisg_moon = {
-	CustomSystemBody:new('Carraig Dhu', 'PLANET_TERRESTRIAL') --Carraig Dhu : made up, should mean "black rock"
-		:seed(-668520084)		
+	CustomSystemBody:new('Carraig Dhubh', 'PLANET_TERRESTRIAL') --Carraig Dhubh : made up, should mean "black rock"
+		:seed(-668520084)
 		:radius(f(1023,10000))
 		:mass(f(11,10000))
 		:temp(119)
@@ -182,8 +182,8 @@ local orionisg_moon = {
 		:life(f(0,10))
 	}
 
-local orionish = CustomSystemBody:new('Orionish', 'PLANET_TERRESTRIAL') --Keep the original name, "Orionish" sounds scottish enough ;)
-	:seed(-193118230)	
+local orionish = CustomSystemBody:new('Mac an t-Sealgair', 'PLANET_TERRESTRIAL') --An Sealgair Mór (the big hunter) is Scottish for "Orion", so I went with "son of the hunter" ;)
+	:seed(-193118230)
 	:radius(f(17469,10000))
 	:mass(f(30518,10000))
 	:temp(52)
@@ -201,8 +201,8 @@ local orionish = CustomSystemBody:new('Orionish', 'PLANET_TERRESTRIAL') --Keep t
 	:life(f(0,1))
 
 local orionish_moons = {
-	CustomSystemBody:new('Cairndow', 'PLANET_ASTEROID') --"Cairndow", real scottish town
-		:seed(599155018)		
+	CustomSystemBody:new('An Càrn Dubh', 'PLANET_ASTEROID') --"Cairndow", real scottish town
+		:seed(599155018)
 		:radius(f(348,10000))
 		:mass(f(42,1000000))
 		:temp(131)
@@ -219,8 +219,8 @@ local orionish_moons = {
 		:ice_cover(f(0,1000))
 		:life(f(0,10)),
 
-	CustomSystemBody:new('Eigg', 'PLANET_TERRESTRIAL') --"Eigg", real scottish town
-		:seed(-499886056)		
+	CustomSystemBody:new('Eige', 'PLANET_TERRESTRIAL') --"Eigg", real scottish island
+		:seed(-499886056)
 		:radius(f(517,10000))
 		:mass(f(13,100000))
 		:temp(83)
@@ -238,8 +238,8 @@ local orionish_moons = {
 		:life(f(0,10))
 	}
 
-local orionisi = CustomSystemBody:new('Bearnaraigh Mor', 'PLANET_GAS_GIANT') --Real scottish island
-	:seed(-1200031656)	
+local orionisi = CustomSystemBody:new('Beàrnaraigh Mòr', 'PLANET_GAS_GIANT') --Real scottish island
+	:seed(-1200031656)
 	:radius(f(83255,10000))
 	:mass(f(693151,10000))
 	:temp(106)
@@ -257,8 +257,8 @@ local orionisi = CustomSystemBody:new('Bearnaraigh Mor', 'PLANET_GAS_GIANT') --R
 	:life(f(0,1))
 
 local orionisi_moons = {
-	CustomSystemBody:new('Lairg', 'PLANET_TERRESTRIAL') --Real scottish town
-		:seed(247130418)		
+	CustomSystemBody:new('Luirg', 'PLANET_TERRESTRIAL') --Real scottish town
+		:seed(247130418)
 		:radius(f(1231,10000))
 		:mass(f(1866,1000000))
 		:temp(67)
@@ -275,8 +275,8 @@ local orionisi_moons = {
 		:ice_cover(f(0,1000))
 		:life(f(0,10)),
 
-	CustomSystemBody:new('Cairnmore Hillock', 'PLANET_TERRESTRIAL') --Real scottish hill
-		:seed(-679328091)		
+	CustomSystemBody:new('An Càrn Mòr', 'PLANET_TERRESTRIAL') --Real scottish hill
+		:seed(-679328091)
 		:radius(f(2116,10000))
 		:mass(f(948,100000))
 		:temp(67)
@@ -294,7 +294,7 @@ local orionisi_moons = {
 		:life(f(0,10)),
 
 	CustomSystemBody:new('Errol', 'PLANET_TERRESTRIAL') --Real scottish hill
-		:seed(-1350635343)		
+		:seed(-1350635343)
 		:radius(f(2947,10000))
 		:mass(f(2559,100000))
 		:temp(67)
@@ -312,8 +312,8 @@ local orionisi_moons = {
 		:life(f(0,10))
 	}
 
-local orionisj = CustomSystemBody:new('Arran', 'PLANET_GAS_GIANT') --Real scottish island
-	:seed(-1412603713)	
+local orionisj = CustomSystemBody:new('Arainn', 'PLANET_GAS_GIANT') --Real scottish island
+	:seed(-1412603713)
 	:radius(f(116996,10000))
 	:mass(f(16876247,10000))
 	:temp(74)
@@ -331,8 +331,8 @@ local orionisj = CustomSystemBody:new('Arran', 'PLANET_GAS_GIANT') --Real scotti
 	:life(f(0,1))
 
 local orionisj_moons = {
-	CustomSystemBody:new('Duncan', 'PLANET_TERRESTRIAL') --Real scottish town
-		:seed(504618464)		
+	CustomSystemBody:new('Dùn Omhain', 'PLANET_TERRESTRIAL') --Real scottish town
+		:seed(504618464)
 		:radius(f(4094,10000))
 		:mass(f(686,10000))
 		:temp(46)
@@ -349,8 +349,8 @@ local orionisj_moons = {
 		:ice_cover(f(0,1000))
 		:life(f(0,10)),
 
-	CustomSystemBody:new('Dunvegan', 'PLANET_TERRESTRIAL') --Real scottish town
-		:seed(1601618231)		
+	CustomSystemBody:new('Dùn Bheagan', 'PLANET_TERRESTRIAL') --Real scottish town
+		:seed(1601618231)
 		:radius(f(4003,10000))
 		:mass(f(641,10000))
 		:temp(46)
@@ -367,8 +367,8 @@ local orionisj_moons = {
 		:ice_cover(f(0,1000))
 		:life(f(0,10)),
 
-	CustomSystemBody:new('Islay', 'PLANET_TERRESTRIAL') --Real scottish island
-		:seed(-1495856331)		
+	CustomSystemBody:new('Ìle', 'PLANET_TERRESTRIAL') --Real scottish island
+		:seed(-1495856331)
 		:radius(f(8739,10000))
 		:mass(f(6675,10000))
 		:temp(46)
@@ -384,18 +384,18 @@ local orionisj_moons = {
 		:ocean_cover(f(0,1000))
 		:ice_cover(f(0,1000))
 		:life(f(0,10)),
-		
+
 		{
 		CustomSystemBody:new('Laphroaig', 'STARPORT_SURFACE') --Real scottish town
 			:latitude(math.deg2rad(-4.5895))
 			:longitude(math.deg2rad(-137.4417)),
-		CustomSystemBody:new('Port Ellen', 'STARPORT_ORBITAL') -- Real scottish town
+		CustomSystemBody:new('Port Ilein', 'STARPORT_ORBITAL') -- Real scottish town
 			:semi_major_axis(f(15068,100000000))
 			:rotation_period(f(11,24)),
 		},
 
-	CustomSystemBody:new('Kirriemuir', 'PLANET_TERRESTRIAL') --Real scottish town
-		:seed(4268442)		
+	CustomSystemBody:new('An Ceathramh Mór', 'PLANET_TERRESTRIAL') --Real scottish town
+		:seed(4268442)
 		:radius(f(5151,10000))
 		:mass(f(1367,10000))
 		:temp(46)
@@ -411,10 +411,10 @@ local orionisj_moons = {
 		:ocean_cover(f(0,1000))
 		:ice_cover(f(0,1000))
 		:life(f(0,10))
-	}	
+	}
 
-local orionisk = CustomSystemBody:new('Muir of Ord', 'PLANET_GAS_GIANT') --Real scottish town
-	:seed(-976168363)	
+local orionisk = CustomSystemBody:new('Am Blàr Dubh', 'PLANET_GAS_GIANT') --Real scottish town
+	:seed(-976168363)
 	:radius(f(121175,10000))
 	:mass(f(11356529,10000))
 	:temp(52)
@@ -432,8 +432,8 @@ local orionisk = CustomSystemBody:new('Muir of Ord', 'PLANET_GAS_GIANT') --Real 
 	:life(f(0,1))
 
 local orionisk_moons = {
-	CustomSystemBody:new('Brora', 'PLANET_TERRESTRIAL') --Real scottish town
-		:seed(-2061656912)		
+	CustomSystemBody:new('Brùra', 'PLANET_TERRESTRIAL') --Real scottish town
+		:seed(-2061656912)
 		:radius(f(4780,10000))
 		:mass(f(1092,10000))
 		:temp(32)
@@ -450,8 +450,8 @@ local orionisk_moons = {
 		:ice_cover(f(0,1000))
 		:life(f(0,10)),
 
-	CustomSystemBody:new('Ewe', 'PLANET_TERRESTRIAL') --Real scottish town
-		:seed(-2118775515)		
+	CustomSystemBody:new('Iùbh', 'PLANET_TERRESTRIAL') --Real scottish town
+		:seed(-2118775515)
 		:radius(f(7746,10000))
 		:mass(f(4647,10000))
 		:temp(32)
@@ -468,8 +468,8 @@ local orionisk_moons = {
 		:ice_cover(f(110,1000))
 		:life(f(0,10)),
 
-	CustomSystemBody:new('Cairndow', 'PLANET_TERRESTRIAL') --Real scottish island
-		:seed(-1679030052)		
+	CustomSystemBody:new('Càrn nan Cat', 'PLANET_TERRESTRIAL') --Real scottish town, and who doesn't like cats ;)
+		:seed(-1679030052)
 		:radius(f(6769,10000))
 		:mass(f(3103,10000))
 		:temp(32)
@@ -485,9 +485,9 @@ local orionisk_moons = {
 		:ocean_cover(f(0,1000))
 		:ice_cover(f(0,1000))
 		:life(f(0,10))
-	}	
+	}
 
-	
+
 s:bodies(orionis, {
 
 	orionisa,
