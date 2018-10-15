@@ -281,7 +281,7 @@
   },
   "DETAIL_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Lower gives better performance, at cost of visual aesthetics"
+    "message": "Bidh roghainn nas ìsle nas luaithe ach chan ann cho eireachdail"
   },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
@@ -289,11 +289,11 @@
   },
   "DISPLAY_HUD_TRAILS": {
     "description": "",
-    "message": "Seall staranan HUD"
+    "message": "Seall staranan san t-sealladh fiosrachaidh"
   },
   "DISPLAY_HUD_TRAILS_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Guides the eye by showing the trajectory of ships on the HUD"
+    "message": "Seallaidh seo uileann tilgidh nan soitheach leis an t-sealladh fiosrachaidh mar thaic dha do shùilean"
   },
   "DISPLAY_NAV_TUNNELS": {
     "description": "Settings option: hyperspace tunnel effect",
@@ -301,7 +301,7 @@
   },
   "DISPLAY_NAV_TUNNELS_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Shows a virtual tunnel to current selected target on the HUD"
+    "message": "Seallaidh seo tunail biortail gun amas a thagh thu air an t-sealladh fiosrachaidh"
   },
   "DISPLAY_SPEED_LINES": {
     "description": "Settings option: effect when travelling in space",
@@ -309,7 +309,7 @@
   },
   "DISPLAY_SPEED_LINES_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Assists the sense of direction of movement in space"
+    "message": "Cuiridh seo taic ris a' mhothachadh air comhair a' ghluasaid san fhànas"
   },
   "DOCKED_AT": {
     "description": "",
@@ -357,7 +357,7 @@
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "save state when docking, might cause some lag depending on disk access time"
+    "message": "Sàbhail an cor rè an docaidh, dh'fhaoidte gun adhbharaich seo dàil a-rèir dè cho luath 's a tha an clàr-cruaidh agad"
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
@@ -365,7 +365,7 @@
   },
   "ENABLE_COCKPIT_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Display a 3D model of the pilot's cockpit. (Currently the dashboard is a placeholder)"
+    "message": "Seall modail 3D de cockpit a' phaidhleit. (Chan eil an deas-bhòrd ach 'na ghlèidheadair-àite aig an àm seo)"
   },
   "ENABLE_JOYSTICK": {
     "description": "",
@@ -605,11 +605,11 @@
   },
   "HUD_BUTTON_FLYBY_VIEW": {
     "description": "Tooltip: Flyby camera view",
-    "message": "Flyby view"
+    "message": "Sealladh on taobh a-muigh"
   },
   "HUD_BUTTON_HYPERDRIVE_DISABLED": {
     "description": "Tooltip: Hyperdrive disabled (docked or landed)",
-    "message": "Os-dhraibh à comas"
+    "message": "Tha an draibh os-fhànais à comas"
   },
   "HUD_BUTTON_INITIATE_HYPERJUMP": {
     "description": "Tooltip: Initiate legal hyperjump",
@@ -869,11 +869,11 @@
   },
   "HYPERDRIVE": {
     "description": "",
-    "message": "Os-dhraibh"
+    "message": "Draibh os-fhànais"
   },
   "HYPERDRIVE_FITTED": {
     "description": "",
-    "message": "Os-dhraibh suidhichte:"
+    "message": "Draibh os-fhànais suidhichte:"
   },
   "HYPERJUMP_ROUTE": {
     "description": "",
@@ -1217,7 +1217,7 @@
   },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
-    "message": "Nothing matches that filter"
+    "message": "Chan eil dad a' freagairt ris a' chriathrag"
   },
   "NO_MISSIONS": {
     "description": "",
@@ -1277,7 +1277,7 @@
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
-    "message": "Filter overview window entries by name"
+    "message": "Criathraich nithean uinneag an fhoir-sheallaidh a-rèir ainm"
   },
   "OWED": {
     "description": "Player owing money to crew members",
@@ -1553,15 +1553,15 @@
   },
   "START_AT_EARTH_DESC": {
     "description": "",
-    "message": "This is an easy start from London on Earth in the Sol system."
+    "message": "Seo toiseach furasta o Lunnainn air an Talamh ann an siostam Sol."
   },
   "START_AT_MARS": {
     "description": "",
-    "message": "Start on Mars"
+    "message": "Tòisich air a' Chorg"
   },
   "START_AT_MARS_DESC": {
     "description": "",
-    "message": "This is an easy start from Cydonia on Mars in the Sol system."
+    "message": "Seo toiseach furasta o Cydonia air a' Chorg ann an siostam Sol."
   },
   "START_AT_NEW_HOPE": {
     "description": "New Hope is an in game location",
@@ -1569,7 +1569,7 @@
   },
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
-    "message": "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
+    "message": "Seo toiseach le duilgheas meadhanach o Itzalean air Dòchas Ùr ann an siostam Epsilon."
   },
   "STAR_FIELD_DENSITY": {
     "description": "",
@@ -1597,7 +1597,7 @@
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
-    "message": "This frees up more memory for the graphics card, which is likely what you want, at the expense of compressing them during game start."
+    "message": "Saoraidh seo barrachd chuimhne dhan chairt-ghrafaigeachd is tha sinn an dùil gur e seo am modh nas fhearr dut ged a bheir e barrachd ùine an geama a thòiseachadh on a thèid nithean a dhùmhlachadh."
   },
   "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
     "description": "",
@@ -1621,19 +1621,19 @@
   },
   "TOGGLE_OVERVIEW_SHOW_MOONS": {
     "description": "toggle whether the overview window shows moons or not",
-    "message": "Toggle showing moons in the overview"
+    "message": "Toglaich an nochd gealaichean air an foir-shealladh gus nach nochd"
   },
   "TOGGLE_OVERVIEW_SHOW_STATIONS": {
     "description": "toggle whether the overview window shows stations or not",
-    "message": "Toggle showing stations in the overview"
+    "message": "Toglaich an nochd stèiseanan air an foir-shealladh gus nach nochd"
   },
   "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
     "description": "toggle whether the overview window sorts by distance from the player or from the system center",
-    "message": "Switch between sorting by distance from player and distance from system center"
+    "message": "Gearr leum eadar seòrsachadh a-rèir astar on chluicheadair is astar o mheadhan an t-siostaim"
   },
   "TOGGLE_OVERVIEW_WINDOW": {
     "description": "show/hide the overview window / navigation window",
-    "message": "Toggle the overview window"
+    "message": "Toglaich uinneag an fhoir-sheallaidh"
   },
   "TOO_SMALL_FOR_CURRENT_CREW": {
     "description": "",
@@ -1713,7 +1713,7 @@
   },
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",
-    "message": "Higher resolutions display more information at a smaller size and can decrease performance."
+    "message": "Seallaidh dùmhlachd-bhreacaidh nas àirde barrachd fiosrachaidh air meud nas lugha is dh'fhaoidte gum bi nithean nas slaodaiche."
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",
@@ -1721,7 +1721,7 @@
   },
   "VSYNC_DESC": {
     "description": "",
-    "message": "Vertical Sync can eliminate visual tearing or artifacts, and input latency."
+    "message": "Dh'fhaoidte gun càraich an sioncronachadh inghearach reubadh no fuighill lèirsinneach agus dàil ion-chuir."
   },
   "WAGE": {
     "description": "Salary of crew shown in crew roster",
