@@ -41,7 +41,7 @@
   },
   "DISTANCE": {
     "description": "",
-    "message": "Distance:"
+    "message": "المسافة:"
   },
   "EXCELLENT": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
-    "message": "How will I be paid?"
+    "message": "كيف سيتم الدفع لي؟"
   },
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
@@ -193,7 +193,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "ضعها كوجهة للملاحة"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "SYSTEM": {
     "description": "",
-    "message": "System:"
+    "message": "النظام:"
   },
   "TARGET_NAME": {
     "description": "",

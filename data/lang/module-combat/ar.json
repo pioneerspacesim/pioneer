@@ -1,59 +1,59 @@
 {
   "ACCEPTED_1": {
     "description": "",
-    "message": "Very well. Good luck!"
+    "message": "جيد جدًا. حظًا جيدًا!"
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "Excellent!"
+    "message": "ممتاز!"
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Good. We count on you!"
+    "message": "جيد . نحن نعتمد عليك!"
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "RELIABLE PILOT WANTED: Pay {cash}."
+    "message": "طيار جيد مطلوب: سُيدفع له {cash}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "CHALLENGE: Ship and crew wanted for a combat mission in the {system} system."
+    "message": "تحدي: سفينة وطاقم مطلوبان من أجل مهمة حربية في نظام {system}."
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "COMBAT: Need qualified mercenary with well-equipped ship."
+    "message": "معركة: مطلوب مرتزقة كفؤين مع سفينة معدة جيداً."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "FEARLESS MERCENARY WANTED: Pay {cash} for a mission to the {system} system."
+    "message": "مطلوب مرتزقة بلا خوف: سُيدفع لهم {cash} من أجل مهمة في نظام {system}."
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "{mission} Mission: Salary {cash}."
+    "message": "مهمة {mission}: الأجر {cash}."
   },
   "AGENT": {
     "description": "Secret Service Agent",
-    "message": "Agent"
+    "message": "عميل"
   },
   "AREA": {
     "description": "An allotted area for the mission",
-    "message": "Area:"
+    "message": "المنطقة:"
   },
   "BONUS_1": {
     "description": "",
-    "message": "My supervisor was impressed about your performance and has allotted a bonus of {cash} for this mission."
+    "message": "أعجب مشرفي بأدائك وقد خصص مكافأة نقدية قدرها {cash} لهذه المهمة."
   },
   "BONUS_2": {
     "description": "",
-    "message": "You have served us well! I pay you a bonus of {cash}."
+    "message": "لقد خدمتنا جيدا! سأدفع لك مكافأة تقدر بـ {cash}."
   },
   "BONUS_3": {
     "description": "",
-    "message": "Very impressive! I'm authorized to pay you a bonus of {cash}."
+    "message": "مبهر جدا! صُرح لي بالدفع لك مكافأة تقدر بـ {cash}."
   },
   "BONUS_4": {
     "description": "",
-    "message": "I'm very pleased of your performance! I have transferred additional {cash} credits."
+    "message": "أنا مسرور جدا بأدائك! لقد قمت بنقل {cash} إضافي."
   },
   "COMBAT": {
     "description": "Name of mission type",
@@ -61,91 +61,91 @@
   },
   "CORPORATION_1": {
     "description": "Name of a corporation",
-    "message": "Precious Goods Foundation"
+    "message": "مؤسسة السلع الثمينة"
   },
   "CORPORATION_2": {
     "description": "Name of a corporation",
-    "message": "Omega Mining Company"
+    "message": "شركة أوميغا للتعدين"
   },
   "CORPORATION_3": {
     "description": "Name of a corporation",
-    "message": "United Ore Mines Syndicate"
+    "message": "اتحاد عمال المناجم"
   },
   "CORPORATION_4": {
     "description": "Name of a corporation",
-    "message": "Galactic Explorer Corporation"
+    "message": "مؤسسة الإستكشاف المجري"
   },
   "CORPORATION_5": {
     "description": "Name of a corporation",
-    "message": "Haber Corporation"
+    "message": "شركة هابر"
   },
   "CORPORATION_6": {
     "description": "Name of a corporation",
-    "message": "Precious Metal Prospectors LLC"
+    "message": "منقبو المعادن الثمينة ذ م م"
   },
   "CORPORATION_7": {
     "description": "Name of a corporation",
-    "message": "{name} Ore Seeker PLC"
+    "message": "{name} لباحثي المواد الخام بي إل سي"
   },
   "CORPORATION_8": {
     "description": "Name of a corporation",
-    "message": "{name} LLC"
+    "message": "{name} ذ م م"
   },
   "DANGER": {
     "description": "The risk level",
-    "message": "Danger:"
+    "message": "الخطر:"
   },
   "DENY_1": {
     "description": "",
-    "message": "Sorry, I need a pilot who has more combat experience."
+    "message": "اسف، أحتاج لطيار لديه خبرة أكثر في المعارك. "
   },
   "DENY_2": {
     "description": "",
-    "message": "Excuse me sir. I need a real professional."
+    "message": "اعذرني يا سيدي. أنا  أحتاج لمحترف حقيقي."
   },
   "DETECTIVE": {
     "description": "Police Detective",
-    "message": "Detective"
+    "message": "مُحقق"
   },
   "DISTANCE": {
     "description": "Distance in space, between two locations",
-    "message": "Distance:"
+    "message": "المسافة:"
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "Shame on you. Get out of my sight."
+    "message": "عَيب عليك. أخرج من أمامي."
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "You are too late! You have caused great losses. You will not be paid!"
+    "message": "انت متأخر للغاية! لقد كبدتني خسائر كبيرة. لن يتم الدفع لك!"
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "You're a disgrace to all pilots. I cannot pay you!"
+    "message": "انت عار علي كل الطيارين. لا يمكنني الدفع لك."
   },
   "FAILUREMSG_4": {
     "description": "",
-    "message": "You failed! I will not pay you!"
+    "message": "لقد فشلت! أنا لن أدفع لك!"
   },
   "GREETING_1": {
     "description": "",
-    "message": "Hi, I'm {name}."
+    "message": "مرحباً، أنا {name}."
   },
   "GREETING_2": {
     "description": "",
-    "message": "Hello. My name is {name}."
+    "message": "مرحباً، إسمي هو {name}."
   },
   "GREETING_3": {
     "description": "",
-    "message": "How are you. I'm {name}."
+    "message": "كيف حالك، أنا {name}."
   },
   "GREETING_4": {
     "description": "",
-    "message": "Greetings! Call me {name}."
+    "message": "تحياتي! يمكنك مناداتي {name}."
   },
   "GREETING_5": {
     "description": "",
-    "message": "Good day. My name is {name}."
+    "message": "طاب يومك. أسمي هو {name}."
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
@@ -161,31 +161,31 @@
   },
   "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}. Please keep quiet about this operation."
+    "message": "من المهم أن تنتهي المهمة بحلول {date}. يرجى التزام الصمت حيال هذه المهمة."
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "We have a salesperson in every nearby star system. This person will get in contact with you when landed."
+    "message": "لدينا مندوب مبيعات في كل نظام نجم قريب. سيتصل بك هذا الشخص عند هبوطك."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
-    "message": "How will I be paid?"
+    "message": "كيف سيتم الدفع لي؟"
   },
   "IS_THERE_A_TIME_LIMIT": {
     "description": "",
-    "message": "Is there a time limit?"
+    "message": "هل هناك حد للوقت؟"
   },
   "LY": {
     "description": "",
-    "message": "س/ض"
+    "message": "س ض"
   },
   "MANAGER": {
     "description": "",
-    "message": "Manager"
+    "message": "المدير"
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Meet me in the {rendezvous} system to finish the job!"
+    "message": "قابلني في نظام {rendezvous} لكي تُنهي العمل!"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
@@ -205,7 +205,7 @@
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Visit a station in the territory protected by the {org}!"
+    "message": "قم بزيارة إحدى المحطات في المنطقة المحمية بواسطة {org}!"
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
@@ -221,55 +221,55 @@
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "A convoy is enroute to {area}. It is essential that the mission is completed by {date}."
+    "message": "هناك قافلة في طريقها إلى {area}. من الضروري أن تنتهي المهمة بحلول {date}."
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "We have employees in every nearby star system. Just visit the nearest station and get in contact with the local office there."
+    "message": "لدينا موظفين في كل نظام نجمي قريب. ما عليك سوى زيارة أقرب محطة والاتصال بالمكتب المحلي هناك."
   },
   "MISSION": {
     "description": "",
-    "message": "Mission:"
+    "message": "المهمة:"
   },
   "MISSION_COMPLETE": {
     "description": "Message from the ship computer",
-    "message": "Primary mission objective complete"
+    "message": "أكتمل الهدف الأساسي للمهمة"
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
-    "message": "Reconnaissance"
+    "message": "الإستطلاع"
   },
   "MISSION_TYPE_2": {
     "description": "Name of mission type",
-    "message": "Armed Reconnaissance"
+    "message": "الاستطلاع المسلح"
   },
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
-    "message": "Area Sweep"
+    "message": "أجتياح المنطقة"
   },
   "OBJECTIVE_1": {
     "description": "",
-    "message": "It's not necessary to attack the enemy. We want data about the defence capability and response time."
+    "message": "ليس من الضروري مهاجمة العدو. نريد بيانات حول القدرة الدفاعية ووقت الاستجابة."
   },
   "OBJECTIVE_2": {
     "description": "",
-    "message": "Weaken the enemy's strength as much as possible and then jump to safety."
+    "message": "أضعف قوة العدو قدر الإمكان ومن ثم أقفز إلى بر الأمان."
   },
   "OBJECTIVE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Clear the area around {area}. Break any resistance."
+    "message": "افرغ المنطقة المحيطة بـ {area}. كاسراً أي مقاومة."
   },
   "OK_AGREED": {
     "description": "",
-    "message": "OK, agreed."
+    "message": "حسناً، موافق."
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Payment location:"
+    "message": "مكان الدفع:"
   },
   "PLEASE_REPEAT_THE_MISSION_DETAILS": {
     "description": "",
-    "message": "Please repeat the mission details!"
+    "message": "من فضلك أعد علي أهداف المهمة!"
   },
   "POLICE_1": {
     "description": "{area} is an asteroid or planet",
@@ -285,62 +285,62 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}, because more hostile ships are on there way."
+    "message": "من المهم أن تنتهي المهمة بحلول {date}، لأن المزيد من السفن المعادية في طريقها إلي هناك."
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Just land at a station with a {org} office."
+    "message": "اهبط فقط في محطة لديها مكتب {org}."
   },
   "RISK_1": {
     "description": "",
-    "message": "The competitor has only limited resources. Nothing you can't handle."
+    "message": "لدى المنافس موارد محدودة فقط. لا شيء لا يمكنك التعامل معه."
   },
   "RISK_2": {
     "description": "",
-    "message": "The competitor has only minor resources. But he will defend his position if necessary."
+    "message": "لدى المنافس موارد ثانوية فقط. لكنه سيدافع عن موقعه إذا لزم الأمر."
   },
   "RISK_3": {
     "description": "",
-    "message": "The competitor is well equipped. Please keep your eyes open!"
+    "message": "المنافس مجهز جيدًا. من فضلك إبقي عينيك مفتوحة!"
   },
   "RISK_4": {
     "description": "",
-    "message": "The enemy is very well equiped and has access to the latest technology. Be careful!"
+    "message": "العدو مجهز جيدًا جدًا ولديه إمكانية الوصول إلى أحدث التقنيات. كن حذرا!"
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "ضعها كوجهة للملاحة"
   },
   "SUCCESSMSG_1": {
     "description": "",
-    "message": "I knew you were the right person for such a mission. Here is your payment."
+    "message": "كنت أعرف أنك الشخص المناسب لمثل هذه المهمة. ها هي دفعتك."
   },
   "SUCCESSMSG_2": {
     "description": "",
-    "message": "Thank you for making it. I have transferred the money."
+    "message": "شكرا لك لإكمالك ذلك. لقد حولت المال."
   },
   "SUCCESSMSG_3": {
     "description": "",
-    "message": "I hope you had no big trouble. I just paid you."
+    "message": "أرجو أن لا يكون لديك مشكلة كبيرة. لقد دفعت لك للتو."
   },
   "SUCCESSMSG_4": {
     "description": "",
-    "message": "Very well done. I have paid the bill."
+    "message": "عمل جيد جدًا. لقد دفعت الفاتورة."
   },
   "SYSTEM": {
     "description": "",
-    "message": "System:"
+    "message": "النظام:"
   },
   "TIME_LIMIT": {
     "description": "",
-    "message": "Time limit:"
+    "message": "حد الوقت:"
   },
   "WHAT_ARE_THE_MISSION_OBJECTIVES": {
     "description": "",
-    "message": "What are the mission objectives?"
+    "message": "ماهي أهداف المهمة؟"
   },
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
-    "message": "Will I be in trouble?"
+    "message": "هل سوف أكون في مشكلة؟"
   }
 }

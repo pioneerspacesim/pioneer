@@ -9,7 +9,7 @@
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
-    "message": "Add Jump"
+    "message": "أضف قفزة"
   },
   "AFTER_TRADE_IN": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "ANISOTROPIC_FILTERING_DESC": {
     "description": "",
-    "message": "Samples the texture across multiple mip levels to produce a much clearer texture when viewed at shallow angles. Stops the textures from becoming as blurred; however, it can come at a heavy performance cost."
+    "message": "نمذجة الرسومات عبر العديد من مستويات الميب (MIP) لإنتاج رسومات أكثر وضوحا بكثير عند عرضها في الزوايا الضحلة. توقف الرسومات من أن تصبح غير واضحة؛ ومع ذلك ، يمكن أن تأتي بتكلفة أداء ثقيلة."
   },
   "AN_ERROR_HAS_OCCURRED": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
-    "message": "Atmospheric shielding"
+    "message": "التدريع الجوي"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
-    "message": "Auto Route"
+    "message": "توجيه تلقائي"
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "",
@@ -65,7 +65,7 @@
   },
   "BUY": {
     "description": "Commodities and equipment prices",
-    "message": "Buy"
+    "message": "شراء"
   },
   "BUY_SHIP": {
     "description": "",
@@ -77,11 +77,11 @@
   },
   "CABIN_FREE": {
     "description": "Free capacity for passengers",
-    "message": "{amount} free"
+    "message": "{amount} فارغ"
   },
   "CABIN_USED": {
     "description": "Passengers using cabins",
-    "message": "{amount} used"
+    "message": "{amount} مستخدم"
   },
   "CANCEL": {
     "description": "",
@@ -101,19 +101,19 @@
   },
   "CARGO_SPACE": {
     "description": "",
-    "message": "حجم المخزن"
+    "message": "حجم الحمولة"
   },
   "CARGO_SPACE_USED": {
     "description": "",
-    "message": "Cargo space used"
+    "message": "مساحة الحمولة المستخدمة"
   },
   "CARGO_T_FREE": {
     "description": "t for tonne",
-    "message": "{amount}t free"
+    "message": "{amount}طن فارغة"
   },
   "CARGO_T_USED": {
     "description": "t for tonne",
-    "message": "{amount}t used"
+    "message": "{amount}طن مستخدمة"
   },
   "CASH": {
     "description": "",
@@ -121,15 +121,15 @@
   },
   "CASH_N": {
     "description": "",
-    "message": "النقود: "
+    "message": "النقود: {money}"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
-    "message": "Center on System"
+    "message": "توسيط على النظام الشمسي"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
-    "message": "تغيير الربط"
+    "message": "تغيير المفتاح المرتبط"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -149,11 +149,11 @@
   },
   "CLEAR": {
     "description": "Clear an option in game settings/options menu",
-    "message": "خالي"
+    "message": "إخلاء"
   },
   "CLEAR_ROUTE": {
     "description": "Clear a planned route of hyperjumps",
-    "message": "Clear Route"
+    "message": "إلغاء المسار"
   },
   "CLIENT": {
     "description": "",
@@ -161,7 +161,7 @@
   },
   "CLOSE": {
     "description": "",
-    "message": "Close"
+    "message": "إغلاق"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -177,7 +177,7 @@
   },
   "COMPACT_RADAR": {
     "description": "Game settings option",
-    "message": "Compact radar"
+    "message": "رادار مدمج"
   },
   "COMPETENT": {
     "description": "Combat rating",
@@ -185,27 +185,27 @@
   },
   "COMPLETED": {
     "description": "",
-    "message": "مكتملة"
+    "message": "مكتمل"
   },
   "COMPRESS_TEXTURES": {
     "description": "graphics option in game settings menu ",
-    "message": "تركيب البوصلة"
+    "message": "ضغط الرسومات"
   },
   "CONFIRM_PURCHASE": {
     "description": "",
-    "message": "Confirm purchase"
+    "message": "تأكيد الشراء"
   },
   "CONFIRM_SALE": {
     "description": "",
-    "message": "Confirm sale"
+    "message": "تأكيد البيع"
   },
   "CONSTABLE": {
     "description": "",
-    "message": "مسؤل أمني"
+    "message": "شرطي"
   },
   "CONTINUE_GAME": {
     "description": "",
-    "message": "Continue game"
+    "message": "إكمال اللعبة"
   },
   "CONTROLS": {
     "description": "",
@@ -221,11 +221,11 @@
   },
   "CREDIBLE": {
     "description": "For player reputation",
-    "message": "Credible"
+    "message": "موثوق"
   },
   "CREDITS": {
     "description": "in game currency",
-    "message": "Credits"
+    "message": "أرصدة"
   },
   "CREW_CABINS": {
     "description": "",
@@ -237,11 +237,11 @@
   },
   "CRIMINAL_RECORD": {
     "description": "Past crimes / crime history of character",
-    "message": "سجل مجرم"
+    "message": "سجل الجرائم"
   },
   "CURRENT_FUEL": {
     "description": "For hyperjump planner",
-    "message": "Current Fuel:"
+    "message": "الوقود الحالي:"
   },
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
@@ -257,23 +257,23 @@
   },
   "DELTA_V": {
     "description": "",
-    "message": "دلتا-v"
+    "message": "دلتا-في"
   },
   "DELTA_V_EMPTY": {
     "description": "Delta-v capacity of a ship with no cargo or upgrades",
-    "message": "Delta-v (empty)"
+    "message": "دلتا-في (فارغة)"
   },
   "DELTA_V_FULL": {
     "description": "Delta-v capacity of a ship with maximum cargo",
-    "message": "Delta-v (full)"
+    "message": "دلتا-في (ممتلئه)"
   },
   "DELTA_V_MAX": {
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
-    "message": "Delta-v (max)"
+    "message": "دلتا-في (أقصي)"
   },
   "DESCENT_TO_GROUND_SPEED": {
     "description": "",
-    "message": "الوصول-الى-الارض بسرعة:"
+    "message": "سرعة الوصول إلي الأرض:"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -281,27 +281,27 @@
   },
   "DETAIL_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Lower gives better performance, at cost of visual aesthetics"
+    "message": "الأقل يعطي أداء أفضل، على حساب الجمال البصري"
   },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
-    "message": "إنصراف"
+    "message": "انصراف"
   },
   "DISPLAY_HUD_TRAILS": {
     "description": "",
-    "message": "Display HUD trails"
+    "message": "إظهار آثار الشاشة (هود)"
   },
   "DISPLAY_HUD_TRAILS_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Guides the eye by showing the trajectory of ships on the HUD"
+    "message": "يوجه العين من خلال إظهار مسار السفن في الشاشة"
   },
   "DISPLAY_NAV_TUNNELS": {
     "description": "Settings option: hyperspace tunnel effect",
-    "message": "عرض انفاق التجوال"
+    "message": "عرض أنفاق الملاحة"
   },
   "DISPLAY_NAV_TUNNELS_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Shows a virtual tunnel to current selected target on the HUD"
+    "message": "أظهر نفق إفتراضي إلى الهدف المُحدد علي الشاشة"
   },
   "DISPLAY_SPEED_LINES": {
     "description": "Settings option: effect when travelling in space",
@@ -309,11 +309,11 @@
   },
   "DISPLAY_SPEED_LINES_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Assists the sense of direction of movement in space"
+    "message": "يساعد حس التعرف على الاتجاهات في الفضاء"
   },
   "DOCKED_AT": {
     "description": "",
-    "message": "Docked at"
+    "message": "راسي علي"
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
@@ -325,11 +325,11 @@
   },
   "DUMPING": {
     "description": "The illegal act of dumping waste",
-    "message": "Dumping"
+    "message": "إلقاء النفايات"
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "يوم بقي: %d"
+    "message": "الأيام المتبقية: %d"
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -341,7 +341,7 @@
   },
   "ELITE": {
     "description": "Player combat rating",
-    "message": "النخبة"
+    "message": "من النخبة"
   },
   "EMPLOYMENT": {
     "description": "",
@@ -349,23 +349,23 @@
   },
   "ENABLE_ANISOTROPIC_FILTERING": {
     "description": "Use Anisotropic Filtering",
-    "message": "Anisotropic Filtering"
+    "message": "مرشح تباين الخواص"
   },
   "ENABLE_AUTOSAVE": {
     "description": "Allow the game to autosave when docking",
-    "message": "Enable Autosave"
+    "message": "تفعيل الحفظ التلقائي"
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "save state when docking, might cause some lag depending on disk access time"
+    "message": "حفظ الحالة حين الرسو، ربما يسبب بعض اللاج إستناداً إلي وقت الوصول للهارد"
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
-    "message": "Enable cockpit (EXPERIMENTAL)"
+    "message": "تفعيل قمرة القيادة (تجريبي)"
   },
   "ENABLE_COCKPIT_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Display a 3D model of the pilot's cockpit. (Currently the dashboard is a placeholder)"
+    "message": "أظهر قمرة القيادة في شكل مجسم 3D. (حالياً لوحة القيادة هي العنصر النائب)"
   },
   "ENABLE_JOYSTICK": {
     "description": "",
@@ -373,11 +373,11 @@
   },
   "END_GAME": {
     "description": "",
-    "message": "End Game"
+    "message": "إنهاء اللعبة"
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
-    "message": "هندسة:"
+    "message": "الهندسة:"
   },
   "EQUIPMENT": {
     "description": "",
@@ -397,7 +397,7 @@
   },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
-    "message": "Can not initiate hyperjump; landing gear is not retracted!"
+    "message": "لا يمكن تفعيل القفزة الفائقة، أدوات الهبوط لم تُرفع بعد!"
   },
   "ESCAPE_SPEED": {
     "description": "",
@@ -409,11 +409,11 @@
   },
   "EXPERIENCED": {
     "description": "For player reputation",
-    "message": "Experienced"
+    "message": "خبير"
   },
   "EXPERT": {
     "description": "For player reputation",
-    "message": "Expert"
+    "message": "مختص"
   },
   "FAILED": {
     "description": "When failed mission",
@@ -425,15 +425,15 @@
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Final Target:"
+    "message": "الهدف النهائي:"
   },
   "FLIGHT_STATE": {
     "description": "",
-    "message": "Flight State"
+    "message": "حالة الطيران"
   },
   "FLYING": {
     "description": "",
-    "message": "Flying"
+    "message": "يطير"
   },
   "FORWARD_ACCEL": {
     "description": "",
@@ -453,7 +453,7 @@
   },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
-    "message": "مجاني"
+    "message": "فارغ"
   },
   "FRONT_WEAPON": {
     "description": "",
@@ -473,11 +473,11 @@
   },
   "FULL_SCREEN": {
     "description": "",
-    "message": "شاشة كاملة"
+    "message": "الشاشة الكاملة"
   },
   "GAME_TIME": {
     "description": "",
-    "message": "Game time"
+    "message": "وقت اللعبه"
   },
   "GENERAL_CREW": {
     "description": "",
@@ -493,11 +493,11 @@
   },
   "GPU_JOBS": {
     "description": "",
-    "message": "GPU Jobs"
+    "message": "أشغال كرت الشاشة"
   },
   "GPU_JOBS_DESC": {
     "description": "",
-    "message": "Utilize GPU for certain actions, possibly improving performance."
+    "message": "تشغيل كارت الشاشة لمهام معينة، ربما يرفع الأداء."
   },
   "HANG_UP": {
     "description": "",
@@ -509,27 +509,27 @@
   },
   "HEAVY_CARGO_SHUTTLE": {
     "description": "",
-    "message": "Heavy cargo shuttle"
+    "message": "مكوك البضائع الثقيلة"
   },
   "HEAVY_COURIER": {
     "description": "",
-    "message": "Heavy courier"
+    "message": "ناقل ثقيل"
   },
   "HEAVY_FIGHTER": {
     "description": "",
-    "message": "Heavy fighter"
+    "message": "مقاتل ثقيل"
   },
   "HEAVY_FREIGHTER": {
     "description": "",
-    "message": "Heavy freighter"
+    "message": "شاحنة ثقيلة"
   },
   "HEAVY_PASSENGER_SHUTTLE": {
     "description": "",
-    "message": "Heavy passenger shuttle"
+    "message": "مكوك ركاب ثقيل"
   },
   "HEAVY_PASSENGER_TRANSPORT": {
     "description": "",
-    "message": "Heavy passenger transport"
+    "message": "ناقل ركاب ثقيل"
   },
   "HIGH": {
     "description": "Game settings option: for graphics resolution",
@@ -537,39 +537,39 @@
   },
   "HUD_2D_RADAR": {
     "description": "Popup text: the name of the azimuthal equidistant projection radar",
-    "message": "2D azimuthal equidistant projection"
+    "message": "إسقاط سمتي متساوي البعد بشكل 2D"
   },
   "HUD_3D_RADAR": {
     "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
-    "message": "3D planar projection"
+    "message": "إسقاط مستوي بشكل 3D"
   },
   "HUD_ATMOSPHERIC_PRESSURE": {
     "description": "Tooltip: Atmospheric Pressure.",
-    "message": "Atmospheric Pressure"
+    "message": "الضغط الجوي"
   },
   "HUD_BACKWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Backward Gun Temperature.",
-    "message": "Backward Gun Temperature"
+    "message": "حرارة المدفع الخلفي"
   },
   "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS": {
     "description": "Tooltip: The braking distance using the main thrusters.",
-    "message": "The braking distance using the main thrusters"
+    "message": "مسافة التوقف بإستخدام الدوافع الأساسية"
   },
   "HUD_BUTTON_AUTOPILOT_DOCKING": {
     "description": "Tooltip: Autopilot docking",
-    "message": "Autopilot docking"
+    "message": "رسو بالطيار الألي"
   },
   "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT": {
     "description": "Tooltip: Autopilot entering orbit",
-    "message": "Autopilot entering orbit"
+    "message": "دخول المدار بالطيار الألي"
   },
   "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET": {
     "description": "Tooltip: Autopilot flying to target",
-    "message": "Autopilot flying to target"
+    "message": "طيران إلي الهدف بواسطة الطيار الألي"
   },
   "HUD_BUTTON_BLASTOFF": {
     "description": "Tooltip: Blastoff",
-    "message": "Blastoff"
+    "message": "إنطلاق"
   },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
@@ -1649,15 +1649,15 @@
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "Total Distance:"
+    "message": "المسافة الكلية:"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Total Duration:"
+    "message": "المدة الكلية:"
   },
   "TOTAL_MASS": {
     "description": "",
-    "message": "Total mass"
+    "message": "الكتلة الكلية"
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
@@ -1665,7 +1665,7 @@
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
-    "message": "Trustworthy"
+    "message": "جدير بالثقة"
   },
   "TYPE": {
     "description": "",
@@ -1677,7 +1677,7 @@
   },
   "UNRELIABLE": {
     "description": "",
-    "message": "Unreliable"
+    "message": "غير جدير بالثقة"
   },
   "UP_ACCEL": {
     "description": "",
@@ -1697,7 +1697,7 @@
   },
   "VICINITY_OF": {
     "description": "",
-    "message": "In vicinity of"
+    "message": "في محيط "
   },
   "VIDEO": {
     "description": "",
@@ -1725,7 +1725,7 @@
   },
   "WAGE": {
     "description": "Salary of crew shown in crew roster",
-    "message": "أجر"
+    "message": "الأجر"
   },
   "WEIGHT_EMPTY": {
     "description": "",
@@ -1733,7 +1733,7 @@
   },
   "WEIGHT_FULLY_LOADED": {
     "description": "",
-    "message": "Weight fully loaded"
+    "message": "الوزن محمل بالكامل"
   },
   "WE_ARE_IN_HYPERSPACE_COMMANDER": {
     "description": "",
@@ -1741,15 +1741,15 @@
   },
   "WE_HAVE_NO_BUSINESS_WITH_YOU": {
     "description": "Said by the police to law abiding player",
-    "message": "We have no business with you at the moment."
+    "message": "ليس لدينا عمل معك في الوقت الحالي."
   },
   "X_CANNOT_BE_TOLERATED_HERE": {
     "description": "Message to be sent over comms by police when crime is committed by player",
-    "message": "{crime} cannot be tolerated here!"
+    "message": "{crime} لا يمكن السكوت عنها هنا!"
   },
   "YES": {
     "description": "Positive answer to a question",
-    "message": "Yes"
+    "message": "أجل"
   },
   "YOURE_GOING_TO_REGRET_SACKING_ME": {
     "description": "",
@@ -1761,7 +1761,7 @@
   },
   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION": {
     "description": "",
-    "message": "You don't have enough money for that option."
+    "message": "ليس لديك ما يكفي من المال لهذا الخيار."
   },
   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD": {
     "description": "",
@@ -1785,10 +1785,10 @@
   },
   "YOU_NOT_ENOUGH_MONEY": {
     "description": "",
-    "message": "You do not have enough money"
+    "message": "ليس لديك ذاكرة كافية"
   },
   "ZOOM": {
     "description": "Label for a zoom (magnification) control bar.",
-    "message": "Zoom"
+    "message": "تقريب"
   }
 }

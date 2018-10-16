@@ -101,7 +101,7 @@
   },
   "DANGER": {
     "description": "the risk level",
-    "message": "Danger:"
+    "message": "الخطر:"
   },
   "DEADLINE": {
     "description": "Must be delivered by",
@@ -145,7 +145,7 @@
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
-    "message": "Distance:"
+    "message": "المسافة:"
   },
   "ELECTRICAL_APPLIANCES": {
     "description": "custom cargo",
@@ -341,7 +341,7 @@
   },
   "OK_AGREED": {
     "description": "",
-    "message": "OK, agreed."
+    "message": "حسناً، موافق."
   },
   "PICKUP_FROM": {
     "description": "from a location",
@@ -453,7 +453,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "ضعها كوجهة للملاحة"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -489,7 +489,7 @@
   },
   "SYSTEM": {
     "description": "",
-    "message": "System:"
+    "message": "النظام:"
   },
   "TARGET_DESTROYED": {
     "description": "",

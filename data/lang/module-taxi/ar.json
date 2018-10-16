@@ -53,7 +53,7 @@
   },
   "DANGER": {
     "description": "",
-    "message": "Danger:"
+    "message": "الخطر:"
   },
   "DEADLINE": {
     "description": "",
@@ -565,7 +565,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "ضعها كوجهة للملاحة"
   },
   "TAXI": {
     "description": "",

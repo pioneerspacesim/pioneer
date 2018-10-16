@@ -5,7 +5,7 @@
   },
   "DANGER": {
     "description": "",
-    "message": "Danger:"
+    "message": "الخطر:"
   },
   "DEADLINE": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "DISTANCE": {
     "description": "",
-    "message": "Distance:"
+    "message": "المسافة:"
   },
   "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY": {
     "description": "",
@@ -325,7 +325,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "ضعها كوجهة للملاحة"
   },
   "SPACEPORT": {
     "description": "",
@@ -333,7 +333,7 @@
   },
   "SYSTEM": {
     "description": "",
-    "message": "System:"
+    "message": "النظام:"
   },
   "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN": {
     "description": "",
