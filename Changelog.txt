@@ -1,9 +1,13 @@
 October 2018
    * New Features
      * Adds two custom systems (#4462)
+     * Move Hyperspace exit locations into the heart of systems (#4444)
 
    * Internal Changes
      * Update JSON to a better library, save games in CBOR (#4459)
+
+   * Fixes
+     * Fix dual fire weapon origin problems (#4417)
 
 September 2018
    * New Features
