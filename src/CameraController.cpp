@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "GameSaveError.h"
 #include "JsonUtils.h"
+#include "MathUtil.h"
 
 CameraController::CameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 m_camera(camera),
@@ -488,15 +489,6 @@ void FlyByCameraController::Reset()
 	SetPosition(vector3d(0, 0, 0));
 }
 
-static matrix3x3d LookAt(const vector3d eye, const vector3d target, const vector3d up)
-{
-	const vector3d z = (eye - target).NormalizedSafe();
-	const vector3d x = (up.Cross(z)).NormalizedSafe();
-	const vector3d y = (z.Cross(x)).NormalizedSafe();
-
-	return matrix3x3d::FromVectors(x, y, z);
-}
-
 void FlyByCameraController::Update()
 {
 	const Ship *ship = GetShip();
@@ -513,7 +505,7 @@ void FlyByCameraController::Update()
 	m_flybyOrient.Renormalize();
 	camerap = m_old_pos + m_flybyOrient.VectorZ() * m_dist;
 	SetPosition(camerap);
-	camerao = LookAt(camerap, ship_pos, vector3d(0, 1, 0));
+	camerao = MathUtil::LookAt(camerap, ship_pos, vector3d(0, 1, 0));
 	const vector3d rotAxis = camerao.VectorZ();
 	camerao = matrix3x3d::Rotate(m_roll, rotAxis) * camerao;
 	SetOrient(camerao);
