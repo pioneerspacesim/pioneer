@@ -25,7 +25,7 @@ class FixedGuns : public RefCounted
 		FixedGuns();
 		virtual ~FixedGuns();
 		void Init(DynamicBody *b);
-		void InitGun( SceneGraph::Model *m, const char *tag, int num);
+		void InitGuns( SceneGraph::Model *m);
 		void UpdateGuns( float timeStep );
 		bool Fire( const int num, Body* b );
 		bool IsFiring();
@@ -48,9 +48,11 @@ class FixedGuns : public RefCounted
 	private:
 
 		struct GunData {
-			GunData() : pos(0.0f), dir(0.0f), recharge(0.0f), temp_heat_rate(0.0f), temp_cool_rate(0.0f), dual(false) {}
-			vector3f pos;
-			vector3f dir;
+			struct GunLoc {
+				vector3d pos;
+				vector3d dir;
+			};
+			std::vector<GunLoc> locs;
 			float recharge;
 			float temp_heat_rate;
 			float temp_cool_rate;

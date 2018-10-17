@@ -235,8 +235,7 @@ void Ship::Init()
 
 	m_landingGearAnimation = GetModel()->FindAnimation("gear_down");
 
-	GetFixedGuns()->InitGun( GetModel(), "tag_gunmount_0", 0);
-	GetFixedGuns()->InitGun( GetModel(), "tag_gunmount_1", 1);
+	GetFixedGuns()->InitGuns( GetModel());
 
 	// If we've got the tag_landing set then use it for an offset
 	// otherwise use zero so that it will dock but look clearly incorrect
