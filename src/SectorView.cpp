@@ -100,7 +100,7 @@ SectorView::SectorView(const Json &jsonObj, Game* game) : UIView(), m_galaxy(gam
 		m_matchTargetToSelection = sectorViewObj["match_target_to_selection"];
 		m_automaticSystemSelection = sectorViewObj["automatic_system_selection"];
 		m_detailBoxVisible = sectorViewObj["detail_box_visible"];
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 

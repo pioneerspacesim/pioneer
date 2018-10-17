@@ -127,7 +127,7 @@ void SpaceStation::LoadFromJson(const Json &jsonObj, Space *space)
 		InitStation();
 
 		m_navLights->LoadFromJson(spaceStationObj);
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }

@@ -71,7 +71,7 @@ void Body::LoadFromJson(const Json &jsonObj, Space *space)
 		m_physRadius = bodyObj["phys_radius"];
 		m_clipRadius = bodyObj["clip_radius"];
 	}
-	catch (Json::type_error &e) {
+	catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }

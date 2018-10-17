@@ -109,7 +109,7 @@ void DynamicBody::LoadFromJson(const Json &jsonObj, Space *space)
 		m_massRadius = dynamicBodyObj["mass_radius"];
 		m_angInertia = dynamicBodyObj["ang_inertia"];
 		m_isMoving = dynamicBodyObj["is_moving"];
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 

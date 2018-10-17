@@ -62,7 +62,7 @@ m_renderer(r)
 		m_currentRange = radarObj["current_range"];
 		m_manualRange = radarObj["manual_range"];
 		m_targetRange = radarObj["target_range"];
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 

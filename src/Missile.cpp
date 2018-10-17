@@ -91,7 +91,7 @@ void Missile::LoadFromJson(const Json &jsonObj, Space *space)
 		m_ownerIndex = missileObj["index_for_body"];
 		m_power = missileObj["power"];
 		m_armed = missileObj["armed"];
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 

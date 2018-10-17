@@ -588,7 +588,7 @@ void Model::LoadFromJson(const Json &jsonObj)
 		UpdateAnimations();
 
 		SetPattern(modelObj["cur_pattern_index"]);
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 

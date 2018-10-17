@@ -164,7 +164,7 @@ void Projectile::LoadFromJson(const Json &jsonObj, Space *space)
 		m_mining = projectileObj["mining"];
 		m_color = projectileObj["color"];
 		m_parentIndex = projectileObj["index_for_body"];
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }

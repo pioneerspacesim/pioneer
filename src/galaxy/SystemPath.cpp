@@ -76,7 +76,7 @@ SystemPath SystemPath::FromJson(const Json &jsonObj) {
 		Uint32 bi = systemPathObj["body_index"];
 
 		return SystemPath(x, y, z, si, bi);
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }

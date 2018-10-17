@@ -77,7 +77,7 @@ Frame *Frame::FromJson(const Json &frameObj, Space *space, Frame *parent, double
 		} else {
 			f->m_children.clear();
 		}
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 

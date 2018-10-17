@@ -75,7 +75,7 @@ void Sfx::LoadFromJson(const Json &jsonObj)
 		m_vel = jsonObj["vel"];
 		m_age = sfxObj["age"];
 		m_type = sfxObj["type"];
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }

@@ -85,7 +85,7 @@ void FixedGuns::LoadFromJson( const Json &jsonObj, Space *space )
 			m_recharge_stat[i] = gunArrayEl["recharge"];
 			m_temperature_stat[i] = gunArrayEl["temperature"];
 		}
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 };

@@ -91,7 +91,7 @@ RefCountedPtr<Galaxy> GalaxyGenerator::CreateFromJson(const Json &jsonObj)
 			throw SavedGameWrongVersionException();
 		}
 		return galaxy;
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }
@@ -139,7 +139,7 @@ void GalaxyGenerator::FromJson(const Json &jsonObj, RefCountedPtr<Galaxy> galaxy
 		arrayIndex = 0;
 		for (StarSystemGeneratorStage* sysgen : m_starSystemStage)
 		sysgen->FromJson(starSystemStageArray[arrayIndex++], galaxy);
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }

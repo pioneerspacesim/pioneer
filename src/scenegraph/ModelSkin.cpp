@@ -114,7 +114,7 @@ void ModelSkin::LoadFromJson(const Json &jsonObj)
         }
 
     	m_label = modelSkinObj["label"];
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }

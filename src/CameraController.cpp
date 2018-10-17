@@ -192,7 +192,7 @@ void InternalCameraController::LoadFromJson(const Json &jsonObj)
 		Json internalCameraObj = jsonObj["internal"];
 		SetMode(internalCameraObj["mode"].get<Mode>());
 	}
-	catch (Json::type_error &e) {
+	catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }
@@ -299,7 +299,7 @@ void ExternalCameraController::LoadFromJson(const Json &jsonObj)
 		m_rotX = externalCameraObj["rot_x"];
 		m_rotY = externalCameraObj["rot_y"];
 		m_dist = externalCameraObj["dist"];
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 
@@ -409,7 +409,7 @@ void SiderealCameraController::LoadFromJson(const Json &jsonObj)
 
 		JsonToMatrix(&m_sidOrient, siderealCameraObj["sid_orient"]);
 		m_dist = siderealCameraObj["dist"];
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 
@@ -533,7 +533,7 @@ void FlyByCameraController::LoadFromJson(const Json &jsonObj)
 		m_dist = flybyCameraObj["dist"];
 
 		JsonToMatrix(&m_flybyOrient, flybyCameraObj["flyby_orient"]);
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 

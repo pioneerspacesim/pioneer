@@ -41,7 +41,7 @@ void CargoBody::LoadFromJson(const Json &jsonObj, Space *space)
 		m_hitpoints = cargoBodyObj["hit_points"];
 		m_selfdestructTimer = cargoBodyObj["self_destruct_timer"];
 		m_hasSelfdestruct = cargoBodyObj["has_self_destruct"];
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }

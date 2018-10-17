@@ -154,7 +154,7 @@ void NavLights::LoadFromJson(const Json &jsonObj)
 
 		m_time = navLightsObj["time"];
 		m_enabled = navLightsObj["enabled"];
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }

@@ -35,7 +35,7 @@ AICommand *AICommand::LoadFromJson(const Json &jsonObj)
 			case CMD_HOLDPOSITION: return new AICmdHoldPosition(aiCommandObj);
 			case CMD_FORMATION: return new AICmdFormation(aiCommandObj);
 		}
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }
@@ -66,7 +66,7 @@ AICommand::AICommand(const Json &jsonObj, CmdName name) : m_cmdName(name)
 		m_is_flyto = commonAiCommandObj["is_flyto"];
 
 		m_child.reset(LoadFromJson(commonAiCommandObj));
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }
@@ -795,7 +795,7 @@ AICmdFlyTo::AICmdFlyTo(const Json &jsonObj) : AICommand(jsonObj, CMD_FLYTO) {
 		m_endvel = jsonObj["end_vel"];
 		m_tangent = jsonObj["tangent"];
 		m_state = jsonObj["state"];
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }
@@ -1020,7 +1020,7 @@ AICmdDock::AICmdDock(const Json &jsonObj) : AICommand(jsonObj, CMD_DOCK) {
 		m_dockdir = jsonObj["dock_dir"];
 		m_dockupdir = jsonObj["dock_up_dir"];
 		m_state = EDockingStates(jsonObj["state"]);
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }
@@ -1224,7 +1224,7 @@ AICmdFlyAround::AICmdFlyAround(const Json &jsonObj) : AICommand(jsonObj, CMD_FLY
 		m_vel = jsonObj["vel"];
 		m_alt = jsonObj["alt"];
 		m_targmode = jsonObj["targ_mode"];
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }
@@ -1344,7 +1344,7 @@ AICmdFormation::AICmdFormation(const Json &jsonObj) : AICommand(jsonObj, CMD_FOR
 	try {
 		m_targetIndex = jsonObj["index_for_target"];
 		m_posoff = jsonObj["pos_off"];
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }

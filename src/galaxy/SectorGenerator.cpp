@@ -382,7 +382,7 @@ void SectorPersistenceGenerator::FromJson(const Json &jsonObj, RefCountedPtr<Gal
             SystemPath path = SystemPath::FromJson(dictArrayEl);
             StrToAuto(&m_exploredSystems[path], dictArrayEl["value"]);
         }
-    } catch (Json::type_error &e) {
+    } catch (Json::type_error &) {
         throw SavedGameCorruptException();
     }
 }
