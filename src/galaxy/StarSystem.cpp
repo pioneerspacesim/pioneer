@@ -902,7 +902,7 @@ RefCountedPtr<StarSystem> StarSystem::FromJson(RefCountedPtr<Galaxy> galaxy, con
 		int sys_idx = starSystemObj["system_index"];
 		
 		return galaxy->GetStarSystem(SystemPath(sec_x, sec_y, sec_z, sys_idx));
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }

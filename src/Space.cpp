@@ -140,7 +140,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, doub
 		Json bodyArray = spaceObj["bodies"].get<Json::array_t>();
 		for (Uint32 i = 0; i < bodyArray.size(); i++)
 		m_bodies.push_back(Body::FromJson(bodyArray[i], this));
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 

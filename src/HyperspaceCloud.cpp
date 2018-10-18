@@ -107,7 +107,7 @@ void HyperspaceCloud::LoadFromJson(const Json &jsonObj, Space *space)
 			Json shipObj = hyperspaceCloudObj["ship"];
 			m_ship = static_cast<Ship*>(Body::FromJson(shipObj, space));
 		}
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }

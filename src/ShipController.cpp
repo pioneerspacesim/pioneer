@@ -120,7 +120,7 @@ void PlayerShipController::LoadFromJson(const Json &jsonObj)
 		m_combatTargetIndex = playerShipControllerObj["index_for_combat_target"];
 		m_navTargetIndex = playerShipControllerObj["index_for_nav_target"];
 		m_setSpeedTargetIndex = playerShipControllerObj["index_for_set_speed_target"];
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }

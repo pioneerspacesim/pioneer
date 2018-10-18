@@ -260,7 +260,7 @@ void Shields::LoadFromJson(const Json &jsonObj)
 				}
 			}
 		}
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }

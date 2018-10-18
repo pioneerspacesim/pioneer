@@ -165,7 +165,7 @@ void Ship::LoadFromJson(const Json &jsonObj, Space *space)
 
 		m_shipName = shipObj["name"];
 		Properties().Set("shipName", m_shipName);
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }

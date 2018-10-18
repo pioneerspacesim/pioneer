@@ -119,7 +119,7 @@ m_forceTimeAccel(false)
 			Output("can't load savefile, expected version: %d\n", s_saveVersion);
 			throw SavedGameWrongVersionException();
 		}
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 
@@ -152,7 +152,7 @@ m_forceTimeAccel(false)
 		for (Uint32 i = 0; i < hyperspaceCloudArray.size(); i++) {
 			m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud*>(Body::FromJson(hyperspaceCloudArray[i], 0)));
 		}
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 

@@ -102,7 +102,7 @@ void ModelBody::LoadFromJson(const Json &jsonObj, Space *space)
 		m_isStatic = modelBodyObj["is_static"];
 		m_colliding = modelBodyObj["is_colliding"];
 		SetModel(modelBodyObj["model_name"].get<std::string>().c_str());
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 

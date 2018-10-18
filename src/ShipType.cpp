@@ -158,7 +158,7 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 				isDirectionColorDefined[THRUSTER_DOWN]=true;
 				directionThrusterColor[THRUSTER_DOWN]= color;
 			}
-		} catch (Json::type_error &e) {
+		} catch (Json::type_error &) {
 			for (int i=0; i<THRUSTER_MAX; i++) isDirectionColorDefined[i]=false;
 			Output("In file \"%s.json\" directional thrusters custom color must be \"r\",\"g\" and \"b\"\n", modelName.c_str());
 			throw ShipTypeLoadError();

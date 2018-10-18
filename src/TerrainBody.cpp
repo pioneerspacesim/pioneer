@@ -65,7 +65,7 @@ void TerrainBody::LoadFromJson(const Json &jsonObj, Space *space)
 		Json terrainBodyObj = jsonObj["terrain_body"];
 
 		m_sbody = space->GetSystemBodyByIndex(terrainBodyObj["index_for_system_body"]);
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 
