@@ -39,6 +39,14 @@ Game::Game(const SystemPath &path, double time) :
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
+#ifdef PIONEER_PROFILER
+	std::string profilerPath;
+	FileSystem::userFiles.MakeDirectory("profiler");
+	FileSystem::userFiles.MakeDirectory("profiler/NewGame");
+	profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler/NewGame");
+	Profiler::reset();
+#endif
+
 	// Now that we have a Galaxy, check the starting location
 	if (!path.IsBodyPath())
 		throw InvalidGameStartLocation("SystemPath is not a body path");
@@ -79,6 +87,9 @@ Game::Game(const SystemPath &path, double time) :
 	CreateViews();
 
 	EmitPauseState(IsPaused());
+#ifdef PIONEER_PROFILER
+	Profiler::dumphtml(profilerPath.c_str());
+#endif
 }
 
 Game::~Game()

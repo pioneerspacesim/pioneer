@@ -287,6 +287,8 @@ void Space::RebuildBodyIndex()
 		}
 	}
 
+	Pi::SetAmountBackgroundStars(Pi::GetAmountBackgroundStars());
+
 	m_bodyIndexValid = true;
 }
 

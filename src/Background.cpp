@@ -25,6 +25,8 @@ using namespace Graphics;
 
 namespace
 {
+	static const Uint32 BG_STAR_MAX = 500000;
+	static const Uint32 BG_STAR_MIN = 50000;
 	static RefCountedPtr<Graphics::Texture> s_defaultCubeMap;
 
 	static Uint32 GetNumSkyboxes()
@@ -224,7 +226,9 @@ void Starfield::Init()
 
 void Starfield::Fill(Random &rand)
 {
-	const Sint32 NUM_BG_STARS = Clamp(Sint32(Pi::GetAmountBackgroundStars() * BG_STAR_MAX), BG_STAR_MIN, BG_STAR_MAX);
+	const Uint32 NUM_BG_STARS = Clamp(Uint32(Pi::GetAmountBackgroundStars() * BG_STAR_MAX), BG_STAR_MIN, BG_STAR_MAX);
+	m_hyperVtx.reset(new vector3f[BG_STAR_MAX * 3]);
+	m_hyperCol.reset(new Color[BG_STAR_MAX * 3]);
 
 	// setup the animated stars buffer (streaks in Hyperspace)
 	{
@@ -245,28 +249,101 @@ void Starfield::Fill(Random &rand)
 	std::unique_ptr<Color[]> colors( new Color[NUM_BG_STARS] );
 	std::unique_ptr<float[]> sizes( new float[NUM_BG_STARS] );
 	//fill the array
-	for (int i=0; i<NUM_BG_STARS; i++) {
-		const double size = rand.Double(0.2,0.9);
-		const Uint8 colScale = size*255;
+	Uint32 num = 0;
+	if (Pi::game != nullptr && Pi::game->GetSpace() != nullptr && Pi::game->GetSpace()->GetStarSystem() != nullptr)
+	{
+		const SystemPath current = Pi::game->GetSpace()->GetStarSystem()->GetPath();
+		
+		const double size = 1.0;
+		const Uint8 colScale = size * 255;
+		const Sint32 visibleRadius = 100; // lyrs
+		const Sint32 visibleRadiusSqr = (visibleRadius*visibleRadius);
+		const Sint32 sectorMin = -(visibleRadius / Sector::SIZE); // lyrs_radius / sector_size_in_lyrs
+		const Sint32 sectorMax = visibleRadius / Sector::SIZE; // lyrs_radius / sector_size_in_lyrs
+		for (Sint32 x = sectorMin; x < sectorMax; x++)
+		{
+			for (Sint32 y = sectorMin; y < sectorMax; y++)
+			{
+				for (Sint32 z = sectorMin; z < sectorMax; z++)
+				{
+					SystemPath sys(x, y, z);
+					if (SystemPath::SectorDistanceSqr(sys, current) * Sector::SIZE >= visibleRadiusSqr)
+						continue; // early out
 
-		const Color col(
-			rand.Double(m_rMin, m_rMax)*colScale,
-			rand.Double(m_gMin, m_gMax)*colScale,
-			rand.Double(m_bMin, m_bMax)*colScale,
-			255);
+					// this is fairly expensive
+					RefCountedPtr<const Sector> sec = Pi::game->GetGalaxy()->GetSector(sys);
 
-		// this is proper random distribution on a sphere's surface
-		const float theta = float(rand.Double(0.0, 2.0*M_PI));
-		const float u = float(rand.Double(-1.0, 1.0));
+					// add as many systems as we can
+					const size_t numSystems = std::min(sec->m_systems.size(), (size_t)(NUM_BG_STARS - num));
+					for (size_t systemIndex = 0; systemIndex < numSystems; systemIndex++)
+					{
+						const Sector::System *ss = &(sec->m_systems[systemIndex]);
+						const vector3f distance = Sector::SIZE * vector3f(current.sectorX, current.sectorY, current.sectorZ) - ss->GetFullPosition();
+						if (distance.Length() >= visibleRadius)
+							continue; // too far
 
-		sizes[i] = size;
-		stars[i] = vector3f(sqrt(1.0f - u*u) * cos(theta), u, sqrt(1.0f - u*u) * sin(theta)).Normalized() * 1000.0f;
-		colors[i] = col;
+						// grab the approximate real colour
+						Color col = StarSystem::starRealColors[ss->GetStarType(0)];
+						col.r = Clamp(col.r, (Uint8)(m_rMin * 255), (Uint8)(m_rMax * 255));
+						col.g = Clamp(col.g, (Uint8)(m_gMin * 255), (Uint8)(m_gMax * 255));
+						col.b = Clamp(col.b, (Uint8)(m_bMin * 255), (Uint8)(m_bMax * 255));
+						//const Color col(Color::PINK); // debug pink
 
-		//need to keep data around for HS anim - this is stupid
-		m_hyperVtx[NUM_BG_STARS * 2 + i] = stars[i];
-		m_hyperCol[NUM_BG_STARS * 2 + i] = col;
+						// copy the data
+						sizes[num] = size;
+						stars[num] = distance.Normalized() * 1000.0f;
+						colors[num] = col;
+
+						//need to keep data around for HS anim - this is stupid
+						m_hyperVtx[NUM_BG_STARS * 2 + num] = stars[num];
+						m_hyperCol[NUM_BG_STARS * 2 + num] = col * 0.8f;
+						num++;
+					}
+					if (num >= NUM_BG_STARS)
+					{
+						x = sectorMax;
+						y = sectorMax;
+						z = sectorMax;
+						break;
+					}
+				}
+			}
+		}
 	}
+	Output("num = %d\n", num);
+
+	// fill out the remaining target count with generated points
+	if(num < NUM_BG_STARS)
+	{
+		for (Uint32 i = num; i < NUM_BG_STARS; i++)
+		{
+			const double size = rand.Double(0.2, 0.9);
+			const Uint8 colScale = size * 255;
+	
+			const Color col(
+				rand.Double(m_rMin, m_rMax)*colScale,
+				rand.Double(m_gMin, m_gMax)*colScale,
+				rand.Double(m_bMin, m_bMax)*colScale,
+				255);
+	
+			// this is proper random distribution on a sphere's surface
+			const float theta = float(rand.Double(0.0, 2.0*M_PI));
+			const float u = float(rand.Double(-1.0, 1.0));
+	
+			sizes[i] = size;
+			// squeeze the starfield a bit to get more density near horizon using matrix3x3f::Scale
+			stars[i] = matrix3x3f::Scale(1.0, 0.4, 1.0) * (vector3f(sqrt(1.0f - u * u) * cos(theta), u, sqrt(1.0f - u * u) * sin(theta)).Normalized() * 1000.0f);
+			colors[i] = col;
+	
+			//need to keep data around for HS anim - this is stupid
+			m_hyperVtx[NUM_BG_STARS * 2 + i] = stars[i];
+			m_hyperCol[NUM_BG_STARS * 2 + i] = col;
+
+			num++;
+		}
+	}
+	Output("final num = %d\n", num);
+
 	m_pointSprites->SetData(NUM_BG_STARS, stars.get(), colors.get(), sizes.get(), m_material.Get());
 
 	Graphics::RenderStateDesc rsd;
@@ -426,9 +503,7 @@ void Container::Draw(const matrix4x4d &transform)
 		m_milkyWay.Draw(m_renderState);
 	}
 	if( DRAW_STARS & m_drawFlags ) {
-		// squeeze the starfield a bit to get more density near horizon
-		matrix4x4d starTrans = transform * matrix4x4d::ScaleMatrix(1.0, 0.4, 1.0);
-		m_renderer->SetTransform(starTrans);
+		m_renderer->SetTransform(transform);
 		m_starField.Draw(m_renderState);
 	}
 }
