@@ -2,6 +2,7 @@ October 2018
    * New Features
      * Adds two custom systems (#4462)
      * Move Hyperspace exit locations into the heart of systems (#4444)
+     * Partial Real Starfield Rendering (#4471)
 
    * Internal Changes
      * Update JSON to a better library, save games in CBOR (#4459)
