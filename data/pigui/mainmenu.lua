@@ -30,7 +30,7 @@ local icons = ui.theme.icons
 
 local mainButtonSize = Vector(400,46) * (ui.screenHeight / 1200)
 local dialogButtonSize = Vector(150,46) * (ui.screenHeight / 1200)
-local mainButtonFontSize = 36 * (ui.screenHeight / 1200)
+local mainButtonFontSize = 24 * (ui.screenHeight / 1200)
 
 local showQuitConfirm = false
 local quitConfirmMsg
@@ -108,7 +108,12 @@ local function confirmQuit()
 				ui.textWrapped(quitConfirmMsg)
 				ui.popTextWrapPos()
 			end)
+			ui.dummy(Vector(5,15)) -- small vertical spacing
+			ui.dummy(Vector(30, 5))
+			ui.sameLine()
 			dialogTextButton(qlc.YES, true, Engine.Quit)
+			ui.sameLine()
+			ui.dummy(Vector(30, 5))
 			ui.sameLine()
 			dialogTextButton(qlc.NO, true, function() showQuitConfirm = false end)
 		end)
@@ -163,12 +168,16 @@ local function showMainMenu()
 			ui.withFont("orbiteer",36 * (ui.screenHeight/1200),function() ui.text("Pioneer") end)
 		end)
 	end)
-
-	ui.setNextWindowPos(Vector(ui.screenWidth-250,ui.screenHeight-50),'Always')
-	ui.withStyleColors({["WindowBg"]=colors.transparent}, function()
-		ui.window("buildLabel", {"NoTitleBar","NoResize","NoFocusOnAppearing","NoBringToFrontOnFocus","AlwaysAutoResize"}, function()
-			ui.withFont("orbiteer",20 * (ui.screenHeight/1200),function() ui.text("(build: "..Engine.version..")") end)
-		end)
+	local build_text = Engine.version
+	ui.withFont("orbiteer", 16 * (ui.screenHeight/1200),
+							function()
+								ui.setNextWindowPos(Vector(ui.screenWidth - ui.calcTextSize(build_text).x * 1.2,ui.screenHeight - 50), 'Always')
+								ui.withStyleColors({["WindowBg"] = colors.transparent}, function()
+										ui.window("buildLabel", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "AlwaysAutoResize"},
+															function()
+																ui.text(build_text)
+										end)
+								end)
 	end)
 
 	ui.setNextWindowPos(winPos,'Always')
