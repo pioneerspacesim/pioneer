@@ -43,6 +43,18 @@
     "description": "Alluding to / inviting the player to contribute content to the game",
     "message": "Done testing, back to contributing?"
   },
+  "MSG_20": {
+    "description": "",
+    "message": "Do you really have to go?"
+  },
+  "MSG_21": {
+    "description": "alluding to suicide",
+    "message": "Taking the cowards way out?"
+  },
+  "MSG_22": {
+    "description": "alluding to suicide",
+    "message": "Don't do it! It can only get better from here! Still want to give up?"
+  },
   "MSG_2": {
     "description": "",
     "message": "Don't go now, there's a pirate waiting for you in the other program."

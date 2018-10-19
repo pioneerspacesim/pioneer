@@ -34,7 +34,7 @@ local mainButtonFontSize = 24 * (ui.screenHeight / 1200)
 
 local showQuitConfirm = false
 local quitConfirmMsg
-local max_flavours = 19
+local max_flavours = 22
 
 local startLocations = {
 	{['name']=lui.START_AT_MARS,
