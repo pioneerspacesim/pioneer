@@ -16,7 +16,7 @@ enum RunMode {
 	MODE_GAME,
 	MODE_MODELVIEWER,
 	MODE_GALAXYDUMP,
-	MODE_SKIPMENU,
+	MODE_START_AT,
 	MODE_VERSION,
 	MODE_USAGE,
 	MODE_USAGE_ERROR
@@ -55,10 +55,10 @@ int main(int argc, char** argv)
 			goto start;
 		}
 
-		if (modeopt.find("skipmenu", 0, 8) != std::string::npos ||
-			modeopt.find("sm", 0, 2) != std::string::npos)
+		if (modeopt.find("startat", 0, 7) != std::string::npos ||
+			modeopt.find("sa", 0, 2) != std::string::npos)
 		{
-			mode = MODE_SKIPMENU;
+			mode = MODE_START_AT;
 			goto start;
 		}
 
@@ -81,7 +81,7 @@ start:
 	long int radius = 4;
 	long int sx = 0, sy = 0, sz = 0;
 	std::string filename;
-	int startPlanet = 0; // zero is off
+	SystemPath startPath(0,0,0,0,0);
 
 	switch (mode) {
 		case MODE_GALAXYDUMP: {
@@ -121,9 +121,9 @@ start:
 			}
 			// fallthrough
 		}
-		case MODE_SKIPMENU: {
+		case MODE_START_AT: {
 			// fallthrough protect
-			if (mode == MODE_SKIPMENU)
+			if (mode == MODE_START_AT)
 			{
 				// try to get start planet number
 				std::vector<std::string> keyValue = SplitString(modeopt, "=");
@@ -133,17 +133,24 @@ start:
 				{
 					if (keyValue[1].empty())
 					{
-						startPlanet = 0;
+						startPath = SystemPath(0,0,0,0,0);
+						Error("Please provide an actual SystemPath, like 0,0,0,0,18\n");
+						return -1;
 					}
 					else
 					{
-						startPlanet = static_cast<int>(StrToSInt64(keyValue[1]));
+						try {
+							startPath = SystemPath::Parse(keyValue[1].c_str());
+						} catch(const SystemPath::ParseFailure &spf) {
+							startPath = SystemPath(0,0,0,0,0);
+							Error("Failed to parse system path %s\n", keyValue[1].c_str());
+							return -1;
+						}
 					}
 				}
-				// if value not exists - load on Earth
+				// if value not exists - start on Sol, Mars, Cydonia
 				else
-					startPlanet = 1;
-
+					startPath = SystemPath(0,0,0,0,18);
 				// set usual mode
 				mode = MODE_GAME;
 			}
@@ -176,8 +183,8 @@ start:
 
 			if (mode == MODE_GAME)
 				for (;;) {
-					Pi::Start(startPlanet);
-					startPlanet = 0; // Reset the start planet when coming back to the menu
+					Pi::Start(startPath);
+					startPath = SystemPath(0,0,0,0,0); // Reset the start planet when coming back to the menu
 				}
 			else if (mode == MODE_GALAXYDUMP) {
 				FILE* file = filename == "-" ? stdout : fopen(filename.c_str(), "w");
@@ -222,8 +229,8 @@ start:
 				"    -game        [-g]     game (default)\n"
 				"    -modelviewer [-mv]    model viewer\n"
 				"    -galaxydump  [-gd]    galaxy dumper\n"
-				"    -skipmenu    [-sm]    skip main menu\n"
-				"    -skipmenu=N  [-sm=N]  skip main menu and load planet 'N' where N: number\n"
+				"    -startat     [-sa]    skip main menu and start at Mars\n"
+				"    -startat=sp  [-sa=sp]  skip main menu and start at systempath x,y,z,si,bi\n"
 				"    -version     [-v]     show version\n"
 				"    -help        [-h,-?]  this help\n"
 			);

@@ -1160,12 +1160,14 @@ void Pi::StartGame()
 	LuaEvent::Emit();
 }
 
-void Pi::Start(const int& startPlanet)
+void Pi::Start(const SystemPath &startPath)
 {
 	Pi::bRequestEndGame = false;
 
 	Pi::intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
-
+	if(startPath != SystemPath(0,0,0,0,0)) {
+		Pi::game = new Game(startPath, 0.0);
+	}
 	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
 	// for some models
 	Pi::renderer->SetAmbientColor(Color(51, 51, 51, 255));
