@@ -274,6 +274,23 @@ static bool get_cached(lua_State *L, const std::string& name)
 }
 
 /**
+	Convert a module path in the form `module.submodule.abc` into a file path
+	in the form `module/submodule/abc`.
+*/
+#include <algorithm>
+static std::string table_path_to_file_name(const std::string &path) {
+	const char separator = '.';
+	std::string out = path;
+
+	// If we have an old-style 'module/path/file.lua' path, return it normalized.
+	// Otherwise, transform 'module.path.file' -> 'module/path/file'.
+	if (path.find('/') == std::string::npos) {
+		std::replace(out.begin(), out.end(), '.', '/');
+	}
+	return FileSystem::NormalisePath(out);
+}
+
+/**
 * Finds field in the cache.
 * Require a existing cache table in the stack at index -1.
 * Returns true if field not nil (exists), puts value to lua stack.
@@ -285,19 +302,22 @@ static bool import_from_cache(lua_State *L, const ImportInfo& importInfo)
 	DEBUG_INDENTED_PRINTF("import [%s]: trying to load from cache...", importInfo.importName.c_str());
 
 	bool isImported = false;
-	std::string cacheName;
+	std::string realName = importInfo.importName;
 
 	size_t dirsToCheck = 1; // check by original name
-	if (!importInfo.isFullName)
+	if (!importInfo.isFullName) {
 		dirsToCheck += importInfo.importDirectories.size(); // check also relative names
+		realName = table_path_to_file_name(realName);
+	}
 
 	// check original name, with lua extension and relative by dirs by same rule
 	// if isFullName is true, loop pass once and check only original importName
 	for (size_t i = 0; i < dirsToCheck; i++)
 	{
-		if (i == 0) cacheName = importInfo.importName;
-		else cacheName = FileSystem::NormalisePath( // normalize for relative paths as "../target"
-			FileSystem::JoinPath(importInfo.importDirectories[i - 1], importInfo.importName));
+		std::string cacheName = realName;
+		if (i > 0) cacheName = FileSystem::NormalisePath(
+			// normalize for relative paths as "../target"
+			FileSystem::JoinPath(importInfo.importDirectories[i - 1], realName));
 
 		// check original name
 		isImported = get_cached(L, cacheName);
@@ -305,7 +325,12 @@ static bool import_from_cache(lua_State *L, const ImportInfo& importInfo)
 		// check name with extension
 		if (!isImported && !importInfo.isFullName)
 		{
-			cacheName += ".lua";
+			isImported = get_cached(L, cacheName + ".lua");
+			if (isImported) cacheName += ".lua";
+		}
+
+		if (!isImported && !importInfo.isFullName) {
+			cacheName = FileSystem::JoinPath(cacheName, "init.lua");
 			isImported = get_cached(L, cacheName);
 		}
 
@@ -355,19 +380,21 @@ static bool import_from_file(lua_State *L, ImportInfo& importInfo)
 	DEBUG_INDENTED_PRINTF("import [%s]: trying to load a file...", importInfo.importName.c_str());
 
 	bool isImported = false;
-	std::string fileName;
+	std::string realName = importInfo.importName;
 
 	size_t dirsToCheck = 1; // check by original name
-	if (!importInfo.isFullName)
+	if (!importInfo.isFullName) {
 		dirsToCheck += importInfo.importDirectories.size(); // check also relative names
+		realName = table_path_to_file_name(realName);
+	}
 
 	// load file with original name, with lua extension and relative by dirs by same rule
 	// if isFullName is true, loop pass once and check only original importName
 	for (size_t i = 0; i < dirsToCheck; i++)
 	{
-		if (i == 0) fileName = importInfo.importName;
-		else fileName = FileSystem::NormalisePath( // normalize for relative paths as "../target"
-			FileSystem::JoinPath(importInfo.importDirectories[i - 1], importInfo.importName));
+		std::string fileName = realName;
+		if (i > 0) fileName = FileSystem::NormalisePath( // normalize for relative paths as "../target"
+			FileSystem::JoinPath(importInfo.importDirectories[i - 1], realName));
 
 		// check original name
 		isImported = load_file(L, fileName);
@@ -375,7 +402,12 @@ static bool import_from_file(lua_State *L, ImportInfo& importInfo)
 		// check name with extension
 		if (!isImported && !importInfo.isFullName)
 		{
-			fileName += ".lua";
+			isImported = load_file(L, fileName + ".lua");
+			if (isImported) fileName += ".lua";
+		}
+
+		if (!isImported && !importInfo.isFullName) {
+			fileName = FileSystem::JoinPath(fileName, "init.lua");
 			isImported = load_file(L, fileName);
 		}
 
@@ -1050,4 +1082,3 @@ int secure_trampoline(lua_State *l)
 	lua_CFunction fn = lua_tocfunction(l, lua_upvalueindex(1));
 	return fn(l);
 }
-
