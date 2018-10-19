@@ -25,7 +25,13 @@ static std::vector<std::string> split(const std::string& str, const std::string&
 
 static int ParseInt(const std::string &str)
 {
-	return std::stoi(str);
+	int i = 0;
+	try {
+		i = std::stoi(str);
+	} catch(const std::invalid_argument &e) {
+		throw SystemPath::ParseFailure();
+	}
+	return i;
 }
 
 SystemPath SystemPath::Parse(const char * const str)
@@ -45,7 +51,7 @@ SystemPath SystemPath::Parse(const char * const str)
 
 	std::vector<std::string> parts = split(s, ",");
 	int x = 0, y = 0, z = 0, si = 0, bi = 0;
-	if(parts.size() < 3)
+	if(parts.size() < 3 || parts.size() > 5)
 		throw SystemPath::ParseFailure();
 	if(parts.size() >= 3) {
 		x = ParseInt(parts[0].c_str());
@@ -57,8 +63,7 @@ SystemPath SystemPath::Parse(const char * const str)
 	}
 	if(parts.size() == 5) {
 		bi = ParseInt(parts[4].c_str());
-	} else
-		throw SystemPath::ParseFailure();
+	}
 	return SystemPath(x, y, z, si, bi);
 }
 
