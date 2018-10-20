@@ -11,6 +11,7 @@ October 2018
 
    * Fixes
      * Fix dual fire weapon origin problems (#4417)
+     * Improve main menu styling (#4477)
 
 September 2018
    * New Features
