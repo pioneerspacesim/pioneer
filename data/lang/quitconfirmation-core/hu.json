@@ -47,6 +47,18 @@
     "description": "",
     "message": "Ne menj! Egy kalóz feni rád a kését a másik programban!"
   },
+  "MSG_20": {
+    "description": "",
+    "message": "Tényleg menned kell?"
+  },
+  "MSG_21": {
+    "description": "alluding to suicide",
+    "message": "Fut a gyáva!?"
+  },
+  "MSG_22": {
+    "description": "alluding to suicide",
+    "message": "Ne tedd! Ne add fel! Ennél rosszabb már nem lehet."
+  },
   "MSG_3": {
     "description": "",
     "message": "Tényleg kilépnél eből a nagyszerű játékból, ami ráadásul egy filléredbe sem került?"
