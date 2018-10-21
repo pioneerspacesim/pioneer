@@ -4,6 +4,7 @@ October 2018
      * Move Hyperspace exit locations into the heart of systems (#4444)
      * Partial Real Starfield Rendering (#4471)
      * Remove option -skipmenu, add option -startat (#4476)
+     * Bring smooth transitions to system view (#4480)
 
    * Internal Changes
      * Update JSON to a better library, save games in CBOR (#4459)
