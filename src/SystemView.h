@@ -101,6 +101,7 @@ private:
 	Gui::LabelSet *m_shipLabels;
 	ShipDrawing m_shipDrawing;
 	float m_rot_x, m_rot_z;
+	float m_rot_x_to, m_rot_z_to;
 	float m_zoom, m_zoomTo;
 	double m_time;
 	bool m_realtime;

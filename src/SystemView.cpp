@@ -453,6 +453,8 @@ void SystemView::ResetViewpoint()
 	m_selectedObject = 0;
 	m_rot_z = 0;
 	m_rot_x = 50;
+	m_rot_z_to = m_rot_z;
+	m_rot_x_to = m_rot_x;
 	m_zoom = 1.0f/float(AU);
 	m_zoomTo = m_zoom;
 	m_timeStep = 1.0f;
@@ -897,13 +899,18 @@ void SystemView::Update()
 	// TODO: add "true" lower/upper bounds to m_zoomTo / m_zoom
 	m_zoomTo = Clamp(m_zoomTo, MIN_ZOOM, MAX_ZOOM);
 	m_zoom = Clamp(m_zoom, MIN_ZOOM, MAX_ZOOM);
-	AnimationCurves::Approach(m_zoom, m_zoomTo, ft);
+	// Since m_zoom changes over multiple orders of magnitude, any fixed linear factor will not be appropriate
+	// at some of them.
+	AnimationCurves::Approach(m_zoom, m_zoomTo, ft, 10.f, m_zoomTo / 60.f);
+
+	AnimationCurves::Approach(m_rot_x, m_rot_x_to, ft);
+	AnimationCurves::Approach(m_rot_z, m_rot_z_to, ft);
 
 	if (Pi::input.MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int motion[2];
 		Pi::input.GetMouseMotion(motion);
-		m_rot_x += motion[1]*20*ft;
-		m_rot_z += motion[0]*20*ft;
+		m_rot_x_to += motion[1]*20*ft;
+		m_rot_z_to += motion[0]*20*ft;
 	}
 
 	UIView::Update();
