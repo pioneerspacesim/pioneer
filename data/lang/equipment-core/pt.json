@@ -137,7 +137,7 @@
   },
   "ECM_ADVANCED_DESCRIPTION": {
     "description": "",
-    "message": "Um sistema de contra-medida electrónica de defesa míssil, capaz de destruir os mais avançados tipos de mísseis teleguiados."
+    "message": "Um sistema de contra-medida eletrónica de defesa míssil, capaz de destruir os mais avançados tipos de mísseis teleguiados."
   },
   "ECM_BASIC": {
     "description": "",
@@ -145,7 +145,7 @@
   },
   "ECM_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "Um sistema de contra-medida electrónica de defesa míssil, capaz de destruir mísseis teleguiados."
+    "message": "Um sistema de contra-medida eletrónica de defesa míssil, capaz de destruir mísseis teleguiados."
   },
   "FUEL_SCOOP": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "TARGET_SCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Usado para inspeccionar equipamento, mercadoria e estado de outras naves remotamente."
+    "message": "Usado para inspecionar equipamento, mercadoria e estado de outras naves remotamente."
   },
   "THRUSTERS_BASIC": {
     "description": "",

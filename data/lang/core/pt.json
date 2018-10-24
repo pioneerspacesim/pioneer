@@ -101,7 +101,7 @@
   },
   "BROWN_DWARF": {
     "description": "",
-    "message": "Objecto sub-estelar anã castanha"
+    "message": "Objeto sub-estelar anã castanha"
   },
   "BUTTON": {
     "description": "",
@@ -133,11 +133,11 @@
   },
   "CANT_SAVE_DEAD_PLAYER": {
     "description": "",
-    "message": "Não é possível salvar o jogo depois do jogador ter morrido"
+    "message": "Não é possível gravar o jogo depois do jogador ter morrido"
   },
   "CANT_SAVE_IN_HYPERSPACE": {
     "description": "",
-    "message": "Não é possível guardar o jogo no hiperespaço"
+    "message": "Não é possível gravar o jogo no hiperespaço"
   },
   "CAPITALIST": {
     "description": "",
@@ -161,7 +161,7 @@
   },
   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
     "description": "",
-    "message": "Escavação de mercadoria ativo. Apanhadas 1 tonelada de %item."
+    "message": "Escavação de mercadoria ativo. Recolhida 1 tonelada de %item."
   },
   "CARGO_SCOOP_ATTEMPTED": {
     "description": "",
@@ -345,7 +345,7 @@
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
-    "message": "Não foi detectado nenhum disparos nos últimos 60 segundo, diminuído o estado de alerta."
+    "message": "Não foi detetado nenhum disparo nos últimos 60 segundos, diminuindo o estado de alerta."
   },
   "DRAW_OUT_RANGE_LABELS": {
     "description": "",
@@ -389,7 +389,7 @@
   },
   "EXACT_MATCH_X": {
     "description": "",
-    "message": "Correspondência exacta: %system"
+    "message": "Correspondência exata: %system"
   },
   "EXTENSIVE_MINING": {
     "description": "",
@@ -397,7 +397,7 @@
   },
   "EXTERNAL_ATMOSPHERIC_PRESSURE": {
     "description": "",
-    "message": "Pressão atmosférica experior"
+    "message": "Pressão atmosférica exterior"
   },
   "EXTERNAL_VIEW": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "FOLLOWING_SELECTION": {
     "description": "",
-    "message": "seguir selecção"
+    "message": "seguir seleção"
   },
   "FRUIT_AND_VEG": {
     "description": "",
@@ -453,19 +453,19 @@
   },
   "GAME_LOAD_CORRUPT": {
     "description": "",
-    "message": "Este jogo guardado não pode ser carregado porque contém erros."
+    "message": "Este jogo gravado não pode ser carregado porque contém erros."
   },
   "GAME_LOAD_WRONG_VERSION": {
     "description": "",
-    "message": "Este jogo guardado não pode ser carregado porque foi criado por uma versão diferente do Pioneer."
+    "message": "Este jogo gravado não pode ser carregado porque foi criado por uma versão diferente do Pioneer."
   },
   "GAME_SAVED_TO": {
     "description": "",
-    "message": "\"Jogo guardado em \""
+    "message": "\"Jogo gravado em \""
   },
   "GAME_SAVE_CANNOT_WRITE": {
     "description": "",
-    "message": "Não foi possível guardar o jogo porque ocorreu um erro de sistema."
+    "message": "Não foi possível gravar o jogo porque ocorreu um erro de sistema."
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
@@ -597,7 +597,7 @@
   },
   "ILLEGAL_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-    "message": "Ilegal (sistema actual)"
+    "message": "Ilegal (sistema atual)"
   },
   "ILLEGAL_GOODS": {
     "description": "",
@@ -685,7 +685,7 @@
   },
   "LEGAL_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-    "message": "Legal (sistema actual)"
+    "message": "Legal (sistema atual)"
   },
   "LIBERAL_DEMOCRACY": {
     "description": "",
@@ -1193,7 +1193,7 @@
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Lixo radioactivo"
+    "message": "Lixo radioativo"
   },
   "RADIUS": {
     "description": "",
@@ -1289,7 +1289,7 @@
   },
   "SECTOR_COORDINATES": {
     "description": "",
-    "message": "Coordenadas do sector:"
+    "message": "Coordenadas do setor:"
   },
   "SECTOR_MAP_VIEW": {
     "description": "",
@@ -1381,7 +1381,7 @@
   },
   "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
     "description": "",
-    "message": "Velocidade da nave por referência ao objecto"
+    "message": "Velocidade da nave em relação ao objeto de referência"
   },
   "SIDEREAL_VIEW": {
     "description": "camera view setting",
@@ -1557,7 +1557,7 @@
   },
   "STAR_SM_BH": {
     "description": "",
-    "message": "A nossa ancora galáctica"
+    "message": "A nossa âncora galática"
   },
   "STAR_SYSTEM_INFORMATION": {
     "description": "",
@@ -1809,7 +1809,7 @@
   },
   "VIOLENT_ANARCHY": {
     "description": "",
-    "message": "Desordem - Governo geral contestado por facções armadas"
+    "message": "Desordem - Governo geral contestado por facões armadas"
   },
   "WATER": {
     "description": "",

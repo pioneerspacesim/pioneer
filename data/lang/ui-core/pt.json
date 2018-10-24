@@ -33,7 +33,7 @@
   },
   "AN_ERROR_HAS_OCCURRED": {
     "description": "",
-    "message": "An error has occurred"
+    "message": "Ocorreu um erro"
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
@@ -353,7 +353,7 @@
   },
   "ENABLE_AUTOSAVE": {
     "description": "Allow the game to autosave when docking",
-    "message": "Enable Autosave"
+    "message": "Ativar Gravação Automática"
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
@@ -449,7 +449,7 @@
   },
   "FRACTAL_DETAIL": {
     "description": "",
-    "message": "Fractal detail"
+    "message": "Detalhe fractal"
   },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
@@ -893,7 +893,7 @@
   },
   "INACTIVE": {
     "description": "",
-    "message": "Inactive"
+    "message": "Inativo"
   },
   "INCOMPETENT": {
     "description": "For player reputation",
@@ -1449,7 +1449,7 @@
   },
   "SAVE": {
     "description": "",
-    "message": "Guardar"
+    "message": "Gravar"
   },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
@@ -1465,11 +1465,11 @@
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",
-    "message": "Select a file to save to or enter a new filename"
+    "message": "Selecione um ficheiro para gravar ou introduza um novo nome de ficheiro"
   },
   "SELECT_FILE": {
     "description": "",
-    "message": "Select file..."
+    "message": "Selecionar ficheiro..."
   },
   "SELECT_GAME_TO_LOAD": {
     "description": "",
