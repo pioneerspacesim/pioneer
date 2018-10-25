@@ -333,14 +333,14 @@
   },
   "TIME_LIMIT": {
     "description": "",
-    "message": "Time limit:"
+    "message": "Crìoch ùine:"
   },
   "WHAT_ARE_THE_MISSION_OBJECTIVES": {
     "description": "",
-    "message": "What are the mission objectives?"
+    "message": "Dè na h-amasan aig a’ mhisean?"
   },
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
-    "message": "Will I be in trouble?"
+    "message": "An èirich tàire ’na lùib dhomh?"
   }
 }
