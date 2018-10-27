@@ -1078,8 +1078,11 @@ void Pi::HandleEvents()
 			continue;
 
 		bool consoleActive = Pi::IsConsoleActive();
-		if (!consoleActive)
+		if (!consoleActive) {
 			KeyBindings::DispatchSDLEvent(&event);
+			if(currentView)
+				currentView->HandleSDLEvent(event);
+		}
 		else
 			KeyBindings::toggleLuaConsole.CheckSDLEventAndDispatch(&event);
 		if (consoleActive != Pi::IsConsoleActive()) {
@@ -1231,6 +1234,7 @@ void Pi::Start(const SystemPath &startPath)
 				}
 #endif
 				ui->DispatchSDLEvent(event);
+
 				input.HandleSDLEvent(event);
 			}
 			// XXX hack

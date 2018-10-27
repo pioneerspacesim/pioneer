@@ -54,6 +54,7 @@ public:
 	virtual void Draw();
 	static const double PICK_OBJECT_RECT_SIZE;
 	virtual void SaveToJson(Json &jsonObj);
+	virtual void HandleSDLEvent(SDL_Event &event);
 	enum CamType {
 		CAM_INTERNAL,
 		CAM_EXTERNAL,

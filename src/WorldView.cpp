@@ -1132,3 +1132,9 @@ vector3d WorldView::GetMouseDirection() const {
 		mouseDir = -mouseDir;
 	return (Pi::player->GetPhysRadius() * 1.5) * mouseDir;
 }
+
+void WorldView::HandleSDLEvent(SDL_Event &event) {
+	InputBindings.toggleHudMode->CheckSDLEventAndDispatch(&event);
+	InputBindings.increaseTimeAcceleration->CheckSDLEventAndDispatch(&event);
+	InputBindings.decreaseTimeAcceleration->CheckSDLEventAndDispatch(&event);
+}
