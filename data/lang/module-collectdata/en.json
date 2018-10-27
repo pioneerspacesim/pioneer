@@ -10,5 +10,15 @@
   "OK_AGREED": {
     "description": "",
     "message": "Ok, agreed."
+  },
+  "SCIENCELABS": {
+    "INTERGALACTIC_RESEARCH_FOUNDATION": {
+      "description": "",
+      "message": "Intergalactic Research Foundation"
+    },
+    "EXTRATERESTIAL SCIENCE LABS": {
+      "description": "",
+      "message": "Extraterestial Science Labs"
+    },
   }
 }

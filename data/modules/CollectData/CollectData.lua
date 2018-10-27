@@ -21,10 +21,15 @@ local NavButton = import("ui/NavButton")
 
 local l = Lang.GetResource("module-collectdata")
 
--- Get the UI class
 local ui = Engine.ui
 local missions = {}
 local ads = {}
+
+-- create a list of science labs
+local scienceLabs = {}
+for labName, _ in pairs(l.SCIENCELABS) do
+  table.insert(scienceLabs, labName)
+end
 
 local onChat = function (form, ref, option)
   local ad = ads[ref]
@@ -39,24 +44,33 @@ local onChat = function (form, ref, option)
   form:SetFace(ad.client)
 
   if option == 0 then
-    form:SetMessage(ad.text)
+    form:SetMessage(ad.scienceLab.." wants you to collect data from "..ad.location)
   elseif option == 1 then
+    form:RemoveAdvertOnClose()
+    ads[ref] = nil
+
     local mission = {
-      type = "DataCollection"
+      type = "DataCollection",
+      client = ad.client,
+      location = ad.location,
+      reward = ad.reward,
+      due = ad.due
     }
     table.insert(missions, Mission.New(mission))
     form:SetMessage(l.THANKS_I_CANT_WAIT_FOR_THE_RESULTS)
+    return
   end
 
   form:AddOption(l.OK_AGREED, 1)
-
 end
 
 function makeAdvert(station)
   local ad = {
-    text = "Launch it anywhere and we will be happy",
-    guy = "Science Labs & co",
-    client = Character.New()
+    client = Character.New(),
+    due = Game.time + 1000000,
+    location = Game.system:GetNearbySystems(100)[1],
+    reward = 400,
+    scienceLab = l[scienceLabs[Engine.rand:Integer(#scienceLabs)]]
   }
   local ref = station:AddAdvert({
     description = "Collect data for us!",
@@ -128,11 +142,15 @@ local unserialize = function(data)
 	loaded_data = data
 end
 
+local onClick = function(mission)
+
+end
+
 Event.Register("onCreateBB", onCreateBB)
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
 
-Mission.RegisterType('DataCollection',l.DATACOLLECTION,onClick)
+Mission.RegisterType("DataCollection", l.DATACOLLECTION, onClick)
 
 Serializer:Register("CollectData", serialize, unserialize)
