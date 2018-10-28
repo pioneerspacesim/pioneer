@@ -9,6 +9,7 @@ October 2018
    * Internal Changes
      * Update JSON to a better library, save games in CBOR (#4459)
      * Fix the unused variable warnings (#4474)
+     * Support module.submodlue syntax in Lua (#4478)
 
    * Fixes
      * Fix dual fire weapon origin problems (#4417)
