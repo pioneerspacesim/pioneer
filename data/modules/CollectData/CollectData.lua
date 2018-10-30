@@ -35,8 +35,8 @@ local scienceLabs = {
 }
 
 local createRequestMessage = function(ad)
-  return "The "..ad.scienceLab.." wants you to collect data from "..ad.planetToGoTo.name..
-  " and bring it back to "..ad.location:GetSystemBody().name.."."
+  return l.THE..ad.scienceLab..l.WANTS_YOU_TO_COLLECT_DATA_FROM..ad.planetToGoTo.name..
+  l.AND_BRING_IT_BACK_TO..ad.location:GetSystemBody().name.."."
 end
 
 local onChat = function(form, ref, option)
@@ -173,18 +173,18 @@ local onClick = function(mission)
     local planetRadius = mission.planetToGoTo.radius
     local distanceToPlanet = Game.player:DistanceTo(mission.planetToGoTo.body)
     if distanceToPlanet<planetRadius*2 then
-      Comms.Message("Data from "..mission.planetToGoTo.name.." collected")
+      Comms.Message(l.DATA_FROM..mission.planetToGoTo.name..l.COLLECTED)
       mission.collectedData = true
     else
-      Comms.Message("Not close enough to "..mission.planetToGoTo.name.." to collect data.")
+      Comms.Message(l.NOT_LOSE_ENOUGH_TO..mission.planetToGoTo.name..l.TO_COLLECT_DATA)
     end
   end)
   return ui:Grid(2, 1)
     :SetColumn(0, {
       ui:VBox(10):PackEnd({
           ui:MultiLineText(createRequestMessage(mission)),
-          NavButton.New("Set to be inspected planet as target", mission.planetToGoTo.path),
-          NavButton.New("Set station to bring the data to as target", mission.location),
+          NavButton.New(l.SET_TO_BE_INSPECTED_PLANET_AS_TARGET, mission.planetToGoTo.path),
+          NavButton.New(l.SET_STATION_TO_BRING_THE_DATA_TO_AS_TARGET, mission.location),
           collectDataButton
         })
       }

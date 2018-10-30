@@ -30,5 +30,45 @@
   "VERY_GOOD_I_WILL_SEND_THIS_DATA_DIRECTLY_TO_THE": {
     "description": "",
     "message": "Very good, I will send this data directly to the "
+  },
+  "NOT_LOSE_ENOUGH_TO": {
+    "description": "",
+    "message": "Not close enough to "
+  },
+  "TO_COLLECT_DATA": {
+    "description": "",
+    "message": " to collect data."
+  },
+  "DATA_FROM": {
+    "description": "",
+    "message": "Data from "
+  },
+  "COLLECTED": {
+    "description": "",
+    "message": " collected"
+  },
+  "SET_TO_BE_INSPECTED_PLANET_AS_TARGET": {
+    "description": "",
+    "message": "Set to be inspected planet as target"
+  },
+  "SET_STATION_TO_BRING_THE_DATA_TO_AS_TARGET": {
+    "description": "",
+    "message": "Set station to bring the data to as target"
+  },
+  "THE": {
+    "description": "",
+    "message": "The "
+  },
+  "WANTS_YOU_TO_COLLECT_DATA_FROM": {
+    "description": "",
+    "message": " wants you to collect data from "
+  },
+  "SET_STATION_TO_BRING_THE_DATA_TO_AS_TARGET": {
+    "description": "",
+    "message": "Set station to bring the data to as target"
+  },
+  "AND_BRING_IT_BACK_TO": {
+    "description": "",
+    "message": " and bring it back to "
   }
 }
