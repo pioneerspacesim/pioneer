@@ -26,5 +26,9 @@
   "INDEPENDENT_SCIENTISTS": {
     "description": "",
     "message": "Independent Scientists"
+  },
+  "VERY_GOOD_I_WILL_SEND_THIS_DATA_DIRECTLY_TO_THE": {
+    "description": "",
+    "message": "Very good, I will send this data directly to the "
   }
 }

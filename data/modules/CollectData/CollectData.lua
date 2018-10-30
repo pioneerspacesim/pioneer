@@ -64,7 +64,7 @@ local onChat = function(form, ref, option)
       location = ad.location,
       planetToGoTo = ad.planetToGoTo,
       reward = ad.reward,
-      due = ad.due,
+      --due = ad.due,
       scienceLab = ad.scienceLab
     }
     table.insert(missions, Mission.New(mission))
@@ -84,7 +84,7 @@ local makeAdvert = function(station)
   end
   local ad = {
     client = Character.New(),
-    due = Game.time + 1000000,
+    --due = Game.time + 1000000,
     location = station.path,
     planetToGoTo = planetToGoTo,
     reward = 400,
@@ -119,9 +119,14 @@ end
 local onShipDocked = function(player, station)
 	if not player:IsPlayer() then return end
 
-	for _, mission in pairs(missions) do
-    if mission.location == station then
-      print("correct station")
+	for ref, mission in pairs(missions) do
+    if mission.location == station.path then
+      if mission.collectedData then
+        Comms.ImportantMessage(l.VERY_GOOD_I_WILL_SEND_THIS_DATA_DIRECTLY_TO_THE..mission.scienceLab.."!", mission.client.name)
+        player:AddMoney(mission.reward)
+        mission:Remove()
+  			missions[ref] = nil
+      end
     end
 	end
 end
@@ -168,7 +173,10 @@ local onClick = function(mission)
     local planetRadius = mission.planetToGoTo.radius
     local distanceToPlanet = Game.player:DistanceTo(mission.planetToGoTo.body)
     if distanceToPlanet<planetRadius*2 then
-      
+      Comms.Message("Data from "..mission.planetToGoTo.name.." collected")
+      mission.collectedData = true
+    else
+      Comms.Message("Not close enough to "..mission.planetToGoTo.name.." to collect data.")
     end
   end)
   return ui:Grid(2, 1)
