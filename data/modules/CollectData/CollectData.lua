@@ -113,6 +113,12 @@ local onCreateBB = function(station)
   assert(makeAdvert(station))
 end
 
+local onUpdateBB = function(station)
+	if Engine.rand:Integer(12*60*60) < 60*60 then -- roughly once every twelve hours
+		makeAdvert(station)
+	end
+end
+
 local onEnterSystem = function(player)
 end
 
@@ -195,6 +201,7 @@ local onClick = function(mission)
 end
 
 Event.Register("onCreateBB", onCreateBB)
+Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
