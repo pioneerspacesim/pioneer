@@ -5,20 +5,26 @@
   },
   "THANKS_I_CANT_WAIT_FOR_THE_RESULTS": {
     "description": "",
-    "message": "Thanks, I can't wait for the results!"
+    "message": "Thanks, we can't wait for the results!"
   },
   "OK_AGREED": {
     "description": "",
     "message": "Ok, agreed."
   },
-  "SCIENCELABS": {
-    "INTERGALACTIC_RESEARCH_FOUNDATION": {
-      "description": "",
-      "message": "Intergalactic Research Foundation"
-    },
-    "EXTRATERESTIAL SCIENCE LABS": {
-      "description": "",
-      "message": "Extraterestial Science Labs"
-    },
+  "INTERGALACTIC_RESEARCH_FOUNDATION": {
+    "description": "",
+    "message": "Intergalactic Research Foundation"
+  },
+  "EXTRATERESTIAL_SCIENCE_LABS": {
+    "description": "",
+    "message": "Extraterestial Science Labs"
+  },
+  "EARTH_FEDERATION_OF_SCIENCE": {
+    "description": "",
+    "message": "Earth Federation of Science"
+  },
+  "INDEPENDENT_SCIENTISTS": {
+    "description": "",
+    "message": "Independent Scientists"
   }
 }

@@ -14,7 +14,9 @@ local Character = import("Character")
 local Equipment = import("Equipment")
 local ShipDef = import("ShipDef")
 local Ship = import("Ship")
+local Player = import("Player")
 local utils = import("utils")
+local Vector = import("Vector")
 
 local InfoFace = import("ui/InfoFace")
 local NavButton = import("ui/NavButton")
@@ -25,13 +27,19 @@ local ui = Engine.ui
 local missions = {}
 local ads = {}
 
--- create a list of science labs
-local scienceLabs = {}
-for labName, _ in pairs(l.SCIENCELABS) do
-  table.insert(scienceLabs, labName)
+local scienceLabs = {
+  "INTERGALACTIC_RESEARCH_FOUNDATION",
+  "EXTRATERESTIAL_SCIENCE_LABS",
+  "EARTH_FEDERATION_OF_SCIENCE",
+  "INDEPENDENT_SCIENTISTS"
+}
+
+local createRequestMessage = function(ad)
+  return "The "..ad.scienceLab.." wants you to collect data from "..ad.planetToGoTo.name..
+  " and bring it back to "..ad.location:GetSystemBody().name.."."
 end
 
-local onChat = function (form, ref, option)
+local onChat = function(form, ref, option)
   local ad = ads[ref]
 
   form:Clear()
@@ -42,9 +50,10 @@ local onChat = function (form, ref, option)
   end
 
   form:SetFace(ad.client)
+  form:AddNavButton(ad.planetToGoTo.path)
 
   if option == 0 then
-    form:SetMessage(ad.scienceLab.." wants you to collect data from "..ad.location)
+    form:SetMessage(createRequestMessage(ad))
   elseif option == 1 then
     form:RemoveAdvertOnClose()
     ads[ref] = nil
@@ -53,8 +62,10 @@ local onChat = function (form, ref, option)
       type = "DataCollection",
       client = ad.client,
       location = ad.location,
+      planetToGoTo = ad.planetToGoTo,
       reward = ad.reward,
-      due = ad.due
+      due = ad.due,
+      scienceLab = ad.scienceLab
     }
     table.insert(missions, Mission.New(mission))
     form:SetMessage(l.THANKS_I_CANT_WAIT_FOR_THE_RESULTS)
@@ -64,13 +75,20 @@ local onChat = function (form, ref, option)
   form:AddOption(l.OK_AGREED, 1)
 end
 
-function makeAdvert(station)
+local makeAdvert = function(station)
+  local possiblePlanets = Game.system:GetBodyPaths()
+  local planetToGoTo
+  while (not planetToGoTo) or (planetToGoTo.type=="STARPORT_SURFACE") or (planetToGoTo.type=="STARPORT_ORBITAL") do
+    local planetPathToGoTo = possiblePlanets[Engine.rand:Integer(1, #possiblePlanets)]
+    planetToGoTo = planetPathToGoTo:GetSystemBody()
+  end
   local ad = {
     client = Character.New(),
     due = Game.time + 1000000,
-    location = Game.system:GetNearbySystems(100)[1],
+    location = station.path,
+    planetToGoTo = planetToGoTo,
     reward = 400,
-    scienceLab = l[scienceLabs[Engine.rand:Integer(#scienceLabs)]]
+    scienceLab = l[scienceLabs[Engine.rand:Integer(1, #scienceLabs)]]
   }
   local ref = station:AddAdvert({
     description = "Collect data for us!",
@@ -96,14 +114,13 @@ local onCreateBB = function(station)
 end
 
 local onEnterSystem = function(player)
-  print("player entered system")
 end
 
 local onShipDocked = function(player, station)
 	if not player:IsPlayer() then return end
 
 	for _, mission in pairs(missions) do
-    if mission.startingStation == station then
+    if mission.location == station then
       print("correct station")
     end
 	end
@@ -143,7 +160,27 @@ local unserialize = function(data)
 end
 
 local onClick = function(mission)
-
+  local collectDataButton = ui:HBox(10):PackEnd({
+    ui:Label("Collect data"),
+    ui:SmallButton()
+  })
+  collectDataButton.onClick:Connect(function()
+    local distance = mission.planetToGoTo.body:DistanceTo(Game.player)
+    print(distance)
+  end)
+  return ui:Grid(2, 1)
+    :SetColumn(0, {
+      ui:VBox(10):PackEnd({
+          ui:MultiLineText(createRequestMessage(mission)),
+          NavButton.New("Set the planet to gather data from as target", mission.planetToGoTo.path),
+          NavButton.New("Set station to bring the data to as target", mission.location),
+          collectDataButton
+        })
+      }
+    )
+		:SetColumn(1, {
+			ui:VBox(10):PackEnd(InfoFace.New(mission.client))
+		})
 end
 
 Event.Register("onCreateBB", onCreateBB)
