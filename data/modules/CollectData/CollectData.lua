@@ -165,14 +165,17 @@ local onClick = function(mission)
     ui:SmallButton()
   })
   collectDataButton.onClick:Connect(function()
-    local distance = mission.planetToGoTo.body:DistanceTo(Game.player)
-    print(distance)
+    local planetRadius = mission.planetToGoTo.radius
+    local distanceToPlanet = Game.player:DistanceTo(mission.planetToGoTo.body)
+    if distanceToPlanet<planetRadius*2 then
+      
+    end
   end)
   return ui:Grid(2, 1)
     :SetColumn(0, {
       ui:VBox(10):PackEnd({
           ui:MultiLineText(createRequestMessage(mission)),
-          NavButton.New("Set the planet to gather data from as target", mission.planetToGoTo.path),
+          NavButton.New("Set to be inspected planet as target", mission.planetToGoTo.path),
           NavButton.New("Set station to bring the data to as target", mission.location),
           collectDataButton
         })
