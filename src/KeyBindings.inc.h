@@ -52,11 +52,8 @@ KEY_BINDING(increaseScanRange, "BindIncreaseScanRange", Lang::INCREASE_RADAR_RAN
 KEY_BINDING(decreaseScanRange, "BindDecreaseScanRange", Lang::DECREASE_RADAR_RANGE, SDLK_LEFTBRACKET, 0)
 
 BINDING_GROUP(Lang::MISCELLANEOUS)
-KEY_BINDING(toggleHudMode, "BindToggleHudMode", Lang::TOGGLE_HUD_MODE, SDLK_TAB, 0)
 KEY_BINDING(toggleLuaConsole, "BindToggleLuaConsole", Lang::TOGGLE_LUA_CONSOLE, SDLK_BACKQUOTE, 0)
 KEY_BINDING(toggleRotationDamping, "BindToggleRotationDamping", Lang::TOGGLE_ROTATION_DAMPING, SDLK_v, 0)
-KEY_BINDING(increaseTimeAcceleration, "BindIncreaseTimeAcceleration", Lang::INCREASE_TIME_ACCELERATION, SDLK_PAGEUP, 0)
-KEY_BINDING(decreaseTimeAcceleration, "BindDecreaseTimeAcceleration", Lang::DECREASE_TIME_ACCELERATION, SDLK_PAGEDOWN, 0)
 
 BINDING_GROUP(Lang::JOYSTICK_INPUT)
 AXIS_BINDING(pitchAxis, "BindAxisPitch", Lang::PITCH, "")
