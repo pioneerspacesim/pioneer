@@ -51,6 +51,7 @@ The Pioneer Developers are:
 * HeadHunter
 * Jan Olsina
 * jmf
+* Jeremy List
 * John Bartholomew
 * John Jordan
 * Jon Jenkins
