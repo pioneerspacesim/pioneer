@@ -348,8 +348,8 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPat
 	Sector::System source_sys = source_sec->m_systems[source.systemIndex];
 	Sector::System dest_sys = dest_sec->m_systems[dest.systemIndex];
 
-	const vector3d sourcePos = vector3d(source_sys.GetPosition()) + vector3d(source.sectorX, source.sectorY, source.sectorZ);
-	const vector3d destPos = vector3d(dest_sys.GetPosition()) + vector3d(dest.sectorX, dest.sectorY, dest.sectorZ);
+	const vector3d sourcePos = vector3d(source_sys.GetFullPosition());
+	const vector3d destPos = vector3d(dest_sys.GetFullPosition());
 
 	Body *primary = 0;
 	if (dest.IsBodyPath()) {
