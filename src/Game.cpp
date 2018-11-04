@@ -490,62 +490,9 @@ void Game::SwitchToNormalSpace()
 	m_space->AddBody(m_player.get());
 
 	// place it
-	vector3d position = m_space->GetHyperspaceExitPoint(m_hyperspaceSource, m_hyperspaceDest);
-	m_player->SetPosition(position);
-
-	// calculate orbital velocity
-	vector3d orbVelocity(0, 0, -100.0);
-	matrix3x3d orientation(matrix3x3d::Identity());
-	{
-		auto dest = m_hyperspaceDest;
-
-		// find the primary body in this system
-		Body *primary = nullptr;
-		if (dest.IsBodyPath()) {
-			assert(dest.bodyIndex < m_space->GetStarSystem()->GetNumBodies());
-			primary = m_space->FindBodyForPath(&dest);
-			while (primary && primary->GetSystemBody()->GetSuperType() != SystemBody::SUPERTYPE_STAR) {
-				SystemBody* parent = primary->GetSystemBody()->GetParent();
-				primary = parent ? m_space->FindBodyForPath(&parent->GetPath()) : 0;
-			}
-		}
-		if (!primary) {
-			// find the first non-gravpoint. should be the primary star
-			for (Body* b : m_space->GetBodies()) {
-				if (b->GetSystemBody()->GetType() != SystemBody::TYPE_GRAVPOINT) {
-					primary = b;
-					break;
-				}
-			}
-		}
-		assert(primary);
-
-		// wtf andy?
-		vector3d direction = (primary->GetPosition() - position);
-		double alt = direction.Length();
-
-		// push out of effect radius (gravity safety & station parking zones)
-		alt = std::max(alt, std::max(primary->GetPhysRadius(), sqrt(G * primary->GetMass() / m_player->GetPropulsion()->GetAccelUp())));
-
-		// drag within frame because orbits are impossible otherwise
-		// timestep code also doesn't work correctly for ex-frame cases, should probably be fixed 
-		alt = std::min(alt, 0.95 * primary->GetFrame()->GetNonRotFrame()->GetRadius());
-
-		// generate suitable velocity if none provided
-		double minacc = m_player->GetPropulsion()->GetAccelMin();
-		double mass = primary->IsType(Object::TERRAINBODY) ? primary->GetMass() : 0;
-		double vel = sqrt(alt * 0.8 * minacc + mass * G / alt);
-
-		// ...there are so many things wrong with this...
-		vector3d up(direction.z, direction.y, direction.x);
-		vector3d tangent(direction.Cross(up).Normalized());
-		orbVelocity = tangent * vel;
-
-		// finally orient the ship in the direction in which we exited from hyperspace
-		orientation = MathUtil::LookAt(position, position + tangent.Normalized(), vector3d(0.0, 1.0, 0.0)); // this probably doesn't always want to be "up"
-	}
-	m_player->SetVelocity(orbVelocity);
-	m_player->SetOrient(orientation);
+	m_player->SetPosition(m_space->GetHyperspaceExitPoint(m_hyperspaceSource, m_hyperspaceDest));
+	m_player->SetVelocity(vector3d(0,0,-100.0));
+	m_player->SetOrient(matrix3x3d::Identity());
 
 	// place the exit cloud
 	HyperspaceCloud *cloud = new HyperspaceCloud(0, Pi::game->GetTime(), true);
@@ -566,7 +513,7 @@ void Game::SwitchToNormalSpace()
 			Ship *ship = cloud->EvictShip();
 
 			ship->SetFrame(m_space->GetRootFrame());
-			ship->SetVelocity(orbVelocity*0.9999);
+			ship->SetVelocity(vector3d(0,0,-100.0));
 			ship->SetOrient(matrix3x3d::Identity());
 			ship->SetFlightState(Ship::FLYING);
 

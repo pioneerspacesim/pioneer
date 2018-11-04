@@ -370,12 +370,10 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPat
 	}
 	assert(primary);
 
-	vector3d dist = (primary->GetSystemBody()->GetRadius() * 3.0) + MathUtil::RandomPointOnSphere(5.0, 20.0)*1000.0;
-
 	// point along the line between source and dest, a reasonable distance
 	// away based on the radius (don't want to end up inside black holes, and
 	// then mix it up so that ships don't end up on top of each other
-	vector3d pos = (sourcePos - destPos).Normalized() * dist;
+	vector3d pos = (sourcePos - destPos).Normalized() * (primary->GetSystemBody()->GetRadius()/AU+1.0)*11.0*AU*Pi::rng.Double(0.95,1.2) + MathUtil::RandomPointOnSphere(5.0,20.0)*1000.0;
 	assert(pos.Length() > primary->GetSystemBody()->GetRadius());
 	return pos + primary->GetPositionRelTo(GetRootFrame());
 }
