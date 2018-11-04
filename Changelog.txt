@@ -1,3 +1,7 @@
+November 2018
+   * New Features
+     * Two new systems: Bathlight and Delta Pavonis (#4490)
+
 October 2018
    * New Features
      * Adds two custom systems (#4462)
