@@ -155,7 +155,7 @@ end)
 -- ship near the player
 Event.Register("onShipAlertChanged", function (ship, alert)
 	if not ship:IsPlayer() then return end
-	if alert == "SHIP_NEARBY" then
+	if alert == "SHIP_NEARBY" and not ship:IsDocked() then
 		playRandomSongFromCategory("ship-nearby")
 	elseif alert == "SHIP_FIRING" then
 		playRandomSongFromCategory("ship-firing")
