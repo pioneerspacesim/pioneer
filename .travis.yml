@@ -30,7 +30,7 @@ matrix:
             - libstdc++6 # >= 4.9 needed for clang-format-6.0
       script: sh ./scripts/clang-format.sh
 
-    - name: build-gcc
+    - name: Build GCC
       # >= 4.9 needed for C++11 support
       compiler: gcc
       env: CC=gcc-4.9 CXX=g++-4.9

@@ -205,11 +205,7 @@ if (WIN32)
 	target_link_libraries(${PROJECT_NAME} modelcompiler LINK_PRIVATE shlwapi)
 endif (WIN32)
 
-<<<<<<< HEAD
-set_target_properties(${PROJECT_NAME} modelcompiler savegamedump PROPERTIES
-=======
-set_target_properties(${PROJECT_NAME} modelcompiler pioneerLib PROPERTIES
->>>>>>> Switch to CMake builds.
+set_target_properties(${PROJECT_NAME} modelcompiler savegamedump pioneerLib PROPERTIES
 	CXX_STANDARD 11
 	CXX_STANDARD_REQUIRED ON
 	CXX_EXTENSIONS ON
