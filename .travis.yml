@@ -38,7 +38,7 @@ matrix:
         - git clone --depth 1 git://github.com/pioneerspacesim/pioneer-thirdparty.git pioneer-thirdparty
         - cd pioneer-thirdparty/ && autoconf && ./configure "$CONFIGURE_OPTS" && make assimp && make sdl2 && make sdl2_image && cd ../
       script:
-        - ./bootstrap cmake --trace-expanded -DUSE_PIONEER_THIRDPARTY=1 && make -C build
+        - ./bootstrap cmake -DUSE_PIONEER_THIRDPARTY=1 && make -C build
 
 before_deploy:
   - make sgm
