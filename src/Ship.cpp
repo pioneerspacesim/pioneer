@@ -979,7 +979,7 @@ void Ship::UpdateAlertState()
 			if (GetPositionRelTo(ship).LengthSqr() < ALERT_DISTANCE*ALERT_DISTANCE) {
 				ship_is_near = true;
 
-				Uint32 gunstate = GetFixedGuns()->IsFiring();
+				Uint32 gunstate = ship->GetFixedGuns()->IsFiring();
 				if (gunstate) {
 					ship_is_firing = true;
 					break;
