@@ -10,10 +10,18 @@ if(POLICY CMP0072)
 	cmake_policy(SET CMP0072 NEW)
 endif()
 
+set(IS_TRAVIS $ENV{TRAVIS})
+
+if (IS_TRAVIS)
+    set(CMAKE_COLOR_MAKEFILE false)
+endif()
+
 include(GNUInstallDirs)
 
 if (CMAKE_COMPILER_IS_GNUCXX)
-	add_compile_options(-fdiagnostics-color)
+    if (NOT IS_TRAVIS)
+        add_compile_options(-fdiagnostics-color)
+    endif()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
 endif (CMAKE_COMPILER_IS_GNUCXX)
 
@@ -174,6 +182,11 @@ add_executable(savegamedump WIN32
 	# This one's in here because there's no such thing as separation in the codebase.
 	src/PngWriter.cpp
 )
+
+if (USE_PIONEER_THIRDPARTY)
+    set(SDL2_LIBRARIES "${SDL2_STATIC_LIBRARIES}")
+    set(SDL2_IMAGE_LIBRARIES "${SDL2_IMAGE_STATIC_LIBRARIES}")
+endif()
 
 list(APPEND pioneerLibs
 	pioneerLib
