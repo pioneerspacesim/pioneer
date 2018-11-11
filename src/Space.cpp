@@ -370,10 +370,17 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPat
 	}
 	assert(primary);
 
-	// point along the line between source and dest, a reasonable distance
-	// away based on the radius (don't want to end up inside black holes, and
-	// then mix it up so that ships don't end up on top of each other
-	vector3d pos = (sourcePos - destPos).Normalized() * (primary->GetSystemBody()->GetRadius()/AU+1.0)*11.0*AU*Pi::rng.Double(0.95,1.2) + MathUtil::RandomPointOnSphere(5.0,20.0)*1000.0;
+	// calculate distance to primary body relative to body's mass and radius
+	const double max_orbit_vel=100e3;
+	double dist = G*primary->GetSystemBody()->GetMass() /
+		(max_orbit_vel*max_orbit_vel);
+	dist = std::max(dist, primary->GetSystemBody()->GetRadius()*10);
+
+	// ensure some absolut minimum distance
+	dist = std::max(dist, 0.2*AU);
+
+	vector3d pos = (sourcePos - destPos).Normalized() * dist;
+
 	assert(pos.Length() > primary->GetSystemBody()->GetRadius());
 	return pos + primary->GetPositionRelTo(GetRootFrame());
 }
