@@ -381,10 +381,16 @@ void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &
 	dist = std::max(dist, 0.2*AU);
 
 	// point velocity vector along the line from source to dest,
-	// make exit position perpendicular to it
+	// make exit position perpendicular to it,
+	// add random component to exit position
 	vel = (destPos - sourcePos).Normalized();
-	pos = MathUtil::OrthogonalDirection(vel);
-	pos *= dist;
+	{
+		vector3d a{MathUtil::OrthogonalDirection(vel)};
+		vector3d b{vel.Cross(a)};
+		vector3d p{MathUtil::RandomPointOnCircle(1.)};
+		pos = p.x*a + p.y*b;
+	}
+	pos *= dist*Pi::rng.Double(0.95,1.2);
 	vel *= 100.;
 
 	assert(pos.Length() > primary->GetSystemBody()->GetRadius());
