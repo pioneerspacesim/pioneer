@@ -26,6 +26,26 @@ namespace MathUtil {
 
 	inline float Dot(const vector3f &a, const vector3f &b) { return a.x*b.x + a.y*b.y + a.z*b.z; }
 
+	// unit vector orthogonal to given vector
+	template<typename T>
+		vector3<T> OrthogonalDirection(const vector3<T>& a)
+	{
+		vector3<T> b;
+		if(std::abs(a.x)>std::abs(a.y)) {
+			if(std::abs(a.y)>std::abs(a.z))
+				b = vector3<T>(-a.y,a.x,0);
+			else
+				b = vector3<T>(a.z,0,-a.x);
+		}
+		else {
+			if(std::abs(a.x)>std::abs(a.z))
+				b = vector3<T>(-a.y,a.x,0);
+			else
+				b = vector3<T>(0,-a.z,a.y);
+		}
+		return b.Normalized();
+	}
+
 	// matrix4x4f utility functions
 	matrix4x4f Inverse(const matrix4x4f &);
 	matrix4x4f InverseSlow(const matrix4x4f &);
@@ -35,7 +55,7 @@ namespace MathUtil {
 	matrix3x3f Inverse(const matrix3x3f &);
 	matrix3x3f Transpose(const matrix3x3f &);
 
-	// distince from a line segment:
+	// distance from a line segment:
 	float DistanceFromLineSegment(const vector3f& start, const vector3f& end, const vector3f& pos, bool& isWithinLineSegment);
 	float DistanceFromLine(const vector3f& start, const vector3f& end, const vector3f& pos);
 

@@ -490,9 +490,18 @@ void Game::SwitchToNormalSpace()
 	m_space->AddBody(m_player.get());
 
 	// place it
-	m_player->SetPosition(m_space->GetHyperspaceExitPoint(m_hyperspaceSource, m_hyperspaceDest));
-	m_player->SetVelocity(vector3d(0,0,-100.0));
-	m_player->SetOrient(matrix3x3d::Identity());
+	vector3d pos,vel;
+	m_space->GetHyperspaceExitParams(m_hyperspaceSource, m_hyperspaceDest, pos, vel);
+	m_player->SetPosition(pos);
+	m_player->SetVelocity(vel);
+
+	// orient ship in direction of travel
+	{
+		vector3d oz = -vel.Normalized();
+		vector3d ox = MathUtil::OrthogonalDirection(vel);
+		vector3d oy = oz.Cross(ox).Normalized();
+		m_player->SetOrient(matrix3x3d::FromVectors(ox,oy,oz));
+	}
 
 	// place the exit cloud
 	HyperspaceCloud *cloud = new HyperspaceCloud(0, Pi::game->GetTime(), true);
@@ -551,7 +560,7 @@ void Game::SwitchToNormalSpace()
 				}
 
 				if (travel_time <= 0) {
-					vector3d pos =
+					pos =
 						target_body->GetPositionRelTo(m_space->GetRootFrame()) +
 						cloud->GetPositionRelTo(target_body).Normalized() * (dist_to_target - dist);
 					ship->SetPosition(pos);

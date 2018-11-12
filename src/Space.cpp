@@ -335,7 +335,8 @@ void Space::KillBody(Body* b)
 	}
 }
 
-vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPath &dest) const
+void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &dest,
+									vector3d &pos, vector3d &vel) const
 {
 	assert(m_starSystem);
 	assert(source.IsSystemPath());
@@ -376,13 +377,18 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPat
 		(max_orbit_vel*max_orbit_vel);
 	dist = std::max(dist, primary->GetSystemBody()->GetRadius()*10);
 
-	// ensure some absolut minimum distance
+	// ensure an absolut minimum distance
 	dist = std::max(dist, 0.2*AU);
 
-	vector3d pos = (sourcePos - destPos).Normalized() * dist;
+	// point velocity vector along the line from source to dest,
+	// make exit position perpendicular to it
+	vel = (destPos - sourcePos).Normalized();
+	pos = MathUtil::OrthogonalDirection(vel);
+	pos *= dist;
+	vel *= 100.;
 
 	assert(pos.Length() > primary->GetSystemBody()->GetRadius());
-	return pos + primary->GetPositionRelTo(GetRootFrame());
+	pos += primary->GetPositionRelTo(GetRootFrame());
 }
 
 Body *Space::FindNearestTo(const Body *b, Object::Type t) const
