@@ -1,6 +1,9 @@
 November 2018
    * New Features
      * Two new systems: Bathlight and Delta Pavonis (#4490)
+     
+   * Fixes
+     * Fix alert status not changing to red (#4492)
 
 October 2018
    * New Features
