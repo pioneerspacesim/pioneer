@@ -2,6 +2,7 @@ November 2018
    * New Features
      * Two new systems: Bathlight and Delta Pavonis (#4490)
      * Added 6 new music tracks (#4491)
+     * New Buildings by Jay-Cup (#4486)
 
    * Fixes
      * Fix alert status not changing to red (#4492)
