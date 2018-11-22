@@ -13,6 +13,7 @@ addons:
       - libglew-dev
       - libsigc++-2.0-dev
       - libvorbis-dev
+      - libpng-dev
 matrix:
   include:
     - name: Static Checks
@@ -29,16 +30,15 @@ matrix:
             - libstdc++6 # >= 4.9 needed for clang-format-6.0
       script: sh ./scripts/clang-format.sh
 
-    - name: build-gcc
+    - name: Build GCC
       # >= 4.9 needed for C++11 support
       compiler: gcc
       env: CC=gcc-4.9 CXX=g++-4.9
+      before_install:
+        - git clone --depth 1 git://github.com/pioneerspacesim/pioneer-thirdparty.git pioneer-thirdparty
+        - cd pioneer-thirdparty/ && autoconf && ./configure "$CONFIGURE_OPTS" && make assimp && make sdl2 && make sdl2_image && cd ../
       script:
-        - ./bootstrap && ./configure --with-thirdparty=$(pwd)/pioneer-thirdparty LIBS="-ldl -lrt -lpthread" && make
-
-before_install:
-  - git clone --depth 1 git://github.com/pioneerspacesim/pioneer-thirdparty.git pioneer-thirdparty
-  - cd pioneer-thirdparty/ && autoconf && ./configure "$CONFIGURE_OPTS" && make assimp && make sdl2 && make sdl2_image && cd ../
+        - ./bootstrap cmake -DUSE_PIONEER_THIRDPARTY=1 && make -C build
 
 before_deploy:
   - make sgm

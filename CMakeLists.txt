@@ -6,12 +6,23 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # If both libGL.so and libOpenGL.so are found, default to the latter
 # (former is a legacy name).
 # Set OpenGL_GL_PREFERENCE=LEGACY to force it to use the former.
-cmake_policy(SET CMP0072 NEW)
+if(POLICY CMP0072)
+	cmake_policy(SET CMP0072 NEW)
+endif()
+
+set(IS_TRAVIS $ENV{TRAVIS})
+
+if (IS_TRAVIS)
+    set(CMAKE_COLOR_MAKEFILE false)
+endif()
 
 include(GNUInstallDirs)
 
 if (CMAKE_COMPILER_IS_GNUCXX)
-	add_compile_options(-fdiagnostics-color)
+    if (NOT IS_TRAVIS)
+        add_compile_options(-fdiagnostics-color)
+    endif()
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
 endif (CMAKE_COMPILER_IS_GNUCXX)
 
 if (NOT CMAKE_BUILD_TYPE)
@@ -92,6 +103,13 @@ else (WIN32)
 endif (WIN32)
 
 LIST(APPEND CXX_FILES ${FILESYSTEM_CXX_FILES})
+option(USE_PIONEER_THIRDPARTY "Use pioneer's thirdparty library repository." OFF)
+if (USE_PIONEER_THIRDPARTY)
+	list(APPEND CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/pioneer-thirdparty/usr)
+	include_directories(${CMAKE_SOURCE_DIR}/pioneer-thirdparty/usr/include)
+	link_directories(${CMAKE_SOURCE_DIR}/pioneer-thirdparty/usr/lib)
+    find_package(Threads)
+endif()
 
 option(USE_SYSTEM_LIBGLEW "Use the system's libglew" OFF)
 if (USE_SYSTEM_LIBGLEW)
@@ -112,10 +130,11 @@ find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(PNG REQUIRED)
-find_package(SDL2 REQUIRED)
+
+pkg_check_modules(SDL2 REQUIRED sdl2)
+pkg_check_modules(SDL2_IMAGE REQUIRED SDL2_image)
 
 pkg_check_modules(ASSIMP REQUIRED assimp)
-pkg_check_modules(SDL2_IMAGE REQUIRED SDL2_image)
 pkg_check_modules(SIGCPP REQUIRED sigc++-2.0)
 pkg_check_modules(VORBISFILE REQUIRED vorbisfile)
 
@@ -146,7 +165,7 @@ if (NOT USE_SYSTEM_LIBLUA)
 	include_directories(contrib/lua)
 endif (NOT USE_SYSTEM_LIBLUA)
 
-add_library(pioneerLib OBJECT ${CXX_FILES})
+add_library(pioneerLib STATIC ${CXX_FILES})
 
 add_executable(${PROJECT_NAME} WIN32 src/main.cpp)
 add_executable(modelcompiler WIN32 src/modelcompiler.cpp)
@@ -164,7 +183,13 @@ add_executable(savegamedump WIN32
 	src/PngWriter.cpp
 )
 
+if (USE_PIONEER_THIRDPARTY)
+    set(SDL2_LIBRARIES "${SDL2_STATIC_LIBRARIES}")
+    set(SDL2_IMAGE_LIBRARIES "${SDL2_IMAGE_STATIC_LIBRARIES}")
+endif()
+
 list(APPEND pioneerLibs
+	pioneerLib
 	${ASSIMP_LIBRARIES}
 	${FREETYPE_LIBRARIES}
 	${OPENGL_LIBRARIES}
@@ -179,8 +204,11 @@ list(APPEND pioneerLibs
 	jenkins
 	picodds
 	profiler
-	pioneerLib
 )
+
+if(USE_PIONEER_THIRDPARTY)
+    list(APPEND pioneerLibs Threads::Threads)
+endif()
 
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs})
 target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs})
@@ -190,7 +218,7 @@ if (WIN32)
 	target_link_libraries(${PROJECT_NAME} modelcompiler LINK_PRIVATE shlwapi)
 endif (WIN32)
 
-set_target_properties(${PROJECT_NAME} modelcompiler savegamedump PROPERTIES
+set_target_properties(${PROJECT_NAME} modelcompiler savegamedump pioneerLib PROPERTIES
 	CXX_STANDARD 11
 	CXX_STANDARD_REQUIRED ON
 	CXX_EXTENSIONS ON
