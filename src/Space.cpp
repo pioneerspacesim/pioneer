@@ -382,7 +382,8 @@ void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &
 
 	// point velocity vector along the line from source to dest,
 	// make exit position perpendicular to it,
-	// add random component to exit position
+	// add random component to exit position,
+	// set velocity for (almost) circular orbit
 	vel = (destPos - sourcePos).Normalized();
 	{
 		vector3d a{MathUtil::OrthogonalDirection(vel)};
@@ -391,7 +392,7 @@ void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &
 		pos = p.x*a + p.y*b;
 	}
 	pos *= dist*Pi::rng.Double(0.95,1.2);
-	vel *= 100.;
+	vel *= sqrt(G*primary->GetSystemBody()->GetMass()/dist);
 
 	assert(pos.Length() > primary->GetSystemBody()->GetRadius());
 	pos += primary->GetPositionRelTo(GetRootFrame());
