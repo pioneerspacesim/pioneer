@@ -238,6 +238,14 @@ set_target_properties(${PROJECT_NAME} modelcompiler savegamedump pioneerLib PROP
 	CXX_EXTENSIONS ON
 )
 
+# Optimize the models after the modelcompiler is built.
+# This really shouldn't be done inside the source tree...
+add_custom_command(TARGET modelcompiler POST_BUILD
+	COMMAND modelcompiler -b inplace
+	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+	COMMENT "Optimizing models" VERBATIM
+)
+
 install(TARGETS ${PROJECT_NAME} modelcompiler savegamedump
 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
