@@ -224,13 +224,13 @@ if(USE_PIONEER_THIRDPARTY)
     list(APPEND pioneerLibs Threads::Threads)
 endif()
 
-target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs})
-target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs})
-target_link_libraries(savegamedump LINK_PRIVATE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
-
 if (WIN32)
-	target_link_libraries(${PROJECT_NAME} modelcompiler LINK_PRIVATE shlwapi)
+	list(APPEND winLibs shlwapi)
 endif (WIN32)
+
+target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
+target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs} ${winLibs})
+target_link_libraries(savegamedump LINK_PRIVATE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${winLibs})
 
 set_target_properties(${PROJECT_NAME} modelcompiler savegamedump pioneerLib PROPERTIES
 	CXX_STANDARD 11
