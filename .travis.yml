@@ -47,7 +47,7 @@ before_deploy:
 deploy:
   provider: releases
   api_key:
-    secure: # ENCRYPTED API KEY HERE
+    secure: "Ajn9CykEp1CHKvIFmqYhP617A6cvZbsgHLw4VeDXeYob1aatUCAQXrjF9gUhbo4jwi2vtGFQyuK5TPHHHjSvk9EksW6c++qADqviAGvid6EAcG6AKuV76Nhx/IkCW0nUHk4ET2Zms3S2MON+rxUzihi4uCzuOlHUfG+5XntvL5Y="
   skip_cleanup: true
   file_glob: true
   file: release/zip/*
