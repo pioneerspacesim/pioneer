@@ -53,12 +53,6 @@ local personalInfo = function ()
 					ui:Label(l.REPUTATION):SetFont("HEADING_LARGE"),
 					ui:Table():SetColumnSpacing(10):AddRows({
 						{ l.STATUS..":", l[player:GetReputationRating()] },
-					}),
-					"",
-					ui:Label(l.MILITARY):SetFont("HEADING_LARGE"),
-					ui:Table():SetColumnSpacing(10):AddRows({
-						{ l.ALLEGIANCE, l.NONE }, -- XXX
-						{ l.RANK,      l.NONE }, -- XXX
 					})
 				})
 			})
