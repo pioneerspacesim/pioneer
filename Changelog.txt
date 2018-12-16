@@ -1,3 +1,9 @@
+December 2018
+   * Internal Changes
+     * Don't show military allegiance info for player (#4499)
+     * Adjust hyperspace exit calculations (#4495)
+     * metadata: Add version number to release in AppData (#4500)
+
 November 2018
    * New Features
      * Two new systems: Bathlight and Delta Pavonis (#4490)
