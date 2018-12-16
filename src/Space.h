@@ -54,7 +54,13 @@ public:
 
 	void TimeStep(float step);
 
-	vector3d GetHyperspaceExitPoint(const SystemPath &source, const SystemPath &dest) const;
+	void GetHyperspaceExitParams(const SystemPath &source, const SystemPath &dest,
+								 vector3d &pos, vector3d &vel) const;
+	vector3d GetHyperspaceExitPoint(const SystemPath &source, const SystemPath &dest) const {
+		vector3d pos,vel;
+		GetHyperspaceExitParams(source, dest, pos, vel);
+		return pos;
+	}
 	vector3d GetHyperspaceExitPoint(const SystemPath &source) const {
 		return GetHyperspaceExitPoint(source, m_starSystem->GetPath());
 	}

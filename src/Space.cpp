@@ -335,7 +335,8 @@ void Space::KillBody(Body* b)
 	}
 }
 
-vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPath &dest) const
+void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &dest,
+									vector3d &pos, vector3d &vel) const
 {
 	assert(m_starSystem);
 	assert(source.IsSystemPath());
@@ -348,8 +349,8 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPat
 	Sector::System source_sys = source_sec->m_systems[source.systemIndex];
 	Sector::System dest_sys = dest_sec->m_systems[dest.systemIndex];
 
-	const vector3d sourcePos = vector3d(source_sys.GetPosition()) + vector3d(source.sectorX, source.sectorY, source.sectorZ);
-	const vector3d destPos = vector3d(dest_sys.GetPosition()) + vector3d(dest.sectorX, dest.sectorY, dest.sectorZ);
+	const vector3d sourcePos = vector3d(source_sys.GetFullPosition());
+	const vector3d destPos = vector3d(dest_sys.GetFullPosition());
 
 	Body *primary = 0;
 	if (dest.IsBodyPath()) {
@@ -370,14 +371,31 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPat
 	}
 	assert(primary);
 
-	vector3d dist = (primary->GetSystemBody()->GetRadius() * 3.0) + MathUtil::RandomPointOnSphere(5.0, 20.0)*1000.0;
+	// calculate distance to primary body relative to body's mass and radius
+	const double max_orbit_vel=100e3;
+	double dist = G*primary->GetSystemBody()->GetMass() /
+		(max_orbit_vel*max_orbit_vel);
+	dist = std::max(dist, primary->GetSystemBody()->GetRadius()*10);
 
-	// point along the line between source and dest, a reasonable distance
-	// away based on the radius (don't want to end up inside black holes, and
-	// then mix it up so that ships don't end up on top of each other
-	vector3d pos = (sourcePos - destPos).Normalized() * dist;
+	// ensure an absolut minimum distance
+	dist = std::max(dist, 0.2*AU);
+
+	// point velocity vector along the line from source to dest,
+	// make exit position perpendicular to it,
+	// add random component to exit position,
+	// set velocity for (almost) circular orbit
+	vel = (destPos - sourcePos).Normalized();
+	{
+		vector3d a{MathUtil::OrthogonalDirection(vel)};
+		vector3d b{vel.Cross(a)};
+		vector3d p{MathUtil::RandomPointOnCircle(1.)};
+		pos = p.x*a + p.y*b;
+	}
+	pos *= dist*Pi::rng.Double(0.95,1.2);
+	vel *= sqrt(G*primary->GetSystemBody()->GetMass()/dist);
+
 	assert(pos.Length() > primary->GetSystemBody()->GetRadius());
-	return pos + primary->GetPositionRelTo(GetRootFrame());
+	pos += primary->GetPositionRelTo(GetRootFrame());
 }
 
 Body *Space::FindNearestTo(const Body *b, Object::Type t) const
