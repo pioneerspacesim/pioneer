@@ -18,6 +18,11 @@ endif()
 
 include(GNUInstallDirs)
 
+# We don't want a 'bin' folder on Windows
+if (WIN32)
+	set(CMAKE_INSTALL_BINDIR ${CMAKE_INSTALL_PREFIX})
+endif (WIN32)
+
 if (CMAKE_COMPILER_IS_GNUCXX)
     if (NOT IS_TRAVIS)
         add_compile_options(-fdiagnostics-color)
@@ -49,9 +54,12 @@ string(TIMESTAMP PROJECT_VERSION "%Y%m%d")
 add_definitions(-DPIONEER_VERSION="${PROJECT_VERSION}")
 
 if (NOT PIONEER_DATA_DIR)
-	file(TO_NATIVE_PATH ${CMAKE_INSTALL_FULL_DATADIR}/pioneer/data PIONEER_DATA_DIR)
-endif(NOT PIONEER_DATA_DIR)
-add_definitions(-DPIONEER_DATA_DIR="${PIONEER_DATA_DIR}")
+	set(PIONEER_DATA_DIR ${CMAKE_INSTALL_FULL_DATADIR}/pioneer/data CACHE PATH
+		"Path where game data will be installed" FORCE)
+endif (NOT PIONEER_DATA_DIR)
+
+file(TO_NATIVE_PATH ${PIONEER_DATA_DIR} _PIONEER_DATA_DIR)
+add_definitions(-DPIONEER_DATA_DIR="${_PIONEER_DATA_DIR}")
 
 if (MINGW)
 	# Enable PRIxYY macros on MinGW
@@ -167,7 +175,13 @@ endif (NOT USE_SYSTEM_LIBLUA)
 
 add_library(pioneerLib STATIC ${CXX_FILES})
 
-add_executable(${PROJECT_NAME} WIN32 src/main.cpp)
+if (WIN32)
+	string(TIMESTAMP BUILD_YEAR "%Y")
+	set(RESOURCES ${CMAKE_BINARY_DIR}/pioneer.rc)
+	configure_file(pioneer.rc.cmakein ${RESOURCES} @ONLY)
+endif()
+
+add_executable(${PROJECT_NAME} WIN32 src/main.cpp ${RESOURCES})
 add_executable(modelcompiler WIN32 src/modelcompiler.cpp)
 add_executable(savegamedump WIN32
 	src/savegamedump.cpp
@@ -210,13 +224,13 @@ if(USE_PIONEER_THIRDPARTY)
     list(APPEND pioneerLibs Threads::Threads)
 endif()
 
-target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs})
-target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs})
-target_link_libraries(savegamedump LINK_PRIVATE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
-
 if (WIN32)
-	target_link_libraries(${PROJECT_NAME} modelcompiler LINK_PRIVATE shlwapi)
+	list(APPEND winLibs shlwapi)
 endif (WIN32)
+
+target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
+target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs} ${winLibs})
+target_link_libraries(savegamedump LINK_PRIVATE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${winLibs})
 
 set_target_properties(${PROJECT_NAME} modelcompiler savegamedump pioneerLib PROPERTIES
 	CXX_STANDARD 11
@@ -224,11 +238,27 @@ set_target_properties(${PROJECT_NAME} modelcompiler savegamedump pioneerLib PROP
 	CXX_EXTENSIONS ON
 )
 
+# Optimize the models after the modelcompiler is built.
+# This really shouldn't be done inside the source tree...
+add_custom_command(TARGET modelcompiler POST_BUILD
+	COMMAND modelcompiler -b inplace
+	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+	COMMENT "Optimizing models" VERBATIM
+)
+
 install(TARGETS ${PROJECT_NAME} modelcompiler savegamedump
 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
-install(DIRECTORY data
-	DESTINATION ${CMAKE_INSTALL_DATADIR}/pioneer
+install(DIRECTORY data/
+	DESTINATION ${PIONEER_DATA_DIR}
 	PATTERN "listdata.*" EXCLUDE
 	PATTERN "Makefile.am" EXCLUDE
 )
+
+if (WIN32)
+	configure_file(pioneer.iss.cmakein pioneer.iss @ONLY)
+
+	install(CODE "include(BundleUtilities)
+	fixup_bundle(\"$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/pioneer.exe\" \"\" \"${CMAKE_PROGRAM_PATH}\")"
+	COMPONENT Runtime)
+endif (WIN32)

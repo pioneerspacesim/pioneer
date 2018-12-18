@@ -1,0 +1,17 @@
+clone_depth: 1
+
+install:
+    - cd C:\projects\pioneer
+    - C:\msys64\usr\bin\bash -l /c/projects/pioneer/CI/appveyor/prepare.sh
+
+    #Install Inno Setup
+    - choco install InnoSetup
+    - set PATH=%PATH%;"C:\Program Files (x86)\Inno Setup 5"
+
+build_script:
+    - cd C:\projects\pioneer
+    - C:\msys64\usr\bin\bash -l /c/projects/pioneer/CI/appveyor/build.sh
+
+    #Create the installer and upload artifact
+    - ISCC C:\projects\pioneer\build\pioneer.iss
+    - appveyor PushArtifact C:\projects\pioneer\pioneer-setup.exe
