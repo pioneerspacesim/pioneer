@@ -4,6 +4,7 @@ December 2018
      * Adjust hyperspace exit calculations (#4495)
      * metadata: Add version number to release in AppData (#4500)
      * Generate an installer for Windows in the cloud with AppVeyor CI (#4427)
+     * Fixup Travis build script for CMake support (#4501)
 
 November 2018
    * New Features
