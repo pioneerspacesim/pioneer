@@ -2,7 +2,7 @@
 
 # Package a build and prepare it for upload via Travis.
 
-BINARIES=("src/pioneer" "src/modelcompiler")
+BINARIES=("build/pioneer" "build/modelcompiler")
 COPY_DIR=release
 
 # Append .exe to the binaries if we're building for windows.

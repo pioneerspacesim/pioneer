@@ -41,7 +41,7 @@ matrix:
         - ./bootstrap cmake -DUSE_PIONEER_THIRDPARTY=1 && make -C build
 
 before_deploy:
-  - make sgm
+  - env SDL_VIDEODRIVER=dummy ./build/modelcompiler -b inplace
   - ./scripts/build-travis.sh
 
 deploy:
