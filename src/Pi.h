@@ -65,10 +65,10 @@ public:
 	static void RequestEndGame(); // request that the game is ended as soon as safely possible
 	static void EndGame();
 	static void Start(const SystemPath &startPath);
+	static void RequestQuit();
 	static void MainLoop();
 	static void TombStoneLoop();
 	static void OnChangeDetailLevel();
-	static void Quit() __attribute((noreturn));
 	static float GetFrameTime() { return frameTime; }
 	static float GetGameTickAlpha() { return gameTickAlpha; }
 
@@ -160,10 +160,20 @@ public:
 	static bool DrawGUI;
 
 private:
+	// msgs/requests that can be posted which the game processes at the end of a game loop in HandleRequests
+	enum InternalRequests
+	{
+		END_GAME = 0,
+		QUIT_GAME,
+	};
+	static void Quit() __attribute((noreturn));
 	static void HandleKeyDown(SDL_Keysym *key);
 	static void HandleEvents();
-	// Handler for ESC key press
+	static void HandleRequests();
 	static void HandleEscKey();
+
+	// private members
+	static std::vector<InternalRequests> internalRequests;
 	static const Uint32 SYNC_JOBS_PER_LOOP = 1;
 	static std::unique_ptr<AsyncJobQueue> asyncJobQueue;
 	static std::unique_ptr<SyncJobQueue> syncJobQueue;
@@ -193,7 +203,6 @@ private:
 	static Graphics::RenderState *quadRenderState;
 
 	static bool doingMouseGrab;
-	static bool bRequestEndGame;
 
 	static bool isRecordingVideo;
 	static FILE *ffmpegFile;

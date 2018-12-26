@@ -113,15 +113,13 @@ DensityMapGalaxy::DensityMapGalaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerato
 {
 	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(mapfile);
 	if (!filedata) {
-		Output("Galaxy: couldn't load '%s'\n", mapfile.c_str());
-		Pi::Quit();
+		Error("Galaxy: couldn't load '%s'\n", mapfile.c_str());
 	}
 
 	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
 	SDL_Surface *galaxyImg = SDL_LoadBMP_RW(datastream, 1);
 	if (!galaxyImg) {
-		Output("Galaxy: couldn't load: %s (%s)\n", mapfile.c_str(), SDL_GetError());
-		Pi::Quit();
+		Error("Galaxy: couldn't load: %s (%s)\n", mapfile.c_str(), SDL_GetError());
 	}
 
 	// now that we have our raw image loaded

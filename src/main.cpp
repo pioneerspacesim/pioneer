@@ -197,7 +197,6 @@ start:
 				if (filename != "-" && fclose(file) != 0) {
 					Output("pioneer: writing to \"%s\" failed: %s\n", filename.c_str(), strerror(errno));
 				}
-				Pi::Quit();
 			}
 			break;
 		}
