@@ -152,7 +152,7 @@ Graphics::RenderTarget *Pi::renderTarget;
 RefCountedPtr<Graphics::Texture> Pi::renderTexture;
 std::unique_ptr<Graphics::Drawables::TexturedQuad> Pi::renderQuad;
 Graphics::RenderState *Pi::quadRenderState = nullptr;
-bool Pi::bRequestEndGame = false;
+std::vector<Pi::InternalRequests> Pi::internalRequests;
 bool Pi::isRecordingVideo = false;
 FILE *Pi::ffmpegFile = nullptr;
 
@@ -774,6 +774,9 @@ bool Pi::IsConsoleActive()
 
 void Pi::Quit()
 {
+	if (Pi::game) { // always end the game if there is one before quitting
+		Pi::EndGame();
+	}
 	if (Pi::ffmpegFile != nullptr) {
 		_pclose(Pi::ffmpegFile);
 	}
@@ -837,9 +840,7 @@ void Pi::HandleKeyDown(SDL_Keysym *key)
 	if (CTRL) {
 		switch (key->sym) {
 		case SDLK_q: // Quit
-			if (Pi::game)
-				Pi::EndGame();
-			Pi::Quit();
+			Pi::RequestQuit();
 			break;
 		case SDLK_PRINTSCREEN: // print
 		case SDLK_KP_MULTIPLY: // screen
@@ -1039,9 +1040,7 @@ void Pi::HandleEvents()
 	Pi::input.mouseMotion[0] = Pi::input.mouseMotion[1] = 0;
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_QUIT) {
-			if (Pi::game)
-				Pi::EndGame();
-			Pi::Quit();
+			Pi::RequestQuit();
 		}
 
 		Pi::pigui->ProcessEvent(&event);
@@ -1095,6 +1094,26 @@ void Pi::HandleEvents()
 	}
 }
 
+void Pi::HandleRequests()
+{
+	for (auto request : internalRequests)
+	{
+		switch (request)
+		{
+		case END_GAME:
+			EndGame();
+			break;
+		case QUIT_GAME:
+			Quit();
+			break;
+		default:
+			Output("Pi::HandleRequests, unhandled request type processed.\n");
+			break;
+		}
+	}
+	internalRequests.clear();
+}
+
 void Pi::TombStoneLoop()
 {
 	std::unique_ptr<Tombstone> tombstone(new Tombstone(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
@@ -1114,6 +1133,8 @@ void Pi::TombStoneLoop()
 
 		Pi::DrawRenderTarget();
 		Pi::renderer->SwapBuffers();
+
+		Pi::HandleRequests();
 
 		Pi::frameTime = 0.001f * (SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
@@ -1162,8 +1183,6 @@ void Pi::StartGame()
 
 void Pi::Start(const SystemPath &startPath)
 {
-	Pi::bRequestEndGame = false;
-
 	Pi::intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 	if (startPath != SystemPath(0, 0, 0, 0, 0)) {
 		Pi::game = new Game(startPath, 0.0);
@@ -1179,7 +1198,7 @@ void Pi::Start(const SystemPath &startPath)
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 			if (event.type == SDL_QUIT)
-				Pi::Quit();
+				Pi::RequestQuit();
 			else {
 				Pi::pigui->ProcessEvent(&event);
 
@@ -1260,6 +1279,8 @@ void Pi::Start(const SystemPath &startPath)
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
 
+		Pi::HandleRequests();
+
 #ifdef ENABLE_SERVER_AGENT
 		Pi::serverAgent->ProcessResponses();
 #endif
@@ -1276,14 +1297,16 @@ void Pi::Start(const SystemPath &startPath)
 // request that the game is ended as soon as safely possible
 void Pi::RequestEndGame()
 {
-	Pi::bRequestEndGame = true;
+	internalRequests.push_back(END_GAME);
+}
+
+void Pi::RequestQuit()
+{
+	internalRequests.push_back(QUIT_GAME);
 }
 
 void Pi::EndGame()
 {
-	// always reset this, otherwise we can never play again
-	Pi::bRequestEndGame = false;
-
 	Pi::SetMouseGrab(false);
 
 	Pi::musicPlayer.Stop();
@@ -1423,10 +1446,6 @@ void Pi::MainLoop()
 		Pi::luaConsole->HandleTCPDebugConnections();
 #endif
 
-		if (Pi::bRequestEndGame) {
-			Pi::EndGame();
-		}
-
 		Pi::renderer->EndFrame();
 
 		Pi::renderer->ClearDepthBuffer();
@@ -1509,6 +1528,8 @@ void Pi::MainLoop()
 		syncJobQueue->RunJobs(SYNC_JOBS_PER_LOOP);
 		asyncJobQueue->FinishJobs();
 		syncJobQueue->FinishJobs();
+
+		HandleRequests();
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo && SDL_GetTicks() - last_stats > 1000) {

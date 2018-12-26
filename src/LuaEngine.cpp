@@ -152,9 +152,7 @@ static int l_engine_attr_version(lua_State *l)
  */
 static int l_engine_quit(lua_State *l)
 {
-	if (Pi::game)
-		Pi::EndGame();
-	Pi::Quit();
+	Pi::RequestQuit();
 	return 0;
 }
 
