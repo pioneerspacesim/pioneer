@@ -39,7 +39,7 @@ endif()
 
 # Get the GIT hash of the latest commit
 include(FindGit OPTIONAL)
-if (GIT_FOUND)
+if (GIT_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
 	execute_process(
 		COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
 		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
