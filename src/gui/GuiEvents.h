@@ -11,7 +11,7 @@ namespace Gui {
 		float x, y; // widget coords
 		float screenX, screenY; // screen coords
 		enum {
-			BUTTON_WHEELUP   = 0xfe,
+			BUTTON_WHEELUP = 0xfe,
 			BUTTON_WHEELDOWN = 0xff
 		};
 	};
@@ -19,6 +19,6 @@ namespace Gui {
 		float x, y; // widget coords
 		float screenX, screenY; // screen coords
 	};
-}
+} // namespace Gui
 
 #endif /* _GUIEVENTS_H */

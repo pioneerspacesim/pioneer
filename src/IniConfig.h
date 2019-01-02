@@ -12,7 +12,7 @@ namespace FileSystem {
 	class FileData;
 	class FileSource;
 	class FileSourceFS;
-}
+} // namespace FileSystem
 
 class IniConfig {
 public:
@@ -38,12 +38,14 @@ public:
 	float Float(const std::string &key, float defval = 0.0f) const { return Float("", key, defval); }
 	std::string String(const std::string &key, const std::string &defval = std::string()) const { return String("", key, defval); }
 
-	bool HasSection(const std::string &section) const {
+	bool HasSection(const std::string &section) const
+	{
 		SectionMapType::const_iterator it = m_map.find(section);
 		return (it != m_map.end()) && (!it->second.empty());
 	}
 
-	bool HasEntry(const std::string &section, const std::string &key) const {
+	bool HasEntry(const std::string &section, const std::string &key) const
+	{
 		SectionMapType::const_iterator it = m_map.find(section);
 		return (it != m_map.end()) && it->second.count(key);
 	}

@@ -1,19 +1,19 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include <cstdlib>
-#include "SDL.h"
-#include "ui/Context.h"
 #include "FileSystem.h"
+#include "Lua.h"
+#include "OS.h"
+#include "PropertiedObject.h"
+#include "SDL.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/opengl/RendererGL.h"
-#include "Lua.h"
-#include "PropertiedObject.h"
-#include "OS.h"
+#include "ui/Context.h"
+#include <cstdlib>
 #include <typeinfo>
 
-static const int WIDTH  = 1024;
+static const int WIDTH = 1024;
 static const int HEIGHT = 768;
 
 #if 0
@@ -141,21 +141,21 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
-	UI::Grid *g = c->Grid(3,3);
+	UI::Grid *g = c->Grid(3, 3);
 	UI::Image *img[9];
 	for (int y = 0; y < 3; y++)
 		for (int x = 0; x < 3; x++) {
-			int i = y*3+x;
+			int i = y * 3 + x;
 			img[i] = c->Image("textures/background.jpg");
 			g->SetCell(x, y, img[i]);
 			c->Animate(
 				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_POSITION_X, 0.0f, false,
-				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_PAUSE, float(i)*0.2, false,
-				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_LINEAR, UI::Animation::TARGET_POSITION_X, 0.2f, false, nullptr, sigc::bind(sigc::ptr_fun(&animation_callback), i)))));
+					new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_PAUSE, float(i) * 0.2, false,
+						new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_LINEAR, UI::Animation::TARGET_POSITION_X, 0.2f, false, nullptr, sigc::bind(sigc::ptr_fun(&animation_callback), i)))));
 			c->Animate(
 				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_POSITION_Y, 0.0f, false,
-				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_PAUSE, float(i)*0.2, false,
-				new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_LINEAR, UI::Animation::TARGET_POSITION_Y, 0.2f, false))));
+					new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_ZERO, UI::Animation::TARGET_PAUSE, float(i) * 0.2, false,
+						new UI::Animation(img[i], UI::Animation::TYPE_IN, UI::Animation::EASING_LINEAR, UI::Animation::TARGET_POSITION_Y, 0.2f, false))));
 		}
 	c->GetTopLayer()->SetInnerWidget(g);
 
@@ -681,10 +681,10 @@ int main(int argc, char **argv)
 		c->Draw();
 		r->SwapBuffers();
 
-//		thing.Update();
+		//		thing.Update();
 
-//		slider->SetValue(slider->GetValue() + 0.01);
-//		gauge->SetValue(gauge->GetValue() + 0.1);
+		//		slider->SetValue(slider->GetValue() + 0.01);
+		//		gauge->SetValue(gauge->GetValue() + 0.1);
 
 #if 0
 		if (++count == 400) {
@@ -704,7 +704,6 @@ int main(int argc, char **argv)
 		if (++count % 100 == 0)
 			toggle_disabled_handler(target);
 #endif
-
 	}
 
 	c.Reset();

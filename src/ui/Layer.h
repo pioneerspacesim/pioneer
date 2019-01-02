@@ -8,24 +8,25 @@
 
 namespace UI {
 
-class Layer : public Container {
-public:
-	virtual void Layout();
+	class Layer : public Container {
+	public:
+		virtual void Layout();
 
-	Layer *SetInnerWidget(Widget *w, const Point &pos, const Point &size);
-	Layer *SetInnerWidget(Widget *w) { return SetInnerWidget(w, GetPosition(), GetSize()); }
-	virtual void RemoveInnerWidget();
-	Widget *GetInnerWidget() const { return m_widget.Get(); }
+		Layer *SetInnerWidget(Widget *w, const Point &pos, const Point &size);
+		Layer *SetInnerWidget(Widget *w) { return SetInnerWidget(w, GetPosition(), GetSize()); }
+		virtual void RemoveInnerWidget();
+		Widget *GetInnerWidget() const { return m_widget.Get(); }
 
-private:
-	virtual Point PreferredSize() { return Point(); }
+	private:
+		virtual Point PreferredSize() { return Point(); }
 
-	friend class Context;
-	Layer(Context *context) : Container(context) {}
+		friend class Context;
+		Layer(Context *context) :
+			Container(context) {}
 
-	RefCountedPtr<Widget> m_widget;
-};
+		RefCountedPtr<Widget> m_widget;
+	};
 
-}
+} // namespace UI
 
 #endif

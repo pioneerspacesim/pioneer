@@ -8,9 +8,12 @@
 
 class VideoLink : public Gui::Widget {
 public:
-	VideoLink(float w, float h) : m_width(w), m_height(h) {}
+	VideoLink(float w, float h) :
+		m_width(w),
+		m_height(h) {}
 
-	virtual void GetSizeRequested(float size[2]) {
+	virtual void GetSizeRequested(float size[2])
+	{
 		size[0] = m_width;
 		size[1] = m_height;
 	}

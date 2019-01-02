@@ -13,7 +13,8 @@ class SystemBody;
 
 class LuaNameGen {
 public:
-	LuaNameGen(LuaManager *manager): m_luaManager(manager) {}
+	LuaNameGen(LuaManager *manager) :
+		m_luaManager(manager) {}
 
 	std::string FullName(bool isFemale, RefCountedPtr<Random> &rng);
 	std::string Surname(RefCountedPtr<Random> &rng);

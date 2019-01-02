@@ -8,23 +8,25 @@
 
 namespace UI {
 
-class Expand : public Single {
-public:
-	enum Direction { // <enum scope='UI::Expand' name=UIExpandDirection public>
-		BOTH,
-		HORIZONTAL,
-		VERTICAL,
+	class Expand : public Single {
+	public:
+		enum Direction { // <enum scope='UI::Expand' name=UIExpandDirection public>
+			BOTH,
+			HORIZONTAL,
+			VERTICAL,
+		};
+
+		virtual Point PreferredSize();
+
+	protected:
+		friend class Context;
+		Expand(Context *context, Direction direction) :
+			Single(context),
+			m_direction(direction) {}
+
+		Direction m_direction;
 	};
 
-	virtual Point PreferredSize();
-
-protected:
-	friend class Context;
-	Expand(Context *context, Direction direction) : Single(context), m_direction(direction) {}
-
-	Direction m_direction;
-};
-
-}
+} // namespace UI
 
 #endif

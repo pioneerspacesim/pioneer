@@ -1,10 +1,10 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "Factions.h"
+#include "LuaConstants.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
-#include "LuaConstants.h"
-#include "Factions.h"
 
 /*
  * Class: Faction
@@ -256,8 +256,8 @@ static int l_faction_attr_police_ship(lua_State *l)
 {
 	Faction *faction = LuaObject<Faction>::CheckFromLua(1);
 
-	if(faction->police_ship.empty())
-		faction->police_ship = "sinonatrix_police";   // set default ship
+	if (faction->police_ship.empty())
+		faction->police_ship = "sinonatrix_police"; // set default ship
 
 	lua_pushlstring(l, faction->police_ship.c_str(), faction->police_ship.size());
 	return 1;
@@ -291,24 +291,26 @@ static int l_faction_attr_colour(lua_State *l)
 	return 1;
 }
 
-template <> const char *LuaObject<Faction>::s_type = "Faction";
+template <>
+const char *LuaObject<Faction>::s_type = "Faction";
 
-template <> void LuaObject<Faction>::RegisterClass()
+template <>
+void LuaObject<Faction>::RegisterClass()
 {
 	static const luaL_Reg l_attrs[] = {
-		{ "name",               l_faction_attr_name               },
-		{ "id",                 l_faction_attr_id                 },
-		{ "descriptionShort",   l_faction_attr_description_short  },
-		{ "description",        l_faction_attr_description        },
-		{ "hasHomeworld",       l_faction_attr_has_homeworld      },
-		{ "homeworld",          l_faction_attr_homeworld          },
-		{ "foundingDate",       l_faction_attr_founding_date      },
-		{ "expansionRate",      l_faction_attr_expansion_rate     },
-		{ "radius",             l_faction_attr_radius             },
-		{ "militaryName",       l_faction_attr_military_name      },
-		{ "policeName",         l_faction_attr_police_name        },
-		{ "policeShip",         l_faction_attr_police_ship        },
-		{ "colour",             l_faction_attr_colour             },
+		{ "name", l_faction_attr_name },
+		{ "id", l_faction_attr_id },
+		{ "descriptionShort", l_faction_attr_description_short },
+		{ "description", l_faction_attr_description },
+		{ "hasHomeworld", l_faction_attr_has_homeworld },
+		{ "homeworld", l_faction_attr_homeworld },
+		{ "foundingDate", l_faction_attr_founding_date },
+		{ "expansionRate", l_faction_attr_expansion_rate },
+		{ "radius", l_faction_attr_radius },
+		{ "militaryName", l_faction_attr_military_name },
+		{ "policeName", l_faction_attr_police_name },
+		{ "policeShip", l_faction_attr_police_ship },
+		{ "colour", l_faction_attr_colour },
 		{ 0, 0 }
 	};
 

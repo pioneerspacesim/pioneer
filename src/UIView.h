@@ -9,18 +9,20 @@
 namespace UI {
 	class Widget;
 	class Single;
-}
+} // namespace UI
 
 // wrapper to allow new UI to be switched to by the existing view system
 // remove this once all existing views are ported to the new UI
 class UIView : public View {
 public:
-	UIView(const char *templateName) : m_templateName(templateName) {}
-	UIView() : m_templateName(0) {}
+	UIView(const char *templateName) :
+		m_templateName(templateName) {}
+	UIView() :
+		m_templateName(0) {}
 
 	virtual void Update() {}
 	virtual void Draw3D() {}
-	const char* GetTemplateName() { return m_templateName; }
+	const char *GetTemplateName() { return m_templateName; }
 
 protected:
 	virtual void BuildUI(UI::Single *container);

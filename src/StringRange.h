@@ -4,21 +4,24 @@
 #ifndef _STRINGRANGE_H
 #define _STRINGRANGE_H
 
-#include <string>
 #include <cassert>
 #include <cctype>
+#include <string>
 
-struct StringRange
-{
-	StringRange(): begin(0), end(0) {}
-	StringRange(const char *begin_, const char *end_)
-		: begin(begin_), end(end_)
+struct StringRange {
+	StringRange() :
+		begin(0),
+		end(0) {}
+	StringRange(const char *begin_, const char *end_) :
+		begin(begin_),
+		end(end_)
 	{
 		assert(begin_ && end_);
 		assert((end_ - begin_) >= 0);
 	}
-	StringRange(const char *begin_, size_t size)
-		: begin(begin_), end(begin_ + size)
+	StringRange(const char *begin_, size_t size) :
+		begin(begin_),
+		end(begin_ + size)
 	{
 		assert(begin_);
 	}
@@ -39,15 +42,15 @@ struct StringRange
 	friend bool operator!=(const StringRange &a, const char *b) { return (a.Compare(b) != 0); }
 	friend bool operator<=(const StringRange &a, const char *b) { return (a.Compare(b) <= 0); }
 	friend bool operator>=(const StringRange &a, const char *b) { return (a.Compare(b) >= 0); }
-	friend bool operator< (const StringRange &a, const char *b) { return (a.Compare(b) <  0); }
-	friend bool operator> (const StringRange &a, const char *b) { return (a.Compare(b) >  0); }
+	friend bool operator<(const StringRange &a, const char *b) { return (a.Compare(b) < 0); }
+	friend bool operator>(const StringRange &a, const char *b) { return (a.Compare(b) > 0); }
 
 	friend bool operator==(const char *a, const StringRange &b) { return (b.Compare(a) == 0); }
 	friend bool operator!=(const char *a, const StringRange &b) { return (b.Compare(a) != 0); }
 	friend bool operator<=(const char *a, const StringRange &b) { return (b.Compare(a) >= 0); }
 	friend bool operator>=(const char *a, const StringRange &b) { return (b.Compare(a) <= 0); }
-	friend bool operator< (const char *a, const StringRange &b) { return (b.Compare(a) >  0); }
-	friend bool operator> (const char *a, const StringRange &b) { return (b.Compare(a) <  0); }
+	friend bool operator<(const char *a, const StringRange &b) { return (b.Compare(a) > 0); }
+	friend bool operator>(const char *a, const StringRange &b) { return (b.Compare(a) < 0); }
 
 	const char *FindChar(char c) const;
 	const char *RFindChar(char c) const;
@@ -66,8 +69,10 @@ struct StringRange
 	StringRange StripSpace() const;
 
 	StringRange ReadLine();
+
 private:
-	static bool is_space(char c) {
+	static bool is_space(char c)
+	{
 		// MSVC's isspace() apparently asserts if you give it non-ASCII chars
 		// (maybe changing locale would help)
 		return (c == ' ') || (c == '\t') || (c == '\v') || (c == '\r') || (c == '\n');
@@ -84,45 +89,59 @@ inline StringRange StringRange::ReadLine()
 inline int StringRange::Compare(const char *b) const
 {
 	const char *a = begin;
-	while (a != end && *b && *a == *b) { ++a; ++b; }
-	if (a != end && *b) { return (*a < *b ? -1 : 1); }
-	if (a != end) { return 1; }
-	if (*b) { return -1; }
+	while (a != end && *b && *a == *b) {
+		++a;
+		++b;
+	}
+	if (a != end && *b) {
+		return (*a < *b ? -1 : 1);
+	}
+	if (a != end) {
+		return 1;
+	}
+	if (*b) {
+		return -1;
+	}
 	return 0;
 }
 
 inline const char *StringRange::FindChar(char c) const
 {
 	const char *x = begin, *y = end;
-	while ((x != y) && (*x != c)) ++x;
+	while ((x != y) && (*x != c))
+		++x;
 	return x;
 }
 
 inline const char *StringRange::RFindChar(char c) const
 {
 	const char *x = begin, *y = end;
-	while ((x != y) && (*--y != c)) {}
+	while ((x != y) && (*--y != c)) {
+	}
 	return y;
 }
 
 inline const char *StringRange::FindSpace() const
 {
 	const char *x = begin, *y = end;
-	while ((x != y) && !isspace(*x)) ++x;
+	while ((x != y) && !isspace(*x))
+		++x;
 	return x;
 }
 
 inline const char *StringRange::RFindSpace() const
 {
 	const char *x = begin, *y = end;
-	while ((x != y) && !isspace(*--y)) {}
+	while ((x != y) && !isspace(*--y)) {
+	}
 	return y;
 }
 
 inline const char *StringRange::FindNewline() const
 {
 	const char *x = begin, *y = end;
-	while ((x != y) && (*x != '\r') && (*x != '\n')) ++x;
+	while ((x != y) && (*x != '\r') && (*x != '\n'))
+		++x;
 	return x;
 }
 
@@ -137,21 +156,23 @@ inline const char *StringRange::FindNextLine() const
 inline const char *StringRange::FindNonSpace() const
 {
 	const char *x = begin, *y = end;
-	while ((x != y) && is_space(*x)) ++x;
+	while ((x != y) && is_space(*x))
+		++x;
 	return x;
 }
 
 inline const char *StringRange::RFindNonSpace() const
 {
 	const char *x = begin, *y = end;
-	while ((x != y) && is_space(*--y)) {}
+	while ((x != y) && is_space(*--y)) {
+	}
 	return (y == end ? y : y + 1);
 }
 
 inline StringRange StringRange::StripUTF8BOM() const
 {
 	if (Size() >= 3 && begin[0] == '\xEF' && begin[1] == '\xBB' && begin[2] == '\xBF')
-		return StringRange(begin+3, end);
+		return StringRange(begin + 3, end);
 	else
 		return *this;
 }

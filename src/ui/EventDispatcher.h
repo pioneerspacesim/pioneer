@@ -9,51 +9,52 @@
 
 namespace UI {
 
-class Widget;
-class Container;
+	class Widget;
+	class Container;
 
-class EventDispatcher {
-public:
-	EventDispatcher(Container *baseContainer) :
-		m_baseContainer(baseContainer),
-		m_mouseActiveReceiver(0),
-		m_lastMouseOverTarget(0)
+	class EventDispatcher {
+	public:
+		EventDispatcher(Container *baseContainer) :
+			m_baseContainer(baseContainer),
+			m_mouseActiveReceiver(0),
+			m_lastMouseOverTarget(0)
 		{}
 
-	bool Dispatch(const Event &event);
-	bool DispatchSDLEvent(const SDL_Event &event);
+		bool Dispatch(const Event &event);
+		bool DispatchSDLEvent(const SDL_Event &event);
 
-	void LayoutUpdated();
+		void LayoutUpdated();
 
-	Widget *GetSelected() const { return m_selected.Get(); }
-	Widget *GetMouseActive() const { return m_mouseActiveReceiver.Get(); }
+		Widget *GetSelected() const { return m_selected.Get(); }
+		Widget *GetMouseActive() const { return m_mouseActiveReceiver.Get(); }
 
-	void SelectWidget(Widget *target);
-	void DeselectWidget(Widget *target);
+		void SelectWidget(Widget *target);
+		void DeselectWidget(Widget *target);
 
-	void DisableWidget(Widget *target);
-	void EnableWidget(Widget *target);
+		void DisableWidget(Widget *target);
+		void EnableWidget(Widget *target);
 
-	Point GetMousePos() const { return m_lastMousePosition; }
+		Point GetMousePos() const { return m_lastMousePosition; }
 
-	void ResetMouseActiveReceiver();
-private:
-	void DispatchMouseOverOut(Widget *target, const Point &mousePos);
-	void DispatchSelect(Widget *target);
+		void ResetMouseActiveReceiver();
 
-	Container *m_baseContainer;
+	private:
+		void DispatchMouseOverOut(Widget *target, const Point &mousePos);
+		void DispatchSelect(Widget *target);
 
-	RefCountedPtr<Widget> m_mouseActiveReceiver;
-	MouseButtonEvent::ButtonType m_mouseActiveTrigger;
+		Container *m_baseContainer;
 
-	RefCountedPtr<Widget> m_lastMouseOverTarget;
-	Point m_lastMousePosition;
+		RefCountedPtr<Widget> m_mouseActiveReceiver;
+		MouseButtonEvent::ButtonType m_mouseActiveTrigger;
 
-	RefCountedPtr<Widget> m_selected;
+		RefCountedPtr<Widget> m_lastMouseOverTarget;
+		Point m_lastMousePosition;
 
-	std::map<KeySym,Widget*> m_shortcuts;
-};
+		RefCountedPtr<Widget> m_selected;
 
-}
+		std::map<KeySym, Widget *> m_shortcuts;
+	};
+
+} // namespace UI
 
 #endif

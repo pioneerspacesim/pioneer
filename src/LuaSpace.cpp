@@ -1,20 +1,20 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "LuaObject.h"
 #include "LuaSpace.h"
+#include "Frame.h"
+#include "Game.h"
+#include "HyperspaceCloud.h"
 #include "LuaManager.h"
+#include "LuaObject.h"
 #include "LuaUtils.h"
 #include "LuaVector.h"
-#include "Space.h"
-#include "Ship.h"
-#include "HyperspaceCloud.h"
-#include "Pi.h"
-#include "SpaceStation.h"
-#include "Player.h"
-#include "Game.h"
 #include "MathUtil.h"
-#include "Frame.h"
+#include "Pi.h"
+#include "Player.h"
+#include "Ship.h"
+#include "Space.h"
+#include "SpaceStation.h"
 
 /*
  * Interface: Space
@@ -22,7 +22,7 @@
  * Various functions to create and find objects in the current physics space.
  */
 
-static void _unpack_hyperspace_args(lua_State *l, int index, SystemPath* &path, double &due)
+static void _unpack_hyperspace_args(lua_State *l, int index, SystemPath *&path, double &due)
 {
 	if (lua_isnone(l, index)) return;
 
@@ -115,7 +115,7 @@ static int l_space_spawn_ship(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	const char *type = luaL_checkstring(l, 1);
-	if (! ShipType::Get(type))
+	if (!ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
 
 	float min_dist = luaL_checknumber(l, 2);
@@ -133,12 +133,12 @@ static int l_space_spawn_ship(lua_State *l)
 	// XXX protect against spawning inside the body
 	thing->SetFrame(Pi::game->GetSpace()->GetRootFrame());
 	if (!path)
-		thing->SetPosition(MathUtil::RandomPointOnSphere(min_dist, max_dist)*AU);
+		thing->SetPosition(MathUtil::RandomPointOnSphere(min_dist, max_dist) * AU);
 	else
 		// XXX broken. this is ignoring min_dist & max_dist. otoh, what's the
 		// correct behaviour given there's now a fixed hyperspace exit point?
 		thing->SetPosition(Pi::game->GetSpace()->GetHyperspaceExitPoint(*path));
-	thing->SetVelocity(vector3d(0,0,0));
+	thing->SetVelocity(vector3d(0, 0, 0));
 	Pi::game->GetSpace()->AddBody(thing);
 
 	LuaObject<Ship>::PushToLua(ship);
@@ -203,7 +203,7 @@ static int l_space_spawn_ship_near(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	const char *type = luaL_checkstring(l, 1);
-	if (! ShipType::Get(type))
+	if (!ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
 
 	Body *nearbody = LuaObject<Body>::CheckFromLua(2);
@@ -224,8 +224,8 @@ static int l_space_spawn_ship_near(lua_State *l)
 	Body *thing = _maybe_wrap_ship_with_cloud(ship, path, due);
 
 	// XXX protect against spawning inside the body
-	Frame * newframe = nearbody->GetFrame();
-	const vector3d newPosition = (MathUtil::RandomPointOnSphere(min_dist, max_dist)* 1000.0) + nearbody->GetPosition();
+	Frame *newframe = nearbody->GetFrame();
+	const vector3d newPosition = (MathUtil::RandomPointOnSphere(min_dist, max_dist) * 1000.0) + nearbody->GetPosition();
 
 	// If the frame is rotating and the chosen position is too far, use non-rotating parent.
 	// Otherwise the ship will be given a massive initial velocity when it's bumped out of the
@@ -235,7 +235,8 @@ static int l_space_spawn_ship_near(lua_State *l)
 		newframe = newframe->GetParent();
 	}
 
-	thing->SetFrame(newframe);;
+	thing->SetFrame(newframe);
+	;
 	thing->SetPosition(newPosition);
 	thing->SetVelocity(newVelocity);
 	Pi::game->GetSpace()->AddBody(thing);
@@ -281,7 +282,7 @@ static int l_space_spawn_ship_docked(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	const char *type = luaL_checkstring(l, 1);
-	if (! ShipType::Get(type))
+	if (!ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
 
 	SpaceStation *station = LuaObject<SpaceStation>::CheckFromLua(2);
@@ -289,8 +290,8 @@ static int l_space_spawn_ship_docked(lua_State *l)
 	Ship *ship = new Ship(type);
 	assert(ship);
 
-	int port = station->GetFreeDockingPort(ship);	// pass in the ship to get a port we fit into
-	if(port < 0) {
+	int port = station->GetFreeDockingPort(ship); // pass in the ship to get a port we fit into
+	if (port < 0) {
 		delete ship;
 		return 0;
 	}
@@ -344,7 +345,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	const char *type = luaL_checkstring(l, 1);
-	if (! ShipType::Get(type))
+	if (!ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
 
 	SpaceStation *station = LuaObject<SpaceStation>::CheckFromLua(2);
@@ -356,15 +357,15 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	Ship *ship = new Ship(type);
 	assert(ship);
 
-	const double parkDist = station->GetStationType()->ParkingDistance() - ship->GetPhysRadius();		// park inside parking radius
-	const double parkOffset = (0.5 * station->GetStationType()->ParkingGapSize()) + ship->GetPhysRadius();	// but outside the docking gap
+	const double parkDist = station->GetStationType()->ParkingDistance() - ship->GetPhysRadius(); // park inside parking radius
+	const double parkOffset = (0.5 * station->GetStationType()->ParkingGapSize()) + ship->GetPhysRadius(); // but outside the docking gap
 
 	double xpos = (slot == 0 || slot == 3) ? -parkOffset : parkOffset;
 	double zpos = (slot == 0 || slot == 1) ? -parkOffset : parkOffset;
 	const vector3d parkPos = station->GetPosition() + station->GetOrient() * vector3d(xpos, parkDist, zpos);
 
 	// orbital stations have Y as axis of rotation
-	const matrix3x3d rot = matrix3x3d::RotateX(M_PI/2) * station->GetOrient();
+	const matrix3x3d rot = matrix3x3d::RotateX(M_PI / 2) * station->GetOrient();
 
 	ship->SetFrame(station->GetFrame());
 	ship->SetVelocity(vector3d(0.0));
@@ -425,7 +426,7 @@ static int l_space_spawn_ship_landed(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	const char *type = luaL_checkstring(l, 1);
-	if (! ShipType::Get(type))
+	if (!ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
 
 	Planet *planet = LuaObject<Planet>::CheckFromLua(2);
@@ -490,7 +491,7 @@ static int l_space_spawn_ship_landed_near(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	const char *type = luaL_checkstring(l, 1);
-	if (! ShipType::Get(type))
+	if (!ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
 
 	Body *nearbody = LuaObject<Body>::CheckFromLua(2);
@@ -503,7 +504,7 @@ static int l_space_spawn_ship_landed_near(lua_State *l)
 	assert(ship);
 
 	// XXX protect against spawning inside the body
-	Frame * newframe = nearbody->GetFrame()->GetRotFrame();
+	Frame *newframe = nearbody->GetFrame()->GetRotFrame();
 	if (!newframe->IsRotFrame())
 		luaL_error(l, "Body must be in rotating frame");
 	SystemBody *sbody = newframe->GetSystemBody();
@@ -521,19 +522,19 @@ static int l_space_spawn_ship_landed_near(lua_State *l)
 	// The second vector is just the cross product of the up-vector and out first vector.
 	if (up.x <= up.y && up.x <= up.z) {
 		x = vector3d(0.0, up.z, -up.y).Normalized();
-		y = vector3d(-up.y*up.y - up.z*up.z, up.x*up.y, up.x*up.z).Normalized();
+		y = vector3d(-up.y * up.y - up.z * up.z, up.x * up.y, up.x * up.z).Normalized();
 	} else if (up.y <= up.x && up.y <= up.z) {
 		x = vector3d(-up.z, 0.0, up.x).Normalized();
-		y = vector3d(up.x*up.y, -up.x*up.x - up.z*up.z, up.y*up.z).Normalized();
+		y = vector3d(up.x * up.y, -up.x * up.x - up.z * up.z, up.y * up.z).Normalized();
 	} else {
 		x = vector3d(up.y, -up.x, 0.0).Normalized();
-		y = vector3d(up.x*up.z, up.y*up.z, -up.x*up.x - up.y*up.y).Normalized();
+		y = vector3d(up.x * up.z, up.y * up.z, -up.x * up.x - up.y * up.y).Normalized();
 	}
-	Planet *planet = static_cast<Planet*>(newframe->GetBody());
+	Planet *planet = static_cast<Planet *>(newframe->GetBody());
 	const double radius = planet->GetSystemBody()->GetRadius();
 	const vector3d planar = MathUtil::RandomPointInCircle(min_dist * 1000.0, max_dist * 1000.0);
 	vector3d pos = (radius * up + x * planar.x + y * planar.y).Normalized();
-	float latitude = atan2(pos.y, sqrt(pos.x*pos.x + pos.z * pos.z));
+	float latitude = atan2(pos.y, sqrt(pos.x * pos.x + pos.z * pos.z));
 	float longitude = atan2(pos.x, pos.z);
 
 	Pi::game->GetSpace()->AddBody(ship);
@@ -642,12 +643,12 @@ static int l_space_get_bodies(lua_State *l)
 
 	lua_newtable(l);
 
-	for (Body* b : Pi::game->GetSpace()->GetBodies()) {
+	for (Body *b : Pi::game->GetSpace()->GetBodies()) {
 		if (filter) {
 			lua_pushvalue(l, 1);
 			LuaObject<Body>::PushToLua(b);
 			if (int ret = lua_pcall(l, 1, 1, 0)) {
-				const char *errmsg( "Unknown error" );
+				const char *errmsg("Unknown error");
 				if (ret == LUA_ERRRUN)
 					errmsg = lua_tostring(l, -1);
 				else if (ret == LUA_ERRMEM)
@@ -663,10 +664,10 @@ static int l_space_get_bodies(lua_State *l)
 			lua_pop(l, 1);
 		}
 
-		lua_pushinteger(l, lua_rawlen(l, -1)+1);
+		lua_pushinteger(l, lua_rawlen(l, -1) + 1);
 		LuaObject<Body>::PushToLua(b);
 		lua_rawset(l, -3);
-    }
+	}
 
 	LUA_DEBUG_END(l, 1);
 
@@ -696,14 +697,14 @@ void LuaSpace::Register()
 	LUA_DEBUG_START(l);
 
 	static const luaL_Reg l_methods[] = {
-		{ "SpawnShip",       l_space_spawn_ship        },
-		{ "SpawnShipNear",   l_space_spawn_ship_near   },
+		{ "SpawnShip", l_space_spawn_ship },
+		{ "SpawnShipNear", l_space_spawn_ship_near },
 		{ "SpawnShipDocked", l_space_spawn_ship_docked },
 		{ "SpawnShipParked", l_space_spawn_ship_parked },
 		{ "SpawnShipLanded", l_space_spawn_ship_landed },
 		{ "SpawnShipLandedNear", l_space_spawn_ship_landed_near },
 
-		{ "GetBody",   l_space_get_body   },
+		{ "GetBody", l_space_get_body },
 		{ "GetBodies", l_space_get_bodies },
 		{ 0, 0 }
 	};

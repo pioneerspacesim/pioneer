@@ -2,15 +2,16 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StringF.h"
-#include <string>
-#include <iostream>
-#include <sstream>
 #include <cstdio>
 #include <cstring>
+#include <iostream>
+#include <sstream>
+#include <string>
 
 static int verbose = 2;
 
-static void check(int line, const char* format, const char* expected, const std::string& result) {
+static void check(int line, const char *format, const char *expected, const std::string &result)
+{
 	if (result == std::string(expected)) {
 		if (verbose >= 2)
 			printf("[line %5d] OK ('%s' -> '%s')\n", line, format, result.c_str());
@@ -34,13 +35,14 @@ static char tmpbuf[512];
 #define TEST4(format, arg0, arg1, arg2, arg3, expected) \
 	check(__LINE__, (format), (expected), stringf((format), (arg0), (arg1), (arg2), (arg3)))
 
-#define TESTPF1(format, arg0, pfformat) \
-	do { \
-		snprintf(tmpbuf, sizeof(tmpbuf), (pfformat), (arg0)); \
+#define TESTPF1(format, arg0, pfformat)                               \
+	do {                                                              \
+		snprintf(tmpbuf, sizeof(tmpbuf), (pfformat), (arg0));         \
 		check(__LINE__, (format), tmpbuf, stringf((format), (arg0))); \
 	} while (0)
 
-void test_stringf() {
+void test_stringf()
+{
 	TEST0("", "");
 	TEST0("Hello.", "Hello.");
 

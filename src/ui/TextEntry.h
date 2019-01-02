@@ -10,36 +10,36 @@
 
 namespace UI {
 
-class TextEntry: public Container {
-public:
-	virtual Point PreferredSize();
-	virtual void Layout();
-	virtual void Update();
-	virtual void Draw();
+	class TextEntry : public Container {
+	public:
+		virtual Point PreferredSize();
+		virtual void Layout();
+		virtual void Update();
+		virtual void Draw();
 
-	TextEntry *SetText(const std::string &text);
-	const std::string &GetText() const { return m_label->GetText(); }
+		TextEntry *SetText(const std::string &text);
+		const std::string &GetText() const { return m_label->GetText(); }
 
-	virtual bool IsSelectable() const { return true; }
+		virtual bool IsSelectable() const { return true; }
 
-	sigc::signal<void,const std::string &> onChange;
-	sigc::signal<void,const std::string &> onEnter;
+		sigc::signal<void, const std::string &> onChange;
+		sigc::signal<void, const std::string &> onEnter;
 
-protected:
-	friend class Context;
-	TextEntry(Context *context, const std::string &text);
+	protected:
+		friend class Context;
+		TextEntry(Context *context, const std::string &text);
 
-	virtual void HandleKeyDown(const KeyboardEvent &event);
-	virtual void HandleTextInput(const TextInputEvent &event);
+		virtual void HandleKeyDown(const KeyboardEvent &event);
+		virtual void HandleTextInput(const TextInputEvent &event);
 
-private:
-	Label *m_label;
+	private:
+		Label *m_label;
 
-	Uint32 m_cursor;
-	vector3f m_cursorVertices[2];
-	Graphics::Drawables::Lines m_lines;
-};
+		Uint32 m_cursor;
+		vector3f m_cursorVertices[2];
+		Graphics::Drawables::Lines m_lines;
+	};
 
-}
+} // namespace UI
 
 #endif

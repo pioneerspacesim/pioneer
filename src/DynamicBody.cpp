@@ -1,24 +1,24 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "libs.h"
 #include "DynamicBody.h"
-#include "Space.h"
+#include "FixedGuns.h"
 #include "Frame.h"
-#include "Planet.h"
-#include "Pi.h"
 #include "GameSaveError.h"
 #include "JsonUtils.h"
+#include "Pi.h"
+#include "Planet.h"
 #include "Propulsion.h"
-#include "FixedGuns.h"
+#include "Space.h"
+#include "libs.h"
 
 static const float KINETIC_ENERGY_MULT = 0.00001f;
 const double DynamicBody::DEFAULT_DRAG_COEFF = 0.1; // 'smooth sphere'
 
-DynamicBody::DynamicBody()
-	: ModelBody()
-	, m_propulsion(nullptr)
-	, m_fixedGuns(nullptr)
+DynamicBody::DynamicBody() :
+	ModelBody(),
+	m_propulsion(nullptr),
+	m_fixedGuns(nullptr)
 {
 	m_dragCoeff = DEFAULT_DRAG_COEFF;
 	m_flags = Body::FLAG_CAN_MOVE_FRAME;
@@ -34,19 +34,21 @@ DynamicBody::DynamicBody()
 	m_isMoving = true;
 	m_atmosForce = vector3d(0.0);
 	m_gravityForce = vector3d(0.0);
-	m_externalForce = vector3d(0.0);		// do external forces calc instead?
+	m_externalForce = vector3d(0.0); // do external forces calc instead?
 	m_lastForce = vector3d(0.0);
 	m_lastTorque = vector3d(0.0);
 	m_aiMessage = AIError::AIERROR_NONE;
 	m_decelerating = false;
-	for ( int i=0; i < Feature::MAX_FEATURE; i++ ) m_features[i] = false;
+	for (int i = 0; i < Feature::MAX_FEATURE; i++)
+		m_features[i] = false;
 }
 
-void DynamicBody::AddFeature( Feature f ) {
+void DynamicBody::AddFeature(Feature f)
+{
 	m_features[f] = true;
-	if(f == Feature::PROPULSION && m_propulsion == nullptr) {
+	if (f == Feature::PROPULSION && m_propulsion == nullptr) {
 		m_propulsion.Reset(new Propulsion());
-	} else if(f == Feature::FIXED_GUNS && m_fixedGuns == nullptr) {
+	} else if (f == Feature::FIXED_GUNS && m_fixedGuns == nullptr) {
 		m_fixedGuns.Reset(new FixedGuns());
 	}
 }
@@ -115,32 +117,37 @@ void DynamicBody::LoadFromJson(const Json &jsonObj, Space *space)
 
 	m_aiMessage = AIError::AIERROR_NONE;
 	m_decelerating = false;
-	for ( int i=0; i < Feature::MAX_FEATURE; i++ ) m_features[i] = false;
+	for (int i = 0; i < Feature::MAX_FEATURE; i++)
+		m_features[i] = false;
 }
 
 void DynamicBody::PostLoadFixup(Space *space)
 {
 	Body::PostLoadFixup(space);
 	m_oldPos = GetPosition();
-//	CalcExternalForce();		// too dangerous
+	//	CalcExternalForce();		// too dangerous
 }
 
-const Propulsion *DynamicBody::GetPropulsion() const {
+const Propulsion *DynamicBody::GetPropulsion() const
+{
 	assert(m_propulsion != nullptr);
 	return m_propulsion.Get();
 }
 
-Propulsion *DynamicBody::GetPropulsion() {
+Propulsion *DynamicBody::GetPropulsion()
+{
 	assert(m_propulsion != nullptr);
 	return m_propulsion.Get();
 }
 
-const FixedGuns *DynamicBody::GetFixedGuns() const {
+const FixedGuns *DynamicBody::GetFixedGuns() const
+{
 	assert(m_fixedGuns != nullptr);
 	return m_fixedGuns.Get();
 }
 
-FixedGuns *DynamicBody::GetFixedGuns() {
+FixedGuns *DynamicBody::GetFixedGuns()
+{
 	assert(m_fixedGuns != nullptr);
 	return m_fixedGuns.Get();
 }
@@ -154,7 +161,7 @@ void DynamicBody::SetMass(double mass)
 {
 	m_mass = mass;
 	// This is solid sphere mass distribution, my friend
-	m_angInertia = (2/5.0)*m_mass*m_massRadius*m_massRadius;
+	m_angInertia = (2 / 5.0) * m_mass * m_massRadius * m_massRadius;
 }
 
 void DynamicBody::SetFrame(Frame *f)
@@ -169,53 +176,54 @@ double DynamicBody::CalcAtmosphericForce(double dragCoeff) const
 	Body *body = GetFrame()->GetBody();
 	if (!body || !GetFrame()->IsRotFrame() || !body->IsType(Object::PLANET))
 		return 0.0;
-	Planet *planet = static_cast<Planet*>(body);
+	Planet *planet = static_cast<Planet *>(body);
 	double dist = GetPosition().Length();
 	double speed = m_vel.Length();
 	double pressure, density;
 	planet->GetAtmosphericState(dist, &pressure, &density);
-	const double radius = GetClipRadius();		// bogus, preserving behaviour
+	const double radius = GetClipRadius(); // bogus, preserving behaviour
 	const double area = radius;
 	// ^^^ yes that is as stupid as it looks
-	return 0.5*density*speed*speed*area*dragCoeff;
+	return 0.5 * density * speed * speed * area * dragCoeff;
 }
 
 void DynamicBody::CalcExternalForce()
 {
 	// gravity
-	if (!GetFrame()) return;			// no external force if not in a frame
+	if (!GetFrame()) return; // no external force if not in a frame
 	Body *body = GetFrame()->GetBody();
-	if (body && !body->IsType(Object::SPACESTATION)) {	// they ought to have mass though...
+	if (body && !body->IsType(Object::SPACESTATION)) { // they ought to have mass though...
 		vector3d b1b2 = GetPosition();
 		double m1m2 = GetMass() * body->GetMass();
 		double invrsqr = 1.0 / b1b2.LengthSqr();
-		double force = G*m1m2 * invrsqr;
+		double force = G * m1m2 * invrsqr;
 		m_externalForce = -b1b2 * sqrt(invrsqr) * force;
-	}
-	else m_externalForce = vector3d(0.0);
+	} else
+		m_externalForce = vector3d(0.0);
 	m_gravityForce = m_externalForce;
 
 	// atmospheric drag
-	if (body && GetFrame()->IsRotFrame() && body->IsType(Object::PLANET))
-	{
+	if (body && GetFrame()->IsRotFrame() && body->IsType(Object::PLANET)) {
 		vector3d dragDir = -m_vel.NormalizedSafe();
-		vector3d fDrag = CalcAtmosphericForce(m_dragCoeff)*dragDir;
+		vector3d fDrag = CalcAtmosphericForce(m_dragCoeff) * dragDir;
 
 		// make this a bit less daft at high time accel
 		// only allow atmosForce to increase by .1g per frame
 		vector3d f1g = m_atmosForce + dragDir * GetMass();
-		if (fDrag.LengthSqr() > f1g.LengthSqr()) m_atmosForce = f1g;
-		else m_atmosForce = fDrag;
+		if (fDrag.LengthSqr() > f1g.LengthSqr())
+			m_atmosForce = f1g;
+		else
+			m_atmosForce = fDrag;
 
 		m_externalForce += m_atmosForce;
-	}
-	else m_atmosForce = vector3d(0.0);
+	} else
+		m_atmosForce = vector3d(0.0);
 
 	// centrifugal and coriolis forces for rotating frames
 	if (GetFrame()->IsRotFrame()) {
 		vector3d angRot(0, GetFrame()->GetAngSpeed(), 0);
-		m_externalForce -= m_mass * angRot.Cross(angRot.Cross(GetPosition()));	// centrifugal
-		m_externalForce -= 2 * m_mass * angRot.Cross(GetVelocity());			// coriolis
+		m_externalForce -= m_mass * angRot.Cross(angRot.Cross(GetPosition())); // centrifugal
+		m_externalForce -= 2 * m_mass * angRot.Cross(GetVelocity()); // coriolis
 	}
 }
 
@@ -238,16 +246,16 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 
 		SetPosition(GetPosition() + m_vel * double(timeStep));
 
-//if (this->IsType(Object::PLAYER))
-//Output("pos = %.1f,%.1f,%.1f, vel = %.1f,%.1f,%.1f, force = %.1f,%.1f,%.1f, external = %.1f,%.1f,%.1f\n",
-//	pos.x, pos.y, pos.z, m_vel.x, m_vel.y, m_vel.z, m_force.x, m_force.y, m_force.z,
-//	m_externalForce.x, m_externalForce.y, m_externalForce.z);
+		//if (this->IsType(Object::PLAYER))
+		//Output("pos = %.1f,%.1f,%.1f, vel = %.1f,%.1f,%.1f, force = %.1f,%.1f,%.1f, external = %.1f,%.1f,%.1f\n",
+		//	pos.x, pos.y, pos.z, m_vel.x, m_vel.y, m_vel.z, m_force.x, m_force.y, m_force.z,
+		//	m_externalForce.x, m_externalForce.y, m_externalForce.z);
 
 		m_lastForce = m_force;
 		m_lastTorque = m_torque;
 		m_force = vector3d(0.0);
 		m_torque = vector3d(0.0);
-		CalcExternalForce();			// regenerate for new pos/vel
+		CalcExternalForce(); // regenerate for new pos/vel
 	} else {
 		m_oldAngDisplacement = vector3d(0.0);
 	}
@@ -257,15 +265,15 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 
 void DynamicBody::UpdateInterpTransform(double alpha)
 {
-	m_interpPos = alpha*GetPosition() + (1.0-alpha)*m_oldPos;
+	m_interpPos = alpha * GetPosition() + (1.0 - alpha) * m_oldPos;
 
-	double len = m_oldAngDisplacement.Length() * (1.0-alpha);
+	double len = m_oldAngDisplacement.Length() * (1.0 - alpha);
 	if (len > 1e-16) {
 		vector3d axis = m_oldAngDisplacement.Normalized();
-		matrix3x3d rot = matrix3x3d::Rotate(-len, axis);		// rotate backwards
+		matrix3x3d rot = matrix3x3d::Rotate(-len, axis); // rotate backwards
 		m_interpOrient = rot * GetOrient();
-	}
-	else m_interpOrient = GetOrient();
+	} else
+		m_interpOrient = GetOrient();
 }
 
 void DynamicBody::SetMassDistributionFromModel()
@@ -273,7 +281,7 @@ void DynamicBody::SetMassDistributionFromModel()
 	CollMesh *m = GetCollMesh();
 	// XXX totally arbitrarily pick to distribute mass over a half
 	// bounding sphere area
-	m_massRadius = m->GetRadius()*0.5f;
+	m_massRadius = m->GetRadius() * 0.5f;
 	SetMass(m_mass);
 }
 
@@ -317,7 +325,7 @@ bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 
 	double kineticEnergy = 0;
 	if (o->IsType(Object::DYNAMICBODY)) {
-		kineticEnergy = KINETIC_ENERGY_MULT * static_cast<DynamicBody*>(o)->GetMass() * relVel * relVel;
+		kineticEnergy = KINETIC_ENERGY_MULT * static_cast<DynamicBody *>(o)->GetMass() * relVel * relVel;
 	} else {
 		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
 	}
@@ -325,10 +333,9 @@ bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 	// damage (kineticEnergy is being passed as a damage value) is measured in kilograms
 	// ignore damage less than a gram except for cargo, which is very fragile.
 	CollisionContact dummy;
-	if (this->IsType(Object::CARGOBODY)){
+	if (this->IsType(Object::CARGOBODY)) {
 		OnDamage(o, float(kineticEnergy), dummy);
-	}
-	else if (kineticEnergy > 1e-3){
+	} else if (kineticEnergy > 1e-3) {
 		OnDamage(o, float(kineticEnergy), dummy);
 	}
 
@@ -336,7 +343,8 @@ bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 }
 
 // return parameters for orbit of any body, gives both elliptic and hyperbolic trajectories
-Orbit DynamicBody::ComputeOrbit() const {
+Orbit DynamicBody::ComputeOrbit() const
+{
 	const Frame *frame = this->GetFrame()->GetNonRotFrame();
 	const double mass = frame->GetSystemBody()->GetMass();
 

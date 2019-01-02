@@ -6,11 +6,11 @@
 
 #include "ui/Context.h"
 
+#include "BindingCapture.h"
 #include "Face.h"
 #include "GalaxyMap.h"
 #include "LabelOverlay.h"
 #include "ModelSpinner.h"
-#include "BindingCapture.h"
 
 #include "Lua.h"
 

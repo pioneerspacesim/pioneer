@@ -4,15 +4,17 @@
 #ifndef _GUILABEL_H
 #define _GUILABEL_H
 
-#include "GuiWidget.h"
 #include "GuiTextLayout.h"
-#include <string>
+#include "GuiWidget.h"
 #include <SDL_stdinc.h>
+#include <string>
 
-namespace Text { class TextureFont; }
+namespace Text {
+	class TextureFont;
+}
 
 namespace Gui {
-	class Label: public Widget {
+	class Label : public Widget {
 	public:
 		Label(const char *text, TextLayout::ColourMarkupMode colourMarkupMode = TextLayout::ColourMarkupUse);
 		Label(const std::string &text, TextLayout::ColourMarkupMode colourMarkupMode = TextLayout::ColourMarkupUse);
@@ -21,9 +23,14 @@ namespace Gui {
 		virtual void GetSizeRequested(float size[2]);
 		void SetText(const char *text);
 		void SetText(const std::string &text);
-		Label *Shadow(bool isOn) { m_shadow = isOn; return this; }
+		Label *Shadow(bool isOn)
+		{
+			m_shadow = isOn;
+			return this;
+		}
 		Label *Color(Uint8 r, Uint8 g, Uint8 b);
 		Label *Color(const ::Color &);
+
 	private:
 		void Init(const std::string &text, TextLayout::ColourMarkupMode colourMarkupMode);
 		void UpdateLayout();
@@ -37,6 +44,6 @@ namespace Gui {
 		TextLayout::ColourMarkupMode m_colourMarkupMode;
 		bool m_needsUpdate;
 	};
-}
+} // namespace Gui
 
 #endif /* _GUILABEL_H */

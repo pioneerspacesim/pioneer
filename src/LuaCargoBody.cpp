@@ -1,9 +1,9 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "CargoBody.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
-#include "CargoBody.h"
 
 /*
  * Class: CargoBody
@@ -27,9 +27,11 @@
  *  experimental
  */
 
-template <> const char *LuaObject<CargoBody>::s_type = "CargoBody";
+template <>
+const char *LuaObject<CargoBody>::s_type = "CargoBody";
 
-template <> void LuaObject<CargoBody>::RegisterClass()
+template <>
+void LuaObject<CargoBody>::RegisterClass()
 {
 	const char *l_parent = "ModelBody";
 

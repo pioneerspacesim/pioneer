@@ -4,13 +4,21 @@
 #ifndef _PROJECTILE_H
 #define _PROJECTILE_H
 
-#include "libs.h"
 #include "Body.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
+#include "libs.h"
 
 struct ProjectileData {
-	ProjectileData() : lifespan(0.0f), damage(0.0f), length(0.0f), width(0.0f), speed(0.0f), color(Color::WHITE), mining(false), beam(false) {}
+	ProjectileData() :
+		lifespan(0.0f),
+		damage(0.0f),
+		length(0.0f),
+		width(0.0f),
+		speed(0.0f),
+		color(Color::WHITE),
+		mining(false),
+		beam(false) {}
 	float lifespan;
 	float damage;
 	float length;
@@ -21,28 +29,28 @@ struct ProjectileData {
 	bool beam;
 };
 
-
 class Frame;
 namespace Graphics {
 	class Renderer;
 	class VertexArray;
-}
+} // namespace Graphics
 
-class Projectile: public Body {
+class Projectile : public Body {
 public:
 	OBJDEF(Projectile, Body, PROJECTILE);
 
-	static void Add(Body *parent, float lifespan, float dam, float length, float width, bool mining, const Color& color, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel);
-	static void Add(Body *parent, const ProjectileData& prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel ) {
-		Add( parent, prData.lifespan, prData.damage, prData.length, prData.width, prData.mining, prData.color, pos, baseVel, dirVel );
+	static void Add(Body *parent, float lifespan, float dam, float length, float width, bool mining, const Color &color, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel);
+	static void Add(Body *parent, const ProjectileData &prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)
+	{
+		Add(parent, prData.lifespan, prData.damage, prData.length, prData.width, prData.mining, prData.color, pos, baseVel, dirVel);
 	}
 
 	Projectile();
 	virtual ~Projectile();
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)  override final;
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override final;
 	void TimeStepUpdate(const float timeStep) override final;
 	void StaticUpdate(const float timeStep) override final;
-	virtual void NotifyRemoved(const Body* const removedBody) override final;
+	virtual void NotifyRemoved(const Body *const removedBody) override final;
 	virtual void UpdateInterpTransform(double alpha) override final;
 	virtual void PostLoadFixup(Space *space) override final;
 

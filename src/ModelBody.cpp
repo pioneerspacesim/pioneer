@@ -1,26 +1,26 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "libs.h"
 #include "ModelBody.h"
+#include "Camera.h"
 #include "Frame.h"
 #include "Game.h"
+#include "GameSaveError.h"
 #include "ModelCache.h"
 #include "Pi.h"
+#include "Planet.h"
 #include "Space.h"
 #include "WorldView.h"
-#include "Camera.h"
-#include "Planet.h"
 #include "collider/collider.h"
 #include "graphics/Renderer.h"
-#include "scenegraph/SceneGraph.h"
-#include "scenegraph/NodeVisitor.h"
+#include "libs.h"
 #include "scenegraph/CollisionGeometry.h"
-#include "GameSaveError.h"
+#include "scenegraph/NodeVisitor.h"
+#include "scenegraph/SceneGraph.h"
 
 class DynGeomFinder : public SceneGraph::NodeVisitor {
 public:
-	std::vector<SceneGraph::CollisionGeometry*> results;
+	std::vector<SceneGraph::CollisionGeometry *> results;
 
 	virtual void ApplyCollisionGeometry(SceneGraph::CollisionGeometry &cg)
 	{
@@ -61,11 +61,11 @@ public:
 	}
 };
 
-ModelBody::ModelBody()
-: m_isStatic(false)
-, m_colliding(true)
-, m_geom(0)
-, m_model(0)
+ModelBody::ModelBody() :
+	m_isStatic(false),
+	m_colliding(true),
+	m_geom(0),
+	m_model(0)
 {
 }
 
@@ -119,8 +119,7 @@ void ModelBody::SetStatic(bool isStatic)
 	if (m_isStatic) {
 		GetFrame()->RemoveGeom(m_geom);
 		GetFrame()->AddStaticGeom(m_geom);
-	}
-	else {
+	} else {
 		GetFrame()->RemoveStaticGeom(m_geom);
 		GetFrame()->AddGeom(m_geom);
 	}
@@ -129,8 +128,10 @@ void ModelBody::SetStatic(bool isStatic)
 void ModelBody::SetColliding(bool colliding)
 {
 	m_colliding = colliding;
-	if(colliding) m_geom->Enable();
-	else m_geom->Disable();
+	if (colliding)
+		m_geom->Enable();
+	else
+		m_geom->Disable();
 }
 
 void ModelBody::RebuildCollisionMesh()
@@ -141,7 +142,7 @@ void ModelBody::RebuildCollisionMesh()
 	}
 
 	m_collMesh = m_model->GetCollisionMesh();
-	double maxRadius= m_collMesh->GetAabb().GetRadius();
+	double maxRadius = m_collMesh->GetAabb().GetRadius();
 
 	//static geom
 	m_geom = new Geom(m_collMesh->GetGeomTree(), GetOrient(), GetPosition(), this);
@@ -228,7 +229,7 @@ void ModelBody::AddGeomsToFrame(Frame *f)
 
 	m_geom->SetGroup(group);
 
-	if(m_isStatic) {
+	if (m_isStatic) {
 		f->AddStaticGeom(m_geom);
 	} else {
 		f->AddGeom(m_geom);
@@ -242,7 +243,7 @@ void ModelBody::AddGeomsToFrame(Frame *f)
 
 void ModelBody::RemoveGeomsFromFrame(Frame *f)
 {
-	if(m_isStatic) {
+	if (m_isStatic) {
 		GetFrame()->RemoveStaticGeom(m_geom);
 	} else {
 		GetFrame()->RemoveGeom(m_geom);
@@ -292,10 +293,10 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 	ambient = minAmbient;
 	direct = 1.0;
 	Body *astro = GetFrame()->GetBody();
-	if ( ! (astro && astro->IsType(Object::PLANET)) )
+	if (!(astro && astro->IsType(Object::PLANET)))
 		return;
 
-	Planet *planet = static_cast<Planet*>(astro);
+	Planet *planet = static_cast<Planet *>(astro);
 
 	// position relative to the rotating frame of the planet
 	vector3d upDir = GetInterpPositionRelTo(planet->GetFrame());
@@ -310,7 +311,7 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 	planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
 
 	// approximate optical thickness fraction as fraction of density remaining relative to earths
-	double opticalThicknessFraction = density/EARTH_ATMOSPHERE_SURFACE_DENSITY;
+	double opticalThicknessFraction = density / EARTH_ATMOSPHERE_SURFACE_DENSITY;
 
 	// tweak optical thickness curve - lower exponent ==> higher altitude before ambient level drops
 	// Commenting this out, since it leads to a sharp transition at
@@ -325,11 +326,11 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 	double light_clamped = 0.0;
 
 	const std::vector<Camera::LightSource> &lightSources = camera->GetLightSources();
-	for(std::vector<Camera::LightSource>::const_iterator l = lightSources.begin();
-			l != lightSources.end(); ++l) {
+	for (std::vector<Camera::LightSource>::const_iterator l = lightSources.begin();
+		 l != lightSources.end(); ++l) {
 		double sunAngle;
 		// calculate the extent the sun is towards zenith
-		if (l->GetBody()){
+		if (l->GetBody()) {
 			// relative to the rotating frame of the planet
 			const vector3d lightDir = (l->GetBody()->GetInterpPositionRelTo(planet->GetFrame()).Normalized());
 			sunAngle = lightDir.Dot(upDir);
@@ -338,20 +339,20 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 			sunAngle = 1.0;
 		}
 
-		const double critAngle = -sqrt(dist*dist-planetRadius*planetRadius)/dist;
+		const double critAngle = -sqrt(dist * dist - planetRadius * planetRadius) / dist;
 
 		//0 to 1 as sunangle goes from critAngle to 1.0
-		double sunAngle2 = (Clamp(sunAngle, critAngle, 1.0)-critAngle)/(1.0-critAngle);
+		double sunAngle2 = (Clamp(sunAngle, critAngle, 1.0) - critAngle) / (1.0 - critAngle);
 
 		// angle at which light begins to fade on Earth
 		const double surfaceStartAngle = 0.3;
 		// angle at which sun set completes, which should be after sun has dipped below the horizon on Earth
 		const double surfaceEndAngle = -0.18;
 
-		const double start = std::min((surfaceStartAngle*opticalThicknessFraction),1.0);
-		const double end = std::max((surfaceEndAngle*opticalThicknessFraction),-0.2);
+		const double start = std::min((surfaceStartAngle * opticalThicknessFraction), 1.0);
+		const double end = std::max((surfaceEndAngle * opticalThicknessFraction), -0.2);
 
-		sunAngle = (Clamp(sunAngle-critAngle, end, start)-end)/(start-end);
+		sunAngle = (Clamp(sunAngle - critAngle, end, start) - end) / (start - end);
 
 		light += sunAngle;
 		light_clamped += sunAngle2;
@@ -361,17 +362,17 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 	light /= lightSources.size();
 
 	// brightness depends on optical depth and intensity of light from all the stars
-	direct = 1.0 -  Clamp((1.0 - light),0.0,1.0) * Clamp(opticalThicknessFraction,0.0,1.0);
+	direct = 1.0 - Clamp((1.0 - light), 0.0, 1.0) * Clamp(opticalThicknessFraction, 0.0, 1.0);
 
 	// ambient light fraction
 	// alter ratio between directly and ambiently lit portions towards ambiently lit as sun sets
-	const double fraction = ( 0.2 + 0.8 * (1.0-light_clamped) ) * Clamp(opticalThicknessFraction,0.0,1.0);
+	const double fraction = (0.2 + 0.8 * (1.0 - light_clamped)) * Clamp(opticalThicknessFraction, 0.0, 1.0);
 
 	// fraction of light left over to be lit directly
-	direct = (1.0-fraction)*direct;
+	direct = (1.0 - fraction) * direct;
 
 	// scale ambient by amount of light
-	ambient = fraction*(Clamp((light),0.0,1.0))*0.25;
+	ambient = fraction * (Clamp((light), 0.0, 1.0)) * 0.25;
 
 	ambient = std::max(minAmbient, ambient);
 }
@@ -379,14 +380,15 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 // setLighting: set renderer lights according to current position and sun
 // positions. Original lighting is passed back in oldLights, oldAmbient, and
 // should be reset after rendering with ModelBody::ResetLighting.
-void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<Graphics::Light> &oldLights, Color &oldAmbient) {
+void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<Graphics::Light> &oldLights, Color &oldAmbient)
+{
 	std::vector<Graphics::Light> newLights;
 	double ambient, direct;
 	CalcLighting(ambient, direct, camera);
 	const std::vector<Camera::LightSource> &lightSources = camera->GetLightSources();
 	newLights.reserve(lightSources.size());
 	oldLights.reserve(lightSources.size());
-	for(size_t i = 0; i < lightSources.size(); i++) {
+	for (size_t i = 0; i < lightSources.size(); i++) {
 		Graphics::Light light(lightSources[i].GetLight());
 
 		oldLights.push_back(light);
@@ -395,12 +397,12 @@ void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::ve
 
 		Color c = light.GetDiffuse();
 		Color cs = light.GetSpecular();
-		c.r*=float(intensity);
-		c.g*=float(intensity);
-		c.b*=float(intensity);
-		cs.r*=float(intensity);
-		cs.g*=float(intensity);
-		cs.b*=float(intensity);
+		c.r *= float(intensity);
+		c.g *= float(intensity);
+		c.b *= float(intensity);
+		cs.r *= float(intensity);
+		cs.g *= float(intensity);
+		cs.b *= float(intensity);
 		light.SetDiffuse(c);
 		light.SetSpecular(cs);
 
@@ -413,11 +415,12 @@ void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::ve
 	}
 
 	oldAmbient = r->GetAmbientColor();
-	r->SetAmbientColor(Color(ambient*255, ambient * 255, ambient * 255));
+	r->SetAmbientColor(Color(ambient * 255, ambient * 255, ambient * 255));
 	r->SetLights(newLights.size(), &newLights[0]);
 }
 
-void ModelBody::ResetLighting(Graphics::Renderer *r, const std::vector<Graphics::Light> &oldLights, const Color &oldAmbient) {
+void ModelBody::ResetLighting(Graphics::Renderer *r, const std::vector<Graphics::Light> &oldLights, const Color &oldAmbient)
+{
 	// restore old lights
 	if (!oldLights.empty())
 		r->SetLights(oldLights.size(), &oldLights[0]);
@@ -437,7 +440,8 @@ void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const v
 
 	//double to float matrix
 	matrix4x4f trans;
-	for (int i=0; i<12; i++) trans[i] = float(t[i]);
+	for (int i = 0; i < 12; i++)
+		trans[i] = float(t[i]);
 	trans[12] = viewCoords.x;
 	trans[13] = viewCoords.y;
 	trans[14] = viewCoords.z;

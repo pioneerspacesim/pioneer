@@ -55,6 +55,6 @@ namespace FaceParts {
 
 	void PickFaceParts(FaceDescriptor &inout_face, const Uint32 seed);
 	void BuildFaceImage(SDL_Surface *faceIm, const FaceDescriptor &face, bool armoured);
-}
+} // namespace FaceParts
 
 #endif

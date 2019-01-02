@@ -5,110 +5,110 @@
 
 namespace Graphics {
 
-Uint32 VertexBufferDesc::GetAttribSize(VertexAttribFormat f)
-{
-	switch (f) {
-	case ATTRIB_FORMAT_FLOAT2:
-		return 8;
-	case ATTRIB_FORMAT_FLOAT3:
-		return 12;
-	case ATTRIB_FORMAT_FLOAT4:
-		return 16;
-	case ATTRIB_FORMAT_UBYTE4:
-		return 4;
-	default:
+	Uint32 VertexBufferDesc::GetAttribSize(VertexAttribFormat f)
+	{
+		switch (f) {
+		case ATTRIB_FORMAT_FLOAT2:
+			return 8;
+		case ATTRIB_FORMAT_FLOAT3:
+			return 12;
+		case ATTRIB_FORMAT_FLOAT4:
+			return 16;
+		case ATTRIB_FORMAT_UBYTE4:
+			return 4;
+		default:
+			return 0;
+		}
+	}
+
+	VertexBufferDesc::VertexBufferDesc() :
+		numVertices(0),
+		stride(0),
+		usage(BUFFER_USAGE_STATIC)
+	{
+		for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
+			attrib[i].semantic = ATTRIB_NONE;
+			attrib[i].format = ATTRIB_FORMAT_NONE;
+			attrib[i].offset = 0;
+		}
+
+		assert(sizeof(vector2f) == 8);
+		assert(sizeof(vector3f) == 12);
+		assert(sizeof(Color4ub) == 4);
+	}
+
+	Uint32 VertexBufferDesc::GetOffset(VertexAttrib attr) const
+	{
+		for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
+			if (attrib[i].semantic == attr)
+				return attrib[i].offset;
+		}
+
+		//attrib not found
+		assert(false);
 		return 0;
 	}
-}
 
-VertexBufferDesc::VertexBufferDesc()
-	: numVertices(0)
-	, stride(0)
-	, usage(BUFFER_USAGE_STATIC)
-{
-	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
-		attrib[i].semantic = ATTRIB_NONE;
-		attrib[i].format = ATTRIB_FORMAT_NONE;
-		attrib[i].offset = 0;
+	Uint32 VertexBufferDesc::CalculateOffset(const VertexBufferDesc &desc, VertexAttrib attr)
+	{
+		Uint32 offs = 0;
+		for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
+			if (desc.attrib[i].semantic == attr)
+				return offs;
+			offs += GetAttribSize(desc.attrib[i].format);
+		}
+
+		//attrib not found
+		assert(false);
+		return 0;
 	}
 
-	assert(sizeof(vector2f) == 8);
-	assert(sizeof(vector3f) == 12);
-	assert(sizeof(Color4ub) == 4);
-}
-
-Uint32 VertexBufferDesc::GetOffset(VertexAttrib attr) const
-{
-	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
-		if (attrib[i].semantic == attr)
-			return attrib[i].offset;
+	VertexBuffer::~VertexBuffer()
+	{
 	}
 
-	//attrib not found
-	assert(false);
-	return 0;
-}
-
-Uint32 VertexBufferDesc::CalculateOffset(const VertexBufferDesc &desc, VertexAttrib attr)
-{
-	Uint32 offs = 0;
-	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
-		if (desc.attrib[i].semantic == attr)
-			return offs;
-		offs += GetAttribSize(desc.attrib[i].format);
+	bool VertexBuffer::SetVertexCount(Uint32 v)
+	{
+		if (v <= m_desc.numVertices) {
+			m_size = v;
+			return true;
+		}
+		return false;
 	}
 
-	//attrib not found
-	assert(false);
-	return 0;
-}
-
-VertexBuffer::~VertexBuffer()
-{
-}
-
-bool VertexBuffer::SetVertexCount(Uint32 v)
-{
-	if (v <= m_desc.numVertices) {
-		m_size = v;
-		return true;
+	// ------------------------------------------------------------
+	IndexBuffer::IndexBuffer(Uint32 size, BufferUsage usage) :
+		Mappable(size),
+		m_indexCount(size),
+		m_usage(usage)
+	{
 	}
-	return false;
-}
 
-// ------------------------------------------------------------
-IndexBuffer::IndexBuffer(Uint32 size, BufferUsage usage)
-	: Mappable(size)
-	, m_indexCount(size)
-	, m_usage(usage)
-{
-}
+	IndexBuffer::~IndexBuffer()
+	{
+	}
 
-IndexBuffer::~IndexBuffer()
-{
-}
+	void IndexBuffer::SetIndexCount(Uint32 ic)
+	{
+		assert(ic <= GetSize());
+		m_indexCount = std::min(ic, GetSize());
+	}
 
-void IndexBuffer::SetIndexCount(Uint32 ic)
-{
-	assert(ic <= GetSize());
-	m_indexCount = std::min(ic, GetSize());
-}
+	// ------------------------------------------------------------
+	InstanceBuffer::InstanceBuffer(Uint32 size, BufferUsage usage) :
+		Mappable(size),
+		m_usage(usage)
+	{
+	}
 
-// ------------------------------------------------------------
-InstanceBuffer::InstanceBuffer(Uint32 size, BufferUsage usage)
-	: Mappable(size)
-	, m_usage(usage)
-{
-}
+	InstanceBuffer::~InstanceBuffer()
+	{
+	}
 
-InstanceBuffer::~InstanceBuffer()
-{
-}
+	void InstanceBuffer::SetInstanceCount(const Uint32 ic)
+	{
+		assert(ic <= GetSize());
+		m_instanceCount = std::min(ic, GetSize());
+	}
 
-void InstanceBuffer::SetInstanceCount(const Uint32 ic)
-{
-	assert(ic <= GetSize());
-	m_instanceCount = std::min(ic, GetSize());
-}
-
-}
+} // namespace Graphics

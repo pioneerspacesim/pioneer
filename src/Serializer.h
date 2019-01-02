@@ -4,11 +4,11 @@
 #ifndef _SERIALIZE_H
 #define _SERIALIZE_H
 
-#include <string>
 #include "ByteRange.h"
 #include "Color.h"
 #include "Quaternion.h"
 #include "vector3.h"
+#include <string>
 
 namespace Serializer {
 
@@ -23,13 +23,14 @@ namespace Serializer {
 		void Int64(Uint64 x);
 		void Float(float f);
 		void Double(double f);
-		void String(const char* s);
+		void String(const char *s);
 		void String(const std::string &s);
 		void Vector3f(vector3f vec);
 		void Vector3d(vector3d vec);
 		void WrQuaternionf(const Quaternionf &q);
-		void Color4UB(const Color&);
-		void WrSection(const std::string &section_label, const std::string &section_data) {
+		void Color4UB(const Color &);
+		void WrSection(const std::string &section_label, const std::string &section_data)
+		{
 			String(section_label);
 			String(section_data);
 		}
@@ -38,13 +39,16 @@ namespace Serializer {
 		void Auto(Sint64 x) { Int64(x); }
 		void Auto(float x) { Float(x); }
 		void Auto(double x) { Double(x); }
+
 	private:
 		std::string m_str;
 	};
 
 	class Reader {
 	public:
-		Reader(): m_at(nullptr), m_streamVersion(-1) {}
+		Reader() :
+			m_at(nullptr),
+			m_streamVersion(-1) {}
 		explicit Reader(const ByteRange &data);
 
 		bool AtEnd();
@@ -54,8 +58,8 @@ namespace Serializer {
 		Uint16 Int16();
 		Uint32 Int32();
 		Uint64 Int64();
-		float Float ();
-		double Double ();
+		float Float();
+		double Double();
 		std::string String();
 		ByteRange Blob();
 		vector3f Vector3f();
@@ -77,7 +81,6 @@ namespace Serializer {
 		int m_streamVersion;
 	};
 
-
-}
+} // namespace Serializer
 
 #endif /* _SERIALIZE_H */

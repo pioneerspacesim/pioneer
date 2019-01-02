@@ -30,7 +30,7 @@
  */
 static int l_missile_arm(lua_State *l)
 {
-	Missile * m = LuaMissile::CheckFromLua(1);
+	Missile *m = LuaMissile::CheckFromLua(1);
 	m->Arm();
 	return 0;
 }
@@ -52,7 +52,7 @@ static int l_missile_arm(lua_State *l)
  */
 static int l_missile_disarm(lua_State *l)
 {
-	Missile * m = LuaMissile::CheckFromLua(1);
+	Missile *m = LuaMissile::CheckFromLua(1);
 	m->Disarm();
 	return 0;
 }
@@ -117,20 +117,22 @@ static int l_missile_ai_kamikaze(lua_State *l)
  */
 static int l_missile_attr_is_armed(lua_State *l)
 {
-	Missile * m = LuaMissile::CheckFromLua(1);
+	Missile *m = LuaMissile::CheckFromLua(1);
 	lua_pushboolean(l, m->IsArmed());
 	return 1;
 }
 
-template <> const char *LuaObject<Missile>::s_type = "Missile";
+template <>
+const char *LuaObject<Missile>::s_type = "Missile";
 
-template <> void LuaObject<Missile>::RegisterClass()
+template <>
+void LuaObject<Missile>::RegisterClass()
 {
 	static const char *l_parent = "ModelBody"; // "DynamicBody";
 
 	static const luaL_Reg l_methods[] = {
-		{ "Arm",     l_missile_arm },
-		{ "Disarm",  l_missile_disarm },
+		{ "Arm", l_missile_arm },
+		{ "Disarm", l_missile_disarm },
 		{ "AIKamikaze", l_missile_ai_kamikaze },
 		{ 0, 0 }
 	};

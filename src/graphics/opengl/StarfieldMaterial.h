@@ -9,18 +9,20 @@
  * The Program requires setting intensity using the generic emission parameter
  */
 #include "OpenGLLibs.h"
-#include "graphics/Material.h"
 #include "Program.h"
+#include "graphics/Material.h"
 
 namespace Graphics {
 	namespace OGL {
 		class StarfieldMaterial : public Material {
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &) override {
+			virtual Program *CreateProgram(const MaterialDescriptor &) override
+			{
 				return new Program("starfield", "");
 			}
 
-			virtual void Apply() override {
+			virtual void Apply() override
+			{
 				OGL::Material::Apply();
 				glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 				assert(this->texture0);
@@ -29,12 +31,13 @@ namespace Graphics {
 				m_program->emission.Set(this->emissive);
 			}
 
-			virtual void Unapply() override {
-				static_cast<TextureGL*>(texture0)->Unbind();
+			virtual void Unapply() override
+			{
+				static_cast<TextureGL *>(texture0)->Unbind();
 				glDisable(GL_VERTEX_PROGRAM_POINT_SIZE);
 			}
 		};
-	}
-}
+	} // namespace OGL
+} // namespace Graphics
 
 #endif

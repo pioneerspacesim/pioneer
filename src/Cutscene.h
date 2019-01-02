@@ -4,18 +4,20 @@
 #ifndef _CUTSCENE_H
 #define _CUTSCENE_H
 
-#include "libs.h"
-#include "graphics/Renderer.h"
 #include "graphics/Light.h"
+#include "graphics/Renderer.h"
+#include "libs.h"
 
-namespace SceneGraph { class Model; }
+namespace SceneGraph {
+	class Model;
+}
 class Shields;
 
 class Cutscene {
 public:
-	Cutscene(Graphics::Renderer *r, int width, int height)
-	: m_aspectRatio(float(width)/float(height))
-	, m_renderer(r)
+	Cutscene(Graphics::Renderer *r, int width, int height) :
+		m_aspectRatio(float(width) / float(height)),
+		m_renderer(r)
 	{
 	}
 	virtual ~Cutscene() {}

@@ -2,10 +2,10 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaDev.h"
+#include "Game.h"
 #include "LuaObject.h"
 #include "Pi.h"
 #include "WorldView.h"
-#include "Game.h"
 
 /*
  * Lua commands used in development & debugging
@@ -36,7 +36,7 @@ void LuaDev::Register()
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_Reg methods[]= {
+	static const luaL_Reg methods[] = {
 		{ "SetCameraOffset", l_dev_set_camera_offset },
 		{ 0, 0 }
 	};

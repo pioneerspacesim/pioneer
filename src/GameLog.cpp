@@ -1,10 +1,10 @@
 #include "GameLog.h"
+#include "Game.h"
+#include "LuaObject.h"
+#include "Pi.h"
 #include "StringF.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
-#include "LuaObject.h"
-#include "Game.h"
-#include "Pi.h"
 
 void GameLog::Add(const std::string &msg)
 {
@@ -28,4 +28,3 @@ void GameLog::Add(const std::string &from, const std::string &msg, GameLog::Prio
 	lua_pushnumber(l, priority);
 	lua_call(l, 3, 0);
 }
-

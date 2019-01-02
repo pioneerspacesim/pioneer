@@ -8,17 +8,18 @@
 
 namespace UI {
 
-class SmallButton: public Widget {
-public:
-	virtual Point PreferredSize();
-	virtual void Layout();
-	virtual void Draw();
+	class SmallButton : public Widget {
+	public:
+		virtual Point PreferredSize();
+		virtual void Layout();
+		virtual void Draw();
 
-protected:
-	friend class Context;
-	SmallButton(Context *context): Widget(context) {}
-};
+	protected:
+		friend class Context;
+		SmallButton(Context *context) :
+			Widget(context) {}
+	};
 
-}
+} // namespace UI
 
 #endif

@@ -1,9 +1,9 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "libs.h"
 #include "SDLWrappers.h"
 #include "FileSystem.h"
+#include "libs.h"
 #include "utils.h"
 
 SDLSurfacePtr LoadSurfaceFromFile(const std::string &fname, FileSystem::FileSource &source)

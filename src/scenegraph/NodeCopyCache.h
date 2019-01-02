@@ -9,27 +9,29 @@
 
 namespace SceneGraph {
 
-class Node;
+	class Node;
 
-class NodeCopyCache {
-public:
-	template <typename T> T *Copy(const T *origNode) {
-		const bool doCache = origNode->GetRefCount() > 1;
-		if (doCache) {
-			std::map<const Node*,Node*>::const_iterator i = m_cache.find(origNode);
-			if (i != m_cache.end())
-				return static_cast<T*>((*i).second);
+	class NodeCopyCache {
+	public:
+		template <typename T>
+		T *Copy(const T *origNode)
+		{
+			const bool doCache = origNode->GetRefCount() > 1;
+			if (doCache) {
+				std::map<const Node *, Node *>::const_iterator i = m_cache.find(origNode);
+				if (i != m_cache.end())
+					return static_cast<T *>((*i).second);
+			}
+			T *newNode = new T(*origNode, this);
+			if (doCache)
+				m_cache.insert(std::make_pair(origNode, newNode));
+			return newNode;
 		}
-		T *newNode = new T(*origNode, this);
-		if (doCache)
-			m_cache.insert(std::make_pair(origNode, newNode));
-		return newNode;
-	}
 
-private:
-	std::map<const Node*,Node*> m_cache;
-};
+	private:
+		std::map<const Node *, Node *> m_cache;
+	};
 
-}
+} // namespace SceneGraph
 
 #endif

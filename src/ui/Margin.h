@@ -8,30 +8,30 @@
 
 namespace UI {
 
-class Margin : public Single {
-public:
-	virtual Point PreferredSize();
-	virtual void Layout();
+	class Margin : public Single {
+	public:
+		virtual Point PreferredSize();
+		virtual void Layout();
 
-	enum Direction { // <enum scope='UI::Margin' name=UIMarginDirection public>
-		ALL,
-		HORIZONTAL,
-		VERTICAL,
-		LEFT,
-		RIGHT,
-		TOP,
-		BOTTOM
+		enum Direction { // <enum scope='UI::Margin' name=UIMarginDirection public>
+			ALL,
+			HORIZONTAL,
+			VERTICAL,
+			LEFT,
+			RIGHT,
+			TOP,
+			BOTTOM
+		};
+
+	protected:
+		friend class Context;
+		Margin(Context *context, int margin, Direction direction);
+
+	private:
+		int m_margin;
+		Direction m_direction;
 	};
 
-protected:
-	friend class Context;
-	Margin(Context *context, int margin, Direction direction);
-
-private:
-	int m_margin;
-	Direction m_direction;
-};
-
-}
+} // namespace UI
 
 #endif

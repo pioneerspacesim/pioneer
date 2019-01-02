@@ -1,68 +1,73 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "Slider.h"
 #include "LuaObject.h"
 #include "LuaSignal.h"
+#include "Slider.h"
 
 namespace UI {
 
-class LuaSlider {
-public:
-
-	static int l_set_range(lua_State *l) {
-		UI::Slider *slider = LuaObject<UI::Slider>::CheckFromLua(1);
-		const float min = luaL_checknumber(l, 2);
-		const float max = luaL_checknumber(l, 3);
-		if (min >= max) {
-			return luaL_error(l, "Slider range minimum must be strictly less than the maximum");
+	class LuaSlider {
+	public:
+		static int l_set_range(lua_State *l)
+		{
+			UI::Slider *slider = LuaObject<UI::Slider>::CheckFromLua(1);
+			const float min = luaL_checknumber(l, 2);
+			const float max = luaL_checknumber(l, 3);
+			if (min >= max) {
+				return luaL_error(l, "Slider range minimum must be strictly less than the maximum");
+			}
+			slider->SetRange(min, max);
+			lua_settop(l, 1);
+			return 1;
 		}
-		slider->SetRange(min, max);
-		lua_settop(l, 1);
-		return 1;
-	}
 
-	static int l_get_range(lua_State *l) {
-		UI::Slider *slider = LuaObject<UI::Slider>::CheckFromLua(1);
-		float min, max;
-		slider->GetRange(min, max);
-		lua_pushnumber(l, min);
-		lua_pushnumber(l, max);
-		return 2;
-	}
+		static int l_get_range(lua_State *l)
+		{
+			UI::Slider *slider = LuaObject<UI::Slider>::CheckFromLua(1);
+			float min, max;
+			slider->GetRange(min, max);
+			lua_pushnumber(l, min);
+			lua_pushnumber(l, max);
+			return 2;
+		}
 
-	static int l_set_value(lua_State *l) {
-		UI::Slider *slider = LuaObject<UI::Slider>::CheckFromLua(1);
-		const float v = luaL_checknumber(l, 2);
-		slider->SetValue(v);
-		lua_settop(l, 1);
-		return 1;
-	}
+		static int l_set_value(lua_State *l)
+		{
+			UI::Slider *slider = LuaObject<UI::Slider>::CheckFromLua(1);
+			const float v = luaL_checknumber(l, 2);
+			slider->SetValue(v);
+			lua_settop(l, 1);
+			return 1;
+		}
 
-	static int l_get_value(lua_State *l) {
-		UI::Slider *slider = LuaObject<UI::Slider>::CheckFromLua(1);
-		lua_pushnumber(l, slider->GetValue());
-		return 1;
-	}
+		static int l_get_value(lua_State *l)
+		{
+			UI::Slider *slider = LuaObject<UI::Slider>::CheckFromLua(1);
+			lua_pushnumber(l, slider->GetValue());
+			return 1;
+		}
 
-	static int l_attr_on_value_changed(lua_State *l) {
-		UI::Slider *slider = LuaObject<UI::Slider>::CheckFromLua(1);
-		LuaSignal<float>().Wrap(l, slider->onValueChanged);
-		return 1;
-	}
+		static int l_attr_on_value_changed(lua_State *l)
+		{
+			UI::Slider *slider = LuaObject<UI::Slider>::CheckFromLua(1);
+			LuaSignal<float>().Wrap(l, slider->onValueChanged);
+			return 1;
+		}
+	};
 
-};
+	class LuaHSlider;
+	class LuaVSlider;
 
-class LuaHSlider;
-class LuaVSlider;
-
-}
+} // namespace UI
 
 using namespace UI;
 
-template <> const char *LuaObject<UI::Slider>::s_type = "UI.Slider";
+template <>
+const char *LuaObject<UI::Slider>::s_type = "UI.Slider";
 
-template <> void LuaObject<UI::Slider>::RegisterClass()
+template <>
+void LuaObject<UI::Slider>::RegisterClass()
 {
 	static const char *l_parent = "UI.Widget";
 
@@ -76,7 +81,7 @@ template <> void LuaObject<UI::Slider>::RegisterClass()
 	};
 
 	static const luaL_Reg l_attrs[] = {
-		{ "onValueChanged", LuaSlider::l_attr_on_value_changed  },
+		{ "onValueChanged", LuaSlider::l_attr_on_value_changed },
 
 		{ 0, 0 }
 	};
@@ -85,9 +90,11 @@ template <> void LuaObject<UI::Slider>::RegisterClass()
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<UI::Slider>::DynamicCastPromotionTest);
 }
 
-template <> const char *LuaObject<UI::HSlider>::s_type = "UI.HSlider";
+template <>
+const char *LuaObject<UI::HSlider>::s_type = "UI.HSlider";
 
-template <> void LuaObject<UI::HSlider>::RegisterClass()
+template <>
+void LuaObject<UI::HSlider>::RegisterClass()
 {
 	static const char *l_parent = "UI.Slider";
 
@@ -95,9 +102,11 @@ template <> void LuaObject<UI::HSlider>::RegisterClass()
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<UI::HSlider>::DynamicCastPromotionTest);
 }
 
-template <> const char *LuaObject<UI::VSlider>::s_type = "UI.VSlider";
+template <>
+const char *LuaObject<UI::VSlider>::s_type = "UI.VSlider";
 
-template <> void LuaObject<UI::VSlider>::RegisterClass()
+template <>
+void LuaObject<UI::VSlider>::RegisterClass()
 {
 	static const char *l_parent = "UI.Slider";
 

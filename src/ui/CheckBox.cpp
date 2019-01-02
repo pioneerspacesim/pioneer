@@ -7,56 +7,56 @@
 
 namespace UI {
 
-Point CheckBox::PreferredSize()
-{
-	return GetContext()->GetSkin().CheckboxNormal().size;
-}
-
-void CheckBox::Layout()
-{
-	SetActiveArea(PreferredSize());
-}
-
-void CheckBox::Draw()
-{
-	if (m_checked) {
-		if (IsDisabled())
-			GetContext()->GetSkin().DrawCheckBoxCheckedDisabled(GetActiveOffset(), GetActiveArea());
-		else if (IsMouseOver())
-			GetContext()->GetSkin().DrawCheckBoxCheckedHover(GetActiveOffset(), GetActiveArea());
-		else
-			GetContext()->GetSkin().DrawCheckBoxCheckedNormal(GetActiveOffset(), GetActiveArea());
-	} else {
-		if (IsDisabled())
-			GetContext()->GetSkin().DrawCheckBoxDisabled(GetActiveOffset(), GetActiveArea());
-		else if (IsMouseOver())
-			GetContext()->GetSkin().DrawCheckBoxHover(GetActiveOffset(), GetActiveArea());
-		else
-			GetContext()->GetSkin().DrawCheckBoxNormal(GetActiveOffset(), GetActiveArea());
+	Point CheckBox::PreferredSize()
+	{
+		return GetContext()->GetSkin().CheckboxNormal().size;
 	}
-}
 
-void CheckBox::Toggle()
-{
-	m_checked = !m_checked;
-	onValueChanged.emit(m_checked);
-}
+	void CheckBox::Layout()
+	{
+		SetActiveArea(PreferredSize());
+	}
 
-bool CheckBox::IsChecked() const
-{
-	return m_checked;
-}
+	void CheckBox::Draw()
+	{
+		if (m_checked) {
+			if (IsDisabled())
+				GetContext()->GetSkin().DrawCheckBoxCheckedDisabled(GetActiveOffset(), GetActiveArea());
+			else if (IsMouseOver())
+				GetContext()->GetSkin().DrawCheckBoxCheckedHover(GetActiveOffset(), GetActiveArea());
+			else
+				GetContext()->GetSkin().DrawCheckBoxCheckedNormal(GetActiveOffset(), GetActiveArea());
+		} else {
+			if (IsDisabled())
+				GetContext()->GetSkin().DrawCheckBoxDisabled(GetActiveOffset(), GetActiveArea());
+			else if (IsMouseOver())
+				GetContext()->GetSkin().DrawCheckBoxHover(GetActiveOffset(), GetActiveArea());
+			else
+				GetContext()->GetSkin().DrawCheckBoxNormal(GetActiveOffset(), GetActiveArea());
+		}
+	}
 
-void CheckBox::SetState(bool state)
-{
-	if (m_checked != state) {
+	void CheckBox::Toggle()
+	{
+		m_checked = !m_checked;
+		onValueChanged.emit(m_checked);
+	}
+
+	bool CheckBox::IsChecked() const
+	{
+		return m_checked;
+	}
+
+	void CheckBox::SetState(bool state)
+	{
+		if (m_checked != state) {
+			Toggle();
+		}
+	}
+
+	void CheckBox::HandleClick()
+	{
 		Toggle();
 	}
-}
 
-void CheckBox::HandleClick()
-{
-	Toggle();
-}
-
-}
+} // namespace UI

@@ -11,6 +11,6 @@ namespace LuaFileSystem {
 		ROOT_USER,
 		ROOT_DATA
 	};
-}
+} // namespace LuaFileSystem
 
 #endif

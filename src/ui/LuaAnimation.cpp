@@ -6,44 +6,47 @@
 
 namespace UI {
 
-class LuaAnimation {
-public:
+	class LuaAnimation {
+	public:
+		static int l_finish(lua_State *l)
+		{
+			Animation *a = LuaObject<UI::Animation>::CheckFromLua(1);
+			a->Finish();
+			return 0;
+		}
 
-	static int l_finish(lua_State *l) {
-		Animation *a = LuaObject<UI::Animation>::CheckFromLua(1);
-		a->Finish();
-		return 0;
-	}
+		static int l_attr_running(lua_State *l)
+		{
+			Animation *a = LuaObject<UI::Animation>::CheckFromLua(1);
+			lua_pushboolean(l, a->IsRunning());
+			return 1;
+		}
 
-	static int l_attr_running(lua_State *l) {
-		Animation *a = LuaObject<UI::Animation>::CheckFromLua(1);
-		lua_pushboolean(l, a->IsRunning());
-		return 1;
-	}
+		static int l_attr_completed(lua_State *l)
+		{
+			Animation *a = LuaObject<UI::Animation>::CheckFromLua(1);
+			lua_pushboolean(l, a->IsCompleted());
+			return 1;
+		}
+	};
 
-	static int l_attr_completed(lua_State *l) {
-		Animation *a = LuaObject<UI::Animation>::CheckFromLua(1);
-		lua_pushboolean(l, a->IsCompleted());
-		return 1;
-	}
-
-};
-
-}
+} // namespace UI
 
 using namespace UI;
 
-template <> const char *LuaObject<UI::Animation>::s_type = "UI.Animation";
+template <>
+const char *LuaObject<UI::Animation>::s_type = "UI.Animation";
 
-template <> void LuaObject<UI::Animation>::RegisterClass()
+template <>
+void LuaObject<UI::Animation>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
-		{ "Finish", LuaAnimation::l_finish   },
+		{ "Finish", LuaAnimation::l_finish },
 		{ nullptr, nullptr }
 	};
 
 	static const luaL_Reg l_attrs[] = {
-		{ "running",   LuaAnimation::l_attr_running   },
+		{ "running", LuaAnimation::l_attr_running },
 		{ "completed", LuaAnimation::l_attr_completed },
 		{ nullptr, nullptr }
 	};

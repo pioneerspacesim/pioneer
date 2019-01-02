@@ -1,22 +1,21 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "EnumStrings.h"
+#include "Game.h"
+#include "HyperspaceCloud.h"
+#include "LuaConstants.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
-#include "LuaConstants.h"
-#include "HyperspaceCloud.h"
 #include "Pi.h"
-#include "Game.h"
-#include "Ship.h"
 #include "SectorView.h"
-#include "EnumStrings.h"
+#include "Ship.h"
 #include "galaxy/Galaxy.h"
 /*
  * Class: HyperspaceCloud
  *
  * Class representing a hyperspace cloud. Inherits from <Body>
  */
-
 
 /* Method: IsArrival
  *
@@ -34,7 +33,6 @@ static int l_hyperspace_cloud_is_arrival(lua_State *l)
 	return 1;
 }
 
-
 /* Method: GetShip
  *
  * Return the <Ship> that created this cloud, or nil.
@@ -48,13 +46,12 @@ static int l_hyperspace_cloud_get_ship(lua_State *l)
 {
 	HyperspaceCloud *cloud = LuaObject<HyperspaceCloud>::CheckFromLua(1);
 	Ship *ship = cloud->GetShip();
-	if(ship == nullptr)
+	if (ship == nullptr)
 		lua_pushnil(l);
 	else
 		LuaPush(l, ship);
 	return 1;
 }
-
 
 /* Method: GetDueDate
  *
@@ -67,22 +64,24 @@ static int l_hyperspace_cloud_get_ship(lua_State *l)
  */
 static int l_hyperspace_cloud_get_due_date(lua_State *l)
 {
-		HyperspaceCloud *cloud = LuaObject<HyperspaceCloud>::CheckFromLua(1);
-		LuaPush(l, cloud->GetDueDate());
-		return 1;
+	HyperspaceCloud *cloud = LuaObject<HyperspaceCloud>::CheckFromLua(1);
+	LuaPush(l, cloud->GetDueDate());
+	return 1;
 }
 
-template <> const char *LuaObject<HyperspaceCloud>::s_type = "HyperspaceCloud";
+template <>
+const char *LuaObject<HyperspaceCloud>::s_type = "HyperspaceCloud";
 
-template <> void LuaObject<HyperspaceCloud>::RegisterClass()
+template <>
+void LuaObject<HyperspaceCloud>::RegisterClass()
 {
 	static const char *l_parent = "Body";
 
 	static const luaL_Reg l_methods[] = {
-		{ "IsArrival",  l_hyperspace_cloud_is_arrival },
-		{ "GetShip",    l_hyperspace_cloud_get_ship },
+		{ "IsArrival", l_hyperspace_cloud_is_arrival },
+		{ "GetShip", l_hyperspace_cloud_get_ship },
 		{ "GetDueDate", l_hyperspace_cloud_get_due_date },
-			
+
 		{ 0, 0 }
 	};
 

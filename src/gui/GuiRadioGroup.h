@@ -10,14 +10,15 @@
 namespace Gui {
 	class RadioGroup {
 	public:
-		RadioGroup() {};
-		virtual ~RadioGroup() {};
+		RadioGroup(){};
+		virtual ~RadioGroup(){};
 		void Add(ISelectable *b);
 		void SetSelected(int member_idx);
+
 	private:
 		void OnSelected(ISelectable *b);
-		std::list<ISelectable*> m_members;
+		std::list<ISelectable *> m_members;
 	};
-}
+} // namespace Gui
 
 #endif /* _GUIRADIOGROUP_H */

@@ -2,25 +2,25 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaGame.h"
-#include "LuaObject.h"
-#include "LuaUtils.h"
-#include "FileSystem.h"
-#include "Player.h"
-#include "Pi.h"
-#include "Game.h"
-#include "Lang.h"
-#include "StringF.h"
-#include "WorldView.h"
-#include "DeathView.h"
-#include "galaxy/Galaxy.h"
 #include "DateTime.h"
-#include "SectorView.h"
-#include "SystemView.h"
-#include "SystemInfoView.h"
-#include "ShipCpanel.h"
-#include "LuaPiGui.h"
-#include "GameSaveError.h"
+#include "DeathView.h"
+#include "FileSystem.h"
 #include "GZipFormat.h"
+#include "Game.h"
+#include "GameSaveError.h"
+#include "Lang.h"
+#include "LuaObject.h"
+#include "LuaPiGui.h"
+#include "LuaUtils.h"
+#include "Pi.h"
+#include "Player.h"
+#include "SectorView.h"
+#include "ShipCpanel.h"
+#include "StringF.h"
+#include "SystemInfoView.h"
+#include "SystemView.h"
+#include "WorldView.h"
+#include "galaxy/Galaxy.h"
 
 /*
  * Interface: Game
@@ -65,13 +65,11 @@ static int l_game_start_game(lua_State *l)
 	const double start_time = luaL_optnumber(l, 2, 0.0);
 	try {
 		Pi::game = new Game(*path, start_time);
-	}
-	catch (InvalidGameStartLocation& e) {
+	} catch (InvalidGameStartLocation &e) {
 		luaL_error(l, "invalid starting location for game: %s", e.error.c_str());
 	}
 	return 0;
 }
-
 
 /*
 * Function: SaveGameStats
@@ -121,20 +119,16 @@ static int l_game_savegame_stats(lua_State *l)
 		}
 
 		return 1;
-	}
-	catch (CouldNotOpenFileException &e) {
+	} catch (CouldNotOpenFileException &e) {
 		const std::string message = stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", filename));
 		lua_pushlstring(l, message.c_str(), message.size());
 		return lua_error(l);
-	}
-	catch (Json::type_error) {
+	} catch (Json::type_error) {
 		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
 		return 0;
-	}
-	catch (Json::out_of_range) {
+	} catch (Json::out_of_range) {
 		return luaL_error(l, Lang::GAME_LOAD_CORRUPT);
-	}
-	catch (SavedGameCorruptException) {
+	} catch (SavedGameCorruptException) {
 		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
 		return 0;
 	}
@@ -171,14 +165,11 @@ static int l_game_load_game(lua_State *l)
 
 	try {
 		Pi::game = Game::LoadGame(filename);
-	}
-	catch (SavedGameCorruptException) {
+	} catch (SavedGameCorruptException) {
 		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
-	}
-	catch (SavedGameWrongVersionException) {
+	} catch (SavedGameWrongVersionException) {
 		luaL_error(l, Lang::GAME_LOAD_WRONG_VERSION);
-	}
-	catch (CouldNotOpenFileException) {
+	} catch (CouldNotOpenFileException) {
 		const std::string msg = stringf(Lang::GAME_LOAD_CANNOT_OPEN, formatarg("filename", filename));
 		luaL_error(l, msg.c_str());
 	}
@@ -257,19 +248,15 @@ static int l_game_save_game(lua_State *l)
 		Game::SaveGame(filename, Pi::game);
 		lua_pushlstring(l, path.c_str(), path.size());
 		return 1;
-	}
-	catch (CannotSaveInHyperspace) {
+	} catch (CannotSaveInHyperspace) {
 		return luaL_error(l, "%s", Lang::CANT_SAVE_IN_HYPERSPACE);
-	}
-	catch (CannotSaveDeadPlayer) {
+	} catch (CannotSaveDeadPlayer) {
 		return luaL_error(l, "%s", Lang::CANT_SAVE_DEAD_PLAYER);
-	}
-	catch (CouldNotOpenFileException) {
+	} catch (CouldNotOpenFileException) {
 		const std::string message = stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path));
 		lua_pushlstring(l, message.c_str(), message.size());
 		return lua_error(l);
-	}
-	catch (CouldNotWriteToFileException) {
+	} catch (CouldNotWriteToFileException) {
 		return luaL_error(l, "%s", Lang::GAME_SAVE_CANNOT_WRITE);
 	}
 }
@@ -459,21 +446,21 @@ static int l_game_set_radar_visible(lua_State *l)
 static int l_game_current_view(lua_State *l)
 {
 	const View *view = Pi::GetView();
-	if(view == Pi::game->GetWorldView())
+	if (view == Pi::game->GetWorldView())
 		LuaPush(l, "world");
-	else if(view == Pi::game->GetSpaceStationView())
+	else if (view == Pi::game->GetSpaceStationView())
 		LuaPush(l, "space_station");
-	else if(view == Pi::game->GetInfoView())
+	else if (view == Pi::game->GetInfoView())
 		LuaPush(l, "info");
-	else if(view == Pi::game->GetSectorView())
+	else if (view == Pi::game->GetSectorView())
 		LuaPush(l, "sector");
-	else if(view == Pi::game->GetSystemView())
+	else if (view == Pi::game->GetSystemView())
 		LuaPush(l, "system");
-	else if(view == Pi::game->GetSystemInfoView())
+	else if (view == Pi::game->GetSystemInfoView())
 		LuaPush(l, "system_info");
-	else if(view == Pi::game->GetDeathView())
+	else if (view == Pi::game->GetDeathView())
 		LuaPush(l, "death");
-	else if(view == Pi::game->GetGalacticView())
+	else if (view == Pi::game->GetGalacticView())
 		LuaPush(l, "galaxy");
 	else
 		lua_pushnil(l);
@@ -493,15 +480,16 @@ static int l_game_switch_view(lua_State *l)
 	return 0;
 }
 
-static void pushTimeAccel(lua_State *l, Game::TimeAccel accel) {
-	switch(accel) {
-	case Game::TIMEACCEL_PAUSED: lua_pushstring(l,"paused"); break;
-	case Game::TIMEACCEL_1X: lua_pushstring(l,"1x"); break;
-	case Game::TIMEACCEL_10X: lua_pushstring(l,"10x"); break;
-	case Game::TIMEACCEL_100X: lua_pushstring(l,"100x"); break;
-	case Game::TIMEACCEL_1000X: lua_pushstring(l,"1000x"); break;
-	case Game::TIMEACCEL_10000X: lua_pushstring(l,"10000x"); break;
-	case Game::TIMEACCEL_HYPERSPACE: lua_pushstring(l,"hyperspace"); break;
+static void pushTimeAccel(lua_State *l, Game::TimeAccel accel)
+{
+	switch (accel) {
+	case Game::TIMEACCEL_PAUSED: lua_pushstring(l, "paused"); break;
+	case Game::TIMEACCEL_1X: lua_pushstring(l, "1x"); break;
+	case Game::TIMEACCEL_10X: lua_pushstring(l, "10x"); break;
+	case Game::TIMEACCEL_100X: lua_pushstring(l, "100x"); break;
+	case Game::TIMEACCEL_1000X: lua_pushstring(l, "1000x"); break;
+	case Game::TIMEACCEL_10000X: lua_pushstring(l, "10000x"); break;
+	case Game::TIMEACCEL_HYPERSPACE: lua_pushstring(l, "hyperspace"); break;
 	default: break; // TODO error
 	}
 }
@@ -525,19 +513,19 @@ static int l_game_set_time_acceleration(lua_State *l)
 	std::string accel = LuaPull<std::string>(l, 1);
 	bool force = LuaPull<bool>(l, 2);
 	Game::TimeAccel a = Game::TIMEACCEL_PAUSED;
-	if(!accel.compare("paused"))
+	if (!accel.compare("paused"))
 		a = Game::TIMEACCEL_PAUSED;
-	else if(!accel.compare("1x"))
+	else if (!accel.compare("1x"))
 		a = Game::TIMEACCEL_1X;
-	else if(!accel.compare("10x"))
+	else if (!accel.compare("10x"))
 		a = Game::TIMEACCEL_10X;
-	else if(!accel.compare("100x"))
+	else if (!accel.compare("100x"))
 		a = Game::TIMEACCEL_100X;
-	else if(!accel.compare("1000x"))
+	else if (!accel.compare("1000x"))
 		a = Game::TIMEACCEL_1000X;
-	else if(!accel.compare("10000x"))
+	else if (!accel.compare("10000x"))
 		a = Game::TIMEACCEL_10000X;
-	else if(!accel.compare("hyperspace"))
+	else if (!accel.compare("hyperspace"))
 		a = Game::TIMEACCEL_HYPERSPACE;
 	// else TODO error
 	Pi::game->RequestTimeAccel(a, force);
@@ -564,21 +552,21 @@ static int l_game_set_view(lua_State *l)
 	if (!Pi::game)
 		return luaL_error(l, "can't set view when no game is running");
 	std::string target = luaL_checkstring(l, 1);
-	if(!target.compare("world")) {
+	if (!target.compare("world")) {
 		Pi::SetView(Pi::game->GetWorldView());
-	} else if(!target.compare("space_station")) {
+	} else if (!target.compare("space_station")) {
 		Pi::SetView(Pi::game->GetSpaceStationView());
-	} else if(!target.compare("info")) {
+	} else if (!target.compare("info")) {
 		Pi::SetView(Pi::game->GetInfoView());
-	} else if(!target.compare("death")) {
+	} else if (!target.compare("death")) {
 		Pi::SetView(Pi::game->GetDeathView());
-	} else if(!target.compare("sector")) {
+	} else if (!target.compare("sector")) {
 		Pi::SetView(Pi::game->GetSectorView());
-	} else if(!target.compare("galaxy")) {
+	} else if (!target.compare("galaxy")) {
 		Pi::SetView(Pi::game->GetGalacticView());
-	} else if(!target.compare("system")) {
+	} else if (!target.compare("system")) {
 		Pi::SetView(Pi::game->GetSystemView());
-	} else if(!target.compare("system_info")) {
+	} else if (!target.compare("system_info")) {
 		Pi::SetView(Pi::game->GetSystemInfoView());
 	} else {
 		// TODO else error
@@ -588,11 +576,11 @@ static int l_game_set_view(lua_State *l)
 
 static int l_game_get_world_cam_type(lua_State *l)
 {
-	switch(Pi::game->GetWorldView()->GetCamType()) {
+	switch (Pi::game->GetWorldView()->GetCamType()) {
 	case WorldView::CAM_INTERNAL: lua_pushstring(l, "internal"); break;
 	case WorldView::CAM_EXTERNAL: lua_pushstring(l, "external"); break;
 	case WorldView::CAM_SIDEREAL: lua_pushstring(l, "sidereal"); break;
-	case WorldView::CAM_FLYBY:    lua_pushstring(l, "flyby");    break;
+	case WorldView::CAM_FLYBY: lua_pushstring(l, "flyby"); break;
 	default: Output("Unknown world view cam type\n"); break;
 	}
 	return 1;
@@ -607,13 +595,13 @@ static int l_game_change_flight_state(lua_State *l)
 static int l_game_set_world_cam_type(lua_State *l)
 {
 	std::string cam = luaL_checkstring(l, 1);
-	if(!cam.compare("internal"))
+	if (!cam.compare("internal"))
 		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_INTERNAL);
-	else if(!cam.compare("external"))
+	else if (!cam.compare("external"))
 		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_EXTERNAL);
-	else if(!cam.compare("sidereal"))
+	else if (!cam.compare("sidereal"))
 		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_SIDEREAL);
-	else if(!cam.compare("flyby"))
+	else if (!cam.compare("flyby"))
 		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_FLYBY);
 	else {
 		// TODO else error
@@ -621,7 +609,8 @@ static int l_game_set_world_cam_type(lua_State *l)
 	return 0;
 }
 
-static int l_game_get_hyperspace_travelled_percentage(lua_State *l) {
+static int l_game_get_hyperspace_travelled_percentage(lua_State *l)
+{
 	LuaPush(l, Pi::game->GetHyperspaceArrivalProbability());
 	return 1;
 }
@@ -649,28 +638,28 @@ void LuaGame::Register()
 	LUA_DEBUG_START(l);
 
 	static const luaL_Reg l_methods[] = {
-		{ "StartGame",      l_game_start_game       },
-		{ "LoadGame",       l_game_load_game        },
-		{ "CanLoadGame",    l_game_can_load_game    },
-		{ "SaveGame",       l_game_save_game        },
-		{ "EndGame",        l_game_end_game         },
-		{ "InHyperspace",   l_game_in_hyperspace    },
-		{ "SetRadarVisible",l_game_set_radar_visible},
-		{ "SaveGameStats",  l_game_savegame_stats },
+		{ "StartGame", l_game_start_game },
+		{ "LoadGame", l_game_load_game },
+		{ "CanLoadGame", l_game_can_load_game },
+		{ "SaveGame", l_game_save_game },
+		{ "EndGame", l_game_end_game },
+		{ "InHyperspace", l_game_in_hyperspace },
+		{ "SetRadarVisible", l_game_set_radar_visible },
+		{ "SaveGameStats", l_game_savegame_stats },
 
-		{ "SwitchView",  l_game_switch_view },
+		{ "SwitchView", l_game_switch_view },
 		{ "CurrentView", l_game_current_view },
-		{ "SetView",     l_game_set_view },
+		{ "SetView", l_game_set_view },
 		{ "GetDateTime", l_game_get_date_time },
 		{ "GetPartsFromDateTime", l_game_get_parts_from_date_time },
-		{ "SetTimeAcceleration",          l_game_set_time_acceleration },
-		{ "GetTimeAcceleration",          l_game_get_time_acceleration },
+		{ "SetTimeAcceleration", l_game_set_time_acceleration },
+		{ "GetTimeAcceleration", l_game_get_time_acceleration },
 		{ "GetRequestedTimeAcceleration", l_game_get_requested_time_acceleration },
 		{ "GetHyperspaceTravelledPercentage", l_game_get_hyperspace_travelled_percentage },
 
 		{ "SetWorldCamType", l_game_set_world_cam_type },
 		{ "GetWorldCamType", l_game_get_world_cam_type },
-		{ "ChangeFlightState",           l_game_change_flight_state }, // deprecated
+		{ "ChangeFlightState", l_game_change_flight_state }, // deprecated
 
 		{ 0, 0 }
 	};
@@ -678,7 +667,7 @@ void LuaGame::Register()
 	static const luaL_Reg l_attrs[] = {
 		{ "player", l_game_attr_player },
 		{ "system", l_game_attr_system },
-		{ "time",   l_game_attr_time   },
+		{ "time", l_game_attr_time },
 		{ "paused", l_game_attr_paused },
 		{ 0, 0 }
 	};

@@ -41,17 +41,15 @@
 // around the same time a coworker was creating an ad hoc visualization app. As we watched the data appear on screen, we had to squint as some of the colors
 // were very difficult to make out against the background. This should make things easier to see and will hopefully help others as well.
 
-#include "Range.h"
-#include "Random.h"
 #include "Color.h"
+#include "Random.h"
+#include "Range.h"
 
-#include <vector>
 #include <map>
+#include <vector>
 
-namespace RandomColorGenerator
-{
-	enum ColorScheme
-	{
+namespace RandomColorGenerator {
+	enum ColorScheme {
 		// Select randomly from among the other color schemes.
 		SCHEME_RANDOM = 0,
 		// Generates only grayscale colors.
@@ -72,8 +70,7 @@ namespace RandomColorGenerator
 		SCHEME_PINK
 	};
 
-	enum Luminosity
-	{
+	enum Luminosity {
 		// Select randomly from among the other luminosities.
 		LUMINOSITY_RANDOM = 0,
 		// Generate dark colors.
@@ -86,17 +83,19 @@ namespace RandomColorGenerator
 
 	class Point {
 	public:
-		Point() : x(0), y(0) {}
-		Point(int nx, int ny) : x(nx), y(ny) {}
+		Point() :
+			x(0),
+			y(0) {}
+		Point(int nx, int ny) :
+			x(nx),
+			y(ny) {}
 		int x, y;
 	};
 
 	// Generates random numbers.
-	class RandomColor
-	{
+	class RandomColor {
 	private:
-		class DefinedColor
-		{
+		class DefinedColor {
 		public:
 			DefinedColor() {}
 			Range HueRange;
@@ -145,7 +144,6 @@ namespace RandomColorGenerator
 		// Converts hue, saturation, and lightness to a color.
 		static Color HsvToColor(int hue, int saturation, double value);
 	};
-};
-
+}; // namespace RandomColorGenerator
 
 #endif // _RANDOM_COLOR_H_

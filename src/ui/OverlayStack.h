@@ -8,20 +8,20 @@
 
 namespace UI {
 
-class OverlayStack : public Container {
-public:
-	virtual Point PreferredSize();
-	virtual void Layout();
+	class OverlayStack : public Container {
+	public:
+		virtual Point PreferredSize();
+		virtual void Layout();
 
-	OverlayStack *AddLayer(Widget *widget);
-	void Clear();
+		OverlayStack *AddLayer(Widget *widget);
+		void Clear();
 
-protected:
-	friend class Context;
-	OverlayStack(Context *context) : Container(context) {}
-};
+	protected:
+		friend class Context;
+		OverlayStack(Context *context) :
+			Container(context) {}
+	};
 
-}
-
+} // namespace UI
 
 #endif

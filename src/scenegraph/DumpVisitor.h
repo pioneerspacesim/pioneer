@@ -8,40 +8,40 @@
  */
 namespace SceneGraph {
 
-class Model;
+	class Model;
 
-class DumpVisitor : public NodeVisitor {
-public:
-	struct LodStatistics {
-		unsigned int nodeCount;
-		unsigned int opaqueGeomCount;
-		unsigned int transGeomCount;
+	class DumpVisitor : public NodeVisitor {
+	public:
+		struct LodStatistics {
+			unsigned int nodeCount;
+			unsigned int opaqueGeomCount;
+			unsigned int transGeomCount;
 
-		unsigned int triangles;
+			unsigned int triangles;
+		};
+
+		struct ModelStatistics {
+			unsigned int materialCount;
+			unsigned int collTriCount;
+		};
+
+		DumpVisitor(const Model *m);
+
+		std::string GetModelStatistics();
+
+		virtual void ApplyNode(Node &);
+		virtual void ApplyGroup(Group &);
+		virtual void ApplyLOD(LOD &);
+		virtual void ApplyStaticGeometry(StaticGeometry &);
+
+	private:
+		void PutIndent() const;
+		void PutNodeName(const Node &) const;
+
+		unsigned int m_level;
+		ModelStatistics m_modelStats;
+		LodStatistics m_stats;
+		std::vector<LodStatistics> m_lodStats;
 	};
 
-	struct ModelStatistics {
-		unsigned int materialCount;
-		unsigned int collTriCount;
-	};
-
-	DumpVisitor(const Model *m);
-
-	std::string GetModelStatistics();
-
-	virtual void ApplyNode(Node&);
-	virtual void ApplyGroup(Group&);
-	virtual void ApplyLOD(LOD&);
-	virtual void ApplyStaticGeometry(StaticGeometry&);
-
-private:
-	void PutIndent() const;
-	void PutNodeName(const Node&) const;
-
-	unsigned int m_level;
-	ModelStatistics m_modelStats;
-	LodStatistics m_stats;
-	std::vector<LodStatistics> m_lodStats;
-};
-
-}
+} // namespace SceneGraph

@@ -6,6 +6,7 @@
 
 #include "Color.h"
 #include "GuiEvents.h"
+#include "libs.h"
 
 namespace Gui {
 	class Container;
@@ -21,8 +22,17 @@ namespace Gui {
 		// the minimum size the widget requires to operate effectively
 		virtual void GetMinimumSize(float size[2]) { GetSizeRequested(size); }
 		void GetAbsolutePosition(float pos[2]) const;
-		void GetSize(float size[2]) { size[0] = m_size.w; size[1] = m_size.h; }
-		void SetSize(float w, float h) { m_size.w = w; m_size.h = h; onSetSize.emit(); }
+		void GetSize(float size[2])
+		{
+			size[0] = m_size.w;
+			size[1] = m_size.h;
+		}
+		void SetSize(float w, float h)
+		{
+			m_size.w = w;
+			m_size.h = h;
+			onSetSize.emit();
+		}
 		void ResizeRequest();
 		void SetShortcut(SDL_Keycode key, SDL_Keymod mod);
 		void SetScissor(bool enabled);
@@ -54,19 +64,20 @@ namespace Gui {
 		void OnPreShortcut(const SDL_Keysym *sym);
 		enum EventMask {
 			EVENT_NONE = 0,
-			EVENT_KEYDOWN = 1<<0,
-			EVENT_KEYUP = 1<<1,
-			EVENT_MOUSEDOWN = 1<<2,
-			EVENT_MOUSEUP = 1<<3,
-			EVENT_MOUSEMOTION = 1<<4 // needed for OnMouseEnter,Leave,IsMouseOver
+			EVENT_KEYDOWN = 1 << 0,
+			EVENT_KEYUP = 1 << 1,
+			EVENT_MOUSEDOWN = 1 << 2,
+			EVENT_MOUSEUP = 1 << 3,
+			EVENT_MOUSEMOTION = 1 << 4 // needed for OnMouseEnter,Leave,IsMouseOver
 		};
-		static const unsigned int EVENT_ALL = 0xffffffff;		// not in the enum because 0xffffffff is an unsigned int, and an enum is an int (before C++11 which allows strong-typed enums)
+		static const unsigned int EVENT_ALL = 0xffffffff; // not in the enum because 0xffffffff is an unsigned int, and an enum is an int (before C++11 which allows strong-typed enums)
 		unsigned int GetEventMask() { return m_eventMask; }
 
 		sigc::signal<void> onMouseEnter;
 		sigc::signal<void> onMouseLeave;
 		sigc::signal<void> onSetSize;
 		sigc::signal<void> onDelete;
+
 	protected:
 		unsigned int m_eventMask;
 		struct {
@@ -76,9 +87,10 @@ namespace Gui {
 
 		virtual std::string GetOverrideTooltip() { return ""; }
 		void UpdateOverriddenTooltip();
+
 	private:
 		struct {
-			float w,h;
+			float w, h;
 		} m_size;
 		bool m_visible;
 		bool m_mouseOver;
@@ -89,6 +101,6 @@ namespace Gui {
 		ToolTip *m_tooltipWidget;
 		void OnToolTip();
 	};
-}
+} // namespace Gui
 
 #endif /* _GUIWIDGET_H */

@@ -30,13 +30,11 @@ void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint
 	int srcy = height - 1;
 	for (int y = 0; y < height; y++)
 	{
-		for (int x = 0; x < stride; x++)
-		{
+		for (int x = 0; x < stride; x++) {
 			const int src_index = (srcy * stride) + x;
 			const int dst_index = (y * stride) + x;
-			for (int channel = 0; channel < bytes_per_pixel; channel++)
-			{
-				(static_cast<Uint8*>(surface->pixels))[dst_index + channel] = bytes[src_index + channel];
+			for (int channel = 0; channel < bytes_per_pixel; channel++) {
+				(static_cast<Uint8 *>(surface->pixels))[dst_index + channel] = bytes[src_index + channel];
 			}
 		}
 		srcy--;

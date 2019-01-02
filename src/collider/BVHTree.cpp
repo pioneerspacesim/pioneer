@@ -3,8 +3,8 @@
 
 #include "BVHTree.h"
 #include "../buildopts.h"
-#include <stdio.h>
 #include <float.h>
+#include <stdio.h>
 
 const int MAX_SPLITPOS_RETRIES = 15;
 
@@ -15,15 +15,16 @@ BVHTree::BVHTree(int numObjs, const objPtr_t *objPtrs, const Aabb *objAabbs)
 	timer.Start();
 
 	std::vector<int> activeObjIdxs(numObjs);
-	for (int i=0; i<numObjs; i++) activeObjIdxs[i] = i;
+	for (int i = 0; i < numObjs; i++)
+		activeObjIdxs[i] = i;
 
 	m_objPtrAlloc = new objPtr_t[numObjs];
 	m_objPtrAllocPos = 0;
 	m_objPtrAllocMax = numObjs;
 
-	m_bvhNodes = new BVHNode[numObjs*2 + 1];
+	m_bvhNodes = new BVHNode[numObjs * 2 + 1];
 	m_nodeAllocPos = 0;
-	m_nodeAllocMax = numObjs*2 + 1;
+	m_nodeAllocMax = numObjs * 2 + 1;
 
 	m_root = AllocNode();
 	BuildNode(m_root, objPtrs, objAabbs, activeObjIdxs);
@@ -46,15 +47,15 @@ void BVHTree::MakeLeaf(BVHNode *node, const objPtr_t *objPtrs, std::vector<objPt
 	//if (objs.size()>3) Output("fat node %d\n", objs.size());
 
 	// copy tri indices to the stinking flat array
-	for (int i=numTris-1; i>=0; i--) {
+	for (int i = numTris - 1; i >= 0; i--) {
 		m_objPtrAlloc[m_objPtrAllocPos++] = objPtrs[objs[i]];
 	}
 }
 
 void BVHTree::BuildNode(BVHNode *node,
-			const objPtr_t *objPtrs,
-			const Aabb *objAabbs,
-			std::vector<objPtr_t> &activeObjIdx)
+	const objPtr_t *objPtrs,
+	const Aabb *objAabbs,
+	std::vector<objPtr_t> &activeObjIdx)
 {
 	const int numTris = activeObjIdx.size();
 	if (numTris <= 0) Error("BuildNode called with no elements in activeObjIndex.");
@@ -70,7 +71,7 @@ void BVHTree::BuildNode(BVHNode *node,
 	aabb.min = vector3d(FLT_MAX, FLT_MAX, FLT_MAX);
 	aabb.max = vector3d(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 
-	for (int i=0; i<numTris; i++) {
+	for (int i = 0; i < numTris; i++) {
 		const int idx = activeObjIdx[i];
 		aabb.Update(objAabbs[idx].min);
 		aabb.Update(objAabbs[idx].max);
@@ -96,7 +97,7 @@ void BVHTree::BuildNode(BVHNode *node,
 		splitPos = 0.5f * (splitBox.min[splitAxis] + splitBox.max[splitAxis]);
 		s1count = 0, s2count = 0;
 
-		for (int i=0; i<numTris; i++) {
+		for (int i = 0; i < numTris; i++) {
 			const int idx = activeObjIdx[i];
 			const double mid = 0.5 * (objAabbs[idx].min[splitAxis] + objAabbs[idx].max[splitAxis]);
 			if (mid < splitPos) {
@@ -136,7 +137,7 @@ void BVHTree::BuildNode(BVHNode *node,
 	side[0].reserve(numTris);
 	side[1].reserve(numTris);
 
-	for (int i=0; i<numTris; i++) {
+	for (int i = 0; i < numTris; i++) {
 		side[splitSides[i]].push_back(activeObjIdx[i]);
 	}
 

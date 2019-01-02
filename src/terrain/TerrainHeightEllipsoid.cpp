@@ -7,7 +7,8 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightEllipsoid>::GetHeightFractalName() const { return "Ellipsoid"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightEllipsoid>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
+TerrainHeightFractal<TerrainHeightEllipsoid>::TerrainHeightFractal(const SystemBody *body) :
+	Terrain(body)
 {
 	const double rad = m_minBody.m_radius;
 	m_maxHeight = m_minBody.m_aspectRatio - 1.0;
@@ -55,12 +56,11 @@ double TerrainHeightFractal<TerrainHeightEllipsoid>::GetHeight(const vector3d &p
 {
 	const double ar = m_minBody.m_aspectRatio;
 	// x_^2 = (p.z^2+p.x^2) (eqn. 5)
-	const double x_squared = (p.x*p.x+p.z*p.z);
+	const double x_squared = (p.x * p.x + p.z * p.z);
 	// y_ = p.y
-	const double y_squared = p.y*p.y;
-	const double distFromCenter_R = ar/sqrt(x_squared+ar*ar*y_squared); // (eqn. 9)
+	const double y_squared = p.y * p.y;
+	const double distFromCenter_R = ar / sqrt(x_squared + ar * ar * y_squared); // (eqn. 9)
 	// GetHeight must return the difference in the distance from center between a point in a sphere of
 	// Polar radius (in coords scaled to a unit sphere) and the point on the ellipsoid surface.
 	return std::max(distFromCenter_R - 1.0, 0.0);
 }
-

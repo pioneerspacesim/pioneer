@@ -20,16 +20,18 @@ namespace LuaVector {
 
 	inline void PushToLuaF(lua_State *L, const vector3f &v) { PushToLua(L, vector3d(v)); }
 	inline vector3f CheckFromLuaF(lua_State *L, int idx) { return vector3f(*CheckFromLua(L, idx)); }
-}
+} // namespace LuaVector
 
-inline void pi_lua_generic_push(lua_State * l, const vector3d & value) { LuaVector::PushToLua(l, value); }
+inline void pi_lua_generic_push(lua_State *l, const vector3d &value) { LuaVector::PushToLua(l, value); }
 
-inline void pi_lua_generic_pull(lua_State * l, int index, vector3d& out) {
+inline void pi_lua_generic_pull(lua_State *l, int index, vector3d &out)
+{
 	out = *LuaVector::CheckFromLua(l, index);
 }
 
-inline bool pi_lua_strict_pull(lua_State * l, int index, vector3d & out) {
-	const vector3d* tmp = LuaVector::GetFromLua(l, index);
+inline bool pi_lua_strict_pull(lua_State *l, int index, vector3d &out)
+{
+	const vector3d *tmp = LuaVector::GetFromLua(l, index);
 	if (tmp) {
 		out = *tmp;
 		return true;

@@ -29,7 +29,6 @@ void NullServerAgent::ProcessResponses()
 	}
 }
 
-
 bool HTTPServerAgent::s_initialised = false;
 
 HTTPServerAgent::HTTPServerAgent(const std::string &endpoint) :
@@ -121,7 +120,7 @@ void HTTPServerAgent::ProcessResponses()
 
 int HTTPServerAgent::ThreadEntry(void *data)
 {
-	reinterpret_cast<HTTPServerAgent*>(data)->ThreadMain();
+	reinterpret_cast<HTTPServerAgent *>(data)->ThreadMain();
 	return 0;
 }
 
@@ -159,7 +158,7 @@ void HTTPServerAgent::ThreadMain()
 
 		Response resp(req.onSuccess, req.onFail, req.userdata);
 
-		curl_easy_setopt(m_curl, CURLOPT_URL, std::string(m_endpoint+"/"+req.method).c_str());
+		curl_easy_setopt(m_curl, CURLOPT_URL, std::string(m_endpoint + "/" + req.method).c_str());
 		curl_easy_setopt(m_curl, CURLOPT_POSTFIELDSIZE, req.buffer.size());
 		curl_easy_setopt(m_curl, CURLOPT_READDATA, &req);
 		curl_easy_setopt(m_curl, CURLOPT_WRITEDATA, &resp);
@@ -193,8 +192,8 @@ void HTTPServerAgent::ThreadMain()
 
 size_t HTTPServerAgent::FillRequestBuffer(char *ptr, size_t size, size_t nmemb, void *userdata)
 {
-	HTTPServerAgent::Request *req = reinterpret_cast<HTTPServerAgent::Request*>(userdata);
-	size_t amount = std::max(size*nmemb, req->buffer.size());
+	HTTPServerAgent::Request *req = reinterpret_cast<HTTPServerAgent::Request *>(userdata);
+	size_t amount = std::max(size * nmemb, req->buffer.size());
 	memcpy(ptr, req->buffer.data(), amount);
 	req->buffer.erase(0, amount);
 	return amount;
@@ -202,9 +201,9 @@ size_t HTTPServerAgent::FillRequestBuffer(char *ptr, size_t size, size_t nmemb, 
 
 size_t HTTPServerAgent::FillResponseBuffer(char *ptr, size_t size, size_t nmemb, void *userdata)
 {
-	HTTPServerAgent::Response *resp = reinterpret_cast<HTTPServerAgent::Response*>(userdata);
-	resp->buffer.append(ptr, size*nmemb);
-	return size*nmemb;
+	HTTPServerAgent::Response *resp = reinterpret_cast<HTTPServerAgent::Response *>(userdata);
+	resp->buffer.append(ptr, size * nmemb);
+	return size * nmemb;
 }
 
 const std::string &HTTPServerAgent::UserAgent()

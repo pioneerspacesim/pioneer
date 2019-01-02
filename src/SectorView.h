@@ -4,26 +4,25 @@
 #ifndef _SECTORVIEW_H
 #define _SECTORVIEW_H
 
-#include "libs.h"
-#include "gui/Gui.h"
 #include "UIView.h"
-#include <vector>
-#include <set>
-#include <string>
 #include "View.h"
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
 #include "graphics/RenderState.h"
+#include "gui/Gui.h"
+#include "libs.h"
 #include <set>
+#include <string>
+#include <vector>
 
 class Game;
 class Galaxy;
 
-class SectorView: public UIView {
+class SectorView : public UIView {
 public:
-	SectorView(Game* game);
-	SectorView(const Json &jsonObj, Game* game);
+	SectorView(Game *game);
+	SectorView(const Json &jsonObj, Game *game);
 	virtual ~SectorView();
 
 	virtual void Update();
@@ -72,7 +71,6 @@ public:
 	void AutoRoute(const SystemPath &start, const SystemPath &target, std::vector<SystemPath> &outRoute) const;
 	void SetDrawRouteLines(bool value) { m_drawRouteLines = value; }
 
-
 protected:
 	virtual void OnSwitchTo();
 
@@ -96,18 +94,18 @@ private:
 		Gui::Label *shortDesc;
 	};
 
-	void DrawNearSectors(const matrix4x4f& modelview);
+	void DrawNearSectors(const matrix4x4f &modelview);
 	void DrawNearSector(const int sx, const int sy, const int sz, const vector3f &playerAbsPos, const matrix4x4f &trans);
 	void PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &origin, int drawRadius);
 
-	void DrawFarSectors(const matrix4x4f& modelview);
+	void DrawFarSectors(const matrix4x4f &modelview);
 	void BuildFarSector(RefCountedPtr<Sector> sec, const vector3f &origin, std::vector<vector3f> &points, std::vector<Color> &colors);
 	void PutFactionLabels(const vector3f &secPos);
 	void AddStarBillboard(const matrix4x4f &modelview, const vector3f &pos, const Color &col, float size);
 
 	void OnClickSystem(const SystemPath &path);
 
-	RefCountedPtr<Sector> GetCached(const SystemPath& loc) { return m_sectorCache->GetCached(loc); }
+	RefCountedPtr<Sector> GetCached(const SystemPath &loc) { return m_sectorCache->GetCached(loc); }
 	void ShrinkCache();
 
 	void MouseWheel(bool up);
@@ -144,12 +142,12 @@ private:
 
 	Gui::LabelSet *m_clickableLabels;
 
-	std::set<const Faction*>        m_visibleFactions;
-	std::set<const Faction*>        m_hiddenFactions;
+	std::set<const Faction *> m_visibleFactions;
+	std::set<const Faction *> m_hiddenFactions;
 
 	Uint8 m_detailBoxVisible;
 
-	void OnToggleFaction(Gui::ToggleButton* button, bool pressed, const Faction* faction);
+	void OnToggleFaction(Gui::ToggleButton *button, bool pressed, const Faction *faction);
 
 	sigc::connection m_onMouseWheelCon;
 	sigc::connection m_onKeyPressConnection;
@@ -174,11 +172,11 @@ private:
 	RefCountedPtr<Graphics::Material> m_starMaterial;
 
 	std::vector<vector3f> m_farstars;
-	std::vector<Color>    m_farstarsColor;
+	std::vector<Color> m_farstarsColor;
 
 	vector3f m_secPosFar;
-	int      m_radiusFar;
-	bool     m_toggledFaction;
+	int m_radiusFar;
+	bool m_toggledFaction;
 
 	int m_cacheXMin;
 	int m_cacheXMax;

@@ -5,7 +5,7 @@
 #define PI_LUA_JSON_H
 
 namespace LuaJson {
-    void Register();
+	void Register();
 }
 
 #endif

@@ -6,12 +6,17 @@
 /*
  * Mesh shields for ships and other objects.
  */
-#include "libs.h"
 #include "JsonFwd.h"
+#include "libs.h"
 #include <deque>
 
-namespace Graphics { class Renderer; }
-namespace SceneGraph { class Model; class StaticGeometry; }
+namespace Graphics {
+	class Renderer;
+}
+namespace SceneGraph {
+	class Model;
+	class StaticGeometry;
+} // namespace SceneGraph
 
 struct ShieldRenderParameters {
 	static const Uint32 MAX_SHIELD_HITS = 5; // Also defined in ShieldMaterial.h
@@ -22,37 +27,34 @@ struct ShieldRenderParameters {
 	Sint32 numHits;
 };
 
-class Shields
-{
+class Shields {
 public:
-	struct Shield
-	{
+	struct Shield {
 		Shield(const Color3ub &color, const matrix4x4f &matrix, SceneGraph::StaticGeometry *sg);
 		Color3ub m_colour; // I'm English, so it's "colour" ;)
 		matrix4x4f m_matrix;
 		RefCountedPtr<SceneGraph::StaticGeometry> m_mesh;
 	};
 
-	Shields(SceneGraph::Model*);
+	Shields(SceneGraph::Model *);
 	virtual ~Shields();
 	virtual void SaveToJson(Json &jsonObj);
 	virtual void LoadFromJson(const Json &jsonObj);
 
 	void SetEnabled(const bool on) { m_enabled = on; }
 	void Update(const float coolDown, const float shieldStrength);
-	void SetColor(const Color3ub&);
-	void AddHit(const vector3d& hitPos);
+	void SetColor(const Color3ub &);
+	void AddHit(const vector3d &hitPos);
 
-	static void Init(Graphics::Renderer*);
-	static void ReparentShieldNodes(SceneGraph::Model*);
+	static void Init(Graphics::Renderer *);
+	static void ReparentShieldNodes(SceneGraph::Model *);
 	static void Uninit();
 
-	SceneGraph::StaticGeometry* GetFirstShieldMesh();
+	SceneGraph::StaticGeometry *GetFirstShieldMesh();
 
 protected:
-	struct Hits
-	{
-		Hits(const vector3d& _pos, const Uint32 _start, const Uint32 _end);
+	struct Hits {
+		Hits(const vector3d &_pos, const Uint32 _start, const Uint32 _end);
 		vector3d pos;
 		Uint32 start;
 		Uint32 end;

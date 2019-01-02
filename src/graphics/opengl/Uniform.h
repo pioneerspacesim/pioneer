@@ -8,10 +8,10 @@
  */
 #include "OpenGLLibs.h"
 
-#include "vector3.h"
+#include "Color.h"
 #include "matrix3x3.h"
 #include "matrix4x4.h"
-#include "Color.h"
+#include "vector3.h"
 
 namespace Graphics {
 
@@ -24,21 +24,21 @@ namespace Graphics {
 			void Init(const char *name, GLuint program);
 			void Set(int);
 			void Set(float);
-			void Set(const vector3f&);
-			void Set(const vector3d&);
-			void Set(const Color&);
+			void Set(const vector3f &);
+			void Set(const vector3d &);
+			void Set(const Color &);
 			void Set(const int v[3]);
 			void Set(const float x, const float y, const float z, const float w);
 			void Set(const float m[9]);
-			void Set(const matrix3x3f&);
-			void Set(const matrix4x4f&);
+			void Set(const matrix3x3f &);
+			void Set(const matrix4x4f &);
 			void Set(Texture *t, unsigned int unit);
 			bool IsValid() const { return (m_location != -1); }
 
 		private:
 			GLint m_location;
 		};
-	}
-}
+	} // namespace OGL
+} // namespace Graphics
 
 #endif

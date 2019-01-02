@@ -14,7 +14,8 @@ public:
 	const PropertyMap &Properties() const { return m_properties; }
 
 protected:
-	PropertiedObject(LuaManager *lua) : m_properties(lua) {}
+	PropertiedObject(LuaManager *lua) :
+		m_properties(lua) {}
 
 private:
 	PropertyMap m_properties;
