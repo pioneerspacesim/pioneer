@@ -1,3 +1,10 @@
+January 2019
+   * Internal Changes
+     * Fix cmake error (#4505)
+
+   * Fixes
+     * Fix crash on exit (#4503)
+
 December 2018
    * Internal Changes
      * Don't show military allegiance info for player (#4499)
