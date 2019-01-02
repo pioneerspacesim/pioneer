@@ -360,7 +360,7 @@ def parse_enum(toktype, toktext, tokens, preceding_comment=None):
         return None
 
 def write_license_header(fl):
-    fl.write('/* Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details */\n')
+    fl.write('/* Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details */\n')
     fl.write('/* Licensed under the terms of the GPL v3. See licenses/GPL-3.txt        */\n')
     fl.write('\n')
 
