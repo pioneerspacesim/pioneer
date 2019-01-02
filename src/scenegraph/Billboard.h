@@ -12,26 +12,26 @@ namespace Graphics {
 	class Material;
 	class VertexBuffer;
 	class RenderState;
-}
+} // namespace Graphics
 
 namespace SceneGraph {
 
-class Billboard : public Node {
-public:
-	Billboard(Graphics::VertexArray& bbVA, Graphics::Renderer *r, float size);
-	Billboard(const Billboard&, NodeCopyCache *cache = 0);
-	virtual Node *Clone(NodeCopyCache *cache = 0);
-	virtual void Accept(NodeVisitor &v);
-	virtual const char *GetTypeName() const { return "Billboard"; }
-	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
-	void SetColorUVoffset(const vector2f& c) { m_colorUVoffset = c; }
+	class Billboard : public Node {
+	public:
+		Billboard(Graphics::VertexArray &bbVA, Graphics::Renderer *r, float size);
+		Billboard(const Billboard &, NodeCopyCache *cache = 0);
+		virtual Node *Clone(NodeCopyCache *cache = 0);
+		virtual void Accept(NodeVisitor &v);
+		virtual const char *GetTypeName() const { return "Billboard"; }
+		virtual void Render(const matrix4x4f &trans, const RenderData *rd);
+		void SetColorUVoffset(const vector2f &c) { m_colorUVoffset = c; }
 
-private:
-	Graphics::VertexArray& m_bbVA;
-	float m_size;
-	vector2f m_colorUVoffset;
-};
+	private:
+		Graphics::VertexArray &m_bbVA;
+		float m_size;
+		vector2f m_colorUVoffset;
+	};
 
-}
+} // namespace SceneGraph
 
 #endif

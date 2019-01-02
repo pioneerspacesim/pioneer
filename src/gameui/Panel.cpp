@@ -6,9 +6,9 @@
 
 namespace GameUI {
 
-UI::Point Panel::PreferredSize()
-{
-	return UI::Point(INT_MAX, 80/Gui::Screen::GetCoords2Pixels()[1]);
-}
+	UI::Point Panel::PreferredSize()
+	{
+		return UI::Point(INT_MAX, 80 / Gui::Screen::GetCoords2Pixels()[1]);
+	}
 
-}
+} // namespace GameUI

@@ -5,12 +5,12 @@
 #define _USE_MATH_DEFINES
 #endif
 
-#include <cmath>
 #include "JsonUtils.h"
-#include "utils.h"
-#include "base64/base64.hpp"
 #include "FileSystem.h"
 #include "GZipFormat.h"
+#include "base64/base64.hpp"
+#include "utils.h"
+#include <cmath>
 
 extern "C" {
 #ifdef __GNUC__
@@ -41,10 +41,11 @@ namespace {
 	static const vector3d zeroVector3d(0.0);
 	static const Quaternionf identityQuaternionf(1.0f, 0.0f, 0.0f, 0.0f);
 	static const Quaterniond identityQuaterniond(1.0, 0.0, 0.0, 0.0);
-}
+} // namespace
 
 namespace JsonUtils {
-	Json LoadJson(RefCountedPtr<FileSystem::FileData> fd) {
+	Json LoadJson(RefCountedPtr<FileSystem::FileData> fd)
+	{
 		if (!fd) return Json();
 
 		Json out;
@@ -94,8 +95,10 @@ namespace JsonUtils {
 			Json rootNode;
 			try {
 				// Allow loading files in JSON format as well as CBOR
-				if (plain_data[0] == '{') return Json::parse(plain_data);
-				else return Json::from_cbor(plain_data);
+				if (plain_data[0] == '{')
+					return Json::parse(plain_data);
+				else
+					return Json::from_cbor(plain_data);
 			} catch (Json::parse_error &e) {
 				Output("error in JSON file '%s': %s\n", file->GetInfo().GetPath().c_str(), e.what());
 				return nullptr;
@@ -104,8 +107,7 @@ namespace JsonUtils {
 			return nullptr;
 		}
 	}
-}
-
+} // namespace JsonUtils
 
 #define USE_STRING_VERSIONS
 
@@ -167,11 +169,9 @@ void MatrixToJson(Json &jsonObj, const matrix3x3f &mat)
 	Matrix3x3fToStr(mat, str, 512);
 	jsonObj = str;
 #else
-	jsonObj = Json::array({
-		mat[0], mat[1], mat[2],
+	jsonObj = Json::array({ mat[0], mat[1], mat[2],
 		mat[3], mat[4], mat[5],
-		mat[6], mat[7], mat[8]
-	});
+		mat[6], mat[7], mat[8] });
 #endif
 }
 
@@ -184,11 +184,9 @@ void MatrixToJson(Json &jsonObj, const matrix3x3d &mat)
 	Matrix3x3dToStr(mat, str, 512);
 	jsonObj = str;
 #else
-	jsonObj = Json::array({
-		mat[0], mat[1], mat[2],
+	jsonObj = Json::array({ mat[0], mat[1], mat[2],
 		mat[3], mat[4], mat[5],
-		mat[6], mat[7], mat[8]
-	});
+		mat[6], mat[7], mat[8] });
 #endif
 }
 
@@ -202,10 +200,22 @@ void MatrixToJson(Json &jsonObj, const matrix4x4f &mat)
 	jsonObj = str;
 #else
 	jsonObj = Json::array({
-		mat[0], mat[1], mat[2], mat[3],
-		mat[4], mat[5], mat[6], mat[7],
-		mat[8], mat[9], mat[10], mat[11],
-		mat[12], mat[13], mat[14], mat[15],
+		mat[0],
+		mat[1],
+		mat[2],
+		mat[3],
+		mat[4],
+		mat[5],
+		mat[6],
+		mat[7],
+		mat[8],
+		mat[9],
+		mat[10],
+		mat[11],
+		mat[12],
+		mat[13],
+		mat[14],
+		mat[15],
 	});
 #endif
 }
@@ -220,10 +230,22 @@ void MatrixToJson(Json &jsonObj, const matrix4x4d &mat)
 	jsonObj = str;
 #else
 	jsonObj = Json::array({
-		mat[0], mat[1], mat[2], mat[3],
-		mat[4], mat[5], mat[6], mat[7],
-		mat[8], mat[9], mat[10], mat[11],
-		mat[12], mat[13], mat[14], mat[15],
+		mat[0],
+		mat[1],
+		mat[2],
+		mat[3],
+		mat[4],
+		mat[5],
+		mat[6],
+		mat[7],
+		mat[8],
+		mat[9],
+		mat[10],
+		mat[11],
+		mat[12],
+		mat[13],
+		mat[14],
+		mat[15],
 	});
 #endif
 }
@@ -357,24 +379,24 @@ void JsonToMatrix(matrix3x3f *pMat, const Json &jsonObj)
 void JsonToMatrix(matrix3x3d *pMat, const Json &jsonObj)
 {
 	PROFILE_SCOPED()
-	#ifdef USE_STRING_VERSIONS
-		if (!jsonObj.is_string()) {
-			*pMat = matrix3x3dIdentity;
-			return;
-		}
-		std::string matStr = jsonObj;
-		StrToMatrix3x3d(matStr.c_str(), *pMat);
-	#else
-		(*pMat)[0] = jsonObj[0];
-		(*pMat)[1] = jsonObj[1];
-		(*pMat)[2] = jsonObj[2];
-		(*pMat)[3] = jsonObj[3];
-		(*pMat)[4] = jsonObj[4];
-		(*pMat)[5] = jsonObj[5];
-		(*pMat)[6] = jsonObj[6];
-		(*pMat)[7] = jsonObj[7];
-		(*pMat)[8] = jsonObj[8];
-	#endif
+#ifdef USE_STRING_VERSIONS
+	if (!jsonObj.is_string()) {
+		*pMat = matrix3x3dIdentity;
+		return;
+	}
+	std::string matStr = jsonObj;
+	StrToMatrix3x3d(matStr.c_str(), *pMat);
+#else
+	(*pMat)[0] = jsonObj[0];
+	(*pMat)[1] = jsonObj[1];
+	(*pMat)[2] = jsonObj[2];
+	(*pMat)[3] = jsonObj[3];
+	(*pMat)[4] = jsonObj[4];
+	(*pMat)[5] = jsonObj[5];
+	(*pMat)[6] = jsonObj[6];
+	(*pMat)[7] = jsonObj[7];
+	(*pMat)[8] = jsonObj[8];
+#endif
 }
 
 void JsonToMatrix(matrix4x4f *pMat, const Json &jsonObj)

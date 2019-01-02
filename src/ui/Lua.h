@@ -4,20 +4,20 @@
 #ifndef UI_LUA_H
 #define UI_LUA_H
 
-#include "LuaObject.h"
 #include "Context.h"
+#include "LuaObject.h"
 
 namespace UI {
-namespace Lua {
+	namespace Lua {
 
-	void Init();
+		void Init();
 
-	// get widget from stack. handles table.widget and autoconstructs Labels
-	// from strings too
-	UI::Widget *GetWidget(UI::Context *c, lua_State *l, int idx);
-	UI::Widget *CheckWidget(UI::Context *c, lua_State *l, int idx);
+		// get widget from stack. handles table.widget and autoconstructs Labels
+		// from strings too
+		UI::Widget *GetWidget(UI::Context *c, lua_State *l, int idx);
+		UI::Widget *CheckWidget(UI::Context *c, lua_State *l, int idx);
 
-}
-}
+	} // namespace Lua
+} // namespace UI
 
 #endif

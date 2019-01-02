@@ -2,16 +2,16 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Orbit.h"
-#include "libs.h"
 #include "gameconsts.h"
+#include "libs.h"
 
 #ifdef _MSC_VER
-	#include "win32/WinMath.h"
+#include "win32/WinMath.h"
 #endif
 
 double Orbit::OrbitalPeriod(double semiMajorAxis, double centralMass)
 {
-	return 2.0*M_PI*sqrt((semiMajorAxis*semiMajorAxis*semiMajorAxis)/(G*centralMass));
+	return 2.0 * M_PI * sqrt((semiMajorAxis * semiMajorAxis * semiMajorAxis) / (G * centralMass));
 }
 
 double Orbit::OrbitalPeriodTwoBody(double semiMajorAxis, double totalMass, double bodyMass)
@@ -37,46 +37,51 @@ double Orbit::OrbitalPeriodTwoBody(double semiMajorAxis, double totalMass, doubl
 	const double r1 = semiMajorAxis;
 	const double m2 = (totalMass - bodyMass);
 	const double a = r1 * totalMass / m2;
-	const double a3 = a*a*a;
+	const double a3 = a * a * a;
 	return 2.0 * M_PI * sqrt(a3 / (G * totalMass));
 }
 
-static double calc_velocity_area_per_sec(double semiMajorAxis, double centralMass, double eccentricity) {
+static double calc_velocity_area_per_sec(double semiMajorAxis, double centralMass, double eccentricity)
+{
 	const double a2 = semiMajorAxis * semiMajorAxis;
 	const double e2 = eccentricity * eccentricity;
 	return M_PI * a2 * sqrt((eccentricity < 1.0) ? (1 - e2) : (e2 - 1.0)) / Orbit::OrbitalPeriod(semiMajorAxis, centralMass);
 }
 
-static double calc_velocity_area_per_sec_gravpoint(double semiMajorAxis, double totalMass, double bodyMass, double eccentricity) {
+static double calc_velocity_area_per_sec_gravpoint(double semiMajorAxis, double totalMass, double bodyMass, double eccentricity)
+{
 	const double a2 = semiMajorAxis * semiMajorAxis;
 	const double e2 = eccentricity * eccentricity;
 	return M_PI * a2 * sqrt((eccentricity < 1.0) ? (1 - e2) : (e2 - 1.0)) / Orbit::OrbitalPeriodTwoBody(semiMajorAxis, totalMass, bodyMass);
 }
 
-static void calc_position_from_mean_anomaly(const double M, const double e, const double a, double &cos_v, double &sin_v, double *r) {
+static void calc_position_from_mean_anomaly(const double M, const double e, const double a, double &cos_v, double &sin_v, double *r)
+{
 	// M is mean anomaly
 	// e is eccentricity
 	// a is semi-major axis
 
 	cos_v = 0.0;
 	sin_v = 0.0;
-	if (r) { *r = 0.0; }
+	if (r) {
+		*r = 0.0;
+	}
 
 	if (e < 1.0) { // elliptic orbit
 		// eccentric anomaly
 		// NR method to solve for E: M = E-e*sin(E)  {Kepler's equation}
 		double E = M;
-		for (int iter=5; iter > 0; --iter) {
-			E = E - (E-e*(sin(E))-M) / (1.0 - e*cos(E));
+		for (int iter = 5; iter > 0; --iter) {
+			E = E - (E - e * (sin(E)) - M) / (1.0 - e * cos(E));
 		}
 
 		// true anomaly (angle of orbit position)
-		cos_v = (cos(E) - e) / (1.0 - e*cos(E));
-		sin_v = (sqrt(1.0-e*e)*sin(E))/ (1.0 - e*cos(E));
+		cos_v = (cos(E) - e) / (1.0 - e * cos(E));
+		sin_v = (sqrt(1.0 - e * e) * sin(E)) / (1.0 - e * cos(E));
 
 		// heliocentric distance
 		if (r) {
-			*r = a * (1.0 - e*cos(E));
+			*r = a * (1.0 - e * cos(E));
 		}
 
 	} else { // parabolic or hyperbolic orbit
@@ -84,50 +89,53 @@ static void calc_position_from_mean_anomaly(const double M, const double e, cons
 		// NR method to solve for E: M = E-sinh(E)
 		// sinh E and cosh E are solved directly, because of inherent numerical instability of tanh(k arctanh x)
 		double sh = 2.0;
-		for (int iter=5; iter > 0; --iter) {
-			sh = sh - (M + e*sh - asinh(sh))/(e - 1/sqrt(1 + (sh*sh)));
+		for (int iter = 5; iter > 0; --iter) {
+			sh = sh - (M + e * sh - asinh(sh)) / (e - 1 / sqrt(1 + (sh * sh)));
 		}
 
-		double ch = sqrt(1 + sh*sh);
+		double ch = sqrt(1 + sh * sh);
 
 		// true anomaly (angle of orbit position)
-		cos_v = (ch - e) / (1.0 - e*ch);
-		sin_v = (sqrt(e*e-1.0)*sh)/ (e*ch - 1.0);
+		cos_v = (ch - e) / (1.0 - e * ch);
+		sin_v = (sqrt(e * e - 1.0) * sh) / (e * ch - 1.0);
 
 		if (r) { // heliocentric distance
-			*r = a * (e*ch - 1.0);
+			*r = a * (e * ch - 1.0);
 		}
 	}
 }
 
-double Orbit::TrueAnomalyFromMeanAnomaly(double MeanAnomaly) const {
+double Orbit::TrueAnomalyFromMeanAnomaly(double MeanAnomaly) const
+{
 	double cos_v, sin_v;
 	calc_position_from_mean_anomaly(MeanAnomaly, m_eccentricity, m_semiMajorAxis, cos_v, sin_v, 0);
 	return atan2(sin_v, cos_v);
 }
 
-double Orbit::MeanAnomalyFromTrueAnomaly(double trueAnomaly) const {
+double Orbit::MeanAnomalyFromTrueAnomaly(double trueAnomaly) const
+{
 	double M_t0;
 	const double e = m_eccentricity;
 	if (e < 1.0) {
-		M_t0 = 2.0*atan(tan(trueAnomaly/2.0)*sqrt((1.0-e)/(1.0+e)));
-		M_t0 = M_t0 - e*sin(M_t0);
+		M_t0 = 2.0 * atan(tan(trueAnomaly / 2.0) * sqrt((1.0 - e) / (1.0 + e)));
+		M_t0 = M_t0 - e * sin(M_t0);
 	} else {
 		// For hyperbolic trajectories, mean anomaly has opposite sign to true anomaly, therefore trajectories which go forward
 		// in time decrease their true anomaly. Yes, it is confusing.
-		M_t0 = 2.0*atanh(tan(trueAnomaly/2.0)*sqrt((e-1.0)/(1.0+e)));
-		M_t0 = M_t0 - e*sinh(M_t0);
+		M_t0 = 2.0 * atanh(tan(trueAnomaly / 2.0) * sqrt((e - 1.0) / (1.0 + e)));
+		M_t0 = M_t0 - e * sinh(M_t0);
 	}
 
 	return M_t0;
 }
 
-double Orbit::MeanAnomalyAtTime(double time) const {
+double Orbit::MeanAnomalyAtTime(double time) const
+{
 	const double e = m_eccentricity;
 	if (e < 1.0) { // elliptic orbit
-		return 2.0*M_PI*time / Period() + m_orbitalPhaseAtStart;
+		return 2.0 * M_PI * time / Period() + m_orbitalPhaseAtStart;
 	} else {
-		return -2.0*time * m_velocityAreaPerSecond / (m_semiMajorAxis * m_semiMajorAxis * sqrt(e*e-1)) + m_orbitalPhaseAtStart;
+		return -2.0 * time * m_velocityAreaPerSecond / (m_semiMajorAxis * m_semiMajorAxis * sqrt(e * e - 1)) + m_orbitalPhaseAtStart;
 	}
 }
 
@@ -135,10 +143,10 @@ vector3d Orbit::OrbitalPosAtTime(double t) const
 {
 	double cos_v, sin_v, r;
 	calc_position_from_mean_anomaly(MeanAnomalyAtTime(t), m_eccentricity, m_semiMajorAxis, cos_v, sin_v, &r);
-	return m_orient * vector3d(-cos_v*r, sin_v*r, 0);
+	return m_orient * vector3d(-cos_v * r, sin_v * r, 0);
 }
 
-double Orbit::OrbitalTimeAtPos(const vector3d& pos, double centralMass) const
+double Orbit::OrbitalTimeAtPos(const vector3d &pos, double centralMass) const
 {
 	double c = m_eccentricity * m_semiMajorAxis;
 	matrix3x3d matrixInv = m_orient.Inverse();
@@ -150,36 +158,31 @@ double Orbit::OrbitalTimeAtPos(const vector3d& pos, double centralMass) const
 	double cos_E = (cos_v + m_eccentricity) / (1. + m_eccentricity * cos_v);
 	double E;
 	double meanAnomaly;
-	if(m_eccentricity <= 1.)
-	{
+	if (m_eccentricity <= 1.) {
 		E = std::acos(cos_E);
-		if(sin_v < 0)
+		if (sin_v < 0)
 			E *= -1.;
 		meanAnomaly = E - m_eccentricity * std::sin(E);
-	}
-	else
-	{
+	} else {
 		E = std::acosh(cos_E);
-		if(sin_v < 0)
+		if (sin_v < 0)
 			E *= -1.;
 		meanAnomaly = E - m_eccentricity * std::sinh(E);
 	}
 
-	if(m_eccentricity <= 1.)
-	{
+	if (m_eccentricity <= 1.) {
 		meanAnomaly -= m_orbitalPhaseAtStart;
-		while(meanAnomaly < 0)
+		while (meanAnomaly < 0)
 			meanAnomaly += 2. * M_PI;
-	}
-	else if(meanAnomaly < 0.)
+	} else if (meanAnomaly < 0.)
 		meanAnomaly += m_orbitalPhaseAtStart;
 
-	if(m_eccentricity <= 1.)
+	if (m_eccentricity <= 1.)
 		return meanAnomaly * Period() / (2. * M_PI);
-	else if(meanAnomaly < 0.)
+	else if (meanAnomaly < 0.)
 		return -meanAnomaly * std::sqrt(std::pow(m_semiMajorAxis, 3) / (G * centralMass));
 	else
-		return - std::fabs(meanAnomaly + m_orbitalPhaseAtStart) * std::sqrt(std::pow(m_semiMajorAxis, 3) / (G * centralMass));
+		return -std::fabs(meanAnomaly + m_orbitalPhaseAtStart) * std::sqrt(std::pow(m_semiMajorAxis, 3) / (G * centralMass));
 }
 
 vector3d Orbit::OrbitalVelocityAtTime(double totalMass, double t) const
@@ -189,7 +192,7 @@ vector3d Orbit::OrbitalVelocityAtTime(double totalMass, double t) const
 
 	double mi = G * totalMass;
 	double p;
-	if(m_eccentricity <= 1.)
+	if (m_eccentricity <= 1.)
 		p = (1. - m_eccentricity * m_eccentricity) * m_semiMajorAxis;
 	else
 		p = (m_eccentricity * m_eccentricity - 1.) * m_semiMajorAxis;
@@ -205,52 +208,54 @@ vector3d Orbit::OrbitalVelocityAtTime(double totalMass, double t) const
 vector3d Orbit::EvenSpacedPosTrajectory(double t, double timeOffset) const
 {
 	const double e = m_eccentricity;
-	double v = 2*M_PI*t + TrueAnomalyFromMeanAnomaly(MeanAnomalyAtTime(timeOffset));
+	double v = 2 * M_PI * t + TrueAnomalyFromMeanAnomaly(MeanAnomalyAtTime(timeOffset));
 	double r;
 
 	if (e < 1.0) {
-		r = m_semiMajorAxis * (1 - e*e) / (1 + e*cos(v));
+		r = m_semiMajorAxis * (1 - e * e) / (1 + e * cos(v));
 	} else {
-		r = m_semiMajorAxis * (e*e - 1) / (1 + e*cos(v));
+		r = m_semiMajorAxis * (e * e - 1) / (1 + e * cos(v));
 
 		// planet is in infinity
-		const double ac = acos(-1/e);
+		const double ac = acos(-1 / e);
 		if (v <= -ac) {
 			v = -ac + 0.0001;
-			r =  100.0 * AU;
+			r = 100.0 * AU;
 		}
 		if (v >= ac) {
 			v = ac - 0.0001;
-			r =  100.0 * AU;
+			r = 100.0 * AU;
 		}
-
 	}
 
-	return m_orient * vector3d(-cos(v)*r, sin(v)*r, 0);
+	return m_orient * vector3d(-cos(v) * r, sin(v) * r, 0);
 }
 
-double Orbit::Period() const {
-	if(m_eccentricity < 1 && m_eccentricity >= 0) {
-		return M_PI * m_semiMajorAxis * m_semiMajorAxis * sqrt(1 - m_eccentricity * m_eccentricity)/ m_velocityAreaPerSecond;
+double Orbit::Period() const
+{
+	if (m_eccentricity < 1 && m_eccentricity >= 0) {
+		return M_PI * m_semiMajorAxis * m_semiMajorAxis * sqrt(1 - m_eccentricity * m_eccentricity) / m_velocityAreaPerSecond;
 	} else { // hyperbola.. period makes no sense, should not be used
 		assert(0);
 		return 0;
 	}
 }
 
-vector3d Orbit::Apogeum() const {
-	if(m_eccentricity < 1) {
-		return m_semiMajorAxis * (1 + m_eccentricity) * (m_orient * vector3d(1,0,0));
+vector3d Orbit::Apogeum() const
+{
+	if (m_eccentricity < 1) {
+		return m_semiMajorAxis * (1 + m_eccentricity) * (m_orient * vector3d(1, 0, 0));
 	} else {
-		return vector3d(0,0,0);
+		return vector3d(0, 0, 0);
 	}
 }
 
-vector3d Orbit::Perigeum() const {
-	if(m_eccentricity < 1) {
-		return m_semiMajorAxis * (1 - m_eccentricity) * (m_orient * vector3d(-1,0,0));
+vector3d Orbit::Perigeum() const
+{
+	if (m_eccentricity < 1) {
+		return m_semiMajorAxis * (1 - m_eccentricity) * (m_orient * vector3d(-1, 0, 0));
 	} else {
-		return m_semiMajorAxis * (m_eccentricity - 1) * (m_orient * vector3d(-1,0,0));
+		return m_semiMajorAxis * (m_eccentricity - 1) * (m_orient * vector3d(-1, 0, 0));
 	}
 }
 
@@ -284,19 +289,19 @@ Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel, double cent
 	const double LL = ang.Length();
 
 	// total energy
-	const double EE = vel.LengthSqr()/2.0 - u/r_now;
+	const double EE = vel.LengthSqr() / 2.0 - u / r_now;
 
-	if (is_zero_general(centralMass) || is_zero_general(r_now) || is_zero_general(v_now) || is_zero_general(EE) || (ang.z*ang.z/LLSqr > 1.0)) {
+	if (is_zero_general(centralMass) || is_zero_general(r_now) || is_zero_general(v_now) || is_zero_general(EE) || (ang.z * ang.z / LLSqr > 1.0)) {
 		ret.m_eccentricity = 0.0;
 		ret.m_semiMajorAxis = 0.0;
 		ret.m_velocityAreaPerSecond = 0.0;
 		ret.m_orbitalPhaseAtStart = 0.0;
-		ret.m_orient =  matrix3x3d::Identity();
+		ret.m_orient = matrix3x3d::Identity();
 		return ret;
 	}
 
 	// http://en.wikipedia.org/wiki/Orbital_eccentricity
-	ret.m_eccentricity = 1 + 2*EE*LLSqr/(u*u);
+	ret.m_eccentricity = 1 + 2 * EE * LLSqr / (u * u);
 	if (ret.m_eccentricity < 0.0) ret.m_eccentricity = 0.0;
 	ret.m_eccentricity = sqrt(ret.m_eccentricity);
 
@@ -305,17 +310,17 @@ Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel, double cent
 	// 		M G (e - 1) / 2 EE, always positive (EE and (e-1) change sign
 	// 		M G / 2 EE,
 	// which is a (http://en.wikipedia.org/wiki/Semi-major_axis); a of hyperbola is taken as positive here
-	ret.m_semiMajorAxis = 2*EE*LLSqr + u*u;
-	if (ret.m_semiMajorAxis < 0) ret.m_semiMajorAxis  = 0;
-	ret.m_semiMajorAxis = (sqrt(ret.m_semiMajorAxis ) - u) / (2*EE);
-	ret.m_semiMajorAxis = ret.m_semiMajorAxis/fabs(1.0-ret.m_eccentricity);
+	ret.m_semiMajorAxis = 2 * EE * LLSqr + u * u;
+	if (ret.m_semiMajorAxis < 0) ret.m_semiMajorAxis = 0;
+	ret.m_semiMajorAxis = (sqrt(ret.m_semiMajorAxis) - u) / (2 * EE);
+	ret.m_semiMajorAxis = ret.m_semiMajorAxis / fabs(1.0 - ret.m_eccentricity);
 
 	// The formulas for rotation matrix were derived based on following assumptions:
 	//	1. Trajectory follows Kepler's law and vector {-r cos(v), -r sin(v), 0}, r(t) and v(t) are parameters.
 	//	2. Correct transformation must transform {0,0,LL} to ang and {-r_now cos(orbitalPhaseAtStart), -r_now sin(orbitalPhaseAtStart), 0} to pos.
 	//  3. orbitalPhaseAtStart (=offset) is calculated from r = a ((e^2 - 1)/(1 + e cos(v) ))
-	const double angle1 = acos(Clamp(ang.z/LL ,-1 + 1e-6,1 - 1e-6)) * (ang.x > 0 ? -1 : 1);
-	const double angle2 = asin(Clamp(ang.y / (LL * sqrt(1.0 - ang.z*ang.z / LLSqr)), -1 + 1e-6, 1 - 1e-6) ) * (ang.x > 0 ? -1 : 1);
+	const double angle1 = acos(Clamp(ang.z / LL, -1 + 1e-6, 1 - 1e-6)) * (ang.x > 0 ? -1 : 1);
+	const double angle2 = asin(Clamp(ang.y / (LL * sqrt(1.0 - ang.z * ang.z / LLSqr)), -1 + 1e-6, 1 - 1e-6)) * (ang.x > 0 ? -1 : 1);
 
 	// There are two possible solutions of the equation and the only way how to find the correct one
 	// I know about is to try both and check if the position is transformed correctly. We minimize the difference
@@ -326,20 +331,20 @@ Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel, double cent
 		matrix3x3d mat;
 
 		if (ret.m_eccentricity < 1) {
-			off = ret.m_semiMajorAxis*(1 - ret.m_eccentricity*ret.m_eccentricity) - r_now;
+			off = ret.m_semiMajorAxis * (1 - ret.m_eccentricity * ret.m_eccentricity) - r_now;
 		} else {
-			off = ret.m_semiMajorAxis*(-1 + ret.m_eccentricity*ret.m_eccentricity) - r_now;
+			off = ret.m_semiMajorAxis * (-1 + ret.m_eccentricity * ret.m_eccentricity) - r_now;
 		}
 
 		// correct sign of offset is given by sign pos.Dot(vel) (heading towards apohelion or perihelion?]
-		off = Clamp(off/(r_now * ret.m_eccentricity), -1 + 1e-6,1 - 1e-6);
-		off = -pos.Dot(vel)/fabs(pos.Dot(vel))*acos(off);
+		off = Clamp(off / (r_now * ret.m_eccentricity), -1 + 1e-6, 1 - 1e-6);
+		off = -pos.Dot(vel) / fabs(pos.Dot(vel)) * acos(off);
 
-		ccc = acos(-pos.z/r_now/sin(angle1)) * i;
+		ccc = acos(-pos.z / r_now / sin(angle1)) * i;
 		mat = matrix3x3d::RotateZ(angle2) * matrix3x3d::RotateY(angle1) * matrix3x3d::RotateZ(ccc - off);
 
-		if (((mat*vector3d(-r_now*cos(off),r_now*sin(off),0)) - pos).Length() < value) {
-			value = ((mat*vector3d(-r_now*cos(off),r_now*sin(off),0)) - pos).Length();
+		if (((mat * vector3d(-r_now * cos(off), r_now * sin(off), 0)) - pos).Length() < value) {
+			value = ((mat * vector3d(-r_now * cos(off), r_now * sin(off), 0)) - pos).Length();
 			cc = ccc;
 			offset = off;
 		}

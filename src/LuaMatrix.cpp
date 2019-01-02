@@ -1,10 +1,10 @@
 // Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "libs.h"
 #include "LuaMatrix.h"
-#include "LuaVector.h"
 #include "LuaUtils.h"
+#include "LuaVector.h"
+#include "libs.h"
 
 static int l_matrix_new(lua_State *L)
 {
@@ -27,8 +27,8 @@ static int l_matrix_new(lua_State *L)
 		(*out)[13] = v4.y;
 		(*out)[14] = v4.z;
 	} else if (n == 16) {
-		for (int i=0; i<16; i++) {
-			(*out)[i] = luaL_checknumber(L, i+1);
+		for (int i = 0; i < 16; i++) {
+			(*out)[i] = luaL_checknumber(L, i + 1);
 		}
 	} else {
 		luaL_error(L, "bad arguments to matrix.new");
@@ -101,7 +101,7 @@ static int l_matrix_print(lua_State *L)
 }
 #endif
 
-static int l_matrix_add (lua_State *L)
+static int l_matrix_add(lua_State *L)
 {
 	const matrix4x4f *a = LuaMatrix::CheckFromLua(L, 1);
 	const matrix4x4f *b = LuaMatrix::CheckFromLua(L, 2);
@@ -109,7 +109,7 @@ static int l_matrix_add (lua_State *L)
 	return 1;
 }
 
-static int l_matrix_sub (lua_State *L)
+static int l_matrix_sub(lua_State *L)
 {
 	const matrix4x4f *a = LuaMatrix::CheckFromLua(L, 1);
 	const matrix4x4f *b = LuaMatrix::CheckFromLua(L, 2);
@@ -117,16 +117,16 @@ static int l_matrix_sub (lua_State *L)
 	return 1;
 }
 
-static int l_matrix_unm (lua_State *L)
+static int l_matrix_unm(lua_State *L)
 {
 	const matrix4x4f *m = LuaMatrix::CheckFromLua(L, 1);
 	LuaMatrix::PushToLua(L, -(*m));
 	return 1;
 }
 
-static int l_matrix_mul (lua_State *L)
+static int l_matrix_mul(lua_State *L)
 {
-	if (lua_isnumber(L,1)) {
+	if (lua_isnumber(L, 1)) {
 		double scale = lua_tonumber(L, 1);
 		const matrix4x4f *m = LuaMatrix::CheckFromLua(L, 2);
 		LuaMatrix::PushToLua(L, scale * *m);
@@ -151,7 +151,7 @@ static int l_matrix_mul (lua_State *L)
 	}
 }
 
-static int l_matrix_div (lua_State *L)
+static int l_matrix_div(lua_State *L)
 {
 	const matrix4x4f *a = LuaMatrix::CheckFromLua(L, 1);
 	double scale = luaL_checknumber(L, 2);
@@ -213,17 +213,17 @@ void LuaMatrix::Register(lua_State *L)
 
 matrix4x4f *LuaMatrix::PushNewToLua(lua_State *L)
 {
-	matrix4x4f *v = static_cast<matrix4x4f*>(lua_newuserdata(L, sizeof(matrix4x4f)));
+	matrix4x4f *v = static_cast<matrix4x4f *>(lua_newuserdata(L, sizeof(matrix4x4f)));
 	luaL_setmetatable(L, LuaMatrix::TypeName);
 	return v;
 }
 
 const matrix4x4f *LuaMatrix::GetFromLua(lua_State *L, int idx)
 {
-	return static_cast<matrix4x4f*>(luaL_testudata(L, idx, LuaMatrix::TypeName));
+	return static_cast<matrix4x4f *>(luaL_testudata(L, idx, LuaMatrix::TypeName));
 }
 
 const matrix4x4f *LuaMatrix::CheckFromLua(lua_State *L, int idx)
 {
-	return static_cast<matrix4x4f*>(luaL_checkudata(L, idx, LuaMatrix::TypeName));
+	return static_cast<matrix4x4f *>(luaL_checkudata(L, idx, LuaMatrix::TypeName));
 }

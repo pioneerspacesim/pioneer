@@ -13,17 +13,18 @@ static Uint32 crc32_reflect(Uint32 v, const int bits)
 	Uint32 r = 0;
 	for (int i = 1; i <= bits; i++) {
 		if (v & 1)
-			r = r | (1<<(bits-i));
+			r = r | (1 << (bits - i));
 		v >>= 1;
 	}
 	return r;
 }
 
-CRC32::CRC32() : m_checksum(0xffffffff)
+CRC32::CRC32() :
+	m_checksum(0xffffffff)
 {
-	if (! s_lookupTableGenerated) {
+	if (!s_lookupTableGenerated) {
 		for (int i = 0; i <= 0xff; i++) {
-			s_lookupTable[i] = crc32_reflect(i,8) << 24;
+			s_lookupTable[i] = crc32_reflect(i, 8) << 24;
 			for (int j = 0; j < 8; j++)
 				s_lookupTable[i] = (s_lookupTable[i] << 1) ^ (s_lookupTable[i] & (1 << 31) ? s_polynomial : 0);
 			s_lookupTable[i] = crc32_reflect(s_lookupTable[i], 32);

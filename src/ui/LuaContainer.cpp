@@ -6,18 +6,19 @@
 
 namespace UI {
 
-class LuaContainer {
-public:
+	class LuaContainer {
+	public:
+	};
 
-};
-
-}
+} // namespace UI
 
 using namespace UI;
 
-template <> const char *LuaObject<UI::Container>::s_type = "UI.Container";
+template <>
+const char *LuaObject<UI::Container>::s_type = "UI.Container";
 
-template <> void LuaObject<UI::Container>::RegisterClass()
+template <>
+void LuaObject<UI::Container>::RegisterClass()
 {
 	static const char *l_parent = "UI.Widget";
 

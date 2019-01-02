@@ -5,11 +5,11 @@
 #define SCENEGRAPH_LUA_H
 
 namespace SceneGraph {
-namespace Lua {
+	namespace Lua {
 
-	void Init();
+		void Init();
 
-}
-}
+	}
+} // namespace SceneGraph
 
 #endif

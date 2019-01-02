@@ -4,8 +4,8 @@
 #ifndef _INTRO_H
 #define _INTRO_H
 
-#include "Cutscene.h"
 #include "Background.h"
+#include "Cutscene.h"
 #include "ShipType.h"
 #include "scenegraph/ModelSkin.h"
 
@@ -19,7 +19,7 @@ private:
 	void Reset(float time);
 	bool m_needReset;
 
-	std::vector<SceneGraph::Model*> m_models;
+	std::vector<SceneGraph::Model *> m_models;
 	SceneGraph::ModelSkin m_skin;
 
 	float m_startTime;

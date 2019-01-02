@@ -6,10 +6,10 @@
 
 namespace EnumStrings {
 
-void Init();
-const char *GetString(const char *ns, int value);
-int GetValue(const char *ns, const char *name);
+	void Init();
+	const char *GetString(const char *ns, int value);
+	int GetValue(const char *ns, const char *name);
 
-}
+} // namespace EnumStrings
 
 #endif

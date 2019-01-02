@@ -7,28 +7,28 @@
 
 namespace UI {
 
-Point SmallButton::PreferredSize()
-{
-	return GetContext()->GetSkin().CheckboxNormal().size;
-}
+	Point SmallButton::PreferredSize()
+	{
+		return GetContext()->GetSkin().CheckboxNormal().size;
+	}
 
-void SmallButton::Layout()
-{
-	SetActiveArea(PreferredSize());
-}
+	void SmallButton::Layout()
+	{
+		SetActiveArea(PreferredSize());
+	}
 
-void SmallButton::Draw()
-{
-	if (IsDisabled())
-		GetContext()->GetSkin().DrawSmallButtonDisabled(GetActiveOffset(), GetActiveArea());
-	else if (IsHidden())
-		GetContext()->GetSkin().DrawSmallButtonHidden(GetActiveOffset(), GetActiveArea());
-	else if (IsMouseActive())
-		GetContext()->GetSkin().DrawSmallButtonActive(GetActiveOffset(), GetActiveArea());
-	else if (IsMouseOver())
-		GetContext()->GetSkin().DrawSmallButtonHover(GetActiveOffset(), GetActiveArea());
-	else
-		GetContext()->GetSkin().DrawSmallButtonNormal(GetActiveOffset(), GetActiveArea());
-}
+	void SmallButton::Draw()
+	{
+		if (IsDisabled())
+			GetContext()->GetSkin().DrawSmallButtonDisabled(GetActiveOffset(), GetActiveArea());
+		else if (IsHidden())
+			GetContext()->GetSkin().DrawSmallButtonHidden(GetActiveOffset(), GetActiveArea());
+		else if (IsMouseActive())
+			GetContext()->GetSkin().DrawSmallButtonActive(GetActiveOffset(), GetActiveArea());
+		else if (IsMouseOver())
+			GetContext()->GetSkin().DrawSmallButtonHover(GetActiveOffset(), GetActiveArea());
+		else
+			GetContext()->GetSkin().DrawSmallButtonNormal(GetActiveOffset(), GetActiveArea());
+	}
 
-}
+} // namespace UI

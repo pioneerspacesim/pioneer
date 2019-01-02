@@ -11,37 +11,40 @@ namespace Graphics {
 }
 
 namespace Gui {
-class TextLayout {
-public:
-	enum ColourMarkupMode {
-		ColourMarkupNone, // treats markup as normal text
-		ColourMarkupSkip, // skips markup tags
-		ColourMarkupUse   // interprets markup tags
-	};
-	explicit TextLayout(const char *_str, RefCountedPtr<Text::TextureFont> font = RefCountedPtr<Text::TextureFont>(0), ColourMarkupMode markup = ColourMarkupUse);
-	void Render(const float layoutWidth, const Color &color = Color::WHITE) const;
-	void Update(const float layoutWidth, const Color &color = Color::WHITE);
-	void SetText(const char *_str);
-	void MeasureSize(const float layoutWidth, float outSize[2]) const;
-	void _MeasureSizeRaw(const float layoutWidth, float outSize[2]) const;
-	void SetJustified(bool v) { m_justify = v; }
-private:
-	struct word_t {
-		const char *word;
-		const float advx;
-		word_t(const char *_word, const float _advx): word(_word), advx(_advx) {}
-	};
-	std::list<word_t> words;
-	std::string str;
-	bool m_justify;
-	ColourMarkupMode m_colourMarkup;
+	class TextLayout {
+	public:
+		enum ColourMarkupMode {
+			ColourMarkupNone, // treats markup as normal text
+			ColourMarkupSkip, // skips markup tags
+			ColourMarkupUse // interprets markup tags
+		};
+		explicit TextLayout(const char *_str, RefCountedPtr<Text::TextureFont> font = RefCountedPtr<Text::TextureFont>(0), ColourMarkupMode markup = ColourMarkupUse);
+		void Render(const float layoutWidth, const Color &color = Color::WHITE) const;
+		void Update(const float layoutWidth, const Color &color = Color::WHITE);
+		void SetText(const char *_str);
+		void MeasureSize(const float layoutWidth, float outSize[2]) const;
+		void _MeasureSizeRaw(const float layoutWidth, float outSize[2]) const;
+		void SetJustified(bool v) { m_justify = v; }
 
-	float prevWidth;
-	Color prevColor;
+	private:
+		struct word_t {
+			const char *word;
+			const float advx;
+			word_t(const char *_word, const float _advx) :
+				word(_word),
+				advx(_advx) {}
+		};
+		std::list<word_t> words;
+		std::string str;
+		bool m_justify;
+		ColourMarkupMode m_colourMarkup;
 
-	RefCountedPtr<Text::TextureFont> m_font;
-	RefCountedPtr<Graphics::VertexBuffer> m_vbuffer;
-};
-}
+		float prevWidth;
+		Color prevColor;
+
+		RefCountedPtr<Text::TextureFont> m_font;
+		RefCountedPtr<Graphics::VertexBuffer> m_vbuffer;
+	};
+} // namespace Gui
 
 #endif /* _GUITEXTLAYOUT_H */

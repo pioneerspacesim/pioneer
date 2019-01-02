@@ -7,8 +7,7 @@
 #include "GuiContainer.h"
 
 namespace Gui {
-	class VScrollPortal: public Container
-	{
+	class VScrollPortal : public Container {
 	public:
 		VScrollPortal(float forceWidth);
 		VScrollPortal();
@@ -25,6 +24,7 @@ namespace Gui {
 		void SetBgColor(float rgb[3]);
 		void SetBgColor(float r, float g, float b);
 		Adjustment vscrollAdjust;
+
 	private:
 		float GetScrollPixels();
 		void OnScroll(float);
@@ -32,6 +32,6 @@ namespace Gui {
 		float m_scrollY, m_childSizeY;
 		Widget *m_child;
 	};
-}
+} // namespace Gui
 
 #endif /* _GUIVSCROLLPORTAL_H */

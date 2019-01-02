@@ -3,13 +3,13 @@
 
 #ifndef MODELVIEWER_H
 #define MODELVIEWER_H
-#include "libs.h"
 #include "LuaManager.h"
 #include "NavLights.h"
 #include "Shields.h"
+#include "graphics/Drawables.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
-#include "graphics/Drawables.h"
+#include "libs.h"
 #include "scenegraph/SceneGraph.h"
 #include "ui/Context.h"
 
@@ -21,16 +21,16 @@ public:
 	static void Run(const std::string &modelName);
 
 private:
-	bool OnPickModel(UI::List*);
+	bool OnPickModel(UI::List *);
 	bool OnQuit();
-	bool OnReloadModel(UI::Widget*);
-	bool OnToggleCollMesh(UI::CheckBox*);
-	bool OnToggleShowShields(UI::CheckBox*);
-	bool OnToggleGrid(UI::Widget*);
-	bool OnToggleGuns(UI::CheckBox*);
-	bool OnRandomColor(UI::Widget*);
+	bool OnReloadModel(UI::Widget *);
+	bool OnToggleCollMesh(UI::CheckBox *);
+	bool OnToggleShowShields(UI::CheckBox *);
+	bool OnToggleGrid(UI::Widget *);
+	bool OnToggleGuns(UI::CheckBox *);
+	bool OnRandomColor(UI::Widget *);
 	void UpdateShield();
-	bool OnHitIt(UI::Widget*);
+	bool OnHitIt(UI::Widget *);
 	void HitImpl();
 	void AddLog(const std::string &line);
 	void ChangeCameraPreset(SDL_Keycode, SDL_Keymod);
@@ -42,12 +42,12 @@ private:
 	void DrawGrid(const matrix4x4f &trans, float radius);
 	void DrawModel(const matrix4x4f &mv);
 	void MainLoop();
-	void OnAnimChanged(unsigned int, const std::string&);
+	void OnAnimChanged(unsigned int, const std::string &);
 	void OnAnimSliderChanged(float);
-	void OnDecalChanged(unsigned int, const std::string&);
+	void OnDecalChanged(unsigned int, const std::string &);
 	void OnLightPresetChanged(unsigned int index, const std::string &);
 	void OnModelColorsChanged(float);
-	void OnPatternChanged(unsigned int, const std::string&);
+	void OnPatternChanged(unsigned int, const std::string &);
 	void OnThrustChanged(float);
 	void PollEvents();
 	void PopulateFilePicker();
@@ -55,7 +55,7 @@ private:
 	void ResetThrusters();
 	void Screenshot();
 	void SaveModelToBinary();
-	void SetModel(const std::string& name);
+	void SetModel(const std::string &name);
 	void SetupFilePicker();
 	void SetupUI();
 	void UpdateAnimList();
@@ -111,7 +111,7 @@ private:
 
 	//undecided on this input stuff
 	//updating the states of all inputs during PollEvents
-	std::map<SDL_Keycode,bool> m_keyStates;
+	std::map<SDL_Keycode, bool> m_keyStates;
 	bool m_mouseButton[SDL_BUTTON_RIGHT + 1]; //buttons start at 1
 	int m_mouseMotion[2];
 	bool m_mouseWheelUp, m_mouseWheelDown;
@@ -128,7 +128,7 @@ private:
 	UI::Slider *animSlider;
 	UI::Label *animValue;
 	UI::Slider *colorSliders[9];
-	UI::Slider *thrustSliders[2*3]; //thruster sliders 2*xyz (linear & angular)
+	UI::Slider *thrustSliders[2 * 3]; //thruster sliders 2*xyz (linear & angular)
 
 	sigc::signal<void> onModelChanged;
 

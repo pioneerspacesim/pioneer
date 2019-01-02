@@ -14,6 +14,6 @@ namespace LuaEngine {
 		DETAIL_HIGH,
 		DETAIL_VERY_HIGH,
 	};
-}
+} // namespace LuaEngine
 
 #endif

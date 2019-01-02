@@ -14,20 +14,22 @@ namespace Graphics {
 	namespace OGL {
 		class SkyboxMaterial : public Material {
 		private:
-
 		public:
-			SkyboxMaterial() {
+			SkyboxMaterial()
+			{
 				texture0 = nullptr;
 				fSkyboxFactor = 0.8f;
 			}
 
-			virtual Program *CreateProgram(const MaterialDescriptor &) override {
+			virtual Program *CreateProgram(const MaterialDescriptor &) override
+			{
 				return new Program("skybox", "");
 			}
 
-			virtual void Apply() override {
+			virtual void Apply() override
+			{
 				m_program->Use();
-				if(texture0) {
+				if (texture0) {
 					m_program->texture0.Set(texture0, 0);
 				}
 				const float em = (float(emissive.r) * 0.003921568627451f);
@@ -37,7 +39,7 @@ namespace Graphics {
 			// Skybox multiplier
 			float fSkyboxFactor;
 		};
-	}
-}
+	} // namespace OGL
+} // namespace Graphics
 
 #endif

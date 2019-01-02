@@ -1,30 +1,30 @@
 // Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "libs.h"
 #include "Space.h"
 #include "Body.h"
-#include "Frame.h"
-#include "Star.h"
-#include "Planet.h"
 #include "CityOnPlanet.h"
-#include <algorithm>
-#include <functional>
+#include "Frame.h"
+#include "Game.h"
+#include "HyperspaceCloud.h"
+#include "Lang.h"
+#include "LuaEvent.h"
+#include "MathUtil.h"
+#include "Missile.h"
 #include "Pi.h"
+#include "Planet.h"
 #include "Player.h"
+#include "SectorView.h"
+#include "SpaceStation.h"
+#include "Star.h"
+#include "WorldView.h"
+#include "collider/collider.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
-#include "SpaceStation.h"
-#include "collider/collider.h"
-#include "Missile.h"
-#include "HyperspaceCloud.h"
 #include "graphics/Graphics.h"
-#include "WorldView.h"
-#include "SectorView.h"
-#include "Lang.h"
-#include "Game.h"
-#include "MathUtil.h"
-#include "LuaEvent.h"
+#include "libs.h"
+#include <algorithm>
+#include <functional>
 
 //#define DEBUG_CACHE
 
@@ -32,7 +32,7 @@ void Space::BodyNearFinder::Prepare()
 {
 	m_bodyDist.clear();
 
-	for (Body* b : m_space->GetBodies())
+	for (Body *b : m_space->GetBodies())
 		m_bodyDist.push_back(BodyDist(b, b->GetPositionRelTo(m_space->GetRootFrame()).Length()));
 
 	std::sort(m_bodyDist.begin(), m_bodyDist.end());
@@ -49,8 +49,8 @@ void Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist,
 
 	const double len = pos.Length();
 
-	std::vector<BodyDist>::const_iterator min = std::lower_bound(m_bodyDist.begin(), m_bodyDist.end(), len-dist);
-	std::vector<BodyDist>::const_iterator max = std::upper_bound(min, m_bodyDist.end(), len+dist);
+	std::vector<BodyDist>::const_iterator min = std::lower_bound(m_bodyDist.begin(), m_bodyDist.end(), len - dist);
+	std::vector<BodyDist>::const_iterator max = std::upper_bound(min, m_bodyDist.end(), len + dist);
 
 	while (min != max) {
 		bodies.push_back((*min).body);
@@ -58,15 +58,16 @@ void Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist,
 	}
 }
 
-Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space* oldSpace)
-	: m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : galaxy->NewStarSystemSlaveCache())
-	, m_game(game)
-	, m_frameIndexValid(false)
-	, m_bodyIndexValid(false)
-	, m_sbodyIndexValid(false)
-	, m_bodyNearFinder(this)
+Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space *oldSpace) :
+	m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : galaxy->NewStarSystemSlaveCache()),
+	m_game(game),
+	m_frameIndexValid(false),
+	m_bodyIndexValid(false),
+	m_sbodyIndexValid(false),
+	m_bodyNearFinder(this)
 #ifndef NDEBUG
-	, m_processingFinalizationQueue(false)
+	,
+	m_processingFinalizationQueue(false)
 #endif
 {
 	m_background.reset(new Background::Container(Pi::renderer, Pi::rng));
@@ -77,16 +78,17 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space* oldSpace)
 	GenSectorCache(galaxy, &game->GetHyperspaceDest());
 }
 
-Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, Space* oldSpace)
-	: m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : galaxy->NewStarSystemSlaveCache())
-	, m_starSystem(galaxy->GetStarSystem(path))
-	, m_game(game)
-	, m_frameIndexValid(false)
-	, m_bodyIndexValid(false)
-	, m_sbodyIndexValid(false)
-	, m_bodyNearFinder(this)
+Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, Space *oldSpace) :
+	m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : galaxy->NewStarSystemSlaveCache()),
+	m_starSystem(galaxy->GetStarSystem(path)),
+	m_game(game),
+	m_frameIndexValid(false),
+	m_bodyIndexValid(false),
+	m_sbodyIndexValid(false),
+	m_bodyNearFinder(this)
 #ifndef NDEBUG
-	, m_processingFinalizationQueue(false)
+	,
+	m_processingFinalizationQueue(false)
 #endif
 {
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
@@ -108,15 +110,16 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, S
 	//DebugDumpFrames();
 }
 
-Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, double at_time)
-	: m_starSystemCache(galaxy->NewStarSystemSlaveCache())
-	, m_game(game)
-	, m_frameIndexValid(false)
-	, m_bodyIndexValid(false)
-	, m_sbodyIndexValid(false)
-	, m_bodyNearFinder(this)
+Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, double at_time) :
+	m_starSystemCache(galaxy->NewStarSystemSlaveCache()),
+	m_game(game),
+	m_frameIndexValid(false),
+	m_bodyIndexValid(false),
+	m_sbodyIndexValid(false),
+	m_bodyNearFinder(this)
 #ifndef NDEBUG
-	, m_processingFinalizationQueue(false)
+	,
+	m_processingFinalizationQueue(false)
 #endif
 {
 	Json spaceObj = jsonObj["space"];
@@ -139,7 +142,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, doub
 	try {
 		Json bodyArray = spaceObj["bodies"].get<Json::array_t>();
 		for (Uint32 i = 0; i < bodyArray.size(); i++)
-		m_bodies.push_back(Body::FromJson(bodyArray[i], this));
+			m_bodies.push_back(Body::FromJson(bodyArray[i], this));
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
@@ -147,8 +150,8 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, doub
 	RebuildBodyIndex();
 
 	Frame::PostUnserializeFixup(m_rootFrame.get(), this);
-	for (Body* b : m_bodies)
-	b->PostLoadFixup(this);
+	for (Body *b : m_bodies)
+		b->PostLoadFixup(this);
 
 	GenSectorCache(galaxy, &path);
 }
@@ -156,7 +159,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, doub
 Space::~Space()
 {
 	UpdateBodies(); // make sure anything waiting to be removed gets removed before we go and kill everything else
-	for (std::list<Body*>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
+	for (std::list<Body *>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		KillBody(*i);
 	UpdateBodies();
 }
@@ -185,8 +188,7 @@ void Space::ToJson(Json &jsonObj)
 	spaceObj["frame"] = frameObj;
 
 	Json bodyArray = Json::array(); // Create JSON array to contain body data.
-	for (Body* b : m_bodies)
-	{
+	for (Body *b : m_bodies) {
 		Json bodyArrayEl({}); // Create JSON object to contain body.
 		b->ToJson(bodyArrayEl, this);
 		bodyArray.push_back(bodyArrayEl); // Append body object to array.
@@ -248,7 +250,7 @@ void Space::AddFrameToIndex(Frame *frame)
 {
 	assert(frame);
 	m_frameIndex.push_back(frame);
-	for (Frame* kid : frame->GetChildren())
+	for (Frame *kid : frame->GetChildren())
 		AddFrameToIndex(kid);
 }
 
@@ -276,13 +278,13 @@ void Space::RebuildBodyIndex()
 	m_bodyIndex.clear();
 	m_bodyIndex.push_back(0);
 
-	for (Body* b : m_bodies) {
+	for (Body *b : m_bodies) {
 		m_bodyIndex.push_back(b);
 		// also index ships inside clouds
 		// XXX we should not have to know about this. move indexing grunt work
 		// down into the bodies?
 		if (b->IsType(Object::HYPERSPACECLOUD)) {
-			Ship *s = static_cast<HyperspaceCloud*>(b)->GetShip();
+			Ship *s = static_cast<HyperspaceCloud *>(b)->GetShip();
 			if (s) m_bodyIndex.push_back(s);
 		}
 	}
@@ -316,7 +318,7 @@ void Space::RemoveBody(Body *b)
 	m_removeBodies.push_back(b);
 }
 
-void Space::KillBody(Body* b)
+void Space::KillBody(Body *b)
 {
 #ifndef NDEBUG
 	assert(!m_processingFinalizationQueue);
@@ -336,7 +338,7 @@ void Space::KillBody(Body* b)
 }
 
 void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &dest,
-									vector3d &pos, vector3d &vel) const
+	vector3d &pos, vector3d &vel) const
 {
 	assert(m_starSystem);
 	assert(source.IsSystemPath());
@@ -357,13 +359,13 @@ void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &
 		assert(dest.bodyIndex < m_starSystem->GetNumBodies());
 		primary = FindBodyForPath(&dest);
 		while (primary && primary->GetSystemBody()->GetSuperType() != SystemBody::SUPERTYPE_STAR) {
-			SystemBody* parent = primary->GetSystemBody()->GetParent();
+			SystemBody *parent = primary->GetSystemBody()->GetParent();
 			primary = parent ? FindBodyForPath(&parent->GetPath()) : 0;
 		}
 	}
 	if (!primary) {
 		// find the first non-gravpoint. should be the primary star
-		for (Body* b : GetBodies())
+		for (Body *b : GetBodies())
 			if (b->GetSystemBody()->GetType() != SystemBody::TYPE_GRAVPOINT) {
 				primary = b;
 				break;
@@ -372,13 +374,13 @@ void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &
 	assert(primary);
 
 	// calculate distance to primary body relative to body's mass and radius
-	const double max_orbit_vel=100e3;
-	double dist = G*primary->GetSystemBody()->GetMass() /
-		(max_orbit_vel*max_orbit_vel);
-	dist = std::max(dist, primary->GetSystemBody()->GetRadius()*10);
+	const double max_orbit_vel = 100e3;
+	double dist = G * primary->GetSystemBody()->GetMass() /
+		(max_orbit_vel * max_orbit_vel);
+	dist = std::max(dist, primary->GetSystemBody()->GetRadius() * 10);
 
 	// ensure an absolut minimum distance
-	dist = std::max(dist, 0.2*AU);
+	dist = std::max(dist, 0.2 * AU);
 
 	// point velocity vector along the line from source to dest,
 	// make exit position perpendicular to it,
@@ -386,13 +388,13 @@ void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &
 	// set velocity for (almost) circular orbit
 	vel = (destPos - sourcePos).Normalized();
 	{
-		vector3d a{MathUtil::OrthogonalDirection(vel)};
-		vector3d b{vel.Cross(a)};
-		vector3d p{MathUtil::RandomPointOnCircle(1.)};
-		pos = p.x*a + p.y*b;
+		vector3d a{ MathUtil::OrthogonalDirection(vel) };
+		vector3d b{ vel.Cross(a) };
+		vector3d p{ MathUtil::RandomPointOnCircle(1.) };
+		pos = p.x * a + p.y * b;
 	}
-	pos *= dist*Pi::rng.Double(0.95,1.2);
-	vel *= sqrt(G*primary->GetSystemBody()->GetMass()/dist);
+	pos *= dist * Pi::rng.Double(0.95, 1.2);
+	vel *= sqrt(G * primary->GetSystemBody()->GetMass() / dist);
 
 	assert(pos.Length() > primary->GetSystemBody()->GetRadius());
 	pos += primary->GetPositionRelTo(GetRootFrame());
@@ -402,7 +404,7 @@ Body *Space::FindNearestTo(const Body *b, Object::Type t) const
 {
 	Body *nearest = 0;
 	double dist = FLT_MAX;
-	for (std::list<Body*>::const_iterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
+	for (std::list<Body *>::const_iterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
 		if ((*i)->IsDead()) continue;
 		if ((*i)->IsType(t)) {
 			double d = (*i)->GetPositionRelTo(b).Length();
@@ -422,7 +424,7 @@ Body *Space::FindBodyForPath(const SystemPath *path) const
 
 	if (!body) return 0;
 
-	for (Body* b : m_bodies) {
+	for (Body *b : m_bodies) {
 		if (b->GetSystemBody() == body) return b;
 	}
 	return 0;
@@ -430,9 +432,10 @@ Body *Space::FindBodyForPath(const SystemPath *path) const
 
 static Frame *find_frame_with_sbody(Frame *f, const SystemBody *b)
 {
-	if (f->GetSystemBody() == b) return f;
+	if (f->GetSystemBody() == b)
+		return f;
 	else {
-		for (Frame* kid : f->GetChildren()) {
+		for (Frame *kid : f->GetChildren()) {
 			Frame *found = find_frame_with_sbody(kid, b);
 			if (found) return found;
 		}
@@ -451,7 +454,7 @@ static void RelocateStarportIfNecessary(SystemBody *sbody, Frame *frame, Planet 
 
 	// suggested position
 	rot = sbody->GetOrbit().GetPlane();
-	pos = rot * vector3d(0,1,0);
+	pos = rot * vector3d(0, 1, 0);
 
 	// Check if height varies too much around the starport center
 	// by sampling 6 points around it. try upto 100 new positions randomly until a match is found
@@ -470,9 +473,9 @@ static void RelocateStarportIfNecessary(SystemBody *sbody, Frame *frame, Planet 
 	// points must stay within max height variation to be accepted
 	//    1. delta should be chosen such that it a distance from the starport center that encloses landing pads for the largest starport
 	//    2. maxSlope should be set so maxHeightVariation is less than the height of the landing pads
-	const double delta = 20.0/radius; // in radii
+	const double delta = 20.0 / radius; // in radii
 	const double maxSlope = 0.2; // 0.0 to 1.0
-	const double maxHeightVariation = maxSlope*delta*radius; // in m
+	const double maxHeightVariation = maxSlope * delta * radius; // in m
 
 	matrix3x3d rot_ = rot;
 	vector3d pos_ = pos;
@@ -487,8 +490,7 @@ static void RelocateStarportIfNecessary(SystemBody *sbody, Frame *frame, Planet 
 
 	Random r(sbody->GetSeed());
 
-	for (int tries = 0; tries < 200; tries++)
-	{
+	for (int tries = 0; tries < 200; tries++) {
 		variationWithinLimits = true;
 
 		const double height = planet->GetTerrainHeight(pos_) - radius; // in m
@@ -497,18 +499,18 @@ static void RelocateStarportIfNecessary(SystemBody *sbody, Frame *frame, Planet 
 		// GetHeight gives a varying height field in 3 dimensions.
 		// Given it's smoothly varying it's fine to sample it in arbitary directions to get an idea of how sharply it varies
 		double v[6];
-		v[0] = fabs(planet->GetTerrainHeight(vector3d(pos_.x+delta, pos_.y, pos_.z))-radius-height);
-		v[1] = fabs(planet->GetTerrainHeight(vector3d(pos_.x-delta, pos_.y, pos_.z))-radius-height);
-		v[2] = fabs(planet->GetTerrainHeight(vector3d(pos_.x, pos_.y, pos_.z+delta))-radius-height);
-		v[3] = fabs(planet->GetTerrainHeight(vector3d(pos_.x, pos_.y, pos_.z-delta))-radius-height);
-		v[4] = fabs(planet->GetTerrainHeight(vector3d(pos_.x, pos_.y+delta, pos_.z))-radius-height);
-		v[5] = fabs(planet->GetTerrainHeight(vector3d(pos_.x, pos_.y-delta, pos_.z))-radius-height);
+		v[0] = fabs(planet->GetTerrainHeight(vector3d(pos_.x + delta, pos_.y, pos_.z)) - radius - height);
+		v[1] = fabs(planet->GetTerrainHeight(vector3d(pos_.x - delta, pos_.y, pos_.z)) - radius - height);
+		v[2] = fabs(planet->GetTerrainHeight(vector3d(pos_.x, pos_.y, pos_.z + delta)) - radius - height);
+		v[3] = fabs(planet->GetTerrainHeight(vector3d(pos_.x, pos_.y, pos_.z - delta)) - radius - height);
+		v[4] = fabs(planet->GetTerrainHeight(vector3d(pos_.x, pos_.y + delta, pos_.z)) - radius - height);
+		v[5] = fabs(planet->GetTerrainHeight(vector3d(pos_.x, pos_.y - delta, pos_.z)) - radius - height);
 
 		// break if variation for all points is within limits
 		double variationMax = 0.0;
 		for (int i = 0; i < 6; i++) {
 			variationWithinLimits = variationWithinLimits && (v[i] < maxHeightVariation);
-			variationMax = (v[i] > variationMax)? v[i]:variationMax;
+			variationMax = (v[i] > variationMax) ? v[i] : variationMax;
 		}
 
 		// check if underwater
@@ -518,16 +520,15 @@ static void RelocateStarportIfNecessary(SystemBody *sbody, Frame *frame, Planet 
 		//	sbody->name.c_str(), tries, (variationWithinLimits && !starportUnderwater), bestVariation, variationMax, maxHeightVariation, starportUnderwater);
 
 		bool tooCloseToOther = false;
-		for (vector3d oldPos : prevPositions)
-		{
+		for (vector3d oldPos : prevPositions) {
 			// is the distance between points less than the delta distance?
-			if ((pos_ - oldPos).LengthSqr() < (delta*delta)) {
+			if ((pos_ - oldPos).LengthSqr() < (delta * delta)) {
 				tooCloseToOther = true; // then we're too close so try again
 				break;
 			}
 		}
 
-		if  (tries == 0) {
+		if (tries == 0) {
 			isInitiallyUnderwater = starportUnderwater;
 			initialVariationTooHigh = !variationWithinLimits;
 		}
@@ -543,12 +544,10 @@ static void RelocateStarportIfNecessary(SystemBody *sbody, Frame *frame, Planet 
 
 		// try new random position
 		const double r3 = r.Double();
-		const double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
-		const double r1 = r.Double();	// can't put two rands in the same expression
-		rot_ = matrix3x3d::RotateZ(2.0*M_PI*r1)
-			* matrix3x3d::RotateY(2.0*M_PI*r2)
-			* matrix3x3d::RotateX(2.0*M_PI*r3);
-		pos_ = rot_ * vector3d(0,1,0);
+		const double r2 = r.Double(); // function parameter evaluation order is implementation-dependent
+		const double r1 = r.Double(); // can't put two rands in the same expression
+		rot_ = matrix3x3d::RotateZ(2.0 * M_PI * r1) * matrix3x3d::RotateY(2.0 * M_PI * r2) * matrix3x3d::RotateX(2.0 * M_PI * r3);
+		pos_ = rot_ * vector3d(0, 1, 0);
 	}
 
 	if (isInitiallyUnderwater || (isRelocatableIfBuried && initialVariationTooHigh)) {
@@ -585,17 +584,17 @@ static Frame *MakeFrameFor(const double at_time, SystemBody *sbody, Body *b, Fra
 	if (sbody->GetType() == SystemBody::TYPE_GRAVPOINT) {
 		Frame *orbFrame = new Frame(f, sbody->GetName().c_str());
 		orbFrame->SetBodies(sbody, b);
-		orbFrame->SetRadius(sbody->GetMaxChildOrbitalDistance()*1.1);
+		orbFrame->SetRadius(sbody->GetMaxChildOrbitalDistance() * 1.1);
 		return orbFrame;
 	}
 
 	SystemBody::BodySuperType supertype = sbody->GetSuperType();
 
 	if ((supertype == SystemBody::SUPERTYPE_GAS_GIANT) ||
-	    (supertype == SystemBody::SUPERTYPE_ROCKY_PLANET)) {
+		(supertype == SystemBody::SUPERTYPE_ROCKY_PLANET)) {
 		// for planets we want an non-rotating frame for a few radii
 		// and a rotating frame with no radius to contain attached objects
-		double frameRadius = std::max(4.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.05);
+		double frameRadius = std::max(4.0 * sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance() * 1.05);
 		Frame *orbFrame = new Frame(f, sbody->GetName().c_str(), Frame::FLAG_HAS_ROT);
 		orbFrame->SetBodies(sbody, b);
 		orbFrame->SetRadius(frameRadius);
@@ -611,7 +610,7 @@ static Frame *MakeFrameFor(const double at_time, SystemBody *sbody, Body *b, Fra
 		rotFrame->SetRadius(b->GetPhysRadius());
 
 		matrix3x3d rotMatrix = matrix3x3d::RotateX(sbody->GetAxialTilt());
-		double angSpeed = 2.0*M_PI/sbody->GetRotationPeriod();
+		double angSpeed = 2.0 * M_PI / sbody->GetRotationPeriod();
 		rotFrame->SetAngSpeed(angSpeed);
 
 		if (sbody->HasRotationPhase())
@@ -620,28 +619,26 @@ static Frame *MakeFrameFor(const double at_time, SystemBody *sbody, Body *b, Fra
 
 		b->SetFrame(rotFrame);
 		return orbFrame;
-	}
-	else if (supertype == SystemBody::SUPERTYPE_STAR) {
+	} else if (supertype == SystemBody::SUPERTYPE_STAR) {
 		// stars want a single small non-rotating frame
 		// bigger than it's furtherest orbiting body.
 		// if there are no orbiting bodies use a frame of several radii.
 		Frame *orbFrame = new Frame(f, sbody->GetName().c_str());
 		orbFrame->SetBodies(sbody, b);
-		double frameRadius = std::max(10.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.1);
+		double frameRadius = std::max(10.0 * sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance() * 1.1);
 		// Respect the frame of other stars in the multi-star system. We still make sure that the frame ends outside
 		// the body. For a minimum separation of 1.236 radii, nothing will overlap (see StarSystem::StarSystem()).
 		if (sbody->GetParent() && frameRadius > AU * 0.11 * sbody->GetOrbMin())
-			frameRadius = std::max(1.1*sbody->GetRadius(), AU * 0.11 * sbody->GetOrbMin());
+			frameRadius = std::max(1.1 * sbody->GetRadius(), AU * 0.11 * sbody->GetOrbMin());
 		orbFrame->SetRadius(frameRadius);
 		b->SetFrame(orbFrame);
 		return orbFrame;
-	}
-	else if (sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) {
+	} else if (sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) {
 		// space stations want non-rotating frame to some distance
 		Frame *orbFrame = new Frame(f, sbody->GetName().c_str());
 		orbFrame->SetBodies(sbody, b);
-//		orbFrame->SetRadius(10*sbody->GetRadius());
-		orbFrame->SetRadius(20000.0);				// 4x standard parking radius
+		//		orbFrame->SetRadius(10*sbody->GetRadius());
+		orbFrame->SetRadius(20000.0); // 4x standard parking radius
 		b->SetFrame(orbFrame);
 		return orbFrame;
 
@@ -655,7 +652,7 @@ static Frame *MakeFrameFor(const double at_time, SystemBody *sbody, Body *b, Fra
 		assert(rotFrame->GetBody()->IsType(Object::PLANET));
 		matrix3x3d rot;
 		vector3d pos;
-		Planet *planet = static_cast<Planet*>(rotFrame->GetBody());
+		Planet *planet = static_cast<Planet *>(rotFrame->GetBody());
 		RelocateStarportIfNecessary(sbody, rotFrame, planet, pos, rot, prevPositions);
 		sbody->SetOrbitPlane(rot);
 		b->SetPosition(pos * planet->GetTerrainHeight(pos));
@@ -681,15 +678,16 @@ public:
 		const float dist_b = vector3f(here.sectorX - b.sectorX, here.sectorY - b.sectorY, here.sectorZ - b.sectorZ).LengthSqr();
 		return dist_a < dist_b;
 	}
-	SectorDistanceSort( const SystemPath* centre )
-		: here(centre)
+	SectorDistanceSort(const SystemPath *centre) :
+		here(centre)
 	{}
+
 private:
 	SectorDistanceSort() {}
 	SystemPath here;
 };
 
-void Space::GenSectorCache(RefCountedPtr<Galaxy> galaxy, const SystemPath* here)
+void Space::GenSectorCache(RefCountedPtr<Galaxy> galaxy, const SystemPath *here)
 {
 	PROFILE_SCOPED()
 
@@ -705,9 +703,9 @@ void Space::GenSectorCache(RefCountedPtr<Galaxy> galaxy, const SystemPath* here)
 
 	SectorCache::PathVector paths;
 	// build all of the possible paths we'll need to build sectors for
-	for (int x = here_x-sectorRadius; x <= here_x+sectorRadius; x++) {
-		for (int y = here_y-sectorRadius; y <= here_y+sectorRadius; y++) {
-			for (int z = here_z-sectorRadius; z <= here_z+sectorRadius; z++) {
+	for (int x = here_x - sectorRadius; x <= here_x + sectorRadius; x++) {
+		for (int y = here_y - sectorRadius; y <= here_y + sectorRadius; y++) {
+			for (int z = here_z - sectorRadius; z <= here_z + sectorRadius; z++) {
 				SystemPath path(x, y, z);
 				paths.push_back(path);
 			}
@@ -717,15 +715,16 @@ void Space::GenSectorCache(RefCountedPtr<Galaxy> galaxy, const SystemPath* here)
 	SectorDistanceSort SDS(here);
 	std::sort(paths.begin(), paths.end(), SDS);
 	m_sectorCache = galaxy->NewSectorSlaveCache();
-	const SystemPath& center(*here);
-	m_sectorCache->FillCache(paths, [this,center]() { UpdateStarSystemCache(&center); });
+	const SystemPath &center(*here);
+	m_sectorCache->FillCache(paths, [this, center]() { UpdateStarSystemCache(&center); });
 }
 
-static bool WithinBox(const SystemPath &here, const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) {
+static bool WithinBox(const SystemPath &here, const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax)
+{
 	PROFILE_SCOPED()
-	if(here.sectorX >= Xmin && here.sectorX <= Xmax) {
-		if(here.sectorY >= Ymin && here.sectorY <= Ymax) {
-			if(here.sectorZ >= Zmin && here.sectorZ <= Zmax) {
+	if (here.sectorX >= Xmin && here.sectorX <= Xmax) {
+		if (here.sectorY >= Ymin && here.sectorY <= Ymax) {
+			if (here.sectorZ >= Zmin && here.sectorZ <= Zmax) {
 				return true;
 			}
 		}
@@ -733,7 +732,7 @@ static bool WithinBox(const SystemPath &here, const int Xmin, const int Xmax, co
 	return false;
 }
 
-void Space::UpdateStarSystemCache(const SystemPath* here)
+void Space::UpdateStarSystemCache(const SystemPath *here)
 {
 	PROFILE_SCOPED()
 
@@ -748,42 +747,42 @@ void Space::UpdateStarSystemCache(const SystemPath* here)
 	const int here_z = here->sectorZ;
 
 	// we're going to use these to determine if our StarSystems are within a range that we'll keep for later use
-	static const int survivorRadius = sectorRadius*3;
+	static const int survivorRadius = sectorRadius * 3;
 
 	// min/max box limits
-	const int xmin = here->sectorX-survivorRadius;
-	const int xmax = here->sectorX+survivorRadius;
-	const int ymin = here->sectorY-survivorRadius;
-	const int ymax = here->sectorY+survivorRadius;
-	const int zmin = here->sectorZ-survivorRadius;
-	const int zmax = here->sectorZ+survivorRadius;
+	const int xmin = here->sectorX - survivorRadius;
+	const int xmax = here->sectorX + survivorRadius;
+	const int ymin = here->sectorY - survivorRadius;
+	const int ymax = here->sectorY + survivorRadius;
+	const int zmin = here->sectorZ - survivorRadius;
+	const int zmax = here->sectorZ + survivorRadius;
 
-#   ifdef DEBUG_CACHE
-		unsigned removed = 0;
-#   endif
+#ifdef DEBUG_CACHE
+	unsigned removed = 0;
+#endif
 	StarSystemCache::CacheMap::const_iterator i = m_starSystemCache->Begin();
 	while (i != m_starSystemCache->End()) {
 		if (!WithinBox(i->second->GetPath(), xmin, xmax, ymin, ymax, zmin, zmax)) {
 			m_starSystemCache->Erase(i++);
-#   ifdef DEBUG_CACHE
-		++removed;
-#   endif
+#ifdef DEBUG_CACHE
+			++removed;
+#endif
 		} else
 			++i;
 	}
-#   ifdef DEBUG_CACHE
-		Output("%s: Erased %u entries.\n", StarSystemCache::CACHE_NAME.c_str(), removed);
-#   endif
+#ifdef DEBUG_CACHE
+	Output("%s: Erased %u entries.\n", StarSystemCache::CACHE_NAME.c_str(), removed);
+#endif
 
 	SectorCache::PathVector paths;
 	// build all of the possible paths we'll need to build star systems for
-	for (int x = here_x-sectorRadius; x <= here_x+sectorRadius; x++) {
-		for (int y = here_y-sectorRadius; y <= here_y+sectorRadius; y++) {
-			for (int z = here_z-sectorRadius; z <= here_z+sectorRadius; z++) {
+	for (int x = here_x - sectorRadius; x <= here_x + sectorRadius; x++) {
+		for (int y = here_y - sectorRadius; y <= here_y + sectorRadius; y++) {
+			for (int z = here_z - sectorRadius; z <= here_z + sectorRadius; z++) {
 				SystemPath path(x, y, z);
 				RefCountedPtr<Sector> sec(m_sectorCache->GetIfCached(path));
 				assert(sec);
-				for (const Sector::System& ss : sec->m_systems)
+				for (const Sector::System &ss : sec->m_systems)
 					paths.push_back(SystemPath(ss.sx, ss.sy, ss.sz, ss.idx));
 			}
 		}
@@ -800,7 +799,7 @@ void Space::GenBody(const double at_time, SystemBody *sbody, Frame *f, std::vect
 			Star *star = new Star(sbody);
 			b = star;
 		} else if ((sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) ||
-		           (sbody->GetType() == SystemBody::TYPE_STARPORT_SURFACE)) {
+			(sbody->GetType() == SystemBody::TYPE_STARPORT_SURFACE)) {
 			SpaceStation *ss = new SpaceStation(sbody);
 			b = ss;
 		} else {
@@ -810,20 +809,20 @@ void Space::GenBody(const double at_time, SystemBody *sbody, Frame *f, std::vect
 			posAccum.clear();
 		}
 		b->SetLabel(sbody->GetName().c_str());
-		b->SetPosition(vector3d(0,0,0));
+		b->SetPosition(vector3d(0, 0, 0));
 		AddBody(b);
 	}
 	f = MakeFrameFor(at_time, sbody, b, f, posAccum);
 
-	for (SystemBody* kid : sbody->GetChildren()) {
+	for (SystemBody *kid : sbody->GetChildren()) {
 		GenBody(at_time, kid, f, posAccum);
 	}
 }
 
 static bool OnCollision(Object *o1, Object *o2, CollisionContact *c, double relativeVel)
 {
-	Body *pb1 = static_cast<Body*>(o1);
-	Body *pb2 = static_cast<Body*>(o2);
+	Body *pb1 = static_cast<Body *>(o1);
+	Body *pb2 = static_cast<Body *>(o2);
 	/* Not always a Body (could be CityOnPlanet, which is a nasty exception I should eradicate) */
 	if (o1->IsType(Object::BODY)) {
 		if (pb1 && !pb1->OnCollision(o2, c->geomFlag, relativeVel)) return false;
@@ -838,8 +837,8 @@ static void hitCallback(CollisionContact *c)
 {
 	//Output("OUCH! %x (depth %f)\n", SDL_GetTicks(), c->depth);
 
-	Object *po1 = static_cast<Object*>(c->userData1);
-	Object *po2 = static_cast<Object*>(c->userData2);
+	Object *po1 = static_cast<Object *>(c->userData1);
+	Object *po2 = static_cast<Object *>(c->userData2);
 
 	const bool po1_isDynBody = po1->IsType(Object::DYNAMICBODY);
 	const bool po2_isDynBody = po2->IsType(Object::DYNAMICBODY);
@@ -847,8 +846,8 @@ static void hitCallback(CollisionContact *c)
 	assert(po1_isDynBody || po2_isDynBody);
 
 	if (po1_isDynBody && po2_isDynBody) {
-		DynamicBody *b1 = static_cast<DynamicBody*>(po1);
-		DynamicBody *b2 = static_cast<DynamicBody*>(po2);
+		DynamicBody *b1 = static_cast<DynamicBody *>(po1);
+		DynamicBody *b2 = static_cast<DynamicBody *>(po2);
 		const vector3d linVel1 = b1->GetVelocity();
 		const vector3d linVel2 = b2->GetVelocity();
 		const vector3d angVel1 = b1->GetAngVelocity();
@@ -856,7 +855,7 @@ static void hitCallback(CollisionContact *c)
 
 		const double coeff_rest = 0.5;
 		// step back
-//		mover->UndoTimestep();
+		//		mover->UndoTimestep();
 
 		const double invMass1 = 1.0 / b1->GetMass();
 		const double invMass2 = 1.0 / b2->GetMass();
@@ -873,26 +872,26 @@ static void hitCallback(CollisionContact *c)
 		const double numerator = -(1.0 + coeff_rest) * relVel;
 		const double term1 = invMass1;
 		const double term2 = invMass2;
-		const double term3 = c->normal.Dot((hitPos1.Cross(c->normal)*invAngInert1).Cross(hitPos1));
-		const double term4 = c->normal.Dot((hitPos2.Cross(c->normal)*invAngInert2).Cross(hitPos2));
+		const double term3 = c->normal.Dot((hitPos1.Cross(c->normal) * invAngInert1).Cross(hitPos1));
+		const double term4 = c->normal.Dot((hitPos2.Cross(c->normal) * invAngInert2).Cross(hitPos2));
 
 		const double j = numerator / (term1 + term2 + term3 + term4);
 		const vector3d force = j * c->normal;
 
-		b1->SetVelocity(linVel1 + force*invMass1);
-		b1->SetAngVelocity(angVel1 + hitPos1.Cross(force)*invAngInert1);
-		b2->SetVelocity(linVel2 - force*invMass2);
-		b2->SetAngVelocity(angVel2 - hitPos2.Cross(force)*invAngInert2);
+		b1->SetVelocity(linVel1 + force * invMass1);
+		b1->SetAngVelocity(angVel1 + hitPos1.Cross(force) * invAngInert1);
+		b2->SetVelocity(linVel2 - force * invMass2);
+		b2->SetAngVelocity(angVel2 - hitPos2.Cross(force) * invAngInert2);
 	} else {
 		// one body is static
 		vector3d hitNormal;
 		DynamicBody *mover;
 
 		if (po1_isDynBody) {
-			mover = static_cast<DynamicBody*>(po1);
+			mover = static_cast<DynamicBody *>(po1);
 			hitNormal = c->normal;
 		} else {
-			mover = static_cast<DynamicBody*>(po2);
+			mover = static_cast<DynamicBody *>(po2);
 			hitNormal = -c->normal;
 		}
 
@@ -901,7 +900,7 @@ static void hitCallback(CollisionContact *c)
 		const vector3d angVel1 = mover->GetAngVelocity();
 
 		// step back
-//		mover->UndoTimestep();
+		//		mover->UndoTimestep();
 
 		const double invMass1 = 1.0 / mover->GetMass();
 		const vector3d hitPos1 = c->pos - mover->GetPosition();
@@ -913,13 +912,13 @@ static void hitCallback(CollisionContact *c)
 		const double invAngInert = 1.0 / mover->GetAngularInertia();
 		const double numerator = -(1.0 + coeff_rest) * relVel;
 		const double term1 = invMass1;
-		const double term3 = c->normal.Dot((hitPos1.Cross(c->normal)*invAngInert).Cross(hitPos1));
+		const double term3 = c->normal.Dot((hitPos1.Cross(c->normal) * invAngInert).Cross(hitPos1));
 
 		const double j = numerator / (term1 + term3);
 		const vector3d force = j * c->normal;
 
-		mover->SetVelocity(linVel1 + force*invMass1);
-		mover->SetAngVelocity(angVel1 + hitPos1.Cross(force)*invAngInert);
+		mover->SetVelocity(linVel1 + force * invMass1);
+		mover->SetAngVelocity(angVel1 + hitPos1.Cross(force) * invAngInert);
 	}
 }
 
@@ -927,17 +926,17 @@ static void hitCallback(CollisionContact *c)
 static void CollideWithTerrain(Body *body)
 {
 	if (!body->IsType(Object::DYNAMICBODY)) return;
-	DynamicBody *dynBody = static_cast<DynamicBody*>(body);
+	DynamicBody *dynBody = static_cast<DynamicBody *>(body);
 	if (!dynBody->IsMoving()) return;
 
 	Frame *f = body->GetFrame();
 	if (!f || !f->GetBody() || f != f->GetBody()->GetFrame()) return;
 	if (!f->GetBody()->IsType(Object::TERRAINBODY)) return;
-	TerrainBody *terrain = static_cast<TerrainBody*>(f->GetBody());
+	TerrainBody *terrain = static_cast<TerrainBody *>(f->GetBody());
 
 	const Aabb &aabb = dynBody->GetAabb();
 	double altitude = body->GetPosition().Length() + aabb.min.y;
-	if (altitude >= (terrain->GetMaxFeatureRadius()*2.0)) return;
+	if (altitude >= (terrain->GetMaxFeatureRadius() * 2.0)) return;
 
 	double terrHeight = terrain->GetTerrainHeight(body->GetPosition().Normalized());
 	if (altitude >= terrHeight) return;
@@ -946,15 +945,15 @@ static void CollideWithTerrain(Body *body)
 	c.pos = body->GetPosition();
 	c.normal = c.pos.Normalized();
 	c.depth = terrHeight - altitude;
-	c.userData1 = static_cast<void*>(body);
-	c.userData2 = static_cast<void*>(f->GetBody());
+	c.userData1 = static_cast<void *>(body);
+	c.userData2 = static_cast<void *>(f->GetBody());
 	hitCallback(&c);
 }
 
 void Space::CollideFrame(Frame *f)
 {
 	f->GetCollisionSpace()->Collide(&hitCallback);
-	for (Frame* kid : f->GetChildren())
+	for (Frame *kid : f->GetChildren())
 		CollideFrame(kid);
 }
 
@@ -962,27 +961,27 @@ void Space::TimeStep(float step)
 {
 	PROFILE_SCOPED()
 
-	if( Pi::MustRefreshBackgroundClearFlag() )
+	if (Pi::MustRefreshBackgroundClearFlag())
 		RefreshBackground();
 
 	m_frameIndexValid = m_bodyIndexValid = m_sbodyIndexValid = false;
 
 	// XXX does not need to be done this often
 	CollideFrame(m_rootFrame.get());
-	for (Body* b : m_bodies)
+	for (Body *b : m_bodies)
 		CollideWithTerrain(b);
 
 	// update frames of reference
-	for (Body* b : m_bodies)
+	for (Body *b : m_bodies)
 		b->UpdateFrame();
 
 	// AI acts here, then move all bodies and frames
-	for (Body* b : m_bodies)
+	for (Body *b : m_bodies)
 		b->StaticUpdate(step);
 
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
-	for (Body* b : m_bodies)
+	for (Body *b : m_bodies)
 		b->TimeStepUpdate(step);
 
 	LuaEvent::Emit();
@@ -999,16 +998,16 @@ void Space::UpdateBodies()
 	m_processingFinalizationQueue = true;
 #endif
 
-	for (Body* rmb : m_removeBodies) {
+	for (Body *rmb : m_removeBodies) {
 		rmb->SetFrame(0);
-		for (Body* b : m_bodies)
+		for (Body *b : m_bodies)
 			b->NotifyRemoved(rmb);
 		m_bodies.remove(rmb);
 	}
 	m_removeBodies.clear();
 
-	for (Body* killb : m_killBodies) {
-		for (Body* b : m_bodies)
+	for (Body *killb : m_killBodies) {
+		for (Body *b : m_bodies)
 			b->NotifyRemoved(killb);
 		m_bodies.remove(killb);
 		delete killb;
@@ -1024,18 +1023,18 @@ static char space[256];
 
 static void DebugDumpFrame(Frame *f, unsigned int indent)
 {
-	Output("%.*s%p (%s)", indent, space, static_cast<void*>(f), f->GetLabel().c_str());
+	Output("%.*s%p (%s)", indent, space, static_cast<void *>(f), f->GetLabel().c_str());
 	if (f->GetParent())
-		Output(" parent %p (%s)", static_cast<void*>(f->GetParent()), f->GetParent()->GetLabel().c_str());
+		Output(" parent %p (%s)", static_cast<void *>(f->GetParent()), f->GetParent()->GetLabel().c_str());
 	if (f->GetBody())
-		Output(" body %p (%s)", static_cast<void*>(f->GetBody()), f->GetBody()->GetLabel().c_str());
+		Output(" body %p (%s)", static_cast<void *>(f->GetBody()), f->GetBody()->GetLabel().c_str());
 	if (Body *b = f->GetBody())
-		Output(" bodyFor %p (%s)", static_cast<void*>(b), b->GetLabel().c_str());
+		Output(" bodyFor %p (%s)", static_cast<void *>(b), b->GetLabel().c_str());
 	Output(" distance %f radius %f", f->GetPosition().Length(), f->GetRadius());
 	Output("%s\n", f->IsRotFrame() ? " [rotating]" : "");
 
-	for (Frame* kid : f->GetChildren())
-		DebugDumpFrame(kid, indent+2);
+	for (Frame *kid : f->GetChildren())
+		DebugDumpFrame(kid, indent + 2);
 }
 
 void Space::DebugDumpFrames()

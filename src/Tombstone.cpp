@@ -7,8 +7,8 @@
 #include "graphics/Renderer.h"
 #include "scenegraph/SceneGraph.h"
 
-Tombstone::Tombstone(Graphics::Renderer *r, int width, int height)
-: Cutscene(r, width, height)
+Tombstone::Tombstone(Graphics::Renderer *r, int width, int height) :
+	Cutscene(r, width, height)
 {
 	m_ambientColor = Color(13, 13, 26, 255);
 
@@ -18,7 +18,7 @@ Tombstone::Tombstone(Graphics::Renderer *r, int width, int height)
 	m_model = Pi::FindModel("tombstone");
 	m_model->SetLabel(Lang::TOMBSTONE_EPITAPH);
 	const Uint32 numMats = m_model->GetNumMaterials();
-	for( Uint32 m=0; m<numMats; m++ ) {
+	for (Uint32 m = 0; m < numMats; m++) {
 		RefCountedPtr<Graphics::Material> mat = m_model->GetMaterialByIndex(m);
 		mat->specialParameter0 = nullptr;
 	}
@@ -35,7 +35,7 @@ void Tombstone::Draw(float _time)
 	m_renderer->SetAmbientColor(m_ambientColor);
 	m_renderer->SetLights(m_lights.size(), &m_lights[0]);
 
-	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
-	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
+	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time * 2);
+	rot[14] = -std::max(150.0f - 30.0f * _time, 30.0f);
 	m_model->Render(rot);
 }

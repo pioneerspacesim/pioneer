@@ -5,7 +5,7 @@
 #define LUAINPUT_H
 
 namespace LuaInput {
-    void Register();
+	void Register();
 }
 
 #endif

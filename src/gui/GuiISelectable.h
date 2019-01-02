@@ -10,6 +10,6 @@ namespace Gui {
 		sigc::signal<void> onSelect;
 		virtual void SetSelected(bool) = 0;
 	};
-}
+} // namespace Gui
 
 #endif /* _GUIISELECTABLE_H */

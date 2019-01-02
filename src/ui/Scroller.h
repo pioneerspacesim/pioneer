@@ -8,35 +8,35 @@
 
 namespace UI {
 
-class HBox;
-class VSlider;
+	class HBox;
+	class VSlider;
 
-class Scroller : public Container {
-public:
-	virtual Point PreferredSize();
-	virtual void Layout();
+	class Scroller : public Container {
+	public:
+		virtual Point PreferredSize();
+		virtual void Layout();
 
-	Scroller *SetInnerWidget(Widget *widget);
-	void RemoveInnerWidget();
-	Widget *GetInnerWidget() const { return m_innerWidget; }
+		Scroller *SetInnerWidget(Widget *widget);
+		void RemoveInnerWidget();
+		Widget *GetInnerWidget() const { return m_innerWidget; }
 
-	float GetScrollPosition() const;
-	void SetScrollPosition(float v);
+		float GetScrollPosition() const;
+		void SetScrollPosition(float v);
 
-protected:
-	friend class Context;
-	Scroller(Context *context);
+	protected:
+		friend class Context;
+		Scroller(Context *context);
 
-	virtual void RemoveWidget(Widget *widget);
+		virtual void RemoveWidget(Widget *widget);
 
-private:
-	Widget *m_innerWidget;
-	RefCountedPtr<VSlider> m_slider;
+	private:
+		Widget *m_innerWidget;
+		RefCountedPtr<VSlider> m_slider;
 
-	void OnSliderScroll(float value);
-	bool OnMouseWheel(const MouseWheelEvent &event);
-};
+		void OnSliderScroll(float value);
+		bool OnMouseWheel(const MouseWheelEvent &event);
+	};
 
-}
+} // namespace UI
 
 #endif

@@ -195,8 +195,8 @@ static int l_music_fade_out(lua_State *l)
  */
 static int l_music_get_song_list(lua_State *l)
 {
-	using std::vector;
 	using std::string;
+	using std::vector;
 	const vector<string> vec = Pi::GetMusicPlayer().GetSongList();
 	lua_newtable(l);
 	int idx = 1;
@@ -239,15 +239,15 @@ void LuaMusic::Register()
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_Reg l_methods[]= {
+	static const luaL_Reg l_methods[] = {
 		{ "GetSongName", l_music_get_song },
 		{ "GetSongList", l_music_get_song_list },
 		{ "Play", l_music_play },
-		{ "Stop", l_music_stop},
+		{ "Stop", l_music_stop },
 		{ "FadeIn", l_music_fade_in },
 		{ "FadeOut", l_music_fade_out },
 		{ "IsPlaying", l_music_is_playing },
-		{0, 0}
+		{ 0, 0 }
 	};
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");

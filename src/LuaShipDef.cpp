@@ -1,10 +1,10 @@
 // Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "Lua.h"
 #include "LuaShipDef.h"
-#include "LuaUtils.h"
 #include "EnumStrings.h"
+#include "Lua.h"
+#include "LuaUtils.h"
 #include "ShipType.h"
 
 /*
@@ -228,28 +228,27 @@ void LuaShipDef::Register()
 
 	lua_newtable(l);
 
-	for (auto iter : ShipType::types)
-	{
+	for (auto iter : ShipType::types) {
 		const ShipType &st = iter.second;
 		lua_newtable(l);
 
-		pi_lua_settable(l, "id",                iter.first.c_str());
-		pi_lua_settable(l, "name",              st.name.c_str());
-		pi_lua_settable(l, "shipClass",         st.shipClass.c_str());
-		pi_lua_settable(l, "manufacturer",      st.manufacturer.c_str());
-		pi_lua_settable(l, "modelName",         st.modelName.c_str());
-		pi_lua_settable(l, "cockpitName",		st.cockpitName.c_str());
-		pi_lua_settable(l, "tag",               EnumStrings::GetString("ShipTypeTag", st.tag));
-		pi_lua_settable(l, "angularThrust",     st.angThrust);
-		pi_lua_settable(l, "capacity",          st.capacity);
-		pi_lua_settable(l, "hullMass",          st.hullMass);
-		pi_lua_settable(l, "fuelTankMass",      st.fuelTankMass);
-		pi_lua_settable(l, "basePrice",         st.baseprice);
-		pi_lua_settable(l, "minCrew",           st.minCrew);
-		pi_lua_settable(l, "maxCrew",           st.maxCrew);
-		pi_lua_settable(l, "hyperdriveClass",   st.hyperdriveClass);
+		pi_lua_settable(l, "id", iter.first.c_str());
+		pi_lua_settable(l, "name", st.name.c_str());
+		pi_lua_settable(l, "shipClass", st.shipClass.c_str());
+		pi_lua_settable(l, "manufacturer", st.manufacturer.c_str());
+		pi_lua_settable(l, "modelName", st.modelName.c_str());
+		pi_lua_settable(l, "cockpitName", st.cockpitName.c_str());
+		pi_lua_settable(l, "tag", EnumStrings::GetString("ShipTypeTag", st.tag));
+		pi_lua_settable(l, "angularThrust", st.angThrust);
+		pi_lua_settable(l, "capacity", st.capacity);
+		pi_lua_settable(l, "hullMass", st.hullMass);
+		pi_lua_settable(l, "fuelTankMass", st.fuelTankMass);
+		pi_lua_settable(l, "basePrice", st.baseprice);
+		pi_lua_settable(l, "minCrew", st.minCrew);
+		pi_lua_settable(l, "maxCrew", st.maxCrew);
+		pi_lua_settable(l, "hyperdriveClass", st.hyperdriveClass);
 		pi_lua_settable(l, "effectiveExhaustVelocity", st.effectiveExhaustVelocity);
-		pi_lua_settable(l, "thrusterFuelUse",   st.GetFuelUseRate());
+		pi_lua_settable(l, "thrusterFuelUse", st.GetFuelUseRate());
 
 		lua_newtable(l);
 		for (int t = Thruster::THRUSTER_REVERSE; t < Thruster::THRUSTER_MAX; t++)

@@ -7,16 +7,19 @@
 #include "TerrainBody.h"
 #include "graphics/RenderState.h"
 
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+}
 
-class Star: public TerrainBody {
+class Star : public TerrainBody {
 public:
 	OBJDEF(Star, TerrainBody, STAR);
 	Star(SystemBody *sbody);
 	Star();
-	virtual ~Star() {};
+	virtual ~Star(){};
 
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
+
 protected:
 	void InitStar();
 	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;

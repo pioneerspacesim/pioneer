@@ -6,8 +6,8 @@
 /*
  * Planet ring material
  */
-#include "OpenGLLibs.h"
 #include "MaterialGL.h"
+#include "OpenGLLibs.h"
 #include "Program.h"
 namespace Graphics {
 
@@ -19,6 +19,6 @@ namespace Graphics {
 			virtual void Apply() override;
 			virtual void Unapply() override;
 		};
-	}
-}
+	} // namespace OGL
+} // namespace Graphics
 #endif

@@ -4,14 +4,14 @@
 #ifndef _FILESYSTEM_H
 #define _FILESYSTEM_H
 
-#include "RefCounted.h"
-#include "StringRange.h"
 #include "ByteRange.h"
 #include "DateTime.h"
-#include <string>
-#include <vector>
+#include "RefCounted.h"
+#include "StringRange.h"
 #include <deque>
 #include <memory>
+#include <string>
+#include <vector>
 
 /*
  * Functionality:
@@ -63,8 +63,12 @@ namespace FileSystem {
 
 	class FileInfo {
 		friend class FileSource;
+
 	public:
-		FileInfo(): m_source(0), m_dirLen(0), m_type(FT_NON_EXISTENT) {}
+		FileInfo() :
+			m_source(0),
+			m_dirLen(0),
+			m_type(FT_NON_EXISTENT) {}
 
 		enum FileType {
 			// note: order here affects sort-order of FileInfo
@@ -95,24 +99,36 @@ namespace FileSystem {
 		RefCountedPtr<FileData> Read() const;
 
 		friend bool operator==(const FileInfo &a, const FileInfo &b)
-		{ return (a.m_source == b.m_source && a.m_type == b.m_type && a.m_path == b.m_path); }
+		{
+			return (a.m_source == b.m_source && a.m_type == b.m_type && a.m_path == b.m_path);
+		}
 		friend bool operator!=(const FileInfo &a, const FileInfo &b)
-		{ return (a.m_source != b.m_source || a.m_type != b.m_type || a.m_path != b.m_path); }
-		friend bool operator< (const FileInfo &a, const FileInfo &b)
+		{
+			return (a.m_source != b.m_source || a.m_type != b.m_type || a.m_path != b.m_path);
+		}
+		friend bool operator<(const FileInfo &a, const FileInfo &b)
 		{
 			int c = a.m_path.compare(b.m_path);
-			if (c != 0) { return (c < 0); }
-			if (a.m_type != b.m_type) { return (a.m_type < b.m_type); }
+			if (c != 0) {
+				return (c < 0);
+			}
+			if (a.m_type != b.m_type) {
+				return (a.m_type < b.m_type);
+			}
 			return (a.m_source < b.m_source);
 		}
 		friend bool operator<=(const FileInfo &a, const FileInfo &b)
 		{
 			int c = a.m_path.compare(b.m_path);
-			if (c != 0) { return (c < 0); }
-			if (a.m_type != b.m_type) { return (a.m_type < b.m_type); }
+			if (c != 0) {
+				return (c < 0);
+			}
+			if (a.m_type != b.m_type) {
+				return (a.m_type < b.m_type);
+			}
 			return (a.m_source <= b.m_source);
 		}
-		friend bool operator> (const FileInfo &a, const FileInfo &b) { return (b < a); }
+		friend bool operator>(const FileInfo &a, const FileInfo &b) { return (b < a); }
 		friend bool operator>=(const FileInfo &a, const FileInfo &b) { return (b <= a); }
 
 	private:
@@ -132,14 +148,23 @@ namespace FileSystem {
 
 		const FileInfo &GetInfo() const { return m_info; }
 		size_t GetSize() const { return m_size; }
-		const char *GetData() const { assert(m_info.IsFile()); return m_data; }
+		const char *GetData() const
+		{
+			assert(m_info.IsFile());
+			return m_data;
+		}
 		StringRange AsStringRange() const { return StringRange(m_data, m_size); }
 		ByteRange AsByteRange() const { return ByteRange(m_data, m_size); }
 
 	protected:
-		FileData(const FileInfo &info, size_t size, char *data):
-			m_info(info), m_data(data), m_size(size) {}
-		FileData(const FileInfo &info): m_info(info), m_data(0), m_size(0) {}
+		FileData(const FileInfo &info, size_t size, char *data) :
+			m_info(info),
+			m_data(data),
+			m_size(size) {}
+		FileData(const FileInfo &info) :
+			m_info(info),
+			m_data(0),
+			m_size(0) {}
 
 		FileInfo m_info;
 		char *m_data;
@@ -148,16 +173,18 @@ namespace FileSystem {
 
 	class FileDataMalloc : public FileData {
 	public:
-		FileDataMalloc(const FileInfo &info, size_t size):
-			FileData(info, size, static_cast<char*>(std::malloc(size))) {}
-		FileDataMalloc(const FileInfo &info, size_t size, char *data):
+		FileDataMalloc(const FileInfo &info, size_t size) :
+			FileData(info, size, static_cast<char *>(std::malloc(size))) {}
+		FileDataMalloc(const FileInfo &info, size_t size, char *data) :
 			FileData(info, size, data) {}
 		virtual ~FileDataMalloc() { std::free(m_data); }
 	};
 
 	class FileSource {
 	public:
-		explicit FileSource(const std::string &root, bool trusted = false): m_root(root), m_trusted(trusted) {}
+		explicit FileSource(const std::string &root, bool trusted = false) :
+			m_root(root),
+			m_trusted(trusted) {}
 		virtual ~FileSource() {}
 
 		const std::string &GetRoot() const { return m_root; }
@@ -193,9 +220,9 @@ namespace FileSystem {
 		};
 
 		// similar to fopen(path, "rb")
-		FILE* OpenReadStream(const std::string &path);
+		FILE *OpenReadStream(const std::string &path);
 		// similar to fopen(path, "wb")
-		FILE* OpenWriteStream(const std::string &path, int flags = 0);
+		FILE *OpenWriteStream(const std::string &path, int flags = 0);
 	};
 
 	class FileSourceUnion : public FileSource {
@@ -216,16 +243,16 @@ namespace FileSystem {
 		virtual bool ReadDirectory(const std::string &path, std::vector<FileInfo> &output);
 
 	private:
-		std::vector<FileSource*> m_sources;
+		std::vector<FileSource *> m_sources;
 	};
 
 	class FileEnumerator {
 	public:
 		enum Flags {
-			IncludeDirs      = 1,
-			IncludeSpecials  = 2,
-			ExcludeFiles     = 4,
-			Recurse          = 8
+			IncludeDirs = 1,
+			IncludeSpecials = 2,
+			ExcludeFiles = 4,
+			Recurse = 8
 		};
 
 		explicit FileEnumerator(FileSource &fs, int flags = 0);
@@ -251,12 +278,18 @@ namespace FileSystem {
 } // namespace FileSystem
 
 inline std::string FileSystem::FileInfo::GetAbsoluteDir() const
-{ return JoinPath(m_source->GetRoot(), GetDir()); }
+{
+	return JoinPath(m_source->GetRoot(), GetDir());
+}
 
 inline std::string FileSystem::FileInfo::GetAbsolutePath() const
-{ return JoinPath(m_source->GetRoot(), GetPath()); }
+{
+	return JoinPath(m_source->GetRoot(), GetPath());
+}
 
 inline RefCountedPtr<FileSystem::FileData> FileSystem::FileInfo::Read() const
-{ return m_source->ReadFile(m_path); }
+{
+	return m_source->ReadFile(m_path);
+}
 
 #endif

@@ -1,9 +1,9 @@
 // Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "libs.h"
 #include "LuaVector.h"
 #include "LuaUtils.h"
+#include "libs.h"
 
 static int l_vector_new(lua_State *L)
 {
@@ -200,17 +200,17 @@ void LuaVector::Register(lua_State *L)
 
 vector3d *LuaVector::PushNewToLua(lua_State *L)
 {
-	vector3d *ptr = static_cast<vector3d*>(lua_newuserdata(L, sizeof(vector3d)));
+	vector3d *ptr = static_cast<vector3d *>(lua_newuserdata(L, sizeof(vector3d)));
 	luaL_setmetatable(L, LuaVector::TypeName);
 	return ptr;
 }
 
 const vector3d *LuaVector::GetFromLua(lua_State *L, int idx)
 {
-	return static_cast<vector3d*>(luaL_testudata(L, idx, LuaVector::TypeName));
+	return static_cast<vector3d *>(luaL_testudata(L, idx, LuaVector::TypeName));
 }
 
 const vector3d *LuaVector::CheckFromLua(lua_State *L, int idx)
 {
-	return static_cast<vector3d*>(luaL_checkudata(L, idx, LuaVector::TypeName));
+	return static_cast<vector3d *>(luaL_checkudata(L, idx, LuaVector::TypeName));
 }

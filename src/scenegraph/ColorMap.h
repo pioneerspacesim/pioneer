@@ -6,28 +6,30 @@
 /*
  * Color look-up texture generator for newmodel pattern system
  */
-#include "libs.h"
 #include "graphics/Texture.h"
+#include "libs.h"
 #include <SDL_stdinc.h>
 
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+}
 
 namespace SceneGraph {
 
-class ColorMap {
-public:
-	ColorMap();
-	Graphics::Texture *GetTexture();
-	void Generate(Graphics::Renderer *r, const Color &a, const Color &b, const Color &c);
-	void SetSmooth(bool);
+	class ColorMap {
+	public:
+		ColorMap();
+		Graphics::Texture *GetTexture();
+		void Generate(Graphics::Renderer *r, const Color &a, const Color &b, const Color &c);
+		void SetSmooth(bool);
 
-private:
-	void AddColor(int width, const Color &c, std::vector<Uint8> &out);
+	private:
+		void AddColor(int width, const Color &c, std::vector<Uint8> &out);
 
-	bool m_smooth;
-	RefCountedPtr<Graphics::Texture> m_texture;
-};
+		bool m_smooth;
+		RefCountedPtr<Graphics::Texture> m_texture;
+	};
 
-}
+} // namespace SceneGraph
 
 #endif

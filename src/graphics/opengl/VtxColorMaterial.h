@@ -23,7 +23,7 @@ namespace Graphics {
 		public:
 			virtual Program *CreateProgram(const MaterialDescriptor &) override final;
 		};
-	}
-}
+	} // namespace OGL
+} // namespace Graphics
 
 #endif

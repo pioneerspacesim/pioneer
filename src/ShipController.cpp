@@ -4,14 +4,14 @@
 #include "ShipController.h"
 #include "Frame.h"
 #include "Game.h"
+#include "GameSaveError.h"
 #include "KeyBindings.h"
+#include "OS.h"
 #include "Pi.h"
 #include "Player.h"
 #include "Ship.h"
 #include "Space.h"
 #include "WorldView.h"
-#include "OS.h"
-#include "GameSaveError.h"
 
 void ShipController::StaticUpdate(float timeStep)
 {
@@ -44,15 +44,14 @@ PlayerShipController::PlayerShipController() :
 
 	if (!InputBindings.primaryFire) {
 		Error("PlayerShipController was not properly initialized!\n"
-			"You must call PlayerShipController::RegisterInputBindings before initializing a PlayerShipController");
+			  "You must call PlayerShipController::RegisterInputBindings before initializing a PlayerShipController");
 	}
 
 	m_connRotationDampingToggleKey = InputBindings.toggleRotationDamping->onPress.connect(
 		sigc::mem_fun(this, &PlayerShipController::ToggleRotationDamping));
 
 	m_fireMissileKey = InputBindings.secondaryFire->onPress.connect(
-			sigc::mem_fun(this, &PlayerShipController::FireMissile));
-
+		sigc::mem_fun(this, &PlayerShipController::FireMissile));
 }
 
 PlayerShipController::InputBinding PlayerShipController::InputBindings;
@@ -138,18 +137,18 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 	matrix4x4d m;
 
 	int mouseMotion[2];
-	SDL_GetRelativeMouseState (mouseMotion+0, mouseMotion+1);	// call to flush
+	SDL_GetRelativeMouseState(mouseMotion + 0, mouseMotion + 1); // call to flush
 
 	// external camera mouselook
 	if (Pi::input.MouseButtonState(SDL_BUTTON_MIDDLE)) {
-			MoveableCameraController *mcc = static_cast<MoveableCameraController*>(Pi::game->GetWorldView()->GetCameraController());
-			const double accel = 0.01; // XXX configurable?
-			mcc->RotateLeft(mouseMotion[0] * accel);
-			mcc->RotateUp(  mouseMotion[1] * accel);
-			// only mouselook if the player presses both mmb and rmb
-			mouseMotion[0] = 0;
-			mouseMotion[1] = 0;
-		}
+		MoveableCameraController *mcc = static_cast<MoveableCameraController *>(Pi::game->GetWorldView()->GetCameraController());
+		const double accel = 0.01; // XXX configurable?
+		mcc->RotateLeft(mouseMotion[0] * accel);
+		mcc->RotateUp(mouseMotion[1] * accel);
+		// only mouselook if the player presses both mmb and rmb
+		mouseMotion[0] = 0;
+		mouseMotion[1] = 0;
+	}
 
 	if (m_ship->GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
@@ -196,17 +195,19 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 		case CONTROL_AUTOPILOT:
 			if (m_ship->AIIsActive()) break;
 			Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
-//			AIMatchVel(vector3d(0.0));			// just in case autopilot doesn't...
-						// actually this breaks last timestep slightly in non-relative target cases
+			//			AIMatchVel(vector3d(0.0));			// just in case autopilot doesn't...
+			// actually this breaks last timestep slightly in non-relative target cases
 			m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
-			if (m_ship->GetFrame()->IsRotFrame()) SetFlightControlState(CONTROL_FIXSPEED);
-			else SetFlightControlState(CONTROL_MANUAL);
+			if (m_ship->GetFrame()->IsRotFrame())
+				SetFlightControlState(CONTROL_FIXSPEED);
+			else
+				SetFlightControlState(CONTROL_MANUAL);
 			m_setSpeed = 0.0;
 			break;
 		default: assert(0); break;
 		}
-	}
-	else SetFlightControlState(CONTROL_MANUAL);
+	} else
+		SetFlightControlState(CONTROL_MANUAL);
 
 	//call autopilot AI, if active (also applies to set speed and heading lock modes)
 	OS::EnableFPE();
@@ -216,11 +217,7 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 
 void PlayerShipController::CheckControlsLock()
 {
-	m_controlsLocked = (Pi::game->IsPaused())
-		|| Pi::player->IsDead()
-		|| (m_ship->GetFlightState() != Ship::FLYING)
-		|| Pi::IsConsoleActive()
-		|| (Pi::GetView() != Pi::game->GetWorldView()); //to prevent moving the ship in starmap etc.
+	m_controlsLocked = (Pi::game->IsPaused()) || Pi::player->IsDead() || (m_ship->GetFlightState() != Ship::FLYING) || Pi::IsConsoleActive() || (Pi::GetView() != Pi::game->GetWorldView()); //to prevent moving the ship in starmap etc.
 }
 
 vector3d PlayerShipController::GetMouseDir() const
@@ -232,7 +229,7 @@ vector3d PlayerShipController::GetMouseDir() const
 // mouse wraparound control function
 static double clipmouse(double cur, double inp)
 {
-	if (cur*cur > 0.7 && cur*inp > 0) return 0.0;
+	if (cur * cur > 0.7 && cur * inp > 0) return 0.0;
 	if (inp > 0.2) return 0.2;
 	if (inp < -0.2) return -0.2;
 	return inp;
@@ -247,8 +244,8 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 	// if flying
 	{
 		m_ship->ClearThrusterState();
-		m_ship->SetGunState(0,0);
-		m_ship->SetGunState(1,0);
+		m_ship->SetGunState(0, 0);
+		m_ship->SetGunState(1, 0);
 
 		// vector3d wantAngVel(0.0);
 		double angThrustSoftness = 10.0;
@@ -256,8 +253,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		const float linearThrustPower = (InputBindings.thrustLowPower->IsActive() ? m_lowThrustPower : 1.0f);
 
 		// have to use this function. SDL mouse position event is bugged in windows
-		if (Pi::input.MouseButtonState(SDL_BUTTON_RIGHT))
-		{
+		if (Pi::input.MouseButtonState(SDL_BUTTON_RIGHT)) {
 			// use ship rotation relative to system, unchanged by frame transitions
 			matrix3x3d rot = m_ship->GetOrientRelTo(m_ship->GetFrame()->GetNonRotFrame());
 			if (!m_mouseActive && !m_disableMouseFacing) {
@@ -281,12 +277,12 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 			double mody = clipmouse(objDir.y, m_mouseY);
 			m_mouseY -= mody;
 
-			if(!is_zero_general(modx) || !is_zero_general(mody)) {
+			if (!is_zero_general(modx) || !is_zero_general(mody)) {
 				matrix3x3d mrot = matrix3x3d::RotateY(modx) * matrix3x3d::RotateX(mody);
 				m_mouseDir = (rot * (mrot * objDir)).Normalized();
 			}
-		}
-		else m_mouseActive = false;
+		} else
+			m_mouseActive = false;
 
 		if (m_flightControlState == CONTROL_FIXSPEED) {
 			double oldSpeed = m_setSpeed;
@@ -298,15 +294,15 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 
 			if (!stickySpeedKey) {
 				if (InputBindings.increaseSpeed->IsActive()) {
-					m_setSpeed += std::max(fabs(m_setSpeed)*0.05, 1.0);
-					if ( m_setSpeed > 300000000 ) m_setSpeed = 300000000;
+					m_setSpeed += std::max(fabs(m_setSpeed) * 0.05, 1.0);
+					if (m_setSpeed > 300000000) m_setSpeed = 300000000;
 				}
 				if (InputBindings.decreaseSpeed->IsActive()) {
-					m_setSpeed -= std::max(fabs(m_setSpeed)*0.05, 1.0);
-					if ( m_setSpeed < -300000000 ) m_setSpeed = -300000000;
+					m_setSpeed -= std::max(fabs(m_setSpeed) * 0.05, 1.0);
+					if (m_setSpeed < -300000000) m_setSpeed = -300000000;
 				}
-				if ( ((oldSpeed < 0.0) && (m_setSpeed >= 0.0)) ||
-						((oldSpeed > 0.0) && (m_setSpeed <= 0.0)) ) {
+				if (((oldSpeed < 0.0) && (m_setSpeed >= 0.0)) ||
+					((oldSpeed > 0.0) && (m_setSpeed <= 0.0))) {
 					// flipped from going forward to backwards. make the speed 'stick' at zero
 					// until the player lets go of the key and presses it again
 					stickySpeedKey = true;
@@ -323,8 +319,8 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 			m_ship->SetThrusterState(0, -linearThrustPower * InputBindings.thrustLeft->GetValue());
 
 		if (InputBindings.primaryFire->IsActive() || (Pi::input.MouseButtonState(SDL_BUTTON_LEFT) && Pi::input.MouseButtonState(SDL_BUTTON_RIGHT))) {
-				//XXX worldview? madness, ask from ship instead
-				m_ship->SetGunState(Pi::game->GetWorldView()->GetActiveWeapon(), 1);
+			//XXX worldview? madness, ask from ship instead
+			m_ship->SetGunState(Pi::game->GetWorldView()->GetActiveWeapon(), 1);
 		}
 
 		vector3d wantAngVel = vector3d(
@@ -338,8 +334,8 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 			angThrustSoftness = 50.0;
 
 		if (wantAngVel.Length() >= 0.001 || force_rotation_damping || m_rotationDamping) {
-			if (Pi::game->GetTimeAccel()!=Game::TIMEACCEL_1X) {
-				for (int axis=0; axis<3; axis++)
+			if (Pi::game->GetTimeAccel() != Game::TIMEACCEL_1X) {
+				for (int axis = 0; axis < 3; axis++)
 					wantAngVel[axis] = wantAngVel[axis] * Pi::game->GetInvTimeAccelRate();
 			}
 
@@ -352,20 +348,12 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 
 bool PlayerShipController::IsAnyAngularThrusterKeyDown()
 {
-	return !Pi::IsConsoleActive() && (
-		InputBindings.pitch->IsActive()	||
-		InputBindings.yaw->IsActive()	||
-		InputBindings.roll->IsActive()
-	);
+	return !Pi::IsConsoleActive() && (InputBindings.pitch->IsActive() || InputBindings.yaw->IsActive() || InputBindings.roll->IsActive());
 }
 
 bool PlayerShipController::IsAnyLinearThrusterKeyDown()
 {
-	return !Pi::IsConsoleActive() && (
-		InputBindings.thrustForward->IsActive()	||
-		InputBindings.thrustLeft->IsActive()	||
-		InputBindings.thrustUp->IsActive()
-	);
+	return !Pi::IsConsoleActive() && (InputBindings.thrustForward->IsActive() || InputBindings.thrustLeft->IsActive() || InputBindings.thrustUp->IsActive());
 }
 
 void PlayerShipController::SetFlightControlState(FlightControlState s)
@@ -414,7 +402,7 @@ void PlayerShipController::FireMissile()
 {
 	if (!Pi::player->GetCombatTarget())
 		return;
-	LuaObject<Ship>::CallMethod(Pi::player, "FireMissileAt", "any", static_cast<Ship*>(Pi::player->GetCombatTarget()));
+	LuaObject<Ship>::CallMethod(Pi::player, "FireMissileAt", "any", static_cast<Ship *>(Pi::player->GetCombatTarget()));
 }
 
 Body *PlayerShipController::GetCombatTarget() const
@@ -432,7 +420,7 @@ Body *PlayerShipController::GetSetSpeedTarget() const
 	return m_setSpeedTarget;
 }
 
-void PlayerShipController::SetCombatTarget(Body* const target, bool setSpeedTo)
+void PlayerShipController::SetCombatTarget(Body *const target, bool setSpeedTo)
 {
 	if (setSpeedTo)
 		m_setSpeedTarget = target;
@@ -441,7 +429,7 @@ void PlayerShipController::SetCombatTarget(Body* const target, bool setSpeedTo)
 	m_combatTarget = target;
 }
 
-void PlayerShipController::SetNavTarget(Body* const target, bool setSpeedTo)
+void PlayerShipController::SetNavTarget(Body *const target, bool setSpeedTo)
 {
 	if (setSpeedTo)
 		m_setSpeedTarget = target;
@@ -450,7 +438,7 @@ void PlayerShipController::SetNavTarget(Body* const target, bool setSpeedTo)
 	m_navTarget = target;
 }
 
-void PlayerShipController::SetSetSpeedTarget(Body* const target)
+void PlayerShipController::SetSetSpeedTarget(Body *const target)
 {
 	m_setSpeedTarget = target;
 }

@@ -9,15 +9,15 @@
 // and GetFileSizeEx requires Windows 2000 and IE5. We include w32api.h to get
 // the symbolic constants for these things.
 #ifdef __MINGW32__
-#	include <w32api.h>
-#	ifdef WINVER
-#		undef WINVER
-#	endif
-#	ifdef RegisterClass
-#		undef RegisterClass
-#	endif
-#	define WINVER Windows2000
-#	define _WIN32_IE IE5
+#include <w32api.h>
+#ifdef WINVER
+#undef WINVER
+#endif
+#ifdef RegisterClass
+#undef RegisterClass
+#endif
+#define WINVER Windows2000
+#define _WIN32_IE IE5
 #endif
 
 #endif

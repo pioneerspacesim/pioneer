@@ -1,15 +1,15 @@
 // Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "Game.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Pi.h"
-#include "Game.h"
 #include "galaxy/Galaxy.h"
-#include "galaxy/SystemPath.h"
-#include "galaxy/StarSystem.h"
-#include "galaxy/Sector.h"
 #include "galaxy/GalaxyCache.h"
+#include "galaxy/Sector.h"
+#include "galaxy/StarSystem.h"
+#include "galaxy/SystemPath.h"
 
 /*
  * Class: SystemPath
@@ -33,7 +33,9 @@
  * same system without reference to their body indexes, use <IsSameSystem>.
  */
 
-template <> void LuaObject<SystemPath>::PushToLua(const SystemPath &o) {
+template <>
+void LuaObject<SystemPath>::PushToLua(const SystemPath &o)
+{
 	lua_State *l = Lua::manager->GetLuaState();
 
 	// get the system path object cache
@@ -228,7 +230,9 @@ static int l_sbodypath_system_only(lua_State *l)
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
 	if (!path->HasValidSystem())
 		return luaL_error(l, "SystemPath:SystemOnly() self argument does not refer to a system");
-	if (path->IsSystemPath()) { return 1; }
+	if (path->IsSystemPath()) {
+		return 1;
+	}
 	const SystemPath sysOnly(path->SystemOnly());
 	LuaObject<SystemPath>::PushToLua(sysOnly);
 	return 1;
@@ -256,7 +260,9 @@ static int l_sbodypath_system_only(lua_State *l)
 static int l_sbodypath_sector_only(lua_State *l)
 {
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
-	if (path->IsSectorPath()) { return 1; }
+	if (path->IsSectorPath()) {
+		return 1;
+	}
 	LuaObject<SystemPath>::PushToLua(path->SectorOnly());
 	return 1;
 }
@@ -432,14 +438,11 @@ static int l_sbodypath_is_system_path(lua_State *l)
 static int l_sbodypath_parse_string(lua_State *l)
 {
 	std::string path = LuaPull<std::string>(l, 1);
-	try
-	{
+	try {
 		SystemPath syspath = SystemPath::Parse(path.c_str());
 		LuaObject<SystemPath>::PushToLua(syspath.SectorOnly());
 		return 1;
-	}
-	catch (const SystemPath::ParseFailure&)
-	{
+	} catch (const SystemPath::ParseFailure &) {
 		return 0;
 	}
 	return 0;
@@ -577,7 +580,7 @@ static std::string _systempath_serializer(LuaWrappable *o)
 {
 	static char buf[256];
 
-	SystemPath *sbp = static_cast<SystemPath*>(o);
+	SystemPath *sbp = static_cast<SystemPath *>(o);
 	snprintf(buf, sizeof(buf), "%d\n%d\n%d\n%u\n%u\n",
 		sbp->sectorX, sbp->sectorY, sbp->sectorZ, sbp->systemIndex, sbp->bodyIndex);
 
@@ -588,25 +591,25 @@ static bool _systempath_deserializer(const char *pos, const char **next)
 {
 	const char *end;
 
-	Sint32 sectorX = strtol(pos, const_cast<char**>(&end), 0);
+	Sint32 sectorX = strtol(pos, const_cast<char **>(&end), 0);
 	if (pos == end) return false;
-	pos = end+1; // skip newline
+	pos = end + 1; // skip newline
 
-	Sint32 sectorY = strtol(pos, const_cast<char**>(&end), 0);
+	Sint32 sectorY = strtol(pos, const_cast<char **>(&end), 0);
 	if (pos == end) return false;
-	pos = end+1; // skip newline
+	pos = end + 1; // skip newline
 
-	Sint32 sectorZ = strtol(pos, const_cast<char**>(&end), 0);
+	Sint32 sectorZ = strtol(pos, const_cast<char **>(&end), 0);
 	if (pos == end) return false;
-	pos = end+1; // skip newline
+	pos = end + 1; // skip newline
 
-	Uint32 systemNum = strtoul(pos, const_cast<char**>(&end), 0);
+	Uint32 systemNum = strtoul(pos, const_cast<char **>(&end), 0);
 	if (pos == end) return false;
-	pos = end+1; // skip newline
+	pos = end + 1; // skip newline
 
-	Uint32 sbodyId = strtoul(pos, const_cast<char**>(&end), 0);
+	Uint32 sbodyId = strtoul(pos, const_cast<char **>(&end), 0);
 	if (pos == end) return false;
-	pos = end+1; // skip newline
+	pos = end + 1; // skip newline
 
 	const SystemPath sbp(sectorX, sectorY, sectorZ, systemNum, sbodyId);
 	LuaObject<SystemPath>::PushToLua(sbp);
@@ -618,7 +621,7 @@ static bool _systempath_deserializer(const char *pos, const char **next)
 
 static void _systempath_to_json(Json &out, LuaWrappable *o)
 {
-	SystemPath *p = static_cast<SystemPath*>(o);
+	SystemPath *p = static_cast<SystemPath *>(o);
 	out = Json::array();
 	out[0] = Json(p->sectorX);
 	out[1] = Json(p->sectorY);
@@ -631,22 +634,32 @@ static bool _systempath_from_json(const Json &obj)
 {
 	if (!obj.is_array()) return false;
 	if (obj.size() < 3 || obj.size() > 5) return false;
-	for (size_t i = 0; i < obj.size(); ++i) { if (!obj[i].is_number_integer()) { return false; } }
+	for (size_t i = 0; i < obj.size(); ++i) {
+		if (!obj[i].is_number_integer()) {
+			return false;
+		}
+	}
 
 	SystemPath p;
 	p.sectorX = obj[0];
 	p.sectorY = obj[1];
 	p.sectorZ = obj[2];
-	if (obj.size() >= 4) { p.systemIndex = obj[3]; }
-	if (obj.size() >= 5) { p.bodyIndex = obj[4]; }
+	if (obj.size() >= 4) {
+		p.systemIndex = obj[3];
+	}
+	if (obj.size() >= 5) {
+		p.bodyIndex = obj[4];
+	}
 
 	LuaObject<SystemPath>::PushToLua(p);
 	return true;
 }
 
-template <> const char *LuaObject<SystemPath>::s_type = "SystemPath";
+template <>
+const char *LuaObject<SystemPath>::s_type = "SystemPath";
 
-template <> void LuaObject<SystemPath>::RegisterClass()
+template <>
+void LuaObject<SystemPath>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
 		{ "New", l_sbodypath_new },
@@ -661,19 +674,19 @@ template <> void LuaObject<SystemPath>::RegisterClass()
 
 		{ "GetStarSystem", l_sbodypath_get_star_system },
 		{ "GetSystemBody", l_sbodypath_get_system_body },
-		{ "IsSystemPath",  l_sbodypath_is_system_path },
-		{ "IsSectorPath",  l_sbodypath_is_sector_path },
-		{ "IsBodyPath",    l_sbodypath_is_body_path },
-		{ "ParseString",   l_sbodypath_parse_string},
+		{ "IsSystemPath", l_sbodypath_is_system_path },
+		{ "IsSectorPath", l_sbodypath_is_sector_path },
+		{ "IsBodyPath", l_sbodypath_is_body_path },
+		{ "ParseString", l_sbodypath_parse_string },
 		{ 0, 0 }
 	};
 
 	static const luaL_Reg l_attrs[] = {
-		{ "sectorX",     l_sbodypath_attr_sector_x     },
-		{ "sectorY",     l_sbodypath_attr_sector_y     },
-		{ "sectorZ",     l_sbodypath_attr_sector_z     },
+		{ "sectorX", l_sbodypath_attr_sector_x },
+		{ "sectorY", l_sbodypath_attr_sector_y },
+		{ "sectorZ", l_sbodypath_attr_sector_z },
 		{ "systemIndex", l_sbodypath_attr_system_index },
-		{ "bodyIndex",   l_sbodypath_attr_body_index   },
+		{ "bodyIndex", l_sbodypath_attr_body_index },
 		{ 0, 0 }
 	};
 
@@ -683,6 +696,5 @@ template <> void LuaObject<SystemPath>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, 0, l_methods, l_attrs, l_meta);
-	LuaObjectBase::RegisterSerializer(s_type, SerializerPair(
-		_systempath_serializer, _systempath_deserializer, _systempath_to_json, _systempath_from_json));
+	LuaObjectBase::RegisterSerializer(s_type, SerializerPair(_systempath_serializer, _systempath_deserializer, _systempath_to_json, _systempath_from_json));
 }

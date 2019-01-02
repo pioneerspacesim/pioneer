@@ -6,18 +6,19 @@
 
 namespace UI {
 
-class LuaAlign {
-public:
+	class LuaAlign {
+	public:
+	};
 
-};
-
-}
+} // namespace UI
 
 using namespace UI;
 
-template <> const char *LuaObject<UI::Align>::s_type = "UI.Align";
+template <>
+const char *LuaObject<UI::Align>::s_type = "UI.Align";
 
-template <> void LuaObject<UI::Align>::RegisterClass()
+template <>
+void LuaObject<UI::Align>::RegisterClass()
 {
 	static const char *l_parent = "UI.Single";
 

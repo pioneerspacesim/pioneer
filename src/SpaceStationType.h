@@ -9,13 +9,14 @@
 //Space station definition, loaded from data/stations
 
 class Ship;
-namespace SceneGraph { class Model; }
+namespace SceneGraph {
+	class Model;
+}
 
 class SpaceStationType {
 public:
 	typedef std::map<Uint32, matrix4x4f> TMapBayIDMat;
-	struct PortPath
-	{
+	struct PortPath {
 		TMapBayIDMat m_docking;
 		TMapBayIDMat m_leaving;
 	};
@@ -23,11 +24,15 @@ public:
 
 	struct SPort {
 		static const int BAD_PORT_ID = -1;
-		SPort() : portId(BAD_PORT_ID), minShipSize(5000), maxShipSize(-1), inUse(false) {}
+		SPort() :
+			portId(BAD_PORT_ID),
+			minShipSize(5000),
+			maxShipSize(-1),
+			inUse(false) {}
 		int portId;
 		int minShipSize, maxShipSize;
 		bool inUse;
-		std::vector<std::pair<int,std::string> > bayIDs;
+		std::vector<std::pair<int, std::string>> bayIDs;
 		std::string name;
 		TMapBayIDMat m_approach;
 	};
@@ -45,7 +50,8 @@ private:
 	SceneGraph::Model *model;
 	std::string modelName;
 	float angVel;
-	enum DOCKMETHOD { SURFACE, ORBITAL } dockMethod;
+	enum DOCKMETHOD { SURFACE,
+		ORBITAL } dockMethod;
 	unsigned int numDockingPorts;
 	int numDockingStages;
 	int numUndockStages;
@@ -63,8 +69,8 @@ public:
 	SpaceStationType(const std::string &id, const std::string &path);
 
 	void OnSetupComplete();
-	const SPort* FindPortByBay(const int zeroBaseBayID) const;
-	SPort* GetPortByBay(const int zeroBaseBayID);
+	const SPort *FindPortByBay(const int zeroBaseBayID) const;
+	SPort *GetPortByBay(const int zeroBaseBayID);
 
 	double GetDockAnimStageDuration(const int stage) const;
 	double GetUndockAnimStageDuration(const int stage) const;
@@ -77,21 +83,21 @@ public:
 	 * ship has been released and is under player control again */
 	bool GetDockAnimPositionOrient(const unsigned int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
 
-	const std::string& ModelName() const { return modelName; }
+	const std::string &ModelName() const { return modelName; }
 	float AngVel() const { return angVel; }
-	bool IsSurfaceStation() const { return (SURFACE==dockMethod); }
-	bool IsOrbitalStation() const { return (ORBITAL==dockMethod); }
+	bool IsSurfaceStation() const { return (SURFACE == dockMethod); }
+	bool IsOrbitalStation() const { return (ORBITAL == dockMethod); }
 	unsigned int NumDockingPorts() const { return numDockingPorts; }
 	int NumDockingStages() const { return numDockingStages; }
 	int NumUndockStages() const { return numUndockStages; }
 	int ShipLaunchStage() const { return shipLaunchStage; }
 	float ParkingDistance() const { return parkingDistance; }
 	float ParkingGapSize() const { return parkingGapSize; }
-	const TPorts& Ports() const { return m_ports; }
+	const TPorts &Ports() const { return m_ports; }
 
 	static void Init();
 
-	static const SpaceStationType* RandomStationType(Random &random, const bool bIsGround);
+	static const SpaceStationType *RandomStationType(Random &random, const bool bIsGround);
 	static const SpaceStationType *FindByName(const std::string &name);
 };
 

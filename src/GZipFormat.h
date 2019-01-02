@@ -34,6 +34,6 @@ namespace gzip {
 	// If compression fails it throws an exception.
 	// Parameter 'inner_file_name' is the name written in the GZip header as the file name of the compressed block.
 	std::string CompressGZip(const std::string &data, const std::string &inner_file_name);
-}
+} // namespace gzip
 
 #endif

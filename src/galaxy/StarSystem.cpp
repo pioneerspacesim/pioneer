@@ -2,38 +2,37 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StarSystem.h"
-#include "Sector.h"
+#include "Factions.h"
 #include "Galaxy.h"
 #include "GalaxyCache.h"
 #include "GalaxyGenerator.h"
-#include "Factions.h"
+#include "Sector.h"
 
-#include "Pi.h"
-#include "LuaEvent.h"
-#include "enum_table.h"
-#include "utils.h"
-#include "Orbit.h"
-#include "Lang.h"
-#include "StringF.h"
 #include "EnumStrings.h"
 #include "GameSaveError.h"
+#include "Lang.h"
+#include "LuaEvent.h"
+#include "Orbit.h"
+#include "Pi.h"
+#include "StringF.h"
+#include "enum_table.h"
+#include "utils.h"
 #include <SDL_stdinc.h>
+#include <algorithm>
 #include <map>
 #include <string>
-#include <algorithm>
 
 //#define DEBUG_DUMP
 
-namespace
-{
-	bool InvalidSystemNameChar (char c)
+namespace {
+	bool InvalidSystemNameChar(char c)
 	{
 		return !(
 			(c >= 'a' && c <= 'z') ||
 			(c >= 'A' && c <= 'Z') ||
 			(c >= '0' && c <= '9'));
 	}
-}
+} // namespace
 
 // indexed by enum type turd
 const Color StarSystem::starColors[] = {
@@ -87,32 +86,32 @@ const Color StarSystem::starRealColors[] = {
 	{ 255, 255, 255 }, // F
 	{ 255, 255, 255 }, // A
 	{ 204, 204, 255 }, // B
-	{ 255, 204, 255 },  // O
+	{ 255, 204, 255 }, // O
 	{ 255, 128, 51 }, // M Giant
 	{ 255, 255, 102 }, // K Giant
 	{ 255, 255, 242 }, // G Giant
 	{ 255, 255, 255 }, // F Giant
 	{ 255, 255, 255 }, // A Giant
 	{ 204, 204, 255 }, // B Giant
-	{ 255, 204, 255 },  // O Giant
+	{ 255, 204, 255 }, // O Giant
 	{ 255, 128, 51 }, // M Super Giant
 	{ 255, 255, 102 }, // K Super Giant
 	{ 255, 255, 242 }, // G Super Giant
 	{ 255, 255, 255 }, // F Super Giant
 	{ 255, 255, 255 }, // A Super Giant
 	{ 204, 204, 255 }, // B Super Giant
-	{ 255, 204, 255 },  // O Super Giant
+	{ 255, 204, 255 }, // O Super Giant
 	{ 255, 128, 51 }, // M Hyper Giant
 	{ 255, 255, 102 }, // K Hyper Giant
 	{ 255, 255, 242 }, // G Hyper Giant
 	{ 255, 255, 255 }, // F Hyper Giant
 	{ 255, 255, 255 }, // A Hyper Giant
 	{ 204, 204, 255 }, // B Hyper Giant
-	{ 255, 204, 255 },  // O Hyper Giant
+	{ 255, 204, 255 }, // O Hyper Giant
 	{ 255, 153, 153 }, // M WF
 	{ 204, 204, 255 }, // B WF
-	{ 255, 204, 255 },  // O WF
-	{ 22, 0, 24 },  // small Black hole
+	{ 255, 204, 255 }, // O WF
+	{ 22, 0, 24 }, // small Black hole
 	{ 16, 0, 20 }, // med BH
 	{ 10, 0, 16 } // massive BH
 };
@@ -157,7 +156,8 @@ const double StarSystem::starLuminosities[] = {
 	0.000003, // Supermassive Black hole
 };
 
-const float StarSystem::starScale[] = {  // Used in sector view
+const float StarSystem::starScale[] = {
+	// Used in sector view
 	0,
 	0.6f, // brown dwarf
 	0.5f, // white dwarf
@@ -194,71 +194,70 @@ const float StarSystem::starScale[] = {  // Used in sector view
 	1.6f, // O WF
 	1.0f, // Black hole
 	2.5f, // Intermediate-mass blackhole
-	4.0f  // Supermassive blackhole
+	4.0f // Supermassive blackhole
 };
 
 SystemBody::BodySuperType SystemBody::GetSuperType() const
 {
 	PROFILE_SCOPED()
 	switch (m_type) {
-		case TYPE_BROWN_DWARF:
-		case TYPE_WHITE_DWARF:
-		case TYPE_STAR_M:
-		case TYPE_STAR_K:
-		case TYPE_STAR_G:
-		case TYPE_STAR_F:
-		case TYPE_STAR_A:
-		case TYPE_STAR_B:
-		case TYPE_STAR_O:
-		case TYPE_STAR_M_GIANT:
-		case TYPE_STAR_K_GIANT:
-		case TYPE_STAR_G_GIANT:
-		case TYPE_STAR_F_GIANT:
-		case TYPE_STAR_A_GIANT:
-		case TYPE_STAR_B_GIANT:
-		case TYPE_STAR_O_GIANT:
-		case TYPE_STAR_M_SUPER_GIANT:
-		case TYPE_STAR_K_SUPER_GIANT:
-		case TYPE_STAR_G_SUPER_GIANT:
-		case TYPE_STAR_F_SUPER_GIANT:
-		case TYPE_STAR_A_SUPER_GIANT:
-		case TYPE_STAR_B_SUPER_GIANT:
-		case TYPE_STAR_O_SUPER_GIANT:
-		case TYPE_STAR_M_HYPER_GIANT:
-		case TYPE_STAR_K_HYPER_GIANT:
-		case TYPE_STAR_G_HYPER_GIANT:
-		case TYPE_STAR_F_HYPER_GIANT:
-		case TYPE_STAR_A_HYPER_GIANT:
-		case TYPE_STAR_B_HYPER_GIANT:
-		case TYPE_STAR_O_HYPER_GIANT:
-		case TYPE_STAR_M_WF:
-		case TYPE_STAR_B_WF:
-		case TYPE_STAR_O_WF:
-		case TYPE_STAR_S_BH:
-		case TYPE_STAR_IM_BH:
-		case TYPE_STAR_SM_BH:
-		     return SUPERTYPE_STAR;
-		case TYPE_PLANET_GAS_GIANT:
-		     return SUPERTYPE_GAS_GIANT;
-		case TYPE_PLANET_ASTEROID:
-		case TYPE_PLANET_TERRESTRIAL:
-		     return SUPERTYPE_ROCKY_PLANET;
-		case TYPE_STARPORT_ORBITAL:
-		case TYPE_STARPORT_SURFACE:
-		     return SUPERTYPE_STARPORT;
-		case TYPE_GRAVPOINT:
-             return SUPERTYPE_NONE;
-        default:
-             Output("Warning: Invalid SuperBody Type found.\n");
-             return SUPERTYPE_NONE;
+	case TYPE_BROWN_DWARF:
+	case TYPE_WHITE_DWARF:
+	case TYPE_STAR_M:
+	case TYPE_STAR_K:
+	case TYPE_STAR_G:
+	case TYPE_STAR_F:
+	case TYPE_STAR_A:
+	case TYPE_STAR_B:
+	case TYPE_STAR_O:
+	case TYPE_STAR_M_GIANT:
+	case TYPE_STAR_K_GIANT:
+	case TYPE_STAR_G_GIANT:
+	case TYPE_STAR_F_GIANT:
+	case TYPE_STAR_A_GIANT:
+	case TYPE_STAR_B_GIANT:
+	case TYPE_STAR_O_GIANT:
+	case TYPE_STAR_M_SUPER_GIANT:
+	case TYPE_STAR_K_SUPER_GIANT:
+	case TYPE_STAR_G_SUPER_GIANT:
+	case TYPE_STAR_F_SUPER_GIANT:
+	case TYPE_STAR_A_SUPER_GIANT:
+	case TYPE_STAR_B_SUPER_GIANT:
+	case TYPE_STAR_O_SUPER_GIANT:
+	case TYPE_STAR_M_HYPER_GIANT:
+	case TYPE_STAR_K_HYPER_GIANT:
+	case TYPE_STAR_G_HYPER_GIANT:
+	case TYPE_STAR_F_HYPER_GIANT:
+	case TYPE_STAR_A_HYPER_GIANT:
+	case TYPE_STAR_B_HYPER_GIANT:
+	case TYPE_STAR_O_HYPER_GIANT:
+	case TYPE_STAR_M_WF:
+	case TYPE_STAR_B_WF:
+	case TYPE_STAR_O_WF:
+	case TYPE_STAR_S_BH:
+	case TYPE_STAR_IM_BH:
+	case TYPE_STAR_SM_BH:
+		return SUPERTYPE_STAR;
+	case TYPE_PLANET_GAS_GIANT:
+		return SUPERTYPE_GAS_GIANT;
+	case TYPE_PLANET_ASTEROID:
+	case TYPE_PLANET_TERRESTRIAL:
+		return SUPERTYPE_ROCKY_PLANET;
+	case TYPE_STARPORT_ORBITAL:
+	case TYPE_STARPORT_SURFACE:
+		return SUPERTYPE_STARPORT;
+	case TYPE_GRAVPOINT:
+		return SUPERTYPE_NONE;
+	default:
+		Output("Warning: Invalid SuperBody Type found.\n");
+		return SUPERTYPE_NONE;
 	}
 }
 
 std::string SystemBody::GetAstroDescription() const
 {
 	PROFILE_SCOPED()
-	switch (m_type)
-	{
+	switch (m_type) {
 	case TYPE_BROWN_DWARF: return Lang::BROWN_DWARF;
 	case TYPE_WHITE_DWARF: return Lang::WHITE_DWARF;
 	case TYPE_STAR_M: return Lang::STAR_M;
@@ -298,23 +297,23 @@ std::string SystemBody::GetAstroDescription() const
 	case TYPE_PLANET_GAS_GIANT:
 		if (m_mass > 800) return Lang::VERY_LARGE_GAS_GIANT;
 		if (m_mass > 300) return Lang::LARGE_GAS_GIANT;
-		if (m_mass > 80) return Lang::MEDIUM_GAS_GIANT;
-		else return Lang::SMALL_GAS_GIANT;
+		if (m_mass > 80)
+			return Lang::MEDIUM_GAS_GIANT;
+		else
+			return Lang::SMALL_GAS_GIANT;
 	case TYPE_PLANET_ASTEROID: return Lang::ASTEROID;
-	case TYPE_PLANET_TERRESTRIAL:
-	{
+	case TYPE_PLANET_TERRESTRIAL: {
 		std::string s;
-		if (m_mass > fixed(2,1))
+		if (m_mass > fixed(2, 1))
 			s = Lang::MASSIVE;
-		else if (m_mass > fixed(3,2))
+		else if (m_mass > fixed(3, 2))
 			s = Lang::LARGE;
-		else if (m_mass < fixed(1,10))
+		else if (m_mass < fixed(1, 10))
 			s = Lang::TINY;
-		else if (m_mass < fixed(1,5))
+		else if (m_mass < fixed(1, 5))
 			s = Lang::SMALL;
 
-		if (m_volcanicity > fixed(7,10))
-		{
+		if (m_volcanicity > fixed(7, 10)) {
 			if (s.size())
 				s += Lang::COMMA_HIGHLY_VOLCANIC;
 			else
@@ -324,69 +323,58 @@ std::string SystemBody::GetAstroDescription() const
 		// m_averageTemp <-- in degrees Kelvin. -273 for Celsius.
 		// ^--- is not in fixed() format, but rather plain integer
 
-		if (m_volatileIces + m_volatileLiquid > fixed(4,5))
-		{
-			if (m_volatileIces > m_volatileLiquid)
-			{
+		if (m_volatileIces + m_volatileLiquid > fixed(4, 5)) {
+			if (m_volatileIces > m_volatileLiquid) {
 				s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::ROCKY_PLANET;
-			}
-			else
-			{
+			} else {
 				s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::OCEANICWORLD;
 			}
 			// what is a waterworld with temperature above 100C? possible?
-		}
-		else if (m_volatileLiquid > fixed(2,5))
-		{
+		} else if (m_volatileLiquid > fixed(2, 5)) {
 			s += (m_averageTemp > 273) ? Lang::PLANET_CONTAINING_LIQUID_WATER : Lang::PLANET_WITH_SOME_ICE;
-		}
-		else
-		{
-			s += (m_volatileLiquid > fixed(1,5)) ? Lang::ROCKY_PLANET_CONTAINING_COME_LIQUIDS : Lang::ROCKY_PLANET;
+		} else {
+			s += (m_volatileLiquid > fixed(1, 5)) ? Lang::ROCKY_PLANET_CONTAINING_COME_LIQUIDS : Lang::ROCKY_PLANET;
 		}
 
-		if (m_volatileGas < fixed(1,100))
-		{
+		if (m_volatileGas < fixed(1, 100)) {
 			s += Lang::WITH_NO_SIGNIFICANT_ATMOSPHERE;
-		}
-		else
-		{
+		} else {
 			std::string thickness;
-			if (m_volatileGas < fixed(1,10))
+			if (m_volatileGas < fixed(1, 10))
 				thickness = Lang::TENUOUS;
-			else if (m_volatileGas < fixed(1,5))
+			else if (m_volatileGas < fixed(1, 5))
 				thickness = Lang::THIN;
-			else if (m_volatileGas < fixed(2,1))	// normal atmosphere
-				{}
-			else if (m_volatileGas < fixed(4,1))
+			else if (m_volatileGas < fixed(2, 1)) // normal atmosphere
+			{
+			} else if (m_volatileGas < fixed(4, 1))
 				thickness = Lang::THICK;
 			else
 				thickness = Lang::VERY_DENSE;
 
-			if (m_atmosOxidizing > fixed(95,100)) {
-				s += Lang::WITH_A+thickness+Lang::O2_ATMOSPHERE;
-			} else if (m_atmosOxidizing > fixed(7,10)) {
-				s += Lang::WITH_A+thickness+Lang::CO2_ATMOSPHERE;
-			} else if (m_atmosOxidizing > fixed(65,100)) {
-				s += Lang::WITH_A+thickness+Lang::CO_ATMOSPHERE;
-			} else if (m_atmosOxidizing > fixed(55,100)) {
-				s += Lang::WITH_A+thickness+Lang::CH4_ATMOSPHERE;
-			} else if (m_atmosOxidizing > fixed(3,10)) {
-				s += Lang::WITH_A+thickness+Lang::H_ATMOSPHERE; // IsScoopable depends on these if/then/else values fixed(3,10) -> fixed(55,100) == hydrogen
-			} else if (m_atmosOxidizing > fixed(2,10)) {
-				s += Lang::WITH_A+thickness+Lang::HE_ATMOSPHERE;
-			} else if (m_atmosOxidizing > fixed(15,100)) {
-				s += Lang::WITH_A+thickness+Lang::AR_ATMOSPHERE;
-			} else if (m_atmosOxidizing > fixed(1,10)) {
-				s += Lang::WITH_A+thickness+Lang::S_ATMOSPHERE;
+			if (m_atmosOxidizing > fixed(95, 100)) {
+				s += Lang::WITH_A + thickness + Lang::O2_ATMOSPHERE;
+			} else if (m_atmosOxidizing > fixed(7, 10)) {
+				s += Lang::WITH_A + thickness + Lang::CO2_ATMOSPHERE;
+			} else if (m_atmosOxidizing > fixed(65, 100)) {
+				s += Lang::WITH_A + thickness + Lang::CO_ATMOSPHERE;
+			} else if (m_atmosOxidizing > fixed(55, 100)) {
+				s += Lang::WITH_A + thickness + Lang::CH4_ATMOSPHERE;
+			} else if (m_atmosOxidizing > fixed(3, 10)) {
+				s += Lang::WITH_A + thickness + Lang::H_ATMOSPHERE; // IsScoopable depends on these if/then/else values fixed(3,10) -> fixed(55,100) == hydrogen
+			} else if (m_atmosOxidizing > fixed(2, 10)) {
+				s += Lang::WITH_A + thickness + Lang::HE_ATMOSPHERE;
+			} else if (m_atmosOxidizing > fixed(15, 100)) {
+				s += Lang::WITH_A + thickness + Lang::AR_ATMOSPHERE;
+			} else if (m_atmosOxidizing > fixed(1, 10)) {
+				s += Lang::WITH_A + thickness + Lang::S_ATMOSPHERE;
 			} else {
-				s += Lang::WITH_A+thickness+Lang::N_ATMOSPHERE;
+				s += Lang::WITH_A + thickness + Lang::N_ATMOSPHERE;
 			}
 		}
 
-		if (m_life > fixed(1,2)) {
+		if (m_life > fixed(1, 2)) {
 			s += Lang::AND_HIGHLY_COMPLEX_ECOSYSTEM;
-		} else if (m_life > fixed(1,10)) {
+		} else if (m_life > fixed(1, 10)) {
 			s += Lang::AND_INDIGENOUS_PLANT_LIFE;
 		} else if (m_life > fixed()) {
 			s += Lang::AND_INDIGENOUS_MICROBIAL_LIFE;
@@ -401,9 +389,9 @@ std::string SystemBody::GetAstroDescription() const
 	case TYPE_STARPORT_SURFACE:
 		return Lang::STARPORT;
 	case TYPE_GRAVPOINT:
-    default:
-        Output("Warning: Invalid Astro Body Description found.\n");
-        return Lang::UNKNOWN;
+	default:
+		Output("Warning: Invalid Astro Body Description found.\n");
+		return Lang::UNKNOWN;
 	}
 }
 
@@ -433,14 +421,14 @@ const char *SystemBody::GetIcon() const
 	case TYPE_STAR_F_SUPER_GIANT: return "icons/object_star_g_super_giant.png"; //shares G graphic for now
 	case TYPE_STAR_A_SUPER_GIANT: return "icons/object_star_a_super_giant.png";
 	case TYPE_STAR_B_SUPER_GIANT: return "icons/object_star_b_super_giant.png";
-	case TYPE_STAR_O_SUPER_GIANT: return "icons/object_star_b_super_giant.png";// uses B type graphic for now
+	case TYPE_STAR_O_SUPER_GIANT: return "icons/object_star_b_super_giant.png"; // uses B type graphic for now
 	case TYPE_STAR_M_HYPER_GIANT: return "icons/object_star_m_hyper_giant.png";
 	case TYPE_STAR_K_HYPER_GIANT: return "icons/object_star_k_hyper_giant.png";
 	case TYPE_STAR_G_HYPER_GIANT: return "icons/object_star_g_hyper_giant.png";
 	case TYPE_STAR_F_HYPER_GIANT: return "icons/object_star_f_hyper_giant.png";
 	case TYPE_STAR_A_HYPER_GIANT: return "icons/object_star_a_hyper_giant.png";
 	case TYPE_STAR_B_HYPER_GIANT: return "icons/object_star_b_hyper_giant.png";
-	case TYPE_STAR_O_HYPER_GIANT: return "icons/object_star_b_hyper_giant.png";// uses B type graphic for now
+	case TYPE_STAR_O_HYPER_GIANT: return "icons/object_star_b_hyper_giant.png"; // uses B type graphic for now
 	case TYPE_STAR_M_WF: return "icons/object_star_m_wf.png";
 	case TYPE_STAR_B_WF: return "icons/object_star_b_wf.png";
 	case TYPE_STAR_O_WF: return "icons/object_star_o_wf.png";
@@ -449,76 +437,92 @@ const char *SystemBody::GetIcon() const
 	case TYPE_STAR_SM_BH: return "icons/object_star_smbh.png";
 	case TYPE_PLANET_GAS_GIANT:
 		if (m_mass > 800) {
-			if (m_averageTemp > 1000) return "icons/object_planet_large_gas_giant_hot.png";
-			else return "icons/object_planet_large_gas_giant.png";
+			if (m_averageTemp > 1000)
+				return "icons/object_planet_large_gas_giant_hot.png";
+			else
+				return "icons/object_planet_large_gas_giant.png";
 		}
 		if (m_mass > 300) {
-			if (m_averageTemp > 1000) return "icons/object_planet_large_gas_giant_hot.png";
-			else return "icons/object_planet_large_gas_giant.png";
+			if (m_averageTemp > 1000)
+				return "icons/object_planet_large_gas_giant_hot.png";
+			else
+				return "icons/object_planet_large_gas_giant.png";
 		}
 		if (m_mass > 80) {
-			if (m_averageTemp > 1000) return "icons/object_planet_medium_gas_giant_hot.png";
-			else return "icons/object_planet_medium_gas_giant.png";
-		}
-		else {
-			if (m_averageTemp > 1000) return "icons/object_planet_small_gas_giant_hot.png";
-			else return "icons/object_planet_small_gas_giant.png";
+			if (m_averageTemp > 1000)
+				return "icons/object_planet_medium_gas_giant_hot.png";
+			else
+				return "icons/object_planet_medium_gas_giant.png";
+		} else {
+			if (m_averageTemp > 1000)
+				return "icons/object_planet_small_gas_giant_hot.png";
+			else
+				return "icons/object_planet_small_gas_giant.png";
 		}
 	case TYPE_PLANET_ASTEROID:
 		return "icons/object_planet_asteroid.png";
 	case TYPE_PLANET_TERRESTRIAL:
-		if (m_volatileLiquid > fixed(7,10)) {
-			if (m_averageTemp > 250) return "icons/object_planet_water.png";
-			else return "icons/object_planet_ice.png";
+		if (m_volatileLiquid > fixed(7, 10)) {
+			if (m_averageTemp > 250)
+				return "icons/object_planet_water.png";
+			else
+				return "icons/object_planet_ice.png";
 		}
-		if ((m_life > fixed(9,10)) &&
-			(m_volatileGas > fixed(6,10))) return "icons/object_planet_life.png";
-		if ((m_life > fixed(8,10)) &&
-			(m_volatileGas > fixed(5,10))) return "icons/object_planet_life6.png";
-		if ((m_life > fixed(7,10)) &&
-			(m_volatileGas > fixed(45,100))) return "icons/object_planet_life7.png";
-		if ((m_life > fixed(6,10)) &&
-			(m_volatileGas > fixed(4,10))) return "icons/object_planet_life8.png";
-		if ((m_life > fixed(5,10)) &&
-			(m_volatileGas > fixed(3,10))) return "icons/object_planet_life4.png";
-		if ((m_life > fixed(4,10)) &&
-			(m_volatileGas > fixed(2,10))) return "icons/object_planet_life5.png";
-		if ((m_life > fixed(1,10)) &&
-			(m_volatileGas > fixed(2,10))) return "icons/object_planet_life2.png";
-		if (m_life > fixed(1,10)) return "icons/object_planet_life3.png";
-		if (m_mass < fixed(1,100)) return "icons/object_planet_dwarf.png";
-		if (m_mass < fixed(1,10)) return "icons/object_planet_small.png";
-		if ((m_volatileLiquid < fixed(1,10)) &&
-			(m_volatileGas > fixed(1,5))) return "icons/object_planet_desert.png";
+		if ((m_life > fixed(9, 10)) &&
+			(m_volatileGas > fixed(6, 10))) return "icons/object_planet_life.png";
+		if ((m_life > fixed(8, 10)) &&
+			(m_volatileGas > fixed(5, 10))) return "icons/object_planet_life6.png";
+		if ((m_life > fixed(7, 10)) &&
+			(m_volatileGas > fixed(45, 100))) return "icons/object_planet_life7.png";
+		if ((m_life > fixed(6, 10)) &&
+			(m_volatileGas > fixed(4, 10))) return "icons/object_planet_life8.png";
+		if ((m_life > fixed(5, 10)) &&
+			(m_volatileGas > fixed(3, 10))) return "icons/object_planet_life4.png";
+		if ((m_life > fixed(4, 10)) &&
+			(m_volatileGas > fixed(2, 10))) return "icons/object_planet_life5.png";
+		if ((m_life > fixed(1, 10)) &&
+			(m_volatileGas > fixed(2, 10))) return "icons/object_planet_life2.png";
+		if (m_life > fixed(1, 10)) return "icons/object_planet_life3.png";
+		if (m_mass < fixed(1, 100)) return "icons/object_planet_dwarf.png";
+		if (m_mass < fixed(1, 10)) return "icons/object_planet_small.png";
+		if ((m_volatileLiquid < fixed(1, 10)) &&
+			(m_volatileGas > fixed(1, 5))) return "icons/object_planet_desert.png";
 
-		if (m_volatileIces + m_volatileLiquid > fixed(3,5)) {
+		if (m_volatileIces + m_volatileLiquid > fixed(3, 5)) {
 			if (m_volatileIces > m_volatileLiquid) {
-				if (m_averageTemp < 250)	return "icons/object_planet_ice.png";
+				if (m_averageTemp < 250) return "icons/object_planet_ice.png";
 			} else {
 				if (m_averageTemp > 250) {
 					return "icons/object_planet_water.png";
-				} else return "icons/object_planet_ice.png";
+				} else
+					return "icons/object_planet_ice.png";
 			}
 		}
 
-		if (m_volatileGas > fixed(1,2)) {
-			if (m_atmosOxidizing < fixed(1,2)) {
-				if (m_averageTemp > 300) return "icons/object_planet_methane3.png";
-				else if (m_averageTemp > 250) return "icons/object_planet_methane2.png";
-				else return "icons/object_planet_methane.png";
+		if (m_volatileGas > fixed(1, 2)) {
+			if (m_atmosOxidizing < fixed(1, 2)) {
+				if (m_averageTemp > 300)
+					return "icons/object_planet_methane3.png";
+				else if (m_averageTemp > 250)
+					return "icons/object_planet_methane2.png";
+				else
+					return "icons/object_planet_methane.png";
 			} else {
-				if (m_averageTemp > 300) return "icons/object_planet_co2_2.png";
+				if (m_averageTemp > 300)
+					return "icons/object_planet_co2_2.png";
 				else if (m_averageTemp > 250) {
-					if ((m_volatileLiquid > fixed(3,10)) && (m_volatileGas > fixed(2,10)))
+					if ((m_volatileLiquid > fixed(3, 10)) && (m_volatileGas > fixed(2, 10)))
 						return "icons/object_planet_co2_4.png";
-					else return "icons/object_planet_co2_3.png";
-				} else return "icons/object_planet_co2.png";
+					else
+						return "icons/object_planet_co2_3.png";
+				} else
+					return "icons/object_planet_co2.png";
 			}
 		}
 
-		if ((m_volatileLiquid > fixed(1,10)) &&
-		   (m_volatileGas < fixed(1,10))) return "icons/object_planet_ice.png";
-		if (m_volcanicity > fixed(7,10)) return "icons/object_planet_volcanic.png";
+		if ((m_volatileLiquid > fixed(1, 10)) &&
+			(m_volatileGas < fixed(1, 10))) return "icons/object_planet_ice.png";
+		if (m_volcanicity > fixed(7, 10)) return "icons/object_planet_volcanic.png";
 		return "icons/object_planet_small.png";
 		/*
 		"icons/object_planet_water_n1.png"
@@ -529,20 +533,21 @@ const char *SystemBody::GetIcon() const
 		return "icons/object_orbital_starport.png";
 	case TYPE_GRAVPOINT:
 	case TYPE_STARPORT_SURFACE:
-    default:
-        Output("Warning: Invalid body icon.\n");
+	default:
+		Output("Warning: Invalid body icon.\n");
 		return 0;
 	}
 }
 
-bool SystemBody::IsPlanet() const {
+bool SystemBody::IsPlanet() const
+{
 	BodySuperType st = GetSuperType();
-	if(st != BodySuperType::SUPERTYPE_ROCKY_PLANET && st != BodySuperType::SUPERTYPE_GAS_GIANT)
+	if (st != BodySuperType::SUPERTYPE_ROCKY_PLANET && st != BodySuperType::SUPERTYPE_GAS_GIANT)
 		return false;
 	SystemBody *p = GetParent();
-	if(p != nullptr && p->GetSuperType() == BodySuperType::SUPERTYPE_STAR) {
+	if (p != nullptr && p->GetSuperType() == BodySuperType::SUPERTYPE_STAR) {
 		return true;
-	}	else {
+	} else {
 		return false;
 	}
 }
@@ -551,7 +556,7 @@ double SystemBody::GetMaxChildOrbitalDistance() const
 {
 	PROFILE_SCOPED()
 	double max = 0;
-	for (unsigned int i=0; i<m_children.size(); i++) {
+	for (unsigned int i = 0; i < m_children.size(); i++) {
 		if (m_children[i]->m_orbMax.ToDouble() > max) {
 			max = m_children[i]->m_orbMax.ToDouble();
 		}
@@ -559,18 +564,16 @@ double SystemBody::GetMaxChildOrbitalDistance() const
 	return AU * max;
 }
 
-bool SystemBody::IsCoOrbitalWith(const SystemBody* other) const
+bool SystemBody::IsCoOrbitalWith(const SystemBody *other) const
 {
-	if(m_parent && m_parent->GetType()==SystemBody::TYPE_GRAVPOINT
-	&& ((m_parent->m_children[0] == this && m_parent->m_children[1] == other)
-	|| (m_parent->m_children[1] == this && m_parent->m_children[0] == other)))
+	if (m_parent && m_parent->GetType() == SystemBody::TYPE_GRAVPOINT && ((m_parent->m_children[0] == this && m_parent->m_children[1] == other) || (m_parent->m_children[1] == this && m_parent->m_children[0] == other)))
 		return true;
 	return false;
 }
 
 bool SystemBody::IsCoOrbital() const
 {
-	if(m_parent	&& m_parent->GetType()==SystemBody::TYPE_GRAVPOINT && (m_parent->m_children[0] == this || m_parent->m_children[1] == this))
+	if (m_parent && m_parent->GetType() == SystemBody::TYPE_GRAVPOINT && (m_parent->m_children[0] == this || m_parent->m_children[1] == this))
 		return true;
 	return false;
 }
@@ -601,16 +604,32 @@ SystemPath StarSystem::GetPathOf(const SystemBody *sbody) const
 	return sbody->GetPath();
 }
 
-SystemBody::SystemBody(const SystemPath& path, StarSystem *system) : m_parent(nullptr), m_path(path), m_seed(0), m_aspectRatio(1,1), m_orbMin(0),
-	m_orbMax(0), m_rotationalPhaseAtStart(0), m_semiMajorAxis(0), m_eccentricity(0), m_orbitalOffset(0), m_axialTilt(0),
-	m_inclination(0), m_averageTemp(0), m_type(TYPE_GRAVPOINT), m_isCustomBody(false), m_heightMapFractal(0), m_atmosDensity(0.0), m_system(system)
+SystemBody::SystemBody(const SystemPath &path, StarSystem *system) :
+	m_parent(nullptr),
+	m_path(path),
+	m_seed(0),
+	m_aspectRatio(1, 1),
+	m_orbMin(0),
+	m_orbMax(0),
+	m_rotationalPhaseAtStart(0),
+	m_semiMajorAxis(0),
+	m_eccentricity(0),
+	m_orbitalOffset(0),
+	m_axialTilt(0),
+	m_inclination(0),
+	m_averageTemp(0),
+	m_type(TYPE_GRAVPOINT),
+	m_isCustomBody(false),
+	m_heightMapFractal(0),
+	m_atmosDensity(0.0),
+	m_system(system)
 {
 }
 
 bool SystemBody::HasAtmosphere() const
 {
 	PROFILE_SCOPED()
-	return (m_volatileGas > fixed(1,100));
+	return (m_volatileGas > fixed(1, 100));
 }
 
 bool SystemBody::IsScoopable() const
@@ -661,9 +680,9 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 
 	// calculate gravity
 	// radius of the planet
-	const double radiusPlanet_in_m = (m_radius.ToDouble()*EARTH_RADIUS);
-	const double massPlanet_in_kg = (m_mass.ToDouble()*EARTH_MASS);
-	const double g = G*massPlanet_in_kg/(radiusPlanet_in_m*radiusPlanet_in_m);
+	const double radiusPlanet_in_m = (m_radius.ToDouble() * EARTH_RADIUS);
+	const double massPlanet_in_kg = (m_mass.ToDouble() * EARTH_MASS);
+	const double g = G * massPlanet_in_kg / (radiusPlanet_in_m * radiusPlanet_in_m);
 
 	double T = static_cast<double>(m_averageTemp);
 
@@ -675,7 +694,7 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	// We have two kinds of atmosphere: Earth-like and gas giant (hydrogen/helium)
 	const double M = m_type == TYPE_PLANET_GAS_GIANT ? 0.0023139903 : 0.02897f; // in kg/mol
 
-	float atmosScaleHeight = static_cast<float>(GAS_CONSTANT_R*T/(M*g));
+	float atmosScaleHeight = static_cast<float>(GAS_CONSTANT_R * T / (M * g));
 
 	// min of 2.0 corresponds to a scale height of 1/20 of the planet's radius,
 	params.atmosInvScaleHeight = std::max(20.0f, static_cast<float>(GetRadius() / atmosScaleHeight));
@@ -694,27 +713,35 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
  *
  * We must be sneaky and avoid floating point in these places.
  */
-StarSystem::StarSystem(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache* cache, Random& rand)
-	: m_galaxy(galaxy), m_path(path.SystemOnly()), m_numStars(0), m_isCustom(false),
-	  m_faction(nullptr), m_explored(eEXPLORED_AT_START), m_exploredTime(0.0), m_econType(GalacticEconomy::ECON_MINING), m_seed(0),
-	  m_commodityLegal(unsigned(GalacticEconomy::Commodity::COMMODITY_COUNT), true), m_cache(cache)
+StarSystem::StarSystem(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache *cache, Random &rand) :
+	m_galaxy(galaxy),
+	m_path(path.SystemOnly()),
+	m_numStars(0),
+	m_isCustom(false),
+	m_faction(nullptr),
+	m_explored(eEXPLORED_AT_START),
+	m_exploredTime(0.0),
+	m_econType(GalacticEconomy::ECON_MINING),
+	m_seed(0),
+	m_commodityLegal(unsigned(GalacticEconomy::Commodity::COMMODITY_COUNT), true),
+	m_cache(cache)
 {
 	PROFILE_SCOPED()
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
 }
 
-StarSystem::GeneratorAPI::GeneratorAPI(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache* cache, Random& rand)
-	: StarSystem(path, galaxy, cache, rand) { }
+StarSystem::GeneratorAPI::GeneratorAPI(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache *cache, Random &rand) :
+	StarSystem(path, galaxy, cache, rand) {}
 
 #ifdef DEBUG_DUMP
 struct thing_t {
-	SystemBody* obj;
+	SystemBody *obj;
 	vector3d pos;
 	vector3d vel;
 };
 void StarSystem::Dump()
 {
-	std::vector<SystemBody*> obj_stack;
+	std::vector<SystemBody *> obj_stack;
 	std::vector<vector3d> pos_stack;
 	std::vector<thing_t> output;
 
@@ -729,15 +756,15 @@ void StarSystem::Dump()
 		}
 
 		if ((obj->GetType() != SystemBody::TYPE_GRAVPOINT) &&
-		    (obj->GetSuperType() != SystemBody::SUPERTYPE_STARPORT)) {
+			(obj->GetSuperType() != SystemBody::SUPERTYPE_STARPORT)) {
 			struct thing_t t;
 			t.obj = obj;
 			t.pos = pos;
-			t.vel = (p2-pos);
+			t.vel = (p2 - pos);
 			output.push_back(t);
 		}
-		for (std::vector<SystemBody*>::iterator i = obj->m_children.begin();
-				i != obj->m_children.end(); ++i) {
+		for (std::vector<SystemBody *>::iterator i = obj->m_children.begin();
+			 i != obj->m_children.end(); ++i) {
 			obj_stack.push_back(*i);
 			pos_stack.push_back(pos);
 		}
@@ -752,12 +779,12 @@ void StarSystem::Dump()
 	fprintf(f, SIZET_FMT " bodies\n", output.size());
 	fprintf(f, "0 steps\n");
 	for (std::vector<thing_t>::iterator i = output.begin();
-			i != output.end(); ++i) {
+		 i != output.end(); ++i) {
 		fprintf(f, "B:%lf,%lf:%lf,%lf,%lf,%lf:%lf:%d:%lf,%lf,%lf\n",
-				(*i).pos.x, (*i).pos.y, (*i).pos.z,
-				(*i).vel.x, (*i).vel.y, (*i).vel.z,
-				(*i).obj->GetMass(), 0,
-				1.0, 1.0, 1.0);
+			(*i).pos.x, (*i).pos.y, (*i).pos.z,
+			(*i).vel.x, (*i).vel.y, (*i).vel.z,
+			(*i).obj->GetMass(), 0,
+			1.0, 1.0, 1.0);
 	}
 	fclose(f);
 	Output("Junk dumped to starsystem.dump\n");
@@ -774,35 +801,34 @@ void StarSystem::MakeShortDescription()
 		SetShortDesc(stringf(Lang::RECENTLY_EXPLORED_SYSTEM, formatarg("date", format_date_only(GetExploredTime()))));
 
 	/* Total population is in billions */
-	else if(GetTotalPop() == 0) {
+	else if (GetTotalPop() == 0) {
 		SetShortDesc(Lang::SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS);
-	} else if (GetTotalPop() < fixed(1,10)) {
+	} else if (GetTotalPop() < fixed(1, 10)) {
 		switch (GetEconType()) {
-			case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::SMALL_INDUSTRIAL_OUTPOST); break;
-			case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::SOME_ESTABLISHED_MINING); break;
-			case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::YOUNG_FARMING_COLONY); break;
+		case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::SMALL_INDUSTRIAL_OUTPOST); break;
+		case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::SOME_ESTABLISHED_MINING); break;
+		case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::YOUNG_FARMING_COLONY); break;
 		}
-	} else if (GetTotalPop() < fixed(1,2)) {
+	} else if (GetTotalPop() < fixed(1, 2)) {
 		switch (GetEconType()) {
-			case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::INDUSTRIAL_COLONY); break;
-			case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::MINING_COLONY); break;
-			case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::OUTDOOR_AGRICULTURAL_WORLD); break;
+		case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::INDUSTRIAL_COLONY); break;
+		case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::MINING_COLONY); break;
+		case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::OUTDOOR_AGRICULTURAL_WORLD); break;
 		}
-	} else if (GetTotalPop() < fixed(5,1)) {
+	} else if (GetTotalPop() < fixed(5, 1)) {
 		switch (GetEconType()) {
-			case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::HEAVY_INDUSTRY); break;
-			case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::EXTENSIVE_MINING); break;
-			case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::THRIVING_OUTDOOR_WORLD); break;
+		case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::HEAVY_INDUSTRY); break;
+		case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::EXTENSIVE_MINING); break;
+		case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::THRIVING_OUTDOOR_WORLD); break;
 		}
 	} else {
 		switch (GetEconType()) {
-			case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::INDUSTRIAL_HUB_SYSTEM); break;
-			case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::VAST_STRIP_MINE); break;
-			case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::HIGH_POPULATION_OUTDOOR_WORLD); break;
+		case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::INDUSTRIAL_HUB_SYSTEM); break;
+		case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::VAST_STRIP_MINE); break;
+		case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::HIGH_POPULATION_OUTDOOR_WORLD); break;
 		}
 	}
 }
-
 
 void StarSystem::ExploreSystem(double time)
 {
@@ -811,13 +837,13 @@ void StarSystem::ExploreSystem(double time)
 	m_explored = eEXPLORED_BY_PLAYER;
 	m_exploredTime = time;
 	RefCountedPtr<Sector> sec = m_galaxy->GetMutableSector(m_path);
-	Sector::System& secsys = sec->m_systems[m_path.systemIndex];
+	Sector::System &secsys = sec->m_systems[m_path.systemIndex];
 	secsys.SetExplored(m_explored, m_exploredTime);
 	MakeShortDescription();
 	LuaEvent::Queue("onSystemExplored", this);
 }
 
-void SystemBody::Dump(FILE* file, const char* indent) const
+void SystemBody::Dump(FILE *file, const char *indent) const
 {
 	fprintf(file, "%sSystemBody(%d,%d,%d,%u,%u) : %s/%s %s{\n", indent, m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex,
 		m_path.bodyIndex, EnumStrings::GetString("BodySuperType", GetSuperType()), EnumStrings::GetString("BodyType", m_type),
@@ -850,7 +876,7 @@ void SystemBody::Dump(FILE* file, const char* indent) const
 			fprintf(file, "%s\theightmap \"%s\", fractal %u\n", indent, m_heightMapFilename.c_str(), m_heightMapFractal);
 		}
 	}
-	for (const SystemBody* kid : m_children) {
+	for (const SystemBody *kid : m_children) {
 		assert(kid->m_parent == this);
 		char buf[32];
 		snprintf(buf, sizeof(buf), "%s\t", indent);
@@ -862,7 +888,7 @@ void SystemBody::Dump(FILE* file, const char* indent) const
 void SystemBody::ClearParentAndChildPointers()
 {
 	PROFILE_SCOPED()
-	for (std::vector<SystemBody*>::iterator i = m_children.begin(); i != m_children.end(); ++i)
+	for (std::vector<SystemBody *>::iterator i = m_children.begin(); i != m_children.end(); ++i)
 		(*i)->ClearParentAndChildPointers();
 	m_parent = 0;
 	m_children.clear();
@@ -880,8 +906,7 @@ StarSystem::~StarSystem()
 
 void StarSystem::ToJson(Json &jsonObj, StarSystem *s)
 {
-	if (s)
-	{
+	if (s) {
 		Json starSystemObj({}); // Create JSON object to contain star system data.
 		starSystemObj["sector_x"] = s->m_path.sectorX;
 		starSystemObj["sector_y"] = s->m_path.sectorY;
@@ -900,7 +925,7 @@ RefCountedPtr<StarSystem> StarSystem::FromJson(RefCountedPtr<Galaxy> galaxy, con
 		int sec_y = starSystemObj["sector_y"];
 		int sec_z = starSystemObj["sector_z"];
 		int sys_idx = starSystemObj["system_index"];
-		
+
 		return galaxy->GetStarSystem(SystemPath(sec_x, sec_y, sec_z, sys_idx));
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
@@ -925,8 +950,7 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body)
 		}
 	}
 
-	if (body->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
-	{
+	if (body->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
 		fprintf(f,
 			"local %s = CustomSystemBody:new(\"%s\", '%s')\n"
 			"\t:latitude(math.deg2rad(%.1f))\n"
@@ -935,20 +959,16 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body)
 			code_name.c_str(),
 			body->GetName().c_str(), pBodyTypeName,
 			body->m_inclination.ToDouble() * 180 / M_PI,
-			body->m_orbitalOffset.ToDouble() * 180 / M_PI
-		);
-	}
-	else
-	{
+			body->m_orbitalOffset.ToDouble() * 180 / M_PI);
+	} else {
 		fprintf(f,
 			"local %s = CustomSystemBody:new(\"%s\", '%s')\n"
 			"\t:radius(f(%d,%d))\n"
 			"\t:mass(f(%d,%d))\n",
 			code_name.c_str(),
 			body->GetName().c_str(), pBodyTypeName,
-			int(round(body->GetRadiusAsFixed().ToDouble()*multiplier)), multiplier,
-			int(round(body->GetMassAsFixed().ToDouble()*multiplier)), multiplier
-		);
+			int(round(body->GetRadiusAsFixed().ToDouble() * multiplier)), multiplier,
+			int(round(body->GetMassAsFixed().ToDouble() * multiplier)), multiplier);
 
 		if (body->GetType() != SystemBody::TYPE_GRAVPOINT)
 			fprintf(f,
@@ -963,13 +983,12 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body)
 				"\t:orbital_offset(fixed.deg2rad(f(%d,%d)))\n",
 				body->GetSeed(), body->GetAverageTemp(),
 				int(round(body->GetOrbit().GetSemiMajorAxis() / AU * multiplier)), multiplier,
-				int(round(body->GetOrbit().GetEccentricity()*multiplier)), multiplier,
-				int(round(body->m_rotationPeriod.ToDouble()*multiplier)), multiplier,
-				int(round(body->GetAxialTilt()*multiplier)), multiplier,
-				int(round(body->m_rotationalPhaseAtStart.ToDouble()*multiplier * 180 / M_PI)), multiplier,
-				int(round(body->m_orbitalPhaseAtStart.ToDouble()*multiplier * 180 / M_PI)), multiplier,
-				int(round(body->m_orbitalOffset.ToDouble()*multiplier * 180 / M_PI)), multiplier
-			);
+				int(round(body->GetOrbit().GetEccentricity() * multiplier)), multiplier,
+				int(round(body->m_rotationPeriod.ToDouble() * multiplier)), multiplier,
+				int(round(body->GetAxialTilt() * multiplier)), multiplier,
+				int(round(body->m_rotationalPhaseAtStart.ToDouble() * multiplier * 180 / M_PI)), multiplier,
+				int(round(body->m_orbitalPhaseAtStart.ToDouble() * multiplier * 180 / M_PI)), multiplier,
+				int(round(body->m_orbitalOffset.ToDouble() * multiplier * 180 / M_PI)), multiplier);
 
 		if (body->GetType() == SystemBody::TYPE_PLANET_TERRESTRIAL)
 			fprintf(f,
@@ -980,14 +999,13 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body)
 				"\t:ocean_cover(f(%d,%d))\n"
 				"\t:ice_cover(f(%d,%d))\n"
 				"\t:life(f(%d,%d))\n",
-				int(round(body->GetMetallicity()*multiplier)), multiplier,
-				int(round(body->GetVolcanicity()*multiplier)), multiplier,
-				int(round(body->GetVolatileGas()*multiplier)), multiplier,
-				int(round(body->GetAtmosOxidizing()*multiplier)), multiplier,
-				int(round(body->GetVolatileLiquid()*multiplier)), multiplier,
-				int(round(body->GetVolatileIces()*multiplier)), multiplier,
-				int(round(body->GetLife()*multiplier)), multiplier
-			);
+				int(round(body->GetMetallicity() * multiplier)), multiplier,
+				int(round(body->GetVolcanicity() * multiplier)), multiplier,
+				int(round(body->GetVolatileGas() * multiplier)), multiplier,
+				int(round(body->GetAtmosOxidizing() * multiplier)), multiplier,
+				int(round(body->GetVolatileLiquid() * multiplier)), multiplier,
+				int(round(body->GetVolatileIces() * multiplier)), multiplier,
+				int(round(body->GetLife() * multiplier)), multiplier);
 	}
 
 	fprintf(f, "\n");
@@ -1004,13 +1022,14 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body)
 	return code_list;
 }
 
-std::string StarSystem::GetStarTypes(SystemBody *body) {
+std::string StarSystem::GetStarTypes(SystemBody *body)
+{
 	int bodyTypeIdx = 0;
 	std::string types = "";
 
-	if(body->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
-		for(bodyTypeIdx = 0; ENUM_BodyType[bodyTypeIdx].name != 0; bodyTypeIdx++) {
-			if(ENUM_BodyType[bodyTypeIdx].value == body->GetType())
+	if (body->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+		for (bodyTypeIdx = 0; ENUM_BodyType[bodyTypeIdx].name != 0; bodyTypeIdx++) {
+			if (ENUM_BodyType[bodyTypeIdx].value == body->GetType())
 				break;
 		}
 
@@ -1024,25 +1043,26 @@ std::string StarSystem::GetStarTypes(SystemBody *body) {
 	return types;
 }
 
-void StarSystem::ExportToLua(const char *filename) {
-	FILE *f = fopen(filename,"w");
+void StarSystem::ExportToLua(const char *filename)
+{
+	FILE *f = fopen(filename, "w");
 	int j;
 
-	if(f == 0)
+	if (f == 0)
 		return;
 
-	fprintf(f,"-- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details\n");
-	fprintf(f,"-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt\n\n");
+	fprintf(f, "-- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details\n");
+	fprintf(f, "-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt\n\n");
 
 	std::string stars_in_system = GetStarTypes(m_rootBody.Get());
 
-	for(j = 0; ENUM_PolitGovType[j].name != 0; j++) {
-		if(ENUM_PolitGovType[j].value == GetSysPolit().govType)
+	for (j = 0; ENUM_PolitGovType[j].name != 0; j++) {
+		if (ENUM_PolitGovType[j].value == GetSysPolit().govType)
 			break;
 	}
 
-	fprintf(f,"local system = CustomSystem:new('%s', { %s })\n\t:govtype('%s')\n\t:short_desc('%s')\n\t:long_desc([[%s]])\n\n",
-			GetName().c_str(), stars_in_system.c_str(), ENUM_PolitGovType[j].name, GetShortDescription().c_str(), GetLongDescription().c_str());
+	fprintf(f, "local system = CustomSystem:new('%s', { %s })\n\t:govtype('%s')\n\t:short_desc('%s')\n\t:long_desc([[%s]])\n\n",
+		GetName().c_str(), stars_in_system.c_str(), ENUM_PolitGovType[j].name, GetShortDescription().c_str(), GetLongDescription().c_str());
 
 	fprintf(f, "system:bodies(%s)\n\n", ExportBodyToLua(f, m_rootBody.Get()).c_str());
 
@@ -1050,15 +1070,15 @@ void StarSystem::ExportToLua(const char *filename) {
 	SystemPath pa = GetPath();
 
 	fprintf(f, "system:add_to_sector(%d,%d,%d,v(%.4f,%.4f,%.4f))\n",
-			pa.sectorX, pa.sectorY, pa.sectorZ,
-			sec->m_systems[pa.systemIndex].GetPosition().x/Sector::SIZE,
-			sec->m_systems[pa.systemIndex].GetPosition().y/Sector::SIZE,
-			sec->m_systems[pa.systemIndex].GetPosition().z/Sector::SIZE);
+		pa.sectorX, pa.sectorY, pa.sectorZ,
+		sec->m_systems[pa.systemIndex].GetPosition().x / Sector::SIZE,
+		sec->m_systems[pa.systemIndex].GetPosition().y / Sector::SIZE,
+		sec->m_systems[pa.systemIndex].GetPosition().z / Sector::SIZE);
 
 	fclose(f);
 }
 
-void StarSystem::Dump(FILE* file, const char* indent, bool suppressSectorData) const
+void StarSystem::Dump(FILE *file, const char *indent, bool suppressSectorData) const
 {
 	if (suppressSectorData) {
 		fprintf(file, "%sStarSystem {%s\n", indent, m_hasCustomBodies ? " CUSTOM-ONLY" : m_isCustom ? " CUSTOM" : "");

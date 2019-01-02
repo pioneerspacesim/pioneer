@@ -1,16 +1,16 @@
 // Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "LuaObject.h"
-#include "LuaUtils.h"
-#include "LuaConstants.h"
-#include "Player.h"
-#include "Pi.h"
-#include "Game.h"
-#include "SectorView.h"
 #include "EnumStrings.h"
-#include "galaxy/Galaxy.h"
+#include "Game.h"
+#include "LuaConstants.h"
+#include "LuaObject.h"
 #include "LuaPiGui.h"
+#include "LuaUtils.h"
+#include "Pi.h"
+#include "Player.h"
+#include "SectorView.h"
+#include "galaxy/Galaxy.h"
 /*
  * Class: Player
  *
@@ -254,7 +254,8 @@ static int l_get_is_mouse_active(lua_State *l)
 	return 1;
 }
 
-static int l_player_set_flight_control_state(lua_State *l) {
+static int l_player_set_flight_control_state(lua_State *l)
+{
 	Player *player = LuaObject<Player>::CheckFromLua(1);
 	std::string stateName = LuaPull<std::string>(l, 2);
 	FlightControlState state = static_cast<FlightControlState>(EnumStrings::GetValue("ShipControllerFlightControlState", stateName.c_str()));
@@ -328,8 +329,8 @@ static int l_get_current_delta_v(lua_State *l)
 static int l_get_remaining_delta_v(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
-	const double fuelmass = 1000*player->GetShipType()->fuelTankMass * player->GetFuel();
-	double remaining = player->GetShipType()->effectiveExhaustVelocity * log(player->GetMass()/(player->GetMass()-fuelmass));
+	const double fuelmass = 1000 * player->GetShipType()->fuelTankMass * player->GetFuel();
+	double remaining = player->GetShipType()->effectiveExhaustVelocity * log(player->GetMass() / (player->GetMass() - fuelmass));
 
 	LuaPush(l, remaining);
 	return 1;
@@ -355,8 +356,9 @@ static int l_get_remaining_delta_v(lua_State *l)
  *   stable
  */
 
-static std::map<std::string, Thruster> thrusters_map = { { "forward", THRUSTER_FORWARD },
-																												 { "reverse", THRUSTER_REVERSE } ,
+static std::map<std::string, Thruster> thrusters_map = {
+	{ "forward", THRUSTER_FORWARD },
+	{ "reverse", THRUSTER_REVERSE },
 };
 
 static int l_get_acceleration(lua_State *l)
@@ -469,23 +471,23 @@ static int l_get_maneuver_velocity(lua_State *l)
 
 static int l_get_heading_pitch_roll(lua_State *l)
 {
-  //  Player *player = LuaObject<Player>::CheckFromLua(1);
-  std::string type = LuaPull<std::string>(l, 2);
-  PlaneType pt = PlaneType::PARENT;
-  if(!type.compare("system-wide")) {
+	//  Player *player = LuaObject<Player>::CheckFromLua(1);
+	std::string type = LuaPull<std::string>(l, 2);
+	PlaneType pt = PlaneType::PARENT;
+	if (!type.compare("system-wide")) {
 		pt = PlaneType::PARENT;
-  } else if(!type.compare("planet")) {
+	} else if (!type.compare("planet")) {
 		pt = PlaneType::ROTATIONAL;
-  } else {
+	} else {
 		Output("LuaPlayer: l_get_heading_pitch_roll called with unknown type %s\n", type.c_str());
 		return 0;
 	}
 
-  std::tuple<double,double,double> res = Pi::game->GetWorldView()->CalculateHeadingPitchRoll(pt);
-  LuaPush(l, std::get<0>(res));
-  LuaPush(l, std::get<1>(res));
-  LuaPush(l, std::get<2>(res));
-  return 3;
+	std::tuple<double, double, double> res = Pi::game->GetWorldView()->CalculateHeadingPitchRoll(pt);
+	LuaPush(l, std::get<0>(res));
+	LuaPush(l, std::get<1>(res));
+	LuaPush(l, std::get<2>(res));
+	return 3;
 }
 
 static int l_set_rotation_damping(lua_State *l)
@@ -516,10 +518,10 @@ static int l_get_gps(lua_State *l)
 	vector3d pos = Pi::player->GetPosition();
 	double center_dist = pos.Length();
 	auto frame = player->GetFrame();
-	if(frame) {
+	if (frame) {
 		Body *astro = frame->GetBody();
-		if(astro && astro->IsType(Object::TERRAINBODY)) {
-			TerrainBody* terrain = static_cast<TerrainBody*>(astro);
+		if (astro && astro->IsType(Object::TERRAINBODY)) {
+			TerrainBody *terrain = static_cast<TerrainBody *>(astro);
 			if (!frame->IsRotFrame())
 				frame = frame->GetRotFrame();
 			vector3d surface_pos = pos.Normalized();
@@ -552,7 +554,7 @@ static int l_get_alert_state(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
 	Ship::AlertState state = player->GetAlertState();
-	switch(state) {
+	switch (state) {
 	case Ship::AlertState::ALERT_NONE:
 		lua_pushnil(l);
 		break;
@@ -597,43 +599,45 @@ static int l_player_is_hyperspace_active(lua_State *l)
 	return 1;
 }
 
-template <> const char *LuaObject<Player>::s_type = "Player";
+template <>
+const char *LuaObject<Player>::s_type = "Player";
 
-template <> void LuaObject<Player>::RegisterClass()
+template <>
+void LuaObject<Player>::RegisterClass()
 {
 	static const char *l_parent = "Ship";
 
 	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_player_is_player },
 
-		{ "GetNavTarget",        l_get_nav_target    },
-		{ "SetNavTarget",        l_set_nav_target    },
-		{ "SetSetSpeedTarget",   l_set_set_speed_target },
-		{ "ChangeSetSpeed",      l_change_set_speed },
-		{ "GetCombatTarget",     l_get_combat_target },
-		{ "SetCombatTarget",     l_set_combat_target },
+		{ "GetNavTarget", l_get_nav_target },
+		{ "SetNavTarget", l_set_nav_target },
+		{ "SetSetSpeedTarget", l_set_set_speed_target },
+		{ "ChangeSetSpeed", l_change_set_speed },
+		{ "GetCombatTarget", l_get_combat_target },
+		{ "SetCombatTarget", l_set_combat_target },
 		{ "GetHyperspaceTarget", l_get_hyperspace_target },
 		{ "SetHyperspaceTarget", l_set_hyperspace_target },
-		{ "GetDistanceToZeroV",  l_get_distance_to_zero_v },
+		{ "GetDistanceToZeroV", l_get_distance_to_zero_v },
 		{ "GetHeadingPitchRoll", l_get_heading_pitch_roll },
-		{ "GetMaxDeltaV",        l_get_max_delta_v },
-		{ "GetCurrentDeltaV",    l_get_current_delta_v },
-		{ "GetRemainingDeltaV",  l_get_remaining_delta_v },
+		{ "GetMaxDeltaV", l_get_max_delta_v },
+		{ "GetCurrentDeltaV", l_get_current_delta_v },
+		{ "GetRemainingDeltaV", l_get_remaining_delta_v },
 		{ "GetManeuverVelocity", l_get_maneuver_velocity },
-		{ "GetManeuverTime",     l_get_maneuver_time },
-		{ "GetAcceleration",     l_get_acceleration },
-		{ "IsMouseActive",       l_get_is_mouse_active },
-		{ "GetMouseDirection",   l_get_mouse_direction },
-		{ "GetRotationDamping",  l_get_rotation_damping },
-		{ "SetRotationDamping",  l_set_rotation_damping },
-		{ "GetGPS",              l_get_gps },
-		{ "ToggleRotationDamping",  l_toggle_rotation_damping },
-		{ "GetAlertState",       l_get_alert_state },
-		{ "GetLowThrustPower",   l_get_low_thrust_power },
-		{ "SetLowThrustPower",   l_set_low_thrust_power },
-		{ "IsHyperspaceActive",      l_player_is_hyperspace_active },
-		{ "GetHyperspaceCountdown",  l_player_get_hyperspace_countdown },
-		{ "SetFlightControlState",  l_player_set_flight_control_state },
+		{ "GetManeuverTime", l_get_maneuver_time },
+		{ "GetAcceleration", l_get_acceleration },
+		{ "IsMouseActive", l_get_is_mouse_active },
+		{ "GetMouseDirection", l_get_mouse_direction },
+		{ "GetRotationDamping", l_get_rotation_damping },
+		{ "SetRotationDamping", l_set_rotation_damping },
+		{ "GetGPS", l_get_gps },
+		{ "ToggleRotationDamping", l_toggle_rotation_damping },
+		{ "GetAlertState", l_get_alert_state },
+		{ "GetLowThrustPower", l_get_low_thrust_power },
+		{ "SetLowThrustPower", l_set_low_thrust_power },
+		{ "IsHyperspaceActive", l_player_is_hyperspace_active },
+		{ "GetHyperspaceCountdown", l_player_get_hyperspace_countdown },
+		{ "SetFlightControlState", l_player_set_flight_control_state },
 		{ 0, 0 }
 	};
 

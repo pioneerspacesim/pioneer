@@ -3,22 +3,22 @@
 
 #include "ColorBackground.h"
 #include "Context.h"
+#include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
-#include "graphics/Material.h"
 
 namespace UI {
 
-ColorBackground::ColorBackground(Context *context, const Color &color) :
-	Single(context),
-	m_color(color)
-{
-}
+	ColorBackground::ColorBackground(Context *context, const Color &color) :
+		Single(context),
+		m_color(color)
+	{
+	}
 
-void ColorBackground::Draw()
-{
-	GetContext()->GetSkin().DrawRectColor(m_color, Point(), GetSize());
-	Container::Draw();
-}
+	void ColorBackground::Draw()
+	{
+		GetContext()->GetSkin().DrawRectColor(m_color, Point(), GetSize());
+		Container::Draw();
+	}
 
-}
+} // namespace UI

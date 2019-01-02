@@ -6,15 +6,14 @@
 
 // trail drawn after an object to track motion
 
-#include "libs.h"
 #include "Body.h"
-#include "graphics/Renderer.h"
 #include "graphics/Drawables.h"
+#include "graphics/Renderer.h"
+#include "libs.h"
 
-class HudTrail
-{
+class HudTrail {
 public:
-	HudTrail(Body *b, const Color&);
+	HudTrail(Body *b, const Color &);
 	void Update(float time);
 	void Render(Graphics::Renderer *r);
 	void Reset(const Frame *newFrame);

@@ -2,19 +2,19 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CameraController.h"
-#include "Ship.h"
 #include "AnimationCurves.h"
-#include "Pi.h"
 #include "Game.h"
 #include "GameSaveError.h"
 #include "JsonUtils.h"
 #include "MathUtil.h"
+#include "Pi.h"
+#include "Ship.h"
 
 CameraController::CameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
-m_camera(camera),
-m_ship(ship),
-m_pos(0.0),
-m_orient(matrix3x3d::Identity())
+	m_camera(camera),
+	m_ship(ship),
+	m_pos(0.0),
+	m_orient(matrix3x3d::Identity())
 {
 }
 
@@ -39,9 +39,8 @@ void CameraController::Update()
 	}
 }
 
-
-InternalCameraController::InternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship)
-	: MoveableCameraController(camera, ship),
+InternalCameraController::InternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
+	MoveableCameraController(camera, ship),
 	m_mode(MODE_FRONT),
 	m_rotX(0),
 	m_rotY(0),
@@ -56,12 +55,9 @@ static bool FillCameraPosOrient(const SceneGraph::Model *m, const char *tag, vec
 	matrix3x3d fixOrient(matrix3x3d::Identity());
 
 	const SceneGraph::MatrixTransform *mt = m->FindTagByName(tag);
-	if (!mt)
-	{
+	if (!mt) {
 		fixOrient = fallbackOrient;
-	}
-	else
-	{
+	} else {
 		// camera points are have +Z pointing out of the ship, X left, so we
 		// have to rotate 180 about Y to get them to -Z forward, X right like
 		// the rest of the ship. this is not a bug, but rather a convenience to
@@ -113,7 +109,8 @@ void InternalCameraController::Update()
 	CameraController::Update();
 }
 
-void InternalCameraController::getRots(double &rX, double &rY) {
+void InternalCameraController::getRots(double &rX, double &rY)
+{
 	rX = DEG2RAD(m_rotX);
 	rY = DEG2RAD(m_rotY);
 }
@@ -191,18 +188,18 @@ void InternalCameraController::LoadFromJson(const Json &jsonObj)
 	try {
 		Json internalCameraObj = jsonObj["internal"];
 		SetMode(internalCameraObj["mode"].get<Mode>());
-	}
-	catch (Json::type_error &) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }
 
 ExternalCameraController::ExternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
-MoveableCameraController(camera, ship),
-m_dist(200), m_distTo(m_dist),
-m_rotX(0),
-m_rotY(0),
-m_extOrient(matrix3x3d::Identity())
+	MoveableCameraController(camera, ship),
+	m_dist(200),
+	m_distTo(m_dist),
+	m_rotX(0),
+	m_rotY(0),
+	m_extOrient(matrix3x3d::Identity())
 {
 }
 
@@ -307,9 +304,10 @@ void ExternalCameraController::LoadFromJson(const Json &jsonObj)
 }
 
 SiderealCameraController::SiderealCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
-MoveableCameraController(camera, ship),
-m_dist(200), m_distTo(m_dist),
-m_sidOrient(matrix3x3d::Identity())
+	MoveableCameraController(camera, ship),
+	m_dist(200),
+	m_distTo(m_dist),
+	m_sidOrient(matrix3x3d::Identity())
 {
 }
 
@@ -357,7 +355,7 @@ void SiderealCameraController::ZoomEvent(float amount)
 
 void SiderealCameraController::ZoomEventUpdate(float frameTime)
 {
-	AnimationCurves::Approach(m_dist, m_distTo, frameTime, 4.0, 50. / std::max(m_distTo, 1e-7));		// std::max() here just avoid dividing by 0.
+	AnimationCurves::Approach(m_dist, m_distTo, frameTime, 4.0, 50. / std::max(m_distTo, 1e-7)); // std::max() here just avoid dividing by 0.
 	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
 }
 
@@ -383,7 +381,7 @@ void SiderealCameraController::Update()
 {
 	const Ship *ship = GetShip();
 
-	m_sidOrient.Renormalize();			// lots of small rotations
+	m_sidOrient.Renormalize(); // lots of small rotations
 	matrix3x3d shipOrient = ship->GetInterpOrientRelTo(Pi::game->GetSpace()->GetRootFrame());
 
 	SetPosition(shipOrient.Transpose() * m_sidOrient.VectorZ() * m_dist);
@@ -417,10 +415,11 @@ void SiderealCameraController::LoadFromJson(const Json &jsonObj)
 }
 
 FlyByCameraController::FlyByCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
-MoveableCameraController(camera, ship),
-m_dist(500), m_distTo(m_dist),
-m_roll(0),
-m_flybyOrient(matrix3x3d::Identity())
+	MoveableCameraController(camera, ship),
+	m_dist(500),
+	m_distTo(m_dist),
+	m_roll(0),
+	m_flybyOrient(matrix3x3d::Identity())
 {
 }
 
@@ -444,7 +443,7 @@ void FlyByCameraController::ZoomEvent(float amount)
 
 void FlyByCameraController::ZoomEventUpdate(float frameTime)
 {
-	AnimationCurves::Approach(m_dist, m_distTo, frameTime, 4.0, 50. / std::max(m_distTo, 1e-7));		// std::max() here just avoid dividing by 0.
+	AnimationCurves::Approach(m_dist, m_distTo, frameTime, 4.0, 50. / std::max(m_distTo, 1e-7)); // std::max() here just avoid dividing by 0.
 	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
 }
 

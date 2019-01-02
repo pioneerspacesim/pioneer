@@ -11,9 +11,11 @@
  * Class representing a planet. Inherits from <Body>.
  */
 
-template <> const char *LuaObject<Planet>::s_type = "Planet";
+template <>
+const char *LuaObject<Planet>::s_type = "Planet";
 
-template <> void LuaObject<Planet>::RegisterClass()
+template <>
+void LuaObject<Planet>::RegisterClass()
 {
 	const char *l_parent = "Body";
 

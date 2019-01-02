@@ -4,16 +4,17 @@
 #ifndef SECTORGENERATOR_H
 #define SECTORGENERATOR_H
 
+#include "GalaxyGenerator.h"
 #include "Random.h"
 #include "RefCounted.h"
 #include "Sector.h"
-#include "GalaxyGenerator.h"
 #include "StarSystem.h"
 
 class SectorCustomSystemsGenerator : public SectorGeneratorStage {
 public:
-	SectorCustomSystemsGenerator(int customOnlyRadius) : m_customOnlyRadius(customOnlyRadius) { }
-	virtual bool Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config);
+	SectorCustomSystemsGenerator(int customOnlyRadius) :
+		m_customOnlyRadius(customOnlyRadius) {}
+	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config);
 
 private:
 	int m_customOnlyRadius;
@@ -21,20 +22,22 @@ private:
 
 class SectorRandomSystemsGenerator : public SectorGeneratorStage {
 public:
-	virtual bool Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config);
+	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config);
+
 private:
-	const std::string GenName(RefCountedPtr<Galaxy> galaxy, const Sector& sec, Sector::System &sys, int si, Random &rand);
+	const std::string GenName(RefCountedPtr<Galaxy> galaxy, const Sector &sec, Sector::System &sys, int si, Random &rand);
 };
 
 class SectorPersistenceGenerator : public SectorGeneratorStage {
 public:
-	SectorPersistenceGenerator(GalaxyGenerator::Version version) : m_version(version) { }
-	virtual bool Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config);
+	SectorPersistenceGenerator(GalaxyGenerator::Version version) :
+		m_version(version) {}
+	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config);
 	virtual void FromJson(const Json &jsonObj, RefCountedPtr<Galaxy> galaxy);
 	virtual void ToJson(Json &jsonObj, RefCountedPtr<Galaxy> galaxy);
 
 private:
-	void SetExplored(Sector::System* sys, StarSystem::ExplorationState e, double time);
+	void SetExplored(Sector::System *sys, StarSystem::ExplorationState e, double time);
 
 	const GalaxyGenerator::Version m_version;
 

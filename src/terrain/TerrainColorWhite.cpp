@@ -9,7 +9,8 @@ template <>
 const char *TerrainColorFractal<TerrainColorWhite>::GetColorFractalName() const { return "Solid"; }
 
 template <>
-TerrainColorFractal<TerrainColorWhite>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
+TerrainColorFractal<TerrainColorWhite>::TerrainColorFractal(const SystemBody *body) :
+	Terrain(body)
 {
 }
 

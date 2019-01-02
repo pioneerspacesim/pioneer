@@ -8,52 +8,52 @@
 
 namespace UI {
 
-class Background;
-class Label;
-class Icon;
-class List;
+	class Background;
+	class Label;
+	class Icon;
+	class List;
 
-class DropDown : public Container {
-public:
-	virtual Point PreferredSize();
-	virtual void Layout();
-	virtual void Update();
+	class DropDown : public Container {
+	public:
+		virtual Point PreferredSize();
+		virtual void Layout();
+		virtual void Update();
 
-	DropDown *AddOption(const std::string &text);
-	void Clear();
+		DropDown *AddOption(const std::string &text);
+		void Clear();
 
-	size_t NumItems() const;
-	bool IsEmpty() const;
+		size_t NumItems() const;
+		bool IsEmpty() const;
 
-	const std::string &GetSelectedOption() const;
-	bool SetSelectedOption(const std::string &option);
-	int GetSelectedIndex() const;
-	void SetSelectedIndex(const int index);
+		const std::string &GetSelectedOption() const;
+		bool SetSelectedOption(const std::string &option);
+		int GetSelectedIndex() const;
+		void SetSelectedIndex(const int index);
 
-	sigc::signal<void,unsigned int,const std::string &> onOptionSelected;
+		sigc::signal<void, unsigned int, const std::string &> onOptionSelected;
 
-protected:
-	friend class Context;
-	DropDown(Context *context);
+	protected:
+		friend class Context;
+		DropDown(Context *context);
 
-	void HandleClick();
-	void HandleMouseOver();
-	void HandleMouseOut();
+		void HandleClick();
+		void HandleMouseOver();
+		void HandleMouseOut();
 
-private:
-	Background *m_container;
-	Label *m_label;
-	Icon *m_icon;
+	private:
+		Background *m_container;
+		Label *m_label;
+		Icon *m_icon;
 
-	bool HandlePopupClick();
+		bool HandlePopupClick();
 
-	RefCountedPtr<List> m_popup;
-	bool m_popupWantToggle;
-	bool m_popupActive;
+		RefCountedPtr<List> m_popup;
+		bool m_popupWantToggle;
+		bool m_popupActive;
 
-	sigc::connection m_contextClickCon;
-};
+		sigc::connection m_contextClickCon;
+	};
 
-}
+} // namespace UI
 
 #endif

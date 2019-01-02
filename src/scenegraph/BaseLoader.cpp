@@ -8,12 +8,13 @@
 
 using namespace SceneGraph;
 
-BaseLoader::BaseLoader(Graphics::Renderer *r)
-: m_renderer(r)
-, m_model(nullptr)
+BaseLoader::BaseLoader(Graphics::Renderer *r) :
+	m_renderer(r),
+	m_model(nullptr)
 {
 	Graphics::Texture *sdfTex = Graphics::TextureBuilder("fonts/label3d.dds",
-		Graphics::LINEAR_CLAMP, true, true, true).GetOrCreateTexture(r, "model");
+		Graphics::LINEAR_CLAMP, true, true, true)
+									.GetOrCreateTexture(r, "model");
 	m_labelFont.Reset(new Text::DistanceFieldFont("fonts/sdf_definition.txt", sdfTex));
 }
 
@@ -68,14 +69,13 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	if (!normTex.empty())
 		mat->texture6 = Graphics::TextureBuilder::Normal(normTex).GetOrCreateTexture(m_renderer, "model");
 
-
 	m_model->m_materials.push_back(std::make_pair(mdef.name, mat));
 }
 
 RefCountedPtr<Graphics::Material> BaseLoader::GetDecalMaterial(unsigned int index)
 {
 	assert(index <= Model::MAX_DECAL_MATERIALS);
-	RefCountedPtr<Graphics::Material> &decMat = m_model->m_decalMaterials[index-1];
+	RefCountedPtr<Graphics::Material> &decMat = m_model->m_decalMaterials[index - 1];
 	if (!decMat.Valid()) {
 		Graphics::MaterialDescriptor matDesc;
 		matDesc.textures = 1;

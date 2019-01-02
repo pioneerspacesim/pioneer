@@ -2,30 +2,30 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaConsole.h"
+#include "FileSystem.h"
+#include "KeyBindings.h"
 #include "LuaManager.h"
+#include "LuaUtils.h"
 #include "Pi.h"
+#include "text/TextSupport.h"
+#include "text/TextureFont.h"
 #include "ui/Context.h"
 #include "ui/Margin.h"
-#include "text/TextureFont.h"
-#include "text/TextSupport.h"
-#include "KeyBindings.h"
-#include "FileSystem.h"
-#include "LuaUtils.h"
+#include <algorithm>
 #include <sstream>
 #include <stack>
-#include <algorithm>
 
 #ifdef REMOTE_LUA_REPL
 // for networking
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
-#include <unistd.h>
-#include <sys/select.h>
-#include <sys/time.h>
 #include <fcntl.h>
+#include <netinet/in.h>
 #include <netinet/tcp.h>
+#include <sys/select.h>
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
 // end networking
 #endif
 
@@ -37,12 +37,13 @@ static const char CONSOLE_CHUNK_NAME[] = "[T] console";
 static const char CONSOLE_CHUNK_NAME[] = "console";
 #endif
 
-LuaConsole::LuaConsole():
+LuaConsole::LuaConsole() :
 	m_active(false),
 	m_precompletionStatement(),
 	m_completionList()
 #ifdef REMOTE_LUA_REPL
-	, m_debugSocket(0)
+	,
+	m_debugSocket(0)
 #endif
 {
 
@@ -52,17 +53,7 @@ LuaConsole::LuaConsole():
 	m_scroller = Pi::ui->Scroller()->SetInnerWidget(m_output);
 
 	// temporary until LuaConsole is moved to lua: move up to clear imgui time window
-	m_container.Reset(Pi::ui->Margin(80, UI::Margin::Direction::BOTTOM)->SetInnerWidget(
-	Pi::ui->Margin(10)->SetInnerWidget(
-		Pi::ui->ColorBackground(Color(0,0,0,0xc0))->SetInnerWidget(
-			Pi::ui->VBox()->PackEnd(UI::WidgetSet(
-				Pi::ui->Expand()->SetInnerWidget(
-					m_scroller
-				),
-				m_entry
-			))
-		)
-	)));
+	m_container.Reset(Pi::ui->Margin(80, UI::Margin::Direction::BOTTOM)->SetInnerWidget(Pi::ui->Margin(10)->SetInnerWidget(Pi::ui->ColorBackground(Color(0, 0, 0, 0xc0))->SetInnerWidget(Pi::ui->VBox()->PackEnd(UI::WidgetSet(Pi::ui->Expand()->SetInnerWidget(m_scroller), m_entry))))));
 
 	m_container->SetFont(UI::Widget::FONT_MONO_NORMAL);
 
@@ -86,7 +77,8 @@ void LuaConsole::Toggle()
 	m_active = !m_active;
 }
 
-static int capture_traceback(lua_State *L) {
+static int capture_traceback(lua_State *L)
+{
 	lua_pushstring(L, "\n");
 	luaL_traceback(L, L, nullptr, 0);
 	lua_concat(L, 3);
@@ -94,7 +86,8 @@ static int capture_traceback(lua_State *L) {
 }
 
 // Create the table and leave a copy on the stack for further use
-static void init_global_table(lua_State *l) {
+static void init_global_table(lua_State *l)
+{
 	LUA_DEBUG_START(l);
 
 	lua_newtable(l);
@@ -109,7 +102,8 @@ static void init_global_table(lua_State *l) {
 	LUA_DEBUG_END(l, 1);
 }
 
-static int console_autoexec(lua_State* l) {
+static int console_autoexec(lua_State *l)
+{
 	LUA_DEBUG_START(l);
 
 	init_global_table(l); // _ENV
@@ -155,10 +149,10 @@ static int console_autoexec(lua_State* l) {
 	LUA_DEBUG_END(l, 0);
 
 	return 0;
-
 }
 
-void LuaConsole::RegisterAutoexec() {
+void LuaConsole::RegisterAutoexec()
+{
 	lua_State *L = Lua::manager->GetLuaState();
 	LUA_DEBUG_START(L);
 	if (!pi_lua_import(L, "Event")) {
@@ -177,89 +171,92 @@ void LuaConsole::RegisterAutoexec() {
 
 LuaConsole::~LuaConsole() {}
 
-bool LuaConsole::OnKeyDown(const UI::KeyboardEvent &event) {
+bool LuaConsole::OnKeyDown(const UI::KeyboardEvent &event)
+{
 
 	switch (event.keysym.sym) {
-		case SDLK_ESCAPE: {
-			// pressing the ESC key will drop our layer, but we still have to make sure we are marked as not active anymore
-			m_active = false;
-			break;
-		}
-		case SDLK_UP:
-		case SDLK_DOWN: {
-			if (m_historyPosition == -1) {
-				if (event.keysym.sym == SDLK_UP) {
-					m_historyPosition = (m_statementHistory.size() - 1);
-					if (m_historyPosition != -1) {
-						m_stashedStatement = m_entry->GetText();
-						m_entry->SetText(m_statementHistory[m_historyPosition]);
-					}
+	case SDLK_ESCAPE: {
+		// pressing the ESC key will drop our layer, but we still have to make sure we are marked as not active anymore
+		m_active = false;
+		break;
+	}
+	case SDLK_UP:
+	case SDLK_DOWN: {
+		if (m_historyPosition == -1) {
+			if (event.keysym.sym == SDLK_UP) {
+				m_historyPosition = (m_statementHistory.size() - 1);
+				if (m_historyPosition != -1) {
+					m_stashedStatement = m_entry->GetText();
+					m_entry->SetText(m_statementHistory[m_historyPosition]);
+				}
+			}
+		} else {
+			if (event.keysym.sym == SDLK_DOWN) {
+				++m_historyPosition;
+				if (m_historyPosition >= int(m_statementHistory.size())) {
+					m_historyPosition = -1;
+					m_entry->SetText(m_stashedStatement);
+					m_stashedStatement.clear();
+				} else {
+					m_entry->SetText(m_statementHistory[m_historyPosition]);
 				}
 			} else {
-				if (event.keysym.sym == SDLK_DOWN) {
-					++m_historyPosition;
-					if (m_historyPosition >= int(m_statementHistory.size())) {
-						m_historyPosition = -1;
-						m_entry->SetText(m_stashedStatement);
-						m_stashedStatement.clear();
-					} else {
-						m_entry->SetText(m_statementHistory[m_historyPosition]);
-					}
-				} else {
-					if (m_historyPosition > 0) {
-						--m_historyPosition;
-						m_entry->SetText(m_statementHistory[m_historyPosition]);
-					}
+				if (m_historyPosition > 0) {
+					--m_historyPosition;
+					m_entry->SetText(m_statementHistory[m_historyPosition]);
 				}
 			}
-
-			return true;
 		}
 
-		case SDLK_u:
-		case SDLK_w:
-			if (event.keysym.mod & KMOD_CTRL) {
-				// TextEntry already cleared the input, we must cleanup the history
-				m_stashedStatement.clear();
-				m_historyPosition = -1;
-				return true;
-			}
-			break;
+		return true;
+	}
 
-		case SDLK_l:
-			if (event.keysym.mod & KMOD_CTRL) {
-				m_output->SetText("");
-				return true;
-			}
-			break;
-
-		case SDLK_TAB:
-			if (m_completionList.empty()) {
-				UpdateCompletion(m_entry->GetText());
-			}
-			if (!m_completionList.empty()) { // We still need to test whether it failed or not.
-				if (event.keysym.mod & KMOD_SHIFT) {
-					if (m_currentCompletion == 0)
-						m_currentCompletion = m_completionList.size();
-					m_currentCompletion--;
-				} else {
-					m_currentCompletion++;
-					if (m_currentCompletion == m_completionList.size())
-						m_currentCompletion = 0;
-				}
-				m_entry->SetText(m_precompletionStatement + m_completionList[m_currentCompletion]);
-			}
+	case SDLK_u:
+	case SDLK_w:
+		if (event.keysym.mod & KMOD_CTRL) {
+			// TextEntry already cleared the input, we must cleanup the history
+			m_stashedStatement.clear();
+			m_historyPosition = -1;
 			return true;
+		}
+		break;
+
+	case SDLK_l:
+		if (event.keysym.mod & KMOD_CTRL) {
+			m_output->SetText("");
+			return true;
+		}
+		break;
+
+	case SDLK_TAB:
+		if (m_completionList.empty()) {
+			UpdateCompletion(m_entry->GetText());
+		}
+		if (!m_completionList.empty()) { // We still need to test whether it failed or not.
+			if (event.keysym.mod & KMOD_SHIFT) {
+				if (m_currentCompletion == 0)
+					m_currentCompletion = m_completionList.size();
+				m_currentCompletion--;
+			} else {
+				m_currentCompletion++;
+				if (m_currentCompletion == m_completionList.size())
+					m_currentCompletion = 0;
+			}
+			m_entry->SetText(m_precompletionStatement + m_completionList[m_currentCompletion]);
+		}
+		return true;
 	}
 
 	return false;
 }
 
-void LuaConsole::OnChange(const std::string &text) {
+void LuaConsole::OnChange(const std::string &text)
+{
 	m_completionList.clear();
 }
 
-void LuaConsole::OnEnter(const std::string &text) {
+void LuaConsole::OnEnter(const std::string &text)
+{
 	if (!text.empty())
 		ExecOrContinue(text);
 	m_completionList.clear();
@@ -267,7 +264,8 @@ void LuaConsole::OnEnter(const std::string &text) {
 	m_scroller->SetScrollPosition(1.0f);
 }
 
-void LuaConsole::UpdateCompletion(const std::string & statement) {
+void LuaConsole::UpdateCompletion(const std::string &statement)
+{
 	// First, split the statement into chunks.
 	m_completionList.clear();
 	std::stack<std::string> chunks;
@@ -276,13 +274,13 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 	std::string::const_iterator current_end = statement.end();
 	std::string::const_iterator current_begin = statement.begin(); // To keep record when breaking off the loop.
 	for (std::string::const_reverse_iterator r_str_it = statement.rbegin();
-			r_str_it != statement.rend(); ++r_str_it) {
-		if(Text::is_alphanumunderscore(*r_str_it)) {
+		 r_str_it != statement.rend(); ++r_str_it) {
+		if (Text::is_alphanumunderscore(*r_str_it)) {
 			expect_symbolname = false;
 			continue;
 		} else if (expect_symbolname) // Wrong syntax.
 			return;
-		if(*r_str_it != '.' && (!chunks.empty() || *r_str_it != ':')) { // We are out of the expression.
+		if (*r_str_it != '.' && (!chunks.empty() || *r_str_it != ':')) { // We are out of the expression.
 			current_begin = r_str_it.base(); // Flag the symbol marking the beginning of the expression.
 			break;
 		}
@@ -290,8 +288,8 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 		expect_symbolname = true; // We hit a separator, there should be a symbol name before it.
 		chunks.push(std::string(r_str_it.base(), current_end));
 		if (*r_str_it == ':') // If it is a colon, we know chunks is empty so it is incomplete.
-			method = true;		// it must mean that we want to call a method.
-		current_end = (r_str_it+1).base(); // +1 in order to point on the CURRENT character.
+			method = true; // it must mean that we want to call a method.
+		current_end = (r_str_it + 1).base(); // +1 in order to point on the CURRENT character.
 	}
 	if (expect_symbolname) // Again, a symbol was expected when we broke out of the loop.
 		return;
@@ -303,7 +301,7 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 		return;
 	}
 
-	lua_State * l = Lua::manager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 	int stackheight = lua_gettop(l);
 	lua_getfield(l, LUA_REGISTRYINDEX, "ConsoleGlobal");
 	// Loading the tables in which to do the name lookup
@@ -315,7 +313,7 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 		chunks.pop();
 	}
 	LuaObjectBase::GetNames(m_completionList, chunks.top(), method);
-	if(!m_completionList.empty()) {
+	if (!m_completionList.empty()) {
 		std::sort(m_completionList.begin(), m_completionList.end());
 		m_completionList.erase(std::unique(m_completionList.begin(), m_completionList.end()), m_completionList.end());
 		// Add blank completion at the end of the list and point to it.
@@ -324,10 +322,11 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 
 		m_precompletionStatement = statement;
 	}
-	lua_pop(l, lua_gettop(l)-stackheight); // Clean the whole stack.
+	lua_pop(l, lua_gettop(l) - stackheight); // Clean the whole stack.
 }
 
-void LuaConsole::AddOutput(const std::string &line) {
+void LuaConsole::AddOutput(const std::string &line)
+{
 	std::string actualLine = line + "\n";
 	m_output->AppendText(actualLine);
 #ifdef REMOTE_LUA_REPL
@@ -335,12 +334,13 @@ void LuaConsole::AddOutput(const std::string &line) {
 #endif
 }
 
-void LuaConsole::ExecOrContinue(const std::string &stmt, bool repeatStatement) {
+void LuaConsole::ExecOrContinue(const std::string &stmt, bool repeatStatement)
+{
 	int result;
 	lua_State *L = Lua::manager->GetLuaState();
 
 	// If the statement is an expression, print its final value.
-	result = luaL_loadbuffer(L, ("return " + stmt).c_str(), stmt.size()+7, CONSOLE_CHUNK_NAME);
+	result = luaL_loadbuffer(L, ("return " + stmt).c_str(), stmt.size() + 7, CONSOLE_CHUNK_NAME);
 	if (result == LUA_ERRSYNTAX)
 		result = luaL_loadbuffer(L, stmt.c_str(), stmt.size(), CONSOLE_CHUNK_NAME);
 
@@ -387,7 +387,7 @@ void LuaConsole::ExecOrContinue(const std::string &stmt, bool repeatStatement) {
 		std::getline(stmt_stream, string_buffer);
 		AddOutput("> " + string_buffer);
 
-		while(!stmt_stream.eof()) {
+		while (!stmt_stream.eof()) {
 			std::getline(stmt_stream, string_buffer);
 			AddOutput("  " + string_buffer);
 		}
@@ -422,7 +422,7 @@ void LuaConsole::ExecOrContinue(const std::string &stmt, bool repeatStatement) {
 
 				// duplicate the tostring function for the call
 				lua_pushvalue(L, -1);
-				lua_pushvalue(L, top+i);
+				lua_pushvalue(L, top + i);
 
 				result = lua_pcall(L, 1, 1, 0);
 				size_t len = 0;
@@ -444,7 +444,7 @@ void LuaConsole::ExecOrContinue(const std::string &stmt, bool repeatStatement) {
 
 	// update the history list
 
-	if (! result) {
+	if (!result) {
 		// command succeeded... add it to the history unless it's just
 		// an exact repeat of the immediate last command
 		if (m_statementHistory.empty() || (stmt != m_statementHistory.back()))
@@ -484,7 +484,8 @@ void LuaConsole::ExecOrContinue(const std::string &stmt, bool repeatStatement) {
  *
  *   stable
  */
-static int l_console_addline(lua_State *L) {
+static int l_console_addline(lua_State *L)
+{
 	if (Pi::luaConsole) {
 		size_t len;
 		const char *s = luaL_checklstring(L, 1, &len);
@@ -493,7 +494,8 @@ static int l_console_addline(lua_State *L) {
 	return 0;
 }
 
-static int l_console_print(lua_State *L) {
+static int l_console_print(lua_State *L)
+{
 	int nargs = lua_gettop(L);
 	LUA_DEBUG_START(L);
 	std::string line;
@@ -504,8 +506,12 @@ static int l_console_print(lua_State *L) {
 		lua_call(L, 1, 1);
 		size_t len;
 		const char *str = lua_tolstring(L, -1, &len);
-		if (!str) { return luaL_error(L, "'tostring' must return a string to 'print'"); }
-		if (i > 1) { line += '\t'; }
+		if (!str) {
+			return luaL_error(L, "'tostring' must return a string to 'print'");
+		}
+		if (i > 1) {
+			line += '\t';
+		}
 		line.append(str, len);
 		lua_pop(L, 1);
 	}
@@ -539,7 +545,8 @@ void LuaConsole::Register()
 }
 
 #ifdef REMOTE_LUA_REPL
-void LuaConsole::OpenTCPDebugConnection(int portnumber) {
+void LuaConsole::OpenTCPDebugConnection(int portnumber)
+{
 	m_debugSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (m_debugSocket < 0) {
 		Output("Error opening socket");
@@ -549,9 +556,9 @@ void LuaConsole::OpenTCPDebugConnection(int portnumber) {
 	destination.sin_family = AF_INET;
 	destination.sin_port = htons(portnumber);
 	destination.sin_addr.s_addr = INADDR_ANY; // this should be localhost only!
-	if (bind(m_debugSocket, reinterpret_cast<struct sockaddr*>(&destination), sizeof(destination)) < 0) {
+	if (bind(m_debugSocket, reinterpret_cast<struct sockaddr *>(&destination), sizeof(destination)) < 0) {
 		Output("Binding socket failed.\n");
-		if(m_debugSocket) {
+		if (m_debugSocket) {
 			close(m_debugSocket);
 			m_debugSocket = 0;
 			return;
@@ -568,12 +575,13 @@ void LuaConsole::OpenTCPDebugConnection(int portnumber) {
 	}
 }
 
-void LuaConsole::HandleTCPDebugConnections() {
+void LuaConsole::HandleTCPDebugConnections()
+{
 	if (m_debugSocket) {
 		fd_set read_fds;
 		FD_ZERO(&read_fds);
 		FD_SET(m_debugSocket, &read_fds);
-		struct timespec timeout = {0,0};
+		struct timespec timeout = { 0, 0 };
 
 		int res = pselect(m_debugSocket + 1, &read_fds, NULL, NULL, &timeout, NULL);
 		if (res < 0 && errno != EINTR) {
@@ -583,12 +591,13 @@ void LuaConsole::HandleTCPDebugConnections() {
 			HandleNewDebugTCPConnection(m_debugSocket);
 		}
 	}
-	for(int sock : m_debugConnections) {
+	for (int sock : m_debugConnections) {
 		HandleDebugTCPConnection(sock);
 	}
 }
 
-void LuaConsole::HandleNewDebugTCPConnection(int socket) {
+void LuaConsole::HandleNewDebugTCPConnection(int socket)
+{
 	int sock = accept(socket, NULL, 0);
 	if (sock < 0) {
 		Output("Error accepting on socket.\n");
@@ -610,25 +619,27 @@ void LuaConsole::HandleNewDebugTCPConnection(int socket) {
 }
 
 // TODO: these should not be here, do we need them generally? Maybe in utils.cpp?
-static std::string &ltrim(std::string & str)
+static std::string &ltrim(std::string &str)
 {
-	auto it2 =  std::find_if( str.begin() , str.end() , [](char ch){ return !std::isspace<char>(ch , std::locale::classic() ) ; } );
-	str.erase( str.begin() , it2);
+	auto it2 = std::find_if(str.begin(), str.end(), [](char ch) { return !std::isspace<char>(ch, std::locale::classic()); });
+	str.erase(str.begin(), it2);
 	return str;
 }
 
-static std::string &rtrim(std::string & str)
+static std::string &rtrim(std::string &str)
 {
-	auto it1 =  std::find_if( str.rbegin() , str.rend() , [](char ch){ return !std::isspace<char>(ch , std::locale::classic() ) ; } );
-	str.erase( it1.base() , str.end() );
+	auto it1 = std::find_if(str.rbegin(), str.rend(), [](char ch) { return !std::isspace<char>(ch, std::locale::classic()); });
+	str.erase(it1.base(), str.end());
 	return str;
 }
 
-static std::string &trim(std::string &str) {
+static std::string &trim(std::string &str)
+{
 	return ltrim(rtrim(str));
 }
 
-void LuaConsole::HandleDebugTCPConnection(int sock) {
+void LuaConsole::HandleDebugTCPConnection(int sock)
+{
 	char buffer[4097];
 	int count = read(sock, buffer, 4096);
 	if (count < 0 && errno != EAGAIN) {
@@ -644,13 +655,14 @@ void LuaConsole::HandleDebugTCPConnection(int sock) {
 	}
 }
 
-void LuaConsole::BroadcastToDebuggers(const std::string &message) {
-	 for(int sock : m_debugConnections) {
-		 if(send(sock, message.c_str(), message.size(), MSG_NOSIGNAL) < 0) {
-			 Output("Closing debug socket, error %d.\n", errno);
-			 close(sock);
-			 m_debugConnections.erase(std::remove(m_debugConnections.begin(), m_debugConnections.end(), sock), m_debugConnections.end());
-		 };
-	 }
+void LuaConsole::BroadcastToDebuggers(const std::string &message)
+{
+	for (int sock : m_debugConnections) {
+		if (send(sock, message.c_str(), message.size(), MSG_NOSIGNAL) < 0) {
+			Output("Closing debug socket, error %d.\n", errno);
+			close(sock);
+			m_debugConnections.erase(std::remove(m_debugConnections.begin(), m_debugConnections.end(), sock), m_debugConnections.end());
+		};
+	}
 }
 #endif

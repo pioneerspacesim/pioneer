@@ -1,16 +1,16 @@
 // Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include <cstdlib>
-#include "SDL.h"
 #include "FileSystem.h"
 #include "OS.h"
+#include "SDL.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "text/FontDescriptor.h"
 #include "text/TextureFont.h"
+#include <cstdlib>
 
-static const int WIDTH  = 1024;
+static const int WIDTH = 1024;
 static const int HEIGHT = 768;
 
 int main(int argc, char **argv)
@@ -61,7 +61,7 @@ int main(int argc, char **argv)
 		if (done)
 			break;
 
-		font->RenderString(str.c_str(), rand()%(WIDTH*2)-WIDTH, rand()%HEIGHT, Color::WHITE);
+		font->RenderString(str.c_str(), rand() % (WIDTH * 2) - WIDTH, rand() % HEIGHT, Color::WHITE);
 		r->SwapBuffers();
 	}
 

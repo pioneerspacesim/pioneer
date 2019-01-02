@@ -4,15 +4,13 @@
 #ifndef _MUSIC_H
 #define _MUSIC_H
 
-#include <SDL.h>
 #include "Sound.h"
+#include <SDL.h>
 #include <string>
 #include <vector>
 
-namespace Sound
-{
-	class MusicEvent : public Event
-	{
+namespace Sound {
+	class MusicEvent : public Event {
 	public:
 		MusicEvent();
 		MusicEvent(Uint32 id);
@@ -20,14 +18,13 @@ namespace Sound
 		virtual void Play(const char *fx, const float volume_left, const float volume_right, Op op);
 	};
 
-	class MusicPlayer
-	{
+	class MusicPlayer {
 	public:
 		MusicPlayer();
 		~MusicPlayer();
 		float GetVolume() const;
 		void SetVolume(const float);
-		void Play(const std::string&, const bool repeat = false, const float fadeDelta = 1.f);
+		void Play(const std::string &, const bool repeat = false, const float fadeDelta = 1.f);
 		void Stop();
 		void FadeOut(const float fadeDelta);
 		void Update();
@@ -35,6 +32,7 @@ namespace Sound
 		const std::vector<std::string> GetSongList() const;
 		bool IsPlaying() const;
 		void SetEnabled(bool);
+
 	private:
 		float m_volume;
 		//two streams for crossfade
@@ -45,6 +43,6 @@ namespace Sound
 		std::string m_currentSongName;
 		bool m_enabled;
 	};
-}
+} // namespace Sound
 
 #endif

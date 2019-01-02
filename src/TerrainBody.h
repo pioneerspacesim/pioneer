@@ -4,13 +4,15 @@
 #ifndef _TERRAINBODY_H
 #define _TERRAINBODY_H
 
-#include "Body.h"
-#include "galaxy/StarSystem.h"
 #include "BaseSphere.h"
+#include "Body.h"
 #include "Camera.h"
+#include "galaxy/StarSystem.h"
 
 class Frame;
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+}
 
 class TerrainBody : public Body {
 public:
@@ -32,7 +34,7 @@ public:
 	static void OnChangeDetailLevel();
 
 protected:
-	TerrainBody(SystemBody*);
+	TerrainBody(SystemBody *);
 	TerrainBody();
 	virtual ~TerrainBody();
 

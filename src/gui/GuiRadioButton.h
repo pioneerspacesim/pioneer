@@ -4,14 +4,14 @@
 #ifndef _GUIRADIOBUTTON_H
 #define _GUIRADIOBUTTON_H
 
-#include "GuiWidget.h"
 #include "GuiISelectable.h"
+#include "GuiWidget.h"
 #include <string>
 
 namespace Gui {
 	class RadioGroup;
 
-	class RadioButton: public Button, public ISelectable {
+	class RadioButton : public Button, public ISelectable {
 	public:
 		RadioButton(RadioGroup *);
 		virtual ~RadioButton();
@@ -21,10 +21,11 @@ namespace Gui {
 		virtual void OnActivate();
 		virtual void SetSelected(bool state) { m_pressed = state; }
 		bool GetSelected() { return m_pressed; }
+
 	protected:
 		bool m_pressed;
 	};
 
-}
+} // namespace Gui
 
 #endif /* _GUIRADIOBUTTON_H */

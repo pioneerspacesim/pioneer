@@ -6,20 +6,22 @@
 
 #include <SDL_stdinc.h>
 
-#include "vector3.h"
+#include "GeoPatchID.h"
+#include "JobQueue.h"
 #include "Random.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/Frustum.h"
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
-#include "GeoPatchID.h"
-#include "JobQueue.h"
+#include "vector3.h"
 
 #include <deque>
 
 // #define DEBUG_BOUNDING_SPHERES
 
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+}
 class SystemBody;
 class GeoPatchContext;
 class GeoSphere;
@@ -53,21 +55,22 @@ private:
 	std::unique_ptr<Graphics::Drawables::Sphere3D> m_boundsphere;
 #endif
 public:
-
 	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs,
 		const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_,
 		const int depth, const GeoPatchID &ID_);
 
 	~GeoPatch();
 
-	inline void NeedToUpdateVBOs() {
+	inline void NeedToUpdateVBOs()
+	{
 		m_needUpdateVBOs = (nullptr != heights);
 	}
 
 	void UpdateVBOs(Graphics::Renderer *renderer);
 
-	int GetChildIdx(const GeoPatch *child) const {
-		for (int i=0; i<NUM_KIDS; i++) {
+	int GetChildIdx(const GeoPatch *child) const
+	{
+		for (int i = 0; i < NUM_KIDS; i++) {
 			if (kids[i].get() == child) return i;
 		}
 		abort();
@@ -75,16 +78,18 @@ public:
 	}
 
 	// in patch surface coords, [0,1]
-	inline vector3d GetSpherePoint(const double x, const double y) const {
-		return (v0 + x*(1.0-y)*(v1-v0) + x*y*(v2-v0) + (1.0-x)*y*(v3-v0)).Normalized();
+	inline vector3d GetSpherePoint(const double x, const double y) const
+	{
+		return (v0 + x * (1.0 - y) * (v1 - v0) + x * y * (v2 - v0) + (1.0 - x) * y * (v3 - v0)).Normalized();
 	}
 
 	void Render(Graphics::Renderer *r, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum);
 
-	inline bool canBeMerged() const {
+	inline bool canBeMerged() const
+	{
 		bool merge = true;
 		if (kids[0]) {
-			for (int i=0; i<NUM_KIDS; i++) {
+			for (int i = 0; i < NUM_KIDS; i++) {
 				merge &= kids[i]->canBeMerged();
 			}
 		}
@@ -99,7 +104,7 @@ public:
 	void ReceiveHeightmap(const SSingleSplitResult *psr);
 	void ReceiveJobHandle(Job::Handle job);
 
-	inline bool HasHeightData() const { return (heights.get()!=nullptr); }
+	inline bool HasHeightData() const { return (heights.get() != nullptr); }
 };
 
 #endif /* _GEOPATCH_H */

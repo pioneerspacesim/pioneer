@@ -4,14 +4,14 @@
 #ifndef _SPACE_H
 #define _SPACE_H
 
-#include <list>
+#include "Background.h"
+#include "IterationProxy.h"
 #include "Object.h"
-#include "vector3.h"
 #include "RefCounted.h"
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/StarSystem.h"
-#include "Background.h"
-#include "IterationProxy.h"
+#include "vector3.h"
+#include <list>
 
 class Body;
 class Frame;
@@ -22,10 +22,10 @@ class Game;
 class Space {
 public:
 	// empty space (eg for hyperspace)
-	Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space* oldSpace = nullptr);
+	Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space *oldSpace = nullptr);
 
 	// initalise with system bodies
-	Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, Space* oldSpace = nullptr);
+	Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, Space *oldSpace = nullptr);
 
 	// initialise from save file
 	Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, double at_time);
@@ -38,7 +38,7 @@ public:
 	// construction/ToJson(), invalidated by TimeStep(). they will assert
 	// if called while invalid
 	Frame *GetFrameByIndex(Uint32 idx) const;
-	Body  *GetBodyByIndex(Uint32 idx) const;
+	Body *GetBodyByIndex(Uint32 idx) const;
 	SystemBody *GetSystemBodyByIndex(Uint32 idx) const;
 	Uint32 GetIndexForFrame(const Frame *frame) const;
 	Uint32 GetIndexForBody(const Body *body) const;
@@ -55,13 +55,15 @@ public:
 	void TimeStep(float step);
 
 	void GetHyperspaceExitParams(const SystemPath &source, const SystemPath &dest,
-								 vector3d &pos, vector3d &vel) const;
-	vector3d GetHyperspaceExitPoint(const SystemPath &source, const SystemPath &dest) const {
-		vector3d pos,vel;
+		vector3d &pos, vector3d &vel) const;
+	vector3d GetHyperspaceExitPoint(const SystemPath &source, const SystemPath &dest) const
+	{
+		vector3d pos, vel;
 		GetHyperspaceExitParams(source, dest, pos, vel);
 		return pos;
 	}
-	vector3d GetHyperspaceExitPoint(const SystemPath &source) const {
+	vector3d GetHyperspaceExitPoint(const SystemPath &source) const
+	{
 		return GetHyperspaceExitPoint(source, m_starSystem->GetPath());
 	}
 
@@ -69,26 +71,27 @@ public:
 	Body *FindBodyForPath(const SystemPath *path) const;
 
 	Uint32 GetNumBodies() const { return static_cast<Uint32>(m_bodies.size()); }
-	IterationProxy<std::list<Body*> > GetBodies() { return MakeIterationProxy(m_bodies); }
-	const IterationProxy<const std::list<Body*> > GetBodies() const { return MakeIterationProxy(m_bodies); }
+	IterationProxy<std::list<Body *>> GetBodies() { return MakeIterationProxy(m_bodies); }
+	const IterationProxy<const std::list<Body *>> GetBodies() const { return MakeIterationProxy(m_bodies); }
 
 	Background::Container *GetBackground() { return m_background.get(); }
 	void RefreshBackground();
 
 	// body finder delegates
-	typedef std::vector<Body*> BodyNearList;
+	typedef std::vector<Body *> BodyNearList;
 	typedef BodyNearList::iterator BodyNearIterator;
-	void GetBodiesMaybeNear(const Body *b, double dist, BodyNearList &bodies) const {
+	void GetBodiesMaybeNear(const Body *b, double dist, BodyNearList &bodies) const
+	{
 		m_bodyNearFinder.GetBodiesMaybeNear(b, dist, bodies);
 	}
-	void GetBodiesMaybeNear(const vector3d &pos, double dist, BodyNearList &bodies) const {
+	void GetBodiesMaybeNear(const vector3d &pos, double dist, BodyNearList &bodies) const
+	{
 		m_bodyNearFinder.GetBodiesMaybeNear(pos, dist, bodies);
 	}
 
-
 private:
-	void GenSectorCache(RefCountedPtr<Galaxy> galaxy, const SystemPath* here);
-	void UpdateStarSystemCache(const SystemPath* here);
+	void GenSectorCache(RefCountedPtr<Galaxy> galaxy, const SystemPath *here);
+	void UpdateStarSystemCache(const SystemPath *here);
 	void GenBody(const double at_time, SystemBody *b, Frame *f, std::vector<vector3d> &posAccum);
 	// make sure SystemBody* is in Pi::currentSystem
 	Frame *GetFrameWithSystemBody(const SystemBody *b) const;
@@ -107,11 +110,11 @@ private:
 	Game *m_game;
 
 	// all the bodies we know about
-	std::list<Body*> m_bodies;
+	std::list<Body *> m_bodies;
 
 	// bodies that were removed/killed this timestep and need pruning at the end
-	std::list<Body*> m_removeBodies;
-	std::list<Body*> m_killBodies;
+	std::list<Body *> m_removeBodies;
+	std::list<Body *> m_killBodies;
 
 	void RebuildFrameIndex();
 	void RebuildBodyIndex();
@@ -121,9 +124,9 @@ private:
 	void AddSystemBodyToIndex(SystemBody *sbody);
 
 	bool m_frameIndexValid, m_bodyIndexValid, m_sbodyIndexValid;
-	std::vector<Frame*> m_frameIndex;
-	std::vector<Body*>  m_bodyIndex;
-	std::vector<SystemBody*> m_sbodyIndex;
+	std::vector<Frame *> m_frameIndex;
+	std::vector<Body *> m_bodyIndex;
+	std::vector<SystemBody *> m_sbodyIndex;
 
 	//background (elements that are infinitely far away,
 	//e.g. starfield and milky way)
@@ -131,7 +134,8 @@ private:
 
 	class BodyNearFinder {
 	public:
-		BodyNearFinder(const Space *space) : m_space(space) {}
+		BodyNearFinder(const Space *space) :
+			m_space(space) {}
 		void Prepare();
 
 		void GetBodiesMaybeNear(const Body *b, double dist, BodyNearList &bodies) const;
@@ -139,8 +143,10 @@ private:
 
 	private:
 		struct BodyDist {
-			BodyDist(Body *_body, double _dist) : body(_body), dist(_dist) {}
-			Body   *body;
+			BodyDist(Body *_body, double _dist) :
+				body(_body),
+				dist(_dist) {}
+			Body *body;
 			double dist;
 
 			bool operator<(const BodyDist &a) const { return dist < a.dist; }

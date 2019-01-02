@@ -10,11 +10,11 @@
 // modelviewer. probably sucks in the long term
 namespace Lua {
 
-extern LuaManager *manager;
+	extern LuaManager *manager;
 
-void Init();
-void Uninit();
+	void Init();
+	void Uninit();
 
-}
+} // namespace Lua
 
 #endif

@@ -7,8 +7,7 @@
 #include "GuiContainer.h"
 
 namespace Gui {
-	class Tabbed: public Container
-	{
+	class Tabbed : public Container {
 	public:
 		Tabbed();
 		void AddPage(Widget *label, Widget *child);
@@ -22,12 +21,13 @@ namespace Gui {
 		virtual bool OnMouseDown(MouseButtonEvent *e);
 		void SelectPage(int page);
 		int GetCurrentPage() const { return m_page; }
-		sigc::signal<void,int> onSelectPage;
+		sigc::signal<void, int> onSelectPage;
 		virtual void OnActivate();
+
 	private:
 		bool IsLabelWidget(const Widget *);
 		void ShuffleLabels();
-		typedef std::list< std::pair<Widget*,Widget*> > pagecontainer_t;
+		typedef std::list<std::pair<Widget *, Widget *>> pagecontainer_t;
 		pagecontainer_t m_pages;
 		unsigned int m_page;
 		std::unique_ptr<Graphics::Drawables::Rect> m_rectBGShadow;
@@ -37,6 +37,6 @@ namespace Gui {
 			std::unique_ptr<Graphics::Drawables::Rect> m_rectBG;
 		} BGVBTracker_;
 	};
-}
+} // namespace Gui
 
 #endif /* _GUITABBED_H */

@@ -4,40 +4,44 @@
 #ifndef UI_ICON_H
 #define UI_ICON_H
 
-#include "Widget.h"
 #include "IniConfig.h"
 #include "SmartPtr.h"
-#include "vector2.h"
+#include "Widget.h"
 #include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include "graphics/Texture.h"
+#include "vector2.h"
 
 namespace UI {
 
-class Icon: public Widget {
-public:
-	virtual Point PreferredSize();
-	virtual void Draw();
+	class Icon : public Widget {
+	public:
+		virtual Point PreferredSize();
+		virtual void Draw();
 
-	Icon *SetColor(const Color &c) { m_color = c; return this; }
+		Icon *SetColor(const Color &c)
+		{
+			m_color = c;
+			return this;
+		}
 
-protected:
-	friend class Context;
-	Icon(Context *context, const std::string &iconName);
+	protected:
+		friend class Context;
+		Icon(Context *context, const std::string &iconName);
 
-private:
-	static IniConfig                         s_config;
+	private:
+		static IniConfig s_config;
 
-	static RefCountedPtr<Graphics::Texture>  s_texture;
-	static vector2f                          s_texScale;
+		static RefCountedPtr<Graphics::Texture> s_texture;
+		static vector2f s_texScale;
 
-	static RefCountedPtr<Graphics::Material> s_material;
+		static RefCountedPtr<Graphics::Material> s_material;
 
-	Point m_texPos;
-	Color m_color;
-	std::unique_ptr<Graphics::Drawables::TexturedQuad> m_quad;
-};
+		Point m_texPos;
+		Color m_color;
+		std::unique_ptr<Graphics::Drawables::TexturedQuad> m_quad;
+	};
 
-}
+} // namespace UI
 
 #endif

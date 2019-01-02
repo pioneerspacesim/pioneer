@@ -6,19 +6,21 @@
 
 #include <SDL_stdinc.h>
 
-#include "vector3.h"
-#include "Random.h"
+#include "BaseSphere.h"
 #include "Camera.h"
+#include "GasGiantJobs.h"
+#include "JobQueue.h"
+#include "Random.h"
 #include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
-#include "BaseSphere.h"
-#include "JobQueue.h"
-#include "GasGiantJobs.h"
+#include "vector3.h"
 
 #include <deque>
 
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+}
 class SystemBody;
 class GasGiant;
 class GasPatch;
@@ -26,7 +28,7 @@ class GasPatchContext;
 namespace {
 	class STextureFaceResult;
 	class SGPUGenResult;
-}
+} // namespace
 
 #define NUM_PATCHES 6
 
@@ -53,7 +55,7 @@ public:
 	static void OnChangeDetailLevel();
 
 	static void CreateRenderTarget(const Uint16 width, const Uint16 height);
-	static void SetRenderTargetCubemap(const Uint32, Graphics::Texture*, const bool unBind = true);
+	static void SetRenderTargetCubemap(const Uint32, Graphics::Texture *, const bool unBind = true);
 	static void BeginRenderTarget();
 	static void EndRenderTarget();
 

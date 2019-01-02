@@ -3,8 +3,8 @@
 
 #include "UIView.h"
 #include "Pi.h"
-#include "ui/Context.h"
 #include "gameui/Panel.h"
+#include "ui/Context.h"
 
 void UIView::OnSwitchTo()
 {
@@ -24,12 +24,14 @@ void UIView::OnSwitchFrom()
 	Pi::ui->Layout(); // UI does important things on layout, like updating keyboard shortcuts
 }
 
-void UIView::BuildUI(UI::Single *container) {
+void UIView::BuildUI(UI::Single *container)
+{
 	UI::Widget *w = BuildTemplateUI();
 	if (w) container->SetInnerWidget(w);
 }
 
-UI::Widget *UIView::BuildTemplateUI() {
+UI::Widget *UIView::BuildTemplateUI()
+{
 	if (m_templateName)
 		return Pi::ui->CallTemplate(m_templateName);
 	else

@@ -6,50 +6,50 @@
 
 namespace UI {
 
-Point Single::PreferredSize()
-{
-	if (!m_innerWidget) return Point();
-	return m_innerWidget->CalcLayoutContribution();
-}
-
-void Single::Layout()
-{
-	if (!m_innerWidget) return;
-	SetWidgetDimensions(m_innerWidget, Point(), m_innerWidget->CalcSize(GetSize()));
-	m_innerWidget->Layout();
-}
-
-Single *Single::SetInnerWidget(Widget *widget)
-{
-	assert(widget);
-
-	if (m_innerWidget == widget)
-		return this;
-
-	RemoveAllWidgets();
-
-	AddWidget(widget);
-	m_innerWidget = widget;
-
-	GetContext()->RequestLayout();
-
-	return this;
-}
-
-void Single::RemoveInnerWidget()
-{
-	if (m_innerWidget) {
-		Container::RemoveWidget(m_innerWidget);
-		m_innerWidget = 0;
-		GetContext()->RequestLayout();
+	Point Single::PreferredSize()
+	{
+		if (!m_innerWidget) return Point();
+		return m_innerWidget->CalcLayoutContribution();
 	}
-}
 
-void Single::RemoveWidget(Widget *widget)
-{
-	if (m_innerWidget != widget)
-		return;
-	RemoveInnerWidget();
-}
+	void Single::Layout()
+	{
+		if (!m_innerWidget) return;
+		SetWidgetDimensions(m_innerWidget, Point(), m_innerWidget->CalcSize(GetSize()));
+		m_innerWidget->Layout();
+	}
 
-}
+	Single *Single::SetInnerWidget(Widget *widget)
+	{
+		assert(widget);
+
+		if (m_innerWidget == widget)
+			return this;
+
+		RemoveAllWidgets();
+
+		AddWidget(widget);
+		m_innerWidget = widget;
+
+		GetContext()->RequestLayout();
+
+		return this;
+	}
+
+	void Single::RemoveInnerWidget()
+	{
+		if (m_innerWidget) {
+			Container::RemoveWidget(m_innerWidget);
+			m_innerWidget = 0;
+			GetContext()->RequestLayout();
+		}
+	}
+
+	void Single::RemoveWidget(Widget *widget)
+	{
+		if (m_innerWidget != widget)
+			return;
+		RemoveInnerWidget();
+	}
+
+} // namespace UI

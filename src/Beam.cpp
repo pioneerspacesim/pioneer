@@ -1,32 +1,30 @@
 // Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "libs.h"
-#include "Pi.h"
 #include "Beam.h"
-#include "Frame.h"
-#include "galaxy/StarSystem.h"
-#include "Space.h"
-#include "GameSaveError.h"
-#include "collider/collider.h"
 #include "CargoBody.h"
-#include "Planet.h"
-#include "Sfx.h"
-#include "Ship.h"
-#include "Pi.h"
-#include "Player.h"
+#include "Frame.h"
 #include "Game.h"
+#include "GameSaveError.h"
+#include "JsonUtils.h"
 #include "LuaEvent.h"
 #include "LuaUtils.h"
+#include "Pi.h"
+#include "Planet.h"
+#include "Player.h"
+#include "Sfx.h"
+#include "Ship.h"
+#include "Space.h"
+#include "collider/collider.h"
+#include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
-#include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
-#include "JsonUtils.h"
+#include "graphics/VertexArray.h"
+#include "libs.h"
 
-namespace
-{
+namespace {
 	static float lifetime = 0.1f;
 }
 
@@ -53,8 +51,8 @@ void Beam::BuildModel()
 	const float w = 0.5f;
 
 	vector3f one(0.f, -w, 0.f); //top left
-	vector3f two(0.f,  w, 0.f); //top right
-	vector3f three(0.f,  w, -1.f); //bottom right
+	vector3f two(0.f, w, 0.f); //top right
+	vector3f three(0.f, w, -1.f); //bottom right
 	vector3f four(0.f, -w, -1.f); //bottom left
 
 	//uv coords
@@ -67,7 +65,7 @@ void Beam::BuildModel()
 	s_glowVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0, 240));
 
 	//add four intersecting planes to create a volumetric effect
-	for (int i=0; i < 4; i++) {
+	for (int i = 0; i < 4; i++) {
 		s_sideVerts->Add(one, topLeft);
 		s_sideVerts->Add(two, topRight);
 		s_sideVerts->Add(three, botRight);
@@ -86,7 +84,7 @@ void Beam::BuildModel()
 	static const float gw = 0.5f;
 	float gz = -0.1f;
 
-	for (int i=0; i < 40; i++) {
+	for (int i = 0; i < 40; i++) {
 		s_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
 		s_glowVerts->Add(vector3f(-gw, gw, gz), topRight);
 		s_glowVerts->Add(vector3f(gw, gw, gz), botRight);
@@ -113,7 +111,8 @@ void Beam::FreeModel()
 	s_glowVerts.reset();
 }
 
-Beam::Beam(): Body()
+Beam::Beam() :
+	Body()
 {
 	if (!s_sideMat) BuildModel();
 	SetOrient(matrix3x3d::Identity());
@@ -174,10 +173,10 @@ void Beam::UpdateInterpTransform(double alpha)
 {
 	m_interpOrient = GetOrient();
 	const vector3d oldPos = GetPosition() - (m_baseVel * Pi::game->GetTimeStep());
-	m_interpPos = alpha*GetPosition() + (1.0-alpha)*oldPos;
+	m_interpPos = alpha * GetPosition() + (1.0 - alpha) * oldPos;
 }
 
-void Beam::NotifyRemoved(const Body* const removedBody)
+void Beam::NotifyRemoved(const Body *const removedBody)
 {
 	if (m_parent == removedBody)
 		m_parent = nullptr;
@@ -199,7 +198,7 @@ float Beam::GetDamage() const
 
 double Beam::GetRadius() const
 {
-	return sqrt(m_length*m_length);
+	return sqrt(m_length * m_length);
 }
 
 static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, const vector3d &pos)
@@ -230,8 +229,8 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, con
 	cargo->SetPosition(pos);
 	const double x = Pi::rng.Double();
 	vector3d dir = pos.Normalized();
-	dir.ArbRotate(vector3d(x, 1-x, 0), Pi::rng.Double()-.5);
-	cargo->SetVelocity(Pi::rng.Double(100.0,200.0) * dir);
+	dir.ArbRotate(vector3d(x, 1 - x, 0), Pi::rng.Double() - .5);
+	cargo->SetVelocity(Pi::rng.Double(100.0, 200.0) * dir);
 	Pi::game->GetSpace()->AddBody(cargo);
 }
 
@@ -243,21 +242,20 @@ void Beam::StaticUpdate(const float timeStep)
 		return;
 
 	CollisionContact c;
-	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), m_dir.Normalized(), m_length, &c, static_cast<ModelBody*>(m_parent)->GetGeom());
+	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), m_dir.Normalized(), m_length, &c, static_cast<ModelBody *>(m_parent)->GetGeom());
 
 	if (c.userData1) {
-		Object *o = static_cast<Object*>(c.userData1);
+		Object *o = static_cast<Object *>(c.userData1);
 
 		if (o->IsType(Object::CITYONPLANET)) {
 			Pi::game->GetSpace()->KillBody(this);
-		}
-		else if (o->IsType(Object::BODY)) {
-			Body *hit = static_cast<Body*>(o);
+		} else if (o->IsType(Object::BODY)) {
+			Body *hit = static_cast<Body *>(o);
 			if (hit != m_parent) {
 				hit->OnDamage(m_parent, GetDamage(), c);
 				m_active = false;
 				if (hit->IsType(Object::SHIP))
-					LuaEvent::Queue("onShipHit", dynamic_cast<Ship*>(hit), dynamic_cast<Body*>(m_parent));
+					LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(hit), dynamic_cast<Body *>(m_parent));
 			}
 		}
 	}
@@ -265,7 +263,7 @@ void Beam::StaticUpdate(const float timeStep)
 	if (m_mining) {
 		// need to test for terrain hit
 		if (GetFrame()->GetBody() && GetFrame()->GetBody()->IsType(Object::PLANET)) {
-			Planet *const planet = static_cast<Planet*>(GetFrame()->GetBody());
+			Planet *const planet = static_cast<Planet *>(GetFrame()->GetBody());
 			const SystemBody *b = planet->GetSystemBody();
 			vector3d pos = GetPosition();
 			double terrainHeight = planet->GetTerrainHeight(pos.Normalized());
@@ -273,7 +271,7 @@ void Beam::StaticUpdate(const float timeStep)
 				// hit the fucker
 				if (b->GetType() == SystemBody::TYPE_PLANET_ASTEROID) {
 					vector3d n = GetPosition().Normalized();
-					MiningLaserSpawnTastyStuff(planet->GetFrame(), b, n*terrainHeight + 5.0*n);
+					MiningLaserSpawnTastyStuff(planet->GetFrame(), b, n * terrainHeight + 5.0 * n);
 					SfxManager::Add(this, TYPE_EXPLOSION);
 				}
 				m_active = false;
@@ -293,12 +291,20 @@ void Beam::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	vector3f v1, v2;
 	matrix4x4f m = matrix4x4f::Identity();
-	v1.x = dir.y; v1.y = dir.z; v1.z = dir.x;
+	v1.x = dir.y;
+	v1.y = dir.z;
+	v1.z = dir.x;
 	v2 = v1.Cross(dir).Normalized();
 	v1 = v2.Cross(dir);
-	m[0] = v1.x; m[4] = v2.x; m[8] = dir.x;
-	m[1] = v1.y; m[5] = v2.y; m[9] = dir.y;
-	m[2] = v1.z; m[6] = v2.z; m[10] = dir.z;
+	m[0] = v1.x;
+	m[4] = v2.x;
+	m[8] = dir.x;
+	m[1] = v1.y;
+	m[5] = v2.y;
+	m[9] = dir.y;
+	m[2] = v1.z;
+	m[6] = v2.z;
+	m[10] = dir.z;
 
 	m[12] = from.x;
 	m[13] = from.y;
@@ -337,7 +343,7 @@ void Beam::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 }
 
 // static
-void Beam::Add(Body *parent, const ProjectileData& prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dir)
+void Beam::Add(Body *parent, const ProjectileData &prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dir)
 {
 	Beam *p = new Beam();
 	p->m_parent = parent;

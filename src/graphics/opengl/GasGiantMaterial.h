@@ -6,8 +6,8 @@
 /*
  * Programs & Materials used by terrain
  */
-#include "OpenGLLibs.h"
 #include "MaterialGL.h"
+#include "OpenGLLibs.h"
 #include "Program.h"
 #include "galaxy/StarSystem.h"
 
@@ -48,9 +48,9 @@ namespace Graphics {
 			// We actually have multiple programs at work here, one compiled for each of the number of shadows.
 			// They are chosen/created based on what the current parameters passed in by the specialParameter0 are.
 			void SwitchShadowVariant();
-			Program* m_programs[4];	// 0 to 3 shadows
+			Program *m_programs[4]; // 0 to 3 shadows
 			Uint32 m_curNumShadows;
 		};
-	}
-}
+	} // namespace OGL
+} // namespace Graphics
 #endif

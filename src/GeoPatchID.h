@@ -6,13 +6,15 @@
 
 #include <SDL_stdinc.h>
 
-class GeoPatchID
-{
+class GeoPatchID {
 private:
 	uint64_t mPatchID;
+
 public:
-	GeoPatchID(const uint64_t init) : mPatchID(init) {}
-	GeoPatchID(const GeoPatchID &init) : mPatchID(init.mPatchID) {}
+	GeoPatchID(const uint64_t init) :
+		mPatchID(init) {}
+	GeoPatchID(const GeoPatchID &init) :
+		mPatchID(init.mPatchID) {}
 
 	static const uint64_t MAX_SHIFT_DEPTH = 61;
 

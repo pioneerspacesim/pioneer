@@ -2,30 +2,30 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Factions.h"
-#include "galaxy/Sector.h"
-#include "galaxy/SystemPath.h"
 #include "galaxy/CustomSystem.h"
 #include "galaxy/Galaxy.h"
+#include "galaxy/Sector.h"
+#include "galaxy/SystemPath.h"
 
 #include "enum_table.h"
 
+#include "FileSystem.h"
 #include "GameSaveError.h"
+#include "Lang.h"
+#include "LuaConstants.h"
+#include "LuaFixed.h"
 #include "LuaUtils.h"
 #include "LuaVector.h"
-#include "LuaFixed.h"
-#include "LuaConstants.h"
-#include "Polit.h"
-#include "FileSystem.h"
-#include "Lang.h"
 #include "Pi.h"
-#include <set>
+#include "Polit.h"
 #include <algorithm>
 #include <list>
+#include <set>
 #include <sstream>
 
-const Uint32 Faction::BAD_FACTION_IDX      = UINT_MAX;
-const Color  Faction::BAD_FACTION_COLOUR   = Color(204,204,204,128);
-const float  Faction::FACTION_BASE_ALPHA   = 0.40f;
+const Uint32 Faction::BAD_FACTION_IDX = UINT_MAX;
+const Color Faction::BAD_FACTION_COLOUR = Color(204, 204, 204, 128);
+const float Faction::FACTION_BASE_ALPHA = 0.40f;
 const double Faction::FACTION_CURRENT_YEAR = 3200;
 
 //#define DUMP_FACTIONS
@@ -43,10 +43,11 @@ struct FactionBuilder {
 
 static const char LuaFaction_TypeName[] = "Faction";
 
-static FactionsDatabase* s_activeFactionsDatabase = nullptr;
+static FactionsDatabase *s_activeFactionsDatabase = nullptr;
 
-static FactionBuilder *l_fac_check_builder(lua_State *L, int idx) {
-	FactionBuilder *facbld = static_cast<FactionBuilder*>(
+static FactionBuilder *l_fac_check_builder(lua_State *L, int idx)
+{
+	FactionBuilder *facbld = static_cast<FactionBuilder *>(
 		luaL_checkudata(L, idx, LuaFaction_TypeName));
 	assert(facbld->fac);
 	return facbld;
@@ -61,10 +62,10 @@ static int l_fac_new(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 2);
 
-	FactionBuilder *facbld = static_cast<FactionBuilder*>(lua_newuserdata(L, sizeof(*facbld)));
+	FactionBuilder *facbld = static_cast<FactionBuilder *>(lua_newuserdata(L, sizeof(*facbld)));
 	facbld->fac = new Faction(s_activeFactionsDatabase->GetGalaxy());
 	facbld->registered = false;
-	facbld->skip       = false;
+	facbld->skip = false;
 	luaL_setmetatable(L, LuaFaction_TypeName);
 
 	facbld->fac->name = name;
@@ -73,27 +74,33 @@ static int l_fac_new(lua_State *L)
 }
 
 #define LFAC_FIELD_SETTER_FIXED(luaname, fieldname)        \
-	static int l_fac_ ## luaname (lua_State *L) {          \
+	static int l_fac_##luaname(lua_State *L)               \
+	{                                                      \
 		Faction *fac = l_fac_check(L, 1);                  \
 		const fixed *value = LuaFixed::CheckFromLua(L, 2); \
 		fac->fieldname = *value;                           \
-		lua_settop(L, 1); return 1;                        \
+		lua_settop(L, 1);                                  \
+		return 1;                                          \
 	}
 
-#define LFAC_FIELD_SETTER_FLOAT(luaname, fieldname)        \
-	static int l_fac_ ## luaname (lua_State *L) {          \
-		Faction *fac = l_fac_check(L, 1);                  \
-		double value = luaL_checknumber(L, 2);             \
-		fac->fieldname = value;                            \
-		lua_settop(L, 1); return 1;                        \
+#define LFAC_FIELD_SETTER_FLOAT(luaname, fieldname) \
+	static int l_fac_##luaname(lua_State *L)        \
+	{                                               \
+		Faction *fac = l_fac_check(L, 1);           \
+		double value = luaL_checknumber(L, 2);      \
+		fac->fieldname = value;                     \
+		lua_settop(L, 1);                           \
+		return 1;                                   \
 	}
 
-#define LFAC_FIELD_SETTER_INT(luaname, fieldname)          \
-	static int l_fac_ ## luaname (lua_State *L) {          \
-		Faction *fac = l_fac_check(L, 1);                  \
-		int value = luaL_checkinteger(L, 2);               \
-		fac->fieldname = value;                            \
-		lua_settop(L, 1); return 1;                        \
+#define LFAC_FIELD_SETTER_INT(luaname, fieldname) \
+	static int l_fac_##luaname(lua_State *L)      \
+	{                                             \
+		Faction *fac = l_fac_check(L, 1);         \
+		int value = luaL_checkinteger(L, 2);      \
+		fac->fieldname = value;                   \
+		lua_settop(L, 1);                         \
+		return 1;                                 \
 	}
 
 static int l_fac_description_short(lua_State *L)
@@ -118,7 +125,7 @@ static int l_fac_govtype_weight(lua_State *L)
 	Faction *fac = l_fac_check(L, 1);
 	const char *typeName = luaL_checkstring(L, 2);
 	const Polit::GovType g = static_cast<Polit::GovType>(LuaConstants::GetConstant(L, "PolitGovType", typeName));
-	const Sint32 weight = luaL_checkinteger(L, 3);	// signed as we will need to compare with signed out of Random.Int32
+	const Sint32 weight = luaL_checkinteger(L, 3); // signed as we will need to compare with signed out of Random.Int32
 
 	if (g < Polit::GOV_RAND_MIN || g > Polit::GOV_RAND_MAX) {
 		pi_lua_warn(L,
@@ -142,7 +149,7 @@ static int l_fac_govtype_weight(lua_State *L)
 }
 
 // sector(x,y,x) + system index + body index = location in a (custom?) system of homeworld
-static int l_fac_homeworld (lua_State *L)
+static int l_fac_homeworld(lua_State *L)
 {
 	FactionBuilder *facbld = l_fac_check_builder(L, 1);
 	Faction *fac = facbld->fac;
@@ -158,12 +165,12 @@ static int l_fac_homeworld (lua_State *L)
 	fac->SetBestFitHomeworld(x, y, z, si, bi, +1);
 	if (!fac->homeworld.HasValidSystem()) fac->SetBestFitHomeworld(x, y, z, si, bi, -1);
 
-	facbld->skip      = !fac->homeworld.HasValidSystem();	// wasn't a valid system
+	facbld->skip = !fac->homeworld.HasValidSystem(); // wasn't a valid system
 	lua_settop(L, 1);
 	return 1;
 }
 
-LFAC_FIELD_SETTER_FLOAT(foundingDate, foundingDate)   // date faction came into existence
+LFAC_FIELD_SETTER_FLOAT(foundingDate, foundingDate) // date faction came into existence
 LFAC_FIELD_SETTER_FLOAT(expansionRate, expansionRate) // lightyears per year that the volume expands.
 
 static int l_fac_military_name(lua_State *L)
@@ -199,7 +206,7 @@ static int l_fac_illegal_goods_probability(lua_State *L)
 	Faction *fac = l_fac_check(L, 1);
 	const char *typeName = luaL_checkstring(L, 2);
 	const GalacticEconomy::Commodity e = static_cast<GalacticEconomy::Commodity>(
-			LuaConstants::GetConstant(L, "CommodityType", typeName));
+		LuaConstants::GetConstant(L, "CommodityType", typeName));
 	const Uint32 probability = luaL_checkunsigned(L, 3);
 
 	if (probability > 100) {
@@ -223,7 +230,7 @@ static int l_fac_colour(lua_State *L)
 	const float g = luaL_checknumber(L, 3);
 	const float b = luaL_checknumber(L, 4);
 
-	fac->colour = Color(r*255,g*255,b*255);
+	fac->colour = Color(r * 255, g * 255, b * 255);
 
 	lua_settop(L, 1);
 
@@ -242,8 +249,7 @@ static int l_fac_claim(lua_State *L)
 
 	path.systemIndex = -99; // magic number, claim whole sector
 
-	if (lua_gettop(L) > 4)
-	{
+	if (lua_gettop(L) > 4) {
 		path.systemIndex = luaL_checkinteger(L, 5);
 	}
 	fac->PushClaim(path);
@@ -267,12 +273,12 @@ static void ExportFactionToLua(const Faction *fac, const size_t index)
 	outstr << "local f = Faction:new('" << fac->name << "')" << std::endl;
 	outstr << "\t:description_short('" << fac->description_short << "')" << std::endl;
 	outstr << "\t:description('" << fac->description << "')" << std::endl;
-	if(fac->hasHomeworld)				outstr << "\t:homeworld(" << fac->homeworld.sectorX << "," << fac->homeworld.sectorY << "," << fac->homeworld.sectorZ << "," << fac->homeworld.systemIndex << "," << fac->homeworld.bodyIndex << ")" << std::endl;
+	if (fac->hasHomeworld) outstr << "\t:homeworld(" << fac->homeworld.sectorX << "," << fac->homeworld.sectorY << "," << fac->homeworld.sectorZ << "," << fac->homeworld.systemIndex << "," << fac->homeworld.bodyIndex << ")" << std::endl;
 	outstr << "\t:foundingDate(" << fac->foundingDate << ")" << std::endl;
 	outstr << "\t:expansionRate(" << fac->expansionRate << ")" << std::endl;
-	if (!fac->military_name.empty())	outstr << "\t:military_name('" << fac->military_name << "')" << std::endl;
-	if (!fac->police_name.empty())		outstr << "\t:police_name('" << fac->police_name << "')" << std::endl;
-	if (!fac->police_ship.empty())		outstr << "\t:police_ship('" << fac->police_ship << "')" << std::endl;
+	if (!fac->military_name.empty()) outstr << "\t:military_name('" << fac->military_name << "')" << std::endl;
+	if (!fac->police_name.empty()) outstr << "\t:police_name('" << fac->police_name << "')" << std::endl;
+	if (!fac->police_ship.empty()) outstr << "\t:police_ship('" << fac->police_ship << "')" << std::endl;
 	outstr << "\t:colour(" << float(fac->colour.r) / 255.f << "," << float(fac->colour.g) / 255.f << "," << float(fac->colour.b) / 255.f << ")" << std::endl;
 	outstr << std::endl;
 
@@ -296,7 +302,8 @@ static void ExportFactionToLua(const Faction *fac, const size_t index)
 	}
 	outstr << std::endl;
 
-	outstr << "f:add_to_factions('" << fac->name << "')\n\n" << std::endl;
+	outstr << "f:add_to_factions('" << fac->name << "')\n\n"
+		   << std::endl;
 
 	FILE *f = nullptr;
 	FileSystem::FileSourceFS newFS(FileSystem::GetDataDir());
@@ -373,21 +380,21 @@ static int l_fac_gc(lua_State *L)
 }
 
 static luaL_Reg LuaFaction_meta[] = {
-	{ "new",                       &l_fac_new },
-	{ "description_short",         &l_fac_description_short },
-	{ "description",               &l_fac_description },
-	{ "govtype_weight",            &l_fac_govtype_weight },
-	{ "homeworld",                 &l_fac_homeworld },
-	{ "foundingDate",              &l_fac_foundingDate },
-	{ "expansionRate",             &l_fac_expansionRate },
-	{ "military_name",             &l_fac_military_name },
-	{ "police_name",               &l_fac_police_name },
-	{ "police_ship",               &l_fac_police_ship },
+	{ "new", &l_fac_new },
+	{ "description_short", &l_fac_description_short },
+	{ "description", &l_fac_description },
+	{ "govtype_weight", &l_fac_govtype_weight },
+	{ "homeworld", &l_fac_homeworld },
+	{ "foundingDate", &l_fac_foundingDate },
+	{ "expansionRate", &l_fac_expansionRate },
+	{ "military_name", &l_fac_military_name },
+	{ "police_name", &l_fac_police_name },
+	{ "police_ship", &l_fac_police_ship },
 	{ "illegal_goods_probability", &l_fac_illegal_goods_probability },
-	{ "colour",                    &l_fac_colour },
-	{ "add_to_factions",           &l_fac_add_to_factions },
-	{ "claim",					   &l_fac_claim }, // claim possession of a starsystem or sector
-	{ "__gc",                      &l_fac_gc },
+	{ "colour", &l_fac_colour },
+	{ "add_to_factions", &l_fac_add_to_factions },
+	{ "claim", &l_fac_claim }, // claim possession of a starsystem or sector
+	{ "__gc", &l_fac_gc },
 	{ 0, 0 }
 };
 
@@ -404,7 +411,6 @@ FactionsDatabase::~FactionsDatabase()
 		m_factions_byName.clear();
 	}
 }
-
 
 static void register_class(lua_State *L, const char *tname, luaL_Reg *meta)
 {
@@ -451,12 +457,12 @@ void FactionsDatabase::Init()
 
 	Output("Number of factions added: " SIZET_FMT "\n", m_factions.size());
 	ClearHomeSectors();
-	m_galaxy->FlushCaches();    // clear caches of anything we used for faction generation
+	m_galaxy->FlushCaches(); // clear caches of anything we used for faction generation
 	while (!m_missingFactionsMap.empty()) {
-		const std::string& factionName = m_missingFactionsMap.begin()->first;
-		std::list<CustomSystem*>& csl = m_missingFactionsMap.begin()->second;
+		const std::string &factionName = m_missingFactionsMap.begin()->first;
+		std::list<CustomSystem *> &csl = m_missingFactionsMap.begin()->second;
 		while (!csl.empty()) {
-			CustomSystem* cs = csl.front();
+			CustomSystem *cs = csl.front();
 			// FIXME: How to signal missing faction?
 			fprintf(stderr, "Custom system %s referenced unknown faction %s\n", cs->name.c_str(), factionName.c_str());
 			csl.pop_front();
@@ -474,7 +480,7 @@ void FactionsDatabase::PostInit()
 	SetHomeSectors();
 
 #ifdef DUMP_FACTIONS // useful for dumping the factions from an autogenerated script
-	for (size_t i = 0; i<m_factions.size(); i++)
+	for (size_t i = 0; i < m_factions.size(); i++)
 		ExportFactionToLua(m_factions[i], i);
 #endif
 }
@@ -499,20 +505,20 @@ bool FactionsDatabase::IsInitialized() const
 	return m_initialized;
 }
 
-void FactionsDatabase::RegisterCustomSystem(CustomSystem *cs, const std::string& factionName)
+void FactionsDatabase::RegisterCustomSystem(CustomSystem *cs, const std::string &factionName)
 {
 	m_missingFactionsMap[factionName].push_back(cs);
 }
 
-void FactionsDatabase::AddFaction(Faction* faction)
+void FactionsDatabase::AddFaction(Faction *faction)
 {
 	// add the faction to the various faction data structures
 	m_factions.push_back(faction);
 	m_factions_byName[faction->name] = faction;
 	auto it = m_missingFactionsMap.find(faction->name);
 	if (it != m_missingFactionsMap.end()) {
-		std::list<CustomSystem*>& csl = it->second;
-		for (CustomSystem* cs : csl) {
+		std::list<CustomSystem *> &csl = it->second;
+		for (CustomSystem *cs : csl) {
 			cs->faction = faction;
 		}
 		m_missingFactionsMap.erase(it);
@@ -520,17 +526,17 @@ void FactionsDatabase::AddFaction(Faction* faction)
 	m_spatial_index.Add(faction);
 
 	if (faction->hasHomeworld) m_homesystems.insert(faction->homeworld.SystemOnly());
-	faction->idx = m_factions.size()-1;
+	faction->idx = m_factions.size() - 1;
 }
 
 const Faction *FactionsDatabase::GetFaction(const Uint32 index) const
 {
 	PROFILE_SCOPED()
-	assert( index < m_factions.size() );
+	assert(index < m_factions.size());
 	return m_factions[index];
 }
 
-const Faction* FactionsDatabase::GetFaction(const std::string& factionName) const
+const Faction *FactionsDatabase::GetFaction(const std::string &factionName) const
 {
 	PROFILE_SCOPED()
 	auto it = m_factions_byName.find(factionName);
@@ -553,7 +559,7 @@ bool FactionsDatabase::MayAssignFactions() const
 	return m_may_assign_factions;
 }
 
-const Faction* FactionsDatabase::GetNearestClaimant(const Sector::System* sys) const
+const Faction *FactionsDatabase::GetNearestClaimant(const Sector::System *sys) const
 {
 	PROFILE_SCOPED()
 	// firstly if this a custom StarSystem it may already have a faction assigned
@@ -562,12 +568,11 @@ const Faction* FactionsDatabase::GetNearestClaimant(const Sector::System* sys) c
 	}
 
 	// if it didn't, or it wasn't a custom StarStystem, then we go ahead and assign it a faction allegiance like normal below...
-	const Faction* result = &m_no_faction;
+	const Faction *result = &m_no_faction;
 	double closestFactionDist = HUGE_VAL;
-	ConstFactionList& candidates = m_spatial_index.CandidateFactions(sys);
+	ConstFactionList &candidates = m_spatial_index.CandidateFactions(sys);
 
-	for (ConstFactionIterator it = candidates.begin(); it != candidates.end(); ++it)
-	{
+	for (ConstFactionIterator it = candidates.begin(); it != candidates.end(); ++it) {
 		if ((*it)->IsClaimed(sys->GetPath()))
 			return *it; // this is a very specific claim, no further checks for distance from another factions homeworld is needed.
 		if ((*it)->IsCloserAndContains(closestFactionDist, sys))
@@ -576,7 +581,7 @@ const Faction* FactionsDatabase::GetNearestClaimant(const Sector::System* sys) c
 	return result;
 }
 
-bool FactionsDatabase::IsHomeSystem(const SystemPath& sysPath) const
+bool FactionsDatabase::IsHomeSystem(const SystemPath &sysPath) const
 {
 	PROFILE_SCOPED()
 	return m_homesystems.find(sysPath.SystemOnly()) != m_homesystems.end();
@@ -590,8 +595,7 @@ bool Faction::IsClaimed(SystemPath path) const
 	SystemPath sector = path;
 	sector.systemIndex = -99;
 
-	for (auto clam = m_ownedsystemlist.begin(); clam != m_ownedsystemlist.end(); clam++)
-	{
+	for (auto clam = m_ownedsystemlist.begin(); clam != m_ownedsystemlist.end(); clam++) {
 		if (*clam == sector || *clam == path)
 			return true;
 	}
@@ -604,7 +608,7 @@ bool Faction::IsClaimed(SystemPath path) const
 	if it is, then the passed distance will also be updated to be the distance
 	from the factions homeworld to the sysPath.
 */
-const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector::System* sys) const
+const bool Faction::IsCloserAndContains(double &closestFactionDist, const Sector::System *sys) const
 {
 	PROFILE_SCOPED()
 	/*	Treat factions without homeworlds as if they are of effectively infinite radius,
@@ -613,21 +617,22 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector
 		a better claim.
 	*/
 	float distance = HUGE_VAL;
-	bool  inside   = true;
+	bool inside = true;
 
 	/*	Factions that have a homeworld... */
-	if (hasHomeworld)
-	{
+	if (hasHomeworld) {
 		/* ...automatically gain the allegiance of worlds within the same sector... */
-		if (sys->InSameSector(homeworld)) { distance = 0; }
+		if (sys->InSameSector(homeworld)) {
+			distance = 0;
+		}
 
 		/* ...otherwise we need to calculate whether the world is inside the
 		   the faction border, and how far away it is. */
 		else {
 			RefCountedPtr<const Sector> homeSec = GetHomeSector();
-			const Sector::System* homeSys = &homeSec->m_systems[homeworld.systemIndex];
+			const Sector::System *homeSys = &homeSec->m_systems[homeworld.systemIndex];
 			distance = Sector::System::DistanceBetween(homeSys, sys);
-			inside   = distance < Radius();
+			inside = distance < Radius();
 		}
 	}
 
@@ -637,7 +642,7 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector
 		closestFactionDist = distance;
 		return true;
 
-	/* otherwise this isn't the faction we were looking for */
+		/* otherwise this isn't the faction we were looking for */
 	} else {
 		return false;
 	}
@@ -648,23 +653,23 @@ const Color Faction::AdjustedColour(fixed population, bool inRange) const
 	PROFILE_SCOPED()
 	Color result;
 	// Unexplored: population = -1, Uninhabited: population = 0.
-	result   = population <= 0 ? BAD_FACTION_COLOUR : colour;
-	result.a = population > 0  ? (FACTION_BASE_ALPHA + (M_E + (logf(population.ToFloat() / 1.25))) / ((2 * M_E) + FACTION_BASE_ALPHA)) * 255 : FACTION_BASE_ALPHA * 255;
-	result.a = inRange         ? 255 : result.a;
+	result = population <= 0 ? BAD_FACTION_COLOUR : colour;
+	result.a = population > 0 ? (FACTION_BASE_ALPHA + (M_E + (logf(population.ToFloat() / 1.25))) / ((2 * M_E) + FACTION_BASE_ALPHA)) * 255 : FACTION_BASE_ALPHA * 255;
+	result.a = inRange ? 255 : result.a;
 	return result;
 }
 
 const Polit::GovType Faction::PickGovType(Random &rand) const
 {
 	PROFILE_SCOPED()
-	if( !govtype_weights.empty()) {
+	if (!govtype_weights.empty()) {
 		// if we roll a number between one and the total weighting...
 		Sint32 roll = rand.Int32(1, govtype_weights_total);
 		Sint32 cumulativeWeight = 0;
 
 		// ...the first govType with a cumulative weight >= the roll should be our pick
 		GovWeightIterator it = govtype_weights.begin();
-		while(roll > (cumulativeWeight + it->second)) {
+		while (roll > (cumulativeWeight + it->second)) {
 			cumulativeWeight += it->second;
 			++it;
 		}
@@ -688,8 +693,7 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 	// or hit the edge of inhabited space
 	Uint32 i = 0;
 	RefCountedPtr<StarSystem> sys;
-	while (si < 0 && (abs(x) != 90 && abs(y) != 90 && abs(z) != 90)
-		          && (    x  != 0  &&     y  !=  0 &&     z  != 0 )) {
+	while (si < 0 && (abs(x) != 90 && abs(y) != 90 && abs(z) != 90) && (x != 0 && y != 0 && z != 0)) {
 
 		SystemPath path(x, y, z);
 		// search for a suitable homeworld in the current sector
@@ -705,8 +709,7 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 					if (stationCount.find(station->GetParent()->GetPath()) == stationCount.end()) {
 						// new parent
 						stationCount[station->GetParent()->GetPath()] = 1;
-					}
-					else {
+					} else {
 						// increment count
 						stationCount[station->GetParent()->GetPath()]++;
 					}
@@ -726,21 +729,38 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 		}
 
 		// set the co-ordinates of the next sector to examine, cycling through x, y and z
-		if      (si < 0 && i%3==0) { if (x >= 0) { x = x + axisChange; } else { x = x - axisChange; }; }
-		else if (si < 0 && i%3==1) { if (y >= 0) { y = y + axisChange; } else { y = y - axisChange; }; }
-		else if (si < 0 && i%3==2) { if (z >= 0) { z = z + axisChange; } else { z = z - axisChange; }; }
+		if (si < 0 && i % 3 == 0) {
+			if (x >= 0) {
+				x = x + axisChange;
+			} else {
+				x = x - axisChange;
+			};
+		} else if (si < 0 && i % 3 == 1) {
+			if (y >= 0) {
+				y = y + axisChange;
+			} else {
+				y = y - axisChange;
+			};
+		} else if (si < 0 && i % 3 == 2) {
+			if (z >= 0) {
+				z = z + axisChange;
+			} else {
+				z = z - axisChange;
+			};
+		}
 		i++;
 	}
 	homeworld = SystemPath(x, y, z, si, bi);
 }
 
-RefCountedPtr<const Sector> Faction::GetHomeSector() const {
+RefCountedPtr<const Sector> Faction::GetHomeSector() const
+{
 	if (!m_homesector) // This will later be replaced by a Sector from the cache
 		m_homesector = m_galaxy->GetSector(homeworld);
 	return m_homesector;
 }
 
-Faction::Faction(Galaxy* galaxy) :
+Faction::Faction(Galaxy *galaxy) :
 	idx(BAD_FACTION_IDX),
 	name(Lang::NO_CENTRAL_GOVERNANCE),
 	hasHomeworld(false),
@@ -756,7 +776,7 @@ Faction::Faction(Galaxy* galaxy) :
 
 // ------ Factions Spatial Indexing ------
 
-void FactionsDatabase::Octsapling::Add(const Faction* faction)
+void FactionsDatabase::Octsapling::Add(const Faction *faction)
 {
 	PROFILE_SCOPED()
 	/*  The general principle here is to put the faction in every octbox cell that a system
@@ -794,30 +814,30 @@ void FactionsDatabase::Octsapling::Add(const Faction* faction)
 		/* put the faction in all the octbox cells needed in a hideously inexact way that
 		   will generate duplicates in each cell in many cases
 		*/
-		octbox[xmin][ymin][zmin].push_back(faction);  // 0,0,0
-		octbox[xmax][ymin][zmin].push_back(faction);  // 1,0,0
-		octbox[xmax][ymax][zmin].push_back(faction);  // 1,1,0
-		octbox[xmax][ymax][zmax].push_back(faction);  // 1,1,1
+		octbox[xmin][ymin][zmin].push_back(faction); // 0,0,0
+		octbox[xmax][ymin][zmin].push_back(faction); // 1,0,0
+		octbox[xmax][ymax][zmin].push_back(faction); // 1,1,0
+		octbox[xmax][ymax][zmax].push_back(faction); // 1,1,1
 
-		octbox[xmin][ymax][zmin].push_back(faction);  // 0,1,0
-		octbox[xmin][ymax][zmax].push_back(faction);  // 0,1,1
-		octbox[xmin][ymin][zmax].push_back(faction);  // 0,0,1
-		octbox[xmax][ymin][zmax].push_back(faction);  // 1,0,1
+		octbox[xmin][ymax][zmin].push_back(faction); // 0,1,0
+		octbox[xmin][ymax][zmax].push_back(faction); // 0,1,1
+		octbox[xmin][ymin][zmax].push_back(faction); // 0,0,1
+		octbox[xmax][ymin][zmax].push_back(faction); // 1,0,1
 
 		/* prune any duplicates from the octbox cells making things slightly saner
 		*/
-		PruneDuplicates(0,0,0);
-		PruneDuplicates(1,0,0);
-		PruneDuplicates(1,1,0);
-		PruneDuplicates(1,1,1);
+		PruneDuplicates(0, 0, 0);
+		PruneDuplicates(1, 0, 0);
+		PruneDuplicates(1, 1, 0);
+		PruneDuplicates(1, 1, 1);
 
-		PruneDuplicates(0,1,0);
-		PruneDuplicates(0,1,1);
-		PruneDuplicates(0,0,1);
-		PruneDuplicates(1,0,1);
+		PruneDuplicates(0, 1, 0);
+		PruneDuplicates(0, 1, 1);
+		PruneDuplicates(0, 0, 1);
+		PruneDuplicates(1, 0, 1);
 
 	} else {
-	/* ...other factions, such as ones with no homeworlds, and more annoyingly ones
+		/* ...other factions, such as ones with no homeworlds, and more annoyingly ones
 	   whose homeworlds don't exist yet because they're custom systems have to go in
 	   *every* octbox cell
 	*/
@@ -836,10 +856,10 @@ void FactionsDatabase::Octsapling::Add(const Faction* faction)
 void FactionsDatabase::Octsapling::PruneDuplicates(const int bx, const int by, const int bz)
 {
 	PROFILE_SCOPED()
-	octbox[bx][by][bz].erase(std::unique( octbox[bx][by][bz].begin(), octbox[bx][by][bz].end() ), octbox[bx][by][bz].end() );
+	octbox[bx][by][bz].erase(std::unique(octbox[bx][by][bz].begin(), octbox[bx][by][bz].end()), octbox[bx][by][bz].end());
 }
 
-const std::vector<const Faction*>& FactionsDatabase::Octsapling::CandidateFactions(const Sector::System* sys) const
+const std::vector<const Faction *> &FactionsDatabase::Octsapling::CandidateFactions(const Sector::System *sys) const
 {
 	PROFILE_SCOPED()
 	/* answer the factions that we've put in the same octobox cell as the one the

@@ -1,26 +1,25 @@
 // Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "LuaObject.h"
-#include "LuaConstants.h"
-#include "LuaTable.h"
-#include "LuaUtils.h"
 #include "EnumStrings.h"
-#include "LuaUtils.h"
-#include "galaxy/StarSystem.h"
-#include "galaxy/Economy.h"
-#include "Pi.h"
-#include "Game.h"
-#include "Space.h"
-#include "Star.h"
-#include "Planet.h"
-#include "SpaceStation.h"
-#include "galaxy/Galaxy.h"
-#include "galaxy/Sector.h"
-#include "galaxy/GalaxyCache.h"
 #include "Factions.h"
 #include "FileSystem.h"
+#include "Game.h"
 #include "GameSaveError.h"
+#include "LuaConstants.h"
+#include "LuaObject.h"
+#include "LuaTable.h"
+#include "LuaUtils.h"
+#include "Pi.h"
+#include "Planet.h"
+#include "Space.h"
+#include "SpaceStation.h"
+#include "Star.h"
+#include "galaxy/Economy.h"
+#include "galaxy/Galaxy.h"
+#include "galaxy/GalaxyCache.h"
+#include "galaxy/Sector.h"
+#include "galaxy/StarSystem.h"
 
 /*
  * Class: StarSystem
@@ -66,9 +65,8 @@ static int l_starsystem_get_station_paths(lua_State *l)
 
 	lua_newtable(l);
 
-	for (const SystemBody *station : s->GetSpaceStations())
-	{
-		lua_pushinteger(l, lua_rawlen(l, -1)+1);
+	for (const SystemBody *station : s->GetSpaceStations()) {
+		lua_pushinteger(l, lua_rawlen(l, -1) + 1);
 		LuaObject<SystemPath>::PushToLua(&station->GetPath());
 		lua_rawset(l, -3);
 	}
@@ -106,9 +104,8 @@ static int l_starsystem_get_body_paths(lua_State *l)
 
 	lua_newtable(l);
 
-	for (RefCountedPtr<const SystemBody> sb : s->GetBodies())
-	{
-		lua_pushinteger(l, lua_rawlen(l, -1)+1);
+	for (RefCountedPtr<const SystemBody> sb : s->GetBodies()) {
+		lua_pushinteger(l, lua_rawlen(l, -1) + 1);
 		LuaObject<SystemPath>::PushToLua(&sb->GetPath());
 		lua_rawset(l, -3);
 	}
@@ -267,11 +264,11 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 	const Uint32 here_idx = here.systemIndex;
 	RefCountedPtr<const Sector> here_sec = s->m_galaxy->GetSector(here);
 
-	const int diff_sec = int(ceil(dist_ly/Sector::SIZE));
+	const int diff_sec = int(ceil(dist_ly / Sector::SIZE));
 
-	for (int x = here_x-diff_sec; x <= here_x+diff_sec; x++) {
-		for (int y = here_y-diff_sec; y <= here_y+diff_sec; y++) {
-			for (int z = here_z-diff_sec; z <= here_z+diff_sec; z++) {
+	for (int x = here_x - diff_sec; x <= here_x + diff_sec; x++) {
+		for (int y = here_y - diff_sec; y <= here_y + diff_sec; y++) {
+			for (int z = here_z - diff_sec; z <= here_z + diff_sec; z++) {
 				RefCountedPtr<const Sector> sec = s->m_galaxy->GetSector(SystemPath(x, y, z));
 
 				for (unsigned int idx = 0; idx < sec->m_systems.size(); idx++) {
@@ -293,7 +290,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 						lua_pop(l, 1);
 					}
 
-					lua_pushinteger(l, lua_rawlen(l, -1)+1);
+					lua_pushinteger(l, lua_rawlen(l, -1) + 1);
 					LuaObject<StarSystem>::PushToLua(sys.Get());
 					lua_rawset(l, -3);
 				}
@@ -311,7 +308,7 @@ static int l_starsystem_get_stars(lua_State *l)
 	const StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	lua_newtable(l);
 	int i = 1;
-	for(SystemBody *star : s->GetStars()) {
+	for (SystemBody *star : s->GetStars()) {
 		lua_pushnumber(l, i++);
 		LuaObject<SystemBody>::PushToLua(star);
 		lua_settable(l, -3);
@@ -360,13 +357,10 @@ static int l_starsystem_distance_to(lua_State *l)
 	RefCountedPtr<const Sector> sec2 = s->m_galaxy->GetSector(*loc2);
 
 	// this only works if the SystemPath is valid
-	if (loc1->HasValidSystem() && loc2->HasValidSystem())
-	{
+	if (loc1->HasValidSystem() && loc2->HasValidSystem()) {
 		double dist = Sector::DistanceBetween(sec1, loc1->systemIndex, sec2, loc2->systemIndex);
 		lua_pushnumber(l, dist);
-	}
-	else
-	{
+	} else {
 		lua_pushnumber(l, FLT_MAX);
 		return luaL_error(l, "Cannot compare non-systemPaths");
 	}
@@ -404,7 +398,7 @@ static int l_starsystem_export_to_lua(lua_State *l)
 	try {
 		const std::string filename(EXPORTED_SYSTEMS_DIR_NAME + "/" + FileSystem::SanitiseFileName(s->GetName()) + ".lua");
 		const std::string finalPath = FileSystem::NormalisePath(
-				FileSystem::JoinPathBelow(FileSystem::GetUserDir(), filename));
+			FileSystem::JoinPathBelow(FileSystem::GetUserDir(), filename));
 		s->ExportToLua(finalPath.c_str());
 	} catch (std::invalid_argument &) {
 		return luaL_error(l, "could not export system -- name forms an invalid path");
@@ -447,7 +441,7 @@ static int l_starsystem_explore(lua_State *l)
 
 	s->ExploreSystem(time);
 
-	LUA_DEBUG_END(l,0);
+	LUA_DEBUG_END(l, 0);
 	return 0;
 }
 
@@ -479,7 +473,7 @@ static int l_starsystem_attr_other_names(lua_State *l)
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	LuaTable names(l);
 	int i = 1;
-	for(std::string n : s->GetOtherNames()) {
+	for (std::string n : s->GetOtherNames()) {
 		LuaPush(l, i++);
 		LuaPush(l, n);
 		lua_settable(l, -3);
@@ -570,7 +564,7 @@ static int l_starsystem_attr_faction(lua_State *l)
 	PROFILE_SCOPED()
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	if (s->GetFaction()->IsValid()) {
-		LuaObject<Faction>::PushToLua(const_cast<Faction*>(s->GetFaction())); // XXX const-correctness violation
+		LuaObject<Faction>::PushToLua(const_cast<Faction *>(s->GetFaction())); // XXX const-correctness violation
 		return 1;
 	} else {
 		return 0;
@@ -594,9 +588,9 @@ static int l_starsystem_attr_root_system_body(lua_State *l)
 
 static int l_starsystem_attr_short_description(lua_State *l)
 {
-		StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
-		LuaPush(l, s->GetShortDescription());
-		return 1;
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	LuaPush(l, s->GetShortDescription());
+	return 1;
 }
 
 /*
@@ -643,9 +637,11 @@ static int l_starsystem_attr_explored(lua_State *l)
 	return 1;
 }
 
-template <> const char *LuaObject<StarSystem>::s_type = "StarSystem";
+template <>
+const char *LuaObject<StarSystem>::s_type = "StarSystem";
 
-template <> void LuaObject<StarSystem>::RegisterClass()
+template <>
+void LuaObject<StarSystem>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
 		{ "GetStationPaths", l_starsystem_get_station_paths },
@@ -653,7 +649,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ "GetStars", l_starsystem_get_stars },
 
 		{ "GetCommodityBasePriceAlterations", l_starsystem_get_commodity_base_price_alterations },
-		{ "IsCommodityLegal",                 l_starsystem_is_commodity_legal                   },
+		{ "IsCommodityLegal", l_starsystem_is_commodity_legal },
 
 		{ "GetNearbySystems", l_starsystem_get_nearby_systems },
 
@@ -672,12 +668,12 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ "path", l_starsystem_attr_path },
 
 		{ "lawlessness", l_starsystem_attr_lawlessness },
-		{ "population",  l_starsystem_attr_population  },
-		{ "faction",     l_starsystem_attr_faction     },
-		{ "govtype",     l_starsystem_attr_govtype     },
-		{ "explored",    l_starsystem_attr_explored    },
-		{ "numberOfStars",    l_starsystem_attr_number_of_stars },
-		{ "rootSystemBody",   l_starsystem_attr_root_system_body },
+		{ "population", l_starsystem_attr_population },
+		{ "faction", l_starsystem_attr_faction },
+		{ "govtype", l_starsystem_attr_govtype },
+		{ "explored", l_starsystem_attr_explored },
+		{ "numberOfStars", l_starsystem_attr_number_of_stars },
+		{ "rootSystemBody", l_starsystem_attr_root_system_body },
 		{ "shortDescription", l_starsystem_attr_short_description },
 		{ 0, 0 }
 	};

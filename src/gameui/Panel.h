@@ -11,14 +11,15 @@
 
 namespace GameUI {
 
-class Panel : public UI::Widget {
-public:
-	Panel(UI::Context *context) : UI::Widget(context) {}
+	class Panel : public UI::Widget {
+	public:
+		Panel(UI::Context *context) :
+			UI::Widget(context) {}
 
-	virtual UI::Point PreferredSize();
-	virtual void Draw() {}
-};
+		virtual UI::Point PreferredSize();
+		virtual void Draw() {}
+	};
 
-}
+} // namespace GameUI
 
 #endif

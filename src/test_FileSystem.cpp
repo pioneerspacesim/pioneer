@@ -1,17 +1,23 @@
 // Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "FileSystem.h"
 #include "FileSourceZip.h"
+#include "FileSystem.h"
 #include "utils.h"
 #include <cstdio>
 #include <stdexcept>
 
-static const char *ftype_name(const FileSystem::FileInfo &info) {
-	if (info.IsDir()) { return "directory"; }
-	else if (info.IsFile()) { return "file"; }
-	else if (info.IsSpecial()) { return "special"; }
-	else { return "non-existent"; }
+static const char *ftype_name(const FileSystem::FileInfo &info)
+{
+	if (info.IsDir()) {
+		return "directory";
+	} else if (info.IsFile()) {
+		return "file";
+	} else if (info.IsSpecial()) {
+		return "special";
+	} else {
+		return "non-existent";
+	}
 }
 
 void test_normpath()

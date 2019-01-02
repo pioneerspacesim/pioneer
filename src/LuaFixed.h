@@ -16,6 +16,6 @@ namespace LuaFixed {
 	void PushToLua(lua_State *L, const fixed &v);
 	const fixed *GetFromLua(lua_State *L, int idx);
 	const fixed *CheckFromLua(lua_State *L, int idx);
-}
+} // namespace LuaFixed
 
 #endif

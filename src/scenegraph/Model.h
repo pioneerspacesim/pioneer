@@ -59,158 +59,157 @@
  *  - model cache
  *  - removing unnecessary nodes from the scene graph: pre-translate unanimated meshes etc.
  */
-#include "libs.h"
 #include "Animation.h"
+#include "CollMesh.h"
 #include "ColorMap.h"
+#include "DeleteEmitter.h"
 #include "Group.h"
+#include "Json.h"
 #include "Label3D.h"
 #include "Pattern.h"
-#include "CollMesh.h"
-#include "graphics/Material.h"
-#include "graphics/Drawables.h"
 #include "Serializer.h"
-#include "DeleteEmitter.h"
-#include "Json.h"
+#include "graphics/Drawables.h"
+#include "graphics/Material.h"
+#include "libs.h"
 #include <stdexcept>
 
 namespace Graphics {
 	class Renderer;
 	class VertexBuffer;
-}
+} // namespace Graphics
 
-namespace SceneGraph
-{
-class BaseLoader;
-class ModelBinarizer;
-class BinaryConverter;
+namespace SceneGraph {
+	class BaseLoader;
+	class ModelBinarizer;
+	class BinaryConverter;
 
-struct LoadingError : public std::runtime_error {
-	LoadingError(const std::string &str) : std::runtime_error(str.c_str()) { }
-};
-
-typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > > MaterialContainer;
-typedef std::vector<Animation*> AnimationContainer;
-typedef std::vector<MatrixTransform *> TagContainer;
-
-class Model : public DeleteEmitter
-{
-public:
-	friend class BaseLoader;
-	friend class Loader;
-	friend class ModelBinarizer;
-	friend class BinaryConverter;
-	Model(Graphics::Renderer *r, const std::string &name);
-	~Model();
-
-	Model *MakeInstance() const;
-
-	const std::string& GetName() const { return m_name; }
-
-	float GetDrawClipRadius() const { return m_boundingRadius; }
-	void SetDrawClipRadius(float clipRadius) { m_boundingRadius = clipRadius; }
-
-	void Render(const matrix4x4f &trans, const RenderData *rd = 0); //ModelNode can override RD
-	void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd = 0); //ModelNode can override RD
-
-	RefCountedPtr<CollMesh> CreateCollisionMesh();
-	RefCountedPtr<CollMesh> GetCollisionMesh() const { return m_collMesh; }
-	void SetCollisionMesh(RefCountedPtr<CollMesh> collMesh) { m_collMesh.Reset(collMesh.Get()); }
-
-	RefCountedPtr<Group> GetRoot() { return m_root; }
-
-	//materials used in the nodes should be accessible from here for convenience
-	RefCountedPtr<Graphics::Material> GetMaterialByName(const std::string &name) const;
-	RefCountedPtr<Graphics::Material> GetMaterialByIndex(const int) const;
-	unsigned int GetNumMaterials() const { return static_cast<Uint32>(m_materials.size()); }
-
-	unsigned int GetNumTags() const { return static_cast<Uint32>(m_tags.size()); }
-	MatrixTransform *const GetTagByIndex(unsigned int index) const;
-	MatrixTransform *const FindTagByName(const std::string &name) const;
-	typedef std::vector<MatrixTransform *> TVecMT;
-	void FindTagsByStartOfName(const std::string &name, TVecMT &outNameMTs) const;
-	void AddTag(const std::string &name, MatrixTransform *node);
-
-	const PatternContainer &GetPatterns() const { return m_patterns; }
-	unsigned int GetNumPatterns() const { return static_cast<Uint32>(m_patterns.size()); }
-	void SetPattern(unsigned int index);
-	unsigned int GetPattern() const { return m_curPatternIndex; }
-	void SetColors(const std::vector<Color> &colors);
-	void SetDecalTexture(Graphics::Texture *t, unsigned int index = 0);
-	void ClearDecal(unsigned int index = 0);
-	void ClearDecals();
-	void SetLabel(const std::string&);
-
-	//for modelviewer, at least
-	bool SupportsDecals();
-	bool SupportsPatterns();
-
-	Animation *FindAnimation(const std::string&) const; //0 if not found
-	const std::vector<Animation *> GetAnimations() const { return m_animations; }
-	void UpdateAnimations();
-
-	Graphics::Renderer *GetRenderer() const { return m_renderer; }
-
-	//special for ship model use
-	void SetThrust(const vector3f &linear, const vector3f &angular);
-
-	void SetThrusterColor(const vector3f &dir, const Color &color);
-	void SetThrusterColor(const std::string &name, const Color &color);
-	void SetThrusterColor(const Color &color);
-
-	void SaveToJson(Json &jsonObj) const;
-	void LoadFromJson(const Json &jsonObj);
-
-	//serialization aid
-	std::string GetNameForMaterial(Graphics::Material*) const;
-
-	enum DebugFlags { // <enum scope='SceneGraph::Model' name=ModelDebugFlags prefix=DEBUG_ public>
-		DEBUG_NONE      = 0x0,
-		DEBUG_BBOX      = 0x1,
-		DEBUG_COLLMESH  = 0x2,
-		DEBUG_WIREFRAME = 0x4,
-		DEBUG_TAGS      = 0x8,
-		DEBUG_DOCKING   = 0x10
+	struct LoadingError : public std::runtime_error {
+		LoadingError(const std::string &str) :
+			std::runtime_error(str.c_str()) {}
 	};
-	void SetDebugFlags(Uint32 flags);
 
-private:
-	Model(const Model&);
+	typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material>>> MaterialContainer;
+	typedef std::vector<Animation *> AnimationContainer;
+	typedef std::vector<MatrixTransform *> TagContainer;
 
-	static const unsigned int MAX_DECAL_MATERIALS = 4;
-	ColorMap m_colorMap;
-	float m_boundingRadius;
-	MaterialContainer m_materials; //materials are shared throughout the model graph
-	PatternContainer m_patterns;
-	RefCountedPtr<CollMesh> m_collMesh;
-	RefCountedPtr<Graphics::Material> m_decalMaterials[MAX_DECAL_MATERIALS]; //spaceship insignia, advertising billboards
-	RefCountedPtr<Group> m_root;
-	Graphics::Renderer *m_renderer;
-	std::string m_name;
-	std::vector<Animation *> m_animations;
-	TagContainer m_tags; //named attachment points
-	RenderData m_renderData;
+	class Model : public DeleteEmitter {
+	public:
+		friend class BaseLoader;
+		friend class Loader;
+		friend class ModelBinarizer;
+		friend class BinaryConverter;
+		Model(Graphics::Renderer *r, const std::string &name);
+		~Model();
 
-	//per-instance flavour data
-	unsigned int m_curPatternIndex;
-	Graphics::Texture *m_curPattern;
-	Graphics::Texture *m_curDecals[MAX_DECAL_MATERIALS];
+		Model *MakeInstance() const;
 
-	// debug support
-	void CreateAabbVB();
-	void DrawAabb();
-	void DrawCollisionMesh();
-	void DrawAxisIndicators(std::vector<Graphics::Drawables::Line3D> &lines);
-	void AddAxisIndicators(const std::vector<MatrixTransform*> &mts, std::vector<Graphics::Drawables::Line3D> &lines);
+		const std::string &GetName() const { return m_name; }
 
-	Uint32 m_debugFlags;
-	std::vector<Graphics::Drawables::Line3D> m_tagPoints;
-	std::vector<Graphics::Drawables::Line3D> m_dockingPoints;
-	RefCountedPtr<Graphics::VertexBuffer> m_collisionMeshVB;
-	RefCountedPtr<Graphics::VertexBuffer> m_aabbVB;
-	RefCountedPtr<Graphics::Material> m_aabbMat;
-	Graphics::RenderState* m_state;
-};
+		float GetDrawClipRadius() const { return m_boundingRadius; }
+		void SetDrawClipRadius(float clipRadius) { m_boundingRadius = clipRadius; }
 
-}
+		void Render(const matrix4x4f &trans, const RenderData *rd = 0); //ModelNode can override RD
+		void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd = 0); //ModelNode can override RD
+
+		RefCountedPtr<CollMesh> CreateCollisionMesh();
+		RefCountedPtr<CollMesh> GetCollisionMesh() const { return m_collMesh; }
+		void SetCollisionMesh(RefCountedPtr<CollMesh> collMesh) { m_collMesh.Reset(collMesh.Get()); }
+
+		RefCountedPtr<Group> GetRoot() { return m_root; }
+
+		//materials used in the nodes should be accessible from here for convenience
+		RefCountedPtr<Graphics::Material> GetMaterialByName(const std::string &name) const;
+		RefCountedPtr<Graphics::Material> GetMaterialByIndex(const int) const;
+		unsigned int GetNumMaterials() const { return static_cast<Uint32>(m_materials.size()); }
+
+		unsigned int GetNumTags() const { return static_cast<Uint32>(m_tags.size()); }
+		MatrixTransform *const GetTagByIndex(unsigned int index) const;
+		MatrixTransform *const FindTagByName(const std::string &name) const;
+		typedef std::vector<MatrixTransform *> TVecMT;
+		void FindTagsByStartOfName(const std::string &name, TVecMT &outNameMTs) const;
+		void AddTag(const std::string &name, MatrixTransform *node);
+
+		const PatternContainer &GetPatterns() const { return m_patterns; }
+		unsigned int GetNumPatterns() const { return static_cast<Uint32>(m_patterns.size()); }
+		void SetPattern(unsigned int index);
+		unsigned int GetPattern() const { return m_curPatternIndex; }
+		void SetColors(const std::vector<Color> &colors);
+		void SetDecalTexture(Graphics::Texture *t, unsigned int index = 0);
+		void ClearDecal(unsigned int index = 0);
+		void ClearDecals();
+		void SetLabel(const std::string &);
+
+		//for modelviewer, at least
+		bool SupportsDecals();
+		bool SupportsPatterns();
+
+		Animation *FindAnimation(const std::string &) const; //0 if not found
+		const std::vector<Animation *> GetAnimations() const { return m_animations; }
+		void UpdateAnimations();
+
+		Graphics::Renderer *GetRenderer() const { return m_renderer; }
+
+		//special for ship model use
+		void SetThrust(const vector3f &linear, const vector3f &angular);
+
+		void SetThrusterColor(const vector3f &dir, const Color &color);
+		void SetThrusterColor(const std::string &name, const Color &color);
+		void SetThrusterColor(const Color &color);
+
+		void SaveToJson(Json &jsonObj) const;
+		void LoadFromJson(const Json &jsonObj);
+
+		//serialization aid
+		std::string GetNameForMaterial(Graphics::Material *) const;
+
+		enum DebugFlags { // <enum scope='SceneGraph::Model' name=ModelDebugFlags prefix=DEBUG_ public>
+			DEBUG_NONE = 0x0,
+			DEBUG_BBOX = 0x1,
+			DEBUG_COLLMESH = 0x2,
+			DEBUG_WIREFRAME = 0x4,
+			DEBUG_TAGS = 0x8,
+			DEBUG_DOCKING = 0x10
+		};
+		void SetDebugFlags(Uint32 flags);
+
+	private:
+		Model(const Model &);
+
+		static const unsigned int MAX_DECAL_MATERIALS = 4;
+		ColorMap m_colorMap;
+		float m_boundingRadius;
+		MaterialContainer m_materials; //materials are shared throughout the model graph
+		PatternContainer m_patterns;
+		RefCountedPtr<CollMesh> m_collMesh;
+		RefCountedPtr<Graphics::Material> m_decalMaterials[MAX_DECAL_MATERIALS]; //spaceship insignia, advertising billboards
+		RefCountedPtr<Group> m_root;
+		Graphics::Renderer *m_renderer;
+		std::string m_name;
+		std::vector<Animation *> m_animations;
+		TagContainer m_tags; //named attachment points
+		RenderData m_renderData;
+
+		//per-instance flavour data
+		unsigned int m_curPatternIndex;
+		Graphics::Texture *m_curPattern;
+		Graphics::Texture *m_curDecals[MAX_DECAL_MATERIALS];
+
+		// debug support
+		void CreateAabbVB();
+		void DrawAabb();
+		void DrawCollisionMesh();
+		void DrawAxisIndicators(std::vector<Graphics::Drawables::Line3D> &lines);
+		void AddAxisIndicators(const std::vector<MatrixTransform *> &mts, std::vector<Graphics::Drawables::Line3D> &lines);
+
+		Uint32 m_debugFlags;
+		std::vector<Graphics::Drawables::Line3D> m_tagPoints;
+		std::vector<Graphics::Drawables::Line3D> m_dockingPoints;
+		RefCountedPtr<Graphics::VertexBuffer> m_collisionMeshVB;
+		RefCountedPtr<Graphics::VertexBuffer> m_aabbVB;
+		RefCountedPtr<Graphics::Material> m_aabbMat;
+		Graphics::RenderState *m_state;
+	};
+
+} // namespace SceneGraph
 
 #endif
