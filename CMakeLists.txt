@@ -241,7 +241,7 @@ set_target_properties(${PROJECT_NAME} modelcompiler savegamedump pioneerLib PROP
 # Optimize the models after the modelcompiler is built.
 # This really shouldn't be done inside the source tree...
 add_custom_command(TARGET modelcompiler POST_BUILD
-	COMMAND modelcompiler -b inplace
+	COMMAND ${CMAKE_COMMAND} -E env SDL_VIDEODRIVER=dummy $<TARGET_FILE:modelcompiler> -b inplace
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 	COMMENT "Optimizing models" VERBATIM
 )
