@@ -102,11 +102,16 @@ Renderer* Init(Settings vs)
 		renderer->WriteRendererInfo(buf);
 
 		FILE *f = FileSystem::userFiles.OpenWriteStream("opengl.txt", FileSystem::FileSourceFS::WRITE_TEXT);
-		if (!f)
+		if (f)
+		{
+			const std::string &s = buf.str();
+			fwrite(s.c_str(), 1, s.size(), f);
+			fclose(f);
+		}
+		else
+		{
 			Output("Could not open 'opengl.txt'\n");
-		const std::string &s = buf.str();
-		fwrite(s.c_str(), 1, s.size(), f);
-		fclose(f);
+		}
 	}
 
 	initted = true;
