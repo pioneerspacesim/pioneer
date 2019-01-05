@@ -272,4 +272,11 @@ if (UNIX)
 	install(FILES metadata/net.pioneerspacesim.Pioneer.appdata.xml
 		DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata
 	)
+
+	foreach(_i IN ITEMS 16 22 24 32 40 48 64 128 256)
+		install(FILES application-icon/pngs/pioneer-${_i}x${_i}.png
+			DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${_i}x${_i}/apps
+			RENAME net.pioneerspacesim.Pioneer.png
+		)
+	endforeach()
 endif (UNIX)
