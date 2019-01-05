@@ -262,3 +262,14 @@ if (WIN32)
 	fixup_bundle(\"$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/pioneer.exe\" \"\" \"${CMAKE_PROGRAM_PATH}\")"
 	COMPONENT Runtime)
 endif (WIN32)
+
+if (UNIX)
+	set(PIONEER_DESKTOP_FILE ${CMAKE_BINARY_DIR}/metadata/net.pioneerspacesim.Pioneer.desktop)
+	configure_file(metadata/net.pioneerspacesim.Pioneer.desktop.cmakein ${PIONEER_DESKTOP_FILE} @ONLY)
+	install(FILES ${PIONEER_DESKTOP_FILE}
+		DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
+	)
+	install(FILES metadata/net.pioneerspacesim.Pioneer.appdata.xml
+		DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata
+	)
+endif (UNIX)
