@@ -5,11 +5,11 @@
 
 namespace UI {
 
-Point Expand::PreferredSize()
-{
-	const Point innerPreferredSize(GetInnerWidget() ? GetInnerWidget()->CalcLayoutContribution() : Point());
+	Point Expand::PreferredSize()
+	{
+		const Point innerPreferredSize(GetInnerWidget() ? GetInnerWidget()->CalcLayoutContribution() : Point());
 
-	switch (m_direction) {
+		switch (m_direction) {
 		case BOTH:
 			SetSizeControlFlags(EXPAND_WIDTH | EXPAND_HEIGHT);
 			break;
@@ -19,9 +19,9 @@ Point Expand::PreferredSize()
 		case VERTICAL:
 			SetSizeControlFlags(EXPAND_HEIGHT);
 			break;
+		}
+
+		return innerPreferredSize;
 	}
 
-	return innerPreferredSize;
-}
-
-}
+} // namespace UI

@@ -4,9 +4,9 @@
 #ifndef _GEOMTREE_H
 #define _GEOMTREE_H
 
-#include "libs.h"
 #include "CollisionContact.h"
 #include "Serializer.h"
+#include "libs.h"
 
 struct isect_t {
 	// triIdx = -1 if no intersection
@@ -62,10 +62,10 @@ public:
 	const Edge *GetEdges() const { return &m_edges[0]; }
 	int GetNumEdges() const { return m_numEdges; }
 
-	BVHTree* GetTriTree() const { return m_triTree.get(); }
-	BVHTree* GetEdgeTree() const { return m_edgeTree.get(); }
+	BVHTree *GetTriTree() const { return m_triTree.get(); }
+	BVHTree *GetEdgeTree() const { return m_edgeTree.get(); }
 
-	const std::vector<vector3f>& GetVertices() const { return m_vertices; }
+	const std::vector<vector3f> &GetVertices() const { return m_vertices; }
 	const Uint32 *GetIndices() const { return &m_indices[0]; }
 	const Uint32 *GetTriFlags() const { return &m_triFlags[0]; }
 	int GetNumVertices() const { return m_numVertices; }

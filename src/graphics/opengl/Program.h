@@ -16,9 +16,9 @@ namespace Graphics {
 
 	namespace OGL {
 
-		struct ShaderException { };
+		struct ShaderException {};
 
-		struct ProgramException { };
+		struct ProgramException {};
 
 		class Program {
 		public:
@@ -67,7 +67,7 @@ namespace Graphics {
 		protected:
 			static GLuint s_curProgram;
 
-			void LoadShaders(const std::string&, const std::string &defines);
+			void LoadShaders(const std::string &, const std::string &defines);
 			virtual void InitUniforms();
 			std::string m_name;
 			std::string m_defines;
@@ -75,7 +75,7 @@ namespace Graphics {
 			bool success;
 		};
 
-	}
+	} // namespace OGL
 
-}
+} // namespace Graphics
 #endif

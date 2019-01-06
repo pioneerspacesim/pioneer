@@ -19,6 +19,7 @@ namespace Graphics {
 		public:
 			BillboardProgram(const MaterialDescriptor &);
 			Uniform coordDownScale;
+
 		protected:
 			virtual void InitUniforms() override;
 		};
@@ -29,6 +30,6 @@ namespace Graphics {
 			virtual void Apply() override;
 			virtual void Unapply() override;
 		};
-	}
-}
+	} // namespace OGL
+} // namespace Graphics
 #endif

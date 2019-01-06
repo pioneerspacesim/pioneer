@@ -8,21 +8,21 @@
 
 namespace UI {
 
-class MousePointer: public Image {
+	class MousePointer : public Image {
 
-protected:
-    friend class Context;
-    MousePointer(Context *context, const std::string &filename, const Point &hotspot) :
-        Image(context, filename, UI::Widget::PRESERVE_ASPECT),
-        m_hotspot(hotspot)
-    {}
+	protected:
+		friend class Context;
+		MousePointer(Context *context, const std::string &filename, const Point &hotspot) :
+			Image(context, filename, UI::Widget::PRESERVE_ASPECT),
+			m_hotspot(hotspot)
+		{}
 
-	const Point &GetHotspot() const { return m_hotspot; }
+		const Point &GetHotspot() const { return m_hotspot; }
 
-private:
-    Point m_hotspot;
-};
+	private:
+		Point m_hotspot;
+	};
 
-}
+} // namespace UI
 
 #endif

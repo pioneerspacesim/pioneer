@@ -40,6 +40,6 @@ namespace OS {
 	// Open the Explorer/Finder/etc
 	bool SupportsFolderBrowser();
 	void OpenUserFolderBrowser();
-}
+} // namespace OS
 
 #endif

@@ -13,8 +13,10 @@
 struct SPlane {
 	double a, b, c, d;
 	double DistanceToPoint(const vector3d &p) const;
-	SPlane() {/*default empty for Frustum*/}
-	SPlane(const vector3d& N, const vector3d &P);
+	SPlane()
+	{ /*default empty for Frustum*/
+	}
+	SPlane(const vector3d &N, const vector3d &P);
 };
 
 #endif /* _GEOPATCH_H */

@@ -13,17 +13,19 @@ namespace Graphics {
 	class Renderer;
 }
 
-enum SFX_TYPE { TYPE_EXPLOSION=1, TYPE_DAMAGE, TYPE_SMOKE, TYPE_NONE };
+enum SFX_TYPE { TYPE_EXPLOSION = 1,
+	TYPE_DAMAGE,
+	TYPE_SMOKE,
+	TYPE_NONE };
 
 class Sfx {
 public:
-
 	friend class SfxManager;
 	Sfx();
 	Sfx(const vector3d &pos, const vector3d &vel, const float speed, const SFX_TYPE type);
-	Sfx(const Sfx&);
+	Sfx(const Sfx &);
 	void SetPosition(const vector3d &p);
-	const vector3d& GetPosition() const { return m_pos; }
+	const vector3d &GetPosition() const { return m_pos; }
 
 	float AgeBlend() const;
 
@@ -38,7 +40,6 @@ private:
 	float m_speed;
 	enum SFX_TYPE m_type;
 };
-
 
 class SfxManager {
 public:
@@ -66,14 +67,18 @@ public:
 	SfxManager();
 
 	size_t GetNumberInstances(const SFX_TYPE t) const { return m_instances[t].size(); }
-	Sfx& GetInstanceByIndex(const SFX_TYPE t, const size_t i) { return m_instances[t][i]; }
+	Sfx &GetInstanceByIndex(const SFX_TYPE t, const size_t i) { return m_instances[t][i]; }
 	void AddInstance(Sfx &inst) { return m_instances[inst.m_type].push_back(inst); }
 	void Cleanup();
 
 private:
 	// types
 	struct MaterialData {
-		MaterialData() : effect(Graphics::EFFECT_BILLBOARD), num_textures(1), num_imgs_wide(1), coord_downscale(1.0f) {}
+		MaterialData() :
+			effect(Graphics::EFFECT_BILLBOARD),
+			num_textures(1),
+			num_imgs_wide(1),
+			coord_downscale(1.0f) {}
 		Graphics::EffectType effect;
 		Uint32 num_textures;
 		int num_imgs_wide;
@@ -82,7 +87,7 @@ private:
 
 	// methods
 	static SfxManager *AllocSfxInFrame(Frame *f);
-	static vector2f CalculateOffset(const enum SFX_TYPE, const Sfx&);
+	static vector2f CalculateOffset(const enum SFX_TYPE, const Sfx &);
 	static bool SplitMaterialData(const std::string &spec, MaterialData &output);
 
 	// static members

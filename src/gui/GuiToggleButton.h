@@ -8,7 +8,7 @@
 #include <string>
 
 namespace Gui {
-	class ToggleButton: public Button {
+	class ToggleButton : public Button {
 	public:
 		ToggleButton();
 		virtual void Draw();
@@ -20,9 +20,10 @@ namespace Gui {
 		bool GetPressed() { return m_pressed != 0; }
 
 		sigc::signal<void, ToggleButton *, bool> onChange;
+
 	private:
 		bool m_pressed;
 	};
-}
+} // namespace Gui
 
 #endif /* _GUITOGGLEBUTTON_H */

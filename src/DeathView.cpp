@@ -7,7 +7,9 @@
 #include "ShipCpanel.h"
 #include "graphics/Graphics.h"
 
-DeathView::DeathView(Game* game): View(), m_game(game)
+DeathView::DeathView(Game *game) :
+	View(),
+	m_game(game)
 {
 	float size[2];
 	GetSizeRequested(size);
@@ -19,8 +21,8 @@ DeathView::DeathView(Game* game): View(), m_game(game)
 	Pi::renderer->GetNearFarRange(znear, zfar);
 
 	const float fovY = Pi::config->Float("FOVVertical");
-    m_cameraContext.Reset(new CameraContext(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
-    m_camera.reset(new Camera(m_cameraContext, Pi::renderer));
+	m_cameraContext.Reset(new CameraContext(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
+	m_camera.reset(new Camera(m_cameraContext, Pi::renderer));
 }
 
 DeathView::~DeathView() {}

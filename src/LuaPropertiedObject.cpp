@@ -16,29 +16,31 @@
  * The UI is a big user of this feature, see <Widget.Bind> for details.
  */
 
-
 class PropertyConnection : public LuaWrappable {
 public:
-	PropertyConnection(const sigc::connection &conn) : m_connection(conn) {}
+	PropertyConnection(const sigc::connection &conn) :
+		m_connection(conn) {}
 	void Disconnect() { m_connection.disconnect(); }
+
 private:
 	sigc::connection m_connection;
 };
 
 class LuaPropertyConnection {
 public:
-
-	static int l_disconnect(lua_State *l) {
+	static int l_disconnect(lua_State *l)
+	{
 		PropertyConnection *conn = LuaObject<PropertyConnection>::CheckFromLua(1);
 		conn->Disconnect();
 		return 0;
 	}
-
 };
 
-template <> const char *LuaObject<PropertyConnection>::s_type = "PropertyConnection";
+template <>
+const char *LuaObject<PropertyConnection>::s_type = "PropertyConnection";
 
-template <> void LuaObject<PropertyConnection>::RegisterClass()
+template <>
+void LuaObject<PropertyConnection>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
 		{ "Disconnect", LuaPropertyConnection::l_disconnect },
@@ -48,16 +50,13 @@ template <> void LuaObject<PropertyConnection>::RegisterClass()
 	LuaObjectBase::CreateClass(s_type, 0, l_methods, 0, 0);
 }
 
-
-
 class LuaPropertiedObject {
 public:
-
-/*
+	/*
  * Group: Methods
  */
 
-/*
+	/*
  * Method: Connect
  *
  * Register a function to be called when the named property changes.
@@ -98,7 +97,8 @@ public:
  *   experimental
  */
 
-	static void _signal_trampoline(PropertyMap &map, const std::string &k, LuaRef ref, lua_State *l) {
+	static void _signal_trampoline(PropertyMap &map, const std::string &k, LuaRef ref, lua_State *l)
+	{
 		ref.PushCopyToStack();
 		lua_pushlstring(l, k.c_str(), k.size());
 		map.PushLuaTable();
@@ -108,7 +108,8 @@ public:
 		pi_lua_protected_call(l, 2, 0);
 	}
 
-	static int l_connect(lua_State *l) {
+	static int l_connect(lua_State *l)
+	{
 		PropertiedObject *po = LuaObject<PropertiedObject>::CheckFromLua(1);
 		const std::string propertyName(luaL_checkstring(l, 2));
 		luaL_checktype(l, 3, LUA_TFUNCTION);
@@ -119,12 +120,13 @@ public:
 		LuaObject<PropertyConnection>::PushToLua(PropertyConnection(conn));
 		return 1;
 	}
-
 };
 
-template <> const char *LuaObject<PropertiedObject>::s_type = "PropertiedObject";
+template <>
+const char *LuaObject<PropertiedObject>::s_type = "PropertiedObject";
 
-template <> void LuaObject<PropertiedObject>::RegisterClass()
+template <>
+void LuaObject<PropertiedObject>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
 		{ "Connect", LuaPropertiedObject::l_connect },

@@ -4,16 +4,16 @@
 #ifndef DEATH_VIEW_H
 #define DEATH_VIEW_H
 
-#include "libs.h"
-#include "View.h"
 #include "Camera.h"
 #include "RefCounted.h"
+#include "View.h"
+#include "libs.h"
 
 class Game;
 
 class DeathView : public View {
 public:
-	DeathView(Game* game);
+	DeathView(Game *game);
 	virtual ~DeathView();
 
 	void Init();
@@ -28,7 +28,7 @@ private:
 	RefCountedPtr<CameraContext> m_cameraContext;
 	std::unique_ptr<Camera> m_camera;
 	float m_cameraDist;
-	Game* m_game;
+	Game *m_game;
 };
 
 #endif

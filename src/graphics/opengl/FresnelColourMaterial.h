@@ -24,7 +24,7 @@ namespace Graphics {
 			virtual Program *CreateProgram(const MaterialDescriptor &) override;
 			virtual void Apply() override;
 		};
-	}
-}
+	} // namespace OGL
+} // namespace Graphics
 
 #endif

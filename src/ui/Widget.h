@@ -4,12 +4,12 @@
 #ifndef UI_WIDGET_H
 #define UI_WIDGET_H
 
-#include "libs.h"
-#include "Point.h"
 #include "Event.h"
+#include "Point.h"
+#include "PropertiedObject.h"
 #include "RefCounted.h"
 #include "WidgetSet.h"
-#include "PropertiedObject.h"
+#include "libs.h"
 #include <climits>
 #include <set>
 
@@ -82,366 +82,365 @@
 
 namespace UI {
 
-class Context;
-class Container;
-class Layer;
+	class Context;
+	class Container;
+	class Layer;
 
-class Widget : public RefCounted {
-protected:
-	// can't instantiate a base widget directly
-	Widget(Context *context);
+	class Widget : public RefCounted {
+	protected:
+		// can't instantiate a base widget directly
+		Widget(Context *context);
 
-public:
-	virtual ~Widget();
+	public:
+		virtual ~Widget();
 
-	virtual Point PreferredSize() { return Point(); }
-	virtual void Layout() {}
-	virtual void Update() {}
-	virtual void Draw() = 0;
+		virtual Point PreferredSize() { return Point(); }
+		virtual void Layout() {}
+		virtual void Update() {}
+		virtual void Draw() = 0;
 
-	// gui context
-	Context *GetContext() const { return m_context; }
+		// gui context
+		Context *GetContext() const { return m_context; }
 
-	// enclosing container
-	Container *GetContainer() const { return m_container; }
+		// enclosing container
+		Container *GetContainer() const { return m_container; }
 
-	// size allocated to widget by container
-	const Point &GetSize() const { return m_size; }
+		// size allocated to widget by container
+		const Point &GetSize() const { return m_size; }
 
-	// position relative to container
-	const Point &GetPosition() const { return m_position; }
+		// position relative to container
+		const Point &GetPosition() const { return m_position; }
 
-	// position relative to top container
-	Point GetAbsolutePosition() const;
+		// position relative to top container
+		Point GetAbsolutePosition() const;
 
-	// size control flags let a widget tell its container how it wants to be
-	// sized when it can't get its preferred size
-	Uint32 GetSizeControlFlags() const { return m_sizeControlFlags; }
-	enum SizeControl { // <enum scope='UI::Widget' name=UISizeControl public>
-		NO_WIDTH        = 0x01, // do not contribute preferred width to the layout
-		NO_HEIGHT       = 0x02, // do not contribute preferred height to the layout
-		EXPAND_WIDTH    = 0x04, // ignore preferred width, give me as much as possible
-		EXPAND_HEIGHT   = 0x08, // ignore preferred height, give me as much as possible
-		PRESERVE_ASPECT = 0x10, // allocate same aspect ratio as preferred size
-	};
+		// size control flags let a widget tell its container how it wants to be
+		// sized when it can't get its preferred size
+		Uint32 GetSizeControlFlags() const { return m_sizeControlFlags; }
+		enum SizeControl { // <enum scope='UI::Widget' name=UISizeControl public>
+			NO_WIDTH = 0x01, // do not contribute preferred width to the layout
+			NO_HEIGHT = 0x02, // do not contribute preferred height to the layout
+			EXPAND_WIDTH = 0x04, // ignore preferred width, give me as much as possible
+			EXPAND_HEIGHT = 0x08, // ignore preferred height, give me as much as possible
+			PRESERVE_ASPECT = 0x10, // allocate same aspect ratio as preferred size
+		};
 
-	// draw offset. used to move a widget "under" its visible area (scissor)
-	void SetDrawOffset(const Point &drawOffset) { m_drawOffset = drawOffset; }
-	const Point &GetDrawOffset() const { return m_drawOffset; }
+		// draw offset. used to move a widget "under" its visible area (scissor)
+		void SetDrawOffset(const Point &drawOffset) { m_drawOffset = drawOffset; }
+		const Point &GetDrawOffset() const { return m_drawOffset; }
 
-	// active area of the widget. the widget may only want to use part of its
-	// allocated space. drawing will be clipped to the active area, and events
-	// that fall outside of the active area will be ignored. if a widget
-	// doesn't set its active area it defaults to its allocated space.
-	const Point &GetActiveOffset() const { return m_activeOffset; }
-	const Point &GetActiveArea() const { return m_activeArea; }
+		// active area of the widget. the widget may only want to use part of its
+		// allocated space. drawing will be clipped to the active area, and events
+		// that fall outside of the active area will be ignored. if a widget
+		// doesn't set its active area it defaults to its allocated space.
+		const Point &GetActiveOffset() const { return m_activeOffset; }
+		const Point &GetActiveArea() const { return m_activeArea; }
 
-	// determine if a point is inside a widgets active area
-	bool Contains(const Point &point) const {
-		const Point min_corner = (m_activeOffset - m_drawOffset);
-		const Point max_corner = (min_corner + m_activeArea);
-		return (point.x >= min_corner.x && point.y >= min_corner.y && point.x < max_corner.x && point.y < max_corner.y);
-	}
-
-	// calculate layout contribution based on preferred size and flags
-	Point CalcLayoutContribution();
-	// calculate size based on available space, preferred size and flags
-	Point CalcSize(const Point &avail);
-
-	// fast way to determine if the widget is a container
-	virtual bool IsContainer() const { return false; }
-
-	// selectable widgets may receive keyboard focus
-	virtual bool IsSelectable() const { return false; }
-
-	// disabled widgets do not receive input
-	virtual void Disable();
-	virtual void Enable();
-	virtual void Hidden();
-
-	bool IsDisabled() const { return m_disabled; }
-
-	bool IsHidden() const { return m_hidden; }
-
-	bool IsMouseOver() const { return m_mouseOver; }
-
-	bool IsOnTopLayer() const;
-
-	// register a key that, when pressed and not handled by any other widget,
-	// will cause a click event to be sent to this widget
-	void AddShortcut(const KeySym &keysym) { m_shortcuts.insert(keysym); }
-	void RemoveShortcut(const KeySym &keysym) { m_shortcuts.erase(keysym); }
-
-	// font size. obviously used for text size but also sometimes used for
-	// general widget size (eg space size). might do nothing, depends on the
-	// widget
-	enum Font { // <enum scope='UI::Widget' name=UIFont prefix=FONT_ public>
-		FONT_XSMALL,
-		FONT_SMALL,
-		FONT_NORMAL,
-		FONT_LARGE,
-		FONT_XLARGE,
-
-		FONT_HEADING_XSMALL,
-		FONT_HEADING_SMALL,
-		FONT_HEADING_NORMAL,
-		FONT_HEADING_LARGE,
-		FONT_HEADING_XLARGE,
-
-		FONT_MONO_XSMALL,
-		FONT_MONO_SMALL,
-		FONT_MONO_NORMAL,
-		FONT_MONO_LARGE,
-		FONT_MONO_XLARGE,
-
-		FONT_MAX,                 // <enum skip>
-
-		FONT_INHERIT,
-
-		FONT_SMALLEST         = FONT_XSMALL,         // <enum skip>
-		FONT_LARGEST          = FONT_XLARGE,         // <enum skip>
-		FONT_HEADING_SMALLEST = FONT_HEADING_XSMALL, // <enum skip>
-		FONT_HEADING_LARGEST  = FONT_HEADING_XLARGE, // <enum skip>
-		FONT_MONO_SMALLEST    = FONT_MONO_XSMALL,    // <enum skip>
-		FONT_MONO_LARGEST     = FONT_MONO_XLARGE,    // <enum skip>
-	};
-
-	virtual Widget *SetFont(Font font);
-	Font GetFont() const;
-
-	// bind an object property to a widget bind point
-	void Bind(const std::string &bindName, PropertiedObject *object, const std::string &propertyName);
-
-	// this sigc accumulator calls all the handlers for an event. if any of
-	// them return true, it returns true (indicating the event was handled),
-	// otherwise it returns false
-	struct EventHandlerResultAccumulator {
-		typedef bool result_type;
-		template <typename T>
-		result_type operator()(T first, T last) const {
-			bool result = false;
-			for (; first != last; ++first)
-				if (*first) result = true;
-			return result;
+		// determine if a point is inside a widgets active area
+		bool Contains(const Point &point) const
+		{
+			const Point min_corner = (m_activeOffset - m_drawOffset);
+			const Point max_corner = (min_corner + m_activeArea);
+			return (point.x >= min_corner.x && point.y >= min_corner.y && point.x < max_corner.x && point.y < max_corner.y);
 		}
+
+		// calculate layout contribution based on preferred size and flags
+		Point CalcLayoutContribution();
+		// calculate size based on available space, preferred size and flags
+		Point CalcSize(const Point &avail);
+
+		// fast way to determine if the widget is a container
+		virtual bool IsContainer() const { return false; }
+
+		// selectable widgets may receive keyboard focus
+		virtual bool IsSelectable() const { return false; }
+
+		// disabled widgets do not receive input
+		virtual void Disable();
+		virtual void Enable();
+		virtual void Hidden();
+
+		bool IsDisabled() const { return m_disabled; }
+
+		bool IsHidden() const { return m_hidden; }
+
+		bool IsMouseOver() const { return m_mouseOver; }
+
+		bool IsOnTopLayer() const;
+
+		// register a key that, when pressed and not handled by any other widget,
+		// will cause a click event to be sent to this widget
+		void AddShortcut(const KeySym &keysym) { m_shortcuts.insert(keysym); }
+		void RemoveShortcut(const KeySym &keysym) { m_shortcuts.erase(keysym); }
+
+		// font size. obviously used for text size but also sometimes used for
+		// general widget size (eg space size). might do nothing, depends on the
+		// widget
+		enum Font { // <enum scope='UI::Widget' name=UIFont prefix=FONT_ public>
+			FONT_XSMALL,
+			FONT_SMALL,
+			FONT_NORMAL,
+			FONT_LARGE,
+			FONT_XLARGE,
+
+			FONT_HEADING_XSMALL,
+			FONT_HEADING_SMALL,
+			FONT_HEADING_NORMAL,
+			FONT_HEADING_LARGE,
+			FONT_HEADING_XLARGE,
+
+			FONT_MONO_XSMALL,
+			FONT_MONO_SMALL,
+			FONT_MONO_NORMAL,
+			FONT_MONO_LARGE,
+			FONT_MONO_XLARGE,
+
+			FONT_MAX, // <enum skip>
+
+			FONT_INHERIT,
+
+			FONT_SMALLEST = FONT_XSMALL, // <enum skip>
+			FONT_LARGEST = FONT_XLARGE, // <enum skip>
+			FONT_HEADING_SMALLEST = FONT_HEADING_XSMALL, // <enum skip>
+			FONT_HEADING_LARGEST = FONT_HEADING_XLARGE, // <enum skip>
+			FONT_MONO_SMALLEST = FONT_MONO_XSMALL, // <enum skip>
+			FONT_MONO_LARGEST = FONT_MONO_XLARGE, // <enum skip>
+		};
+
+		virtual Widget *SetFont(Font font);
+		Font GetFont() const;
+
+		// bind an object property to a widget bind point
+		void Bind(const std::string &bindName, PropertiedObject *object, const std::string &propertyName);
+
+		// this sigc accumulator calls all the handlers for an event. if any of
+		// them return true, it returns true (indicating the event was handled),
+		// otherwise it returns false
+		struct EventHandlerResultAccumulator {
+			typedef bool result_type;
+			template <typename T>
+			result_type operator()(T first, T last) const
+			{
+				bool result = false;
+				for (; first != last; ++first)
+					if (*first) result = true;
+				return result;
+			}
+		};
+
+		// raw key events
+		sigc::signal<bool, const KeyboardEvent &>::accumulated<EventHandlerResultAccumulator> onKeyDown;
+		sigc::signal<bool, const KeyboardEvent &>::accumulated<EventHandlerResultAccumulator> onKeyUp;
+
+		// text input, full unicode codepoint
+		sigc::signal<bool, const TextInputEvent &>::accumulated<EventHandlerResultAccumulator> onTextInput;
+
+		// mouse button presses
+		sigc::signal<bool, const MouseButtonEvent &>::accumulated<EventHandlerResultAccumulator> onMouseDown;
+		sigc::signal<bool, const MouseButtonEvent &>::accumulated<EventHandlerResultAccumulator> onMouseUp;
+
+		// mouse movement
+		sigc::signal<bool, const MouseMotionEvent &>::accumulated<EventHandlerResultAccumulator> onMouseMove;
+
+		// mouse wheel moving
+		sigc::signal<bool, const MouseWheelEvent &>::accumulated<EventHandlerResultAccumulator> onMouseWheel;
+
+		// joystick events
+		sigc::signal<bool, const JoystickAxisMotionEvent &>::accumulated<EventHandlerResultAccumulator> onJoystickAxisMove;
+		sigc::signal<bool, const JoystickHatMotionEvent &>::accumulated<EventHandlerResultAccumulator> onJoystickHatMove;
+		sigc::signal<bool, const JoystickButtonEvent &>::accumulated<EventHandlerResultAccumulator> onJoystickButtonDown;
+		sigc::signal<bool, const JoystickButtonEvent &>::accumulated<EventHandlerResultAccumulator> onJoystickButtonUp;
+
+		// mouse entering or exiting widget area
+		sigc::signal<bool>::accumulated<EventHandlerResultAccumulator> onMouseOver;
+		sigc::signal<bool>::accumulated<EventHandlerResultAccumulator> onMouseOut;
+
+		// click - primary mouse button press/release over widget. also
+		// synthesised when keyboard shortcut is used
+		sigc::signal<bool>::accumulated<EventHandlerResultAccumulator> onClick;
+
+		// Widget events
+		sigc::signal<void, bool> onVisibilityChanged;
+
+	protected:
+		// magic constant for PreferredSize to indicate "as much as possible"
+		static const int SIZE_EXPAND = INT_MAX;
+
+		// safely add two sizes, preserving SIZE_EXPAND
+		static inline int SizeAdd(int a, int b) { return a == SIZE_EXPAND || b == SIZE_EXPAND ? SIZE_EXPAND : a + b; }
+		static inline Point SizeAdd(const Point &a, const Point &b) { return Point(SizeAdd(a.x, b.x), SizeAdd(a.y, b.y)); }
+
+		// set size control flags. no flags by default
+		void SetSizeControlFlags(Uint32 flags) { m_sizeControlFlags = flags; }
+
+		// set the active area. defaults to the size allocated by the container
+		void SetActiveArea(const Point &activeArea, const Point &activeOffset = Point());
+
+		// mouse active. if a widget is mouse-active, it receives all mouse events
+		// regardless of mouse position
+		bool IsMouseActive() const;
+
+		bool IsSelected() const;
+
+		Point GetMousePos() const;
+
+		// indicates whether the widget is part of the visible tree of widgets
+		// (ie, its chain of parents links to a Context)
+		bool IsVisible() const { return m_visible; }
+
+		void SetDisabled(bool disabled) { m_disabled = disabled; }
+		void SetHidden(bool hidden) { m_hidden = hidden; }
+
+		// internal event handlers. override to handle events. unlike the external
+		// on* signals, every widget in the stack is guaranteed to receive a call
+		// - there's no facility for stopping propogation up the stack
+		//
+		// as such, if you need to respond to an event inside a widget always
+		// without worrying about it being blocked, you should override the
+		// Handle* method instead of attaching to the signal.
+		virtual void HandleKeyDown(const KeyboardEvent &event) {}
+		virtual void HandleKeyUp(const KeyboardEvent &event) {}
+		virtual void HandleMouseDown(const MouseButtonEvent &event) {}
+		virtual void HandleMouseUp(const MouseButtonEvent &event) {}
+		virtual void HandleMouseMove(const MouseMotionEvent &event) {}
+		virtual void HandleMouseWheel(const MouseWheelEvent &event) {}
+		virtual void HandleJoystickAxisMove(const JoystickAxisMotionEvent &event) {}
+		virtual void HandleJoystickHatMove(const JoystickHatMotionEvent &event) {}
+		virtual void HandleJoystickButtonDown(const JoystickButtonEvent &event) {}
+		virtual void HandleJoystickButtonUp(const JoystickButtonEvent &event) {}
+
+		virtual void HandleClick() {}
+
+		virtual void HandleMouseOver() {}
+		virtual void HandleMouseOut() {}
+
+		// internal synthesized events to indicate that a widget is being mouse
+		// activated or deactivated. very much like MouseDown/MouseUp except you
+		// get a guarantee that you will get a MouseDeactivate() call for every
+		// MouseActivate(). mouse clicks trigger this
+		virtual void HandleMouseActivate() {}
+		virtual void HandleMouseDeactivate() {}
+
+		// text input event, a full unicode codepoint
+		virtual void HandleTextInput(const TextInputEvent &event) {}
+
+		// internal synthesized events fired when a widget is selected or
+		// deselected. on mousedown, a widget becomes the selected widget unless
+		// its IsSelectable method returns false. the previously-selected widget
+		// (if there was one) gets deselected
+		virtual void HandleSelect() {}
+		virtual void HandleDeselect() {}
+
+		virtual void HandleVisible() {}
+		virtual void HandleInvisible() {}
+
+		void RegisterBindPoint(const std::string &bindName, sigc::slot<void, PropertyMap &, const std::string &> method);
+
+		float GetAnimatedOpacity() const { return m_animatedOpacity; }
+		float GetAnimatedPositionX() const { return m_animatedPositionX; }
+		float GetAnimatedPositionY() const { return m_animatedPositionY; }
+
+	private:
+		// EventDispatcher needs to give us events
+		friend class EventDispatcher;
+
+		// event triggers. when called:
+		//  - calls the corresponding Handle* method on this widget (always)
+		//  - fires the corresponding on* signal on this widget (iff handled is false)
+		//  - calls the container Trigger* method with the new handled value returned
+		//    by the on* signal
+		//
+		// what this means in practic is that Handle* will be called for every
+		// widget from here to the root, whereas signals will only be fired as
+		// long as the signals continue to return false (unhandled).
+		bool TriggerKeyDown(const KeyboardEvent &event, bool handled = false);
+		bool TriggerKeyUp(const KeyboardEvent &event, bool handled = false);
+		bool TriggerTextInput(const TextInputEvent &event, bool handled = false);
+		bool TriggerMouseDown(const MouseButtonEvent &event, bool handled = false);
+		bool TriggerMouseUp(const MouseButtonEvent &event, bool handled = false);
+		bool TriggerMouseMove(const MouseMotionEvent &event, bool handled = false);
+		bool TriggerMouseWheel(const MouseWheelEvent &event, bool handled = false);
+
+		bool TriggerJoystickButtonDown(const JoystickButtonEvent &event, bool handled = false);
+		bool TriggerJoystickButtonUp(const JoystickButtonEvent &event, bool handled = false);
+		bool TriggerJoystickAxisMove(const JoystickAxisMotionEvent &event, bool handled = false);
+		bool TriggerJoystickHatMove(const JoystickHatMotionEvent &event, bool handled = false);
+
+		bool TriggerClick(bool handled = false);
+
+		// stop is used during disable/enable to stop delivery at the given widget
+		bool TriggerMouseOver(const Point &pos, bool handled = false, Widget *stop = 0);
+		bool TriggerMouseOut(const Point &pos, bool handled = false, Widget *stop = 0);
+
+		void TriggerMouseActivate();
+		void TriggerMouseDeactivate();
+
+		void TriggerSelect();
+		void TriggerDeselect();
+
+		void TriggerVisibilityChanged();
+
+		// let container set our attributes. none of them make any sense if
+		// we're not in a container
+		friend class Container;
+
+		// things for the container to call to attach, detach and position the
+		// widget. it could modify our data directly but that's ugly
+		void Attach(Container *container);
+		void Detach();
+		void SetDimensions(const Point &position, const Point &size);
+		virtual void NotifyVisible(bool visible);
+
+		// called by Container::CollectShortcuts
+		const std::set<KeySym> &GetShortcuts() const { return m_shortcuts; }
+
+		// Context is the top-level container and needs to set its own context
+		// and size directly
+		friend class Context;
+		void SetSize(const Point &size)
+		{
+			m_size = size;
+			SetActiveArea(size);
+		}
+
+		// Animation needs to change our animation attributes
+		friend class Animation;
+
+		void SetAnimatedOpacity(float opacity) { m_animatedOpacity = opacity; }
+		void SetAnimatedPositionX(float pos) { m_animatedPositionX = pos; }
+		void SetAnimatedPositionY(float pos) { m_animatedPositionY = pos; }
+
+		Context *m_context;
+		Container *m_container;
+
+		Point m_position;
+		Point m_size;
+
+		Uint32 m_sizeControlFlags;
+
+		Point m_drawOffset;
+
+		Point m_activeOffset;
+		Point m_activeArea;
+
+		Font m_font;
+
+		bool m_disabled;
+		bool m_hidden;
+
+		bool m_mouseOver;
+		bool m_visible;
+
+		std::set<KeySym> m_shortcuts;
+
+		std::map<std::string, sigc::slot<void, PropertyMap &, const std::string &>> m_bindPoints;
+		std::map<std::string, sigc::connection> m_binds;
+
+		float m_animatedOpacity;
+		float m_animatedPositionX;
+		float m_animatedPositionY;
 	};
 
-
-	// raw key events
-	sigc::signal<bool,const KeyboardEvent &>::accumulated<EventHandlerResultAccumulator> onKeyDown;
-	sigc::signal<bool,const KeyboardEvent &>::accumulated<EventHandlerResultAccumulator> onKeyUp;
-
-	// text input, full unicode codepoint
-	sigc::signal<bool,const TextInputEvent &>::accumulated<EventHandlerResultAccumulator> onTextInput;
-
-	// mouse button presses
-	sigc::signal<bool,const MouseButtonEvent &>::accumulated<EventHandlerResultAccumulator> onMouseDown;
-	sigc::signal<bool,const MouseButtonEvent &>::accumulated<EventHandlerResultAccumulator> onMouseUp;
-
-	// mouse movement
-	sigc::signal<bool,const MouseMotionEvent &>::accumulated<EventHandlerResultAccumulator> onMouseMove;
-
-	// mouse wheel moving
-	sigc::signal<bool,const MouseWheelEvent &>::accumulated<EventHandlerResultAccumulator> onMouseWheel;
-
-	// joystick events
-	sigc::signal<bool,const JoystickAxisMotionEvent &>::accumulated<EventHandlerResultAccumulator> onJoystickAxisMove;
-	sigc::signal<bool,const JoystickHatMotionEvent &>::accumulated<EventHandlerResultAccumulator> onJoystickHatMove;
-	sigc::signal<bool,const JoystickButtonEvent &>::accumulated<EventHandlerResultAccumulator> onJoystickButtonDown;
-	sigc::signal<bool,const JoystickButtonEvent &>::accumulated<EventHandlerResultAccumulator> onJoystickButtonUp;
-
-	// mouse entering or exiting widget area
-	sigc::signal<bool>::accumulated<EventHandlerResultAccumulator> onMouseOver;
-	sigc::signal<bool>::accumulated<EventHandlerResultAccumulator> onMouseOut;
-
-	// click - primary mouse button press/release over widget. also
-	// synthesised when keyboard shortcut is used
-	sigc::signal<bool>::accumulated<EventHandlerResultAccumulator> onClick;
-
-	// Widget events
-	sigc::signal<void,bool> onVisibilityChanged;
-
-protected:
-
-	// magic constant for PreferredSize to indicate "as much as possible"
-	static const int SIZE_EXPAND = INT_MAX;
-
-	// safely add two sizes, preserving SIZE_EXPAND
-	static inline int SizeAdd(int a, int b) { return a == SIZE_EXPAND || b == SIZE_EXPAND ? SIZE_EXPAND : a+b; }
-	static inline Point SizeAdd(const Point &a, const Point &b) { return Point(SizeAdd(a.x,b.x), SizeAdd(a.y,b.y)); }
-
-	// set size control flags. no flags by default
-	void SetSizeControlFlags(Uint32 flags) { m_sizeControlFlags = flags; }
-
-	// set the active area. defaults to the size allocated by the container
-	void SetActiveArea(const Point &activeArea, const Point &activeOffset = Point());
-
-	// mouse active. if a widget is mouse-active, it receives all mouse events
-	// regardless of mouse position
-	bool IsMouseActive() const;
-
-	bool IsSelected() const;
-
-	Point GetMousePos() const;
-
-	// indicates whether the widget is part of the visible tree of widgets
-	// (ie, its chain of parents links to a Context)
-	bool IsVisible() const { return m_visible; }
-
-	void SetDisabled(bool disabled) { m_disabled = disabled; }
-	void SetHidden(bool hidden) { m_hidden = hidden; }
-
-	// internal event handlers. override to handle events. unlike the external
-	// on* signals, every widget in the stack is guaranteed to receive a call
-	// - there's no facility for stopping propogation up the stack
-	//
-	// as such, if you need to respond to an event inside a widget always
-	// without worrying about it being blocked, you should override the
-	// Handle* method instead of attaching to the signal.
-	virtual void HandleKeyDown(const KeyboardEvent &event) {}
-	virtual void HandleKeyUp(const KeyboardEvent &event) {}
-	virtual void HandleMouseDown(const MouseButtonEvent &event) {}
-	virtual void HandleMouseUp(const MouseButtonEvent &event) {}
-	virtual void HandleMouseMove(const MouseMotionEvent &event) {}
-	virtual void HandleMouseWheel(const MouseWheelEvent &event) {}
-	virtual void HandleJoystickAxisMove(const JoystickAxisMotionEvent &event) {}
-	virtual void HandleJoystickHatMove(const JoystickHatMotionEvent &event) {}
-	virtual void HandleJoystickButtonDown(const JoystickButtonEvent &event) {}
-	virtual void HandleJoystickButtonUp(const JoystickButtonEvent &event) {}
-
-	virtual void HandleClick() {}
-
-	virtual void HandleMouseOver() {}
-	virtual void HandleMouseOut() {}
-
-	// internal synthesized events to indicate that a widget is being mouse
-	// activated or deactivated. very much like MouseDown/MouseUp except you
-	// get a guarantee that you will get a MouseDeactivate() call for every
-	// MouseActivate(). mouse clicks trigger this
-	virtual void HandleMouseActivate() {}
-	virtual void HandleMouseDeactivate() {}
-
-	// text input event, a full unicode codepoint
-	virtual void HandleTextInput(const TextInputEvent &event) {}
-
-	// internal synthesized events fired when a widget is selected or
-	// deselected. on mousedown, a widget becomes the selected widget unless
-	// its IsSelectable method returns false. the previously-selected widget
-	// (if there was one) gets deselected
-	virtual void HandleSelect() {}
-	virtual void HandleDeselect() {}
-
-	virtual void HandleVisible() {}
-	virtual void HandleInvisible() {}
-
-	void RegisterBindPoint(const std::string &bindName, sigc::slot<void,PropertyMap &,const std::string &> method);
-
-
-	float GetAnimatedOpacity() const { return m_animatedOpacity; }
-	float GetAnimatedPositionX() const { return m_animatedPositionX; }
-	float GetAnimatedPositionY() const { return m_animatedPositionY; }
-
-private:
-
-	// EventDispatcher needs to give us events
-	friend class EventDispatcher;
-
-	// event triggers. when called:
-	//  - calls the corresponding Handle* method on this widget (always)
-	//  - fires the corresponding on* signal on this widget (iff handled is false)
-	//  - calls the container Trigger* method with the new handled value returned
-	//    by the on* signal
-	//
-	// what this means in practic is that Handle* will be called for every
-	// widget from here to the root, whereas signals will only be fired as
-	// long as the signals continue to return false (unhandled).
-	bool TriggerKeyDown(const KeyboardEvent &event, bool handled = false);
-	bool TriggerKeyUp(const KeyboardEvent &event, bool handled = false);
-	bool TriggerTextInput(const TextInputEvent &event, bool handled = false);
-	bool TriggerMouseDown(const MouseButtonEvent &event, bool handled = false);
-	bool TriggerMouseUp(const MouseButtonEvent &event, bool handled = false);
-	bool TriggerMouseMove(const MouseMotionEvent &event, bool handled = false);
-	bool TriggerMouseWheel(const MouseWheelEvent &event, bool handled = false);
-
-	bool TriggerJoystickButtonDown(const JoystickButtonEvent &event, bool handled = false);
-	bool TriggerJoystickButtonUp(const JoystickButtonEvent &event, bool handled = false);
-	bool TriggerJoystickAxisMove(const JoystickAxisMotionEvent &event, bool handled = false);
-	bool TriggerJoystickHatMove(const JoystickHatMotionEvent &event, bool handled = false);
-
-	bool TriggerClick(bool handled = false);
-
-	// stop is used during disable/enable to stop delivery at the given widget
-	bool TriggerMouseOver(const Point &pos, bool handled = false, Widget *stop = 0);
-	bool TriggerMouseOut(const Point &pos, bool handled = false, Widget *stop = 0);
-
-	void TriggerMouseActivate();
-	void TriggerMouseDeactivate();
-
-	void TriggerSelect();
-	void TriggerDeselect();
-
-	void TriggerVisibilityChanged();
-
-	// let container set our attributes. none of them make any sense if
-	// we're not in a container
-	friend class Container;
-
-	// things for the container to call to attach, detach and position the
-	// widget. it could modify our data directly but that's ugly
-	void Attach(Container *container);
-	void Detach();
-	void SetDimensions(const Point &position, const Point &size);
-	virtual void NotifyVisible(bool visible);
-
-	// called by Container::CollectShortcuts
-	const std::set<KeySym> &GetShortcuts() const { return m_shortcuts; }
-
-
-	// Context is the top-level container and needs to set its own context
-	// and size directly
-	friend class Context;
-	void SetSize(const Point &size) { m_size = size; SetActiveArea(size); }
-
-
-	// Animation needs to change our animation attributes
-	friend class Animation;
-
-	void SetAnimatedOpacity(float opacity) { m_animatedOpacity = opacity; }
-	void SetAnimatedPositionX(float pos) { m_animatedPositionX = pos; }
-	void SetAnimatedPositionY(float pos) { m_animatedPositionY = pos; }
-
-
-	Context *m_context;
-	Container *m_container;
-
-	Point m_position;
-	Point m_size;
-
-	Uint32 m_sizeControlFlags;
-
-	Point m_drawOffset;
-
-	Point m_activeOffset;
-	Point m_activeArea;
-
-	Font m_font;
-
-	bool m_disabled;
-	bool m_hidden;
-
-	bool m_mouseOver;
-	bool m_visible;
-
-	std::set<KeySym> m_shortcuts;
-
-	std::map< std::string,sigc::slot<void,PropertyMap &,const std::string &> > m_bindPoints;
-	std::map< std::string,sigc::connection > m_binds;
-
-	float m_animatedOpacity;
-	float m_animatedPositionX;
-	float m_animatedPositionY;
-};
-
-}
+} // namespace UI
 
 #endif

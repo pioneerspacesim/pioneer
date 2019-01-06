@@ -91,7 +91,7 @@ NamespaceIndentation: All
 #PenaltyBreakString: 1000
 #PenaltyExcessCharacter: 1000000
 #PenaltyReturnTypeOnItsOwnLine: 60
-#PointerAlignment: Right
+PointerAlignment: Right
 #RawStringFormats:
 #  - Delimiter:       pb
 #    Language:        TextProto

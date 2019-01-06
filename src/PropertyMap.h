@@ -15,18 +15,23 @@ class PropertyMap {
 public:
 	PropertyMap(LuaManager *lua);
 
-	template <class Value> void Set(const std::string &k, const Value &v) {
+	template <class Value>
+	void Set(const std::string &k, const Value &v)
+	{
 		ScopedTable(m_table).Set(k, v);
 		SendSignal(k);
 	}
 
-	template <class Value> void Get(const std::string &k, Value &v) const {
+	template <class Value>
+	void Get(const std::string &k, Value &v) const
+	{
 		v = ScopedTable(m_table).Get<Value>(k, v);
 	}
 
 	void PushLuaTable();
 
-	sigc::connection Connect(const std::string &k, const sigc::slot<void,PropertyMap &,const std::string &> &fn) {
+	sigc::connection Connect(const std::string &k, const sigc::slot<void, PropertyMap &, const std::string &> &fn)
+	{
 		return m_signals[k].connect(fn);
 	}
 
@@ -37,7 +42,7 @@ private:
 	LuaRef m_table;
 
 	void SendSignal(const std::string &k);
-	std::map< std::string,sigc::signal<void,PropertyMap &,const std::string &> > m_signals;
+	std::map<std::string, sigc::signal<void, PropertyMap &, const std::string &>> m_signals;
 };
 
 #endif

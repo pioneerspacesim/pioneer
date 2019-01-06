@@ -2,11 +2,11 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaInput.h"
-#include "LuaUtils.h"
-#include "LuaObject.h"
-#include "Lang.h"
 #include "Input.h"
 #include "KeyBindings.h"
+#include "Lang.h"
+#include "LuaObject.h"
+#include "LuaUtils.h"
 #include "Pi.h"
 /*
  * Interface: Input
@@ -113,8 +113,7 @@ static int l_input_get_bindings(lua_State *l)
 
 					push_key_binding(l, &ab->binding1, "binding1", "bindingDescription1");
 					push_key_binding(l, &ab->binding2, "binding2", "bindingDescription2");
-				}
-				else {
+				} else {
 					AxisBinding *ab = Pi::input.GetAxisBinding(type.first);
 					if (!ab) continue; // Should never happen, but include it here for future proofing.
 					setup_binding_table(l, type.first.c_str(), "axis");
@@ -158,7 +157,8 @@ static int l_input_disable_bindings(lua_State *l)
 	return 0;
 }
 
-static int l_input_set_action_binding(lua_State *l) {
+static int l_input_set_action_binding(lua_State *l)
+{
 	const char *binding_id = luaL_checkstring(l, 1);
 	const char *binding_config_1 = lua_tostring(l, 2);
 	const char *binding_config_2 = lua_tostring(l, 3);
@@ -182,7 +182,8 @@ static int l_input_set_action_binding(lua_State *l) {
 	return 0;
 }
 
-static int l_input_set_axis_binding(lua_State *l) {
+static int l_input_set_axis_binding(lua_State *l)
+{
 	const char *binding_id = luaL_checkstring(l, 1);
 	const char *binding_config_axis = lua_tostring(l, 2);
 	const char *binding_config_positive = lua_tostring(l, 3);
@@ -193,17 +194,20 @@ static int l_input_set_axis_binding(lua_State *l) {
 	if (binding_config_axis) {
 		if (!KeyBindings::JoyAxisBinding::FromString(binding_config_axis, ab))
 			return luaL_error(l, "invalid axis binding given to Input.SetKeyBinding");
-	} else ab.Clear();
+	} else
+		ab.Clear();
 
 	KeyBindings::KeyBinding kb1, kb2;
 	if (binding_config_positive) {
 		if (!KeyBindings::KeyBinding::FromString(binding_config_positive, kb1))
 			return luaL_error(l, "invalid first key binding given to Input.SetKeyBinding");
-	} else kb1.Clear();
+	} else
+		kb1.Clear();
 	if (binding_config_negative) {
 		if (!KeyBindings::KeyBinding::FromString(binding_config_negative, kb2))
 			return luaL_error(l, "invalid second key binding given to Input.SetKeyBinding");
-	} else kb2.Clear();
+	} else
+		kb2.Clear();
 
 	binding->axis = ab;
 	binding->positive = kb1;
@@ -247,27 +251,28 @@ static int l_input_set_joystick_enabled(lua_State *l)
 	return 0;
 }
 
-void LuaInput::Register() {
-    lua_State *l = Lua::manager->GetLuaState();
+void LuaInput::Register()
+{
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
-    static const luaL_Reg l_methods[] = {
-        { "EnableBindings",		l_input_enable_bindings },
-		{ "DisableBindings",	l_input_disable_bindings },
-		{ "GetBindings",		l_input_get_bindings },
-		{ "SetActionBinding",	l_input_set_action_binding },
-		{ "SetAxisBinding",		l_input_set_axis_binding },
-		{ "GetMouseYInverted",	l_input_get_mouse_y_inverted },
-		{ "SetMouseYInverted",	l_input_set_mouse_y_inverted },
-		{ "GetJoystickEnabled",	l_input_get_joystick_enabled },
-		{ "SetJoystickEnabled",	l_input_set_joystick_enabled },
-        { NULL, NULL }
-    };
+	static const luaL_Reg l_methods[] = {
+		{ "EnableBindings", l_input_enable_bindings },
+		{ "DisableBindings", l_input_disable_bindings },
+		{ "GetBindings", l_input_get_bindings },
+		{ "SetActionBinding", l_input_set_action_binding },
+		{ "SetAxisBinding", l_input_set_axis_binding },
+		{ "GetMouseYInverted", l_input_get_mouse_y_inverted },
+		{ "SetMouseYInverted", l_input_set_mouse_y_inverted },
+		{ "GetJoystickEnabled", l_input_get_joystick_enabled },
+		{ "SetJoystickEnabled", l_input_set_joystick_enabled },
+		{ NULL, NULL }
+	};
 
-    static const luaL_Reg l_attrs[] = {
-        { NULL, NULL }
-    };
+	static const luaL_Reg l_attrs[] = {
+		{ NULL, NULL }
+	};
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
 	LuaObjectBase::CreateObject(l_methods, l_attrs, 0);

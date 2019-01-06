@@ -4,8 +4,8 @@
 #ifndef UI_CONTAINER_H
 #define UI_CONTAINER_H
 
-#include "Widget.h"
 #include "IterationProxy.h"
+#include "Widget.h"
 #include <vector>
 
 // Container is the base class for all UI containers. Containers must
@@ -21,55 +21,55 @@
 
 namespace UI {
 
-class Container: public Widget {
+	class Container : public Widget {
 
-protected:
-	// can't instantiate a base container directly
-	Container(Context *context) : Widget(context) {}
+	protected:
+		// can't instantiate a base container directly
+		Container(Context *context) :
+			Widget(context) {}
 
-public:
-	virtual ~Container();
+	public:
+		virtual ~Container();
 
-	virtual void Layout() = 0;
-	virtual void Update();
-	virtual void Draw();
+		virtual void Layout() = 0;
+		virtual void Update();
+		virtual void Draw();
 
-	virtual bool IsContainer() const { return true; }
+		virtual bool IsContainer() const { return true; }
 
-	// widget at pos relative to this widget
-	virtual Widget *GetWidgetAt(const Point &pos);
+		// widget at pos relative to this widget
+		virtual Widget *GetWidgetAt(const Point &pos);
 
-	virtual void Disable();
-	virtual void Enable();
+		virtual void Disable();
+		virtual void Enable();
 
-	Uint32 GetNumWidgets() const { return static_cast<Uint32>(m_widgets.size()); }
-	IterationProxy<std::vector<RefCountedPtr<Widget> > > GetWidgets() { return MakeIterationProxy(m_widgets); }
-	const IterationProxy<const std::vector<RefCountedPtr<Widget> > > GetWidgets() const { return MakeIterationProxy(m_widgets); }
+		Uint32 GetNumWidgets() const { return static_cast<Uint32>(m_widgets.size()); }
+		IterationProxy<std::vector<RefCountedPtr<Widget>>> GetWidgets() { return MakeIterationProxy(m_widgets); }
+		const IterationProxy<const std::vector<RefCountedPtr<Widget>>> GetWidgets() const { return MakeIterationProxy(m_widgets); }
 
-protected:
-	void LayoutChildren();
+	protected:
+		void LayoutChildren();
 
-	void AddWidget(Widget *);
-	virtual void RemoveWidget(Widget *);
-	void RemoveAllWidgets();
+		void AddWidget(Widget *);
+		virtual void RemoveWidget(Widget *);
+		void RemoveAllWidgets();
 
-	void SetWidgetDimensions(Widget *widget, const Point &position, const Point &size);
+		void SetWidgetDimensions(Widget *widget, const Point &position, const Point &size);
 
-private:
+	private:
+		// EventDispatcher will call here on layout change to get the shortcuts
+		// for the children of this container
+		friend class EventDispatcher;
+		void CollectShortcuts(std::map<KeySym, Widget *> &shortcuts);
 
-	// EventDispatcher will call here on layout change to get the shortcuts
-	// for the children of this container
-	friend class EventDispatcher;
-	void CollectShortcuts(std::map<KeySym,Widget*> &shortcuts);
+		virtual void NotifyVisible(bool visible);
 
-	virtual void NotifyVisible(bool visible);
+		void EnableChildren();
+		void DisableChildren();
 
-	void EnableChildren();
-	void DisableChildren();
+		std::vector<RefCountedPtr<Widget>> m_widgets;
+	};
 
-	std::vector< RefCountedPtr<Widget> > m_widgets;
-};
-
-}
+} // namespace UI
 
 #endif

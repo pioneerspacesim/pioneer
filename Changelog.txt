@@ -2,6 +2,7 @@ January 2019
    * Internal Changes
      * Fix cmake error (#4505)
      * Use dummy video driver for modelcompiler (#4509)
+     * clang-format the entire c++ code base (#4508)
 
    * Fixes
      * Fix crash on exit (#4503)

@@ -10,9 +10,12 @@
  * Class representing a star. Inherits from <Body>.
  */
 
-template <> const char *LuaObject<Star>::s_type = "Star";
+template <>
+const char *LuaObject<Star>::s_type = "Star";
 
-template <> void LuaObject<Star>::RegisterClass() {
+template <>
+void LuaObject<Star>::RegisterClass()
+{
 	const char *l_parent = "Body";
 
 	LuaObjectBase::CreateClass(s_type, l_parent, 0, 0, 0);

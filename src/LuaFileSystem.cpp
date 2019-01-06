@@ -2,9 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaFileSystem.h"
-#include "LuaObject.h"
-#include "LuaConstants.h"
 #include "FileSystem.h"
+#include "LuaConstants.h"
+#include "LuaObject.h"
 #include "Pi.h"
 
 /*
@@ -17,7 +17,8 @@
  * will get a Lua error.
  */
 
-static void push_date_time(lua_State *l, const Time::DateTime &dt) {
+static void push_date_time(lua_State *l, const Time::DateTime &dt)
+{
 	int year, month, day, hour, minute, second;
 	dt.GetDateParts(&year, &month, &day);
 	dt.GetTimeParts(&hour, &minute, &second);
@@ -66,17 +67,17 @@ static int l_filesystem_read_dir(lua_State *l)
 
 	FileSystem::FileSource *fs = nullptr;
 	switch (root) {
-		case LuaFileSystem::ROOT_USER:
-			fs = &FileSystem::userFiles;
-			break;
+	case LuaFileSystem::ROOT_USER:
+		fs = &FileSystem::userFiles;
+		break;
 
-		case LuaFileSystem::ROOT_DATA:
-			fs = &FileSystem::gameDataFiles;
-			break;
+	case LuaFileSystem::ROOT_DATA:
+		fs = &FileSystem::gameDataFiles;
+		break;
 
-		default:
-			assert(0); // can't happen
-			return 0;
+	default:
+		assert(0); // can't happen
+		return 0;
 	}
 
 	assert(fs);
@@ -88,8 +89,7 @@ static int l_filesystem_read_dir(lua_State *l)
 				luaL_error(l, "'%s' is not a directory", path.c_str());
 				return 0;
 			}
-		}
-		catch (const std::invalid_argument&) {
+		} catch (const std::invalid_argument &) {
 			luaL_error(l, "'%s' is not a valid path", path.c_str());
 			return 0;
 		}
@@ -112,9 +112,9 @@ static int l_filesystem_read_dir(lua_State *l)
 		lua_setfield(l, -2, "mtime");
 
 		if (info.IsDir())
-			lua_rawseti(l, dirsTable, lua_rawlen(l, dirsTable)+1);
+			lua_rawseti(l, dirsTable, lua_rawlen(l, dirsTable) + 1);
 		else
-			lua_rawseti(l, filesTable, lua_rawlen(l, filesTable)+1);
+			lua_rawseti(l, filesTable, lua_rawlen(l, filesTable) + 1);
 	}
 
 	return 2;
@@ -145,8 +145,7 @@ static int l_filesystem_join_path(lua_State *l)
 		path = FileSystem::NormalisePath(path);
 		lua_pushlstring(l, path.c_str(), path.size());
 		return 1;
-	}
-	catch (const std::invalid_argument&) {
+	} catch (const std::invalid_argument &) {
 		luaL_error(l, "result is not a valid path");
 		return 0;
 	}
@@ -160,7 +159,7 @@ void LuaFileSystem::Register()
 
 	static const luaL_Reg l_methods[] = {
 		{ "ReadDirectory", l_filesystem_read_dir },
-		{ "JoinPath",      l_filesystem_join_path },
+		{ "JoinPath", l_filesystem_join_path },
 		{ 0, 0 }
 	};
 

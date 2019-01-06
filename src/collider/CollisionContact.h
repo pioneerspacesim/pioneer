@@ -4,6 +4,8 @@
 #ifndef _COLLISION_CONTACT_H
 #define _COLLISION_CONTACT_H
 
+#include "vector3.h"
+
 struct CollisionContact {
 	/* position and normal are in world (or rather, CollisionSpace) coordinates */
 	vector3d pos;
@@ -13,8 +15,16 @@ struct CollisionContact {
 	int triIdx;
 	void *userData1, *userData2;
 	int geomFlag;
-//	bool vsStatic;		// true => object 2 was in static, else dynamic
-	CollisionContact() : depth(0), dist(0), triIdx(-1), userData1(nullptr), userData2(nullptr), geomFlag(0) { /*empty*/ }
+	//	bool vsStatic;		// true => object 2 was in static, else dynamic
+	CollisionContact() :
+		depth(0),
+		dist(0),
+		triIdx(-1),
+		userData1(nullptr),
+		userData2(nullptr),
+		geomFlag(0)
+	{ /*empty*/
+	}
 };
 
 #endif /* _COLLISION_CONTACT_H */

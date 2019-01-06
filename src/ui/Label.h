@@ -4,43 +4,47 @@
 #ifndef UI_LABEL_H
 #define UI_LABEL_H
 
-#include "Widget.h"
 #include "SmartPtr.h"
-#include "text/TextureFont.h"
+#include "Widget.h"
 #include "graphics/VertexBuffer.h"
+#include "text/TextureFont.h"
 
 // single line of text
 
 namespace UI {
 
-class Label: public Widget {
-public:
-	virtual Point PreferredSize();
-	virtual void Layout();
-	virtual void Draw();
+	class Label : public Widget {
+	public:
+		virtual Point PreferredSize();
+		virtual void Layout();
+		virtual void Draw();
 
-	Label *SetText(const std::string &text);
-	const std::string &GetText() const { return m_text; }
+		Label *SetText(const std::string &text);
+		const std::string &GetText() const { return m_text; }
 
-	Label *SetColor(const Color &c) { m_color = c; return this; }
+		Label *SetColor(const Color &c)
+		{
+			m_color = c;
+			return this;
+		}
 
-protected:
-	friend class Context;
-	Label(Context *context, const std::string &text);
+	protected:
+		friend class Context;
+		Label(Context *context, const std::string &text);
 
-private:
-	void BindText(PropertyMap &p, const std::string &k);
+	private:
+		void BindText(PropertyMap &p, const std::string &k);
 
-	bool m_bNeedsUpdating;
-	bool m_bPrevDisabled;
-	float m_prevOpacity;
-	std::string m_text;
-	Color m_color;
-	Point m_preferredSize;
-	RefCountedPtr<Text::TextureFont> m_font;
-	RefCountedPtr<Graphics::VertexBuffer> m_vbuffer;
-};
+		bool m_bNeedsUpdating;
+		bool m_bPrevDisabled;
+		float m_prevOpacity;
+		std::string m_text;
+		Color m_color;
+		Point m_preferredSize;
+		RefCountedPtr<Text::TextureFont> m_font;
+		RefCountedPtr<Graphics::VertexBuffer> m_vbuffer;
+	};
 
-}
+} // namespace UI
 
 #endif

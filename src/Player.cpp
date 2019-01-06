@@ -11,21 +11,23 @@
 #include "ShipCpanel.h"
 #include "Sound.h"
 #include "SpaceStation.h"
-#include "WorldView.h"
 #include "StringF.h"
 #include "SystemView.h" // for the transfer planner
+#include "WorldView.h"
 
 //Some player specific sounds
 static Sound::Event s_soundUndercarriage;
 static Sound::Event s_soundHyperdrive;
 
-static int onEquipChangeListener(lua_State *l) {
+static int onEquipChangeListener(lua_State *l)
+{
 	Player *p = LuaObject<Player>::GetFromLua(lua_upvalueindex(1));
 	p->onChangeEquipment.emit();
 	return 0;
 }
 
-static void registerEquipChangeListener(Player *player) {
+static void registerEquipChangeListener(Player *player)
+{
 	lua_State *l = Lua::manager->GetLuaState();
 	LUA_DEBUG_START(l);
 
@@ -38,14 +40,16 @@ static void registerEquipChangeListener(Player *player) {
 	LUA_DEBUG_END(l, 0);
 }
 
-Player::Player(const ShipType::Id &shipId): Ship(shipId)
+Player::Player(const ShipType::Id &shipId) :
+	Ship(shipId)
 {
 	SetController(new PlayerShipController());
 	InitCockpit();
 	registerEquipChangeListener(this);
 }
 
-void Player::SetShipType(const ShipType::Id &shipId) {
+void Player::SetShipType(const ShipType::Id &shipId)
+{
 	Ship::SetShipType(shipId);
 	registerEquipChangeListener(this);
 	InitCockpit();
@@ -96,9 +100,8 @@ bool Player::DoCrushDamage(float kgDamage)
 {
 	bool r = Ship::DoCrushDamage(kgDamage);
 	// Don't fire audio on EVERY iteration (aka every 16ms, or 60fps), only when exceeds a value randomly
-	const float dam = kgDamage*0.01f;
-	if (Pi::rng.Double() < dam)
-	{
+	const float dam = kgDamage * 0.01f;
+	if (Pi::rng.Double() < dam) {
 		if (!IsDead() && (GetPercentHull() < 25.0f)) {
 			Sound::BodyMakeNoise(this, "warning", .5f);
 		}
@@ -111,7 +114,7 @@ bool Player::DoCrushDamage(float kgDamage)
 }
 
 //XXX perhaps remove this, the sound is very annoying
-bool Player::OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData)
+bool Player::OnDamage(Object *attacker, float kgDamage, const CollisionContact &contactData)
 {
 	bool r = Ship::OnDamage(attacker, kgDamage, contactData);
 	if (!IsDead() && (GetPercentHull() < 25.0f)) {
@@ -137,9 +140,9 @@ bool Player::SetWheelState(bool down)
 }
 
 //XXX all ships should make this sound
-Missile * Player::SpawnMissile(ShipType::Id missile_type, int power)
+Missile *Player::SpawnMissile(ShipType::Id missile_type, int power)
 {
-	Missile * m = Ship::SpawnMissile(missile_type, power);
+	Missile *m = Ship::SpawnMissile(missile_type, power);
 	if (m)
 		Sound::PlaySfx("Missile_launch", 1.0f, 1.0f, 0);
 	return m;
@@ -151,29 +154,29 @@ void Player::SetAlertState(Ship::AlertState as)
 	Ship::AlertState prev = GetAlertState();
 
 	switch (as) {
-		case ALERT_NONE:
-			if (prev != ALERT_NONE)
-				Pi::game->log->Add(Lang::ALERT_CANCELLED);
-			break;
+	case ALERT_NONE:
+		if (prev != ALERT_NONE)
+			Pi::game->log->Add(Lang::ALERT_CANCELLED);
+		break;
 
-		case ALERT_SHIP_NEARBY:
-			if (prev == ALERT_NONE)
-				Pi::game->log->Add(Lang::SHIP_DETECTED_NEARBY);
-			else
-				Pi::game->log->Add(Lang::DOWNGRADING_ALERT_STATUS);
-			Sound::PlaySfx("OK");
-			break;
+	case ALERT_SHIP_NEARBY:
+		if (prev == ALERT_NONE)
+			Pi::game->log->Add(Lang::SHIP_DETECTED_NEARBY);
+		else
+			Pi::game->log->Add(Lang::DOWNGRADING_ALERT_STATUS);
+		Sound::PlaySfx("OK");
+		break;
 
-		case ALERT_SHIP_FIRING:
-			Pi::game->log->Add(Lang::LASER_FIRE_DETECTED);
-			Sound::PlaySfx("warning", 0.2f, 0.2f, 0);
-			break;
+	case ALERT_SHIP_FIRING:
+		Pi::game->log->Add(Lang::LASER_FIRE_DETECTED);
+		Sound::PlaySfx("warning", 0.2f, 0.2f, 0);
+		break;
 	}
 
 	Ship::SetAlertState(as);
 }
 
-void Player::NotifyRemoved(const Body* const removedBody)
+void Player::NotifyRemoved(const Body *const removedBody)
 {
 	if (GetNavTarget() == removedBody)
 		SetNavTarget(0);
@@ -182,7 +185,7 @@ void Player::NotifyRemoved(const Body* const removedBody)
 		SetCombatTarget(0);
 
 		if (!GetNavTarget() && removedBody->IsType(Object::SHIP))
-			SetNavTarget(static_cast<const Ship*>(removedBody)->GetHyperspaceCloud());
+			SetNavTarget(static_cast<const Ship *>(removedBody)->GetHyperspaceCloud());
 	}
 
 	Ship::NotifyRemoved(removedBody);
@@ -210,51 +213,52 @@ void Player::OnEnterSystem()
 //temporary targeting stuff
 PlayerShipController *Player::GetPlayerController() const
 {
-	return static_cast<PlayerShipController*>(GetController());
+	return static_cast<PlayerShipController *>(GetController());
 }
 
 Body *Player::GetCombatTarget() const
 {
-	return static_cast<PlayerShipController*>(m_controller)->GetCombatTarget();
+	return static_cast<PlayerShipController *>(m_controller)->GetCombatTarget();
 }
 
 Body *Player::GetNavTarget() const
 {
-	return static_cast<PlayerShipController*>(m_controller)->GetNavTarget();
+	return static_cast<PlayerShipController *>(m_controller)->GetNavTarget();
 }
 
 Body *Player::GetSetSpeedTarget() const
 {
-	return static_cast<PlayerShipController*>(m_controller)->GetSetSpeedTarget();
+	return static_cast<PlayerShipController *>(m_controller)->GetSetSpeedTarget();
 }
 
-void Player::SetCombatTarget(Body* const target, bool setSpeedTo)
+void Player::SetCombatTarget(Body *const target, bool setSpeedTo)
 {
-	static_cast<PlayerShipController*>(m_controller)->SetCombatTarget(target, setSpeedTo);
+	static_cast<PlayerShipController *>(m_controller)->SetCombatTarget(target, setSpeedTo);
 	Pi::onPlayerChangeTarget.emit();
 }
 
-void Player::SetNavTarget(Body* const target, bool setSpeedTo)
+void Player::SetNavTarget(Body *const target, bool setSpeedTo)
 {
-	static_cast<PlayerShipController*>(m_controller)->SetNavTarget(target, setSpeedTo);
+	static_cast<PlayerShipController *>(m_controller)->SetNavTarget(target, setSpeedTo);
 	Pi::onPlayerChangeTarget.emit();
 }
 
-void Player::SetSetSpeedTarget(Body* const target)
+void Player::SetSetSpeedTarget(Body *const target)
 {
-	static_cast<PlayerShipController*>(m_controller)->SetSetSpeedTarget(target);
+	static_cast<PlayerShipController *>(m_controller)->SetSetSpeedTarget(target);
 	// TODO: not sure, do we actually need this? we are only changing the set speed target
 	Pi::onPlayerChangeTarget.emit();
 }
 
 void Player::ChangeSetSpeed(double delta)
 {
-	static_cast<PlayerShipController*>(m_controller)->ChangeSetSpeed(delta);
+	static_cast<PlayerShipController *>(m_controller)->ChangeSetSpeed(delta);
 }
 
 //temporary targeting stuff ends
 
-Ship::HyperjumpStatus Player::InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, const HyperdriveSoundsTable &sounds, LuaRef checks) {
+Ship::HyperjumpStatus Player::InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, const HyperdriveSoundsTable &sounds, LuaRef checks)
+{
 	HyperjumpStatus status = Ship::InitiateHyperjumpTo(dest, warmup_time, duration, sounds, checks);
 
 	if (status == HYPERJUMP_OK)
@@ -285,29 +289,31 @@ void Player::StaticUpdate(const float timeStep)
 		m_cockpit->Update(this, timeStep);
 }
 
-int Player::GetManeuverTime() const {
-	if(Pi::planner->GetOffsetVel().ExactlyEqual(vector3d(0,0,0))) {
+int Player::GetManeuverTime() const
+{
+	if (Pi::planner->GetOffsetVel().ExactlyEqual(vector3d(0, 0, 0))) {
 		return 0;
 	}
 	return Pi::planner->GetStartTime();
 }
 
-vector3d Player::GetManeuverVelocity() const {
-	const Frame* frame = GetFrame();
-	if(frame->IsRotFrame())
+vector3d Player::GetManeuverVelocity() const
+{
+	const Frame *frame = GetFrame();
+	if (frame->IsRotFrame())
 		frame = frame->GetNonRotFrame();
-	const SystemBody* systemBody = frame->GetSystemBody();
+	const SystemBody *systemBody = frame->GetSystemBody();
 
-	if(Pi::planner->GetOffsetVel().ExactlyEqual(vector3d(0,0,0))) {
-		return vector3d(0,0,0);
-	} else if(systemBody) {
+	if (Pi::planner->GetOffsetVel().ExactlyEqual(vector3d(0, 0, 0))) {
+		return vector3d(0, 0, 0);
+	} else if (systemBody) {
 		Orbit playerOrbit = ComputeOrbit();
-		if(!is_zero_exact(playerOrbit.GetSemiMajorAxis())) {
+		if (!is_zero_exact(playerOrbit.GetSemiMajorAxis())) {
 			double mass = systemBody->GetMass();
 			// XXX The best solution would be to store the mass(es) on Orbit
 			const vector3d velocity = (Pi::planner->GetVel() - playerOrbit.OrbitalVelocityAtTime(mass, playerOrbit.OrbitalTimeAtPos(Pi::planner->GetPosition(), mass)));
 			return velocity;
 		}
 	}
-	return vector3d(0,0,0);
+	return vector3d(0, 0, 0);
 }

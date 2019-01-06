@@ -4,12 +4,12 @@
 #ifndef JOBQUEUE_H
 #define JOBQUEUE_H
 
+#include "SDL_thread.h"
 #include <cassert>
 #include <deque>
-#include <vector>
 #include <set>
 #include <string>
-#include "SDL_thread.h"
+#include <vector>
 
 static const Uint32 MAX_THREADS = 64;
 
@@ -36,41 +36,47 @@ public:
 	// moveable.
 	class Handle {
 	public:
-		Handle() : m_id(++s_nextId), m_job(nullptr), m_queue(nullptr), m_client(nullptr) { }
-		Handle(Handle&& other);
-		Handle& operator=(Handle&& other);
+		Handle() :
+			m_id(++s_nextId),
+			m_job(nullptr),
+			m_queue(nullptr),
+			m_client(nullptr) {}
+		Handle(Handle &&other);
+		Handle &operator=(Handle &&other);
 		~Handle();
 
-		Handle(const Handle&) = delete;
-		Handle& operator=(const Handle&) = delete;
+		Handle(const Handle &) = delete;
+		Handle &operator=(const Handle &) = delete;
 
 		bool HasJob() const { return m_job != nullptr; }
-		Job* GetJob() const { return m_job; }
+		Job *GetJob() const { return m_job; }
 
-		bool operator<(const Handle& other) const { return m_id < other.m_id; }
+		bool operator<(const Handle &other) const { return m_id < other.m_id; }
 
 	private:
 		friend class Job;
 		friend class AsyncJobQueue;
 		friend class SyncJobQueue;
 
-		Handle(Job* job, JobQueue* queue, JobClient* client);
+		Handle(Job *job, JobQueue *queue, JobClient *client);
 		void Unlink();
 
 		static unsigned long long s_nextId;
 
 		unsigned long long m_id;
-		Job* m_job;
-		JobQueue* m_queue;
-		JobClient* m_client;
+		Job *m_job;
+		JobQueue *m_queue;
+		JobClient *m_client;
 	};
 
 public:
-	Job() : cancelled(false), m_handle(nullptr) {}
+	Job() :
+		cancelled(false),
+		m_handle(nullptr) {}
 	virtual ~Job();
 
-	Job(const Job&) = delete;
-	Job& operator=(const Job&) = delete;
+	Job(const Job &) = delete;
+	Job &operator=(const Job &) = delete;
 
 	virtual void OnRun() = 0;
 	virtual void OnFinish() = 0;
@@ -82,26 +88,25 @@ private:
 	friend class JobRunner;
 
 	void UnlinkHandle();
-	const Handle* GetHandle() const { return m_handle; }
-	void SetHandle(Handle* handle) { m_handle = handle; }
+	const Handle *GetHandle() const { return m_handle; }
+	void SetHandle(Handle *handle) { m_handle = handle; }
 	void ClearHandle() { m_handle = nullptr; }
 
 	bool cancelled;
-	Handle* m_handle;
+	Handle *m_handle;
 };
-
 
 // the queue management class. create one from the main thread, and feed your
 // jobs do it. it will take care of the rest
 class JobQueue {
 public:
 	JobQueue() = default;
-	JobQueue(const JobQueue&) = delete;
-	JobQueue& operator=(const JobQueue&) = delete;
+	JobQueue(const JobQueue &) = delete;
+	JobQueue &operator=(const JobQueue &) = delete;
 
 	// numRunners is the number of jobs to run in parallel. right now its the
 	// same as the number of threads, but there's no reason that it has to be
-	virtual ~JobQueue() { }
+	virtual ~JobQueue() {}
 
 	// call from the main thread to add a job to the queue. the job should be
 	// allocated with new. the queue will delete it once its its completed
@@ -185,14 +190,14 @@ private:
 	Job *GetJob();
 	void Finish(Job *job, const uint8_t threadIdx);
 
-	std::deque<Job*> m_queue;
+	std::deque<Job *> m_queue;
 	SDL_mutex *m_queueLock;
 	SDL_cond *m_queueWaitCond;
 
-	std::deque<Job*> m_finished[MAX_THREADS];
+	std::deque<Job *> m_finished[MAX_THREADS];
 	SDL_mutex *m_finishedLock[MAX_THREADS];
 
-	std::vector<JobRunner*> m_runners;
+	std::vector<JobRunner *> m_runners;
 
 	bool m_shutdown;
 };
@@ -226,36 +231,46 @@ public:
 	Uint32 RunJobs(Uint32 count = 1);
 
 private:
-	std::deque<Job*> m_queue;
-	std::deque<Job*> m_finished;
+	std::deque<Job *> m_queue;
+	std::deque<Job *> m_finished;
 };
 
 class JobClient {
 public:
-	virtual void Order(Job* job) = 0;
-	virtual void RemoveJob(Job::Handle* handle) = 0;
+	virtual void Order(Job *job) = 0;
+	virtual void RemoveJob(Job::Handle *handle) = 0;
 	virtual ~JobClient() {}
 };
 
 class JobSet : public JobClient {
 public:
-	JobSet(JobQueue* queue) : m_queue(queue) { }
-	JobSet(JobSet&& other) : m_queue(other.m_queue), m_jobs(std::move(other.m_jobs)) { other.m_queue = nullptr; }
-	JobSet& operator=(JobSet&& other) { m_queue = other.m_queue; m_jobs = std::move(other.m_jobs); other.m_queue = nullptr; return *this; }
+	JobSet(JobQueue *queue) :
+		m_queue(queue) {}
+	JobSet(JobSet &&other) :
+		m_queue(other.m_queue),
+		m_jobs(std::move(other.m_jobs)) { other.m_queue = nullptr; }
+	JobSet &operator=(JobSet &&other)
+	{
+		m_queue = other.m_queue;
+		m_jobs = std::move(other.m_jobs);
+		other.m_queue = nullptr;
+		return *this;
+	}
 
-	JobSet(const JobSet&) = delete;
-	JobSet& operator=(const JobSet& other) = delete;
+	JobSet(const JobSet &) = delete;
+	JobSet &operator=(const JobSet &other) = delete;
 
-	virtual void Order(Job* job) {
+	virtual void Order(Job *job)
+	{
 		auto x = m_jobs.insert(m_queue->Queue(job, this));
 		assert(x.second);
 	}
-	virtual void RemoveJob(Job::Handle* handle) { m_jobs.erase(*handle); }
+	virtual void RemoveJob(Job::Handle *handle) { m_jobs.erase(*handle); }
 
 	bool IsEmpty() const { return m_jobs.empty(); }
 
 private:
-	JobQueue* m_queue;
+	JobQueue *m_queue;
 	std::set<Job::Handle> m_jobs;
 };
 

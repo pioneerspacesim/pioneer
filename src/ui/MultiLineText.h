@@ -4,34 +4,34 @@
 #ifndef UI_MULTILINETEXT_H
 #define UI_MULTILINETEXT_H
 
-#include "Widget.h"
 #include "SmartPtr.h"
+#include "Widget.h"
 
 namespace UI {
 
-class TextLayout;
+	class TextLayout;
 
-class MultiLineText: public Widget {
-public:
-	virtual Point PreferredSize();
-	virtual void Layout();
-	virtual void Draw();
+	class MultiLineText : public Widget {
+	public:
+		virtual Point PreferredSize();
+		virtual void Layout();
+		virtual void Draw();
 
-	virtual Widget *SetFont(Font font);
+		virtual Widget *SetFont(Font font);
 
-	MultiLineText *SetText(const std::string &text);
-	MultiLineText *AppendText(const std::string &text);
+		MultiLineText *SetText(const std::string &text);
+		MultiLineText *AppendText(const std::string &text);
 
-protected:
-	friend class Context;
-	MultiLineText(Context *context, const std::string &text);
+	protected:
+		friend class Context;
+		MultiLineText(Context *context, const std::string &text);
 
-private:
-	std::string m_text;
-	std::unique_ptr<TextLayout> m_layout;
-	Point m_preferredSize;
-};
+	private:
+		std::string m_text;
+		std::unique_ptr<TextLayout> m_layout;
+		Point m_preferredSize;
+	};
 
-}
+} // namespace UI
 
 #endif

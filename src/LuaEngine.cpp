@@ -2,29 +2,28 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaEngine.h"
-#include "LuaObject.h"
-#include "LuaUtils.h"
-#include "LuaConstants.h"
 #include "EnumStrings.h"
-#include "Random.h"
+#include "FileSystem.h"
+#include "FloatComparison.h"
+#include "Game.h"
+#include "KeyBindings.h"
+#include "Lang.h"
+#include "LuaConstants.h"
+#include "LuaObject.h"
+#include "LuaPiGui.h"
+#include "LuaUtils.h"
 #include "OS.h"
 #include "Pi.h"
 #include "PiGui.h"
-#include "utils.h"
-#include "FloatComparison.h"
-#include "FileSystem.h"
-#include "ui/Context.h"
-#include "graphics/Graphics.h"
+#include "Player.h"
+#include "Random.h"
+#include "SectorView.h"
 #include "Sound.h"
 #include "SoundMusic.h"
-#include "KeyBindings.h"
-#include "Lang.h"
-#include "Player.h"
-#include "Game.h"
+#include "graphics/Graphics.h"
 #include "scenegraph/Model.h"
-#include "LuaPiGui.h"
-#include "SectorView.h"
-#include "LuaPiGui.h"
+#include "ui/Context.h"
+#include "utils.h"
 /*
  * Interface: Engine
  *
@@ -131,8 +130,8 @@ static int l_engine_attr_version(lua_State *l)
 {
 	std::string version(PIONEER_VERSION);
 	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
-	 lua_pushlstring(l, version.c_str(), version.size());
-	 return 1;
+	lua_pushlstring(l, version.c_str(), version.size());
+	return 1;
 }
 
 /*
@@ -186,7 +185,7 @@ static int l_engine_get_video_mode_list(lua_State *l)
 		lua_pushinteger(l, modes[i].height);
 		lua_setfield(l, -2, "height");
 
-		lua_rawseti(l, -2, i+1);
+		lua_rawseti(l, -2, i + 1);
 	}
 
 	LUA_DEBUG_END(l, 1);
@@ -213,7 +212,7 @@ static int l_engine_get_maximum_aa_samples(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	if(Pi::renderer != nullptr) {
+	if (Pi::renderer != nullptr) {
 		int maxSamples = Pi::renderer->GetMaximumNumberAASamples();
 		lua_pushinteger(l, maxSamples);
 	} else {
@@ -223,8 +222,6 @@ static int l_engine_get_maximum_aa_samples(lua_State *l)
 	LUA_DEBUG_END(l, 1);
 	return 1;
 }
-
-
 
 /*
  * Method: GetVideoResolution
@@ -914,7 +911,8 @@ static int l_engine_set_sector_map_automatic_system_selection(lua_State *l)
 	return 0;
 }
 
-static int l_engine_sector_map_get_route(lua_State *l) {
+static int l_engine_sector_map_get_route(lua_State *l)
+{
 	SectorView *sv = Pi::game->GetSectorView();
 	std::vector<SystemPath> route = sv->GetRoute();
 
@@ -928,7 +926,8 @@ static int l_engine_sector_map_get_route(lua_State *l) {
 	return 1;
 }
 
-static int l_engine_sector_map_get_route_size(lua_State *l) {
+static int l_engine_sector_map_get_route_size(lua_State *l)
+{
 	SectorView *sv = Pi::game->GetSectorView();
 	std::vector<SystemPath> route = sv->GetRoute();
 	const int size = route.size();
@@ -952,7 +951,8 @@ static int l_engine_sector_map_auto_route(lua_State *l)
 	return l_engine_sector_map_get_route(l);
 }
 
-static int l_engine_sector_map_move_route_item_up(lua_State *l) {
+static int l_engine_sector_map_move_route_item_up(lua_State *l)
+{
 	SectorView *sv = Pi::game->GetSectorView();
 	int element = LuaPull<int>(l, 1);
 
@@ -964,7 +964,8 @@ static int l_engine_sector_map_move_route_item_up(lua_State *l) {
 	return 1;
 }
 
-static int l_engine_sector_map_move_route_item_down(lua_State *l) {
+static int l_engine_sector_map_move_route_item_down(lua_State *l)
+{
 	SectorView *sv = Pi::game->GetSectorView();
 	int element = LuaPull<int>(l, 1);
 
@@ -976,7 +977,8 @@ static int l_engine_sector_map_move_route_item_down(lua_State *l) {
 	return 1;
 }
 
-static int l_engine_sector_map_remove_route_item(lua_State *l) {
+static int l_engine_sector_map_remove_route_item(lua_State *l)
+{
 	SectorView *sv = Pi::game->GetSectorView();
 	int element = LuaPull<int>(l, 1);
 
@@ -990,10 +992,10 @@ static int l_engine_sector_map_remove_route_item(lua_State *l) {
 
 static int l_engine_set_sector_map_selected(lua_State *l)
 {
-		SectorView *sv = Pi::game->GetSectorView();
-		SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
-		sv->SetSelected(*path);
-		return 0;
+	SectorView *sv = Pi::game->GetSectorView();
+	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
+	sv->SetSelected(*path);
+	return 0;
 }
 
 static int l_engine_sector_map_goto_sector_path(lua_State *l)
@@ -1006,10 +1008,10 @@ static int l_engine_sector_map_goto_sector_path(lua_State *l)
 
 static int l_engine_sector_map_goto_system_path(lua_State *l)
 {
-		SectorView *sv = Pi::game->GetSectorView();
-		SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
-		sv->GotoSystem(*path);
-		return 0;
+	SectorView *sv = Pi::game->GetSectorView();
+	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
+	sv->GotoSystem(*path);
+	return 0;
 }
 
 static int l_engine_search_nearby_star_systems_by_name(lua_State *l)
@@ -1020,7 +1022,7 @@ static int l_engine_search_nearby_star_systems_by_name(lua_State *l)
 	std::vector<SystemPath> matches = sv->GetNearbyStarSystemsByName(pattern);
 	int i = 1;
 	lua_newtable(l);
-	for(const SystemPath &path : matches) {
+	for (const SystemPath &path : matches) {
 		lua_pushnumber(l, i++);
 		LuaObject<SystemPath>::PushToLua(path);
 		lua_settable(l, -3);
@@ -1056,10 +1058,10 @@ static int l_engine_get_sector_map_factions(lua_State *l)
 	const std::set<const Faction *> hidden = sv->GetHiddenFactions();
 	lua_newtable(l); // outer table
 	int i = 1;
-	for(const Faction *f : visible) {
+	for (const Faction *f : visible) {
 		lua_pushnumber(l, i++);
 		lua_newtable(l); // inner table
-		LuaObject<Faction>::PushToLua(const_cast<Faction*>(f));
+		LuaObject<Faction>::PushToLua(const_cast<Faction *>(f));
 		lua_setfield(l, -2, "faction");
 		lua_pushboolean(l, hidden.count(f) == 0);
 		lua_setfield(l, -2, "visible"); // inner table
@@ -1156,48 +1158,48 @@ void LuaEngine::Register()
 
 		{ "GetModel", l_engine_get_model },
 
-		{ "GetSectorMapZoomLevel",      l_engine_get_sector_map_zoom_level },
-		{ "SectorMapZoomIn",            l_engine_sector_map_zoom_in },
-		{ "SectorMapZoomOut",           l_engine_sector_map_zoom_out },
-		{ "GetSectorMapCenterSector",   l_engine_get_sector_map_center_sector },
+		{ "GetSectorMapZoomLevel", l_engine_get_sector_map_zoom_level },
+		{ "SectorMapZoomIn", l_engine_sector_map_zoom_in },
+		{ "SectorMapZoomOut", l_engine_sector_map_zoom_out },
+		{ "GetSectorMapCenterSector", l_engine_get_sector_map_center_sector },
 		{ "GetSectorMapCenterDistance", l_engine_get_sector_map_center_distance },
-		{ "GetSectorMapCurrentSystemPath",  l_engine_get_sector_map_current_system_path },
+		{ "GetSectorMapCurrentSystemPath", l_engine_get_sector_map_current_system_path },
 		{ "GetSectorMapSelectedSystemPath", l_engine_get_sector_map_selected_system_path },
 		{ "GetSectorMapHyperspaceTargetSystemPath", l_engine_get_sector_map_hyperspace_target_system_path },
-		{ "SetSectorMapDrawUninhabitedLabels",      l_engine_set_sector_map_draw_uninhabited_labels },
-		{ "SetSectorMapDrawVerticalLines",          l_engine_set_sector_map_draw_vertical_lines },
-		{ "SetSectorMapDrawOutRangeLabels",         l_engine_set_sector_map_draw_out_range_labels },
-		{ "SetSectorMapAutomaticSystemSelection",   l_engine_set_sector_map_automatic_system_selection },
-		{ "SetSectorMapLockHyperspaceTarget",       l_engine_set_sector_map_lock_hyperspace_target },
-		{ "SetSectorMapSelected",                   l_engine_set_sector_map_selected },
-		{ "SectorMapGotoSectorPath",                l_engine_sector_map_goto_sector_path },
-		{ "SectorMapGotoSystemPath",                l_engine_sector_map_goto_system_path },
-		{ "GetSectorMapFactions",                   l_engine_get_sector_map_factions },
-		{ "SetSectorMapFactionVisible",             l_engine_set_sector_map_faction_visible },
-		{ "SectorMapAutoRoute",                     l_engine_sector_map_auto_route },
-		{ "SectorMapGetRoute",                      l_engine_sector_map_get_route },
-		{ "SectorMapGetRouteSize",                  l_engine_sector_map_get_route_size },
-		{ "SectorMapMoveRouteItemUp",               l_engine_sector_map_move_route_item_up },
-		{ "SectorMapMoveRouteItemDown",             l_engine_sector_map_move_route_item_down },
-		{ "SectorMapRemoveRouteItem",               l_engine_sector_map_remove_route_item },
+		{ "SetSectorMapDrawUninhabitedLabels", l_engine_set_sector_map_draw_uninhabited_labels },
+		{ "SetSectorMapDrawVerticalLines", l_engine_set_sector_map_draw_vertical_lines },
+		{ "SetSectorMapDrawOutRangeLabels", l_engine_set_sector_map_draw_out_range_labels },
+		{ "SetSectorMapAutomaticSystemSelection", l_engine_set_sector_map_automatic_system_selection },
+		{ "SetSectorMapLockHyperspaceTarget", l_engine_set_sector_map_lock_hyperspace_target },
+		{ "SetSectorMapSelected", l_engine_set_sector_map_selected },
+		{ "SectorMapGotoSectorPath", l_engine_sector_map_goto_sector_path },
+		{ "SectorMapGotoSystemPath", l_engine_sector_map_goto_system_path },
+		{ "GetSectorMapFactions", l_engine_get_sector_map_factions },
+		{ "SetSectorMapFactionVisible", l_engine_set_sector_map_faction_visible },
+		{ "SectorMapAutoRoute", l_engine_sector_map_auto_route },
+		{ "SectorMapGetRoute", l_engine_sector_map_get_route },
+		{ "SectorMapGetRouteSize", l_engine_sector_map_get_route_size },
+		{ "SectorMapMoveRouteItemUp", l_engine_sector_map_move_route_item_up },
+		{ "SectorMapMoveRouteItemDown", l_engine_sector_map_move_route_item_down },
+		{ "SectorMapRemoveRouteItem", l_engine_sector_map_remove_route_item },
 
-		{"SectorMapClearRoute", l_engine_sector_map_clear_route },
-		{"SectorMapAddToRoute", l_engine_sector_map_add_to_route },
+		{ "SectorMapClearRoute", l_engine_sector_map_clear_route },
+		{ "SectorMapAddToRoute", l_engine_sector_map_add_to_route },
 
-		{ "SearchNearbyStarSystemsByName",  l_engine_search_nearby_star_systems_by_name },
+		{ "SearchNearbyStarSystemsByName", l_engine_search_nearby_star_systems_by_name },
 
-		{ "ShipSpaceToScreenSpace",   l_engine_ship_space_to_screen_space },
+		{ "ShipSpaceToScreenSpace", l_engine_ship_space_to_screen_space },
 		{ "CameraSpaceToScreenSpace", l_engine_camera_space_to_screen_space },
-		{ "WorldSpaceToScreenSpace",     l_engine_world_space_to_screen_space },
-		{ "WorldSpaceToShipSpace",     l_engine_world_space_to_ship_space },
+		{ "WorldSpaceToScreenSpace", l_engine_world_space_to_screen_space },
+		{ "WorldSpaceToShipSpace", l_engine_world_space_to_ship_space },
 		{ 0, 0 }
 	};
 
 	static const luaL_Reg l_attrs[] = {
-		{ "rand",    l_engine_attr_rand    },
-		{ "ticks",   l_engine_attr_ticks   },
-		{ "ui",      l_engine_attr_ui      },
-		{ "pigui",   l_engine_attr_pigui   },
+		{ "rand", l_engine_attr_rand },
+		{ "ticks", l_engine_attr_ticks },
+		{ "ui", l_engine_attr_ui },
+		{ "pigui", l_engine_attr_pigui },
 		{ "version", l_engine_attr_version },
 		{ 0, 0 }
 	};

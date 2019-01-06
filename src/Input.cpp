@@ -7,22 +7,22 @@
 
 void Input::Init()
 {
-    GameConfig *config = Pi::config;
+	GameConfig *config = Pi::config;
 
-    joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
+	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
 
-    InitJoysticks();
+	InitJoysticks();
 }
 
 void Input::InitGame()
 {
-    //reset input states
+	//reset input states
 	keyState.clear();
 	keyModState = 0;
 	std::fill(mouseButton, mouseButton + COUNTOF(mouseButton), 0);
 	std::fill(mouseMotion, mouseMotion + COUNTOF(mouseMotion), 0);
-	for (std::map<SDL_JoystickID,JoystickState>::iterator stick = joysticks.begin(); stick != joysticks.end(); ++stick) {
+	for (std::map<SDL_JoystickID, JoystickState>::iterator stick = joysticks.begin(); stick != joysticks.end(); ++stick) {
 		JoystickState &state = stick->second;
 		std::fill(state.buttons.begin(), state.buttons.end(), false);
 		std::fill(state.hats.begin(), state.hats.end(), 0);
@@ -30,84 +30,84 @@ void Input::InitGame()
 	}
 }
 
-KeyBindings::ActionBinding* Input::AddActionBinding(std::string id, BindingGroup* group, KeyBindings::ActionBinding binding)
+KeyBindings::ActionBinding *Input::AddActionBinding(std::string id, BindingGroup *group, KeyBindings::ActionBinding binding)
 {
-    // TODO: should we throw an error if we attempt to bind over an already-bound action?
-    group->bindings[id] = BindingGroup::ENTRY_ACTION;
+	// TODO: should we throw an error if we attempt to bind over an already-bound action?
+	group->bindings[id] = BindingGroup::ENTRY_ACTION;
 
-    // Load from the config
-    std::string config_str = Pi::config->String(id.c_str());
-    if (config_str.length() > 0) binding.SetFromString(config_str);
+	// Load from the config
+	std::string config_str = Pi::config->String(id.c_str());
+	if (config_str.length() > 0) binding.SetFromString(config_str);
 
-    return &(actionBindings[id] = binding);
+	return &(actionBindings[id] = binding);
 }
 
-KeyBindings::AxisBinding* Input::AddAxisBinding(std::string id, BindingGroup* group, KeyBindings::AxisBinding binding)
+KeyBindings::AxisBinding *Input::AddAxisBinding(std::string id, BindingGroup *group, KeyBindings::AxisBinding binding)
 {
-    // TODO: should we throw an error if we attempt to bind over an already-bound axis?
-    group->bindings[id] = BindingGroup::ENTRY_AXIS;
+	// TODO: should we throw an error if we attempt to bind over an already-bound axis?
+	group->bindings[id] = BindingGroup::ENTRY_AXIS;
 
-    // Load from the config
-    std::string config_str = Pi::config->String(id.c_str());
-    if (config_str.length() > 0) binding.SetFromString(config_str);
+	// Load from the config
+	std::string config_str = Pi::config->String(id.c_str());
+	if (config_str.length() > 0) binding.SetFromString(config_str);
 
-    return &(axisBindings[id] = binding);
+	return &(axisBindings[id] = binding);
 }
 
 void Input::HandleSDLEvent(SDL_Event &event)
 {
-    switch (event.type) {
-        case SDL_KEYDOWN:
-            keyState[event.key.keysym.sym] = true;
-            keyModState = event.key.keysym.mod;
-            onKeyPress.emit(&event.key.keysym);
-            break;
-        case SDL_KEYUP:
-            keyState[event.key.keysym.sym] = false;
-            keyModState = event.key.keysym.mod;
-            onKeyRelease.emit(&event.key.keysym);
-            break;
-        case SDL_MOUSEBUTTONDOWN:
-            if (event.button.button < COUNTOF(mouseButton)) {
-                mouseButton[event.button.button] = 1;
-                onMouseButtonDown.emit(event.button.button,
-                        event.button.x, event.button.y);
-            }
-            break;
-        case SDL_MOUSEBUTTONUP:
-            if (event.button.button < COUNTOF(mouseButton)) {
-                mouseButton[event.button.button] = 0;
-                onMouseButtonUp.emit(event.button.button,
-                        event.button.x, event.button.y);
-            }
-            break;
-        case SDL_MOUSEWHEEL:
-            onMouseWheel.emit(event.wheel.y > 0); // true = up
-            break;
-        case SDL_MOUSEMOTION:
-            mouseMotion[0] += event.motion.xrel;
-            mouseMotion[1] += event.motion.yrel;
-            break;
-        case SDL_JOYAXISMOTION:
-            if (!joysticks[event.jaxis.which].joystick)
-                break;
-            if (event.jaxis.value == -32768)
-                joysticks[event.jaxis.which].axes[event.jaxis.axis] = 1.f;
-            else
-                joysticks[event.jaxis.which].axes[event.jaxis.axis] = -event.jaxis.value / 32767.f;
-            break;
-        case SDL_JOYBUTTONUP:
-        case SDL_JOYBUTTONDOWN:
-            if (!joysticks[event.jaxis.which].joystick)
-                break;
-            joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state != 0;
-            break;
-        case SDL_JOYHATMOTION:
-            if (!joysticks[event.jaxis.which].joystick)
-                break;
-            joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
-            break;
-    }
+	switch (event.type) {
+	case SDL_KEYDOWN:
+		keyState[event.key.keysym.sym] = true;
+		keyModState = event.key.keysym.mod;
+		onKeyPress.emit(&event.key.keysym);
+		break;
+	case SDL_KEYUP:
+		keyState[event.key.keysym.sym] = false;
+		keyModState = event.key.keysym.mod;
+		onKeyRelease.emit(&event.key.keysym);
+		break;
+	case SDL_MOUSEBUTTONDOWN:
+		if (event.button.button < COUNTOF(mouseButton)) {
+			mouseButton[event.button.button] = 1;
+			onMouseButtonDown.emit(event.button.button,
+				event.button.x, event.button.y);
+		}
+		break;
+	case SDL_MOUSEBUTTONUP:
+		if (event.button.button < COUNTOF(mouseButton)) {
+			mouseButton[event.button.button] = 0;
+			onMouseButtonUp.emit(event.button.button,
+				event.button.x, event.button.y);
+		}
+		break;
+	case SDL_MOUSEWHEEL:
+		onMouseWheel.emit(event.wheel.y > 0); // true = up
+		break;
+	case SDL_MOUSEMOTION:
+		mouseMotion[0] += event.motion.xrel;
+		mouseMotion[1] += event.motion.yrel;
+		break;
+	case SDL_JOYAXISMOTION:
+		if (!joysticks[event.jaxis.which].joystick)
+			break;
+		if (event.jaxis.value == -32768)
+			joysticks[event.jaxis.which].axes[event.jaxis.axis] = 1.f;
+		else
+			joysticks[event.jaxis.which].axes[event.jaxis.axis] = -event.jaxis.value / 32767.f;
+		break;
+	case SDL_JOYBUTTONUP:
+	case SDL_JOYBUTTONDOWN:
+		if (!joysticks[event.jaxis.which].joystick)
+			break;
+		joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state != 0;
+		break;
+	case SDL_JOYHATMOTION:
+		if (!joysticks[event.jaxis.which].joystick)
+			break;
+		joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
+		break;
+	}
 }
 
 void Input::InitJoysticks()
@@ -139,7 +139,7 @@ std::string Input::JoystickName(int joystick)
 std::string Input::JoystickGUIDString(int joystick)
 {
 	const int guidBufferLen = 33; // as documented by SDL
-	char	guidBuffer[guidBufferLen];
+	char guidBuffer[guidBufferLen];
 
 	SDL_JoystickGetGUIDString(joysticks[joystick].guid, guidBuffer, guidBufferLen);
 	return std::string(guidBuffer);

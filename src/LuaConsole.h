@@ -5,15 +5,15 @@
 #define _LUACONSOLE_H
 
 #include "LuaManager.h"
-#include "ui/Widget.h"
 #include "RefCounted.h"
+#include "ui/Widget.h"
 #include <deque>
 
 namespace UI {
 	class TextEntry;
 	class MultiLineText;
 	class Scroller;
-}
+} // namespace UI
 
 class LuaConsole {
 public:
@@ -31,16 +31,17 @@ public:
 #endif
 
 	static void Register();
+
 private:
 	bool OnKeyDown(const UI::KeyboardEvent &event);
 	void OnChange(const std::string &text);
 	void OnEnter(const std::string &text);
 
-	void ExecOrContinue(const std::string &stmt, bool repeatStatement=true);
+	void ExecOrContinue(const std::string &stmt, bool repeatStatement = true);
 
-	void OnKeyPressed(const SDL_Keysym*);
+	void OnKeyPressed(const SDL_Keysym *);
 	void OnTextChanged();
-	void UpdateCompletion(const std::string & statement);
+	void UpdateCompletion(const std::string &statement);
 	void RegisterAutoexec();
 
 #ifdef REMOTE_LUA_REPL

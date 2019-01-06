@@ -7,14 +7,15 @@
 #include "graphics/RenderState.h"
 
 namespace Graphics {
-namespace Dummy {
+	namespace Dummy {
 
-class RenderState : public Graphics::RenderState {
-public:
-	RenderState(const RenderStateDesc &d) : Graphics::RenderState(d) {}
-	void Apply() {}
-};
+		class RenderState : public Graphics::RenderState {
+		public:
+			RenderState(const RenderStateDesc &d) :
+				Graphics::RenderState(d) {}
+			void Apply() {}
+		};
 
-}
-}
+	} // namespace Dummy
+} // namespace Graphics
 #endif

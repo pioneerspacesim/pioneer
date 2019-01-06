@@ -1,13 +1,13 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "EnumStrings.h"
+#include "Game.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
-#include "EnumStrings.h"
 #include "Pi.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
-#include "Game.h"
 
 /*
  * Class: SystemBody
@@ -252,7 +252,7 @@ static int l_sbody_attr_gravity(lua_State *l)
 static int l_sbody_attr_periapsis(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushnumber(l, sbody->GetOrbMin()*AU);
+	lua_pushnumber(l, sbody->GetOrbMin() * AU);
 	return 1;
 }
 
@@ -272,10 +272,9 @@ static int l_sbody_attr_periapsis(lua_State *l)
 static int l_sbody_attr_apoapsis(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushnumber(l, sbody->GetOrbMax()*AU);
+	lua_pushnumber(l, sbody->GetOrbMax() * AU);
 	return 1;
 }
-
 
 /*
  * Attribute: orbitPeriod
@@ -293,10 +292,9 @@ static int l_sbody_attr_apoapsis(lua_State *l)
 static int l_sbody_attr_orbital_period(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushnumber(l, sbody->GetOrbit().Period() / float(60*60*24));
+	lua_pushnumber(l, sbody->GetOrbit().Period() / float(60 * 60 * 24));
 	return 1;
 }
-
 
 /*
  * Attribute: rotationPeriod
@@ -334,7 +332,7 @@ static int l_sbody_attr_rotation_period(lua_State *l)
 static int l_sbody_attr_semi_major_axis(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushnumber(l, sbody->GetSemiMajorAxis()*AU);
+	lua_pushnumber(l, sbody->GetSemiMajorAxis() * AU);
 	return 1;
 }
 
@@ -561,7 +559,7 @@ static int l_sbody_attr_life(lua_State *l)
 
 static int l_sbody_attr_has_rings(lua_State *l)
 {
-	SystemBody * sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
 	lua_pushboolean(l, sbody->HasRings());
 	return 1;
 }
@@ -582,7 +580,7 @@ static int l_sbody_attr_has_rings(lua_State *l)
 
 static int l_sbody_attr_has_atmosphere(lua_State *l)
 {
-	SystemBody * sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
 	lua_pushboolean(l, sbody->HasAtmosphere());
 	return 1;
 }
@@ -603,95 +601,97 @@ static int l_sbody_attr_has_atmosphere(lua_State *l)
 
 static int l_sbody_attr_is_scoopable(lua_State *l)
 {
-	SystemBody * sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
 	lua_pushboolean(l, sbody->IsScoopable());
 	return 1;
 }
 
 static int l_sbody_attr_path(lua_State *l)
 {
-	SystemBody * sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
 	LuaObject<SystemPath>::PushToLua(sbody->GetPath());
 	return 1;
 }
 
 static int l_sbody_attr_astro_description(lua_State *l)
 {
-	SystemBody * sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
 	LuaPush(l, sbody->GetAstroDescription());
 	return 1;
 }
 
 static int l_sbody_attr_body(lua_State *l)
 {
-  SystemBody * sbody = LuaObject<SystemBody>::CheckFromLua(1);
-  if(Pi::game) {
-	Space *space = Pi::game->GetSpace();
-	if(space) {
-	  const SystemPath &path = sbody->GetPath();
-	  Body *body = space->FindBodyForPath(&path);
-	  if(body) {
-		LuaObject<Body>::PushToLua(body);
-	  } else {
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	if (Pi::game) {
+		Space *space = Pi::game->GetSpace();
+		if (space) {
+			const SystemPath &path = sbody->GetPath();
+			Body *body = space->FindBodyForPath(&path);
+			if (body) {
+				LuaObject<Body>::PushToLua(body);
+			} else {
+				lua_pushnil(l);
+			}
+		}
+	} else {
 		lua_pushnil(l);
-	  }
 	}
-  } else {
-	lua_pushnil(l);
-  }
-  return 1;
+	return 1;
 }
 
 static int l_sbody_attr_children(lua_State *l)
 {
-  SystemBody * sbody = LuaObject<SystemBody>::CheckFromLua(1);
-  LuaTable children(l);
-  int i = 1;
-  for (auto child : sbody->GetChildren()) {
-	LuaPush(l, i++);
-	LuaObject<SystemBody>::PushToLua(child);
-	lua_settable(l, -3);
-  }
-  return 1;
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	LuaTable children(l);
+	int i = 1;
+	for (auto child : sbody->GetChildren()) {
+		LuaPush(l, i++);
+		LuaObject<SystemBody>::PushToLua(child);
+		lua_settable(l, -3);
+	}
+	return 1;
 }
 
-template <> const char *LuaObject<SystemBody>::s_type = "SystemBody";
+template <>
+const char *LuaObject<SystemBody>::s_type = "SystemBody";
 
-template <> void LuaObject<SystemBody>::RegisterClass()
+template <>
+void LuaObject<SystemBody>::RegisterClass()
 {
 	static const luaL_Reg l_attrs[] = {
-		{ "index",          l_sbody_attr_index           },
-		{ "name",           l_sbody_attr_name            },
-		{ "type",           l_sbody_attr_type            },
-		{ "superType",      l_sbody_attr_super_type      },
-		{ "seed",           l_sbody_attr_seed            },
-		{ "parent",         l_sbody_attr_parent          },
-		{ "population",     l_sbody_attr_population      },
-		{ "radius",         l_sbody_attr_radius          },
-		{ "mass",           l_sbody_attr_mass            },
-		{ "gravity",        l_sbody_attr_gravity         },
-		{ "periapsis",      l_sbody_attr_periapsis       },
-		{ "apoapsis",       l_sbody_attr_apoapsis        },
-		{ "orbitPeriod",    l_sbody_attr_orbital_period  },
+		{ "index", l_sbody_attr_index },
+		{ "name", l_sbody_attr_name },
+		{ "type", l_sbody_attr_type },
+		{ "superType", l_sbody_attr_super_type },
+		{ "seed", l_sbody_attr_seed },
+		{ "parent", l_sbody_attr_parent },
+		{ "population", l_sbody_attr_population },
+		{ "radius", l_sbody_attr_radius },
+		{ "mass", l_sbody_attr_mass },
+		{ "gravity", l_sbody_attr_gravity },
+		{ "periapsis", l_sbody_attr_periapsis },
+		{ "apoapsis", l_sbody_attr_apoapsis },
+		{ "orbitPeriod", l_sbody_attr_orbital_period },
 		{ "rotationPeriod", l_sbody_attr_rotation_period },
-		{ "semiMajorAxis",  l_sbody_attr_semi_major_axis },
-		{ "eccentricity",   l_sbody_attr_eccentricty     },
-		{ "axialTilt",      l_sbody_attr_axial_tilt      },
-		{ "averageTemp",    l_sbody_attr_average_temp    },
-		{ "metallicity",	l_sbody_attr_metallicity	 },
-		{ "volatileGas",	l_sbody_attr_volatileGas	 },
-		{ "atmosOxidizing",	l_sbody_attr_atmosOxidizing  },
-		{ "volatileLiquid",	l_sbody_attr_volatileLiquid  },
-		{ "volatileIces",	l_sbody_attr_volatileIces	 },
-		{ "volcanicity",	l_sbody_attr_volcanicity	 },
-		{ "life",			l_sbody_attr_life			 },
-		{ "hasRings",		l_sbody_attr_has_rings		 },
-		{ "hasAtmosphere",  l_sbody_attr_has_atmosphere  },
-		{ "isScoopable",    l_sbody_attr_is_scoopable    },
+		{ "semiMajorAxis", l_sbody_attr_semi_major_axis },
+		{ "eccentricity", l_sbody_attr_eccentricty },
+		{ "axialTilt", l_sbody_attr_axial_tilt },
+		{ "averageTemp", l_sbody_attr_average_temp },
+		{ "metallicity", l_sbody_attr_metallicity },
+		{ "volatileGas", l_sbody_attr_volatileGas },
+		{ "atmosOxidizing", l_sbody_attr_atmosOxidizing },
+		{ "volatileLiquid", l_sbody_attr_volatileLiquid },
+		{ "volatileIces", l_sbody_attr_volatileIces },
+		{ "volcanicity", l_sbody_attr_volcanicity },
+		{ "life", l_sbody_attr_life },
+		{ "hasRings", l_sbody_attr_has_rings },
+		{ "hasAtmosphere", l_sbody_attr_has_atmosphere },
+		{ "isScoopable", l_sbody_attr_is_scoopable },
 		{ "astroDescription", l_sbody_attr_astro_description },
-		{ "path",           l_sbody_attr_path },
-		{ "body",           l_sbody_attr_body },
-		{ "children",       l_sbody_attr_children },
+		{ "path", l_sbody_attr_path },
+		{ "body", l_sbody_attr_body },
+		{ "children", l_sbody_attr_children },
 		{ 0, 0 }
 	};
 

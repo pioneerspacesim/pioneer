@@ -8,43 +8,43 @@
 
 namespace UI {
 
-class Background;
-class ColorBackground;
+	class Background;
+	class ColorBackground;
 
-class List : public Container {
-public:
-	virtual Point PreferredSize();
-	virtual void Layout();
+	class List : public Container {
+	public:
+		virtual Point PreferredSize();
+		virtual void Layout();
 
-	List *AddOption(const std::string &text);
-	void Clear();
+		List *AddOption(const std::string &text);
+		void Clear();
 
-	size_t NumItems() const { return m_options.size(); }
-	bool IsEmpty() const { return m_options.empty(); }
+		size_t NumItems() const { return m_options.size(); }
+		bool IsEmpty() const { return m_options.empty(); }
 
-	const std::string &GetSelectedOption() const;
-	bool SetSelectedOption(const std::string &option);
-	int GetSelectedIndex() const;
-	void SetSelectedIndex(const int index);
+		const std::string &GetSelectedOption() const;
+		bool SetSelectedOption(const std::string &option);
+		int GetSelectedIndex() const;
+		void SetSelectedIndex(const int index);
 
-	sigc::signal<void,unsigned int,const std::string &> onOptionSelected;
+		sigc::signal<void, unsigned int, const std::string &> onOptionSelected;
 
-protected:
-	friend class Context;
-	List(Context *context);
+	protected:
+		friend class Context;
+		List(Context *context);
 
-private:
-	std::vector<std::string> m_options;
-	int m_selected;
+	private:
+		std::vector<std::string> m_options;
+		int m_selected;
 
-	Background *m_container;
-	std::vector<ColorBackground*> m_optionBackgrounds;
+		Background *m_container;
+		std::vector<ColorBackground *> m_optionBackgrounds;
 
-	bool HandleOptionMouseOver(int index);
-	bool HandleOptionMouseOut(int index);
-	bool HandleOptionClick(int index);
-};
+		bool HandleOptionMouseOver(int index);
+		bool HandleOptionMouseOut(int index);
+		bool HandleOptionClick(int index);
+	};
 
-}
+} // namespace UI
 
 #endif

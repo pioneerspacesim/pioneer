@@ -4,17 +4,19 @@
 #ifndef _CAMERA_H
 #define _CAMERA_H
 
-#include "graphics/Frustum.h"
-#include "graphics/Light.h"
-#include "RefCounted.h"
-#include "vector3.h"
-#include "matrix4x4.h"
 #include "Background.h"
 #include "Body.h"
+#include "RefCounted.h"
+#include "graphics/Frustum.h"
+#include "graphics/Light.h"
+#include "matrix4x4.h"
+#include "vector3.h"
 
 class Frame;
 class ShipCockpit;
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+}
 
 class CameraContext : public RefCounted {
 public:
@@ -22,11 +24,11 @@ public:
 	CameraContext(float width, float height, float fovAng, float zNear, float zFar);
 	~CameraContext();
 
-	float GetWidth()  const { return m_width;  }
+	float GetWidth() const { return m_width; }
 	float GetHeight() const { return m_height; }
 	float GetFovAng() const { return m_fovAng; }
-	float GetZNear()  const { return m_zNear;  }
-	float GetZFar()   const { return m_zFar;   }
+	float GetZNear() const { return m_zNear; }
+	float GetZFar() const { return m_zFar; }
 
 	// frame to position the camera relative to
 	void SetFrame(Frame *frame) { m_frame = frame; }
@@ -45,7 +47,11 @@ public:
 	void EndFrame();
 
 	// valid between BeginFrame and EndFrame
-	Frame *GetCamFrame() const { assert(m_camFrame); return m_camFrame; }
+	Frame *GetCamFrame() const
+	{
+		assert(m_camFrame);
+		return m_camFrame;
+	}
 
 	// apply projection and modelview transforms to the renderer
 	void ApplyDrawTransforms(Graphics::Renderer *r);
@@ -66,7 +72,6 @@ private:
 	Frame *m_camFrame;
 };
 
-
 class Camera {
 public:
 	Camera(RefCountedPtr<CameraContext> context, Graphics::Renderer *renderer);
@@ -74,12 +79,14 @@ public:
 	const CameraContext *GetContext() const { return m_context.Get(); }
 
 	void Update();
-	void Draw(const Body *excludeBody = nullptr, ShipCockpit* cockpit = nullptr);
+	void Draw(const Body *excludeBody = nullptr, ShipCockpit *cockpit = nullptr);
 
 	// camera-specific light with attached source body
 	class LightSource {
 	public:
-		LightSource(const Body *b, Graphics::Light &light) : m_body(b), m_light(light) {}
+		LightSource(const Body *b, Graphics::Light &light) :
+			m_body(b),
+			m_light(light) {}
 
 		const Body *GetBody() const { return m_body; }
 		const Graphics::Light &GetLight() const { return m_light; }
@@ -94,7 +101,7 @@ public:
 		float srad;
 		float lrad;
 
-		bool operator< (const Shadow& other) const { return srad/lrad < other.srad/other.lrad; }
+		bool operator<(const Shadow &other) const { return srad / lrad < other.srad / other.lrad; }
 	};
 
 	void CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const;
@@ -132,7 +139,8 @@ private:
 		Color billboardColor;
 
 		// for sorting. "should a be drawn before b?"
-		friend bool operator<(const BodyAttrs &a, const BodyAttrs &b) {
+		friend bool operator<(const BodyAttrs &a, const BodyAttrs &b)
+		{
 			// both drawing last; distance order
 			if (a.bodyFlags & Body::FLAG_DRAW_LAST && b.bodyFlags & Body::FLAG_DRAW_LAST)
 				return a.camDist > b.camDist;

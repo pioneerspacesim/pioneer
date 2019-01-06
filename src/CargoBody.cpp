@@ -1,18 +1,18 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "Ship.h"
 #include "CargoBody.h"
+#include "EnumStrings.h"
 #include "Game.h"
+#include "GameSaveError.h"
+#include "LuaTable.h"
 #include "Pi.h"
 #include "Sfx.h"
+#include "Ship.h"
 #include "Space.h"
-#include "EnumStrings.h"
-#include "LuaTable.h"
 #include "collider/collider.h"
-#include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
-#include "GameSaveError.h"
+#include "scenegraph/SceneGraph.h"
 
 void CargoBody::SaveToJson(Json &jsonObj, Space *space)
 {
@@ -69,7 +69,8 @@ void CargoBody::Init()
 	Properties().Set("type", cargoname);
 }
 
-CargoBody::CargoBody(const LuaRef& cargo, float selfdestructTimer): m_cargo(cargo)
+CargoBody::CargoBody(const LuaRef &cargo, float selfdestructTimer) :
+	m_cargo(cargo)
 {
 	SetModel("cargo");
 	Init();
@@ -91,7 +92,7 @@ void CargoBody::TimeStepUpdate(const float timeStep)
 
 	if (m_hasSelfdestruct) {
 		m_selfdestructTimer -= timeStep;
-		if (m_selfdestructTimer <= 0){
+		if (m_selfdestructTimer <= 0) {
 			Pi::game->GetSpace()->KillBody(this);
 			SfxManager::Add(this, TYPE_EXPLOSION);
 		}
@@ -99,9 +100,9 @@ void CargoBody::TimeStepUpdate(const float timeStep)
 	DynamicBody::TimeStepUpdate(timeStep);
 }
 
-bool CargoBody::OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData)
+bool CargoBody::OnDamage(Object *attacker, float kgDamage, const CollisionContact &contactData)
 {
-	m_hitpoints -= kgDamage*0.001f;
+	m_hitpoints -= kgDamage * 0.001f;
 	if (m_hitpoints < 0) {
 		Pi::game->GetSpace()->KillBody(this);
 		SfxManager::Add(this, TYPE_EXPLOSION);
@@ -114,7 +115,7 @@ bool CargoBody::OnCollision(Object *b, Uint32 flags, double relVel)
 	// ignore collision if its about to be scooped
 	if (b->IsType(Object::SHIP)) {
 		int cargoscoop_cap = 0;
-		static_cast<Ship*>(b)->Properties().Get("cargo_scoop_cap", cargoscoop_cap);
+		static_cast<Ship *>(b)->Properties().Get("cargo_scoop_cap", cargoscoop_cap);
 		if (cargoscoop_cap > 0)
 			return true;
 	}

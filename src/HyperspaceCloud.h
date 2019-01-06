@@ -13,9 +13,9 @@ namespace Graphics {
 	class Renderer;
 	class VertexArray;
 	class RenderState;
-}
+} // namespace Graphics
 
-class HyperspaceCloud: public Body {
+class HyperspaceCloud : public Body {
 public:
 	OBJDEF(HyperspaceCloud, Body, HYPERSPACECLOUD);
 	HyperspaceCloud(Ship *, double dateDue, bool isArrival);
@@ -32,6 +32,7 @@ public:
 	void SetIsArrival(bool isArrival);
 	bool IsArrival() const { return m_isArrival; }
 	virtual void UpdateInterpTransform(double alpha) override;
+
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
 	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;

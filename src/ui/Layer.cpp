@@ -6,32 +6,32 @@
 
 namespace UI {
 
-void Layer::Layout()
-{
-	LayoutChildren();
-}
+	void Layer::Layout()
+	{
+		LayoutChildren();
+	}
 
-Layer *Layer::SetInnerWidget(Widget *w, const Point &pos, const Point &size)
-{
-	assert(!w->GetContainer());
+	Layer *Layer::SetInnerWidget(Widget *w, const Point &pos, const Point &size)
+	{
+		assert(!w->GetContainer());
 
-	Container::RemoveAllWidgets();
-	m_widget.Reset(w);
+		Container::RemoveAllWidgets();
+		m_widget.Reset(w);
 
-	Container::AddWidget(w);
-	Container::SetWidgetDimensions(w, pos, size);
+		Container::AddWidget(w);
+		Container::SetWidgetDimensions(w, pos, size);
 
-	GetContext()->RequestLayout();
+		GetContext()->RequestLayout();
 
-	return this;
-}
+		return this;
+	}
 
-void Layer::RemoveInnerWidget()
-{
-	Container::RemoveAllWidgets();
-	m_widget.Reset(0);
+	void Layer::RemoveInnerWidget()
+	{
+		Container::RemoveAllWidgets();
+		m_widget.Reset(0);
 
-	GetContext()->RequestLayout();
-}
+		GetContext()->RequestLayout();
+	}
 
-}
+} // namespace UI

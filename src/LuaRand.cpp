@@ -43,17 +43,16 @@ static int l_rand_new(lua_State *l)
 {
 	std::unique_ptr<Random> rng(new Random());
 	switch (lua_type(l, 1)) {
-	case LUA_TSTRING:
-		{
-			size_t sz;
-			const char *str = lua_tolstring(l, 1, &sz);
+	case LUA_TSTRING: {
+		size_t sz;
+		const char *str = lua_tolstring(l, 1, &sz);
 
-			// Note, these are inputs as well as outputs! They must be initialised.
-			Uint32 hashes[2] = { 0u, 0u };
-			lookup3_hashlittle2(str, sz, hashes+0, hashes+1);
-			rng->seed(hashes, 2);
-			break;
-		}
+		// Note, these are inputs as well as outputs! They must be initialised.
+		Uint32 hashes[2] = { 0u, 0u };
+		lookup3_hashlittle2(str, sz, hashes + 0, hashes + 1);
+		rng->seed(hashes, 2);
+		break;
+	}
 	case LUA_TNUMBER:
 		rng->seed(Uint32(lua_tonumber(l, 1)));
 		break;
@@ -105,12 +104,10 @@ static int l_rand_number(lua_State *l)
 	if (lua_isnumber(l, 2) && lua_isnumber(l, 3)) {
 		min = lua_tonumber(l, 2);
 		max = lua_tonumber(l, 3);
-	}
-	else if (lua_isnumber(l, 2)) {
+	} else if (lua_isnumber(l, 2)) {
 		min = 0.0;
 		max = lua_tonumber(l, 2);
-	}
-	else {
+	} else {
 		lua_pushnumber(l, rand->Double());
 		return 1;
 	}
@@ -195,12 +192,10 @@ static int l_rand_normal(lua_State *l)
 	if (lua_isnumber(l, 2) && lua_isnumber(l, 3)) {
 		mean = lua_tonumber(l, 2);
 		stddev = lua_tonumber(l, 3);
-	}
-	else if (lua_isnumber(l, 2)) {
+	} else if (lua_isnumber(l, 2)) {
 		mean = lua_tonumber(l, 2);
 		stddev = 1;
-	}
-	else {
+	} else {
 		lua_pushnumber(l, rand->Normal());
 		return 1;
 	}
@@ -249,14 +244,12 @@ static int l_rand_integer(lua_State *l)
 	if (lua_isnumber(l, 2) && lua_isnumber(l, 3)) {
 		min = lua_tointeger(l, 2);
 		max = lua_tointeger(l, 3);
-	}
-	else if (lua_isnumber(l, 2)) {
+	} else if (lua_isnumber(l, 2)) {
 		min = 0;
 		max = lua_tointeger(l, 2);
-	}
-	else {
-		  lua_pushnumber(l, rand->Int32());
-		  return 1;
+	} else {
+		lua_pushnumber(l, rand->Int32());
+		return 1;
 	}
 
 	if (min > max)
@@ -266,15 +259,17 @@ static int l_rand_integer(lua_State *l)
 	return 1;
 }
 
-template <> const char *LuaObject<Random>::s_type = "Rand";
+template <>
+const char *LuaObject<Random>::s_type = "Rand";
 
-template <> void LuaObject<Random>::RegisterClass()
+template <>
+void LuaObject<Random>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
-		{ "New",     l_rand_new     },
-		{ "Number",  l_rand_number  },
+		{ "New", l_rand_new },
+		{ "Number", l_rand_number },
 		{ "Poisson", l_rand_poisson },
-		{ "Normal",  l_rand_normal  },
+		{ "Normal", l_rand_normal },
 		{ "Integer", l_rand_integer },
 		{ 0, 0 }
 	};

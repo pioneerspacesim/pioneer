@@ -6,18 +6,19 @@
 
 namespace UI {
 
-class LuaButton {
-public:
+	class LuaButton {
+	public:
+	};
 
-};
-
-}
+} // namespace UI
 
 using namespace UI;
 
-template <> const char *LuaObject<UI::Button>::s_type = "UI.Button";
+template <>
+const char *LuaObject<UI::Button>::s_type = "UI.Button";
 
-template <> void LuaObject<UI::Button>::RegisterClass()
+template <>
+void LuaObject<UI::Button>::RegisterClass()
 {
 	static const char *l_parent = "UI.Single";
 

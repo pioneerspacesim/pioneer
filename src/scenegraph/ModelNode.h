@@ -6,27 +6,27 @@
 /*
  *	Use another model as a submodel
  */
-#include "Node.h"
 #include "Model.h"
+#include "Node.h"
 
 namespace SceneGraph {
 
-class ModelNode : public Node {
-public:
-	ModelNode(Model *m);
-	ModelNode(const ModelNode&, NodeCopyCache *cache = 0);
-	virtual Node *Clone(NodeCopyCache *cache = 0);
-	virtual const char *GetTypeName() const { return "ModelNode"; }
-	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
-	virtual void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd);
+	class ModelNode : public Node {
+	public:
+		ModelNode(Model *m);
+		ModelNode(const ModelNode &, NodeCopyCache *cache = 0);
+		virtual Node *Clone(NodeCopyCache *cache = 0);
+		virtual const char *GetTypeName() const { return "ModelNode"; }
+		virtual void Render(const matrix4x4f &trans, const RenderData *rd);
+		virtual void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd);
 
-protected:
-	virtual ~ModelNode() { }
+	protected:
+		virtual ~ModelNode() {}
 
-private:
-	Model *m_model;
-};
+	private:
+		Model *m_model;
+	};
 
-}
+} // namespace SceneGraph
 
 #endif

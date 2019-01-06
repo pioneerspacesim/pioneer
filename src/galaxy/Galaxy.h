@@ -4,12 +4,12 @@
 #ifndef _GALAXY_H
 #define _GALAXY_H
 
-#include <cstdio>
-#include "RefCounted.h"
-#include "Factions.h"
 #include "CustomSystem.h"
+#include "Factions.h"
 #include "GalaxyCache.h"
 #include "Json.h"
+#include "RefCounted.h"
+#include <cstdio>
 
 struct SDL_Surface;
 class GalaxyGenerator;
@@ -18,7 +18,7 @@ class Galaxy : public RefCounted {
 protected:
 	friend class GalaxyGenerator;
 	Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, float sol_offset_x, float sol_offset_y,
-		const std::string& factionsDir, const std::string& customSysDir);
+		const std::string &factionsDir, const std::string &customSysDir);
 	void SetGalaxyGenerator(RefCountedPtr<GalaxyGenerator> galaxyGenerator);
 	virtual void Init();
 
@@ -36,21 +36,21 @@ public:
 	bool IsInitialized() const { return m_initialized; }
 	/* 0 - 255 */
 	virtual Uint8 GetSectorDensity(const int sx, const int sy, const int sz) const = 0;
-	FactionsDatabase* GetFactions() { return &m_factions; } // XXX const correctness
-	CustomSystemsDatabase* GetCustomSystems() { return &m_customSystems; } // XXX const correctness
+	FactionsDatabase *GetFactions() { return &m_factions; } // XXX const correctness
+	CustomSystemsDatabase *GetCustomSystems() { return &m_customSystems; } // XXX const correctness
 
-	RefCountedPtr<const Sector> GetSector(const SystemPath& path) { return m_sectorCache.GetCached(path); }
-	RefCountedPtr<Sector> GetMutableSector(const SystemPath& path) { return m_sectorCache.GetCached(path); }
+	RefCountedPtr<const Sector> GetSector(const SystemPath &path) { return m_sectorCache.GetCached(path); }
+	RefCountedPtr<Sector> GetMutableSector(const SystemPath &path) { return m_sectorCache.GetCached(path); }
 	RefCountedPtr<SectorCache::Slave> NewSectorSlaveCache() { return m_sectorCache.NewSlaveCache(); }
 
-	RefCountedPtr<StarSystem> GetStarSystem(const SystemPath& path) { return m_starSystemCache.GetCached(path); }
+	RefCountedPtr<StarSystem> GetStarSystem(const SystemPath &path) { return m_starSystemCache.GetCached(path); }
 	RefCountedPtr<StarSystemCache::Slave> NewStarSystemSlaveCache() { return m_starSystemCache.NewSlaveCache(); }
 
 	void FlushCaches();
-	void Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius);
+	void Dump(FILE *file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius);
 
 	RefCountedPtr<GalaxyGenerator> GetGenerator() const;
-	const std::string& GetGeneratorName() const;
+	const std::string &GetGeneratorName() const;
 	int GetGeneratorVersion() const;
 
 private:
@@ -65,8 +65,8 @@ private:
 class DensityMapGalaxy : public Galaxy {
 private:
 	friend class GalaxyGenerator;
-	DensityMapGalaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, const std::string& mapfile,
-		float radius, float sol_offset_x, float sol_offset_y,	const std::string& factionsDir, const std::string& customSysDir);
+	DensityMapGalaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, const std::string &mapfile,
+		float radius, float sol_offset_x, float sol_offset_y, const std::string &factionsDir, const std::string &customSysDir);
 
 public:
 	virtual Uint8 GetSectorDensity(const int sx, const int sy, const int sz) const;

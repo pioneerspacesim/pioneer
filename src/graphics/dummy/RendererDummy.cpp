@@ -5,12 +5,14 @@
 
 namespace Graphics {
 
-static Renderer *CreateRenderer(const Settings &vs) {
-    return new RendererDummy();
-}
+	static Renderer *CreateRenderer(const Settings &vs)
+	{
+		return new RendererDummy();
+	}
 
-void RendererDummy::RegisterRenderer() {
-    Graphics::RegisterRenderer(Graphics::RENDERER_DUMMY, CreateRenderer);
-}
+	void RendererDummy::RegisterRenderer()
+	{
+		Graphics::RegisterRenderer(Graphics::RENDERER_DUMMY, CreateRenderer);
+	}
 
-}
+} // namespace Graphics

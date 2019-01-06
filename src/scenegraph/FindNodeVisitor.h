@@ -11,25 +11,25 @@
 
 namespace SceneGraph {
 
-class FindNodeVisitor : public NodeVisitor {
-public:
-	enum Criteria { //or criterion. whatever.
-		MATCH_NAME_FULL,
-		MATCH_NAME_STARTSWITH,
-		MATCH_NAME_ENDSWITH
-		//match type etc.
+	class FindNodeVisitor : public NodeVisitor {
+	public:
+		enum Criteria { //or criterion. whatever.
+			MATCH_NAME_FULL,
+			MATCH_NAME_STARTSWITH,
+			MATCH_NAME_ENDSWITH
+			//match type etc.
+		};
+		FindNodeVisitor(Criteria crit, const std::string &searchstring);
+		virtual void ApplyNode(Node &);
+
+		const std::vector<Node *> &GetResults() { return m_results; }
+
+	private:
+		std::vector<Node *> m_results;
+		Criteria m_criteria;
+		std::string m_string;
 	};
-	FindNodeVisitor(Criteria crit, const std::string &searchstring);
-	virtual void ApplyNode(Node&);
 
-	const std::vector<Node*> &GetResults() { return m_results; }
-
-private:
-	std::vector<Node*> m_results;
-	Criteria m_criteria;
-	std::string m_string;
-};
-
-}
+} // namespace SceneGraph
 
 #endif

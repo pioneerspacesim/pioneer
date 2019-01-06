@@ -1,23 +1,24 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "SmallButton.h"
 #include "LuaObject.h"
+#include "SmallButton.h"
 
 namespace UI {
 
-class LuaSmallButton {
-public:
+	class LuaSmallButton {
+	public:
+	};
 
-};
-
-}
+} // namespace UI
 
 using namespace UI;
 
-template <> const char *LuaObject<UI::SmallButton>::s_type = "UI.SmallButton";
+template <>
+const char *LuaObject<UI::SmallButton>::s_type = "UI.SmallButton";
 
-template <> void LuaObject<UI::SmallButton>::RegisterClass()
+template <>
+void LuaObject<UI::SmallButton>::RegisterClass()
 {
 	static const char *l_parent = "UI.Widget";
 

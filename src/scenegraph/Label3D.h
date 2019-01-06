@@ -7,9 +7,9 @@
  * Text geometry node, mostly for ship labels
  */
 #include "Node.h"
-#include "text/DistanceFieldFont.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
+#include "text/DistanceFieldFont.h"
 
 namespace Graphics {
 	class Renderer;
@@ -17,24 +17,24 @@ namespace Graphics {
 
 namespace SceneGraph {
 
-class Label3D : public Node {
-public:
-	Label3D(Graphics::Renderer *r, RefCountedPtr<Text::DistanceFieldFont>);
-	Label3D(const Label3D&, NodeCopyCache *cache = 0);
-	virtual Node *Clone(NodeCopyCache *cache = 0);
-	virtual const char *GetTypeName() const { return "Label3D"; }
-	void SetText(const std::string&);
-	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
-	virtual void Accept(NodeVisitor &v);
+	class Label3D : public Node {
+	public:
+		Label3D(Graphics::Renderer *r, RefCountedPtr<Text::DistanceFieldFont>);
+		Label3D(const Label3D &, NodeCopyCache *cache = 0);
+		virtual Node *Clone(NodeCopyCache *cache = 0);
+		virtual const char *GetTypeName() const { return "Label3D"; }
+		void SetText(const std::string &);
+		virtual void Render(const matrix4x4f &trans, const RenderData *rd);
+		virtual void Accept(NodeVisitor &v);
 
-private:
-	RefCountedPtr<Graphics::Material> m_material;
-	std::unique_ptr<Graphics::VertexArray> m_geometry;
-	std::unique_ptr<Graphics::VertexBuffer> m_vbuffer;
-	RefCountedPtr<Text::DistanceFieldFont> m_font;
-	Graphics::RenderState *m_renderState;
-};
+	private:
+		RefCountedPtr<Graphics::Material> m_material;
+		std::unique_ptr<Graphics::VertexArray> m_geometry;
+		std::unique_ptr<Graphics::VertexBuffer> m_vbuffer;
+		RefCountedPtr<Text::DistanceFieldFont> m_font;
+		Graphics::RenderState *m_renderState;
+	};
 
-}
+} // namespace SceneGraph
 
 #endif

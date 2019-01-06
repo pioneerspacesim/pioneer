@@ -2,10 +2,10 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaLang.h"
+#include "Lang.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Pi.h"
-#include "Lang.h"
 #include <algorithm>
 
 static int _resource_index(lua_State *l)
@@ -113,7 +113,8 @@ static int l_lang_get_available_languages(lua_State *l)
 
 	int i = 1;
 	for (std::vector<std::string>::const_iterator
-		it = langs.begin(); it != langs.end(); ++it) {
+			 it = langs.begin();
+		 it != langs.end(); ++it) {
 
 		lua_pushlstring(l, it->c_str(), it->size());
 		lua_rawseti(l, -2, i);
@@ -157,9 +158,9 @@ void LuaLang::Register()
 	LUA_DEBUG_START(l);
 
 	static const luaL_Reg l_methods[] = {
-		{ "GetResource",           l_lang_get_resource },
+		{ "GetResource", l_lang_get_resource },
 		{ "GetAvailableLanguages", l_lang_get_available_languages },
-		{ "SetCurrentLanguage",    l_lang_set_current_language },
+		{ "SetCurrentLanguage", l_lang_set_current_language },
 		{ 0, 0 }
 	};
 

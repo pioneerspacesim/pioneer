@@ -9,38 +9,39 @@
 
 namespace GameUI {
 
-class LabelOverlay;
+	class LabelOverlay;
 
-class GalaxyMap : public UI::OverlayStack {
-public:
-	GalaxyMap(UI::Context *context);
+	class GalaxyMap : public UI::OverlayStack {
+	public:
+		GalaxyMap(UI::Context *context);
 
-	virtual UI::Point PreferredSize() override;
-	virtual void Update() override;
+		virtual UI::Point PreferredSize() override;
+		virtual void Update() override;
 
-	float GetZoom() const { return m_zoom; }
-	GalaxyMap *SetZoom(float v);
-	GalaxyMap *SetCentreSector(const vector2f &at);
+		float GetZoom() const { return m_zoom; }
+		GalaxyMap *SetZoom(float v);
+		GalaxyMap *SetCentreSector(const vector2f &at);
 
-	float GetDisplayScale() const { return m_displayScale; }
+		float GetDisplayScale() const { return m_displayScale; }
 
-	void ClearLabels();
+		void ClearLabels();
 
-	// Position is in sector X,Y coordinates.
-	GalaxyMap *AddAreaLabel(const vector2f &at, const std::string &text);
+		// Position is in sector X,Y coordinates.
+		GalaxyMap *AddAreaLabel(const vector2f &at, const std::string &text);
 
-	// Position is in sector X,Y coordinates.
-	GalaxyMap *AddPointLabel(const vector2f &at, const std::string &text);
+		// Position is in sector X,Y coordinates.
+		GalaxyMap *AddPointLabel(const vector2f &at, const std::string &text);
 
-	sigc::signal<void, float> onDisplayScaleChanged;
-private:
-	UI::Image *m_baseImage;
-	GameUI::LabelOverlay *m_labelOverlay;
-	float m_zoom;
-	float m_displayScale;
-	vector2f m_centreSector;
-};
+		sigc::signal<void, float> onDisplayScaleChanged;
 
-}
+	private:
+		UI::Image *m_baseImage;
+		GameUI::LabelOverlay *m_labelOverlay;
+		float m_zoom;
+		float m_displayScale;
+		vector2f m_centreSector;
+	};
+
+} // namespace GameUI
 
 #endif

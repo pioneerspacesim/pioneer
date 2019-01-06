@@ -13,9 +13,13 @@ namespace LuaMatrix {
 
 	void Register(lua_State *L);
 	matrix4x4f *PushNewToLua(lua_State *L);
-	inline void PushToLua(lua_State *L, const matrix4x4f &m) { matrix4x4f *v = PushNewToLua(L); *v = m; }
+	inline void PushToLua(lua_State *L, const matrix4x4f &m)
+	{
+		matrix4x4f *v = PushNewToLua(L);
+		*v = m;
+	}
 	const matrix4x4f *GetFromLua(lua_State *L, int index);
 	const matrix4x4f *CheckFromLua(lua_State *L, int index);
-}
+} // namespace LuaMatrix
 
 #endif

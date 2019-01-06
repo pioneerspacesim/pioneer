@@ -6,18 +6,19 @@
 
 namespace UI {
 
-class LuaGradient {
-public:
+	class LuaGradient {
+	public:
+	};
 
-};
-
-}
+} // namespace UI
 
 using namespace UI;
 
-template <> const char *LuaObject<UI::Gradient>::s_type = "UI.Gradient";
+template <>
+const char *LuaObject<UI::Gradient>::s_type = "UI.Gradient";
 
-template <> void LuaObject<UI::Gradient>::RegisterClass()
+template <>
+void LuaObject<UI::Gradient>::RegisterClass()
 {
 	static const char *l_parent = "UI.Single";
 

@@ -1,12 +1,12 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "Pi.h"
 #include "Frame.h"
+#include "Pi.h"
 #include "Space.h"
 
 #if 0
-#define CRAP	0.00001
+#define CRAP 0.00001
 static void test(vector3d a, vector3d b)
 {
 	vector3d c = a-b;
@@ -83,5 +83,6 @@ void test_frames()
 }
 #endif
 
-void test_frames() {
+void test_frames()
+{
 }

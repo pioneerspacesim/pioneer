@@ -4,44 +4,50 @@
 #ifndef UI_TEXTLAYOUT_H
 #define UI_TEXTLAYOUT_H
 
+#include "Color.h"
 #include "Point.h"
 #include "RefCounted.h"
-#include "Color.h"
 #include <string>
 #include <vector>
 
-namespace Text { class TextureFont; }
-namespace Graphics { class Renderer; class VertexBuffer; }
+namespace Text {
+	class TextureFont;
+}
+namespace Graphics {
+	class Renderer;
+	class VertexBuffer;
+} // namespace Graphics
 
 namespace UI {
 
-class TextLayout {
-public:
-	TextLayout(const RefCountedPtr<Text::TextureFont> &font, const std::string &text);
+	class TextLayout {
+	public:
+		TextLayout(const RefCountedPtr<Text::TextureFont> &font, const std::string &text);
 
-	Point ComputeSize(const Point &layoutSize);
+		Point ComputeSize(const Point &layoutSize);
 
-	void Draw(const Point &layoutSize, const Point &drawPos, const Point &drawSize, const Color &color = Color::WHITE);
+		void Draw(const Point &layoutSize, const Point &drawPos, const Point &drawSize, const Color &color = Color::WHITE);
 
-private:
-	struct Word {
-		Word(const std::string &_text) : text(_text) {}
-		std::string text;
-		Point    pos;
+	private:
+		struct Word {
+			Word(const std::string &_text) :
+				text(_text) {}
+			std::string text;
+			Point pos;
+		};
+		std::vector<Word> m_words;
+
+		Point m_lastRequested; // the layout area we were asked to compute size for
+		Point m_lastSize; // and the resulting size
+
+		RefCountedPtr<Text::TextureFont> m_font;
+		RefCountedPtr<Graphics::VertexBuffer> m_vbuffer;
+
+		Point m_lastDrawPos;
+		Point m_lastDrawSize;
+		Color m_prevColor;
 	};
-	std::vector<Word> m_words;
 
-	Point m_lastRequested;   // the layout area we were asked to compute size for
-	Point m_lastSize;        // and the resulting size
-
-	RefCountedPtr<Text::TextureFont> m_font;
-	RefCountedPtr<Graphics::VertexBuffer> m_vbuffer;
-
-	Point m_lastDrawPos;
-	Point m_lastDrawSize;
-	Color m_prevColor;
-};
-
-}
+} // namespace UI
 
 #endif

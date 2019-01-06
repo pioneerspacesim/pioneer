@@ -19,7 +19,11 @@ Job::~Job()
 //static
 unsigned long long Job::Handle::s_nextId(0);
 
-Job::Handle::Handle(Job* job, JobQueue* queue, JobClient* client) : m_id(++s_nextId), m_job(job), m_queue(queue), m_client(client)
+Job::Handle::Handle(Job *job, JobQueue *queue, JobClient *client) :
+	m_id(++s_nextId),
+	m_job(job),
+	m_queue(queue),
+	m_client(client)
 {
 	assert(!m_job->GetHandle());
 	m_job->SetHandle(this);
@@ -31,7 +35,7 @@ void Job::Handle::Unlink()
 		assert(m_job->GetHandle() == this);
 		m_job->ClearHandle();
 	}
-	JobClient* client = m_client; // This Job::Handle may be deleted by the client, so clear it before
+	JobClient *client = m_client; // This Job::Handle may be deleted by the client, so clear it before
 	m_job = nullptr;
 	m_queue = nullptr;
 	m_client = nullptr;
@@ -39,7 +43,11 @@ void Job::Handle::Unlink()
 		client->RemoveJob(this); // This might delete this Job::Handle, so the object must be cleared before
 }
 
-Job::Handle::Handle(Handle&& other) : m_id(other.m_id), m_job(other.m_job), m_queue(other.m_queue), m_client(other.m_client)
+Job::Handle::Handle(Handle &&other) :
+	m_id(other.m_id),
+	m_job(other.m_job),
+	m_queue(other.m_queue),
+	m_client(other.m_client)
 {
 	if (m_job) {
 		assert(m_job->GetHandle() == &other);
@@ -51,7 +59,7 @@ Job::Handle::Handle(Handle&& other) : m_id(other.m_id), m_job(other.m_job), m_qu
 	other.m_client = nullptr;
 }
 
-Job::Handle& Job::Handle::operator=(Handle&& other)
+Job::Handle &Job::Handle::operator=(Handle &&other)
 {
 	if (m_job && m_queue)
 		m_queue->Cancel(m_job);
@@ -81,12 +89,11 @@ Job::Handle::~Handle()
 	}
 }
 
-
 AsyncJobQueue::AsyncJobQueue(Uint32 numRunners) :
 	m_shutdown(false)
 {
 	// Want to limit this for now to the maximum number of threads defined in the class
-	numRunners = std::min( numRunners, MAX_THREADS );
+	numRunners = std::min(numRunners, MAX_THREADS);
 
 	m_queueLock = SDL_CreateMutex();
 	m_queueWaitCond = SDL_CreateCond();
@@ -112,7 +119,7 @@ AsyncJobQueue::~AsyncJobQueue()
 	// else is running one of our functions). Both the flag and the mutex
 	// must be owned by the runner, because we may not exist when it's
 	// checked.
-	for (std::vector<JobRunner*>::iterator i = m_runners.begin(); i != m_runners.end(); ++i) {
+	for (std::vector<JobRunner *>::iterator i = m_runners.begin(); i != m_runners.end(); ++i) {
 		SDL_LockMutex((*i)->GetQueueDestroyingLock());
 		(*i)->SetQueueDestroyed();
 		SDL_UnlockMutex((*i)->GetQueueDestroyingLock());
@@ -120,20 +127,20 @@ AsyncJobQueue::~AsyncJobQueue()
 
 	const uint32_t numThreads = m_runners.size();
 	// delete the runners. this will tear down their underlying threads
-	for (std::vector<JobRunner*>::iterator i = m_runners.begin(); i != m_runners.end(); ++i)
+	for (std::vector<JobRunner *>::iterator i = m_runners.begin(); i != m_runners.end(); ++i)
 		delete (*i);
 
 	// delete any remaining jobs
-	for (std::deque<Job*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i)
+	for (std::deque<Job *>::iterator i = m_queue.begin(); i != m_queue.end(); ++i)
 		delete (*i);
-	for (uint32_t threadIdx=0; threadIdx<numThreads; threadIdx++) {
-		for (std::deque<Job*>::iterator i = m_finished[threadIdx].begin(); i != m_finished[threadIdx].end(); ++i) {
+	for (uint32_t threadIdx = 0; threadIdx < numThreads; threadIdx++) {
+		for (std::deque<Job *>::iterator i = m_finished[threadIdx].begin(); i != m_finished[threadIdx].end(); ++i) {
 			delete (*i);
 		}
 	}
 
 	// only us left now, we can clean up and get out of here
-	for (uint32_t threadIdx=0; threadIdx<numThreads; threadIdx++) {
+	for (uint32_t threadIdx = 0; threadIdx < numThreads; threadIdx++) {
 		SDL_DestroyMutex(m_finishedLock[threadIdx]);
 	}
 	SDL_DestroyCond(m_queueWaitCond);
@@ -177,7 +184,6 @@ Job *AsyncJobQueue::GetJob()
 			job = m_queue.front();
 			m_queue.pop_front();
 		}
-
 	}
 
 	SDL_UnlockMutex(m_queueLock);
@@ -200,9 +206,9 @@ Uint32 AsyncJobQueue::FinishJobs()
 	Uint32 finished = 0;
 
 	const uint32_t numRunners = m_runners.size();
-	for( uint32_t i=0; i<numRunners ; ++i) {
+	for (uint32_t i = 0; i < numRunners; ++i) {
 		SDL_LockMutex(m_finishedLock[i]);
-		if( m_finished[i].empty() ) {
+		if (m_finished[i].empty()) {
 			SDL_UnlockMutex(m_finishedLock[i]);
 			continue;
 		}
@@ -213,7 +219,7 @@ Uint32 AsyncJobQueue::FinishJobs()
 		assert(job);
 
 		// if its already been cancelled then its taken care of, so we just forget about it
-		if(!job->cancelled) {
+		if (!job->cancelled) {
 			job->UnlinkHandle();
 			job->OnFinish();
 			finished++;
@@ -225,16 +231,17 @@ Uint32 AsyncJobQueue::FinishJobs()
 	return finished;
 }
 
-void AsyncJobQueue::Cancel(Job *job) {
+void AsyncJobQueue::Cancel(Job *job)
+{
 	// lock both queues, so we know that all jobs will stay put
 	SDL_LockMutex(m_queueLock);
 	const uint32_t numRunners = m_runners.size();
-	for( uint32_t i=0; i<numRunners ; ++i) {
+	for (uint32_t i = 0; i < numRunners; ++i) {
 		SDL_LockMutex(m_finishedLock[i]);
 	}
 
 	// check the waiting list. if its there then it hasn't run yet. just forget about it
-	for (std::deque<Job*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
+	for (std::deque<Job *>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
 		if (*i == job) {
 			i = m_queue.erase(i);
 			delete job;
@@ -244,8 +251,8 @@ void AsyncJobQueue::Cancel(Job *job) {
 
 	// check the finshed list. if its there then it can't be cancelled, because
 	// its alread finished! we remove it because the caller is saying "I don't care"
-	for( uint32_t iRunner=0; iRunner<numRunners ; ++iRunner) {
-		for (std::deque<Job*>::iterator i = m_finished[iRunner].begin(); i != m_finished[iRunner].end(); ++i) {
+	for (uint32_t iRunner = 0; iRunner < numRunners; ++iRunner) {
+		for (std::deque<Job *>::iterator i = m_finished[iRunner].begin(); i != m_finished[iRunner].end(); ++i) {
 			if (*i == job) {
 				i = m_finished[iRunner].erase(i);
 				delete job;
@@ -260,7 +267,7 @@ void AsyncJobQueue::Cancel(Job *job) {
 	job->OnCancel();
 
 unlock:
-	for( uint32_t i=0; i<numRunners ; ++i) {
+	for (uint32_t i = 0; i < numRunners; ++i) {
 		SDL_UnlockMutex(m_finishedLock[i]);
 	}
 	SDL_UnlockMutex(m_queueLock);
@@ -298,7 +305,7 @@ AsyncJobQueue::JobRunner::~JobRunner()
 // entry point for SDL thread. we simply get back onto a method. convenience mostly
 int AsyncJobQueue::JobRunner::Trampoline(void *data)
 {
-	JobRunner *jr = static_cast<JobRunner*>(data);
+	JobRunner *jr = static_cast<JobRunner *>(data);
 	jr->Main();
 	return 0;
 }
@@ -361,13 +368,12 @@ void AsyncJobQueue::JobRunner::SetQueueDestroyed()
 	m_queueDestroyed = true;
 }
 
-
 SyncJobQueue::~SyncJobQueue()
 {
 	// delete any remaining jobs
-	for (Job* j : m_queue)
+	for (Job *j : m_queue)
 		delete j;
-	for (Job* j : m_finished)
+	for (Job *j : m_finished)
 		delete j;
 }
 
@@ -389,7 +395,7 @@ Uint32 SyncJobQueue::FinishJobs()
 		m_finished.pop_front();
 
 		// if its already been cancelled then its taken care of, so we just forget about it
-		if(!job->cancelled) {
+		if (!job->cancelled) {
 			job->UnlinkHandle();
 			job->OnFinish();
 			finished++;
@@ -400,9 +406,10 @@ Uint32 SyncJobQueue::FinishJobs()
 	return finished;
 }
 
-void SyncJobQueue::Cancel(Job *job) {
+void SyncJobQueue::Cancel(Job *job)
+{
 	// check the waiting list. if its there then it hasn't run yet. just forget about it
-	for (std::deque<Job*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
+	for (std::deque<Job *>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
 		if (*i == job) {
 			i = m_queue.erase(i);
 			delete job;
@@ -412,7 +419,7 @@ void SyncJobQueue::Cancel(Job *job) {
 
 	// check the finshed list. if its there then it can't be cancelled, because
 	// its alread finished! we remove it because the caller is saying "I don't care"
-	for (std::deque<Job*>::iterator i = m_finished.begin(); i != m_finished.end(); ++i) {
+	for (std::deque<Job *>::iterator i = m_finished.begin(); i != m_finished.end(); ++i) {
 		if (*i == job) {
 			i = m_finished.erase(i);
 			delete job;
@@ -434,7 +441,7 @@ Uint32 SyncJobQueue::RunJobs(Uint32 count)
 		if (m_queue.empty())
 			break;
 
-		Job* job = m_queue.front();
+		Job *job = m_queue.front();
 		m_queue.pop_front();
 		job->OnRun();
 		executed++;

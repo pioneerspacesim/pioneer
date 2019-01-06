@@ -6,19 +6,20 @@
 /*
  * Animation channel affecting a single transform node
  */
-#include "MatrixTransform.h"
 #include "AnimationKey.h"
+#include "MatrixTransform.h"
 namespace SceneGraph {
 
-class AnimationChannel {
-public:
-	AnimationChannel(MatrixTransform *t) : node(t) { }
-	std::vector<PositionKey> positionKeys;
-	std::vector<RotationKey> rotationKeys;
-	std::vector<ScaleKey> scaleKeys;
-	MatrixTransform *node;
-};
+	class AnimationChannel {
+	public:
+		AnimationChannel(MatrixTransform *t) :
+			node(t) {}
+		std::vector<PositionKey> positionKeys;
+		std::vector<RotationKey> rotationKeys;
+		std::vector<ScaleKey> scaleKeys;
+		MatrixTransform *node;
+	};
 
-}
+} // namespace SceneGraph
 
 #endif
