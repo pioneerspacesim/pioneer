@@ -6,7 +6,6 @@
 
 #include "SmartPtr.h"
 #include "TerrainBody.h"
-#include "buildopts.h"
 #include "graphics/VertexArray.h"
 
 namespace Graphics {
@@ -27,9 +26,7 @@ public:
 	void GetAtmosphericState(double dist, double *outPressure, double *outDensity) const;
 	double GetAtmosphereRadius() const { return m_atmosphereRadius; }
 
-#if WITH_OBJECTVIEWER
 	friend class ObjectViewerView;
-#endif
 
 protected:
 	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;

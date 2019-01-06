@@ -6,11 +6,8 @@
 
 #include "Camera.h"
 #include "UIView.h"
-#include "buildopts.h"
 #include "gui/Gui.h"
 #include "libs.h"
-
-#if WITH_OBJECTVIEWER
 
 class Body;
 
@@ -47,7 +44,5 @@ private:
 	void OnNextSeed();
 	void OnPrevSeed();
 };
-
-#endif
 
 #endif /* _OBJECTVIEWERVIEW_H */

@@ -1,6 +1,8 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "buildopts.h"
+
 #include "AmbientSounds.h"
 #include "BaseSphere.h"
 #include "CargoBody.h"
@@ -43,7 +45,9 @@
 #include "ModelCache.h"
 #include "NavLights.h"
 #include "OS.h"
+#if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"
+#endif
 #include "Pi.h"
 #include "PiGui.h"
 #include "Planet.h"

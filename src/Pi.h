@@ -12,7 +12,6 @@
 #include "LuaTimer.h"
 #include "Random.h"
 #include "Space.h"
-#include "buildopts.h"
 #include "galaxy/Galaxy.h"
 #include "gameconsts.h"
 #include "gui/Gui.h"
@@ -25,6 +24,7 @@ class Intro;
 class LuaConsole;
 class LuaNameGen;
 class ModelCache;
+class ObjectViewerView;
 class PiGui;
 class Player;
 class Ship;
@@ -34,9 +34,8 @@ class TransferPlanner;
 class UIView;
 class View;
 class SDLGraphics;
-#if ENABLE_SERVER_AGENT
 class ServerAgent;
-#endif
+
 namespace Graphics {
 	class Renderer;
 }
@@ -49,10 +48,6 @@ namespace Sound {
 namespace UI {
 	class Context;
 }
-
-#if WITH_OBJECTVIEWER
-class ObjectViewerView;
-#endif
 
 class DetailLevel {
 public:
@@ -148,9 +143,9 @@ public:
 		return bRet;
 	}
 
-#if WITH_DEVKEYS
+	/* Only use #if WITH_DEVKEYS */
 	static bool showDebugInfo;
-#endif
+
 #if PIONEER_PROFILER
 	static std::string profilerPath;
 	static bool doProfileSlow;
