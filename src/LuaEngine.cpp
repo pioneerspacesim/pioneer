@@ -20,6 +20,7 @@
 #include "SectorView.h"
 #include "Sound.h"
 #include "SoundMusic.h"
+#include "buildopts.h"
 #include "graphics/Graphics.h"
 #include "scenegraph/Model.h"
 #include "ui/Context.h"

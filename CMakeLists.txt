@@ -46,12 +46,9 @@ if (GIT_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
 		OUTPUT_VARIABLE PROJECT_VERSION_GIT
 		OUTPUT_STRIP_TRAILING_WHITESPACE
 	)
-
-	add_definitions(-DPIONEER_EXTRAVERSION="${PROJECT_VERSION_GIT}")
 endif()
 
 string(TIMESTAMP PROJECT_VERSION "%Y%m%d")
-add_definitions(-DPIONEER_VERSION="${PROJECT_VERSION}")
 
 if (NOT PIONEER_DATA_DIR)
 	set(PIONEER_DATA_DIR ${CMAKE_INSTALL_FULL_DATADIR}/pioneer/data CACHE PATH
@@ -59,12 +56,14 @@ if (NOT PIONEER_DATA_DIR)
 endif (NOT PIONEER_DATA_DIR)
 
 file(TO_NATIVE_PATH ${PIONEER_DATA_DIR} _PIONEER_DATA_DIR)
-add_definitions(-DPIONEER_DATA_DIR="${_PIONEER_DATA_DIR}")
 
 if (MINGW)
 	# Enable PRIxYY macros on MinGW
 	add_definitions(-D__STDC_FORMAT_MACROS)
 endif (MINGW)
+
+option(WITH_OBJECTVIEWER "Include the object viewer in the build" ON)
+option(WITH_DEVKEYS "Include various extra keybindings for dev functions" ON)
 
 list(APPEND SRC_FOLDERS
 	src
@@ -109,6 +108,8 @@ else (WIN32)
 		src/posix/OSPosix.cpp
 	)
 endif (WIN32)
+
+configure_file(buildopts.h.cmakein buildopts.h @ONLY)
 
 LIST(APPEND CXX_FILES ${FILESYSTEM_CXX_FILES})
 option(USE_PIONEER_THIRDPARTY "Use pioneer's thirdparty library repository." OFF)
