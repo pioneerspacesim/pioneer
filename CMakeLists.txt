@@ -262,8 +262,13 @@ install(TARGETS ${PROJECT_NAME} modelcompiler savegamedump
 )
 install(DIRECTORY data/
 	DESTINATION ${PIONEER_DATA_DIR}
+	REGEX "/models" EXCLUDE
 	PATTERN "listdata.*" EXCLUDE
 	PATTERN "Makefile.am" EXCLUDE
+)
+install(DIRECTORY data/models/
+	DESTINATION ${PIONEER_DATA_DIR}/models
+	FILES_MATCHING PATTERN "*.sgm"
 )
 
 if (WIN32)
