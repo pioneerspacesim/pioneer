@@ -6,6 +6,7 @@
 
 #include "SmartPtr.h"
 #include "TerrainBody.h"
+#include "buildopts.h"
 #include "graphics/VertexArray.h"
 
 namespace Graphics {

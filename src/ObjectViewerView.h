@@ -6,6 +6,7 @@
 
 #include "Camera.h"
 #include "UIView.h"
+#include "buildopts.h"
 #include "gui/Gui.h"
 #include "libs.h"
 

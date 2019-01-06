@@ -6,6 +6,7 @@
 
 #include "GameLog.h"
 #include "JsonFwd.h"
+#include "buildopts.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/SystemPath.h"
 #include "gameconsts.h"

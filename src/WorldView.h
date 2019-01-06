@@ -4,6 +4,7 @@
 #ifndef _WORLDVIEW_H
 #define _WORLDVIEW_H
 
+#include "buildopts.h"
 #include "Background.h"
 #include "Camera.h"
 #include "CameraController.h"

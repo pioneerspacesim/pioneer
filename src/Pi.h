@@ -12,6 +12,7 @@
 #include "LuaTimer.h"
 #include "Random.h"
 #include "Space.h"
+#include "buildopts.h"
 #include "galaxy/Galaxy.h"
 #include "gameconsts.h"
 #include "gui/Gui.h"
