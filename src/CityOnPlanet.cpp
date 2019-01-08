@@ -24,14 +24,13 @@ static const double START_SEG_SIZE_NO_ATMO = CITY_ON_PLANET_RADIUS / 5.0f;
 
 using SceneGraph::Model;
 
-CityOnPlanet::citybuildinglist_t CityOnPlanet::s_buildingList =
-	{
-		"city_building",
-		800,
-		2000,
-		0,
-		0,
-	};
+CityOnPlanet::citybuildinglist_t CityOnPlanet::s_buildingList = {
+	"city_building",
+	800,
+	2000,
+	0,
+	0,
+};
 
 CityOnPlanet::cityflavourdef_t CityOnPlanet::cityflavour[CITYFLAVOURS];
 

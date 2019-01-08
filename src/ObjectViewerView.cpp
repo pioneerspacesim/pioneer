@@ -1,8 +1,8 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "ObjectViewerView.h"
 #include "Frame.h"
+#include "ObjectViewerView.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "Player.h"
