@@ -6,6 +6,7 @@
 #include "IniConfig.h"
 #include "Pi.h"
 #include "Ship.h"
+#include "Frame.h"
 #include "graphics/RenderState.h"
 
 // default values

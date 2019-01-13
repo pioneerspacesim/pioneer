@@ -11,6 +11,8 @@
 #include "Player.h"
 #include "SectorView.h"
 #include "galaxy/Galaxy.h"
+#include "Frame.h"
+
 /*
  * Class: Player
  *

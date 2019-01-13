@@ -11,6 +11,7 @@
 #include "Ship.h"
 #include "SpaceStation.h"
 #include "libs.h"
+#include "Frame.h"
 
 class AICommand {
 public:

@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "SectorView.h"
 #include "Space.h"
+#include "Frame.h"
 #include "StringF.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"

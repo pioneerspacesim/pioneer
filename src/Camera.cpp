@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Camera.h"
+#include "Frame.h"
 #include "Game.h"
 #include "Pi.h"
 #include "Planet.h"
