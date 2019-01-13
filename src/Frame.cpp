@@ -3,15 +3,11 @@
 
 #include "Frame.h"
 #include "Body.h"
-#include "Game.h"
 #include "GameSaveError.h"
 #include "JsonUtils.h"
-#include "Pi.h"
 #include "Sfx.h"
 #include "Space.h"
 #include "collider/collider.h"
-#include "galaxy/StarSystem.h"
-#include <algorithm>
 
 Frame::Frame()
 {

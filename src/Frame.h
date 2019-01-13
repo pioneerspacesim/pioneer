@@ -6,7 +6,9 @@
 
 #include "IterationProxy.h"
 #include "JsonFwd.h"
-#include "libs.h"
+#include "vector3.h"
+#include "matrix3x3.h"
+#include "matrix4x4.h"
 #include <list>
 #include <string>
 
@@ -75,6 +77,7 @@ public:
 	void RemoveGeom(Geom *);
 	void AddStaticGeom(Geom *);
 	void RemoveStaticGeom(Geom *);
+	// TODO: Should be a Planet or there's a needs for a Body?
 	void SetPlanetGeom(double radius, Body *);
 	CollisionSpace *GetCollisionSpace() const { return m_collisionSpace; }
 
