@@ -4,14 +4,9 @@
 #ifndef _BASESPHERE_H
 #define _BASESPHERE_H
 
-#include <SDL_stdinc.h>
-
 #include "Camera.h"
-#include "galaxy/StarSystem.h"
 #include "terrain/Terrain.h"
 #include "vector3.h"
-
-#include <deque>
 
 namespace Graphics {
 	class Renderer;

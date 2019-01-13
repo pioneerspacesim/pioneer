@@ -4,9 +4,6 @@
 #include "BaseSphere.h"
 #include "GasGiant.h"
 #include "GeoSphere.h"
-#include "Pi.h"
-#include "graphics/Material.h"
-#include "libs.h"
 
 BaseSphere::BaseSphere(const SystemBody *body) :
 	m_sbody(body),
