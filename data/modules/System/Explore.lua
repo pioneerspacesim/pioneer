@@ -31,7 +31,7 @@ local exploreSystem = function (system)
 		else
 			bases = l.BASES
 		end
-		Timer:CallAt(Game.time+starports, function ()
+		Timer:CallAt(Game.time+major_bodies+starports, function ()
 				Comms.ImportantMessage(l.DISCOVERED_HIDDEN_BASES:interp({portcount=starports, bases=bases}))
 			end)
 	end
