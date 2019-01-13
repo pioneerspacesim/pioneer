@@ -10,9 +10,12 @@
 #include "DeathView.h"
 #include "EnumStrings.h"
 #include "FaceParts.h"
-#include "Factions.h"
 #include "FileSystem.h"
+
+#if 0
 #include "Frame.h"
+#endif // 0
+
 #include "Game.h"
 #include "GameConfig.h"
 #include "Input.h"
@@ -75,23 +78,20 @@
 #include "Tombstone.h"
 #include "UIView.h"
 #include "WorldView.h"
-#include "galaxy/CustomSystem.h"
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/StarSystem.h"
 #include "gameui/Lua.h"
 #include "libs.h"
-// ------------------------------------------------------------
-#include "graphics/opengl/RendererGL.h"
-// ------------------------------------------------------------
+
+#include "graphics/Renderer.h"
+
+#if WITH_DEVKEYS
+#include "graphics/Stats.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
-#include "graphics/Renderer.h"
-#include "graphics/Stats.h"
-#include "gui/Gui.h"
+#endif // WITH_DEVKEYS
+
 #include "scenegraph/Lua.h"
-#include "scenegraph/Model.h"
-#include "ui/Context.h"
-#include "ui/Lua.h"
 #include "versioningInfo.h"
 #include <algorithm>
 #include <sstream>

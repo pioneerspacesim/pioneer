@@ -5,6 +5,7 @@
 #include "GameSaveError.h"
 #include "Lua.h"
 #include "Pi.h"
+#include "Json.h"
 #include "LuaSerializer.h"
 #include <cassert>
 

@@ -7,10 +7,9 @@
 #include "Input.h"
 #include "JobQueue.h"
 #include "Random.h"
-#include "galaxy/Galaxy.h"
 #include "gameconsts.h"
-#include "gui/Gui.h"
-#include "utils.h"
+#include "graphics/Drawables.h"
+
 #include <map>
 #include <string>
 #include <vector>
@@ -27,6 +26,7 @@ class Player;
 class Ship;
 class SpaceStation;
 class StarSystem;
+class SystemPath;
 class TransferPlanner;
 class UIView;
 class View;
@@ -39,6 +39,7 @@ class ServerAgent;
 
 namespace Graphics {
 	class Renderer;
+	class Texture;
 }
 namespace SceneGraph {
 	class Model;
