@@ -8,8 +8,11 @@
 
 #include "Body.h"
 #include "graphics/Drawables.h"
-#include "graphics/Renderer.h"
-#include "libs.h"
+
+namespace Graphics {
+	class Renderer;
+	class RenderState;
+}
 
 class HudTrail {
 public:

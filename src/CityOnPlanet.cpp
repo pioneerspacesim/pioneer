@@ -10,6 +10,7 @@
 #include "Planet.h"
 #include "SpaceStation.h"
 #include "scenegraph/ModelSkin.h"
+#include "scenegraph/SceneGraph.h"
 #include "collider/Geom.h"
 
 static const unsigned int DEFAULT_NUM_BUILDINGS = 1000;
