@@ -7,6 +7,7 @@
 #include "CityOnPlanet.h"
 #include "EnumStrings.h"
 #include "Frame.h"
+#include "GameLog.h"
 #include "HyperspaceCloud.h"
 #include "Lang.h"
 #include "LuaEvent.h"

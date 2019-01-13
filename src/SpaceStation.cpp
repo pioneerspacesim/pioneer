@@ -6,6 +6,7 @@
 #include "FileSystem.h"
 #include "Frame.h"
 #include "Game.h"
+#include "GameLog.h"
 #include "GameSaveError.h"
 #include "JsonUtils.h"
 #include "Lang.h"

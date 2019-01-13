@@ -3,9 +3,10 @@
 
 #include "Player.h"
 #include "LuaObject.h"
-#include "GameConfig.h"
 #include "Frame.h"
 #include "Game.h"
+#include "GameConfig.h"
+#include "GameLog.h"
 #include "KeyBindings.h"
 #include "Lang.h"
 #include "Pi.h"

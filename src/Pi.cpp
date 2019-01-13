@@ -18,6 +18,7 @@
 
 #include "Game.h"
 #include "GameConfig.h"
+#include "GameLog.h"
 #include "Input.h"
 #include "Intro.h"
 #include "KeyBindings.h"

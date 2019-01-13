@@ -5,6 +5,7 @@
 #include "AnimationCurves.h"
 #include "FloatComparison.h"
 #include "Game.h"
+#include "GameLog.h"
 #include "Lang.h"
 #include "MathUtil.h"
 #include "Pi.h"
