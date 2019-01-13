@@ -2,17 +2,12 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CargoBody.h"
-#include "EnumStrings.h"
 #include "Game.h"
 #include "GameSaveError.h"
-#include "LuaTable.h"
 #include "Pi.h"
 #include "Sfx.h"
 #include "Ship.h"
 #include "Space.h"
-#include "collider/collider.h"
-#include "scenegraph/ModelSkin.h"
-#include "scenegraph/SceneGraph.h"
 
 void CargoBody::SaveToJson(Json &jsonObj, Space *space)
 {
