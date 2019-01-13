@@ -11,6 +11,7 @@ local Lang = import("Lang")
 local l = Lang.GetResource("module-system")
 
 local exploreSystem = function (system)
+	Comms.Message(l.GETTING_SENSOR_DATA)
 	local starports = #Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
 	local major_bodies = #Space.GetBodies(function (body) return body.superType and body.superType ~= 'STARPORT' and body.superType ~= 'NONE' end)
 	local bodies
@@ -21,7 +22,7 @@ local exploreSystem = function (system)
 	end
 	Timer:CallAt(Game.time+major_bodies, function ()
 		system:Explore()
-		Comms.Message(l.EXPLORING_SYSTEM:interp({bodycount=major_bodies, bodies=bodies}))
+		Comms.Message(l.EXPLORED_SYSTEM:interp({bodycount=major_bodies, bodies=bodies}))
 	end)
 	if starports > 0 then
 		local bases
