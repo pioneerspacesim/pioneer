@@ -13,24 +13,13 @@
 #include "LuaEvent.h"
 #include "LuaUtils.h"
 #include "Missile.h"
-#include "Player.h"
-#include "Projectile.h"
+#include "Player.h" // <-- Here only for 1 occurence of "Pi::player" in Ship::Explode
 #include "Sfx.h"
+#include "Shields.h"
 #include "ShipAICmd.h"
 #include "ShipController.h"
 #include "StringF.h"
-#include "WorldView.h"
-#include "collider/collider.h"
-#include "galaxy/Galaxy.h"
-#include "galaxy/GalaxyCache.h"
-#include "galaxy/Sector.h"
-#include "graphics/Drawables.h"
-#include "graphics/Graphics.h"
-#include "graphics/Material.h"
-#include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
-
-#include <algorithm>
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
 HeatGradientParameters_t Ship::s_heatGradientParams;

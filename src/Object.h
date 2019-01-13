@@ -5,7 +5,6 @@
 #define _OBJECT_H
 
 #include "DeleteEmitter.h"
-#include "libs.h"
 
 class Object : public DeleteEmitter {
 public:
