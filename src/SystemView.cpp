@@ -8,6 +8,7 @@
 #include "Lang.h"
 #include "MathUtil.h"
 #include "Pi.h"
+#include "LuaObject.h"
 #include "Player.h"
 #include "SectorView.h"
 #include "Space.h"

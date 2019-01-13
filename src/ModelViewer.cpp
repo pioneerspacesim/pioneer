@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelViewer.h"
+#include "GameConfig.h"
 #include "FileSystem.h"
 #include "GameSaveError.h"
 #include "ModManager.h"

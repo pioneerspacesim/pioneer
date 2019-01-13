@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "ShipCpanel.h"
 #include "graphics/Graphics.h"
+#include "GameConfig.h"
 
 DeathView::DeathView(Game *game) :
 	View(),

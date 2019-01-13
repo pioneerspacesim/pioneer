@@ -6,6 +6,7 @@
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Pi.h"
+#include "GameConfig.h"
 #include <algorithm>
 
 static int _resource_index(lua_State *l)

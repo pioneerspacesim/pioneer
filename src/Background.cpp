@@ -4,6 +4,7 @@
 #include "Background.h"
 #include "FileSystem.h"
 #include "Game.h"
+#include "GameConfig.h"
 #include "Pi.h"
 #include "Player.h"
 #include "Space.h"

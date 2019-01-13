@@ -13,6 +13,7 @@
 #include "HyperspaceCloud.h"
 #include "LuaEvent.h"
 #include "LuaRef.h"
+#include "LuaSerializer.h"
 #include "MathUtil.h"
 #if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"

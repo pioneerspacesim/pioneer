@@ -6,6 +6,7 @@
 #include "KeyBindings.h"
 #include "Lang.h"
 #include "LuaObject.h"
+#include "GameConfig.h"
 #include "LuaUtils.h"
 #include "Pi.h"
 /*

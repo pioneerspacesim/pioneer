@@ -4,6 +4,7 @@
 #include "WorldView.h"
 #include "Frame.h"
 #include "Game.h"
+#include "GameConfig.h"
 #include "GameSaveError.h"
 #include "HudTrail.h"
 #include "HyperspaceCloud.h"

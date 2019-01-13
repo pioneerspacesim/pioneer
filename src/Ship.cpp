@@ -3,6 +3,7 @@
 
 #include "Ship.h"
 #include "Beam.h"
+#include "CargoBody.h"
 #include "CityOnPlanet.h"
 #include "EnumStrings.h"
 #include "Frame.h"

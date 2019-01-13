@@ -6,6 +6,7 @@
 #include "FileSystem.h"
 #include "FloatComparison.h"
 #include "Game.h"
+#include "GameConfig.h"
 #include "KeyBindings.h"
 #include "Lang.h"
 #include "LuaConstants.h"

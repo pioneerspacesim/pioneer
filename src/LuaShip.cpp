@@ -11,6 +11,7 @@
 #include "Ship.h"
 #include "ShipType.h"
 #include "SpaceStation.h"
+#include "CargoBody.h"
 // #include "Sfx.h"
 #include "Game.h"
 #include "HyperspaceCloud.h"

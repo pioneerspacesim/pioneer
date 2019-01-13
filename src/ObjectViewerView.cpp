@@ -8,6 +8,7 @@
 #include "Frame.h"
 #include "ObjectViewerView.h"
 #include "Pi.h"
+#include "GameConfig.h"
 #include "Planet.h"
 #include "Player.h"
 #include "Space.h"

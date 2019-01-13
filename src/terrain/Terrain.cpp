@@ -5,6 +5,7 @@
 #include "FileSystem.h"
 #include "FloatComparison.h"
 #include "Pi.h"
+#include "GameConfig.h"
 #include "perlin.h"
 
 // static instancer. selects the best height and color classes for the body

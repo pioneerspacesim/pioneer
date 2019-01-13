@@ -5,6 +5,8 @@
 #include "Game.h"
 #include "LuaUtils.h"
 #include "Pi.h"
+#include "Lua.h"
+#include "LuaObject.h"
 
 void LuaTimer::RemoveAll()
 {

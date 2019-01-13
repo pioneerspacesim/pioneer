@@ -4,7 +4,7 @@
 #include "GasGiant.h"
 #include "FileSystem.h"
 #include "Game.h"
-#include "IniConfig.h"
+#include "GameConfig.h"
 #include "Pi.h"
 #include "RefCounted.h"
 #include "graphics/Frustum.h"

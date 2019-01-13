@@ -16,6 +16,7 @@
 #include "graphics/VertexArray.h"
 #include "libs.h"
 #include "perlin.h"
+#include "GameConfig.h"
 #include "vcacheopt/vcacheopt.h"
 #include <algorithm>
 #include <deque>

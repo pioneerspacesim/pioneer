@@ -3,6 +3,7 @@
 
 #include "Input.h"
 #include "Pi.h"
+#include "GameConfig.h"
 #include "ui/Context.h"
 
 void Input::Init()

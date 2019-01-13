@@ -4,14 +4,9 @@
 #ifndef _PI_H
 #define _PI_H
 
-#include "CargoBody.h"
-#include "GameConfig.h"
 #include "Input.h"
 #include "JobQueue.h"
-#include "LuaSerializer.h"
-#include "LuaTimer.h"
 #include "Random.h"
-#include "Space.h"
 #include "galaxy/Galaxy.h"
 #include "gameconsts.h"
 #include "gui/Gui.h"
@@ -20,9 +15,11 @@
 #include <string>
 #include <vector>
 
+class GameConfig;
 class Intro;
 class LuaConsole;
 class LuaNameGen;
+class LuaTimer;
 class ModelCache;
 class ObjectViewerView;
 class PiGui;
@@ -34,7 +31,11 @@ class TransferPlanner;
 class UIView;
 class View;
 class SDLGraphics;
+class LuaSerializer;
+
+#if ENABLE_SERVER_AGENT
 class ServerAgent;
+#endif
 
 namespace Graphics {
 	class Renderer;

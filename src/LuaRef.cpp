@@ -5,6 +5,7 @@
 #include "GameSaveError.h"
 #include "Lua.h"
 #include "Pi.h"
+#include "LuaSerializer.h"
 #include <cassert>
 
 LuaRef::LuaRef(const LuaRef &ref) :

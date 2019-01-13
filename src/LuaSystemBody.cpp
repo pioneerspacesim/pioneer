@@ -3,6 +3,8 @@
 
 #include "EnumStrings.h"
 #include "Game.h"
+#include "Space.h"
+#include "Body.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Pi.h"

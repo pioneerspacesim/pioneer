@@ -9,14 +9,8 @@
 #include "Pi.h"
 #include "Planet.h"
 #include "SpaceStation.h"
-#include "graphics/Frustum.h"
-#include "graphics/Graphics.h"
-#include "graphics/Stats.h"
-#include "libs.h"
-#include "scenegraph/Model.h"
 #include "scenegraph/ModelSkin.h"
-#include "scenegraph/SceneGraph.h"
-#include <set>
+#include "collider/Geom.h"
 
 static const unsigned int DEFAULT_NUM_BUILDINGS = 1000;
 static const double START_SEG_SIZE = CITY_ON_PLANET_RADIUS;
