@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Camera.h"
-#include "Frame.h"
 #include "Game.h"
 #include "Pi.h"
 #include "Planet.h"
@@ -10,13 +9,7 @@
 #include "Sfx.h"
 #include "Space.h"
 #include "galaxy/StarSystem.h"
-#include "graphics/Graphics.h"
-#include "graphics/Material.h"
-#include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
-#include "graphics/VertexArray.h"
-
-#include <SDL_stdinc.h>
 
 using namespace Graphics;
 
@@ -222,7 +215,7 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit *cockpit)
 			if (pressure >= 0.001) {
 				//go through all lights to calculate something resembling light intensity
 				float intensity = 0.f;
-				const Player *pBody = Pi::game->GetPlayer();
+				const Body *pBody = Pi::game->GetPlayer();
 				for (Uint32 i = 0; i < m_lightSources.size(); i++) {
 					// Set up data for eclipses. All bodies are assumed to be spheres.
 					const LightSource &it = m_lightSources[i];
