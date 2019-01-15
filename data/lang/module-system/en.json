@@ -25,7 +25,7 @@
   },
   "EXPLORED_SYSTEM": {
     "description": "",
-    "message": "Exploring system with {bodycount} major {bodies}."
+    "message": "Explored system with {bodycount} major {bodies}."
   },
   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
     "description": "",
