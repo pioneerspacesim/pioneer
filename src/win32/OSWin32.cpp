@@ -12,10 +12,11 @@
 #include "breakpad/exception_handler.h"
 #endif
 #include <SDL.h>
-#include <shellapi.h>
 #include <stdio.h>
 #include <wchar.h>
 #include <windows.h>
+
+#include <shellapi.h>
 
 extern "C" {
 // This is the quickest and easiest way to enable using the nVidia GPU on a Windows laptop with a dedicated nVidia GPU and Optimus tech.
