@@ -7,6 +7,7 @@ January 2019
    * Fixes
      * Fix crash on exit (#4503)
      * Fix compilation crash in modelcompiler (#4510)
+     * Modelcompiler fixes, no video init, clean shutdown (#4518)
 
 December 2018
    * Internal Changes
