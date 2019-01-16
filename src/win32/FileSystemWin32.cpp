@@ -55,15 +55,23 @@ namespace FileSystem {
 
 	static std::string FindDataDir()
 	{
-		HMODULE exemodule = GetModuleHandleW(0);
-		wchar_t buf[MAX_PATH + 1];
-		DWORD nchars = GetModuleFileNameW(exemodule, buf, MAX_PATH);
+		static const DWORD BUFSIZE = MAX_PATH + 1;
+		wchar_t buf[BUFSIZE];
+		memset(buf, L'\0', sizeof(wchar_t) * BUFSIZE); // clear the buffer
+		DWORD dwRet = GetCurrentDirectoryW(BUFSIZE, buf);
+		if (dwRet == 0) {
+			printf("GetCurrentDirectory failed (%d)\n", GetLastError());
+			abort();
+		}
+		if (dwRet > BUFSIZE) {
+			printf("Buffer too small; need %d characters\n", dwRet);
+			// I gave you MAX_PATH, what more do you want!?
+			abort();
+		}
 		if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
 			// I gave you MAX_PATH, what more do you want!?
 			abort();
 		}
-		buf[nchars] = L'\0';
-		PathRemoveFileSpecW(buf);
 		PathAppendW(buf, L"data");
 		return transcode_utf16_to_utf8(buf, wcslen(buf));
 	}
