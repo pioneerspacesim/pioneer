@@ -30,7 +30,11 @@
 
 std::unique_ptr<GameConfig> s_config;
 std::unique_ptr<Graphics::Renderer> s_renderer;
+
+//#define USES_THREADS
+#ifdef USES_THREADS
 std::unique_ptr<AsyncJobQueue> asyncJobQueue;
+#endif
 
 static const std::string s_dummyPath("");
 
@@ -70,7 +74,8 @@ void SetupRenderer()
 
 	//init components
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	static const Uint32 sdl_init_nothing = 0;
+	if (SDL_Init(sdl_init_nothing) < 0)
 		Error("SDL initialization failed: %s\n", SDL_GetError());
 
 	ModManager::Init();
@@ -92,6 +97,7 @@ void SetupRenderer()
 	videoSettings.title = "Model Compiler";
 	s_renderer.reset(Graphics::Init(videoSettings));
 
+#ifdef USES_THREADS
 	// get threads up
 	Uint32 numThreads = s_config->Int("WorkerThreads");
 	const int numCores = OS::GetNumCores();
@@ -100,6 +106,7 @@ void SetupRenderer()
 		numThreads = std::max(Uint32(numCores), 1U); // this is a tool, we can use all of the cores for processing unlike Pioneer
 	asyncJobQueue.reset(new AsyncJobQueue(numThreads));
 	Output("started %d worker threads\n", numThreads);
+#endif
 }
 
 void RunCompiler(const std::string &modelName, const std::string &filepath, const bool bInPlace)
@@ -259,7 +266,8 @@ start:
 		}
 
 		SetupRenderer();
-#if 1
+
+#ifndef USES_THREADS
 		for (auto &modelName : list_model) {
 			RunCompiler(modelName.first, modelName.second, isInPlace);
 		}
@@ -309,6 +317,14 @@ start:
 #ifdef PIONEER_PROFILER
 	Profiler::dumphtml(profilerPath.c_str());
 #endif
+
+	Graphics::Uninit();
+	SDL_Quit();
+	FileSystem::Uninit();
+#ifdef USES_THREADS
+	asyncJobQueue.reset();
+#endif
+	//exit(0);
 
 	return 0;
 }
