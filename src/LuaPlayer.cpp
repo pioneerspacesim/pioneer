@@ -12,6 +12,7 @@
 #include "SectorView.h"
 #include "galaxy/Galaxy.h"
 #include "Frame.h"
+#include "TerrainBody.h"
 
 /*
  * Class: Player

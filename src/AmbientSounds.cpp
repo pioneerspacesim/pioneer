@@ -10,7 +10,6 @@
 #include "Sound.h"
 #include "SpaceStation.h"
 #include "WorldView.h"
-#include "libs.h"
 
 enum EAtmosphereNoiseChannels {
 	eAtmoNoise1 = 0,

@@ -11,6 +11,7 @@
 #include "LuaVector.h"
 #include "MathUtil.h"
 #include "Pi.h"
+#include "Planet.h"
 #include "Player.h"
 #include "Ship.h"
 #include "Space.h"

@@ -3,6 +3,8 @@
 
 #include "FixedGuns.h"
 #include "Beam.h"
+#include "Projectile.h"
+#include "DynamicBody.h"
 #include "GameSaveError.h"
 #include "StringF.h"
 

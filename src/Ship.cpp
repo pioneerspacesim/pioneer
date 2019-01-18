@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Ship.h"
-#include "Beam.h"
 #include "CargoBody.h"
 #include "CityOnPlanet.h"
 #include "EnumStrings.h"
@@ -13,10 +12,10 @@
 #include "LuaEvent.h"
 #include "LuaUtils.h"
 #include "Missile.h"
+#include "Planet.h"
 #include "Player.h" // <-- Here only for 1 occurence of "Pi::player" in Ship::Explode
 #include "Sfx.h"
 #include "Shields.h"
-#include "ShipAICmd.h"
 #include "ShipController.h"
 #include "StringF.h"
 #include "graphics/TextureBuilder.h"
