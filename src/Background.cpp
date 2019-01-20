@@ -3,7 +3,6 @@
 
 #include "Background.h"
 #include "FileSystem.h"
-#include "Frame.h"
 #include "Game.h"
 #include "Pi.h"
 #include "Player.h"
@@ -11,8 +10,6 @@
 #include "StringF.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
-#include "graphics/Material.h"
-#include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
 #include "perlin.h"

@@ -5,15 +5,15 @@
 #define _BACKGROUND_H
 
 #include "Random.h"
-#include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
-#include "graphics/RenderState.h"
-#include "graphics/Texture.h"
 #include "libs.h"
 
 namespace Graphics {
 	class Renderer;
 	class Material;
+	class RenderState;
+	class Texture;
+
 } // namespace Graphics
 
 /*
