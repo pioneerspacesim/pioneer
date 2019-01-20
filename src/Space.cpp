@@ -848,6 +848,11 @@ static void hitCallback(CollisionContact *c)
 	// collision response
 	assert(po1_isDynBody || po2_isDynBody);
 
+    // Bounce factor
+    const double coeff_rest = 0.35;
+    // Allow stop due to friction
+    const double coeff_slide = 0.700;
+
 	if (po1_isDynBody && po2_isDynBody) {
 		DynamicBody *b1 = static_cast<DynamicBody *>(po1);
 		DynamicBody *b2 = static_cast<DynamicBody *>(po2);
@@ -855,10 +860,6 @@ static void hitCallback(CollisionContact *c)
 		const vector3d linVel2 = b2->GetVelocity();
 		const vector3d angVel1 = b1->GetAngVelocity();
 		const vector3d angVel2 = b2->GetAngVelocity();
-
-		const double coeff_rest = 0.5;
-		// step back
-		//		mover->UndoTimestep();
 
 		const double invMass1 = 1.0 / b1->GetMass();
 		const double invMass2 = 1.0 / b2->GetMass();
@@ -881,9 +882,9 @@ static void hitCallback(CollisionContact *c)
 		const double j = numerator / (term1 + term2 + term3 + term4);
 		const vector3d force = j * c->normal;
 
-		b1->SetVelocity(linVel1 + force * invMass1);
+		b1->SetVelocity(linVel1 * (1 - coeff_slide * c->timestep) + force * invMass1);
 		b1->SetAngVelocity(angVel1 + hitPos1.Cross(force) * invAngInert1);
-		b2->SetVelocity(linVel2 - force * invMass2);
+		b2->SetVelocity(linVel2 * (1 - coeff_slide * c->timestep) - force * invMass2);
 		b2->SetAngVelocity(angVel2 - hitPos2.Cross(force) * invAngInert2);
 	} else {
 		// one body is static
@@ -898,7 +899,6 @@ static void hitCallback(CollisionContact *c)
 			hitNormal = -c->normal;
 		}
 
-		const double coeff_rest = 0.5;
 		const vector3d linVel1 = mover->GetVelocity();
 		const vector3d angVel1 = mover->GetAngVelocity();
 
@@ -920,13 +920,46 @@ static void hitCallback(CollisionContact *c)
 		const double j = numerator / (term1 + term3);
 		const vector3d force = j * c->normal;
 
-		mover->SetVelocity(linVel1 + force * invMass1);
+		/*
+		   "Linear projection reduces the penetration of two
+		   objects by a small percentage, and this is performed
+		   after the impulse is applied"
+
+		   From:
+		   https://gamedevelopment.tutsplus.com/tutorials/how-to-create-a-custom-2d-physics-engine-the-basics-and-impulse-resolution--gamedev-6331
+
+		   Correction should never be more than c->depth (std::min) and never negative (std::max)
+		   NOTE: usually instead of 'c->timestep' you find a 'percent',
+		   but here we have a variable timestep and thus the upper limit,
+		   which is intended to trigger a collision in the subsequent frame.
+		   NOTE2: works (as intendend) at low timestep.
+		   Further improvement could be:
+				1) velocity should be projected relative to normal direction,
+				   so bouncing and friction may act on the "correct" components
+				   (though that a reason for fails and glitches are frames skipped
+				   because relVel is quitting before any further calculation)
+				2) with time accel at 10000x you end in space... probably in order
+				   for that to works correctly some deeper change should kick in
+		*/
+		const float threshold = 0.005;
+
+		const Aabb &aabb = mover->GetAabb();
+
+		vector3d correction = std::min(std::max(c->depth - threshold, 0.0) * c->timestep, c->depth + aabb.min.y + threshold) * c->normal;
+
+		mover->SetPosition(mover->GetPosition() + correction );
+
+		const float reduction = std::max(1 - coeff_slide * c->timestep, 0.0);
+		vector3d final_vel = linVel1 * (1 - coeff_slide * c->timestep) + force * invMass1;
+		if (final_vel.LengthSqr() < 0.1) final_vel = vector3d(0.0);
+
+		mover->SetVelocity(final_vel);
 		mover->SetAngVelocity(angVel1 + hitPos1.Cross(force) * invAngInert);
 	}
 }
 
 // temporary one-point version
-static void CollideWithTerrain(Body *body)
+static void CollideWithTerrain(Body *body, float timeStep)
 {
 	if (!body->IsType(Object::DYNAMICBODY)) return;
 	DynamicBody *dynBody = static_cast<DynamicBody *>(body);
@@ -944,12 +977,7 @@ static void CollideWithTerrain(Body *body)
 	double terrHeight = terrain->GetTerrainHeight(body->GetPosition().Normalized());
 	if (altitude >= terrHeight) return;
 
-	CollisionContact c;
-	c.pos = body->GetPosition();
-	c.normal = c.pos.Normalized();
-	c.depth = terrHeight - altitude;
-	c.userData1 = static_cast<void *>(body);
-	c.userData2 = static_cast<void *>(f->GetBody());
+	CollisionContact c(body->GetPosition(), body->GetPosition().Normalized(), terrHeight - altitude, timeStep, static_cast<void *>(body), static_cast<void *>(f->GetBody()));
 	hitCallback(&c);
 }
 
@@ -972,7 +1000,7 @@ void Space::TimeStep(float step)
 	// XXX does not need to be done this often
 	CollideFrame(m_rootFrame.get());
 	for (Body *b : m_bodies)
-		CollideWithTerrain(b);
+		CollideWithTerrain(b, step);
 
 	// update frames of reference
 	for (Body *b : m_bodies)
