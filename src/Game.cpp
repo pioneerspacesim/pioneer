@@ -4,12 +4,11 @@
 #include "buildopts.h"
 
 #include "Game.h"
-#include "GameLog.h"
 #include "Body.h"
 #include "DeathView.h"
 #include "FileSystem.h"
 #include "GZipFormat.h"
-#include "Game.h"
+#include "GameLog.h"
 #include "GameSaveError.h"
 #include "HyperspaceCloud.h"
 #include "LuaEvent.h"

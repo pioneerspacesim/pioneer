@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GeoSphere.h"
+#include "GameConfig.h"
 #include "GeoPatch.h"
 #include "GeoPatchContext.h"
 #include "GeoPatchJobs.h"
@@ -16,7 +17,6 @@
 #include "graphics/VertexArray.h"
 #include "libs.h"
 #include "perlin.h"
-#include "GameConfig.h"
 #include "vcacheopt/vcacheopt.h"
 #include <algorithm>
 #include <deque>

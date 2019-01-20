@@ -1,13 +1,13 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "Body.h"
 #include "EnumStrings.h"
 #include "Game.h"
-#include "Space.h"
-#include "Body.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Pi.h"
+#include "Space.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
 

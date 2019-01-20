@@ -2,11 +2,11 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaLang.h"
+#include "GameConfig.h"
 #include "Lang.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Pi.h"
-#include "GameConfig.h"
 #include <algorithm>
 
 static int _resource_index(lua_State *l)

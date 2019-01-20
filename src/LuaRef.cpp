@@ -3,8 +3,8 @@
 
 #include "LuaRef.h"
 #include "GameSaveError.h"
-#include "Lua.h"
 #include "Json.h"
+#include "Lua.h"
 #include "LuaSerializer.h"
 #include <cassert>
 

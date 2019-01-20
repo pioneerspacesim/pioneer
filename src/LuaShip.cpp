@@ -1,6 +1,7 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "CargoBody.h"
 #include "EnumStrings.h"
 #include "LuaConstants.h"
 #include "LuaMissile.h"
@@ -11,7 +12,6 @@
 #include "Ship.h"
 #include "ShipType.h"
 #include "SpaceStation.h"
-#include "CargoBody.h"
 // #include "Sfx.h"
 #include "Game.h"
 #include "HyperspaceCloud.h"

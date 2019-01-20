@@ -2,9 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "KeyBindings.h"
+#include "GameConfig.h"
 #include "Lang.h"
 #include "Pi.h"
-#include "GameConfig.h"
 #include "StringF.h"
 
 #include <sstream>

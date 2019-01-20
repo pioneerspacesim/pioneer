@@ -12,7 +12,7 @@
 namespace Graphics {
 	class Renderer;
 	class RenderState;
-}
+} // namespace Graphics
 
 class HudTrail {
 public:

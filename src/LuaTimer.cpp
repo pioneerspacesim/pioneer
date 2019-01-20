@@ -3,10 +3,10 @@
 
 #include "LuaTimer.h"
 #include "Game.h"
-#include "LuaUtils.h"
-#include "Pi.h"
 #include "Lua.h"
 #include "LuaObject.h"
+#include "LuaUtils.h"
+#include "Pi.h"
 
 void LuaTimer::RemoveAll()
 {

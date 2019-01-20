@@ -3,9 +3,9 @@
 
 #include "FixedGuns.h"
 #include "Beam.h"
-#include "Projectile.h"
 #include "DynamicBody.h"
 #include "GameSaveError.h"
+#include "Projectile.h"
 #include "StringF.h"
 
 FixedGuns::FixedGuns()

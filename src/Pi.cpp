@@ -41,11 +41,11 @@
 #include "LuaNameGen.h"
 #include "LuaPiGui.h"
 #include "LuaRef.h"
+#include "LuaSerializer.h"
 #include "LuaServerAgent.h"
 #include "LuaShipDef.h"
 #include "LuaSpace.h"
 #include "LuaTimer.h"
-#include "LuaSerializer.h"
 #include "Missile.h"
 #include "ModManager.h"
 #include "ModelCache.h"
@@ -87,9 +87,9 @@
 #include "graphics/Renderer.h"
 
 #if WITH_DEVKEYS
-#include "graphics/Stats.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
+#include "graphics/Stats.h"
 #endif // WITH_DEVKEYS
 
 #include "scenegraph/Lua.h"

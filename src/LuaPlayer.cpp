@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "EnumStrings.h"
+#include "Frame.h"
 #include "Game.h"
 #include "LuaConstants.h"
 #include "LuaObject.h"
@@ -10,9 +11,8 @@
 #include "Pi.h"
 #include "Player.h"
 #include "SectorView.h"
-#include "galaxy/Galaxy.h"
-#include "Frame.h"
 #include "TerrainBody.h"
+#include "galaxy/Galaxy.h"
 
 /*
  * Class: Player

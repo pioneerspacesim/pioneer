@@ -2,13 +2,13 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Player.h"
-#include "LuaObject.h"
 #include "Frame.h"
 #include "Game.h"
 #include "GameConfig.h"
 #include "GameLog.h"
 #include "KeyBindings.h"
 #include "Lang.h"
+#include "LuaObject.h"
 #include "Pi.h"
 #include "SectorView.h"
 #include "ShipCpanel.h"
