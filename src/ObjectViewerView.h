@@ -9,8 +9,6 @@
 #include "gui/Gui.h"
 #include "libs.h"
 
-#if WITH_OBJECTVIEWER
-
 class Body;
 
 class ObjectViewerView : public UIView {
@@ -46,7 +44,5 @@ private:
 	void OnNextSeed();
 	void OnPrevSeed();
 };
-
-#endif
 
 #endif /* _OBJECTVIEWERVIEW_H */

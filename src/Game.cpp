@@ -1,18 +1,22 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "Game.h"
+#include "buildopts.h"
+
 #include "Body.h"
 #include "DeathView.h"
 #include "Factions.h"
 #include "FileSystem.h"
 #include "GZipFormat.h"
+#include "Game.h"
 #include "GameSaveError.h"
 #include "HyperspaceCloud.h"
 #include "LuaEvent.h"
 #include "LuaRef.h"
 #include "MathUtil.h"
+#if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"
+#endif
 #include "Pi.h"
 #include "Player.h"
 #include "SectorView.h"
@@ -707,6 +711,13 @@ void Game::RequestTimeAccelDec(bool force)
 	}
 	m_forceTimeAccel = force;
 }
+
+#if WITH_OBJECTVIEWER
+ObjectViewerView *Game::GetObjectViewerView() const
+{
+	return m_gameViews->m_objectViewerView;
+}
+#endif
 
 Game::Views::Views() :
 	m_sectorView(nullptr),

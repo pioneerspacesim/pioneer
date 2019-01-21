@@ -154,9 +154,8 @@ private:
 	bool m_labelsOn;
 	enum CamType m_camType;
 
-#if WITH_DEVKEYS
+	/* Only use #if WITH_DEVKEYS */
 	Gui::Label *m_debugInfo;
-#endif
 
 	// useful docking locations for new-ui widgets in the HUD
 	RefCountedPtr<UI::Widget> m_hudRoot;

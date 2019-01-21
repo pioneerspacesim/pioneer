@@ -2,7 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "BVHTree.h"
-#include "../buildopts.h"
+#include "buildopts.h"
 #include <float.h>
 #include <stdio.h>
 

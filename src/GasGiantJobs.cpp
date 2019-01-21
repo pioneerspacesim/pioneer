@@ -22,17 +22,16 @@
 #include <deque>
 
 namespace GasGiantJobs {
-	static const vector3d s_patchFaces[NUM_PATCHES][4] =
-		{
-			{ p5, p1, p4, p8 }, // +x
-			{ p2, p6, p7, p3 }, // -x
+	static const vector3d s_patchFaces[NUM_PATCHES][4] = {
+		{ p5, p1, p4, p8 }, // +x
+		{ p2, p6, p7, p3 }, // -x
 
-			{ p2, p1, p5, p6 }, // +y
-			{ p7, p8, p4, p3 }, // -y
+		{ p2, p1, p5, p6 }, // +y
+		{ p7, p8, p4, p3 }, // -y
 
-			{ p6, p5, p8, p7 }, // +z - NB: these are actually reversed!
-			{ p1, p2, p3, p4 } // -z
-		};
+		{ p6, p5, p8, p7 }, // +z - NB: these are actually reversed!
+		{ p1, p2, p3, p4 } // -z
+	};
 	const vector3d &GetPatchFaces(const Uint32 patch, const Uint32 face) { return s_patchFaces[patch][face]; }
 
 	STextureFaceRequest::STextureFaceRequest(const vector3d *v_, const SystemPath &sysPath_, const Sint32 face_, const Sint32 uvDIMs_, Terrain *pTerrain_) :

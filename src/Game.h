@@ -35,9 +35,7 @@ class DeathView;
 class UIView;
 class UIView;
 class ShipCpanel;
-#if WITH_OBJECTVIEWER
 class ObjectViewerView;
-#endif
 
 class Game {
 public:
@@ -126,12 +124,9 @@ public:
 	UIView *GetSpaceStationView() const { return m_gameViews->m_spaceStationView; }
 	UIView *GetInfoView() const { return m_gameViews->m_infoView; }
 	ShipCpanel *GetCpan() const { return m_gameViews->m_cpan; }
-#if WITH_OBJECTVIEWER
-	ObjectViewerView *GetObjectViewerView() const
-	{
-		return m_gameViews->m_objectViewerView;
-	}
-#endif
+
+	/* Only use #if WITH_OBJECTVIEWER */
+	ObjectViewerView *GetObjectViewerView() const;
 
 	GameLog *log;
 
@@ -154,9 +149,9 @@ private:
 		UIView *m_spaceStationView;
 		UIView *m_infoView;
 		ShipCpanel *m_cpan;
-#if WITH_OBJECTVIEWER
+
+		/* Only use #if WITH_OBJECTVIEWER */
 		ObjectViewerView *m_objectViewerView;
-#endif
 	};
 
 	void CreateViews();

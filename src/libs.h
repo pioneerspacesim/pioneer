@@ -4,8 +4,6 @@
 #ifndef _LIBS_H
 #define _LIBS_H
 
-#include "buildopts.h"
-
 #include <SDL.h>
 #include <SDL_image.h>
 #include <sigc++/sigc++.h>

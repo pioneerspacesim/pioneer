@@ -12,10 +12,9 @@
 #define Square(x) ((x) * (x))
 
 static const unsigned int SYS_NAME_FRAGS = 32;
-static const char *sys_names[SYS_NAME_FRAGS] =
-	{ "en", "la", "can", "be", "and", "phi", "eth", "ol", "ve", "ho", "a",
-		"lia", "an", "ar", "ur", "mi", "in", "ti", "qu", "so", "ed", "ess",
-		"ex", "io", "ce", "ze", "fa", "ay", "wa", "da", "ack", "gre" };
+static const char *sys_names[SYS_NAME_FRAGS] = { "en", "la", "can", "be", "and", "phi", "eth", "ol", "ve", "ho", "a",
+	"lia", "an", "ar", "ur", "mi", "in", "ti", "qu", "so", "ed", "ess",
+	"ex", "io", "ce", "ze", "fa", "ay", "wa", "da", "ack", "gre" };
 
 bool SectorCustomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config)
 {

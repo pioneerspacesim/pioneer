@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "ModelViewer.h"
 #include "Pi.h"
+#include "buildopts.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyGenerator.h"
 #include "libs.h"
