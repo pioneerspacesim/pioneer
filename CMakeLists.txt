@@ -263,3 +263,21 @@ if (WIN32)
 	fixup_bundle(\"$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/pioneer.exe\" \"\" \"${CMAKE_PROGRAM_PATH}\")"
 	COMPONENT Runtime)
 endif (WIN32)
+
+if (UNIX)
+	set(PIONEER_DESKTOP_FILE ${CMAKE_BINARY_DIR}/metadata/net.pioneerspacesim.Pioneer.desktop)
+	configure_file(metadata/net.pioneerspacesim.Pioneer.desktop.cmakein ${PIONEER_DESKTOP_FILE} @ONLY)
+	install(FILES ${PIONEER_DESKTOP_FILE}
+		DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
+	)
+	install(FILES metadata/net.pioneerspacesim.Pioneer.appdata.xml
+		DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata
+	)
+
+	foreach(_i IN ITEMS 16 22 24 32 40 48 64 128 256)
+		install(FILES application-icon/pngs/pioneer-${_i}x${_i}.png
+			DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${_i}x${_i}/apps
+			RENAME net.pioneerspacesim.Pioneer.png
+		)
+	endforeach()
+endif (UNIX)
