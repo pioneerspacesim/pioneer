@@ -6,6 +6,7 @@ January 2019
      * FindDataDir uses working directory (#4519)
      * Faster build after commit (#4514)
      * Update the clang-format hook, add an auto-apply script (#4516)
+     * Install metadata (#4512)
 
    * Fixes
      * Fix crash on exit (#4503)
