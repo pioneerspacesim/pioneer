@@ -40,7 +40,7 @@ class ServerAgent;
 namespace Graphics {
 	class Renderer;
 	class Texture;
-}
+} // namespace Graphics
 namespace SceneGraph {
 	class Model;
 }

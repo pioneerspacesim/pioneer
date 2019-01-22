@@ -5,8 +5,9 @@
 
 #if WITH_OBJECTVIEWER
 
-#include "Frame.h"
 #include "ObjectViewerView.h"
+
+#include "Frame.h"
 #include "GameConfig.h"
 #include "Pi.h"
 #include "Planet.h"

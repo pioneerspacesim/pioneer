@@ -16,7 +16,7 @@ class ShipCockpit;
 namespace Graphics {
 	class Material;
 	class Renderer;
-}
+} // namespace Graphics
 
 class CameraContext : public RefCounted {
 public:

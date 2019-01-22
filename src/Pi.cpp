@@ -3,6 +3,8 @@
 
 #include "buildopts.h"
 
+#include "Pi.h"
+
 #include "AmbientSounds.h"
 #include "BaseSphere.h"
 #include "CargoBody.h"
@@ -54,7 +56,6 @@
 #if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"
 #endif
-#include "Pi.h"
 #include "PiGui.h"
 #include "Planet.h"
 #include "Player.h"

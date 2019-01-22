@@ -14,7 +14,7 @@
 namespace Graphics {
 	class Renderer;
 	class RenderState;
-}
+} // namespace Graphics
 namespace SceneGraph {
 	class Model;
 	class Billboard;
