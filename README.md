@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/pioneerspacesim/pioneer.svg?branch=master)](https://travis-ci.org/pioneerspacesim/pioneer)
+[![Build status](https://ci.appveyor.com/api/projects/status/b2n2fe1vv3wr6n56/branch/master?svg=true)](https://ci.appveyor.com/project/pioneerspacesim/pioneer/branch/master)
 [![License GPLv3](https://img.shields.io/badge/license-GPL_v3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.html)
 
 # Pioneer Space Simulator
