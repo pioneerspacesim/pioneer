@@ -54,7 +54,7 @@ struct HyperdriveSoundsTable {
 	std::string abort_sound;
 };
 
-class Ship : public DynamicBody {
+class Ship : public DynamicBody, public FixedGuns {
 	friend class ShipController; //only controllers need access to AITimeStep
 	friend class PlayerShipController;
 
@@ -95,7 +95,6 @@ public:
 	void Explode();
 	virtual bool DoDamage(float kgDamage); // can be overloaded in Player to add audio
 	void SetGunState(int idx, int state);
-	float GetGunTemperature(int idx) const { return GetFixedGuns()->GetGunTemperature(idx); }
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	void Blastoff();

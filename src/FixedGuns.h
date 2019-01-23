@@ -18,7 +18,7 @@ enum Guns {
 	GUNMOUNT_MAX = 2
 };
 
-class FixedGuns : public RefCounted {
+class FixedGuns {
 public:
 	FixedGuns();
 	virtual ~FixedGuns();

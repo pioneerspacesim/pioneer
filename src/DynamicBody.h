@@ -87,8 +87,6 @@ public:
 	void SetDecelerating(bool decel) { m_decelerating = decel; }
 	const Propulsion *GetPropulsion() const;
 	Propulsion *GetPropulsion();
-	const FixedGuns *GetFixedGuns() const;
-	FixedGuns *GetFixedGuns();
 	void AddFeature(Feature f);
 
 protected:
@@ -124,7 +122,6 @@ private:
 	bool m_features[MAX_FEATURE];
 
 	RefCountedPtr<Propulsion> m_propulsion;
-	RefCountedPtr<FixedGuns> m_fixedGuns;
 };
 
 #endif /* _DYNAMICBODY_H */

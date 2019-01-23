@@ -17,8 +17,7 @@ const double DynamicBody::DEFAULT_DRAG_COEFF = 0.1; // 'smooth sphere'
 
 DynamicBody::DynamicBody() :
 	ModelBody(),
-	m_propulsion(nullptr),
-	m_fixedGuns(nullptr)
+	m_propulsion(nullptr)
 {
 	m_dragCoeff = DEFAULT_DRAG_COEFF;
 	m_flags = Body::FLAG_CAN_MOVE_FRAME;
@@ -46,7 +45,6 @@ DynamicBody::DynamicBody() :
 DynamicBody::DynamicBody(const Json &jsonObj, Space *space) :
 	ModelBody(jsonObj, space),
 	m_propulsion(nullptr),
-	m_fixedGuns(nullptr),
 	m_dragCoeff(DEFAULT_DRAG_COEFF),
 	m_atmosForce(vector3d(0.0)),
 	m_gravityForce(vector3d(0.0)),
@@ -107,7 +105,6 @@ void DynamicBody::PostLoadFixup(Space *space)
 DynamicBody::~DynamicBody()
 {
 	m_propulsion.Reset();
-	m_fixedGuns.Reset();
 }
 
 void DynamicBody::AddFeature(Feature f)
@@ -115,8 +112,6 @@ void DynamicBody::AddFeature(Feature f)
 	m_features[f] = true;
 	if (f == Feature::PROPULSION && m_propulsion == nullptr) {
 		m_propulsion.Reset(new Propulsion());
-	} else if (f == Feature::FIXED_GUNS && m_fixedGuns == nullptr) {
-		m_fixedGuns.Reset(new FixedGuns());
 	}
 }
 
@@ -155,18 +150,6 @@ Propulsion *DynamicBody::GetPropulsion()
 {
 	assert(m_propulsion != nullptr);
 	return m_propulsion.Get();
-}
-
-const FixedGuns *DynamicBody::GetFixedGuns() const
-{
-	assert(m_fixedGuns != nullptr);
-	return m_fixedGuns.Get();
-}
-
-FixedGuns *DynamicBody::GetFixedGuns()
-{
-	assert(m_fixedGuns != nullptr);
-	return m_fixedGuns.Get();
 }
 
 void DynamicBody::SetTorque(const vector3d &t)

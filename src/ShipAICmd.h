@@ -32,6 +32,7 @@ public:
 
 	AICommand(DynamicBody *dBody, CmdName name) :
 		m_dBody(dBody),
+		m_fguns(nullptr),
 		m_cmdName(name)
 	{
 		m_dBody->AIMessage(DynamicBody::AIERROR_NONE);
@@ -65,7 +66,7 @@ public:
 protected:
 	DynamicBody *m_dBody;
 	RefCountedPtr<Propulsion> m_prop;
-	RefCountedPtr<FixedGuns> m_fguns;
+	FixedGuns *m_fguns;
 
 	std::unique_ptr<AICommand> m_child;
 	bool m_is_flyto;

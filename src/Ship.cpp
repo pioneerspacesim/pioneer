@@ -49,6 +49,8 @@ Ship::Ship(const ShipType::Id &shipId) :
 	/*
 		THIS CODE DOES NOT RUN WHEN LOADING SAVEGAMES!!
 	*/
+	FixedGuns::Init(this);
+
 	AddFeature(Feature::PROPULSION); // add component propulsion
 	AddFeature(Feature::FIXED_GUNS); // add component fixed guns
 	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
@@ -73,7 +75,6 @@ Ship::Ship(const ShipType::Id &shipId) :
 
 	m_hyperspace.countdown = 0;
 	m_hyperspace.now = false;
-	GetFixedGuns()->Init(this);
 	m_ecmRecharge = 0;
 	m_shieldCooldown = 0.0f;
 	m_curAICmd = 0;
@@ -115,6 +116,8 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 	AddFeature(Feature::PROPULSION); // add component propulsion
 	AddFeature(Feature::FIXED_GUNS); // add component fixed guns
 
+	FixedGuns::Init(this);
+
 	try {
 		Json shipObj = jsonObj["ship"];
 
@@ -150,7 +153,7 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		m_hyperspace.sounds.abort_sound = shipObj.value("hyperspace_abort_sound", "");
 		m_hyperspace.sounds.jump_sound = shipObj.value("hyperspace_jump_sound", "");
 
-		GetFixedGuns()->LoadFromJson(shipObj, space);
+		FixedGuns::LoadFromJson(shipObj, space);
 
 		m_ecmRecharge = shipObj["ecm_recharge"];
 		SetShipId(shipObj["ship_type_id"]); // XXX handle missing thirdparty ship
@@ -229,7 +232,7 @@ void Ship::Init()
 
 	m_landingGearAnimation = GetModel()->FindAnimation("gear_down");
 
-	GetFixedGuns()->InitGuns(GetModel());
+	FixedGuns::InitGuns(GetModel());
 
 	// If we've got the tag_landing set then use it for an offset
 	// otherwise use zero so that it will dock but look clearly incorrect
@@ -259,6 +262,8 @@ void Ship::SaveToJson(Json &jsonObj, Space *space)
 
 	GetPropulsion()->SaveToJson(shipObj, space);
 
+	FixedGuns::SaveToJson(shipObj, space);
+
 	m_skin.SaveToJson(shipObj);
 	shipObj["wheel_transition"] = m_wheelTransition;
 	shipObj["wheel_state"] = m_wheelState;
@@ -276,8 +281,6 @@ void Ship::SaveToJson(Json &jsonObj, Space *space)
 	shipObj["hyperspace_warmup_sound"] = m_hyperspace.sounds.warmup_sound;
 	shipObj["hyperspace_abort_sound"] = m_hyperspace.sounds.abort_sound;
 	shipObj["hyperspace_jump_sound"] = m_hyperspace.sounds.jump_sound;
-
-	GetFixedGuns()->SaveToJson(shipObj, space);
 
 	shipObj["ecm_recharge"] = m_ecmRecharge;
 	shipObj["ship_type_id"] = m_type->id;
@@ -679,14 +682,14 @@ void Ship::UpdateGunsStats()
 
 	float cooler = 1.0f;
 	Properties().Get("laser_cooler_cap", cooler);
-	GetFixedGuns()->SetCoolingBoost(cooler);
+	FixedGuns::SetCoolingBoost(cooler);
 
 	for (int num = 0; num < 2; num++) {
 		std::string prefix(num ? "laser_rear_" : "laser_front_");
 		int damage = 0;
 		Properties().Get(prefix + "damage", damage);
 		if (!damage) {
-			GetFixedGuns()->UnMountGun(num);
+			FixedGuns::UnMountGun(num);
 		} else {
 			Properties().PushLuaTable();
 			LuaTable prop(Lua::manager->GetLuaState(), -1);
@@ -706,12 +709,12 @@ void Ship::UpdateGunsStats()
 			const float recharge = prop.Get<float>(prefix + "rechargeTime");
 			const bool beam = prop.Get<int>(prefix + "beam");
 
-			GetFixedGuns()->MountGun(num, recharge, lifespan, damage, length, width, mining, c, speed, beam, heatrate, coolrate);
+			FixedGuns::MountGun(num, recharge, lifespan, damage, length, width, mining, c, speed, beam, heatrate, coolrate);
 
 			if (prop.Get<int>(prefix + "dual"))
-				GetFixedGuns()->IsDual(num, true);
+				FixedGuns::IsDual(num, true);
 			else
-				GetFixedGuns()->IsDual(num, false);
+				FixedGuns::IsDual(num, false);
 			lua_pop(prop.GetLua(), 1);
 		}
 	}
@@ -1107,7 +1110,7 @@ void Ship::UpdateAlertState()
 			if (GetPositionRelTo(ship).LengthSqr() < ALERT_DISTANCE * ALERT_DISTANCE) {
 				ship_is_near = true;
 
-				Uint32 gunstate = ship->GetFixedGuns()->IsFiring();
+				Uint32 gunstate = FixedGuns::IsFiring();
 				if (gunstate) {
 					ship_is_firing = true;
 					break;
@@ -1278,11 +1281,10 @@ void Ship::StaticUpdate(const float timeStep)
 		m_launchLockTimeout = 0;
 
 	// lasers
-	FixedGuns *fg = GetFixedGuns();
-	fg->UpdateGuns(timeStep);
+	FixedGuns::UpdateGuns(timeStep);
 	for (int i = 0; i < 2; i++) {
-		if (fg->Fire(i, this)) {
-			if (fg->IsBeam(i)) {
+		if (FixedGuns::Fire(i, this)) {
+			if (FixedGuns::IsBeam(i)) {
 				float vl, vr;
 				Sound::CalculateStereo(this, 1.0f, &vl, &vr);
 				m_beamLaser[i].Play("Beam_laser", vl, vr, Sound::OP_REPEAT);
@@ -1292,8 +1294,8 @@ void Ship::StaticUpdate(const float timeStep)
 			LuaEvent::Queue("onShipFiring", this);
 		}
 
-		if (fg->IsBeam(i)) {
-			if (fg->IsFiring(i)) {
+		if (FixedGuns::IsBeam(i)) {
+			if (FixedGuns::IsFiring(i)) {
 				float vl, vr;
 				Sound::CalculateStereo(this, 1.0f, &vl, &vr);
 				if (!m_beamLaser[i].IsPlaying()) {
@@ -1302,7 +1304,7 @@ void Ship::StaticUpdate(const float timeStep)
 					// update volume
 					m_beamLaser[i].SetVolume(vl, vr);
 				}
-			} else if (!fg->IsFiring(i) && m_beamLaser[i].IsPlaying()) {
+			} else if (!FixedGuns::IsFiring(i) && m_beamLaser[i].IsPlaying()) {
 				m_beamLaser[i].Stop();
 			}
 		}
@@ -1415,7 +1417,7 @@ void Ship::SetGunState(int idx, int state)
 	if (m_flightState != FLYING)
 		return;
 
-	GetFixedGuns()->SetGunFiringState(idx, state);
+	FixedGuns::SetGunFiringState(idx, state);
 }
 
 bool Ship::SetWheelState(bool down)

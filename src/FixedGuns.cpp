@@ -9,6 +9,8 @@
 #include "StringF.h"
 #include "scenegraph/MatrixTransform.h"
 
+#pragma GCC optimize ("O0")
+
 FixedGuns::FixedGuns()
 {
 }
@@ -60,7 +62,6 @@ void FixedGuns::Init(DynamicBody *b)
 
 void FixedGuns::SaveToJson(Json &jsonObj, Space *space)
 {
-
 	Json gunArray = Json::array(); // Create JSON array to contain gun data.
 
 	for (int i = 0; i < Guns::GUNMOUNT_MAX; i++) {
