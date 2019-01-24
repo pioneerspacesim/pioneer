@@ -126,9 +126,29 @@ Event.Register("onSongFinished", function ()
 	playAmbient()
 end)
 
--- start some ambient music when first arriving in system
+-- play discovery music if player enters an interesting system
+-- otherwise, start some ambient music
 Event.Register("onEnterSystem", function ()
-	playAmbient()
+	local player_body = Game.player.frameBody
+	if player_body and not Game.system.explored then
+		if player_body.type == 'STAR_SM_BH' then 
+			playRandomSongFromCategory("discovery")
+		elseif player_body.type == 'STAR_IM_BH' then
+			playRandomSongFromCategory("discovery")
+		elseif player_body.type == 'STAR_S_BH' then
+			playRandomSongFromCategory("discovery")
+		elseif player_body.type == 'STAR_O_WF' then
+			playRandomSongFromCategory("discovery")
+		elseif player_body.type == 'STAR_B_WF' then
+			playRandomSongFromCategory("discovery")
+		elseif player_body.type == 'STAR_M_WF' then
+			playRandomSongFromCategory("discovery")
+		else
+			playAmbient()
+		end
+	else
+		playAmbient()
+	end
 end)
 
 -- ship or player destruction (aka game over)
