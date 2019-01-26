@@ -3,6 +3,7 @@
 
 #include "ModelViewer.h"
 #include "FileSystem.h"
+#include "GameConfig.h"
 #include "GameSaveError.h"
 #include "ModManager.h"
 #include "OS.h"

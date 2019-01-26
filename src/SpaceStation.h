@@ -4,16 +4,14 @@
 #ifndef _SPACESTATION_H
 #define _SPACESTATION_H
 
-#include "Camera.h"
 #include "ModelBody.h"
 #include "NavLights.h"
 #include "Quaternion.h"
-#include "ShipType.h"
 #include "SpaceStationType.h"
-#include "libs.h"
 
 #define MAX_DOCKING_PORTS 240 //256-(0x10), 0x10 is used because the collision surfaces use it as an identifying flag
 
+class Camera;
 class CityOnPlanet;
 class CollMeshSet;
 class Planet;

@@ -3,6 +3,8 @@
 
 #include "buildopts.h"
 
+#include "Pi.h"
+
 #include "AmbientSounds.h"
 #include "BaseSphere.h"
 #include "CargoBody.h"
@@ -10,10 +12,15 @@
 #include "DeathView.h"
 #include "EnumStrings.h"
 #include "FaceParts.h"
-#include "Factions.h"
 #include "FileSystem.h"
+
+#if 0
 #include "Frame.h"
+#endif // 0
+
 #include "Game.h"
+#include "GameConfig.h"
+#include "GameLog.h"
 #include "Input.h"
 #include "Intro.h"
 #include "KeyBindings.h"
@@ -36,6 +43,7 @@
 #include "LuaNameGen.h"
 #include "LuaPiGui.h"
 #include "LuaRef.h"
+#include "LuaSerializer.h"
 #include "LuaServerAgent.h"
 #include "LuaShipDef.h"
 #include "LuaSpace.h"
@@ -48,7 +56,6 @@
 #if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"
 #endif
-#include "Pi.h"
 #include "PiGui.h"
 #include "Planet.h"
 #include "Player.h"
@@ -73,23 +80,20 @@
 #include "Tombstone.h"
 #include "UIView.h"
 #include "WorldView.h"
-#include "galaxy/CustomSystem.h"
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/StarSystem.h"
 #include "gameui/Lua.h"
 #include "libs.h"
-// ------------------------------------------------------------
-#include "graphics/opengl/RendererGL.h"
-// ------------------------------------------------------------
+
+#include "graphics/Renderer.h"
+
+#if WITH_DEVKEYS
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
-#include "graphics/Renderer.h"
 #include "graphics/Stats.h"
-#include "gui/Gui.h"
+#endif // WITH_DEVKEYS
+
 #include "scenegraph/Lua.h"
-#include "scenegraph/Model.h"
-#include "ui/Context.h"
-#include "ui/Lua.h"
 #include "versioningInfo.h"
 #include <algorithm>
 #include <sstream>

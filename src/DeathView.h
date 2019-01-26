@@ -4,11 +4,11 @@
 #ifndef DEATH_VIEW_H
 #define DEATH_VIEW_H
 
-#include "Camera.h"
 #include "RefCounted.h"
 #include "View.h"
-#include "libs.h"
 
+class Camera;
+class CameraContext;
 class Game;
 
 class DeathView : public View {

@@ -8,13 +8,12 @@
 
 #include "Body.h"
 #include "graphics/Material.h"
-#include "graphics/RenderState.h"
-#include "libs.h"
 
 class Frame;
 namespace Graphics {
 	class Renderer;
 	class VertexArray;
+	class RenderState;
 } // namespace Graphics
 struct ProjectileData;
 

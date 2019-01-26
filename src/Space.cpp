@@ -9,6 +9,7 @@
 #include "HyperspaceCloud.h"
 #include "Lang.h"
 #include "LuaEvent.h"
+#include "LuaTimer.h"
 #include "MathUtil.h"
 #include "Missile.h"
 #include "Pi.h"

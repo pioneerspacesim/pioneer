@@ -3,19 +3,12 @@
 
 #include "Polit.h"
 #include "Factions.h"
-#include "Game.h"
 #include "Lang.h"
-#include "Pi.h"
-#include "Ship.h"
-#include "ShipCpanel.h"
-#include "Space.h"
-#include "SpaceStation.h"
 #include "StringF.h"
 #include "galaxy/Economy.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
-#include "libs.h"
 
 namespace Polit {
 

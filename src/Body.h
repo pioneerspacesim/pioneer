@@ -4,16 +4,17 @@
 #ifndef _BODY_H
 #define _BODY_H
 
-#include "Frame.h"
 #include "Object.h"
 #include "PropertiedObject.h"
 #include "matrix4x4.h"
 #include "vector3.h"
 #include <string>
 
-class ObjMesh;
 class Space;
 class Camera;
+class Frame;
+class SystemBody;
+
 namespace Graphics {
 	class Renderer;
 }

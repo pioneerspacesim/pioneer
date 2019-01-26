@@ -4,17 +4,13 @@
 #ifndef _SHIP_H
 #define _SHIP_H
 
-#include "Camera.h"
 #include "DynamicBody.h"
-#include "LuaTable.h"
+#include "LuaRef.h"
 #include "NavLights.h"
-#include "Planet.h"
 #include "Sensors.h"
 #include "ShipType.h"
 #include "Sound.h"
-#include "Space.h"
 #include "galaxy/SystemPath.h"
-#include "libs.h"
 #include "scenegraph/ModelSkin.h"
 #include "scenegraph/SceneGraph.h"
 #include <list>
@@ -29,6 +25,10 @@ class AICommand;
 class ShipController;
 class CargoBody;
 class Missile;
+class Planet;
+class Camera;
+class Space;
+
 namespace Graphics {
 	class Renderer;
 }

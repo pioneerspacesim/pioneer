@@ -2,33 +2,23 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Ship.h"
-#include "Beam.h"
+#include "CargoBody.h"
 #include "CityOnPlanet.h"
 #include "EnumStrings.h"
 #include "Frame.h"
+#include "GameLog.h"
 #include "HyperspaceCloud.h"
 #include "Lang.h"
 #include "LuaEvent.h"
 #include "LuaUtils.h"
 #include "Missile.h"
-#include "Player.h"
-#include "Projectile.h"
+#include "Planet.h"
+#include "Player.h" // <-- Here only for 1 occurence of "Pi::player" in Ship::Explode
 #include "Sfx.h"
-#include "ShipAICmd.h"
+#include "Shields.h"
 #include "ShipController.h"
 #include "StringF.h"
-#include "WorldView.h"
-#include "collider/collider.h"
-#include "galaxy/Galaxy.h"
-#include "galaxy/GalaxyCache.h"
-#include "galaxy/Sector.h"
-#include "graphics/Drawables.h"
-#include "graphics/Graphics.h"
-#include "graphics/Material.h"
-#include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
-
-#include <algorithm>
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
 HeatGradientParameters_t Ship::s_heatGradientParams;

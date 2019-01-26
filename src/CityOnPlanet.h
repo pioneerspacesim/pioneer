@@ -7,13 +7,15 @@
 #include "CollMesh.h"
 #include "Object.h"
 #include "Random.h"
-#include "collider/Geom.h"
-#include "galaxy/StarSystem.h"
-#include "libs.h"
 
+#include <set>
+
+class Geom;
 class Planet;
 class SpaceStation;
 class Frame;
+class SystemPath;
+
 namespace Graphics {
 	class Renderer;
 	class Frustum;

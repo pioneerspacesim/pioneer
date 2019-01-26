@@ -4,14 +4,14 @@
 #ifndef _GAME_H
 #define _GAME_H
 
-#include "GameLog.h"
 #include "JsonFwd.h"
 #include "galaxy/Galaxy.h"
-#include "galaxy/SystemPath.h"
 #include "gameconsts.h"
 #include "libs.h"
 #include <string>
 
+class SystemPath;
+class GameLog;
 class HyperspaceCloud;
 class Player;
 class ShipController;

@@ -4,6 +4,7 @@
 #ifndef _SHIPAICMD_H
 #define _SHIPAICMD_H
 
+#include "Frame.h"
 #include "Game.h"
 #include "GameSaveError.h"
 #include "JsonFwd.h"

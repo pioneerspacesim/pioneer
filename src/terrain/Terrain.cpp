@@ -4,6 +4,7 @@
 #include "Terrain.h"
 #include "FileSystem.h"
 #include "FloatComparison.h"
+#include "GameConfig.h"
 #include "Pi.h"
 #include "perlin.h"
 

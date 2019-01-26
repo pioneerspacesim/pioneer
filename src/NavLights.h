@@ -6,15 +6,15 @@
 /*
  * Blinking navigation lights for ships and stations
  */
-#include "JsonFwd.h"
-#include "graphics/RenderState.h"
+#include "Json.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
 #include "libs.h"
 
 namespace Graphics {
 	class Renderer;
-}
+	class RenderState;
+} // namespace Graphics
 namespace SceneGraph {
 	class Model;
 	class Billboard;

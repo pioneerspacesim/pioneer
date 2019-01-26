@@ -3,27 +3,22 @@
 
 #include "SpaceStation.h"
 #include "CityOnPlanet.h"
-#include "FileSystem.h"
 #include "Frame.h"
 #include "Game.h"
+#include "GameLog.h"
 #include "GameSaveError.h"
-#include "JsonUtils.h"
+#include "Json.h"
 #include "Lang.h"
 #include "LuaEvent.h"
-#include "LuaVector.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "Player.h"
 #include "Polit.h"
 #include "Ship.h"
-#include "ShipCpanel.h"
 #include "Space.h"
 #include "StringF.h"
-#include "galaxy/StarSystem.h"
-#include "gameconsts.h"
 #include "graphics/Graphics.h"
 #include "scenegraph/ModelSkin.h"
-#include <algorithm>
 
 void SpaceStation::Init()
 {

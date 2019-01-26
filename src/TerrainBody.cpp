@@ -8,6 +8,7 @@
 #include "GasGiant.h"
 #include "GeoSphere.h"
 #include "Pi.h"
+#include "Space.h"
 #include "WorldView.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"

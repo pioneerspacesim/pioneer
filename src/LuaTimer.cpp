@@ -3,6 +3,8 @@
 
 #include "LuaTimer.h"
 #include "Game.h"
+#include "Lua.h"
+#include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Pi.h"
 

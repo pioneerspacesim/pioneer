@@ -3,16 +3,17 @@
 
 #include "buildopts.h"
 
+#include "Game.h"
+
 #include "Body.h"
 #include "DeathView.h"
-#include "Factions.h"
 #include "FileSystem.h"
 #include "GZipFormat.h"
-#include "Game.h"
+#include "GameLog.h"
 #include "GameSaveError.h"
 #include "HyperspaceCloud.h"
 #include "LuaEvent.h"
-#include "LuaRef.h"
+#include "LuaSerializer.h"
 #include "MathUtil.h"
 #if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"
@@ -30,7 +31,6 @@
 #include "WorldView.h"
 #include "galaxy/GalaxyGenerator.h"
 #include "graphics/Renderer.h"
-#include "ui/Context.h"
 
 static const int s_saveVersion = 85;
 

@@ -6,15 +6,16 @@
 
 #include "Body.h"
 #include "CollMesh.h"
-#include "Shields.h"
-#include "libs.h"
 
+class Shields;
 class Geom;
 class Camera;
+
 namespace Graphics {
 	class Renderer;
 	class Light;
 } // namespace Graphics
+
 namespace SceneGraph {
 	class Model;
 	class Animation;

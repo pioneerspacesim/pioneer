@@ -7,9 +7,6 @@
 #include "LuaManager.h"
 #include "LuaRef.h"
 #include "LuaTable.h"
-#include "libs.h"
-
-struct lua_State;
 
 class PropertyMap {
 public:

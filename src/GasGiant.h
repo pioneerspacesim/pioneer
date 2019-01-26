@@ -4,10 +4,7 @@
 #ifndef _GASGIANT_H
 #define _GASGIANT_H
 
-#include <SDL_stdinc.h>
-
 #include "BaseSphere.h"
-#include "Camera.h"
 #include "GasGiantJobs.h"
 #include "JobQueue.h"
 #include "Random.h"
@@ -25,6 +22,8 @@ class SystemBody;
 class GasGiant;
 class GasPatch;
 class GasPatchContext;
+class Camera;
+
 namespace {
 	class STextureFaceResult;
 	class SGPUGenResult;

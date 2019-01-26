@@ -4,9 +4,7 @@
 #ifndef _CAMERA_H
 #define _CAMERA_H
 
-#include "Background.h"
 #include "Body.h"
-#include "RefCounted.h"
 #include "graphics/Frustum.h"
 #include "graphics/Light.h"
 #include "matrix4x4.h"
@@ -14,9 +12,11 @@
 
 class Frame;
 class ShipCockpit;
+
 namespace Graphics {
+	class Material;
 	class Renderer;
-}
+} // namespace Graphics
 
 class CameraContext : public RefCounted {
 public:

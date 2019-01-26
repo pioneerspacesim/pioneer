@@ -4,14 +4,13 @@
 #ifndef FIXEDGUNS_H
 #define FIXEDGUNS_H
 
-#include "Camera.h"
-#include "DynamicBody.h"
-#include "JsonUtils.h"
+#include "Json.h"
 #include "Projectile.h"
-#include "Space.h"
-#include "libs.h"
 #include "scenegraph/Model.h"
 #include "vector3.h"
+
+class DynamicBody;
+class Space;
 
 enum Guns {
 	GUN_FRONT,
