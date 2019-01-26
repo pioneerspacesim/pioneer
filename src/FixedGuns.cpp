@@ -11,8 +11,27 @@
 
 #pragma GCC optimize ("O0")
 
-FixedGuns::FixedGuns()
+FixedGuns::FixedGuns(DynamicBody* b)
 {
+	for (int i = 0; i < Guns::GUNMOUNT_MAX; i++) {
+		// Initialize structs
+		m_is_firing[i] = false;
+		m_gun[i].recharge = 0;
+		m_gun[i].temp_heat_rate = 0;
+		m_gun[i].temp_cool_rate = 0;
+		m_gun[i].projData.lifespan = 0;
+		m_gun[i].projData.damage = 0;
+		m_gun[i].projData.length = 0;
+		m_gun[i].projData.width = 0;
+		m_gun[i].projData.mining = false;
+		m_gun[i].projData.speed = 0;
+		m_gun[i].projData.color = Color::BLACK;
+		// Set there's no guns:
+		m_gun_present[i] = false;
+		m_recharge_stat[i] = 0.0;
+		m_temperature_stat[i] = 0.0;
+	};
+	b->AddFeature(DynamicBody::FIXED_GUNS);
 }
 
 FixedGuns::~FixedGuns()
@@ -35,29 +54,6 @@ bool FixedGuns::IsFiring(const int num)
 bool FixedGuns::IsBeam(const int num)
 {
 	return m_gun[num].projData.beam;
-}
-
-void FixedGuns::Init(DynamicBody *b)
-{
-	for (int i = 0; i < Guns::GUNMOUNT_MAX; i++) {
-		// Initialize structs
-		m_is_firing[i] = false;
-		m_gun[i].recharge = 0;
-		m_gun[i].temp_heat_rate = 0;
-		m_gun[i].temp_cool_rate = 0;
-		m_gun[i].projData.lifespan = 0;
-		m_gun[i].projData.damage = 0;
-		m_gun[i].projData.length = 0;
-		m_gun[i].projData.width = 0;
-		m_gun[i].projData.mining = false;
-		m_gun[i].projData.speed = 0;
-		m_gun[i].projData.color = Color::BLACK;
-		// Set there's no guns:
-		m_gun_present[i] = false;
-		m_recharge_stat[i] = 0.0;
-		m_temperature_stat[i] = 0.0;
-	};
-	b->AddFeature(DynamicBody::FIXED_GUNS);
 }
 
 void FixedGuns::SaveToJson(Json &jsonObj, Space *space)
@@ -206,8 +202,6 @@ void FixedGuns::UpdateGuns(float timeStep)
 		if (!m_gun_present[i])
 			continue;
 
-		m_recharge_stat[i] -= timeStep;
-
 		float rateCooling = m_gun[i].temp_cool_rate;
 		rateCooling *= m_cooler_boost;
 		m_temperature_stat[i] -= rateCooling * timeStep;
@@ -217,10 +211,12 @@ void FixedGuns::UpdateGuns(float timeStep)
 		else if (m_temperature_stat[i] > 1.0f)
 			m_is_firing[i] = false;
 
+		m_recharge_stat[i] -= timeStep;
 		if (m_recharge_stat[i] < 0.0f)
 			m_recharge_stat[i] = 0;
 	}
 }
+
 float FixedGuns::GetGunTemperature(int idx) const
 {
 	if (m_gun_present[idx])

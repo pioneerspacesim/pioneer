@@ -41,6 +41,7 @@ const double Ship::DEFAULT_LIFT_TO_DRAG_RATIO = 0.001;
 
 Ship::Ship(const ShipType::Id &shipId) :
 	DynamicBody(),
+	FixedGuns(this),
 	m_controller(0),
 	m_flightState(FLYING),
 	m_alertState(ALERT_NONE),
@@ -49,10 +50,9 @@ Ship::Ship(const ShipType::Id &shipId) :
 	/*
 		THIS CODE DOES NOT RUN WHEN LOADING SAVEGAMES!!
 	*/
-	FixedGuns::Init(this);
 
 	AddFeature(Feature::PROPULSION); // add component propulsion
-	AddFeature(Feature::FIXED_GUNS); // add component fixed guns
+
 	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
 	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
 
@@ -111,12 +111,10 @@ Ship::Ship(const ShipType::Id &shipId) :
 }
 
 Ship::Ship(const Json &jsonObj, Space *space) :
-	DynamicBody(jsonObj, space)
+	DynamicBody(jsonObj, space),
+	FixedGuns(this)
 {
 	AddFeature(Feature::PROPULSION); // add component propulsion
-	AddFeature(Feature::FIXED_GUNS); // add component fixed guns
-
-	FixedGuns::Init(this);
 
 	try {
 		Json shipObj = jsonObj["ship"];

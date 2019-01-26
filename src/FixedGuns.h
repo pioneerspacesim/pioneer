@@ -20,9 +20,8 @@ enum Guns {
 
 class FixedGuns {
 public:
-	FixedGuns();
-	virtual ~FixedGuns();
-	void Init(DynamicBody *b);
+	FixedGuns(DynamicBody *b);
+	~FixedGuns();
 	void InitGuns(SceneGraph::Model *m);
 	void UpdateGuns(float timeStep);
 	bool Fire(const int num, Body *b);
@@ -42,8 +41,8 @@ public:
 		if (m_gun_present[idx])
 			m_is_firing[idx] = s;
 	};
-	virtual void SaveToJson(Json &jsonObj, Space *space);
-	virtual void LoadFromJson(const Json &jsonObj, Space *space);
+	void SaveToJson(Json &jsonObj, Space *space);
+	void LoadFromJson(const Json &jsonObj, Space *space);
 
 private:
 	struct GunData {
