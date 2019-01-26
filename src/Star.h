@@ -14,15 +14,15 @@ namespace Graphics {
 class Star : public TerrainBody {
 public:
 	OBJDEF(Star, TerrainBody, STAR);
+	Star() = delete;
 	Star(SystemBody *sbody);
-	Star();
+	Star(const Json &jsonObj, Space *space);
 	virtual ~Star(){};
 
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 
 protected:
 	void InitStar();
-	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 	Graphics::RenderState *m_haloState;
 };

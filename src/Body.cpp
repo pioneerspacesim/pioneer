@@ -104,11 +104,9 @@ Body *Body::FromJson(const Json &jsonObj, Space *space)
 	Object::Type type = Object::Type(jsonObj["body_type"]);
 	switch (type) {
 	case Object::STAR:
-		b = new Star();
-		break;
+		return new Star(jsonObj, space);
 	case Object::PLANET:
-		b = new Planet();
-		break;
+		return new Planet(jsonObj, space);
 	case Object::SPACESTATION:
 		b = new SpaceStation();
 		break;

@@ -19,13 +19,6 @@ using namespace Graphics;
 
 static const Graphics::AttributeSet RING_VERTEX_ATTRIBS = Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0;
 
-Planet::Planet() :
-	TerrainBody(),
-	m_ringVertices(RING_VERTEX_ATTRIBS),
-	m_ringState(nullptr)
-{
-}
-
 Planet::Planet(SystemBody *sbody) :
 	TerrainBody(sbody),
 	m_ringVertices(RING_VERTEX_ATTRIBS),
@@ -34,7 +27,10 @@ Planet::Planet(SystemBody *sbody) :
 	InitParams(sbody);
 }
 
-void Planet::LoadFromJson(const Json &jsonObj, Space *space)
+Planet::Planet(const Json &jsonObj, Space *space) :
+	TerrainBody(),
+	m_ringVertices(RING_VERTEX_ATTRIBS),
+	m_ringState(nullptr)
 {
 	TerrainBody::LoadFromJson(jsonObj, space);
 

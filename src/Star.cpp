@@ -11,18 +11,13 @@
 
 using namespace Graphics;
 
-Star::Star() :
-	TerrainBody()
-{
-}
-
 Star::Star(SystemBody *sbody) :
 	TerrainBody(sbody)
 {
 	InitStar();
 }
 
-void Star::LoadFromJson(const Json &jsonObj, Space *space)
+Star::Star(const Json &jsonObj, Space *space)
 {
 	TerrainBody::LoadFromJson(jsonObj, space); // to get sbody
 	InitStar();
