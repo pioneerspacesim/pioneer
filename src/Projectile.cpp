@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Projectile.h"
+
 #include "CargoBody.h"
 #include "Frame.h"
 #include "Game.h"
@@ -107,19 +108,51 @@ void Projectile::FreeModel()
 	s_glowVerts.reset();
 }
 
-Projectile::Projectile() :
-	Body()
+Projectile::Projectile(Body *parent, const ProjectileData &prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel) : Body()
 {
 	if (!s_sideMat) BuildModel();
-	SetOrient(matrix3x3d::Identity());
-	m_lifespan = 0;
-	m_baseDam = 0;
-	m_length = 0;
-	m_width = 0;
-	m_mining = false;
-	m_age = 0;
-	m_parent = 0;
 	m_flags |= FLAG_DRAW_LAST;
+
+	m_parent = parent;
+	m_lifespan = prData.lifespan;
+	m_baseDam = prData.damage;
+	m_length = prData.length;
+	m_width = prData.width;
+	m_mining = prData.mining;
+	m_color = prData.color;
+	m_age = 0;
+
+	SetFrame(parent->GetFrame());
+
+	SetOrient(parent->GetOrient());
+	SetPosition(pos);
+	m_baseVel = baseVel;
+	m_dirVel = dirVel;
+	SetClipRadius(GetRadius());
+	SetPhysRadius(GetRadius());
+}
+
+Projectile::Projectile(const Json &jsonObj, Space *space)
+{
+	if (!s_sideMat) BuildModel();
+	Body::LoadFromJson(jsonObj, space);
+
+	try {
+		Json projectileObj = jsonObj["projectile"];
+
+		m_baseVel = projectileObj["base_vel"];
+		m_dirVel = projectileObj["dir_vel"];
+		m_age = projectileObj["age"];
+		m_lifespan = projectileObj["life_span"];
+		m_baseDam = projectileObj["base_dam"];
+		m_length = projectileObj["length"];
+		m_width = projectileObj["width"];
+		m_mining = projectileObj["mining"];
+		m_color = projectileObj["color"];
+		m_parentIndex = projectileObj["index_for_body"];
+	} catch (Json::type_error &) {
+		throw SavedGameCorruptException();
+	}
 }
 
 Projectile::~Projectile()
@@ -144,28 +177,6 @@ void Projectile::SaveToJson(Json &jsonObj, Space *space)
 	projectileObj["index_for_body"] = space->GetIndexForBody(m_parent);
 
 	jsonObj["projectile"] = projectileObj; // Add projectile object to supplied object.
-}
-
-void Projectile::LoadFromJson(const Json &jsonObj, Space *space)
-{
-	Body::LoadFromJson(jsonObj, space);
-
-	try {
-		Json projectileObj = jsonObj["projectile"];
-
-		m_baseVel = projectileObj["base_vel"];
-		m_dirVel = projectileObj["dir_vel"];
-		m_age = projectileObj["age"];
-		m_lifespan = projectileObj["life_span"];
-		m_baseDam = projectileObj["base_dam"];
-		m_length = projectileObj["length"];
-		m_width = projectileObj["width"];
-		m_mining = projectileObj["mining"];
-		m_color = projectileObj["color"];
-		m_parentIndex = projectileObj["index_for_body"];
-	} catch (Json::type_error &) {
-		throw SavedGameCorruptException();
-	}
 }
 
 void Projectile::PostLoadFixup(Space *space)
@@ -206,7 +217,7 @@ double Projectile::GetRadius() const
 	return sqrt(m_length * m_length + m_width * m_width);
 }
 
-static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, const vector3d &pos)
+void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, const vector3d &pos)
 {
 	lua_State *l = Lua::manager->GetLuaState();
 
@@ -345,23 +356,20 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	}
 }
 
-void Projectile::Add(Body *parent, float lifespan, float dam, float length, float width, bool mining, const Color &color, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)
-{
-	Projectile *p = new Projectile();
-	p->m_parent = parent;
-	p->m_lifespan = lifespan;
-	p->m_baseDam = dam;
-	p->m_length = length;
-	p->m_width = width;
-	p->m_mining = mining;
-	p->m_color = color;
-	p->SetFrame(parent->GetFrame());
+void Projectile::Add(Body *parent, float lifespan, float dam, float length, float width, bool mining, const Color &color, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel) {
+	ProjectileData prData;
+	prData.lifespan = lifespan;
+	prData.damage = dam;
+	prData.length = length;
+	prData.width = width;
+	prData.mining = mining;
+	prData.color = color;
+	Projectile *p = new Projectile(parent, prData, pos, baseVel, dirVel);
+	Pi::game->GetSpace()->AddBody(p);
+}
 
-	p->SetOrient(parent->GetOrient());
-	p->SetPosition(pos);
-	p->m_baseVel = baseVel;
-	p->m_dirVel = dirVel;
-	p->SetClipRadius(p->GetRadius());
-	p->SetPhysRadius(p->GetRadius());
+void Projectile::Add(Body *parent, const ProjectileData &prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)
+{
+	Projectile *p = new Projectile(parent, prData, pos, baseVel, dirVel);
 	Pi::game->GetSpace()->AddBody(p);
 }

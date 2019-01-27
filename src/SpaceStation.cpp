@@ -20,55 +20,21 @@
 #include "graphics/Graphics.h"
 #include "scenegraph/ModelSkin.h"
 
-void SpaceStation::Init()
+SpaceStation::SpaceStation(const SystemBody *sbody) :
+	ModelBody(),
+	m_type(nullptr)
 {
-	SpaceStationType::Init();
+	m_sbody = sbody;
+
+	m_oldAngDisplacement = 0.0;
+
+	m_doorAnimationStep = m_doorAnimationState = 0.0;
+
+	InitStation();
 }
 
-void SpaceStation::SaveToJson(Json &jsonObj, Space *space)
-{
-	ModelBody::SaveToJson(jsonObj, space);
-
-	Json spaceStationObj({}); // Create JSON object to contain space station data.
-
-	Json shipDockingArray = Json::array(); // Create JSON array to contain ship docking data.
-	for (Uint32 i = 0; i < m_shipDocking.size(); i++) {
-		Json shipDockingArrayEl({}); // Create JSON object to contain ship docking.
-		Uint32 bodyIndex = space->GetIndexForBody(m_shipDocking[i].ship);
-		if (bodyIndex != 0) {
-			shipDockingArrayEl["index_for_body"] = bodyIndex;
-			shipDockingArrayEl["stage"] = m_shipDocking[i].stage;
-			shipDockingArrayEl["stage_pos"] = m_shipDocking[i].stagePos; // stagePos is a double but was saved as a float in pre-JSON system for some reason (saved as double here).
-			shipDockingArrayEl["from_pos"] = m_shipDocking[i].fromPos;
-			shipDockingArrayEl["from_rot"] = m_shipDocking[i].fromRot;
-		}
-		shipDockingArray.push_back(shipDockingArrayEl); // Append ship docking object to array.
-	}
-	spaceStationObj["ship_docking"] = shipDockingArray; // Add ship docking array to space station object.
-
-	// store each of the port details and bay IDs
-	Json portArray = Json::array(); // Create JSON array to contain port data.
-	for (Uint32 i = 0; i < m_ports.size(); i++) {
-		Json portArrayEl({}); // Create JSON object to contain port.
-
-		if (m_ports[i].inUse)
-			portArrayEl["in_use"] = m_ports[i].inUse;
-
-		portArray.push_back(portArrayEl); // Append port object to array.
-	}
-	spaceStationObj["ports"] = portArray; // Add port array to space station object.
-
-	spaceStationObj["index_for_system_body"] = space->GetIndexForSystemBody(m_sbody);
-
-	spaceStationObj["door_animation_step"] = m_doorAnimationStep;
-	spaceStationObj["door_animation_state"] = m_doorAnimationState;
-
-	m_navLights->SaveToJson(spaceStationObj);
-
-	jsonObj["space_station"] = spaceStationObj; // Add space station object to supplied object.
-}
-
-void SpaceStation::LoadFromJson(const Json &jsonObj, Space *space)
+SpaceStation::SpaceStation(const Json &jsonObj, Space *space) :
+	m_type(nullptr)
 {
 	ModelBody::LoadFromJson(jsonObj, space);
 	GetModel()->SetLabel(GetLabel());
@@ -122,25 +88,60 @@ void SpaceStation::LoadFromJson(const Json &jsonObj, Space *space)
 	}
 }
 
+void SpaceStation::Init()
+{
+	SpaceStationType::Init();
+}
+
+void SpaceStation::SaveToJson(Json &jsonObj, Space *space)
+{
+	ModelBody::SaveToJson(jsonObj, space);
+
+	Json spaceStationObj({}); // Create JSON object to contain space station data.
+
+	Json shipDockingArray = Json::array(); // Create JSON array to contain ship docking data.
+	for (Uint32 i = 0; i < m_shipDocking.size(); i++) {
+		Json shipDockingArrayEl({}); // Create JSON object to contain ship docking.
+		Uint32 bodyIndex = space->GetIndexForBody(m_shipDocking[i].ship);
+		if (bodyIndex != 0) {
+			shipDockingArrayEl["index_for_body"] = bodyIndex;
+			shipDockingArrayEl["stage"] = m_shipDocking[i].stage;
+			shipDockingArrayEl["stage_pos"] = m_shipDocking[i].stagePos; // stagePos is a double but was saved as a float in pre-JSON system for some reason (saved as double here).
+			shipDockingArrayEl["from_pos"] = m_shipDocking[i].fromPos;
+			shipDockingArrayEl["from_rot"] = m_shipDocking[i].fromRot;
+		}
+		shipDockingArray.push_back(shipDockingArrayEl); // Append ship docking object to array.
+	}
+	spaceStationObj["ship_docking"] = shipDockingArray; // Add ship docking array to space station object.
+
+	// store each of the port details and bay IDs
+	Json portArray = Json::array(); // Create JSON array to contain port data.
+	for (Uint32 i = 0; i < m_ports.size(); i++) {
+		Json portArrayEl({}); // Create JSON object to contain port.
+
+		if (m_ports[i].inUse)
+			portArrayEl["in_use"] = m_ports[i].inUse;
+
+		portArray.push_back(portArrayEl); // Append port object to array.
+	}
+	spaceStationObj["ports"] = portArray; // Add port array to space station object.
+
+	spaceStationObj["index_for_system_body"] = space->GetIndexForSystemBody(m_sbody);
+
+	spaceStationObj["door_animation_step"] = m_doorAnimationStep;
+	spaceStationObj["door_animation_state"] = m_doorAnimationState;
+
+	m_navLights->SaveToJson(spaceStationObj);
+
+	jsonObj["space_station"] = spaceStationObj; // Add space station object to supplied object.
+}
+
 void SpaceStation::PostLoadFixup(Space *space)
 {
 	ModelBody::PostLoadFixup(space);
 	for (Uint32 i = 0; i < m_shipDocking.size(); i++) {
 		m_shipDocking[i].ship = static_cast<Ship *>(space->GetBodyByIndex(m_shipDocking[i].shipIndex));
 	}
-}
-
-SpaceStation::SpaceStation(const SystemBody *sbody) :
-	ModelBody(),
-	m_type(nullptr)
-{
-	m_sbody = sbody;
-
-	m_oldAngDisplacement = 0.0;
-
-	m_doorAnimationStep = m_doorAnimationState = 0.0;
-
-	InitStation();
 }
 
 void SpaceStation::InitStation()

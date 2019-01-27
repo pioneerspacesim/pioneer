@@ -108,8 +108,7 @@ Body *Body::FromJson(const Json &jsonObj, Space *space)
 	case Object::PLANET:
 		return new Planet(jsonObj, space);
 	case Object::SPACESTATION:
-		b = new SpaceStation();
-		break;
+		return new SpaceStation(jsonObj, space);
 	case Object::SHIP:
 		b = new Ship();
 		break;
@@ -120,8 +119,7 @@ Body *Body::FromJson(const Json &jsonObj, Space *space)
 		b = new Missile();
 		break;
 	case Object::PROJECTILE:
-		b = new Projectile();
-		break;
+		return new Projectile(jsonObj, space);
 	case Object::CARGOBODY:
 		b = new CargoBody();
 		break;
