@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Body.h"
+
 #include "CargoBody.h"
 #include "Frame.h"
 #include "GameSaveError.h"
@@ -121,8 +122,7 @@ Body *Body::FromJson(const Json &jsonObj, Space *space)
 	case Object::PROJECTILE:
 		return new Projectile(jsonObj, space);
 	case Object::CARGOBODY:
-		b = new CargoBody();
-		break;
+		return new CargoBody(jsonObj, space);
 	case Object::HYPERSPACECLOUD:
 		b = new HyperspaceCloud();
 		break;

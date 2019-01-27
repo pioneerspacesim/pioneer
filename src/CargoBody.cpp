@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CargoBody.h"
+
 #include "Game.h"
 #include "GameSaveError.h"
 #include "Pi.h"
@@ -23,7 +24,7 @@ void CargoBody::SaveToJson(Json &jsonObj, Space *space)
 	jsonObj["cargo_body"] = cargoBodyObj; // Add cargo body object to supplied object.
 }
 
-void CargoBody::LoadFromJson(const Json &jsonObj, Space *space)
+CargoBody::CargoBody(const Json &jsonObj, Space *space)
 {
 	DynamicBody::LoadFromJson(jsonObj, space);
 	GetModel()->SetLabel(GetLabel());
