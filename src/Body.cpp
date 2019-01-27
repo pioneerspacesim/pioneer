@@ -124,8 +124,7 @@ Body *Body::FromJson(const Json &jsonObj, Space *space)
 	case Object::CARGOBODY:
 		return new CargoBody(jsonObj, space);
 	case Object::HYPERSPACECLOUD:
-		b = new HyperspaceCloud();
-		break;
+		return new HyperspaceCloud(jsonObj, space);
 	default:
 		assert(0);
 	}

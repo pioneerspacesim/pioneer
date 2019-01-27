@@ -32,27 +32,26 @@ HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival) :
 	InitGraphics();
 }
 
-HyperspaceCloud::HyperspaceCloud() :
+HyperspaceCloud::HyperspaceCloud(const Json &jsonObj, Space *space) :
 	m_isBeingKilled(false)
 {
-	m_ship = 0;
-	SetPhysRadius(0.0);
-	SetClipRadius(1200.0);
-	InitGraphics();
-}
+	Body::LoadFromJson(jsonObj, space);
 
-void HyperspaceCloud::InitGraphics()
-{
-	m_graphic.vertices.reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE));
+	try {
+		Json hyperspaceCloudObj = jsonObj["hyperspace_cloud"];
 
-	Graphics::MaterialDescriptor desc;
-	desc.vertexColors = true;
-	m_graphic.material.reset(Pi::renderer->CreateMaterial(desc));
+		m_vel = hyperspaceCloudObj["vel"];
+		m_birthdate = hyperspaceCloudObj["birth_date"];
+		m_due = hyperspaceCloudObj["due"];
+		m_isArrival = hyperspaceCloudObj["is_arrival"];
 
-	Graphics::RenderStateDesc rsd;
-	rsd.blendMode = BLEND_ALPHA_ONE;
-	rsd.depthWrite = false;
-	m_graphic.renderState = Pi::renderer->CreateRenderState(rsd);
+		if (hyperspaceCloudObj["ship"].is_object()) {
+			Json shipObj = hyperspaceCloudObj["ship"];
+			m_ship = static_cast<Ship *>(Body::FromJson(shipObj, space));
+		}
+	} catch (Json::type_error &) {
+		throw SavedGameCorruptException();
+	}
 }
 
 HyperspaceCloud::~HyperspaceCloud()
@@ -83,27 +82,6 @@ void HyperspaceCloud::SaveToJson(Json &jsonObj, Space *space)
 	}
 
 	jsonObj["hyperspace_cloud"] = hyperspaceCloudObj; // Add hyperspace cloud object to supplied object.
-}
-
-void HyperspaceCloud::LoadFromJson(const Json &jsonObj, Space *space)
-{
-	Body::LoadFromJson(jsonObj, space);
-
-	try {
-		Json hyperspaceCloudObj = jsonObj["hyperspace_cloud"];
-
-		m_vel = hyperspaceCloudObj["vel"];
-		m_birthdate = hyperspaceCloudObj["birth_date"];
-		m_due = hyperspaceCloudObj["due"];
-		m_isArrival = hyperspaceCloudObj["is_arrival"];
-
-		if (hyperspaceCloudObj["ship"].is_object()) {
-			Json shipObj = hyperspaceCloudObj["ship"];
-			m_ship = static_cast<Ship *>(Body::FromJson(shipObj, space));
-		}
-	} catch (Json::type_error &) {
-		throw SavedGameCorruptException();
-	}
 }
 
 void HyperspaceCloud::PostLoadFixup(Space *space)
@@ -194,4 +172,18 @@ void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vec
 	outerColor.a = 0;
 	make_circle_thing(*m_graphic.vertices.get(), radius, Color::WHITE, outerColor);
 	renderer->DrawTriangles(m_graphic.vertices.get(), m_graphic.renderState, m_graphic.material.get(), TRIANGLE_FAN);
+}
+
+void HyperspaceCloud::InitGraphics()
+{
+	m_graphic.vertices.reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE));
+
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
+	m_graphic.material.reset(Pi::renderer->CreateMaterial(desc));
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = BLEND_ALPHA_ONE;
+	rsd.depthWrite = false;
+	m_graphic.renderState = Pi::renderer->CreateRenderState(rsd);
 }
