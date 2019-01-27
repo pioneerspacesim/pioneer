@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Missile.h"
+
 #include "Game.h"
 #include "Lang.h"
 #include "LuaEvent.h"
@@ -10,7 +11,7 @@
 #include "ShipType.h"
 #include "Space.h"
 
-Missile::Missile(const ShipType::Id &shipId, Body *owner, int power) //: Ship(shipId)
+Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)
 {
 	AddFeature(Feature::PROPULSION); // add component propulsion
 	if (power < 0) {
@@ -43,6 +44,31 @@ Missile::Missile(const ShipType::Id &shipId, Body *owner, int power) //: Ship(sh
 	GetPropulsion()->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
 }
 
+Missile::Missile(const Json &jsonObj, Space *space)
+{
+	DynamicBody::LoadFromJson(jsonObj, space);
+	AddFeature(Feature::PROPULSION);
+	GetPropulsion()->LoadFromJson(jsonObj, space);
+	Json missileObj = jsonObj["missile"];
+
+	try {
+		m_type = &ShipType::types[missileObj["ship_type_id"]];
+		SetModel(m_type->modelName.c_str());
+
+		m_curAICmd = 0;
+		m_curAICmd = AICommand::LoadFromJson(missileObj);
+		m_aiMessage = AIError(missileObj["ai_message"]);
+
+		m_ownerIndex = missileObj["index_for_body"];
+		m_power = missileObj["power"];
+		m_armed = missileObj["armed"];
+	} catch (Json::type_error &) {
+		throw SavedGameCorruptException();
+	}
+
+	GetPropulsion()->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
+}
+
 Missile::~Missile()
 {
 	if (m_curAICmd) delete m_curAICmd;
@@ -71,30 +97,6 @@ void Missile::SaveToJson(Json &jsonObj, Space *space)
 	missileObj["ship_type_id"] = m_type->id;
 
 	jsonObj["missile"] = missileObj; // Add missile object to supplied object.
-}
-
-void Missile::LoadFromJson(const Json &jsonObj, Space *space)
-{
-	DynamicBody::LoadFromJson(jsonObj, space);
-	GetPropulsion()->LoadFromJson(jsonObj, space);
-	Json missileObj = jsonObj["missile"];
-
-	try {
-		m_type = &ShipType::types[missileObj["ship_type_id"]];
-		SetModel(m_type->modelName.c_str());
-
-		m_curAICmd = 0;
-		m_curAICmd = AICommand::LoadFromJson(missileObj);
-		m_aiMessage = AIError(missileObj["ai_message"]);
-
-		m_ownerIndex = missileObj["index_for_body"];
-		m_power = missileObj["power"];
-		m_armed = missileObj["armed"];
-	} catch (Json::type_error &) {
-		throw SavedGameCorruptException();
-	}
-
-	GetPropulsion()->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
 }
 
 void Missile::PostLoadFixup(Space *space)

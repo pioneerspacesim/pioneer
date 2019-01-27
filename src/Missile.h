@@ -12,8 +12,9 @@
 class Missile : public DynamicBody {
 public:
 	OBJDEF(Missile, DynamicBody, MISSILE);
+	Missile() = delete;
 	Missile(const ShipType::Id &type, Body *owner, int power = -1);
-	Missile() {}
+	Missile(const Json &jsonObj, Space *space);
 	virtual ~Missile();
 	void StaticUpdate(const float timeStep) override;
 	void TimeStepUpdate(const float timeStep) override;
@@ -31,7 +32,6 @@ public:
 
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
-	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 private:
 	void Explode();

@@ -117,8 +117,7 @@ Body *Body::FromJson(const Json &jsonObj, Space *space)
 		b = new Player();
 		break;
 	case Object::MISSILE:
-		b = new Missile();
-		break;
+		return new Missile(jsonObj, space);
 	case Object::PROJECTILE:
 		return new Projectile(jsonObj, space);
 	case Object::CARGOBODY:
