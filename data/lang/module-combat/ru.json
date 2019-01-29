@@ -5,15 +5,15 @@
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "Excellent!"
+    "message": "Отлично!"
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Good. We count on you!"
+    "message": "Хорошо. Мы рассчитываем на вас!"
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "RELIABLE PILOT WANTED: Pay {cash}."
+    "message": "НАДЕЖНЫЙ ПИЛОТ ХОТЕЛ: Оплатить {cash}."
   },
   "ADTEXT_2": {
     "description": "",
@@ -33,11 +33,11 @@
   },
   "AGENT": {
     "description": "Secret Service Agent",
-    "message": "Agent"
+    "message": "Агент"
   },
   "AREA": {
     "description": "An allotted area for the mission",
-    "message": "Area:"
+    "message": "Область:"
   },
   "BONUS_1": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "CORPORATION_1": {
     "description": "Name of a corporation",
-    "message": "Precious Goods Foundation"
+    "message": "Фонд драгоценных товаров"
   },
   "CORPORATION_2": {
     "description": "Name of a corporation",

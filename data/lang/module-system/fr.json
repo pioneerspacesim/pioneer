@@ -19,9 +19,13 @@
     "description": "",
     "message": "Vous avez découvert {portcount} {bases} secrètes!"
   },
-  "EXPLORING_SYSTEM": {
+  "EXPLORED_SYSTEM": {
     "description": "",
-    "message": "Exploration du système avec {bodycount} {bodies} célestes principaux."
+    "message": "Système exploré comprenant {bodycount} {bodies} primaires."
+  },
+  "GETTING_SENSOR_DATA": {
+    "description": "Shown when entering an unexplored system",
+    "message": "Assemblage et analyse des données sur le système en cours..."
   },
   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
     "description": "",

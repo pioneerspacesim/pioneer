@@ -19,9 +19,13 @@
     "description": "",
     "message": " {portcount} gizli {bases} keşfettiniz!"
   },
-  "EXPLORING_SYSTEM": {
+  "EXPLORED_SYSTEM": {
     "description": "",
-    "message": " Başlıca {bodycount} {body}e sahip sistem keşfediliyor."
+    "message": "Başlıca {bodycount} {bodies} bulunan sistem keşfedildi."
+  },
+  "GETTING_SENSOR_DATA": {
+    "description": "Shown when entering an unexplored system",
+    "message": "Sistem verisi toplanıyor ve analiz ediliyor..."
   },
   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
     "description": "",

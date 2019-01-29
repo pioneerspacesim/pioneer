@@ -19,9 +19,13 @@
     "description": "",
     "message": "Hai scoperto {portcount} {bases} nascoste!"
   },
-  "EXPLORING_SYSTEM": {
+  "EXPLORED_SYSTEM": {
     "description": "",
-    "message": "Esplorazione del sistema con {bodycount} {bodies} maggiori."
+    "message": "Sistema esplorato con {bodycount} {bodies} maggiori."
+  },
+  "GETTING_SENSOR_DATA": {
+    "description": "Shown when entering an unexplored system",
+    "message": "Raccolta dati del sistema e analisi in corso..."
   },
   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
     "description": "",

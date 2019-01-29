@@ -5,7 +5,7 @@
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "Excellent!"
+    "message": "Remek!"
   },
   "ACCEPTED_3": {
     "description": "",
@@ -13,7 +13,7 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "RELIABLE PILOT WANTED: Pay {cash}."
+    "message": "MEGBÍZHATÓ PILÓTÁT KERESEK: Díj: {cash}."
   },
   "ADTEXT_2": {
     "description": "",
@@ -21,11 +21,11 @@
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "COMBAT: Need qualified mercenary with well-equipped ship."
+    "message": "HARC: Képzett, jól felszerelt zsoldost keresek."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "FEARLESS MERCENARY WANTED: Pay {cash} for a mission to the {system} system."
+    "message": "RETTENTHETETLEN ZSOLDOST KERESÜNK: megbízás {cash} - ért a {system} rendszerben."
   },
   "ADTEXT_5": {
     "description": "",
@@ -33,11 +33,11 @@
   },
   "AGENT": {
     "description": "Secret Service Agent",
-    "message": "Agent"
+    "message": "Ügynök"
   },
   "AREA": {
     "description": "An allotted area for the mission",
-    "message": "Area:"
+    "message": "Terület:"
   },
   "BONUS_1": {
     "description": "",
@@ -65,11 +65,11 @@
   },
   "CORPORATION_2": {
     "description": "Name of a corporation",
-    "message": "Omega Mining Company"
+    "message": "Omega Kitermelő Vállalat"
   },
   "CORPORATION_3": {
     "description": "Name of a corporation",
-    "message": "United Ore Mines Syndicate"
+    "message": "Egyesült Ércbányász Szindikátus"
   },
   "CORPORATION_4": {
     "description": "Name of a corporation",
@@ -77,19 +77,19 @@
   },
   "CORPORATION_5": {
     "description": "Name of a corporation",
-    "message": "Haber Corporation"
+    "message": "Haber Vállalat"
   },
   "CORPORATION_6": {
     "description": "Name of a corporation",
-    "message": "Precious Metal Prospectors LLC"
+    "message": "Nemesfém Kutató Kft."
   },
   "CORPORATION_7": {
     "description": "Name of a corporation",
-    "message": "{name} Ore Seeker PLC"
+    "message": "{name} Érckutató Rt."
   },
   "CORPORATION_8": {
     "description": "Name of a corporation",
-    "message": "{name} LLC"
+    "message": "{name} Kft."
   },
   "DANGER": {
     "description": "The risk level",
@@ -97,15 +97,15 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "Sorry, I need a pilot who has more combat experience."
+    "message": "Sajnálom, de harcedzettebb pilótát keresek."
   },
   "DENY_2": {
     "description": "",
-    "message": "Excuse me sir. I need a real professional."
+    "message": "Bocsásson meg. Profit keresek."
   },
   "DETECTIVE": {
     "description": "Police Detective",
-    "message": "Detective"
+    "message": "Nyomozó"
   },
   "DISTANCE": {
     "description": "Distance in space, between two locations",
@@ -113,7 +113,7 @@
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "Shame on you. Get out of my sight."
+    "message": "Szégyelheti magát. Tűnjön a szemem elől."
   },
   "FAILUREMSG_2": {
     "description": "",

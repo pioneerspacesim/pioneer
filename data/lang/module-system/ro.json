@@ -19,9 +19,13 @@
     "description": "",
     "message": "Ați descoperit {portcount} {bases} ascunse!"
   },
-  "EXPLORING_SYSTEM": {
+  "EXPLORED_SYSTEM": {
     "description": "",
-    "message": "Se explorează sistemul cu {bodycount} {bodies} majore."
+    "message": "Explored system with {bodycount} major {bodies}."
+  },
+  "GETTING_SENSOR_DATA": {
+    "description": "Shown when entering an unexplored system",
+    "message": "System data gathering and analysis in progress..."
   },
   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
     "description": "",
