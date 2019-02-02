@@ -34,6 +34,31 @@ Body::Body() :
 	Properties().Set("label", m_label);
 }
 
+Body::Body(const Json &jsonObj, Space *space) :
+	PropertiedObject(Lua::manager),
+	m_flags(0),
+	m_interpPos(0.0),
+	m_interpOrient(matrix3x3d::Identity()),
+	m_frame(nullptr)
+{
+	try {
+		Json bodyObj = jsonObj["body"];
+
+		Properties().LoadFromJson(bodyObj);
+		m_frame = space->GetFrameByIndex(bodyObj["index_for_frame"]);
+		m_label = bodyObj["label"];
+		Properties().Set("label", m_label);
+		m_dead = bodyObj["dead"];
+
+		m_pos = bodyObj["pos"];
+		m_orient = bodyObj["orient"];
+		m_physRadius = bodyObj["phys_radius"];
+		m_clipRadius = bodyObj["clip_radius"];
+	} catch (Json::type_error &) {
+		throw SavedGameCorruptException();
+	}
+}
+
 Body::~Body()
 {
 }
@@ -53,26 +78,6 @@ void Body::SaveToJson(Json &jsonObj, Space *space)
 	bodyObj["clip_radius"] = m_clipRadius;
 
 	jsonObj["body"] = bodyObj; // Add body object to supplied object.
-}
-
-void Body::LoadFromJson(const Json &jsonObj, Space *space)
-{
-	try {
-		Json bodyObj = jsonObj["body"];
-
-		Properties().LoadFromJson(bodyObj);
-		m_frame = space->GetFrameByIndex(bodyObj["index_for_frame"]);
-		m_label = bodyObj["label"];
-		Properties().Set("label", m_label);
-		m_dead = bodyObj["dead"];
-
-		m_pos = bodyObj["pos"];
-		m_orient = bodyObj["orient"];
-		m_physRadius = bodyObj["phys_radius"];
-		m_clipRadius = bodyObj["clip_radius"];
-	} catch (Json::type_error &) {
-		throw SavedGameCorruptException();
-	}
 }
 
 void Body::ToJson(Json &jsonObj, Space *space)

@@ -28,12 +28,10 @@ Planet::Planet(SystemBody *sbody) :
 }
 
 Planet::Planet(const Json &jsonObj, Space *space) :
-	TerrainBody(),
+	TerrainBody(jsonObj, space),
 	m_ringVertices(RING_VERTEX_ATTRIBS),
 	m_ringState(nullptr)
 {
-	TerrainBody::LoadFromJson(jsonObj, space);
-
 	const SystemBody *sbody = GetSystemBody();
 	assert(sbody);
 	InitParams(sbody);

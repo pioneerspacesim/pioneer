@@ -34,14 +34,14 @@ public:
 	static void OnChangeDetailLevel();
 
 protected:
+	TerrainBody() = delete;
 	TerrainBody(SystemBody *);
-	TerrainBody();
+	TerrainBody(const Json &jsonObj, Space *space);
 	virtual ~TerrainBody();
 
 	void InitTerrainBody();
 
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
-	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 private:
 	const SystemBody *m_sbody;

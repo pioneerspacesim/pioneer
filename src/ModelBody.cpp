@@ -65,10 +65,10 @@ ModelBody::ModelBody() :
 }
 
 ModelBody::ModelBody(const Json &jsonObj, Space *space) :
+	Body(jsonObj, space),
 	m_geom(nullptr),
 	m_model(nullptr)
 {
-	Body::LoadFromJson(jsonObj, space);
 	Json modelBodyObj = jsonObj["model_body"];
 
 	try {

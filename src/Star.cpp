@@ -2,12 +2,11 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Star.h"
+
 #include "Pi.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
-#include "gui/Gui.h"
-#include <SDL_stdinc.h>
 
 using namespace Graphics;
 
@@ -17,9 +16,9 @@ Star::Star(SystemBody *sbody) :
 	InitStar();
 }
 
-Star::Star(const Json &jsonObj, Space *space)
+Star::Star(const Json &jsonObj, Space *space) :
+	TerrainBody(jsonObj, space)
 {
-	TerrainBody::LoadFromJson(jsonObj, space); // to get sbody
 	InitStar();
 }
 

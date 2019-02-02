@@ -33,10 +33,9 @@ HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival) :
 }
 
 HyperspaceCloud::HyperspaceCloud(const Json &jsonObj, Space *space) :
+	Body(jsonObj, space),
 	m_isBeingKilled(false)
 {
-	Body::LoadFromJson(jsonObj, space);
-
 	try {
 		Json hyperspaceCloudObj = jsonObj["hyperspace_cloud"];
 

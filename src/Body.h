@@ -24,6 +24,7 @@ class Body : public Object, public PropertiedObject {
 public:
 	OBJDEF(Body, Object, BODY);
 	Body();
+	Body(const Json &jsonObj, Space *space);
 	virtual ~Body();
 	void ToJson(Json &jsonObj, Space *space);
 	static Body *FromJson(const Json &jsonObj, Space *space);
@@ -110,7 +111,6 @@ public:
 
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space);
-	virtual void LoadFromJson(const Json &jsonObj, Space *space);
 	unsigned int m_flags;
 
 	// Interpolated draw orientation-position

@@ -132,10 +132,10 @@ Projectile::Projectile(Body *parent, const ProjectileData &prData, const vector3
 	SetPhysRadius(GetRadius());
 }
 
-Projectile::Projectile(const Json &jsonObj, Space *space)
+Projectile::Projectile(const Json &jsonObj, Space *space) :
+	Body(jsonObj, space)
 {
 	if (!s_sideMat) BuildModel();
-	Body::LoadFromJson(jsonObj, space);
 
 	try {
 		Json projectileObj = jsonObj["projectile"];

@@ -7,7 +7,6 @@
 #include "GameSaveError.h"
 #include "GasGiant.h"
 #include "GeoSphere.h"
-#include "Pi.h"
 #include "Space.h"
 #include "WorldView.h"
 #include "graphics/Graphics.h"
@@ -19,13 +18,6 @@ TerrainBody::TerrainBody(SystemBody *sbody) :
 	m_mass(0)
 {
 	InitTerrainBody();
-}
-
-TerrainBody::TerrainBody() :
-	Body(),
-	m_sbody(0),
-	m_mass(0)
-{
 }
 
 TerrainBody::~TerrainBody()
@@ -58,9 +50,9 @@ void TerrainBody::SaveToJson(Json &jsonObj, Space *space)
 	jsonObj["terrain_body"] = terrainBodyObj; // Add terrain body object to supplied object.
 }
 
-void TerrainBody::LoadFromJson(const Json &jsonObj, Space *space)
+TerrainBody::TerrainBody(const Json &jsonObj, Space *space) :
+	Body(jsonObj, space)
 {
-	Body::LoadFromJson(jsonObj, space);
 
 	try {
 		Json terrainBodyObj = jsonObj["terrain_body"];

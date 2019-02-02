@@ -141,8 +141,6 @@ Beam::Beam(const Json &jsonObj, Space *space) :
 	if (!s_sideMat) BuildModel();
 	m_flags |= FLAG_DRAW_LAST;
 
-	Body::LoadFromJson(jsonObj, space);
-
 	try {
 		Json projectileObj = jsonObj["projectile"];
 
