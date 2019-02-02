@@ -24,9 +24,9 @@ void CargoBody::SaveToJson(Json &jsonObj, Space *space)
 	jsonObj["cargo_body"] = cargoBodyObj; // Add cargo body object to supplied object.
 }
 
-CargoBody::CargoBody(const Json &jsonObj, Space *space)
+CargoBody::CargoBody(const Json &jsonObj, Space *space) :
+	DynamicBody(jsonObj, space)
 {
-	DynamicBody::LoadFromJson(jsonObj, space);
 	GetModel()->SetLabel(GetLabel());
 
 	try {

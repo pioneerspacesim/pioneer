@@ -44,9 +44,9 @@ Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)
 	GetPropulsion()->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
 }
 
-Missile::Missile(const Json &jsonObj, Space *space)
+Missile::Missile(const Json &jsonObj, Space *space) :
+	DynamicBody(jsonObj, space)
 {
-	DynamicBody::LoadFromJson(jsonObj, space);
 	AddFeature(Feature::PROPULSION);
 	GetPropulsion()->LoadFromJson(jsonObj, space);
 	Json missileObj = jsonObj["missile"];

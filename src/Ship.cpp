@@ -72,11 +72,9 @@ void Ship::SaveToJson(Json &jsonObj, Space *space)
 	jsonObj["ship"] = shipObj; // Add ship object to supplied object.
 }
 
-Ship::Ship(const Json &jsonObj, Space *space)
+Ship::Ship(const Json &jsonObj, Space *space) :
+	DynamicBody(jsonObj, space)
 {
-	AddFeature(Feature::PROPULSION); // add component propulsion
-
-	DynamicBody::LoadFromJson(jsonObj, space);
 	AddFeature(Feature::PROPULSION); // add component propulsion
 	AddFeature(Feature::FIXED_GUNS); // add component fixed guns
 
