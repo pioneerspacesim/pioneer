@@ -10,18 +10,16 @@
 #include "Ship.h"
 #include "Space.h"
 
-void CargoBody::SaveToJson(Json &jsonObj, Space *space)
+CargoBody::CargoBody(const LuaRef &cargo, float selfdestructTimer) :
+	m_cargo(cargo)
 {
-	DynamicBody::SaveToJson(jsonObj, space);
+	SetModel("cargo");
+	Init();
+	SetMass(1.0);
+	m_selfdestructTimer = selfdestructTimer; // number of seconds to live
 
-	Json cargoBodyObj = Json::object(); // Create JSON object to contain cargo body data.
-
-	m_cargo.SaveToJson(cargoBodyObj);
-	cargoBodyObj["hit_points"] = m_hitpoints;
-	cargoBodyObj["self_destruct_timer"] = m_selfdestructTimer;
-	cargoBodyObj["has_self_destruct"] = m_hasSelfdestruct;
-
-	jsonObj["cargo_body"] = cargoBodyObj; // Add cargo body object to supplied object.
+	if (is_zero_exact(selfdestructTimer)) // turn off self destruct
+		m_hasSelfdestruct = false;
 }
 
 CargoBody::CargoBody(const Json &jsonObj, Space *space) :
@@ -40,6 +38,20 @@ CargoBody::CargoBody(const Json &jsonObj, Space *space) :
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
+}
+
+void CargoBody::SaveToJson(Json &jsonObj, Space *space)
+{
+	DynamicBody::SaveToJson(jsonObj, space);
+
+	Json cargoBodyObj = Json::object(); // Create JSON object to contain cargo body data.
+
+	m_cargo.SaveToJson(cargoBodyObj);
+	cargoBodyObj["hit_points"] = m_hitpoints;
+	cargoBodyObj["self_destruct_timer"] = m_selfdestructTimer;
+	cargoBodyObj["has_self_destruct"] = m_hasSelfdestruct;
+
+	jsonObj["cargo_body"] = cargoBodyObj; // Add cargo body object to supplied object.
 }
 
 void CargoBody::Init()
@@ -63,18 +75,6 @@ void CargoBody::Init()
 	GetModel()->SetColors(colors);
 
 	Properties().Set("type", cargoname);
-}
-
-CargoBody::CargoBody(const LuaRef &cargo, float selfdestructTimer) :
-	m_cargo(cargo)
-{
-	SetModel("cargo");
-	Init();
-	SetMass(1.0);
-	m_selfdestructTimer = selfdestructTimer; // number of seconds to live
-
-	if (is_zero_exact(selfdestructTimer)) // turn off self destruct
-		m_hasSelfdestruct = false;
 }
 
 void CargoBody::TimeStepUpdate(const float timeStep)

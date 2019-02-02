@@ -81,6 +81,37 @@ DynamicBody::DynamicBody(const Json &jsonObj, Space *space) :
 
 }
 
+void DynamicBody::SaveToJson(Json &jsonObj, Space *space)
+{
+	ModelBody::SaveToJson(jsonObj, space);
+
+	Json dynamicBodyObj = Json::object(); // Create JSON object to contain dynamic body data.
+
+	dynamicBodyObj["force"] = m_force;
+	dynamicBodyObj["torque"] = m_torque;
+	dynamicBodyObj["vel"] = m_vel;
+	dynamicBodyObj["ang_vel"] = m_angVel;
+	dynamicBodyObj["mass"] = m_mass;
+	dynamicBodyObj["mass_radius"] = m_massRadius;
+	dynamicBodyObj["ang_inertia"] = m_angInertia;
+	dynamicBodyObj["is_moving"] = m_isMoving;
+
+	jsonObj["dynamic_body"] = dynamicBodyObj; // Add dynamic body object to supplied object.
+}
+
+void DynamicBody::PostLoadFixup(Space *space)
+{
+	Body::PostLoadFixup(space);
+	m_oldPos = GetPosition();
+	//	CalcExternalForce();		// too dangerous
+}
+
+DynamicBody::~DynamicBody()
+{
+	m_propulsion.Reset();
+	m_fixedGuns.Reset();
+}
+
 void DynamicBody::AddFeature(Feature f)
 {
 	m_features[f] = true;
@@ -114,31 +145,6 @@ void DynamicBody::AddRelForce(const vector3d &f)
 void DynamicBody::AddRelTorque(const vector3d &t)
 {
 	m_torque += GetOrient() * t;
-}
-
-void DynamicBody::SaveToJson(Json &jsonObj, Space *space)
-{
-	ModelBody::SaveToJson(jsonObj, space);
-
-	Json dynamicBodyObj = Json::object(); // Create JSON object to contain dynamic body data.
-
-	dynamicBodyObj["force"] = m_force;
-	dynamicBodyObj["torque"] = m_torque;
-	dynamicBodyObj["vel"] = m_vel;
-	dynamicBodyObj["ang_vel"] = m_angVel;
-	dynamicBodyObj["mass"] = m_mass;
-	dynamicBodyObj["mass_radius"] = m_massRadius;
-	dynamicBodyObj["ang_inertia"] = m_angInertia;
-	dynamicBodyObj["is_moving"] = m_isMoving;
-
-	jsonObj["dynamic_body"] = dynamicBodyObj; // Add dynamic body object to supplied object.
-}
-
-void DynamicBody::PostLoadFixup(Space *space)
-{
-	Body::PostLoadFixup(space);
-	m_oldPos = GetPosition();
-	//	CalcExternalForce();		// too dangerous
 }
 
 const Propulsion *DynamicBody::GetPropulsion() const
@@ -301,12 +307,6 @@ void DynamicBody::SetMassDistributionFromModel()
 vector3d DynamicBody::GetAngularMomentum() const
 {
 	return m_angInertia * m_angVel;
-}
-
-DynamicBody::~DynamicBody()
-{
-	m_propulsion.Reset();
-	m_fixedGuns.Reset();
 }
 
 vector3d DynamicBody::GetVelocity() const

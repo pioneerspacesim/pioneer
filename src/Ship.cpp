@@ -24,52 +24,74 @@ static const float TONS_HULL_PER_SHIELD = 10.f;
 HeatGradientParameters_t Ship::s_heatGradientParams;
 const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
 
-void Ship::SaveToJson(Json &jsonObj, Space *space)
+Ship::Ship(const ShipType::Id &shipId) :
+	DynamicBody(),
+	m_controller(0),
+	m_flightState(FLYING),
+	m_alertState(ALERT_NONE),
+	m_landingGearAnimation(nullptr)
 {
-	DynamicBody::SaveToJson(jsonObj, space);
+	/*
+		THIS CODE DOES NOT RUN WHEN LOADING SAVEGAMES!!
+	*/
+	AddFeature(Feature::PROPULSION); // add component propulsion
+	AddFeature(Feature::FIXED_GUNS); // add component fixed guns
+	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
+	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
 
-	Json shipObj({}); // Create JSON object to contain ship data.
+	SetFuel(1.0);
+	SetFuelReserve(0.0);
+	m_lastAlertUpdate = 0.0;
+	m_lastFiringAlert = 0.0;
+	m_shipNear = false;
+	m_shipFiring = false;
 
-	GetPropulsion()->SaveToJson(shipObj, space);
+	m_testLanded = false;
+	m_launchLockTimeout = 0;
+	m_wheelTransition = 0;
+	m_wheelState = 0;
+	m_dockedWith = nullptr;
+	m_dockedWithPort = 0;
+	SetShipId(shipId);
+	ClearAngThrusterState();
+	ClearLinThrusterState();
 
-	m_skin.SaveToJson(shipObj);
-	shipObj["wheel_transition"] = m_wheelTransition;
-	shipObj["wheel_state"] = m_wheelState;
-	shipObj["launch_lock_timeout"] = m_launchLockTimeout;
-	shipObj["test_landed"] = m_testLanded;
-	shipObj["flight_state"] = int(m_flightState);
-	shipObj["alert_state"] = int(m_alertState);
-	shipObj["last_firing_alert"] = m_lastFiringAlert;
+	InitEquipSet();
 
-	// XXX make sure all hyperspace attrs and the cloud get saved
-	Json hyperspaceDestObj({}); // Create JSON object to contain hyperspace destination data.
-	m_hyperspace.dest.ToJson(hyperspaceDestObj);
-	shipObj["hyperspace_destination"] = hyperspaceDestObj; // Add hyperspace destination object to ship object.
-	shipObj["hyperspace_countdown"] = m_hyperspace.countdown;
-	shipObj["hyperspace_warmup_sound"] = m_hyperspace.sounds.warmup_sound;
-	shipObj["hyperspace_abort_sound"] = m_hyperspace.sounds.abort_sound;
-	shipObj["hyperspace_jump_sound"] = m_hyperspace.sounds.jump_sound;
+	m_hyperspace.countdown = 0;
+	m_hyperspace.now = false;
+	GetFixedGuns()->Init(this);
+	m_ecmRecharge = 0;
+	m_shieldCooldown = 0.0f;
+	m_curAICmd = 0;
+	m_aiMessage = AIERROR_NONE;
+	m_decelerating = false;
 
-	GetFixedGuns()->SaveToJson(shipObj, space);
+	SetModel(m_type->modelName.c_str());
+	// Setting thrusters colors
+	if (m_type->isGlobalColorDefined) GetModel()->SetThrusterColor(m_type->globalThrusterColor);
+	for (int i = 0; i < THRUSTER_MAX; i++) {
+		if (!m_type->isDirectionColorDefined[i]) continue;
+		vector3f dir;
+		switch (i) {
+		case THRUSTER_FORWARD: dir = vector3f(0.0, 0.0, 1.0); break;
+		case THRUSTER_REVERSE: dir = vector3f(0.0, 0.0, -1.0); break;
+		case THRUSTER_LEFT: dir = vector3f(1.0, 0.0, 0.0); break;
+		case THRUSTER_RIGHT: dir = vector3f(-1.0, 0.0, 0.0); break;
+		case THRUSTER_UP: dir = vector3f(1.0, 0.0, 0.0); break;
+		case THRUSTER_DOWN: dir = vector3f(-1.0, 0.0, 0.0); break;
+		}
+		GetModel()->SetThrusterColor(dir, m_type->directionThrusterColor[i]);
+	}
+	SetLabel("UNLABELED_SHIP");
+	m_skin.SetRandomColors(Pi::rng);
+	m_skin.SetDecal(m_type->manufacturer);
+	m_skin.Apply(GetModel());
+	if (GetModel()->SupportsPatterns())
+		GetModel()->SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns() - 1));
 
-	shipObj["ecm_recharge"] = m_ecmRecharge;
-	shipObj["ship_type_id"] = m_type->id;
-	shipObj["docked_with_port"] = m_dockedWithPort;
-	shipObj["index_for_body_docked_with"] = space->GetIndexForBody(m_dockedWith);
-	shipObj["hull_mass_left"] = m_stats.hull_mass_left;
-	shipObj["shield_mass_left"] = m_stats.shield_mass_left;
-	shipObj["shield_cooldown"] = m_shieldCooldown;
-	if (m_curAICmd) m_curAICmd->SaveToJson(shipObj);
-	shipObj["ai_message"] = int(m_aiMessage);
-
-	shipObj["controller_type"] = static_cast<int>(m_controller->GetType());
-	m_controller->SaveToJson(shipObj, space);
-
-	m_navLights->SaveToJson(shipObj);
-
-	shipObj["name"] = m_shipName;
-
-	jsonObj["ship"] = shipObj; // Add ship object to supplied object.
+	Init();
+	SetController(new ShipController());
 }
 
 Ship::Ship(const Json &jsonObj, Space *space) :
@@ -156,40 +178,10 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 	}
 }
 
-void Ship::InitEquipSet()
+Ship::~Ship()
 {
-	lua_State *l = Lua::manager->GetLuaState();
-	PropertyMap &p = Properties();
-	LUA_DEBUG_START(l);
-	pi_lua_import(l, "EquipSet");
-	LuaTable es_class(l, -1);
-	LuaTable slots = LuaTable(l).LoadMap(GetShipType()->slots.begin(), GetShipType()->slots.end());
-	m_equipSet = es_class.Call<LuaRef>("New", slots);
-	p.Set("equipSet", ScopedTable(m_equipSet));
-	UpdateEquipStats();
-	{
-		ScopedTable es(m_equipSet);
-		int usedCargo = es.CallMethod<int>("OccupiedSpace", "cargo");
-		int totalCargo = std::min(m_stats.free_capacity + usedCargo, es.CallMethod<int>("SlotSize", "cargo"));
-		p.Set("usedCargo", usedCargo);
-		p.Set("totalCargo", totalCargo);
-	}
-	lua_pop(l, 2);
-	LUA_DEBUG_END(l, 0);
-}
-
-void Ship::InitMaterials()
-{
-	SceneGraph::Model *pModel = GetModel();
-	assert(pModel);
-	const Uint32 numMats = pModel->GetNumMaterials();
-	for (Uint32 m = 0; m < numMats; m++) {
-		RefCountedPtr<Graphics::Material> mat = pModel->GetMaterialByIndex(m);
-		mat->heatGradient = Graphics::TextureBuilder::Decal("textures/heat_gradient.dds").GetOrCreateTexture(Pi::renderer, "model");
-		mat->specialParameter0 = &s_heatGradientParams;
-	}
-	s_heatGradientParams.heatingAmount = 0.0f;
-	s_heatGradientParams.heatingNormal = vector3f(0.0f, -1.0f, 0.0f);
+	if (m_curAICmd) delete m_curAICmd;
+	delete m_controller;
 }
 
 void Ship::Init()
@@ -244,80 +236,88 @@ void Ship::PostLoadFixup(Space *space)
 	m_controller->PostLoadFixup(space);
 }
 
-Ship::Ship(const ShipType::Id &shipId) :
-	DynamicBody(),
-	m_controller(0),
-	m_flightState(FLYING),
-	m_alertState(ALERT_NONE),
-	m_landingGearAnimation(nullptr)
+void Ship::SaveToJson(Json &jsonObj, Space *space)
 {
-	/*
-		THIS CODE DOES NOT RUN WHEN LOADING SAVEGAMES!!
-	*/
-	AddFeature(Feature::PROPULSION); // add component propulsion
-	AddFeature(Feature::FIXED_GUNS); // add component fixed guns
-	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
-	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
+	DynamicBody::SaveToJson(jsonObj, space);
 
-	SetFuel(1.0);
-	SetFuelReserve(0.0);
-	m_lastAlertUpdate = 0.0;
-	m_lastFiringAlert = 0.0;
-	m_shipNear = false;
-	m_shipFiring = false;
+	Json shipObj({}); // Create JSON object to contain ship data.
 
-	m_testLanded = false;
-	m_launchLockTimeout = 0;
-	m_wheelTransition = 0;
-	m_wheelState = 0;
-	m_dockedWith = nullptr;
-	m_dockedWithPort = 0;
-	SetShipId(shipId);
-	ClearAngThrusterState();
-	ClearLinThrusterState();
+	GetPropulsion()->SaveToJson(shipObj, space);
 
-	InitEquipSet();
+	m_skin.SaveToJson(shipObj);
+	shipObj["wheel_transition"] = m_wheelTransition;
+	shipObj["wheel_state"] = m_wheelState;
+	shipObj["launch_lock_timeout"] = m_launchLockTimeout;
+	shipObj["test_landed"] = m_testLanded;
+	shipObj["flight_state"] = int(m_flightState);
+	shipObj["alert_state"] = int(m_alertState);
+	shipObj["last_firing_alert"] = m_lastFiringAlert;
 
-	m_hyperspace.countdown = 0;
-	m_hyperspace.now = false;
-	GetFixedGuns()->Init(this);
-	m_ecmRecharge = 0;
-	m_shieldCooldown = 0.0f;
-	m_curAICmd = 0;
-	m_aiMessage = AIERROR_NONE;
-	m_decelerating = false;
+	// XXX make sure all hyperspace attrs and the cloud get saved
+	Json hyperspaceDestObj({}); // Create JSON object to contain hyperspace destination data.
+	m_hyperspace.dest.ToJson(hyperspaceDestObj);
+	shipObj["hyperspace_destination"] = hyperspaceDestObj; // Add hyperspace destination object to ship object.
+	shipObj["hyperspace_countdown"] = m_hyperspace.countdown;
+	shipObj["hyperspace_warmup_sound"] = m_hyperspace.sounds.warmup_sound;
+	shipObj["hyperspace_abort_sound"] = m_hyperspace.sounds.abort_sound;
+	shipObj["hyperspace_jump_sound"] = m_hyperspace.sounds.jump_sound;
 
-	SetModel(m_type->modelName.c_str());
-	// Setting thrusters colors
-	if (m_type->isGlobalColorDefined) GetModel()->SetThrusterColor(m_type->globalThrusterColor);
-	for (int i = 0; i < THRUSTER_MAX; i++) {
-		if (!m_type->isDirectionColorDefined[i]) continue;
-		vector3f dir;
-		switch (i) {
-		case THRUSTER_FORWARD: dir = vector3f(0.0, 0.0, 1.0); break;
-		case THRUSTER_REVERSE: dir = vector3f(0.0, 0.0, -1.0); break;
-		case THRUSTER_LEFT: dir = vector3f(1.0, 0.0, 0.0); break;
-		case THRUSTER_RIGHT: dir = vector3f(-1.0, 0.0, 0.0); break;
-		case THRUSTER_UP: dir = vector3f(1.0, 0.0, 0.0); break;
-		case THRUSTER_DOWN: dir = vector3f(-1.0, 0.0, 0.0); break;
-		}
-		GetModel()->SetThrusterColor(dir, m_type->directionThrusterColor[i]);
-	}
-	SetLabel("UNLABELED_SHIP");
-	m_skin.SetRandomColors(Pi::rng);
-	m_skin.SetDecal(m_type->manufacturer);
-	m_skin.Apply(GetModel());
-	if (GetModel()->SupportsPatterns())
-		GetModel()->SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns() - 1));
+	GetFixedGuns()->SaveToJson(shipObj, space);
 
-	Init();
-	SetController(new ShipController());
+	shipObj["ecm_recharge"] = m_ecmRecharge;
+	shipObj["ship_type_id"] = m_type->id;
+	shipObj["docked_with_port"] = m_dockedWithPort;
+	shipObj["index_for_body_docked_with"] = space->GetIndexForBody(m_dockedWith);
+	shipObj["hull_mass_left"] = m_stats.hull_mass_left;
+	shipObj["shield_mass_left"] = m_stats.shield_mass_left;
+	shipObj["shield_cooldown"] = m_shieldCooldown;
+	if (m_curAICmd) m_curAICmd->SaveToJson(shipObj);
+	shipObj["ai_message"] = int(m_aiMessage);
+
+	shipObj["controller_type"] = static_cast<int>(m_controller->GetType());
+	m_controller->SaveToJson(shipObj, space);
+
+	m_navLights->SaveToJson(shipObj);
+
+	shipObj["name"] = m_shipName;
+
+	jsonObj["ship"] = shipObj; // Add ship object to supplied object.
 }
 
-Ship::~Ship()
+void Ship::InitEquipSet()
 {
-	if (m_curAICmd) delete m_curAICmd;
-	delete m_controller;
+	lua_State *l = Lua::manager->GetLuaState();
+	PropertyMap &p = Properties();
+	LUA_DEBUG_START(l);
+	pi_lua_import(l, "EquipSet");
+	LuaTable es_class(l, -1);
+	LuaTable slots = LuaTable(l).LoadMap(GetShipType()->slots.begin(), GetShipType()->slots.end());
+	m_equipSet = es_class.Call<LuaRef>("New", slots);
+	p.Set("equipSet", ScopedTable(m_equipSet));
+	UpdateEquipStats();
+	{
+		ScopedTable es(m_equipSet);
+		int usedCargo = es.CallMethod<int>("OccupiedSpace", "cargo");
+		int totalCargo = std::min(m_stats.free_capacity + usedCargo, es.CallMethod<int>("SlotSize", "cargo"));
+		p.Set("usedCargo", usedCargo);
+		p.Set("totalCargo", totalCargo);
+	}
+	lua_pop(l, 2);
+	LUA_DEBUG_END(l, 0);
+}
+
+void Ship::InitMaterials()
+{
+	SceneGraph::Model *pModel = GetModel();
+	assert(pModel);
+	const Uint32 numMats = pModel->GetNumMaterials();
+	for (Uint32 m = 0; m < numMats; m++) {
+		RefCountedPtr<Graphics::Material> mat = pModel->GetMaterialByIndex(m);
+		mat->heatGradient = Graphics::TextureBuilder::Decal("textures/heat_gradient.dds").GetOrCreateTexture(Pi::renderer, "model");
+		mat->specialParameter0 = &s_heatGradientParams;
+	}
+	s_heatGradientParams.heatingAmount = 0.0f;
+	s_heatGradientParams.heatingNormal = vector3f(0.0f, -1.0f, 0.0f);
 }
 
 void Ship::SetController(ShipController *c)

@@ -69,19 +69,6 @@ Missile::Missile(const Json &jsonObj, Space *space) :
 	GetPropulsion()->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
 }
 
-Missile::~Missile()
-{
-	if (m_curAICmd) delete m_curAICmd;
-}
-
-void Missile::ECMAttack(int power_val)
-{
-	if (power_val > m_power) {
-		CollisionContact dummy;
-		OnDamage(0, 1.0f, dummy);
-	}
-}
-
 void Missile::SaveToJson(Json &jsonObj, Space *space)
 {
 	DynamicBody::SaveToJson(jsonObj, space);
@@ -104,6 +91,19 @@ void Missile::PostLoadFixup(Space *space)
 	DynamicBody::PostLoadFixup(space);
 	m_owner = space->GetBodyByIndex(m_ownerIndex);
 	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
+}
+
+Missile::~Missile()
+{
+	if (m_curAICmd) delete m_curAICmd;
+}
+
+void Missile::ECMAttack(int power_val)
+{
+	if (power_val > m_power) {
+		CollisionContact dummy;
+		OnDamage(0, 1.0f, dummy);
+	}
 }
 
 void Missile::StaticUpdate(const float timeStep)

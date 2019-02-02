@@ -64,6 +64,23 @@ ModelBody::ModelBody() :
 {
 }
 
+void ModelBody::LoadFromJson(const Json &jsonObj, Space *space)
+{
+	Body::LoadFromJson(jsonObj, space);
+	Json modelBodyObj = jsonObj["model_body"];
+
+	try {
+		m_isStatic = modelBodyObj["is_static"];
+		m_colliding = modelBodyObj["is_colliding"];
+		SetModel(modelBodyObj["model_name"].get<std::string>().c_str());
+	} catch (Json::type_error &) {
+		throw SavedGameCorruptException();
+	}
+
+	m_model->LoadFromJson(modelBodyObj);
+	m_shields->LoadFromJson(modelBodyObj);
+}
+
 ModelBody::~ModelBody()
 {
 	SetFrame(0); // Will remove geom from frame if necessary.
@@ -86,23 +103,6 @@ void ModelBody::SaveToJson(Json &jsonObj, Space *space)
 	m_shields->SaveToJson(modelBodyObj);
 
 	jsonObj["model_body"] = modelBodyObj; // Add model body object to supplied object.
-}
-
-void ModelBody::LoadFromJson(const Json &jsonObj, Space *space)
-{
-	Body::LoadFromJson(jsonObj, space);
-	Json modelBodyObj = jsonObj["model_body"];
-
-	try {
-		m_isStatic = modelBodyObj["is_static"];
-		m_colliding = modelBodyObj["is_colliding"];
-		SetModel(modelBodyObj["model_name"].get<std::string>().c_str());
-	} catch (Json::type_error &) {
-		throw SavedGameCorruptException();
-	}
-
-	m_model->LoadFromJson(modelBodyObj);
-	m_shields->LoadFromJson(modelBodyObj);
 }
 
 void ModelBody::SetStatic(bool isStatic)
