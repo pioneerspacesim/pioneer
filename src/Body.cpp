@@ -101,7 +101,6 @@ Body *Body::FromJson(const Json &jsonObj, Space *space)
 	if (!jsonObj["body_type"].is_number_integer())
 		throw SavedGameCorruptException();
 
-	Body *b = 0;
 	Object::Type type = Object::Type(jsonObj["body_type"]);
 	switch (type) {
 	case Object::STAR:
@@ -110,12 +109,18 @@ Body *Body::FromJson(const Json &jsonObj, Space *space)
 		return new Planet(jsonObj, space);
 	case Object::SPACESTATION:
 		return new SpaceStation(jsonObj, space);
-	case Object::SHIP:
-		b = new Ship();
-		break;
-	case Object::PLAYER:
-		b = new Player();
-		break;
+	case Object::SHIP: {
+		Ship *s = new Ship(jsonObj, space);
+		// Here because of comments in Ship.cpp on following function
+		s->UpdateLuaStats();
+		return static_cast<Body*>(s);
+		}
+	case Object::PLAYER: {
+		Player *p = new Player(jsonObj, space);
+		// Read comments in Ship.cpp on following function
+		p->UpdateLuaStats();
+		return static_cast<Body*>(p);
+		}
 	case Object::MISSILE:
 		return new Missile(jsonObj, space);
 	case Object::PROJECTILE:
@@ -127,8 +132,8 @@ Body *Body::FromJson(const Json &jsonObj, Space *space)
 	default:
 		assert(0);
 	}
-	b->LoadFromJson(jsonObj, space);
-	return b;
+
+	return nullptr;
 }
 
 vector3d Body::GetPositionRelTo(const Frame *relTo) const

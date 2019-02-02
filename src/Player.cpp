@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Player.h"
+
 #include "Frame.h"
 #include "Game.h"
 #include "GameConfig.h"
@@ -51,6 +52,13 @@ Player::Player(const ShipType::Id &shipId) :
 	registerEquipChangeListener(this);
 }
 
+Player::Player(const Json &jsonObj, Space *space) :
+	Ship(jsonObj, space)
+{
+	InitCockpit();
+	registerEquipChangeListener(this);
+}
+
 void Player::SetShipType(const ShipType::Id &shipId)
 {
 	Ship::SetShipType(shipId);
@@ -61,14 +69,6 @@ void Player::SetShipType(const ShipType::Id &shipId)
 void Player::SaveToJson(Json &jsonObj, Space *space)
 {
 	Ship::SaveToJson(jsonObj, space);
-}
-
-void Player::LoadFromJson(const Json &jsonObj, Space *space)
-{
-	Pi::player = this;
-	Ship::LoadFromJson(jsonObj, space);
-	InitCockpit();
-	registerEquipChangeListener(this);
 }
 
 void Player::InitCockpit()

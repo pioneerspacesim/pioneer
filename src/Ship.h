@@ -64,8 +64,9 @@ class Ship : public DynamicBody {
 
 public:
 	OBJDEF(Ship, DynamicBody, SHIP);
+	Ship() = delete;
+	Ship(const Json &jsonObj, Space *space);
 	Ship(const ShipType::Id &shipId);
-	Ship() {} //default constructor used before Load
 	virtual ~Ship();
 
 	virtual void SetFrame(Frame *f) override;
@@ -235,7 +236,6 @@ public:
 
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
-	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 	bool AITimeStep(float timeStep); // Called by controller. Returns true if complete
 

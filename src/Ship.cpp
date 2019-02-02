@@ -72,7 +72,7 @@ void Ship::SaveToJson(Json &jsonObj, Space *space)
 	jsonObj["ship"] = shipObj; // Add ship object to supplied object.
 }
 
-void Ship::LoadFromJson(const Json &jsonObj, Space *space)
+Ship::Ship(const Json &jsonObj, Space *space)
 {
 	AddFeature(Feature::PROPULSION); // add component propulsion
 
@@ -140,8 +140,6 @@ void Ship::LoadFromJson(const Json &jsonObj, Space *space)
 		lua_getfield(l, -1, "equipSet");
 		m_equipSet = LuaRef(l, -1);
 		lua_pop(l, 2);
-
-		UpdateLuaStats();
 
 		m_controller = 0;
 		const ShipController::Type ctype = shipObj["controller_type"];
@@ -562,15 +560,16 @@ void Ship::UpdateLuaStats()
 	// called in Init(), which is itself called in the constructor, but we absolutely
 	// cannot use LuaObject<Ship>::* in a constructor, or else we'd fix the type of the
 	// object to Ship forever, even though it could very well be a Player.
+	// Updates at Gen 2019: Indeed, this function has been removed from
+	// loading because loading is now a ctor: see Body.cpp
 	UpdateEquipStats();
 	PropertyMap &p = Properties();
 	m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 	int hyperclass = 0;
 	p.Get<int>("hyperclass_cap", hyperclass);
 	if (hyperclass) {
-		auto ranges = LuaObject<Ship>::CallMethod<double, double>(this, "GetHyperspaceRange");
-		m_stats.hyperspace_range_max = std::get<1>(ranges);
-		m_stats.hyperspace_range = std::get<0>(ranges);
+		std::tie(m_stats.hyperspace_range_max, m_stats.hyperspace_range) = \
+			LuaObject<Ship>::CallMethod<double, double>(this, "GetHyperspaceRange");
 	}
 
 	p.Set("hyperspaceRange", m_stats.hyperspace_range);
