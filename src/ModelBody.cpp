@@ -59,12 +59,14 @@ public:
 ModelBody::ModelBody() :
 	m_isStatic(false),
 	m_colliding(true),
-	m_geom(0),
-	m_model(0)
+	m_geom(nullptr),
+	m_model(nullptr)
 {
 }
 
-void ModelBody::LoadFromJson(const Json &jsonObj, Space *space)
+ModelBody::ModelBody(const Json &jsonObj, Space *space) :
+	m_geom(nullptr),
+	m_model(nullptr)
 {
 	Body::LoadFromJson(jsonObj, space);
 	Json modelBodyObj = jsonObj["model_body"];

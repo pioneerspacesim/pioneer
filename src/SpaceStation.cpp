@@ -34,9 +34,9 @@ SpaceStation::SpaceStation(const SystemBody *sbody) :
 }
 
 SpaceStation::SpaceStation(const Json &jsonObj, Space *space) :
+	ModelBody(jsonObj, space),
 	m_type(nullptr)
 {
-	ModelBody::LoadFromJson(jsonObj, space);
 	GetModel()->SetLabel(GetLabel());
 
 	try {

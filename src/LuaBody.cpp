@@ -11,6 +11,7 @@
 #include "LuaUtils.h"
 #include "Pi.h"
 #include "TerrainBody.h"
+#include "WorldView.h"
 #include "galaxy/StarSystem.h"
 
 #include "CargoBody.h"

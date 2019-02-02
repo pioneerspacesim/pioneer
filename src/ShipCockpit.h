@@ -4,10 +4,7 @@
 #ifndef _SHIP_COCKPIT_H_
 #define _SHIP_COCKPIT_H_
 
-#include "CameraController.h"
 #include "ModelBody.h"
-#include "WorldView.h"
-#include "libs.h"
 #include "scenegraph/Model.h"
 
 static const float COCKPIT_LAG_MAX_ANGLE = 7.5f;
@@ -17,9 +14,12 @@ static const float COCKPIT_MAX_GFORCE = 10000.0f;
 static const float COCKPIT_ACCEL_OFFSET = 0.075f;
 
 class Player;
+class Camera;
+class InternalCameraController;
 
 class ShipCockpit : public ModelBody {
 public:
+
 	explicit ShipCockpit(const std::string &modelName);
 	virtual ~ShipCockpit();
 

@@ -25,6 +25,7 @@ class ModelBody : public Body {
 public:
 	OBJDEF(ModelBody, Body, MODELBODY);
 	ModelBody();
+	ModelBody(const Json &jsonObj, Space *space);
 	virtual ~ModelBody();
 	void SetPosition(const vector3d &p) override;
 	void SetOrient(const matrix3x3d &r) override;
@@ -48,7 +49,6 @@ public:
 
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
-	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 	void SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<Graphics::Light> &oldLights, Color &oldAmbient);
 	void ResetLighting(Graphics::Renderer *r, const std::vector<Graphics::Light> &oldLights, const Color &oldAmbient);

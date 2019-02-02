@@ -12,6 +12,7 @@
 #include "Player.h"
 #include "SectorView.h"
 #include "TerrainBody.h"
+#include "WorldView.h"
 #include "galaxy/Galaxy.h"
 
 /*

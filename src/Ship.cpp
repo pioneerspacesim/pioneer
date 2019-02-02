@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Ship.h"
+
 #include "CargoBody.h"
 #include "CityOnPlanet.h"
 #include "EnumStrings.h"
@@ -18,6 +19,7 @@
 #include "Shields.h"
 #include "ShipController.h"
 #include "StringF.h"
+#include "WorldView.h"
 #include "graphics/TextureBuilder.h"
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
