@@ -2,12 +2,14 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "AmbientSounds.h"
+
 #include "Frame.h"
 #include "Game.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "Player.h"
 #include "Sound.h"
+#include "Space.h"
 #include "SpaceStation.h"
 #include "WorldView.h"
 

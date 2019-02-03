@@ -4,17 +4,17 @@
 #ifndef _SHIP_H
 #define _SHIP_H
 
+#include <unordered_map>
+
 #include "DynamicBody.h"
 #include "LuaRef.h"
 #include "NavLights.h"
 #include "Sensors.h"
 #include "ShipType.h"
 #include "Sound.h"
+#include "Space.h"
 #include "galaxy/SystemPath.h"
 #include "scenegraph/ModelSkin.h"
-#include "scenegraph/SceneGraph.h"
-#include <list>
-#include <unordered_map>
 
 #include "FixedGuns.h"
 #include "Propulsion.h"
@@ -27,7 +27,6 @@ class CargoBody;
 class Missile;
 class Planet;
 class Camera;
-class Space;
 
 namespace Graphics {
 	class Renderer;

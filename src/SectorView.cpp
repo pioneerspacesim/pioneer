@@ -2,20 +2,16 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SectorView.h"
-#include "Factions.h"
 #include "Game.h"
 #include "GameConfig.h"
 #include "GameSaveError.h"
 #include "KeyBindings.h"
-#include "Lang.h"
 #include "LuaConstants.h"
 #include "LuaObject.h"
 #include "MathUtil.h"
 #include "Pi.h"
 #include "Player.h"
-#include "ShipCpanel.h"
 #include "StringF.h"
-#include "SystemInfoView.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/Sector.h"
@@ -24,8 +20,6 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "gui/Gui.h"
-#include "libs.h"
-#include <SDL_stdinc.h>
 #include <algorithm>
 #include <sstream>
 #include <unordered_set>

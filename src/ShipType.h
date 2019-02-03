@@ -4,10 +4,7 @@
 #ifndef _SHIPTYPE_H
 #define _SHIPTYPE_H
 
-#include "FixedGuns.h"
 #include "Propulsion.h"
-#include "libs.h"
-#include "vector3.h"
 #include <map>
 #include <string>
 #include <vector>

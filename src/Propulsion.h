@@ -4,13 +4,13 @@
 #ifndef PROPULSION_H
 #define PROPULSION_H
 
-#include "Camera.h"
 #include "DynamicBody.h"
 #include "JsonUtils.h"
-#include "Space.h"
-#include "libs.h"
 #include "scenegraph/Model.h"
 #include "vector3.h"
+
+class Camera;
+class Space;
 
 enum Thruster { // <enum scope='Thruster' name=ShipTypeThruster prefix=THRUSTER_ public>
 	THRUSTER_REVERSE,
