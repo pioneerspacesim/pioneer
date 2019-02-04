@@ -9,6 +9,7 @@
 #include "LuaEvent.h"
 #include "Pi.h"
 #include "Sfx.h"
+#include "Ship.h"
 #include "Space.h"
 
 Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)

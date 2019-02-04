@@ -2,14 +2,13 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipAICmd.h"
+
 #include "Frame.h"
+#include "Game.h"
 #include "Pi.h"
-#include "Planet.h"
-#include "Player.h"
 #include "Ship.h"
 #include "Space.h"
 #include "SpaceStation.h"
-#include "libs.h"
 #include "perlin.h"
 
 static const double VICINITY_MIN = 15000.0;
@@ -222,6 +221,20 @@ static void LaunchShip(Ship *ship)
 		ship->Undock();
 }
 
+void AICmdKamikaze::OnDeleted(const Body *body)
+{
+	AICommand::OnDeleted(body);
+	if (static_cast<Body *>(m_target) == body) m_target = 0;
+}
+
+AICmdKamikaze::AICmdKamikaze(DynamicBody *dBody, Body *target) :
+	AICommand(dBody, CMD_KAMIKAZE)
+{
+	m_target = target;
+	m_prop.Reset(m_dBody->GetPropulsion());
+	assert(m_prop != nullptr);
+}
+
 AICmdKamikaze::AICmdKamikaze(const Json &jsonObj) :
 	AICommand(jsonObj, CMD_KAMIKAZE)
 {
@@ -236,6 +249,15 @@ void AICmdKamikaze::SaveToJson(Json &jsonObj)
 	AICommand::SaveToJson(aiCommandObj);
 	aiCommandObj["index_for_target"] = space->GetIndexForBody(m_target);
 	jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
+}
+
+void AICmdKamikaze::PostLoadFixup(Space *space)
+{
+	AICommand::PostLoadFixup(space);
+	m_target = space->GetBodyByIndex(m_targetIndex);
+	// Ensure needed sub-system:
+	m_prop.Reset(m_dBody->GetPropulsion());
+	assert(m_prop != nullptr);
 }
 
 bool AICmdKamikaze::TimeStepUpdate()
@@ -289,6 +311,24 @@ bool AICmdKamikaze::TimeStepUpdate()
 	return false;
 }
 
+void AICmdKill::OnDeleted(const Body *body)
+{
+	if (static_cast<Body *>(m_target) == body) m_target = 0;
+	AICommand::OnDeleted(body);
+}
+
+AICmdKill::AICmdKill(DynamicBody *dBody, Ship *target) :
+	AICommand(dBody, CMD_KILL)
+{
+	m_target = target;
+	m_leadTime = m_evadeTime = m_closeTime = 0.0;
+	m_lastVel = m_target->GetVelocity();
+	m_prop.Reset(m_dBody->GetPropulsion());
+	m_fguns.Reset(m_dBody->GetFixedGuns());
+	assert(m_prop != nullptr);
+	assert(m_fguns != nullptr);
+}
+
 AICmdKill::AICmdKill(const Json &jsonObj) :
 	AICommand(jsonObj, CMD_KILL)
 {
@@ -302,6 +342,24 @@ void AICmdKill::SaveToJson(Json &jsonObj)
 	AICommand::SaveToJson(aiCommandObj);
 	aiCommandObj["index_for_target"] = space->GetIndexForBody(m_target);
 	jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
+}
+
+AICmdKill::~AICmdKill()
+{
+	if (m_fguns) m_fguns->SetGunFiringState(0, 0);
+}
+
+void AICmdKill::PostLoadFixup(Space *space)
+{
+	AICommand::PostLoadFixup(space);
+	m_target = static_cast<Ship *>(space->GetBodyByIndex(m_targetIndex));
+	m_leadTime = m_evadeTime = m_closeTime = 0.0;
+	m_lastVel = m_target->GetVelocity();
+	// Ensure needed sub-system:
+	m_prop.Reset(m_dBody->GetPropulsion());
+	m_fguns.Reset(m_dBody->GetFixedGuns());
+	assert(m_prop != nullptr);
+	assert(m_fguns != nullptr);
 }
 
 bool AICmdKill::TimeStepUpdate()
@@ -769,6 +827,35 @@ static bool CheckSuicide(DynamicBody *dBody, const vector3d &tandir)
 
 extern double calc_ivel(double dist, double vel, double acc);
 
+void AICmdFlyTo::OnDeleted(const Body *body)
+{
+	AICommand::OnDeleted(body);
+	if (m_target == body) m_target = 0;
+}
+
+void AICmdFlyTo::GetStatusText(char *str)
+{
+	if (m_child)
+		m_child->GetStatusText(str);
+	else if (m_target)
+		snprintf(str, 255, "Intercept: %s, dist %.1fkm, state %i",
+			m_target->GetLabel().c_str(), m_dist, m_state);
+	else
+		snprintf(str, 255, "FlyTo: %s, dist %.1fkm, endvel %.1fkm/s, state %i",
+			m_targframe->GetLabel().c_str(), m_posoff.Length() / 1000.0, m_endvel / 1000.0, m_state);
+}
+
+void AICmdFlyTo::PostLoadFixup(Space *space)
+{
+	AICommand::PostLoadFixup(space);
+	m_target = space->GetBodyByIndex(m_targetIndex);
+	m_targframe = space->GetFrameByIndex(m_targframeIndex);
+	m_lockhead = true;
+	// Ensure needed sub-system:
+	m_prop.Reset(m_dBody->GetPropulsion());
+	assert(m_prop != nullptr);
+}
+
 // Fly to vicinity of body
 AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, Body *target) :
 	AICommand(dBody, CMD_FLYTO)
@@ -1041,6 +1128,29 @@ bool AICmdFlyTo::TimeStepUpdate()
 	return false;
 }
 
+void AICmdDock::OnDeleted(const Body *body)
+{
+	AICommand::OnDeleted(body);
+	if (static_cast<Body *>(m_target) == body) m_target = nullptr;
+}
+
+void AICmdDock::GetStatusText(char *str)
+{
+	if (m_child)
+		m_child->GetStatusText(str);
+	else
+		snprintf(str, 255, "Dock: target %s, state %i", m_target->GetLabel().c_str(), m_state);
+}
+
+void AICmdDock::PostLoadFixup(Space *space)
+{
+	AICommand::PostLoadFixup(space);
+	m_target = static_cast<SpaceStation *>(space->GetBodyByIndex(m_targetIndex));
+	// Ensure needed sub-system:
+	m_prop.Reset(m_dBody->GetPropulsion());
+	assert(m_prop != nullptr);
+}
+
 AICmdDock::AICmdDock(DynamicBody *dBody, SpaceStation *target) :
 	AICommand(dBody, CMD_DOCK),
 	m_target(target),
@@ -1220,11 +1330,44 @@ bool AICmdDock::TimeStepUpdate()
 	return false;
 }
 
+AICmdHoldPosition::AICmdHoldPosition(DynamicBody *dBody) :
+	AICommand(dBody, CMD_HOLDPOSITION)
+{
+	m_prop.Reset(m_dBody->GetPropulsion());
+	assert(m_prop != nullptr);
+}
+
+AICmdHoldPosition::AICmdHoldPosition(const Json &jsonObj) :
+	AICommand(jsonObj, CMD_HOLDPOSITION)
+{
+	// Ensure needed sub-system:
+	m_prop.Reset(m_dBody->GetPropulsion());
+	assert(m_prop != nullptr);
+}
+
 bool AICmdHoldPosition::TimeStepUpdate()
 {
 	// XXX perhaps try harder to move back to the original position
 	m_prop->AIMatchVel(vector3d(0, 0, 0));
 	return false;
+}
+
+void AICmdFlyAround::GetStatusText(char *str)
+{
+	if (m_child)
+		m_child->GetStatusText(str);
+	else
+		snprintf(str, 255, "FlyAround: alt %.1fkm, vel %.1fkm/s, mode %i",
+			m_alt / 1000.0, m_vel / 1000.0, m_targmode);
+}
+
+void AICmdFlyAround::PostLoadFixup(Space *space)
+{
+	AICommand::PostLoadFixup(space);
+	m_obstructor = space->GetBodyByIndex(m_obstructorIndex);
+	// Ensure needed sub-system:
+	m_prop.Reset(m_dBody->GetPropulsion());
+	assert(m_prop != nullptr);
 }
 
 void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
@@ -1401,6 +1544,21 @@ bool AICmdFlyAround::TimeStepUpdate()
 	return false;
 }
 
+void AICmdFormation::OnDeleted(const Body *body)
+{
+	AICommand::OnDeleted(body);
+	if (static_cast<Body *>(m_target) == body) m_target = 0;
+}
+
+void AICmdFormation::GetStatusText(char *str)
+{
+	if (m_child)
+		m_child->GetStatusText(str);
+	else
+		snprintf(str, 255, "Formation: %s, dist %.1fkm",
+			m_target->GetLabel().c_str(), m_posoff.Length() / 1000.0);
+}
+
 AICmdFormation::AICmdFormation(DynamicBody *dBody, DynamicBody *target, const vector3d &posoff) :
 	AICommand(dBody, CMD_FORMATION),
 	m_target(target),
@@ -1431,6 +1589,15 @@ void AICmdFormation::SaveToJson(Json &jsonObj)
 	aiCommandObj["index_for_target"] = Pi::game->GetSpace()->GetIndexForBody(m_target);
 	aiCommandObj["pos_off"] = m_posoff;
 	jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
+}
+
+void AICmdFormation::PostLoadFixup(Space *space)
+{
+	AICommand::PostLoadFixup(space);
+	m_target = static_cast<Ship *>(space->GetBodyByIndex(m_targetIndex));
+	// Ensure needed sub-system:
+	m_prop.Reset(m_dBody->GetPropulsion());
+	assert(m_prop != nullptr);
 }
 
 bool AICmdFormation::TimeStepUpdate()

@@ -4,6 +4,7 @@
 #include "LuaMissile.h"
 
 #include "ShipAICmd.h"
+#include "Ship.h"
 
 /*
  * Class: Missile
