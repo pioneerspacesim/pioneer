@@ -118,14 +118,14 @@ Body *Body::FromJson(const Json &jsonObj, Space *space)
 		Ship *s = new Ship(jsonObj, space);
 		// Here because of comments in Ship.cpp on following function
 		s->UpdateLuaStats();
-		return static_cast<Body*>(s);
-		}
+		return static_cast<Body *>(s);
+	}
 	case Object::PLAYER: {
 		Player *p = new Player(jsonObj, space);
 		// Read comments in Ship.cpp on following function
 		p->UpdateLuaStats();
-		return static_cast<Body*>(p);
-		}
+		return static_cast<Body *>(p);
+	}
 	case Object::MISSILE:
 		return new Missile(jsonObj, space);
 	case Object::PROJECTILE:

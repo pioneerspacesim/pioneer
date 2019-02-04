@@ -30,7 +30,6 @@ public:
 	friend class ObjectViewerView;
 
 protected:
-
 private:
 	void InitParams(const SystemBody *);
 	void GenerateRings(Graphics::Renderer *renderer);

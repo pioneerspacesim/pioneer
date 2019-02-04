@@ -25,7 +25,8 @@ public:
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) override;
 	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact &contactData) override;
 
-	~CargoBody() {};
+	~CargoBody(){};
+
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
 

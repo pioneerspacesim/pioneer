@@ -76,7 +76,6 @@ DynamicBody::DynamicBody(const Json &jsonObj, Space *space) :
 	m_decelerating = false;
 	for (int i = 0; i < Feature::MAX_FEATURE; i++)
 		m_features[i] = false;
-
 }
 
 void DynamicBody::SaveToJson(Json &jsonObj, Space *space)

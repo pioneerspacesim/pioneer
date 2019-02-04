@@ -19,7 +19,6 @@ class InternalCameraController;
 
 class ShipCockpit : public ModelBody {
 public:
-
 	explicit ShipCockpit(const std::string &modelName);
 	virtual ~ShipCockpit();
 

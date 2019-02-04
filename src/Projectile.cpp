@@ -108,7 +108,8 @@ void Projectile::FreeModel()
 	s_glowVerts.reset();
 }
 
-Projectile::Projectile(Body *parent, const ProjectileData &prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel) : Body()
+Projectile::Projectile(Body *parent, const ProjectileData &prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel) :
+	Body()
 {
 	if (!s_sideMat) BuildModel();
 	m_flags |= FLAG_DRAW_LAST;
@@ -356,7 +357,8 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	}
 }
 
-void Projectile::Add(Body *parent, float lifespan, float dam, float length, float width, bool mining, const Color &color, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel) {
+void Projectile::Add(Body *parent, float lifespan, float dam, float length, float width, bool mining, const Color &color, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)
+{
 	ProjectileData prData;
 	prData.lifespan = lifespan;
 	prData.damage = dam;
