@@ -84,6 +84,9 @@ Ship::Ship(const ShipType::Id &shipId) :
 	InitEquipSet();
 
 	SetModel(m_type->modelName.c_str());
+
+	InitGuns(GetModel());
+
 	// Setting thrusters colors
 	if (m_type->isGlobalColorDefined) GetModel()->SetThrusterColor(m_type->globalThrusterColor);
 	for (int i = 0; i < THRUSTER_MAX; i++) {
@@ -122,6 +125,14 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		GetPropulsion()->LoadFromJson(shipObj, space);
 
 		SetShipId(shipObj["ship_type_id"]); // XXX handle missing thirdparty ship
+		SetModel(m_type->modelName.c_str());
+
+		// These must be *before* UpdateEquipStats
+		// or else UpdateGunsStats will use MountGun()
+		// BUT must be *after* setting model
+		FixedGuns::InitGuns(GetModel());
+		FixedGuns::LoadFromJson(shipObj, space);
+
 		GetPropulsion()->SetFuelTankMass(GetShipType()->fuelTankMass);
 		m_stats.fuel_tank_mass_left = GetPropulsion()->FuelTankMassLeft();
 
@@ -151,13 +162,12 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		m_hyperspace.sounds.abort_sound = shipObj.value("hyperspace_abort_sound", "");
 		m_hyperspace.sounds.jump_sound = shipObj.value("hyperspace_jump_sound", "");
 
-		FixedGuns::LoadFromJson(shipObj, space);
-
 		m_ecmRecharge = shipObj["ecm_recharge"];
-		SetShipId(shipObj["ship_type_id"]); // XXX handle missing thirdparty ship
 		m_dockedWithPort = shipObj["docked_with_port"];
 		m_dockedWithIndex = shipObj["index_for_body_docked_with"];
+
 		Init();
+
 		m_stats.hull_mass_left = shipObj["hull_mass_left"]; // must be after Init()...
 		m_stats.shield_mass_left = shipObj["shield_mass_left"];
 		m_shieldCooldown = shipObj["shield_cooldown"];
@@ -210,6 +220,7 @@ void Ship::Init()
 	m_navLights->SetEnabled(true);
 
 	SetMassDistributionFromModel();
+
 	UpdateEquipStats();
 	m_stats.hull_mass_left = float(m_type->hullMass);
 	m_stats.shield_mass_left = 0;
@@ -229,8 +240,6 @@ void Ship::Init()
 	m_hyperspaceCloud = 0;
 
 	m_landingGearAnimation = GetModel()->FindAnimation("gear_down");
-
-	FixedGuns::InitGuns(GetModel());
 
 	// If we've got the tag_landing set then use it for an offset
 	// otherwise use zero so that it will dock but look clearly incorrect
@@ -258,9 +267,8 @@ void Ship::SaveToJson(Json &jsonObj, Space *space)
 
 	Json shipObj({}); // Create JSON object to contain ship data.
 
-	GetPropulsion()->SaveToJson(shipObj, space);
-
 	FixedGuns::SaveToJson(shipObj, space);
+	GetPropulsion()->SaveToJson(shipObj, space);
 
 	m_skin.SaveToJson(shipObj);
 	shipObj["wheel_transition"] = m_wheelTransition;
@@ -692,22 +700,26 @@ void Ship::UpdateGunsStats()
 			Properties().PushLuaTable();
 			LuaTable prop(Lua::manager->GetLuaState(), -1);
 
+			ProjectileData pd;
 			const Color c(
 				prop.Get<float>(prefix + "rgba_r"),
 				prop.Get<float>(prefix + "rgba_g"),
 				prop.Get<float>(prefix + "rgba_b"),
 				prop.Get<float>(prefix + "rgba_a"));
+			pd.color = c;
+			pd.lifespan = prop.Get<float>(prefix + "lifespan");
+			pd.width = prop.Get<float>(prefix + "width");
+			pd.length = prop.Get<float>(prefix + "length");
+			pd.mining = prop.Get<int>(prefix + "mining");
+			pd.speed = prop.Get<float>(prefix + "speed");
+			pd.damage = prop.Get<float>(prefix + "damage");
+			pd.beam = prop.Get<int>(prefix + "beam");
+
 			const float heatrate = prop.Get<float>(prefix + "heatrate", 0.01f);
 			const float coolrate = prop.Get<float>(prefix + "coolrate", 0.01f);
-			const float lifespan = prop.Get<float>(prefix + "lifespan");
-			const float width = prop.Get<float>(prefix + "width");
-			const float length = prop.Get<float>(prefix + "length");
-			const bool mining = prop.Get<int>(prefix + "mining");
-			const float speed = prop.Get<float>(prefix + "speed");
 			const float recharge = prop.Get<float>(prefix + "rechargeTime");
-			const bool beam = prop.Get<int>(prefix + "beam");
 
-			FixedGuns::MountGun(num, recharge, lifespan, damage, length, width, mining, c, speed, beam, heatrate, coolrate);
+			FixedGuns::MountGun(num, recharge, heatrate, coolrate, pd);
 
 			if (prop.Get<int>(prefix + "dual"))
 				FixedGuns::IsDual(num, true);
@@ -1280,7 +1292,7 @@ void Ship::StaticUpdate(const float timeStep)
 
 	// lasers
 	FixedGuns::UpdateGuns(timeStep);
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < FixedGuns::GetGunsNumber(); i++) {
 		if (FixedGuns::Fire(i, this)) {
 			if (FixedGuns::IsBeam(i)) {
 				float vl, vr;
@@ -1554,6 +1566,7 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 
 	SetShipId(shipId);
 	SetModel(m_type->modelName.c_str());
+	FixedGuns::InitGuns(GetModel());
 	m_skin.SetDecal(m_type->manufacturer);
 	m_skin.Apply(GetModel());
 	Init();

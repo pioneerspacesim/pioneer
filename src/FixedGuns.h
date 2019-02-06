@@ -6,11 +6,14 @@
 
 #include "Json.h"
 #include "Projectile.h"
-#include "scenegraph/Model.h"
 #include "vector3.h"
 
 class DynamicBody;
 class Space;
+
+namespace SceneGraph {
+	class Model;
+}
 
 enum Guns {
 	GUN_FRONT,
@@ -25,32 +28,36 @@ public:
 	void InitGuns(SceneGraph::Model *m);
 	void UpdateGuns(float timeStep);
 	bool Fire(const int num, Body *b);
+	int GetGunsNumber() const { return int(m_guns.size()); }
 	bool IsFiring();
 	bool IsFiring(const int num);
 	bool IsBeam(const int num);
 	float GetGunTemperature(int idx) const;
-	inline void IsDual(int idx, bool dual) { m_gun[idx].dual = dual; };
-	void MountGun(const int num, const float recharge, const float lifespan, const float damage, const float length,
-		const float width, const bool mining, const Color &color, const float speed, const bool beam, const float heatrate, const float coolrate);
+	inline void IsDual(int idx, bool dual) { m_guns[idx].gun_data.dual = dual; };
+	void MountGun(const int num, const float recharge, const float heatrate, const float coolrate, const ProjectileData &pd);
 	void UnMountGun(int num);
-	inline float GetGunRange(int idx) { return m_gun[idx].projData.speed * m_gun[idx].projData.lifespan; };
-	inline float GetProjSpeed(int idx) { return m_gun[idx].projData.speed; };
+	inline float GetGunRange(int idx) { return m_guns[idx].gun_data.projData.speed * m_guns[idx].gun_data.projData.lifespan; };
+	inline float GetProjSpeed(int idx) { return m_guns[idx].gun_data.projData.speed; };
 	inline void SetCoolingBoost(float cooler) { m_cooler_boost = cooler; };
 	inline void SetGunFiringState(int idx, int s)
 	{
-		if (m_gun_present[idx])
-			m_is_firing[idx] = s;
+		if (idx < m_guns.size())
+			m_guns[idx].is_firing = s;
 	};
 	void SaveToJson(Json &jsonObj, Space *space);
 	void LoadFromJson(const Json &jsonObj, Space *space);
 
 private:
+	// Structure holding name, position and direction of a mount (coming from Model data)
+	struct Mount {
+		std::string name;
+		std::vector<vector3d> locs;
+		vector3d dir;
+	};
+
+	// Structure holding data of a single (maybe with multiple barrels) 'mounted' gun.
 	struct GunData {
-		struct GunLoc {
-			vector3d pos;
-			vector3d dir;
-		};
-		std::vector<GunLoc> locs;
+		Mount *hard_point;
 		float recharge;
 		float temp_heat_rate;
 		float temp_cool_rate;
@@ -58,12 +65,22 @@ private:
 		ProjectileData projData;
 	};
 
-	bool m_is_firing[Guns::GUNMOUNT_MAX];
-	float m_recharge_stat[Guns::GUNMOUNT_MAX];
-	float m_temperature_stat[Guns::GUNMOUNT_MAX];
-	//TODO: Make it a vector and rework struct Gun to have bool dir={Forward,Backward}
-	bool m_gun_present[Guns::GUNMOUNT_MAX];
-	GunData m_gun[Guns::GUNMOUNT_MAX];
+	// Structure holding actual status of a gun
+	struct GunStatus {
+		GunStatus()  :
+		is_firing(false),
+		recharge_stat(0.0f),
+		temperature_stat(0.0f) {}
+		bool is_firing;
+		float recharge_stat;
+		float temperature_stat;
+		GunData gun_data;
+	};
+
+	std::vector<Mount> m_mounts;
+
+	std::vector<GunStatus> m_guns;
+	//TODO: mmmh... Should I put cooler PER gun?
 	float m_cooler_boost;
 };
 
