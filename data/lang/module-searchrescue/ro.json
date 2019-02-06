@@ -645,7 +645,7 @@
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "Setați ruta de retur"
   },
   "SHIP_UNRESPONSIVE": {
     "description": "",

@@ -53,23 +53,23 @@
   },
   "AUTOPILOT_DOCK_WITH_STATION": {
     "description": "",
-    "message": "Autopilot: Dock with {target}"
+    "message": "Autopilot: Andochează cu {target}"
   },
   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter high orbit around {target}"
+    "message": "Autopilot: Intră în orbita superioară în jurul {target}"
   },
   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter low orbit around {target}"
+    "message": "Autopilot: Intră în orbita inferioară în jurul {target}"
   },
   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter medium orbit around {target}"
+    "message": "Autopilot: Intră în orbita medie în jurul {target}"
   },
   "AUTOPILOT_FLY_TO_VICINITY_OF": {
     "description": "",
-    "message": "Autopilot: Fly to vicinity of {target}"
+    "message": "Autopilot: Zboară în apropierea {target}"
   },
   "AUTOPILOT_ON": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "CLEARANCE_DENIED_TOO_FAR": {
     "description": "Shown if player requests docking too far away from station",
-    "message": "Clearance denied. Your ship is too far away for ID verification."
+    "message": "Autorizaţie respinsă. Nava dvs. e prea departe pentru verificarea identitații."
   },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
@@ -421,7 +421,7 @@
   },
   "FLYBY_VIEW": {
     "description": "camera view setting",
-    "message": "Flyby view"
+    "message": "Perspectivă zbor cinematic"
   },
   "FOLLOWING_SELECTION": {
     "description": "",
@@ -493,15 +493,15 @@
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
-    "message": "Hold {target} anti-normal"
+    "message": "Menține {target} înclinația anti-normală"
   },
   "HEADING_LOCK_BACKWARD": {
     "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-    "message": "Hold {target} retrograde"
+    "message": "Menține {target} înclinația retrogradă"
   },
   "HEADING_LOCK_FORWARD": {
     "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-    "message": "Hold {target} prograde"
+    "message": "Menține {target} înclinația directă"
   },
   "HEADING_LOCK_KILLROT": {
     "description": "",
@@ -509,15 +509,15 @@
   },
   "HEADING_LOCK_NORMAL": {
     "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-    "message": "Hold {target} normal"
+    "message": "Menține {target} înclinația normală"
   },
   "HEADING_LOCK_RADIALLY_INWARD": {
     "description": "Autopilot direction, relative to orbit (face towards planet)",
-    "message": "Hold {target} radially in"
+    "message": "Menține {target} înclinația radial interior"
   },
   "HEADING_LOCK_RADIALLY_OUTWARD": {
     "description": "Autopilot direction, relative to orbit (face away from palent)",
-    "message": "Hold {target} radially out"
+    "message": "Menține {target} înclinația radial exterior"
   },
   "HEAVY_INDUSTRY": {
     "description": "",
@@ -977,7 +977,7 @@
   },
   "NO_AUTOPILOT_INSTALLED": {
     "description": "",
-    "message": "Autopilot not installed on ship, cannot enable autopilot"
+    "message": "Autopilotul nu e instalat pe nava, nu poate fi pornit"
   },
   "NO_CENTRAL_GOVERNANCE": {
     "description": "",
@@ -1205,7 +1205,7 @@
   },
   "REQUEST_DOCKING_CLEARANCE": {
     "description": "",
-    "message": "Request docking clearance from {target}"
+    "message": "Cereți permisiunea de a andoca de la {target}"
   },
   "RESET": {
     "description": "",

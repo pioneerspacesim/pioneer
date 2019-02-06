@@ -81,11 +81,11 @@
   },
   "CARGO_IS_LOADED": {
     "description": "",
-    "message": "loaded"
+    "message": "încărcat"
   },
   "CARGO_IS_NOT_LOADED": {
     "description": "",
-    "message": "not loaded"
+    "message": "neîncărcat"
   },
   "CEASE_FIRE": {
     "description": "",
@@ -293,7 +293,7 @@
   },
   "INTROTEXT_PICKUP_2": {
     "description": "",
-    "message": "How are you? I'm {name}. One of my clients wants to import {cargoname} from {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
+    "message": "Ce mai faceți? Sunt {name}. Unul din clienții mei vrea să importe {cargoname} din {starport} în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la o distanță de {dist} a.l. Oferă {cash} pentru acest comision. Întorceți-vă aici la {dom_starport} în sistemul {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) pentru a descărca marfa."
   },
   "INTROTEXT_PICKUP_LOCAL_1": {
     "description": "",
@@ -457,7 +457,7 @@
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "Setați ruta de retur"
   },
   "SPACEPORT": {
     "description": "",
@@ -593,7 +593,7 @@
   },
   "WHYSOMUCH_INFRASTRUCTURE_1": {
     "description": "",
-    "message": "These goods are crucial for a construction project."
+    "message": "Aceste bunuri sunt cruciale pentru un proiect de construcții."
   },
   "WHYSOMUCH_MINING_1": {
     "description": "",

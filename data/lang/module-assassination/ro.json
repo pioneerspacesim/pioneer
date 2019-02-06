@@ -197,7 +197,7 @@
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "Setați ruta de retur"
   },
   "SHIP": {
     "description": "",
