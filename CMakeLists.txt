@@ -239,13 +239,23 @@ set_target_properties(${PROJECT_NAME} modelcompiler savegamedump pioneerLib PROP
 	CXX_EXTENSIONS ON
 )
 
-# Optimize the models after the modelcompiler is built.
-# This really shouldn't be done inside the source tree...
-add_custom_command(TARGET modelcompiler POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E env SDL_VIDEODRIVER=dummy $<TARGET_FILE:modelcompiler> -b inplace
-	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-	COMMENT "Optimizing models" VERBATIM
-)
+if (CMAKE_CROSSCOMPILING)
+	find_program(MODELCOMPILER modelcompiler DOC "modelcompiler executable for the host")
+else (CMAKE_CROSSCOMPILING)
+	set(MODELCOMPILER $<TARGET_FILE:modelcompiler>)
+endif (CMAKE_CROSSCOMPILING)
+
+if (MODELCOMPILER)
+	# Optimize the models.
+	# This really shouldn't be done inside the source tree...
+	add_custom_command(TARGET modelcompiler POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E env SDL_VIDEODRIVER=dummy ${MODELCOMPILER} -b inplace
+		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+		COMMENT "Optimizing models" VERBATIM
+	)
+else (MODELCOMPILER)
+	message(WARNING "No modelcompiler provided, models won't be optimized!")
+endif(MODELCOMPILER)
 
 install(TARGETS ${PROJECT_NAME} modelcompiler savegamedump
 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
