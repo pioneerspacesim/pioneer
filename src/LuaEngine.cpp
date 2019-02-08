@@ -22,15 +22,12 @@
 #include "SectorView.h"
 #include "Sound.h"
 #include "SoundMusic.h"
+#include "SystemView.h"
 #include "buildopts.h"
 #include "graphics/Graphics.h"
 #include "scenegraph/Model.h"
 #include "ui/Context.h"
 #include "utils.h"
-#include "LuaPiGui.h"
-#include "SectorView.h"
-#include "LuaPiGui.h"
-#include "SystemView.h"
 /*
  * Interface: Engine
  *
@@ -1112,8 +1109,8 @@ static int l_engine_get_sector_map_factions(lua_State *l)
 static int l_engine_system_map_selected_object(lua_State *l)
 {
 	SystemView *sv = Pi::game->GetSystemView();
-	SystemBody *sb = const_cast<SystemBody*>(sv->GetSelectedObject());
-	if(sb) {
+	SystemBody *sb = const_cast<SystemBody *>(sv->GetSelectedObject());
+	if (sb) {
 		LuaObject<SystemBody>::PushToLua(sb);
 		return 1;
 	}
@@ -1125,11 +1122,11 @@ static int l_engine_system_map_set_show_lagrange(lua_State *l)
 	SystemView *sv = Pi::game->GetSystemView();
 	std::string state = LuaPull<std::string>(l, 1);
 	ShowLagrange draw = ShowLagrange::LAG_OFF;
-	if(state == "off") {
+	if (state == "off") {
 		draw = ShowLagrange::LAG_OFF;
-	} else if(state == "icon") {
+	} else if (state == "icon") {
 		draw = ShowLagrange::LAG_ICON;
-	} else if(state == "icontext") {
+	} else if (state == "icontext") {
 		draw = ShowLagrange::LAG_ICONTEXT;
 	} else {
 		Warning("Unknown Lagrange show state %s\n", state.c_str());
@@ -1143,11 +1140,11 @@ static int l_engine_system_map_set_ship_drawing(lua_State *l)
 	SystemView *sv = Pi::game->GetSystemView();
 	std::string state = LuaPull<std::string>(l, 1);
 	ShipDrawing draw = ShipDrawing::OFF;
-	if(state == "off") {
+	if (state == "off") {
 		draw = ShipDrawing::OFF;
-	} else if(state == "boxes") {
+	} else if (state == "boxes") {
 		draw = ShipDrawing::BOXES;
-	} else if(state == "orbits") {
+	} else if (state == "orbits") {
 		draw = ShipDrawing::ORBITS;
 	} else {
 		Warning("Unknown ship drawing state %s\n", state.c_str());
@@ -1160,9 +1157,9 @@ static int l_engine_system_map_zoom(lua_State *l)
 {
 	SystemView *sv = Pi::game->GetSystemView();
 	std::string state = LuaPull<std::string>(l, 1);
-	if(state == "in") {
+	if (state == "in") {
 		sv->ZoomIn();
-	} else if(state == "out") {
+	} else if (state == "out") {
 		sv->ZoomOut();
 	} else {
 		Warning("Unknown zoom state %s\n", state.c_str());
@@ -1174,7 +1171,7 @@ static int l_engine_system_map_get_orbit_planner_start_time(lua_State *l)
 {
 	SystemView *sv = Pi::game->GetSystemView();
 	double t = sv->GetOrbitPlannerStartTime();
-	if(std::fabs(t) < 1.)
+	if (std::fabs(t) < 1.)
 		lua_pushnil(l);
 	else
 		LuaPush<double>(l, t);
@@ -1191,86 +1188,86 @@ static int l_engine_system_map_get_orbit_planner_time(lua_State *l)
 
 static int l_engine_system_map_accelerate_time(lua_State *l)
 {
-		SystemView *sv = Pi::game->GetSystemView();
-		if(lua_isnil(l, 1))
-			sv->OnClickRealt();
-		else {
-			double step = LuaPull<double>(l, 1);
-			sv->OnClickAccel(step);
-		}
-		return 0;
+	SystemView *sv = Pi::game->GetSystemView();
+	if (lua_isnil(l, 1))
+		sv->OnClickRealt();
+	else {
+		double step = LuaPull<double>(l, 1);
+		sv->OnClickAccel(step);
+	}
+	return 0;
 }
 
 static int l_engine_system_map_project(lua_State *l)
 {
-  SystemView *sv = Pi::game->GetSystemView();
-  Body *b = LuaObject<Body>::CheckFromLua(1);
-  vector3d v = LuaPull<vector3d>(l, 2);
-  LuaPush<vector3d>(l, sv->Project(b, v));
-  return 1;
+	SystemView *sv = Pi::game->GetSystemView();
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	vector3d v = LuaPull<vector3d>(l, 2);
+	LuaPush<vector3d>(l, sv->Project(b, v));
+	return 1;
 }
 
 static int l_engine_transfer_planner_get(lua_State *l)
 {
-  std::string key = LuaPull<std::string>(l, 1);
-  if(key == "prograde") {
-	LuaPush<double>(l, Pi::planner->GetDv(BurnDirection::PROGRADE));
-  } else if(key == "normal") {
-	LuaPush<double>(l, Pi::planner->GetDv(BurnDirection::NORMAL));
-  } else if(key == "radial") {
-	LuaPush<double>(l, Pi::planner->GetDv(BurnDirection::RADIAL));
-  } else if(key == "starttime") {
-	LuaPush<double>(l, Pi::planner->GetStartTime());
-  } else if(key == "factor") {
-	LuaPush<double>(l, Pi::planner->GetFactor() * 10); // factor is shown as "x 10"
-  } else {
-	Warning("Unknown transfer planner key %s\n", key.c_str());
-	lua_pushnil(l);
-  }
-  return 1;
+	std::string key = LuaPull<std::string>(l, 1);
+	if (key == "prograde") {
+		LuaPush<double>(l, Pi::planner->GetDv(BurnDirection::PROGRADE));
+	} else if (key == "normal") {
+		LuaPush<double>(l, Pi::planner->GetDv(BurnDirection::NORMAL));
+	} else if (key == "radial") {
+		LuaPush<double>(l, Pi::planner->GetDv(BurnDirection::RADIAL));
+	} else if (key == "starttime") {
+		LuaPush<double>(l, Pi::planner->GetStartTime());
+	} else if (key == "factor") {
+		LuaPush<double>(l, Pi::planner->GetFactor() * 10); // factor is shown as "x 10"
+	} else {
+		Warning("Unknown transfer planner key %s\n", key.c_str());
+		lua_pushnil(l);
+	}
+	return 1;
 }
 
 static int l_engine_transfer_planner_add(lua_State *l)
 {
-  std::string key = LuaPull<std::string>(l, 1);
-  double delta = LuaPull<double>(l, 2);
-  if(key == "prograde") {
-	Pi::planner->AddDv(BurnDirection::PROGRADE, delta);
-  } else if(key == "normal") {
-	Pi::planner->AddDv(BurnDirection::NORMAL, delta);
-  } else if(key == "radial") {
-	Pi::planner->AddDv(BurnDirection::RADIAL, delta);
-  } else if(key == "starttime") {
-	Pi::planner->AddStartTime(delta);
-  } else if(key == "factor") {
-	if(delta > 0)
-	  Pi::planner->IncreaseFactor();
-	else
-	  Pi::planner->DecreaseFactor();
-  } else {
-	Warning("Unknown transfer planner key %s\n", key.c_str());
-  }
-  return 0;
+	std::string key = LuaPull<std::string>(l, 1);
+	double delta = LuaPull<double>(l, 2);
+	if (key == "prograde") {
+		Pi::planner->AddDv(BurnDirection::PROGRADE, delta);
+	} else if (key == "normal") {
+		Pi::planner->AddDv(BurnDirection::NORMAL, delta);
+	} else if (key == "radial") {
+		Pi::planner->AddDv(BurnDirection::RADIAL, delta);
+	} else if (key == "starttime") {
+		Pi::planner->AddStartTime(delta);
+	} else if (key == "factor") {
+		if (delta > 0)
+			Pi::planner->IncreaseFactor();
+		else
+			Pi::planner->DecreaseFactor();
+	} else {
+		Warning("Unknown transfer planner key %s\n", key.c_str());
+	}
+	return 0;
 }
 
 static int l_engine_transfer_planner_reset(lua_State *l)
 {
-  std::string key = LuaPull<std::string>(l, 1);
-  if(key == "prograde") {
-	Pi::planner->ResetDv(BurnDirection::PROGRADE);
-  } else if(key == "normal") {
-	Pi::planner->ResetDv(BurnDirection::NORMAL);
-  } else if(key == "radial") {
-	Pi::planner->ResetDv(BurnDirection::RADIAL);
-  } else if(key == "starttime") {
-	Pi::planner->ResetStartTime();
-  } else if(key == "factor") {
-	Pi::planner->ResetFactor();
-  } else {
-	Warning("Unknown transfer planner key %s\n", key.c_str());
-  }
+	std::string key = LuaPull<std::string>(l, 1);
+	if (key == "prograde") {
+		Pi::planner->ResetDv(BurnDirection::PROGRADE);
+	} else if (key == "normal") {
+		Pi::planner->ResetDv(BurnDirection::NORMAL);
+	} else if (key == "radial") {
+		Pi::planner->ResetDv(BurnDirection::RADIAL);
+	} else if (key == "starttime") {
+		Pi::planner->ResetStartTime();
+	} else if (key == "factor") {
+		Pi::planner->ResetFactor();
+	} else {
+		Warning("Unknown transfer planner key %s\n", key.c_str());
+	}
 
-  return 0;
+	return 0;
 }
 
 static int l_get_can_browse_user_folders(lua_State *l)
@@ -1373,40 +1370,39 @@ void LuaEngine::Register()
 		{ "GetSectorMapCurrentSystemPath", l_engine_get_sector_map_current_system_path },
 		{ "GetSectorMapSelectedSystemPath", l_engine_get_sector_map_selected_system_path },
 		{ "GetSectorMapHyperspaceTargetSystemPath", l_engine_get_sector_map_hyperspace_target_system_path },
-		{ "SetSectorMapDrawUninhabitedLabels",      l_engine_set_sector_map_draw_uninhabited_labels },
-		{ "SetSectorMapDrawVerticalLines",          l_engine_set_sector_map_draw_vertical_lines },
-		{ "SetSectorMapDrawOutRangeLabels",         l_engine_set_sector_map_draw_out_range_labels },
-		{ "SetSectorMapAutomaticSystemSelection",   l_engine_set_sector_map_automatic_system_selection },
-		{ "SetSectorMapLockHyperspaceTarget",       l_engine_set_sector_map_lock_hyperspace_target },
-		{ "SetSectorMapSelected",                   l_engine_set_sector_map_selected },
-		{ "SectorMapGotoSectorPath",                l_engine_sector_map_goto_sector_path },
-		{ "SectorMapGotoSystemPath",                l_engine_sector_map_goto_system_path },
-		{ "GetSectorMapFactions",                   l_engine_get_sector_map_factions },
-		{ "SetSectorMapFactionVisible",             l_engine_set_sector_map_faction_visible },
-		{ "SectorMapAutoRoute",                     l_engine_sector_map_auto_route },
-		{ "SectorMapGetRoute",                      l_engine_sector_map_get_route },
-		{ "SectorMapGetRouteSize",                  l_engine_sector_map_get_route_size },
-		{ "SectorMapMoveRouteItemUp",               l_engine_sector_map_move_route_item_up },
-		{ "SectorMapMoveRouteItemDown",             l_engine_sector_map_move_route_item_down },
-		{ "SectorMapRemoveRouteItem",               l_engine_sector_map_remove_route_item },
-		{ "SectorMapClearRoute",                    l_engine_sector_map_clear_route },
-		{ "SectorMapAddToRoute",                    l_engine_sector_map_add_to_route },
-		{ "SystemMapSelectedObject",                l_engine_system_map_selected_object },
-		{ "SystemMapSetShipDrawing",                l_engine_system_map_set_ship_drawing },
-		{ "SystemMapSetShowLagrange",               l_engine_system_map_set_show_lagrange },
-		{ "SystemMapZoom",                          l_engine_system_map_zoom },
-		{ "SystemMapGetOrbitPlannerStartTime",      l_engine_system_map_get_orbit_planner_start_time },
-		{ "SystemMapGetOrbitPlannerTime",           l_engine_system_map_get_orbit_planner_time },
-		{ "SystemMapAccelerateTime",                l_engine_system_map_accelerate_time },
-		{ "SystemMapProject",                       l_engine_system_map_project },
-		{ "TransferPlannerAdd",                     l_engine_transfer_planner_add },
-		{ "TransferPlannerGet",                     l_engine_transfer_planner_get },
-		{ "TransferPlannerReset",                   l_engine_transfer_planner_reset },
+		{ "SetSectorMapDrawUninhabitedLabels", l_engine_set_sector_map_draw_uninhabited_labels },
+		{ "SetSectorMapDrawVerticalLines", l_engine_set_sector_map_draw_vertical_lines },
+		{ "SetSectorMapDrawOutRangeLabels", l_engine_set_sector_map_draw_out_range_labels },
+		{ "SetSectorMapAutomaticSystemSelection", l_engine_set_sector_map_automatic_system_selection },
+		{ "SetSectorMapLockHyperspaceTarget", l_engine_set_sector_map_lock_hyperspace_target },
+		{ "SetSectorMapSelected", l_engine_set_sector_map_selected },
+		{ "SectorMapGotoSectorPath", l_engine_sector_map_goto_sector_path },
+		{ "SectorMapGotoSystemPath", l_engine_sector_map_goto_system_path },
+		{ "GetSectorMapFactions", l_engine_get_sector_map_factions },
+		{ "SetSectorMapFactionVisible", l_engine_set_sector_map_faction_visible },
+		{ "SectorMapAutoRoute", l_engine_sector_map_auto_route },
+		{ "SectorMapGetRoute", l_engine_sector_map_get_route },
+		{ "SectorMapGetRouteSize", l_engine_sector_map_get_route_size },
+		{ "SectorMapMoveRouteItemUp", l_engine_sector_map_move_route_item_up },
+		{ "SectorMapMoveRouteItemDown", l_engine_sector_map_move_route_item_down },
+		{ "SectorMapRemoveRouteItem", l_engine_sector_map_remove_route_item },
+		{ "SectorMapClearRoute", l_engine_sector_map_clear_route },
+		{ "SectorMapAddToRoute", l_engine_sector_map_add_to_route },
+		{ "SystemMapSelectedObject", l_engine_system_map_selected_object },
+		{ "SystemMapSetShipDrawing", l_engine_system_map_set_ship_drawing },
+		{ "SystemMapSetShowLagrange", l_engine_system_map_set_show_lagrange },
+		{ "SystemMapZoom", l_engine_system_map_zoom },
+		{ "SystemMapGetOrbitPlannerStartTime", l_engine_system_map_get_orbit_planner_start_time },
+		{ "SystemMapGetOrbitPlannerTime", l_engine_system_map_get_orbit_planner_time },
+		{ "SystemMapAccelerateTime", l_engine_system_map_accelerate_time },
+		{ "SystemMapProject", l_engine_system_map_project },
+		{ "TransferPlannerAdd", l_engine_transfer_planner_add },
+		{ "TransferPlannerGet", l_engine_transfer_planner_get },
+		{ "TransferPlannerReset", l_engine_transfer_planner_reset },
 
+		{ "SearchNearbyStarSystemsByName", l_engine_search_nearby_star_systems_by_name },
 
-		{ "SearchNearbyStarSystemsByName",  l_engine_search_nearby_star_systems_by_name },
-
-		{ "ShipSpaceToScreenSpace",   l_engine_ship_space_to_screen_space },
+		{ "ShipSpaceToScreenSpace", l_engine_ship_space_to_screen_space },
 		{ "CameraSpaceToScreenSpace", l_engine_camera_space_to_screen_space },
 		{ "WorldSpaceToScreenSpace", l_engine_world_space_to_screen_space },
 		{ "WorldSpaceToShipSpace", l_engine_world_space_to_ship_space },

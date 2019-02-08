@@ -693,10 +693,10 @@ static int l_space_attr_root_system_body(lua_State *l)
 
 static int l_space_get_root_body(lua_State *l)
 {
-  Frame *frame = Pi::game->GetSpace()->GetRootFrame();
-  Body *body = frame->GetBody();
-  LuaObject<Body>::PushToLua(body);
-  return 1;
+	Frame *frame = Pi::game->GetSpace()->GetRootFrame();
+	Body *body = frame->GetBody();
+	LuaObject<Body>::PushToLua(body);
+	return 1;
 }
 
 void LuaSpace::Register()

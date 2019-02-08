@@ -90,7 +90,8 @@ void TransferPlanner::ResetStartTime()
 	}
 }
 
-double TransferPlanner::GetStartTime() const {
+double TransferPlanner::GetStartTime() const
+{
 	return m_startTime < 0.0 ? 0.0 : m_startTime;
 }
 
@@ -170,16 +171,18 @@ void TransferPlanner::ResetDv()
 	}
 }
 
-double TransferPlanner::GetDv(BurnDirection d) {
-  	switch(d) {
+double TransferPlanner::GetDv(BurnDirection d)
+{
+	switch (d) {
 	case PROGRADE: return m_dvPrograde; break;
-	case NORMAL:   return m_dvNormal;   break;
-	case RADIAL:   return m_dvRadial;   break;
+	case NORMAL: return m_dvNormal; break;
+	case RADIAL: return m_dvRadial; break;
 	}
 	return 0.0;
 }
 
-std::string TransferPlanner::printDv(BurnDirection d) {
+std::string TransferPlanner::printDv(BurnDirection d)
+{
 	double dv = 0;
 	char buf[10];
 
@@ -447,18 +450,28 @@ void SystemView::OnDecreaseFactorButtonClick(void) { m_planner->DecreaseFactor()
 void SystemView::SetShipDrawing(ShipDrawing drawing)
 {
 	m_shipDrawing = drawing;
-	switch(m_shipDrawing) {
+	switch (m_shipDrawing) {
 	case OFF: m_shipLabels->Clear(); break;
-	case BOXES:  RefreshShips(); break;
+	case BOXES: RefreshShips(); break;
 	case ORBITS: RefreshShips(); break;
 	}
 }
 
-void SystemView::OnToggleShipsButtonClick(void) {
-	switch(m_shipDrawing) {
-	case OFF:    m_shipDrawing = BOXES;  RefreshShips(); break;
-	case BOXES:  m_shipDrawing = ORBITS; RefreshShips(); break;
-	case ORBITS: m_shipDrawing = OFF; m_shipLabels->Clear(); break;
+void SystemView::OnToggleShipsButtonClick(void)
+{
+	switch (m_shipDrawing) {
+	case OFF:
+		m_shipDrawing = BOXES;
+		RefreshShips();
+		break;
+	case BOXES:
+		m_shipDrawing = ORBITS;
+		RefreshShips();
+		break;
+	case ORBITS:
+		m_shipDrawing = OFF;
+		m_shipLabels->Clear();
+		break;
 	}
 }
 
@@ -650,10 +663,14 @@ void SystemView::LabelShip(Ship *s, const vector3d &offset)
 	Gui::Screen::LeaveOrtho();
 }
 
-void SystemView::OnClickShip(Ship *s) {
-	if(!s) { printf("clicked on ship label but ship wasn't there\n"); return; }
+void SystemView::OnClickShip(Ship *s)
+{
+	if (!s) {
+		printf("clicked on ship label but ship wasn't there\n");
+		return;
+	}
 	m_selectedObject = nullptr;
-	if(Pi::player->GetNavTarget() == s) { //un-select ship if already selected
+	if (Pi::player->GetNavTarget() == s) { //un-select ship if already selected
 		Pi::player->SetNavTarget(0); // remove current
 		m_game->log->Add(Lang::UNSET_NAVTARGET);
 		m_infoLabel->SetText(""); // remove lingering text
@@ -1027,69 +1044,69 @@ void SystemView::DrawShips(const double t, const vector3d &offset)
 
 vector3d SystemView::Project(const Body *body, vector3d position)
 {
-  // TODO: orbital adjustment for moons
-  Gui::Screen::EnterOrtho();
-  vector3d pos;
-  vector3d offset(0,0,0);
-  if (m_selectedObject) GetTransformTo(m_selectedObject, offset);
-  vector3d orbital(0,0,0);
-  double t = (m_time - m_game->GetTime());
-  vector3d p;
-  Frame *rootFrame = Pi::game->GetSpace()->GetRootFrame();
-  SystemBody *rootSystemBody = rootFrame->GetSystemBody();
-  if(body && body->GetType() == Object::SHIP) {
-	Orbit orbit = static_cast<const Ship*>(body)->ComputeOrbit();
-	orbital = orbit.OrbitalPosAtTime(t);
-	Frame *frame = body->GetFrame();
-	SystemBody *parent = frame->GetSystemBody();
-	if(parent)
-	  position = vector3d(0,0,0);
-	while(parent && parent != rootSystemBody) {
-	  position += parent->GetOrbit().OrbitalPosAtTime(t);
-	  parent = parent->GetParent();
-	}
-	if(frame != Pi::game->GetSpace()->GetRootFrame()) {
-	  // o	rbit is relative to non-root frame, add position
-	  p = (position + orbital) * static_cast<double>(m_zoom) + offset;
+	// TODO: orbital adjustment for moons
+	Gui::Screen::EnterOrtho();
+	vector3d pos;
+	vector3d offset(0, 0, 0);
+	if (m_selectedObject) GetTransformTo(m_selectedObject, offset);
+	vector3d orbital(0, 0, 0);
+	double t = (m_time - m_game->GetTime());
+	vector3d p;
+	Frame *rootFrame = Pi::game->GetSpace()->GetRootFrame();
+	SystemBody *rootSystemBody = rootFrame->GetSystemBody();
+	if (body && body->GetType() == Object::SHIP) {
+		Orbit orbit = static_cast<const Ship *>(body)->ComputeOrbit();
+		orbital = orbit.OrbitalPosAtTime(t);
+		Frame *frame = body->GetFrame();
+		SystemBody *parent = frame->GetSystemBody();
+		if (parent)
+			position = vector3d(0, 0, 0);
+		while (parent && parent != rootSystemBody) {
+			position += parent->GetOrbit().OrbitalPosAtTime(t);
+			parent = parent->GetParent();
+		}
+		if (frame != Pi::game->GetSpace()->GetRootFrame()) {
+			// o	rbit is relative to non-root frame, add position
+			p = (position + orbital) * static_cast<double>(m_zoom) + offset;
+		} else {
+			// orbit	 is relative to root frame, already includes position
+			p = orbital * static_cast<double>(m_zoom) + offset;
+		}
 	} else {
-	  // orbit	 is relative to root frame, already includes position
-	  p = orbital * static_cast<double>(m_zoom) + offset;
+		const SystemBody *sb = body->GetSystemBody();
+		if (sb) {
+			// TODO: this needs to be a hierarchical recursion
+			// Each body is interpolated along it's orbit, but offset by its parent's
+			// interpolated position. The following code does *NOT* work correctly, and still
+			// needs to be adjusted.
+			orbital = sb->GetOrbit().OrbitalPosAtTime(t);
+			const SystemBody *parent = sb->GetParent();
+			if (parent)
+				position = vector3d(0, 0, 0);
+			while (parent && parent != rootSystemBody) {
+				position += parent->GetOrbit().OrbitalPosAtTime(t);
+				parent = parent->GetParent();
+			}
+			// if(parent) {
+			// 	position = parent->GetOrbit().OrbitalPosAtTime(t);
+			// 	parent = parent->GetParent();
+			// 	if(parent && parent != rootSystemBody) {
+			// 	  position += parent->GetOrbit().OrbitalPosAtTime(t);
+			// 	}
+			// }
+			if (sb->GetParent() != rootSystemBody) {
+				// orbit is relative to non-root frame, add position
+				p = (position + orbital) * static_cast<double>(m_zoom) + offset;
+			} else {
+				// orbit is relative to root frame, already includes position
+				p = orbital * static_cast<double>(m_zoom) + offset;
+			}
+		}
 	}
-  } else {
-	const SystemBody *sb = body->GetSystemBody();
-	if(sb) {
-	  // TODO: this needs to be a hierarchical recursion
-	  // Each body is interpolated along it's orbit, but offset by its parent's
-	  // interpolated position. The following code does *NOT* work correctly, and still
-	  // needs to be adjusted.
-	  orbital = sb->GetOrbit().OrbitalPosAtTime(t);
-	  const SystemBody *parent = sb->GetParent();
-	  if(parent)
-		position = vector3d(0,0,0);
-	  while(parent && parent != rootSystemBody) {
-		position += parent->GetOrbit().OrbitalPosAtTime(t);
-		parent = parent->GetParent();
-	  }
-	  // if(parent) {
-	  // 	position = parent->GetOrbit().OrbitalPosAtTime(t);
-	  // 	parent = parent->GetParent();
-	  // 	if(parent && parent != rootSystemBody) {
-	  // 	  position += parent->GetOrbit().OrbitalPosAtTime(t);
-	  // 	}
-	  // }
-	  if(sb->GetParent() != rootSystemBody) {
-		// orbit is relative to non-root frame, add position
-		p = (position + orbital) * static_cast<double>(m_zoom) + offset;
-	  } else {
-		// orbit is relative to root frame, already includes position
-		p = orbital * static_cast<double>(m_zoom) + offset;
-	  }
-	}
-  }
-  if(!Gui::Screen::Project(p, pos))
-	pos = vector3d(0,0,0);
-  Gui::Screen::LeaveOrtho();
-  return pos;
+	if (!Gui::Screen::Project(p, pos))
+		pos = vector3d(0, 0, 0);
+	Gui::Screen::LeaveOrtho();
+	return pos;
 }
 
 static void CalculateBodyPosition(SystemBody *sb, vector3d offset, BodyPositionVector &result)
@@ -1098,15 +1115,15 @@ static void CalculateBodyPosition(SystemBody *sb, vector3d offset, BodyPositionV
 
 BodyPositionVector SystemView::GetBodyPositions()
 {
-  Gui::Screen::EnterOrtho();
-  vector3d pos(0,0,0);
-  BodyPositionVector result;
-  if (m_selectedObject) GetTransformTo(m_selectedObject, pos);
+	Gui::Screen::EnterOrtho();
+	vector3d pos(0, 0, 0);
+	BodyPositionVector result;
+	if (m_selectedObject) GetTransformTo(m_selectedObject, pos);
 
-  if (m_system->GetRootBody()) {
-	CalculateBodyPosition(m_system->GetRootBody().Get(), pos, result);
-  }
+	if (m_system->GetRootBody()) {
+		CalculateBodyPosition(m_system->GetRootBody().Get(), pos, result);
+	}
 
-  Gui::Screen::LeaveOrtho();
-  return result;
+	Gui::Screen::LeaveOrtho();
+	return result;
 }
