@@ -1303,6 +1303,16 @@ std::vector<SystemPath> SectorView::GetNearbyStarSystemsByName(std::string patte
 				match.systemIndex = systemIndex;
 				result.push_back(match);
 			}
+			// now also check other names of this system, if there are any
+			for (const std::string &other_name : ss->GetOtherNames()) {
+				if (strncasecmp(pattern.c_str(), other_name.c_str(), pattern.size()) == 0
+					// look for the pattern term somewhere within the current system
+					|| pi_strcasestr(other_name.c_str(), pattern.c_str())) {
+					SystemPath match((*i).first);
+					match.systemIndex = systemIndex;
+					result.push_back(match);
+				}
+			}
 		}
 	}
 	return result;

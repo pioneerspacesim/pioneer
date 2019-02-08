@@ -55,6 +55,9 @@ local function showSystemInfo(label, current_systempath, systempath, othersystem
 										numstarstext = starsystem.rootSystemBody.astroDescription
 									end
 									ui.text(numstarstext)
+									if next(starsystem.other_names) ~= nil then
+										ui.text(table.concat(starsystem.other_names, ", "))
+									end
 									ui.text(starsystem.shortDescription)
 									if othersystempath and not othersystempath:IsSameSystem(systempath) then
 										local otherstarsystem = othersystempath:GetStarSystem()
