@@ -14,6 +14,7 @@ public:
 	Intro(Graphics::Renderer *r, int width, int height);
 	~Intro();
 	virtual void Draw(float time);
+	SceneGraph::Model *getCurrentModel() const { return m_model; }
 
 private:
 	void Reset(float time);
