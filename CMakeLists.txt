@@ -268,7 +268,7 @@ install(DIRECTORY data/
 )
 install(DIRECTORY data/models/
 	DESTINATION ${PIONEER_DATA_DIR}/models
-	FILES_MATCHING PATTERN "*.sgm"
+	FILES_MATCHING PATTERN "*.sgm" PATTERN "*.dds" PATTERN "*.png"
 )
 
 if (WIN32)
