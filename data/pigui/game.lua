@@ -934,6 +934,20 @@ local function displayOnScreenObjects()
 	end
 end
 
+local function displayScreenshotInfo()
+	if not Engine.GetDisableScreenshotInfo() then
+		local current_system = Game.system
+		if current_system then
+			local current_path = current_system.path
+			local frame = player.frameBody
+			if frame then
+				local info = frame.label .. ", " .. current_system.name .. " (" .. current_path.sectorX .. ", " .. current_path.sectorY .. ", " .. current_path.sectorZ .. ")"
+				ui.addStyledText(Vector(20, 20), ui.anchor.left, ui.anchor.top, info , colors.white, pionillium.large)
+			end
+		end
+	end
+end
+
 ui.registerHandler('game', function(delta_t)
 		-- delta_t is ignored for now
 		player = Game.player
@@ -944,18 +958,22 @@ ui.registerHandler('game', function(delta_t)
 		ui.withStyleColors({ ["WindowBg"] = colors.transparent }, function()
 			ui.window("HUD", {"NoTitleBar", "NoResize", "NoMove", "NoInputs", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}, function()
 				center = Vector(ui.screenWidth / 2, ui.screenHeight / 2)
-				if Game.CurrentView() == "world" and ui.shouldDrawUI() then
-					if Game.InHyperspace() then
-						displayHyperspace()
-						callModules("hyperspace")
+				if Game.CurrentView() == "world" then
+					if ui.shouldDrawUI() then
+						if Game.InHyperspace() then
+							displayHyperspace()
+							callModules("hyperspace")
+						else
+							displayOnScreenObjects()
+							displayReticule()
+							ui.displayPlayerGauges()
+							displayTargetScanner()
+							displayHyperspaceCountdown()
+							callModules("game")
+							ui.radialMenu("worldloopworld")
+						end
 					else
-						displayOnScreenObjects()
-						displayReticule()
-						ui.displayPlayerGauges()
-						displayTargetScanner()
-						displayHyperspaceCountdown()
-						callModules("game")
-						ui.radialMenu("worldloopworld")
+						displayScreenshotInfo()
 					end
 				else
 					if ui.shouldDrawUI() then

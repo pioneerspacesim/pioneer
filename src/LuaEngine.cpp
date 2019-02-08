@@ -331,6 +331,21 @@ static int l_engine_set_fullscreen(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_disable_screenshot_info(lua_State *l)
+{
+	LuaPush<bool>(l, Pi::config->Int("DisableScreenshotInfo") != 0);
+	return 1;
+}
+
+static int l_engine_set_disable_screenshot_info(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetDisableScreenshotInfo takes one boolean argument");
+	const bool disable = LuaPull<bool>(l, 1);
+	Pi::config->SetInt("DisableScreenshotInfo", (disable ? 1 : 0));
+	Pi::config->Save();
+	return 0;
+}
 static int l_engine_get_vsync_enabled(lua_State *l)
 {
 	lua_pushboolean(l, Pi::config->Int("VSync") != 0);
@@ -1099,6 +1114,8 @@ void LuaEngine::Register()
 		{ "SetVideoResolution", l_engine_set_video_resolution },
 		{ "GetFullscreen", l_engine_get_fullscreen },
 		{ "SetFullscreen", l_engine_set_fullscreen },
+		{ "GetDisableScreenshotInfo", l_engine_get_disable_screenshot_info },
+		{ "SetDisableScreenshotInfo", l_engine_set_disable_screenshot_info },
 		{ "GetVSyncEnabled", l_engine_get_vsync_enabled },
 		{ "SetVSyncEnabled", l_engine_set_vsync_enabled },
 		{ "GetTextureCompressionEnabled", l_engine_get_texture_compression_enabled },

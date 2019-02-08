@@ -1457,24 +1457,6 @@ void Pi::MainLoop()
 		Pi::renderer->ClearDepthBuffer();
 		if (DrawGUI) {
 			Gui::Draw();
-		} else if (game && game->IsNormalSpace()) {
-			if (config->Int("DisableScreenshotInfo") == 0) {
-				const RefCountedPtr<StarSystem> sys = game->GetSpace()->GetStarSystem();
-				const SystemPath sp = sys->GetPath();
-				std::ostringstream pathStr;
-
-				// fill in pathStr from sp values and sys->GetName()
-				static const std::string comma(", ");
-				pathStr << Pi::player->GetFrame()->GetLabel() << comma << sys->GetName() << " (" << sp.sectorX << comma << sp.sectorY << comma << sp.sectorZ << ")";
-
-				// display pathStr
-				Gui::Screen::EnterOrtho();
-				Gui::Screen::PushFont("ConsoleFont");
-				static RefCountedPtr<Graphics::VertexBuffer> s_pathvb;
-				Gui::Screen::RenderStringBuffer(s_pathvb, pathStr.str(), 0, 0);
-				Gui::Screen::PopFont();
-				Gui::Screen::LeaveOrtho();
-			}
 		}
 
 		// XXX don't draw the UI during death obviously a hack, and still
