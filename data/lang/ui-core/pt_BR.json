@@ -283,6 +283,14 @@
     "description": "tooltip description in settings menu",
     "message": "Lower gives better performance, at cost of visual aesthetics"
   },
+  "DISABLE_SCREENSHOT_INFO": {
+    "description": "",
+    "message": "Disable Screenshot Info"
+  },
+  "DISABLE_SCREENSHOT_INFO_DESC": {
+    "description": "",
+    "message": "Hide all displayed info, including system coordinates, when in screenshot mode (toggle HUD mode)."
+  },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
     "message": "Dispensar"
