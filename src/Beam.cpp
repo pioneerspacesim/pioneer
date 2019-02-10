@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Beam.h"
+
 #include "CargoBody.h"
 #include "Frame.h"
 #include "Game.h"
@@ -110,18 +111,49 @@ void Beam::FreeModel()
 	s_glowVerts.reset();
 }
 
-Beam::Beam() :
-	Body()
+Beam::Beam(Body *parent, const ProjectileData &prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dir) :
+	Body(),
+	m_age(0),
+	m_active(true)
 {
 	if (!s_sideMat) BuildModel();
-	SetOrient(matrix3x3d::Identity());
-	m_baseDam = 0;
-	m_length = 0;
-	m_mining = false;
-	m_parent = 0;
 	m_flags |= FLAG_DRAW_LAST;
-	m_age = 0;
-	m_active = true;
+
+	m_parent = parent;
+	m_dir = dir;
+	m_baseDam = prData.damage;
+	m_length = prData.length;
+	m_mining = prData.mining;
+	m_color = prData.color;
+	SetFrame(parent->GetFrame());
+
+	SetOrient(parent->GetOrient());
+	SetPosition(pos);
+	m_baseVel = baseVel;
+	SetClipRadius(GetRadius());
+	SetPhysRadius(GetRadius());
+}
+
+Beam::Beam(const Json &jsonObj, Space *space) :
+	Body(jsonObj, space),
+	m_active(true)
+{
+	if (!s_sideMat) BuildModel();
+	m_flags |= FLAG_DRAW_LAST;
+
+	try {
+		Json projectileObj = jsonObj["projectile"];
+
+		JsonToVector(&m_dir, projectileObj["dir"]);
+		m_baseDam = projectileObj["base_dam"];
+		m_length = projectileObj["length"];
+		m_mining = projectileObj["mining"];
+		m_age = projectileObj["age"];
+		JsonToColor(&m_color, projectileObj["color"]);
+		m_parentIndex = projectileObj["index_for_body"];
+	} catch (Json::type_error &) {
+		throw SavedGameCorruptException();
+	}
 }
 
 Beam::~Beam()
@@ -139,27 +171,10 @@ void Beam::SaveToJson(Json &jsonObj, Space *space)
 	projectileObj["length"] = m_length;
 	projectileObj["mining"] = m_mining;
 	projectileObj["color"] = m_color;
+	projectileObj["age"] = m_age;
 	projectileObj["index_for_body"] = space->GetIndexForBody(m_parent);
 
 	jsonObj["projectile"] = projectileObj; // Add projectile object to supplied object.
-}
-
-void Beam::LoadFromJson(const Json &jsonObj, Space *space)
-{
-	Body::LoadFromJson(jsonObj, space);
-
-	try {
-		Json projectileObj = jsonObj["projectile"];
-
-		JsonToVector(&m_dir, projectileObj["dir"]);
-		m_baseDam = projectileObj["base_dam"];
-		m_length = projectileObj["length"];
-		m_mining = projectileObj["mining"];
-		JsonToColor(&m_color, projectileObj["color"]);
-		m_parentIndex = projectileObj["index_for_body"];
-	} catch (Json::type_error &) {
-		throw SavedGameCorruptException();
-	}
 }
 
 void Beam::PostLoadFixup(Space *space)
@@ -344,19 +359,6 @@ void Beam::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 // static
 void Beam::Add(Body *parent, const ProjectileData &prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dir)
 {
-	Beam *p = new Beam();
-	p->m_parent = parent;
-	p->m_dir = dir;
-	p->m_baseDam = prData.damage;
-	p->m_length = prData.length;
-	p->m_mining = prData.mining;
-	p->m_color = prData.color;
-	p->SetFrame(parent->GetFrame());
-
-	p->SetOrient(parent->GetOrient());
-	p->SetPosition(pos);
-	p->m_baseVel = baseVel;
-	p->SetClipRadius(p->GetRadius());
-	p->SetPhysRadius(p->GetRadius());
+	Beam *p = new Beam(parent, prData, pos, baseVel, dir);
 	Pi::game->GetSpace()->AddBody(p);
 }

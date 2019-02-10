@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipCockpit.h"
+
 #include "CameraController.h"
 #include "Easing.h"
 #include "Game.h"

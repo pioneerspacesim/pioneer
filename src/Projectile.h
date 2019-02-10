@@ -40,12 +40,11 @@ public:
 	OBJDEF(Projectile, Body, PROJECTILE);
 
 	static void Add(Body *parent, float lifespan, float dam, float length, float width, bool mining, const Color &color, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel);
-	static void Add(Body *parent, const ProjectileData &prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)
-	{
-		Add(parent, prData.lifespan, prData.damage, prData.length, prData.width, prData.mining, prData.color, pos, baseVel, dirVel);
-	}
+	static void Add(Body *parent, const ProjectileData &prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel);
 
-	Projectile();
+	Projectile() = delete;
+	Projectile(Body *parent, const ProjectileData &prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel);
+	Projectile(const Json &jsonObj, Space *space);
 	virtual ~Projectile();
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override final;
 	void TimeStepUpdate(const float timeStep) override final;
@@ -58,7 +57,6 @@ public:
 
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override final;
-	virtual void LoadFromJson(const Json &jsonObj, Space *space) override final;
 
 private:
 	float GetDamage() const;

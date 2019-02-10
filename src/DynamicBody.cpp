@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "DynamicBody.h"
+
 #include "FixedGuns.h"
 #include "Frame.h"
 #include "GameSaveError.h"
@@ -9,7 +10,6 @@
 #include "Planet.h"
 #include "Propulsion.h"
 #include "Space.h"
-#include "libs.h"
 
 static const float KINETIC_ENERGY_MULT = 0.00001f;
 const double DynamicBody::DEFAULT_DRAG_COEFF = 0.1; // 'smooth sphere'
@@ -40,6 +40,73 @@ DynamicBody::DynamicBody() :
 	m_decelerating = false;
 	for (int i = 0; i < Feature::MAX_FEATURE; i++)
 		m_features[i] = false;
+}
+
+DynamicBody::DynamicBody(const Json &jsonObj, Space *space) :
+	ModelBody(jsonObj, space),
+	m_propulsion(nullptr),
+	m_fixedGuns(nullptr),
+	m_dragCoeff(DEFAULT_DRAG_COEFF),
+	m_atmosForce(vector3d(0.0)),
+	m_gravityForce(vector3d(0.0)),
+	m_externalForce(vector3d(0.0)),
+	m_lastForce(vector3d(0.0)),
+	m_lastTorque(vector3d(0.0))
+{
+	m_flags = Body::FLAG_CAN_MOVE_FRAME;
+	m_oldPos = GetPosition();
+	m_oldAngDisplacement = vector3d(0.0);
+
+	try {
+		Json dynamicBodyObj = jsonObj["dynamic_body"];
+
+		m_force = dynamicBodyObj["force"];
+		m_torque = dynamicBodyObj["torque"];
+		m_vel = dynamicBodyObj["vel"];
+		m_angVel = dynamicBodyObj["ang_vel"];
+		m_mass = dynamicBodyObj["mass"];
+		m_massRadius = dynamicBodyObj["mass_radius"];
+		m_angInertia = dynamicBodyObj["ang_inertia"];
+		m_isMoving = dynamicBodyObj["is_moving"];
+	} catch (Json::type_error &) {
+		throw SavedGameCorruptException();
+	}
+
+	m_aiMessage = AIError::AIERROR_NONE;
+	m_decelerating = false;
+	for (int i = 0; i < Feature::MAX_FEATURE; i++)
+		m_features[i] = false;
+}
+
+void DynamicBody::SaveToJson(Json &jsonObj, Space *space)
+{
+	ModelBody::SaveToJson(jsonObj, space);
+
+	Json dynamicBodyObj = Json::object(); // Create JSON object to contain dynamic body data.
+
+	dynamicBodyObj["force"] = m_force;
+	dynamicBodyObj["torque"] = m_torque;
+	dynamicBodyObj["vel"] = m_vel;
+	dynamicBodyObj["ang_vel"] = m_angVel;
+	dynamicBodyObj["mass"] = m_mass;
+	dynamicBodyObj["mass_radius"] = m_massRadius;
+	dynamicBodyObj["ang_inertia"] = m_angInertia;
+	dynamicBodyObj["is_moving"] = m_isMoving;
+
+	jsonObj["dynamic_body"] = dynamicBodyObj; // Add dynamic body object to supplied object.
+}
+
+void DynamicBody::PostLoadFixup(Space *space)
+{
+	Body::PostLoadFixup(space);
+	m_oldPos = GetPosition();
+	//	CalcExternalForce();		// too dangerous
+}
+
+DynamicBody::~DynamicBody()
+{
+	m_propulsion.Reset();
+	m_fixedGuns.Reset();
 }
 
 void DynamicBody::AddFeature(Feature f)
@@ -75,56 +142,6 @@ void DynamicBody::AddRelForce(const vector3d &f)
 void DynamicBody::AddRelTorque(const vector3d &t)
 {
 	m_torque += GetOrient() * t;
-}
-
-void DynamicBody::SaveToJson(Json &jsonObj, Space *space)
-{
-	ModelBody::SaveToJson(jsonObj, space);
-
-	Json dynamicBodyObj = Json::object(); // Create JSON object to contain dynamic body data.
-
-	dynamicBodyObj["force"] = m_force;
-	dynamicBodyObj["torque"] = m_torque;
-	dynamicBodyObj["vel"] = m_vel;
-	dynamicBodyObj["ang_vel"] = m_angVel;
-	dynamicBodyObj["mass"] = m_mass;
-	dynamicBodyObj["mass_radius"] = m_massRadius;
-	dynamicBodyObj["ang_inertia"] = m_angInertia;
-	dynamicBodyObj["is_moving"] = m_isMoving;
-
-	jsonObj["dynamic_body"] = dynamicBodyObj; // Add dynamic body object to supplied object.
-}
-
-void DynamicBody::LoadFromJson(const Json &jsonObj, Space *space)
-{
-	ModelBody::LoadFromJson(jsonObj, space);
-
-	try {
-		Json dynamicBodyObj = jsonObj["dynamic_body"];
-
-		m_force = dynamicBodyObj["force"];
-		m_torque = dynamicBodyObj["torque"];
-		m_vel = dynamicBodyObj["vel"];
-		m_angVel = dynamicBodyObj["ang_vel"];
-		m_mass = dynamicBodyObj["mass"];
-		m_massRadius = dynamicBodyObj["mass_radius"];
-		m_angInertia = dynamicBodyObj["ang_inertia"];
-		m_isMoving = dynamicBodyObj["is_moving"];
-	} catch (Json::type_error &) {
-		throw SavedGameCorruptException();
-	}
-
-	m_aiMessage = AIError::AIERROR_NONE;
-	m_decelerating = false;
-	for (int i = 0; i < Feature::MAX_FEATURE; i++)
-		m_features[i] = false;
-}
-
-void DynamicBody::PostLoadFixup(Space *space)
-{
-	Body::PostLoadFixup(space);
-	m_oldPos = GetPosition();
-	//	CalcExternalForce();		// too dangerous
 }
 
 const Propulsion *DynamicBody::GetPropulsion() const
@@ -287,12 +304,6 @@ void DynamicBody::SetMassDistributionFromModel()
 vector3d DynamicBody::GetAngularMomentum() const
 {
 	return m_angInertia * m_angVel;
-}
-
-DynamicBody::~DynamicBody()
-{
-	m_propulsion.Reset();
-	m_fixedGuns.Reset();
 }
 
 vector3d DynamicBody::GetVelocity() const

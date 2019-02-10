@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Body.h"
+
 #include "CargoBody.h"
 #include "Frame.h"
 #include "GameSaveError.h"
@@ -33,6 +34,31 @@ Body::Body() :
 	Properties().Set("label", m_label);
 }
 
+Body::Body(const Json &jsonObj, Space *space) :
+	PropertiedObject(Lua::manager),
+	m_flags(0),
+	m_interpPos(0.0),
+	m_interpOrient(matrix3x3d::Identity()),
+	m_frame(nullptr)
+{
+	try {
+		Json bodyObj = jsonObj["body"];
+
+		Properties().LoadFromJson(bodyObj);
+		m_frame = space->GetFrameByIndex(bodyObj["index_for_frame"]);
+		m_label = bodyObj["label"];
+		Properties().Set("label", m_label);
+		m_dead = bodyObj["dead"];
+
+		m_pos = bodyObj["pos"];
+		m_orient = bodyObj["orient"];
+		m_physRadius = bodyObj["phys_radius"];
+		m_clipRadius = bodyObj["clip_radius"];
+	} catch (Json::type_error &) {
+		throw SavedGameCorruptException();
+	}
+}
+
 Body::~Body()
 {
 }
@@ -52,26 +78,6 @@ void Body::SaveToJson(Json &jsonObj, Space *space)
 	bodyObj["clip_radius"] = m_clipRadius;
 
 	jsonObj["body"] = bodyObj; // Add body object to supplied object.
-}
-
-void Body::LoadFromJson(const Json &jsonObj, Space *space)
-{
-	try {
-		Json bodyObj = jsonObj["body"];
-
-		Properties().LoadFromJson(bodyObj);
-		m_frame = space->GetFrameByIndex(bodyObj["index_for_frame"]);
-		m_label = bodyObj["label"];
-		Properties().Set("label", m_label);
-		m_dead = bodyObj["dead"];
-
-		m_pos = bodyObj["pos"];
-		m_orient = bodyObj["orient"];
-		m_physRadius = bodyObj["phys_radius"];
-		m_clipRadius = bodyObj["clip_radius"];
-	} catch (Json::type_error &) {
-		throw SavedGameCorruptException();
-	}
 }
 
 void Body::ToJson(Json &jsonObj, Space *space)
@@ -100,41 +106,39 @@ Body *Body::FromJson(const Json &jsonObj, Space *space)
 	if (!jsonObj["body_type"].is_number_integer())
 		throw SavedGameCorruptException();
 
-	Body *b = 0;
 	Object::Type type = Object::Type(jsonObj["body_type"]);
 	switch (type) {
 	case Object::STAR:
-		b = new Star();
-		break;
+		return new Star(jsonObj, space);
 	case Object::PLANET:
-		b = new Planet();
-		break;
+		return new Planet(jsonObj, space);
 	case Object::SPACESTATION:
-		b = new SpaceStation();
-		break;
-	case Object::SHIP:
-		b = new Ship();
-		break;
-	case Object::PLAYER:
-		b = new Player();
-		break;
+		return new SpaceStation(jsonObj, space);
+	case Object::SHIP: {
+		Ship *s = new Ship(jsonObj, space);
+		// Here because of comments in Ship.cpp on following function
+		s->UpdateLuaStats();
+		return static_cast<Body *>(s);
+	}
+	case Object::PLAYER: {
+		Player *p = new Player(jsonObj, space);
+		// Read comments in Ship.cpp on following function
+		p->UpdateLuaStats();
+		return static_cast<Body *>(p);
+	}
 	case Object::MISSILE:
-		b = new Missile();
-		break;
+		return new Missile(jsonObj, space);
 	case Object::PROJECTILE:
-		b = new Projectile();
-		break;
+		return new Projectile(jsonObj, space);
 	case Object::CARGOBODY:
-		b = new CargoBody();
-		break;
+		return new CargoBody(jsonObj, space);
 	case Object::HYPERSPACECLOUD:
-		b = new HyperspaceCloud();
-		break;
+		return new HyperspaceCloud(jsonObj, space);
 	default:
 		assert(0);
 	}
-	b->LoadFromJson(jsonObj, space);
-	return b;
+
+	return nullptr;
 }
 
 vector3d Body::GetPositionRelTo(const Frame *relTo) const

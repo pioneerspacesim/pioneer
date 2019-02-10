@@ -8,6 +8,7 @@
 
 class Frame;
 class Ship;
+
 namespace Graphics {
 	class Material;
 	class Renderer;
@@ -18,8 +19,9 @@ namespace Graphics {
 class HyperspaceCloud : public Body {
 public:
 	OBJDEF(HyperspaceCloud, Body, HYPERSPACECLOUD);
+	HyperspaceCloud() = delete;
 	HyperspaceCloud(Ship *, double dateDue, bool isArrival);
-	HyperspaceCloud();
+	HyperspaceCloud(const Json &jsonObj, Space *space);
 	virtual ~HyperspaceCloud();
 	virtual void SetVelocity(const vector3d &v) override { m_vel = v; }
 	virtual vector3d GetVelocity() const override { return m_vel; }
@@ -35,7 +37,6 @@ public:
 
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
-	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 private:
 	void InitGraphics();

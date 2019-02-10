@@ -30,10 +30,11 @@ public:
 	OBJDEF(SpaceStation, ModelBody, SPACESTATION);
 	static void Init();
 
+	SpaceStation() = delete;
 	// Should point to SystemBody in Pi::currentSystem
 	SpaceStation(const SystemBody *);
-	SpaceStation() :
-		m_type(nullptr) {}
+	SpaceStation(const Json &jsonObj, Space *space);
+
 	virtual ~SpaceStation();
 	virtual vector3d GetAngVelocity() const { return vector3d(0, m_type->AngVel(), 0); }
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel) override;
@@ -73,7 +74,6 @@ public:
 
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
-	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 private:
 	void DockingUpdate(const double timeStep);

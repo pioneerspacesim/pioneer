@@ -18,8 +18,9 @@ namespace Graphics {
 class Planet : public TerrainBody {
 public:
 	OBJDEF(Planet, TerrainBody, PLANET);
+	Planet() = delete;
 	Planet(SystemBody *);
-	Planet();
+	Planet(const Json &jsonObj, Space *space);
 
 	virtual void SubRender(Graphics::Renderer *r, const matrix4x4d &viewTran, const vector3d &camPos) override;
 
@@ -29,8 +30,6 @@ public:
 	friend class ObjectViewerView;
 
 protected:
-	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
-
 private:
 	void InitParams(const SystemBody *);
 	void GenerateRings(Graphics::Renderer *renderer);

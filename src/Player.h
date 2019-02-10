@@ -19,8 +19,10 @@ namespace Graphics {
 class Player : public Ship {
 public:
 	OBJDEF(Player, Ship, PLAYER);
+	Player() = delete;
+	Player(const Json &jsonObj, Space *space);
 	Player(const ShipType::Id &shipId);
-	Player(){}; //default constructor used before Load
+
 	virtual void SetDockedWith(SpaceStation *, int port) override;
 	virtual bool DoCrushDamage(float kgDamage) override final; // overloaded to add "crush" audio
 	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact &contactData) override;
@@ -56,7 +58,6 @@ public:
 
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
-	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 	virtual void OnEnterSystem() override;
 	virtual void OnEnterHyperspace() override;

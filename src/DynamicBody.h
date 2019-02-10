@@ -21,7 +21,9 @@ private:
 public:
 	OBJDEF(DynamicBody, ModelBody, DYNAMICBODY);
 	DynamicBody();
+	DynamicBody(const Json &jsonObj, Space *space);
 	virtual ~DynamicBody();
+
 	virtual vector3d GetVelocity() const override;
 	virtual void SetVelocity(const vector3d &v) override;
 	virtual void SetFrame(Frame *f) override;
@@ -91,7 +93,6 @@ public:
 
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
-	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 	static const double DEFAULT_DRAG_COEFF;
 	double m_dragCoeff;

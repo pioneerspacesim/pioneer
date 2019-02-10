@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Missile.h"
+
 #include "Game.h"
 #include "Lang.h"
 #include "LuaEvent.h"
@@ -10,7 +11,7 @@
 #include "ShipType.h"
 #include "Space.h"
 
-Missile::Missile(const ShipType::Id &shipId, Body *owner, int power) //: Ship(shipId)
+Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)
 {
 	AddFeature(Feature::PROPULSION); // add component propulsion
 	if (power < 0) {
@@ -43,39 +44,10 @@ Missile::Missile(const ShipType::Id &shipId, Body *owner, int power) //: Ship(sh
 	GetPropulsion()->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
 }
 
-Missile::~Missile()
+Missile::Missile(const Json &jsonObj, Space *space) :
+	DynamicBody(jsonObj, space)
 {
-	if (m_curAICmd) delete m_curAICmd;
-}
-
-void Missile::ECMAttack(int power_val)
-{
-	if (power_val > m_power) {
-		CollisionContact dummy;
-		OnDamage(0, 1.0f, dummy);
-	}
-}
-
-void Missile::SaveToJson(Json &jsonObj, Space *space)
-{
-	DynamicBody::SaveToJson(jsonObj, space);
-	GetPropulsion()->SaveToJson(jsonObj, space);
-	Json missileObj = Json::object(); // Create JSON object to contain missile data.
-
-	if (m_curAICmd) m_curAICmd->SaveToJson(missileObj);
-
-	missileObj["ai_message"] = int(m_aiMessage);
-	missileObj["index_for_body"] = space->GetIndexForBody(m_owner);
-	missileObj["power"] = m_power;
-	missileObj["armed"] = m_armed;
-	missileObj["ship_type_id"] = m_type->id;
-
-	jsonObj["missile"] = missileObj; // Add missile object to supplied object.
-}
-
-void Missile::LoadFromJson(const Json &jsonObj, Space *space)
-{
-	DynamicBody::LoadFromJson(jsonObj, space);
+	AddFeature(Feature::PROPULSION);
 	GetPropulsion()->LoadFromJson(jsonObj, space);
 	Json missileObj = jsonObj["missile"];
 
@@ -97,11 +69,41 @@ void Missile::LoadFromJson(const Json &jsonObj, Space *space)
 	GetPropulsion()->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
 }
 
+void Missile::SaveToJson(Json &jsonObj, Space *space)
+{
+	DynamicBody::SaveToJson(jsonObj, space);
+	GetPropulsion()->SaveToJson(jsonObj, space);
+	Json missileObj = Json::object(); // Create JSON object to contain missile data.
+
+	if (m_curAICmd) m_curAICmd->SaveToJson(missileObj);
+
+	missileObj["ai_message"] = int(m_aiMessage);
+	missileObj["index_for_body"] = space->GetIndexForBody(m_owner);
+	missileObj["power"] = m_power;
+	missileObj["armed"] = m_armed;
+	missileObj["ship_type_id"] = m_type->id;
+
+	jsonObj["missile"] = missileObj; // Add missile object to supplied object.
+}
+
 void Missile::PostLoadFixup(Space *space)
 {
 	DynamicBody::PostLoadFixup(space);
 	m_owner = space->GetBodyByIndex(m_ownerIndex);
 	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
+}
+
+Missile::~Missile()
+{
+	if (m_curAICmd) delete m_curAICmd;
+}
+
+void Missile::ECMAttack(int power_val)
+{
+	if (power_val > m_power) {
+		CollisionContact dummy;
+		OnDamage(0, 1.0f, dummy);
+	}
 }
 
 void Missile::StaticUpdate(const float timeStep)

@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaEngine.h"
+
 #include "EnumStrings.h"
 #include "FileSystem.h"
 #include "FloatComparison.h"
@@ -22,6 +23,7 @@
 #include "SectorView.h"
 #include "Sound.h"
 #include "SoundMusic.h"
+#include "WorldView.h"
 #include "buildopts.h"
 #include "graphics/Graphics.h"
 #include "scenegraph/Model.h"

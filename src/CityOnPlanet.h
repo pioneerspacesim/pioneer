@@ -30,6 +30,7 @@ namespace SceneGraph {
 class CityOnPlanet : public Object {
 public:
 	OBJDEF(CityOnPlanet, Object, CITYONPLANET);
+	CityOnPlanet() = delete;
 	CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 seed);
 	virtual ~CityOnPlanet();
 	void Render(Graphics::Renderer *r, const Graphics::Frustum &camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform);
