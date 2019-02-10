@@ -4,6 +4,9 @@ February 2019
      * Show ship name in main menu ship spinner (#4529)
      * Allow multiple names for star systems (#4531)
 
+   * Internal Changes
+     * Close default ctors and use a Ctor for load (#4527)
+
 January 2019
    * New Features
      * Non-instant system exploration (#4517)
