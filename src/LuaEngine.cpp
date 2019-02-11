@@ -713,6 +713,17 @@ static int l_engine_set_gpu_jobs_enabled(lua_State *l)
 	return 0;
 }
 
+static int l_engine_is_intro_zooming(lua_State *l)
+{
+	if (Pi::intro) {
+		LuaPush(l, Pi::intro->isZooming());
+		return 1;
+	} else {
+		LuaPush(l, false);
+		return 1;
+	}
+}
+
 static int l_engine_get_intro_current_model_name(lua_State *l)
 {
 	if (Pi::intro) {
@@ -1197,6 +1208,7 @@ void LuaEngine::Register()
 
 		{ "GetModel", l_engine_get_model },
 
+		{ "IsIntroZooming", l_engine_is_intro_zooming },
 		{ "GetIntroCurrentModelName", l_engine_get_intro_current_model_name },
 
 		{ "GetSectorMapZoomLevel", l_engine_get_sector_map_zoom_level },

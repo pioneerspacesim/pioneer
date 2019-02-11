@@ -168,20 +168,22 @@ local function showMainMenu()
 			ui.withFont("orbiteer",36 * (ui.screenHeight/1200),function() ui.text("Pioneer") end)
 		end)
 	end)
-	ui.setNextWindowPos(Vector(ui.screenWidth / 4.2,ui.screenHeight / 5.0 * 4),'Always')
-	ui.withStyleColors({["WindowBg"]=colors.transparent}, function()
-		ui.window("shipinfoWindow", {"NoTitleBar","NoResize","NoFocusOnAppearing","NoBringToFrontOnFocus","AlwaysAutoResize"}, function()
-			ui.withFont("orbiteer",30 * (ui.screenHeight/1200),function()
-				local mn = Engine.GetIntroCurrentModelName()
-				if mn then
-					local sd = ShipDef[mn]
-					if sd then
-						ui.text(sd.name .. " - " .. lui[sd.shipClass:upper()])
+	if Engine.IsIntroZooming() then
+		ui.setNextWindowPos(Vector(ui.screenWidth / 4.2,ui.screenHeight / 5.0 * 4),'Always')
+		ui.withStyleColors({["WindowBg"]=colors.transparent}, function()
+			ui.window("shipinfoWindow", {"NoTitleBar","NoResize","NoFocusOnAppearing","NoBringToFrontOnFocus","AlwaysAutoResize"}, function()
+				ui.withFont("orbiteer",24 * (ui.screenHeight/1200),function()
+					local mn = Engine.GetIntroCurrentModelName()
+					if mn then
+						local sd = ShipDef[mn]
+						if sd then
+							ui.text(sd.name .. " - " .. lui[sd.shipClass:upper()])
+						end
 					end
-				end
+				end)
 			end)
 		end)
-	end)
+	end
 	local build_text = Engine.version
 	ui.withFont("orbiteer", 16 * (ui.screenHeight/1200),
 							function()
