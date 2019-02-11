@@ -285,11 +285,11 @@
   },
   "DISABLE_SCREENSHOT_INFO": {
     "description": "",
-    "message": "Disable Screenshot Info"
+    "message": "Deshabilitar la Información de Captura de Pantalla"
   },
   "DISABLE_SCREENSHOT_INFO_DESC": {
     "description": "",
-    "message": "Hide all displayed info, including system coordinates, when in screenshot mode (toggle HUD mode)."
+    "message": "Oculta toda la información mostrada, incluyendo las coordenadas del sistema mientras esté en el modo de Captura de Pantalla (cambiar el modo HUD)."
   },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
