@@ -285,11 +285,11 @@
   },
   "DISABLE_SCREENSHOT_INFO": {
     "description": "",
-    "message": "Disable Screenshot Info"
+    "message": "Ekran Görüntüsü Bilgisini Gösterme"
   },
   "DISABLE_SCREENSHOT_INFO_DESC": {
     "description": "",
-    "message": "Hide all displayed info, including system coordinates, when in screenshot mode (toggle HUD mode)."
+    "message": "Ekran görüntüsü modunda (HUD modu kapatıldığında), sistem koordinatları da dahil bütün gösterilen bilgiyi gizle."
   },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
