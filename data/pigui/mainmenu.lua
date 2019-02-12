@@ -26,6 +26,7 @@ local hyperspace = Equipment.hyperspace
 local player = nil
 local colors = ui.theme.colors
 local pionillium = ui.fonts.pionillium
+local orbiteer = ui.fonts.orbiteer
 local icons = ui.theme.icons
 
 local mainButtonSize = Vector(400,46) * (ui.screenHeight / 1200)
@@ -169,18 +170,18 @@ local function showMainMenu()
 		end)
 	end)
 	if Engine.IsIntroZooming() then
-		ui.setNextWindowPos(Vector(ui.screenWidth / 4.2,ui.screenHeight / 5.0 * 4),'Always')
+		ui.setNextWindowPos(Vector(0,0),'Always')
+		ui.setNextWindowSize(Vector(ui.screenWidth, ui.screenHeight), 'Always')
 		ui.withStyleColors({["WindowBg"]=colors.transparent}, function()
 			ui.window("shipinfoWindow", {"NoTitleBar","NoResize","NoFocusOnAppearing","NoBringToFrontOnFocus","AlwaysAutoResize"}, function()
-				ui.withFont("orbiteer",24 * (ui.screenHeight/1200),function()
-					local mn = Engine.GetIntroCurrentModelName()
-					if mn then
-						local sd = ShipDef[mn]
-						if sd then
-							ui.text(sd.name .. " - " .. lui[sd.shipClass:upper()])
-						end
+				local mn = Engine.GetIntroCurrentModelName()
+				if mn then
+					local sd = ShipDef[mn]
+					if sd then
+						ui.addFancyText(Vector(ui.screenWidth / 3, ui.screenHeight / 5.0 * 4), ui.anchor.center, ui.anchor.bottom, {{text=sd.name, color=colors.white, font=orbiteer.large}}, colors.transparent)
+						ui.addFancyText(Vector(ui.screenWidth / 3, ui.screenHeight / 5.0 * 4.02), ui.anchor.center, ui.anchor.top, {{text=lui[sd.shipClass:upper()], color=colors.white, font=orbiteer.medium}}, colors.transparent)
 					end
-				end)
+				end
 			end)
 		end)
 	end
