@@ -3,6 +3,7 @@ February 2019
      * New setting option for less UI in screenshots (#4528)
      * Show ship name in main menu ship spinner (#4529)
      * Allow multiple names for star systems (#4531)
+     * Show name and class of ship in intro ship spinner (#4534)
 
    * Internal Changes
      * Close default ctors and use a Ctor for load (#4527)
