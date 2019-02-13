@@ -718,13 +718,10 @@ void Ship::UpdateGunsStats()
 			const float heatrate = prop.Get<float>(prefix + "heatrate", 0.01f);
 			const float coolrate = prop.Get<float>(prefix + "coolrate", 0.01f);
 			const float recharge = prop.Get<float>(prefix + "rechargeTime");
+			const int barrels = prop.Get<int>(prefix + "dual", 0) + 1;
 
-			FixedGuns::MountGun(num, recharge, heatrate, coolrate, pd);
+			FixedGuns::MountGun(num, recharge, heatrate, coolrate, barrels, pd);
 
-			if (prop.Get<int>(prefix + "dual"))
-				FixedGuns::IsDual(num, true);
-			else
-				FixedGuns::IsDual(num, false);
 			lua_pop(prop.GetLua(), 1);
 		}
 	}

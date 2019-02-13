@@ -4,9 +4,10 @@
 #ifndef FIXEDGUNS_H
 #define FIXEDGUNS_H
 
-#include "Json.h"
+#include "JsonFwd.h"
 #include "Projectile.h"
-#include "vector3.h"
+
+#include <utility>
 
 class DynamicBody;
 class Space;
@@ -33,8 +34,7 @@ public:
 	bool IsFiring(const int num);
 	bool IsBeam(const int num);
 	float GetGunTemperature(int idx) const;
-	inline void IsDual(int idx, bool dual) { m_guns[idx].gun_data.dual = dual; };
-	void MountGun(const int num, const float recharge, const float heatrate, const float coolrate, const ProjectileData &pd);
+	void MountGun(const int num, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd);
 	void UnMountGun(int num);
 	inline float GetGunRange(int idx) { return m_guns[idx].gun_data.projData.speed * m_guns[idx].gun_data.projData.lifespan; };
 	inline float GetProjSpeed(int idx) { return m_guns[idx].gun_data.projData.speed; };
@@ -48,29 +48,60 @@ public:
 	void LoadFromJson(const Json &jsonObj, Space *space);
 
 private:
-	// Structure holding name, position and direction of a mount (coming from Model data)
+	// Structure holding name, position and direction of a mount (loaded from Model data)
 	struct Mount {
 		std::string name;
 		std::vector<vector3d> locs;
 		vector3d dir;
 	};
 
-	// Structure holding data of a single (maybe with multiple barrels) 'mounted' gun.
+	// Structure holding data of a single (maybe with multiple barrel) 'mounted' gun.
 	struct GunData {
-		Mount *hard_point;
+		GunData() : // Defaul ctor
+			recharge(0.0f),
+			temp_cool_rate(0.0f),
+			temp_heat_rate(0.0f),
+			barrels(0),
+			projData() {}
+		GunData(float r, float h, float c, int b, const ProjectileData &pd) : // "Faster" ctor
+			recharge(r),
+			temp_cool_rate(c),
+			temp_heat_rate(h),
+			barrels(b),
+			projData(pd) {}
+		GunData(const GunData& gd) : //Copy ctor
+			recharge(gd.recharge),
+			temp_cool_rate(gd.temp_cool_rate),
+			temp_heat_rate(gd.temp_heat_rate),
+			projData(gd.projData) {}
 		float recharge;
 		float temp_heat_rate;
 		float temp_cool_rate;
-		bool dual;
+		int barrels;
 		ProjectileData projData;
 	};
 
 	// Structure holding actual status of a gun
 	struct GunStatus {
-		GunStatus()  :
-		is_firing(false),
-		recharge_stat(0.0f),
-		temperature_stat(0.0f) {}
+		GunStatus() : // Defaul ctor
+			mount_id(-1),
+			is_firing(false),
+			recharge_stat(0.0f),
+			temperature_stat(0.0f),
+			gun_data() {}
+		GunStatus(int m_id, float r, float h, float c, int b, const ProjectileData &pd) : // "Fast" ctor for creation
+			mount_id(m_id),
+			is_firing(false),
+			recharge_stat(r),
+			temperature_stat(0.0f),
+			gun_data(r, h, c, b, pd) {}
+		GunStatus(const GunStatus& gs) :
+			mount_id(gs.mount_id),
+			is_firing(gs.is_firing),
+			recharge_stat(gs.recharge_stat),
+			temperature_stat(gs.temperature_stat),
+			gun_data(gs.gun_data) {}
+		int mount_id;
 		bool is_firing;
 		float recharge_stat;
 		float temperature_stat;

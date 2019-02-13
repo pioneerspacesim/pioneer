@@ -3,12 +3,15 @@
 
 #include "FixedGuns.h"
 
+#include "vector3.h"
+
 #include "Beam.h"
 #include "DynamicBody.h"
 #include "GameSaveError.h"
 #include "Projectile.h"
 #include "StringF.h"
 #include "scenegraph/Model.h"
+#include "JsonUtils.h"
 
 #pragma GCC optimize ("O0")
 
@@ -44,25 +47,20 @@ void FixedGuns::SaveToJson(Json &jsonObj, Space *space)
 	Json gunArray = Json::array(); // Create JSON array to contain gun data.
 
 	for (int i = 0; i < m_guns.size(); i++) {
-		Json gunArrayEl = Json::object(); // Create JSON object to contain gun.
+		Json gunArrayEl({});// = Json::object(); // Create JSON object to contain gun.
+		//Json projectileObj({})
 		gunArrayEl["state"] = m_guns[i].is_firing;
 		gunArrayEl["recharge"] = m_guns[i].recharge_stat;
 		gunArrayEl["temperature"] = m_guns[i].temperature_stat;
-		// Save "GunData" of this gun:
-		gunArrayEl["gd_dual"] = m_guns[i].gun_data.dual;
+		gunArrayEl["mount_name"] = m_mounts[m_guns[i].mount_id].name; // <- Save the name of hardpoint (mount)
+		// Save "GunData":
+		gunArrayEl["gd_barrels"] = m_guns[i].gun_data.barrels;
 		gunArrayEl["gd_recharge"] = m_guns[i].gun_data.recharge;
 		gunArrayEl["gd_cool_rate"] = m_guns[i].gun_data.temp_cool_rate;
 		gunArrayEl["gd_heat_rate"] = m_guns[i].gun_data.temp_heat_rate;
-		gunArrayEl["gd_hard_point"] = m_guns[i].gun_data.hard_point->name; // <- Save the name of hardpoint (mount)
-		// Save "ProjectileData" of this gun:
+		// Save "ProjectileData":
 		gunArrayEl["pd_beam"] = m_guns[i].gun_data.projData.beam;
-		Json colorArray = Json::array();
-		for (unsigned int i = 0; i < 3; i++) {
-			Json arrayElem({});
-			arrayElem["color"] = m_guns[i].gun_data.projData.color[i];
-			colorArray.push_back(arrayElem);
-		}
-		gunArrayEl["pd_color"] = colorArray;
+		gunArrayEl["pd_color"] = m_guns[i].gun_data.projData.color;
 		gunArrayEl["pd_damage"] = m_guns[i].gun_data.projData.damage;
 		gunArrayEl["pd_length"] = m_guns[i].gun_data.projData.length;
 		gunArrayEl["pd_lifespan"] = m_guns[i].gun_data.projData.lifespan;
@@ -77,50 +75,63 @@ void FixedGuns::SaveToJson(Json &jsonObj, Space *space)
 
 void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 {
-	Json gunArray = jsonObj["guns"].get<Json::array_t>();
+	//Json projectileObj = jsonObj["projectile"];
+	Json gunArray = jsonObj["guns"];
 
 	m_guns.reserve(gunArray.size());
 	try {
 		for (unsigned int i = 0; i < gunArray.size(); i++) {
 			Json gunArrayEl = gunArray[i];
-			GunStatus gs;
-			// Load status:
-			gs.is_firing = gunArrayEl["state"];
-			gs.recharge_stat = gunArrayEl["recharge"];
-			gs.temperature_stat = gunArrayEl["temperature"];
-			// Load "GunData" for this gun:
-			gs.gun_data.dual = gunArrayEl["gd_dual"];
-			gs.gun_data.recharge = gunArrayEl["gd_recharge"];
-			gs.gun_data.temp_cool_rate = gunArrayEl["gd_cool_rate"];
-			gs.gun_data.temp_heat_rate = gunArrayEl["gd_heat_rate"];
-			gs.gun_data.hard_point = nullptr;
+			// Load status data:
+			float is_firing = gunArrayEl["state"];
+			float recharge_stat = gunArrayEl["recharge"];
+			float temperature_stat = gunArrayEl["temperature"];
 			std::string mount_name; // <- Load the name of hardpoint (mount)
-			mount_name = gunArrayEl["gd_hard_point"];
-			for (Mount m: m_mounts) {
-				if (m.name == mount_name) {
-					gs.gun_data.hard_point = &m;
+			int mount_id = -1;
+			mount_name = gunArrayEl["mount_name"];
+			for (int i = 0; i < m_mounts.size(); i++) {
+				if (m_mounts[i].name == mount_name.substr(0,14)) {
+					mount_id = i;
+					break;
 				}
 			}
-			if (gs.gun_data.hard_point == nullptr) throw SavedGameCorruptException();
+			if (mount_id < 0) throw SavedGameCorruptException();
+			// Load "GunData" for this gun:
+			int barrels = gunArrayEl["gd_barrels"];
+			float recharge = gunArrayEl["gd_recharge"];
+			float temp_cool_rate = gunArrayEl["gd_cool_rate"];
+			float temp_heat_rate = gunArrayEl["gd_heat_rate"];
 			// Load "ProjectileData" for this gun:
-			gs.gun_data.projData.beam = gunArrayEl["pd_beam"];
-			Json colorsArray = gunArrayEl["pd_color"].get<Json::array_t>();
-			for (unsigned int i = 0; i < 3; i++) {
-				Json arrayElem = colorsArray[i];
-				gs.gun_data.projData.color[i] = arrayElem["color"];
-			}
-			gs.gun_data.projData.damage = gunArrayEl["pd_damage"];
-			gs.gun_data.projData.length = gunArrayEl["pd_length"];
-			gs.gun_data.projData.lifespan = gunArrayEl["pd_lifespan"];
-			gs.gun_data.projData.mining = gunArrayEl["pd_mining"];
-			gs.gun_data.projData.speed = gunArrayEl["pd_speed"];
-			gs.gun_data.projData.width = gunArrayEl["pd_width"];
+			ProjectileData pd;
+
+			pd.beam = gunArrayEl["pd_beam"];
+			pd.color = gunArrayEl["pd_color"];
+			pd.damage = gunArrayEl["pd_damage"];
+			pd.length = gunArrayEl["pd_length"];
+			pd.lifespan = gunArrayEl["pd_lifespan"];
+			pd.mining = gunArrayEl["pd_mining"];
+			pd.speed = gunArrayEl["pd_speed"];
+			pd.width = gunArrayEl["pd_width"];
+
+			GunStatus gs(mount_id, recharge, temp_heat_rate, temp_cool_rate, barrels, pd);
+
+			gs.is_firing = is_firing;
+			gs.mount_id = mount_id;
+			gs.recharge_stat = recharge_stat;
+			gs.temperature_stat = temperature_stat;
 
 			m_guns.push_back(gs);
 		}
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
+	printf("Loaded %i guns:\n", int(m_guns.size()));
+	for (int i = 0; i < m_guns.size(); i++) {
+		printf("\t'%s', which dir & pos are:\n", m_mounts[m_guns[i].mount_id].name.c_str());
+		printf("\t"); m_mounts[m_guns[i].mount_id].dir.Print();
+		printf("\t"); m_mounts[m_guns[i].mount_id].locs[0].Print();
+	}
+
 };
 
 void FixedGuns::InitGuns(SceneGraph::Model *m)
@@ -138,7 +149,7 @@ void FixedGuns::InitGuns(SceneGraph::Model *m)
 		break_ = false;
 		const std::string &name = mounts_founds[i]->GetName();
 		if (name.length() > 14) {
-			// Multiple "tag" type: we should group tags with
+			// Multiple "tag" type: we group tags with
 			// the same index
 			std::string name_to_first_index = name.substr(0,14);
 			for (int j = 0; j < m_mounts.size(); j++ )
@@ -152,39 +163,52 @@ void FixedGuns::InitGuns(SceneGraph::Model *m)
 					break;
 			}
 		}
-		// Old "tag" type, like "tag_gunmount_0":
-		// construct a Mount with a single barrel
+		// Old "tag" type, like "tag_gunmount_0",
+		// or another barrel for an already present
+		// gun.
 		if (break_) continue;
 		Mount mount;
 		mount.name = name.substr(0,14);
-		printf("\tMount[%i] = %s Dir: ", i, mount.name.c_str());
 		const matrix4x4f &trans = mounts_founds[i]->GetTransform();
 		mount.locs.push_back(vector3d(trans.GetTranslate()));
 		mount.dir = vector3d(trans.GetOrient().VectorZ().Normalized()); /// TODO: la direzione deve essere avanti o indietro (poi magari settiamo l'angolo)
-		mount.dir.Print();
 		m_mounts.push_back(mount);
+	}
+
+	for (int i = 0; i < m_mounts.size(); i++) {
+		printf("  Mount[%i] = %s, %i barrel, dir: ", i, m_mounts[i].name.c_str(), int(m_mounts[i].locs.size()));
+		m_mounts[i].dir.Print();
 	}
 }
 
-void FixedGuns::MountGun(const int num, const float recharge, const float heatrate, const float coolrate, const ProjectileData &pd)
+void FixedGuns::MountGun(const int num, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd)
 {
+	printf("FixedGuns::MountGun Num: %i (Mounts %ld, guns %ld)\n", num, long(m_mounts.size()), long(m_guns.size()));
 	// Check mount (num) is valid
 	if (num >= m_mounts.size())
 		return;
+	// Check ... well, there's a needs for explanations?
+	if (barrels == 0) {
+		Output("Attempt to mount a gun with zero barrels\n");
+		return;
+	}
+
 	// Check mount is free:
 	for (int i = 0; i < m_guns.size(); i++) {
-		if (m_guns[i].gun_data.hard_point == &m_mounts[num]) return;
+		if (m_guns[i].mount_id < 0) {
+			printf("hard_point is negative!?!?\n");
+			abort();
+		}
+		printf("%s vs %s\n", m_mounts[m_guns[i].mount_id].name.c_str(),  m_mounts[num].name.substr(0,14).c_str());
+		if (m_mounts[m_guns[i].mount_id].name == m_mounts[num].name.substr(0,14)) {
+			Output("Attempt to mount gun %i on '%s', which is already used\n", num, m_mounts[num].name.c_str());
+			return;
+		}
 	}
-	/// Usare una "initialization list" così si evita il costruttore, cercare anche di farlo "leggibile"
-	GunStatus gs;
-	gs.gun_data.hard_point = &m_mounts[num];
-	gs.gun_data.recharge = recharge;
-	gs.gun_data.temp_heat_rate = heatrate;
-	gs.gun_data.temp_cool_rate = coolrate;
-	gs.gun_data.projData = pd;
-	gs.recharge_stat = recharge;
-	gs.temperature_stat = 0;
-	gs.is_firing = false;
+	if (barrels >= m_mounts[num].locs.size()) {
+		Output("Attempt to mount a gun with %i barrels on '%s', which is for %i barrels\n", barrels, m_mounts[num].name.c_str(), int(m_mounts[num].locs.size()));
+	}
+	GunStatus gs(num, recharge, heatrate, coolrate, barrels, pd);
 	m_guns.push_back(gs);
 };
 
@@ -196,9 +220,10 @@ void FixedGuns::UnMountGun(int num)
 	// Check mount is used
 	int i;
 	for (i = 0; i < m_guns.size(); i++) {
-		if (m_guns[i].gun_data.hard_point == &m_mounts[num]) break;
+		if (m_guns[i].mount_id == num) break;
 	}
 	if (i == m_guns.size()) return;
+	Output("Remove guns %i, mounted on '%s'\n", i, m_mounts[m_guns[i].mount_id].name.c_str());
 	// Mount 'i' is used and should be freed
 	std::swap(m_guns[i], m_guns.back());
 	m_guns.pop_back();
@@ -208,21 +233,19 @@ bool FixedGuns::Fire(const int num, Body *shooter)
 {
 	if (num >= m_guns.size()) return false;
 	if (!m_guns[num].is_firing) return false;
-	// Output("Firing gun %i, present\n", num);
-	// Output(" is firing\n");
 	if (m_guns[num].recharge_stat > 0) return false;
-	// Output(" recharge stat <= 0\n");
 	if (m_guns[num].temperature_stat > 1.0) return false;
-	// Output(" temperature stat <= 1.0\n");
 
 	m_guns[num].temperature_stat += m_guns[num].gun_data.temp_heat_rate;
 	m_guns[num].recharge_stat = m_guns[num].gun_data.recharge;
 
-	const int maxBarrels = std::min(size_t(m_guns[num].gun_data.dual ? 2 : 1), m_guns[num].gun_data.hard_point->locs.size());
+	const Mount &mount = m_mounts[m_guns[num].mount_id];
+
+	const int maxBarrels = std::min(size_t(m_guns[num].gun_data.barrels ? 2 : 1), mount.locs.size());
 
 	for (int iBarrel = 0; iBarrel < maxBarrels; iBarrel++) {
-		const vector3d dir = (shooter->GetOrient() * vector3d(m_guns[num].gun_data.hard_point->dir)).Normalized();
-		const vector3d pos = shooter->GetOrient() * vector3d(m_guns[num].gun_data.hard_point->locs[iBarrel]) + shooter->GetPosition();
+		const vector3d dir = (shooter->GetOrient() * vector3d(mount.dir)).Normalized();
+		const vector3d pos = shooter->GetOrient() * vector3d(mount.locs[iBarrel]) + shooter->GetPosition();
 
 		if (m_guns[num].gun_data.projData.beam) {
 			Beam::Add(shooter, m_guns[num].gun_data.projData, pos, shooter->GetVelocity(), dir);
@@ -256,7 +279,7 @@ void FixedGuns::UpdateGuns(float timeStep)
 
 float FixedGuns::GetGunTemperature(int idx) const
 {
-	if (idx <= m_guns.size())
+	if (idx < m_guns.size())
 		return m_guns[idx].temperature_stat;
 	else
 		return 0.0f;
