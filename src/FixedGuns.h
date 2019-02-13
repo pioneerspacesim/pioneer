@@ -26,10 +26,10 @@ class FixedGuns {
 public:
 	FixedGuns(Body *b);
 	~FixedGuns();
-	void InitGuns(SceneGraph::Model *m);
+	void ParseModelTags(SceneGraph::Model *m);
 	void UpdateGuns(float timeStep);
 	bool Fire(const int num, Body *shooter);
-	int GetGunsNumber() const { return int(m_guns.size()); }
+
 	bool IsFiring();
 	bool IsFiring(const int num);
 	bool IsBeam(const int num);
@@ -44,6 +44,9 @@ public:
 		if (idx < m_guns.size())
 			m_guns[idx].is_firing = s;
 	};
+
+	int GetMountedGunsNum() const { return int(m_guns.size()); }
+
 	void SaveToJson(Json &jsonObj, Space *space);
 	void LoadFromJson(const Json &jsonObj, Space *space);
 
@@ -95,7 +98,7 @@ private:
 			recharge_stat(r),
 			temperature_stat(0.0f),
 			gun_data(r, h, c, b, pd) {}
-		GunStatus(const GunStatus& gs) :
+		GunStatus(const GunStatus& gs) : // Copy ctor
 			mount_id(gs.mount_id),
 			is_firing(gs.is_firing),
 			recharge_stat(gs.recharge_stat),

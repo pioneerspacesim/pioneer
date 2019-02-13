@@ -134,7 +134,7 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 
 };
 
-void FixedGuns::InitGuns(SceneGraph::Model *m)
+void FixedGuns::ParseModelTags(SceneGraph::Model *m)
 {
 	m_mounts.clear();
 	m_mounts.reserve(10);

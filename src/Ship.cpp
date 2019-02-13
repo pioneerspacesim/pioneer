@@ -85,7 +85,7 @@ Ship::Ship(const ShipType::Id &shipId) :
 
 	SetModel(m_type->modelName.c_str());
 
-	InitGuns(GetModel());
+	ParseModelTags(GetModel());
 
 	// Setting thrusters colors
 	if (m_type->isGlobalColorDefined) GetModel()->SetThrusterColor(m_type->globalThrusterColor);
@@ -130,7 +130,7 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		// These must be *before* UpdateEquipStats
 		// or else UpdateGunsStats will use MountGun()
 		// BUT must be *after* setting model
-		FixedGuns::InitGuns(GetModel());
+		FixedGuns::ParseModelTags(GetModel());
 		FixedGuns::LoadFromJson(shipObj, space);
 
 		GetPropulsion()->SetFuelTankMass(GetShipType()->fuelTankMass);
@@ -1289,7 +1289,7 @@ void Ship::StaticUpdate(const float timeStep)
 
 	// lasers
 	FixedGuns::UpdateGuns(timeStep);
-	for (int i = 0; i < FixedGuns::GetGunsNumber(); i++) {
+	for (int i = 0; i < FixedGuns::GetMountedGunsNum(); i++) {
 		if (FixedGuns::Fire(i, this)) {
 			if (FixedGuns::IsBeam(i)) {
 				float vl, vr;
@@ -1563,7 +1563,7 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 
 	SetShipId(shipId);
 	SetModel(m_type->modelName.c_str());
-	FixedGuns::InitGuns(GetModel());
+	FixedGuns::ParseModelTags(GetModel());
 	m_skin.SetDecal(m_type->manufacturer);
 	m_skin.Apply(GetModel());
 	Init();
