@@ -3,6 +3,8 @@
 
 #include "Beam.h"
 
+#include "ProjectileData.h"
+
 #include "CargoBody.h"
 #include "Frame.h"
 #include "Game.h"

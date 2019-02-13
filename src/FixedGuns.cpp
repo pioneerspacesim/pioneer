@@ -15,9 +15,9 @@
 
 #pragma GCC optimize ("O0")
 
-FixedGuns::FixedGuns(DynamicBody* b)
+FixedGuns::FixedGuns(Body* b)
 {
-	b->AddFeature(DynamicBody::FIXED_GUNS);
+	b->AddFeature(Body::FIXED_GUNS);
 }
 
 FixedGuns::~FixedGuns()

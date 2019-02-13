@@ -5,11 +5,11 @@
 #define FIXEDGUNS_H
 
 #include "JsonFwd.h"
-#include "Projectile.h"
+#include "ProjectileData.h"
 
-#include <utility>
+#include "vector3.h"
 
-class DynamicBody;
+class Body;
 class Space;
 
 namespace SceneGraph {
@@ -24,11 +24,11 @@ enum Guns {
 
 class FixedGuns {
 public:
-	FixedGuns(DynamicBody *b);
+	FixedGuns(Body *b);
 	~FixedGuns();
 	void InitGuns(SceneGraph::Model *m);
 	void UpdateGuns(float timeStep);
-	bool Fire(const int num, Body *b);
+	bool Fire(const int num, Body *shooter);
 	int GetGunsNumber() const { return int(m_guns.size()); }
 	bool IsFiring();
 	bool IsFiring(const int num);

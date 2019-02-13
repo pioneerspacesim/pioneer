@@ -30,6 +30,8 @@ Body::Body() :
 	m_physRadius(0.0)
 {
 	Properties().Set("label", m_label);
+	for (int i = 0; i < Feature::MAX_FEATURE; i++)
+		m_features[i] = false;
 }
 
 Body::Body(const Json &jsonObj, Space *space) :
@@ -39,6 +41,9 @@ Body::Body(const Json &jsonObj, Space *space) :
 	m_interpOrient(matrix3x3d::Identity()),
 	m_frame(FrameId::Invalid)
 {
+	for (int i = 0; i < Feature::MAX_FEATURE; i++)
+		m_features[i] = false;
+
 	try {
 		Json bodyObj = jsonObj["body"];
 

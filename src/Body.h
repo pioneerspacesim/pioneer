@@ -110,6 +110,15 @@ public:
 		FLAG_LABEL_HIDDEN = (1 << 1),
 		FLAG_DRAW_LAST = (1 << 2) }; // causes the body drawn after other bodies in the z-sort
 
+	enum Feature {
+		PROPULSION = 0,
+		FIXED_GUNS = 1,
+		MAX_FEATURE = 2,
+	};
+
+	bool Have(Feature f) const { return m_features[f]; };
+	virtual void AddFeature(Feature f) { m_features[f] = true; };
+
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space);
 	unsigned int m_flags;
@@ -126,6 +135,8 @@ private:
 	bool m_dead; // Checked in destructor to make sure body has been marked dead.
 	double m_clipRadius;
 	double m_physRadius;
+
+	bool m_features[MAX_FEATURE];
 };
 
 #endif /* _BODY_H */
