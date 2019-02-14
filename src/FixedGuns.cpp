@@ -174,6 +174,9 @@ void FixedGuns::ParseModelTags(SceneGraph::Model *m)
 		mount.dir = vector3d(trans.GetOrient().VectorZ().Normalized()); /// TODO: la direzione deve essere avanti o indietro (poi magari settiamo l'angolo)
 		m_mounts.push_back(mount);
 	}
+	// TODO LONG TERM: find and fetch data from ShipType
+	// about a possible 'size' of this mount, or if this
+	// mount is 'external' (gun visible) or not...
 
 	for (int i = 0; i < m_mounts.size(); i++) {
 		printf("  Mount[%i] = %s, %i barrel, dir: ", i, m_mounts[i].name.c_str(), int(m_mounts[i].locs.size()));
@@ -181,16 +184,16 @@ void FixedGuns::ParseModelTags(SceneGraph::Model *m)
 	}
 }
 
-void FixedGuns::MountGun(const int num, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd)
+bool FixedGuns::MountGun(const int num, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd)
 {
 	printf("FixedGuns::MountGun Num: %i (Mounts %ld, guns %ld)\n", num, long(m_mounts.size()), long(m_guns.size()));
 	// Check mount (num) is valid
 	if (num >= m_mounts.size())
-		return;
+		return false;
 	// Check ... well, there's a needs for explanations?
 	if (barrels == 0) {
 		Output("Attempt to mount a gun with zero barrels\n");
-		return;
+		return false;
 	}
 
 	// Check mount is free:
@@ -202,31 +205,33 @@ void FixedGuns::MountGun(const int num, const float recharge, const float heatra
 		printf("%s vs %s\n", m_mounts[m_guns[i].mount_id].name.c_str(),  m_mounts[num].name.substr(0,14).c_str());
 		if (m_mounts[m_guns[i].mount_id].name == m_mounts[num].name.substr(0,14)) {
 			Output("Attempt to mount gun %i on '%s', which is already used\n", num, m_mounts[num].name.c_str());
-			return;
+			return false;
 		}
 	}
-	if (barrels >= m_mounts[num].locs.size()) {
-		Output("Attempt to mount a gun with %i barrels on '%s', which is for %i barrels\n", barrels, m_mounts[num].name.c_str(), int(m_mounts[num].locs.size()));
+	if (barrels > m_mounts[num].locs.size()) {
+		Output("Gun with %i barrels mounted on '%s', which is for %i barrels\n", barrels, m_mounts[num].name.c_str(), int(m_mounts[num].locs.size()));
 	}
 	GunStatus gs(num, recharge, heatrate, coolrate, barrels, pd);
 	m_guns.push_back(gs);
+	return true;
 };
 
-void FixedGuns::UnMountGun(int num)
+bool FixedGuns::UnMountGun(int num)
 {
 	// Check mount (num) is valid
 	if (num >= m_mounts.size())
-		return;
+		return false;
 	// Check mount is used
 	int i;
 	for (i = 0; i < m_guns.size(); i++) {
 		if (m_guns[i].mount_id == num) break;
 	}
-	if (i == m_guns.size()) return;
+	if (i == m_guns.size()) return false;
 	Output("Remove guns %i, mounted on '%s'\n", i, m_mounts[m_guns[i].mount_id].name.c_str());
 	// Mount 'i' is used and should be freed
 	std::swap(m_guns[i], m_guns.back());
 	m_guns.pop_back();
+	return true;
 }
 
 bool FixedGuns::Fire(const int num, Body *shooter)

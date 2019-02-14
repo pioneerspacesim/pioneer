@@ -6,7 +6,6 @@
 
 #include "JsonFwd.h"
 #include "ProjectileData.h"
-
 #include "vector3.h"
 
 class Body;
@@ -24,9 +23,31 @@ enum Guns {
 
 class FixedGuns {
 public:
+	FixedGuns() = delete;
 	FixedGuns(Body *b);
 	~FixedGuns();
 	void ParseModelTags(SceneGraph::Model *m);
+	/*
+	TODO2:
+	int GetMountsSize();
+	const std::string GetMountName(int i);
+	bool CheckIsEmpty(int num);
+	int FindFirstEmpty();
+	bool SwapTwoMountedGuns(int gun_a, int gun_b);
+
+	TODO0:
+	Lua... Provide an interface in Ship,
+	then try to find a way to pass directly the
+	spitted out part FixedGuns.
+	TODO1:
+	SetActivationStateOfGun(int num, );
+	CycleFireModeForGun(num);
+
+	TODO3:
+	CreateGroup(num, );
+	....
+*/
+
 	void UpdateGuns(float timeStep);
 	bool Fire(const int num, Body *shooter);
 
@@ -34,8 +55,8 @@ public:
 	bool IsFiring(const int num);
 	bool IsBeam(const int num);
 	float GetGunTemperature(int idx) const;
-	void MountGun(const int num, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd);
-	void UnMountGun(int num);
+	bool MountGun(const int num, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd);
+	bool UnMountGun(int num);
 	inline float GetGunRange(int idx) { return m_guns[idx].gun_data.projData.speed * m_guns[idx].gun_data.projData.lifespan; };
 	inline float GetProjSpeed(int idx) { return m_guns[idx].gun_data.projData.speed; };
 	inline void SetCoolingBoost(float cooler) { m_cooler_boost = cooler; };
@@ -76,6 +97,7 @@ private:
 			recharge(gd.recharge),
 			temp_cool_rate(gd.temp_cool_rate),
 			temp_heat_rate(gd.temp_heat_rate),
+			barrels(gd.barrels),
 			projData(gd.projData) {}
 		float recharge;
 		float temp_heat_rate;
