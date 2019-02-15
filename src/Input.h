@@ -7,6 +7,9 @@
 #include "KeyBindings.h"
 #include "utils.h"
 
+#include <algorithm>
+#include <list>
+
 class Input {
 	// TODO: better decouple these two classes.
 	friend class Pi;
@@ -35,6 +38,41 @@ public:
 
 	BindingPage *GetBindingPage(std::string id) { return &bindingPages[id]; }
 	std::map<std::string, BindingPage> GetBindingPages() { return bindingPages; }
+
+	struct InputFrame {
+		std::vector<KeyBindings::ActionBinding *> actions;
+		std::vector<KeyBindings::AxisBinding *> axes;
+
+		// Call this at startup to register all the bindings associated with the frame.
+		virtual void RegisterBindings(){};
+
+		// Called when the frame is added to the stack.
+		virtual void onFrameAdded(){};
+
+		// Called when the frame is removed from the stack.
+		virtual void onFrameRemoved(){};
+
+		// Check the event against all the inputs in this frame.
+		InputResponse ProcessSDLEvent(SDL_Event &event);
+	};
+
+	// Pushes an InputFrame onto the input stack.
+	bool PushInputFrame(InputFrame *frame);
+
+	// Pops the most-recently pushed InputFrame from the stack.
+	InputFrame *PopInputFrame();
+
+	// Get a read-only list of input frames.
+	const std::list<InputFrame *> &GetInputFrames() { return inputFrames; }
+
+	// Check if a specific input frame is currently on the stack.
+	bool HasInputFrame(InputFrame *frame)
+	{
+		return std::count(inputFrames.begin(), inputFrames.end(), frame) > 0;
+	}
+
+	// Remove an arbitrary input frame from the input stack.
+	void RemoveInputFrame(InputFrame *frame);
 
 	// Creates a new action binding, copying the provided binding.
 	// The returned binding pointer points to the actual binding.
@@ -115,6 +153,8 @@ private:
 	std::map<std::string, BindingPage> bindingPages;
 	std::map<std::string, KeyBindings::ActionBinding> actionBindings;
 	std::map<std::string, KeyBindings::AxisBinding> axisBindings;
+
+	std::list<InputFrame *> inputFrames;
 };
 
 #endif

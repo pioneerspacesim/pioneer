@@ -7,6 +7,15 @@
 #include "libs.h"
 #include <iosfwd>
 
+enum InputResponse {
+	// None of the inputs match the event.
+	RESPONSE_NOMATCH = 0,
+	// An input matched, but won't consume the event.
+	RESPONSE_PASSTHROUGH,
+	// An input matched and consumed the event.
+	RESPONSE_MATCHED
+};
+
 namespace KeyBindings {
 	enum Type {
 		BINDING_DISABLED,
@@ -104,7 +113,7 @@ namespace KeyBindings {
 		std::string ToString() const;
 
 		bool IsActive() const;
-		void CheckSDLEventAndDispatch(const SDL_Event *event);
+		InputResponse CheckSDLEventAndDispatch(const SDL_Event *event);
 
 		bool Matches(const SDL_Keysym *sym) const;
 	};
@@ -192,7 +201,7 @@ namespace KeyBindings {
 
 		bool IsActive() const;
 		float GetValue() const;
-		void CheckSDLEventAndDispatch(const SDL_Event *event);
+		InputResponse CheckSDLEventAndDispatch(const SDL_Event *event);
 	};
 
 	struct BindingPrototype {

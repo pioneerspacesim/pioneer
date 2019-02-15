@@ -31,6 +31,54 @@ void Input::InitGame()
 	}
 }
 
+InputResponse Input::InputFrame::ProcessSDLEvent(SDL_Event &event)
+{
+	bool matched = false;
+
+	for (KeyBindings::ActionBinding *action : actions) {
+		auto resp = action->CheckSDLEventAndDispatch(&event);
+		if (resp == RESPONSE_MATCHED) return resp;
+		matched = matched || resp > RESPONSE_NOMATCH;
+	}
+
+	for (KeyBindings::AxisBinding *axis : axes) {
+		auto resp = axis->CheckSDLEventAndDispatch(&event);
+		if (resp == RESPONSE_MATCHED) return resp;
+		matched = matched || resp > RESPONSE_NOMATCH;
+	}
+
+	return matched ? RESPONSE_PASSTHROUGH : RESPONSE_NOMATCH;
+}
+
+bool Input::PushInputFrame(Input::InputFrame *frame)
+{
+	if (HasInputFrame(frame)) {
+		return false;
+	}
+
+	inputFrames.push_front(frame);
+	frame->onFrameAdded();
+	return true;
+}
+
+Input::InputFrame *Input::PopInputFrame()
+{
+	if (inputFrames.size() > 0) {
+		auto frame = inputFrames.front();
+		inputFrames.pop_front();
+		frame->onFrameRemoved();
+		return frame;
+	}
+
+	return nullptr;
+}
+
+void Input::RemoveInputFrame(Input::InputFrame *frame)
+{
+	inputFrames.remove(frame);
+	frame->onFrameRemoved();
+}
+
 KeyBindings::ActionBinding *Input::AddActionBinding(std::string id, BindingGroup *group, KeyBindings::ActionBinding binding)
 {
 	// TODO: should we throw an error if we attempt to bind over an already-bound action?
@@ -108,6 +156,11 @@ void Input::HandleSDLEvent(SDL_Event &event)
 			break;
 		joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
 		break;
+	}
+
+	for (auto inputFrame : inputFrames) {
+		auto resp = inputFrame->ProcessSDLEvent(event);
+		if (resp == RESPONSE_MATCHED) break;
 	}
 }
 

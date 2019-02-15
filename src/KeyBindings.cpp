@@ -368,9 +368,9 @@ namespace KeyBindings {
 		return binding1.Matches(sym) || binding2.Matches(sym);
 	}
 
-	void ActionBinding::CheckSDLEventAndDispatch(const SDL_Event *event)
+	InputResponse ActionBinding::CheckSDLEventAndDispatch(const SDL_Event *event)
 	{
-		if (m_disableBindings) return;
+		if (m_disableBindings) return RESPONSE_NOMATCH;
 		switch (event->type) {
 		case SDL_KEYDOWN:
 		case SDL_KEYUP: {
@@ -379,6 +379,7 @@ namespace KeyBindings {
 					onPress.emit();
 				else if (event->key.state == SDL_RELEASED)
 					onRelease.emit();
+				return RESPONSE_MATCHED;
 			}
 			break;
 		}
@@ -389,6 +390,7 @@ namespace KeyBindings {
 					onPress.emit();
 				else if (event->jbutton.state == SDL_RELEASED)
 					onRelease.emit();
+				return RESPONSE_MATCHED;
 			}
 			break;
 		}
@@ -397,11 +399,13 @@ namespace KeyBindings {
 				onPress.emit();
 				// XXX to emit onRelease, we need to have access to the state of the joystick hat prior to this event,
 				// so that we can detect the case of switching from a direction that matches the binding to some other direction
+				return RESPONSE_MATCHED;
 			}
 			break;
 		}
 		default: break;
 		}
+		return RESPONSE_NOMATCH;
 	}
 
 	bool JoyAxisBinding::IsActive() const
@@ -587,15 +591,16 @@ namespace KeyBindings {
 		return axis.IsActive() ? axis.GetValue() : value;
 	}
 
-	void AxisBinding::CheckSDLEventAndDispatch(const SDL_Event *event)
+	InputResponse AxisBinding::CheckSDLEventAndDispatch(const SDL_Event *event)
 	{
-		if (m_disableBindings) return;
+		if (m_disableBindings) return RESPONSE_NOMATCH;
 		float value = GetValue();
 		switch (event->type) {
 		case SDL_KEYDOWN:
 		case SDL_KEYUP: {
 			if (positive.Matches(&event->key.keysym) && negative.Matches(&event->key.keysym)) {
 				onAxis.emit(value);
+				return RESPONSE_MATCHED;
 			}
 			break;
 		}
@@ -603,6 +608,7 @@ namespace KeyBindings {
 		case SDL_JOYBUTTONUP: {
 			if (positive.Matches(&event->jbutton) || negative.Matches(&event->jbutton)) {
 				onAxis.emit(value);
+				return RESPONSE_MATCHED;
 			}
 			break;
 		}
@@ -611,14 +617,20 @@ namespace KeyBindings {
 				onAxis.emit(value);
 				// XXX to emit onRelease, we need to have access to the state of the joystick hat prior to this event,
 				// so that we can detect the case of switching from a direction that matches the binding to some other direction
+				return RESPONSE_MATCHED;
 			}
 			break;
 		}
 		case SDL_JOYAXISMOTION: {
-			if (axis.Matches(event)) onAxis.emit(value);
+			if (axis.Matches(event)) {
+				onAxis.emit(value);
+				return RESPONSE_MATCHED;
+			}
 		}
 		default: break;
 		}
+
+		return RESPONSE_NOMATCH;
 	}
 
 	void DispatchSDLEvent(const SDL_Event *event)

@@ -33,8 +33,6 @@
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 namespace {
 	static const Color s_hudTextColor(0, 255, 0, 230);
-	static const float ZOOM_SPEED = 1.f;
-	static const float WHEEL_SENSITIVITY = .05f; // Should be a variable in user settings.
 	static const float HUD_CROSSHAIR_SIZE = 8.0f;
 	static const Color white(255, 255, 255, 204);
 	static const Color green(0, 255, 0, 204);
@@ -44,27 +42,26 @@ namespace {
 
 WorldView::WorldView(Game *game) :
 	UIView(),
-	m_game(game)
+	m_game(game),
+	shipView(this)
 {
-	m_camType = CAM_INTERNAL;
 	InitObject();
 }
 
 WorldView::WorldView(const Json &jsonObj, Game *game) :
 	UIView(),
-	m_game(game)
+	m_game(game),
+	shipView(this)
 {
 	if (!jsonObj["world_view"].is_object()) throw SavedGameCorruptException();
 	Json worldViewObj = jsonObj["world_view"];
 
 	if (!worldViewObj["cam_type"].is_number_integer()) throw SavedGameCorruptException();
-	m_camType = CamType(worldViewObj["cam_type"]);
+	shipView.m_camType = worldViewObj["cam_type"];
+
 	InitObject();
 
-	m_internalCameraController->LoadFromJson(worldViewObj);
-	m_externalCameraController->LoadFromJson(worldViewObj);
-	m_siderealCameraController->LoadFromJson(worldViewObj);
-	m_flybyCameraController->LoadFromJson(worldViewObj);
+	shipView.LoadFromJson(jsonObj);
 }
 
 WorldView::InputBinding WorldView::InputBindings;
@@ -85,23 +82,6 @@ void WorldView::RegisterInputBindings()
 	KEY_BINDING(toggleHudMode, "BindToggleHudMode", SDLK_TAB, 0)
 	KEY_BINDING(increaseTimeAcceleration, "BindIncreaseTimeAcceleration", SDLK_PAGEUP, 0)
 	KEY_BINDING(decreaseTimeAcceleration, "BindDecreaseTimeAcceleration", SDLK_PAGEDOWN, 0)
-
-	BINDING_GROUP(GENERAL_VIEW_CONTROLS)
-	AXIS_BINDING(viewZoom, "BindViewZoom", SDLK_EQUALS, SDLK_MINUS)
-
-	BINDING_GROUP(INTERNAL_VIEW)
-	KEY_BINDING(frontCamera, "BindFrontCamera", SDLK_KP_8, SDLK_UP)
-	KEY_BINDING(rearCamera, "BindRearCamera", SDLK_KP_2, SDLK_DOWN)
-	KEY_BINDING(leftCamera, "BindLeftCamera", SDLK_KP_4, SDLK_LEFT)
-	KEY_BINDING(rightCamera, "BindRightCamera", SDLK_KP_6, SDLK_RIGHT)
-	KEY_BINDING(topCamera, "BindTopCamera", SDLK_KP_9, 0)
-	KEY_BINDING(bottomCamera, "BindBottomCamera", SDLK_KP_3, 0)
-
-	BINDING_GROUP(EXTERNAL_VIEW)
-	AXIS_BINDING(cameraRoll, "BindCameraRoll", SDLK_KP_1, SDLK_KP_3)
-	AXIS_BINDING(cameraPitch, "BindCameraPitch", SDLK_KP_2, SDLK_KP_8)
-	AXIS_BINDING(cameraYaw, "BindCameraYaw", SDLK_KP_4, SDLK_KP_6)
-	KEY_BINDING(resetCamera, "BindResetCamera", SDLK_HOME, 0)
 }
 
 void WorldView::InitObject()
@@ -165,18 +145,11 @@ void WorldView::InitObject()
 
 	m_cameraContext.Reset(new CameraContext(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
 	m_camera.reset(new Camera(m_cameraContext, Pi::renderer));
-	m_internalCameraController.reset(new InternalCameraController(m_cameraContext, Pi::player));
-	m_externalCameraController.reset(new ExternalCameraController(m_cameraContext, Pi::player));
-	m_siderealCameraController.reset(new SiderealCameraController(m_cameraContext, Pi::player));
-	m_flybyCameraController.reset(new FlyByCameraController(m_cameraContext, Pi::player));
-	SetCamType(m_camType); //set the active camera
+	shipView.Init();
 
 	m_onPlayerChangeTargetCon =
 		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
-	m_onMouseWheelCon =
-		Pi::input.onMouseWheel.connect(sigc::mem_fun(this, &WorldView::MouseWheel));
 
-	Pi::player->GetPlayerController()->SetMouseForRearView(GetCamType() == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 	m_onToggleHudModeCon = InputBindings.toggleHudMode->onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
 	m_onIncTimeAccelCon = InputBindings.increaseTimeAcceleration->onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelInc));
 	m_onDecTimeAccelCon = InputBindings.decreaseTimeAcceleration->onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelDec));
@@ -185,7 +158,6 @@ void WorldView::InitObject()
 WorldView::~WorldView()
 {
 	m_onPlayerChangeTargetCon.disconnect();
-	m_onMouseWheelCon.disconnect();
 	m_onToggleHudModeCon.disconnect();
 	m_onIncTimeAccelCon.disconnect();
 	m_onDecTimeAccelCon.disconnect();
@@ -195,55 +167,9 @@ void WorldView::SaveToJson(Json &jsonObj)
 {
 	Json worldViewObj = Json::object(); // Create JSON object to contain world view data.
 
-	worldViewObj["cam_type"] = int(m_camType);
-	m_internalCameraController->SaveToJson(worldViewObj);
-	m_externalCameraController->SaveToJson(worldViewObj);
-	m_siderealCameraController->SaveToJson(worldViewObj);
-	m_flybyCameraController->SaveToJson(worldViewObj);
+	shipView.SaveToJson(worldViewObj);
 
 	jsonObj["world_view"] = worldViewObj; // Add world view object to supplied object.
-}
-
-void WorldView::SetCamType(enum CamType c)
-{
-	Pi::BoinkNoise();
-
-	// don't allow external cameras when docked inside space stations.
-	// they would clip through the station model
-	//if (Pi::player->GetFlightState() == Ship::DOCKED && !Pi::player->GetDockedWith()->IsGroundStation())
-	//	c = CAM_INTERNAL;
-
-	m_camType = c;
-
-	switch (m_camType) {
-	case CAM_INTERNAL:
-		m_activeCameraController = m_internalCameraController.get();
-		Pi::player->OnCockpitActivated();
-		break;
-	case CAM_EXTERNAL:
-		m_activeCameraController = m_externalCameraController.get();
-		break;
-	case CAM_SIDEREAL:
-		m_activeCameraController = m_siderealCameraController.get();
-		break;
-	case CAM_FLYBY:
-		m_activeCameraController = m_flybyCameraController.get();
-		break;
-	}
-
-	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
-
-	m_activeCameraController->Reset();
-
-	onChangeCamType.emit();
-}
-
-void WorldView::ChangeInternalCameraMode(InternalCameraController::Mode m)
-{
-	if (m_internalCameraController->GetMode() != m)
-		Pi::BoinkNoise();
-	m_internalCameraController->SetMode(m);
-	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 }
 
 /* This is UI click to change flight control state (manual, speed ctrl) */
@@ -308,9 +234,9 @@ void WorldView::Draw3D()
 
 	Body *excludeBody = nullptr;
 	ShipCockpit *cockpit = nullptr;
-	if (GetCamType() == CAM_INTERNAL) {
+	if (shipView.GetCamType() == ShipViewController::CAM_INTERNAL) {
 		excludeBody = Pi::player;
-		if (m_internalCameraController->GetMode() == InternalCameraController::MODE_FRONT)
+		if (shipView.m_internalCameraController->GetMode() == InternalCameraController::MODE_FRONT)
 			cockpit = Pi::player->GetCockpit();
 	}
 	m_camera->Draw(excludeBody, cockpit);
@@ -414,42 +340,7 @@ void WorldView::Update()
 	// show state-appropriate buttons
 	RefreshButtonStateAndVisibility();
 
-	// XXX ugly hack checking for console here
-	if (!Pi::IsConsoleActive()) {
-		if (GetCamType() == CAM_INTERNAL) {
-			if (InputBindings.frontCamera->IsActive())
-				ChangeInternalCameraMode(InternalCameraController::MODE_FRONT);
-			else if (InputBindings.rearCamera->IsActive())
-				ChangeInternalCameraMode(InternalCameraController::MODE_REAR);
-			else if (InputBindings.leftCamera->IsActive())
-				ChangeInternalCameraMode(InternalCameraController::MODE_LEFT);
-			else if (InputBindings.rightCamera->IsActive())
-				ChangeInternalCameraMode(InternalCameraController::MODE_RIGHT);
-			else if (InputBindings.topCamera->IsActive())
-				ChangeInternalCameraMode(InternalCameraController::MODE_TOP);
-			else if (InputBindings.bottomCamera->IsActive())
-				ChangeInternalCameraMode(InternalCameraController::MODE_BOTTOM);
-		} else {
-			MoveableCameraController *cam = static_cast<MoveableCameraController *>(m_activeCameraController);
-			vector3d rotate = vector3d(
-				-InputBindings.cameraPitch->GetValue(),
-				InputBindings.cameraYaw->GetValue(),
-				InputBindings.cameraRoll->GetValue());
-
-			// Horribly abuse our knowledge of the internals of cam->RotateUp/Down.
-			if (rotate.x != 0.0) cam->RotateUp(frameTime * rotate.x);
-			if (rotate.y != 0.0) cam->RotateLeft(frameTime * rotate.y);
-			if (rotate.z != 0.0) cam->RollLeft(frameTime * rotate.z);
-
-			if (InputBindings.viewZoom->IsActive())
-				cam->ZoomEvent(-InputBindings.viewZoom->GetValue() * ZOOM_SPEED * frameTime);
-			if (InputBindings.resetCamera->IsActive())
-				cam->Reset();
-			cam->ZoomEventUpdate(frameTime);
-		}
-	}
-
-	m_activeCameraController->Update();
+	shipView.Update();
 
 	m_cameraContext->BeginFrame();
 	m_camera->Update();
@@ -498,10 +389,12 @@ void WorldView::OnSwitchTo()
 {
 	UIView::OnSwitchTo();
 	RefreshButtonStateAndVisibility();
+	shipView.Activated();
 }
 
 void WorldView::OnSwitchFrom()
 {
+	shipView.Deactivated();
 	Pi::DrawGUI = true;
 }
 
@@ -545,13 +438,14 @@ void WorldView::OnPlayerChangeTarget()
 
 int WorldView::GetActiveWeapon() const
 {
-	switch (GetCamType()) {
-	case CAM_INTERNAL:
-		return m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR ? 1 : 0;
+	using CamType = ShipViewController::CamType;
+	switch (shipView.GetCamType()) {
+	case CamType::CAM_INTERNAL:
+		return shipView.m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR ? 1 : 0;
 
-	case CAM_EXTERNAL:
-	case CAM_SIDEREAL:
-	case CAM_FLYBY:
+	case CamType::CAM_EXTERNAL:
+	case CamType::CAM_SIDEREAL:
+	case CamType::CAM_FLYBY:
 	default:
 		return 0;
 	}
@@ -585,8 +479,8 @@ void WorldView::UpdateProjectedObjects()
 		// calculate firing solution and relative velocity along our z axis
 		int laser = -1;
 		double projspeed = 0;
-		if (GetCamType() == CAM_INTERNAL) {
-			switch (m_internalCameraController->GetMode()) {
+		if (shipView.GetCamType() == ShipViewController::CAM_INTERNAL) {
+			switch (shipView.m_internalCameraController->GetMode()) {
 			case InternalCameraController::MODE_FRONT: laser = 0; break;
 			case InternalCameraController::MODE_REAR: laser = 1; break;
 			default: break;
@@ -907,19 +801,6 @@ void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 	m_edgeMarker.Draw(m_renderer, m_blendState);
 }
 
-void WorldView::MouseWheel(bool up)
-{
-	if (this == Pi::GetView()) {
-		if (m_activeCameraController->IsExternal()) {
-			MoveableCameraController *cam = static_cast<MoveableCameraController *>(m_activeCameraController);
-
-			if (!up) // Zoom out
-				cam->ZoomEvent(ZOOM_SPEED * WHEEL_SENSITIVITY);
-			else
-				cam->ZoomEvent(-ZOOM_SPEED * WHEEL_SENSITIVITY);
-		}
-	}
-}
 NavTunnelWidget::NavTunnelWidget(WorldView *worldview, Graphics::RenderState *rs) :
 	Widget(),
 	m_worldView(worldview),
@@ -935,7 +816,7 @@ void NavTunnelWidget::Draw()
 	if (navtarget) {
 		const vector3d navpos = navtarget->GetPositionRelTo(Pi::player);
 		const matrix3x3d &rotmat = Pi::player->GetOrient();
-		const vector3d eyevec = rotmat * m_worldView->m_activeCameraController->GetOrient().VectorZ();
+		const vector3d eyevec = rotmat * m_worldView->shipView.GetCameraController()->GetOrient().VectorZ();
 		if (eyevec.Dot(navpos) >= 0.0) return;
 
 		const double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
@@ -1091,7 +972,7 @@ static vector3d projectToScreenSpace(const vector3d &pos, RefCountedPtr<CameraCo
 // needs to run inside m_cameraContext->Begin/EndFrame();
 vector3d WorldView::WorldSpaceToScreenSpace(const Body *body) const
 {
-	if (body->IsType(Object::PLAYER) && GetCamType() == CAM_INTERNAL)
+	if (body->IsType(Object::PLAYER) && shipView.GetCamType() == ShipViewController::CAM_INTERNAL)
 		return vector3d(0, 0, 0);
 	const Frame *cam_frame = m_cameraContext->GetCamFrame();
 	vector3d pos = body->GetInterpPositionRelTo(cam_frame);
@@ -1126,7 +1007,7 @@ vector3d WorldView::CameraSpaceToScreenSpace(const vector3d &pos) const
 // needs to run inside m_cameraContext->Begin/EndFrame();
 vector3d WorldView::GetTargetIndicatorScreenPosition(const Body *body) const
 {
-	if (body->IsType(Object::PLAYER) && GetCamType() == CAM_INTERNAL)
+	if (body->IsType(Object::PLAYER) && shipView.GetCamType() == ShipViewController::CAM_INTERNAL)
 		return vector3d(0, 0, 0);
 	const Frame *cam_frame = m_cameraContext->GetCamFrame();
 	vector3d pos = body->GetTargetIndicatorPosition(cam_frame);
@@ -1140,7 +1021,7 @@ vector3d WorldView::GetMouseDirection() const
 	const Frame *cam_frame = m_cameraContext->GetCamFrame();
 	matrix3x3d cam_rot = cam_frame->GetInterpOrient();
 	vector3d mouseDir = Pi::player->GetPlayerController()->GetMouseDir() * cam_rot;
-	if (GetCamType() == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR)
+	if (shipView.GetCamType() == ShipViewController::CAM_INTERNAL && shipView.m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR)
 		mouseDir = -mouseDir;
 	return (Pi::player->GetPhysRadius() * 1.5) * mouseDir;
 }
