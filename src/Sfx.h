@@ -4,9 +4,12 @@
 #ifndef _SFX_H
 #define _SFX_H
 
-#include "Body.h"
 #include "graphics/Material.h"
+#include "JsonFwd.h"
 
+#include <deque>
+
+class Body;
 class Frame;
 
 namespace Graphics {
@@ -14,10 +17,12 @@ namespace Graphics {
 	class RenderState;
 }
 
-enum SFX_TYPE { TYPE_EXPLOSION = 1,
+enum SFX_TYPE {
+	TYPE_EXPLOSION = 1,
 	TYPE_DAMAGE,
 	TYPE_SMOKE,
-	TYPE_NONE };
+	TYPE_NONE
+};
 
 class Sfx {
 public:

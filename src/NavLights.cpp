@@ -2,9 +2,12 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "NavLights.h"
+
 #include "FileSystem.h"
 #include "GameSaveError.h"
 #include "IniConfig.h"
+#include "Json.h"
+#include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/SceneGraph.h"

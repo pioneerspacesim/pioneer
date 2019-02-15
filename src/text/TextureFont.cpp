@@ -5,6 +5,7 @@
 #include "FileSystem.h"
 #include "TextSupport.h"
 #include "graphics/Renderer.h"
+#include "graphics/RenderState.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
 #include "libs.h"

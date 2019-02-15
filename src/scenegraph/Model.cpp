@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Model.h"
+
 #include "CollisionVisitor.h"
 #include "FindNodeVisitor.h"
 #include "GameSaveError.h"
@@ -10,8 +11,12 @@
 #include "StringF.h"
 #include "Thruster.h"
 #include "graphics/Renderer.h"
+#include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
+#include "scenegraph/Animation.h"
+#include "scenegraph/MatrixTransform.h"
+#include "scenegraph/Label3D.h"
 #include "utils.h"
 
 namespace SceneGraph {

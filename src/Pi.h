@@ -8,7 +8,6 @@
 #include "JobQueue.h"
 #include "Random.h"
 #include "gameconsts.h"
-#include "graphics/Drawables.h"
 
 #include <map>
 #include <string>
@@ -43,13 +42,21 @@ class ServerAgent;
 namespace Graphics {
 	class Renderer;
 	class Texture;
+	class RenderState;
+	class RenderTarget;
+	namespace Drawables {
+		class TexturedQuad;
+	}
 } // namespace Graphics
+
 namespace SceneGraph {
 	class Model;
 }
+
 namespace Sound {
 	class MusicPlayer;
 }
+
 namespace UI {
 	class Context;
 }

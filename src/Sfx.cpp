@@ -3,20 +3,21 @@
 
 #include "Sfx.h"
 
+#include "Body.h"
 #include "FileSystem.h"
 #include "Frame.h"
 #include "GameSaveError.h"
 #include "IniConfig.h"
 #include "Json.h"
 #include "JsonUtils.h"
+#include "ModelBody.h"
 #include "Pi.h"
-#include "Ship.h"
-#include "Space.h"
 #include "StringF.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
+#include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 
 using namespace Graphics;
@@ -191,8 +192,8 @@ void SfxManager::AddExplosion(Body *b)
 
 	float speed = 200.0f;
 	if (b->IsType(Object::SHIP)) {
-		Ship *s = static_cast<Ship *>(b);
-		speed = s->GetAabb().radius * 8.0;
+		ModelBody *mb = static_cast<ModelBody *>(b);
+		speed = mb->GetAabb().radius * 8.0;
 	}
 	Sfx sfx(b->GetPosition(), b->GetVelocity(), speed, TYPE_EXPLOSION);
 	sfxman->AddInstance(sfx);

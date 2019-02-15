@@ -2,7 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GuiContainer.h"
+
 #include "Gui.h"
+#include "graphics/Renderer.h"
 
 #include <SDL_stdinc.h>
 

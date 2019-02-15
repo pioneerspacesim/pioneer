@@ -8,7 +8,6 @@
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
-#include "graphics/RenderState.h"
 #include "gui/Gui.h"
 #include <set>
 #include <string>
@@ -16,6 +15,10 @@
 
 class Game;
 class Galaxy;
+
+namespace Graphics {
+	class RenderState;
+}
 
 class SectorView : public UIView {
 public:

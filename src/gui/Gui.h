@@ -5,7 +5,8 @@
 #define _GUI_H
 
 #include "Color.h"
-#include "libs.h"
+#include <sigc++/sigc++.h>
+#include <SDL.h>
 
 namespace Graphics {
 	class Renderer;

@@ -12,6 +12,7 @@
 #include "StringF.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
+#include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
 #include "perlin.h"

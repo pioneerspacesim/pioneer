@@ -6,10 +6,9 @@
 /*
  * Blinking navigation lights for ships and stations
  */
-#include "Json.h"
+#include "JsonFwd.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
-#include "libs.h"
 
 namespace Graphics {
 	class Renderer;

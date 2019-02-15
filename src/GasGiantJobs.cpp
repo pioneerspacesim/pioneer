@@ -2,7 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GasGiantJobs.h"
-#include "Game.h"
+
 #include "GasGiant.h"
 #include "Pi.h"
 #include "RefCounted.h"
@@ -15,7 +15,6 @@
 #include "graphics/Types.h"
 #include "graphics/VertexArray.h"
 #include "graphics/opengl/GenGasGiantColourMaterial.h"
-#include "libs.h"
 #include "perlin.h"
 #include "vcacheopt/vcacheopt.h"
 #include <algorithm>

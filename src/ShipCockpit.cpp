@@ -8,8 +8,8 @@
 #include "Game.h"
 #include "Pi.h"
 #include "Player.h"
-#include "ShipType.h"
 #include "WorldView.h"
+#include "graphics/Renderer.h"
 
 ShipCockpit::ShipCockpit(const std::string &modelName) :
 	m_shipDir(0.0),

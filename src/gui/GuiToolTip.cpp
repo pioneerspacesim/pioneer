@@ -3,6 +3,8 @@
 
 #include "Gui.h"
 
+#include "graphics/Renderer.h"
+
 namespace Gui {
 
 	static const float TOOLTIP_PADDING = 5.f;

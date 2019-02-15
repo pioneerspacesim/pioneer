@@ -14,7 +14,6 @@
 #include "ShipType.h"
 #include "SpaceStation.h"
 #include "ship/PlayerShipController.h"
-// #include "Sfx.h"
 #include "Frame.h"
 #include "Game.h"
 #include "HyperspaceCloud.h"

@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SectorView.h"
+
 #include "Game.h"
 #include "GameConfig.h"
 #include "GameSaveError.h"
@@ -11,6 +12,7 @@
 #include "MathUtil.h"
 #include "Pi.h"
 #include "Player.h"
+#include "Space.h"
 #include "StringF.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyCache.h"

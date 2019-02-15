@@ -12,9 +12,11 @@
 #include "Pi.h"
 #include "PiGui.h"
 #include "Player.h"
+#include "Space.h"
 #include "SystemInfoView.h"
 #include "WorldView.h"
 #include "graphics/Graphics.h"
+#include "ship/PlayerShipController.h"
 #include "sound/Sound.h"
 #include "ui/Context.h"
 

@@ -5,7 +5,6 @@
 #define _SHIP_COCKPIT_H_
 
 #include "ModelBody.h"
-#include "scenegraph/Model.h"
 
 static const float COCKPIT_LAG_MAX_ANGLE = 7.5f;
 static const float COCKPIT_ROTATION_INTERP_MULTIPLIER = 5.0f;

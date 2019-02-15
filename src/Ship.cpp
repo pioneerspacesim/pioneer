@@ -26,6 +26,8 @@
 #include "StringF.h"
 #include "WorldView.h"
 #include "graphics/TextureBuilder.h"
+#include "scenegraph/Animation.h"
+#include "scenegraph/MatrixTransform.h"
 #include "ship/PlayerShipController.h"
 
 static const float TONS_HULL_PER_SHIELD = 10.f;

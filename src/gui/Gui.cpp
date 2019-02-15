@@ -3,6 +3,7 @@
 
 #include "Gui.h"
 #include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
 #include "libs.h"
 

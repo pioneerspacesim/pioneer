@@ -6,8 +6,8 @@
 
 #include "Ship.h"
 #include "ShipCockpit.h"
-#include "ship/PlayerShipController.h"
-#include <list>
+
+class PlayerShipController;
 
 namespace Graphics {
 	class Renderer;

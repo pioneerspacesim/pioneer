@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "HyperspaceCloud.h"
+
 #include "Game.h"
 #include "GameSaveError.h"
 #include "Json.h"
@@ -11,6 +12,8 @@
 #include "Ship.h"
 #include "Space.h"
 #include "perlin.h"
+#include "graphics/Renderer.h"
+#include "graphics/RenderState.h"
 
 using namespace Graphics;
 

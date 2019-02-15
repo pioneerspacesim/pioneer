@@ -3,6 +3,8 @@
 
 #include "Gui.h"
 
+#include "graphics/Renderer.h"
+
 static const float METERBAR_PADDING = 5.0f;
 static const float METERBAR_BAR_HEIGHT = 8.0f;
 static const Color OUTER_COLOUR(255, 255, 255, 32);

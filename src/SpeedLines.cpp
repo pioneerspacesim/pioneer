@@ -2,11 +2,13 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SpeedLines.h"
+
 #include "FileSystem.h"
 #include "Frame.h"
 #include "IniConfig.h"
 #include "Pi.h"
 #include "Ship.h"
+#include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
 
 // default values

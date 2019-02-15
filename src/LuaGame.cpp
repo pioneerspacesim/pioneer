@@ -16,6 +16,7 @@
 #include "Player.h"
 #include "SectorView.h"
 #include "ShipCpanel.h"
+#include "Space.h"
 #include "StringF.h"
 #include "SystemInfoView.h"
 #include "SystemView.h"

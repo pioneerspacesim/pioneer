@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GasGiant.h"
+
 #include "FileSystem.h"
 #include "Game.h"
 #include "GameConfig.h"
@@ -11,6 +12,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
+#include "graphics/RenderState.h"
 #include "graphics/Texture.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"

@@ -10,6 +10,7 @@
 
 namespace Graphics {
 	class Material;
+	class VertexArray;
 	class VertexBuffer;
 	class RenderState;
 } // namespace Graphics

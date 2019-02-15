@@ -8,7 +8,6 @@
 #include "GasGiantJobs.h"
 #include "JobQueue.h"
 #include "Random.h"
-#include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
 #include "vector3.h"
@@ -17,7 +16,10 @@
 
 namespace Graphics {
 	class Renderer;
+	class RenderState;
+	class RenderTarget;
 }
+
 class SystemBody;
 class GasGiant;
 class GasPatch;

@@ -2,7 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
-#include "libs.h"
+#include "graphics/Renderer.h"
 
 static const float BUTTON_SIZE = 16.f;
 

@@ -7,6 +7,9 @@
 #include "Parser.h"
 #include "StringF.h"
 #include "utils.h"
+#include "scenegraph/Animation.h"
+#include "scenegraph/MatrixTransform.h"
+#include "scenegraph/Label3D.h"
 
 extern "C" {
 #include "miniz/miniz.h"

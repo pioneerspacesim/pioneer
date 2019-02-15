@@ -13,6 +13,8 @@
 #include "LuaObject.h"
 #include "Pi.h"
 #include "SectorView.h"
+#include "Sfx.h"
+#include "ship/PlayerShipController.h"
 #include "ShipCpanel.h"
 #include "SpaceStation.h"
 #include "StringF.h"
