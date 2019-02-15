@@ -3,8 +3,8 @@
 
 #include "LuaMissile.h"
 
-#include "ShipAICmd.h"
 #include "Ship.h"
+#include "ShipAICmd.h"
 
 /*
  * Class: Missile

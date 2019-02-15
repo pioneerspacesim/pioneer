@@ -20,8 +20,8 @@
 #include "Player.h" // <-- Here only for 1 occurence of "Pi::player" in Ship::Explode
 #include "Sfx.h"
 #include "Shields.h"
-#include "ShipController.h"
 #include "ShipAICmd.h"
+#include "ShipController.h"
 #include "Space.h"
 #include "SpaceStation.h"
 #include "StringF.h"

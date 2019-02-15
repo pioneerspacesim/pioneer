@@ -53,11 +53,11 @@
 #if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"
 #endif
+#include "Beam.h"
 #include "PiGui.h"
 #include "Planet.h"
 #include "Player.h"
 #include "Projectile.h"
-#include "Beam.h"
 #include "SDLWrappers.h"
 #include "SectorView.h"
 #include "ServerAgent.h"

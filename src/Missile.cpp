@@ -3,13 +3,13 @@
 
 #include "Missile.h"
 
-#include "ShipAICmd.h"
 #include "Game.h"
 #include "Lang.h"
 #include "LuaEvent.h"
 #include "Pi.h"
 #include "Sfx.h"
 #include "Ship.h"
+#include "ShipAICmd.h"
 #include "Space.h"
 
 Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)
