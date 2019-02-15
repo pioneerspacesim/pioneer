@@ -897,7 +897,7 @@ void Ship::DoThrusterSounds() const
 
 	// XXX sound logic could be part of a bigger class (ship internal sounds)
 	/* Ship engine noise. less loud inside */
-	float v_env = (Pi::game->GetWorldView()->GetCameraController()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
+	float v_env = (Pi::game->GetWorldView()->shipView.GetCameraController()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 	static Sound::Event sndev;
 	float volBoth = 0.0f;
 	volBoth += 0.5f * fabs(GetPropulsion()->GetLinThrusterState().y);
@@ -1459,7 +1459,7 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	Init();
 	onFlavourChanged.emit();
 	if (IsType(Object::PLAYER))
-		Pi::game->GetWorldView()->SetCamType(Pi::game->GetWorldView()->GetCamType());
+		Pi::game->GetWorldView()->shipView.SetCamType(Pi::game->GetWorldView()->shipView.GetCamType());
 	InitEquipSet();
 
 	LuaEvent::Queue("onShipTypeChanged", this);

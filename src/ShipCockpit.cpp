@@ -43,7 +43,7 @@ void ShipCockpit::Render(Graphics::Renderer *renderer, const Camera *camera, con
 
 inline void ShipCockpit::resetInternalCameraController()
 {
-	m_icc = static_cast<InternalCameraController *>(Pi::game->GetWorldView()->GetCameraController());
+	m_icc = static_cast<InternalCameraController *>(Pi::game->GetWorldView()->shipView.GetCameraController());
 }
 
 void ShipCockpit::Update(const Player *player, float timeStep)

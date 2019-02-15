@@ -576,11 +576,11 @@ static int l_game_set_view(lua_State *l)
 
 static int l_game_get_world_cam_type(lua_State *l)
 {
-	switch (Pi::game->GetWorldView()->GetCamType()) {
-	case WorldView::CAM_INTERNAL: lua_pushstring(l, "internal"); break;
-	case WorldView::CAM_EXTERNAL: lua_pushstring(l, "external"); break;
-	case WorldView::CAM_SIDEREAL: lua_pushstring(l, "sidereal"); break;
-	case WorldView::CAM_FLYBY: lua_pushstring(l, "flyby"); break;
+	switch (Pi::game->GetWorldView()->shipView.GetCamType()) {
+	case ShipViewController::CAM_INTERNAL: lua_pushstring(l, "internal"); break;
+	case ShipViewController::CAM_EXTERNAL: lua_pushstring(l, "external"); break;
+	case ShipViewController::CAM_SIDEREAL: lua_pushstring(l, "sidereal"); break;
+	case ShipViewController::CAM_FLYBY: lua_pushstring(l, "flyby"); break;
 	default: Output("Unknown world view cam type\n"); break;
 	}
 	return 1;
@@ -596,13 +596,13 @@ static int l_game_set_world_cam_type(lua_State *l)
 {
 	std::string cam = luaL_checkstring(l, 1);
 	if (!cam.compare("internal"))
-		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_INTERNAL);
+		Pi::game->GetWorldView()->shipView.SetCamType(ShipViewController::CAM_INTERNAL);
 	else if (!cam.compare("external"))
-		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_EXTERNAL);
+		Pi::game->GetWorldView()->shipView.SetCamType(ShipViewController::CAM_EXTERNAL);
 	else if (!cam.compare("sidereal"))
-		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_SIDEREAL);
+		Pi::game->GetWorldView()->shipView.SetCamType(ShipViewController::CAM_SIDEREAL);
 	else if (!cam.compare("flyby"))
-		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_FLYBY);
+		Pi::game->GetWorldView()->shipView.SetCamType(ShipViewController::CAM_FLYBY);
 	else {
 		// TODO else error
 	}

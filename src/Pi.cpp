@@ -81,6 +81,7 @@
 #include "galaxy/StarSystem.h"
 #include "gameui/Lua.h"
 #include "libs.h"
+#include "ship/ShipViewController.h"
 
 #include "graphics/Renderer.h"
 
@@ -420,6 +421,8 @@ void TestGPUJobsSupport()
 void RegisterInputBindings()
 {
 	PlayerShipController::RegisterInputBindings();
+
+	ShipViewController::InputBindings.RegisterBindings();
 
 	WorldView::RegisterInputBindings();
 }

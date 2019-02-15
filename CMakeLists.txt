@@ -80,6 +80,7 @@ list(APPEND SRC_FOLDERS
 	src/graphics/opengl
 	src/gui
 	src/scenegraph
+	src/ship
 	src/terrain
 	src/text
 	src/ui
