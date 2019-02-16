@@ -56,7 +56,7 @@ bool Input::PushInputFrame(Input::InputFrame *frame)
 		return false;
 	}
 
-	inputFrames.push_front(frame);
+	inputFrames.push_back(frame);
 	frame->onFrameAdded();
 	return true;
 }
@@ -64,8 +64,8 @@ bool Input::PushInputFrame(Input::InputFrame *frame)
 Input::InputFrame *Input::PopInputFrame()
 {
 	if (inputFrames.size() > 0) {
-		auto frame = inputFrames.front();
-		inputFrames.pop_front();
+		auto frame = inputFrames.back();
+		inputFrames.pop_back();
 		frame->onFrameRemoved();
 		return frame;
 	}
@@ -75,8 +75,11 @@ Input::InputFrame *Input::PopInputFrame()
 
 void Input::RemoveInputFrame(Input::InputFrame *frame)
 {
-	inputFrames.remove(frame);
-	frame->onFrameRemoved();
+	auto it = std::find(inputFrames.begin(), inputFrames.end(), frame);
+	if (it != inputFrames.end()) {
+		inputFrames.erase(it);
+		frame->onFrameRemoved();
+	}
 }
 
 KeyBindings::ActionBinding *Input::AddActionBinding(std::string id, BindingGroup *group, KeyBindings::ActionBinding binding)
@@ -158,7 +161,8 @@ void Input::HandleSDLEvent(SDL_Event &event)
 		break;
 	}
 
-	for (auto inputFrame : inputFrames) {
+	for (auto it = inputFrames.rbegin(); it != inputFrames.rend(); it++) {
+		auto *inputFrame = *it;
 		auto resp = inputFrame->ProcessSDLEvent(event);
 		if (resp == RESPONSE_MATCHED) break;
 	}

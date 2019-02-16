@@ -8,7 +8,6 @@
 #include "utils.h"
 
 #include <algorithm>
-#include <list>
 
 class Input {
 	// TODO: better decouple these two classes.
@@ -63,7 +62,7 @@ public:
 	InputFrame *PopInputFrame();
 
 	// Get a read-only list of input frames.
-	const std::list<InputFrame *> &GetInputFrames() { return inputFrames; }
+	const std::vector<InputFrame *> &GetInputFrames() { return inputFrames; }
 
 	// Check if a specific input frame is currently on the stack.
 	bool HasInputFrame(InputFrame *frame)
@@ -154,7 +153,7 @@ private:
 	std::map<std::string, KeyBindings::ActionBinding> actionBindings;
 	std::map<std::string, KeyBindings::AxisBinding> axisBindings;
 
-	std::list<InputFrame *> inputFrames;
+	std::vector<InputFrame *> inputFrames;
 };
 
 #endif
