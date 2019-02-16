@@ -63,7 +63,6 @@
 #include "ServerAgent.h"
 #include "Sfx.h"
 #include "Shields.h"
-#include "ShipController.h"
 #include "ShipCpanel.h"
 #include "ShipType.h"
 #include "Sound.h"
@@ -81,6 +80,7 @@
 #include "galaxy/StarSystem.h"
 #include "gameui/Lua.h"
 #include "libs.h"
+#include "ship/PlayerShipController.h"
 #include "ship/ShipViewController.h"
 
 #include "graphics/Renderer.h"

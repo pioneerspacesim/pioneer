@@ -21,12 +21,12 @@
 #include "Sfx.h"
 #include "Shields.h"
 #include "ShipAICmd.h"
-#include "ShipController.h"
 #include "Space.h"
 #include "SpaceStation.h"
 #include "StringF.h"
 #include "WorldView.h"
 #include "graphics/TextureBuilder.h"
+#include "ship/PlayerShipController.h"
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
 HeatGradientParameters_t Ship::s_heatGradientParams;

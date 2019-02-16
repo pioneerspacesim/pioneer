@@ -1,3 +1,5 @@
+// Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
 
@@ -13,9 +15,9 @@ public:
 		InteractionController(v),
 		m_camType(CAM_INTERNAL) {}
 
-	virtual void Update();
-	virtual void Activated();
-	virtual void Deactivated();
+	void Update() override;
+	void Activated() override;
+	void Deactivated() override;
 
 	enum CamType {
 		CAM_INTERNAL,
