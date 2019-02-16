@@ -58,7 +58,7 @@ public:
 
 	RefCountedPtr<CameraContext> GetCameraContext() const { return m_cameraContext; }
 
-    ShipViewController shipView;
+	ShipViewController shipView;
 
 	/* start deprecated */
 	void ChangeFlightState();
