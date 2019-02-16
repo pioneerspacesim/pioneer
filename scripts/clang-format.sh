@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 CLANG_FORMAT="clang-format"
 if [ "$TRAVIS" = "true" ]; then
@@ -17,12 +17,12 @@ fi
 if [ -n "$TRAVIS" ]; then
     GIT_DIFF_TOOL="git diff-tree"
 else
-    GIT_DIFF_TOOL="git diff-index"
+    GIT_DIFF_TOOL="git diff-index --cached"
 fi
 
 # Allow manually specifiying the files.
 if [ -z "$FILES" ]; then
-    FILES=$($GIT_DIFF_TOOL --no-commit-id --name-only -r $RANGE | grep -v contrib/ | grep -E "\.(c|h|cpp|hpp|cc|hh|cxx|m|mm|inc)$")
+    FILES=$($GIT_DIFF_TOOL --no-commit-id --name-only --diff-filter=d -r $RANGE | grep -v contrib/ | grep -E "\.(c|h|cpp|hpp|cc|hh|cxx|m|mm|inc)$")
 fi
 
 if [ ! $PATCH_MODE ]; then echo -e "Checking files:\n$FILES"; fi
@@ -38,9 +38,12 @@ else
 fi
 
 for file in $FILES; do
-    "$CLANG_FORMAT" -style=file "$file" | \
-    diff $DIFF_COLOR -u "$file" - | \
-    sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/$file|" >> "$patch"
+    CLANG_MESSAGE=`"$CLANG_FORMAT" -style=file "$file"`
+
+    if [ "$?" = "0" ]; then
+        diff $DIFF_COLOR -u "$file" - <<< $CLANG_MESSAGE | \
+        sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/$file|" >> "$patch"
+    fi
 done
 
 # if no patch has been generated all is ok, clean up the file stub and exit
