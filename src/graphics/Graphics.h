@@ -5,7 +5,8 @@
 #define _GRAPHICS_H
 
 #include "RenderTarget.h"
-#include "libs.h"
+#include <memory>
+#include <vector>
 
 /*
  * bunch of reused 3d drawy routines.

@@ -5,9 +5,9 @@
 #define _MISSILE_H
 
 #include "DynamicBody.h"
-#include "ShipAICmd.h"
-#include "libs.h"
-#include <list>
+#include "ShipType.h"
+
+class AICommand;
 
 class Missile : public DynamicBody {
 public:

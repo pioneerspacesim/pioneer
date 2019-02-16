@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "WorldView.h"
+
 #include "Frame.h"
 #include "Game.h"
 #include "GameConfig.h"
@@ -10,33 +11,21 @@
 #include "HyperspaceCloud.h"
 #include "Input.h"
 #include "Lang.h"
-#include "LuaObject.h"
 #include "Pi.h"
-#include "Planet.h"
 #include "Player.h"
 #include "Quaternion.h"
 #include "SectorView.h"
 #include "Sound.h"
-#include "Space.h"
-#include "SpaceStation.h"
 #include "StringF.h"
-#include "SystemView.h"
-#include "galaxy/Galaxy.h"
-#include "galaxy/GalaxyCache.h"
-#include "galaxy/Sector.h"
-#include "galaxy/StarSystem.h"
 #include "graphics/Drawables.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "matrix4x4.h"
-#include "perlin.h"
 #include "ui/Align.h"
 #include "ui/Context.h"
 #include "ui/Label.h"
-#include "utils.h"
-#include <SDL_stdinc.h>
 #include <algorithm>
 #include <iomanip>
 #include <sstream>

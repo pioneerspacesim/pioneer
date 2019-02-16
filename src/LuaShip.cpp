@@ -10,14 +10,15 @@
 #include "LuaVector.h"
 #include "Missile.h"
 #include "Ship.h"
+#include "ShipAICmd.h"
+#include "ShipController.h"
 #include "ShipType.h"
 #include "SpaceStation.h"
 // #include "Sfx.h"
+#include "Frame.h"
 #include "Game.h"
 #include "HyperspaceCloud.h"
 #include "Pi.h"
-#include "Player.h"
-#include "Sound.h"
 #include "Space.h"
 
 /*
@@ -507,10 +508,10 @@ static int l_ship_get_docked_with(lua_State *l)
 
 static int l_ship_request_docking_clearance(lua_State *l)
 {
-	Ship *player = LuaObject<Ship>::CheckFromLua(1);
-	SpaceStation *s = static_cast<SpaceStation *>(LuaObject<Body>::CheckFromLua(2));
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	SpaceStation *ss = static_cast<SpaceStation *>(LuaObject<Body>::CheckFromLua(2));
 	std::string msg;
-	s->GetDockingClearance(player, msg);
+	ss->GetDockingClearance(s, msg);
 	lua_pushstring(l, msg.c_str());
 	return 1;
 }
@@ -674,7 +675,7 @@ static int l_ship_is_ecm_ready(lua_State *l)
  *   respect minimum legal distance for hyperjump. For those features use
  *   <Ship.HyperjumpTo> instead.
  *
- * > status = ship:InitiateHyperjumpTo(path, warmup, duration, checks)
+ * > status = ship:InitiateHyperjumpTo(path, warmup, duration, sounds, checks)
  *
  * Parameters:
  *

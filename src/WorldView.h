@@ -4,15 +4,11 @@
 #ifndef _WORLDVIEW_H
 #define _WORLDVIEW_H
 
-#include "Background.h"
-#include "Camera.h"
 #include "CameraController.h"
 #include "KeyBindings.h"
 #include "SpeedLines.h"
 #include "UIView.h"
-#include "gui/Gui.h"
 #include "gui/GuiWidget.h"
-#include "libs.h"
 
 class Body;
 class Frame;
@@ -20,6 +16,7 @@ class LabelSet;
 class Ship;
 class NavTunnelWidget;
 class Game;
+class SpeedLines;
 
 enum VelIconType {
 	V_PROGRADE,

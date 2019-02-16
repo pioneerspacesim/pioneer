@@ -2,28 +2,26 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Space.h"
+
 #include "Body.h"
 #include "CityOnPlanet.h"
 #include "Frame.h"
 #include "Game.h"
+#include "GameSaveError.h"
 #include "HyperspaceCloud.h"
 #include "Lang.h"
 #include "LuaEvent.h"
 #include "LuaTimer.h"
 #include "MathUtil.h"
-#include "Missile.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "Player.h"
-#include "SectorView.h"
 #include "SpaceStation.h"
 #include "Star.h"
-#include "WorldView.h"
 #include "collider/collider.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
-#include "libs.h"
 #include <algorithm>
 #include <functional>
 

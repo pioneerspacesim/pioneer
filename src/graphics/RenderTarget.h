@@ -8,7 +8,6 @@
  * renderer->CreateRenderTarget.
  */
 #include "Texture.h"
-#include "libs.h"
 
 namespace Graphics {
 

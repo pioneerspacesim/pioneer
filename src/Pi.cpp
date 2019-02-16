@@ -13,14 +13,11 @@
 #include "EnumStrings.h"
 #include "FaceParts.h"
 #include "FileSystem.h"
-
-#if 0
 #include "Frame.h"
-#endif // 0
-
 #include "Game.h"
 #include "GameConfig.h"
 #include "GameLog.h"
+#include "GameSaveError.h"
 #include "Input.h"
 #include "Intro.h"
 #include "KeyBindings.h"
@@ -56,11 +53,11 @@
 #if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"
 #endif
+#include "Beam.h"
 #include "PiGui.h"
 #include "Planet.h"
 #include "Player.h"
 #include "Projectile.h"
-#include "Propulsion.h"
 #include "SDLWrappers.h"
 #include "SectorView.h"
 #include "ServerAgent.h"
@@ -789,6 +786,7 @@ void Pi::Quit()
 		_pclose(Pi::ffmpegFile);
 	}
 	Projectile::FreeModel();
+	Beam::FreeModel();
 	delete Pi::intro;
 	delete Pi::luaConsole;
 	NavLights::Uninit();

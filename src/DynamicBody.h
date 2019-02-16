@@ -4,14 +4,13 @@
 #ifndef _DYNAMICBODY_H
 #define _DYNAMICBODY_H
 
-#include "Body.h"
 #include "ModelBody.h"
-#include "Orbit.h"
 #include "matrix4x4.h"
 #include "vector3.h"
 
 class Propulsion;
 class FixedGuns;
+class Orbit;
 
 class DynamicBody : public ModelBody {
 private:

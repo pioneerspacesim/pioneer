@@ -5,13 +5,11 @@
 #define _SECTORVIEW_H
 
 #include "UIView.h"
-#include "View.h"
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
 #include "graphics/RenderState.h"
 #include "gui/Gui.h"
-#include "libs.h"
 #include <set>
 #include <string>
 #include <vector>

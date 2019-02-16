@@ -7,17 +7,23 @@
 #include "CityOnPlanet.h"
 #include "EnumStrings.h"
 #include "Frame.h"
+#include "Game.h"
 #include "GameLog.h"
+#include "GameSaveError.h"
 #include "HyperspaceCloud.h"
 #include "Lang.h"
 #include "LuaEvent.h"
+#include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Missile.h"
 #include "Planet.h"
 #include "Player.h" // <-- Here only for 1 occurence of "Pi::player" in Ship::Explode
 #include "Sfx.h"
 #include "Shields.h"
+#include "ShipAICmd.h"
 #include "ShipController.h"
+#include "Space.h"
+#include "SpaceStation.h"
 #include "StringF.h"
 #include "WorldView.h"
 #include "graphics/TextureBuilder.h"
@@ -414,7 +420,9 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 {
 	// Collision with SpaceStation docking surface is
 	// completely handled by SpaceStations, you only
-	// need to return a "true" value for Space.cpp bounce
+	// need to return a "true" value in order to trigger
+	// a bounce in Space::OnCollision
+	// NOTE: 0x10 is a special flag set on docking surfaces
 	if (b->IsType(Object::SPACESTATION) && (flags & 0x10)) {
 		return true;
 	}
