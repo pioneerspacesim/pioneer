@@ -156,6 +156,8 @@ enum RunMode {
 	MODE_USAGE_ERROR
 };
 
+static FileSystem::FileSourceFS customDataDir(".");
+
 int main(int argc, char **argv)
 {
 #ifdef PIONEER_PROFILER
@@ -249,6 +251,12 @@ start:
 		if (argc > 2) {
 			std::string arg2 = argv[2];
 			isInPlace = (arg2 == "inplace" || arg2 == "true");
+
+			if (!isInPlace && !arg2.empty()) {
+				customDataDir = FileSystem::FileSourceFS(arg2);
+				FileSystem::gameDataFiles.AppendSource(&customDataDir);
+				isInPlace = true;
+			}
 		}
 
 		// find all of the models

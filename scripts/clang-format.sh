@@ -17,7 +17,7 @@ fi
 if [ -n "$TRAVIS" ]; then
     GIT_DIFF_TOOL="git diff-tree"
 else
-    GIT_DIFF_TOOL="git diff-index"
+    GIT_DIFF_TOOL="git diff-index --cached"
 fi
 
 # Allow manually specifiying the files.
