@@ -29,7 +29,7 @@
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "{mission} Mission: Salary {cash}."
+    "message": "{mission} küldetés: Fizetés {cash}."
   },
   "AGENT": {
     "description": "Secret Service Agent",
@@ -41,7 +41,7 @@
   },
   "BONUS_1": {
     "description": "",
-    "message": "My supervisor was impressed about your performance and has allotted a bonus of {cash} for this mission."
+    "message": "A megbízómra jó benyomást tettél, ezért átutalt {cash} jutalmat a küldetésért."
   },
   "BONUS_2": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "CORPORATION_1": {
     "description": "Name of a corporation",
-    "message": "Precious Goods Foundation"
+    "message": "Nagyértékű Árualap"
   },
   "CORPORATION_2": {
     "description": "Name of a corporation",
@@ -117,23 +117,23 @@
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "You are too late! You have caused great losses. You will not be paid!"
+    "message": "Késtél! Nagy veszteséget okoztál. Nem kapsz fizetséget!"
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "You're a disgrace to all pilots. I cannot pay you!"
+    "message": "Pilóták szégyene! Nem fizethetlek ki!"
   },
   "FAILUREMSG_4": {
     "description": "",
-    "message": "You failed! I will not pay you!"
+    "message": "Elbuktad a küldetést! Nem fizetünk!"
   },
   "GREETING_1": {
     "description": "",
-    "message": "Hi, I'm {name}."
+    "message": "Üdv, a nevem {name}."
   },
   "GREETING_2": {
     "description": "",
-    "message": "Hello. My name is {name}."
+    "message": "Helló. A nevem {name}."
   },
   "GREETING_3": {
     "description": "",
@@ -141,11 +141,11 @@
   },
   "GREETING_4": {
     "description": "",
-    "message": "Greetings! Call me {name}."
+    "message": "Üdv! Hívjon csak {name} néven."
   },
   "GREETING_5": {
     "description": "",
-    "message": "Good day. My name is {name}."
+    "message": "Jó napot. A nevem {name}."
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
@@ -173,7 +173,7 @@
   },
   "IS_THERE_A_TIME_LIMIT": {
     "description": "",
-    "message": "Is there a time limit?"
+    "message": "Van valamilyen időkorlát?"
   },
   "LY": {
     "description": "",
