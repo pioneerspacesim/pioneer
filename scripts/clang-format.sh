@@ -38,9 +38,12 @@ else
 fi
 
 for file in $FILES; do
-    "$CLANG_FORMAT" -style=file "$file" | \
-    diff $DIFF_COLOR -u "$file" - | \
-    sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/$file|" >> "$patch"
+    CLANG_MESSAGE=`"$CLANG_FORMAT" -style=file "$file"`
+
+    if [ "$?" = "0" ]; then
+        diff $DIFF_COLOR -u "$file" - <<< $CLANG_MESSAGE | \
+        sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/$file|" >> "$patch"
+    fi
 done
 
 # if no patch has been generated all is ok, clean up the file stub and exit
