@@ -7,12 +7,10 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - mesa-common-dev
-      - libfreetype6-dev
       - libfreeimage-dev
       - libglew-dev
       - libsigc++-2.0-dev
       - libvorbis-dev
-      - libpng16-dev
       - libassimp-dev
       - libsdl2-dev
       - libsdl2-image-dev
