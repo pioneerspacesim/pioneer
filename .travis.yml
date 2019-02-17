@@ -1,44 +1,59 @@
-dist: trusty
+dist: xenial
 language: minimal
+compiler: gcc
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-    packages: &packages
-      - gcc-4.9
-      - g++-4.9
+    packages:
       - mesa-common-dev
       - libfreetype6-dev
       - libfreeimage-dev
       - libglew-dev
       - libsigc++-2.0-dev
       - libvorbis-dev
-      - libpng-dev
+      - libpng16-dev
+      - libassimp-dev
+      - libsdl2-dev
+      - libsdl2-image-dev
+  homebrew:
+    packages:
+      - gcc
+      - freetype
+      - freeimage
+      - glew
+      - libsigc++
+      - libvorbis
+      - libpng
+      - assimp
+      - sdl2
+      - sdl2_image
+      - libogg
 matrix:
   include:
     - name: Static Checks
+      os: osx # OSX is twice as fast to complete the checks
       env: STATIC_CHECKS=yes
       deploy: false
       before_install: skip
       addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
+        homebrew:
           packages:
-            - clang-format-6.0
-            - libstdc++6 # >= 4.9 needed for clang-format-6.0
+            clang-format
       script: sh ./scripts/clang-format.sh
 
     - name: Build GCC
-      # >= 4.9 needed for C++11 support
-      compiler: gcc
-      env: CC=gcc-4.9 CXX=g++-4.9
-      before_install:
-        - git clone --depth 1 git://github.com/pioneerspacesim/pioneer-thirdparty.git pioneer-thirdparty
-        - cd pioneer-thirdparty/ && autoconf && ./configure "$CONFIGURE_OPTS" && make assimp && make sdl2 && make sdl2_image && cd ../
-      script:
-        - ./bootstrap cmake -DUSE_PIONEER_THIRDPARTY=1 && make -C build
+      os: linux
+
+    - name: Build Clang
+      os: linux
+      env: CC=clang CXX=clang++
+
+    - name: Build OSX
+      os: osx
+
+script:
+  - ./bootstrap cmake && make -C build
 
 before_deploy:
   - env SDL_VIDEODRIVER=dummy ./build/modelcompiler -b inplace

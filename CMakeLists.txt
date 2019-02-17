@@ -23,6 +23,11 @@ if (WIN32)
 	set(CMAKE_INSTALL_BINDIR ${CMAKE_INSTALL_PREFIX})
 endif (WIN32)
 
+if (APPLE)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-gnu")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu")
+endif(APPLE)
+
 if (CMAKE_COMPILER_IS_GNUCXX)
     if (NOT IS_TRAVIS)
         add_compile_options(-fdiagnostics-color)
