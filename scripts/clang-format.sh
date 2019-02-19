@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 CLANG_FORMAT="clang-format"
 if [ "$TRAVIS" = "true" ]; then
@@ -22,7 +22,7 @@ fi
 
 # Allow manually specifiying the files.
 if [ -z "$FILES" ]; then
-    FILES=$($GIT_DIFF_TOOL --no-commit-id --name-only -r $RANGE | grep -v contrib/ | grep -E "\.(c|h|cpp|hpp|cc|hh|cxx|m|mm|inc)$")
+    FILES=$($GIT_DIFF_TOOL --no-commit-id --name-only --diff-filter=d -r $RANGE | grep -v contrib/ | grep -E "\.(c|h|cpp|hpp|cc|hh|cxx|m|mm|inc)$")
 fi
 
 if [ ! $PATCH_MODE ]; then echo -e "Checking files:\n$FILES"; fi
@@ -41,7 +41,7 @@ for file in $FILES; do
     CLANG_MESSAGE=`"$CLANG_FORMAT" -style=file "$file"`
 
     if [ "$?" = "0" ]; then
-        diff $DIFF_COLOR -u "$file" - <<< $CLANG_MESSAGE | \
+        diff $DIFF_COLOR -u "$file" - <<< "$CLANG_MESSAGE" | \
         sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/$file|" >> "$patch"
     fi
 done

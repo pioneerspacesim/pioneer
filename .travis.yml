@@ -38,7 +38,7 @@ matrix:
         homebrew:
           packages:
             clang-format
-      script: sh ./scripts/clang-format.sh
+      script: bash ./scripts/clang-format.sh
 
     - name: Build GCC
       os: linux

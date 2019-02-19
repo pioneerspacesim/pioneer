@@ -1,7 +1,7 @@
 {
   "ACCEPTED_1": {
     "description": "",
-    "message": "Very well. Good luck!"
+    "message": "Rendben. Sok szerencsét!"
   },
   "ACCEPTED_2": {
     "description": "",
@@ -149,7 +149,7 @@
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We have reason to believe that a ruthless market competitor is responsible for the disappearance of our freighters at {area}. Distance to the target area is {dist} ly."
+    "message": "Az {org} {cash}-ben fizet egy {mission} küldetésért a {system} rendszerben ({sectorx}, {sectory}, {sectorz}). Jó okunk van feltételezni, hogy egy könyörtelen versenytárs a felelős a szállítóhajóink eltűnéséért az {area}-ban. Az úticél távolsága {dist} fényév."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
