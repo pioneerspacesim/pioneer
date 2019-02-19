@@ -28,7 +28,7 @@ matrix:
           packages:
             - clang-format-6.0
             - libstdc++6 # >= 4.9 needed for clang-format-6.0
-      script: sh ./scripts/clang-format.sh
+      script: bash ./scripts/clang-format.sh
 
     - name: Build GCC
       # >= 4.9 needed for C++11 support

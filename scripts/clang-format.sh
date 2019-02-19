@@ -41,7 +41,7 @@ for file in $FILES; do
     CLANG_MESSAGE=`"$CLANG_FORMAT" -style=file "$file"`
 
     if [ "$?" = "0" ]; then
-        diff $DIFF_COLOR -u "$file" - <<< $CLANG_MESSAGE | \
+        diff $DIFF_COLOR -u "$file" - <<< "$CLANG_MESSAGE" | \
         sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/$file|" >> "$patch"
     fi
 done
