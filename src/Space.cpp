@@ -24,16 +24,23 @@
 #include "graphics/Graphics.h"
 #include <algorithm>
 #include <functional>
+#include <cfenv>
 
 //#define DEBUG_CACHE
 
 void Space::BodyNearFinder::Prepare()
 {
+	std::feclearexcept(FE_ALL_EXCEPT);
+
 	m_bodyDist.clear();
 
 	for (Body *b : m_space->GetBodies())
 		m_bodyDist.push_back(BodyDist(b, b->GetPositionRelTo(m_space->GetRootFrame()).LengthSqr()));
 
+	if (std::fetestexcept(FE_OVERFLOW)) {
+		Output("Seems a 'FE_OVERFLOW' happens in 'Space::BodyNearFinder::Prepare()'...\nProbably you should not have used 'squared' distances\n");
+		exit(1);
+	}
 	std::sort(m_bodyDist.begin(), m_bodyDist.end());
 }
 
