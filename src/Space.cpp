@@ -32,7 +32,7 @@ void Space::BodyNearFinder::Prepare()
 	m_bodyDist.clear();
 
 	for (Body *b : m_space->GetBodies())
-		m_bodyDist.push_back(BodyDist(b, b->GetPositionRelTo(m_space->GetRootFrame()).Length()));
+		m_bodyDist.push_back(BodyDist(b, b->GetPositionRelTo(m_space->GetRootFrame()).LengthSqr()));
 
 	std::sort(m_bodyDist.begin(), m_bodyDist.end());
 }
@@ -46,10 +46,10 @@ void Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist,
 {
 	if (m_bodyDist.empty()) return;
 
-	const double len = pos.Length();
+	const double len = pos.LengthSqr();
 
-	std::vector<BodyDist>::const_iterator min = std::lower_bound(m_bodyDist.begin(), m_bodyDist.end(), len - dist);
-	std::vector<BodyDist>::const_iterator max = std::upper_bound(min, m_bodyDist.end(), len + dist);
+	std::vector<BodyDist>::const_iterator min = std::lower_bound(m_bodyDist.begin(), m_bodyDist.end(), len - dist*dist);
+	std::vector<BodyDist>::const_iterator max = std::upper_bound(min, m_bodyDist.end(), len + dist*dist);
 
 	while (min != max) {
 		bodies.push_back((*min).body);
