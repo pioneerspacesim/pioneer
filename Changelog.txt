@@ -9,6 +9,8 @@ February 2019
      * Close default ctors and use a Ctor for load (#4527)
      * Make modelcompiler handle custom data dir (#4523)
      * Another decouple (#4538)
+     * Improve clang format tools (#4539)
+     * Improve OSX Travis build script (#4540)
 
 January 2019
    * New Features
