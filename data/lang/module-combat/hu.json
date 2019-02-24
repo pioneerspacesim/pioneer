@@ -153,7 +153,7 @@
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "Our market competitor is seriously claiming he has ownership of {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The {org} totally disagree and is willing to pay {cash} for a combat mission at {area}. {area} is in a distance of {dist} ly."
+    "message": "Piaci versenytársunk komolyan állítja, hogy a  {system} rendszer {area} szektora ({sectorx}, {sectory}, {sectorz}) az ő fennhatóságuk alatt van. Az {org} nem ért ezzel egyet, és hajlandó {cash} összeget áldozni egy harci küldetésért a {area} szektorban. {area} távolsága innen {dist} fényév."
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
