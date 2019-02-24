@@ -78,15 +78,14 @@ public:
 	void RefreshBackground();
 
 	// body finder delegates
-	typedef std::vector<Body *> BodyNearList;
-	typedef BodyNearList::iterator BodyNearIterator;
-	void GetBodiesMaybeNear(const Body *b, double dist, BodyNearList &bodies) const
+	typedef const std::vector<Body *> &BodyNearList;
+	BodyNearList GetBodiesMaybeNear(const Body *b, double dist)
 	{
-		m_bodyNearFinder.GetBodiesMaybeNear(b, dist, bodies);
+		return m_bodyNearFinder.GetBodiesMaybeNear(b, dist);
 	}
-	void GetBodiesMaybeNear(const vector3d &pos, double dist, BodyNearList &bodies) const
+	BodyNearList GetBodiesMaybeNear(const vector3d &pos, double dist)
 	{
-		m_bodyNearFinder.GetBodiesMaybeNear(pos, dist, bodies);
+		return m_bodyNearFinder.GetBodiesMaybeNear(pos, dist);
 	}
 
 private:
@@ -138,8 +137,8 @@ private:
 			m_space(space) {}
 		void Prepare();
 
-		void GetBodiesMaybeNear(const Body *b, double dist, BodyNearList &bodies) const;
-		void GetBodiesMaybeNear(const vector3d &pos, double dist, BodyNearList &bodies) const;
+		BodyNearList GetBodiesMaybeNear(const Body *b, double dist);
+		BodyNearList GetBodiesMaybeNear(const vector3d &pos, double dist);
 
 	private:
 		struct BodyDist {
@@ -157,6 +156,7 @@ private:
 
 		const Space *m_space;
 		std::vector<BodyDist> m_bodyDist;
+		std::vector<Body *> m_nearBodies;
 	};
 
 	BodyNearFinder m_bodyNearFinder;

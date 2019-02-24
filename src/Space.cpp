@@ -32,29 +32,34 @@ void Space::BodyNearFinder::Prepare()
 	m_bodyDist.clear();
 
 	for (Body *b : m_space->GetBodies())
-		m_bodyDist.push_back(BodyDist(b, b->GetPositionRelTo(m_space->GetRootFrame()).Length()));
+		m_bodyDist.push_back(std::move(BodyDist(b, b->GetPositionRelTo(m_space->GetRootFrame()).Length())));
 
 	std::sort(m_bodyDist.begin(), m_bodyDist.end());
 }
 
-void Space::BodyNearFinder::GetBodiesMaybeNear(const Body *b, double dist, BodyNearList &bodies) const
+Space::BodyNearList Space::BodyNearFinder::GetBodiesMaybeNear(const Body *b, double dist)
 {
-	GetBodiesMaybeNear(b->GetPositionRelTo(m_space->GetRootFrame()), dist, bodies);
+	return GetBodiesMaybeNear(b->GetPositionRelTo(m_space->GetRootFrame()), dist);
 }
 
-void Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist, BodyNearList &bodies) const
+Space::BodyNearList Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist)
 {
-	if (m_bodyDist.empty()) return;
+	if (m_bodyDist.empty()) {
+		m_nearBodies.clear();
+		return m_nearBodies;
+	}
 
 	const double len = pos.Length();
 
 	std::vector<BodyDist>::const_iterator min = std::lower_bound(m_bodyDist.begin(), m_bodyDist.end(), len - dist);
-	std::vector<BodyDist>::const_iterator max = std::upper_bound(min, m_bodyDist.end(), len + dist);
+	std::vector<BodyDist>::const_iterator max = std::upper_bound(min, m_bodyDist.cend(), len + dist);
 
-	while (min != max) {
-		bodies.push_back((*min).body);
-		++min;
-	}
+	m_nearBodies.clear();
+	m_nearBodies.reserve(max - min);
+
+	std::for_each(min, max, [&](BodyDist const &bd) { m_nearBodies.push_back(bd.body); });
+
+	return m_nearBodies;
 }
 
 Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space *oldSpace) :

@@ -295,7 +295,6 @@ private:
 	double m_lastFiringAlert;
 	bool m_shipNear;
 	bool m_shipFiring;
-	Space::BodyNearList m_nearbyBodies;
 
 	HyperspaceCloud *m_hyperspaceCloud;
 

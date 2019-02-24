@@ -143,11 +143,10 @@ void Missile::TimeStepUpdate(const float timeStep)
 	if (!m_owner) {
 		Explode();
 	} else if (m_armed) {
-		Space::BodyNearList nearby;
-		Pi::game->GetSpace()->GetBodiesMaybeNear(this, MISSILE_DETECTION_RADIUS, nearby);
-		for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
-			if (*i == this) continue;
-			double dist = ((*i)->GetPosition() - GetPosition()).Length();
+		Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(this, MISSILE_DETECTION_RADIUS);
+		for (Body *body : nearby) {
+			if (body == this) continue;
+			double dist = (body->GetPosition() - GetPosition()).Length();
 			if (dist < MISSILE_DETECTION_RADIUS) {
 				Explode();
 				break;
@@ -180,16 +179,15 @@ void Missile::Explode()
 	const double kgDamage = 10000.0;
 
 	CollisionContact dummy;
-	Space::BodyNearList nearby;
-	Pi::game->GetSpace()->GetBodiesMaybeNear(this, damageRadius, nearby);
-	for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
-		if ((*i)->GetFrame() != GetFrame()) continue;
-		double dist = ((*i)->GetPosition() - GetPosition()).Length();
+	Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(this, damageRadius);
+	for (Body *body : nearby) {
+		if (body->GetFrame() != GetFrame()) continue;
+		double dist = (body->GetPosition() - GetPosition()).Length();
 		if (dist < damageRadius) {
 			// linear damage decay with distance
-			(*i)->OnDamage(m_owner, kgDamage * (damageRadius - dist) / damageRadius, dummy);
-			if ((*i)->IsType(Object::SHIP))
-				LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(*i), m_owner);
+			body->OnDamage(m_owner, kgDamage * (damageRadius - dist) / damageRadius, dummy);
+			if (body->IsType(Object::SHIP))
+				LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(body), m_owner);
 		}
 	}
 

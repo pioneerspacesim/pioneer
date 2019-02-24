@@ -189,23 +189,22 @@ void RadarWidget::Update()
 	float combat_dist = 0, far_ship_dist = 0, nav_dist = 0, far_other_dist = 0;
 
 	// collect the bodies to be displayed, and if AUTO, distances
-	Space::BodyNearList nearby;
-	Pi::game->GetSpace()->GetBodiesMaybeNear(Pi::player, RADAR_RANGE_MAX, nearby);
-	for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
-		if ((*i) == Pi::player) continue;
+	Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(Pi::player, RADAR_RANGE_MAX);
+	for (Body *body : nearby) {
+		if (body == Pi::player) continue;
 
-		float dist = float((*i)->GetPositionRelTo(Pi::player).Length());
+		float dist = float(body->GetPositionRelTo(Pi::player).Length());
 
 		Contact c;
-		c.type = (*i)->GetType();
-		c.pos = (*i)->GetPositionRelTo(Pi::player);
+		c.type = body->GetType();
+		c.pos = body->GetPositionRelTo(Pi::player);
 		c.isSpecial = false;
 
-		switch ((*i)->GetType()) {
+		switch (body->GetType()) {
 
 		case Object::MISSILE:
 			// player's own missiles are ignored for range calc but still shown
-			if (static_cast<const Missile *>(*i)->GetOwner() == Pi::player) {
+			if (static_cast<const Missile *>(body)->GetOwner() == Pi::player) {
 				c.isSpecial = true;
 				break;
 			}
@@ -213,11 +212,11 @@ void RadarWidget::Update()
 			// else fall through
 
 		case Object::SHIP: {
-			const Ship *s = static_cast<const Ship *>(*i);
+			const Ship *s = static_cast<const Ship *>(body);
 			if (s->GetFlightState() != Ship::FLYING && s->GetFlightState() != Ship::LANDED)
 				continue;
 
-			if ((*i) == Pi::player->GetCombatTarget()) c.isSpecial = true;
+			if ((body) == Pi::player->GetCombatTarget()) c.isSpecial = true;
 
 			if (m_mode == RADAR_MODE_AUTO && range_type != RANGE_COMBAT) {
 				if (c.isSpecial == true) {
@@ -235,7 +234,7 @@ void RadarWidget::Update()
 		case Object::CARGOBODY:
 		case Object::HYPERSPACECLOUD:
 
-			if ((*i) == Pi::player->GetNavTarget()) c.isSpecial = true;
+			if ((body) == Pi::player->GetNavTarget()) c.isSpecial = true;
 
 			if (m_mode == RADAR_MODE_AUTO && range_type < RANGE_NAV) {
 				if (c.isSpecial == true) {

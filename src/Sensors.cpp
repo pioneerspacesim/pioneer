@@ -104,15 +104,14 @@ void Sensors::Update(float time)
 
 	//Find nearby contacts, same range as radar scanner. It should use these
 	//contacts, worldview labels too.
-	Space::BodyNearList nearby;
-	Pi::game->GetSpace()->GetBodiesMaybeNear(m_owner, 100000.0f, nearby);
-	for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
-		if ((*i) == m_owner || !(*i)->IsType(Object::SHIP)) continue;
-		if ((*i)->IsDead()) continue;
+	Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(m_owner, 100000.0f);
+	for (Body *body : nearby) {
+		if (body == m_owner || !body->IsType(Object::SHIP)) continue;
+		if (body->IsDead()) continue;
 
 		auto cit = m_radarContacts.begin();
 		while (cit != m_radarContacts.end()) {
-			if (cit->body == (*i)) break;
+			if (cit->body == body) break;
 			++cit;
 		}
 
@@ -120,7 +119,7 @@ void Sensors::Update(float time)
 		if (cit == m_radarContacts.end()) {
 			m_radarContacts.push_back(RadarContact());
 			RadarContact &rc = m_radarContacts.back();
-			rc.body = (*i);
+			rc.body = body;
 			rc.iff = CheckIFF(rc.body);
 			rc.trail = new HudTrail(rc.body, IFFColor(rc.iff));
 		} else {
