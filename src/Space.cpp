@@ -37,12 +37,12 @@ void Space::BodyNearFinder::Prepare()
 	std::sort(m_bodyDist.begin(), m_bodyDist.end());
 }
 
-Space::BodyNearList Space::BodyNearFinder::GetBodiesMaybeNear(const Body *b, double dist)
+Space::BodyNearList &Space::BodyNearFinder::GetBodiesMaybeNear(const Body *b, double dist)
 {
 	return GetBodiesMaybeNear(b->GetPositionRelTo(m_space->GetRootFrame()), dist);
 }
 
-Space::BodyNearList Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist)
+Space::BodyNearList &Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist)
 {
 	if (m_bodyDist.empty()) {
 		m_nearBodies.clear();
