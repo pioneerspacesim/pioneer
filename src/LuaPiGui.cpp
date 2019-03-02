@@ -1251,33 +1251,33 @@ static int l_pigui_get_mouse_clicked_pos(lua_State *l)
 	return 1;
 }
 
-std::tuple<bool, vector3d, vector3d> lua_world_space_to_screen_space(vector3d pos)
+TScreenSpace lua_world_space_to_screen_space(const vector3d &pos)
 {
 	PROFILE_SCOPED()
-	WorldView *wv = Pi::game->GetWorldView();
-	vector3d p = wv->WorldSpaceToScreenSpace(pos);
+	const WorldView *wv = Pi::game->GetWorldView();
+	const vector3d p = wv->WorldSpaceToScreenSpace(pos);
 	const int width = Graphics::GetScreenWidth();
 	const int height = Graphics::GetScreenHeight();
-	vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
+	const vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
 	if (vector3d(0, 0, 0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
-		return std::make_tuple(false, vector3d(0, 0, 0), direction * (p.z > 0 ? -1 : 1));
+		return TScreenSpace(false, vector3d(0, 0, 0), direction * (p.z > 0 ? -1 : 1));
 	} else {
-		return std::make_tuple(true, vector3d(p.x, p.y, 0), direction);
+		return TScreenSpace(true, vector3d(p.x, p.y, 0), direction);
 	}
 }
 
-std::tuple<bool, vector3d, vector3d> lua_world_space_to_screen_space(Body *body)
+TScreenSpace lua_world_space_to_screen_space(const Body *body)
 {
 	PROFILE_SCOPED()
-	WorldView *wv = Pi::game->GetWorldView();
-	vector3d p = wv->WorldSpaceToScreenSpace(body);
+	const WorldView *wv = Pi::game->GetWorldView();
+	const vector3d p = wv->WorldSpaceToScreenSpace(body);
 	const int width = Graphics::GetScreenWidth();
 	const int height = Graphics::GetScreenHeight();
-	vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
+	const vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
 	if (vector3d(0, 0, 0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
-		return std::make_tuple(false, vector3d(0, 0, 0), direction * (p.z > 0 ? -1 : 1));
+		return TScreenSpace(false, vector3d(0, 0, 0), direction * (p.z > 0 ? -1 : 1));
 	} else {
-		return std::make_tuple(true, vector3d(p.x, p.y, 0), direction);
+		return TScreenSpace(true, vector3d(p.x, p.y, 0), direction);
 	}
 }
 
@@ -1289,18 +1289,18 @@ static int l_pigui_get_projected_bodies(lua_State *l)
 		if (body == Pi::game->GetPlayer()) continue;
 		if (body->GetType() == Object::PROJECTILE) continue;
 
-		LuaTable object(l);
+		const TScreenSpace res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
+		if (res._onScreen)
+		{
+			LuaTable object(l);
 
-		object.Set("type", EnumStrings::GetString("PhysicsObjectType", body->GetType()));
+			object.Set("onscreen", res._onScreen);
+			object.Set("screenCoordinates", res._screenPosition);
+			object.Set("body", body);
 
-		std::tuple<bool, vector3d, vector3d> res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
-		object.Set("onscreen", std::get<0>(res));
-		object.Set("screenCoordinates", std::get<1>(res));
-		object.Set("direction", std::get<2>(res));
-		object.Set("body", body);
-
-		result.Set(body, object);
-		lua_pop(l, 1);
+			result.Set(body, object);
+			lua_pop(l, 1);
+		}
 	}
 	LuaPush(l, result);
 	return 1;

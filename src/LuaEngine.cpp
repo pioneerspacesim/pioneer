@@ -821,11 +821,11 @@ static int l_engine_world_space_to_screen_space(lua_State *l)
 {
 	vector3d pos = LuaPull<vector3d>(l, 1);
 
-	std::tuple<bool, vector3d, vector3d> res = lua_world_space_to_screen_space(pos); // defined in LuaPiGui.cpp
+	TScreenSpace res = lua_world_space_to_screen_space(pos); // defined in LuaPiGui.cpp
 
-	LuaPush<bool>(l, std::get<0>(res));
-	LuaPush<vector3d>(l, std::get<1>(res));
-	LuaPush<vector3d>(l, std::get<2>(res));
+	LuaPush<bool>(l, res._onScreen);
+	LuaPush<vector3d>(l, res._screenPosition);
+	LuaPush<vector3d>(l, res._direction);
 	return 3;
 }
 
