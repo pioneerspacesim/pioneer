@@ -1619,15 +1619,9 @@ void Pi::SetMouseGrab(bool on)
 void Pi::DrawPiGui(double delta, std::string handler)
 {
 	PROFILE_SCOPED()
-//  #define PROFILE_LUA_TIME 1
-#ifdef PROFILE_LUA_TIME
-	auto before = clock();
-#endif
+	
 	if (!IsConsoleActive())
 		Pi::pigui->Render(delta, handler);
-#ifdef PROFILE_LUA_TIME
-	auto after = clock();
-	Output("Lua PiGUI took %f\n", double(after - before) / CLOCKS_PER_SEC);
-#endif
+
 	PiGui::RenderImGui();
 }
