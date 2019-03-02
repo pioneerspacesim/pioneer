@@ -14,6 +14,16 @@ local Vector = import("Vector")
 local Color = import("Color")
 local Lang = import("Lang")
 
+local a = vector.new(0,1,0)
+local b = vector.new(1,0,0)
+local c = vector.cross(b, a)
+print("It Seems that ")
+print(a)
+print("cross")
+print(b)
+print("will result in")
+print(c)
+
 local lui = Lang.GetResource("ui-core");
 local lc = Lang.GetResource("core");
 local lec = Lang.GetResource("equipment-core");

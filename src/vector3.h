@@ -13,17 +13,6 @@
 #pragma pack(4)
 
 template <typename T>
-struct other_floating_type {};
-template <>
-struct other_floating_type<float> {
-	typedef double type;
-};
-template <>
-struct other_floating_type<double> {
-	typedef float type;
-};
-
-template <typename T>
 class vector3 {
 public:
 	T x, y, z;
