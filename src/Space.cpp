@@ -39,14 +39,14 @@ void Space::BodyNearFinder::Prepare()
 
 Space::BodyNearList &Space::BodyNearFinder::GetBodiesMaybeNear(const Body *b, double dist)
 {
-	return GetBodiesMaybeNear(b->GetPositionRelTo(m_space->GetRootFrame()), dist);
+	return std::move(GetBodiesMaybeNear(b->GetPositionRelTo(m_space->GetRootFrame()), dist));
 }
 
 Space::BodyNearList &Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist)
 {
 	if (m_bodyDist.empty()) {
 		m_nearBodies.clear();
-		return m_nearBodies;
+		return std::move(m_nearBodies);
 	}
 
 	const double len = pos.Length();
@@ -59,7 +59,7 @@ Space::BodyNearList &Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &p
 
 	std::for_each(min, max, [&](BodyDist const &bd) { m_nearBodies.push_back(bd.body); });
 
-	return m_nearBodies;
+	return std::move(m_nearBodies);
 }
 
 Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space *oldSpace) :
