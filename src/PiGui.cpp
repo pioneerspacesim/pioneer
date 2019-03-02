@@ -53,6 +53,7 @@ static std::vector<std::pair<std::string, int>> keycodes = {
 
 ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height)
 {
+	PROFILE_SCOPED()
 	Output("nanosvg: %s %dx%d\n", svgFilename.c_str(), width, height);
 
 	// // re-use existing texture if already loaded
@@ -107,6 +108,7 @@ ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height)
 
 ImFont *PiGui::GetFont(const std::string &name, int size)
 {
+	PROFILE_SCOPED()
 	auto iter = m_fonts.find(std::make_pair(name, size));
 	if (iter != m_fonts.end())
 		return iter->second;
@@ -118,6 +120,7 @@ ImFont *PiGui::GetFont(const std::string &name, int size)
 
 void PiGui::AddGlyph(ImFont *font, unsigned short glyph)
 {
+	PROFILE_SCOPED()
 	// range glyph..glyph
 	auto iter = m_im_fonts.find(font);
 	if (iter == m_im_fonts.end()) {
@@ -142,6 +145,7 @@ void PiGui::AddGlyph(ImFont *font, unsigned short glyph)
 
 ImFont *PiGui::AddFont(const std::string &name, int size)
 {
+	PROFILE_SCOPED()
 	auto iter = m_font_definitions.find(name);
 	if (iter == m_font_definitions.end()) {
 		Error("No font definition with name %s\n", name.c_str());
@@ -165,6 +169,7 @@ ImFont *PiGui::AddFont(const std::string &name, int size)
 
 void PiGui::RefreshFontsTexture()
 {
+	PROFILE_SCOPED()
 	// TODO: fix this, do the right thing, don't just re-create *everything* :)
 	ImGui::GetIO().Fonts->Build();
 	ImGui_ImplOpenGL3_CreateDeviceObjects();
@@ -172,11 +177,13 @@ void PiGui::RefreshFontsTexture()
 
 void PiDefaultStyle(ImGuiStyle &style)
 {
+	PROFILE_SCOPED()
 	style.WindowBorderSize = 0.0f; // Thickness of border around windows. Generally set to 0.0f or 1.0f. Other values not well tested.
 }
 
 void PiGui::Init(SDL_Window *window)
 {
+	PROFILE_SCOPED()
 	m_handlers.Unref();
 
 	lua_State *l = Lua::manager->GetLuaState();
@@ -224,6 +231,7 @@ void PiGui::Init(SDL_Window *window)
 
 int PiGui::RadialPopupSelectMenu(const ImVec2 &center, std::string popup_id, int mouse_button, std::vector<ImTextureID> tex_ids, std::vector<std::pair<ImVec2, ImVec2>> uvs, unsigned int size, std::vector<std::string> tooltips)
 {
+	PROFILE_SCOPED()
 	// return:
 	// 0 - n for item selected
 	// -1 for nothing chosen, but menu open
@@ -318,6 +326,7 @@ int PiGui::RadialPopupSelectMenu(const ImVec2 &center, std::string popup_id, int
 
 bool PiGui::CircularSlider(const ImVec2 &center, float *v, float v_min, float v_max)
 {
+	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	ImGuiWindow *window = ImGui::GetCurrentWindow();
 	const ImGuiID id = window->GetID("circularslider");
@@ -331,12 +340,14 @@ bool PiGui::CircularSlider(const ImVec2 &center, float *v, float v_min, float v_
 
 bool PiGui::ProcessEvent(SDL_Event *event)
 {
+	PROFILE_SCOPED()
 	ImGui_ImplSDL2_ProcessEvent(event);
 	return false;
 }
 
 void *PiGui::makeTexture(unsigned char *pixels, int width, int height)
 {
+	PROFILE_SCOPED()
 	// this is not very pretty code and uses the Graphics::TextureGL class directly
 	// Texture descriptor defines the size, type.
 	// Gone for LINEAR_CLAMP here and RGBA like the original code
@@ -359,11 +370,13 @@ void *PiGui::makeTexture(unsigned char *pixels, int width, int height)
 
 void PiGui::EndFrame()
 {
+	PROFILE_SCOPED()
 	ImGui::EndFrame();
 }
 
 void PiGui::NewFrame(SDL_Window *window)
 {
+	PROFILE_SCOPED()
 	// Ask ImGui to hide OS cursor if GUI is not being drawn:
 	// it will do this if MouseDrawCursor is true. After the frame
 	// is created, we set the actual cursor draw state.
@@ -395,6 +408,7 @@ void PiGui::NewFrame(SDL_Window *window)
 }
 void PiGui::Render(double delta, std::string handler)
 {
+	PROFILE_SCOPED()
 	ScopedTable t(m_handlers);
 	if (t.Get<bool>(handler)) {
 		t.Call<bool>(handler, delta);
@@ -425,6 +439,7 @@ void PiGui::Render(double delta, std::string handler)
 
 void PiGui::RenderImGui()
 {
+	PROFILE_SCOPED()
 	ImGui::Render();
 
 	switch (Pi::renderer->GetRendererType()) {
@@ -439,6 +454,7 @@ void PiGui::RenderImGui()
 
 void PiGui::ClearFonts()
 {
+	PROFILE_SCOPED()
 	ImGuiIO &io = ImGui::GetIO();
 	// TODO: should also release all glyph_ranges...
 	m_fonts.clear();
@@ -448,6 +464,7 @@ void PiGui::ClearFonts()
 
 void PiGui::BakeFont(PiFont &font)
 {
+	PROFILE_SCOPED()
 	ImGuiIO &io = ImGui::GetIO();
 	ImFont *imfont = nullptr;
 	for (PiFace &face : font.faces()) {
@@ -488,6 +505,7 @@ void PiGui::BakeFont(PiFont &font)
 
 void PiGui::BakeFonts()
 {
+	PROFILE_SCOPED()
 	//	Output("Baking fonts\n");
 
 	m_should_bake_fonts = false;
@@ -514,6 +532,7 @@ void PiGui::BakeFonts()
 
 static void drawThrust(ImDrawList *draw_list, const ImVec2 &center, const ImVec2 &up, float value, const ImColor &fg, const ImColor &bg)
 {
+	PROFILE_SCOPED()
 	float factor = 0.1; // how much to offset from center
 	const ImVec2 step(up.x * 0.5, up.y * 0.5);
 	const ImVec2 left(-step.y * (1.0 - factor), step.x * (1.0 - factor));
@@ -537,6 +556,7 @@ static void drawThrust(ImDrawList *draw_list, const ImVec2 &center, const ImVec2
 
 void PiGui::ThrustIndicator(const std::string &id_string, const ImVec2 &size_arg, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg)
 {
+	PROFILE_SCOPED()
 	ImGuiWindow *window = ImGui::GetCurrentWindow();
 	if (window->SkipItems)
 		return;
@@ -599,6 +619,7 @@ void PiGui::ThrustIndicator(const std::string &id_string, const ImVec2 &size_arg
 
 bool PiGui::LowThrustButton(const char *id_string, const ImVec2 &size_arg, int thrust_level, const ImVec4 &bg_col, int frame_padding, ImColor gauge_fg, ImColor gauge_bg)
 {
+	PROFILE_SCOPED()
 	std::string label = std::to_string(thrust_level);
 	ImGuiWindow *window = ImGui::GetCurrentWindow();
 	if (window->SkipItems)
@@ -652,6 +673,7 @@ bool PiGui::LowThrustButton(const char *id_string, const ImVec2 &size_arg, int t
 
 void PiGui::Cleanup()
 {
+	PROFILE_SCOPED()
 	for (auto tex : m_svg_textures) {
 		delete tex;
 	}
@@ -691,6 +713,7 @@ PiGui::PiGui() :
 
 const bool PiFace::containsGlyph(unsigned short glyph) const
 {
+	PROFILE_SCOPED()
 	for (auto range : m_ranges) {
 		if (range.first <= glyph && glyph <= range.second)
 			return true;
@@ -700,6 +723,7 @@ const bool PiFace::containsGlyph(unsigned short glyph) const
 
 void PiFace::addGlyph(unsigned short glyph)
 {
+	PROFILE_SCOPED()
 	// Output("- PiFace %s adding glyph 0x%x\n", ttfname().c_str(), glyph);
 	for (auto &range : m_used_ranges) {
 		if (range.first <= glyph && glyph <= range.second) {
@@ -713,6 +737,7 @@ void PiFace::addGlyph(unsigned short glyph)
 
 void PiFace::sortUsedRanges() const
 {
+	PROFILE_SCOPED()
 	// sort by ascending lower end of range
 	std::sort(m_used_ranges.begin(), m_used_ranges.end(), [](const std::pair<unsigned short, unsigned short> &a, const std::pair<unsigned short, unsigned short> &b) { return a.first < b.first; });
 	// merge adjacent ranges

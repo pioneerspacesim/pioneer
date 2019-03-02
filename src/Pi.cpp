@@ -1618,6 +1618,7 @@ void Pi::SetMouseGrab(bool on)
 
 void Pi::DrawPiGui(double delta, std::string handler)
 {
+	PROFILE_SCOPED()
 //  #define PROFILE_LUA_TIME 1
 #ifdef PROFILE_LUA_TIME
 	auto before = clock();
