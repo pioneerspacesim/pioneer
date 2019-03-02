@@ -1071,9 +1071,9 @@ std::tuple<double, double, double> WorldView::CalculateHeadingPitchRoll(PlaneTyp
 		std::isnan(roll) ? 0.0 : roll);
 }
 
-static vector3d projectToScreenSpace(vector3d pos, RefCountedPtr<CameraContext> cameraContext, bool adjustZ = true)
+static vector3d projectToScreenSpace(const vector3d &pos, RefCountedPtr<CameraContext> cameraContext, const bool adjustZ = true)
 {
-	const Graphics::Frustum frustum = cameraContext->GetFrustum();
+	const Graphics::Frustum &frustum = cameraContext->GetFrustum();
 	const float h = Graphics::GetScreenHeight();
 	const float w = Graphics::GetScreenWidth();
 	vector3d proj;
@@ -1089,7 +1089,7 @@ static vector3d projectToScreenSpace(vector3d pos, RefCountedPtr<CameraContext> 
 }
 
 // needs to run inside m_cameraContext->Begin/EndFrame();
-vector3d WorldView::WorldSpaceToScreenSpace(Body *body) const
+vector3d WorldView::WorldSpaceToScreenSpace(const Body *body) const
 {
 	if (body->IsType(Object::PLAYER) && GetCamType() == CAM_INTERNAL)
 		return vector3d(0, 0, 0);
@@ -1099,7 +1099,7 @@ vector3d WorldView::WorldSpaceToScreenSpace(Body *body) const
 }
 
 // needs to run inside m_cameraContext->Begin/EndFrame();
-vector3d WorldView::WorldSpaceToScreenSpace(vector3d position) const
+vector3d WorldView::WorldSpaceToScreenSpace(const vector3d &position) const
 {
 	const Frame *cam_frame = m_cameraContext->GetCamFrame();
 	matrix3x3d cam_rot = cam_frame->GetInterpOrient();
@@ -1108,7 +1108,7 @@ vector3d WorldView::WorldSpaceToScreenSpace(vector3d position) const
 }
 
 // needs to run inside m_cameraContext->Begin/EndFrame();
-vector3d WorldView::ShipSpaceToScreenSpace(vector3d pos) const
+vector3d WorldView::ShipSpaceToScreenSpace(const vector3d &pos) const
 {
 	matrix3x3d orient = Pi::player->GetInterpOrient();
 	const Frame *cam_frame = m_cameraContext->GetCamFrame();
@@ -1118,13 +1118,13 @@ vector3d WorldView::ShipSpaceToScreenSpace(vector3d pos) const
 }
 
 // needs to run inside m_cameraContext->Begin/EndFrame();
-vector3d WorldView::CameraSpaceToScreenSpace(vector3d pos) const
+vector3d WorldView::CameraSpaceToScreenSpace(const vector3d &pos) const
 {
 	return projectToScreenSpace(pos, m_cameraContext);
 }
 
 // needs to run inside m_cameraContext->Begin/EndFrame();
-vector3d WorldView::GetTargetIndicatorScreenPosition(Body *body) const
+vector3d WorldView::GetTargetIndicatorScreenPosition(const Body *body) const
 {
 	if (body->IsType(Object::PLAYER) && GetCamType() == CAM_INTERNAL)
 		return vector3d(0, 0, 0);
