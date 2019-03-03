@@ -17,7 +17,7 @@ template <>
 TerrainHeightFractal<TerrainHeightAsteroid>::TerrainHeightFractal(const SystemBody *body) :
 	Terrain(body)
 {
-	SetFracDef(0, m_maxHeightInMeters * 0.05, 1e6, 10000.0 * m_fracmult);
+	SetFracDef(0, m_maxHeightInMeters * 0.05, 1e6, 10000.0);
 	const double height = m_maxHeightInMeters * 0.3;
 	SetFracDef(1, height, m_rand.Double(4.0, 20.0) * height);
 }

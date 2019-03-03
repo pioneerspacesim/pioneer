@@ -15,10 +15,10 @@ TerrainColorFractal<TerrainColorGGNeptune2>::TerrainColorFractal(const SystemBod
 {
 	// spots
 	const double height = m_maxHeightInMeters * 0.1;
-	SetFracDef(0, height, 2e8, 1000.0 * m_fracmult);
-	SetFracDef(1, height, 9e7, 1000.0 * m_fracmult);
-	SetFracDef(2, height, 6e7, 1000.0 * m_fracmult);
-	SetFracDef(3, height, 1e8, 100.0 * m_fracmult);
+	SetFracDef(0, height, 2e8, 1000.0);
+	SetFracDef(1, height, 9e7, 1000.0);
+	SetFracDef(2, height, 6e7, 1000.0);
+	SetFracDef(3, height, 1e8, 100.0);
 }
 
 template <>

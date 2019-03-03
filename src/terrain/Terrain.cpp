@@ -464,27 +464,6 @@ Terrain::Terrain(const SystemBody *body) :
 		}
 	}
 
-	switch (Pi::detail.textures) {
-	case 0:
-		textures = false;
-		m_fracnum = 2;
-		break;
-	default:
-	case 1:
-		textures = true;
-		m_fracnum = 0;
-		break;
-	}
-
-	switch (Pi::detail.fracmult) {
-	case 0: m_fracmult = 100; break;
-	case 1: m_fracmult = 10; break;
-	case 2: m_fracmult = 1; break;
-	case 3: m_fracmult = 0.5; break;
-	default:
-	case 4: m_fracmult = 0.1; break;
-	}
-
 	m_sealevel = Clamp(body->GetVolatileLiquid(), 0.0, 1.0);
 	m_icyness = Clamp(body->GetVolatileIces(), 0.0, 1.0);
 	m_volcanic = Clamp(body->GetVolcanicity(), 0.0, 1.0); // height scales with volcanicity as well
@@ -666,7 +645,6 @@ void Terrain::DebugDump() const
 	Output("Terrain state dump:\n");
 	Output("  Height fractal: %s\n", GetHeightFractalName());
 	Output("  Color fractal: %s\n", GetColorFractalName());
-	Output("  Detail: fracnum %d  fracmult %f  textures %s\n", m_fracnum, m_fracmult, textures ? "true" : "false");
 	Output("  Config: DetailPlanets %d   FractalMultiple %d  Textures  %d\n", Pi::config->Int("DetailPlanets"), Pi::config->Int("FractalMultiple"), Pi::config->Int("Textures"));
 	Output("  Seed: %d\n", m_seed);
 	Output("  Body: %s [%d,%d,%d,%u,%u]\n", m_minBody.m_name.c_str(), m_minBody.m_path.sectorX, m_minBody.m_path.sectorY, m_minBody.m_path.sectorZ, m_minBody.m_path.systemIndex, m_minBody.m_path.bodyIndex);

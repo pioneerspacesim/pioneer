@@ -24,8 +24,8 @@ TerrainHeightFractal<TerrainHeightMountainsCraters>::TerrainHeightFractal(const 
 	SetFracDef(4, m_maxHeightInMeters, m_rand.Double(100.0, 200.0) * m_maxHeightInMeters);
 	SetFracDef(3, height, m_rand.Double(2.5, 3.5) * height);
 
-	SetFracDef(5, m_maxHeightInMeters * 0.05, 8e5, 1000.0 * m_fracmult);
-	SetFracDef(6, m_maxHeightInMeters * 0.05, 1e6, 10000.0 * m_fracmult);
+	SetFracDef(5, m_maxHeightInMeters * 0.05, 8e5, 1000.0);
+	SetFracDef(6, m_maxHeightInMeters * 0.05, 1e6, 10000.0);
 }
 
 template <>

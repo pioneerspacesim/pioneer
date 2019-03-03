@@ -15,10 +15,10 @@ TerrainColorFractal<TerrainColorGGJupiter>::TerrainColorFractal(const SystemBody
 {
 	// spots
 	const double height = m_maxHeightInMeters * 0.1;
-	SetFracDef(0, height, 1e8, 1000.0 * m_fracmult);
-	SetFracDef(1, height, 8e7, 1000.0 * m_fracmult);
-	SetFracDef(2, height, 4e7, 1000.0 * m_fracmult);
-	SetFracDef(3, height, 1e7, 100.0 * m_fracmult);
+	SetFracDef(0, height, 1e8, 1000.0);
+	SetFracDef(1, height, 8e7, 1000.0);
+	SetFracDef(2, height, 4e7, 1000.0);
+	SetFracDef(3, height, 1e7, 100.0);
 }
 
 template <>

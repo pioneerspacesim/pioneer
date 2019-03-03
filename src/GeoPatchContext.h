@@ -17,7 +17,7 @@
 #include <deque>
 
 // maximumpatch depth
-#define GEOPATCH_MAX_DEPTH 15 + (2 * Pi::detail.fracmult) //15
+#define GEOPATCH_MAX_DEPTH 15
 
 namespace Graphics {
 	class Renderer;

@@ -68,10 +68,6 @@ private:
 protected:
 	Terrain(const SystemBody *body);
 
-	bool textures;
-	int m_fracnum;
-	double m_fracmult;
-
 	Uint32 m_seed;
 	Random m_rand;
 
