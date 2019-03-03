@@ -57,6 +57,8 @@ public:
 
 	Uint32 GetSurfaceEffects() const { return m_surfaceEffects; }
 
+	double BiCubicInterpolation(const vector3d &p) const;
+
 	void DebugDump() const;
 
 private:
@@ -90,6 +92,7 @@ protected:
 	double m_maxHeightInMeters;
 	double m_invMaxHeight;
 	double m_planetRadius;
+	double m_invPlanetRadius;
 	double m_planetEarthRadii;
 
 	double m_entropy[12];
