@@ -505,10 +505,6 @@ void GeoSphere::SetUpMaterials()
 	}
 
 	surfDesc.quality |= Graphics::HAS_ECLIPSES;
-	const bool bEnableDetailMaps = (Pi::config->Int("DisableDetailMaps") == 0);
-	if (bEnableDetailMaps) {
-		surfDesc.quality |= Graphics::HAS_DETAIL_MAPS;
-	}
 	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
 
 	m_texHi.Reset(Graphics::TextureBuilder::Model("textures/high.dds").GetOrCreateTexture(Pi::renderer, "model"));

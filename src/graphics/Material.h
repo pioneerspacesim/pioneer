@@ -48,8 +48,7 @@ namespace Graphics {
 	enum MaterialQuality {
 		HAS_ATMOSPHERE = 1 << 0,
 		HAS_ECLIPSES = 1 << 1,
-		HAS_HEAT_GRADIENT = 1 << 2,
-		HAS_DETAIL_MAPS = 1 << 3
+		HAS_HEAT_GRADIENT = 1 << 2
 	};
 
 	// Renderer creates a material that best matches these requirements.
