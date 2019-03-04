@@ -1311,13 +1311,12 @@ static int l_pigui_get_targets_nearby(lua_State *l)
 	PROFILE_SCOPED()
 	int range_max = LuaPull<double>(l, 1);
 	LuaTable result(l);
-	Space::BodyNearList nearby;
-	Pi::game->GetSpace()->GetBodiesMaybeNear(Pi::player, range_max, nearby);
+	Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(Pi::player, range_max);
 	int index = 1;
-	for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
-		if ((*i) == Pi::player) continue;
-		if ((*i)->GetType() == Object::PROJECTILE) continue;
-		vector3d position = (*i)->GetPositionRelTo(Pi::player);
+	for (Body *body : nearby) {
+		if (body == Pi::player) continue;
+		if (body->GetType() == Object::PROJECTILE) continue;
+		vector3d position = body->GetPositionRelTo(Pi::player);
 		float distance = float(position.Length());
 		vector3d shipSpacePosition = position * Pi::player->GetOrient();
 		// convert to polar https://en.wikipedia.org/wiki/Spherical_coordinate_system
@@ -1334,7 +1333,7 @@ static int l_pigui_get_targets_nearby(lua_State *l)
 		vector3d aep(rho * sin(theta) / (2 * M_PI), -rho * cos(theta) / (2 * M_PI), 0);
 		LuaTable object(l);
 		object.Set("distance", distance);
-		object.Set("label", (*i)->GetLabel());
+		object.Set("label", body->GetLabel());
 
 		//		object.Set("type", EnumStrings::GetString("PhysicsObjectType", (*i)->GetType()));
 		//		object.Set("position", position);
@@ -1342,7 +1341,7 @@ static int l_pigui_get_targets_nearby(lua_State *l)
 		//		object.Set("polar_position", polarPosition);
 
 		object.Set("aep", aep);
-		object.Set("body", (*i));
+		object.Set("body", body);
 		result.Set(std::to_string(index++), object);
 		lua_pop(l, 1);
 	}

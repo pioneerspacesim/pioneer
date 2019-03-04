@@ -692,17 +692,16 @@ Ship::ECMResult Ship::UseECM()
 		// damage neaby missiles
 		const float ECM_RADIUS = 4000.0f;
 
-		Space::BodyNearList nearby;
-		Pi::game->GetSpace()->GetBodiesMaybeNear(this, ECM_RADIUS, nearby);
-		for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
-			if ((*i)->GetFrame() != GetFrame()) continue;
-			if (!(*i)->IsType(Object::MISSILE)) continue;
+		Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(this, ECM_RADIUS);
+		for (Body *body : nearby) {
+			if (body->GetFrame() != GetFrame()) continue;
+			if (!body->IsType(Object::MISSILE)) continue;
 
-			double dist = ((*i)->GetPosition() - GetPosition()).Length();
+			double dist = (body->GetPosition() - GetPosition()).Length();
 			if (dist < ECM_RADIUS) {
 				// increasing chance of destroying it with proximity
 				if (Pi::rng.Double() > (dist / ECM_RADIUS)) {
-					static_cast<Missile *>(*i)->ECMAttack(ecm_power_cap);
+					static_cast<Missile *>(body)->ECMAttack(ecm_power_cap);
 				}
 			}
 		}
@@ -994,13 +993,11 @@ void Ship::UpdateAlertState()
 		// time to update the list again, once per second should suffice
 		m_lastAlertUpdate = Pi::game->GetTime();
 
-		// refresh the list
-		m_nearbyBodies.clear();
 		static const double ALERT_DISTANCE = 100000.0; // 100km
-		Pi::game->GetSpace()->GetBodiesMaybeNear(this, ALERT_DISTANCE, m_nearbyBodies);
+		Space::BodyNearList nearbyBodies = Pi::game->GetSpace()->GetBodiesMaybeNear(this, ALERT_DISTANCE);
 
 		// handle the results
-		for (auto i : m_nearbyBodies) {
+		for (auto i : nearbyBodies) {
 			if ((i) == this) continue;
 			if (!(i)->IsType(Object::SHIP) || (i)->IsType(Object::MISSILE)) continue;
 
@@ -1405,9 +1402,6 @@ void Ship::EnterHyperspace()
 			SetFlightState(FLYING);
 		return;
 	}
-
-	// Clear ships cached list of nearby bodies so we don't try to access them.
-	m_nearbyBodies.clear();
 
 	SetFlightState(Ship::HYPERSPACE);
 
