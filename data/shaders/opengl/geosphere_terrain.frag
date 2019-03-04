@@ -16,11 +16,9 @@ uniform vec3 geosphereCenter;
 uniform float geosphereAtmosFogDensity;
 uniform float geosphereAtmosInvScaleHeight;
 
-#ifdef DETAIL_MAPS
 uniform sampler2D texture0;
 uniform sampler2D texture1;
 in vec2 texCoord0;
-#endif // DETAIL_MAPS
 
 in float dist;
 uniform float detailScaleHi;
@@ -41,22 +39,20 @@ out vec4 frag_color;
 
 void main(void)
 {
-#ifdef DETAIL_MAPS
 	vec4 hidetail = texture(texture0, texCoord0 * detailScaleHi);
 	vec4 lodetail = texture(texture1, texCoord0 * detailScaleLo);
-#endif // DETAIL_MAPS
+
 	vec3 eyepos = varyingEyepos;
 	vec3 eyenorm = normalize(eyepos);
 	vec3 tnorm = normalize(varyingNormal);
 	vec4 diff = vec4(0.0);
 
-#ifdef DETAIL_MAPS
-	// calculte the detail texture contribution from hi and lo textures
+
+	// calculate the detail texture contribution from hi and lo textures
 	float hiloMix = exp(-0.004 * dist);
 	float detailMix = exp(-0.001 * dist);
 	vec4 detailVal = mix(lodetail, hidetail, hiloMix);
 	vec4 detailMul = mix(vec4(1.0), detailVal, detailMix);
-#endif // DETAIL_MAPS
 
 	float nDotVP=0.0;
 	float nnDotVP=0.0;
@@ -85,12 +81,8 @@ void main(void)
 #endif
 	}
 
-#ifdef DETAIL_MAPS
 	// Use the detail value to multiply the final colour before lighting
 	vec4 final = vertexColor * detailMul;
-#else
-	vec4 final = vertexColor;
-#endif // DETAIL_MAPS
 	
 #ifdef ATMOSPHERE
 	// when does the eye ray intersect atmosphere

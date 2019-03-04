@@ -466,8 +466,6 @@ void Pi::Init(const std::map<std::string, std::string> &options, bool no_gui)
 
 	Pi::SetAmountBackgroundStars(config->Float("AmountOfBackgroundStars"));
 	Pi::detail.planets = config->Int("DetailPlanets");
-	Pi::detail.textures = config->Int("Textures");
-	Pi::detail.fracmult = config->Int("FractalMultiple");
 	Pi::detail.cities = config->Int("DetailCities");
 
 	// Initialize SDL

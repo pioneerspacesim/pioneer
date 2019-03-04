@@ -12,10 +12,8 @@ out vec4 vertexColor;
 uniform vec3 geosphereCenter;
 uniform float geosphereRadius;
 
-#ifdef DETAIL_MAPS
 out vec2 texCoord0;
 out float dist;
-#endif // DETAIL_MAPS
 
 #ifdef TERRAIN_WITH_LAVA
 out vec4 varyingEmission;
@@ -29,10 +27,8 @@ void main(void)
 	varyingEyepos = vec3(uViewMatrix * a_vertex);
 	varyingNormal = normalize(uNormalMatrix * a_normal);
 	
-#ifdef DETAIL_MAPS
 	texCoord0 = a_uv0.xy;
 	dist = abs(varyingEyepos.z);
-#endif // DETAIL_MAPS
 
 #ifdef TERRAIN_WITH_LAVA
 	varyingEmission = material.emission;

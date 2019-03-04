@@ -27,27 +27,14 @@ inline vector3d GetSpherePoint(const vector3d &v0, const vector3d &v1, const vec
 // ********************************************************************************
 
 // Generates full-detail vertices, and also non-edge normals and colors
-void SinglePatchJob::GenerateMesh(const SSingleSplitRequest *data) const
+void SSingleSplitRequest::GenerateMesh() const
 {
-	double *heights = data->heights;
-	vector3f *normals = data->normals;
-	Color3ub *colors = data->colors;
-	double *borderHeights = data->borderHeights.get();
-	vector3d *borderVertexs = data->borderVertexs.get();
-	const vector3d &v0 = data->v0;
-	const vector3d &v1 = data->v1;
-	const vector3d &v2 = data->v2;
-	const vector3d &v3 = data->v3;
-	const int edgeLen = data->edgeLen;
-	const double fracStep = data->fracStep;
-	const Terrain *pTerrain = data->pTerrain.Get();
-
 	const int borderedEdgeLen = edgeLen + (BORDER_SIZE * 2);
 	const int numBorderedVerts = borderedEdgeLen * borderedEdgeLen;
 
 	// generate heights plus a 1 unit border
-	double *bhts = data->borderHeights.get();
-	vector3d *vrts = borderVertexs;
+	double *bhts = borderHeights.get();
+	vector3d *vrts = borderVertexs.get();
 	for (int y = -BORDER_SIZE; y < borderedEdgeLen - BORDER_SIZE; y++) {
 		const double yfrac = double(y) * fracStep;
 		for (int x = -BORDER_SIZE; x < borderedEdgeLen - BORDER_SIZE; x++) {
@@ -65,7 +52,7 @@ void SinglePatchJob::GenerateMesh(const SSingleSplitRequest *data) const
 	Color3ub *col = colors;
 	vector3f *nrm = normals;
 	double *hts = heights;
-	vrts = borderVertexs;
+	vrts = borderVertexs.get();
 	for (int y = BORDER_SIZE; y < borderedEdgeLen - BORDER_SIZE; y++) {
 		for (int x = BORDER_SIZE; x < borderedEdgeLen - BORDER_SIZE; x++) {
 			// height
@@ -111,7 +98,7 @@ void SinglePatchJob::OnRun() // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 	const SSingleSplitRequest &srd = *mData;
 
 	// fill out the data
-	GenerateMesh(mData.get());
+	mData->GenerateMesh();
 
 	// add this patches data
 	SSingleSplitResult *sr = new SSingleSplitResult(srd.patchID.GetPatchFaceIdx(), srd.depth);
@@ -147,7 +134,7 @@ void QuadPatchJob::OnRun() // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 
 	const SQuadSplitRequest &srd = *mData;
 
-	GenerateBorderedData(mData.get());
+	mData->GenerateBorderedData();
 
 	const vector3d v01 = (srd.v0 + srd.v1).Normalized();
 	const vector3d v12 = (srd.v1 + srd.v2).Normalized();
@@ -172,10 +159,10 @@ void QuadPatchJob::OnRun() // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 	SQuadSplitResult *sr = new SQuadSplitResult(srd.patchID.GetPatchFaceIdx(), srd.depth);
 	for (int i = 0; i < 4; i++) {
 		// fill out the data
-		GenerateSubPatchData(srd.heights[i], srd.normals[i], srd.colors[i], srd.borderHeights.get(), srd.borderVertexs.get(),
+		mData->GenerateSubPatchData(i,
 			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3],
 			srd.edgeLen, offxy[i][0], offxy[i][1],
-			borderedEdgeLen, srd.fracStep, srd.pTerrain.Get());
+			borderedEdgeLen);
 
 		// add this patches data
 		sr->addResult(i, srd.heights[i], srd.normals[i], srd.colors[i],
@@ -195,22 +182,14 @@ QuadPatchJob::~QuadPatchJob()
 }
 
 // Generates full-detail vertices, and also non-edge normals and colors
-void QuadPatchJob::GenerateBorderedData(const SQuadSplitRequest *data) const
+void SQuadSplitRequest::GenerateBorderedData() const
 {
-	const vector3d &v0 = data->v0;
-	const vector3d &v1 = data->v1;
-	const vector3d &v2 = data->v2;
-	const vector3d &v3 = data->v3;
-	const int edgeLen = data->edgeLen;
-	const double fracStep = data->fracStep;
-	const Terrain *pTerrain = data->pTerrain.Get();
-
 	const int borderedEdgeLen = (edgeLen * 2) + (BORDER_SIZE * 2) - 1;
 	const int numBorderedVerts = borderedEdgeLen * borderedEdgeLen;
 
 	// generate heights plus a N=BORDER_SIZE unit border
-	double *bhts = data->borderHeights.get();
-	vector3d *vrts = data->borderVertexs.get();
+	double *bhts = borderHeights.get();
+	vector3d *vrts = borderVertexs.get();
 	for (int y = -BORDER_SIZE; y < (borderedEdgeLen - BORDER_SIZE); y++) {
 		const double yfrac = double(y) * (fracStep * 0.5);
 		for (int x = -BORDER_SIZE; x < (borderedEdgeLen - BORDER_SIZE); x++) {
@@ -225,9 +204,8 @@ void QuadPatchJob::GenerateBorderedData(const SQuadSplitRequest *data) const
 	assert(bhts == &data->borderHeights[numBorderedVerts]);
 }
 
-void QuadPatchJob::GenerateSubPatchData(
-	double *heights, vector3f *normals, Color3ub *colors,
-	double *borderHeights, vector3d *borderVertexs,
+void SQuadSplitRequest::GenerateSubPatchData(
+	const int quadrantIndex,
 	const vector3d &v0,
 	const vector3d &v1,
 	const vector3d &v2,
@@ -235,15 +213,13 @@ void QuadPatchJob::GenerateSubPatchData(
 	const int edgeLen,
 	const int xoff,
 	const int yoff,
-	const int borderedEdgeLen,
-	const double fracStep,
-	const Terrain *pTerrain) const
+	const int borderedEdgeLen) const
 {
 	// Generate normals & colors for vertices
-	vector3d *vrts = borderVertexs;
-	Color3ub *col = colors;
-	vector3f *nrm = normals;
-	double *hts = heights;
+	vector3d *vrts = borderVertexs.get();
+	Color3ub *col = colors[quadrantIndex];
+	vector3f *nrm = normals[quadrantIndex];
+	double *hts = heights[quadrantIndex];
 
 	// step over the small square
 	for (int y = 0; y < edgeLen; y++) {

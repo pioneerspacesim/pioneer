@@ -464,27 +464,6 @@ Terrain::Terrain(const SystemBody *body) :
 		}
 	}
 
-	switch (Pi::detail.textures) {
-	case 0:
-		textures = false;
-		m_fracnum = 2;
-		break;
-	default:
-	case 1:
-		textures = true;
-		m_fracnum = 0;
-		break;
-	}
-
-	switch (Pi::detail.fracmult) {
-	case 0: m_fracmult = 100; break;
-	case 1: m_fracmult = 10; break;
-	case 2: m_fracmult = 1; break;
-	case 3: m_fracmult = 0.5; break;
-	default:
-	case 4: m_fracmult = 0.1; break;
-	}
-
 	m_sealevel = Clamp(body->GetVolatileLiquid(), 0.0, 1.0);
 	m_icyness = Clamp(body->GetVolatileIces(), 0.0, 1.0);
 	m_volcanic = Clamp(body->GetVolcanicity(), 0.0, 1.0); // height scales with volcanicity as well
@@ -505,6 +484,7 @@ Terrain::Terrain(const SystemBody *body) :
 	//Output("%s: max terrain height: %fm [%f]\n", m_minBody.name.c_str(), m_maxHeightInMeters, m_maxHeight);
 	m_invMaxHeight = 1.0 / m_maxHeight;
 	m_planetRadius = rad;
+	m_invPlanetRadius = 1.0 / rad;
 	m_planetEarthRadii = rad / EARTH_RADIUS;
 
 	// Pick some colors, mainly reds and greens
@@ -661,12 +641,64 @@ void Terrain::SetFracDef(const unsigned int index, const double featureHeightMet
 	//Output("%d octaves\n", m_fracdef[index].octaves); //print
 }
 
+double Terrain::BiCubicInterpolation(const vector3d &p) const
+{
+	double latitude = -asin(p.y);
+	if (p.y < -1.0) latitude = -0.5 * M_PI;
+	if (p.y > 1.0) latitude = 0.5 * M_PI;
+	//	if (!isfinite(latitude)) {
+	//		// p.y is just n of asin domain [-1,1]
+	//		latitude = (p.y < 0 ? -0.5*M_PI : M_PI*0.5);
+	//	}
+	const double longitude = atan2(p.x, p.z);
+	const double px = (((m_heightMapSizeX - 1) * (longitude + M_PI)) / (2 * M_PI));
+	const double py = ((m_heightMapSizeY - 1) * (latitude + 0.5 * M_PI)) / M_PI;
+	int ix = int(floor(px));
+	int iy = int(floor(py));
+	ix = Clamp(ix, 0, m_heightMapSizeX - 1);
+	iy = Clamp(iy, 0, m_heightMapSizeY - 1);
+	const double dx = px - ix;
+	const double dy = py - iy;
+
+	// p0,3 p1,3 p2,3 p3,3
+	// p0,2 p1,2 p2,2 p3,2
+	// p0,1 p1,1 p2,1 p3,1
+	// p0,0 p1,0 p2,0 p3,0
+	double map[4][4];
+	const double *pHMap = m_heightMap.get();
+	for (int x = -1; x < 3; x++) {
+		for (int y = -1; y < 3; y++) {
+			map[x + 1][y + 1] = pHMap[Clamp(iy + y, 0, m_heightMapSizeY - 1) * m_heightMapSizeX + Clamp(ix + x, 0, m_heightMapSizeX - 1)];
+		}
+	}
+
+	double c[4];
+	for (int j = 0; j < 4; j++) {
+		const double d0 = map[0][j] - map[1][j];
+		const double d2 = map[2][j] - map[1][j];
+		const double d3 = map[3][j] - map[1][j];
+		const double a0 = map[1][j];
+		const double a1 = -(1 / 3.0) * d0 + d2 - (1 / 6.0) * d3;
+		const double a2 = 0.5 * d0 + 0.5 * d2;
+		const double a3 = -(1 / 6.0) * d0 - 0.5 * d2 + (1 / 6.0) * d3;
+		c[j] = a0 + a1 * dx + a2 * dx * dx + a3 * dx * dx * dx;
+	}
+
+	const double d0 = c[0] - c[1];
+	const double d2 = c[2] - c[1];
+	const double d3 = c[3] - c[1];
+	const double a0 = c[1];
+	const double a1 = -(1 / 3.0) * d0 + d2 - (1 / 6.0) * d3;
+	const double a2 = 0.5 * d0 + 0.5 * d2;
+	const double a3 = -(1 / 6.0) * d0 - 0.5 * d2 + (1 / 6.0) * d3;
+	return (0.1 + a0 + a1 * dy + a2 * dy * dy + a3 * dy * dy * dy);
+}
+
 void Terrain::DebugDump() const
 {
 	Output("Terrain state dump:\n");
 	Output("  Height fractal: %s\n", GetHeightFractalName());
 	Output("  Color fractal: %s\n", GetColorFractalName());
-	Output("  Detail: fracnum %d  fracmult %f  textures %s\n", m_fracnum, m_fracmult, textures ? "true" : "false");
 	Output("  Config: DetailPlanets %d   FractalMultiple %d  Textures  %d\n", Pi::config->Int("DetailPlanets"), Pi::config->Int("FractalMultiple"), Pi::config->Int("Textures"));
 	Output("  Seed: %d\n", m_seed);
 	Output("  Body: %s [%d,%d,%d,%u,%u]\n", m_minBody.m_name.c_str(), m_minBody.m_path.sectorX, m_minBody.m_path.sectorY, m_minBody.m_path.sectorZ, m_minBody.m_path.systemIndex, m_minBody.m_path.bodyIndex);

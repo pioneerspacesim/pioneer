@@ -55,12 +55,8 @@ class DetailLevel {
 public:
 	DetailLevel() :
 		planets(0),
-		textures(0),
-		fracmult(0),
 		cities(0) {}
 	int planets;
-	int textures;
-	int fracmult;
 	int cities;
 };
 

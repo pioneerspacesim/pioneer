@@ -431,44 +431,6 @@ static int l_engine_set_city_detail_level(lua_State *l)
 	return 0;
 }
 
-static int l_engine_get_fractal_detail_level(lua_State *l)
-{
-	lua_pushstring(l, EnumStrings::GetString("DetailLevel", Pi::detail.fracmult));
-	return 1;
-}
-
-static int l_engine_set_fractal_detail_level(lua_State *l)
-{
-	const int level = LuaConstants::GetConstantFromArg(l, "DetailLevel", 1);
-	if (level != Pi::detail.fracmult) {
-		Pi::detail.fracmult = level;
-		Pi::config->SetInt("FractalMultiple", level);
-		Pi::config->Save();
-		Pi::OnChangeDetailLevel();
-	}
-	return 0;
-}
-
-static int l_engine_get_planet_fractal_colour_enabled(lua_State *l)
-{
-	lua_pushboolean(l, Pi::detail.textures);
-	return 1;
-}
-
-static int l_engine_set_planet_fractal_colour_enabled(lua_State *l)
-{
-	if (lua_isnone(l, 1))
-		return luaL_error(l, "SetPlanetFractalColourEnabled takes one boolean argument");
-	const int level = (lua_toboolean(l, 1) ? 1 : 0);
-	if (level != Pi::detail.textures) {
-		Pi::detail.textures = level;
-		Pi::config->SetInt("Textures", level);
-		Pi::config->Save();
-		Pi::OnChangeDetailLevel();
-	}
-	return 0;
-}
-
 static int l_engine_get_display_nav_tunnels(lua_State *l)
 {
 	lua_pushboolean(l, Pi::config->Int("DisplayNavTunnel") != 0);
@@ -1161,10 +1123,6 @@ void LuaEngine::Register()
 		{ "SetPlanetDetailLevel", l_engine_set_planet_detail_level },
 		{ "GetCityDetailLevel", l_engine_get_city_detail_level },
 		{ "SetCityDetailLevel", l_engine_set_city_detail_level },
-		{ "GetFractalDetailLevel", l_engine_get_fractal_detail_level },
-		{ "SetFractalDetailLevel", l_engine_set_fractal_detail_level },
-		{ "GetPlanetFractalColourEnabled", l_engine_get_planet_fractal_colour_enabled },
-		{ "SetPlanetFractalColourEnabled", l_engine_set_planet_fractal_colour_enabled },
 
 		{ "GetDisplayNavTunnels", l_engine_get_display_nav_tunnels },
 		{ "SetDisplayNavTunnels", l_engine_set_display_nav_tunnels },

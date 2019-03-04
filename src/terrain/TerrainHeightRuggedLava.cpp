@@ -26,13 +26,13 @@ TerrainHeightFractal<TerrainHeightRuggedLava>::TerrainHeightFractal(const System
 	SetFracDef(5, height, m_rand.Double(2.5, 3.5) * height);
 
 	// volcanoes
-	SetFracDef(6, height, 6e6, 100000.0 * m_fracmult);
-	SetFracDef(7, height, 3e6, 1000.0 * m_fracmult);
+	SetFracDef(6, height, 6e6, 100000.0);
+	SetFracDef(7, height, 3e6, 1000.0);
 
 	// canyon
-	SetFracDef(8, m_maxHeightInMeters * 0.4, 4e6, 100.0 * m_fracmult);
+	SetFracDef(8, m_maxHeightInMeters * 0.4, 4e6, 100.0);
 	// bumps/rocks
-	SetFracDef(9, height * 0.001, m_rand.Double(10, 100), 2.0 * m_fracmult);
+	SetFracDef(9, height * 0.001, m_rand.Double(10, 100), 2.0);
 }
 
 template <>

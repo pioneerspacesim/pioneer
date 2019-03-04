@@ -15,10 +15,10 @@ TerrainColorFractal<TerrainColorStarM>::TerrainColorFractal(const SystemBody *bo
 	Terrain(body)
 {
 	double height = m_maxHeightInMeters * 0.1;
-	SetFracDef(0, height, 22e7, 1000.0 * m_fracmult);
-	SetFracDef(1, height, 2e8, 10000.0 * m_fracmult);
-	SetFracDef(2, height, 6e6, 100.0 * m_fracmult);
-	SetFracDef(3, height, 5e5, 100.0 * m_fracmult);
+	SetFracDef(0, height, 22e7, 1000.0);
+	SetFracDef(1, height, 2e8, 10000.0);
+	SetFracDef(2, height, 6e6, 100.0);
+	SetFracDef(3, height, 5e5, 100.0);
 }
 using namespace TerrainFeature;
 

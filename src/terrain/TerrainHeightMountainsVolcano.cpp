@@ -26,10 +26,10 @@ TerrainHeightFractal<TerrainHeightMountainsVolcano>::TerrainHeightFractal(const 
 	SetFracDef(5, height, m_rand.Double(2.5, 3.5) * height);
 	SetFracDef(6, height, m_rand.Double(2.5, 3.5) * height);
 	// volcano
-	SetFracDef(7, 20000.0, 5000000.0, 1000.0 * m_fracmult);
+	SetFracDef(7, 20000.0, 5000000.0, 1000.0);
 
 	// canyons
-	SetFracDef(8, m_maxHeightInMeters * 0.5, 2e6, 100.0 * m_fracmult);
+	SetFracDef(8, m_maxHeightInMeters * 0.5, 2e6, 100.0);
 	//SetFracDef(9, m_maxHeightInMeters*0.1, 1.5e6, 100.0*m_fracmult);
 	//SetFracDef(10, m_maxHeightInMeters*0.1, 2e6, 100.0*m_fracmult);
 }

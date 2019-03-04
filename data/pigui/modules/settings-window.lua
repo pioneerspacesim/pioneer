@@ -157,13 +157,11 @@ local function showVideoOptions()
 	local fullscreen = Engine.GetFullscreen()
 	local vsync = Engine.GetVSyncEnabled()
 	local anisoFilter = Engine.GetAnisoFiltering()
-	local planetTextures = Engine.GetPlanetFractalColourEnabled()
 
 	local textCompress = Engine.GetTextureCompressionEnabled()
 	local gpuJobs = Engine.GetGpuJobsEnabled()
 	local disableScreenshotInfo = Engine.GetDisableScreenshotInfo()
 
-	local fractalDetail = keyOf(detailLabels,keyOf(detailLevels, Engine.GetFractalDetailLevel()))-1
 	local cityDetail = keyOf(detailLabels,keyOf(detailLevels, Engine.GetCityDetailLevel()))-1
 	local displayNavTunnels = Engine.GetDisplayNavTunnels()
 	local displaySpeedLines = Engine.GetDisplaySpeedLines()
@@ -225,17 +223,6 @@ local function showVideoOptions()
 	if c then
 		local detail = detailLevels[detailLabels[selectedDetail+1]]
 		Engine.SetPlanetDetailLevel(detail)
-	end
-
-	c,planetTextures = checkbox(lui.PLANET_TEXTURES, planetTextures, lui.TEXTURE_COMPRESSION)
-	if c then
-		Engine.SetPlanetFractalColourEnabled(planetTextures)
-	end
-
-	c,fractalDetail = combo(lui.FRACTAL_DETAIL, fractalDetail, detailLabels, lui.DETAIL_DESC)
-	if c then
-		local detail = detailLevels[detailLabels[fractalDetail+1]]
-		Engine.SetFractalDetailLevel(detail)
 	end
 
 	c,cityDetail = combo(lui.CITY_DETAIL_LEVEL, cityDetail, detailLabels, lui.DETAIL_DESC)

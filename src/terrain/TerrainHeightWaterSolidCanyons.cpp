@@ -24,7 +24,7 @@ TerrainHeightFractal<TerrainHeightWaterSolidCanyons>::TerrainHeightFractal(const
 	SetFracDef(3, m_maxHeightInMeters * 0.4, 4e6);
 	SetFracDef(4, m_maxHeightInMeters * 0.4, 5e6);
 	//crater
-	SetFracDef(5, m_maxHeightInMeters * 0.4, 15e6, 50000.0 * m_fracmult);
+	SetFracDef(5, m_maxHeightInMeters * 0.4, 15e6, 50000.0);
 	//canyons
 	//SetFracDef(6, m_maxHeightInMeters*0.4, 12e6, 50000.0);
 	//SetFracDef(7, m_maxHeightInMeters*0.4, 9e6, 50000.0);

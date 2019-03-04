@@ -14,7 +14,7 @@ TerrainColorFractal<TerrainColorStarBrownDwarf>::TerrainColorFractal(const Syste
 	Terrain(body)
 {
 	double height = m_maxHeightInMeters * 0.1;
-	SetFracDef(0, height, 5e8, 100.0 * m_fracmult);
+	SetFracDef(0, height, 5e8, 100.0);
 }
 
 template <>

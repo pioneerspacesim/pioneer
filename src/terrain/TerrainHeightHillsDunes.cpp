@@ -14,18 +14,18 @@ TerrainHeightFractal<TerrainHeightHillsDunes>::TerrainHeightFractal(const System
 	Terrain(body)
 {
 	//textures
-	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(50, 100), 10 * m_fracmult);
-	SetFracDef(1, m_maxHeightInMeters, m_rand.Double(300, 500), 10 * m_fracmult);
+	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(50, 100), 10);
+	SetFracDef(1, m_maxHeightInMeters, m_rand.Double(300, 500), 10);
 	//small fractal/high detail
-	SetFracDef(2, m_maxHeightInMeters * 0.00000000001, 50, 50 * m_fracmult);
+	SetFracDef(2, m_maxHeightInMeters * 0.00000000001, 50, 50);
 	//continental:
-	SetFracDef(3, m_maxHeightInMeters * 0.00001, 1e7, 1000 * m_fracmult);
+	SetFracDef(3, m_maxHeightInMeters * 0.00001, 1e7, 1000);
 	//large fractal:
-	SetFracDef(4, m_maxHeightInMeters * 0.00001, 1e5, 200 * m_fracmult);
-	SetFracDef(5, m_maxHeightInMeters * 0.000001, 5e4, 100 * m_fracmult);
-	SetFracDef(6, m_maxHeightInMeters * 0.0000001, 1e4, 50 * m_fracmult);
+	SetFracDef(4, m_maxHeightInMeters * 0.00001, 1e5, 200);
+	SetFracDef(5, m_maxHeightInMeters * 0.000001, 5e4, 100);
+	SetFracDef(6, m_maxHeightInMeters * 0.0000001, 1e4, 50);
 	//medium fractal:
-	SetFracDef(7, m_maxHeightInMeters * 0.0000000002, 1e3, 20 * m_fracmult);
+	SetFracDef(7, m_maxHeightInMeters * 0.0000000002, 1e3, 20);
 }
 
 template <>

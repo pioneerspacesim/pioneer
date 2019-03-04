@@ -17,11 +17,11 @@ TerrainColorFractal<TerrainColorGGSaturn>::TerrainColorFractal(const SystemBody 
 {
 	const double height = m_maxHeightInMeters * 0.1;
 	//spot + clouds
-	SetFracDef(0, height, 3e7, 10.0 * m_fracmult);
-	SetFracDef(1, height, 9e7, 1000.0 * m_fracmult);
-	SetFracDef(2, height, 8e7, 100.0 * m_fracmult);
+	SetFracDef(0, height, 3e7, 10.0);
+	SetFracDef(1, height, 9e7, 1000.0);
+	SetFracDef(2, height, 8e7, 100.0);
 	//spot boundary
-	SetFracDef(3, height, 3e7, 10000000.0 * m_fracmult);
+	SetFracDef(3, height, 3e7, 10000000.0);
 }
 
 template <>

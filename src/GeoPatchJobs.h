@@ -70,6 +70,13 @@ public:
 		borderVertexs.reset(new vector3d[numBorderedVerts]);
 	}
 
+	// Generates full-detail vertices, and also non-edge normals and colors
+	void GenerateBorderedData() const;
+
+	void GenerateSubPatchData(const int quadrantIndex,
+		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
+		const int edgeLen, const int xoff, const int yoff, const int borderedEdgeLen) const;
+
 	// these are created with the request and are given to the resulting patches
 	vector3f *normals[4];
 	Color3ub *colors[4];
@@ -101,14 +108,17 @@ public:
 		borderVertexs.reset(new vector3d[numBorderedVerts]);
 	}
 
+	// Generates full-detail vertices, and also non-edge normals and colors
+	void GenerateMesh() const;
+
 	// these are created with the request and are given to the resulting patches
 	vector3f *normals;
 	Color3ub *colors;
 	double *heights;
 
 	// these are created with the request but are destroyed when the request is finished
-	std::unique_ptr<double> borderHeights;
-	std::unique_ptr<vector3d> borderVertexs;
+	std::unique_ptr<double[]> borderHeights;
+	std::unique_ptr<vector3d[]> borderVertexs;
 
 protected:
 	// deliberately prevent copy constructor access
@@ -279,9 +289,6 @@ public:
 	virtual void OnFinish(); // runs in primary thread of the context
 
 private:
-	// Generates full-detail vertices, and also non-edge normals and colors
-	void GenerateMesh(const SSingleSplitRequest *data) const;
-
 	std::unique_ptr<SSingleSplitRequest> mData;
 	SSingleSplitResult *mpResults;
 };
@@ -302,13 +309,6 @@ public:
 	virtual void OnFinish(); // runs in primary thread of the context
 
 private:
-	// Generates full-detail vertices, and also non-edge normals and colors
-	void GenerateBorderedData(const SQuadSplitRequest *data) const;
-
-	void GenerateSubPatchData(double *heights, vector3f *normals, Color3ub *colors, double *borderHeights, vector3d *borderVertexs,
-		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
-		const int edgeLen, const int xoff, const int yoff, const int borderedEdgeLen, const double fracStep, const Terrain *pTerrain) const;
-
 	std::unique_ptr<SQuadSplitRequest> mData;
 	SQuadSplitResult *mpResults;
 };
