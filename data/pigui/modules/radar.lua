@@ -4,7 +4,6 @@
 local Engine = import('Engine')
 local Game = import('Game')
 local ui = import('pigui/pigui.lua')
-local Vector = import('Vector')
 local Color = import('Color')
 local Lang = import("Lang")
 local lc = Lang.GetResource("core");
@@ -51,8 +50,8 @@ local function display2DRadar(cntr, size)
 	local twothirdsize = size * 0.7
 
 	local function line(x,y)
-		-- ui.addLine(cntr + Vector(x, y) * halfsize, cntr + Vector(x,y) * size, colors.reticuleCircle, ui.reticuleCircleThickness)
-		ui.addLine(cntr + Vector(x, y) * thirdsize, cntr + Vector(x,y) * twothirdsize, colors.reticuleCircle, ui.reticuleCircleThickness)
+		-- ui.addLine(cntr + vector2.new(x, y) * halfsize, cntr + vector2.new(x,y) * size, colors.reticuleCircle, ui.reticuleCircleThickness)
+		ui.addLine(cntr + vector2.new(x, y) * thirdsize, cntr + vector2.new(x,y) * twothirdsize, colors.reticuleCircle, ui.reticuleCircleThickness)
 	end
 	ui.addCircleFilled(cntr, size, colors.lightBlueBackground, ui.circleSegments(size), 1)
 	ui.addCircle(cntr, size, colors.reticuleCircle, ui.circleSegments(size), ui.reticuleCircleThickness)
@@ -96,7 +95,7 @@ local function display2DRadar(cntr, size)
 	end
 	local d, d_u = ui.Format.Distance(current_radar_size)
 	local distance = d .. ' ' .. d_u
-	local textcenter = cntr + Vector((halfsize + twothirdsize) * 0.5, size)
+	local textcenter = cntr + vector2.new((halfsize + twothirdsize) * 0.5, size)
 	local textsize = ui.addStyledText(textcenter, ui.anchor.left, ui.anchor.bottom, distance, colors.frame, pionillium.small, lui.HUD_RADAR_DISTANCE, colors.lightBlackBackground)
 end
 
@@ -110,13 +109,13 @@ local function displayRadar()
 	if #radar > 0 then
 
 		local size = ui.reticuleCircleRadius * 0.66
-		local cntr = Vector(ui.screenWidth / 2, ui.screenHeight - size - 15)
+		local cntr = vector2.new(ui.screenWidth / 2, ui.screenHeight - size - 15)
 
 		local mp = ui.getMousePos()
-		if (Vector(mp.x,mp.y) - cntr):magnitude() > size then
+		if (vector2.new(mp.x,mp.y) - cntr):magnitude() > size then
 			click_on_radar = false
 		end
-		if (Vector(mp.x,mp.y) - cntr):magnitude() < size then
+		if (vector2.new(mp.x,mp.y) - cntr):magnitude() < size then
 			if ui.isMouseClicked(1) then
 				click_on_radar = true
 			end

@@ -7,11 +7,13 @@
 #include "LuaPushPull.h"
 #include <tuple>
 
+#include "vector2.h"
+
 struct TScreenSpace
 {
-	TScreenSpace(const bool onScreen, const vector3d &screenPos, const vector3d &direction) : _onScreen(onScreen), _screenPosition(screenPos), _direction(direction) {}
+	TScreenSpace(const bool onScreen, const vector2d &screenPos, const vector3d &direction) : _onScreen(onScreen), _screenPosition(screenPos), _direction(direction) {}
 	bool _onScreen;
-	vector3d _screenPosition;
+	vector2d _screenPosition;
 	vector3d _direction;
 };
 

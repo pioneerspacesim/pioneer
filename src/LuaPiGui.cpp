@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaPiGui.h"
+
 #include "EnumStrings.h"
 #include "Game.h"
 #include "LuaConstants.h"
@@ -14,6 +15,8 @@
 #include "graphics/Graphics.h"
 #include "sound/Sound.h"
 #include "ui/Context.h"
+
+#include "LuaVector2.h"
 
 // Windows defines RegisterClass as a macro, but we don't need that here.
 // undef it, to avoid including yet another header that undefs it
@@ -93,11 +96,11 @@ int pushOnScreenPositionDirection(lua_State *l, vector3d position)
 	vector3d direction = (position - vector3d(width / 2, height / 2, 0)).Normalized();
 	if (vector3d(0, 0, 0) == position || position.x < 0 || position.y < 0 || position.x > width || position.y > height || position.z > 0) {
 		LuaPush<bool>(l, false);
-		LuaPush<vector3d>(l, vector3d(0, 0, 0));
+		LuaPush<vector2d>(l, vector2d(0, 0));
 		LuaPush<vector3d>(l, direction * (position.z > 0 ? -1 : 1)); // reverse direction if behind camera
 	} else {
 		LuaPush<bool>(l, true);
-		LuaPush<vector3d>(l, vector3d(position.x, position.y, 0));
+		LuaPush<vector2d>(l, vector2d(position.x, position.y));
 		LuaPush<vector3d>(l, direction);
 	}
 	return 3;
@@ -587,7 +590,8 @@ static int l_pigui_thrust_indicator(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string text = LuaPull<std::string>(l, 1);
-	ImVec2 size = LuaPull<ImVec2>(l, 2);
+	vector2d size_v = LuaPull<vector2d>(l, 2);
+	ImVec2 size(size_v.x, size_v.y);
 	vector3d thr = LuaPull<vector3d>(l, 3);
 	vector3d vel = LuaPull<vector3d>(l, 4);
 	ImColor color = LuaPull<ImColor>(l, 5);
@@ -1116,7 +1120,7 @@ static int l_pigui_calc_text_size(lua_State *l)
 	PROFILE_SCOPED()
 	std::string text = LuaPull<std::string>(l, 1);
 	ImVec2 size = ImGui::CalcTextSize(text.c_str());
-	pi_lua_generic_push(l, size);
+	LuaPush<vector2d>(l, vector2d(size.x, size.y));
 	return 1;
 }
 
@@ -1124,7 +1128,8 @@ static int l_pigui_get_mouse_pos(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImVec2 pos = ImGui::GetMousePos();
-	pi_lua_generic_push(l, pos);
+	vector2d v(pos.x, pos.y);
+	LuaPush(l, v);
 	return 1;
 }
 
@@ -1189,7 +1194,8 @@ static int l_pigui_get_window_pos(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImVec2 pos = ImGui::GetWindowPos();
-	pi_lua_generic_push(l, pos);
+	vector2d pos_d(pos.x, pos.y);
+	LuaPush<vector2d>(l, pos_d);
 	return 1;
 }
 
@@ -1260,9 +1266,9 @@ TScreenSpace lua_world_space_to_screen_space(const vector3d &pos)
 	const int height = Graphics::GetScreenHeight();
 	const vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
 	if (vector3d(0, 0, 0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
-		return TScreenSpace(false, vector3d(0, 0, 0), direction * (p.z > 0 ? -1 : 1));
+		return TScreenSpace(false, vector2d(0, 0), direction * (p.z > 0 ? -1 : 1));
 	} else {
-		return TScreenSpace(true, vector3d(p.x, p.y, 0), direction);
+		return TScreenSpace(true, vector2d(p.x, p.y), direction);
 	}
 }
 
@@ -1275,9 +1281,9 @@ TScreenSpace lua_world_space_to_screen_space(const Body *body)
 	const int height = Graphics::GetScreenHeight();
 	const vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
 	if (vector3d(0, 0, 0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
-		return TScreenSpace(false, vector3d(0, 0, 0), direction * (p.z > 0 ? -1 : 1));
+		return TScreenSpace(false, vector2d(0, 0), direction * (p.z > 0 ? -1 : 1));
 	} else {
-		return TScreenSpace(true, vector3d(p.x, p.y, 0), direction);
+		return TScreenSpace(true, vector2d(p.x, p.y), direction);
 	}
 }
 

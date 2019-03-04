@@ -4,7 +4,6 @@
 local Engine = import('Engine')
 local Game = import('Game')
 local ui = import('pigui/pigui.lua')
-local Vector = import('Vector')
 local Color = import('Color')
 local Lang = import("Lang")
 local lc = Lang.GetResource("core");
@@ -16,7 +15,7 @@ local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local mainButtonSize = Vector(32,32) * (ui.screenHeight / 1200)
+local mainButtonSize = vector2.new(32,32) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
 
 local function mainMenuButton(icon, selected, tooltip, color)
@@ -148,8 +147,8 @@ local function displayAutoPilotWindow()
 	if ui.showOptionsWindow then return end
 	player = Game.player
 	local current_view = Game.CurrentView()
-	ui.setNextWindowSize(Vector(mainButtonSize.x * 6, mainButtonSize.y * 2), "Always")
-	ui.setNextWindowPos(Vector(ui.screenWidth/2 + ui.reticuleCircleRadius / 4 * 3, ui.screenHeight - mainButtonSize.y * 1.5 - 8) , "Always")
+	ui.setNextWindowSize(vector2.new(mainButtonSize.x * 6, mainButtonSize.y * 2), "Always")
+	ui.setNextWindowPos(vector2.new(ui.screenWidth/2 + ui.reticuleCircleRadius / 4 * 3, ui.screenHeight - mainButtonSize.y * 1.5 - 8) , "Always")
 	ui.window("AutoPilot", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 						function()
 							if current_view == "world" then

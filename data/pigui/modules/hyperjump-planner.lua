@@ -1,7 +1,6 @@
 local Engine = import('Engine')
 local Game = import('Game')
 local ui = import('pigui/pigui.lua')
-local Vector = import('Vector')
 local Event = import('Event')
 local Lang = import("Lang")
 local lc = Lang.GetResource("core")
@@ -12,7 +11,7 @@ local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local mainButtonSize = Vector(24,24) * (ui.screenHeight / 1200)
+local mainButtonSize = vector2.new(24,24) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
 
 -- hyperjump route stuff
@@ -207,8 +206,8 @@ end -- showJumpPlan
 
 
 local function showHyperJumpPlannerWindow()
-	ui.setNextWindowSize(Vector(ui.screenWidth / 5, (ui.screenHeight / 5) * 2), "Always")
-	ui.setNextWindowPos(Vector(ui.screenWidth - ui.screenWidth / 5 - 10, ui.screenHeight - ((ui.screenHeight / 5) * 2) - 10), "Always")
+	ui.setNextWindowSize(vector2.new(ui.screenWidth / 5, (ui.screenHeight / 5) * 2), "Always")
+	ui.setNextWindowPos(vector2.new(ui.screenWidth - ui.screenWidth / 5 - 10, ui.screenHeight - ((ui.screenHeight / 5) * 2) - 10), "Always")
 	ui.withStyleColors({["WindowBg"] = colors.lightBlackBackground}, function()
 		ui.window("MapSectorViewHyperJumpPlanner", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 			function()

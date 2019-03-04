@@ -4,7 +4,6 @@
 local Engine = import('Engine')
 local Game = import('Game')
 local ui = import('pigui/pigui.lua')
-local Vector = import('Vector')
 local Color = import('Color')
 local Lang = import("Lang")
 local lc = Lang.GetResource("core");
@@ -17,8 +16,8 @@ local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local mainIconSize = Vector(32,32) * (ui.screenHeight / 1200)
-local mainWideIconSize = Vector(64,32) * (ui.screenHeight / 1200)
+local mainIconSize = vector2.new(32,32) * (ui.screenHeight / 1200)
+local mainWideIconSize = vector2.new(64,32) * (ui.screenHeight / 1200)
 local mainForegroundColor = colors.reticuleCircle
 local mainBackgroundColor = colors.lightBlueBackground
 local mainHoverColor = colors.lightBlueBackground:tint(0.2)
@@ -32,7 +31,7 @@ local function iconButton(leftupper, icon, is_wide, icon_size, text, is_disabled
 	if is_disabled then
 		bg_color = colors.grey
 	end
-	if ui.isMouseHoveringRect(leftupper, leftupper + Vector(x, y)) and not ui.isMouseHoveringAnyWindow() then
+	if ui.isMouseHoveringRect(leftupper, leftupper + vector2.new(x, y)) and not ui.isMouseHoveringAnyWindow() then
 		if not is_disabled then
 			if ui.isMouseDown(0) then
 				bg_color = pressed_color
@@ -45,14 +44,14 @@ local function iconButton(leftupper, icon, is_wide, icon_size, text, is_disabled
 		end
 		ui.setTooltip(tooltip)
 	end
-	ui.addRectFilled(leftupper, leftupper + Vector(x, y), bg_color, 0.1, 15)
+	ui.addRectFilled(leftupper, leftupper + vector2.new(x, y), bg_color, 0.1, 15)
 	if is_wide then
-		ui.addWideIcon(leftupper + Vector(mainButtonPadding, mainButtonPadding), icon, fg_color, icon_size, ui.anchor.left, ui.anchor.top)
+		ui.addWideIcon(leftupper + vector2.new(mainButtonPadding, mainButtonPadding), icon, fg_color, icon_size, ui.anchor.left, ui.anchor.top)
 	else
-		ui.addIcon(leftupper + Vector(mainButtonPadding, mainButtonPadding), icon, fg_color, icon_size, ui.anchor.left, ui.anchor.top)
+		ui.addIcon(leftupper + vector2.new(mainButtonPadding, mainButtonPadding), icon, fg_color, icon_size, ui.anchor.left, ui.anchor.top)
 	end
-	ui.addText(leftupper + Vector(icon_size.x + mainButtonPadding, (icon_size.y - textsize.y)/2), fg_color, text) --  + mainButtonPadding
-	return Vector(x, y), clicked
+	ui.addText(leftupper + vector2.new(icon_size.x + mainButtonPadding, (icon_size.y - textsize.y)/2), fg_color, text) --  + mainButtonPadding
+	return vector2.new(x, y), clicked
 end
 
 local function displayECM(uiPos)
@@ -62,7 +61,7 @@ local function displayECM(uiPos)
 		local ecms = player:GetEquip('ecm')
 		for i,ecm in ipairs(ecms) do
 			local size, clicked = iconButton(uiPos, icons[ecm.ecm_type], false, mainIconSize, "ECM", not player:IsECMReady(), mainBackgroundColor, mainForegroundColor, mainHoverColor, mainPressedColor, 'ECM')
-			uiPos = uiPos + Vector(0, size.y + 10)
+			uiPos = uiPos + vector2.new(0, size.y + 10)
 			if clicked then
 				player:UseECM()
 			end
@@ -78,7 +77,7 @@ local function displayBodyScanner(uiPos)
 		local sensors = player:GetEquip('sensor')
 		for i,sensor in ipairs(sensors) do
 			local size,clicked = iconButton(uiPos, icons.scanner, false, mainIconSize, sensor:GetName(), false, mainBackgroundColor, mainForegroundColor, mainHoverColor, mainPressedColor, 'Body scanner')
-			uiPos = uiPos + Vector(0, size.y + 10)
+			uiPos = uiPos + vector2.new(0, size.y + 10)
 			if clicked then
 				player:StartSensor(i)
 				-- or StopSensor(i)
@@ -121,7 +120,7 @@ local function displayMissiles(uiPos)
 		for t,missile in pairs(types) do
 			local c = count[t]
 			local size,clicked = iconButton(uiPos, getMissileIcon(missile), true, mainWideIconSize, c, c == 0, mainBackgroundColor, mainForegroundColor, mainHoverColor, mainPressedColor, lec[missile.l10n_key])
-			uiPos = uiPos + Vector(0, size.y + 10)
+			uiPos = uiPos + vector2.new(0, size.y + 10)
 			if clicked then
 				print("firing missile " .. t .. ", " .. index[t])
 				fireMissile(index[t])
@@ -133,10 +132,10 @@ end
 
 local function displayEquipment()
 	if ui.showOptionsWindow then return end
-	local uiPos = Vector(15, ui.screenHeight / 3 + 10)
+	local uiPos = vector2.new(15, ui.screenHeight / 3 + 10)
 	uiPos = displayMissiles(uiPos)
-	uiPos = displayECM(uiPos + Vector(0, 10))
-	uiPos = displayBodyScanner(uiPos + Vector(0, 10))
+	uiPos = displayECM(uiPos + vector2.new(0, 10))
+	uiPos = displayBodyScanner(uiPos + vector2.new(0, 10))
 end
 
 ui.registerModule("game", displayEquipment)
