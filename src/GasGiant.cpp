@@ -430,7 +430,7 @@ bool GasGiant::AddTextureFaceResult(GasGiantJobs::STextureFaceResult *res)
 	if (bCreateTexture) {
 		// create texture
 		const vector2f texSize(1.0f, 1.0f);
-		const vector2f dataSize(uvDims, uvDims);
+		const vector3f dataSize(uvDims, uvDims, 0.0f);
 		const Graphics::TextureDescriptor texDesc(
 			Graphics::TEXTURE_RGBA_8888,
 			dataSize, texSize, Graphics::LINEAR_CLAMP,
@@ -533,7 +533,7 @@ void GasGiant::GenerateTexture()
 	// scope the small texture generation
 	{
 		const vector2f texSize(1.0f, 1.0f);
-		const vector2f dataSize(s_texture_size_small, s_texture_size_small);
+		const vector3f dataSize(s_texture_size_small, s_texture_size_small, 0.0f);
 		const Graphics::TextureDescriptor texDesc(
 			Graphics::TEXTURE_RGBA_8888,
 			dataSize, texSize, Graphics::LINEAR_CLAMP,
@@ -592,7 +592,7 @@ void GasGiant::GenerateTexture()
 		// use m_surfaceTexture texture?
 		// create texture
 		const vector2f texSize(1.0f, 1.0f);
-		const vector2f dataSize(s_texture_size_gpu[Pi::detail.planets], s_texture_size_gpu[Pi::detail.planets]);
+		const vector3f dataSize(s_texture_size_gpu[Pi::detail.planets], s_texture_size_gpu[Pi::detail.planets], 0.0f);
 		const Graphics::TextureDescriptor texDesc(
 			Graphics::TEXTURE_RGBA_8888,
 			dataSize, texSize, Graphics::LINEAR_CLAMP,

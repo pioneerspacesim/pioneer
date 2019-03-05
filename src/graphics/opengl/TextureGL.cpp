@@ -60,6 +60,7 @@ namespace Graphics {
 			switch (type) {
 			case TEXTURE_2D: return GL_TEXTURE_2D;
 			case TEXTURE_CUBE_MAP: return GL_TEXTURE_CUBE_MAP;
+			case TEXTURE_2D_ARRAY: return GL_TEXTURE_2D_ARRAY;
 			default: assert(0); return 0;
 			}
 		}
@@ -197,6 +198,46 @@ namespace Graphics {
 				}
 				break;
 
+			case GL_TEXTURE_2D_ARRAY:
+				if(!IsCompressed(descriptor.format)) {
+					if(descriptor.generateMipmaps) {
+						glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, 0);
+					}
+					RendererOGL::CheckErrors();
+
+					glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, compressTexture ? GLCompressedInternalFormat(descriptor.format) : GLInternalFormat(descriptor.format),
+						descriptor.dataSize.x, descriptor.dataSize.y, descriptor.dataSize.z, 0,
+						GLImageFormat(descriptor.format),
+						GLImageType(descriptor.format), nullptr);
+					RendererOGL::CheckErrors();
+
+					if (descriptor.generateMipmaps) {
+						glGenerateMipmap(m_target);
+					}
+				} else {
+					const GLint oglFormatMinSize = GetMinSize(descriptor.format);
+					size_t Width = descriptor.dataSize.x;
+					size_t Height = descriptor.dataSize.y;
+					const size_t Layers = descriptor.dataSize.z;
+					size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * oglFormatMinSize;
+
+					GLint maxMip = 0;
+					for( unsigned int i=0; i < descriptor.numberOfMipMaps; ++i ) {
+						maxMip = i;
+						glCompressedTexImage3D(GL_TEXTURE_2D_ARRAY, i, GLInternalFormat(descriptor.format), Width, Height, Layers, 0, bufSize * Layers, nullptr);
+						RendererOGL::CheckErrors();
+						if( Width<=MIN_COMPRESSED_TEXTURE_DIMENSION || Height<=MIN_COMPRESSED_TEXTURE_DIMENSION ) {
+							break;
+						}
+						bufSize /= 4;
+						Width /= 2;
+						Height /= 2;
+					}
+					glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, maxMip);
+				}
+				RendererOGL::CheckErrors();
+				break;
+			
 			default:
 				assert(0);
 			}
@@ -251,7 +292,7 @@ namespace Graphics {
 			glDeleteTextures(1, &m_texture);
 		}
 
-		void TextureGL::Update(const void *data, const vector2f &pos, const vector2f &dataSize, TextureFormat format, const unsigned int numMips)
+		void TextureGL::Update(const void *data, const vector2f &pos, const vector3f &dataSize, TextureFormat format, const unsigned int numMips)
 		{
 			PROFILE_SCOPED()
 			assert(m_target == GL_TEXTURE_2D);
@@ -294,7 +335,7 @@ namespace Graphics {
 			CHECKERRORS();
 		}
 
-		void TextureGL::Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips)
+		void TextureGL::Update(const TextureCubeData &data, const vector3f &dataSize, TextureFormat format, const unsigned int numMips)
 		{
 			PROFILE_SCOPED()
 			assert(m_target == GL_TEXTURE_CUBE_MAP);
@@ -350,6 +391,73 @@ namespace Graphics {
 
 			glBindTexture(m_target, 0);
 			CHECKERRORS();
+		}
+
+		void TextureGL::Update(const vecDataPtr &data, const vector3f &dataSize, const TextureFormat format, const unsigned int numMips)
+		{
+			assert(m_target == GL_TEXTURE_2D_ARRAY);
+
+			glBindTexture(m_target, m_texture);
+			RendererOGL::CheckErrors();
+	
+			const size_t Layers = dataSize.z;
+			assert(Layers == data.size());
+
+			if (!IsCompressed(format)) {
+				for(size_t i = 0; i < Layers; i++) {
+					glTexSubImage3D(
+						GL_TEXTURE_2D_ARRAY,		//	GLenum target,
+						0, 							//	GLint level, // mip
+						0, 							//	GLint xoffset,
+						0, 							//	GLint yoffset,
+						i, 							//	GLint zoffset,
+						dataSize.x, 				//	GLsizei width,
+						dataSize.y, 				//	GLsizei height,
+						1,							//	GLsizei depth,
+						GLImageFormat(format), 		//	GLenum format,
+						GLImageType(format), 		//	GLenum type,
+						data[i]);					//	const GLvoid * data);
+				}
+				RendererOGL::CheckErrors();
+			} else {
+				const GLint oglInternalFormat = GLImageFormat(format);
+				for(size_t ilayer = 0; ilayer < Layers; ilayer++) {
+					size_t Offset = 0;
+					size_t Width = dataSize.x;
+					size_t Height = dataSize.y;
+					size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * GetMinSize(format);
+
+					const unsigned char *pData = static_cast<const unsigned char*>(data[ilayer]);
+					for( unsigned int i = 0; i < numMips; ++i ) {
+						glCompressedTexSubImage3D(
+							m_target,				//	GLenum  		target,
+							i, 						//	GLint			level,
+							0, 						//	GLint			xoffset,
+							0, 						//	GLint			yoffset,
+							ilayer,					//	GLint			zoffset,
+							Width, 					//	GLsizei  		width,
+							Height, 				//	GLsizei  		height,
+							1,						//	GLsizei  		depth,
+							oglInternalFormat, 		//	GLenum  		format,
+							bufSize, 				//	GLsizei  		imageSize,
+							&pData[Offset]);		//	const GLvoid *  data);
+						if( Width<=MIN_COMPRESSED_TEXTURE_DIMENSION || Height<=MIN_COMPRESSED_TEXTURE_DIMENSION ) {
+							break;
+						}
+						Offset += bufSize;
+						bufSize /= 4;
+						Width /= 2;
+						Height /= 2;
+					}
+					RendererOGL::CheckErrors();
+				}
+			}
+	
+			if (GetDescriptor().generateMipmaps)
+				glGenerateMipmap(m_target);
+
+			RendererOGL::CheckErrors();
+			glBindTexture(m_target, 0);
 		}
 
 		void TextureGL::Bind()

@@ -5,7 +5,9 @@
 #define _TEXTURE_H
 
 #include "RefCounted.h"
+#include <vector>
 #include "vector2.h"
+#include "vector3.h"
 
 namespace Graphics {
 
@@ -35,7 +37,8 @@ namespace Graphics {
 
 	enum TextureType {
 		TEXTURE_2D,
-		TEXTURE_CUBE_MAP
+		TEXTURE_CUBE_MAP,
+		TEXTURE_2D_ARRAY
 	};
 
 	struct TextureCubeData {
@@ -61,7 +64,7 @@ namespace Graphics {
 			type(TEXTURE_2D)
 		{}
 
-		TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, TextureSampleMode _sampleMode, bool _generateMipmaps, bool _allowCompression, bool _useAnisotropicFiltering, unsigned int _numberOfMipMaps, TextureType _textureType) :
+		TextureDescriptor(TextureFormat _format, const vector3f &_dataSize, TextureSampleMode _sampleMode, bool _generateMipmaps, bool _allowCompression, bool _useAnisotropicFiltering, unsigned int _numberOfMipMaps, TextureType _textureType) :
 			format(_format),
 			dataSize(_dataSize),
 			texSize(1.0f),
@@ -73,7 +76,7 @@ namespace Graphics {
 			type(_textureType)
 		{}
 
-		TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, const vector2f &_texSize, TextureSampleMode _sampleMode, bool _generateMipmaps, bool _allowCompression, bool _useAnisotropicFiltering, unsigned int _numberOfMipMaps, TextureType _textureType) :
+		TextureDescriptor(TextureFormat _format, const vector3f &_dataSize, const vector2f &_texSize, TextureSampleMode _sampleMode, bool _generateMipmaps, bool _allowCompression, bool _useAnisotropicFiltering, unsigned int _numberOfMipMaps, TextureType _textureType) :
 			format(_format),
 			dataSize(_dataSize),
 			texSize(_texSize),
@@ -88,7 +91,7 @@ namespace Graphics {
 		vector2f GetOriginalSize() const { return vector2f(dataSize.x * texSize.x, dataSize.y * texSize.y); }
 
 		const TextureFormat format;
-		const vector2f dataSize;
+		const vector3f dataSize;
 		const vector2f texSize;
 		const TextureSampleMode sampleMode;
 		const bool generateMipmaps;
@@ -100,7 +103,7 @@ namespace Graphics {
 		TextureDescriptor &operator=(const TextureDescriptor &o)
 		{
 			const_cast<TextureFormat &>(format) = o.format;
-			const_cast<vector2f &>(dataSize) = o.dataSize;
+			const_cast<vector3f&>(dataSize) = o.dataSize;
 			const_cast<vector2f &>(texSize) = o.texSize;
 			const_cast<TextureSampleMode &>(sampleMode) = o.sampleMode;
 			const_cast<bool &>(generateMipmaps) = o.generateMipmaps;
@@ -116,12 +119,14 @@ namespace Graphics {
 	public:
 		const TextureDescriptor &GetDescriptor() const { return m_descriptor; }
 
-		virtual void Update(const void *data, const vector2f &pos, const vector2f &dataSize, TextureFormat format, const unsigned int numMips = 0) = 0;
-		virtual void Update(const void *data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips = 0)
+		virtual void Update(const void *data, const vector2f &pos, const vector3f &dataSize, TextureFormat format, const unsigned int numMips = 0) = 0;
+		virtual void Update(const void *data, const vector3f &dataSize, TextureFormat format, const unsigned int numMips = 0)
 		{
 			Update(data, vector2f(0, 0), dataSize, format, numMips);
 		}
-		virtual void Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips = 0) = 0;
+		virtual void Update(const TextureCubeData &data, const vector3f &dataSize, TextureFormat format, const unsigned int numMips = 0) = 0;
+		typedef std::vector<void *> vecDataPtr;
+		virtual void Update(const vecDataPtr &data, const vector3f &dataSize, const TextureFormat format, const unsigned int numMips = 0) = 0;
 		virtual void SetSampleMode(TextureSampleMode) = 0;
 		virtual void BuildMipmaps() = 0;
 		virtual uint32_t GetTextureID() const = 0;

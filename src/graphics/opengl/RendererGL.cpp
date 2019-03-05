@@ -1073,7 +1073,7 @@ namespace Graphics {
 		if (desc.colorFormat != TEXTURE_NONE) {
 			Graphics::TextureDescriptor cdesc(
 				desc.colorFormat,
-				vector2f(desc.width, desc.height),
+				vector3f(desc.width, desc.height, 0.0f),
 				vector2f(desc.width, desc.height),
 				LINEAR_CLAMP,
 				false,
@@ -1087,7 +1087,7 @@ namespace Graphics {
 			if (desc.allowDepthTexture) {
 				Graphics::TextureDescriptor ddesc(
 					TEXTURE_DEPTH,
-					vector2f(desc.width, desc.height),
+					vector3f(desc.width, desc.height, 0.0f),
 					vector2f(desc.width, desc.height),
 					LINEAR_CLAMP,
 					false,
