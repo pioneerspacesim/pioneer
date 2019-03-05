@@ -41,7 +41,7 @@ namespace Graphics {
 		void Add(const vector3f &v, const vector3f &n);
 		void Add(const vector3f &v, const vector3f &n, const vector2f &uv);
 		void Add(const vector3f &v, const vector3f &n, const vector2f &uv, const vector3f &tang);
-		//virtual void Reserve(unsigned int howmuch)
+		void Reserve(const int size);
 
 		// don't mix these
 		void Set(const Uint32 idx, const vector3f &v);
@@ -59,6 +59,7 @@ namespace Graphics {
 		std::vector<vector3f> normal;
 		std::vector<Color> diffuse;
 		std::vector<vector2f> uv0;
+		std::vector<vector2f> uv1;
 		std::vector<vector3f> tangent;
 
 	private:

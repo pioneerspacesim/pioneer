@@ -38,7 +38,6 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	m_v3(v3_),
 	m_heights(nullptr),
 	m_normals(nullptr),
-	m_colors(nullptr),
 	m_parent(nullptr),
 	m_geosphere(gs),
 	m_depth(depth),
@@ -71,7 +70,6 @@ GeoPatch::~GeoPatch()
 	}
 	m_heights.reset();
 	m_normals.reset();
-	m_colors.reset();
 }
 
 void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
@@ -86,11 +84,11 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
 		vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
 		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
-		vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-		vbd.attrib[2].semantic = Graphics::ATTRIB_DIFFUSE;
-		vbd.attrib[2].format = Graphics::ATTRIB_FORMAT_UBYTE4;
-		vbd.attrib[3].semantic = Graphics::ATTRIB_UV0;
-		vbd.attrib[3].format = Graphics::ATTRIB_FORMAT_FLOAT2;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[2].semantic = Graphics::ATTRIB_UV0;
+		vbd.attrib[2].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
+		vbd.attrib[3].semantic = Graphics::ATTRIB_UV1;
+ 		vbd.attrib[3].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
 		vbd.numVertices = m_ctx->NUMVERTICES();
 		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
 		m_vertexBuffer.reset(renderer->CreateVertexBuffer(vbd));
@@ -102,9 +100,11 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		const double frac = m_ctx->GetFrac();
 		const double *pHts = m_heights.get();
 		const vector3f *pNorm = m_normals.get();
-		const Color3ub *pColr = m_colors.get();
 
 		double minh = DBL_MAX;
+
+		const double heightMin = m_geosphere->GetHeightNormaliserMin();
+		const double heightMul = m_geosphere->GetHeightNormaliserMax();
 
 		// ----------------------------------------------------
 		// inner loops
@@ -125,15 +125,15 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 				vtxPtr->norm = norma;
 				++pNorm; // next normal
 
-				vtxPtr->col[0] = pColr->r;
-				vtxPtr->col[1] = pColr->g;
-				vtxPtr->col[2] = pColr->b;
-				vtxPtr->col[3] = 255;
-				++pColr; // next colour
-
 				// uv coords
 				vtxPtr->uv.x = 1.0f - xFrac;
 				vtxPtr->uv.y = yFrac;
+
+				// slope & (normalised?) height
+				const vector3f p0(GetSpherePoint(xFrac, yFrac));
+				const float slope = Clamp((1.0f - float(fabs(float(p0.Dot(norma))))) * 2.0f, 0.0f, 1.0f);
+				const float normHeight = float(height * heightMul);
+				vtxPtr->uv2 = vector2f(slope, normHeight);
 
 				++vtxPtr; // next vertex
 			}
@@ -156,8 +156,8 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			GeoPatchContext::VBOVertex *vtxInr = &VBOVtxPtr[innerLeft + (y * edgeLen)];
 			vtxPtr->pos = vector3f(p);
 			vtxPtr->norm = vtxInr->norm;
-			vtxPtr->col = vtxInr->col;
 			vtxPtr->uv = vtxInr->uv;
+			vtxPtr->uv2 = vtxInr->uv2;
 		}
 		// right-edge
 		for (Sint32 y = 1; y < edgeLen - 1; y++) {
@@ -170,8 +170,8 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			GeoPatchContext::VBOVertex *vtxInr = &VBOVtxPtr[innerRight + (y * edgeLen)];
 			vtxPtr->pos = vector3f(p);
 			vtxPtr->norm = vtxInr->norm;
-			vtxPtr->col = vtxInr->col;
 			vtxPtr->uv = vtxInr->uv;
+			vtxPtr->uv2 = vtxInr->uv2;
 		}
 		// ----------------------------------------------------
 		const Sint32 innerTop = 1;
@@ -190,8 +190,8 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			GeoPatchContext::VBOVertex *vtxInr = &VBOVtxPtr[x + (innerTop * edgeLen)];
 			vtxPtr->pos = vector3f(p);
 			vtxPtr->norm = vtxInr->norm;
-			vtxPtr->col = vtxInr->col;
 			vtxPtr->uv = vtxInr->uv;
+			vtxPtr->uv2 = vtxInr->uv2;
 		}
 		// bottom-edge
 		for (Sint32 x = 1; x < edgeLen - 1; x++) {
@@ -204,8 +204,8 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			GeoPatchContext::VBOVertex *vtxInr = &VBOVtxPtr[x + (innerBottom * edgeLen)];
 			vtxPtr->pos = vector3f(p);
 			vtxPtr->norm = vtxInr->norm;
-			vtxPtr->col = vtxInr->col;
 			vtxPtr->uv = vtxInr->uv;
+			vtxPtr->uv2 = vtxInr->uv2;
 		}
 		// ----------------------------------------------------
 		// corners
@@ -240,7 +240,6 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 
 		// Don't need this anymore so throw it away
 		m_normals.reset();
-		m_colors.reset();
 
 #ifdef DEBUG_BOUNDING_SPHERES
 		RefCountedPtr<Graphics::Material> mat(Pi::renderer->CreateMaterial(Graphics::MaterialDescriptor()));
@@ -420,7 +419,6 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 			const SQuadSplitResult::SSplitResultData &data = psr->data(i);
 			m_kids[i]->m_heights.reset(data.heights);
 			m_kids[i]->m_normals.reset(data.normals);
-			m_kids[i]->m_colors.reset(data.colors);
 		}
 		for (int i = 0; i < NUM_KIDS; i++) {
 			m_kids[i]->NeedToUpdateVBOs();
@@ -439,7 +437,6 @@ void GeoPatch::ReceiveHeightmap(const SSingleSplitResult *psr)
 		const SSingleSplitResult::SSplitResultData &data = psr->data();
 		m_heights.reset(data.heights);
 		m_normals.reset(data.normals);
-		m_colors.reset(data.colors);
 	}
 	m_HasJobRequest = false;
 }

@@ -12,7 +12,8 @@ out vec4 vertexColor;
 uniform vec3 geosphereCenter;
 uniform float geosphereRadius;
 
-out vec2 texCoord0;
+out vec2 uv0;
+out vec2 uv1;
 out float dist;
 
 #ifdef TERRAIN_WITH_LAVA
@@ -27,7 +28,9 @@ void main(void)
 	varyingEyepos = vec3(uViewMatrix * a_vertex);
 	varyingNormal = normalize(uNormalMatrix * a_normal);
 	
-	texCoord0 = a_uv0.xy;
+	uv0 = a_uv0.xy;
+	uv1 = a_uv1.xy;
+	
 	dist = abs(varyingEyepos.z);
 
 #ifdef TERRAIN_WITH_LAVA

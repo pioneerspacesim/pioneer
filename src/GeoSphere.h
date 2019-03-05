@@ -66,16 +66,14 @@ public:
 	virtual void Reset() override;
 
 	inline Sint32 GetMaxDepth() const { return m_maxDepth; }
+	inline double GetHeightNormaliserMin() const { return m_heightNormaliserMin; }
+	inline double GetHeightNormaliserMax() const { return m_heightNormaliserMax; }
 
 	void AddQuadSplitRequest(double, SQuadSplitRequest *, GeoPatch *);
 
 private:
 	void BuildFirstPatches();
 	void CalculateMaxPatchDepth();
-	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const
-	{
-		return m_terrain->GetColor(p, height, norm);
-	}
 	void ProcessQuadSplitRequests();
 
 	std::unique_ptr<GeoPatch> m_patches[6];
@@ -104,6 +102,8 @@ private:
 
 	RefCountedPtr<Graphics::Texture> m_texHi;
 	RefCountedPtr<Graphics::Texture> m_texLo;
+	RefCountedPtr<Graphics::Texture> m_surfaceLUT;
+	RefCountedPtr<Graphics::Texture> m_surfaceAtlas;
 
 	enum EGSInitialisationStage {
 		eBuildFirstPatches = 0,
@@ -114,6 +114,8 @@ private:
 	EGSInitialisationStage m_initStage;
 
 	Sint32 m_maxDepth;
+	double m_heightNormaliserMin;
+	double m_heightNormaliserMax;
 };
 
 #endif /* _GEOSPHERE_H */
