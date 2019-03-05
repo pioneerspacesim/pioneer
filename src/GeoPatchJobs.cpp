@@ -46,7 +46,7 @@ void SSingleSplitRequest::GenerateMesh() const
 			*(vrts++) = p * (height + 1.0);
 		}
 	}
-	assert(bhts == &data->borderHeights.get()[numBorderedVerts]);
+	assert(bhts == &borderHeights.get()[numBorderedVerts]);
 
 	// Generate normals & colors for non-edge vertices since they never change
 	Color3ub *col = colors;
@@ -201,7 +201,7 @@ void SQuadSplitRequest::GenerateBorderedData() const
 			*(vrts++) = p * (height + 1.0);
 		}
 	}
-	assert(bhts == &data->borderHeights[numBorderedVerts]);
+	assert(bhts == &borderHeights[numBorderedVerts]);
 }
 
 void SQuadSplitRequest::GenerateSubPatchData(
@@ -229,7 +229,7 @@ void SQuadSplitRequest::GenerateSubPatchData(
 
 			// height
 			const double height = borderHeights[bx + (by * borderedEdgeLen)];
-			assert(hts != &heights[edgeLen * edgeLen]);
+			assert(hts != &heights[quadrantIndex][edgeLen * edgeLen]);
 			*(hts++) = height;
 
 			// normal
@@ -238,17 +238,17 @@ void SQuadSplitRequest::GenerateSubPatchData(
 			const vector3d &y1 = vrts[bx + ((by - 1) * borderedEdgeLen)];
 			const vector3d &y2 = vrts[bx + ((by + 1) * borderedEdgeLen)];
 			const vector3d n = ((x2 - x1).Cross(y2 - y1)).Normalized();
-			assert(nrm != &normals[edgeLen * edgeLen]);
+			assert(nrm != &normals[quadrantIndex][edgeLen * edgeLen]);
 			*(nrm++) = vector3f(n);
 
 			// color
 			const vector3d p = GetSpherePoint(v0, v1, v2, v3, x * fracStep, y * fracStep);
 			setColour(*col, pTerrain->GetColor(p, height, n));
-			assert(col != &colors[edgeLen * edgeLen]);
+			assert(col != &colors[quadrantIndex][edgeLen * edgeLen]);
 			++col;
 		}
 	}
-	assert(hts == &heights[edgeLen * edgeLen]);
-	assert(nrm == &normals[edgeLen * edgeLen]);
-	assert(col == &colors[edgeLen * edgeLen]);
+	assert(hts == &heights[quadrantIndex][edgeLen * edgeLen]);
+	assert(nrm == &normals[quadrantIndex][edgeLen * edgeLen]);
+	assert(col == &colors[quadrantIndex][edgeLen * edgeLen]);
 }
