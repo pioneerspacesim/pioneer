@@ -6,7 +6,7 @@
 static const vector3d svWhite(1.0, 1.0, 1.0);
 
 template <>
-const char *TerrainColorFractal<TerrainColorWhite>::GetColorFractalName() const { return "Solid"; }
+const char *TerrainColorFractal<TerrainColorWhite>::GetColorFractalName() const { return "SolidWhite"; }
 
 template <>
 TerrainColorFractal<TerrainColorWhite>::TerrainColorFractal(const SystemBody *body) :

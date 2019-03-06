@@ -8,12 +8,7 @@
 #include <sstream>
 
 namespace SceneGraph {
-
-	bool LodSortPredicate(const LodDefinition &a, const LodDefinition &b)
-	{
-		return a.pixelSize < b.pixelSize;
-	}
-
+	
 	Parser::Parser(FileSystem::FileSource &fs, const std::string &filename, const std::string &path) :
 		m_isMaterial(false),
 		m_curMat(0),
@@ -56,7 +51,7 @@ namespace SceneGraph {
 			m->matDefs.push_back(MaterialDefinition("Default"));
 
 		//sort lods by feature size
-		std::sort(m->lodDefs.begin(), m->lodDefs.end(), LodSortPredicate);
+		std::sort(m->lodDefs.begin(), m->lodDefs.end(), [](const LodDefinition &a, const LodDefinition &b) {return a.pixelSize < b.pixelSize;});
 	}
 
 	bool Parser::isComment(const std::string &s)
