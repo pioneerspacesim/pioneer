@@ -4,6 +4,7 @@ March 2019
      * Terrain Cleanup (#4550)
      * Avoid reallocation of vector using a list of nearby bodies (#4546)
      * Modified asserts to be correct now (#4553)
+     * Add instructions on building pioneer with CMake and MSYS2 (#4535)
 
    * Fixes
      * Fix game load crash with unattached hyperspace clouds (#4555)
