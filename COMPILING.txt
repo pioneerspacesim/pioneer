@@ -5,11 +5,12 @@ Table of Contents
     1.1.a Autotools
     1.1.b CMake
   1.2 Windows - MSVC
-  1.3 Windows - Autotools (Linux cross-compile)
-  1.4 OS X - Autotools
-  1.5 OS X - Homebrew
-  1.6 OS X - CMake and XCode
-  1.7 Nix - Autotools
+  1.3 Windows - CMake and MSYS2 (and MinGW-w64)
+  1.4 Windows - Autotools (Linux cross-compile)
+  1.5 OS X - Autotools
+  1.6 OS X - Homebrew
+  1.7 OS X - CMake and XCode
+  1.8 Nix - Autotools
 2 pioneer-thirdparty
   2.1 Linux - Autotools
   2.2 Windows - MSVC
@@ -31,6 +32,7 @@ Linux: GNU Autotools with GCC or Clang
        CMake with GCC or Clang
 Windows: Microsoft Visual C++ 2015 (Community or Pro)
          Microsoft Visual C++ 2017 (Community or Pro)
+         CMake with MSYS2 (and MinGW-w64)
 Windows: GNU Autotools with MXE (MinGW GCC) (cross-compile on Linux)
 OS X: XCode 4 or Homebrew or GNU Autotools
 
@@ -112,8 +114,30 @@ irc.freenode.net.
    version, which is what you want if developing, but release gives an executable
    optimized for performance.
 
+1.3 Windows - CMake and MSYS2 (and MinGW-w64)
+---------------------------------------------
 
-1.3 Windows - Autotools (Linux cross-compile)
+1. Install MSYS2 (https://www.msys2.org).
+
+2. Install MinGW-w64 from MSYS2. Use the mingw64 shell.
+
+3. Install the dependencies (similar to dependencies of Linux) using the
+   'pacman' command. Note: you should install the dependencies from the 
+   MinGW-w64 repository.
+
+4. Additionally, install GLEW.
+
+5. Goto the root directory of Pioneer, run 'mkdir build; cd build'. Then run
+   'cmake .. -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" -DUSE_SYSTEM_LIBGLEW=ON'
+   Alternatively, these command can be run using the ./bootstrap file with
+   additional arguments.
+
+6. Compile Pioneer by running 'mingw32-make.exe'.
+
+7. Now, you can go back to the root directory of Pioneer and do './build/pioneer.exe'
+   to play the game.
+
+1.4 Windows - Autotools (Linux cross-compile)
 ---------------------------------------------
 
 1. First you need a cross-compiling environment. We use MXE (http://mxe.cc).
@@ -127,14 +151,14 @@ irc.freenode.net.
 2. Now you can build Pioneer. Run ./bootstrap to generate your 'configure'
    file.
 
-4. Run configure to configure the build:
+3. Run configure to configure the build:
 
      ./configure --with-mxe=/path/to/mxe
 
-5. Run make to build everything
+4. Run make to build everything
 
 
-1.4 OS X - Autotools
+1.5 OS X - Autotools
 --------------------
 
 1. Install XCode (free download from apple). This will install the required
@@ -176,7 +200,7 @@ Note: Compiling from source this way isn't recommended as it doesn't allow you
       bundle). It also isn't the 'Apple way', To do that you need to use XCode.
 
 
-1.5 OS X - Homebrew
+1.6 OS X - Homebrew
 -------------------
 
 1. Install Homebrew package manager (http://brew.sh/) if you don't have one yet.
@@ -195,7 +219,7 @@ Note: Compiling from source this way isn't recommended as it doesn't allow you
      brew install --HEAD pioneer
 
 
-1.6 OS X - CMake and XCode
+1.7 OS X - CMake and XCode
 --------------------------
 
 THESE INSTRUCTIONS ARE APPROXIMATE AND ARE UNTESTED; PLEASE SUBMIT CORRECTIONS!
@@ -212,7 +236,7 @@ THESE INSTRUCTIONS ARE APPROXIMATE AND ARE UNTESTED; PLEASE SUBMIT CORRECTIONS!
 
 5. Open the project in XCode and build 'pioneer'.
 
-1.7 Nix - Autotools
+1.8 Nix - Autotools
 -------------------
 
 1. Install nix-shell.
