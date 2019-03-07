@@ -304,13 +304,6 @@ ui.Format = {
   end
 }
 
-ui.pointOnClock = function(center, radius, hours)
-	-- 0 hours is top, going rightwards, negative goes leftwards
-	local a = math.fmod(hours / 12 * two_pi, two_pi)
-	local p = vector2.new(0, -radius)
-	return vector2.new(center.x, center.y) + vector2.new(p.x * math.cos(a) - p.y * math.sin(a), p.y * math.cos(a) + p.x * math.sin(a))
-end
-
 ui.calcTextAlignment = function(pos, size, anchor_horizontal, anchor_vertical)
 	local position = vector2.new(pos.x, pos.y)
 	if anchor_horizontal == ui.anchor.left or anchor_horizontal == nil then
@@ -481,6 +474,8 @@ ui.icon = function(icon, size, color, tooltip)
 end
 
 -- Forward selected functions
+ui.lineOnClock = pigui.lineOnClock
+ui.pointOnClock = pigui.pointOnClock
 ui.screenWidth = pigui.screen_width
 ui.screenHeight = pigui.screen_height
 ui.setNextWindowPos = pigui.SetNextWindowPos

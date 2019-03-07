@@ -39,20 +39,17 @@ local player = nil
 
 -- display the pitch indicator on the right inside of the reticule circle
 local function displayReticulePitch(pitch_degrees)
-	local function pitchline(hrs, length, color, thickness)
-		local a = ui.pointOnClock(center, reticuleCircleRadius - 1 - length, hrs)
-		local b = ui.pointOnClock(center, reticuleCircleRadius - 1, hrs)
-		ui.addLine(a, b, color, thickness)
-	end
-	local tick_length = 2
-	pitchline(3, tick_length * 2, colors.reticuleCircle, 1)
-	pitchline(2.25, tick_length, colors.reticuleCircle, 1)
-	pitchline(3.75, tick_length, colors.reticuleCircle, 1)
-	pitchline(1.5, tick_length * 2, colors.reticuleCircle, 1)
-	pitchline(4.5, tick_length * 2, colors.reticuleCircle, 1)
+	local tick_length = 4
+	local radius = reticuleCircleRadius - 1
+	ui.lineOnClock(center, 3, tick_length, radius, colors.navigationalElements, 1)
+	ui.lineOnClock(nil, 2.25, tick_length, radius, colors.navigationalElements, 1)
+	ui.lineOnClock(nil, 3.75, tick_length, radius, colors.navigationalElements, 1)
+	ui.lineOnClock(nil, 1.5, tick_length, radius, colors.navigationalElements, 1)
+	ui.lineOnClock(nil, 4.5, tick_length, radius, colors.navigationalElements, 1)
+
 	local xpitch = (pitch_degrees + 90) / 180
 	local xpitch_h = 4.5 - xpitch * 3
-	pitchline(xpitch_h, tick_length * 3, colors.navigationalElements, 2)
+	ui.lineOnClock(nil, xpitch_h, tick_length * 1.5, radius, colors.navigationalElements, 2)
 end
 
 -- display the horizon inside the reticule circle
@@ -65,26 +62,16 @@ local function displayReticuleHorizon(roll_degrees)
 	local height_hrs = 0.1
 
 	local hrs = roll_degrees / 360 * 12 + 3
+
+	local radius = reticuleCircleRadius - offset
 	-- left hook
-	ui.addLine(ui.pointOnClock(center, reticuleCircleRadius - offset, hrs),
-						 ui.pointOnClock(center, reticuleCircleRadius - offset - width, hrs),
-						 colors.navigationalElements, 1)
-	ui.addLine(ui.pointOnClock(center, reticuleCircleRadius - offset, hrs),
-						 ui.pointOnClock(center, reticuleCircleRadius - offset, hrs + height_hrs),
-						 colors.navigationalElements, 1)
-	ui.addLine(ui.pointOnClock(center, reticuleCircleRadius - offset, -3),
-						 ui.pointOnClock(center, reticuleCircleRadius - offset + width/2, -3),
-						 colors.navigationalElements, 1)
+	ui.lineOnClock(center, hrs, width, radius, colors.navigationalElements, 1)
+	ui.lineOnClock(nil, hrs + height_hrs, width, radius, colors.navigationalElements, 1)
+	ui.lineOnClock(nil, -3, width/2, radius, colors.navigationalElements, 1)
 	-- right hook
-	ui.addLine(ui.pointOnClock(center, reticuleCircleRadius - offset, hrs + 6),
-						 ui.pointOnClock(center, reticuleCircleRadius - offset - width, hrs + 6),
-						 colors.navigationalElements, 1)
-	ui.addLine(ui.pointOnClock(center, reticuleCircleRadius - offset, hrs + 6),
-						 ui.pointOnClock(center, reticuleCircleRadius - offset, hrs + 6 - height_hrs),
-						 colors.navigationalElements, 1)
-	ui.addLine(ui.pointOnClock(center, reticuleCircleRadius - offset, 3),
-						 ui.pointOnClock(center, reticuleCircleRadius - offset + width/2, 3),
-						 colors.navigationalElements, 1)
+	ui.lineOnClock(nil, hrs + 6, width, radius, colors.navigationalElements, 1)
+	ui.lineOnClock(nil, hrs + 6 - height_hrs, width, radius, colors.navigationalElements, 1)
+	ui.lineOnClock(nil, 3, width/2, radius, colors.navigationalElements, 1)
 end
 
 -- display the compass at the top of the reticule circle
@@ -106,15 +93,11 @@ local function displayReticuleCompass(heading)
 	local left = math.floor(heading - 45)
 	local right = left + 90
 
-	ui.addLine(ui.pointOnClock(center, reticuleCircleRadius, 0),
-						 ui.pointOnClock(center, reticuleCircleRadius - 3, 0),
-						 colors.reticuleCircle, 1)
+	ui.lineOnClock(center, 0, 3, reticuleCircleRadius, colors.reticuleCircle, 1)
 
 	local function stroke(d, p, multiple, height, thickness)
 		if d % multiple == 0 then
-			local a = ui.pointOnClock(center, reticuleCircleRadius, 2.8 * p - 1.4)
-			local b = ui.pointOnClock(center, reticuleCircleRadius + height, 2.8 * p - 1.4)
-			ui.addLine(a, b, colors.reticuleCircle, thickness)
+			ui.lineOnClock(nil, 2.8 * p - 1.4, -height, reticuleCircleRadius, colors.reticuleCircle, thickness)
 		end
 	end
 
@@ -125,7 +108,7 @@ local function displayReticuleCompass(heading)
 		stroke(d, p, 90, 4, 2)
 		for k,v in pairs(directions) do
 			if clamp(k) == clamp(d) then
-				local a = ui.pointOnClock(center, reticuleCircleRadius + 8, 3 * p - 1.5)
+				local a = ui.pointOnClock(nil, reticuleCircleRadius + 8, 3 * p - 1.5)
 				ui.addStyledText(a, ui.anchor.center, ui.anchor.bottom, v, colors.navigationalElements, pionillium.tiny, "")
 			end
 		end

@@ -273,6 +273,8 @@ void pi_lua_generic_pull(lua_State *l, int index, ImGuiWindowFlags_ &theflags)
 	theflags = parse_imgui_flags(l, index, imguiWindowFlagsTable, "ImGuiWindowFlags");
 }
 
+/* TOBE Removed...
+*/
 static void pi_lua_pushVector(lua_State *l, double x, double y, double z)
 {
 	PROFILE_SCOPED()
@@ -325,6 +327,76 @@ void pi_lua_generic_push(lua_State *l, const vector3f &v)
  *
  *   stable
  */
+static vector2d s_center(0., 0.);
+
+static vector2d pointOnClock(const double radius, const double hours)
+{
+	PROFILE_SCOPED()
+	double angle = (hours / 6) * 3.14159;
+	vector2d res = s_center + vector2d(radius * sin(angle), -radius * cos(angle));
+	return res;
+}
+
+static vector2d pointOnClock(const vector2d &center, const double radius, const double hours)
+{
+	PROFILE_SCOPED()
+	// Update center:
+	s_center = center;
+	return pointOnClock(radius, hours);
+}
+
+static void lineOnClock(const double hours, const double length, const double radius, const ImColor &color, const double thickness)
+{
+	PROFILE_SCOPED()
+	ImDrawList *draw_list = ImGui::GetWindowDrawList();
+	vector2d p1 = pointOnClock(radius, hours);
+	vector2d p2 = pointOnClock(radius - length, hours);
+	// Type change... TODO: find a better way?
+	ImVec2 a(p1.x, p1.y);
+	ImVec2 b(p2.x, p2.y);
+	draw_list->AddLine(a, b, color, thickness);
+}
+
+static void lineOnClock(const vector2d &center, const double hours, const double length, const double radius, const ImColor &color, const double thickness)
+{
+	PROFILE_SCOPED()
+	// Update center:
+	s_center = center;
+	lineOnClock(hours, length, radius, color, thickness);
+}
+
+static int l_pigui_pointOnClock(lua_State *l)
+{
+	PROFILE_SCOPED()
+	const double radius = LuaPull<double>(l, 2);
+	const double hours = LuaPull<double>(l, 3);
+	// delay checks on first parameter
+	if (lua_type(l, 1) != LUA_TNIL) {
+		const vector2d center = LuaPull<vector2d>(l, 1);
+		LuaPush<vector2d>(l, pointOnClock(center, radius, hours));
+	} else {
+		LuaPush<vector2d>(l, pointOnClock(radius, hours));
+	};
+	return 1;
+}
+
+static int l_pigui_lineOnClock(lua_State *l)
+{
+	PROFILE_SCOPED()
+	const double hours = LuaPull<double>(l, 2);
+	const double length = LuaPull<double>(l, 3);
+	const double radius = LuaPull<double>(l,4);
+	const ImColor color = LuaPull<ImColor>(l, 5);
+	const double thickness = LuaPull<double>(l, 6);
+	if (lua_type(l, 1) != LUA_TNIL) {
+		const vector2d center = LuaPull<vector2d>(l, 1);
+		lineOnClock(center, hours, length, radius, color, thickness);
+	} else {
+		lineOnClock(hours, length, radius, color, thickness);
+	};
+	return 0;
+}
+
 static int l_pigui_begin(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1890,6 +1962,8 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "IsMouseHoveringAnyWindow", l_pigui_is_mouse_hovering_any_window },
 		{ "IsMouseHoveringWindow", l_pigui_is_mouse_hovering_window },
 		{ "Image", l_pigui_image },
+		{ "pointOnClock", l_pigui_pointOnClock },
+		{ "lineOnClock", l_pigui_lineOnClock },
 		{ "ImageButton", l_pigui_image_button },
 		{ "RadialMenu", l_pigui_radial_menu },
 		{ "CircularSlider", l_pigui_circular_slider },
