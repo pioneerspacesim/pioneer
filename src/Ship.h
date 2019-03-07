@@ -124,6 +124,15 @@ public:
 		HYPERSPACE, // in hyperspace
 	};
 
+	vector3d CalcAtmoLift();
+	vector3d fLift;
+
+	vector3d CalcAtmoPassiveControl();
+	vector3d fDragControl;
+
+	vector3d CalcAtmoTorque();
+	vector3d fAtmoTorque;
+
 	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
@@ -275,6 +284,8 @@ private:
 	void InitEquipSet();
 
 	bool m_invulnerable;
+
+	static const double DEFAULT_LIFT_TO_DRAG_RATIO;
 
 	static const float DEFAULT_SHIELD_COOLDOWN_TIME;
 	float m_shieldCooldown;

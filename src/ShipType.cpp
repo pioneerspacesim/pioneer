@@ -91,6 +91,14 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	linAccelerationCap[THRUSTER_LEFT] = data.value("left_acceleration_cap", INFINITY);
 	linAccelerationCap[THRUSTER_RIGHT] = data.value("right_acceleration_cap", INFINITY);
 
+	//get atmospheric flight values
+	topCrossSection = data.value("top_cross_section", 1.0f);
+	sideCrossSection = data.value("side_cross_section", 1.0f);
+	frontCrossSection = data.value("front_cross_section", 1.0f);
+
+	shipLiftCoefficient = data.value("lift_coeff", 0.0f);
+	atmoStability = data.value("aero_stability", 0.0f);
+
 	// Parse global thrusters color
 	bool error = false;
 	int parse = 0;

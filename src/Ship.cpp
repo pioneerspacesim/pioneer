@@ -31,6 +31,7 @@
 static const float TONS_HULL_PER_SHIELD = 10.f;
 HeatGradientParameters_t Ship::s_heatGradientParams;
 const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
+const double Ship::DEFAULT_LIFT_TO_DRAG_RATIO = 0.001;
 
 Ship::Ship(const ShipType::Id &shipId) :
 	DynamicBody(),
@@ -212,6 +213,10 @@ void Ship::Init()
 	p.Set("shieldMassLeft", m_stats.shield_mass_left);
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
 
+	fLift = vector3d(0.0);
+	fAtmoTorque = vector3d(0.0);
+	fDragControl = vector3d(0.0);
+
 	// Init of Propulsion:
 	GetPropulsion()->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust, m_type->linAccelerationCap);
 
@@ -359,6 +364,65 @@ void Ship::SetPercentHull(float p)
 void Ship::UpdateMass()
 {
 	SetMass((m_stats.static_mass + GetPropulsion()->FuelTankMassLeft()) * 1000);
+}
+
+//calculates atmospheric lift
+vector3d Ship::CalcAtmoLift()
+{
+	double m_topCrossSec = GetShipType()->topCrossSection;
+	double m_shipLiftCoeff = GetShipType()->shipLiftCoefficient;
+
+	double m_fDrag = CalcAtmosphericForce(DEFAULT_DRAG_COEFF); //returns 0 if not in atmosphere, so no need to check
+
+	vector3d m_AoAVector = GetOrient().VectorZ().NormalizedSafe() - GetVelocity().NormalizedSafe();
+	double m_AoAMultiplier = m_AoAVector.Length();
+
+	if (m_AoAMultiplier > 1.8) {
+		fLift = vector3d(0, m_fDrag * m_AoAMultiplier * m_topCrossSec * m_shipLiftCoeff * DEFAULT_LIFT_TO_DRAG_RATIO, 0);
+	}
+	else {
+		fLift = vector3d(0.0); //stall!
+	}
+	return fLift;
+}
+
+//calculates simplest form of aerodynamic control
+vector3d Ship::CalcAtmoPassiveControl()
+{
+	double m_topCrossSec = GetShipType()->topCrossSection;
+	double m_sideCrossSec = GetShipType()->sideCrossSection;
+	double m_frontCrossSec = GetShipType()->frontCrossSection;
+	double m_aeroStabilityMultiplier = GetShipType()->atmoStability;
+	
+	double m_drag = CalcAtmosphericForce(DEFAULT_DRAG_COEFF);
+
+	fDragControl = GetOrient().VectorZ().NormalizedSafe() * m_drag * -0.25 * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * m_aeroStabilityMultiplier;
+
+	return fDragControl;
+}
+
+
+//calculates torque to force the spacecraft go nose-first in atmosphere
+vector3d Ship::CalcAtmoTorque()
+{
+	double m_topCrossSec = GetShipType()->topCrossSection;
+	double m_sideCrossSec = GetShipType()->sideCrossSection;
+	double m_frontCrossSec = GetShipType()->frontCrossSection;
+	double m_aeroStabilityMultiplier = GetShipType()->atmoStability;
+
+	vector3d forward = GetOrient().VectorZ();
+	vector3d m_vel = GetVelocity().NormalizedSafe();
+	vector3d m_torqueDir = -m_vel.Cross(-forward); // <--- This is correct
+
+	double m_drag = CalcAtmosphericForce(DEFAULT_DRAG_COEFF);
+
+	if (GetVelocity().Length() > 150) { //don't apply torque at minimal speeds
+		fAtmoTorque = m_drag * m_torqueDir * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * 0.05 * m_aeroStabilityMultiplier;
+	}
+	else {
+		fAtmoTorque = vector3d(0.0);
+	}
+	return fAtmoTorque;
 }
 
 bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact &contactData)
@@ -877,6 +941,11 @@ void Ship::TimeStepUpdate(const float timeStep)
 	const vector3d thrust = GetPropulsion()->GetActualLinThrust();
 	AddRelForce(thrust);
 	AddRelTorque(GetPropulsion()->GetActualAngThrust());
+
+	//apply atmospheric flight forces
+	AddRelForce(CalcAtmoLift());
+	AddForce(CalcAtmoPassiveControl());
+	AddTorque(CalcAtmoTorque());
 
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);
