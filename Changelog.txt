@@ -5,6 +5,9 @@ March 2019
      * Avoid reallocation of vector using a list of nearby bodies (#4546)
      * Modified asserts to be correct now (#4553)
 
+   * Fixes
+     * Fix game load crash with unattached hyperspace clouds (#4555)
+
 February 2019
    * New Features
      * New setting option for less UI in screenshots (#4528)
