@@ -44,6 +44,7 @@ HyperspaceCloud::HyperspaceCloud(const Json &jsonObj, Space *space) :
 		m_due = hyperspaceCloudObj["due"];
 		m_isArrival = hyperspaceCloudObj["is_arrival"];
 
+		m_ship = nullptr;
 		if (hyperspaceCloudObj["ship"].is_object()) {
 			Json shipObj = hyperspaceCloudObj["ship"];
 			m_ship = static_cast<Ship *>(Body::FromJson(shipObj, space));
@@ -111,7 +112,7 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 
 		m_ship->EnterSystem();
 
-		m_ship = 0;
+		m_ship = nullptr;
 	}
 
 	// cloud expiration
@@ -125,7 +126,7 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 Ship *HyperspaceCloud::EvictShip()
 {
 	Ship *s = m_ship;
-	m_ship = 0;
+	m_ship = nullptr;
 	return s;
 }
 
