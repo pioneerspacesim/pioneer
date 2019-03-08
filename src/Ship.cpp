@@ -374,7 +374,7 @@ vector3d Ship::CalcAtmoLift()
 
 	double m_fDrag = CalcAtmosphericForce(DEFAULT_DRAG_COEFF); //returns 0 if not in atmosphere, so no need to check
 
-	vector3d m_AoAVector = GetOrient().VectorZ().NormalizedSafe() - GetVelocity().NormalizedSafe();
+	vector3d m_AoAVector = GetOrient().VectorZ() - GetVelocity().NormalizedSafe();
 	double m_AoAMultiplier = m_AoAVector.Length();
 
 	if (m_AoAMultiplier > 1.8) {
