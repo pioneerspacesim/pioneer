@@ -139,7 +139,7 @@ local function displayReticuleDeltaV()
 	local deltav_max = player:GetMaxDeltaV()
 	local deltav_remaining = player:GetRemainingDeltaV()
 	local dvr = deltav_remaining / deltav_max
-	local deltav_maneuver = player:GetManeuverVelocity():magnitude()
+	local deltav_maneuver = player:GetManeuverVelocity():length()
 	local dvm = deltav_maneuver / deltav_max
 	local deltav_current = player:GetCurrentDeltaV()
 	local dvc = deltav_current / deltav_max
@@ -222,9 +222,9 @@ local function displayDirectionalMarkers()
 	end
 	local function angle(forward, adjust)
 		if forward.z >= 1 then
-			return forward:angle() + adjust - ui.pi
+			return vector2.new(forward.x, forward.y):angle() + adjust - ui.pi
 		else
-			return forward:angle() + adjust
+			return vector2.new(forward.x, forward.y):angle() + adjust
 		end
   end
 	local forward = Engine.ShipSpaceToScreenSpace(vector.new(0,0,-1))
@@ -341,12 +341,12 @@ local function displayDetailData(target, radius, combatTarget, navTarget, colorL
 									colors.lightBlackBackground)
 
 	-- current brake distance
-	local brake_distance = player:GetDistanceToZeroV(velocity:magnitude(),"forward")
-	local brake_distance_retro = player:GetDistanceToZeroV(velocity:magnitude(),"reverse")
+	local brake_distance = player:GetDistanceToZeroV(velocity:length(),"forward")
+	local brake_distance_retro = player:GetDistanceToZeroV(velocity:length(),"reverse")
 	local altitude = player:GetAltitudeRelTo(target)
 	local ratio = brake_distance / altitude
 	local ratio_retro = brake_distance_retro / altitude
-	speed, speed_unit = ui.Format.Speed(velocity:magnitude())
+	speed, speed_unit = ui.Format.Speed(velocity:length())
 
 	uiPos = ui.pointOnClock(center, radius, 3)
 	local distance,unit = ui.Format.Distance(brake_distance)
@@ -419,7 +419,7 @@ local function displayFrameData(frame, radius)
 	local velocity = player:GetVelocityRelTo(frame)
 	local position = player:GetPositionRelTo(frame)
 	local altitude = player:GetAltitudeRelTo(frame)
-	local brake_distance = player:GetDistanceToZeroV(velocity:magnitude(),"forward")
+	local brake_distance = player:GetDistanceToZeroV(velocity:length(),"forward")
 	local altitude, altitude_unit = ui.Format.Distance(altitude)
 	local approach_speed = position:dot(velocity) / position:magnitude()
 	local speed, speed_unit = ui.Format.Speed(approach_speed)
@@ -442,7 +442,7 @@ local function displayFrameData(frame, radius)
 
 
 	-- altitude above frame
-	speed, speed_unit = ui.Format.Speed(velocity:magnitude())
+	speed, speed_unit = ui.Format.Speed(velocity:length())
 	uiPos = ui.pointOnClock(center, radius, -3.25)
 	ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.baseline, {
 										{ text=speed,           color=colors.frame,     font=pionillium.medium, tooltip=lui.HUD_SPEED_RELATIVE_TO_TARGET },
@@ -481,7 +481,8 @@ local function displayMouseMoveIndicator()
 	if player:IsMouseActive() then
 		local direction = player:GetMouseDirection()
 		local screen = Engine.CameraSpaceToScreenSpace(direction)
-		ui.addIcon(screen, icons.mouse_move_direction, colors.mouseMovementDirection, vector2.new(32, 32), ui.anchor.center, ui.anchor.center)
+		local screen2 = Vector2(screen.x, screen.y)
+		ui.addIcon(screen2, icons.mouse_move_direction, colors.mouseMovementDirection, Vector2(32, 32), ui.anchor.center, ui.anchor.center)
 	end
 end
 

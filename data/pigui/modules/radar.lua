@@ -76,16 +76,16 @@ local function display2DRadar(cntr, size)
 			local position = cntr + v.aep * size * 2
 			if v.body == navTarget then
 				local color = Color(colors.navTarget.r, colors.navTarget.g, colors.navTarget.b, alpha)
-				ui.addIcon(position, icons.square, color, 12, ui.anchor.center, ui.anchor.center)
+				ui.addIcon(position, icons.square, color, Vector2(12, 12), ui.anchor.center, ui.anchor.center)
 			elseif v.body == combatTarget then
 				local color = Color(colors.combatTarget.r, colors.combatTarget.g, colors.combatTarget.b, alpha)
-				ui.addIcon(position, icons.square, color, 12, ui.anchor.center, ui.anchor.center)
+				ui.addIcon(position, icons.square, color, Vector2(12, 12), ui.anchor.center, ui.anchor.center)
 			else
 				local color = getColorFor(v)
 				ui.addCircleFilled(position, 2, color, 4, 1)
 			end
 			local mouse_position = ui.getMousePos()
-			if (mouse_position - position):magnitude() < 4 then
+			if (mouse_position - position):length() < 4 then
 				table.insert(tooltip, v.label)
 			end
 		end
@@ -112,10 +112,10 @@ local function displayRadar()
 		local cntr = vector2.new(ui.screenWidth / 2, ui.screenHeight - size - 15)
 
 		local mp = ui.getMousePos()
-		if (vector2.new(mp.x,mp.y) - cntr):magnitude() > size then
+		if (mp - cntr):length() > size then
 			click_on_radar = false
 		end
-		if (vector2.new(mp.x,mp.y) - cntr):magnitude() < size then
+		if (mp - cntr):length() < size then
 			if ui.isMouseClicked(1) then
 				click_on_radar = true
 			end

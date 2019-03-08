@@ -77,7 +77,7 @@ local function button_thrustIndicator()
 		function ()
 			ui.sameLine()
 			local vel = Engine.WorldSpaceToShipSpace(player:GetVelocity())
-			vel = vel / math.max(vel:magnitude(), 10) -- minimum of 10m/s
+			vel = vel / math.max(vel:length(), 10) -- minimum of 10m/s
 			local thrust = player:GetThrusterState()
 			local v = ui.getCursorPos();
 			ui.setCursorPos(vector2.new(v.x, 20));

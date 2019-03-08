@@ -18,8 +18,6 @@
 #include "sound/Sound.h"
 #include "ui/Context.h"
 
-#include "LuaVector2.h"
-
 // Windows defines RegisterClass as a macro, but we don't need that here.
 // undef it, to avoid including yet another header that undefs it
 #undef RegisterClass
@@ -1366,8 +1364,10 @@ static int l_pigui_get_targets_nearby(lua_State *l)
 		// convert to AEP https://en.wikipedia.org/wiki/Azimuthal_equidistant_projection
 		double rho = M_PI / 2 - polarPosition.z;
 		double theta = polarPosition.y;
-		vector3d aep(rho * sin(theta) / (2 * M_PI), -rho * cos(theta) / (2 * M_PI), 0);
-		LuaTable object(l);
+		vector2d aep(rho * sin(theta) / (2 * M_PI), -rho * cos(theta) / (2 * M_PI));
+
+		LuaTable object(l); //, 0 , 4);
+
 		object.Set("distance", distance);
 		object.Set("label", body->GetLabel());
 

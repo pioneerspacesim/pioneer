@@ -402,7 +402,7 @@ static int l_get_distance_to_zero_v(lua_State *l)
 	double speed = LuaPull<double>(l, 2);
 	std::string thruster = LuaPull<std::string>(l, 3);
 	double acceleration = player->GetAccel(thrusters_map.at(thruster));
-	// approximation, ignores mass change
+	// approximation, ignores mass change and gravity
 	LuaPush(l, speed * speed / (2 * acceleration));
 	return 1;
 }
