@@ -396,7 +396,10 @@ vector3d Ship::CalcAtmoPassiveControl()
 	
 	double m_drag = CalcAtmosphericForce(DEFAULT_DRAG_COEFF);
 
-	fDragControl = GetOrient().VectorZ().NormalizedSafe() * m_drag * -0.25 * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * m_aeroStabilityMultiplier;
+	fDragControl = GetOrient().VectorZ() * m_drag * -0.25 * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * m_aeroStabilityMultiplier;
+
+	if (fDragControl.Length() > (m_drag * 0.5)) //don't let any ship fly infinitely, just in case a very wrong ship value is inserted
+		fDragControl = GetOrient().VectorZ() * m_drag * -0.5;
 
 	return fDragControl;
 }
@@ -417,7 +420,7 @@ vector3d Ship::CalcAtmoTorque()
 	double m_drag = CalcAtmosphericForce(DEFAULT_DRAG_COEFF);
 
 	if (GetVelocity().Length() > 150) { //don't apply torque at minimal speeds
-		fAtmoTorque = m_drag * m_torqueDir * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * 0.05 * m_aeroStabilityMultiplier;
+		fAtmoTorque = m_drag * m_torqueDir * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * 0.1 * m_aeroStabilityMultiplier;
 	}
 	else {
 		fAtmoTorque = vector3d(0.0);
