@@ -5,7 +5,6 @@ local Engine = import('Engine')
 local Input = import('Input')
 local Game = import('Game')
 local ui = import('pigui/pigui.lua')
-local Vector = import('Vector')
 local Event = import('Event')
 local Lang = import("Lang")
 local Color = import("Color")
@@ -26,15 +25,21 @@ local colors = ui.theme.colors
 local icons = ui.theme.icons
 local pionillium = ui.fonts.pionillium
 
+<<<<<<< HEAD
 local mainButtonSize = Vector(40,40) * (ui.screenHeight / 1200)
 local optionButtonSize = Vector(125,40) * (ui.screenHeight / 1200)
 local bindingButtonSize = Vector(-1,25) * (ui.screenHeight / 1200)
+=======
+local mainButtonSize = vector2.new(40,40) * (ui.screenHeight / 1200)
+local optionButtonSize = vector2.new(125,40) * (ui.screenHeight / 1200)
+local bindingButtonSize = vector2.new(177,25) * (ui.screenHeight / 1200)
+>>>>>>> Remove remaining dependencies from Vector.lua
 local mainButtonFramePadding = 3
 
 local bindingPageFontSize = 36 * (ui.screenHeight / 1200)
 local bindingGroupFontSize = 26 * (ui.screenHeight / 1200)
 
-local optionsWinSize = Vector(ui.screenWidth * 0.4, ui.screenHeight * 0.6)
+local optionsWinSize = vector2.new(ui.screenWidth * 0.4, ui.screenHeight * 0.6)
 
 local showTab = 'video'
 
@@ -535,7 +540,7 @@ local function optionsWindow()
 
 				ui.separator()
 
-				ui.child("options_tab", Vector(-1, optionsWinSize.y - mainButtonSize.y*3 - 4), function()
+				ui.child("options_tab", vector2.new(-1, optionsWinSize.y - mainButtonSize.y*3 - 4), function()
 					optionsTabs[showTab]()
 				end)
 

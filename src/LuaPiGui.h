@@ -17,9 +17,6 @@ struct TScreenSpace
 	vector3d _direction;
 };
 
-void pi_lua_generic_push(lua_State *l, const vector3d &v);
-void pi_lua_generic_push(lua_State *l, const vector3f &v);
-void pi_lua_generic_pull(lua_State *l, int index, vector3d &vector);
 int pushOnScreenPositionDirection(lua_State *l, vector3d position);
 TScreenSpace lua_world_space_to_screen_space(const vector3d &pos);
 #endif

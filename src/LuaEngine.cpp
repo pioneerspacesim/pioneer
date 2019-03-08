@@ -15,6 +15,7 @@
 #include "LuaObject.h"
 #include "LuaPiGui.h"
 #include "LuaUtils.h"
+#include "LuaVector.h"
 #include "LuaVector2.h"
 #include "OS.h"
 #include "Pi.h"
@@ -857,7 +858,7 @@ static int l_engine_get_sector_map_center_distance(lua_State *l)
 static int l_engine_get_sector_map_center_sector(lua_State *l)
 {
 	SectorView *sv = Pi::game->GetSectorView();
-	LuaPush(l, sv->GetCenterSector());
+	LuaPush<vector3d>(l, vector3d(sv->GetCenterSector()));
 	return 1;
 }
 

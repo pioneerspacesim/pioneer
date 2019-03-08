@@ -4,7 +4,6 @@
 local Engine = import('Engine')
 local Game = import('Game')
 local ui = import('pigui/pigui.lua')
-local Vector = import('Vector')
 local Color = import('Color')
 local Lang = import("Lang")
 local lc = Lang.GetResource("core");
@@ -17,7 +16,7 @@ local icons = ui.theme.icons
 local commsLogRetainTime = 60 -- how long messages are shown
 local commsLinesToShow = 5 -- how many messages are shown
 
-local mainButtonSize = Vector(32,32) * (ui.screenHeight / 1200)
+local mainButtonSize = vector2.new(32,32) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
 local fullComms
 
@@ -35,7 +34,7 @@ end
 local function displayCommsLog()
 	local current_view = Game.CurrentView()
 	if current_view == "world" then
-		ui.setNextWindowPos(Vector(10, 10) , "Always")
+		ui.setNextWindowPos(vector2.new(10, 10) , "Always")
 		ui.window("CommsLogButton", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 							function()
 								if ui.coloredSelectedIconButton(icons.comms, mainButtonSize, nil, mainButtonFramePadding, colors.buttonBlue, colors.white, 'Toggle full comms window') then
@@ -44,8 +43,8 @@ local function displayCommsLog()
 		end)
 		ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
 									if not fullComms then -- not fullComms, show small window
-										ui.setNextWindowSize(Vector(ui.screenWidth / 4, ui.screenHeight / 8) , "Always")
-										ui.setNextWindowPos(Vector(mainButtonSize.x + 2 * mainButtonFramePadding + 15, 10) , "Always")
+										ui.setNextWindowSize(vector2.new(ui.screenWidth / 4, ui.screenHeight / 8) , "Always")
+										ui.setNextWindowPos(vector2.new(mainButtonSize.x + 2 * mainButtonFramePadding + 15, 10) , "Always")
 										ui.window("ShortCommsLog", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 															function()
 																local last = nil
@@ -78,8 +77,8 @@ local function displayCommsLog()
 																ui.popTextWrapPos()
 										end)
 									else  -- fullComms, show large window
-										ui.setNextWindowSize(Vector(ui.screenWidth / 3, ui.screenHeight / 4) , "Always")
-										ui.setNextWindowPos(Vector(mainButtonSize.x + 2 * mainButtonFramePadding + 25, 20) , "Always")
+										ui.setNextWindowSize(vector2.new(ui.screenWidth / 3, ui.screenHeight / 4) , "Always")
+										ui.setNextWindowPos(vector2.new(mainButtonSize.x + 2 * mainButtonFramePadding + 25, 20) , "Always")
 										ui.withStyleColors({ ["WindowBg"] = colors.commsWindowBackground }, function()
 												ui.withStyleVars({ ["WindowRounding"] = 0.0 }, function()
 														ui.window("CommsLog", {"NoResize"},

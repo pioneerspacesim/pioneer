@@ -9,6 +9,7 @@
 #include "LuaObject.h"
 #include "LuaPiGui.h"
 #include "LuaUtils.h"
+#include "LuaVector.h"
 #include "Pi.h"
 #include "TerrainBody.h"
 #include "WorldView.h"
@@ -349,7 +350,7 @@ static int l_body_get_position_rel_to(lua_State *l)
 	Body *b = LuaObject<Body>::CheckFromLua(1);
 	const Body *other = LuaObject<Body>::CheckFromLua(2);
 	vector3d velocity = b->GetPositionRelTo(other);
-	LuaPush(l, velocity);
+	LuaPush<vector3d>(l, velocity);
 	return 1;
 }
 

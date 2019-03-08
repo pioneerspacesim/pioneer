@@ -7,6 +7,8 @@
 #include "Game.h"
 #include "LuaConstants.h"
 #include "LuaUtils.h"
+#include "LuaVector.h"
+#include "LuaVector2.h"
 #include "Pi.h"
 #include "PiGui.h"
 #include "Player.h"
@@ -66,15 +68,6 @@ void pi_lua_generic_pull(lua_State *l, int index, ImVec2 &vector)
 	LuaTable vec(l, index);
 	vector.x = vec.Get<double>("x");
 	vector.y = vec.Get<double>("y");
-}
-
-void pi_lua_generic_pull(lua_State *l, int index, vector3d &vector)
-{
-	PROFILE_SCOPED()
-	LuaTable vec(l, index);
-	vector.x = vec.Get<double>("x");
-	vector.y = vec.Get<double>("y");
-	vector.z = vec.Get<double>("z");
 }
 
 void pi_lua_generic_pull(lua_State *l, int index, ImColor &color)
@@ -271,42 +264,6 @@ void pi_lua_generic_pull(lua_State *l, int index, ImGuiWindowFlags_ &theflags)
 {
 	PROFILE_SCOPED()
 	theflags = parse_imgui_flags(l, index, imguiWindowFlagsTable, "ImGuiWindowFlags");
-}
-
-/* TOBE Removed...
-*/
-static void pi_lua_pushVector(lua_State *l, double x, double y, double z)
-{
-	PROFILE_SCOPED()
-	const int n = lua_gettop(l);
-	lua_getfield(l, LUA_REGISTRYINDEX, "Imports");
-	lua_getfield(l, -1, "libs/Vector.lua"); // is there a better way to get at the lua Vector than this?
-	LuaPush<double>(l, x);
-	LuaPush<double>(l, y);
-	LuaPush<double>(l, z);
-	if (lua_pcall(l, 3, 1, 0) != 0) {
-		Error("error running Vector\n");
-	}
-	lua_remove(l, -2);
-	assert(lua_gettop(l) == n + 1);
-}
-
-static void pi_lua_generic_push(lua_State *l, const ImVec2 &v)
-{
-	PROFILE_SCOPED()
-	pi_lua_pushVector(l, v.x, v.y, 0);
-}
-
-void pi_lua_generic_push(lua_State *l, const vector3d &v)
-{
-	PROFILE_SCOPED()
-	pi_lua_pushVector(l, v.x, v.y, v.z);
-}
-
-void pi_lua_generic_push(lua_State *l, const vector3f &v)
-{
-	PROFILE_SCOPED()
-	pi_lua_pushVector(l, v.x, v.y, v.z);
 }
 
 /*
@@ -1274,14 +1231,16 @@ static int l_pigui_get_window_pos(lua_State *l)
 static int l_pigui_get_window_size(lua_State *l)
 {
 	PROFILE_SCOPED()
-	pi_lua_generic_push(l, ImGui::GetWindowSize());
+	vector2d ws(ImGui::GetWindowSize().x, ImGui::GetWindowSize().y);
+	LuaPush<vector2d>(l, ws);
 	return 1;
 }
 
 static int l_pigui_get_content_region(lua_State *l)
 {
 	PROFILE_SCOPED()
-	pi_lua_generic_push(l, ImGui::GetContentRegionAvail());
+	vector2d gcta(ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y);
+	LuaPush<vector2d>(l, gcta);
 	return 1;
 }
 
@@ -1324,8 +1283,8 @@ static int l_pigui_get_mouse_clicked_pos(lua_State *l)
 {
 	PROFILE_SCOPED()
 	int n = LuaPull<int>(l, 1);
-	ImVec2 pos = ImGui::GetIO().MouseClickedPos[n];
-	pi_lua_generic_push(l, pos);
+	vector2d pos(ImGui::GetIO().MouseClickedPos[n].x, ImGui::GetIO().MouseClickedPos[n].y);
+	LuaPush<vector2d>(l, pos);
 	return 1;
 }
 
@@ -1757,16 +1716,16 @@ static int l_pigui_is_key_released(lua_State *l)
 static int l_pigui_get_cursor_pos(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImVec2 v = ImGui::GetCursorPos();
-	LuaPush<ImVec2>(l, v);
+	vector2d v(ImGui::GetCursorPos().x, ImGui::GetCursorPos().y);
+	LuaPush<vector2d>(l, v);
 	return 1;
 }
 
 static int l_pigui_get_cursor_screen_pos(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImVec2 v = ImGui::GetCursorScreenPos();
-	LuaPush<ImVec2>(l, v);
+	vector2d v(ImGui::GetCursorScreenPos().x, ImGui::GetCursorScreenPos().y);
+	LuaPush<vector2d>(l, v);
 	return 1;
 }
 

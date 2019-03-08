@@ -8,6 +8,7 @@
 #include "LuaObject.h"
 #include "LuaPiGui.h"
 #include "LuaUtils.h"
+#include "LuaVector.h"
 #include "Pi.h"
 #include "Player.h"
 #include "SectorView.h"
@@ -231,7 +232,7 @@ static int l_set_hyperspace_target(lua_State *l)
 static int l_get_mouse_direction(lua_State *l)
 {
 	//		Player *player = LuaObject<Player>::CheckFromLua(1);
-	LuaPush(l, Pi::game->GetWorldView()->GetMouseDirection());
+	LuaPush<vector3d>(l, Pi::game->GetWorldView()->GetMouseDirection());
 	return 1;
 }
 

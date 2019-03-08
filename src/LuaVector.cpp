@@ -129,6 +129,13 @@ static int l_vector_normalised(lua_State *L)
 	return 1;
 }
 
+static int l_vector_magnitude(lua_State *L)
+{
+	const vector3d *v = LuaVector::CheckFromLua(L, 1);
+	lua_pushnumber(L, v->LengthSqr());
+	return 1;
+}
+
 static int l_vector_length(lua_State *L)
 {
 	const vector3d *v = LuaVector::CheckFromLua(L, 1);
@@ -172,6 +179,7 @@ static luaL_Reg l_vector_meta[] = {
 	{ "normalised", &l_vector_normalised },
 	{ "normalized", &l_vector_normalised },
 	{ "unit", &l_vector_unit },
+	{ "magnitude", &l_vector_magnitude },
 	{ "length", &l_vector_length },
 	{ "cross", &l_vector_cross },
 	{ "dot", &l_vector_dot },

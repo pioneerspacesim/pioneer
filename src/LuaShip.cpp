@@ -955,10 +955,7 @@ static int l_ship_get_velocity(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	vector3d v = s->GetVelocity();
-	lua_newtable(l);
-	pi_lua_settable(l, "x", v.x);
-	pi_lua_settable(l, "y", v.y);
-	pi_lua_settable(l, "z", v.z);
+	LuaPush<vector3d>(l, v);
 	return 1;
 }
 
@@ -1195,10 +1192,7 @@ static int l_ship_get_thruster_state(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	vector3d v = s->GetPropulsion()->GetLinThrusterState();
-	lua_newtable(l);
-	pi_lua_settable(l, "x", v.x);
-	pi_lua_settable(l, "y", v.y);
-	pi_lua_settable(l, "z", v.z);
+	LuaPush<vector3d>(l, v);
 	return 1;
 }
 
