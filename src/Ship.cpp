@@ -401,7 +401,10 @@ vector3d Ship::CalcAtmoPassiveControl()
 	
 	double m_drag = CalcAtmosphericForce(DEFAULT_DRAG_COEFF);
 
-	fDragControl = GetOrient().VectorZ() * m_drag * -0.25 * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * m_aeroStabilityMultiplier;
+	vector3d m_AoAVector = GetOrient().VectorZ() - GetVelocity().NormalizedSafe();
+	double m_AoAMultiplier = m_AoAVector.Length();
+
+	fDragControl = GetOrient().VectorZ() * m_drag * -0.25 * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * m_aeroStabilityMultiplier * (2.1 - m_AoAMultiplier);
 
 	if (fDragControl.Length() > (m_drag * 0.5)) //don't let any ship fly infinitely, just in case a very wrong ship value is inserted
 		fDragControl = GetOrient().VectorZ() * m_drag * -0.5;
