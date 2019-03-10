@@ -55,18 +55,20 @@ class MoveableCameraController : public CameraController {
 public:
 	MoveableCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 		CameraController(camera, ship) {}
-	virtual void Reset() {}
 
-	virtual void RollLeft(float frameTime) {}
-	virtual void RollRight(float frameTime) {}
-	virtual void RotateDown(float frameTime) {}
-	virtual void RotateLeft(float frameTime) {}
-	virtual void RotateRight(float frameTime) {}
-	virtual void RotateUp(float frameTime) {}
+	// Rotate the camera in a specific axis.
+	// `amount` is in radians and should be pre-multiplied by the frame delta.
+	virtual void RollCamera(float amount) {}
+	virtual void PitchCamera(float amount) {}
+	virtual void YawCamera(float amount) {}
+
+	// Manually set the camera's rotation angle.
+	virtual void SetRotationAngles(vector3f rotation) {}
+
 	/// Zooming with this method will interrupt any animation launched by ZoomEvent().
-	virtual void ZoomIn(float frameTime) {}
+	virtual void ZoomIn(float amount) {}
 	/// Zooming with this method will interrupt any animation launched by ZoomEvent().
-	virtual void ZoomOut(float frameTime) {}
+	virtual void ZoomOut(float amount) {}
 	/// Animated zoom trigger (on each event), primarily designed for mouse wheel.
 	///\param amount The zoom delta to add or substract (>0: zoom out, <0: zoom in), indirectly controling the zoom animation speed.
 	virtual void ZoomEvent(float amount) {}
@@ -77,52 +79,49 @@ public:
 class InternalCameraController : public MoveableCameraController {
 public:
 	enum Mode {
-		MODE_FRONT,
+		MODE_FRONT = 0,
 		MODE_REAR,
 		MODE_LEFT,
 		MODE_RIGHT,
 		MODE_TOP,
-		MODE_BOTTOM
+		MODE_BOTTOM,
+		MODE_MAX
 	};
 
 	InternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship);
-	virtual void Reset();
-	virtual void Update();
+	void Reset() override;
+	void Update() override;
 
-	Type GetType() const { return INTERNAL; }
-	const char *GetName() const { return m_name; }
+	Type GetType() const override { return INTERNAL; }
+	const char *GetName() const override { return m_name; }
+
 	void SetMode(Mode m);
 	Mode GetMode() const { return m_mode; }
-	void SaveToJson(Json &jsonObj);
-	void LoadFromJson(const Json &jsonObj);
 
-	void RotateDown(float frameTime);
-	void RotateLeft(float frameTime);
-	void RotateRight(float frameTime);
-	void RotateUp(float frameTime);
+	void SaveToJson(Json &jsonObj) override;
+	void LoadFromJson(const Json &jsonObj) override;
 
+	void PitchCamera(float amount) override { m_rotX += amount; }
+	void YawCamera(float amount) override { m_rotY += amount; }
+
+	void SetRotationAngles(vector3f rotation) override
+	{
+		m_rotX = rotation.x;
+		m_rotY = rotation.y;
+	}
+
+	// TODO: remove this and replace with a better function.
 	void getRots(double &rotX, double &rotY);
 
 private:
 	Mode m_mode;
 	const char *m_name;
 
-	vector3d m_frontPos;
-	matrix3x3d m_frontOrient;
-	vector3d m_rearPos;
-	matrix3x3d m_rearOrient;
-	vector3d m_leftPos;
-	matrix3x3d m_leftOrient;
-	vector3d m_rightPos;
-	matrix3x3d m_rightOrient;
-	vector3d m_topPos;
-	matrix3x3d m_topOrient;
-	vector3d m_bottomPos;
-	matrix3x3d m_bottomOrient;
+	matrix3x3d m_initOrient[MODE_MAX];
+	vector3d m_initPos[MODE_MAX];
 
 	double m_rotX; //vertical rot
 	double m_rotY; //horizontal rot
-	matrix3x3d m_intOrient;
 	matrix3x3d m_viewOrient;
 };
 
@@ -131,29 +130,29 @@ class ExternalCameraController : public MoveableCameraController {
 public:
 	ExternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship);
 
-	Type GetType() const { return EXTERNAL; }
-	const char *GetName() const { return Lang::EXTERNAL_VIEW; }
+	Type GetType() const override { return EXTERNAL; }
+	const char *GetName() const override { return Lang::EXTERNAL_VIEW; }
+	bool IsExternal() const override { return true; }
 
-	void RotateDown(float frameTime);
-	void RotateLeft(float frameTime);
-	void RotateRight(float frameTime);
-	void RotateUp(float frameTime);
-	void ZoomIn(float frameTime);
-	void ZoomOut(float frameTime);
-	void ZoomEvent(float amount);
-	void ZoomEventUpdate(float frameTime);
-	void Reset();
-	bool IsExternal() const { return true; }
-	void SetRotationAngles(double x, double y)
+	virtual void PitchCamera(float amount) override { m_rotX += amount; }
+	virtual void YawCamera(float amount) override { m_rotY += amount; }
+
+	virtual void SetRotationAngles(vector3f rotation) override
 	{
-		m_rotX = x;
-		m_rotY = y;
+		m_rotX = rotation.x;
+		m_rotY = rotation.y;
 	}
 
-	void SaveToJson(Json &jsonObj);
-	void LoadFromJson(const Json &jsonObj);
+	void ZoomIn(float frameTime) override;
+	void ZoomOut(float frameTime) override;
+	void ZoomEvent(float amount) override;
+	void ZoomEventUpdate(float frameTime) override;
 
-	void Update();
+	void SaveToJson(Json &jsonObj) override;
+	void LoadFromJson(const Json &jsonObj) override;
+
+	void Update() override;
+	void Reset() override;
 
 private:
 	double m_dist, m_distTo;
@@ -167,26 +166,47 @@ class SiderealCameraController : public MoveableCameraController {
 public:
 	SiderealCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship);
 
-	Type GetType() const { return SIDEREAL; }
-	const char *GetName() const { return Lang::SIDEREAL_VIEW; }
+	Type GetType() const override { return SIDEREAL; }
+	const char *GetName() const override { return Lang::SIDEREAL_VIEW; }
+	bool IsExternal() const override { return true; }
 
-	void RollLeft(float frameTime);
-	void RollRight(float frameTime);
-	void RotateDown(float frameTime);
-	void RotateLeft(float frameTime);
-	void RotateRight(float frameTime);
-	void RotateUp(float frameTime);
-	void ZoomIn(float frameTime);
-	void ZoomOut(float frameTime);
-	void ZoomEvent(float amount);
-	void ZoomEventUpdate(float frameTime);
-	void Reset();
-	bool IsExternal() const { return true; }
+	void PitchCamera(float amount) override
+	{
+		const vector3d rotAxis = m_sidOrient.VectorX();
+		m_sidOrient = matrix3x3d::Rotate(M_PI / 4 * amount, rotAxis) * m_sidOrient;
+	}
 
-	void SaveToJson(Json &jsonObj);
-	void LoadFromJson(const Json &jsonObj);
+	void YawCamera(float amount) override
+	{
+		const vector3d rotAxis = m_sidOrient.VectorY();
+		m_sidOrient = matrix3x3d::Rotate(M_PI / 4 * amount, rotAxis) * m_sidOrient;
+	}
 
-	void Update();
+	void RollCamera(float amount) override
+	{
+		const vector3d rotAxis = m_sidOrient.VectorZ();
+		m_sidOrient = matrix3x3d::Rotate(M_PI / 4 * amount, rotAxis) * m_sidOrient;
+	}
+
+	// Apply in YXZ order because euler angles are non-ideal.
+	void SetRotationAngles(vector3f rotation) override
+	{
+		m_sidOrient = matrix3x3d::Identity();
+		YawCamera(rotation.y);
+		PitchCamera(rotation.x);
+		RollCamera(rotation.z);
+	}
+
+	void ZoomIn(float frameTime) override;
+	void ZoomOut(float frameTime) override;
+	void ZoomEvent(float amount) override;
+	void ZoomEventUpdate(float frameTime) override;
+
+	void SaveToJson(Json &jsonObj) override;
+	void LoadFromJson(const Json &jsonObj) override;
+
+	void Update() override;
+	void Reset() override;
 
 private:
 	double m_dist, m_distTo;
@@ -198,26 +218,37 @@ class FlyByCameraController : public MoveableCameraController {
 public:
 	FlyByCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship);
 
-	Type GetType() const { return FLYBY; }
-	const char *GetName() const { return Lang::FLYBY_VIEW; }
+	Type GetType() const override { return FLYBY; }
+	const char *GetName() const override { return Lang::FLYBY_VIEW; }
+	bool IsExternal() const override { return true; }
 
-	void RollLeft(float frameTime);
-	void RollRight(float frameTime);
-	void RotateDown(float frameTime);
-	void RotateLeft(float frameTime);
-	void RotateRight(float frameTime);
-	void RotateUp(float frameTime);
-	void ZoomIn(float frameTime);
-	void ZoomOut(float frameTime);
-	void ZoomEvent(float amount);
-	void ZoomEventUpdate(float frameTime);
-	void Reset();
-	bool IsExternal() const { return true; }
+	void PitchCamera(float amount) override
+	{
+		const vector3d rotAxis = m_flybyOrient.VectorX();
+		m_flybyOrient = matrix3x3d::Rotate(M_PI / 4 * amount, rotAxis) * m_flybyOrient;
+	}
 
-	void SaveToJson(Json &jsonObj);
-	void LoadFromJson(const Json &jsonObj);
+	void YawCamera(float amount) override
+	{
+		const vector3d rotAxis = m_flybyOrient.VectorY();
+		m_flybyOrient = matrix3x3d::Rotate(M_PI / 4 * amount, rotAxis) * m_flybyOrient;
+	}
 
-	void Update();
+	void RollCamera(float amount) override
+	{
+		m_roll += M_PI / 4 * amount;
+	}
+
+	void ZoomIn(float frameTime) override;
+	void ZoomOut(float frameTime) override;
+	void ZoomEvent(float amount) override;
+	void ZoomEventUpdate(float frameTime) override;
+
+	void SaveToJson(Json &jsonObj) override;
+	void LoadFromJson(const Json &jsonObj) override;
+
+	void Update() override;
+	void Reset() override;
 
 private:
 	double m_dist, m_distTo;

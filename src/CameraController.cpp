@@ -43,7 +43,6 @@ InternalCameraController::InternalCameraController(RefCountedPtr<CameraContext> 
 	m_mode(MODE_FRONT),
 	m_rotX(0),
 	m_rotY(0),
-	m_intOrient(matrix3x3d::Identity()),
 	m_viewOrient(matrix3x3d::Identity())
 {
 	Reset();
@@ -87,12 +86,12 @@ void InternalCameraController::Reset()
 	if (fallback)
 		fallbackTransform = fallback->GetTransform() * matrix4x4f::RotateYMatrix(M_PI);
 
-	FillCameraPosOrient(m, "tag_camera_front", m_frontPos, m_frontOrient, fallbackTransform, matrix3x3d::Identity());
-	FillCameraPosOrient(m, "tag_camera_rear", m_rearPos, m_rearOrient, fallbackTransform, matrix3x3d::RotateY(M_PI));
-	FillCameraPosOrient(m, "tag_camera_left", m_leftPos, m_leftOrient, fallbackTransform, matrix3x3d::RotateY((M_PI / 2) * 3));
-	FillCameraPosOrient(m, "tag_camera_right", m_rightPos, m_rightOrient, fallbackTransform, matrix3x3d::RotateY(M_PI / 2));
-	FillCameraPosOrient(m, "tag_camera_top", m_topPos, m_topOrient, fallbackTransform, matrix3x3d::RotateX((M_PI / 2) * 3));
-	FillCameraPosOrient(m, "tag_camera_bottom", m_bottomPos, m_bottomOrient, fallbackTransform, matrix3x3d::RotateX(M_PI / 2));
+	FillCameraPosOrient(m, "tag_camera_front", m_initPos[MODE_FRONT], m_initOrient[MODE_FRONT], fallbackTransform, matrix3x3d::Identity());
+	FillCameraPosOrient(m, "tag_camera_rear", m_initPos[MODE_REAR], m_initOrient[MODE_REAR], fallbackTransform, matrix3x3d::RotateY(M_PI));
+	FillCameraPosOrient(m, "tag_camera_left", m_initPos[MODE_LEFT], m_initOrient[MODE_LEFT], fallbackTransform, matrix3x3d::RotateY((M_PI / 2) * 3));
+	FillCameraPosOrient(m, "tag_camera_right", m_initPos[MODE_RIGHT], m_initOrient[MODE_RIGHT], fallbackTransform, matrix3x3d::RotateY(M_PI / 2));
+	FillCameraPosOrient(m, "tag_camera_top", m_initPos[MODE_TOP], m_initOrient[MODE_TOP], fallbackTransform, matrix3x3d::RotateX((M_PI / 2) * 3));
+	FillCameraPosOrient(m, "tag_camera_bottom", m_initPos[MODE_BOTTOM], m_initOrient[MODE_BOTTOM], fallbackTransform, matrix3x3d::RotateX(M_PI / 2));
 
 	SetMode(m_mode);
 }
@@ -100,77 +99,39 @@ void InternalCameraController::Reset()
 void InternalCameraController::Update()
 {
 	m_viewOrient =
-		matrix3x3d::RotateY(-DEG2RAD(m_rotY)) *
-		matrix3x3d::RotateX(-DEG2RAD(m_rotX));
+		matrix3x3d::RotateY(-m_rotY) *
+		matrix3x3d::RotateX(-m_rotX);
 
-	SetOrient(m_intOrient * m_viewOrient);
+	SetOrient(m_initOrient[m_mode] * m_viewOrient);
 
 	CameraController::Update();
 }
 
 void InternalCameraController::getRots(double &rX, double &rY)
 {
-	rX = DEG2RAD(m_rotX);
-	rY = DEG2RAD(m_rotY);
+	rX = m_rotX;
+	rY = m_rotY;
 }
 
 void InternalCameraController::SetMode(Mode m)
 {
+	if (m >= MODE_MAX) return;
 	m_mode = m;
-	switch (m_mode) {
-	case MODE_FRONT:
-		m_name = Lang::CAMERA_FRONT_VIEW;
-		SetPosition(m_frontPos);
-		m_intOrient = m_frontOrient;
-		break;
-	case MODE_REAR:
-		m_name = Lang::CAMERA_REAR_VIEW;
-		SetPosition(m_rearPos);
-		m_intOrient = m_rearOrient;
-		break;
-	case MODE_LEFT:
-		m_name = Lang::CAMERA_LEFT_VIEW;
-		SetPosition(m_leftPos);
-		m_intOrient = m_leftOrient;
-		break;
-	case MODE_RIGHT:
-		m_name = Lang::CAMERA_RIGHT_VIEW;
-		SetPosition(m_rightPos);
-		m_intOrient = m_rightOrient;
-		break;
-	case MODE_TOP:
-		m_name = Lang::CAMERA_TOP_VIEW;
-		SetPosition(m_topPos);
-		m_intOrient = m_topOrient;
-		break;
-	case MODE_BOTTOM:
-		m_name = Lang::CAMERA_BOTTOM_VIEW;
-		SetPosition(m_bottomPos);
-		m_intOrient = m_bottomOrient;
-		break;
-	}
+	SetPosition(m_initPos[m_mode]);
+
+	static const char *m_names[6]{
+		Lang::CAMERA_FRONT_VIEW,
+		Lang::CAMERA_REAR_VIEW,
+		Lang::CAMERA_LEFT_VIEW,
+		Lang::CAMERA_RIGHT_VIEW,
+		Lang::CAMERA_TOP_VIEW,
+		Lang::CAMERA_BOTTOM_VIEW
+	};
+
+	m_name = m_names[m_mode];
+
 	m_rotX = 0;
 	m_rotY = 0;
-}
-
-void InternalCameraController::RotateUp(float frameTime)
-{
-	m_rotX -= 45.0f * frameTime;
-}
-
-void InternalCameraController::RotateDown(float frameTime)
-{
-	m_rotX += 45.0f * frameTime;
-}
-
-void InternalCameraController::RotateLeft(float frameTime)
-{
-	m_rotY -= 45.0f * frameTime;
-}
-
-void InternalCameraController::RotateRight(float frameTime)
-{
-	m_rotY += 45.0f * frameTime;
 }
 
 void InternalCameraController::SaveToJson(Json &jsonObj)
@@ -178,6 +139,8 @@ void InternalCameraController::SaveToJson(Json &jsonObj)
 	Json internalCameraObj = Json::object(); // Create JSON object to contain internal camera data.
 
 	internalCameraObj["mode"] = m_mode;
+	internalCameraObj["rotX"] = m_rotX;
+	internalCameraObj["rotY"] = m_rotY;
 
 	jsonObj["internal"] = internalCameraObj; // Add internal camera object to supplied object.
 }
@@ -186,7 +149,10 @@ void InternalCameraController::LoadFromJson(const Json &jsonObj)
 {
 	try {
 		Json internalCameraObj = jsonObj["internal"];
-		SetMode(internalCameraObj["mode"].get<Mode>());
+		SetMode(internalCameraObj.value<Mode>("mode", MODE_FRONT));
+
+		m_rotX = internalCameraObj.value("rotX", 0.0f);
+		m_rotY = internalCameraObj.value("rotY", 0.0f);
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
@@ -200,26 +166,6 @@ ExternalCameraController::ExternalCameraController(RefCountedPtr<CameraContext> 
 	m_rotY(0),
 	m_extOrient(matrix3x3d::Identity())
 {
-}
-
-void ExternalCameraController::RotateUp(float frameTime)
-{
-	m_rotX -= 45 * frameTime;
-}
-
-void ExternalCameraController::RotateDown(float frameTime)
-{
-	m_rotX += 45 * frameTime;
-}
-
-void ExternalCameraController::RotateLeft(float frameTime)
-{
-	m_rotY -= 45 * frameTime;
-}
-
-void ExternalCameraController::RotateRight(float frameTime)
-{
-	m_rotY += 45 * frameTime;
 }
 
 void ExternalCameraController::ZoomIn(float frameTime)
@@ -260,15 +206,15 @@ void ExternalCameraController::Update()
 	if (ship->IsType(Object::PLAYER)) {
 		if (ship->GetFlightState() == Ship::LANDED ||
 			ship->GetFlightState() == Ship::DOCKED) {
-			m_rotX = Clamp(m_rotX, -170.0, -10.0);
+			m_rotX = Clamp(m_rotX, DEG2RAD(-170.0), DEG2RAD(-10.0));
 		}
 	}
 
 	vector3d p = vector3d(0, 0, m_dist);
-	p = matrix3x3d::RotateX(-DEG2RAD(m_rotX)) * p;
-	p = matrix3x3d::RotateY(-DEG2RAD(m_rotY)) * p;
-	m_extOrient = matrix3x3d::RotateY(-DEG2RAD(m_rotY)) *
-		matrix3x3d::RotateX(-DEG2RAD(m_rotX));
+	p = matrix3x3d::RotateX(-m_rotX) * p;
+	p = matrix3x3d::RotateY(-m_rotY) * p;
+	m_extOrient = matrix3x3d::RotateY(-m_rotY) *
+		matrix3x3d::RotateX(-m_rotX);
 
 	SetPosition(p);
 	SetOrient(m_extOrient);
@@ -310,30 +256,6 @@ SiderealCameraController::SiderealCameraController(RefCountedPtr<CameraContext> 
 {
 }
 
-void SiderealCameraController::RotateUp(float frameTime)
-{
-	const vector3d rotAxis = m_sidOrient.VectorX();
-	m_sidOrient = matrix3x3d::Rotate(-M_PI / 4 * frameTime, rotAxis) * m_sidOrient;
-}
-
-void SiderealCameraController::RotateDown(float frameTime)
-{
-	const vector3d rotAxis = m_sidOrient.VectorX();
-	m_sidOrient = matrix3x3d::Rotate(M_PI / 4 * frameTime, rotAxis) * m_sidOrient;
-}
-
-void SiderealCameraController::RotateLeft(float frameTime)
-{
-	const vector3d rotAxis = m_sidOrient.VectorY();
-	m_sidOrient = matrix3x3d::Rotate(-M_PI / 4 * frameTime, rotAxis) * m_sidOrient;
-}
-
-void SiderealCameraController::RotateRight(float frameTime)
-{
-	const vector3d rotAxis = m_sidOrient.VectorY();
-	m_sidOrient = matrix3x3d::Rotate(M_PI / 4 * frameTime, rotAxis) * m_sidOrient;
-}
-
 void SiderealCameraController::ZoomIn(float frameTime)
 {
 	ZoomOut(-frameTime);
@@ -356,18 +278,6 @@ void SiderealCameraController::ZoomEventUpdate(float frameTime)
 {
 	AnimationCurves::Approach(m_dist, m_distTo, frameTime, 4.0, 50. / std::max(m_distTo, 1e-7)); // std::max() here just avoid dividing by 0.
 	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
-}
-
-void SiderealCameraController::RollLeft(float frameTime)
-{
-	const vector3d rotAxis = m_sidOrient.VectorZ();
-	m_sidOrient = matrix3x3d::Rotate(M_PI / 4 * frameTime, rotAxis) * m_sidOrient;
-}
-
-void SiderealCameraController::RollRight(float frameTime)
-{
-	const vector3d rotAxis = m_sidOrient.VectorZ();
-	m_sidOrient = matrix3x3d::Rotate(-M_PI / 4 * frameTime, rotAxis) * m_sidOrient;
 }
 
 void SiderealCameraController::Reset()
@@ -444,40 +354,6 @@ void FlyByCameraController::ZoomEventUpdate(float frameTime)
 {
 	AnimationCurves::Approach(m_dist, m_distTo, frameTime, 4.0, 50. / std::max(m_distTo, 1e-7)); // std::max() here just avoid dividing by 0.
 	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
-}
-
-void FlyByCameraController::RollLeft(float frameTime)
-{
-	m_roll += M_PI / 4 * frameTime;
-}
-
-void FlyByCameraController::RollRight(float frameTime)
-{
-	m_roll += -M_PI / 4 * frameTime;
-}
-
-void FlyByCameraController::RotateUp(float frameTime)
-{
-	const vector3d rotAxis = m_flybyOrient.VectorX();
-	m_flybyOrient = matrix3x3d::Rotate(-M_PI / 4 * frameTime, rotAxis) * m_flybyOrient;
-}
-
-void FlyByCameraController::RotateDown(float frameTime)
-{
-	const vector3d rotAxis = m_flybyOrient.VectorX();
-	m_flybyOrient = matrix3x3d::Rotate(M_PI / 4 * frameTime, rotAxis) * m_flybyOrient;
-}
-
-void FlyByCameraController::RotateLeft(float frameTime)
-{
-	const vector3d rotAxis = m_flybyOrient.VectorY();
-	m_flybyOrient = matrix3x3d::Rotate(-M_PI / 4 * frameTime, rotAxis) * m_flybyOrient;
-}
-
-void FlyByCameraController::RotateRight(float frameTime)
-{
-	const vector3d rotAxis = m_flybyOrient.VectorY();
-	m_flybyOrient = matrix3x3d::Rotate(M_PI / 4 * frameTime, rotAxis) * m_flybyOrient;
 }
 
 void FlyByCameraController::Reset()
