@@ -5,7 +5,7 @@
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Pi.h"
-#include "SoundMusic.h"
+#include "sound/SoundMusic.h"
 
 /*
  * Class: Music

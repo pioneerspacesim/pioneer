@@ -15,7 +15,6 @@
 #include "Player.h"
 #include "Quaternion.h"
 #include "SectorView.h"
-#include "Sound.h"
 #include "StringF.h"
 #include "graphics/Drawables.h"
 #include "graphics/Frustum.h"
@@ -23,6 +22,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "matrix4x4.h"
+#include "sound/Sound.h"
 #include "ui/Align.h"
 #include "ui/Context.h"
 #include "ui/Label.h"
@@ -175,7 +175,6 @@ void WorldView::SaveToJson(Json &jsonObj)
 /* This is UI click to change flight control state (manual, speed ctrl) */
 void WorldView::ChangeFlightState()
 {
-	Pi::BoinkNoise();
 	static int newState = CONTROL_MANUAL;
 	if (Pi::input.KeyState(SDLK_LCTRL) || Pi::input.KeyState(SDLK_RCTRL)) {
 		// skip certain states
@@ -199,16 +198,6 @@ void WorldView::ChangeFlightState()
 		}
 	}
 	Pi::player->GetPlayerController()->SetFlightControlState(static_cast<FlightControlState>(newState));
-}
-
-void WorldView::OnClickBlastoff()
-{
-	Pi::BoinkNoise();
-	if (Pi::player->GetFlightState() == Ship::DOCKED) {
-		Pi::player->Undock();
-	} else {
-		Pi::player->Blastoff();
-	}
 }
 
 void WorldView::OnRequestTimeAccelInc()

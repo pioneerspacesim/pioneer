@@ -9,10 +9,10 @@
 #include "Pi.h"
 #include "PiGui.h"
 #include "Player.h"
-#include "Sound.h"
 #include "SystemInfoView.h"
 #include "WorldView.h"
 #include "graphics/Graphics.h"
+#include "sound/Sound.h"
 #include "ui/Context.h"
 
 // Windows defines RegisterClass as a macro, but we don't need that here.
@@ -1290,8 +1290,7 @@ static int l_pigui_get_projected_bodies(lua_State *l)
 		if (body->GetType() == Object::PROJECTILE) continue;
 
 		const TScreenSpace res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
-		if (res._onScreen)
-		{
+		if (res._onScreen) {
 			LuaTable object(l);
 
 			object.Set("onscreen", res._onScreen);

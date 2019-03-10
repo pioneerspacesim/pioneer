@@ -11,10 +11,10 @@
 #include "NavLights.h"
 #include "Sensors.h"
 #include "ShipType.h"
-#include "Sound.h"
 #include "Space.h"
 #include "galaxy/SystemPath.h"
 #include "scenegraph/ModelSkin.h"
+#include "sound/Sound.h"
 
 #include "FixedGuns.h"
 #include "Propulsion.h"
