@@ -377,7 +377,7 @@ vector3d Ship::CalcAtmoLift()
 	vector3d m_AoAVector = GetOrient().VectorZ() - GetVelocity().NormalizedSafe();
 	double m_AoAMultiplier = m_AoAVector.Length();
 
-	if (m_AoAMultiplier > 1.8) {
+	if (m_AoAMultiplier > 1.885) {
 		fLift = vector3d(0, m_fDrag * m_AoAMultiplier * m_topCrossSec * m_shipLiftCoeff * DEFAULT_LIFT_TO_DRAG_RATIO, 0);
 	}
 	else {
@@ -404,7 +404,7 @@ vector3d Ship::CalcAtmoPassiveControl()
 	vector3d m_AoAVector = GetOrient().VectorZ() - GetVelocity().NormalizedSafe();
 	double m_AoAMultiplier = m_AoAVector.Length();
 
-	fDragControl = GetOrient().VectorZ() * m_drag * -0.25 * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * m_aeroStabilityMultiplier * (2.1 - m_AoAMultiplier);
+	fDragControl = GetOrient().VectorZ() * m_drag * -0.25 * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * m_aeroStabilityMultiplier * (2 - m_AoAMultiplier);
 
 	if (fDragControl.Length() > (m_drag * 0.5)) //don't let any ship fly infinitely, just in case a very wrong ship value is inserted
 		fDragControl = GetOrient().VectorZ() * m_drag * -0.5;
