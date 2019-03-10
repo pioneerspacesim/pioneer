@@ -29,5 +29,10 @@
    },
    "roles" : {
       "merchant" : true
-   }
+   },
+   "front_cross_section" : 80,
+   "side_cross_section" : 337,
+   "top_cross_section" : 580,
+   "lift_coeff" : 0,
+   "aero_stability" : 0.45
 }

@@ -26,5 +26,10 @@
    "down_thrust" : 1200000.0,
    "left_thrust" : 1200000.0,
    "right_thrust" : 1200000.0,
-   "angular_thrust" : 27000000.0
+   "angular_thrust" : 27000000.0,
+   "front_cross_section" : 26,
+   "side_cross_section" : 40,
+   "top_cross_section" : 97,
+   "lift_coeff" : 0,
+   "aero_stability" : 0.3
 }

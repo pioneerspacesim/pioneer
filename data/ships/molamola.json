@@ -30,5 +30,10 @@
       "pirate" : true
    },
    "thruster_fuel_use" : -1.0,
-   "up_thrust" : 1900000.0
+   "up_thrust" : 1900000.0,
+   "front_cross_section" : 46,
+   "side_cross_section" : 75,
+   "top_cross_section" : 77,
+   "lift_coeff" : 0,
+   "aero_stability" : 0.225
 }

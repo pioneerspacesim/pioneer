@@ -383,6 +383,11 @@ vector3d Ship::CalcAtmoLift()
 	else {
 		fLift = vector3d(0.0); //stall!
 	}
+
+	if (fLift.Length() > m_fDrag * 0.9) { //just a failsafe mechanism
+		fLift = vector3d(0, m_fDrag * 0.9, 0);
+	}
+
 	return fLift;
 }
 
