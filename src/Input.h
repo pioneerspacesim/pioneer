@@ -42,6 +42,8 @@ public:
 		std::vector<KeyBindings::ActionBinding *> actions;
 		std::vector<KeyBindings::AxisBinding *> axes;
 
+		bool active;
+
 		// Call this at startup to register all the bindings associated with the frame.
 		virtual void RegisterBindings(){};
 

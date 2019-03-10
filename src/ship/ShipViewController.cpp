@@ -9,6 +9,7 @@
 #include "Player.h"
 
 namespace {
+	static const float MOUSELOOK_SPEED = 0.01;
 	static const float ZOOM_SPEED = 1.f;
 	static const float WHEEL_SENSITIVITY = .05f; // Should be a variable in user settings.
 } // namespace
@@ -39,6 +40,9 @@ void ShipViewController::InputBinding::RegisterBindings()
 	AXIS_BINDING(cameraPitch, "BindCameraPitch", SDLK_KP_2, SDLK_KP_8)
 	AXIS_BINDING(cameraYaw, "BindCameraYaw", SDLK_KP_4, SDLK_KP_6)
 	AXIS_BINDING(cameraZoom, "BindViewZoom", SDLK_EQUALS, SDLK_MINUS)
+
+	AXIS_BINDING(lookYaw, "BindLookYaw", 0, 0);
+	AXIS_BINDING(lookPitch, "BindLookPitch", 0, 0);
 
 	KEY_BINDING(frontCamera, "BindFrontCamera", SDLK_KP_8, SDLK_UP)
 	KEY_BINDING(rearCamera, "BindRearCamera", SDLK_KP_2, SDLK_DOWN)
@@ -125,6 +129,10 @@ void ShipViewController::SetCamType(enum CamType c)
 		break;
 	}
 
+	if (m_camType != CAM_INTERNAL) {
+		headtracker_input_priority = false;
+	}
+
 	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 
 	m_activeCameraController->Reset();
@@ -145,59 +153,65 @@ void ShipViewController::Update()
 	auto *cam = static_cast<MoveableCameraController *>(m_activeCameraController);
 	auto frameTime = Pi::GetFrameTime();
 
-	vector3d rotate = vector3d(
-		-InputBindings.cameraPitch->GetValue(),
-		InputBindings.cameraYaw->GetValue(),
-		InputBindings.cameraRoll->GetValue());
-
-	// Horribly abuse our knowledge of the internals of cam->RotateUp/Down.
-	if (rotate.x != 0.0) cam->RotateUp(frameTime * rotate.x);
-	if (rotate.y != 0.0) cam->RotateLeft(frameTime * rotate.y);
-	if (rotate.z != 0.0) cam->RollLeft(frameTime * rotate.z);
-
 	// XXX ugly hack checking for console here
-	if (!Pi::IsConsoleActive()) {
-		if (GetCamType() == CAM_INTERNAL) {
-			if (InputBindings.frontCamera->IsActive())
-				ChangeInternalCameraMode(InternalCameraController::MODE_FRONT);
-			else if (InputBindings.rearCamera->IsActive())
-				ChangeInternalCameraMode(InternalCameraController::MODE_REAR);
-			else if (InputBindings.leftCamera->IsActive())
-				ChangeInternalCameraMode(InternalCameraController::MODE_LEFT);
-			else if (InputBindings.rightCamera->IsActive())
-				ChangeInternalCameraMode(InternalCameraController::MODE_RIGHT);
-			else if (InputBindings.topCamera->IsActive())
-				ChangeInternalCameraMode(InternalCameraController::MODE_TOP);
-			else if (InputBindings.bottomCamera->IsActive())
-				ChangeInternalCameraMode(InternalCameraController::MODE_BOTTOM);
-		} else {
-			MoveableCameraController *cam = static_cast<MoveableCameraController *>(m_activeCameraController);
-			vector3d rotate = vector3d(
-				-InputBindings.cameraPitch->GetValue(),
-				InputBindings.cameraYaw->GetValue(),
-				InputBindings.cameraRoll->GetValue());
+	if (!InputBindings.active || Pi::IsConsoleActive()) return;
 
-			// Horribly abuse our knowledge of the internals of cam->RotateUp/Down.
-			if (rotate.x != 0.0) cam->RotateUp(frameTime * rotate.x);
-			if (rotate.y != 0.0) cam->RotateLeft(frameTime * rotate.y);
-			if (rotate.z != 0.0) cam->RollLeft(frameTime * rotate.z);
+	if (GetCamType() == CAM_INTERNAL) {
+		if (InputBindings.frontCamera->IsActive())
+			ChangeInternalCameraMode(InternalCameraController::MODE_FRONT);
+		else if (InputBindings.rearCamera->IsActive())
+			ChangeInternalCameraMode(InternalCameraController::MODE_REAR);
+		else if (InputBindings.leftCamera->IsActive())
+			ChangeInternalCameraMode(InternalCameraController::MODE_LEFT);
+		else if (InputBindings.rightCamera->IsActive())
+			ChangeInternalCameraMode(InternalCameraController::MODE_RIGHT);
+		else if (InputBindings.topCamera->IsActive())
+			ChangeInternalCameraMode(InternalCameraController::MODE_TOP);
+		else if (InputBindings.bottomCamera->IsActive())
+			ChangeInternalCameraMode(InternalCameraController::MODE_BOTTOM);
 
-			if (InputBindings.cameraZoom->IsActive())
-				cam->ZoomEvent(-InputBindings.cameraZoom->GetValue() * ZOOM_SPEED * frameTime);
-			if (InputBindings.resetCamera->IsActive())
-				cam->Reset();
-			cam->ZoomEventUpdate(frameTime);
+		vector3f rotate = vector3f(
+			InputBindings.lookPitch->GetValue() * M_PI / 2.0,
+			InputBindings.lookYaw->GetValue() * M_PI / 2.0,
+			0.0);
+
+		if (rotate.LengthSqr() > 0.0001) {
+			cam->SetRotationAngles(rotate);
+			headtracker_input_priority = true;
+		} else if (headtracker_input_priority) {
+			cam->SetRotationAngles({ 0.0, 0.0, 0.0 });
+			headtracker_input_priority = false;
 		}
+	} else {
+		vector3d rotate = vector3d(
+			-InputBindings.cameraPitch->GetValue(),
+			InputBindings.cameraYaw->GetValue(),
+			InputBindings.cameraRoll->GetValue());
+
+		rotate *= frameTime;
+
+		// Horribly abuse our knowledge of the internals of cam->RotateUp/Down.
+		// Applied in YXZ order because reasons.
+		if (rotate.y != 0.0) cam->YawCamera(rotate.y);
+		if (rotate.x != 0.0) cam->PitchCamera(rotate.x);
+		if (rotate.z != 0.0) cam->RollCamera(rotate.z);
+
+		if (InputBindings.cameraZoom->IsActive())
+			cam->ZoomEvent(-InputBindings.cameraZoom->GetValue() * ZOOM_SPEED * frameTime);
+		if (InputBindings.resetCamera->IsActive())
+			cam->Reset();
+		cam->ZoomEventUpdate(frameTime);
 	}
 
 	int mouseMotion[2];
 	Pi::input.GetMouseMotion(mouseMotion);
 
 	// external camera mouselook
-	if (Pi::input.MouseButtonState(SDL_BUTTON_MIDDLE)) {
-		const double accel = 0.01; // XXX configurable?
-		cam->RotateLeft(mouseMotion[0] * accel);
-		cam->RotateUp(mouseMotion[1] * accel);
+	if (Pi::input.MouseButtonState(SDL_BUTTON_MIDDLE) && !headtracker_input_priority) {
+		// invert the mouse input to convert between screen coordinates and
+		// right-hand coordinate system rotation.
+		cam->YawCamera(-mouseMotion[0] * MOUSELOOK_SPEED);
+		cam->PitchCamera(-mouseMotion[1] * MOUSELOOK_SPEED);
 	}
 
 	m_activeCameraController->Update();

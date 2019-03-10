@@ -13,7 +13,8 @@ class ShipViewController : public InteractionController {
 public:
 	ShipViewController(WorldView *v) :
 		InteractionController(v),
-		m_camType(CAM_INTERNAL) {}
+		m_camType(CAM_INTERNAL),
+		headtracker_input_priority(false) {}
 
 	void Update() override;
 	void Activated() override;
@@ -45,6 +46,8 @@ private:
 	std::unique_ptr<FlyByCameraController> m_flybyCameraController;
 	CameraController *m_activeCameraController; //one of the above
 
+	bool headtracker_input_priority;
+
 	void MouseWheel(bool up);
 
 public:
@@ -60,6 +63,9 @@ public:
 		Axis *cameraPitch;
 		Axis *cameraRoll;
 		Axis *cameraZoom;
+
+		Axis *lookYaw;
+		Axis *lookPitch;
 
 		Action *frontCamera;
 		Action *rearCamera;

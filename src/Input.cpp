@@ -57,6 +57,7 @@ bool Input::PushInputFrame(Input::InputFrame *frame)
 	}
 
 	inputFrames.push_back(frame);
+	frame->active = true;
 	frame->onFrameAdded();
 	return true;
 }
@@ -66,6 +67,7 @@ Input::InputFrame *Input::PopInputFrame()
 	if (inputFrames.size() > 0) {
 		auto frame = inputFrames.back();
 		inputFrames.pop_back();
+		frame->active = false;
 		frame->onFrameRemoved();
 		return frame;
 	}
@@ -78,6 +80,7 @@ void Input::RemoveInputFrame(Input::InputFrame *frame)
 	auto it = std::find(inputFrames.begin(), inputFrames.end(), frame);
 	if (it != inputFrames.end()) {
 		inputFrames.erase(it);
+		frame->active = false;
 		frame->onFrameRemoved();
 	}
 }
