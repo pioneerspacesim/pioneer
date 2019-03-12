@@ -124,14 +124,9 @@ public:
 		HYPERSPACE, // in hyperspace
 	};
 
-	vector3d CalcAtmoLift();
-	vector3d fLift;
-
-	vector3d CalcAtmoPassiveControl();
-	vector3d fDragControl;
-
-	vector3d CalcAtmoTorque();
-	vector3d fAtmoTorque;
+	vector3d CalcAtmosphericForce() const override;
+	// vector3d CalcAtmoPassiveControl() const;
+	vector3d CalcAtmoTorque() const;
 
 	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s);

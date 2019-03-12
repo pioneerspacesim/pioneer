@@ -213,10 +213,6 @@ void Ship::Init()
 	p.Set("shieldMassLeft", m_stats.shield_mass_left);
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
 
-	fLift = vector3d(0.0);
-	fAtmoTorque = vector3d(0.0);
-	fDragControl = vector3d(0.0);
-
 	// Init of Propulsion:
 	GetPropulsion()->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust, m_type->linAccelerationCap);
 
@@ -366,55 +362,66 @@ void Ship::UpdateMass()
 	SetMass((m_stats.static_mass + GetPropulsion()->FuelTankMassLeft()) * 1000);
 }
 
-//calculates atmospheric lift
-vector3d Ship::CalcAtmoLift()
+template <typename T>
+inline int sign(T num)
 {
-	double m_topCrossSec = GetShipType()->topCrossSection;
-	double m_shipLiftCoeff = GetShipType()->shipLiftCoefficient;
-
-	double m_fDrag = CalcAtmosphericForce(DEFAULT_DRAG_COEFF); //returns 0 if not in atmosphere, so no need to check
-
-	vector3d m_AoAVector = GetOrient().VectorZ() - GetVelocity().NormalizedSafe();
-	double m_AoAMultiplier = m_AoAVector.Length();
-
-	if (m_AoAMultiplier > 1.885) {
-		fLift = vector3d(0, m_fDrag * m_AoAMultiplier * m_topCrossSec * m_shipLiftCoeff * DEFAULT_LIFT_TO_DRAG_RATIO, 0);
-	}
-	else {
-		fLift = vector3d(0.0); //stall!
-	}
-
-	if (fLift.Length() > m_fDrag * 0.9) { //just a failsafe mechanism
-		fLift = vector3d(0, m_fDrag * 0.9, 0);
-	}
-
-	return fLift;
+	return (num >= 0) - (num < 0);
 }
 
-//calculates simplest form of aerodynamic control
-vector3d Ship::CalcAtmoPassiveControl()
+vector3d Ship::CalcAtmosphericForce() const
 {
+	// Data from ship.
 	double m_topCrossSec = GetShipType()->topCrossSection;
 	double m_sideCrossSec = GetShipType()->sideCrossSection;
 	double m_frontCrossSec = GetShipType()->frontCrossSection;
-	double m_aeroStabilityMultiplier = GetShipType()->atmoStability;
-	
-	double m_drag = CalcAtmosphericForce(DEFAULT_DRAG_COEFF);
 
-	vector3d m_AoAVector = GetOrient().VectorZ() - GetVelocity().NormalizedSafe();
-	double m_AoAMultiplier = m_AoAVector.Length();
+	// TODO: vary drag coefficient based on Reynolds number, specifically by
+	// atmospheric composition (viscosity) and airspeed (mach number).
+	double m_topDragCoeff = GetShipType()->topDragCoeff;
+	double m_sideDragCoeff = GetShipType()->sideDragCoeff;
+	double m_frontDragCoeff = GetShipType()->frontDragCoeff;
 
-	fDragControl = GetOrient().VectorZ() * m_drag * -0.25 * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * m_aeroStabilityMultiplier * (2 - m_AoAMultiplier);
+	double m_shipLiftCoeff = GetShipType()->shipLiftCoefficient;
 
-	if (fDragControl.Length() > (m_drag * 0.5)) //don't let any ship fly infinitely, just in case a very wrong ship value is inserted
-		fDragControl = GetOrient().VectorZ() * m_drag * -0.5;
+	// By converting the velocity into local space, we can apply the drag individually to each component.
+	auto m_localVel = GetOrient().Inverse() * GetVelocity();
+	auto m_lVSqr = m_localVel.LengthSqr();
 
-	return fDragControl;
+	// The drag forces applied to the craft, in local space.
+	// TODO: verify dimensional accuracy and that we're not generating more drag than physically possible.
+	// TODO: use a different drag constant for each side.
+	// This also handles (most of) the lift due to wing deflection.
+	vector3d fAtmosDrag = vector3d(
+		CalcAtmosphericDrag(m_lVSqr, m_sideCrossSec, m_sideDragCoeff),
+		CalcAtmosphericDrag(m_lVSqr, m_topCrossSec, m_topDragCoeff),
+		CalcAtmosphericDrag(m_lVSqr, m_frontCrossSec, m_frontDragCoeff));
+
+	// The direction vector of the velocity also serves to scale and sign the generated drag.
+	fAtmosDrag = fAtmosDrag * -m_localVel.NormalizedSafe();
+
+	// The amount of lift produced by air pressure differential across the top and bottom of the lifting surfaces.
+	vector3d fAtmosLift = vector3d(0.0);
+
+	double m_AoAMultiplier = m_localVel.NormalizedSafe().y;
+
+	// There's no lift produced once the wing hits the stall angle.
+	if (abs(m_AoAMultiplier) < 0.61) {
+		// Pioneer simulates non-cambered wings, with equal air displacement on either side of AoA.
+
+		// Generated lift peaks at around 0.15 here, and falls off fully at 0.3.
+		// TODO: handle AoA better / more gracefully with an actual curve-based implementation.
+		m_AoAMultiplier = cos((abs(m_AoAMultiplier) - 0.31) * 5.0) * sign(m_AoAMultiplier);
+
+		// TODO: verify dimensional accuracy and that we're not generating more lift than physically possible.
+		// We scale down the lift contribution because fAtmosDrag handles deflection-based lift.
+		fAtmosLift.y = CalcAtmosphericDrag(pow(m_localVel.z, 2), m_topCrossSec, m_shipLiftCoeff) * -m_AoAMultiplier * 0.2;
+	}
+
+	return GetOrient() * (fAtmosDrag + fAtmosLift);
 }
 
-
 //calculates torque to force the spacecraft go nose-first in atmosphere
-vector3d Ship::CalcAtmoTorque()
+vector3d Ship::CalcAtmoTorque() const
 {
 	double m_topCrossSec = GetShipType()->topCrossSection;
 	double m_sideCrossSec = GetShipType()->sideCrossSection;
@@ -425,14 +432,14 @@ vector3d Ship::CalcAtmoTorque()
 	vector3d m_vel = GetVelocity().NormalizedSafe();
 	vector3d m_torqueDir = -m_vel.Cross(-forward); // <--- This is correct
 
-	double m_drag = CalcAtmosphericForce(DEFAULT_DRAG_COEFF);
+	// TODO: evaluate this function and properly implement based upon ship cross-section.
+	double m_drag = CalcAtmosphericDrag(GetVelocity().LengthSqr(), m_topCrossSec, DEFAULT_DRAG_COEFF);
+	vector3d fAtmoTorque = vector3d(0.0);
 
 	if (GetVelocity().Length() > 150) { //don't apply torque at minimal speeds
-		fAtmoTorque = m_drag * m_torqueDir * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * 0.1 * m_aeroStabilityMultiplier;
+		fAtmoTorque = m_drag * m_torqueDir * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * 0.05 * m_aeroStabilityMultiplier;
 	}
-	else {
-		fAtmoTorque = vector3d(0.0);
-	}
+
 	return fAtmoTorque;
 }
 
@@ -953,9 +960,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 	AddRelForce(thrust);
 	AddRelTorque(GetPropulsion()->GetActualAngThrust());
 
-	//apply atmospheric flight forces
-	AddRelForce(CalcAtmoLift());
-	AddForce(CalcAtmoPassiveControl());
+	//apply extra atmospheric flight forces
 	AddTorque(CalcAtmoTorque());
 
 	if (m_landingGearAnimation)
@@ -1024,12 +1029,15 @@ void Ship::TimeAccelAdjust(const float timeStep)
 double Ship::ExtrapolateHullTemperature() const
 {
 	const double dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * 1.25;
-	const double dragGs = CalcAtmosphericForce(dragCoeff) / (GetMass() * 9.81);
-	return dragGs / 5.0;
+	// TODO: fix this to calculate appropriate skin friction and heating.
+	const double dragGs = CalcAtmosphericDrag(GetVelocity().LengthSqr(), GetClipRadius(), dragCoeff) / (GetMass() * 9.81);
+	//return dragGs / 25.0;
+	return 0.0;
 }
 
 double Ship::GetHullTemperature() const
 {
+	return 0.0;
 	double dragGs = GetAtmosForce().Length() / (GetMass() * 9.81);
 	int atmo_shield_cap = 0;
 	const_cast<Ship *>(this)->Properties().Get("atmo_shield_cap", atmo_shield_cap);

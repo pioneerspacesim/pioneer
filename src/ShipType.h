@@ -54,6 +54,9 @@ struct ShipType {
 	double topCrossSection;
 	double sideCrossSection;
 	double frontCrossSection;
+	double topDragCoeff;
+	double sideDragCoeff;
+	double frontDragCoeff;
 
 	double shipLiftCoefficient;
 	double atmoStability;
