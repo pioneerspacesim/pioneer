@@ -389,7 +389,7 @@ vector3d Ship::CalcAtmosphericForce() const
 
 	// The drag forces applied to the craft, in local space.
 	// TODO: verify dimensional accuracy and that we're not generating more drag than physically possible.
-	// TODO: use a different drag constant for each side.
+	// TODO: use a different drag constant for each side (front, back, etc).
 	// This also handles (most of) the lift due to wing deflection.
 	vector3d fAtmosDrag = vector3d(
 		CalcAtmosphericDrag(m_lVSqr, m_sideCrossSec, m_sideDragCoeff),
@@ -408,8 +408,8 @@ vector3d Ship::CalcAtmosphericForce() const
 	if (abs(m_AoAMultiplier) < 0.61) {
 		// Pioneer simulates non-cambered wings, with equal air displacement on either side of AoA.
 
-		// Generated lift peaks at around 0.15 here, and falls off fully at 0.3.
-		// TODO: handle AoA better / more gracefully with an actual curve-based implementation.
+		// Generated lift peaks at around 20 degrees here, and falls off fully at 35-ish.
+		// TODO: handle AoA better / more gracefully with an actual angle- and curve-based implementation.
 		m_AoAMultiplier = cos((abs(m_AoAMultiplier) - 0.31) * 5.0) * sign(m_AoAMultiplier);
 
 		// TODO: verify dimensional accuracy and that we're not generating more lift than physically possible.
@@ -1037,6 +1037,7 @@ double Ship::ExtrapolateHullTemperature() const
 
 double Ship::GetHullTemperature() const
 {
+	// TODO: fix this to properly account for heating due to air friction instead of G-force.
 	return 0.0;
 	double dragGs = GetAtmosForce().Length() / (GetMass() * 9.81);
 	int atmo_shield_cap = 0;
