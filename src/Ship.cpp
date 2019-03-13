@@ -378,6 +378,8 @@ vector3d Ship::CalcAtmoLift()
 	double m_AoAMultiplier = m_AoAVector.Length();
 
 	if (m_AoAMultiplier > 1.885) {
+		//calculate lift caused by the difference in pressure on the top and the bottom of the ship
+		//0.5 * density * velocity^2 is already calculated in m_fDrag
 		fLift = vector3d(0, m_fDrag * m_AoAMultiplier * m_topCrossSec * m_shipLiftCoeff * DEFAULT_LIFT_TO_DRAG_RATIO, 0);
 	}
 	else {
@@ -391,23 +393,31 @@ vector3d Ship::CalcAtmoLift()
 	return fLift;
 }
 
-//calculates simplest form of aerodynamic control
+//calculates atmospheric control by redirection of airflow
 vector3d Ship::CalcAtmoPassiveControl()
 {
+	//cross section values are used to estimate how sleek a ship is
 	double m_topCrossSec = GetShipType()->topCrossSection;
 	double m_sideCrossSec = GetShipType()->sideCrossSection;
 	double m_frontCrossSec = GetShipType()->frontCrossSection;
+
+	//better aerodynamic designs get a higher value
 	double m_aeroStabilityMultiplier = GetShipType()->atmoStability;
 	
 	double m_drag = CalcAtmosphericForce(DEFAULT_DRAG_COEFF);
 
-	vector3d m_AoAVector = GetOrient().VectorZ() - GetVelocity().NormalizedSafe();
-	double m_AoAMultiplier = m_AoAVector.Length();
+	//AoA falloff calculated by trigonometry
+	double m_AoAUpForceMultiplier = (GetOrient() * vector3d(0, 0.259, 0.966)).Dot(GetVelocity().NormalizedSafe()); //around 20 degrees
+	double m_AoADownForceMultiplier = (GetOrient() * vector3d(0, -0.423, 0.906)).Dot(GetVelocity().NormalizedSafe()); //around 25 degrees
 
-	fDragControl = GetOrient().VectorZ() * m_drag * -0.25 * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * m_aeroStabilityMultiplier * (2 - m_AoAMultiplier);
+	double m_AoALiftMultiplier = m_AoAUpForceMultiplier - m_AoADownForceMultiplier;
 
-	if (fDragControl.Length() > (m_drag * 0.5)) //don't let any ship fly infinitely, just in case a very wrong ship value is inserted
-		fDragControl = GetOrient().VectorZ() * m_drag * -0.5;
+	//increase drag when not facing the velocity vector
+	vector3d m_AoADragVector = GetOrient().VectorZ() - GetVelocity().NormalizedSafe();
+	double m_AoADragMultiplier = (2 - m_AoADragVector.Length());
+
+	//caclulate redirection of air, apply lift caused by the wing deflection and increase drag
+	fDragControl = ((-GetOrient().VectorY() * m_AoALiftMultiplier * m_aeroStabilityMultiplier * m_drag * (m_topCrossSec * m_sideCrossSec / m_topCrossSec * m_topCrossSec)) * 0.15 - (GetOrient().VectorZ() * m_drag * m_AoADragMultiplier)) * DEFAULT_LIFT_TO_DRAG_RATIO;
 
 	return fDragControl;
 }
