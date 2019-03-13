@@ -204,7 +204,9 @@ vector3d DynamicBody::CalcAtmosphericForce() const
 {
 	vector3d dragDir = -m_vel.NormalizedSafe();
 
-	return CalcAtmosphericDrag(m_vel.LengthSqr(), GetClipRadius(), m_dragCoeff) * dragDir;
+	// We assume the object is a perfect sphere in the size of the clip radius.
+	// Most things are /not/ using the default DynamicBody code, but this is still better than before.
+	return CalcAtmosphericDrag(m_vel.LengthSqr(), GetClipRadius() * GetClipRadius() * M_PI, m_dragCoeff) * dragDir;
 }
 
 void DynamicBody::CalcExternalForce()
