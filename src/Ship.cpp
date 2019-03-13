@@ -366,7 +366,7 @@ void Ship::UpdateMass()
 	SetMass((m_stats.static_mass + GetPropulsion()->FuelTankMassLeft()) * 1000);
 }
 
-//calculates atmospheric lift
+//calculates atmospheric lift by difference in pressure on the top and the bottom of the ship
 vector3d Ship::CalcPressureLift()
 {
 	double m_topCrossSec = GetShipType()->topCrossSection;
@@ -416,19 +416,21 @@ vector3d Ship::CalcAirflowRedirection()
 	vector3d m_AoADragVector = GetOrient().VectorZ() - GetVelocity().NormalizedSafe();
 	double m_AoADragMultiplier = (2 - m_AoADragVector.Length());
 
-	//caclulate redirection of air, apply lift caused by the wing deflection and increase drag
+	//calculate redirection of air, apply lift caused by the wing deflection and increase drag
 	fDragControl = ((-GetOrient().VectorY() * m_AoALiftMultiplier * m_aeroStabilityMultiplier * m_drag * (m_topCrossSec * m_sideCrossSec / m_topCrossSec * m_topCrossSec)) * 0.15 - (GetOrient().VectorZ() * m_drag * m_AoADragMultiplier)) * DEFAULT_LIFT_TO_DRAG_RATIO;
 
 	return fDragControl;
 }
 
-
-//calculates torque to force the spacecraft go nose-first in atmosphere
+//calculates torque caused by the airflow
 vector3d Ship::CalcAtmoTorque()
 {
+	//cross section values are used to estimate how sleek a ship is
 	double m_topCrossSec = GetShipType()->topCrossSection;
 	double m_sideCrossSec = GetShipType()->sideCrossSection;
 	double m_frontCrossSec = GetShipType()->frontCrossSection;
+
+	//better aerodynamic designs get a higher value
 	double m_aeroStabilityMultiplier = GetShipType()->atmoStability;
 
 	vector3d forward = GetOrient().VectorZ();
@@ -438,6 +440,7 @@ vector3d Ship::CalcAtmoTorque()
 	double m_drag = CalcAtmosphericForce(DEFAULT_DRAG_COEFF);
 
 	if (GetVelocity().Length() > 150) { //don't apply torque at minimal speeds
+		//apply torque to rotate the ship into the airflow
 		fAtmoTorque = m_drag * m_torqueDir * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * 0.1 * m_aeroStabilityMultiplier;
 	}
 	else {
