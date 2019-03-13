@@ -367,7 +367,7 @@ void Ship::UpdateMass()
 }
 
 //calculates atmospheric lift
-vector3d Ship::CalcAtmoLift()
+vector3d Ship::CalcPressureLift()
 {
 	double m_topCrossSec = GetShipType()->topCrossSection;
 	double m_shipLiftCoeff = GetShipType()->shipLiftCoefficient;
@@ -394,7 +394,7 @@ vector3d Ship::CalcAtmoLift()
 }
 
 //calculates atmospheric control by redirection of airflow
-vector3d Ship::CalcAtmoPassiveControl()
+vector3d Ship::CalcAirflowRedirection()
 {
 	//cross section values are used to estimate how sleek a ship is
 	double m_topCrossSec = GetShipType()->topCrossSection;
@@ -964,8 +964,8 @@ void Ship::TimeStepUpdate(const float timeStep)
 	AddRelTorque(GetPropulsion()->GetActualAngThrust());
 
 	//apply atmospheric flight forces
-	AddRelForce(CalcAtmoLift());
-	AddForce(CalcAtmoPassiveControl());
+	AddRelForce(CalcPressureLift());
+	AddForce(CalcAirflowRedirection());
 	AddTorque(CalcAtmoTorque());
 
 	if (m_landingGearAnimation)

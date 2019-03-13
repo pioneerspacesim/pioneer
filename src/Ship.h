@@ -124,10 +124,10 @@ public:
 		HYPERSPACE, // in hyperspace
 	};
 
-	vector3d CalcAtmoLift();
+	vector3d CalcPressureLift();
 	vector3d fLift;
 
-	vector3d CalcAtmoPassiveControl();
+	vector3d CalcAirflowRedirection();
 	vector3d fDragControl;
 
 	vector3d CalcAtmoTorque();
