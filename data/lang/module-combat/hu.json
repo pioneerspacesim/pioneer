@@ -157,15 +157,15 @@
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Please help! We received a distress call from one of our freighters orbiting {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The call was interrupted, so we fear the worst. Distance to {system} is {dist} ly. The pay is {cash}."
+    "message": "Segítségre van szükségünk! Kétségbeesett hívást kaptunk egy teherhajónkról, {area} körzet, {system} rendszerben, ({sectorx}, {sectory}, {sectorz}). A hívás megszakadt, úgyhogy a legrosszabbtól félünk. A {system} távolsága {dist} fényév. Fizetés: {cash}."
   },
   "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}. Please keep quiet about this operation."
+    "message": "Fontos, hogy a küldetés {date}-ig sikeres legyen. Diszkréciót kérünk a küldetéssel kapcsolatban."
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "We have a salesperson in every nearby star system. This person will get in contact with you when landed."
+    "message": "Minden közeli csillagrendszerben van kereskedőnk. Landoláskor majd kapcsolatba lép Önnel."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "MANAGER": {
     "description": "",
-    "message": "Manager"
+    "message": "Menedzser"
   },
   "MEET_ME_THERE": {
     "description": "",
@@ -189,11 +189,11 @@
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Military intelligence believe that a hostile faction has set up a secret listening outpost on {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The government can not tolerate this and have approved a series of operations to wipe out this facility. The enemy tries to disguise its origin by using only civilian spacecraft types. We do it like this too! So we are willing to hire a mercenary for {cash}. {area} is located {dist} ly from here."
+    "message": "Katonai felderítésünk szerint ellenséges szervezetek titkos kémbázist helyeztek üzembe {system} rendszer {area} körzetben ({sectorx}, {sectory}, {sectorz}). A kormány nem hagyhatja ezt, ezért elfogadott egy műveletsorozatot mely kiiktatná a létesítményt. Az ellenség rejtegetni próbálja ez eredetét úgy, hogy csak civil űrhajótípusokat használ. Ezzel sem értünk egyet! Hajlandók vagyunk zsoldosokat fogadni {cash} fizetséggel. {area} távolsága innen {dist} fényév."
   },
   "MILITARY_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "In response to a case of piracy in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly, the local authorities pay {cash} for a combat mission at {area}."
+    "message": "Kalóz tevékenységre válaszként a helyi hatóságok {cash} összeget fizetnek harci küldetésért az {area} körzetben, {system} rendszerben ({sectorx}, {sectory}, {sectorz})."
   },
   "MILITARY_3": {
     "description": "",
