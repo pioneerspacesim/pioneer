@@ -981,7 +981,7 @@ static int l_ship_get_velocity(lua_State *l)
 static int l_ship_get_stats(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	LuaTable t(l);
+	LuaTable t(l, 0, 10);
 	const shipstats_t &stats = s->GetStats();
 	t.Set("usedCapacity", stats.used_capacity);
 	t.Set("usedCargo", stats.used_cargo);

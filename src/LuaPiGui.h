@@ -9,12 +9,15 @@
 
 #include "vector2.h"
 
+class Body;
+
 struct TScreenSpace
 {
 	TScreenSpace(const bool onScreen, const vector2d &screenPos, const vector3d &direction) : _onScreen(onScreen), _screenPosition(screenPos), _direction(direction) {}
 	bool _onScreen;
 	vector2d _screenPosition;
 	vector3d _direction;
+	Body *_body;
 };
 
 int pushOnScreenPositionDirection(lua_State *l, vector3d position);

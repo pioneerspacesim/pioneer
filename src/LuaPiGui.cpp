@@ -1319,22 +1319,27 @@ TScreenSpace lua_world_space_to_screen_space(const Body *body)
 static int l_pigui_get_projected_bodies(lua_State *l)
 {
 	PROFILE_SCOPED()
-	LuaTable result(l);
+	std::vector<TScreenSpace> filtered;
+	filtered.reserve(Pi::game->GetSpace()->GetNumBodies());
 	for (Body *body : Pi::game->GetSpace()->GetBodies()) {
 		if (body == Pi::game->GetPlayer()) continue;
 		if (body->GetType() == Object::PROJECTILE) continue;
-
 		const TScreenSpace res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
-		if (res._onScreen) {
-			LuaTable object(l);
+		if (!res._onScreen) continue;
+		filtered.emplace_back(res);
+		filtered.back()._body = body;
+	}
 
-			object.Set("onscreen", res._onScreen);
-			object.Set("screenCoordinates", res._screenPosition);
-			object.Set("body", body);
+	LuaTable result(l, 0, filtered.size());
+	for (TScreenSpace &res : filtered) {
+		LuaTable object(l, 0, 3);
 
-			result.Set(body, object);
-			lua_pop(l, 1);
-		}
+		object.Set("onscreen", res._onScreen);
+		object.Set("screenCoordinates", res._screenPosition);
+		object.Set("body", res._body);
+
+		result.Set(res._body, object);
+		lua_pop(l, 1);
 	}
 	LuaPush(l, result);
 	return 1;
@@ -1344,12 +1349,19 @@ static int l_pigui_get_targets_nearby(lua_State *l)
 {
 	PROFILE_SCOPED()
 	int range_max = LuaPull<double>(l, 1);
-	LuaTable result(l);
 	Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(Pi::player, range_max);
-	int index = 1;
+
+	std::vector<Body *> filtered;
+	filtered.reserve(nearby.size());
 	for (Body *body : nearby) {
 		if (body == Pi::player) continue;
 		if (body->GetType() == Object::PROJECTILE) continue;
+		filtered.push_back(body);
+	};
+
+	LuaTable result(l, 0, filtered.size());
+	int index = 1;
+	for (Body *body : filtered) {
 		vector3d position = body->GetPositionRelTo(Pi::player);
 		float distance = float(position.Length());
 		vector3d shipSpacePosition = position * Pi::player->GetOrient();
@@ -1364,9 +1376,10 @@ static int l_pigui_get_targets_nearby(lua_State *l)
 		// convert to AEP https://en.wikipedia.org/wiki/Azimuthal_equidistant_projection
 		double rho = M_PI / 2 - polarPosition.z;
 		double theta = polarPosition.y;
+
 		vector2d aep(rho * sin(theta) / (2 * M_PI), -rho * cos(theta) / (2 * M_PI));
 
-		LuaTable object(l); //, 0 , 4);
+		LuaTable object(l, 0 , 4);
 
 		object.Set("distance", distance);
 		object.Set("label", body->GetLabel());
@@ -1384,6 +1397,7 @@ static int l_pigui_get_targets_nearby(lua_State *l)
 	LuaPush(l, result);
 	return 1;
 }
+
 static int l_pigui_disable_mouse_facing(lua_State *l)
 {
 	PROFILE_SCOPED()

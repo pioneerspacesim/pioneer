@@ -98,7 +98,7 @@ static int l_game_savegame_stats(lua_State *l)
 	try {
 		Json rootNode = Game::LoadGameToJson(filename);
 
-		LuaTable t(l);
+		LuaTable t(l, 0, 3);
 
 		t.Set("time", rootNode["time"].get<double>());
 
