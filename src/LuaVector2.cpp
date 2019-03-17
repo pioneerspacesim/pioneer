@@ -97,6 +97,26 @@ static int l_vector_unm(lua_State *L)
 	return 1;
 }
 
+static int l_vector_new_index(lua_State *L)
+{
+	vector2d *v = LuaVector2::CheckFromLua(L, 1);
+	if (lua_type(L, 2) == LUA_TSTRING) {
+		const char *attr = luaL_checkstring(L, 2);
+		if (!strcmp(attr, "x")) {
+			v->x = luaL_checknumber(L, 3);
+		} else if (!strcmp(attr, "y")) {
+			v->y = luaL_checknumber(L, 3);
+		} else {
+			luaL_error(L, "Index '%s' is not available: use 'x' or 'y'", attr);
+		}
+
+	} else {
+		luaL_error(L, "Expected vector2, but type is '%i'", lua_type(L,2));
+	}
+	LuaVector2::PushToLua(L, *v);
+	return 1;
+}
+
 static int l_vector_index(lua_State *L)
 {
 	const vector2d *v = LuaVector2::CheckFromLua(L, 1);
@@ -108,7 +128,8 @@ static int l_vector_index(lua_State *L)
 		} else if (!strcmp(attr, "y")) {
 			lua_pushnumber(L, v->y);
 			return 1;
-		}	}
+		}
+	}
 	lua_getmetatable(L, 1);
 	lua_pushvalue(L, 2);
 	lua_rawget(L, -2);
@@ -146,7 +167,7 @@ static int l_vector_angle(lua_State *L)
 
 static int l_vector_rotate(lua_State *L)
 {
-	const vector2d *v = LuaVector2::CheckFromLua(L, 1);
+	vector2d *v = LuaVector2::CheckFromLua(L, 1);
 	const double angle = luaL_checknumber(L, 2);
 	LuaVector2::PushToLua(L, v->Rotate(angle));
 	return 1;
@@ -183,6 +204,7 @@ static luaL_Reg l_vector_meta[] = {
 	{ "__div", &l_vector_div },
 	{ "__unm", &l_vector_unm },
 	{ "__index", &l_vector_index },
+	{ "__newindex", &l_vector_new_index },
 	{ "normalised", &l_vector_normalised },
 	{ "normalized", &l_vector_normalised },
 	{ "unit", &l_vector_unit },
@@ -228,7 +250,7 @@ const vector2d *LuaVector2::GetFromLua(lua_State *L, int idx)
 	return static_cast<vector2d *>(luaL_testudata(L, idx, LuaVector2::TypeName));
 }
 
-const vector2d *LuaVector2::CheckFromLua(lua_State *L, int idx)
+vector2d *LuaVector2::CheckFromLua(lua_State *L, int idx)
 {
 	return static_cast<vector2d *>(luaL_checkudata(L, idx, LuaVector2::TypeName));
 }

@@ -16,7 +16,7 @@ namespace LuaVector2 {
 	vector2d *PushNewToLua(lua_State *L);
 	inline void PushToLua(lua_State *L, const vector2d &v) { *PushNewToLua(L) = v; }
 	const vector2d *GetFromLua(lua_State *L, int idx);
-	const vector2d *CheckFromLua(lua_State *L, int idx);
+	vector2d *CheckFromLua(lua_State *L, int idx);
 
 	inline void PushToLuaF(lua_State *L, const vector2f &v) { PushToLua(L, vector2d(v)); }
 	inline vector2f CheckFromLuaF(lua_State *L, int idx) { return vector2f(*CheckFromLua(L, idx)); }

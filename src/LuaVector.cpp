@@ -99,6 +99,28 @@ static int l_vector_unm(lua_State *L)
 	return 1;
 }
 
+static int l_vector_new_index(lua_State *L)
+{
+	vector3d *v = LuaVector::CheckFromLua(L, 1);
+	if (lua_type(L, 2) == LUA_TSTRING) {
+		const char *attr = luaL_checkstring(L, 2);
+		if (!strcmp(attr, "x")) {
+			v->x = luaL_checknumber(L, 3);
+		} else if (!strcmp(attr, "y")) {
+			v->y = luaL_checknumber(L, 3);
+		} else if (!strcmp(attr, "z")) {
+			v->y = luaL_checknumber(L, 3);
+		} else {
+			luaL_error(L, "Index '%s' is not available: use 'x', 'y' or 'z'", attr);
+		}
+
+	} else {
+		luaL_error(L, "Expected vector, but type is '%i'", lua_type(L,2));
+	}
+	LuaVector::PushToLua(L, *v);
+	return 1;
+}
+
 static int l_vector_index(lua_State *L)
 {
 	const vector3d *v = LuaVector::CheckFromLua(L, 1);
@@ -176,6 +198,7 @@ static luaL_Reg l_vector_meta[] = {
 	{ "__div", &l_vector_div },
 	{ "__unm", &l_vector_unm },
 	{ "__index", &l_vector_index },
+	{ "__newindex", &l_vector_new_index },
 	{ "normalised", &l_vector_normalised },
 	{ "normalized", &l_vector_normalised },
 	{ "unit", &l_vector_unit },
@@ -218,7 +241,7 @@ const vector3d *LuaVector::GetFromLua(lua_State *L, int idx)
 	return static_cast<vector3d *>(luaL_testudata(L, idx, LuaVector::TypeName));
 }
 
-const vector3d *LuaVector::CheckFromLua(lua_State *L, int idx)
+vector3d *LuaVector::CheckFromLua(lua_State *L, int idx)
 {
 	return static_cast<vector3d *>(luaL_checkudata(L, idx, LuaVector::TypeName));
 }

@@ -309,18 +309,18 @@ ui.calcTextAlignment = function(pos, size, anchor_horizontal, anchor_vertical)
 	if anchor_horizontal == ui.anchor.left or anchor_horizontal == nil then
 	  --position.x = position.x -- do nothing
 	elseif anchor_horizontal == ui.anchor.right then
-	  position = vector2.new(position.x - size.x, position.y)
+	  position.x = position.x - size.x
 	elseif anchor_horizontal == ui.anchor.center then
-	  position = vector2.new(position.x - size.x/2, position.y)
+	  position.x = position.x - size.x/2
 	else
 	  error("show_text: incorrect horizontal anchor " .. anchor_horizontal)
 	end
 	if anchor_vertical == ui.anchor.top or anchor_vertical == nil then
 	  --position.y = position.y -- do nothing
 	elseif anchor_vertical == ui.anchor.center then
-	  position = vector2.new(position.x, position.y - size.y/2)
+	  position.y = position.y - size.y/2
 	elseif anchor_vertical == ui.anchor.bottom then
-	  position = vector2.new(position.x, position.y - size.y)
+	  position.y = position.y - size.y
 	else
 	  error("show_text: incorrect vertical anchor " .. anchor_vertical)
 	end
@@ -391,10 +391,9 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, b
 	  else
 			s = vector2.new(item.font.size, item.font.size)
 	  end
-	  size = vector2.new( size.x + s.x + spacing, math.max(size.y, s.y))
-	  --size.x = size.x + s.x
-	  --size.x = size.x + spacing -- spacing
-	  --size.y = math.max(size.y, s.y)
+	  size.x = size.x + s.x
+	  size.x = size.x + spacing -- spacing
+	  size.y = math.max(size.y, s.y)
 	  max_offset = math.max(max_offset, item.font.offset)
 	  if is_icon then
 			if popfont then
@@ -402,12 +401,12 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, b
 			end
 	  end
 	end
-	size = vector2.new(size.x - spacing, size.y) -- remove last spacing
+	size.x = size.x - spacing -- remove last spacing
 	position = ui.calcTextAlignment(position, size, anchor_horizontal, nil)
 	if anchor_vertical == ui.anchor.top then
-	  position = position + vector2.new(0, size.y) -- was max_offset, seems wrong
+	  position.y = position.y + size.y -- was max_offset, seems wrong
 	elseif anchor_vertical == ui.anchor.bottom then
-	  position = position - vector2.new(0, (size.y - max_offset))
+	  position.y = position.y - size.y + max_offset
 	end
 	if bg_color then
 		pigui.AddRectFilled(position - vector2.new(textBackgroundMarginPixels, size.y + textBackgroundMarginPixels),
@@ -422,11 +421,11 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, b
 	  if is_icon then
 			ui.withFont(item.font.name, item.font.size, function()
 										local s = ui.addStyledText(position, ui.anchor.left, ui.anchor.baseline, item.text, item.color, item.font, item.tooltip)
-										position = position + vector2.new(s.x + spacing, 0)
+										position.x = position.x + s.x + spacing
 			end)
 	  else
 			local s = ui.addIcon(position, item.text, item.color, vector2.new(item.font.size, item.font.size), ui.anchor.left, ui.anchor.bottom, item.tooltip)
-			position = vector2.new(position.x + s.x + spacing, position.y)
+			position.x = position.x + s.x + spacing
 	  end
 	end
 	return size
@@ -445,11 +444,11 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 								end
 								position = ui.calcTextAlignment(position, size, anchor_horizontal, vert) -- ignore vertical if baseline
 								if anchor_vertical == ui.anchor.baseline then
-									position = position - vector2.new(0, font.offset)
+									position.y = position.y - font.offset
 								end
 								if bg_color then
-									pigui.AddRectFilled(position - vector2.new(textBackgroundMarginPixels, size.y + textBackgroundMarginPixels),
-														position + vector2.new(size.x + textBackgroundMarginPixels, textBackgroundMarginPixels),
+									pigui.AddRectFilled(vector2.new(position.x - textBackgroundMarginPixels, position.y - size.y + textBackgroundMarginPixels),
+														vector2.new(position.x + size.x + textBackgroundMarginPixels, position.y + textBackgroundMarginPixels),
 														bg_color,
 														0,
 														0)
@@ -462,7 +461,7 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 			maybeSetTooltip(tooltip)
 	  end
 	end
-	return vector2.new(size.x, size.y)
+	return size
 end
 
 ui.icon = function(icon, size, color, tooltip)
@@ -777,18 +776,18 @@ ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color
 	local offset = 60
 	local uiPos = position
 	ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
-								ui.addLine(uiPos, uiPos + vector2.new(ui.gauge_width, 0), ui.theme.colors.gaugeBackground, ui.gauge_height)
+								ui.addLine(uiPos, vector2.new(uiPos.x + ui.gauge_width, uiPos.y), ui.theme.colors.gaugeBackground, ui.gauge_height)
 								if gauge_show_percent then
 									local one_hundred = ui.calcTextSize("100")
-									uiPos = uiPos + vector2.new(one_hundred.x * 1.2, 0) -- 1.2 for a bit of slack
-									ui.addStyledText(uiPos + vector2.new(0, ui.gauge_height / 12), ui.anchor.right, ui.anchor.center, string.format("%i", percent * 100), ui.theme.colors.reticuleCircle, ui.fonts.pionillium.medium, tooltip)
+									uiPos.x = uiPos.x + one_hundred.x * 1.2 -- 1.2 for a bit of slack
+									ui.addStyledText(vector2.new(uiPos.x, uiPos.y + ui.gauge_height / 12), ui.anchor.right, ui.anchor.center, string.format("%i", percent * 100), ui.theme.colors.reticuleCircle, ui.fonts.pionillium.medium, tooltip)
 								end
-								uiPos = uiPos + vector2.new(ui.gauge_height * 1.2, 0)
-								ui.addIcon(uiPos - vector2.new(ui.gauge_height/2, 0), icon, ui.theme.colors.reticuleCircle, vector2.new(ui.gauge_height * 0.9, ui.gauge_height * 0.9), ui.anchor.center, ui.anchor.center, tooltip)
+								uiPos.x = uiPos.x + ui.gauge_height * 1.2
+								ui.addIcon(vector2.new(uiPos.x - ui.gauge_height/2, uiPos.y), icon, ui.theme.colors.reticuleCircle, vector2.new(ui.gauge_height * 0.9, ui.gauge_height * 0.9), ui.anchor.center, ui.anchor.center, tooltip)
 								local w = (position.x + ui.gauge_width) - uiPos.x
-								ui.addLine(uiPos, uiPos + vector2.new(w * percent, 0), color, ui.gauge_height)
+								ui.addLine(uiPos, vector2.new(uiPos.x + w * percent, uiPos.y), color, ui.gauge_height)
 								if value and format then
-									ui.addFancyText(uiPos + vector2.new(ui.gauge_height/2, ui.gauge_height/4), ui.anchor.left, ui.anchor.center, {
+									ui.addFancyText(vector2.new(uiPos.x + ui.gauge_height/2, uiPos.y + ui.gauge_height/4), ui.anchor.left, ui.anchor.center, {
 																		{ text=string.format(format, value), color=ui.theme.colors.reticuleCircle,     font=ui.fonts.pionillium.small, tooltip=tooltip },
 																		{ text=unit,                         color=ui.theme.colors.reticuleCircleDark, font=ui.fonts.pionillium.small, tooltip=tooltip }},
 																	ui.theme.colors.gaugeBackground)
@@ -821,7 +820,7 @@ ui.displayPlayerGauges = function()
 		if not tws then
 			tws = vector2.new(0, 100)
 		end
-		tws = tws + vector2.new(0, 30) -- extra offset
+		tws.y = tws.y + 30 -- extra offset
 		ui.setNextWindowPos(vector2.new(5, ui.screenHeight - tws.y - ui.gauge_height * c * gauge_stretch), "Always")
 		ui.window("PlayerGauges", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 							function()
@@ -830,7 +829,7 @@ ui.displayPlayerGauges = function()
 									local g = v.fun()
 									if g and g.value then
 										ui.gauge(uiPos, g.value, g.unit, g.format, g.min, g.max, g.icon, g.color, g.tooltip)
-										uiPos = uiPos + vector2.new(0, ui.gauge_height * gauge_stretch)
+										uiPos.y = uiPos.y + ui.gauge_height * gauge_stretch
 									end
 								end
 		end)
