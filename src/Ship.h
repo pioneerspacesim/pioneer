@@ -124,14 +124,9 @@ public:
 		HYPERSPACE, // in hyperspace
 	};
 
-	vector3d CalcPressureLift();
-	vector3d fLift;
-
-	vector3d CalcAirflowRedirection();
-	vector3d fDragControl;
-
-	vector3d CalcAtmoTorque();
-	vector3d fAtmoTorque;
+	vector3d CalcAtmosphericForce() const override;
+	// vector3d CalcAtmoPassiveControl() const;
+	vector3d CalcAtmoTorque() const;
 
 	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s);
@@ -199,7 +194,7 @@ public:
 	void AIOrbit(Body *target, double alt); // Note: defined in Ship-AI.cpp
 	void AIHoldPosition(); // Note: defined in Ship-AI.cpp
 
-	void AIBodyDeleted(const Body *const body){}; // Note: defined in Ship-AI.cpp // todo: signals
+	void AIBodyDeleted(const Body *const body) {}; // Note: defined in Ship-AI.cpp // todo: signals
 
 	const AICommand *GetAICommand() const { return m_curAICmd; }
 
