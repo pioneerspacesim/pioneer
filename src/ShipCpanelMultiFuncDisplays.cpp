@@ -13,7 +13,6 @@
 #include "Pi.h"
 #include "Player.h"
 #include "ShipCpanel.h"
-#include "Sound.h"
 #include "Space.h"
 #include "StringF.h"
 #include "galaxy/Sector.h"
@@ -21,6 +20,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "libs.h"
+#include "sound/Sound.h"
 
 using namespace Graphics;
 

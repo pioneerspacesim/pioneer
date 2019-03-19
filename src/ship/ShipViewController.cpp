@@ -104,12 +104,8 @@ void ShipViewController::Deactivated()
 
 void ShipViewController::SetCamType(enum CamType c)
 {
-	Pi::BoinkNoise();
-
-	// don't allow external cameras when docked inside space stations.
-	// they would clip through the station model
-	//if (Pi::player->GetFlightState() == Ship::DOCKED && !Pi::player->GetDockedWith()->IsGroundStation())
-	//	c = CAM_INTERNAL;
+	// TODO: add collision testing for external cameras to avoid clipping through
+	// stations / spaceports the ship is docked to.
 
 	m_camType = c;
 
@@ -143,7 +139,8 @@ void ShipViewController::SetCamType(enum CamType c)
 void ShipViewController::ChangeInternalCameraMode(InternalCameraController::Mode m)
 {
 	if (m_internalCameraController->GetMode() != m)
-		Pi::BoinkNoise();
+		// TODO: find a way around this, or move it to a dedicated system.
+		Sound::PlaySfx("Click", 0.3, 0.3, false);
 	m_internalCameraController->SetMode(m);
 	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 }

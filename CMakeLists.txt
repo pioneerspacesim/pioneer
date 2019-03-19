@@ -81,6 +81,7 @@ list(APPEND SRC_FOLDERS
 	src/gui
 	src/scenegraph
 	src/ship
+	src/sound
 	src/terrain
 	src/text
 	src/ui

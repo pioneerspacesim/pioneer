@@ -60,8 +60,8 @@ namespace Sound {
 	bool Init();
 	void Uninit();
 	/**
- * Silence all active sound events.
- */
+	 * Silence all active sound events.
+	 */
 	void DestroyAllEvents();
 	void Pause(int on);
 	eventid PlaySfx(const char *fx, const float volume_left, const float volume_right, const Op op);

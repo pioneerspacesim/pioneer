@@ -34,14 +34,17 @@ local function button_world(current_view)
 	if current_view ~= "world" then
 		if mainMenuButton(icons.view_internal, false, lui.HUD_BUTTON_SWITCH_TO_WORLD_VIEW) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f1)) then
 			Game.SetView("world")
+			ui.playBoinkNoise()
 		end
 	else
 		local camtype = Game.GetWorldCamType()
 		if mainMenuButton(icons["view_" .. camtype], true, cam_tooltip[camtype]) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f1)) then
 			Game.SetWorldCamType(next_cam_type[camtype])
+			ui.playBoinkNoise()
 		end
 		if (ui.altHeld() and ui.isKeyReleased(ui.keys.f1)) then
 			Game.SetWorldCamType("flyby")
+			ui.playBoinkNoise()
 		end
 	end
 end

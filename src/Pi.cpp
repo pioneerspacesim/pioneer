@@ -5,7 +5,6 @@
 
 #include "Pi.h"
 
-#include "AmbientSounds.h"
 #include "BaseSphere.h"
 #include "CargoBody.h"
 #include "CityOnPlanet.h"
@@ -50,6 +49,7 @@
 #include "ModelCache.h"
 #include "NavLights.h"
 #include "OS.h"
+#include "sound/AmbientSounds.h"
 #if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"
 #endif
@@ -65,8 +65,6 @@
 #include "Shields.h"
 #include "ShipCpanel.h"
 #include "ShipType.h"
-#include "Sound.h"
-#include "SoundMusic.h"
 #include "Space.h"
 #include "SpaceStation.h"
 #include "Star.h"
@@ -82,6 +80,8 @@
 #include "libs.h"
 #include "ship/PlayerShipController.h"
 #include "ship/ShipViewController.h"
+#include "sound/Sound.h"
+#include "sound/SoundMusic.h"
 
 #include "graphics/Renderer.h"
 
@@ -813,11 +813,6 @@ void Pi::Quit()
 	asyncJobQueue.reset();
 	syncJobQueue.reset();
 	exit(0);
-}
-
-void Pi::BoinkNoise()
-{
-	Sound::PlaySfx("Click", 0.3f, 0.3f, false);
 }
 
 void Pi::SetView(View *v)
@@ -1620,7 +1615,7 @@ void Pi::SetMouseGrab(bool on)
 void Pi::DrawPiGui(double delta, std::string handler)
 {
 	PROFILE_SCOPED()
-	
+
 	if (!IsConsoleActive())
 		Pi::pigui->Render(delta, handler);
 

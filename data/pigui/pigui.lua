@@ -557,6 +557,11 @@ ui.noModifierHeld = function() return pigui.key_none end
 ui.vSliderInt = pigui.VSliderInt
 ui.sliderInt = pigui.SliderInt
 
+-- FINALLY OUT OF Pi.cpp! BEGONE!
+ui.playBoinkNoise = function ()
+	ui.playSfx("Click", 0.3, 0.3)
+end
+
 local shouldShowRadialMenu = false
 local radialMenuPos = Vector(0,0)
 local radialMenuSize = 10

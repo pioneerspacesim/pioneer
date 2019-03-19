@@ -129,6 +129,7 @@ local function button_flight_control()
   end
 	if mainMenuButton(icon, false, tooltip) or (flightstate == "FLYING" and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
 		Game.ChangeFlightState()
+		ui.playBoinkNoise()
 	end
 	if ui.isItemHovered() and flightcontrolstate == "CONTROL_FIXSPEED" then
 		local wheel = ui.getMouseWheel()

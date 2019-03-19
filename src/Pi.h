@@ -94,7 +94,6 @@ public:
 	// This is a default value only, centralized here to promote uniform user expericience.
 	static float GetMoveSpeedShiftModifier();
 
-	static void BoinkNoise();
 	static std::string GetSaveDir();
 	static SceneGraph::Model *FindModel(const std::string &, bool allowPlaceholder = true);
 

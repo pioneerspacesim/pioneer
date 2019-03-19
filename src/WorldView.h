@@ -65,7 +65,6 @@ public:
 	/* end deprecated */
 
 	int GetActiveWeapon() const;
-	void OnClickBlastoff();
 
 	std::tuple<double, double, double> CalculateHeadingPitchRoll(enum PlaneType);
 
