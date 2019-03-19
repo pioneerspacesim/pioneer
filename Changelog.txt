@@ -5,6 +5,7 @@ March 2019
      * Avoid reallocation of vector using a list of nearby bodies (#4546)
      * Modified asserts to be correct now (#4553)
      * Add instructions on building pioneer with CMake and MSYS2 (#4535)
+     * Refactor sound code to it's own folder (#4557)
 
    * Fixes
      * Fix game load crash with unattached hyperspace clouds (#4555)
