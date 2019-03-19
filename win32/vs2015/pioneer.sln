@@ -103,6 +103,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glew", "glew\glew.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sigcpp", "sigcpp\sigcpp.vcxproj", "{41A044FB-1A16-4F4D-BCB2-83FBEB8E7F6E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "savedump", "savedump\savedump.vcxproj", "{457B1FC5-D180-4E45-848E-26E1C3743ADC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -371,6 +373,22 @@ Global
 		{41A044FB-1A16-4F4D-BCB2-83FBEB8E7F6E}.Release|Win32.Build.0 = Release|Win32
 		{41A044FB-1A16-4F4D-BCB2-83FBEB8E7F6E}.Release|x64.ActiveCfg = Release|x64
 		{41A044FB-1A16-4F4D-BCB2-83FBEB8E7F6E}.Release|x64.Build.0 = Release|x64
+		{457B1FC5-D180-4E45-848E-26E1C3743ADC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{457B1FC5-D180-4E45-848E-26E1C3743ADC}.Debug|Win32.Build.0 = Debug|Win32
+		{457B1FC5-D180-4E45-848E-26E1C3743ADC}.Debug|x64.ActiveCfg = Debug|x64
+		{457B1FC5-D180-4E45-848E-26E1C3743ADC}.Debug|x64.Build.0 = Debug|x64
+		{457B1FC5-D180-4E45-848E-26E1C3743ADC}.PreRelease|Win32.ActiveCfg = Release|Win32
+		{457B1FC5-D180-4E45-848E-26E1C3743ADC}.PreRelease|Win32.Build.0 = Release|Win32
+		{457B1FC5-D180-4E45-848E-26E1C3743ADC}.PreRelease|x64.ActiveCfg = Release|x64
+		{457B1FC5-D180-4E45-848E-26E1C3743ADC}.PreRelease|x64.Build.0 = Release|x64
+		{457B1FC5-D180-4E45-848E-26E1C3743ADC}.Profile|Win32.ActiveCfg = Release|Win32
+		{457B1FC5-D180-4E45-848E-26E1C3743ADC}.Profile|Win32.Build.0 = Release|Win32
+		{457B1FC5-D180-4E45-848E-26E1C3743ADC}.Profile|x64.ActiveCfg = Release|x64
+		{457B1FC5-D180-4E45-848E-26E1C3743ADC}.Profile|x64.Build.0 = Release|x64
+		{457B1FC5-D180-4E45-848E-26E1C3743ADC}.Release|Win32.ActiveCfg = Release|Win32
+		{457B1FC5-D180-4E45-848E-26E1C3743ADC}.Release|Win32.Build.0 = Release|Win32
+		{457B1FC5-D180-4E45-848E-26E1C3743ADC}.Release|x64.ActiveCfg = Release|x64
+		{457B1FC5-D180-4E45-848E-26E1C3743ADC}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

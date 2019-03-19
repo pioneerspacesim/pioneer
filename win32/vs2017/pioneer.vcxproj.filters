@@ -19,11 +19,14 @@
     <Filter Include="src\json">
       <UniqueIdentifier>{9493c942-fe23-49f7-9cfe-0984403ead6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\sound">
+      <UniqueIdentifier>{b6c5e7a4-49dc-4f22-9d91-31bffa101a6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ship">
+      <UniqueIdentifier>{c2a80aeb-4181-4173-9532-0648044f2982}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\AmbientSounds.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Body.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -174,9 +177,6 @@
     <ClCompile Include="..\..\src\ShipType.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Sound.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Space.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -199,9 +199,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Background.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\SoundMusic.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LuaMusic.cpp">
@@ -244,9 +241,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\MathUtil.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ShipController.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\CRC32.cpp">
@@ -492,15 +486,30 @@
     <ClCompile Include="..\..\src\LuaJson.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\sound\AmbientSounds.cpp">
+      <Filter>src\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sound\Sound.cpp">
+      <Filter>src\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sound\SoundMusic.cpp">
+      <Filter>src\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ship\PlayerShipController.cpp">
+      <Filter>src\ship</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ship\ShipController.cpp">
+      <Filter>src\ship</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ship\ShipViewController.cpp">
+      <Filter>src\ship</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\WorldView.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\AmbientSounds.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Body.h">
@@ -650,9 +659,6 @@
     <ClInclude Include="..\..\src\ShipType.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Sound.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Space.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -681,9 +687,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Background.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\SoundMusic.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaMusic.h">
@@ -729,9 +732,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Game.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ShipController.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\CRC32.h">
@@ -1000,6 +1000,27 @@
     </ClInclude>
     <ClInclude Include="..\..\src\LuaJson.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\sound\AmbientSounds.h">
+      <Filter>src\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\sound\Sound.h">
+      <Filter>src\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\sound\SoundMusic.h">
+      <Filter>src\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ship\InteractionController.h">
+      <Filter>src\ship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ship\PlayerShipController.h">
+      <Filter>src\ship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ship\ShipController.h">
+      <Filter>src\ship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ship\ShipViewController.h">
+      <Filter>src\ship</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
