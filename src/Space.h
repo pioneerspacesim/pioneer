@@ -137,8 +137,8 @@ private:
 			m_space(space) {}
 		void Prepare();
 
-		BodyNearList &GetBodiesMaybeNear(const Body *b, double dist);
-		BodyNearList &GetBodiesMaybeNear(const vector3d &pos, double dist);
+		BodyNearList GetBodiesMaybeNear(const Body *b, double dist);
+		BodyNearList GetBodiesMaybeNear(const vector3d &pos, double dist);
 
 	private:
 		struct BodyDist {
