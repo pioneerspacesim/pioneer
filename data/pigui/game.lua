@@ -309,7 +309,7 @@ local function displayDetailButtons(radius, navTarget, combatTarget)
 		if ui.isMouseClicked(0) and (mouse_position - (uiPos + vector2.new(size/2, -size/2))):magnitude() < size/2 then
 			reticuleTarget = "frame"
 		end
-		uiPos = uiPos + vector2.new(size, 0)
+		uiPos.x = uiPos.x + size
 	end
 	if navTarget then
 		local color = reticuleTarget == "navTarget" and colors.reticuleCircle or colors.reticuleCircleDark
@@ -317,7 +317,7 @@ local function displayDetailButtons(radius, navTarget, combatTarget)
 		if ui.isMouseClicked(0) and (mouse_position - (uiPos + vector2.new(size/2, -size/2))):magnitude() < size/2 then
 			reticuleTarget = "navTarget"
 		end
-		uiPos = uiPos + vector2.new(size,0)
+		uiPos.x = uiPos.x + size
 	end
 	if combatTarget then
 		local color = reticuleTarget == "combatTarget" and colors.reticuleCircle or colors.reticuleCircleDark
