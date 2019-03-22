@@ -522,6 +522,7 @@ ui.getWindowSize = pigui.GetWindowSize
 ui.getContentRegion = pigui.GetContentRegion
 ui.getTargetsNearby = pigui.GetTargetsNearby
 ui.getProjectedBodies = pigui.GetProjectedBodies
+ui.getProjectedBodiesGrouped = pigui.GetProjectedBodiesGrouped
 ui.isMouseReleased = pigui.IsMouseReleased
 ui.isMouseHoveringRect = pigui.IsMouseHoveringRect
 ui.isMouseHoveringAnyWindow = pigui.IsMouseHoveringAnyWindow

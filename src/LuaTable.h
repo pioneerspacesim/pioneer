@@ -67,8 +67,8 @@
  * > std::vector v; // Or std::list, std::set, whatever as long as it has iterators
  * > std::map m;
  * > LuaTable t;
- * > T.LoadMap(m.begin(), m.end());
- * > T.LoadVector(v.begin(), v.end());
+ * > t.LoadMap(m.begin(), m.end());
+ * > t.LoadVector(v.begin(), v.end());
  *
  * Note that LoadVector doesn't overwrite the content of the table, it appends
  * to its array-like part. Unless you have numerical index beyond its length,

@@ -20,6 +20,8 @@ struct TScreenSpace
 	Body *_body;
 };
 
+typedef std::vector<TScreenSpace> TSS_vector;
+
 int pushOnScreenPositionDirection(lua_State *l, vector3d position);
 TScreenSpace lua_world_space_to_screen_space(const vector3d &pos);
 #endif

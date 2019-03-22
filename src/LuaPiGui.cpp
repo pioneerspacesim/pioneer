@@ -18,6 +18,9 @@
 #include "sound/Sound.h"
 #include "ui/Context.h"
 
+#include <numeric>
+#include <iterator>
+
 // Windows defines RegisterClass as a macro, but we don't need that here.
 // undef it, to avoid including yet another header that undefs it
 #undef RegisterClass
@@ -1368,10 +1371,105 @@ TScreenSpace lua_world_space_to_screen_space(const Body *body)
 	}
 }
 
+static int l_pigui_get_projected_bodies_grouped(lua_State *l)
+{
+	PROFILE_SCOPED()
+	const vector2d gap = LuaPull<vector2d>(l, 1);
+
+	TSS_vector filtered;
+	filtered.reserve(Pi::game->GetSpace()->GetNumBodies());
+
+	for (Body *body : Pi::game->GetSpace()->GetBodies()) {
+		if (body == Pi::game->GetPlayer()) continue;
+		if (body->GetType() == Object::PROJECTILE) continue;
+		const TScreenSpace res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
+		if (!res._onScreen) continue;
+		filtered.emplace_back(res);
+		filtered.back()._body = body;
+	}
+
+	std::vector<TSS_vector> groups;
+	groups.reserve(filtered.size());
+
+	// Perform half-matrix double for
+	for (TSS_vector::iterator it = filtered.begin(); it != filtered.end(); ++it) {
+		TSS_vector group;
+		group.reserve(filtered.end() - it + 1);
+		// First element should always be the "media";
+		// so push twice that element:
+		//printf("Body 1 = %s (%f, %f)\n", (*it)._body->GetLabel().c_str(), (*it)._screenPosition.x, (*it)._screenPosition.y);
+		group.push_back((*it));
+		// Zeroed body so you could distinguish between a "media" element and a "real" element
+		group.back()._body = nullptr;
+		group.push_back((*it));
+
+		// Skip finding other elements if the given one's is the last
+		if (it + 1 == filtered.end()) break;
+
+		// Find near displayed bodies in remaining list of bodies
+		TSS_vector::reverse_iterator current = std::reverse_iterator<TSS_vector::iterator>(it + 1);
+		for (TSS_vector::reverse_iterator it2 = filtered.rbegin(); it2 != current; ++it2) {
+			//printf("  Body 2 = %s (%f, %f)\n", (*it2)._body->GetLabel().c_str(), (*it2)._screenPosition.x, (*it2)._screenPosition.y);
+			if ( (std::abs((*group.begin())._screenPosition.x - (*it2)._screenPosition.x) > gap.x ) ||
+				(std::abs((*group.begin())._screenPosition.y - (*it2)._screenPosition.y) > gap.y ) ) continue;
+			//printf("    %s and %s are near!\n", (*it)._body->GetLabel().c_str(), (*it2)._body->GetLabel().c_str());
+			// There's a "nearest": push it on group and recalc center
+			group.push_back(std::move(*it2));
+			// swap&pop:
+			std::swap(*it2, filtered.back());
+			filtered.pop_back();
+			// recalc group (starting with second element because first is the center itself)
+			vector3d media = std::accumulate(group.begin() + 1, group.end(), vector3d(0.0), [](const vector3d &a, const TScreenSpace &ss)
+			{
+				//printf("    Third level with '%s'\n", ss._body->GetLabel().c_str());
+				return a + ss._body->GetPositionRelTo(Pi::player);
+			});
+			media /= double(group.size() - 1);
+			group.front() = lua_world_space_to_screen_space(media);
+			group.front()._body = nullptr; // <- just in case...
+		}
+		groups.push_back(std::move(group));
+	}
+
+	// Sort each groups member according to a given function (skipping first element)
+	std::for_each(begin(groups), end(groups), [](TSS_vector &group)
+	{
+		std::sort(begin(group) + 1, end(group), [](TScreenSpace &a, TScreenSpace &b)
+		{
+			return first_body_is_more_important_than(a._body, b._body);
+		});
+	});
+
+	LuaTable result(l, 0, groups.size());
+	int index = 1;
+
+	std::for_each(begin(groups), end(groups), [&l, &result, &index](TSS_vector &group)
+	{
+		int index2 = 1;
+		LuaTable table_group(l, 0, group.size());
+
+		std::for_each(begin(group), end(group), [&](TScreenSpace &on_screen_object)
+		{
+			LuaTable object(l, 0, 3);
+			object.Set("onscreen", on_screen_object._onScreen);
+			object.Set("screenCoordinates", on_screen_object._screenPosition);
+			if (on_screen_object._body != nullptr)
+				object.Set("body", on_screen_object._body);
+
+			table_group.Set(std::to_string(index2++), object);
+			lua_pop(l, 1);
+		});
+		result.Set(std::to_string(index++), table_group);
+		lua_pop(l,1);
+	});
+	LuaPush(l, result);
+	return 1;
+}
+
 static int l_pigui_get_projected_bodies(lua_State *l)
 {
 	PROFILE_SCOPED()
-	std::vector<TScreenSpace> filtered;
+	TSS_vector filtered;
 	filtered.reserve(Pi::game->GetSpace()->GetNumBodies());
 	for (Body *body : Pi::game->GetSpace()->GetBodies()) {
 		if (body == Pi::game->GetPlayer()) continue;
@@ -2060,6 +2158,7 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "ShouldDrawUI", l_pigui_should_draw_ui },
 		{ "GetTargetsNearby", l_pigui_get_targets_nearby },
 		{ "GetProjectedBodies", l_pigui_get_projected_bodies },
+		{ "GetProjectedBodiesGrouped", l_pigui_get_projected_bodies_grouped },
 		{ "CalcTextAlignment", l_pigui_calc_text_alignment },
 		{ "ShouldShowLabels", l_pigui_should_show_labels },
 		{ "SystemInfoViewNextPage", l_pigui_system_info_view_next_page }, // deprecated

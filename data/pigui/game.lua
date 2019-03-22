@@ -801,92 +801,71 @@ local function displayOnScreenObjects()
 			ui.openRadialMenu(frame, 1, 30, radial_menu_actions_orbital)
 		end
 	end
+	local navTarget = player:GetNavTarget()
+	local combatTarget = player:GetCombatTarget()
+
 	ui.radialMenu("onscreenobjects")
+
 	local should_show_label = ui.shouldShowLabels()
 	local iconsize = vector2.new(18 , 18)
 	local label_offset = 14 -- enough so that the target rectangle fits
 	local collapse = iconsize
-	local bodies = ui.getProjectedBodies()
-	local navTarget = player:GetNavTarget()
-	local combatTarget = player:GetCombatTarget()
-	local onscreen = {}
-	-- go through all objects, collecting those that are shown near each other into single objects
-	for k,v in pairs(bodies) do
-		if v.onscreen then
-			local it = v
-			it.label = k:GetLabel()
-			local itbody = it.body
-			local itsc = it.screenCoordinates
-			local inserted = false
-			-- if body is ship and distance is too great, ignore it
-			if not itbody:IsShip() or itbody:DistanceTo(player) < IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE then
-				-- never collapse combat target
-				if itbody ~= combatTarget then
-					for k,v in pairs(onscreen) do
-						local mbsc = v.mainBody.screenCoordinates
-						if (mbsc - itsc):magnitude() < collapse:magnitude() then
-							if itbody == navTarget or (itbody:IsMoreImportantThan(v.mainBody.body) and v.mainBody.body ~= navTarget) then
-								-- if the navtarget is one of the collapsed ones, it's the most important
-								table.insert(v.others, v.mainBody)
-								v.mainBody = it
-								v.hasNavTarget = itbody == navTarget
-								v.multiple = true
-							else
-								-- otherwise, just add it as a further body
-								table.insert(v.others, it)
-								v.multiple = true
-							end
-							inserted = true
-							break
-						end
+	local bodies_grouped = ui.getProjectedBodiesGrouped(collapse)
+
+	for k,group in pairs(bodies_grouped) do
+		local mainBody
+		local mainCoords
+		local multiple = 0
+		local hasNavTarget = false
+		local hasCombatTarget = false
+		for _,w in pairs(group) do
+			if w.body then -- Is a body of this group
+				if not mainBody then
+					-- Store this body because... is the first seen
+					mainBody = w.body
+				else
+					-- Check this is "more important" than, and if is a target
+					-- or a nav target
+					multiple = multiple + 1
+					if w.body:IsMoreImportantThan(mainBody) then
+						mainBody = w.body
 					end
+					if w.body == navtarget then hasNavTarget = true end
+					if w.body == combatTarget then hasCombatTarget = true end
 				end
-				if not inserted then
-					-- not collapsed anywhere, just insert it normally
-					table.insert(onscreen, { mainBody = it, others = {}, hasCombatTarget = itbody == combatTarget, hasNavTarget = itbody == navTarget, multiple = false })
-				end
+			else -- Is the "center"
+				mainCoords = vector2.new(w.screenCoordinates.x, w.screenCoordinates.y)
 			end
 		end
-	end
-	-- now display each group
-	for k,v in pairs(onscreen) do
-		table.sort(v.others, function(a,b) return a.body:IsMoreImportantThan(b.body) end)
-		local coords = v.mainBody.screenCoordinates
-		ui.addIcon(coords, getBodyIcon(v.mainBody.body), colors.frame, iconsize, ui.anchor.center, ui.anchor.center)
-		if should_show_label then
-			local multipleText = ""
-			if v.multiple then
-				-- show a + after the name to indicate it is actually multiple objects
-				multipleText = "+"
-			end
-			ui.addStyledText(vector2.new(coords.x + label_offset, coords.y), ui.anchor.left, ui.anchor.center, v.mainBody.label .. multipleText , colors.frame, pionillium.small)
-		end
+		ui.addIcon(mainCoords, getBodyIcon(mainBody), colors.frame, iconsize, ui.anchor.center, ui.anchor.center)
+		mainCoords.x = mainCoords.x + label_offset
+		ui.addStyledText(mainCoords, ui.anchor.left, ui.anchor.center, mainBody:GetLabel() , colors.frame, pionillium.small)
 		local mp = ui.getMousePos()
-		-- mouse release handler
-		if vector2.new(mp.x - coords.x,mp.y -coords.y):magnitude() < iconsize:magnitude() * 1.5 then
+		-- mouse release handler for radial menu
+		if vector2.new(mp.x - mainCoords.x,mp.y - mainCoords.y):magnitude() < iconsize:magnitude() * 1.5 then
 			if not ui.isMouseHoveringAnyWindow() and ui.isMouseClicked(1) then
-				local body = v.mainBody.body
+				local body = mainBody
 				ui.openDefaultRadialMenu(body)
 			end
 		end
 		-- mouse release handler
-		if vector2.new(mp.x - coords.x, mp.y - coords.y):magnitude() < iconsize:magnitude() * 1.5 then
+		if vector2.new(mp.x - mainCoords.x, mp.y - mainCoords.y):magnitude() < iconsize:magnitude() * 1.5 then
 			if not ui.isMouseHoveringAnyWindow() and ui.isMouseReleased(0) then
-				if v.hasNavTarget then
+				if hasNavTarget then
 					-- if clicked and has nav target, unset nav target
 					player:SetNavTarget(nil)
-				elseif v.hasCombatTarget then
+				elseif hasCombatTarget then
 					-- if clicked and has combat target, unset combat target
 					player:SetCombatTarget(nil)
 				else
-					if v.multiple then
+					if multiple >= 1 then
 						-- clicked on group, show popup
-						ui.openPopup("navtarget" .. v.mainBody.label)
+						ui.openPopup("navtarget" .. mainBody:GetLabel())
 					else
 						-- clicked on single, just set navtarget/combatTarget
-						setTarget(v.mainBody.body)
+						setTarget(mainBody)
 						if ui.ctrlHeld() then
-							local target = v.mainBody.body
+							local target = mainBody
 							if target == player:GetSetSpeedTarget() then
 								target = nil
 							end
@@ -897,32 +876,34 @@ local function displayOnScreenObjects()
 			end
 		end
 		-- popup content
-		ui.popup("navtarget" .. v.mainBody.label, function()
+		ui.popup("navtarget" .. mainBody:GetLabel(), function()
 			local size = vector2.new(16,16)
-			ui.icon(getBodyIcon(v.mainBody.body), size, colors.frame)
+			ui.icon(getBodyIcon(mainBody), size, colors.frame)
 			ui.sameLine()
-			if ui.selectable(v.mainBody.label, v.mainBody.body == navTarget, {}) then
-				if v.mainBody.body:IsShip() then
-					player:SetCombatTarget(v.mainBody.body)
+			if ui.selectable(mainBody:GetLabel(), mainBody == navTarget, {}) then
+				if mainBody:IsShip() then
+					player:SetCombatTarget(mainBody)
 				else
-					player:SetNavTarget(v.mainBody.body)
+					player:SetNavTarget(mainBody)
 				end
 				if ui.ctrlHeld() then
-					local target = v.mainBody.body
+					local target = mainBody
 					if target == player:GetSetSpeedTarget() then
 						target = nil
 					end
 					player:SetSetSpeedTarget(target)
 				end
 			end
-			for k,v in pairs(v.others) do
-				ui.icon(getBodyIcon(v.body), size, colors.frame)
-				ui.sameLine()
-				if ui.selectable(v.label, v.body == navTarget, {}) then
-					if v.body:IsShip() then
-						player:SetCombatTarget(v.body)
-					else
-						player:SetNavTarget(v.body)
+			for _,v in pairs(group) do
+				if v.body then
+					ui.icon(getBodyIcon(v.body), size, colors.frame)
+					ui.sameLine()
+					if ui.selectable(v.body:GetLabel(), v.body == navTarget, {}) then
+						if v.body:IsShip() then
+							player:SetCombatTarget(v.body)
+						else
+							player:SetNavTarget(v.body)
+						end
 					end
 				end
 			end
