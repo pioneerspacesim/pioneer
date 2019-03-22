@@ -109,7 +109,7 @@ static int l_vector_new_index(lua_State *L)
 		} else if (!strcmp(attr, "y")) {
 			v->y = luaL_checknumber(L, 3);
 		} else if (!strcmp(attr, "z")) {
-			v->y = luaL_checknumber(L, 3);
+			v->z = luaL_checknumber(L, 3);
 		} else {
 			luaL_error(L, "Index '%s' is not available: use 'x', 'y' or 'z'", attr);
 		}

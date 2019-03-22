@@ -695,21 +695,21 @@ local function displayTargetScannerFor(target, offset)
 	if shield then
 		ui.gauge(uiPos - vector2.new(ui.gauge_width, 0), shield, nil, nil, 0, 100, icons.shield, colors.gaugeShield, lui.HUD_SHIELD_STRENGTH)
 	end
-	uiPos = uiPos + vector2.new(0, ui.gauge_height * 1.5)
+	uiPos.y = uiPos.y + ui.gauge_height * 1.5
 	ui.gauge(uiPos - vector2.new(ui.gauge_width, 0), hull, nil, nil, 0, 100, icons.hull, colors.gaugeHull, lui.HUD_HULL_STRENGTH)
-	uiPos = uiPos + vector2.new(0, ui.gauge_height * 0.8)
+	uiPos.y = uiPos.y + ui.gauge_height * 0.8
 	local r = ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, label, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
-	uiPos = uiPos + vector2.new(0, r.y + offset)
+	uiPos.y = uiPos.y + r.y + offset
 	r = ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, class, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
-	uiPos = uiPos + vector2.new(0, r.y + offset)
+	uiPos.y = uiPos.y + r.y + offset
 	r = ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, engine, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
-	uiPos = uiPos + vector2.new(0, r.y + offset)
+	uiPos.y = uiPos.y + r.y + offset
 	r = ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.top, {
 										{ text=lui.HUD_MASS .. ' ', color=colors.reticuleCircleDark, font=pionillium.medium },
 										{ text=mass, color=colors.reticuleCircle, font=pionillium.medium, },
 										{ text=lc.UNIT_TONNES, color=colors.reticuleCircleDark, font=pionillium.medium }},
 									colors.lightBlackBackground)
-	uiPos = uiPos + vector2.new(0, r.y + offset)
+	uiPos.y = uiPos.y + r.y + offset
 	r = ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.top, {
 										{ text=lui.HUD_CARGO_MASS .. ' ', color=colors.reticuleCircleDark, font=pionillium.medium, },
 										{ text=cargo, color=colors.reticuleCircle, font=pionillium.medium },

@@ -753,7 +753,7 @@ ui.gauge_width = 275
 ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color, tooltip)
 	local percent = math.clamp((value - minimum) / (maximum - minimum), 0, 1)
 	local offset = 60
-	local uiPos = position
+	local uiPos = vector2.new(position.x, position.y)
 	ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
 								ui.addLine(uiPos, vector2.new(uiPos.x + ui.gauge_width, uiPos.y), ui.theme.colors.gaugeBackground, ui.gauge_height)
 								if gauge_show_percent then
