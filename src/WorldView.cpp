@@ -61,7 +61,7 @@ WorldView::WorldView(const Json &jsonObj, Game *game) :
 
 	InitObject();
 
-	shipView.LoadFromJson(jsonObj);
+	shipView.LoadFromJson(worldViewObj);
 }
 
 WorldView::InputBinding WorldView::InputBindings;
