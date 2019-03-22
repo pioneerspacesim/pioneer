@@ -10,6 +10,7 @@ March 2019
    * Fixes
      * Fix game load crash with unattached hyperspace clouds (#4555)
      * Fix middle mouse not working in paused mode (#3032)
+     * Fix game load crash typo (#4561)
 
 February 2019
    * New Features
