@@ -29,9 +29,6 @@ Bugs? Please log an issue:
 Follow Pioneer on Twitter:
   https://twitter.com/pioneerspacesim/
 
-Follow Pioneer on Google+:
-  http://pioneerspacesim.net/+
-
 Pioneer wiki
   http://pioneerwiki.com/wiki/Pioneer_Wiki
 
@@ -46,6 +43,9 @@ Join the development forum:
 
 Manual can be found at:
   http://pioneerwiki.com/wiki/Manual
+
+Basic flight:
+  https://pioneerwiki.com/wiki/Basic_flight
 
 Keyboard and mouse control is found at:
   http://pioneerwiki.com/wiki/Keyboard_and_mouse_controls
