@@ -304,29 +304,6 @@ ui.Format = {
   end
 }
 
-ui.calcTextAlignment = function(pos, size, anchor_horizontal, anchor_vertical)
-	local position = vector2.new(pos.x, pos.y)
-	if anchor_horizontal == ui.anchor.left or anchor_horizontal == nil then
-	  --position.x = position.x -- do nothing
-	elseif anchor_horizontal == ui.anchor.right then
-	  position.x = position.x - size.x
-	elseif anchor_horizontal == ui.anchor.center then
-	  position.x = position.x - size.x/2
-	else
-	  error("show_text: incorrect horizontal anchor " .. anchor_horizontal)
-	end
-	if anchor_vertical == ui.anchor.top or anchor_vertical == nil then
-	  --position.y = position.y -- do nothing
-	elseif anchor_vertical == ui.anchor.center then
-	  position.y = position.y - size.y/2
-	elseif anchor_vertical == ui.anchor.bottom then
-	  position.y = position.y - size.y
-	else
-	  error("show_text: incorrect vertical anchor " .. anchor_vertical)
-	end
-	return position
-end
-
 ui.addIcon = function(position, icon, color, size, anchor_horizontal, anchor_vertical, tooltip, angle_rad)
 	local pos = ui.calcTextAlignment(position, size, anchor_horizontal, anchor_vertical)
 	local uv0, uv1 = get_icon_tex_coords(icon)
@@ -473,6 +450,7 @@ ui.icon = function(icon, size, color, tooltip)
 end
 
 -- Forward selected functions
+ui.calcTextAlignment = pigui.CalcTextAlignment
 ui.lineOnClock = pigui.lineOnClock
 ui.pointOnClock = pigui.pointOnClock
 ui.screenWidth = pigui.screen_width

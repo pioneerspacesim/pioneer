@@ -1831,6 +1831,40 @@ static int l_pigui_pop_text_wrap_pos(lua_State *l)
 	return 0;
 }
 
+// ui.anchor = { left = 1, right = 2, center = 3, top = 4, bottom = 5, baseline = 6 }
+
+static int l_pigui_calc_text_alignment(lua_State *l)
+{
+	PROFILE_SCOPED()
+	vector2d pos = LuaPull<vector2d>(l, 1);
+	vector2d size = LuaPull<vector2d>(l, 2);
+	int anchor_h, anchor_v;
+
+	if (lua_type(l, 3) != LUA_TNIL) {
+		anchor_h = LuaPull<int>(l, 3);
+	} else anchor_h = -1;
+
+	if (lua_type(l, 4) != LUA_TNIL) {
+		anchor_v = LuaPull<int>(l, 4);
+	} else anchor_v = -1;
+
+	if (anchor_h == 1 || anchor_h == -1) {
+	} else if (anchor_h == 2) {
+		pos.x -= size.x;
+	} else if (anchor_h == 3) {
+		pos.x -= size.x/2;
+	} else luaL_error(l, "CalcTextAlignment: incorrect horizontal anchor %d", anchor_h);
+
+	if (anchor_v == 4 || anchor_v == -1) {
+	} else if (anchor_v == 5) {
+		pos.y -= size.y;
+	} else if (anchor_v == 3) {
+		pos.y -= size.y/2;
+	} else luaL_error(l, "CalcTextAlignment: incorrect vertical anchor %d", anchor_v);
+	LuaPush<vector2d>(l, pos);
+	return 1;
+}
+
 static int l_pigui_collapsing_header(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1961,6 +1995,7 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "ShouldDrawUI", l_pigui_should_draw_ui },
 		{ "GetTargetsNearby", l_pigui_get_targets_nearby },
 		{ "GetProjectedBodies", l_pigui_get_projected_bodies },
+		{ "CalcTextAlignment", l_pigui_calc_text_alignment },
 		{ "ShouldShowLabels", l_pigui_should_show_labels },
 		{ "SystemInfoViewNextPage", l_pigui_system_info_view_next_page }, // deprecated
 		{ "LowThrustButton", l_pigui_low_thrust_button },

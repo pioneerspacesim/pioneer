@@ -111,7 +111,7 @@ static int l_vector_new_index(lua_State *L)
 		}
 
 	} else {
-		luaL_error(L, "Expected vector2, but type is '%i'", lua_type(L,2));
+		luaL_error(L, "Expected vector2, but type is '%s'", lua_typename(L,2));
 	}
 	LuaVector2::PushToLua(L, *v);
 	return 1;

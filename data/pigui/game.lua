@@ -215,19 +215,20 @@ local function displayDirectionalMarkers()
 	local aux = vector.new(0,0,0)
 	local function displayDirectionalMarker(ship_space, icon, showDirection, angle)
 		local screen = Engine.ShipSpaceToScreenSpace(ship_space)
+		local coord = vector2.new(screen.x, screen.y)
 		if screen.z <= 0 then
-			ui.addIcon(screen, icon, colors.reticuleCircle, vector2.new(32, 32), ui.anchor.center, ui.anchor.center, nil, angle)
+			ui.addIcon(coord, icon, colors.reticuleCircle, vector2.new(32, 32), ui.anchor.center, ui.anchor.center, nil, angle)
 		end
-		-- seems 'showDirection' is vector2 but z should be different
-		return showDirection and (vector2.new(screen.x, screen.y) - center):magnitude() > reticuleCircleRadius
+		return showDirection and (coord - center):magnitude() > reticuleCircleRadius
 	end
 	local function angle(forward, adjust)
+		local aux = vector2.new(forward.x, forward.y)
 		if forward.z >= 1 then
-			return vector2.new(forward.x, forward.y):angle() + adjust - ui.pi
+			return aux:angle() + adjust - ui.pi
 		else
-			return vector2.new(forward.x, forward.y):angle() + adjust
+			return aux:angle() + adjust
 		end
-  end
+	end
 	aux.z = -1
 	local forward = Engine.ShipSpaceToScreenSpace(aux)
 	local forward2 = vector2.new(forward.x, forward.y) - center
