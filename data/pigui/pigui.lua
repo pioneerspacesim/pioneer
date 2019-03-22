@@ -656,6 +656,7 @@ ui.openDefaultRadialMenu = function(body)
 		ui.openRadialMenu(body, 1, 30, actions)
 	end
 end
+
 local radialMenuWasOpen = {}
 ui.radialMenu = function(id)
 	if not radialMenuActions or #radialMenuActions == 0 then
