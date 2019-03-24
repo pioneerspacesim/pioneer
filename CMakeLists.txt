@@ -165,11 +165,13 @@ include_directories(
 	${SDL2_IMAGE_INCLUDE_DIRS}
 	${SIGCPP_INCLUDE_DIRS}
 	${VORBISFILE_INCLUDE_DIRS}
+	${GLEW_INCLUDE_DIRS}
 )
 
 if (NOT USE_SYSTEM_LIBGLEW)
 	add_subdirectory(contrib/glew)
 	add_library(GLEW::GLEW ALIAS glew)
+	include_directories(contrib/glew)
 endif (NOT USE_SYSTEM_LIBGLEW)
 add_subdirectory(contrib/imgui)
 add_subdirectory(contrib/jenkins)
