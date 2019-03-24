@@ -386,7 +386,7 @@ vector3d Ship::CalcAtmosphericForce() const
 	double m_shipLiftCoeff = GetShipType()->shipLiftCoefficient;
 
 	// By converting the velocity into local space, we can apply the drag individually to each component.
-	auto m_localVel = GetOrient().Inverse() * GetVelocity();
+	auto m_localVel = GetVelocity() * GetOrient();
 	auto m_lVSqr = m_localVel.LengthSqr();
 
 	// The drag forces applied to the craft, in local space.
