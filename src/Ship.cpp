@@ -438,8 +438,8 @@ vector3d Ship::CalcAtmoTorque() const
 	double m_drag = CalcAtmosphericDrag(GetVelocity().LengthSqr(), m_topCrossSec, DEFAULT_DRAG_COEFF);
 	vector3d fAtmoTorque = vector3d(0.0);
 
-	if (GetVelocity().Length() > 150) { //don't apply torque at minimal speeds
-		fAtmoTorque = m_drag * m_torqueDir * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * 0.05 * m_aeroStabilityMultiplier;
+	if (GetVelocity().Length() > 100) { //don't apply torque at minimal speeds
+		fAtmoTorque = m_drag * m_torqueDir * ((m_topCrossSec + m_sideCrossSec) / (m_frontCrossSec * 4)) * 0.3 * m_aeroStabilityMultiplier * Pi::game->GetInvTimeAccelRate();
 	}
 
 	return fAtmoTorque;
