@@ -87,7 +87,7 @@ end
 function ui.child(id, size, fun)
 	if fun == nil then -- size is optional
 		fun = size
-		size = vector2.new(-1,-1)
+		size = Vector2(-1,-1)
 	end
 	pigui.BeginChild(id, size)
 	fun()
@@ -152,7 +152,7 @@ local function get_icon_tex_coords(icon)
 	local count = 16.0 -- icons per row/column
 	local rem = math.floor(icon % count)
 	local quot = math.floor(icon / count)
-	return vector2.new(rem / count, quot/count), vector2.new((rem+1) / count, (quot+1)/count)
+	return Vector2(rem / count, quot/count), Vector2((rem+1) / count, (quot+1)/count)
 end
 
 local function get_wide_icon_tex_coords(icon)
@@ -160,7 +160,7 @@ local function get_wide_icon_tex_coords(icon)
 	local count = 16.0 -- icons per row/column
 	local rem = math.floor(icon % count)
 	local quot = math.floor(icon / count)
-	return vector2.new(rem / count, quot/count), vector2.new((rem+2) / count, (quot+1)/count)
+	return Vector2(rem / count, quot/count), Vector2((rem+2) / count, (quot+1)/count)
 end
 
 ui.registerHandler = function(name, fun)
@@ -308,12 +308,12 @@ ui.addIcon = function(position, icon, color, size, anchor_horizontal, anchor_ver
 	local pos = ui.calcTextAlignment(position, size, anchor_horizontal, anchor_vertical)
 	local uv0, uv1 = get_icon_tex_coords(icon)
 	if angle_rad then
-	  local center = vector2.new(pos.x + pos.x + size.x, pos.y + pos.y + size.y) / 2
-	  local up_left = vector2.new(-size.x/2, size.y/2):rotate(angle_rad)
+	  local center = Vector2(pos.x + pos.x + size.x, pos.y + pos.y + size.y) / 2
+	  local up_left = Vector2(-size.x/2, size.y/2):rotate(angle_rad)
 	  local up_right = up_left:right()
 	  local down_left = up_left:left()
 	  local down_right = -up_left
-	  pigui.AddImageQuad(ui.icons_texture, center + up_left, center + up_right, center + down_right, center + down_left, uv0, vector2.new(uv1.x, uv0.y), uv1, vector2.new(uv0.x, uv1.y), color)
+	  pigui.AddImageQuad(ui.icons_texture, center + up_left, center + up_right, center + down_right, center + down_left, uv0, Vector2(uv1.x, uv0.y), uv1, Vector2(uv0.x, uv1.y), color)
 	else
 	  pigui.AddImage(ui.icons_texture, pos, pos + size, uv0, uv1, color)
 	end
@@ -331,7 +331,7 @@ ui.addWideIcon = function(position, icon, color, size, anchor_horizontal, anchor
 	local uv0, uv1 = get_wide_icon_tex_coords(icon)
 	if angle_rad then
 	  local center = (pos + pos + size) / 2
-	  local up_left = vector.new(-size.x/2, size.y/2):rotate2d(angle_rad)
+	  local up_left = Vector2(-size.x/2, size.y/2):rotate2d(angle_rad)
 	  local up_right = up_left:right()
 	  local down_left = up_left:left()
 	  local down_right = -up_left
@@ -351,7 +351,7 @@ end
 ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, bg_color)
 	-- always align texts at baseline
 	local spacing = 2
-	local size = vector2.new(0, 0)
+	local size = Vector2(0, 0)
 	local max_offset = 0
 	for i=1,#data do
 		local item = data[i]
@@ -366,7 +366,7 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, b
 			popfont = pigui:PushFont(item.font.name, item.font.size)
 			s = pigui.CalcTextSize(item.text)
 	  else
-			s = vector2.new(item.font.size, item.font.size)
+			s = Vector2(item.font.size, item.font.size)
 	  end
 	  size.x = size.x + s.x
 	  size.x = size.x + spacing -- spacing
@@ -386,8 +386,8 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, b
 	  position.y = position.y - size.y + max_offset
 	end
 	if bg_color then
-		pigui.AddRectFilled(position - vector2.new(textBackgroundMarginPixels, size.y + textBackgroundMarginPixels),
-												position + vector2.new(size.x + textBackgroundMarginPixels, textBackgroundMarginPixels),
+		pigui.AddRectFilled(position - Vector2(textBackgroundMarginPixels, size.y + textBackgroundMarginPixels),
+												position + Vector2(size.x + textBackgroundMarginPixels, textBackgroundMarginPixels),
 												bg_color,
 												0,
 												0)
@@ -401,7 +401,7 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, b
 										position.x = position.x + s.x + spacing
 			end)
 	  else
-			local s = ui.addIcon(position, item.text, item.color, vector2.new(item.font.size, item.font.size), ui.anchor.left, ui.anchor.bottom, item.tooltip)
+			local s = ui.addIcon(position, item.text, item.color, Vector2(item.font.size, item.font.size), ui.anchor.left, ui.anchor.bottom, item.tooltip)
 			position.x = position.x + s.x + spacing
 	  end
 	end
@@ -410,7 +410,7 @@ end
 
 ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, color, font, tooltip, bg_color)
 	-- addStyledText aligns to upper left
-	local size = vector2.new(0, 0)
+	local size = Vector2(0, 0)
 	ui.withFont(font.name, font.size, function()
 								size = pigui.CalcTextSize(text)
 								local vert
@@ -424,14 +424,14 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 									position.y = position.y - font.offset
 								end
 								if bg_color then
-									pigui.AddRectFilled(vector2.new(position.x - textBackgroundMarginPixels, position.y - size.y + textBackgroundMarginPixels),
-														vector2.new(position.x + size.x + textBackgroundMarginPixels, position.y + textBackgroundMarginPixels),
+									pigui.AddRectFilled(Vector2(position.x - textBackgroundMarginPixels, position.y - size.y + textBackgroundMarginPixels),
+														Vector2(position.x + size.x + textBackgroundMarginPixels, position.y + textBackgroundMarginPixels),
 														bg_color,
 														0,
 														0)
 								end
 								pigui.AddText(position, color, text)
-								-- pigui.AddQuad(position, position + vector2.new(size.x, 0), position + vector2.new(size.x, size.y), position + vector.new(0, size.y), colors.red, 1.0)
+								-- pigui.AddQuad(position, position + Vector2(size.x, 0), position + Vector2(size.x, size.y), position + vector.new(0, size.y), colors.red, 1.0)
 	end)
 	if tooltip and (pigui.IsMouseHoveringWindow() or not pigui.IsMouseHoveringAnyWindow()) and tooltip ~= "" then
 	  if pigui.IsMouseHoveringRect(position, position + size, true) then
@@ -552,7 +552,7 @@ ui.playBoinkNoise = function ()
 end
 
 local shouldShowRadialMenu = false
-local radialMenuPos = vector2.new(0,0)
+local radialMenuPos = Vector2(1,2)
 local radialMenuSize = 10
 local radialMenuTarget = nil
 local radialMenuMouseButton = 1
@@ -754,20 +754,20 @@ ui.gauge_width = 275
 ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color, tooltip)
 	local percent = math.clamp((value - minimum) / (maximum - minimum), 0, 1)
 	local offset = 60
-	local uiPos = vector2.new(position.x, position.y)
+	local uiPos = Vector2(position.x, position.y)
 	ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
-								ui.addLine(uiPos, vector2.new(uiPos.x + ui.gauge_width, uiPos.y), ui.theme.colors.gaugeBackground, ui.gauge_height)
+								ui.addLine(uiPos, Vector2(uiPos.x + ui.gauge_width, uiPos.y), ui.theme.colors.gaugeBackground, ui.gauge_height)
 								if gauge_show_percent then
 									local one_hundred = ui.calcTextSize("100")
 									uiPos.x = uiPos.x + one_hundred.x * 1.2 -- 1.2 for a bit of slack
-									ui.addStyledText(vector2.new(uiPos.x, uiPos.y + ui.gauge_height / 12), ui.anchor.right, ui.anchor.center, string.format("%i", percent * 100), ui.theme.colors.reticuleCircle, ui.fonts.pionillium.medium, tooltip)
+									ui.addStyledText(Vector2(uiPos.x, uiPos.y + ui.gauge_height / 12), ui.anchor.right, ui.anchor.center, string.format("%i", percent * 100), ui.theme.colors.reticuleCircle, ui.fonts.pionillium.medium, tooltip)
 								end
 								uiPos.x = uiPos.x + ui.gauge_height * 1.2
-								ui.addIcon(vector2.new(uiPos.x - ui.gauge_height/2, uiPos.y), icon, ui.theme.colors.reticuleCircle, vector2.new(ui.gauge_height * 0.9, ui.gauge_height * 0.9), ui.anchor.center, ui.anchor.center, tooltip)
+								ui.addIcon(Vector2(uiPos.x - ui.gauge_height/2, uiPos.y), icon, ui.theme.colors.reticuleCircle, Vector2(ui.gauge_height * 0.9, ui.gauge_height * 0.9), ui.anchor.center, ui.anchor.center, tooltip)
 								local w = (position.x + ui.gauge_width) - uiPos.x
-								ui.addLine(uiPos, vector2.new(uiPos.x + w * percent, uiPos.y), color, ui.gauge_height)
+								ui.addLine(uiPos, Vector2(uiPos.x + w * percent, uiPos.y), color, ui.gauge_height)
 								if value and format then
-									ui.addFancyText(vector2.new(uiPos.x + ui.gauge_height/2, uiPos.y + ui.gauge_height/4), ui.anchor.left, ui.anchor.center, {
+									ui.addFancyText(Vector2(uiPos.x + ui.gauge_height/2, uiPos.y + ui.gauge_height/4), ui.anchor.left, ui.anchor.center, {
 																		{ text=string.format(format, value), color=ui.theme.colors.reticuleCircle,     font=ui.fonts.pionillium.small, tooltip=tooltip },
 																		{ text=unit,                         color=ui.theme.colors.reticuleCircleDark, font=ui.fonts.pionillium.small, tooltip=tooltip }},
 																	ui.theme.colors.gaugeBackground)
@@ -795,16 +795,16 @@ ui.displayPlayerGauges = function()
 	end
 	c = c + 0.1
 	if current_view == "world" then
-		ui.setNextWindowSize(vector2.new(ui.gauge_width, ui.gauge_height * c * gauge_stretch), "Always")
+		ui.setNextWindowSize(Vector2(ui.gauge_width, ui.gauge_height * c * gauge_stretch), "Always")
 		local tws = ui.timeWindowSize
 		if not tws then
-			tws = vector2.new(0, 100)
+			tws = Vector2(0, 100)
 		end
 		tws.y = tws.y + 30 -- extra offset
-		ui.setNextWindowPos(vector2.new(5, ui.screenHeight - tws.y - ui.gauge_height * c * gauge_stretch), "Always")
+		ui.setNextWindowPos(Vector2(5, ui.screenHeight - tws.y - ui.gauge_height * c * gauge_stretch), "Always")
 		ui.window("PlayerGauges", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 							function()
-								local uiPos = ui.getWindowPos() + vector2.new(0, ui.gauge_height)
+								local uiPos = ui.getWindowPos() + Vector2(0, ui.gauge_height)
 								for k,v in pairs(gauges) do
 									local g = v.fun()
 									if g and g.value then

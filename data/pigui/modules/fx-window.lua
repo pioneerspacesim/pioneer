@@ -15,7 +15,7 @@ local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local mainButtonSize = vector2.new(32,32) * (ui.screenHeight / 1200)
+local mainButtonSize = Vector2(32,32) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
 local function mainMenuButton(icon, selected, tooltip, color)
 	if color == nil then
@@ -137,8 +137,8 @@ local function displayFxWindow()
 	if ui.showOptionsWindow then return end
 	player = Game.player
 	local current_view = Game.CurrentView()
-	ui.setNextWindowSize(vector2.new((mainButtonSize.x + mainButtonFramePadding * 2) * 10, (mainButtonSize.y + mainButtonFramePadding * 2) * 1.5), "Always")
-	ui.setNextWindowPos(vector2.new(ui.screenWidth/2 - (mainButtonSize.x + 4 * mainButtonFramePadding) * 7.5/2, 0) , "Always")
+	ui.setNextWindowSize(Vector2((mainButtonSize.x + mainButtonFramePadding * 2) * 10, (mainButtonSize.y + mainButtonFramePadding * 2) * 1.5), "Always")
+	ui.setNextWindowPos(Vector2(ui.screenWidth/2 - (mainButtonSize.x + 4 * mainButtonFramePadding) * 7.5/2, 0) , "Always")
 	ui.window("Fx", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 						function()
 							button_world(current_view)

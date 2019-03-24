@@ -19,9 +19,9 @@ local colors = ui.theme.colors
 local icons = ui.theme.icons
 local pionillium = ui.fonts.pionillium
 
-local mainButtonSize = vector2.new(40,40) * (ui.screenHeight / 1200)
-local optionButtonSize = vector2.new(125,40) * (ui.screenHeight / 1200)
-local bindingButtonSize = vector2.new(135,25) * (ui.screenHeight / 1200)
+local mainButtonSize = Vector2(40,40) * (ui.screenHeight / 1200)
+local optionButtonSize = Vector2(125,40) * (ui.screenHeight / 1200)
+local bindingButtonSize = Vector2(135,25) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
 
 local saveFileCache = {}

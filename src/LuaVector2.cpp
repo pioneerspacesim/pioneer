@@ -15,6 +15,16 @@ static int l_vector_new(lua_State *L)
 	return 1;
 }
 
+static int l_vector_call(lua_State *L)
+{
+	LUA_DEBUG_START(L);
+	double x = luaL_checknumber(L, 2);
+	double y = luaL_checknumber(L, 3);
+	LuaVector2::PushToLua(L, vector2d(x, y));
+	LUA_DEBUG_END(L, 1);
+	return 1;
+}
+
 static int l_vector_unit(lua_State *L)
 {
 	LUA_DEBUG_START(L);
@@ -111,7 +121,7 @@ static int l_vector_new_index(lua_State *L)
 		}
 
 	} else {
-		luaL_error(L, "Expected vector2, but type is '%s'", lua_typename(L,2));
+		luaL_error(L, "Expected vector2, but type is '%s'", lua_typename(L,lua_type(L, 2)));
 	}
 	LuaVector2::PushToLua(L, *v);
 	return 1;
@@ -218,14 +228,20 @@ static luaL_Reg l_vector_meta[] = {
 	{ 0, 0 }
 };
 
-const char LuaVector2::LibName[] = "vector2";
-const char LuaVector2::TypeName[] = "vector2";
+const char LuaVector2::LibName[] = "Vector2";
+const char LuaVector2::TypeName[] = "Vector2";
 
 void LuaVector2::Register(lua_State *L)
 {
 	LUA_DEBUG_START(L);
 
 	luaL_newlib(L, l_vector_lib);
+
+	lua_newtable(L);
+	lua_pushcfunction(L, &l_vector_call);
+	lua_setfield(L, -2, "__call");
+	lua_setmetatable(L, -2);
+
 	lua_setglobal(L, LuaVector2::LibName);
 
 	luaL_newmetatable(L, LuaVector2::TypeName);

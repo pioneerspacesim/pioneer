@@ -212,17 +212,17 @@ end
 
 -- display the HUD markers in space for ship forward, backward, left, right, up and down
 local function displayDirectionalMarkers()
-	local aux = vector.new(0,0,0)
+	local aux = Vector3(0,0,0)
 	local function displayDirectionalMarker(ship_space, icon, showDirection, angle)
 		local screen = Engine.ShipSpaceToScreenSpace(ship_space)
-		local coord = vector2.new(screen.x, screen.y)
+		local coord = Vector2(screen.x, screen.y)
 		if screen.z <= 0 then
-			ui.addIcon(coord, icon, colors.reticuleCircle, vector2.new(32, 32), ui.anchor.center, ui.anchor.center, nil, angle)
+			ui.addIcon(coord, icon, colors.reticuleCircle, Vector2(32, 32), ui.anchor.center, ui.anchor.center, nil, angle)
 		end
 		return showDirection and (coord - center):length() > reticuleCircleRadius
 	end
 	local function angle(forward, adjust)
-		local aux2 = vector2.new(forward.x, forward.y)
+		local aux2 = Vector2(forward.x, forward.y)
 		if forward.z >= 1 then
 			return aux2:angle() + adjust - ui.pi
 		else
@@ -231,7 +231,7 @@ local function displayDirectionalMarkers()
 	end
 	aux.z = -1
 	local forward = Engine.ShipSpaceToScreenSpace(aux)
-	local forward2 = vector2.new(forward.x, forward.y) - center
+	local forward2 = Vector2(forward.x, forward.y) - center
 	local showDirection = displayDirectionalMarker(aux, icons.forward, true)
 	aux.z = 1
 	showDirection = displayDirectionalMarker(aux, icons.backward, showDirection)
@@ -247,7 +247,7 @@ local function displayDirectionalMarkers()
 	showDirection = displayDirectionalMarker(aux, icons.left, showDirection)
 
 	if showDirection then
-		ui.addIcon(center, icons.direction_forward, colors.reticuleCircle, vector2.new(32, 32), ui.anchor.center, ui.anchor.center, nil, angle(forward, 0))
+		ui.addIcon(center, icons.direction_forward, colors.reticuleCircle, Vector2(32, 32), ui.anchor.center, ui.anchor.center, nil, angle(forward, 0))
 	end
 end
 
@@ -277,9 +277,9 @@ end
 
 -- show the larger indicator "in-space" around something and maybe the small indicator inside the reticule circle
 local function displayIndicator(onscreen, position, direction, icon, color, showIndicator, tooltip)
-	local size = vector2.new(32, 32) -- size of full icon
-	local indicatorSize = vector2.new(16, 16) -- size of small indicator inside the reticule circle
-	local dir = vector2.new(direction.x, direction.y) * reticuleCircleRadius * 0.90
+	local size = Vector2(32, 32) -- size of full icon
+	local indicatorSize = Vector2(16, 16) -- size of small indicator inside the reticule circle
+	local dir = Vector2(direction.x, direction.y) * reticuleCircleRadius * 0.90
 	local indicator = center + dir
 	if onscreen then
 		ui.addIcon(position, icon, color, size, ui.anchor.center, ui.anchor.center)
@@ -305,24 +305,24 @@ local function displayDetailButtons(radius, navTarget, combatTarget)
 	local size = 24
 	if combatTarget or navTarget then
 		local color = reticuleTarget == "frame" and colors.reticuleCircle or colors.reticuleCircleDark
-		ui.addIcon(uiPos, icons.display_frame, color, vector2.new(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_FRAME)
-		if ui.isMouseClicked(0) and (mouse_position - (uiPos + vector2.new(size/2, -size/2))):magnitude() < size/2 then
+		ui.addIcon(uiPos, icons.display_frame, color, Vector2(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_FRAME)
+		if ui.isMouseClicked(0) and (mouse_position - (uiPos + Vector2(size/2, -size/2))):magnitude() < size/2 then
 			reticuleTarget = "frame"
 		end
 		uiPos.x = uiPos.x + size
 	end
 	if navTarget then
 		local color = reticuleTarget == "navTarget" and colors.reticuleCircle or colors.reticuleCircleDark
-		ui.addIcon(uiPos, icons.display_navtarget, color, vector2.new(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_NAV_TARGET)
-		if ui.isMouseClicked(0) and (mouse_position - (uiPos + vector2.new(size/2, -size/2))):magnitude() < size/2 then
+		ui.addIcon(uiPos, icons.display_navtarget, color, Vector2(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_NAV_TARGET)
+		if ui.isMouseClicked(0) and (mouse_position - (uiPos + Vector2(size/2, -size/2))):magnitude() < size/2 then
 			reticuleTarget = "navTarget"
 		end
 		uiPos.x = uiPos.x + size
 	end
 	if combatTarget then
 		local color = reticuleTarget == "combatTarget" and colors.reticuleCircle or colors.reticuleCircleDark
-		ui.addIcon(uiPos, icons.display_combattarget, color, vector2.new(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_COMBAT_TARGET)
-		if ui.isMouseClicked(0) and (mouse_position - (uiPos + vector2.new(size/2, -size/2))):magnitude() < size/2 then
+		ui.addIcon(uiPos, icons.display_combattarget, color, Vector2(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_COMBAT_TARGET)
+		if ui.isMouseClicked(0) and (mouse_position - (uiPos + Vector2(size/2, -size/2))):magnitude() < size/2 then
 			reticuleTarget = "combatTarget"
 		end
 	end
@@ -336,7 +336,7 @@ local function displayDetailData(target, radius, combatTarget, navTarget, colorL
 	-- label of target
 	local tooltip = reticuleTarget == "combatTarget" and lui.HUD_CURRENT_COMBAT_TARGET or (reticuleTarget == "navTarget" and lui.HUD_CURRENT_NAV_TARGET or lui.HUD_CURRENT_FRAME)
 	local nameSize = ui.addStyledText(uiPos, ui.anchor.left, ui.anchor.baseline, target.label, colorDark, pionillium.medium, tooltip, colors.lightBlackBackground)
-	if ui.isMouseHoveringRect(uiPos - vector2.new(0, pionillium.medium.offset), uiPos + nameSize - vector2.new(0, pionillium.medium.offset)) and ui.isMouseClicked(1) and ui.noModifierHeld() then
+	if ui.isMouseHoveringRect(uiPos - Vector2(0, pionillium.medium.offset), uiPos + nameSize - Vector2(0, pionillium.medium.offset)) and ui.isMouseClicked(1) and ui.noModifierHeld() then
 		ui.openDefaultRadialMenu(target)
 	end
 	-- current distance, relative speed
@@ -554,7 +554,7 @@ end
 
 local function displayAlertMarker()
 	local alert = player:GetAlertState()
-	local iconsize = vector2.new(24, 24)
+	local iconsize = Vector2(24, 24)
 	if alert then
 		local uiPos = ui.pointOnClock(center, reticuleCircleRadius * 1.2 , 2)
 		if alert == "ship-firing" then
@@ -608,7 +608,7 @@ local function displayReticule()
 end
 
 local function displayHyperspace()
-	local uiPos = vector2.new(ui.screenWidth / 2, ui.screenHeight / 2 - 10)
+	local uiPos = Vector2(ui.screenWidth / 2, ui.screenHeight / 2 - 10)
 	local path,destName = player:GetHyperspaceDestination()
 	local label = string.interp(lui.HUD_IN_TRANSIT_TO_N_X_X_X, { system = destName, x = path.sectorX, y = path.sectorY, z = path.sectorZ })
 	local r = ui.addStyledText(uiPos, ui.anchor.center, ui.anchor.bottom, label, colors.hyperspaceInfo, pionillium.large, nil, colors.lightBlackBackground)
@@ -691,12 +691,12 @@ local function displayTargetScannerFor(target, offset)
 	else
 		engine = 'No Hyperdrive'
 	end
-	local uiPos = vector2.new(ui.screenWidth - 30, 1 * ui.gauge_height)
+	local uiPos = Vector2(ui.screenWidth - 30, 1 * ui.gauge_height)
 	if shield then
-		ui.gauge(uiPos - vector2.new(ui.gauge_width, 0), shield, nil, nil, 0, 100, icons.shield, colors.gaugeShield, lui.HUD_SHIELD_STRENGTH)
+		ui.gauge(uiPos - Vector2(ui.gauge_width, 0), shield, nil, nil, 0, 100, icons.shield, colors.gaugeShield, lui.HUD_SHIELD_STRENGTH)
 	end
 	uiPos.y = uiPos.y + ui.gauge_height * 1.5
-	ui.gauge(uiPos - vector2.new(ui.gauge_width, 0), hull, nil, nil, 0, 100, icons.hull, colors.gaugeHull, lui.HUD_HULL_STRENGTH)
+	ui.gauge(uiPos - Vector2(ui.gauge_width, 0), hull, nil, nil, 0, 100, icons.hull, colors.gaugeHull, lui.HUD_HULL_STRENGTH)
 	uiPos.y = uiPos.y + ui.gauge_height * 0.8
 	local r = ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, label, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
 	uiPos.y = uiPos.y + r.y + offset
@@ -715,12 +715,12 @@ local function displayTargetScannerFor(target, offset)
 										{ text=cargo, color=colors.reticuleCircle, font=pionillium.medium },
 										{ text=lc.UNIT_TONNES, color=colors.reticuleCircleDark, font=pionillium.medium }},
 									colors.lightBlackBackground)
-	shipInfoLowerBound = uiPos + vector2.new(0, r.y + 15)
+	shipInfoLowerBound = uiPos + Vector2(0, r.y + 15)
 end
 
 local function displayTargetScanner()
 	local offset = 7
-	shipInfoLowerBound = vector2.new(ui.screenWidth - 30, 1 * ui.gauge_height)
+	shipInfoLowerBound = Vector2(ui.screenWidth - 30, 1 * ui.gauge_height)
 	if player:GetEquipCountOccupied('target_scanner') > 0 or player:GetEquipCountOccupied('advanced_target_scanner') > 0 then
            -- what is the difference between target_scanner and advanced_target_scanner?
 		local target = player:GetNavTarget()
@@ -744,10 +744,10 @@ local function displayTargetScanner()
 				local path,destName = ship:GetHyperspaceDestination()
 				local date = target:GetDueDate()
 				local dueDate = ui.Format.Datetime(date)
-				local uiPos = shipInfoLowerBound + vector2.new(0, 15)
+				local uiPos = shipInfoLowerBound + Vector2(0, 15)
 				local name = (arrival and lc.HYPERSPACE_ARRIVAL_CLOUD or lc.HYPERSPACE_DEPARTURE_CLOUD)
 				local r = ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, name , colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
-				uiPos = uiPos + vector2.new(0, r.y + offset)
+				uiPos = uiPos + Vector2(0, r.y + offset)
 				r = ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.top, {
 													{ text=lui.HUD_MASS .. ' ', color=colors.reticuleCircleDark, font=pionillium.medium },
 													{ text=mass, color=colors.reticuleCircle, font=pionillium.medium },
@@ -758,7 +758,7 @@ local function displayTargetScanner()
 				uiPos.y = uiPos.y + r.y + offset
 				ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, dueDate, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
 			else
-				local uiPos = vector2.new(ui.screenWidth - 30, 1 * ui.gauge_height)
+				local uiPos = Vector2(ui.screenWidth - 30, 1 * ui.gauge_height)
 				ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, lc.HYPERSPACE_ARRIVAL_CLOUD_REMNANT , colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
 			end
 		end
@@ -769,7 +769,7 @@ local function displayHyperspaceCountdown()
 	if player:IsHyperspaceActive() then
 		local countdown = math.ceil(player:GetHyperspaceCountdown())
                 local path,destName = player:GetHyperspaceDestination()
-		local uiPos = vector2.new(ui.screenWidth / 2, ui.screenHeight / 3)
+		local uiPos = Vector2(ui.screenWidth / 2, ui.screenHeight / 3)
 		ui.addStyledText(uiPos, ui.anchor.center, ui.anchor.bottom, string.interp(lui.HUD_HYPERSPACING_TO_N_IN_N_SECONDS ,{ destination = destName, countdown = countdown }), colors.hyperspaceInfo, pionillium.large)
 	end
 end
@@ -807,7 +807,7 @@ local function displayOnScreenObjects()
 	ui.radialMenu("onscreenobjects")
 
 	local should_show_label = ui.shouldShowLabels()
-	local iconsize = vector2.new(18 , 18)
+	local iconsize = Vector2(18 , 18)
 	local label_offset = 14 -- enough so that the target rectangle fits
 	local collapse = iconsize
 	local bodies_grouped = ui.getProjectedBodiesGrouped(collapse)
@@ -858,20 +858,32 @@ local function displayOnScreenObjects()
 		-- popup content
 		ui.popup("navtarget" .. mainBody:GetLabel(), function()
 			local size = Vector2(16,16)
-			for v=2,#group  do
-				ui.icon(getBodyIcon(group[v].body), size, colors.frame)
-				ui.sameLine()
-				if ui.selectable(group[v].body:GetLabel(), group[v].body == navTarget, {}) then
-					if navTarget == group[v].body then
-						-- if clicked and has nav target, unset nav target
-						player:SetNavTarget(nil)
-						navTarget = nil
-					elseif combatTarget == mainBody then
-						-- if clicked and has combat target, unset nav target
-						player:SetCombatTarget(nil)
-						combatTarget = nil
-					else
-						setTarget(group[v].body)
+			ui.icon(getBodyIcon(mainBody), size, colors.frame)
+			ui.sameLine()
+			if ui.selectable(mainBody:GetLabel(), mainBody == navTarget, {}) then
+				if mainBody:IsShip() then
+					player:SetCombatTarget(mainBody)
+				else
+					player:SetNavTarget(mainBody)
+				end
+				if ui.ctrlHeld() then
+					local target = mainBody
+					if target == player:GetSetSpeedTarget() then
+						target = nil
+					end
+					player:SetSetSpeedTarget(target)
+				end
+			end
+			for _,v in pairs(group) do
+				if v.body then
+					ui.icon(getBodyIcon(v.body), size, colors.frame)
+					ui.sameLine()
+					if ui.selectable(v.body:GetLabel(), v.body == navTarget, {}) then
+						if v.body:IsShip() then
+							player:SetCombatTarget(v.body)
+						else
+							player:SetNavTarget(v.body)
+						end
 					end
 				end
 			end
@@ -887,7 +899,7 @@ local function displayScreenshotInfo()
 			local frame = player.frameBody
 			if frame then
 				local info = frame.label .. ", " .. current_system.name .. " (" .. current_path.sectorX .. ", " .. current_path.sectorY .. ", " .. current_path.sectorZ .. ")"
-				ui.addStyledText(vector2.new(20, 20), ui.anchor.left, ui.anchor.top, info , colors.white, pionillium.large)
+				ui.addStyledText(Vector2(20, 20), ui.anchor.left, ui.anchor.top, info , colors.white, pionillium.large)
 			end
 		end
 	end
@@ -898,11 +910,11 @@ ui.registerHandler('game', function(delta_t)
 		player = Game.player
 		colors = ui.theme.colors -- if the theme changes
 		icons = ui.theme.icons -- if the theme changes
-		ui.setNextWindowPos(vector2.new(0, 0), "Always")
-		ui.setNextWindowSize(vector2.new(ui.screenWidth, ui.screenHeight), "Always")
+		ui.setNextWindowPos(Vector2(0, 0), "Always")
+		ui.setNextWindowSize(Vector2(ui.screenWidth, ui.screenHeight), "Always")
 		ui.withStyleColors({ ["WindowBg"] = colors.transparent }, function()
 			ui.window("HUD", {"NoTitleBar", "NoResize", "NoMove", "NoInputs", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}, function()
-				center = vector2.new(ui.screenWidth / 2, ui.screenHeight / 2)
+				center = Vector2(ui.screenWidth / 2, ui.screenHeight / 2)
 				if Game.CurrentView() == "world" then
 					if ui.shouldDrawUI() then
 						if Game.InHyperspace() then
