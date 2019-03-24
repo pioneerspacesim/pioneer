@@ -191,6 +191,19 @@ if (WIN32)
 	configure_file(pioneer.rc.cmakein ${RESOURCES} @ONLY)
 endif()
 
+if (USE_PIONEER_THIRDPARTY)
+    set(SDL2_LIBRARIES "${SDL2_STATIC_LIBRARIES}")
+    set(SDL2_IMAGE_LIBRARIES "${SDL2_IMAGE_STATIC_LIBRARIES}")
+endif()
+
+link_directories(
+	${ASSIMP_LIBRARY_DIRS}
+	${SDL2_LIBRARY_DIRS}
+	${SDL2_IMAGE_LIBRARY_DIRS}
+	${SIGCPP_LIBRARY_DIRS}
+	${VORBISFILE_LIBRARY_DIRS}
+)
+
 add_executable(${PROJECT_NAME} WIN32 src/main.cpp ${RESOURCES})
 add_executable(modelcompiler WIN32 src/modelcompiler.cpp)
 add_executable(savegamedump WIN32
@@ -206,11 +219,6 @@ add_executable(savegamedump WIN32
 	# This one's in here because there's no such thing as separation in the codebase.
 	src/PngWriter.cpp
 )
-
-if (USE_PIONEER_THIRDPARTY)
-    set(SDL2_LIBRARIES "${SDL2_STATIC_LIBRARIES}")
-    set(SDL2_IMAGE_LIBRARIES "${SDL2_IMAGE_STATIC_LIBRARIES}")
-endif()
 
 list(APPEND pioneerLibs
 	pioneerLib
