@@ -32,6 +32,7 @@ local function showItem(item)
 end
 
 local function displayCommsLog()
+	local aux = Vector2(0, 0)
 	local current_view = Game.CurrentView()
 	if current_view == "world" then
 		ui.setNextWindowPos(Vector2(10, 10) , "Always")
@@ -43,8 +44,10 @@ local function displayCommsLog()
 		end)
 		ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
 									if not fullComms then -- not fullComms, show small window
-										ui.setNextWindowSize(Vector2(ui.screenWidth / 4, ui.screenHeight / 8) , "Always")
-										ui.setNextWindowPos(Vector2(mainButtonSize.x + 2 * mainButtonFramePadding + 15, 10) , "Always")
+										aux = Vector2(ui.screenWidth / 4, ui.screenHeight / 8)
+										ui.setNextWindowSize(aux , "Always")
+										aux = Vector2(mainButtonSize.x + 2 * mainButtonFramePadding + 15, 10)
+										ui.setNextWindowPos(aux , "Always")
 										ui.window("ShortCommsLog", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 															function()
 																local last = nil
@@ -77,8 +80,10 @@ local function displayCommsLog()
 																ui.popTextWrapPos()
 										end)
 									else  -- fullComms, show large window
-										ui.setNextWindowSize(Vector2(ui.screenWidth / 3, ui.screenHeight / 4) , "Always")
-										ui.setNextWindowPos(Vector2(mainButtonSize.x + 2 * mainButtonFramePadding + 25, 20) , "Always")
+										aux = Vector2(ui.screenWidth / 3, ui.screenHeight / 4)
+										ui.setNextWindowSize(aux , "Always")
+										aux = Vector2(mainButtonSize.x + 2 * mainButtonFramePadding + 25, 20)
+										ui.setNextWindowPos(aux , "Always")
 										ui.withStyleColors({ ["WindowBg"] = colors.commsWindowBackground }, function()
 												ui.withStyleVars({ ["WindowRounding"] = 0.0 }, function()
 														ui.window("CommsLog", {"NoResize"},

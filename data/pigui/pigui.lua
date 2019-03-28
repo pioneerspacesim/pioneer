@@ -552,7 +552,7 @@ ui.playBoinkNoise = function ()
 end
 
 local shouldShowRadialMenu = false
-local radialMenuPos = Vector2(1,2)
+local radialMenuPos = Vector2(0,0)
 local radialMenuSize = 10
 local radialMenuTarget = nil
 local radialMenuMouseButton = 1

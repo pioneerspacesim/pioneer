@@ -68,8 +68,6 @@ local function button_lowThrustPower()
 end
 
 local function button_thrustIndicator()
-	local size = Vector2(3, 2)
-	-- local size = Vector2(1.5, 1)
 	ui.withStyleColors({
 			["Button"] = colors.buttonBlue:shade(0.6),
 			["ButtonHovered"] = colors.buttonBlue:shade(0.4),
@@ -81,10 +79,7 @@ local function button_thrustIndicator()
 			local thrust = player:GetThrusterState()
 			local v = ui.getCursorPos();
 			ui.setCursorPos(Vector2(v.x, 20));
-			-- FIXME: It was mainButtonSize * size, but a vector * vector result
-			-- either in a scalar number or in a matrix while 'ui.thrustIndicator'
-			-- expect a vector... Which one? May it be the cross-product?...
-			ui.thrustIndicator("foo", mainButtonSize * 2.5, thrust, vel, colors.lightBlueBackground, mainButtonFramePadding, colors.gaugeVelocityLight, colors.gaugeVelocityDark, colors.gaugeThrustLight, colors.gaugeThrustDark)
+			ui.thrustIndicator("foo", Vector2(mainButtonSize.x * 3.0, mainButtonSize.y * 2.0), thrust, vel, colors.lightBlueBackground, mainButtonFramePadding, colors.gaugeVelocityLight, colors.gaugeVelocityDark, colors.gaugeThrustLight, colors.gaugeThrustDark)
 			if ui.isItemHovered() then
 				ui.setTooltip(lui.HUD_THRUST_INDICATOR)
 			end

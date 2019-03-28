@@ -137,8 +137,10 @@ local function displayFxWindow()
 	if ui.showOptionsWindow then return end
 	player = Game.player
 	local current_view = Game.CurrentView()
-	ui.setNextWindowSize(Vector2((mainButtonSize.x + mainButtonFramePadding * 2) * 10, (mainButtonSize.y + mainButtonFramePadding * 2) * 1.5), "Always")
-	ui.setNextWindowPos(Vector2(ui.screenWidth/2 - (mainButtonSize.x + 4 * mainButtonFramePadding) * 7.5/2, 0) , "Always")
+	local aux = Vector2((mainButtonSize.x + mainButtonFramePadding * 2) * 10, (mainButtonSize.y + mainButtonFramePadding * 2) * 1.5)
+	ui.setNextWindowSize(aux, "Always")
+	aux = Vector2(ui.screenWidth/2 - (mainButtonSize.x + 4 * mainButtonFramePadding) * 7.5/2, 0)
+	ui.setNextWindowPos(aux , "Always")
 	ui.window("Fx", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 						function()
 							button_world(current_view)
