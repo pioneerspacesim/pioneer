@@ -11,6 +11,8 @@
 
 class Body;
 
+bool first_body_is_more_important_than(Body* body, Body* other);
+
 struct TScreenSpace
 {
 	TScreenSpace(const bool onScreen, const vector2d &screenPos, const vector3d &direction) : _onScreen(onScreen), _screenPosition(screenPos), _direction(direction) {}

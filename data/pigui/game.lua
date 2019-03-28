@@ -219,14 +219,14 @@ local function displayDirectionalMarkers()
 		if screen.z <= 0 then
 			ui.addIcon(coord, icon, colors.reticuleCircle, vector2.new(32, 32), ui.anchor.center, ui.anchor.center, nil, angle)
 		end
-		return showDirection and (coord - center):magnitude() > reticuleCircleRadius
+		return showDirection and (coord - center):length() > reticuleCircleRadius
 	end
 	local function angle(forward, adjust)
-		local aux = vector2.new(forward.x, forward.y)
+		local aux2 = vector2.new(forward.x, forward.y)
 		if forward.z >= 1 then
-			return aux:angle() + adjust - ui.pi
+			return aux2:angle() + adjust - ui.pi
 		else
-			return aux:angle() + adjust
+			return aux2:angle() + adjust
 		end
 	end
 	aux.z = -1
@@ -612,7 +612,7 @@ local function displayHyperspace()
 	local path,destName = player:GetHyperspaceDestination()
 	local label = string.interp(lui.HUD_IN_TRANSIT_TO_N_X_X_X, { system = destName, x = path.sectorX, y = path.sectorY, z = path.sectorZ })
 	local r = ui.addStyledText(uiPos, ui.anchor.center, ui.anchor.bottom, label, colors.hyperspaceInfo, pionillium.large, nil, colors.lightBlackBackground)
-	uiPos = uiPos + vector2.new(0, r.y + 20)
+	uiPos.y = uiPos.y + r.y + 20
 	local percent = Game.GetHyperspaceTravelledPercentage() * 100
 	label = string.interp(lui.HUD_JUMP_COMPLETE, { percent = string.format("%2.1f", percent) })
 	ui.addStyledText(uiPos, ui.anchor.center, ui.anchor.top, label, colors.hyperspaceInfo, pionillium.large, nil, colors.lightBlackBackground)
@@ -664,7 +664,7 @@ local function getBodyIcon(body)
 end
 
 local function setTarget(body)
-	if body:IsShip() then
+	if body:IsShip() or body:IsMissile() then
 		player:SetCombatTarget(body)
 	else
 		player:SetNavTarget(body)
@@ -753,9 +753,9 @@ local function displayTargetScanner()
 													{ text=mass, color=colors.reticuleCircle, font=pionillium.medium },
 													{ text=lc.UNIT_TONNES, color=colors.reticuleCircleDark, font=pionillium.medium }},
 												colors.lightBlackBackground)
-				uiPos = uiPos + vector2.new(0, r.y + offset)
+				uiPos.y = uiPos.y + r.y + offset
 				r = ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, destName, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
-				uiPos = uiPos + vector2.new(0, r.y + offset)
+				uiPos.y = uiPos.y + r.y + offset
 				ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, dueDate, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
 			else
 				local uiPos = vector2.new(ui.screenWidth - 30, 1 * ui.gauge_height)
@@ -812,98 +812,66 @@ local function displayOnScreenObjects()
 	local collapse = iconsize
 	local bodies_grouped = ui.getProjectedBodiesGrouped(collapse)
 
-	for k,group in pairs(bodies_grouped) do
-		local mainBody
-		local mainCoords
-		local multiple = 0
-		local hasNavTarget = false
-		local hasCombatTarget = false
-		for _,w in pairs(group) do
-			if w.body then -- Is a body of this group
-				if not mainBody then
-					-- Store this body because... is the first seen
-					mainBody = w.body
-				else
-					-- Check this is "more important" than, and if is a target
-					-- or a nav target
-					multiple = multiple + 1
-					if w.body:IsMoreImportantThan(mainBody) then
-						mainBody = w.body
-					end
-					if w.body == navtarget then hasNavTarget = true end
-					if w.body == combatTarget then hasCombatTarget = true end
-				end
-			else -- Is the "center"
-				mainCoords = vector2.new(w.screenCoordinates.x, w.screenCoordinates.y)
-			end
+	for _,group in ipairs(bodies_grouped) do
+		local mainBody = group[2].body
+		local mainCoords = group[1].screenCoordinates
+		local count = #group - 1
+		local label = mainBody:GetLabel()
+
+		if count > 1 then
+			label = label .. " (" .. count .. ")"
 		end
+
 		ui.addIcon(mainCoords, getBodyIcon(mainBody), colors.frame, iconsize, ui.anchor.center, ui.anchor.center)
 		mainCoords.x = mainCoords.x + label_offset
-		ui.addStyledText(mainCoords, ui.anchor.left, ui.anchor.center, mainBody:GetLabel() , colors.frame, pionillium.small)
+
+		ui.addStyledText(mainCoords, ui.anchor.left, ui.anchor.center, label , colors.frame, pionillium.small)
 		local mp = ui.getMousePos()
 		-- mouse release handler for radial menu
-		if vector2.new(mp.x - mainCoords.x,mp.y - mainCoords.y):magnitude() < iconsize:magnitude() * 1.5 then
+		if (mp - mainCoords):magnitude() < iconsize:magnitude() * 1.5 then
 			if not ui.isMouseHoveringAnyWindow() and ui.isMouseClicked(1) then
 				local body = mainBody
 				ui.openDefaultRadialMenu(body)
 			end
 		end
 		-- mouse release handler
-		if vector2.new(mp.x - mainCoords.x, mp.y - mainCoords.y):magnitude() < iconsize:magnitude() * 1.5 then
+		if (mp - mainCoords):magnitude() < iconsize:magnitude() * 1.5 then
 			if not ui.isMouseHoveringAnyWindow() and ui.isMouseReleased(0) then
-				if hasNavTarget then
-					-- if clicked and has nav target, unset nav target
-					player:SetNavTarget(nil)
-				elseif hasCombatTarget then
-					-- if clicked and has combat target, unset combat target
-					player:SetCombatTarget(nil)
-				else
-					if multiple >= 1 then
-						-- clicked on group, show popup
-						ui.openPopup("navtarget" .. mainBody:GetLabel())
+				if count == 1 then
+					if navTarget == mainBody then
+						-- if clicked and has nav target, unset nav target
+						player:SetNavTarget(nil)
+						navTarget = nil
+					elseif combatTarget == mainBody then
+						-- if clicked and has combat target, unset nav target
+						player:SetCombatTarget(nil)
+						combatTarget = nil
 					else
-						-- clicked on single, just set navtarget/combatTarget
 						setTarget(mainBody)
-						if ui.ctrlHeld() then
-							local target = mainBody
-							if target == player:GetSetSpeedTarget() then
-								target = nil
-							end
-							player:SetSetSpeedTarget(target)
-						end
 					end
+				else
+					-- clicked on group, show popup
+					ui.openPopup("navtarget" .. mainBody:GetLabel())
 				end
 			end
 		end
 		-- popup content
 		ui.popup("navtarget" .. mainBody:GetLabel(), function()
-			local size = vector2.new(16,16)
-			ui.icon(getBodyIcon(mainBody), size, colors.frame)
-			ui.sameLine()
-			if ui.selectable(mainBody:GetLabel(), mainBody == navTarget, {}) then
-				if mainBody:IsShip() then
-					player:SetCombatTarget(mainBody)
-				else
-					player:SetNavTarget(mainBody)
-				end
-				if ui.ctrlHeld() then
-					local target = mainBody
-					if target == player:GetSetSpeedTarget() then
-						target = nil
-					end
-					player:SetSetSpeedTarget(target)
-				end
-			end
-			for _,v in pairs(group) do
-				if v.body then
-					ui.icon(getBodyIcon(v.body), size, colors.frame)
-					ui.sameLine()
-					if ui.selectable(v.body:GetLabel(), v.body == navTarget, {}) then
-						if v.body:IsShip() then
-							player:SetCombatTarget(v.body)
-						else
-							player:SetNavTarget(v.body)
-						end
+			local size = Vector2(16,16)
+			for v=2,#group  do
+				ui.icon(getBodyIcon(group[v].body), size, colors.frame)
+				ui.sameLine()
+				if ui.selectable(group[v].body:GetLabel(), group[v].body == navTarget, {}) then
+					if navTarget == group[v].body then
+						-- if clicked and has nav target, unset nav target
+						player:SetNavTarget(nil)
+						navTarget = nil
+					elseif combatTarget == mainBody then
+						-- if clicked and has combat target, unset nav target
+						player:SetCombatTarget(nil)
+						combatTarget = nil
+					else
+						setTarget(group[v].body)
 					end
 				end
 			end
