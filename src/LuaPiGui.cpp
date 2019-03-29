@@ -822,7 +822,7 @@ static int l_pigui_get_keybinding(lua_State *l)
 			}
 			if (binding.compare("")) break;
 		}
-	} else {
+	} else if (key != 0) {
 		// hard coding is bad, but is instantiating a keybinding every frame worse?
 		binding = "Key" + std::to_string(key);
 		if (mod > 0) binding += "Mod" + std::to_string(mod);
