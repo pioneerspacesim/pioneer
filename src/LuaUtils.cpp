@@ -708,6 +708,8 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_setfield(L, LUA_REGISTRYINDEX, "Imports");
 	lua_pushcfunction(L, l_base_import);
 	lua_setglobal(L, "import");
+	lua_pushcfunction(L, l_base_import);
+	lua_setglobal(L, "require");
 
 	// same for core imports
 	lua_newtable(L);

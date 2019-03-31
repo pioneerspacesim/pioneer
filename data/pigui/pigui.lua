@@ -69,8 +69,8 @@ local textBackgroundMarginPixels = 2
 ui.icons_texture = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), 16 * 64, 16 * 64)
 
 function ui.window(name, params, fun)
-	pigui.Begin(name, params)
-	fun()
+	local ok = pigui.Begin(name, params)
+	if ok then fun() end
 	pigui.End()
 end
 
@@ -522,6 +522,7 @@ ui.shouldDrawUI = pigui.ShouldDrawUI
 ui.getWindowPos = pigui.GetWindowPos
 ui.getWindowSize = pigui.GetWindowSize
 ui.getContentRegion = pigui.GetContentRegion
+ui.getFrameHeightWithSpacing = pigui.GetFrameHeightWithSpacing
 ui.getTargetsNearby = pigui.GetTargetsNearby
 ui.getProjectedBodies = pigui.GetProjectedBodies
 ui.getProjectedBodiesGrouped = pigui.GetProjectedBodiesGrouped
@@ -547,6 +548,7 @@ ui.shiftHeld = function() return pigui.key_shift end
 ui.noModifierHeld = function() return pigui.key_none end
 ui.vSliderInt = pigui.VSliderInt
 ui.sliderInt = pigui.SliderInt
+ui.sliderFloat = pigui.SliderFloat
 
 -- FINALLY OUT OF Pi.cpp! BEGONE!
 ui.playBoinkNoise = function ()
@@ -699,6 +701,7 @@ ui.radialMenu = function(id)
 	end
 	return n
 end
+ui.button = pigui.Button
 ui.coloredSelectedButton = function(label, thesize, is_selected, bg_color, tooltip, enabled)
 	if is_selected then
 		pigui.PushStyleColor("Button", bg_color)

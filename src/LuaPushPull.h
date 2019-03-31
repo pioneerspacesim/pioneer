@@ -46,6 +46,16 @@ inline Type LuaPull(lua_State *l, int index)
 	return value;
 }
 
+// Pull a value with an optional default.
+template <typename Type>
+inline Type LuaPull(lua_State *l, int index, Type defaultVal)
+{
+	Type value = defaultVal;
+	if (lua_gettop(l) >= index && !lua_isnil(l, index))
+		pi_lua_generic_pull(l, index, value);
+	return value;
+}
+
 inline bool pi_lua_strict_pull(lua_State *l, int index, bool &out)
 {
 	if (lua_type(l, index) == LUA_TBOOLEAN) {
