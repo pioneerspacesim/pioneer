@@ -351,8 +351,9 @@ static int l_pigui_begin(lua_State *l)
 	PROFILE_SCOPED()
 	const std::string name = LuaPull<std::string>(l, 1);
 	ImGuiWindowFlags theflags = LuaPull<ImGuiWindowFlags_>(l, 2);
-	ImGui::Begin(name.c_str(), nullptr, theflags);
-	return 0;
+	bool ret = ImGui::Begin(name.c_str(), nullptr, theflags);
+	LuaPush<bool>(l, ret);
+	return 1;
 }
 
 static int l_pigui_columns(lua_State *l)
@@ -530,6 +531,12 @@ static int l_pigui_pop_style_var(lua_State *l)
 	int num = LuaPull<int>(l, 1);
 	ImGui::PopStyleVar(num);
 	return 0;
+}
+
+static int l_pigui_get_frame_height_with_spacing(lua_State *l)
+{
+	LuaPush(l, ImGui::GetFrameHeightWithSpacing());
+	return 1;
 }
 
 static int l_pigui_add_line(lua_State *l)
@@ -1952,6 +1959,21 @@ static int l_pigui_circular_slider(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_slider_float(lua_State *l)
+{
+	PROFILE_SCOPED()
+	std::string lbl = LuaPull<std::string>(l, 1);
+	float value = LuaPull<int>(l, 2);
+	float val_min = LuaPull<int>(l, 3);
+	float val_max = LuaPull<int>(l, 4);
+	std::string format = LuaPull<std::string>(l, 5, "%.3f");
+
+	ImGui::SliderFloat(lbl.c_str(), &value, val_min, val_max, format.c_str());
+
+	LuaPush<float>(l, value);
+	return 1;
+}
+
 static int l_pigui_slider_int(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1959,8 +1981,9 @@ static int l_pigui_slider_int(lua_State *l)
 	int value = LuaPull<int>(l, 2);
 	int val_min = LuaPull<int>(l, 3);
 	int val_max = LuaPull<int>(l, 4);
+	std::string format = LuaPull<std::string>(l, 5, "%d");
 
-	ImGui::SliderInt(lbl.c_str(), &value, val_min, val_max);
+	ImGui::SliderInt(lbl.c_str(), &value, val_min, val_max, format.c_str());
 
 	LuaPush<int>(l, value);
 	return 1;
@@ -2263,6 +2286,7 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "RadialMenu", l_pigui_radial_menu },
 		{ "CircularSlider", l_pigui_circular_slider },
 		{ "SliderInt", l_pigui_slider_int },
+		{ "SliderFloat", l_pigui_slider_float },
 		{ "VSliderFloat", l_pigui_vsliderfloat },
 		{ "VSliderInt", l_pigui_vsliderint },
 		{ "GetMouseClickedPos", l_pigui_get_mouse_clicked_pos },
@@ -2272,6 +2296,7 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "GetWindowPos", l_pigui_get_window_pos },
 		{ "GetWindowSize", l_pigui_get_window_size },
 		{ "GetContentRegion", l_pigui_get_content_region },
+		{ "GetFrameHeightWithSpacing", l_pigui_get_frame_height_with_spacing },
 		{ "InputText", l_pigui_input_text },
 		{ "Combo", l_pigui_combo },
 		{ "ListBox", l_pigui_listbox },
