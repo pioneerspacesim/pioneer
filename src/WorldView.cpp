@@ -69,7 +69,7 @@ WorldView::InputBinding WorldView::InputBindings;
 void WorldView::RegisterInputBindings()
 {
 	using namespace KeyBindings;
-	Input::BindingPage *page = Pi::input.GetBindingPage("VIEW");
+	Input::BindingPage *page = Pi::input.GetBindingPage("General");
 	Input::BindingGroup *group;
 
 #define BINDING_GROUP(n) group = page->GetBindingGroup(#n);
@@ -78,7 +78,7 @@ void WorldView::RegisterInputBindings()
 #define AXIS_BINDING(n, id, k1, k2) InputBindings.n = Pi::input.AddAxisBinding(id, group, \
 										AxisBinding(k1, k2));
 
-	BINDING_GROUP(MISCELLANEOUS)
+	BINDING_GROUP(Miscellaneous)
 	KEY_BINDING(toggleHudMode, "BindToggleHudMode", SDLK_TAB, 0)
 	KEY_BINDING(increaseTimeAcceleration, "BindIncreaseTimeAcceleration", SDLK_PAGEUP, 0)
 	KEY_BINDING(decreaseTimeAcceleration, "BindDecreaseTimeAcceleration", SDLK_PAGEDOWN, 0)

@@ -46,7 +46,7 @@ ui.fonts = {
 		large = { name = "pionillium", size = 30 * font_factor, offset = 24 * font_factor},
 		medium = { name = "pionillium", size = 18 * font_factor, offset = 14 * font_factor},
 		-- 		medsmall = { name = "pionillium", size = 15, offset = 12 },
-		small = { name = "pionillium", size = 12 * font_factor, offset = 10 * font_factor},
+		small = { name = "pionillium", size = 14 * font_factor, offset = 11 * font_factor},
 		tiny = { name = "pionillium", size = 8 * font_factor, offset = 7 * font_factor},
 	},
 	orbiteer = {
@@ -116,6 +116,18 @@ function ui.withStyleVars(vars, fun)
 	end
 	fun()
 	pigui.PopStyleVar(utils.count(vars))
+end
+
+function ui.withStyleColorsAndVars(styles, vars, fun)
+	for k,v in pairs(styles) do
+		pigui.PushStyleColor(k, v)
+	end
+	for k,v in pairs(vars) do
+		pigui.PushStyleVar(k, v)
+	end
+	fun()
+	pigui.PopStyleVar(utils.count(vars))
+	pigui.PopStyleColor(utils.count(styles))
 end
 
 pigui.handlers.INIT = function(progress)

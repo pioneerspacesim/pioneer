@@ -9,8 +9,15 @@ local Vector = import('Vector')
 local Event = import('Event')
 local Lang = import("Lang")
 local Color = import("Color")
+
 local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
+local linput = Lang.GetResource("input-core")
+
+-- convert an axis binding style ID to a translation resource identifier
+local function localize_binding_id(str)
+	return linput[str:gsub("([^A-Z0-9_])([A-Z0-9])", "%1_%2"):upper()]
+end
 
 local utils = import("utils")
 
@@ -21,7 +28,7 @@ local pionillium = ui.fonts.pionillium
 
 local mainButtonSize = Vector(40,40) * (ui.screenHeight / 1200)
 local optionButtonSize = Vector(125,40) * (ui.screenHeight / 1200)
-local bindingButtonSize = Vector(177,25) * (ui.screenHeight / 1200)
+local bindingButtonSize = Vector(-1,25) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
 
 local bindingPageFontSize = 36 * (ui.screenHeight / 1200)
@@ -84,7 +91,7 @@ local function bindingTextButton(label, tooltip, enabled, callback)
 	local bgcolor = enabled and colors.buttonBlue or colors.grey
 
 	local button
-	ui.withFont(pionillium.medium.name, pionillium.medium.size, function()
+	ui.withFont(pionillium.small.name, pionillium.small.size, function()
 		button = ui.coloredSelectedButton(label, bindingButtonSize, false, bgcolor, tooltip, enabled)
 	end)
 	if button then
@@ -279,11 +286,9 @@ local function captureBinding(id,num)
 	end
 
 	ui.setNextWindowPosCenter('Always')
-	ui.withStyleColors({["WindowBg"] = Color(20, 20, 80, 230)}, function()
-		-- TODO: this window should be ShowBorders
+	ui.withStyleColorsAndVars({WindowBg = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, function()
 		ui.window("captureBinding", {"NoTitleBar", "NoResize"}, function()
-			-- TODO: localizations for binding IDs
-			ui.text(info.id)
+			ui.text(localize_binding_id(info.id))
 			ui.text(lui.PRESS_A_KEY_OR_CONTROLLER_BUTTON)
 
 			if info.type == 'action' then
@@ -387,18 +392,17 @@ local function actionBinding(info)
 	local bindings = { info.binding1, info.binding2 }
 	local descs = { info.bindingDescription1, info.bindingDescription2 }
 
-	-- TODO: localizations for binding IDs
-	if (ui.collapsingHeader(info.id, {})) then
+	if (ui.collapsingHeader(localize_binding_id(info.id), {})) then
 		ui.columns(3,"##bindings",false)
 		ui.nextColumn()
-		ui.text("Binding")
+		ui.text(linput.TEXT_BINDING)
 		bindingTextButton((descs[1] or '')..'##'..info.id..'1', (descs[1] or ''), true, function()
 			showKeyCapture = true
 			keyCaptureId = info.id
 			keyCaptureNum = 1
 		end)
 		ui.nextColumn()
-		ui.text("Alt. Binding")
+		ui.text(linput.TEXT_ALT_BINDING)
 		bindingTextButton((descs[2] or '')..'##'..info.id..'2', (descs[2] or ''), true, function()
 			showKeyCapture = true
 			keyCaptureId = info.id
@@ -411,8 +415,7 @@ end
 local function axisBinding(info)
 	local bindings = { info.axis, info.positive, info.negative }
 	local descs = { info.axisDescription, info.positiveDescription, info.negativeDescription }
-	-- TODO: localizations for binding IDs
-	if (ui.collapsingHeader(info.id, {})) then
+	if (ui.collapsingHeader(localize_binding_id(info.id), {})) then
 		ui.columns(3,"##axisjoybindings",false)
 		ui.text("Axis:")
 		ui.nextColumn()
@@ -431,34 +434,28 @@ local function axisBinding(info)
 				local _ax = (inverted and "-" or "") .. axis .. "/DZ" .. deadzone / 100.0 .. "/E" .. sensitivity / 100.0
 				Input.SetAxisBinding(info.id, _ax, info.positive, info.negative)
 			end
-			-- TODO: localize this and find a better way to handle it.
-			c,inverted = ui.checkbox("Inverted##"..info.id, inverted, "Invert Axis")
+			c,inverted = ui.checkbox("Inverted##"..info.id, inverted, linput.TEXT_INVERT_AXIS)
 			set_axis()
 			ui.nextColumn()
 			ui.nextColumn()
-			-- ui.columns(3, "##axisinfo", false)
-			-- TODO: localize all of these
-			-- ui.text("Options:")
-			-- ui.nextColumn()
-			c, deadzone = slider("Deadzone##"..info.id, deadzone, 0, 100, "Axis Deadzone")
+			c, deadzone = slider("Deadzone##"..info.id, deadzone, 0, 100, linput.TEXT_AXIS_DEADZONE)
 			set_axis()
 			ui.nextColumn()
-			c,sensitivity = slider("Sensitivity##"..info.id, sensitivity, 0, 100, "Axis Sensitivity")
+			c, sensitivity = slider("Sensitivity##"..info.id, sensitivity, 0, 100, linput.TEXT_AXIS_SENSITIVITY)
 			set_axis()
 		end
 		ui.nextColumn()
 		ui.columns(3,"##axiskeybindings",false)
-		-- TODO: translate this string
-		ui.text("Key Bindings:")
+		ui.text(linput.TEXT_KEY_BINDINGS)
 		ui.nextColumn()
-		ui.text("Positive:")
+		ui.text(linput.TEXT_KEY_POSITIVE)
 		bindingTextButton((descs[2] or '')..'##'..info.id..'positive', (descs[2] or ''), true, function()
 			showKeyCapture = true
 			keyCaptureId = info.id
 			keyCaptureNum = 2
 		end)
 		ui.nextColumn()
-		ui.text("Negative:")
+		ui.text(linput.TEXT_KEY_NEGATIVE)
 		bindingTextButton((descs[3] or '')..'##'..info.id..'negative', (descs[3] or ''), true, function()
 			showKeyCapture = true
 			keyCaptureId = info.id
@@ -483,14 +480,18 @@ local function showControlsOptions()
 	if c then Input.SetJoystickEnabled(joystickEnabled) end
 
 	for _,page in ipairs(binding_pages) do
+		ui.text ''
+		ui.withFont(pionillium.medium.name, bindingPageFontSize, function()
+			ui.text(localize_binding_id("Page" .. page.id))
+		end)
 		ui.separator()
-		-- TODO: localizations for page IDs
-		ui.withFont(pionillium.medium.name, bindingPageFontSize, function() ui.text(page.id) end)
 		for _,group in ipairs(page) do
 			if group.id then
+				if _ > 1 then ui.text '' end
+				ui.withFont(pionillium.medium.name, bindingGroupFontSize, function()
+					ui.text(localize_binding_id("Group" .. group.id))
+				end)
 				ui.separator()
-				-- TODO: localizations for group IDs
-				ui.withFont(pionillium.medium.name, bindingGroupFontSize, function() ui.text(group.id) end)
 				for _,info in ipairs(group) do
 					if info.type == 'action' then
 						actionBinding(info)
@@ -514,8 +515,7 @@ local function optionsWindow()
 	if ui.showOptionsWindow then
 		ui.setNextWindowSize(optionsWinSize, 'Always')
 		ui.setNextWindowPosCenter('Always')
-		ui.withStyleColors({["WindowBg"] = Color(20, 20, 80, 230)}, function()
-			-- TODO: this window should be ShowBorders
+		ui.withStyleColorsAndVars({["WindowBg"] = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, function()
 			ui.window("Options", {"NoTitleBar", "NoResize"}, function()
 				mainButton(icons.view_sidereal, lui.VIDEO, showTab=='video', function()
 					showTab = 'video'

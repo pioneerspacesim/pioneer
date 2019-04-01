@@ -39,6 +39,7 @@ public:
 	void SetRotationDamping(bool enabled);
 	void ToggleRotationDamping();
 	void FireMissile();
+	void ToggleSetSpeedMode();
 
 	//targeting
 	//XXX AI should utilize one or more of these
@@ -67,6 +68,7 @@ private:
 		AxisBinding *yaw;
 		AxisBinding *roll;
 		ActionBinding *killRot;
+		ActionBinding *toggleRotationDamping;
 
 		// Manual Control
 		AxisBinding *thrustForward;
@@ -77,10 +79,7 @@ private:
 		// Speed Control
 		ActionBinding *increaseSpeed;
 		ActionBinding *decreaseSpeed;
-		AxisBinding *throttleAxis;
-
-		// Miscellaneous
-		ActionBinding *toggleRotationDamping;
+		ActionBinding *toggleSetSpeed;
 	} InputBindings;
 
 	bool IsAnyAngularThrusterKeyDown();
@@ -109,4 +108,5 @@ private:
 
 	sigc::connection m_connRotationDampingToggleKey;
 	sigc::connection m_fireMissileKey;
+	sigc::connection m_setSpeedMode;
 };
