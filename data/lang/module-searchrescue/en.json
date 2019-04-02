@@ -694,5 +694,14 @@
   "WHERE_IS_THE_TARGET": {
     "description": "",
     "message": "Where do I find the target?"
+  },
+  "PLAYER_DESTROYED_TARGET": {
+    "description": "",
+    "message": "We have heard of your deeds, captain! Rest assured that we will report you to the local authorities and get you flagged for completely unacceptable behavior. A criminal lawsuit will follow."
+  },
+  "ACCIDENT_DESTROYED_TARGET": {
+    "description": "",
+    "message": "The sad news has reached us that {shiplabel} has been destroyed. We will pay half of the agreed price for you efforts."
   }
+
 }

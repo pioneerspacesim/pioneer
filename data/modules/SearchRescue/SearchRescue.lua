@@ -944,6 +944,7 @@ local onChat = function (form, ref, option)
 			deliver_crew_check = "NOT",
 			deliver_pass_check = "NOT",
 			deliver_comm_check = {},
+			target_destroyed   = "NOT",
 			cargo_pass         = {},
 			cargo_comm         = {},
 			searching          = false    -- makes sure only one search is active for this mission (function "searchForTarget")
@@ -1382,6 +1383,9 @@ end
 local missionStatus = function (mission)
 	-- Return the completion status of the mission.
 	local status = "NOT"
+	if mission.target_destroyed ~= "NOT" then
+		status = "ABORT"
+	end
 	if mission.pickup_crew_check == "COMPLETE" or mission.pickup_pass_check == "COMPLETE" or
 	mission.deliver_crew_check == "COMPLETE" or mission.pickup_pass_check == "COMPLETE" then
 		status = "COMPLETE"
@@ -1452,7 +1456,24 @@ local closeMission = function (mission)
 		            Character.persistent.player.reputation, Character.persistent.player.killcount)
 		removeMission(mission)
 
-		-- if mission is still on time
+	-- if mission is still on time
+	-- if mission was aborted (target destroyed)
+	elseif missionStatus(mission) == "ABORT" then
+		if mission.target_destroyed == "BY_PLAYER" then
+			Comms.ImportantMessage(l.PLAYER_DESTROYED_TARGET)
+			Character.persistent.player.reputation = Character.persistent.player.reputation - 2*delta_reputation
+			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
+			            Character.persistent.player.reputation, Character.persistent.player.killcount)
+			removeMission(mission)
+		else
+			local destroyedtxt = string.interp(l.ACCIDENT_DESTROYED_TARGET, {shiplabel = mission.shiplabel})
+			Comms.ImportantMessage(destroyedtxt)
+			Game.player:AddMoney(mission.reward/2)
+			Character.persistent.player.reputation = Character.persistent.player.reputation + delta_reputation
+			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
+			            Character.persistent.player.reputation, Character.persistent.player.killcount)
+			removeMission(mission)
+		end
 	else
 		-- mission has been completed
 		if missionStatus(mission) == "COMPLETE" then
@@ -1929,7 +1950,7 @@ local onFrameChanged = function (body)
 	-- Start a new search for target every time the reference frame for player changes.
 	if not body:isa("Ship") or not body:IsPlayer() then return end
 	for _,mission in pairs(missions) do
-		if Game.system == mission.system_target:GetStarSystem() then
+		if Game.system == mission.system_target:GetStarSystem() and mission.target then
 			if body.frameBody == mission.target.frameBody then
 				searchForTarget(mission)
 			end
@@ -1957,7 +1978,7 @@ local onCreateBB = function (station)
 	-- local num = 3
 	-- for _ = 1,num do
 	-- 	makeAdvert(station, 1, closestplanets)
-	--	makeAdvert(station, 2, closestplanets)
+	-- 	makeAdvert(station, 2, closestplanets)
 	-- 	makeAdvert(station, 3, closestplanets)
 	-- 	makeAdvert(station, 4, closestplanets)
 	-- 	makeAdvert(station, 5, closestplanets)
@@ -2018,7 +2039,7 @@ local onEnterSystem = function (player)
 
 	-- spawn mission target ships in this system
 	for _,mission in pairs(missions) do
-		if mission.system_target:IsSameSystem(syspath) then
+		if mission.system_target:IsSameSystem(syspath) and mission.target_destroyed == "NOT" then
 			mission.target = createTargetShip(mission)
 		end
 	end
@@ -2158,7 +2179,7 @@ local onClick = function (mission)
 
 	-- navbutton target (system if out-of-system jump, target ship if in system)
 	local navbutton_target
-	if not Game.system or mission.planet_target:IsSameSystem(Game.system.path) then
+	if not Game.system or mission.planet_target:IsSameSystem(Game.system.path) and mission.target then
 		navbutton_target = mission.target
 	else
 		navbutton_target = mission.planet_target
@@ -2257,8 +2278,13 @@ end
 
 local onShipDestroyed = function (ship, attacker)
 	for _,mission in pairs(missions) do
-		if ship == mission.target then
+		if mission.target and ship == mission.target then
 			mission.target = nil
+			if attacker:IsPlayer() then
+				mission.target_destroyed = "BY_PLAYER"
+			else
+				mission.target_destroyed = "BY_ACCIDENT"
+			end
 		end
 	end
 
