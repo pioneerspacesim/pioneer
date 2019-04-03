@@ -15,6 +15,7 @@
 #include "Player.h"
 #include "Space.h"
 #include "SystemInfoView.h"
+#include "Space.h"
 #include "WorldView.h"
 #include "graphics/Graphics.h"
 #include "pigui/LuaFlags.h"
