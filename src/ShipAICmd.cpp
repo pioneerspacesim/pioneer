@@ -324,7 +324,7 @@ AICmdKill::AICmdKill(DynamicBody *dBody, Ship *target) :
 	m_leadTime = m_evadeTime = m_closeTime = 0.0;
 	m_lastVel = m_target->GetVelocity();
 	m_prop.Reset(m_dBody->GetPropulsion());
-	m_fguns.Reset(m_dBody->GetFixedGuns());
+	m_fguns = dynamic_cast<FixedGuns*>(m_dBody);
 	assert(m_prop != nullptr);
 	assert(m_fguns != nullptr);
 }
@@ -357,7 +357,7 @@ void AICmdKill::PostLoadFixup(Space *space)
 	m_lastVel = m_target->GetVelocity();
 	// Ensure needed sub-system:
 	m_prop.Reset(m_dBody->GetPropulsion());
-	m_fguns.Reset(m_dBody->GetFixedGuns());
+	m_fguns = dynamic_cast<FixedGuns*>(m_dBody);
 	assert(m_prop != nullptr);
 	assert(m_fguns != nullptr);
 }

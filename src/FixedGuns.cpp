@@ -11,6 +11,7 @@
 #include "Projectile.h"
 #include "StringF.h"
 #include "scenegraph/Model.h"
+#include "scenegraph/MatrixTransform.h"
 #include "JsonUtils.h"
 
 #pragma GCC optimize ("O0")
@@ -24,7 +25,7 @@ FixedGuns::~FixedGuns()
 {
 }
 
-bool FixedGuns::IsFiring()
+bool FixedGuns::IsFiring() const
 {
 	bool gunstate = false;
 	for (int j = 0; j < m_guns.size(); j++)
@@ -32,12 +33,12 @@ bool FixedGuns::IsFiring()
 	return gunstate;
 }
 
-bool FixedGuns::IsFiring(const int num)
+bool FixedGuns::IsFiring(const int num) const
 {
 	return m_guns[num].is_firing;
 }
 
-bool FixedGuns::IsBeam(const int num)
+bool FixedGuns::IsBeam(const int num) const
 {
 	return m_guns[num].gun_data.projData.beam;
 }
@@ -136,11 +137,12 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 
 void FixedGuns::ParseModelTags(SceneGraph::Model *m)
 {
-	m_mounts.clear();
-	m_mounts.reserve(10);
 	const std::string test = "tag_gunmount";
 	SceneGraph::Model::TVecMT mounts_founds;
 	m->FindTagsByStartOfName(test, mounts_founds);
+
+	m_mounts.clear();
+	m_mounts.reserve(mounts_founds.size());
 
 	bool break_; // <- Used to "break" from inner 'for' cycle
 	printf("Model name= '%s'; Tags n°= %u\n", m->GetName().c_str(), int(mounts_founds.size()));
@@ -178,6 +180,8 @@ void FixedGuns::ParseModelTags(SceneGraph::Model *m)
 	// about a possible 'size' of this mount, or if this
 	// mount is 'external' (gun visible) or not...
 
+	m_mounts.shrink_to_fit();
+
 	for (int i = 0; i < m_mounts.size(); i++) {
 		printf("  Mount[%i] = %s, %i barrel, dir: ", i, m_mounts[i].name.c_str(), int(m_mounts[i].locs.size()));
 		m_mounts[i].dir.Print();
@@ -188,8 +192,10 @@ bool FixedGuns::MountGun(const int num, const float recharge, const float heatra
 {
 	printf("FixedGuns::MountGun Num: %i (Mounts %ld, guns %ld)\n", num, long(m_mounts.size()), long(m_guns.size()));
 	// Check mount (num) is valid
-	if (num >= m_mounts.size())
+	if (num >= m_mounts.size()) {
+		Output("Attempt to mount a gun outside bounds\n");
 		return false;
+	}
 	// Check ... well, there's a needs for explanations?
 	if (barrels == 0) {
 		Output("Attempt to mount a gun with zero barrels\n");

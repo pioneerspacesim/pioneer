@@ -182,23 +182,42 @@ end
 -- Base type for weapons
 local LaserType = utils.inherits(EquipType, "LaserType")
 function LaserType:Install(ship, num, slot)
-	if num > 1 then num = 1 end -- FIXME: support installing multiple lasers (e.g., in the "cargo" slot?)
-	if LaserType.Super().Install(self, ship, 1, slot) < 1 then return 0 end
-	local prefix = slot..'_'
-	for k,v in pairs(self.laser_stats) do
-		ship:setprop(prefix..k, v)
+
+	if num > 1 then num = 1 end
+
+	local first_free = ship:FindFirstFreeMount()
+
+	if first_free < 0 then
+		print(ship:GetLabel().." No free mounts for gun '"..self.l10n_key.."'")
+		return 0 end
+
+	local mount = ship:MountGun(first_free, self.l10n_key, self.laser_stats)
+
+	if mount then 
+		if LaserType.Super().Install(self, ship, num, slot) < 1 then
+			return 0
+		else
+			return 1
+		end
 	end
-	return 1
+	print(ship:GetLabel() .. " Cannot mount gun '"..self.l10n_key.."' in mount ".. first_free)
+
+	return 0
 end
 
 function LaserType:Uninstall(ship, num, slot)
 	if num > 1 then num = 1 end -- FIXME: support uninstalling multiple lasers (e.g., in the "cargo" slot?)
 	if LaserType.Super().Uninstall(self, ship, 1) < 1 then return 0 end
-	local prefix = (slot or "laser_front").."_"
+	local mount = ship:UnMountGun(num)
+	print(ship:GetLabel() .. " Unmount gun in mount ".. num ..", which result in " .. (mount and "true" or "false"))
+
+--[[	local prefix = (slot or "laser_front").."_"
 	for k,v in pairs(self.laser_stats) do
 		ship:unsetprop(prefix..k)
 	end
-	return 1
+--]]
+	if mount then return 1 end
+	return 0
 end
 
 -- Single drive type, no support for slave drives.

@@ -502,6 +502,30 @@ static int l_ship_get_docked_with(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: RequestDockingClearance
+ *
+ * Request docking clearance to the station passed as argument
+ *
+ * > msg = ship:RequestDockingClearance(ss)
+ *
+ * Parameters:
+ *
+ *  ss - a SpaceStation
+ *
+ * Return:
+ *
+ *   msg - a message for clearance allowed
+ *
+ * Availability:
+ *
+ *  ???
+ *
+ * Status:
+ *
+ *  stable
+ */
+
 static int l_ship_request_docking_clearance(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
@@ -1072,7 +1096,7 @@ static int l_ship_get_hull_temperature(lua_State *l)
  *
  * Parameters:
  *
- *    gun_index - the index of the gun (0 for front, 1 for rear)
+ *    gun_index - the index of the gun
  *
  * Returns:
  *
@@ -1221,6 +1245,107 @@ static int l_ship_get_thruster_state(lua_State *l)
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	vector3d v = s->GetPropulsion()->GetLinThrusterState();
 	LuaPush<vector3d>(l, v);
+	return 1;
+}
+
+/* Method: GetMountsNumber
+ *
+ * Return the number of mounts.
+ *
+ * Returns:
+ *
+ *    a value with the number of mounts
+ *
+ */
+static int l_ship_get_mounts_number(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaPush(l, s->GetMountsSize());
+	return 1;
+}
+
+static int l_ship_mount_gun(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int mount_num = luaL_checkinteger(l, 2) - 1; // <- ever remember Lua mounts start with 1
+
+	if (lua_type(l, 3) == LUA_TTABLE)
+	{
+		float recharge = 60.0; // seconds
+		float heatrate = 0.01f;
+		float coolrate = 0.01f;
+		int barrels = 1;
+		ProjectileData pd;
+
+		printf("********** MOUNT GUN!!!\n");
+		int num_arg = 0;
+		lua_pushnil(l);
+		while (lua_next(l, 3) != 0) {
+			std::string s = luaL_checkstring(l, -2);
+			if (s == "rechargeTime") {
+				recharge = luaL_checknumber(l, -1);
+				num_arg++;
+			} else if (s == "dual") {
+				barrels = luaL_checknumber(l, -1) + 1;
+				num_arg++;
+			} else if (s == "heatRate") {
+				heatrate = luaL_checknumber(l, -1);
+				num_arg++;
+			} else if (s == "coolRate") {
+				coolrate = luaL_checknumber(l, -1);
+				num_arg++;
+			} else if (s == "length") {
+				pd.length = luaL_checknumber(l, -1);
+				num_arg++;
+			} else if (s == "speed") {
+				pd.speed = luaL_checknumber(l, -1);
+				num_arg++;
+			} else if (s == "damage") {
+				pd.damage = luaL_checknumber(l, -1);
+				num_arg++;
+			} else if (s == "lifespan") {
+				pd.lifespan = luaL_checknumber(l, -1);
+				num_arg++;
+			} else if (s == "width") {
+				pd.width = luaL_checknumber(l, -1);
+				num_arg++;
+			} else if (s == "beam") {
+				pd.length = luaL_checknumber(l, -1);
+				num_arg++;
+			} else if (s == "mining") {
+				pd.mining = luaL_checknumber(l, -1);
+				num_arg++;
+			} else if (s == "rgba_a") {
+				pd.color.a = luaL_checknumber(l, -1);
+				num_arg++;
+			} else if (s == "rgba_r") {
+				pd.color.r = luaL_checknumber(l, -1);
+				num_arg++;
+			} else if (s == "rgba_g") {
+				pd.color.g = luaL_checknumber(l, -1);
+				num_arg++;
+			} else if (s == "rgba_b") {
+				pd.color.b = luaL_checknumber(l, -1);
+				num_arg++;
+			}
+			lua_pop(l, 1);
+		}
+		if (num_arg < 15) {
+			Output("WARNING: Ship %s call 'MountGun' with data table not complete!", s->GetLabel().c_str());
+		}
+		LuaPush(l, s->MountGun(mount_num, recharge, heatrate, coolrate, barrels, pd));
+	} else {
+		luaL_error(l, "MountGun called without gun or mount data");
+		LuaPush(l, false);
+	}
+	return 1;
+}
+
+static int l_ship_unmount_gun(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int mount_num = luaL_checkinteger(l, 2) - 1; // <- ever remember Lua mounts start with 1
+	LuaPush(l, s->UnMountGun(mount_num));
 	return 1;
 }
 
@@ -1608,8 +1733,12 @@ void LuaObject<Ship>::RegisterClass()
 		{ "GetHyperspaceCountdown", l_ship_get_hyperspace_countdown },
 		{ "IsHyperspaceActive", l_ship_is_hyperspace_active },
 
-		{ "GetHullTemperature", l_ship_get_hull_temperature },
 		{ "GetGunTemperature", l_ship_get_gun_temperature },
+		{ "GetMountsNumber", l_ship_get_mounts_number },
+		{ "MountGun", l_ship_mount_gun },
+		{ "UnMountGun", l_ship_unmount_gun },
+
+		{ "GetHullTemperature", l_ship_get_hull_temperature },
 		{ "GetHullPercent", l_ship_get_hull_percent },
 		{ "GetShieldsPercent", l_ship_get_shields_percent },
 

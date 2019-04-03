@@ -27,9 +27,11 @@ public:
 	FixedGuns(Body *b);
 	~FixedGuns();
 	void ParseModelTags(SceneGraph::Model *m);
+
+	int GetMountsSize() const { return int(m_mounts.size()); };
 	/*
 	TODO2:
-	int GetMountsSize();
+	--------------- int GetMountsSize();
 	const std::string GetMountName(int i);
 	bool CheckIsEmpty(int num);
 	int FindFirstEmpty();
@@ -51,14 +53,14 @@ public:
 	void UpdateGuns(float timeStep);
 	bool Fire(const int num, Body *shooter);
 
-	bool IsFiring();
-	bool IsFiring(const int num);
-	bool IsBeam(const int num);
+	bool IsFiring() const;
+	bool IsFiring(const int num) const;
+	bool IsBeam(const int num) const;
 	float GetGunTemperature(int idx) const;
 	bool MountGun(const int num, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd);
 	bool UnMountGun(int num);
-	inline float GetGunRange(int idx) { return m_guns[idx].gun_data.projData.speed * m_guns[idx].gun_data.projData.lifespan; };
-	inline float GetProjSpeed(int idx) { return m_guns[idx].gun_data.projData.speed; };
+	inline float GetGunRange(int idx) const { return m_guns[idx].gun_data.projData.speed * m_guns[idx].gun_data.projData.lifespan; };
+	inline float GetProjSpeed(int idx) const { return m_guns[idx].gun_data.projData.speed; };
 	inline void SetCoolingBoost(float cooler) { m_cooler_boost = cooler; };
 	inline void SetGunFiringState(int idx, int s)
 	{

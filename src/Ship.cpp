@@ -689,42 +689,6 @@ void Ship::UpdateGunsStats()
 	float cooler = 1.0f;
 	Properties().Get("laser_cooler_cap", cooler);
 	FixedGuns::SetCoolingBoost(cooler);
-
-	for (int num = 0; num < 2; num++) {
-		std::string prefix(num ? "laser_rear_" : "laser_front_");
-		int damage = 0;
-		Properties().Get(prefix + "damage", damage);
-		if (!damage) {
-			FixedGuns::UnMountGun(num);
-		} else {
-			Properties().PushLuaTable();
-			LuaTable prop(Lua::manager->GetLuaState(), -1);
-
-			ProjectileData pd;
-			const Color c(
-				prop.Get<float>(prefix + "rgba_r"),
-				prop.Get<float>(prefix + "rgba_g"),
-				prop.Get<float>(prefix + "rgba_b"),
-				prop.Get<float>(prefix + "rgba_a"));
-			pd.color = c;
-			pd.lifespan = prop.Get<float>(prefix + "lifespan");
-			pd.width = prop.Get<float>(prefix + "width");
-			pd.length = prop.Get<float>(prefix + "length");
-			pd.mining = prop.Get<int>(prefix + "mining");
-			pd.speed = prop.Get<float>(prefix + "speed");
-			pd.damage = prop.Get<float>(prefix + "damage");
-			pd.beam = prop.Get<int>(prefix + "beam");
-
-			const float heatrate = prop.Get<float>(prefix + "heatrate", 0.01f);
-			const float coolrate = prop.Get<float>(prefix + "coolrate", 0.01f);
-			const float recharge = prop.Get<float>(prefix + "rechargeTime");
-			const int barrels = prop.Get<int>(prefix + "dual", 0) + 1;
-
-			FixedGuns::MountGun(num, recharge, heatrate, coolrate, barrels, pd);
-
-			lua_pop(prop.GetLua(), 1);
-		}
-	}
 }
 
 void Ship::UpdateFuelStats()

@@ -13,6 +13,15 @@ struct ProjectileData {
 		color(Color::WHITE),
 		mining(false),
 		beam(false) {}
+	ProjectileData(float ls, float d, float l, float w, float s, Color c, bool m, bool b) :
+		lifespan(ls),
+		damage(d),
+		length(l),
+		width(w),
+		speed(s),
+		color(c),
+		mining(m),
+		beam(b) {}
 	float lifespan;
 	float damage;
 	float length;
