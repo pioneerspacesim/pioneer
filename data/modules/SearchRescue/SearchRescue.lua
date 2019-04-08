@@ -600,7 +600,7 @@ local createTargetShipParameters = function (flavour)
 		end
 	elseif flavour.deliver_crew > 0 then
 		for i,shipdef in pairs(shipdefs) do
-			if shipdef.maxCrew <= flavour.deliver_crew+1 then shipdefs[i] = nil end
+			if shipdef.maxCrew < flavour.deliver_crew+1 then shipdefs[i] = nil end
 		end
 	end
 	----> crew quarters for crew pickup missions
@@ -661,11 +661,13 @@ local createTargetShipParameters = function (flavour)
 		end
 		pickup_crew = flavour.pickup_crew
 		deliver_crew = shipdef.minCrew - crew_num
+	elseif flavour.deliver_crew > 0 then
+		crew_num = rand:Integer(flavour.deliver_crew+1,shipdef.maxCrew)
+		crew_num = crew_num - flavour.deliver_crew
 	elseif flavour.pickup_crew > 0 then
 		crew_num = pickup_crew
 	else
 		crew_num = rand:Integer(shipdef.minCrew,shipdef.maxCrew)
-		crew_num = crew_num - flavour.deliver_crew
 		pickup_crew = flavour.pickup_crew
 		deliver_crew = flavour.deliver_crew
 	end
@@ -1975,16 +1977,16 @@ local onCreateBB = function (station)
 	closestplanets = findClosestPlanets()
 
 	-- force ad creation for debugging
-	-- local num = 3
-	-- for _ = 1,num do
-	-- 	makeAdvert(station, 1, closestplanets)
-	-- 	makeAdvert(station, 2, closestplanets)
-	-- 	makeAdvert(station, 3, closestplanets)
-	-- 	makeAdvert(station, 4, closestplanets)
-	-- 	makeAdvert(station, 5, closestplanets)
-	-- 	makeAdvert(station, 6, closestplanets)
-	-- 	makeAdvert(station, 7, closestplanets)
-	-- end
+	local num = 3
+	for _ = 1,num do
+		-- makeAdvert(station, 1, closestplanets)
+		-- makeAdvert(station, 2, closestplanets)
+		makeAdvert(station, 3, closestplanets)
+		-- makeAdvert(station, 4, closestplanets)
+		-- makeAdvert(station, 5, closestplanets)
+		-- makeAdvert(station, 6, closestplanets)
+		-- makeAdvert(station, 7, closestplanets)
+	end
 
 	if triggerAdCreation() then makeAdvert(station, nil, closestplanets) end
 end
@@ -2018,8 +2020,8 @@ local onUpdateBB = function (station)
 	-- force ad creation for debugging
 	-- local num = 3
 	-- for _ = 1,num do
-	--	makeAdvert(station, 1, closestplanets)
-	--	makeAdvert(station, 2, closestplanets)
+	-- 	makeAdvert(station, 1, closestplanets)
+	-- 	makeAdvert(station, 2, closestplanets)
 	-- 	makeAdvert(station, 3, closestplanets)
 	-- 	makeAdvert(station, 4, closestplanets)
 	-- 	makeAdvert(station, 5, closestplanets)

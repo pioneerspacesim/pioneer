@@ -697,7 +697,7 @@
   },
   "PLAYER_DESTROYED_TARGET": {
     "description": "",
-    "message": "We have heard of your deeds, captain! Rest assured that we will report you to the local authorities and get you flagged for completely unacceptable behavior. A criminal lawsuit will follow."
+    "message": "We have heard of your deeds, captain! Rest assured that we will report you to the local authorities for destroying the very ship you were sent out to help. A criminal lawsuit will follow."
   },
   "ACCIDENT_DESTROYED_TARGET": {
     "description": "",
