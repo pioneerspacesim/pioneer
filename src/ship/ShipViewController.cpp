@@ -20,7 +20,7 @@ void ShipViewController::InputBinding::RegisterBindings()
 {
 	using namespace KeyBindings;
 
-	Input::BindingPage *page = Pi::input.GetBindingPage("VIEW");
+	Input::BindingPage *page = Pi::input.GetBindingPage("ShipView");
 	Input::BindingGroup *group;
 
 #define BINDING_GROUP(n) group = page->GetBindingGroup(#n);
@@ -33,7 +33,7 @@ void ShipViewController::InputBinding::RegisterBindings()
 		Pi::input.AddAxisBinding(id, group, AxisBinding(k1, k2)); \
 	axes.push_back(n);
 
-	BINDING_GROUP(GENERAL_VIEW_CONTROLS)
+	BINDING_GROUP(GeneralViewControls)
 	KEY_BINDING(cycleCameraMode, "BindCycleCameraMode", SDLK_F1, 0)
 
 	AXIS_BINDING(cameraRoll, "BindCameraRoll", SDLK_KP_1, SDLK_KP_3)

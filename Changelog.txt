@@ -1,3 +1,7 @@
+April 2019
+   * New Features
+     * Input/settings system now available in translation system (#4568)
+
 March 2019
    * Internal Changes
      * PiGui profiling changes (#4549)
