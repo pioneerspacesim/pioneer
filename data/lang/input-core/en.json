@@ -8,7 +8,7 @@
     "description": "Descriptive name for the PrimaryFire action."
   },
   "BIND_SECONDARY_FIRE": {
-    "message": "SecondaryFire",
+    "message": "Secondary Fire",
     "description": "Descriptive name for the SecondaryFire action."
   },
   "BIND_AXIS_PITCH": {
@@ -188,7 +188,7 @@
   },
   "TEXT_KEY_POSITIVE": {
     "message": "Positive:",
-    "description": "Indicates the postive half of a key-binding pair."
+    "description": "Indicates the positive half of a key-binding pair."
   },
   "TEXT_INVERT_AXIS": {
     "message": "Invert Axis",
