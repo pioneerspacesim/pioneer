@@ -16,6 +16,11 @@ file_filter = data/lang/equipment-core/<lang>.json
 source_file = data/lang/equipment-core/en.json
 source_lang = en
 
+[pioneer.input-core]
+file_filter = data/lang/input-core/<lang>.json
+source_file = data/lang/input-core/en.json
+source_lang = en
+
 [pioneer.commodity]
 file_filter = data/lang/commodity/<lang>.json
 source_file = data/lang/commodity/en.json
