@@ -26,7 +26,19 @@ public:
 	FixedGuns() = delete;
 	FixedGuns(Body *b);
 	~FixedGuns();
+
+	void SaveToJson(Json &jsonObj, Space *space);
+	void LoadFromJson(const Json &jsonObj, Space *space);
+
 	void ParseModelTags(SceneGraph::Model *m);
+
+	bool MountGun(const int num, const std::string &name, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd);
+	bool UnMountGun(int num);
+
+	void SetGunFiringState(int idx, int s);
+
+	bool Fire(const int num, const Body *shooter);
+	void UpdateGuns(float timeStep);
 
 	int GetMountsSize() const { return int(m_mounts.size()); };
 	int GetFreeMountsSize() const { return int(m_mounts.size() - m_guns.size()); };
@@ -48,26 +60,15 @@ public:
 	CreateGroup(num, );
 	....
 */
-
-	void UpdateGuns(float timeStep);
-	bool Fire(const int num, const Body *shooter);
-
 	bool IsFiring() const;
 	bool IsFiring(const int num) const;
 	bool IsBeam(const int num) const;
 	float GetGunTemperature(int idx) const;
-	bool MountGun(const int num, const std::string &name, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd);
-	bool UnMountGun(int num);
 	inline float GetGunRange(int idx) const { return m_guns[idx].gun_data.projData.speed * m_guns[idx].gun_data.projData.lifespan; };
 	inline float GetProjSpeed(int idx) const { return m_guns[idx].gun_data.projData.speed; };
 	inline void SetCoolingBoost(float cooler) { m_cooler_boost = cooler; };
 
-	void SetGunFiringState(int idx, int s);
-
 	int GetMountedGunsNum() const { return int(m_guns.size()); }
-
-	void SaveToJson(Json &jsonObj, Space *space);
-	void LoadFromJson(const Json &jsonObj, Space *space);
 
 private:
 	// Structure holding name, position and direction of a mount (loaded from Model data)

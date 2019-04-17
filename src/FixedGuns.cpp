@@ -3,8 +3,6 @@
 
 #include "FixedGuns.h"
 
-#include "vector3.h"
-
 #include "Beam.h"
 #include "Body.h"
 #include "GameSaveError.h"
@@ -21,24 +19,6 @@ FixedGuns::FixedGuns(Body* b)
 
 FixedGuns::~FixedGuns()
 {
-}
-
-bool FixedGuns::IsFiring() const
-{
-	bool gunstate = false;
-	for (int j = 0; j < m_guns.size(); j++)
-		gunstate |= m_guns[j].is_firing;
-	return gunstate;
-}
-
-bool FixedGuns::IsFiring(const int num) const
-{
-	return m_guns[num].is_firing;
-}
-
-bool FixedGuns::IsBeam(const int num) const
-{
-	return m_guns[num].gun_data.projData.beam;
 }
 
 void FixedGuns::SaveToJson(Json &jsonObj, Space *space)
@@ -175,53 +155,6 @@ void FixedGuns::ParseModelTags(SceneGraph::Model *m)
 	m_mounts.shrink_to_fit();
 }
 
-int FixedGuns::FindFirstEmptyMount() const
-{
-	std::vector<int> free = FindEmptyMounts();
-	if (free.empty()) return -1;
-	else return free[0];
-}
-
-std::vector<int> FixedGuns::FindEmptyMounts() const
-{
-	std::vector<int> occupied;
-
-	if (GetFreeMountsSize() == 0) return occupied;
-
-	occupied.reserve(m_guns.size());
-
-	std::for_each(begin(m_guns), end(m_guns), [&occupied](const GunStatus &gs) // <- Sure there's a better alghorithm
-	{
-		if (gs.mount_id >= 0) occupied.emplace_back(gs.mount_id);
-	});
-
-	std::sort(begin(occupied), end(occupied));
-
-	std::vector<int> free;
-	free.reserve(m_mounts.size() - occupied.size());
-
-	for (int mount = 0; mount < m_mounts.size(); mount++) {
-		if (!std::binary_search(begin(occupied), end(occupied), mount)) {
-			free.push_back(mount);
-		}
-	}
-	return free;
-}
-
-int FixedGuns::FindMountOfGun(const std::string &name) const
-{
-	std::vector<GunStatus>::const_iterator found = std::find_if(begin(m_guns), end(m_guns), [&name](const GunStatus &gs)
-	{
-		if (gs.gun_data.gun_name == name) {
-			return true;
-		};
-	});
-	if (found != m_guns.end()) {
-		return (*found).mount_id;
-	}
-	return -1;
-}
-
 bool FixedGuns::MountGun(const int num, const std::string &name, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd)
 {
 	//printf("FixedGuns::MountGun in '%s',num: %i (Mounts %ld, guns %ld)\n", m_mounts[num].name.c_str(), num, long(m_mounts.size()), long(m_guns.size()));
@@ -330,6 +263,71 @@ void FixedGuns::UpdateGuns(float timeStep)
 		if (m_guns[i].recharge_stat < 0.0f)
 			m_guns[i].recharge_stat = 0;
 	}
+}
+
+int FixedGuns::FindFirstEmptyMount() const
+{
+	std::vector<int> free = FindEmptyMounts();
+	if (free.empty()) return -1;
+	else return free[0];
+}
+
+std::vector<int> FixedGuns::FindEmptyMounts() const
+{
+	std::vector<int> occupied;
+
+	if (GetFreeMountsSize() == 0) return occupied;
+
+	occupied.reserve(m_guns.size());
+
+	std::for_each(begin(m_guns), end(m_guns), [&occupied](const GunStatus &gs) // <- Sure there's a better alghorithm
+	{
+		if (gs.mount_id >= 0) occupied.emplace_back(gs.mount_id);
+	});
+
+	std::sort(begin(occupied), end(occupied));
+
+	std::vector<int> free;
+	free.reserve(m_mounts.size() - occupied.size());
+
+	for (int mount = 0; mount < m_mounts.size(); mount++) {
+		if (!std::binary_search(begin(occupied), end(occupied), mount)) {
+			free.push_back(mount);
+		}
+	}
+	return free;
+}
+
+int FixedGuns::FindMountOfGun(const std::string &name) const
+{
+	std::vector<GunStatus>::const_iterator found = std::find_if(begin(m_guns), end(m_guns), [&name](const GunStatus &gs)
+	{
+		if (gs.gun_data.gun_name == name) {
+			return true;
+		};
+	});
+	if (found != m_guns.end()) {
+		return (*found).mount_id;
+	}
+	return -1;
+}
+
+bool FixedGuns::IsFiring() const
+{
+	bool gunstate = false;
+	for (int j = 0; j < m_guns.size(); j++)
+		gunstate |= m_guns[j].is_firing;
+	return gunstate;
+}
+
+bool FixedGuns::IsFiring(const int num) const
+{
+	return m_guns[num].is_firing;
+}
+
+bool FixedGuns::IsBeam(const int num) const
+{
+	return m_guns[num].gun_data.projData.beam;
 }
 
 float FixedGuns::GetGunTemperature(int idx) const
