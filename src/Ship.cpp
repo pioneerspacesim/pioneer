@@ -1383,12 +1383,12 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 	}
 }
 
-void Ship::SetGunState(int idx, int state)
+void Ship::SetGunsState(GunDir dir, int state)
 {
 	if (m_flightState != FLYING)
 		return;
 
-	FixedGuns::SetGunFiringState(idx, state);
+	FixedGuns::SetGunsFiringState(dir, state);
 }
 
 bool Ship::SetWheelState(bool down)

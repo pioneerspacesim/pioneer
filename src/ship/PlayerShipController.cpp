@@ -230,8 +230,6 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 	// if flying
 	{
 		m_ship->ClearThrusterState();
-		m_ship->SetGunState(0, 0);
-		m_ship->SetGunState(1, 0);
 
 		// vector3d wantAngVel(0.0);
 		double angThrustSoftness = 10.0;
@@ -299,7 +297,11 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 
 		if (InputBindings.primaryFire->IsActive() || (Pi::input.MouseButtonState(SDL_BUTTON_LEFT) && Pi::input.MouseButtonState(SDL_BUTTON_RIGHT))) {
 			//XXX worldview? madness, ask from ship instead
-			m_ship->SetGunState(Pi::game->GetWorldView()->GetActiveWeapon(), 1);
+			GunDir dir = Pi::game->GetWorldView()->GetActiveWeapon() ? GunDir::GUN_REAR : GunDir::GUN_FRONT;
+			m_ship->SetGunsState(dir, 1);
+		} else {
+			m_ship->SetGunsState(GunDir::GUN_FRONT, 0);
+			m_ship->SetGunsState(GunDir::GUN_REAR, 0);
 		}
 
 		vector3d wantAngVel = vector3d(

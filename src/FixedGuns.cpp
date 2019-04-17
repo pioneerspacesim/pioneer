@@ -66,9 +66,8 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 			float is_firing = gunArrayEl["state"];
 			float recharge_stat = gunArrayEl["recharge"];
 			float temperature_stat = gunArrayEl["temperature"];
-			std::string mount_name; // <- Load the name of hardpoint (mount)
+			std::string mount_name = gunArrayEl["mount_name"];
 			int mount_id = -1;
-			mount_name = gunArrayEl["mount_name"];
 			for (int i = 0; i < m_mounts.size(); i++) {
 				if (m_mounts[i].name == mount_name.substr(0,14)) {
 					mount_id = i;
@@ -94,6 +93,7 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 			pd.speed = gunArrayEl["pd_speed"];
 			pd.width = gunArrayEl["pd_width"];
 
+			// FAKE GunDir
 			GunStatus gs(mount_id, name, recharge, temp_heat_rate, temp_cool_rate, barrels, pd);
 
 			gs.is_firing = is_firing;
@@ -131,7 +131,6 @@ void FixedGuns::ParseModelTags(SceneGraph::Model *m)
 				// Check we already have this gun
 				if (m_mounts[j].name.substr(0,14) == name_to_first_index) {
 					// Add a barrel
-					//printf("Add a barrel\n");
 					const matrix4x4f &trans = mounts_founds[i]->GetTransform();
 					m_mounts[j].locs.push_back(vector3d(trans.GetTranslate()));
 					break_ = true;
@@ -146,7 +145,9 @@ void FixedGuns::ParseModelTags(SceneGraph::Model *m)
 		mount.name = name.substr(0,14);
 		const matrix4x4f &trans = mounts_founds[i]->GetTransform();
 		mount.locs.push_back(vector3d(trans.GetTranslate()));
-		mount.dir = vector3d(trans.GetOrient().VectorZ().Normalized()); /// TODO: la direzione deve essere avanti o indietro (poi magari settiamo l'angolo)
+		const vector3f dir = trans.GetOrient().VectorZ().Normalized();
+		if (dir.z > 0.0) mount.dir = GunDir::GUN_REAR;
+		else mount.dir = GunDir::GUN_FRONT;
 		m_mounts.push_back(mount);
 	}
 	// TODO LONG TERM: find and fetch data from ShipType
@@ -211,10 +212,9 @@ bool FixedGuns::UnMountGun(int num)
 	return true;
 }
 
-void FixedGuns::SetGunFiringState(int idx, int s)
+void FixedGuns::SetGunsFiringState(GunDir dir, int s)
 {
-	// TODO: Handle "idx", which is the direction (front or rear)
-	std::for_each(begin(m_guns), end(m_guns), [&s](GunStatus &gs) { gs.is_firing = s;});
+	std::for_each(begin(m_guns), end(m_guns), [&](GunStatus &gs) { if (m_mounts[gs.mount_id].dir == dir ) gs.is_firing = s;});
 }
 
 bool FixedGuns::Fire(const int num, const Body *shooter)
@@ -229,10 +229,11 @@ bool FixedGuns::Fire(const int num, const Body *shooter)
 
 	const Mount &mount = m_mounts[m_guns[num].mount_id];
 
-	const int maxBarrels = std::min(size_t(m_guns[num].gun_data.barrels ? 2 : 1), mount.locs.size());
+	for (int iBarrel = 0; iBarrel < mount.locs.size(); iBarrel++) {
+		// (0,0,-1) => Front ; (0,0,1) => Rear
+		const vector3d front_rear = (mount.dir == GunDir::GUN_FRONT ? vector3d(0., 0., -1.) : vector3d(0., 0., 1.));
+		const vector3d dir = (shooter->GetOrient() * front_rear).Normalized();
 
-	for (int iBarrel = 0; iBarrel < maxBarrels; iBarrel++) {
-		const vector3d dir = (shooter->GetOrient() * vector3d(mount.dir)).Normalized();
 		const vector3d pos = shooter->GetOrient() * vector3d(mount.locs[iBarrel]) + shooter->GetPosition();
 
 		if (m_guns[num].gun_data.projData.beam) {

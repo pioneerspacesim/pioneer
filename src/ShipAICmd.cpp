@@ -276,7 +276,8 @@ bool AICmdKamikaze::TimeStepUpdate()
 			return false;
 		}
 
-		ship->SetGunState(0, 0);
+		ship->SetGunsState(GunDir::GUN_FRONT, 0);
+		ship->SetGunsState(GunDir::GUN_REAR, 0);
 
 	} else {
 		// Missile, for now ;-)
@@ -346,7 +347,8 @@ void AICmdKill::SaveToJson(Json &jsonObj)
 
 AICmdKill::~AICmdKill()
 {
-	if (m_fguns) m_fguns->SetGunFiringState(0, 0);
+	if (m_fguns) m_fguns->SetGunsFiringState(GunDir::GUN_FRONT, 0);
+	if (m_fguns) m_fguns->SetGunsFiringState(GunDir::GUN_REAR, 0);
 }
 
 void AICmdKill::PostLoadFixup(Space *space)
@@ -420,13 +422,13 @@ bool AICmdKill::TimeStepUpdate()
 		double vissize = 1.3 * m_dBody->GetPhysRadius() / targpos.Length();
 		vissize += (0.05 + 0.5 * leaddiff) * Pi::rng.Double() * skillShoot;
 		if (vissize > headdiff)
-			m_fguns->SetGunFiringState(0, 1);
+			m_fguns->SetGunsFiringState(GunDir::GUN_FRONT, 1);
 		else
-			m_fguns->SetGunFiringState(0, 0);
+			m_fguns->SetGunsFiringState(GunDir::GUN_FRONT, 0);
 		float max_fire_dist = m_fguns->GetGunRange(0);
 		if (max_fire_dist > 4000) max_fire_dist = 4000;
 		max_fire_dist *= max_fire_dist;
-		if (targpos.LengthSqr() > max_fire_dist) m_fguns->SetGunFiringState(0, 0); // temp
+		if (targpos.LengthSqr() > max_fire_dist) m_fguns->SetGunsFiringState(GunDir::GUN_FRONT, 0); // temp
 	}
 	m_leadOffset += m_leadDrift * Pi::game->GetTimeStep();
 	double leadAV = (leaddir - targdir).Dot((leaddir - heading).NormalizedSafe()); // leaddir angvel

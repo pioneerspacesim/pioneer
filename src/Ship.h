@@ -93,8 +93,10 @@ public:
 	const shipstats_t &GetStats() const { return m_stats; }
 
 	void Explode();
+
 	virtual bool DoDamage(float kgDamage); // can be overloaded in Player to add audio
-	void SetGunState(int idx, int state);
+	void SetGunsState(GunDir dir, int state);
+
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	void Blastoff();

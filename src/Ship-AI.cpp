@@ -28,8 +28,8 @@ bool Ship::AITimeStep(float timeStep)
 
 		// just in case the AI left it on
 		ClearThrusterState();
-		for (int i = 0; i < Guns::GUNMOUNT_MAX; i++)
-			SetGunState(i, 0);
+		SetGunsFiringState(GunDir::GUN_REAR, 0);
+		SetGunsFiringState(GunDir::GUN_FRONT, 0);
 		return true;
 	}
 

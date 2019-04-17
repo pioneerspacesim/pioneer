@@ -15,7 +15,7 @@ namespace SceneGraph {
 	class Model;
 }
 
-enum Guns {
+enum GunDir {
 	GUN_FRONT,
 	GUN_REAR,
 	GUNMOUNT_MAX = 2
@@ -35,7 +35,7 @@ public:
 	bool MountGun(const int num, const std::string &name, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd);
 	bool UnMountGun(int num);
 
-	void SetGunFiringState(int idx, int s);
+	void SetGunsFiringState(GunDir dir, int s);
 
 	bool Fire(const int num, const Body *shooter);
 	void UpdateGuns(float timeStep);
@@ -75,7 +75,7 @@ private:
 	struct Mount {
 		std::string name;
 		std::vector<vector3d> locs;
-		vector3d dir;
+		GunDir dir;
 	};
 
 	// Structure holding data of a single (maybe with multiple barrel) 'mounted' gun.
@@ -140,7 +140,7 @@ private:
 		GunData gun_data;
 	};
 
-	// Vector with mounts (data from models)
+	// Vector with mounts (data coming from models)
 	std::vector<Mount> m_mounts;
 
 	// Vector with mounted guns and their status
