@@ -206,17 +206,20 @@ function LaserType:Install(ship, num, slot)
 end
 
 function LaserType:Uninstall(ship, num, slot)
-	if num > 1 then num = 1 end -- FIXME: support uninstalling multiple lasers (e.g., in the "cargo" slot?)
+	if num > 1 then num = 1 end
 	if LaserType.Super().Uninstall(self, ship, 1) < 1 then return 0 end
-	local mount = ship:UnMountGun(num)
-	print(ship:GetLabel() .. " Unmount gun in mount ".. num ..", which result in " .. (mount and "true" or "false"))
-
---[[	local prefix = (slot or "laser_front").."_"
-	for k,v in pairs(self.laser_stats) do
-		ship:unsetprop(prefix..k)
+	local mount_num = ship:FindMountOfGun(self.l10n_key)
+	if mount_num < 0 then
+		print("Gun '"..self.l10n_key.."' not mounted in any mount")
+		return 0
 	end
---]]
-	if mount then return 1 end
+	local mount = ship:UnMountGun(mount_num)
+
+	if mount then
+		--print(ship:GetLabel() .. " Unmount gun '".. self.l10n_key.."' in mount ".. mount_num)
+		return 1
+	end
+	print(ship:GetLabel() .. " Cannot unmount gun '".. self.l10n_key.."' in mount ".. mount_num)
 	return 0
 end
 

@@ -6,15 +6,13 @@
 #include "vector3.h"
 
 #include "Beam.h"
-#include "DynamicBody.h"
+#include "Body.h"
 #include "GameSaveError.h"
 #include "Projectile.h"
 #include "StringF.h"
 #include "scenegraph/Model.h"
 #include "scenegraph/MatrixTransform.h"
 #include "JsonUtils.h"
-
-#pragma GCC optimize ("O0")
 
 FixedGuns::FixedGuns(Body* b)
 {
@@ -55,6 +53,7 @@ void FixedGuns::SaveToJson(Json &jsonObj, Space *space)
 		gunArrayEl["temperature"] = m_guns[i].temperature_stat;
 		gunArrayEl["mount_name"] = m_mounts[m_guns[i].mount_id].name; // <- Save the name of hardpoint (mount)
 		// Save "GunData":
+		gunArrayEl["gd_name"] = m_guns[i].gun_data.gun_name;
 		gunArrayEl["gd_barrels"] = m_guns[i].gun_data.barrels;
 		gunArrayEl["gd_recharge"] = m_guns[i].gun_data.recharge;
 		gunArrayEl["gd_cool_rate"] = m_guns[i].gun_data.temp_cool_rate;
@@ -98,6 +97,7 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 			}
 			if (mount_id < 0) throw SavedGameCorruptException();
 			// Load "GunData" for this gun:
+			std::string name = gunArrayEl["gd_name"];
 			int barrels = gunArrayEl["gd_barrels"];
 			float recharge = gunArrayEl["gd_recharge"];
 			float temp_cool_rate = gunArrayEl["gd_cool_rate"];
@@ -114,7 +114,7 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 			pd.speed = gunArrayEl["pd_speed"];
 			pd.width = gunArrayEl["pd_width"];
 
-			GunStatus gs(mount_id, recharge, temp_heat_rate, temp_cool_rate, barrels, pd);
+			GunStatus gs(mount_id, name, recharge, temp_heat_rate, temp_cool_rate, barrels, pd);
 
 			gs.is_firing = is_firing;
 			gs.mount_id = mount_id;
@@ -126,13 +126,6 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
-	printf("Loaded %i guns:\n", int(m_guns.size()));
-	for (int i = 0; i < m_guns.size(); i++) {
-		printf("\t'%s', which dir & pos are:\n", m_mounts[m_guns[i].mount_id].name.c_str());
-		printf("\t"); m_mounts[m_guns[i].mount_id].dir.Print();
-		printf("\t"); m_mounts[m_guns[i].mount_id].locs[0].Print();
-	}
-
 };
 
 void FixedGuns::ParseModelTags(SceneGraph::Model *m)
@@ -145,7 +138,7 @@ void FixedGuns::ParseModelTags(SceneGraph::Model *m)
 	m_mounts.reserve(mounts_founds.size());
 
 	bool break_; // <- Used to "break" from inner 'for' cycle
-	printf("Model name= '%s'; Tags n°= %u\n", m->GetName().c_str(), int(mounts_founds.size()));
+	//printf("Model name= '%s'; Tags n°= %u\n", m->GetName().c_str(), int(mounts_founds.size()));
 
 	for (int i = 0; i < mounts_founds.size(); i++) {
 		break_ = false;
@@ -178,22 +171,63 @@ void FixedGuns::ParseModelTags(SceneGraph::Model *m)
 	}
 	// TODO LONG TERM: find and fetch data from ShipType
 	// about a possible 'size' of this mount, or if this
-	// mount is 'external' (gun visible) or not...
-
+	// mount is 'external' (gun is visible) or not...
 	m_mounts.shrink_to_fit();
-
-	for (int i = 0; i < m_mounts.size(); i++) {
-		printf("  Mount[%i] = %s, %i barrel, dir: ", i, m_mounts[i].name.c_str(), int(m_mounts[i].locs.size()));
-		m_mounts[i].dir.Print();
-	}
 }
 
-bool FixedGuns::MountGun(const int num, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd)
+int FixedGuns::FindFirstEmptyMount() const
 {
-	printf("FixedGuns::MountGun Num: %i (Mounts %ld, guns %ld)\n", num, long(m_mounts.size()), long(m_guns.size()));
+	std::vector<int> free = FindEmptyMounts();
+	if (free.empty()) return -1;
+	else return free[0];
+}
+
+std::vector<int> FixedGuns::FindEmptyMounts() const
+{
+	std::vector<int> occupied;
+
+	if (GetFreeMountsSize() == 0) return occupied;
+
+	occupied.reserve(m_guns.size());
+
+	std::for_each(begin(m_guns), end(m_guns), [&occupied](const GunStatus &gs) // <- Sure there's a better alghorithm
+	{
+		if (gs.mount_id >= 0) occupied.emplace_back(gs.mount_id);
+	});
+
+	std::sort(begin(occupied), end(occupied));
+
+	std::vector<int> free;
+	free.reserve(m_mounts.size() - occupied.size());
+
+	for (int mount = 0; mount < m_mounts.size(); mount++) {
+		if (!std::binary_search(begin(occupied), end(occupied), mount)) {
+			free.push_back(mount);
+		}
+	}
+	return free;
+}
+
+int FixedGuns::FindMountOfGun(const std::string &name) const
+{
+	std::vector<GunStatus>::const_iterator found = std::find_if(begin(m_guns), end(m_guns), [&name](const GunStatus &gs)
+	{
+		if (gs.gun_data.gun_name == name) {
+			return true;
+		};
+	});
+	if (found != m_guns.end()) {
+		return (*found).mount_id;
+	}
+	return -1;
+}
+
+bool FixedGuns::MountGun(const int num, const std::string &name, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd)
+{
+	//printf("FixedGuns::MountGun in '%s',num: %i (Mounts %ld, guns %ld)\n", m_mounts[num].name.c_str(), num, long(m_mounts.size()), long(m_guns.size()));
 	// Check mount (num) is valid
 	if (num >= m_mounts.size()) {
-		Output("Attempt to mount a gun outside bounds\n");
+		Output("Attempt to mount a gun in %i, which is out of bounds\n", num);
 		return false;
 	}
 	// Check ... well, there's a needs for explanations?
@@ -208,7 +242,6 @@ bool FixedGuns::MountGun(const int num, const float recharge, const float heatra
 			printf("hard_point is negative!?!?\n");
 			abort();
 		}
-		printf("%s vs %s\n", m_mounts[m_guns[i].mount_id].name.c_str(),  m_mounts[num].name.substr(0,14).c_str());
 		if (m_mounts[m_guns[i].mount_id].name == m_mounts[num].name.substr(0,14)) {
 			Output("Attempt to mount gun %i on '%s', which is already used\n", num, m_mounts[num].name.c_str());
 			return false;
@@ -217,7 +250,7 @@ bool FixedGuns::MountGun(const int num, const float recharge, const float heatra
 	if (barrels > m_mounts[num].locs.size()) {
 		Output("Gun with %i barrels mounted on '%s', which is for %i barrels\n", barrels, m_mounts[num].name.c_str(), int(m_mounts[num].locs.size()));
 	}
-	GunStatus gs(num, recharge, heatrate, coolrate, barrels, pd);
+	GunStatus gs(num, name, recharge, heatrate, coolrate, barrels, pd);
 	m_guns.push_back(gs);
 	return true;
 };
@@ -225,22 +258,33 @@ bool FixedGuns::MountGun(const int num, const float recharge, const float heatra
 bool FixedGuns::UnMountGun(int num)
 {
 	// Check mount (num) is valid
-	if (num >= m_mounts.size())
+	if (num >= m_mounts.size()) {
+		Output("Mount identifier (%i) is out of bounds in 'UnMountGun'\n", num);
 		return false;
-	// Check mount is used
-	int i;
-	for (i = 0; i < m_guns.size(); i++) {
-		if (m_guns[i].mount_id == num) break;
 	}
-	if (i == m_guns.size()) return false;
-	Output("Remove guns %i, mounted on '%s'\n", i, m_mounts[m_guns[i].mount_id].name.c_str());
+	// Check mount is used
+	int mount = 0;
+	for (; mount < m_guns.size(); mount++) {
+		if (m_guns[mount].mount_id == num) break;
+	}
+	if (mount == m_guns.size()) {
+		Output("No gun found for the given identifier\n");
+		return false;
+	}
+	//Output("Remove guns %i, mounted on '%s'\n", mount, m_mounts[m_guns[mount].mount_id].name.c_str());
 	// Mount 'i' is used and should be freed
-	std::swap(m_guns[i], m_guns.back());
+	std::swap(m_guns[mount], m_guns.back());
 	m_guns.pop_back();
 	return true;
 }
 
-bool FixedGuns::Fire(const int num, Body *shooter)
+void FixedGuns::SetGunFiringState(int idx, int s)
+{
+	// TODO: Handle "idx", which is the direction (front or rear)
+	std::for_each(begin(m_guns), end(m_guns), [&s](GunStatus &gs) { gs.is_firing = s;});
+}
+
+bool FixedGuns::Fire(const int num, const Body *shooter)
 {
 	if (num >= m_guns.size()) return false;
 	if (!m_guns[num].is_firing) return false;

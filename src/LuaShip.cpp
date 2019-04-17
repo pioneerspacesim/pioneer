@@ -1257,19 +1257,61 @@ static int l_ship_get_thruster_state(lua_State *l)
  *    a value with the number of mounts
  *
  */
-static int l_ship_get_mounts_number(lua_State *l)
+static int l_ship_get_free_mounts_number(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	LuaPush(l, s->GetMountsSize());
+	LuaPush(l, s->GetFreeMountsSize());
 	return 1;
 }
 
+static int l_ship_find_first_free_mount(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaPush(l, s->FindFirstEmptyMount());
+	return 1;
+}
+
+static int l_ship_find_mount_of_gun(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	std::string name = luaL_checkstring(l, 2);
+	LuaPush(l, s->FindMountOfGun(name));
+	return 1;
+}
+
+/* Method: MountGun
+ *
+ * Install a gun in a mount point
+ *
+ * > result = ship:MountGun(mount_id, equip_name, gun_data)
+ *
+ * Parameters:
+ *
+ *   equip_name - the name of the gun
+ *
+ *   mount_id - the mount number in which the gun would be installed
+ *
+ *   gun_data - a table (right now equal to 'laser_stats') in which gun data are stored
+ *
+ * Return:
+ *
+ *   result - A boolean, which is true if the gun has been installed
+ *
+ * Availability:
+ *
+ *   2019
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_ship_mount_gun(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	int mount_num = luaL_checkinteger(l, 2) - 1; // <- ever remember Lua mounts start with 1
+	int mount_num = luaL_checkinteger(l, 2);
+	std::string name = luaL_checkstring(l, 3);
 
-	if (lua_type(l, 3) == LUA_TTABLE)
+	if (lua_type(l, 4) == LUA_TTABLE)
 	{
 		float recharge = 60.0; // seconds
 		float heatrate = 0.01f;
@@ -1277,16 +1319,15 @@ static int l_ship_mount_gun(lua_State *l)
 		int barrels = 1;
 		ProjectileData pd;
 
-		printf("********** MOUNT GUN!!!\n");
 		int num_arg = 0;
 		lua_pushnil(l);
-		while (lua_next(l, 3) != 0) {
+		while (lua_next(l, 4) != 0) {
 			std::string s = luaL_checkstring(l, -2);
 			if (s == "rechargeTime") {
 				recharge = luaL_checknumber(l, -1);
 				num_arg++;
 			} else if (s == "dual") {
-				barrels = luaL_checknumber(l, -1) + 1;
+				barrels = luaL_checknumber(l, -1) + 1; // TODO: Until now is a "bool" in Lua...
 				num_arg++;
 			} else if (s == "heatRate") {
 				heatrate = luaL_checknumber(l, -1);
@@ -1331,20 +1372,42 @@ static int l_ship_mount_gun(lua_State *l)
 			lua_pop(l, 1);
 		}
 		if (num_arg < 15) {
-			Output("WARNING: Ship %s call 'MountGun' with data table not complete!", s->GetLabel().c_str());
+			Output("WARNING: Ship %s call 'MountGun' for %s with a data table not complete!\n", s->GetLabel().c_str(), name.c_str());
 		}
-		LuaPush(l, s->MountGun(mount_num, recharge, heatrate, coolrate, barrels, pd));
+		LuaPush(l, s->MountGun(mount_num, name, recharge, heatrate, coolrate, barrels, pd));
 	} else {
-		luaL_error(l, "MountGun called without gun or mount data");
+		luaL_error(l, "Ship %s call 'MountGun' without gun or mount data", s->GetLabel().c_str());
 		LuaPush(l, false);
 	}
 	return 1;
 }
 
+/* Method: UnMountGun
+ *
+ * Uninstall a gun from a mount point
+ *
+ * > result = ship:UnMountGun(mount_id)
+ *
+ * Parameters:
+ *
+ *   mount_id - the mount number in which the gun would be uninstalled
+ *
+ * Return:
+ *
+ *   result - A boolean, which is true if the gun has been uninstalled
+ *
+ * Availability:
+ *
+ *   2019
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_ship_unmount_gun(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	int mount_num = luaL_checkinteger(l, 2) - 1; // <- ever remember Lua mounts start with 1
+	int mount_num = luaL_checkinteger(l, 2);
 	LuaPush(l, s->UnMountGun(mount_num));
 	return 1;
 }
@@ -1734,7 +1797,9 @@ void LuaObject<Ship>::RegisterClass()
 		{ "IsHyperspaceActive", l_ship_is_hyperspace_active },
 
 		{ "GetGunTemperature", l_ship_get_gun_temperature },
-		{ "GetMountsNumber", l_ship_get_mounts_number },
+		{ "GetFreeMountsNumber", l_ship_get_free_mounts_number },
+		{ "FindMountOfGun", l_ship_find_mount_of_gun },
+		{ "FindFirstFreeMount", l_ship_find_first_free_mount },
 		{ "MountGun", l_ship_mount_gun },
 		{ "UnMountGun", l_ship_unmount_gun },
 
