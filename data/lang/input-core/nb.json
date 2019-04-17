@@ -5,7 +5,7 @@
   },
   "BIND_AXIS_ROLL": {
     "description": "Descriptive name for the Roll axis",
-    "message": "Roll"
+    "message": "Rull"
   },
   "BIND_AXIS_THRUST_FORWARD": {
     "description": "Descriptive name for the ThrustForward axis",

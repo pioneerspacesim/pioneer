@@ -5,7 +5,7 @@
   },
   "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
     "description": "",
-    "message": "Impossível compensar a gravidade local"
+    "message": "Impossível contrariar gravidade local"
   },
   "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
     "description": "",

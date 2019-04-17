@@ -5,7 +5,7 @@
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Clean air is only taken for granted when already abundant. The technique behind air purification is rumoured to come from alien artifacts found on Mars. Many companies produce various types of air processors, capable of turning even the most hostile atmospheres into a workable environment, and governments do not tolerate monopoly on air production."
+    "message": "Ren luft är bara självklart när den finns i överflöd. Tekniken bakom luftrening ryktas komma från utomjordiska artefakter som hittats på Mars. Många företag tillverkar olika typer av luftprocessorer, som klarar av att förvandla de mest ogästvänliga atmosfärer till en fungerande miljö, och regeringar tolererar inte monopol på luftproduktion"
   },
   "ANIMAL_MEAT": {
     "description": "",
@@ -13,7 +13,7 @@
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "A major point of controversy, meat is the flesh of animals. With synthetic protein readily available, most people believe that animals should not be killed. While meats are illegal in most core systems, live animals and their meat is an important part of the lives of people on more traditional worlds."
+    "message": "Det är en stor motsägelse, kött är köttet från djur. Med god tillgång till syntetiska proteiner anser de flesta människorna att djur inte borde bli dödade. Medan kött är illegalt i de flesta kärnsystemen så är levande djur och deras kött en viktig del av liven för människor på de mer traditionella världarna."
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -21,7 +21,7 @@
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Heavy military-grade weapons, like armoured hover tanks, and surface-to-space missiles. Trading in them is usually a governmental monopoly. On the black market, however, these can often fetch a hefty sum of money."
+    "message": "Tunga, militärklassade vapen, som bepansrade svävar tanks, och land-till-rymd missiler. Att handla med dem är vanligtvis ett regeringsmonopol. På svarta marknaden kan dessa ofta inbringa en stor summa pengar."
   },
   "CARBON_ORE": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
+    "message": "För över 1000 år sen med sin Abacus, PDP-11 och Motorola 68k chip till vår moderna HAL 9001 och Multivac produkterna, anses datorerna utgöra gryningen för informationseran. Lika viktiga för att gå in i hyperryden som för att dela videor på gulliga smådjur över UnNet."
   },
   "CONSUMER_GOODS": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
+    "message": "Slutprodukterna som är redo för den konsumenten utan ytterligare bearbetning. Alltifrån tandborstar, köksredskap till svävarbilar."
   },
   "FARM_MACHINERY": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
+    "message": "Även om det är ovanligt så går det ibland att se en bonde med en oxdriven plog. Men nästan överallt där det finns jordbruk är det maskiner som används för odling, oavsett om det är vattentillverkning för ett underjordiskt tillhåll eller oändliga fält på en jordbruksplanet."
   },
   "FERTILIZER": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Fertilizers are crucial for growing crops at an industrial scale, allowing mono-cultures, and yielding higher dividends than possible using plain dirt. This often comes with an ecological cost, not evident at the onset."
+    "message": "Gödningsmedel är vitala för odling på en industriell skala. Det tillåter odling av enstaka arter och ger högre avkastning mot vad som är möjligt med vanlig jord. Det kommer oftast med en ekologisk kostnad som inte brukar vara tydlig i början."
   },
   "FRUIT_AND_VEG": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "While there are lots of synthetic alternatives, real fruits and vegetables are still an important part of our cuisine and nutrition. Grown on agricultural worlds or as part of the life support of habitats, and exported to systems in which growing plants is not feasible."
+    "message": "Även om det finns många syntetiska alternativ så är riktiga frukt och grönsaker fortfarande en viktig del av vår mat och näring. Odlade på jordbruksvärldar eller som en del av de livsuppehållande systemen i olika habitat exporteras dess till system där det saknas möjlighet till odling."
   },
   "GRAIN": {
     "description": "",
@@ -77,15 +77,15 @@
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+    "message": "Basfödan i mångas dieter. Det används i jordbruk för att mata djuren och som ett supplement till syntetisk mat. Säd används också i många andra maträtter som gröt och bakade varor. De flesta kulturer som reser bland stjärnorna odlar och konsumerar i alla var lite säd som blivit anpassade till deras levnadsmiljö."
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Small arms"
+    "message": "Handeldvapen"
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Providing insurance beyond the long arm of the law, hand weapons are essential for space traders in far-out systems. However, many governments see them as a threat to their own control over their population and strictly control their trade and possession."
+    "message": "Ger en försäkring som sträcker sig utanför lagens långa arm. Handeldvapen är vitala för handlare i de uteliggande systemen.  Däremot ser många regeringar dessa som ett hot mot deras kontroll över populationen och de efterlever strikt kontroll över handel och innehav."
   },
   "HYDROGEN": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
+    "message": "Används som bränsle för hypermotorer och drivmedel för rymdskepp. Väte är ett mycket viktigt element. Som tur är så är det också det vanligaste ämnet i universum, även om det inte är trivialt att lagra det. Det är vanligtvis en av de billigaste varorna på marknaden. Rymdhamnar brukar vara välsorterade."
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Needed for assembly lines, refineries, smelters, and production of machinery that will in turn produce other goods. High competence is needed to produce these advanced machines."
+    "message": "Behövs för fabriker, raffinaderier, smältverk och maskinproduktion som i sin tur producerar andra varor. Hög kompetens krävs för att producera dessa avancerade maskiner."
   },
   "LIQUID_OXYGEN": {
     "description": "",
@@ -109,7 +109,7 @@
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Liquid oxygen has many purposes, most commonly in medical and industrial applications and sometimes also used in waste treatment. It is very affordable, as oxygen is easy to obtain from water."
+    "message": "Flytande syre har många användningsområden. Vanligast är medicinska och industriella applikationer men används även ibland för sophantering. Det är väldigt billigt eftersom syre är lätt att utvinna ur vatten."
   },
   "LIQUOR": {
     "description": "",

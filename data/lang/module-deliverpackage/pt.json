@@ -313,7 +313,7 @@
   },
   "PIRATE_TAUNTS_7": {
     "description": "",
-    "message": "That package isn't going to reach its destination today."
+    "message": "Desta vez essa encomenda não irá chegar ao destino."
   },
   "PIRATE_TAUNTS_8": {
     "description": "",
@@ -325,7 +325,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Definir como destino de navegação"
   },
   "SPACEPORT": {
     "description": "",

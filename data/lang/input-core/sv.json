@@ -1,75 +1,75 @@
 {
   "BIND_AXIS_PITCH": {
     "description": "Descriptive name for the Pitch axis.",
-    "message": "Pitch"
+    "message": "Lutning"
   },
   "BIND_AXIS_ROLL": {
     "description": "Descriptive name for the Roll axis",
-    "message": "Roll"
+    "message": "Rulla"
   },
   "BIND_AXIS_THRUST_FORWARD": {
     "description": "Descriptive name for the ThrustForward axis",
-    "message": "Thrust Forward / Backwards"
+    "message": "Dragkraft framåt / bakåt"
   },
   "BIND_AXIS_THRUST_LEFT": {
     "description": "Descriptive name for the ThrustLeft axis",
-    "message": "Thrust Left / Right"
+    "message": "Dragkraft vänster/höger"
   },
   "BIND_AXIS_THRUST_UP": {
     "description": "Descriptive name for the ThrustUp axis",
-    "message": "Thrust Up / Down"
+    "message": "Dragkraft upp/ner"
   },
   "BIND_AXIS_YAW": {
     "description": "Descriptive name for the Yaw axis.",
-    "message": "Yaw"
+    "message": "Gira"
   },
   "BIND_BOTTOM_CAMERA": {
     "description": "Descriptive name for the BottomCamera action.",
-    "message": "Switch to Bottom Camera"
+    "message": "Byt till nedre kamera"
   },
   "BIND_CAMERA_PITCH": {
     "description": "Descriptive name for the Camera Pitch axis.",
-    "message": "Camera Pitch"
+    "message": "Kamera stigning (pitch)"
   },
   "BIND_CAMERA_ROLL": {
     "description": "Descriptive name for the Camera Roll axis",
-    "message": "Camera Roll"
+    "message": "Kamera longitud rotation (roll)"
   },
   "BIND_CAMERA_YAW": {
     "description": "Descriptive name for the Camera Yaw axis.",
-    "message": "Camera Yaw"
+    "message": "Kamera vertikal rotation (yaw)"
   },
   "BIND_CYCLE_CAMERA_MODE": {
     "description": "Descriptive name for the CycleCameraMode action.",
-    "message": "Cycle Camera Mode"
+    "message": "Växla kameraläge"
   },
   "BIND_DECREASE_SPEED": {
     "description": "Descriptive name for the DecreaseSpeed action.",
-    "message": "Decrease Speed Limit"
+    "message": "Minska tillgänglig fart"
   },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
-    "message": "Decrease Time Acceleration"
+    "message": "Minska tidsacceleration"
   },
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
-    "message": "Switch to Front Camera"
+    "message": "Byt till främre kamera"
   },
   "BIND_INCREASE_SPEED": {
     "description": "Descriptive name for the IncreaseSpeed action.",
-    "message": "Increase Speed Limit"
+    "message": "Öka tillgänglig fart"
   },
   "BIND_INCREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the IncreaseTimeAcceleration action.",
-    "message": "Increase Time Acceleration"
+    "message": "Öka tidsacceleration"
   },
   "BIND_KILL_ROT": {
     "description": "Descriptive name for the KillRot action.",
-    "message": "Kill Rotation"
+    "message": "Avbryt rotation"
   },
   "BIND_LEFT_CAMERA": {
     "description": "Descriptive name for the LeftCamera action.",
-    "message": "Switch to Left Camera"
+    "message": "Byt till vänster kamera"
   },
   "BIND_LOOK_PITCH": {
     "description": "Descriptive name for the Freelook Pitch axis.",
@@ -81,23 +81,23 @@
   },
   "BIND_PRIMARY_FIRE": {
     "description": "Descriptive name for the PrimaryFire action.",
-    "message": "Primary Fire"
+    "message": "Primär eldgivning"
   },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
-    "message": "Switch to Rear Camera"
+    "message": "Byt till bakre kamera"
   },
   "BIND_RESET_CAMERA": {
     "description": "Descriptive name for the ResetCamera action.",
-    "message": "Reset Camera View to Default"
+    "message": "Återställ kamera-vy till standard"
   },
   "BIND_RIGHT_CAMERA": {
     "description": "Descriptive name for the RightCamera action.",
-    "message": "Switch to Right Camera"
+    "message": "Byt till höger kamera"
   },
   "BIND_SECONDARY_FIRE": {
     "description": "Descriptive name for the SecondaryFire action.",
-    "message": "Secondary Fire"
+    "message": "Sekundär eldgivning"
   },
   "BIND_TARGET_OBJECT": {
     "description": "Descriptive name for the TargetObject action.",
@@ -105,23 +105,23 @@
   },
   "BIND_THRUST_LOW_POWER": {
     "description": "Descriptive name for the ThrustLowPower action.",
-    "message": "Low Power Thrust Mode (hold)"
+    "message": "Låg dragkraftläge (håll)"
   },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",
-    "message": "Toggle HUD Mode"
+    "message": "HUD-läge av/på"
   },
   "BIND_TOGGLE_ROTATION_DAMPING": {
     "description": "Descriptive name for the ToggleRotationDamping action.",
-    "message": "Toggle Rotation Damping"
+    "message": "Rotationsdämpning av/på"
   },
   "BIND_TOGGLE_SET_SPEED": {
     "description": "Descriptive name for the ToggleSetSpeed action.",
-    "message": "Toggle Speed Control Mode"
+    "message": "Fartkontrollsläge av/på"
   },
   "BIND_TOP_CAMERA": {
     "description": "Descriptive name for the TopCamera action.",
-    "message": "Switch to Top Camera"
+    "message": "Byt till övre kameran"
   },
   "BIND_VIEW_ZOOM": {
     "description": "Descriptive name for the View Zoom axis",
@@ -129,14 +129,14 @@
   },
   "GROUP_GENERAL_VIEW_CONTROLS": {
     "description": "Header for the GeneralViewControls input group.",
-    "message": "General View Controls"
+    "message": "Generella vykontroller"
   },
   "GROUP_MANUAL_CONTROL": {
     "description": "Header for the ManualControl input group.",
-    "message": "Manual Thrust Control"
+    "message": "Manuell dragkraftkontroll"
   },
   "GROUP_MISCELLANEOUS": {
-    "message": "Miscellaneous"
+    "message": "Diverse"
   },
   "GROUP_SHIP_ORIENT": {
     "description": "Header for the ShipOrient input group.",
@@ -144,11 +144,11 @@
   },
   "GROUP_SPEED_CONTROL": {
     "description": "Header for the SpeedControl input group.",
-    "message": "Set-Speed Thrust Control"
+    "message": "Sätt-fart dragkraftkontroll"
   },
   "GROUP_WEAPONS": {
     "description": "Header for the Weapons input group.",
-    "message": "Weapons"
+    "message": "Vapen"
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",
@@ -180,7 +180,7 @@
   },
   "TEXT_INVERT_AXIS": {
     "description": "Message shown for the invert axis checkbox.",
-    "message": "Invert Axis"
+    "message": "Invertera axlar"
   },
   "TEXT_KEY_BINDINGS": {
     "description": "Section header for an axis or action's key bindings.",
@@ -188,10 +188,10 @@
   },
   "TEXT_KEY_NEGATIVE": {
     "description": "Indicates the negative half of a key-binding pair.",
-    "message": "Negative:"
+    "message": "Negativ:"
   },
   "TEXT_KEY_POSITIVE": {
     "description": "Indicates the positive half of a key-binding pair.",
-    "message": "Positive:"
+    "message": "Positiv:"
   }
 }
