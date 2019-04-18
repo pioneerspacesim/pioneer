@@ -117,7 +117,7 @@
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
+    "message": "De flesta utposterna har en lokal brygd som utomstående brukar ha svårt att få ner. Alkohol kan vara förbjudet i vissa system då det anses fördunkla sinnena. Oavsett lagar så brukar det alltid finnas tillgång till ett glas wiskey på den svarta maknaden. För ett pris."
   },
   "LIVE_ANIMALS": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Partly due to humanistic, economic and ecological reasons, animal rearing and trade is strictly regulated, or even illegal in many core systems. Going outward, livestock becomes a more important part of the livelihood of the people, both as a source of nutrition and a beast of burden. Exotic zoos and wildlife reserves contribute to the trade of animals around the galaxy, usually under strict state regulations, to combat illegal hunting grounds."
+    "message": "Delvis på grund av humanistiska, ekonomiska och ekologiska anledningar så är uppfödning av djur hårt kontrollerat eller till och med förbjudet i många av kärnsystemen. Åker man utåt så blir boskap en viktigare del av försörjningen av folket, både som födokälla och som dragdjur. Exotiska zoo med vilda djur bidrar till handeln med djur runt om i galaxen, vanligtvis under strikta statliga regleringar för att undvika olagliga jaktmarker."
   },
   "MEDICINES": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Derived from natural sources, or synthesized artificially, medicines are needed everywhere humans go. From curing the common cold to combat the adverse effects of prolonged space travel, medicines are essential to the prosperity of an interstellar humanity. Carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
+    "message": "Oavsett om de är utvunna ur naturliga källor, eller artificiellt syntetiserad så behövs mediciner överallt där människor färdas. Med användningsområden alltifrån att bota vanlig förkylning till att bekämpa de negativa effekterna av en förlängd vistelse i rymden så är mediciner av yttersta vikt för att den intergalaktiska mänskligheten skall frodas.  Mediciner övervakas noga av tullagenter då det inte är ovanligt att dölja narkotika som medicinska preparat."
   },
   "METAL_ALLOYS": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "After metal ore is extracted and refined, it is processed and ends up as various alloys. An alloy is an amalgamation of metals, rather than a single pure element, combined in exact proportions to gain specific desirable traits. Therefore, most consumer metals are alloys."
+    "message": "Efter att malm har blivit utvunnen och förädlat så processas den till att bli olika typer av legeringar. En legering är en sammanslagning av metaller, snarare än ett enda rent element, som kombinerats i precisa proportioner för att få önskvärda egenskaper. Därför är de flesta konsumentmetallerna legeringar."
   },
   "METAL_ORE": {
     "description": "",
@@ -149,7 +149,7 @@
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
+    "message": "Många kolonier utvinner malm för export för förädling och användning inom industriell tillverkning. De används i allt från små leksaker till rymdskepp. Metall i alla dess former är vitalt för den moderna civilisationen."
   },
   "MILITARY_FUEL": {
     "description": "",

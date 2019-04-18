@@ -129,7 +129,7 @@
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
-    "message": "Anbindung ändern"
+    "message": "Zuweisung ändern"
   },
   "CHIEF_MECHANIC": {
     "description": "",

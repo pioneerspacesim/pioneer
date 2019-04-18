@@ -9,15 +9,15 @@
   },
   "BIND_AXIS_THRUST_FORWARD": {
     "description": "Descriptive name for the ThrustForward axis",
-    "message": "Thrust Forward / Backwards"
+    "message": "Schub vorwärts / rückwärts"
   },
   "BIND_AXIS_THRUST_LEFT": {
     "description": "Descriptive name for the ThrustLeft axis",
-    "message": "Thrust Left / Right"
+    "message": "Schub links / rechts"
   },
   "BIND_AXIS_THRUST_UP": {
     "description": "Descriptive name for the ThrustUp axis",
-    "message": "Thrust Up / Down"
+    "message": "Schub oben / unten"
   },
   "BIND_AXIS_YAW": {
     "description": "Descriptive name for the Yaw axis.",
@@ -25,27 +25,27 @@
   },
   "BIND_BOTTOM_CAMERA": {
     "description": "Descriptive name for the BottomCamera action.",
-    "message": "Switch to Bottom Camera"
+    "message": "Zur unteren Kamera wechseln"
   },
   "BIND_CAMERA_PITCH": {
     "description": "Descriptive name for the Camera Pitch axis.",
-    "message": "Camera Pitch"
+    "message": "Kamerarotation - Nicken"
   },
   "BIND_CAMERA_ROLL": {
     "description": "Descriptive name for the Camera Roll axis",
-    "message": "Camera Roll"
+    "message": "Kamerarotation - Rollen"
   },
   "BIND_CAMERA_YAW": {
     "description": "Descriptive name for the Camera Yaw axis.",
-    "message": "Camera Yaw"
+    "message": "Kamerarotation - Gieren"
   },
   "BIND_CYCLE_CAMERA_MODE": {
     "description": "Descriptive name for the CycleCameraMode action.",
-    "message": "Cycle Camera Mode"
+    "message": "Wechseln in nächsten Kameramodus"
   },
   "BIND_DECREASE_SPEED": {
     "description": "Descriptive name for the DecreaseSpeed action.",
-    "message": "Decrease Speed Limit"
+    "message": "Geschwindigkeitsgrenze senken"
   },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
@@ -53,11 +53,11 @@
   },
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
-    "message": "Switch to Front Camera"
+    "message": "Zur Frontkamera wechseln"
   },
   "BIND_INCREASE_SPEED": {
     "description": "Descriptive name for the IncreaseSpeed action.",
-    "message": "Increase Speed Limit"
+    "message": "Geschwindigkeitsgrenze erhöhen"
   },
   "BIND_INCREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the IncreaseTimeAcceleration action.",
@@ -65,67 +65,67 @@
   },
   "BIND_KILL_ROT": {
     "description": "Descriptive name for the KillRot action.",
-    "message": "Kill Rotation"
+    "message": "Rotation stoppen"
   },
   "BIND_LEFT_CAMERA": {
     "description": "Descriptive name for the LeftCamera action.",
-    "message": "Switch to Left Camera"
+    "message": "Zur linken Kamera wechseln"
   },
   "BIND_LOOK_PITCH": {
     "description": "Descriptive name for the Freelook Pitch axis.",
-    "message": "Freelook Pitch"
+    "message": "Kamera - Freies Nicken"
   },
   "BIND_LOOK_YAW": {
     "description": "Descriptive name for the Freelook Yaw axis.",
-    "message": "Freelook Yaw"
+    "message": "Kamera - Freies Gieren"
   },
   "BIND_PRIMARY_FIRE": {
     "description": "Descriptive name for the PrimaryFire action.",
-    "message": "Primary Fire"
+    "message": "Primärfeuer"
   },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
-    "message": "Switch to Rear Camera"
+    "message": "Zur Heckkamera wechseln"
   },
   "BIND_RESET_CAMERA": {
     "description": "Descriptive name for the ResetCamera action.",
-    "message": "Reset Camera View to Default"
+    "message": "Kamera-Ansicht auf Voreinstellung zurücksetzen"
   },
   "BIND_RIGHT_CAMERA": {
     "description": "Descriptive name for the RightCamera action.",
-    "message": "Switch to Right Camera"
+    "message": "Zur rechten Kamera wechseln"
   },
   "BIND_SECONDARY_FIRE": {
     "description": "Descriptive name for the SecondaryFire action.",
-    "message": "Secondary Fire"
+    "message": "Sekundärfeuer"
   },
   "BIND_TARGET_OBJECT": {
     "description": "Descriptive name for the TargetObject action.",
-    "message": "Target Object"
+    "message": "Zielobjekt"
   },
   "BIND_THRUST_LOW_POWER": {
     "description": "Descriptive name for the ThrustLowPower action.",
-    "message": "Low Power Thrust Mode (hold)"
+    "message": "Niedrigschubmodus (gehalten)"
   },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",
-    "message": "Toggle HUD Mode"
+    "message": "HUD-Modus umschalten"
   },
   "BIND_TOGGLE_ROTATION_DAMPING": {
     "description": "Descriptive name for the ToggleRotationDamping action.",
-    "message": "Toggle Rotation Damping"
+    "message": "Rotationsdämpfung umschalten"
   },
   "BIND_TOGGLE_SET_SPEED": {
     "description": "Descriptive name for the ToggleSetSpeed action.",
-    "message": "Toggle Speed Control Mode"
+    "message": "Geschwindigkeitsreglung umschalten"
   },
   "BIND_TOP_CAMERA": {
     "description": "Descriptive name for the TopCamera action.",
-    "message": "Switch to Top Camera"
+    "message": "Zur oberen Kamera wechseln"
   },
   "BIND_VIEW_ZOOM": {
     "description": "Descriptive name for the View Zoom axis",
-    "message": "View Zoom"
+    "message": "Ansicht zoomen"
   },
   "GROUP_GENERAL_VIEW_CONTROLS": {
     "description": "Header for the GeneralViewControls input group.",
@@ -133,18 +133,18 @@
   },
   "GROUP_MANUAL_CONTROL": {
     "description": "Header for the ManualControl input group.",
-    "message": "Manual Thrust Control"
+    "message": "Manuelle Schubkontrolle"
   },
   "GROUP_MISCELLANEOUS": {
     "message": "Verschiedenes"
   },
   "GROUP_SHIP_ORIENT": {
     "description": "Header for the ShipOrient input group.",
-    "message": "Ship Orientation"
+    "message": "Schiffausrichtung"
   },
   "GROUP_SPEED_CONTROL": {
     "description": "Header for the SpeedControl input group.",
-    "message": "Set-Speed Thrust Control"
+    "message": "Geschwindigkeitsgeregelte Schubkontrolle"
   },
   "GROUP_WEAPONS": {
     "description": "Header for the Weapons input group.",
@@ -152,46 +152,46 @@
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",
-    "message": "General Controls"
+    "message": "Allgemeine Steuerung"
   },
   "PAGE_SHIP_CONTROLS": {
     "description": "Header for the ShipControls input page.",
-    "message": "Ship - Controls"
+    "message": "Schiff - Steuerung"
   },
   "PAGE_SHIP_VIEW": {
     "description": "Header for the ShipView input page.",
-    "message": "Ship - View"
+    "message": "Schiff - Ansicht"
   },
   "TEXT_ALT_BINDING": {
     "description": "",
-    "message": "Alt. Binding:"
+    "message": "Alt. Zuweisung:"
   },
   "TEXT_AXIS_DEADZONE": {
     "description": "Message shown for the axis deadzone slider.",
-    "message": "Axis Deadzone"
+    "message": "Achsen-Deadzone"
   },
   "TEXT_AXIS_SENSITIVITY": {
     "description": "Message shown for the axis sensitivity slider.",
-    "message": "Axis Sensitivity"
+    "message": "Achsen-Sensitivität"
   },
   "TEXT_BINDING": {
     "description": "",
-    "message": "Binding:"
+    "message": "Zuweisung:"
   },
   "TEXT_INVERT_AXIS": {
     "description": "Message shown for the invert axis checkbox.",
-    "message": "Invert Axis"
+    "message": "Achse invertieren"
   },
   "TEXT_KEY_BINDINGS": {
     "description": "Section header for an axis or action's key bindings.",
-    "message": "Key Bindings:"
+    "message": "Tastenzuweisungen:"
   },
   "TEXT_KEY_NEGATIVE": {
     "description": "Indicates the negative half of a key-binding pair.",
-    "message": "Negative:"
+    "message": "Negativ:"
   },
   "TEXT_KEY_POSITIVE": {
     "description": "Indicates the positive half of a key-binding pair.",
-    "message": "Positive:"
+    "message": "Positiv:"
   }
 }

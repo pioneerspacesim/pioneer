@@ -9,15 +9,15 @@
   },
   "BIND_AXIS_THRUST_FORWARD": {
     "description": "Descriptive name for the ThrustForward axis",
-    "message": "Thrust Forward / Backwards"
+    "message": "İleri / Geri İtiş"
   },
   "BIND_AXIS_THRUST_LEFT": {
     "description": "Descriptive name for the ThrustLeft axis",
-    "message": "Thrust Left / Right"
+    "message": "Sağ / Sol İtiş"
   },
   "BIND_AXIS_THRUST_UP": {
     "description": "Descriptive name for the ThrustUp axis",
-    "message": "Thrust Up / Down"
+    "message": "Aşağı / Yukarı İtiş"
   },
   "BIND_AXIS_YAW": {
     "description": "Descriptive name for the Yaw axis.",
@@ -25,27 +25,27 @@
   },
   "BIND_BOTTOM_CAMERA": {
     "description": "Descriptive name for the BottomCamera action.",
-    "message": "Switch to Bottom Camera"
+    "message": "Alt Kameraya Geç"
   },
   "BIND_CAMERA_PITCH": {
     "description": "Descriptive name for the Camera Pitch axis.",
-    "message": "Camera Pitch"
+    "message": "Kamera Dikey Hareket"
   },
   "BIND_CAMERA_ROLL": {
     "description": "Descriptive name for the Camera Roll axis",
-    "message": "Camera Roll"
+    "message": "Kamera Yuvarlama"
   },
   "BIND_CAMERA_YAW": {
     "description": "Descriptive name for the Camera Yaw axis.",
-    "message": "Camera Yaw"
+    "message": "Kamera Yanal Hareket"
   },
   "BIND_CYCLE_CAMERA_MODE": {
     "description": "Descriptive name for the CycleCameraMode action.",
-    "message": "Cycle Camera Mode"
+    "message": "Kamera Modları Arası Geçiş"
   },
   "BIND_DECREASE_SPEED": {
     "description": "Descriptive name for the DecreaseSpeed action.",
-    "message": "Decrease Speed Limit"
+    "message": "Hız Limitini Azalt"
   },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
@@ -53,11 +53,11 @@
   },
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
-    "message": "Switch to Front Camera"
+    "message": "Ön Kameraya Geç"
   },
   "BIND_INCREASE_SPEED": {
     "description": "Descriptive name for the IncreaseSpeed action.",
-    "message": "Increase Speed Limit"
+    "message": "Hız Limitini Arttır"
   },
   "BIND_INCREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the IncreaseTimeAcceleration action.",
@@ -65,67 +65,67 @@
   },
   "BIND_KILL_ROT": {
     "description": "Descriptive name for the KillRot action.",
-    "message": "Kill Rotation"
+    "message": "Dönüşü Sabitle"
   },
   "BIND_LEFT_CAMERA": {
     "description": "Descriptive name for the LeftCamera action.",
-    "message": "Switch to Left Camera"
+    "message": "Sol Kameraya Geç"
   },
   "BIND_LOOK_PITCH": {
     "description": "Descriptive name for the Freelook Pitch axis.",
-    "message": "Freelook Pitch"
+    "message": "Serbest Bakış Dikey Eksen"
   },
   "BIND_LOOK_YAW": {
     "description": "Descriptive name for the Freelook Yaw axis.",
-    "message": "Freelook Yaw"
+    "message": "Serbest Bakış Yanal Eksen"
   },
   "BIND_PRIMARY_FIRE": {
     "description": "Descriptive name for the PrimaryFire action.",
-    "message": "Primary Fire"
+    "message": "Birincil Atış"
   },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
-    "message": "Switch to Rear Camera"
+    "message": "Arka Kameraya Geç"
   },
   "BIND_RESET_CAMERA": {
     "description": "Descriptive name for the ResetCamera action.",
-    "message": "Reset Camera View to Default"
+    "message": "Varsayılan Kamera Görüntüsüne Dön"
   },
   "BIND_RIGHT_CAMERA": {
     "description": "Descriptive name for the RightCamera action.",
-    "message": "Switch to Right Camera"
+    "message": "Sağ Kameraya Geç"
   },
   "BIND_SECONDARY_FIRE": {
     "description": "Descriptive name for the SecondaryFire action.",
-    "message": "Secondary Fire"
+    "message": "İkincil Atış"
   },
   "BIND_TARGET_OBJECT": {
     "description": "Descriptive name for the TargetObject action.",
-    "message": "Target Object"
+    "message": "Hedef Cisim"
   },
   "BIND_THRUST_LOW_POWER": {
     "description": "Descriptive name for the ThrustLowPower action.",
-    "message": "Low Power Thrust Mode (hold)"
+    "message": "Düşük İtiş Gücü Modu (basılı tut)"
   },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",
-    "message": "Toggle HUD Mode"
+    "message": "HUD Modunu Değiştir"
   },
   "BIND_TOGGLE_ROTATION_DAMPING": {
     "description": "Descriptive name for the ToggleRotationDamping action.",
-    "message": "Toggle Rotation Damping"
+    "message": "Dönüş Sabitleme"
   },
   "BIND_TOGGLE_SET_SPEED": {
     "description": "Descriptive name for the ToggleSetSpeed action.",
-    "message": "Toggle Speed Control Mode"
+    "message": "Hız Kontrol Modunu Değiştir"
   },
   "BIND_TOP_CAMERA": {
     "description": "Descriptive name for the TopCamera action.",
-    "message": "Switch to Top Camera"
+    "message": "Üst Kameraya Geç"
   },
   "BIND_VIEW_ZOOM": {
     "description": "Descriptive name for the View Zoom axis",
-    "message": "View Zoom"
+    "message": "Görüntü Yakınlaştırma"
   },
   "GROUP_GENERAL_VIEW_CONTROLS": {
     "description": "Header for the GeneralViewControls input group.",
@@ -133,18 +133,18 @@
   },
   "GROUP_MANUAL_CONTROL": {
     "description": "Header for the ManualControl input group.",
-    "message": "Manual Thrust Control"
+    "message": "Elle İtici Kontrolü"
   },
   "GROUP_MISCELLANEOUS": {
     "message": "Çeşitli"
   },
   "GROUP_SHIP_ORIENT": {
     "description": "Header for the ShipOrient input group.",
-    "message": "Ship Orientation"
+    "message": "Gemi Yönü"
   },
   "GROUP_SPEED_CONTROL": {
     "description": "Header for the SpeedControl input group.",
-    "message": "Set-Speed Thrust Control"
+    "message": "Hız-Ayarlama İtiş Kontrolü"
   },
   "GROUP_WEAPONS": {
     "description": "Header for the Weapons input group.",
@@ -152,46 +152,46 @@
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",
-    "message": "General Controls"
+    "message": "Genel Kontroller"
   },
   "PAGE_SHIP_CONTROLS": {
     "description": "Header for the ShipControls input page.",
-    "message": "Ship - Controls"
+    "message": "Gemi - Kontoller"
   },
   "PAGE_SHIP_VIEW": {
     "description": "Header for the ShipView input page.",
-    "message": "Ship - View"
+    "message": "Gemi - Görüntü"
   },
   "TEXT_ALT_BINDING": {
     "description": "",
-    "message": "Alt. Binding:"
+    "message": "Alt. Tuş:"
   },
   "TEXT_AXIS_DEADZONE": {
     "description": "Message shown for the axis deadzone slider.",
-    "message": "Axis Deadzone"
+    "message": "Eksen Ölü Bölgesi"
   },
   "TEXT_AXIS_SENSITIVITY": {
     "description": "Message shown for the axis sensitivity slider.",
-    "message": "Axis Sensitivity"
+    "message": "Eksen Duyarlılığı"
   },
   "TEXT_BINDING": {
     "description": "",
-    "message": "Binding:"
+    "message": "Tuş:"
   },
   "TEXT_INVERT_AXIS": {
     "description": "Message shown for the invert axis checkbox.",
-    "message": "Invert Axis"
+    "message": "Ekseni Ters Çevir"
   },
   "TEXT_KEY_BINDINGS": {
     "description": "Section header for an axis or action's key bindings.",
-    "message": "Key Bindings:"
+    "message": "Tuşlar:"
   },
   "TEXT_KEY_NEGATIVE": {
     "description": "Indicates the negative half of a key-binding pair.",
-    "message": "Negative:"
+    "message": "Negatif:"
   },
   "TEXT_KEY_POSITIVE": {
     "description": "Indicates the positive half of a key-binding pair.",
-    "message": "Positive:"
+    "message": "Pozitif:"
   }
 }
