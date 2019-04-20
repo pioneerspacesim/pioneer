@@ -198,6 +198,7 @@ local function showMainMenu()
 	end)
 
 	ui.setNextWindowPos(winPos,'Always')
+	ui.setNextWindowSize(Vector(0,0), 'Always')
 	ui.withStyleColors({["WindowBg"] = colors.lightBlackBackground}, function()
 		ui.window("MainMenuButtons", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}, function()
 			mainTextButton(lui.CONTINUE_GAME, nil, canContinue, continueGame)
