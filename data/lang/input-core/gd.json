@@ -97,7 +97,7 @@
   },
   "BIND_SECONDARY_FIRE": {
     "description": "Descriptive name for the SecondaryFire action.",
-    "message": "Secondary Fire"
+    "message": "Prìomh-losgadh"
   },
   "BIND_TARGET_OBJECT": {
     "description": "Descriptive name for the TargetObject action.",
