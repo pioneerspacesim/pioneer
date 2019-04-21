@@ -6,6 +6,7 @@ local Vector2 = _G.Vector2
 
 local ui = import 'pigui'
 local lui = import 'Lang'.GetResource("ui-core")
+local lec = import 'Lang'.GetResource("equipment-core")
 
 local icons = ui.theme.icons
 local colors = ui.theme.colors
@@ -32,10 +33,27 @@ function gauges.displayGauges()
 		table.sort(gauges, function(a,b) return a.priority < b.priority end)
 		gauges.dirty = false
 	end
+--[[
+	local gauge_stretch = 1.4
+	local current_view = Game.CurrentView()
+	local c = 0
+	for k,v in pairs(gauges) do
+		local g = v.fun()
+		if g and g.value then
+			c = c + 1
+		end
+	end
+	local player = Game.player
+	local guns = player:GetUsedMountsNumber()
+	c = c + guns
+	c = c + 0.1
+--]]
+	local player = Game.player
+	local guns = player:GetUsedMountsNumber()
 
 	local gauge_stretch = 1.4
 	local current_view = Game.CurrentView()
-	local c = gauges.gaugeCount + 0.1
+	local c = gauges.gaugeCount + 0.1 + guns
 	if current_view == "world" then
 		ui.setNextWindowSize(Vector2(ui.gauge_width, ui.gauge_height * c * gauge_stretch), "Always")
 		local tws = ui.timeWindowSize
@@ -53,29 +71,39 @@ function gauges.displayGauges()
 					uiPos = uiPos + Vector2(0, ui.gauge_height * gauge_stretch)
 				end
 			end
+			-- Display a variable number of guns
+			for i=1,guns do
+				local icon = nil
+				if player:GetGunIsFront(i - 1) then
+					icon = ui.theme.icons.forward
+					tooltip = lui.HUD_FORWARD_GUN_TEMPERATURE.." ("..lec[player:GetGunName(i-1)]..")"
+				else
+					icon = ui.theme.icons.backward
+					tooltip = lui.HUD_BACKWARD_GUN_TEMPERATURE.." ("..lec[player:GetGunName(i-1)]..")"
+				end
+				local left_up = Vector2(0, -ui.gauge_height / 2)
+				local right_down = Vector2(ui.gauge_width, ui.gauge_height / 2)
+				-- Check there's a mouse click on gun gauge
+				if ui.isMouseHoveringRect(uiPos + left_up, uiPos + right_down) and ui.isMouseClicked(0) then
+					if player:IsGunActive(i - 1) then
+						player:SetGunActivation(i - 1, false)
+					else
+						player:SetGunActivation(i - 1, true)
+					end
+				end
+				local gauge_color = ui.theme.colors.gaugeWeapon
+				if player:IsGunActive(i - 1) then
+					ui.gauge(uiPos, player:GetGunTemperature(i - 1) * 100, nil, nil, 0, 100,
+							icon, gauge_color, tooltip)
+				else
+					ui.gauge(uiPos, player:GetGunTemperature(i - 1) * 100, nil, nil, 0, 100,
+							icon, gauge_color, tooltip, nil, nil, nil, nil, ui.theme.colors.grey)
+				end
+				uiPos = uiPos + Vector2(0, ui.gauge_height * gauge_stretch)
+			end
 		end)
 	end
 end
-
-gauges.registerGauge(0, {
-	value = function ()
-		local t = Game.player:GetGunTemperature(0) * 100
-		if t and t > 0 then return t
-		else return nil end
-	end,
-	icon = icons.forward, color = colors.gaugeWeapon,
-	tooltop = lui.HUD_FORWARD_GUN_TEMPERATURE
-})
-
-gauges.registerGauge(1, {
-	value = function ()
-		local t = Game.player:GetGunTemperature(1) * 100
-		if t and t > 0 then return t
-		else return nil end
-	end,
-	icon = icons.backward, color = colors.gaugeWeapon,
-	tooltip = lui.HUD_BACKWARD_GUN_TEMPERATURE
-})
 
 gauges.registerGauge(2, {
 	value = function ()

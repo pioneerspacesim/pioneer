@@ -832,14 +832,17 @@ local gauge_show_percent = true
 ui.gauge_height = 25
 ui.gauge_width = 275
 
-ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color, tooltip, width, height, formatFont, percentFont)
+ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color, tooltip, width, height, formatFont, percentFont, color_bg)
+	if not color_bg then
+		color_bg = ui.theme.colors.gaugeBackground
+	end
 	local percent = math.clamp((value - minimum) / (maximum - minimum), 0, 1)
 	local offset = 60
 	local uiPos = Vector2(position.x, position.y)
 	local gauge_width = width or ui.gauge_width
 	local gauge_height = height or ui.gauge_height
 	ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
-		ui.addLine(uiPos, Vector2(uiPos.x + gauge_width, uiPos.y), ui.theme.colors.gaugeBackground, gauge_height, false)
+		ui.addLine(uiPos, Vector2(uiPos.x + gauge_width, uiPos.y), color_bg, gauge_height, false)
 		if gauge_show_percent then
 			local one_hundred = ui.calcTextSize("100%")
 			uiPos.x = uiPos.x + one_hundred.x * 1.2 -- 1.2 for a bit of slack
@@ -853,7 +856,7 @@ ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color
 			ui.addFancyText(Vector2(uiPos.x + gauge_height/2, uiPos.y + gauge_height/4), ui.anchor.left, ui.anchor.center, {
 				{ text=string.format(format, value), color=ui.theme.colors.reticuleCircle,     font=(formatFont or ui.fonts.pionillium.small), tooltip=tooltip },
 				{ text=unit,                         color=ui.theme.colors.reticuleCircleDark, font=(formatFont or ui.fonts.pionillium.small), tooltip=tooltip }},
-					ui.theme.colors.gaugeBackground)
+					color_bg)
 		end
 	end)
 end

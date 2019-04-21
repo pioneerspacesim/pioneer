@@ -1090,27 +1090,6 @@ static int l_ship_get_hull_temperature(lua_State *l)
 	return 1;
 }
 
-/* Method: GetGunTemperature
- *
- * Get a gun's temperature (0.0 - 1.0).
- *
- * Parameters:
- *
- *    gun_index - the index of the gun
- *
- * Returns:
- *
- *    the gun's current temperature (0.0 - 1.0)
- *
- */
-static int l_ship_get_gun_temperature(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	int gun = luaL_checkinteger(l, 2);
-	LuaPush(l, s->GetGunTemperature(gun));
-	return 1;
-}
-
 /* Method: GetHullPercent
  *
  * Return the current percentage of hull left (0.0 - 1.0).
@@ -1248,9 +1227,94 @@ static int l_ship_get_thruster_state(lua_State *l)
 	return 1;
 }
 
-/* Method: GetMountsNumber
+/* Method: GetGunTemperature
  *
- * Return the number of mounts.
+ * Get a gun's temperature (0.0 - 1.0).
+ *
+ * Parameters:
+ *
+ *    gun_index - the index of the gun
+ *
+ * Returns:
+ *
+ *    the gun's current temperature (0.0 - 1.0)
+ *
+ */
+static int l_ship_get_gun_temperature(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int gun = luaL_checkinteger(l, 2);
+	LuaPush(l, s->GetGunTemperature(gun));
+	return 1;
+}
+
+static int l_ship_get_gun_is_front(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int gun = luaL_checkinteger(l, 2);
+	if (s->IsFront(gun) == GunDir::GUN_FRONT)
+		LuaPush(l, true);
+	else if (s->IsFront(gun) == GunDir::GUN_REAR)
+		LuaPush(l, false);
+	else {
+		luaL_error(l, "Ship %s call 'GetGunIsFront' without gun id)", s->GetLabel().c_str());
+		return 0;
+	};
+	return 1;
+}
+
+static int l_ship_get_gun_name(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int gun = luaL_checkinteger(l, 2);
+	LuaPush(l, s->GetGunName(gun));
+	return 1;
+}
+
+static int l_ship_set_active_stat_of_gun(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int num = luaL_checknumber(l, 2);
+	bool active = lua_toboolean(l, 3);
+	s->SetActivationStateOfGun(num, active);
+}
+
+static int l_ship_get_active_stat_of_gun(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int mount = -1;
+	if (lua_type(l, 2) == LUA_TSTRING) {
+		std::string gun_name = luaL_checkstring(l, 2);
+		mount = s->FindMountOfGun(gun_name);
+	} else if (lua_type(l,2) == LUA_TNUMBER) {
+		mount = luaL_checknumber(l, 2);
+	} else {
+		luaL_error(l, "Ship %s call 'IsGunActive' without info (either the gun name or number)", s->GetLabel().c_str());
+		return 0;
+	}
+	LuaPush(l, s->GetActivationStateOfGun(mount));
+	return 1;
+}
+
+/* Method: GetUsedMountsNumber
+ *
+ * Return the number of used mounts.
+ *
+ * Returns:
+ *
+ *    a value with the number of used mounts
+ *
+ */
+static int l_ship_get_used_mounts_number(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaPush(l, s->GetMountedGunsNum());
+	return 1;
+}
+
+/* Method: GetFreeMountsNumber
+ *
+ * Return the number of free mounts.
  *
  * Returns:
  *
@@ -1797,6 +1861,11 @@ void LuaObject<Ship>::RegisterClass()
 		{ "IsHyperspaceActive", l_ship_is_hyperspace_active },
 
 		{ "GetGunTemperature", l_ship_get_gun_temperature },
+		{ "GetGunIsFront", l_ship_get_gun_is_front },
+		{ "GetGunName", l_ship_get_gun_name },
+		{ "IsGunActive", l_ship_get_active_stat_of_gun },
+		{ "SetGunActivation", l_ship_set_active_stat_of_gun },
+		{ "GetUsedMountsNumber", l_ship_get_used_mounts_number },
 		{ "GetFreeMountsNumber", l_ship_get_free_mounts_number },
 		{ "FindMountOfGun", l_ship_find_mount_of_gun },
 		{ "FindFirstFreeMount", l_ship_find_first_free_mount },

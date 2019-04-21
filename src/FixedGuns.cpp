@@ -29,6 +29,7 @@ void FixedGuns::SaveToJson(Json &jsonObj, Space *space)
 		Json gunArrayEl({});// = Json::object(); // Create JSON object to contain gun.
 		//Json projectileObj({})
 		gunArrayEl["state"] = m_guns[i].is_firing;
+		gunArrayEl["active"] = m_guns[i].is_active;
 		gunArrayEl["recharge"] = m_guns[i].recharge_stat;
 		gunArrayEl["temperature"] = m_guns[i].temperature_stat;
 		gunArrayEl["mount_name"] = m_mounts[m_guns[i].mount_id].name; // <- Save the name of hardpoint (mount)
@@ -63,7 +64,8 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 		for (unsigned int i = 0; i < gunArray.size(); i++) {
 			Json gunArrayEl = gunArray[i];
 			// Load status data:
-			float is_firing = gunArrayEl["state"];
+			bool is_firing = gunArrayEl["state"];
+			bool is_active = gunArrayEl["active"];
 			float recharge_stat = gunArrayEl["recharge"];
 			float temperature_stat = gunArrayEl["temperature"];
 			std::string mount_name = gunArrayEl["mount_name"];
@@ -93,10 +95,10 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 			pd.speed = gunArrayEl["pd_speed"];
 			pd.width = gunArrayEl["pd_width"];
 
-			// FAKE GunDir
 			GunStatus gs(mount_id, name, recharge, temp_heat_rate, temp_cool_rate, barrels, pd);
 
 			gs.is_firing = is_firing;
+			gs.is_active = is_active;
 			gs.mount_id = mount_id;
 			gs.recharge_stat = recharge_stat;
 			gs.temperature_stat = temperature_stat;
@@ -221,6 +223,7 @@ bool FixedGuns::Fire(const int num, const Body *shooter)
 {
 	if (num >= m_guns.size()) return false;
 	if (!m_guns[num].is_firing) return false;
+	if (!m_guns[num].is_active) return false;
 	if (m_guns[num].recharge_stat > 0) return false;
 	if (m_guns[num].temperature_stat > 1.0) return false;
 
@@ -311,6 +314,33 @@ int FixedGuns::FindMountOfGun(const std::string &name) const
 		return (*found).mount_id;
 	}
 	return -1;
+}
+
+void FixedGuns::SetActivationStateOfGun(const int num, bool active)
+{
+	if (num < m_guns.size())
+		m_guns[num].is_active = active;
+	else {
+		Output("Given gun identifier (%i) is out of bounds (max is %i)\n", num, int(m_guns.size()));
+	}
+}
+
+bool FixedGuns::GetActivationStateOfGun(const int num) const
+{
+	if (num < m_guns.size())
+		return m_guns[num].is_active;
+	else {
+		Output("Given gun identifier (%i) is out of bounds (max is %i)\n", num, int(m_guns.size()));
+		return false;
+	}
+}
+
+GunDir FixedGuns::IsFront(const int num) const
+{
+	if (num < m_guns.size())
+		return m_mounts[m_guns[num].mount_id].dir;
+	else
+		return GunDir::GUNMOUNT_MAX;
 }
 
 bool FixedGuns::IsFiring() const

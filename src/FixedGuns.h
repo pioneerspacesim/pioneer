@@ -41,34 +41,36 @@ public:
 	void UpdateGuns(float timeStep);
 
 	int GetMountsSize() const { return int(m_mounts.size()); };
+	int GetMountedGunsNum() const { return int(m_guns.size()); }
 	int GetFreeMountsSize() const { return int(m_mounts.size() - m_guns.size()); };
 	int FindFirstEmptyMount() const;
 	std::vector<int> FindEmptyMounts() const;
 	int FindMountOfGun(const std::string &name) const;
+
+	void SetActivationStateOfGun(int num, bool active);
+	bool GetActivationStateOfGun(int num) const;
 /*
 	TODO2:
 	--------------- int GetMountsSize();
 	const std::string GetMountName(int i);
-	-- int FindFirstEmpty();
 	bool SwapTwoMountedGuns(int gun_a, int gun_b);
 
 	TODO1:
-	SetActivationStateOfGun(int num, );
 	CycleFireModeForGun(num);
 
 	TODO3:
 	CreateGroup(num, );
 	....
 */
+	GunDir IsFront(const int num) const;
 	bool IsFiring() const;
 	bool IsFiring(const int num) const;
 	bool IsBeam(const int num) const;
 	float GetGunTemperature(int idx) const;
+	const std::string &GetGunName(int idx) { return m_guns[idx].gun_data.gun_name; };
 	inline float GetGunRange(int idx) const { return m_guns[idx].gun_data.projData.speed * m_guns[idx].gun_data.projData.lifespan; };
 	inline float GetProjSpeed(int idx) const { return m_guns[idx].gun_data.projData.speed; };
 	inline void SetCoolingBoost(float cooler) { m_cooler_boost = cooler; };
-
-	int GetMountedGunsNum() const { return int(m_guns.size()); }
 
 private:
 	// Structure holding name, position and direction of a mount (loaded from Model data)
@@ -113,18 +115,21 @@ private:
 		GunStatus() : // Defaul ctor
 			mount_id(-1),
 			is_firing(false),
+			is_active(false),
 			recharge_stat(0.0f),
 			temperature_stat(0.0f),
 			gun_data() {}
 		GunStatus(int m_id, const std::string &n, float r, float h, float c, int b, const ProjectileData &pd) : // "Fast" ctor for creation
 			mount_id(m_id),
 			is_firing(false),
+			is_active(true),
 			recharge_stat(r),
 			temperature_stat(0.0f),
 			gun_data(n, r, h, c, b, pd) {}
 		GunStatus(const GunStatus& gs) : // Copy ctor
 			mount_id(gs.mount_id),
 			is_firing(gs.is_firing),
+			is_active(gs.is_active),
 			recharge_stat(gs.recharge_stat),
 			temperature_stat(gs.temperature_stat),
 			gun_data(gs.gun_data) {}
@@ -135,6 +140,7 @@ private:
 					  // never: this could be used to signal
 					  // a broken or damaged gun
 		bool is_firing;
+		bool is_active;
 		float recharge_stat;
 		float temperature_stat;
 		GunData gun_data;
