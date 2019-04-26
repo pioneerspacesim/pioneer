@@ -54,7 +54,7 @@ namespace FaceParts {
 	int NumArmour(const int speciesIdx, const int raceIdx, const int genderIdx);
 
 	void PickFaceParts(FaceDescriptor &inout_face, const Uint32 seed);
-	void BuildFaceImage(SDL_Surface *faceIm, const FaceDescriptor &face, bool armoured);
+	void BuildFaceImage(SDL_Surface *faceIm, const FaceDescriptor &face);
 } // namespace FaceParts
 
 #endif

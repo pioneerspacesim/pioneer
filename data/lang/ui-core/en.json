@@ -127,6 +127,10 @@
     "description": "Center on selected star system",
     "message": "Center on System"
   },
+  "CHANGE": {
+    "description": "Face feature option",
+    "message": "Change: "
+  },
   "CHANGE_BINDING": {
     "description": "Key binding option",
     "message": "Change Binding"
@@ -426,6 +430,50 @@
   "FAILED": {
     "description": "When failed mission",
     "message": "Failed"
+  },
+  "FEATURE_SPECIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Species"
+  },
+  "FEATURE_RACE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Race"
+  },
+  "FEATURE_GENDER": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Gender"
+  },
+  "FEATURE_HEAD": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Head"
+  },
+  "FEATURE_EYES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Eyes"
+  },
+  "FEATURE_NOSE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Nose"
+  },
+  "FEATURE_MOUTH": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Mouth"
+  },
+  "FEATURE_HAIRSTYLE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Hairstyle"
+  },
+  "FEATURE_ACCESSORIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Accessories"
+  },
+  "FEATURE_CLOTHES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Clothes"
+  },
+  "FEATURE_ARMOUR": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Armour"
   },
   "FEMALE": {
     "description": "",
@@ -1187,6 +1235,10 @@
     "description": "",
     "message": "Negotiate"
   },
+  "NEXT_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "Next"
+  },
   "NEXT_PAID": {
     "description": "",
     "message": "Next paid"
@@ -1343,6 +1395,10 @@
     "description": "",
     "message": "Press a key or controller button or escape to clear"
   },
+  "PREVIOUS_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "Previous"
+  },
   "PRICE": {
     "description": "",
     "message": "Price"
@@ -1374,6 +1430,10 @@
   "RATING": {
     "description": "",
     "message": "Rating:"
+  },
+  "RANDOM_FACE": {
+    "description": "Generate random face",
+    "message": "Random"
   },
   "REAR_WEAPON": {
     "description": "",

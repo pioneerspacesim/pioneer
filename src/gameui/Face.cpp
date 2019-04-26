@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Face.h"
-#include "FaceParts.h"
 #include "FileSystem.h"
 #include "SDLWrappers.h"
 #include "graphics/TextureBuilder.h"
@@ -13,27 +12,18 @@ namespace GameUI {
 
 	RefCountedPtr<Graphics::Material> Face::s_material;
 
-	Face::Face(Context *context, Uint32 flags, Uint32 seed) :
+	Face::Face(Context *context, FaceParts::FaceDescriptor& face, Uint32 seed) :
 		Single(context),
 		m_preferredSize(INT_MAX)
 	{
 		if (!seed) seed = time(0);
 
-		m_flags = flags;
 		m_seed = seed;
 
 		SDLSurfacePtr faceim = SDLSurfacePtr::WrapNew(SDL_CreateRGBSurface(SDL_SWSURFACE, FaceParts::FACE_WIDTH, FaceParts::FACE_HEIGHT, 24, 0xff, 0xff00, 0xff0000, 0));
 
-		FaceParts::FaceDescriptor face;
-		switch (flags & GENDER_MASK) {
-		case RAND: face.gender = -1; break;
-		case MALE: face.gender = 0; break;
-		case FEMALE: face.gender = 1; break;
-		default: assert(0); break;
-		}
-
 		FaceParts::PickFaceParts(face, m_seed);
-		FaceParts::BuildFaceImage(faceim.Get(), face, (flags & ARMOUR));
+		FaceParts::BuildFaceImage(faceim.Get(), face);
 
 		m_texture.Reset(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).GetOrCreateTexture(GetContext()->GetRenderer(), std::string("face")));
 

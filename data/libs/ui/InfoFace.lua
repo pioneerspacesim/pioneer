@@ -34,13 +34,13 @@ local InfoFace = {}
 function InfoFace.New (character)
 	testCharacter(character)
 
-	local faceFlags = {
-		character.female and "FEMALE" or "MALE",
+	local faceDesc = character.faceDescription and character.faceDescription or {
+		FEATURE_GENDER = character.female and 1 or 0,
+		FEATURE_ARMOUR = character.armour and -1 or 0,
 	}
-	if character.armour then table.insert(faceFlags, "ARMOUR") end
 
 	local self = {
-		widget = Face.New(ui, faceFlags, character.seed)
+		widget = Face.New(ui, faceDesc, character.seed)
 	}
 
 	setFaceInfo(self.widget, character)

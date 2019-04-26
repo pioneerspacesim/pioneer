@@ -9,39 +9,46 @@ namespace GameUI {
 
 	class LuaFace {
 	public:
-		static inline Uint32 _unpack_flags(lua_State *l)
+		static inline FaceParts::FaceDescriptor _unpack_face(lua_State *l)
 		{
+			FaceParts::FaceDescriptor face;
+
 			LUA_DEBUG_START(l);
 
-			Uint32 flags = 0;
-
 			if (lua_gettop(l) > 1) {
-				luaL_checktype(l, 2, LUA_TTABLE);
+				LuaTable t = LuaTable(l, 2);
 
-				lua_pushnil(l);
-				while (lua_next(l, 2)) {
-					flags |= static_cast<Uint32>(LuaConstants::GetConstantFromArg(l, "GameUIFaceFlags", -1));
-					lua_pop(l, 1);
-				}
+				face.species = t.Get<int>("FEATURE_SPECIES", -1);
+				face.race = t.Get<int>("FEATURE_RACE", -1);
+				face.gender = t.Get<int>("FEATURE_GENDER", -1);
+
+				face.head = t.Get<int>("FEATURE_HEAD", -1);
+				face.eyes = t.Get<int>("FEATURE_EYES", -1);
+				face.nose = t.Get<int>("FEATURE_NOSE", -1);
+				face.mouth = t.Get<int>("FEATURE_MOUTH", -1);
+				face.hairstyle = t.Get<int>("FEATURE_HAIRSTYLE", -1);
+				face.accessories = t.Get<int>("FEATURE_ACCESSORIES", -1);
+				face.clothes = t.Get<int>("FEATURE_CLOTHES", -1);
+				face.armour = t.Get<int>("FEATURE_ARMOUR", -1);
 			}
 
 			LUA_DEBUG_END(l, 0);
 
-			return flags;
+			return face;
 		}
 
 		static int l_new(lua_State *l)
 		{
 			UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 
-			Uint32 flags = _unpack_flags(l);
+			FaceParts::FaceDescriptor face = _unpack_face(l);
 
 			Uint32 seed = 0;
 
 			if (lua_gettop(l) > 2 && !lua_isnil(l, 3))
 				seed = luaL_checkunsigned(l, 3);
 
-			LuaObject<Face>::PushToLua(new Face(c, flags, seed));
+			LuaObject<Face>::PushToLua(new Face(c, face, seed));
 			return 1;
 		}
 
