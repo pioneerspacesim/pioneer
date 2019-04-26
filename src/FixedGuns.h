@@ -7,6 +7,7 @@
 #include "JsonFwd.h"
 #include "ProjectileData.h"
 #include "vector3.h"
+#include "sound/Sound.h"
 
 class Body;
 class Space;
@@ -35,13 +36,13 @@ public:
 
 	void ParseModelTags(SceneGraph::Model *m);
 
-	bool MountGun(MountId num, const std::string &name, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd);
+	bool MountGun(MountId num, const std::string &name, const std::string &sound, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd);
 	bool UnMountGun(MountId num);
 
 	void SetGunsFiringState(GunDir dir, int s);
 
-	bool Fire(GunId num, const Body *shooter);
-	void UpdateGuns(float timeStep);
+	// Return value is 'true' whenever a new projectile is fired
+	bool UpdateGuns(float timeStep, Body *shooter);
 
 	int GetMountsSize() const { return int(m_mounts.size()); };
 	int GetMountedGunsNum() const { return int(m_guns.size()); }
@@ -52,11 +53,10 @@ public:
 
 	void SetActivationStateOfGun(GunId num, bool active);
 	bool GetActivationStateOfGun(GunId num) const;
+
 /*
 	TODO IMP 0:
 	MOVE ParseModelTags in Model!!!!!!
-	MOVE Sound file in Lua, parse and use here then
-	Group Update with fire
 
 	TODO1:
 	bool SwapTwoMountedGuns(int gun_a, int gun_b);
@@ -74,6 +74,7 @@ public:
 	CreateGroup(num, );
 	CycleFireModeForGunGroup(num);
 */
+
 	GunDir IsFront(GunId num) const;
 	bool IsFiring() const;
 	bool IsFiring(GunId num) const;
@@ -85,6 +86,9 @@ public:
 	inline void SetCoolingBoost(float cooler) { m_cooler_boost = cooler; };
 
 private:
+
+	bool Fire(GunId num, Body *shooter);
+
 	// Structure holding name, position and direction of a mount (loaded from Model data)
 	struct Mount {
 		std::string name;
@@ -100,8 +104,9 @@ private:
 			temp_heat_rate(0.0f),
 			barrels(0),
 			projData() {}
-		GunData(const std::string &n, float r, float h, float c, int b, const ProjectileData &pd) : // "Faster" ctor
+		GunData(const std::string &n, const std::string &s, float r, float h, float c, int b, const ProjectileData &pd) : // "Faster" ctor
 			gun_name(n),
+			sound(s),
 			recharge(r),
 			temp_cool_rate(c),
 			temp_heat_rate(h),
@@ -109,12 +114,14 @@ private:
 			projData(pd) {}
 		GunData(const GunData& gd) : //Copy ctor
 			gun_name(gd.gun_name),
+			sound(gd.sound),
 			recharge(gd.recharge),
 			temp_cool_rate(gd.temp_cool_rate),
 			temp_heat_rate(gd.temp_heat_rate),
 			barrels(gd.barrels),
 			projData(gd.projData) {}
 		std::string gun_name;
+		std::string sound;
 		float recharge;
 		float temp_heat_rate;
 		float temp_cool_rate;
@@ -131,13 +138,13 @@ private:
 			recharge_stat(0.0f),
 			temperature_stat(0.0f),
 			gun_data() {}
-		GunStatus(GunId m_id, const std::string &n, float r, float h, float c, int b, const ProjectileData &pd) : // "Fast" ctor for creation
+		GunStatus(GunId m_id, const std::string &n, const std::string &s, float r, float h, float c, int b, const ProjectileData &pd) : // "Fast" ctor for creation
 			mount_id(m_id),
 			is_firing(false),
 			is_active(true),
 			recharge_stat(r),
 			temperature_stat(0.0f),
-			gun_data(n, r, h, c, b, pd) {}
+			gun_data(n, s, r, h, c, b, pd) {}
 		GunStatus(const GunStatus& gs) : // Copy ctor
 			mount_id(gs.mount_id),
 			is_firing(gs.is_firing),
@@ -155,6 +162,7 @@ private:
 		bool is_active;
 		float recharge_stat;
 		float temperature_stat;
+		Sound::Event sound;
 		GunData gun_data;
 	};
 

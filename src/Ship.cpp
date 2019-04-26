@@ -1252,33 +1252,8 @@ void Ship::StaticUpdate(const float timeStep)
 		m_launchLockTimeout = 0;
 
 	// lasers
-	FixedGuns::UpdateGuns(timeStep);
-	for (int i = 0; i < FixedGuns::GetMountedGunsNum(); i++) {
-		if (FixedGuns::Fire(i, this)) {
-			if (FixedGuns::IsBeam(i)) {
-				float vl, vr;
-				Sound::CalculateStereo(this, 1.0f, &vl, &vr);
-				m_beamLaser[i].Play("Beam_laser", vl, vr, Sound::OP_REPEAT);
-			} else {
-				Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
-			}
-			LuaEvent::Queue("onShipFiring", this);
-		}
-
-		if (FixedGuns::IsBeam(i)) {
-			if (FixedGuns::IsFiring(i)) {
-				float vl, vr;
-				Sound::CalculateStereo(this, 1.0f, &vl, &vr);
-				if (!m_beamLaser[i].IsPlaying()) {
-					m_beamLaser[i].Play("Beam_laser", vl, vr, Sound::OP_REPEAT);
-				} else {
-					// update volume
-					m_beamLaser[i].SetVolume(vl, vr);
-				}
-			} else if (!FixedGuns::IsFiring(i) && m_beamLaser[i].IsPlaying()) {
-				m_beamLaser[i].Stop();
-			}
-		}
+	if (FixedGuns::UpdateGuns(timeStep, this)) {
+		LuaEvent::Queue("onShipFiring", this);
 	}
 
 	if (m_ecmRecharge > 0.0f) {

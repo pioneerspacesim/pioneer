@@ -35,6 +35,7 @@ void FixedGuns::SaveToJson(Json &jsonObj, Space *space)
 		gunArrayEl["mount_name"] = m_mounts[m_guns[i].mount_id].name; // <- Save the name of hardpoint (mount)
 		// Save "GunData":
 		gunArrayEl["gd_name"] = m_guns[i].gun_data.gun_name;
+		gunArrayEl["gd_sound"] = m_guns[i].gun_data.sound;
 		gunArrayEl["gd_barrels"] = m_guns[i].gun_data.barrels;
 		gunArrayEl["gd_recharge"] = m_guns[i].gun_data.recharge;
 		gunArrayEl["gd_cool_rate"] = m_guns[i].gun_data.temp_cool_rate;
@@ -79,6 +80,7 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 			if (mount_id < 0) throw SavedGameCorruptException();
 			// Load "GunData" for this gun:
 			std::string name = gunArrayEl["gd_name"];
+			std::string sound = gunArrayEl["gd_sound"];
 			int barrels = gunArrayEl["gd_barrels"];
 			float recharge = gunArrayEl["gd_recharge"];
 			float temp_cool_rate = gunArrayEl["gd_cool_rate"];
@@ -95,7 +97,7 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 			pd.speed = gunArrayEl["pd_speed"];
 			pd.width = gunArrayEl["pd_width"];
 
-			GunStatus gs(mount_id, name, recharge, temp_heat_rate, temp_cool_rate, barrels, pd);
+			GunStatus gs(mount_id, name, sound, recharge, temp_heat_rate, temp_cool_rate, barrels, pd);
 
 			gs.is_firing = is_firing;
 			gs.is_active = is_active;
@@ -158,7 +160,7 @@ void FixedGuns::ParseModelTags(SceneGraph::Model *m)
 	m_mounts.shrink_to_fit();
 }
 
-bool FixedGuns::MountGun(MountId num, const std::string &name, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd)
+bool FixedGuns::MountGun(MountId num, const std::string &name, const std::string &sound, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd)
 {
 	//printf("FixedGuns::MountGun '%s' in '%s',num: %i (Mounts %ld, guns %ld)\n", name.c_str(), m_mounts[num].name.c_str(), num, long(m_mounts.size()), long(m_guns.size()));
 	// Check mount (num) is valid
@@ -186,7 +188,7 @@ bool FixedGuns::MountGun(MountId num, const std::string &name, const float recha
 	if (barrels > m_mounts[num].locs.size()) {
 		Output("Gun with %i barrels mounted on '%s', which is for %i barrels\n", barrels, m_mounts[num].name.c_str(), int(m_mounts[num].locs.size()));
 	}
-	GunStatus gs(num, name, recharge, heatrate, coolrate, barrels, pd);
+	GunStatus gs(num, name, sound, recharge, heatrate, coolrate, barrels, pd);
 	m_guns.push_back(gs);
 	return true;
 };
@@ -219,7 +221,7 @@ void FixedGuns::SetGunsFiringState(GunDir dir, int s)
 	std::for_each(begin(m_guns), end(m_guns), [&](GunStatus &gs) { if (m_mounts[gs.mount_id].dir == dir ) gs.is_firing = s;});
 }
 
-bool FixedGuns::Fire(GunId num, const Body *shooter)
+bool FixedGuns::Fire(GunId num, Body *shooter)
 {
 	if (num >= m_guns.size()) return false;
 	if (!m_guns[num].is_firing) return false;
@@ -250,7 +252,7 @@ bool FixedGuns::Fire(GunId num, const Body *shooter)
 	return true;
 };
 
-void FixedGuns::UpdateGuns(float timeStep)
+bool FixedGuns::UpdateGuns(float timeStep, Body *shooter)
 {
 	for (int i = 0; i < m_guns.size(); i++) {
 
@@ -267,6 +269,38 @@ void FixedGuns::UpdateGuns(float timeStep)
 		if (m_guns[i].recharge_stat < 0.0f)
 			m_guns[i].recharge_stat = 0;
 	}
+
+	bool fire = false;
+
+	for (GunId i = 0; i < m_guns.size(); i++) {
+		bool res = Fire(i, shooter);
+		// Skip sound management if 'sound' is not defined
+		if (m_guns[i].gun_data.sound.empty()) continue;
+		if (res) {
+			fire = true;
+			if (IsBeam(i)) {
+				float vl, vr;
+				Sound::CalculateStereo(shooter, 1.0f, &vl, &vr);
+				m_guns[i].sound.Play(m_guns[i].gun_data.sound.c_str(), vl, vr, Sound::OP_REPEAT);
+			} else {
+				Sound::BodyMakeNoise(shooter, m_guns[i].gun_data.sound.c_str(), 1.0f);
+			}
+		}
+
+		if (res && IsBeam(i)) {
+			float vl, vr;
+			Sound::CalculateStereo(shooter, 1.0f, &vl, &vr);
+			if (!m_guns[i].sound.IsPlaying()) {
+				m_guns[i].sound.Play(m_guns[i].gun_data.sound.c_str(), vl, vr, Sound::OP_REPEAT);
+			} else {
+				// update volume
+				m_guns[i].sound.SetVolume(vl, vr);
+			}
+		} else if (!IsFiring(i) && m_guns[i].sound.IsPlaying()) {
+			m_guns[i].sound.Stop();
+		}
+	}
+	return fire;
 }
 
 MountId FixedGuns::FindFirstEmptyMount() const

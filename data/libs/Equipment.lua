@@ -912,35 +912,35 @@ laser = {}
 laser.pulsecannon_1mw = LaserType.New({
 	l10n_key="PULSECANNON_1MW", price=600, capabilities={mass=1},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
-		lifespan=8, speed=1000, damage=1000, rechargeTime=0.25, length=30,
+		lifespan=8, speed=1000, damage=1000, rechargeTime=0.25, length=30, sound="Pulse_Laser",
 		width=5, beam=0, dual=0, mining=0, rgba_r = 255, rgba_g = 51, rgba_b = 51, rgba_a = 255
 	}, purchasable=true, tech_level=3
 })
 laser.pulsecannon_dual_1mw = LaserType.New({
 	l10n_key="PULSECANNON_DUAL_1MW", price=1100, capabilities={mass=4},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
-		lifespan=8, speed=1000, damage=1000, rechargeTime=0.25, length=30,
+		lifespan=8, speed=1000, damage=1000, rechargeTime=0.25, length=30, sound="Pulse_Laser",
 		width=5, beam=0, dual=1, mining=0, rgba_r = 255, rgba_g = 51, rgba_b = 51, rgba_a = 255
 	}, purchasable=true, tech_level=4
 })
 laser.pulsecannon_2mw = LaserType.New({
 	l10n_key="PULSECANNON_2MW", price=1000, capabilities={mass=3},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
-		lifespan=8, speed=1000, damage=2000, rechargeTime=0.25, length=30,
+		lifespan=8, speed=1000, damage=2000, rechargeTime=0.25, length=30, sound="Pulse_Laser",
 		width=5, beam=0, dual=0, mining=0, rgba_r = 255, rgba_g = 127, rgba_b = 51, rgba_a = 255
 	}, purchasable=true, tech_level=5
 })
 laser.pulsecannon_rapid_2mw = LaserType.New({
 	l10n_key="PULSECANNON_RAPID_2MW", price=1800, capabilities={mass=7},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
-		lifespan=8, speed=1000, damage=2000, rechargeTime=0.13, length=30,
+		lifespan=8, speed=1000, damage=2000, rechargeTime=0.13, length=30, sound="Pulse_Laser",
 		width=5, beam=0, dual=0, mining=0, rgba_r = 255, rgba_g = 127, rgba_b = 51, rgba_a = 255
 	}, purchasable=true, tech_level=5
 })
 laser.beamlaser_1mw = LaserType.New({
 	l10n_key="BEAMLASER_1MW", price=2400, capabilities={mass=3},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
-		lifespan=8, speed=1000, damage=1500, rechargeTime=0.25, length=10000,
+		lifespan=8, speed=1000, damage=1500, rechargeTime=0.25, length=10000, sound="Beam_laser",
 		width=1, beam=1, dual=0, mining=0, rgba_r = 255, rgba_g = 51, rgba_b = 127, rgba_a = 255,
 		heatrate=0.02, coolrate=0.01
 	}, purchasable=true, tech_level=4
@@ -948,7 +948,7 @@ laser.beamlaser_1mw = LaserType.New({
 laser.beamlaser_dual_1mw = LaserType.New({
 	l10n_key="BEAMLASER_DUAL_1MW", price=4800, capabilities={mass=6},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
-		lifespan=8, speed=1000, damage=1500, rechargeTime=0.5, length=10000,
+		lifespan=8, speed=1000, damage=1500, rechargeTime=0.5, length=10000, sound="Beam_laser",
 		width=1, beam=1, dual=1, mining=0, rgba_r = 255, rgba_g = 51, rgba_b = 127, rgba_a = 255,
 		heatrate=0.02, coolrate=0.01
 	}, purchasable=true, tech_level=5
@@ -956,7 +956,7 @@ laser.beamlaser_dual_1mw = LaserType.New({
 laser.beamlaser_2mw = LaserType.New({
 	l10n_key="BEAMLASER_RAPID_2MW", price=5600, capabilities={mass=7},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
-		lifespan=8, speed=1000, damage=3000, rechargeTime=0.13, length=20000,
+		lifespan=8, speed=1000, damage=3000, rechargeTime=0.13, length=20000, sound="Beam_laser",
 		width=1, beam=1, dual=0, mining=0, rgba_r = 255, rgba_g = 192, rgba_b = 192, rgba_a = 255,
 		heatrate=0.02, coolrate=0.01
 	}, purchasable=true, tech_level=6
@@ -964,42 +964,42 @@ laser.beamlaser_2mw = LaserType.New({
 laser.pulsecannon_4mw = LaserType.New({
 	l10n_key="PULSECANNON_4MW", price=2200, capabilities={mass=10},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
-		lifespan=8, speed=1000, damage=4000, rechargeTime=0.25, length=30,
+		lifespan=8, speed=1000, damage=4000, rechargeTime=0.25, length=30, sound="Pulse_Laser",
 		width=5, beam=0, dual=0, mining=0, rgba_r = 255, rgba_g = 255, rgba_b = 51, rgba_a = 255
 	}, purchasable=true, tech_level=6
 })
 laser.pulsecannon_10mw = LaserType.New({
 	l10n_key="PULSECANNON_10MW", price=4900, capabilities={mass=30},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
-		lifespan=8, speed=1000, damage=10000, rechargeTime=0.25, length=30,
+		lifespan=8, speed=1000, damage=10000, rechargeTime=0.25, length=30, sound="Pulse_Laser",
 		width=5, beam=0, dual=0, mining=0, rgba_r = 51, rgba_g = 255, rgba_b = 51, rgba_a = 255
 	}, purchasable=true, tech_level=7
 })
 laser.pulsecannon_20mw = LaserType.New({
 	l10n_key="PULSECANNON_20MW", price=12000, capabilities={mass=65},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
-		lifespan=8, speed=1000, damage=20000, rechargeTime=0.25, length=30,
+		lifespan=8, speed=1000, damage=20000, rechargeTime=0.25, length=30, sound="Pulse_Laser",
 		width=5, beam=0, dual=0, mining=0, rgba_r = 0.1, rgba_g = 51, rgba_b = 255, rgba_a = 255
 	}, purchasable=true, tech_level="MILITARY"
 })
 laser.miningcannon_17mw = LaserType.New({
 	l10n_key="MININGCANNON_17MW", price=10600, capabilities={mass=10},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
-		lifespan=8, speed=1000, damage=17000, rechargeTime=2, length=30,
+		lifespan=8, speed=1000, damage=17000, rechargeTime=2, length=30, sound="Pulse_Laser",
 		width=5, beam=0, dual=0, mining=1, rgba_r = 51, rgba_g = 127, rgba_b = 0, rgba_a = 255
 	}, purchasable=true, tech_level=8
 })
 laser.small_plasma_accelerator = LaserType.New({
 	l10n_key="SMALL_PLASMA_ACCEL", price=120000, capabilities={mass=22},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
-		lifespan=8, speed=1000, damage=50000, rechargeTime=0.3, length=42,
+		lifespan=8, speed=1000, damage=50000, rechargeTime=0.3, length=42, sound="Pulse_Laser",
 		width=7, beam=0, dual=0, mining=0, rgba_r = 51, rgba_g = 255, rgba_b = 255, rgba_a = 255
 	}, purchasable=true, tech_level=10
 })
 laser.large_plasma_accelerator = LaserType.New({
 	l10n_key="LARGE_PLASMA_ACCEL", price=390000, capabilities={mass=50},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
-		lifespan=8, speed=1000, damage=100000, rechargeTime=0.3, length=42,
+		lifespan=8, speed=1000, damage=100000, rechargeTime=0.3, length=42, sound="Pulse_Laser",
 		width=7, beam=0, dual=0, mining=0, rgba_r = 127, rgba_g = 255, rgba_b = 255, rgba_a = 255
 	}, purchasable=true, tech_level=12
 })
