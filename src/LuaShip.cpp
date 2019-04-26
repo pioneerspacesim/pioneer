@@ -1369,6 +1369,17 @@ static int l_ship_find_mount_of_gun(lua_State *l)
  *
  *   experimental
  */
+
+template <typename T>
+bool check_error(T &value, T default_value, const std::string id, const std::string &s_name, const std::string &gun_name) {
+	if (value < 0) {
+		Output("WARNING: %s call 'MountGun' for %s without '%s', use default...\n", s_name.c_str(), gun_name.c_str(), id.c_str());
+		value = default_value;
+		return true;
+	}
+	return false;
+}
+
 static int l_ship_mount_gun(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
@@ -1377,67 +1388,56 @@ static int l_ship_mount_gun(lua_State *l)
 
 	if (lua_type(l, 4) == LUA_TTABLE)
 	{
-		float recharge = 60.0; // seconds
-		float heatrate = 0.01f;
-		float coolrate = 0.01f;
-		int barrels = 1;
+		float recharge, heatrate, coolrate;
+		int barrels;
 		ProjectileData pd;
 
-		int num_arg = 0;
-		lua_pushnil(l);
-		while (lua_next(l, 4) != 0) {
-			std::string s = luaL_checkstring(l, -2);
-			if (s == "rechargeTime") {
-				recharge = luaL_checknumber(l, -1);
-				num_arg++;
-			} else if (s == "dual") {
-				barrels = luaL_checknumber(l, -1) + 1; // TODO: Until now is a "bool" in Lua...
-				num_arg++;
-			} else if (s == "heatRate") {
-				heatrate = luaL_checknumber(l, -1);
-				num_arg++;
-			} else if (s == "coolRate") {
-				coolrate = luaL_checknumber(l, -1);
-				num_arg++;
-			} else if (s == "length") {
-				pd.length = luaL_checknumber(l, -1);
-				num_arg++;
-			} else if (s == "speed") {
-				pd.speed = luaL_checknumber(l, -1);
-				num_arg++;
-			} else if (s == "damage") {
-				pd.damage = luaL_checknumber(l, -1);
-				num_arg++;
-			} else if (s == "lifespan") {
-				pd.lifespan = luaL_checknumber(l, -1);
-				num_arg++;
-			} else if (s == "width") {
-				pd.width = luaL_checknumber(l, -1);
-				num_arg++;
-			} else if (s == "beam") {
-				pd.length = luaL_checknumber(l, -1);
-				num_arg++;
-			} else if (s == "mining") {
-				pd.mining = luaL_checknumber(l, -1);
-				num_arg++;
-			} else if (s == "rgba_a") {
-				pd.color.a = luaL_checknumber(l, -1);
-				num_arg++;
-			} else if (s == "rgba_r") {
-				pd.color.r = luaL_checknumber(l, -1);
-				num_arg++;
-			} else if (s == "rgba_g") {
-				pd.color.g = luaL_checknumber(l, -1);
-				num_arg++;
-			} else if (s == "rgba_b") {
-				pd.color.b = luaL_checknumber(l, -1);
-				num_arg++;
-			}
-			lua_pop(l, 1);
+		LuaTable t = LuaTable(l, 4);
+
+		recharge = t.Get<float>("rechargeTime", -1);
+		check_error(recharge, 6.0f, "rechargeTime", s->GetLabel(), name);
+
+		barrels = t.Get<int>("dual", -1) + 1;
+		check_error(barrels, 1, "dual", s->GetLabel(), name);
+
+		heatrate = t.Get<float>("heatRate", -1.);
+		check_error(heatrate, 0.01f, "heatRate", s->GetLabel(), name);
+
+		coolrate = t.Get<float>("coolRate", -1.);
+		check_error(coolrate, 0.01f, "coolRate", s->GetLabel(), name);
+
+		pd.length = t.Get<float>("length", -1);
+		check_error(pd.length, 10.0f, "length", s->GetLabel(), name);
+
+		pd.speed = t.Get<float>("speed", -1);
+		check_error(pd.speed, 1000.0f, "speed", s->GetLabel(), name);
+
+		pd.damage = t.Get<float>("damage", -1);
+		check_error(pd.damage, 10.0f, "damage", s->GetLabel(), name);
+
+		pd.lifespan = t.Get<float>("lifespan", -1);
+		check_error(pd.lifespan, 10.0f, "lifespan", s->GetLabel(), name);
+
+		pd.width = t.Get<float>("width", -1);
+		check_error(pd.width, 10.0f, "width", s->GetLabel(), name);
+
+		int beam = t.Get<int>("beam", -1);
+		if (!check_error(beam, 0, "beam", s->GetLabel(), name))
+			pd.beam = (beam == 1 ? true : false);
+
+		int mining = t.Get<int>("mining", -1);
+		if (!check_error(mining, 0, "mining", s->GetLabel(), name))
+			pd.mining = (mining == 1 ? true : false);
+
+		pd.color.a = t.Get<int>("rgba_a", -1);
+		pd.color.r = t.Get<int>("rgba_r", -1);
+		pd.color.g = t.Get<int>("rgba_g", -1);
+		pd.color.b = t.Get<int>("rgba_b", -1);
+		if (pd.color.a <= 0. || pd.color.r <= 0. || pd.color.g <= 0. || pd.color.b <= 0.) {
+			Output("WARNING: Ship %s call 'MountGun' for %s without 'rgba', use default!\n", s->GetLabel().c_str(), name.c_str());
+			pd.color = Color::BLANK;
 		}
-		if (num_arg < 15) {
-			Output("WARNING: Ship %s call 'MountGun' for %s with a data table not complete!\n", s->GetLabel().c_str(), name.c_str());
-		}
+
 		LuaPush(l, s->MountGun(mount_num, name, recharge, heatrate, coolrate, barrels, pd));
 	} else {
 		luaL_error(l, "Ship %s call 'MountGun' without gun or mount data", s->GetLabel().c_str());

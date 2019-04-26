@@ -158,9 +158,9 @@ void FixedGuns::ParseModelTags(SceneGraph::Model *m)
 	m_mounts.shrink_to_fit();
 }
 
-bool FixedGuns::MountGun(const int num, const std::string &name, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd)
+bool FixedGuns::MountGun(MountId num, const std::string &name, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd)
 {
-	//printf("FixedGuns::MountGun in '%s',num: %i (Mounts %ld, guns %ld)\n", m_mounts[num].name.c_str(), num, long(m_mounts.size()), long(m_guns.size()));
+	//printf("FixedGuns::MountGun '%s' in '%s',num: %i (Mounts %ld, guns %ld)\n", name.c_str(), m_mounts[num].name.c_str(), num, long(m_mounts.size()), long(m_guns.size()));
 	// Check mount (num) is valid
 	if (num >= m_mounts.size()) {
 		Output("Attempt to mount a gun in %i, which is out of bounds\n", num);
@@ -191,7 +191,7 @@ bool FixedGuns::MountGun(const int num, const std::string &name, const float rec
 	return true;
 };
 
-bool FixedGuns::UnMountGun(int num)
+bool FixedGuns::UnMountGun(MountId num)
 {
 	// Check mount (num) is valid
 	if (num >= m_mounts.size()) {
@@ -199,7 +199,7 @@ bool FixedGuns::UnMountGun(int num)
 		return false;
 	}
 	// Check mount is used
-	int mount = 0;
+	MountId mount = 0;
 	for (; mount < m_guns.size(); mount++) {
 		if (m_guns[mount].mount_id == num) break;
 	}
@@ -219,7 +219,7 @@ void FixedGuns::SetGunsFiringState(GunDir dir, int s)
 	std::for_each(begin(m_guns), end(m_guns), [&](GunStatus &gs) { if (m_mounts[gs.mount_id].dir == dir ) gs.is_firing = s;});
 }
 
-bool FixedGuns::Fire(const int num, const Body *shooter)
+bool FixedGuns::Fire(GunId num, const Body *shooter)
 {
 	if (num >= m_guns.size()) return false;
 	if (!m_guns[num].is_firing) return false;
@@ -269,14 +269,14 @@ void FixedGuns::UpdateGuns(float timeStep)
 	}
 }
 
-int FixedGuns::FindFirstEmptyMount() const
+MountId FixedGuns::FindFirstEmptyMount() const
 {
 	std::vector<int> free = FindEmptyMounts();
 	if (free.empty()) return -1;
 	else return free[0];
 }
 
-std::vector<int> FixedGuns::FindEmptyMounts() const
+std::vector<MountId> FixedGuns::FindEmptyMounts() const
 {
 	std::vector<int> occupied;
 
@@ -302,7 +302,7 @@ std::vector<int> FixedGuns::FindEmptyMounts() const
 	return free;
 }
 
-int FixedGuns::FindMountOfGun(const std::string &name) const
+MountId FixedGuns::FindMountOfGun(const std::string &name) const
 {
 	std::vector<GunStatus>::const_iterator found = std::find_if(begin(m_guns), end(m_guns), [&name](const GunStatus &gs)
 	{
@@ -316,7 +316,7 @@ int FixedGuns::FindMountOfGun(const std::string &name) const
 	return -1;
 }
 
-void FixedGuns::SetActivationStateOfGun(const int num, bool active)
+void FixedGuns::SetActivationStateOfGun(GunId num, bool active)
 {
 	if (num < m_guns.size())
 		m_guns[num].is_active = active;
@@ -325,7 +325,7 @@ void FixedGuns::SetActivationStateOfGun(const int num, bool active)
 	}
 }
 
-bool FixedGuns::GetActivationStateOfGun(const int num) const
+bool FixedGuns::GetActivationStateOfGun(GunId num) const
 {
 	if (num < m_guns.size())
 		return m_guns[num].is_active;
@@ -335,7 +335,7 @@ bool FixedGuns::GetActivationStateOfGun(const int num) const
 	}
 }
 
-GunDir FixedGuns::IsFront(const int num) const
+GunDir FixedGuns::IsFront(GunId num) const
 {
 	if (num < m_guns.size())
 		return m_mounts[m_guns[num].mount_id].dir;
@@ -351,17 +351,17 @@ bool FixedGuns::IsFiring() const
 	return gunstate;
 }
 
-bool FixedGuns::IsFiring(const int num) const
+bool FixedGuns::IsFiring(GunId num) const
 {
 	return m_guns[num].is_firing;
 }
 
-bool FixedGuns::IsBeam(const int num) const
+bool FixedGuns::IsBeam(GunId num) const
 {
 	return m_guns[num].gun_data.projData.beam;
 }
 
-float FixedGuns::GetGunTemperature(int idx) const
+float FixedGuns::GetGunTemperature(GunId idx) const
 {
 	if (idx < m_guns.size())
 		return m_guns[idx].temperature_stat;

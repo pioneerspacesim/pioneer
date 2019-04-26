@@ -21,6 +21,9 @@ enum GunDir {
 	GUNMOUNT_MAX = 2
 };
 
+typedef int GunId;
+typedef int MountId;
+
 class FixedGuns {
 public:
 	FixedGuns() = delete;
@@ -32,44 +35,53 @@ public:
 
 	void ParseModelTags(SceneGraph::Model *m);
 
-	bool MountGun(const int num, const std::string &name, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd);
-	bool UnMountGun(int num);
+	bool MountGun(MountId num, const std::string &name, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd);
+	bool UnMountGun(MountId num);
 
 	void SetGunsFiringState(GunDir dir, int s);
 
-	bool Fire(const int num, const Body *shooter);
+	bool Fire(GunId num, const Body *shooter);
 	void UpdateGuns(float timeStep);
 
 	int GetMountsSize() const { return int(m_mounts.size()); };
 	int GetMountedGunsNum() const { return int(m_guns.size()); }
 	int GetFreeMountsSize() const { return int(m_mounts.size() - m_guns.size()); };
-	int FindFirstEmptyMount() const;
-	std::vector<int> FindEmptyMounts() const;
-	int FindMountOfGun(const std::string &name) const;
+	MountId FindFirstEmptyMount() const;
+	std::vector<MountId> FindEmptyMounts() const;
+	MountId FindMountOfGun(const std::string &name) const;
 
-	void SetActivationStateOfGun(int num, bool active);
-	bool GetActivationStateOfGun(int num) const;
+	void SetActivationStateOfGun(GunId num, bool active);
+	bool GetActivationStateOfGun(GunId num) const;
 /*
-	TODO2:
-	--------------- int GetMountsSize();
-	const std::string GetMountName(int i);
-	bool SwapTwoMountedGuns(int gun_a, int gun_b);
+	TODO IMP 0:
+	MOVE ParseModelTags in Model!!!!!!
+	MOVE Sound file in Lua, parse and use here then
+	Group Update with fire
 
 	TODO1:
-	CycleFireModeForGun(num);
+	bool SwapTwoMountedGuns(int gun_a, int gun_b);
+
+	TODO2:
+	in Lua:
+	1) handle a simple swap in info's view,
+	2) put some time in it and allow it only if in a station
+	(maybe allow also if you have a crew?)
 
 	TODO3:
+	CycleFireModeForGun(num);
+
+	TODO4:
 	CreateGroup(num, );
-	....
+	CycleFireModeForGunGroup(num);
 */
-	GunDir IsFront(const int num) const;
+	GunDir IsFront(GunId num) const;
 	bool IsFiring() const;
-	bool IsFiring(const int num) const;
-	bool IsBeam(const int num) const;
-	float GetGunTemperature(int idx) const;
-	const std::string &GetGunName(int idx) { return m_guns[idx].gun_data.gun_name; };
-	inline float GetGunRange(int idx) const { return m_guns[idx].gun_data.projData.speed * m_guns[idx].gun_data.projData.lifespan; };
-	inline float GetProjSpeed(int idx) const { return m_guns[idx].gun_data.projData.speed; };
+	bool IsFiring(GunId num) const;
+	bool IsBeam(GunId num) const;
+	float GetGunTemperature(GunId idx) const;
+	const std::string &GetGunName(GunId idx) { return m_guns[idx].gun_data.gun_name; };
+	inline float GetGunRange(GunId idx) const { return m_guns[idx].gun_data.projData.speed * m_guns[idx].gun_data.projData.lifespan; };
+	inline float GetProjSpeed(GunId idx) const { return m_guns[idx].gun_data.projData.speed; };
 	inline void SetCoolingBoost(float cooler) { m_cooler_boost = cooler; };
 
 private:
@@ -82,7 +94,7 @@ private:
 
 	// Structure holding data of a single (maybe with multiple barrel) 'mounted' gun.
 	struct GunData {
-		GunData() : // Defaul ctor
+		GunData() : // Defaul ctor: not to be used
 			recharge(0.0f),
 			temp_cool_rate(0.0f),
 			temp_heat_rate(0.0f),
@@ -119,7 +131,7 @@ private:
 			recharge_stat(0.0f),
 			temperature_stat(0.0f),
 			gun_data() {}
-		GunStatus(int m_id, const std::string &n, float r, float h, float c, int b, const ProjectileData &pd) : // "Fast" ctor for creation
+		GunStatus(GunId m_id, const std::string &n, float r, float h, float c, int b, const ProjectileData &pd) : // "Fast" ctor for creation
 			mount_id(m_id),
 			is_firing(false),
 			is_active(true),
@@ -133,7 +145,7 @@ private:
 			recharge_stat(gs.recharge_stat),
 			temperature_stat(gs.temperature_stat),
 			gun_data(gs.gun_data) {}
-		int mount_id; // <- store the mount sequential number
+		GunId mount_id; // <- store the mount sequential number
 					  //    or, if equal to -1, the fact that
 					  // this gun is "invalid": it should have
 					  // been deleted before... But never say
