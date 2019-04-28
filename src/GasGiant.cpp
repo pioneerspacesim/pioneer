@@ -16,6 +16,8 @@
 #include "graphics/Texture.h"
 #include "graphics/VertexArray.h"
 #include "graphics/opengl/GenGasGiantColourMaterial.h"
+#include "libs.h"
+#include "MathUtil.h"
 #include "perlin.h"
 #include "utils.h"
 #include "vcacheopt/vcacheopt.h"
@@ -515,12 +517,6 @@ bool GasGiant::AddGPUGenResult(GasGiantJobs::SGPUGenResult *res)
 	return result;
 }
 
-// in patch surface coords, [0,1]
-inline vector3d GetSpherePointFromCorners(const double x, const double y, const vector3d *corners)
-{
-	return (corners[0] + x * (1.0 - y) * (corners[1] - corners[0]) + x * y * (corners[2] - corners[0]) + (1.0 - x) * y * (corners[3] - corners[0])).Normalized();
-}
-
 void GasGiant::GenerateTexture()
 {
 	using namespace GasGiantJobs;
@@ -531,7 +527,31 @@ void GasGiant::GenerateTexture()
 
 	const bool bEnableGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
 
-	// scope the small texture generation
+	const std::string ColorFracName = GetTerrain()->GetColorFractalName();
+	Output("Color Fractal name: %s\n", ColorFracName.c_str());
+
+	Uint32 GasGiantType = Graphics::OGL::GEN_JUPITER_TEXTURE;
+	if (ColorFracName == GGSaturn) {
+		GasGiantType = Graphics::OGL::GEN_SATURN_TEXTURE;
+	}
+	else if (ColorFracName == GGSaturn2) {
+		GasGiantType = Graphics::OGL::GEN_SATURN2_TEXTURE;
+	}
+	else if (ColorFracName == GGNeptune) {
+		GasGiantType = Graphics::OGL::GEN_NEPTUNE_TEXTURE;
+	}
+	else if (ColorFracName == GGNeptune2) {
+		GasGiantType = Graphics::OGL::GEN_NEPTUNE2_TEXTURE;
+	}
+	else if (ColorFracName == GGUranus) {
+		GasGiantType = Graphics::OGL::GEN_URANUS_TEXTURE;
+	}
+
+	Random rng(GetSystemBody()->GetSeed() + 4609837);
+	const std::string parentname = GetSystemBody()->GetParent()->GetName();
+	const float hueShift = (parentname == "Sol") ? 0.0f : float(((rng.Double() * 2.0) - 1.0) * 0.9);
+
+	// small texture generation
 	{
 		const vector2f texSize(1.0f, 1.0f);
 		const vector3f dataSize(s_texture_size_small, s_texture_size_small, 0.0f);
@@ -544,49 +564,16 @@ void GasGiant::GenerateTexture()
 		const Terrain *pTerrain = GetTerrain();
 		const double fracStep = 1.0 / double(s_texture_size_small - 1);
 
-		Graphics::TextureCubeData tcd;
-		std::unique_ptr<Color[]> bufs[NUM_PATCHES];
-		for (int i = 0; i < NUM_PATCHES; i++) {
-			Color *colors = new Color[(s_texture_size_small * s_texture_size_small)];
-			for (Uint32 v = 0; v < s_texture_size_small; v++) {
-				for (Uint32 u = 0; u < s_texture_size_small; u++) {
-					// where in this row & colum are we now.
-					const double ustep = double(u) * fracStep;
-					const double vstep = double(v) * fracStep;
-
-					// get point on the surface of the sphere
-					const vector3d p = GetSpherePointFromCorners(ustep, vstep, &GetPatchFaces(i, 0));
-					// get colour using `p`
-					const vector3d colour = pTerrain->GetColor(p, 0.0, p);
-
-					// convert to ubyte and store
-					Color *col = colors + (u + (v * s_texture_size_small));
-					col[0].r = Uint8(colour.x * 255.0);
-					col[0].g = Uint8(colour.y * 255.0);
-					col[0].b = Uint8(colour.z * 255.0);
-					col[0].a = 255;
-				}
-			}
-			bufs[i].reset(colors);
-		}
-
-		// update with buffer from above
-		tcd.posX = bufs[0].get();
-		tcd.negX = bufs[1].get();
-		tcd.posY = bufs[2].get();
-		tcd.negY = bufs[3].get();
-		tcd.posZ = bufs[4].get();
-		tcd.negZ = bufs[5].get();
-		m_surfaceTextureSmall->Update(tcd, dataSize, Graphics::TEXTURE_RGBA_8888);
+		InstantTextureGenerator(fracStep, pTerrain, GasGiantType, hueShift, m_surfaceTextureSmall.Get());
 	}
 
-	// create small texture
+	// create texture jobs
 	if (!bEnableGPUJobs) {
 		for (int i = 0; i < NUM_PATCHES; i++) {
 			assert(!m_hasJobRequest[i]);
 			assert(!m_job[i].HasJob());
 			m_hasJobRequest[i] = true;
-			GasGiantJobs::STextureFaceRequest *ssrd = new GasGiantJobs::STextureFaceRequest(&GetPatchFaces(i, 0), GetSystemBody()->GetPath(), i, s_texture_size_cpu[Pi::detail.planets], GetTerrain());
+			GasGiantJobs::STextureFaceRequest *ssrd = new GasGiantJobs::STextureFaceRequest(GetSystemBody()->GetPath(), i, s_texture_size_cpu[Pi::detail.planets], GetTerrain(), GasGiantType, hueShift);
 			m_job[i] = Pi::GetAsyncJobQueue()->Queue(new GasGiantJobs::SingleTextureFaceJob(ssrd));
 		}
 	} else {
@@ -600,30 +587,11 @@ void GasGiant::GenerateTexture()
 			true, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
 		m_builtTexture.Reset(Pi::renderer->CreateTexture(texDesc));
 
-		const std::string ColorFracName = GetTerrain()->GetColorFractalName();
-		Output("Color Fractal name: %s\n", ColorFracName.c_str());
-
-		Uint32 GasGiantType = Graphics::OGL::GEN_JUPITER_TEXTURE;
-		if (ColorFracName == GGSaturn) {
-			GasGiantType = Graphics::OGL::GEN_SATURN_TEXTURE;
-		} else if (ColorFracName == GGSaturn2) {
-			GasGiantType = Graphics::OGL::GEN_SATURN2_TEXTURE;
-		} else if (ColorFracName == GGNeptune) {
-			GasGiantType = Graphics::OGL::GEN_NEPTUNE_TEXTURE;
-		} else if (ColorFracName == GGNeptune2) {
-			GasGiantType = Graphics::OGL::GEN_NEPTUNE2_TEXTURE;
-		} else if (ColorFracName == GGUranus) {
-			GasGiantType = Graphics::OGL::GEN_URANUS_TEXTURE;
-		}
 		const Uint32 octaves = (Pi::config->Int("AMD_MESA_HACKS") == 0) ? s_noiseOctaves[Pi::detail.planets] : std::min(5U, s_noiseOctaves[Pi::detail.planets]);
 		GasGiantType = (octaves << 16) | GasGiantType;
 
 		assert(!m_hasGpuJobRequest);
 		assert(!m_gpuJob.HasJob());
-
-		Random rng(GetSystemBody()->GetSeed() + 4609837);
-		const std::string parentname = GetSystemBody()->GetParent()->GetName();
-		const float hueShift = (parentname == "Sol") ? 0.0f : float(((rng.Double() * 2.0) - 1.0) * 0.9);
 
 		GasGiantJobs::GenFaceQuad *pQuad = new GasGiantJobs::GenFaceQuad(Pi::renderer, vector2f(s_texture_size_gpu[Pi::detail.planets], s_texture_size_gpu[Pi::detail.planets]), s_quadRenderState, GasGiantType);
 
