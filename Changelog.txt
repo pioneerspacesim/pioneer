@@ -1,6 +1,7 @@
 April 2019
    * New Features
      * Input/settings system now available in translation system (#4568)
+     * Manual player face generator (#4571)
 
 March 2019
    * Internal Changes
