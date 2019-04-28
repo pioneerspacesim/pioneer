@@ -128,12 +128,12 @@ end
 
 function ChatForm:SetFace (character)
 
-	local faceFlags = {
-		character.female and "FEMALE" or "MALE",
-		character.armor and "ARMOUR",
+	local faceDesc = character.faceDescription and character.faceDescription or {
+		FEATURE_GENDER = character.female and 1 or 0,
+		FEATURE_ARMOUR = character.armour and -1 or 0,
 	}
 
-	self.face = Face.New(ui, faceFlags, character.seed):SetHeightLines(5)
+	self.face = Face.New(ui, faceDesc, character.seed):SetHeightLines(5)
 end
 
 function ChatForm:ClearFace()

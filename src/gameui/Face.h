@@ -4,6 +4,7 @@
 #ifndef GAMEUI_FACE_H
 #define GAMEUI_FACE_H
 
+#include "FaceParts.h"
 #include "SmartPtr.h"
 #include "graphics/Drawables.h"
 #include "graphics/Texture.h"
@@ -13,7 +14,7 @@ namespace GameUI {
 
 	class Face : public UI::Single {
 	public:
-		Face(UI::Context *context, Uint32 flags = 0, Uint32 seed = 0);
+		Face(UI::Context *context, FaceParts::FaceDescriptor& face, Uint32 seed = 0);
 
 		virtual UI::Point PreferredSize();
 		virtual void Layout();
@@ -33,7 +34,6 @@ namespace GameUI {
 	private:
 		UI::Point m_preferredSize;
 
-		Uint32 m_flags;
 		Uint32 m_seed;
 
 		static RefCountedPtr<Graphics::Material> s_material;

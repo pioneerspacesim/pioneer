@@ -339,7 +339,7 @@ static void _pick(Random &rng, int &inout_value, const int limit)
 		inout_value = rng_value;
 		assert(inout_value >= 0 && inout_value < limit);
 	} else {
-		inout_value = (inout_value < limit ? inout_value : limit - 1);
+		inout_value = (inout_value % limit);
 	}
 }
 
@@ -369,19 +369,19 @@ void FaceParts::PickFaceParts(FaceDescriptor &inout_face, const Uint32 seed)
 	_pick(rand, inout_face.armour, _count_parts(s_partdb->armour, selector));
 }
 
-void FaceParts::BuildFaceImage(SDL_Surface *faceIm, const FaceDescriptor &face, bool armoured)
+void FaceParts::BuildFaceImage(SDL_Surface *faceIm, const FaceDescriptor &face)
 {
 	const Uint32 selector = _make_selector(face.species, face.race, face.gender);
 
 	_blit_image(faceIm, s_partdb->background_general.Get(), 0, 0);
 	_blit_image(faceIm, _get_part(s_partdb->heads, selector, face.head), 0, 0);
-	if (!armoured) {
+	if (!face.armour) {
 		_blit_image(faceIm, _get_part(s_partdb->clothes, selector, face.clothes), 0, 135);
 	}
 	_blit_image(faceIm, _get_part(s_partdb->eyes, selector, face.eyes), 0, 41);
 	_blit_image(faceIm, _get_part(s_partdb->noses, selector, face.nose), 1, 89);
 	_blit_image(faceIm, _get_part(s_partdb->mouths, selector, face.mouth), 0, 155);
-	if (!armoured) {
+	if (!face.armour) {
 		_blit_image(faceIm, _get_part(s_partdb->accessories, selector, face.accessories), 0, 0);
 		_blit_image(faceIm, _get_part(s_partdb->hairstyles, selector, face.hairstyle), 0, 0);
 	} else {
