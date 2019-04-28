@@ -187,20 +187,26 @@ void DynamicBody::SetFrame(Frame *f)
 	m_externalForce = m_gravityForce = m_atmosForce = vector3d(0.0);
 }
 
-double DynamicBody::CalcAtmosphericForce(double dragCoeff) const
+double DynamicBody::CalcAtmosphericDrag(double velSqr, double area, double coeff) const
 {
 	Body *body = GetFrame()->GetBody();
 	if (!body || !GetFrame()->IsRotFrame() || !body->IsType(Object::PLANET))
 		return 0.0;
 	Planet *planet = static_cast<Planet *>(body);
-	double dist = GetPosition().Length();
-	double speed = m_vel.Length();
 	double pressure, density;
-	planet->GetAtmosphericState(dist, &pressure, &density);
-	const double radius = GetClipRadius(); // bogus, preserving behaviour
-	const double area = radius;
-	// ^^^ yes that is as stupid as it looks
-	return 0.5 * density * speed * speed * area * dragCoeff;
+	planet->GetAtmosphericState(GetPosition().Length(), &pressure, &density);
+
+	// Simplified calculation of atmospheric drag/lift force.
+	return 0.5 * density * velSqr * area * coeff;
+}
+
+vector3d DynamicBody::CalcAtmosphericForce() const
+{
+	vector3d dragDir = -m_vel.NormalizedSafe();
+
+	// We assume the object is a perfect sphere in the size of the clip radius.
+	// Most things are /not/ using the default DynamicBody code, but this is still better than before.
+	return CalcAtmosphericDrag(m_vel.LengthSqr(), GetClipRadius() * GetClipRadius() * M_PI, m_dragCoeff) * dragDir;
 }
 
 void DynamicBody::CalcExternalForce()
@@ -220,16 +226,16 @@ void DynamicBody::CalcExternalForce()
 
 	// atmospheric drag
 	if (body && GetFrame()->IsRotFrame() && body->IsType(Object::PLANET)) {
-		vector3d dragDir = -m_vel.NormalizedSafe();
-		vector3d fDrag = CalcAtmosphericForce(m_dragCoeff) * dragDir;
+		vector3d fAtmoForce = CalcAtmosphericForce();
 
 		// make this a bit less daft at high time accel
 		// only allow atmosForce to increase by .1g per frame
-		vector3d f1g = m_atmosForce + dragDir * GetMass();
-		if (fDrag.LengthSqr() > f1g.LengthSqr())
+		// TODO: clamp fAtmoForce instead.
+		vector3d f1g = m_atmosForce + fAtmoForce.NormalizedSafe() * GetMass();
+		if (fAtmoForce.LengthSqr() > f1g.LengthSqr())
 			m_atmosForce = f1g;
 		else
-			m_atmosForce = fDrag;
+			m_atmosForce = fAtmoForce;
 
 		m_externalForce += m_atmosForce;
 	} else

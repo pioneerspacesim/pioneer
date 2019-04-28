@@ -124,6 +124,10 @@ public:
 		HYPERSPACE, // in hyperspace
 	};
 
+	vector3d CalcAtmosphericForce() const override;
+	// vector3d CalcAtmoPassiveControl() const;
+	vector3d CalcAtmoTorque() const;
+
 	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
@@ -190,7 +194,7 @@ public:
 	void AIOrbit(Body *target, double alt); // Note: defined in Ship-AI.cpp
 	void AIHoldPosition(); // Note: defined in Ship-AI.cpp
 
-	void AIBodyDeleted(const Body *const body){}; // Note: defined in Ship-AI.cpp // todo: signals
+	void AIBodyDeleted(const Body *const body) {}; // Note: defined in Ship-AI.cpp // todo: signals
 
 	const AICommand *GetAICommand() const { return m_curAICmd; }
 
@@ -275,6 +279,8 @@ private:
 	void InitEquipSet();
 
 	bool m_invulnerable;
+
+	static const double DEFAULT_LIFT_TO_DRAG_RATIO;
 
 	static const float DEFAULT_SHIELD_COOLDOWN_TIME;
 	float m_shieldCooldown;

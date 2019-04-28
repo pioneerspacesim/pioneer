@@ -53,7 +53,7 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 {
 	Json data = JsonUtils::LoadJsonDataFile(path);
 	if (data.is_null()) {
-		Output("couldn't read ship def '%s': %s\n", path.c_str());
+		Output("couldn't read ship def '%s'\n", path.c_str());
 		throw ShipTypeLoadError();
 	}
 
@@ -90,6 +90,18 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	linAccelerationCap[THRUSTER_DOWN] = data.value("down_acceleration_cap", INFINITY);
 	linAccelerationCap[THRUSTER_LEFT] = data.value("left_acceleration_cap", INFINITY);
 	linAccelerationCap[THRUSTER_RIGHT] = data.value("right_acceleration_cap", INFINITY);
+
+	//get atmospheric flight values
+	topCrossSection = data.value("top_cross_section", 1.0f);
+	sideCrossSection = data.value("side_cross_section", 1.0f);
+	frontCrossSection = data.value("front_cross_section", 1.0f);
+
+	topDragCoeff = data.value("top_drag_coeff", 0.1f);
+	sideDragCoeff = data.value("side_drag_coeff", 0.1f);
+	frontDragCoeff = data.value("front_drag_coeff", 0.1f);
+
+	shipLiftCoefficient = data.value("lift_coeff", 0.0f);
+	atmoStability = data.value("aero_stability", 0.0f);
 
 	// Parse global thrusters color
 	bool error = false;
