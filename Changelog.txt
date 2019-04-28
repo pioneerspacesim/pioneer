@@ -3,6 +3,9 @@ April 2019
      * Input/settings system now available in translation system (#4568)
      * Manual player face generator (#4571)
 
+   * Fixes
+     * Autofit main menu (#4572)
+
 March 2019
    * Internal Changes
      * PiGui profiling changes (#4549)
