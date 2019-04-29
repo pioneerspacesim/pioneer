@@ -127,6 +127,10 @@
     "description": "Center on selected star system",
     "message": "Sistemi Ortala"
   },
+  "CHANGE": {
+    "description": "Face feature option",
+    "message": "Change:"
+  },
   "CHANGE_BINDING": {
     "description": "Key binding option",
     "message": "Atamayı Değiştir"
@@ -426,6 +430,50 @@
   "FAILED": {
     "description": "When failed mission",
     "message": "Başarısız oldu"
+  },
+  "FEATURE_ACCESSORIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Aksesuarlar"
+  },
+  "FEATURE_ARMOUR": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Zırh"
+  },
+  "FEATURE_CLOTHES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Giysiler"
+  },
+  "FEATURE_EYES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Gözler"
+  },
+  "FEATURE_GENDER": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Cinsiyet"
+  },
+  "FEATURE_HAIRSTYLE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Saç Şekli"
+  },
+  "FEATURE_HEAD": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Baş"
+  },
+  "FEATURE_MOUTH": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Ağız"
+  },
+  "FEATURE_NOSE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Burun"
+  },
+  "FEATURE_RACE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Irk"
+  },
+  "FEATURE_SPECIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Tür"
   },
   "FEMALE": {
     "description": "",
@@ -1187,6 +1235,10 @@
     "description": "",
     "message": "Uzlaş"
   },
+  "NEXT_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "Sonraki"
+  },
   "NEXT_PAID": {
     "description": "",
     "message": "Sonraki ödeme"
@@ -1343,6 +1395,10 @@
     "description": "",
     "message": "Temizlemek için bir tuşa veya escape'e basın"
   },
+  "PREVIOUS_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "Önceki"
+  },
   "PRICE": {
     "description": "",
     "message": "Fiyat"
@@ -1366,6 +1422,10 @@
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
     "message": "Çıkış Doğrulaması"
+  },
+  "RANDOM_FACE": {
+    "description": "Generate random face",
+    "message": "Rasgele"
   },
   "RANK": {
     "description": "",

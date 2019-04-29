@@ -127,6 +127,10 @@
     "description": "Center on selected star system",
     "message": "Centra sul Sistema"
   },
+  "CHANGE": {
+    "description": "Face feature option",
+    "message": "Change:"
+  },
   "CHANGE_BINDING": {
     "description": "Key binding option",
     "message": "Cambia associazioni"
@@ -426,6 +430,50 @@
   "FAILED": {
     "description": "When failed mission",
     "message": "Fallito"
+  },
+  "FEATURE_ACCESSORIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Accessori"
+  },
+  "FEATURE_ARMOUR": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Armatura"
+  },
+  "FEATURE_CLOTHES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Abiti"
+  },
+  "FEATURE_EYES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Occhi"
+  },
+  "FEATURE_GENDER": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Genere"
+  },
+  "FEATURE_HAIRSTYLE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Capigliatura"
+  },
+  "FEATURE_HEAD": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Testa"
+  },
+  "FEATURE_MOUTH": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Bocca"
+  },
+  "FEATURE_NOSE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Naso"
+  },
+  "FEATURE_RACE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Razza"
+  },
+  "FEATURE_SPECIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Specie"
   },
   "FEMALE": {
     "description": "",
@@ -1187,6 +1235,10 @@
     "description": "",
     "message": "Negoziare"
   },
+  "NEXT_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "Successivo"
+  },
   "NEXT_PAID": {
     "description": "",
     "message": "Prossima paga"
@@ -1343,6 +1395,10 @@
     "description": "",
     "message": "Premere un tasto od un pulsante del controller per cancellare"
   },
+  "PREVIOUS_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "Precedente"
+  },
   "PRICE": {
     "description": "",
     "message": "Prezzo"
@@ -1366,6 +1422,10 @@
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
     "message": "Conferma uscita"
+  },
+  "RANDOM_FACE": {
+    "description": "Generate random face",
+    "message": "Casuale"
   },
   "RANK": {
     "description": "",

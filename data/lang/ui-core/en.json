@@ -431,49 +431,49 @@
     "description": "When failed mission",
     "message": "Failed"
   },
-  "FEATURE_SPECIES": {
-    "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Species"
-  },
-  "FEATURE_RACE": {
-    "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Race"
-  },
-  "FEATURE_GENDER": {
-    "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Gender"
-  },
-  "FEATURE_HEAD": {
-    "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Head"
-  },
-  "FEATURE_EYES": {
-    "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Eyes"
-  },
-  "FEATURE_NOSE": {
-    "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Nose"
-  },
-  "FEATURE_MOUTH": {
-    "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Mouth"
-  },
-  "FEATURE_HAIRSTYLE": {
-    "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Hairstyle"
-  },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
     "message": "Accessories"
+  },
+  "FEATURE_ARMOUR": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Armour"
   },
   "FEATURE_CLOTHES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
     "message": "Clothes"
   },
-  "FEATURE_ARMOUR": {
+  "FEATURE_EYES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Armour"
+    "message": "Eyes"
+  },
+  "FEATURE_GENDER": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Gender"
+  },
+  "FEATURE_HAIRSTYLE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Hairstyle"
+  },
+  "FEATURE_HEAD": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Head"
+  },
+  "FEATURE_MOUTH": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Mouth"
+  },
+  "FEATURE_NOSE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Nose"
+  },
+  "FEATURE_RACE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Race"
+  },
+  "FEATURE_SPECIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Species"
   },
   "FEMALE": {
     "description": "",
@@ -1423,6 +1423,10 @@
     "description": "For the checkbox in settings window",
     "message": "Quit confirmation"
   },
+  "RANDOM_FACE": {
+    "description": "Generate random face",
+    "message": "Random"
+  },
   "RANK": {
     "description": "",
     "message": "Rank:"
@@ -1430,10 +1434,6 @@
   "RATING": {
     "description": "",
     "message": "Rating:"
-  },
-  "RANDOM_FACE": {
-    "description": "Generate random face",
-    "message": "Random"
   },
   "REAR_WEAPON": {
     "description": "",
