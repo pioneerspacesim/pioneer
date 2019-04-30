@@ -516,7 +516,7 @@ static int l_pigui_push_style_var(lua_State *l)
 	if (lua_isnumber(l, 2)) {
 		double val = LuaPull<double>(l, 2);
 		ImGui::PushStyleVar(style, val);
-	} else if (lua_istable(l, 2)) {
+	} else if (lua_isuserdata(l, 2)) {
 		const vector2d v = LuaPull<vector2d>(l, 2);
 		ImVec2 val(v.x, v.y);
 		ImGui::PushStyleVar(style, val);

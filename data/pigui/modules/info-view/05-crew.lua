@@ -7,9 +7,10 @@ local Lang = import 'Lang'
 
 local l = Lang.GetResource("ui-core")
 
-InfoView.registerView("personalInfo", {
-    name = l.PERSONAL_INFORMATION,
-    icon = ui.theme.icons.personal_info,
+
+InfoView.registerView("crew", {
+    name = l.CREW_ROSTER,
+    icon = ui.theme.icons.rooster,
     showView = false,
     draw = function()
     end

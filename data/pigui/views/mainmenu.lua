@@ -177,7 +177,7 @@ local function showMainMenu()
 				if mn then
 					local sd = ShipDef[mn]
 					if sd then
-						ui.addFancyText(Vector2(ui.screenWidth / 3, ui.screenHeight / 5.0 * 4), ui.anchor.center, ui.anchor.bottom, {{text=sd.name, color=colors.white, font=orbiteer.large}}, colors.transparent)
+						ui.addFancyText(Vector2(ui.screenWidth / 3, ui.screenHeight / 5.0 * 4), ui.anchor.center, ui.anchor.bottom, {{text=sd.name, color=colors.white, font=orbiteer.medlarge}}, colors.transparent)
 						ui.addFancyText(Vector2(ui.screenWidth / 3, ui.screenHeight / 5.0 * 4.02), ui.anchor.center, ui.anchor.top, {{text=lui[sd.shipClass:upper()], color=colors.white, font=orbiteer.medium}}, colors.transparent)
 					end
 				end

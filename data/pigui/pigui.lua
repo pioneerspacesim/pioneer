@@ -50,8 +50,8 @@ ui.fonts = {
 		tiny = { name = "pionillium", size = 8 * font_factor, offset = 7 * font_factor},
 	},
 	orbiteer = {
-		--large = { name = "orbiteer", size = 30 * font_factor, offset = 24 * font_factor }
-		large = { name = "orbiteer", size = 24 * font_factor, offset = 20 * font_factor},
+		large = { name = "orbiteer", size = 30 * font_factor, offset = 24 * font_factor },
+		medlarge = { name = "orbiteer", size = 24 * font_factor, offset = 20 * font_factor},
 		medium = { name = "orbiteer", size = 20 * font_factor, offset = 16 * font_factor},
 	},
 }

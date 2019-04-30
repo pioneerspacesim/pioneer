@@ -26,6 +26,7 @@ namespace UI {
 
 	void Container::Draw()
 	{
+		if(m_hidden) return;
 		Context *c = GetContext();
 
 		for (auto end = m_widgets.end(), it = m_widgets.begin(); it != end; ++it)
