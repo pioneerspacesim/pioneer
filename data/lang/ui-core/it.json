@@ -129,7 +129,7 @@
   },
   "CHANGE": {
     "description": "Face feature option",
-    "message": "Change:"
+    "message": "Modifica:"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
