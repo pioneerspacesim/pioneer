@@ -49,7 +49,7 @@
   },
   "AUTOPILOT_CONTROL": {
     "description": "Indicating that ship is flying under autopilot control",
-    "message": "Autopilot control"
+    "message": "Ovládání autopilota"
   },
   "AUTOPILOT_DOCK_WITH_STATION": {
     "description": "",
@@ -413,7 +413,7 @@
   },
   "FIRE_LASER": {
     "description": "",
-    "message": "Fire weapon"
+    "message": "Vystřelit ze zbraně"
   },
   "FIRE_MISSILE": {
     "description": "",
@@ -969,7 +969,7 @@
   },
   "NOW": {
     "description": "In System Orbit View",
-    "message": "Now"
+    "message": "Nyní"
   },
   "NO_ALERT": {
     "description": "",

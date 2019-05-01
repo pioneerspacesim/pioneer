@@ -81,7 +81,7 @@
   },
   "CARGO_IS_LOADED": {
     "description": "",
-    "message": "loaded"
+    "message": "načteno"
   },
   "CARGO_IS_NOT_LOADED": {
     "description": "",
@@ -453,7 +453,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Nastavit jako cíl navigace"
   },
   "SET_RETURN_ROUTE": {
     "description": "",

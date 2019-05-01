@@ -193,7 +193,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Nastavit jako cíl navigace"
   },
   "SET_RETURN_ROUTE": {
     "description": "",

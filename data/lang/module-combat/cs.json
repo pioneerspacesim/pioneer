@@ -37,7 +37,7 @@
   },
   "AREA": {
     "description": "An allotted area for the mission",
-    "message": "Area:"
+    "message": "Oblast:"
   },
   "BONUS_1": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
-    "message": "Reconnaissance"
+    "message": "Průzkum"
   },
   "MISSION_TYPE_2": {
     "description": "Name of mission type",
@@ -309,7 +309,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Nastavit jako cíl navigace"
   },
   "SUCCESSMSG_1": {
     "description": "",
@@ -337,7 +337,7 @@
   },
   "WHAT_ARE_THE_MISSION_OBJECTIVES": {
     "description": "",
-    "message": "What are the mission objectives?"
+    "message": "Jaké jsou cíle mise?"
   },
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",

@@ -637,11 +637,11 @@
   },
   "SEARCH_RESCUE": {
     "description": "",
-    "message": "Search & Rescue"
+    "message": "Najít a zachránit"
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Nastavit jako cíl navigace"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
