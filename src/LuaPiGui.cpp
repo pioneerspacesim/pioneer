@@ -1482,33 +1482,36 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 	for (TSS_vector::iterator it = filtered.begin(); it != filtered.end(); ++it) {
 		TSS_vector group;
 		group.reserve(filtered.end() - it + 1);
+
 		// First element should always be the "media";
 		// so push twice that element:
-		//printf("Body 1 = %s (%f, %f)\n", (*it)._body->GetLabel().c_str(), (*it)._screenPosition.x, (*it)._screenPosition.y);
+		//printf("  Body 1 = %s (%f, %f)\n", (*it)._body->GetLabel().c_str(), (*it)._screenPosition.x, (*it)._screenPosition.y);
 		group.push_back((*it));
 		// Zeroed body so you could distinguish between a "media" element and a "real" element
 		group.back()._body = nullptr;
 		group.push_back((*it));
 
-		// Skip finding other elements if the given one's is the last
-		if (it + 1 == filtered.end()) break;
-
 		// Find near displayed bodies in remaining list of bodies
-		TSS_vector::reverse_iterator current = std::reverse_iterator<TSS_vector::iterator>(it + 1);
-		for (TSS_vector::reverse_iterator it2 = filtered.rbegin(); it2 != current; ++it2) {
-			//printf("  Body 2 = %s (%f, %f)\n", (*it2)._body->GetLabel().c_str(), (*it2)._screenPosition.x, (*it2)._screenPosition.y);
+		for (TSS_vector::iterator it2 = --filtered.end(); it2 != it; ) {
+			//printf("    Body 2 = %s (%f, %f)\n", (*it2)._body->GetLabel().c_str(), (*it2)._screenPosition.x, (*it2)._screenPosition.y);
 			if ( (std::abs((*group.begin())._screenPosition.x - (*it2)._screenPosition.x) > gap.x ) ||
-				(std::abs((*group.begin())._screenPosition.y - (*it2)._screenPosition.y) > gap.y ) ) continue;
-			//printf("    %s and %s are near!\n", (*it)._body->GetLabel().c_str(), (*it2)._body->GetLabel().c_str());
-			// There's a "nearest": push it on group and recalc center
-			group.push_back(std::move(*it2));
-			// swap&pop:
-			std::swap(*it2, filtered.back());
+				(std::abs((*group.begin())._screenPosition.y - (*it2)._screenPosition.y) > gap.y ) ) {
+				it2--;
+				continue;
+			}
+			//printf("      %s and %s are near!\n", (*it)._body->GetLabel().c_str(), (*it2)._body->GetLabel().c_str());
+			// There's a "nearest": push it on group, remove from filtered and recalc group center
+			group.push_back(*it2);
+			// nearly-swap&pop: copy last element over *it2 and...
+			(*it2) = filtered.back();
+			// ensure it2 never point past-the-end (thus to rbegin)
+			it2--;
+			// ..."pop"
 			filtered.pop_back();
 			// recalc group (starting with second element because first is the center itself)
 			vector3d media = std::accumulate(group.begin() + 1, group.end(), vector3d(0.0), [](const vector3d &a, const TScreenSpace &ss)
 			{
-				//printf("    Third level with '%s'\n", ss._body->GetLabel().c_str());
+				//printf("      Third level with '%s'\n", ss._body->GetLabel().c_str());
 				return a + ss._body->GetPositionRelTo(Pi::player);
 			});
 			media /= double(group.size() - 1);
