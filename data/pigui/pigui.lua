@@ -12,6 +12,7 @@ local Event = import("Event")
 local ShipDef = import("ShipDef")
 local Color = import("Color")
 local Lang = import("Lang")
+local Vector2 = _G.Vector2
 
 local lui = Lang.GetResource("ui-core");
 local lc = Lang.GetResource("core");
@@ -764,64 +765,24 @@ ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color
 	local offset = 60
 	local uiPos = Vector2(position.x, position.y)
 	ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
-								ui.addLine(uiPos, Vector2(uiPos.x + ui.gauge_width, uiPos.y), ui.theme.colors.gaugeBackground, ui.gauge_height)
-								if gauge_show_percent then
-									local one_hundred = ui.calcTextSize("100")
-									uiPos.x = uiPos.x + one_hundred.x * 1.2 -- 1.2 for a bit of slack
-									ui.addStyledText(Vector2(uiPos.x, uiPos.y + ui.gauge_height / 12), ui.anchor.right, ui.anchor.center, string.format("%i", percent * 100), ui.theme.colors.reticuleCircle, ui.fonts.pionillium.medium, tooltip)
-								end
-								uiPos.x = uiPos.x + ui.gauge_height * 1.2
-								ui.addIcon(Vector2(uiPos.x - ui.gauge_height/2, uiPos.y), icon, ui.theme.colors.reticuleCircle, Vector2(ui.gauge_height * 0.9, ui.gauge_height * 0.9), ui.anchor.center, ui.anchor.center, tooltip)
-								local w = (position.x + ui.gauge_width) - uiPos.x
-								ui.addLine(uiPos, Vector2(uiPos.x + w * percent, uiPos.y), color, ui.gauge_height)
-								if value and format then
-									ui.addFancyText(Vector2(uiPos.x + ui.gauge_height/2, uiPos.y + ui.gauge_height/4), ui.anchor.left, ui.anchor.center, {
-																		{ text=string.format(format, value), color=ui.theme.colors.reticuleCircle,     font=ui.fonts.pionillium.small, tooltip=tooltip },
-																		{ text=unit,                         color=ui.theme.colors.reticuleCircleDark, font=ui.fonts.pionillium.small, tooltip=tooltip }},
-																	ui.theme.colors.gaugeBackground)
-								end
+		ui.addLine(uiPos, Vector2(uiPos.x + ui.gauge_width, uiPos.y), ui.theme.colors.gaugeBackground, ui.gauge_height)
+		if gauge_show_percent then
+			local one_hundred = ui.calcTextSize("100")
+			uiPos.x = uiPos.x + one_hundred.x * 1.2 -- 1.2 for a bit of slack
+			ui.addStyledText(Vector2(uiPos.x, uiPos.y + ui.gauge_height / 12), ui.anchor.right, ui.anchor.center, string.format("%i", percent * 100), ui.theme.colors.reticuleCircle, ui.fonts.pionillium.medium, tooltip)
+		end
+		uiPos.x = uiPos.x + ui.gauge_height * 1.2
+		ui.addIcon(Vector2(uiPos.x - ui.gauge_height / 2, uiPos.y), icon, ui.theme.colors.reticuleCircle, Vector2(ui.gauge_height * 0.9, 0), ui.anchor.center, ui.anchor.center, tooltip)
+		local w = (position.x + ui.gauge_width) - uiPos.x
+		ui.addLine(uiPos, Vector2(uiPos.x + w * percent, uiPos.y), color, ui.gauge_height)
+		if value and format then
+			ui.addFancyText(Vector2(uiPos.x + ui.gauge_height/2, uiPos.y + ui.gauge_height/4), ui.anchor.left, ui.anchor.center, {
+				{ text=string.format(format, value), color=ui.theme.colors.reticuleCircle,     font=ui.fonts.pionillium.small, tooltip=tooltip },
+				{ text=unit,                         color=ui.theme.colors.reticuleCircleDark, font=ui.fonts.pionillium.small, tooltip=tooltip }},
+			ui.theme.colors.gaugeBackground)
+		end
 	end)
 
-end
-
-local gauges = {}
-
-ui.registerGauge = function(fun, priority)
-	table.insert(gauges, {fun = fun, priority = priority})
-	table.sort(gauges, function(a,b) return a.priority < b.priority end)
-end
-
-ui.displayPlayerGauges = function()
-	local gauge_stretch = 1.4
-	local current_view = Game.CurrentView()
-	local c = 0
-	for k,v in pairs(gauges) do
-		local g = v.fun()
-		if g and g.value then
-			c = c + 1
-		end
-	end
-	c = c + 0.1
-	if current_view == "world" then
-		ui.setNextWindowSize(Vector2(ui.gauge_width, ui.gauge_height * c * gauge_stretch), "Always")
-		local tws = ui.timeWindowSize
-		if not tws then
-			tws = Vector2(0, 100)
-		end
-		tws.y = tws.y + 30 -- extra offset
-		ui.setNextWindowPos(Vector2(5, ui.screenHeight - tws.y - ui.gauge_height * c * gauge_stretch), "Always")
-		ui.window("PlayerGauges", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
-							function()
-								local uiPos = ui.getWindowPos() + Vector2(0, ui.gauge_height)
-								for k,v in pairs(gauges) do
-									local g = v.fun()
-									if g and g.value then
-										ui.gauge(uiPos, g.value, g.unit, g.format, g.min, g.max, g.icon, g.color, g.tooltip)
-										uiPos.y = uiPos.y + ui.gauge_height * gauge_stretch
-									end
-								end
-		end)
-	end
 end
 
 ui.loadTextureFromSVG = function(a, b, c)
