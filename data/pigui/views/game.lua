@@ -36,6 +36,14 @@ local showNavigationalNumbers = true
 -- cache player each frame
 local player = nil
 
+-- cache some data each frame
+local gameView = {
+	center = nil,
+	player = nil
+}
+
+import("pigui.libs.view-util").mixin_modules(gameView)
+
 -- display the pitch indicator on the right inside of the reticule circle
 local function displayReticulePitch(pitch_degrees)
 	local tick_length = 4
@@ -392,7 +400,7 @@ local function displayCombatTargetIndicator(combatTarget)
 	local pos = combatTarget:GetPositionRelTo(player)
 	local vel = -combatTarget:GetVelocityRelTo(player)
 	local onscreen,position,direction = Engine.WorldSpaceToScreenSpace(pos)
-	
+
 	displayIndicator(onscreen, position, direction, icons.square, colors.combatTarget, true)
 	onscreen,position,direction = Engine.WorldSpaceToScreenSpace(vel)
 	displayIndicator(onscreen, position, direction, icons.prograde, colors.combatTarget, true, lui.HUD_INDICATOR_COMBAT_TARGET_PROGRADE)
@@ -912,6 +920,7 @@ end
 ui.registerHandler('game', function(delta_t)
 		-- delta_t is ignored for now
 		player = Game.player
+		gameView.player = player
 		colors = ui.theme.colors -- if the theme changes
 		icons = ui.theme.icons -- if the theme changes
 		ui.setNextWindowPos(Vector2(0, 0), "Always")
@@ -919,6 +928,7 @@ ui.registerHandler('game', function(delta_t)
 		ui.withStyleColors({ ["WindowBg"] = colors.transparent }, function()
 			ui.window("HUD", {"NoTitleBar", "NoResize", "NoMove", "NoInputs", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}, function()
 				center = Vector2(ui.screenWidth / 2, ui.screenHeight / 2)
+				gameView.center = center
 				if Game.CurrentView() == "world" then
 					if ui.shouldDrawUI() then
 						if Game.InHyperspace() then
@@ -957,3 +967,5 @@ ui.registerHandler('game', function(delta_t)
 			end
 		end
 end)
+
+return gameView

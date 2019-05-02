@@ -8,8 +8,14 @@ local drawTable = {}
 function drawTable.draw(n, id, border, t)
 	ui.columns(n, id, border)
 	for _, entry in pairs(t) do
-		for i, v in pairs(entry) do
-			if (v) then ui.text(v) end
+		if type(entry) == "table" then
+			for i, v in pairs(entry) do
+				if (v) then ui.text(v) end
+				ui.nextColumn()
+			end
+		elseif entry == false then
+			ui.dummy({x=5, y=ui.getTextLineHeight()})
+			ui.nextColumn()
 			ui.nextColumn()
 		end
 	end
