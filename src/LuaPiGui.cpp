@@ -20,8 +20,8 @@
 #include "sound/Sound.h"
 #include "ui/Context.h"
 
-#include <numeric>
 #include <iterator>
+#include <numeric>
 
 // Windows defines RegisterClass as a macro, but we don't need that here.
 // undef it, to avoid including yet another header that undefs it
@@ -337,7 +337,7 @@ static int l_pigui_lineOnClock(lua_State *l)
 	PROFILE_SCOPED()
 	const double hours = LuaPull<double>(l, 2);
 	const double length = LuaPull<double>(l, 3);
-	const double radius = LuaPull<double>(l,4);
+	const double radius = LuaPull<double>(l, 4);
 	const ImColor color = LuaPull<ImColor>(l, 5);
 	const double thickness = LuaPull<double>(l, 6);
 	if (lua_type(l, 1) != LUA_TNIL) {
@@ -369,7 +369,8 @@ static int l_pigui_columns(lua_State *l)
 	return 0;
 }
 
-static int l_pigui_get_column_width(lua_State *l) {
+static int l_pigui_get_column_width(lua_State *l)
+{
 	int column_index = LuaPull<int>(l, 1);
 	double width = ImGui::GetColumnWidth(column_index);
 	LuaPush<double>(l, width);
@@ -534,6 +535,24 @@ static int l_pigui_pop_style_var(lua_State *l)
 	int num = LuaPull<int>(l, 1);
 	ImGui::PopStyleVar(num);
 	return 0;
+}
+
+static int l_pigui_get_text_line_height(lua_State *l)
+{
+	LuaPush(l, ImGui::GetTextLineHeight());
+	return 1;
+}
+
+static int l_pigui_get_text_line_height_with_spacing(lua_State *l)
+{
+	LuaPush(l, ImGui::GetTextLineHeightWithSpacing());
+	return 1;
+}
+
+static int l_pigui_get_frame_height(lua_State *l)
+{
+	LuaPush(l, ImGui::GetFrameHeight());
+	return 1;
 }
 
 static int l_pigui_get_frame_height_with_spacing(lua_State *l)
@@ -1387,7 +1406,7 @@ TScreenSpace lua_world_space_to_screen_space(const Body *body)
 	}
 }
 
-bool first_body_is_more_important_than(Body* body, Body* other)
+bool first_body_is_more_important_than(Body *body, Body *other)
 {
 
 	Object::Type a = body->GetType();
@@ -1508,10 +1527,10 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 		group.push_back((*it));
 
 		// Find near displayed bodies in remaining list of bodies
-		for (TSS_vector::iterator it2 = --filtered.end(); it2 != it; ) {
+		for (TSS_vector::iterator it2 = --filtered.end(); it2 != it;) {
 			//printf("    Body 2 = %s (%f, %f)\n", (*it2)._body->GetLabel().c_str(), (*it2)._screenPosition.x, (*it2)._screenPosition.y);
-			if ( (std::abs((*group.begin())._screenPosition.x - (*it2)._screenPosition.x) > gap.x ) ||
-				(std::abs((*group.begin())._screenPosition.y - (*it2)._screenPosition.y) > gap.y ) ) {
+			if ((std::abs((*group.begin())._screenPosition.x - (*it2)._screenPosition.x) > gap.x) ||
+				(std::abs((*group.begin())._screenPosition.y - (*it2)._screenPosition.y) > gap.y)) {
 				it2--;
 				continue;
 			}
@@ -1525,8 +1544,7 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 			// ..."pop"
 			filtered.pop_back();
 			// recalc group (starting with second element because first is the center itself)
-			vector3d media = std::accumulate(group.begin() + 1, group.end(), vector3d(0.0), [](const vector3d &a, const TScreenSpace &ss)
-			{
+			vector3d media = std::accumulate(group.begin() + 1, group.end(), vector3d(0.0), [](const vector3d &a, const TScreenSpace &ss) {
 				//printf("      Third level with '%s'\n", ss._body->GetLabel().c_str());
 				return a + ss._body->GetPositionRelTo(Pi::player);
 			});
@@ -1538,10 +1556,8 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 	}
 
 	// Sort each groups member according to a given function (skipping first element)
-	std::for_each(begin(groups), end(groups), [](TSS_vector &group)
-	{
-		std::sort(begin(group) + 1, end(group), [](TScreenSpace &a, TScreenSpace &b)
-		{
+	std::for_each(begin(groups), end(groups), [](TSS_vector &group) {
+		std::sort(begin(group) + 1, end(group), [](TScreenSpace &a, TScreenSpace &b) {
 			return first_body_is_more_important_than(a._body, b._body);
 		});
 	});
@@ -1549,13 +1565,11 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 	LuaTable result(l, groups.size(), 0);
 	int index = 1;
 
-	std::for_each(begin(groups), end(groups), [&l, &result, &index](TSS_vector &group)
-	{
+	std::for_each(begin(groups), end(groups), [&l, &result, &index](TSS_vector &group) {
 		int index2 = 1;
 		LuaTable table_group(l, group.size(), 0);
 
-		std::for_each(begin(group), end(group), [&l, &table_group, &index2](TScreenSpace &on_screen_object)
-		{
+		std::for_each(begin(group), end(group), [&l, &table_group, &index2](TScreenSpace &on_screen_object) {
 			LuaTable object(l, 0, 3);
 			object.Set("onscreen", on_screen_object._onScreen);
 			object.Set("screenCoordinates", on_screen_object._screenPosition);
@@ -1566,7 +1580,7 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 			lua_pop(l, 1);
 		});
 		result.Set(index++, table_group);
-		lua_pop(l,1);
+		lua_pop(l, 1);
 	});
 	LuaPush(l, result);
 	return 1;
@@ -1635,7 +1649,7 @@ static int l_pigui_get_targets_nearby(lua_State *l)
 
 		vector2d aep(rho * sin(theta) / (2 * M_PI), -rho * cos(theta) / (2 * M_PI));
 
-		LuaTable object(l, 0 , 4);
+		LuaTable object(l, 0, 4);
 
 		object.Set("distance", distance);
 		object.Set("label", body->GetLabel());
@@ -2127,25 +2141,29 @@ static int l_pigui_calc_text_alignment(lua_State *l)
 
 	if (lua_type(l, 3) != LUA_TNIL) {
 		anchor_h = LuaPull<int>(l, 3);
-	} else anchor_h = -1;
+	} else
+		anchor_h = -1;
 
 	if (lua_type(l, 4) != LUA_TNIL) {
 		anchor_v = LuaPull<int>(l, 4);
-	} else anchor_v = -1;
+	} else
+		anchor_v = -1;
 
 	if (anchor_h == 1 || anchor_h == -1) {
 	} else if (anchor_h == 2) {
 		pos.x -= size.x;
 	} else if (anchor_h == 3) {
-		pos.x -= size.x/2;
-	} else luaL_error(l, "CalcTextAlignment: incorrect horizontal anchor %d", anchor_h);
+		pos.x -= size.x / 2;
+	} else
+		luaL_error(l, "CalcTextAlignment: incorrect horizontal anchor %d", anchor_h);
 
 	if (anchor_v == 4 || anchor_v == -1) {
 	} else if (anchor_v == 5) {
 		pos.y -= size.y;
 	} else if (anchor_v == 3) {
-		pos.y -= size.y/2;
-	} else luaL_error(l, "CalcTextAlignment: incorrect vertical anchor %d", anchor_v);
+		pos.y -= size.y / 2;
+	} else
+		luaL_error(l, "CalcTextAlignment: incorrect vertical anchor %d", anchor_v);
 	LuaPush<vector2d>(l, pos);
 	return 1;
 }
@@ -2207,7 +2225,7 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "PopStyleVar", l_pigui_pop_style_var },
 		{ "Columns", l_pigui_columns },
 		{ "NextColumn", l_pigui_next_column },
-        { "GetColumnWidth", l_pigui_get_column_width },
+		{ "GetColumnWidth", l_pigui_get_column_width },
 		{ "SetColumnOffset", l_pigui_set_column_offset },
 		{ "Text", l_pigui_text },
 		{ "TextWrapped", l_pigui_text_wrapped },
@@ -2271,6 +2289,9 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "GetWindowPos", l_pigui_get_window_pos },
 		{ "GetWindowSize", l_pigui_get_window_size },
 		{ "GetContentRegion", l_pigui_get_content_region },
+		{ "GetTextLineHeight", l_pigui_get_text_line_height },
+		{ "GetTextLineHeightWithSpacing", l_pigui_get_text_line_height_with_spacing },
+		{ "GetFrameHeight", l_pigui_get_frame_height },
 		{ "GetFrameHeightWithSpacing", l_pigui_get_frame_height_with_spacing },
 		{ "InputText", l_pigui_input_text },
 		{ "Combo", l_pigui_combo },

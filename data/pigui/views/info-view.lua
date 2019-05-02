@@ -35,6 +35,7 @@ end
 
 function infoView.registerView(name, view)
 	table.insert(infoView.views, view)
+	infoView.views[name] = view
 	viewCount = viewCount + 1
 end
 
