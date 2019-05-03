@@ -253,18 +253,18 @@ ui.registerHandler('game', function(delta_t)
 			ui.window("HUD", {"NoTitleBar", "NoResize", "NoMove", "NoInputs", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}, function()
 				gameView.center = Vector2(ui.screenWidth / 2, ui.screenHeight / 2)
 				if ui.shouldDrawUI() then
-					callModules("game")
-					ui.radialMenu("worldloopworld")
-
 					if Game.CurrentView() == "world" then
 						for i, module in ipairs(gameView.modules) do
 							if not Game.InHyperspace() or module.showInHyperspace then
 								module:draw(delta_t)
 							end
 						end
+						ui.radialMenu("worldloopworld")
 					else
 						ui.radialMenu("worldloopnotworld")
 					end
+
+					callModules("game")
 				elseif Game.CurrentView() == "world" then
 					displayScreenshotInfo()
 				end

@@ -711,88 +711,6 @@ static int l_pigui_text_colored(lua_State *l)
 	return 0;
 }
 
-// static int l_pigui_get_velocity(lua_State *l) {
-// 	std::string name = LuaPull<std::string>(l, 1);
-// 	WorldView *wv = Pi::game->GetWorldView();
-// 	vector3d velocity;
-// 	if(!name.compare("nav_prograde")) {
-// 		velocity = wv->GetNavProgradeVelocity();
-// 	} else if(!name.compare("frame_prograde")) {
-// 		velocity = wv->GetFrameProgradeVelocity();
-// 	} else
-// 		return 0;
-// 	LuaTable vel(l);
-// 	vel.Set("x", velocity.x);
-// 	vel.Set("y", velocity.y);
-// 	vel.Set("z", velocity.z);
-// 	return 1;
-// }
-
-// static int l_pigui_get_hud_marker(lua_State *l) {
-// 	std::string name = LuaPull<std::string>(l, 1);
-// 	WorldView *wv = Pi::game->GetWorldView();
-// 	const Indicator *marker;
-
-// 	if(!name.compare("frame_prograde"))
-// 		marker = wv->GetFrameProgradeIndicator();
-// 	else if(!name.compare("frame_retrograde"))
-// 		marker = wv->GetFrameRetrogradeIndicator();
-// 	else if(!name.compare("nav_prograde"))
-// 		marker = wv->GetNavProgradeIndicator();
-// 	else if(!name.compare("nav_retrograde"))
-// 		marker = wv->GetNavRetrogradeIndicator();
-// 	else if(!name.compare("frame"))
-// 		marker = wv->GetFrameIndicator();
-// 	else if(!name.compare("nav"))
-// 		marker = wv->GetNavIndicator();
-// 	else if(!name.compare("forward"))
-// 		marker = wv->GetForwardIndicator();
-// 	else if(!name.compare("backward"))
-// 		marker = wv->GetBackwardIndicator();
-// 	else if(!name.compare("up"))
-// 		marker = wv->GetUpIndicator();
-// 	else if(!name.compare("down"))
-// 		marker = wv->GetDownIndicator();
-// 	else if(!name.compare("left"))
-// 		marker = wv->GetLeftIndicator();
-// 	else if(!name.compare("right"))
-// 		marker = wv->GetRightIndicator();
-// 	else if(!name.compare("normal"))
-// 		marker = wv->GetNormalIndicator();
-// 	else if(!name.compare("anti_normal"))
-// 		marker = wv->GetAntiNormalIndicator();
-// 	else if(!name.compare("radial_in"))
-// 		marker = wv->GetRadialOutIndicator();
-// 	else if(!name.compare("radial_out"))
-// 		marker = wv->GetRadialInIndicator();
-// 	else if(!name.compare("away_from_frame"))
-// 		marker = wv->GetAwayFromFrameIndicator();
-// 	else if(!name.compare("combat_target"))
-// 		marker = wv->GetCombatTargetIndicator();
-// 	else if(!name.compare("combat_target_lead"))
-// 		marker = wv->GetCombatTargetLeadIndicator();
-// 	else if(!name.compare("maneuver"))
-// 		marker = wv->GetManeuverIndicator();
-
-// 	else
-// 		// TODO: error
-// 		return 0;
-// 	vector2f position = marker->pos - vector2f(Graphics::GetScreenWidth()/2,Graphics::GetScreenHeight()/2);
-// 	vector2f direction = position.Normalized();
-// 	std::string side = marker->side == INDICATOR_HIDDEN ? "hidden" : (marker->side == INDICATOR_ONSCREEN ? "onscreen" : "other");
-// 	lua_pushstring(l, side.c_str());
-// 	LuaTable dir(l);
-// 	dir.Set("x", direction.x);
-// 	dir.Set("y", direction.y);
-// 	dir.Set("z", 0);
-// 	LuaTable pos(l);
-// 	pos.Set("x", marker->pos.x);
-// 	pos.Set("y", marker->pos.y);
-// 	pos.Set("z", 0);
-// 	//	  Output("forward: %f/%f %s\n", marker->pos.x, marker->pos.y, side.c_str());
-// 	return 3;
-// }
-
 static int l_pigui_get_axisbinding(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -2172,7 +2090,7 @@ static int l_pigui_collapsing_header(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string label = LuaPull<std::string>(l, 1);
-	ImGuiTreeNodeFlags flags = LuaPull<ImGuiTreeNodeFlags_>(l, 2);
+	ImGuiTreeNodeFlags flags = LuaPull<ImGuiTreeNodeFlags_>(l, 2, ImGuiTreeNodeFlags_None);
 	LuaPush(l, ImGui::CollapsingHeader(label.c_str(), flags));
 	return 1;
 }
