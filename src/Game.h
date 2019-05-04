@@ -17,6 +17,10 @@ class Player;
 class ShipController;
 class Space;
 
+namespace Graphics {
+	class Renderer;
+}
+
 struct CannotSaveCurrentGameState {};
 struct CannotSaveInHyperspace : public CannotSaveCurrentGameState {};
 struct CannotSaveDeadPlayer : public CannotSaveCurrentGameState {};

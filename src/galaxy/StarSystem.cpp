@@ -2,10 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StarSystem.h"
-#include "Factions.h"
+
 #include "Galaxy.h"
-#include "GalaxyCache.h"
-#include "GalaxyGenerator.h"
+#include "Json.h"
 #include "Sector.h"
 
 #include "EnumStrings.h"
@@ -13,7 +12,6 @@
 #include "Lang.h"
 #include "LuaEvent.h"
 #include "Orbit.h"
-#include "Pi.h"
 #include "StringF.h"
 #include "enum_table.h"
 #include "utils.h"

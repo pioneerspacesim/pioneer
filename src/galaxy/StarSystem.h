@@ -12,7 +12,7 @@
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/SystemPath.h"
 #include "gameconsts.h"
-#include "libs.h"
+
 #include <SDL_stdinc.h>
 #include <string>
 #include <vector>

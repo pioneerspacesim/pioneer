@@ -5,7 +5,9 @@
 #define _TERRAIN_H
 
 #include "galaxy/StarSystem.h"
-#include "libs.h"
+
+#include <memory>
+#include <string>
 
 #ifdef _MSC_VER
 #pragma warning(disable : 4250) // workaround for MSVC 2008 multiple inheritance bug

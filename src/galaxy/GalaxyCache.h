@@ -7,8 +7,6 @@
 #include "JobQueue.h"
 #include "RefCounted.h"
 #include "galaxy/SystemPath.h"
-#include "graphics/Drawables.h"
-#include "libs.h"
 #include <functional>
 #include <map>
 #include <memory>

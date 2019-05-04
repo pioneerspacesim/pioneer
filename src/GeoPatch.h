@@ -9,10 +9,7 @@
 #include "GeoPatchID.h"
 #include "JobQueue.h"
 #include "Random.h"
-#include "galaxy/StarSystem.h"
-#include "graphics/Frustum.h"
-#include "graphics/Material.h"
-#include "terrain/Terrain.h"
+#include "graphics/VertexBuffer.h"
 #include "vector3.h"
 
 #include <deque>
@@ -21,6 +18,7 @@
 
 namespace Graphics {
 	class Renderer;
+	class Frustum;
 }
 class SystemBody;
 class GeoPatchContext;
