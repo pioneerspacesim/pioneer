@@ -14,7 +14,6 @@
 #include "Pi.h"
 #include "Planet.h"
 #include "Player.h"
-#include "Polit.h"
 #include "Ship.h"
 #include "Space.h"
 #include "StringF.h"
