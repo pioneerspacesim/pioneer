@@ -9,11 +9,6 @@
 #include "BaseSphere.h"
 #include "Camera.h"
 #include "GeoPatchID.h"
-#include "Random.h"
-#include "galaxy/StarSystem.h"
-#include "graphics/Material.h"
-#include "graphics/RenderState.h"
-#include "terrain/Terrain.h"
 #include "vector3.h"
 
 #include <deque>
@@ -21,6 +16,7 @@
 namespace Graphics {
 	class Renderer;
 }
+
 class SystemBody;
 class GeoPatch;
 class GeoPatchContext;

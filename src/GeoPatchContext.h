@@ -8,10 +8,7 @@
 
 #include "GeoPatchID.h"
 #include "Random.h"
-#include "galaxy/StarSystem.h"
-#include "graphics/Material.h"
 #include "graphics/VertexBuffer.h"
-#include "terrain/Terrain.h"
 #include "vector3.h"
 
 #include <deque>

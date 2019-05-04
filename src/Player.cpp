@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "GameConfig.h"
 #include "GameLog.h"
+#include "HyperspaceCloud.h"
 #include "KeyBindings.h"
 #include "Lang.h"
 #include "LuaObject.h"

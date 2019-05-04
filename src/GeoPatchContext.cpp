@@ -9,7 +9,7 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
-#include "libs.h"
+
 #include "perlin.h"
 #include "vcacheopt/vcacheopt.h"
 #include <algorithm>

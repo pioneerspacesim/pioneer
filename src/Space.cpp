@@ -20,7 +20,6 @@
 #include "Star.h"
 #include "collider/collider.h"
 #include "galaxy/Galaxy.h"
-#include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
 #include <algorithm>
 #include <functional>

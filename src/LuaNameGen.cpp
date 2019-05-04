@@ -4,7 +4,7 @@
 #include "LuaNameGen.h"
 #include "LuaObject.h"
 #include "Random.h"
-#include "galaxy/StarSystem.h"
+#include "galaxy/SystemBody.h"
 
 static const std::string DEFAULT_FULL_NAME_MALE("Tom Morton");
 static const std::string DEFAULT_FULL_NAME_FEMALE("Thomasina Mortonella");
