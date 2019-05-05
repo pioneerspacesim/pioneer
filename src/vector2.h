@@ -10,6 +10,17 @@
 #include <math.h>
 
 template <typename T>
+struct other_floating_type {};
+template <>
+struct other_floating_type<float> {
+	typedef double type;
+};
+template <>
+struct other_floating_type<double> {
+	typedef float type;
+};
+
+template <typename T>
 class vector2 {
 public:
 	T x, y;
@@ -35,6 +46,10 @@ public:
 	explicit vector2(const T v[2]) :
 		x(v[0]),
 		y(v[1]) {}
+
+	// disallow implicit conversion between floating point sizes
+	explicit vector2(const vector2<typename other_floating_type<T>::type> &v);
+	explicit vector2(const typename other_floating_type<T>::type vals[2]);
 
 	vector2 operator+(const vector2 &v) const { return vector2(x + v.x, y + v.y); }
 	vector2 operator-(const vector2 &v) const { return vector2(x - v.x, y - v.y); }
@@ -89,7 +104,34 @@ public:
 			return vector2(x / invlen, y / invlen);
 		}
 	}
+	vector2 Rotate(T alpha) // Rotate around center
+	{
+		return vector2( x * cos(alpha) - y * sin(alpha), y * cos(alpha) + x * sin(alpha));
+	}
+
+	void Print() const { printf("v(%f,%f)\n", x, y); }
 };
+
+template <>
+inline vector2<float>::vector2() {}
+template <>
+inline vector2<double>::vector2() {}
+template <>
+inline vector2<float>::vector2(const vector2<float> &v) :
+	x(v.x),
+	y(v.y) {}
+template <>
+inline vector2<double>::vector2(const vector2<double> &v) :
+	x(v.x),
+	y(v.y) {}
+template <>
+inline vector2<float>::vector2(const vector2<double> &v) :
+	x(float(v.x)),
+	y(float(v.y)) {}
+template <>
+inline vector2<double>::vector2(const vector2<float> &v) :
+	x(v.x),
+	y(v.y) {}
 
 typedef vector2<float> vector2f;
 typedef vector2<double> vector2d;

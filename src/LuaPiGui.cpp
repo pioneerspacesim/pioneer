@@ -2,10 +2,13 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaPiGui.h"
+
 #include "EnumStrings.h"
 #include "Game.h"
 #include "LuaConstants.h"
 #include "LuaUtils.h"
+#include "LuaVector.h"
+#include "LuaVector2.h"
 #include "Pi.h"
 #include "PiGui.h"
 #include "Player.h"
@@ -14,6 +17,9 @@
 #include "graphics/Graphics.h"
 #include "sound/Sound.h"
 #include "ui/Context.h"
+
+#include <numeric>
+#include <iterator>
 
 // Windows defines RegisterClass as a macro, but we don't need that here.
 // undef it, to avoid including yet another header that undefs it
@@ -57,23 +63,6 @@ void *pi_lua_checklightuserdata(lua_State *l, int index)
 	return nullptr;
 }
 
-void pi_lua_generic_pull(lua_State *l, int index, ImVec2 &vector)
-{
-	PROFILE_SCOPED()
-	LuaTable vec(l, index);
-	vector.x = vec.Get<double>("x");
-	vector.y = vec.Get<double>("y");
-}
-
-void pi_lua_generic_pull(lua_State *l, int index, vector3d &vector)
-{
-	PROFILE_SCOPED()
-	LuaTable vec(l, index);
-	vector.x = vec.Get<double>("x");
-	vector.y = vec.Get<double>("y");
-	vector.z = vec.Get<double>("z");
-}
-
 void pi_lua_generic_pull(lua_State *l, int index, ImColor &color)
 {
 	PROFILE_SCOPED()
@@ -93,11 +82,11 @@ int pushOnScreenPositionDirection(lua_State *l, vector3d position)
 	vector3d direction = (position - vector3d(width / 2, height / 2, 0)).Normalized();
 	if (vector3d(0, 0, 0) == position || position.x < 0 || position.y < 0 || position.x > width || position.y > height || position.z > 0) {
 		LuaPush<bool>(l, false);
-		LuaPush<vector3d>(l, vector3d(0, 0, 0));
+		LuaPush<vector2d>(l, vector2d(0, 0));
 		LuaPush<vector3d>(l, direction * (position.z > 0 ? -1 : 1)); // reverse direction if behind camera
 	} else {
 		LuaPush<bool>(l, true);
-		LuaPush<vector3d>(l, vector3d(position.x, position.y, 0));
+		LuaPush<vector2d>(l, vector2d(position.x, position.y));
 		LuaPush<vector3d>(l, direction);
 	}
 	return 3;
@@ -270,40 +259,6 @@ void pi_lua_generic_pull(lua_State *l, int index, ImGuiWindowFlags_ &theflags)
 	theflags = parse_imgui_flags(l, index, imguiWindowFlagsTable, "ImGuiWindowFlags");
 }
 
-static void pi_lua_pushVector(lua_State *l, double x, double y, double z)
-{
-	PROFILE_SCOPED()
-	const int n = lua_gettop(l);
-	lua_getfield(l, LUA_REGISTRYINDEX, "Imports");
-	lua_getfield(l, -1, "libs/Vector.lua"); // is there a better way to get at the lua Vector than this?
-	LuaPush<double>(l, x);
-	LuaPush<double>(l, y);
-	LuaPush<double>(l, z);
-	if (lua_pcall(l, 3, 1, 0) != 0) {
-		Error("error running Vector\n");
-	}
-	lua_remove(l, -2);
-	assert(lua_gettop(l) == n + 1);
-}
-
-static void pi_lua_generic_push(lua_State *l, const ImVec2 &v)
-{
-	PROFILE_SCOPED()
-	pi_lua_pushVector(l, v.x, v.y, 0);
-}
-
-void pi_lua_generic_push(lua_State *l, const vector3d &v)
-{
-	PROFILE_SCOPED()
-	pi_lua_pushVector(l, v.x, v.y, v.z);
-}
-
-void pi_lua_generic_push(lua_State *l, const vector3f &v)
-{
-	PROFILE_SCOPED()
-	pi_lua_pushVector(l, v.x, v.y, v.z);
-}
-
 /*
  * Interface: PiGui
  *
@@ -322,6 +277,76 @@ void pi_lua_generic_push(lua_State *l, const vector3f &v)
  *
  *   stable
  */
+static vector2d s_center(0., 0.);
+
+static vector2d pointOnClock(const double radius, const double hours)
+{
+	PROFILE_SCOPED()
+	double angle = (hours / 6) * 3.14159;
+	vector2d res = s_center + vector2d(radius * sin(angle), -radius * cos(angle));
+	return res;
+}
+
+static vector2d pointOnClock(const vector2d &center, const double radius, const double hours)
+{
+	PROFILE_SCOPED()
+	// Update center:
+	s_center = center;
+	return pointOnClock(radius, hours);
+}
+
+static void lineOnClock(const double hours, const double length, const double radius, const ImColor &color, const double thickness)
+{
+	PROFILE_SCOPED()
+	ImDrawList *draw_list = ImGui::GetWindowDrawList();
+	vector2d p1 = pointOnClock(radius, hours);
+	vector2d p2 = pointOnClock(radius - length, hours);
+	// Type change... TODO: find a better way?
+	ImVec2 a(p1.x, p1.y);
+	ImVec2 b(p2.x, p2.y);
+	draw_list->AddLine(a, b, color, thickness);
+}
+
+static void lineOnClock(const vector2d &center, const double hours, const double length, const double radius, const ImColor &color, const double thickness)
+{
+	PROFILE_SCOPED()
+	// Update center:
+	s_center = center;
+	lineOnClock(hours, length, radius, color, thickness);
+}
+
+static int l_pigui_pointOnClock(lua_State *l)
+{
+	PROFILE_SCOPED()
+	const double radius = LuaPull<double>(l, 2);
+	const double hours = LuaPull<double>(l, 3);
+	// delay checks on first parameter
+	if (lua_type(l, 1) != LUA_TNIL) {
+		const vector2d center = LuaPull<vector2d>(l, 1);
+		LuaPush<vector2d>(l, pointOnClock(center, radius, hours));
+	} else {
+		LuaPush<vector2d>(l, pointOnClock(radius, hours));
+	};
+	return 1;
+}
+
+static int l_pigui_lineOnClock(lua_State *l)
+{
+	PROFILE_SCOPED()
+	const double hours = LuaPull<double>(l, 2);
+	const double length = LuaPull<double>(l, 3);
+	const double radius = LuaPull<double>(l,4);
+	const ImColor color = LuaPull<ImColor>(l, 5);
+	const double thickness = LuaPull<double>(l, 6);
+	if (lua_type(l, 1) != LUA_TNIL) {
+		const vector2d center = LuaPull<vector2d>(l, 1);
+		lineOnClock(center, hours, length, radius, color, thickness);
+	} else {
+		lineOnClock(hours, length, radius, color, thickness);
+	};
+	return 0;
+}
+
 static int l_pigui_begin(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -354,7 +379,8 @@ static int l_pigui_progress_bar(lua_State *l)
 {
 	PROFILE_SCOPED()
 	float fraction = LuaPull<double>(l, 1);
-	ImVec2 size = LuaPull<ImVec2>(l, 2);
+	const vector2d v = LuaPull<vector2d>(l, 2);
+	ImVec2 size(v.x, v.y);
 	std::string overlay = LuaPull<std::string>(l, 3);
 	ImGui::ProgressBar(fraction, size, overlay.c_str());
 	return 0;
@@ -386,8 +412,11 @@ static int l_pigui_push_clip_rect(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImVec2 min = LuaPull<ImVec2>(l, 1);
-	ImVec2 max = LuaPull<ImVec2>(l, 2);
+	const vector2d v1 = LuaPull<vector2d>(l, 1);
+	const vector2d v2 = LuaPull<vector2d>(l, 2);
+
+	ImVec2 min(v1.x, v2.y);
+	ImVec2 max(v2.x, v2.y);
 	bool intersect = LuaPull<bool>(l, 3);
 	draw_list->PushClipRect(min, max, intersect);
 	return 0;
@@ -404,7 +433,8 @@ static int l_pigui_push_clip_rect_full_screen(lua_State *l)
 static int l_pigui_set_next_window_pos(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImVec2 pos = LuaPull<ImVec2>(l, 1);
+	const vector2d v = LuaPull<vector2d>(l, 1);
+	ImVec2 pos(v.x, v.y);
 	int cond = LuaPull<ImGuiCond_>(l, 2);
 	ImGui::SetNextWindowPos(pos, cond);
 	return 0;
@@ -436,7 +466,8 @@ static int l_pigui_set_window_focus(lua_State *l)
 static int l_pigui_set_next_window_size(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImVec2 size = LuaPull<ImVec2>(l, 1);
+	const vector2d v = LuaPull<vector2d>(l, 1);
+	ImVec2 size(v.x, v.y);
 	int cond = LuaPull<ImGuiCond_>(l, 2);
 	ImGui::SetNextWindowSize(size, cond);
 	return 0;
@@ -445,8 +476,10 @@ static int l_pigui_set_next_window_size(lua_State *l)
 static int l_pigui_set_next_window_size_constraints(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImVec2 min = LuaPull<ImVec2>(l, 1);
-	ImVec2 max = LuaPull<ImVec2>(l, 2);
+	const vector2d v1 = LuaPull<vector2d>(l, 1);
+	const vector2d v2 = LuaPull<vector2d>(l, 2);
+	ImVec2 min(v1.x, v1.y);
+	ImVec2 max(v2.x, v2.y);
 	ImGui::SetNextWindowSizeConstraints(min, max);
 	return 0;
 }
@@ -477,7 +510,8 @@ static int l_pigui_push_style_var(lua_State *l)
 		double val = LuaPull<double>(l, 2);
 		ImGui::PushStyleVar(style, val);
 	} else if (lua_istable(l, 2)) {
-		ImVec2 val = LuaPull<ImVec2>(l, 2);
+		const vector2d v = LuaPull<vector2d>(l, 2);
+		ImVec2 val(v.x, v.y);
 		ImGui::PushStyleVar(style, val);
 	}
 
@@ -496,8 +530,10 @@ static int l_pigui_add_line(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImVec2 a = LuaPull<ImVec2>(l, 1);
-	ImVec2 b = LuaPull<ImVec2>(l, 2);
+	const vector2d v1 = LuaPull<vector2d>(l, 1);
+	const vector2d v2 = LuaPull<vector2d>(l, 2);
+	ImVec2 a(v1.x, v1.y);
+	ImVec2 b(v2.x, v2.y);
 	ImColor col = LuaPull<ImColor>(l, 3);
 	double thickness = LuaPull<double>(l, 4);
 	draw_list->AddLine(a, b, col, thickness);
@@ -508,7 +544,8 @@ static int l_pigui_add_circle(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImVec2 center = LuaPull<ImVec2>(l, 1);
+	const vector2d v = LuaPull<vector2d>(l, 1);
+	ImVec2 center(v.x, v.y);
 	int radius = LuaPull<int>(l, 2);
 	ImColor color = LuaPull<ImColor>(l, 3);
 	int segments = LuaPull<int>(l, 4);
@@ -521,7 +558,8 @@ static int l_pigui_add_circle_filled(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImVec2 center = LuaPull<ImVec2>(l, 1);
+	const vector2d v = LuaPull<vector2d>(l, 1);
+	ImVec2 center(v.x, v.y);
 	int radius = LuaPull<int>(l, 2);
 	ImColor color = LuaPull<ImColor>(l, 3);
 	int segments = LuaPull<int>(l, 4);
@@ -533,7 +571,8 @@ static int l_pigui_path_arc_to(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImVec2 center = LuaPull<ImVec2>(l, 1);
+	const vector2d v = LuaPull<vector2d>(l, 1);
+	ImVec2 center(v.x, v.y);
 	double radius = LuaPull<double>(l, 2);
 	double amin = LuaPull<double>(l, 3);
 	double amax = LuaPull<double>(l, 4);
@@ -577,7 +616,8 @@ static int l_pigui_button(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string text = LuaPull<std::string>(l, 1);
-	ImVec2 size = LuaPull<ImVec2>(l, 2);
+	const vector2d v = LuaPull<vector2d>(l, 2);
+	ImVec2 size(v.x, v.y);
 	bool ret = ImGui::Button(text.c_str(), size);
 	LuaPush<bool>(l, ret);
 	return 1;
@@ -587,7 +627,8 @@ static int l_pigui_thrust_indicator(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string text = LuaPull<std::string>(l, 1);
-	ImVec2 size = LuaPull<ImVec2>(l, 2);
+	vector2d size_v = LuaPull<vector2d>(l, 2);
+	ImVec2 size(size_v.x, size_v.y);
 	vector3d thr = LuaPull<vector3d>(l, 3);
 	vector3d vel = LuaPull<vector3d>(l, 4);
 	ImColor color = LuaPull<ImColor>(l, 5);
@@ -606,7 +647,8 @@ static int l_pigui_low_thrust_button(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string text = LuaPull<std::string>(l, 1);
-	ImVec2 size = LuaPull<ImVec2>(l, 2);
+	const vector2d v = LuaPull<vector2d>(l, 2);
+	ImVec2 size(v.x, v.y);
 	float level = LuaPull<int>(l, 3);
 	ImColor color = LuaPull<ImColor>(l, 4);
 	int frame_padding = LuaPull<int>(l, 5);
@@ -838,7 +880,8 @@ static int l_pigui_add_text(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImVec2 center = LuaPull<ImVec2>(l, 1);
+	const vector2d v = LuaPull<vector2d>(l, 1);
+	ImVec2 center(v.x, v.y);
 	ImColor color = LuaPull<ImColor>(l, 2);
 	std::string text = LuaPull<std::string>(l, 3);
 	draw_list->AddText(center, color, text.c_str());
@@ -849,9 +892,12 @@ static int l_pigui_add_triangle(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImVec2 a = LuaPull<ImVec2>(l, 1);
-	ImVec2 b = LuaPull<ImVec2>(l, 2);
-	ImVec2 c = LuaPull<ImVec2>(l, 3);
+	const vector2d v1 = LuaPull<vector2d>(l, 1);
+	const vector2d v2 = LuaPull<vector2d>(l, 2);
+	const vector2d v3 = LuaPull<vector2d>(l, 3);
+	ImVec2 a(v1.x, v1.y);
+	ImVec2 b(v2.x, v2.y);
+	ImVec2 c(v3.x, v3.y);
 	ImColor col = LuaPull<ImColor>(l, 4);
 	float thickness = LuaPull<double>(l, 5);
 	draw_list->AddTriangle(a, b, c, col, thickness);
@@ -862,8 +908,10 @@ static int l_pigui_add_rect(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImVec2 a = LuaPull<ImVec2>(l, 1);
-	ImVec2 b = LuaPull<ImVec2>(l, 2);
+	const vector2d v1 = LuaPull<vector2d>(l, 1);
+	const vector2d v2 = LuaPull<vector2d>(l, 2);
+	ImVec2 a(v1.x, v1.y);
+	ImVec2 b(v2.x, v2.y);
 	ImColor col = LuaPull<ImColor>(l, 3);
 	float rounding = LuaPull<double>(l, 4);
 	int round_corners = LuaPull<int>(l, 5);
@@ -876,10 +924,14 @@ static int l_pigui_add_bezier_curve(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImVec2 a = LuaPull<ImVec2>(l, 1);
-	ImVec2 c0 = LuaPull<ImVec2>(l, 2);
-	ImVec2 c1 = LuaPull<ImVec2>(l, 3);
-	ImVec2 b = LuaPull<ImVec2>(l, 4);
+	const vector2d v1 = LuaPull<vector2d>(l, 1);
+	const vector2d v2 = LuaPull<vector2d>(l, 2);
+	const vector2d v3 = LuaPull<vector2d>(l, 3);
+	const vector2d v4 = LuaPull<vector2d>(l, 4);
+	ImVec2 a(v1.x, v1.y);
+	ImVec2 c0(v2.x, v2.y);
+	ImVec2 c1(v3.x, v3.y);
+	ImVec2 b(v4.x, v4.y);
 	ImColor col = LuaPull<ImColor>(l, 5);
 	float thickness = LuaPull<double>(l, 6);
 	int num_segments = LuaPull<int>(l, 7);
@@ -892,10 +944,14 @@ static int l_pigui_add_image(lua_State *l)
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	ImTextureID id = pi_lua_checklightuserdata(l, 1);
-	ImVec2 a = LuaPull<ImVec2>(l, 2);
-	ImVec2 b = LuaPull<ImVec2>(l, 3);
-	ImVec2 uv0 = LuaPull<ImVec2>(l, 4);
-	ImVec2 uv1 = LuaPull<ImVec2>(l, 5);
+	const vector2d v1 = LuaPull<vector2d>(l, 2);
+	const vector2d v2 = LuaPull<vector2d>(l, 3);
+	const vector2d v3 = LuaPull<vector2d>(l, 4);
+	const vector2d v4 = LuaPull<vector2d>(l, 5);
+	ImVec2 a(v1.x, v1.y);
+	ImVec2 b(v2.x, v2.y);
+	ImVec2 uv0(v3.x, v3.y);
+	ImVec2 uv1(v4.x, v4.y);
 	ImColor col = LuaPull<ImColor>(l, 6);
 	draw_list->AddImage(id, a, b, uv0, uv1, col);
 	return 0;
@@ -906,14 +962,22 @@ static int l_pigui_add_image_quad(lua_State *l)
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	ImTextureID id = pi_lua_checklightuserdata(l, 1);
-	ImVec2 a = LuaPull<ImVec2>(l, 2);
-	ImVec2 b = LuaPull<ImVec2>(l, 3);
-	ImVec2 c = LuaPull<ImVec2>(l, 4);
-	ImVec2 d = LuaPull<ImVec2>(l, 5);
-	ImVec2 uva = LuaPull<ImVec2>(l, 6);
-	ImVec2 uvb = LuaPull<ImVec2>(l, 7);
-	ImVec2 uvc = LuaPull<ImVec2>(l, 8);
-	ImVec2 uvd = LuaPull<ImVec2>(l, 9);
+	const vector2d v1 = LuaPull<vector2d>(l, 2);
+	const vector2d v2 = LuaPull<vector2d>(l, 3);
+	const vector2d v3 = LuaPull<vector2d>(l, 4);
+	const vector2d v4 = LuaPull<vector2d>(l, 5);
+	ImVec2 a(v1.x, v1.y);
+	ImVec2 b(v2.x, v2.y);
+	ImVec2 c(v3.x, v3.y);
+	ImVec2 d(v4.x, v4.y);
+	const vector2d w1 = LuaPull<vector2d>(l, 6);
+	const vector2d w2 = LuaPull<vector2d>(l, 7);
+	const vector2d w3 = LuaPull<vector2d>(l, 8);
+	const vector2d w4 = LuaPull<vector2d>(l, 9);
+	ImVec2 uva(w1.x, w1.y);
+	ImVec2 uvb(w2.x, w2.y);
+	ImVec2 uvc(w3.x, w3.y);
+	ImVec2 uvd(w4.x, w4.y);
 	ImColor col = LuaPull<ImColor>(l, 10);
 	draw_list->AddImageQuad(id, a, b, c, d, uva, uvb, uvc, uvd, col);
 	return 0;
@@ -923,8 +987,10 @@ static int l_pigui_add_rect_filled(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImVec2 a = LuaPull<ImVec2>(l, 1);
-	ImVec2 b = LuaPull<ImVec2>(l, 2);
+	const vector2d v1 = LuaPull<vector2d>(l, 1);
+	const vector2d v2 = LuaPull<vector2d>(l, 2);
+	ImVec2 a(v1.x, v1.y);
+	ImVec2 b(v2.x, v2.y);
 	ImColor col = LuaPull<ImColor>(l, 3);
 	float rounding = LuaPull<double>(l, 4);
 	int round_corners = LuaPull<int>(l, 5);
@@ -936,10 +1002,15 @@ static int l_pigui_add_quad(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImVec2 a = LuaPull<ImVec2>(l, 1);
-	ImVec2 b = LuaPull<ImVec2>(l, 2);
-	ImVec2 c = LuaPull<ImVec2>(l, 3);
-	ImVec2 d = LuaPull<ImVec2>(l, 4);
+	const vector2d v1 = LuaPull<vector2d>(l, 1);
+	const vector2d v2 = LuaPull<vector2d>(l, 2);
+	const vector2d v3 = LuaPull<vector2d>(l, 3);
+	const vector2d v4 = LuaPull<vector2d>(l, 4);
+
+	ImVec2 a(v1.x, v1.y);
+	ImVec2 b(v2.x, v2.y);
+	ImVec2 c(v3.x, v3.y);
+	ImVec2 d(v4.x, v4.y);
 	ImColor col = LuaPull<ImColor>(l, 5);
 	float thickness = LuaPull<double>(l, 6);
 	draw_list->AddQuad(a, b, c, d, col, thickness);
@@ -950,9 +1021,13 @@ static int l_pigui_add_triangle_filled(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImVec2 a = LuaPull<ImVec2>(l, 1);
-	ImVec2 b = LuaPull<ImVec2>(l, 2);
-	ImVec2 c = LuaPull<ImVec2>(l, 3);
+	const vector2d v1 = LuaPull<vector2d>(l, 1);
+	const vector2d v2 = LuaPull<vector2d>(l, 2);
+	const vector2d v3 = LuaPull<vector2d>(l, 3);
+
+	ImVec2 a(v1.x, v1.y);
+	ImVec2 b(v2.x, v2.y);
+	ImVec2 c(v3.x, v3.y);
 	ImColor col = LuaPull<ImColor>(l, 4);
 	draw_list->AddTriangleFilled(a, b, c, col);
 	return 0;
@@ -998,7 +1073,8 @@ static int l_pigui_spacing(lua_State *l)
 static int l_pigui_dummy(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImVec2 size = LuaPull<ImVec2>(l, 1);
+	const vector2d v1 = LuaPull<vector2d>(l, 1);
+	ImVec2 size(v1.x, v1.y);
 	ImGui::Dummy(size);
 	return 0;
 }
@@ -1030,7 +1106,9 @@ static int l_pigui_begin_child(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string id = LuaPull<std::string>(l, 1);
-	ImVec2 size = LuaPull<ImVec2>(l, 2);
+	const vector2d v1 = LuaPull<vector2d>(l, 2);
+
+	ImVec2 size(v1.x, v1.y);
 	ImGui::BeginChild(id.c_str(), size);
 	return 0;
 }
@@ -1116,7 +1194,7 @@ static int l_pigui_calc_text_size(lua_State *l)
 	PROFILE_SCOPED()
 	std::string text = LuaPull<std::string>(l, 1);
 	ImVec2 size = ImGui::CalcTextSize(text.c_str());
-	pi_lua_generic_push(l, size);
+	LuaPush<vector2d>(l, vector2d(size.x, size.y));
 	return 1;
 }
 
@@ -1124,7 +1202,8 @@ static int l_pigui_get_mouse_pos(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImVec2 pos = ImGui::GetMousePos();
-	pi_lua_generic_push(l, pos);
+	vector2d v(pos.x, pos.y);
+	LuaPush(l, v);
 	return 1;
 }
 
@@ -1189,21 +1268,24 @@ static int l_pigui_get_window_pos(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImVec2 pos = ImGui::GetWindowPos();
-	pi_lua_generic_push(l, pos);
+	vector2d pos_d(pos.x, pos.y);
+	LuaPush<vector2d>(l, pos_d);
 	return 1;
 }
 
 static int l_pigui_get_window_size(lua_State *l)
 {
 	PROFILE_SCOPED()
-	pi_lua_generic_push(l, ImGui::GetWindowSize());
+	vector2d ws(ImGui::GetWindowSize().x, ImGui::GetWindowSize().y);
+	LuaPush<vector2d>(l, ws);
 	return 1;
 }
 
 static int l_pigui_get_content_region(lua_State *l)
 {
 	PROFILE_SCOPED()
-	pi_lua_generic_push(l, ImGui::GetContentRegionAvail());
+	vector2d gcta(ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y);
+	LuaPush<vector2d>(l, gcta);
 	return 1;
 }
 
@@ -1211,9 +1293,13 @@ static int l_pigui_image(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImTextureID id = pi_lua_checklightuserdata(l, 1);
-	ImVec2 size = LuaPull<ImVec2>(l, 2);
-	ImVec2 uv0 = LuaPull<ImVec2>(l, 3);
-	ImVec2 uv1 = LuaPull<ImVec2>(l, 4);
+	const vector2d v1 = LuaPull<vector2d>(l, 2);
+	const vector2d v2 = LuaPull<vector2d>(l, 3);
+	const vector2d v3 = LuaPull<vector2d>(l, 4);
+
+	ImVec2 size(v1.x, v1.y);
+	ImVec2 uv0(v2.x, v2.y);
+	ImVec2 uv1(v3.x, v3.y);
 	ImColor tint_col = LuaPull<ImColor>(l, 5);
 	ImGui::Image(id, size, uv0, uv1, tint_col); //,  border_col
 	return 0;
@@ -1223,9 +1309,13 @@ static int l_pigui_image_button(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImTextureID id = pi_lua_checklightuserdata(l, 1);
-	ImVec2 size = LuaPull<ImVec2>(l, 2);
-	ImVec2 uv0 = LuaPull<ImVec2>(l, 3);
-	ImVec2 uv1 = LuaPull<ImVec2>(l, 4);
+	const vector2d v1 = LuaPull<vector2d>(l, 2);
+	const vector2d v2 = LuaPull<vector2d>(l, 3);
+	const vector2d v3 = LuaPull<vector2d>(l, 4);
+
+	ImVec2 size(v1.x, v1.y);
+	ImVec2 uv0(v2.x, v2.y);
+	ImVec2 uv1(v3.x, v3.y);
 	int frame_padding = LuaPull<int>(l, 5);
 	ImColor bg_col = LuaPull<ImColor>(l, 6);
 	ImColor tint_col = LuaPull<ImColor>(l, 7);
@@ -1246,8 +1336,8 @@ static int l_pigui_get_mouse_clicked_pos(lua_State *l)
 {
 	PROFILE_SCOPED()
 	int n = LuaPull<int>(l, 1);
-	ImVec2 pos = ImGui::GetIO().MouseClickedPos[n];
-	pi_lua_generic_push(l, pos);
+	vector2d pos(ImGui::GetIO().MouseClickedPos[n].x, ImGui::GetIO().MouseClickedPos[n].y);
+	LuaPush<vector2d>(l, pos);
 	return 1;
 }
 
@@ -1260,9 +1350,9 @@ TScreenSpace lua_world_space_to_screen_space(const vector3d &pos)
 	const int height = Graphics::GetScreenHeight();
 	const vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
 	if (vector3d(0, 0, 0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
-		return TScreenSpace(false, vector3d(0, 0, 0), direction * (p.z > 0 ? -1 : 1));
+		return TScreenSpace(false, vector2d(0, 0), direction * (p.z > 0 ? -1 : 1));
 	} else {
-		return TScreenSpace(true, vector3d(p.x, p.y, 0), direction);
+		return TScreenSpace(true, vector2d(p.x, p.y), direction);
 	}
 }
 
@@ -1275,31 +1365,221 @@ TScreenSpace lua_world_space_to_screen_space(const Body *body)
 	const int height = Graphics::GetScreenHeight();
 	const vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
 	if (vector3d(0, 0, 0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
-		return TScreenSpace(false, vector3d(0, 0, 0), direction * (p.z > 0 ? -1 : 1));
+		return TScreenSpace(false, vector2d(0, 0), direction * (p.z > 0 ? -1 : 1));
 	} else {
-		return TScreenSpace(true, vector3d(p.x, p.y, 0), direction);
+		return TScreenSpace(true, vector2d(p.x, p.y), direction);
 	}
+}
+
+bool first_body_is_more_important_than(Body* body, Body* other)
+{
+
+	Object::Type a = body->GetType();
+	const SystemBody *sb_a = body->GetSystemBody();
+	bool a_gas_giant = sb_a && sb_a->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT;
+	bool a_planet = sb_a && sb_a->IsPlanet();
+	bool a_moon = sb_a && sb_a->IsMoon();
+
+	Object::Type b = other->GetType();
+	const SystemBody *sb_b = other->GetSystemBody();
+	bool b_gas_giant = sb_b && sb_b->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT;
+	bool b_planet = sb_b && sb_b->IsPlanet();
+	bool b_moon = sb_b && sb_b->IsMoon();
+
+	bool result = false;
+
+	// if type is the same, just sort alphabetically
+	// planets are different, because moons are
+	// less important (but don't have their own type)
+	if (a == b && a != Object::Type::PLANET) result = body->GetLabel() < other->GetLabel();
+	// a star is larger than any other object
+	else if (a == Object::Type::STAR)
+		result = true;
+	// any (non-star) object is smaller than a star
+	else if (b == Object::Type::STAR)
+		result = false;
+	// a gas giant is larger than anything but a star,
+	// but remember to keep total order in mind: if both are
+	// gas giants, order alphabetically
+	else if (a_gas_giant)
+		result = !b_gas_giant || body->GetLabel() < other->GetLabel();
+	// any (non-star, non-gas giant) object is smaller than a gas giant
+	else if (b_gas_giant)
+		result = false;
+	// between two planets or moons, alphabetic
+	else if (a_planet && b_planet)
+		result = body->GetLabel() < other->GetLabel();
+	else if (a_moon && b_moon)
+		result = body->GetLabel() < other->GetLabel();
+	// a planet is larger than any non-planet
+	else if (a_planet)
+		result = true;
+	// a non-planet is smaller than any planet
+	else if (b_planet)
+		result = false;
+	// a moon is larger than any non-moon
+	else if (a_moon)
+		result = true;
+	// a non-moon is smaller than any moon
+	else if (b_moon)
+		result = false;
+	// spacestation > city > ship > hyperspace cloud > cargo body > missile > projectile
+	else if (a == Object::Type::SPACESTATION)
+		result = true;
+	else if (b == Object::Type::SPACESTATION)
+		result = false;
+	else if (a == Object::Type::CITYONPLANET)
+		result = true;
+	else if (b == Object::Type::CITYONPLANET)
+		result = false;
+	else if (a == Object::Type::SHIP)
+		result = true;
+	else if (b == Object::Type::SHIP)
+		result = false;
+	else if (a == Object::Type::HYPERSPACECLOUD)
+		result = true;
+	else if (b == Object::Type::HYPERSPACECLOUD)
+		result = false;
+	else if (a == Object::Type::CARGOBODY)
+		result = true;
+	else if (b == Object::Type::CARGOBODY)
+		result = false;
+	else if (a == Object::Type::MISSILE)
+		result = true;
+	else if (b == Object::Type::MISSILE)
+		result = false;
+	else if (a == Object::Type::PROJECTILE)
+		result = true;
+	else if (b == Object::Type::PROJECTILE)
+		result = false;
+	else
+		Error("don't know how to compare %i and %i\n", a, b);
+
+	return result;
+}
+
+static int l_pigui_get_projected_bodies_grouped(lua_State *l)
+{
+	PROFILE_SCOPED()
+	const vector2d gap = LuaPull<vector2d>(l, 1);
+
+	TSS_vector filtered;
+	filtered.reserve(Pi::game->GetSpace()->GetNumBodies());
+
+	for (Body *body : Pi::game->GetSpace()->GetBodies()) {
+		if (body == Pi::game->GetPlayer()) continue;
+		if (body->GetType() == Object::PROJECTILE) continue;
+		const TScreenSpace res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
+		if (!res._onScreen) continue;
+		filtered.emplace_back(res);
+		filtered.back()._body = body;
+	}
+
+	std::vector<TSS_vector> groups;
+	groups.reserve(filtered.size());
+
+	// Perform half-matrix double for
+	for (TSS_vector::iterator it = filtered.begin(); it != filtered.end(); ++it) {
+		TSS_vector group;
+		group.reserve(filtered.end() - it + 1);
+
+		// First element should always be the "media";
+		// so push twice that element:
+		//printf("  Body 1 = %s (%f, %f)\n", (*it)._body->GetLabel().c_str(), (*it)._screenPosition.x, (*it)._screenPosition.y);
+		group.push_back((*it));
+		// Zeroed body so you could distinguish between a "media" element and a "real" element
+		group.back()._body = nullptr;
+		group.push_back((*it));
+
+		// Find near displayed bodies in remaining list of bodies
+		for (TSS_vector::iterator it2 = --filtered.end(); it2 != it; ) {
+			//printf("    Body 2 = %s (%f, %f)\n", (*it2)._body->GetLabel().c_str(), (*it2)._screenPosition.x, (*it2)._screenPosition.y);
+			if ( (std::abs((*group.begin())._screenPosition.x - (*it2)._screenPosition.x) > gap.x ) ||
+				(std::abs((*group.begin())._screenPosition.y - (*it2)._screenPosition.y) > gap.y ) ) {
+				it2--;
+				continue;
+			}
+			//printf("      %s and %s are near!\n", (*it)._body->GetLabel().c_str(), (*it2)._body->GetLabel().c_str());
+			// There's a "nearest": push it on group, remove from filtered and recalc group center
+			group.push_back(*it2);
+			// nearly-swap&pop: copy last element over *it2 and...
+			(*it2) = filtered.back();
+			// ensure it2 never point past-the-end (thus to rbegin)
+			it2--;
+			// ..."pop"
+			filtered.pop_back();
+			// recalc group (starting with second element because first is the center itself)
+			vector3d media = std::accumulate(group.begin() + 1, group.end(), vector3d(0.0), [](const vector3d &a, const TScreenSpace &ss)
+			{
+				//printf("      Third level with '%s'\n", ss._body->GetLabel().c_str());
+				return a + ss._body->GetPositionRelTo(Pi::player);
+			});
+			media /= double(group.size() - 1);
+			group.front() = lua_world_space_to_screen_space(media);
+			group.front()._body = nullptr; // <- just in case...
+		}
+		groups.push_back(std::move(group));
+	}
+
+	// Sort each groups member according to a given function (skipping first element)
+	std::for_each(begin(groups), end(groups), [](TSS_vector &group)
+	{
+		std::sort(begin(group) + 1, end(group), [](TScreenSpace &a, TScreenSpace &b)
+		{
+			return first_body_is_more_important_than(a._body, b._body);
+		});
+	});
+
+	LuaTable result(l, groups.size(), 0);
+	int index = 1;
+
+	std::for_each(begin(groups), end(groups), [&l, &result, &index](TSS_vector &group)
+	{
+		int index2 = 1;
+		LuaTable table_group(l, group.size(), 0);
+
+		std::for_each(begin(group), end(group), [&l, &table_group, &index2](TScreenSpace &on_screen_object)
+		{
+			LuaTable object(l, 0, 3);
+			object.Set("onscreen", on_screen_object._onScreen);
+			object.Set("screenCoordinates", on_screen_object._screenPosition);
+			if (on_screen_object._body != nullptr)
+				object.Set("body", on_screen_object._body);
+
+			table_group.Set(index2++, object);
+			lua_pop(l, 1);
+		});
+		result.Set(index++, table_group);
+		lua_pop(l,1);
+	});
+	LuaPush(l, result);
+	return 1;
 }
 
 static int l_pigui_get_projected_bodies(lua_State *l)
 {
 	PROFILE_SCOPED()
-	LuaTable result(l);
+	TSS_vector filtered;
+	filtered.reserve(Pi::game->GetSpace()->GetNumBodies());
 	for (Body *body : Pi::game->GetSpace()->GetBodies()) {
 		if (body == Pi::game->GetPlayer()) continue;
 		if (body->GetType() == Object::PROJECTILE) continue;
-
 		const TScreenSpace res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
-		if (res._onScreen) {
-			LuaTable object(l);
+		if (!res._onScreen) continue;
+		filtered.emplace_back(res);
+		filtered.back()._body = body;
+	}
 
-			object.Set("onscreen", res._onScreen);
-			object.Set("screenCoordinates", res._screenPosition);
-			object.Set("body", body);
+	LuaTable result(l, 0, filtered.size());
+	for (TScreenSpace &res : filtered) {
+		LuaTable object(l, 0, 3);
 
-			result.Set(body, object);
-			lua_pop(l, 1);
-		}
+		object.Set("onscreen", res._onScreen);
+		object.Set("screenCoordinates", res._screenPosition);
+		object.Set("body", res._body);
+
+		result.Set(res._body, object);
+		lua_pop(l, 1);
 	}
 	LuaPush(l, result);
 	return 1;
@@ -1309,12 +1589,19 @@ static int l_pigui_get_targets_nearby(lua_State *l)
 {
 	PROFILE_SCOPED()
 	int range_max = LuaPull<double>(l, 1);
-	LuaTable result(l);
 	Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(Pi::player, range_max);
-	int index = 1;
+
+	std::vector<Body *> filtered;
+	filtered.reserve(nearby.size());
 	for (Body *body : nearby) {
 		if (body == Pi::player) continue;
 		if (body->GetType() == Object::PROJECTILE) continue;
+		filtered.push_back(body);
+	};
+
+	LuaTable result(l, 0, filtered.size());
+	int index = 1;
+	for (Body *body : filtered) {
 		vector3d position = body->GetPositionRelTo(Pi::player);
 		float distance = float(position.Length());
 		vector3d shipSpacePosition = position * Pi::player->GetOrient();
@@ -1329,8 +1616,11 @@ static int l_pigui_get_targets_nearby(lua_State *l)
 		// convert to AEP https://en.wikipedia.org/wiki/Azimuthal_equidistant_projection
 		double rho = M_PI / 2 - polarPosition.z;
 		double theta = polarPosition.y;
-		vector3d aep(rho * sin(theta) / (2 * M_PI), -rho * cos(theta) / (2 * M_PI), 0);
-		LuaTable object(l);
+
+		vector2d aep(rho * sin(theta) / (2 * M_PI), -rho * cos(theta) / (2 * M_PI));
+
+		LuaTable object(l, 0 , 4);
+
 		object.Set("distance", distance);
 		object.Set("label", body->GetLabel());
 
@@ -1347,6 +1637,7 @@ static int l_pigui_get_targets_nearby(lua_State *l)
 	LuaPush(l, result);
 	return 1;
 }
+
 static int l_pigui_disable_mouse_facing(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1485,7 +1776,8 @@ static int l_pigui_listbox(lua_State *l)
 static int l_pigui_radial_menu(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImVec2 center = LuaPull<ImVec2>(l, 1);
+	const vector2d v1 = LuaPull<vector2d>(l, 1);
+	ImVec2 center(v1.x, v1.y);
 	std::string id = LuaPull<std::string>(l, 2);
 	int mouse_button = LuaPull<int>(l, 3);
 	std::vector<ImTextureID> tex_ids;
@@ -1504,14 +1796,17 @@ static int l_pigui_radial_menu(lua_State *l)
 		lua_getfield(l, -1, "id");
 		ImTextureID tid = pi_lua_checklightuserdata(l, -1);
 		lua_pop(l, 1);
+
 		lua_getfield(l, -1, "uv0");
-		LuaTable xuv0(l, -1);
-		ImVec2 uv0(xuv0.Get<double>("x"), xuv0.Get<double>("y"));
+		vector2d xuv0 = LuaPull<vector2d>(l, -1);
+		ImVec2 uv0(xuv0.x, xuv0.y);
 		lua_pop(l, 1);
+
 		lua_getfield(l, -1, "uv1");
-		LuaTable xuv1(l, -1);
-		ImVec2 uv1(xuv1.Get<double>("x"), xuv1.Get<double>("y"));
+		vector2d xuv1 = LuaPull<vector2d>(l, -1);
+		ImVec2 uv1(xuv1.x, xuv1.y);
 		lua_pop(l, 1);
+
 		lua_pop(l, 1);
 		tex_ids.push_back(tid);
 		uvs.push_back(std::pair<ImVec2, ImVec2>(uv0, uv1));
@@ -1538,8 +1833,11 @@ static int l_pigui_should_draw_ui(lua_State *l)
 static int l_pigui_is_mouse_hovering_rect(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImVec2 r_min = LuaPull<ImVec2>(l, 1);
-	ImVec2 r_max = LuaPull<ImVec2>(l, 2);
+	const vector2d v1 = LuaPull<vector2d>(l, 1);
+	const vector2d v2 = LuaPull<vector2d>(l, 2);
+
+	ImVec2 r_min(v1.x, v1.y);
+	ImVec2 r_max(v2.x, v2.y);
 	bool clip = LuaPull<bool>(l, 3);
 	LuaPush<bool>(l, ImGui::IsMouseHoveringRect(r_min, r_max, clip));
 	return 1;
@@ -1608,7 +1906,8 @@ static int l_pigui_play_sfx(lua_State *l)
 static int l_pigui_circular_slider(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImVec2 center = LuaPull<ImVec2>(l, 1);
+	const vector2d v1 = LuaPull<vector2d>(l, 1);
+	ImVec2 center(v1.x, v1.y);
 	float v = LuaPull<double>(l, 2);
 	float v_min = LuaPull<double>(l, 3);
 	float v_max = LuaPull<double>(l, 4);
@@ -1638,7 +1937,8 @@ static int l_pigui_vsliderint(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string lbl = LuaPull<std::string>(l, 1);
-	ImVec2 size = LuaPull<ImVec2>(l, 2);
+	const vector2d v1 = LuaPull<vector2d>(l, 2);
+	ImVec2 size(v1.x, v1.y);
 
 	int value = LuaPull<int>(l, 3);
 	int val_min = LuaPull<int>(l, 4);
@@ -1655,7 +1955,8 @@ static int l_pigui_vsliderfloat(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string lbl = LuaPull<std::string>(l, 1);
-	ImVec2 size = LuaPull<ImVec2>(l, 2);
+	const vector2d v1 = LuaPull<vector2d>(l, 2);
+	ImVec2 size(v1.x, v1.y);
 
 	float value = LuaPull<float>(l, 3);
 	float val_min = LuaPull<float>(l, 4);
@@ -1679,23 +1980,25 @@ static int l_pigui_is_key_released(lua_State *l)
 static int l_pigui_get_cursor_pos(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImVec2 v = ImGui::GetCursorPos();
-	LuaPush<ImVec2>(l, v);
+	vector2d v(ImGui::GetCursorPos().x, ImGui::GetCursorPos().y);
+	LuaPush<vector2d>(l, v);
 	return 1;
 }
 
 static int l_pigui_get_cursor_screen_pos(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImVec2 v = ImGui::GetCursorScreenPos();
-	LuaPush<ImVec2>(l, v);
+	vector2d v(ImGui::GetCursorScreenPos().x, ImGui::GetCursorScreenPos().y);
+	LuaPush<vector2d>(l, v);
 	return 1;
 }
 
 static int l_pigui_set_cursor_pos(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImVec2 v = LuaPull<ImVec2>(l, 1);
+	const vector2d v1 = LuaPull<vector2d>(l, 1);
+
+	ImVec2 v(v1.x, v1.y);
 	ImGui::SetCursorPos(v);
 	return 0;
 }
@@ -1703,7 +2006,8 @@ static int l_pigui_set_cursor_pos(lua_State *l)
 static int l_pigui_set_cursor_screen_pos(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImVec2 v = LuaPull<ImVec2>(l, 1);
+	const vector2d v1 = LuaPull<vector2d>(l, 1);
+	ImVec2 v(v1.x, v1.y);
 	ImGui::SetCursorScreenPos(v);
 	return 0;
 }
@@ -1778,6 +2082,40 @@ static int l_pigui_pop_text_wrap_pos(lua_State *l)
 	PROFILE_SCOPED()
 	ImGui::PopTextWrapPos();
 	return 0;
+}
+
+// ui.anchor = { left = 1, right = 2, center = 3, top = 4, bottom = 5, baseline = 6 }
+
+static int l_pigui_calc_text_alignment(lua_State *l)
+{
+	PROFILE_SCOPED()
+	vector2d pos = LuaPull<vector2d>(l, 1);
+	vector2d size = LuaPull<vector2d>(l, 2);
+	int anchor_h, anchor_v;
+
+	if (lua_type(l, 3) != LUA_TNIL) {
+		anchor_h = LuaPull<int>(l, 3);
+	} else anchor_h = -1;
+
+	if (lua_type(l, 4) != LUA_TNIL) {
+		anchor_v = LuaPull<int>(l, 4);
+	} else anchor_v = -1;
+
+	if (anchor_h == 1 || anchor_h == -1) {
+	} else if (anchor_h == 2) {
+		pos.x -= size.x;
+	} else if (anchor_h == 3) {
+		pos.x -= size.x/2;
+	} else luaL_error(l, "CalcTextAlignment: incorrect horizontal anchor %d", anchor_h);
+
+	if (anchor_v == 4 || anchor_v == -1) {
+	} else if (anchor_v == 5) {
+		pos.y -= size.y;
+	} else if (anchor_v == 3) {
+		pos.y -= size.y/2;
+	} else luaL_error(l, "CalcTextAlignment: incorrect vertical anchor %d", anchor_v);
+	LuaPush<vector2d>(l, pos);
+	return 1;
 }
 
 static int l_pigui_collapsing_header(lua_State *l)
@@ -1884,6 +2222,8 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "IsMouseHoveringAnyWindow", l_pigui_is_mouse_hovering_any_window },
 		{ "IsMouseHoveringWindow", l_pigui_is_mouse_hovering_window },
 		{ "Image", l_pigui_image },
+		{ "pointOnClock", l_pigui_pointOnClock },
+		{ "lineOnClock", l_pigui_lineOnClock },
 		{ "ImageButton", l_pigui_image_button },
 		{ "RadialMenu", l_pigui_radial_menu },
 		{ "CircularSlider", l_pigui_circular_slider },
@@ -1908,6 +2248,8 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "ShouldDrawUI", l_pigui_should_draw_ui },
 		{ "GetTargetsNearby", l_pigui_get_targets_nearby },
 		{ "GetProjectedBodies", l_pigui_get_projected_bodies },
+		{ "GetProjectedBodiesGrouped", l_pigui_get_projected_bodies_grouped },
+		{ "CalcTextAlignment", l_pigui_calc_text_alignment },
 		{ "ShouldShowLabels", l_pigui_should_show_labels },
 		{ "SystemInfoViewNextPage", l_pigui_system_info_view_next_page }, // deprecated
 		{ "LowThrustButton", l_pigui_low_thrust_button },

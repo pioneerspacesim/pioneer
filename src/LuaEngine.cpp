@@ -15,6 +15,8 @@
 #include "LuaObject.h"
 #include "LuaPiGui.h"
 #include "LuaUtils.h"
+#include "LuaVector.h"
+#include "LuaVector2.h"
 #include "OS.h"
 #include "Pi.h"
 #include "PiGui.h"
@@ -727,7 +729,7 @@ static int l_engine_ship_space_to_screen_space(lua_State *l)
 {
 	vector3d pos = LuaPull<vector3d>(l, 1);
 	vector3d cam = Pi::game->GetWorldView()->ShipSpaceToScreenSpace(pos);
-	LuaPush(l, cam);
+	LuaPush<vector3d>(l, cam);
 	return 1;
 }
 
@@ -786,7 +788,7 @@ static int l_engine_world_space_to_screen_space(lua_State *l)
 	TScreenSpace res = lua_world_space_to_screen_space(pos); // defined in LuaPiGui.cpp
 
 	LuaPush<bool>(l, res._onScreen);
-	LuaPush<vector3d>(l, res._screenPosition);
+	LuaPush<vector2d>(l, res._screenPosition);
 	LuaPush<vector3d>(l, res._direction);
 	return 3;
 }
@@ -856,7 +858,7 @@ static int l_engine_get_sector_map_center_distance(lua_State *l)
 static int l_engine_get_sector_map_center_sector(lua_State *l)
 {
 	SectorView *sv = Pi::game->GetSectorView();
-	LuaPush(l, sv->GetCenterSector());
+	LuaPush<vector3d>(l, vector3d(sv->GetCenterSector()));
 	return 1;
 }
 

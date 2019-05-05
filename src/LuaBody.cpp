@@ -9,6 +9,7 @@
 #include "LuaObject.h"
 #include "LuaPiGui.h"
 #include "LuaUtils.h"
+#include "LuaVector.h"
 #include "Pi.h"
 #include "TerrainBody.h"
 #include "WorldView.h"
@@ -239,89 +240,7 @@ static int l_body_is_more_important_than(lua_State *l)
 		LuaPush<bool>(l, false);
 		return 1;
 	}
-
-	Object::Type a = body->GetType();
-	const SystemBody *sb_a = body->GetSystemBody();
-	bool a_gas_giant = sb_a && sb_a->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT;
-	bool a_planet = sb_a && sb_a->IsPlanet();
-	bool a_moon = sb_a && sb_a->IsMoon();
-
-	Object::Type b = other->GetType();
-	const SystemBody *sb_b = other->GetSystemBody();
-	bool b_gas_giant = sb_b && sb_b->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT;
-	bool b_planet = sb_b && sb_b->IsPlanet();
-	bool b_moon = sb_b && sb_b->IsMoon();
-
-	bool result = false;
-
-	// if type is the same, just sort alphabetically
-	// planets are different, because moons are
-	// less important (but don't have their own type)
-	if (a == b && a != Object::Type::PLANET) result = body->GetLabel() < other->GetLabel();
-	// a star is larger than any other object
-	else if (a == Object::Type::STAR)
-		result = true;
-	// any (non-star) object is smaller than a star
-	else if (b == Object::Type::STAR)
-		result = false;
-	// a gas giant is larger than anything but a star,
-	// but remember to keep total order in mind: if both are
-	// gas giants, order alphabetically
-	else if (a_gas_giant)
-		result = !b_gas_giant || body->GetLabel() < other->GetLabel();
-	// any (non-star, non-gas giant) object is smaller than a gas giant
-	else if (b_gas_giant)
-		result = false;
-	// between two planets or moons, alphabetic
-	else if (a_planet && b_planet)
-		result = body->GetLabel() < other->GetLabel();
-	else if (a_moon && b_moon)
-		result = body->GetLabel() < other->GetLabel();
-	// a planet is larger than any non-planet
-	else if (a_planet)
-		result = true;
-	// a non-planet is smaller than any planet
-	else if (b_planet)
-		result = false;
-	// a moon is larger than any non-moon
-	else if (a_moon)
-		result = true;
-	// a non-moon is smaller than any moon
-	else if (b_moon)
-		result = false;
-	// spacestation > city > ship > hyperspace cloud > cargo body > missile > projectile
-	else if (a == Object::Type::SPACESTATION)
-		result = true;
-	else if (b == Object::Type::SPACESTATION)
-		result = false;
-	else if (a == Object::Type::CITYONPLANET)
-		result = true;
-	else if (b == Object::Type::CITYONPLANET)
-		result = false;
-	else if (a == Object::Type::SHIP)
-		result = true;
-	else if (b == Object::Type::SHIP)
-		result = false;
-	else if (a == Object::Type::HYPERSPACECLOUD)
-		result = true;
-	else if (b == Object::Type::HYPERSPACECLOUD)
-		result = false;
-	else if (a == Object::Type::CARGOBODY)
-		result = true;
-	else if (b == Object::Type::CARGOBODY)
-		result = false;
-	else if (a == Object::Type::MISSILE)
-		result = true;
-	else if (b == Object::Type::MISSILE)
-		result = false;
-	else if (a == Object::Type::PROJECTILE)
-		result = true;
-	else if (b == Object::Type::PROJECTILE)
-		result = false;
-	else
-		Error("don't know how to compare %i and %i\n", a, b);
-
-	LuaPush<bool>(l, result);
+	LuaPush<bool>(l, first_body_is_more_important_than(body, other));
 	return 1;
 }
 /*
@@ -349,7 +268,7 @@ static int l_body_get_position_rel_to(lua_State *l)
 	Body *b = LuaObject<Body>::CheckFromLua(1);
 	const Body *other = LuaObject<Body>::CheckFromLua(2);
 	vector3d velocity = b->GetPositionRelTo(other);
-	LuaPush(l, velocity);
+	LuaPush<vector3d>(l, velocity);
 	return 1;
 }
 

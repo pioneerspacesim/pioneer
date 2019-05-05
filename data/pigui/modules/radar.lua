@@ -4,7 +4,6 @@
 local Engine = import('Engine')
 local Game = import('Game')
 local ui = import('pigui/pigui.lua')
-local Vector = import('Vector')
 local Color = import('Color')
 local Lang = import("Lang")
 local lc = Lang.GetResource("core");
@@ -51,8 +50,8 @@ local function display2DRadar(cntr, size)
 	local twothirdsize = size * 0.7
 
 	local function line(x,y)
-		-- ui.addLine(cntr + Vector(x, y) * halfsize, cntr + Vector(x,y) * size, colors.reticuleCircle, ui.reticuleCircleThickness)
-		ui.addLine(cntr + Vector(x, y) * thirdsize, cntr + Vector(x,y) * twothirdsize, colors.reticuleCircle, ui.reticuleCircleThickness)
+		-- ui.addLine(cntr + Vector2(x, y) * halfsize, cntr + Vector2(x,y) * size, colors.reticuleCircle, ui.reticuleCircleThickness)
+		ui.addLine(cntr + Vector2(x, y) * thirdsize, cntr + Vector2(x,y) * twothirdsize, colors.reticuleCircle, ui.reticuleCircleThickness)
 	end
 	ui.addCircleFilled(cntr, size, colors.lightBlueBackground, ui.circleSegments(size), 1)
 	ui.addCircle(cntr, size, colors.reticuleCircle, ui.circleSegments(size), ui.reticuleCircleThickness)
@@ -77,16 +76,16 @@ local function display2DRadar(cntr, size)
 			local position = cntr + v.aep * size * 2
 			if v.body == navTarget then
 				local color = Color(colors.navTarget.r, colors.navTarget.g, colors.navTarget.b, alpha)
-				ui.addIcon(position, icons.square, color, 12, ui.anchor.center, ui.anchor.center)
+				ui.addIcon(position, icons.square, color, Vector2(12, 12), ui.anchor.center, ui.anchor.center)
 			elseif v.body == combatTarget then
 				local color = Color(colors.combatTarget.r, colors.combatTarget.g, colors.combatTarget.b, alpha)
-				ui.addIcon(position, icons.square, color, 12, ui.anchor.center, ui.anchor.center)
+				ui.addIcon(position, icons.square, color, Vector2(12, 12), ui.anchor.center, ui.anchor.center)
 			else
 				local color = getColorFor(v)
 				ui.addCircleFilled(position, 2, color, 4, 1)
 			end
 			local mouse_position = ui.getMousePos()
-			if (mouse_position - position):magnitude() < 4 then
+			if (mouse_position - position):length() < 4 then
 				table.insert(tooltip, v.label)
 			end
 		end
@@ -96,7 +95,7 @@ local function display2DRadar(cntr, size)
 	end
 	local d, d_u = ui.Format.Distance(current_radar_size)
 	local distance = d .. ' ' .. d_u
-	local textcenter = cntr + Vector((halfsize + twothirdsize) * 0.5, size)
+	local textcenter = cntr + Vector2((halfsize + twothirdsize) * 0.5, size)
 	local textsize = ui.addStyledText(textcenter, ui.anchor.left, ui.anchor.bottom, distance, colors.frame, pionillium.small, lui.HUD_RADAR_DISTANCE, colors.lightBlackBackground)
 end
 
@@ -110,13 +109,13 @@ local function displayRadar()
 	if #radar > 0 then
 
 		local size = ui.reticuleCircleRadius * 0.66
-		local cntr = Vector(ui.screenWidth / 2, ui.screenHeight - size - 15)
+		local cntr = Vector2(ui.screenWidth / 2, ui.screenHeight - size - 15)
 
 		local mp = ui.getMousePos()
-		if (Vector(mp.x,mp.y) - cntr):magnitude() > size then
+		if (mp - cntr):length() > size then
 			click_on_radar = false
 		end
-		if (Vector(mp.x,mp.y) - cntr):magnitude() < size then
+		if (mp - cntr):length() < size then
 			if ui.isMouseClicked(1) then
 				click_on_radar = true
 			end

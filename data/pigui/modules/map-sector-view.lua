@@ -1,7 +1,6 @@
 local Engine = import('Engine')
 local Game = import('Game')
 local ui = import('pigui/pigui.lua')
-local Vector = import('Vector')
 local Color = import('Color')
 local Lang = import("Lang")
 local lc = Lang.GetResource("core");
@@ -15,7 +14,7 @@ local colors = ui.theme.colors
 local icons = ui.theme.icons
 local hideSectorViewWindows = false
 
-local mainButtonSize = Vector(32,32) * (ui.screenHeight / 1200)
+local mainButtonSize = Vector2(32,32) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
 local function mainMenuButton(icon, selected, tooltip, color)
 	color = color or colors.white
@@ -203,8 +202,8 @@ local function showInfoWindow()
 	end)
 end
 local function showFactionLegendWindow()
-	ui.setNextWindowSize(Vector(ui.screenWidth / 5, ui.screenHeight / 5), "Always")
-	ui.setNextWindowPos(Vector(ui.screenWidth - ui.screenWidth / 5 - 10, 10) , "Always")
+	ui.setNextWindowSize(Vector2(ui.screenWidth / 5, ui.screenHeight / 5), "Always")
+	ui.setNextWindowPos(Vector2(ui.screenWidth - ui.screenWidth / 5 - 10, 10) , "Always")
 	ui.window("MapSectorViewFactions", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 						function()
 							ui.text("Factions")
@@ -231,8 +230,8 @@ local function displaySectorViewWindow()
 	player = Game.player
 	local current_view = Game.CurrentView()
 	if current_view == "sector" then
-		ui.setNextWindowSize(Vector(ui.screenWidth / 5, ui.screenHeight / 3 * 2.1), "Always")
-		ui.setNextWindowPos(Vector(10, 10) , "Always")
+		ui.setNextWindowSize(Vector2(ui.screenWidth / 5, ui.screenHeight / 3 * 2.1), "Always")
+		ui.setNextWindowPos(Vector2(10, 10) , "Always")
 		if ui.isKeyReleased(ui.keys.tab) then
 			hideSectorViewWindows = not hideSectorViewWindows;
 		end

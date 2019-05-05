@@ -44,6 +44,8 @@
 #include "LuaShipDef.h"
 #include "LuaSpace.h"
 #include "LuaTimer.h"
+#include "LuaVector.h"
+#include "LuaVector2.h"
 #include "Missile.h"
 #include "ModManager.h"
 #include "ModelCache.h"
@@ -312,6 +314,8 @@ static void LuaInit()
 	LuaMusic::Register();
 	LuaDev::Register();
 	LuaConsole::Register();
+	LuaVector::Register(Lua::manager->GetLuaState());
+	LuaVector2::Register(Lua::manager->GetLuaState());
 
 	// XXX sigh
 	UI::Lua::Init();

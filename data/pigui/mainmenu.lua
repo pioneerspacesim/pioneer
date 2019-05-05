@@ -9,7 +9,6 @@ local SystemPath = import("SystemPath")
 local Equipment = import("Equipment")
 local Format = import("Format")
 local ui = import('pigui/pigui.lua')
-local Vector = import('Vector')
 local Event = import('Event')
 local Lang = import("Lang")
 local lc = Lang.GetResource("core")
@@ -29,8 +28,8 @@ local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local icons = ui.theme.icons
 
-local mainButtonSize = Vector(400,46) * (ui.screenHeight / 1200)
-local dialogButtonSize = Vector(150,46) * (ui.screenHeight / 1200)
+local mainButtonSize = Vector2(400,46) * (ui.screenHeight / 1200)
+local dialogButtonSize = Vector2(150,46) * (ui.screenHeight / 1200)
 local mainButtonFontSize = 24 * (ui.screenHeight / 1200)
 
 local showQuitConfirm = false
@@ -109,12 +108,12 @@ local function confirmQuit()
 				ui.textWrapped(quitConfirmMsg)
 				ui.popTextWrapPos()
 			end)
-			ui.dummy(Vector(5,15)) -- small vertical spacing
-			ui.dummy(Vector(30, 5))
+			ui.dummy(Vector2(5,15)) -- small vertical spacing
+			ui.dummy(Vector2(30, 5))
 			ui.sameLine()
 			dialogTextButton(qlc.YES, true, Engine.Quit)
 			ui.sameLine()
-			ui.dummy(Vector(30, 5))
+			ui.dummy(Vector2(30, 5))
 			ui.sameLine()
 			dialogTextButton(qlc.NO, true, function() showQuitConfirm = false end)
 		end)
@@ -161,25 +160,25 @@ local function showMainMenu()
 	local canContinue = Game.CanLoadGame('_exit')
 	local buttons = 4
 
-	local winPos = Vector(ui.screenWidth - mainButtonSize.x - 100, ui.screenHeight/2 - (buttons * mainButtonSize.y)/2 - (2*mainButtonSize.y)/2 - 8)
+	local winPos = Vector2(ui.screenWidth - mainButtonSize.x - 100, ui.screenHeight/2 - (buttons * mainButtonSize.y)/2 - (2*mainButtonSize.y)/2 - 8)
 
-	ui.setNextWindowPos(Vector(110,65),'Always')
+	ui.setNextWindowPos(Vector2(110,65),'Always')
 	ui.withStyleColors({["WindowBg"]=colors.transparent}, function()
 		ui.window("headingWindow", {"NoTitleBar","NoResize","NoFocusOnAppearing","NoBringToFrontOnFocus","AlwaysAutoResize"}, function()
 			ui.withFont("orbiteer",36 * (ui.screenHeight/1200),function() ui.text("Pioneer") end)
 		end)
 	end)
 	if Engine.IsIntroZooming() then
-		ui.setNextWindowPos(Vector(0,0),'Always')
-		ui.setNextWindowSize(Vector(ui.screenWidth, ui.screenHeight), 'Always')
+		ui.setNextWindowPos(Vector2(0,0),'Always')
+		ui.setNextWindowSize(Vector2(ui.screenWidth, ui.screenHeight), 'Always')
 		ui.withStyleColors({["WindowBg"]=colors.transparent}, function()
 			ui.window("shipinfoWindow", {"NoTitleBar","NoResize","NoFocusOnAppearing","NoBringToFrontOnFocus","AlwaysAutoResize"}, function()
 				local mn = Engine.GetIntroCurrentModelName()
 				if mn then
 					local sd = ShipDef[mn]
 					if sd then
-						ui.addFancyText(Vector(ui.screenWidth / 3, ui.screenHeight / 5.0 * 4), ui.anchor.center, ui.anchor.bottom, {{text=sd.name, color=colors.white, font=orbiteer.large}}, colors.transparent)
-						ui.addFancyText(Vector(ui.screenWidth / 3, ui.screenHeight / 5.0 * 4.02), ui.anchor.center, ui.anchor.top, {{text=lui[sd.shipClass:upper()], color=colors.white, font=orbiteer.medium}}, colors.transparent)
+						ui.addFancyText(Vector2(ui.screenWidth / 3, ui.screenHeight / 5.0 * 4), ui.anchor.center, ui.anchor.bottom, {{text=sd.name, color=colors.white, font=orbiteer.large}}, colors.transparent)
+						ui.addFancyText(Vector2(ui.screenWidth / 3, ui.screenHeight / 5.0 * 4.02), ui.anchor.center, ui.anchor.top, {{text=lui[sd.shipClass:upper()], color=colors.white, font=orbiteer.medium}}, colors.transparent)
 					end
 				end
 			end)
@@ -188,7 +187,7 @@ local function showMainMenu()
 	local build_text = Engine.version
 	ui.withFont("orbiteer", 16 * (ui.screenHeight/1200),
 							function()
-								ui.setNextWindowPos(Vector(ui.screenWidth - ui.calcTextSize(build_text).x * 1.2,ui.screenHeight - 50), 'Always')
+								ui.setNextWindowPos(Vector2(ui.screenWidth - ui.calcTextSize(build_text).x * 1.2,ui.screenHeight - 50), 'Always')
 								ui.withStyleColors({["WindowBg"] = colors.transparent}, function()
 										ui.window("buildLabel", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "AlwaysAutoResize"},
 															function()

@@ -15,11 +15,13 @@
 
 /*
  * The LuaTable class is a wrapper around a table present on the stack. There
- * are two ways to instantiate a LuaTable object:
+ * are three ways to instantiate a LuaTable object:
  *
  * > lua_State *l;
  * > int i; // the stack index of a table
  * > LuaTable(l); // This will allocate a new table on top of the stack
+ * > LuaTable(l, array_s, hash_s); // Same as previous but it uses "lua_createtable",
+ * >                               // so it preallocate array part and hash part on LVM
  * > LuaTable(l, i); // This will wrap the object around an existing table
  *
  * Note that the LuaTable object never removes the wrapped table from the stack.
@@ -65,8 +67,8 @@
  * > std::vector v; // Or std::list, std::set, whatever as long as it has iterators
  * > std::map m;
  * > LuaTable t;
- * > T.LoadMap(m.begin(), m.end());
- * > T.LoadVector(v.begin(), v.end());
+ * > t.LoadMap(m.begin(), m.end());
+ * > t.LoadVector(v.begin(), v.end());
  *
  * Note that LoadVector doesn't overwrite the content of the table, it appends
  * to its array-like part. Unless you have numerical index beyond its length,
@@ -107,6 +109,13 @@ public:
 		m_lua(l)
 	{
 		lua_newtable(m_lua);
+		m_index = lua_gettop(l);
+	}
+
+	explicit LuaTable(lua_State *l, int array_s, int hash_s) :
+		m_lua(l)
+	{
+		lua_createtable(m_lua, array_s, hash_s);
 		m_index = lua_gettop(l);
 	}
 

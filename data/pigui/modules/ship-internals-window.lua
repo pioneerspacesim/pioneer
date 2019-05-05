@@ -4,7 +4,6 @@
 local Engine = import('Engine')
 local Game = import('Game')
 local ui = import('pigui/pigui.lua')
-local Vector = import('Vector')
 local Color = import('Color')
 local Lang = import("Lang")
 local lc = Lang.GetResource("core");
@@ -16,7 +15,7 @@ local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local mainButtonSize = Vector(32,32) * (ui.screenHeight / 1200)
+local mainButtonSize = Vector2(32,32) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
 local itemSpacingX = 8 -- imgui default
 
@@ -44,13 +43,13 @@ local function button_lowThrustPower()
 			end
 
             if show_thrust_slider then
-                local p = winpos + pos - Vector(8,100+9)
+                local p = winpos + pos - Vector2(8,100+9)
                 ui.setNextWindowPos(p,'Always')
 
                 ui.window("ThrustSliderWindow", {"NoTitleBar", "NoResize"},
                     function()
                         ui.withStyleColors({["SliderGrab"] =colors.white, ["SliderGrabActive"]=colors.buttonBlue},function()
-                            new_thrust = ui.vSliderInt('###ThrustLowPowerSlider',Vector(mainButtonSize.x + 1 + 2 * mainButtonFramePadding,100), thrust*100,0,100)
+                            new_thrust = ui.vSliderInt('###ThrustLowPowerSlider',Vector2(mainButtonSize.x + 1 + 2 * mainButtonFramePadding,100), thrust*100,0,100)
                             player:SetLowThrustPower(new_thrust/100)
                         end)
                 end)
@@ -69,8 +68,6 @@ local function button_lowThrustPower()
 end
 
 local function button_thrustIndicator()
-	local size = Vector(3, 2)
-	-- local size = Vector(1.5, 1)
 	ui.withStyleColors({
 			["Button"] = colors.buttonBlue:shade(0.6),
 			["ButtonHovered"] = colors.buttonBlue:shade(0.4),
@@ -78,11 +75,11 @@ local function button_thrustIndicator()
 		function ()
 			ui.sameLine()
 			local vel = Engine.WorldSpaceToShipSpace(player:GetVelocity())
-			vel = vel / math.max(vel:magnitude(), 10) -- minimum of 10m/s
+			vel = vel / math.max(vel:length(), 10) -- minimum of 10m/s
 			local thrust = player:GetThrusterState()
 			local v = ui.getCursorPos();
-			ui.setCursorPos(Vector(v.x, 20));
-			ui.thrustIndicator("foo", mainButtonSize * size, thrust, vel, colors.lightBlueBackground, mainButtonFramePadding, colors.gaugeVelocityLight, colors.gaugeVelocityDark, colors.gaugeThrustLight, colors.gaugeThrustDark)
+			ui.setCursorPos(Vector2(v.x, 20));
+			ui.thrustIndicator("foo", Vector2(mainButtonSize.x * 3.0, mainButtonSize.y * 2.0), thrust, vel, colors.lightBlueBackground, mainButtonFramePadding, colors.gaugeVelocityLight, colors.gaugeVelocityDark, colors.gaugeThrustLight, colors.gaugeThrustDark)
 			if ui.isItemHovered() then
 				ui.setTooltip(lui.HUD_THRUST_INDICATOR)
 			end
@@ -134,12 +131,12 @@ local function displayShipFunctionWindow()
 	player = Game.player
 	local current_view = Game.CurrentView()
 	local buttons = 6
-	ui.setNextWindowPos(Vector(ui.screenWidth/2 - ui.reticuleCircleRadius - (mainButtonSize.x + 2 * mainButtonFramePadding) * buttons, ui.screenHeight - mainButtonSize.y * 3 - 8) , "Always")
+	ui.setNextWindowPos(Vector2(ui.screenWidth/2 - ui.reticuleCircleRadius - (mainButtonSize.x + 2 * mainButtonFramePadding) * buttons, ui.screenHeight - mainButtonSize.y * 3 - 8) , "Always")
 	ui.window("ShipFunctions", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 						function()
 							if current_view == "world" then
 								local v = ui.getCursorPos()
-								ui.setCursorPos(Vector(0, v.y + 1.33 * mainButtonSize.y));
+								ui.setCursorPos(Vector2(0, v.y + 1.33 * mainButtonSize.y));
 								button_wheelstate()
 								button_rotation_damping()
 								ui.sameLine()

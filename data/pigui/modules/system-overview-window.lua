@@ -4,7 +4,6 @@
 local Engine = import('Engine')
 local Game = import('Game')
 local Space = import('Space')
-local Vector = import('Vector')
 local Format = import('Format')
 local ui = import('pigui/pigui.lua')
 local utils = import('utils')
@@ -137,7 +136,7 @@ local function showEntry(entry, indent, sortFunction)
 	if body then
 		ui.text(string.rep(" ", indent))
 		ui.sameLine()
-		ui.icon(getBodyIcon(body), Vector(16,16), colors.white)
+		ui.icon(getBodyIcon(body), Vector2(16,16), colors.white)
 		ui.sameLine()
 		if ui.selectable(label or "UNKNOWN", is_target, {"SpanAllColumns"}) then
 			Game.player:SetNavTarget(body)
@@ -147,15 +146,15 @@ local function showEntry(entry, indent, sortFunction)
 		end
 		ui.sameLine()
 		if has_moons then
-			ui.icon(icons.moon, Vector(16,16), colors.white)
+			ui.icon(icons.moon, Vector2(16,16), colors.white)
 			ui.sameLine(0,0.01)
 		end
 		if has_ground_stations then
-			ui.icon(icons.starport, Vector(16,16), colors.white)
+			ui.icon(icons.starport, Vector2(16,16), colors.white)
 			ui.sameLine(0,0.01)
 		end
 		if has_space_stations then
-			ui.icon(icons.spacestation, Vector(16,16), colors.white)
+			ui.icon(icons.spacestation, Vector2(16,16), colors.white)
 			ui.sameLine(0,0.01)
 		end
 		ui.nextColumn()
@@ -180,15 +179,15 @@ local function showInfoWindow()
 	end
 	local width_fraction = 5
 	local height_fraction = 2
-	local mainButtonSize = Vector(32,32) * (ui.screenHeight / 1200)
-	local button_size = Vector(24,24) * (ui.screenHeight / 1200)
+	local mainButtonSize = Vector2(32,32) * (ui.screenHeight / 1200)
+	local button_size = Vector2(24,24) * (ui.screenHeight / 1200)
 	local frame_padding = 1
 	local bg_color = colors.buttonBlue
 	local fg_color = colors.white
 	if Game.player:IsDocked() then
 		-- do nothing at all
 	elseif not showWindow then
-		ui.setNextWindowPos(Vector(ui.screenWidth - button_size.x * 3 - 10 , 10) , "Always")
+		ui.setNextWindowPos(Vector2(ui.screenWidth - button_size.x * 3 - 10 , 10) , "Always")
 		ui.window("SystemTargetsSmall", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 							function()
 								if ui.coloredSelectedIconButton(icons.system_overview, mainButtonSize, false, frame_padding, bg_color, fg_color, "Show window") then
@@ -196,8 +195,8 @@ local function showInfoWindow()
 								end
 		end)
 	else
-		ui.setNextWindowSize(Vector(ui.screenWidth / width_fraction, ui.screenHeight / height_fraction) , "Always")
-		ui.setNextWindowPos(Vector(ui.screenWidth - (ui.screenWidth / width_fraction) - 10 , 10) , "Always")
+		ui.setNextWindowSize(Vector2(ui.screenWidth / width_fraction, ui.screenHeight / height_fraction) , "Always")
+		ui.setNextWindowPos(Vector2(ui.screenWidth - (ui.screenWidth / width_fraction) - 10 , 10) , "Always")
 		ui.withStyleColors({ ["WindowBg"] = colors.commsWindowBackground }, function()
 				ui.withStyleVars({ ["WindowRounding"] = 0.0 }, function()
 						ui.window("SystemTargets", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
@@ -218,7 +217,7 @@ local function showInfoWindow()
 																				shouldShowStations = not shouldShowStations
 																			end
 																			ui.sameLine()
-																			ui.dummy(Vector(ui.screenWidth / width_fraction - 6 * button_size.x - 7 * frame_padding, 0)) -- magical calculation :-/
+																			ui.dummy(Vector2(ui.screenWidth / width_fraction - 6 * button_size.x - 7 * frame_padding, 0)) -- magical calculation :-/
 																			ui.sameLine()
 																			if ui.coloredSelectedIconButton(icons.system_overview, button_size, false, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_WINDOW) then
 																				showWindow = false
