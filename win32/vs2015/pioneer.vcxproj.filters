@@ -261,9 +261,6 @@
     <ClCompile Include="..\..\src\LuaFixed.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LuaMatrix.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LuaVector.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -503,6 +500,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\ship\ShipViewController.cpp">
       <Filter>src\ship</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaVector2.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -750,9 +750,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaFixed.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaMatrix.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaComms.h">
@@ -1021,6 +1018,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\ship\ShipViewController.h">
       <Filter>src\ship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaVector2.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
