@@ -1,3 +1,7 @@
+May 2019
+   * Internal Changes
+     * Speedup pilua (#4548)
+
 April 2019
    * New Features
      * Input/settings system now available in translation system (#4568)
