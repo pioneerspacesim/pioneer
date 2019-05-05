@@ -1,6 +1,7 @@
 May 2019
    * Internal Changes
      * Speedup pilua (#4548)
+     * Gracefully handle destroyed target ships in SAR missions (#4569)
 
 April 2019
    * New Features
