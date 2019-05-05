@@ -3,6 +3,9 @@ May 2019
      * Speedup pilua (#4548)
      * Gracefully handle destroyed target ships in SAR missions (#4569)
 
+   * Fixes
+     * Fix crash on main menu (#4578)
+
 April 2019
    * New Features
      * Input/settings system now available in translation system (#4568)
