@@ -161,7 +161,7 @@ static int l_vector_length(lua_State *L)
 	return 1;
 }
 
-static int l_vector_magnitude(lua_State *L)
+static int l_vector_length_sqr(lua_State *L)
 {
 	const vector2d *v = LuaVector2::CheckFromLua(L, 1);
 	lua_pushnumber(L, v->LengthSqr());
@@ -171,7 +171,7 @@ static int l_vector_magnitude(lua_State *L)
 static int l_vector_angle(lua_State *L)
 {
 	const vector2d *v = LuaVector2::CheckFromLua(L, 1);
-	lua_pushnumber(L, atan2(v->x, v->y));
+	lua_pushnumber(L, M_PI * 2 - atan2(v->x, v->y));
 	return 1;
 }
 
@@ -219,8 +219,8 @@ static luaL_Reg l_vector_meta[] = {
 	{ "normalized", &l_vector_normalised },
 	{ "unit", &l_vector_unit },
 	{ "length", &l_vector_length },
-	{ "magnitude", &l_vector_magnitude},
-	{ "dot", &l_vector_magnitude},
+	{ "lengthSqr", &l_vector_length_sqr},
+	{ "dot", &l_vector_length_sqr},
 	{ "rotate", &l_vector_rotate },
 	{ "angle", &l_vector_angle },
 	{ "left", &l_vector_rot_90_left },

@@ -426,8 +426,8 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 									position.y = position.y - font.offset
 								end
 								if bg_color then
-									pigui.AddRectFilled(Vector2(position.x - textBackgroundMarginPixels, position.y - size.y + textBackgroundMarginPixels),
-														Vector2(position.x + size.x + textBackgroundMarginPixels, position.y + textBackgroundMarginPixels),
+									pigui.AddRectFilled(Vector2(position.x - textBackgroundMarginPixels, position.y - textBackgroundMarginPixels),
+														Vector2(position.x + size.x + textBackgroundMarginPixels, position.y + size.y + textBackgroundMarginPixels),
 														bg_color,
 														0,
 														0)
