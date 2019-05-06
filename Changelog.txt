@@ -7,6 +7,7 @@ May 2019
    * Fixes
      * Fix crash on main menu (#4578)
      * Replace leftover lua Vectors with Vector2 (#4581)
+     * Initialize variables to be integers (#4579)
 
 April 2019
    * New Features
