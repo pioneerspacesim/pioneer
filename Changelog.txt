@@ -2,9 +2,11 @@ May 2019
    * Internal Changes
      * Speedup pilua (#4548)
      * Gracefully handle destroyed target ships in SAR missions (#4569)
+     * Consider hyperdrive fuel type in the hyperjump-planer (#4582)
 
    * Fixes
      * Fix crash on main menu (#4578)
+     * Replace leftover lua Vectors with Vector2 (#4581)
 
 April 2019
    * New Features
