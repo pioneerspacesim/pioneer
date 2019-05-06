@@ -1,4 +1,8 @@
 {
+  "ACCIDENT_DESTROYED_TARGET": {
+    "description": "",
+    "message": "The sad news has reached us that {shiplabel} has been destroyed. We will pay half of the agreed price for you efforts."
+  },
   "AU": {
     "description": "",
     "message": "AU"
@@ -478,6 +482,10 @@
   "PLACE_OF_ASSISTANCE": {
     "description": "",
     "message": "En el lugar de la asistencia"
+  },
+  "PLAYER_DESTROYED_TARGET": {
+    "description": "",
+    "message": "We have heard of your deeds, captain! Rest assured that we will report you to the local authorities for destroying the very ship you were sent out to help. A criminal lawsuit will follow."
   },
   "PLEASE_LAND": {
     "description": "",
