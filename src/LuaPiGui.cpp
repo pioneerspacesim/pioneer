@@ -65,6 +65,13 @@ void *pi_lua_checklightuserdata(lua_State *l, int index)
 	return nullptr;
 }
 
+void pi_lua_generic_pull(lua_State *l, int index, ImVec2 &vec)
+{
+	PROFILE_SCOPED()
+	vector2d tr = LuaPull<vector2d>(l, index);
+	vec = ImVec2(tr.x, tr.y);
+}
+
 void pi_lua_generic_pull(lua_State *l, int index, ImColor &color)
 {
 	PROFILE_SCOPED()
@@ -261,6 +268,23 @@ void pi_lua_generic_pull(lua_State *l, int index, ImGuiWindowFlags_ &theflags)
 	theflags = parse_imgui_flags(l, index, imguiWindowFlagsTable, "ImGuiWindowFlags");
 }
 
+static std::map<std::string, ImGuiHoveredFlags_> imguiHoveredFlagsTable = {
+	{ "None", ImGuiHoveredFlags_None },
+	{ "ChildWindows", ImGuiHoveredFlags_ChildWindows },
+	{ "RootWindow", ImGuiHoveredFlags_RootWindow },
+	{ "AnyWindow", ImGuiHoveredFlags_AnyWindow },
+	{ "AllowWhenBlockedByPopup", ImGuiHoveredFlags_AllowWhenBlockedByPopup },
+	{ "AllowWhenBlockedByActiveItem", ImGuiHoveredFlags_AllowWhenBlockedByActiveItem },
+	{ "AllowWhenOverlapped", ImGuiHoveredFlags_AllowWhenOverlapped },
+	{ "AllowWhenDisabled", ImGuiHoveredFlags_AllowWhenDisabled },
+	{ "RectOnly", ImGuiHoveredFlags_RectOnly }
+};
+
+void pi_lua_generic_pull(lua_State *l, int index, ImGuiHoveredFlags_ &theflags)
+{
+	PROFILE_SCOPED()
+	theflags = parse_imgui_flags(l, index, imguiHoveredFlagsTable, "ImGuiHoveredFlags");
+}
 /*
  * Interface: PiGui
  *
@@ -304,9 +328,7 @@ static void lineOnClock(const double hours, const double length, const double ra
 	vector2d p1 = pointOnClock(radius, hours);
 	vector2d p2 = pointOnClock(radius - length, hours);
 	// Type change... TODO: find a better way?
-	ImVec2 a(p1.x, p1.y);
-	ImVec2 b(p2.x, p2.y);
-	draw_list->AddLine(a, b, color, thickness);
+	draw_list->AddLine(ImVec2(p1.x, p1.y), ImVec2(p2.x, p2.y), color, thickness);
 }
 
 static void lineOnClock(const vector2d &center, const double hours, const double length, const double radius, const ImColor &color, const double thickness)
@@ -364,14 +386,14 @@ static int l_pigui_columns(lua_State *l)
 	PROFILE_SCOPED()
 	int columns = LuaPull<int>(l, 1);
 	std::string id = LuaPull<std::string>(l, 2);
-	bool border = LuaPull<bool>(l, 3);
+	bool border = LuaPull<bool>(l, 3, false);
 	ImGui::Columns(columns, id.c_str(), border);
 	return 0;
 }
 
 static int l_pigui_get_column_width(lua_State *l)
 {
-	int column_index = LuaPull<int>(l, 1);
+	int column_index = LuaPull<int>(l, 1, -1);
 	double width = ImGui::GetColumnWidth(column_index);
 	LuaPush<double>(l, width);
 	return 1;
@@ -444,18 +466,10 @@ static int l_pigui_push_clip_rect_full_screen(lua_State *l)
 static int l_pigui_set_next_window_pos(lua_State *l)
 {
 	PROFILE_SCOPED()
-	const vector2d v = LuaPull<vector2d>(l, 1);
-	ImVec2 pos(v.x, v.y);
+	const ImVec2 pos = LuaPull<ImVec2>(l, 1);
 	int cond = LuaPull<ImGuiCond_>(l, 2);
-	ImGui::SetNextWindowPos(pos, cond);
-	return 0;
-}
-
-static int l_pigui_set_next_window_pos_center(lua_State *l)
-{
-	PROFILE_SCOPED()
-	int cond = LuaPull<ImGuiCond_>(l, 1);
-	ImGui::SetNextWindowPosCenter(cond);
+	ImVec2 pivot = LuaPull<ImVec2>(l, 3, ImVec2(0, 0));
+	ImGui::SetNextWindowPos(pos, cond, pivot);
 	return 0;
 }
 
@@ -1803,17 +1817,11 @@ static int l_pigui_data_dir_path(lua_State *l)
 	return 1;
 }
 
-static int l_pigui_is_mouse_hovering_any_window(lua_State *l)
+static int l_pigui_is_window_hovered(lua_State *l)
 {
 	PROFILE_SCOPED()
-	LuaPush<bool>(l, ImGui::IsMouseHoveringAnyWindow());
-	return 1;
-}
-
-static int l_pigui_is_mouse_hovering_window(lua_State *l)
-{
-	PROFILE_SCOPED()
-	LuaPush<bool>(l, ImGui::IsMouseHoveringWindow());
+	int flags = LuaPull<ImGuiHoveredFlags_>(l, 1, ImGuiHoveredFlags_None);
+	LuaPush<bool>(l, ImGui::IsWindowHovered(flags));
 	return 1;
 }
 
@@ -2128,7 +2136,6 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "AddImageQuad", l_pigui_add_image_quad },
 		{ "AddBezierCurve", l_pigui_add_bezier_curve },
 		{ "SetNextWindowPos", l_pigui_set_next_window_pos },
-		{ "SetNextWindowPosCenter", l_pigui_set_next_window_pos_center },
 		{ "SetNextWindowSize", l_pigui_set_next_window_size },
 		{ "SetNextWindowSizeConstraints", l_pigui_set_next_window_size_constraints },
 		{ "SetNextWindowFocus", l_pigui_set_next_window_focus },
@@ -2188,8 +2195,7 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "IsMouseClicked", l_pigui_is_mouse_clicked },
 		{ "IsMouseDown", l_pigui_is_mouse_down },
 		{ "IsMouseHoveringRect", l_pigui_is_mouse_hovering_rect },
-		{ "IsMouseHoveringAnyWindow", l_pigui_is_mouse_hovering_any_window },
-		{ "IsMouseHoveringWindow", l_pigui_is_mouse_hovering_window },
+		{ "IsWindowHovered", l_pigui_is_window_hovered },
 		{ "Image", l_pigui_image },
 		{ "pointOnClock", l_pigui_pointOnClock },
 		{ "lineOnClock", l_pigui_lineOnClock },

@@ -32,7 +32,7 @@ local function iconButton(leftupper, icon, is_wide, icon_size, text, is_disabled
 	if is_disabled then
 		bg_color = colors.grey
 	end
-	if ui.isMouseHoveringRect(leftupper, leftupper + delta) and not ui.isMouseHoveringAnyWindow() then
+	if ui.isMouseHoveringRect(leftupper, leftupper + delta) and not ui.isAnyWindowHovered() then
 		if not is_disabled then
 			if ui.isMouseDown(0) then
 				bg_color = pressed_color
