@@ -123,7 +123,7 @@ local radial_menu_actions_orbital = {
 }
 
 local function displayOnScreenObjects()
-	if ui.altHeld() and not ui.isMouseHoveringAnyWindow() and ui.isMouseClicked(1) then
+	if ui.altHeld() and not ui.isAnyWindowHovered() and ui.isMouseClicked(1) then
 		local frame = player.frameBody
 		if frame then
 			ui.openRadialMenu(frame, 1, 30, radial_menu_actions_orbital)
@@ -157,14 +157,14 @@ local function displayOnScreenObjects()
 		local mp = ui.getMousePos()
 		-- mouse release handler for radial menu
 		if (mp - mainCoords):length() < iconsize:length() * 1.5 then
-			if not ui.isMouseHoveringAnyWindow() and ui.isMouseClicked(1) then
+			if not ui.isAnyWindowHovered() and ui.isMouseClicked(1) then
 				local body = mainBody
 				ui.openDefaultRadialMenu(body)
 			end
 		end
 		-- mouse release handler
 		if (mp - mainCoords):length() < iconsize:length() * 1.5 then
-			if not ui.isMouseHoveringAnyWindow() and ui.isMouseReleased(0) then
+			if not ui.isAnyWindowHovered() and ui.isMouseReleased(0) then
 				if count == 1 then
 					if navTarget == mainBody then
 						-- if clicked and has nav target, unset nav target

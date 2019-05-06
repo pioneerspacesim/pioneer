@@ -325,7 +325,7 @@ ui.addIcon = function(position, icon, color, size, anchor_horizontal, anchor_ver
 	else
 	  pigui.AddImage(ui.icons_texture, pos, pos + size, uv0, uv1, color)
 	end
-	if tooltip and (pigui.IsMouseHoveringWindow() or not pigui.IsMouseHoveringAnyWindow()) and tooltip ~= "" then
+	if tooltip and (ui.isMouseHoveringWindow() or not ui.isAnyWindowHovered()) and tooltip ~= "" then
 	  if pigui.IsMouseHoveringRect(pos, pos + size, true) then
 			maybeSetTooltip(tooltip)
 	  end
@@ -347,7 +347,7 @@ ui.addWideIcon = function(position, icon, color, size, anchor_horizontal, anchor
 	else
 	  pigui.AddImage(ui.icons_texture, pos, pos + size, uv0, uv1, color)
 	end
-	if tooltip and (pigui.IsMouseHoveringWindow() or not pigui.IsMouseHoveringAnyWindow()) and tooltip ~= "" then
+	if tooltip and (ui.isMouseHoveringWindow() or not is.isAnyWindowHovered()) and tooltip ~= "" then
 	  if pigui.IsMouseHoveringRect(pos, pos + size, true) then
 			maybeSetTooltip(tooltip)
 	  end
@@ -441,7 +441,7 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 								pigui.AddText(position, color, text)
 								-- pigui.AddQuad(position, position + Vector2(size.x, 0), position + Vector2(size.x, size.y), position + vector.new(0, size.y), colors.red, 1.0)
 	end)
-	if tooltip and (pigui.IsMouseHoveringWindow() or not pigui.IsMouseHoveringAnyWindow()) and tooltip ~= "" then
+	if tooltip and (ui.isMouseHoveringWindow() or not ui.isAnyWindowHovered()) and tooltip ~= "" then
 	  if pigui.IsMouseHoveringRect(position, position + size, true) then
 			maybeSetTooltip(tooltip)
 	  end
@@ -463,8 +463,13 @@ ui.lineOnClock = pigui.lineOnClock
 ui.pointOnClock = pigui.pointOnClock
 ui.screenWidth = pigui.screen_width
 ui.screenHeight = pigui.screen_height
+ui.screenSize = function()
+	return Vector2(ui.screenWidth, ui.screenHeight)
+end
 ui.setNextWindowPos = pigui.SetNextWindowPos
-ui.setNextWindowPosCenter = pigui.SetNextWindowPosCenter
+ui.setNextWindowPosCenter = function(cond)
+	ui.setNextWindowPos(ui.screenSize() / 2, cond, Vector2(0.5, 0.5))
+end
 ui.setNextWindowSize = pigui.SetNextWindowSize
 ui.setNextWindowSizeConstraints = pigui.SetNextWindowSizeConstraints
 ui.dummy = pigui.Dummy
@@ -537,7 +542,13 @@ ui.getProjectedBodies = pigui.GetProjectedBodies
 ui.getProjectedBodiesGrouped = pigui.GetProjectedBodiesGrouped
 ui.isMouseReleased = pigui.IsMouseReleased
 ui.isMouseHoveringRect = pigui.IsMouseHoveringRect
-ui.isMouseHoveringAnyWindow = pigui.IsMouseHoveringAnyWindow
+ui.isMouseHoveringWindow = function()
+	return ui.isWindowHovered({"AllowWhenBlockedByPopup", "AllowWhenBlockedByActiveItem"})
+end
+ui.isWindowHovered = pigui.IsWindowHovered
+ui.isAnyWindowHovered = function()
+	return ui.isWindowHovered({"AnyWindow"})
+end
 ui.collapsingHeader = pigui.CollapsingHeader
 ui.openPopup = pigui.OpenPopup
 ui.shouldShowLabels = pigui.ShouldShowLabels

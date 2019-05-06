@@ -87,6 +87,8 @@ local function displayIndicator(onscreen, position, direction, icon, color, show
 	end
 end
 
+gameView.displayIndicator = displayIndicator
+
 -- display the indicator pointing at the combat target
 local function displayCombatTargetIndicator(combatTarget)
 	local pos = combatTarget:GetPositionRelTo(player)
