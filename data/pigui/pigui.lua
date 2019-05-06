@@ -335,7 +335,7 @@ ui.addWideIcon = function(position, icon, color, size, anchor_horizontal, anchor
 	  local up_right = up_left:right()
 	  local down_left = up_left:left()
 	  local down_right = -up_left
-	  pigui.AddImageQuad(ui.icons_texture, center + up_left, center + up_right, center + down_right, center + down_left, uv0, Vector(uv1.x, uv0.y), uv1, Vector(uv0.x, uv1.y), color)
+	  pigui.AddImageQuad(ui.icons_texture, center + up_left, center + up_right, center + down_right, center + down_left, uv0, Vector2(uv1.x, uv0.y), uv1, Vector2(uv0.x, uv1.y), color)
 	else
 	  pigui.AddImage(ui.icons_texture, pos, pos + size, uv0, uv1, color)
 	end
