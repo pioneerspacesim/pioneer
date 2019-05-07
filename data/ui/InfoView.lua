@@ -14,6 +14,8 @@ local missions        = import("InfoView/Missions")
 local crewRoster      = import("InfoView/CrewRoster")
 local orbitalAnalysis = import("InfoView/OrbitalAnalysis")
 
+local piInfoView = import("pigui/views/info-view")
+
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");
 
@@ -33,6 +35,8 @@ ui.templates.InfoView = function (args)
 	tabGroup:AddTab({ id = "crew",            title = l.CREW_ROSTER,          icon = "Agenda",    template = crewRoster,      })
 	--tabGroup:AddTab({ id = "orbitalAnalysis", title = l.ORBITAL_ANALYSIS,     icon = "Planet",    template = orbitalAnalysis, })
 
+	tabGroup.header:Hide()
+	piInfoView.legacyInfoView = tabGroup
 	return tabGroup.widget
 end
 

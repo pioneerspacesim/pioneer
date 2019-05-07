@@ -30,20 +30,21 @@ function TabView.New ()
 	self.titleArea = ui:Expand("HORIZONTAL"):SetInnerWidget(ui:Align("RIGHT"):SetInnerWidget(self.title))
 	self.body      = ui:Expand()
 	self.footer    = ui:Margin(0)
+	self.outerBody = ui:Margin(5):SetInnerWidget(
+		ui:Background():SetInnerWidget(
+			ui:VBox():PackEnd({
+				self.body,
+				self.footer
+			})
+		)
+	)
 
 	self.widget =
 		ui:VBox():PackEnd({
 			ui:Margin(5):SetInnerWidget(
 				ui:HBox():PackEnd(self.header)
 			),
-			ui:Margin(5):SetInnerWidget(
-				ui:Background():SetInnerWidget(
-					ui:VBox():PackEnd({
-						self.body,
-						self.footer
-					})
-				)
-			)
+			self.outerBody
 		})
 
 	setmetatable(self, {

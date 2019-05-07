@@ -366,6 +366,13 @@ static int l_pigui_columns(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_get_column_width(lua_State *l) {
+	int column_index = LuaPull<int>(l, 1);
+	double width = ImGui::GetColumnWidth(column_index);
+	LuaPush<double>(l, width);
+	return 1;
+}
+
 static int l_pigui_set_column_offset(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -509,7 +516,7 @@ static int l_pigui_push_style_var(lua_State *l)
 	if (lua_isnumber(l, 2)) {
 		double val = LuaPull<double>(l, 2);
 		ImGui::PushStyleVar(style, val);
-	} else if (lua_istable(l, 2)) {
+	} else if (lua_isuserdata(l, 2)) {
 		const vector2d v = LuaPull<vector2d>(l, 2);
 		ImVec2 val(v.x, v.y);
 		ImGui::PushStyleVar(style, val);
@@ -2175,6 +2182,7 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "PopStyleVar", l_pigui_pop_style_var },
 		{ "Columns", l_pigui_columns },
 		{ "NextColumn", l_pigui_next_column },
+        { "GetColumnWidth", l_pigui_get_column_width },
 		{ "SetColumnOffset", l_pigui_set_column_offset },
 		{ "Text", l_pigui_text },
 		{ "TextWrapped", l_pigui_text_wrapped },
