@@ -1,7 +1,7 @@
 {
   "ACCIDENT_DESTROYED_TARGET": {
     "description": "",
-    "message": "The sad news has reached us that {shiplabel} has been destroyed. We will pay half of the agreed price for you efforts."
+    "message": "Értesültünk a szomorú hírről, hogy megsemmisült a hajó, {shiplabel}. Erőfeszítéseiért a jutalom felét kifizetjük."
   },
   "AU": {
     "description": "",
@@ -485,7 +485,7 @@
   },
   "PLAYER_DESTROYED_TARGET": {
     "description": "",
-    "message": "We have heard of your deeds, captain! Rest assured that we will report you to the local authorities for destroying the very ship you were sent out to help. A criminal lawsuit will follow."
+    "message": "Hallottunk róla, mit tett, kapitány! Biztosra veheti, hogy jelenteni fogjuk a helyi hatóságoknak, hogy elpusztította a hajót, aminek a megmentésére küldtük. Törvény elé fogjuk vinni."
   },
   "PLEASE_LAND": {
     "description": "",
