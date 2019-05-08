@@ -69,6 +69,8 @@
 #include "graphics/Material.h"
 #include <stdexcept>
 
+#include "Mount.h"
+
 namespace Graphics {
 	class Renderer;
 	class RenderState;
@@ -137,6 +139,8 @@ namespace SceneGraph {
 		void ClearDecal(unsigned int index = 0);
 		void ClearDecals();
 		void SetLabel(const std::string &);
+
+		std::vector<Mount> GetGunTags() const;
 
 		//for modelviewer, at least
 		bool SupportsDecals();
@@ -207,6 +211,10 @@ namespace SceneGraph {
 		RefCountedPtr<Graphics::VertexBuffer> m_aabbVB;
 		RefCountedPtr<Graphics::Material> m_aabbMat;
 		Graphics::RenderState *m_state;
+
+		// Vector with mounts used by guns
+		GunMounts m_mounts;
+
 	};
 
 } // namespace SceneGraph

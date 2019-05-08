@@ -54,7 +54,8 @@ namespace SceneGraph {
 		m_name(model.m_name),
 		m_curPatternIndex(model.m_curPatternIndex),
 		m_curPattern(model.m_curPattern),
-		m_debugFlags(0)
+		m_debugFlags(0),
+		m_mounts(model.m_mounts)
 	{
 		//selective copying of node structure
 		NodeCopyCache cache;
@@ -416,6 +417,11 @@ namespace SceneGraph {
 		m_root->Accept(vis);
 	}
 
+	std::vector<Mount> Model::GetGunTags() const {
+		std::vector<Mount> mounts = m_mounts;
+		return std::move(mounts);
+	}
+
 	void Model::ClearDecals()
 	{
 		Graphics::Texture *t = Graphics::TextureBuilder::GetTransparentTexture(m_renderer);
@@ -668,3 +674,4 @@ namespace SceneGraph {
 	}
 
 } // namespace SceneGraph
+

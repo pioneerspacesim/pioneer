@@ -112,52 +112,16 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 	}
 };
 
-void FixedGuns::ParseModelTags(SceneGraph::Model *m)
+void FixedGuns::GetGunsTags(SceneGraph::Model *m)
 {
-	const std::string test = "tag_gunmount";
-	SceneGraph::Model::TVecMT mounts_founds;
-	m->FindTagsByStartOfName(test, mounts_founds);
-
-	m_mounts.clear();
-	m_mounts.reserve(mounts_founds.size());
-
-	bool break_; // <- Used to "break" from inner 'for' cycle
-	//printf("Model name= '%s'; Tags n°= %u\n", m->GetName().c_str(), int(mounts_founds.size()));
-
-	for (int i = 0; i < mounts_founds.size(); i++) {
-		break_ = false;
-		const std::string &name = mounts_founds[i]->GetName();
-		if (name.length() > 14) {
-			// Multiple "tag" type: we group tags with
-			// the same index
-			std::string name_to_first_index = name.substr(0,14);
-			for (int j = 0; j < m_mounts.size(); j++ )
-				// Check we already have this gun
-				if (m_mounts[j].name.substr(0,14) == name_to_first_index) {
-					// Add a barrel
-					const matrix4x4f &trans = mounts_founds[i]->GetTransform();
-					m_mounts[j].locs.push_back(vector3d(trans.GetTranslate()));
-					break_ = true;
-					break;
-			}
-		}
-		// Old "tag" type, like "tag_gunmount_0",
-		// or another barrel for an already present
-		// gun.
-		if (break_) continue;
-		Mount mount;
-		mount.name = name.substr(0,14);
-		const matrix4x4f &trans = mounts_founds[i]->GetTransform();
-		mount.locs.push_back(vector3d(trans.GetTranslate()));
-		const vector3f dir = trans.GetOrient().VectorZ().Normalized();
-		if (dir.z > 0.0) mount.dir = GunDir::GUN_REAR;
-		else mount.dir = GunDir::GUN_FRONT;
-		m_mounts.push_back(mount);
+	if (m == nullptr) {
+		Output("In FixedGuns::GetGunsTags:\nNo Model no Guns, sorry...\n");
+		abort();
 	}
+	m_mounts = m->GetGunTags();
 	// TODO LONG TERM: find and fetch data from ShipType
 	// about a possible 'size' of this mount, or if this
 	// mount is 'external' (gun is visible) or not...
-	m_mounts.shrink_to_fit();
 }
 
 bool FixedGuns::MountGun(MountId num, const std::string &name, const std::string &sound, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd)

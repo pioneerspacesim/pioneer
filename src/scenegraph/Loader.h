@@ -8,6 +8,7 @@
  */
 #include "BaseLoader.h"
 #include "CollisionGeometry.h"
+#include "Mount.h"
 #include "graphics/Material.h"
 
 // Disable some GCC diagnostics errors.
@@ -65,6 +66,8 @@ namespace SceneGraph {
 		void LoadCollision(const std::string &filename);
 
 		unsigned int GetGeomFlagForNodeName(const std::string &);
+
+		void ParseGunTags(Model *m);
 	};
 
 } // namespace SceneGraph

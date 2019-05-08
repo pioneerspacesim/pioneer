@@ -8,6 +8,7 @@
 #include "ProjectileData.h"
 #include "vector3.h"
 #include "sound/Sound.h"
+#include "scenegraph/Mount.h"
 
 class Body;
 class Space;
@@ -15,12 +16,6 @@ class Space;
 namespace SceneGraph {
 	class Model;
 }
-
-enum GunDir {
-	GUN_FRONT,
-	GUN_REAR,
-	GUNMOUNT_MAX = 2
-};
 
 typedef int GunId;
 typedef int MountId;
@@ -34,7 +29,7 @@ public:
 	void SaveToJson(Json &jsonObj, Space *space);
 	void LoadFromJson(const Json &jsonObj, Space *space);
 
-	void ParseModelTags(SceneGraph::Model *m);
+	void GetGunsTags(SceneGraph::Model *m);
 
 	bool MountGun(MountId num, const std::string &name, const std::string &sound, const float recharge, const float heatrate, const float coolrate, const int barrels, const ProjectileData &pd);
 	bool UnMountGun(MountId num);
@@ -55,9 +50,6 @@ public:
 	bool GetActivationStateOfGun(GunId num) const;
 
 /*
-	TODO IMP 0:
-	MOVE ParseModelTags in Model!!!!!!
-
 	TODO1:
 	bool SwapTwoMountedGuns(int gun_a, int gun_b);
 
@@ -88,13 +80,6 @@ public:
 private:
 
 	bool Fire(GunId num, Body *shooter);
-
-	// Structure holding name, position and direction of a mount (loaded from Model data)
-	struct Mount {
-		std::string name;
-		std::vector<vector3d> locs;
-		GunDir dir;
-	};
 
 	// Structure holding data of a single (maybe with multiple barrel) 'mounted' gun.
 	struct GunData {
