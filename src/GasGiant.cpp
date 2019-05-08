@@ -396,7 +396,7 @@ bool GasGiant::OnAddGPUGenResult(const SystemPath &path, GasGiantJobs::SGPUGenRe
 #include "FileSystem.h"
 #include "PngWriter.h"
 #include "graphics/opengl/TextureGL.h"
-void textureDump(const char *destFile, const int width, const int height, const Color *buf)
+void textureDump(const char *destFile, const int width, const int height, const int bpp, const Color *buf)
 {
 	const std::string dir = "generated_textures";
 	FileSystem::userFiles.MakeDirectory(dir);
@@ -404,9 +404,9 @@ void textureDump(const char *destFile, const int width, const int height, const 
 
 	// pad rows to 4 bytes, which is the default row alignment for OpenGL
 	//const int stride = (3*width + 3) & ~3;
-	const int stride = width * 4;
+	const int stride = width * bpp;
 
-	write_png(FileSystem::userFiles, fname, &buf[0].r, width, height, stride, 4);
+	write_png(FileSystem::userFiles, fname, &buf[0].r, width, height, stride, bpp);
 
 	printf("texture %s saved\n", fname.c_str());
 }
@@ -453,8 +453,8 @@ bool GasGiant::AddTextureFaceResult(GasGiantJobs::STextureFaceResult *res)
 #if DUMP_TO_TEXTURE
 		for (int iFace = 0; iFace < NUM_PATCHES; iFace++) {
 			char filename[1024];
-			snprintf(filename, 1024, "%s%d.png", GetSystemBody()->GetName().c_str(), iFace);
-			textureDump(filename, uvDims, uvDims, m_jobColorBuffers[iFace].get());
+			snprintf(filename, 1024, "%s%d - CPU.png", GetSystemBody()->GetName().c_str(), iFace);
+			textureDump(filename, uvDims, uvDims, 4, m_jobColorBuffers[iFace].get());
 		}
 #endif
 
@@ -486,14 +486,14 @@ bool GasGiant::AddGPUGenResult(GasGiantJobs::SGPUGenResult *res)
 	for (int iFace = 0; iFace < NUM_PATCHES; iFace++) {
 		std::unique_ptr<Color, FreeDeleter> buffer(static_cast<Color *>(malloc(uvDims * uvDims * 4)));
 		Graphics::Texture *pTex = res->data().texture.Get();
-		Graphics::TextureGL *pGLTex = static_cast<Graphics::TextureGL *>(pTex);
+		Graphics::OGL::TextureGL *pGLTex = static_cast<Graphics::OGL::TextureGL *>(pTex);
 		pGLTex->Bind();
 		glGetTexImage(GL_TEXTURE_CUBE_MAP_POSITIVE_X + iFace, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer.get());
 		pGLTex->Unbind();
 
 		char filename[1024];
-		snprintf(filename, 1024, "%s%d.png", GetSystemBody()->GetName().c_str(), iFace);
-		textureDump(filename, uvDims, uvDims, buffer.get());
+		snprintf(filename, 1024, "%s%d - GPU.png", GetSystemBody()->GetName().c_str(), iFace);
+		textureDump(filename, uvDims, uvDims, 4, buffer.get());
 	}
 #endif
 
@@ -565,6 +565,21 @@ void GasGiant::GenerateTexture()
 		const double fracStep = 1.0 / double(s_texture_size_small - 1);
 
 		InstantTextureGenerator(fracStep, pTerrain, GasGiantType, hueShift, m_surfaceTextureSmall.Get());
+
+#if DUMP_TO_TEXTURE
+		for (int iFace = 0; iFace < NUM_PATCHES; iFace++) {
+			std::unique_ptr<Color, FreeDeleter> buffer(static_cast<Color *>(malloc(s_texture_size_small * s_texture_size_small * 4)));
+			Graphics::Texture *pTex = m_surfaceTextureSmall.Get();
+			Graphics::OGL::TextureGL *pGLTex = static_cast<Graphics::OGL::TextureGL *>(pTex);
+			pGLTex->Bind();
+			glGetTexImage(GL_TEXTURE_CUBE_MAP_POSITIVE_X + iFace, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer.get());
+			pGLTex->Unbind();
+
+			char filename[1024];
+			snprintf(filename, 1024, "%s%d - small.png", GetSystemBody()->GetName().c_str(), iFace);
+			textureDump(filename, s_texture_size_small, s_texture_size_small, 4, buffer.get());
+		}
+#endif
 	}
 
 	// create texture jobs
