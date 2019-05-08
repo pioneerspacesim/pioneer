@@ -5,6 +5,7 @@
 #define _COLOR_H
 
 #include <SDL_stdinc.h>
+#include <SDL_pixels.h>
 
 struct lua_State;
 
@@ -91,6 +92,11 @@ struct Color4ub {
 		g((rgba >> 16) & 0xff),
 		b((rgba >> 8) & 0xff),
 		a(rgba & 0xff) {}
+	Color4ub(const SDL_Color &c) :
+		r(c.r),
+		g(c.g),
+		b(c.b),
+		a(c.a) {}
 
 	operator unsigned char *() { return &r; }
 	operator const unsigned char *() const { return &r; }
