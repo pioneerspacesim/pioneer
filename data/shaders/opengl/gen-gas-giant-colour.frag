@@ -54,9 +54,9 @@ vec4 HueShift(in vec4 color)
 
     // Convert back to RGB
     vec4    yIQ   = vec4 (YPrime, I, Q, 0.0);
-    color.r = dot (yIQ, kYIQToR);
-    color.g = dot (yIQ, kYIQToG);
-    color.b = dot (yIQ, kYIQToB);
+    color.r = clamp(dot (yIQ, kYIQToR), 0.0, 1.0);
+    color.g = clamp(dot (yIQ, kYIQToG), 0.0, 1.0);
+    color.b = clamp(dot (yIQ, kYIQToB), 0.0, 1.0);
 
     // the result
     return color;
@@ -65,9 +65,8 @@ vec4 HueShift(in vec4 color)
 #ifdef GEN_JUPITER_ESQUE
 vec4 GetColour(in vec3 p)
 {	
-	float n1 = fbm(p * 4.0, FBM_OCTAVES, frequency.x, 0.5);
 	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.0, (p.y + 1.0) * 0.5) + vec2(n1*0.075,n2*0.075)).xyz, 1.0);
+	vec4 color = vec4(texture(texture2, vec2(0.5, (n2 * 0.075) + ((p.y + 1.0) * 0.5))).xyz, 1.0);
 	return color;
 }
 #endif
@@ -75,9 +74,8 @@ vec4 GetColour(in vec3 p)
 #ifdef GEN_SATURN_ESQUE
 vec4 GetColour(in vec3 p)
 {
-	float n1 = fbm(p * 4.0, FBM_OCTAVES, frequency.x, 0.5);
 	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.0, (p.y + 1.0) * 0.5) + vec2(n1*0.075,n2*0.075)).xyz, 1.0);
+	vec4 color = vec4(texture(texture2, vec2(0.5, (n2 * 0.075) + ((p.y + 1.0) * 0.5))).xyz, 1.0);
 	return color;
 }
 #endif
@@ -85,9 +83,8 @@ vec4 GetColour(in vec3 p)
 #ifdef GEN_SATURN2_ESQUE
 vec4 GetColour(in vec3 p)
 {
-	float n1 = fbm(p * 4.0, FBM_OCTAVES, frequency.x, 0.5);
 	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.0, (p.y + 1.0) * 0.5) + vec2(n1*0.075,n2*0.075)).xyz, 1.0);
+	vec4 color = vec4(texture(texture2, vec2(0.5, (n2 * 0.075) + ((p.y + 1.0) * 0.5))).xyz, 1.0);
 	return color;
 }
 #endif // GEN_SATURN2_ESQUE
@@ -95,9 +92,8 @@ vec4 GetColour(in vec3 p)
 #ifdef GEN_NEPTUNE_ESQUE
 vec4 GetColour(in vec3 p)
 {
-	float n1 = fbm(p * 4.0, FBM_OCTAVES, frequency.x, 0.5);
 	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.0, (p.y + 1.0) * 0.5) + vec2(n1*0.075,n2*0.075)).xyz, 1.0);
+	vec4 color = vec4(texture(texture2, vec2(0.5, (n2 * 0.075) + ((p.y + 1.0) * 0.5))).xyz, 1.0);
 	return color;
 }
 #endif
@@ -105,9 +101,8 @@ vec4 GetColour(in vec3 p)
 #ifdef GEN_NEPTUNE2_ESQUE
 vec4 GetColour(in vec3 p)
 {
-	float n1 = fbm(p * 4.0, FBM_OCTAVES, frequency.x, 0.5);
 	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.0, (p.y + 1.0) * 0.5) + vec2(n1*0.075,n2*0.075)).xyz, 1.0);
+	vec4 color = vec4(texture(texture2, vec2(0.5, (n2 * 0.075) + ((p.y + 1.0) * 0.5))).xyz, 1.0);
 	return color;
 }
 #endif
@@ -115,9 +110,8 @@ vec4 GetColour(in vec3 p)
 #ifdef GEN_URANUS_ESQUE 
 vec4 GetColour(in vec3 p)
 {
-	float n1 = fbm(p * 4.0, FBM_OCTAVES, frequency.x, 0.5);
 	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.0, (p.y + 1.0) * 0.5) + vec2(n1*0.075,n2*0.075)).xyz, 1.0);
+	vec4 color = vec4(texture(texture2, vec2(0.5, (n2 * 0.075) + ((p.y + 1.0) * 0.5))).xyz, 1.0);
 	return color;
 }
 #endif
