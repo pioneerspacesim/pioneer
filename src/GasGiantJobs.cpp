@@ -50,22 +50,24 @@ namespace GasGiantJobs {
 		}
 	}
 
-	inline float dot(const Color4f &a, const Color4f &b) { return a.r * b.r + a.g * b.g + a.b * b.b; }
+	// HueShift related data
+	namespace {
+		static const Color4f kRGBToYPrime(0.299, 0.587, 0.114, 0.0);
+		static const Color4f kRGBToI(0.596, -0.275, -0.321, 0.0);
+		static const Color4f kRGBToQ(0.212, -0.523, 0.311, 0.0);
 
+		static const Color4f kYIQToR(1.0, 0.956, 0.621, 0.0);
+		static const Color4f kYIQToG(1.0, -0.272, -0.647, 0.0);
+		static const Color4f kYIQToB(1.0, -1.107, 1.704, 0.0);
+	}
+	// Custom dot product for colours
+	inline float dot(const Color4f &a, const Color4f &b) { return a.r * b.r + a.g * b.g + a.b * b.b; }
 	// HueAdjustment function based on this StackOverflow answer
 	// http://stackoverflow.com/questions/9234724/how-to-change-hue-of-a-texture-with-glsl/9234854#9234854
-	Color4f HueShift(Color4f color, const float hueAdjust)
+	Color HueShift(const Color4f &color, const float hueAdjust)
 	{
 		if (fabs(hueAdjust) == 0.0f)
-			return color;
-
-		static const Color4f kRGBToYPrime = Color4f(0.299, 0.587, 0.114, 0.0);
-		static const Color4f kRGBToI = Color4f(0.596, -0.275, -0.321, 0.0);
-		static const Color4f kRGBToQ = Color4f(0.212, -0.523, 0.311, 0.0);
-
-		static const Color4f kYIQToR = Color4f(1.0, 0.956, 0.621, 0.0);
-		static const Color4f kYIQToG = Color4f(1.0, -0.272, -0.647, 0.0);
-		static const Color4f kYIQToB = Color4f(1.0, -1.107, 1.704, 0.0);
+			return Color(color);
 
 		// Convert to YIQ
 		float YPrime = dot(color, kRGBToYPrime);
@@ -84,13 +86,10 @@ namespace GasGiantJobs {
 		I = chroma * cos(hue);
 
 		// Convert back to RGB
-		Color4f yIQ = Color4f(YPrime, I, Q, 1.0f);
-		color.r = Clamp(dot(yIQ, kYIQToR), 0.0f, 1.0f);
-		color.g = Clamp(dot(yIQ, kYIQToG), 0.0f, 1.0f);
-		color.b = Clamp(dot(yIQ, kYIQToB), 0.0f, 1.0f);
-
-		// the result
-		return color;
+		Color4f yIQ(YPrime, I, Q, 1.0f);
+		return Color(Clamp(dot(yIQ, kYIQToR), 0.0f, 1.0f) * 255U,
+			Clamp(dot(yIQ, kYIQToG), 0.0f, 1.0f) * 255U,
+			Clamp(dot(yIQ, kYIQToB), 0.0f, 1.0f) * 255U);
 	}
 
 	// sample a gas giant texture with linear interpolation in the y-axis (v) only
@@ -172,12 +171,8 @@ namespace GasGiantJobs {
 				const vector3d p = GetSpherePoint(ustep, vstep, corners);
 
 				// get colour using `p`
-				//const Color4f colour = MathUtil::mix(Color4f::RED, Color4f::BLUE, (p.z + 1.0f) * 0.5f);
-				const Color4f colour = HueShift(GetColour(p, texture, fracStep, freq), hueAdjust);
-
-				// convert to ubyte and store
 				Color *col = colors + (u + (v * texSize));
-				(*col) = colour;
+				(*col) = HueShift(GetColour(p, texture, fracStep, freq), hueAdjust);
 			}
 		}
 	}
