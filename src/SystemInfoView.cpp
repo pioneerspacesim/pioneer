@@ -2,19 +2,19 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SystemInfoView.h"
-#include "Factions.h"
+
 #include "Game.h"
 #include "Lang.h"
 #include "Pi.h"
 #include "Player.h"
-#include "Polit.h"
 #include "SectorView.h"
-#include "ShipCpanel.h"
 #include "Space.h"
 #include "StringF.h"
+#include "galaxy/Factions.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
+#include "galaxy/Polit.h"
 #include "graphics/Drawables.h"
 #include "graphics/Renderer.h"
 #include <functional>

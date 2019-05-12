@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaFormat.h"
+
 #include "Lang.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"

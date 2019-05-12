@@ -5,6 +5,7 @@
 #define _BASESPHERE_H
 
 #include "Camera.h"
+#include "graphics/Drawables.h"
 #include "terrain/Terrain.h"
 #include "vector3.h"
 

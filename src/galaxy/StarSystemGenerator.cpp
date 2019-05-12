@@ -2,12 +2,15 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StarSystemGenerator.h"
+
 #include "Factions.h"
 #include "Galaxy.h"
+#include "Json.h"
 #include "Lang.h"
 #include "LuaNameGen.h"
-#include "Pi.h"
 #include "Sector.h"
+#include "utils.h"
+#include "Pi.h"
 
 static const fixed SUN_MASS_TO_EARTH_MASS = fixed(332998, 1); // XXX Duplication from StarSystem.cpp
 // if binary stars have separation s, planets can have stable

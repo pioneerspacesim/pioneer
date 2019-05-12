@@ -14,6 +14,9 @@
 #include <string>
 #include <vector>
 
+class Frame;
+class Game;
+
 class GameConfig;
 class Intro;
 class LuaConsole;
@@ -59,9 +62,6 @@ public:
 	int planets;
 	int cities;
 };
-
-class Frame;
-class Game;
 
 class Pi {
 public:

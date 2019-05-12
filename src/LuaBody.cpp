@@ -13,9 +13,10 @@
 #include "Pi.h"
 #include "TerrainBody.h"
 #include "WorldView.h"
-#include "galaxy/StarSystem.h"
+#include "galaxy/SystemBody.h"
 
 #include "CargoBody.h"
+#include "HyperspaceCloud.h"
 #include "Missile.h"
 #include "ModelBody.h"
 #include "Planet.h"

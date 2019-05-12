@@ -301,7 +301,7 @@ namespace Background {
 				}
 			}
 		}
-		Output("num = %d\n", num);
+		Output("Stars picked from galaxy: %d\n", num);
 
 		// fill out the remaining target count with generated points
 		if (num < NUM_BG_STARS) {
@@ -331,7 +331,7 @@ namespace Background {
 				num++;
 			}
 		}
-		Output("final num = %d\n", num);
+		Output("Final stars number: %d\n", num);
 
 		m_pointSprites->SetData(NUM_BG_STARS, stars.get(), colors.get(), sizes.get(), m_material.Get());
 

@@ -9,7 +9,6 @@
 #include "GeoPatchID.h"
 #include "JobQueue.h"
 #include "Random.h"
-#include "galaxy/StarSystem.h"
 #include "terrain/Terrain.h"
 #include "vector3.h"
 

@@ -6,7 +6,6 @@
 
 #include "Random.h"
 #include "graphics/Drawables.h"
-#include "libs.h"
 
 namespace Graphics {
 	class Renderer;

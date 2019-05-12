@@ -6,10 +6,12 @@
 
 #include "BaseSphere.h"
 #include "Body.h"
-#include "Camera.h"
-#include "galaxy/StarSystem.h"
+#include "JsonFwd.h"
 
+class Camera;
 class Frame;
+class SystemBody;
+
 namespace Graphics {
 	class Renderer;
 }

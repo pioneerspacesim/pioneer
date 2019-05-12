@@ -7,7 +7,7 @@
 #include "CustomSystem.h"
 #include "Factions.h"
 #include "GalaxyCache.h"
-#include "Json.h"
+#include "JsonFwd.h"
 #include "RefCounted.h"
 #include <cstdio>
 

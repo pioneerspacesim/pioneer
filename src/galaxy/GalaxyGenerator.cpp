@@ -2,11 +2,13 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GalaxyGenerator.h"
+
 #include "GameSaveError.h"
-#include "Pi.h"
+#include "Json.h"
 #include "SectorGenerator.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystemGenerator.h"
+#include "utils.h"
 
 static const GalaxyGenerator::Version LAST_VERSION_LEGACY = 1;
 

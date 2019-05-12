@@ -17,7 +17,6 @@
 #include "GameConfig.h"
 #include "GameLog.h"
 #include "GameSaveError.h"
-#include "Input.h"
 #include "Intro.h"
 #include "KeyBindings.h"
 #include "Lang.h"

@@ -2,13 +2,13 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TerrainBody.h"
+
 #include "Frame.h"
-#include "Game.h"
 #include "GameSaveError.h"
 #include "GasGiant.h"
 #include "GeoSphere.h"
+#include "Json.h"
 #include "Space.h"
-#include "WorldView.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 

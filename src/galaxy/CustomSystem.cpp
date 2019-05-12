@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CustomSystem.h"
+
 #include "Galaxy.h"
 #include "SystemPath.h"
 
@@ -11,7 +12,6 @@
 #include "LuaFixed.h"
 #include "LuaUtils.h"
 #include "LuaVector.h"
-#include "Pi.h"
 #include "Polit.h"
 #include <map>
 

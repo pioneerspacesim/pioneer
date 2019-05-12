@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "Json.h"
 #include "Pi.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyCache.h"

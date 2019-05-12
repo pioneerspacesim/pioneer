@@ -6,11 +6,12 @@
 
 #include "Body.h"
 #include "graphics/Material.h"
-#include "graphics/RenderState.h"
 
 class Frame;
+
 namespace Graphics {
 	class Renderer;
+	class RenderState;
 }
 
 enum SFX_TYPE { TYPE_EXPLOSION = 1,
