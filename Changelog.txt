@@ -6,6 +6,7 @@ May 2019
      * Speedup pilua (#4548)
      * Gracefully handle destroyed target ships in SAR missions (#4569)
      * Consider hyperdrive fuel type in the hyperjump-planer (#4582)
+     * Remove unused and decouple (#4585)
 
    * Fixes
      * Fix crash on main menu (#4578)
