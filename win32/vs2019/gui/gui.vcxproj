@@ -35,61 +35,62 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{82973C2C-FC40-4320-84AE-A47E36868C02}</ProjectGuid>
-    <RootNamespace>galaxy</RootNamespace>
+    <ProjectGuid>{B19B00BA-F9DE-451F-9E16-C5E582DEEE77}</ProjectGuid>
+    <RootNamespace>gui</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -142,7 +143,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/lua</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm137 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -152,7 +153,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/lua</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm137 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -165,7 +166,7 @@
     </Link>
     <ClCompile />
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/lua</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -178,7 +179,7 @@
     </Link>
     <ClCompile />
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/lua</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -192,7 +193,7 @@
     </Link>
     <ClCompile />
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/lua</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PIONEER_PROFILER;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -205,7 +206,7 @@
     </Link>
     <ClCompile />
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/lua</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PIONEER_PROFILER;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -218,7 +219,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/lua</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|x64'">
@@ -229,40 +230,66 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/lua</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\galaxy\CustomSystem.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\Economy.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\Factions.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\Galaxy.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\GalaxyCache.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\GalaxyGenerator.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\Polit.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\Sector.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\SectorGenerator.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\StarSystem.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\StarSystemGenerator.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\SystemBody.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\SystemPath.cpp" />
+    <ClCompile Include="..\..\..\src\gui\Gui.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiBox.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiButton.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiContainer.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiFixed.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiImage.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiImageButton.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiImageRadioButton.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiLabel.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiLabelSet.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiMeterBar.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiMultiStateImageButton.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiRadioButton.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiRadioGroup.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiScreen.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiStack.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiTabbed.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiTextEntry.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiTextLayout.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiTexturedQuad.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiToggleButton.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiToolTip.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiVScrollBar.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiVScrollPortal.cpp" />
+    <ClCompile Include="..\..\..\src\gui\GuiWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\galaxy\CustomSystem.h" />
-    <ClInclude Include="..\..\..\src\galaxy\Economy.h" />
-    <ClInclude Include="..\..\..\src\galaxy\Factions.h" />
-    <ClInclude Include="..\..\..\src\galaxy\Galaxy.h" />
-    <ClInclude Include="..\..\..\src\galaxy\GalaxyCache.h" />
-    <ClInclude Include="..\..\..\src\galaxy\GalaxyGenerator.h" />
-    <ClInclude Include="..\..\..\src\galaxy\Polit.h" />
-    <ClInclude Include="..\..\..\src\galaxy\RingStyle.h" />
-    <ClInclude Include="..\..\..\src\galaxy\Sector.h" />
-    <ClInclude Include="..\..\..\src\galaxy\SectorGenerator.h" />
-    <ClInclude Include="..\..\..\src\galaxy\StarSystem.h" />
-    <ClInclude Include="..\..\..\src\galaxy\StarSystemGenerator.h" />
-    <ClInclude Include="..\..\..\src\galaxy\SystemBody.h" />
-    <ClInclude Include="..\..\..\src\galaxy\SystemPath.h" />
+    <ClInclude Include="..\..\..\src\gui\Gui.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiAdjustment.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiBox.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiButton.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiContainer.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiEvents.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiFixed.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiImage.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiImageButton.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiImageRadioButton.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiISelectable.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiLabel.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiLabelSet.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiMeterBar.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiMultiStateImageButton.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiRadioButton.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiRadioGroup.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiScreen.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiStack.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiTabbed.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiTextEntry.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiTextLayout.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiTexturedQuad.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiToggleButton.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiToolTip.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiVScrollBar.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiVScrollPortal.h" />
+    <ClInclude Include="..\..\..\src\gui\GuiWidget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

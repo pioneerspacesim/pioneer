@@ -144,9 +144,6 @@
     <ClCompile Include="..\..\src\Player.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Polit.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Projectile.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -295,9 +292,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LuaRef.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Factions.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\DeathView.cpp">
@@ -623,9 +617,6 @@
     <ClInclude Include="..\..\src\Player.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Polit.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Projectile.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -783,9 +774,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaPushPull.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Factions.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\DeathView.h">

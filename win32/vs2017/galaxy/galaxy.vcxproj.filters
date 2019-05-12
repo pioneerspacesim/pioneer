@@ -11,6 +11,9 @@
     <ClCompile Include="..\..\..\src\galaxy\GalaxyGenerator.cpp" />
     <ClCompile Include="..\..\..\src\galaxy\SectorGenerator.cpp" />
     <ClCompile Include="..\..\..\src\galaxy\StarSystemGenerator.cpp" />
+    <ClCompile Include="..\..\..\src\galaxy\Polit.cpp" />
+    <ClCompile Include="..\..\..\src\galaxy\SystemBody.cpp" />
+    <ClCompile Include="..\..\..\src\galaxy\Factions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\galaxy\CustomSystem.h" />
@@ -23,5 +26,9 @@
     <ClInclude Include="..\..\..\src\galaxy\GalaxyGenerator.h" />
     <ClInclude Include="..\..\..\src\galaxy\SectorGenerator.h" />
     <ClInclude Include="..\..\..\src\galaxy\StarSystemGenerator.h" />
+    <ClInclude Include="..\..\..\src\galaxy\Polit.h" />
+    <ClInclude Include="..\..\..\src\galaxy\RingStyle.h" />
+    <ClInclude Include="..\..\..\src\galaxy\SystemBody.h" />
+    <ClInclude Include="..\..\..\src\galaxy\Factions.h" />
   </ItemGroup>
 </Project>

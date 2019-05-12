@@ -386,7 +386,6 @@
     <ClCompile Include="..\..\src\EnumStrings.cpp" />
     <ClCompile Include="..\..\src\enum_table.cpp" />
     <ClCompile Include="..\..\src\FaceParts.cpp" />
-    <ClCompile Include="..\..\src\Factions.cpp" />
     <ClCompile Include="..\..\src\FileSourceZip.cpp" />
     <ClCompile Include="..\..\src\FileSystem.cpp" />
     <ClCompile Include="..\..\src\FixedGuns.cpp" />
@@ -473,7 +472,6 @@
     <ClCompile Include="..\..\src\Planet.cpp" />
     <ClCompile Include="..\..\src\Player.cpp" />
     <ClCompile Include="..\..\src\PngWriter.cpp" />
-    <ClCompile Include="..\..\src\Polit.cpp" />
     <ClCompile Include="..\..\src\posix\FileSystemPosix.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -576,7 +574,6 @@
     <ClInclude Include="..\..\src\EnumStrings.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
     <ClInclude Include="..\..\src\FaceParts.h" />
-    <ClInclude Include="..\..\src\Factions.h" />
     <ClInclude Include="..\..\src\FileSourceZip.h" />
     <ClInclude Include="..\..\src\FileSystem.h" />
     <ClInclude Include="..\..\src\fixed.h" />
@@ -656,7 +653,6 @@
     <ClInclude Include="..\..\src\Planet.h" />
     <ClInclude Include="..\..\src\Player.h" />
     <ClInclude Include="..\..\src\PngWriter.h" />
-    <ClInclude Include="..\..\src\Polit.h" />
     <ClInclude Include="..\..\src\Projectile.h" />
     <ClInclude Include="..\..\src\PropertiedObject.h" />
     <ClInclude Include="..\..\src\PropertyMap.h" />

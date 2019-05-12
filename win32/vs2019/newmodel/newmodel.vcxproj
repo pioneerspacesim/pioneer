@@ -35,61 +35,63 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{82973C2C-FC40-4320-84AE-A47E36868C02}</ProjectGuid>
-    <RootNamespace>galaxy</RootNamespace>
+    <ProjectGuid>{E34F7DBC-F23D-481A-B920-E53F56C53EE8}</ProjectGuid>
+    <RootNamespace>newmodel</RootNamespace>
+    <ProjectName>scenegraph</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -163,7 +165,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <ClCompile />
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -176,7 +177,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <ClCompile />
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -190,7 +190,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <ClCompile />
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PIONEER_PROFILER;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -203,7 +202,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <ClCompile />
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PIONEER_PROFILER;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -234,35 +232,63 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\galaxy\CustomSystem.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\Economy.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\Factions.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\Galaxy.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\GalaxyCache.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\GalaxyGenerator.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\Polit.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\Sector.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\SectorGenerator.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\StarSystem.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\StarSystemGenerator.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\SystemBody.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\SystemPath.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Animation.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\BaseLoader.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Billboard.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\BinaryConverter.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\CollisionGeometry.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\CollisionVisitor.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\ColorMap.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\DumpVisitor.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\FindNodeVisitor.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Group.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Label3D.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Loader.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\LOD.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Lua.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\LuaModel.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\LuaModelSkin.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\MatrixTransform.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Model.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\ModelNode.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\ModelSkin.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Node.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\NodeVisitor.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Parser.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Pattern.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\StaticGeometry.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Thruster.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\galaxy\CustomSystem.h" />
-    <ClInclude Include="..\..\..\src\galaxy\Economy.h" />
-    <ClInclude Include="..\..\..\src\galaxy\Factions.h" />
-    <ClInclude Include="..\..\..\src\galaxy\Galaxy.h" />
-    <ClInclude Include="..\..\..\src\galaxy\GalaxyCache.h" />
-    <ClInclude Include="..\..\..\src\galaxy\GalaxyGenerator.h" />
-    <ClInclude Include="..\..\..\src\galaxy\Polit.h" />
-    <ClInclude Include="..\..\..\src\galaxy\RingStyle.h" />
-    <ClInclude Include="..\..\..\src\galaxy\Sector.h" />
-    <ClInclude Include="..\..\..\src\galaxy\SectorGenerator.h" />
-    <ClInclude Include="..\..\..\src\galaxy\StarSystem.h" />
-    <ClInclude Include="..\..\..\src\galaxy\StarSystemGenerator.h" />
-    <ClInclude Include="..\..\..\src\galaxy\SystemBody.h" />
-    <ClInclude Include="..\..\..\src\galaxy\SystemPath.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Animation.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\AnimationChannel.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\AnimationKey.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\BaseLoader.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Billboard.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\BinaryConverter.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\CollisionGeometry.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\CollisionVisitor.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\ColorMap.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\DumpVisitor.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\FindNodeVisitor.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Group.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Label3D.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Loader.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\LoaderDefinitions.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\LOD.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Lua.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\MatrixTransform.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Model.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\ModelNode.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\ModelSkin.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\NodeCopyCache.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\SceneGraph.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Node.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\NodeVisitor.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Parser.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Pattern.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\StaticGeometry.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Thruster.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
