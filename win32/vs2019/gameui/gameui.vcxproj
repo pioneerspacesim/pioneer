@@ -35,61 +35,62 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{82973C2C-FC40-4320-84AE-A47E36868C02}</ProjectGuid>
-    <RootNamespace>galaxy</RootNamespace>
+    <ProjectGuid>{0E4AEA6E-8FBC-4C71-B41E-74B2E4B7A4C4}</ProjectGuid>
+    <RootNamespace>gameui</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -163,7 +164,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <ClCompile />
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -176,7 +176,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <ClCompile />
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -190,7 +189,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <ClCompile />
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PIONEER_PROFILER;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -203,7 +201,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <ClCompile />
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib;../../../contrib/lua</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PIONEER_PROFILER;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -234,35 +231,27 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\galaxy\CustomSystem.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\Economy.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\Factions.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\Galaxy.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\GalaxyCache.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\GalaxyGenerator.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\Polit.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\Sector.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\SectorGenerator.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\StarSystem.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\StarSystemGenerator.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\SystemBody.cpp" />
-    <ClCompile Include="..\..\..\src\galaxy\SystemPath.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\BindingCapture.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\Face.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\GalaxyMap.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\LabelOverlay.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\Lua.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\LuaBindingCapture.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\LuaFace.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\LuaGalaxyMap.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\LuaModelSpinner.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\ModelSpinner.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\Panel.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\galaxy\CustomSystem.h" />
-    <ClInclude Include="..\..\..\src\galaxy\Economy.h" />
-    <ClInclude Include="..\..\..\src\galaxy\Factions.h" />
-    <ClInclude Include="..\..\..\src\galaxy\Galaxy.h" />
-    <ClInclude Include="..\..\..\src\galaxy\GalaxyCache.h" />
-    <ClInclude Include="..\..\..\src\galaxy\GalaxyGenerator.h" />
-    <ClInclude Include="..\..\..\src\galaxy\Polit.h" />
-    <ClInclude Include="..\..\..\src\galaxy\RingStyle.h" />
-    <ClInclude Include="..\..\..\src\galaxy\Sector.h" />
-    <ClInclude Include="..\..\..\src\galaxy\SectorGenerator.h" />
-    <ClInclude Include="..\..\..\src\galaxy\StarSystem.h" />
-    <ClInclude Include="..\..\..\src\galaxy\StarSystemGenerator.h" />
-    <ClInclude Include="..\..\..\src\galaxy\SystemBody.h" />
-    <ClInclude Include="..\..\..\src\galaxy\SystemPath.h" />
+    <ClInclude Include="..\..\..\src\gameui\BindingCapture.h" />
+    <ClInclude Include="..\..\..\src\gameui\Face.h" />
+    <ClInclude Include="..\..\..\src\gameui\GalaxyMap.h" />
+    <ClInclude Include="..\..\..\src\gameui\GameUI.h" />
+    <ClInclude Include="..\..\..\src\gameui\LabelOverlay.h" />
+    <ClInclude Include="..\..\..\src\gameui\Lua.h" />
+    <ClInclude Include="..\..\..\src\gameui\ModelSpinner.h" />
+    <ClInclude Include="..\..\..\src\gameui\Panel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
