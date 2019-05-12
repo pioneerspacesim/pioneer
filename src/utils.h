@@ -271,4 +271,12 @@ static inline Uint32 ceil_pow2(Uint32 v)
 
 void hexdump(const unsigned char *buf, int bufsz);
 
+inline Color4f ColourFromNormal(const vector3d &n)
+{
+	return Color4f(
+		(n.x + 1.0f) * 0.5f,
+		(n.y + 1.0f) * 0.5f,
+		(n.z + 1.0f) * 0.5f);
+}
+
 #endif /* _UTILS_H */

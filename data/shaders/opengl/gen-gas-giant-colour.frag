@@ -62,59 +62,12 @@ vec4 HueShift(in vec4 color)
     return color;
 }
 
-#ifdef GEN_JUPITER_ESQUE
 vec4 GetColour(in vec3 p)
 {	
 	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
 	vec4 color = vec4(texture(texture2, vec2(0.5, (n2 * 0.075) + ((p.y + 1.0) * 0.5))).xyz, 1.0);
 	return color;
 }
-#endif
-
-#ifdef GEN_SATURN_ESQUE
-vec4 GetColour(in vec3 p)
-{
-	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.5, (n2 * 0.075) + ((p.y + 1.0) * 0.5))).xyz, 1.0);
-	return color;
-}
-#endif
-
-#ifdef GEN_SATURN2_ESQUE
-vec4 GetColour(in vec3 p)
-{
-	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.5, (n2 * 0.075) + ((p.y + 1.0) * 0.5))).xyz, 1.0);
-	return color;
-}
-#endif // GEN_SATURN2_ESQUE
-
-#ifdef GEN_NEPTUNE_ESQUE
-vec4 GetColour(in vec3 p)
-{
-	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.5, (n2 * 0.075) + ((p.y + 1.0) * 0.5))).xyz, 1.0);
-	return color;
-}
-#endif
-
-#ifdef GEN_NEPTUNE2_ESQUE
-vec4 GetColour(in vec3 p)
-{
-	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.5, (n2 * 0.075) + ((p.y + 1.0) * 0.5))).xyz, 1.0);
-	return color;
-}
-#endif
-
-#ifdef GEN_URANUS_ESQUE 
-vec4 GetColour(in vec3 p)
-{
-	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.5, (n2 * 0.075) + ((p.y + 1.0) * 0.5))).xyz, 1.0);
-	return color;
-}
-#endif
 
 // in patch surface coords, [0,1]
 // v[0] to v[3] are the corner vertices

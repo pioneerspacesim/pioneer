@@ -305,14 +305,11 @@ GasGiant::GasGiant(const SystemBody *body) :
 	BaseSphere(body),
 	m_hasTempCampos(false),
 	m_tempCampos(0.0),
+	m_hasJobRequest { false, false, false, false, false, false },
 	m_hasGpuJobRequest(false),
 	m_timeDelay(s_initialCPUDelayTime)
 {
 	s_allGasGiants.push_back(this);
-
-	for (int i = 0; i < NUM_PATCHES; i++) {
-		m_hasJobRequest[i] = false;
-	}
 
 	Random rng(GetSystemBody()->GetSeed() + 4609837);
 
@@ -665,7 +662,7 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 		//Update material parameters
 		//XXX no need to calculate AP every frame
 		m_materialParameters.atmosphere = GetSystemBody()->CalcAtmosphereParams();
-		m_materialParameters.atmosphere.center = trans * vector3d(0.0, 0.0, 0.0);
+		m_materialParameters.atmosphere.center = trans * vector3d(0.0);
 		m_materialParameters.atmosphere.planetRadius = radius;
 
 		m_materialParameters.shadows = shadows;

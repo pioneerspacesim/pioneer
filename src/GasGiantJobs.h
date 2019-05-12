@@ -181,7 +181,6 @@ namespace GasGiantJobs {
 	class SGPUGenResult {
 	public:
 		struct SGPUGenData {
-			SGPUGenData() {}
 			SGPUGenData(Graphics::Texture *t_, Sint32 uvDims_) :
 				texture(t_),
 				uvDims(uvDims_) {}
@@ -189,9 +188,7 @@ namespace GasGiantJobs {
 			Sint32 uvDims;
 		};
 
-		SGPUGenResult() {}
-
-		void addResult(Graphics::Texture *t_, Sint32 uvDims_);
+		SGPUGenResult(Graphics::Texture *t_, Sint32 uvDims_);
 
 		inline const SGPUGenData &data() const { return mData; }
 
@@ -217,7 +214,7 @@ namespace GasGiantJobs {
 		virtual void OnCancel() {}
 
 	private:
-		SingleGPUGenJob() {}
+		SingleGPUGenJob() = delete;
 		// deliberately prevent copy constructor access
 		SingleGPUGenJob(const SingleGPUGenJob &r) = delete;
 

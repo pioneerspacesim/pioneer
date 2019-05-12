@@ -42,6 +42,8 @@ struct Color4f {
 		return *this;
 	}
 	friend Color4f operator*(const Color4f &c, const float v) { return Color4f(c.r * v, c.g * v, c.b * v, c.a * v); }
+	friend Color4f operator*(const float v, const Color4f &c) { return Color4f(c.r * v, c.g * v, c.b * v, c.a * v); }
+	friend Color4f operator+(const Color4f &lhs, const Color4f &rhs) { return Color4f(lhs.r + rhs.r, lhs.g + rhs.g, lhs.b + rhs.b, lhs.a + rhs.a); }
 
 	void ToLuaTable(lua_State *l);
 	static Color4f FromLuaTable(lua_State *l, int idx);

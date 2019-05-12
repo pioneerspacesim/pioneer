@@ -4,6 +4,7 @@
 #include "GasGiantJobs.h"
 
 #include "GasGiant.h"
+#include "MathUtil.h"
 #include "Pi.h"
 #include "RefCounted.h"
 #include "graphics/Frustum.h"
@@ -92,25 +93,39 @@ namespace GasGiantJobs {
 		return color;
 	}
 
-	inline Color4f texture(const SDLSurfacePtr &pTex, const vector2d &uv)
+	// sample a gas giant texture with linear interpolation in the y-axis (v) only
+	inline Color4f SampleTexture(const SDLSurfacePtr &pTex, const vector2d &uv)
 	{
 		Color4f ret(Color4f::WHITE);
 
-		const Sint64 uvx = Clamp((int)std::floor(uv.x * pTex->w), 0, pTex->w - 1);
-		const Sint64 uvy = Clamp((int)std::floor(uv.y * pTex->h), 0, pTex->h - 1);
 		const Sint64 bpp = pTex->format->BytesPerPixel;
 
-		// Here p is the address to the pixel we want to retrieve
-		const Uint8 *p = (Uint8 *)pTex->pixels + (uvy * Sint64(pTex->pitch)) + (uvx * bpp);
+		// texel 0
+		const Sint64 uvx = Clamp((int)std::floor(uv.x * pTex->w), 0, pTex->w - 1);
+		const Sint64 uvy = Clamp((int)std::floor(uv.y * pTex->h), 0, pTex->h - 1);
+
+		// texel 1
+		const Sint64 uvy1 = Clamp((int)std::ceil(uv.y * pTex->h), 0, pTex->h - 1);
+
+		// blend delta from pixel 0 to texel 1, we only care about the `y` value for gas giant texture sampling
+		const float dt = (uv.y * pTex->h) - float(uvy);
+
+		// p0 is the address to the first pixel we want to retrieve
+		const Uint8 *p0 = (Uint8 *)pTex->pixels + (uvy * Sint64(pTex->pitch)) + (uvx * bpp);
+
+		// p1 is the address to the second pixel we want to retrieve
+		const Uint8 *p1 = (Uint8 *)pTex->pixels + (uvy1 * Sint64(pTex->pitch)) + (uvx * bpp);
 
 		switch (bpp) {
 		case 1:
 			if (pTex->format->palette != nullptr) {
 				SDL_Palette *pal = pTex->format->palette;
-				assert(*p < pal->ncolors);
-				ret = Color4ub(pal->colors[*p]).ToColor4f();
+				assert(*p0 < pal->ncolors);
+				ret = MathUtil::mix(Color4ub(pal->colors[*p0]).ToColor4f(),
+					Color4ub(pal->colors[*p1]).ToColor4f(), dt);
 			} else {
-				ret = Color4ub(*p, *p, *p).ToColor4f();
+				ret = MathUtil::mix(Color4ub(*p0, *p0, *p0).ToColor4f(),
+					Color4ub(*p1, *p1, *p1).ToColor4f(), dt);
 			}
 			ret.a = 1.0f;
 
@@ -123,7 +138,8 @@ namespace GasGiantJobs {
 			break;
 		case 3:
 		case 4:
-			ret = Color4ub(p[0], p[1], p[2], 255).ToColor4f();
+			ret = MathUtil::mix(Color4ub(p0[0], p0[1], p0[2], 255).ToColor4f(),
+				Color4ub(p1[0], p1[1], p1[2], 255).ToColor4f(), dt);
 			break;
 		}
 
@@ -134,14 +150,36 @@ namespace GasGiantJobs {
 	inline Color4f GetColour(const vector3d &p, const SDLSurfacePtr &texture2, float fracStep, const vector3d &frequency)
 	{
 		float n2 = TerrainNoise::octavenoise(FBM_OCTAVES, frequency.x, 0.5, p * 3.14159);
-		return texture(texture2, vector2d(0.5, (n2 * 0.075) + ((p.y + 1.0) * 0.5)));
-		//return texture(texture2, vector2d(0.5, (p.y + 1.0) * 0.5));
+		return SampleTexture(texture2, vector2d(0.5, (n2 * 0.075) + ((p.y + 1.0) * 0.5)));
 	}
 
 	// in patch surface coords, [0,1]
 	inline vector3d GetSpherePoint(const double x, const double y, const vector3d *corners)
 	{
 		return (corners[0] + x * (1.0 - y) * (corners[1] - corners[0]) + x * y * (corners[2] - corners[0]) + (1.0 - x) * y * (corners[3] - corners[0])).Normalized();
+	}
+
+	inline void FillColour(Color *colors, const double fracStep, const Uint64 texSize, const vector3d *corners, const vector3d &freq, const SDLSurfacePtr texture, const float hueAdjust)
+	{
+		for (Uint64 v = 0; v < texSize; v++) {
+			// where in this column are we now
+			const double vstep = double(v) * fracStep;
+			for (Uint64 u = 0; u < texSize; u++) {
+				// where in this row are we now
+				const double ustep = double(u) * fracStep;
+
+				// get point on the surface of the sphere
+				const vector3d p = GetSpherePoint(ustep, vstep, corners);
+
+				// get colour using `p`
+				//const Color4f colour = MathUtil::mix(Color4f::RED, Color4f::BLUE, (p.z + 1.0f) * 0.5f);
+				const Color4f colour = HueShift(GetColour(p, texture, fracStep, freq), hueAdjust);
+
+				// convert to ubyte and store
+				Color *col = colors + (u + (v * texSize));
+				(*col) = colour;
+			}
+		}
 	}
 
 	void InstantTextureGenerator(const double fracStep, const Terrain *pTerrain, const Uint32 GGQuality, const float hueAdjust, Graphics::Texture *texOut)
@@ -160,24 +198,7 @@ namespace GasGiantJobs {
 		std::unique_ptr<Color[]> bufs[NUM_PATCHES];
 		for (Uint32 i = 0; i < NUM_PATCHES; i++) {
 			Color *colors = new Color[(texSize * texSize)];
-			for (Uint64 v = 0; v < texSize; v++) {
-				// where in this column are we now
-				const double vstep = double(v) * fracStep;
-				for (Uint64 u = 0; u < texSize; u++) {
-					// where in this row are we now
-					const double ustep = double(u) * fracStep;
-
-					// get point on the surface of the sphere
-					const vector3d p = GetSpherePoint(ustep, vstep, &GetPatchFaces(i, 0));
-
-					// get colour using `p`
-					const Color4f colour = HueShift(GetColour(p, im, fracStep, freq), hueAdjust);
-
-					// convert to ubyte and store
-					Color *col = colors + (u + (v * texSize));
-					(*col) = colour;
-				}
-			}
+			FillColour(colors, fracStep, texSize, &GetPatchFaces(i, 0), freq, im, hueAdjust);
 			bufs[i].reset(colors);
 		}
 
@@ -218,26 +239,9 @@ namespace GasGiantJobs {
 
 		assert(corners != nullptr);
 		double fracStep = 1.0 / double(UVDims() - 1);
-		for (Sint32 v = 0; v < UVDims(); v++)
-		{
-			// where in this column are we now.
-			const double vstep = double(v) * fracStep;
-			for (Sint32 u = 0; u < UVDims(); u++)
-			{
-				// where in this row are we now.
-				const double ustep = double(u) * fracStep;
+		FillColour(colors, fracStep, UVDims(), corners, freq, im, hueAdjust);
 
-				// get point on the surface of the sphere
-				const vector3d p = GetSpherePoint(ustep, vstep, corners);
-
-				// get colour using `p`
-				const Color4f colour = HueShift(GetColour(p, im, fracStep, freq), hueAdjust);
-
-				// convert and store
-				Color *col = colors + (u + (v * UVDims()));
-				(*col) = colour;
-			}
-		}
+		//timey.Mark("SingleTextureFaceCPUJob::OnRun");
 	}
 
 	// ********************************************************************************
@@ -372,10 +376,9 @@ namespace GasGiantJobs {
 	}
 
 	// ********************************************************************************
-	void SGPUGenResult::addResult(Graphics::Texture *t_, Sint32 uvDims_)
+	SGPUGenResult::SGPUGenResult(Graphics::Texture *t_, Sint32 uvDims_) :
+		mData(t_, uvDims_)
 	{
-		PROFILE_SCOPED()
-		mData = SGPUGenData(t_, uvDims_);
 	}
 
 	void SGPUGenResult::OnCancel()
@@ -430,8 +433,7 @@ namespace GasGiantJobs {
 		GasGiant::EndRenderTarget();
 
 		// add this patches data
-		SGPUGenResult *sr = new SGPUGenResult();
-		sr->addResult(mData->Texture(), mData->UVDims());
+		SGPUGenResult *sr = new SGPUGenResult(mData->Texture(), mData->UVDims());
 
 		// store the result
 		mpResults = sr;
