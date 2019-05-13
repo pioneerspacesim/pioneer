@@ -101,11 +101,11 @@
   },
   "DANGER": {
     "description": "the risk level",
-    "message": "Danger:"
+    "message": "Опасност:"
   },
   "DEADLINE": {
     "description": "Must be delivered by",
-    "message": "Deadline:"
+    "message": "Краен срок:"
   },
   "DELIVER_TO": {
     "description": "Deliver to this location",
@@ -145,7 +145,7 @@
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
-    "message": "Distance:"
+    "message": "Разстояние:"
   },
   "ELECTRICAL_APPLIANCES": {
     "description": "custom cargo",
@@ -329,7 +329,7 @@
   },
   "LY": {
     "description": "",
-    "message": "ly"
+    "message": "сг"
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
@@ -453,7 +453,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Задайте за навигационна цел"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -461,7 +461,7 @@
   },
   "SPACEPORT": {
     "description": "",
-    "message": "Spaceport:"
+    "message": "Космодрум:"
   },
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
@@ -489,7 +489,7 @@
   },
   "SYSTEM": {
     "description": "",
-    "message": "System:"
+    "message": "Система:"
   },
   "TARGET_DESTROYED": {
     "description": "",
@@ -617,11 +617,11 @@
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",
-    "message": "Why so much money?"
+    "message": "Защо толкова много пари?"
   },
   "WILL_I_BE_IN_ANY_DANGER": {
     "description": "",
-    "message": "Will I be in any danger?"
+    "message": "Ще бъда ли в опасност?"
   },
   "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP": {
     "description": "",

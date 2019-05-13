@@ -1,94 +1,94 @@
 {
   "ASK_CANDIDATE_TO_SIT_A_TEST": {
     "description": "",
-    "message": "Ask candidate to sit a test"
+    "message": "Потърси кандидат за тест"
   },
   "CREWDETAILSHEETBB": {
     "description": "",
-    "message": "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
+    "message": "Име: {name}\nОпит: {experience}\nПотенциална заплата: {wage} на седмица\n\n{response}\n"
   },
   "CREWMEMBER_WAGE_PER_WEEK": {
     "description": "",
-    "message": "{potentialCrewMember} ({wage}/wk)"
+    "message": "{potentialCrewMember} ({wage}/седм.)"
   },
   "CREWTESTRESULTSBB": {
     "description": "",
-    "message": "Examination results:\n\nGeneral crew competence: {general}%\nEngineering and repair: {engineering}%\nPiloting and spaceflight: {piloting}%\nNavigation and plotting: {navigation}%\nSensors and defence: {sensors}%\nOverall exam score: {overall}%"
+    "message": "Резултати от изпита:\n\nОбщи способности на екипажа: {general}%\nИнженерство и поправка: {engineering}%\nПилотиране и космически полет: {piloting}%\nНавигация и чертаене: {navigation}%\nСензори и защита: {sensors}%\nОбщ резултат: {overall}%"
   },
   "CREW_FOR_HIRE": {
     "description": "",
-    "message": "Crew for hire"
+    "message": "Екипаж за наемане"
   },
   "GO_BACK": {
     "description": "",
-    "message": "Go back"
+    "message": "Назад"
   },
   "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER": {
     "description": "",
-    "message": "I'm sorry, I'm not prepared to go any lower."
+    "message": "Съжалявам, по-ниска от тази няма да приема."
   },
   "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
     "description": "",
-    "message": "I'm sorry, your offer isn't attractive to me."
+    "message": "Съжалявам, офертата Ви не представлява интерес за мен."
   },
   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
     "description": "",
-    "message": "Make offer of position on ship for stated amount"
+    "message": "Направи оферта за позиция в кораба за дадената сума"
   },
   "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
     "description": "",
-    "message": "Minimal time served aboard ship"
+    "message": "Минимално прослужено време на борда на кораба"
   },
   "NO_CREW_AVAILABLE": {
     "description": "",
-    "message": "Sorry, no candidates are currently seeking employment at {station}"
+    "message": "Извинете, но в момента няма кандидати, търсещи работа на {station}"
   },
   "NO_EXPERIENCE": {
     "description": "",
-    "message": "No experience"
+    "message": "Без опит"
   },
   "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
     "description": "",
-    "message": "OK, I suppose that's all right."
+    "message": "ОК, всичко е наред."
   },
   "POTENTIAL_CREW_MEMBERS": {
     "description": "",
-    "message": "Potential crew members are registered as seeking employment at {station}:"
+    "message": "Потенциални членове на екипажа са регистрирани като търсещи работа на {station}:"
   },
   "SIMULATOR_TRAINING_ONLY": {
     "description": "",
-    "message": "Simulator training only"
+    "message": "Само тренировка със симулатор"
   },
   "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS": {
     "description": "",
-    "message": "Some experience in controlled environments"
+    "message": "Има някакъв опит в контролирани среди"
   },
   "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
     "description": "",
-    "message": "Suggest new weekly wage of {newAmount}"
+    "message": "Предложи нова седмична заплата от {newAmount}"
   },
   "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
     "description": "",
-    "message": "Thanks, I'll get settled on board immediately."
+    "message": "Благодаря, качвам се на борда веднага."
   },
   "THATS_EXTREMELY_GENEROUS_OF_YOU": {
     "description": "",
-    "message": "That's extremely generous of you!"
+    "message": "Това е изключително щедро от Ваша страна!"
   },
   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
     "description": "",
-    "message": "That certainly makes this offer look better!"
+    "message": "Това определено подобрява тази оферта!"
   },
   "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD": {
     "description": "",
-    "message": "There doesn't seem to be space for me on board!"
+    "message": "За мен не е останало място на борда!"
   },
   "TIME_SERVED_CREW_MEMBER": {
     "description": "",
-    "message": "Time served crew member"
+    "message": "Прослужено време на член от екипажа"
   },
   "VETERAN_TIME_SERVED_CREW_MEMBER": {
     "description": "",
-    "message": "Veteran, time served crew member"
+    "message": "Прослужено време на ветеран от екипажа"
   }
 }

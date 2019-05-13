@@ -1,38 +1,38 @@
 {
   "BASE": {
     "description": "",
-    "message": "base"
+    "message": "база"
   },
   "BASES": {
     "description": "",
-    "message": "bases"
+    "message": "бази"
   },
   "BODIES": {
     "description": "",
-    "message": "bodies"
+    "message": "тела"
   },
   "BODY": {
     "description": "",
-    "message": "body"
+    "message": "тяло"
   },
   "DISCOVERED_HIDDEN_BASES": {
     "description": "",
-    "message": "You have discovered {portcount} hidden {bases}!"
+    "message": "Открихте {portcount} скрити {bases}!"
   },
   "EXPLORED_SYSTEM": {
     "description": "",
-    "message": "Explored system with {bodycount} major {bodies}."
+    "message": "Проучихте система с {bodycount} големи {bodies}."
   },
   "GETTING_SENSOR_DATA": {
     "description": "Shown when entering an unexplored system",
-    "message": "System data gathering and analysis in progress..."
+    "message": "Събиране и анализиране на системни данни..."
   },
   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
     "description": "",
-    "message": "Your fuel tank is almost empty."
+    "message": "Вашият резервоар за гориво е почти празен."
   },
   "YOUR_FUEL_TANK_IS_EMPTY": {
     "description": "",
-    "message": "Your fuel tank is empty."
+    "message": "Вашият резервоар за гориво е празен."
   }
 }

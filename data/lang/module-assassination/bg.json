@@ -5,7 +5,7 @@
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Could you repeat the original request?"
+    "message": "Може ли да повторите Вашата заявка?"
   },
   "DENY_0": {
     "description": "",
@@ -13,7 +13,7 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "Come back when you have some qualifications."
+    "message": "Върнете се, когато имате нужните квалификации."
   },
   "DENY_2": {
     "description": "",
@@ -41,11 +41,11 @@
   },
   "DISTANCE": {
     "description": "",
-    "message": "Distance:"
+    "message": "Разстояние:"
   },
   "EXCELLENT": {
     "description": "",
-    "message": "Excellent."
+    "message": "Отлично."
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
@@ -181,11 +181,11 @@
   },
   "LY": {
     "description": "",
-    "message": "ly"
+    "message": "сг"
   },
   "OK_AGREED": {
     "description": "",
-    "message": "Ok, agreed."
+    "message": "ОК, съгласен."
   },
   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
     "description": "",
@@ -193,7 +193,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Задайте за навигационна цел"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -209,11 +209,11 @@
   },
   "SPACEPORT": {
     "description": "",
-    "message": "Spaceport:"
+    "message": "Космодрум:"
   },
   "SYSTEM": {
     "description": "",
-    "message": "System:"
+    "message": "Система:"
   },
   "TARGET_NAME": {
     "description": "",

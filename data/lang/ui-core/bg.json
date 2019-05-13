@@ -65,7 +65,7 @@
   },
   "BUY": {
     "description": "Commodities and equipment prices",
-    "message": "Buy"
+    "message": "Купи"
   },
   "BUY_SHIP": {
     "description": "",
@@ -73,55 +73,55 @@
   },
   "CABINS": {
     "description": "For passengers",
-    "message": "Cabins"
+    "message": "Кабини"
   },
   "CABIN_FREE": {
     "description": "Free capacity for passengers",
-    "message": "{amount} free"
+    "message": "{amount} свободни"
   },
   "CABIN_USED": {
     "description": "Passengers using cabins",
-    "message": "{amount} used"
+    "message": "{amount} заети"
   },
   "CANCEL": {
     "description": "",
-    "message": "Cancel"
+    "message": "Отказ"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
-    "message": "Capacity"
+    "message": "Капацитет"
   },
   "CAPACITY_USED": {
     "description": "",
-    "message": "Capacity used"
+    "message": "Използван капацитет"
   },
   "CARGO": {
     "description": "",
-    "message": "Cargo"
+    "message": "Товар"
   },
   "CARGO_SPACE": {
     "description": "",
-    "message": "Cargo space"
+    "message": "Товарно място"
   },
   "CARGO_SPACE_USED": {
     "description": "",
-    "message": "Cargo space used"
+    "message": "Използвано товарно място"
   },
   "CARGO_T_FREE": {
     "description": "t for tonne",
-    "message": "{amount}t free"
+    "message": "{amount}т свободни"
   },
   "CARGO_T_USED": {
     "description": "t for tonne",
-    "message": "{amount}t used"
+    "message": "{amount}т заети"
   },
   "CASH": {
     "description": "",
-    "message": "Cash"
+    "message": "Пари"
   },
   "CASH_N": {
     "description": "",
-    "message": "Cash: {money}"
+    "message": "Пари: {money}"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
@@ -137,7 +137,7 @@
   },
   "CHIEF_MECHANIC": {
     "description": "",
-    "message": "Chief Mechanic"
+    "message": "Главен Механик"
   },
   "CIRCULAR_ORBIT_SPEED": {
     "description": "",
@@ -145,27 +145,27 @@
   },
   "CITY_DETAIL_LEVEL": {
     "description": "Game graphics option",
-    "message": "City detail level"
+    "message": "Ниво на градските детайли"
   },
   "CLEAN": {
     "description": "Legal status of player",
-    "message": "Clean"
+    "message": "Чист"
   },
   "CLEAR": {
     "description": "Clear an option in game settings/options menu",
-    "message": "Clear"
+    "message": "Изчисти"
   },
   "CLEAR_ROUTE": {
     "description": "Clear a planned route of hyperjumps",
-    "message": "Clear Route"
+    "message": "Изчисти Маршрута"
   },
   "CLIENT": {
     "description": "",
-    "message": "Client"
+    "message": "Клиент"
   },
   "CLOSE": {
     "description": "",
-    "message": "Close"
+    "message": "Затвори"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -353,7 +353,7 @@
   },
   "ELITE": {
     "description": "Player combat rating",
-    "message": "ELITE"
+    "message": "ЕЛИТ"
   },
   "EMPLOYMENT": {
     "description": "",
@@ -405,7 +405,7 @@
   },
   "ERROR": {
     "description": "",
-    "message": "Error"
+    "message": "Грешка"
   },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
@@ -421,67 +421,67 @@
   },
   "EXPERIENCED": {
     "description": "For player reputation",
-    "message": "Experienced"
+    "message": "Опитен"
   },
   "EXPERT": {
     "description": "For player reputation",
-    "message": "Expert"
+    "message": "Експерт"
   },
   "FAILED": {
     "description": "When failed mission",
-    "message": "Failed"
+    "message": "Провал"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Accessories"
+    "message": "Аксесоари"
   },
   "FEATURE_ARMOUR": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Armour"
+    "message": "Броня"
   },
   "FEATURE_CLOTHES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Clothes"
+    "message": "Дрехи"
   },
   "FEATURE_EYES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Eyes"
+    "message": "Очи"
   },
   "FEATURE_GENDER": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Gender"
+    "message": "Пол"
   },
   "FEATURE_HAIRSTYLE": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Hairstyle"
+    "message": "Прическа"
   },
   "FEATURE_HEAD": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Head"
+    "message": "Глава"
   },
   "FEATURE_MOUTH": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Mouth"
+    "message": "Уста"
   },
   "FEATURE_NOSE": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Nose"
+    "message": "Нос"
   },
   "FEATURE_RACE": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Race"
+    "message": "Раса"
   },
   "FEATURE_SPECIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Species"
+    "message": "Вид"
   },
   "FEMALE": {
     "description": "",
-    "message": "Female"
+    "message": "Жена"
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Final Target:"
+    "message": "Крайна Цел:"
   },
   "FLIGHT_STATE": {
     "description": "",
@@ -509,7 +509,7 @@
   },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
-    "message": "free"
+    "message": "свободни"
   },
   "FRONT_WEAPON": {
     "description": "",
@@ -517,7 +517,7 @@
   },
   "FUEL": {
     "description": "",
-    "message": "Fuel"
+    "message": "Гориво"
   },
   "FUEL_TANK_FULL": {
     "description": "",
@@ -561,7 +561,7 @@
   },
   "HARMLESS": {
     "description": "Player combat rating",
-    "message": "Harmless"
+    "message": "Безобиден"
   },
   "HEAVY_CARGO_SHUTTLE": {
     "description": "",
@@ -709,7 +709,7 @@
   },
   "HUD_BUTTON_SCANNER": {
     "description": "Tooltip: Scanner",
-    "message": "Scanner"
+    "message": "Скенер"
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
@@ -865,7 +865,7 @@
   },
   "HUD_MASS": {
     "description": "Mass",
-    "message": "Mass"
+    "message": "Маса"
   },
   "HUD_RADAR_DISTANCE": {
     "description": "Tooltip: Current distance of the radar.",
@@ -953,15 +953,15 @@
   },
   "INCOMPETENT": {
     "description": "For player reputation",
-    "message": "Incompetent"
+    "message": "Некомпетентен"
   },
   "INEXPERIENCED": {
     "description": "For player reputation",
-    "message": "Inexperienced"
+    "message": "Неопитен"
   },
   "INSUFFICIENT_FUNDS": {
     "description": "",
-    "message": "Insufficient funds."
+    "message": "Недостатъчни средства."
   },
   "INVERT_MOUSE_Y": {
     "description": "",
@@ -993,11 +993,11 @@
   },
   "KILLS": {
     "description": "",
-    "message": "Kills:"
+    "message": "Убити:"
   },
   "LANGUAGE": {
     "description": "",
-    "message": "Language"
+    "message": "Език"
   },
   "LANGUAGE_RESTART_GAME_TO_APPLY": {
     "description": "",
@@ -1073,7 +1073,7 @@
   },
   "LY": {
     "description": "Light year",
-    "message": "ly"
+    "message": "сг"
   },
   "MAJOR_EXPORTS_ITEM": {
     "description": "",
@@ -1085,11 +1085,11 @@
   },
   "MAKE_NEW_FACE": {
     "description": "",
-    "message": "Make new face"
+    "message": "Направи ново лице"
   },
   "MALE": {
     "description": "",
-    "message": "Male"
+    "message": "Мъж"
   },
   "MARKET_BUYLINE": {
     "description": "",
@@ -1101,7 +1101,7 @@
   },
   "MASS": {
     "description": "",
-    "message": "Mass"
+    "message": "Маса"
   },
   "MASTER": {
     "description": "For player reputation",
@@ -1113,7 +1113,7 @@
   },
   "MAX": {
     "description": "",
-    "message": "max"
+    "message": "макс"
   },
   "MAXIMUM_CREW": {
     "description": "",
@@ -1173,7 +1173,7 @@
   },
   "MISSIONS": {
     "description": "",
-    "message": "Missions"
+    "message": "Мисии"
   },
   "MISSION_DETAILS": {
     "description": "",
@@ -1209,23 +1209,23 @@
   },
   "MUSIC": {
     "description": "",
-    "message": "Music:"
+    "message": "Музика:"
   },
   "MUTE": {
     "description": "",
-    "message": "Mute"
+    "message": "Заглуши"
   },
   "NAME_OBJECT": {
     "description": "For an item or object",
-    "message": "Name"
+    "message": "Наименование"
   },
   "NAME_PERSON": {
     "description": "For a person",
-    "message": "Name"
+    "message": "Наименование"
   },
   "NAVIGATION": {
     "description": "",
-    "message": "Navigation:"
+    "message": "Навигация:"
   },
   "NAVIGATOR": {
     "description": "",
@@ -1245,7 +1245,7 @@
   },
   "NO": {
     "description": "Negative answer to a question",
-    "message": "No"
+    "message": "Не"
   },
   "NOBODY": {
     "description": "For player reputation",
@@ -1265,7 +1265,7 @@
   },
   "NOTES": {
     "description": "",
-    "message": "Notes:"
+    "message": "Бележки:"
   },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
@@ -1301,11 +1301,11 @@
   },
   "OFF": {
     "description": "",
-    "message": "Off"
+    "message": "Изключено"
   },
   "OK": {
     "description": "",
-    "message": "Ok"
+    "message": "Ок"
   },
   "OPEN_USER_FOLDER": {
     "description": "",
@@ -1313,11 +1313,11 @@
   },
   "OPTIONS": {
     "description": "",
-    "message": "Options"
+    "message": "Опции"
   },
   "ORBIT": {
     "description": "",
-    "message": "Orbit"
+    "message": "Орбита"
   },
   "ORBITAL_ANALYSIS": {
     "description": "",
@@ -1357,11 +1357,11 @@
   },
   "PILOT": {
     "description": "",
-    "message": "Pilot"
+    "message": "Пилот"
   },
   "PILOTING": {
     "description": "",
-    "message": "Piloting:"
+    "message": "Пилотиране:"
   },
   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
     "description": "",
@@ -1381,7 +1381,7 @@
   },
   "POLICE": {
     "description": "",
-    "message": "Police"
+    "message": "Полиция"
   },
   "POOR": {
     "description": "Player combat rating",
@@ -1389,7 +1389,7 @@
   },
   "POSITION": {
     "description": "The job title/position of crew memeber",
-    "message": "Position"
+    "message": "Позиция"
   },
   "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
     "description": "",
@@ -1401,7 +1401,7 @@
   },
   "PRICE": {
     "description": "",
-    "message": "Price"
+    "message": "Цена"
   },
   "PROFESSIONAL": {
     "description": "For player reputation",
@@ -1417,7 +1417,7 @@
   },
   "QUIT": {
     "description": "",
-    "message": "Quit"
+    "message": "Изход"
   },
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
@@ -1469,7 +1469,7 @@
   },
   "REPUTATION": {
     "description": "",
-    "message": "Reputation"
+    "message": "Репутация"
   },
   "REQUEST_LAUNCH": {
     "description": "",
@@ -1501,7 +1501,7 @@
   },
   "REWARD": {
     "description": "",
-    "message": "Reward"
+    "message": "Награда"
   },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
@@ -1529,7 +1529,7 @@
   },
   "SELECT": {
     "description": "",
-    "message": "Select"
+    "message": "Избери"
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",
@@ -1557,7 +1557,7 @@
   },
   "SETTINGS": {
     "description": "UI option",
-    "message": "Settings"
+    "message": "Настройки"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -1565,7 +1565,7 @@
   },
   "SHIP": {
     "description": "",
-    "message": "Ship"
+    "message": "Кораб"
   },
   "SHIPS_ENGINEER": {
     "description": "",
@@ -1605,7 +1605,7 @@
   },
   "SOUND": {
     "description": "",
-    "message": "Sound"
+    "message": "Звук"
   },
   "START_AT_BARNARDS_STAR": {
     "description": "",
@@ -1769,7 +1769,7 @@
   },
   "VIDEO": {
     "description": "",
-    "message": "Video"
+    "message": "Видео"
   },
   "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
     "description": "",
@@ -1817,7 +1817,7 @@
   },
   "YES": {
     "description": "Positive answer to a question",
-    "message": "Yes"
+    "message": "Да"
   },
   "YOURE_GOING_TO_REGRET_SACKING_ME": {
     "description": "",

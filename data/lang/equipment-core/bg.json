@@ -1,350 +1,350 @@
 {
   "ADVANCED_TARGET_SCANNER": {
     "description": "ship equipment showing target information/stats",
-    "message": "Advanced target scanner"
+    "message": "Разширен целеви скенер"
   },
   "ADVANCED_TARGET_SCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Long range target scanner with system wide coverage."
+    "message": "Целеви скенер с широк обхват и пълно системно покритие."
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "",
-    "message": "Atmospheric Shielding"
+    "message": "Атмосферни Предпазители"
   },
   "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
     "description": "",
-    "message": "Shields your spaceship from the heat of atmospheric re-entry."
+    "message": "Предпазва Вашия кораб от горещината на снижаването в атмосферата."
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
-    "message": "Heavy Atmospheric Shielding"
+    "message": "Големи Атмосферни Предпазители"
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
-    "message": "A more capable version of Atmospheric Shields"
+    "message": "По-добра версия на Атмосферните Предпазители"
   },
   "AUTOPILOT": {
     "description": "",
-    "message": "Autopilot"
+    "message": "Автопилот"
   },
   "AUTOPILOT_DESCRIPTION": {
     "description": "",
-    "message": "An on-board flight computer."
+    "message": "Летателен бордови компютър"
   },
   "BEAMLASER_1MW": {
     "description": "",
-    "message": "1MW beam laser"
+    "message": "1MW лъчеви лазер"
   },
   "BEAMLASER_DUAL_1MW": {
     "description": "",
-    "message": "1MW dual-fire beam laser"
+    "message": "1MW двоен лъчеви лазер"
   },
   "BEAMLASER_RAPID_2MW": {
     "description": "",
-    "message": "2MW rapid-fire beam laser"
+    "message": "2MW скорострелен лъчеви лазер"
   },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
-    "message": "Cargo Bay Life Support"
+    "message": "Животоподдържаща Система в Товарното Отделение"
   },
   "CARGO_LIFE_SUPPORT_DESCRIPTION": {
     "description": "",
-    "message": "Allows the transport of live cargo."
+    "message": "Позволява превоза на жива стока."
   },
   "CARGO_SCOOP": {
     "description": "",
-    "message": "Cargo Scoop"
+    "message": "Товарач за стока"
   },
   "CARGO_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Permits scooping cargo pods from space."
+    "message": "Разрешава товаренето на стока от космоса."
   },
   "DRIVE_CLASS1": {
     "description": "",
-    "message": "Class 1 Hyperdrive"
+    "message": "Клас 1 Хиперсветлинен Двигател"
   },
   "DRIVE_CLASS2": {
     "description": "",
-    "message": "Class 2 Hyperdrive"
+    "message": "Клас 2 Хиперсветлинен Двигател"
   },
   "DRIVE_CLASS3": {
     "description": "",
-    "message": "Class 3 Hyperdrive"
+    "message": "Клас 3 Хиперсветлинен Двигател"
   },
   "DRIVE_CLASS4": {
     "description": "",
-    "message": "Class 4 Hyperdrive"
+    "message": "Клас 4 Хиперсветлинен Двигател"
   },
   "DRIVE_CLASS5": {
     "description": "",
-    "message": "Class 5 Hyperdrive"
+    "message": "Клас 5 Хиперсветлинен Двигател"
   },
   "DRIVE_CLASS6": {
     "description": "",
-    "message": "Class 6 Hyperdrive"
+    "message": "Клас 6 Хиперсветлинен Двигател"
   },
   "DRIVE_CLASS7": {
     "description": "",
-    "message": "Class 7 Hyperdrive"
+    "message": "Клас 7 Хиперсветлинен Двигател"
   },
   "DRIVE_CLASS8": {
     "description": "",
-    "message": "Class 8 Hyperdrive"
+    "message": "Клас 8 Хиперсветлинен Двигател"
   },
   "DRIVE_CLASS9": {
     "description": "",
-    "message": "Class 9 Hyperdrive"
+    "message": "Клас 9 Хиперсветлинен Двигател"
   },
   "DRIVE_MIL1": {
     "description": "",
-    "message": "Class 1 Military drive"
+    "message": "Клас 1 Военен Двигател"
   },
   "DRIVE_MIL2": {
     "description": "",
-    "message": "Class 2 Military drive"
+    "message": "Клас 2 Военен Двигател"
   },
   "DRIVE_MIL3": {
     "description": "",
-    "message": "Class 3 Military drive"
+    "message": "Клас 3 Военен Двигател"
   },
   "DRIVE_MIL4": {
     "description": "",
-    "message": "Class 4 Military drive"
+    "message": "Клас 4 Военен Двигател"
   },
   "DRIVE_MIL5": {
     "description": "",
-    "message": "Class 5 Military drive"
+    "message": "Клас 5 Военен Двигател"
   },
   "DRIVE_MIL6": {
     "description": "",
-    "message": "Class 6 Military drive"
+    "message": "Клас 6 Военен Двигател"
   },
   "DRIVE_MIL7": {
     "description": "",
-    "message": "Class 7 Military drive"
+    "message": "Клас 7 Военен Двигател"
   },
   "DRIVE_MIL8": {
     "description": "",
-    "message": "Class 8 Military drive"
+    "message": "Клас 8 Военен Двигател"
   },
   "DRIVE_MIL9": {
     "description": "",
-    "message": "Class 9 Military drive"
+    "message": "Клас 9 Военен Двигател"
   },
   "ECM_ADVANCED": {
     "description": "",
-    "message": "Advanced ECM system"
+    "message": "Разширена ЕПМ система"
   },
   "ECM_ADVANCED_DESCRIPTION": {
     "description": "",
-    "message": "An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles."
+    "message": "Електронна противомярка за защита от ракети, способна да унищожава различни видове самонасочващи се ракети."
   },
   "ECM_BASIC": {
     "description": "",
-    "message": "ECM system"
+    "message": "ЕПМ система"
   },
   "ECM_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "An electronic countermeasure missile defence system, capable of destroying some homing missiles."
+    "message": "Електронна противомярка за защита от ракети, способна да унищожава някои видове самонасочващи се ракети."
   },
   "FUEL_SCOOP": {
     "description": "",
-    "message": "Fuel Scoop"
+    "message": "Товарач за Гориво"
   },
   "FUEL_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Permits scooping hydrogen fuel from gas giant planets."
+    "message": "Разрешава събирането на водородно гориво от планетите газови гиганти."
   },
   "HULL_AUTOREPAIR": {
     "description": "",
-    "message": "Hull Auto-Repair System"
+    "message": "Система за Автоматичен Ремонт на Корпуса"
   },
   "HULL_AUTOREPAIR_DESCRIPTION": {
     "description": "",
-    "message": "Automatically repairs the ship's hull in the event of damage."
+    "message": "Автоматично ремонтира корпуса на кораба в случай на получена щета."
   },
   "HYPERCLOUD_ANALYZER": {
     "description": "",
-    "message": "Hypercloud Analyzer"
+    "message": "Анализатор на Хипер Облаци"
   },
   "HYPERCLOUD_ANALYZER_DESCRIPTION": {
     "description": "",
-    "message": "Analyze hyperspace clouds to determine destination and time of arrival or departure."
+    "message": "Анализира облаците в хипер пространството за да определи дестинацията и времето на пристигане или тръгване."
   },
   "LARGE_PLASMA_ACCEL": {
     "description": "",
-    "message": "Large plasma accelerator"
+    "message": "Голям плазмен ускорител"
   },
   "LASER_COOLING_BOOSTER": {
     "description": "",
-    "message": "Laser Cooling Booster"
+    "message": "Лазерен Охладителен Бустер"
   },
   "LASER_COOLING_BOOSTER_DESCRIPTION": {
     "description": "",
-    "message": "An improved cooling system for your weapons."
+    "message": "Подобрена охлаждаща система за Вашите оръжия."
   },
   "MININGCANNON_17MW": {
     "description": "",
-    "message": "17MW blast-mining cannon"
+    "message": "17MW оръдие за взривно миниране"
   },
   "MININGCANNON_17MW_DESCRIPTION": {
     "description": "",
-    "message": "Used to blast-mine mineral rich asteroids."
+    "message": "Използва се за взривно миниране на астероиди, богати на минерали."
   },
   "MISSILE_GUIDED": {
     "description": "",
-    "message": "Guided Missile"
+    "message": "Управляема Ракета"
   },
   "MISSILE_NAVAL": {
     "description": "",
-    "message": "Naval Missile"
+    "message": "Военноморска Ракета"
   },
   "MISSILE_SMART": {
     "description": "",
-    "message": "Smart Missile"
+    "message": "Умна Ракета"
   },
   "MISSILE_UNGUIDED": {
     "description": "",
-    "message": "R40 Unguided Rocket"
+    "message": "R40 Самостоятелна Ракета"
   },
   "MULTI_SCOOP": {
     "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
-    "message": "Multi Scoop"
+    "message": "Общ Товарач"
   },
   "MULTI_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+    "message": "Разрешава товаренето на стока и събирането на гориво, но е по-малко ефективен от товарача за гориво"
   },
   "OUT_OF_SCANRANGE": {
     "description": "",
-    "message": "Max scan range exceeded:"
+    "message": "Максималният обхват на сканиране е превишен:"
   },
   "PASSENGER_CABIN": {
     "description": "",
-    "message": "Passenger cabin"
+    "message": "Пасажерска кабина"
   },
   "PLANETSCANNER": {
     "description": "Scans the nearest body for resources",
-    "message": "Body scan"
+    "message": "Сканиране на тяло"
   },
   "PLANETSCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Scan nearest body for resources."
+    "message": "Сканиране на най-близкото тяло за ресурси."
   },
   "PULSECANNON_10MW": {
     "description": "",
-    "message": "10MW pulse cannon"
+    "message": "10MW пулсиращо оръдие"
   },
   "PULSECANNON_1MW": {
     "description": "",
-    "message": "1MW pulse cannon"
+    "message": "1MW пулсиращо оръдие"
   },
   "PULSECANNON_20MW": {
     "description": "",
-    "message": "20MW pulse cannon"
+    "message": "20MW пулсиращо оръдие"
   },
   "PULSECANNON_2MW": {
     "description": "",
-    "message": "2MW pulse cannon"
+    "message": "2MW пулсиращо оръдие"
   },
   "PULSECANNON_4MW": {
     "description": "",
-    "message": "4MW pulse cannon"
+    "message": "4MW пулсиращо оръдие"
   },
   "PULSECANNON_DUAL_1MW": {
     "description": "",
-    "message": "1MW dual-fire pulse cannon"
+    "message": "1MW двойно пулсиращо оръдие"
   },
   "PULSECANNON_RAPID_2MW": {
     "description": "",
-    "message": "2MW rapid-fire pulse cannon"
+    "message": "2MW скорострелно пулсиращо оръдие"
   },
   "RADAR": {
     "description": "",
-    "message": "Radar"
+    "message": "Радар"
   },
   "RADAR_DESCRIPTION": {
     "description": "",
-    "message": "Provides a 3D map of nearby ships."
+    "message": "Осигурява 3Д карта на близките кораби."
   },
   "SCAN_COMPLETED": {
     "description": "",
-    "message": "Scanning completed"
+    "message": "Сканирането завършено"
   },
   "SCAN_RESUMED": {
     "description": "",
-    "message": "Scanning resumed"
+    "message": "Сканирането възобновено"
   },
   "SHIELD_ENERGY_BOOSTER": {
     "description": "",
-    "message": "Shield Energy Booster"
+    "message": "Енергиен Бустер на Щитовете"
   },
   "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
     "description": "",
-    "message": "Increases the rate at which shields recharge."
+    "message": "Увеличава скоростта на презареждане на щитовете."
   },
   "SHIELD_GENERATOR": {
     "description": "",
-    "message": "Shield Generator"
+    "message": "Генератор на Щитовете"
   },
   "SHIELD_GENERATOR_DESCRIPTION": {
     "description": "",
-    "message": "Provides additional hull defences with each unit fitted."
+    "message": "Осигурява допълнителна защита на корпуса с всеки следващ генератор."
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
-    "message": "Small plasma accelerator"
+    "message": "Малък плазмен ускорител"
   },
   "STARTING_SCAN": {
     "description": "",
-    "message": "Starting scan, target distance is"
+    "message": "Стартиране на сканирането, разстоянието до целта е"
   },
   "TARGET_SCANNER": {
     "description": "ship equipment showing target information/stats",
-    "message": "Target Scanner"
+    "message": "Целеви Скенер"
   },
   "TARGET_SCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Used to remotely inspect the equipment, cargo and state of other ships."
+    "message": "Използва се за отдалечено инспектиране на екипировката, товара и състоянието на другите кораби."
   },
   "THRUSTERS_BASIC": {
     "description": "",
-    "message": "Modified Thrusters"
+    "message": "Модифицирани Ускорители"
   },
   "THRUSTERS_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "A modified type of thrusters approved for your ship."
+    "message": "Модифицирани ускорители, одобрени за Вашия кораб."
   },
   "THRUSTERS_BEST": {
     "description": "",
-    "message": "Bespoke Thrusters"
+    "message": "Направени по Поръчка Ускорители"
   },
   "THRUSTERS_BEST_DESCRIPTION": {
     "description": "",
-    "message": "Custom made thrusters that provide the best possible output."
+    "message": "Персонализирани ускорители, предоставят най-добрия резултат."
   },
   "THRUSTERS_MEDIUM": {
     "description": "",
-    "message": "Optimised Thrusters"
+    "message": "Оптимизирани Ускорители"
   },
   "THRUSTERS_MEDIUM_DESCRIPTION": {
     "description": "",
-    "message": "Thrusters that have been optimised to reduce inefficiencies and improve power output."
+    "message": "Ускорители, които са оптимизирани чрез намаляне на неефективността и подобряване на мощността."
   },
   "TRADE_COMPUTER": {
     "description": "Ship equipment computing profitable commodities to trade between two systems",
-    "message": "Trade Computer"
+    "message": "Търговски Компютър"
   },
   "TRADE_COMPUTER_DESCRIPTION": {
     "description": "",
-    "message": "Shows profitable commodities to trade between selected and current system"
+    "message": "Показва печелившите стоки за търговия между избраната и сегашната система"
   },
   "UNOCCUPIED_CABIN": {
     "description": "",
-    "message": "Extra Passenger Cabin"
+    "message": "Допълнителна Пасажерска Кабина"
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
-    "message": "Required for transport of a single passenger"
+    "message": "Използва се за превоз на един пасажер"
   }
 }

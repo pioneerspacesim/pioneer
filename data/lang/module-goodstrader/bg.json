@@ -1,58 +1,58 @@
 {
   "GOODS_TRADER_0": {
     "description": "",
-    "message": "Honest {name}'s Goods Emporium"
+    "message": "Универмаг на {name}"
   },
   "GOODS_TRADER_1": {
     "description": "",
-    "message": "{name}'s Trading House"
+    "message": "Търговска Кантора на {name}"
   },
   "GOODS_TRADER_2": {
     "description": "",
-    "message": "{name}'s Warehouse"
+    "message": "Склад на {name}"
   },
   "GOODS_TRADER_3": {
     "description": "",
-    "message": "{name}'s Goods Exchange"
+    "message": "Обмяна на стоки при {name}"
   },
   "GOODS_TRADER_4": {
     "description": "",
-    "message": "{name} Holdings"
+    "message": "Холдинг на {name}"
   },
   "GOODS_TRADER_5": {
     "description": "",
-    "message": "{name} & Sons"
+    "message": "{name} & Синове"
   },
   "SLOGAN_0": {
     "description": "",
-    "message": "We deal in what others don't."
+    "message": "Предлагаме уникални продукти."
   },
   "SLOGAN_1": {
     "description": "",
-    "message": "A truly free market."
+    "message": "Чист свободен пазар."
   },
   "SLOGAN_2": {
     "description": "",
-    "message": "Bringing the best unconventional goods to you!"
+    "message": "Предлагаме най-добрите необикновени стоки само за Вас!"
   },
   "SLOGAN_3": {
     "description": "",
-    "message": "We believe in a market without restrictions."
+    "message": "Вярваме в свободния пазар."
   },
   "SLOGAN_4": {
     "description": "",
-    "message": "The unregulated market, for your freedom."
+    "message": "Пазар без граници, за Вашата свобода на действие."
   },
   "SLOGAN_5": {
     "description": "",
-    "message": "The trustworthy dealer."
+    "message": "Честния търговец."
   },
   "SLOGAN_6": {
     "description": "",
-    "message": "Allways a special price just for you."
+    "message": "Специална цена само за Вас."
   },
   "WELCOME_TO": {
     "description": "",
-    "message": "Welcome to "
+    "message": "Добре дошли в "
   }
 }

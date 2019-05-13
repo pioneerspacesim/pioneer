@@ -1,18 +1,18 @@
 {
   "FLAVOUR_0_BODY": {
     "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
-    "message": "Just ring 36 24 36, I'm always home. I deal in:\n - Concrete shoes,\n - Cyanide,\n - TNT,\n - Neck ties,\n - Contracts,\n - High voltage,\n\n ...or just make a social call."
+    "message": "Обадете се на 36 24 36, аз съм къщно пиле. Занимавам се с:\n- Бетонни обувки,\n- Цианид,\n- TNT,\n- Вратовръзки,\n- Договори,\n- Високо напрежение,\n\n ...или просто ми се обадете да си приказваме."
   },
   "FLAVOUR_0_TITLE": {
     "description": "The 'all caps' title should probably not be translated, as it's an AC/DC song title reference. Either way, it's a very rare 'Easter egg'",
-    "message": "DIRTY DEEDS DONE DIRT CHEAP, if you're having trouble, call me any time"
+    "message": "МРЪСНИ ДЕЛА ЗА МРЪСНО НИСКИ ЦЕНИ, ако имате проблеми, обадете ми се по всяко време"
   },
   "FLAVOUR_1_BODY": {
     "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to https://en.wikipedia.org/wiki/867-5309/Jenny",
-    "message": "You don't know me, but call me; 867-5309 / Jenny"
+    "message": "Не ме познавате, но ми се обадете; 867-5309 / Джени"
   },
   "FLAVOUR_1_TITLE": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
-    "message": "NEED SOMEONE TO TURN TO?"
+    "message": "НУЖДАЕТЕ СЕ ОТ УСЛУГА?"
   }
 }

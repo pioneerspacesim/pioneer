@@ -1,102 +1,102 @@
 {
   "MSG_1": {
     "description": "",
-    "message": "Say {yes} to get out of here and go back to your boring programs?"
+    "message": "Значи, ще натиснеш {yes} за да се върнеш при скучните си програми?"
   },
   "MSG_10": {
     "description": "",
-    "message": "Please choose {no} to waste a few more productive hours. Please?"
+    "message": "Моля те, натисни {no} за да изгубиш още няколко часа от живота си. Съгласен ли си?"
   },
   "MSG_11": {
     "description": "",
-    "message": "Explorers don't quit, but go ahead and click {yes} if you aren't one."
+    "message": "Изследователите никога не си тръгват, но ако не си такъв, натисни {yes}."
   },
   "MSG_12": {
     "description": "",
-    "message": "Choose {no} If you are a tough bounty hunter, if not, click {yes} daintily."
+    "message": "Истинските мъже избират {no}, само женчовците избират {yes}."
   },
   "MSG_13": {
     "description": "\"Seeing\" as in having an affair / being unfaithful",
-    "message": "We never talk anymore. Are you seeing someone else?"
+    "message": "Никога повече няма да ти говоря. Да виждаш някой друг?"
   },
   "MSG_14": {
     "description": "",
-    "message": "Do you really have something better to do?"
+    "message": "Наистина ли имаш друга работа?"
   },
   "MSG_15": {
     "description": "",
-    "message": "Giving up already?"
+    "message": "Предаваш ли се?"
   },
   "MSG_16": {
     "description": "A little homage to the movie 2001 A Space Odyssey",
-    "message": "Just what do you think you're doing, Dave?"
+    "message": "Какво си мислиш че правиш, Дейв?"
   },
   "MSG_17": {
     "description": "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
-    "message": "Quitting is for WIMPs!"
+    "message": "Само СТРАХЛИВЦИТЕ си тръгват!"
   },
   "MSG_18": {
     "description": "Catch phrase of 2016?",
-    "message": "Make Pioneer great again! Only losers quit, sure about this?"
+    "message": "Направи Pioneer велика! Само загубеняците си тръгват, нали не си загубеняк?"
   },
   "MSG_19": {
     "description": "Alluding to / inviting the player to contribute content to the game",
-    "message": "Done testing, back to contributing?"
+    "message": "Стига тестване, време е за принос към играта?"
   },
   "MSG_2": {
     "description": "",
-    "message": "Don't go now, there's a pirate waiting for you in the other program."
+    "message": "Не си тръгвай, един пират те очаква в другата програма."
   },
   "MSG_20": {
     "description": "",
-    "message": "Do you really have to go?"
+    "message": "Ти наистина ли трябва да си тръгнеш?"
   },
   "MSG_21": {
     "description": "alluding to suicide",
-    "message": "Taking the cowards way out?"
+    "message": "Страхливците бягат първи, нали?"
   },
   "MSG_22": {
     "description": "alluding to suicide",
-    "message": "Don't do it! It can only get better from here! Still want to give up?"
+    "message": "Не го прави! По-добре ще става от тук нататък! Ти наистина ли се предаваш?"
   },
   "MSG_3": {
     "description": "",
-    "message": "Are you sure you want to quit this great game that cost you nothing?"
+    "message": "Наистина ли ще напуснеш тази игра, която не ти коства нищо?"
   },
   "MSG_4": {
     "description": "",
-    "message": "Doest thou wish to leave with such hasty abandon?"
+    "message": "Толкова бързо ли се отказваш?"
   },
   "MSG_5": {
     "description": "(Inspired by Wolfenstein 3D)",
-    "message": "Choose {no} for guns and glory, {yes} for work and worry."
+    "message": "Избери {no} за величие, {yes} за безразличие."
   },
   "MSG_6": {
     "description": "",
-    "message": "Click {no} to be brave, click {yes} to cower in shame."
+    "message": "{no} е само за смелите хора, {yes} е за всички останали."
   },
   "MSG_7": {
     "description": "Doom 1 anyone? Although it said DOS instead of Command line",
-    "message": "I wouldn't leave if I were you. The command line is much worse."
+    "message": "Виж какво, аз не бих си тръгнал. Командната линия е много по-зле."
   },
   "MSG_8": {
     "description": "",
-    "message": "I'm thinking you want to click {no} to play more. You do it."
+    "message": "Сигурен съм, че ще избереш {no}. Направи го!"
   },
   "MSG_9": {
     "description": "",
-    "message": "Clicking {yes} means you must return to the humdrum workday world."
+    "message": "Избери {yes} и ще се върнеш в скучния реален живот."
   },
   "NO": {
     "description": "No, don't quit program",
-    "message": "No"
+    "message": "Не"
   },
   "QUIT": {
     "description": "Quit game, as a question",
-    "message": "Quit?"
+    "message": "Чао?"
   },
   "YES": {
     "description": "Yes, quit program",
-    "message": "Yes"
+    "message": "Да"
   }
 }

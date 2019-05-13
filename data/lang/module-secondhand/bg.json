@@ -1,74 +1,74 @@
 {
   "BUY": {
     "description": "Buy a piece of ship equipment",
-    "message": "Buy"
+    "message": "Купи"
   },
   "FITTING_IS_INCLUDED_IN_THE_PRICE": {
     "description": "Regarding installing a component on the ship",
-    "message": "Fitting is included in the price."
+    "message": "Монтирането е включено в цената."
   },
   "FLAVOUR_0_BODY": {
     "description": "",
-    "message": "Hi! My name is {name} and I'm selling off my {equipment} from my old rusty bucket. I want {price} for it."
+    "message": "Здрасти! Казвам се {name} и продавам {equipment} от старата ми таратайка. Искам {price}."
   },
   "FLAVOUR_0_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE: Special offer, selling one {equipment}."
+    "message": "ПРОДАВА СЕ: Специална оферта - {equipment}."
   },
   "FLAVOUR_1_BODY": {
     "description": "",
-    "message": "Hi! My name is {name}. I have an almost brand new {equipment} which I'm selling for just {price}."
+    "message": "Здрасти! Казвам се {name}. Имам съвсем нова {equipment}, която продавам за {price}."
   },
   "FLAVOUR_1_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING: Practically unused {equipment}, at an affordable price!"
+    "message": "ПРОДАВАМ: Неизползвана {equipment} на достъпна цена!"
   },
   "FLAVOUR_2_BODY": {
     "description": "",
-    "message": "Greetings! I'm {name} and I have a very fine {equipment} which could be yours for just {price}."
+    "message": "Здравейте! Казвам се {name} и имам чудесна {equipment}, която може да е Ваша само за {price}."
   },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING: One {equipment}, for a reasonable price!"
+    "message": "ПРОДАВАМ: Една {equipment} на добра цена!"
   },
   "FLAVOUR_3_BODY": {
     "description": "",
-    "message": "Hello! I have an extra {equipment} which I need to get off my hands, my asking price is {price}."
+    "message": "Ехо! Имам {equipment} в излишък и искам за нея {price}."
   },
   "FLAVOUR_3_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE: One {equipment}, in good condition."
+    "message": "ПРОДАВА СЕ: Една {equipment} в добро състояние."
   },
   "FLAVOUR_4_BODY": {
     "description": "",
-    "message": "Hi! We have an extra {equipment} which could be yours for {price}."
+    "message": "Здрасти! Имаме {equipment} в излишък, може да е Ваша за {price}."
   },
   "FLAVOUR_4_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE: Leftover {equipment}, in fine condition."
+    "message": "ПРОДАВА СЕ: Излишна {equipment} в добро състояние."
   },
   "FLAVOUR_5_BODY": {
     "description": "",
-    "message": "Greetings! Do you want to buy my old {equipment}? It has served me well, but I have now upgraded and don't need it. The price is {price}."
+    "message": "Здравейте! Искате ли моята стара {equipment}? Вършеше ми работа, но вече си изпя песента и не ми трябва. Цената е {price}."
   },
   "FLAVOUR_5_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE: Old {equipment}, in working condition."
+    "message": "ПРОДАВА СЕ: Стара работеща {equipment}."
   },
   "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
     "description": "",
-    "message": "The {equipment} has been fitted to your ship."
+    "message": "Монтирането на {equipment} е успешно."
   },
   "HOW_DO_I_FITT_IT": {
     "description": "Regarding installing a component on the ship",
-    "message": "How do I fit it?"
+    "message": "Как се монтира?"
   },
   "REPEAT_OFFER": {
     "description": "",
-    "message": "Repeat offer"
+    "message": "Повтори офертата"
   },
   "YOU_DONT_HAVE_ENOUGH_MONEY": {
     "description": "",
-    "message": "You don't have enough money."
+    "message": "Нямате достатъчно пари."
   }
 }

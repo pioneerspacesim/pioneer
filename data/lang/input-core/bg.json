@@ -21,7 +21,7 @@
   },
   "BIND_AXIS_YAW": {
     "description": "Descriptive name for the Yaw axis.",
-    "message": "Yaw"
+    "message": "Отклонение"
   },
   "BIND_BOTTOM_CAMERA": {
     "description": "Descriptive name for the BottomCamera action.",

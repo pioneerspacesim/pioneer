@@ -1,102 +1,102 @@
 {
   "APPLY_FOR_MEMBERSHIP": {
     "description": "",
-    "message": "Apply for membership"
+    "message": "Кандидатствайте за членство"
   },
   "BEGIN_TRADE": {
     "description": "",
-    "message": "Begin trade"
+    "message": "Започнете търговия"
   },
   "FLAVOUR_0_CLUBNAME": {
     "description": "",
-    "message": "Interstellar Pilots' Fuel Co-operative"
+    "message": "Горивната Кооперация на Междузвездните Пилоти"
   },
   "FLAVOUR_0_MEMBER_INTRO": {
     "description": "",
-    "message": "You may purchase fuel and dispose of {radioactives} here."
+    "message": "Тук може да закупите гориво и да изхвърлите {radioactives}."
   },
   "FLAVOUR_0_NONMEMBER_INTRO": {
     "description": "",
-    "message": "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
+    "message": "{clubname} е независима организация, занимаваща се с осигуряването на евтино гориво, на нейните членове. Нейни клонове съществуват в цялата галактика. Ползите от членството включват:"
   },
   "FLAVOUR_0_WELCOME": {
     "description": "",
-    "message": "Welcome to {clubname}"
+    "message": "Добре дошли в {clubname}"
   },
   "FLAVOUR_1_CLUBNAME": {
     "description": "Fuel club for the Federation faction",
-    "message": "The Federal Fuel Foundation"
+    "message": "Федералната Горивна Фондация"
   },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
-    "message": "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
+    "message": "{clubname} е лидер в осигуряването на евтино гориво, на нейните членове в Слънчевата Федерация. Членството Ви дава правото на:"
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-    "message": "The Confederate Fuel Union"
+    "message": "Съюзът на Горивната Конфедерация"
   },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
-    "message": "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
+    "message": "В целия Съюз на Независимите Светове, {clubname} е най-добрия осигурител на евтино гориво и управление на отпадъците. За нашите членове, предлагаме:"
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",
-    "message": "Greetings and salutations! We hope you enjoy our services."
+    "message": "Здравейте и поздрави от нас! Насладете се на нашите услуги."
   },
   "FLAVOUR_3_CLUBNAME": {
     "description": "Fuel club for the Haber faction",
-    "message": "Haber Propellant and Perishables Division"
+    "message": "Хаберска Дивизия за Гориво и Отпадъци"
   },
   "FLAVOUR_3_MEMBER_INTRO": {
     "description": "For the greedy Haber faction, very corporate formulated",
-    "message": "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
+    "message": "Здравейте. Може да презаредите с гориво или да унищожите Вашите отпадъци."
   },
   "FLAVOUR_3_NONMEMBER_INTRO": {
     "description": "for the Haber faction",
-    "message": "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
+    "message": "Здравейте. Намирате се в Хаберска Дивизия за Гориво и Отпадъци, ние се занимаваме с доставките на гориво в контролираната от нас територия."
   },
   "GO_BACK": {
     "description": "",
-    "message": "Go back"
+    "message": "Назад"
   },
   "LIST_BENEFITS_DISPOSAL": {
     "description": "",
-    "message": "{radioactives}, free disposal (conditions apply)"
+    "message": "{radioactives}, безплатно унищожение (според условията)"
   },
   "LIST_BENEFITS_FUEL": {
     "description": "",
-    "message": "{fuel} at discount prices"
+    "message": "{fuel} на намалени цени"
   },
   "LIST_BENEFITS_FUEL_INTRO": {
     "description": "",
-    "message": "Our own stocks of fuel, independent of the general market"
+    "message": "Нашите запаси от гориво, независими от пазара"
   },
   "LIST_BENEFITS_FUEL_TANK": {
     "description": "",
-    "message": "Fuel tank refilling, where necessary"
+    "message": "Зареждане с гориво, когато е нужно"
   },
   "LIST_BENEFITS_JOIN": {
     "description": "",
-    "message": "Join now! Annual membership costs only {membership_fee}"
+    "message": "Присъединете се сега! Годишното членство струва само {membership_fee}"
   },
   "WE_WILL_ONLY_DISPOSE_OF": {
     "description": "",
-    "message": "We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."
+    "message": "Ще унищожим само толкова тона {radioactives}, колкото тона {military_fuel} е закупено от нас."
   },
   "WHAT_CONDITIONS_APPLY": {
     "description": "",
-    "message": "What conditions apply to {radioactives} disposal?"
+    "message": "Какви са условията за унищожение на {radioactives}?"
   },
   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
     "description": "",
-    "message": "Your membership application has been declined."
+    "message": "Вашата кандидатура е отхвърлена."
   },
   "YOU_ARE_NOW_A_MEMBER": {
     "description": "",
-    "message": "You are now a member. Your membership will expire on {expiry_date}."
+    "message": "Вече сте един от нас. Кандидатурата Ви ще изтече на {expiry_date}."
   },
   "YOU_MUST_BUY": {
     "description": "",
-    "message": "You must buy our {military_fuel} before we will take your {radioactives}"
+    "message": "Първо, закупете от нашето {military_fuel}, после ще вземем Вашите {radioactives}"
   }
 }

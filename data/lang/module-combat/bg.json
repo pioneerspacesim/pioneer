@@ -93,7 +93,7 @@
   },
   "DANGER": {
     "description": "The risk level",
-    "message": "Danger:"
+    "message": "Опасност:"
   },
   "DENY_1": {
     "description": "",
@@ -109,7 +109,7 @@
   },
   "DISTANCE": {
     "description": "Distance in space, between two locations",
-    "message": "Distance:"
+    "message": "Разстояние:"
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "LY": {
     "description": "",
-    "message": "ly"
+    "message": "сг"
   },
   "MANAGER": {
     "description": "",
@@ -309,7 +309,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Задайте за навигационна цел"
   },
   "SUCCESSMSG_1": {
     "description": "",
@@ -329,7 +329,7 @@
   },
   "SYSTEM": {
     "description": "",
-    "message": "System:"
+    "message": "Система:"
   },
   "TIME_LIMIT": {
     "description": "",
