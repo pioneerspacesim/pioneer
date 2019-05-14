@@ -66,12 +66,16 @@ local function displayReticuleHorizon(roll_degrees)
 	local radius = reticuleCircleRadius - offset
 	-- left hook
 	ui.lineOnClock(center, hrs, width, radius, colors.navigationalElements, 1)
-	ui.lineOnClock(nil, hrs + height_hrs, width, radius, colors.navigationalElements, 1)
-	ui.lineOnClock(nil, -3, width/2, radius, colors.navigationalElements, 1)
+	ui.addLine(ui.pointOnClock(nil, radius, hrs),
+	           ui.pointOnClock(nil, radius, hrs + height_hrs),
+	           colors.navigationalElements, 1)
+	ui.lineOnClock(nil, -3, -width/2, radius, colors.navigationalElements, 1)
 	-- right hook
 	ui.lineOnClock(nil, hrs + 6, width, radius, colors.navigationalElements, 1)
-	ui.lineOnClock(nil, hrs + 6 - height_hrs, width, radius, colors.navigationalElements, 1)
-	ui.lineOnClock(nil, 3, width/2, radius, colors.navigationalElements, 1)
+	ui.addLine(ui.pointOnClock(nil, radius, hrs + 6),
+	           ui.pointOnClock(nil, radius, hrs + 6 - height_hrs),
+	           colors.navigationalElements, 1)
+	ui.lineOnClock(nil, 3, -width/2, radius, colors.navigationalElements, 1)
 end
 
 -- display the compass at the top of the reticule circle
@@ -216,7 +220,7 @@ local function displayDirectionalMarkers()
 	local function displayDirectionalMarker(ship_space, icon, showDirection, angle)
 		local screen = Engine.ShipSpaceToScreenSpace(ship_space)
 		local coord = Vector2(screen.x, screen.y)
-		if screen.z <= 0 then
+		if screen.z <= 1 then
 			ui.addIcon(coord, icon, colors.reticuleCircle, Vector2(32, 32), ui.anchor.center, ui.anchor.center, nil, angle)
 		end
 		return showDirection and (coord - center):length() > reticuleCircleRadius
@@ -230,8 +234,7 @@ local function displayDirectionalMarkers()
 		end
 	end
 	aux.z = -1
-	local forward = Engine.ShipSpaceToScreenSpace(aux)
-	local forward2 = Vector2(forward.x, forward.y) - center
+	local forward = Engine.ShipSpaceToScreenSpace(aux) - Vector3(center.x, center.y, 0.0)
 	local showDirection = displayDirectionalMarker(aux, icons.forward, true)
 	aux.z = 1
 	showDirection = displayDirectionalMarker(aux, icons.backward, showDirection)
@@ -243,7 +246,7 @@ local function displayDirectionalMarkers()
 	aux.y = 0
 	aux.x = 1
 	showDirection = displayDirectionalMarker(aux, icons.right, showDirection)
-	aux.y = -1
+	aux.x = -1
 	showDirection = displayDirectionalMarker(aux, icons.left, showDirection)
 
 	if showDirection then
@@ -285,13 +288,13 @@ local function displayIndicator(onscreen, position, direction, icon, color, show
 		ui.addIcon(position, icon, color, size, ui.anchor.center, ui.anchor.center)
 		if tooltip then
 			local mouse_position = ui.getMousePos()
-			if (mouse_position - position):magnitude() < indicatorSize:magnitude() then -- not size on purpose, most icons are much smaller
+			if (mouse_position - position):length() < indicatorSize:length() then -- not size on purpose, most icons are much smaller
 				ui.setTooltip(tooltip)
 			end
 		end
 	end
 	-- only show small indicator if the large icon is outside the reticule radius
-	if showIndicator and (center - position):magnitude() > reticuleCircleRadius * 1.2 then
+	if showIndicator and (center - position):length() > reticuleCircleRadius * 1.2 then
 		ui.addIcon(indicator, icon, color, indicatorSize, ui.anchor.center, ui.anchor.center)
 	end
 end
@@ -306,7 +309,7 @@ local function displayDetailButtons(radius, navTarget, combatTarget)
 	if combatTarget or navTarget then
 		local color = reticuleTarget == "frame" and colors.reticuleCircle or colors.reticuleCircleDark
 		ui.addIcon(uiPos, icons.display_frame, color, Vector2(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_FRAME)
-		if ui.isMouseClicked(0) and (mouse_position - (uiPos + Vector2(size/2, -size/2))):magnitude() < size/2 then
+		if ui.isMouseClicked(0) and (mouse_position - (uiPos + Vector2(size/2, -size/2))):length() < size/2 then
 			reticuleTarget = "frame"
 		end
 		uiPos.x = uiPos.x + size
@@ -314,7 +317,7 @@ local function displayDetailButtons(radius, navTarget, combatTarget)
 	if navTarget then
 		local color = reticuleTarget == "navTarget" and colors.reticuleCircle or colors.reticuleCircleDark
 		ui.addIcon(uiPos, icons.display_navtarget, color, Vector2(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_NAV_TARGET)
-		if ui.isMouseClicked(0) and (mouse_position - (uiPos + Vector2(size/2, -size/2))):magnitude() < size/2 then
+		if ui.isMouseClicked(0) and (mouse_position - (uiPos + Vector2(size/2, -size/2))):length() < size/2 then
 			reticuleTarget = "navTarget"
 		end
 		uiPos.x = uiPos.x + size
@@ -322,7 +325,7 @@ local function displayDetailButtons(radius, navTarget, combatTarget)
 	if combatTarget then
 		local color = reticuleTarget == "combatTarget" and colors.reticuleCircle or colors.reticuleCircleDark
 		ui.addIcon(uiPos, icons.display_combattarget, color, Vector2(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_COMBAT_TARGET)
-		if ui.isMouseClicked(0) and (mouse_position - (uiPos + Vector2(size/2, -size/2))):magnitude() < size/2 then
+		if ui.isMouseClicked(0) and (mouse_position - (uiPos + Vector2(size/2, -size/2))):length() < size/2 then
 			reticuleTarget = "combatTarget"
 		end
 	end
@@ -342,8 +345,9 @@ local function displayDetailData(target, radius, combatTarget, navTarget, colorL
 	-- current distance, relative speed
 	uiPos = ui.pointOnClock(center, radius, 2.75)
 	-- currently unused: local distance, distance_unit = ui.Format.Distance(player:DistanceTo(target))
-	local approach_speed = position:dot(velocity) / position:magnitude()
-	local speed, speed_unit = ui.Format.Speed(approach_speed)
+	local approach_speed = position:dot(velocity) / position:length()
+
+	speed, speed_unit = ui.Format.Speed(approach_speed)
 
 	ui.addFancyText(uiPos, ui.anchor.left, ui.anchor.baseline, {
 										{ text=speed,      color=colorLight, font=pionillium.medium, tooltip=lui.HUD_SPEED_OF_APPROACH_TO_TARGET },
@@ -356,6 +360,7 @@ local function displayDetailData(target, radius, combatTarget, navTarget, colorL
 	local altitude = player:GetAltitudeRelTo(target)
 	local ratio = brake_distance / altitude
 	local ratio_retro = brake_distance_retro / altitude
+
 	speed, speed_unit = ui.Format.Speed(velocity:length())
 
 	uiPos = ui.pointOnClock(center, radius, 3)
@@ -399,7 +404,7 @@ end
 -- display indicators relative to frame
 local function displayFrameIndicators(frame, navTarget)
 	local frameVelocity = -frame:GetVelocityRelTo(player)
-	if frameVelocity:magnitude() > 1 and frame ~= navTarget then
+	if frameVelocity:length() > 1 and frame ~= navTarget then
 		local onscreen,position,direction = Engine.WorldSpaceToScreenSpace(frameVelocity)
 		displayIndicator(onscreen, position, direction, icons.prograde, colors.frame, true, lui.HUD_INDICATOR_FRAME_PROGRADE)
 		onscreen,position,direction = Engine.WorldSpaceToScreenSpace(-frameVelocity)
@@ -416,7 +421,7 @@ local function displayNavTargetIndicator(navTarget)
 	local onscreen,position,direction = navTarget:GetTargetIndicatorScreenPosition()
 	displayIndicator(onscreen, position, direction, icons.square, colors.navTarget, true)
 	local navVelocity = -navTarget:GetVelocityRelTo(Game.player)
-	if navVelocity:magnitude() > 1 then
+	if navVelocity:length() > 1 then
 		onscreen,position,direction = Engine.WorldSpaceToScreenSpace(navVelocity)
 		displayIndicator(onscreen, position, direction, icons.prograde, colors.navTarget, true, lui.HUD_INDICATOR_NAV_TARGET_PROGRADE)
 		onscreen,position,direction = Engine.WorldSpaceToScreenSpace(-navVelocity)
@@ -431,7 +436,7 @@ local function displayFrameData(frame, radius)
 	local altitude = player:GetAltitudeRelTo(frame)
 	local brake_distance = player:GetDistanceToZeroV(velocity:length(),"forward")
 	local altitude, altitude_unit = ui.Format.Distance(altitude)
-	local approach_speed = position:dot(velocity) / position:magnitude()
+	local approach_speed = position:dot(velocity) / position:length()
 	local speed, speed_unit = ui.Format.Speed(approach_speed)
 	local uiPos = ui.pointOnClock(center, radius, -2.46)
 	-- label of frame
@@ -466,7 +471,7 @@ end
 -- display current maneuver data below the reticule circle
 local function displayManeuverData(radius)
 	local maneuverVelocity = player:GetManeuverVelocity()
-	local maneuverSpeed = maneuverVelocity:magnitude()
+	local maneuverSpeed = maneuverVelocity:length()
 	if maneuverSpeed > 0 and not (player:IsDocked() or player:IsLanded()) then
 		local onscreen,position,direction = Engine.WorldSpaceToScreenSpace(maneuverVelocity)
 		displayIndicator(onscreen, position, direction, icons.bullseye, colors.maneuver, true, lui.HUD_INDICATOR_MANEUVER_PROGRADE)
@@ -828,14 +833,14 @@ local function displayOnScreenObjects()
 		ui.addStyledText(mainCoords, ui.anchor.left, ui.anchor.center, label , colors.frame, pionillium.small)
 		local mp = ui.getMousePos()
 		-- mouse release handler for radial menu
-		if (mp - mainCoords):magnitude() < iconsize:magnitude() * 1.5 then
+		if (mp - mainCoords):length() < iconsize:length() * 1.5 then
 			if not ui.isMouseHoveringAnyWindow() and ui.isMouseClicked(1) then
 				local body = mainBody
 				ui.openDefaultRadialMenu(body)
 			end
 		end
 		-- mouse release handler
-		if (mp - mainCoords):magnitude() < iconsize:magnitude() * 1.5 then
+		if (mp - mainCoords):length() < iconsize:length() * 1.5 then
 			if not ui.isMouseHoveringAnyWindow() and ui.isMouseReleased(0) then
 				if count == 1 then
 					if navTarget == mainBody then
