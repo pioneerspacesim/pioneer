@@ -255,6 +255,14 @@
     "description": "",
     "message": "1MW dual-fire pulse cannon"
   },
+  "PULSECANNON_TRIPLE_1MW": {
+    "description": "",
+    "message": "1MW triple-fire pulse cannon"
+  },
+  "PULSECANNON_QUADRUPLE_1MW": {
+    "description": "",
+    "message": "1MW quadruple-fire pulse cannon"
+  },
   "PULSECANNON_RAPID_2MW": {
     "description": "",
     "message": "2MW rapid-fire pulse cannon"

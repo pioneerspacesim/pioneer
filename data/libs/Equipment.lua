@@ -923,6 +923,20 @@ laser.pulsecannon_dual_1mw = LaserType.New({
 		width=5, beam=0, dual=1, mining=0, rgba_r = 255, rgba_g = 51, rgba_b = 51, rgba_a = 255
 	}, purchasable=true, tech_level=4
 })
+laser.pulsecannon_triple_1mw = LaserType.New({
+	l10n_key="PULSECANNON_TRIPLE_1MW", price=1600, capabilities={mass=6},
+	slots = {"laser_front", "laser_rear"}, laser_stats = {
+		lifespan=8, speed=1000, damage=1000, rechargeTime=0.25, length=30, sound="Pulse_Laser",
+		width=5, beam=0, dual=2, mining=0, rgba_r = 255, rgba_g = 51, rgba_b = 51, rgba_a = 255
+	}, purchasable=true, tech_level=4
+})
+laser.pulsecannon_quadruple_1mw = LaserType.New({
+	l10n_key="PULSECANNON_QUADRUPLE_1MW", price=2000, capabilities={mass=8},
+	slots = {"laser_front", "laser_rear"}, laser_stats = {
+		lifespan=8, speed=1000, damage=1000, rechargeTime=0.25, length=30, sound="Pulse_Laser",
+		width=5, beam=0, dual=3, mining=0, rgba_r = 255, rgba_g = 51, rgba_b = 51, rgba_a = 255
+	}, purchasable=true, tech_level=4
+})
 laser.pulsecannon_2mw = LaserType.New({
 	l10n_key="PULSECANNON_2MW", price=1000, capabilities={mass=3},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
