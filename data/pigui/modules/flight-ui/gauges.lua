@@ -33,21 +33,7 @@ function gauges.displayGauges()
 		table.sort(gauges, function(a,b) return a.priority < b.priority end)
 		gauges.dirty = false
 	end
---[[
-	local gauge_stretch = 1.4
-	local current_view = Game.CurrentView()
-	local c = 0
-	for k,v in pairs(gauges) do
-		local g = v.fun()
-		if g and g.value then
-			c = c + 1
-		end
-	end
-	local player = Game.player
-	local guns = player:GetUsedMountsNumber()
-	c = c + guns
-	c = c + 0.1
---]]
+
 	local player = Game.player
 	local guns = player:GetUsedMountsNumber()
 
@@ -76,19 +62,25 @@ function gauges.displayGauges()
 				local icon = nil
 				if player:GetGunIsFront(i - 1) then
 					icon = ui.theme.icons.forward
-					tooltip = lui.HUD_FORWARD_GUN_TEMPERATURE.." ("..lec[player:GetGunName(i-1)]..")"
+					tooltip = lui.HUD_FORWARD_GUN_TEMPERATURE.." ("..lec[player:GetGunName(i-1)].."["..player:GetNumActiveBarrels(i-1).."/"..player:GetNumAvailableBarrels(i-1).."])"
 				else
 					icon = ui.theme.icons.backward
-					tooltip = lui.HUD_BACKWARD_GUN_TEMPERATURE.." ("..lec[player:GetGunName(i-1)]..")"
+					tooltip = lui.HUD_BACKWARD_GUN_TEMPERATURE.." ("..lec[player:GetGunName(i-1)].."["..player:GetNumActiveBarrels(i-1).."/"..player:GetNumAvailableBarrels(i-1).."])"
 				end
 				local left_up = Vector2(0, -ui.gauge_height / 2)
 				local right_down = Vector2(ui.gauge_width, ui.gauge_height / 2)
 				-- Check there's a mouse click on gun gauge
-				if ui.isMouseHoveringRect(uiPos + left_up, uiPos + right_down) and ui.isMouseClicked(0) then
-					if player:IsGunActive(i - 1) then
-						player:SetGunActivation(i - 1, false)
-					else
-						player:SetGunActivation(i - 1, true)
+				if ui.isMouseHoveringRect(uiPos + left_up, uiPos + right_down) then
+					if ui.isMouseClicked(0) then
+						if player:IsGunActive(i - 1) then
+							player:SetGunActivation(i - 1, false)
+						else
+							player:SetGunActivation(i - 1, true)
+						end
+					elseif ui.isMouseClicked(1) then
+						if player:IsGunActive(i - 1) then
+							player:CycleFireMode(i - 1)
+						end
 					end
 				end
 				local gauge_color = ui.theme.colors.gaugeWeapon

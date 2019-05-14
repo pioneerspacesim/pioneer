@@ -1271,12 +1271,45 @@ static int l_ship_get_gun_name(lua_State *l)
 	return 1;
 }
 
+static int l_ship_get_num_available_barrels(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int gun = luaL_checkinteger(l, 2);
+	LuaPush(l, s->GetNumAvailableBarrels(gun));
+	return 1;
+}
+
+static int l_ship_get_num_barrels(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int gun = luaL_checkinteger(l, 2);
+	LuaPush(l, s->GetNumBarrels(gun));
+	return 1;
+}
+
+static int l_ship_get_num_active_barrels(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int gun = luaL_checkinteger(l, 2);
+	LuaPush(l, s->GetNumActiveBarrels(gun));
+	return 1;
+}
+
+static int l_ship_cycle_fire_mode_of_gun(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int num = luaL_checknumber(l, 2);
+	s->CycleFireModeForGun(num);
+	return 0;
+}
+
 static int l_ship_set_active_stat_of_gun(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	int num = luaL_checknumber(l, 2);
 	bool active = lua_toboolean(l, 3);
 	s->SetActivationStateOfGun(num, active);
+	return 0;
 }
 
 static int l_ship_get_active_stat_of_gun(lua_State *l)
@@ -1870,6 +1903,10 @@ void LuaObject<Ship>::RegisterClass()
 		{ "GetGunTemperature", l_ship_get_gun_temperature },
 		{ "GetGunIsFront", l_ship_get_gun_is_front },
 		{ "GetGunName", l_ship_get_gun_name },
+		{ "GetNumAvailableBarrels", l_ship_get_num_available_barrels },
+		{ "GetNumBarrels", l_ship_get_num_barrels },
+		{ "GetNumActiveBarrels", l_ship_get_num_active_barrels },
+		{ "CycleFireMode", l_ship_cycle_fire_mode_of_gun },
 		{ "IsGunActive", l_ship_get_active_stat_of_gun },
 		{ "SetGunActivation", l_ship_set_active_stat_of_gun },
 		{ "GetUsedMountsNumber", l_ship_get_used_mounts_number },

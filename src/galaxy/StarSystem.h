@@ -4,8 +4,8 @@
 #ifndef _STARSYSTEM_H
 #define _STARSYSTEM_H
 
-#include "Polit.h"
 #include "RefCounted.h"
+#include "galaxy/Polit.h"
 #include "galaxy/Economy.h"
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/SystemBody.h"
