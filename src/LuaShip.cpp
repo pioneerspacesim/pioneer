@@ -1312,6 +1312,19 @@ static int l_ship_set_active_stat_of_gun(lua_State *l)
 	return 0;
 }
 
+/* Method: IsGunActive
+ *
+ * Enquire a mount about its state.
+ *
+ *
+ * Parameters:
+ *    a string or a gun id
+ * Returns:
+ *
+ *    true if gun is active, false if gun is inactive or
+ *    something wrong is appening.
+ *
+ */
 static int l_ship_get_active_stat_of_gun(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
@@ -1329,15 +1342,6 @@ static int l_ship_get_active_stat_of_gun(lua_State *l)
 	return 1;
 }
 
-/* Method: GetUsedMountsNumber
- *
- * Return the number of used mounts.
- *
- * Returns:
- *
- *    a value with the number of used mounts
- *
- */
 static int l_ship_get_used_mounts_number(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
@@ -1345,15 +1349,6 @@ static int l_ship_get_used_mounts_number(lua_State *l)
 	return 1;
 }
 
-/* Method: GetFreeMountsNumber
- *
- * Return the number of free mounts.
- *
- * Returns:
- *
- *    a value with the number of mounts
- *
- */
 static int l_ship_get_free_mounts_number(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
@@ -1473,7 +1468,7 @@ static int l_ship_mount_gun(lua_State *l)
 		pd.color.r = t.Get<int>("rgba_r", -1);
 		pd.color.g = t.Get<int>("rgba_g", -1);
 		pd.color.b = t.Get<int>("rgba_b", -1);
-		if (pd.color.a <= 0. || pd.color.r <= 0. || pd.color.g <= 0. || pd.color.b <= 0.) {
+		if (pd.color.a <= 0 || pd.color.r <= 0 || pd.color.g <= 0 || pd.color.b <= 0) {
 			Output("WARNING: Ship %s call 'MountGun' for %s without 'rgba', use default!\n", s->GetLabel().c_str(), name.c_str());
 			pd.color = Color::BLANK;
 		}

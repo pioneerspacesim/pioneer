@@ -31,7 +31,7 @@ typedef int MountId;
 	(maybe allow it only if you have a crew?)
 
 	TODO3: mmmh... Should cooler be PER gun?
-	And should customization of mounted guns possible?
+	...And should customization of mounted guns possible?
 
 	TODO LONG TERM: find and fetch data from ShipType
 	about a possible 'size' of this mount, or if this
@@ -48,6 +48,8 @@ public:
 	void SaveToJson(Json &jsonObj, Space *space);
 	void LoadFromJson(const Json &jsonObj, Space *space);
 
+	/* Reset&copy Mounts from a model
+	*/
 	void GetGunsTags(SceneGraph::Model *m);
 
 	/* Mount a gun in "num", given its datas,
@@ -55,8 +57,14 @@ public:
 	 / the gun (ex. mount is valid and free)
 	*/
 	bool MountGun(MountId num, const std::string &name, const std::string &sound, float recharge, float heatrate, float coolrate, int barrels, const ProjectileData &pd);
+	/* Unmount a gun from a mount point,
+	 / will return true if mount is occupied
+	*/
 	bool UnMountGun(MountId num);
 
+	/* Set guns firing in the given direction
+	 / when "s" is not false
+	*/
 	void SetGunsFiringState(GunDir dir, int s);
 
 	// Return value is 'true' whenever a new projectile is fired
@@ -69,6 +77,8 @@ public:
 	std::vector<MountId> FindEmptyMounts() const;
 	MountId FindMountOfGun(const std::string &name) const;
 
+	/* Set or inquire the GunId abour its activation state
+	*/
 	void SetActivationStateOfGun(GunId num, bool active);
 	bool GetActivationStateOfGun(GunId num) const;
 
@@ -83,7 +93,17 @@ public:
 	*/
 
 	int GetNumBarrels(GunId num);
+	/* Given a valid gun identifier,
+	 / return the number of barrels which
+	 / will fire when ready
+	*/
 	int GetNumActiveBarrels(GunId num);
+
+	/* Given a GunId, change the number of barrels
+	 / which will be fired simultaneously
+	 / Eg: if barrels are 4, cycle through firing
+	 / 1, 2 or 4 barrels togheter
+	*/
 	void CycleFireModeForGun(GunId num);
 
 	GunDir IsFront(GunId num) const;
@@ -98,9 +118,25 @@ public:
 
 private:
 
+	/* Fire given GunId given the shooter
+	 / Just a split for "historical" reasons and in order
+	 / to avoid a big function for updating
+	*/
 	bool Fire(GunId num, Body *shooter);
 
+	/* Get a list of barrels which can fire
+	 / given the fire mode
+	 / Eg: if barrels are 4 and fire mode ask
+	 / for 2 barrels simoultaneously firing,
+	 / return (1,2) and (3,4) given actual_barrel
+	 / which is incremented.
+	*/
 	static std::vector<int> GetFiringBarrels(int max_barrels, int contemporary_barrels, int &actual_barrel);
+
+	/* Given a number will return their factors,
+	 / which in turn are the number of barrels
+	 / which can be fired simoultaneusly
+	*/
 	static std::vector<int> CalculateFireModes(int num_barrels);
 
 	// Structure holding data of a single (maybe with multiple barrel) 'mounted' gun.
@@ -173,7 +209,7 @@ private:
 	};
 
 	// Vector with mounts (data coming from models)
-	std::vector<Mount> m_mounts;
+	GunMounts m_mounts;
 
 	// Vector with mounted guns and their status
 	std::vector<GunStatus> m_guns;
