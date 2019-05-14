@@ -165,7 +165,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "SHIP CRASH LANDED on {planet}."
+    "message": "LOĎ HAVAROVALA na {planet}."
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",

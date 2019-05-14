@@ -1,23 +1,23 @@
 {
   "ADVICE_10_BODYTEXT": {
     "description": "",
-    "message": "Relocating to another faction might be a good idea when in trouble with local authorities."
+    "message": "Преместването в друга фракция може да е добра идея, ако имате проблеми с местните власти."
   },
   "ADVICE_10_HEADLINE": {
     "description": "",
-    "message": "Know when to leave town"
+    "message": "Знайте кога да напуснете града"
   },
   "ADVICE_1_BODYTEXT": {
     "description": "",
-    "message": "Take note of which local business to trust or not, upon completing a transaction outside the confines of the law."
+    "message": "Обърнете внимание на кой местен бизнес може да се доверите или не, след завършване на сделка извън пределите на закона."
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
-    "message": "Tame the Black Market"
+    "message": "Опитомете Черния Пазар"
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Many small distances are faster travelled than their sum."
+    "message": "Повече малки разстояния са по-бързи, отколкото всички накуп."
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
@@ -25,78 +25,78 @@
   },
   "ADVICE_3_BODYTEXT": {
     "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
-    "message": "Avoid jumping into uninhabited systems without the means to leave."
+    "message": "Преценявайте дали горивото ще Ви стигне, защото не навсякъде има опция за презареждане."
   },
   "ADVICE_3_HEADLINE": {
     "description": "",
-    "message": "Avoid getting stranded: plan your jump sequence ahead"
+    "message": "Не се изгубвайте: планирайте пътуването си предварително"
   },
   "ADVICE_4_BODYTEXT": {
     "description": "",
-    "message": "Choose your frame of reference. Especially when wanting to match speed and course of a moving target."
+    "message": "Помислете си за начин на ориентиране. Особено когато искате да поддържате скоростта и курса на движеща се цел."
   },
   "ADVICE_4_HEADLINE": {
     "description": "",
-    "message": "It's all relative"
+    "message": "Всичко е относително"
   },
   "ADVICE_5_BODYTEXT": {
     "description": "",
-    "message": "Buy low and sell high."
+    "message": "Купувайте евтино и продавайте скъпо"
   },
   "ADVICE_5_HEADLINE": {
     "description": "",
-    "message": "Never lose money"
+    "message": "Никога не губете пари"
   },
   "ADVICE_6_BODYTEXT": {
     "description": "",
-    "message": "Pay close attention to any news reported, as information can affect market prices."
+    "message": "Обръщайте внимание на новините, понякога информацията засяга цените на пазара."
   },
   "ADVICE_6_HEADLINE": {
     "description": "",
-    "message": "Keep your ear to the ground"
+    "message": "Бъдете нащрек"
   },
   "ADVICE_7_BODYTEXT": {
     "description": "",
-    "message": "Donations can earn you a good standing in society, but not all charities will earn you a reputation."
+    "message": "Даренията Ви правят добър в очите на обществото, но не всяко дарение ще Ви повиши репутацията."
   },
   "ADVICE_7_HEADLINE": {
     "description": "",
-    "message": "Be generous"
+    "message": "Бъдете щедри"
   },
   "ADVICE_8_BODYTEXT": {
     "description": "",
-    "message": "When journeying to binary systems, make sure to target the right star."
+    "message": "Когато пътувате до системи с две звезди първо се уверете, че Вашата цел е правилната звезда."
   },
   "ADVICE_8_HEADLINE": {
     "description": "",
-    "message": "Stay out of double trouble"
+    "message": "Избягвайте двойни неприятности"
   },
   "ADVICE_9_BODYTEXT": {
     "description": "",
-    "message": "Regularly maintain your engines, but remember: you get what you pay for."
+    "message": "Поддържайте Вашите двигатели, но запомнете: получавате това, за което плащате."
   },
   "ADVICE_9_HEADLINE": {
     "description": "",
-    "message": "Treat your ship well"
+    "message": "Грижете се добре за кораба си"
   },
   "RUMOUR": {
     "description": "Headline starts with this pre-headline",
-    "message": "RUMOUR"
+    "message": "КЛЮКИ"
   },
   "TALE_1_BODYTEXT": {
     "description": "",
-    "message": "Don't miss the beautiful eclipse on New Hope as Hades blocks out the light from Epsilon Eridani."
+    "message": "Не пропускайте красивото затъмнение на Нова Надежда, когато Хадес блокира светлината от Епсилон Еридани."
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",
-    "message": "\"I've seen things you people wouldn't believe\""
+    "message": "\"Виждал съм неща, на които Вие хората няма да повярвате\""
   },
   "TRAVELLERS_ADVICE": {
     "description": "Headline starts with this pre-headline",
-    "message": "TRAVELLER'S ADVICE"
+    "message": "СЪВЕТ ЗА ПЪТЕШЕСТВЕНИЦИ"
   },
   "TRAVELLERS_TALE": {
     "description": "Headline starts with this pre-headline",
-    "message": "TRAVELLER'S TALE"
+    "message": "ПРИКАЗКА ЗА ПЪТЕШЕСТВЕНИЦИ"
   }
 }

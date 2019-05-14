@@ -9,7 +9,7 @@
   },
   "MSG_11": {
     "description": "",
-    "message": "Изследователите никога не си тръгват, но ако не си такъв, натисни {yes}."
+    "message": "Изследователите не си тръгват, но ако не си такъв, натисни {yes}."
   },
   "MSG_12": {
     "description": "",
@@ -25,7 +25,7 @@
   },
   "MSG_15": {
     "description": "",
-    "message": "Предаваш ли се?"
+    "message": "Предаваш ли се вече?"
   },
   "MSG_16": {
     "description": "A little homage to the movie 2001 A Space Odyssey",
@@ -49,7 +49,7 @@
   },
   "MSG_20": {
     "description": "",
-    "message": "Ти наистина ли трябва да си тръгнеш?"
+    "message": "Наистина ли трябва да си тръгнеш?"
   },
   "MSG_21": {
     "description": "alluding to suicide",
@@ -93,7 +93,7 @@
   },
   "QUIT": {
     "description": "Quit game, as a question",
-    "message": "Чао?"
+    "message": "Изход?"
   },
   "YES": {
     "description": "Yes, quit program",

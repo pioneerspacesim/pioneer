@@ -1,59 +1,59 @@
 {
   "FLAVOUR_0_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: System wide plague in the {system} system. Death toll rises."
+    "message": "НОВИНИ {date}: Мащабна епидемия в системата {system}. Броят на жертвите нараства."
   },
   "FLAVOUR_0_NEWSBODY": {
     "description": "Imply high demand for MEDICINE commodity.",
-    "message": "Plague harvests lives in the {system} system ({sectorx}, {sectory}, {sectorz}). Officials urge for medical aid."
+    "message": "Епидемията отнема животи в системата {system} ({sectorx}, {sectory}, {sectorz}). Властите настояват за медицинска помощ."
   },
   "FLAVOUR_10_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Company threatening continual survival of {system} system."
+    "message": "НОВИНИ {date}: Търговско дружество заплашва оцеляването на системата {system}."
   },
   "FLAVOUR_10_NEWSBODY": {
     "description": "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-    "message": "Prekall Inc. are seeking to monopolize air itself throughout {system} ({sectorx}, {sectory}, {sectorz}). Take a deep breath, it might be the last one that is free of charge."
+    "message": "Прикал АД искат да монополизират въздуха в {system} ({sectorx}, {sectory}, {sectorz}). Поемете дълбоко въздух, защото може да е последния безплатен."
   },
   "FLAVOUR_11_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Mysterious disappearance of cattle in the {system} system."
+    "message": "НОВИНИ {date}: Мистериозно изчезване на говеда в системата {system}."
   },
   "FLAVOUR_11_NEWSBODY": {
     "description": "Imply high demand of ANIMAL_MEAT.",
-    "message": "As if by a stroke of a higher power, the farmers in the {system} system ({sectorx}, {sectory}, {sectorz}) woke up to empty barns. \"It's the cattle theft of the century\", police reports."
+    "message": "Новината за изчезването на говедата им беше като гръм от ясно небе за фермерите в системата {system} ({sectorx}, {sectory}, {sectorz}). Полицията докладва, че \"това е говеждата кражба на века\"."
   },
   "FLAVOUR_12_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Infrastructure breakdown as computers malfunction in the {system} system."
+    "message": "НОВИНИ {date}: Повреда в инфраструктурата, поради неизправност на компютрите в системата {system}."
   },
   "FLAVOUR_12_NEWSBODY": {
     "description": "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
-    "message": "A nasty virus caused all Nachosoft computers in the {system} system ({sectorx}, {sectory}, {sectorz}) to suffer a complete hard drive meltdown. The faulty units make excellent paper weights, computer scientists say."
+    "message": "Гаден вирус причини унищожаване на хард дисковете на компютрите Начософт в системата {system} ({sectorx}, {sectory}, {sectorz}). Компютърните специалисти споделиха, че повредените хард дискове стават за фризби."
   },
   "FLAVOUR_13_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Robot uprising in the {system} system."
+    "message": "НОВИНИ {date}: Въстание на роботи в системата {system}."
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to loose faith in robot servants."
+    "message": "Хората се изправят срещу машините в системата {system} ({sectorx}, {sectory}, {sectorz}), поради \"поведенческа неизправност\", която кара домашните потребители да загубят доверието си в техните роботи."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Solar flare causes biggest black out in a millennium in the {system} system."
+    "message": "НОВИНИ {date}: Слънчево изригване причини най-голямото спиране на тока в историята на системата {system}."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as producer has run out of raw material."
+    "message": "Спирането на тока в цялата система {system} ({sectorx}, {sectory}, {sectorz}) причини масови безредици. Потребителите се надпреварват да купят последния Трапъруеър за да си подменят хладилниците, защото производителя им си е изчерпал запасите."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Police raids crime syndicate in the {system} system, key leaders arrested."
+    "message": "НОВИНИ {date}: Полицейска акция в системата {system}, арестувани са ключови наркодилъри."
   },
   "FLAVOUR_15_NEWSBODY": {
     "description": "imply high demand of NARCOTICS.",
-    "message": "The administration in the {system} system ({sectorx}, {sectory}, {sectorz}) hopes crime will diminish as drugs are no longer available, since the arrest of several mobsters."
+    "message": "Администрацията в системата {system} ({sectorx}, {sectory}, {sectorz}) се надява престъпността да намалее след като е спрян трафика на наркотици, поради арестите на наркодилърите."
   },
   "FLAVOUR_16_HEADLINE": {
     "description": "",

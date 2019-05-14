@@ -81,7 +81,7 @@
   },
   "BIND_PRIMARY_FIRE": {
     "description": "Descriptive name for the PrimaryFire action.",
-    "message": "Primary Fire"
+    "message": "Основно Оръжие"
   },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
@@ -97,7 +97,7 @@
   },
   "BIND_SECONDARY_FIRE": {
     "description": "Descriptive name for the SecondaryFire action.",
-    "message": "Secondary Fire"
+    "message": "Вторично Оръжие"
   },
   "BIND_TARGET_OBJECT": {
     "description": "Descriptive name for the TargetObject action.",
@@ -136,7 +136,7 @@
     "message": "Manual Thrust Control"
   },
   "GROUP_MISCELLANEOUS": {
-    "message": "Miscellaneous"
+    "message": "Разни"
   },
   "GROUP_SHIP_ORIENT": {
     "description": "Header for the ShipOrient input group.",
@@ -148,7 +148,7 @@
   },
   "GROUP_WEAPONS": {
     "description": "Header for the Weapons input group.",
-    "message": "Weapons"
+    "message": "Оръжия"
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",

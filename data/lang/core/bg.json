@@ -1,7 +1,7 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "Air processors"
+    "message": "Въздухопречистватели"
   },
   "ALERT_CANCELLED": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "BATTLE_WEAPONS": {
     "description": "",
-    "message": "Battle weapons"
+    "message": "Бойни оръжия"
   },
   "BINARY_SYSTEM": {
     "description": "",
@@ -145,7 +145,7 @@
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "Carbon ore"
+    "message": "Въглеродна руда"
   },
   "CARGO": {
     "description": "",
@@ -261,7 +261,7 @@
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "Consumer goods"
+    "message": "Потребителски стоки"
   },
   "CONTROLS": {
     "description": "",
@@ -405,11 +405,11 @@
   },
   "FARM_MACHINERY": {
     "description": "",
-    "message": "Farm machinery"
+    "message": "Селскостопанско оборудване"
   },
   "FERTILIZER": {
     "description": "",
-    "message": "Fertilizer"
+    "message": "Тор"
   },
   "FIRE_LASER": {
     "description": "",
@@ -477,7 +477,7 @@
   },
   "GRAIN": {
     "description": "like wheat or barley",
-    "message": "Grain"
+    "message": "Жито"
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -545,7 +545,7 @@
   },
   "HYDROGEN": {
     "description": "",
-    "message": "Hydrogen"
+    "message": "Водород"
   },
   "HYPERSPACE": {
     "description": "",
@@ -629,7 +629,7 @@
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
-    "message": "Industrial machinery"
+    "message": "Промишлено оборудване"
   },
   "INTERNAL_VIEW": {
     "description": "",
@@ -697,7 +697,7 @@
   },
   "LIQUOR": {
     "description": "",
-    "message": "Liquor"
+    "message": "Алкохол"
   },
   "LIVE_ANIMALS": {
     "description": "",
@@ -821,7 +821,7 @@
   },
   "MEDICINES": {
     "description": "",
-    "message": "Medicines"
+    "message": "Лекарства"
   },
   "MEDIUM_GAS_GIANT": {
     "description": "",
@@ -837,11 +837,11 @@
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "Metal alloys"
+    "message": "Метални сплави"
   },
   "METAL_ORE": {
     "description": "",
-    "message": "Metal ore"
+    "message": "Метална руда"
   },
   "MILITARY_DICTATORSHIP": {
     "description": "",
@@ -849,7 +849,7 @@
   },
   "MILITARY_FUEL": {
     "description": "",
-    "message": "Military fuel"
+    "message": "Военно гориво"
   },
   "MINING_COLONY": {
     "description": "",
@@ -857,7 +857,7 @@
   },
   "MINING_MACHINERY": {
     "description": "",
-    "message": "Mining machinery"
+    "message": "Минно оборудване"
   },
   "MINOR_EXPORTS": {
     "description": "",
@@ -877,7 +877,7 @@
   },
   "MISCELLANEOUS": {
     "description": "",
-    "message": "Miscellaneous"
+    "message": "Разни"
   },
   "MISSILE": {
     "description": "",
@@ -1165,7 +1165,7 @@
   },
   "PLASTICS": {
     "description": "",
-    "message": "Plastics"
+    "message": "Пластмаси"
   },
   "PLUTOCRATIC_DICTATORSHIP": {
     "description": "",
@@ -1177,7 +1177,7 @@
   },
   "PRECIOUS_METALS": {
     "description": "",
-    "message": "Precious metals"
+    "message": "Скъпоценни метали"
   },
   "PRESSURE_N_ATMOSPHERES": {
     "description": "",
@@ -1217,7 +1217,7 @@
   },
   "ROBOTS": {
     "description": "",
-    "message": "Robots"
+    "message": "Роботи"
   },
   "ROCKY_PLANET": {
     "description": "",
@@ -1269,7 +1269,7 @@
   },
   "RUBBISH": {
     "description": "",
-    "message": "Rubbish"
+    "message": "Боклуци"
   },
   "SCOOP": {
     "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
@@ -1389,7 +1389,7 @@
   },
   "SLAVES": {
     "description": "",
-    "message": "Slaves"
+    "message": "Роби"
   },
   "SMALL": {
     "description": "",
@@ -1625,7 +1625,7 @@
   },
   "TEXTILES": {
     "description": "",
-    "message": "Textiles"
+    "message": "Текстилни изделия"
   },
   "THICK": {
     "description": "",
@@ -1813,11 +1813,11 @@
   },
   "WATER": {
     "description": "",
-    "message": "Water"
+    "message": "Вода"
   },
   "WEAPONS": {
     "description": "",
-    "message": "Weapons"
+    "message": "Оръжия"
   },
   "WEAPON_TEMP": {
     "description": "",

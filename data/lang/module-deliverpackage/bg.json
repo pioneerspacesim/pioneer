@@ -57,7 +57,7 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "ОТИВА КЪМ системата {system}? Платено е за доставката на малък пакет."
+    "message": "ОТИВАШ КЪМ системата {system}? Платено е за доставката на малък пакет."
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -89,7 +89,7 @@
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "The package has been received and you have been paid in full."
+    "message": "Пакетът е получен и договорената сума е платена."
   },
   "FLAVOUR_1_WHYSOMUCHTEXT": {
     "description": "",
@@ -97,11 +97,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "URGENT. Fast ship needed to deliver a package to the {system} system."
+    "message": "СПЕШНО. Нужен е бърз кораб за доставка на пакет до системата {system}."
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid."
+    "message": "Бях достатъчно ясен за крайния срок и съм много разочарован от забавената доставка. Няма да получиш заплащане."
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
@@ -109,19 +109,19 @@
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
-    "message": "You have been paid in full for the delivery. Thank you."
+    "message": "Получихте договорената сума за доставката. Благодаря Ви."
   },
   "FLAVOUR_2_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "It is a research proposal and must be delivered by the deadline or we may not get funding."
+    "message": "Това е научно изследване и трябва да се достави навреме или няма да получим финансирането."
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "DELIVERY. Documents to the {system} system. {cash} to an experienced pilot."
+    "message": "ДОСТАВКА. Документи до системата {system}. {cash} за пилот с опит."
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "Useless! I will never depend on you again! Needless to say, you will not be paid for this."
+    "message": "Безполезно! Никога повече няма да разчитам на теб! Едва ли е нужно да казвам, че няма да ти платя."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
@@ -189,11 +189,11 @@
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you for the package, you have been paid in full."
+    "message": "Благодаря за пакета, платих Ви договорената сума."
   },
   "FLAVOUR_6_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "I don't think it's a lot."
+    "message": "Не мисля, че е много."
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
@@ -233,7 +233,7 @@
   },
   "FLAVOUR_8_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "It's really urgent."
+    "message": "Наистина е спешно."
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
@@ -269,7 +269,7 @@
   },
   "I_HIGHLY_DOUBT_IT": {
     "description": "",
-    "message": "I highly doubt it."
+    "message": "Силно се съмнявам."
   },
   "LY": {
     "description": "",
@@ -293,7 +293,7 @@
   },
   "PIRATE_TAUNTS_2": {
     "description": "",
-    "message": "You're working for {client}? That was a bad idea."
+    "message": "Работиш за {client}? Лоша идея."
   },
   "PIRATE_TAUNTS_3": {
     "description": "",
@@ -309,19 +309,19 @@
   },
   "PIRATE_TAUNTS_6": {
     "description": "",
-    "message": "Tell my old friend {client} that I'll see them in hell!"
+    "message": "Кажи на моя стар приятел {client}, че ще се видим в ада!"
   },
   "PIRATE_TAUNTS_7": {
     "description": "",
-    "message": "That package isn't going to reach its destination today."
+    "message": "Днес този пакет няма да бъде доставен."
   },
   "PIRATE_TAUNTS_8": {
     "description": "",
-    "message": "You're not getting to {location} today!"
+    "message": "Днес няма да стигнеш до {location}!"
   },
   "PIRATE_TAUNTS_9": {
     "description": "",
-    "message": "You'll pay for that cargo, with your life."
+    "message": "Ще платиш за този товар с живота си."
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -329,7 +329,7 @@
   },
   "SPACEPORT": {
     "description": "",
-    "message": "Космодрум:"
+    "message": "Космическа станция:"
   },
   "SYSTEM": {
     "description": "",
@@ -337,11 +337,11 @@
   },
   "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN": {
     "description": "",
-    "message": "This is a valuable package, you should keep your eyes open."
+    "message": "Това е ценен пакет, отваряйте си очите на четири."
   },
   "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
     "description": "",
-    "message": "This is very risky, you will almost certainly run into resistance."
+    "message": "Това е много рисковано, най-вероятно ще срещнете съпротива."
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",

@@ -341,7 +341,7 @@
   },
   "OK_AGREED": {
     "description": "",
-    "message": "OK, agreed."
+    "message": "ОК, съгласен."
   },
   "PICKUP_FROM": {
     "description": "from a location",

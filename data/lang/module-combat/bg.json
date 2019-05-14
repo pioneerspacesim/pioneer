@@ -1,15 +1,15 @@
 {
   "ACCEPTED_1": {
     "description": "",
-    "message": "Very well. Good luck!"
+    "message": "Много добре. Успех!"
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "Excellent!"
+    "message": "Отлично!"
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Good. We count on you!"
+    "message": "Добре. Разчитаме на теб!"
   },
   "ADTEXT_1": {
     "description": "",
@@ -29,15 +29,15 @@
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "{mission} Mission: Salary {cash}."
+    "message": "{mission} Мисия: Заплата {cash}."
   },
   "AGENT": {
     "description": "Secret Service Agent",
-    "message": "Agent"
+    "message": "Агент"
   },
   "AREA": {
     "description": "An allotted area for the mission",
-    "message": "Area:"
+    "message": "Район:"
   },
   "BONUS_1": {
     "description": "",
@@ -57,7 +57,7 @@
   },
   "COMBAT": {
     "description": "Name of mission type",
-    "message": "Combat"
+    "message": "Битка"
   },
   "CORPORATION_1": {
     "description": "Name of a corporation",
@@ -105,7 +105,7 @@
   },
   "DETECTIVE": {
     "description": "Police Detective",
-    "message": "Detective"
+    "message": "Детектив"
   },
   "DISTANCE": {
     "description": "Distance in space, between two locations",
@@ -113,7 +113,7 @@
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "Shame on you. Get out of my sight."
+    "message": "Срамота. Изчезвай от тук."
   },
   "FAILUREMSG_2": {
     "description": "",
@@ -129,23 +129,23 @@
   },
   "GREETING_1": {
     "description": "",
-    "message": "Hi, I'm {name}."
+    "message": "Здрасти, аз съм {name}."
   },
   "GREETING_2": {
     "description": "",
-    "message": "Hello. My name is {name}."
+    "message": "Здравейте. Името ми е {name}."
   },
   "GREETING_3": {
     "description": "",
-    "message": "How are you. I'm {name}."
+    "message": "Хей. Аз съм {name}."
   },
   "GREETING_4": {
     "description": "",
-    "message": "Greetings! Call me {name}."
+    "message": "Поздрави! Наричай ме {name}."
   },
   "GREETING_5": {
     "description": "",
-    "message": "Good day. My name is {name}."
+    "message": "Добър ден. Името ми е {name}."
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
@@ -169,11 +169,11 @@
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
-    "message": "How will I be paid?"
+    "message": "Как ще ми платите?"
   },
   "IS_THERE_A_TIME_LIMIT": {
     "description": "",
-    "message": "Is there a time limit?"
+    "message": "Колко време имам?"
   },
   "LY": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "MANAGER": {
     "description": "",
-    "message": "Manager"
+    "message": "Управител"
   },
   "MEET_ME_THERE": {
     "description": "",
@@ -229,7 +229,7 @@
   },
   "MISSION": {
     "description": "",
-    "message": "Mission:"
+    "message": "Мисия:"
   },
   "MISSION_COMPLETE": {
     "description": "Message from the ship computer",
@@ -261,7 +261,7 @@
   },
   "OK_AGREED": {
     "description": "",
-    "message": "OK, agreed."
+    "message": "ОК, съгласен."
   },
   "PAYMENT_LOCATION": {
     "description": "",
@@ -341,6 +341,6 @@
   },
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
-    "message": "Will I be in trouble?"
+    "message": "Ще имам ли неприятности?"
   }
 }

@@ -313,7 +313,7 @@
   },
   "DECREASE_TIME_ACCELERATION": {
     "description": "",
-    "message": "Decrease Time Acceleration"
+    "message": "Zpomalit urychlení času"
   },
   "DEMOGRAPHICS": {
     "description": "",
@@ -617,7 +617,7 @@
   },
   "INCREASE_TIME_ACCELERATION": {
     "description": "",
-    "message": "Increase Time Acceleration"
+    "message": "Zrychlit urychlení času"
   },
   "INDUSTRIAL_COLONY": {
     "description": "",
@@ -669,7 +669,7 @@
   },
   "LASER_FIRE_DETECTED": {
     "description": "",
-    "message": "Weapons fire detected."
+    "message": "Zjištěna střelba."
   },
   "LATITUDE": {
     "description": "Short for latitude",
@@ -1205,7 +1205,7 @@
   },
   "REQUEST_DOCKING_CLEARANCE": {
     "description": "",
-    "message": "Request docking clearance from {target}"
+    "message": "Vyžádat uvolnění z přístavu {target}"
   },
   "RESET": {
     "description": "",
@@ -1357,7 +1357,7 @@
   },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
     "description": "Either show no ships, show ships, or show ships + their orbits",
-    "message": "Switch between ship display modes."
+    "message": "Přepnout mezi režimy zobrazení lodí."
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1785,7 +1785,7 @@
   },
   "UNSET_NAVTARGET": {
     "description": "",
-    "message": "Unset navigation target."
+    "message": "Zrušit nastavení cíle navigace."
   },
   "USE_LOW_THRUST": {
     "description": "",

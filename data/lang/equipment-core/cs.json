@@ -269,11 +269,11 @@
   },
   "SCAN_COMPLETED": {
     "description": "",
-    "message": "Scanning completed"
+    "message": "Skenování dokončeno"
   },
   "SCAN_RESUMED": {
     "description": "",
-    "message": "Scanning resumed"
+    "message": "Pokračuje se ve skenování"
   },
   "SHIELD_ENERGY_BOOSTER": {
     "description": "",

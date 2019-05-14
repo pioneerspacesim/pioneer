@@ -169,7 +169,7 @@
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
-    "message": "Combat"
+    "message": "Битка"
   },
   "COMMANDER": {
     "description": "",
@@ -1149,7 +1149,7 @@
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "Metal alloys"
+    "message": "Метални сплави"
   },
   "MILITARY": {
     "description": "",

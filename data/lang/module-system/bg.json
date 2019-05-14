@@ -29,10 +29,10 @@
   },
   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
     "description": "",
-    "message": "Вашият резервоар за гориво е почти празен."
+    "message": "Вашия резервоар за гориво е почти празен."
   },
   "YOUR_FUEL_TANK_IS_EMPTY": {
     "description": "",
-    "message": "Вашият резервоар за гориво е празен."
+    "message": "Вашия резервоар за гориво е празен."
   }
 }

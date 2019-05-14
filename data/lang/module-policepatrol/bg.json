@@ -5,7 +5,7 @@
   },
   "INITIATE_CARGO_SCAN_1": {
     "description": "",
-    "message": "Започнете сканиране на товара."
+    "message": "Започнато сканиране на товара."
   },
   "INITIATE_CARGO_SCAN_2": {
     "description": "",
@@ -13,7 +13,7 @@
   },
   "INITIATE_CARGO_SCAN_3": {
     "description": "",
-    "message": "Започнете претърсване за контрабанда."
+    "message": "Започнато претърсване за контрабанда."
   },
   "NOTHING_DETECTED": {
     "description": "",
