@@ -21,7 +21,7 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "Върнете се, когато имате нужните квалификации."
+    "message": "Върнете се, когато натрупате нужния опит."
   },
   "DENY_2": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "DENY_5": {
     "description": "",
-    "message": "Изглеждаш като аматьор, няма да се справиш с толкова важна задача."
+    "message": "Неопитен си, няма да се справиш с толкова важна задача."
   },
   "DENY_6": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "DENY_7": {
     "description": "",
-    "message": "Няма да подложа на риск тази доставка с аматьор като теб."
+    "message": "Няма да подложа на риск тази доставка с неопитен пилот като теб."
   },
   "DISTANCE": {
     "description": "",
@@ -65,7 +65,7 @@
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, аз съм {name}. Ще ти платя {cash}, ако доставиш малък пакет в {starport}, намиращ се в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
+    "message": "Здрасти, аз съм {name}. Ще ти платя {cash}, ако доставиш малък пакет в {starport}, намираща се в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, аз съм {name}. Склонен съм да платя {cash} за кораб, който да достави пакет в {starport}, намиращ се в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
+    "message": "Здрасти, аз съм {name}. Склонен съм да платя {cash} за кораб, който да достави пакет в {starport}, намираща се в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, аз съм {name}. Склонен съм да платя {cash} за кораб, който да достави пакет в {starport}, намиращ се в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
+    "message": "Здрасти, аз съм {name}. Склонен съм да платя {cash} за кораб, който да достави пакет в {starport}, намираща се в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
@@ -125,67 +125,67 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, аз съм {name}. Склонен съм да платя {cash} за кораб, който да достави пакет в {starport}, намиращ се в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
+    "message": "Здрасти, аз съм {name}. Склонен съм да платя {cash} за кораб, който да достави пакет в {starport}, намираща се в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "Your timely and discrete service is much appreciated. You have been paid in full."
+    "message": "Вашите навременни и дискретни действия са високо оценени. Получихте договорената сума."
   },
   "FLAVOUR_3_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me."
+    "message": "Намерих някакви изключително ценни документи и имам причина да вярвам, че са открити улики, които водят към мен."
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "POSTAL SERVICE. We require a ship for the delivery run to {system} system."
+    "message": "ПОЩЕНСКА УСЛУГА. Нуждаем се от доставчик до системата {system}."
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "Your ship registration has been noted, we will reject all further applications for work from you."
+    "message": "Запомнихме те, вече няма да те търсим за нищо."
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "Greetings. This is an automated message from Bedford and {name} Courier Services. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+    "message": "Поздрави. Това е автоматично съобщение от Куриерски Услуги Бедфорд и {name}. Плащаме {cash} за доставка до {starport}, намираща се в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Your timely and discrete service is much appreciated. You have been paid in full."
+    "message": "Вашите навременни и дискретни действия са високо оценени. Получихте договорената сума."
   },
   "FLAVOUR_4_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "We would be happy to pay you less money."
+    "message": "Ще се радваме да Ви платим по-малко пари."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "MOVING HOME. Move of hardware to {starport} from storage."
+    "message": "ПРЕМЕСТВАНЕ. Преместване на железария до {starport} от склада."
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "What are these? Oh, you took so long that I forgot I'd even sent this!"
+    "message": "Какво е това? Чакай, сетих се, но ти толкова се забави, че дори забравих за това!"
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "Nice to meet you. I am {name} and I'm willing to pay {cash} for someone with a ship to help me move my belongings to {starport}. No rush, they are just some leftovers from moving house."
+    "message": "Приятно ми е да се запознаем. Аз съм {name} и съм склонен да платя {cash} за пилот, който да ми помогне да си преместя вещите до {starport}. Нямам бърза работа, повечето вече ги преместих."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "Oh wonderful. I'll start unloading immediately. Thanks again."
+    "message": "Чудесно. Започвам разтоварването веднага. Благодаря Ви отново."
   },
   "FLAVOUR_5_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Is it a lot? I should rethink my offer!"
+    "message": "Много ли е? Да преосмисля ли офертата си!"
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "SHORT-RANGE COURIER. Delivery of a small package to {starport}."
+    "message": "КУРИЕР ЗА ЕДИН МИГ. Доставка на малък пакет до {starport}."
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
-    "message": "I could have delivered it faster myself. I'm not paying you."
+    "message": "Сам можех да го доставя по-бързо. От мен пари няма да видиш."
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",
-    "message": "Hi. I'm {name} and I will pay {cash} for a ship to deliver this package to {starport}."
+    "message": "Здрасти. Аз съм {name} и ще платя {cash} за доставката на този пакет до {starport}."
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
@@ -197,39 +197,39 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "INTER-PLANETARY CARGO. Freight of local cargo to {starport}."
+    "message": "МЕЖДУПЛАНЕТЕН НОСАЧ. Превоз на локален товар до {starport}."
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
-    "message": "Our customers are not going to be happy with this. Do not expect to be paid."
+    "message": "Нашите клиенти няма да са доволни от това. Не очаквай заплащане."
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",
-    "message": "Hello. We need these crates delivered to {starport} as soon as possible. Standard payment for this shipment is {cash}."
+    "message": "Здравейте. Трябва да доставим тези щайги до {starport} възможно най-бързо. Стандартното заплащане е {cash}."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
-    "message": "Excellent, we've credited the funds into your account."
+    "message": "Отлично, преведохме парите във Вашата сметка."
   },
   "FLAVOUR_7_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Standard rates, we work with the market."
+    "message": "Стандартни валутни курсове."
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "NEARBY DELIVERY. Require quick delivery of an item to {starport}."
+    "message": "БЛИЗКА ДОСТАВКА. Нуждая се от бърза доставка на артикул до {starport}."
   },
   "FLAVOUR_8_FAILUREMSG": {
     "description": "",
-    "message": "You were offered a premium for quick delivery! I refuse to pay for this."
+    "message": "Имаш премия за бързата доставка! Отказвам да ти платя."
   },
   "FLAVOUR_8_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} and I need this item delivered to a friend at {starport} pronto, I'll pay you {cash} credits if you get it there in a reasonable time."
+    "message": "Името ми е {name} и този артикул трябва да се достави веднага на мой приятел в {starport}. Ще преведа {cash} по сметката ти, ако го доставиш навреме."
   },
   "FLAVOUR_8_SUCCESSMSG": {
     "description": "",
-    "message": "Your prompt delivery is appreciated, I have credited your account accordingly."
+    "message": "Оценявам бързината Ви, парите са преведени във Вашата сметка."
   },
   "FLAVOUR_8_WHYSOMUCHTEXT": {
     "description": "",
@@ -237,35 +237,35 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "PACKAGE DROP. Urgent dispatch of perishables to {starport}."
+    "message": "ОСТАВЯНЕ НА ПАКЕТ. Спешно изпращане на нетрайни стоки до {starport}."
   },
   "FLAVOUR_9_FAILUREMSG": {
     "description": "",
-    "message": "It's all spoilt, this is of no use to anyone! We cannot and will not pay you."
+    "message": "Всичко е развалено и не става за нищо! Не можем и няма да ти платим."
   },
   "FLAVOUR_9_INTROTEXT": {
     "description": "",
-    "message": "Greetings, we're behind with our produce shipment and need it delivered to {starport} urgently. We'll pay you {cash} for your troubles."
+    "message": "Поздрави, изоставаме от графика с една пратка, която трябва спешно да се достави до {starport}. Ще ти платим {cash}."
   },
   "FLAVOUR_9_SUCCESSMSG": {
     "description": "",
-    "message": "Grand! We'll start unpacking immediately. I'll have your account updated right away."
+    "message": "Велико! Ще започнем разтоварването веднага. Незабавно ще преведа парите по сметката Ви."
   },
   "FLAVOUR_9_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Our livelihood depends on it."
+    "message": "Нашата прехрана зависи от това."
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
-    "message": "How soon must it be delivered?"
+    "message": "Кога трябва да се достави?"
   },
   "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED": {
     "description": "",
-    "message": "It could be dangerous, you should make sure you're adequately prepared."
+    "message": "Може да е опасно, трябва да сте сигурни, че сте подготвени адекватно."
   },
   "IT_MUST_BE_DELIVERED_BY": {
     "description": "",
-    "message": "It must be delivered by "
+    "message": "Трябва да се достави преди "
   },
   "I_HIGHLY_DOUBT_IT": {
     "description": "",
@@ -277,7 +277,7 @@
   },
   "NOT_ANY_MORE_THAN_USUAL": {
     "description": "",
-    "message": "Not any more than usual."
+    "message": "Не повече от обичайното."
   },
   "OK_AGREED": {
     "description": "",
@@ -289,7 +289,7 @@
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
-    "message": "Looks like my paycheck has arrived!"
+    "message": "Изглежда, че надника ми пристигна!"
   },
   "PIRATE_TAUNTS_2": {
     "description": "",
@@ -297,11 +297,11 @@
   },
   "PIRATE_TAUNTS_3": {
     "description": "",
-    "message": "Your cargo and your life, pilot!"
+    "message": "Ще те очистя, заедно с товара ти!"
   },
   "PIRATE_TAUNTS_4": {
     "description": "",
-    "message": "I'm sure this will bring a pretty penny on the market"
+    "message": "Сигурен съм, че това струва доста пари на пазара"
   },
   "PIRATE_TAUNTS_5": {
     "description": "",

@@ -245,7 +245,7 @@
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
-    "message": "How soon must it be delivered?"
+    "message": "Кога трябва да се достави?"
   },
   "INTROTEXT_1": {
     "description": "",
@@ -401,7 +401,7 @@
   },
   "RISK_2": {
     "description": "",
-    "message": "Not any more than usual."
+    "message": "Не повече от обичайното."
   },
   "RISK_3": {
     "description": "",
@@ -409,7 +409,7 @@
   },
   "RISK_4": {
     "description": "",
-    "message": "It could be dangerous, you should make sure you're adequately prepared."
+    "message": "Може да е опасно, трябва да сте сигурни, че сте подготвени адекватно."
   },
   "RISK_5": {
     "description": "",

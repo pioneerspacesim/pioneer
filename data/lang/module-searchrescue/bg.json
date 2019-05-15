@@ -1,7 +1,7 @@
 {
   "ACCIDENT_DESTROYED_TARGET": {
     "description": "",
-    "message": "The sad news has reached us that {shiplabel} has been destroyed. We will pay half of the agreed price for you efforts."
+    "message": "До нас достигна тъжната новина, че {shiplabel} е унищожен. Ще платим половината от уговорената цена за твоите усилия."
   },
   "AU": {
     "description": "",
@@ -9,11 +9,11 @@
   },
   "BOARDED_PASSENGER": {
     "description": "",
-    "message": "{name} has boarded the ship."
+    "message": "{name} се качи на кораба."
   },
   "COMMODITIES": {
     "description": "",
-    "message": "Commodities"
+    "message": "Стоки"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -21,7 +21,7 @@
   },
   "CREW": {
     "description": "",
-    "message": "Crew"
+    "message": "Екипаж"
   },
   "DEADLINE": {
     "description": "",
@@ -29,11 +29,11 @@
   },
   "DELIVERED_PASSENGER": {
     "description": "",
-    "message": "{name} has left the ship."
+    "message": "{name} напусна кораба."
   },
   "DELIVERY": {
     "description": "",
-    "message": "DELIVERY"
+    "message": "ДОСТАВКА"
   },
   "DISTANCE": {
     "description": "",
@@ -41,31 +41,31 @@
   },
   "ENTITY_FAMILY_BUSINESS_1": {
     "description": "",
-    "message": "{name} and Sons"
+    "message": "{name} и Синове"
   },
   "ENTITY_FAMILY_BUSINESS_10": {
     "description": "",
-    "message": "{name} Taxi Services"
+    "message": "{name} Таксиметрови Услуги"
   },
   "ENTITY_FAMILY_BUSINESS_2": {
     "description": "",
-    "message": "{name} and Daughters"
+    "message": "{name} и Дъщери"
   },
   "ENTITY_FAMILY_BUSINESS_3": {
     "description": "",
-    "message": "{name} Flowers of {locality}"
+    "message": "{name} Цветя от {locality}"
   },
   "ENTITY_FAMILY_BUSINESS_4": {
     "description": "",
-    "message": "{name} Custom Painted Missiles"
+    "message": "{name} Поръчково Боядисани Ракети"
   },
   "ENTITY_FAMILY_BUSINESS_5": {
     "description": "",
-    "message": "{name} Courier Services"
+    "message": "{name} Куриерски Услуги"
   },
   "ENTITY_FAMILY_BUSINESS_6": {
     "description": "",
-    "message": "{name} Space Pets"
+    "message": "{name} Космически Любимци"
   },
   "ENTITY_FAMILY_BUSINESS_7": {
     "description": "",
@@ -73,11 +73,11 @@
   },
   "ENTITY_FAMILY_BUSINESS_8": {
     "description": "",
-    "message": "{name} Authentic {locality} Foods"
+    "message": "{name} Автентични {locality} Храни"
   },
   "ENTITY_FAMILY_BUSINESS_9": {
     "description": "",
-    "message": "{name} Transports"
+    "message": "{name} Транспорт"
   },
   "ENTITY_GENERAL_1": {
     "description": "",

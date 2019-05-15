@@ -25,7 +25,7 @@
   },
   "CORPORATIONS_4": {
     "description": "",
-    "message": "Корабостроителница Аквариян"
+    "message": "Корабостроителница Водолей"
   },
   "CORPORATIONS_5": {
     "description": "",
@@ -81,7 +81,7 @@
   },
   "DENY_5": {
     "description": "",
-    "message": "Изглеждаш като аматьор, няма да се справиш с толкова важен превоз."
+    "message": "Неопитен си, няма да се справиш с толкова важен превоз."
   },
   "DENY_6": {
     "description": "",
@@ -89,7 +89,7 @@
   },
   "DENY_7": {
     "description": "",
-    "message": "Няма да рискувам живота си с аматьор като теб."
+    "message": "Няма да рискувам живота си с неопитен пилот като теб."
   },
   "DISTANCE": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, казвам се {name} и се нуждая от превоз на малка група към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
+    "message": "Здрасти, аз съм {name} и се нуждая от превоз на малка група към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
@@ -149,7 +149,7 @@
   },
   "FLAVOUR_10_INTROTEXT": {
     "description": "",
-    "message": "Казвам се {name}. Искам бърз превоз към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Плащам {cash}."
+    "message": "Името ми е {name}. Искам бърз превоз към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Плащам {cash}."
   },
   "FLAVOUR_10_SUCCESSMSG": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "FLAVOUR_11_INTROTEXT": {
     "description": "",
-    "message": "Казвам се {name}. Нуждая се от бърз превоз към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
+    "message": "Името ми е {name}. Нуждая се от бърз превоз към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
   },
   "FLAVOUR_11_SUCCESSMSG": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "FLAVOUR_12_INTROTEXT": {
     "description": "",
-    "message": "Казвам се {name}. Нуждая се от превоз към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
+    "message": "Името ми е {name}. Нуждая се от превоз към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
   },
   "FLAVOUR_12_SUCCESSMSG": {
     "description": "",
@@ -245,7 +245,7 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, казвам се {name} и се нуждая от превоз на малка група към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
+    "message": "Здрасти, аз съм {name} и се нуждая от превоз на малка група към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
@@ -277,7 +277,7 @@
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, казвам се {name} и се нуждая от превоз на малка група към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
+    "message": "Здрасти, аз съм {name} и се нуждая от превоз на малка група към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
@@ -469,7 +469,7 @@
   },
   "FLAVOUR_8_INTROTEXT": {
     "description": "",
-    "message": "Казвам се {name}. Нуждая се от бърз превоз към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
+    "message": "Името ми е {name}. Нуждая се от бърз превоз към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
   },
   "FLAVOUR_8_SUCCESSMSG": {
     "description": "",
@@ -501,7 +501,7 @@
   },
   "FLAVOUR_9_INTROTEXT": {
     "description": "",
-    "message": "Казвам се {name}. Нуждая се от бърз превоз към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
+    "message": "Името ми е {name}. Нуждая се от бърз превоз към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
   },
   "FLAVOUR_9_SUCCESSMSG": {
     "description": "",

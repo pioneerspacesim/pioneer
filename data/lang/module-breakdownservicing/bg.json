@@ -1,35 +1,35 @@
 {
   "FLAVOUR_0_INTRO": {
     "description": "",
-    "message": "Избегнете неудобството от повреден хиперсветлинен двигател. Ремонтирайте своя днес при лицензираната {name} Двигателна Ремонтна Компания.\n"
+    "message": "Избегнете неудобството от повреден хиперсветлинен двигател. Обслужете своя днес при лицензираната {name} Двигателна Обслужваща Компания.\n"
   },
   "FLAVOUR_0_PRICE": {
     "description": "",
-    "message": "\nДвигател: {drive}\nРемонт: {price}\nГаранция: 18 месеца\n{lasttime}"
+    "message": "\nДвигател: {drive}\nОбслужване: {price}\nГаранция: 18 месеца\n{lasttime}"
   },
   "FLAVOUR_0_RESPONSE": {
     "description": "",
-    "message": "Вашия двигател беше ремонтиран."
+    "message": "Вашия двигател беше обслужен."
   },
   "FLAVOUR_0_TITLE": {
     "description": "",
-    "message": "{name} Двигателна Ремонтна Компания"
+    "message": "{name} Двигателна Обслужваща Компания"
   },
   "FLAVOUR_0_YESPLEASE": {
     "description": "",
-    "message": "Ремонтирай хиперсветлинен двигател"
+    "message": "Обслужи хиперсветлинен двигател"
   },
   "FLAVOUR_1_INTRO": {
     "description": "",
-    "message": "Аз съм {proprietor}. Мога да ремонтирам твоя хиперсветлинен двигател и ти гарантирам поне година безпроблемна работа."
+    "message": "Аз съм {proprietor}. Мога да обслужа Вашия хиперсветлинен двигател и Ви гарантирам поне година безпроблемна работа."
   },
   "FLAVOUR_1_PRICE": {
     "description": "",
-    "message": "Цената за ремонта на {drive} ще бъде {price}\n{lasttime}"
+    "message": "Цената за обслужването на {drive} ще бъде {price}\n{lasttime}"
   },
   "FLAVOUR_1_RESPONSE": {
     "description": "",
-    "message": "Ремонтирах Вашия хиперсветлинен двигател."
+    "message": "Обслужих Вашия хиперсветлинен двигател."
   },
   "FLAVOUR_1_TITLE": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "FLAVOUR_1_YESPLEASE": {
     "description": "",
-    "message": "Ремонтирай моя хиперсветлинен двигател"
+    "message": "Обслужи моя хиперсветлинен двигател"
   },
   "FLAVOUR_2_INTRO": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "FLAVOUR_2_RESPONSE": {
     "description": "",
-    "message": "Ремонта е завършен. Благодаря, че избрахте нас."
+    "message": "Обслужването е завършено. Благодаря, че избрахте нас."
   },
   "FLAVOUR_2_TITLE": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "FLAVOUR_3_RESPONSE": {
     "description": "",
-    "message": "Вашия СуперФикс ремонт е завършен със СуперФикс гаранция!"
+    "message": "Вашето СуперФикс обслужване е завършено със СуперФикс гаранция!"
   },
   "FLAVOUR_3_TITLE": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "FLAVOUR_4_PRICE": {
     "description": "",
-    "message": "\n{lasttime}\nРемонта на {drive} ще струва {price}. Искате ли да продължите?"
+    "message": "\n{lasttime}\nОбслужването на на {drive} ще струва {price}. Искате ли да продължите?"
   },
   "FLAVOUR_4_RESPONSE": {
     "description": "",
@@ -101,23 +101,23 @@
   },
   "FLAVOUR_5_INTRO": {
     "description": "",
-    "message": "Избегнете неудобството от повреден хиперсветлинен двигател. Ремонтирайте своя днес.\n"
+    "message": "Избегнете неудобството от повреден хиперсветлинен двигател. Обслужете своя днес.\n"
   },
   "FLAVOUR_5_PRICE": {
     "description": "",
-    "message": "\nДвигател: {drive}\nРемонт: {price}\n{lasttime}"
+    "message": "\nДвигател: {drive}\nОбслужване: {price}\n{lasttime}"
   },
   "FLAVOUR_5_RESPONSE": {
     "description": "",
-    "message": "Вашия двигател беше ремонтиран."
+    "message": "Вашия двигател беше обслужен."
   },
   "FLAVOUR_5_TITLE": {
     "description": "",
-    "message": "{proprietor} Двигателна Ремонтна Компания"
+    "message": "{proprietor} Двигателна Обслужваща Компания"
   },
   "FLAVOUR_5_YESPLEASE": {
     "description": "",
-    "message": "Ремонтирай хипер двигател"
+    "message": "Обслужи хипер двигател"
   },
   "I_DONT_HAVE_ENOUGH_MONEY": {
     "description": "",
@@ -133,15 +133,15 @@
   },
   "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED": {
     "description": "",
-    "message": "Вашия двигател не е бил ремонтиран от датата на монтирането му {date}"
+    "message": "Вашия двигател не е бил обслужван от датата на монтирането му {date}"
   },
   "YOUR_DRIVE_WAS_LAST_SERVICED_ON": {
     "description": "",
-    "message": "Вашия двигател е бил последно ремонтиран на {date} от {company}"
+    "message": "Вашия двигател е бил последно обслужван на {date} от {company}"
   },
   "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE": {
     "description": "",
-    "message": "Не е намерен двигател за ремонт!"
+    "message": "Не е намерен двигател за обслужване!"
   },
   "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
     "description": "",
