@@ -543,7 +543,7 @@ void SectorView::DrawNearSectors(const matrix4x4f &modelview)
 
 bool SectorView::MoveRouteItemUp(const std::vector<SystemPath>::size_type element)
 {
-	if (element <= 0 || element >= m_route.size()) return false;
+	if (element == 0 || element >= m_route.size()) return false;
 
 	std::swap(m_route[element - 1], m_route[element]);
 
@@ -552,7 +552,7 @@ bool SectorView::MoveRouteItemUp(const std::vector<SystemPath>::size_type elemen
 
 bool SectorView::MoveRouteItemDown(const std::vector<SystemPath>::size_type element)
 {
-	if (element < 0 || element >= m_route.size() - 1) return false;
+	if (element >= m_route.size() - 1) return false;
 
 	std::swap(m_route[element + 1], m_route[element]);
 
@@ -566,7 +566,7 @@ void SectorView::AddToRoute(const SystemPath &path)
 
 bool SectorView::RemoveRouteItem(const std::vector<SystemPath>::size_type element)
 {
-	if (element >= 0 && element < m_route.size()) {
+	if (element < m_route.size()) {
 		m_route.erase(m_route.begin() + element);
 		return true;
 	} else {

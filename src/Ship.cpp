@@ -409,12 +409,12 @@ vector3d Ship::CalcAtmosphericForce() const
 	double m_AoAMultiplier = m_localVel.NormalizedSafe().y;
 
 	// There's no lift produced once the wing hits the stall angle.
-	if (abs(m_AoAMultiplier) < 0.61) {
+	if (std::abs(m_AoAMultiplier) < 0.61) {
 		// Pioneer simulates non-cambered wings, with equal air displacement on either side of AoA.
 
 		// Generated lift peaks at around 20 degrees here, and falls off fully at 35-ish.
 		// TODO: handle AoA better / more gracefully with an actual angle- and curve-based implementation.
-		m_AoAMultiplier = cos((abs(m_AoAMultiplier) - 0.31) * 5.0) * sign(m_AoAMultiplier);
+		m_AoAMultiplier = cos((std::abs(m_AoAMultiplier) - 0.31) * 5.0) * sign(m_AoAMultiplier);
 
 		// TODO: verify dimensional accuracy and that we're not generating more lift than physically possible.
 		// We scale down the lift contribution because fAtmosDrag handles deflection-based lift.
