@@ -29,17 +29,13 @@ Windows: Microsoft Visual C++ 2015 (Community or Pro)
          CMake with MSYS2 (and MinGW-w64)
 OS X: XCode 4 or Homebrew or CMake
 
-The Autotools build system is usually the most up-to-date, and is what is used
-to produce the Linux and Windows builds. The others typically lag behind,
-depending on the motivation of those using them to keep them up too date with
-source file changes.
-
 There is an additional repository called pioneer-thirdparty that contains
 various files that may assist with building. If the instructions for your
 platforms indicates you may need it, then read the section below for details.
 
 If you're having trouble compiling, please ask in #pioneer on
-irc.freenode.net.
+irc.freenode.net. Most users are available to answer during CET daytime, but
+questions are welcome anytime.
 
 
 1.1 Linux - CMake
@@ -65,7 +61,7 @@ irc.freenode.net.
    If your platform doesn't have assimp 3.2, you'll need to build it from
    source. It's available in pioneer-thirdparty, see below.
 
-2. Run './bootstrap cmake' to generate CMake build files in the 'build' folder.
+2. Run './bootstrap' to generate CMake build files in the 'build' folder.
    For advanced users, this command passes any additional arguments to the
    CMake process.
 
@@ -163,10 +159,10 @@ To get it, clone git://github.com/pioneerspacesim/pioneer-thirdparty.git.
 
 1. Clone the thirdparty repo to './pioneer-thirdparty' and 'cd' into it.
 
-1. Run 'autoconf' to generate configuration files, then run './configure' to
+2. Run 'autoconf' to generate configuration files, then run './configure' to
    configure the build.
 
-2. Run make <package> to compile and prepare the named package for use with
+3. Run make <package> to compile and prepare the named package for use with
    Pioneer, or just run make alone to build everything.
 
 4. From the pioneer directory, run `./bootstrap thirdparty` to generate a CMake
