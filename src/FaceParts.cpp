@@ -359,7 +359,7 @@ void FaceParts::PickFaceParts(FaceDescriptor &inout_face, const Uint32 seed)
 	_pick(rand, inout_face.mouth, _count_parts(s_partdb->mouths, selector));
 	_pick(rand, inout_face.hairstyle, _count_parts(s_partdb->hairstyles, selector));
 
-	const bool has_accessories = (rand.Int32() & 1);
+	const bool has_accessories = (rand.Int32() & 1 || inout_face.accessories >= 0);
 	_pick(rand, inout_face.accessories, _count_parts(s_partdb->accessories, selector));
 	if (!has_accessories) {
 		inout_face.accessories = 0;

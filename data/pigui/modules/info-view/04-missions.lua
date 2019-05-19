@@ -8,7 +8,8 @@ local Lang = import 'Lang'
 local l = Lang.GetResource("ui-core")
 
 
-InfoView.registerView("missions", {
+InfoView.registerView({
+    id = "missions",
     name = l.MISSIONS,
     icon = ui.theme.icons.star,
     showView = false,

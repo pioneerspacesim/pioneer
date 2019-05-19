@@ -671,6 +671,50 @@ bool PiGui::LowThrustButton(const char *id_string, const ImVec2 &size_arg, int t
 	return pressed;
 }
 
+// frame_padding < 0: uses FramePadding from style (default)
+// frame_padding = 0: no framing
+// frame_padding > 0: set framing size
+// The color used are the button colors.
+bool PiGui::ButtonImageSized(ImTextureID user_texture_id, const ImVec2& size, const ImVec2& imgSize, const ImVec2& uv0, const ImVec2& uv1, int frame_padding, const ImVec4& bg_col, const ImVec4& tint_col)
+{
+	ImGuiWindow* window = ImGui::GetCurrentWindow();
+	if (window->SkipItems)
+		return false;
+
+	ImGuiContext& g = *GImGui;
+	const ImGuiStyle& style = g.Style;
+
+	// Default to using texture ID as ID. User can still push string/integer prefixes.
+	// We could hash the size/uv to create a unique ID but that would prevent the user from animating UV.
+	ImGui::PushID((void*)user_texture_id);
+	const ImGuiID id = window->GetID("#image");
+	ImGui::PopID();
+
+	ImVec2 imgPadding = (size - imgSize)/2;
+	imgPadding.x = imgPadding.x < 0 || imgSize.x <= 0 ? 0 : imgPadding.x;
+	imgPadding.y = imgPadding.y < 0 || imgSize.y <= 0 ? 0 : imgPadding.y;
+
+	const ImVec2 padding = (frame_padding >= 0) ? ImVec2((float)frame_padding, (float)frame_padding) : style.FramePadding;
+	const ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size + padding * 2);
+	const ImRect image_bb(window->DC.CursorPos + padding + imgPadding, window->DC.CursorPos + padding + size - imgPadding);
+	ImGui::ItemSize(bb);
+	if (!ImGui::ItemAdd(bb, id))
+		return false;
+
+	bool hovered, held;
+	bool pressed = ImGui::ButtonBehavior(bb, id, &hovered, &held);
+
+	// Render
+	const ImU32 col = ImGui::GetColorU32((held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
+	ImGui::RenderNavHighlight(bb, id);
+	ImGui::RenderFrame(bb.Min, bb.Max, col, true, ImClamp((float)ImMin(padding.x, padding.y), 0.0f, style.FrameRounding));
+	if (bg_col.w > 0.0f)
+		window->DrawList->AddRectFilled(image_bb.Min, image_bb.Max, ImGui::GetColorU32(bg_col));
+	window->DrawList->AddImage(user_texture_id, image_bb.Min, image_bb.Max, uv0, uv1, ImGui::GetColorU32(tint_col));
+
+	return pressed;
+}
+
 void PiGui::Cleanup()
 {
 	PROFILE_SCOPED()

@@ -50,6 +50,7 @@ ui.fonts = {
 		tiny = { name = "pionillium", size = 8 * font_factor, offset = 7 * font_factor},
 	},
 	orbiteer = {
+		xlarge = { name = "orbiteer", size = 36 * font_factor, offset = 24 * font_factor },
 		large = { name = "orbiteer", size = 30 * font_factor, offset = 24 * font_factor },
 		medlarge = { name = "orbiteer", size = 24 * font_factor, offset = 20 * font_factor},
 		medium = { name = "orbiteer", size = 20 * font_factor, offset = 16 * font_factor},
@@ -86,12 +87,17 @@ function ui.popup(name, fun)
 		pigui.EndPopup()
 	end
 end
-function ui.child(id, size, fun)
-	if fun == nil then -- size is optional
+function ui.child(id, size, flags, fun)
+	if flags == nil and fun == nil then -- size is optional
 		fun = size
 		size = Vector2(-1,-1)
+		flags = {}
+	elseif fun == nil then
+		fun = flags
+		flags = {}
 	end
-	pigui.BeginChild(id, size)
+
+	pigui.BeginChild(id, size, flags)
 	fun()
 	pigui.EndChild()
 end
@@ -547,6 +553,7 @@ ui.shiftHeld = function() return pigui.key_shift end
 ui.noModifierHeld = function() return pigui.key_none end
 ui.vSliderInt = pigui.VSliderInt
 ui.sliderInt = pigui.SliderInt
+ui.pushItemWidth = pigui.PushItemWidth
 
 -- FINALLY OUT OF Pi.cpp! BEGONE!
 ui.playBoinkNoise = function ()
@@ -728,7 +735,7 @@ ui.coloredSelectedButton = function(label, thesize, is_selected, bg_color, toolt
 	end
 	return res
 end
-ui.coloredSelectedIconButton = function(icon, thesize, is_selected, frame_padding, bg_color, fg_color, tooltip)
+ui.coloredSelectedIconButton = function(icon, thesize, is_selected, frame_padding, bg_color, fg_color, tooltip, img_size)
 	if is_selected then
 		pigui.PushStyleColor("Button", bg_color)
 		pigui.PushStyleColor("ButtonHovered", bg_color:tint(0.1))
@@ -740,7 +747,7 @@ ui.coloredSelectedIconButton = function(icon, thesize, is_selected, frame_paddin
 	end
 	local uv0,uv1 = get_icon_tex_coords(icon)
 	pigui.PushID(tooltip)
-	local res = pigui.ImageButton(ui.icons_texture, thesize, uv0, uv1, frame_padding, ui.theme.colors.lightBlueBackground, fg_color)
+	local res = pigui.ButtonImageSized(ui.icons_texture, thesize, img_size or Vector2(0,0), uv0, uv1, frame_padding, ui.theme.colors.lightBlueBackground, fg_color)
 	pigui.PopID()
 	pigui.PopStyleColor(3)
 	if pigui.IsItemHovered() then
@@ -823,6 +830,7 @@ ui.loadTextureFromSVG = function(a, b, c)
 end
 ui.dataDirPath = pigui.DataDirPath
 ui.addImage = pigui.AddImage
+ui.image = pigui.Image
 
 local modules = {}
 

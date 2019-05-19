@@ -109,6 +109,7 @@ The Pioneer Developers are:
 * Torham2234
 * Ulf Pettersson
 * Uncle Bob
+* Vakhoir
 * Vincent Teerling
 * Vladimir Rutsky
 * Wayne Ashworth

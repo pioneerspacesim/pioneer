@@ -666,6 +666,27 @@ static int l_pigui_low_thrust_button(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_button_image_sized(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImTextureID id = pi_lua_checklightuserdata(l, 1);
+	const vector2d v1 = LuaPull<vector2d>(l, 2);
+	const vector2d v2 = LuaPull<vector2d>(l, 3);
+	const vector2d v3 = LuaPull<vector2d>(l, 4);
+	const vector2d v4 = LuaPull<vector2d>(l, 5);
+
+	ImVec2 size(v1.x, v1.y);
+	ImVec2 imgSize(v2.x, v2.y);
+	ImVec2 uv0(v3.x, v3.y);
+	ImVec2 uv1(v4.x, v4.y);
+	int frame_padding = LuaPull<int>(l, 6);
+	ImColor bg_col = LuaPull<ImColor>(l, 7);
+	ImColor tint_col = LuaPull<ImColor>(l, 8);
+	bool res = PiGui::ButtonImageSized(id, size, imgSize, uv0, uv1, frame_padding, bg_col, tint_col);
+	LuaPush<bool>(l, res);
+	return 1;
+}
+
 static int l_pigui_text_wrapped(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1116,7 +1137,9 @@ static int l_pigui_begin_child(lua_State *l)
 	const vector2d v1 = LuaPull<vector2d>(l, 2);
 
 	ImVec2 size(v1.x, v1.y);
-	ImGui::BeginChild(id.c_str(), size);
+	ImGuiWindowFlags theflags = LuaPull<ImGuiWindowFlags_>(l, 3);
+
+	ImGui::BeginChild(id.c_str(), size, false, theflags);
 	return 0;
 }
 
@@ -2233,6 +2256,7 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "pointOnClock", l_pigui_pointOnClock },
 		{ "lineOnClock", l_pigui_lineOnClock },
 		{ "ImageButton", l_pigui_image_button },
+		{ "ButtonImageSized", l_pigui_button_image_sized },
 		{ "RadialMenu", l_pigui_radial_menu },
 		{ "CircularSlider", l_pigui_circular_slider },
 		{ "SliderInt", l_pigui_slider_int },

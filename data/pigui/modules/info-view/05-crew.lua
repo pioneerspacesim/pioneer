@@ -8,7 +8,8 @@ local Lang = import 'Lang'
 local l = Lang.GetResource("ui-core")
 
 
-InfoView.registerView("crew", {
+InfoView.registerView({
+    id = "crew",
     name = l.CREW_ROSTER,
     icon = ui.theme.icons.rooster,
     showView = false,

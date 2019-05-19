@@ -239,6 +239,14 @@ theme.icons = {
    factory = 169,
    star = 170,
    view_flyby = 191,
+    -- eleventh row
+   gender = 193,
+   nose = 194,
+   mouth = 195,
+   hair = 196,
+   clothes = 197,
+   accessories = 198,
+   random = 199,
    -- TODO: manual / autopilot
 	 -- dummy, until actually defined correctly
 	 mouse_move_direction = 14,
