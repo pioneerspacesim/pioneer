@@ -216,9 +216,7 @@ local function showInfoWindow()
 																			if ui.coloredSelectedIconButton(icons.filter_stations, button_size, shouldShowStations, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_SHOW_STATIONS) then
 																				shouldShowStations = not shouldShowStations
 																			end
-																			ui.sameLine()
-																			ui.dummy(Vector2(ui.screenWidth / width_fraction - 6 * button_size.x - 7 * frame_padding, 0)) -- magical calculation :-/
-																			ui.sameLine()
+																			ui.sameLine(ui.getWindowSize().x - button_size.x - 10)
 																			if ui.coloredSelectedIconButton(icons.system_overview, button_size, false, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_WINDOW) then
 																				showWindow = false
 																			end
