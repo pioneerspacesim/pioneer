@@ -174,7 +174,7 @@ local filterText = ""
 local ignore
 local showWindow = false
 local function showInfoWindow()
-	if Game.player:IsDocked() or not Game.system.explored then
+	if Game.player:IsDocked() or Game.InHyperspace() or not Game.system.explored then
 		showWindow = false
 	end
 	local width_fraction = 5
