@@ -1404,7 +1404,9 @@ void Pi::MainLoop()
 			PROFILE_SCOPED_RAW("paused")
 			BaseSphere::UpdateAllBaseSphereDerivatives();
 		}
+#if WITH_DEVKEYS
 		frame_stat++;
+#endif
 
 		// did the player die?
 		if (Pi::player->IsDead()) {
