@@ -9,6 +9,7 @@ May 2019
      * Remove unused and decouple (#4585)
      * Remove the (unmaintained) Autotools build method (#4511)
      * Fix build with WITH_DEVKEYS=OFF (#4591)
+     * Decouple and warnings (#4592)
 
    * Fixes
      * Fix crash on main menu (#4578)
