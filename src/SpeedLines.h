@@ -4,12 +4,19 @@
 #ifndef _SPEEDLINES_H
 #define _SPEEDLINES_H
 
-// virtual space dust to give a sense of movement
-
-#include "graphics/Renderer.h"
 #include "matrix4x4.h"
+#include "vector3.h"
+#include "graphics/VertexBuffer.h"
+#include "graphics/Material.h"
+
+namespace Graphics {
+	class Renderer;
+	class RenderState;
+}
 
 class Ship;
+
+// virtual space dust to give a sense of movement
 
 class SpeedLines {
 public:

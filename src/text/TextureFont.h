@@ -7,15 +7,18 @@
 #include "FontConfig.h"
 #include "RefCounted.h"
 #include "graphics/Material.h"
-#include "graphics/RenderState.h"
 #include "graphics/Texture.h"
 #include "graphics/VertexBuffer.h"
-#include "libs.h"
 
 #include <unordered_map>
 
 namespace FileSystem {
 	class FileData;
+}
+
+namespace Graphics {
+	class Renderer;
+	class RenderState;
 }
 
 // forward declarations for FreeType types

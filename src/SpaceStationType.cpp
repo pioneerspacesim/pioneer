@@ -9,6 +9,7 @@
 #include "Pi.h"
 #include "Ship.h"
 #include "StringF.h"
+#include "scenegraph/MatrixTransform.h"
 #include "scenegraph/Model.h"
 
 #include <algorithm>

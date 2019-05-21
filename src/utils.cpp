@@ -10,6 +10,7 @@
 #include "gameconsts.h"
 #include "gui/Gui.h"
 #include "libs.h"
+#include "graphics/Graphics.h"
 #include <cmath>
 #include <cstdio>
 #include <sstream>

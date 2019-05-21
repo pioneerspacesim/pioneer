@@ -2,6 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
+
+#include "graphics/Renderer.h"
 #include "text/TextSupport.h"
 #include "vector3.h" // for projection
 

@@ -9,8 +9,10 @@
  * and accompanied by a tiny runtime generated gradient texture
  * with 2-3 colours
  */
-#include "SmartPtr.h"
-#include "libs.h"
+#include "RefCounted.h"
+
+#include <vector>
+#include <string>
 
 namespace Graphics {
 	class Texture;

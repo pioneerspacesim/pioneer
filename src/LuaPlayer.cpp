@@ -15,6 +15,7 @@
 #include "TerrainBody.h"
 #include "WorldView.h"
 #include "galaxy/Galaxy.h"
+#include "ship/PlayerShipController.h"
 
 /*
  * Class: Player

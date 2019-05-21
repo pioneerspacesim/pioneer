@@ -4,8 +4,7 @@
 #ifndef _WORLDVIEW_H
 #define _WORLDVIEW_H
 
-#include "CameraController.h"
-#include "KeyBindings.h"
+#include "Camera.h"
 #include "SpeedLines.h"
 #include "UIView.h"
 #include "gui/GuiWidget.h"
@@ -17,7 +16,6 @@ class LabelSet;
 class Ship;
 class NavTunnelWidget;
 class Game;
-class SpeedLines;
 
 enum VelIconType {
 	V_PROGRADE,
@@ -33,6 +31,11 @@ enum PlaneType {
 
 namespace Gui {
 	class TexturedQuad;
+}
+
+namespace KeyBindings {
+	struct ActionBinding;
+	struct AxisBinding;
 }
 
 namespace UI {

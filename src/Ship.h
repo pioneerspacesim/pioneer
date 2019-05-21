@@ -11,7 +11,6 @@
 #include "NavLights.h"
 #include "Sensors.h"
 #include "ShipType.h"
-#include "Space.h"
 #include "galaxy/SystemPath.h"
 #include "scenegraph/ModelSkin.h"
 #include "sound/Sound.h"
@@ -19,14 +18,15 @@
 #include "FixedGuns.h"
 #include "Propulsion.h"
 
+class AICommand;
+class Camera;
+class CargoBody;
 class SpaceStation;
 class HyperspaceCloud;
-class AICommand;
-class ShipController;
-class CargoBody;
 class Missile;
 class Planet;
-class Camera;
+class ShipController;
+class Space;
 
 namespace Graphics {
 	class Renderer;

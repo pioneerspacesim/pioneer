@@ -17,7 +17,10 @@
 #include "Ship.h"
 #include "Space.h"
 #include "StringF.h"
+#include "graphics/Renderer.h"
 #include "graphics/Graphics.h"
+#include "scenegraph/Animation.h"
+#include "scenegraph/MatrixTransform.h"
 #include "scenegraph/ModelSkin.h"
 
 SpaceStation::SpaceStation(const SystemBody *sbody) :

@@ -2,7 +2,10 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "HudTrail.h"
+
+#include "Body.h"
 #include "Pi.h"
+#include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
 
 const float UPDATE_INTERVAL = 0.1f;

@@ -6,19 +6,20 @@
 
 #include <SDL_stdinc.h>
 
-#include "BaseSphere.h"
-#include "Camera.h"
-#include "GeoSphere.h"
 #include "JobQueue.h"
 #include "Random.h"
-#include "graphics/Drawables.h"
 #include "graphics/Material.h"
-#include "graphics/TextureBuilder.h"
 #include "graphics/opengl/GenGasGiantColourMaterial.h"
+#include "graphics/VertexBuffer.h"
 #include "terrain/Terrain.h"
 #include "vector3.h"
 
 #include <deque>
+
+namespace Graphics {
+	class Renderer;
+	class RenderState;
+}
 
 namespace GasGiantJobs {
 	//#define DUMP_PARAMS 1

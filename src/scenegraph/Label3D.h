@@ -8,11 +8,13 @@
  */
 #include "Node.h"
 #include "graphics/Material.h"
-#include "graphics/RenderState.h"
+#include "graphics/VertexBuffer.h"
+#include "graphics/Material.h"
 #include "text/DistanceFieldFont.h"
 
 namespace Graphics {
 	class Renderer;
+	class RenderState;
 }
 
 namespace SceneGraph {

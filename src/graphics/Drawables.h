@@ -5,13 +5,13 @@
 #define _DRAWABLES_H
 
 #include "graphics/Material.h"
-#include "graphics/RenderState.h"
-#include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
 #include "libs.h"
 
 namespace Graphics {
+	class Renderer;
+	class RenderState;
 
 	namespace Drawables {
 

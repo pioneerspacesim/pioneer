@@ -31,6 +31,7 @@
 #include "WorldView.h"
 #include "galaxy/GalaxyGenerator.h"
 #include "graphics/Renderer.h"
+#include "ship/PlayerShipController.h"
 
 static const int s_saveVersion = 85;
 

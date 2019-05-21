@@ -8,7 +8,6 @@
  * Controls thrusters, autopilot according to player input or AI
  */
 #include "JsonFwd.h"
-#include "libs.h"
 
 class Body;
 class Ship;

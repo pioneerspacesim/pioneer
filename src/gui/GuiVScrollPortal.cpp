@@ -2,7 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
-#include "libs.h"
+
+#include "graphics/Renderer.h"
 #include "vector2.h"
 
 static const float MINIMUM_HEIGHT = 100.0f;

@@ -3,7 +3,7 @@
 
 #ifndef _GRAPHICS_RENDERSTATE_H
 #define _GRAPHICS_RENDERSTATE_H
-#include "Renderer.h"
+#include "graphics/Types.h"
 
 namespace Graphics {
 

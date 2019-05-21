@@ -2,11 +2,13 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipViewController.h"
+
 #include "CameraController.h"
 #include "WorldView.h"
 
 #include "Pi.h"
 #include "Player.h"
+#include "PlayerShipController.h"
 
 namespace {
 	static const float MOUSELOOK_SPEED = 0.01;

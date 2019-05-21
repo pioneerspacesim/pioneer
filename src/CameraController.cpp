@@ -2,12 +2,15 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CameraController.h"
+
 #include "AnimationCurves.h"
 #include "Game.h"
 #include "GameSaveError.h"
 #include "MathUtil.h"
 #include "Pi.h"
 #include "Ship.h"
+#include "Space.h"
+#include "scenegraph/MatrixTransform.h"
 
 CameraController::CameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 	m_camera(camera),

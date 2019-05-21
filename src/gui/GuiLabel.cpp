@@ -3,6 +3,8 @@
 
 #include "Gui.h"
 
+#include "graphics/Renderer.h"
+
 namespace Gui {
 
 	Label::Label(const char *text, TextLayout::ColourMarkupMode colourMarkupMode)

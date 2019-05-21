@@ -59,29 +59,29 @@
  *  - model cache
  *  - removing unnecessary nodes from the scene graph: pre-translate unanimated meshes etc.
  */
-#include "Animation.h"
 #include "CollMesh.h"
 #include "ColorMap.h"
 #include "DeleteEmitter.h"
 #include "Group.h"
-#include "Json.h"
-#include "Label3D.h"
+#include "JsonFwd.h"
 #include "Pattern.h"
 #include "Serializer.h"
 #include "graphics/Drawables.h"
 #include "graphics/Material.h"
-#include "libs.h"
 #include <stdexcept>
 
 namespace Graphics {
 	class Renderer;
+	class RenderState;
 	class VertexBuffer;
 } // namespace Graphics
 
 namespace SceneGraph {
+	class Animation;
 	class BaseLoader;
-	class ModelBinarizer;
 	class BinaryConverter;
+	class MatrixTransform;
+	class ModelBinarizer;
 
 	struct LoadingError : public std::runtime_error {
 		LoadingError(const std::string &str) :

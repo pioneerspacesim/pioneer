@@ -2,10 +2,11 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Shields.h"
+
 #include "GameSaveError.h"
 #include "JsonUtils.h"
-#include "Pi.h"
 #include "Ship.h"
+#include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 #include "scenegraph/CollisionGeometry.h"
 #include "scenegraph/FindNodeVisitor.h"

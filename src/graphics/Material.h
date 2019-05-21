@@ -12,8 +12,9 @@
  * Material::Apply is called by renderer before drawing, and Unapply after drawing (to restore state).
  * For the OGL renderer, a Material is always accompanied by a Program.
  */
-#include "libs.h"
-#include <RefCounted.h>
+#include "Color.h"
+#include "matrix4x4.h"
+#include "RefCounted.h"
 
 namespace Graphics {
 

@@ -7,6 +7,7 @@
 #include "GameSaveError.h"
 #include "Projectile.h"
 #include "StringF.h"
+#include "scenegraph/MatrixTransform.h"
 
 FixedGuns::FixedGuns()
 {

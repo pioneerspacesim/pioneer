@@ -2,13 +2,16 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelBody.h"
+
 #include "Frame.h"
 #include "GameSaveError.h"
+#include "Json.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "Shields.h"
 #include "Space.h"
 #include "collider/collider.h"
+#include "scenegraph/Animation.h"
 #include "scenegraph/CollisionGeometry.h"
 #include "scenegraph/NodeVisitor.h"
 #include "scenegraph/SceneGraph.h"

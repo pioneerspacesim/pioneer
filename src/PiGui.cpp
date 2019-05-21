@@ -588,7 +588,7 @@ void PiGui::ThrustIndicator(const std::string &id_string, const ImVec2 &size_arg
 	const ImVec2 rightlower = inner_bb.Max;
 	const ImVec2 rightcenter((rightlower.x - leftupper.x) * 0.8 + leftupper.x, (rightlower.y + leftupper.y) / 2);
 	const ImVec2 leftcenter((rightlower.x - leftupper.x) * 0.35 + leftupper.x, (rightlower.y + leftupper.y) / 2);
-	const ImVec2 up(0, -abs(leftupper.y - rightlower.y) * 0.4);
+	const ImVec2 up(0, -std::abs(leftupper.y - rightlower.y) * 0.4);
 	const ImVec2 left(-up.y, up.x);
 	float thrust_fwd = fmax(thrust.z, 0);
 	float thrust_bwd = fmax(-thrust.z, 0);

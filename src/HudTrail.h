@@ -4,15 +4,20 @@
 #ifndef _HUDTRAIL_H
 #define _HUDTRAIL_H
 
-// trail drawn after an object to track motion
-
-#include "Body.h"
+#include "Color.h"
+#include "matrix4x4.h"
 #include "graphics/Drawables.h"
+
+#include <deque>
+// trail drawn after an object to track motion
 
 namespace Graphics {
 	class Renderer;
 	class RenderState;
 } // namespace Graphics
+
+class Body;
+class Frame;
 
 class HudTrail {
 public:

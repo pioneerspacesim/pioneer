@@ -20,6 +20,9 @@
 #include <functional>
 
 namespace SceneGraph {
+	class Label3D;
+	class Model;
+
 	class BinaryConverter : public BaseLoader {
 	public:
 		BinaryConverter(Graphics::Renderer *);

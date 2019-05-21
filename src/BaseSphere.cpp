@@ -6,6 +6,8 @@
 #include "GasGiant.h"
 #include "GeoSphere.h"
 
+#include "graphics/Renderer.h"
+
 BaseSphere::BaseSphere(const SystemBody *body) :
 	m_sbody(body),
 	m_terrain(Terrain::InstanceTerrain(body)) {}

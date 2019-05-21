@@ -7,10 +7,10 @@
 #include "Game.h"
 #include "LuaConstants.h"
 #include "LuaObject.h"
-#include "LuaPiGui.h"
 #include "LuaUtils.h"
 #include "LuaVector.h"
 #include "Pi.h"
+#include "Space.h"
 #include "TerrainBody.h"
 #include "WorldView.h"
 #include "galaxy/SystemBody.h"
@@ -24,6 +24,11 @@
 #include "Ship.h"
 #include "SpaceStation.h"
 #include "Star.h"
+#include "HyperspaceCloud.h"
+
+// Defined in LuaPiGui.h
+extern bool first_body_is_more_important_than(Body*, Body*);
+extern int pushOnScreenPositionDirection(lua_State *l, vector3d position);
 
 /*
  * Class: Body
