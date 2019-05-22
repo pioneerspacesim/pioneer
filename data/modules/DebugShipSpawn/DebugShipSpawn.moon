@@ -1,11 +1,12 @@
 
 Game = require 'Game'
 Space = require 'Space'
+Ship = require 'Ship'
 ShipDef = require 'ShipDef'
-Vector = require 'Vector'
 Color = require 'Color'
 Equipment = require 'Equipment'
 
+import Vector2 from _G
 ui = require 'pigui.pigui'
 
 ship_defs = {}
@@ -56,24 +57,25 @@ draw_ai_info = ->
 
 spawn_distance = 10
 ship_spawn_debug_window = ->
-    ui.child 'ship_list', Vector(150, 0), draw_ship_types
+    ui.child 'ship_list', Vector2(150, 0), draw_ship_types
 
     ship_name = ship_defs[selected_ship_type]
     ship = ShipDef[ship_name] if ship_name
 
     ui.sameLine!
     if ship then ui.group ->
-        ui.child 'ship_info', Vector(-150, -ui.getFrameHeightWithSpacing!), ->
+        ui.child 'ship_info', Vector2(-150, -ui.getFrameHeightWithSpacing!), ->
             draw_ship_info ship
 
         ui.sameLine!
-        ui.child 'ai_info', Vector(150, -ui.getFrameHeightWithSpacing!), draw_ai_info
+        ui.child 'ai_info', Vector2(150, -ui.getFrameHeightWithSpacing!), draw_ai_info
 
-        if ui.button "Spawn", Vector(0, 0)
+        if ui.button "Spawn", Vector2(0, 0)
             new_ship = Space.SpawnShipNear(ship_name, Game.player, spawn_distance, spawn_distance)
             new_ship\AddEquip Equipment.laser.pulsecannon_dual_1mw
             new_ship\AddEquip Equipment.misc.laser_cooling_booster
             new_ship\AddEquip Equipment.misc.atmospheric_shielding
+            new_ship\SetLabel Ship.MakeRandomLabel !
             ai_method_name = "AI#{ai_options[ai_opt_selected]}"
             new_ship[ai_method_name] new_ship, Game.player
 

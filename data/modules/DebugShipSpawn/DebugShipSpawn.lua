@@ -1,9 +1,11 @@
 local Game = require('Game')
 local Space = require('Space')
+local Ship = require('Ship')
 local ShipDef = require('ShipDef')
-local Vector = require('Vector')
 local Color = require('Color')
 local Equipment = require('Equipment')
+local Vector2
+Vector2 = _G.Vector2
 local ui = require('pigui.pigui')
 local ship_defs = { }
 local update_ship_def_table
@@ -60,7 +62,7 @@ end
 local spawn_distance = 10
 local ship_spawn_debug_window
 ship_spawn_debug_window = function()
-  ui.child('ship_list', Vector(150, 0), draw_ship_types)
+  ui.child('ship_list', Vector2(150, 0), draw_ship_types)
   local ship_name = ship_defs[selected_ship_type]
   local ship
   if ship_name then
@@ -69,16 +71,17 @@ ship_spawn_debug_window = function()
   ui.sameLine()
   if ship then
     return ui.group(function()
-      ui.child('ship_info', Vector(-150, -ui.getFrameHeightWithSpacing()), function()
+      ui.child('ship_info', Vector2(-150, -ui.getFrameHeightWithSpacing()), function()
         return draw_ship_info(ship)
       end)
       ui.sameLine()
-      ui.child('ai_info', Vector(150, -ui.getFrameHeightWithSpacing()), draw_ai_info)
-      if ui.button("Spawn", Vector(0, 0)) then
+      ui.child('ai_info', Vector2(150, -ui.getFrameHeightWithSpacing()), draw_ai_info)
+      if ui.button("Spawn", Vector2(0, 0)) then
         local new_ship = Space.SpawnShipNear(ship_name, Game.player, spawn_distance, spawn_distance)
         new_ship:AddEquip(Equipment.laser.pulsecannon_dual_1mw)
         new_ship:AddEquip(Equipment.misc.laser_cooling_booster)
         new_ship:AddEquip(Equipment.misc.atmospheric_shielding)
+        new_ship:SetLabel(Ship.MakeRandomLabel())
         local ai_method_name = "AI" .. tostring(ai_options[ai_opt_selected])
         new_ship[ai_method_name](new_ship, Game.player)
       end
