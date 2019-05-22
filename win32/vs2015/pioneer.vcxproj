@@ -468,6 +468,9 @@
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\Pi.cpp" />
     <ClCompile Include="..\..\src\PiGui.cpp" />
+    <ClCompile Include="..\..\src\pigui\Face.cpp" />
+    <ClCompile Include="..\..\src\pigui\PiGuiLua.cpp" />
+    <ClCompile Include="..\..\src\pigui\LuaFace.cpp" />
     <ClCompile Include="..\..\src\Plane.cpp" />
     <ClCompile Include="..\..\src\Planet.cpp" />
     <ClCompile Include="..\..\src\Player.cpp" />
@@ -649,6 +652,8 @@
     <ClInclude Include="..\..\src\perlin.h" />
     <ClInclude Include="..\..\src\Pi.h" />
     <ClInclude Include="..\..\src\PiGui.h" />
+    <ClInclude Include="..\..\src\pigui\Face.h" />
+    <ClInclude Include="..\..\src\pigui\PiGuiLua.h" />
     <ClInclude Include="..\..\src\Plane.h" />
     <ClInclude Include="..\..\src\Planet.h" />
     <ClInclude Include="..\..\src\Player.h" />
