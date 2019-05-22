@@ -12,6 +12,7 @@ May 2019
      * Fix build with WITH_DEVKEYS=OFF (#4591)
      * Decouple and warnings (#4592)
      * Friction and sinking (#4588)
+     * Fixup naming and update the visual studio project files (#4593)
 
    * Fixes
      * Fix crash on main menu (#4578)
