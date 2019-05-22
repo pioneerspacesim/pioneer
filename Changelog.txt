@@ -1,6 +1,7 @@
 May 2019
    * New Features
      * Start move of InfovIew to PiGui (#4573)
+     * Pigui personal view (#4584)
 
    * Internal Changes
      * Speedup pilua (#4548)
