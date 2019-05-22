@@ -141,7 +141,7 @@ local function displayFxWindow()
 	ui.setNextWindowSize(aux, "Always")
 	aux = Vector2(ui.screenWidth/2 - (mainButtonSize.x + 4 * mainButtonFramePadding) * 7.5/2, 0)
 	ui.setNextWindowPos(aux , "Always")
-	ui.window("Fx", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
+	ui.window("Fx", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoScrollbar"},
 						function()
 							button_world(current_view)
 

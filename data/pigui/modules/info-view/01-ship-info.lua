@@ -7,7 +7,8 @@ local Lang = import 'Lang'
 
 local l = Lang.GetResource("ui-core")
 
-InfoView.registerView("shipInfo", {
+InfoView.registerView({
+	id = "shipInfo",
 	name = l.SHIP_INFORMATION,
 	icon = ui.theme.icons.info,
 	showView = false,

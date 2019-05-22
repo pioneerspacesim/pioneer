@@ -78,6 +78,7 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/StarSystem.h"
 #include "gameui/Lua.h"
+#include "pigui/Lua.h"
 #include "libs.h"
 #include "ship/PlayerShipController.h"
 #include "ship/ShipViewController.h"
@@ -319,6 +320,7 @@ static void LuaInit()
 	// XXX sigh
 	UI::Lua::Init();
 	GameUI::Lua::Init();
+	PiGUI::Lua::Init();
 	SceneGraph::Lua::Init();
 
 	LuaObject<PiGui>::RegisterClass();

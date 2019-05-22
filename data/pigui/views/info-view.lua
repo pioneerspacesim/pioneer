@@ -6,6 +6,7 @@ local Game = import 'Game'
 local ui = import 'pigui/pigui.lua'
 local Lang = import 'Lang'
 local Color = import 'Color'
+local Event = import 'Event'
 
 local infoView = {
 	legacyInfoView = nil,
@@ -20,11 +21,11 @@ local orbiteer = ui.fonts.orbiteer
 local colors = ui.theme.colors
 local viewCount = 0
 
-local mainButtonSize = Vector2(44,44)
-local mainButtonFramePadding = 4
-local mainButtonWindowPadding = Vector2(4,4)
-local mainButtonItemSpacing = Vector2(4,4)
-local bottomUiMargin = 160  * (ui.screenHeight / 1200)
+local mainButtonSize = Vector2(math.ceil(58 * (ui.screenHeight / 1200)), math.ceil(58 * (ui.screenHeight / 1200)))
+local mainButtonFramePadding = math.ceil(6 * (ui.screenHeight / 1200))
+local mainButtonWindowPadding = Vector2(math.ceil(6 * (ui.screenHeight / 1200)), math.ceil(6 * (ui.screenHeight / 1200)))
+local mainButtonItemSpacing = Vector2(math.ceil(6 * (ui.screenHeight / 1200)), math.ceil(6 * (ui.screenHeight / 1200)))
+local bottomUiMargin = math.ceil(160 * (ui.screenHeight / 1200))
 
 local function infoButton(icon, selected, tooltip, color)
 	if color == nil then
@@ -33,7 +34,7 @@ local function infoButton(icon, selected, tooltip, color)
 	return ui.coloredSelectedIconButton(icon, mainButtonSize, selected, mainButtonFramePadding, colors.buttonBlue, color, tooltip)
 end
 
-function infoView.registerView(name, view)
+function infoView.registerView(view)
 	table.insert(infoView.views, view)
 	viewCount = viewCount + 1
 end
@@ -64,7 +65,7 @@ ui.registerModule("game", function()
 			ui.withStyleVars({
 				WindowRounding = 0,
 				WindowBorderSize = 1.0,
-				WindowPadding = Vector2(20,20),
+				WindowPadding = Vector2(0,0),
 			}, function()
 				ui.setNextWindowPos(view_window_pos, "Always")
 				ui.setNextWindowSize(view_window_size, "Always")
@@ -93,7 +94,7 @@ ui.registerModule("game", function()
 		ui.window("InfoViewButtons", {"NoResize", "NoTitleBar", "NoMove", "NoFocusOnAppearing", "NoScrollbar"}, function()
 			for i, v in ipairs(infoView.views) do
 				if infoButton(v.icon, i == infoView.currentTab, v.name) then
-					infoView.legacyInfoView:SwitchToNum(i)
+					infoView.legacyInfoView:SwitchTo(v.id)
 					infoView.currentTab = i
 					-- HACK: only show pigui PersonalInfo
 					if infoView.legacyInfoView ~= nil and v.showView then
@@ -106,6 +107,10 @@ ui.registerModule("game", function()
 			end
 		end)
 	end)
+end)
+
+Event.Register("onGameEnd", function ()
+	infoView.currentTab = 0
 end)
 
 return infoView

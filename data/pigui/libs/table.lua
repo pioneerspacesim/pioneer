@@ -20,7 +20,7 @@ function drawTable.withHeading(name, font, t)
     ui.withFont(font.name, font.size, function()
         ui.text(name)
     end)
-    ui.text("")
+
     drawTable.draw(table.unpack(t))
 end
 
