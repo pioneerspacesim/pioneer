@@ -17,6 +17,7 @@
 #include "SystemInfoView.h"
 #include "WorldView.h"
 #include "graphics/Graphics.h"
+#include "pigui/LuaFlags.h"
 #include "ship/PlayerShipController.h"
 #include "sound/Sound.h"
 #include "ui/Context.h"
@@ -29,30 +30,30 @@
 #undef RegisterClass
 
 template <typename Type>
-static Type parse_imgui_flags(lua_State *l, int index, std::map<std::string, Type> table, std::string name)
+static Type parse_imgui_flags(lua_State *l, int index, LuaFlags<Type> &lookupTable)
 {
 	PROFILE_SCOPED()
-	LuaTable flags(l, index);
-	Type theflags = Type(0);
-	for (LuaTable::VecIter<std::string> iter = flags.Begin<std::string>(); iter != flags.End<std::string>(); ++iter) {
-		std::string flag = *iter;
-		if (table.find(flag) != table.end())
-			theflags = static_cast<Type>(theflags | table.at(flag));
-		else
-			Error("Unknown %s %s\n", name.c_str(), flag.c_str());
+	Type theFlags = Type(0);
+	if (lua_isnumber(l, index)) {
+		theFlags = static_cast<Type>(lua_tointeger(l, index));
+	} else if (lua_istable(l, index)) {
+		theFlags = lookupTable.Lookup(l, index);
+	} else {
+		Error("Expected a table or integer, got %s.\n", luaL_typename(l, index));
 	}
-	return theflags;
+	return theFlags;
 }
 
 template <typename Type>
-static Type parse_imgui_enum(lua_State *l, int index, std::map<std::string, Type> table, std::string name)
+static Type parse_imgui_enum(lua_State *l, int index, LuaFlags<Type> lookupTable)
 {
 	PROFILE_SCOPED()
-	std::string stylestr = LuaPull<std::string>(l, index);
-	if (table.find(stylestr) != table.end())
-		return table.at(stylestr);
+	if (lua_isstring(l, index))
+		return lookupTable.LookupEnum(l, index);
+	else if (lua_isnumber(l, index))
+		return static_cast<Type>(lua_tointeger(l, index));
 	else
-		Error("Unknown %s %s\n", name.c_str(), stylestr.c_str());
+		Error("Expected a table or integer, got %s.\n", luaL_typename(l, index));
 	return static_cast<Type>(0);
 }
 
@@ -91,11 +92,11 @@ int pushOnScreenPositionDirection(lua_State *l, vector3d position)
 	return 3;
 }
 
-static std::map<std::string, ImGuiSelectableFlags_> imguiSelectableFlagsTable = {
+static LuaFlags<ImGuiSelectableFlags_> imguiSelectableFlagsTable("ImGuiSelectableFlags", {
 	{ "DontClosePopups", ImGuiSelectableFlags_DontClosePopups },
 	{ "SpanAllColumns", ImGuiSelectableFlags_SpanAllColumns },
 	{ "AllowDoubleClick", ImGuiSelectableFlags_AllowDoubleClick }
-};
+});
 
 void pi_lua_generic_pull(lua_State *l, int index, ImColor &color)
 {
@@ -107,10 +108,10 @@ void pi_lua_generic_pull(lua_State *l, int index, ImColor &color)
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiSelectableFlags_ &theflags)
 {
 	PROFILE_SCOPED()
-	theflags = parse_imgui_flags(l, index, imguiSelectableFlagsTable, "ImGuiSelectableFlags");
+	theflags = parse_imgui_flags(l, index, imguiSelectableFlagsTable);
 }
 
-static std::map<std::string, ImGuiTreeNodeFlags_> imguiTreeNodeFlagsTable = {
+static LuaFlags<ImGuiTreeNodeFlags_> imguiTreeNodeFlagsTable("ImGuiTreeNodeFlags", {
 	{ "Selected", ImGuiTreeNodeFlags_Selected },
 	{ "Framed", ImGuiTreeNodeFlags_Framed },
 	{ "AllowOverlapMode", ImGuiTreeNodeFlags_AllowOverlapMode },
@@ -122,15 +123,15 @@ static std::map<std::string, ImGuiTreeNodeFlags_> imguiTreeNodeFlagsTable = {
 	{ "Leaf", ImGuiTreeNodeFlags_Leaf },
 	{ "Bullet", ImGuiTreeNodeFlags_Bullet },
 	{ "CollapsingHeader", ImGuiTreeNodeFlags_CollapsingHeader },
-};
+});
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiTreeNodeFlags_ &theflags)
 {
 	PROFILE_SCOPED()
-	theflags = parse_imgui_flags(l, index, imguiTreeNodeFlagsTable, "ImGuiTreeNodeFlags");
+	theflags = parse_imgui_flags(l, index, imguiTreeNodeFlagsTable);
 }
 
-static std::map<std::string, ImGuiInputTextFlags_> imguiInputTextFlagsTable = {
+static LuaFlags<ImGuiInputTextFlags_> imguiInputTextFlagsTable("ImGuiInputTextFlagsTable", {
 	{ "CharsDecimal", ImGuiInputTextFlags_CharsDecimal },
 	{ "CharsHexadecimal", ImGuiInputTextFlags_CharsHexadecimal },
 	{ "CharsUppercase", ImGuiInputTextFlags_CharsUppercase },
@@ -147,28 +148,27 @@ static std::map<std::string, ImGuiInputTextFlags_> imguiInputTextFlagsTable = {
 	{ "AlwaysInsertMode", ImGuiInputTextFlags_AlwaysInsertMode },
 	{ "ReadOnly", ImGuiInputTextFlags_ReadOnly },
 	{ "Password", ImGuiInputTextFlags_Password }
-};
+});
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiInputTextFlags_ &theflags)
 {
 	PROFILE_SCOPED()
-	theflags = parse_imgui_flags(l, index, imguiInputTextFlagsTable, "ImGuiInputTextFlagsTable");
+	theflags = parse_imgui_flags(l, index, imguiInputTextFlagsTable);
 }
 
-static std::map<std::string, ImGuiCond_> imguiSetCondTable = {
+static LuaFlags<ImGuiCond_> imguiSetCondTable("ImGuiCond", {
 	{ "Always", ImGuiCond_Always },
 	{ "Once", ImGuiCond_Once },
 	{ "FirstUseEver", ImGuiCond_FirstUseEver },
-	{ "Appearing", ImGuiCond_Appearing }
-};
+	{ "Appearing", ImGuiCond_Appearing } });
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiCond_ &value)
 {
 	PROFILE_SCOPED()
-	value = parse_imgui_enum(l, index, imguiSetCondTable, "ImGuiCond");
+	value = parse_imgui_enum(l, index, imguiSetCondTable);
 }
 
-static std::map<std::string, ImGuiCol_> imguiColTable = {
+static LuaFlags<ImGuiCol_> imguiColTable("ImGuiCol", {
 	{ "Text", ImGuiCol_Text },
 	{ "TextDisabled", ImGuiCol_TextDisabled },
 	{ "WindowBg", ImGuiCol_WindowBg },
@@ -207,16 +207,15 @@ static std::map<std::string, ImGuiCol_> imguiColTable = {
 	{ "PlotHistogram", ImGuiCol_PlotHistogram },
 	{ "PlotHistogramHovered", ImGuiCol_PlotHistogramHovered },
 	{ "TextSelectedBg", ImGuiCol_TextSelectedBg },
-	{ "ModalWindowDarkening", ImGuiCol_ModalWindowDarkening }
-};
+	{ "ModalWindowDarkening", ImGuiCol_ModalWindowDarkening } });
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiCol_ &value)
 {
 	PROFILE_SCOPED()
-	value = parse_imgui_enum(l, index, imguiColTable, "ImGuiCol");
+	value = parse_imgui_enum(l, index, imguiColTable);
 }
 
-static std::map<std::string, ImGuiStyleVar_> imguiStyleVarTable = {
+static LuaFlags<ImGuiStyleVar_> imguiStyleVarTable("ImGuiStyleVar", {
 	{ "Alpha", ImGuiStyleVar_Alpha },
 	{ "WindowPadding", ImGuiStyleVar_WindowPadding },
 	{ "WindowRounding", ImGuiStyleVar_WindowRounding },
@@ -232,15 +231,15 @@ static std::map<std::string, ImGuiStyleVar_> imguiStyleVarTable = {
 	{ "IndentSpacing", ImGuiStyleVar_IndentSpacing },
 	{ "GrabMinSize", ImGuiStyleVar_GrabMinSize },
 	{ "ButtonTextAlign", ImGuiStyleVar_ButtonTextAlign }
-};
+});
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiStyleVar_ &value)
 {
 	PROFILE_SCOPED()
-	value = parse_imgui_enum(l, index, imguiStyleVarTable, "ImGuiStyleVar");
+	value = parse_imgui_enum(l, index, imguiStyleVarTable);
 }
 
-static std::map<std::string, ImGuiWindowFlags_> imguiWindowFlagsTable = {
+static LuaFlags<ImGuiWindowFlags_> imguiWindowFlagsTable("ImGuiWindowFlags", {
 	{ "NoTitleBar", ImGuiWindowFlags_NoTitleBar },
 	{ "NoResize", ImGuiWindowFlags_NoResize },
 	{ "NoMove", ImGuiWindowFlags_NoMove },
@@ -257,15 +256,15 @@ static std::map<std::string, ImGuiWindowFlags_> imguiWindowFlagsTable = {
 	{ "AlwaysVerticalScrollbar", ImGuiWindowFlags_AlwaysVerticalScrollbar },
 	{ "AlwaysHorizontalScrollbar", ImGuiWindowFlags_AlwaysHorizontalScrollbar },
 	{ "AlwaysUseWindowPadding", ImGuiWindowFlags_AlwaysUseWindowPadding }
-};
+});
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiWindowFlags_ &theflags)
 {
 	PROFILE_SCOPED()
-	theflags = parse_imgui_flags(l, index, imguiWindowFlagsTable, "ImGuiWindowFlags");
+	theflags = parse_imgui_flags(l, index, imguiWindowFlagsTable);
 }
 
-static std::map<std::string, ImGuiHoveredFlags_> imguiHoveredFlagsTable = {
+static LuaFlags<ImGuiHoveredFlags_> imguiHoveredFlagsTable("ImGuiHoveredFlags", {
 	{ "None", ImGuiHoveredFlags_None },
 	{ "ChildWindows", ImGuiHoveredFlags_ChildWindows },
 	{ "RootWindow", ImGuiHoveredFlags_RootWindow },
@@ -274,13 +273,12 @@ static std::map<std::string, ImGuiHoveredFlags_> imguiHoveredFlagsTable = {
 	{ "AllowWhenBlockedByActiveItem", ImGuiHoveredFlags_AllowWhenBlockedByActiveItem },
 	{ "AllowWhenOverlapped", ImGuiHoveredFlags_AllowWhenOverlapped },
 	{ "AllowWhenDisabled", ImGuiHoveredFlags_AllowWhenDisabled },
-	{ "RectOnly", ImGuiHoveredFlags_RectOnly }
-};
+	{ "RectOnly", ImGuiHoveredFlags_RectOnly } });
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiHoveredFlags_ &theflags)
 {
 	PROFILE_SCOPED()
-	theflags = parse_imgui_flags(l, index, imguiHoveredFlagsTable, "ImGuiHoveredFlags");
+	theflags = parse_imgui_flags(l, index, imguiHoveredFlagsTable);
 }
 /*
  * Interface: PiGui
@@ -2276,4 +2274,15 @@ void LuaObject<PiGui>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, nullptr, l_methods, l_attrs, 0);
+
+	lua_State *l = Lua::manager->GetLuaState();
+
+	imguiSelectableFlagsTable.Register(l);
+	imguiTreeNodeFlagsTable.Register(l);
+	imguiInputTextFlagsTable.Register(l);
+	imguiSetCondTable.Register(l);
+	imguiColTable.Register(l);
+	imguiStyleVarTable.Register(l);
+	imguiWindowFlagsTable.Register(l);
+	imguiHoveredFlagsTable.Register(l);
 }
