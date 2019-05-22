@@ -555,6 +555,7 @@ ui.shouldShowLabels = pigui.ShouldShowLabels
 ui.columns = pigui.Columns
 ui.nextColumn = pigui.NextColumn
 ui.setColumnOffset = pigui.SetColumnOffset
+ui.getColumnWidth = pigui.GetColumnWidth
 ui.keys = pigui.keys
 ui.systemInfoViewNextPage = pigui.SystemInfoViewNextPage -- deprecated
 ui.isKeyReleased = pigui.IsKeyReleased
@@ -569,6 +570,7 @@ ui.noModifierHeld = function() return pigui.key_none end
 ui.vSliderInt = pigui.VSliderInt
 ui.sliderInt = pigui.SliderInt
 ui.pushItemWidth = pigui.PushItemWidth
+ui.popItemWidth = pigui.PopItemWidth
 ui.sliderFloat = pigui.SliderFloat
 
 -- FINALLY OUT OF Pi.cpp! BEGONE!

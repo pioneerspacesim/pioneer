@@ -2166,8 +2166,6 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "SetWindowFocus", l_pigui_set_window_focus },
 		{ "GetKeyBinding", l_pigui_get_keybinding },
 		{ "GetAxisBinding", l_pigui_get_axisbinding },
-		//		{ "GetHUDMarker",           l_pigui_get_hud_marker },
-		//    { "GetVelocity",            l_pigui_get_velocity },
 		{ "PushStyleColor", l_pigui_push_style_color },
 		{ "PopStyleColor", l_pigui_pop_style_color },
 		{ "PushStyleVar", l_pigui_push_style_var },
