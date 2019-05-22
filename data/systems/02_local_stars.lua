@@ -182,7 +182,7 @@ CustomSystem:new('Gliese 320',{'STAR_K'}):add_to_sector(2,2,-3,v(0.675,0.311,0.1
 CustomSystem:new('LHS 288',{'STAR_M'}):add_to_sector(0,0,-2,v(0.285,0.834,0.396))
 CustomSystem:new('GJ 1088',{'STAR_M'}):add_to_sector(3,0,-4,v(0.944,0.187,0.264))
 CustomSystem:new('Gliese 638',{'STAR_K'}):add_to_sector(-4,1,2,v(0.854,0.065,0.199))
---CustomSystem:new('1 Orionis',{'STAR_F'}):add_to_sector(3,-1,0,v(0.097,0.021,0.397)) 
+--CustomSystem:new('1 Orionis',{'STAR_F'}):add_to_sector(3,-1,0,v(0.097,0.021,0.397))
 --System already customized in custom\07_1Orionis.lua
 CustomSystem:new('NN 3192',{'STAR_M'}):add_to_sector(2,-3,-2,v(0.996,0.052,0.748))
 CustomSystem:new('NN 3193',{'STAR_M'}):add_to_sector(2,-3,-1,v(0.126,0.908,0.112))
@@ -349,7 +349,7 @@ CustomSystem:new('GJ 1001',{'STAR_M'}):add_to_sector(0,-3,-3,v(0.060,0.034,0.449
 CustomSystem:new('Gliese 835',{'STAR_M'}):add_to_sector(-3,-4,2,v(0.245,0.138,0.493))
 CustomSystem:new('Gliese 831',{'STAR_M','STAR_M'}):add_to_sector(-2,-3,-1,v(0.055,0.435,0.445))
 CustomSystem:new('Gliese 832',{'STAR_M'}):add_to_sector(-1,-2,-2,v(0.213,0.94,0.481))
-CustomSystem:new('Wolf 359',{'STAR_M'}):add_to_sector(0,0,0,v(0.264,0.931,0.120))
+-- CustomSystem:new('Wolf 359',{'STAR_M'}):add_to_sector(0,0,0,v(0.264,0.931,0.120))
 CustomSystem:new('Gliese 402',{'STAR_M'}):add_to_sector(0,2,0,v(0.678,0.178,0.272))
 CustomSystem:new('Gliese 373',{'STAR_M'}):add_to_sector(1,1,3,v(0.005,0.675,0.801))
 CustomSystem:new('Gliese 408',{'STAR_M'}):add_to_sector(0,2,1,v(0.643,0.404,0.048))
@@ -437,4 +437,3 @@ CustomSystem:new('Groombridge 1618',{'STAR_K'}):add_to_sector(0,1,1,v(0.589,0.14
 CustomSystem:new('NN 3820',{'STAR_K'}):add_to_sector(-2,2,-2,v(0.298,0.971,0.765))
 CustomSystem:new('NN 3126',{'STAR_M'}):add_to_sector(0,-2,3,v(0.912,0.445,0.657))
 CustomSystem:new('NN 3049',{'STAR_M'}):add_to_sector(0,-3,-3,v(0.572,0.021,0.337))
-
