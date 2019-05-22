@@ -2,9 +2,12 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Geom.h"
+
 #include "BVHTree.h"
 #include "GeomTree.h"
 #include "collider.h"
+#include "CollisionContact.h"
+
 #include <float.h>
 
 static const unsigned int MAX_CONTACTS = 8;

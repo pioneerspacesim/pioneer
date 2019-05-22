@@ -6,8 +6,8 @@
 
 #include "../matrix4x4.h"
 #include "../vector3.h"
-#include "CollisionContact.h"
 
+class CollisionContact;
 class GeomTree;
 struct isect_t;
 struct Sphere;
