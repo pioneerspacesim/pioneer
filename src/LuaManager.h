@@ -17,7 +17,7 @@ public:
 
 private:
 	LuaManager(const LuaManager &);
-	LuaManager &operator=(const LuaManager &);
+	LuaManager &operator=(const LuaManager &) = delete;
 
 	lua_State *m_lua;
 };

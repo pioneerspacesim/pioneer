@@ -78,7 +78,7 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/StarSystem.h"
 #include "gameui/Lua.h"
-#include "pigui/Lua.h"
+#include "pigui/PiGuiLua.h"
 #include "libs.h"
 #include "ship/PlayerShipController.h"
 #include "ship/ShipViewController.h"

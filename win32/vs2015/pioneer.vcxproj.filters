@@ -25,6 +25,9 @@
     <Filter Include="src\ship">
       <UniqueIdentifier>{c2a80aeb-4181-4173-9532-0648044f2982}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\pigui">
+      <UniqueIdentifier>{fd3f0e42-c96a-45c3-a489-fccf8c9242f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Body.cpp">
@@ -497,6 +500,15 @@
     </ClCompile>
     <ClCompile Include="..\..\src\LuaVector2.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\pigui\Face.cpp">
+      <Filter>src\pigui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\pigui\LuaFace.cpp">
+      <Filter>src\pigui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\pigui\PiGuiLua.cpp">
+      <Filter>src\pigui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1009,6 +1021,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\LuaVector2.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pigui\Face.h">
+      <Filter>src\pigui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pigui\PiGuiLua.h">
+      <Filter>src\pigui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
