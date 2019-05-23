@@ -90,7 +90,8 @@ private:
 		} else {
 			std::string index_name = lua_tostring(l, -2);
 			lua_pop(l, 3); // clean up the stack!
-			luaL_error("Unknown %s %s", typeName.c_str(), index_name.c_str());
+			luaL_error(l, "Unknown %s %s", typeName.c_str(), index_name.c_str());
 		}
+		return FlagType(0);
 	}
 };

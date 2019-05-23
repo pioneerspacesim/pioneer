@@ -37,7 +37,7 @@ static Type parse_imgui_flags(lua_State *l, int index, LuaFlags<Type> &lookupTab
 	if (lua_isnumber(l, index)) {
 		theFlags = static_cast<Type>(lua_tointeger(l, index));
 	} else if (lua_istable(l, index)) {
-		theFlags = lookupTable.Lookup(l, index);
+		theFlags = lookupTable.LookupTable(l, index);
 	} else {
 		Error("Expected a table or integer, got %s.\n", luaL_typename(l, index));
 	}
