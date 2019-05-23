@@ -112,16 +112,15 @@ static int l_vector_new_index(lua_State *L)
 	vector2d *v = LuaVector2::CheckFromLua(L, 1);
 	if (lua_type(L, 2) == LUA_TSTRING) {
 		const char *attr = luaL_checkstring(L, 2);
-		if (!strcmp(attr, "x")) {
+		if (attr[0] == 'x') {
 			v->x = luaL_checknumber(L, 3);
-		} else if (!strcmp(attr, "y")) {
+		} else if (attr[0] == 'y') {
 			v->y = luaL_checknumber(L, 3);
 		} else {
 			luaL_error(L, "Index '%s' is not available: use 'x' or 'y'", attr);
 		}
-
 	} else {
-		luaL_error(L, "Expected vector2, but type is '%s'", lua_typename(L,lua_type(L, 2)));
+		luaL_error(L, "Expected Vector2, but type is '%s'", luaL_typename(L, 2));
 	}
 	LuaVector2::PushToLua(L, *v);
 	return 1;
@@ -130,15 +129,21 @@ static int l_vector_new_index(lua_State *L)
 static int l_vector_index(lua_State *L)
 {
 	const vector2d *v = LuaVector2::CheckFromLua(L, 1);
+	size_t len = 0;
+	const char *attr = nullptr;
 	if (lua_type(L, 2) == LUA_TSTRING) {
-		const char *attr = luaL_checkstring(L, 2);
-		if (!strcmp(attr, "x")) {
-			lua_pushnumber(L, v->x);
-			return 1;
-		} else if (!strcmp(attr, "y")) {
-			lua_pushnumber(L, v->y);
-			return 1;
-		}
+		attr = lua_tolstring(L, 2, &len);
+		if (attr != nullptr && len == 1) {
+			if (attr[0] == 'x') {
+				lua_pushnumber(L, v->x);
+				return 1;
+			} else if (attr[0] == 'y') {
+				lua_pushnumber(L, v->y);
+				return 1;
+			}
+		};
+	} else {
+		luaL_error(L, "Expected a string as argument, but type is '%s'", luaL_typename(L, 2));
 	}
 	lua_getmetatable(L, 1);
 	lua_pushvalue(L, 2);

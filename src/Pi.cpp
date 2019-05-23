@@ -20,6 +20,7 @@
 #include "Intro.h"
 #include "KeyBindings.h"
 #include "Lang.h"
+#include "LuaColor.h"
 #include "LuaComms.h"
 #include "LuaConsole.h"
 #include "LuaConstants.h"
@@ -316,6 +317,7 @@ static void LuaInit()
 	LuaConsole::Register();
 	LuaVector::Register(Lua::manager->GetLuaState());
 	LuaVector2::Register(Lua::manager->GetLuaState());
+	LuaColor::Register(Lua::manager->GetLuaState());
 
 	// XXX sigh
 	UI::Lua::Init();

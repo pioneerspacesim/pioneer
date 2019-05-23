@@ -7,7 +7,6 @@ local Game = import('Game')
 local ui = import('pigui/pigui.lua')
 local Event = import('Event')
 local Lang = import("Lang")
-local Color = import("Color")
 
 local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")

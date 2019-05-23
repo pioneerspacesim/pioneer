@@ -3,7 +3,6 @@
 
 local Engine = import('Engine')
 local ui = import('pigui/pigui.lua')
-local Color = import('Color')
 local Lang = import("Lang")
 local lc = Lang.GetResource("core");
 local lui = Lang.GetResource("ui-core");

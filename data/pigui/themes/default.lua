@@ -1,5 +1,3 @@
-local Color = import("Color")
-
 local theme = {}
 
 theme.colors = {
