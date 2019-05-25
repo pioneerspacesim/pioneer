@@ -26,6 +26,7 @@ function gauges.registerGauge(priority, data)
 	gauges.dirty = true
 end
 
+local gaugeWindowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}
 function gauges.displayGauges()
 	if gauges.dirty then
 		table.sort(gauges, function(a,b) return a.priority < b.priority end)
@@ -43,7 +44,7 @@ function gauges.displayGauges()
 		end
 		tws = tws + Vector2(0, 30) -- extra offset
 		ui.setNextWindowPos(Vector2(5, ui.screenHeight - tws.y - ui.gauge_height * c * gauge_stretch), "Always")
-		ui.window("PlayerGauges", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}, function()
+		ui.window("PlayerGauges", gaugeWindowFlags, function()
 			local uiPos = ui.getWindowPos() + Vector2(0, ui.gauge_height)
 			for k,g in ipairs(gauges) do
 				local value = g.value()

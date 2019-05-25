@@ -573,6 +573,13 @@ ui.pushItemWidth = pigui.PushItemWidth
 ui.popItemWidth = pigui.PopItemWidth
 ui.sliderFloat = pigui.SliderFloat
 
+-- Flag validation functions. Call with a table of string flags as the only argument.
+ui.SelectableFlags = pigui.SelectableFlags
+ui.TreeNodeFlags = pigui.TreeNodeFlags
+ui.InputTextFlags = pigui.InputTextFlags
+ui.WindowFlags = pigui.WindowFlags
+ui.HoveredFlags = pigui.HoveredFlags
+
 -- FINALLY OUT OF Pi.cpp! BEGONE!
 ui.playBoinkNoise = function ()
 	ui.playSfx("Click", 0.3, 0.3)
@@ -791,7 +798,7 @@ ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color
 			ui.addStyledText(Vector2(uiPos.x, uiPos.y + ui.gauge_height / 12), ui.anchor.right, ui.anchor.center, string.format("%i", percent * 100), ui.theme.colors.reticuleCircle, ui.fonts.pionillium.medium, tooltip)
 		end
 		uiPos.x = uiPos.x + ui.gauge_height * 1.2
-		ui.addIcon(Vector2(uiPos.x - ui.gauge_height / 2, uiPos.y), icon, ui.theme.colors.reticuleCircle, Vector2(ui.gauge_height * 0.9, 0), ui.anchor.center, ui.anchor.center, tooltip)
+		ui.addIcon(Vector2(uiPos.x - ui.gauge_height / 2, uiPos.y), icon, ui.theme.colors.reticuleCircle, Vector2(ui.gauge_height * 0.9, ui.gauge_height * 0.9), ui.anchor.center, ui.anchor.center, tooltip)
 		local w = (position.x + ui.gauge_width) - uiPos.x
 		ui.addLine(uiPos, Vector2(uiPos.x + w * percent, uiPos.y), color, ui.gauge_height)
 		if value and format then

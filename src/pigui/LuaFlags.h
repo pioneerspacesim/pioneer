@@ -5,6 +5,7 @@
 
 #include "utils.h"
 #include <lua.hpp>
+#include <stdexcept>
 #include <string>
 
 template <typename FlagType>
@@ -13,13 +14,16 @@ struct LuaFlags {
 	std::string typeName;
 	int lookupTableRef = LUA_NOREF;
 
-	LuaFlags(std::string name, std::initializer_list<std::pair<const char *, FlagType>> init) :
-		typeName(name),
+	LuaFlags(std::initializer_list<std::pair<const char *, FlagType>> init) :
 		LUT(init) {}
 
-	void Register(lua_State *l)
+	void Register(lua_State *l, std::string name)
 	{
+		if (lookupTableRef != LUA_NOREF)
+			throw std::runtime_error(std::string("Class ") + name + " is already registered.");
+
 		lua_newtable(l);
+		typeName = name;
 
 		for (auto &pair : LUT) {
 			lua_pushstring(l, pair.first);
@@ -85,8 +89,9 @@ private:
 		lua_gettable(l, lookup_index);
 		if (lua_isnumber(l, -1)) {
 			// bitwise operations implicitly convert to int, so we must explicitly convert back to FlagType.
-			return static_cast<FlagType>(lua_tointeger(l, -1));
+			FlagType fl_ret = static_cast<FlagType>(lua_tointeger(l, -1));
 			lua_pop(l, 2); // clean up the stack!
+			return fl_ret;
 		} else {
 			std::string index_name = lua_tostring(l, -2);
 			lua_pop(l, 3); // clean up the stack!

@@ -240,6 +240,7 @@ local function displayScreenshotInfo()
 	end
 end
 
+local gameViewWindowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoMove", "NoInputs", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}
 ui.registerHandler('game', function(delta_t)
 		-- delta_t is ignored for now
 		player = Game.player
@@ -249,7 +250,7 @@ ui.registerHandler('game', function(delta_t)
 		ui.setNextWindowPos(Vector2(0, 0), "Always")
 		ui.setNextWindowSize(Vector2(ui.screenWidth, ui.screenHeight), "Always")
 		ui.withStyleColors({ ["WindowBg"] = colors.transparent }, function()
-			ui.window("HUD", {"NoTitleBar", "NoResize", "NoMove", "NoInputs", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}, function()
+			ui.window("HUD", gameViewWindowFlags, function()
 				gameView.center = Vector2(ui.screenWidth / 2, ui.screenHeight / 2)
 				if ui.shouldDrawUI() then
 					if Game.CurrentView() == "world" then
