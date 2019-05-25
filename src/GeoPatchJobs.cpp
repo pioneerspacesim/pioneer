@@ -2,10 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GeoPatchJobs.h"
-#include "GeoPatch.h"
+
 #include "GeoSphere.h"
-#include "Pi.h"
-#include "RefCounted.h"
 #include "libs.h"
 #include "perlin.h"
 

@@ -5,16 +5,16 @@
 #define _BASESPHERE_H
 
 #include "Camera.h"
+#include "vector3.h"
+#include "galaxy/SystemBody.h"
 #include "graphics/Drawables.h"
 #include "terrain/Terrain.h"
-#include "vector3.h"
 
 namespace Graphics {
 	class Renderer;
 	class RenderState;
 	class Material;
 } // namespace Graphics
-class SystemBody;
 
 class BaseSphere {
 public:

@@ -8,9 +8,8 @@
 
 #include "GeoPatchID.h"
 #include "JobQueue.h"
-#include "Random.h"
-#include "graphics/VertexBuffer.h"
 #include "vector3.h"
+#include "graphics/VertexBuffer.h"
 
 #include <deque>
 

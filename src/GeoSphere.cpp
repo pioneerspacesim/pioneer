@@ -9,6 +9,7 @@
 #include "GeoPatchJobs.h"
 #include "Pi.h"
 #include "RefCounted.h"
+#include "galaxy/StarSystem.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"

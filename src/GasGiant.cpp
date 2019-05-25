@@ -14,8 +14,6 @@
 #include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
 #include "graphics/Texture.h"
-#include "graphics/TextureBuilder.h"
-#include "graphics/Types.h"
 #include "graphics/VertexArray.h"
 #include "graphics/opengl/GenGasGiantColourMaterial.h"
 #include "libs.h"

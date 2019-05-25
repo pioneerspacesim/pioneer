@@ -14,7 +14,6 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
-#include "graphics/VertexArray.h"
 #include "perlin.h"
 #include "vcacheopt/vcacheopt.h"
 #include <algorithm>

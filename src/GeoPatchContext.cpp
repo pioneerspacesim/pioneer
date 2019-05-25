@@ -2,13 +2,10 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GeoPatchContext.h"
+
 #include "Pi.h"
-#include "RefCounted.h"
-#include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
-#include "graphics/Material.h"
 #include "graphics/Renderer.h"
-#include "graphics/VertexArray.h"
 
 #include "perlin.h"
 #include "vcacheopt/vcacheopt.h"

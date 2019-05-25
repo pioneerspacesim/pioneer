@@ -8,7 +8,6 @@
 
 #include "BaseSphere.h"
 #include "Camera.h"
-#include "GeoPatchID.h"
 #include "vector3.h"
 
 #include <deque>

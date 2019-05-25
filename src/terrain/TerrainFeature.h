@@ -4,7 +4,9 @@
 #ifndef _TERRAINFEATURE_H
 #define _TERRAINFEATURE_H
 
-#include "Terrain.h"
+#include "../vector3.h"
+
+struct fracdef_t;
 
 namespace TerrainFeature {
 

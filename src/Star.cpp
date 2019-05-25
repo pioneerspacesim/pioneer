@@ -4,8 +4,10 @@
 #include "Star.h"
 
 #include "Pi.h"
+#include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "graphics/RenderState.h"
 #include "graphics/VertexArray.h"
 
 using namespace Graphics;

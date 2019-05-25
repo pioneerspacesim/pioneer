@@ -2,11 +2,13 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Terrain.h"
+
 #include "FileSystem.h"
 #include "FloatComparison.h"
 #include "GameConfig.h"
 #include "Pi.h"
 #include "perlin.h"
+#include "../galaxy/SystemBody.h"
 
 // static instancer. selects the best height and color classes for the body
 Terrain *Terrain::InstanceTerrain(const SystemBody *body)
@@ -692,6 +694,14 @@ double Terrain::BiCubicInterpolation(const vector3d &p) const
 	const double a2 = 0.5 * d0 + 0.5 * d2;
 	const double a3 = -(1 / 6.0) * d0 - 0.5 * d2 + (1 / 6.0) * d3;
 	return (0.1 + a0 + a1 * dy + a2 * dy * dy + a3 * dy * dy * dy);
+}
+
+Terrain::MinBodyData::MinBodyData(const SystemBody *body)
+{
+	m_radius = body->GetRadius();
+	m_aspectRatio = body->GetAspectRatio();
+	m_path = body->GetPath();
+	m_name = body->GetName();
 }
 
 void Terrain::DebugDump() const

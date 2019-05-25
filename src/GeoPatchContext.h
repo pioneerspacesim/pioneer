@@ -6,10 +6,8 @@
 
 #include <SDL_stdinc.h>
 
-#include "GeoPatchID.h"
-#include "Random.h"
-#include "graphics/VertexBuffer.h"
 #include "vector3.h"
+#include "graphics/VertexBuffer.h"
 
 #include <deque>
 
@@ -19,6 +17,7 @@
 namespace Graphics {
 	class Renderer;
 }
+
 class SystemBody;
 class GeoPatch;
 class GeoSphere;
