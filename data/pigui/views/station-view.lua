@@ -4,12 +4,12 @@
 local ui = import 'pigui/pigui.lua'
 local TabView = import 'pigui/views/tab-view.lua'
 
-local infoView
+local stationView
 
-if not infoView then
-	infoView = TabView.New("info")
+if not stationView then
+	stationView = TabView.New("space_station")
 
-	ui.registerModule("game", function() infoView:renderTabView() end)
+	ui.registerModule("game", function() stationView:renderTabView() end)
 end
 
-return infoView
+return stationView

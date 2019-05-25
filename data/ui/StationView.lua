@@ -9,6 +9,8 @@ local Event = import("Event")
 local TabView = import("ui/TabView")
 local InfoGauge = import("ui/InfoGauge")
 
+local piStationView = import("pigui/views/station-view")
+
 local l = Lang.GetResource("ui-core")
 
 local lobby           = import("StationView/Lobby")
@@ -138,6 +140,8 @@ ui.templates.StationView = function (args)
 
 	tabGroup:SetFooter(footerDefault)
 
+	tabGroup.header:Hide()
+	piStationView.legacyTabView = tabGroup
 	return tabGroup.widget
 end
 
