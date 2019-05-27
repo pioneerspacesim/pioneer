@@ -102,27 +102,35 @@ function ui.child(id, size, flags, fun)
 	pigui.EndChild()
 end
 function ui.withFont(name, size, fun)
+	-- allow `withFont(fontObj, fun)`
+	if type(name) == "table" and type(size) == "function" then
+		name, size, fun = table.unpack{name.name, name.size, size}
+	end
+
 	local font = pigui:PushFont(name, size)
-	fun()
+	local res = fun()
 	if font then
 		pigui.PopFont()
 	end
+	return res
 end
 
 function ui.withStyleColors(styles, fun)
 	for k,v in pairs(styles) do
 		pigui.PushStyleColor(k, v)
 	end
-	fun()
+	local res = fun()
 	pigui.PopStyleColor(utils.count(styles))
+	return res
 end
 
 function ui.withStyleVars(vars, fun)
 	for k,v in pairs(vars) do
 		pigui.PushStyleVar(k, v)
 	end
-	fun()
+	local res = fun()
 	pigui.PopStyleVar(utils.count(vars))
+	return res
 end
 
 function ui.withStyleColorsAndVars(styles, vars, fun)
@@ -132,9 +140,10 @@ function ui.withStyleColorsAndVars(styles, vars, fun)
 	for k,v in pairs(vars) do
 		pigui.PushStyleVar(k, v)
 	end
-	fun()
+	local res = fun()
 	pigui.PopStyleVar(utils.count(vars))
 	pigui.PopStyleColor(utils.count(styles))
+	return res
 end
 
 pigui.handlers.INIT = function(progress)
@@ -532,6 +541,7 @@ ui.setTooltip = maybeSetTooltip
 ui.shouldDrawUI = pigui.ShouldDrawUI
 ui.getWindowPos = pigui.GetWindowPos
 ui.getWindowSize = pigui.GetWindowSize
+-- available content region
 ui.getContentRegion = pigui.GetContentRegion
 ui.getTextLineHeight = pigui.GetTextLineHeight
 ui.getTextLineHeightWithSpacing = pigui.GetTextLineHeightWithSpacing

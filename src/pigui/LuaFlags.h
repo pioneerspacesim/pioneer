@@ -93,8 +93,9 @@ private:
 			lua_pop(l, 2); // clean up the stack!
 			return fl_ret;
 		} else {
-			std::string index_name = lua_tostring(l, -2);
-			lua_pop(l, 3); // clean up the stack!
+			lua_pop(l, 1);
+			std::string index_name = lua_tostring(l, index);
+			lua_pop(l, 2); // clean up the stack!
 			luaL_error(l, "Unknown %s %s", typeName.c_str(), index_name.c_str());
 		}
 		return FlagType(0);
