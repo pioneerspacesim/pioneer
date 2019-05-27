@@ -440,8 +440,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 	else {
 		// give planet some ambient lighting if the viewer is close to it
-		double camdist = campos.Length();
-		camdist = 0.1 / (camdist * camdist);
+		double camdist = 0.1 / campos.LengthSqr();
 		// why the fuck is this returning 0.1 when we are sat on the planet??
 		// JJ: Because campos is relative to a unit-radius planet - 1.0 at the surface
 		// XXX oh well, it is the value we want anyway...
