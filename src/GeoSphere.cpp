@@ -357,14 +357,7 @@ void GeoSphere::AddQuadSplitRequest(double dist, SQuadSplitRequest *pReq, GeoPat
 
 void GeoSphere::ProcessQuadSplitRequests()
 {
-	class RequestDistanceSort {
-	public:
-		bool operator()(const TDistanceRequest &a, const TDistanceRequest &b)
-		{
-			return a.mDistance < b.mDistance;
-		}
-	};
-	std::sort(mQuadSplitRequests.begin(), mQuadSplitRequests.end(), RequestDistanceSort());
+	std::sort(mQuadSplitRequests.begin(), mQuadSplitRequests.end(), [](TDistanceRequest &a, TDistanceRequest &b) { return a.mDistance < b.mDistance; });
 
 	for (auto iter : mQuadSplitRequests) {
 		SQuadSplitRequest *ssrd = iter.mpRequest;
