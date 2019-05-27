@@ -51,7 +51,7 @@ struct LuaFlags {
 		lua_pushinteger(l, lookupTableRef);
 		lua_gettable(l, LUA_REGISTRYINDEX);
 
-		uint table_idx = 1;
+		int table_idx = 1;
 		while (true) {
 			lua_pushinteger(l, table_idx++);
 			lua_gettable(l, index);

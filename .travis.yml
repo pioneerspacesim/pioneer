@@ -27,15 +27,20 @@ addons:
       - sdl2
       - sdl2_image
       - libogg
+
 matrix:
   include:
+    # OSX is faster to boot and execute the checks, but has more contention for VM instances.
+    # Not waiting fifteen minutes for an instance to come available is faster.
     - name: Static Checks
-      os: osx # OSX is twice as fast to complete the checks
+      os: linux
       env: STATIC_CHECKS=yes
       deploy: false
       before_install: skip
       addons:
-        homebrew:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
           packages:
             - clang-format
       script: bash ./scripts/clang-format.sh

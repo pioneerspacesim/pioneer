@@ -6,14 +6,21 @@
 #include "NodeVisitor.h"
 #include "Parser.h"
 #include "StringF.h"
-#include "utils.h"
 #include "scenegraph/Animation.h"
-#include "scenegraph/MatrixTransform.h"
 #include "scenegraph/Label3D.h"
+#include "scenegraph/MatrixTransform.h"
+#include "utils.h"
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wattributes"
+#endif
 extern "C" {
-#include "miniz/miniz.h"
+#include <miniz/miniz.h>
 }
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
 using namespace SceneGraph;
 

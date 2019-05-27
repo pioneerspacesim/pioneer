@@ -1,6 +1,9 @@
 #!/bin/bash
 
-CLANG_FORMAT="clang-format"
+CLANG_FORMAT=`which "clang-format"`
+if [ ! $PATCH_MODE ]; then
+    echo "clang-format = $CLANG_FORMAT"
+fi
 
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     # Check the whole commit range against $TRAVIS_BRANCH, the base merge branch
