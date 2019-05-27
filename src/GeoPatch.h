@@ -13,7 +13,14 @@
 
 #include <deque>
 
-// #define DEBUG_BOUNDING_SPHERES
+//#define DEBUG_BOUNDING_SPHERES
+
+#ifdef DEBUG_BOUNDING_SPHERES
+#include "graphics/Drawables.h"
+namespace Graphics {
+	class RenderState;
+}
+#endif
 
 namespace Graphics {
 	class Renderer;

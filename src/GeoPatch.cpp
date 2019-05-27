@@ -20,6 +20,10 @@
 #include <algorithm>
 #include <deque>
 
+#ifdef DEBUG_BOUNDING_SPHERES
+#include "graphics/RenderState.h"
+#endif
+
 // tri edge lengths
 static const double GEOPATCH_SUBDIVIDE_AT_CAMDIST = 5.0;
 
@@ -239,7 +243,14 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 
 #ifdef DEBUG_BOUNDING_SPHERES
 		RefCountedPtr<Graphics::Material> mat(Pi::renderer->CreateMaterial(Graphics::MaterialDescriptor()));
-		m_boundsphere.reset(new Graphics::Drawables::Sphere3D(Pi::renderer, mat, Pi::renderer->CreateRenderState(Graphics::RenderStateDesc()), 0, clipRadius));
+		switch (m_depth) {
+			case 0: mat->diffuse = Color::WHITE; break;
+			case 1: mat->diffuse = Color::RED; break;
+			case 2: mat->diffuse = Color::GREEN; break;
+			case 3: mat->diffuse = Color::BLUE; break;
+			default: mat->diffuse = Color::BLACK; break;
+		}
+		m_boundsphere.reset(new Graphics::Drawables::Sphere3D(Pi::renderer, mat, Pi::renderer->CreateRenderState(Graphics::RenderStateDesc()), 2, m_clipRadius));
 #endif
 	}
 }
