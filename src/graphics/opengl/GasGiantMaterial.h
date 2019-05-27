@@ -9,7 +9,6 @@
 #include "MaterialGL.h"
 #include "OpenGLLibs.h"
 #include "Program.h"
-#include "galaxy/StarSystem.h"
 
 namespace Graphics {
 	namespace OGL {

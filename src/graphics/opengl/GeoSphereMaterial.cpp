@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GeoSphereMaterial.h"
+
 #include "Camera.h"
 #include "GeoSphere.h"
 #include "RendererGL.h"
@@ -104,7 +105,7 @@ namespace Graphics {
 
 			GeoSphereProgram *p = static_cast<GeoSphereProgram *>(m_program);
 			const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters *>(this->specialParameter0);
-			const SystemBody::AtmosphereParameters ap = params.atmosphere;
+			const AtmosphereParameters ap = params.atmosphere;
 
 			p->emission.Set(this->emissive);
 			p->sceneAmbient.Set(m_renderer->GetAmbientColor());

@@ -10,6 +10,7 @@
 #include "Pi.h"
 #include "RefCounted.h"
 #include "galaxy/StarSystem.h"
+#include "galaxy/AtmosphereParameters.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
@@ -496,7 +497,7 @@ void GeoSphere::SetUpMaterials()
 		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_STAR;
 	} else {
 		//planetoid with or without atmosphere
-		const SystemBody::AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
+		const AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
 		surfDesc.lighting = true;
 		if (ap.atmosDensity > 0.0) {
 			surfDesc.quality |= Graphics::HAS_ATMOSPHERE;

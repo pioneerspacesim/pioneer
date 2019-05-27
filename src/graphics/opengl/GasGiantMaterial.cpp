@@ -8,6 +8,7 @@
 #include "StringF.h"
 #include "graphics/Graphics.h"
 #include <sstream>
+#include "galaxy/AtmosphereParameters.h"
 
 namespace Graphics {
 	namespace OGL {
@@ -88,7 +89,7 @@ namespace Graphics {
 
 			GasGiantProgram *p = static_cast<GasGiantProgram *>(m_program);
 			const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters *>(this->specialParameter0);
-			const SystemBody::AtmosphereParameters ap = params.atmosphere;
+			const AtmosphereParameters ap = params.atmosphere;
 
 			p->emission.Set(this->emissive);
 			p->sceneAmbient.Set(m_renderer->GetAmbientColor());

@@ -3,6 +3,7 @@
 
 #include "StarSystemGenerator.h"
 
+#include "AtmosphereParameters.h"
 #include "Factions.h"
 #include "Galaxy.h"
 #include "Json.h"

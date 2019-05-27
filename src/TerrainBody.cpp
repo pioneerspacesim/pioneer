@@ -9,6 +9,7 @@
 #include "GeoSphere.h"
 #include "Json.h"
 #include "Space.h"
+#include "galaxy/SystemBody.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 

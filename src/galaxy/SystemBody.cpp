@@ -5,6 +5,7 @@
 
 #include "Lang.h"
 #include "EnumStrings.h"
+#include "AtmosphereParameters.h"
 #include "enum_table.h"
 #include "utils.h"
 
@@ -51,7 +52,7 @@ bool SystemBody::IsScoopable() const
 }
 
 // Calculate parameters used in the atmospheric model for shaders
-SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
+AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 {
 	PROFILE_SCOPED()
 	AtmosphereParameters params;

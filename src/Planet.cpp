@@ -2,8 +2,10 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Planet.h"
+
 #include "Color.h"
 #include "GeoSphere.h"
+#include "galaxy/SystemBody.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"

@@ -6,7 +6,7 @@
 
 #include "Camera.h"
 #include "vector3.h"
-#include "galaxy/SystemBody.h"
+#include "galaxy/AtmosphereParameters.h"
 #include "graphics/Drawables.h"
 #include "terrain/Terrain.h"
 
@@ -39,7 +39,7 @@ public:
 	virtual double GetMaxFeatureHeight() const = 0;
 
 	struct MaterialParameters {
-		SystemBody::AtmosphereParameters atmosphere;
+		AtmosphereParameters atmosphere;
 		std::vector<Camera::Shadow> shadows;
 		Sint32 patchDepth;
 		Sint32 maxPatchDepth;

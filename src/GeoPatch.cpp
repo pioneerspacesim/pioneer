@@ -10,6 +10,7 @@
 #include "Pi.h"
 #include "RefCounted.h"
 #include "Sphere.h"
+#include "galaxy/SystemBody.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"

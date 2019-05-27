@@ -14,6 +14,8 @@
 
 class StarSystem;
 
+struct AtmosphereParameters;
+
 class SystemBody : public RefCounted {
 public:
 	SystemBody(const SystemPath &path, StarSystem *system);
@@ -191,15 +193,6 @@ public:
 		*outColor = m_atmosColor;
 		*outDensity = m_atmosDensity;
 	}
-
-	struct AtmosphereParameters {
-		float atmosRadius;
-		float atmosInvScaleHeight;
-		float atmosDensity;
-		float planetRadius;
-		Color atmosCol;
-		vector3d center;
-	};
 
 	AtmosphereParameters CalcAtmosphereParams() const;
 

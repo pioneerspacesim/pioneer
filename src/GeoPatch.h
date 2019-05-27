@@ -19,7 +19,7 @@ namespace Graphics {
 	class Renderer;
 	class Frustum;
 }
-class SystemBody;
+
 class GeoPatchContext;
 class GeoSphere;
 class BasePatchJob;
