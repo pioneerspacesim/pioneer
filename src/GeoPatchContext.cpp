@@ -28,27 +28,16 @@ void GeoPatchContext::GenerateIndices()
 	std::vector<Uint32> pl_short;
 
 	int tri_count = 0;
-	{
-		// calculate how many tri's there are
-		tri_count = (VBO_COUNT_MID_IDX() / 3);
-		for (int i = 0; i < 4; ++i) {
-			tri_count += (VBO_COUNT_HI_EDGE() / 3);
-		}
-
-		// pre-allocate enough space
-		pl_short.reserve(tri_count);
-
-		// add all of the middle indices
-		for (int i = 0; i < VBO_COUNT_MID_IDX(); ++i) {
-			pl_short.push_back(0);
-		}
-		// add the HI detail indices
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < VBO_COUNT_HI_EDGE(); ++j) {
-				pl_short.push_back(0);
-			}
-		}
+	// calculate how many tri's there are
+	tri_count = (VBO_COUNT_MID_IDX() / 3);
+	for (int i = 0; i < 4; ++i) {
+		tri_count += (VBO_COUNT_HI_EDGE() / 3);
 	}
+
+	// pre-allocate and fill enough space
+	pl_short.assign(tri_count + VBO_COUNT_MID_IDX() + VBO_COUNT_HI_EDGE() * 4, 0);
+
+	Output("GenerateIndices: triangles count = %i, mid indexes = %i, hi edges = %i\n", tri_count, VBO_COUNT_MID_IDX(), VBO_COUNT_HI_EDGE());
 
 	// want vtx indices for tris
 	Uint32 *idx = &pl_short[0];
