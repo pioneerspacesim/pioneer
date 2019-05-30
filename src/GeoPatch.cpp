@@ -381,7 +381,7 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 void GeoPatch::RequestSinglePatch()
 {
 	if (!m_heights) {
-		assert(!mHasJobRequest);
+		assert(!m_HasJobRequest);
 		m_HasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(m_v0, m_v1, m_v2, m_v3, m_centroid.Normalized(), m_depth,
 			m_geosphere->GetSystemBody()->GetPath(), m_PatchID, m_ctx->GetEdgeLen() - 2, m_ctx->GetFrac(), m_geosphere->GetTerrain());
@@ -405,10 +405,10 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 		assert(m_HasJobRequest);
 		const int newDepth = m_depth + 1;
 		for (int i = 0; i < NUM_KIDS; i++) {
-			assert(!kids[i]);
+			assert(!m_kids[i]);
 			const SQuadSplitResult::SSplitResultData &data = psr->data(i);
-			assert(i == data.patchID.GetPatchIdx(nD));
-			assert(0 == data.patchID.GetPatchIdx(nD + 1));
+			assert(i == data.patchID.GetPatchIdx(newDepth));
+			assert(0 == data.patchID.GetPatchIdx(newDepth + 1));
 			m_kids[i].reset(new GeoPatch(m_ctx, m_geosphere,
 				data.v0, data.v1, data.v2, data.v3,
 				newDepth, data.patchID));
@@ -431,7 +431,7 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 void GeoPatch::ReceiveHeightmap(const SSingleSplitResult *psr)
 {
 	PROFILE_SCOPED()
-	assert(nullptr == parent);
+	assert(nullptr == m_parent);
 	assert(nullptr != psr);
 	assert(m_HasJobRequest);
 	{
