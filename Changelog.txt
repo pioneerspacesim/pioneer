@@ -14,6 +14,7 @@ May 2019
      * Friction and sinking (#4588)
      * Fixup naming and update the visual studio project files (#4593)
      * Decouple terrain and related file (#4598)
+     * Start moving station-view to PiGui (#4597)
 
    * Fixes
      * Fix crash on main menu (#4578)
