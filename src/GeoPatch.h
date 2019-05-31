@@ -8,19 +8,25 @@
 
 #include "GeoPatchID.h"
 #include "JobQueue.h"
-#include "Random.h"
-#include "graphics/VertexBuffer.h"
 #include "vector3.h"
+#include "graphics/VertexBuffer.h"
 
 #include <deque>
 
-// #define DEBUG_BOUNDING_SPHERES
+//#define DEBUG_BOUNDING_SPHERES
+
+#ifdef DEBUG_BOUNDING_SPHERES
+#include "graphics/Drawables.h"
+namespace Graphics {
+	class RenderState;
+}
+#endif
 
 namespace Graphics {
 	class Renderer;
 	class Frustum;
 }
-class SystemBody;
+
 class GeoPatchContext;
 class GeoSphere;
 class BasePatchJob;
@@ -28,30 +34,6 @@ class SQuadSplitResult;
 class SSingleSplitResult;
 
 class GeoPatch {
-private:
-	static const int NUM_KIDS = 4;
-
-	RefCountedPtr<GeoPatchContext> ctx;
-	const vector3d v0, v1, v2, v3;
-	std::unique_ptr<double[]> heights;
-	std::unique_ptr<vector3f[]> normals;
-	std::unique_ptr<Color3ub[]> colors;
-	std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
-	std::unique_ptr<GeoPatch> kids[NUM_KIDS];
-	GeoPatch *parent;
-	GeoSphere *geosphere;
-	double m_roughLength;
-	vector3d clipCentroid, centroid;
-	double clipRadius;
-	Sint32 m_depth;
-	bool m_needUpdateVBOs;
-
-	const GeoPatchID mPatchID;
-	Job::Handle m_job;
-	bool mHasJobRequest;
-#ifdef DEBUG_BOUNDING_SPHERES
-	std::unique_ptr<Graphics::Drawables::Sphere3D> m_boundsphere;
-#endif
 public:
 	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs,
 		const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_,
@@ -61,7 +43,7 @@ public:
 
 	inline void NeedToUpdateVBOs()
 	{
-		m_needUpdateVBOs = (nullptr != heights);
+		m_needUpdateVBOs = (nullptr != m_heights);
 	}
 
 	void UpdateVBOs(Graphics::Renderer *renderer);
@@ -69,7 +51,7 @@ public:
 	int GetChildIdx(const GeoPatch *child) const
 	{
 		for (int i = 0; i < NUM_KIDS; i++) {
-			if (kids[i].get() == child) return i;
+			if (m_kids[i].get() == child) return i;
 		}
 		abort();
 		return -1;
@@ -78,7 +60,7 @@ public:
 	// in patch surface coords, [0,1]
 	inline vector3d GetSpherePoint(const double x, const double y) const
 	{
-		return (v0 + x * (1.0 - y) * (v1 - v0) + x * y * (v2 - v0) + (1.0 - x) * y * (v3 - v0)).Normalized();
+		return (m_v0 + x * (1.0 - y) * (m_v1 - m_v0) + x * y * (m_v2 - m_v0) + (1.0 - x) * y * (m_v3 - m_v0)).Normalized();
 	}
 
 	void Render(Graphics::Renderer *r, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum);
@@ -86,12 +68,12 @@ public:
 	inline bool canBeMerged() const
 	{
 		bool merge = true;
-		if (kids[0]) {
+		if (m_kids[0]) {
 			for (int i = 0; i < NUM_KIDS; i++) {
-				merge &= kids[i]->canBeMerged();
+				merge &= m_kids[i]->canBeMerged();
 			}
 		}
-		merge &= !(mHasJobRequest);
+		merge &= !(m_HasJobRequest);
 		return merge;
 	}
 
@@ -102,7 +84,31 @@ public:
 	void ReceiveHeightmap(const SSingleSplitResult *psr);
 	void ReceiveJobHandle(Job::Handle job);
 
-	inline bool HasHeightData() const { return (heights.get() != nullptr); }
+	inline bool HasHeightData() const { return (m_heights.get() != nullptr); }
+private:
+	static const int NUM_KIDS = 4;
+
+	RefCountedPtr<GeoPatchContext> m_ctx;
+	const vector3d m_v0, m_v1, m_v2, m_v3;
+	std::unique_ptr<double[]> m_heights;
+	std::unique_ptr<vector3f[]> m_normals;
+	std::unique_ptr<Color3ub[]> m_colors;
+	std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
+	std::unique_ptr<GeoPatch> m_kids[NUM_KIDS];
+	GeoPatch *m_parent;
+	GeoSphere *m_geosphere;
+	double m_roughLength;
+	vector3d m_clipCentroid, m_centroid;
+	double m_clipRadius;
+	Sint32 m_depth;
+	bool m_needUpdateVBOs;
+
+	const GeoPatchID m_PatchID;
+	Job::Handle m_job;
+	bool m_HasJobRequest;
+#ifdef DEBUG_BOUNDING_SPHERES
+	std::unique_ptr<Graphics::Drawables::Sphere3D> m_boundsphere;
+#endif
 };
 
 #endif /* _GEOPATCH_H */

@@ -8,14 +8,13 @@
 #include "GameConfig.h"
 #include "Pi.h"
 #include "RefCounted.h"
+#include "galaxy/AtmosphereParameters.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
 #include "graphics/Texture.h"
-#include "graphics/TextureBuilder.h"
-#include "graphics/Types.h"
 #include "graphics/VertexArray.h"
 #include "graphics/opengl/GenGasGiantColourMaterial.h"
 #include "libs.h"
@@ -754,7 +753,7 @@ void GasGiant::SetUpMaterials()
 	surfDesc.effect = Graphics::EFFECT_GASSPHERE_TERRAIN;
 
 	//planetoid with atmosphere
-	const SystemBody::AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
+	const AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
 	surfDesc.lighting = true;
 	assert(ap.atmosDensity > 0.0);
 	{

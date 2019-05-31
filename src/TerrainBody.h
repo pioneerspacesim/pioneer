@@ -26,7 +26,6 @@ public:
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel) override { return true; }
 	virtual double GetMass() const override { return m_mass; }
 	double GetTerrainHeight(const vector3d &pos) const;
-	bool IsSuperType(SystemBody::BodySuperType t) const;
 	virtual const SystemBody *GetSystemBody() const override { return m_sbody; }
 
 	// returns value in metres

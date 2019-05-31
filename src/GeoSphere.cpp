@@ -9,6 +9,8 @@
 #include "GeoPatchJobs.h"
 #include "Pi.h"
 #include "RefCounted.h"
+#include "galaxy/StarSystem.h"
+#include "galaxy/AtmosphereParameters.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
@@ -355,14 +357,7 @@ void GeoSphere::AddQuadSplitRequest(double dist, SQuadSplitRequest *pReq, GeoPat
 
 void GeoSphere::ProcessQuadSplitRequests()
 {
-	class RequestDistanceSort {
-	public:
-		bool operator()(const TDistanceRequest &a, const TDistanceRequest &b)
-		{
-			return a.mDistance < b.mDistance;
-		}
-	};
-	std::sort(mQuadSplitRequests.begin(), mQuadSplitRequests.end(), RequestDistanceSort());
+	std::sort(mQuadSplitRequests.begin(), mQuadSplitRequests.end(), [](TDistanceRequest &a, TDistanceRequest &b) { return a.mDistance < b.mDistance; });
 
 	for (auto iter : mQuadSplitRequests) {
 		SQuadSplitRequest *ssrd = iter.mpRequest;
@@ -439,8 +434,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 	else {
 		// give planet some ambient lighting if the viewer is close to it
-		double camdist = campos.Length();
-		camdist = 0.1 / (camdist * camdist);
+		double camdist = 0.1 / campos.LengthSqr();
 		// why the fuck is this returning 0.1 when we are sat on the planet??
 		// JJ: Because campos is relative to a unit-radius planet - 1.0 at the surface
 		// XXX oh well, it is the value we want anyway...
@@ -496,7 +490,7 @@ void GeoSphere::SetUpMaterials()
 		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_STAR;
 	} else {
 		//planetoid with or without atmosphere
-		const SystemBody::AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
+		const AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
 		surfDesc.lighting = true;
 		if (ap.atmosDensity > 0.0) {
 			surfDesc.quality |= Graphics::HAS_ATMOSPHERE;

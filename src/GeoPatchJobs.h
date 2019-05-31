@@ -6,11 +6,11 @@
 
 #include <SDL_stdinc.h>
 
+#include "Color.h"
 #include "GeoPatchID.h"
 #include "JobQueue.h"
-#include "Random.h"
-#include "terrain/Terrain.h"
 #include "vector3.h"
+#include "terrain/Terrain.h"
 
 class GeoSphere;
 

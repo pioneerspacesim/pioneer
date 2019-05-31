@@ -5,10 +5,10 @@
 #define _STAR_H
 
 #include "TerrainBody.h"
-#include "graphics/RenderState.h"
 
 namespace Graphics {
 	class Renderer;
+	class RenderState;
 }
 
 class Star : public TerrainBody {

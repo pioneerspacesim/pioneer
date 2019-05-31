@@ -5,16 +5,16 @@
 #define _BASESPHERE_H
 
 #include "Camera.h"
+#include "vector3.h"
+#include "galaxy/AtmosphereParameters.h"
 #include "graphics/Drawables.h"
 #include "terrain/Terrain.h"
-#include "vector3.h"
 
 namespace Graphics {
 	class Renderer;
 	class RenderState;
 	class Material;
 } // namespace Graphics
-class SystemBody;
 
 class BaseSphere {
 public:
@@ -39,7 +39,7 @@ public:
 	virtual double GetMaxFeatureHeight() const = 0;
 
 	struct MaterialParameters {
-		SystemBody::AtmosphereParameters atmosphere;
+		AtmosphereParameters atmosphere;
 		std::vector<Camera::Shadow> shadows;
 		Sint32 patchDepth;
 		Sint32 maxPatchDepth;

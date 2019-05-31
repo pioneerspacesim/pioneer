@@ -9,6 +9,7 @@
 #include "GeoSphere.h"
 #include "Json.h"
 #include "Space.h"
+#include "galaxy/SystemBody.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 
@@ -98,7 +99,7 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 
 	vector3d campos = fpos;
 	ftran.ClearToRotOnly();
-	campos = ftran.Inverse() * campos;
+	campos = campos * ftran;
 
 	campos = campos * (1.0 / rad); // position of camera relative to planet "model"
 
@@ -143,14 +144,6 @@ double TerrainBody::GetTerrainHeight(const vector3d &pos_) const
 		assert(0);
 		return radius;
 	}
-}
-
-bool TerrainBody::IsSuperType(SystemBody::BodySuperType t) const
-{
-	if (!m_sbody)
-		return false;
-	else
-		return m_sbody->GetSuperType() == t;
 }
 
 //static

@@ -4,7 +4,11 @@
 #ifndef _TERRAIN_H
 #define _TERRAIN_H
 
-#include "galaxy/StarSystem.h"
+#include "FracDef.h"
+#include "../Random.h"
+#include "../RefCounted.h"
+#include "../vector3.h"
+#include "../galaxy/SystemPath.h"
 
 #include <memory>
 #include <string>
@@ -13,17 +17,7 @@
 #pragma warning(disable : 4250) // workaround for MSVC 2008 multiple inheritance bug
 #endif
 
-struct fracdef_t {
-	fracdef_t() :
-		amplitude(0.0),
-		frequency(0.0),
-		lacunarity(0.0),
-		octaves(0) {}
-	double amplitude;
-	double frequency;
-	double lacunarity;
-	int octaves;
-};
+class SystemBody;
 
 template <typename, typename>
 class TerrainGenerator;
@@ -117,13 +111,7 @@ protected:
 	fracdef_t m_fracdef[MAX_FRACDEFS];
 
 	struct MinBodyData {
-		MinBodyData(const SystemBody *body)
-		{
-			m_radius = body->GetRadius();
-			m_aspectRatio = body->GetAspectRatio();
-			m_path = body->GetPath();
-			m_name = body->GetName();
-		}
+		MinBodyData(const SystemBody *body);
 		double m_radius;
 		double m_aspectRatio;
 		SystemPath m_path;
@@ -135,6 +123,7 @@ protected:
 template <typename HeightFractal>
 class TerrainHeightFractal : virtual public Terrain {
 public:
+	TerrainHeightFractal() = delete;
 	virtual double GetHeight(const vector3d &p) const;
 	virtual const char *GetHeightFractalName() const;
 
@@ -142,12 +131,12 @@ protected:
 	TerrainHeightFractal(const SystemBody *body);
 
 private:
-	TerrainHeightFractal() {}
 };
 
 template <typename ColorFractal>
 class TerrainColorFractal : virtual public Terrain {
 public:
+	TerrainColorFractal() = delete;
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const;
 	virtual const char *GetColorFractalName() const;
 
@@ -155,19 +144,18 @@ protected:
 	TerrainColorFractal(const SystemBody *body);
 
 private:
-	TerrainColorFractal() {}
 };
 
 template <typename HeightFractal, typename ColorFractal>
 class TerrainGenerator : public TerrainHeightFractal<HeightFractal>, public TerrainColorFractal<ColorFractal> {
 public:
+	TerrainGenerator() = delete;
 	TerrainGenerator(const SystemBody *body) :
 		Terrain(body),
 		TerrainHeightFractal<HeightFractal>(body),
 		TerrainColorFractal<ColorFractal>(body) {}
 
 private:
-	TerrainGenerator() {}
 };
 
 //This is the most complex and insanely crazy terrain you will ever see :

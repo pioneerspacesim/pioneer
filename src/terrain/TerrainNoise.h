@@ -4,8 +4,8 @@
 #ifndef _TERRAINNOISE_H
 #define _TERRAINNOISE_H
 
-#include "Terrain.h"
 #include "perlin.h"
+#include "../libs.h"
 
 namespace TerrainNoise {
 
