@@ -163,7 +163,7 @@ local function drawPlayerView()
     end)
 end
 
-InfoView.registerView({
+InfoView:registerView({
     id = "personalInfo",
     name = l.PERSONAL_INFORMATION,
     icon = icons.personal_info,

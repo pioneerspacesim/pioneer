@@ -2,17 +2,16 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = import 'pigui/pigui.lua'
-local InfoView = import 'pigui/views/info-view'
+local StationView = import 'pigui/views/station-view'
 local Lang = import 'Lang'
 
 local l = Lang.GetResource("ui-core")
 
-
-InfoView:registerView({
-    id = "missions",
-    name = l.MISSIONS,
-    icon = ui.theme.icons.star,
-    showView = false,
-    draw = function()
-    end
+StationView:registerView({
+	id = "shipMarket",
+	name = l.SHIP_MARKET,
+	icon = ui.theme.icons.ship,
+	showView = false,
+	draw = function()
+	end
 })

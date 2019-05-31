@@ -8,7 +8,7 @@ local Lang = import 'Lang'
 local l = Lang.GetResource("ui-core")
 
 
-InfoView.registerView({
+InfoView:registerView({
     id = "econTrade",
     name = l.ECONOMY_TRADE,
     icon = ui.theme.icons.market,
