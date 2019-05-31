@@ -13,6 +13,7 @@ May 2019
      * Decouple and warnings (#4592)
      * Friction and sinking (#4588)
      * Fixup naming and update the visual studio project files (#4593)
+     * Decouple terrain and related file (#4598)
 
    * Fixes
      * Fix crash on main menu (#4578)
