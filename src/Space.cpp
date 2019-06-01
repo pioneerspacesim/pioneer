@@ -943,9 +943,7 @@ static void hitCallback(CollisionContact *c)
 		*/
 		const float threshold = 0.005;
 
-		const Aabb &aabb = mover->GetAabb();
-
-		vector3d correction = std::min(std::max(c->depth - threshold, 0.0) * c->timestep, c->depth + aabb.min.y + threshold) * c->normal;
+		vector3d correction = std::min(std::max(c->depth - threshold, 0.0) * c->timestep, c->depth + threshold) * c->normal;
 
 		mover->SetPosition(mover->GetPosition() + correction );
 
