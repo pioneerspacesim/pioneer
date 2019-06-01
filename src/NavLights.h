@@ -25,7 +25,8 @@ public:
 		NAVLIGHT_RED = 0,
 		NAVLIGHT_GREEN = 1,
 		NAVLIGHT_BLUE = 2,
-		NAVLIGHT_YELLOW = 3
+		NAVLIGHT_YELLOW = 3,
+		NAVLIGHT_OFF = 15
 	};
 
 	struct LightBulb {
@@ -45,39 +46,13 @@ public:
 	void Update(float time);
 	void Render(Graphics::Renderer *renderer);
 	void SetColor(unsigned int group, LightColor);
+	void SetMask(unsigned int group, uint8_t mask);
 
 	static void Init(Graphics::Renderer *);
 	static void Uninit();
 
 protected:
-	class TGroupLights {
-	public:
-		TGroupLights(Uint32 g) :
-			m_group(g) {}
-		const Uint32 m_group;
-		std::vector<LightBulb> m_lights;
-
-	private:
-		TGroupLights() :
-			m_group(0xFFFFFFFF) {}
-	};
-
-	// for use with std::find_if
-	class GroupMatch {
-		const Uint32 group;
-
-	public:
-		GroupMatch(const Uint32 g) :
-			group(g) {}
-		bool operator()(const TGroupLights &myValue)
-		{
-			return (group == myValue.m_group);
-		}
-	};
-
-	typedef std::vector<TGroupLights> GroupLightsVec;
-	typedef GroupLightsVec::iterator GroupLightsVecIter;
-	GroupLightsVec m_groupLights;
+	std::map<Uint32, std::vector<LightBulb>> m_groupLights;
 	float m_time;
 	float m_period;
 	bool m_enabled;
