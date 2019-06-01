@@ -102,9 +102,10 @@ void Player::InitCockpit()
 	OnCockpitActivated();
 }
 
-bool Player::DoCrushDamage(float kgDamage)
+bool Player::DoDamage(float kgDamage)
 {
-	bool r = Ship::DoCrushDamage(kgDamage);
+	bool r = Ship::DoDamage(kgDamage);
+
 	// Don't fire audio on EVERY iteration (aka every 16ms, or 60fps), only when exceeds a value randomly
 	const float dam = kgDamage * 0.01f;
 	if (Pi::rng.Double() < dam) {

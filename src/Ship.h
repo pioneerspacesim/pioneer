@@ -96,7 +96,7 @@ public:
 	const shipstats_t &GetStats() const { return m_stats; }
 
 	void Explode();
-	virtual bool DoCrushDamage(float kgDamage); // can be overloaded in Player to add "crush" audio
+	virtual bool DoDamage(float kgDamage); // can be overloaded in Player to add audio
 	void SetGunState(int idx, int state);
 	float GetGunTemperature(int idx) const { return GetFixedGuns()->GetGunTemperature(idx); }
 	void UpdateMass();
@@ -162,8 +162,6 @@ public:
 
 	// 0 to 1.0 is alive, > 1.0 = death
 	double GetHullTemperature() const;
-	// Calculate temperature we would have with wheels down
-	double ExtrapolateHullTemperature() const;
 
 	enum ECMResult {
 		ECM_NOT_INSTALLED,

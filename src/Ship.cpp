@@ -363,7 +363,7 @@ void Ship::SetPercentHull(float p)
 
 void Ship::UpdateMass()
 {
-	SetMass((m_stats.static_mass + GetPropulsion()->FuelTankMassLeft()) * 1000);
+	SetMass(((double)m_stats.static_mass + GetPropulsion()->FuelTankMassLeft()) * 1000);
 }
 
 template <typename T>
@@ -571,7 +571,7 @@ void Ship::Explode()
 	ClearThrusterState();
 }
 
-bool Ship::DoCrushDamage(float kgDamage)
+bool Ship::DoDamage(float kgDamage)
 {
 	if (m_invulnerable) {
 		return true;
@@ -1035,22 +1035,16 @@ void Ship::TimeAccelAdjust(const float timeStep)
 	SetVelocity(GetVelocity() + vdiff);
 }
 
-double Ship::ExtrapolateHullTemperature() const
-{
-	const double dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * 1.25;
-	// TODO: fix this to calculate appropriate skin friction and heating.
-	const double dragGs = CalcAtmosphericDrag(GetVelocity().LengthSqr(), GetClipRadius(), dragCoeff) / (GetMass() * 9.81);
-	//return dragGs / 25.0;
-	return 0.0;
-}
-
 double Ship::GetHullTemperature() const
 {
+	// TODO: fix this to calculate appropriate skin friction and heating.
+	//const double dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * 1.25;
+	//const double dragGs = CalcAtmosphericDrag(GetVelocity().LengthSqr(), GetClipRadius(), dragCoeff) / (GetMass() * 9.81);
+	//return dragGs / 25.0;
 	// TODO: fix this to properly account for heating due to air friction instead of G-force.
-	return 0.0;
 	double dragGs = GetAtmosForce().Length() / (GetMass() * 9.81);
 	int atmo_shield_cap = 0;
-	const_cast<Ship *>(this)->Properties().Get("atmo_shield_cap", atmo_shield_cap);
+	const_cast<Ship *>(this)->Properties().Get(R"(atmo_shield_cap)", atmo_shield_cap);
 	if (atmo_shield_cap && GetWheelState() < 1.0) {
 		return dragGs / (300.0 * atmo_shield_cap);
 	}
@@ -1192,8 +1186,10 @@ void Ship::StaticUpdate(const float timeStep)
 
 	if (m_controller) m_controller->StaticUpdate(timeStep);
 
-	if (GetHullTemperature() > 1.0)
-		Explode();
+	const double hullTemp = GetHullTemperature();
+	if (hullTemp > 1.0) {
+		DoDamage(hullTemp);
+	}
 
 	if (m_flightState == FLYING) {
 		Body *astro = GetFrame()->GetBody();
@@ -1208,7 +1204,7 @@ void Ship::StaticUpdate(const float timeStep)
 			atmo_shield_cap = std::max(atmo_shield_cap, 1); // needs to have some shielding by default
 			if (pressure > (m_type->atmosphericPressureLimit * atmo_shield_cap)) {
 				float damage = float(pressure - m_type->atmosphericPressureLimit);
-				DoCrushDamage(damage);
+				DoDamage(damage);
 			}
 		}
 	}
