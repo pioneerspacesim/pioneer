@@ -493,10 +493,12 @@ bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact &co
 			if (Pi::rng.Double() < kgDamage)
 				SfxManager::Add(this, TYPE_DAMAGE);
 
-			if (dam < 0.01 * float(GetShipType()->hullMass))
-				Sound::BodyMakeNoise(this, "Hull_hit_Small", 1.0f);
-			else
-				Sound::BodyMakeNoise(this, "Hull_Hit_Medium", 1.0f);
+			if (dam > float(GetShipType()->hullMass / 1000.)) {
+				if (dam < 0.01 * float(GetShipType()->hullMass))
+					Sound::BodyMakeNoise(this, "Hull_hit_Small", 1.0f);
+				else
+					Sound::BodyMakeNoise(this, "Hull_Hit_Medium", 1.0f);
+			}
 		}
 	}
 
