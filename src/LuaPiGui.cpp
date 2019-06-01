@@ -39,7 +39,8 @@ static Type parse_imgui_flags(lua_State *l, int index, LuaFlags<Type> &lookupTab
 	} else if (lua_istable(l, index)) {
 		theFlags = lookupTable.LookupTable(l, index);
 	} else {
-		Error("Expected a table or integer, got %s.\n", luaL_typename(l, index));
+		luaL_traceback(l, l, NULL, 1);
+		Error("Expected a table or integer, got %s.\n%s\n", luaL_typename(l, index), lua_tostring(l, -1));
 	}
 	return theFlags;
 }
@@ -52,8 +53,10 @@ static Type parse_imgui_enum(lua_State *l, int index, LuaFlags<Type> lookupTable
 		return lookupTable.LookupEnum(l, index);
 	else if (lua_isnumber(l, index))
 		return static_cast<Type>(lua_tointeger(l, index));
-	else
-		Error("Expected a table or integer, got %s.\n", luaL_typename(l, index));
+	else {
+		luaL_traceback(l, l, NULL, 1);
+		Error("Expected a table or integer, got %s.\n%s\n", luaL_typename(l, index), lua_tostring(l, -1));
+	}
 	return static_cast<Type>(0);
 }
 
@@ -63,7 +66,7 @@ void *pi_lua_checklightuserdata(lua_State *l, int index)
 	if (lua_islightuserdata(l, index))
 		return lua_touserdata(l, index);
 	else
-		Error("Expected light user data at index %d, but got %s", index, lua_typename(l, index));
+		Error("Expected light user data at index %d, but got %s.\n", index, lua_typename(l, index));
 	return nullptr;
 }
 
@@ -672,7 +675,7 @@ static int l_pigui_selectable(lua_State *l)
 	PROFILE_SCOPED()
 	std::string label = LuaPull<std::string>(l, 1);
 	bool selected = LuaPull<bool>(l, 2);
-	ImGuiSelectableFlags flags = LuaPull<ImGuiSelectableFlags_>(l, 3);
+	ImGuiSelectableFlags flags = LuaPull<ImGuiSelectableFlags_>(l, 3, ImGuiSelectableFlags_None);
 	// TODO: parameter size
 	bool res = ImGui::Selectable(label.c_str(), selected, flags);
 	LuaPush<bool>(l, res);
