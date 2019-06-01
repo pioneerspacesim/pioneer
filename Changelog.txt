@@ -1,3 +1,7 @@
+June 2019
+   * Fixes
+     * Fix pad collision, no noise if speed < 1/ms (#4605)
+     
 May 2019
    * New Features
      * Start move of InfovIew to PiGui (#4573)
