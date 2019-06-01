@@ -587,12 +587,6 @@ static int l_game_get_world_cam_type(lua_State *l)
 	return 1;
 }
 
-static int l_game_change_flight_state(lua_State *l)
-{
-	Pi::game->GetWorldView()->ChangeFlightState();
-	return 0;
-}
-
 static int l_game_set_world_cam_type(lua_State *l)
 {
 	std::string cam = luaL_checkstring(l, 1);
@@ -660,7 +654,6 @@ void LuaGame::Register()
 
 		{ "SetWorldCamType", l_game_set_world_cam_type },
 		{ "GetWorldCamType", l_game_get_world_cam_type },
-		{ "ChangeFlightState", l_game_change_flight_state }, // deprecated
 
 		{ 0, 0 }
 	};

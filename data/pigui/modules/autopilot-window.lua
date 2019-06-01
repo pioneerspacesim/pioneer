@@ -127,7 +127,13 @@ local function button_flight_control()
 		end
   end
 	if mainMenuButton(icon, false, tooltip) or (flightstate == "FLYING" and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
-		Game.ChangeFlightState()
+		local newState = "CONTROL_MANUAL"
+		if ui.ctrlHeld() and flightcontrolstate == "CONTROL_FIXSPEED" then
+			newState = "CONTROL_FIXHEADING_FORWARD"
+		elseif flightcontrolstate == "CONTROL_MANUAL" then
+			newState = "CONTROL_FIXSPEED"
+		end
+		Game.player:SetFlightControlState(newState)
 		ui.playBoinkNoise()
 	end
 	if ui.isItemHovered() and flightcontrolstate == "CONTROL_FIXSPEED" then

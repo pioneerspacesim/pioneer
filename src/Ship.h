@@ -16,7 +16,7 @@
 #include "sound/Sound.h"
 
 #include "FixedGuns.h"
-#include "Propulsion.h"
+#include "ship/Propulsion.h"
 
 class AICommand;
 class Camera;
@@ -194,7 +194,7 @@ public:
 	void AIOrbit(Body *target, double alt); // Note: defined in Ship-AI.cpp
 	void AIHoldPosition(); // Note: defined in Ship-AI.cpp
 
-	void AIBodyDeleted(const Body *const body) {}; // Note: defined in Ship-AI.cpp // todo: signals
+	void AIBodyDeleted(const Body *const body){}; // Note: defined in Ship-AI.cpp // todo: signals
 
 	const AICommand *GetAICommand() const { return m_curAICmd; }
 

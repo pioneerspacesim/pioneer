@@ -4,7 +4,7 @@
 #ifndef _SHIPTYPE_H
 #define _SHIPTYPE_H
 
-#include "Propulsion.h"
+#include "ship/Propulsion.h"
 #include <map>
 #include <string>
 #include <vector>

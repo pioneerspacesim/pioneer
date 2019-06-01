@@ -63,10 +63,6 @@ public:
 
 	ShipViewController shipView;
 
-	/* start deprecated */
-	void ChangeFlightState();
-	/* end deprecated */
-
 	int GetActiveWeapon() const;
 
 	std::tuple<double, double, double> CalculateHeadingPitchRoll(enum PlaneType);

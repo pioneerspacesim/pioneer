@@ -87,7 +87,10 @@ void Input::RemoveInputFrame(Input::InputFrame *frame)
 
 KeyBindings::ActionBinding *Input::AddActionBinding(std::string id, BindingGroup *group, KeyBindings::ActionBinding binding)
 {
-	// TODO: should we throw an error if we attempt to bind over an already-bound action?
+	// throw an error if we attempt to bind an action onto an already-bound axis in the same group.
+	if (group->bindings.count(id) && group->bindings[id] != BindingGroup::ENTRY_ACTION)
+		Error("Attempt to bind already-registered axis %s as an action.\n", id.c_str());
+
 	group->bindings[id] = BindingGroup::ENTRY_ACTION;
 
 	// Load from the config
@@ -99,7 +102,10 @@ KeyBindings::ActionBinding *Input::AddActionBinding(std::string id, BindingGroup
 
 KeyBindings::AxisBinding *Input::AddAxisBinding(std::string id, BindingGroup *group, KeyBindings::AxisBinding binding)
 {
-	// TODO: should we throw an error if we attempt to bind over an already-bound axis?
+	// throw an error if we attempt to bind an axis onto an already-bound action in the same group.
+	if (group->bindings.count(id) && group->bindings[id] != BindingGroup::ENTRY_AXIS)
+		Error("Attempt to bind already-registered action %s as an axis.\n", id.c_str());
+
 	group->bindings[id] = BindingGroup::ENTRY_AXIS;
 
 	// Load from the config
@@ -174,18 +180,25 @@ void Input::HandleSDLEvent(SDL_Event &event)
 void Input::InitJoysticks()
 {
 	int joy_count = SDL_NumJoysticks();
+	Output("Initializing joystick subsystem.\n");
 	for (int n = 0; n < joy_count; n++) {
 		JoystickState state;
 
 		state.joystick = SDL_JoystickOpen(n);
 		if (!state.joystick) {
-			Output("SDL_JoystickOpen(%i): %s\n", n, SDL_GetError());
+			Warning("SDL_JoystickOpen(%i): %s\n", n, SDL_GetError());
 			continue;
 		}
+
 		state.guid = SDL_JoystickGetGUID(state.joystick);
 		state.axes.resize(SDL_JoystickNumAxes(state.joystick));
 		state.buttons.resize(SDL_JoystickNumButtons(state.joystick));
 		state.hats.resize(SDL_JoystickNumHats(state.joystick));
+
+		std::array<char, 33> joystickGUIDName;
+		SDL_JoystickGetGUIDString(state.guid, joystickGUIDName.data(), joystickGUIDName.size());
+		Output("Found joystick '%s' (GUID: %s)\n", SDL_JoystickName(state.joystick), joystickGUIDName.data());
+		Output("  - %ld axes, %ld buttons, %ld hats\n", state.axes.size(), state.buttons.size(), state.hats.size());
 
 		SDL_JoystickID joyID = SDL_JoystickInstanceID(state.joystick);
 		joysticks[joyID] = state;

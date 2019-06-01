@@ -18,54 +18,15 @@
 #endif
 
 BINDING_PAGE(CONTROLS)
-
-BINDING_GROUP(Lang::WEAPONS)
-KEY_BINDING(targetObject, "BindTargetObject", Lang::TARGET_OBJECT_IN_SIGHTS, SDLK_y, 0)
-KEY_BINDING(fireLaser, "BindFireLaser", Lang::FIRE_LASER, SDLK_SPACE, 0)
-KEY_BINDING(fireMissile, "BindFireMissile", Lang::FIRE_MISSILE, SDLK_m, 0)
-
-BINDING_GROUP(Lang::SHIP_ORIENTATION)
-KEY_BINDING(pitchUp, "BindPitchUp", Lang::PITCH_UP, SDLK_k, 0)
-KEY_BINDING(pitchDown, "BindPitchDown", Lang::PITCH_DOWN, SDLK_i, 0)
-KEY_BINDING(yawLeft, "BindYawLeft", Lang::YAW_LEFT, SDLK_j, 0)
-KEY_BINDING(yawRight, "BindYawRight", Lang::YAW_RIGHT, SDLK_l, 0)
-KEY_BINDING(rollLeft, "BindRollLeft", Lang::ROLL_LEFT, SDLK_q, SDLK_u)
-KEY_BINDING(rollRight, "BindRollRight", Lang::ROLL_RIGHT, SDLK_e, SDLK_o)
-KEY_BINDING(killRot, "BindKillRot", Lang::HEADING_LOCK_KILLROT, SDLK_p, SDLK_x)
-
-BINDING_GROUP(Lang::MANUAL_CONTROL_MODE)
-KEY_BINDING(thrustForward, "BindThrustForward", Lang::THRUSTER_MAIN, SDLK_w, 0)
-KEY_BINDING(thrustBackwards, "BindThrustBackwards", Lang::THRUSTER_RETRO, SDLK_s, 0)
-KEY_BINDING(thrustUp, "BindThrustUp", Lang::THRUSTER_VENTRAL, SDLK_r, 0)
-KEY_BINDING(thrustDown, "BindThrustDown", Lang::THRUSTER_DORSAL, SDLK_f, 0)
-KEY_BINDING(thrustLeft, "BindThrustLeft", Lang::THRUSTER_PORT, SDLK_a, 0)
-KEY_BINDING(thrustRight, "BindThrustRight", Lang::THRUSTER_STARBOARD, SDLK_d, 0)
-KEY_BINDING(thrustLowPower, "BindThrustLowPower", Lang::USE_LOW_THRUST, SDLK_LSHIFT, 0)
-
-BINDING_GROUP(Lang::SPEED_CONTROL_MODE)
-KEY_BINDING(increaseSpeed, "BindIncreaseSpeed", Lang::INCREASE_SET_SPEED, SDLK_RETURN, SDLK_t)
-KEY_BINDING(decreaseSpeed, "BindDecreaseSpeed", Lang::DECREASE_SET_SPEED, SDLK_RSHIFT, SDLK_g)
+BINDING_GROUP(Lang::MISCELLANEOUS)
+KEY_BINDING(toggleLuaConsole, "BindToggleLuaConsole", Lang::TOGGLE_LUA_CONSOLE, SDLK_BACKQUOTE, 0)
 
 BINDING_GROUP(Lang::RADAR_CONTROL)
 KEY_BINDING(toggleScanMode, "BindToggleScanMode", Lang::TOGGLE_RADAR_MODE, SDLK_BACKSLASH, 0)
 KEY_BINDING(increaseScanRange, "BindIncreaseScanRange", Lang::INCREASE_RADAR_RANGE, SDLK_RIGHTBRACKET, 0)
 KEY_BINDING(decreaseScanRange, "BindDecreaseScanRange", Lang::DECREASE_RADAR_RANGE, SDLK_LEFTBRACKET, 0)
 
-BINDING_GROUP(Lang::MISCELLANEOUS)
-KEY_BINDING(toggleLuaConsole, "BindToggleLuaConsole", Lang::TOGGLE_LUA_CONSOLE, SDLK_BACKQUOTE, 0)
-KEY_BINDING(toggleRotationDamping, "BindToggleRotationDamping", Lang::TOGGLE_ROTATION_DAMPING, SDLK_v, 0)
-
-BINDING_GROUP(Lang::JOYSTICK_INPUT)
-AXIS_BINDING(pitchAxis, "BindAxisPitch", Lang::PITCH, "")
-AXIS_BINDING(rollAxis, "BindAxisRoll", Lang::ROLL, "")
-AXIS_BINDING(yawAxis, "BindAxisYaw", Lang::YAW, "")
-
 BINDING_PAGE_END()
-
-// not yet implemented/used
-// AXIS_BINDING(thrustRightAxis, "BindAxisThrustRight", , DEFAULT_BINDING)
-// AXIS_BINDING(thrustUpAxis, "BindAxisThrustUp", , DEFAULT_BINDING)
-// AXIS_BINDING(thrustForwardAxis, "BindAxisThrustForward", , DEFAULT_BINDING)
 
 BINDING_PAGE(VIEW)
 

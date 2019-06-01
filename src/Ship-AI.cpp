@@ -8,13 +8,13 @@
 #include "Pi.h"
 #include "Planet.h"
 #include "Player.h"
-#include "Propulsion.h"
 #include "Ship.h"
 #include "ShipAICmd.h"
 #include "Space.h"
 #include "SpaceStation.h"
 #include "libs.h"
 #include "perlin.h"
+#include "ship/Propulsion.h"
 
 // returns true if command is complete
 bool Ship::AITimeStep(float timeStep)

@@ -3,22 +3,22 @@
 
 #include "CargoBody.h"
 #include "EnumStrings.h"
+#include "Frame.h"
+#include "Game.h"
+#include "HyperspaceCloud.h"
 #include "LuaConstants.h"
 #include "LuaMissile.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "LuaVector.h"
 #include "Missile.h"
+#include "Pi.h"
 #include "Ship.h"
 #include "ShipAICmd.h"
 #include "ShipType.h"
+#include "Space.h"
 #include "SpaceStation.h"
 #include "ship/PlayerShipController.h"
-#include "Frame.h"
-#include "Game.h"
-#include "HyperspaceCloud.h"
-#include "Pi.h"
-#include "Space.h"
 
 /*
  * Class: Ship
@@ -875,6 +875,37 @@ static int l_ship_get_flight_control_state(lua_State *l)
 	return 1;
 }
 
+/* Method: SetFlightControlState
+ *
+ * Set the ship's flight control state.
+ *
+ * > ship:SetFlightControlState("CONTROL_MANUAL")
+ *
+ * Parameters:
+ *
+ *    state - the new flight control state as a string, one of
+ *        - CONTROL_MANUAL
+ *        - CONTROL_FIXSPEED
+ *        - CONTROL_FIXHEADING_FORWARD
+ *        - CONTROL_FIXHEADING_BACKWARD
+ *        - CONTROL_FIXHEADING_NORMAL
+ *        - CONTROL_FIXHEADING_ANTINORMAL
+ *        - CONTROL_FIXHEADING_RADIALLY_INWARD
+ *        - CONTROL_FIXHEADING_RADIALLY_OUTWARD
+ *        - CONTROL_FIXHEADING_KILLROT
+ *        - CONTROL_AUTOPILOT
+ *
+ */
+static int l_ship_set_flight_control_state(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	FlightControlState state = static_cast<FlightControlState>(
+		EnumStrings::GetValue("ShipControllerFlightControlState", luaL_checkstring(l, 2)));
+
+	s->GetController()->SetFlightControlState(state);
+	return 0;
+}
+
 /* Method: GetSetSpeed
  *
  * Return the current SetSpeed speed in m/s.
@@ -1585,6 +1616,7 @@ void LuaObject<Ship>::RegisterClass()
 		{ "GetShieldsPercent", l_ship_get_shields_percent },
 
 		{ "GetFlightControlState", l_ship_get_flight_control_state },
+		{ "SetFlightControlState", l_ship_set_flight_control_state },
 		{ "GetCurrentAICommand", l_ship_get_current_ai_command },
 
 		{ 0, 0 }

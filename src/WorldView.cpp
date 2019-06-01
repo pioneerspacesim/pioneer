@@ -172,34 +172,6 @@ void WorldView::SaveToJson(Json &jsonObj)
 	jsonObj["world_view"] = worldViewObj; // Add world view object to supplied object.
 }
 
-/* This is UI click to change flight control state (manual, speed ctrl) */
-void WorldView::ChangeFlightState()
-{
-	static int newState = CONTROL_MANUAL;
-	if (Pi::input.KeyState(SDLK_LCTRL) || Pi::input.KeyState(SDLK_RCTRL)) {
-		// skip certain states
-		switch (newState) {
-		case CONTROL_MANUAL: // fallthrough
-		case CONTROL_FIXSPEED: newState = CONTROL_FIXHEADING_FORWARD; break;
-		case CONTROL_FIXHEADING_FORWARD: // fallthrough
-		case CONTROL_FIXHEADING_BACKWARD: // fallthrough
-		case CONTROL_AUTOPILOT: newState = CONTROL_MANUAL; break;
-		default: break;
-		}
-	} else {
-		// skip certain states
-		switch (newState) {
-		case CONTROL_FIXHEADING_FORWARD: // fallthrough
-		case CONTROL_FIXSPEED: // fallthrough
-		case CONTROL_FIXHEADING_BACKWARD: // fallthrough
-		case CONTROL_AUTOPILOT: newState = CONTROL_MANUAL; break;
-		case CONTROL_MANUAL: newState = CONTROL_FIXSPEED; break;
-		default: break;
-		}
-	}
-	Pi::player->GetPlayerController()->SetFlightControlState(static_cast<FlightControlState>(newState));
-}
-
 void WorldView::OnRequestTimeAccelInc()
 {
 	// requests an increase in time acceleration

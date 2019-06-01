@@ -9,7 +9,7 @@
 
 #include "DynamicBody.h"
 #include "FixedGuns.h"
-#include "Propulsion.h"
+#include "ship/Propulsion.h"
 
 class Frame;
 class Ship;
