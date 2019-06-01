@@ -281,7 +281,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 {
 	PROFILE_SCOPED()
 	vector3d invDir(1.0 / dir.x, 1.0 / dir.y, 1.0 / dir.z);
-	c->dist = len;
+	c->distance = len;
 
 	BvhNode *vn_stack[16];
 	BvhNode *node = m_staticObjectTree->m_root;
@@ -291,7 +291,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 		// do we hit it?
 		{
 			isect_t isect;
-			isect.dist = float(c->dist);
+			isect.dist = float(c->distance);
 			isect.triIdx = -1;
 			if (!node->CollideRay(start, invDir, &isect)) goto pop_jizz;
 		}
@@ -309,7 +309,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 				vector3f modelDir = vector3f(md.x, md.y, md.z);
 
 				isect_t isect;
-				isect.dist = float(c->dist);
+				isect.dist = float(c->distance);
 				isect.triIdx = -1;
 				g->GetGeomTree()->TraceRay(modelStart, modelDir, &isect);
 				if (isect.triIdx != -1) {
@@ -324,7 +324,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 					c->userData1 = g->GetUserData();
 					c->userData2 = 0;
 					c->geomFlag = g->GetGeomTree()->GetTriFlag(isect.triIdx);
-					c->dist = isect.dist;
+					c->distance = isect.dist;
 				}
 			}
 		} else if (node->kids[0]) {
@@ -347,7 +347,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 			vector3f modelDir = vector3f(md.x, md.y, md.z);
 
 			isect_t isect;
-			isect.dist = float(c->dist);
+			isect.dist = float(c->distance);
 			isect.triIdx = -1;
 			(*i)->GetGeomTree()->TraceRay(modelStart, modelDir, &isect);
 			if (isect.triIdx != -1) {
@@ -362,13 +362,13 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 				c->userData1 = (*i)->GetUserData();
 				c->userData2 = 0;
 				c->geomFlag = (*i)->GetGeomTree()->GetTriFlag(isect.triIdx);
-				c->dist = isect.dist;
+				c->distance = isect.dist;
 			}
 		}
 	}
 	{
 		isect_t isect;
-		isect.dist = float(c->dist);
+		isect.dist = float(c->distance);
 		isect.triIdx = -1;
 		CollideRaySphere(start, dir, &isect);
 		if (isect.triIdx != -1) {
@@ -379,6 +379,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 			c->userData1 = sphere.userData;
 			c->userData2 = 0;
 			c->geomFlag = 0;
+			c->distance = isect.dist;
 		}
 	}
 }
