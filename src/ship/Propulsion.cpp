@@ -5,9 +5,9 @@
 
 #include "Game.h"
 #include "GameSaveError.h"
-#include "KeyBindings.h" // <- same here
 #include "Object.h" // <- here only for comment in AIFaceDirection (line 320)
 #include "Pi.h"
+#include "PlayerShipController.h"
 
 void Propulsion::SaveToJson(Json &jsonObj, Space *space)
 {
@@ -436,7 +436,7 @@ double Propulsion::AIFaceDirection(const vector3d &dir, double av)
 	// baseclass version in Ship would always be 0. the version in Player
 	// would be constructed from user input. that adjustment could then be
 	// considered by this method when computing the required change
-	if (m_dBody->IsType(Object::PLAYER) && (KeyBindings::rollLeft.IsActive() || KeyBindings::rollRight.IsActive()))
+	if (m_dBody->IsType(Object::PLAYER) && (PlayerShipController::InputBindings.roll->IsActive()))
 		diff.z = GetAngThrusterState().z;
 	SetAngThrusterState(diff);
 	return ang;

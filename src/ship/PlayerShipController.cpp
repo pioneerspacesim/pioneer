@@ -15,6 +15,8 @@
 #include "Space.h"
 #include "WorldView.h"
 
+#include <algorithm>
+
 PlayerShipController::PlayerShipController() :
 	ShipController(),
 	m_combatTarget(0),
@@ -78,8 +80,7 @@ void PlayerShipController::RegisterInputBindings()
 	InputBindings.thrustLowPower = Pi::input.AddActionBinding("BindThrustLowPower", thrustGroup, ActionBinding(SDLK_LSHIFT));
 
 	auto speedGroup = controlsPage->GetBindingGroup("SpeedControl");
-	InputBindings.increaseSpeed = Pi::input.AddActionBinding("BindIncreaseSpeed", speedGroup, ActionBinding(SDLK_RETURN, SDLK_t));
-	InputBindings.decreaseSpeed = Pi::input.AddActionBinding("BindDecreaseSpeed", speedGroup, ActionBinding(SDLK_RSHIFT, SDLK_g));
+	InputBindings.speedControl = Pi::input.AddAxisBinding("BindSpeedControl", speedGroup, AxisBinding(SDLK_RETURN, SDLK_RSHIFT));
 	InputBindings.toggleSetSpeed = Pi::input.AddActionBinding("BindToggleSetSpeed", speedGroup, ActionBinding(SDLK_v));
 }
 
@@ -202,13 +203,7 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 
 void PlayerShipController::CheckControlsLock()
 {
-	m_controlsLocked = (
-						Pi::game->IsPaused() ||
-						Pi::player->IsDead() ||
-						(m_ship->GetFlightState() != Ship::FLYING) ||
-						Pi::IsConsoleActive() ||
-						(Pi::GetView() != Pi::game->GetWorldView())
-					); //to prevent moving the ship in starmap etc.
+	m_controlsLocked = (Pi::game->IsPaused() || Pi::player->IsDead() || (m_ship->GetFlightState() != Ship::FLYING) || Pi::IsConsoleActive() || (Pi::GetView() != Pi::game->GetWorldView())); //to prevent moving the ship in starmap etc.
 }
 
 vector3d PlayerShipController::GetMouseDir() const
@@ -277,21 +272,14 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 
 		if (m_flightControlState == CONTROL_FIXSPEED) {
 			double oldSpeed = m_setSpeed;
-			if (stickySpeedKey) {
-				if (!(InputBindings.increaseSpeed->IsActive() || InputBindings.decreaseSpeed->IsActive())) {
-					stickySpeedKey = false;
-				}
-			}
+			if (stickySpeedKey && !InputBindings.speedControl->IsActive())
+				stickySpeedKey = false;
 
 			if (!stickySpeedKey) {
-				if (InputBindings.increaseSpeed->IsActive()) {
-					m_setSpeed += std::max(fabs(m_setSpeed) * 0.05, 1.0);
-					if (m_setSpeed > 300000000) m_setSpeed = 300000000;
-				}
-				if (InputBindings.decreaseSpeed->IsActive()) {
-					m_setSpeed -= std::max(fabs(m_setSpeed) * 0.05, 1.0);
-					if (m_setSpeed < -300000000) m_setSpeed = -300000000;
-				}
+				const double MAX_SPEED = 300000000;
+				m_setSpeed += InputBindings.speedControl->GetValue() * std::max(std::abs(m_setSpeed) * 0.05, 1.0);
+				m_setSpeed = Clamp(m_setSpeed, -MAX_SPEED, MAX_SPEED);
+
 				if (((oldSpeed < 0.0) && (m_setSpeed >= 0.0)) ||
 					((oldSpeed > 0.0) && (m_setSpeed <= 0.0))) {
 					// flipped from going forward to backwards. make the speed 'stick' at zero

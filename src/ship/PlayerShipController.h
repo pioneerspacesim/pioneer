@@ -77,10 +77,12 @@ private:
 		ActionBinding *thrustLowPower;
 
 		// Speed Control
-		ActionBinding *increaseSpeed;
-		ActionBinding *decreaseSpeed;
+		AxisBinding *speedControl;
 		ActionBinding *toggleSetSpeed;
 	} InputBindings;
+
+	// FIXME: separate the propusion controller from the input system, pass in wanted velocity correction directly.
+	friend class Propulsion;
 
 	bool IsAnyAngularThrusterKeyDown();
 	bool IsAnyLinearThrusterKeyDown();

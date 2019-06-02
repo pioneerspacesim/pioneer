@@ -260,15 +260,6 @@ static int l_get_is_mouse_active(lua_State *l)
 	return 1;
 }
 
-static int l_player_set_flight_control_state(lua_State *l)
-{
-	Player *player = LuaObject<Player>::CheckFromLua(1);
-	std::string stateName = LuaPull<std::string>(l, 2);
-	FlightControlState state = static_cast<FlightControlState>(EnumStrings::GetValue("ShipControllerFlightControlState", stateName.c_str()));
-	player->GetPlayerController()->SetFlightControlState(state);
-	return 0;
-}
-
 /*
  * Method: GetMaxDeltaV
  *
@@ -643,7 +634,6 @@ void LuaObject<Player>::RegisterClass()
 		{ "SetLowThrustPower", l_set_low_thrust_power },
 		{ "IsHyperspaceActive", l_player_is_hyperspace_active },
 		{ "GetHyperspaceCountdown", l_player_get_hyperspace_countdown },
-		{ "SetFlightControlState", l_player_set_flight_control_state },
 		{ 0, 0 }
 	};
 

@@ -79,7 +79,7 @@ function EquipType:Serialize()
 end
 
 function EquipType.Unserialize(data)
-	obj = EquipType.Super().Unserialize(data)
+	local obj = EquipType.Super().Unserialize(data)
 	setmetatable(obj, EquipType.meta)
 	if not obj.l10n_resource then
 		obj.l10n_resource = "equipment-core"
