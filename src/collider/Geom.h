@@ -7,7 +7,7 @@
 #include "../matrix4x4.h"
 #include "../vector3.h"
 
-class CollisionContact;
+struct CollisionContact;
 class GeomTree;
 struct isect_t;
 struct Sphere;
