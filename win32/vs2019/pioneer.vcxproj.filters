@@ -510,6 +510,9 @@
     <ClCompile Include="..\..\src\ship\Propulsion.cpp">
       <Filter>src\ship</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaColor.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -1027,6 +1030,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\ship\Propulsion.h">
       <Filter>src\ship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaColor.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
