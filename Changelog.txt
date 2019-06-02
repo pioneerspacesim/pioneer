@@ -1,6 +1,10 @@
 June 2019
+   * Internal Changes
+     * Further Input and WorldView improvements (#4607)
+     
    * Fixes
      * Fix pad collision, no noise if speed < 1/ms (#4605)
+     * Basic Atmospheric heating re-enabled (#4606)
      
 May 2019
    * New Features
