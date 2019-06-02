@@ -1,6 +1,7 @@
 June 2019
    * Internal Changes
      * Further Input and WorldView improvements (#4607)
+     * Remove Color from Lua instead use LuaColor as a userdata (#4595)
      
    * Fixes
      * Fix pad collision, no noise if speed < 1/ms (#4605)
