@@ -447,9 +447,6 @@
     <ClCompile Include="..\..\src\FixedGuns.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Propulsion.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\GZipFormat.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -509,6 +506,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\pigui\PiGuiLua.cpp">
       <Filter>src\pigui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ship\Propulsion.cpp">
+      <Filter>src\ship</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -944,9 +944,6 @@
     <ClInclude Include="..\..\src\FixedGuns.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Propulsion.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\GZipFormat.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1027,6 +1024,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\pigui\PiGuiLua.h">
       <Filter>src\pigui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ship\Propulsion.h">
+      <Filter>src\ship</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

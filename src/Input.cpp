@@ -6,6 +6,8 @@
 #include "Pi.h"
 #include "ui/Context.h"
 
+#include <array>
+
 void Input::Init()
 {
 	GameConfig *config = Pi::config;
