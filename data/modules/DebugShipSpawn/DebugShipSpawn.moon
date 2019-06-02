@@ -3,10 +3,9 @@ Game = require 'Game'
 Space = require 'Space'
 Ship = require 'Ship'
 ShipDef = require 'ShipDef'
-Color = require 'Color'
 Equipment = require 'Equipment'
 
-import Vector2 from _G
+import Vector2, Color from _G
 ui = require 'pigui.pigui'
 
 ship_defs = {}

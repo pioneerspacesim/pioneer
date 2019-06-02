@@ -2,10 +2,12 @@ local Game = require('Game')
 local Space = require('Space')
 local Ship = require('Ship')
 local ShipDef = require('ShipDef')
-local Color = require('Color')
 local Equipment = require('Equipment')
-local Vector2
-Vector2 = _G.Vector2
+local Vector2, Color
+do
+  local _obj_0 = _G
+  Vector2, Color = _obj_0.Vector2, _obj_0.Color
+end
 local ui = require('pigui.pigui')
 local ship_defs = { }
 local update_ship_def_table
