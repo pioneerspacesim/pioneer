@@ -5,6 +5,7 @@
 
 #include "EnumStrings.h"
 #include "Game.h"
+#include "LuaColor.h"
 #include "LuaConstants.h"
 #include "LuaUtils.h"
 #include "LuaVector.h"
@@ -65,17 +66,6 @@ void *pi_lua_checklightuserdata(lua_State *l, int index)
 	return nullptr;
 }
 
-void pi_lua_generic_pull(lua_State *l, int index, ImColor &color)
-{
-	PROFILE_SCOPED()
-	LuaTable c(l, index);
-	float sc = 1.0f / 255.0f;
-	color.Value.x = c.Get<int>("r") * sc;
-	color.Value.y = c.Get<int>("g") * sc;
-	color.Value.z = c.Get<int>("b") * sc;
-	color.Value.w = c.Get<int>("a", 255) * sc;
-}
-
 int pushOnScreenPositionDirection(lua_State *l, vector3d position)
 {
 	PROFILE_SCOPED()
@@ -99,6 +89,13 @@ static std::map<std::string, ImGuiSelectableFlags_> imguiSelectableFlagsTable = 
 	{ "SpanAllColumns", ImGuiSelectableFlags_SpanAllColumns },
 	{ "AllowDoubleClick", ImGuiSelectableFlags_AllowDoubleClick }
 };
+
+void pi_lua_generic_pull(lua_State *l, int index, ImColor &color)
+{
+	PROFILE_SCOPED()
+	Color tr = LuaPull<Color>(l, index);
+	color = ImColor(tr.r, tr.g, tr.b, tr.a);
+}
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiSelectableFlags_ &theflags)
 {
@@ -338,7 +335,7 @@ static int l_pigui_lineOnClock(lua_State *l)
 	const double hours = LuaPull<double>(l, 2);
 	const double length = LuaPull<double>(l, 3);
 	const double radius = LuaPull<double>(l,4);
-	const ImColor color = LuaPull<ImColor>(l, 5);
+	const ImColor color = LuaPull<ImColor>(l,5);
 	const double thickness = LuaPull<double>(l, 6);
 	if (lua_type(l, 1) != LUA_TNIL) {
 		const vector2d center = LuaPull<vector2d>(l, 1);
@@ -543,9 +540,9 @@ static int l_pigui_add_line(lua_State *l)
 	const vector2d v2 = LuaPull<vector2d>(l, 2);
 	ImVec2 a(v1.x, v1.y);
 	ImVec2 b(v2.x, v2.y);
-	ImColor col = LuaPull<ImColor>(l, 3);
+	ImColor color = LuaPull<ImColor>(l, 3);
 	double thickness = LuaPull<double>(l, 4);
-	draw_list->AddLine(a, b, col, thickness);
+	draw_list->AddLine(a, b, color, thickness);
 	return 0;
 }
 
@@ -648,7 +645,8 @@ static int l_pigui_thrust_indicator(lua_State *l)
 	ImColor thrust_bg = LuaPull<ImColor>(l, 10);
 	ImVec4 thrust(thr.x, thr.y, thr.z, 0);
 	ImVec4 velocity(vel.x, vel.y, vel.z, 0);
-	PiGui::ThrustIndicator(text.c_str(), size, thrust, velocity, color, frame_padding, vel_fg, vel_bg, thrust_fg, thrust_bg);
+	PiGui::ThrustIndicator(text.c_str(), size, thrust, velocity, color,
+		frame_padding, vel_fg, vel_bg, thrust_fg, thrust_bg);
 	return 0;
 }
 
@@ -663,7 +661,8 @@ static int l_pigui_low_thrust_button(lua_State *l)
 	int frame_padding = LuaPull<int>(l, 5);
 	ImColor gauge_fg = LuaPull<ImColor>(l, 6);
 	ImColor gauge_bg = LuaPull<ImColor>(l, 7);
-	bool ret = PiGui::LowThrustButton(text.c_str(), size, level, color, frame_padding, gauge_fg, gauge_bg);
+	bool ret = PiGui::LowThrustButton(text.c_str(), size, level,
+		color, frame_padding, gauge_fg, gauge_bg);
 	LuaPush<bool>(l, ret);
 	return 1;
 }
@@ -684,7 +683,8 @@ static int l_pigui_button_image_sized(lua_State *l)
 	int frame_padding = LuaPull<int>(l, 6);
 	ImColor bg_col = LuaPull<ImColor>(l, 7);
 	ImColor tint_col = LuaPull<ImColor>(l, 8);
-	bool res = PiGui::ButtonImageSized(id, size, imgSize, uv0, uv1, frame_padding, bg_col, tint_col);
+	bool res = PiGui::ButtonImageSized(id, size, imgSize, uv0, uv1,
+		frame_padding, bg_col, tint_col);
 	LuaPush<bool>(l, res);
 	return 1;
 }
@@ -700,9 +700,9 @@ static int l_pigui_text_wrapped(lua_State *l)
 static int l_pigui_text_colored(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImColor col = LuaPull<ImColor>(l, 1);
+	ImColor color = LuaPull<ImColor>(l, 1);
 	std::string text = LuaPull<std::string>(l, 2);
-	ImGui::TextColored(col, "%s", text.c_str());
+	ImGui::TextColored(color, "%s", text.c_str());
 	return 0;
 }
 
@@ -928,9 +928,9 @@ static int l_pigui_add_triangle(lua_State *l)
 	ImVec2 a(v1.x, v1.y);
 	ImVec2 b(v2.x, v2.y);
 	ImVec2 c(v3.x, v3.y);
-	ImColor col = LuaPull<ImColor>(l, 4);
+	ImColor color = LuaPull<ImColor>(l, 4);
 	float thickness = LuaPull<double>(l, 5);
-	draw_list->AddTriangle(a, b, c, col, thickness);
+	draw_list->AddTriangle(a, b, c, color, thickness);
 	return 0;
 }
 
@@ -942,11 +942,11 @@ static int l_pigui_add_rect(lua_State *l)
 	const vector2d v2 = LuaPull<vector2d>(l, 2);
 	ImVec2 a(v1.x, v1.y);
 	ImVec2 b(v2.x, v2.y);
-	ImColor col = LuaPull<ImColor>(l, 3);
+	ImColor color = LuaPull<ImColor>(l, 3);
 	float rounding = LuaPull<double>(l, 4);
 	int round_corners = LuaPull<int>(l, 5);
 	float thickness = LuaPull<double>(l, 6);
-	draw_list->AddRect(a, b, col, rounding, round_corners, thickness);
+	draw_list->AddRect(a, b, color, rounding, round_corners, thickness);
 	return 0;
 }
 
@@ -962,10 +962,10 @@ static int l_pigui_add_bezier_curve(lua_State *l)
 	ImVec2 c0(v2.x, v2.y);
 	ImVec2 c1(v3.x, v3.y);
 	ImVec2 b(v4.x, v4.y);
-	ImColor col = LuaPull<ImColor>(l, 5);
+	ImColor color = LuaPull<ImColor>(l, 5);
 	float thickness = LuaPull<double>(l, 6);
 	int num_segments = LuaPull<int>(l, 7);
-	draw_list->AddBezierCurve(a, c0, c1, b, col, thickness, num_segments);
+	draw_list->AddBezierCurve(a, c0, c1, b, color, thickness, num_segments);
 	return 0;
 }
 
@@ -982,8 +982,8 @@ static int l_pigui_add_image(lua_State *l)
 	ImVec2 b(v2.x, v2.y);
 	ImVec2 uv0(v3.x, v3.y);
 	ImVec2 uv1(v4.x, v4.y);
-	ImColor col = LuaPull<ImColor>(l, 6);
-	draw_list->AddImage(id, a, b, uv0, uv1, col);
+	ImColor color = LuaPull<ImColor>(l, 6);
+	draw_list->AddImage(id, a, b, uv0, uv1, color);
 	return 0;
 }
 
@@ -1008,8 +1008,8 @@ static int l_pigui_add_image_quad(lua_State *l)
 	ImVec2 uvb(w2.x, w2.y);
 	ImVec2 uvc(w3.x, w3.y);
 	ImVec2 uvd(w4.x, w4.y);
-	ImColor col = LuaPull<ImColor>(l, 10);
-	draw_list->AddImageQuad(id, a, b, c, d, uva, uvb, uvc, uvd, col);
+	ImColor color = LuaPull<ImColor>(l, 10);
+	draw_list->AddImageQuad(id, a, b, c, d, uva, uvb, uvc, uvd, color);
 	return 0;
 }
 
@@ -1021,10 +1021,10 @@ static int l_pigui_add_rect_filled(lua_State *l)
 	const vector2d v2 = LuaPull<vector2d>(l, 2);
 	ImVec2 a(v1.x, v1.y);
 	ImVec2 b(v2.x, v2.y);
-	ImColor col = LuaPull<ImColor>(l, 3);
+	ImColor color = LuaPull<ImColor>(l, 3);
 	float rounding = LuaPull<double>(l, 4);
 	int round_corners = LuaPull<int>(l, 5);
-	draw_list->AddRectFilled(a, b, col, rounding, round_corners);
+	draw_list->AddRectFilled(a, b, color, rounding, round_corners);
 	return 0;
 }
 
@@ -1041,9 +1041,9 @@ static int l_pigui_add_quad(lua_State *l)
 	ImVec2 b(v2.x, v2.y);
 	ImVec2 c(v3.x, v3.y);
 	ImVec2 d(v4.x, v4.y);
-	ImColor col = LuaPull<ImColor>(l, 5);
+	ImColor color = LuaPull<ImColor>(l, 5);
 	float thickness = LuaPull<double>(l, 6);
-	draw_list->AddQuad(a, b, c, d, col, thickness);
+	draw_list->AddQuad(a, b, c, d, color, thickness);
 	return 0;
 }
 
@@ -1058,8 +1058,8 @@ static int l_pigui_add_triangle_filled(lua_State *l)
 	ImVec2 a(v1.x, v1.y);
 	ImVec2 b(v2.x, v2.y);
 	ImVec2 c(v3.x, v3.y);
-	ImColor col = LuaPull<ImColor>(l, 4);
-	draw_list->AddTriangleFilled(a, b, c, col);
+	ImColor color = LuaPull<ImColor>(l, 4);
+	draw_list->AddTriangleFilled(a, b, c, color);
 	return 0;
 }
 
@@ -1351,7 +1351,8 @@ static int l_pigui_image_button(lua_State *l)
 	int frame_padding = LuaPull<int>(l, 5);
 	ImColor bg_col = LuaPull<ImColor>(l, 6);
 	ImColor tint_col = LuaPull<ImColor>(l, 7);
-	bool res = ImGui::ImageButton(id, size, uv0, uv1, frame_padding, bg_col, tint_col);
+	bool res = ImGui::ImageButton(id, size, uv0, uv1,
+		frame_padding, bg_col, tint_col);
 	LuaPush<bool>(l, res);
 	return 1;
 }
@@ -2070,7 +2071,7 @@ static int l_pigui_add_convex_poly_filled(lua_State *l)
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	LuaTable pnts(l, 1);
-	ImColor col = LuaPull<ImColor>(l, 2);
+	ImColor color = LuaPull<ImColor>(l, 2);
 	bool anti_aliased = LuaPull<bool>(l, 3);
 	std::vector<ImVec2> ps;
 	int i = 0;
@@ -2084,7 +2085,7 @@ static int l_pigui_add_convex_poly_filled(lua_State *l)
 	}
 	ImDrawListFlags flags = draw_list->Flags;
 	if (!anti_aliased) flags = 0; // Disable antialiasing
-	draw_list->AddConvexPolyFilled(ps.data(), ps.size(), col);
+	draw_list->AddConvexPolyFilled(ps.data(), ps.size(), color);
 	draw_list->Flags = flags; // Restore the flags.
 	return 0;
 }

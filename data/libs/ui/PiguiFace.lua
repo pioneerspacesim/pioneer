@@ -3,7 +3,6 @@
 
 local Face = import 'UI.PiGui.Face'
 local ui = import 'pigui/pigui.lua'
-local Color = import 'Color'
 local colors = ui.theme.colors
 local orbiteer = ui.fonts.orbiteer
 

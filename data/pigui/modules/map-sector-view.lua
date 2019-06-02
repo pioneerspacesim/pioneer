@@ -1,7 +1,6 @@
 local Engine = import('Engine')
 local Game = import('Game')
 local ui = import('pigui/pigui.lua')
-local Color = import('Color')
 local Lang = import("Lang")
 local lc = Lang.GetResource("core");
 local lui = Lang.GetResource("ui-core");

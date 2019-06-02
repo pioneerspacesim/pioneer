@@ -10,7 +10,6 @@ local Space = import('Space')
 local Engine = import('Engine')
 local Event = import("Event")
 local ShipDef = import("ShipDef")
-local Color = import("Color")
 local Lang = import("Lang")
 
 local lui = Lang.GetResource("ui-core");
