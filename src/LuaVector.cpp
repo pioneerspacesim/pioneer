@@ -3,6 +3,7 @@
 
 #include "LuaVector.h"
 #include "LuaUtils.h"
+#include "LuaVector2.h"
 #include "libs.h"
 
 static int l_vector_new(lua_State *L)
@@ -16,13 +17,45 @@ static int l_vector_new(lua_State *L)
 	return 1;
 }
 
+vector3d construct_vec3(lua_State *L)
+{
+	const vector2d *vec2 = LuaVector2::GetFromLua(L, 2);
+	double x, y, z;
+	if (vec2 != nullptr) {
+		x = vec2->x, y = vec2->y;
+		z = luaL_optnumber(L, 3, 0.0);
+	} else {
+		x = luaL_checknumber(L, 2);
+		if (lua_gettop(L) == 2)
+			y = x, z = x;
+		else {
+			y = luaL_checknumber(L, 3);
+			z = luaL_checknumber(L, 4);
+		}
+	}
+	return vector3d(x, y, z);
+}
+
+/*
+	Construct a new vector from:
+	- one double
+	- three doubles x, y, z
+	- vector2 and an optional double
+*/
 static int l_vector_call(lua_State *L)
 {
 	LUA_DEBUG_START(L);
-	double x = luaL_checknumber(L, 2);
-	double y = luaL_checknumber(L, 3);
-	double z = luaL_checknumber(L, 4);
-	LuaVector::PushToLua(L, vector3d(x, y, z));
+	LuaVector::PushToLua(L, construct_vec3(L));
+	LUA_DEBUG_END(L, 1);
+	return 1;
+}
+
+// set all three values of a Vector3 without allocating new memory.
+static int l_vector_set(lua_State *L)
+{
+	LUA_DEBUG_START(L);
+	*LuaVector::CheckFromLua(L, 1) = construct_vec3(L);
+	lua_pushvalue(L, 1);
 	LUA_DEBUG_END(L, 1);
 	return 1;
 }
@@ -216,6 +249,7 @@ static luaL_Reg l_vector_meta[] = {
 	{ "__unm", &l_vector_unm },
 	{ "__index", &l_vector_index },
 	{ "__newindex", &l_vector_new_index },
+	{ "__call", &l_vector_set },
 	{ "normalised", &l_vector_normalised },
 	{ "normalized", &l_vector_normalised },
 	{ "unit", &l_vector_unit },
