@@ -1,8 +1,8 @@
 #!/bin/bash
 
-CLANG_FORMAT="clang-format"
-if [ "$TRAVIS" = "true" ]; then
-    CLANG_FORMAT="$CLANG_FORMAT-6.0"
+CLANG_FORMAT=`which "clang-format"`
+if [ ! $PATCH_MODE ]; then
+    echo "clang-format = $CLANG_FORMAT"
 fi
 
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then

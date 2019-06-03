@@ -19,7 +19,7 @@ AllowShortIfStatementsOnASingleLine: true
 #AlwaysBreakAfterDefinitionReturnType: None
 #AlwaysBreakAfterReturnType: None
 #AlwaysBreakBeforeMultilineStrings: false
-#AlwaysBreakTemplateDeclarations: false
+AlwaysBreakTemplateDeclarations: Yes
 #BinPackArguments: true
 #BinPackParameters: true
 BraceWrapping:

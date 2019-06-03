@@ -79,3 +79,5 @@ result
 *.exp
 *.VC.db
 /release
+# Core dumps shouldn't be tracked by git.
+.[09][09]*

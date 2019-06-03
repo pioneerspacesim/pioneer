@@ -79,8 +79,8 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/StarSystem.h"
 #include "gameui/Lua.h"
-#include "pigui/PiGuiLua.h"
 #include "libs.h"
+#include "pigui/PiGuiLua.h"
 #include "ship/PlayerShipController.h"
 #include "ship/ShipViewController.h"
 #include "sound/Sound.h"
@@ -1474,17 +1474,13 @@ void Pi::MainLoop()
 
 		Pi::EndRenderTarget();
 		Pi::DrawRenderTarget();
-		bool endCameraFrame = false;
 		if (Pi::game && !Pi::player->IsDead()) {
-			if (Pi::GetView() == Pi::game->GetWorldView()) {
-				Pi::game->GetWorldView()->BeginCameraFrame();
-				endCameraFrame = true;
-			}
+			// FIXME: Always begin a camera frame because WorldSpaceToScreenSpace
+			// requires it and is exposed to pigui.
+			Pi::game->GetWorldView()->BeginCameraFrame();
 			PiGui::NewFrame(Pi::renderer->GetSDLWindow());
 			DrawPiGui(Pi::frameTime, "GAME");
-			if (endCameraFrame) {
-				Pi::game->GetWorldView()->EndCameraFrame();
-			}
+			Pi::game->GetWorldView()->EndCameraFrame();
 		}
 
 #if WITH_DEVKEYS

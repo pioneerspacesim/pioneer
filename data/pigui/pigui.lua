@@ -11,6 +11,7 @@ local Engine = import('Engine')
 local Event = import("Event")
 local ShipDef = import("ShipDef")
 local Lang = import("Lang")
+local Vector2 = _G.Vector2
 
 local lui = Lang.GetResource("ui-core");
 local lc = Lang.GetResource("core");
@@ -69,8 +70,8 @@ local textBackgroundMarginPixels = 2
 ui.icons_texture = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), 16 * 64, 16 * 64)
 
 function ui.window(name, params, fun)
-	pigui.Begin(name, params)
-	fun()
+	local ok = pigui.Begin(name, params)
+	if ok then fun() end
 	pigui.End()
 end
 
@@ -324,7 +325,7 @@ ui.addIcon = function(position, icon, color, size, anchor_horizontal, anchor_ver
 	else
 	  pigui.AddImage(ui.icons_texture, pos, pos + size, uv0, uv1, color)
 	end
-	if tooltip and (pigui.IsMouseHoveringWindow() or not pigui.IsMouseHoveringAnyWindow()) and tooltip ~= "" then
+	if tooltip and (ui.isMouseHoveringWindow() or not ui.isAnyWindowHovered()) and tooltip ~= "" then
 	  if pigui.IsMouseHoveringRect(pos, pos + size, true) then
 			maybeSetTooltip(tooltip)
 	  end
@@ -346,7 +347,7 @@ ui.addWideIcon = function(position, icon, color, size, anchor_horizontal, anchor
 	else
 	  pigui.AddImage(ui.icons_texture, pos, pos + size, uv0, uv1, color)
 	end
-	if tooltip and (pigui.IsMouseHoveringWindow() or not pigui.IsMouseHoveringAnyWindow()) and tooltip ~= "" then
+	if tooltip and (ui.isMouseHoveringWindow() or not is.isAnyWindowHovered()) and tooltip ~= "" then
 	  if pigui.IsMouseHoveringRect(pos, pos + size, true) then
 			maybeSetTooltip(tooltip)
 	  end
@@ -440,7 +441,7 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 								pigui.AddText(position, color, text)
 								-- pigui.AddQuad(position, position + Vector2(size.x, 0), position + Vector2(size.x, size.y), position + vector.new(0, size.y), colors.red, 1.0)
 	end)
-	if tooltip and (pigui.IsMouseHoveringWindow() or not pigui.IsMouseHoveringAnyWindow()) and tooltip ~= "" then
+	if tooltip and (ui.isMouseHoveringWindow() or not ui.isAnyWindowHovered()) and tooltip ~= "" then
 	  if pigui.IsMouseHoveringRect(position, position + size, true) then
 			maybeSetTooltip(tooltip)
 	  end
@@ -462,8 +463,13 @@ ui.lineOnClock = pigui.lineOnClock
 ui.pointOnClock = pigui.pointOnClock
 ui.screenWidth = pigui.screen_width
 ui.screenHeight = pigui.screen_height
+ui.screenSize = function()
+	return Vector2(ui.screenWidth, ui.screenHeight)
+end
 ui.setNextWindowPos = pigui.SetNextWindowPos
-ui.setNextWindowPosCenter = pigui.SetNextWindowPosCenter
+ui.setNextWindowPosCenter = function(cond)
+	ui.setNextWindowPos(ui.screenSize() / 2, cond, Vector2(0.5, 0.5))
+end
 ui.setNextWindowSize = pigui.SetNextWindowSize
 ui.setNextWindowSizeConstraints = pigui.SetNextWindowSizeConstraints
 ui.dummy = pigui.Dummy
@@ -527,18 +533,29 @@ ui.shouldDrawUI = pigui.ShouldDrawUI
 ui.getWindowPos = pigui.GetWindowPos
 ui.getWindowSize = pigui.GetWindowSize
 ui.getContentRegion = pigui.GetContentRegion
+ui.getTextLineHeight = pigui.GetTextLineHeight
+ui.getTextLineHeightWithSpacing = pigui.GetTextLineHeightWithSpacing
+ui.getFrameHeight = pigui.GetFrameHeight
+ui.getFrameHeightWithSpacing = pigui.GetFrameHeightWithSpacing
 ui.getTargetsNearby = pigui.GetTargetsNearby
 ui.getProjectedBodies = pigui.GetProjectedBodies
 ui.getProjectedBodiesGrouped = pigui.GetProjectedBodiesGrouped
 ui.isMouseReleased = pigui.IsMouseReleased
 ui.isMouseHoveringRect = pigui.IsMouseHoveringRect
-ui.isMouseHoveringAnyWindow = pigui.IsMouseHoveringAnyWindow
+ui.isMouseHoveringWindow = function()
+	return ui.isWindowHovered({"AllowWhenBlockedByPopup", "AllowWhenBlockedByActiveItem"})
+end
+ui.isWindowHovered = pigui.IsWindowHovered
+ui.isAnyWindowHovered = function()
+	return ui.isWindowHovered({"AnyWindow"})
+end
 ui.collapsingHeader = pigui.CollapsingHeader
 ui.openPopup = pigui.OpenPopup
 ui.shouldShowLabels = pigui.ShouldShowLabels
 ui.columns = pigui.Columns
 ui.nextColumn = pigui.NextColumn
 ui.setColumnOffset = pigui.SetColumnOffset
+ui.getColumnWidth = pigui.GetColumnWidth
 ui.keys = pigui.keys
 ui.systemInfoViewNextPage = pigui.SystemInfoViewNextPage -- deprecated
 ui.isKeyReleased = pigui.IsKeyReleased
@@ -553,6 +570,15 @@ ui.noModifierHeld = function() return pigui.key_none end
 ui.vSliderInt = pigui.VSliderInt
 ui.sliderInt = pigui.SliderInt
 ui.pushItemWidth = pigui.PushItemWidth
+ui.popItemWidth = pigui.PopItemWidth
+ui.sliderFloat = pigui.SliderFloat
+
+-- Flag validation functions. Call with a table of string flags as the only argument.
+ui.SelectableFlags = pigui.SelectableFlags
+ui.TreeNodeFlags = pigui.TreeNodeFlags
+ui.InputTextFlags = pigui.InputTextFlags
+ui.WindowFlags = pigui.WindowFlags
+ui.HoveredFlags = pigui.HoveredFlags
 
 -- FINALLY OUT OF Pi.cpp! BEGONE!
 ui.playBoinkNoise = function ()
@@ -705,6 +731,7 @@ ui.radialMenu = function(id)
 	end
 	return n
 end
+ui.button = pigui.Button
 ui.coloredSelectedButton = function(label, thesize, is_selected, bg_color, tooltip, enabled)
 	if is_selected then
 		pigui.PushStyleColor("Button", bg_color)
@@ -764,64 +791,24 @@ ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color
 	local offset = 60
 	local uiPos = Vector2(position.x, position.y)
 	ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
-								ui.addLine(uiPos, Vector2(uiPos.x + ui.gauge_width, uiPos.y), ui.theme.colors.gaugeBackground, ui.gauge_height)
-								if gauge_show_percent then
-									local one_hundred = ui.calcTextSize("100")
-									uiPos.x = uiPos.x + one_hundred.x * 1.2 -- 1.2 for a bit of slack
-									ui.addStyledText(Vector2(uiPos.x, uiPos.y + ui.gauge_height / 12), ui.anchor.right, ui.anchor.center, string.format("%i", percent * 100), ui.theme.colors.reticuleCircle, ui.fonts.pionillium.medium, tooltip)
-								end
-								uiPos.x = uiPos.x + ui.gauge_height * 1.2
-								ui.addIcon(Vector2(uiPos.x - ui.gauge_height/2, uiPos.y), icon, ui.theme.colors.reticuleCircle, Vector2(ui.gauge_height * 0.9, ui.gauge_height * 0.9), ui.anchor.center, ui.anchor.center, tooltip)
-								local w = (position.x + ui.gauge_width) - uiPos.x
-								ui.addLine(uiPos, Vector2(uiPos.x + w * percent, uiPos.y), color, ui.gauge_height)
-								if value and format then
-									ui.addFancyText(Vector2(uiPos.x + ui.gauge_height/2, uiPos.y + ui.gauge_height/4), ui.anchor.left, ui.anchor.center, {
-																		{ text=string.format(format, value), color=ui.theme.colors.reticuleCircle,     font=ui.fonts.pionillium.small, tooltip=tooltip },
-																		{ text=unit,                         color=ui.theme.colors.reticuleCircleDark, font=ui.fonts.pionillium.small, tooltip=tooltip }},
-																	ui.theme.colors.gaugeBackground)
-								end
+		ui.addLine(uiPos, Vector2(uiPos.x + ui.gauge_width, uiPos.y), ui.theme.colors.gaugeBackground, ui.gauge_height)
+		if gauge_show_percent then
+			local one_hundred = ui.calcTextSize("100")
+			uiPos.x = uiPos.x + one_hundred.x * 1.2 -- 1.2 for a bit of slack
+			ui.addStyledText(Vector2(uiPos.x, uiPos.y + ui.gauge_height / 12), ui.anchor.right, ui.anchor.center, string.format("%i", percent * 100), ui.theme.colors.reticuleCircle, ui.fonts.pionillium.medium, tooltip)
+		end
+		uiPos.x = uiPos.x + ui.gauge_height * 1.2
+		ui.addIcon(Vector2(uiPos.x - ui.gauge_height / 2, uiPos.y), icon, ui.theme.colors.reticuleCircle, Vector2(ui.gauge_height * 0.9, ui.gauge_height * 0.9), ui.anchor.center, ui.anchor.center, tooltip)
+		local w = (position.x + ui.gauge_width) - uiPos.x
+		ui.addLine(uiPos, Vector2(uiPos.x + w * percent, uiPos.y), color, ui.gauge_height)
+		if value and format then
+			ui.addFancyText(Vector2(uiPos.x + ui.gauge_height/2, uiPos.y + ui.gauge_height/4), ui.anchor.left, ui.anchor.center, {
+				{ text=string.format(format, value), color=ui.theme.colors.reticuleCircle,     font=ui.fonts.pionillium.small, tooltip=tooltip },
+				{ text=unit,                         color=ui.theme.colors.reticuleCircleDark, font=ui.fonts.pionillium.small, tooltip=tooltip }},
+			ui.theme.colors.gaugeBackground)
+		end
 	end)
 
-end
-
-local gauges = {}
-
-ui.registerGauge = function(fun, priority)
-	table.insert(gauges, {fun = fun, priority = priority})
-	table.sort(gauges, function(a,b) return a.priority < b.priority end)
-end
-
-ui.displayPlayerGauges = function()
-	local gauge_stretch = 1.4
-	local current_view = Game.CurrentView()
-	local c = 0
-	for k,v in pairs(gauges) do
-		local g = v.fun()
-		if g and g.value then
-			c = c + 1
-		end
-	end
-	c = c + 0.1
-	if current_view == "world" then
-		ui.setNextWindowSize(Vector2(ui.gauge_width, ui.gauge_height * c * gauge_stretch), "Always")
-		local tws = ui.timeWindowSize
-		if not tws then
-			tws = Vector2(0, 100)
-		end
-		tws.y = tws.y + 30 -- extra offset
-		ui.setNextWindowPos(Vector2(5, ui.screenHeight - tws.y - ui.gauge_height * c * gauge_stretch), "Always")
-		ui.window("PlayerGauges", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
-							function()
-								local uiPos = ui.getWindowPos() + Vector2(0, ui.gauge_height)
-								for k,v in pairs(gauges) do
-									local g = v.fun()
-									if g and g.value then
-										ui.gauge(uiPos, g.value, g.unit, g.format, g.min, g.max, g.icon, g.color, g.tooltip)
-										uiPos.y = uiPos.y + ui.gauge_height * gauge_stretch
-									end
-								end
-		end)
-	end
 end
 
 ui.loadTextureFromSVG = function(a, b, c)
