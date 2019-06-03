@@ -43,10 +43,6 @@
     "description": "Descriptive name for the CycleCameraMode action.",
     "message": "Basculer entre les modes de caméra"
   },
-  "BIND_DECREASE_SPEED": {
-    "description": "Descriptive name for the DecreaseSpeed action.",
-    "message": "Diminuer la vitesse limite"
-  },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
     "message": "Diminuer l'accélération du temps"
@@ -54,10 +50,6 @@
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
     "message": "Basculer sur la caméra avant"
-  },
-  "BIND_INCREASE_SPEED": {
-    "description": "Descriptive name for the IncreaseSpeed action.",
-    "message": "Augmenter la vitesse limite"
   },
   "BIND_INCREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the IncreaseTimeAcceleration action.",
@@ -98,6 +90,10 @@
   "BIND_SECONDARY_FIRE": {
     "description": "Descriptive name for the SecondaryFire action.",
     "message": "Tir secondaire"
+  },
+  "BIND_SPEED_CONTROL": {
+    "description": "Descriptive name for the SpeedControl axis.",
+    "message": "Set Target Speed"
   },
   "BIND_TARGET_OBJECT": {
     "description": "Descriptive name for the TargetObject action.",
