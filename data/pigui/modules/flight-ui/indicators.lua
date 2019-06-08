@@ -28,7 +28,6 @@ local reticuleCircleRadius
 
 -- display the HUD markers in space for ship forward, backward, left, right, up and down
 local function displayDirectionalMarkers()
-	local aux = Vector3(0,0,0)
 	local function displayDirectionalMarker(ship_space, icon, showDirection, angle)
 		local screen = Engine.ShipSpaceToScreenSpace(ship_space)
 		local coord = Vector2(screen.x, screen.y)
@@ -45,21 +44,14 @@ local function displayDirectionalMarkers()
 			return aux2:angle() + adjust
 		end
 	end
-	aux.z = -1
-	local forward = Engine.ShipSpaceToScreenSpace(aux) - Vector3(center.x, center.y, 0.0)
+	local aux = Vector3(0,0,-1)
+	local forward = Engine.ShipSpaceToScreenSpace(aux - Vector3(center))
 	local showDirection = displayDirectionalMarker(aux, icons.forward, true)
-	aux.z = 1
-	showDirection = displayDirectionalMarker(aux, icons.backward, showDirection)
-	aux.z = 0
-	aux.y = 1
-	showDirection = displayDirectionalMarker(aux, icons.up, showDirection, angle(forward, ui.pi))
-	aux.y = -1
-	showDirection = displayDirectionalMarker(aux, icons.down, showDirection, angle(forward, 0))
-	aux.y = 0
-	aux.x = 1
-	showDirection = displayDirectionalMarker(aux, icons.right, showDirection)
-	aux.x = -1
-	showDirection = displayDirectionalMarker(aux, icons.left, showDirection)
+	showDirection = displayDirectionalMarker(aux(0, 0, 1), icons.backward, showDirection)
+	showDirection = displayDirectionalMarker(aux(0, 1, 0), icons.up, showDirection, angle(forward, ui.pi))
+	showDirection = displayDirectionalMarker(aux(0, -1, 0), icons.down, showDirection, angle(forward, 0))
+	showDirection = displayDirectionalMarker(aux(1, 0, 0), icons.right, showDirection)
+	showDirection = displayDirectionalMarker(aux(-1, 0, 0), icons.left, showDirection)
 
 	if showDirection then
 		ui.addIcon(center, icons.direction_forward, colors.reticuleCircle, Vector2(32, 32), ui.anchor.center, ui.anchor.center, nil, angle(forward, 0))

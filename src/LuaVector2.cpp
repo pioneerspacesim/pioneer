@@ -15,12 +15,36 @@ static int l_vector_new(lua_State *L)
 	return 1;
 }
 
+vector2d construct_vec2(lua_State *L)
+{
+	double x, y;
+	x = luaL_checknumber(L, 2);
+	if (lua_gettop(L) == 2)
+		y = x;
+	else
+		y = luaL_checknumber(L, 3);
+
+	return vector2d(x, y);
+}
+
 static int l_vector_call(lua_State *L)
 {
 	LUA_DEBUG_START(L);
-	double x = luaL_checknumber(L, 2);
-	double y = luaL_checknumber(L, 3);
-	LuaVector2::PushToLua(L, vector2d(x, y));
+	LuaVector2::PushToLua(L, construct_vec2(L));
+	LUA_DEBUG_END(L, 1);
+	return 1;
+}
+
+// Set the values of a vector2 without allocating new memory.
+// E.g. instead of
+// 		vec = Vector2(1, 2); vec = Vector2(2, 3)
+// Use this method
+//		vec = Vector2(1, 2); vec(2, 3)
+static int l_vector_set(lua_State *L)
+{
+	LUA_DEBUG_START(L);
+	*LuaVector2::CheckFromLua(L, 1) = construct_vec2(L);
+	lua_pushvalue(L, 1);
 	LUA_DEBUG_END(L, 1);
 	return 1;
 }
@@ -110,8 +134,12 @@ static int l_vector_unm(lua_State *L)
 static int l_vector_new_index(lua_State *L)
 {
 	vector2d *v = LuaVector2::CheckFromLua(L, 1);
-	if (lua_type(L, 2) == LUA_TSTRING) {
-		const char *attr = luaL_checkstring(L, 2);
+	size_t attr_len;
+	const char *attr = nullptr;
+	if (lua_type(L, 2) == LUA_TSTRING)
+		attr = lua_tolstring(L, 2, &attr_len);
+
+	if (attr && attr_len == 1) {
 		if (attr[0] == 'x') {
 			v->x = luaL_checknumber(L, 3);
 		} else if (attr[0] == 'y') {
@@ -119,36 +147,40 @@ static int l_vector_new_index(lua_State *L)
 		} else {
 			luaL_error(L, "Index '%s' is not available: use 'x' or 'y'", attr);
 		}
+	} else if (attr) {
+		luaL_error(L, "Index '%s' is not available: use 'x' or 'y'", attr);
 	} else {
-		luaL_error(L, "Expected Vector2, but type is '%s'", luaL_typename(L, 2));
+		luaL_error(L, "Attempted to index Vector2 with a non-string type '%s'", luaL_typename(L, 2));
 	}
-	LuaVector2::PushToLua(L, *v);
-	return 1;
+
+	// __newindex metamethods don't return a value.
+	return 0;
 }
 
 static int l_vector_index(lua_State *L)
 {
 	const vector2d *v = LuaVector2::CheckFromLua(L, 1);
-	size_t len = 0;
+	size_t attr_len = 0;
 	const char *attr = nullptr;
-	if (lua_type(L, 2) == LUA_TSTRING) {
-		attr = lua_tolstring(L, 2, &len);
-		if (attr != nullptr && len == 1) {
-			if (attr[0] == 'x') {
-				lua_pushnumber(L, v->x);
-				return 1;
-			} else if (attr[0] == 'y') {
-				lua_pushnumber(L, v->y);
-				return 1;
-			}
-		};
+	if (lua_type(L, 2) == LUA_TSTRING)
+		attr = lua_tolstring(L, 2, &attr_len);
+
+	if (attr && attr_len == 1) {
+		if (attr[0] == 'x') {
+			lua_pushnumber(L, v->x);
+			return 1;
+		} else if (attr[0] == 'y') {
+			lua_pushnumber(L, v->y);
+			return 1;
+		}
+	} else if (attr) {
+		lua_getmetatable(L, 1);
+		lua_pushvalue(L, 2);
+		lua_rawget(L, -2);
+		lua_remove(L, -2);
 	} else {
 		luaL_error(L, "Expected a string as argument, but type is '%s'", luaL_typename(L, 2));
 	}
-	lua_getmetatable(L, 1);
-	lua_pushvalue(L, 2);
-	lua_rawget(L, -2);
-	lua_remove(L, -2);
 	return 1;
 }
 
@@ -220,12 +252,13 @@ static luaL_Reg l_vector_meta[] = {
 	{ "__unm", &l_vector_unm },
 	{ "__index", &l_vector_index },
 	{ "__newindex", &l_vector_new_index },
+	{ "__call", &l_vector_set },
 	{ "normalised", &l_vector_normalised },
 	{ "normalized", &l_vector_normalised },
 	{ "unit", &l_vector_unit },
 	{ "length", &l_vector_length },
-	{ "lengthSqr", &l_vector_length_sqr},
-	{ "dot", &l_vector_length_sqr},
+	{ "lengthSqr", &l_vector_length_sqr },
+	{ "dot", &l_vector_length_sqr },
 	{ "rotate", &l_vector_rotate },
 	{ "angle", &l_vector_angle },
 	{ "left", &l_vector_rot_90_left },

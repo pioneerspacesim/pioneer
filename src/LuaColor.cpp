@@ -20,9 +20,7 @@ static int l_color_new(lua_State *L)
 	double r = luaL_checknumber(L, 1);
 	double g = luaL_checknumber(L, 2);
 	double b = luaL_checknumber(L, 3);
-	double a;
-	if (lua_isnumber(L, 4)) a = luaL_checknumber(L, 4);
-	else a = 255.0;
+	double a = luaL_optnumber(L, 4, 255.0);
 	LuaColor::PushToLua(L, ColorClamp(r, g, b, a));
 	LUA_DEBUG_END(L, 1);
 	return 1;
@@ -34,9 +32,7 @@ static int l_color_call(lua_State *L)
 	double r = luaL_checknumber(L, 2);
 	double g = luaL_checknumber(L, 3);
 	double b = luaL_checknumber(L, 4);
-	double a;
-	if (lua_isnumber(L, 5)) a = luaL_checknumber(L, 5);
-	else a = 255.0;
+	double a = luaL_optnumber(L, 5, 255.0);
 	LuaColor::PushToLua(L, ColorClamp(r, g, b, a));
 	LUA_DEBUG_END(L, 1);
 	return 1;
@@ -82,8 +78,12 @@ static int l_color_mul(lua_State *L)
 static int l_color_new_index(lua_State *L)
 {
 	Color4ub *c = LuaColor::CheckFromLua(L, 1);
-	if (lua_type(L, 2) == LUA_TSTRING) {
-		const char *attr = luaL_checkstring(L, 2);
+	size_t attr_len;
+	const char *attr = nullptr;
+	if (lua_type(L, 2) == LUA_TSTRING)
+		attr = lua_tolstring(L, 2, &attr_len);
+
+	if (attr && attr_len == 1) {
 		if (attr[0] == 'r') {
 			c->r = luaL_checknumber(L, 3);
 		} else if (attr[0] == 'g') {
@@ -95,42 +95,46 @@ static int l_color_new_index(lua_State *L)
 		} else {
 			luaL_error(L, "Index '%s' is not available: use 'r', 'g', 'b' or 'a'", attr);
 		}
+	} else if (attr) {
+		luaL_error(L, "Index '%s' is not available: use 'r', 'g', 'b' or 'a'", attr);
 	} else {
-		luaL_error(L, "Expected Color, but type is '%s'", luaL_typename(L, 2));
+		luaL_error(L, "Attempted to index Color with a non-string type '%s'.", luaL_typename(L, 2));
 	}
-	LuaColor::PushToLua(L, *c);
-	return 1;
+
+	// the __newindex metamethod returns nothing
+	return 0;
 }
 
 static int l_color_index(lua_State *L)
 {
 	const Color4ub *c = LuaColor::CheckFromLua(L, 1);
-	size_t len = 0;
+	size_t attr_len = 0;
 	const char *attr = nullptr;
-	if (lua_type(L, 2) == LUA_TSTRING) {
-		attr = lua_tolstring(L, 2, &len);
-		if (attr != nullptr && len == 1) {
-			if (attr[0] == 'r') {
-				lua_pushnumber(L, c->r);
-				return 1;
-			} else if (attr[0] == 'g') {
-				lua_pushnumber(L, c->g);
-				return 1;
-			} else if (attr[0] == 'b') {
-				lua_pushnumber(L, c->b);
-				return 1;
-			} else if (attr[0] == 'a') {
-				lua_pushnumber(L, c->a);
-				return 1;
-			}
+	if (lua_type(L, 2) == LUA_TSTRING)
+		attr = lua_tolstring(L, 2, &attr_len);
+
+	if (attr && attr_len == 1) {
+		if (attr[0] == 'r') {
+			lua_pushnumber(L, c->r);
+			return 1;
+		} else if (attr[0] == 'g') {
+			lua_pushnumber(L, c->g);
+			return 1;
+		} else if (attr[0] == 'b') {
+			lua_pushnumber(L, c->b);
+			return 1;
+		} else if (attr[0] == 'a') {
+			lua_pushnumber(L, c->a);
+			return 1;
 		}
+	} else if (attr) {
+		lua_getmetatable(L, 1);
+		lua_pushvalue(L, 2);
+		lua_rawget(L, -2);
+		lua_remove(L, -2);
 	} else {
-		luaL_error(L, "Expected a string as argument, but type is '%s'", luaL_typename(L, 2));
+		luaL_error(L, "Attempted to index Color with a non-string type '%s'", luaL_typename(L, 2));
 	}
-	lua_getmetatable(L, 1);
-	lua_pushvalue(L, 2);
-	lua_rawget(L, -2);
-	lua_remove(L, -2);
 	return 1;
 }
 
@@ -154,6 +158,22 @@ static int l_color_tint(lua_State *L)
 	return 1;
 }
 
+// Set a Color's values without allocating new memory.
+// c = Color(1, 2, 3, 4); c(120, 140, 255, 255)
+static int l_color_set(lua_State *L)
+{
+	LUA_DEBUG_START(L);
+	Color4ub *col = LuaColor::CheckFromLua(L, 1);
+	double r = luaL_checknumber(L, 2);
+	double g = luaL_checknumber(L, 3);
+	double b = luaL_checknumber(L, 4);
+	double a = luaL_optnumber(L, 5, 255.0);
+	*col = ColorClamp(r, g, b, a);
+	lua_pushvalue(L, 1); // return the same color value.
+	LUA_DEBUG_END(L, 1);
+	return 1;
+}
+
 static luaL_Reg l_vector_lib[] = {
 	{ "new", &l_color_new },
 	{ "shade", &l_color_shade },
@@ -167,6 +187,7 @@ static luaL_Reg l_vector_meta[] = {
 	{ "__mul", &l_color_mul },
 	{ "__index", &l_color_index },
 	{ "__newindex", &l_color_new_index },
+	{ "__call", &l_color_set },
 	{ "shade", &l_color_shade },
 	{ "tint", &l_color_tint },
 	{ 0, 0 }
@@ -200,17 +221,17 @@ void LuaColor::Register(lua_State *L)
 
 Color4ub *LuaColor::PushNewToLua(lua_State *L)
 {
-	Color4ub *ptr = static_cast<Color4ub*>(lua_newuserdata(L, sizeof(Color4ub)));
+	Color4ub *ptr = static_cast<Color4ub *>(lua_newuserdata(L, sizeof(Color4ub)));
 	luaL_setmetatable(L, LuaColor::TypeName);
 	return ptr;
 }
 
-const Color4ub*LuaColor::GetFromLua(lua_State *L, int idx)
+const Color4ub *LuaColor::GetFromLua(lua_State *L, int idx)
 {
-	return static_cast<Color4ub*>(luaL_testudata(L, idx, LuaColor::TypeName));
+	return static_cast<Color4ub *>(luaL_testudata(L, idx, LuaColor::TypeName));
 }
 
-Color4ub*LuaColor::CheckFromLua(lua_State *L, int idx)
+Color4ub *LuaColor::CheckFromLua(lua_State *L, int idx)
 {
-	return static_cast<Color4ub*>(luaL_checkudata(L, idx, LuaColor::TypeName));
+	return static_cast<Color4ub *>(luaL_checkudata(L, idx, LuaColor::TypeName));
 }
