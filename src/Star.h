@@ -5,6 +5,7 @@
 #define _STAR_H
 
 #include "TerrainBody.h"
+#include "graphics/VertexBuffer.h"
 
 namespace Graphics {
 	class Renderer;
@@ -23,8 +24,10 @@ public:
 
 protected:
 	void InitStar();
+	void BuildHaloBuffer(Graphics::Renderer *renderer, double rad);
 
 	Graphics::RenderState *m_haloState;
+	std::unique_ptr<Graphics::VertexBuffer> m_haloBuffer;
 };
 
 #endif /* _STAR_H */
