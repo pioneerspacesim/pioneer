@@ -157,6 +157,8 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, doub
 		b->PostLoadFixup(this);
 
 	GenSectorCache(galaxy, &path);
+
+	//DebugDumpFrames();
 }
 
 Space::~Space()
@@ -628,11 +630,12 @@ static Frame *MakeFrameFor(const double at_time, SystemBody *sbody, Body *b, Fra
 		// if there are no orbiting bodies use a frame of several radii.
 		Frame *orbFrame = new Frame(f, sbody->GetName().c_str());
 		orbFrame->SetBodies(sbody, b);
-		double frameRadius = std::max(10.0 * sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance() * 1.1);
+		const double bodyRadius = sbody->GetEquatorialRadius();
+		double frameRadius = std::max(10.0 * bodyRadius, sbody->GetMaxChildOrbitalDistance() * 1.1);
 		// Respect the frame of other stars in the multi-star system. We still make sure that the frame ends outside
 		// the body. For a minimum separation of 1.236 radii, nothing will overlap (see StarSystem::StarSystem()).
 		if (sbody->GetParent() && frameRadius > AU * 0.11 * sbody->GetOrbMin())
-			frameRadius = std::max(1.1 * sbody->GetRadius(), AU * 0.11 * sbody->GetOrbMin());
+			frameRadius = std::max(1.1 * bodyRadius, AU * 0.11 * sbody->GetOrbMin());
 		orbFrame->SetRadius(frameRadius);
 		b->SetFrame(orbFrame);
 		return orbFrame;
@@ -959,21 +962,27 @@ static void hitCallback(CollisionContact *c)
 // temporary one-point version
 static void CollideWithTerrain(Body *body, float timeStep)
 {
-	if (!body->IsType(Object::DYNAMICBODY)) return;
+	if (!body->IsType(Object::DYNAMICBODY))
+		return;
 	DynamicBody *dynBody = static_cast<DynamicBody *>(body);
-	if (!dynBody->IsMoving()) return;
+	if (!dynBody->IsMoving())
+		return;
 
 	Frame *f = body->GetFrame();
-	if (!f || !f->GetBody() || f != f->GetBody()->GetFrame()) return;
-	if (!f->GetBody()->IsType(Object::TERRAINBODY)) return;
+	if (!f || !f->GetBody() || f != f->GetBody()->GetFrame())
+		return;
+	if (!f->GetBody()->IsType(Object::TERRAINBODY))
+		return;
 	TerrainBody *terrain = static_cast<TerrainBody *>(f->GetBody());
 
 	const Aabb &aabb = dynBody->GetAabb();
 	double altitude = body->GetPosition().Length() + aabb.min.y;
-	if (altitude >= (terrain->GetMaxFeatureRadius() * 2.0)) return;
+	if (altitude >= (terrain->GetMaxFeatureRadius() * 2.0))
+		return;
 
 	double terrHeight = terrain->GetTerrainHeight(body->GetPosition().Normalized());
-	if (altitude >= terrHeight) return;
+	if (altitude >= terrHeight)
+		return;
 
 	CollisionContact c(body->GetPosition(), body->GetPosition().Normalized(), terrHeight - altitude, timeStep, static_cast<void *>(body), static_cast<void *>(f->GetBody()));
 	hitCallback(&c);
