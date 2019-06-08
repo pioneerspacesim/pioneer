@@ -397,7 +397,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 		//Update material parameters
 		//XXX no need to calculate AP every frame
 		m_materialParameters.atmosphere = GetSystemBody()->CalcAtmosphereParams();
-		m_materialParameters.atmosphere.center = trans * vector3d(0.0, 0.0, 0.0);
+		m_materialParameters.atmosphere.center = trans * vector3d(0.0);
 		m_materialParameters.atmosphere.planetRadius = radius;
 
 		m_materialParameters.shadows = shadows;
