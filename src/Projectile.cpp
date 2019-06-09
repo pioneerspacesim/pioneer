@@ -156,6 +156,7 @@ Projectile::Projectile(const Json &jsonObj, Space *space) :
 		m_color = projectileObj["color"];
 		m_parentIndex = projectileObj["index_for_body"];
 	} catch (Json::type_error &) {
+		Output("Loading error in '%s'\n", __func__);
 		throw SavedGameCorruptException();
 	}
 }
@@ -360,19 +361,6 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 		s_glowMat->diffuse = color;
 		renderer->DrawTriangles(s_glowVerts.get(), s_renderState, s_glowMat.get());
 	}
-}
-
-void Projectile::Add(Body *parent, float lifespan, float dam, float length, float width, bool mining, const Color &color, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)
-{
-	ProjectileData prData;
-	prData.lifespan = lifespan;
-	prData.damage = dam;
-	prData.length = length;
-	prData.width = width;
-	prData.mining = mining;
-	prData.color = color;
-	Projectile *p = new Projectile(parent, prData, pos, baseVel, dirVel);
-	Pi::game->GetSpace()->AddBody(p);
 }
 
 void Projectile::Add(Body *parent, const ProjectileData &prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)

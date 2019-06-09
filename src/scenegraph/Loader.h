@@ -8,7 +8,6 @@
  */
 #include "BaseLoader.h"
 #include "CollisionGeometry.h"
-#include "Mount.h"
 #include "graphics/Material.h"
 
 // Disable some GCC diagnostics errors.

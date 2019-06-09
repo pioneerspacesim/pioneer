@@ -190,7 +190,7 @@ private:
 			next_firing_barrels(gs.next_firing_barrels),
 			fire_modes(gs.fire_modes),
 			gun_data(gs.gun_data) {}
-		GunId mount_id; // <- store the mount sequential number
+		MountId mount_id; // <- store the mount sequential number
 					  //    or, if equal to -1, the fact that
 					  // this gun is "invalid": it should have
 					  // been deleted before... But never say

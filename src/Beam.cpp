@@ -155,6 +155,7 @@ Beam::Beam(const Json &jsonObj, Space *space) :
 		JsonToColor(&m_color, projectileObj["color"]);
 		m_parentIndex = projectileObj["index_for_body"];
 	} catch (Json::type_error &) {
+		Output("Loading error in '%s'\n", __func__);
 		throw SavedGameCorruptException();
 	}
 }

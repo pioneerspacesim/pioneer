@@ -43,14 +43,7 @@ void FixedGuns::SaveToJson(Json &jsonObj, Space *space)
 		gunArrayEl["gd_cool_rate"] = m_guns[i].gun_data.temp_cool_rate;
 		gunArrayEl["gd_heat_rate"] = m_guns[i].gun_data.temp_heat_rate;
 		// Save "ProjectileData":
-		gunArrayEl["pd_beam"] = m_guns[i].gun_data.projData.beam;
-		gunArrayEl["pd_color"] = m_guns[i].gun_data.projData.color;
-		gunArrayEl["pd_damage"] = m_guns[i].gun_data.projData.damage;
-		gunArrayEl["pd_length"] = m_guns[i].gun_data.projData.length;
-		gunArrayEl["pd_lifespan"] = m_guns[i].gun_data.projData.lifespan;
-		gunArrayEl["pd_mining"] = m_guns[i].gun_data.projData.mining;
-		gunArrayEl["pd_speed"] = m_guns[i].gun_data.projData.speed;
-		gunArrayEl["pd_width"] = m_guns[i].gun_data.projData.width;
+		gunArrayEl["proj_data"] = m_guns[i].gun_data.projData.SaveToJson();
 
 		gunArray.push_back(gunArrayEl); // Append gun object to array.
 	}
@@ -90,16 +83,7 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 			float temp_cool_rate = gunArrayEl["gd_cool_rate"];
 			float temp_heat_rate = gunArrayEl["gd_heat_rate"];
 			// Load "ProjectileData" for this gun:
-			ProjectileData pd;
-
-			pd.beam = gunArrayEl["pd_beam"];
-			pd.color = gunArrayEl["pd_color"];
-			pd.damage = gunArrayEl["pd_damage"];
-			pd.length = gunArrayEl["pd_length"];
-			pd.lifespan = gunArrayEl["pd_lifespan"];
-			pd.mining = gunArrayEl["pd_mining"];
-			pd.speed = gunArrayEl["pd_speed"];
-			pd.width = gunArrayEl["pd_width"];
+			ProjectileData pd(gunArrayEl["proj_data"]);
 
 			GunStatus gs(mount_id, name, sound, recharge, temp_heat_rate, temp_cool_rate, barrels, pd);
 
@@ -169,22 +153,24 @@ bool FixedGuns::MountGun(MountId num, const std::string &name, const std::string
 bool FixedGuns::UnMountGun(MountId num)
 {
 	// Check mount (num) is valid
-	if (num >= m_mounts.size()) {
-		Output("Mount identifier (%i) is out of bounds in 'UnMountGun'\n", num);
+	if (num >= m_guns.size() && m_guns.size() > 0) {
+		Output("Mount identifier (%i) is out of bounds (max is %lu) in 'UnMountGun'\n", num, m_mounts.size());
 		return false;
 	}
 	// Check mount is used
-	MountId mount = 0;
-	for (; mount < m_guns.size(); mount++) {
-		if (m_guns[mount].mount_id == num) break;
-	}
-	if (mount == m_guns.size()) {
+	std::vector<GunStatus>::iterator found = std::find_if(begin(m_guns), end(m_guns), [&num](const GunStatus &gs)
+	{
+		return (num == gs.mount_id);
+	});
+
+	if (found == m_guns.end()) {
 		Output("No gun found for the given identifier\n");
 		return false;
 	}
 	//Output("Remove guns %i, mounted on '%s'\n", mount, m_mounts[m_guns[mount].mount_id].name.c_str());
-	// Mount 'i' is used and should be freed
-	std::swap(m_guns[mount], m_guns.back());
+	// Mount 'num' is used and should be freed
+	std::vector<GunStatus>::iterator last = m_guns.end() - 1;
+	std::swap(found, last);
 	m_guns.pop_back();
 	return true;
 }
@@ -212,7 +198,7 @@ bool FixedGuns::Fire(GunId num, Body *shooter)
 	for (int iBarrel : GetFiringBarrels(gun.gun_data.barrels, gun.contemporary_barrels, gun.next_firing_barrels)) {
 		// (0,0,-1) => Front ; (0,0,1) => Rear
 		const vector3d front_rear = (mount.dir == GunDir::GUN_FRONT ? vector3d(0., 0., -1.) : vector3d(0., 0., 1.));
-		const vector3d dir = (shooter->GetOrient() * front_rear).Normalized();
+		const vector3d dir = (shooter->GetOrient() * front_rear);
 
 		const vector3d pos = shooter->GetOrient() * vector3d(mount.locs[iBarrel]) + shooter->GetPosition();
 
