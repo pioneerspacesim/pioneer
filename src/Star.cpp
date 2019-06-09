@@ -1,19 +1,13 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include <memory>
 #include "Star.h"
+#include <memory>
 
-#include "Frame.h"
 #include "Pi.h"
 #include "galaxy/StarSystem.h"
-#include "graphics/Graphics.h"
-#include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
-#include "graphics/VertexArray.h"
-#include "graphics/VertexBuffer.h"
-
-using namespace Graphics;
+#include "graphics/Renderer.h"
 
 Star::Star(SystemBody *sbody) :
 	TerrainBody(sbody)
@@ -39,7 +33,7 @@ void Star::InitStar()
 	SetClipRadius(sbody->GetRadius() * 8 * wf);
 
 	Graphics::RenderStateDesc rsd;
-	rsd.blendMode = BLEND_ALPHA;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
 	m_haloState = Pi::renderer->CreateRenderState(rsd);
 }
@@ -48,7 +42,7 @@ void Star::BuildHaloBuffer(Graphics::Renderer *renderer, double rad)
 {
 	// build halo vertex buffer
 	Random rand;
-	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
 	const Color bright(StarSystem::starRealColors[GetSystemBody()->GetType()]);
 	const Color dark(Color::BLANK);
 
@@ -99,7 +93,7 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	// scale the halo by the new radius from it's unit size
 	renderer->SetTransform(trans * matrix4x4d::ScaleMatrix(rad) * rot);
 	//render star halo
-	renderer->DrawBuffer(m_haloBuffer.get(), m_haloState, Graphics::vtxColorMaterial, TRIANGLE_FAN);
+	renderer->DrawBuffer(m_haloBuffer.get(), m_haloState, Graphics::vtxColorMaterial, Graphics::TRIANGLE_FAN);
 
 	// the transform will be reset within TerrainBody::Render or it's subsequent calls
 	TerrainBody::Render(renderer, camera, viewCoords, viewTransform);
