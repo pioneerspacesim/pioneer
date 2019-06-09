@@ -89,7 +89,7 @@ public:
 	IterationProxy<std::vector<SystemBody *>> GetChildren() { return MakeIterationProxy(m_children); }
 	const IterationProxy<const std::vector<SystemBody *>> GetChildren() const { return MakeIterationProxy(m_children); }
 
-	inline const std::string& GetName() const { return m_name; }
+	inline const std::string &GetName() const { return m_name; }
 	std::string GetAstroDescription() const;
 	const char *GetIcon() const;
 	BodyType GetType() const { return m_type; }
@@ -101,7 +101,7 @@ public:
 
 	// the aspect ratio adjustment is converting from equatorial to polar radius to account for ellipsoid bodies, used for calculating terrains etc
 	inline double GetRadius() const
-	{ 
+	{
 		if (GetSuperType() <= SUPERTYPE_STAR) // polar radius
 			return (m_radius.ToDouble() / m_aspectRatio.ToDouble()) * SOL_RADIUS;
 		else
@@ -110,7 +110,7 @@ public:
 
 	// the un-adjusted equatorial radius is necessary for calculating the radius of frames, see Space.cpp `MakeFrameFor`
 	inline double GetEquatorialRadius() const
-	{ 
+	{
 		if (GetSuperType() <= SUPERTYPE_STAR) // equatorial radius
 			return m_radius.ToDouble() * SOL_RADIUS;
 		else
@@ -159,7 +159,7 @@ public:
 	void SetOrbitPlane(const matrix3x3d &orient) { m_orbit.SetPlane(orient); }
 
 	int GetAverageTemp() const { return m_averageTemp; }
-	inline const std::string& GetHeightMapFilename() const { return m_heightMapFilename; }
+	inline const std::string &GetHeightMapFilename() const { return m_heightMapFilename; }
 	unsigned int GetHeightMapFractal() const { return m_heightMapFractal; }
 
 	Uint32 GetSeed() const { return m_seed; }

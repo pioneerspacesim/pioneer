@@ -851,10 +851,10 @@ static void hitCallback(CollisionContact *c)
 	// collision response
 	assert(po1_isDynBody || po2_isDynBody);
 
-    // Bounce factor
-    const double coeff_rest = 0.35;
-    // Allow stop due to friction
-    const double coeff_slide = 0.700;
+	// Bounce factor
+	const double coeff_rest = 0.35;
+	// Allow stop due to friction
+	const double coeff_slide = 0.700;
 
 	if (po1_isDynBody && po2_isDynBody) {
 		DynamicBody *b1 = static_cast<DynamicBody *>(po1);
@@ -948,7 +948,7 @@ static void hitCallback(CollisionContact *c)
 
 		vector3d correction = std::min(std::max(c->depth - threshold, 0.0) * c->timestep, c->depth + threshold) * c->normal;
 
-		mover->SetPosition(mover->GetPosition() + correction );
+		mover->SetPosition(mover->GetPosition() + correction);
 
 		const float reduction = std::max(1 - coeff_slide * c->timestep, 0.0);
 		vector3d final_vel = linVel1 * (1 - coeff_slide * c->timestep) + force * invMass1;
