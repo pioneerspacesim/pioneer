@@ -186,10 +186,10 @@ public:
 	friend bool operator<=(const fixedf &a, const fixedf &b) { return a.v <= b.v; }
 
 	/* implicit operator float() bad */
-	int ToInt32() const { return int(v >> FRAC); }
-	Sint64 ToInt64() const { return v >> FRAC; }
-	float ToFloat() const { return v / float(Sint64(1) << FRAC); }
-	double ToDouble() const { return v / double(Sint64(1) << FRAC); }
+	inline int ToInt32() const { return int(v >> FRAC); }
+	inline Sint64 ToInt64() const { return v >> FRAC; }
+	inline float ToFloat() const { return v / float(Sint64(1) << FRAC); }
+	inline double ToDouble() const { return v / double(Sint64(1) << FRAC); }
 
 	static fixedf FromDouble(const double val) { return fixedf(Sint64(((val) * double(Sint64(1) << FRAC)))); }
 
