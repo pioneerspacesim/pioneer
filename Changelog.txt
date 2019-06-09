@@ -9,6 +9,7 @@ June 2019
    * Fixes
      * Fix pad collision, no noise if speed < 1/ms (#4605)
      * Basic Atmospheric heating re-enabled (#4606)
+     * Use Equatorial Radius when making the frame for a star (#4616)
      
 May 2019
    * New Features
