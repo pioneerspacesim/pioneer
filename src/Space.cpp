@@ -157,6 +157,8 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, doub
 		b->PostLoadFixup(this);
 
 	GenSectorCache(galaxy, &path);
+
+	//DebugDumpFrames();
 }
 
 Space::~Space()
@@ -628,11 +630,12 @@ static Frame *MakeFrameFor(const double at_time, SystemBody *sbody, Body *b, Fra
 		// if there are no orbiting bodies use a frame of several radii.
 		Frame *orbFrame = new Frame(f, sbody->GetName().c_str());
 		orbFrame->SetBodies(sbody, b);
-		double frameRadius = std::max(10.0 * sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance() * 1.1);
+		const double bodyRadius = sbody->GetEquatorialRadius();
+		double frameRadius = std::max(10.0 * bodyRadius, sbody->GetMaxChildOrbitalDistance() * 1.1);
 		// Respect the frame of other stars in the multi-star system. We still make sure that the frame ends outside
 		// the body. For a minimum separation of 1.236 radii, nothing will overlap (see StarSystem::StarSystem()).
 		if (sbody->GetParent() && frameRadius > AU * 0.11 * sbody->GetOrbMin())
-			frameRadius = std::max(1.1 * sbody->GetRadius(), AU * 0.11 * sbody->GetOrbMin());
+			frameRadius = std::max(1.1 * bodyRadius, AU * 0.11 * sbody->GetOrbMin());
 		orbFrame->SetRadius(frameRadius);
 		b->SetFrame(orbFrame);
 		return orbFrame;
@@ -848,10 +851,10 @@ static void hitCallback(CollisionContact *c)
 	// collision response
 	assert(po1_isDynBody || po2_isDynBody);
 
-    // Bounce factor
-    const double coeff_rest = 0.35;
-    // Allow stop due to friction
-    const double coeff_slide = 0.700;
+	// Bounce factor
+	const double coeff_rest = 0.35;
+	// Allow stop due to friction
+	const double coeff_slide = 0.700;
 
 	if (po1_isDynBody && po2_isDynBody) {
 		DynamicBody *b1 = static_cast<DynamicBody *>(po1);
@@ -945,7 +948,7 @@ static void hitCallback(CollisionContact *c)
 
 		vector3d correction = std::min(std::max(c->depth - threshold, 0.0) * c->timestep, c->depth + threshold) * c->normal;
 
-		mover->SetPosition(mover->GetPosition() + correction );
+		mover->SetPosition(mover->GetPosition() + correction);
 
 		const float reduction = std::max(1 - coeff_slide * c->timestep, 0.0);
 		vector3d final_vel = linVel1 * (1 - coeff_slide * c->timestep) + force * invMass1;
@@ -959,21 +962,27 @@ static void hitCallback(CollisionContact *c)
 // temporary one-point version
 static void CollideWithTerrain(Body *body, float timeStep)
 {
-	if (!body->IsType(Object::DYNAMICBODY)) return;
+	if (!body->IsType(Object::DYNAMICBODY))
+		return;
 	DynamicBody *dynBody = static_cast<DynamicBody *>(body);
-	if (!dynBody->IsMoving()) return;
+	if (!dynBody->IsMoving())
+		return;
 
 	Frame *f = body->GetFrame();
-	if (!f || !f->GetBody() || f != f->GetBody()->GetFrame()) return;
-	if (!f->GetBody()->IsType(Object::TERRAINBODY)) return;
+	if (!f || !f->GetBody() || f != f->GetBody()->GetFrame())
+		return;
+	if (!f->GetBody()->IsType(Object::TERRAINBODY))
+		return;
 	TerrainBody *terrain = static_cast<TerrainBody *>(f->GetBody());
 
 	const Aabb &aabb = dynBody->GetAabb();
 	double altitude = body->GetPosition().Length() + aabb.min.y;
-	if (altitude >= (terrain->GetMaxFeatureRadius() * 2.0)) return;
+	if (altitude >= (terrain->GetMaxFeatureRadius() * 2.0))
+		return;
 
 	double terrHeight = terrain->GetTerrainHeight(body->GetPosition().Normalized());
-	if (altitude >= terrHeight) return;
+	if (altitude >= terrHeight)
+		return;
 
 	CollisionContact c(body->GetPosition(), body->GetPosition().Normalized(), terrHeight - altitude, timeStep, static_cast<void *>(body), static_cast<void *>(f->GetBody()));
 	hitCallback(&c);

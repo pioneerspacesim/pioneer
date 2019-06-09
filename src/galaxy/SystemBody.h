@@ -5,12 +5,12 @@
 #define SYSTEMBODY_H
 
 #include "Color.h"
-#include "gameconsts.h"
 #include "IterationProxy.h"
-#include "RefCounted.h"
 #include "Orbit.h"
-#include "galaxy/SystemPath.h"
+#include "RefCounted.h"
 #include "galaxy/RingStyle.h"
+#include "galaxy/SystemPath.h"
+#include "gameconsts.h"
 
 class StarSystem;
 
@@ -89,7 +89,7 @@ public:
 	IterationProxy<std::vector<SystemBody *>> GetChildren() { return MakeIterationProxy(m_children); }
 	const IterationProxy<const std::vector<SystemBody *>> GetChildren() const { return MakeIterationProxy(m_children); }
 
-	std::string GetName() const { return m_name; }
+	inline const std::string &GetName() const { return m_name; }
 	std::string GetAstroDescription() const;
 	const char *GetIcon() const;
 	BodyType GetType() const { return m_type; }
@@ -98,13 +98,25 @@ public:
 	bool IsCoOrbitalWith(const SystemBody *other) const; //this and other form a binary pair
 	bool IsCoOrbital() const; //is part of any binary pair
 	fixed GetRadiusAsFixed() const { return m_radius; }
-	double GetRadius() const
-	{ // polar radius
-		if (GetSuperType() <= SUPERTYPE_STAR)
+
+	// the aspect ratio adjustment is converting from equatorial to polar radius to account for ellipsoid bodies, used for calculating terrains etc
+	inline double GetRadius() const
+	{
+		if (GetSuperType() <= SUPERTYPE_STAR) // polar radius
 			return (m_radius.ToDouble() / m_aspectRatio.ToDouble()) * SOL_RADIUS;
 		else
 			return m_radius.ToDouble() * EARTH_RADIUS;
 	}
+
+	// the un-adjusted equatorial radius is necessary for calculating the radius of frames, see Space.cpp `MakeFrameFor`
+	inline double GetEquatorialRadius() const
+	{
+		if (GetSuperType() <= SUPERTYPE_STAR) // equatorial radius
+			return m_radius.ToDouble() * SOL_RADIUS;
+		else
+			return m_radius.ToDouble() * EARTH_RADIUS;
+	}
+
 	double GetAspectRatio() const { return m_aspectRatio.ToDouble(); }
 	fixed GetMassAsFixed() const { return m_mass; }
 	double GetMass() const
@@ -147,7 +159,7 @@ public:
 	void SetOrbitPlane(const matrix3x3d &orient) { m_orbit.SetPlane(orient); }
 
 	int GetAverageTemp() const { return m_averageTemp; }
-	std::string GetHeightMapFilename() const { return m_heightMapFilename; }
+	inline const std::string &GetHeightMapFilename() const { return m_heightMapFilename; }
 	unsigned int GetHeightMapFractal() const { return m_heightMapFractal; }
 
 	Uint32 GetSeed() const { return m_seed; }
