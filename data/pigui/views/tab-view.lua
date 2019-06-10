@@ -88,6 +88,12 @@ function PiGuiTabView.renderTabView(self)
         end)
     end
 
+    if self.legacyTabView ~= nil and tab.showView then
+        self.legacyTabView.outerBody:Hide()
+    else
+        self.legacyTabView.outerBody:Enable()
+    end
+
     ui.withFont(orbiteer.large.name, orbiteer.large.size * 1.5, function()
         local text_window_padding = 12
         local text_window_size = Vector2(
@@ -110,12 +116,6 @@ function PiGuiTabView.renderTabView(self)
                 if infoButton(v.icon, i == self.currentTab, v.name) then
                     self.legacyTabView:SwitchTo(v.id)
                     self.currentTab = i
-                    -- HACK: only show pigui PersonalInfo
-                    if self.legacyTabView ~= nil and v.showView then
-                        self.legacyTabView.outerBody:Hide()
-                    else
-                        self.legacyTabView.outerBody:Enable()
-                    end
                 end
                 ui.sameLine()
             end
