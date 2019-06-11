@@ -13,6 +13,7 @@ June 2019
      * Basic Atmospheric heating re-enabled (#4606)
      * Use Equatorial Radius when making the frame for a star (#4616)
      * Fix hiding/showing new tab-view (#4620)
+     * Bug fix LuaFlags initialisation problem (#4622)
 
 May 2019
    * New Features
