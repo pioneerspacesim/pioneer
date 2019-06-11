@@ -75,7 +75,7 @@ namespace PiGUI {
 } // namespace PiGUI
 
 template <>
-const char *LuaObject<PiGUI::Face>::s_type = "UI.PiGui.Face";
+const char *LuaObject<PiGUI::Face>::s_type = "PiGui.Modules.Face";
 
 template <>
 void LuaObject<PiGUI::Face>::RegisterClass()

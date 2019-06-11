@@ -39,17 +39,13 @@ local function drawPlayerInfo()
     ui.withStyleVars({WindowPadding = windowPadding, ItemSpacing = itemSpacing}, function()
         ui.child("PlayerInfoDetails", Vector2(info_column_width, 0), {"AlwaysUseWindowPadding"}, function()
             drawTable.withHeading(l.COMBAT, orbiteer.xlarge, {
-                2, "playerCombatInfo", false, {
-                    { l.RATING, l[player:GetCombatRating()] },
-                    { l.KILLS,  string.format('%d',player.killcount) },
-                }
+                { l.RATING, l[player:GetCombatRating()] },
+                { l.KILLS,  string.format('%d',player.killcount) },
             })
             ui.text("")
 
             drawTable.withHeading(l.REPUTATION, orbiteer.xlarge, {
-                2, "playerReputationInfo", false, {
-                    { l.STATUS..":", l[player:GetReputationRating()] },
-                }
+                { l.STATUS..":", l[player:GetReputationRating()] },
             })
         end)
     end)

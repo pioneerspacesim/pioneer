@@ -5,21 +5,20 @@ local ui = import 'pigui/pigui.lua'
 
 local drawTable = {}
 
-function drawTable.draw(n, id, border, t)
-	ui.columns(n, id, border)
-	for _, entry in pairs(t) do
+function drawTable.draw(t)
+	for _, entry in ipairs(t) do
 		if type(entry) == "table" then
-			for i, v in pairs(entry) do
-				if (v) then ui.text(v) end
-				ui.nextColumn()
-			end
+			ui.text(entry[1])
+			ui.sameLine(ui.getContentRegion().x - ui.calcTextSize(entry[2]).x)
+			ui.text(entry[2])
+		elseif type(entry) == "string" then
+			ui.spacing()
+			ui.text(entry)
+			ui.separator()
 		elseif entry == false then
-			ui.dummy({x=5, y=ui.getTextLineHeight()})
-			ui.nextColumn()
-			ui.nextColumn()
+			ui.spacing()
 		end
 	end
-	ui.columns(1, "", false)
 end
 
 function drawTable.withHeading(name, font, t)
@@ -27,7 +26,7 @@ function drawTable.withHeading(name, font, t)
         ui.text(name)
     end)
 
-    drawTable.draw(table.unpack(t))
+    drawTable.draw(t)
 end
 
 return drawTable

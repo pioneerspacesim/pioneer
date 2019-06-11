@@ -6,13 +6,14 @@ June 2019
      * Refactor landing lights, rework the NavLights class (#4608)
      * Cleanup LuaVector and LuaColor implementations (#4615)
      * Star rendering optimisation (#4617)
-     
+     * Move Shipinfo view to PiGui (#4614)
+
    * Fixes
      * Fix pad collision, no noise if speed < 1/ms (#4605)
      * Basic Atmospheric heating re-enabled (#4606)
      * Use Equatorial Radius when making the frame for a star (#4616)
      * Fix hiding/showing new tab-view (#4620)
-     
+
 May 2019
    * New Features
      * Start move of InfovIew to PiGui (#4573)

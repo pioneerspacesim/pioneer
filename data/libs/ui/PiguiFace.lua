@@ -1,7 +1,7 @@
 -- Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Face = import 'UI.PiGui.Face'
+local Face = import 'PiGui.Modules.Face'
 local ui = import 'pigui/pigui.lua'
 local colors = ui.theme.colors
 local orbiteer = ui.fonts.orbiteer
