@@ -7,10 +7,11 @@
 #include <lua.hpp>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 template <typename FlagType>
 struct LuaFlags {
-	std::initializer_list<std::pair<const char *, FlagType>> LUT;
+	std::vector<std::pair<const char *, FlagType>> LUT;
 	std::string typeName;
 	int lookupTableRef = LUA_NOREF;
 
