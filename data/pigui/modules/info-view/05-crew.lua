@@ -13,6 +13,6 @@ InfoView:registerView({
     name = l.CREW_ROSTER,
     icon = ui.theme.icons.rooster,
     showView = false,
-    draw = function()
-    end
+    draw = function() end,
+    refresh = function() end,
 })

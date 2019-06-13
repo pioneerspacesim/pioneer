@@ -12,6 +12,6 @@ StationView:registerView({
 	name = l.SHIP_REPAIRS,
 	icon = ui.theme.icons.repairs,
 	showView = false,
-	draw = function()
-	end
+	draw = function() end,
+	refresh = function() end,
 })
