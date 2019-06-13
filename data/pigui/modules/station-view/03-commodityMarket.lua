@@ -12,6 +12,6 @@ StationView:registerView({
 	name = l.COMMODITY_MARKET,
 	icon = ui.theme.icons.market,
 	showView = false,
-	draw = function()
-	end
+	draw = function() end,
+	refresh = function() end,
 })

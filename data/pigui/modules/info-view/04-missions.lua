@@ -13,6 +13,6 @@ InfoView:registerView({
     name = l.MISSIONS,
     icon = ui.theme.icons.star,
     showView = false,
-    draw = function()
-    end
+    draw = function() end,
+    refresh = function() end,
 })

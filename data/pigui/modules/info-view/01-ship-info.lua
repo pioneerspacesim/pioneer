@@ -179,5 +179,6 @@ InfoView:registerView({
 				end)
 			end)
 		end)
-	end
+	end,
+	refresh = function() end,
 })

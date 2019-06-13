@@ -173,7 +173,8 @@ InfoView:registerView({
                 ui.child("PlayerView", Vector2(info_column_width - itemSpacing.x, 0), {}, drawPlayerView)
             end)
         end)
-    end
+    end,
+    refresh = function() end,
 })
 
 Event.Register("onGameEnd", function ()

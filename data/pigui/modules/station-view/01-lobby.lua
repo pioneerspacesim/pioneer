@@ -12,6 +12,6 @@ StationView:registerView({
 	name = l.LOBBY,
 	icon = ui.theme.icons.info,
 	showView = false,
-	draw = function()
-	end
+	draw = function() end,
+	refresh = function() end,
 })
