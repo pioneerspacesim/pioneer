@@ -441,6 +441,15 @@ static int l_pigui_get_column_width(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_set_column_width(lua_State *l)
+{
+	int column_index = LuaPull<int>(l, 1);
+	double width = LuaPull<double>(l, 2);
+	ImGui::SetColumnWidth(column_index, width);
+	LuaPush<double>(l, width);
+	return 1;
+}
+
 static int l_pigui_set_column_offset(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -448,6 +457,13 @@ static int l_pigui_set_column_offset(lua_State *l)
 	double offset_x = LuaPull<double>(l, 2);
 	ImGui::SetColumnOffset(column_index, offset_x);
 	return 0;
+}
+
+static int l_pigui_get_scroll_y(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LuaPush<double>(l, ImGui::GetScrollY());
+	return 1;
 }
 
 static int l_pigui_progress_bar(lua_State *l)
@@ -1066,11 +1082,28 @@ static int l_pigui_begin_popup(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_begin_popup_modal(lua_State *l)
+{
+	PROFILE_SCOPED()
+	std::string id = LuaPull<std::string>(l, 1);
+	ImGuiWindowFlags flags = LuaPull<ImGuiWindowFlags_>(l, 2, ImGuiWindowFlags_None);
+
+	LuaPush<bool>(l, ImGui::BeginPopupModal(id.c_str(), nullptr, flags));
+	return 1;
+}
+
 static int l_pigui_open_popup(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string id = LuaPull<std::string>(l, 1);
 	ImGui::OpenPopup(id.c_str());
+	return 0;
+}
+
+static int l_pigui_close_current_popup(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImGui::CloseCurrentPopup();
 	return 0;
 }
 
@@ -2142,7 +2175,9 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "Columns", l_pigui_columns },
 		{ "NextColumn", l_pigui_next_column },
 		{ "GetColumnWidth", l_pigui_get_column_width },
+		{ "SetColumnWidth", l_pigui_set_column_width },
 		{ "SetColumnOffset", l_pigui_set_column_offset },
+		{ "GetScrollY", l_pigui_get_scroll_y },
 		{ "Text", l_pigui_text },
 		{ "TextWrapped", l_pigui_text_wrapped },
 		{ "TextColored", l_pigui_text_colored },
@@ -2178,8 +2213,10 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "PushTextWrapPos", l_pigui_push_text_wrap_pos },
 		{ "PopTextWrapPos", l_pigui_pop_text_wrap_pos },
 		{ "BeginPopup", l_pigui_begin_popup },
+		{ "BeginPopupModal", l_pigui_begin_popup_modal },
 		{ "EndPopup", l_pigui_end_popup },
 		{ "OpenPopup", l_pigui_open_popup },
+		{ "CloseCurrentPopup", l_pigui_close_current_popup },
 		{ "PushID", l_pigui_push_id },
 		{ "PopID", l_pigui_pop_id },
 		{ "IsMouseReleased", l_pigui_is_mouse_released },

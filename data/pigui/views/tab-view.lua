@@ -65,6 +65,7 @@ end
 function PiGuiTabView.renderTabView(self)
     if Game.CurrentView() ~= self.name then
         self.currentTab = 1
+        self.tabs[1].refresh()
         return
     end
 
@@ -115,6 +116,8 @@ function PiGuiTabView.renderTabView(self)
             for i, v in ipairs(self.tabs) do
                 if infoButton(v.icon, i == self.currentTab, v.name) then
                     self.legacyTabView:SwitchTo(v.id)
+                    if(self.currentTab ~= i) then self.tabs[i].refresh() end
+
                     self.currentTab = i
                 end
                 ui.sameLine()

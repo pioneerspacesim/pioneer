@@ -12,6 +12,6 @@ StationView:registerView({
 	name = l.POLICE,
 	icon = ui.theme.icons.shield_other,
 	showView = false,
-	draw = function()
-	end
+	draw = function() end,
+	refresh = function() end,
 })

@@ -12,6 +12,6 @@ StationView:registerView({
 	name = l.SHIP_MARKET,
 	icon = ui.theme.icons.ship,
 	showView = false,
-	draw = function()
-	end
+	draw = function() end,
+	refresh = function() end,
 })

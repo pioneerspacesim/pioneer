@@ -13,6 +13,6 @@ InfoView:registerView({
     name = l.ECONOMY_TRADE,
     icon = ui.theme.icons.market,
     showView = false,
-    draw = function()
-    end
+    draw = function() end,
+    refresh = function() end,
 })

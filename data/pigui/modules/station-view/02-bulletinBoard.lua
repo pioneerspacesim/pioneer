@@ -12,6 +12,6 @@ StationView:registerView({
 	name = l.BULLETIN_BOARD,
 	icon = ui.theme.icons.bbs,
 	showView = false,
-	draw = function()
-	end
+	draw = function() end,
+	refresh = function() end,
 })
