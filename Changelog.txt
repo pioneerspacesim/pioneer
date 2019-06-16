@@ -7,6 +7,7 @@ June 2019
      * Cleanup LuaVector and LuaColor implementations (#4615)
      * Star rendering optimisation (#4617)
      * Move Shipinfo view to PiGui (#4614)
+     * Police patrol will treat first ship to shoot is a pirate (#4619)
 
    * Fixes
      * Fix pad collision, no noise if speed < 1/ms (#4605)
