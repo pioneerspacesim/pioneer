@@ -11,7 +11,7 @@ set +v
 mkdir -p /c/projects/pioneer/build
 cd /c/projects/pioneer/build
 
-/mingw64/bin/cmake -G 'Unix Makefiles' \
+cmake -G 'Unix Makefiles' \
 	-DCMAKE_INSTALL_PREFIX="/c/Program Files/Pioneer" \
 	-DPIONEER_DATA_DIR="/c/Program Files/Pioneer/data" \
 	-DCMAKE_BUILD_TYPE:STRING=Release \
@@ -23,4 +23,4 @@ cd /c/projects/pioneer/build
 	-DUSE_SYSTEM_LIBLUA=OFF \
 	/c/projects/pioneer
 
-/mingw64/bin/cmake --build . --target install
+cmake --build . --target install
