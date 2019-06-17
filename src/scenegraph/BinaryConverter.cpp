@@ -9,6 +9,7 @@
 #include "scenegraph/Animation.h"
 #include "scenegraph/Label3D.h"
 #include "scenegraph/MatrixTransform.h"
+#include "scenegraph/Serializer.h"
 #include "utils.h"
 
 #ifdef __GNUC__
@@ -25,12 +26,13 @@ extern "C" {
 using namespace SceneGraph;
 
 // Attempt at version history:
-// 1: prototype
-// 2: converted StaticMesh to VertexBuffer
-// 3: store processed collision mesh
-// 4: compressed SGM files and instancing support
-// 5: normal mapping
-// 6: 32-bit indicies
+// 1:	prototype
+// 2:	converted StaticMesh to VertexBuffer
+// 3:	store processed collision mesh
+// 4:	compressed SGM files and instancing support
+// 5:	normal mapping
+// 6:	32-bit indicies
+// 6.1:	rewrote serialization, directly store vertex buffers. No breaking changes.
 const Uint32 SGM_VERSION = 6;
 union SGM_STRING_VALUE {
 	char name[4];
@@ -146,7 +148,11 @@ void BinaryConverter::Save(const std::string &filename, const std::string &savep
 	size_t outSize = 0;
 	size_t nwritten = 0;
 	const std::string &data = wr.GetData();
-	void *pCompressedData = tdefl_compress_mem_to_heap(data.data(), data.length(), &outSize, 128);
+	void *pCompressedData;
+	{
+		PROFILE_SCOPED_DESC("tdefl_compress_mem_to_heap")
+		pCompressedData = tdefl_compress_mem_to_heap(data.data(), data.length(), &outSize, 128);
+	}
 	if (pCompressedData) {
 		nwritten = fwrite(pCompressedData, outSize, 1, f);
 		mz_free(pCompressedData);
@@ -190,7 +196,12 @@ Model *BinaryConverter::Load(const std::string &shortname, const std::string &ba
 					size_t outSize(0);
 					// decompress the loaded ByteRange in memory
 					const ByteRange bin = binfile->AsByteRange();
-					void *pDecompressedData = tinfl_decompress_mem_to_heap(&bin[0], bin.Size(), &outSize, 0);
+					void *pDecompressedData;
+					{
+						PROFILE_SCOPED_DESC("tinfl_decompress_mem_to_heap")
+						pDecompressedData = tinfl_decompress_mem_to_heap(&bin[0], bin.Size(), &outSize, 0);
+					}
+					Output("decompressing model file %s (%.2f KB) -> %.2f KB\n", name.c_str(), binfile->GetSize() / 1024.f, outSize / 1024.f);
 					if (pDecompressedData) {
 						// now parse in-memory representation as new ByteRange.
 						Serializer::Reader rd(ByteRange(static_cast<char *>(pDecompressedData), outSize));

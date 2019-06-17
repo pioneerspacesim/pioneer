@@ -5,6 +5,7 @@
 #include "../libs.h"
 #include "BVHTree.h"
 #include "Weld.h"
+#include "scenegraph/Serializer.h"
 
 GeomTree::~GeomTree()
 {
@@ -164,14 +165,15 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 	const Uint32 numAabbs = rd.Int32();
 	m_aabbs.resize(numAabbs);
 	for (Uint32 iAabb = 0; iAabb < numAabbs; ++iAabb) {
-		m_aabbs[iAabb].max = rd.Vector3d();
-		m_aabbs[iAabb].min = rd.Vector3d();
-		m_aabbs[iAabb].radius = rd.Double();
+		rd >> m_aabbs[iAabb];
 	}
 
-	m_edges.resize(m_numEdges);
-	for (Sint32 iEdge = 0; iEdge < m_numEdges; ++iEdge) {
-		m_edges[iEdge].Load(rd);
+	{
+		PROFILE_SCOPED_DESC("GeomTree::LoadEdges")
+		m_edges.resize(m_numEdges);
+		for (Sint32 iEdge = 0; iEdge < m_numEdges; ++iEdge) {
+			rd >> m_edges[iEdge];
+		}
 	}
 
 	m_vertices.resize(m_numVertices);
@@ -330,13 +332,11 @@ void GeomTree::Save(Serializer::Writer &wr) const
 
 	wr.Int32(m_numEdges);
 	for (Sint32 iAabb = 0; iAabb < m_numEdges; ++iAabb) {
-		wr.Vector3d(m_aabbs[iAabb].max);
-		wr.Vector3d(m_aabbs[iAabb].min);
-		wr.Double(m_aabbs[iAabb].radius);
+		wr << m_aabbs[iAabb];
 	}
 
 	for (Sint32 iEdge = 0; iEdge < m_numEdges; ++iEdge) {
-		m_edges[iEdge].Save(wr);
+		wr << m_edges[iEdge];
 	}
 
 	for (Sint32 iVert = 0; iVert < m_numVertices; ++iVert) {

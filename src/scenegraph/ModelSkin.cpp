@@ -5,6 +5,7 @@
 #include "GameSaveError.h"
 #include "JsonUtils.h"
 #include "Model.h"
+#include "Serializer.h"
 #include "StringF.h"
 #include "graphics/TextureBuilder.h"
 

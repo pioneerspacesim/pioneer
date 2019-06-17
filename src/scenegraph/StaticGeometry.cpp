@@ -6,10 +6,11 @@
 #include "BaseLoader.h"
 #include "Model.h"
 #include "NodeVisitor.h"
+#include "Serializer.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
-#include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
+#include "graphics/Renderer.h"
 #include "utils.h"
 
 namespace SceneGraph {
@@ -122,6 +123,7 @@ namespace SceneGraph {
 	typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material>>> MaterialContainer;
 	void StaticGeometry::Save(NodeDatabase &db)
 	{
+		PROFILE_SCOPED()
 		Node::Save(db);
 		db.wr->Int32(m_blendMode);
 		db.wr->Vector3d(m_boundingBox.min);
@@ -131,8 +133,7 @@ namespace SceneGraph {
 
 		for (auto mesh : m_meshes) {
 			//do ptr to material name mapping
-			const std::string &matname = db.model->GetNameForMaterial(mesh.material.Get());
-			db.wr->String(matname);
+			*db.wr << db.model->GetNameForMaterial(mesh.material.Get());
 
 			//save vertex attrib description
 			const auto &vbDesc = mesh.vertexBuffer->GetDesc();
@@ -142,46 +143,24 @@ namespace SceneGraph {
 
 			db.wr->Int32(attribCombo);
 
-			const bool hasTangents = (attribCombo & Graphics::ATTRIB_TANGENT);
-
 			//save positions, normals and uvs interleaved (only known format now)
-			const Uint32 posOffset = vbDesc.GetOffset(Graphics::ATTRIB_POSITION);
-			const Uint32 nrmOffset = vbDesc.GetOffset(Graphics::ATTRIB_NORMAL);
-			const Uint32 uv0Offset = vbDesc.GetOffset(Graphics::ATTRIB_UV0);
-			const Uint32 tanOffset = hasTangents ? vbDesc.GetOffset(Graphics::ATTRIB_TANGENT) : 0;
-			const Uint32 stride = vbDesc.stride;
 			db.wr->Int32(vbDesc.numVertices);
-			Uint8 *vtxPtr = mesh.vertexBuffer->Map<Uint8>(Graphics::BUFFER_MAP_READ);
-			if (hasTangents) {
-				for (Uint32 i = 0; i < vbDesc.numVertices; i++) {
-					db.wr->Vector3f(*reinterpret_cast<vector3f *>(vtxPtr + i * stride + posOffset));
-					db.wr->Vector3f(*reinterpret_cast<vector3f *>(vtxPtr + i * stride + nrmOffset));
-					db.wr->Float(reinterpret_cast<vector2f *>(vtxPtr + i * stride + uv0Offset)->x);
-					db.wr->Float(reinterpret_cast<vector2f *>(vtxPtr + i * stride + uv0Offset)->y);
-					db.wr->Vector3f(*reinterpret_cast<vector3f *>(vtxPtr + i * stride + tanOffset));
-				}
-			} else {
-				for (Uint32 i = 0; i < vbDesc.numVertices; i++) {
-					db.wr->Vector3f(*reinterpret_cast<vector3f *>(vtxPtr + i * stride + posOffset));
-					db.wr->Vector3f(*reinterpret_cast<vector3f *>(vtxPtr + i * stride + nrmOffset));
-					db.wr->Float(reinterpret_cast<vector2f *>(vtxPtr + i * stride + uv0Offset)->x);
-					db.wr->Float(reinterpret_cast<vector2f *>(vtxPtr + i * stride + uv0Offset)->y);
-				}
-			}
+			const char *vtxPtr = mesh.vertexBuffer->Map<char>(Graphics::BUFFER_MAP_READ);
+			db.wr->Blob(ByteRange(vtxPtr, vbDesc.numVertices * vbDesc.stride));
 			mesh.vertexBuffer->Unmap();
 
 			//indices
 			const Uint32 *indexPtr = mesh.indexBuffer->Map(Graphics::BUFFER_MAP_READ);
 			const Uint32 numIndices = mesh.indexBuffer->GetSize();
 			db.wr->Int32(numIndices);
-			for (Uint32 i = 0; i < numIndices; i++)
-				db.wr->Int32(indexPtr[i]);
+			db.wr->Blob(ByteRange(reinterpret_cast<const char *>(indexPtr), numIndices * sizeof(Uint32)));
 			mesh.indexBuffer->Unmap();
 		}
 	}
 
 	StaticGeometry *StaticGeometry::Load(NodeDatabase &db)
 	{
+		PROFILE_SCOPED()
 		using namespace Graphics;
 
 		StaticGeometry *sg = new StaticGeometry(db.loader->GetRenderer());
@@ -209,7 +188,7 @@ namespace SceneGraph {
 
 			//vertex format check
 			const Uint32 vtxFormat = db.rd->Int32();
-			if (vtxFormat != (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0 | ATTRIB_TANGENT) && vtxFormat != (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0)) {
+			if ((vtxFormat & ~ATTRIB_TANGENT) != (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0)) {
 				throw LoadingError("Unsupported vertex format");
 			}
 
@@ -231,38 +210,17 @@ namespace SceneGraph {
 			vbDesc.numVertices = db.rd->Int32();
 
 			RefCountedPtr<Graphics::VertexBuffer> vtxBuffer(db.loader->GetRenderer()->CreateVertexBuffer(vbDesc));
-			const Uint32 posOffset = vtxBuffer->GetDesc().GetOffset(Graphics::ATTRIB_POSITION);
-			const Uint32 nrmOffset = vtxBuffer->GetDesc().GetOffset(Graphics::ATTRIB_NORMAL);
-			const Uint32 uv0Offset = vtxBuffer->GetDesc().GetOffset(Graphics::ATTRIB_UV0);
-			const Uint32 tanOffset = hasTangents ? vtxBuffer->GetDesc().GetOffset(Graphics::ATTRIB_TANGENT) : 0;
-			const Uint32 stride = vtxBuffer->GetDesc().stride;
-			Uint8 *vtxPtr = vtxBuffer->Map<Uint8>(BUFFER_MAP_WRITE);
-			if (hasTangents) {
-				for (Uint32 i = 0; i < vbDesc.numVertices; i++) {
-					*reinterpret_cast<vector3f *>(vtxPtr + i * stride + posOffset) = db.rd->Vector3f();
-					*reinterpret_cast<vector3f *>(vtxPtr + i * stride + nrmOffset) = db.rd->Vector3f();
-					const float uvx = db.rd->Float();
-					const float uvy = db.rd->Float();
-					*reinterpret_cast<vector2f *>(vtxPtr + i * stride + uv0Offset) = vector2f(uvx, uvy);
-					*reinterpret_cast<vector3f *>(vtxPtr + i * stride + tanOffset) = db.rd->Vector3f();
-				}
-			} else {
-				for (Uint32 i = 0; i < vbDesc.numVertices; i++) {
-					*reinterpret_cast<vector3f *>(vtxPtr + i * stride + posOffset) = db.rd->Vector3f();
-					*reinterpret_cast<vector3f *>(vtxPtr + i * stride + nrmOffset) = db.rd->Vector3f();
-					const float uvx = db.rd->Float();
-					const float uvy = db.rd->Float();
-					*reinterpret_cast<vector2f *>(vtxPtr + i * stride + uv0Offset) = vector2f(uvx, uvy);
-				}
-			}
+			ByteRange data = db.rd->Blob();
+			char *vtxPtr = vtxBuffer->Map<char>(BUFFER_MAP_WRITE);
+			std::memcpy(vtxPtr, data.begin, data.Size());
 			vtxBuffer->Unmap();
 
 			//index buffer
 			const Uint32 numIndices = db.rd->Int32();
 			RefCountedPtr<Graphics::IndexBuffer> idxBuffer(db.loader->GetRenderer()->CreateIndexBuffer(numIndices, Graphics::BUFFER_USAGE_STATIC));
 			Uint32 *idxPtr = idxBuffer->Map(BUFFER_MAP_WRITE);
-			for (Uint32 i = 0; i < numIndices; i++)
-				idxPtr[i] = db.rd->Int32();
+			ByteRange indices = db.rd->Blob();
+			std::memcpy(idxPtr, indices.begin, indices.Size());
 			idxBuffer->Unmap();
 
 			sg->AddMesh(vtxBuffer, idxBuffer, material);

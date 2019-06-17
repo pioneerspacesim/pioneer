@@ -3,6 +3,7 @@
 
 #include "Node.h"
 #include "NodeVisitor.h"
+#include "Serializer.h"
 #include "graphics/Drawables.h"
 #include "graphics/Renderer.h"
 

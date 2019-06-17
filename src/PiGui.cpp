@@ -81,9 +81,12 @@ ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height)
 	int H = height;
 	img = static_cast<unsigned char *>(malloc(W * H * 4));
 	memset(img, 0, W * H * 4);
-	image = nsvgParseFromFile(svgFilename.c_str(), "px", 96.0f);
-	if (image == NULL) {
-		Error("Could not open SVG image.\n");
+	{
+		PROFILE_SCOPED_DESC("nsvgParseFromFile")
+		image = nsvgParseFromFile(svgFilename.c_str(), "px", 96.0f);
+		if (image == NULL) {
+			Error("Could not open SVG image.\n");
+		}
 	}
 	w = static_cast<int>(image->width);
 
@@ -96,6 +99,7 @@ ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height)
 		Error("Could not alloc image buffer.\n");
 	}
 	{
+		PROFILE_SCOPED_DESC("nsvgRasterize")
 		float scale = double(W) / w;
 		float tx = 0;
 		float ty = 0;
@@ -675,22 +679,22 @@ bool PiGui::LowThrustButton(const char *id_string, const ImVec2 &size_arg, int t
 // frame_padding = 0: no framing
 // frame_padding > 0: set framing size
 // The color used are the button colors.
-bool PiGui::ButtonImageSized(ImTextureID user_texture_id, const ImVec2& size, const ImVec2& imgSize, const ImVec2& uv0, const ImVec2& uv1, int frame_padding, const ImVec4& bg_col, const ImVec4& tint_col)
+bool PiGui::ButtonImageSized(ImTextureID user_texture_id, const ImVec2 &size, const ImVec2 &imgSize, const ImVec2 &uv0, const ImVec2 &uv1, int frame_padding, const ImVec4 &bg_col, const ImVec4 &tint_col)
 {
-	ImGuiWindow* window = ImGui::GetCurrentWindow();
+	ImGuiWindow *window = ImGui::GetCurrentWindow();
 	if (window->SkipItems)
 		return false;
 
-	ImGuiContext& g = *GImGui;
-	const ImGuiStyle& style = g.Style;
+	ImGuiContext &g = *GImGui;
+	const ImGuiStyle &style = g.Style;
 
 	// Default to using texture ID as ID. User can still push string/integer prefixes.
 	// We could hash the size/uv to create a unique ID but that would prevent the user from animating UV.
-	ImGui::PushID((void*)user_texture_id);
+	ImGui::PushID((void *)user_texture_id);
 	const ImGuiID id = window->GetID("#image");
 	ImGui::PopID();
 
-	ImVec2 imgPadding = (size - imgSize)/2;
+	ImVec2 imgPadding = (size - imgSize) / 2;
 	imgPadding.x = imgPadding.x < 0 || imgSize.x <= 0 ? 0 : imgPadding.x;
 	imgPadding.y = imgPadding.y < 0 || imgSize.y <= 0 ? 0 : imgPadding.y;
 

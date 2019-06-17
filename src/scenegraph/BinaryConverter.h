@@ -19,6 +19,11 @@
 #include "Thruster.h"
 #include <functional>
 
+namespace Serializer {
+	class Reader;
+	class Writer;
+} // namespace Serializer
+
 namespace SceneGraph {
 	class Label3D;
 	class Model;

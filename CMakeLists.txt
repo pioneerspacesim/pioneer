@@ -143,6 +143,11 @@ if (USE_SYSTEM_LIBLUA)
 	endif (WIN32)
 endif (USE_SYSTEM_LIBLUA)
 
+option(BUILD_WITH_PROFILER "Build pioneer with profiling support built-in." OFF)
+if (BUILD_WITH_PROFILER)
+	add_compile_definitions(PIONEER_PROFILER=1)
+endif(BUILD_WITH_PROFILER)
+
 find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(PkgConfig REQUIRED)
@@ -249,7 +254,7 @@ endif (WIN32)
 
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs} ${winLibs})
-target_link_libraries(savegamedump LINK_PRIVATE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${winLibs})
+target_link_libraries(savegamedump LINK_PRIVATE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} profiler ${winLibs})
 
 set_target_properties(${PROJECT_NAME} modelcompiler savegamedump pioneerLib PROPERTIES
 	CXX_STANDARD 11

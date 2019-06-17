@@ -3,6 +3,7 @@
 
 #include "LuaObject.h"
 #include "ModelSkin.h"
+#include "Serializer.h"
 
 namespace SceneGraph {
 

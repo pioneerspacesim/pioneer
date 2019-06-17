@@ -65,7 +65,6 @@
 #include "Group.h"
 #include "JsonFwd.h"
 #include "Pattern.h"
-#include "Serializer.h"
 #include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include <stdexcept>

@@ -8,8 +8,12 @@
 #include "Json.h"
 #include "LuaWrappable.h"
 #include "Random.h"
-#include "Serializer.h"
 #include <string>
+
+namespace Serializer {
+	class Reader;
+	class Writer;
+} // namespace Serializer
 
 namespace SceneGraph {
 

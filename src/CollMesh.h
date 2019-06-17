@@ -5,8 +5,12 @@
 #define _COLLMESH_H
 #include "Aabb.h"
 #include "RefCounted.h"
-#include "Serializer.h"
 #include "collider/GeomTree.h"
+
+namespace Serializer {
+	class Writer;
+	class Reader;
+} // namespace Serializer
 
 //This simply stores the collision GeomTrees
 //and AABB.
