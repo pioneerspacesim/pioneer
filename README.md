@@ -82,7 +82,7 @@ If you want a new language introduced, [please request it on the Freenode IRC ch
 ## Getting Pioneer
 
 Latest build is available at
-  http://pioneerspacesim.net/download
+  https://pioneerspacesim.net/page/download/
 
 For compiling from source, please see [COMPILING.txt](https://github.com/pioneerspacesim/pioneer/blob/master/COMPILING.txt)
 
