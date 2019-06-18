@@ -57,18 +57,18 @@
   },
   "TARGET_DESTROYED_1": {
     "description": "",
-    "message": "Target destroyed!"
+    "message": "Cible détruite!"
   },
   "TARGET_DESTROYED_2": {
     "description": "",
-    "message": "Yeah!"
+    "message": "Ouais!"
   },
   "TARGET_DESTROYED_3": {
     "description": "",
-    "message": "Rest in pieces! Haha."
+    "message": "Repose en pièces! Haha."
   },
   "TARGET_DESTROYED_4": {
     "description": "",
-    "message": "Another one bites the dust!"
+    "message": "Encore un qui mord la poussière!"
   }
 }

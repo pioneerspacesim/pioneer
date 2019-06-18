@@ -57,15 +57,15 @@
   },
   "TARGET_DESTROYED_1": {
     "description": "",
-    "message": "Target destroyed!"
+    "message": "Bersaglio distrutto!"
   },
   "TARGET_DESTROYED_2": {
     "description": "",
-    "message": "Yeah!"
+    "message": "Sì"
   },
   "TARGET_DESTROYED_3": {
     "description": "",
-    "message": "Rest in pieces! Haha."
+    "message": "Riposa in pezzi! Haha."
   },
   "TARGET_DESTROYED_4": {
     "description": "",

@@ -57,18 +57,18 @@
   },
   "TARGET_DESTROYED_1": {
     "description": "",
-    "message": "Target destroyed!"
+    "message": "Hedef yok edildi!"
   },
   "TARGET_DESTROYED_2": {
     "description": "",
-    "message": "Yeah!"
+    "message": "Evet!"
   },
   "TARGET_DESTROYED_3": {
     "description": "",
-    "message": "Rest in pieces! Haha."
+    "message": "Hüzün içinde yat! Haha."
   },
   "TARGET_DESTROYED_4": {
     "description": "",
-    "message": "Another one bites the dust!"
+    "message": "Birileri celalleniyor!"
   }
 }
