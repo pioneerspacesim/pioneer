@@ -57,7 +57,7 @@
   },
   "TARGET_DESTROYED_1": {
     "description": "",
-    "message": "Target destroyed!"
+    "message": "Ziel zerstört!"
   },
   "TARGET_DESTROYED_2": {
     "description": "",
@@ -65,10 +65,10 @@
   },
   "TARGET_DESTROYED_3": {
     "description": "",
-    "message": "Rest in pieces! Haha."
+    "message": "Hasta la vista, baby! Haha."
   },
   "TARGET_DESTROYED_4": {
     "description": "",
-    "message": "Another one bites the dust!"
+    "message": "Treffer... und versenkt!"
   }
 }
