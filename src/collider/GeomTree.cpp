@@ -172,7 +172,8 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 		PROFILE_SCOPED_DESC("GeomTree::LoadEdges")
 		m_edges.resize(m_numEdges);
 		for (Sint32 iEdge = 0; iEdge < m_numEdges; ++iEdge) {
-			rd >> m_edges[iEdge];
+			auto &ed = m_edges[iEdge];
+			rd >> ed.v1i >> ed.v2i >> ed.len >> ed.dir >> ed.triFlag;
 		}
 	}
 
@@ -336,7 +337,8 @@ void GeomTree::Save(Serializer::Writer &wr) const
 	}
 
 	for (Sint32 iEdge = 0; iEdge < m_numEdges; ++iEdge) {
-		wr << m_edges[iEdge];
+		auto &ed = m_edges[iEdge];
+		wr << ed.v1i << ed.v2i << ed.len << ed.dir << ed.triFlag;
 	}
 
 	for (Sint32 iVert = 0; iVert < m_numVertices; ++iVert) {

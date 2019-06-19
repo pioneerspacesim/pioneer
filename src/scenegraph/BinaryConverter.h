@@ -14,6 +14,7 @@
 #include "BaseLoader.h"
 #include "Billboard.h"
 #include "CollisionGeometry.h"
+#include "FileSystem.h"
 #include "LOD.h"
 #include "StaticGeometry.h"
 #include "Thruster.h"
@@ -35,6 +36,7 @@ namespace SceneGraph {
 		void Save(const std::string &filename, const std::string &savepath, Model *m, const bool bInPlace);
 		Model *Load(const std::string &filename);
 		Model *Load(const std::string &filename, const std::string &path);
+		Model *Load(const std::string &filename, RefCountedPtr<FileSystem::FileData> binfile);
 
 		//if you implement any new node types, you must also register a loader function
 		//before calling Load.

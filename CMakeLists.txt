@@ -71,7 +71,7 @@ option(WITH_OBJECTVIEWER "Include the object viewer in the build" ON)
 option(WITH_DEVKEYS "Include various extra keybindings for dev functions" ON)
 
 list(APPEND SRC_FOLDERS
-	src
+	src/
 	src/collider
 	src/galaxy
 	src/gameui
@@ -143,10 +143,10 @@ if (USE_SYSTEM_LIBLUA)
 	endif (WIN32)
 endif (USE_SYSTEM_LIBLUA)
 
-option(BUILD_WITH_PROFILER "Build pioneer with profiling support built-in." OFF)
-if (BUILD_WITH_PROFILER)
+option(PROFILER_ENABLED "Build pioneer with profiling support built-in." OFF)
+if (PROFILER_ENABLED)
 	add_compile_definitions(PIONEER_PROFILER=1)
-endif(BUILD_WITH_PROFILER)
+endif(PROFILER_ENABLED)
 
 find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -159,6 +159,8 @@ pkg_check_modules(SDL2_IMAGE REQUIRED SDL2_image)
 pkg_check_modules(ASSIMP REQUIRED assimp)
 pkg_check_modules(SIGCPP REQUIRED sigc++-2.0)
 pkg_check_modules(VORBISFILE REQUIRED vorbisfile)
+
+add_subdirectory(contrib/lz4)
 
 include_directories(
 	${CMAKE_SOURCE_DIR}/contrib
@@ -237,6 +239,7 @@ list(APPEND pioneerLibs
 	${SIGCPP_LIBRARIES}
 	${VORBISFILE_LIBRARIES}
 	${LUA_LIBRARIES}
+	lz4
 	GLEW::GLEW
 	imgui
 	jenkins
@@ -254,7 +257,7 @@ endif (WIN32)
 
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs} ${winLibs})
-target_link_libraries(savegamedump LINK_PRIVATE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} profiler ${winLibs})
+target_link_libraries(savegamedump LINK_PRIVATE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} profiler lz4 ${winLibs})
 
 set_target_properties(${PROJECT_NAME} modelcompiler savegamedump pioneerLib PROPERTIES
 	CXX_STANDARD 11

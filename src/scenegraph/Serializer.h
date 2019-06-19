@@ -43,30 +43,37 @@ namespace Serializer {
 			m_str.append(reinterpret_cast<const char *>(&obj), sizeof(T));
 		}
 
-		template <typename T>
-		Writer &operator<<(const T &obj)
-		{
-			writeObject<T>(obj);
-			return *this;
-		}
-
-		Writer &operator<<(const std::string &obj)
+		void writeObject(const std::string &obj)
 		{
 			writeObject<Uint32>(obj.size());
 			m_str.append(obj.c_str(), obj.size());
-			return *this;
 		}
 
-		Writer &operator<<(const char *s)
+		void writeObject(const char *s)
 		{
 			if (!s) { // don't fail on invalid string, just write a zero-length blob.
 				*this << 0U;
-				return *this;
+				return;
 			}
 
 			Uint32 len = strlen(s);
 			*this << len;
 			m_str.append(s, len);
+		}
+
+		void writeObject(const vector2f &vec) { *this << vec.x << vec.y; }
+		void writeObject(const vector2d &vec) { *this << vec.x << vec.y; }
+		void writeObject(const vector3f &vec) { *this << vec.x << vec.y << vec.z; }
+		void writeObject(const vector3d &vec) { *this << vec.x << vec.y << vec.z; }
+		void writeObject(const Color &col) { *this << col.r << col.g << col.b << col.a; }
+		void writeObject(const Quaternionf &quat) { *this << quat.w << quat.x << quat.y << quat.z; }
+		void writeObject(const Quaterniond &quat) { *this << quat.w << quat.x << quat.y << quat.z; }
+		void writeObject(const Aabb &aabb) { *this << aabb.min << aabb.max << aabb.radius; }
+
+		template <typename T>
+		Writer &operator<<(const T &obj)
+		{
+			writeObject(obj);
 			return *this;
 		}
 
@@ -81,28 +88,34 @@ namespace Serializer {
 		void Byte(Uint8 x) { *this << x; }
 		void Bool(bool x) { *this << x; }
 		void Int16(Uint16 x) { *this << x; }
-		void Int32(Uint32 x) { writeObject<Uint32>(x); }
+		void Int32(Uint32 x) { *this << x; }
 		void Int64(Uint64 x) { *this << x; }
 		void Float(float f) { *this << f; }
 		void Double(double f) { *this << f; }
 		void String(const char *s) { *this << s; }
 		void String(const std::string &s) { *this << s; }
 
+		void Vector2f(vector2f vec) { *this << vec; }
+		void Vector2d(vector2d vec) { *this << vec; }
 		void Vector3f(vector3f vec) { *this << vec; }
 		void Vector3d(vector3d vec) { *this << vec; }
 		void WrQuaternionf(const Quaternionf &q) { *this << q; }
 		void Color4UB(const Color &c) { *this << c; }
-		void WrSection(const std::string &section_label, const std::string &section_data)
-		{
-			String(section_label);
-			String(section_data);
-		}
+		void WrSection(const std::string &section_label, const std::string &section_data) { *this << section_label << section_data; }
 
 	private:
 		std::string m_str;
 	};
 
 	class Reader {
+		template <typename T>
+		T obj()
+		{
+			T _ob;
+			readObject(_ob);
+			return _ob;
+		}
+
 	public:
 		Reader() :
 			m_at(nullptr),
@@ -129,35 +142,42 @@ namespace Serializer {
 		std::size_t Pos() { return std::size_t(m_at - m_data.begin); }
 
 		template <typename T>
-		const T *readObject()
+		void readObject(T &out)
 		{
 #ifdef DEBUG
 			if (!Check(sizeof(T)))
 				throw std::out_of_range("Serializer::Reader encountered truncated stream.");
 #endif
 
-			const auto *out = reinterpret_cast<const T *>(m_at);
+			out = *reinterpret_cast<const T *>(m_at);
 			m_at += sizeof(T);
-			return out;
 		};
+
+		void readObject(std::string &out)
+		{
+			ByteRange range = Blob();
+			out = std::string(range.begin, range.Size());
+		}
+
+		void readObject(vector2f &vec) { *this >> vec.x >> vec.y; }
+		void readObject(vector2d &vec) { *this >> vec.x >> vec.y; }
+		void readObject(vector3f &vec) { *this >> vec.x >> vec.y >> vec.z; }
+		void readObject(vector3d &vec) { *this >> vec.x >> vec.y >> vec.z; }
+		void readObject(Color &col) { *this >> col.r >> col.g >> col.b >> col.a; }
+		void readObject(Quaternionf &quat) { *this >> quat.w >> quat.x >> quat.y >> quat.z; }
+		void readObject(Quaterniond &quat) { *this >> quat.w >> quat.x >> quat.y >> quat.z; }
+		void readObject(Aabb &aabb) { *this >> aabb.min >> aabb.max >> aabb.radius; }
 
 		template <typename T>
 		Reader &operator>>(T &out)
 		{
-			out = *readObject<T>();
-			return *this;
-		}
-
-		Reader &operator>>(std::string &out)
-		{
-			ByteRange range = Blob();
-			out = std::string(range.begin, range.Size());
+			readObject(out);
 			return *this;
 		}
 
 		ByteRange Blob()
 		{
-			auto len = *readObject<Uint32>();
+			auto len = Int32();
 			if (len == 0) return ByteRange();
 			if (len > (m_data.end - m_at))
 				throw std::out_of_range("Serializer::Reader encountered truncated stream.");
@@ -167,30 +187,24 @@ namespace Serializer {
 			return range;
 		}
 
-		bool Bool() { return *readObject<bool>(); }
-		Uint8 Byte() { return *readObject<Uint8>(); }
-		Uint16 Int16() { return *readObject<Uint16>(); }
-		Uint32 Int32() { return *readObject<Uint32>(); }
-		Uint64 Int64() { return *readObject<Uint64>(); }
-		float Float() { return *readObject<float>(); }
-		double Double() { return *readObject<double>(); }
+		// Prefer using Reader::operator>> instead; these functions involve creating an unnessesary temporary variable.
+		bool Bool() { return obj<bool>(); }
+		Uint8 Byte() { return obj<Uint8>(); }
+		Uint16 Int16() { return obj<Uint16>(); }
+		Uint32 Int32() { return obj<Uint32>(); }
+		Uint64 Int64() { return obj<Uint64>(); }
+		float Float() { return obj<float>(); }
+		double Double() { return obj<double>(); }
 
-		std::string String()
-		{
-			ByteRange range = Blob();
-			if (range.Size() == 0)
-				return "";
-			return std::string(range.begin, range.Size());
-		}
+		std::string String() { return obj<std::string>(); }
 
-		Color Color4UB() { return *readObject<Color>(); }
+		Color Color4UB() { return obj<Color>(); }
+		vector2f Vector2f() { return obj<vector2f>(); }
+		vector2d Vector2d() { return obj<vector2d>(); }
+		vector3f Vector3f() { return obj<vector3f>(); }
+		vector3d Vector3d() { return obj<vector3d>(); }
 
-		vector2f Vector2f() { return *readObject<vector2f>(); }
-		vector2d Vector2d() { return *readObject<vector2d>(); }
-		vector3f Vector3f() { return *readObject<vector3f>(); }
-		vector3d Vector3d() { return *readObject<vector3d>(); }
-
-		Quaternionf RdQuaternionf() { return *readObject<Quaternionf>(); }
+		Quaternionf RdQuaternionf() { return obj<Quaternionf>(); }
 
 		Reader RdSection(const std::string &section_label_expected);
 

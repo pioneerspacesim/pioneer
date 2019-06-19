@@ -9,4 +9,4 @@ if (NOT WIN32)
 	add_definitions(-DLUA_USE_POSIX)
 endif (NOT WIN32)
 
-add_library(${PROJECT_NAME} ${SRC_FILES})
+add_library(${PROJECT_NAME} STATIC ${SRC_FILES})

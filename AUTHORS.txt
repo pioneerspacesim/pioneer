@@ -144,6 +144,10 @@ Pioneer includes the following third-party software:
   miniz by Rich Geldreich, April 2012
   Public domain (see contrib/miniz/miniz.h)
 
+  LZ4 Library
+  Copyright (c) 2011-2016, Yann Collet
+  Licensed under the BSD 2-Clause license (see licenses/LZ4.txt)
+
   lookup3.c, by Bob Jenkins, May 2006,
   Public domain (see contrib/jenkins/lookup3.c)
 
