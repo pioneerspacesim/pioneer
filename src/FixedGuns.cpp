@@ -55,6 +55,8 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 	//Json projectileObj = jsonObj["projectile"];
 	Json gunArray = jsonObj["guns"];
 
+	assert(m_mounts.size() == gunArray.size());
+
 	m_guns.reserve(gunArray.size());
 	try {
 		for (unsigned int i = 0; i < gunArray.size(); i++) {
@@ -85,15 +87,18 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 			// Load "ProjectileData" for this gun:
 			ProjectileData pd(gunArrayEl["proj_data"]);
 
+			// Initialize "data" of gun status
 			GunStatus gs(mount_id, name, sound, recharge, temp_heat_rate, temp_cool_rate, barrels, pd);
 
+			// Set the gun status
 			gs.is_firing = is_firing;
 			gs.is_active = is_active;
-			gs.mount_id = mount_id;
 			gs.recharge_stat = recharge_stat;
 			gs.temperature_stat = temperature_stat;
 			gs.contemporary_barrels = contemporary_barrels;
 			gs.next_firing_barrels = next_firing;
+			int max_barrels = std::min(int(m_mounts[mount_id].locs.size()), barrels);
+			gs.fire_modes = CalculateFireModes(max_barrels);
 
 			gs.UpdateFireModes(m_mounts[mount_id]);
 
@@ -108,7 +113,7 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 void FixedGuns::GetGunsTags(SceneGraph::Model *m)
 {
 	if (m == nullptr) {
-		Output("In FixedGuns::GetGunsTags:\nNo Model no Guns, sorry...\n");
+		Output("In FixedGuns::GetGunsTags:\nFATAL: No Model no Guns, sorry...\n");
 		abort();
 	}
 	m_mounts = m->GetGunTags();
@@ -152,8 +157,9 @@ bool FixedGuns::MountGun(MountId num, const std::string &name, const std::string
 
 bool FixedGuns::UnMountGun(MountId num)
 {
+	//printf("FixedGuns::UnMountGun %i\n", num);
 	// Check mount (num) is valid
-	if (num >= m_guns.size() && m_guns.size() > 0) {
+	if (m_mounts.size() > 0 && num >= m_mounts.size()) {
 		Output("Mount identifier (%i) is out of bounds (max is %lu) in 'UnMountGun'\n", num, m_mounts.size());
 		return false;
 	}
@@ -167,11 +173,51 @@ bool FixedGuns::UnMountGun(MountId num)
 		Output("No gun found for the given identifier\n");
 		return false;
 	}
-	//Output("Remove guns %i, mounted on '%s'\n", mount, m_mounts[m_guns[mount].mount_id].name.c_str());
+	//Output("Remove gun '%s' in %i, mounted on '%s'\n", found->gun_data.gun_name.c_str(), found->mount_id, m_mounts[m_guns[num].mount_id].name.c_str());
 	// Mount 'num' is used and should be freed
 	std::vector<GunStatus>::iterator last = m_guns.end() - 1;
-	std::swap(found, last);
+
+	std::swap(*found, *last);
+
 	m_guns.pop_back();
+
+	return true;
+}
+
+bool FixedGuns::SwapGuns(MountId mount_a, MountId mount_b)
+{
+	//printf("SwapGuns(MountId a, MountId b) of %i with %i\n", mount_a, mount_b);
+	if (mount_a >= m_mounts.size() || mount_b >= m_mounts.size()) {
+		Output("A 'MountId' is out of bounds\n");
+	}
+	if (mount_a == mount_b) return true;
+
+	std::vector<GunStatus>::iterator it_a = std::find_if(begin(m_guns), end(m_guns), [&mount_a](const GunStatus &gs)
+	{
+		return gs.mount_id == mount_a;
+	});
+	if (it_a == m_guns.end()) {
+		// TODO: There's an implcit limit, which is
+		// that  the first mount must be not empty...
+		Output("No gun in mount %i\n", mount_a);
+		return false;
+	};
+	std::vector<GunStatus>::iterator it_b = std::find_if(begin(m_guns), end(m_guns), [&mount_b](const GunStatus &gs)
+	{
+		return gs.mount_id == mount_b;
+	});
+	if (it_b == m_guns.end()) {
+		// Second mount is empty:
+		it_a->mount_id = mount_b;
+		it_a->UpdateFireModes(m_mounts[mount_b]);
+	} else {
+		// Second mount have a gun:
+		it_a->mount_id = mount_b;
+		it_a->UpdateFireModes(m_mounts[mount_b]);
+		it_b->mount_id = mount_a;
+		it_b->UpdateFireModes(m_mounts[mount_a]);
+	}
+
 	return true;
 }
 
@@ -297,17 +343,62 @@ std::vector<MountId> FixedGuns::FindEmptyMounts() const
 	return free;
 }
 
+bool FixedGuns::GetMountIsFront(MountId num) const
+{
+	if (num < m_mounts.size())
+		if (m_mounts[num].dir == GunDir::GUN_FRONT) return true;
+		else return false;
+	else {
+		Output("Given mount identifier (%i) is out of bounds (max is %lu)\n", num, m_mounts.size());
+		return true;
+	}
+}
+
+int FixedGuns::GetMountBarrels(MountId num) const
+{
+	if (num < m_mounts.size())
+		return int(m_mounts[num].locs.size());
+	else {
+		Output("Given mount identifier (%i) is out of bounds (max is %lu)\n", num, m_mounts.size());
+		return true;
+	}
+}
+
 MountId FixedGuns::FindMountOfGun(const std::string &name) const
 {
+	//printf("FixedGuns::FindMountOfGun for '%s'\n", name.c_str());
 	std::vector<GunStatus>::const_iterator found = std::find_if(begin(m_guns), end(m_guns), [&name](const GunStatus &gs)
 	{
 		if (gs.gun_data.gun_name == name) {
 			return true;
-		};
+		} else return false;
 	});
 	if (found != m_guns.end()) {
 		return (*found).mount_id;
 	}
+	return -1;
+}
+
+MountId FixedGuns::FindMountOfGun(GunId num) const
+{
+	std::vector<GunStatus>::const_iterator found = std::find_if(begin(m_guns), end(m_guns), [&num](const GunStatus &gs)
+	{
+		if (gs.mount_id == num) {
+			return true;
+		} else return false;
+	});
+	if (found != m_guns.end()) {
+		return (*found).mount_id;
+	}
+	return -1;
+}
+
+GunId FixedGuns::FindGunOnMount(MountId num) const
+{
+	for (int mount = 0; mount < m_guns.size(); mount ++) {
+		if (m_guns[mount].mount_id == num ) return mount;
+	}
+	// no guns on given mount
 	return -1;
 }
 
@@ -316,7 +407,7 @@ void FixedGuns::SetActivationStateOfGun(GunId num, bool active)
 	if (num < m_guns.size())
 		m_guns[num].is_active = active;
 	else {
-		Output("Given gun identifier (%i) is out of bounds (max is %i)\n", num, int(m_guns.size()));
+		Output("Given gun identifier (%i) is out of bounds (max is %lu)\n", num, m_guns.size());
 	}
 }
 
@@ -420,7 +511,7 @@ std::vector<int> FixedGuns::GetFiringBarrels(int max_barrels, int contemporary_b
 	std::vector<int> cont;
 	cont.reserve(contemporary_barrels);
 
-	for (int i = actual_barrel; i < contemporary_barrels + actual_barrel; i ++)
+	for (int i = actual_barrel; i < contemporary_barrels + actual_barrel; i++)
 		cont.push_back(i);
 
 	actual_barrel += contemporary_barrels;
@@ -431,16 +522,20 @@ std::vector<int> FixedGuns::GetFiringBarrels(int max_barrels, int contemporary_b
 std::vector<int> FixedGuns::CalculateFireModes(int b)
 {
 	std::vector<int> fire_modes;
-	for (int factor = 1; factor <= b/2; factor++)
+	fire_modes.reserve(b / 2);
+	for (int factor = 1; factor <= b / 2; factor++)
 		if (b % factor == 0) fire_modes.push_back(factor);
 	fire_modes.push_back(b);
+	fire_modes.shrink_to_fit();
 
 	return fire_modes;
 }
 
 void FixedGuns::GunStatus::UpdateFireModes(const Mount &mount)
 {
-	int barrels = std::min(gun_data.barrels, unsigned(mount.locs.size()));
-	//printf("UpdateFireModes %u & %lu\n", gun_data.barrels, mount.locs.size());
-	fire_modes = FixedGuns::CalculateFireModes(barrels);
+	int max_barrels = std::min(gun_data.barrels, unsigned(mount.locs.size()));
+	//printf("UpdateFireModes to %i (%u & %lu)\n", max_barrels, gun_data.barrels, mount.locs.size());
+	fire_modes = FixedGuns::CalculateFireModes(max_barrels);
+	contemporary_barrels = 1;
+	next_firing_barrels = 1;
 }

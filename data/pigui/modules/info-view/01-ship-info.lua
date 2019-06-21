@@ -11,6 +11,7 @@ local Equipment = import 'Equipment'
 local Vector2 = _G.Vector2
 
 local l = Lang.GetResource("ui-core")
+local lec = import 'Lang'.GetResource("equipment-core")
 
 local fonts = ui.fonts
 
@@ -69,12 +70,8 @@ local function shipStats()
 	local shipDef     =    ShipDef[player.shipId]
 	local shipLabel   =    player:GetLabel()
 	local hyperdrive  =    table.unpack(player:GetEquip("engine"))
-	local frontWeapon =    table.unpack(player:GetEquip("laser_front"))
-	local rearWeapon  =    table.unpack(player:GetEquip("laser_rear"))
 
 	hyperdrive =  hyperdrive  or nil
-	frontWeapon = frontWeapon or nil
-	rearWeapon =  rearWeapon  or nil
 
 	local mass_with_fuel = player.staticMass + player.fuelMassLeft
 
@@ -82,7 +79,7 @@ local function shipStats()
 	local bwd_acc = player:GetAcceleration("reverse")
 	local up_acc = player:GetAcceleration("up")
 
-	drawTable.draw {
+	drawTable.draw({
 		{ l.REGISTRATION_NUMBER..":",	shipLabel},
 		{ l.HYPERDRIVE..":",			hyperdrive and hyperdrive:GetName() or l.NONE },
 		{
@@ -100,10 +97,8 @@ local function shipStats()
 		{ l.FUEL_WEIGHT..":",   string.format("%dt (%dt "..l.MAX..")", player.fuelMassLeft, shipDef.fuelTankMass ) },
 		{ l.ALL_UP_WEIGHT..":", string.format("%dt", mass_with_fuel ) },
 		false,
-		{ l.FRONT_WEAPON..":", frontWeapon and frontWeapon:GetName() or l.NONE },
-		{ l.REAR_WEAPON..":",  rearWeapon and rearWeapon:GetName() or l.NONE },
-		{ l.FUEL..":",         string.format("%d%%", player.fuel) },
-		{ l.DELTA_V..":",      string.format("%d km/s", player:GetRemainingDeltaV() / 1000) },
+		{ l.FUEL..":",         string.format("%d%%", Game.player.fuel)},
+		{ l.DELTA_V..":",      string.format("%d km/s", player:GetRemainingDeltaV() / 1000)},
 		false,
 		{ l.FORWARD_ACCEL..":",  string.format("%.2f m/s² (%.1f g)", fwd_acc, fwd_acc / 9.81) },
 		{ l.BACKWARD_ACCEL..":", string.format("%.2f m/s² (%.1f g)", bwd_acc, bwd_acc / 9.81) },
@@ -112,11 +107,39 @@ local function shipStats()
 		{ l.MINIMUM_CREW..":", shipDef.minCrew },
 		{ l.CREW_CABINS..":",  shipDef.maxCrew },
 		false,
+		{ l.FRONT_INT_GUN_MOUNTS..":", shipDef.equipSlotCapacity.laser_front},
+	}, 1)
+
+	for i=1,(Game.player:GetUsedMountsNumber() + Game.player:GetFreeMountsNumber()) do
+		if Game.player:MountIsFront(i - 1) then
+		drawTable.draw {
+			{"",  i..": "..Game.player:MountBarrelNum(i - 1).." "..l.BARRELS},
+		}
+		end
+	end
+
+	drawTable.draw {
+		false,
+		{ l.REAR_INT_GUN_MOUNTS..":", shipDef.equipSlotCapacity.laser_rear},
+	}
+
+	for i=1,(Game.player:GetUsedMountsNumber() + Game.player:GetFreeMountsNumber()) do
+		if Game.player:MountIsFront(i - 1) == false then
+		drawTable.draw {
+			{"", i..": "..Game.player:MountBarrelNum(i - 1).." "..l.BARRELS},
+		}
+		end
+	end
+
+	drawTable.draw {
+		false,
 		{ l.MISSILE_MOUNTS..":",            shipDef.equipSlotCapacity.missile},
 		{ l.ATMOSPHERIC_SHIELDING..":",     shipDef.equipSlotCapacity.atmo_shield > 0 and l.YES or l.NO },
 		{ l.SCOOP_MOUNTS..":",              shipDef.equipSlotCapacity.scoop},
 	}
 end
+
+local current_mount = nil
 
 local function equipmentList()
 	local closed = ui.withFont(fonts.pionillium.medium, function()
@@ -125,6 +148,8 @@ local function equipmentList()
 
 	if closed then return end
 
+	local player = Game.player
+
 	-- TODO: there's definitely a better way to do this, but it's copied from ShipInfo.lua for now.
 	local equipItems = {}
 	local equips = {Equipment.cargo, Equipment.misc, Equipment.hyperspace, Equipment.laser}
@@ -132,7 +157,7 @@ local function equipmentList()
 		for k,et in pairs(t) do
 			local slot = et:GetDefaultSlot(Game.player)
 			if (slot ~= "cargo" and slot ~= "missile" and slot ~= "engine" and slot ~= "laser_front" and slot ~= "laser_rear") then
-				local count = Game.player:CountEquip(et)
+				local count = player:CountEquip(et)
 				if count > 0 then
 					if count > 1 then
 						if et == Equipment.misc.shield_generator then
@@ -151,6 +176,26 @@ local function equipmentList()
 			end
 		end
 	end
+
+	for i=1,(Game.player:GetUsedMountsNumber() + Game.player:GetFreeMountsNumber()) do
+		local gunId = player:GetGunOnMount(i - 1)
+		if gunId >= 0 then
+			ui.text(lec[player:GetGunName(gunId)]..", "..l.BARRELS..": "..player:GetNumBarrels(gunId).." ("..l.MOUNTED_ON..": "..i..")")
+			if ui.isItemHovered() and ui.isMouseClicked(0) then
+				current_mount = i
+				print("OpenPopup for 'current_mount'= "..current_mount)
+				ui.openPopup("##select_mount")
+			end
+		end
+	end
+	ui.popup("##select_mount", function()
+		ui.text("Move to mount:")
+		for j=1,(Game.player:GetUsedMountsNumber() + Game.player:GetFreeMountsNumber()) do
+			if current_mount ~= j and ui.selectable(j, true, {}) then
+				local ret = Game.player:SwapGuns((current_mount - 1), (j - 1))
+			end
+		end
+	end)
 end
 
 InfoView:registerView({

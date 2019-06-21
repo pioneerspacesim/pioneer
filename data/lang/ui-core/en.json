@@ -55,6 +55,10 @@
     "description": "",
     "message": "Average"
   },
+  "BARRELS": {
+    "description": "",
+    "message": "barrels"
+  },
   "BACKWARD_ACCEL": {
     "description": "",
     "message": "Backward acceleration"
@@ -510,6 +514,10 @@
   "FRACTAL_DETAIL": {
     "description": "",
     "message": "Fractal detail"
+  },
+  "FRONT_INT_GUN_MOUNTS": {
+    "description": "",
+    "message": "Front internal gun mounts"
   },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
@@ -1191,6 +1199,10 @@
     "description": "",
     "message": "Mostly Harmless"
   },
+  "MOUNTED_ON": {
+    "description": "",
+    "message": "Mounted on"
+  },
   "MOVE_DOWN": {
     "description": "move selection down in list",
     "message": "Move Down"
@@ -1438,6 +1450,10 @@
   "RATING": {
     "description": "",
     "message": "Rating:"
+  },
+  "REAR_INT_GUN_MOUNTS": {
+    "description": "",
+    "message": "Rear internal gun mounts"
   },
   "REAR_WEAPON": {
     "description": "",

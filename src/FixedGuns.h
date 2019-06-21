@@ -22,22 +22,17 @@ typedef int MountId;
 
 /*
 	TODO1:
-	bool SwapTwoMountedGuns(int gun_a, int gun_b);
-
-	TODO2:
-	in Lua:
-	1) handle a simple swap in info's view,
-	2) put some time in it and allow it only if in a station
+	in Lua when user would mount/unmount/swap guns, put some
+	time in it and/or allow it only if in a station
 	(maybe allow it only if you have a crew?)
 
-	TODO3: mmmh... Should cooler be PER gun?
+	TODO2: mmmh... Should cooler be PER gun?
 	...And should customization of mounted guns possible?
 
 	TODO LONG TERM: find and fetch data from ShipType
 	about a possible 'size' of this mount, or if this
 	mount is 'external' (gun is visible) or not...
 */
-
 
 class FixedGuns {
 public:
@@ -57,10 +52,13 @@ public:
 	 / the gun (ex. mount is valid and free)
 	*/
 	bool MountGun(MountId num, const std::string &name, const std::string &sound, float recharge, float heatrate, float coolrate, int barrels, const ProjectileData &pd);
+
 	/* Unmount a gun from a mount point,
 	 / will return true if mount is occupied
 	*/
 	bool UnMountGun(MountId num);
+
+	bool SwapGuns(MountId a, MountId b);
 
 	/* Set guns firing in the given direction
 	 / when "s" is not false
@@ -75,7 +73,14 @@ public:
 	int GetFreeMountsSize() const { return int(m_mounts.size() - m_guns.size()); };
 	MountId FindFirstEmptyMount() const;
 	std::vector<MountId> FindEmptyMounts() const;
+	bool GetMountIsFront(MountId num) const;
+	int GetMountBarrels(MountId num) const;
+
+	/* Conversion functions MountId from/to GunId
+	*/
 	MountId FindMountOfGun(const std::string &name) const;
+	MountId FindMountOfGun(GunId num) const;
+	GunId FindGunOnMount(MountId num) const;
 
 	/* Set or inquire the GunId abour its activation state
 	*/
@@ -91,8 +96,8 @@ public:
 	/* return the number of barrels of
 	 / the gun
 	*/
-
 	int GetNumBarrels(GunId num);
+
 	/* Given a valid gun identifier,
 	 / return the number of barrels which
 	 / will fire when ready
@@ -178,8 +183,9 @@ private:
 			recharge_stat(r),
 			temperature_stat(0.0f),
 			contemporary_barrels(1),
-			next_firing_barrels(0),
-			gun_data(n, s, r, h, c, b, pd) {}
+			next_firing_barrels(1),
+			gun_data(n, s, r, h, c, b, pd)
+			{}
 		GunStatus(const GunStatus& gs) : // Copy ctor
 			mount_id(gs.mount_id),
 			is_firing(gs.is_firing),

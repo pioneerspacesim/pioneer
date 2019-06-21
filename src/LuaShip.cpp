@@ -1295,6 +1295,19 @@ static int l_ship_get_num_active_barrels(lua_State *l)
 	return 1;
 }
 
+/* Method: CycleFireMode
+ *
+ * If given gun in given mount may fire more than 1 barrel,
+ * change the number of barrels which will fire
+ *
+ *
+ * Parameters:
+ *    a gun id
+ * Returns:
+ *
+ *    nothing
+ *
+ */
 static int l_ship_cycle_fire_mode_of_gun(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
@@ -1303,6 +1316,18 @@ static int l_ship_cycle_fire_mode_of_gun(lua_State *l)
 	return 0;
 }
 
+/* Method: SetGunActivation
+ *
+ * Change the state of activation of the given gun id
+ *
+ *
+ * Parameters:
+ *    a gun id
+ * Returns:
+ *
+ *    nothing
+ *
+ */
 static int l_ship_set_active_stat_of_gun(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
@@ -1363,11 +1388,44 @@ static int l_ship_find_first_free_mount(lua_State *l)
 	return 1;
 }
 
+static int l_ship_get_mount_is_front(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int num = luaL_checknumber(l, 2);
+	LuaPush(l, s->GetMountIsFront(num));
+	return 1;
+}
+
+static int l_ship_get_mount_barrels(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int num = luaL_checknumber(l, 2);
+	LuaPush(l, s->GetMountBarrels(num));
+	return 1;
+}
+
 static int l_ship_find_mount_of_gun(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	std::string name = luaL_checkstring(l, 2);
-	LuaPush(l, s->FindMountOfGun(name));
+	if (lua_type(l, 2) == LUA_TSTRING) {
+		std::string name = luaL_checkstring(l, 2);
+		LuaPush(l, s->FindMountOfGun(name));
+		return 1;
+	} else if (lua_type(l, 2) == LUA_TNUMBER) {
+		int num = luaL_checknumber(l, 2);
+		LuaPush(l, s->FindMountOfGun(num));
+		return 1;
+	} else {
+		luaL_error(l, "Ship %s call 'FindMountOfGun' without gun number or name", s->GetLabel().c_str());
+		return 0;
+	}
+}
+
+static int l_ship_get_gun_on_mount(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int num = luaL_checknumber(l, 2);
+	LuaPush(l, s->FindGunOnMount(num));
 	return 1;
 }
 
@@ -1508,6 +1566,15 @@ static int l_ship_unmount_gun(lua_State *l)
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	int mount_num = luaL_checkinteger(l, 2);
 	LuaPush(l, s->UnMountGun(mount_num));
+	return 1;
+}
+
+static int l_ship_swap_guns(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int gun_a = luaL_checkinteger(l, 2);
+	int gun_b = luaL_checkinteger(l, 3);
+	LuaPush(l, s->SwapGuns(gun_a, gun_b));
 	return 1;
 }
 
@@ -1900,6 +1967,7 @@ void LuaObject<Ship>::RegisterClass()
 		{ "GetGunName", l_ship_get_gun_name },
 		{ "GetNumAvailableBarrels", l_ship_get_num_available_barrels },
 		{ "GetNumBarrels", l_ship_get_num_barrels },
+		{ "GetNumAvailableBarrels", l_ship_get_num_available_barrels },
 		{ "GetNumActiveBarrels", l_ship_get_num_active_barrels },
 		{ "CycleFireMode", l_ship_cycle_fire_mode_of_gun },
 		{ "IsGunActive", l_ship_get_active_stat_of_gun },
@@ -1907,9 +1975,13 @@ void LuaObject<Ship>::RegisterClass()
 		{ "GetUsedMountsNumber", l_ship_get_used_mounts_number },
 		{ "GetFreeMountsNumber", l_ship_get_free_mounts_number },
 		{ "FindMountOfGun", l_ship_find_mount_of_gun },
+		{ "GetGunOnMount", l_ship_get_gun_on_mount },
 		{ "FindFirstFreeMount", l_ship_find_first_free_mount },
+		{ "MountIsFront", l_ship_get_mount_is_front },
+		{ "MountBarrelNum", l_ship_get_mount_barrels },
 		{ "MountGun", l_ship_mount_gun },
 		{ "UnMountGun", l_ship_unmount_gun },
+		{ "SwapGuns", l_ship_swap_guns },
 
 		{ "GetHullTemperature", l_ship_get_hull_temperature },
 		{ "GetHullPercent", l_ship_get_hull_percent },
