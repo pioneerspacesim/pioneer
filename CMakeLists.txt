@@ -153,16 +153,21 @@ if (USE_SYSTEM_LIBLUA)
 	endif (WIN32)
 endif (USE_SYSTEM_LIBLUA)
 
+if (MSVC)
+	include(msvc-defaults.cmake)
+else (MSVC)
+	find_package(PkgConfig REQUIRED)
+
+	pkg_check_modules(SDL2 REQUIRED sdl2)
+	pkg_check_modules(SDL2_IMAGE REQUIRED SDL2_image)
+
+	pkg_check_modules(ASSIMP REQUIRED assimp)
+	pkg_check_modules(SIGCPP REQUIRED sigc++-2.0)
+	pkg_check_modules(VORBISFILE REQUIRED vorbisfile)
+endif (MSVC)
+
 find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(PkgConfig REQUIRED)
-
-pkg_check_modules(SDL2 REQUIRED sdl2)
-pkg_check_modules(SDL2_IMAGE REQUIRED SDL2_image)
-
-pkg_check_modules(ASSIMP REQUIRED assimp)
-pkg_check_modules(SIGCPP REQUIRED sigc++-2.0)
-pkg_check_modules(VORBISFILE REQUIRED vorbisfile)
 
 include_directories(
 	${CMAKE_SOURCE_DIR}/contrib
