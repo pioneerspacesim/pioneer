@@ -77,7 +77,7 @@ deploy:
 notifications:
   irc:
     channels:
-      - "chat.freenode.net#pioneer"
+      - "ircs://chat.freenode.net:7070/#pioneer"
     on_success: always
     on_failure: always
     template:
