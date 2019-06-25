@@ -23,6 +23,14 @@ if (WIN32)
 	set(CMAKE_INSTALL_BINDIR ${CMAKE_INSTALL_PREFIX})
 endif (WIN32)
 
+if (MSVC)
+	# Avoid annoying warnings from Visual Studio
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+
+	# Use M_PI/M_E macros from math.h
+	add_definitions(-D_USE_MATH_DEFINES -DHAVE_M_PI)
+endif (MSVC)
+
 if (APPLE)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-gnu")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu")
@@ -171,6 +179,10 @@ if (NOT USE_SYSTEM_LIBGLEW)
 	add_subdirectory(contrib/glew)
 	add_library(GLEW::GLEW ALIAS glew)
 	include_directories(contrib/glew)
+
+	# Specify that we compile against a static build of Glew
+	# (required on Windows)
+	add_definitions(-DGLEW_STATIC)
 endif (NOT USE_SYSTEM_LIBGLEW)
 add_subdirectory(contrib/imgui)
 add_subdirectory(contrib/jenkins)

@@ -158,7 +158,7 @@ enum RunMode {
 
 static FileSystem::FileSourceFS customDataDir(".");
 
-int main(int argc, char **argv)
+extern "C" int main(int argc, char **argv)
 {
 #ifdef PIONEER_PROFILER
 	Profiler::detect(argc, argv);
