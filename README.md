@@ -55,8 +55,8 @@ Keyboard and mouse control is found at:
 
 For frequently asked questions, please see
   http://pioneerwiki.com/wiki/FAQ
-  
-  
+
+
 ## BUG Reporting
 
 Please see the section of the FAQ pertaining to bugs, crashs and reporting other issues.
@@ -71,7 +71,7 @@ If you are hungry to contribute, more information can be found here:
 If you have a contribution you want to share, and want to learn how to make a
 pull request, see:
   http://pioneerwiki.com/wiki/Using_git_and_GitHub
-  
+
 ## Localization
 
 Localization for Pioneer is handled trough Transifex, and pulled to the source from there automatically. Because of this please don't make pull requests for translations. [You can find the localization project here.](https://www.transifex.com/pioneer/pioneer/dashboard/)
