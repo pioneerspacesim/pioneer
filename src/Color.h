@@ -129,15 +129,17 @@ struct Color4ub {
 	static Color4ub FromLuaTable(lua_State *l, int idx);
 
 	Uint8 GetLuminance() const;
-	void Shade(float factor) {
-		r *= (1 - factor);
-		g *= (1 - factor);
-		b *= (1 - factor);
+	void Shade(float factor)
+	{
+		r *= static_cast<Uint8>(1.0f - factor);
+		g *= static_cast<Uint8>(1.0f - factor);
+		b *= static_cast<Uint8>(1.0f - factor);
 	}
-	void Tint(float factor) {
-		r += (255 - r) * factor;
-		g += (255 - g) * factor;
-		b += (255 - b) * factor;
+	void Tint(float factor)
+	{
+		r += static_cast<Uint8>((255.0f - r) * factor);
+		g += static_cast<Uint8>((255.0f - g) * factor);
+		b += static_cast<Uint8>((255.0f - b) * factor);
 	}
 
 	static const Color4ub BLACK;
