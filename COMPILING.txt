@@ -70,6 +70,7 @@ questions are welcome anytime.
 
 4. Run `./pioneer` to start the game!
 
+
 1.2 Windows - MSVC
 ------------------
 
@@ -83,6 +84,7 @@ questions are welcome anytime.
 3. Build and run the project or solution. Note: the default is to build debug
    version, which is what you want if developing, but release gives an executable
    optimized for performance.
+
 
 1.3 Windows - CMake and MSYS2 (and MinGW-w64)
 ---------------------------------------------
@@ -106,6 +108,7 @@ questions are welcome anytime.
 
 7. Now, you can go back to the root directory of Pioneer and do './build/pioneer.exe'
    to play the game.
+
 
 1.4 OS X - Homebrew
 -------------------
@@ -169,6 +172,7 @@ To get it, clone git://github.com/pioneerspacesim/pioneer-thirdparty.git.
    configuration that builds with the thirdparty libraries.
 
 5. Build pioneer as described in section 1.1.
+
 
 2.2 Windows - MSVC
 ------------------
@@ -235,6 +239,7 @@ visualizing inheritance as graphs. To enable LaTeX output, set GENERATE_LATEX
 
 4 Faster startup
 ================
+
 
 4.1 Precompile model files
 --------------------------
