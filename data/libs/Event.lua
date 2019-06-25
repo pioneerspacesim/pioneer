@@ -737,7 +737,7 @@ Event = {
 --
 --   ship - the <Ship> whose fuel status just changed
 --
---   fuelStatus - the new <Constants.ShipFuelStatus>
+--   fuelStatus - the new <Constants.PropulsionFuelStatus>
 --
 -- Availability:
 --

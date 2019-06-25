@@ -429,7 +429,7 @@ void LuaConstants::Register(lua_State *l)
 	 */
 
 	/*
-	 * Constants: ShipFuelStatus
+	 * Constants: PropulsionFuelStatus
 	 *
 	 * Current fuel status.
 	 *
