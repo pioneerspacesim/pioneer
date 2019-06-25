@@ -4,8 +4,9 @@
 #include "FileSystem.h"
 #include "GZipFormat.h"
 #include "Json.h"
+#include <SDL.h>
 
-int main(int argc, const char **argv)
+extern "C" int main(int argc, char **argv)
 {
 	if (argc < 2 || argc > 3) {
 		printf(
