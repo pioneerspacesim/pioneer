@@ -27,6 +27,7 @@ addons:
       - sdl2
       - sdl2_image
       - libogg
+    update: true
 
 matrix:
   include:
