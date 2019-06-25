@@ -204,7 +204,12 @@ local function showMainMenu()
 
 			for _,loc in pairs(startLocations) do
 				local desc = loc.desc .. "\n"
-				desc = desc .. lc.SHIP .. ": " .. loc.shipType .. "\n"
+				local name = loc.shipType
+				local sd = ShipDef[loc.shipType]
+				if sd then
+					name = sd.name
+				end
+				desc = desc .. lc.SHIP .. ": " .. name .. "\n"
 				desc = desc .. lui.CREDITS .. ": "  .. Format.Money(loc.money) .. "\n"
 				desc = desc .. lui.HYPERDRIVE .. ": " .. (loc.hyperdrive and lui.YES or lui.NO) .. "\n"
 				desc = desc .. lui.EQUIPMENT .. ":\n"
