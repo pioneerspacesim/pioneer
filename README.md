@@ -5,6 +5,8 @@
 
 # Pioneer Space Simulator
 
+![](https://github.com/pioneerspacesim/pioneer/blob/master/data/icons/badge.png)
+
 Pioneer is a space adventure game set in the Milky Way galaxy at the turn of
 the 31st century.
 
