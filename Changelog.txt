@@ -1,3 +1,8 @@
+July 2019
+   * Internal Changes
+     * Remove leftover autotools files (#4635)
+     * Support VS2017 through CMake (#4634)
+
 June 2019
    * Internal Changes
      * Further Input and WorldView improvements (#4607)
