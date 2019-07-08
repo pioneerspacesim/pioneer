@@ -4,6 +4,7 @@
 #include "PiGui.h"
 #include "Pi.h"
 #include "graphics/opengl/TextureGL.h" // nasty, usage of GL is implementation specific
+#include "profiler/Profiler.h"
 // Use GLEW instead of GL3W.
 #define IMGUI_IMPL_OPENGL_LOADER_GLEW 1
 #include "imgui/examples/imgui_impl_opengl3.h"

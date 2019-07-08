@@ -5,6 +5,7 @@
 
 #include "Gui.h"
 #include "graphics/Renderer.h"
+#include "profiler/Profiler.h"
 
 #include <SDL_stdinc.h>
 

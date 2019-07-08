@@ -6,6 +6,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
 #include "libs.h"
+#include "profiler/Profiler.h"
 
 namespace Gui {
 

@@ -6,6 +6,7 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
+#include "profiler/Profiler.h"
 
 using namespace Graphics;
 

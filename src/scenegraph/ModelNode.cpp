@@ -3,6 +3,7 @@
 
 #include "ModelNode.h"
 #include "Model.h"
+#include "profiler/Profiler.h"
 
 namespace SceneGraph {
 

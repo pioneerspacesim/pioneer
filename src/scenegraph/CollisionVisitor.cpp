@@ -7,6 +7,7 @@
 #include "Group.h"
 #include "MatrixTransform.h"
 #include "StaticGeometry.h"
+#include "profiler/Profiler.h"
 
 namespace SceneGraph {
 	CollisionVisitor::CollisionVisitor() :

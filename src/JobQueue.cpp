@@ -3,6 +3,7 @@
 
 #include "JobQueue.h"
 #include "StringF.h"
+#include "profiler/Profiler.h"
 
 void Job::UnlinkHandle()
 {

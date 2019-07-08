@@ -24,6 +24,7 @@
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
 #include "graphics/dummy/RendererDummy.h"
+#include "profiler/Profiler.h"
 #include "scenegraph/BinaryConverter.h"
 #include "scenegraph/DumpVisitor.h"
 #include "scenegraph/FindNodeVisitor.h"
@@ -160,7 +161,7 @@ static FileSystem::FileSourceFS customDataDir(".");
 
 extern "C" int main(int argc, char **argv)
 {
-#ifdef PIONEER_PROFILER
+#if WITH_PROFILER
 	Profiler::detect(argc, argv);
 #endif
 
@@ -203,7 +204,7 @@ start:
 	// Init here since we'll need it for both batch and RunCompiler modes.
 	FileSystem::Init();
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
-#ifdef PIONEER_PROFILER
+#if WITH_PROFILER
 	FileSystem::userFiles.MakeDirectory("profiler");
 	const std::string profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
 #endif
@@ -323,7 +324,7 @@ start:
 		break;
 	}
 
-#ifdef PIONEER_PROFILER
+#if WITH_PROFILER
 	Profiler::dumphtml(profilerPath.c_str());
 #endif
 

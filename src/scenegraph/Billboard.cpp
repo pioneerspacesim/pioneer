@@ -12,6 +12,7 @@
 #include "graphics/Stats.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
+#include "profiler/Profiler.h"
 
 namespace SceneGraph {
 

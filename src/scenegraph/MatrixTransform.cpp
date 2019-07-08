@@ -7,6 +7,8 @@
 #include "NodeVisitor.h"
 #include "Serializer.h"
 #include "graphics/Renderer.h"
+#include "profiler/Profiler.h"
+
 namespace SceneGraph {
 
 	MatrixTransform::MatrixTransform(Graphics::Renderer *r, const matrix4x4f &m) :

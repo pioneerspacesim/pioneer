@@ -5,6 +5,7 @@
 #include "GuiScreen.h"
 #include "graphics/TextureBuilder.h"
 #include "libs.h"
+#include "profiler/Profiler.h"
 
 namespace Gui {
 

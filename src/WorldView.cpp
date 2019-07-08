@@ -21,6 +21,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "matrix4x4.h"
+#include "profiler/Profiler.h"
 #include "ship/PlayerShipController.h"
 #include "sound/Sound.h"
 #include "ui/Align.h"

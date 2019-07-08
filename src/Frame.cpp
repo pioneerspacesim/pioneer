@@ -8,6 +8,7 @@
 #include "Sfx.h"
 #include "Space.h"
 #include "collider/collider.h"
+#include "profiler/Profiler.h"
 
 Frame::Frame()
 {

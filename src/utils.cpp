@@ -11,6 +11,7 @@
 #include "gui/Gui.h"
 #include "libs.h"
 #include "graphics/Graphics.h"
+#include "profiler/Profiler.h"
 #include <cmath>
 #include <cstdio>
 #include <sstream>
@@ -715,4 +716,25 @@ void hexdump(const unsigned char *buf, int len)
 
 		Output("\n");
 	}
+}
+
+MsgTimer::MsgTimer()
+{
+	mTimer = new Profiler::Timer();
+	mTimer->Start();
+}
+
+MsgTimer::~MsgTimer()
+{
+	delete mTimer;
+}
+
+void MsgTimer::Mark(const char *identifier)
+{
+	mTimer->SoftStop();
+
+	const double lastTiming = mTimer->avgms();
+
+	mTimer->SoftReset();
+	Output("(%lf) avgms in %s\n", lastTiming, identifier);
 }

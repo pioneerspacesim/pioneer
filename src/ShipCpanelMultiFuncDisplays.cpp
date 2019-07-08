@@ -20,6 +20,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "libs.h"
+#include "profiler/Profiler.h"
 #include "sound/Sound.h"
 
 using namespace Graphics;

@@ -31,6 +31,7 @@
 #include "WorldView.h"
 #include "galaxy/GalaxyGenerator.h"
 #include "graphics/Renderer.h"
+#include "profiler/Profiler.h"
 #include "ship/PlayerShipController.h"
 
 static const int s_saveVersion = 85;
@@ -44,7 +45,7 @@ Game::Game(const SystemPath &path, double time) :
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
-#ifdef PIONEER_PROFILER
+#if WITH_PROFILER
 	std::string profilerPath;
 	FileSystem::userFiles.MakeDirectory("profiler");
 	FileSystem::userFiles.MakeDirectory("profiler/NewGame");
@@ -92,7 +93,7 @@ Game::Game(const SystemPath &path, double time) :
 	CreateViews();
 
 	EmitPauseState(IsPaused());
-#ifdef PIONEER_PROFILER
+#if WITH_PROFILER
 	Profiler::dumphtml(profilerPath.c_str());
 #endif
 }
@@ -914,7 +915,7 @@ void Game::SaveGame(const std::string &filename, Game *game)
 		throw CouldNotOpenFileException();
 	}
 
-#ifdef PIONEER_PROFILER
+#if WITH_PROFILER
 	std::string profilerPath;
 	FileSystem::userFiles.MakeDirectory("profiler");
 	FileSystem::userFiles.MakeDirectory("profiler/saving");
@@ -946,7 +947,7 @@ void Game::SaveGame(const std::string &filename, Game *game)
 		throw CouldNotWriteToFileException();
 	}
 
-#ifdef PIONEER_PROFILER
+#if WITH_PROFILER
 	Profiler::dumphtml(profilerPath.c_str());
 #endif
 }

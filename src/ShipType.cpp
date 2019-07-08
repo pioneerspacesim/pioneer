@@ -13,6 +13,7 @@
 #include "FileSystem.h"
 #include "Json.h"
 #include "Lang.h"
+#include "profiler/Profiler.h"
 #include "utils.h"
 #include <algorithm>
 

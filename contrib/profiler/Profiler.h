@@ -1,7 +1,9 @@
 #ifndef __PROFILER_H__
 #define __PROFILER_H__
 
-#ifdef PIONEER_PROFILER
+#include <buildopts.h>
+
+#ifdef WITH_PROFILER
 #define __PROFILER_ENABLED__
 #endif
 

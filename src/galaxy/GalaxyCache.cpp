@@ -9,6 +9,7 @@
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
 #include "Pi.h"
+#include "profiler/Profiler.h"
 #include "utils.h"
 #include <utility>
 

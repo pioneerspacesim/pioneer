@@ -12,6 +12,7 @@
 #include "Space.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/TextureBuilder.h"
+#include "profiler/Profiler.h"
 
 using namespace Graphics;
 

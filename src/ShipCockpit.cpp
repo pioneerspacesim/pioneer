@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "WorldView.h"
 #include "graphics/Renderer.h"
+#include "profiler/Profiler.h"
 
 ShipCockpit::ShipCockpit(const std::string &modelName) :
 	m_shipDir(0.0),

@@ -6,6 +6,7 @@
 #include "NodeCopyCache.h"
 #include "NodeVisitor.h"
 #include "Serializer.h"
+#include "profiler/Profiler.h"
 
 namespace SceneGraph {
 

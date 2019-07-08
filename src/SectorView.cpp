@@ -22,6 +22,7 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "gui/Gui.h"
+#include "profiler/Profiler.h"
 #include <algorithm>
 #include <sstream>
 #include <unordered_set>

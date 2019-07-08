@@ -7,6 +7,7 @@
 #include "NodeVisitor.h"
 #include "Parser.h"
 #include "StringF.h"
+#include "profiler/Profiler.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/Label3D.h"
 #include "scenegraph/MatrixTransform.h"

@@ -6,6 +6,7 @@
 #include "PiGui.h"
 #include "graphics/RenderTarget.h"
 #include "graphics/Renderer.h"
+#include "profiler/Profiler.h"
 
 #include <algorithm>
 

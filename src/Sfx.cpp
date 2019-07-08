@@ -19,6 +19,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
+#include "profiler/Profiler.h"
 
 using namespace Graphics;
 

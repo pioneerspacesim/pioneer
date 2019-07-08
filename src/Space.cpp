@@ -21,6 +21,7 @@
 #include "collider/collider.h"
 #include "galaxy/Galaxy.h"
 #include "graphics/Graphics.h"
+#include "profiler/Profiler.h"
 #include <algorithm>
 #include <functional>
 

@@ -7,6 +7,7 @@
 #include "EnumStrings.h"
 #include "AtmosphereParameters.h"
 #include "enum_table.h"
+#include "profiler/Profiler.h"
 #include "utils.h"
 
 SystemBody::SystemBody(const SystemPath &path, StarSystem *system) :

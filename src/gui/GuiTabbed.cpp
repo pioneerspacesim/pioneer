@@ -4,6 +4,7 @@
 #include "GuiTabbed.h"
 #include "Gui.h"
 #include "libs.h"
+#include "profiler/Profiler.h"
 
 namespace Gui {
 

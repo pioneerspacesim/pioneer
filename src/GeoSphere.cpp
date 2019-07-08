@@ -20,6 +20,7 @@
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
 #include "perlin.h"
+#include "profiler/Profiler.h"
 #include "vcacheopt/vcacheopt.h"
 #include <algorithm>
 #include <deque>

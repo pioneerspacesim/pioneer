@@ -77,6 +77,7 @@ endif (MINGW)
 
 option(WITH_OBJECTVIEWER "Include the object viewer in the build" ON)
 option(WITH_DEVKEYS "Include various extra keybindings for dev functions" ON)
+option(WITH_PROFILER "Build pioneer with profiling support built-in." OFF)
 
 list(APPEND SRC_FOLDERS
 	src/
@@ -152,11 +153,6 @@ if (USE_SYSTEM_LIBLUA)
 		add_definitions(-DLUA_BUILD_AS_DLL)
 	endif (WIN32)
 endif (USE_SYSTEM_LIBLUA)
-
-option(PROFILER_ENABLED "Build pioneer with profiling support built-in." OFF)
-if (PROFILER_ENABLED)
-	add_compile_definitions(PIONEER_PROFILER=1)
-endif(PROFILER_ENABLED)
 
 if (MSVC)
 	include(msvc-defaults.cmake)

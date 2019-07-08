@@ -24,6 +24,7 @@
 #include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
+#include "profiler/Profiler.h"
 
 std::unique_ptr<Graphics::VertexArray> Projectile::s_sideVerts;
 std::unique_ptr<Graphics::VertexArray> Projectile::s_glowVerts;

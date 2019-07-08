@@ -9,6 +9,7 @@
 #include "Json.h"
 #include "Lang.h"
 #include "LuaNameGen.h"
+#include "profiler/Profiler.h"
 #include "Sector.h"
 #include "utils.h"
 #include "Pi.h"

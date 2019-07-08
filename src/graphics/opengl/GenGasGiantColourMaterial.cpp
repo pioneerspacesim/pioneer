@@ -8,6 +8,7 @@
 #include "TextureGL.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
+#include "profiler/Profiler.h"
 #include <sstream>
 
 namespace Graphics {

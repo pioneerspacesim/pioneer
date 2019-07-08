@@ -10,6 +10,7 @@
 #include "graphics/Material.h"
 #include "graphics/opengl/GenGasGiantColourMaterial.h"
 #include "graphics/VertexBuffer.h"
+#include "profiler/Profiler.h"
 #include "terrain/Terrain.h"
 #include "vector3.h"
 

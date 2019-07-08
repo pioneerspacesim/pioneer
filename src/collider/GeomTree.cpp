@@ -5,6 +5,7 @@
 #include "../libs.h"
 #include "BVHTree.h"
 #include "Weld.h"
+#include "profiler/Profiler.h"
 #include "scenegraph/Serializer.h"
 
 GeomTree::~GeomTree()

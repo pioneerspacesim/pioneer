@@ -3,6 +3,7 @@
 
 #include "Gui.h"
 #include "libs.h"
+#include "profiler/Profiler.h"
 #include "text/TextSupport.h"
 #include "text/TextureFont.h"
 

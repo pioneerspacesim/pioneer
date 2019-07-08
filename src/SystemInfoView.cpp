@@ -17,6 +17,7 @@
 #include "galaxy/Polit.h"
 #include "graphics/Drawables.h"
 #include "graphics/Renderer.h"
+#include "profiler/Profiler.h"
 #include <functional>
 
 SystemInfoView::SystemInfoView(Game *game) :

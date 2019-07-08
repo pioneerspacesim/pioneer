@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Ship.h"
 #include "Space.h"
+#include "profiler/Profiler.h"
 
 Sensors::RadarContact::RadarContact() :
 	body(0),

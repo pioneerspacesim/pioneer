@@ -8,6 +8,7 @@
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyGenerator.h"
 #include "libs.h"
+#include "profiler/Profiler.h"
 #include "utils.h"
 #include "versioningInfo.h"
 #include <cstdio>
@@ -25,7 +26,7 @@ enum RunMode {
 
 extern "C" int main(int argc, char **argv)
 {
-#ifdef PIONEER_PROFILER
+#if WITH_PROFILER
 	Profiler::detect(argc, argv);
 #endif
 

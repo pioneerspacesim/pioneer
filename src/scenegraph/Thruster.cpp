@@ -11,6 +11,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
+#include "profiler/Profiler.h"
 
 namespace SceneGraph {
 

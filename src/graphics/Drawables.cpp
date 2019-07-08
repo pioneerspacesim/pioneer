@@ -4,6 +4,7 @@
 #include "Drawables.h"
 
 #include "graphics/RenderState.h"
+#include "profiler/Profiler.h"
 #include "Texture.h"
 #include "TextureBuilder.h"
 

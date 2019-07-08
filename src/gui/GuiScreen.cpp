@@ -4,6 +4,7 @@
 #include "Gui.h"
 
 #include "graphics/Renderer.h"
+#include "profiler/Profiler.h"
 #include "text/TextSupport.h"
 #include "vector3.h" // for projection
 

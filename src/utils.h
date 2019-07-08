@@ -44,22 +44,20 @@ void IndentedOutput(const char *format, ...) __attribute((format(printf, 1, 2)))
 void IndentIncrease();
 void IndentDecrease();
 
+namespace Profiler {
+	class Timer;
+};
+
 // Helper for timing functions with multiple stages
 // Used on a branch to help time loading.
 struct MsgTimer {
-	MsgTimer() { mTimer.Start(); }
-	~MsgTimer() {}
+	MsgTimer();
+	~MsgTimer();
 
-	void Mark(const char *identifier)
-	{
-		mTimer.SoftStop();
-		const double lastTiming = mTimer.avgms();
-		mTimer.SoftReset();
-		Output("(%lf) avgms in %s\n", lastTiming, identifier);
-	}
+	void Mark(const char *identifier);
 
 protected:
-	Profiler::Timer mTimer;
+	Profiler::Timer *mTimer;
 };
 
 std::string string_join(std::vector<std::string> &v, std::string sep);

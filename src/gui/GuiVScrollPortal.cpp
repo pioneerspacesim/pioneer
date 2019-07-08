@@ -4,6 +4,7 @@
 #include "Gui.h"
 
 #include "graphics/Renderer.h"
+#include "profiler/Profiler.h"
 #include "vector2.h"
 
 static const float MINIMUM_HEIGHT = 100.0f;

@@ -7,6 +7,7 @@
 #include "StringF.h"
 #include "StringRange.h"
 #include "graphics/Graphics.h"
+#include "profiler/Profiler.h"
 
 #include <set>
 

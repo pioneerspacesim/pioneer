@@ -14,6 +14,7 @@
 #include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
+#include "profiler/Profiler.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/MatrixTransform.h"
 #include "scenegraph/Label3D.h"

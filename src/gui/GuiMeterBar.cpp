@@ -4,6 +4,7 @@
 #include "Gui.h"
 
 #include "graphics/Renderer.h"
+#include "profiler/Profiler.h"
 
 static const float METERBAR_PADDING = 5.0f;
 static const float METERBAR_BAR_HEIGHT = 8.0f;

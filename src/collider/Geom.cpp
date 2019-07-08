@@ -7,6 +7,7 @@
 #include "GeomTree.h"
 #include "collider.h"
 #include "CollisionContact.h"
+#include "profiler/Profiler.h"
 
 #include <float.h>
 

@@ -16,6 +16,7 @@
 #include "graphics/Texture.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
+#include "profiler/Profiler.h"
 
 #include "BillboardMaterial.h"
 #include "FresnelColourMaterial.h"
@@ -438,7 +439,8 @@ namespace Graphics {
 	void RendererOGL::CheckErrors(const char *func, const int line)
 	{
 		PROFILE_SCOPED()
-#ifndef PIONEER_PROFILER
+
+#if !WITH_PROFILER
 		GLenum err = glGetError();
 		if (err) {
 			// static-cache current err that sparked this

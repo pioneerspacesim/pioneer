@@ -5,6 +5,7 @@
 #include "LuaEvent.h"
 #include "Pi.h"
 #include "libs.h" //for clamp
+#include "profiler/Profiler.h"
 #include <map>
 
 namespace Sound {

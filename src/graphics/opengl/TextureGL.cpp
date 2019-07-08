@@ -4,6 +4,7 @@
 #include "TextureGL.h"
 #include "RendererGL.h"
 #include "graphics/Renderer.h"
+#include "profiler/Profiler.h"
 #include "utils.h"
 #include <cassert>
 

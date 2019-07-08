@@ -10,6 +10,9 @@
 #include "GZipFormat.h"
 #include "base64/base64.hpp"
 #include "utils.h"
+
+#include "profiler/Profiler.h"
+
 #include <cmath>
 
 extern "C" {

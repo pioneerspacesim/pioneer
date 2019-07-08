@@ -3,6 +3,7 @@
 
 #include "Frustum.h"
 #include "Graphics.h"
+#include "profiler/Profiler.h"
 
 namespace Graphics {
 

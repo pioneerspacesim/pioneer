@@ -20,6 +20,7 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
+#include "profiler/Profiler.h"
 #include <iomanip>
 #include <sstream>
 

@@ -3,6 +3,7 @@
 
 #include "BVHTree.h"
 #include "buildopts.h"
+#include "profiler/Profiler.h"
 #include <float.h>
 #include <stdio.h>
 

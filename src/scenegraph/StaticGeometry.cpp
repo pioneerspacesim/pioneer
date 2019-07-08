@@ -11,6 +11,7 @@
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
+#include "profiler/Profiler.h"
 #include "utils.h"
 
 namespace SceneGraph {

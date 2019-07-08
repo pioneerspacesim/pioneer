@@ -3,6 +3,7 @@
 
 #include "Gui.h"
 #include "libs.h"
+#include "profiler/Profiler.h"
 
 static const float SCROLLBAR_SIZE = 12.f;
 static const float BORDER = 2.f;

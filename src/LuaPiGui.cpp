@@ -18,6 +18,7 @@
 #include "WorldView.h"
 #include "graphics/Graphics.h"
 #include "pigui/LuaFlags.h"
+#include "profiler/Profiler.h"
 #include "ship/PlayerShipController.h"
 #include "sound/Sound.h"
 #include "ui/Context.h"

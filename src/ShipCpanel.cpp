@@ -15,6 +15,7 @@
 #include "UIView.h"
 #include "WorldView.h"
 #include "libs.h"
+#include "profiler/Profiler.h"
 
 // XXX duplicated in WorldView. should probably be a theme variable
 static const Color s_hudTextColor(0, 255, 0, 204);

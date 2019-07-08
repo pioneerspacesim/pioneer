@@ -14,6 +14,7 @@
 #include "Orbit.h"
 #include "StringF.h"
 #include "enum_table.h"
+#include "profiler/Profiler.h"
 #include "utils.h"
 #include <SDL_stdinc.h>
 #include <algorithm>

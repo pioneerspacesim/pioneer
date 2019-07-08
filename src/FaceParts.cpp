@@ -5,6 +5,7 @@
 #include "FileSystem.h"
 #include "SDLWrappers.h"
 #include "libs.h"
+#include "profiler/Profiler.h"
 #include "utils.h"
 
 namespace {

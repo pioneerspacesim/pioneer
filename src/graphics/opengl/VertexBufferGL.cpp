@@ -3,6 +3,7 @@
 
 #include "graphics/opengl/VertexBufferGL.h"
 #include "graphics/VertexArray.h"
+#include "profiler/Profiler.h"
 #include "utils.h"
 
 namespace Graphics {

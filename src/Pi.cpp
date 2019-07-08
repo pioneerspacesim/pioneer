@@ -81,6 +81,7 @@
 #include "gameui/Lua.h"
 #include "libs.h"
 #include "pigui/PiGuiLua.h"
+#include "profiler/Profiler.h"
 #include "ship/PlayerShipController.h"
 #include "ship/ShipViewController.h"
 #include "sound/Sound.h"
@@ -136,7 +137,7 @@ bool Pi::doingMouseGrab;
 #if WITH_DEVKEYS
 bool Pi::showDebugInfo = false;
 #endif
-#if PIONEER_PROFILER
+#if WITH_PROFILER
 std::string Pi::profilerPath;
 bool Pi::doProfileSlow = false;
 bool Pi::doProfileOne = false;
@@ -435,7 +436,7 @@ void RegisterInputBindings()
 
 void Pi::Init(const std::map<std::string, std::string> &options, bool no_gui)
 {
-#ifdef PIONEER_PROFILER
+#if WITH_PROFILER
 	Profiler::reset();
 #endif
 
@@ -447,7 +448,7 @@ void Pi::Init(const std::map<std::string, std::string> &options, bool no_gui)
 
 	FileSystem::Init();
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
-#ifdef PIONEER_PROFILER
+#if WITH_PROFILER
 	FileSystem::userFiles.MakeDirectory("profiler");
 	profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
 #endif
@@ -773,7 +774,7 @@ void Pi::Init(const std::map<std::string, std::string> &options, bool no_gui)
 	draw_progress(1.0f);
 
 	timer.Stop();
-#ifdef PIONEER_PROFILER
+#if WITH_PROFILER
 	Profiler::dumphtml(profilerPath.c_str());
 #endif
 	Output("\n\nLoading took: %lf milliseconds\n", timer.millicycles());
@@ -899,7 +900,7 @@ void Pi::HandleKeyDown(SDL_Keysym *key)
 			Pi::showDebugInfo = !Pi::showDebugInfo;
 			break;
 
-#ifdef PIONEER_PROFILER
+#if WITH_PROFILER
 		case SDLK_p: // alert it that we want to profile
 			if (input.KeyState(SDLK_LSHIFT) || input.KeyState(SDLK_RSHIFT))
 				Pi::doProfileOne = true;
@@ -1359,7 +1360,7 @@ void Pi::MainLoop()
 	double accumulator = Pi::game->GetTimeStep();
 	Pi::gameTickAlpha = 0;
 
-#ifdef PIONEER_PROFILER
+#if WITH_PROFILER
 	Profiler::reset();
 #endif
 
@@ -1564,7 +1565,7 @@ void Pi::MainLoop()
 		Pi::statSceneTris = 0;
 		Pi::statNumPatches = 0;
 
-#ifdef PIONEER_PROFILER
+#if WITH_PROFILER
 		const Uint32 profTicks = SDL_GetTicks();
 		if (Pi::doProfileOne || (Pi::doProfileSlow && (profTicks - newTicks) > 100)) { // slow: < ~10fps
 			Output("dumping profile data\n");
@@ -1589,7 +1590,7 @@ void Pi::MainLoop()
 			fwrite(sd.pixels.get(), sizeof(uint32_t) * Pi::renderer->GetWindowWidth() * Pi::renderer->GetWindowHeight(), 1, Pi::ffmpegFile);
 		}
 
-#ifdef PIONEER_PROFILER
+#if WITH_PROFILER
 		Profiler::reset();
 #endif
 	}

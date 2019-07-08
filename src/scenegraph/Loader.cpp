@@ -13,6 +13,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
+#include "profiler/Profiler.h"
 #include "utils.h"
 #include <assimp/material.h>
 #include <assimp/postprocess.h>

@@ -5,6 +5,7 @@
 #include "FileSystem.h"
 #include "StringF.h"
 #include "StringRange.h"
+#include "profiler/Profiler.h"
 #include <sstream>
 
 namespace SceneGraph {

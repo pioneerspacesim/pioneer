@@ -16,6 +16,7 @@
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
 #include "perlin.h"
+#include "profiler/Profiler.h"
 
 #include <SDL_stdinc.h>
 #include <iostream>

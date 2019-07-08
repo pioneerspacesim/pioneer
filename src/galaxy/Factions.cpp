@@ -6,6 +6,7 @@
 #include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
+#include "profiler/Profiler.h"
 
 #include "enum_table.h"
 

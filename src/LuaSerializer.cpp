@@ -5,6 +5,7 @@
 #include "GameSaveError.h"
 #include "JsonUtils.h"
 #include "LuaObject.h"
+#include "profiler/Profiler.h"
 
 // every module can save one object. that will usually be a table.  we call
 // each serializer in turn and capture its return value we build a table like

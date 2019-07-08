@@ -12,6 +12,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
 #include "perlin.h"
+#include "profiler/Profiler.h"
 
 #ifdef _MSC_VER
 #include "win32/WinMath.h"

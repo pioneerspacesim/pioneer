@@ -9,6 +9,7 @@
 #include "Json.h"
 #include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
+#include "profiler/Profiler.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/SceneGraph.h"
 #include "utils.h"

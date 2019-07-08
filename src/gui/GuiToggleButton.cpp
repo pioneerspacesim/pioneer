@@ -3,6 +3,7 @@
 
 #include "Gui.h"
 #include "libs.h"
+#include "profiler/Profiler.h"
 
 static const float BUTTON_SIZE = 16.f;
 

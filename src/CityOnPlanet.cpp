@@ -10,6 +10,7 @@
 #include "Planet.h"
 #include "SpaceStation.h"
 #include "collider/Geom.h"
+#include "profiler/Profiler.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/ModelSkin.h"
 #include "scenegraph/SceneGraph.h"

@@ -20,6 +20,7 @@
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
+#include "profiler/Profiler.h"
 
 /*
  * Class: StarSystem

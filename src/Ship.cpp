@@ -26,6 +26,7 @@
 #include "StringF.h"
 #include "WorldView.h"
 #include "graphics/TextureBuilder.h"
+#include "profiler/Profiler.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/MatrixTransform.h"
 #include "ship/PlayerShipController.h"

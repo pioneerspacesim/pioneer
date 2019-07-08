@@ -9,6 +9,7 @@
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
 #include "libs.h"
+#include "profiler/Profiler.h"
 #include "utils.h"
 
 #ifdef __clang__

@@ -5,6 +5,7 @@
 
 #include "vector2.h"
 #include "graphics/Renderer.h"
+#include "profiler/Profiler.h"
 
 namespace Gui {
 

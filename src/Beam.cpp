@@ -24,6 +24,7 @@
 #include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
+#include "profiler/Profiler.h"
 
 namespace {
 	static float lifetime = 0.1f;

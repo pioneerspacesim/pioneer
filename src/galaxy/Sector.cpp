@@ -8,6 +8,7 @@
 
 #include "EnumStrings.h"
 #include "Factions.h"
+#include "profiler/Profiler.h"
 #include "utils.h"
 
 const float Sector::SIZE = 8.f;
