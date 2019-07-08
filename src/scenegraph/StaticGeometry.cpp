@@ -6,10 +6,11 @@
 #include "BaseLoader.h"
 #include "Model.h"
 #include "NodeVisitor.h"
+#include "Serializer.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
-#include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
+#include "graphics/Renderer.h"
 #include "utils.h"
 
 namespace SceneGraph {
@@ -122,6 +123,7 @@ namespace SceneGraph {
 	typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material>>> MaterialContainer;
 	void StaticGeometry::Save(NodeDatabase &db)
 	{
+		PROFILE_SCOPED()
 		Node::Save(db);
 		db.wr->Int32(m_blendMode);
 		db.wr->Vector3d(m_boundingBox.min);
@@ -182,6 +184,7 @@ namespace SceneGraph {
 
 	StaticGeometry *StaticGeometry::Load(NodeDatabase &db)
 	{
+		PROFILE_SCOPED()
 		using namespace Graphics;
 
 		StaticGeometry *sg = new StaticGeometry(db.loader->GetRenderer());

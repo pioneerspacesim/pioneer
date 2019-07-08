@@ -3,12 +3,14 @@
 #include "BinaryConverter.h"
 #include "FileSystem.h"
 #include "GameSaveError.h"
+#include "LZ4Format.h"
 #include "NodeVisitor.h"
 #include "Parser.h"
 #include "StringF.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/Label3D.h"
 #include "scenegraph/MatrixTransform.h"
+#include "scenegraph/Serializer.h"
 #include "utils.h"
 
 #ifdef __GNUC__
@@ -25,12 +27,13 @@ extern "C" {
 using namespace SceneGraph;
 
 // Attempt at version history:
-// 1: prototype
-// 2: converted StaticMesh to VertexBuffer
-// 3: store processed collision mesh
-// 4: compressed SGM files and instancing support
-// 5: normal mapping
-// 6: 32-bit indicies
+// 1:	prototype
+// 2:	converted StaticMesh to VertexBuffer
+// 3:	store processed collision mesh
+// 4:	compressed SGM files and instancing support
+// 5:	normal mapping
+// 6:	32-bit indicies
+// 6.1:	rewrote serialization, use lz4 compression instead of INFLATE/DEFLATE. Still compatible.
 const Uint32 SGM_VERSION = 6;
 union SGM_STRING_VALUE {
 	char name[4];
@@ -146,14 +149,15 @@ void BinaryConverter::Save(const std::string &filename, const std::string &savep
 	size_t outSize = 0;
 	size_t nwritten = 0;
 	const std::string &data = wr.GetData();
-	void *pCompressedData = tdefl_compress_mem_to_heap(data.data(), data.length(), &outSize, 128);
-	if (pCompressedData) {
-		nwritten = fwrite(pCompressedData, outSize, 1, f);
-		mz_free(pCompressedData);
+	try {
+		std::unique_ptr<char> compressedData = lz4::CompressLZ4(data, 6, outSize);
+		Output("Compressed model (%s): %.2f KB -> %.2f KB\n", filename.c_str(), data.size() / 1024.f, outSize / 1024.f);
+		fwrite(compressedData.get(), outSize, 1, f);
+		fclose(f);
+	} catch (std::runtime_error &e) {
+		Warning("Error saving SGM model: %s\n", e.what());
+		throw CouldNotWriteToFileException();
 	}
-	fclose(f);
-
-	if (nwritten != 1) throw CouldNotWriteToFileException();
 }
 
 Model *BinaryConverter::Load(const std::string &filename)
@@ -161,6 +165,40 @@ Model *BinaryConverter::Load(const std::string &filename)
 	PROFILE_SCOPED()
 	Model *m = Load(filename, "models");
 	return m;
+}
+
+Model *BinaryConverter::Load(const std::string &name, RefCountedPtr<FileSystem::FileData> binfile)
+{
+	PROFILE_SCOPED()
+	Model *model(nullptr);
+	// decompress the loaded ByteRange in memory
+	const ByteRange bin = binfile->AsByteRange();
+	if (lz4::IsLZ4Format(bin.begin, bin.Size())) {
+		try {
+			std::string decompressedData = lz4::DecompressLZ4(bin.begin, bin.Size());
+			Output("decompressed model file %s (%.2f KB) -> %.2f KB\n", name.c_str(), binfile->GetSize() / 1024.f, decompressedData.size() / 1024.f);
+			Serializer::Reader rd(ByteRange(decompressedData.data(), decompressedData.size()));
+			model = CreateModel(name, rd);
+		} catch (std::runtime_error &e) {
+			Warning("Error loading SGM model: %s\n", e.what());
+		}
+	} else {
+		void *pDecompressedData;
+		size_t outSize(0);
+		{
+			PROFILE_SCOPED_DESC("tinfl_decompress_mem_to_heap")
+			pDecompressedData = tinfl_decompress_mem_to_heap(&bin[0], bin.Size(), &outSize, 0);
+		}
+		Output("decompressed model file %s (%.2f KB) -> %.2f KB\n", name.c_str(), binfile->GetSize() / 1024.f, outSize / 1024.f);
+		if (pDecompressedData) {
+			// now parse in-memory representation as new ByteRange.
+			Serializer::Reader rd(ByteRange(static_cast<char *>(pDecompressedData), outSize));
+			model = CreateModel(name, rd);
+			mz_free(pDecompressedData);
+		}
+	}
+
+	return model;
 }
 
 Model *BinaryConverter::Load(const std::string &shortname, const std::string &basepath)
@@ -185,20 +223,7 @@ Model *BinaryConverter::Load(const std::string &shortname, const std::string &ba
 					m_curPath = m_curPath.substr(0, m_curPath.length() - 1);
 
 				RefCountedPtr<FileSystem::FileData> binfile = info.Read();
-				if (binfile.Valid()) {
-					Model *model(nullptr);
-					size_t outSize(0);
-					// decompress the loaded ByteRange in memory
-					const ByteRange bin = binfile->AsByteRange();
-					void *pDecompressedData = tinfl_decompress_mem_to_heap(&bin[0], bin.Size(), &outSize, 0);
-					if (pDecompressedData) {
-						// now parse in-memory representation as new ByteRange.
-						Serializer::Reader rd(ByteRange(static_cast<char *>(pDecompressedData), outSize));
-						model = CreateModel(name, rd);
-						mz_free(pDecompressedData);
-					}
-					return model;
-				}
+				if (binfile.Valid()) return Load(name, binfile);
 			}
 		}
 	}

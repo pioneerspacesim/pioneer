@@ -136,6 +136,7 @@ void CityOnPlanet::LookupBuildingListModels(citybuildinglist_t *list)
 
 void CityOnPlanet::Init()
 {
+	PROFILE_SCOPED()
 	/* Resolve city model numbers since it is a bit expensive */
 	LookupBuildingListModels(&s_buildingList);
 }

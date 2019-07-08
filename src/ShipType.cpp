@@ -51,6 +51,7 @@ static bool ShipIsUnbuyable(const std::string &id)
 
 ShipType::ShipType(const Id &_id, const std::string &path)
 {
+	PROFILE_SCOPED()
 	Json data = JsonUtils::LoadJsonDataFile(path);
 	if (data.is_null()) {
 		Output("couldn't read ship def '%s'\n", path.c_str());
@@ -407,6 +408,7 @@ int define_missile(lua_State *L)
 
 void ShipType::Init()
 {
+	PROFILE_SCOPED()
 	static bool isInitted = false;
 	if (isInitted)
 		return;

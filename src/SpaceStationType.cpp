@@ -388,6 +388,7 @@ bool SpaceStationType::GetDockAnimPositionOrient(const unsigned int port, int st
 /*static*/
 void SpaceStationType::Init()
 {
+	PROFILE_SCOPED()
 	static bool isInitted = false;
 	if (isInitted)
 		return;

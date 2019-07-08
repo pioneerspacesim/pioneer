@@ -155,6 +155,7 @@ static const char BACKGROUND_GENERAL_PATH[] = "facegen/backgrounds/general.png";
 
 void PartDb::Scan()
 {
+	PROFILE_SCOPED()
 	Clear();
 
 	background_general = LoadSurfaceFromFile(BACKGROUND_GENERAL_PATH);
@@ -178,6 +179,7 @@ void PartDb::Scan()
 
 void PartDb::ScanSpecies(const std::string &basedir, const int species_idx)
 {
+	PROFILE_SCOPED()
 	int race_count = 0;
 	const auto flags = fs::FileEnumerator::IncludeDirs | fs::FileEnumerator::ExcludeFiles;
 	for (fs::FileEnumerator dirs(fs::gameDataFiles, basedir, flags); !dirs.Finished(); dirs.Next()) {
@@ -211,6 +213,7 @@ void PartDb::ScanSpecies(const std::string &basedir, const int species_idx)
 
 void PartDb::ScanParts(std::vector<Part> &output, const int species_idx, const int race_idx, const std::string &path, const char *prefix)
 {
+	PROFILE_SCOPED()
 	const Uint32 selector = _make_selector(species_idx, race_idx, -1);
 	for (fs::FileEnumerator files(fs::gameDataFiles, path); !files.Finished(); files.Next()) {
 		const std::string &name = files.Current().GetName();
@@ -227,6 +230,7 @@ void PartDb::ScanParts(std::vector<Part> &output, const int species_idx, const i
 
 void PartDb::ScanGenderedParts(std::vector<Part> &output, const int species_idx, const int race_idx, const std::string &path, const char *prefix)
 {
+	PROFILE_SCOPED()
 	const int prefix_len = strlen(prefix);
 	for (fs::FileEnumerator files(fs::gameDataFiles, path); !files.Finished(); files.Next()) {
 		const std::string &name = files.Current().GetName();
@@ -260,6 +264,7 @@ const int FaceParts::FACE_HEIGHT = 285;
 
 void FaceParts::Init()
 {
+	PROFILE_SCOPED()
 	s_partdb = new PartDb;
 	s_partdb->Scan();
 	Output("Face Generation source images loaded.\n");

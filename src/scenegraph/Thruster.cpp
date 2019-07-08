@@ -5,6 +5,7 @@
 #include "BaseLoader.h"
 #include "Easing.h"
 #include "NodeVisitor.h"
+#include "Serializer.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"

@@ -5,8 +5,12 @@
 #define _GEOMTREE_H
 
 #include "CollisionContact.h"
-#include "Serializer.h"
 #include "libs.h"
+
+namespace Serializer {
+	class Reader;
+	class Writer;
+} // namespace Serializer
 
 struct isect_t {
 	// triIdx = -1 if no intersection
@@ -32,6 +36,8 @@ public:
 	vector3f GetTriNormal(int triIdx) const;
 	Uint32 GetTriFlag(int triIdx) const { return m_triFlags[triIdx]; }
 	double GetRadius() const { return m_radius; }
+
+#pragma pack(4)
 	struct Edge {
 		int v1i, v2i;
 		float len;
@@ -39,27 +45,13 @@ public:
 		// edge triFlag can be weird since edges may get merged and
 		// intended flag lost
 		int triFlag;
-
-		void Save(Serializer::Writer &wr) const
-		{
-			PROFILE_SCOPED()
-			wr.Int32(v1i);
-			wr.Int32(v2i);
-			wr.Float(len);
-			wr.Vector3f(dir);
-			wr.Int32(triFlag);
-		}
-		void Load(Serializer::Reader &rd)
-		{
-			PROFILE_SCOPED()
-			v1i = rd.Int32();
-			v2i = rd.Int32();
-			len = rd.Float();
-			dir = rd.Vector3f();
-			triFlag = rd.Int32();
-		}
 	};
-	const Edge *GetEdges() const { return &m_edges[0]; }
+#pragma pack()
+
+	const Edge *GetEdges() const
+	{
+		return &m_edges[0];
+	}
 	int GetNumEdges() const { return m_numEdges; }
 
 	BVHTree *GetTriTree() const { return m_triTree.get(); }

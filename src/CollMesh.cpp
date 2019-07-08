@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CollMesh.h"
+#include "scenegraph/Serializer.h"
 
 //This simply stores the collision GeomTrees
 //and AABB.

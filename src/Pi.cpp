@@ -273,6 +273,7 @@ static void draw_progress(float progress)
 
 static void LuaInit()
 {
+	PROFILE_SCOPED()
 	LuaObject<PropertiedObject>::RegisterClass();
 
 	LuaObject<Body>::RegisterClass();

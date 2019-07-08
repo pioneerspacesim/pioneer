@@ -5,6 +5,7 @@
 #include "BaseLoader.h"
 #include "NodeCopyCache.h"
 #include "NodeVisitor.h"
+#include "Serializer.h"
 #include "StringF.h"
 #include "graphics/Graphics.h"
 #include "graphics/VertexBuffer.h"
