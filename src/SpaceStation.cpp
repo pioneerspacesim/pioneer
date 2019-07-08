@@ -17,8 +17,8 @@
 #include "Ship.h"
 #include "Space.h"
 #include "StringF.h"
-#include "graphics/Renderer.h"
 #include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/MatrixTransform.h"
 #include "scenegraph/ModelSkin.h"
@@ -669,21 +669,28 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 	for (unsigned int i = 0; i < m_type->NumDockingPorts(); i++) {
 		const shipDocking_t &dt = m_shipDocking[i];
 		if (!dt.ship) { //free
+			m_navLights->SetColor(i + 1, NavLights::NAVLIGHT_OFF);
+			continue;
+		}
+		if (dt.stage == 1) { // reserved
 			m_navLights->SetColor(i + 1, NavLights::NAVLIGHT_GREEN);
+			m_navLights->SetMask(i + 1, 0x33); // 00110011 on two off two
 			continue;
 		}
-		if (dt.stage == 1) { //reserved
+
+		if (dt.stage == -1) { // undocking anim
 			m_navLights->SetColor(i + 1, NavLights::NAVLIGHT_YELLOW);
-			continue;
 		}
-		if (dt.ship->GetFlightState() == Ship::DOCKED) {
+		if (dt.stage == m_type->NumDockingStages() + 3) { // just docked
+			m_navLights->SetColor(i + 1, NavLights::NAVLIGHT_BLUE);
+			m_navLights->SetMask(i + 1, 0xf6); // 11110110
+		}
+
+		if (dt.ship->GetFlightState() == Ship::DOCKED) { //docked
 			PositionDockedShip(dt.ship, i);
-			continue;
+		} else if (dt.ship->GetFlightState() == Ship::DOCKING || dt.ship->GetFlightState() == Ship::UNDOCKING) {
+			PositionDockingShip(dt.ship, i);
 		}
-		if (dt.ship->GetFlightState() != Ship::DOCKING && dt.ship->GetFlightState() != Ship::UNDOCKING)
-			continue;
-		PositionDockingShip(dt.ship, i);
-		m_navLights->SetColor(i + 1, NavLights::NAVLIGHT_RED); //docked
 	}
 
 	ModelBody::TimeStepUpdate(timeStep);

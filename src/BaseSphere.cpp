@@ -52,7 +52,7 @@ void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
 	const vector3d xaxis = yaxis.Cross(zaxis);
 	const matrix4x4d invrot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).Inverse();
 
-	renderer->SetTransform(modelView * matrix4x4d::ScaleMatrix(rad, rad, rad) * invrot);
+	renderer->SetTransform(modelView * matrix4x4d::ScaleMatrix(rad) * invrot);
 
 	if (!m_atmos)
 		m_atmos.reset(new Drawables::Sphere3D(renderer, mat, rs, 4, 1.0f, ATTRIB_POSITION));

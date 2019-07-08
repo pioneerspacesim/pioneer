@@ -44,9 +44,11 @@ end
 
 local patrol = {}
 local showMercy = true
+local piracy = false
 
 local attackShip = function (ship)
 	for i = 1, #patrol do
+		piracy = true
 		patrol[i]:AIKill(ship)
 	end
 end
@@ -60,6 +62,9 @@ local onShipDestroyed = function (ship, attacker)
 			if attacker:isa("Ship") and attacker:IsPlayer() then
 				showMercy = false
 			end
+			break
+		elseif patrol[i] == attacker then
+			Comms.ImportantMessage(l["TARGET_DESTROYED_" .. Engine.rand:Integer(1, getNumberOfFlavours("TARGET_DESTROYED"))], attacker.label)
 			break
 		end
 	end
@@ -76,6 +81,35 @@ local onShipHit = function (ship, attacker)
 	end
 end
 
+local onShipFiring = function (ship)
+	if piracy then return end
+
+	local police = ShipDef[Game.system.faction.policeShip]
+	if ship.shipId ~= police.id then
+		for i = 1, #patrol do
+			if ship:DistanceTo(patrol[i]) <= 4000000 then
+				Comms.ImportantMessage(string.interp(l_ui_core.X_CANNOT_BE_TOLERATED_HERE, { crime = l_ui_core.PIRACY }, patrol[i].label))
+				attackShip(ship)
+				break
+			end
+		end
+	end
+end
+
+local onAICompleted = function (ship, ai_error)
+	if not piracy or ai_error ~= 'NONE' then return end
+
+	for i = 1, #patrol do
+		if patrol[i] == ship then
+			-- Ships which act in self-defence have 5 seconds to cease fire
+			Timer:CallAt(Game.time + 5, function ()
+				piracy = false
+			end)
+			break
+		end
+	end
+end
+
 local onJettison = function (ship, cargo)
 	if not ship:IsPlayer() or Game.system:IsCommodityLegal(cargo) then return end
 
@@ -83,6 +117,7 @@ local onJettison = function (ship, cargo)
 		local manifest = ship:GetEquip("cargo")
 		if not hasIllegalGoods(manifest) then
 			Comms.ImportantMessage(l.TAKE_A_HIKE, patrol[1].label)
+			piracy = false
 			for i = 1, #patrol do
 				patrol[i]:CancelAI()
 			end
@@ -137,6 +172,7 @@ local onLeaveSystem = function (ship)
 	if ship:IsPlayer() then
 		patrol = {}
 		showMercy = true
+		piracy = false
 	end
 end
 
@@ -147,6 +183,7 @@ local onGameStart = function ()
 	if loaded_data then
 		patrol = loaded_data.patrol
 		showMercy = loaded_data.showMercy
+		piracy = loaded_data.piracy
 		loaded_data = nil
 	end
 end
@@ -154,10 +191,11 @@ end
 local onGameEnd = function ()
 	patrol = {}
 	showMercy = true
+	piracy = false
 end
 
 local serialize = function ()
-	return { patrol = patrol, showMercy = showMercy }
+	return { patrol = patrol, showMercy = showMercy, piracy = piracy }
 end
 
 local unserialize = function (data)
@@ -168,6 +206,8 @@ Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onLeaveSystem", onLeaveSystem)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onShipHit", onShipHit)
+Event.Register("onShipFiring", onShipFiring)
+Event.Register("onAICompleted", onAICompleted)
 Event.Register("onJettison", onJettison)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)

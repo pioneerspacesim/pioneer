@@ -323,19 +323,16 @@ static void LuaInit()
 	// XXX sigh
 	UI::Lua::Init();
 	GameUI::Lua::Init();
-	PiGUI::Lua::Init();
 	SceneGraph::Lua::Init();
 
 	LuaObject<PiGui>::RegisterClass();
+	PiGUI::Lua::Init();
 
 	// XXX load everything. for now, just modules
 	lua_State *l = Lua::manager->GetLuaState();
 	pi_lua_import(l, "libs/autoload.lua", true);
 	pi_lua_import_recursive(l, "ui");
 	pi_lua_import(l, "pigui/pigui.lua", true);
-	pi_lua_import(l, "pigui/game.lua", true);
-	pi_lua_import(l, "pigui/init.lua", true);
-	pi_lua_import(l, "pigui/mainmenu.lua", true);
 	pi_lua_import_recursive(l, "pigui/modules");
 	pi_lua_import_recursive(l, "pigui/views");
 	pi_lua_import_recursive(l, "modules");

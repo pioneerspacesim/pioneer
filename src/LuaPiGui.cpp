@@ -1836,7 +1836,7 @@ static int l_pigui_input_text(lua_State *l)
 	PROFILE_SCOPED()
 	std::string label = LuaPull<std::string>(l, 1);
 	std::string text = LuaPull<std::string>(l, 2);
-	int flags = LuaPull<ImGuiInputTextFlags_>(l, 3);
+	int flags = LuaPull<ImGuiInputTextFlags_>(l, 3, ImGuiInputTextFlags_None);
 	// callback
 	// user_data
 	char buffer[1024];

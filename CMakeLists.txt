@@ -23,6 +23,14 @@ if (WIN32)
 	set(CMAKE_INSTALL_BINDIR ${CMAKE_INSTALL_PREFIX})
 endif (WIN32)
 
+if (MSVC)
+	# Avoid annoying warnings from Visual Studio
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+
+	# Use M_PI/M_E macros from math.h
+	add_definitions(-D_USE_MATH_DEFINES -DHAVE_M_PI)
+endif (MSVC)
+
 if (APPLE)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-gnu")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu")
@@ -120,13 +128,15 @@ endif (WIN32)
 configure_file(buildopts.h.cmakein buildopts.h @ONLY)
 
 LIST(APPEND CXX_FILES ${FILESYSTEM_CXX_FILES})
-option(USE_PIONEER_THIRDPARTY "Use pioneer's thirdparty library repository." OFF)
-if (USE_PIONEER_THIRDPARTY)
-	list(APPEND CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/pioneer-thirdparty/usr)
-	include_directories(${CMAKE_SOURCE_DIR}/pioneer-thirdparty/usr/include)
-	link_directories(${CMAKE_SOURCE_DIR}/pioneer-thirdparty/usr/lib)
-    find_package(Threads)
-endif()
+if (MSVC)
+	option(USE_PIONEER_THIRDPARTY "Use pioneer's thirdparty library repository." ON)
+	if (USE_PIONEER_THIRDPARTY)
+		list(APPEND CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/pioneer-thirdparty/usr)
+		include_directories(${CMAKE_SOURCE_DIR}/pioneer-thirdparty/usr/include)
+		link_directories(${CMAKE_SOURCE_DIR}/pioneer-thirdparty/usr/lib)
+		find_package(Threads)
+	endif()
+endif (MSVC)
 
 option(USE_SYSTEM_LIBGLEW "Use the system's libglew" OFF)
 if (USE_SYSTEM_LIBGLEW)
@@ -148,17 +158,21 @@ if (PROFILER_ENABLED)
 	add_compile_definitions(PIONEER_PROFILER=1)
 endif(PROFILER_ENABLED)
 
+if (MSVC)
+	include(msvc-defaults.cmake)
+else (MSVC)
+	find_package(PkgConfig REQUIRED)
+
+	pkg_check_modules(SDL2 REQUIRED sdl2)
+	pkg_check_modules(SDL2_IMAGE REQUIRED SDL2_image)
+
+	pkg_check_modules(ASSIMP REQUIRED assimp)
+	pkg_check_modules(SIGCPP REQUIRED sigc++-2.0)
+	pkg_check_modules(VORBISFILE REQUIRED vorbisfile)
+endif (MSVC)
+
 find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(PkgConfig REQUIRED)
-find_package(PNG REQUIRED)
-
-pkg_check_modules(SDL2 REQUIRED sdl2)
-pkg_check_modules(SDL2_IMAGE REQUIRED SDL2_image)
-
-pkg_check_modules(ASSIMP REQUIRED assimp)
-pkg_check_modules(SIGCPP REQUIRED sigc++-2.0)
-pkg_check_modules(VORBISFILE REQUIRED vorbisfile)
 
 add_subdirectory(contrib/lz4)
 
@@ -168,7 +182,6 @@ include_directories(
 	${ASSIMP_INCLUDE_DIRS}
 	${FREETYPE_INCLUDE_DIRS}
 	${OPENGL_INCLUDE_DIRS}
-	${PNG_INCLUDE_DIRS}
 	${SDL2_INCLUDE_DIRS}
 	${SDL2_IMAGE_INCLUDE_DIRS}
 	${SIGCPP_INCLUDE_DIRS}
@@ -180,6 +193,10 @@ if (NOT USE_SYSTEM_LIBGLEW)
 	add_subdirectory(contrib/glew)
 	add_library(GLEW::GLEW ALIAS glew)
 	include_directories(contrib/glew)
+
+	# Specify that we compile against a static build of Glew
+	# (required on Windows)
+	add_definitions(-DGLEW_STATIC)
 endif (NOT USE_SYSTEM_LIBGLEW)
 add_subdirectory(contrib/imgui)
 add_subdirectory(contrib/jenkins)
@@ -197,11 +214,6 @@ if (WIN32)
 	string(TIMESTAMP BUILD_YEAR "%Y")
 	set(RESOURCES ${CMAKE_BINARY_DIR}/pioneer.rc)
 	configure_file(pioneer.rc.cmakein ${RESOURCES} @ONLY)
-endif()
-
-if (USE_PIONEER_THIRDPARTY)
-    set(SDL2_LIBRARIES "${SDL2_STATIC_LIBRARIES}")
-    set(SDL2_IMAGE_LIBRARIES "${SDL2_IMAGE_STATIC_LIBRARIES}")
 endif()
 
 link_directories(
@@ -233,7 +245,6 @@ list(APPEND pioneerLibs
 	${ASSIMP_LIBRARIES}
 	${FREETYPE_LIBRARIES}
 	${OPENGL_LIBRARIES}
-	${PNG_LIBRARIES}
 	${SDL2_LIBRARIES}
 	${SDL2_IMAGE_LIBRARIES}
 	${SIGCPP_LIBRARIES}

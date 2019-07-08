@@ -513,6 +513,12 @@
     <ClCompile Include="..\..\src\LuaColor.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\pigui\LuaModelSpinner.cpp">
+      <Filter>src\pigui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\pigui\ModelSpinner.cpp">
+      <Filter>src\pigui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -1033,6 +1039,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\LuaColor.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pigui\ModelSpinner.h">
+      <Filter>src\pigui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

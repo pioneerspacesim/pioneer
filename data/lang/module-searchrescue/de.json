@@ -1,7 +1,7 @@
 {
   "ACCIDENT_DESTROYED_TARGET": {
     "description": "",
-    "message": "The sad news has reached us that {shiplabel} has been destroyed. We will pay half of the agreed price for you efforts."
+    "message": "Die traurige Nachricht hat uns erreicht, dass {shiplabel} zerstört wurde. Wir werden Ihnen die Hälfte des Preises für Ihre Bemühungen zahlen."
   },
   "AU": {
     "description": "",
@@ -485,7 +485,7 @@
   },
   "PLAYER_DESTROYED_TARGET": {
     "description": "",
-    "message": "We have heard of your deeds, captain! Rest assured that we will report you to the local authorities for destroying the very ship you were sent out to help. A criminal lawsuit will follow."
+    "message": "Wir haben von Ihren Taten erfahren, Captain. Wir werden Sie bei den örtlichen Behörden für die Zerstörung des Schiffes melden, dem sie helfen sollten. Wir sehen uns vor Gericht."
   },
   "PLEASE_LAND": {
     "description": "",

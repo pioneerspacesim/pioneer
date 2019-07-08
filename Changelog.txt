@@ -1,13 +1,26 @@
+July 2019
+   * Internal Changes
+     * Remove leftover autotools files (#4635)
+     * Support VS2017 through CMake (#4634)
+
 June 2019
    * Internal Changes
      * Further Input and WorldView improvements (#4607)
      * Remove Color from Lua instead use LuaColor as a userdata (#4595)
      * Refactor game UI, refactor flag handling, move InfoView to pigui (#4576)
-     
+     * Refactor landing lights, rework the NavLights class (#4608)
+     * Cleanup LuaVector and LuaColor implementations (#4615)
+     * Star rendering optimisation (#4617)
+     * Move Shipinfo view to PiGui (#4614)
+     * Police patrol will treat first ship to shoot is a pirate (#4619)
+
    * Fixes
      * Fix pad collision, no noise if speed < 1/ms (#4605)
      * Basic Atmospheric heating re-enabled (#4606)
-     
+     * Use Equatorial Radius when making the frame for a star (#4616)
+     * Fix hiding/showing new tab-view (#4620)
+     * Bug fix LuaFlags initialisation problem (#4622)
+
 May 2019
    * New Features
      * Start move of InfovIew to PiGui (#4573)

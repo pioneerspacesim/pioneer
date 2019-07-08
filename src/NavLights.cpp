@@ -26,7 +26,6 @@ static vector2f m_lightColorsUVoffsets[(NavLights::NAVLIGHT_YELLOW + 1)] = {
 	vector2f(0.5f, 0.5f)
 };
 
-typedef std::vector<NavLights::LightBulb>::iterator LightIterator;
 static vector2f get_color(Uint8 c)
 {
 	return m_lightColorsUVoffsets[c];
@@ -116,20 +115,12 @@ NavLights::NavLights(SceneGraph::Model *model, float period) :
 			// due to this problem: http://stackoverflow.com/questions/15825254/why-is-scanfhhu-char-overwriting-other-variables-when-they-are-local
 			// where MSVC is still using a C89 compiler the format identifer %hhu is not recognised. Therefore I've switched to Uint32 for group.
 			PiVerify(1 == sscanf(mt->GetName().c_str(), "navlight_pad%u", &group));
-			mask = 0xf0;
+			mask = 0xf8;
 		}
 		bblight->SetColorUVoffset(get_color(color));
 
-		GroupLightsVecIter glit = std::find_if(m_groupLights.begin(), m_groupLights.end(), GroupMatch(group));
-		if (glit == m_groupLights.end()) {
-			// didn't find group, create a new one
-			m_groupLights.push_back(TGroupLights(group));
-			// now use it
-			glit = (m_groupLights.end() - 1);
-		}
-
-		assert(glit != m_groupLights.end());
-		glit->m_lights.push_back(LightBulb(group, mask, color, bblight));
+		// automagically create a new group if one doesn't exist.
+		m_groupLights[group].push_back(LightBulb(group, mask, color, bblight));
 		mt->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
 		mt->AddChild(bblight);
 	}
@@ -165,9 +156,9 @@ void NavLights::Update(float time)
 {
 	PROFILE_SCOPED();
 	if (!m_enabled) {
-		for (auto glit : m_groupLights)
-			for (LightIterator it = glit.m_lights.begin(), itEnd = glit.m_lights.end(); it != itEnd; ++it)
-				it->billboard->SetNodeMask(0x0);
+		for (const auto &group : m_groupLights)
+			for (const LightBulb &light : group.second)
+				light.billboard->SetNodeMask(0x0);
 		return;
 	}
 
@@ -176,12 +167,12 @@ void NavLights::Update(float time)
 	const int phase((fmod(m_time, m_period) / m_period) * 8);
 	const Uint8 mask = 1 << phase;
 
-	for (auto glit : m_groupLights) {
-		for (LightIterator it = glit.m_lights.begin(), itEnd = glit.m_lights.end(); it != itEnd; ++it) {
-			if (it->mask & mask)
-				it->billboard->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
+	for (const auto &pair : m_groupLights) {
+		for (const LightBulb &light : pair.second) {
+			if (light.mask & mask && light.color != LightColor::NAVLIGHT_OFF)
+				light.billboard->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
 			else
-				it->billboard->SetNodeMask(0x0);
+				light.billboard->SetNodeMask(0x0);
 		}
 	}
 }
@@ -232,12 +223,21 @@ void NavLights::Render(Graphics::Renderer *renderer)
 void NavLights::SetColor(unsigned int group, LightColor c)
 {
 	PROFILE_SCOPED();
-	GroupLightsVecIter glit = std::find_if(m_groupLights.begin(), m_groupLights.end(), GroupMatch(group));
-	if (glit != m_groupLights.end()) {
-		for (LightIterator it = glit->m_lights.begin(), itEnd = glit->m_lights.end(); it != itEnd; ++it) {
-			if (it->group != group || it->color == c) continue;
-			it->billboard->SetColorUVoffset(get_color(c));
-			it->color = c;
-		}
+	if (!m_groupLights.count(group)) return;
+	for (LightBulb &light : m_groupLights[group]) {
+		if (light.group != group || light.color == c) continue;
+		if (c != LightColor::NAVLIGHT_OFF)
+			light.billboard->SetColorUVoffset(get_color(c));
+
+		light.color = c;
+	}
+}
+
+void NavLights::SetMask(unsigned int group, uint8_t mask)
+{
+	PROFILE_SCOPED()
+	if (!m_groupLights.count(group)) return;
+	for (LightBulb &light : m_groupLights[group]) {
+		light.mask = mask;
 	}
 }

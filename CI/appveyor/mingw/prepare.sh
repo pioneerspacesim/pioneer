@@ -7,7 +7,6 @@ export PATH=/mingw64/bin:$PATH
 
 # Install dependencies
 /c/msys64/usr/bin/pacman --noconfirm -Sy \
-	mingw-w64-x86_64-cmake \
 	mingw-w64-x86_64-SDL2 \
 	mingw-w64-x86_64-SDL2_image \
 	mingw-w64-x86_64-assimp \

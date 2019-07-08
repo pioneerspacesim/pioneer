@@ -23,7 +23,7 @@ enum RunMode {
 	MODE_USAGE_ERROR
 };
 
-int main(int argc, char **argv)
+extern "C" int main(int argc, char **argv)
 {
 #ifdef PIONEER_PROFILER
 	Profiler::detect(argc, argv);
