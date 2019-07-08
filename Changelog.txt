@@ -1,7 +1,11 @@
 July 2019
+   * New Features
+     * Custom Wolf 359 system added (#4596)
+
    * Internal Changes
      * Remove leftover autotools files (#4635)
      * Support VS2017 through CMake (#4634)
+     * Speed up start up time (#4626)
 
 June 2019
    * Internal Changes
