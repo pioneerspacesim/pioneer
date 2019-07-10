@@ -1,15 +1,15 @@
 {
   "ACCEPTED_1": {
     "description": "",
-    "message": "Very well. Good luck!"
+    "message": "很好。祝你好运！"
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "Excellent!"
+    "message": "杰出的！"
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Good. We count on you!"
+    "message": "好。我们全靠你了!"
   },
   "ADTEXT_1": {
     "description": "",
@@ -73,11 +73,11 @@
   },
   "CORPORATION_4": {
     "description": "Name of a corporation",
-    "message": "Galactic Explorer Corporation"
+    "message": "银河探索者公司"
   },
   "CORPORATION_5": {
     "description": "Name of a corporation",
-    "message": "Haber Corporation"
+    "message": "哈伯公司"
   },
   "CORPORATION_6": {
     "description": "Name of a corporation",
@@ -137,7 +137,7 @@
   },
   "GREETING_3": {
     "description": "",
-    "message": "How are you. I'm {name}."
+    "message": "你好，我是{name}"
   },
   "GREETING_4": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "IS_THERE_A_TIME_LIMIT": {
     "description": "",
-    "message": "Is there a time limit?"
+    "message": "有时间限制吗？"
   },
   "LY": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "MANAGER": {
     "description": "",
-    "message": "Manager"
+    "message": "经理"
   },
   "MEET_ME_THERE": {
     "description": "",
@@ -241,7 +241,7 @@
   },
   "MISSION_TYPE_2": {
     "description": "Name of mission type",
-    "message": "Armed Reconnaissance"
+    "message": "武装侦察"
   },
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
@@ -257,7 +257,7 @@
   },
   "OBJECTIVE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Clear the area around {area}. Break any resistance."
+    "message": "清除区域周围的区域。消灭任何敌人。"
   },
   "OK_AGREED": {
     "description": "",
@@ -333,7 +333,7 @@
   },
   "TIME_LIMIT": {
     "description": "",
-    "message": "Time limit:"
+    "message": "时限："
   },
   "WHAT_ARE_THE_MISSION_OBJECTIVES": {
     "description": "",
@@ -341,6 +341,6 @@
   },
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
-    "message": "Will I be in trouble?"
+    "message": "我会有麻烦吗？"
   }
 }
