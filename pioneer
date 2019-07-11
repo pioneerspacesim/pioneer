@@ -2,12 +2,20 @@
 # Executable wrapper script
 # Ensures the program is up-to-date, then hands over
 
-PROGRAM_NAME=$(basename $0)
+set -e
+cd "$(dirname "$0")"
+PROGRAM_NAME="$(basename "$0")"
 
-EXEC_BIN=src/$PROGRAM_NAME
-START_DIR=$(pwd)
-WORK_DIR=$(dirname $0)
+# Create build directory
+[ -d build ] || make build
+cd build
 
-cd $WORK_DIR
-make && exec $EXEC_BIN $*
-cd $START_DIR
+# Generate build files
+[ -f Makefile ] || cmake ..
+
+# Generate binaries
+make
+
+# Run main binary
+cd ..
+exec build/$PROGRAM_NAME "$@"
