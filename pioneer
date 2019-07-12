@@ -7,15 +7,15 @@ cd "$(dirname "$0")"
 PROGRAM_NAME="$(basename "$0")"
 
 # Create build directory
-[ -d build ] || make build
-cd build
+[ -d build ] || mkdir build
 
 # Generate build files
-[ -f Makefile ] || cmake ..
+[ -f build/CMakeCache.txt ] || ./boostrap
 
 # Generate binaries
-make
+# Users of GNU Make can enable parallel builds on N cores by setting
+# MAKEFLAGS=-jN when calling this script.
+cmake --build build
 
 # Run main binary
-cd ..
 exec build/$PROGRAM_NAME "$@"
