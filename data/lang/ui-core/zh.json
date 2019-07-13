@@ -29,7 +29,7 @@
   },
   "ANISOTROPIC_FILTERING_DESC": {
     "description": "",
-    "message": "Samples the texture across multiple mip levels to produce a much clearer texture when viewed at shallow angles. Stops the textures from becoming as blurred; however, it can come at a heavy performance cost."
+    "message": "在多个mip级别上采样纹理，以在较浅的角度查看时产生更清晰的纹理。防止纹理变得模糊;然而，它可能会付出沉重的性能代价。"
   },
   "AN_ERROR_HAS_OCCURRED": {
     "description": "",
@@ -821,7 +821,7 @@
   },
   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
     "description": "",
-    "message": "Hyperspacing to {destination} in {countdown} seconds"
+    "message": "在{countdown}秒后超间跳跃到{destination}"
   },
   "HUD_INDICATOR_AWAY_FROM_FRAME": {
     "description": "Indicator: Away from the current frame.",
@@ -837,31 +837,31 @@
   },
   "HUD_INDICATOR_FRAME_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current frame.",
-    "message": "Prograde relative to current frame of reference"
+    "message": "相对于当前参照系的推进"
   },
   "HUD_INDICATOR_FRAME_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current frame.",
-    "message": "Retrograde relative to current frame of reference"
+    "message": "相对于当前参照系逆行"
   },
   "HUD_INDICATOR_MANEUVER_PROGRADE": {
     "description": "Indicator: The prograde direction for the maneuver burn.",
-    "message": "Prograde for maneuver burn"
+    "message": "引擎助推前进"
   },
   "HUD_INDICATOR_NAV_TARGET_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current navigational target.",
-    "message": "Prograde relative to current navigational target"
+    "message": "相对于当前导航目标的前进"
   },
   "HUD_INDICATOR_NAV_TARGET_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current navigational target.",
-    "message": "Retrograde relative to current navigational target"
+    "message": "相对于当前导航目标逆行"
   },
   "HUD_IN_TRANSIT_TO_N_X_X_X": {
     "description": "",
-    "message": "In transit to {system} [{x},{y},{z}]"
+    "message": "运输至{system} [{x},{y},{z}]"
   },
   "HUD_JUMP_COMPLETE": {
     "description": "",
-    "message": "Jump complete: {percent}%"
+    "message": "跳跃完成: {percent}%"
   },
   "HUD_MASS": {
     "description": "Mass",
@@ -885,27 +885,27 @@
   },
   "HUD_SHOW_FRAME": {
     "description": "Tooltip: Show the current frame of reference.",
-    "message": "Show the current frame of reference"
+    "message": "显示当前参照系"
   },
   "HUD_SHOW_NAV_TARGET": {
     "description": "Tooltip: Show current navigational target.",
-    "message": "Show the current navigational target"
+    "message": "显示当前导航目标"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
-    "message": "The speed of approach towards the frame of reference"
+    "message": "接近参考系的速度"
   },
   "HUD_SPEED_OF_APPROACH_TO_TARGET": {
     "description": "Tooltip: The speed of approach relative to target.",
-    "message": "The speed of approach relative to target"
+    "message": "相对于目标的接近速度"
   },
   "HUD_SPEED_RELATIVE_TO_TARGET": {
     "description": "Tooltip: The speed relative to the target.",
-    "message": "The speed relative to the target"
+    "message": "相对于目标的速度"
   },
   "HUD_THRUST_INDICATOR": {
     "description": "Tooltip: describe what the thrust/velocity indicator shows",
-    "message": "Show current velocity for each direction (thin lines) and thrust (thick background)"
+    "message": "显示每个方向（细线）和推力（厚背景）的当前速度"
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
@@ -1201,7 +1201,7 @@
   },
   "MULTISAMPLING_DESC": {
     "description": "",
-    "message": "A graphical fine-tuning feature, used to reduce jagged, pixelated contours. It can be quite resource-intensive."
+    "message": "一种图形化的微调功能，用于减少锯齿状的像素化轮廓。它可能会消耗更多资源。"
   },
   "MURDER": {
     "description": "",
@@ -1621,7 +1621,7 @@
   },
   "START_AT_EARTH_DESC": {
     "description": "",
-    "message": "This is an easy start from London on Earth in the Sol system."
+    "message": "在太阳系中，这是从地球上的伦敦开始的一个简单的开端。"
   },
   "START_AT_MARS": {
     "description": "",
@@ -1629,7 +1629,7 @@
   },
   "START_AT_MARS_DESC": {
     "description": "",
-    "message": "This is an easy start from Cydonia on Mars in the Sol system."
+    "message": "这是一个简单的开始，从塞多尼亚在火星上的太阳系。"
   },
   "START_AT_NEW_HOPE": {
     "description": "New Hope is an in game location",
@@ -1637,7 +1637,7 @@
   },
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
-    "message": "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
+    "message": "这是一个温和的开始，从伊扎莱恩对新希望的Epsilon-Eridani系统。"
   },
   "STAR_FIELD_DENSITY": {
     "description": "",
@@ -1665,7 +1665,7 @@
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
-    "message": "This frees up more memory for the graphics card, which is likely what you want, at the expense of compressing them during game start."
+    "message": "这为图形卡释放了更多的内存，这很可能是您想要的，但在游戏开始时会以压缩它们为代价。"
   },
   "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
     "description": "",

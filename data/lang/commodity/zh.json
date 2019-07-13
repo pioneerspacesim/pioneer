@@ -69,7 +69,7 @@
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "While there are lots of synthetic alternatives, real fruits and vegetables are still an important part of our cuisine and nutrition. Grown on agricultural worlds or as part of the life support of habitats, and exported to systems in which growing plants is not feasible."
+    "message": "虽然有许多合成的替代品，但真正的水果和蔬菜仍然是我们烹饪和营养的重要组成部分。生长在农业世界或作为栖息地生命维持的一部分，并出口到无法种植植物的星系。"
   },
   "GRAIN": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+    "message": "许多人饮食的支柱。它用于农业、饲养动物以及作为合成食品的补充。谷物也用于许多其他食物，如燕麦片和烘焙食品。大多数繁星文化至少生长和消耗一些谷物，这些谷物已经被用于它们栖息地的气候。"
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Providing insurance beyond the long arm of the law, hand weapons are essential for space traders in far-out systems. However, many governments see them as a threat to their own control over their population and strictly control their trade and possession."
+    "message": "在法律的管辖范围之外提供保险，对于遥远系统中的空间商人来说，手持武器是必不可少的。然而，许多政府将其视为对自己控制人口的威胁，并严格控制其贸易和持有。"
   },
   "HYDROGEN": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
+    "message": "氢是一种非常重要的元素，用作超空间推进器的燃料和星际飞船的推进剂。幸运的是，它也是宇宙中最常见的元素，尽管存储它并不容易。它通常是贸易市场上最便宜的商品之一。星港在任何时候都供应充足。"
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Needed for assembly lines, refineries, smelters, and production of machinery that will in turn produce other goods. High competence is needed to produce these advanced machines."
+    "message": "生产线、炼油厂、冶炼厂和机械生产所需的设备，这些设备将反过来生产其他产品。生产这些先进的机器需要很高的能力。"
   },
   "LIQUID_OXYGEN": {
     "description": "",
@@ -109,7 +109,7 @@
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Liquid oxygen has many purposes, most commonly in medical and industrial applications and sometimes also used in waste treatment. It is very affordable, as oxygen is easy to obtain from water."
+    "message": "液氧有许多用途，最常用于医疗和工业应用，有时也用于废物处理。这是非常便宜的，因为氧气很容易从水中获得。"
   },
   "LIQUOR": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
+    "message": "大多数前哨站都有当地酿造的啤酒，外人觉得很难喝。酒精在某些系统中是被禁止的，因为它被认为会使人的头脑变得模糊。不管法律如何，一杯苏格兰威士忌几乎总是在黑市上以一定的价格出售。"
   },
   "LIVE_ANIMALS": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Partly due to humanistic, economic and ecological reasons, animal rearing and trade is strictly regulated, or even illegal in many core systems. Going outward, livestock becomes a more important part of the livelihood of the people, both as a source of nutrition and a beast of burden. Exotic zoos and wildlife reserves contribute to the trade of animals around the galaxy, usually under strict state regulations, to combat illegal hunting grounds."
+    "message": "部分原因是由于人本主义、经济和生态原因，动物饲养和贸易受到严格管制，甚至在许多核心系统中都是非法的。从外面看，牲畜成为人民生活的一个更重要的部分，既是营养的来源，又是一种负担的牲畜。外来动物园和野生动植物保护区有助于银河系周围的动物贸易，通常在严格的国家规定下，以打击非法狩猎场。"
   },
   "MEDICINES": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Derived from natural sources, or synthesized artificially, medicines are needed everywhere humans go. From curing the common cold to combat the adverse effects of prolonged space travel, medicines are essential to the prosperity of an interstellar humanity. Carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
+    "message": "药物来源于自然资源或人工合成，无论人类走到哪里，都需要药物。从治疗普通感冒到对抗长期太空旅行的不利影响，药物对于星际人类的繁荣是必不可少的。被海关人员仔细观察，因为把麻醉品伪装成药物并不罕见。"
   },
   "METAL_ALLOYS": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "After metal ore is extracted and refined, it is processed and ends up as various alloys. An alloy is an amalgamation of metals, rather than a single pure element, combined in exact proportions to gain specific desirable traits. Therefore, most consumer metals are alloys."
+    "message": "金属矿石经提取、精炼后，经加工制成各种合金。合金是金属的混合，而不是单一的纯元素，按精确的比例结合，以获得特定的理想特性。因此，大多数消费金属都是合金。"
   },
   "METAL_ORE": {
     "description": "",
@@ -149,7 +149,7 @@
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
+    "message": "许多殖民地开采金属矿石出口，提炼后用于工业制造。从小型玩具到宇宙飞船，各种形式的金属在现代文明中都是必不可少的。"
   },
   "MILITARY_FUEL": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel in the more advanced military drives. These drives produce nuclear waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
+    "message": "在更先进的军事行动中用作燃料。这些驱动装置在运行过程中会产生核废料，必须进行处理。由于其合成性质，军用燃料比氢更昂贵，也不常见，而且不能发现天然存在。"
   },
   "MINING_MACHINERY": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The traditionally back breaking work of mining is alleviated by the use of machines that help miners in locating and retrieving various ores, and transporting them to the closest processing facilities."
+    "message": "传统意义上的采矿工作可以通过使用机器来减轻，这些机器可以帮助矿工定位和回收各种矿石，并将它们运输到最近的加工设施。"
   },
   "NARCOTICS": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Natural or synthetic substances that alter the state of mind and body. Although the use of narcotics, both for recreational and medical purposes, is as old as humanity itself, shipping and trading is commonly outlawed."
+    "message": "改变身心状态的天然或合成物质。虽然出于娱乐和医疗目的使用麻醉品与人类本身一样古老，但通常被禁止运输和贸易。"
   },
   "NERVE_GAS": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "It is generally accepted to be a weapon of mass destruction, shunned even by the military in most systems, and thus illegal in most systems."
+    "message": "它被普遍认为是一种大规模杀伤性武器，在大多数系统中甚至被军方所忌讳，因此在大多数系统中是非法的。"
   },
   "PLASTICS": {
     "description": "",
@@ -189,7 +189,7 @@
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Synthetical and semi-synthetical materials used in everything from everyday items to spaceship construction. They are relatively easy to use in manufacture, versatile and cheap to make, thus an important part of human civilization."
+    "message": "从日常用品到太空船建造，各种材料都使用合成和半合成材料。它们相对容易用于制造，用途广泛，制造成本低廉，是人类文明的重要组成部分。"
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -197,7 +197,7 @@
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Precious metals are, generally, less reactive, more difficult to mine, and more scarce, resulting in a considerable economic value. This often includes gold, silver, platinum, and rare earths. Certain elements such as gold and silicon, or rare earths, are crucial for the construction of computers and other electronics."
+    "message": "贵金属通常反应性较低，开采难度较大，且较稀有，因此具有相当大的经济价值。这通常包括金、银、铂和稀土。某些元素，如金和硅，或稀土，对计算机和其他电子设备的建造至关重要。"
   },
   "RADIOACTIVES": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Created by nuclear reactors, and military hyperdrives, nuclear waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping nuclear waste is a severe offence."
+    "message": "核废料由核反应堆和军用超空间推进器制造，是运输和处置最困难和最危险的商品。出于这个原因，大多数星际港都会花钱来清除多余的库存。倾倒核废料是一种严重的犯罪行为。"
   },
   "ROBOTS": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Robots are often imported into industrial and mining systems, due to their ability to easily perform tasks that would be too difficult, tedious, or unsafe for human workers. They can also serve as politicians and lawyers."
+    "message": "机器人通常被导入工业和采矿系统，因为它们能够很容易地执行对人类工人来说过于困难、乏味或不安全的任务。他们也可以作为政治家和律师。"
   },
   "RUBBISH": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The byproduct of civilization, consisting of industrial waste, household garbage, and worn down equipment. Most waste is reprocessed, recycled or sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal. Starports usually charge a fee for waste disposal, but will also pay you to take it away."
+    "message": "文明的副产品，由工业废物、生活垃圾和破旧的设备组成。大多数废物都经过再处理、回收或送往星际港运往世界各地。在有人居住的系统中倾倒垃圾几乎总是违法的。星港通常会收取废物处理费，但也会支付你带走它的费用。"
   },
   "SLAVES": {
     "description": "",
@@ -229,7 +229,7 @@
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "As machines have replaced slaves as the engine that powers civilization, slavery is now almost universally seen as immoral, and transgression against a ban draws the strictest punishment. However, despite the best efforts of humanitarians, slavery is still prevalent, even in developed worlds."
+    "message": "由于机器已经取代奴隶作为驱动文明的引擎，奴隶制现在几乎被普遍认为是不道德的，违反禁令将受到最严厉的惩罚。然而，尽管人道主义者尽了最大努力，奴隶制仍然盛行，即使在发达国家也是如此。"
   },
   "TEXTILES": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Textiles are simple fabric, woven from either synthetic, plant or animal derived yarn. Usually produced by robots in large factories, it is still possible to find the occasional weaver who makes their own textiles."
+    "message": "纺织品是简单的织物，由合成纱、植物纤维或动物毛发织成。通常由大型工厂的机器人生产，偶尔也有可能找到自己生产纺织品的织布工。"
   },
   "WATER": {
     "description": "",
@@ -245,6 +245,6 @@
   },
   "WATER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Essential for life as we know it, an often overlooked commodity, water is needed wherever humanity roams. As such, the vast majority of off-world colonies import water from comets or planets like Earth. Water is used on a massive scale for hydrogen and oxygen production."
+    "message": "正如我们所知，生命是必不可少的，它是一种经常被忽视的商品，人类在任何地方漫游都需要水。因此，绝大多数的世界外殖民地从彗星或地球等行星进口水。水大量用于制氢和制氧。"
   }
 }

@@ -21,11 +21,11 @@
   },
   "EXPLORED_SYSTEM": {
     "description": "",
-    "message": "Explored system with {bodycount} major {bodies}."
+    "message": "探索系统与{bodycount}主要{bodies}。"
   },
   "GETTING_SENSOR_DATA": {
     "description": "Shown when entering an unexplored system",
-    "message": "System data gathering and analysis in progress..."
+    "message": "正在进行系统数据收集和分析…"
   },
   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
     "description": "",

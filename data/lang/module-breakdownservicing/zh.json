@@ -1,11 +1,11 @@
 {
   "FLAVOUR_0_INTRO": {
     "description": "",
-    "message": "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n"
+    "message": "避免超空间引擎故障带来的不便。今天由官方认可的{name} 发动机维修公司为您提供服务。\n"
   },
   "FLAVOUR_0_PRICE": {
     "description": "",
-    "message": "\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}"
+    "message": "\n发动机: {drive}\n服务: {price}\n保证:18个月\n{lasttime}"
   },
   "FLAVOUR_0_RESPONSE": {
     "description": "",
@@ -21,11 +21,11 @@
   },
   "FLAVOUR_1_INTRO": {
     "description": "",
-    "message": "I'm {proprietor}. I can service your hyperdrive, guaranteeing at least a year of trouble-free performance. "
+    "message": "我是{proprietor}.我可以为您的超空间硬盘服务,保证至少一年的无故障性能."
   },
   "FLAVOUR_1_PRICE": {
     "description": "",
-    "message": "The cost for servicing your {drive} will be {price}\n{lasttime}"
+    "message": "为您的{drive} 提供服务的成本为 {price}\n{lasttime}"
   },
   "FLAVOUR_1_RESPONSE": {
     "description": "",
@@ -41,11 +41,11 @@
   },
   "FLAVOUR_2_INTRO": {
     "description": "",
-    "message": "Hi there.  We at {proprietor} & Co stake our reputation on our work.\nWe can tune your ship's hyperdrive, ensuring 12 months of trouble-free operation. "
+    "message": "你好。我们在{proprietor}联合公司将我们的声誉与我们的工作挂钩。\n我们可以调整你船的超空间推进器，确保12个月的无故障运行。"
   },
   "FLAVOUR_2_PRICE": {
     "description": "",
-    "message": "\n\n{lasttime}\nFor your {drive}, I'll be supervising the work myself, so you can be sure that a good job will be done, for the sum of {price}."
+    "message": "\n\n{lasttime}\n对于您的 {drive}，我将亲自监督这项工作，这样您就可以确保完成一项出色的工作，总金额为{price}。"
   },
   "FLAVOUR_2_RESPONSE": {
     "description": "",
@@ -57,15 +57,15 @@
   },
   "FLAVOUR_2_YESPLEASE": {
     "description": "",
-    "message": "请按报价调整我的超驱动"
+    "message": "请按报价调整我的超引擎"
   },
   "FLAVOUR_3_INTRO": {
     "description": "",
-    "message": "Welcome SuperFix Maintenance. Time for your biannual maintenance? Let us SuperFix your hyperdrive! "
+    "message": "欢迎超精维修。你一年两次保养的时间到了？让我们对你的超光速引擎进行超精加工！"
   },
   "FLAVOUR_3_PRICE": {
     "description": "",
-    "message": "\n\n{lasttime}\nWe can tune your {drive} for just {price}.  There's nobody cheaper!"
+    "message": "\n\n{lasttime}\n我们可以调整您的{drive}只需 {price}。没有比这更便宜的了！"
   },
   "FLAVOUR_3_RESPONSE": {
     "description": "",
@@ -81,11 +81,11 @@
   },
   "FLAVOUR_4_INTRO": {
     "description": "",
-    "message": "Welcome to Time and Space.\n\nWe specialise in interstellar engines. All maintenance work guaranteed for two years."
+    "message": "欢迎来到时空。\n\n我们专门研究星际发动机。所有维护工作保证两年安全。"
   },
   "FLAVOUR_4_PRICE": {
     "description": "",
-    "message": "\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?"
+    "message": "\n{lasttime}\n保养您的{drive} 需要 {price}。是否继续？"
   },
   "FLAVOUR_4_RESPONSE": {
     "description": "",
@@ -101,11 +101,11 @@
   },
   "FLAVOUR_5_INTRO": {
     "description": "",
-    "message": "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today.\n"
+    "message": "避免超空间引擎故障带来的不便。今天为您服务。\n"
   },
   "FLAVOUR_5_PRICE": {
     "description": "",
-    "message": "\nEngine: {drive}\nService: {price}\n{lasttime}"
+    "message": "\n发动机：{drive}\n服务：{price}\n{lasttime}"
   },
   "FLAVOUR_5_RESPONSE": {
     "description": "",

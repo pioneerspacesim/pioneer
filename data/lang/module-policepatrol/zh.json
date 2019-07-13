@@ -21,15 +21,15 @@
   },
   "OUTLAW_DETECTED_1": {
     "description": "",
-    "message": "{ship_label} is flown by a known outlaw. Attack and destroy!"
+    "message": "{ship_label} 是由一个已知的不法分子驾驶的。消灭他！"
   },
   "OUTLAW_DETECTED_2": {
     "description": "",
-    "message": "Bandit, your days are numbered!"
+    "message": "强盗，你的死期到了！"
   },
   "OUTLAW_DETECTED_3": {
     "description": "",
-    "message": "Hah, caught! You will not leave this system alive!"
+    "message": "哈，被截住了！你逃不出这个系统的！"
   },
   "POLICE_TAUNT_1": {
     "description": "",
@@ -57,18 +57,18 @@
   },
   "TARGET_DESTROYED_1": {
     "description": "",
-    "message": "Target destroyed!"
+    "message": "目标被摧毁！"
   },
   "TARGET_DESTROYED_2": {
     "description": "",
-    "message": "Yeah!"
+    "message": "好啊！"
   },
   "TARGET_DESTROYED_3": {
     "description": "",
-    "message": "Rest in pieces! Haha."
+    "message": "好好休息！哈哈。"
   },
   "TARGET_DESTROYED_4": {
     "description": "",
-    "message": "Another one bites the dust!"
+    "message": "又一个人完蛋了!"
   }
 }

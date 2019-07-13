@@ -1,7 +1,7 @@
 {
   "ACCIDENT_DESTROYED_TARGET": {
     "description": "",
-    "message": "The sad news has reached us that {shiplabel} has been destroyed. We will pay half of the agreed price for you efforts."
+    "message": "可悲的消息传给我们， {shiplabel}已被销毁。我们将为你们的努力支付商定价格的一半。"
   },
   "AU": {
     "description": "",
@@ -9,11 +9,11 @@
   },
   "BOARDED_PASSENGER": {
     "description": "",
-    "message": "{name} has boarded the ship."
+    "message": "{name}已登船。"
   },
   "COMMODITIES": {
     "description": "",
-    "message": "Commodities"
+    "message": "商品"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -21,7 +21,7 @@
   },
   "CREW": {
     "description": "",
-    "message": "Crew"
+    "message": "船员"
   },
   "DEADLINE": {
     "description": "",
@@ -29,11 +29,11 @@
   },
   "DELIVERED_PASSENGER": {
     "description": "",
-    "message": "{name} has left the ship."
+    "message": "{name}已经离开飞船"
   },
   "DELIVERY": {
     "description": "",
-    "message": "DELIVERY"
+    "message": "交货"
   },
   "DISTANCE": {
     "description": "",
@@ -41,127 +41,127 @@
   },
   "ENTITY_FAMILY_BUSINESS_1": {
     "description": "",
-    "message": "{name} and Sons"
+    "message": "{name}和儿子"
   },
   "ENTITY_FAMILY_BUSINESS_10": {
     "description": "",
-    "message": "{name} Taxi Services"
+    "message": "{name}出租车服务"
   },
   "ENTITY_FAMILY_BUSINESS_2": {
     "description": "",
-    "message": "{name} and Daughters"
+    "message": "{name}和女儿们"
   },
   "ENTITY_FAMILY_BUSINESS_3": {
     "description": "",
-    "message": "{name} Flowers of {locality}"
+    "message": "{name} 的花在 {locality}"
   },
   "ENTITY_FAMILY_BUSINESS_4": {
     "description": "",
-    "message": "{name} Custom Painted Missiles"
+    "message": "{name} 定制喷漆导弹"
   },
   "ENTITY_FAMILY_BUSINESS_5": {
     "description": "",
-    "message": "{name} Courier Services"
+    "message": "{name}快递服务"
   },
   "ENTITY_FAMILY_BUSINESS_6": {
     "description": "",
-    "message": "{name} Space Pets"
+    "message": "{name} 太空宠物"
   },
   "ENTITY_FAMILY_BUSINESS_7": {
     "description": "",
-    "message": "{name} & {name}"
+    "message": "{name}与{name}"
   },
   "ENTITY_FAMILY_BUSINESS_8": {
     "description": "",
-    "message": "{name} Authentic {locality} Foods"
+    "message": "{name} 真正的{locality} 食品"
   },
   "ENTITY_FAMILY_BUSINESS_9": {
     "description": "",
-    "message": "{name} Transports"
+    "message": "{name}运输"
   },
   "ENTITY_GENERAL_1": {
     "description": "",
-    "message": "the {locality} General Prospectors Inc"
+    "message": " 这个{locality}通用勘探公司"
   },
   "ENTITY_GENERAL_10": {
     "description": "",
-    "message": "{locality} Infinity Energy One"
+    "message": "{locality}一个无限能源"
   },
   "ENTITY_GENERAL_2": {
     "description": "",
-    "message": "the {locality} Society for Ecological Preservation"
+    "message": "这个 {locality}生态保护学会"
   },
   "ENTITY_GENERAL_3": {
     "description": "",
-    "message": "the Interest Rights Groups for {locality}"
+    "message": "{locality}的权益团体"
   },
   "ENTITY_GENERAL_4": {
     "description": "",
-    "message": "the {locality} Mining Rights Office"
+    "message": " {locality}采矿权办公室"
   },
   "ENTITY_GENERAL_5": {
     "description": "",
-    "message": "the Landowners Association of {locality}"
+    "message": "{locality}的土地所有者协会"
   },
   "ENTITY_GENERAL_6": {
     "description": "",
-    "message": "the Statistical Institute of {locality}"
+    "message": "{locality}统计研究所"
   },
   "ENTITY_GENERAL_7": {
     "description": "",
-    "message": "the {locality} branch office of SpaceCruise Inc"
+    "message": "太空巡航公司 {locality}办公室"
   },
   "ENTITY_GENERAL_8": {
     "description": "",
-    "message": "{locality} iSatellite Ltd"
+    "message": "{locality} 伊莎泰利特有限公司"
   },
   "ENTITY_GENERAL_9": {
     "description": "",
-    "message": "{locality} Burial-Services Corp"
+    "message": "{locality} 丧葬服务公司"
   },
   "ENTITY_RESEARCH_1": {
     "description": "",
-    "message": "the {locality} Biological Society"
+    "message": " {locality} 生物协会"
   },
   "ENTITY_RESEARCH_10": {
     "description": "",
-    "message": "the {locality} Center of Zoological Research"
+    "message": "{locality}动物研究中心"
   },
   "ENTITY_RESEARCH_2": {
     "description": "",
-    "message": "the {locality} Microbiological Society"
+    "message": " {locality} 微生物协会"
   },
   "ENTITY_RESEARCH_3": {
     "description": "",
-    "message": "the {locality} Chemical Society"
+    "message": "{locality} 化学协会"
   },
   "ENTITY_RESEARCH_4": {
     "description": "",
-    "message": "the {locality} Astrobiological Society"
+    "message": "{locality}天体生物学协会"
   },
   "ENTITY_RESEARCH_5": {
     "description": "",
-    "message": "the {locality} Geological Society"
+    "message": "{locality}地质学会"
   },
   "ENTITY_RESEARCH_6": {
     "description": "",
-    "message": "the {locality} Society for Astropaleontology"
+    "message": "{locality}天体古生物学学会"
   },
   "ENTITY_RESEARCH_7": {
     "description": "",
-    "message": "the {locality} Astrophysics Research Center"
+    "message": "{locality}天体物理学研究中心"
   },
   "ENTITY_RESEARCH_8": {
     "description": "",
-    "message": "the {locality} Astrochemistry Research Center"
+    "message": "{locality}天体化学研究中心"
   },
   "ENTITY_RESEARCH_9": {
     "description": "",
-    "message": "the {locality} Center for Botany"
+    "message": "{locality}植物学中心"
   },
   "EQUIPMENT": {
     "description": "",
-    "message": "You are not equipped to handle this mission. {unit} {equipment} required."
+    "message": "你没有能力处理这个任务。 需要{unit} {equipment}。"
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
@@ -169,255 +169,255 @@
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "I can't believe you are just returning now! How much time has been wasted!"
+    "message": "我不敢相信你现在才回来！ 浪费了多少时间！"
   },
   "FLAVOUR_1_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "For full reimbursement of expenses you have to be back by {due}."
+    "message": "要获得全额报销费用，您必须在{due}之前返回。"
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+    "message": "{starport}空中交通管制需要您立即帮助响应{planet}类型星舰在{planet}上的坠落着陆。 生命支持系统的状况未知。 该船已通过{starport} 星际站保险投保，并在紧急响应报销中享受{cash}保障。"
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
-    "message": "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+    "message": "这艘船的最后已知位置是{planet}纬度/经度坐标：{lat} / {long}。 发货地址为{shiplabel}。"
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you, this is a great relief! We will transmit the money momentarily."
+    "message": "谢谢，这真是一种解脱！我们将立即转帐。"
   },
   "FLAVOUR_1_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has boarded the ship."
+    "message": "{unit}登上了这艘船。"
   },
   "FLAVOUR_1_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+    "message": "据报告，船上有船员 {crew}和乘客{pass} 。我们需要有人找到船的位置，从现场接回任何幸存者，并立即把他们带到这里。"
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "SHIP OUT OF FUEL en route to {starport}."
+    "message": "在前往{starport}的途中，缺乏燃料。"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "I can't believe you kept me waiting out here this long! Forget about your payment!"
+    "message": "我真不敢相信你让我在外面等了这么久！别想要你的报酬！"
   },
   "FLAVOUR_2_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "To receive full payment you are asked to deliver the fuel by {due}."
+    "message": "要获得全额付款，您需要在 {due}之前交付燃油。"
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+    "message": "{starport}空中交通管制刚刚收到通知，来的航班{shiplabel}已耗尽燃油并且不得不紧急降落。 飞行员愿意为加油服务支付{cash}。"
   },
   "FLAVOUR_2_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+    "message": "该船目前在{planet}上的纬度{lat} /经度{long}等待。"
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you so much! I have transferred the full reward."
+    "message": "非常感谢！我已经把全部奖励转给你了。"
   },
   "FLAVOUR_2_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit}吨燃料已经转移。"
   },
   "FLAVOUR_2_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is requesting {unit} tons of {cargo}."
+    "message": "飞行员正在请求{unit}吨{cargo}。"
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "MEDICAL EMERGENCY on ship close to {starport}."
+    "message": "在靠近 {starport}的船上发生急需医疗的情况。"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "Unacceptable performance! We will update our records accordingly."
+    "message": "性能不合格！我们将相应地更新我们的记录。"
   },
   "FLAVOUR_3_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "The substitute pilot will need to reach the ship by {due}."
+    "message": "替代驾驶员需要在{due}之前到达船上。"
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+    "message": "我叫{name}来自{starport}空中交通管制。 我正在请求帮助以应对飞行员{shiplabel}前往{starport}的紧急医疗情况。"
   },
   "FLAVOUR_3_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship had to emergency land at the coordinates: {lat} / {long}. "
+    "message": "这艘船不得不在坐标处紧急降落：{lat} / {long}。"
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you, commander! Your help has been duly noted."
+    "message": "谢谢你，指挥官！你的帮助已得到及时通知。"
   },
   "FLAVOUR_3_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has left the ship."
+    "message": "{unit}离开飞船。"
   },
   "FLAVOUR_3_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+    "message": "请将替代飞行员从{starport}运送到船上，这样他们就可以将船飞回{starport}。"
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "SHIP OUT OF FUEL on {planet}."
+    "message": "飞船燃料耗尽在{planet}"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "I will send someone else. Don't bother anymore."
+    "message": "我会派人去。别再麻烦了。"
   },
   "FLAVOUR_4_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "For full pay the pilot expects you to deliver the fuel by {due}."
+    "message": "想要全额报酬，飞行员希望您在 {due}前交付燃油。"
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+    "message": "航班飞行员{shiplabel}联系了{starport}空中交通管制。 他们被困在缺乏燃料的飞船里，并承诺向任何为船舶加油的人支付{cash}。"
   },
   "FLAVOUR_4_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship is stranded on {planet} at coordinates {lat} / {long}."
+    "message": "该船在{planet}坐标{lat} / {long}搁浅。"
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Very good. We will recommend you for future assignments."
+    "message": "很好。我们将为您推荐以后的任务。"
   },
   "FLAVOUR_4_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit}吨燃料已经转移。"
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is asking for {unit} tons of {cargo}."
+    "message": "飞行员要求提供{unit}吨{cargo}。"
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "SHIP OUT OF FUEL close to {starport}."
+    "message": "接近 {starport}的船只燃料耗尽。"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "People are just not dependable anymore."
+    "message": "人们不再信赖了。"
   },
   "FLAVOUR_5_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "Please complete refueling by {due}."
+    "message": "请在{due}之前完成加油。"
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+    "message": "{starport}空中交通管制部门确定了一艘标有{shiplabel的星舰因燃料耗尽停在附近。 我们将向任何为该船加油的人支付{cash}，以便他们可以离开{starport}。"
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
-    "message": "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+    "message": "目标船目前正在离这里{dist}公里的范围内漂移。你必须自己找到确切的位置。"
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "We will make record of your timely completion of the task."
+    "message": "我们会记录你按时完成任务的情况。"
   },
   "FLAVOUR_5_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit}吨燃料已经转移。"
   },
   "FLAVOUR_5_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "We request the delivery of {unit} tons of {cargo} to the ship."
+    "message": "我们要求将 {unit}吨的{cargo}运到船上。"
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "VESSEL UNRESPONSIVE in the {system} system."
+    "message": "在{system}星系中失联"
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
-    "message": "What a disaster! This is the death sentence to our poor colleagues!"
+    "message": "真是一场灾难！ 这是对我们可怜的同事的死刑判决！"
   },
   "FLAVOUR_6_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "You have to be back by {due}."
+    "message": "你必须在{due}之前回来。"
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+    "message": "我是{entity}的{name}。 我们在{problem}后失去了与{ship} {shiplabel}的联系。 我们愿意支付{cash}以获得即时帮助。"
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
-    "message": "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+    "message": "最后的已知位置是{system} [{sector}，{secretary}，{sector}]系统中{planet}的附近，距离这里{dist}光年。"
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you! You can't imagine how relieved we are."
+    "message": "谢谢您！你无法想象我们有多高兴。"
   },
   "FLAVOUR_6_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has boarded the ship."
+    "message": "{unit}登上了这艘船。"
   },
   "FLAVOUR_6_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
+    "message": "如果他们活着，我需要有人愿意立即离开并带我们的同事回到{starport}。 这艘船上有{crew}船员和{pass}乘客。"
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "IMMEDIATE CREW TRANSPORT to the {system} system requested."
+    "message": "要求立即将机组人员运送至 {system}星系。"
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
-    "message": "Thank you very much, but you are too late!"
+    "message": "非常感谢，但你太迟了！"
   },
   "FLAVOUR_7_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "The replacement crew has to reach the ship by {due}."
+    "message": "替换船员必须在 {due}之前到达船上。"
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
+    "message": "我是{entity}的{name}。 在{problem}之后，我们唯一的船{ship} {shiplabel}正在与{crew}船员一起漂流。 我愿意立即支付{cash}换取救援。"
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
-    "message": "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+    "message": "您将在{system} 星系[{sector}，{secretary}，{sector}]中找到该船，距离这里{dist}光年。 它停靠在{planet}的轨道上。"
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you! I have been authorized to transmit the full payment."
+    "message": "谢谢您！我已被授权转递全额付款。"
   },
   "FLAVOUR_7_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has transferred to the target ship."
+    "message": "{unit}已转移到目标船。"
   },
   "FLAVOUR_7_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
+    "message": "船员太少，我们不能把船开回来。我正在寻找一个愿意立即将替换船员运送到我们的星际飞船的人。"
   },
   "FULL_CARGO": {
     "description": "",
-    "message": "Ship full. No more room for additional cargo."
+    "message": "货仓已满。没有额外货物的空间。"
   },
   "FULL_CREW": {
     "description": "",
-    "message": "Crew roster full. No more space for more crew."
+    "message": "船员仓已满。没有空间容纳更多的船员。"
   },
   "FULL_PASSENGERS": {
     "description": "",
-    "message": "All cabins full. No more space for more passengers."
+    "message": "所有船舱都满了。没有空间容纳更多的乘客。"
   },
   "HOW_FAR": {
     "description": "",
-    "message": "How far away is the target?"
+    "message": "目标有多远？"
   },
   "HOW_MUCH_TIME": {
     "description": "",
-    "message": "How much time do I have?"
+    "message": "我有多少时间？"
   },
   "INTERACTION_ABORTED": {
     "description": "",
-    "message": "Interaction aborted. Please come closer and try again."
+    "message": "交互已中止。请靠近一点再试一次。"
   },
   "INTERACTION_DISTANCE_REACHED": {
     "description": "",
-    "message": "Interaction distance reached."
+    "message": "已达到交互距离。"
   },
   "IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It must be completed by "
+    "message": "必须由以下人员完成"
   },
   "KM": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "LAST_KNOWN_LOCATION": {
     "description": "",
-    "message": "Last known location:"
+    "message": "上次已知位置："
   },
   "LAT": {
     "description": "",
@@ -433,7 +433,7 @@
   },
   "LON": {
     "description": "",
-    "message": "Lon:"
+    "message": "伦敦:"
   },
   "LY": {
     "description": "",
@@ -441,19 +441,19 @@
   },
   "MISSING_COMM": {
     "description": "",
-    "message": "Cannot complete transfer. {cargotype} missing."
+    "message": "{cargotype}缺失，无法完成传输。"
   },
   "MISSING_CREW": {
     "description": "",
-    "message": "Cannot complete transfer. Crew missing."
+    "message": "机组人员失踪，无法完成传输。"
   },
   "MISSING_PASS": {
     "description": "",
-    "message": "Cannot complete transfer. Passengers missing."
+    "message": "乘客失踪，无法完成运输。"
   },
   "MISSING_PASSENGER": {
     "description": "",
-    "message": "Cannot complete transfer. Passenger missing."
+    "message": "乘客失踪，无法完成运输。"
   },
   "OK_AGREED": {
     "description": "",
@@ -465,183 +465,183 @@
   },
   "PARTIAL": {
     "description": "",
-    "message": "Thank you for your efforts. I hope you will return to complete the task!"
+    "message": "谢谢你的努力。希望你能回来完成任务！"
   },
   "PASSENGERS": {
     "description": "",
-    "message": "Passengers"
+    "message": "乘客"
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Payment location:"
+    "message": "付款地点："
   },
   "PICKUP": {
     "description": "",
-    "message": "PICKUP"
+    "message": "小货车"
   },
   "PLACE_OF_ASSISTANCE": {
     "description": "",
-    "message": "At the place of assistance"
+    "message": "在援助地点"
   },
   "PLAYER_DESTROYED_TARGET": {
     "description": "",
-    "message": "We have heard of your deeds, captain! Rest assured that we will report you to the local authorities for destroying the very ship you were sent out to help. A criminal lawsuit will follow."
+    "message": "我们听说过你的行为，船长！请放心，我们会向地方当局举报你摧毁了等你去救助的那艘船。随后会对你提起刑事诉讼。"
   },
   "PLEASE_LAND": {
     "description": "",
-    "message": "Please land ship to allow transfer."
+    "message": "请将船靠岸以便运输。"
   },
   "PROBLEM_CREW_1": {
     "description": "",
-    "message": "a deadly fight among the crew members"
+    "message": "船员之间的致命战斗"
   },
   "PROBLEM_CREW_10": {
     "description": "",
-    "message": "a mutiny"
+    "message": "叛变"
   },
   "PROBLEM_CREW_2": {
     "description": "",
-    "message": "the crew had to chase a deadly {locality} snake found loose on the ship"
+    "message": "船员们必须追捕在 {locality} 发现的一条致命的蛇。"
   },
   "PROBLEM_CREW_3": {
     "description": "",
-    "message": "a {locality} spider killed all the others"
+    "message": "在{locality}的蜘蛛杀死了所有其他人"
   },
   "PROBLEM_CREW_4": {
     "description": "",
-    "message": "what it seems like a {locality} scorpion got into the crew quarters at night"
+    "message": " {locality}的毒蝎晚上潜入船员宿舍"
   },
   "PROBLEM_CREW_5": {
     "description": "",
-    "message": "a severe form of {locality} fever killed the others"
+    "message": "一种严重的{locality}传染病杀死了其他人。"
   },
   "PROBLEM_CREW_6": {
     "description": "",
-    "message": "the other crew members did not return from a space walk"
+    "message": "其他机组人员仍未从太空返回。"
   },
   "PROBLEM_CREW_7": {
     "description": "",
-    "message": "a severe form of food poisoning on the ship"
+    "message": "船上发生严重的食物中毒"
   },
   "PROBLEM_CREW_8": {
     "description": "",
-    "message": "a terrible accident that lead to the ejection of the others into space"
+    "message": "导致其他人被扔到入太空的可怕事故"
   },
   "PROBLEM_CREW_9": {
     "description": "",
-    "message": "a circumstance that I can't comment on publicly"
+    "message": "我不能公开评论的情况"
   },
   "PROBLEM_GENERAL_1": {
     "description": "",
-    "message": "a fire in the cargo hold"
+    "message": "货舱失火"
   },
   "PROBLEM_GENERAL_10": {
     "description": "",
-    "message": "the receipt of a distress call from within {locality}"
+    "message": "收到{locality}内的求救信息"
   },
   "PROBLEM_GENERAL_2": {
     "description": "",
-    "message": "a power failure in the engine core"
+    "message": "能源发动机核心发生故障"
   },
   "PROBLEM_GENERAL_3": {
     "description": "",
-    "message": "an air leak"
+    "message": "空气泄露"
   },
   "PROBLEM_GENERAL_4": {
     "description": "",
-    "message": "a severe form of food poisoning involving all personnel on board the ship"
+    "message": "船上所有人员都发生严重的食物中毒。"
   },
   "PROBLEM_GENERAL_5": {
     "description": "",
-    "message": "a small meteor impact"
+    "message": "小流星撞击"
   },
   "PROBLEM_GENERAL_6": {
     "description": "",
-    "message": "a fight among crew members"
+    "message": "船员发生战斗"
   },
   "PROBLEM_GENERAL_7": {
     "description": "",
-    "message": "contact with an unidentified flight object"
+    "message": "与不明飞行物接触"
   },
   "PROBLEM_GENERAL_8": {
     "description": "",
-    "message": "a dispute with a competitor's vessel"
+    "message": "与竞争对手船只的纠纷"
   },
   "PROBLEM_GENERAL_9": {
     "description": "",
-    "message": "a reboot of the main computer"
+    "message": "重新启动主计算机"
   },
   "PROBLEM_RESEARCH_1": {
     "description": "",
-    "message": "an unexpected chemical reaction in one of the reaction chambers"
+    "message": "其中一个反应室发生了意外的化学反应。"
   },
   "PROBLEM_RESEARCH_10": {
     "description": "",
-    "message": "a major discovery at {locality} that I am not at liberty to disclose at this time"
+    "message": "在{locality}的一项重大发现，我目前无权透露"
   },
   "PROBLEM_RESEARCH_2": {
     "description": "",
-    "message": "an infection of a crew member with a pathogen local to {locality}"
+    "message": "一名船员感染了 {locality}的病原体。"
   },
   "PROBLEM_RESEARCH_3": {
     "description": "",
-    "message": "a leak of experimental pathogens into the main air supply"
+    "message": "实验性病原体泄漏到供给空气中"
   },
   "PROBLEM_RESEARCH_4": {
     "description": "",
-    "message": "crew exposure to a specimen collected at {locality}"
+    "message": "工作人员暴露于 {locality}采集的样本"
   },
   "PROBLEM_RESEARCH_5": {
     "description": "",
-    "message": "a chemical explosion in one of the on-board fume hoods"
+    "message": "船上一个通风柜发生化学爆炸"
   },
   "PROBLEM_RESEARCH_6": {
     "description": "",
-    "message": "an experimental recreation of {locality} atmospheric gases"
+    "message": "对 {locality} 大气的实验再现"
   },
   "PROBLEM_RESEARCH_7": {
     "description": "",
-    "message": "a heated dispute between scientists on board the ship"
+    "message": "船上科学家之间的激烈争论"
   },
   "PROBLEM_RESEARCH_8": {
     "description": "",
-    "message": "the sudden disappearance of a lead investigator on board the ship"
+    "message": "船上的首席调查员突然失踪"
   },
   "PROBLEM_RESEARCH_9": {
     "description": "",
-    "message": "the accidental combination of incompatible specimens from {locality}"
+    "message": "来自{locality}的不相容样本的意外组合"
   },
   "RESULT_DELIVERY_COMM": {
     "description": "",
-    "message": "Transferred {done} of {todo} tons of {cargotype} to target ship."
+    "message": "将{todo}吨{cargotype}的{done}转移到目标船上。"
   },
   "RESULT_DELIVERY_CREW": {
     "description": "",
-    "message": "Transferred {done} of {todo} crew members to target ship."
+    "message": "将{todo}机组成员的{done}转移到目标船上。"
   },
   "RESULT_DELIVERY_PASS": {
     "description": "",
-    "message": "Transferred {done} of {todo} passengers to target ship."
+    "message": "将{todo}乘客的{done}转移到目标船上。"
   },
   "RESULT_PICKUP_COMM": {
     "description": "",
-    "message": "Picked up {done} of {todo} tons of {cargotype} from target ship."
+    "message": "从目标船上拾起{todo}吨{cargotype}的{done}。"
   },
   "RESULT_PICKUP_CREW": {
     "description": "",
-    "message": "Picked up {done} of {todo} crew members from target ship."
+    "message": "从目标船上挑选{done} {todo}名船员。"
   },
   "RESULT_PICKUP_PASS": {
     "description": "",
-    "message": "Picked up {done} of {todo} passengers from target ship."
+    "message": "从目标船上挑选{done} {todo}名乘客。"
   },
   "RETURN_TO": {
     "description": "",
-    "message": "Return To:"
+    "message": "回到："
   },
   "REWARD": {
     "description": "",
-    "message": "Reward:"
+    "message": "奖励："
   },
   "SEARCH_RESCUE": {
     "description": "",
@@ -657,7 +657,7 @@
   },
   "SHIP_UNRESPONSIVE": {
     "description": "",
-    "message": "Target ship unresponsive."
+    "message": "目标船没有反应。"
   },
   "SYSTEM": {
     "description": "",
@@ -665,7 +665,7 @@
   },
   "TARGET_SHIP_ID": {
     "description": "",
-    "message": "Target ship ID:"
+    "message": "目标船ID："
   },
   "THANK_YOU_ACCEPTANCE_TXT": {
     "description": "",
@@ -673,34 +673,34 @@
   },
   "TONS_OF_FREE_CARGO_SPACE": {
     "description": "",
-    "message": "tons of free cargo space"
+    "message": "自由重量的货舱"
   },
   "TRANSFER_ABORTED": {
     "description": "",
-    "message": "Transfer has been aborted!"
+    "message": "运输已放弃！"
   },
   "TRANSFER_COMPLETE": {
     "description": "",
-    "message": "Transfer has been completed!"
+    "message": "运输已完成！"
   },
   "TRANSFER_PARTIAL": {
     "description": "",
-    "message": "Transfer has been partially completed. Please return to finish transfer."
+    "message": "运输已部分完成。请返回继续运输"
   },
   "TRANSFER_TIME": {
     "description": "",
-    "message": "Please allow {minutes} minutes for transfer."
+    "message": "请留出 {minutes}分钟进行转移。"
   },
   "TYPE_OF_HELP": {
     "description": "",
-    "message": "What type of help is needed?"
+    "message": "需要什么类型的帮助？"
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "unoccupied passenger cabins"
+    "message": "空置客舱"
   },
   "WHERE_IS_THE_TARGET": {
     "description": "",
-    "message": "Where do I find the target?"
+    "message": "我要在哪里找到目标？"
   }
 }

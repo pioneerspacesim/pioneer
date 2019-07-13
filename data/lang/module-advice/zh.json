@@ -5,11 +5,11 @@
   },
   "ADVICE_10_HEADLINE": {
     "description": "",
-    "message": "Know when to leave town"
+    "message": "知道什么时候出城"
   },
   "ADVICE_1_BODYTEXT": {
     "description": "",
-    "message": "Take note of which local business to trust or not, upon completing a transaction outside the confines of the law."
+    "message": "在完成法律范围之外的交易时，注意是否要信任当地的企业。"
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
@@ -21,7 +21,7 @@
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
-    "message": "The Road Faster Taken"
+    "message": "走得更快"
   },
   "ADVICE_3_BODYTEXT": {
     "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
@@ -33,7 +33,7 @@
   },
   "ADVICE_4_BODYTEXT": {
     "description": "",
-    "message": "Choose your frame of reference. Especially when wanting to match speed and course of a moving target."
+    "message": "选择你的参照系。尤其是当想要匹配移动目标的速度和路线时。"
   },
   "ADVICE_4_HEADLINE": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "ADVICE_6_HEADLINE": {
     "description": "",
-    "message": "Keep your ear to the ground"
+    "message": "把耳朵贴在地上"
   },
   "ADVICE_7_BODYTEXT": {
     "description": "",
