@@ -157,7 +157,7 @@
   },
   "CARGO_N": {
     "description": "",
-    "message": "货仓: %{mass}t"
+    "message": "货仓: %{mass}吨"
   },
   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
     "description": "",
@@ -297,7 +297,7 @@
   },
   "DATE_DUE_N": {
     "description": "",
-    "message": "日期: %date"
+    "message": "期限: %date"
   },
   "DAY_LENGTH": {
     "description": "",
@@ -325,7 +325,7 @@
   },
   "DIRECTION": {
     "description": "Direction",
-    "message": "\" Dir\""
+    "message": "\"目录\""
   },
   "DISTANCE_LY": {
     "description": "",
@@ -489,11 +489,11 @@
   },
   "HAT": {
     "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Hat\""
+    "message": "\"帽子\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
-    "message": "保持{target} 反常"
+    "message": "保持{target}反法线"
   },
   "HEADING_LOCK_BACKWARD": {
     "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
@@ -817,7 +817,7 @@
   },
   "MASS_N_TONNES": {
     "description": "",
-    "message": "质量: %{mass} t"
+    "message": "质量: %{mass}吨"
   },
   "MEDICINES": {
     "description": "",
@@ -833,7 +833,7 @@
   },
   "META": {
     "description": "'Meta' key on keyboard",
-    "message": "Meta"
+    "message": "单元"
   },
   "METAL_ALLOYS": {
     "description": "",
@@ -1089,11 +1089,11 @@
   },
   "OVER_N_BILLION": {
     "description": "",
-    "message": "超过 %population 000000000"
+    "message": "超过 %population 十亿"
   },
   "OVER_N_MILLION": {
     "description": "",
-    "message": "超过 %population 000000"
+    "message": "超过 %population 兆"
   },
   "PASSENGER_CABIN": {
     "description": "",
@@ -1773,7 +1773,7 @@
   },
   "UNIT_TONNES": {
     "description": "Mass unit: one tonne (t)",
-    "message": "t"
+    "message": "吨"
   },
   "UNIT_WEEKS": {
     "description": "Duration unit: one 7-day week",

@@ -13,7 +13,7 @@
   },
   "FLAVOUR_0_MEMBER_INTRO": {
     "description": "",
-    "message": "You may purchase fuel and dispose of {radioactives} here."
+    "message": "你可以在这里购买燃料和处理 {radioactives} 。"
   },
   "FLAVOUR_0_NONMEMBER_INTRO": {
     "description": "",
@@ -25,35 +25,35 @@
   },
   "FLAVOUR_1_CLUBNAME": {
     "description": "Fuel club for the Federation faction",
-    "message": "The Federal Fuel Foundation"
+    "message": "联邦燃料基金会"
   },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
-    "message": "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
+    "message": "{clubname} 是太阳能联合会会员星际飞船打折燃料的领先供应商。会员资格将授予您以下权利："
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-    "message": "The Confederate Fuel Union"
+    "message": "联邦燃料联盟"
   },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
-    "message": "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
+    "message": "在自由联邦独立世界的广大范围内，您将发现 {clubname}是打折燃料和废物管理服务的最佳供应商。对于我们的会员，我们做到："
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",
-    "message": "Greetings and salutations! We hope you enjoy our services."
+    "message": "您好！我们希望您喜欢我们的服务。"
   },
   "FLAVOUR_3_CLUBNAME": {
     "description": "Fuel club for the Haber faction",
-    "message": "Haber Propellant and Perishables Division"
+    "message": "哈伯推进剂和易腐品部"
   },
   "FLAVOUR_3_MEMBER_INTRO": {
     "description": "For the greedy Haber faction, very corporate formulated",
-    "message": "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
+    "message": "你好，飞行员。您有加油和有条件的副产品处理特权。"
   },
   "FLAVOUR_3_NONMEMBER_INTRO": {
     "description": "for the Haber faction",
-    "message": "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
+    "message": "你好，飞行员。这是哈伯推进剂和易腐物品部，负责管理整个哈伯拥有的空间的燃料分配。"
   },
   "GO_BACK": {
     "description": "",

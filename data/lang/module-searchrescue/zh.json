@@ -429,7 +429,7 @@
   },
   "LAT": {
     "description": "",
-    "message": "Lat:"
+    "message": "拉丁："
   },
   "LON": {
     "description": "",
@@ -437,7 +437,7 @@
   },
   "LY": {
     "description": "",
-    "message": "ly"
+    "message": "光年"
   },
   "MISSING_COMM": {
     "description": "",
