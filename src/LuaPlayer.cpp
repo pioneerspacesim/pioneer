@@ -342,7 +342,7 @@ static int l_get_remaining_delta_v(lua_State *l)
  *
  * Parameters:
  *
- *   thruster - a string specifying which thruster's acceleration to return. One of "forward", "reverse"
+ *   thruster - a string specifying which thruster's acceleration to return. One of "forward", "reverse" or "up"
  *
  * Availability:
  *
@@ -356,6 +356,7 @@ static int l_get_remaining_delta_v(lua_State *l)
 static std::map<std::string, Thruster> thrusters_map = {
 	{ "forward", THRUSTER_FORWARD },
 	{ "reverse", THRUSTER_REVERSE },
+	{ "up", THRUSTER_UP },
 };
 
 static int l_get_acceleration(lua_State *l)
