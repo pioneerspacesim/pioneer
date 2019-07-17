@@ -30,7 +30,7 @@ public:
 	// initialise from save file
 	Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, double at_time);
 
-	virtual ~Space();
+	~Space();
 
 	void ToJson(Json &jsonObj);
 

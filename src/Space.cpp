@@ -31,7 +31,7 @@ void Space::BodyNearFinder::Prepare()
 	m_bodyDist.clear();
 
 	for (Body *b : m_space->GetBodies())
-		m_bodyDist.push_back(std::move(BodyDist(b, b->GetPositionRelTo(m_space->GetRootFrame()).Length())));
+		m_bodyDist.emplace_back(b, b->GetPositionRelTo(m_space->GetRootFrame()).Length());
 
 	std::sort(m_bodyDist.begin(), m_bodyDist.end());
 }
@@ -798,7 +798,7 @@ void Space::UpdateStarSystemCache(const SystemPath *here)
 
 void Space::GenBody(const double at_time, SystemBody *sbody, Frame *f, std::vector<vector3d> &posAccum)
 {
-	Body *b = 0;
+	Body *b = nullptr;
 
 	if (sbody->GetType() != SystemBody::TYPE_GRAVPOINT) {
 		if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
