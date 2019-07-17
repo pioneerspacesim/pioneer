@@ -6,6 +6,7 @@ July 2019
      * Remove leftover autotools files (#4635)
      * Support VS2017 through CMake (#4634)
      * Speed up start up time (#4626)
+     * Remove unused virtualization of Space and emplace_back elements (#4643)
 
 June 2019
    * Internal Changes
