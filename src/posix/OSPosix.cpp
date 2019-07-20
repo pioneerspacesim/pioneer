@@ -3,6 +3,7 @@
 
 #include "FileSystem.h"
 #include "OS.h"
+#include "buildopts.h"
 #include <SDL.h>
 #include <fenv.h>
 #include <sys/time.h>
@@ -48,7 +49,7 @@ namespace OS {
 
 	void EnableFPE()
 	{
-#if defined(_GNU_SOURCE) && !defined(__APPLE__)
+#if HAS_FPE_OPS
 		// clear any outstanding exceptions before enabling, otherwise they'll
 		// trip immediately
 		feclearexcept(FE_DIVBYZERO | FE_INVALID | FE_OVERFLOW);
@@ -58,7 +59,7 @@ namespace OS {
 
 	void DisableFPE()
 	{
-#if defined(_GNU_SOURCE) && !defined(__APPLE__)
+#if HAS_FPE_OPS
 		fedisableexcept(FE_DIVBYZERO | FE_INVALID | FE_OVERFLOW);
 #endif
 	}
