@@ -9,6 +9,7 @@ July 2019
      * Remove unused virtualization of Space and emplace_back elements (#4643)
      * Autodetect availability of FPE ops (#4646)
      * Consider thruster upgrade (#4644)
+     * Update pioneer wrapper script to use CMake (#4639)
      
    * Fixes
      * Fix transparency on menu items (#4640)
