@@ -195,6 +195,8 @@ Model *BinaryConverter::Load(const std::string &name, RefCountedPtr<FileSystem::
 			Serializer::Reader rd(ByteRange(static_cast<char *>(pDecompressedData), outSize));
 			model = CreateModel(name, rd);
 			mz_free(pDecompressedData);
+		} else {
+			Error("BinaryConverter failed to load old-style SGM called: %s", name.c_str());
 		}
 	}
 

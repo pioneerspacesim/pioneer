@@ -157,6 +157,8 @@ namespace Serializer {
 		{
 			ByteRange range = Blob();
 			out = std::string(range.begin, range.Size());
+			if (!out.empty() && *(out.end() - 1) == '\0') // HACK, old SGM files have trailing '\0' de-serialised sometimes
+				out.pop_back();
 		}
 
 		void readObject(vector2f &vec) { *this >> vec.x >> vec.y; }

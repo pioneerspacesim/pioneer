@@ -39,6 +39,7 @@ namespace Graphics {
 		m_textureType(textureType),
 		m_prepared(false)
 	{
+		assert(!m_filename.empty());
 	}
 
 	TextureBuilder::~TextureBuilder()
