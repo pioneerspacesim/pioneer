@@ -131,15 +131,15 @@ struct Color4ub {
 	Uint8 GetLuminance() const;
 	void Shade(float factor)
 	{
-		r *= static_cast<Uint8>(1.0f - factor);
-		g *= static_cast<Uint8>(1.0f - factor);
-		b *= static_cast<Uint8>(1.0f - factor);
+		r = static_cast<Uint8>(r * (1.0f - factor));
+		g = static_cast<Uint8>(g * (1.0f - factor));
+		b = static_cast<Uint8>(b * (1.0f - factor));
 	}
 	void Tint(float factor)
 	{
-		r += static_cast<Uint8>((255.0f - r) * factor);
-		g += static_cast<Uint8>((255.0f - g) * factor);
-		b += static_cast<Uint8>((255.0f - b) * factor);
+		r = static_cast<Uint8>(r + (255.0f - r) * factor);
+		g = static_cast<Uint8>(g + (255.0f - g) * factor);
+		b = static_cast<Uint8>(b + (255.0f - b) * factor);
 	}
 
 	static const Color4ub BLACK;
