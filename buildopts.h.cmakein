@@ -7,5 +7,6 @@
 
 #cmakedefine01 WITH_OBJECTVIEWER
 #cmakedefine01 WITH_DEVKEYS
+#cmakedefine01 HAS_FPE_OPS
 
 #endif /* BUILDOPTS_H */

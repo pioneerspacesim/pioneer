@@ -43,6 +43,14 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
 endif (CMAKE_COMPILER_IS_GNUCXX)
 
+include(CheckSymbolExists)
+check_symbol_exists(feclearexcept "fenv.h" HAS_FECLEAREXCEPT)
+check_symbol_exists(feenableexcept "fenv.h" HAS_FEENABLEEXCEPT)
+check_symbol_exists(fedisableexcept "fenv.h" HAS_FEDISABLEEXCEPT)
+if (HAS_FECLEAREXCEPT AND HAS_FEENABLEEXCEPT AND HAS_FEDISABLEEXCEPT)
+	set(HAS_FPE_OPS ON)
+endif()
+
 if (NOT CMAKE_BUILD_TYPE)
 	set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING
 		"Choose the type of build, options are: None(CMAKE_CXX_FLAGS or CMAKE_C_FLAGS used) Debug Release RelWithDebInfo MinSizeRel."
