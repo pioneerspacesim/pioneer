@@ -77,15 +77,10 @@ local function shipStats()
 	rearWeapon =  rearWeapon  or nil
 
 	local mass_with_fuel = player.staticMass + player.fuelMassLeft
-	local mass_with_fuel_kg = 1000 * mass_with_fuel
 
-	-- ship stats mass is in tonnes; scale by 1000 to convert to kg
-	local fwd_acc = -shipDef.linearThrust.FORWARD / mass_with_fuel_kg
-	local bwd_acc = shipDef.linearThrust.REVERSE / mass_with_fuel_kg
-	local up_acc = shipDef.linearThrust.UP / mass_with_fuel_kg
-
-	-- delta-v calculation according to http://en.wikipedia.org/wiki/Tsiolkovsky_rocket_equation
-	local deltav = shipDef.effectiveExhaustVelocity * math.log((player.staticMass + player.fuelMassLeft) / player.staticMass)
+	local fwd_acc = player:GetAcceleration("forward")
+	local bwd_acc = player:GetAcceleration("reverse")
+	local up_acc = player:GetAcceleration("up")
 
 	drawTable.draw {
 		{ l.REGISTRATION_NUMBER..":",	shipLabel},
@@ -107,18 +102,18 @@ local function shipStats()
 		false,
 		{ l.FRONT_WEAPON..":", frontWeapon and frontWeapon:GetName() or l.NONE },
 		{ l.REAR_WEAPON..":",  rearWeapon and rearWeapon:GetName() or l.NONE },
-		{ l.FUEL..":",         string.format("%d%%", Game.player.fuel)},
-		{ l.DELTA_V..":",      string.format("%d km/s", deltav / 1000)},
+		{ l.FUEL..":",         string.format("%d%%", player.fuel) },
+		{ l.DELTA_V..":",      string.format("%d km/s", player:GetRemainingDeltaV() / 1000) },
 		false,
-		{ l.FORWARD_ACCEL..":",  string.format("%.2f m/s² (%.1f G)", fwd_acc, fwd_acc / 9.81) },
-		{ l.BACKWARD_ACCEL..":", string.format("%.2f m/s² (%.1f G)", bwd_acc, bwd_acc / 9.81) },
-		{ l.UP_ACCEL..":",       string.format("%.2f m/s² (%.1f G)", up_acc, up_acc / 9.81) },
+		{ l.FORWARD_ACCEL..":",  string.format("%.2f m/s² (%.1f g)", fwd_acc, fwd_acc / 9.81) },
+		{ l.BACKWARD_ACCEL..":", string.format("%.2f m/s² (%.1f g)", bwd_acc, bwd_acc / 9.81) },
+		{ l.UP_ACCEL..":",       string.format("%.2f m/s² (%.1f g)", up_acc, up_acc / 9.81) },
 		false,
 		{ l.MINIMUM_CREW..":", shipDef.minCrew },
 		{ l.CREW_CABINS..":",  shipDef.maxCrew },
 		false,
 		{ l.MISSILE_MOUNTS..":",            shipDef.equipSlotCapacity.missile},
-		{ l.ATMOSPHERIC_SHIELDING..":",     shipDef.equipSlotCapacity.atmo_shield > 1 and l.YES or l.NO },
+		{ l.ATMOSPHERIC_SHIELDING..":",     shipDef.equipSlotCapacity.atmo_shield > 0 and l.YES or l.NO },
 		{ l.SCOOP_MOUNTS..":",              shipDef.equipSlotCapacity.scoop},
 	}
 end
