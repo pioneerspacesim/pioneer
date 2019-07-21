@@ -19,6 +19,9 @@
     <Filter Include="Header Files\json">
       <UniqueIdentifier>{2f1a4c06-480d-443b-84ca-e2f7a74efd36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\lz4">
+      <UniqueIdentifier>{1fe8dda3-2330-4d28-a4cd-a52a055ee86d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\modelcompiler.cpp">
@@ -63,9 +66,6 @@
     <ClCompile Include="..\..\src\Lang.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Serializer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\contrib\PicoDDS\PicoDDS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -89,6 +89,18 @@
     </ClCompile>
     <ClCompile Include="..\..\src\GZipFormat.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\contrib\lz4\lz4.c">
+      <Filter>Source Files\lz4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\contrib\lz4\lz4frame.c">
+      <Filter>Source Files\lz4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\contrib\lz4\lz4hc.c">
+      <Filter>Source Files\lz4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\contrib\lz4\xxhash.c">
+      <Filter>Source Files\lz4</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +205,18 @@
     </ClInclude>
     <ClInclude Include="..\..\src\GZipFormat.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\lz4\lz4.h">
+      <Filter>Source Files\lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\lz4\lz4frame.h">
+      <Filter>Source Files\lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\lz4\lz4hc.h">
+      <Filter>Source Files\lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\lz4\xxhash.h">
+      <Filter>Source Files\lz4</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

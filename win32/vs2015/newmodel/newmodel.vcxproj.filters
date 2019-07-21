@@ -27,6 +27,20 @@
     <ClCompile Include="..\..\..\src\scenegraph\LuaModel.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\BinaryConverter.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\BaseLoader.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Serializer.cpp" />
+    <ClCompile Include="..\..\..\contrib\lz4\lz4.c">
+      <Filter>lz4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\lz4\lz4frame.c">
+      <Filter>lz4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\lz4\lz4hc.c">
+      <Filter>lz4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\lz4\xxhash.c">
+      <Filter>lz4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\LZ4Format.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\scenegraph\Thruster.h" />
@@ -58,5 +72,23 @@
     <ClInclude Include="..\..\..\src\scenegraph\NodeCopyCache.h" />
     <ClInclude Include="..\..\..\src\scenegraph\BinaryConverter.h" />
     <ClInclude Include="..\..\..\src\scenegraph\BaseLoader.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Serializer.h" />
+    <ClInclude Include="..\..\..\contrib\lz4\lz4.h">
+      <Filter>lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\lz4\lz4frame.h">
+      <Filter>lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\lz4\lz4hc.h">
+      <Filter>lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\lz4\xxhash.h">
+      <Filter>lz4</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="lz4">
+      <UniqueIdentifier>{5e6f213d-b0bc-4356-a451-7c3b5ee3a120}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

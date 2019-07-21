@@ -28,6 +28,9 @@
     <Filter Include="src\pigui">
       <UniqueIdentifier>{fd3f0e42-c96a-45c3-a489-fccf8c9242f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\lz4">
+      <UniqueIdentifier>{a90916ce-5155-4b0b-baa1-878bd29b7741}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Body.cpp">
@@ -151,9 +154,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\SectorView.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Serializer.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Sfx.cpp">
@@ -519,6 +519,18 @@
     <ClCompile Include="..\..\src\pigui\ModelSpinner.cpp">
       <Filter>src\pigui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\contrib\lz4\lz4.c">
+      <Filter>src\lz4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\contrib\lz4\lz4frame.c">
+      <Filter>src\lz4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\contrib\lz4\lz4hc.c">
+      <Filter>src\lz4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\contrib\lz4\xxhash.c">
+      <Filter>src\lz4</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -648,9 +660,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\SectorView.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Serializer.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Sfx.h">
@@ -1042,6 +1051,18 @@
     </ClInclude>
     <ClInclude Include="..\..\src\pigui\ModelSpinner.h">
       <Filter>src\pigui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\lz4\lz4.h">
+      <Filter>src\lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\lz4\lz4frame.h">
+      <Filter>src\lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\lz4\lz4hc.h">
+      <Filter>src\lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\lz4\xxhash.h">
+      <Filter>src\lz4</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
