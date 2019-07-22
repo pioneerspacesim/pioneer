@@ -13,6 +13,7 @@ July 2019
      
    * Fixes
      * Fix transparency on menu items (#4640)
+     * Fixes loading old SGM models (#4647)
 
 June 2019
    * Internal Changes
