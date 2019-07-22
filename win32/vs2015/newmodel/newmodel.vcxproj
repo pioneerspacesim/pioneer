@@ -231,6 +231,11 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\contrib\lz4\lz4.c" />
+    <ClCompile Include="..\..\..\contrib\lz4\lz4frame.c" />
+    <ClCompile Include="..\..\..\contrib\lz4\lz4hc.c" />
+    <ClCompile Include="..\..\..\contrib\lz4\xxhash.c" />
+    <ClCompile Include="..\..\..\src\LZ4Format.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Animation.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\BaseLoader.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Billboard.cpp" />
@@ -255,10 +260,15 @@
     <ClCompile Include="..\..\..\src\scenegraph\NodeVisitor.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Parser.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Pattern.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Serializer.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\StaticGeometry.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Thruster.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\contrib\lz4\lz4.h" />
+    <ClInclude Include="..\..\..\contrib\lz4\lz4frame.h" />
+    <ClInclude Include="..\..\..\contrib\lz4\lz4hc.h" />
+    <ClInclude Include="..\..\..\contrib\lz4\xxhash.h" />
     <ClInclude Include="..\..\..\src\scenegraph\Animation.h" />
     <ClInclude Include="..\..\..\src\scenegraph\AnimationChannel.h" />
     <ClInclude Include="..\..\..\src\scenegraph\AnimationKey.h" />
@@ -286,6 +296,7 @@
     <ClInclude Include="..\..\..\src\scenegraph\NodeVisitor.h" />
     <ClInclude Include="..\..\..\src\scenegraph\Parser.h" />
     <ClInclude Include="..\..\..\src\scenegraph\Pattern.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Serializer.h" />
     <ClInclude Include="..\..\..\src\scenegraph\StaticGeometry.h" />
     <ClInclude Include="..\..\..\src\scenegraph\Thruster.h" />
   </ItemGroup>

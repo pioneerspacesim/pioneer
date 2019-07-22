@@ -368,6 +368,10 @@
     <ClCompile Include="..\..\contrib\imgui\imgui.cpp" />
     <ClCompile Include="..\..\contrib\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\..\contrib\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="..\..\contrib\lz4\lz4.c" />
+    <ClCompile Include="..\..\contrib\lz4\lz4frame.c" />
+    <ClCompile Include="..\..\contrib\lz4\lz4hc.c" />
+    <ClCompile Include="..\..\contrib\lz4\xxhash.c" />
     <ClCompile Include="..\..\contrib\PicoDDS\PicoDDS.cpp" />
     <ClCompile Include="..\..\src\Background.cpp" />
     <ClCompile Include="..\..\src\BaseSphere.cpp" />
@@ -504,7 +508,6 @@
     <ClCompile Include="..\..\src\SDLWrappers.cpp" />
     <ClCompile Include="..\..\src\SectorView.cpp" />
     <ClCompile Include="..\..\src\Sensors.cpp" />
-    <ClCompile Include="..\..\src\Serializer.cpp" />
     <ClCompile Include="..\..\src\ServerAgent.cpp" />
     <ClCompile Include="..\..\src\Sfx.cpp" />
     <ClCompile Include="..\..\src\Shields.cpp" />
@@ -555,6 +558,10 @@
     <ClInclude Include="..\..\contrib\imgui\stb_truetype.h" />
     <ClInclude Include="..\..\contrib\json\json.hpp" />
     <ClInclude Include="..\..\contrib\json\json_fwd.hpp" />
+    <ClInclude Include="..\..\contrib\lz4\lz4.h" />
+    <ClInclude Include="..\..\contrib\lz4\lz4frame.h" />
+    <ClInclude Include="..\..\contrib\lz4\lz4hc.h" />
+    <ClInclude Include="..\..\contrib\lz4\xxhash.h" />
     <ClInclude Include="..\..\contrib\nanosvg\nanosvg.h" />
     <ClInclude Include="..\..\contrib\nanosvg\nanosvgrast.h" />
     <ClInclude Include="..\..\contrib\PicoDDS\PicoDDS.h" />
@@ -674,7 +681,6 @@
     <ClInclude Include="..\..\src\SDLWrappers.h" />
     <ClInclude Include="..\..\src\SectorView.h" />
     <ClInclude Include="..\..\src\Sensors.h" />
-    <ClInclude Include="..\..\src\Serializer.h" />
     <ClInclude Include="..\..\src\ServerAgent.h" />
     <ClInclude Include="..\..\src\Sfx.h" />
     <ClInclude Include="..\..\src\Shields.h" />
