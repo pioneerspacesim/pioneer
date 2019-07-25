@@ -215,7 +215,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -231,7 +231,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -247,7 +247,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <DisableSpecificWarnings>4146</DisableSpecificWarnings>
@@ -261,7 +261,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <DisableSpecificWarnings>4146</DisableSpecificWarnings>
@@ -275,7 +275,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
@@ -291,7 +291,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
@@ -309,7 +309,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PIONEER_PROFILER;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
@@ -326,7 +326,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PIONEER_PROFILER;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>

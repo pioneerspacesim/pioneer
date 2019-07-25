@@ -9,25 +9,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.3.1\sigc++\trackable.cc">
+    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.10.2\sigc++\trackable.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.3.1\sigc++\connection.cc">
+    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.10.2\sigc++\connection.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.3.1\sigc++\signal.cc">
+    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.10.2\sigc++\signal_base.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.3.1\sigc++\signal_base.cc">
+    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.10.2\sigc++\functors\slot_base.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.3.1\sigc++\functors\slot.cc">
+    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.10.2\sigc++\adaptors\lambda\lambda.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.3.1\sigc++\functors\slot_base.cc">
+    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.10.2\sigc++\signal.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.3.1\sigc++\adaptors\lambda\lambda.cc">
+    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.10.2\sigc++\functors\slot.cc">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

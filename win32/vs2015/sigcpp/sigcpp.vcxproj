@@ -35,13 +35,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.3.1\sigc++\adaptors\lambda\lambda.cc" />
-    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.3.1\sigc++\connection.cc" />
-    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.3.1\sigc++\functors\slot.cc" />
-    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.3.1\sigc++\functors\slot_base.cc" />
-    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.3.1\sigc++\signal.cc" />
-    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.3.1\sigc++\signal_base.cc" />
-    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.3.1\sigc++\trackable.cc" />
+    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.10.2\sigc++\adaptors\lambda\lambda.cc" />
+    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.10.2\sigc++\connection.cc" />
+    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.10.2\sigc++\functors\slot.cc" />
+    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.10.2\sigc++\functors\slot_base.cc" />
+    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.10.2\sigc++\signal.cc" />
+    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.10.2\sigc++\signal_base.cc" />
+    <ClCompile Include="..\..\..\..\pioneer-thirdparty\source\libsigc++-2.10.2\sigc++\trackable.cc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <RootNamespace>sigc++</RootNamespace>
@@ -148,7 +148,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level2</WarningLevel>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm137 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -158,7 +158,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level2</WarningLevel>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm137 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -168,7 +168,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level2</WarningLevel>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -179,7 +179,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level2</WarningLevel>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -190,7 +190,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
     <ClCompile>
       <WarningLevel>Level2</WarningLevel>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PIONEER_PROFILER;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -202,7 +202,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">
     <ClCompile>
       <WarningLevel>Level2</WarningLevel>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PIONEER_PROFILER;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -214,7 +214,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">
     <ClCompile>
       <WarningLevel>Level2</WarningLevel>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
@@ -229,7 +229,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|x64'">
     <ClCompile>
       <WarningLevel>Level2</WarningLevel>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.3.1;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
