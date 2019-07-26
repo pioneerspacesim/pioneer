@@ -284,6 +284,13 @@ set_target_properties(${PROJECT_NAME} modelcompiler savegamedump pioneerLib PROP
 	CXX_EXTENSIONS ON
 )
 
+if(MSVC)
+	target_compile_options(${PROJECT_NAME} PRIVATE "/MP")
+	target_compile_options(modelcompiler PRIVATE "/MP")
+	target_compile_options(savegamedump PRIVATE "/MP")
+	target_compile_options(pioneerLib PRIVATE "/MP")
+endif()
+
 if (CMAKE_CROSSCOMPILING)
 	find_program(MODELCOMPILER modelcompiler DOC "modelcompiler executable for the host")
 else (CMAKE_CROSSCOMPILING)
@@ -293,11 +300,14 @@ endif (CMAKE_CROSSCOMPILING)
 if (MODELCOMPILER)
 	# Optimize the models.
 	# This really shouldn't be done inside the source tree...
+if (WIN32)
+else (WIN32)
 	add_custom_command(TARGET modelcompiler POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E env SDL_VIDEODRIVER=dummy ${MODELCOMPILER} -b inplace
 		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 		COMMENT "Optimizing models" VERBATIM
 	)
+endif (WIN32)
 else (MODELCOMPILER)
 	message(WARNING "No modelcompiler provided, models won't be optimized!")
 endif(MODELCOMPILER)
