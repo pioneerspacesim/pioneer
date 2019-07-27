@@ -88,7 +88,7 @@ local function shipStats()
 		{
 			l.HYPERSPACE_RANGE..":",
 			string.interp( l.N_LIGHT_YEARS_N_MAX, {
-				range    = string.format("%.1f",player.hyperspaceRange),
+				range    = string.format("%.1f",player:GetHyperspaceRange()),
 				maxRange = string.format("%.1f",player.maxHyperspaceRange)
 			})
 		},
