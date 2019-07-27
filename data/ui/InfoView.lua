@@ -34,6 +34,7 @@ ui.templates.InfoView = function (args)
 	--tabGroup:AddTab({ id = "orbitalAnalysis", title = l.ORBITAL_ANALYSIS,     icon = "Planet",    template = orbitalAnalysis, })
 
 	tabGroup.header:Hide()
+	tabGroup.outerBody:Hide()
 	piInfoView.legacyTabView = tabGroup
 	return tabGroup.widget
 end

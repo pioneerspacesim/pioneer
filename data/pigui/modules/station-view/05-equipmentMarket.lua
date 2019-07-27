@@ -9,8 +9,6 @@ local StationView = import 'pigui/views/station-view'
 local Market = import 'pigui/libs/market.lua'
 
 local ui = import 'pigui/pigui.lua'
-local colors = ui.theme.colors
-local icons = ui.theme.icons
 local pionillium = ui.fonts.pionillium
 local l = Lang.GetResource("ui-core")
 
@@ -134,8 +132,6 @@ equipmentMarketPlayer = Market.New("EquipmentMarketPlayer", l.EQUIPPED, {
 })
 
 local function drawEquipmentView()
-	local inventoryPadding = Vector2(20, 10)
-	local player = Game.player
 	ui.withFont(pionillium.medlarge.name, pionillium.large.size, function()
 
 		ui.child("equipmentMarketContainer", Vector2(0, ui.getContentRegion().y - 100), {}, function()
@@ -144,30 +140,7 @@ local function drawEquipmentView()
 			equipmentMarketPlayer:render()
 		end)
 
-		ui.withStyleVars({WindowPadding = inventoryPadding, ItemSpacing = equipmentMarket.style.itemSpacing}, function()
-			ui.child("shipInventoryContainer", Vector2(0, 0), {"AlwaysUseWindowPadding"}, function()
-				ui.text('')
-				ui.columns(4, 'shipInventory', false)
-				ui.text(l.CASH .. ': ' .. Format.Money(Game.player:GetMoney()))
-				ui.nextColumn()
-				ui.text(l.CAPACITY .. ': ')
-				ui.sameLine()
-				local gaugePos = ui.getWindowPos() + ui.getCursorPos() + inventoryPadding
-				local gaugeWidth = ui.getContentRegion().x - inventoryPadding.x - equipmentMarket.style.itemSpacing.x
-				ui.gauge(gaugePos, player.usedCapacity, '', string.format('%%it %s / %it %s', l.USED, player.freeCapacity, l.FREE), 0, player.usedCapacity + player.freeCapacity, icons.market, colors.gaugeEquipmentMarket, '', gaugeWidth, ui.getTextLineHeight())
-				ui.nextColumn()
-				ui.text(l.CABINS .. ': ')
-				ui.sameLine()
-				local cabins_free = player.cabin_cap or 0
-				local cabins = player:GetEquipCountOccupied("cabin")
-				gaugePos = ui.getWindowPos() + ui.getCursorPos() + inventoryPadding
-				gaugeWidth = ui.getContentRegion().x - inventoryPadding.x - equipmentMarket.style.itemSpacing.x
-				ui.gauge(gaugePos, cabins - cabins_free, '', string.format('%%it %s / %it %s', l.USED, cabins, l.FREE), 0, cabins, icons.personal, colors.gaugeEquipmentMarket, '', gaugeWidth, ui.getTextLineHeight())
-				ui.nextColumn()
-				ui.text(l.LEGAL_STATUS .. ': ' .. l.CLEAN)
-				ui.columns(1, '', false)
-			end)
-		end)
+		StationView:shipSummary()
 	end)
 end
 

@@ -141,6 +141,7 @@ ui.templates.StationView = function (args)
 	tabGroup:SetFooter(footerDefault)
 
 	tabGroup.header:Hide()
+	tabGroup.outerBody:Hide()
 	piStationView.legacyTabView = tabGroup
 	return tabGroup.widget
 end
