@@ -104,7 +104,7 @@ local lobby = function (tab)
 			connections.updateHyperspaceRangeCargo:Disconnect()
 			return
 		end
-		hyperspaceRange:SetText(string.format("%.1f ", Game.player.hyperspaceRange) .. l.LY)
+		hyperspaceRange:SetText(string.format("%.1f ", Game.player:GetHyperspaceRange()) .. l.LY)
 	end
 	updateHyperspaceRange()
 	connections.updateHyperspaceRangeFuel = Game.player:Connect("fuel", updateHyperspaceRange)
