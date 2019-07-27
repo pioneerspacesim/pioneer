@@ -54,6 +54,8 @@ ui.fonts = {
 		large = { name = "orbiteer", size = 30 * font_factor, offset = 24 * font_factor },
 		medlarge = { name = "orbiteer", size = 24 * font_factor, offset = 20 * font_factor},
 		medium = { name = "orbiteer", size = 20 * font_factor, offset = 16 * font_factor},
+		small = { name = "orbiteer", size = 14 * font_factor, offset = 11 * font_factor},
+		tiny = { name = "orbiteer", size = 8 * font_factor, offset = 7 * font_factor},
 	},
 }
 
@@ -809,7 +811,7 @@ local gauge_show_percent = true
 ui.gauge_height = 25
 ui.gauge_width = 275
 
-ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color, tooltip, width, height)
+ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color, tooltip, width, height, formatFont, percentFont)
 	local percent = math.clamp((value - minimum) / (maximum - minimum), 0, 1)
 	local offset = 60
 	local uiPos = Vector2(position.x, position.y)
@@ -820,7 +822,7 @@ ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color
 		if gauge_show_percent then
 			local one_hundred = ui.calcTextSize("100%")
 			uiPos.x = uiPos.x + one_hundred.x * 1.2 -- 1.2 for a bit of slack
-			ui.addStyledText(Vector2(uiPos.x, uiPos.y + gauge_height / 12), ui.anchor.right, ui.anchor.center, string.format("%i%%", percent * 100), ui.theme.colors.reticuleCircle, ui.fonts.pionillium.medium, tooltip)
+			ui.addStyledText(Vector2(uiPos.x, uiPos.y + gauge_height / 12), ui.anchor.right, ui.anchor.center, string.format("%i%%", percent * 100), ui.theme.colors.reticuleCircle, percentFont or ui.fonts.pionillium.medium, tooltip)
 		end
 		uiPos.x = uiPos.x + gauge_height * 1.2
 		ui.addIcon(Vector2(uiPos.x - gauge_height / 2, uiPos.y), icon, ui.theme.colors.reticuleCircle, Vector2(gauge_height * 0.9, gauge_height * 0.9), ui.anchor.center, ui.anchor.center, tooltip)
@@ -828,8 +830,8 @@ ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color
 		ui.addLine(uiPos, Vector2(uiPos.x + w * percent, uiPos.y), color, gauge_height)
 		if value and format then
 			ui.addFancyText(Vector2(uiPos.x + gauge_height/2, uiPos.y + gauge_height/4), ui.anchor.left, ui.anchor.center, {
-				{ text=string.format(format, value), color=ui.theme.colors.reticuleCircle,     font=ui.fonts.pionillium.small, tooltip=tooltip },
-				{ text=unit,                         color=ui.theme.colors.reticuleCircleDark, font=ui.fonts.pionillium.small, tooltip=tooltip }},
+				{ text=string.format(format, value), color=ui.theme.colors.reticuleCircle,     font=(formatFont or ui.fonts.pionillium.small), tooltip=tooltip },
+				{ text=unit,                         color=ui.theme.colors.reticuleCircleDark, font=(formatFont or ui.fonts.pionillium.small), tooltip=tooltip }},
 					ui.theme.colors.gaugeBackground)
 		end
 	end)
@@ -838,6 +840,11 @@ end
 ui.loadTextureFromSVG = function(a, b, c)
 	return pigui:LoadTextureFromSVG(a, b, c)
 end
+
+ui.loadTexture = function(filename)
+	return pigui:LoadTexture(filename)
+end
+
 ui.dataDirPath = pigui.DataDirPath
 ui.addImage = pigui.AddImage
 ui.image = pigui.Image

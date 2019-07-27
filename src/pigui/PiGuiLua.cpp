@@ -3,6 +3,7 @@
 
 #include "PiGuiLua.h"
 #include "Face.h"
+#include "Image.h"
 #include "ModelSpinner.h"
 
 namespace PiGUI {
@@ -10,6 +11,7 @@ namespace PiGUI {
 
 		void Init()
 		{
+			LuaObject<PiGUI::Image>::RegisterClass();
 			LuaObject<PiGUI::Face>::RegisterClass();
 			LuaObject<PiGUI::ModelSpinner>::RegisterClass();
 		}

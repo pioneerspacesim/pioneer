@@ -116,6 +116,7 @@ function PiGuiTabView.renderTabView(self)
             for i, v in ipairs(self.tabs) do
                 if infoButton(v.icon, i == self.currentTab, v.name) then
                     self.legacyTabView:SwitchTo(v.id)
+                    self.legacyTabView.outerBody:Hide()
                     if(self.currentTab ~= i) then self.tabs[i].refresh() end
 
                     self.currentTab = i
