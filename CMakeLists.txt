@@ -105,6 +105,8 @@ list(APPEND SRC_FOLDERS
 )
 
 foreach (each IN LISTS SRC_FOLDERS)
+	file(GLOB header_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${each}/*.h)
+	list(APPEND HXX_FILES ${header_files})
 	file(GLOB src_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${each}/*.cpp)
 	list(APPEND CXX_FILES ${src_files})
 endforeach (each IN LISTS SRC_FOLDERS)
@@ -216,7 +218,7 @@ if (NOT USE_SYSTEM_LIBLUA)
 	include_directories(contrib/lua)
 endif (NOT USE_SYSTEM_LIBLUA)
 
-add_library(pioneerLib STATIC ${CXX_FILES})
+add_library(pioneerLib STATIC ${CXX_FILES} ${HXX_FILES})
 
 if (WIN32)
 	string(TIMESTAMP BUILD_YEAR "%Y")
@@ -289,7 +291,14 @@ if(MSVC)
 	target_compile_options(modelcompiler PRIVATE "/MP")
 	target_compile_options(savegamedump PRIVATE "/MP")
 	target_compile_options(pioneerLib PRIVATE "/MP")
-endif()
+
+	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+		COMMAND xcopy ..\\pioneer-thirdparty\\win32\\bin\\x64\\vs2017\\*.dll $(TargetDir)*.dll /Y /C
+		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+		COMMENT "copy the dlls into the directory" 
+		VERBATIM
+	)
+endif(MSVC)
 
 if (CMAKE_CROSSCOMPILING)
 	find_program(MODELCOMPILER modelcompiler DOC "modelcompiler executable for the host")
@@ -306,7 +315,7 @@ if (NOT MSVC)
 		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 		COMMENT "Optimizing models" VERBATIM
 	)
-endif (WIN32)
+endif (NOT MSVC)
 else (MODELCOMPILER)
 	message(WARNING "No modelcompiler provided, models won't be optimized!")
 endif(MODELCOMPILER)
