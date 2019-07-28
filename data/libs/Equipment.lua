@@ -702,12 +702,12 @@ misc.missile_naval = EquipType.New({
 })
 misc.atmospheric_shielding = EquipType.New({
 	l10n_key="ATMOSPHERIC_SHIELDING", slots="atmo_shield", price=200,
-	capabilities={mass=1, atmo_shield=1},
+	capabilities={mass=1, atmo_shield=9},
 	purchasable=true, tech_level=3
 })
 misc.heavy_atmospheric_shielding = EquipType.New({
 	l10n_key="ATMOSPHERIC_SHIELDING_HEAVY", slots="atmo_shield", price=900,
-	capabilities={mass=2, atmo_shield=2},
+	capabilities={mass=2, atmo_shield=19},
 	purchasable=true, tech_level=5
 })
 misc.ecm_basic = EquipType.New({
