@@ -29,6 +29,9 @@ if (MSVC)
 
 	# Use M_PI/M_E macros from math.h
 	add_definitions(-D_USE_MATH_DEFINES -DHAVE_M_PI)
+	
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 endif (MSVC)
 
 if (APPLE)
@@ -105,6 +108,8 @@ list(APPEND SRC_FOLDERS
 )
 
 foreach (each IN LISTS SRC_FOLDERS)
+	file(GLOB header_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${each}/*.h)
+	list(APPEND HXX_FILES ${header_files})
 	file(GLOB src_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${each}/*.cpp)
 	list(APPEND CXX_FILES ${src_files})
 endforeach (each IN LISTS SRC_FOLDERS)
@@ -216,7 +221,7 @@ if (NOT USE_SYSTEM_LIBLUA)
 	include_directories(contrib/lua)
 endif (NOT USE_SYSTEM_LIBLUA)
 
-add_library(pioneerLib STATIC ${CXX_FILES})
+add_library(pioneerLib STATIC ${CXX_FILES} ${HXX_FILES})
 
 if (WIN32)
 	string(TIMESTAMP BUILD_YEAR "%Y")
@@ -284,6 +289,15 @@ set_target_properties(${PROJECT_NAME} modelcompiler savegamedump pioneerLib PROP
 	CXX_EXTENSIONS ON
 )
 
+if(MSVC)
+	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+		COMMAND xcopy ..\\pioneer-thirdparty\\win32\\bin\\x64\\vs2017\\*.dll $(TargetDir)*.dll /Y /C
+		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+		COMMENT "copy the dlls into the directory" 
+		VERBATIM
+	)
+endif(MSVC)
+
 if (CMAKE_CROSSCOMPILING)
 	find_program(MODELCOMPILER modelcompiler DOC "modelcompiler executable for the host")
 else (CMAKE_CROSSCOMPILING)
@@ -293,11 +307,13 @@ endif (CMAKE_CROSSCOMPILING)
 if (MODELCOMPILER)
 	# Optimize the models.
 	# This really shouldn't be done inside the source tree...
+if (NOT MSVC)
 	add_custom_command(TARGET modelcompiler POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E env SDL_VIDEODRIVER=dummy ${MODELCOMPILER} -b inplace
 		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 		COMMENT "Optimizing models" VERBATIM
 	)
+endif (NOT MSVC)
 else (MODELCOMPILER)
 	message(WARNING "No modelcompiler provided, models won't be optimized!")
 endif(MODELCOMPILER)
