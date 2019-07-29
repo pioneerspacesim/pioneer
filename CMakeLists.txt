@@ -29,6 +29,9 @@ if (MSVC)
 
 	# Use M_PI/M_E macros from math.h
 	add_definitions(-D_USE_MATH_DEFINES -DHAVE_M_PI)
+	
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 endif (MSVC)
 
 if (APPLE)
@@ -287,11 +290,6 @@ set_target_properties(${PROJECT_NAME} modelcompiler savegamedump pioneerLib PROP
 )
 
 if(MSVC)
-	target_compile_options(${PROJECT_NAME} PRIVATE "/MP")
-	target_compile_options(modelcompiler PRIVATE "/MP")
-	target_compile_options(savegamedump PRIVATE "/MP")
-	target_compile_options(pioneerLib PRIVATE "/MP")
-
 	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 		COMMAND xcopy ..\\pioneer-thirdparty\\win32\\bin\\x64\\vs2017\\*.dll $(TargetDir)*.dll /Y /C
 		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
