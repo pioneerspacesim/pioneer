@@ -10,6 +10,7 @@ July 2019
      * Autodetect availability of FPE ops (#4646)
      * Consider thruster upgrade (#4644)
      * Update pioneer wrapper script to use CMake (#4639)
+     * Fix VS CMake (#4649)
      
    * Fixes
      * Fix transparency on menu items (#4640)
