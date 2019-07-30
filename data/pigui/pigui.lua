@@ -42,6 +42,7 @@ ui.fonts = {
 		large = { name = "icons", size = 22 * font_factor, offset = 28 * font_factor}
 	},
 	pionillium = {
+		xlarge = { name = "pionillium", size = 36 * font_factor, offset = 24 * font_factor },
 		large = { name = "pionillium", size = 30 * font_factor, offset = 24 * font_factor},
 		medlarge = { name = "pionillium", size = 24 * font_factor, offset = 18 * font_factor},
 		medium = { name = "pionillium", size = 18 * font_factor, offset = 14 * font_factor},
