@@ -48,6 +48,7 @@ local venus = CustomSystemBody:new('Venus', 'PLANET_TERRESTRIAL')
 	:ice_cover(f(0,1))
 	:life(f(0,1))
 	:orbital_phase_at_start(fixed.deg2rad(f(248,1)))
+	:rings(false)
 
 local earth = CustomSystemBody:new('Earth', 'PLANET_TERRESTRIAL')
 	:radius(f(1,1))
@@ -573,7 +574,8 @@ local uranus_moons = {
 		:semi_major_axis(f(1277,1000000))
 		:eccentricity(f(12,10000))
 		:inclination(math.deg2rad(0.26))
-		:rotation_period(f(252,100)),
+		:rotation_period(f(252,100))
+		:rings(false),
 	CustomSystemBody:new('Umbriel', 'PLANET_TERRESTRIAL')
 		:radius(f(92,1000))
 		:mass(f(2,10000))
