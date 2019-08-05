@@ -18,6 +18,11 @@ endif()
 
 include(GNUInstallDirs)
 
+if (MINGW)
+	# Fix build errors on AppVeyor with MinGW due to a broken GLEW config script
+	list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake/Modules)
+endif (MINGW)
+
 # We don't want a 'bin' folder on Windows
 if (WIN32)
 	set(CMAKE_INSTALL_BINDIR ${CMAKE_INSTALL_PREFIX})
