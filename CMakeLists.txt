@@ -307,13 +307,13 @@ endif (CMAKE_CROSSCOMPILING)
 if (MODELCOMPILER)
 	# Optimize the models.
 	# This really shouldn't be done inside the source tree...
-if (NOT MSVC)
-	add_custom_command(TARGET modelcompiler POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E env SDL_VIDEODRIVER=dummy ${MODELCOMPILER} -b inplace
-		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-		COMMENT "Optimizing models" VERBATIM
-	)
-endif (NOT MSVC)
+	if (NOT MSVC)
+		add_custom_command(TARGET modelcompiler POST_BUILD
+			COMMAND ${CMAKE_COMMAND} -E env SDL_VIDEODRIVER=dummy ${MODELCOMPILER} -b inplace
+			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+			COMMENT "Optimizing models" VERBATIM
+		)
+	endif (NOT MSVC)
 else (MODELCOMPILER)
 	message(WARNING "No modelcompiler provided, models won't be optimized!")
 endif(MODELCOMPILER)
