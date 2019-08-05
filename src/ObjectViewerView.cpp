@@ -5,19 +5,20 @@
 
 #if WITH_OBJECTVIEWER
 
-#include "ObjectViewerView.h"
-
 #include "Frame.h"
 #include "GameConfig.h"
+#include "ObjectViewerView.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "Player.h"
 #include "Space.h"
 #include "StringF.h"
 #include "WorldView.h"
+#include "graphics/Drawables.h"
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"
 #include "terrain/Terrain.h"
+
 #include <sstream>
 
 ObjectViewerView::ObjectViewerView() :
@@ -140,6 +141,10 @@ void ObjectViewerView::Draw3D()
 		m_renderer->SetLights(1, &light);
 
 		body->Render(m_renderer, m_camera.get(), vector3d(0, 0, -viewingDist), m_camRot);
+
+		// industry-standard red/green/blue XYZ axis indiactor
+		m_renderer->SetTransform(matrix4x4d::Translation(vector3d(0, 0, -viewingDist)) * m_camRot * matrix4x4d::ScaleMatrix(body->GetClipRadius() * 2.0));
+		Graphics::Drawables::GetAxes3DDrawable(m_renderer)->Draw(m_renderer);
 	}
 
 	UIView::Draw3D();
@@ -150,7 +155,9 @@ void ObjectViewerView::Draw3D()
 
 void ObjectViewerView::OnSwitchTo()
 {
-	m_camRot = matrix4x4d::Identity();
+	// rotate X is vertical
+	// rotate Y is horizontal
+	m_camRot = matrix4x4d::RotateXMatrix(DEG2RAD(-30.0)) * matrix4x4d::RotateYMatrix(DEG2RAD(-15.0));
 	UIView::OnSwitchTo();
 }
 
