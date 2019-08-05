@@ -1,4 +1,7 @@
 August 2018
+   * Internal Changes
+     * CMake: Fix indentation (#4656)
+
    * Fixes
      * Remove rings around Venus and Ariel (#4655)
 
