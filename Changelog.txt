@@ -1,6 +1,7 @@
 August 2018
    * Internal Changes
      * CMake: Fix indentation (#4656)
+     * Use an equation in order to calculate HullTemperature (#4653)
 
    * Fixes
      * Remove rings around Venus and Ariel (#4655)
