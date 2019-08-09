@@ -5,16 +5,14 @@
 #define _CUSTOMSYSTEM_H
 
 #include "Color.h"
+#include "Polit.h"
+#include "galaxy/SystemBody.h"
+
 #include "fixed.h"
-#include "galaxy/StarSystem.h"
 #include "vector3.h"
 
 class Faction;
 class Galaxy;
-
-namespace Polit {
-	enum GovType;
-}
 
 class CustomSystemBody {
 public:
@@ -65,6 +63,9 @@ public:
 	Uint32 seed;
 	bool want_rand_seed;
 	std::string spaceStationType;
+
+	void SanityChecks();
+
 };
 
 class CustomSystem {
@@ -90,6 +91,8 @@ public:
 	std::string shortDesc;
 	std::string longDesc;
 
+	void SanityChecks();
+
 	bool IsRandom() const { return !sBody; }
 };
 
@@ -100,7 +103,7 @@ public:
 		m_customSysDirectory(customSysDir) {}
 	~CustomSystemsDatabase();
 
-	void Init();
+	void Load();
 
 	typedef std::vector<const CustomSystem *> SystemList;
 	// XXX this is not as const-safe as it should be
@@ -109,12 +112,12 @@ public:
 	Galaxy *GetGalaxy() const { return m_galaxy; }
 
 private:
-	typedef std::map<SystemPath, CustomSystemsDatabase::SystemList> SectorMap;
+	typedef std::map<SystemPath, SystemList> SectorMap;
 
 	Galaxy *const m_galaxy;
 	const std::string m_customSysDirectory;
 	SectorMap m_sectorMap;
-	static const CustomSystemsDatabase::SystemList s_emptySystemList; // see: Null Object pattern
+	static const SystemList s_emptySystemList; // see: Null Object pattern
 };
 
 #endif /* _CUSTOMSYSTEM_H */
