@@ -15,14 +15,16 @@ local orbiteer = ui.fonts.orbiteer
 local l = Lang.GetResource("ui-core")
 local colors = ui.theme.colors
 
-local buySellSize = Vector2(math.ceil(172 * (ui.screenHeight / 1200)), math.ceil(64 * (ui.screenHeight / 1200)))
-local buttonSizeBase = Vector2(math.ceil(85 * (ui.screenHeight / 1200)), math.ceil(64 * (ui.screenHeight / 1200)))
-local marketFont = pionillium.large
-local iconSize = Vector2(0, marketFont.size * 1.5)
 local vZero = Vector2(0,0)
-local smallButton = Vector2(math.ceil(85 * (ui.screenHeight / 1200)), math.ceil(64 * (ui.screenHeight / 1200)))
-local bigButton = Vector2(math.ceil(124 * (ui.screenHeight / 1200)), math.ceil(64 * (ui.screenHeight / 1200)))
-local confirmButtonSize = Vector2(math.ceil(512 * (ui.screenHeight / 1200)), math.ceil(64 * (ui.screenHeight / 1200)))
+local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
+local widgetSizes = ui.rescaleUI({
+	buySellSize = Vector2(128, 48),
+	buttonSizeBase = Vector2(64, 48),
+	iconSize = Vector2(0, pionillium.large.size * 1.5),
+	smallButton = Vector2(92, 48),
+	bigButton = Vector2(128, 48),
+	confirmButtonSize = Vector2(384, 48),
+}, Vector2(1600, 900))
 
 local commodityMarket
 local icons = {}
@@ -181,12 +183,12 @@ local tradeMenu = function()
 	if(selectedItem) then
 		ui.withStyleVars({WindowPadding = commodityMarket.style.windowPadding, ItemSpacing = commodityMarket.style.itemSpacing}, function()
 			ui.child("TradeMenu", Vector2(ui.screenWidth / 2,0), {"AlwaysUseWindowPadding"}, function()
-				if(ui.coloredSelectedButton(l.BUY, buySellSize, tradeModeBuy, colors.buttonBlue, nil, true)) then
+				if(ui.coloredSelectedButton(l.BUY, widgetSizes.buySellSize, tradeModeBuy, colors.buttonBlue, nil, true)) then
 					tradeModeBuy = true
 					changeTradeAmount(-tradeAmount)
 				end
 				ui.sameLine()
-				if(ui.coloredSelectedButton(l.SELL, buySellSize, not tradeModeBuy, colors.buttonBlue, nil, true)) then
+				if(ui.coloredSelectedButton(l.SELL, widgetSizes.buySellSize, not tradeModeBuy, colors.buttonBlue, nil, true)) then
 					tradeModeBuy = false
 					changeTradeAmount(-tradeAmount)
 				end
@@ -199,8 +201,8 @@ local tradeMenu = function()
 				end
 
 				ui.columns(2, "tradeMenuItemTitle", false)
-				ui.setColumnWidth(0, buttonSizeBase.x)
-				icons[selectedItem.icon_name]:Draw(iconSize)
+				ui.setColumnWidth(0, widgetSizes.buttonSizeBase.x)
+				icons[selectedItem.icon_name]:Draw(widgetSizes.iconSize)
 				ui.nextColumn()
 				ui.withStyleVars({ItemSpacing = commodityMarket.style.itemSpacing/2}, function()
 					ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
@@ -214,19 +216,19 @@ local tradeMenu = function()
 				ui.textWrapped(selectedItem:GetDescription())
 
 				ui.setCursorPos(bottomHalf)
-				if ui.coloredSelectedButton("-100", smallButton, false, colors.buttonBlue, nil, true) then changeTradeAmount(-100) end
+				if ui.coloredSelectedButton("-100", widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then changeTradeAmount(-100) end
 				ui.sameLine()
-				if ui.coloredSelectedButton("-10", smallButton, false, colors.buttonBlue, nil, true) then changeTradeAmount(-10) end
+				if ui.coloredSelectedButton("-10", widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then changeTradeAmount(-10) end
 				ui.sameLine()
-				if ui.coloredSelectedButton("-1", smallButton, false, colors.buttonBlue, nil, true) then changeTradeAmount(-1) end
+				if ui.coloredSelectedButton("-1", widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then changeTradeAmount(-1) end
 				ui.sameLine()
-				if ui.coloredSelectedButton(l.RESET, bigButton, false, colors.buttonBlue, nil, true) then changeTradeAmount(-tradeAmount) end
+				if ui.coloredSelectedButton(l.RESET, widgetSizes.bigButton, false, colors.buttonBlue, nil, true) then changeTradeAmount(-tradeAmount) end
 				ui.sameLine()
-				if ui.coloredSelectedButton("+1", smallButton, false, colors.buttonBlue, nil, true) then changeTradeAmount(1) end
+				if ui.coloredSelectedButton("+1", widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then changeTradeAmount(1) end
 				ui.sameLine()
-				if ui.coloredSelectedButton("+10", smallButton, false, colors.buttonBlue, nil, true) then changeTradeAmount(10) end
+				if ui.coloredSelectedButton("+10", widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then changeTradeAmount(10) end
 				ui.sameLine()
-				if ui.coloredSelectedButton("+100", smallButton, false, colors.buttonBlue, nil, true) then changeTradeAmount(100) end
+				if ui.coloredSelectedButton("+100", widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then changeTradeAmount(100) end
 
 				ui.dummy(commodityMarket.style.itemSpacing/2)
 				ui.withStyleColors({["Text"] = tradeTextColor }, function()
@@ -235,9 +237,9 @@ local tradeMenu = function()
 					end)
 				end)
 
-				ui.setCursorPos(ui.getCursorPos() - Vector2(0, confirmButtonSize.y - commodityMarket.style.windowPadding.y - ui.getContentRegion().y))
+				ui.setCursorPos(ui.getCursorPos() - Vector2(0, widgetSizes.confirmButtonSize.y - commodityMarket.style.windowPadding.y - ui.getContentRegion().y))
 				ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
-					if ui.coloredSelectedButton(tradeModeBuy and l.CONFIRM_PURCHASE or l.CONFIRM_SALE, confirmButtonSize, false, colors.buttonBlue, nil, true) then
+					if ui.coloredSelectedButton(tradeModeBuy and l.CONFIRM_PURCHASE or l.CONFIRM_SALE, widgetSizes.confirmButtonSize, false, colors.buttonBlue, nil, true) then
 						if tradeModeBuy then doBuy()
 						else doSell() end
 					end
@@ -246,9 +248,9 @@ local tradeMenu = function()
 				ui.setNextWindowSize(Vector2(0, 0), "Always")
 				ui.popupModal(popupId, {"NoTitleBar", "NoResize"}, function ()
 					ui.text(popupMsg)
-					ui.dummy(Vector2((ui.getContentRegion().x - 100) / 2, 0))
+					ui.dummy(Vector2((ui.getContentRegion().x - 100 * rescaleVector.x) / 2, 0))
 					ui.sameLine()
-					if ui.button("OK", Vector2(100, 0)) then
+					if ui.button("OK", Vector2(100 * widgetSizes.rescaleVector.x, 0)) then
 						ui.closeCurrentPopup()
 					end
 				end)
@@ -261,8 +263,8 @@ commodityMarket = Market.New("EquipmentMarket", false, {
 	itemTypes = { Equipment.cargo },
 	columnCount = 5,
 	initTable = function(self)
-		ui.setColumnWidth(0, buttonSizeBase.x)
-		ui.setColumnWidth(1, self.style.size.x / 2 - 50)
+		ui.setColumnWidth(0, widgetSizes.buttonSizeBase.x)
+		ui.setColumnWidth(1, self.style.size.x / 2 - 50 * rescaleVector.x)
 
 		ui.text('')
 		ui.nextColumn()
@@ -279,7 +281,7 @@ commodityMarket = Market.New("EquipmentMarket", false, {
 		if(icons[item.icon_name] == nil) then
 			icons[item.icon_name] = PiImage.New("icons/goods/".. item.icon_name ..".png")
 		end
-		icons[item.icon_name]:Draw(iconSize)
+		icons[item.icon_name]:Draw(widgetSizes.iconSize)
 		ui.nextColumn()
 		ui.withStyleVars({ItemSpacing = (self.style.itemSpacing / 2)}, function()
 			ui.dummy(vZero)
@@ -310,9 +312,9 @@ commodityMarket = Market.New("EquipmentMarket", false, {
 })
 
 local function drawCommoditytView()
-	ui.withFont(marketFont.name, marketFont.size, function()
 
-		ui.child("commodityMarketContainer", Vector2(0, ui.getContentRegion().y - 100), {}, function()
+	ui.withFont(pionillium.large.name, pionillium.large.size, function()
+		ui.child("commodityMarketContainer", Vector2(0, ui.getContentRegion().y - StationView.style.height), {}, function()
 			commodityMarket:render()
 			ui.sameLine()
 			tradeMenu()

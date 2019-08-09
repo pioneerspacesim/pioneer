@@ -35,7 +35,9 @@ equipmentMarket = Market.New("EquipmentMarket", l.AVAILABLE_FOR_PURCHASE, {
 	itemTypes = { Equipment.cargo, Equipment.misc, Equipment.laser, Equipment.hyperspace },
 	columnCount = 5,
 	initTable = function(self)
-		ui.setColumnWidth(0, self.style.size.x / 2)
+		ui.setColumnWidth(0, self.style.size.x / 2.5)
+		ui.setColumnWidth(3, ui.calcTextSize(l.MASS).x + self.style.itemSpacing.x + self.style.windowPadding.x)
+		ui.setColumnWidth(4, ui.calcTextSize(l.IN_STOCK).x + self.style.itemSpacing.x + self.style.windowPadding.x)
 
 		ui.text(l.NAME_OBJECT)
 		ui.nextColumn()
@@ -132,9 +134,9 @@ equipmentMarketPlayer = Market.New("EquipmentMarketPlayer", l.EQUIPPED, {
 })
 
 local function drawEquipmentView()
-	ui.withFont(pionillium.medlarge.name, pionillium.large.size, function()
+	ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function()
 
-		ui.child("equipmentMarketContainer", Vector2(0, ui.getContentRegion().y - 100), {}, function()
+		ui.child("equipmentMarketContainer", Vector2(0, ui.getContentRegion().y - StationView.style.height), {}, function()
 			equipmentMarket:render()
 			ui.sameLine()
 			equipmentMarketPlayer:render()

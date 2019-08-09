@@ -175,6 +175,11 @@ local defaultFuncs = {
 local MarketWidget = {}
 
 function MarketWidget.New(id, title, config)
+    local defaultSizes = ui.rescaleUI({
+        windowPadding = Vector2(14, 14),
+        itemSpacing = Vector2(4, 9),
+    }, Vector2(1600, 900))
+
     local self = {
         id = id,
         popupMsgId = 'popupMsg' .. id,
@@ -184,10 +189,11 @@ function MarketWidget.New(id, title, config)
         itemTypes = config.itemTypes or {},
         columnCount = config.columnCount or 0,
         style = {
-            windowPadding = Vector2(math.ceil(18 * (ui.screenHeight / 1200)), math.ceil(18 * (ui.screenHeight / 1200))),
-            itemSpacing = config.itemSpacing or Vector2(math.ceil(6 * (ui.screenHeight / 1200)), math.ceil(12 * (ui.screenHeight / 1200))),
+            windowPadding = config.windowPadding or defaultSizes.windowPadding,
+            itemSpacing = config.itemSpacing or defaultSizes.itemSpacing,
             size = config.size or Vector2(ui.screenWidth / 2,0),
             headingFont = config.headingFont or ui.fonts.orbiteer.xlarge,
+            highlightColor = config.highlightColor or Color(0,63,112),
         },
         funcs = {
             displayItem = config.displayItem or defaultFuncs.displayItem,
@@ -238,7 +244,7 @@ function MarketWidget:render()
                 end)
             end
 
-            if self.selStart then ui.addRectFilled(self.selStart, self.selEnd, Color(0,63,112), 0, 0) end
+            if self.selStart then ui.addRectFilled(self.selStart, self.selEnd, self.style.highlightColor, 0, 0) end
 
             ui.columns(self.columnCount+1, self.id, false)
             self.funcs.initTable(self)
