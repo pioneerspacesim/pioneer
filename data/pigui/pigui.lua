@@ -32,8 +32,28 @@ local ui = { }
 local defaultTheme = import("themes/default")
 ui.theme = defaultTheme
 
+ui.rescaleUI = function(val, baseResolution, rescaleToScreenAspect)
+	local rescaleVector = Vector2(pigui.screen_width / baseResolution.x, pigui.screen_height / baseResolution.y)
+	local rescaleFactor = math.min(rescaleVector.x, rescaleVector.y)
+	local type = type(val)
+
+	if type == 'table' then
+		local result = {}
+		for k, v in pairs(val) do
+			result[k] = ui.rescaleUI(v, baseResolution)
+		end
+
+		return result
+	elseif type == 'userdata' and val.x and val.y then
+		return Vector2(val.x * ((rescaleToScreenAspect and rescaleVector.x) or rescaleFactor), val.y * ((rescaleToScreenAspect and rescaleVector.y) or rescaleFactor))
+	elseif type == 'number' then
+		return val * rescaleFactor
+	end
+end
+
 -- font sizes are correct for 1920x1200
-local font_factor = pigui.screen_height / 1200.0
+local font_factor = ui.rescaleUI(1, Vector2(1920, 1200))
+
 ui.fonts = {
 	-- dummy font, actually renders icons
 	pionicons = {
@@ -819,7 +839,7 @@ ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color
 	local gauge_width = width or ui.gauge_width
 	local gauge_height = height or ui.gauge_height
 	ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
-		ui.addLine(uiPos, Vector2(uiPos.x + gauge_width, uiPos.y), ui.theme.colors.gaugeBackground, gauge_height)
+		ui.addLine(uiPos, Vector2(uiPos.x + gauge_width, uiPos.y), ui.theme.colors.gaugeBackground, gauge_height, false)
 		if gauge_show_percent then
 			local one_hundred = ui.calcTextSize("100%")
 			uiPos.x = uiPos.x + one_hundred.x * 1.2 -- 1.2 for a bit of slack
@@ -828,7 +848,7 @@ ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color
 		uiPos.x = uiPos.x + gauge_height * 1.2
 		ui.addIcon(Vector2(uiPos.x - gauge_height / 2, uiPos.y), icon, ui.theme.colors.reticuleCircle, Vector2(gauge_height * 0.9, gauge_height * 0.9), ui.anchor.center, ui.anchor.center, tooltip)
 		local w = (position.x + gauge_width) - uiPos.x
-		ui.addLine(uiPos, Vector2(uiPos.x + w * percent, uiPos.y), color, gauge_height)
+		ui.addLine(uiPos, Vector2(uiPos.x + w * percent, uiPos.y), color, gauge_height, false)
 		if value and format then
 			ui.addFancyText(Vector2(uiPos.x + gauge_height/2, uiPos.y + gauge_height/4), ui.anchor.left, ui.anchor.center, {
 				{ text=string.format(format, value), color=ui.theme.colors.reticuleCircle,     font=(formatFont or ui.fonts.pionillium.small), tooltip=tooltip },
