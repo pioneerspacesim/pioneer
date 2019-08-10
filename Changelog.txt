@@ -8,6 +8,7 @@ August 2018
 
    * Fixes
      * Remove rings around Venus and Ariel (#4655)
+     * CMake Ship Debian's FindGLEW.cmake script (#4664)
 
 July 2019
    * New Features
