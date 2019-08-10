@@ -4,7 +4,6 @@ August 2018
      * Use an equation in order to calculate HullTemperature (#4653)
      * Object Viewer tweaks (#4659)
      * Use a unique function to display Hyperspace range (#4650)
-     * CMake Fix indentation (#4656)
      * Remove old vs2015 & 17 projects (#4661)
 
    * Fixes
