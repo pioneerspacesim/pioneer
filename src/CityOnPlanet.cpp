@@ -151,7 +151,7 @@ bool setcomp(SceneGraph::Model *mlhs, SceneGraph::Model *mrhs) { return mlhs->Ge
 bool (*fn_pt)(SceneGraph::Model *mlhs, SceneGraph::Model *mrhs) = setcomp;
 
 struct ModelNameComparator {
-	bool operator()(SceneGraph::Model *lhs, SceneGraph::Model *rhs)
+	bool operator()(const SceneGraph::Model *lhs, const SceneGraph::Model *rhs) const
 	{
 		return lhs->GetName() < rhs->GetName();
 	}
