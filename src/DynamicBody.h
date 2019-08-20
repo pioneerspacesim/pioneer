@@ -52,6 +52,8 @@ public:
 	void AddRelTorque(const vector3d &);
 	vector3d GetExternalForce() const { return m_externalForce; }
 	vector3d GetAtmosForce() const { return m_atmosForce; }
+	// This should be called *only* from Space to apply gravity.
+	void SetGravityForce(const vector3d &g) { m_gravityForce = g;}
 	vector3d GetGravityForce() const { return m_gravityForce; }
 	virtual void UpdateInterpTransform(double alpha) override;
 

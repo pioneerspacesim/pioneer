@@ -5,6 +5,7 @@
 
 #include "Body.h"
 #include "CityOnPlanet.h"
+#include "DynamicBody.h"
 #include "Frame.h"
 #include "Game.h"
 #include "GameSaveError.h"
@@ -106,6 +107,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, S
 
 	std::vector<vector3d> positionAccumulator;
 	GenBody(m_game->GetTime(), m_starSystem->GetRootBody().Get(), m_rootFrame.get(), positionAccumulator);
+
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
 	GenSectorCache(galaxy, &path);
@@ -144,8 +146,18 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, doub
 
 	try {
 		Json bodyArray = spaceObj["bodies"].get<Json::array_t>();
-		for (Uint32 i = 0; i < bodyArray.size(); i++)
+		for (Uint32 i = 0; i < bodyArray.size(); i++) {
 			m_bodies.push_back(Body::FromJson(bodyArray[i], this));
+			// Collect bodies with gravity
+			switch (m_bodies.back()->GetType()) {
+				case Object::PLANET:
+				case Object::STAR:
+					m_bodiesWithGravity.push_back(m_bodies.back());
+					break;
+				default:
+					continue;
+			}
+		}
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
@@ -803,6 +815,7 @@ void Space::GenBody(const double at_time, SystemBody *sbody, Frame *f, std::vect
 	if (sbody->GetType() != SystemBody::TYPE_GRAVPOINT) {
 		if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 			Star *star = new Star(sbody);
+			m_bodiesWithGravity.push_back(star);
 			b = star;
 		} else if ((sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) ||
 			(sbody->GetType() == SystemBody::TYPE_STARPORT_SURFACE)) {
@@ -811,6 +824,7 @@ void Space::GenBody(const double at_time, SystemBody *sbody, Frame *f, std::vect
 		} else {
 			Planet *planet = new Planet(sbody);
 			b = planet;
+			m_bodiesWithGravity.push_back(planet);
 			// reset this
 			posAccum.clear();
 		}
@@ -823,6 +837,8 @@ void Space::GenBody(const double at_time, SystemBody *sbody, Frame *f, std::vect
 	for (SystemBody *kid : sbody->GetChildren()) {
 		GenBody(at_time, kid, f, posAccum);
 	}
+
+	m_bodiesWithGravity.shrink_to_fit();
 }
 
 static bool OnCollision(Object *o1, Object *o2, CollisionContact *c, double relativeVel)
@@ -1019,6 +1035,14 @@ void Space::TimeStep(float step)
 
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
+	//printf("Space::TimeStep(float step)\n");
+	for (Body *b : m_bodies) {
+		DynamicBody *dynB = dynamic_cast<DynamicBody *>(b);
+		//printf("    Label: %s (%s)\n", b->GetLabel().c_str(), (dynB != nullptr ? "dynamic" : "static"));
+		if (dynB == nullptr) continue;
+		CalculateAndSetGravityFor(dynB);
+	}
+
 	for (Body *b : m_bodies)
 		b->TimeStepUpdate(step);
 
@@ -1028,6 +1052,24 @@ void Space::TimeStep(float step)
 	UpdateBodies();
 
 	m_bodyNearFinder.Prepare();
+}
+
+void Space::CalculateAndSetGravityFor(DynamicBody *b1)
+{
+	PROFILE_SCOPED()
+
+	if (b1 == nullptr) return;
+
+	vector3d gravity(0.0);
+	std::for_each(begin(m_bodiesWithGravity), end(m_bodiesWithGravity), [b1, &gravity](const Body *b2)
+	{
+		vector3d b1b2 = b2->GetPositionRelTo(b1);
+		double m1m2 = b1->GetMass() * b2->GetMass();
+		double invrsqr = 1.0 / b1b2.LengthSqr();
+		double force = G * m1m2 * invrsqr;
+		gravity += b1b2 * sqrt(invrsqr) * force;
+	});
+	b1->SetGravityForce(gravity);
 }
 
 void Space::UpdateBodies()

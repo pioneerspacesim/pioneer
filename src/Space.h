@@ -14,6 +14,7 @@
 #include <list>
 
 class Body;
+class DynamicBody;
 class Frame;
 class Ship;
 class HyperspaceCloud;
@@ -95,11 +96,16 @@ private:
 	// make sure SystemBody* is in Pi::currentSystem
 	Frame *GetFrameWithSystemBody(const SystemBody *b) const;
 
+	void CalculateAndSetGravityFor(DynamicBody *b1);
+
 	void UpdateBodies();
 
 	void CollideFrame(Frame *f);
 
 	std::unique_ptr<Frame> m_rootFrame;
+
+	// Bodies with a gravity field
+	std::vector<Body*> m_bodiesWithGravity;
 
 	RefCountedPtr<SectorCache::Slave> m_sectorCache;
 	RefCountedPtr<StarSystemCache::Slave> m_starSystemCache;
