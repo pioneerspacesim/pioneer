@@ -89,6 +89,8 @@ public:
 	IterationProxy<std::vector<SystemBody *>> GetChildren() { return MakeIterationProxy(m_children); }
 	const IterationProxy<const std::vector<SystemBody *>> GetChildren() const { return MakeIterationProxy(m_children); }
 
+	const std::vector<SystemBody *> CollectAllChildren();
+
 	inline const std::string &GetName() const { return m_name; }
 	std::string GetAstroDescription() const;
 	const char *GetIcon() const;

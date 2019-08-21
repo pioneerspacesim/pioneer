@@ -28,6 +28,12 @@ enum ShipDrawing {
 	OFF
 };
 
+enum class GridDrawing {
+	GRID,
+	GRID_AND_LEGS,
+	OFF
+};
+
 enum ShowLagrange {
 	LAG_ICON,
 	LAG_ICONTEXT,
@@ -86,23 +92,29 @@ private:
 	void OnIncreaseFactorButtonClick(void), OnResetFactorButtonClick(void), OnDecreaseFactorButtonClick(void);
 	void OnIncreaseStartTimeButtonClick(void), OnResetStartTimeButtonClick(void), OnDecreaseStartTimeButtonClick(void);
 	void OnToggleShipsButtonClick(void);
+	void OnToggleGridButtonClick(void);
 	void OnToggleL4L5ButtonClick(Gui::MultiStateImageButton *);
 	void ResetViewpoint();
 	void MouseWheel(bool up);
 	void RefreshShips(void);
 	void DrawShips(const double t, const vector3d &offset);
+	void PrepareGrid();
+	void DrawGrid();
 	void LabelShip(Ship *s, const vector3d &offset);
 	void OnClickShip(Ship *s);
 
 	Game *m_game;
 	RefCountedPtr<StarSystem> m_system;
 	const SystemBody *m_selectedObject;
+	std::vector<SystemBody *> m_displayed_sbody;
 	bool m_unexplored;
 	ShowLagrange m_showL4L5;
 	TransferPlanner *m_planner;
 	std::list<std::pair<Ship *, Orbit>> m_contacts;
 	Gui::LabelSet *m_shipLabels;
 	ShipDrawing m_shipDrawing;
+	GridDrawing m_gridDrawing;
+	int m_grid_lines;
 	float m_rot_x, m_rot_z;
 	float m_rot_x_to, m_rot_z_to;
 	float m_zoom, m_zoomTo;
@@ -112,6 +124,8 @@ private:
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_toggleShipsButton;
+	Gui::ImageButton *m_toggleGridButton;
+	Gui::ImageButton *m_ResetOrientButton;
 	Gui::MultiStateImageButton *m_toggleL4L5Button;
 	Gui::ImageButton *m_plannerIncreaseStartTimeButton, *m_plannerResetStartTimeButton, *m_plannerDecreaseStartTimeButton;
 	Gui::ImageButton *m_plannerIncreaseFactorButton, *m_plannerResetFactorButton, *m_plannerDecreaseFactorButton;
@@ -140,6 +154,10 @@ private:
 
 	std::unique_ptr<vector3f[]> m_orbitVts;
 	std::unique_ptr<Color[]> m_orbitColors;
+
+	std::unique_ptr<Graphics::VertexArray> m_lineVerts;
+	Graphics::Drawables::Lines m_lines;
+
 };
 
 #endif /* _SYSTEMVIEW_H */
