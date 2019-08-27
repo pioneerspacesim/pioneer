@@ -1060,15 +1060,45 @@ void Space::CalculateAndSetGravityFor(DynamicBody *b1)
 
 	if (b1 == nullptr) return;
 
+	// No frame, no forces
+	Frame *f = b1->GetFrame();
+	if (f == nullptr) return;
+
+	if (b1->IsType(Object::PLAYER)) printf("Apply centrifugal and coriolis in '%s'\n", f->GetLabel().c_str());
 	vector3d gravity(0.0);
-	std::for_each(begin(m_bodiesWithGravity), end(m_bodiesWithGravity), [b1, &gravity](const Body *b2)
+	std::for_each(begin(m_bodiesWithGravity), end(m_bodiesWithGravity), [b1, f, &gravity](const Body *b2)
 	{
+		Frame *f2 = b2->GetFrame();
+		assert(f2 != nullptr);
+		// gravity:
 		vector3d b1b2 = b2->GetPositionRelTo(b1);
 		double m1m2 = b1->GetMass() * b2->GetMass();
 		double invrsqr = 1.0 / b1b2.LengthSqr();
 		double force = G * m1m2 * invrsqr;
 		gravity += b1b2 * sqrt(invrsqr) * force;
-	});
+
+		// centrifugal and coriolis forces for rotating frames
+/*		if (f2->IsRotFrame()) {
+//			if (b1->IsType(Object::PLAYER)) printf("  Frame: %s\n", f2->GetLabel().c_str());
+			vector3d angRot(0, f2->GetAngSpeed(), 0);
+			gravity -= b1->GetMass() * angRot.Cross(angRot.Cross(b1->GetPositionRelTo(f2))); // centrifugal
+			gravity -= 2 * b1->GetMass() * angRot.Cross(b1->GetVelocityRelTo(f2)); // coriolis
+		}
+*/	});
+
+	while (f != m_rootFrame.get()) {
+		if (b1->IsType(Object::PLAYER)) printf("  Frame: %s", f->GetLabel().c_str());
+		if (f->IsRotFrame()) {
+			printf(" [rotating]");
+			vector3d angRot(0, f->GetAngSpeed(), 0);
+			gravity -= b1->GetMass() * angRot.Cross(angRot.Cross(b1->GetPositionRelTo(f))); // centrifugal
+			gravity -= 2 * b1->GetMass() * angRot.Cross(b1->GetVelocityRelTo(f)); // coriolis
+		}
+		printf("\n");
+		f = f->GetParent();
+	}
+
+	//if (b1->IsType(Object::PLAYER)) printf("Gravity force: %f, %f, %f (|G|= %f)\n", gravity.x, gravity.y, gravity.z, gravity.Length());
 	b1->SetGravityForce(gravity);
 }
 

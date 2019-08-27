@@ -233,13 +233,6 @@ void DynamicBody::CalcExternalForce()
 		m_externalForce += m_atmosForce;
 	} else
 		m_atmosForce = vector3d(0.0);
-
-	// centrifugal and coriolis forces for rotating frames
-	if (GetFrame()->IsRotFrame()) {
-		vector3d angRot(0, GetFrame()->GetAngSpeed(), 0);
-		m_externalForce -= m_mass * angRot.Cross(angRot.Cross(GetPosition())); // centrifugal
-		m_externalForce -= 2 * m_mass * angRot.Cross(GetVelocity()); // coriolis
-	}
 }
 
 void DynamicBody::TimeStepUpdate(const float timeStep)
