@@ -97,7 +97,12 @@ private:
 
 	void CollideFrame(Frame *f);
 
-	std::unique_ptr<Frame> m_rootFrame;
+	struct FrameDeleter {
+		/* Implemented in *cpp: prevent including Frame.h */
+		void operator()(Frame* frame);
+	};
+
+	std::unique_ptr<Frame, FrameDeleter> m_rootFrame;
 
 	RefCountedPtr<SectorCache::Slave> m_sectorCache;
 	RefCountedPtr<StarSystemCache::Slave> m_starSystemCache;

@@ -10,19 +10,22 @@
 #include "collider/CollisionSpace.h"
 #include "utils.h"
 
-Frame::Frame()
+Frame::Frame(Frame *parent, const char *label, unsigned int flags, double radius):
+	m_sbody(nullptr),
+	m_astroBody(nullptr),
+	m_parent(parent),
+	m_flags(flags),
+	m_radius(radius),
+	m_pos(vector3d(0.0)),
+	m_vel(vector3d(0.0)),
+	m_angSpeed(0.0),
+	m_orient(matrix3x3d::Identity()),
+	m_initialOrient(matrix3x3d::Identity())
 {
-	Init(0, "", FLAG_DEFAULT);
-}
-
-Frame::Frame(Frame *parent, const char *label)
-{
-	Init(parent, label, FLAG_DEFAULT);
-}
-
-Frame::Frame(Frame *parent, const char *label, unsigned int flags)
-{
-	Init(parent, label, flags);
+	ClearMovement();
+	m_collisionSpace = new CollisionSpace();
+	if (m_parent) m_parent->AddChild(this);
+	if (label) m_label = label;
 }
 
 void Frame::ToJson(Json &frameObj, Frame *f, Space *space)
@@ -49,10 +52,14 @@ void Frame::ToJson(Json &frameObj, Frame *f, Space *space)
 	SfxManager::ToJson(frameObj, f);
 }
 
+Frame *Frame::CreateFrame(Frame *parent, const char *label, unsigned int flags, double radius)
+{
+	return new Frame(parent, label, flags, radius);
+}
+
 Frame *Frame::FromJson(const Json &frameObj, Space *space, Frame *parent, double at_time)
 {
-	Frame *f = new Frame();
-	f->m_parent = parent;
+	Frame *f = new Frame(parent, nullptr);
 
 	try {
 		f->m_flags = frameObj["flags"];
@@ -83,6 +90,16 @@ Frame *Frame::FromJson(const Json &frameObj, Space *space, Frame *parent, double
 	return f;
 }
 
+void Frame::DeleteFrame(Frame *tobedeleted)
+{
+	if (tobedeleted != nullptr) {
+		delete tobedeleted;
+	} else {
+		Output("ERROR: call to 'DeleteFrame' with nullptr!\n");
+		abort();
+	}
+}
+
 void Frame::PostUnserializeFixup(Frame *f, Space *space)
 {
 	f->UpdateRootRelativeVars();
@@ -91,29 +108,8 @@ void Frame::PostUnserializeFixup(Frame *f, Space *space)
 		PostUnserializeFixup(kid, space);
 }
 
-void Frame::Init(Frame *parent, const char *label, unsigned int flags)
-{
-	m_sfx = 0;
-	m_sbody = 0;
-	m_astroBody = 0;
-	m_parent = parent;
-	m_flags = flags;
-	m_radius = 0;
-	m_pos = vector3d(0.0);
-	m_vel = vector3d(0.0);
-	m_angSpeed = 0.0;
-	m_orient = matrix3x3d::Identity();
-	m_initialOrient = matrix3x3d::Identity();
-	ClearMovement();
-	m_collisionSpace = new CollisionSpace();
-	if (m_parent) m_parent->AddChild(this);
-	if (label) m_label = label;
-	m_sbody = nullptr;
-}
-
 Frame::~Frame()
 {
-	m_sfx.reset();
 	delete m_collisionSpace;
 	for (Frame *kid : m_children)
 		delete kid;
@@ -165,6 +161,7 @@ vector3d Frame::GetPositionRelTo(const Frame *relTo) const
 			return (m_pos - relTo->m_pos) * relTo->m_orient;
 	}
 
+	// use precalculated absolute position and orient
 	vector3d diff = m_rootPos - relTo->m_rootPos;
 	if (relTo->IsRotFrame())
 		return diff * relTo->m_rootOrient;
@@ -199,6 +196,8 @@ vector3d Frame::GetInterpPositionRelTo(const Frame *relTo) const
 
 matrix3x3d Frame::GetOrientRelTo(const Frame *relTo) const
 {
+	PROFILE_SCOPED()
+
 	if (this == relTo) return matrix3x3d::Identity();
 	return relTo->m_rootOrient.Transpose() * m_rootOrient;
 }

@@ -22,18 +22,23 @@ class Space;
 // Frame of reference.
 
 class Frame {
+private:
+	Frame() = delete;
+	Frame(Frame *parent, const char *label, unsigned int flags = FLAG_DEFAULT, double radius = 0.0);
+	~Frame();
+
 public:
 	enum { FLAG_DEFAULT = (0),
 		FLAG_ROTATING = (1 << 1),
 		FLAG_HAS_ROT = (1 << 2) };
 
-	Frame();
-	Frame(Frame *parent, const char *label);
-	Frame(Frame *parent, const char *label, unsigned int flags);
-	~Frame();
+	static Frame *CreateFrame(Frame *parent, const char *label, unsigned int flags = FLAG_DEFAULT, double radius = 0.0);
+	static Frame *FromJson(const Json &jsonObj, Space *space, Frame *parent, double at_time);
+	static void DeleteFrame(Frame *tobedeleted);
+
 	static void ToJson(Json &jsonObj, Frame *f, Space *space);
 	static void PostUnserializeFixup(Frame *f, Space *space);
-	static Frame *FromJson(const Json &jsonObj, Space *space, Frame *parent, double at_time);
+
 	const std::string &GetLabel() const { return m_label; }
 	void SetLabel(const char *label) { m_label = label; }
 
@@ -103,7 +108,6 @@ public:
 	std::unique_ptr<SfxManager> m_sfx; // the last survivor. actually m_children is pretty grim too.
 
 private:
-	void Init(Frame *parent, const char *label, unsigned int flags);
 	void UpdateRootRelativeVars();
 
 	Frame *m_parent; // if parent is null then frame position is absolute

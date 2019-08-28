@@ -48,7 +48,7 @@ void CameraContext::BeginFrame()
 	assert(!m_camFrame);
 
 	// make temporary camera frame
-	m_camFrame = new Frame(m_frame, "camera", Frame::FLAG_ROTATING);
+	m_camFrame = Frame::CreateFrame(m_frame, "camera", Frame::FLAG_ROTATING, 0.0);
 
 	// move and orient it to the camera position
 	m_camFrame->SetOrient(m_orient, Pi::game ? Pi::game->GetTime() : 0.0);
@@ -65,7 +65,7 @@ void CameraContext::EndFrame()
 	assert(m_camFrame);
 
 	m_frame->RemoveChild(m_camFrame);
-	delete m_camFrame;
+	Frame::DeleteFrame(m_camFrame);
 	m_camFrame = nullptr;
 }
 

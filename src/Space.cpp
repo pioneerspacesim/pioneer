@@ -76,8 +76,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space *oldSpace) :
 {
 	m_background.reset(new Background::Container(Pi::renderer, Pi::rng));
 
-	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
-	m_rootFrame->SetRadius(FLT_MAX);
+	m_rootFrame.reset(Frame::CreateFrame(nullptr, Lang::SYSTEM, Frame::FLAG_DEFAULT, FLT_MAX));
 
 	GenSectorCache(galaxy, &game->GetHyperspaceDest());
 }
@@ -101,9 +100,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, S
 
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
-	// XXX set radius in constructor
-	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
-	m_rootFrame->SetRadius(FLT_MAX);
+	m_rootFrame.reset(Frame::CreateFrame(nullptr, Lang::SYSTEM, Frame::FLAG_DEFAULT, FLT_MAX));
 
 	std::vector<vector3d> positionAccumulator;
 	GenBody(m_game->GetTime(), m_starSystem->GetRootBody().Get(), m_rootFrame.get(), positionAccumulator);
@@ -140,7 +137,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, doub
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
 	if (!spaceObj.count("frame")) throw SavedGameCorruptException();
-	m_rootFrame.reset(Frame::FromJson(spaceObj["frame"], this, 0, at_time));
+	m_rootFrame.reset(Frame::FromJson(spaceObj["frame"], this, nullptr, at_time));
 	RebuildFrameIndex();
 
 	try {
@@ -588,9 +585,12 @@ static Frame *MakeFrameFor(const double at_time, SystemBody *sbody, Body *b, Fra
 	}
 
 	if (sbody->GetType() == SystemBody::TYPE_GRAVPOINT) {
-		Frame *orbFrame = new Frame(f, sbody->GetName().c_str());
+		Frame *orbFrame = Frame::CreateFrame(f,
+							sbody->GetName().c_str(),
+							Frame::FLAG_DEFAULT,
+							sbody->GetMaxChildOrbitalDistance() * 1.1
+							);
 		orbFrame->SetBodies(sbody, b);
-		orbFrame->SetRadius(sbody->GetMaxChildOrbitalDistance() * 1.1);
 		return orbFrame;
 	}
 
@@ -601,19 +601,24 @@ static Frame *MakeFrameFor(const double at_time, SystemBody *sbody, Body *b, Fra
 		// for planets we want an non-rotating frame for a few radii
 		// and a rotating frame with no radius to contain attached objects
 		double frameRadius = std::max(4.0 * sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance() * 1.05);
-		Frame *orbFrame = new Frame(f, sbody->GetName().c_str(), Frame::FLAG_HAS_ROT);
+		Frame *orbFrame = Frame::CreateFrame(f,
+							sbody->GetName().c_str(),
+							Frame::FLAG_HAS_ROT,
+							frameRadius
+							);
 		orbFrame->SetBodies(sbody, b);
-		orbFrame->SetRadius(frameRadius);
 		//Output("\t\t\t%s has frame size %.0fkm, body radius %.0fkm\n", sbody->name.c_str(),
 		//	(frameRadius ? frameRadius : 10*sbody->GetRadius())*0.001f,
 		//	sbody->GetRadius()*0.001f);
 
 		assert(sbody->IsRotating() != 0);
-		Frame *rotFrame = new Frame(orbFrame, sbody->GetName().c_str(), Frame::FLAG_ROTATING);
-		rotFrame->SetBodies(sbody, b);
-
 		// rotating frame has atmosphere radius or feature height, whichever is larger
-		rotFrame->SetRadius(b->GetPhysRadius());
+		Frame *rotFrame = Frame::CreateFrame(orbFrame,
+							sbody->GetName().c_str(),
+							Frame::FLAG_ROTATING,
+							b->GetPhysRadius()
+							);
+		rotFrame->SetBodies(sbody, b);
 
 		matrix3x3d rotMatrix = matrix3x3d::RotateX(sbody->GetAxialTilt());
 		double angSpeed = 2.0 * M_PI / sbody->GetRotationPeriod();
@@ -629,7 +634,7 @@ static Frame *MakeFrameFor(const double at_time, SystemBody *sbody, Body *b, Fra
 		// stars want a single small non-rotating frame
 		// bigger than it's furtherest orbiting body.
 		// if there are no orbiting bodies use a frame of several radii.
-		Frame *orbFrame = new Frame(f, sbody->GetName().c_str());
+		Frame *orbFrame = Frame::CreateFrame(f, sbody->GetName().c_str());
 		orbFrame->SetBodies(sbody, b);
 		const double bodyRadius = sbody->GetEquatorialRadius();
 		double frameRadius = std::max(10.0 * bodyRadius, sbody->GetMaxChildOrbitalDistance() * 1.1);
@@ -642,10 +647,12 @@ static Frame *MakeFrameFor(const double at_time, SystemBody *sbody, Body *b, Fra
 		return orbFrame;
 	} else if (sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) {
 		// space stations want non-rotating frame to some distance
-		Frame *orbFrame = new Frame(f, sbody->GetName().c_str());
+		Frame *orbFrame = Frame::CreateFrame(f,
+							sbody->GetName().c_str(),
+							Frame::FLAG_DEFAULT,
+							20000.0
+							);
 		orbFrame->SetBodies(sbody, b);
-		//		orbFrame->SetRadius(10*sbody->GetRadius());
-		orbFrame->SetRadius(20000.0); // 4x standard parking radius
 		b->SetFrame(orbFrame);
 		return orbFrame;
 
@@ -988,6 +995,10 @@ static void CollideWithTerrain(Body *body, float timeStep)
 	CollisionContact c(body->GetPosition(), body->GetPosition().Normalized(), terrHeight - altitude, timeStep, static_cast<void *>(body), static_cast<void *>(f->GetBody()));
 	hitCallback(&c);
 }
+
+void Space::FrameDeleter::operator()(Frame* frame) {
+	Frame::DeleteFrame(frame);
+};
 
 void Space::CollideFrame(Frame *f)
 {
