@@ -10,7 +10,9 @@
 #include "collider/CollisionSpace.h"
 #include "utils.h"
 
-Frame::Frame(Frame *parent, const char *label, unsigned int flags, double radius):
+std::list<Frame> Frame::s_frames;
+
+Frame::Frame(const Dummy &d, Frame *parent, const char *label, unsigned int flags, double radius):
 	m_sbody(nullptr),
 	m_astroBody(nullptr),
 	m_parent(parent),
@@ -22,6 +24,9 @@ Frame::Frame(Frame *parent, const char *label, unsigned int flags, double radius
 	m_orient(matrix3x3d::Identity()),
 	m_initialOrient(matrix3x3d::Identity())
 {
+	if (!d.madeWithFactory)
+		Error("Frame ctor called directly!\n");
+
 	ClearMovement();
 	m_collisionSpace = new CollisionSpace();
 	if (m_parent) m_parent->AddChild(this);
@@ -54,12 +59,25 @@ void Frame::ToJson(Json &frameObj, Frame *f, Space *space)
 
 Frame *Frame::CreateFrame(Frame *parent, const char *label, unsigned int flags, double radius)
 {
-	return new Frame(parent, label, flags, radius);
+	Dummy dummy;
+	dummy.madeWithFactory = true;
+
+	s_frames.emplace_back(dummy, parent, label, flags, radius);
+	return &s_frames.back();
 }
 
 Frame *Frame::FromJson(const Json &frameObj, Space *space, Frame *parent, double at_time)
 {
-	Frame *f = new Frame(parent, nullptr);
+	Dummy dummy;
+	dummy.madeWithFactory = true;
+
+	// Set parent to nullptr here in order to avoid this frame
+	// being a child twice (due to ctor calling AddChild)
+	s_frames.emplace_back(dummy, nullptr, nullptr);
+
+	Frame *f = &s_frames.back();
+
+	f->m_parent = parent;
 
 	try {
 		f->m_flags = frameObj["flags"];
@@ -74,6 +92,7 @@ Frame *Frame::FromJson(const Json &frameObj, Space *space, Frame *parent, double
 
 		if (frameObj.count("child_frames") && frameObj["child_frames"].is_array()) {
 			Json childFrameArray = frameObj["child_frames"];
+			f->m_children.reserve(childFrameArray.size());
 			for (unsigned int i = 0; i < childFrameArray.size(); ++i) {
 				f->m_children.push_back(FromJson(childFrameArray[i], space, f, at_time));
 			}
@@ -92,12 +111,15 @@ Frame *Frame::FromJson(const Json &frameObj, Space *space, Frame *parent, double
 
 void Frame::DeleteFrame(Frame *tobedeleted)
 {
-	if (tobedeleted != nullptr) {
-		delete tobedeleted;
-	} else {
-		Output("ERROR: call to 'DeleteFrame' with nullptr!\n");
-		abort();
+	tobedeleted->d.madeWithFactory = true;
+	// Find Frame and delete it, let dtor delete its children
+	for (std::list<Frame>::const_iterator it = s_frames.begin(); it != s_frames.end(); it++) {
+		if (tobedeleted == &(*it)) {
+			s_frames.erase(it);
+			break;
+		}
 	}
+	tobedeleted->d.madeWithFactory = false;
 }
 
 void Frame::PostUnserializeFixup(Frame *f, Space *space)
@@ -110,9 +132,14 @@ void Frame::PostUnserializeFixup(Frame *f, Space *space)
 
 Frame::~Frame()
 {
+	if (!d.madeWithFactory) {
+		Error("Frame instance deletion outside 'DeleteFrame'\n");
+	}
+	// Delete this Frame and recurse deleting children
 	delete m_collisionSpace;
-	for (Frame *kid : m_children)
-		delete kid;
+	for (Frame *kid : m_children) {
+		DeleteFrame(kid);
+	}
 }
 
 void Frame::RemoveChild(Frame *f)
@@ -196,8 +223,6 @@ vector3d Frame::GetInterpPositionRelTo(const Frame *relTo) const
 
 matrix3x3d Frame::GetOrientRelTo(const Frame *relTo) const
 {
-	PROFILE_SCOPED()
-
 	if (this == relTo) return matrix3x3d::Identity();
 	return relTo->m_rootOrient.Transpose() * m_rootOrient;
 }

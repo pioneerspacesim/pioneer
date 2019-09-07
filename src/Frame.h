@@ -22,22 +22,26 @@ class Space;
 // Frame of reference.
 
 class Frame {
-private:
+	// Used to avoid direct instantiation of Frames: use factory methods instead.
+	// TODO: Find a better way, as checking it at compile time
+	struct Dummy;
+public:
+
 	Frame() = delete;
-	Frame(Frame *parent, const char *label, unsigned int flags = FLAG_DEFAULT, double radius = 0.0);
+	Frame(const Dummy &d, Frame *parent, const char *label, unsigned int flags = FLAG_DEFAULT, double radius = 0.0);
 	~Frame();
 
-public:
 	enum { FLAG_DEFAULT = (0),
 		FLAG_ROTATING = (1 << 1),
 		FLAG_HAS_ROT = (1 << 2) };
 
 	static Frame *CreateFrame(Frame *parent, const char *label, unsigned int flags = FLAG_DEFAULT, double radius = 0.0);
 	static Frame *FromJson(const Json &jsonObj, Space *space, Frame *parent, double at_time);
-	static void DeleteFrame(Frame *tobedeleted);
 
 	static void ToJson(Json &jsonObj, Frame *f, Space *space);
 	static void PostUnserializeFixup(Frame *f, Space *space);
+
+	static void DeleteFrame(Frame *tobedeleted);
 
 	const std::string &GetLabel() const { return m_label; }
 	void SetLabel(const char *label) { m_label = label; }
@@ -137,6 +141,18 @@ private:
 	matrix3x3d m_rootInterpOrient; // updated by UpdateInterpTransform
 
 	int m_astroBodyIndex; // deserialisation
+
+	static std::list<Frame> s_frames;
+
+	// A trick in order to avoid a direct call of ctor or dtor: use factory methods instead
+	struct Dummy {
+		Dummy():
+			madeWithFactory(false)
+			{}
+		bool madeWithFactory;
+	};
+
+	Dummy d;
 };
 
 #endif /* _FRAME_H */

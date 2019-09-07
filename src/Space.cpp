@@ -165,6 +165,7 @@ Space::~Space()
 	for (std::list<Body *>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		KillBody(*i);
 	UpdateBodies();
+	Frame::DeleteFrame(m_rootFrame.get());
 }
 
 void Space::RefreshBackground()
