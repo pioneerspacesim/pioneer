@@ -1060,26 +1060,26 @@ void Space::UpdateBodies()
 
 static char space[256];
 
-static void DebugDumpFrame(Frame *f, unsigned int indent)
+static void DebugDumpFrame(Frame *f, bool details, unsigned int indent)
 {
-	Output("%.*s%p (%s)", indent, space, static_cast<void *>(f), f->GetLabel().c_str());
+	Output("%.*s%p (%s)\n", indent, space, static_cast<void *>(f), f->GetLabel().c_str());
 	if (f->GetParent())
-		Output(" parent %p (%s)", static_cast<void *>(f->GetParent()), f->GetParent()->GetLabel().c_str());
+		Output("%.*s parent %p (%s)\n", indent, space, static_cast<void *>(f->GetParent()), f->GetParent()->GetLabel().c_str());
 	if (f->GetBody())
-		Output(" body %p (%s)", static_cast<void *>(f->GetBody()), f->GetBody()->GetLabel().c_str());
+		Output("%.*s body %p (%s)\n", indent, space, static_cast<void *>(f->GetBody()), f->GetBody()->GetLabel().c_str());
 	if (Body *b = f->GetBody())
-		Output(" bodyFor %p (%s)", static_cast<void *>(b), b->GetLabel().c_str());
-	Output(" distance %f radius %f", f->GetPosition().Length(), f->GetRadius());
-	Output("%s\n", f->IsRotFrame() ? " [rotating]" : "");
+		Output("%.*s bodyFor %p (%s)\n", indent, space, static_cast<void *>(b), b->GetLabel().c_str());
+	Output("%.*s distance %f radius %f", indent, space, f->GetPosition().Length(), f->GetRadius());
+	Output("%s\n", f->IsRotFrame() ? " [rotating]" : "[non rotating]");
 
 	for (Frame *kid : f->GetChildren())
-		DebugDumpFrame(kid, indent + 2);
+		DebugDumpFrame(kid, details, indent + 2);
 }
 
-void Space::DebugDumpFrames()
+void Space::DebugDumpFrames(bool details)
 {
 	memset(space, ' ', sizeof(space));
 
 	Output("Frame structure for '%s':\n", m_starSystem->GetName().c_str());
-	DebugDumpFrame(m_rootFrame.get(), 2);
+	DebugDumpFrame(m_rootFrame.get(), details, 2);
 }

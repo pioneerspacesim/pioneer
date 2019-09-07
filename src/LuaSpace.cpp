@@ -675,6 +675,18 @@ static int l_space_get_bodies(lua_State *l)
 	return 1;
 }
 
+static int l_space_dump_frames(lua_State *l)
+{
+	if (!Pi::game) {
+		luaL_error(l, "Game is not started");
+		return 0;
+	}
+
+	bool details = (lua_gettop(l) >= 1) ? true : false;
+	Pi::game->GetSpace()->DebugDumpFrames(details);
+	return 0;
+}
+
 static int l_space_attr_root_system_body(lua_State *l)
 {
 	if (!Pi::game) {
@@ -707,6 +719,9 @@ void LuaSpace::Register()
 
 		{ "GetBody", l_space_get_body },
 		{ "GetBodies", l_space_get_bodies },
+
+
+		{ "DbgDumpFrames", l_space_dump_frames },
 		{ 0, 0 }
 	};
 

@@ -85,6 +85,7 @@ public:
 		return std::move(m_bodyNearFinder.GetBodiesMaybeNear(pos, dist));
 	}
 
+	void DebugDumpFrames(bool details);
 private:
 	void GenSectorCache(RefCountedPtr<Galaxy> galaxy, const SystemPath *here);
 	void UpdateStarSystemCache(const SystemPath *here);
@@ -164,7 +165,6 @@ private:
 	bool m_processingFinalizationQueue;
 #endif
 
-	void DebugDumpFrames();
 };
 
 #endif /* _SPACE_H */
