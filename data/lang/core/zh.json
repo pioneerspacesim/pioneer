@@ -73,7 +73,7 @@
   },
   "AUTOPILOT_ON": {
     "description": "",
-    "message": "自动飞行已打开"
+    "message": "启动自动驾驶"
   },
   "AXIAL_TILT": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "BODIES": {
     "description": "space bodies",
-    "message": "体"
+    "message": "身体"
   },
   "BODY": {
     "description": "",
@@ -449,7 +449,7 @@
   },
   "GAME_LOAD_CANNOT_OPEN": {
     "description": "",
-    "message": "文件 '%filename' 无法被找到 (或游戏没有打开它的权限)"
+    "message": "存档 '%filename' 无法被找到 (或游戏没有打开它的权限)"
   },
   "GAME_LOAD_CORRUPT": {
     "description": "",
@@ -1737,11 +1737,11 @@
   },
   "UNIT_KILOMETERS": {
     "description": "Distance unit: one kilometer",
-    "message": "千米"
+    "message": "公里"
   },
   "UNIT_KILOMETERS_PER_SECOND": {
     "description": "Speed unit: one kilometer per second",
-    "message": "千米/秒"
+    "message": "公里/秒"
   },
   "UNIT_LY": {
     "description": "Distance unit: a light year",

@@ -185,11 +185,11 @@
   },
   "MININGCANNON_17MW": {
     "description": "",
-    "message": "17MW 爆破采矿加农炮"
+    "message": "17兆瓦采矿冲击炮"
   },
   "MININGCANNON_17MW_DESCRIPTION": {
     "description": "",
-    "message": "用于对富矿小行星进行爆破式采矿."
+    "message": "用爆破地雷对富矿小行星采矿."
   },
   "MISSILE_GUIDED": {
     "description": "",
