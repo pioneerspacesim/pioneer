@@ -11,9 +11,9 @@
 #include "Player.h"
 #include "Ship.h"
 #include "Space.h"
-#include "perlin.h"
-#include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
+#include "graphics/Renderer.h"
+#include "perlin.h"
 
 using namespace Graphics;
 
@@ -52,6 +52,7 @@ HyperspaceCloud::HyperspaceCloud(const Json &jsonObj, Space *space) :
 			Json shipObj = hyperspaceCloudObj["ship"];
 			m_ship = static_cast<Ship *>(Body::FromJson(shipObj, space));
 		}
+		InitGraphics();
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
