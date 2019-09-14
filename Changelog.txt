@@ -1,4 +1,12 @@
-August 2018
+September 2019
+   * New Features
+     * Move lobby, commodity- & equipment market to pigui (#4663)
+
+   * Fixes
+     * Hyperspace range (#4545)
+     * Spelling (#4666)
+
+August 2019
    * Internal Changes
      * CMake: Fix indentation (#4656)
      * Use an equation in order to calculate HullTemperature (#4653)
