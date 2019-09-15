@@ -87,6 +87,10 @@
     "description": "",
     "message": "Vazgeç"
   },
+  "CANNOT_SELL_ITEM": {
+    "description": "",
+    "message": "Bu öge satılamıyor"
+  },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
     "message": "Kapasite"
@@ -1650,6 +1654,10 @@
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
     "message": "Şu an {parent_body} etrafında {orbit_period} günlük bir yörüngedeyiz."
+  },
+  "STATION_TECH_TOO_LOW": {
+    "description": "",
+    "message": "İstasyon teknoloji seviyesi bu ögeyi satmak için çok düşük"
   },
   "STATUS": {
     "description": "",

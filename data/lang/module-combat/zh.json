@@ -285,7 +285,7 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "任务必须在 {date}前完成，因为途中有更多敌舰。"
+    "message": "It's important that the mission is completed by {date}, because more hostile ships are on their way."
   },
   "POLICE_LAND_THERE": {
     "description": "",

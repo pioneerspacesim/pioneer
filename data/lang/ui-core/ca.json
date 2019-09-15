@@ -87,6 +87,10 @@
     "description": "",
     "message": "Cancelar"
   },
+  "CANNOT_SELL_ITEM": {
+    "description": "",
+    "message": "This item cannot be sold"
+  },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
     "message": "Capacitat"
@@ -1650,6 +1654,10 @@
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
     "message": "We are in a {orbit_period} day period orbit around {parent_body}."
+  },
+  "STATION_TECH_TOO_LOW": {
+    "description": "",
+    "message": "Station tech level too low to sell this item"
   },
   "STATUS": {
     "description": "",

@@ -285,7 +285,7 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Tá sé tábhachtach go gcríochnóidh tú an misean roimh {date}, toisc go bhfuil níos mó spáslonga naimhdeacha ar a mbealach."
+    "message": "It's important that the mission is completed by {date}, because more hostile ships are on their way."
   },
   "POLICE_LAND_THERE": {
     "description": "",
