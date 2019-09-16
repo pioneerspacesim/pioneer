@@ -285,7 +285,7 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}, because more hostile ships are on their way."
+    "message": "Görevin {date} tarihinden önce tamamlanması önemli, çünkü yolda daha çok düşman gemisi var."
   },
   "POLICE_LAND_THERE": {
     "description": "",

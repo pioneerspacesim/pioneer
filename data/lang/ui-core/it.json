@@ -89,7 +89,7 @@
   },
   "CANNOT_SELL_ITEM": {
     "description": "",
-    "message": "This item cannot be sold"
+    "message": "Non si può vendere questo oggetto"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -1657,7 +1657,7 @@
   },
   "STATION_TECH_TOO_LOW": {
     "description": "",
-    "message": "Station tech level too low to sell this item"
+    "message": "I livello tecnologico della stazione è troppo basso per poter vendere quest'oggetto"
   },
   "STATUS": {
     "description": "",
