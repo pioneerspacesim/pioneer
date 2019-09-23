@@ -285,7 +285,7 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}, because more hostile ships are on their way."
+    "message": "Il est important que la mission soit complétée pour le {date}, car d'autres vaisseaux hostiles sont en chemin."
   },
   "POLICE_LAND_THERE": {
     "description": "",
