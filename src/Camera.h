@@ -32,13 +32,13 @@ public:
 	float GetZFar() const { return m_zFar; }
 
 	// frame to position the camera relative to
-	void SetFrame(Frame *frame) { m_frame = frame; }
+	void SetCameraFrame(Frame *frame) { m_frame = frame; }
 
 	// camera position relative to the frame origin
-	void SetPosition(const vector3d &pos) { m_pos = pos; }
+	void SetCameraPosition(const vector3d &pos) { m_pos = pos; }
 
 	// camera orientation relative to the frame origin
-	void SetOrient(const matrix3x3d &orient) { m_orient = orient; }
+	void SetCameraOrient(const matrix3x3d &orient) { m_orient = orient; }
 
 	// get the frustum. use for projection
 	const Graphics::Frustum &GetFrustum() const { return m_frustum; }

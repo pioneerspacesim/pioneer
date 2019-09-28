@@ -28,16 +28,16 @@ void CameraController::Reset()
 
 void CameraController::Update()
 {
-	m_camera->SetFrame(m_ship->GetFrame());
+	m_camera->SetCameraFrame(m_ship->GetFrame());
 	if (GetType() == FLYBY) {
-		m_camera->SetOrient(m_orient);
-		m_camera->SetPosition(m_pos);
+		m_camera->SetCameraOrient(m_orient);
+		m_camera->SetCameraPosition(m_pos);
 	} else {
 		// interpolate between last physics tick position and current one,
 		// to remove temporal aliasing
 		const matrix3x3d &m = m_ship->GetInterpOrient();
-		m_camera->SetOrient(m * m_orient);
-		m_camera->SetPosition(m * m_pos + m_ship->GetInterpPosition());
+		m_camera->SetCameraOrient(m * m_orient);
+		m_camera->SetCameraPosition(m * m_pos + m_ship->GetInterpPosition());
 	}
 }
 
