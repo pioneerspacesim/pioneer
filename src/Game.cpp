@@ -204,6 +204,10 @@ void Game::ToJson(Json &jsonObj)
 	jsonObj["hyperspace_duration"] = m_hyperspaceDuration;
 	jsonObj["hyperspace_end_time"] = m_hyperspaceEndTime;
 
+
+	// Delete camera frame from frame structure:
+	m_gameViews->m_worldView->EndCameraFrame();
+
 	// space, all the bodies and things
 	m_space->ToJson(jsonObj);
 	jsonObj["player"] = m_space->GetIndexForBody(m_player.get());
@@ -267,6 +271,9 @@ void Game::ToJson(Json &jsonObj)
 	jsonObj["game_info"] = gameInfo;
 
 	Pi::luaSerializer->UninitTableRefs();
+
+	// Bring back camera frame:
+	m_gameViews->m_worldView->BeginCameraFrame();
 }
 
 void Game::TimeStep(float step)
