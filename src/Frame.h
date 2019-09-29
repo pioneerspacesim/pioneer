@@ -4,6 +4,8 @@
 #ifndef _FRAME_H
 #define _FRAME_H
 
+#include "FrameId.h"
+
 #include "IterationProxy.h"
 #include "JsonFwd.h"
 #include "matrix3x3.h"
@@ -42,6 +44,10 @@ public:
 	static void PostUnserializeFixup(Frame *f, Space *space);
 
 	static void DeleteFrame(Frame *tobedeleted);
+
+	static Frame *FindFrame(FrameId FId);
+
+	FrameId GetId() const {return m_thisId; }
 
 	const std::string &GetLabel() const { return m_label; }
 	void SetLabel(const char *label) { m_label = label; }
@@ -112,6 +118,8 @@ public:
 	std::unique_ptr<SfxManager> m_sfx; // the last survivor. actually m_children is pretty grim too.
 
 private:
+	FrameId m_thisId;
+
 	void UpdateRootRelativeVars();
 
 	Frame *m_parent; // if parent is null then frame position is absolute

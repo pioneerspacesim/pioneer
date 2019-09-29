@@ -27,6 +27,8 @@ Frame::Frame(const Dummy &d, Frame *parent, const char *label, unsigned int flag
 	if (!d.madeWithFactory)
 		Error("Frame ctor called directly!\n");
 
+	m_thisId = s_frames.size();
+
 	ClearMovement();
 	m_collisionSpace = new CollisionSpace();
 	if (m_parent) m_parent->AddChild(this);
@@ -35,6 +37,7 @@ Frame::Frame(const Dummy &d, Frame *parent, const char *label, unsigned int flag
 
 void Frame::ToJson(Json &frameObj, Frame *f, Space *space)
 {
+	frameObj["frameId"] = f->m_thisId;
 	frameObj["flags"] = f->m_flags;
 	frameObj["radius"] = f->m_radius;
 	frameObj["label"] = f->m_label;
@@ -78,11 +81,18 @@ Frame *Frame::FromJson(const Json &frameObj, Space *space, Frame *parent, double
 	Frame *f = &s_frames.back();
 
 	f->m_parent = parent;
+	f->d.madeWithFactory = false;
 
 	try {
+		f->m_thisId = frameObj["frameId"];
+
 		f->m_flags = frameObj["flags"];
 		f->m_radius = frameObj["radius"];
 		f->m_label = frameObj["label"];
+
+		// Check if frames order in load and save are the same
+		assert((s_frames.size() - 1) != f->m_thisId);
+
 		f->m_pos = frameObj["pos"];
 		f->m_angSpeed = frameObj["ang_speed"];
 		f->SetInitialOrient(frameObj["init_orient"], at_time);
@@ -100,6 +110,8 @@ Frame *Frame::FromJson(const Json &frameObj, Space *space, Frame *parent, double
 			f->m_children.clear();
 		}
 	} catch (Json::type_error &) {
+		Output("Loading error in '%s'\n", typeid(f).name());
+		f->d.madeWithFactory = true;
 		throw SavedGameCorruptException();
 	}
 
@@ -120,6 +132,14 @@ void Frame::DeleteFrame(Frame *tobedeleted)
 		}
 	}
 	tobedeleted->d.madeWithFactory = false;
+}
+
+Frame *Frame::FindFrame(FrameId FId)
+{
+	for (Frame &elem : s_frames) {
+		if (elem.m_thisId == FId) return &elem;
+	}
+	return nullptr;
 }
 
 void Frame::PostUnserializeFixup(Frame *f, Space *space)
