@@ -1984,7 +1984,7 @@ local onCreateBB = function (station)
 	for _ = 1,num do
 		-- makeAdvert(station, 1, closestplanets)
 		-- makeAdvert(station, 2, closestplanets)
-		makeAdvert(station, 3, closestplanets)
+		-- makeAdvert(station, 3, closestplanets)
 		-- makeAdvert(station, 4, closestplanets)
 		-- makeAdvert(station, 5, closestplanets)
 		-- makeAdvert(station, 6, closestplanets)
