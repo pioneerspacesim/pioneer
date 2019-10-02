@@ -329,6 +329,7 @@ install(TARGETS ${PROJECT_NAME} modelcompiler savegamedump
 install(DIRECTORY data/
 	DESTINATION ${PIONEER_DATA_DIR}
 	REGEX "/models" EXCLUDE
+	PATTERN ".gitignore" EXCLUDE
 	PATTERN "listdata.*" EXCLUDE
 	PATTERN "Makefile.am" EXCLUDE
 )
