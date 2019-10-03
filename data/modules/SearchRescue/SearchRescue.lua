@@ -668,7 +668,8 @@ local createTargetShipParameters = function (flavour)
 		crew_num = crew_num - flavour.deliver_crew
 		deliver_crew = flavour.deliver_crew
 	elseif flavour.pickup_crew > 0 then
-		crew_num = pickup_crew
+		crew_num = flavour.pickup_crew
+		pickup_crew = flavour.pickup_crew
 	else
 		crew_num = rand:Integer(shipdef.minCrew,shipdef.maxCrew)
 		pickup_crew = flavour.pickup_crew
