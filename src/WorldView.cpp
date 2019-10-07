@@ -302,8 +302,11 @@ void WorldView::Update()
 
 	UpdateProjectedObjects();
 
-	const Frame *playerFrame = Pi::player->GetFrame();
-	const Frame *camFrame = m_cameraContext->GetCamFrame();
+	FrameId playerFrameId = Pi::player->GetFrame();
+	FrameId camFrameId = m_cameraContext->GetCamFrame();
+
+	const Frame *playerFrame = Frame::GetFrame(playerFrameId);
+	const Frame *camFrame = Frame::GetFrame(camFrameId);
 
 	//speedlines and contact trails need camFrame for transform, so they
 	//must be updated here
@@ -311,7 +314,7 @@ void WorldView::Update()
 		m_speedLines->Update(m_game->GetTimeStep());
 
 		matrix4x4d trans;
-		Frame::GetFrameTransform(playerFrame, camFrame, trans);
+		Frame::GetFrameTransform(playerFrameId, camFrameId, trans);
 
 		if (m_speedLines.get() && Pi::AreSpeedLinesDisplayed()) {
 			m_speedLines->Update(m_game->GetTimeStep());
@@ -324,13 +327,13 @@ void WorldView::Update()
 
 	if (Pi::AreHudTrailsDisplayed()) {
 		matrix4x4d trans;
-		Frame::GetFrameTransform(playerFrame, camFrame, trans);
+		Frame::GetFrameTransform(playerFrameId, camFrameId, trans);
 
 		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
 			it->trail->SetTransform(trans);
 	} else {
 		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
-			it->trail->Reset(playerFrame);
+			it->trail->Reset(playerFrameId);
 	}
 
 	UIView::Update();
@@ -416,7 +419,7 @@ static inline bool project_to_screen(const vector3d &in, vector3d &out, const Gr
 
 void WorldView::UpdateProjectedObjects()
 {
-	const Frame *cam_frame = m_cameraContext->GetCamFrame();
+	const Frame *cam_frame = Frame::GetFrame(m_cameraContext->GetCamFrame());
 	matrix3x3d cam_rot = cam_frame->GetOrient();
 
 	// later we might want non-ship enemies (e.g., for assaults on military bases)
@@ -427,7 +430,7 @@ void WorldView::UpdateProjectedObjects()
 	if (enemy) {
 		const vector3d targpos = enemy->GetInterpPositionRelTo(Pi::player) * cam_rot;
 		const double dist = targpos.Length();
-		const vector3d targScreenPos = enemy->GetInterpPositionRelTo(cam_frame);
+		const vector3d targScreenPos = enemy->GetInterpPositionRelTo(cam_frame->GetId());
 
 		UpdateIndicator(m_combatTargetIndicator, targScreenPos);
 
@@ -875,21 +878,21 @@ static double wrapAngleToPositive(const double theta)
 */
 std::tuple<double, double, double> WorldView::CalculateHeadingPitchRoll(PlaneType pt)
 {
-	auto frame = Pi::player->GetFrame();
+	FrameId frameId = Pi::player->GetFrame();
 
 	if (pt == ROTATIONAL)
-		frame = frame->GetRotFrame();
+		frameId = Frame::GetFrame(frameId)->GetRotFrame();
 	else if (pt == PARENT)
-		frame = frame->GetNonRotFrame();
+		frameId = Frame::GetFrame(frameId)->GetNonRotFrame();
 
 	// construct a frame of reference aligned with the ground plane
 	// and with lines of longitude and latitude
-	const vector3d up = Pi::player->GetPositionRelTo(frame).NormalizedSafe();
+	const vector3d up = Pi::player->GetPositionRelTo(frameId).NormalizedSafe();
 	const vector3d north = projectVecOntoPlane(vector3d(0, 1, 0), up).NormalizedSafe();
 	const vector3d east = north.Cross(up);
 
 	// find the direction that the ship is facing
-	const auto shpRot = Pi::player->GetOrientRelTo(frame);
+	const auto shpRot = Pi::player->GetOrientRelTo(frameId);
 	const vector3d hed = -shpRot.VectorZ();
 	const vector3d right = shpRot.VectorX();
 	const vector3d groundHed = projectVecOntoPlane(hed, up).NormalizedSafe();
@@ -929,7 +932,7 @@ vector3d WorldView::WorldSpaceToScreenSpace(const Body *body) const
 {
 	if (body->IsType(Object::PLAYER) && shipView.GetCamType() == ShipViewController::CAM_INTERNAL)
 		return vector3d(0, 0, 0);
-	const Frame *cam_frame = m_cameraContext->GetCamFrame();
+	const FrameId cam_frame = m_cameraContext->GetCamFrame();
 	vector3d pos = body->GetInterpPositionRelTo(cam_frame);
 	return projectToScreenSpace(pos, m_cameraContext);
 }
@@ -937,7 +940,7 @@ vector3d WorldView::WorldSpaceToScreenSpace(const Body *body) const
 // needs to run inside m_cameraContext->Begin/EndFrame();
 vector3d WorldView::WorldSpaceToScreenSpace(const vector3d &position) const
 {
-	const Frame *cam_frame = m_cameraContext->GetCamFrame();
+	const Frame *cam_frame = Frame::GetFrame(m_cameraContext->GetCamFrame());
 	matrix3x3d cam_rot = cam_frame->GetInterpOrient();
 	vector3d pos = position * cam_rot;
 	return projectToScreenSpace(pos, m_cameraContext);
@@ -947,7 +950,7 @@ vector3d WorldView::WorldSpaceToScreenSpace(const vector3d &position) const
 vector3d WorldView::ShipSpaceToScreenSpace(const vector3d &pos) const
 {
 	matrix3x3d orient = Pi::player->GetInterpOrient();
-	const Frame *cam_frame = m_cameraContext->GetCamFrame();
+	const Frame *cam_frame = Frame::GetFrame(m_cameraContext->GetCamFrame());
 	matrix3x3d cam_rot = cam_frame->GetInterpOrient();
 	vector3d camspace = orient * pos * cam_rot;
 	return projectToScreenSpace(camspace, m_cameraContext, false);
@@ -964,7 +967,7 @@ vector3d WorldView::GetTargetIndicatorScreenPosition(const Body *body) const
 {
 	if (body->IsType(Object::PLAYER) && shipView.GetCamType() == ShipViewController::CAM_INTERNAL)
 		return vector3d(0, 0, 0);
-	const Frame *cam_frame = m_cameraContext->GetCamFrame();
+	FrameId cam_frame = m_cameraContext->GetCamFrame();
 	vector3d pos = body->GetTargetIndicatorPosition(cam_frame);
 	return projectToScreenSpace(pos, m_cameraContext);
 }
@@ -973,7 +976,7 @@ vector3d WorldView::GetTargetIndicatorScreenPosition(const Body *body) const
 vector3d WorldView::GetMouseDirection() const
 {
 	// orientation according to mouse
-	const Frame *cam_frame = m_cameraContext->GetCamFrame();
+	const Frame *cam_frame = Frame::GetFrame(m_cameraContext->GetCamFrame());
 	matrix3x3d cam_rot = cam_frame->GetInterpOrient();
 	vector3d mouseDir = Pi::player->GetPlayerController()->GetMouseDir() * cam_rot;
 	if (shipView.GetCamType() == ShipViewController::CAM_INTERNAL && shipView.m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR)

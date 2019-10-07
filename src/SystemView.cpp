@@ -66,8 +66,9 @@ void TransferPlanner::AddStartTime(double timeStep)
 	m_startTime += m_factor * timeStep;
 	double deltaT = m_startTime - Pi::game->GetTime();
 	if (deltaT > 0.) {
-		Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
-		Orbit playerOrbit = Orbit::FromBodyState(Pi::player->GetPositionRelTo(frame), Pi::player->GetVelocityRelTo(frame), frame->GetSystemBody()->GetMass());
+		FrameId frameId = Frame::GetFrame(Pi::player->GetFrame())->GetNonRotFrame();
+		Frame *frame = Frame::GetFrame(frameId);
+		Orbit playerOrbit = Orbit::FromBodyState(Pi::player->GetPositionRelTo(frameId), Pi::player->GetVelocityRelTo(frameId), frame->GetSystemBody()->GetMass());
 
 		m_position = playerOrbit.OrbitalPosAtTime(deltaT);
 		m_velocity = playerOrbit.OrbitalVelocityAtTime(frame->GetSystemBody()->GetMass(), deltaT);
@@ -78,14 +79,14 @@ void TransferPlanner::AddStartTime(double timeStep)
 void TransferPlanner::ResetStartTime()
 {
 	m_startTime = 0;
-	Frame *frame = Pi::player->GetFrame();
+	Frame *frame = Frame::GetFrame(Pi::player->GetFrame());
 	if (!frame || GetOffsetVel().ExactlyEqual(vector3d(0., 0., 0.))) {
 		m_position = vector3d(0., 0., 0.);
 		m_velocity = vector3d(0., 0., 0.);
 	} else {
-		frame = frame->GetNonRotFrame();
-		m_position = Pi::player->GetPositionRelTo(frame);
-		m_velocity = Pi::player->GetVelocityRelTo(frame);
+		frame = Frame::GetFrame(frame->GetNonRotFrame());
+		m_position = Pi::player->GetPositionRelTo(frame->GetId());
+		m_velocity = Pi::player->GetVelocityRelTo(frame->GetId());
 	}
 }
 
@@ -128,7 +129,7 @@ std::string TransferPlanner::printDeltaTime()
 void TransferPlanner::AddDv(BurnDirection d, double dv)
 {
 	if (m_position.ExactlyEqual(vector3d(0., 0., 0.))) {
-		Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
+		FrameId frame = Frame::GetFrame(Pi::player->GetFrame())->GetNonRotFrame();
 		m_position = Pi::player->GetPositionRelTo(frame);
 		m_velocity = Pi::player->GetVelocityRelTo(frame);
 		m_startTime = Pi::game->GetTime();
@@ -753,9 +754,9 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 		PutLabel(b, offset);
 	}
 
-	Frame *frame = Pi::player->GetFrame();
+	Frame *frame = Frame::GetFrame(Pi::player->GetFrame());
 	if (frame->IsRotFrame())
-		frame = frame->GetNonRotFrame();
+		frame = Frame::GetFrame(frame->GetNonRotFrame());
 
 	// display the players orbit(?)
 	if (frame->GetSystemBody() == b && frame->GetSystemBody()->GetMass() > 0) {
@@ -1024,13 +1025,15 @@ void SystemView::DrawShips(const double t, const vector3d &offset)
 	for (auto s = m_contacts.begin(); s != m_contacts.end(); s++) {
 		vector3d pos = offset;
 		if ((*s).first->GetFlightState() != Ship::FlightState::FLYING) {
-			Frame *frame = Pi::game->GetSpace()->GetRootFrame();
-			pos += (*s).first->GetPositionRelTo(frame) * double(m_zoom);
+			FrameId frameId = Pi::game->GetSpace()->GetRootFrame();
+			pos += (*s).first->GetPositionRelTo(frameId) * double(m_zoom);
 		} else {
-			Frame *frame = (*s).first->GetFrame();
+			FrameId frameId = (*s).first->GetFrame();
 			vector3d bpos = vector3d(0., 0., 0.);
-			if (frame != Pi::game->GetSpace()->GetRootFrame())
+			if (frameId != Pi::game->GetSpace()->GetRootFrame()) {
+				Frame *frame = Frame::GetFrame(frameId);
 				bpos += frame->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
+			}
 			pos += (bpos + (*s).second.OrbitalPosAtTime(t)) * double(m_zoom);
 		}
 		const bool isNavTarget = Pi::player->GetNavTarget() == (*s).first;

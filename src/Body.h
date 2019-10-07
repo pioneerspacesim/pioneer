@@ -4,6 +4,7 @@
 #ifndef _BODY_H
 #define _BODY_H
 
+#include "FrameId.h"
 #include "Object.h"
 #include "PropertiedObject.h"
 #include "matrix3x3.h"
@@ -61,16 +62,16 @@ public:
 	virtual void TimeStepUpdate(const float timeStep) {}
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) = 0;
 
-	virtual void SetFrame(Frame *f) { m_frame = f; }
-	Frame *GetFrame() const { return m_frame; }
-	void SwitchToFrame(Frame *newFrame);
+	virtual void SetFrame(FrameId f) { m_frame = f; }
+	FrameId GetFrame() const { return m_frame; }
+	void SwitchToFrame(FrameId newFrame);
 	void UpdateFrame(); // check for frame switching
 
 	vector3d GetVelocityRelTo(const Body *) const;
-	vector3d GetVelocityRelTo(const Frame *) const;
-	vector3d GetPositionRelTo(const Frame *) const;
+	vector3d GetVelocityRelTo(FrameId) const;
+	vector3d GetPositionRelTo(FrameId) const;
 	vector3d GetPositionRelTo(const Body *) const;
-	matrix3x3d GetOrientRelTo(const Frame *) const;
+	matrix3x3d GetOrientRelTo(FrameId) const;
 
 	// Should return pointer in Pi::currentSystem
 	virtual const SystemBody *GetSystemBody() const { return nullptr; }
@@ -90,9 +91,9 @@ public:
 	// Interpolated between physics ticks.
 	const matrix3x3d &GetInterpOrient() const { return m_interpOrient; }
 	vector3d GetInterpPosition() const { return m_interpPos; }
-	vector3d GetInterpPositionRelTo(const Frame *relTo) const;
+	vector3d GetInterpPositionRelTo(FrameId relToId) const;
 	vector3d GetInterpPositionRelTo(const Body *relTo) const;
-	matrix3x3d GetInterpOrientRelTo(const Frame *relTo) const;
+	matrix3x3d GetInterpOrientRelTo(FrameId relToId) const;
 
 	// should set m_interpolatedTransform to the smoothly interpolated value
 	// (interpolated by 0 <= alpha <=1) between the previous and current physics tick
@@ -103,7 +104,7 @@ public:
 	}
 
 	// where to draw targeting indicators - usually equal to GetInterpolatedPositionRelTo
-	virtual vector3d GetTargetIndicatorPosition(const Frame *relTo) const;
+	virtual vector3d GetTargetIndicatorPosition(FrameId relToId) const;
 
 	enum { FLAG_CAN_MOVE_FRAME = (1 << 0),
 		FLAG_LABEL_HIDDEN = (1 << 1),
@@ -120,7 +121,7 @@ protected:
 private:
 	vector3d m_pos;
 	matrix3x3d m_orient;
-	Frame *m_frame; // frame of reference
+	FrameId m_frame; // frame of reference
 	std::string m_label;
 	bool m_dead; // Checked in destructor to make sure body has been marked dead.
 	double m_clipRadius;

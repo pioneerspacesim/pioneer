@@ -4,6 +4,7 @@
 #include "CameraController.h"
 
 #include "AnimationCurves.h"
+#include "Frame.h"
 #include "Game.h"
 #include "GameSaveError.h"
 #include "MathUtil.h"
@@ -374,9 +375,10 @@ void FlyByCameraController::Update()
 	vector3d ship_pos = ship->GetInterpPosition();
 	vector3d camerap;
 
-	if (GetPosition() == vector3d(0, 0, 0) || m_old_frame != ship->GetFrame()) {
+	Frame *shipFrame = Frame::GetFrame(ship->GetFrame());
+	if (GetPosition() == vector3d(0, 0, 0) || m_old_frame != shipFrame) {
 		m_old_pos = ship_pos;
-		m_old_frame = ship->GetFrame();
+		m_old_frame = shipFrame;
 	}
 
 	m_flybyOrient.Renormalize();

@@ -5,6 +5,7 @@
 #define _SPACE_H
 
 #include "Background.h"
+#include "FrameId.h"
 #include "IterationProxy.h"
 #include "Object.h"
 #include "RefCounted.h"
@@ -41,7 +42,7 @@ public:
 
 	RefCountedPtr<StarSystem> GetStarSystem() const { return m_starSystem; }
 
-	Frame *GetRootFrame() const { return m_rootFrame.get(); }
+	FrameId GetRootFrame() const { return m_rootFrameId; }
 
 	void AddBody(Body *);
 	void RemoveBody(Body *);
@@ -87,20 +88,15 @@ public:
 private:
 	void GenSectorCache(RefCountedPtr<Galaxy> galaxy, const SystemPath *here);
 	void UpdateStarSystemCache(const SystemPath *here);
-	void GenBody(const double at_time, SystemBody *b, Frame *f, std::vector<vector3d> &posAccum);
+	void GenBody(const double at_time, SystemBody *b, FrameId fId, std::vector<vector3d> &posAccum);
 	// make sure SystemBody* is in Pi::currentSystem
-	Frame *GetFrameWithSystemBody(const SystemBody *b) const;
+	FrameId GetFrameWithSystemBody(const SystemBody *b) const;
 
 	void UpdateBodies();
 
-	void CollideFrame(Frame *f);
+	void CollideFrame(FrameId fId);
 
-	struct FrameDeleter {
-		/* Implemented in *cpp: prevent including Frame.h */
-		void operator()(Frame* frame);
-	};
-
-	std::unique_ptr<Frame, FrameDeleter> m_rootFrame;
+	FrameId m_rootFrameId;
 
 	RefCountedPtr<SectorCache::Slave> m_sectorCache;
 	RefCountedPtr<StarSystemCache::Slave> m_starSystemCache;

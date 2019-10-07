@@ -12,7 +12,7 @@
 
 std::list<Frame> Frame::s_frames;
 
-Frame::Frame(const Dummy &d, Frame *parent, const char *label, unsigned int flags, double radius):
+Frame::Frame(const Dummy &d, FrameId parent, const char *label, unsigned int flags, double radius):
 	m_sbody(nullptr),
 	m_astroBody(nullptr),
 	m_parent(parent),
@@ -31,12 +31,16 @@ Frame::Frame(const Dummy &d, Frame *parent, const char *label, unsigned int flag
 
 	ClearMovement();
 	m_collisionSpace = new CollisionSpace();
-	if (m_parent) m_parent->AddChild(this);
+	if (IsIdValid(m_parent)) Frame::GetFrame(m_parent)->AddChild(m_thisId);
 	if (label) m_label = label;
 }
 
-void Frame::ToJson(Json &frameObj, Frame *f, Space *space)
+void Frame::ToJson(Json &frameObj, FrameId fId, Space *space)
 {
+	Frame *f = Frame::GetFrame(fId);
+
+	assert(f != nullptr);
+
 	frameObj["frameId"] = f->m_thisId;
 	frameObj["flags"] = f->m_flags;
 	frameObj["radius"] = f->m_radius;
@@ -48,7 +52,7 @@ void Frame::ToJson(Json &frameObj, Frame *f, Space *space)
 	frameObj["index_for_astro_body"] = space->GetIndexForBody(f->m_astroBody);
 
 	Json childFrameArray = Json::array(); // Create JSON array to contain child frame data.
-	for (Frame *kid : f->GetChildren()) {
+	for (FrameId kid : f->GetChildren()) {
 		Json childFrameArrayEl = Json::object(); // Create JSON object to contain child frame.
 		Frame::ToJson(childFrameArrayEl, kid, space);
 		childFrameArray.push_back(childFrameArrayEl); // Append child frame object to array.
@@ -57,30 +61,46 @@ void Frame::ToJson(Json &frameObj, Frame *f, Space *space)
 		frameObj["child_frames"] = childFrameArray; // Add child frame array to frame object.
 
 	// Add sfx array to supplied object.
-	SfxManager::ToJson(frameObj, f);
+	SfxManager::ToJson(frameObj, f->m_thisId);
 }
 
-Frame *Frame::CreateFrame(Frame *parent, const char *label, unsigned int flags, double radius)
+Frame::~Frame()
+{
+	if (!d.madeWithFactory) {
+		Error("Frame instance deletion outside 'DeleteFrame'\n");
+	}
+	// Delete this Frame and recurse deleting children
+	delete m_collisionSpace;
+	for (FrameId kid : m_children) {
+		DeleteFrame(kid);
+	}
+}
+
+FrameId Frame::CreateFrame(FrameId parent, const char *label, unsigned int flags, double radius)
 {
 	Dummy dummy;
 	dummy.madeWithFactory = true;
 
 	s_frames.emplace_back(dummy, parent, label, flags, radius);
-	return &s_frames.back();
+	return (s_frames.size() - 1);
 }
 
-Frame *Frame::FromJson(const Json &frameObj, Space *space, Frame *parent, double at_time)
+FrameId Frame::FromJson(const Json &frameObj, Space *space, FrameId parent, double at_time)
 {
 	Dummy dummy;
 	dummy.madeWithFactory = true;
 
 	// Set parent to nullptr here in order to avoid this frame
 	// being a child twice (due to ctor calling AddChild)
-	s_frames.emplace_back(dummy, nullptr, nullptr);
+	s_frames.emplace_back(dummy, noFrameId, nullptr);
 
 	Frame *f = &s_frames.back();
 
-	f->m_parent = parent;
+	if (parent != noFrameId)
+		f->m_parent = Frame::GetFrame(parent)->GetId();
+	else
+		f->m_parent = noFrameId;
+
 	f->d.madeWithFactory = false;
 
 	try {
@@ -104,7 +124,8 @@ Frame *Frame::FromJson(const Json &frameObj, Space *space, Frame *parent, double
 			Json childFrameArray = frameObj["child_frames"];
 			f->m_children.reserve(childFrameArray.size());
 			for (unsigned int i = 0; i < childFrameArray.size(); ++i) {
-				f->m_children.push_back(FromJson(childFrameArray[i], space, f, at_time));
+				FrameId kidId = FromJson(childFrameArray[i], space, f->m_thisId, at_time);
+				f->m_children.push_back(kidId);
 			}
 		} else {
 			f->m_children.clear();
@@ -115,26 +136,26 @@ Frame *Frame::FromJson(const Json &frameObj, Space *space, Frame *parent, double
 		throw SavedGameCorruptException();
 	}
 
-	SfxManager::FromJson(frameObj, f);
+	SfxManager::FromJson(frameObj, f->m_thisId);
 
 	f->ClearMovement();
-	return f;
+	return f->GetId();
 }
 
-void Frame::DeleteFrame(Frame *tobedeleted)
+void Frame::DeleteFrame(FrameId tobedeleted)
 {
-	tobedeleted->d.madeWithFactory = true;
+	Frame *f = GetFrame(tobedeleted);
+	f->d.madeWithFactory = true;
 	// Find Frame and delete it, let dtor delete its children
 	for (std::list<Frame>::const_iterator it = s_frames.begin(); it != s_frames.end(); it++) {
-		if (tobedeleted == &(*it)) {
+		if (f == &(*it)) {
 			s_frames.erase(it);
 			break;
 		}
 	}
-	tobedeleted->d.madeWithFactory = false;
 }
 
-Frame *Frame::FindFrame(FrameId FId)
+Frame *Frame::GetFrame(FrameId FId)
 {
 	for (Frame &elem : s_frames) {
 		if (elem.m_thisId == FId) return &elem;
@@ -142,30 +163,22 @@ Frame *Frame::FindFrame(FrameId FId)
 	return nullptr;
 }
 
-void Frame::PostUnserializeFixup(Frame *f, Space *space)
+void Frame::PostUnserializeFixup(FrameId fId, Space *space)
 {
+	Frame *f = Frame::GetFrame(fId);
 	f->UpdateRootRelativeVars();
 	f->m_astroBody = space->GetBodyByIndex(f->m_astroBodyIndex);
-	for (Frame *kid : f->GetChildren())
+	for (FrameId kid : f->GetChildren())
 		PostUnserializeFixup(kid, space);
 }
 
-Frame::~Frame()
-{
-	if (!d.madeWithFactory) {
-		Error("Frame instance deletion outside 'DeleteFrame'\n");
-	}
-	// Delete this Frame and recurse deleting children
-	delete m_collisionSpace;
-	for (Frame *kid : m_children) {
-		DeleteFrame(kid);
-	}
-}
-
-void Frame::RemoveChild(Frame *f)
+void Frame::RemoveChild(FrameId fId)
 {
 	PROFILE_SCOPED()
-	const std::vector<Frame *>::iterator it = std::find(m_children.begin(), m_children.end(), f);
+	if (fId == noFrameId) return;
+	Frame *f = Frame::GetFrame(fId);
+	if (f == nullptr) return;
+	const std::vector<FrameId>::iterator it = std::find(m_children.begin(), m_children.end(), fId);
 	if (it != m_children.end())
 		m_children.erase(it);
 }
@@ -180,9 +193,11 @@ void Frame::SetPlanetGeom(double radius, Body *obj)
 }
 
 // doesn't consider stasis velocity
-vector3d Frame::GetVelocityRelTo(const Frame *relTo) const
+vector3d Frame::GetVelocityRelTo(FrameId relToId) const
 {
-	if (this == relTo) return vector3d(0, 0, 0); // early-out to avoid unnecessary computation
+	if (m_thisId == relToId) return vector3d(0, 0, 0); // early-out to avoid unnecessary computation
+
+	const Frame *relTo = Frame::GetFrame(relToId);
 	vector3d diff = m_rootVel - relTo->m_rootVel;
 	if (relTo->IsRotFrame())
 		return diff * relTo->m_rootOrient;
@@ -190,12 +205,15 @@ vector3d Frame::GetVelocityRelTo(const Frame *relTo) const
 		return diff;
 }
 
-vector3d Frame::GetPositionRelTo(const Frame *relTo) const
+vector3d Frame::GetPositionRelTo(FrameId relToId) const
 {
 	// early-outs for simple cases, required for accuracy in large systems
-	if (this == relTo) return vector3d(0, 0, 0);
-	if (GetParent() == relTo) return m_pos; // relative to parent
-	if (relTo->GetParent() == this) { // relative to child
+	if (m_thisId == relToId) return vector3d(0, 0, 0);
+
+	const Frame *relTo = Frame::GetFrame(relToId);
+
+	if (GetParent() == relToId) return m_pos; // relative to parent
+	if (relTo->GetParent() == m_thisId) { // relative to child
 		if (!relTo->IsRotFrame())
 			return -relTo->m_pos;
 		else
@@ -216,12 +234,14 @@ vector3d Frame::GetPositionRelTo(const Frame *relTo) const
 		return diff;
 }
 
-vector3d Frame::GetInterpPositionRelTo(const Frame *relTo) const
+vector3d Frame::GetInterpPositionRelTo(FrameId relToId) const
 {
+	const Frame *relTo = Frame::GetFrame(relToId);
+
 	// early-outs for simple cases, required for accuracy in large systems
-	if (this == relTo) return vector3d(0, 0, 0);
-	if (GetParent() == relTo) return m_interpPos; // relative to parent
-	if (relTo->GetParent() == this) { // relative to child
+	if (m_thisId == relToId) return vector3d(0, 0, 0);
+	if (GetParent() == relTo->GetId()) return m_interpPos; // relative to parent
+	if (relTo->GetParent() == m_thisId) { // relative to child
 		if (!relTo->IsRotFrame())
 			return -relTo->m_interpPos;
 		else
@@ -241,16 +261,16 @@ vector3d Frame::GetInterpPositionRelTo(const Frame *relTo) const
 		return diff;
 }
 
-matrix3x3d Frame::GetOrientRelTo(const Frame *relTo) const
+matrix3x3d Frame::GetOrientRelTo(FrameId relToId) const
 {
-	if (this == relTo) return matrix3x3d::Identity();
-	return relTo->m_rootOrient.Transpose() * m_rootOrient;
+	if (m_thisId == relToId) return matrix3x3d::Identity();
+	return Frame::GetFrame(relToId)->m_rootOrient.Transpose() * m_rootOrient;
 }
 
-matrix3x3d Frame::GetInterpOrientRelTo(const Frame *relTo) const
+matrix3x3d Frame::GetInterpOrientRelTo(FrameId relToId) const
 {
-	if (this == relTo) return matrix3x3d::Identity();
-	return relTo->m_rootInterpOrient.Transpose() * m_rootInterpOrient;
+	if (m_thisId == relToId) return matrix3x3d::Identity();
+	return Frame::GetFrame(relToId)->m_rootInterpOrient.Transpose() * m_rootInterpOrient;
 	/*	if (IsRotFrame()) {
 		if (relTo->IsRotFrame()) return m_interpOrient * relTo->m_interpOrient.Transpose();
 		else return m_interpOrient;
@@ -272,21 +292,24 @@ void Frame::UpdateInterpTransform(double alpha)
 	} else
 		m_interpOrient = m_orient;
 
-	if (!m_parent)
+	Frame *parent = Frame::GetFrame(m_parent);
+	if (!parent)
 		ClearMovement();
 	else {
-		m_rootInterpPos = m_parent->m_rootInterpOrient * m_interpPos + m_parent->m_rootInterpPos;
-		m_rootInterpOrient = m_parent->m_rootInterpOrient * m_interpOrient;
+		m_rootInterpPos = parent->m_rootInterpOrient * m_interpPos + parent->m_rootInterpPos;
+		m_rootInterpOrient = parent->m_rootInterpOrient * m_interpOrient;
 	}
 
-	for (Frame *kid : m_children)
-		kid->UpdateInterpTransform(alpha);
+	for (FrameId kid : m_children) {
+		Frame *kidFrame = Frame::GetFrame(kid);
+		kidFrame->UpdateInterpTransform(alpha);
+	}
 }
 
-void Frame::GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m)
+void Frame::GetFrameTransform(const FrameId fFromId, const FrameId fToId, matrix4x4d &m)
 {
-	matrix3x3d forient = fFrom->GetOrientRelTo(fTo);
-	vector3d fpos = fFrom->GetPositionRelTo(fTo);
+	matrix3x3d forient = Frame::GetFrame(fFromId)->GetOrientRelTo(fToId);
+	vector3d fpos = Frame::GetFrame(fFromId)->GetPositionRelTo(fToId);
 	m = forient;
 	m.SetTranslate(fpos);
 }
@@ -307,7 +330,7 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 	m_oldAngDisplacement = m_angSpeed * timestep;
 
 	// update frame position and velocity
-	if (m_parent && m_sbody && !IsRotFrame()) {
+	if (IsIdValid(m_parent) && m_sbody && !IsRotFrame()) {
 		m_pos = m_sbody->GetOrbit().OrbitalPosAtTime(time);
 		vector3d pos2 = m_sbody->GetOrbit().OrbitalPosAtTime(time + timestep);
 		m_vel = (pos2 - m_pos) / timestep;
@@ -324,8 +347,10 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 	}
 	UpdateRootRelativeVars(); // update root-relative pos/vel/orient
 
-	for (Frame *kid : m_children)
-		kid->UpdateOrbitRails(time, timestep);
+	for (FrameId kid : m_children) {
+		Frame *kidFrame = Frame::GetFrame(kid);
+		kidFrame->UpdateOrbitRails(time, timestep);
+	}
 }
 
 void Frame::SetInitialOrient(const matrix3x3d &m, double time)
@@ -355,12 +380,13 @@ void Frame::SetOrient(const matrix3x3d &m, double time)
 void Frame::UpdateRootRelativeVars()
 {
 	// update pos & vel relative to parent frame
-	if (!m_parent) {
+	Frame *parent = Frame::GetFrame(m_parent);
+	if (!parent) {
 		m_rootPos = m_rootVel = vector3d(0, 0, 0);
 		m_rootOrient = matrix3x3d::Identity();
 	} else {
-		m_rootPos = m_parent->m_rootOrient * m_pos + m_parent->m_rootPos;
-		m_rootVel = m_parent->m_rootOrient * m_vel + m_parent->m_rootVel;
-		m_rootOrient = m_parent->m_rootOrient * m_orient;
+		m_rootPos = parent->m_rootOrient * m_pos + parent->m_rootPos;
+		m_rootVel = parent->m_rootOrient * m_vel + parent->m_rootVel;
+		m_rootOrient = parent->m_rootOrient * m_orient;
 	}
 }

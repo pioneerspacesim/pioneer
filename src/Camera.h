@@ -5,6 +5,7 @@
 #define _CAMERA_H
 
 #include "Color.h"
+#include "FrameId.h"
 #include "graphics/Frustum.h"
 #include "graphics/Light.h"
 #include "matrix4x4.h"
@@ -32,7 +33,7 @@ public:
 	float GetZFar() const { return m_zFar; }
 
 	// frame to position the camera relative to
-	void SetCameraFrame(Frame *frame) { m_frame = frame; }
+	void SetCameraFrame(FrameId frame) { m_frame = frame; }
 
 	// camera position relative to the frame origin
 	void SetCameraPosition(const vector3d &pos) { m_pos = pos; }
@@ -48,7 +49,7 @@ public:
 	void EndFrame();
 
 	// valid between BeginFrame and EndFrame
-	Frame *GetCamFrame() const
+	FrameId GetCamFrame() const
 	{
 		assert(m_camFrame);
 		return m_camFrame;
@@ -66,11 +67,11 @@ private:
 
 	Graphics::Frustum m_frustum;
 
-	Frame *m_frame;
+	FrameId m_frame;
 	vector3d m_pos;
 	matrix3x3d m_orient;
 
-	Frame *m_camFrame;
+	FrameId m_camFrame;
 };
 
 class Camera {

@@ -6,6 +6,7 @@
 
 #include "Body.h"
 #include "CollMesh.h"
+#include "FrameId.h"
 
 class Shields;
 class Geom;
@@ -29,7 +30,7 @@ public:
 	virtual ~ModelBody();
 	void SetPosition(const vector3d &p) override;
 	void SetOrient(const matrix3x3d &r) override;
-	virtual void SetFrame(Frame *f) override;
+	virtual void SetFrame(FrameId fId) override;
 	// Colliding: geoms are checked against collision space
 	void SetColliding(bool colliding);
 	bool IsColliding() const { return m_colliding; }

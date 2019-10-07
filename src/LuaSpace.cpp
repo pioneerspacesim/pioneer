@@ -225,7 +225,9 @@ static int l_space_spawn_ship_near(lua_State *l)
 	Body *thing = _maybe_wrap_ship_with_cloud(ship, path, due);
 
 	// XXX protect against spawning inside the body
-	Frame *newframe = nearbody->GetFrame();
+	FrameId newframeId = nearbody->GetFrame();
+	Frame *newframe = Frame::GetFrame(newframeId);
+
 	const vector3d newPosition = (MathUtil::RandomPointOnSphere(min_dist, max_dist) * 1000.0) + nearbody->GetPosition();
 
 	// If the frame is rotating and the chosen position is too far, use non-rotating parent.
@@ -233,10 +235,10 @@ static int l_space_spawn_ship_near(lua_State *l)
 	// rotating frame in the next update
 	if (newframe->IsRotFrame() && newframe->GetRadius() < newPosition.Length()) {
 		assert(newframe->GetParent());
-		newframe = newframe->GetParent();
+		newframe = Frame::GetFrame(newframe->GetParent());
 	}
 
-	thing->SetFrame(newframe);
+	thing->SetFrame(newframe->GetId());
 	;
 	thing->SetPosition(newPosition);
 	thing->SetVelocity(newVelocity);
@@ -505,7 +507,7 @@ static int l_space_spawn_ship_landed_near(lua_State *l)
 	assert(ship);
 
 	// XXX protect against spawning inside the body
-	Frame *newframe = nearbody->GetFrame()->GetRotFrame();
+	Frame *newframe = Frame::GetFrame(Frame::GetFrame(nearbody->GetFrame())->GetRotFrame());
 	if (!newframe->IsRotFrame())
 		luaL_error(l, "Body must be in rotating frame");
 	SystemBody *sbody = newframe->GetSystemBody();
@@ -696,7 +698,9 @@ static int l_space_attr_root_system_body(lua_State *l)
 
 	LUA_DEBUG_START(l);
 
-	LuaObject<SystemBody>::PushToLua(Pi::game->GetSpace()->GetRootFrame()->GetSystemBody());
+	FrameId rootId = Pi::game->GetSpace()->GetRootFrame();
+	Frame *root = Frame::GetFrame(rootId);
+	LuaObject<SystemBody>::PushToLua(root->GetSystemBody());
 
 	LUA_DEBUG_END(l, 1);
 

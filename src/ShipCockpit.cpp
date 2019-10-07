@@ -181,13 +181,13 @@ void ShipCockpit::Update(const Player *player, float timeStep)
 	}
 }
 
-void ShipCockpit::RenderCockpit(Graphics::Renderer *renderer, const Camera *camera, Frame *frame)
+void ShipCockpit::RenderCockpit(Graphics::Renderer *renderer, const Camera *camera, FrameId frameId)
 {
 	PROFILE_SCOPED()
 	renderer->ClearDepthBuffer();
-	SetFrame(frame);
+	SetFrame(frameId);
 	Render(renderer, camera, m_translate, m_transform);
-	SetFrame(nullptr);
+	SetFrame(noFrameId);
 }
 
 void ShipCockpit::OnActivated(const Player *player)

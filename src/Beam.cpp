@@ -216,7 +216,7 @@ double Beam::GetRadius() const
 	return sqrt(m_length * m_length);
 }
 
-static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, const vector3d &pos)
+static void MiningLaserSpawnTastyStuff(FrameId fId, const SystemBody *asteroid, const vector3d &pos)
 {
 	lua_State *l = Lua::manager->GetLuaState();
 
@@ -240,7 +240,7 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, con
 	lua_pop(l, 1);
 	LUA_DEBUG_END(l, 0);
 
-	cargo->SetFrame(f);
+	cargo->SetFrame(fId);
 	cargo->SetPosition(pos);
 	const double x = Pi::rng.Double();
 	vector3d dir = pos.Normalized();
@@ -257,7 +257,9 @@ void Beam::StaticUpdate(const float timeStep)
 		return;
 
 	CollisionContact c;
-	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), m_dir.Normalized(), m_length, &c, static_cast<ModelBody *>(m_parent)->GetGeom());
+
+	Frame *frame = Frame::GetFrame(GetFrame());
+	frame->GetCollisionSpace()->TraceRay(GetPosition(), m_dir.Normalized(), m_length, &c, static_cast<ModelBody *>(m_parent)->GetGeom());
 
 	if (c.userData1) {
 		Object *o = static_cast<Object *>(c.userData1);
@@ -277,8 +279,8 @@ void Beam::StaticUpdate(const float timeStep)
 
 	if (m_mining) {
 		// need to test for terrain hit
-		if (GetFrame()->GetBody() && GetFrame()->GetBody()->IsType(Object::PLANET)) {
-			Planet *const planet = static_cast<Planet *>(GetFrame()->GetBody());
+		if (frame->GetBody() && frame->GetBody()->IsType(Object::PLANET)) {
+			Planet *const planet = static_cast<Planet *>(frame->GetBody());
 			const SystemBody *b = planet->GetSystemBody();
 			vector3d pos = GetPosition();
 			double terrainHeight = planet->GetTerrainHeight(pos.Normalized());

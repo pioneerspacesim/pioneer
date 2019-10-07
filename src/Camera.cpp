@@ -29,44 +29,46 @@ CameraContext::CameraContext(float width, float height, float fovAng, float zNea
 	m_zNear(zNear),
 	m_zFar(zFar),
 	m_frustum(m_width, m_height, m_fovAng, m_zNear, m_zFar),
-	m_frame(nullptr),
+	m_frame(noFrameId),
 	m_pos(0.0),
 	m_orient(matrix3x3d::Identity()),
-	m_camFrame(nullptr)
+	m_camFrame(noFrameId)
 {
 }
 
 CameraContext::~CameraContext()
 {
-	if (m_camFrame)
+	if (m_camFrame != noFrameId)
 		EndFrame();
 }
 
 void CameraContext::BeginFrame()
 {
-	assert(m_frame);
-	assert(!m_camFrame);
+	assert(IsIdValid(m_frame));
+	assert(!IsIdValid(m_camFrame));
 
 	// make temporary camera frame
 	m_camFrame = Frame::CreateFrame(m_frame, "camera", Frame::FLAG_ROTATING, 0.0);
 
+	Frame *camFrame = Frame::GetFrame(m_camFrame);
 	// move and orient it to the camera position
-	m_camFrame->SetOrient(m_orient, Pi::game ? Pi::game->GetTime() : 0.0);
-	m_camFrame->SetPosition(m_pos);
+	camFrame->SetOrient(m_orient, Pi::game ? Pi::game->GetTime() : 0.0);
+	camFrame->SetPosition(m_pos);
 
 	// make sure old orient and interpolated orient (rendering orient) are not rubbish
-	m_camFrame->ClearMovement();
-	m_camFrame->UpdateInterpTransform(1.0); // update root-relative pos/orient
+	camFrame->ClearMovement();
+	camFrame->UpdateInterpTransform(1.0); // update root-relative pos/orient
 }
 
 void CameraContext::EndFrame()
 {
-	assert(m_frame);
-	assert(m_camFrame);
+	assert(IsIdValid(m_frame));
+	assert(IsIdValid(m_camFrame));
 
-	m_frame->RemoveChild(m_camFrame);
+	Frame *frame = Frame::GetFrame(m_frame);
+	frame->RemoveChild(m_camFrame);
 	Frame::DeleteFrame(m_camFrame);
-	m_camFrame = nullptr;
+	m_camFrame = noFrameId;
 }
 
 void CameraContext::ApplyDrawTransforms(Graphics::Renderer *r)
@@ -113,7 +115,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 	SystemBody *body = frame->GetSystemBody();
 	// IsRotFrame check prevents double counting
 	if (body && !frame->IsRotFrame() && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
-		vector3d lpos = frame->GetPositionRelTo(camFrame);
+		vector3d lpos = frame->GetPositionRelTo(camFrame->GetId());
 		const double dist = lpos.Length() / AU;
 		lpos *= 1.0 / dist; // normalize
 
@@ -125,14 +127,15 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 		lights.push_back(Camera::LightSource(frame->GetBody(), light));
 	}
 
-	for (Frame *kid : frame->GetChildren()) {
-		position_system_lights(camFrame, kid, lights);
+	for (FrameId kid : frame->GetChildren()) {
+		Frame *kid_f = Frame::GetFrame(kid);
+		position_system_lights(camFrame, kid_f, lights);
 	}
 }
 
 void Camera::Update()
 {
-	Frame *camFrame = m_context->GetCamFrame();
+	FrameId camFrame = m_context->GetCamFrame();
 
 	// evaluate each body and determine if/where/how to draw it
 	m_sortedBodies.clear();
@@ -143,8 +146,9 @@ void Camera::Update()
 
 		// determine position and transform for draw
 		//		Frame::GetFrameTransform(b->GetFrame(), camFrame, attrs.viewTransform);		// doesn't use interp coords, so breaks in some cases
-		attrs.viewTransform = b->GetFrame()->GetInterpOrientRelTo(camFrame);
-		attrs.viewTransform.SetTranslate(b->GetFrame()->GetInterpPositionRelTo(camFrame));
+		Frame *f = Frame::GetFrame(b->GetFrame());
+		attrs.viewTransform = f->GetInterpOrientRelTo(camFrame);
+		attrs.viewTransform.SetTranslate(f->GetInterpPositionRelTo(camFrame));
 		attrs.viewCoords = attrs.viewTransform * b->GetInterpPosition();
 
 		// cull off-screen objects
@@ -203,18 +207,22 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit *cockpit)
 {
 	PROFILE_SCOPED()
 
-	Frame *camFrame = m_context->GetCamFrame();
+	FrameId camFrameId = m_context->GetCamFrame();
+	FrameId rootFrameId = Pi::game->GetSpace()->GetRootFrame();
+
+	Frame *camFrame = Frame::GetFrame(camFrameId);
+	Frame *rootFrame = Frame::GetFrame(rootFrameId);
 
 	m_renderer->ClearScreen();
 
 	matrix4x4d trans2bg;
-	Frame::GetFrameTransform(Pi::game->GetSpace()->GetRootFrame(), camFrame, trans2bg);
+	Frame::GetFrameTransform(rootFrameId, camFrameId, trans2bg);
 	trans2bg.ClearToRotOnly();
 
 	// Pick up to four suitable system light sources (stars)
 	m_lightSources.clear();
 	m_lightSources.reserve(4);
-	position_system_lights(camFrame, Pi::game->GetSpace()->GetRootFrame(), m_lightSources);
+	position_system_lights(camFrame, rootFrame, m_lightSources);
 
 	if (m_lightSources.empty()) {
 		// no lights means we're somewhere weird (eg hyperspace). fake one
@@ -224,12 +232,13 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit *cockpit)
 
 	//fade space background based on atmosphere thickness and light angle
 	float bgIntensity = 1.f;
-	if (camFrame->GetParent() && camFrame->GetParent()->IsRotFrame()) {
+	Frame *camParent = Frame::GetFrame(camFrame->GetParent());
+	if ( camParent && camParent->IsRotFrame()) {
 		//check if camera is near a planet
-		Body *camParentBody = camFrame->GetParent()->GetBody();
+		Body *camParentBody = camParent->GetBody();
 		if (camParentBody && camParentBody->IsType(Object::PLANET)) {
 			Planet *planet = static_cast<Planet *>(camParentBody);
-			const vector3f relpos(planet->GetInterpPositionRelTo(camFrame));
+			const vector3f relpos(planet->GetInterpPositionRelTo(camFrameId));
 			double altitude(relpos.Length());
 			double pressure, density;
 			planet->GetAtmosphericState(altitude, &pressure, &density);
@@ -279,7 +288,7 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit *cockpit)
 			attrs->body->Render(m_renderer, this, attrs->viewCoords, attrs->viewTransform);
 	}
 
-	SfxManager::RenderAll(m_renderer, Pi::game->GetSpace()->GetRootFrame(), camFrame);
+	SfxManager::RenderAll(m_renderer, rootFrameId, camFrameId);
 
 	// NB: Do any screen space rendering after here:
 	// Things like the cockpit and AR features like hudtrails, space dust etc.
@@ -288,7 +297,7 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit *cockpit)
 	// XXX only here because it needs a frame for lighting calc
 	// should really be in WorldView, immediately after camera draw
 	if (cockpit)
-		cockpit->RenderCockpit(m_renderer, this, camFrame);
+		cockpit->RenderCockpit(m_renderer, this, camFrameId);
 }
 
 void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const

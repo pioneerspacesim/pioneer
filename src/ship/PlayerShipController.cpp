@@ -184,7 +184,7 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 			//			AIMatchVel(vector3d(0.0));			// just in case autopilot doesn't...
 			// actually this breaks last timestep slightly in non-relative target cases
 			m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
-			if (m_ship->GetFrame()->IsRotFrame())
+			if (Frame::GetFrame(m_ship->GetFrame())->IsRotFrame())
 				SetFlightControlState(CONTROL_FIXSPEED);
 			else
 				SetFlightControlState(CONTROL_MANUAL);
@@ -209,7 +209,7 @@ void PlayerShipController::CheckControlsLock()
 vector3d PlayerShipController::GetMouseDir() const
 {
 	// translate from system to local frame
-	return m_mouseDir * m_ship->GetFrame()->GetOrient();
+	return m_mouseDir * Frame::GetFrame(m_ship->GetFrame())->GetOrient();
 }
 
 // mouse wraparound control function
@@ -241,7 +241,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		// have to use this function. SDL mouse position event is bugged in windows
 		if (Pi::input.MouseButtonState(SDL_BUTTON_RIGHT)) {
 			// use ship rotation relative to system, unchanged by frame transitions
-			matrix3x3d rot = m_ship->GetOrientRelTo(m_ship->GetFrame()->GetNonRotFrame());
+			matrix3x3d rot = m_ship->GetOrientRelTo(Frame::GetFrame(m_ship->GetFrame())->GetNonRotFrame());
 			if (!m_mouseActive && !m_disableMouseFacing) {
 				m_mouseDir = -rot.VectorZ();
 				m_mouseX = m_mouseY = 0;

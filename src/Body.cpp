@@ -24,7 +24,7 @@ Body::Body() :
 	m_interpOrient(matrix3x3d::Identity()),
 	m_pos(0.0),
 	m_orient(matrix3x3d::Identity()),
-	m_frame(nullptr),
+	m_frame(noFrameId),
 	m_dead(false),
 	m_clipRadius(0.0),
 	m_physRadius(0.0)
@@ -37,13 +37,13 @@ Body::Body(const Json &jsonObj, Space *space) :
 	m_flags(0),
 	m_interpPos(0.0),
 	m_interpOrient(matrix3x3d::Identity()),
-	m_frame(nullptr)
+	m_frame(noFrameId)
 {
 	try {
 		Json bodyObj = jsonObj["body"];
 
 		Properties().LoadFromJson(bodyObj);
-		m_frame = Frame::FindFrame(bodyObj["index_for_frame"]);
+		m_frame = bodyObj["index_for_frame"];
 		m_label = bodyObj["label"];
 		Properties().Set("label", m_label);
 		m_dead = bodyObj["dead"];
@@ -66,7 +66,7 @@ void Body::SaveToJson(Json &jsonObj, Space *space)
 	Json bodyObj = Json::object(); // Create JSON object to contain body data.
 
 	Properties().SaveToJson(bodyObj);
-	bodyObj["index_for_frame"] = (m_frame != nullptr ? m_frame->GetId() : noFrameId);
+	bodyObj["index_for_frame"] = (m_frame >= 0 ? m_frame : noFrameId);
 	bodyObj["label"] = m_label;
 	bodyObj["dead"] = m_dead;
 
@@ -139,17 +139,21 @@ Body *Body::FromJson(const Json &jsonObj, Space *space)
 	return nullptr;
 }
 
-vector3d Body::GetPositionRelTo(const Frame *relTo) const
+vector3d Body::GetPositionRelTo(FrameId relToId) const
 {
-	vector3d fpos = m_frame->GetPositionRelTo(relTo);
-	matrix3x3d forient = m_frame->GetOrientRelTo(relTo);
+	Frame *frame = Frame::GetFrame(m_frame);
+
+	vector3d fpos = frame->GetPositionRelTo(relToId);
+	matrix3x3d forient = frame->GetOrientRelTo(relToId);
 	return forient * GetPosition() + fpos;
 }
 
-vector3d Body::GetInterpPositionRelTo(const Frame *relTo) const
+vector3d Body::GetInterpPositionRelTo(FrameId relToId) const
 {
-	vector3d fpos = m_frame->GetInterpPositionRelTo(relTo);
-	matrix3x3d forient = m_frame->GetInterpOrientRelTo(relTo);
+	Frame *frame = Frame::GetFrame(m_frame);
+
+	vector3d fpos = frame->GetInterpPositionRelTo(relToId);
+	matrix3x3d forient = frame->GetInterpOrientRelTo(relToId);
 	return forient * GetInterpPosition() + fpos;
 }
 
@@ -163,24 +167,30 @@ vector3d Body::GetInterpPositionRelTo(const Body *relTo) const
 	return GetInterpPositionRelTo(relTo->m_frame) - relTo->GetInterpPosition();
 }
 
-matrix3x3d Body::GetOrientRelTo(const Frame *relTo) const
+matrix3x3d Body::GetOrientRelTo(FrameId relToId) const
 {
-	matrix3x3d forient = m_frame->GetOrientRelTo(relTo);
+	Frame *frame = Frame::GetFrame(m_frame);
+
+	matrix3x3d forient = frame->GetOrientRelTo(relToId);
 	return forient * GetOrient();
 }
 
-matrix3x3d Body::GetInterpOrientRelTo(const Frame *relTo) const
+matrix3x3d Body::GetInterpOrientRelTo(FrameId relToId) const
 {
-	matrix3x3d forient = m_frame->GetInterpOrientRelTo(relTo);
+	Frame *frame = Frame::GetFrame(m_frame);
+
+	matrix3x3d forient = frame->GetInterpOrientRelTo(relToId);
 	return forient * GetInterpOrient();
 }
 
-vector3d Body::GetVelocityRelTo(const Frame *relTo) const
+vector3d Body::GetVelocityRelTo(FrameId relToId) const
 {
-	matrix3x3d forient = m_frame->GetOrientRelTo(relTo);
+	Frame *frame = Frame::GetFrame(m_frame);
+
+	matrix3x3d forient = frame->GetOrientRelTo(relToId);
 	vector3d vel = GetVelocity();
-	if (m_frame != relTo) vel -= m_frame->GetStasisVelocity(GetPosition());
-	return forient * vel + m_frame->GetVelocityRelTo(relTo);
+	if (m_frame != relToId) vel -= frame->GetStasisVelocity(GetPosition());
+	return forient * vel + frame->GetVelocityRelTo(relToId);
 }
 
 vector3d Body::GetVelocityRelTo(const Body *relTo) const
@@ -197,15 +207,18 @@ void Body::OrientOnSurface(double radius, double latitude, double longitude)
 	SetOrient(matrix3x3d::FromVectors(right, up));
 }
 
-void Body::SwitchToFrame(Frame *newFrame)
+void Body::SwitchToFrame(FrameId newFrameId)
 {
-	const vector3d vel = GetVelocityRelTo(newFrame); // do this first because it uses position
-	const vector3d fpos = m_frame->GetPositionRelTo(newFrame);
-	const matrix3x3d forient = m_frame->GetOrientRelTo(newFrame);
+	const Frame *newFrame = Frame::GetFrame(newFrameId);
+	const Frame *frame = Frame::GetFrame(m_frame);
+
+	const vector3d vel = GetVelocityRelTo(newFrameId); // do this first because it uses position
+	const vector3d fpos = frame->GetPositionRelTo(newFrameId);
+	const matrix3x3d forient = frame->GetOrientRelTo(newFrameId);
 	SetPosition(forient * GetPosition() + fpos);
 	SetOrient(forient * GetOrient());
 	SetVelocity(vel + newFrame->GetStasisVelocity(GetPosition()));
-	SetFrame(newFrame);
+	SetFrame(newFrameId);
 
 	LuaEvent::Queue("onFrameChanged", this);
 }
@@ -214,29 +227,33 @@ void Body::UpdateFrame()
 {
 	if (!(m_flags & FLAG_CAN_MOVE_FRAME)) return;
 
+	const Frame *frame = Frame::GetFrame(m_frame);
+
 	// falling out of frames
-	if (m_frame->GetRadius() < GetPosition().Length()) {
-		Frame *newFrame = GetFrame()->GetParent();
+	if (frame->GetRadius() < GetPosition().Length()) {
+		FrameId parent = frame->GetParent();
+		Frame *newFrame = Frame::GetFrame(parent);
 		if (newFrame) { // don't fall out of root frame
-			Output("%s leaves frame %s\n", GetLabel().c_str(), GetFrame()->GetLabel().c_str());
-			SwitchToFrame(newFrame);
+			Output("%s leaves frame %s\n", GetLabel().c_str(), frame->GetLabel().c_str());
+			SwitchToFrame(parent);
 			return;
 		}
 	}
 
 	// entering into frames
-	for (Frame *kid : m_frame->GetChildren()) {
+	for (FrameId kid : frame->GetChildren()) {
+		Frame *kid_frame = Frame::GetFrame(kid);
 		const vector3d pos = GetPositionRelTo(kid);
-		if (pos.Length() >= kid->GetRadius()) continue;
+		if (pos.Length() >= kid_frame->GetRadius()) continue;
 		SwitchToFrame(kid);
-		Output("%s enters frame %s\n", GetLabel().c_str(), kid->GetLabel().c_str());
+		Output("%s enters frame %s\n", GetLabel().c_str(), kid_frame->GetLabel().c_str());
 		break;
 	}
 }
 
-vector3d Body::GetTargetIndicatorPosition(const Frame *relTo) const
+vector3d Body::GetTargetIndicatorPosition(FrameId relToId) const
 {
-	return GetInterpPositionRelTo(relTo);
+	return GetInterpPositionRelTo(relToId);
 }
 
 void Body::SetLabel(const std::string &label)

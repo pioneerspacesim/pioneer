@@ -8,10 +8,10 @@
 #include "JsonFwd.h"
 
 #include "DynamicBody.h"
+#include "FrameId.h"
 #include "FixedGuns.h"
 #include "ship/Propulsion.h"
 
-class Frame;
 class Ship;
 class Space;
 class SpaceStation;
@@ -119,7 +119,7 @@ private:
 class AICmdFlyTo : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdFlyTo(DynamicBody *dBody, Frame *targframe, const vector3d &posoff, double endvel, bool tangent);
+	AICmdFlyTo(DynamicBody *dBody, FrameId targframeId, const vector3d &posoff, double endvel, bool tangent);
 	AICmdFlyTo(DynamicBody *dBody, Body *target);
 
 	virtual void GetStatusText(char *str);
@@ -132,16 +132,16 @@ public:
 private:
 	Body *m_target; // target for vicinity. Either this or targframe is 0
 	double m_dist; // vicinity distance
-	Frame *m_targframe; // target frame for waypoint
+	FrameId m_targframeId; // target frame for waypoint
 	vector3d m_posoff; // offset in target frame
 	double m_endvel; // target speed in direction of motion at end of path, positive only
 	bool m_tangent; // true if path is to a tangent of the target frame's body
 	int m_state;
 
 	bool m_lockhead;
-	int m_targetIndex, m_targframeIndex; // used during deserialisation
+	int m_targetIndex; // used during deserialisation
 	vector3d m_reldir; // target direction relative to ship at last frame change
-	Frame *m_frame; // last frame of ship
+	FrameId m_frameId; // last frame of ship
 };
 
 class AICmdFlyAround : public AICommand {

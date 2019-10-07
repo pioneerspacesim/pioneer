@@ -30,22 +30,22 @@ class Frame {
 public:
 
 	Frame() = delete;
-	Frame(const Dummy &d, Frame *parent, const char *label, unsigned int flags = FLAG_DEFAULT, double radius = 0.0);
+	Frame(const Dummy &d, FrameId parent, const char *label, unsigned int flags = FLAG_DEFAULT, double radius = 0.0);
 	~Frame();
 
 	enum { FLAG_DEFAULT = (0),
 		FLAG_ROTATING = (1 << 1),
 		FLAG_HAS_ROT = (1 << 2) };
 
-	static Frame *CreateFrame(Frame *parent, const char *label, unsigned int flags = FLAG_DEFAULT, double radius = 0.0);
-	static Frame *FromJson(const Json &jsonObj, Space *space, Frame *parent, double at_time);
+	static FrameId CreateFrame(FrameId parent, const char *label, unsigned int flags = FLAG_DEFAULT, double radius = 0.0);
+	static FrameId FromJson(const Json &jsonObj, Space *space, FrameId parent, double at_time);
 
-	static void ToJson(Json &jsonObj, Frame *f, Space *space);
-	static void PostUnserializeFixup(Frame *f, Space *space);
+	static void ToJson(Json &jsonObj, FrameId fId, Space *space);
+	static void PostUnserializeFixup(FrameId fId, Space *space);
 
-	static void DeleteFrame(Frame *tobedeleted);
+	static void DeleteFrame(FrameId tobedeleted);
 
-	static Frame *FindFrame(FrameId FId);
+	static Frame *GetFrame(FrameId FId);
 
 	FrameId GetId() const {return m_thisId; }
 
@@ -67,11 +67,9 @@ public:
 	bool IsRotFrame() const { return m_flags & FLAG_ROTATING; }
 	bool HasRotFrame() const { return m_flags & FLAG_HAS_ROT; }
 
-	Frame *GetParent() const { return m_parent; }
-	const Frame *GetNonRotFrame() const { return IsRotFrame() ? m_parent : this; }
-	Frame *GetNonRotFrame() { return IsRotFrame() ? m_parent : this; }
-	const Frame *GetRotFrame() const { return HasRotFrame() ? m_children.front() : this; }
-	Frame *GetRotFrame() { return HasRotFrame() ? m_children.front() : this; }
+	FrameId GetParent() const { return m_parent; }
+	FrameId GetNonRotFrame() { return IsRotFrame() ? m_parent : m_thisId; }
+	FrameId GetRotFrame() { return HasRotFrame() ? m_children.front() : m_thisId; }
 
 	void SetBodies(SystemBody *s, Body *b)
 	{
@@ -81,12 +79,12 @@ public:
 	SystemBody *GetSystemBody() const { return m_sbody; }
 	Body *GetBody() const { return m_astroBody; }
 
-	void AddChild(Frame *f) { m_children.push_back(f); }
-	void RemoveChild(Frame *f);
+	void AddChild(FrameId fId) { m_children.push_back(fId); }
+	void RemoveChild(FrameId fId);
 	bool HasChildren() const { return !m_children.empty(); }
 	unsigned GetNumChildren() const { return static_cast<Uint32>(m_children.size()); }
-	IterationProxy<std::vector<Frame *>> GetChildren() { return MakeIterationProxy(m_children); }
-	const IterationProxy<const std::vector<Frame *>> GetChildren() const { return MakeIterationProxy(m_children); }
+	IterationProxy<std::vector<FrameId>> GetChildren() { return MakeIterationProxy(m_children); }
+	const IterationProxy<const std::vector<FrameId>> GetChildren() const { return MakeIterationProxy(m_children); }
 
 	void AddGeom(Geom *);
 	void RemoveGeom(Geom *);
@@ -104,16 +102,16 @@ public:
 	// must attain this velocity within rotating frame to be stationary.
 	vector3d GetStasisVelocity(const vector3d &pos) const { return -vector3d(0, m_angSpeed, 0).Cross(pos); }
 
-	vector3d GetPositionRelTo(const Frame *relTo) const;
-	vector3d GetVelocityRelTo(const Frame *relTo) const;
-	matrix3x3d GetOrientRelTo(const Frame *relTo) const;
+	vector3d GetPositionRelTo(FrameId relTo) const;
+	vector3d GetVelocityRelTo(FrameId relTo) const;
+	matrix3x3d GetOrientRelTo(FrameId relTo) const;
 
 	// Same as above except it does interpolation between
 	// physics ticks so rendering is smooth above physics hz
-	vector3d GetInterpPositionRelTo(const Frame *relTo) const;
-	matrix3x3d GetInterpOrientRelTo(const Frame *relTo) const;
+	vector3d GetInterpPositionRelTo(FrameId relTo) const;
+	matrix3x3d GetInterpOrientRelTo(FrameId relTo) const;
 
-	static void GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m);
+	static void GetFrameTransform(FrameId fFrom, FrameId fTo, matrix4x4d &m);
 
 	std::unique_ptr<SfxManager> m_sfx; // the last survivor. actually m_children is pretty grim too.
 
@@ -122,8 +120,8 @@ private:
 
 	void UpdateRootRelativeVars();
 
-	Frame *m_parent; // if parent is null then frame position is absolute
-	std::vector<Frame *> m_children; // child frames, first may be rotating
+	FrameId m_parent; // if parent is null then frame position is absolute
+	std::vector<FrameId> m_children; // child frames, first may be rotating
 	SystemBody *m_sbody; // points to SBodies in Pi::current_system
 	Body *m_astroBody; // if frame contains a star or planet or something
 

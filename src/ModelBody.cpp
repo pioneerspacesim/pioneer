@@ -92,7 +92,7 @@ ModelBody::ModelBody(const Json &jsonObj, Space *space) :
 
 ModelBody::~ModelBody()
 {
-	SetFrame(0); // Will remove geom from frame if necessary.
+	SetFrame(noFrameId); // Will remove geom from frame if necessary.
 	DeleteGeoms();
 
 	//delete instanced model
@@ -120,12 +120,13 @@ void ModelBody::SetStatic(bool isStatic)
 	m_isStatic = isStatic;
 	if (!m_geom) return;
 
+	Frame *f = Frame::GetFrame(GetFrame());
 	if (m_isStatic) {
-		GetFrame()->RemoveGeom(m_geom);
-		GetFrame()->AddStaticGeom(m_geom);
+		f->RemoveGeom(m_geom);
+		f->AddStaticGeom(m_geom);
 	} else {
-		GetFrame()->RemoveStaticGeom(m_geom);
-		GetFrame()->AddGeom(m_geom);
+		f->RemoveStaticGeom(m_geom);
+		f->AddGeom(m_geom);
 	}
 }
 
@@ -140,8 +141,9 @@ void ModelBody::SetColliding(bool colliding)
 
 void ModelBody::RebuildCollisionMesh()
 {
+	Frame *f = Frame::GetFrame(GetFrame());
 	if (m_geom) {
-		if (GetFrame()) RemoveGeomsFromFrame(GetFrame());
+		if (f) RemoveGeomsFromFrame(f);
 		DeleteGeoms();
 	}
 
@@ -167,7 +169,7 @@ void ModelBody::RebuildCollisionMesh()
 		m_dynGeoms.push_back(dynG);
 	}
 
-	if (GetFrame()) AddGeomsToFrame(GetFrame());
+	if (f) AddGeomsToFrame(f);
 }
 
 void ModelBody::SetModel(const char *modelName)
@@ -193,9 +195,6 @@ void ModelBody::SetPosition(const vector3d &p)
 {
 	Body::SetPosition(p);
 	MoveGeoms(GetOrient(), p);
-
-	// for rebuild of static objects in collision space
-	if (m_isStatic) SetFrame(GetFrame());
 }
 
 void ModelBody::SetOrient(const matrix3x3d &m)
@@ -205,16 +204,18 @@ void ModelBody::SetOrient(const matrix3x3d &m)
 	MoveGeoms(m2, GetPosition());
 }
 
-void ModelBody::SetFrame(Frame *f)
+void ModelBody::SetFrame(FrameId fId)
 {
-	if (f == GetFrame()) return;
+	if (fId == GetFrame()) return;
 
 	//remove collision geoms from old frame
-	if (GetFrame()) RemoveGeomsFromFrame(GetFrame());
+	Frame *f = Frame::GetFrame(GetFrame());
+	if (f) RemoveGeomsFromFrame(f);
 
-	Body::SetFrame(f);
+	Body::SetFrame(fId);
 
 	//add collision geoms to new frame
+	f = Frame::GetFrame(GetFrame());
 	if (f) AddGeomsToFrame(f);
 }
 
@@ -247,14 +248,16 @@ void ModelBody::AddGeomsToFrame(Frame *f)
 
 void ModelBody::RemoveGeomsFromFrame(Frame *f)
 {
+	if (f == nullptr) return;
+
 	if (m_isStatic) {
-		GetFrame()->RemoveStaticGeom(m_geom);
+		f->RemoveStaticGeom(m_geom);
 	} else {
-		GetFrame()->RemoveGeom(m_geom);
+		f->RemoveGeom(m_geom);
 	}
 
 	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
-		GetFrame()->RemoveGeom(*it);
+		f->RemoveGeom(*it);
 }
 
 void ModelBody::MoveGeoms(const matrix4x4d &m, const vector3d &p)
@@ -296,7 +299,7 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 	const double minAmbient = 0.05;
 	ambient = minAmbient;
 	direct = 1.0;
-	Body *astro = GetFrame()->GetBody();
+	Body *astro = Frame::GetFrame(GetFrame())->GetBody();
 	if (!(astro && astro->IsType(Object::PLANET)))
 		return;
 

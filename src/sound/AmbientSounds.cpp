@@ -131,7 +131,7 @@ void AmbientSounds::Update()
 
 		// lets try something random for the time being
 		if (!s_planetSurfaceNoise.IsPlaying()) {
-			const SystemBody *sbody = Pi::player->GetFrame()->GetSystemBody();
+			const SystemBody *sbody = Frame::GetFrame(Pi::player->GetFrame())->GetSystemBody();
 			assert(sbody);
 			const char *sample = 0;
 
@@ -149,8 +149,9 @@ void AmbientSounds::Update()
 		}
 	} else if (s_planetSurfaceNoise.IsPlaying()) {
 		// s_planetSurfaceNoise.IsPlaying() - if we are out of the atmosphere then stop playing
-		if (Pi::player->GetFrame()->IsRotFrame()) {
-			const Body *astro = Pi::player->GetFrame()->GetBody();
+		Frame *playerFrame = Frame::GetFrame(Pi::player->GetFrame());
+		if (playerFrame->IsRotFrame()) {
+			const Body *astro = playerFrame->GetBody();
 			if (astro->IsType(Object::PLANET)) {
 				const double dist = Pi::player->GetPosition().Length();
 				double pressure, density;
@@ -187,7 +188,7 @@ void AmbientSounds::Update()
 		}
 		// when all the sounds are in we can use the body we are in frame of reference to
 		if (!s_starNoise.IsPlaying()) {
-			Frame *f = Pi::player->GetFrame();
+			Frame *f = Frame::GetFrame(Pi::player->GetFrame());
 			if (!f) return; // When player has no frame (game abort) then get outta here!!
 			const SystemBody *sbody = f->GetSystemBody();
 			const char *sample = 0;
@@ -220,14 +221,16 @@ void AmbientSounds::Update()
 					s_starNoise.VolumeAnimate(.3f * v_env, .3f * v_env, .05f, .05f);
 				} else {
 					// go up orbital hierarchy tree to see if we can find a sound
-					f = f->GetParent();
-					if (f == 0) break;
+					FrameId parent = f->GetParent();
+					f = Frame::GetFrame(parent);
+					if (f == nullptr) break;
 				}
 			}
 		}
 
-		const Body *astro = Pi::player->GetFrame()->GetBody();
-		if (astro && Pi::player->GetFrame()->IsRotFrame() && (astro->IsType(Object::PLANET))) {
+		Frame *playerFrame = Frame::GetFrame(Pi::player->GetFrame());
+		const Body *astro = playerFrame->GetBody();
+		if (astro && playerFrame->IsRotFrame() != noFrameId && (astro->IsType(Object::PLANET))) {
 			double dist = Pi::player->GetPosition().Length();
 			double pressure, density;
 			static_cast<const Planet *>(astro)->GetAtmosphericState(dist, &pressure, &density);

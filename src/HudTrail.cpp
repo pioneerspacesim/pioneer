@@ -4,6 +4,7 @@
 #include "HudTrail.h"
 
 #include "Body.h"
+#include "Frame.h"
 #include "Pi.h"
 #include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
@@ -31,14 +32,15 @@ void HudTrail::Update(float time)
 	m_updateTime += time;
 	if (m_updateTime > UPDATE_INTERVAL) {
 		m_updateTime = 0.f;
-		const Frame *bodyFrame = m_body->GetFrame();
+		FrameId bodyFrameId = m_body->GetFrame();
+		const Frame *bodyFrame = Frame::GetFrame(bodyFrameId);
 
-		if (!m_currentFrame) {
-			m_currentFrame = bodyFrame;
+		if (m_currentFrame < 0) {
+			m_currentFrame = bodyFrameId;
 			m_trailPoints.clear();
 		}
 
-		if (bodyFrame == m_currentFrame)
+		if (bodyFrameId == m_currentFrame)
 			m_trailPoints.push_back(m_body->GetInterpPosition());
 	}
 
@@ -82,7 +84,7 @@ void HudTrail::Render(Graphics::Renderer *r)
 	}
 }
 
-void HudTrail::Reset(const Frame *newFrame)
+void HudTrail::Reset(FrameId newFrame)
 {
 	m_currentFrame = newFrame;
 	m_trailPoints.clear();

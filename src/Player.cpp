@@ -306,9 +306,9 @@ int Player::GetManeuverTime() const
 
 vector3d Player::GetManeuverVelocity() const
 {
-	const Frame *frame = GetFrame();
+	Frame *frame = Frame::GetFrame(GetFrame());
 	if (frame->IsRotFrame())
-		frame = frame->GetNonRotFrame();
+		frame = Frame::GetFrame(frame->GetNonRotFrame());
 	const SystemBody *systemBody = frame->GetSystemBody();
 
 	if (Pi::planner->GetOffsetVel().ExactlyEqual(vector3d(0, 0, 0))) {
