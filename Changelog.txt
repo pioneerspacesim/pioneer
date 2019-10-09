@@ -1,3 +1,11 @@
+October 2019
+   * Fixes
+     * Fix for medical emergency mission (#4682)
+
+   * Internal Changes
+     * cmake: Don't install .gitignore files (#4683)
+     * travis: Install libsigc++@2 instead of libsigc++ (#4694)
+
 September 2019
    * New Features
      * Move lobby, commodity- & equipment market to pigui (#4663)
