@@ -20,7 +20,7 @@ addons:
       - freetype
       - freeimage
       - glew
-      - libsigc++
+      - libsigc++@2
       - libvorbis
       - libpng
       - assimp
