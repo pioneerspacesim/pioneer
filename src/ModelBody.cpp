@@ -222,7 +222,7 @@ void ModelBody::SetFrame(FrameId fId)
 void ModelBody::DeleteGeoms()
 {
 	delete m_geom;
-	m_geom = 0;
+	m_geom = nullptr;
 	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
 		delete *it;
 	m_dynGeoms.clear();

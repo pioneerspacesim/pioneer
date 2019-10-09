@@ -185,9 +185,9 @@ void ShipCockpit::RenderCockpit(Graphics::Renderer *renderer, const Camera *came
 {
 	PROFILE_SCOPED()
 	renderer->ClearDepthBuffer();
-	SetFrame(frameId);
+	Body::SetFrame(frameId);
 	Render(renderer, camera, m_translate, m_transform);
-	SetFrame(noFrameId);
+	Body::SetFrame(noFrameId);
 }
 
 void ShipCockpit::OnActivated(const Player *player)

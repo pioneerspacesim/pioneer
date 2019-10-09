@@ -21,6 +21,8 @@ class SystemBody;
 class SfxManager;
 class Space;
 
+struct CollisionContact;
+
 // Frame of reference.
 
 class Frame {
@@ -31,6 +33,14 @@ public:
 
 	Frame() = delete;
 	Frame(const Dummy &d, FrameId parent, const char *label, unsigned int flags = FLAG_DEFAULT, double radius = 0.0);
+	// Used *only* for Camera frame:
+	// it doesn't set up CollisionSpace, and use default values for label, flags and radius
+	Frame(const Dummy &d, FrameId parent);
+
+	Frame(const Frame &) = delete;
+	Frame(Frame &&) noexcept;
+	Frame &operator=(Frame && );
+
 	~Frame();
 
 	enum { FLAG_DEFAULT = (0),
@@ -40,10 +50,14 @@ public:
 	static FrameId CreateFrame(FrameId parent, const char *label, unsigned int flags = FLAG_DEFAULT, double radius = 0.0);
 	static FrameId FromJson(const Json &jsonObj, Space *space, FrameId parent, double at_time);
 
+	// Used to speed up creation/deletion of Frame for camera
+	static FrameId CreateCameraFrame(FrameId parent);
+	static void DeleteCameraFrame(FrameId camera);
+
 	static void ToJson(Json &jsonObj, FrameId fId, Space *space);
 	static void PostUnserializeFixup(FrameId fId, Space *space);
 
-	static void DeleteFrame(FrameId tobedeleted);
+	static void DeleteFrames();
 
 	static Frame *GetFrame(FrameId FId);
 
@@ -92,9 +106,10 @@ public:
 	void RemoveStaticGeom(Geom *);
 	// TODO: Should be a Planet or there's a needs for a Body?
 	void SetPlanetGeom(double radius, Body *);
-	CollisionSpace *GetCollisionSpace() const { return m_collisionSpace; }
+	CollisionSpace *GetCollisionSpace() const;
 
-	void UpdateOrbitRails(double time, double timestep);
+	static void UpdateOrbitRails(double time, double timestep);
+	static void CollideFrames(void (*callback)(CollisionContact *));
 	void UpdateInterpTransform(double alpha);
 	void ClearMovement();
 
@@ -138,7 +153,7 @@ private:
 	std::string m_label;
 	double m_radius;
 	int m_flags;
-	CollisionSpace *m_collisionSpace;
+	int m_collisionSpace;
 
 	vector3d m_rootVel; // velocity, position and orient relative to root frame
 	vector3d m_rootPos; // updated by UpdateOrbitRails
@@ -148,7 +163,8 @@ private:
 
 	int m_astroBodyIndex; // deserialisation
 
-	static std::list<Frame> s_frames;
+	static std::vector<Frame> s_frames;
+	static std::vector<CollisionSpace> s_collisionSpaces;
 
 	// A trick in order to avoid a direct call of ctor or dtor: use factory methods instead
 	struct Dummy {

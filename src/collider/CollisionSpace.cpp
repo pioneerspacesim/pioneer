@@ -211,8 +211,8 @@ CollisionSpace::CollisionSpace()
 	PROFILE_SCOPED()
 	sphere.radius = 0;
 	m_needStaticGeomRebuild = true;
-	m_staticObjectTree = 0;
-	m_dynamicObjectTree = 0;
+	m_staticObjectTree = nullptr;
+	m_dynamicObjectTree = nullptr;
 }
 
 CollisionSpace::~CollisionSpace()

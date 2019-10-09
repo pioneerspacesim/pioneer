@@ -39,7 +39,7 @@ public:
 		sphere.userData = user_data;
 	}
 	void FlagRebuildObjectTrees() { m_needStaticGeomRebuild = true; }
-	void RebuildObjectTrees();
+	inline void RebuildObjectTrees();
 
 	// Geoms with the same handle will not be collision tested against each other
 	// should be used for geoms that are part of the same body

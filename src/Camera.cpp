@@ -48,7 +48,7 @@ void CameraContext::BeginFrame()
 	assert(!IsIdValid(m_camFrame));
 
 	// make temporary camera frame
-	m_camFrame = Frame::CreateFrame(m_frame, "camera", Frame::FLAG_ROTATING, 0.0);
+	m_camFrame = Frame::CreateCameraFrame(m_frame);
 
 	Frame *camFrame = Frame::GetFrame(m_camFrame);
 	// move and orient it to the camera position
@@ -65,9 +65,8 @@ void CameraContext::EndFrame()
 	assert(IsIdValid(m_frame));
 	assert(IsIdValid(m_camFrame));
 
-	Frame *frame = Frame::GetFrame(m_frame);
-	frame->RemoveChild(m_camFrame);
-	Frame::DeleteFrame(m_camFrame);
+	Frame::DeleteCameraFrame(m_camFrame);
+
 	m_camFrame = noFrameId;
 }
 

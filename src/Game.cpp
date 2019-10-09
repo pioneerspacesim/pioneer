@@ -457,6 +457,7 @@ void Game::SwitchToHyperspace()
 	m_space->RemoveBody(m_player.get());
 
 	// create hyperspace :)
+	m_space.reset(); // HACK: Here because next line will create Frames *before* deleting existing ones
 	m_space.reset(new Space(this, m_galaxy, m_space.get()));
 
 	m_space->GetBackground()->SetDrawFlags(Background::Container::DRAW_STARS);
@@ -493,6 +494,7 @@ void Game::SwitchToNormalSpace()
 	m_space->RemoveBody(m_player.get());
 
 	// create a new space for the system
+	m_space.reset(); // HACK: Here because next line will create Frames *before* deleting existing ones
 	m_space.reset(new Space(this, m_galaxy, m_hyperspaceDest, m_space.get()));
 
 	// put the player in it
@@ -818,7 +820,7 @@ Game::Views::~Views()
 // manage creation and destruction here to get the timing and order right
 void Game::CreateViews()
 {
-	Pi::SetView(0);
+	Pi::SetView(nullptr);
 
 	// XXX views expect Pi::game and Pi::player to exist
 	Pi::game = this;
@@ -833,7 +835,7 @@ void Game::CreateViews()
 // XXX mostly a copy of CreateViews
 void Game::LoadViewsFromJson(const Json &jsonObj)
 {
-	Pi::SetView(0);
+	Pi::SetView(nullptr);
 
 	// XXX views expect Pi::game and Pi::player to exist
 	Pi::game = this;
@@ -847,7 +849,7 @@ void Game::LoadViewsFromJson(const Json &jsonObj)
 
 void Game::DestroyViews()
 {
-	Pi::SetView(0);
+	Pi::SetView(nullptr);
 
 	m_gameViews.reset();
 
