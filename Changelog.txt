@@ -5,6 +5,7 @@ October 2019
    * Internal Changes
      * cmake: Don't install .gitignore files (#4683)
      * travis: Install libsigc++@2 instead of libsigc++ (#4694)
+     * Use AudioDevices instead of legacy SDL 1.2 code (#4692)
 
 September 2019
    * New Features
