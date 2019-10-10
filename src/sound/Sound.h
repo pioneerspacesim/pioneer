@@ -7,6 +7,7 @@
 #include <SDL.h>
 #include <map>
 #include <string>
+#include <vector>
 
 class Body;
 
@@ -57,8 +58,11 @@ namespace Sound {
 	};
 	typedef Uint32 eventid;
 
-	bool Init();
+	bool Init(bool automaticallyOpenDevice = true);
+	bool InitDevice(std::string &name);
 	void Uninit();
+	std::vector<std::string> &GetAudioDevices();
+	void UpdateAudioDevices();
 	/**
 	 * Silence all active sound events.
 	 */

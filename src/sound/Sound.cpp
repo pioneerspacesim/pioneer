@@ -10,11 +10,13 @@
 #include "FileSystem.h"
 #include "Pi.h"
 #include "Player.h"
+#include "SDL_audio.h"
+#include "SDL_events.h"
 #include <SDL.h>
-#include <assert.h>
-#include <stdio.h>
 #include <vorbis/vorbisfile.h>
+#include <cassert>
 #include <cerrno>
+#include <cstdio>
 #include <string>
 #include <vector>
 
@@ -24,6 +26,8 @@ namespace Sound {
 	static const unsigned int BUF_SIZE = 4096;
 	static const unsigned int MAX_WAVSTREAMS = 10; //first two are for music
 	static const double STREAM_IF_LONGER_THAN = 10.0;
+
+	static SDL_AudioDeviceID m_audioDevice = 0;
 
 	class OggFileDataStream {
 	public:
@@ -211,13 +215,13 @@ namespace Sound {
 	{
 		if (id == 0) return false;
 		bool ret = false;
-		SDL_LockAudio();
+		SDL_LockAudioDevice(m_audioDevice);
 		SoundEvent *se = GetEvent(id);
 		if (se) {
 			se->op = op;
 			ret = true;
 		}
-		SDL_UnlockAudio();
+		SDL_UnlockAudioDevice(m_audioDevice);
 		return ret;
 	}
 
@@ -239,7 +243,7 @@ namespace Sound {
 	static Uint32 identifier = 1;
 	eventid PlaySfx(const char *fx, const float volume_left, const float volume_right, const Op op)
 	{
-		SDL_LockAudio();
+		SDL_LockAudioDevice(m_audioDevice);
 		unsigned int idx;
 		Uint32 age;
 		/* find free wavstream (first two reserved for music) */
@@ -268,7 +272,7 @@ namespace Sound {
 		wavstream[idx].targetVolume[0] = volume_left * GetSfxVolume();
 		wavstream[idx].targetVolume[1] = volume_right * GetSfxVolume();
 		wavstream[idx].rateOfChange[0] = wavstream[idx].rateOfChange[1] = 0.0f;
-		SDL_UnlockAudio();
+		SDL_UnlockAudioDevice(m_audioDevice);
 		return identifier++;
 	}
 
@@ -279,7 +283,7 @@ namespace Sound {
 	{
 		const int idx = nextMusicStream;
 		nextMusicStream ^= 1;
-		SDL_LockAudio();
+		SDL_LockAudioDevice(m_audioDevice);
 		if (wavstream[idx].sample)
 			DestroyEvent(&wavstream[idx]);
 		wavstream[idx].sample = GetSample(fx);
@@ -292,7 +296,7 @@ namespace Sound {
 		wavstream[idx].targetVolume[0] = volume_left; //already scaled in MusicPlayer
 		wavstream[idx].targetVolume[1] = volume_right;
 		wavstream[idx].rateOfChange[0] = wavstream[idx].rateOfChange[1] = 0.0f;
-		SDL_UnlockAudio();
+		SDL_UnlockAudioDevice(m_audioDevice);
 		return identifier++;
 	}
 
@@ -457,11 +461,11 @@ namespace Sound {
 	void DestroyAllEvents()
 	{
 		/* silence any sound events */
-		SDL_LockAudio();
+		SDL_LockAudioDevice(m_audioDevice);
 		for (unsigned int idx = 0; idx < MAX_WAVSTREAMS; idx++) {
 			DestroyEvent(&wavstream[idx]);
 		}
-		SDL_UnlockAudio();
+		SDL_UnlockAudioDevice(m_audioDevice);
 	}
 
 	static void load_sound(const std::string &basename, const std::string &path, bool is_music)
@@ -530,44 +534,55 @@ namespace Sound {
 		ov_clear(&oggv);
 	}
 
-	bool Init()
+	std::vector<std::string> audioDeviceNames = {};
+
+	bool Init(bool automaticallyOpenDevice)
 	{
-		static bool isInitted = false;
+		if (m_audioDevice) {
+			DestroyAllEvents();
+			return true;
+		}
 
-		if (!isInitted) {
-			isInitted = true;
-			SDL_AudioSpec wanted;
+		if (SDL_Init(SDL_INIT_AUDIO) == -1) {
+			Output("Count not initialise SDL: %s.\n", SDL_GetError());
+			return false;
+		}
 
-			if (SDL_Init(SDL_INIT_AUDIO) == -1) {
-				Output("Count not initialise SDL: %s.\n", SDL_GetError());
-				return false;
-			}
+		// load all the wretched effects
+		for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "sounds", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
+			const FileSystem::FileInfo &info = files.Current();
+			assert(info.IsFile());
+			load_sound(info.GetName(), info.GetPath(), false);
+		}
 
-			wanted.freq = FREQ;
-			wanted.channels = 2;
-			wanted.format = AUDIO_S16;
-			wanted.samples = BUF_SIZE;
-			wanted.callback = fill_audio;
-			wanted.userdata = 0;
+		//I'd rather do this in MusicPlayer and store in a different map too, this will do for now
+		for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "music", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
+			const FileSystem::FileInfo &info = files.Current();
+			assert(info.IsFile());
+			load_sound(info.GetName(), info.GetPath(), true);
+		}
 
-			if (SDL_OpenAudio(&wanted, 0) < 0) {
-				Output("Could not open audio: %s\n", SDL_GetError());
-				return false;
-			}
+		UpdateAudioDevices();
 
-			// load all the wretched effects
-			for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "sounds", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
-				const FileSystem::FileInfo &info = files.Current();
-				assert(info.IsFile());
-				load_sound(info.GetName(), info.GetPath(), false);
-			}
+		// If we're going to manually pick a device later, don't open a default one now.
+		if (!automaticallyOpenDevice) {
+			return true;
+		}
 
-			//I'd rather do this in MusicPlayer and store in a different map too, this will do for now
-			for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "music", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
-				const FileSystem::FileInfo &info = files.Current();
-				assert(info.IsFile());
-				load_sound(info.GetName(), info.GetPath(), true);
-			}
+		SDL_AudioSpec wanted;
+		wanted.freq = FREQ;
+		wanted.channels = 2;
+		wanted.format = AUDIO_S16;
+		wanted.samples = BUF_SIZE;
+		wanted.callback = fill_audio;
+		wanted.userdata = 0;
+
+		// Automatically pick the best device.
+		// TODO: allow the user to select which device they'd like to use.
+		m_audioDevice = SDL_OpenAudioDevice(nullptr, 0, &wanted, nullptr, 0);
+		if (!m_audioDevice) {
+			Output("Could not open audio device: %s\n", SDL_GetError());
+			return false;
 		}
 
 		/* silence any sound events */
@@ -576,18 +591,58 @@ namespace Sound {
 		return true;
 	}
 
+	bool InitDevice(std::string &name)
+	{
+		if (m_audioDevice) {
+			DestroyAllEvents();
+			SDL_PauseAudioDevice(m_audioDevice, 1);
+			SDL_CloseAudioDevice(m_audioDevice);
+			m_audioDevice = 0;
+		}
+
+		SDL_AudioSpec wanted = {};
+		wanted.freq = FREQ;
+		wanted.channels = 2;
+		wanted.format = AUDIO_S16;
+		wanted.samples = BUF_SIZE;
+		wanted.callback = fill_audio;
+		wanted.userdata = 0;
+
+		m_audioDevice = SDL_OpenAudioDevice(name.c_str(), 0, &wanted, nullptr, 0);
+		if (!m_audioDevice) {
+			Output("Could not open audio device: %s\n", SDL_GetError());
+			return false;
+		}
+
+		DestroyAllEvents();
+		return true;
+	}
+
 	void Uninit()
 	{
+		if (!m_audioDevice)
+			return;
+
 		DestroyAllEvents();
 		std::map<std::string, Sample>::iterator i;
 		for (i = sfx_samples.begin(); i != sfx_samples.end(); ++i)
 			delete[](*i).second.buf;
-		SDL_CloseAudio();
+		SDL_CloseAudioDevice(m_audioDevice);
+		m_audioDevice = 0;
+	}
+
+	void UpdateAudioDevices()
+	{
+		audioDeviceNames.clear();
+		for (size_t idx = 0; idx < SDL_GetNumAudioDevices(0); idx++) {
+			const char *name = SDL_GetAudioDeviceName(idx, 0);
+			audioDeviceNames.emplace_back(name);
+		}
 	}
 
 	void Pause(int on)
 	{
-		SDL_PauseAudio(on);
+		SDL_PauseAudioDevice(m_audioDevice, on);
 	}
 
 	void Event::Play(const char *fx, float volume_left, float volume_right, Op op)
@@ -599,12 +654,12 @@ namespace Sound {
 	bool Event::Stop()
 	{
 		if (eid) {
-			SDL_LockAudio();
+			SDL_LockAudioDevice(m_audioDevice);
 			SoundEvent *s = GetEvent(eid);
 			if (s) {
 				DestroyEvent(s);
 			}
-			SDL_UnlockAudio();
+			SDL_UnlockAudioDevice(m_audioDevice);
 			return s != nullptr;
 		} else {
 			return false;
@@ -623,19 +678,19 @@ namespace Sound {
 	{
 		if (eid == 0) return false;
 		bool ret = false;
-		SDL_LockAudio();
+		SDL_LockAudioDevice(m_audioDevice);
 		SoundEvent *se = GetEvent(eid);
 		if (se) {
 			se->op = op;
 			ret = true;
 		}
-		SDL_UnlockAudio();
+		SDL_UnlockAudioDevice(m_audioDevice);
 		return ret;
 	}
 
 	bool Event::VolumeAnimate(const float targetVol1, const float targetVol2, const float dv_dt1, const float dv_dt2)
 	{
-		SDL_LockAudio();
+		SDL_LockAudioDevice(m_audioDevice);
 		SoundEvent *ev = GetEvent(eid);
 		if (ev) {
 			ev->targetVolume[0] = targetVol1;
@@ -643,13 +698,13 @@ namespace Sound {
 			ev->rateOfChange[0] = dv_dt1 / float(FREQ);
 			ev->rateOfChange[1] = dv_dt2 / float(FREQ);
 		}
-		SDL_UnlockAudio();
+		SDL_UnlockAudioDevice(m_audioDevice);
 		return (ev != nullptr);
 	}
 
 	bool Event::SetVolume(const float vol_left, const float vol_right)
 	{
-		SDL_LockAudio();
+		SDL_LockAudioDevice(m_audioDevice);
 		bool status = false;
 		for (unsigned int i = 0; i < MAX_WAVSTREAMS; i++) {
 			if (wavstream[i].sample && (wavstream[i].identifier == eid)) {
@@ -661,7 +716,7 @@ namespace Sound {
 				break;
 			}
 		}
-		SDL_UnlockAudio();
+		SDL_UnlockAudioDevice(m_audioDevice);
 		return status;
 	}
 

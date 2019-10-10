@@ -83,3 +83,5 @@ result
 .[0-9][0-9]*
 # Don't track C++ language server cache files.
 .ccls-cache
+.clangd/
+.vscode/
