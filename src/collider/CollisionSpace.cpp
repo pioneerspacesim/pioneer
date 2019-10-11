@@ -66,26 +66,35 @@ public:
 		return &m_nodesAlloc[m_nodesAllocPos++];
 	}
 
+	// Avoid re-allocation of memory when m_geoms are less than before,
+	void Refresh(const std::list<Geom *> &m_geoms);
+
 	BvhTree(const std::list<Geom *> &geoms);
 	~BvhTree()
 	{
-		if (m_geoms) delete[] m_geoms;
-		if (m_nodesAlloc) delete[] m_nodesAlloc;
+		FreeAll();
 	}
 	void CollideGeom(Geom *, const Aabb &, int minMailboxValue, void (*callback)(CollisionContact *));
 
 private:
 	void BuildNode(BvhNode *node, const std::list<Geom *> &a_geoms, int &outGeomPos);
+
+	void FreeAll() {
+		if (m_geoms) delete[] m_geoms;
+		m_geoms = nullptr;
+		if (m_nodesAlloc) delete[] m_nodesAlloc;
+		m_nodesAlloc = nullptr;
+	}
 };
 
 BvhTree::BvhTree(const std::list<Geom *> &geoms)
 {
 	PROFILE_SCOPED()
-	m_geoms = 0;
-	m_nodesAlloc = 0;
+	m_geoms = nullptr;
+	m_nodesAlloc = nullptr;
 	int numGeoms = geoms.size();
 	if (numGeoms == 0) {
-		m_root = 0;
+		m_root = nullptr;
 		return;
 	}
 	m_geoms = new Geom *[numGeoms];
@@ -93,6 +102,22 @@ BvhTree::BvhTree(const std::list<Geom *> &geoms)
 	m_nodesAllocPos = 0;
 	m_nodesAllocMax = numGeoms * 2;
 	m_nodesAlloc = new BvhNode[m_nodesAllocMax];
+	m_root = AllocNode();
+	BuildNode(m_root, geoms, geomPos);
+	assert(geomPos == numGeoms);
+}
+
+void BvhTree::Refresh(const std::list<Geom *> &geoms)
+{
+	PROFILE_SCOPED()
+	int numGeoms = geoms.size();
+	if (numGeoms == 0) {
+		m_root = nullptr;
+		FreeAll();
+		return;
+	}
+	int geomPos = 0;
+	m_nodesAllocPos = 0;
 	m_root = AllocNode();
 	BuildNode(m_root, geoms, geomPos);
 	assert(geomPos == numGeoms);
@@ -211,6 +236,7 @@ CollisionSpace::CollisionSpace()
 	PROFILE_SCOPED()
 	sphere.radius = 0;
 	m_needStaticGeomRebuild = true;
+	m_oldGeomsNumber = 0;
 	m_staticObjectTree = nullptr;
 	m_dynamicObjectTree = nullptr;
 }
@@ -416,8 +442,17 @@ void CollisionSpace::RebuildObjectTrees()
 		if (m_staticObjectTree) delete m_staticObjectTree;
 		m_staticObjectTree = new BvhTree(m_staticGeoms);
 	}
-	if (m_dynamicObjectTree) delete m_dynamicObjectTree;
-	m_dynamicObjectTree = new BvhTree(m_geoms);
+	if (m_oldGeomsNumber < m_geoms.size()) {
+		// Have more geoms: rebuild completely (ask more memory)
+		if (m_dynamicObjectTree) delete m_dynamicObjectTree;
+		m_dynamicObjectTree = new BvhTree(m_geoms);
+	} else {
+		// Same number or less (no needs for more memory)
+		if (m_dynamicObjectTree) m_dynamicObjectTree->Refresh(m_geoms);
+		else m_dynamicObjectTree = new BvhTree(m_geoms);
+	}
+
+	m_oldGeomsNumber = m_geoms.size();
 
 	m_needStaticGeomRebuild = false;
 }
