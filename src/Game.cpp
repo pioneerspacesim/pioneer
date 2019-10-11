@@ -33,7 +33,7 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "ship/PlayerShipController.h"
 
-static const int s_saveVersion = 85;
+static const int s_saveVersion = 86;
 
 Game::Game(const SystemPath &path, const double startDateTime) :
 	m_galaxy(GalaxyGenerator::Create()),
