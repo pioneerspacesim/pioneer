@@ -60,6 +60,7 @@ namespace Graphics {
 
 		Texture *GetOrCreateTexture(Renderer *r, const std::string &type)
 		{
+			PROFILE_SCOPED()
 			if (m_filename.empty()) {
 				return CreateTexture(r);
 			}

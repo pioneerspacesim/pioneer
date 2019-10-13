@@ -10,8 +10,9 @@ namespace PiGUI {
 
 	RefCountedPtr<Graphics::Material> Face::s_material;
 
-	Face::Face(FaceParts::FaceDescriptor& face, Uint32 seed)
+	Face::Face(FaceParts::FaceDescriptor &face, Uint32 seed)
 	{
+		PROFILE_SCOPED()
 		if (!seed) seed = time(0);
 
 		m_seed = seed;

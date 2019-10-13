@@ -14,6 +14,7 @@ namespace PiGUI {
 	public:
 		static inline FaceParts::FaceDescriptor _unpack_face(lua_State *l)
 		{
+			PROFILE_SCOPED()
 			FaceParts::FaceDescriptor face;
 
 			LUA_DEBUG_START(l);
@@ -42,6 +43,7 @@ namespace PiGUI {
 
 		static int l_new(lua_State *l)
 		{
+			PROFILE_SCOPED()
 			FaceParts::FaceDescriptor face = _unpack_face(l);
 
 			Uint32 seed = 0;
@@ -55,6 +57,7 @@ namespace PiGUI {
 
 		static int l_face_attr_texture_id(lua_State *l)
 		{
+			PROFILE_SCOPED()
 			Face *f = LuaObject<PiGUI::Face>::CheckFromLua(1);
 			Uint32 result = f->GetTextureId();
 
@@ -64,6 +67,7 @@ namespace PiGUI {
 
 		static int l_face_attr_texture_size(lua_State *l)
 		{
+			PROFILE_SCOPED()
 			Face *f = LuaObject<PiGUI::Face>::CheckFromLua(1);
 			vector2f result = f->GetTextureSize();
 
