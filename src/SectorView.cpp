@@ -370,6 +370,7 @@ void SectorView::OnClickSystem(const SystemPath &path)
 void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &origin, int drawRadius)
 {
 	PROFILE_SCOPED()
+
 	Uint32 sysIdx = 0;
 	for (std::vector<Sector::System>::iterator sys = sec->m_systems.begin(); sys != sec->m_systems.end(); ++sys, ++sysIdx) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
@@ -378,13 +379,19 @@ void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &orig
 		// if the system is the current system or target we can't skip it
 		bool can_skip = !sys->IsSameSystem(m_selected) && !sys->IsSameSystem(m_hyperspaceTarget) && !sys->IsSameSystem(m_current);
 
+		// skip if we have no population and won't drawn uninhabited systems
+		if (can_skip && (sys->GetPopulation() <= 0 && !m_drawUninhabitedLabels)) continue;
+
 		// skip the system if it belongs to a Faction we've toggled off and we can skip it
-		if (m_hiddenFactions.find(sys->GetFaction()) != m_hiddenFactions.end() && can_skip) continue;
+		if (can_skip && m_hiddenFactions.find(sys->GetFaction()) != m_hiddenFactions.end()) continue;
 
 		// determine if system in hyperjump range or not
 		RefCountedPtr<const Sector> playerSec = GetCached(m_current);
 		float dist = Sector::DistanceBetween(sec, sysIdx, playerSec, m_current.systemIndex);
 		bool inRange = dist <= m_playerHyperspaceRange;
+
+		// skip if we're out of rangen and won't draw out of range systems systems
+		if (can_skip && (!inRange && !m_drawOutRangeLabels)) continue;
 
 		// place the label
 		vector3d systemPos = vector3d((*sys).GetFullPosition() - origin);
@@ -426,7 +433,6 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 
 	for (auto it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it) {
 		if ((*it)->hasHomeworld && m_hiddenFactions.find((*it)) == m_hiddenFactions.end()) {
-
 			Sector::System sys = GetCached((*it)->homeworld)->m_systems[(*it)->homeworld.systemIndex];
 			if ((m_pos * Sector::SIZE - sys.GetFullPosition()).Length() > (m_zoomClamped / FAR_THRESHOLD) * OUTER_RADIUS) continue;
 
@@ -800,7 +806,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		// if the system belongs to a faction we've chosen to temporarily hide
 		// then skip it if we can
 		m_visibleFactions.insert(i->GetFaction());
-		if (m_hiddenFactions.find(i->GetFaction()) != m_hiddenFactions.end() && can_skip) continue;
+		if (can_skip && m_hiddenFactions.find(i->GetFaction()) != m_hiddenFactions.end()) continue;
 
 		// determine if system in hyperjump range or not
 		RefCountedPtr<const Sector> playerSec = GetCached(m_current);
