@@ -350,6 +350,7 @@ static void _pick(Random &rng, int &inout_value, const int limit)
 
 void FaceParts::PickFaceParts(FaceDescriptor &inout_face, const Uint32 seed)
 {
+	PROFILE_SCOPED()
 	Random rand(seed);
 
 	_pick(rand, inout_face.species, NumSpecies());
@@ -376,6 +377,7 @@ void FaceParts::PickFaceParts(FaceDescriptor &inout_face, const Uint32 seed)
 
 void FaceParts::BuildFaceImage(SDL_Surface *faceIm, const FaceDescriptor &face)
 {
+	PROFILE_SCOPED()
 	const Uint32 selector = _make_selector(face.species, face.race, face.gender);
 
 	_blit_image(faceIm, s_partdb->background_general.Get(), 0, 0);

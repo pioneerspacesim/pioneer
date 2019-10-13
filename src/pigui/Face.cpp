@@ -12,6 +12,7 @@ namespace PiGUI {
 
 	Face::Face(FaceParts::FaceDescriptor& face, Uint32 seed)
 	{
+		PROFILE_SCOPED()
 		if (!seed) seed = time(0);
 
 		m_seed = seed;
