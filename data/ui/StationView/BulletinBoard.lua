@@ -23,6 +23,14 @@ local bbTable = ui:Table()
     
 local bbSearchField = ui:TextEntry()
 local searchText = "";
+local chatForm;
+
+bbTable.onVisibilityChanged:Connect(function (visible)
+	if (chatForm and not visible) then
+		chatForm:Close()
+		chatForm = nil
+	end
+end)
 
 bbTable.onRowClicked:Connect(function (row)
 	local station = Game.player:GetDockedWith()
@@ -40,8 +48,8 @@ bbTable.onRowClicked:Connect(function (row)
 		station:UnlockAdvert(ref)
 	end
 
-	local form = ChatForm.New(chatFunc, removeFunc, closeFunc, ref, tabGroup)
-	ui:NewLayer(form:BuildWidget())
+	chatForm = ChatForm.New(chatFunc, removeFunc, closeFunc, ref, tabGroup)
+	ui:NewLayer(chatForm:BuildWidget())
 end)
 
 local updateTable = function (station)
