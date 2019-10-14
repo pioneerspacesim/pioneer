@@ -312,7 +312,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2017;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc141-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew.lib;profiler.lib;assimp-vc141-mt.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
@@ -381,7 +381,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2017;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc141-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2015_release.lib;libvorbis_static_v140_release.lib;libvorbisfile_static_v140_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew.lib;profiler.lib;assimp-vc141-mt.lib;shlwapi.lib;libogg_static_vc2015_release.lib;libvorbis_static_v140_release.lib;libvorbisfile_static_v140_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">
@@ -404,7 +404,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2017;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc141-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew.lib;profiler.lib;assimp-vc141-mt.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

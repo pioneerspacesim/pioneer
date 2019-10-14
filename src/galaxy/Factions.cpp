@@ -583,7 +583,6 @@ const Faction *FactionsDatabase::GetNearestClaimant(const Sector::System *sys) c
 
 bool FactionsDatabase::IsHomeSystem(const SystemPath &sysPath) const
 {
-	PROFILE_SCOPED()
 	return m_homesystems.find(sysPath.SystemOnly()) != m_homesystems.end();
 }
 

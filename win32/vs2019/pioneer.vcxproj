@@ -474,6 +474,8 @@
     <ClCompile Include="..\..\src\Pi.cpp" />
     <ClCompile Include="..\..\src\PiGui.cpp" />
     <ClCompile Include="..\..\src\pigui\Face.cpp" />
+    <ClCompile Include="..\..\src\pigui\Image.cpp" />
+    <ClCompile Include="..\..\src\pigui\LuaImage.cpp" />
     <ClCompile Include="..\..\src\pigui\LuaModelSpinner.cpp" />
     <ClCompile Include="..\..\src\pigui\ModelSpinner.cpp" />
     <ClCompile Include="..\..\src\pigui\PiGuiLua.cpp" />
@@ -664,6 +666,7 @@
     <ClInclude Include="..\..\src\Pi.h" />
     <ClInclude Include="..\..\src\PiGui.h" />
     <ClInclude Include="..\..\src\pigui\Face.h" />
+    <ClInclude Include="..\..\src\pigui\Image.h" />
     <ClInclude Include="..\..\src\pigui\ModelSpinner.h" />
     <ClInclude Include="..\..\src\pigui\PiGuiLua.h" />
     <ClInclude Include="..\..\src\Plane.h" />

@@ -111,6 +111,7 @@ namespace Graphics {
 
 	void TextureBuilder::PrepareSurface()
 	{
+		PROFILE_SCOPED()
 		if (m_prepared) return;
 
 		if (!m_surface && !m_filename.empty()) {
