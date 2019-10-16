@@ -284,10 +284,10 @@ namespace SceneGraph {
 		if (!m_collMesh) return;
 
 		if (!m_collisionMeshVB.Valid()) {
-			const std::vector<vector3f> &vertices = m_collMesh->GetGeomTree()->GetVertices();
-			const Uint32 *indices = m_collMesh->GetGeomTree()->GetIndices();
-			const unsigned int *triFlags = m_collMesh->GetGeomTree()->GetTriFlags();
-			const unsigned int numIndices = m_collMesh->GetGeomTree()->GetNumTris() * 3;
+			const std::vector<vector3f> &vertices = m_collMesh->GetGeomTreeVertices();
+			const Uint32 *indices = m_collMesh->GetGeomTreeIndices();
+			const unsigned int *triFlags = m_collMesh->GetGeomTreeTriFlags();
+			const unsigned int numIndices = m_collMesh->GetGeomTreeNumTris() * 3;
 
 			Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, numIndices * 3);
 			int trindex = -1;

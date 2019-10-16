@@ -7,14 +7,19 @@
 #define _BEAM_H
 
 #include "Body.h"
-#include "graphics/Material.h"
+#include "Color.h"
+#include "Object.h"
+#include "matrix4x4.h"
+#include "vector3.h"
 
-class Frame;
+class Camera;
+class Space;
 
 namespace Graphics {
+	class Material;
 	class Renderer;
-	class VertexArray;
 	class RenderState;
+	class VertexArray;
 } // namespace Graphics
 
 struct ProjectileData;

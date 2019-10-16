@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CityOnPlanet.h"
+
 #include "FileSystem.h"
 #include "Frame.h"
 #include "Game.h"
@@ -10,6 +11,7 @@
 #include "Planet.h"
 #include "SpaceStation.h"
 #include "collider/Geom.h"
+#include "graphics/Frustum.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/ModelSkin.h"
 #include "scenegraph/SceneGraph.h"

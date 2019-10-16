@@ -288,7 +288,6 @@ static bool get_cached(lua_State *L, const std::string &name)
 #include <algorithm>
 static std::string table_path_to_file_name(const std::string &path)
 {
-	const char separator = '.';
 	std::string out = path;
 
 	// If we have an old-style 'module/path/file.lua' path, return it normalized.

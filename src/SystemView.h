@@ -4,10 +4,11 @@
 #ifndef _SYSTEMVIEW_H
 #define _SYSTEMVIEW_H
 
+#include "Color.h"
 #include "UIView.h"
 #include "graphics/Drawables.h"
-#include "gui/Gui.h"
-#include "libs.h"
+#include "matrix4x4.h"
+#include "vector3.h"
 
 class StarSystem;
 class SystemBody;

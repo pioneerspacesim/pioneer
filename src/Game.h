@@ -6,10 +6,10 @@
 
 #include "JsonFwd.h"
 #include "galaxy/Galaxy.h"
+#include "galaxy/SystemPath.h"
 #include "gameconsts.h"
 #include <string>
 
-class SystemPath;
 class GameLog;
 class HyperspaceCloud;
 class Player;
@@ -34,8 +34,6 @@ class SystemInfoView;
 class SystemView;
 class WorldView;
 class DeathView;
-class UIView;
-class UIView;
 class ShipCpanel;
 class ObjectViewerView;
 

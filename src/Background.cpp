@@ -252,7 +252,6 @@ namespace Background {
 			const SystemPath current = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 
 			const double size = 1.0;
-			const Uint8 colScale = size * 255;
 			const Sint32 visibleRadius = 100; // lyrs
 			const Sint32 visibleRadiusSqr = (visibleRadius * visibleRadius);
 			const Sint32 sectorMin = -(visibleRadius / Sector::SIZE); // lyrs_radius / sector_size_in_lyrs

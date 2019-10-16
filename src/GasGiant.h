@@ -7,8 +7,6 @@
 #include "BaseSphere.h"
 #include "GasGiantJobs.h"
 #include "JobQueue.h"
-#include "graphics/Material.h"
-#include "terrain/Terrain.h"
 #include "vector3.h"
 
 #include <deque>
@@ -17,6 +15,7 @@ namespace Graphics {
 	class Renderer;
 	class RenderState;
 	class RenderTarget;
+	class Texture;
 }
 
 class SystemBody;

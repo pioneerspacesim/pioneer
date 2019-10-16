@@ -5,7 +5,6 @@
 #define _PROJECTILE_H
 
 #include "Body.h"
-#include "graphics/Material.h"
 
 struct ProjectileData {
 	ProjectileData() :
@@ -30,6 +29,7 @@ struct ProjectileData {
 class Frame;
 
 namespace Graphics {
+	class Material;
 	class Renderer;
 	class RenderState;
 	class VertexArray;

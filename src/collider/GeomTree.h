@@ -4,7 +4,6 @@
 #ifndef _GEOMTREE_H
 #define _GEOMTREE_H
 
-#include "CollisionContact.h"
 #include "libs.h"
 
 namespace Serializer {
@@ -25,6 +24,8 @@ class GeomTree {
 public:
 	GeomTree(const int numVerts, const int numTris, const std::vector<vector3f> &vertices, const Uint32 *indices, const Uint32 *triflags);
 	GeomTree(Serializer::Reader &rd);
+	void Save(Serializer::Writer &wr) const;
+
 	~GeomTree();
 
 	const Aabb &GetAabb() const { return m_aabb; }
@@ -62,8 +63,6 @@ public:
 	const Uint32 *GetTriFlags() const { return &m_triFlags[0]; }
 	int GetNumVertices() const { return m_numVertices; }
 	int GetNumTris() const { return m_numTris; }
-
-	void Save(Serializer::Writer &wr) const;
 
 private:
 	void RayTriIntersect(int numRays, const vector3f &origin, const vector3f *dirs, int triIdx, isect_t *isects) const;

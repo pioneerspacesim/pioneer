@@ -3,6 +3,7 @@
 
 #include "Camera.h"
 
+#include "Body.h"
 #include "Frame.h"
 #include "Game.h"
 #include "Pi.h"
@@ -72,6 +73,24 @@ void CameraContext::ApplyDrawTransforms(Graphics::Renderer *r)
 {
 	r->SetPerspectiveProjection(m_fovAng, m_width / m_height, m_zNear, m_zFar);
 	r->SetTransform(matrix4x4f::Identity());
+}
+
+bool Camera::BodyAttrs::sort_BodyAttrs(const BodyAttrs &a, const BodyAttrs &b)
+{
+	// both drawing last; distance order
+	if (a.bodyFlags & Body::FLAG_DRAW_LAST && b.bodyFlags & Body::FLAG_DRAW_LAST)
+		return a.camDist > b.camDist;
+
+	// a drawing last; draw b first
+	if (a.bodyFlags & Body::FLAG_DRAW_LAST)
+		return false;
+
+	// b drawing last; draw a first
+	if (b.bodyFlags & Body::FLAG_DRAW_LAST)
+		return true;
+
+	// both in normal draw; distance order
+	return a.camDist > b.camDist;
 }
 
 Camera::Camera(RefCountedPtr<CameraContext> context, Graphics::Renderer *renderer) :

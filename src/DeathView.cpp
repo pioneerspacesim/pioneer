@@ -2,7 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "DeathView.h"
+
 #include "Camera.h"
+#include "Game.h"
 #include "GameConfig.h"
 #include "Pi.h"
 #include "Player.h"

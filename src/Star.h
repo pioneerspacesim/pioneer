@@ -5,11 +5,15 @@
 #define _STAR_H
 
 #include "TerrainBody.h"
-#include "graphics/VertexBuffer.h"
+
+class Camera;
+class Space;
+class SystemBody;
 
 namespace Graphics {
 	class Renderer;
 	class RenderState;
+	class VertexBuffer;
 } // namespace Graphics
 
 class Star : public TerrainBody {
@@ -18,7 +22,7 @@ public:
 	Star() = delete;
 	Star(SystemBody *sbody);
 	Star(const Json &jsonObj, Space *space);
-	virtual ~Star(){};
+	virtual ~Star();
 
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 

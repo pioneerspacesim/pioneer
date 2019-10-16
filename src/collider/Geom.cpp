@@ -5,8 +5,8 @@
 
 #include "BVHTree.h"
 #include "GeomTree.h"
-#include "collider.h"
 #include "CollisionContact.h"
+#include "CollisionSpace.h"
 
 #include <float.h>
 

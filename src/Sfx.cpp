@@ -41,12 +41,6 @@ Graphics::RenderState *SfxManager::additiveAlphaState = nullptr;
 Graphics::RenderState *SfxManager::alphaOneState = nullptr;
 SfxManager::MaterialData SfxManager::m_materialData[TYPE_NONE];
 
-Sfx::Sfx() :
-	m_speed(200.0f),
-	m_type(TYPE_NONE)
-{
-}
-
 Sfx::Sfx(const vector3d &pos, const vector3d &vel, const float speed, const SFX_TYPE type) :
 	m_pos(pos),
 	m_vel(vel),
@@ -54,6 +48,20 @@ Sfx::Sfx(const vector3d &pos, const vector3d &vel, const float speed, const SFX_
 	m_speed(speed),
 	m_type(type)
 {
+}
+
+Sfx::Sfx(const Json &jsonObj)
+{
+	try {
+		Json sfxObj = jsonObj["sfx"];
+
+		m_pos = jsonObj["pos"];
+		m_vel = jsonObj["vel"];
+		m_age = sfxObj["age"];
+		m_type = sfxObj["type"];
+	} catch (Json::type_error &) {
+		throw SavedGameCorruptException();
+	}
 }
 
 Sfx::Sfx(const Sfx &b) :
@@ -75,20 +83,6 @@ void Sfx::SaveToJson(Json &jsonObj)
 	sfxObj["type"] = m_type;
 
 	jsonObj["sfx"] = sfxObj; // Add sfx object to supplied object.
-}
-
-void Sfx::LoadFromJson(const Json &jsonObj)
-{
-	try {
-		Json sfxObj = jsonObj["sfx"];
-
-		m_pos = jsonObj["pos"];
-		m_vel = jsonObj["vel"];
-		m_age = sfxObj["age"];
-		m_type = sfxObj["type"];
-	} catch (Json::type_error &) {
-		throw SavedGameCorruptException();
-	}
 }
 
 void Sfx::SetPosition(const vector3d &p)
@@ -160,8 +154,7 @@ void SfxManager::FromJson(const Json &jsonObj, Frame *f)
 
 	if (sfxArray.size()) f->m_sfx.reset(new SfxManager);
 	for (unsigned int i = 0; i < sfxArray.size(); ++i) {
-		Sfx inst;
-		inst.LoadFromJson(sfxArray[i]);
+		Sfx inst(sfxArray[i]);
 		f->m_sfx->AddInstance(inst);
 	}
 }

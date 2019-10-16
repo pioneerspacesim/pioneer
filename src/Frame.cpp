@@ -2,12 +2,13 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Frame.h"
-#include "Body.h"
+
 #include "GameSaveError.h"
 #include "JsonUtils.h"
 #include "Sfx.h"
 #include "Space.h"
-#include "collider/collider.h"
+#include "collider/CollisionSpace.h"
+#include "utils.h"
 
 Frame::Frame()
 {

@@ -7,13 +7,15 @@
 #include "Camera.h"
 #include "vector3.h"
 #include "galaxy/AtmosphereParameters.h"
-#include "graphics/Drawables.h"
+#include "graphics/Material.h"
 #include "terrain/Terrain.h"
 
 namespace Graphics {
 	class Renderer;
 	class RenderState;
-	class Material;
+	namespace Drawables {
+		class Sphere3D;
+	}
 } // namespace Graphics
 
 class BaseSphere {
