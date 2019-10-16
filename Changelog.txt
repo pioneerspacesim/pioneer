@@ -1,4 +1,7 @@
 October 2019
+   * New Features
+     * Music upgrade (#4678)
+
    * Fixes
      * Fix for medical emergency mission (#4682)
 
