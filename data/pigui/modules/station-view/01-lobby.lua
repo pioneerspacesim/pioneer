@@ -38,7 +38,8 @@ widgetSizes.buttonFullRefuelSize = Vector2(widgetSizes.buttonSizeBase.x*2 + widg
 widgetSizes.buttonLaunchSize = Vector2(widgetSizes.buttonSizeBase.x*5, widgetSizes.buttonSizeBase.y)
 widgetSizes.iconSize = Vector2(0, widgetSizes.buttonSizeBase.y)
 
-local face;
+local face = nil
+local stationSeed = 0
 local shipDef
 local winPos = Vector2(0,0)
 
@@ -291,9 +292,12 @@ StationView:registerView({
 	refresh = function()
 		local station = Game.player:GetDockedWith()
 		shipDef = ShipDef[Game.player.shipId]
-		if(station) then
-			local rand = Rand.New(station.seed)
-			face = InfoFace.New(Character.New({ title = l.STATION_MANAGER }, rand), {windowPadding = widgetSizes.windowPadding, itemSpacing = widgetSizes.itemSpacing})
+		if (station) then
+			if (stationSeed ~= station.seed) then
+				stationSeed = station.seed
+				local rand = Rand.New(station.seed)
+				face = InfoFace.New(Character.New({ title = l.STATION_MANAGER }, rand), {windowPadding = widgetSizes.windowPadding, itemSpacing = widgetSizes.itemSpacing})
+			end
 			hyperdrive = table.unpack(Game.player:GetEquip("engine")) or nil
 			hyperdrive_fuel = hyperdrive and hyperdrive.fuel or Equipment.cargo.hydrogen
 			hyperdriveIcon = PiImage.New("icons/goods/" .. hyperdrive_fuel.icon_name .. ".png")
