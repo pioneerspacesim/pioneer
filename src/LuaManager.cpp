@@ -19,6 +19,10 @@ LuaManager::LuaManager() :
 	pi_lua_open_standard_base(m_lua);
 	lua_atpanic(m_lua, pi_lua_panic);
 
+	// this will print nothing currently because there's no stack yet, but it means that the function is included
+	// in the codebase and thus available via the "immediate" window in the MSVC debugger for us in any C++ lua function
+	pi_lua_stacktrace(m_lua);
+
 	instantiated = true;
 }
 
