@@ -1072,3 +1072,18 @@ int secure_trampoline(lua_State *l)
 	lua_CFunction fn = lua_tocfunction(l, lua_upvalueindex(1));
 	return fn(l);
 }
+
+// https://zeux.io/2010/11/07/lua-callstack-with-c-debugger/
+void pi_lua_stacktrace(lua_State *l)
+{
+	lua_Debug entry;
+	int depth = 0;
+
+	while (lua_getstack(l, depth, &entry)) {
+		int status = lua_getinfo(l, "Sln", &entry);
+		assert(status);
+
+		Output("%s(%d): %s\n", entry.short_src, entry.currentline, entry.name ? entry.name : "?");
+		depth++;
+	}
+}

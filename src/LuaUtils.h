@@ -83,6 +83,8 @@ bool pi_lua_split_table_path(lua_State *l, const std::string &path);
 
 int secure_trampoline(lua_State *l);
 
+void pi_lua_stacktrace(lua_State *l);
+
 #ifdef DEBUG
 #define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr)
 #define LUA_DEBUG_END(luaptr, expectedStackDiff)                                                   \
