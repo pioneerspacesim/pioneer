@@ -10,6 +10,7 @@ October 2019
      * travis: Install libsigc++@2 instead of libsigc++ (#4694)
      * Use AudioDevices instead of legacy SDL 1.2 code (#4692)
      * Update vs2019 and profiling (#4711)
+     * Optimise sector view and docked face generation (#4722)
 
 September 2019
    * New Features
