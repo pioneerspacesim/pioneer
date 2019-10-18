@@ -5,6 +5,7 @@ October 2019
    * Fixes
      * Fix for medical emergency mission (#4682)
      * Fix midhyperjump game crash (#4709)
+     * Hang up chat on visibility change (#4710)
 
    * Internal Changes
      * cmake: Don't install .gitignore files (#4683)
