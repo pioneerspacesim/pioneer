@@ -6,6 +6,7 @@ October 2019
      * Fix for medical emergency mission (#4682)
      * Fix midhyperjump game crash (#4709)
      * Hang up chat on visibility change (#4710)
+     * Clarify HUD Delta-v tooltip text message (#4723)
 
    * Internal Changes
      * cmake: Don't install .gitignore files (#4683)
@@ -13,6 +14,7 @@ October 2019
      * Use AudioDevices instead of legacy SDL 1.2 code (#4692)
      * Update vs2019 and profiling (#4711)
      * Optimise sector view and docked face generation (#4722)
+     * Fix cmake/bootstrap not running properly (#4724)
 
 September 2019
    * New Features
