@@ -10,7 +10,7 @@ PROGRAM_NAME="$(basename "$0")"
 [ -d build ] || mkdir build
 
 # Generate build files
-[ -f build/CMakeCache.txt ] || ./boostrap
+[ -f build/CMakeCache.txt ] || ./bootstrap
 
 # Generate binaries
 # Users of GNU Make can enable parallel builds on N cores by setting
