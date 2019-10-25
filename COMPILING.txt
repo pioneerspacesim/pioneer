@@ -51,6 +51,7 @@ questions are welcome anytime.
     mesa-common-dev
     libfreeimage-dev
     libglew-dev
+    libfreetype6-dev
     libsigc++-2.0
     libsigc++-2.0-dev
     libvorbis-dev
