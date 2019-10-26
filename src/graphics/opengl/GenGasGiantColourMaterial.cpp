@@ -3,10 +3,8 @@
 
 #include "GenGasGiantColourMaterial.h"
 #include "RendererGL.h"
-#include "Ship.h"
 #include "StringF.h"
 #include "TextureGL.h"
-#include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
 #include <sstream>
 

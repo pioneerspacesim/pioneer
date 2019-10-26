@@ -2,13 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Polit.h"
-#include "Factions.h"
+
 #include "Lang.h"
 #include "StringF.h"
-#include "galaxy/Economy.h"
-#include "galaxy/Galaxy.h"
-#include "galaxy/Sector.h"
-#include "galaxy/StarSystem.h"
 
 namespace Polit {
 

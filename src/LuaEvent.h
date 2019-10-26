@@ -4,10 +4,8 @@
 #ifndef _LUAEVENT_H
 #define _LUAEVENT_H
 
-#include "DeleteEmitter.h"
 #include "Lua.h"
 #include "LuaObject.h"
-#include "Pi.h"
 
 namespace LuaEvent {
 

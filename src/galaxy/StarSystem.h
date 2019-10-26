@@ -4,10 +4,10 @@
 #ifndef _STARSYSTEM_H
 #define _STARSYSTEM_H
 
-#include "Polit.h"
-#include "RefCounted.h"
+#include "../RefCounted.h"
 #include "galaxy/Economy.h"
 #include "galaxy/GalaxyCache.h"
+#include "galaxy/Polit.h"
 #include "galaxy/SystemBody.h"
 #include "galaxy/SystemPath.h"
 #include "gameconsts.h"
@@ -26,8 +26,6 @@ class CustomSystem;
 
 class StarSystem : public RefCounted {
 public:
-	friend class SystemBody;
-	friend class GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>;
 	class GeneratorAPI; // Complete definition below
 
 	enum ExplorationState {
@@ -96,6 +94,12 @@ public:
 
 	const RefCountedPtr<Galaxy> m_galaxy;
 
+	void SetCache(StarSystemCache *cache)
+	{
+		assert(!m_cache);
+		m_cache = cache;
+	}
+
 protected:
 	StarSystem(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache *cache, Random &rand);
 	virtual ~StarSystem();
@@ -111,12 +115,6 @@ protected:
 	void SetShortDesc(const std::string &desc) { m_shortDesc = desc; }
 
 private:
-	void SetCache(StarSystemCache *cache)
-	{
-		assert(!m_cache);
-		m_cache = cache;
-	}
-
 	std::string ExportBodyToLua(FILE *f, SystemBody *body);
 	std::string GetStarTypes(SystemBody *body);
 

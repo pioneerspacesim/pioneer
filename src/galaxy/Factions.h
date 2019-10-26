@@ -9,7 +9,6 @@
 #include "fixed.h"
 #include "galaxy/Economy.h"
 #include "galaxy/Sector.h"
-#include "galaxy/StarSystem.h"
 #include "vector3.h"
 #include <map>
 #include <utility>

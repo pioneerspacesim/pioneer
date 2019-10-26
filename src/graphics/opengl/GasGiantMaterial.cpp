@@ -3,7 +3,7 @@
 
 #include "GasGiantMaterial.h"
 #include "Camera.h"
-#include "GeoSphere.h"
+#include "BaseSphere.h"
 #include "RendererGL.h"
 #include "StringF.h"
 #include "graphics/Graphics.h"
@@ -88,7 +88,7 @@ namespace Graphics {
 			OGL::Material::Apply();
 
 			GasGiantProgram *p = static_cast<GasGiantProgram *>(m_program);
-			const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters *>(this->specialParameter0);
+			const BaseSphere::MaterialParameters params = *static_cast<BaseSphere::MaterialParameters *>(this->specialParameter0);
 			const AtmosphereParameters ap = params.atmosphere;
 
 			p->emission.Set(this->emissive);
@@ -142,7 +142,7 @@ namespace Graphics {
 
 		void GasGiantSurfaceMaterial::SwitchShadowVariant()
 		{
-			const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters *>(this->specialParameter0);
+			const BaseSphere::MaterialParameters params = *static_cast<BaseSphere::MaterialParameters *>(this->specialParameter0);
 			// std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
 			//request a new shadow variation
 			if (m_curNumShadows != params.shadows.size()) {

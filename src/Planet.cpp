@@ -4,13 +4,13 @@
 #include "Planet.h"
 
 #include "Color.h"
-#include "GeoSphere.h"
 #include "galaxy/SystemBody.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
+#include "graphics/VertexArray.h"
 #include "perlin.h"
 
 #ifdef _MSC_VER

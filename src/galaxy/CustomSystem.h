@@ -5,16 +5,14 @@
 #define _CUSTOMSYSTEM_H
 
 #include "Color.h"
+#include "Polit.h"
+#include "SystemBody.h"
+#include "SystemPath.h"
 #include "fixed.h"
-#include "galaxy/StarSystem.h"
 #include "vector3.h"
 
 class Faction;
 class Galaxy;
-
-namespace Polit {
-	enum GovType;
-}
 
 class CustomSystemBody {
 public:

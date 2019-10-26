@@ -2,22 +2,17 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Factions.h"
+
 #include "galaxy/CustomSystem.h"
 #include "galaxy/Galaxy.h"
-#include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
 
-#include "enum_table.h"
-
 #include "FileSystem.h"
-#include "GameSaveError.h"
 #include "Lang.h"
 #include "LuaConstants.h"
 #include "LuaFixed.h"
 #include "LuaUtils.h"
 #include "LuaVector.h"
-#include "Pi.h"
-#include "Polit.h"
 #include <algorithm>
 #include <list>
 #include <set>

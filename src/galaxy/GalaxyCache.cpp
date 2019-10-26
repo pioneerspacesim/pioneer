@@ -3,7 +3,6 @@
 
 #include "galaxy/GalaxyCache.h"
 
-#include "Game.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/Sector.h"

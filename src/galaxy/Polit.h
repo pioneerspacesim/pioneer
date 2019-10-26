@@ -5,12 +5,6 @@
 #define _POLIT_H
 
 #include "fixed.h"
-#include "galaxy/Economy.h"
-
-class Galaxy;
-class StarSystem;
-class SysPolit;
-class Ship;
 
 namespace Polit {
 	enum PolitEcon { // <enum scope='Polit' name=PolitEcon prefix=ECON_ public>

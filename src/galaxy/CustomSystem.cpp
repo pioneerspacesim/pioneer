@@ -4,7 +4,6 @@
 #include "CustomSystem.h"
 
 #include "Galaxy.h"
-#include "SystemPath.h"
 
 #include "Factions.h"
 #include "FileSystem.h"

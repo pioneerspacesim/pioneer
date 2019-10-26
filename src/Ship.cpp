@@ -18,6 +18,7 @@
 #include "LuaUtils.h"
 #include "Missile.h"
 #include "NavLights.h"
+#include "Pi.h"
 #include "Planet.h"
 #include "Player.h" // <-- Here only for 1 occurence of "Pi::player" in Ship::Explode
 #include "Sensors.h"
