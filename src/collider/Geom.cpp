@@ -4,9 +4,9 @@
 #include "Geom.h"
 
 #include "BVHTree.h"
-#include "GeomTree.h"
 #include "CollisionContact.h"
 #include "CollisionSpace.h"
+#include "GeomTree.h"
 
 #include <float.h>
 
