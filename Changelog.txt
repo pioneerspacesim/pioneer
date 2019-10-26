@@ -15,6 +15,7 @@ October 2019
      * Update vs2019 and profiling (#4711)
      * Optimise sector view and docked face generation (#4722)
      * Fix cmake/bootstrap not running properly (#4724)
+     * Decouple (#4717)
 
 September 2019
    * New Features
