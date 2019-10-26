@@ -10,13 +10,13 @@
 #include "NodeCopyCache.h"
 #include "StringF.h"
 #include "Thruster.h"
-#include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
+#include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
 #include "scenegraph/Animation.h"
-#include "scenegraph/MatrixTransform.h"
 #include "scenegraph/Label3D.h"
+#include "scenegraph/MatrixTransform.h"
 #include "utils.h"
 
 namespace SceneGraph {
