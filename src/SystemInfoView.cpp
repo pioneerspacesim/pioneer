@@ -12,7 +12,6 @@
 #include "StringF.h"
 #include "galaxy/Factions.h"
 #include "galaxy/Galaxy.h"
-#include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
 #include "galaxy/Polit.h"
 #include "graphics/Drawables.h"

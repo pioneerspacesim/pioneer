@@ -13,7 +13,6 @@
 #include <string>
 #include <vector>
 
-class Frame;
 class Game;
 
 class GameConfig;
@@ -25,12 +24,8 @@ class ModelCache;
 class ObjectViewerView;
 class PiGui;
 class Player;
-class Ship;
-class SpaceStation;
-class StarSystem;
 class SystemPath;
 class TransferPlanner;
-class UIView;
 class View;
 class SDLGraphics;
 class LuaSerializer;

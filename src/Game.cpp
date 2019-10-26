@@ -15,6 +15,7 @@
 #include "LuaEvent.h"
 #include "LuaSerializer.h"
 #include "MathUtil.h"
+#include "Object.h"
 #if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"
 #endif
@@ -30,7 +31,6 @@
 #include "UIView.h"
 #include "WorldView.h"
 #include "galaxy/GalaxyGenerator.h"
-#include "graphics/Renderer.h"
 #include "ship/PlayerShipController.h"
 
 static const int s_saveVersion = 85;

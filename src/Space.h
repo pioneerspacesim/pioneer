@@ -8,15 +8,12 @@
 #include "IterationProxy.h"
 #include "Object.h"
 #include "RefCounted.h"
-#include "galaxy/GalaxyCache.h"
 #include "galaxy/StarSystem.h"
 #include "vector3.h"
 #include <list>
 
 class Body;
 class Frame;
-class Ship;
-class HyperspaceCloud;
 class Game;
 
 class Space {

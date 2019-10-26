@@ -6,7 +6,6 @@
 #include "Pi.h"
 
 #include "BaseSphere.h"
-#include "CargoBody.h"
 #include "CityOnPlanet.h"
 #include "DeathView.h"
 #include "EnumStrings.h"
@@ -34,13 +33,9 @@
 #include "LuaJson.h"
 #include "LuaLang.h"
 #include "LuaManager.h"
-#include "LuaMissile.h"
 #include "LuaMusic.h"
 #include "LuaNameGen.h"
-#include "LuaPiGui.h"
-#include "LuaRef.h"
 #include "LuaSerializer.h"
-#include "LuaServerAgent.h"
 #include "LuaShipDef.h"
 #include "LuaSpace.h"
 #include "LuaTimer.h"
@@ -57,12 +52,9 @@
 #endif
 #include "Beam.h"
 #include "PiGui.h"
-#include "Planet.h"
 #include "Player.h"
 #include "Projectile.h"
-#include "SDLWrappers.h"
 #include "SectorView.h"
-#include "ServerAgent.h"
 #include "Sfx.h"
 #include "Shields.h"
 #include "ShipCpanel.h"
@@ -77,7 +69,6 @@
 #include "UIView.h"
 #include "WorldView.h"
 #include "galaxy/GalaxyGenerator.h"
-#include "galaxy/StarSystem.h"
 #include "gameui/Lua.h"
 #include "libs.h"
 #include "pigui/PiGuiLua.h"
@@ -96,8 +87,6 @@
 
 #include "scenegraph/Lua.h"
 #include "versioningInfo.h"
-#include <algorithm>
-#include <sstream>
 
 #ifdef PROFILE_LUA_TIME
 #include <time.h>

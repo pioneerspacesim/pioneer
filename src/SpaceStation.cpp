@@ -3,6 +3,7 @@
 
 #include "SpaceStation.h"
 
+#include "Camera.h"
 #include "CityOnPlanet.h"
 #include "Frame.h"
 #include "Game.h"
@@ -11,13 +12,13 @@
 #include "Json.h"
 #include "Lang.h"
 #include "LuaEvent.h"
+#include "NavLights.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "Player.h"
 #include "Ship.h"
 #include "Space.h"
 #include "StringF.h"
-#include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/MatrixTransform.h"

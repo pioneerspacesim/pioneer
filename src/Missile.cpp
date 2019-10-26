@@ -11,6 +11,8 @@
 #include "Ship.h"
 #include "ShipAICmd.h"
 #include "Space.h"
+#include "collider/CollisionContact.h"
+
 
 Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)
 {

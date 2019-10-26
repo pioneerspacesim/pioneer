@@ -147,7 +147,6 @@ void BinaryConverter::Save(const std::string &filename, const std::string &savep
 
 	// compress in memory, write to open file
 	size_t outSize = 0;
-	size_t nwritten = 0;
 	const std::string &data = wr.GetData();
 	try {
 		std::unique_ptr<char> compressedData = lz4::CompressLZ4(data, 6, outSize);

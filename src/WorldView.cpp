@@ -14,21 +14,16 @@
 #include "Pi.h"
 #include "Player.h"
 #include "SectorView.h"
+#include "Sensors.h"
+#include "SpeedLines.h"
 #include "StringF.h"
-#include "graphics/Drawables.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
-#include "graphics/TextureBuilder.h"
 #include "matrix4x4.h"
 #include "ship/PlayerShipController.h"
 #include "sound/Sound.h"
-#include "ui/Align.h"
-#include "ui/Context.h"
-#include "ui/Label.h"
-#include <algorithm>
-#include <iomanip>
-#include <sstream>
+#include "ui/Widget.h"
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 namespace {
@@ -297,7 +292,6 @@ void WorldView::Update()
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
-	const double frameTime = Pi::GetFrameTime();
 	// show state-appropriate buttons
 	RefreshButtonStateAndVisibility();
 

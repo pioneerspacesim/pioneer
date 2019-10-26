@@ -8,8 +8,6 @@
 
 #include "DynamicBody.h"
 #include "LuaRef.h"
-#include "NavLights.h"
-#include "Sensors.h"
 #include "ShipType.h"
 #include "galaxy/SystemPath.h"
 #include "scenegraph/ModelSkin.h"
@@ -24,19 +22,18 @@ class CargoBody;
 class SpaceStation;
 class HyperspaceCloud;
 class Missile;
+class NavLights;
 class Planet;
+class Sensors;
 class ShipController;
 class Space;
+
+struct CollisionContact;
+struct HeatGradientParameters_t;
 
 namespace Graphics {
 	class Renderer;
 }
-
-struct HeatGradientParameters_t {
-	matrix3x3f heatingMatrix;
-	vector3f heatingNormal; // normalised
-	float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
-};
 
 struct shipstats_t {
 	int used_capacity;

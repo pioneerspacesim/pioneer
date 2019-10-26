@@ -4,16 +4,13 @@
 #ifndef _WORLDVIEW_H
 #define _WORLDVIEW_H
 
-#include "Camera.h"
-#include "SpeedLines.h"
 #include "UIView.h"
 #include "gui/GuiWidget.h"
 #include "ship/ShipViewController.h"
 
 class Body;
-class Frame;
-class LabelSet;
-class Ship;
+class Camera;
+class SpeedLines;
 class NavTunnelWidget;
 class Game;
 

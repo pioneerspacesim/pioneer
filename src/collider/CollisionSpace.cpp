@@ -2,7 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CollisionSpace.h"
+
 #include "../libs.h"
+#include "CollisionContact.h"
 #include "Geom.h"
 #include "GeomTree.h"
 

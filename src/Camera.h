@@ -4,12 +4,13 @@
 #ifndef _CAMERA_H
 #define _CAMERA_H
 
-#include "Body.h"
+#include "Color.h"
 #include "graphics/Frustum.h"
 #include "graphics/Light.h"
 #include "matrix4x4.h"
 #include "vector3.h"
 
+class Body;
 class Frame;
 class ShipCockpit;
 
@@ -139,23 +140,12 @@ private:
 		Color billboardColor;
 
 		// for sorting. "should a be drawn before b?"
-		friend bool operator<(const BodyAttrs &a, const BodyAttrs &b)
-		{
-			// both drawing last; distance order
-			if (a.bodyFlags & Body::FLAG_DRAW_LAST && b.bodyFlags & Body::FLAG_DRAW_LAST)
-				return a.camDist > b.camDist;
-
-			// a drawing last; draw b first
-			if (a.bodyFlags & Body::FLAG_DRAW_LAST)
-				return false;
-
-			// b drawing last; draw a first
-			if (b.bodyFlags & Body::FLAG_DRAW_LAST)
-				return true;
-
-			// both in normal draw; distance order
-			return a.camDist > b.camDist;
-		}
+		// NOTE: Add below function (thus an indirection) in order
+		// to decouple Camera from Body.h
+		static bool sort_BodyAttrs(const BodyAttrs &a, const BodyAttrs &b);
+		friend bool operator<(const BodyAttrs &a, const BodyAttrs &b) {
+			return sort_BodyAttrs(a, b);
+		};
 	};
 
 	std::list<BodyAttrs> m_sortedBodies;

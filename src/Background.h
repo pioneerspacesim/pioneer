@@ -4,8 +4,9 @@
 #ifndef _BACKGROUND_H
 #define _BACKGROUND_H
 
-#include "Random.h"
 #include "graphics/Drawables.h"
+
+class Random;
 
 namespace Graphics {
 	class Renderer;

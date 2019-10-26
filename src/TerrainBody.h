@@ -4,12 +4,14 @@
 #ifndef _TERRAINBODY_H
 #define _TERRAINBODY_H
 
-#include "BaseSphere.h"
 #include "Body.h"
 #include "JsonFwd.h"
+#include "matrix4x4.h"
 
+class BaseSphere;
 class Camera;
 class Frame;
+class Space;
 class SystemBody;
 
 namespace Graphics {

@@ -14,6 +14,7 @@
 
 namespace Graphics {
 	class Renderer;
+	class Texture;
 }
 
 class SystemBody;

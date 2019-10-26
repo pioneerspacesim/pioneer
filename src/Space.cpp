@@ -18,7 +18,8 @@
 #include "Player.h"
 #include "SpaceStation.h"
 #include "Star.h"
-#include "collider/collider.h"
+#include "collider/CollisionContact.h"
+#include "collider/CollisionSpace.h"
 #include "galaxy/Galaxy.h"
 #include "graphics/Graphics.h"
 #include <algorithm>
@@ -951,7 +952,7 @@ static void hitCallback(CollisionContact *c)
 		mover->SetPosition(mover->GetPosition() + correction);
 
 		const float reduction = std::max(1 - coeff_slide * c->timestep, 0.0);
-		vector3d final_vel = linVel1 * (1 - coeff_slide * c->timestep) + force * invMass1;
+		vector3d final_vel = linVel1 * reduction + force * invMass1;
 		if (final_vel.LengthSqr() < 0.1) final_vel = vector3d(0.0);
 
 		mover->SetVelocity(final_vel);

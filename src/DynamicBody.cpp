@@ -9,6 +9,7 @@
 #include "Json.h"
 #include "Planet.h"
 #include "Space.h"
+#include "collider/CollisionContact.h"
 #include "ship/Propulsion.h"
 
 static const float KINETIC_ENERGY_MULT = 0.00001f;

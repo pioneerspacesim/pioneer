@@ -4,9 +4,9 @@
 #ifndef _SYSTEMINFOVIEW_H
 #define _SYSTEMINFOVIEW_H
 
+#include "Color.h"
 #include "galaxy/SystemPath.h"
-#include "gui/Gui.h"
-#include "libs.h"
+#include "gui/GuiImageRadioButton.h"
 
 #include "UIView.h"
 #include <vector>
@@ -14,8 +14,10 @@
 class Game;
 class StarSystem;
 class SystemBody;
+
 namespace Graphics {
 	class Renderer;
+	class RenderState;
 }
 
 class SystemInfoView : public UIView {
