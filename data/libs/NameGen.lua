@@ -330,7 +330,7 @@ NameGen.orbitalStarportFormats = {
 	"{name} Citadel",
 	"{name} Platform",
 	"{name} Ring",
-	"{name} Residance",
+	"{name} Residence",
 	"{name} Orbital",
 	"{name} Habitat",
 	"{name} Hub",
