@@ -333,12 +333,15 @@ NameGen.orbitalStarportFormats = {
 	"{name} Residance",
 	"{name} Orbital",
 	"{name} Habitat",
+	"{name} Hub",
+	"{name} Terminal",
 }
 
 NameGen.surfaceStarportFormats = {
 	"{name}",
 	"{name}",
 	"{name} Starport",
+	"{name} Spaceport",
 	"{name} Town",
 	"{name} City",
 	"{name} Village",
@@ -351,6 +354,7 @@ NameGen.surfaceStarportFormats = {
 	"Port {name}",
 	"{name} Port",
 	"{name} Pad",
+	"{name} Terminal",
 }
 
 return NameGen
