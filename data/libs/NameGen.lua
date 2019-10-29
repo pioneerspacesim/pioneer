@@ -170,7 +170,7 @@ NameGen.firstNames.male = {
 	'Keith', 'Kenneth', 'Kimmo', 'Konrad', 'Krzysztof', 'Lance', 'Lars',
 	'Lee', 'Leon', 'Leonardo', 'Luca', 'Luis', 'Maksim', 'Malcolm', 'Manuel',
 	'Marcel', 'Marcus', 'Mariano', 'Mark', 'Matthew', 'Mete', 'Michael',
-	'Michele', 'Miguel', 'Miha', 'Muhammad', 'Neil', 'Nic', 'Nick', 'Nicholas', 'Non', 'Oleg', 'Pablo', 'Patrick',
+	'Michele', 'Miguel', 'Miha', 'Morgan', 'Muhammad', 'Neil', 'Nic', 'Nick', 'Nicholas', 'Non', 'Oleg', 'Pablo', 'Patrick',
 	'Paul', 'Pedro', 'Peter', 'Phil', 'Philip', 'Piotr', 'Radek', 'Rafael',
 	'Ralph', 'Ramon', 'Rémi', 'Ricardo', 'Richard', 'Rob', 'Robert', 'Roger', 'Roland',
 	'Roy', 'Salvador', 'Santiago', 'Sean', 'Sergey', 'Simon', 'Stefan', 'Stephen',
@@ -204,7 +204,7 @@ NameGen.firstNames.female = {
 NameGen.surnames = {
 	'Acevedo', 'Adams', 'Aguilar', 'Aguirre', 'Albert', 'Alexander',
 	'Alford', 'Allen', 'Allnutt', 'Alston', 'Alvarez', 'Anderson',
-	'Andrews', 'Armstrong', 'Arnold', 'Ashley', 'Ashworth', 'Atkinson', 'Austin',
+	'Andrews', 'Armstrong', 'Arnold', 'Ashley', 'Ashworth', 'Asimov', 'Atkinson', 'Austin',
 	'Avery', 'Bailey', 'Baird', 'Baker', 'Ashworth', 'Bálint', 'Banks', 'Barlow', 'Barnes',
 	'Barron', 'Barry', 'Bartholomew', 'Basagoiti', 'Bean', 'Bell',
 	'Bender', 'Benjamin', 'Bennet', 'Bennett', 'Bentley', 'Berg',
@@ -217,7 +217,7 @@ NameGen.surnames = {
 	'Carney', 'Carpenter', 'Carr', 'Carrol', 'Carter', 'Carver', 'Case',
 	'Castillo', 'Castropena', 'Cervantes', 'Chan', 'Chandler', 'Chaney',
 	'Chang', 'Chao', 'Chapman', 'Chavez', 'Chen', 'Cheng', 'Cherry',
-	'Chia', 'Chiang', 'Chin', 'Chopin', 'Chou', 'Chu', 'Chung', 'Church',
+	'Chia', 'Chiang', 'Chin', 'Chopin', 'Chou', 'Chu', 'Chung', 'Church', 'Clarke',
 	'Clements', 'Clemons', 'Cleveland', 'Cole', 'Coleman', 'Collin', 'Collins',
 	'Compton', 'Conrad', 'Cook', 'Cooke', 'Cooley', 'Cooper', 'Copland',
 	'Cosmin', 'Cote', 'Cotton', 'Cox', 'Craft', 'Crane', 'Crawford',
@@ -225,7 +225,7 @@ NameGen.surnames = {
 	'Davis', 'de Craen', 'De La Cruz', 'de Roos', 'Dean', 'Dennett',
 	'Diaz', 'Dickson', 'Dillard', 'Dillon', 'Dixon', 'Donaldson',
 	'Donovan', 'Dotson', 'Dudley', 'Duke', 'Duncan', 'Dunlap', 'Dunn',
-	'Dupré', 'Edwards', 'Elliott', 'Ellis', 'Emerson', 'Espinoza',
+	'Dupré', 'Dyson', 'Edwards', 'Elliott', 'Ellis', 'Emerson', 'Espinoza',
 	'Estes', 'Evans', 'Ewing', 'Fan', 'Fang', 'Farley', 'Farrell',
 	'Faulkner', 'Feng', 'Ferguson', 'Fernandez', 'Ferrel', 'Fields',
 	'Findley', 'Finley', 'Fisher', 'Fitzpatrick', 'Flores', 'Fogelmark', 'Foley',
@@ -275,7 +275,7 @@ NameGen.surnames = {
 	'Rivera', 'Rivers', 'Roach', 'Roberts', 'Robertson', 'Robinson',
 	'Rocha', 'Roddenberry', 'Rodriguez', 'Rogers', 'Rollins', 'Romero', 'Ronald', 'Rosa',
 	'Rosales', 'Rosario', 'Rose', 'Ross', 'Rowe', 'Rowland', 'Ruiz',
-	'Russel', 'Rutsky', 'Ryan', 'Salas', 'Salazar', 'Salonen', 'Salt', 'Sampson', 'Sanchez',
+	'Russel', 'Rutsky', 'Ryan', 'Sagan', 'Salas', 'Salazar', 'Salonen', 'Salt', 'Sampson', 'Sanchez',
 	'Sanders', 'Sanford', 'Santana', 'Santiago', 'Sawyer', 'Schmidt',
 	'Schneider', 'Schultz', 'Scott', 'Sears', 'Senese', 'Shao', 'Sharpe',
 	'Shaw', 'Shen', 'Shepard', 'Sheppard', 'Shih', 'Simmons', 'Simpson',
@@ -317,6 +317,7 @@ NameGen.rockPlanetFormats = {
 	"{name}'s Misery",
 	"{name} Colony",
 	"{name}'s Rock",
+	"{name} Settlement",
 }
 
 NameGen.orbitalStarportFormats = {
@@ -335,6 +336,13 @@ NameGen.orbitalStarportFormats = {
 	"{name} Habitat",
 	"{name} Hub",
 	"{name} Terminal",
+	"{name} Trade Center",
+	"{name} Commercial Center",
+	"{name} Science Station",
+	"{name} Observation Post",
+	"{name} Facility",
+	"{name} Industrial Center",
+	"{name} Refinery",
 }
 
 NameGen.surfaceStarportFormats = {
@@ -355,6 +363,7 @@ NameGen.surfaceStarportFormats = {
 	"{name} Port",
 	"{name} Pad",
 	"{name} Terminal",
+	"{name} Oasis",
 }
 
 return NameGen
