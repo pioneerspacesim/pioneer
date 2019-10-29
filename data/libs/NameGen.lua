@@ -343,6 +343,7 @@ NameGen.orbitalStarportFormats = {
 	"{name} Facility",
 	"{name} Industrial Center",
 	"{name} Refinery",
+	"{name} Dock",
 }
 
 NameGen.surfaceStarportFormats = {
