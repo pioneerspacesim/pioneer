@@ -175,7 +175,7 @@ static int l_body_is_space_station(lua_State *l)
 {
 	Body *body = LuaObject<Body>::CheckFromLua(1);
 	const SystemBody *sb = body->GetSystemBody();
-	LuaPush<bool>(l, sb ? sb->GetType() == SystemBody::BodyType::TYPE_STARPORT_ORBITAL : false);
+	LuaPush<bool>(l, sb ? sb->GetType() == GalaxyEnums::BodyType::TYPE_STARPORT_ORBITAL : false);
 	return 1;
 }
 
@@ -183,7 +183,7 @@ static int l_body_is_ground_station(lua_State *l)
 {
 	Body *body = LuaObject<Body>::CheckFromLua(1);
 	const SystemBody *sb = body->GetSystemBody();
-	LuaPush<bool>(l, sb ? sb->GetType() == SystemBody::BodyType::TYPE_STARPORT_SURFACE : false);
+	LuaPush<bool>(l, sb ? sb->GetType() == GalaxyEnums::BodyType::TYPE_STARPORT_SURFACE : false);
 	return 1;
 }
 

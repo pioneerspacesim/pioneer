@@ -30,7 +30,7 @@ void TerrainBody::InitTerrainBody()
 	assert(m_sbody);
 	m_mass = m_sbody->GetMass();
 	if (!m_baseSphere) {
-		if (SystemBody::SUPERTYPE_GAS_GIANT == m_sbody->GetSuperType()) {
+		if (GalaxyEnums::BodySuperType::SUPERTYPE_GAS_GIANT == m_sbody->GetSuperType()) {
 			m_baseSphere.reset(new GasGiant(m_sbody));
 		} else {
 			m_baseSphere.reset(new GeoSphere(m_sbody));
@@ -77,7 +77,7 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 	//stars very far away are downscaled, because they cannot be
 	//accurately drawn using actual distances
 	int shrink = 0;
-	if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+	if (m_sbody->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR) {
 		double len = fpos.Length();
 		double dist_to_horizon;
 		for (;;) {

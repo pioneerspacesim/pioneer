@@ -32,18 +32,18 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 
 	switch (body->GetType()) {
 
-	case SystemBody::TYPE_BROWN_DWARF:
+	case GalaxyEnums::BodyType::TYPE_BROWN_DWARF:
 		gi = InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarBrownDwarf>;
 		break;
 
-	case SystemBody::TYPE_WHITE_DWARF:
+	case GalaxyEnums::BodyType::TYPE_WHITE_DWARF:
 		gi = InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarWhiteDwarf>;
 		break;
 
-	case SystemBody::TYPE_STAR_M:
-	case SystemBody::TYPE_STAR_M_GIANT:
-	case SystemBody::TYPE_STAR_M_SUPER_GIANT:
-	case SystemBody::TYPE_STAR_M_HYPER_GIANT: {
+	case GalaxyEnums::BodyType::TYPE_STAR_M:
+	case GalaxyEnums::BodyType::TYPE_STAR_M_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_M_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_M_HYPER_GIANT: {
 		const GeneratorInstancer choices[] = {
 			InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarM>,
 			InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarM>,
@@ -54,10 +54,10 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 		break;
 	}
 
-	case SystemBody::TYPE_STAR_K:
-	case SystemBody::TYPE_STAR_K_GIANT:
-	case SystemBody::TYPE_STAR_K_SUPER_GIANT:
-	case SystemBody::TYPE_STAR_K_HYPER_GIANT: {
+	case GalaxyEnums::BodyType::TYPE_STAR_K:
+	case GalaxyEnums::BodyType::TYPE_STAR_K_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_K_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_K_HYPER_GIANT: {
 		const GeneratorInstancer choices[] = {
 			InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarM>,
 			InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarK>,
@@ -68,10 +68,10 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 		break;
 	}
 
-	case SystemBody::TYPE_STAR_G:
-	case SystemBody::TYPE_STAR_G_GIANT:
-	case SystemBody::TYPE_STAR_G_SUPER_GIANT:
-	case SystemBody::TYPE_STAR_G_HYPER_GIANT: {
+	case GalaxyEnums::BodyType::TYPE_STAR_G:
+	case GalaxyEnums::BodyType::TYPE_STAR_G_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_G_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_G_HYPER_GIANT: {
 		const GeneratorInstancer choices[] = {
 			InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarWhiteDwarf>,
 			InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarG>
@@ -80,33 +80,33 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 		break;
 	}
 
-	case SystemBody::TYPE_STAR_F:
-	case SystemBody::TYPE_STAR_F_GIANT:
-	case SystemBody::TYPE_STAR_F_HYPER_GIANT:
-	case SystemBody::TYPE_STAR_F_SUPER_GIANT:
-	case SystemBody::TYPE_STAR_A:
-	case SystemBody::TYPE_STAR_A_GIANT:
-	case SystemBody::TYPE_STAR_A_HYPER_GIANT:
-	case SystemBody::TYPE_STAR_A_SUPER_GIANT:
-	case SystemBody::TYPE_STAR_B:
-	case SystemBody::TYPE_STAR_B_GIANT:
-	case SystemBody::TYPE_STAR_B_SUPER_GIANT:
-	case SystemBody::TYPE_STAR_B_WF:
-	case SystemBody::TYPE_STAR_O:
-	case SystemBody::TYPE_STAR_O_GIANT:
-	case SystemBody::TYPE_STAR_O_HYPER_GIANT:
-	case SystemBody::TYPE_STAR_O_SUPER_GIANT:
-	case SystemBody::TYPE_STAR_O_WF:
+	case GalaxyEnums::BodyType::TYPE_STAR_F:
+	case GalaxyEnums::BodyType::TYPE_STAR_F_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_F_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_F_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_A:
+	case GalaxyEnums::BodyType::TYPE_STAR_A_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_A_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_A_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_B:
+	case GalaxyEnums::BodyType::TYPE_STAR_B_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_B_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_B_WF:
+	case GalaxyEnums::BodyType::TYPE_STAR_O:
+	case GalaxyEnums::BodyType::TYPE_STAR_O_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_O_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_O_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_O_WF:
 		gi = InstanceGenerator<TerrainHeightEllipsoid, TerrainColorWhite>;
 		break;
 
-	case SystemBody::TYPE_STAR_S_BH:
-	case SystemBody::TYPE_STAR_IM_BH:
-	case SystemBody::TYPE_STAR_SM_BH:
+	case GalaxyEnums::BodyType::TYPE_STAR_S_BH:
+	case GalaxyEnums::BodyType::TYPE_STAR_IM_BH:
+	case GalaxyEnums::BodyType::TYPE_STAR_SM_BH:
 		gi = InstanceGenerator<TerrainHeightEllipsoid, TerrainColorBlack>;
 		break;
 
-	case SystemBody::TYPE_PLANET_GAS_GIANT: {
+	case GalaxyEnums::BodyType::TYPE_PLANET_GAS_GIANT: {
 		const GeneratorInstancer choices[] = {
 			InstanceGenerator<TerrainHeightFlat, TerrainColorGGJupiter>,
 			InstanceGenerator<TerrainHeightFlat, TerrainColorGGSaturn>,
@@ -120,7 +120,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 		break;
 	}
 
-	case SystemBody::TYPE_PLANET_ASTEROID: {
+	case GalaxyEnums::BodyType::TYPE_PLANET_ASTEROID: {
 		const GeneratorInstancer choices[] = {
 			InstanceGenerator<TerrainHeightAsteroid, TerrainColorAsteroid>,
 			InstanceGenerator<TerrainHeightAsteroid2, TerrainColorAsteroid>,
@@ -135,7 +135,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 		break;
 	}
 
-	case SystemBody::TYPE_PLANET_TERRESTRIAL: {
+	case GalaxyEnums::BodyType::TYPE_PLANET_TERRESTRIAL: {
 
 		//Over-ride:
 		//gi = InstanceGenerator<TerrainHeightAsteroid3,TerrainColorRock>;

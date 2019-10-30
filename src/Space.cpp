@@ -364,7 +364,7 @@ void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &
 	if (dest.IsBodyPath()) {
 		assert(dest.bodyIndex < m_starSystem->GetNumBodies());
 		primary = FindBodyForPath(&dest);
-		while (primary && primary->GetSystemBody()->GetSuperType() != SystemBody::SUPERTYPE_STAR) {
+		while (primary && primary->GetSystemBody()->GetSuperType() != GalaxyEnums::BodySuperType::SUPERTYPE_STAR) {
 			SystemBody *parent = primary->GetSystemBody()->GetParent();
 			primary = parent ? FindBodyForPath(&parent->GetPath()) : 0;
 		}
@@ -372,7 +372,7 @@ void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &
 	if (!primary) {
 		// find the first non-gravpoint. should be the primary star
 		for (Body *b : GetBodies())
-			if (b->GetSystemBody()->GetType() != SystemBody::TYPE_GRAVPOINT) {
+			if (b->GetSystemBody()->GetType() != GalaxyEnums::BodyType::TYPE_GRAVPOINT) {
 				primary = b;
 				break;
 			}
@@ -486,7 +486,7 @@ static void RelocateStarportIfNecessary(SystemBody *sbody, Frame *frame, Planet 
 	matrix3x3d rot_ = rot;
 	vector3d pos_ = pos;
 
-	const bool manualRelocationIsEasy = !(planet->GetSystemBody()->GetType() == SystemBody::TYPE_PLANET_ASTEROID || terrainHeightVariation > heightVariationCheckThreshold);
+	const bool manualRelocationIsEasy = !(planet->GetSystemBody()->GetType() == GalaxyEnums::BodyType::TYPE_PLANET_ASTEROID || terrainHeightVariation > heightVariationCheckThreshold);
 
 	// warn and leave it up to the user to relocate custom starports when it's easy to relocate manually, i.e. not on asteroids and other planets which are likely to have high variation in a lot of places
 	const bool isRelocatableIfBuried = !(sbody->IsCustomBody() && manualRelocationIsEasy);
@@ -587,17 +587,17 @@ static Frame *MakeFrameFor(const double at_time, SystemBody *sbody, Body *b, Fra
 		return f;
 	}
 
-	if (sbody->GetType() == SystemBody::TYPE_GRAVPOINT) {
+	if (sbody->GetType() == GalaxyEnums::BodyType::TYPE_GRAVPOINT) {
 		Frame *orbFrame = new Frame(f, sbody->GetName().c_str());
 		orbFrame->SetBodies(sbody, b);
 		orbFrame->SetRadius(sbody->GetMaxChildOrbitalDistance() * 1.1);
 		return orbFrame;
 	}
 
-	SystemBody::BodySuperType supertype = sbody->GetSuperType();
+	GalaxyEnums::BodySuperType supertype = sbody->GetSuperType();
 
-	if ((supertype == SystemBody::SUPERTYPE_GAS_GIANT) ||
-		(supertype == SystemBody::SUPERTYPE_ROCKY_PLANET)) {
+	if ((supertype == GalaxyEnums::BodySuperType::SUPERTYPE_GAS_GIANT) ||
+		(supertype == GalaxyEnums::BodySuperType::SUPERTYPE_ROCKY_PLANET)) {
 		// for planets we want an non-rotating frame for a few radii
 		// and a rotating frame with no radius to contain attached objects
 		double frameRadius = std::max(4.0 * sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance() * 1.05);
@@ -625,7 +625,7 @@ static Frame *MakeFrameFor(const double at_time, SystemBody *sbody, Body *b, Fra
 
 		b->SetFrame(rotFrame);
 		return orbFrame;
-	} else if (supertype == SystemBody::SUPERTYPE_STAR) {
+	} else if (supertype == GalaxyEnums::BodySuperType::SUPERTYPE_STAR) {
 		// stars want a single small non-rotating frame
 		// bigger than it's furtherest orbiting body.
 		// if there are no orbiting bodies use a frame of several radii.
@@ -640,7 +640,7 @@ static Frame *MakeFrameFor(const double at_time, SystemBody *sbody, Body *b, Fra
 		orbFrame->SetRadius(frameRadius);
 		b->SetFrame(orbFrame);
 		return orbFrame;
-	} else if (sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) {
+	} else if (sbody->GetType() == GalaxyEnums::BodyType::TYPE_STARPORT_ORBITAL) {
 		// space stations want non-rotating frame to some distance
 		Frame *orbFrame = new Frame(f, sbody->GetName().c_str());
 		orbFrame->SetBodies(sbody, b);
@@ -649,7 +649,7 @@ static Frame *MakeFrameFor(const double at_time, SystemBody *sbody, Body *b, Fra
 		b->SetFrame(orbFrame);
 		return orbFrame;
 
-	} else if (sbody->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+	} else if (sbody->GetType() == GalaxyEnums::BodyType::TYPE_STARPORT_SURFACE) {
 		// just put body into rotating frame of planet, not in its own frame
 		// (because collisions only happen between objects in same frame,
 		// and we want collisions on starport and on planet itself)
@@ -801,12 +801,12 @@ void Space::GenBody(const double at_time, SystemBody *sbody, Frame *f, std::vect
 {
 	Body *b = nullptr;
 
-	if (sbody->GetType() != SystemBody::TYPE_GRAVPOINT) {
-		if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+	if (sbody->GetType() != GalaxyEnums::BodyType::TYPE_GRAVPOINT) {
+		if (sbody->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR) {
 			Star *star = new Star(sbody);
 			b = star;
-		} else if ((sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) ||
-			(sbody->GetType() == SystemBody::TYPE_STARPORT_SURFACE)) {
+		} else if ((sbody->GetType() == GalaxyEnums::BodyType::TYPE_STARPORT_ORBITAL) ||
+			(sbody->GetType() == GalaxyEnums::BodyType::TYPE_STARPORT_SURFACE)) {
 			SpaceStation *ss = new SpaceStation(sbody);
 			b = ss;
 		} else {

@@ -1381,13 +1381,13 @@ bool first_body_is_more_important_than(Body *body, Body *other)
 
 	Object::Type a = body->GetType();
 	const SystemBody *sb_a = body->GetSystemBody();
-	bool a_gas_giant = sb_a && sb_a->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT;
+	bool a_gas_giant = sb_a && sb_a->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_GAS_GIANT;
 	bool a_planet = sb_a && sb_a->IsPlanet();
 	bool a_moon = sb_a && sb_a->IsMoon();
 
 	Object::Type b = other->GetType();
 	const SystemBody *sb_b = other->GetSystemBody();
-	bool b_gas_giant = sb_b && sb_b->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT;
+	bool b_gas_giant = sb_b && sb_b->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_GAS_GIANT;
 	bool b_planet = sb_b && sb_b->IsPlanet();
 	bool b_moon = sb_b && sb_b->IsMoon();
 

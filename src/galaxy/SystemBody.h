@@ -8,6 +8,7 @@
 #include "IterationProxy.h"
 #include "Orbit.h"
 #include "RefCounted.h"
+#include "galaxy/GalaxyEnums.h"
 #include "galaxy/RingStyle.h"
 #include "galaxy/SystemPath.h"
 #include "gameconsts.h"
@@ -20,69 +21,11 @@ class SystemBody : public RefCounted {
 public:
 	SystemBody(const SystemPath &path, StarSystem *system);
 
-	enum BodyType { // <enum scope='SystemBody' prefix=TYPE_ public>
-		TYPE_GRAVPOINT = 0,
-		TYPE_BROWN_DWARF = 1, //  L+T Class Brown Dwarfs
-		TYPE_WHITE_DWARF = 2,
-		TYPE_STAR_M = 3, //red
-		TYPE_STAR_K = 4, //orange
-		TYPE_STAR_G = 5, //yellow
-		TYPE_STAR_F = 6, //white
-		TYPE_STAR_A = 7, //blue/white
-		TYPE_STAR_B = 8, //blue
-		TYPE_STAR_O = 9, //blue/purple/white
-		TYPE_STAR_M_GIANT = 10,
-		TYPE_STAR_K_GIANT = 11,
-		TYPE_STAR_G_GIANT = 12,
-		TYPE_STAR_F_GIANT = 13,
-		TYPE_STAR_A_GIANT = 14,
-		TYPE_STAR_B_GIANT = 15,
-		TYPE_STAR_O_GIANT = 16,
-		TYPE_STAR_M_SUPER_GIANT = 17,
-		TYPE_STAR_K_SUPER_GIANT = 18,
-		TYPE_STAR_G_SUPER_GIANT = 19,
-		TYPE_STAR_F_SUPER_GIANT = 20,
-		TYPE_STAR_A_SUPER_GIANT = 21,
-		TYPE_STAR_B_SUPER_GIANT = 22,
-		TYPE_STAR_O_SUPER_GIANT = 23,
-		TYPE_STAR_M_HYPER_GIANT = 24,
-		TYPE_STAR_K_HYPER_GIANT = 25,
-		TYPE_STAR_G_HYPER_GIANT = 26,
-		TYPE_STAR_F_HYPER_GIANT = 27,
-		TYPE_STAR_A_HYPER_GIANT = 28,
-		TYPE_STAR_B_HYPER_GIANT = 29,
-		TYPE_STAR_O_HYPER_GIANT = 30, // these various stars do exist = they are transitional states and are rare
-		TYPE_STAR_M_WF = 31, //Wolf-Rayet star
-		TYPE_STAR_B_WF = 32, // while you do not specifically get class M,B or O WF stars,
-		TYPE_STAR_O_WF = 33, //  you do get red = blue and purple from the colour of the gasses = so spectral class is an easy way to define them.
-		TYPE_STAR_S_BH = 34, //stellar blackhole
-		TYPE_STAR_IM_BH = 35, //Intermediate-mass blackhole
-		TYPE_STAR_SM_BH = 36, //Supermassive blackhole
-		TYPE_PLANET_GAS_GIANT = 37,
-		TYPE_PLANET_ASTEROID = 38,
-		TYPE_PLANET_TERRESTRIAL = 39,
-		TYPE_STARPORT_ORBITAL = 40,
-		TYPE_STARPORT_SURFACE = 41,
-		TYPE_MIN = TYPE_BROWN_DWARF, // <enum skip>
-		TYPE_MAX = TYPE_STARPORT_SURFACE, // <enum skip>
-		TYPE_STAR_MIN = TYPE_BROWN_DWARF, // <enum skip>
-		TYPE_STAR_MAX = TYPE_STAR_SM_BH, // <enum skip>
-		// XXX need larger atmosphereless thing
-	};
-
-	enum BodySuperType { // <enum scope='SystemBody' prefix=SUPERTYPE_ public>
-		SUPERTYPE_NONE = 0,
-		SUPERTYPE_STAR = 1,
-		SUPERTYPE_ROCKY_PLANET = 2,
-		SUPERTYPE_GAS_GIANT = 3,
-		SUPERTYPE_STARPORT = 4,
-	};
-
 	const SystemPath &GetPath() const { return m_path; }
 	SystemBody *GetParent() const { return m_parent; }
 
 	bool IsPlanet() const;
-	bool IsMoon() const { return GetSuperType() == SUPERTYPE_ROCKY_PLANET && !IsPlanet(); }
+	bool IsMoon() const { return GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_ROCKY_PLANET && !IsPlanet(); }
 
 	bool HasChildren() const { return !m_children.empty(); }
 	Uint32 GetNumChildren() const { return static_cast<Uint32>(m_children.size()); }
@@ -92,8 +35,8 @@ public:
 	inline const std::string &GetName() const { return m_name; }
 	std::string GetAstroDescription() const;
 	const char *GetIcon() const;
-	BodyType GetType() const { return m_type; }
-	BodySuperType GetSuperType() const;
+	GalaxyEnums::BodyType GetType() const { return m_type; }
+	GalaxyEnums::BodySuperType GetSuperType() const;
 	bool IsCustomBody() const { return m_isCustomBody; }
 	bool IsCoOrbitalWith(const SystemBody *other) const; //this and other form a binary pair
 	bool IsCoOrbital() const; //is part of any binary pair
@@ -102,7 +45,7 @@ public:
 	// the aspect ratio adjustment is converting from equatorial to polar radius to account for ellipsoid bodies, used for calculating terrains etc
 	inline double GetRadius() const
 	{
-		if (GetSuperType() <= SUPERTYPE_STAR) // polar radius
+		if (GetSuperType() <= GalaxyEnums::BodySuperType::SUPERTYPE_STAR) // polar radius
 			return (m_radius.ToDouble() / m_aspectRatio.ToDouble()) * SOL_RADIUS;
 		else
 			return m_radius.ToDouble() * EARTH_RADIUS;
@@ -111,7 +54,7 @@ public:
 	// the un-adjusted equatorial radius is necessary for calculating the radius of frames, see Space.cpp `MakeFrameFor`
 	inline double GetEquatorialRadius() const
 	{
-		if (GetSuperType() <= SUPERTYPE_STAR) // equatorial radius
+		if (GetSuperType() <= GalaxyEnums::BodySuperType::SUPERTYPE_STAR) // equatorial radius
 			return m_radius.ToDouble() * SOL_RADIUS;
 		else
 			return m_radius.ToDouble() * EARTH_RADIUS;
@@ -121,14 +64,14 @@ public:
 	fixed GetMassAsFixed() const { return m_mass; }
 	double GetMass() const
 	{
-		if (GetSuperType() <= SUPERTYPE_STAR)
+		if (GetSuperType() <= GalaxyEnums::BodySuperType::SUPERTYPE_STAR)
 			return m_mass.ToDouble() * SOL_MASS;
 		else
 			return m_mass.ToDouble() * EARTH_MASS;
 	}
 	fixed GetMassInEarths() const
 	{
-		if (GetSuperType() <= SUPERTYPE_STAR)
+		if (GetSuperType() <= GalaxyEnums::BodySuperType::SUPERTYPE_STAR)
 			return m_mass * 332998;
 		else
 			return m_mass;
@@ -247,7 +190,7 @@ private:
 	fixed m_axialTilt; // in radians
 	fixed m_inclination; // in radians, for surface bodies = latitude
 	int m_averageTemp;
-	BodyType m_type;
+	GalaxyEnums::BodyType m_type;
 	bool m_isCustomBody;
 
 	/* composition */

@@ -6,8 +6,6 @@
 #include "AtmosphereParameters.h"
 #include "Factions.h"
 #include "Galaxy.h"
-#include "Json.h"
-#include "Lang.h"
 #include "LuaNameGen.h"
 #include "Sector.h"
 #include "utils.h"
@@ -205,17 +203,17 @@ void StarSystemLegacyGeneratorBase::PickAtmosphere(SystemBody *sbody)
 	  for some variation to atmosphere colours
 	 */
 	switch (sbody->GetType()) {
-	case SystemBody::TYPE_PLANET_GAS_GIANT:
+	case GalaxyEnums::BodyType::TYPE_PLANET_GAS_GIANT:
 
 		sbody->m_atmosColor = Color(255, 255, 255, 3);
 		sbody->m_atmosDensity = 14.0;
 		break;
-	case SystemBody::TYPE_PLANET_ASTEROID:
+	case GalaxyEnums::BodyType::TYPE_PLANET_ASTEROID:
 		sbody->m_atmosColor = Color::BLANK;
 		sbody->m_atmosDensity = 0.0;
 		break;
 	default:
-	case SystemBody::TYPE_PLANET_TERRESTRIAL:
+	case GalaxyEnums::BodyType::TYPE_PLANET_TERRESTRIAL:
 		double r = 0, g = 0, b = 0;
 		double atmo = sbody->GetAtmosOxidizing();
 		if (sbody->GetVolatileGas() > 0.001) {
@@ -299,10 +297,10 @@ void StarSystemLegacyGeneratorBase::PickRings(SystemBody *sbody, bool forceRings
 	if (!bHasRings) {
 		Random ringRng(sbody->GetSeed() + 965467);
 		// today's forecast:
-		if (sbody->GetType() == SystemBody::TYPE_PLANET_GAS_GIANT) {
+		if (sbody->GetType() == GalaxyEnums::BodyType::TYPE_PLANET_GAS_GIANT) {
 			// 50% chance of rings
 			bHasRings = ringRng.Double() < 0.5;
-		} else if (sbody->GetType() == SystemBody::TYPE_PLANET_TERRESTRIAL) {
+		} else if (sbody->GetType() == GalaxyEnums::BodyType::TYPE_PLANET_TERRESTRIAL) {
 			// 10% chance of rings
 			bHasRings = ringRng.Double() < 0.1;
 		}
@@ -357,7 +355,7 @@ void StarSystemLegacyGeneratorBase::PickRings(SystemBody *sbody, bool forceRings
 fixed StarSystemLegacyGeneratorBase::CalcHillRadius(SystemBody *sbody) const
 {
 	PROFILE_SCOPED()
-	if (sbody->GetSuperType() <= SystemBody::SUPERTYPE_STAR) {
+	if (sbody->GetSuperType() <= GalaxyEnums::BodySuperType::SUPERTYPE_STAR) {
 		return fixed();
 	} else {
 		// playing with precision since these numbers get small
@@ -382,13 +380,13 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 	PROFILE_SCOPED()
 	// replaces gravpoint mass by sum of masses of its children
 	// the code goes here to cover also planetary gravpoints (gravpoints that are not rootBody)
-	if (parent->GetType() == SystemBody::TYPE_GRAVPOINT) {
+	if (parent->GetType() == GalaxyEnums::BodyType::TYPE_GRAVPOINT) {
 		fixed mass(0);
 
 		for (std::vector<CustomSystemBody *>::const_iterator i = children.begin(); i != children.end(); ++i) {
 			const CustomSystemBody *csbody = *i;
 
-			if (csbody->type >= SystemBody::TYPE_STAR_MIN && csbody->type <= SystemBody::TYPE_STAR_MAX)
+			if (csbody->type >= GalaxyEnums::BodyType::TYPE_STAR_MIN && csbody->type <= GalaxyEnums::BodyType::TYPE_STAR_MAX)
 				mass += csbody->mass;
 			else
 				mass += csbody->mass / SUN_MASS_TO_EARTH_MASS;
@@ -430,7 +428,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		kid->m_orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
 		kid->m_axialTilt = csbody->axialTilt;
 		kid->m_inclination = fixed(csbody->latitude * 10000, 10000);
-		if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
+		if (kid->GetType() == GalaxyEnums::BodyType::TYPE_STARPORT_SURFACE)
 			kid->m_orbitalOffset = fixed(csbody->longitude * 10000, 10000);
 		kid->m_semiMajorAxis = csbody->semiMajorAxis;
 
@@ -439,17 +437,17 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 			kid->m_heightMapFractal = csbody->heightMapFractal;
 		}
 
-		if (parent->GetType() == SystemBody::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
+		if (parent->GetType() == GalaxyEnums::BodyType::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
 			kid->m_orbit.SetShapeAroundBarycentre(csbody->semiMajorAxis.ToDouble() * AU, parent->GetMass(), kid->GetMass(), csbody->eccentricity.ToDouble());
 		else
 			kid->m_orbit.SetShapeAroundPrimary(csbody->semiMajorAxis.ToDouble() * AU, parent->GetMass(), csbody->eccentricity.ToDouble());
 
 		kid->m_orbit.SetPhase(csbody->orbitalPhaseAtStart.ToDouble());
 
-		if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+		if (kid->GetType() == GalaxyEnums::BodyType::TYPE_STARPORT_SURFACE) {
 			kid->m_orbit.SetPlane(matrix3x3d::RotateY(csbody->longitude) * matrix3x3d::RotateX(-0.5 * M_PI + csbody->latitude));
 		} else {
-			if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
+			if (kid->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STARPORT) {
 				fixed lowestOrbit = fixed().FromDouble(parent->CalcAtmosphereParams().atmosRadius + 500000.0 / EARTH_RADIUS);
 				if (kid->m_orbit.GetSemiMajorAxis() < lowestOrbit.ToDouble()) {
 					Error("%s's orbit is too close to its parent (%.2f/%.2f)", csbody->name.c_str(), kid->m_orbit.GetSemiMajorAxis(), lowestOrbit.ToFloat());
@@ -462,7 +460,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 			double offset = csbody->want_rand_offset ? rand.Double(2 * M_PI) : (csbody->orbitalOffset.ToDouble());
 			kid->m_orbit.SetPlane(matrix3x3d::RotateY(offset) * matrix3x3d::RotateX(-0.5 * M_PI + csbody->latitude));
 		}
-		if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
+		if (kid->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STARPORT) {
 			(*outHumanInfestedness)++;
 			system->AddSpaceStation(kid);
 		}
@@ -531,7 +529,7 @@ bool StarSystemCustomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 			CustomGetKidsOf(system, rootBody, csbody->children, &humanInfestedness, rng);
 			unsigned countedStars = 0;
 			for (RefCountedPtr<SystemBody> b : system->GetBodies()) {
-				if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+				if (b->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR) {
 					++countedStars;
 					system->AddStar(b.Get());
 				}
@@ -662,7 +660,7 @@ const SystemBody *StarSystemRandomGenerator::FindStarAndTrueOrbitalRange(const S
 	assert(star);
 
 	/* while not found star yet.. */
-	while (star->GetSuperType() > SystemBody::SUPERTYPE_STAR) {
+	while (star->GetSuperType() > GalaxyEnums::BodySuperType::SUPERTYPE_STAR) {
 		planet = star;
 		star = star->GetParent();
 	}
@@ -709,7 +707,7 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 	// enforce minimum size of 10km
 	sbody->m_radius = std::max(sbody->GetRadiusAsFixed(), fixed(1, 630));
 
-	if (sbody->GetParent()->GetType() <= SystemBody::TYPE_STAR_MAX) {
+	if (sbody->GetParent()->GetType() <= GalaxyEnums::BodyType::TYPE_STAR_MAX) {
 		// get it from the table now rather than setting it on stars/gravpoints as
 		// currently nothing else needs them to have metallicity
 		sbody->m_metallicity = starMetallicities[sbody->GetParent()->GetType()] * rand.Fixed();
@@ -729,7 +727,7 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 	// pick body type
 	if (sbody->GetMassAsFixed() > 317 * 13) {
 		// more than 13 jupiter masses can fuse deuterium - is a brown dwarf
-		sbody->m_type = SystemBody::TYPE_BROWN_DWARF;
+		sbody->m_type = GalaxyEnums::BodyType::TYPE_BROWN_DWARF;
 		sbody->m_averageTemp = sbody->GetAverageTemp() + rand.Int32(starTypeInfo[sbody->GetType()].tempMin, starTypeInfo[sbody->GetType()].tempMax);
 		// prevent mass exceeding 65 jupiter masses or so, when it becomes a star
 		// XXX since TYPE_BROWN_DWARF is supertype star, mass is now in
@@ -739,9 +737,9 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 		// So tell it to use the star data instead:
 		sbody->m_radius = fixed(rand.Int32(starTypeInfo[sbody->GetType()].radius[0], starTypeInfo[sbody->GetType()].radius[1]), 100);
 	} else if (sbody->GetMassAsFixed() > 6) {
-		sbody->m_type = SystemBody::TYPE_PLANET_GAS_GIANT;
+		sbody->m_type = GalaxyEnums::BodyType::TYPE_PLANET_GAS_GIANT;
 	} else if (sbody->GetMassAsFixed() > fixed(1, 15000)) {
-		sbody->m_type = SystemBody::TYPE_PLANET_TERRESTRIAL;
+		sbody->m_type = GalaxyEnums::BodyType::TYPE_PLANET_TERRESTRIAL;
 
 		fixed amount_volatiles = fixed(2, 1) * rand.Fixed();
 		if (rand.Int32(3)) amount_volatiles *= sbody->GetMassAsFixed();
@@ -807,7 +805,7 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 			}
 		}
 	} else {
-		sbody->m_type = SystemBody::TYPE_PLANET_ASTEROID;
+		sbody->m_type = GalaxyEnums::BodyType::TYPE_PLANET_ASTEROID;
 	}
 
 	// Tidal lock for planets close to their parents:
@@ -820,7 +818,7 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 	fixed invTidalLockTime = fixed(1, 1);
 
 	// fine-tuned not to give overflows, order of evaluation matters!
-	if (sbody->GetParent()->GetType() <= SystemBody::TYPE_STAR_MAX) {
+	if (sbody->GetParent()->GetType() <= GalaxyEnums::BodyType::TYPE_STAR_MAX) {
 		invTidalLockTime /= (sbody->GetSemiMajorAxisAsFixed() * sbody->GetSemiMajorAxisAsFixed());
 		invTidalLockTime *= sbody->GetMassAsFixed();
 		invTidalLockTime /= (sbody->GetSemiMajorAxisAsFixed() * sbody->GetSemiMajorAxisAsFixed());
@@ -903,10 +901,10 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 	fixed discMax = fixed(5000, 1);
 	fixed discDensity;
 
-	SystemBody::BodySuperType parentSuperType = primary->GetSuperType();
+	GalaxyEnums::BodySuperType parentSuperType = primary->GetSuperType();
 
-	if (parentSuperType <= SystemBody::SUPERTYPE_STAR) {
-		if (primary->GetType() == SystemBody::TYPE_GRAVPOINT) {
+	if (parentSuperType <= GalaxyEnums::BodySuperType::SUPERTYPE_STAR) {
+		if (primary->GetType() == GalaxyEnums::BodyType::TYPE_GRAVPOINT) {
 			/* around a binary */
 			discMin = primary->m_children[0]->m_orbMax * SAFE_DIST_FROM_BINARY;
 		} else {
@@ -914,7 +912,7 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 			 * it depends on body densities and gives some strange results */
 			discMin = 4 * primary->GetRadiusAsFixed() * AU_SOL_RADIUS;
 		}
-		if (primary->GetType() == SystemBody::TYPE_WHITE_DWARF) {
+		if (primary->GetType() == GalaxyEnums::BodyType::TYPE_WHITE_DWARF) {
 			// white dwarfs will have started as stars < 8 solar
 			// masses or so, so pick discMax according to that
 			// We give it a larger discMin because it used to be a much larger star
@@ -929,7 +927,7 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 		// disc density
 		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax, fixed(2, 100));
 
-		if ((parentSuperType == SystemBody::SUPERTYPE_STAR) && (primary->m_parent)) {
+		if ((parentSuperType == GalaxyEnums::BodySuperType::SUPERTYPE_STAR) && (primary->m_parent)) {
 			// limit planets out to 10% distance to star's binary companion
 			discMax = std::min(discMax, primary->m_orbMin * fixed(1, 10));
 		}
@@ -983,7 +981,7 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 		planet->m_eccentricity = ecc;
 		planet->m_axialTilt = fixed(100, 157) * rand.NFixed(2);
 		planet->m_semiMajorAxis = semiMajorAxis;
-		planet->m_type = SystemBody::TYPE_PLANET_TERRESTRIAL;
+		planet->m_type = GalaxyEnums::BodyType::TYPE_PLANET_TERRESTRIAL;
 		planet->m_seed = rand.Int32();
 		planet->m_parent = primary;
 		planet->m_mass = mass;
@@ -991,7 +989,7 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 
 		const double e = ecc.ToDouble();
 
-		if (primary->m_type == SystemBody::TYPE_GRAVPOINT)
+		if (primary->m_type == GalaxyEnums::BodyType::TYPE_GRAVPOINT)
 			planet->m_orbit.SetShapeAroundBarycentre(semiMajorAxis.ToDouble() * AU, primary->GetMass(), planet->GetMass(), e);
 		else
 			planet->m_orbit.SetShapeAroundPrimary(semiMajorAxis.ToDouble() * AU, primary->GetMass(), e);
@@ -1008,7 +1006,7 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 		primary->m_children.push_back(planet);
 
 		if (hasRings &&
-			parentSuperType == SystemBody::SUPERTYPE_ROCKY_PLANET &&
+			parentSuperType == GalaxyEnums::BodySuperType::SUPERTYPE_ROCKY_PLANET &&
 			test_overlap(ring.minRadius, ring.maxRadius, periapsis, apoapsis)) {
 			//Output("Overlap, eliminating rings from parent SystemBody\n");
 			//Overlap, eliminating rings from parent SystemBody
@@ -1022,14 +1020,14 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 	}
 
 	int idx = 0;
-	bool make_moons = parentSuperType <= SystemBody::SUPERTYPE_STAR;
+	bool make_moons = parentSuperType <= GalaxyEnums::BodySuperType::SUPERTYPE_STAR;
 
 	for (std::vector<SystemBody *>::iterator i = primary->m_children.begin(); i != primary->m_children.end(); ++i) {
 		// planets around a binary pair [gravpoint] -- ignore the stars...
-		if ((*i)->GetSuperType() == SystemBody::SUPERTYPE_STAR) continue;
+		if ((*i)->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR) continue;
 		// Turn them into something!!!!!!!
 		char buf[12];
-		if (parentSuperType <= SystemBody::SUPERTYPE_STAR) {
+		if (parentSuperType <= GalaxyEnums::BodySuperType::SUPERTYPE_STAR) {
 			// planet naming scheme
 			snprintf(buf, sizeof(buf), " %c", 'a' + idx);
 		} else {
@@ -1043,7 +1041,7 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 	}
 }
 
-void StarSystemRandomGenerator::MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, Random &rand)
+void StarSystemRandomGenerator::MakeStarOfType(SystemBody *sbody, GalaxyEnums::BodyType type, Random &rand)
 {
 	PROFILE_SCOPED()
 	sbody->m_type = type;
@@ -1063,23 +1061,23 @@ void StarSystemRandomGenerator::MakeStarOfType(SystemBody *sbody, SystemBody::Bo
 	// seem to tend to have values between 1.0 and around 1.5 (brief survey).
 	// The limiting factor preventing much higher values seems to be stability as they
 	// are rotating 80-95% of their breakup velocity.
-	case SystemBody::TYPE_STAR_F:
-	case SystemBody::TYPE_STAR_F_GIANT:
-	case SystemBody::TYPE_STAR_F_HYPER_GIANT:
-	case SystemBody::TYPE_STAR_F_SUPER_GIANT:
-	case SystemBody::TYPE_STAR_A:
-	case SystemBody::TYPE_STAR_A_GIANT:
-	case SystemBody::TYPE_STAR_A_HYPER_GIANT:
-	case SystemBody::TYPE_STAR_A_SUPER_GIANT:
-	case SystemBody::TYPE_STAR_B:
-	case SystemBody::TYPE_STAR_B_GIANT:
-	case SystemBody::TYPE_STAR_B_SUPER_GIANT:
-	case SystemBody::TYPE_STAR_B_WF:
-	case SystemBody::TYPE_STAR_O:
-	case SystemBody::TYPE_STAR_O_GIANT:
-	case SystemBody::TYPE_STAR_O_HYPER_GIANT:
-	case SystemBody::TYPE_STAR_O_SUPER_GIANT:
-	case SystemBody::TYPE_STAR_O_WF: {
+	case GalaxyEnums::BodyType::TYPE_STAR_F:
+	case GalaxyEnums::BodyType::TYPE_STAR_F_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_F_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_F_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_A:
+	case GalaxyEnums::BodyType::TYPE_STAR_A_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_A_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_A_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_B:
+	case GalaxyEnums::BodyType::TYPE_STAR_B_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_B_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_B_WF:
+	case GalaxyEnums::BodyType::TYPE_STAR_O:
+	case GalaxyEnums::BodyType::TYPE_STAR_O_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_O_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_O_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_O_WF: {
 		fixed rnd = rand.Fixed();
 		sbody->m_aspectRatio = fixed(1, 1) + fixed(8, 10) * rnd * rnd;
 		break;
@@ -1095,11 +1093,11 @@ void StarSystemRandomGenerator::MakeStarOfType(SystemBody *sbody, SystemBody::Bo
 void StarSystemRandomGenerator::MakeRandomStar(SystemBody *sbody, Random &rand)
 {
 	PROFILE_SCOPED()
-	SystemBody::BodyType type = SystemBody::BodyType(rand.Int32(SystemBody::TYPE_STAR_MIN, SystemBody::TYPE_STAR_MAX));
+	GalaxyEnums::BodyType type = GalaxyEnums::BodyType(rand.Int32(GalaxyEnums::BodyType::TYPE_STAR_MIN, GalaxyEnums::BodyType::TYPE_STAR_MAX));
 	MakeStarOfType(sbody, type, rand);
 }
 
-void StarSystemRandomGenerator::MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyType type, fixed maxMass, Random &rand)
+void StarSystemRandomGenerator::MakeStarOfTypeLighterThan(SystemBody *sbody, GalaxyEnums::BodyType type, fixed maxMass, Random &rand)
 {
 	PROFILE_SCOPED()
 	int tries = 16;
@@ -1170,7 +1168,7 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 	const int numStars = secSys.GetNumStars();
 	assert((numStars >= 1) && (numStars <= 4));
 	if (numStars == 1) {
-		SystemBody::BodyType type = sec->m_systems[system->GetPath().systemIndex].GetStarType(0);
+		GalaxyEnums::BodyType type = sec->m_systems[system->GetPath().systemIndex].GetStarType(0);
 		star[0] = system->NewBody();
 		star[0]->m_parent = 0;
 		star[0]->m_name = sec->m_systems[system->GetPath().systemIndex].GetName();
@@ -1182,12 +1180,12 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 		system->SetNumStars(1);
 	} else {
 		centGrav1 = system->NewBody();
-		centGrav1->m_type = SystemBody::TYPE_GRAVPOINT;
+		centGrav1->m_type = GalaxyEnums::BodyType::TYPE_GRAVPOINT;
 		centGrav1->m_parent = 0;
 		centGrav1->m_name = sec->m_systems[system->GetPath().systemIndex].GetName() + " A,B";
 		system->SetRootBody(centGrav1);
 
-		SystemBody::BodyType type = sec->m_systems[system->GetPath().systemIndex].GetStarType(0);
+		GalaxyEnums::BodyType type = sec->m_systems[system->GetPath().systemIndex].GetStarType(0);
 		star[0] = system->NewBody();
 		star[0]->m_name = sec->m_systems[system->GetPath().systemIndex].GetName() + " A";
 		star[0]->m_parent = centGrav1;
@@ -1224,7 +1222,7 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 				system->SetNumStars(3);
 			} else {
 				centGrav2 = system->NewBody();
-				centGrav2->m_type = SystemBody::TYPE_GRAVPOINT;
+				centGrav2->m_type = GalaxyEnums::BodyType::TYPE_GRAVPOINT;
 				centGrav2->m_name = sec->m_systems[system->GetPath().systemIndex].GetName() + " C,D";
 				centGrav2->m_orbMax = 0;
 
@@ -1247,7 +1245,7 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 				system->SetNumStars(4);
 			}
 			SystemBody *superCentGrav = system->NewBody();
-			superCentGrav->m_type = SystemBody::TYPE_GRAVPOINT;
+			superCentGrav->m_type = GalaxyEnums::BodyType::TYPE_GRAVPOINT;
 			superCentGrav->m_parent = 0;
 			superCentGrav->m_name = sec->m_systems[system->GetPath().systemIndex].GetName();
 			centGrav1->m_parent = superCentGrav;
@@ -1340,7 +1338,7 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 	}
 
 	// grav-points have no population themselves
-	if (sbody->GetType() == SystemBody::TYPE_GRAVPOINT) {
+	if (sbody->GetType() == GalaxyEnums::BodyType::TYPE_GRAVPOINT) {
 		sbody->m_population = fixed();
 		return;
 	}
@@ -1358,15 +1356,15 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 
 	/* Bad type of planet for settlement */
 	if ((sbody->GetAverageTemp() > CELSIUS + 100) || (sbody->GetAverageTemp() < 100) ||
-		(sbody->GetType() != SystemBody::TYPE_PLANET_TERRESTRIAL && sbody->GetType() != SystemBody::TYPE_PLANET_ASTEROID)) {
+		(sbody->GetType() != GalaxyEnums::BodyType::TYPE_PLANET_TERRESTRIAL && sbody->GetType() != GalaxyEnums::BodyType::TYPE_PLANET_ASTEROID)) {
 		Random starportPopRand;
 		starportPopRand.seed(_init, 6);
 
 		// orbital starports should carry a small amount of population
-		if (sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) {
+		if (sbody->GetType() == GalaxyEnums::BodyType::TYPE_STARPORT_ORBITAL) {
 			sbody->m_population = fixed(1, 100000) + fixed(1, 1000000 + starportPopRand.Int32(-10000, 10000));
 			outTotalPop += sbody->m_population;
-		} else if (sbody->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+		} else if (sbody->GetType() == GalaxyEnums::BodyType::TYPE_STARPORT_SURFACE) {
 			sbody->m_population = fixed(1, 10000) + fixed(1, 100000 + starportPopRand.Int32(-100, 100));
 			outTotalPop += sbody->m_population;
 		}
@@ -1563,7 +1561,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 
 				// Begin creation of the new station
 				SystemBody *sp = system->NewBody();
-				sp->m_type = SystemBody::TYPE_STARPORT_ORBITAL;
+				sp->m_type = GalaxyEnums::BodyType::TYPE_STARPORT_ORBITAL;
 				sp->m_seed = rand.Int32();
 				sp->m_parent = sbody;
 				sp->m_rotationPeriod = fixed(1, 3600);
@@ -1605,7 +1603,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 		if (pop < 0) break;
 
 		SystemBody *sp = system->NewBody();
-		sp->m_type = SystemBody::TYPE_STARPORT_SURFACE;
+		sp->m_type = GalaxyEnums::BodyType::TYPE_STARPORT_SURFACE;
 		sp->m_seed = rand.Int32();
 		sp->m_parent = sbody;
 		sp->m_averageTemp = sbody->GetAverageTemp();
@@ -1620,7 +1618,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 	// garuantee that there is always a star port on a populated world
 	if (!system->HasSpaceStations()) {
 		SystemBody *sp = system->NewBody();
-		sp->m_type = SystemBody::TYPE_STARPORT_SURFACE;
+		sp->m_type = GalaxyEnums::BodyType::TYPE_STARPORT_SURFACE;
 		sp->m_seed = rand.Int32();
 		sp->m_parent = sbody;
 		sp->m_averageTemp = sbody->m_averageTemp;

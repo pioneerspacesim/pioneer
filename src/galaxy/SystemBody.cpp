@@ -23,7 +23,7 @@ SystemBody::SystemBody(const SystemPath &path, StarSystem *system) :
 	m_axialTilt(0),
 	m_inclination(0),
 	m_averageTemp(0),
-	m_type(TYPE_GRAVPOINT),
+	m_type(GalaxyEnums::BodyType::TYPE_GRAVPOINT),
 	m_isCustomBody(false),
 	m_heightMapFractal(0),
 	m_atmosDensity(0.0),
@@ -41,9 +41,9 @@ bool SystemBody::IsScoopable() const
 {
 	PROFILE_SCOPED()
 
-	if (GetSuperType() == SUPERTYPE_GAS_GIANT)
+	if (GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_GAS_GIANT)
 		return true;
-	if ((m_type == TYPE_PLANET_TERRESTRIAL) &&
+	if ((m_type == GalaxyEnums::BodyType::TYPE_PLANET_TERRESTRIAL) &&
 		m_volatileGas > fixed(1, 100) &&
 		m_atmosOxidizing > fixed(3, 10) &&
 		m_atmosOxidizing <= fixed(55, 100))
@@ -97,7 +97,7 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 		T = 165;
 
 	// We have two kinds of atmosphere: Earth-like and gas giant (hydrogen/helium)
-	const double M = m_type == TYPE_PLANET_GAS_GIANT ? 0.0023139903 : 0.02897f; // in kg/mol
+	const double M = m_type == GalaxyEnums::BodyType::TYPE_PLANET_GAS_GIANT ? 0.0023139903 : 0.02897f; // in kg/mol
 
 	float atmosScaleHeight = static_cast<float>(GAS_CONSTANT_R * T / (M * g));
 
@@ -112,60 +112,60 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	return params;
 }
 
-SystemBody::BodySuperType SystemBody::GetSuperType() const
+GalaxyEnums::BodySuperType SystemBody::GetSuperType() const
 {
 	PROFILE_SCOPED()
 	switch (m_type) {
-	case TYPE_BROWN_DWARF:
-	case TYPE_WHITE_DWARF:
-	case TYPE_STAR_M:
-	case TYPE_STAR_K:
-	case TYPE_STAR_G:
-	case TYPE_STAR_F:
-	case TYPE_STAR_A:
-	case TYPE_STAR_B:
-	case TYPE_STAR_O:
-	case TYPE_STAR_M_GIANT:
-	case TYPE_STAR_K_GIANT:
-	case TYPE_STAR_G_GIANT:
-	case TYPE_STAR_F_GIANT:
-	case TYPE_STAR_A_GIANT:
-	case TYPE_STAR_B_GIANT:
-	case TYPE_STAR_O_GIANT:
-	case TYPE_STAR_M_SUPER_GIANT:
-	case TYPE_STAR_K_SUPER_GIANT:
-	case TYPE_STAR_G_SUPER_GIANT:
-	case TYPE_STAR_F_SUPER_GIANT:
-	case TYPE_STAR_A_SUPER_GIANT:
-	case TYPE_STAR_B_SUPER_GIANT:
-	case TYPE_STAR_O_SUPER_GIANT:
-	case TYPE_STAR_M_HYPER_GIANT:
-	case TYPE_STAR_K_HYPER_GIANT:
-	case TYPE_STAR_G_HYPER_GIANT:
-	case TYPE_STAR_F_HYPER_GIANT:
-	case TYPE_STAR_A_HYPER_GIANT:
-	case TYPE_STAR_B_HYPER_GIANT:
-	case TYPE_STAR_O_HYPER_GIANT:
-	case TYPE_STAR_M_WF:
-	case TYPE_STAR_B_WF:
-	case TYPE_STAR_O_WF:
-	case TYPE_STAR_S_BH:
-	case TYPE_STAR_IM_BH:
-	case TYPE_STAR_SM_BH:
-		return SUPERTYPE_STAR;
-	case TYPE_PLANET_GAS_GIANT:
-		return SUPERTYPE_GAS_GIANT;
-	case TYPE_PLANET_ASTEROID:
-	case TYPE_PLANET_TERRESTRIAL:
-		return SUPERTYPE_ROCKY_PLANET;
-	case TYPE_STARPORT_ORBITAL:
-	case TYPE_STARPORT_SURFACE:
-		return SUPERTYPE_STARPORT;
-	case TYPE_GRAVPOINT:
-		return SUPERTYPE_NONE;
+	case GalaxyEnums::BodyType::TYPE_BROWN_DWARF:
+	case GalaxyEnums::BodyType::TYPE_WHITE_DWARF:
+	case GalaxyEnums::BodyType::TYPE_STAR_M:
+	case GalaxyEnums::BodyType::TYPE_STAR_K:
+	case GalaxyEnums::BodyType::TYPE_STAR_G:
+	case GalaxyEnums::BodyType::TYPE_STAR_F:
+	case GalaxyEnums::BodyType::TYPE_STAR_A:
+	case GalaxyEnums::BodyType::TYPE_STAR_B:
+	case GalaxyEnums::BodyType::TYPE_STAR_O:
+	case GalaxyEnums::BodyType::TYPE_STAR_M_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_K_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_G_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_F_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_A_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_B_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_O_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_M_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_K_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_G_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_F_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_A_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_B_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_O_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_M_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_K_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_G_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_F_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_A_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_B_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_O_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_M_WF:
+	case GalaxyEnums::BodyType::TYPE_STAR_B_WF:
+	case GalaxyEnums::BodyType::TYPE_STAR_O_WF:
+	case GalaxyEnums::BodyType::TYPE_STAR_S_BH:
+	case GalaxyEnums::BodyType::TYPE_STAR_IM_BH:
+	case GalaxyEnums::BodyType::TYPE_STAR_SM_BH:
+		return GalaxyEnums::BodySuperType::SUPERTYPE_STAR;
+	case GalaxyEnums::BodyType::TYPE_PLANET_GAS_GIANT:
+		return GalaxyEnums::BodySuperType::SUPERTYPE_GAS_GIANT;
+	case GalaxyEnums::BodyType::TYPE_PLANET_ASTEROID:
+	case GalaxyEnums::BodyType::TYPE_PLANET_TERRESTRIAL:
+		return GalaxyEnums::BodySuperType::SUPERTYPE_ROCKY_PLANET;
+	case GalaxyEnums::BodyType::TYPE_STARPORT_ORBITAL:
+	case GalaxyEnums::BodyType::TYPE_STARPORT_SURFACE:
+		return GalaxyEnums::BodySuperType::SUPERTYPE_STARPORT;
+	case GalaxyEnums::BodyType::TYPE_GRAVPOINT:
+		return GalaxyEnums::BodySuperType::SUPERTYPE_NONE;
 	default:
 		Output("Warning: Invalid SuperBody Type found.\n");
-		return SUPERTYPE_NONE;
+		return GalaxyEnums::BodySuperType::SUPERTYPE_NONE;
 	}
 }
 
@@ -173,51 +173,51 @@ std::string SystemBody::GetAstroDescription() const
 {
 	PROFILE_SCOPED()
 	switch (m_type) {
-	case TYPE_BROWN_DWARF: return Lang::BROWN_DWARF;
-	case TYPE_WHITE_DWARF: return Lang::WHITE_DWARF;
-	case TYPE_STAR_M: return Lang::STAR_M;
-	case TYPE_STAR_K: return Lang::STAR_K;
-	case TYPE_STAR_G: return Lang::STAR_G;
-	case TYPE_STAR_F: return Lang::STAR_F;
-	case TYPE_STAR_A: return Lang::STAR_A;
-	case TYPE_STAR_B: return Lang::STAR_B;
-	case TYPE_STAR_O: return Lang::STAR_O;
-	case TYPE_STAR_M_GIANT: return Lang::STAR_M_GIANT;
-	case TYPE_STAR_K_GIANT: return Lang::STAR_K_GIANT;
-	case TYPE_STAR_G_GIANT: return Lang::STAR_G_GIANT;
-	case TYPE_STAR_F_GIANT: return Lang::STAR_AF_GIANT;
-	case TYPE_STAR_A_GIANT: return Lang::STAR_AF_GIANT;
-	case TYPE_STAR_B_GIANT: return Lang::STAR_B_GIANT;
-	case TYPE_STAR_O_GIANT: return Lang::STAR_O_GIANT;
-	case TYPE_STAR_M_SUPER_GIANT: return Lang::STAR_M_SUPER_GIANT;
-	case TYPE_STAR_K_SUPER_GIANT: return Lang::STAR_K_SUPER_GIANT;
-	case TYPE_STAR_G_SUPER_GIANT: return Lang::STAR_G_SUPER_GIANT;
-	case TYPE_STAR_F_SUPER_GIANT: return Lang::STAR_AF_SUPER_GIANT;
-	case TYPE_STAR_A_SUPER_GIANT: return Lang::STAR_AF_SUPER_GIANT;
-	case TYPE_STAR_B_SUPER_GIANT: return Lang::STAR_B_SUPER_GIANT;
-	case TYPE_STAR_O_SUPER_GIANT: return Lang::STAR_O_SUPER_GIANT;
-	case TYPE_STAR_M_HYPER_GIANT: return Lang::STAR_M_HYPER_GIANT;
-	case TYPE_STAR_K_HYPER_GIANT: return Lang::STAR_K_HYPER_GIANT;
-	case TYPE_STAR_G_HYPER_GIANT: return Lang::STAR_G_HYPER_GIANT;
-	case TYPE_STAR_F_HYPER_GIANT: return Lang::STAR_AF_HYPER_GIANT;
-	case TYPE_STAR_A_HYPER_GIANT: return Lang::STAR_AF_HYPER_GIANT;
-	case TYPE_STAR_B_HYPER_GIANT: return Lang::STAR_B_HYPER_GIANT;
-	case TYPE_STAR_O_HYPER_GIANT: return Lang::STAR_O_HYPER_GIANT;
-	case TYPE_STAR_M_WF: return Lang::STAR_M_WF;
-	case TYPE_STAR_B_WF: return Lang::STAR_B_WF;
-	case TYPE_STAR_O_WF: return Lang::STAR_O_WF;
-	case TYPE_STAR_S_BH: return Lang::STAR_S_BH;
-	case TYPE_STAR_IM_BH: return Lang::STAR_IM_BH;
-	case TYPE_STAR_SM_BH: return Lang::STAR_SM_BH;
-	case TYPE_PLANET_GAS_GIANT:
+	case GalaxyEnums::BodyType::TYPE_BROWN_DWARF: return Lang::BROWN_DWARF;
+	case GalaxyEnums::BodyType::TYPE_WHITE_DWARF: return Lang::WHITE_DWARF;
+	case GalaxyEnums::BodyType::TYPE_STAR_M: return Lang::STAR_M;
+	case GalaxyEnums::BodyType::TYPE_STAR_K: return Lang::STAR_K;
+	case GalaxyEnums::BodyType::TYPE_STAR_G: return Lang::STAR_G;
+	case GalaxyEnums::BodyType::TYPE_STAR_F: return Lang::STAR_F;
+	case GalaxyEnums::BodyType::TYPE_STAR_A: return Lang::STAR_A;
+	case GalaxyEnums::BodyType::TYPE_STAR_B: return Lang::STAR_B;
+	case GalaxyEnums::BodyType::TYPE_STAR_O: return Lang::STAR_O;
+	case GalaxyEnums::BodyType::TYPE_STAR_M_GIANT: return Lang::STAR_M_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_K_GIANT: return Lang::STAR_K_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_G_GIANT: return Lang::STAR_G_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_F_GIANT: return Lang::STAR_AF_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_A_GIANT: return Lang::STAR_AF_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_B_GIANT: return Lang::STAR_B_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_O_GIANT: return Lang::STAR_O_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_M_SUPER_GIANT: return Lang::STAR_M_SUPER_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_K_SUPER_GIANT: return Lang::STAR_K_SUPER_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_G_SUPER_GIANT: return Lang::STAR_G_SUPER_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_F_SUPER_GIANT: return Lang::STAR_AF_SUPER_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_A_SUPER_GIANT: return Lang::STAR_AF_SUPER_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_B_SUPER_GIANT: return Lang::STAR_B_SUPER_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_O_SUPER_GIANT: return Lang::STAR_O_SUPER_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_M_HYPER_GIANT: return Lang::STAR_M_HYPER_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_K_HYPER_GIANT: return Lang::STAR_K_HYPER_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_G_HYPER_GIANT: return Lang::STAR_G_HYPER_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_F_HYPER_GIANT: return Lang::STAR_AF_HYPER_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_A_HYPER_GIANT: return Lang::STAR_AF_HYPER_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_B_HYPER_GIANT: return Lang::STAR_B_HYPER_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_O_HYPER_GIANT: return Lang::STAR_O_HYPER_GIANT;
+	case GalaxyEnums::BodyType::TYPE_STAR_M_WF: return Lang::STAR_M_WF;
+	case GalaxyEnums::BodyType::TYPE_STAR_B_WF: return Lang::STAR_B_WF;
+	case GalaxyEnums::BodyType::TYPE_STAR_O_WF: return Lang::STAR_O_WF;
+	case GalaxyEnums::BodyType::TYPE_STAR_S_BH: return Lang::STAR_S_BH;
+	case GalaxyEnums::BodyType::TYPE_STAR_IM_BH: return Lang::STAR_IM_BH;
+	case GalaxyEnums::BodyType::TYPE_STAR_SM_BH: return Lang::STAR_SM_BH;
+	case GalaxyEnums::BodyType::TYPE_PLANET_GAS_GIANT:
 		if (m_mass > 800) return Lang::VERY_LARGE_GAS_GIANT;
 		if (m_mass > 300) return Lang::LARGE_GAS_GIANT;
 		if (m_mass > 80)
 			return Lang::MEDIUM_GAS_GIANT;
 		else
 			return Lang::SMALL_GAS_GIANT;
-	case TYPE_PLANET_ASTEROID: return Lang::ASTEROID;
-	case TYPE_PLANET_TERRESTRIAL: {
+	case GalaxyEnums::BodyType::TYPE_PLANET_ASTEROID: return Lang::ASTEROID;
+	case GalaxyEnums::BodyType::TYPE_PLANET_TERRESTRIAL: {
 		std::string s;
 		if (m_mass > fixed(2, 1))
 			s = Lang::MASSIVE;
@@ -299,11 +299,11 @@ std::string SystemBody::GetAstroDescription() const
 
 		return s;
 	}
-	case TYPE_STARPORT_ORBITAL:
+	case GalaxyEnums::BodyType::TYPE_STARPORT_ORBITAL:
 		return Lang::ORBITAL_STARPORT;
-	case TYPE_STARPORT_SURFACE:
+	case GalaxyEnums::BodyType::TYPE_STARPORT_SURFACE:
 		return Lang::STARPORT;
-	case TYPE_GRAVPOINT:
+	case GalaxyEnums::BodyType::TYPE_GRAVPOINT:
 	default:
 		Output("Warning: Invalid Astro Body Description found.\n");
 		return Lang::UNKNOWN;
@@ -314,43 +314,43 @@ const char *SystemBody::GetIcon() const
 {
 	PROFILE_SCOPED()
 	switch (m_type) {
-	case TYPE_BROWN_DWARF: return "icons/object_brown_dwarf.png";
-	case TYPE_WHITE_DWARF: return "icons/object_white_dwarf.png";
-	case TYPE_STAR_M: return "icons/object_star_m.png";
-	case TYPE_STAR_K: return "icons/object_star_k.png";
-	case TYPE_STAR_G: return "icons/object_star_g.png";
-	case TYPE_STAR_F: return "icons/object_star_f.png";
-	case TYPE_STAR_A: return "icons/object_star_a.png";
-	case TYPE_STAR_B: return "icons/object_star_b.png";
-	case TYPE_STAR_O: return "icons/object_star_b.png"; //shares B graphic for now
-	case TYPE_STAR_M_GIANT: return "icons/object_star_m_giant.png";
-	case TYPE_STAR_K_GIANT: return "icons/object_star_k_giant.png";
-	case TYPE_STAR_G_GIANT: return "icons/object_star_g_giant.png";
-	case TYPE_STAR_F_GIANT: return "icons/object_star_f_giant.png";
-	case TYPE_STAR_A_GIANT: return "icons/object_star_a_giant.png";
-	case TYPE_STAR_B_GIANT: return "icons/object_star_b_giant.png";
-	case TYPE_STAR_O_GIANT: return "icons/object_star_o.png"; // uses old O type graphic
-	case TYPE_STAR_M_SUPER_GIANT: return "icons/object_star_m_super_giant.png";
-	case TYPE_STAR_K_SUPER_GIANT: return "icons/object_star_k_super_giant.png";
-	case TYPE_STAR_G_SUPER_GIANT: return "icons/object_star_g_super_giant.png";
-	case TYPE_STAR_F_SUPER_GIANT: return "icons/object_star_g_super_giant.png"; //shares G graphic for now
-	case TYPE_STAR_A_SUPER_GIANT: return "icons/object_star_a_super_giant.png";
-	case TYPE_STAR_B_SUPER_GIANT: return "icons/object_star_b_super_giant.png";
-	case TYPE_STAR_O_SUPER_GIANT: return "icons/object_star_b_super_giant.png"; // uses B type graphic for now
-	case TYPE_STAR_M_HYPER_GIANT: return "icons/object_star_m_hyper_giant.png";
-	case TYPE_STAR_K_HYPER_GIANT: return "icons/object_star_k_hyper_giant.png";
-	case TYPE_STAR_G_HYPER_GIANT: return "icons/object_star_g_hyper_giant.png";
-	case TYPE_STAR_F_HYPER_GIANT: return "icons/object_star_f_hyper_giant.png";
-	case TYPE_STAR_A_HYPER_GIANT: return "icons/object_star_a_hyper_giant.png";
-	case TYPE_STAR_B_HYPER_GIANT: return "icons/object_star_b_hyper_giant.png";
-	case TYPE_STAR_O_HYPER_GIANT: return "icons/object_star_b_hyper_giant.png"; // uses B type graphic for now
-	case TYPE_STAR_M_WF: return "icons/object_star_m_wf.png";
-	case TYPE_STAR_B_WF: return "icons/object_star_b_wf.png";
-	case TYPE_STAR_O_WF: return "icons/object_star_o_wf.png";
-	case TYPE_STAR_S_BH: return "icons/object_star_bh.png";
-	case TYPE_STAR_IM_BH: return "icons/object_star_smbh.png";
-	case TYPE_STAR_SM_BH: return "icons/object_star_smbh.png";
-	case TYPE_PLANET_GAS_GIANT:
+	case GalaxyEnums::BodyType::TYPE_BROWN_DWARF: return "icons/object_brown_dwarf.png";
+	case GalaxyEnums::BodyType::TYPE_WHITE_DWARF: return "icons/object_white_dwarf.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_M: return "icons/object_star_m.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_K: return "icons/object_star_k.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_G: return "icons/object_star_g.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_F: return "icons/object_star_f.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_A: return "icons/object_star_a.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_B: return "icons/object_star_b.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_O: return "icons/object_star_b.png"; //shares B graphic for now
+	case GalaxyEnums::BodyType::TYPE_STAR_M_GIANT: return "icons/object_star_m_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_K_GIANT: return "icons/object_star_k_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_G_GIANT: return "icons/object_star_g_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_F_GIANT: return "icons/object_star_f_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_A_GIANT: return "icons/object_star_a_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_B_GIANT: return "icons/object_star_b_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_O_GIANT: return "icons/object_star_o.png"; // uses old O type graphic
+	case GalaxyEnums::BodyType::TYPE_STAR_M_SUPER_GIANT: return "icons/object_star_m_super_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_K_SUPER_GIANT: return "icons/object_star_k_super_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_G_SUPER_GIANT: return "icons/object_star_g_super_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_F_SUPER_GIANT: return "icons/object_star_g_super_giant.png"; //shares G graphic for now
+	case GalaxyEnums::BodyType::TYPE_STAR_A_SUPER_GIANT: return "icons/object_star_a_super_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_B_SUPER_GIANT: return "icons/object_star_b_super_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_O_SUPER_GIANT: return "icons/object_star_b_super_giant.png"; // uses B type graphic for now
+	case GalaxyEnums::BodyType::TYPE_STAR_M_HYPER_GIANT: return "icons/object_star_m_hyper_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_K_HYPER_GIANT: return "icons/object_star_k_hyper_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_G_HYPER_GIANT: return "icons/object_star_g_hyper_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_F_HYPER_GIANT: return "icons/object_star_f_hyper_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_A_HYPER_GIANT: return "icons/object_star_a_hyper_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_B_HYPER_GIANT: return "icons/object_star_b_hyper_giant.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_O_HYPER_GIANT: return "icons/object_star_b_hyper_giant.png"; // uses B type graphic for now
+	case GalaxyEnums::BodyType::TYPE_STAR_M_WF: return "icons/object_star_m_wf.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_B_WF: return "icons/object_star_b_wf.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_O_WF: return "icons/object_star_o_wf.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_S_BH: return "icons/object_star_bh.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_IM_BH: return "icons/object_star_smbh.png";
+	case GalaxyEnums::BodyType::TYPE_STAR_SM_BH: return "icons/object_star_smbh.png";
+	case GalaxyEnums::BodyType::TYPE_PLANET_GAS_GIANT:
 		if (m_mass > 800) {
 			if (m_averageTemp > 1000)
 				return "icons/object_planet_large_gas_giant_hot.png";
@@ -374,9 +374,9 @@ const char *SystemBody::GetIcon() const
 			else
 				return "icons/object_planet_small_gas_giant.png";
 		}
-	case TYPE_PLANET_ASTEROID:
+	case GalaxyEnums::BodyType::TYPE_PLANET_ASTEROID:
 		return "icons/object_planet_asteroid.png";
-	case TYPE_PLANET_TERRESTRIAL:
+	case GalaxyEnums::BodyType::TYPE_PLANET_TERRESTRIAL:
 		if (m_volatileLiquid > fixed(7, 10)) {
 			if (m_averageTemp > 250)
 				return "icons/object_planet_water.png";
@@ -444,10 +444,10 @@ const char *SystemBody::GetIcon() const
       "icons/object_planet_life3.png"
       "icons/object_planet_life2.png"
       */
-	case TYPE_STARPORT_ORBITAL:
+	case GalaxyEnums::BodyType::TYPE_STARPORT_ORBITAL:
 		return "icons/object_orbital_starport.png";
-	case TYPE_GRAVPOINT:
-	case TYPE_STARPORT_SURFACE:
+	case GalaxyEnums::BodyType::TYPE_GRAVPOINT:
+	case GalaxyEnums::BodyType::TYPE_STARPORT_SURFACE:
 	default:
 		Output("Warning: Invalid body icon.\n");
 		return 0;
@@ -456,11 +456,11 @@ const char *SystemBody::GetIcon() const
 
 bool SystemBody::IsPlanet() const
 {
-	BodySuperType st = GetSuperType();
-	if (st != BodySuperType::SUPERTYPE_ROCKY_PLANET && st != BodySuperType::SUPERTYPE_GAS_GIANT)
+	GalaxyEnums::BodySuperType st = GetSuperType();
+	if (st != GalaxyEnums::BodySuperType::SUPERTYPE_ROCKY_PLANET && st != GalaxyEnums::BodySuperType::SUPERTYPE_GAS_GIANT)
 		return false;
 	SystemBody *p = GetParent();
-	if (p != nullptr && p->GetSuperType() == BodySuperType::SUPERTYPE_STAR) {
+	if (p != nullptr && p->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR) {
 		return true;
 	} else {
 		return false;
@@ -481,14 +481,14 @@ double SystemBody::GetMaxChildOrbitalDistance() const
 
 bool SystemBody::IsCoOrbitalWith(const SystemBody *other) const
 {
-	if (m_parent && m_parent->GetType() == SystemBody::TYPE_GRAVPOINT && ((m_parent->m_children[0] == this && m_parent->m_children[1] == other) || (m_parent->m_children[1] == this && m_parent->m_children[0] == other)))
+	if (m_parent && m_parent->GetType() == GalaxyEnums::BodyType::TYPE_GRAVPOINT && ((m_parent->m_children[0] == this && m_parent->m_children[1] == other) || (m_parent->m_children[1] == this && m_parent->m_children[0] == other)))
 		return true;
 	return false;
 }
 
 bool SystemBody::IsCoOrbital() const
 {
-	if (m_parent && m_parent->GetType() == SystemBody::TYPE_GRAVPOINT && (m_parent->m_children[0] == this || m_parent->m_children[1] == this))
+	if (m_parent && m_parent->GetType() == GalaxyEnums::BodyType::TYPE_GRAVPOINT && (m_parent->m_children[0] == this || m_parent->m_children[1] == this))
 		return true;
 	return false;
 }
@@ -517,7 +517,7 @@ void SystemBody::Dump(FILE *file, const char *indent) const
 		m_orbMin.ToDouble(), m_orbMax.ToDouble());
 	fprintf(file, "%s\t\toffset=%.6f, phase=%.6f, inclination=%.6f\n", indent, m_orbitalOffset.ToDouble(), m_orbitalPhaseAtStart.ToDouble(),
 		m_inclination.ToDouble());
-	if (m_type != TYPE_GRAVPOINT) {
+	if (m_type != GalaxyEnums::BodyType::TYPE_GRAVPOINT) {
 		fprintf(file, "%s\tseed %u\n", indent, m_seed);
 		fprintf(file, "%s\tradius %.6f, aspect %.6f\n", indent, m_radius.ToDouble(), m_aspectRatio.ToDouble());
 		fprintf(file, "%s\taxial tilt %.6f, period %.6f, phase %.6f\n", indent, m_axialTilt.ToDouble(), m_rotationPeriod.ToDouble(),

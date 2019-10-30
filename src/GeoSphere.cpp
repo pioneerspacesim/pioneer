@@ -10,7 +10,7 @@
 #include "Pi.h"
 #include "RefCounted.h"
 #include "galaxy/AtmosphereParameters.h"
-#include "galaxy/StarSystem.h"
+#include "galaxy/SystemBody.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
@@ -424,11 +424,11 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	// save old global ambient
 	const Color oldAmbient = renderer->GetAmbientColor();
 
-	if ((GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (GetSystemBody()->GetType() == SystemBody::TYPE_BROWN_DWARF)) {
+	if ((GetSystemBody()->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR) || (GetSystemBody()->GetType() == GalaxyEnums::BodyType::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
 		ambient.r = ambient.g = ambient.b = 51;
 		ambient.a = 255;
-		emission = StarSystem::starRealColors[GetSystemBody()->GetType()];
+		emission = GalaxyEnums::starRealColors[GetSystemBody()->GetType()];
 		emission.a = 255;
 	}
 
@@ -478,12 +478,12 @@ void GeoSphere::SetUpMaterials()
 	else
 		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN;
 
-	if ((GetSystemBody()->GetType() == SystemBody::TYPE_BROWN_DWARF) ||
-		(GetSystemBody()->GetType() == SystemBody::TYPE_STAR_M)) {
+	if ((GetSystemBody()->GetType() == GalaxyEnums::BodyType::TYPE_BROWN_DWARF) ||
+		(GetSystemBody()->GetType() == GalaxyEnums::BodyType::TYPE_STAR_M)) {
 		//dim star (emits and receives light)
 		surfDesc.lighting = true;
 		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
-	} else if (GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+	} else if (GetSystemBody()->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR) {
 		//normal star
 		surfDesc.lighting = false;
 		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;

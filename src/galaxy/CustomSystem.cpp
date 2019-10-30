@@ -43,7 +43,7 @@ static int l_csb_new(lua_State *L)
 	const char *name = luaL_checkstring(L, 2);
 	int type = LuaConstants::GetConstantFromArg(L, "BodyType", 3);
 
-	if (type < SystemBody::TYPE_GRAVPOINT || type > SystemBody::TYPE_MAX) {
+	if (type < GalaxyEnums::BodyType::TYPE_GRAVPOINT || type > GalaxyEnums::BodyType::TYPE_MAX) {
 		return luaL_error(L, "body '%s' does not have a valid type", name);
 	}
 
@@ -53,7 +53,7 @@ static int l_csb_new(lua_State *L)
 	luaL_setmetatable(L, LuaCustomSystemBody_TypeName);
 
 	(*csbptr)->name = name;
-	(*csbptr)->type = static_cast<SystemBody::BodyType>(type);
+	(*csbptr)->type = static_cast<GalaxyEnums::BodyType>(type);
 
 	return 1;
 }
@@ -351,11 +351,11 @@ static unsigned interpret_star_types(int *starTypes, lua_State *L, int idx)
 	lua_pushvalue(L, idx);
 	unsigned i;
 	for (i = 0; i < 4; ++i) {
-		int ty = SystemBody::TYPE_GRAVPOINT;
+		int ty = GalaxyEnums::BodyType::TYPE_GRAVPOINT;
 		lua_rawgeti(L, -1, i + 1);
 		if (lua_type(L, -1) == LUA_TSTRING) {
 			ty = LuaConstants::GetConstantFromArg(L, "BodyType", -1);
-			if ((ty < SystemBody::TYPE_STAR_MIN || ty > SystemBody::TYPE_STAR_MAX) && ty != SystemBody::TYPE_GRAVPOINT) {
+			if ((ty < GalaxyEnums::BodyType::TYPE_STAR_MIN || ty > GalaxyEnums::BodyType::TYPE_STAR_MAX) && ty != GalaxyEnums::BodyType::TYPE_GRAVPOINT) {
 				luaL_error(L, "system star %d does not have a valid star type", i + 1);
 				// unreachable (longjmp in luaL_error)
 			}
@@ -366,7 +366,7 @@ static unsigned interpret_star_types(int *starTypes, lua_State *L, int idx)
 		LUA_DEBUG_CHECK(L, 1);
 
 		starTypes[i] = ty;
-		if (ty == SystemBody::TYPE_GRAVPOINT) break;
+		if (ty == GalaxyEnums::BodyType::TYPE_GRAVPOINT) break;
 	}
 	lua_pop(L, 1);
 	LUA_DEBUG_END(L, 0);
@@ -388,7 +388,7 @@ static int l_csys_new(lua_State *L)
 	(*csptr)->numStars = numStars;
 	assert(numStars <= 4);
 	for (unsigned i = 0; i < numStars; ++i)
-		(*csptr)->primaryType[i] = static_cast<SystemBody::BodyType>(starTypes[i]);
+		(*csptr)->primaryType[i] = static_cast<GalaxyEnums::BodyType>(starTypes[i]);
 	return 1;
 }
 
@@ -530,7 +530,7 @@ static unsigned count_stars(CustomSystemBody *csb)
 	if (!csb)
 		return 0;
 	unsigned count = 0;
-	if (csb->type >= SystemBody::TYPE_STAR_MIN && csb->type <= SystemBody::TYPE_STAR_MAX)
+	if (csb->type >= GalaxyEnums::BodyType::TYPE_STAR_MIN && csb->type <= GalaxyEnums::BodyType::TYPE_STAR_MAX)
 		++count;
 	for (CustomSystemBody *child : csb->children)
 		count += count_stars(child);
@@ -544,9 +544,9 @@ static int l_csys_bodies(lua_State *L)
 	int primary_type = (*primary_ptr)->type;
 	luaL_checktype(L, 3, LUA_TTABLE);
 
-	if ((primary_type < SystemBody::TYPE_STAR_MIN || primary_type > SystemBody::TYPE_STAR_MAX) && primary_type != SystemBody::TYPE_GRAVPOINT)
+	if ((primary_type < GalaxyEnums::BodyType::TYPE_STAR_MIN || primary_type > GalaxyEnums::BodyType::TYPE_STAR_MAX) && primary_type != GalaxyEnums::BodyType::TYPE_GRAVPOINT)
 		return luaL_error(L, "first body does not have a valid star type");
-	if (primary_type != cs->primaryType[0] && primary_type != SystemBody::TYPE_GRAVPOINT)
+	if (primary_type != cs->primaryType[0] && primary_type != GalaxyEnums::BodyType::TYPE_GRAVPOINT)
 		return luaL_error(L, "first body type does not match the system's primary star type");
 
 	lua_pushvalue(L, 3);
@@ -710,7 +710,7 @@ CustomSystem::CustomSystem() :
 	want_rand_lawlessness(true)
 {
 	for (int i = 0; i < 4; ++i)
-		primaryType[i] = SystemBody::TYPE_GRAVPOINT;
+		primaryType[i] = GalaxyEnums::BodyType::TYPE_GRAVPOINT;
 }
 
 CustomSystem::~CustomSystem()

@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaSpace.h"
+
 #include "Frame.h"
 #include "Game.h"
 #include "HyperspaceCloud.h"
@@ -12,7 +13,6 @@
 #include "MathUtil.h"
 #include "Pi.h"
 #include "Planet.h"
-#include "Player.h"
 #include "Ship.h"
 #include "Space.h"
 #include "SpaceStation.h"
@@ -431,7 +431,7 @@ static int l_space_spawn_ship_landed(lua_State *l)
 		luaL_error(l, "Unknown ship type '%s'", type);
 
 	Planet *planet = LuaObject<Planet>::CheckFromLua(2);
-	if (planet->GetSystemBody()->GetSuperType() != SystemBody::SUPERTYPE_ROCKY_PLANET)
+	if (planet->GetSystemBody()->GetSuperType() != GalaxyEnums::BodySuperType::SUPERTYPE_ROCKY_PLANET)
 		luaL_error(l, "Body is not a rocky planet");
 	float latitude = luaL_checknumber(l, 3);
 	float longitude = luaL_checknumber(l, 4);
@@ -509,7 +509,7 @@ static int l_space_spawn_ship_landed_near(lua_State *l)
 	if (!newframe->IsRotFrame())
 		luaL_error(l, "Body must be in rotating frame");
 	SystemBody *sbody = newframe->GetSystemBody();
-	if (sbody->GetSuperType() != SystemBody::SUPERTYPE_ROCKY_PLANET)
+	if (sbody->GetSuperType() != GalaxyEnums::BodySuperType::SUPERTYPE_ROCKY_PLANET)
 		luaL_error(l, "Body is not on a rocky planet");
 	if (max_dist > sbody->GetRadius())
 		luaL_error(l, "max_dist too large for planet radius");

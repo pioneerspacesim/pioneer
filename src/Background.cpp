@@ -10,7 +10,7 @@
 #include "Player.h"
 #include "Space.h"
 #include "StringF.h"
-#include "galaxy/StarSystem.h"
+#include "galaxy/GalaxyEnums.h"
 #include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
@@ -274,7 +274,7 @@ namespace Background {
 								continue; // too far
 
 							// grab the approximate real colour
-							Color col = StarSystem::starRealColors[ss->GetStarType(0)];
+							Color col = GalaxyEnums::starRealColors[ss->GetStarType(0)];
 							col.r = Clamp(col.r, (Uint8)(m_rMin * 255), (Uint8)(m_rMax * 255));
 							col.g = Clamp(col.g, (Uint8)(m_gMin * 255), (Uint8)(m_gMax * 255));
 							col.b = Clamp(col.b, (Uint8)(m_bMin * 255), (Uint8)(m_bMax * 255));

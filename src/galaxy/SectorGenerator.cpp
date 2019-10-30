@@ -77,33 +77,33 @@ const std::string SectorRandomSystemsGenerator::GenName(RefCountedPtr<Galaxy> ga
 
 	int chance = 100;
 	switch (sys.m_starType[0]) {
-	case SystemBody::TYPE_STAR_O:
-	case SystemBody::TYPE_STAR_B: break;
-	case SystemBody::TYPE_STAR_A: chance += dist; break;
-	case SystemBody::TYPE_STAR_F: chance += 2 * dist; break;
-	case SystemBody::TYPE_STAR_G: chance += 4 * dist; break;
-	case SystemBody::TYPE_STAR_K: chance += 8 * dist; break;
-	case SystemBody::TYPE_STAR_O_GIANT:
-	case SystemBody::TYPE_STAR_B_GIANT: chance = 50; break;
-	case SystemBody::TYPE_STAR_A_GIANT: chance = int(0.2 * dist); break;
-	case SystemBody::TYPE_STAR_F_GIANT: chance = int(0.4 * dist); break;
-	case SystemBody::TYPE_STAR_G_GIANT: chance = int(0.5 * dist); break;
-	case SystemBody::TYPE_STAR_K_GIANT:
-	case SystemBody::TYPE_STAR_M_GIANT: chance = dist; break;
-	case SystemBody::TYPE_STAR_O_SUPER_GIANT:
-	case SystemBody::TYPE_STAR_B_SUPER_GIANT: chance = 10; break;
-	case SystemBody::TYPE_STAR_A_SUPER_GIANT:
-	case SystemBody::TYPE_STAR_F_SUPER_GIANT:
-	case SystemBody::TYPE_STAR_G_SUPER_GIANT:
-	case SystemBody::TYPE_STAR_K_SUPER_GIANT: chance = 15; break;
-	case SystemBody::TYPE_STAR_M_SUPER_GIANT: chance = 20; break;
-	case SystemBody::TYPE_STAR_O_HYPER_GIANT:
-	case SystemBody::TYPE_STAR_B_HYPER_GIANT:
-	case SystemBody::TYPE_STAR_A_HYPER_GIANT:
-	case SystemBody::TYPE_STAR_F_HYPER_GIANT:
-	case SystemBody::TYPE_STAR_G_HYPER_GIANT:
-	case SystemBody::TYPE_STAR_K_HYPER_GIANT:
-	case SystemBody::TYPE_STAR_M_HYPER_GIANT: chance = 1; break; //Should give a nice name almost all the time
+	case GalaxyEnums::BodyType::TYPE_STAR_O:
+	case GalaxyEnums::BodyType::TYPE_STAR_B: break;
+	case GalaxyEnums::BodyType::TYPE_STAR_A: chance += dist; break;
+	case GalaxyEnums::BodyType::TYPE_STAR_F: chance += 2 * dist; break;
+	case GalaxyEnums::BodyType::TYPE_STAR_G: chance += 4 * dist; break;
+	case GalaxyEnums::BodyType::TYPE_STAR_K: chance += 8 * dist; break;
+	case GalaxyEnums::BodyType::TYPE_STAR_O_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_B_GIANT: chance = 50; break;
+	case GalaxyEnums::BodyType::TYPE_STAR_A_GIANT: chance = int(0.2 * dist); break;
+	case GalaxyEnums::BodyType::TYPE_STAR_F_GIANT: chance = int(0.4 * dist); break;
+	case GalaxyEnums::BodyType::TYPE_STAR_G_GIANT: chance = int(0.5 * dist); break;
+	case GalaxyEnums::BodyType::TYPE_STAR_K_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_M_GIANT: chance = dist; break;
+	case GalaxyEnums::BodyType::TYPE_STAR_O_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_B_SUPER_GIANT: chance = 10; break;
+	case GalaxyEnums::BodyType::TYPE_STAR_A_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_F_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_G_SUPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_K_SUPER_GIANT: chance = 15; break;
+	case GalaxyEnums::BodyType::TYPE_STAR_M_SUPER_GIANT: chance = 20; break;
+	case GalaxyEnums::BodyType::TYPE_STAR_O_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_B_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_A_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_F_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_G_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_K_HYPER_GIANT:
+	case GalaxyEnums::BodyType::TYPE_STAR_M_HYPER_GIANT: chance = 1; break; //Should give a nice name almost all the time
 	default: chance += 16 * dist; break;
 	}
 
@@ -187,141 +187,141 @@ bool SectorRandomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 		if (freq > Square(10)) {
 			const Uint32 weight = rng.Int32(1000000);
 			if (weight < 1) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_IM_BH; // These frequencies are made up
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_IM_BH; // These frequencies are made up
 			} else if (weight < 3) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_S_BH;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_S_BH;
 			} else if (weight < 5) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_O_WF;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_O_WF;
 			} else if (weight < 8) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_B_WF;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_B_WF;
 			} else if (weight < 12) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_M_WF;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_M_WF;
 			} else if (weight < 15) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_K_HYPER_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_K_HYPER_GIANT;
 			} else if (weight < 18) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_G_HYPER_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_G_HYPER_GIANT;
 			} else if (weight < 23) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_O_HYPER_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_O_HYPER_GIANT;
 			} else if (weight < 28) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_A_HYPER_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_A_HYPER_GIANT;
 			} else if (weight < 33) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_F_HYPER_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_F_HYPER_GIANT;
 			} else if (weight < 41) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_B_HYPER_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_B_HYPER_GIANT;
 			} else if (weight < 48) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_M_HYPER_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_M_HYPER_GIANT;
 			} else if (weight < 58) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_K_SUPER_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_K_SUPER_GIANT;
 			} else if (weight < 68) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_G_SUPER_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_G_SUPER_GIANT;
 			} else if (weight < 78) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_O_SUPER_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_O_SUPER_GIANT;
 			} else if (weight < 88) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_A_SUPER_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_A_SUPER_GIANT;
 			} else if (weight < 98) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_F_SUPER_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_F_SUPER_GIANT;
 			} else if (weight < 108) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_B_SUPER_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_B_SUPER_GIANT;
 			} else if (weight < 158) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_M_SUPER_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_M_SUPER_GIANT;
 			} else if (weight < 208) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_K_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_K_GIANT;
 			} else if (weight < 250) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_G_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_G_GIANT;
 			} else if (weight < 300) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_O_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_O_GIANT;
 			} else if (weight < 350) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_A_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_A_GIANT;
 			} else if (weight < 400) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_F_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_F_GIANT;
 			} else if (weight < 500) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_B_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_B_GIANT;
 			} else if (weight < 700) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_M_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_M_GIANT;
 			} else if (weight < 800) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_O; // should be 1 but that is boring
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_O; // should be 1 but that is boring
 			} else if (weight < 2000) { // weight < 1300 / 20500
-				s.m_starType[0] = SystemBody::TYPE_STAR_B;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_B;
 			} else if (weight < 8000) { // weight < 7300
-				s.m_starType[0] = SystemBody::TYPE_STAR_A;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_A;
 			} else if (weight < 37300) { // weight < 37300
-				s.m_starType[0] = SystemBody::TYPE_STAR_F;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_F;
 			} else if (weight < 113300) { // weight < 113300
-				s.m_starType[0] = SystemBody::TYPE_STAR_G;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_G;
 			} else if (weight < 234300) { // weight < 234300
-				s.m_starType[0] = SystemBody::TYPE_STAR_K;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_K;
 			} else if (weight < 250000) { // weight < 250000
-				s.m_starType[0] = SystemBody::TYPE_WHITE_DWARF;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_WHITE_DWARF;
 			} else if (weight < 900000) { //weight < 900000
-				s.m_starType[0] = SystemBody::TYPE_STAR_M;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_M;
 			} else {
-				s.m_starType[0] = SystemBody::TYPE_BROWN_DWARF;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_BROWN_DWARF;
 			}
 		} else {
 			const Uint32 weight = rng.Int32(1000000);
 			if (weight < 100) { // should be 1 but that is boring
-				s.m_starType[0] = SystemBody::TYPE_STAR_O;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_O;
 			} else if (weight < 1300) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_B;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_B;
 			} else if (weight < 7300) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_A;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_A;
 			} else if (weight < 37300) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_F;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_F;
 			} else if (weight < 113300) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_G;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_G;
 			} else if (weight < 234300) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_K;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_K;
 			} else if (weight < 250000) {
-				s.m_starType[0] = SystemBody::TYPE_WHITE_DWARF;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_WHITE_DWARF;
 			} else if (weight < 900000) {
-				s.m_starType[0] = SystemBody::TYPE_STAR_M;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_M;
 			} else {
-				s.m_starType[0] = SystemBody::TYPE_BROWN_DWARF;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_BROWN_DWARF;
 			}
 		}
 		//Output("%d: %d%\n", sx, sy);
 
 		if (s.m_numStars > 1) {
-			s.m_starType[1] = SystemBody::BodyType(rng.Int32(SystemBody::TYPE_STAR_MIN, s.m_starType[0]));
+			s.m_starType[1] = GalaxyEnums::BodyType(rng.Int32(GalaxyEnums::BodyType::TYPE_STAR_MIN, s.m_starType[0]));
 			if (s.m_numStars > 2) {
-				s.m_starType[2] = SystemBody::BodyType(rng.Int32(SystemBody::TYPE_STAR_MIN, s.m_starType[0]));
-				s.m_starType[3] = SystemBody::BodyType(rng.Int32(SystemBody::TYPE_STAR_MIN, s.m_starType[2]));
+				s.m_starType[2] = GalaxyEnums::BodyType(rng.Int32(GalaxyEnums::BodyType::TYPE_STAR_MIN, s.m_starType[0]));
+				s.m_starType[3] = GalaxyEnums::BodyType(rng.Int32(GalaxyEnums::BodyType::TYPE_STAR_MIN, s.m_starType[2]));
 			}
 		}
 
-		if ((s.m_starType[0] <= SystemBody::TYPE_STAR_A) && (rng.Int32(10) == 0)) {
+		if ((s.m_starType[0] <= GalaxyEnums::BodyType::TYPE_STAR_A) && (rng.Int32(10) == 0)) {
 			// make primary a giant. never more than one giant in a system
 			if (freq > Square(10)) {
 				const Uint32 weight = rng.Int32(1000);
 				if (weight >= 999) {
-					s.m_starType[0] = SystemBody::TYPE_STAR_B_HYPER_GIANT;
+					s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_B_HYPER_GIANT;
 				} else if (weight >= 998) {
-					s.m_starType[0] = SystemBody::TYPE_STAR_O_HYPER_GIANT;
+					s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_O_HYPER_GIANT;
 				} else if (weight >= 997) {
-					s.m_starType[0] = SystemBody::TYPE_STAR_K_HYPER_GIANT;
+					s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_K_HYPER_GIANT;
 				} else if (weight >= 995) {
-					s.m_starType[0] = SystemBody::TYPE_STAR_B_SUPER_GIANT;
+					s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_B_SUPER_GIANT;
 				} else if (weight >= 993) {
-					s.m_starType[0] = SystemBody::TYPE_STAR_O_SUPER_GIANT;
+					s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_O_SUPER_GIANT;
 				} else if (weight >= 990) {
-					s.m_starType[0] = SystemBody::TYPE_STAR_K_SUPER_GIANT;
+					s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_K_SUPER_GIANT;
 				} else if (weight >= 985) {
-					s.m_starType[0] = SystemBody::TYPE_STAR_B_GIANT;
+					s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_B_GIANT;
 				} else if (weight >= 980) {
-					s.m_starType[0] = SystemBody::TYPE_STAR_O_GIANT;
+					s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_O_GIANT;
 				} else if (weight >= 975) {
-					s.m_starType[0] = SystemBody::TYPE_STAR_K_GIANT;
+					s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_K_GIANT;
 				} else if (weight >= 950) {
-					s.m_starType[0] = SystemBody::TYPE_STAR_M_HYPER_GIANT;
+					s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_M_HYPER_GIANT;
 				} else if (weight >= 875) {
-					s.m_starType[0] = SystemBody::TYPE_STAR_M_SUPER_GIANT;
+					s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_M_SUPER_GIANT;
 				} else {
-					s.m_starType[0] = SystemBody::TYPE_STAR_M_GIANT;
+					s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_M_GIANT;
 				}
 			} else if (freq > Square(5))
-				s.m_starType[0] = SystemBody::TYPE_STAR_M_GIANT;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_M_GIANT;
 			else
-				s.m_starType[0] = SystemBody::TYPE_STAR_M;
+				s.m_starType[0] = GalaxyEnums::BodyType::TYPE_STAR_M;
 
 			//Output("%d: %d%\n", sx, sy);
 		}

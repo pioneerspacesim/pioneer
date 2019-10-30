@@ -889,10 +889,10 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		// draw star blob itself
 		systrans.Rotate(DEG2RAD(-m_rotZ), 0, 0, 1);
 		systrans.Rotate(DEG2RAD(-m_rotX), 1, 0, 0);
-		systrans.Scale((StarSystem::starScale[(*i).GetStarType(0)]));
+		systrans.Scale((GalaxyEnums::starScale[(*i).GetStarType(0)]));
 		m_renderer->SetTransform(systrans);
 
-		const Uint8 *col = StarSystem::starColors[(*i).GetStarType(0)];
+		const Uint8 *col = GalaxyEnums::starColors[(*i).GetStarType(0)];
 		AddStarBillboard(systrans, vector3f(0.f), Color(col[0], col[1], col[2], 255), 0.5f);
 
 		// player location indicator

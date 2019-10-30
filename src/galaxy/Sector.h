@@ -6,13 +6,13 @@
 
 #include "GalaxyCache.h"
 #include "RefCounted.h"
-#include "galaxy/CustomSystem.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/SystemPath.h"
 #include "libs.h"
 #include <string>
 #include <vector>
 
+class CustomSystem;
 class Faction;
 class Galaxy;
 
@@ -59,7 +59,7 @@ public:
 		const vector3f &GetPosition() const { return m_pos; }
 		vector3f GetFullPosition() const { return Sector::SIZE * vector3f(float(sx), float(sy), float(sz)) + m_pos; };
 		unsigned GetNumStars() const { return m_numStars; }
-		SystemBody::BodyType GetStarType(unsigned i) const
+		GalaxyEnums::BodyType GetStarType(unsigned i) const
 		{
 			assert(i < m_numStars);
 			return m_starType[i];
@@ -104,7 +104,7 @@ public:
 		std::vector<std::string> m_other_names;
 		vector3f m_pos;
 		unsigned m_numStars;
-		SystemBody::BodyType m_starType[4];
+		GalaxyEnums::BodyType m_starType[4];
 		Uint32 m_seed;
 		const CustomSystem *m_customSys;
 		mutable const Faction *m_faction; // mutable because we only calculate on demand

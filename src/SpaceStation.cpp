@@ -154,7 +154,7 @@ void SpaceStation::InitStation()
 	for (int i = 0; i < NUM_STATIC_SLOTS; i++)
 		m_staticSlot[i] = false;
 	Random rand(m_sbody->GetSeed());
-	const bool ground = m_sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL ? false : true;
+	const bool ground = m_sbody->GetType() == GalaxyEnums::BodyType::TYPE_STARPORT_ORBITAL ? false : true;
 	const std::string &space_station_type = m_sbody->GetSpaceStationType();
 	if (space_station_type != "") {
 		m_type = SpaceStationType::FindByName(space_station_type);

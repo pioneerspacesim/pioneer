@@ -193,16 +193,16 @@ void AmbientSounds::Update()
 			const char *sample = 0;
 			for (; sbody && !sample; sbody = f->GetSystemBody()) {
 				switch (sbody->GetType()) {
-				case SystemBody::TYPE_BROWN_DWARF: sample = "Brown_Dwarf_Substellar_Object"; break;
-				case SystemBody::TYPE_STAR_M: sample = "M_Red_Star"; break;
-				case SystemBody::TYPE_STAR_K: sample = "K_Star"; break;
-				case SystemBody::TYPE_WHITE_DWARF: sample = "White_Dwarf_Star"; break;
-				case SystemBody::TYPE_STAR_G: sample = "G_Star"; break;
-				case SystemBody::TYPE_STAR_F: sample = "F_Star"; break;
-				case SystemBody::TYPE_STAR_A: sample = "A_Star"; break;
-				case SystemBody::TYPE_STAR_B: sample = "B_Hot_Blue_STAR"; break;
-				case SystemBody::TYPE_STAR_O: sample = "Blue_Super_Giant"; break;
-				case SystemBody::TYPE_PLANET_GAS_GIANT: {
+				case GalaxyEnums::BodyType::TYPE_BROWN_DWARF: sample = "Brown_Dwarf_Substellar_Object"; break;
+				case GalaxyEnums::BodyType::TYPE_STAR_M: sample = "M_Red_Star"; break;
+				case GalaxyEnums::BodyType::TYPE_STAR_K: sample = "K_Star"; break;
+				case GalaxyEnums::BodyType::TYPE_WHITE_DWARF: sample = "White_Dwarf_Star"; break;
+				case GalaxyEnums::BodyType::TYPE_STAR_G: sample = "G_Star"; break;
+				case GalaxyEnums::BodyType::TYPE_STAR_F: sample = "F_Star"; break;
+				case GalaxyEnums::BodyType::TYPE_STAR_A: sample = "A_Star"; break;
+				case GalaxyEnums::BodyType::TYPE_STAR_B: sample = "B_Hot_Blue_STAR"; break;
+				case GalaxyEnums::BodyType::TYPE_STAR_O: sample = "Blue_Super_Giant"; break;
+				case GalaxyEnums::BodyType::TYPE_PLANET_GAS_GIANT: {
 					if (sbody->GetMassAsFixed() > fixed(400, 1)) {
 						sample = "Very_Large_Gas_Giant";
 					} else if (sbody->GetMassAsFixed() > fixed(80, 1)) {

@@ -54,7 +54,7 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	m_clipRadius = std::max(m_clipRadius, (m_v2 - m_clipCentroid).Length());
 	m_clipRadius = std::max(m_clipRadius, (m_v3 - m_clipCentroid).Length());
 	double distMult;
-	if (m_geosphere->GetSystemBody()->GetType() < SystemBody::TYPE_PLANET_ASTEROID) {
+	if (m_geosphere->GetSystemBody()->GetType() < GalaxyEnums::BodyType::TYPE_PLANET_ASTEROID) {
 		distMult = 10.0 / Clamp(m_depth, 1, 10);
 	} else {
 		distMult = 5.0 / Clamp(m_depth, 1, 5);

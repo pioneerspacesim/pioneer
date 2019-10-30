@@ -42,8 +42,8 @@ public:
 private:
 	void MakePlanetsAround(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *primary, Random &rand);
 	void MakeRandomStar(SystemBody *sbody, Random &rand);
-	void MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, Random &rand);
-	void MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyType type, fixed maxMass, Random &rand);
+	void MakeStarOfType(SystemBody *sbody, GalaxyEnums::BodyType type, Random &rand);
+	void MakeStarOfTypeLighterThan(SystemBody *sbody, GalaxyEnums::BodyType type, fixed maxMass, Random &rand);
 	void MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, Random &rand);
 
 	int CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, fixed albedo, fixed greenhouse);

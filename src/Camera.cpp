@@ -11,7 +11,7 @@
 #include "Player.h"
 #include "Sfx.h"
 #include "Space.h"
-#include "galaxy/StarSystem.h"
+#include "galaxy/GalaxyEnums.h"
 #include "graphics/TextureBuilder.h"
 
 using namespace Graphics;
@@ -112,12 +112,12 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 
 	SystemBody *body = frame->GetSystemBody();
 	// IsRotFrame check prevents double counting
-	if (body && !frame->IsRotFrame() && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
+	if (body && !frame->IsRotFrame() && (body->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR)) {
 		vector3d lpos = frame->GetPositionRelTo(camFrame);
 		const double dist = lpos.Length() / AU;
 		lpos *= 1.0 / dist; // normalize
 
-		const Color &col = StarSystem::starRealColors[body->GetType()];
+		const Color &col = GalaxyEnums::starRealColors[body->GetType()];
 
 		const Color lightCol(col[0], col[1], col[2], 0);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
@@ -171,7 +171,7 @@ void Camera::Update()
 				// limit the minimum billboard size for planets so they're always a little visible
 				attrs.billboardSize = std::max(1.0f, pixSize);
 				if (b->IsType(Object::STAR)) {
-					attrs.billboardColor = StarSystem::starRealColors[b->GetSystemBody()->GetType()];
+					attrs.billboardColor = GalaxyEnums::starRealColors[b->GetSystemBody()->GetType()];
 				} else if (b->IsType(Object::PLANET)) {
 					// XXX this should incorporate some lighting effect
 					// (ie, colour of the illuminating star(s))

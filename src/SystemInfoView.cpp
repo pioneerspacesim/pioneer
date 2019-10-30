@@ -10,8 +10,6 @@
 #include "SectorView.h"
 #include "Space.h"
 #include "StringF.h"
-#include "galaxy/Factions.h"
-#include "galaxy/Galaxy.h"
 #include "galaxy/SystemPath.h"
 #include "galaxy/Polit.h"
 #include "graphics/Drawables.h"
@@ -50,7 +48,7 @@ void SystemInfoView::OnBodySelected(SystemBody *b)
 			Body *body = m_game->GetSpace()->FindBodyForPath(&path);
 			if (body != 0)
 				Pi::player->SetNavTarget(body);
-		} else if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) { // We allow hyperjump to any star of the system
+		} else if (b->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR) { // We allow hyperjump to any star of the system
 			m_game->GetSectorView()->SetSelected(path);
 		}
 	}
@@ -79,8 +77,8 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 		col2->PackEnd(l);                                            \
 	}
 
-	bool multiple = (b->GetSuperType() == SystemBody::SUPERTYPE_STAR &&
-		b->GetParent() && b->GetParent()->GetType() == SystemBody::TYPE_GRAVPOINT && b->GetParent()->GetParent());
+	bool multiple = (b->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR &&
+		b->GetParent() && b->GetParent()->GetType() == GalaxyEnums::BodyType::TYPE_GRAVPOINT && b->GetParent()->GetParent());
 	{
 		Gui::Label *l = new Gui::Label(b->GetName() + ": " + b->GetAstroDescription() +
 			(multiple ? (std::string(" (") + b->GetParent()->GetName() + ")") : ""));
@@ -88,17 +86,17 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 		m_infoBox->PackStart(l);
 	}
 
-	if (b->GetType() != SystemBody::TYPE_STARPORT_ORBITAL) {
-		_add_label_and_value(Lang::MASS, stringf(Lang::N_WHATEVER_MASSES, formatarg("mass", b->GetMassAsFixed().ToDouble()), formatarg("units", std::string(b->GetSuperType() == SystemBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH))));
+	if (b->GetType() != GalaxyEnums::BodyType::TYPE_STARPORT_ORBITAL) {
+		_add_label_and_value(Lang::MASS, stringf(Lang::N_WHATEVER_MASSES, formatarg("mass", b->GetMassAsFixed().ToDouble()), formatarg("units", std::string(b->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH))));
 
-		_add_label_and_value(Lang::RADIUS, stringf(Lang::N_WHATEVER_RADII, formatarg("radius", b->GetRadiusAsFixed().ToDouble()), formatarg("units", std::string(b->GetSuperType() == SystemBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH)), formatarg("radkm", b->GetRadius() / 1000.0)));
+		_add_label_and_value(Lang::RADIUS, stringf(Lang::N_WHATEVER_RADII, formatarg("radius", b->GetRadiusAsFixed().ToDouble()), formatarg("units", std::string(b->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH)), formatarg("radkm", b->GetRadius() / 1000.0)));
 	}
 
-	if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+	if (b->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR) {
 		_add_label_and_value(Lang::EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO, stringf("%0{f.3}", b->GetAspectRatio()));
 	}
 
-	if (b->GetType() != SystemBody::TYPE_STARPORT_ORBITAL) {
+	if (b->GetType() != GalaxyEnums::BodyType::TYPE_STARPORT_ORBITAL) {
 		_add_label_and_value(Lang::SURFACE_TEMPERATURE, stringf(Lang::N_CELSIUS, formatarg("temperature", b->GetAverageTemp() - 273)));
 		static const auto earthG = G * EARTH_MASS / (EARTH_RADIUS * EARTH_RADIUS);
 		const auto surfAccel = b->CalcSurfaceGravity();
@@ -120,7 +118,7 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 		_add_label_and_value(Lang::PERIAPSIS_DISTANCE, format_distance(b->GetOrbMin() * AU, 3) + (multiple ? (std::string(" (") + format_distance(b->GetParent()->GetOrbMin() * AU, 3) + ")") : ""));
 		_add_label_and_value(Lang::APOAPSIS_DISTANCE, format_distance(b->GetOrbMax() * AU, 3) + (multiple ? (std::string(" (") + format_distance(b->GetParent()->GetOrbMax() * AU, 3) + ")") : ""));
 		_add_label_and_value(Lang::ECCENTRICITY, stringf("%0{f.2}", b->GetOrbit().GetEccentricity()) + (multiple ? (std::string(" (") + stringf("%0{f.2}", b->GetParent()->GetOrbit().GetEccentricity()) + ")") : ""));
-		if (b->GetType() != SystemBody::TYPE_STARPORT_ORBITAL) {
+		if (b->GetType() != GalaxyEnums::BodyType::TYPE_STARPORT_ORBITAL) {
 			_add_label_and_value(Lang::AXIAL_TILT, stringf(Lang::N_DEGREES, formatarg("angle", b->GetAxialTilt() * (180.0 / M_PI))));
 			if (b->IsRotating()) {
 				_add_label_and_value(
@@ -131,7 +129,7 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 		int numSurfaceStarports = 0;
 		std::string nameList;
 		for (const SystemBody *kid : b->GetChildren()) {
-			if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+			if (kid->GetType() == GalaxyEnums::BodyType::TYPE_STARPORT_SURFACE) {
 				nameList += (numSurfaceStarports ? ", " : "") + kid->GetName();
 				numSurfaceStarports++;
 			}
@@ -283,16 +281,16 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 	float myPos[2];
 	myPos[0] = pos[0];
 	myPos[1] = pos[1];
-	if (body->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) starports++;
-	if (body->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+	if (body->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STARPORT) starports++;
+	if (body->GetType() == GalaxyEnums::BodyType::TYPE_STARPORT_SURFACE) {
 		onSurface++;
 		return;
 	}
-	if (body->GetType() != SystemBody::TYPE_GRAVPOINT) {
+	if (body->GetType() != GalaxyEnums::BodyType::TYPE_GRAVPOINT) {
 		BodyIcon *ib = new BodyIcon(body->GetIcon(), m_renderer);
-		if (body->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET) {
+		if (body->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_ROCKY_PLANET) {
 			for (const SystemBody *kid : body->GetChildren()) {
-				if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+				if (kid->GetType() == GalaxyEnums::BodyType::TYPE_STARPORT_SURFACE) {
 					ib->SetHasStarport();
 					break;
 				}
@@ -308,7 +306,7 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 		myPos[1] += (!dir ? prevSize * 0.5 - size[1] * 0.5 : 0);
 		container->Add(ib, myPos[0], myPos[1]);
 
-		if (body->GetSuperType() != SystemBody::SUPERTYPE_STARPORT) majorBodies++;
+		if (body->GetSuperType() != GalaxyEnums::BodySuperType::SUPERTYPE_STARPORT) majorBodies++;
 		pos[dir] += size[dir];
 		dir = !dir;
 		myPos[dir] += size[dir];
@@ -512,10 +510,10 @@ void SystemInfoView::Draw3D()
 static bool IsShownInInfoView(const SystemBody *sb)
 {
 	if (!sb) return false; // sanity check
-	SystemBody::BodySuperType superType = sb->GetSuperType();
-	return superType == SystemBody::SUPERTYPE_STAR || superType == SystemBody::SUPERTYPE_GAS_GIANT ||
-		superType == SystemBody::SUPERTYPE_ROCKY_PLANET ||
-		sb->GetType() == SystemBody::TYPE_STARPORT_ORBITAL;
+	GalaxyEnums::BodySuperType superType = sb->GetSuperType();
+	return superType == GalaxyEnums::BodySuperType::SUPERTYPE_STAR || superType == GalaxyEnums::BodySuperType::SUPERTYPE_GAS_GIANT ||
+		superType == GalaxyEnums::BodySuperType::SUPERTYPE_ROCKY_PLANET ||
+		sb->GetType() == GalaxyEnums::BodyType::TYPE_STARPORT_ORBITAL;
 }
 
 SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()

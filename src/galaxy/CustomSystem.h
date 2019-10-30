@@ -5,8 +5,8 @@
 #define _CUSTOMSYSTEM_H
 
 #include "Color.h"
+#include "galaxy/GalaxyEnums.h"
 #include "Polit.h"
-#include "SystemBody.h"
 #include "SystemPath.h"
 #include "fixed.h"
 #include "vector3.h"
@@ -20,7 +20,7 @@ public:
 	~CustomSystemBody();
 
 	std::string name;
-	SystemBody::BodyType type;
+	GalaxyEnums::BodyType type;
 	fixed radius; // in earth radii for planets, sol radii for stars (equatorial radius)
 	fixed aspectRatio; // the ratio between equatorial radius and polar radius for bodies flattened due to equatorial bulge (1.0 to infinity)
 	fixed mass; // earth masses or sol masses
@@ -74,7 +74,7 @@ public:
 	std::string name;
 	std::vector<std::string> other_names;
 	CustomSystemBody *sBody;
-	SystemBody::BodyType primaryType[4];
+	GalaxyEnums::BodyType primaryType[4];
 	unsigned numStars;
 	int sectorX, sectorY, sectorZ;
 	vector3f pos;

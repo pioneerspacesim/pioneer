@@ -286,7 +286,7 @@ void Projectile::StaticUpdate(const float timeStep)
 			if (terrainHeight > pos.Length()) {
 				const SystemBody *b = planet->GetSystemBody();
 				// hit the fucker
-				if (b->GetType() == SystemBody::TYPE_PLANET_ASTEROID) {
+				if (b->GetType() == GalaxyEnums::BodyType::TYPE_PLANET_ASTEROID) {
 					vector3d n = GetPosition().Normalized();
 					MiningLaserSpawnTastyStuff(planet->GetFrame(), b, n * terrainHeight + 5.0 * n);
 					SfxManager::Add(this, TYPE_EXPLOSION);

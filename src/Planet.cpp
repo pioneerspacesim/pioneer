@@ -43,7 +43,7 @@ void Planet::InitParams(const SystemBody *sbody)
 {
 	double specificHeatCp;
 	double gasMolarMass;
-	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) {
+	if (sbody->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_GAS_GIANT) {
 		specificHeatCp = 12950.0; // constant pressure specific heat, for a combination of hydrogen and helium
 		gasMolarMass = 0.0023139903;
 	} else {
@@ -122,7 +122,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	double specificHeatCp;
 	double gasMolarMass;
 	const SystemBody *sbody = this->GetSystemBody();
-	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) {
+	if (sbody->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_GAS_GIANT) {
 		specificHeatCp = 12950.0; // constant pressure specific heat, for a combination of hydrogen and helium
 		gasMolarMass = 0.0023139903;
 	} else {

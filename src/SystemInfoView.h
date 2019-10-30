@@ -6,7 +6,6 @@
 
 #include "Color.h"
 #include "galaxy/SystemPath.h"
-#include "gui/GuiImageRadioButton.h"
 
 #include "UIView.h"
 #include <vector>

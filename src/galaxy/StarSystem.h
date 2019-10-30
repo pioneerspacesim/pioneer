@@ -48,11 +48,6 @@ public:
 	unsigned GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
-	static const Color starColors[];
-	static const Color starRealColors[];
-	static const double starLuminosities[];
-	static const float starScale[];
-
 	RefCountedPtr<const SystemBody> GetRootBody() const { return m_rootBody; }
 	RefCountedPtr<SystemBody> GetRootBody() { return m_rootBody; }
 	bool HasSpaceStations() const { return !m_spaceStations.empty(); }

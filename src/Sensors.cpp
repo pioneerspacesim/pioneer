@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Sensors.h"
+
 #include "Body.h"
 #include "Game.h"
 #include "HudTrail.h"
