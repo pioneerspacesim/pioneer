@@ -6,6 +6,7 @@
 
 #include "JobQueue.h"
 #include "RefCounted.h"
+#include "StarSystem.h"
 #include "galaxy/SystemPath.h"
 #include <functional>
 #include <map>
@@ -115,5 +116,7 @@ typedef GalaxyObjectCache<Sector, SystemPath::LessSectorOnly> SectorCache;
 
 class StarSystem;
 typedef GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly> StarSystemCache;
+
+extern template class GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>;
 
 #endif
