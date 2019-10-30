@@ -1,6 +1,8 @@
 #ifndef GALAXYENUMS_H_INCLUDED
 #define GALAXYENUMS_H_INCLUDED
 
+#include "Color.h"
+
 namespace GalaxyEnums {
 
 	enum BodyType { // <enum scope='SystemBody' prefix=TYPE_ public>

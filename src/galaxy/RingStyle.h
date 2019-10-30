@@ -4,6 +4,9 @@
 #ifndef _RINGSTYLE_H
 #define _RINGSTYLE_H
 
+#include "fixed.h"
+#include "Color.h"
+
 struct RingStyle {
 	// note: radius values are given as proportions of the planet radius
 	// (e.g., 1.6)
