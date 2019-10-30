@@ -12,7 +12,6 @@
 #include "Shields.h"
 #include "collider/CollisionSpace.h"
 #include "collider/Geom.h"
-#include "galaxy/SystemBody.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/CollisionGeometry.h"
 #include "scenegraph/NodeVisitor.h"
@@ -304,7 +303,7 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 
 	// position relative to the rotating frame of the planet
 	vector3d upDir = GetInterpPositionRelTo(planet->GetFrame());
-	const double planetRadius = planet->GetSystemBody()->GetRadius();
+	const double planetRadius = planet->GetSystemBodyRadius();
 	const double dist = std::max(planetRadius, upDir.Length());
 	upDir = upDir.Normalized();
 
@@ -312,7 +311,7 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 	planet->GetAtmosphericState(dist, &pressure, &density);
 	double surfaceDensity;
 	Color cl;
-	planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
+	planet->GetSystemBodyAtmosphereFlavor(cl, surfaceDensity);
 
 	// approximate optical thickness fraction as fraction of density remaining relative to earths
 	double opticalThicknessFraction = density / EARTH_ATMOSPHERE_SURFACE_DENSITY;

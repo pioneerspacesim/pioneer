@@ -18,7 +18,6 @@
 #include "Space.h"
 #include "collider/CollisionContact.h"
 #include "collider/CollisionSpace.h"
-#include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"

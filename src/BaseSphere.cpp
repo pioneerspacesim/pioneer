@@ -10,7 +10,7 @@
 #include "graphics/Drawables.h"
 
 BaseSphere::BaseSphere(const SystemBody *body) :
-	m_sbody(body),
+	SystemBodyWrapper(body),
 	m_terrain(Terrain::InstanceTerrain(body)) {}
 
 BaseSphere::~BaseSphere() {}

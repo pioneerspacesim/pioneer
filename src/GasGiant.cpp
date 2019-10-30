@@ -311,7 +311,7 @@ GasGiant::GasGiant(const SystemBody *body) :
 		m_hasJobRequest[i] = false;
 	}
 
-	Random rng(GetSystemBody()->GetSeed() + 4609837);
+	Random rng(GetSystemBodySeed() + 4609837);
 
 	const bool bEnableGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
 	if (bEnableGPUJobs)
@@ -356,7 +356,7 @@ bool GasGiant::OnAddTextureFaceResult(const SystemPath &path, GasGiantJobs::STex
 {
 	// Find the correct GeoSphere via it's system path, and give it the split result
 	for (std::vector<GasGiant *>::iterator i = s_allGasGiants.begin(), iEnd = s_allGasGiants.end(); i != iEnd; ++i) {
-		if (path == (*i)->GetSystemBody()->GetPath()) {
+		if (path == (*i)->GetSystemBodyPath()) {
 			(*i)->AddTextureFaceResult(res);
 			return true;
 		}
@@ -374,7 +374,7 @@ bool GasGiant::OnAddGPUGenResult(const SystemPath &path, GasGiantJobs::SGPUGenRe
 {
 	// Find the correct GeoSphere via it's system path, and give it the split result
 	for (std::vector<GasGiant *>::iterator i = s_allGasGiants.begin(), iEnd = s_allGasGiants.end(); i != iEnd; ++i) {
-		if (path == (*i)->GetSystemBody()->GetPath()) {
+		if (path == (*i)->GetSystemBodyPath()) {
 			(*i)->AddGPUGenResult(res);
 			return true;
 		}
@@ -450,7 +450,7 @@ bool GasGiant::AddTextureFaceResult(GasGiantJobs::STextureFaceResult *res)
 #if DUMP_TO_TEXTURE
 		for (int iFace = 0; iFace < NUM_PATCHES; iFace++) {
 			char filename[1024];
-			snprintf(filename, 1024, "%s%d.png", GetSystemBody()->GetName().c_str(), iFace);
+			snprintf(filename, 1024, "%s%d.png", GetSystemBodyName().c_str(), iFace);
 			textureDump(filename, uvDims, uvDims, m_jobColorBuffers[iFace].get());
 		}
 #endif
@@ -489,7 +489,7 @@ bool GasGiant::AddGPUGenResult(GasGiantJobs::SGPUGenResult *res)
 		pGLTex->Unbind();
 
 		char filename[1024];
-		snprintf(filename, 1024, "%s%d.png", GetSystemBody()->GetName().c_str(), iFace);
+		snprintf(filename, 1024, "%s%d.png", GetSystemBodyName().c_str(), iFace);
 		textureDump(filename, uvDims, uvDims, buffer.get());
 	}
 #endif
@@ -585,7 +585,7 @@ void GasGiant::GenerateTexture()
 			assert(!m_hasJobRequest[i]);
 			assert(!m_job[i].HasJob());
 			m_hasJobRequest[i] = true;
-			GasGiantJobs::STextureFaceRequest *ssrd = new GasGiantJobs::STextureFaceRequest(&GetPatchFaces(i, 0), GetSystemBody()->GetPath(), i, s_texture_size_cpu[Pi::detail.planets], GetTerrain());
+			GasGiantJobs::STextureFaceRequest *ssrd = new GasGiantJobs::STextureFaceRequest(&GetPatchFaces(i, 0), GetSystemBodyPath(), i, s_texture_size_cpu[Pi::detail.planets], GetTerrain());
 			m_job[i] = Pi::GetAsyncJobQueue()->Queue(new GasGiantJobs::SingleTextureFaceJob(ssrd));
 		}
 	} else {
@@ -620,13 +620,14 @@ void GasGiant::GenerateTexture()
 		assert(!m_hasGpuJobRequest);
 		assert(!m_gpuJob.HasJob());
 
-		Random rng(GetSystemBody()->GetSeed() + 4609837);
+		Random rng(GetSystemBodySeed() + 4609837);
+		// XXX Why we should change "hueShift" of Sol (which is custom defined?)
 		const std::string parentname = GetSystemBody()->GetParent()->GetName();
 		const float hueShift = (parentname == "Sol") ? 0.0f : float(((rng.Double() * 2.0) - 1.0) * 0.9);
 
 		GasGiantJobs::GenFaceQuad *pQuad = new GasGiantJobs::GenFaceQuad(Pi::renderer, vector2f(s_texture_size_gpu[Pi::detail.planets], s_texture_size_gpu[Pi::detail.planets]), s_quadRenderState, GasGiantType);
 
-		GasGiantJobs::SGPUGenRequest *pGPUReq = new GasGiantJobs::SGPUGenRequest(GetSystemBody()->GetPath(), s_texture_size_gpu[Pi::detail.planets], GetTerrain(), GetSystemBody()->GetRadius(), hueShift, pQuad, m_builtTexture.Get());
+		GasGiantJobs::SGPUGenRequest *pGPUReq = new GasGiantJobs::SGPUGenRequest(GetSystemBodyPath(), s_texture_size_gpu[Pi::detail.planets], GetTerrain(), GetSystemBodyRadius(), hueShift, pQuad, m_builtTexture.Get());
 		m_gpuJob = Pi::GetSyncJobQueue()->Queue(new GasGiantJobs::SingleGPUGenJob(pGPUReq));
 		m_hasGpuJobRequest = true;
 	}
@@ -682,7 +683,7 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 	{
 		//Update material parameters
 		//XXX no need to calculate AP every frame
-		m_materialParameters.atmosphere = GetSystemBody()->CalcAtmosphereParams();
+		m_materialParameters.atmosphere = CalcSystemBodyAtmosphereParams();
 		m_materialParameters.atmosphere.center = trans * vector3d(0.0, 0.0, 0.0);
 		m_materialParameters.atmosphere.planetRadius = radius;
 
@@ -749,7 +750,7 @@ void GasGiant::SetUpMaterials()
 	surfDesc.effect = Graphics::EFFECT_GASSPHERE_TERRAIN;
 
 	//planetoid with atmosphere
-	const AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
+	const AtmosphereParameters ap(CalcSystemBodyAtmosphereParams());
 	surfDesc.lighting = true;
 	assert(ap.atmosDensity > 0.0);
 	{

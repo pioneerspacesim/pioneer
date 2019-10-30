@@ -215,10 +215,10 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 	Random rand;
 	rand.seed(seed);
 
-	int population = planet->GetSystemBody()->GetPopulation();
+	int population = planet->GetSystemBodyPopulation();
 	int cityradius;
 
-	if (planet->GetSystemBody()->HasAtmosphere()) {
+	if (planet->SystemBodyHasAtmosphere()) {
 		population *= 1000;
 		cityradius = (population < 200) ? 200 : ((population > START_SEG_SIZE) ? START_SEG_SIZE : population);
 	} else {

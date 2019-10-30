@@ -7,6 +7,7 @@
 #include "Body.h"
 #include "JsonFwd.h"
 #include "matrix4x4.h"
+#include "galaxy/SystemBodyWrapper.h"
 
 class BaseSphere;
 class Camera;
@@ -18,7 +19,7 @@ namespace Graphics {
 	class Renderer;
 }
 
-class TerrainBody : public Body {
+class TerrainBody : public Body, public SystemBodyWrapper {
 public:
 	OBJDEF(TerrainBody, Body, TERRAINBODY);
 
@@ -28,7 +29,7 @@ public:
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel) override { return true; }
 	virtual double GetMass() const override { return m_mass; }
 	double GetTerrainHeight(const vector3d &pos) const;
-	virtual const SystemBody *GetSystemBody() const override { return m_sbody; }
+	virtual const SystemBody *GetSystemBody() const override { return SystemBodyWrapper::GetSystemBody(); }
 
 	// returns value in metres
 	double GetMaxFeatureRadius() const { return m_maxFeatureHeight; }
@@ -47,7 +48,6 @@ protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
 
 private:
-	const SystemBody *m_sbody;
 	double m_mass;
 	std::unique_ptr<BaseSphere> m_baseSphere;
 	double m_maxFeatureHeight;

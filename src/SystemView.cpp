@@ -479,7 +479,7 @@ void SystemView::OnClickRealt()
 
 void SystemView::ResetViewpoint()
 {
-	m_selectedObject = 0;
+	m_selectedObject = nullptr;
 	m_rot_z = 0;
 	m_rot_x = 50;
 	m_rot_z_to = m_rot_z;

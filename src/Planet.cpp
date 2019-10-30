@@ -4,7 +4,9 @@
 #include "Planet.h"
 
 #include "Color.h"
-#include "galaxy/SystemBody.h"
+#include "gameconsts.h"
+#include "galaxy/AtmosphereParameters.h"
+#include "galaxy/RingStyle.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
@@ -26,7 +28,7 @@ Planet::Planet(SystemBody *sbody) :
 	m_ringVertices(RING_VERTEX_ATTRIBS),
 	m_ringState(nullptr)
 {
-	InitParams(sbody);
+	InitParams();
 }
 
 Planet::Planet(const Json &jsonObj, Space *space) :
@@ -34,16 +36,14 @@ Planet::Planet(const Json &jsonObj, Space *space) :
 	m_ringVertices(RING_VERTEX_ATTRIBS),
 	m_ringState(nullptr)
 {
-	const SystemBody *sbody = GetSystemBody();
-	assert(sbody);
-	InitParams(sbody);
+	InitParams();
 }
 
-void Planet::InitParams(const SystemBody *sbody)
+void Planet::InitParams()
 {
 	double specificHeatCp;
 	double gasMolarMass;
-	if (sbody->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_GAS_GIANT) {
+	if (IsSuperType(GalaxyEnums::BodySuperType::SUPERTYPE_GAS_GIANT)) {
 		specificHeatCp = 12950.0; // constant pressure specific heat, for a combination of hydrogen and helium
 		gasMolarMass = 0.0023139903;
 	} else {
@@ -55,13 +55,13 @@ void Planet::InitParams(const SystemBody *sbody)
 	const double PA_2_ATMOS = 1.0 / 101325.0;
 
 	// surface gravity = -G*M/planet radius^2
-	m_surfaceGravity_g = -G * sbody->GetMass() / (sbody->GetRadius() * sbody->GetRadius());
+	m_surfaceGravity_g = -G *GetSystemBodyMass() / (GetSystemBodyRadius() * GetSystemBodyRadius());
 	const double lapseRate_L = -m_surfaceGravity_g / specificHeatCp; // negative deg/m
-	const double surfaceTemperature_T0 = sbody->GetAverageTemp(); //K
+	const double surfaceTemperature_T0 = GetSystemBodyAverageTemp(); //K
 
 	double surfaceDensity, h;
 	Color c;
-	sbody->GetAtmosphereFlavor(&c, &surfaceDensity); // kg / m^3
+	GetSystemBodyAtmosphereFlavor(c, surfaceDensity); // kg / m^3
 	surfaceDensity /= gasMolarMass; // convert to moles/m^3
 
 	//P = density*R*T=(n/V)*R*T
@@ -77,13 +77,13 @@ void Planet::InitParams(const SystemBody *sbody)
 		//		double h2 = (1.0 - pow(0.001/surfaceP_p0, RLdivgM)) * surfaceTemperature_T0 / lapseRate_L;
 		//		double P = surfaceP_p0*pow((1.0-lapseRate_L*h/surfaceTemperature_T0),1/RLdivgM);
 	}
-	m_atmosphereRadius = h + sbody->GetRadius();
+	m_atmosphereRadius = h + GetSystemBodyRadius();
 
 	SetPhysRadius(std::max(m_atmosphereRadius, GetMaxFeatureRadius() + 1000));
 	// NB: Below abandoned due to docking problems with low altitude orbiting space stations
 	// SetPhysRadius(std::max(m_atmosphereRadius, std::max(GetMaxFeatureRadius() * 2.0 + 2000, sbody->GetRadius() * 1.05)));
-	if (sbody->HasRings()) {
-		SetClipRadius(sbody->GetRadius() * sbody->GetRings().maxRadius.ToDouble());
+	if (SystemBodyHasRings()) {
+		SetClipRadius(GetSystemBodyRadius() * GetSystemBodyRings().maxRadius.ToDouble());
 	} else {
 		SetClipRadius(GetPhysRadius());
 	}
@@ -104,7 +104,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 		atmosphereTableShown = true;
 		for (double h = -1000; h <= 100000; h = h+1000.0) {
 			double p = 0.0, d = 0.0;
-			GetAtmosphericState(h+this->GetSystemBody()->GetRadius(),&p,&d);
+			GetAtmosphericState(h+this->GetSystemBodyRadius(),&p,&d);
 			Output("height(m): %f, pressure(hpa): %f, density: %f\n", h, p*101325.0/100.0, d);
 		}
 	}
@@ -121,8 +121,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	double surfaceDensity;
 	double specificHeatCp;
 	double gasMolarMass;
-	const SystemBody *sbody = this->GetSystemBody();
-	if (sbody->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_GAS_GIANT) {
+	if (IsSuperType(GalaxyEnums::BodySuperType::SUPERTYPE_GAS_GIANT)) {
 		specificHeatCp = 12950.0; // constant pressure specific heat, for a combination of hydrogen and helium
 		gasMolarMass = 0.0023139903;
 	} else {
@@ -138,11 +137,11 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	// fairly accurate in the troposphere
 	const double lapseRate_L = -m_surfaceGravity_g / specificHeatCp; // negative deg/m
 
-	const double height_h = (dist - sbody->GetRadius()); // height in m
-	const double surfaceTemperature_T0 = sbody->GetAverageTemp(); //K
+	const double height_h = (dist - GetSystemBodyRadius()); // height in m
+	const double surfaceTemperature_T0 = GetSystemBodyAverageTemp(); //K
 
 	Color c;
-	sbody->GetAtmosphereFlavor(&c, &surfaceDensity); // kg / m^3
+	GetSystemBodyAtmosphereFlavor(c, surfaceDensity); // kg / m^3
 	// convert to moles/m^3
 	surfaceDensity /= gasMolarMass;
 
@@ -167,13 +166,12 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 
 void Planet::GenerateRings(Graphics::Renderer *renderer)
 {
-	const SystemBody *sbody = GetSystemBody();
 
 	m_ringVertices.Clear();
 
 	// generate the ring geometry
-	const float inner = sbody->GetRings().minRadius.ToFloat();
-	const float outer = sbody->GetRings().maxRadius.ToFloat();
+	const float inner = GetSystemBodyRings().minRadius.ToFloat();
+	const float outer = GetSystemBodyRings().maxRadius.ToFloat();
 	int segments = 200;
 	for (int i = 0; i <= segments; ++i) {
 		const float a = (2.0f * float(M_PI)) * (float(i) / float(segments));
@@ -192,10 +190,10 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	std::unique_ptr<Color, FreeDeleter> buf(
 		static_cast<Color *>(malloc(RING_TEXTURE_WIDTH * RING_TEXTURE_LENGTH * 4)));
 
-	const float ringScale = (outer - inner) * sbody->GetRadius() / 1.5e7f;
+	const float ringScale = (outer - inner) * GetSystemBodyRadius() / 1.5e7f;
 
-	Random rng(GetSystemBody()->GetSeed() + 4609837);
-	Color baseCol = sbody->GetRings().baseColor;
+	Random rng(GetSystemBodySeed() + 4609837);
+	Color baseCol = GetSystemBodyRings().baseColor;
 	double noiseOffset = 2048.0 * rng.Double();
 	for (int i = 0; i < RING_TEXTURE_LENGTH; ++i) {
 		const float alpha = (float(i) / float(RING_TEXTURE_LENGTH)) * ringScale;
@@ -251,7 +249,7 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 
 void Planet::DrawGasGiantRings(Renderer *renderer, const matrix4x4d &modelView)
 {
-	assert(GetSystemBody()->HasRings());
+	assert(SystemBodyHasRings());
 
 	if (!m_ringTexture)
 		GenerateRings(renderer);
@@ -262,7 +260,7 @@ void Planet::DrawGasGiantRings(Renderer *renderer, const matrix4x4d &modelView)
 
 void Planet::SubRender(Renderer *r, const matrix4x4d &viewTran, const vector3d &camPos)
 {
-	if (GetSystemBody()->HasRings()) {
+	if (SystemBodyHasRings()) {
 		DrawGasGiantRings(r, viewTran);
 	}
 }

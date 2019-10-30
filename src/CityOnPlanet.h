@@ -20,6 +20,7 @@ namespace Graphics {
 	class Renderer;
 	class Frustum;
 } // namespace Graphics
+
 namespace SceneGraph {
 	class Model;
 	class Animation;

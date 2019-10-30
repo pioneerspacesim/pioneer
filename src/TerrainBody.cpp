@@ -9,12 +9,11 @@
 #include "GeoSphere.h"
 #include "Json.h"
 #include "Space.h"
-#include "galaxy/SystemBody.h"
 #include "graphics/Renderer.h"
 
 TerrainBody::TerrainBody(SystemBody *sbody) :
 	Body(),
-	m_sbody(sbody),
+	SystemBodyWrapper(sbody),
 	m_mass(0)
 {
 	InitTerrainBody();
@@ -27,16 +26,15 @@ TerrainBody::~TerrainBody()
 
 void TerrainBody::InitTerrainBody()
 {
-	assert(m_sbody);
-	m_mass = m_sbody->GetMass();
+	m_mass = SystemBodyWrapper::GetSystemBodyMass();
 	if (!m_baseSphere) {
-		if (GalaxyEnums::BodySuperType::SUPERTYPE_GAS_GIANT == m_sbody->GetSuperType()) {
-			m_baseSphere.reset(new GasGiant(m_sbody));
+		if (SystemBodyWrapper::IsSuperType(GalaxyEnums::BodySuperType::SUPERTYPE_GAS_GIANT)) {
+			m_baseSphere.reset(new GasGiant(SystemBodyWrapper::GetSystemBody()));
 		} else {
-			m_baseSphere.reset(new GeoSphere(m_sbody));
+			m_baseSphere.reset(new GeoSphere(SystemBodyWrapper::GetSystemBody()));
 		}
 	}
-	m_maxFeatureHeight = (m_baseSphere->GetMaxFeatureHeight() + 1.0) * m_sbody->GetRadius();
+	m_maxFeatureHeight = (m_baseSphere->GetMaxFeatureHeight() + 1.0) * SystemBodyWrapper::GetSystemBodyRadius();
 }
 
 void TerrainBody::SaveToJson(Json &jsonObj, Space *space)
@@ -45,19 +43,21 @@ void TerrainBody::SaveToJson(Json &jsonObj, Space *space)
 
 	Json terrainBodyObj({}); // Create JSON object to contain terrain body data.
 
-	terrainBodyObj["index_for_system_body"] = space->GetIndexForSystemBody(m_sbody);
+	terrainBodyObj["index_for_system_body"] = space->GetIndexForSystemBody(SystemBodyWrapper::GetSystemBody());
 
 	jsonObj["terrain_body"] = terrainBodyObj; // Add terrain body object to supplied object.
 }
 
 TerrainBody::TerrainBody(const Json &jsonObj, Space *space) :
-	Body(jsonObj, space)
+	Body(jsonObj, space),
+	SystemBodyWrapper(space->GetSystemBodyByIndex(jsonObj["terrain_body"]["index_for_system_body"]))
 {
 
 	try {
+		// Left here because this will throw an exception if
+		// the initialization above will not work properly
 		Json terrainBodyObj = jsonObj["terrain_body"];
 
-		m_sbody = space->GetSystemBodyByIndex(terrainBodyObj["index_for_system_body"]);
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
@@ -69,7 +69,7 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 {
 	matrix4x4d ftran = viewTransform;
 	vector3d fpos = viewCoords;
-	double rad = m_sbody->GetRadius();
+	double rad = SystemBodyWrapper::GetSystemBodyRadius();
 
 	float znear, zfar;
 	renderer->GetNearFarRange(znear, zfar);
@@ -77,7 +77,7 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 	//stars very far away are downscaled, because they cannot be
 	//accurately drawn using actual distances
 	int shrink = 0;
-	if (m_sbody->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR) {
+	if (SystemBodyWrapper::IsSuperType(GalaxyEnums::BodySuperType::SUPERTYPE_STAR)) {
 		double len = fpos.Length();
 		double dist_to_horizon;
 		for (;;) {
@@ -110,10 +110,10 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 		}
 	}
 
-	ftran.Scale(rad, rad, rad);
+	ftran.Scale(rad);
 
 	// translation not applied until patch render to fix jitter
-	m_baseSphere->Render(renderer, ftran, -campos, m_sbody->GetRadius(), shadows);
+	m_baseSphere->Render(renderer, ftran, -campos, SystemBodyWrapper::GetSystemBodyRadius(), shadows);
 
 	ftran.Translate(campos.x, campos.y, campos.z);
 	SubRender(renderer, ftran, campos);
@@ -136,7 +136,7 @@ void TerrainBody::SetFrame(Frame *f)
 
 double TerrainBody::GetTerrainHeight(const vector3d &pos_) const
 {
-	double radius = m_sbody->GetRadius();
+	double radius = SystemBodyWrapper::GetSystemBodyRadius();
 	if (m_baseSphere) {
 		return radius * (1.0 + m_baseSphere->GetHeight(pos_));
 	} else {

@@ -25,7 +25,7 @@ public:
 	SystemBody *GetParent() const { return m_parent; }
 
 	bool IsPlanet() const;
-	bool IsMoon() const { return GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_ROCKY_PLANET && !IsPlanet(); }
+	bool IsMoon() const;
 
 	bool HasChildren() const { return !m_children.empty(); }
 	Uint32 GetNumChildren() const { return static_cast<Uint32>(m_children.size()); }
@@ -143,10 +143,10 @@ public:
 		return Color(200, 200, 200, 255);
 	}
 
-	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const
+	void GetAtmosphereFlavor(Color &outColor, double &outDensity) const
 	{
-		*outColor = m_atmosColor;
-		*outDensity = m_atmosDensity;
+		outColor = m_atmosColor;
+		outDensity = m_atmosDensity;
 	}
 
 	AtmosphereParameters CalcAtmosphereParams() const;

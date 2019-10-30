@@ -10,7 +10,6 @@
 #include "Pi.h"
 #include "RefCounted.h"
 #include "galaxy/AtmosphereParameters.h"
-#include "galaxy/SystemBody.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
@@ -50,14 +49,14 @@ void GeoSphere::Uninit()
 	s_patchContext.Reset();
 }
 
-static void print_info(const SystemBody *sbody, const Terrain *terrain)
+static void print_info(const SystemBodyWrapper *sbodyw, const Terrain *terrain)
 {
 	Output(
 		"%s:\n"
 		"    height fractal: %s\n"
 		"    colour fractal: %s\n"
 		"    seed: %u\n",
-		sbody->GetName().c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->GetSeed());
+		sbodyw->GetSystemBodyName().c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbodyw->GetSystemBodySeed());
 }
 
 // static
@@ -81,7 +80,8 @@ void GeoSphere::OnChangeDetailLevel()
 
 		// reinit the terrain with the new settings
 		(*i)->m_terrain.Reset(Terrain::InstanceTerrain((*i)->GetSystemBody()));
-		print_info((*i)->GetSystemBody(), (*i)->m_terrain.Get());
+		SystemBodyWrapper *sbw = static_cast<SystemBodyWrapper *>(*i);
+		print_info(sbw, (*i)->m_terrain.Get());
 	}
 }
 
@@ -90,7 +90,7 @@ bool GeoSphere::OnAddQuadSplitResult(const SystemPath &path, SQuadSplitResult *r
 {
 	// Find the correct GeoSphere via it's system path, and give it the split result
 	for (std::vector<GeoSphere *>::iterator i = s_allGeospheres.begin(), iEnd = s_allGeospheres.end(); i != iEnd; ++i) {
-		if (path == (*i)->GetSystemBody()->GetPath()) {
+		if (path == (*i)->GetSystemBodyPath()) {
 			(*i)->AddQuadSplitResult(res);
 			return true;
 		}
@@ -108,7 +108,7 @@ bool GeoSphere::OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResul
 {
 	// Find the correct GeoSphere via it's system path, and give it the split result
 	for (std::vector<GeoSphere *>::iterator i = s_allGeospheres.begin(), iEnd = s_allGeospheres.end(); i != iEnd; ++i) {
-		if (path == (*i)->GetSystemBody()->GetPath()) {
+		if (path == (*i)->GetSystemBodyPath()) {
 			(*i)->AddSingleSplitResult(res);
 			return true;
 		}
@@ -179,7 +179,9 @@ GeoSphere::GeoSphere(const SystemBody *body) :
 	m_initStage(eBuildFirstPatches),
 	m_maxDepth(0)
 {
-	print_info(body, m_terrain.Get());
+	SystemBodyWrapper *sbw = static_cast<SystemBodyWrapper *>(this);
+
+	print_info(sbw, m_terrain.Get());
 
 	s_allGeospheres.push_back(this);
 
@@ -306,7 +308,7 @@ void GeoSphere::BuildFirstPatches()
 
 void GeoSphere::CalculateMaxPatchDepth()
 {
-	const double circumference = 2.0 * M_PI * m_sbody->GetRadius();
+	const double circumference = 2.0 * M_PI * GetSystemBodyRadius();
 	// calculate length of each edge segment (quad) times 4 due to that being the number around the sphere (1 per side, 4 sides for Root).
 	double edgeMetres = circumference / double(s_patchContext->GetEdgeLen() * 8);
 	// find out what depth we reach the desired resolution
@@ -396,7 +398,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	{
 		//Update material parameters
 		//XXX no need to calculate AP every frame
-		m_materialParameters.atmosphere = GetSystemBody()->CalcAtmosphereParams();
+		m_materialParameters.atmosphere = CalcSystemBodyAtmosphereParams();
 		m_materialParameters.atmosphere.center = trans * vector3d(0.0);
 		m_materialParameters.atmosphere.planetRadius = radius;
 
@@ -424,15 +426,13 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	// save old global ambient
 	const Color oldAmbient = renderer->GetAmbientColor();
 
-	if ((GetSystemBody()->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR) || (GetSystemBody()->GetType() == GalaxyEnums::BodyType::TYPE_BROWN_DWARF)) {
+	if (IsSuperType(GalaxyEnums::BodySuperType::SUPERTYPE_STAR) || IsType(GalaxyEnums::BodyType::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
 		ambient.r = ambient.g = ambient.b = 51;
 		ambient.a = 255;
-		emission = GalaxyEnums::starRealColors[GetSystemBody()->GetType()];
+		emission = GalaxyEnums::starRealColors[GetSystemBodyType()];
 		emission.a = 255;
-	}
-
-	else {
+	} else {
 		// give planet some ambient lighting if the viewer is close to it
 		double camdist = 0.1 / campos.LengthSqr();
 		// why the fuck is this returning 0.1 when we are sat on the planet??
@@ -478,19 +478,19 @@ void GeoSphere::SetUpMaterials()
 	else
 		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN;
 
-	if ((GetSystemBody()->GetType() == GalaxyEnums::BodyType::TYPE_BROWN_DWARF) ||
-		(GetSystemBody()->GetType() == GalaxyEnums::BodyType::TYPE_STAR_M)) {
+	if (IsType(GalaxyEnums::BodyType::TYPE_BROWN_DWARF) ||
+		IsType(GalaxyEnums::BodyType::TYPE_STAR_M)) {
 		//dim star (emits and receives light)
 		surfDesc.lighting = true;
 		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
-	} else if (GetSystemBody()->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR) {
+	} else if (IsSuperType(GalaxyEnums::BodySuperType::SUPERTYPE_STAR)) {
 		//normal star
 		surfDesc.lighting = false;
 		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
 		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_STAR;
 	} else {
 		//planetoid with or without atmosphere
-		const AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
+		const AtmosphereParameters ap(CalcSystemBodyAtmosphereParams());
 		surfDesc.lighting = true;
 		if (ap.atmosDensity > 0.0) {
 			surfDesc.quality |= Graphics::HAS_ATMOSPHERE;

@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "vector3.h"
 #include "galaxy/AtmosphereParameters.h"
+#include "galaxy/SystemBodyWrapper.h"
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
 
@@ -18,7 +19,7 @@ namespace Graphics {
 	}
 } // namespace Graphics
 
-class BaseSphere {
+class BaseSphere: public SystemBodyWrapper {
 public:
 	BaseSphere(const SystemBody *body);
 	virtual ~BaseSphere();
@@ -49,7 +50,7 @@ public:
 
 	virtual void Reset() = 0;
 
-	const SystemBody *GetSystemBody() const { return m_sbody; }
+	const SystemBody *GetSystemBody() const { return SystemBodyWrapper::GetSystemBody(); }
 	Terrain *GetTerrain() const { return m_terrain.Get(); }
 
 	Graphics::RenderState *GetSurfRenderState() const { return m_surfRenderState; }
@@ -57,8 +58,6 @@ public:
 	MaterialParameters &GetMaterialParameters() { return m_materialParameters; }
 
 protected:
-	const SystemBody *m_sbody;
-
 	// all variables for GetHeight(), GetColor()
 	RefCountedPtr<Terrain> m_terrain;
 

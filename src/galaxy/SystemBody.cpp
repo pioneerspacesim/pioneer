@@ -59,7 +59,7 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 
 	double atmosDensity;
 
-	GetAtmosphereFlavor(&params.atmosCol, &atmosDensity);
+	GetAtmosphereFlavor(params.atmosCol, atmosDensity);
 	// adjust global atmosphere opacity
 	atmosDensity *= 1e-5;
 
@@ -465,6 +465,11 @@ bool SystemBody::IsPlanet() const
 	} else {
 		return false;
 	}
+}
+
+bool SystemBody::IsMoon() const
+{
+	return GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_ROCKY_PLANET && !IsPlanet();
 }
 
 double SystemBody::GetMaxChildOrbitalDistance() const

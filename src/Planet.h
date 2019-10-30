@@ -31,7 +31,7 @@ public:
 
 protected:
 private:
-	void InitParams(const SystemBody *);
+	void InitParams();
 	void GenerateRings(Graphics::Renderer *renderer);
 	void DrawGasGiantRings(Graphics::Renderer *r, const matrix4x4d &modelView);
 

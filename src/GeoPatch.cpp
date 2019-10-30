@@ -10,7 +10,6 @@
 #include "Pi.h"
 #include "RefCounted.h"
 #include "Sphere.h"
-#include "galaxy/SystemBody.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
@@ -54,7 +53,7 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	m_clipRadius = std::max(m_clipRadius, (m_v2 - m_clipCentroid).Length());
 	m_clipRadius = std::max(m_clipRadius, (m_v3 - m_clipCentroid).Length());
 	double distMult;
-	if (m_geosphere->GetSystemBody()->GetType() < GalaxyEnums::BodyType::TYPE_PLANET_ASTEROID) {
+	if (m_geosphere->GetSystemBodyType() < GalaxyEnums::BodyType::TYPE_PLANET_ASTEROID) {
 		distMult = 10.0 / Clamp(m_depth, 1, 10);
 	} else {
 		distMult = 5.0 / Clamp(m_depth, 1, 5);
@@ -357,7 +356,7 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 			m_HasJobRequest = true;
 
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(m_v0, m_v1, m_v2, m_v3, m_centroid.Normalized(), m_depth,
-				m_geosphere->GetSystemBody()->GetPath(), m_PatchID, m_ctx->GetEdgeLen() - 2,
+				m_geosphere->GetSystemBodyPath(), m_PatchID, m_ctx->GetEdgeLen() - 2,
 				m_ctx->GetFrac(), m_geosphere->GetTerrain());
 
 			// add to the GeoSphere to be processed at end of all LODUpdate requests
@@ -385,7 +384,7 @@ void GeoPatch::RequestSinglePatch()
 		assert(!m_HasJobRequest);
 		m_HasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(m_v0, m_v1, m_v2, m_v3, m_centroid.Normalized(), m_depth,
-			m_geosphere->GetSystemBody()->GetPath(), m_PatchID, m_ctx->GetEdgeLen() - 2, m_ctx->GetFrac(), m_geosphere->GetTerrain());
+			m_geosphere->GetSystemBodyPath(), m_PatchID, m_ctx->GetEdgeLen() - 2, m_ctx->GetFrac(), m_geosphere->GetTerrain());
 		m_job = Pi::GetAsyncJobQueue()->Queue(new SinglePatchJob(ssrd));
 	}
 }
