@@ -3,6 +3,7 @@
 
 #include "Camera.h"
 
+#include "Background.h"
 #include "Body.h"
 #include "Frame.h"
 #include "Game.h"

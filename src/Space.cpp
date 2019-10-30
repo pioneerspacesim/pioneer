@@ -3,6 +3,7 @@
 
 #include "Space.h"
 
+#include "Background.h"
 #include "Body.h"
 #include "CityOnPlanet.h"
 #include "Frame.h"

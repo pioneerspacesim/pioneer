@@ -5,6 +5,7 @@
 
 #include "Game.h"
 
+#include "Background.h"
 #include "Body.h"
 #include "DeathView.h"
 #include "FileSystem.h"

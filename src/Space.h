@@ -4,7 +4,6 @@
 #ifndef _SPACE_H
 #define _SPACE_H
 
-#include "Background.h"
 #include "IterationProxy.h"
 #include "Object.h"
 #include "RefCounted.h"
@@ -15,6 +14,10 @@
 class Body;
 class Frame;
 class Game;
+
+namespace Background {
+	class Container;
+}
 
 class Space {
 public:
