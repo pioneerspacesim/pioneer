@@ -14,6 +14,7 @@
 #include "Player.h"
 #include "Space.h"
 #include "StringF.h"
+#include "galaxy/Faction.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/Sector.h"

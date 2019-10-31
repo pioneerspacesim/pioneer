@@ -15,7 +15,7 @@
 #include "SpaceStation.h"
 #include "Star.h"
 #include "galaxy/Economy.h"
-#include "galaxy/Factions.h"
+#include "galaxy/Faction.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/Sector.h"

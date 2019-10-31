@@ -3,6 +3,7 @@
 
 #include "StarSystem.h"
 
+#include "Faction.h"
 #include "Galaxy.h"
 #include "Json.h"
 #include "Sector.h"

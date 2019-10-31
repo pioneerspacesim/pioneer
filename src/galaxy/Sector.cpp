@@ -2,7 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Sector.h"
+
 #include "CustomSystem.h"
+#include "Faction.h"
 #include "Galaxy.h"
 #include "StarSystem.h"
 

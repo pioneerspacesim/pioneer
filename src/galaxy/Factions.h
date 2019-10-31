@@ -4,14 +4,15 @@
 #ifndef _FACTIONS_H
 #define _FACTIONS_H
 
-#include "Faction.h"
 #include "Sector.h"
+#include <memory>
 #include <map>
 #include <utility>
 #include <vector>
 
-class Galaxy;
 class CustomSystem;
+class Faction;
+class Galaxy;
 
 /* One day it might grow up to become a full tree, on the  other hand it might be
    cut down before it's full growth to be replaced by
@@ -20,12 +21,7 @@ class CustomSystem;
 
 class FactionsDatabase {
 public:
-	FactionsDatabase(Galaxy *galaxy, const std::string &factionDir) :
-		m_galaxy(galaxy),
-		m_factionDirectory(factionDir),
-		m_no_faction(galaxy),
-		m_may_assign_factions(false),
-		m_initialized(false) {}
+	FactionsDatabase(Galaxy *galaxy, const std::string &factionDir);
 	~FactionsDatabase();
 
 	void Init();
@@ -48,7 +44,7 @@ public:
 private:
 	class Octsapling {
 	public:
-		void Add(const Faction *faction);
+		void Add(Galaxy *galaxy, const Faction *faction);
 		const std::vector<const Faction *> &CandidateFactions(const Sector::System *sys) const;
 
 	private:
@@ -70,7 +66,7 @@ private:
 
 	Galaxy *const m_galaxy;
 	const std::string m_factionDirectory;
-	Faction m_no_faction; // instead of answering null, we often want to answer a working faction object for no faction
+	std::unique_ptr<Faction> m_no_faction; // instead of answering null, we often want to answer a working faction object for no faction
 	FactionList m_factions;
 	FactionMap m_factions_byName;
 	HomeSystemSet m_homesystems;

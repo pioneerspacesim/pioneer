@@ -21,7 +21,7 @@ public:
 	static const Color BAD_FACTION_COLOUR; // factionColour to use on failing to find an appropriate faction
 	static const float FACTION_BASE_ALPHA; // Alpha to use on factionColour of systems with unknown population
 
-	Faction(Galaxy *galaxy);
+	Faction();
 
 	Uint32 idx; // faction index
 	std::string name; // Formal name "Federation", "Empire", "Bob's Rib-shack consortium of delicious worlds (tm)", etc.
@@ -63,15 +63,14 @@ public:
 	const Polit::GovType PickGovType(Random &rand) const;
 
 	// set the homeworld to one near the supplied co-ordinates
-	void SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi, Sint32 axisChange);
-	RefCountedPtr<const Sector> GetHomeSector() const;
+	void SetBestFitHomeworld(Galaxy *galaxy, Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi, Sint32 axisChange);
+	RefCountedPtr<const Sector> GetHomeSector(Galaxy *galaxy) const;
 
 private:
 	static const double FACTION_CURRENT_YEAR; // used to calculate faction radius
 
-	Galaxy *const m_galaxy; // galaxy we are part of
 	mutable RefCountedPtr<const Sector> m_homesector; // cache of home sector to use in distance calculations
-	const bool IsCloserAndContains(double &closestFactionDist, const Sector::System *sys) const;
+	const bool IsCloserAndContains(Galaxy *galaxy, double &closestFactionDist, const Sector::System *sys) const;
 };
 
 #endif // FACTION_H

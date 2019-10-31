@@ -25,6 +25,7 @@
 #include "SectorView.h"
 #include "WorldView.h"
 #include "buildopts.h"
+#include "galaxy/Faction.h"
 #include "graphics/Graphics.h"
 #include "scenegraph/Model.h"
 #include "sound/Sound.h"

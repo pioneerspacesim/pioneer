@@ -3,6 +3,7 @@
 
 #include "Factions.h"
 
+#include "Faction.h"
 #include "galaxy/CustomSystem.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/SystemPath.h"
@@ -53,7 +54,7 @@ static int l_fac_new(lua_State *L)
 	const char *name = luaL_checkstring(L, 2);
 
 	FactionBuilder *facbld = static_cast<FactionBuilder *>(lua_newuserdata(L, sizeof(*facbld)));
-	facbld->fac = new Faction(s_activeFactionsDatabase->GetGalaxy());
+	facbld->fac = new Faction();
 	facbld->registered = false;
 	facbld->skip = false;
 	luaL_setmetatable(L, LuaFaction_TypeName);
@@ -152,8 +153,8 @@ static int l_fac_homeworld(lua_State *L)
 	// search for home systems, first moving outward from the axes, then
 	// if that didn't work moving inward toward them
 	fac->hasHomeworld = true;
-	fac->SetBestFitHomeworld(x, y, z, si, bi, +1);
-	if (!fac->homeworld.HasValidSystem()) fac->SetBestFitHomeworld(x, y, z, si, bi, -1);
+	fac->SetBestFitHomeworld(s_activeFactionsDatabase->GetGalaxy(), x, y, z, si, bi, +1);
+	if (!fac->homeworld.HasValidSystem()) fac->SetBestFitHomeworld(s_activeFactionsDatabase->GetGalaxy(), x, y, z, si, bi, -1);
 
 	facbld->skip = !fac->homeworld.HasValidSystem(); // wasn't a valid system
 	lua_settop(L, 1);
@@ -390,6 +391,15 @@ static luaL_Reg LuaFaction_meta[] = {
 
 // ------ FactionsDatabase ------
 
+FactionsDatabase::FactionsDatabase(Galaxy *galaxy, const std::string &factionDir) :
+	m_galaxy(galaxy),
+	m_factionDirectory(factionDir),
+	m_may_assign_factions(false),
+	m_initialized(false)
+{
+	m_no_faction.reset(new Faction());
+}
+
 FactionsDatabase::~FactionsDatabase()
 {
 	if (m_initialized) {
@@ -513,7 +523,7 @@ void FactionsDatabase::AddFaction(Faction *faction)
 		}
 		m_missingFactionsMap.erase(it);
 	}
-	m_spatial_index.Add(faction);
+	m_spatial_index.Add(m_galaxy, faction);
 
 	if (faction->hasHomeworld) m_homesystems.insert(faction->homeworld.SystemOnly());
 	faction->idx = m_factions.size() - 1;
@@ -533,7 +543,7 @@ const Faction *FactionsDatabase::GetFaction(const std::string &factionName) cons
 	if (it != m_factions_byName.end()) {
 		return it->second;
 	} else {
-		return &m_no_faction;
+		return m_no_faction.get();
 	}
 }
 
@@ -558,14 +568,14 @@ const Faction *FactionsDatabase::GetNearestClaimant(const Sector::System *sys) c
 	}
 
 	// if it didn't, or it wasn't a custom StarStystem, then we go ahead and assign it a faction allegiance like normal below...
-	const Faction *result = &m_no_faction;
+	const Faction *result = m_no_faction.get();
 	double closestFactionDist = HUGE_VAL;
 	ConstFactionList &candidates = m_spatial_index.CandidateFactions(sys);
 
 	for (ConstFactionIterator it = candidates.begin(); it != candidates.end(); ++it) {
 		if ((*it)->IsClaimed(sys->GetPath()))
 			return *it; // this is a very specific claim, no further checks for distance from another factions homeworld is needed.
-		if ((*it)->IsCloserAndContains(closestFactionDist, sys))
+		if ((*it)->IsCloserAndContains(m_galaxy, closestFactionDist, sys))
 			result = *it;
 	}
 	return result;
@@ -578,7 +588,7 @@ bool FactionsDatabase::IsHomeSystem(const SystemPath &sysPath) const
 
 // ------ Factions Spatial Indexing ------
 
-void FactionsDatabase::Octsapling::Add(const Faction *faction)
+void FactionsDatabase::Octsapling::Add(Galaxy *galaxy, const Faction *faction)
 {
 	PROFILE_SCOPED()
 	/*  The general principle here is to put the faction in every octbox cell that a system
@@ -596,7 +606,7 @@ void FactionsDatabase::Octsapling::Add(const Faction *faction)
 		This part happens at faction generation time so shouldn't be too performance
 		critical
 	*/
-	RefCountedPtr<const Sector> sec = faction->GetHomeSector();
+	RefCountedPtr<const Sector> sec = faction->GetHomeSector(galaxy);
 
 	/* only factions with homeworlds that are available at faction generation time can
 	   be added to specific cells...

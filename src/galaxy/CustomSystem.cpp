@@ -5,7 +5,7 @@
 
 #include "Galaxy.h"
 
-#include "Factions.h"
+#include "Faction.h"
 #include "FileSystem.h"
 #include "LuaConstants.h"
 #include "LuaFixed.h"
