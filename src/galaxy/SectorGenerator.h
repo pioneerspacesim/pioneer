@@ -8,7 +8,7 @@
 #include "Random.h"
 #include "RefCounted.h"
 #include "Sector.h"
-#include "StarSystem.h"
+#include "ExplorationState.h"
 
 class SectorCustomSystemsGenerator : public SectorGeneratorStage {
 public:
@@ -37,7 +37,7 @@ public:
 	virtual void ToJson(Json &jsonObj, RefCountedPtr<Galaxy> galaxy);
 
 private:
-	void SetExplored(Sector::System *sys, StarSystem::ExplorationState e, double time);
+	void SetExplored(Sector::System *sys, ExplorationState e, double time);
 
 	const GalaxyGenerator::Version m_version;
 

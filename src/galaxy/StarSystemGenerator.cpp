@@ -1332,7 +1332,7 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 	}
 
 	// unexplored systems have no population (that we know about)
-	if (system->GetExplored() != StarSystem::eEXPLORED_AT_START) {
+	if (system->GetExplored() != ExplorationState::eEXPLORED_AT_START) {
 		sbody->m_population = outTotalPop = fixed();
 		return;
 	}

@@ -4,13 +4,17 @@
 #ifndef _SECTOR_H
 #define _SECTOR_H
 
+#include "ExplorationState.h"
 #include "GalaxyCache.h"
+#include "GalaxyEnums.h"
+#include "Random.h"
 #include "RefCounted.h"
-#include "galaxy/StarSystem.h"
 #include "galaxy/SystemPath.h"
-#include "libs.h"
+#include "vector3.h"
+
 #include <string>
 #include <vector>
+#include <sigc++/sigc++.h>
 
 class CustomSystem;
 class Faction;
@@ -47,7 +51,7 @@ public:
 			m_customSys(nullptr),
 			m_faction(nullptr),
 			m_population(-1),
-			m_explored(StarSystem::eUNEXPLORED),
+			m_explored(ExplorationState::eUNEXPLORED),
 			m_exploredTime(0.0) {}
 
 		static float DistanceBetween(const System *a, const System *b);
@@ -73,10 +77,10 @@ public:
 		}
 		fixed GetPopulation() const { return m_population; }
 		void SetPopulation(fixed pop) { m_population = pop; }
-		StarSystem::ExplorationState GetExplored() const { return m_explored; }
+		ExplorationState GetExplored() const { return m_explored; }
 		double GetExploredTime() const { return m_exploredTime; }
-		bool IsExplored() const { return m_explored != StarSystem::eUNEXPLORED; }
-		void SetExplored(StarSystem::ExplorationState e, double time);
+		bool IsExplored() const { return m_explored != ExplorationState::eUNEXPLORED; }
+		void SetExplored(ExplorationState e, double time);
 
 		bool IsSameSystem(const SystemPath &b) const
 		{
@@ -109,7 +113,7 @@ public:
 		const CustomSystem *m_customSys;
 		mutable const Faction *m_faction; // mutable because we only calculate on demand
 		fixed m_population;
-		StarSystem::ExplorationState m_explored;
+		ExplorationState m_explored;
 		double m_exploredTime;
 	};
 	std::vector<System> m_systems;
@@ -117,7 +121,7 @@ public:
 
 	void Dump(FILE *file, const char *indent = "") const;
 
-	sigc::signal<void, Sector::System *, StarSystem::ExplorationState, double> onSetExplorationState;
+	sigc::signal<void, Sector::System *, ExplorationState, double> onSetExplorationState;
 
 private:
 	Sector(const Sector &); // non-copyable

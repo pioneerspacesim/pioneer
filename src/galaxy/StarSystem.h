@@ -6,6 +6,7 @@
 
 #include "../RefCounted.h"
 #include "galaxy/Economy.h"
+#include "galaxy/ExplorationState.h"
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/Polit.h"
 #include "galaxy/SystemBody.h"
@@ -27,12 +28,6 @@ class CustomSystem;
 class StarSystem : public RefCounted {
 public:
 	class GeneratorAPI; // Complete definition below
-
-	enum ExplorationState {
-		eUNEXPLORED = 0,
-		eEXPLORED_BY_PLAYER = 1,
-		eEXPLORED_AT_START = 2
-	};
 
 	void ExportToLua(const char *filename);
 

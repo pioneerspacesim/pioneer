@@ -134,10 +134,10 @@ void StarSystem::Dump()
 void StarSystem::MakeShortDescription()
 {
 	PROFILE_SCOPED()
-	if (GetExplored() == StarSystem::eUNEXPLORED)
+	if (GetExplored() == ExplorationState::eUNEXPLORED)
 		SetShortDesc(Lang::UNEXPLORED_SYSTEM_NO_DATA);
 
-	else if (GetExplored() == StarSystem::eEXPLORED_BY_PLAYER)
+	else if (GetExplored() == ExplorationState::eEXPLORED_BY_PLAYER)
 		SetShortDesc(stringf(Lang::RECENTLY_EXPLORED_SYSTEM, formatarg("date", format_date_only(GetExploredTime()))));
 
 	/* Total population is in billions */

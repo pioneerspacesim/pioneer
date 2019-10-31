@@ -59,7 +59,7 @@ bool Sector::Contains(const SystemPath &sysPath) const
 	return true;
 }
 
-void Sector::System::SetExplored(StarSystem::ExplorationState e, double time)
+void Sector::System::SetExplored(ExplorationState e, double time)
 {
 	if (e != m_explored) {
 		m_sector->onSetExplorationState.emit(this, e, time);

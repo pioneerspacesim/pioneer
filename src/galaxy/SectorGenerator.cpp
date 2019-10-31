@@ -53,14 +53,14 @@ bool SectorCustomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 			 * ~700ly+: unexplored
 			 */
 			if (((dist <= Square(90)) && (dist <= Square(65) || rng.Int32(dist) <= Square(40))) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, sysIdx)))
-				s.m_explored = StarSystem::eEXPLORED_AT_START;
+				s.m_explored = ExplorationState::eEXPLORED_AT_START;
 			else
-				s.m_explored = StarSystem::eUNEXPLORED;
+				s.m_explored = ExplorationState::eUNEXPLORED;
 		} else {
 			if (cs->explored)
-				s.m_explored = StarSystem::eEXPLORED_AT_START;
+				s.m_explored = ExplorationState::eEXPLORED_AT_START;
 			else
-				s.m_explored = StarSystem::eUNEXPLORED;
+				s.m_explored = ExplorationState::eUNEXPLORED;
 		}
 		sector->m_systems.push_back(s);
 	}
@@ -179,9 +179,9 @@ bool SectorRandomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 		 * ~700ly+: unexplored
 		 */
 		if (((dist <= Square(90)) && (dist <= Square(65) || rng.Int32(dist) <= Square(40))) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, customCount + i)))
-			s.m_explored = StarSystem::eEXPLORED_AT_START;
+			s.m_explored = ExplorationState::eEXPLORED_AT_START;
 		else
-			s.m_explored = StarSystem::eUNEXPLORED;
+			s.m_explored = ExplorationState::eUNEXPLORED;
 
 		// Frequencies are low enough that we probably don't need this anymore.
 		if (freq > Square(10)) {
@@ -334,14 +334,14 @@ bool SectorRandomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 	return true;
 }
 
-void SectorPersistenceGenerator::SetExplored(Sector::System *sys, StarSystem::ExplorationState e, double time)
+void SectorPersistenceGenerator::SetExplored(Sector::System *sys, ExplorationState e, double time)
 {
-	if (e == StarSystem::eUNEXPLORED) {
+	if (e == ExplorationState::eUNEXPLORED) {
 		m_exploredSystems.erase(sys->GetPath());
-	} else if (e == StarSystem::eEXPLORED_AT_START) {
+	} else if (e == ExplorationState::eEXPLORED_AT_START) {
 		m_exploredSystems[sys->GetPath()] = 0;
 	} else {
-		assert(e == StarSystem::eEXPLORED_BY_PLAYER);
+		assert(e == ExplorationState::eEXPLORED_BY_PLAYER);
 		Time::DateTime dt = Time::DateTime(3200, 1, 1, 0, 0, 0) + Time::TimeDelta(time, Time::Second);
 		int year, month, day;
 		dt.GetDateParts(&year, &month, &day);
@@ -358,14 +358,14 @@ bool SectorPersistenceGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy
 			if (iter != m_exploredSystems.end()) {
 				Sint32 date = iter->second;
 				if (date == 0) {
-					secsys.m_explored = StarSystem::eEXPLORED_AT_START;
+					secsys.m_explored = ExplorationState::eEXPLORED_AT_START;
 					secsys.m_exploredTime = 0.0;
 				} else if (date > 0) {
 					int year = date >> 9;
 					int month = (date >> 5) & 0xf;
 					int day = date & 0x1f;
 					Time::DateTime dt(year, month, day);
-					secsys.m_explored = StarSystem::eEXPLORED_BY_PLAYER;
+					secsys.m_explored = ExplorationState::eEXPLORED_BY_PLAYER;
 					secsys.m_exploredTime = dt.ToGameTime();
 				}
 			}

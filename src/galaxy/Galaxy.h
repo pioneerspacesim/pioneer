@@ -8,6 +8,7 @@
 #include "Factions.h"
 #include "GalaxyCache.h"
 #include "JsonFwd.h"
+#include "StarSystem.h"
 #include "RefCounted.h"
 #include <cstdio>
 
