@@ -6,8 +6,8 @@
 #include "GameSaveError.h"
 #include "Json.h"
 #include "SectorGenerator.h"
-#include "galaxy/Galaxy.h"
-#include "galaxy/StarSystemGenerator.h"
+#include "Galaxy.h"
+#include "StarSystemGenerator.h"
 #include "utils.h"
 
 static const GalaxyGenerator::Version LAST_VERSION_LEGACY = 1;
@@ -187,7 +187,7 @@ RefCountedPtr<StarSystem> GalaxyGenerator::GenerateStarSystem(RefCountedPtr<Gala
 	Uint32 _init[6] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED, Uint32(seed) };
 	Random rng(_init, 6);
 	StarSystemConfig config;
-	RefCountedPtr<StarSystem::GeneratorAPI> system(new StarSystem::GeneratorAPI(path, galaxy, cache, rng));
+	RefCountedPtr<StarSystem> system(new StarSystem(path, galaxy, cache, rng));
 	for (StarSystemGeneratorStage *sysgen : m_starSystemStage)
 		if (!sysgen->Apply(rng, galaxy, system, &config))
 			break;

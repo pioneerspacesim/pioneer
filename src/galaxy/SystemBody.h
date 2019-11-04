@@ -18,6 +18,13 @@ class StarSystem;
 struct AtmosphereParameters;
 
 class SystemBody : public RefCounted {
+	friend class StarSystem;
+	friend class ObjectViewerView;
+	friend class StarSystemLegacyGeneratorBase;
+	friend class StarSystemCustomGenerator;
+	friend class StarSystemRandomGenerator;
+	friend class PopulateStarSystemGenerator;
+
 public:
 	SystemBody(const SystemPath &path, StarSystem *system);
 
@@ -160,13 +167,6 @@ public:
 	const std::string &GetSpaceStationType() const { return m_space_station_type; }
 
 private:
-	friend class StarSystem;
-	friend class ObjectViewerView;
-	friend class StarSystemLegacyGeneratorBase;
-	friend class StarSystemCustomGenerator;
-	friend class StarSystemRandomGenerator;
-	friend class PopulateStarSystemGenerator;
-
 	void ClearParentAndChildPointers();
 
 	SystemBody *m_parent; // these are only valid if the StarSystem

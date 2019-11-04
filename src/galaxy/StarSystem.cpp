@@ -23,31 +23,6 @@
 
 //#define DEBUG_DUMP
 
-namespace {
-	bool InvalidSystemNameChar(char c)
-	{
-		return !(
-			(c >= 'a' && c <= 'z') ||
-			(c >= 'A' && c <= 'Z') ||
-			(c >= '0' && c <= '9'));
-	}
-} // namespace
-
-SystemBody *StarSystem::GetBodyByPath(const SystemPath &path) const
-{
-	PROFILE_SCOPED()
-	assert(m_path.IsSameSystem(path));
-	assert(path.IsBodyPath());
-	assert(path.bodyIndex < m_bodies.size());
-
-	return m_bodies[path.bodyIndex].Get();
-}
-
-SystemPath StarSystem::GetPathOf(const SystemBody *sbody) const
-{
-	return sbody->GetPath();
-}
-
 /*
  * As my excellent comrades have pointed out, choices that depend on floating
  * point crap will result in different universes on different platforms.
@@ -71,8 +46,20 @@ StarSystem::StarSystem(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, Sta
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
 }
 
-StarSystem::GeneratorAPI::GeneratorAPI(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache *cache, Random &rand) :
-	StarSystem(path, galaxy, cache, rand) {}
+SystemBody *StarSystem::GetBodyByPath(const SystemPath &path) const
+{
+	PROFILE_SCOPED()
+	assert(m_path.IsSameSystem(path));
+	assert(path.IsBodyPath());
+	assert(path.bodyIndex < m_bodies.size());
+
+	return m_bodies[path.bodyIndex].Get();
+}
+
+SystemPath StarSystem::GetPathOf(const SystemBody *sbody) const
+{
+	return sbody->GetPath();
+}
 
 #ifdef DEBUG_DUMP
 struct thing_t {
@@ -221,6 +208,16 @@ RefCountedPtr<StarSystem> StarSystem::FromJson(RefCountedPtr<Galaxy> galaxy, con
 		throw SavedGameCorruptException();
 	}
 }
+
+namespace {
+	bool InvalidSystemNameChar(char c)
+	{
+		return !(
+			(c >= 'a' && c <= 'z') ||
+			(c >= 'A' && c <= 'Z') ||
+			(c >= '0' && c <= '9'));
+	}
+} // namespace
 
 std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body)
 {

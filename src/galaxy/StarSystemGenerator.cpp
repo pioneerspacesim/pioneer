@@ -8,6 +8,7 @@
 #include "Galaxy.h"
 #include "LuaNameGen.h"
 #include "Sector.h"
+#include "StarSystemWriter.h"
 #include "utils.h"
 #include "Pi.h"
 
@@ -177,18 +178,20 @@ const StarSystemLegacyGeneratorBase::StarTypeInfo StarSystemLegacyGeneratorBase:
 		10, 24 }
 };
 
-bool StarSystemFromSectorGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
+bool StarSystemFromSectorGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem> system, GalaxyGenerator::StarSystemConfig *config)
 {
 	PROFILE_SCOPED()
 	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
 	assert(system->GetPath().systemIndex >= 0 && system->GetPath().systemIndex < sec->m_systems.size());
 	const Sector::System &secSys = sec->m_systems[system->GetPath().systemIndex];
 
-	system->SetFaction(galaxy->GetFactions()->GetNearestClaimant(&secSys));
-	system->SetSeed(secSys.GetSeed());
-	system->SetName(secSys.GetName());
-	system->SetOtherNames(secSys.GetOtherNames());
-	system->SetExplored(secSys.GetExplored(), secSys.GetExploredTime());
+	StarSystemWriter syswrt(system);
+
+	syswrt.SetFaction(galaxy->GetFactions()->GetNearestClaimant(&secSys));
+	syswrt.SetSeed(secSys.GetSeed());
+	syswrt.SetName(secSys.GetName());
+	syswrt.SetOtherNames(secSys.GetOtherNames());
+	syswrt.SetExplored(secSys.GetExplored(), secSys.GetExploredTime());
 	return true;
 }
 
@@ -374,7 +377,7 @@ fixed StarSystemLegacyGeneratorBase::CalcHillRadius(SystemBody *sbody) const
 	}
 }
 
-void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *parent,
+void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem> system, SystemBody *parent,
 	const std::vector<CustomSystemBody *> &children, int *outHumanInfestedness, Random &rand)
 {
 	PROFILE_SCOPED()
@@ -462,7 +465,8 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		}
 		if (kid->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STARPORT) {
 			(*outHumanInfestedness)++;
-			system->AddSpaceStation(kid);
+			StarSystemWriter syswrt(system);
+			syswrt.AddSpaceStation(kid);
 		}
 		parent->m_children.push_back(kid);
 
@@ -495,18 +499,21 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 	}
 }
 
-bool StarSystemCustomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
+bool StarSystemCustomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem> system, GalaxyGenerator::StarSystemConfig *config)
 {
 	PROFILE_SCOPED()
 	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
-	system->SetCustom(false, false);
+
+	StarSystemWriter syswrt(system);
+
+	syswrt.SetCustom(false, false);
 	if (const CustomSystem *customSys = sec->m_systems[system->GetPath().systemIndex].GetCustomSystem()) {
-		system->SetCustom(true, false);
-		system->SetNumStars(customSys->numStars);
-		if (customSys->shortDesc.length() > 0) system->SetShortDesc(customSys->shortDesc);
-		if (customSys->longDesc.length() > 0) system->SetLongDesc(customSys->longDesc);
+		syswrt.SetCustom(true, false);
+		syswrt.SetNumStars(customSys->numStars);
+		if (customSys->shortDesc.length() > 0) syswrt.SetShortDesc(customSys->shortDesc);
+		if (customSys->longDesc.length() > 0) syswrt.SetLongDesc(customSys->longDesc);
 		if (!customSys->IsRandom()) {
-			system->SetCustom(true, true);
+			syswrt.SetCustom(true, true);
 			config->isCustomOnly = true;
 			const CustomSystemBody *csbody = customSys->sBody;
 			SystemBody *rootBody = system->NewBody();
@@ -523,7 +530,7 @@ bool StarSystemCustomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 
 			rootBody->m_rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
 			rootBody->m_orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
-			system->SetRootBody(rootBody);
+			syswrt.SetRootBody(rootBody);
 
 			int humanInfestedness = 0;
 			CustomGetKidsOf(system, rootBody, csbody->children, &humanInfestedness, rng);
@@ -531,7 +538,7 @@ bool StarSystemCustomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 			for (RefCountedPtr<SystemBody> b : system->GetBodies()) {
 				if (b->GetSuperType() == GalaxyEnums::BodySuperType::SUPERTYPE_STAR) {
 					++countedStars;
-					system->AddStar(b.Get());
+					syswrt.AddStar(b.Get());
 				}
 			}
 			assert(countedStars == system->GetNumStars());
@@ -894,7 +901,7 @@ static inline bool test_overlap(const fixed &x1, const fixed &x2, const fixed &y
 		(y2 >= x1 && y2 <= x2);
 }
 
-void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *primary, Random &rand)
+void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem> system, SystemBody *primary, Random &rand)
 {
 	PROFILE_SCOPED()
 	fixed discMin = fixed();
@@ -1153,7 +1160,7 @@ void StarSystemRandomGenerator::MakeBinaryPair(SystemBody *a, SystemBody *b, fix
 	b->m_orbMax = orbMax;
 }
 
-bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
+bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem> system, GalaxyGenerator::StarSystemConfig *config)
 {
 	PROFILE_SCOPED()
 	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
@@ -1167,6 +1174,9 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 
 	const int numStars = secSys.GetNumStars();
 	assert((numStars >= 1) && (numStars <= 4));
+
+	StarSystemWriter syswrt(system);
+
 	if (numStars == 1) {
 		GalaxyEnums::BodyType type = sec->m_systems[system->GetPath().systemIndex].GetStarType(0);
 		star[0] = system->NewBody();
@@ -1176,14 +1186,14 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 		star[0]->m_orbMax = fixed();
 
 		MakeStarOfType(star[0], type, rng);
-		system->SetRootBody(star[0]);
-		system->SetNumStars(1);
+		syswrt.SetRootBody(star[0]);
+		syswrt.SetNumStars(1);
 	} else {
 		centGrav1 = system->NewBody();
 		centGrav1->m_type = GalaxyEnums::BodyType::TYPE_GRAVPOINT;
 		centGrav1->m_parent = 0;
 		centGrav1->m_name = sec->m_systems[system->GetPath().systemIndex].GetName() + " A,B";
-		system->SetRootBody(centGrav1);
+		syswrt.SetRootBody(centGrav1);
 
 		GalaxyEnums::BodyType type = sec->m_systems[system->GetPath().systemIndex].GetStarType(0);
 		star[0] = system->NewBody();
@@ -1204,7 +1214,7 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 	try_that_again_guvnah:
 		MakeBinaryPair(star[0], star[1], minDist1, rng);
 
-		system->SetNumStars(2);
+		syswrt.SetNumStars(2);
 
 		if (numStars > 2) {
 			if (star[0]->m_orbMax > fixed(100, 1)) {
@@ -1219,7 +1229,7 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 				star[2]->m_orbMax = 0;
 				MakeStarOfTypeLighterThan(star[2], sec->m_systems[system->GetPath().systemIndex].GetStarType(2), star[0]->GetMassAsFixed(), rng);
 				centGrav2 = star[2];
-				system->SetNumStars(3);
+				syswrt.SetNumStars(3);
 			} else {
 				centGrav2 = system->NewBody();
 				centGrav2->m_type = GalaxyEnums::BodyType::TYPE_GRAVPOINT;
@@ -1242,7 +1252,7 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 				centGrav2->m_mass = star[2]->GetMassAsFixed() + star[3]->GetMassAsFixed();
 				centGrav2->m_children.push_back(star[2]);
 				centGrav2->m_children.push_back(star[3]);
-				system->SetNumStars(4);
+				syswrt.SetNumStars(4);
 			}
 			SystemBody *superCentGrav = system->NewBody();
 			superCentGrav->m_type = GalaxyEnums::BodyType::TYPE_GRAVPOINT;
@@ -1250,7 +1260,7 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 			superCentGrav->m_name = sec->m_systems[system->GetPath().systemIndex].GetName();
 			centGrav1->m_parent = superCentGrav;
 			centGrav2->m_parent = superCentGrav;
-			system->SetRootBody(superCentGrav);
+			syswrt.SetRootBody(superCentGrav);
 			const fixed minDistSuper = star[0]->m_orbMax + star[2]->m_orbMax;
 			MakeBinaryPair(centGrav1, centGrav2, 4 * minDistSuper, rng);
 			superCentGrav->m_children.push_back(centGrav1);
@@ -1260,11 +1270,11 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 
 	// used in MakeShortDescription
 	// XXX except this does not reflect the actual mining happening in this system
-	system->SetMetallicity(starMetallicities[system->GetRootBody()->GetType()]);
+	syswrt.SetMetallicity(starMetallicities[system->GetRootBody()->GetType()]);
 
 	// store all of the stars first ...
 	for (unsigned i = 0; i < system->GetNumStars(); i++) {
-		system->AddStar(star[i]);
+		syswrt.AddStar(star[i]);
 	}
 	// ... because we need them when making planets to calculate surface temperatures
 	for (auto s : system->GetStars()) {
@@ -1324,7 +1334,7 @@ void PopulateStarSystemGenerator::PositionSettlementOnPlanet(SystemBody *sbody, 
 /*
  * Set natural resources, tech level, industry strengths and population levels
  */
-void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::GeneratorAPI *system, fixed &outTotalPop)
+void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem *system, fixed &outTotalPop)
 {
 	PROFILE_SCOPED()
 	for (auto child : sbody->GetChildren()) {
@@ -1374,12 +1384,14 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 
 	sbody->m_agricultural = fixed();
 
+	StarSystemWriter syswrt(system);
+
 	if (sbody->GetLifeAsFixed() > fixed(9, 10)) {
 		sbody->m_agricultural = Clamp(fixed(1, 1) - fixed(CELSIUS + 25 - sbody->GetAverageTemp(), 40), fixed(), fixed(1, 1));
-		system->SetAgricultural(system->GetAgricultural() + 2 * sbody->m_agricultural);
+		syswrt.SetAgricultural(system->GetAgricultural() + 2 * sbody->m_agricultural);
 	} else if (sbody->GetLifeAsFixed() > fixed(1, 2)) {
 		sbody->m_agricultural = Clamp(fixed(1, 1) - fixed(CELSIUS + 30 - sbody->GetAverageTemp(), 50), fixed(), fixed(1, 1));
-		system->SetAgricultural(system->GetAgricultural() + 1 * sbody->m_agricultural);
+		syswrt.SetAgricultural(system->GetAgricultural() + 1 * sbody->m_agricultural);
 	} else {
 		// don't bother populating crap planets
 		if (sbody->GetMetallicityAsFixed() < fixed(5, 10) &&
@@ -1428,14 +1440,14 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 
 		int howmuch = (affinity * 256).ToInt32();
 
-		system->AddTradeLevel(GalacticEconomy::Commodity(i), -2 * howmuch);
+		syswrt.AddTradeLevel(GalacticEconomy::Commodity(i), -2 * howmuch);
 		for (int j = 0; j < GalacticEconomy::CommodityInfo::MAX_ECON_INPUTS; ++j) {
 			if (info.inputs[j] == GalacticEconomy::Commodity::NONE) continue;
-			system->AddTradeLevel(GalacticEconomy::Commodity(info.inputs[j]), howmuch);
+			syswrt.AddTradeLevel(GalacticEconomy::Commodity(info.inputs[j]), howmuch);
 		}
 	}
 
-	if (!system->HasCustomBodies() && sbody->GetPopulationAsFixed() > 0)
+	if (!syswrt.HasCustomBodies() && sbody->GetPopulationAsFixed() > 0)
 		sbody->m_name = Pi::luaNameGen->BodyName(sbody, namerand);
 
 	// Add a bunch of things people consume
@@ -1451,7 +1463,7 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 				continue;
 			}
 		}
-		system->AddTradeLevel(GalacticEconomy::Commodity(t), rand.Int32(32, 128));
+		syswrt.AddTradeLevel(GalacticEconomy::Commodity(t), rand.Int32(32, 128));
 	}
 	// well, outdoor worlds should have way more people
 	sbody->m_population = fixed(1, 10) * sbody->m_population + sbody->m_population * sbody->GetAgriculturalAsFixed();
@@ -1483,7 +1495,7 @@ static std::string gen_unique_station_name(SystemBody *sp, const StarSystem *sys
 	return name;
 }
 
-void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSystem::GeneratorAPI *system)
+void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSystem *system)
 {
 	PROFILE_SCOPED()
 	for (auto child : sbody->GetChildren())
@@ -1499,6 +1511,8 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 	namerand->seed(_init, 6);
 
 	if (sbody->GetPopulationAsFixed() < fixed(1, 1000)) return;
+
+	StarSystemWriter syswrt(system);
 	fixed orbMaxS = fixed(1, 4) * CalcHillRadius(sbody);
 	fixed orbMinS = fixed().FromDouble((sbody->CalcAtmosphereParams().atmosRadius + +500000.0 / EARTH_RADIUS)) * AU_EARTH_RADIUS;
 	if (sbody->GetNumChildren() > 0)
@@ -1584,7 +1598,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 
 				sp->m_inclination = fixed();
 				sbody->m_children.insert(sbody->m_children.begin(), sp);
-				system->AddSpaceStation(sp);
+				syswrt.AddSpaceStation(sp);
 				sp->m_orbMin = sp->GetSemiMajorAxisAsFixed();
 				sp->m_orbMax = sp->GetSemiMajorAxisAsFixed();
 
@@ -1612,10 +1626,10 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 		memset(&sp->m_orbit, 0, sizeof(Orbit));
 		PositionSettlementOnPlanet(sp, previousOrbits);
 		sbody->m_children.insert(sbody->m_children.begin(), sp);
-		system->AddSpaceStation(sp);
+		syswrt.AddSpaceStation(sp);
 	}
 
-	// garuantee that there is always a star port on a populated world
+	// guarantee that there is always a star port on a populated world
 	if (!system->HasSpaceStations()) {
 		SystemBody *sp = system->NewBody();
 		sp->m_type = GalaxyEnums::BodyType::TYPE_STARPORT_SURFACE;
@@ -1627,11 +1641,11 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 		memset(&sp->m_orbit, 0, sizeof(Orbit));
 		PositionSettlementOnPlanet(sp, previousOrbits);
 		sbody->m_children.insert(sbody->m_children.begin(), sp);
-		system->AddSpaceStation(sp);
+		syswrt.AddSpaceStation(sp);
 	}
 }
 
-void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, const fixed &human_infestedness)
+void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem> system, const fixed &human_infestedness)
 {
 	SystemPath path = system->GetPath();
 	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };
@@ -1665,10 +1679,12 @@ void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<Galaxy> galaxy, RefC
 		sysPolit.lawlessness = customSystem->lawlessness;
 	else
 		sysPolit.lawlessness = Polit::GetBaseLawlessness(sysPolit.govType) * rand.Fixed();
-	system->SetSysPolit(sysPolit);
+
+	StarSystemWriter syswrt(system);
+	syswrt.SetSysPolit(sysPolit);
 }
 
-void PopulateStarSystemGenerator::SetCommodityLegality(RefCountedPtr<StarSystem::GeneratorAPI> system)
+void PopulateStarSystemGenerator::SetCommodityLegality(RefCountedPtr<StarSystem> system)
 {
 	const SystemPath path = system->GetPath();
 	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SALT };
@@ -1678,34 +1694,38 @@ void PopulateStarSystemGenerator::SetCommodityLegality(RefCountedPtr<StarSystem:
 	Polit::GovType a = system->GetSysPolit().govType;
 	if (a == Polit::GOV_NONE) return;
 
+	StarSystemWriter syswrt(system);
+
 	if (system->GetFaction()->idx != Faction::BAD_FACTION_IDX) {
 		for (const std::pair<const GalacticEconomy::Commodity, Uint32> &legality : system->GetFaction()->commodity_legality)
-			system->SetCommodityLegal(legality.first, (rand.Int32(100) >= legality.second));
+			syswrt.SetCommodityLegal(legality.first, (rand.Int32(100) >= legality.second));
 	} else {
 		// this is a non-faction system - do some hardcoded test
-		system->SetCommodityLegal(GalacticEconomy::Commodity::HAND_WEAPONS, (rand.Int32(2) == 0));
-		system->SetCommodityLegal(GalacticEconomy::Commodity::BATTLE_WEAPONS, (rand.Int32(3) == 0));
-		system->SetCommodityLegal(GalacticEconomy::Commodity::NERVE_GAS, (rand.Int32(10) == 0));
-		system->SetCommodityLegal(GalacticEconomy::Commodity::NARCOTICS, (rand.Int32(2) == 0));
-		system->SetCommodityLegal(GalacticEconomy::Commodity::SLAVES, (rand.Int32(16) == 0));
+		syswrt.SetCommodityLegal(GalacticEconomy::Commodity::HAND_WEAPONS, (rand.Int32(2) == 0));
+		syswrt.SetCommodityLegal(GalacticEconomy::Commodity::BATTLE_WEAPONS, (rand.Int32(3) == 0));
+		syswrt.SetCommodityLegal(GalacticEconomy::Commodity::NERVE_GAS, (rand.Int32(10) == 0));
+		syswrt.SetCommodityLegal(GalacticEconomy::Commodity::NARCOTICS, (rand.Int32(2) == 0));
+		syswrt.SetCommodityLegal(GalacticEconomy::Commodity::SLAVES, (rand.Int32(16) == 0));
 	}
 }
 
-void PopulateStarSystemGenerator::SetEconType(RefCountedPtr<StarSystem::GeneratorAPI> system)
+void PopulateStarSystemGenerator::SetEconType(RefCountedPtr<StarSystem> system)
 {
+	StarSystemWriter syswrt(system);
+
 	if ((system->GetIndustrial() > system->GetMetallicity()) && (system->GetIndustrial() > system->GetAgricultural())) {
-		system->SetEconType(GalacticEconomy::ECON_INDUSTRY);
+		syswrt.SetEconType(GalacticEconomy::ECON_INDUSTRY);
 	} else if (system->GetMetallicity() > system->GetAgricultural()) {
-		system->SetEconType(GalacticEconomy::ECON_MINING);
+		syswrt.SetEconType(GalacticEconomy::ECON_MINING);
 	} else {
-		system->SetEconType(GalacticEconomy::ECON_AGRICULTURE);
+		syswrt.SetEconType(GalacticEconomy::ECON_AGRICULTURE);
 	}
 }
 
 /* percent */
 static const int MAX_COMMODITY_BASE_PRICE_ADJUSTMENT = 25;
 
-bool PopulateStarSystemGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system,
+bool PopulateStarSystemGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem> system,
 	GalaxyGenerator::StarSystemConfig *config)
 {
 	PROFILE_SCOPED()
@@ -1714,18 +1734,20 @@ bool PopulateStarSystemGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galax
 	Random rand;
 	rand.seed(_init, 5);
 
+	StarSystemWriter syswrt(system);
+
 	/* Various system-wide characteristics */
 	// This is 1 in sector (0,0,0) and approaches 0 farther out
 	// (1,0,0) ~ .688, (1,1,0) ~ .557, (1,1,1) ~ .48
-	system->SetHumanProx(galaxy->GetFactions()->IsHomeSystem(system->GetPath()) ? fixed(2, 3) : fixed(3, 1) / isqrt(9 + 10 * (system->GetPath().sectorX * system->GetPath().sectorX + system->GetPath().sectorY * system->GetPath().sectorY + system->GetPath().sectorZ * system->GetPath().sectorZ)));
-	system->SetEconType(GalacticEconomy::ECON_INDUSTRY);
-	system->SetIndustrial(rand.Fixed());
-	system->SetAgricultural(0);
+	syswrt.SetHumanProx(galaxy->GetFactions()->IsHomeSystem(system->GetPath()) ? fixed(2, 3) : fixed(3, 1) / isqrt(9 + 10 * (system->GetPath().sectorX * system->GetPath().sectorX + system->GetPath().sectorY * system->GetPath().sectorY + system->GetPath().sectorZ * system->GetPath().sectorZ)));
+	syswrt.SetEconType(GalacticEconomy::ECON_INDUSTRY);
+	syswrt.SetIndustrial(rand.Fixed());
+	syswrt.SetAgricultural(0);
 
 	/* system attributes */
 	fixed totalPop = fixed();
 	PopulateStage1(system->GetRootBody().Get(), system.Get(), totalPop);
-	system->SetTotalPop(totalPop);
+	syswrt.SetTotalPop(totalPop);
 
 	//	Output("Trading rates:\n");
 	// So now we have balances of trade of various commodities.
@@ -1737,8 +1759,8 @@ bool PopulateStarSystemGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galax
 	}
 	if (maximum)
 		for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; i++) {
-			system->SetTradeLevel(GalacticEconomy::Commodity(i), (system->GetTradeLevel()[i] * MAX_COMMODITY_BASE_PRICE_ADJUSTMENT) / maximum);
-			system->AddTradeLevel(GalacticEconomy::Commodity(i), rand.Int32(-5, 5));
+			syswrt.SetTradeLevel(GalacticEconomy::Commodity(i), (system->GetTradeLevel()[i] * MAX_COMMODITY_BASE_PRICE_ADJUSTMENT) / maximum);
+			syswrt.AddTradeLevel(GalacticEconomy::Commodity(i), rand.Int32(-5, 5));
 		}
 
 	// Unused?
@@ -1757,7 +1779,7 @@ bool PopulateStarSystemGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galax
 
 	if (!system->GetShortDescription().size()) {
 		SetEconType(system);
-		system->MakeShortDescription();
+		syswrt.MakeShortDescription();
 	}
 
 	return true;
