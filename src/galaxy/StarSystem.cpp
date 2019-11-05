@@ -7,15 +7,13 @@
 #include "Galaxy.h"
 #include "Json.h"
 #include "Sector.h"
+#include "StarSystemWriter.h"
 
 #include "EnumStrings.h"
 #include "GameSaveError.h"
-#include "Lang.h"
 #include "LuaEvent.h"
 #include "Orbit.h"
-#include "StringF.h"
 #include "enum_table.h"
-#include "utils.h"
 #include <SDL_stdinc.h>
 #include <algorithm>
 #include <map>
@@ -44,6 +42,16 @@ StarSystem::StarSystem(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, Sta
 {
 	PROFILE_SCOPED()
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
+}
+
+StarSystem::~StarSystem()
+{
+	PROFILE_SCOPED()
+	// clear parent and children pointers. someone (Lua) might still have a
+	// reference to things that are about to be deleted
+	m_rootBody->ClearParentAndChildPointers();
+	if (m_cache)
+		m_cache->RemoveFromAttic(m_path);
 }
 
 SystemBody *StarSystem::GetBodyByPath(const SystemPath &path) const
@@ -119,45 +127,6 @@ void StarSystem::Dump()
 }
 #endif /* DEBUG_DUMP */
 
-void StarSystem::MakeShortDescription()
-{
-	PROFILE_SCOPED()
-	if (GetExplored() == ExplorationState::eUNEXPLORED)
-		SetShortDesc(Lang::UNEXPLORED_SYSTEM_NO_DATA);
-
-	else if (GetExplored() == ExplorationState::eEXPLORED_BY_PLAYER)
-		SetShortDesc(stringf(Lang::RECENTLY_EXPLORED_SYSTEM, formatarg("date", format_date_only(GetExploredTime()))));
-
-	/* Total population is in billions */
-	else if (GetTotalPop() == 0) {
-		SetShortDesc(Lang::SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS);
-	} else if (GetTotalPop() < fixed(1, 10)) {
-		switch (GetEconType()) {
-		case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::SMALL_INDUSTRIAL_OUTPOST); break;
-		case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::SOME_ESTABLISHED_MINING); break;
-		case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::YOUNG_FARMING_COLONY); break;
-		}
-	} else if (GetTotalPop() < fixed(1, 2)) {
-		switch (GetEconType()) {
-		case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::INDUSTRIAL_COLONY); break;
-		case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::MINING_COLONY); break;
-		case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::OUTDOOR_AGRICULTURAL_WORLD); break;
-		}
-	} else if (GetTotalPop() < fixed(5, 1)) {
-		switch (GetEconType()) {
-		case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::HEAVY_INDUSTRY); break;
-		case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::EXTENSIVE_MINING); break;
-		case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::THRIVING_OUTDOOR_WORLD); break;
-		}
-	} else {
-		switch (GetEconType()) {
-		case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::INDUSTRIAL_HUB_SYSTEM); break;
-		case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::VAST_STRIP_MINE); break;
-		case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::HIGH_POPULATION_OUTDOOR_WORLD); break;
-		}
-	}
-}
-
 void StarSystem::ExploreSystem(double time)
 {
 	if (m_explored != eUNEXPLORED)
@@ -167,18 +136,9 @@ void StarSystem::ExploreSystem(double time)
 	RefCountedPtr<Sector> sec = m_galaxy->GetMutableSector(m_path);
 	Sector::System &secsys = sec->m_systems[m_path.systemIndex];
 	secsys.SetExplored(m_explored, m_exploredTime);
-	MakeShortDescription();
+	StarSystemWriter a(this);
+	a.MakeShortDescription();
 	LuaEvent::Queue("onSystemExplored", this);
-}
-
-StarSystem::~StarSystem()
-{
-	PROFILE_SCOPED()
-	// clear parent and children pointers. someone (Lua) might still have a
-	// reference to things that are about to be deleted
-	m_rootBody->ClearParentAndChildPointers();
-	if (m_cache)
-		m_cache->RemoveFromAttic(m_path);
 }
 
 void StarSystem::ToJson(Json &jsonObj, StarSystem *s)

@@ -21,13 +21,17 @@ class Faction;
 class Galaxy;
 
 class Sector : public RefCounted {
-	friend class GalaxyObjectCache<Sector, SystemPath::LessSectorOnly>;
 	friend class GalaxyGenerator;
 
+	friend void SetCache(RefCountedPtr<Sector> sec, SectorCache *cache);
+
 public:
+	Sector(const Sector &) = delete; // non-copyable
+	Sector &operator=(const Sector &) = delete; // non-assignable
+	~Sector();
+
 	// lightyears
 	static const float SIZE;
-	~Sector();
 
 	static float DistanceBetween(RefCountedPtr<const Sector> a, int sysIdxA, RefCountedPtr<const Sector> b, int sysIdxB);
 
@@ -39,6 +43,11 @@ public:
 	SystemPath GetPath() const { return SystemPath(sx, sy, sz); }
 
 	class System {
+		friend class Sector;
+		friend class SectorCustomSystemsGenerator;
+		friend class SectorRandomSystemsGenerator;
+		friend class SectorPersistenceGenerator;
+
 	public:
 		System(Sector *sector, int x, int y, int z, Uint32 si) :
 			sx(x),
@@ -52,7 +61,8 @@ public:
 			m_faction(nullptr),
 			m_population(-1),
 			m_explored(ExplorationState::eUNEXPLORED),
-			m_exploredTime(0.0) {}
+			m_exploredTime(0.0)
+		{}
 
 		static float DistanceBetween(const System *a, const System *b);
 
@@ -96,11 +106,6 @@ public:
 		const Uint32 idx;
 
 	private:
-		friend class Sector;
-		friend class SectorCustomSystemsGenerator;
-		friend class SectorRandomSystemsGenerator;
-		friend class SectorPersistenceGenerator;
-
 		void AssignFaction() const;
 
 		Sector *m_sector;
@@ -116,6 +121,8 @@ public:
 		ExplorationState m_explored;
 		double m_exploredTime;
 	};
+
+
 	std::vector<System> m_systems;
 	const int sx, sy, sz;
 
@@ -124,19 +131,12 @@ public:
 	sigc::signal<void, Sector::System *, ExplorationState, double> onSetExplorationState;
 
 private:
-	Sector(const Sector &); // non-copyable
-	Sector &operator=(const Sector &); // non-assignable
-
 	RefCountedPtr<Galaxy> m_galaxy;
 	SectorCache *m_cache;
 
 	// Only SectorCache(Job) are allowed to create sectors
 	Sector(RefCountedPtr<Galaxy> galaxy, const SystemPath &path, SectorCache *cache);
-	void SetCache(SectorCache *cache)
-	{
-		assert(!m_cache);
-		m_cache = cache;
-	}
+
 	// sets appropriate factions for all systems in the sector
 };
 

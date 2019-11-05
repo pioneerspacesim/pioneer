@@ -25,7 +25,7 @@ class Galaxy;
 
 class StarSystem : public RefCounted {
 	friend class StarSystemWriter;
-
+	friend void SetCache(RefCountedPtr<StarSystem> ssys, StarSystemCache *cache);
 public:
 	StarSystem(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache *cache, Random &rand);
 	virtual ~StarSystem();
@@ -35,12 +35,6 @@ public:
 		SystemBody *body = new SystemBody(SystemPath(m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex, static_cast<Uint32>(m_bodies.size())), this);
 		m_bodies.push_back(RefCountedPtr<SystemBody>(body));
 		return body;
-	}
-
-	void SetCache(StarSystemCache *cache)
-	{
-		assert(!m_cache);
-		m_cache = cache;
 	}
 
 	void ExportToLua(const char *filename);
@@ -99,9 +93,6 @@ public:
 	const RefCountedPtr<Galaxy> m_galaxy;
 
 private:
-
-	void MakeShortDescription();
-	void SetShortDesc(const std::string &desc) { m_shortDesc = desc; }
 
 	std::string ExportBodyToLua(FILE *f, SystemBody *body);
 	std::string GetStarTypes(SystemBody *body);

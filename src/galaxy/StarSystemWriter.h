@@ -66,7 +66,7 @@ public:
 
 	void SetShortDesc(const std::string &desc) { m_ssys->m_shortDesc = desc; }
 
-	void MakeShortDescription() { m_ssys->MakeShortDescription(); };
+	void MakeShortDescription();
 
 private:
 	StarSystem *m_ssys;

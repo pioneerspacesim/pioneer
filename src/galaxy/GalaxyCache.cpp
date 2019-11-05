@@ -1,20 +1,31 @@
 // Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "galaxy/GalaxyCache.h"
+#include "GalaxyCache.h"
 
-#include "galaxy/Galaxy.h"
-#include "galaxy/GalaxyGenerator.h"
-#include "galaxy/Sector.h"
-#include "galaxy/StarSystem.h"
+#include "Galaxy.h"
+#include "GalaxyGenerator.h"
+#include "Sector.h"
+#include "StarSystem.h"
 #include "Pi.h"
 #include "utils.h"
 #include <utility>
 
 //#define DEBUG_CACHE
 
-//virtual
+void SetCache(RefCountedPtr<StarSystem> ssys, StarSystemCache *cache)
+{
+	assert(!m_cache && !ssys);
+	ssys->m_cache = cache;
+}
 
+void SetCache(RefCountedPtr<Sector> sec, SectorCache *cache)
+{
+	assert(!m_cache);
+	sec->m_cache = cache;
+}
+
+//virtual
 template <typename T, typename CompareT>
 GalaxyObjectCache<T, CompareT>::~GalaxyObjectCache()
 {
@@ -31,7 +42,7 @@ void GalaxyObjectCache<T, CompareT>::AddToCache(std::vector<RefCountedPtr<T>> &o
 		if (!inserted.second) {
 			it->Reset(inserted.first->second);
 		} else {
-			(*it)->SetCache(this);
+			SetCache(*it, this);
 		}
 	}
 }
@@ -145,6 +156,7 @@ RefCountedPtr<T> GalaxyObjectCache<T, CompareT>::Slave::GetCached(const SystemPa
 	} else {
 		return RefCountedPtr<T>();
 	}
+	Output("Something wrong here...\n");
 }
 
 template <typename T, typename CompareT>
