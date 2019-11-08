@@ -71,7 +71,7 @@ Game::Game(const SystemPath &path, const double startDateTime) :
 		throw InvalidGameStartLocation(std::string(buf));
 	}
 
-	m_space.reset(new Space(this, m_galaxy, path));
+	m_space.reset(new Space(GetTime(), GetTimeStep(), m_galaxy, path));
 
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
@@ -157,7 +157,7 @@ Game::Game(const Json &jsonObj) :
 		m_hyperspaceEndTime = jsonObj["hyperspace_end_time"];
 
 		// space, all the bodies and things
-		m_space.reset(new Space(this, m_galaxy, jsonObj, m_time));
+		m_space.reset(new Space(m_galaxy, jsonObj, m_time));
 
 		unsigned int player = jsonObj["player"];
 		m_player.reset(static_cast<Player *>(m_space->GetBodyByIndex(player)));
@@ -231,7 +231,7 @@ void Game::ToJson(Json &jsonObj)
 	Json gameInfo = Json::object();
 	float credits = LuaObject<Player>::CallMethod<float>(Pi::player, "GetMoney");
 
-	gameInfo["system"] = Pi::game->GetSpace()->GetStarSystem()->GetName();
+	gameInfo["system"] = GetSpace()->GetStarSystem()->GetName();
 	gameInfo["credits"] = credits;
 	gameInfo["ship"] = Pi::player->GetShipType()->modelName;
 	if (Pi::player->IsDocked()) {
@@ -274,17 +274,17 @@ void Game::TimeStep(float step)
 {
 	PROFILE_SCOPED()
 	m_time += step; // otherwise planets lag time accel changes by a frame
-	if (m_state == State::HYPERSPACE && Pi::game->GetTime() >= m_hyperspaceEndTime)
+	if (m_state == State::HYPERSPACE && GetTime() >= m_hyperspaceEndTime)
 		m_time = m_hyperspaceEndTime;
 
-	m_space->TimeStep(step);
+	m_space->TimeStep(step, GetTime());
 
 	// XXX ui updates, not sure if they belong here
 	m_gameViews->m_cpan->TimeStepUpdate(step);
 	SfxManager::TimeStepAll(step, m_space->GetRootFrame());
 
 	if (m_state == State::HYPERSPACE) {
-		if (Pi::game->GetTime() >= m_hyperspaceEndTime) {
+		if (GetTime() >= m_hyperspaceEndTime) {
 			SwitchToNormalSpace();
 			m_player->EnterSystem();
 			RequestTimeAccel(TIMEACCEL_1X);
@@ -451,7 +451,7 @@ void Game::SwitchToHyperspace()
 	m_space->RemoveBody(m_player.get());
 
 	// create hyperspace :)
-	m_space.reset(new Space(this, m_galaxy, m_space.get()));
+	m_space.reset(new Space(GetHyperspaceDest(), m_galaxy, m_space.get()));
 
 	m_space->GetBackground()->SetDrawFlags(Background::Container::DRAW_STARS);
 
@@ -472,7 +472,7 @@ void Game::SwitchToHyperspace()
 	// animation and end time counters
 	m_hyperspaceProgress = 0;
 	m_hyperspaceDuration = m_player->GetHyperspaceDuration();
-	m_hyperspaceEndTime = Pi::game->GetTime() + m_hyperspaceDuration;
+	m_hyperspaceEndTime = GetTime() + m_hyperspaceDuration;
 
 	m_state = State::HYPERSPACE;
 	m_wantHyperspace = false;
@@ -487,7 +487,7 @@ void Game::SwitchToNormalSpace()
 	m_space->RemoveBody(m_player.get());
 
 	// create a new space for the system
-	m_space.reset(new Space(this, m_galaxy, m_hyperspaceDest, m_space.get()));
+	m_space.reset(new Space(GetTime(), GetTimeStep(), m_galaxy, m_hyperspaceDest, m_space.get()));
 
 	// put the player in it
 	m_player->SetFrame(m_space->GetRootFrame());
@@ -508,7 +508,7 @@ void Game::SwitchToNormalSpace()
 	}
 
 	// place the exit cloud
-	HyperspaceCloud *cloud = new HyperspaceCloud(0, Pi::game->GetTime(), true);
+	HyperspaceCloud *cloud = new HyperspaceCloud(0, GetTime(), true);
 	cloud->SetFrame(m_space->GetRootFrame());
 	cloud->SetPosition(m_player->GetPosition());
 	m_space->AddBody(cloud);
@@ -521,7 +521,7 @@ void Game::SwitchToNormalSpace()
 
 		m_space->AddBody(cloud);
 
-		if (cloud->GetDueDate() < Pi::game->GetTime()) {
+		if (cloud->GetDueDate() < GetTime()) {
 			// they emerged from hyperspace some time ago
 			Ship *ship = cloud->EvictShip();
 
@@ -547,7 +547,7 @@ void Game::SwitchToNormalSpace()
 				double half_dist_to_target = dist_to_target / 2.0;
 				//double accel = -(ship->GetShipType()->linThrust[ShipType::THRUSTER_FORWARD] / ship->GetMass());
 				double accel = -ship->GetAccelFwd();
-				double travel_time = Pi::game->GetTime() - cloud->GetDueDate();
+				double travel_time = GetTime() - cloud->GetDueDate();
 
 				// I can't help but feel some actual math would do better here
 				double speed = 0;

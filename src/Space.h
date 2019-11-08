@@ -13,7 +13,6 @@
 
 class Body;
 class Frame;
-class Game;
 
 namespace Background {
 	class Container;
@@ -22,13 +21,13 @@ namespace Background {
 class Space {
 public:
 	// empty space (eg for hyperspace)
-	Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space *oldSpace = nullptr);
+	Space(const SystemPath &dest, RefCountedPtr<Galaxy> galaxy, Space *oldSpace);
 
 	// initalise with system bodies
-	Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, Space *oldSpace = nullptr);
+	Space(double total_time, float time_step, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, Space *oldSpace = nullptr);
 
 	// initialise from save file
-	Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, double at_time);
+	Space(RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, double at_time);
 
 	~Space();
 
@@ -52,7 +51,7 @@ public:
 	void RemoveBody(Body *);
 	void KillBody(Body *);
 
-	void TimeStep(float step);
+	void TimeStep(float step, double total_time);
 
 	void GetHyperspaceExitParams(const SystemPath &source, const SystemPath &dest,
 		vector3d &pos, vector3d &vel) const;
@@ -105,8 +104,6 @@ private:
 	RefCountedPtr<StarSystemCache::Slave> m_starSystemCache;
 
 	RefCountedPtr<StarSystem> m_starSystem;
-
-	Game *m_game;
 
 	// all the bodies we know about
 	std::list<Body *> m_bodies;

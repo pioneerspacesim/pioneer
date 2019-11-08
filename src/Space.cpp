@@ -7,7 +7,6 @@
 #include "Body.h"
 #include "CityOnPlanet.h"
 #include "Frame.h"
-#include "Game.h"
 #include "GameSaveError.h"
 #include "HyperspaceCloud.h"
 #include "Lang.h"
@@ -63,9 +62,8 @@ Space::BodyNearList Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &po
 	return std::move(m_nearBodies);
 }
 
-Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space *oldSpace) :
+Space::Space(const SystemPath &dest, RefCountedPtr<Galaxy> galaxy, Space *oldSpace) :
 	m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : galaxy->NewStarSystemSlaveCache()),
-	m_game(game),
 	m_frameIndexValid(false),
 	m_bodyIndexValid(false),
 	m_sbodyIndexValid(false),
@@ -77,16 +75,15 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space *oldSpace) :
 {
 	m_background.reset(new Background::Container(Pi::renderer, Pi::rng));
 
-	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
+	m_rootFrame.reset(new Frame(nullptr, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 
-	GenSectorCache(galaxy, &game->GetHyperspaceDest());
+	GenSectorCache(galaxy, &dest);
 }
 
-Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, Space *oldSpace) :
+Space::Space(double total_time, float time_step, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, Space *oldSpace) :
 	m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : galaxy->NewStarSystemSlaveCache()),
 	m_starSystem(galaxy->GetStarSystem(path)),
-	m_game(game),
 	m_frameIndexValid(false),
 	m_bodyIndexValid(false),
 	m_sbodyIndexValid(false),
@@ -107,17 +104,16 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, S
 	m_rootFrame->SetRadius(FLT_MAX);
 
 	std::vector<vector3d> positionAccumulator;
-	GenBody(m_game->GetTime(), m_starSystem->GetRootBody().Get(), m_rootFrame.get(), positionAccumulator);
-	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
+	GenBody(total_time, m_starSystem->GetRootBody().Get(), m_rootFrame.get(), positionAccumulator);
+	m_rootFrame->UpdateOrbitRails(total_time, time_step);
 
 	GenSectorCache(galaxy, &path);
 
 	//DebugDumpFrames();
 }
 
-Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, double at_time) :
+Space::Space(RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, double at_time) :
 	m_starSystemCache(galaxy->NewStarSystemSlaveCache()),
-	m_game(game),
 	m_frameIndexValid(false),
 	m_bodyIndexValid(false),
 	m_sbodyIndexValid(false),
@@ -997,7 +993,7 @@ void Space::CollideFrame(Frame *f)
 		CollideFrame(kid);
 }
 
-void Space::TimeStep(float step)
+void Space::TimeStep(float step, double total_time)
 {
 	PROFILE_SCOPED()
 
@@ -1019,7 +1015,7 @@ void Space::TimeStep(float step)
 	for (Body *b : m_bodies)
 		b->StaticUpdate(step);
 
-	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
+	m_rootFrame->UpdateOrbitRails(total_time, step);
 
 	for (Body *b : m_bodies)
 		b->TimeStepUpdate(step);
