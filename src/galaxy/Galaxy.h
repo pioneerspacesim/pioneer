@@ -44,6 +44,8 @@ public:
 	RefCountedPtr<Sector> GetMutableSector(const SystemPath &path) { return m_sectorCache.GetCached(path); }
 	RefCountedPtr<SectorCache::Slave> NewSectorSlaveCache() { return m_sectorCache.NewSlaveCache(); }
 
+	vector3d GetInterSystemPosition(const SystemPath &source, const SystemPath &dest);
+
 	RefCountedPtr<StarSystem> GetStarSystem(const SystemPath &path) { return m_starSystemCache.GetCached(path); }
 	RefCountedPtr<StarSystemCache::Slave> NewStarSystemSlaveCache() { return m_starSystemCache.NewSlaveCache(); }
 

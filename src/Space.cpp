@@ -340,22 +340,13 @@ void Space::KillBody(Body *b)
 	}
 }
 
-void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &dest,
-	vector3d &pos, vector3d &vel) const
+void Space::GetRandomOrbitFromDirection(const SystemPath &source, const SystemPath &dest,
+	const vector3d dir,	vector3d &pos, vector3d &vel) const
 {
 	assert(m_starSystem);
 	assert(source.IsSystemPath());
 
 	assert(dest.IsSameSystem(m_starSystem->GetPath()));
-
-	RefCountedPtr<const Sector> source_sec = m_sectorCache->GetCached(source);
-	RefCountedPtr<const Sector> dest_sec = m_sectorCache->GetCached(dest);
-
-	Sector::System source_sys = source_sec->m_systems[source.systemIndex];
-	Sector::System dest_sys = dest_sec->m_systems[dest.systemIndex];
-
-	const vector3d sourcePos = vector3d(source_sys.GetFullPosition());
-	const vector3d destPos = vector3d(dest_sys.GetFullPosition());
 
 	Body *primary = 0;
 	if (dest.IsBodyPath()) {
@@ -363,7 +354,7 @@ void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &
 		primary = FindBodyForPath(&dest);
 		while (primary && primary->GetSystemBody()->GetSuperType() != GalaxyEnums::BodySuperType::SUPERTYPE_STAR) {
 			SystemBody *parent = primary->GetSystemBody()->GetParent();
-			primary = parent ? FindBodyForPath(&parent->GetPath()) : 0;
+			primary = parent ? FindBodyForPath(&parent->GetPath()) : nullptr;
 		}
 	}
 	if (!primary) {
@@ -389,7 +380,7 @@ void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &
 	// make exit position perpendicular to it,
 	// add random component to exit position,
 	// set velocity for (almost) circular orbit
-	vel = (destPos - sourcePos).Normalized();
+	vel = dir.Normalized();
 	{
 		vector3d a{ MathUtil::OrthogonalDirection(vel) };
 		vector3d b{ vel.Cross(a) };

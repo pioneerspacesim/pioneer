@@ -86,6 +86,17 @@ public:
 	const SystemPath &GetHyperspaceSource() const { return m_hyperspaceSource; }
 	void RemoveHyperspaceCloud(HyperspaceCloud *);
 
+	void GetHyperspaceExitParams(const SystemPath &source, const SystemPath &dest, vector3d &pos, vector3d &vel);
+
+	void GetHyperspaceExitParams(const SystemPath &source, vector3d &pos, vector3d &vel);
+
+	vector3d GetHyperspaceExitPoint(const SystemPath &source, const SystemPath &dest)
+	{
+		vector3d pos, vel;
+		GetHyperspaceExitParams(source, dest, pos, vel);
+		return pos;
+	}
+
 	enum TimeAccel {
 		TIMEACCEL_PAUSED,
 		TIMEACCEL_1X,

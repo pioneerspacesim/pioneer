@@ -53,18 +53,8 @@ public:
 
 	void TimeStep(float step, double total_time);
 
-	void GetHyperspaceExitParams(const SystemPath &source, const SystemPath &dest,
-		vector3d &pos, vector3d &vel) const;
-	vector3d GetHyperspaceExitPoint(const SystemPath &source, const SystemPath &dest) const
-	{
-		vector3d pos, vel;
-		GetHyperspaceExitParams(source, dest, pos, vel);
-		return pos;
-	}
-	vector3d GetHyperspaceExitPoint(const SystemPath &source) const
-	{
-		return GetHyperspaceExitPoint(source, m_starSystem->GetPath());
-	}
+	void GetRandomOrbitFromDirection(const SystemPath &source, const SystemPath &dest,
+		const vector3d dir,	vector3d &pos, vector3d &vel) const;
 
 	Body *FindNearestTo(const Body *b, Object::Type t) const;
 	Body *FindBodyForPath(const SystemPath *path) const;

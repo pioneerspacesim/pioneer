@@ -405,6 +405,18 @@ void Game::RemoveHyperspaceCloud(HyperspaceCloud *cloud)
 	m_hyperspaceClouds.remove(cloud);
 }
 
+void Game::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &dest, vector3d &pos, vector3d &vel)
+{
+	assert(m_space);
+	vector3d dir(m_galaxy->GetInterSystemPosition(source, dest));
+	m_space->GetRandomOrbitFromDirection(source, dest, dir, pos, vel);
+}
+
+void Game::GetHyperspaceExitParams(const SystemPath &source, vector3d &pos, vector3d &vel)
+{
+	GetHyperspaceExitParams(source, m_space->GetStarSystem()->GetPath(), pos, vel);
+};
+
 void Game::SwitchToHyperspace()
 {
 	PROFILE_SCOPED()
@@ -421,7 +433,7 @@ void Game::SwitchToHyperspace()
 
 		// only want departure clouds with ships in them
 		HyperspaceCloud *cloud = static_cast<HyperspaceCloud *>(b);
-		if (cloud->IsArrival() || cloud->GetShip() == 0)
+		if (cloud->IsArrival() || cloud->GetShip() == nullptr)
 			continue;
 
 		// make sure they're going to the same place as us
@@ -495,7 +507,7 @@ void Game::SwitchToNormalSpace()
 
 	// place it
 	vector3d pos, vel;
-	m_space->GetHyperspaceExitParams(m_hyperspaceSource, m_hyperspaceDest, pos, vel);
+	GetHyperspaceExitParams(m_hyperspaceSource, m_hyperspaceDest, pos, vel);
 	m_player->SetPosition(pos);
 	m_player->SetVelocity(vel);
 
@@ -517,7 +529,7 @@ void Game::SwitchToNormalSpace()
 		cloud = *i;
 
 		cloud->SetFrame(m_space->GetRootFrame());
-		cloud->SetPosition(m_space->GetHyperspaceExitPoint(m_hyperspaceSource, m_hyperspaceDest));
+		cloud->SetPosition(GetHyperspaceExitPoint(m_hyperspaceSource, m_hyperspaceDest));
 
 		m_space->AddBody(cloud);
 

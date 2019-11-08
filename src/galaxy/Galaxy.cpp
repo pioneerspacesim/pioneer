@@ -112,6 +112,19 @@ int Galaxy::GetGeneratorVersion() const
 	return m_galaxyGenerator->GetVersion();
 }
 
+vector3d Galaxy::GetInterSystemPosition(const SystemPath &source, const SystemPath &dest)
+{
+	RefCountedPtr<const Sector> source_sec = GetSector(source);
+	RefCountedPtr<const Sector> dest_sec = GetSector(dest);
+
+	Sector::System source_sys = source_sec->m_systems[source.systemIndex];
+	Sector::System dest_sys = dest_sec->m_systems[dest.systemIndex];
+
+	const vector3d sourcePos(source_sys.GetFullPosition());
+	const vector3d destPos(dest_sys.GetFullPosition());
+	return destPos - sourcePos;
+}
+
 DensityMapGalaxy::DensityMapGalaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, const std::string &mapfile,
 	float radius, float sol_offset_x, float sol_offset_y, const std::string &factionsDir, const std::string &customSysDir) :
 	Galaxy(galaxyGenerator, radius, sol_offset_x, sol_offset_y, factionsDir, customSysDir),
