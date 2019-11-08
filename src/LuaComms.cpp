@@ -3,11 +3,10 @@
 
 #include "LuaComms.h"
 
+#include "Game.h"
 #include "GameLog.h"
 #include "LuaObject.h"
-#include "LuaUtils.h"
 #include "Pi.h"
-#include "ShipCpanel.h"
 
 /*
  * Interface: Comms
@@ -42,7 +41,7 @@
  */
 static int l_comms_message(lua_State *l)
 {
-	if (!Pi::game || !Pi::game->GetCpan())
+	if (!Pi::game || !Pi::game->log)
 		luaL_error(l, "Control panel does not exist.");
 
 	std::string msg = luaL_checkstring(l, 1);
@@ -85,7 +84,7 @@ static int l_comms_message(lua_State *l)
  */
 static int l_comms_important_message(lua_State *l)
 {
-	if (!Pi::game || !Pi::game->GetCpan())
+	if (!Pi::game || !Pi::game->log)
 		luaL_error(l, "Control panel does not exist.");
 
 	std::string msg = luaL_checkstring(l, 1);

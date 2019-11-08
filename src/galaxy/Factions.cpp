@@ -4,9 +4,9 @@
 #include "Factions.h"
 
 #include "Faction.h"
-#include "galaxy/CustomSystem.h"
-#include "galaxy/Galaxy.h"
-#include "galaxy/SystemPath.h"
+#include "CustomSystem.h"
+#include "Galaxy.h"
+#include "SystemPath.h"
 
 #include "FileSystem.h"
 #include "Lang.h"

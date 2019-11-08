@@ -5,12 +5,10 @@
 #include "DateTime.h"
 #include "DeathView.h"
 #include "FileSystem.h"
-#include "GZipFormat.h"
 #include "Game.h"
 #include "GameSaveError.h"
 #include "Lang.h"
 #include "LuaObject.h"
-#include "LuaPiGui.h"
 #include "LuaUtils.h"
 #include "Pi.h"
 #include "Player.h"
@@ -21,7 +19,6 @@
 #include "SystemInfoView.h"
 #include "SystemView.h"
 #include "WorldView.h"
-#include "galaxy/Galaxy.h"
 
 /*
  * Interface: Game

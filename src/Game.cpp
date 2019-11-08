@@ -750,7 +750,7 @@ void Game::Views::SetRenderer(Graphics::Renderer *r)
 
 void Game::Views::Init(Game *game)
 {
-	m_cpan = new ShipCpanel(Pi::renderer, game);
+	m_cpan = new ShipCpanel(Pi::renderer);
 	m_sectorView = new SectorView(game);
 	m_worldView = new WorldView(game);
 	m_galacticView = new UIView("GalacticView");
@@ -769,7 +769,7 @@ void Game::Views::Init(Game *game)
 
 void Game::Views::LoadFromJson(const Json &jsonObj, Game *game)
 {
-	m_cpan = new ShipCpanel(jsonObj, Pi::renderer, game);
+	m_cpan = new ShipCpanel(jsonObj, Pi::renderer);
 	m_sectorView = new SectorView(jsonObj, game);
 	m_worldView = new WorldView(jsonObj, game);
 

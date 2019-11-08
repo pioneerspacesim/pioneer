@@ -6,11 +6,12 @@
 
 #include "JsonFwd.h"
 #include "Object.h"
-#include "gui/Gui.h"
+#include "gui/GuiWidget.h"
+#include "graphics/Drawables.h"
 
-class Body;
 namespace Graphics {
 	class Renderer;
+	class RenderState;
 }
 
 enum multifuncfunc_t {

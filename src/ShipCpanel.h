@@ -4,23 +4,22 @@
 #ifndef _SHIPCPANEL_H
 #define _SHIPCPANEL_H
 
-#include "Game.h"
-#include "Ship.h"
-#include "ShipCpanelMultiFuncDisplays.h"
-#include "WorldView.h"
-#include "gui/Gui.h"
-#include "libs.h"
+#include "JsonFwd.h"
+#include "gui/GuiFixed.h"
 
 class Body;
+class Game;
 class SpaceStation;
+class RadarWidget;
+
 namespace Graphics {
 	class Renderer;
 }
 
 class ShipCpanel : public Gui::Fixed {
 public:
-	ShipCpanel(Graphics::Renderer *r, Game *game);
-	ShipCpanel(const Json &jsonObj, Graphics::Renderer *r, Game *game);
+	ShipCpanel(Graphics::Renderer *r);
+	ShipCpanel(const Json &jsonObj, Graphics::Renderer *r);
 	virtual ~ShipCpanel();
 	virtual void Draw();
 	void Update();
@@ -29,13 +28,7 @@ public:
 
 	void SaveToJson(Json &jsonObj);
 
-	void SetRadarVisible(bool visible)
-	{
-		if (visible)
-			m_radar->Show();
-		else
-			m_radar->Hide();
-	}
+	void SetRadarVisible(bool visible);
 
 private:
 	void InitObject();
@@ -44,11 +37,6 @@ private:
 		MAP_SYSTEM,
 		MAP_INFO,
 		MAP_GALACTIC };
-
-	// Handler for radar view / equipment view toggle button
-	void OnClickRadarEquip(Gui::MultiStateImageButton *b);
-
-	Game *m_game;
 
 	RadarWidget *m_radar;
 };

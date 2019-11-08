@@ -2,25 +2,18 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipCpanelMultiFuncDisplays.h"
+
 #include "Game.h"
 #include "GameSaveError.h"
-#include "HyperspaceCloud.h"
 #include "KeyBindings.h"
 #include "Lang.h"
-#include "LuaConstants.h"
-#include "LuaTable.h"
 #include "Missile.h"
 #include "Pi.h"
 #include "Player.h"
-#include "ShipCpanel.h"
 #include "Space.h"
-#include "StringF.h"
-#include "galaxy/Sector.h"
-#include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "graphics/RenderState.h"
 #include "graphics/VertexArray.h"
-#include "libs.h"
-#include "sound/Sound.h"
 
 using namespace Graphics;
 
