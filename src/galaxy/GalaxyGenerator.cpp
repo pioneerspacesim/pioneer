@@ -3,10 +3,11 @@
 
 #include "GalaxyGenerator.h"
 
+#include "CustomSystem.h"
+#include "Galaxy.h"
 #include "GameSaveError.h"
 #include "Json.h"
 #include "SectorGenerator.h"
-#include "Galaxy.h"
 #include "StarSystemGenerator.h"
 #include "utils.h"
 

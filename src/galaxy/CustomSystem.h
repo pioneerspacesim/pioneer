@@ -7,9 +7,10 @@
 #include "Color.h"
 #include "galaxy/GalaxyEnums.h"
 #include "Polit.h"
-#include "SystemPath.h"
 #include "fixed.h"
 #include "vector3.h"
+#include <string>
+#include <vector>
 
 class Faction;
 class Galaxy;
@@ -89,30 +90,6 @@ public:
 	std::string longDesc;
 
 	bool IsRandom() const { return !sBody; }
-};
-
-class CustomSystemsDatabase {
-public:
-	CustomSystemsDatabase(Galaxy *galaxy, const std::string &customSysDir) :
-		m_galaxy(galaxy),
-		m_customSysDirectory(customSysDir) {}
-	~CustomSystemsDatabase();
-
-	void Init();
-
-	typedef std::vector<const CustomSystem *> SystemList;
-	// XXX this is not as const-safe as it should be
-	const SystemList &GetCustomSystemsForSector(int sectorX, int sectorY, int sectorZ) const;
-	void AddCustomSystem(const SystemPath &path, CustomSystem *csys);
-	Galaxy *GetGalaxy() const { return m_galaxy; }
-
-private:
-	typedef std::map<SystemPath, CustomSystemsDatabase::SystemList> SectorMap;
-
-	Galaxy *const m_galaxy;
-	const std::string m_customSysDirectory;
-	SectorMap m_sectorMap;
-	static const CustomSystemsDatabase::SystemList s_emptySystemList; // see: Null Object pattern
 };
 
 #endif /* _CUSTOMSYSTEM_H */

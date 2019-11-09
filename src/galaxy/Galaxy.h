@@ -4,7 +4,7 @@
 #ifndef _GALAXY_H
 #define _GALAXY_H
 
-#include "CustomSystem.h"
+#include "CustomSystemDB.h"
 #include "Factions.h"
 #include "GalaxyCache.h"
 #include "JsonFwd.h"

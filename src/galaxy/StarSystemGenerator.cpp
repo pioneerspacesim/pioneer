@@ -4,6 +4,7 @@
 #include "StarSystemGenerator.h"
 
 #include "AtmosphereParameters.h"
+#include "CustomSystem.h"
 #include "Faction.h"
 #include "Galaxy.h"
 #include "LuaNameGen.h"

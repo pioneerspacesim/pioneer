@@ -8,6 +8,8 @@
 #include "GalaxyGenerator.h"
 #include "StarSystem.h"
 
+class CustomSystemBody;
+
 class StarSystemFromSectorGenerator : public StarSystemGeneratorStage {
 public:
 	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem> system, GalaxyGenerator::StarSystemConfig *config);
