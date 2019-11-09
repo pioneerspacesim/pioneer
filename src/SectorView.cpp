@@ -1222,15 +1222,20 @@ void SectorView::ShrinkCache()
 	const int zmin = int(floorf(m_pos.z)) - drawRadius;
 	const int zmax = int(floorf(m_pos.z)) + drawRadius;
 
-	// XXX don't clear the current/selected/target sectors
-
 	if (xmin != m_cacheXMin || xmax != m_cacheXMax || ymin != m_cacheYMin || ymax != m_cacheYMax || zmin != m_cacheZMin || zmax != m_cacheZMax) {
 		auto iter = m_sectorCache->Begin();
 		while (iter != m_sectorCache->End()) {
 			RefCountedPtr<Sector> s = iter->second;
 			//check_point_in_box
 			if (!s->WithinBox(xmin, xmax, ymin, ymax, zmin, zmax)) {
-				m_sectorCache->Erase(iter++);
+				// TODO: Check also for systems in 'm_route':
+				// HINT: build a synced sector only helper vector
+				// with unique sectors and check against it
+				if (!m_current.IsSameSector(s->GetPath())) {
+					m_sectorCache->Erase(iter++);
+				} else {
+					iter++;
+				}
 			} else {
 				iter++;
 			}
