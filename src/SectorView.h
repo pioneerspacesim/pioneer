@@ -5,16 +5,13 @@
 #define _SECTORVIEW_H
 
 #include "UIView.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
-#include "gui/Gui.h"
 #include <set>
 #include <string>
 #include <vector>
-
-class Game;
-class Galaxy;
 
 namespace Graphics {
 	class RenderState;
@@ -22,8 +19,8 @@ namespace Graphics {
 
 class SectorView : public UIView {
 public:
-	SectorView(Game *game);
-	SectorView(const Json &jsonObj, Game *game);
+	SectorView(RefCountedPtr<Galaxy> galaxy);
+	SectorView(const Json &jsonObj, RefCountedPtr<Galaxy> galaxy);
 	virtual ~SectorView();
 
 	virtual void Update();

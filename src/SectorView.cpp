@@ -15,7 +15,6 @@
 #include "Space.h"
 #include "StringF.h"
 #include "galaxy/Faction.h"
-#include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
@@ -45,9 +44,9 @@ enum DetailSelection {
 static const float ZOOM_SPEED = 15;
 static const float WHEEL_SENSITIVITY = .03f; // Should be a variable in user settings.
 
-SectorView::SectorView(Game *game) :
+SectorView::SectorView(RefCountedPtr<Galaxy> galaxy) :
 	UIView(),
-	m_galaxy(game->GetGalaxy())
+	m_galaxy(galaxy)
 {
 	InitDefaults();
 
@@ -78,9 +77,9 @@ SectorView::SectorView(Game *game) :
 	InitObject();
 }
 
-SectorView::SectorView(const Json &jsonObj, Game *game) :
+SectorView::SectorView(const Json &jsonObj, RefCountedPtr<Galaxy> galaxy) :
 	UIView(),
-	m_galaxy(game->GetGalaxy())
+	m_galaxy(galaxy)
 {
 	InitDefaults();
 
