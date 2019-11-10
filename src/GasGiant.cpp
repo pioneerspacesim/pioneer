@@ -8,6 +8,7 @@
 #include "GameConfig.h"
 #include "Pi.h"
 #include "galaxy/AtmosphereParameters.h"
+#include "galaxy/SystemBody.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"

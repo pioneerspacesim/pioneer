@@ -5,11 +5,14 @@
 #define _GAME_H
 
 #include "JsonFwd.h"
-#include "galaxy/Galaxy.h"
+#include "RefCounted.h"
 #include "galaxy/SystemPath.h"
 #include "gameconsts.h"
+#include "vector3.h"
 #include <string>
+#include <list>
 
+class Galaxy;
 class GameLog;
 class HyperspaceCloud;
 class Player;
@@ -62,7 +65,7 @@ public:
 	bool IsNormalSpace() const { return m_state == State::NORMAL; }
 	bool IsHyperspace() const { return m_state == State::HYPERSPACE; }
 
-	RefCountedPtr<Galaxy> GetGalaxy() const { return m_galaxy; }
+	RefCountedPtr<Galaxy> GetGalaxy() const;
 	Space *GetSpace() const { return m_space.get(); }
 	double GetTime() const { return m_time; }
 	Player *GetPlayer() const { return m_player.get(); }

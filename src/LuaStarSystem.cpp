@@ -12,6 +12,7 @@
 #include "Pi.h"
 #include "galaxy/Economy.h"
 #include "galaxy/Faction.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
 

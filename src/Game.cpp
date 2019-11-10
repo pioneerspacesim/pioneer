@@ -270,6 +270,8 @@ void Game::ToJson(Json &jsonObj)
 	Pi::luaSerializer->UninitTableRefs();
 }
 
+RefCountedPtr<Galaxy> Game::GetGalaxy() const { return m_galaxy; }
+
 void Game::TimeStep(float step)
 {
 	PROFILE_SCOPED()
