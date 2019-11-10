@@ -193,6 +193,67 @@ void GalaxyObjectCache<T, CompareT>::Slave::AddToCache(std::vector<RefCountedPtr
 	}
 }
 
+template <>
+GalaxyObjectCache<Sector, SystemPath::LessSectorOnly>::PathVector GalaxyObjectCache<Sector, SystemPath::LessSectorOnly>::Slave::SearchPattern(std::string pattern)
+{
+	PathVector result;
+	result.reserve(5); // reserve at least some...
+	for (auto i = Begin(); i != End(); ++i) {
+		for (unsigned int systemIndex = 0; systemIndex < (*i).second->m_systems.size(); systemIndex++) {
+			const Sector::System *ss = &((*i).second->m_systems[systemIndex]);
+
+			// compare with the start of the current system
+			if (strncasecmp(pattern.c_str(), ss->GetName().c_str(), pattern.size()) == 0
+				// look for the pattern term somewhere within the current system
+				|| pi_strcasestr(ss->GetName().c_str(), pattern.c_str())) {
+				SystemPath match((*i).first);
+				match.systemIndex = systemIndex;
+				result.push_back(match);
+			}
+			// now also check other names of this system, if there are any
+			for (const std::string &other_name : ss->GetOtherNames()) {
+				if (strncasecmp(pattern.c_str(), other_name.c_str(), pattern.size()) == 0
+					// look for the pattern term somewhere within the current system
+					|| pi_strcasestr(other_name.c_str(), pattern.c_str())) {
+					SystemPath match((*i).first);
+					match.systemIndex = systemIndex;
+					result.push_back(match);
+				}
+			}
+		}
+	}
+	return result;
+}
+
+template <>
+size_t GalaxyObjectCache<Sector, SystemPath::LessSectorOnly>::Slave::ShrinkCache(const SystemPath &center, int radius, const SystemPath &dontDrop)
+{
+	size_t n = 0;
+	const int xmin = center.sectorX - radius;
+	const int xmax = center.sectorX + radius;
+	const int ymin = center.sectorY - radius;
+	const int ymax = center.sectorY + radius;
+	const int zmin = center.sectorZ - radius;
+	const int zmax = center.sectorZ + radius;
+
+	auto iter = Begin();
+	while (iter != End()) {
+		RefCountedPtr<Sector> s = iter->second;
+		//check_point_in_box
+		if (!s->WithinBox(xmin, xmax, ymin, ymax, zmin, zmax)) {
+			if (!dontDrop.IsSameSector(s->GetPath())) {
+				Erase(iter++);
+				n++;
+			} else {
+				iter++;
+			}
+		} else {
+			iter++;
+		}
+	}
+	return n;
+}
+
 template <typename T, typename CompareT>
 void GalaxyObjectCache<T, CompareT>::Slave::FillCache(const typename GalaxyObjectCache<T, CompareT>::PathVector &paths,
 	typename GalaxyObjectCache<T, CompareT>::CacheFilledCallback callback)
@@ -248,6 +309,50 @@ void GalaxyObjectCache<T, CompareT>::Slave::FillCache(const typename GalaxyObjec
 		for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it)
 			m_jobs.Order(new GalaxyObjectCache<T, CompareT>::CacheJob(std::move(*it), this, m_galaxy, callback));
 	}
+}
+
+// sort using a custom function object
+class SectorDistanceSort {
+public:
+	SectorDistanceSort() = delete;
+
+	bool operator()(const SystemPath &a, const SystemPath &b)
+	{
+		const float dist_a = vector3f(m_here.sectorX - a.sectorX, m_here.sectorY - a.sectorY, m_here.sectorZ - a.sectorZ).LengthSqr();
+		const float dist_b = vector3f(m_here.sectorX - b.sectorX, m_here.sectorY - b.sectorY, m_here.sectorZ - b.sectorZ).LengthSqr();
+		return dist_a < dist_b;
+	}
+	SectorDistanceSort(const SystemPath &centre) :
+		m_here(centre)
+	{}
+
+private:
+	SystemPath m_here;
+};
+
+template <typename T, typename CompareT>
+void GalaxyObjectCache<T, CompareT>::Slave::FillCache(const SystemPath &center, int sectorRadius,
+	typename GalaxyObjectCache<T, CompareT>::CacheFilledCallback callback)
+{
+	const int here_x = center.sectorX;
+	const int here_y = center.sectorY;
+	const int here_z = center.sectorZ;
+
+	SectorCache::PathVector paths;
+
+	// build all of the possible paths we'll need to build sectors for
+	paths.reserve((sectorRadius * 2 + 1) * (sectorRadius * 2 + 1) * (sectorRadius * 2 + 1));
+	for (int x = here_x - sectorRadius; x <= here_x + sectorRadius; x++) {
+		for (int y = here_y - sectorRadius; y <= here_y + sectorRadius; y++) {
+			for (int z = here_z - sectorRadius; z <= here_z + sectorRadius; z++) {
+				paths.emplace_back(x, y, z);
+			}
+		}
+	}
+	// sort them so that those closest to the "here" path are processed first
+	SectorDistanceSort SDS(center);
+	std::sort(paths.begin(), paths.end(), SDS);
+	FillCache(paths, callback);
 }
 
 template <typename T, typename CompareT>

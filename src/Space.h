@@ -21,13 +21,13 @@ namespace Background {
 class Space {
 public:
 	// empty space (eg for hyperspace)
-	Space(const SystemPath &dest, RefCountedPtr<Galaxy> galaxy, Space *oldSpace);
+	Space();
 
 	// initalise with system bodies
-	Space(double total_time, float time_step, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, Space *oldSpace = nullptr);
+	Space(double total_time, float time_step, RefCountedPtr<StarSystem> starsystem, const SystemPath &path);
 
 	// initialise from save file
-	Space(RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, double at_time);
+	Space(RefCountedPtr<StarSystem> starsystem, const Json &jsonObj, double at_time);
 
 	~Space();
 
@@ -78,8 +78,6 @@ public:
 	}
 
 private:
-	void GenSectorCache(RefCountedPtr<Galaxy> galaxy, const SystemPath *here);
-	void UpdateStarSystemCache(const SystemPath *here);
 	void GenBody(const double at_time, SystemBody *b, Frame *f, std::vector<vector3d> &posAccum);
 	// make sure SystemBody* is in Pi::currentSystem
 	Frame *GetFrameWithSystemBody(const SystemBody *b) const;
@@ -89,9 +87,6 @@ private:
 	void CollideFrame(Frame *f);
 
 	std::unique_ptr<Frame> m_rootFrame;
-
-	RefCountedPtr<SectorCache::Slave> m_sectorCache;
-	RefCountedPtr<StarSystemCache::Slave> m_starSystemCache;
 
 	RefCountedPtr<StarSystem> m_starSystem;
 

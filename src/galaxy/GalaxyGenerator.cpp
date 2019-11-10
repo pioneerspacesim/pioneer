@@ -82,6 +82,12 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string &name, Version v
 }
 
 // static
+RefCountedPtr<Galaxy> GalaxyGenerator::Create()
+{
+	return Create(s_defaultGenerator, s_defaultVersion);
+}
+
+// static
 RefCountedPtr<Galaxy> GalaxyGenerator::CreateFromJson(const Json &jsonObj)
 {
 	try {

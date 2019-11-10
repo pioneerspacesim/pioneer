@@ -6,6 +6,7 @@
 
 #include "JsonFwd.h"
 #include "RefCounted.h"
+#include "galaxy/GalaxyCache.h"
 #include "galaxy/SystemPath.h"
 #include "gameconsts.h"
 #include "vector3.h"
@@ -145,6 +146,13 @@ public:
 	GameLog *log;
 
 private:
+	void GenSectorCache(const SystemPath *here, int sectorRadius,
+		StarSystemCache::CacheFilledCallback callback = StarSystemCache::CacheFilledCallback());
+	void UpdateStarSystemCache(const SystemPath *here, int sectorRadius);
+
+	RefCountedPtr<SectorCache::Slave> m_sectorCache;
+	RefCountedPtr<StarSystemCache::Slave> m_starSystemCache;
+
 	class Views {
 	public:
 		Views();

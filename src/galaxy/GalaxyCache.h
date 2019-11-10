@@ -53,9 +53,16 @@ public:
 		typename CacheMap::const_iterator End() const { return m_cache.end(); }
 
 		void FillCache(const PathVector &paths, CacheFilledCallback callback = CacheFilledCallback());
+		void FillCache(const SystemPath &center, int sectorRadius, CacheFilledCallback callback = CacheFilledCallback());
 		void Erase(const SystemPath &path);
 		void Erase(const typename CacheMap::const_iterator &it);
 		void ClearCache();
+
+		// TODO: Not templated: Only for Sector because it's searching through Systems)
+		PathVector SearchPattern(std::string pattern);
+		// TODO: Change 'dontDrop' in a vector
+		// TODO: Not templated: Only for Sector because StarSystem doesn't have a 'WithinBox' method)
+		size_t ShrinkCache(const SystemPath &center, int sectorRadius, const SystemPath &dontDrop);
 		bool IsEmpty() { return m_cache.empty(); }
 		~Slave();
 
@@ -84,14 +91,14 @@ private:
 	// ********************************************************************************
 	class CacheJob : public Job {
 	public:
-		CacheJob(std::unique_ptr<std::vector<SystemPath>> path, Slave *slaveCache, RefCountedPtr<Galaxy> galaxy, CacheFilledCallback callback = CacheFilledCallback());
+		CacheJob(std::unique_ptr<PathVector> path, Slave *slaveCache, RefCountedPtr<Galaxy> galaxy, CacheFilledCallback callback = CacheFilledCallback());
 
 		virtual void OnRun(); // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 		virtual void OnFinish(); // runs in primary thread of the context
 		virtual void OnCancel() {} // runs in primary thread of the context
 
 	protected:
-		std::unique_ptr<std::vector<SystemPath>> m_paths;
+		std::unique_ptr<PathVector> m_paths;
 		std::vector<RefCountedPtr<T>> m_objects;
 		Slave *m_slaveCache;
 		RefCountedPtr<Galaxy> m_galaxy;
