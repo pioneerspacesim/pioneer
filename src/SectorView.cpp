@@ -15,6 +15,7 @@
 #include "Space.h"
 #include "StringF.h"
 #include "galaxy/Faction.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
@@ -44,9 +45,10 @@ enum DetailSelection {
 static const float ZOOM_SPEED = 15;
 static const float WHEEL_SENSITIVITY = .03f; // Should be a variable in user settings.
 
-SectorView::SectorView(RefCountedPtr<Galaxy> galaxy) :
+SectorView::SectorView(RefCountedPtr<Galaxy> galaxy, RefCountedPtr<SectorCache::Slave> sectorcache) :
 	UIView(),
-	m_galaxy(galaxy)
+	m_galaxy(galaxy),
+	m_sectorCache(sectorcache)
 {
 	InitDefaults();
 
@@ -77,9 +79,10 @@ SectorView::SectorView(RefCountedPtr<Galaxy> galaxy) :
 	InitObject();
 }
 
-SectorView::SectorView(const Json &jsonObj, RefCountedPtr<Galaxy> galaxy) :
+SectorView::SectorView(const Json &jsonObj, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<SectorCache::Slave> sectorcache) :
 	UIView(),
-	m_galaxy(galaxy)
+	m_galaxy(galaxy),
+	m_sectorCache(sectorcache)
 {
 	InitDefaults();
 
@@ -126,8 +129,6 @@ void SectorView::InitDefaults()
 	m_cacheYMax = 0;
 	m_cacheYMin = 0;
 	m_cacheYMax = 0;
-
-	m_sectorCache = m_galaxy->NewSectorSlaveCache();
 
 	m_drawRouteLines = true; // where should this go?!
 	m_route = std::vector<SystemPath>();
@@ -236,7 +237,7 @@ void SectorView::Draw3D()
 	modelview.Translate(-FFRAC(m_pos.x) * Sector::SIZE, -FFRAC(m_pos.y) * Sector::SIZE, -FFRAC(m_pos.z) * Sector::SIZE);
 	m_renderer->SetTransform(modelview);
 
-	RefCountedPtr<const Sector> playerSec = GetCached(m_current);
+	RefCountedPtr<const Sector> playerSec = m_sectorCache->GetCached(m_current);
 	const vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].GetPosition();
 
 	if (m_zoomClamped <= FAR_THRESHOLD)
@@ -308,7 +309,7 @@ void SectorView::GotoSector(const SystemPath &path)
 
 void SectorView::GotoSystem(const SystemPath &path)
 {
-	RefCountedPtr<Sector> ps = GetCached(path);
+	RefCountedPtr<Sector> ps = m_sectorCache->GetCached(path);
 	const vector3f &p = ps->m_systems[path.systemIndex].GetPosition();
 	m_posMovingTo.x = path.sectorX + p.x / Sector::SIZE;
 	m_posMovingTo.y = path.sectorY + p.y / Sector::SIZE;
@@ -386,7 +387,7 @@ void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &orig
 		if (can_skip && m_hiddenFactions.find(sys->GetFaction()) != m_hiddenFactions.end()) continue;
 
 		// determine if system in hyperjump range or not
-		RefCountedPtr<const Sector> playerSec = GetCached(m_current);
+		RefCountedPtr<const Sector> playerSec = m_sectorCache->GetCached(m_current);
 		float dist = Sector::DistanceBetween(sec, sysIdx, playerSec, m_current.systemIndex);
 		bool inRange = dist <= m_playerHyperspaceRange;
 
@@ -433,7 +434,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 
 	for (auto it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it) {
 		if ((*it)->hasHomeworld && m_hiddenFactions.find((*it)) == m_hiddenFactions.end()) {
-			Sector::System sys = GetCached((*it)->homeworld)->m_systems[(*it)->homeworld.systemIndex];
+			Sector::System sys = m_sectorCache->GetCached((*it)->homeworld)->m_systems[(*it)->homeworld.systemIndex];
 			if ((m_pos * Sector::SIZE - sys.GetFullPosition()).Length() > (m_zoomClamped / FAR_THRESHOLD) * OUTER_RADIUS) continue;
 
 			vector3d pos;
@@ -519,7 +520,7 @@ void SectorView::DrawNearSectors(const matrix4x4f &modelview)
 	PROFILE_SCOPED()
 	m_visibleFactions.clear();
 
-	RefCountedPtr<const Sector> playerSec = GetCached(m_current);
+	RefCountedPtr<const Sector> playerSec = m_sectorCache->GetCached(m_current);
 	const vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].GetPosition();
 
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
@@ -540,7 +541,7 @@ void SectorView::DrawNearSectors(const matrix4x4f &modelview)
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
 			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
-				PutSystemLabels(GetCached(SystemPath(sx + secOrigin.x, sy + secOrigin.y, sz + secOrigin.z)), Sector::SIZE * secOrigin, Sector::SIZE * DRAW_RAD);
+				PutSystemLabels(m_sectorCache->GetCached(SystemPath(sx + secOrigin.x, sy + secOrigin.y, sz + secOrigin.z)), Sector::SIZE * secOrigin, Sector::SIZE * DRAW_RAD);
 			}
 		}
 	}
@@ -757,7 +758,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 {
 	PROFILE_SCOPED()
 	m_renderer->SetTransform(trans);
-	RefCountedPtr<Sector> ps = GetCached(SystemPath(sx, sy, sz));
+	RefCountedPtr<Sector> ps = m_sectorCache->GetCached(SystemPath(sx, sy, sz));
 
 	const int cz = int(floor(m_pos.z + 0.5f));
 
@@ -809,7 +810,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		if (can_skip && m_hiddenFactions.find(i->GetFaction()) != m_hiddenFactions.end()) continue;
 
 		// determine if system in hyperjump range or not
-		RefCountedPtr<const Sector> playerSec = GetCached(m_current);
+		RefCountedPtr<const Sector> playerSec = m_sectorCache->GetCached(m_current);
 		float dist = Sector::DistanceBetween(ps, sysIdx, playerSec, m_current.systemIndex);
 		bool inRange = dist <= m_playerHyperspaceRange;
 
@@ -867,7 +868,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			} else {
 			}
 			if (m_selected != m_hyperspaceTarget) {
-				RefCountedPtr<Sector> hyperSec = GetCached(m_hyperspaceTarget);
+				RefCountedPtr<Sector> hyperSec = m_sectorCache->GetCached(m_hyperspaceTarget);
 				const vector3f hyperAbsPos =
 					Sector::SIZE * vector3f(m_hyperspaceTarget.sectorX, m_hyperspaceTarget.sectorY, m_hyperspaceTarget.sectorZ) + hyperSec->m_systems[m_hyperspaceTarget.systemIndex].GetPosition();
 				if (m_selected != m_current) {
@@ -942,7 +943,7 @@ void SectorView::DrawFarSectors(const matrix4x4f &modelview)
 			for (int sy = secOrigin.y - buildRadius; sy <= secOrigin.y + buildRadius; sy++) {
 				for (int sz = secOrigin.z - buildRadius; sz <= secOrigin.z + buildRadius; sz++) {
 					if ((vector3f(sx, sy, sz) - secOrigin).Length() <= buildRadius) {
-						BuildFarSector(GetCached(SystemPath(sx, sy, sz)), Sector::SIZE * secOrigin, m_farstars, m_farstarsColor);
+						BuildFarSector(m_sectorCache->GetCached(SystemPath(sx, sy, sz)), Sector::SIZE * secOrigin, m_farstars, m_farstarsColor);
 					}
 				}
 			}
@@ -1145,7 +1146,7 @@ void SectorView::Update()
 	if (m_automaticSystemSelection) {
 		SystemPath new_selected = SystemPath(int(floor(m_pos.x)), int(floor(m_pos.y)), int(floor(m_pos.z)), 0);
 
-		RefCountedPtr<Sector> ps = GetCached(new_selected);
+		RefCountedPtr<Sector> ps = m_sectorCache->GetCached(new_selected);
 		if (ps->m_systems.size()) {
 			float px = FFRAC(m_pos.x) * Sector::SIZE;
 			float py = FFRAC(m_pos.y) * Sector::SIZE;
@@ -1222,23 +1223,11 @@ void SectorView::ShrinkCache()
 	const int zmax = int(floorf(m_pos.z)) + drawRadius;
 
 	if (xmin != m_cacheXMin || xmax != m_cacheXMax || ymin != m_cacheYMin || ymax != m_cacheYMax || zmin != m_cacheZMin || zmax != m_cacheZMax) {
-		auto iter = m_sectorCache->Begin();
-		while (iter != m_sectorCache->End()) {
-			RefCountedPtr<Sector> s = iter->second;
-			//check_point_in_box
-			if (!s->WithinBox(xmin, xmax, ymin, ymax, zmin, zmax)) {
-				// TODO: Check also for systems in 'm_route':
-				// HINT: build a synced sector only helper vector
-				// with unique sectors and check against it
-				if (!m_current.IsSameSector(s->GetPath())) {
-					m_sectorCache->Erase(iter++);
-				} else {
-					iter++;
-				}
-			} else {
-				iter++;
-			}
-		}
+		SystemPath center(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
+		// TODO: Check also for systems in 'm_route':
+		// HINT: build a synced sector only helper vector
+		// with unique sectors and check against it
+		m_sectorCache->ShrinkCache(center, drawRadius, m_current);
 
 		m_cacheXMin = xmin;
 		m_cacheXMax = xmax;
@@ -1295,34 +1284,10 @@ void SectorView::LockHyperspaceTarget(bool lock)
 		FloatHyperspaceTarget();
 	}
 }
+
 std::vector<SystemPath> SectorView::GetNearbyStarSystemsByName(std::string pattern)
 {
-	std::vector<SystemPath> result;
-	for (auto i = m_sectorCache->Begin(); i != m_sectorCache->End(); ++i) {
-		for (unsigned int systemIndex = 0; systemIndex < (*i).second->m_systems.size(); systemIndex++) {
-			const Sector::System *ss = &((*i).second->m_systems[systemIndex]);
-
-			// compare with the start of the current system
-			if (strncasecmp(pattern.c_str(), ss->GetName().c_str(), pattern.size()) == 0
-				// look for the pattern term somewhere within the current system
-				|| pi_strcasestr(ss->GetName().c_str(), pattern.c_str())) {
-				SystemPath match((*i).first);
-				match.systemIndex = systemIndex;
-				result.push_back(match);
-			}
-			// now also check other names of this system, if there are any
-			for (const std::string &other_name : ss->GetOtherNames()) {
-				if (strncasecmp(pattern.c_str(), other_name.c_str(), pattern.size()) == 0
-					// look for the pattern term somewhere within the current system
-					|| pi_strcasestr(other_name.c_str(), pattern.c_str())) {
-					SystemPath match((*i).first);
-					match.systemIndex = systemIndex;
-					result.push_back(match);
-				}
-			}
-		}
-	}
-	return result;
+	return m_sectorCache->SearchPattern(pattern);
 }
 
 void SectorView::SetFactionVisible(const Faction *faction, bool visible)

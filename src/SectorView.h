@@ -5,7 +5,6 @@
 #define _SECTORVIEW_H
 
 #include "UIView.h"
-#include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
@@ -13,14 +12,16 @@
 #include <string>
 #include <vector>
 
+class Galaxy;
+
 namespace Graphics {
 	class RenderState;
 }
 
 class SectorView : public UIView {
 public:
-	SectorView(RefCountedPtr<Galaxy> galaxy);
-	SectorView(const Json &jsonObj, RefCountedPtr<Galaxy> galaxy);
+	SectorView(RefCountedPtr<Galaxy> galaxy, RefCountedPtr<SectorCache::Slave>);
+	SectorView(const Json &jsonObj, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<SectorCache::Slave>);
 	virtual ~SectorView();
 
 	virtual void Update();
@@ -103,7 +104,6 @@ private:
 
 	void OnClickSystem(const SystemPath &path);
 
-	RefCountedPtr<Sector> GetCached(const SystemPath &loc) { return m_sectorCache->GetCached(loc); }
 	void ShrinkCache();
 
 	void MouseWheel(bool up);
