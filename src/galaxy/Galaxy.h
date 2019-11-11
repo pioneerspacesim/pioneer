@@ -8,12 +8,12 @@
 #include "Factions.h"
 #include "GalaxyCache.h"
 #include "JsonFwd.h"
-#include "StarSystem.h"
 #include "RefCounted.h"
 #include <cstdio>
 
 struct SDL_Surface;
 class GalaxyGenerator;
+class StarSystem;
 
 class Galaxy : public RefCounted {
 protected:
@@ -43,14 +43,14 @@ public:
 	RefCountedPtr<const Sector> GetSector(const SystemPath &path) { return m_sectorCache.GetCached(path); }
 	RefCountedPtr<Sector> GetMutableSector(const SystemPath &path) { return m_sectorCache.GetCached(path); }
 	RefCountedPtr<SectorCache::Slave> NewSectorSlaveCache() { return m_sectorCache.NewSlaveCache(); }
-	void FillSectorCache(RefCountedPtr<SectorCache::Slave> &sc, const SystemPath &center,
+	size_t FillSectorCache(RefCountedPtr<SectorCache::Slave> &sc, const SystemPath &center,
 		int sectorRadius, StarSystemCache::CacheFilledCallback callback = StarSystemCache::CacheFilledCallback());
 
 	vector3d GetInterSystemPosition(const SystemPath &source, const SystemPath &dest);
 
-	RefCountedPtr<StarSystem> GetStarSystem(const SystemPath &path) { return m_starSystemCache.GetCached(path); }
+	RefCountedPtr<StarSystem> GetStarSystem(const SystemPath &path);
 	RefCountedPtr<StarSystemCache::Slave> NewStarSystemSlaveCache() { return m_starSystemCache.NewSlaveCache(); }
-	void FillStarSystemCache(RefCountedPtr<StarSystemCache::Slave> &ssc, const SystemPath &center,
+	size_t FillStarSystemCache(RefCountedPtr<StarSystemCache::Slave> &ssc, const SystemPath &center,
 		int sectorRadius, RefCountedPtr<SectorCache::Slave> &source);
 
 	void FlushCaches();

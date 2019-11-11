@@ -13,6 +13,7 @@
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyEnums.h"
 #include "galaxy/Sector.h"
+#include "galaxy/StarSystem.h"
 #include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"

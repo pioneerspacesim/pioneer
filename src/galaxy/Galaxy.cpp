@@ -131,7 +131,7 @@ private:
 	SystemPath m_here;
 };
 
-void Galaxy::FillSectorCache(RefCountedPtr<SectorCache::Slave> &sc, const SystemPath &center,
+size_t Galaxy::FillSectorCache(RefCountedPtr<SectorCache::Slave> &sc, const SystemPath &center,
 	int sectorRadius, SectorCache::CacheFilledCallback callback)
 {
 	const int here_x = center.sectorX;
@@ -153,9 +153,10 @@ void Galaxy::FillSectorCache(RefCountedPtr<SectorCache::Slave> &sc, const System
 	SectorDistanceSort SDS(center);
 	std::sort(paths.begin(), paths.end(), SDS);
 	sc->FillCache(paths, callback);
+	return paths.size();
 }
 
-void Galaxy::FillStarSystemCache(RefCountedPtr<StarSystemCache::Slave> &ssc, const SystemPath &center,
+size_t Galaxy::FillStarSystemCache(RefCountedPtr<StarSystemCache::Slave> &ssc, const SystemPath &center,
 		int sectorRadius, RefCountedPtr<SectorCache::Slave> &source)
 {
 	const int here_x = center.sectorX;
@@ -178,6 +179,12 @@ void Galaxy::FillStarSystemCache(RefCountedPtr<StarSystemCache::Slave> &ssc, con
 		}
 	}
 	ssc->FillCache(paths);
+	return paths.size();
+}
+
+RefCountedPtr<StarSystem> Galaxy::GetStarSystem(const SystemPath &path)
+{
+	return m_starSystemCache.GetCached(path);
 }
 
 vector3d Galaxy::GetInterSystemPosition(const SystemPath &source, const SystemPath &dest)
