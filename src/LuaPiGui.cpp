@@ -16,6 +16,8 @@
 #include "Space.h"
 #include "SystemInfoView.h"
 #include "WorldView.h"
+#include "galaxy/GalaxyEnums.h"
+#include "galaxy/SystemBody.h"
 #include "graphics/Graphics.h"
 #include "pigui/LuaFlags.h"
 #include "ship/PlayerShipController.h"

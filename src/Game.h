@@ -146,7 +146,7 @@ public:
 	GameLog *log;
 
 private:
-	void GenSectorCache(const SystemPath *here, int sectorRadius,
+	void GenCaches(const SystemPath *here, int sectorRadius,
 		StarSystemCache::CacheFilledCallback callback = StarSystemCache::CacheFilledCallback());
 	void UpdateStarSystemCache(const SystemPath *here, int sectorRadius);
 
@@ -156,8 +156,8 @@ private:
 	class Views {
 	public:
 		Views();
-		void Init(Game *game);
-		void LoadFromJson(const Json &jsonObj, Game *game);
+		void Init(Game *game, const SystemPath &path);
+		void LoadFromJson(const Json &jsonObj, Game *game, const SystemPath &path);
 		~Views();
 
 		void SetRenderer(Graphics::Renderer *r);
@@ -176,8 +176,8 @@ private:
 		ObjectViewerView *m_objectViewerView;
 	};
 
-	void CreateViews();
-	void LoadViewsFromJson(const Json &jsonObj);
+	void CreateViews(const SystemPath &path);
+	void LoadViewsFromJson(const Json &jsonObj, const SystemPath &path);
 	void DestroyViews();
 
 	static void EmitPauseState(bool paused);

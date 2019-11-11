@@ -77,7 +77,7 @@ Game::Game(const SystemPath &path, const double startDateTime) :
 	}
 
 	m_starSystemCache = m_galaxy->NewStarSystemSlaveCache();
-	GenSectorCache(&path, sectorRadius,
+	GenCaches(&path, sectorRadius,
 			[this, path]() { UpdateStarSystemCache(&path, sectorRadius); });
 
 	m_space.reset(new Space(GetTime(), GetTimeStep(), sys, path));
@@ -99,7 +99,7 @@ Game::Game(const SystemPath &path, const double startDateTime) :
 		m_player->SetVelocity(vector3d(0, 0, 0));
 	}
 
-	CreateViews();
+	CreateViews(path);
 
 	EmitPauseState(IsPaused());
 #ifdef PIONEER_PROFILER
@@ -189,11 +189,11 @@ Game::Game(const Json &jsonObj) :
 	// Prepare caches
 	SystemPath path = starSystem->GetPath();
 	m_starSystemCache = m_galaxy->NewStarSystemSlaveCache();
-	GenSectorCache(&path, sectorRadius,
+	GenCaches(&path, sectorRadius,
 			[this, path]() { UpdateStarSystemCache(&path, sectorRadius); });
 
 	// views
-	LoadViewsFromJson(jsonObj);
+	LoadViewsFromJson(jsonObj, path);
 
 	// lua
 	Pi::luaSerializer->FromJson(jsonObj);
@@ -500,7 +500,7 @@ void Game::SwitchToHyperspace()
 
 	// Update caches:
 	assert(m_starSystemCache && m_sectorCache);
-	GenSectorCache(&m_hyperspaceDest, sectorRadius,
+	GenCaches(&m_hyperspaceDest, sectorRadius,
 			[this]() { UpdateStarSystemCache(&this->m_hyperspaceDest, sectorRadius); });
 
 	// put the player in it
@@ -765,15 +765,14 @@ ObjectViewerView *Game::GetObjectViewerView() const
 }
 #endif
 
-void Game::GenSectorCache(const SystemPath *here, int sectorRadius,
+void Game::GenCaches(const SystemPath *here, int sectorRadius,
 	StarSystemCache::CacheFilledCallback callback)
 {
 	PROFILE_SCOPED()
 
-	// current location
 	const SystemPath center(here);
 	m_sectorCache = m_galaxy->NewSectorSlaveCache();
-	m_sectorCache->FillCache(center, sectorRadius, callback);
+	m_galaxy->FillSectorCache(m_sectorCache, center, sectorRadius, callback);
 }
 
 static bool WithinBox(const SystemPath &here, const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax)
@@ -826,21 +825,7 @@ void Game::UpdateStarSystemCache(const SystemPath *here, int sectorRadius)
 	Output("%s: Erased %u entries.\n", StarSystemCache::CACHE_NAME.c_str(), removed);
 #endif
 
-	SectorCache::PathVector paths;
-	paths.reserve((sectorRadius * 2 + 1) * (sectorRadius * 2 + 1) * (sectorRadius * 2 + 1));
-	// build all of the possible paths we'll need to build star systems for
-	for (int x = here_x - sectorRadius; x <= here_x + sectorRadius; x++) {
-		for (int y = here_y - sectorRadius; y <= here_y + sectorRadius; y++) {
-			for (int z = here_z - sectorRadius; z <= here_z + sectorRadius; z++) {
-				SystemPath path(x, y, z);
-				RefCountedPtr<Sector> sec(m_sectorCache->GetIfCached(path));
-				assert(!sec.Valid());
-				for (const Sector::System &ss : sec->m_systems)
-					paths.push_back(SystemPath(ss.sx, ss.sy, ss.sz, ss.idx));
-			}
-		}
-	}
-	m_starSystemCache->FillCache(paths);
+	m_galaxy->FillStarSystemCache(m_starSystemCache, *here, sectorRadius, m_sectorCache);
 }
 
 Game::Views::Views() :
@@ -870,10 +855,13 @@ void Game::Views::SetRenderer(Graphics::Renderer *r)
 #endif
 }
 
-void Game::Views::Init(Game *game)
+void Game::Views::Init(Game *game, const SystemPath &path)
 {
 	m_cpan = new ShipCpanel(Pi::renderer);
-	m_sectorView = new SectorView(game->m_galaxy, game->m_galaxy->NewSectorSlaveCache());
+	RefCountedPtr<SectorCache::Slave> sectorCache = game->m_galaxy->NewSectorSlaveCache();
+    size_t filled = game->m_galaxy->FillSectorCache(sectorCache, path, sectorRadius);
+    Output("SectorView cache pre-filled with %lu entries\n", filled);
+	m_sectorView = new SectorView(game->m_galaxy, sectorCache);
 	m_worldView = new WorldView(game);
 	m_galacticView = new UIView("GalacticView");
 	m_systemView = new SystemView(game);
@@ -889,10 +877,12 @@ void Game::Views::Init(Game *game)
 	SetRenderer(Pi::renderer);
 }
 
-void Game::Views::LoadFromJson(const Json &jsonObj, Game *game)
+void Game::Views::LoadFromJson(const Json &jsonObj, Game *game, const SystemPath &path)
 {
 	m_cpan = new ShipCpanel(jsonObj, Pi::renderer);
-	m_sectorView = new SectorView(jsonObj, game->m_galaxy, game->m_galaxy->NewSectorSlaveCache());
+	RefCountedPtr<SectorCache::Slave> sectorCache = game->m_galaxy->NewSectorSlaveCache();
+    game->m_galaxy->FillSectorCache(sectorCache, path, sectorRadius);
+	m_sectorView = new SectorView(jsonObj, game->m_galaxy, sectorCache);
 	m_worldView = new WorldView(jsonObj, game);
 
 	m_galacticView = new UIView("GalacticView");
@@ -932,7 +922,7 @@ Game::Views::~Views()
 // can all talk to each other. given the difficulty of disentangling all
 // that and the impending move to Rocket, its better right now to just
 // manage creation and destruction here to get the timing and order right
-void Game::CreateViews()
+void Game::CreateViews(const SystemPath &path)
 {
 	Pi::SetView(0);
 
@@ -941,13 +931,13 @@ void Game::CreateViews()
 	Pi::player = m_player.get();
 
 	m_gameViews.reset(new Views);
-	m_gameViews->Init(this);
+	m_gameViews->Init(this, path);
 
 	log = new GameLog();
 }
 
 // XXX mostly a copy of CreateViews
-void Game::LoadViewsFromJson(const Json &jsonObj)
+void Game::LoadViewsFromJson(const Json &jsonObj, const SystemPath &path)
 {
 	Pi::SetView(0);
 
@@ -956,7 +946,7 @@ void Game::LoadViewsFromJson(const Json &jsonObj)
 	Pi::player = m_player.get();
 
 	m_gameViews.reset(new Views);
-	m_gameViews->LoadFromJson(jsonObj, this);
+	m_gameViews->LoadFromJson(jsonObj, this, path);
 
 	log = new GameLog();
 }

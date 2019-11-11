@@ -7,10 +7,13 @@
 #include "Frame.h"
 #include "GameSaveError.h"
 #include "Json.h"
+#include "Orbit.h"
 #include "Planet.h"
 #include "Space.h"
 #include "collider/CollisionContact.h"
+#include "galaxy/SystemBody.h"
 #include "ship/Propulsion.h"
+#include "gameconsts.h"
 
 static const float KINETIC_ENERGY_MULT = 0.00001f;
 const double DynamicBody::DEFAULT_DRAG_COEFF = 0.1; // 'smooth sphere'

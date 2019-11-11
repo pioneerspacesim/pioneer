@@ -14,6 +14,7 @@
 #include "Space.h"
 #include "StringF.h"
 #include "WorldView.h"
+#include "galaxy/SystemBody.h"
 #include "graphics/Drawables.h"
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"

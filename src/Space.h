@@ -5,14 +5,18 @@
 #define _SPACE_H
 
 #include "IterationProxy.h"
+#include "JsonFwd.h"
 #include "Object.h"
 #include "RefCounted.h"
-#include "galaxy/StarSystem.h"
 #include "vector3.h"
 #include <list>
+#include <memory>
 
 class Body;
 class Frame;
+class StarSystem;
+class SystemBody;
+class SystemPath;
 
 namespace Background {
 	class Container;
@@ -43,7 +47,7 @@ public:
 	Uint32 GetIndexForBody(const Body *body) const;
 	Uint32 GetIndexForSystemBody(const SystemBody *sbody) const;
 
-	RefCountedPtr<StarSystem> GetStarSystem() const { return m_starSystem; }
+	RefCountedPtr<StarSystem> GetStarSystem() const;
 
 	Frame *GetRootFrame() const { return m_rootFrame.get(); }
 
@@ -54,7 +58,7 @@ public:
 	void TimeStep(float step, double total_time);
 
 	void GetRandomOrbitFromDirection(const SystemPath &source, const SystemPath &dest,
-		const vector3d dir,	vector3d &pos, vector3d &vel) const;
+		const vector3d &dir, vector3d &pos, vector3d &vel) const;
 
 	Body *FindNearestTo(const Body *b, Object::Type t) const;
 	Body *FindBodyForPath(const SystemPath *path) const;

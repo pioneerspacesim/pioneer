@@ -53,7 +53,6 @@ public:
 		typename CacheMap::const_iterator End() const { return m_cache.end(); }
 
 		void FillCache(const PathVector &paths, CacheFilledCallback callback = CacheFilledCallback());
-		void FillCache(const SystemPath &center, int sectorRadius, CacheFilledCallback callback = CacheFilledCallback());
 		void Erase(const SystemPath &path);
 		void Erase(const typename CacheMap::const_iterator &it);
 		void ClearCache();

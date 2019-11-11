@@ -9,6 +9,7 @@
 #include "Frame.h"
 #include "GameSaveError.h"
 #include "HyperspaceCloud.h"
+#include "Json.h"
 #include "Lang.h"
 #include "LuaEvent.h"
 #include "LuaTimer.h"
@@ -20,6 +21,7 @@
 #include "Star.h"
 #include "collider/CollisionContact.h"
 #include "collider/CollisionSpace.h"
+#include "galaxy/StarSystem.h"
 #include <algorithm>
 #include <functional>
 
@@ -92,7 +94,7 @@ Space::Space(double total_time, float time_step, RefCountedPtr<StarSystem> stars
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
 	// XXX set radius in constructor
-	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
+	m_rootFrame.reset(new Frame(nullptr, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 
 	std::vector<vector3d> positionAccumulator;
@@ -145,22 +147,6 @@ Space::Space(RefCountedPtr<StarSystem> starsystem, const Json &jsonObj, double a
 	//DebugDumpFrames();
 }
 
-Space::~Space()
-{
-	UpdateBodies(); // make sure anything waiting to be removed gets removed before we go and kill everything else
-	for (std::list<Body *>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		KillBody(*i);
-	UpdateBodies();
-}
-
-void Space::RefreshBackground()
-{
-	const SystemPath &path = m_starSystem->GetPath();
-	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
-	Random rand(_init, 5);
-	m_background.reset(new Background::Container(Pi::renderer, rand));
-}
-
 void Space::ToJson(Json &jsonObj)
 {
 	PROFILE_SCOPED()
@@ -183,6 +169,27 @@ void Space::ToJson(Json &jsonObj)
 	spaceObj["bodies"] = bodyArray; // Add body array to space object.
 
 	jsonObj["space"] = spaceObj; // Add space object to supplied object.
+}
+
+Space::~Space()
+{
+	UpdateBodies(); // make sure anything waiting to be removed gets removed before we go and kill everything else
+	for (std::list<Body *>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
+		KillBody(*i);
+	UpdateBodies();
+}
+
+void Space::RefreshBackground()
+{
+	const SystemPath &path = m_starSystem->GetPath();
+	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
+	Random rand(_init, 5);
+	m_background.reset(new Background::Container(Pi::renderer, rand));
+}
+
+RefCountedPtr<StarSystem> Space::GetStarSystem() const
+{
+	return m_starSystem;
 }
 
 Frame *Space::GetFrameByIndex(Uint32 idx) const
@@ -325,7 +332,7 @@ void Space::KillBody(Body *b)
 }
 
 void Space::GetRandomOrbitFromDirection(const SystemPath &source, const SystemPath &dest,
-	const vector3d dir,	vector3d &pos, vector3d &vel) const
+	const vector3d &dir, vector3d &pos, vector3d &vel) const
 {
 	assert(m_starSystem);
 	assert(source.IsSystemPath());

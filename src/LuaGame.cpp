@@ -19,6 +19,8 @@
 #include "SystemInfoView.h"
 #include "SystemView.h"
 #include "WorldView.h"
+#include "galaxy/StarSystem.h"
+
 
 /*
  * Interface: Game

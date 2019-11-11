@@ -8,6 +8,7 @@
 #include "Sfx.h"
 #include "Space.h"
 #include "collider/CollisionSpace.h"
+#include "galaxy/SystemBody.h"
 #include "utils.h"
 
 Frame::Frame()

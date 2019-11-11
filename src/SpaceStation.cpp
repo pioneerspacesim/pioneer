@@ -19,6 +19,7 @@
 #include "Ship.h"
 #include "Space.h"
 #include "StringF.h"
+#include "galaxy/SystemBody.h"
 #include "graphics/Renderer.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/MatrixTransform.h"

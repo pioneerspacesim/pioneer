@@ -16,6 +16,8 @@
 #include "Ship.h"
 #include "Space.h"
 #include "SpaceStation.h"
+#include "galaxy/StarSystem.h"
+#include "galaxy/SystemBody.h"
 
 /*
  * Interface: Space

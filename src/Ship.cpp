@@ -30,6 +30,7 @@
 #include "StringF.h"
 #include "WorldView.h"
 #include "collider/CollisionContact.h"
+#include "galaxy/StarSystem.h"
 #include "graphics/TextureBuilder.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/MatrixTransform.h"

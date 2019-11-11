@@ -43,11 +43,15 @@ public:
 	RefCountedPtr<const Sector> GetSector(const SystemPath &path) { return m_sectorCache.GetCached(path); }
 	RefCountedPtr<Sector> GetMutableSector(const SystemPath &path) { return m_sectorCache.GetCached(path); }
 	RefCountedPtr<SectorCache::Slave> NewSectorSlaveCache() { return m_sectorCache.NewSlaveCache(); }
+	void FillSectorCache(RefCountedPtr<SectorCache::Slave> &sc, const SystemPath &center,
+		int sectorRadius, StarSystemCache::CacheFilledCallback callback = StarSystemCache::CacheFilledCallback());
 
 	vector3d GetInterSystemPosition(const SystemPath &source, const SystemPath &dest);
 
 	RefCountedPtr<StarSystem> GetStarSystem(const SystemPath &path) { return m_starSystemCache.GetCached(path); }
 	RefCountedPtr<StarSystemCache::Slave> NewStarSystemSlaveCache() { return m_starSystemCache.NewSlaveCache(); }
+	void FillStarSystemCache(RefCountedPtr<StarSystemCache::Slave> &ssc, const SystemPath &center,
+		int sectorRadius, RefCountedPtr<SectorCache::Slave> &source);
 
 	void FlushCaches();
 	void Dump(FILE *file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius);

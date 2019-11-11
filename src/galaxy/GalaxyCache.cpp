@@ -311,50 +311,6 @@ void GalaxyObjectCache<T, CompareT>::Slave::FillCache(const typename GalaxyObjec
 	}
 }
 
-// sort using a custom function object
-class SectorDistanceSort {
-public:
-	SectorDistanceSort() = delete;
-
-	bool operator()(const SystemPath &a, const SystemPath &b)
-	{
-		const float dist_a = vector3f(m_here.sectorX - a.sectorX, m_here.sectorY - a.sectorY, m_here.sectorZ - a.sectorZ).LengthSqr();
-		const float dist_b = vector3f(m_here.sectorX - b.sectorX, m_here.sectorY - b.sectorY, m_here.sectorZ - b.sectorZ).LengthSqr();
-		return dist_a < dist_b;
-	}
-	SectorDistanceSort(const SystemPath &centre) :
-		m_here(centre)
-	{}
-
-private:
-	SystemPath m_here;
-};
-
-template <typename T, typename CompareT>
-void GalaxyObjectCache<T, CompareT>::Slave::FillCache(const SystemPath &center, int sectorRadius,
-	typename GalaxyObjectCache<T, CompareT>::CacheFilledCallback callback)
-{
-	const int here_x = center.sectorX;
-	const int here_y = center.sectorY;
-	const int here_z = center.sectorZ;
-
-	SectorCache::PathVector paths;
-
-	// build all of the possible paths we'll need to build sectors for
-	paths.reserve((sectorRadius * 2 + 1) * (sectorRadius * 2 + 1) * (sectorRadius * 2 + 1));
-	for (int x = here_x - sectorRadius; x <= here_x + sectorRadius; x++) {
-		for (int y = here_y - sectorRadius; y <= here_y + sectorRadius; y++) {
-			for (int z = here_z - sectorRadius; z <= here_z + sectorRadius; z++) {
-				paths.emplace_back(x, y, z);
-			}
-		}
-	}
-	// sort them so that those closest to the "here" path are processed first
-	SectorDistanceSort SDS(center);
-	std::sort(paths.begin(), paths.end(), SDS);
-	FillCache(paths, callback);
-}
-
 template <typename T, typename CompareT>
 GalaxyObjectCache<T, CompareT>::CacheJob::CacheJob(std::unique_ptr<std::vector<SystemPath>> path,
 	typename GalaxyObjectCache<T, CompareT>::Slave *slaveCache, RefCountedPtr<Galaxy> galaxy,

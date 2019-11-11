@@ -12,6 +12,8 @@
 #include "Space.h"
 #include "SpaceStation.h"
 #include "WorldView.h"
+#include "galaxy/StarSystem.h"
+#include "galaxy/SystemBody.h"
 
 enum EAtmosphereNoiseChannels {
 	eAtmoNoise1 = 0,

@@ -112,6 +112,74 @@ int Galaxy::GetGeneratorVersion() const
 	return m_galaxyGenerator->GetVersion();
 }
 
+// sort using a custom function object
+class SectorDistanceSort {
+public:
+	SectorDistanceSort() = delete;
+
+	bool operator()(const SystemPath &a, const SystemPath &b)
+	{
+		const float dist_a = vector3f(m_here.sectorX - a.sectorX, m_here.sectorY - a.sectorY, m_here.sectorZ - a.sectorZ).LengthSqr();
+		const float dist_b = vector3f(m_here.sectorX - b.sectorX, m_here.sectorY - b.sectorY, m_here.sectorZ - b.sectorZ).LengthSqr();
+		return dist_a < dist_b;
+	}
+	SectorDistanceSort(const SystemPath &centre) :
+		m_here(centre)
+	{}
+
+private:
+	SystemPath m_here;
+};
+
+void Galaxy::FillSectorCache(RefCountedPtr<SectorCache::Slave> &sc, const SystemPath &center,
+	int sectorRadius, SectorCache::CacheFilledCallback callback)
+{
+	const int here_x = center.sectorX;
+	const int here_y = center.sectorY;
+	const int here_z = center.sectorZ;
+
+	SectorCache::PathVector paths;
+
+	// build all of the possible paths we'll need to build sectors for
+	paths.reserve((sectorRadius * 2 + 1) * (sectorRadius * 2 + 1) * (sectorRadius * 2 + 1));
+	for (int x = here_x - sectorRadius; x <= here_x + sectorRadius; x++) {
+		for (int y = here_y - sectorRadius; y <= here_y + sectorRadius; y++) {
+			for (int z = here_z - sectorRadius; z <= here_z + sectorRadius; z++) {
+				paths.emplace_back(x, y, z);
+			}
+		}
+	}
+	// sort them so that those closest to the "here" path are processed first
+	SectorDistanceSort SDS(center);
+	std::sort(paths.begin(), paths.end(), SDS);
+	sc->FillCache(paths, callback);
+}
+
+void Galaxy::FillStarSystemCache(RefCountedPtr<StarSystemCache::Slave> &ssc, const SystemPath &center,
+		int sectorRadius, RefCountedPtr<SectorCache::Slave> &source)
+{
+	const int here_x = center.sectorX;
+	const int here_y = center.sectorY;
+	const int here_z = center.sectorZ;
+
+	SectorCache::PathVector paths;
+
+	// build all of the possible paths we'll need to build StarSystem for
+	paths.reserve((sectorRadius * 2 + 1) * (sectorRadius * 2 + 1) * (sectorRadius * 2 + 1));
+	for (int x = here_x - sectorRadius; x <= here_x + sectorRadius; x++) {
+		for (int y = here_y - sectorRadius; y <= here_y + sectorRadius; y++) {
+			for (int z = here_z - sectorRadius; z <= here_z + sectorRadius; z++) {
+				SystemPath path(x, y, z);
+				RefCountedPtr<Sector> sec(source->GetIfCached(path));
+				assert(!sec.Valid());
+				for (const Sector::System &ss : sec->m_systems)
+					paths.emplace_back(ss.sx, ss.sy, ss.sz, ss.idx);
+			}
+		}
+	}
+	ssc->FillCache(paths);
+}
+
 vector3d Galaxy::GetInterSystemPosition(const SystemPath &source, const SystemPath &dest)
 {
 	RefCountedPtr<const Sector> source_sec = GetSector(source);
