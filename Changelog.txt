@@ -1,5 +1,9 @@
 October 2019
    * New Features
+     * More station names (#4726)
+
+October 2019
+   * New Features
      * Music upgrade (#4678)
 
    * Fixes
