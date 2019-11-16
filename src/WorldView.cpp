@@ -445,8 +445,16 @@ void WorldView::UpdateProjectedObjects()
 			}
 		}
 
-		if (laser >= 0) {
-			Pi::player->Properties().Get(laser ? "laser_rear_speed" : "laser_front_speed", projspeed);
+		for (int i = 0; i < Pi::player->GetMountedGunsNum(); i++) {
+			// Pick speed of first gun
+			if (Pi::player->GetActivationStateOfGun(i) == false) continue;
+			if (laser == 0 && Pi::player->IsFront(i) == GunDir::GUN_FRONT) {
+				projspeed = Pi::player->GetProjSpeed(i);
+				break;
+			} else if (laser == 1 && Pi::player->IsFront(i) == GunDir::GUN_REAR) {
+				projspeed = Pi::player->GetProjSpeed(i);
+				break;
+			}
 		}
 		if (projspeed > 0) { // only display target lead position on views with lasers
 			const vector3d targvel = enemy->GetVelocityRelTo(Pi::player) * cam_rot;
