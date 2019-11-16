@@ -59,8 +59,8 @@ public:
 	void ToJson(Json &jsonObj);
 
 	// various game states
-	bool IsNormalSpace() const { return m_state == State::STATE_NORMAL; }
-	bool IsHyperspace() const { return m_state == State::STATE_HYPERSPACE; }
+	bool IsNormalSpace() const { return m_state == State::NORMAL; }
+	bool IsHyperspace() const { return m_state == State::HYPERSPACE; }
 
 	RefCountedPtr<Galaxy> GetGalaxy() const { return m_galaxy; }
 	Space *GetSpace() const { return m_space.get(); }
@@ -171,8 +171,8 @@ private:
 	std::unique_ptr<Player> m_player;
 
 	enum class State {
-		STATE_NORMAL,
-		STATE_HYPERSPACE,
+		NORMAL,
+		HYPERSPACE,
 	};
 	State m_state;
 
