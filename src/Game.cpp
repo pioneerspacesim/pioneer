@@ -35,10 +35,10 @@
 
 static const int s_saveVersion = 85;
 
-Game::Game(const SystemPath &path, double time) :
+Game::Game(const SystemPath &path, const double startDateTime) :
 	m_galaxy(GalaxyGenerator::Create()),
-	m_time(time),
-	m_state(STATE_NORMAL),
+	m_time(startDateTime),
+	m_state(State::STATE_NORMAL),
 	m_wantHyperspace(false),
 	m_timeAccel(TIMEACCEL_1X),
 	m_requestedTimeAccel(TIMEACCEL_1X),
@@ -273,7 +273,7 @@ void Game::TimeStep(float step)
 {
 	PROFILE_SCOPED()
 	m_time += step; // otherwise planets lag time accel changes by a frame
-	if (m_state == STATE_HYPERSPACE && Pi::game->GetTime() >= m_hyperspaceEndTime)
+	if (m_state == State::STATE_HYPERSPACE && Pi::game->GetTime() >= m_hyperspaceEndTime)
 		m_time = m_hyperspaceEndTime;
 
 	m_space->TimeStep(step);
@@ -282,7 +282,7 @@ void Game::TimeStep(float step)
 	m_gameViews->m_cpan->TimeStepUpdate(step);
 	SfxManager::TimeStepAll(step, m_space->GetRootFrame());
 
-	if (m_state == STATE_HYPERSPACE) {
+	if (m_state == State::STATE_HYPERSPACE) {
 		if (Pi::game->GetTime() >= m_hyperspaceEndTime) {
 			SwitchToNormalSpace();
 			m_player->EnterSystem();
@@ -293,7 +293,7 @@ void Game::TimeStep(float step)
 	}
 
 	if (m_wantHyperspace) {
-		assert(m_state == STATE_NORMAL);
+		assert(m_state == State::STATE_NORMAL);
 		SwitchToHyperspace();
 		return;
 	}
@@ -387,7 +387,7 @@ bool Game::UpdateTimeAccel()
 
 void Game::WantHyperspace()
 {
-	assert(m_state == STATE_NORMAL);
+	assert(m_state == State::STATE_NORMAL);
 	m_wantHyperspace = true;
 }
 
@@ -473,7 +473,7 @@ void Game::SwitchToHyperspace()
 	m_hyperspaceDuration = m_player->GetHyperspaceDuration();
 	m_hyperspaceEndTime = Pi::game->GetTime() + m_hyperspaceDuration;
 
-	m_state = STATE_HYPERSPACE;
+	m_state = State::STATE_HYPERSPACE;
 	m_wantHyperspace = false;
 
 	Output("Started hyperspacing...\n");
@@ -605,7 +605,7 @@ void Game::SwitchToNormalSpace()
 
 	m_space->GetBackground()->SetDrawFlags(Background::Container::DRAW_SKYBOX | Background::Container::DRAW_STARS);
 
-	m_state = STATE_NORMAL;
+	m_state = State::STATE_NORMAL;
 }
 
 const float Game::s_timeAccelRates[] = {
