@@ -4,7 +4,7 @@ image: Visual Studio 2017
 deploy:
   provider: GitHub
   auth_token:
-    secure: "Ajn9CykEp1CHKvIFmqYhP617A6cvZbsgHLw4VeDXeYob1aatUCAQXrjF9gUhbo4jwi2vtGFQyuK5TPHHHjSvk9EksW6c++qADqviAGvid6EAcG6AKuV76Nhx/IkCW0nUHk4ET2Zms3S2MON+rxUzihi4uCzuOlHUfG+5XntvL5Y="
+    secure: hquxNjhIWTiLNeKW68bhKlv0TvLT2G8w2CGnGCr6koDBqhgUWcHmIeQZy/80mc3x
   draft: false
   prerelease: false
   on:
