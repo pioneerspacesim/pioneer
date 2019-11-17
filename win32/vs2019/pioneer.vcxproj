@@ -395,6 +395,7 @@
     <ClCompile Include="..\..\src\FixedGuns.cpp" />
     <ClCompile Include="..\..\src\FontCache.cpp" />
     <ClCompile Include="..\..\src\Frame.cpp" />
+    <ClCompile Include="..\..\src\FrameId.cpp" />
     <ClCompile Include="..\..\src\Game.cpp" />
     <ClCompile Include="..\..\src\GameConfig.cpp" />
     <ClCompile Include="..\..\src\GameLog.cpp" />
@@ -595,6 +596,7 @@
     <ClInclude Include="..\..\src\FixedGuns.h" />
     <ClInclude Include="..\..\src\FontCache.h" />
     <ClInclude Include="..\..\src\Frame.h" />
+    <ClInclude Include="..\..\src\FrameId.h" />
     <ClInclude Include="..\..\src\Game.h" />
     <ClInclude Include="..\..\src\GameConfig.h" />
     <ClInclude Include="..\..\src\gameconsts.h" />
