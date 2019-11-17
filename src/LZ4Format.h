@@ -26,5 +26,5 @@ namespace lz4 {
 	// Compresses a block of data according to the lz4 framing format.
 	// If compression fails it throws an exception.
 	// lz4_speed is the compression preset; 0 = default compression, 3-12 = HC compression
-	std::unique_ptr<char> CompressLZ4(const std::string &data, const int lz4_preset, std::size_t &outSize);
+	std::unique_ptr<char[]> CompressLZ4(const std::string &data, const int lz4_preset, std::size_t &outSize);
 } // namespace lz4
