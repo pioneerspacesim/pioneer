@@ -889,8 +889,12 @@ void Ship::Blastoff()
 	if (m_flightState != LANDED) return;
 
 	vector3d up = GetPosition().Normalized();
-	assert(GetFrame()->GetBody()->IsType(Object::PLANET));
-	const double planetRadius = 2.0 + static_cast<Planet *>(GetFrame()->GetBody())->GetTerrainHeight(up);
+
+	Frame *f = Frame::GetFrame(GetFrame());
+
+	assert(f->GetBody()->IsType(Object::PLANET));
+
+	const double planetRadius = 2.0 + static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
 	SetVelocity(vector3d(0, 0, 0));
 	SetAngVelocity(vector3d(0, 0, 0));
 	SetFlightState(FLYING);
@@ -898,7 +902,7 @@ void Ship::Blastoff()
 	SetPosition(up * planetRadius - GetAabb().min.y * up);
 	SetThrusterState(1, 1.0); // thrust upwards
 
-	LuaEvent::Queue("onShipTakeOff", this, GetFrame()->GetBody());
+	LuaEvent::Queue("onShipTakeOff", this, f->GetBody());
 }
 
 void Ship::TestLanded()
@@ -906,10 +910,13 @@ void Ship::TestLanded()
 	m_testLanded = false;
 	if (m_launchLockTimeout > 0.0f) return;
 	if (m_wheelState < 1.0f) return;
-	if (GetFrame()->GetBody()->IsType(Object::PLANET)) {
+
+	Frame *f = Frame::GetFrame(GetFrame());
+
+	if (f->GetBody()->IsType(Object::PLANET)) {
 		double speed = GetVelocity().Length();
 		vector3d up = GetPosition().Normalized();
-		const double planetRadius = static_cast<Planet *>(GetFrame()->GetBody())->GetTerrainHeight(up);
+		const double planetRadius = static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
 
 		if (speed < MAX_LANDING_SPEED) {
 			// check player is sortof sensibly oriented for landing
@@ -926,7 +933,7 @@ void Ship::TestLanded()
 				ClearThrusterState();
 				SetFlightState(LANDED);
 				Sound::BodyMakeNoise(this, "Rough_Landing", 1.0f);
-				LuaEvent::Queue("onShipLanded", this, GetFrame()->GetBody());
+				LuaEvent::Queue("onShipLanded", this, f->GetBody());
 				onLanded.emit();
 			}
 		}
@@ -937,8 +944,10 @@ void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
 {
 	m_wheelTransition = 0;
 	m_wheelState = 1.0f;
-	Frame *f = p->GetFrame()->GetRotFrame();
-	SetFrame(f);
+	Frame *f_non_rot = Frame::GetFrame(p->GetFrame());
+	Frame *f = Frame::GetFrame(f_non_rot->GetRotFrame());
+	SetFrame(f_non_rot->GetRotFrame());
+
 	vector3d up = vector3d(cos(latitude) * sin(longitude), sin(latitude), cos(latitude) * cos(longitude));
 	const double planetRadius = p->GetTerrainHeight(up);
 	SetPosition(up * (planetRadius - GetAabb().min.y));
@@ -952,9 +961,9 @@ void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
 	onLanded.emit();
 }
 
-void Ship::SetFrame(Frame *f)
+void Ship::SetFrame(FrameId fId)
 {
-	DynamicBody::SetFrame(f);
+	DynamicBody::SetFrame(fId);
 	m_sensors->ResetTrails();
 }
 
@@ -1181,7 +1190,8 @@ void Ship::StaticUpdate(const float timeStep)
 	}
 
 	if (m_flightState == FLYING) {
-		Body *astro = GetFrame()->GetBody();
+		Frame *frame = Frame::GetFrame(GetFrame());
+		Body *astro = frame->GetBody();
 		if (astro && astro->IsType(Object::PLANET)) {
 			Planet *p = static_cast<Planet *>(astro);
 			double dist = GetPosition().Length();
@@ -1204,7 +1214,8 @@ void Ship::StaticUpdate(const float timeStep)
 	int capacity = 0;
 	Properties().Get("fuel_scoop_cap", capacity);
 	if (m_flightState == FLYING && capacity > 0) {
-		Body *astro = GetFrame()->GetBody();
+		Frame *frame = Frame::GetFrame(GetFrame());
+		Body *astro = frame->GetBody();
 		if (astro && astro->IsType(Object::PLANET)) {
 			Planet *p = static_cast<Planet *>(astro);
 			if (p->GetSystemBody()->IsScoopable()) {

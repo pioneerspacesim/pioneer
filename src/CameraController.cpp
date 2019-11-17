@@ -4,6 +4,7 @@
 #include "CameraController.h"
 
 #include "AnimationCurves.h"
+#include "Frame.h"
 #include "Game.h"
 #include "GameSaveError.h"
 #include "MathUtil.h"
@@ -28,16 +29,16 @@ void CameraController::Reset()
 
 void CameraController::Update()
 {
-	m_camera->SetFrame(m_ship->GetFrame());
+	m_camera->SetCameraFrame(m_ship->GetFrame());
 	if (GetType() == FLYBY) {
-		m_camera->SetOrient(m_orient);
-		m_camera->SetPosition(m_pos);
+		m_camera->SetCameraOrient(m_orient);
+		m_camera->SetCameraPosition(m_pos);
 	} else {
 		// interpolate between last physics tick position and current one,
 		// to remove temporal aliasing
 		const matrix3x3d &m = m_ship->GetInterpOrient();
-		m_camera->SetOrient(m * m_orient);
-		m_camera->SetPosition(m * m_pos + m_ship->GetInterpPosition());
+		m_camera->SetCameraOrient(m * m_orient);
+		m_camera->SetCameraPosition(m * m_pos + m_ship->GetInterpPosition());
 	}
 }
 
@@ -374,9 +375,10 @@ void FlyByCameraController::Update()
 	vector3d ship_pos = ship->GetInterpPosition();
 	vector3d camerap;
 
-	if (GetPosition() == vector3d(0, 0, 0) || m_old_frame != ship->GetFrame()) {
+	Frame *shipFrame = Frame::GetFrame(ship->GetFrame());
+	if (GetPosition() == vector3d(0, 0, 0) || m_old_frame != shipFrame) {
 		m_old_pos = ship_pos;
-		m_old_frame = ship->GetFrame();
+		m_old_frame = shipFrame;
 	}
 
 	m_flybyOrient.Renormalize();

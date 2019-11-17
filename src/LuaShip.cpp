@@ -938,7 +938,8 @@ static int l_ship_get_set_speed_target(lua_State *l)
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	Body *t = s->GetController()->GetSetSpeedTarget();
 	if (s->GetType() == Object::Type::PLAYER && t == nullptr) {
-		Frame *f = s->GetFrame();
+		FrameId fId = s->GetFrame();
+		Frame *f = Frame::GetFrame(fId);
 		if (f)
 			t = f->GetBody();
 	}

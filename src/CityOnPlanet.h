@@ -5,6 +5,7 @@
 #define _CITYONPLANET_H
 
 #include "CollMesh.h"
+#include "FrameId.h"
 #include "Object.h"
 #include "Random.h"
 
@@ -53,7 +54,7 @@ private:
 	};
 
 	Planet *m_planet;
-	Frame *m_frame;
+	FrameId m_frame;
 	std::vector<BuildingDef> m_buildings;
 	std::vector<BuildingDef> m_enabledBuildings;
 	std::vector<Uint32> m_buildingCounts;

@@ -181,17 +181,18 @@ void DynamicBody::SetMass(double mass)
 	m_angInertia = (2 / 5.0) * m_mass * m_massRadius * m_massRadius;
 }
 
-void DynamicBody::SetFrame(Frame *f)
+void DynamicBody::SetFrame(FrameId fId)
 {
-	ModelBody::SetFrame(f);
+	ModelBody::SetFrame(fId);
 	// external forces will be wrong after frame transition
 	m_externalForce = m_gravityForce = m_atmosForce = vector3d(0.0);
 }
 
 double DynamicBody::CalcAtmosphericDrag(double velSqr, double area, double coeff) const
 {
-	Body *body = GetFrame()->GetBody();
-	if (!body || !GetFrame()->IsRotFrame() || !body->IsType(Object::PLANET))
+	Frame *f = Frame::GetFrame(GetFrame());
+	Body *body = f->GetBody();
+	if (!body || !f->IsRotFrame() || !body->IsType(Object::PLANET))
 		return 0.0;
 	Planet *planet = static_cast<Planet *>(body);
 	double pressure, density;
@@ -213,8 +214,9 @@ vector3d DynamicBody::CalcAtmosphericForce() const
 void DynamicBody::CalcExternalForce()
 {
 	// gravity
-	if (!GetFrame()) return; // no external force if not in a frame
-	Body *body = GetFrame()->GetBody();
+	Frame *f = Frame::GetFrame(GetFrame());
+	if (!f) return; // no external force if not in a frame
+	Body *body = f->GetBody();
 	if (body && !body->IsType(Object::SPACESTATION)) { // they ought to have mass though...
 		vector3d b1b2 = GetPosition();
 		double m1m2 = GetMass() * body->GetMass();
@@ -226,7 +228,7 @@ void DynamicBody::CalcExternalForce()
 	m_gravityForce = m_externalForce;
 
 	// atmospheric drag
-	if (body && GetFrame()->IsRotFrame() && body->IsType(Object::PLANET)) {
+	if (body && f->IsRotFrame() && body->IsType(Object::PLANET)) {
 		vector3d fAtmoForce = CalcAtmosphericForce();
 
 		// make this a bit less daft at high time accel
@@ -243,8 +245,8 @@ void DynamicBody::CalcExternalForce()
 		m_atmosForce = vector3d(0.0);
 
 	// centrifugal and coriolis forces for rotating frames
-	if (GetFrame()->IsRotFrame()) {
-		vector3d angRot(0, GetFrame()->GetAngSpeed(), 0);
+	if (f->IsRotFrame()) {
+		vector3d angRot(0, f->GetAngSpeed(), 0);
 		m_externalForce -= m_mass * angRot.Cross(angRot.Cross(GetPosition())); // centrifugal
 		m_externalForce -= 2 * m_mass * angRot.Cross(GetVelocity()); // coriolis
 	}
@@ -362,12 +364,13 @@ bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 // return parameters for orbit of any body, gives both elliptic and hyperbolic trajectories
 Orbit DynamicBody::ComputeOrbit() const
 {
-	const Frame *frame = this->GetFrame()->GetNonRotFrame();
-	const double mass = frame->GetSystemBody()->GetMass();
+	FrameId nrFrameId = Frame::GetFrame(GetFrame())->GetNonRotFrame();
+	const Frame *nrFrame = Frame::GetFrame(nrFrameId);
+	const double mass = nrFrame->GetSystemBody()->GetMass();
 
 	// current velocity and position with respect to non-rotating frame
-	const vector3d vel = this->GetVelocityRelTo(frame);
-	const vector3d pos = this->GetPositionRelTo(frame);
+	const vector3d vel = GetVelocityRelTo(nrFrameId);
+	const vector3d pos = GetPositionRelTo(nrFrameId);
 
 	return Orbit::FromBodyState(pos, vel, mass);
 }

@@ -4,6 +4,7 @@
 #ifndef _SFX_H
 #define _SFX_H
 
+#include "FrameId.h"
 #include "graphics/Material.h"
 #include "JsonFwd.h"
 
@@ -54,10 +55,10 @@ public:
 	static void Add(const Body *, SFX_TYPE);
 	static void AddExplosion(Body *);
 	static void AddThrustSmoke(const Body *b, float speed, const vector3d &adjustpos);
-	static void TimeStepAll(const float timeStep, Frame *f);
-	static void RenderAll(Graphics::Renderer *r, Frame *f, const Frame *camFrame);
-	static void ToJson(Json &jsonObj, const Frame *f);
-	static void FromJson(const Json &jsonObj, Frame *f);
+	static void TimeStepAll(const float timeStep, FrameId f);
+	static void RenderAll(Graphics::Renderer *r, FrameId f, const FrameId camFrame);
+	static void ToJson(Json &jsonObj, const FrameId f);
+	static void FromJson(const Json &jsonObj, FrameId f);
 
 	//create shared models
 	static void Init(Graphics::Renderer *r);
@@ -92,7 +93,7 @@ private:
 	};
 
 	// methods
-	static SfxManager *AllocSfxInFrame(Frame *f);
+	static SfxManager *AllocSfxInFrame(FrameId f);
 	static vector2f CalculateOffset(const enum SFX_TYPE, const Sfx &);
 	static bool SplitMaterialData(const std::string &spec, MaterialData &output);
 

@@ -69,7 +69,7 @@ public:
 	bool AllocateStaticSlot(int &slot);
 
 	// use docking bay position, if player has been granted permission
-	virtual vector3d GetTargetIndicatorPosition(const Frame *relTo) const override;
+	virtual vector3d GetTargetIndicatorPosition(FrameId relToId) const override;
 
 	// need this now because stations rotate in their frame
 	virtual void UpdateInterpTransform(double alpha) override;

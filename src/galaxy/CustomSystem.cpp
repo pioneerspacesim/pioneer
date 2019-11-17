@@ -13,6 +13,7 @@
 #include "LuaUtils.h"
 #include "LuaVector.h"
 #include "Polit.h"
+#include "../gameconsts.h"
 #include <map>
 
 const CustomSystemsDatabase::SystemList CustomSystemsDatabase::s_emptySystemList; // see: Null Object pattern
@@ -90,21 +91,6 @@ static double *getDoubleOrFixed(lua_State *L, int which)
 		return 1;                                                                                                                         \
 	}
 
-// Used when the value MUST be greater than Zero, for Mass or Radius for example
-#define CSB_FIELD_SETTER_FIXED_POSITIVE(luaname, fieldname)                                                                                    \
-	static int l_csb_##luaname(lua_State *L)                                                                                                   \
-	{                                                                                                                                          \
-		CustomSystemBody *csb = l_csb_check(L, 1);                                                                                             \
-		double *value = getDoubleOrFixed(L, 2);                                                                                                \
-		if (value == nullptr)                                                                                                                  \
-			return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));                                        \
-		if (*value <= 0.0)                                                                                                                     \
-			Output("Error: Custom system definition: Value cannot be negative/zero (%lf) for %s : %s\n", *value, csb->name.c_str(), #luaname); \
-		csb->fieldname = fixed::FromDouble(*value);                                                                                            \
-		lua_settop(L, 1);                                                                                                                      \
-		return 1;                                                                                                                              \
-	}
-
 #define CSB_FIELD_SETTER_REAL(luaname, fieldname)  \
 	static int l_csb_##luaname(lua_State *L)       \
 	{                                              \
@@ -135,8 +121,8 @@ static double *getDoubleOrFixed(lua_State *L, int which)
 		return 1;                                   \
 	}
 
-CSB_FIELD_SETTER_FIXED_POSITIVE(radius, radius)
-CSB_FIELD_SETTER_FIXED_POSITIVE(mass, mass)
+CSB_FIELD_SETTER_FIXED(radius, radius)
+CSB_FIELD_SETTER_FIXED(mass, mass)
 CSB_FIELD_SETTER_INT(temp, averageTemp)
 CSB_FIELD_SETTER_FIXED(semi_major_axis, semiMajorAxis)
 CSB_FIELD_SETTER_FIXED(eccentricity, eccentricity)
@@ -572,6 +558,8 @@ static int l_csys_add_to_sector(lua_State *L)
 {
 	CustomSystem **csptr = l_csys_check_ptr(L, 1);
 
+	(*csptr)->SanityChecks();
+
 	int x = luaL_checkinteger(L, 2);
 	int y = luaL_checkinteger(L, 3);
 	int z = luaL_checkinteger(L, 4);
@@ -638,7 +626,7 @@ static void RegisterCustomSystemsAPI(lua_State *L)
 	register_class(L, LuaCustomSystemBody_TypeName, LuaCustomSystemBody_meta);
 }
 
-void CustomSystemsDatabase::Init()
+void CustomSystemsDatabase::Load()
 {
 	assert(!s_activeCustomSystemsDatabase);
 	s_activeCustomSystemsDatabase = this;
@@ -680,8 +668,7 @@ void CustomSystemsDatabase::Init()
 CustomSystemsDatabase::~CustomSystemsDatabase()
 {
 	for (SectorMap::iterator secIt = m_sectorMap.begin(); secIt != m_sectorMap.end(); ++secIt) {
-		for (CustomSystemsDatabase::SystemList::iterator
-				 sysIt = secIt->second.begin();
+		for (CustomSystemsDatabase::SystemList::iterator sysIt = secIt->second.begin();
 			 sysIt != secIt->second.end(); ++sysIt) {
 			delete *sysIt;
 		}
@@ -702,11 +689,11 @@ void CustomSystemsDatabase::AddCustomSystem(const SystemPath &path, CustomSystem
 }
 
 CustomSystem::CustomSystem() :
-	sBody(0),
+	sBody(nullptr),
 	numStars(0),
 	seed(0),
 	want_rand_explored(true),
-	faction(0),
+	faction(nullptr),
 	govType(Polit::GOV_INVALID),
 	want_rand_lawlessness(true)
 {
@@ -717,6 +704,12 @@ CustomSystem::CustomSystem() :
 CustomSystem::~CustomSystem()
 {
 	delete sBody;
+}
+
+void CustomSystem::SanityChecks()
+{
+	if (IsRandom()) return;
+	else sBody->SanityChecks();
 }
 
 CustomSystemBody::CustomSystemBody() :
@@ -739,4 +732,53 @@ CustomSystemBody::~CustomSystemBody()
 		 it != children.end(); ++it) {
 		delete (*it);
 	}
+}
+
+static void checks(CustomSystemBody &csb)
+{
+	if (csb.name.empty()) {
+		Error("custom system with name not set!\n");
+		// throw an exception? Then it can be "catch" *per file*...
+	}
+	if (csb.radius <= 0 && csb.mass <= 0) {
+		if (csb.type != SystemBody::TYPE_STARPORT_ORBITAL &&
+			csb.type != SystemBody::TYPE_STARPORT_SURFACE &&
+			csb.type != SystemBody::TYPE_GRAVPOINT
+			) Error("custom system body '%s' with both radius ans mass left undefined!", csb.name.c_str());
+	}
+	if (csb.radius <= 0 && csb.type != SystemBody::TYPE_STARPORT_ORBITAL &&
+			csb.type != SystemBody::TYPE_STARPORT_SURFACE &&
+			csb.type != SystemBody::TYPE_GRAVPOINT
+		) {
+		Output("Warning: 'radius' is %f for body '%s'\n", csb.radius.ToFloat(), csb.name.c_str());
+	}
+	if (csb.mass <= 0 && csb.type != SystemBody::TYPE_STARPORT_ORBITAL &&
+			csb.type != SystemBody::TYPE_STARPORT_SURFACE &&
+			csb.type != SystemBody::TYPE_GRAVPOINT
+		) {
+		Output("Warning: 'mass' is %f for body '%s'\n", csb.mass.ToFloat(), csb.name.c_str());
+	}
+	if (csb.averageTemp <= 0 && csb.type != SystemBody::TYPE_STARPORT_ORBITAL &&
+			csb.type != SystemBody::TYPE_STARPORT_SURFACE &&
+			csb.type != SystemBody::TYPE_GRAVPOINT
+		) {
+		Output("Warning: 'averageTemp' is %i for body '%s'\n", csb.averageTemp, csb.name.c_str());
+	}
+	if (csb.type == SystemBody::TYPE_STAR_S_BH ||
+		csb.type == SystemBody::TYPE_STAR_IM_BH ||
+		csb.type == SystemBody::TYPE_STAR_SM_BH
+	    ) {
+		double schwarzschild = 2 * csb.mass.ToDouble() * ((G * SOL_MASS) / (LIGHT_SPEED * LIGHT_SPEED));
+		schwarzschild /= SOL_RADIUS;
+		if (csb.radius < schwarzschild) {
+			Output("Warning: Blackhole radius defaulted to Schwarzschild radius (%f Sol radii)\n", schwarzschild);
+			csb.radius = schwarzschild;
+		}
+	}
+}
+
+void CustomSystemBody::SanityChecks()
+{
+	checks(*this);
+	for (CustomSystemBody *csb:children) csb->SanityChecks();
 }

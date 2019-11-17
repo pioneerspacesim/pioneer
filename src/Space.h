@@ -5,6 +5,7 @@
 #define _SPACE_H
 
 #include "Background.h"
+#include "FrameId.h"
 #include "IterationProxy.h"
 #include "Object.h"
 #include "RefCounted.h"
@@ -31,19 +32,17 @@ public:
 
 	void ToJson(Json &jsonObj);
 
-	// frame/body/sbody indexing for save/load. valid after
+	// body/sbody indexing for save/load. valid after
 	// construction/ToJson(), invalidated by TimeStep(). they will assert
 	// if called while invalid
-	Frame *GetFrameByIndex(Uint32 idx) const;
 	Body *GetBodyByIndex(Uint32 idx) const;
 	SystemBody *GetSystemBodyByIndex(Uint32 idx) const;
-	Uint32 GetIndexForFrame(const Frame *frame) const;
 	Uint32 GetIndexForBody(const Body *body) const;
 	Uint32 GetIndexForSystemBody(const SystemBody *sbody) const;
 
 	RefCountedPtr<StarSystem> GetStarSystem() const { return m_starSystem; }
 
-	Frame *GetRootFrame() const { return m_rootFrame.get(); }
+	FrameId GetRootFrame() const { return m_rootFrameId; }
 
 	void AddBody(Body *);
 	void RemoveBody(Body *);
@@ -85,18 +84,19 @@ public:
 		return std::move(m_bodyNearFinder.GetBodiesMaybeNear(pos, dist));
 	}
 
+	void DebugDumpFrames(bool details);
 private:
 	void GenSectorCache(RefCountedPtr<Galaxy> galaxy, const SystemPath *here);
 	void UpdateStarSystemCache(const SystemPath *here);
-	void GenBody(const double at_time, SystemBody *b, Frame *f, std::vector<vector3d> &posAccum);
+	void GenBody(const double at_time, SystemBody *b, FrameId fId, std::vector<vector3d> &posAccum);
 	// make sure SystemBody* is in Pi::currentSystem
-	Frame *GetFrameWithSystemBody(const SystemBody *b) const;
+	FrameId GetFrameWithSystemBody(const SystemBody *b) const;
 
 	void UpdateBodies();
 
-	void CollideFrame(Frame *f);
+	void CollideFrame(FrameId fId);
 
-	std::unique_ptr<Frame> m_rootFrame;
+	FrameId m_rootFrameId;
 
 	RefCountedPtr<SectorCache::Slave> m_sectorCache;
 	RefCountedPtr<StarSystemCache::Slave> m_starSystemCache;
@@ -112,15 +112,12 @@ private:
 	std::list<Body *> m_removeBodies;
 	std::list<Body *> m_killBodies;
 
-	void RebuildFrameIndex();
 	void RebuildBodyIndex();
 	void RebuildSystemBodyIndex();
 
-	void AddFrameToIndex(Frame *frame);
 	void AddSystemBodyToIndex(SystemBody *sbody);
 
-	bool m_frameIndexValid, m_bodyIndexValid, m_sbodyIndexValid;
-	std::vector<Frame *> m_frameIndex;
+	bool m_bodyIndexValid, m_sbodyIndexValid;
 	std::vector<Body *> m_bodyIndex;
 	std::vector<SystemBody *> m_sbodyIndex;
 
@@ -164,7 +161,6 @@ private:
 	bool m_processingFinalizationQueue;
 #endif
 
-	void DebugDumpFrames();
 };
 
 #endif /* _SPACE_H */

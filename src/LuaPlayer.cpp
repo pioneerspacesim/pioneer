@@ -515,13 +515,14 @@ static int l_get_gps(lua_State *l)
 	Player *player = LuaObject<Player>::CheckFromLua(1);
 	vector3d pos = Pi::player->GetPosition();
 	double center_dist = pos.Length();
-	auto frame = player->GetFrame();
-	if (frame) {
-		Body *astro = frame->GetBody();
+	FrameId playerFrameId = player->GetFrame();
+	Frame *playerFrame = Frame::GetFrame(playerFrameId);
+	if (IsIdValid(playerFrameId)) {
+		Body *astro = Frame::GetFrame(playerFrameId)->GetBody();
 		if (astro && astro->IsType(Object::TERRAINBODY)) {
 			TerrainBody *terrain = static_cast<TerrainBody *>(astro);
-			if (!frame->IsRotFrame())
-				frame = frame->GetRotFrame();
+			if (!playerFrame->IsRotFrame())
+				playerFrame = Frame::GetFrame(playerFrame->GetRotFrame());
 			vector3d surface_pos = pos.Normalized();
 			double radius = 0.0;
 			if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {

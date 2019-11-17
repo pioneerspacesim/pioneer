@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SystemView.h"
+
 #include "AnimationCurves.h"
 #include "Frame.h"
 #include "Game.h"
@@ -65,8 +66,9 @@ void TransferPlanner::AddStartTime(double timeStep)
 	m_startTime += m_factor * timeStep;
 	double deltaT = m_startTime - Pi::game->GetTime();
 	if (deltaT > 0.) {
-		Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
-		Orbit playerOrbit = Orbit::FromBodyState(Pi::player->GetPositionRelTo(frame), Pi::player->GetVelocityRelTo(frame), frame->GetSystemBody()->GetMass());
+		FrameId frameId = Frame::GetFrame(Pi::player->GetFrame())->GetNonRotFrame();
+		Frame *frame = Frame::GetFrame(frameId);
+		Orbit playerOrbit = Orbit::FromBodyState(Pi::player->GetPositionRelTo(frameId), Pi::player->GetVelocityRelTo(frameId), frame->GetSystemBody()->GetMass());
 
 		m_position = playerOrbit.OrbitalPosAtTime(deltaT);
 		m_velocity = playerOrbit.OrbitalVelocityAtTime(frame->GetSystemBody()->GetMass(), deltaT);
@@ -77,14 +79,14 @@ void TransferPlanner::AddStartTime(double timeStep)
 void TransferPlanner::ResetStartTime()
 {
 	m_startTime = 0;
-	Frame *frame = Pi::player->GetFrame();
+	Frame *frame = Frame::GetFrame(Pi::player->GetFrame());
 	if (!frame || GetOffsetVel().ExactlyEqual(vector3d(0., 0., 0.))) {
 		m_position = vector3d(0., 0., 0.);
 		m_velocity = vector3d(0., 0., 0.);
 	} else {
-		frame = frame->GetNonRotFrame();
-		m_position = Pi::player->GetPositionRelTo(frame);
-		m_velocity = Pi::player->GetVelocityRelTo(frame);
+		frame = Frame::GetFrame(frame->GetNonRotFrame());
+		m_position = Pi::player->GetPositionRelTo(frame->GetId());
+		m_velocity = Pi::player->GetVelocityRelTo(frame->GetId());
 	}
 }
 
@@ -127,7 +129,7 @@ std::string TransferPlanner::printDeltaTime()
 void TransferPlanner::AddDv(BurnDirection d, double dv)
 {
 	if (m_position.ExactlyEqual(vector3d(0., 0., 0.))) {
-		Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
+		FrameId frame = Frame::GetFrame(Pi::player->GetFrame())->GetNonRotFrame();
 		m_position = Pi::player->GetPositionRelTo(frame);
 		m_velocity = Pi::player->GetVelocityRelTo(frame);
 		m_startTime = Pi::game->GetTime();
@@ -210,7 +212,10 @@ void TransferPlanner::SetPosition(const vector3d &position) { m_position = posit
 
 SystemView::SystemView(Game *game) :
 	UIView(),
-	m_game(game)
+	m_game(game),
+	m_gridDrawing(GridDrawing::OFF),
+	m_shipDrawing(OFF),
+	m_showL4L5(LAG_OFF)
 {
 	SetTransparency(true);
 
@@ -263,6 +268,18 @@ SystemView::SystemView(Game *game) :
 	m_toggleL4L5Button->onClick.connect(sigc::mem_fun(this, &SystemView::OnToggleL4L5ButtonClick));
 	Add(m_toggleL4L5Button, 628, 5);
 	m_toggleL4L5Button->SetActiveState(LAG_OFF);
+
+	m_toggleGridButton = new Gui::ImageButton("icons/toggle_grid_display.png");
+	m_toggleGridButton->SetToolTip(Lang::GRID_DISPLAY_MODE_TOGGLE);
+	m_toggleGridButton->SetRenderDimensions(30, 22);
+	m_toggleGridButton->onClick.connect(sigc::mem_fun(this, &SystemView::OnToggleGridButtonClick));
+	Add(m_toggleGridButton, 596, 5);
+
+	m_ResetOrientButton = new Gui::ImageButton("icons/reset_orient_and_zoom.png");
+	m_ResetOrientButton->SetToolTip(Lang::RESET_ORIENTATION_AND_ZOOM);
+	m_ResetOrientButton->SetRenderDimensions(30, 22);
+	m_ResetOrientButton->onClick.connect(sigc::mem_fun(this, &SystemView::ResetViewpoint));
+	Add(m_ResetOrientButton, 564, 5);
 
 	// orbital transfer planner UI
 	int dx = 670;
@@ -411,8 +428,6 @@ SystemView::SystemView(Game *game) :
 	ResetViewpoint();
 
 	RefreshShips();
-	m_shipDrawing = OFF;
-	m_showL4L5 = LAG_OFF;
 	m_planner = Pi::planner;
 
 	m_orbitVts.reset(new vector3f[N_VERTICES_MAX]);
@@ -449,6 +464,22 @@ void SystemView::OnToggleShipsButtonClick(void)
 	case ORBITS:
 		m_shipDrawing = OFF;
 		m_shipLabels->Clear();
+		break;
+	}
+}
+
+void SystemView::OnToggleGridButtonClick()
+{
+	//printf("OnToggleGridButtonClick %i\n", static_cast<std::underlying_type<GridDrawing>::type>(m_gridDrawing));
+	switch (m_gridDrawing) {
+	case GridDrawing::OFF:
+		m_gridDrawing = GridDrawing::GRID;
+		break;
+	case GridDrawing::GRID:
+		m_gridDrawing = GridDrawing::GRID_AND_LEGS;
+		break;
+	case GridDrawing::GRID_AND_LEGS:
+		m_gridDrawing = GridDrawing::OFF;
 		break;
 	}
 }
@@ -723,9 +754,9 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 		PutLabel(b, offset);
 	}
 
-	Frame *frame = Pi::player->GetFrame();
+	Frame *frame = Frame::GetFrame(Pi::player->GetFrame());
 	if (frame->IsRotFrame())
-		frame = frame->GetNonRotFrame();
+		frame = Frame::GetFrame(frame->GetNonRotFrame());
 
 	// display the players orbit(?)
 	if (frame->GetSystemBody() == b && frame->GetSystemBody()->GetMass() > 0) {
@@ -878,6 +909,10 @@ void SystemView::Draw3D()
 		DrawShips(m_time - m_game->GetTime(), pos);
 	}
 
+	if (m_gridDrawing != GridDrawing::OFF) {
+		DrawGrid();
+	}
+
 	UIView::Draw3D();
 }
 
@@ -990,14 +1025,15 @@ void SystemView::DrawShips(const double t, const vector3d &offset)
 	for (auto s = m_contacts.begin(); s != m_contacts.end(); s++) {
 		vector3d pos = offset;
 		if ((*s).first->GetFlightState() != Ship::FlightState::FLYING) {
-			Frame *frame = Pi::game->GetSpace()->GetRootFrame();
-			pos += (*s).first->GetPositionRelTo(frame) * double(m_zoom);
-			;
+			FrameId frameId = Pi::game->GetSpace()->GetRootFrame();
+			pos += (*s).first->GetPositionRelTo(frameId) * double(m_zoom);
 		} else {
-			Frame *frame = (*s).first->GetFrame();
+			FrameId frameId = (*s).first->GetFrame();
 			vector3d bpos = vector3d(0., 0., 0.);
-			if (frame != Pi::game->GetSpace()->GetRootFrame())
+			if (frameId != Pi::game->GetSpace()->GetRootFrame()) {
+				Frame *frame = Frame::GetFrame(frameId);
 				bpos += frame->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
+			}
 			pos += (bpos + (*s).second.OrbitalPosAtTime(t)) * double(m_zoom);
 		}
 		const bool isNavTarget = Pi::player->GetNavTarget() == (*s).first;
@@ -1006,4 +1042,51 @@ void SystemView::DrawShips(const double t, const vector3d &offset)
 		if (m_shipDrawing == ORBITS && (*s).first->GetFlightState() == Ship::FlightState::FLYING)
 			PutOrbit(&(*s).second, offset, isNavTarget ? Color::GREEN : Color::BLUE, 0);
 	}
+}
+
+void SystemView::PrepareGrid()
+{
+	// calculate lines for this system:
+	double diameter = std::floor(m_system->GetRootBody()->GetMaxChildOrbitalDistance() * 1.2 / AU);
+
+	m_grid_lines = int(diameter) + 1;
+
+	m_displayed_sbody.clear();
+	if (m_gridDrawing == GridDrawing::GRID_AND_LEGS) {
+			m_displayed_sbody = m_system->GetRootBody()->CollectAllChildren();
+	}
+}
+
+void SystemView::DrawGrid()
+{
+	PrepareGrid();
+
+	m_lineVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, m_grid_lines * 4 + m_displayed_sbody.size() * 2));
+
+	float zoom = m_zoom * float(AU);
+	vector3d pos(0.);
+	if (m_selectedObject) GetTransformTo(m_selectedObject, pos);
+
+	for (int i = -m_grid_lines; i < m_grid_lines + 1; i++) {
+		float z = float(i) * zoom;
+		m_lineVerts->Add(vector3f(-m_grid_lines * zoom, 0.0f, z) + vector3f(pos), Color::GRAY);
+		m_lineVerts->Add(vector3f(+m_grid_lines * zoom, 0.0f, z) + vector3f(pos), Color::GRAY);
+	}
+
+	for (int i = -m_grid_lines; i < m_grid_lines + 1; i++) {
+		float x = float(i) * zoom;
+		m_lineVerts->Add(vector3f(x, 0.0f, -m_grid_lines * zoom) + vector3f(pos), Color::GRAY);
+		m_lineVerts->Add(vector3f(x, 0.0f, +m_grid_lines * zoom) + vector3f(pos), Color::GRAY);
+	}
+
+	for (SystemBody *sbody : m_displayed_sbody) {
+		vector3d offset(0.);
+		GetTransformTo(sbody, offset);
+		m_lineVerts->Add(vector3f(pos - offset), Color::GRAY * 0.5);
+		offset.y = 0.0;
+		m_lineVerts->Add(vector3f(pos - offset), Color::GRAY * 0.5);
+	}
+
+	m_lines.SetData(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
+	m_lines.Draw(Pi::renderer, m_lineState);
 }

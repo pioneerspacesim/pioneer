@@ -405,7 +405,7 @@ static int l_body_attr_frame_body(lua_State *l)
 		return 1;
 	}
 
-	Frame *f = b->GetFrame();
+	Frame *f = Frame::GetFrame(b->GetFrame());
 	LuaObject<Body>::PushToLua(f->GetBody());
 	return 1;
 }
@@ -434,7 +434,7 @@ static int l_body_attr_frame_rotating(lua_State *l)
 		return 1;
 	}
 
-	Frame *f = b->GetFrame();
+	Frame *f = Frame::GetFrame(b->GetFrame());
 	lua_pushboolean(l, f->IsRotFrame());
 	return 1;
 }
@@ -548,7 +548,7 @@ static int l_body_get_ground_position(lua_State *l)
 		return 1;
 	}
 
-	Frame *f = b->GetFrame();
+	Frame *f = Frame::GetFrame(b->GetFrame());
 	if (!f->IsRotFrame())
 		return 0;
 

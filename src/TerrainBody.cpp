@@ -123,14 +123,18 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 		renderer->ClearDepthBuffer();
 }
 
-void TerrainBody::SetFrame(Frame *f)
+void TerrainBody::SetFrame(FrameId fId)
 {
-	if (GetFrame()) {
-		GetFrame()->SetPlanetGeom(0, 0);
-	}
-	Body::SetFrame(f);
+	Frame *f = Frame::GetFrame(GetFrame());
+
 	if (f) {
-		GetFrame()->SetPlanetGeom(0, 0);
+		f->SetPlanetGeom(0, nullptr);
+	}
+	Body::SetFrame(fId);
+
+	f = Frame::GetFrame(fId);
+	if (f) {
+		f->SetPlanetGeom(0, nullptr);
 	}
 }
 

@@ -33,7 +33,7 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "ship/PlayerShipController.h"
 
-static const int s_saveVersion = 85;
+static const int s_saveVersion = 86;
 
 Game::Game(const SystemPath &path, const double startDateTime) :
 	m_galaxy(GalaxyGenerator::Create()),
@@ -204,6 +204,10 @@ void Game::ToJson(Json &jsonObj)
 	jsonObj["hyperspace_duration"] = m_hyperspaceDuration;
 	jsonObj["hyperspace_end_time"] = m_hyperspaceEndTime;
 
+
+	// Delete camera frame from frame structure:
+	m_gameViews->m_worldView->EndCameraFrame();
+
 	// space, all the bodies and things
 	m_space->ToJson(jsonObj);
 	jsonObj["player"] = m_space->GetIndexForBody(m_player.get());
@@ -267,6 +271,9 @@ void Game::ToJson(Json &jsonObj)
 	jsonObj["game_info"] = gameInfo;
 
 	Pi::luaSerializer->UninitTableRefs();
+
+	// Bring back camera frame:
+	m_gameViews->m_worldView->BeginCameraFrame();
 }
 
 void Game::TimeStep(float step)
@@ -450,6 +457,7 @@ void Game::SwitchToHyperspace()
 	m_space->RemoveBody(m_player.get());
 
 	// create hyperspace :)
+	m_space.reset(); // HACK: Here because next line will create Frames *before* deleting existing ones
 	m_space.reset(new Space(this, m_galaxy, m_space.get()));
 
 	m_space->GetBackground()->SetDrawFlags(Background::Container::DRAW_STARS);
@@ -486,6 +494,7 @@ void Game::SwitchToNormalSpace()
 	m_space->RemoveBody(m_player.get());
 
 	// create a new space for the system
+	m_space.reset(); // HACK: Here because next line will create Frames *before* deleting existing ones
 	m_space.reset(new Space(this, m_galaxy, m_hyperspaceDest, m_space.get()));
 
 	// put the player in it
@@ -811,7 +820,7 @@ Game::Views::~Views()
 // manage creation and destruction here to get the timing and order right
 void Game::CreateViews()
 {
-	Pi::SetView(0);
+	Pi::SetView(nullptr);
 
 	// XXX views expect Pi::game and Pi::player to exist
 	Pi::game = this;
@@ -826,7 +835,7 @@ void Game::CreateViews()
 // XXX mostly a copy of CreateViews
 void Game::LoadViewsFromJson(const Json &jsonObj)
 {
-	Pi::SetView(0);
+	Pi::SetView(nullptr);
 
 	// XXX views expect Pi::game and Pi::player to exist
 	Pi::game = this;
@@ -840,7 +849,7 @@ void Game::LoadViewsFromJson(const Json &jsonObj)
 
 void Game::DestroyViews()
 {
-	Pi::SetView(0);
+	Pi::SetView(nullptr);
 
 	m_gameViews.reset();
 

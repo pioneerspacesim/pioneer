@@ -41,9 +41,9 @@ ObjectViewerView::ObjectViewerView() :
 	m_cameraContext.Reset(new CameraContext(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
 	m_camera.reset(new Camera(m_cameraContext, Pi::renderer));
 
-	m_cameraContext->SetFrame(Pi::player->GetFrame());
-	m_cameraContext->SetPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, viewingDist));
-	m_cameraContext->SetOrient(matrix3x3d::Identity());
+	m_cameraContext->SetCameraFrame(Pi::player->GetFrame());
+	m_cameraContext->SetCameraPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, viewingDist));
+	m_cameraContext->SetCameraOrient(matrix3x3d::Identity());
 
 	m_infoLabel = new Gui::Label("");
 	Add(m_infoLabel, 2, Gui::Screen::GetHeight() - 66 - Gui::Screen::GetFontHeight());
@@ -126,7 +126,7 @@ void ObjectViewerView::Draw3D()
 		Pi::input.GetMouseMotion(m);
 		m_camRot = matrix4x4d::RotateXMatrix(-0.002 * m[1]) *
 			matrix4x4d::RotateYMatrix(-0.002 * m[0]) * m_camRot;
-		m_cameraContext->SetPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, viewingDist));
+		m_cameraContext->SetCameraPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, viewingDist));
 		m_cameraContext->BeginFrame();
 		m_camera->Update();
 	}

@@ -65,7 +65,7 @@ public:
 	Ship(const ShipType::Id &shipId);
 	virtual ~Ship();
 
-	virtual void SetFrame(Frame *f) override;
+	virtual void SetFrame(FrameId fId) override;
 
 	void SetController(ShipController *c); //deletes existing
 	ShipController *GetController() const { return m_controller; }
