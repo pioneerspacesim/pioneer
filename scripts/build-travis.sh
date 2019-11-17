@@ -25,15 +25,19 @@ fi
 echo "Copied binaries."
 
 # Copy the text files.
-ls *.txt | grep -v -E '(COMPILING\.txt|SAVEBUMP\.txt|CMakeLists\.txt)' | xargs cp -t $COPY_DIR
+cp AUTHORS.txt $COPY_DIR
+cp Changelog.txt $COPY_DIR
+cp Modelviewer.txt $COPY_DIR
+cp Quickstart.txt $COPY_DIR
 cp README.md $COPY_DIR
+
 # Copy the licenses
-cp -r licenses -t $COPY_DIR
+cp -R licenses $COPY_DIR
 
 echo "Copied text files."
 
 # Copy the text files
-cp -r data -t $COPY_DIR
+cp -R data $COPY_DIR
 
 echo "Copied data files."
 
