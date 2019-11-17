@@ -5,6 +5,7 @@ November 2019
 
    * Internal Changes
      * Little improvements (#4669)
+     * Fix OSX Travis deployment (#4737)
 
 October 2019
    * New Features
