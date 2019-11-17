@@ -537,6 +537,9 @@
     <ClCompile Include="..\..\src\pigui\LuaImage.cpp">
       <Filter>src\pigui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\FrameId.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -1072,6 +1075,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\pigui\Image.h">
       <Filter>src\pigui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FrameId.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
