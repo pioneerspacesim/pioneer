@@ -437,7 +437,6 @@ namespace Graphics {
 
 	void RendererOGL::CheckErrors(const char *func, const int line)
 	{
-		PROFILE_SCOPED()
 #ifndef PIONEER_PROFILER
 		GLenum err = glGetError();
 		if (err) {
