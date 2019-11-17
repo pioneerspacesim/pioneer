@@ -80,7 +80,7 @@ namespace Graphics {
 				INSTOFFS_MAT2 = 8,
 				INSTOFFS_MAT3 = 9
 			};
-			std::unique_ptr<matrix4x4f> m_data;
+			std::unique_ptr<matrix4x4f[]> m_data;
 		};
 
 	} // namespace OGL
