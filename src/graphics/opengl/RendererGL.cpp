@@ -1033,10 +1033,25 @@ namespace Graphics {
 		return new OGL::TextureGL(descriptor, m_useCompressedTextures, m_useAnisotropicFiltering);
 	}
 
+	static uint32_t HashRenderStateDesc(const RenderStateDesc &desc)
+	{
+		// Can't directly pass RenderStateDesc* to lookup3_hashlittle, because
+		// it (most likely) has padding bytes, and those bytes are uninitialized,
+		// thereby arbitrarily affecting the hash output.
+		// (We used to do this and valgrind complained).
+		uint32_t words[4] = {
+			desc.blendMode,
+			desc.cullMode,
+			desc.depthTest,
+			desc.depthWrite,
+		};
+		return lookup3_hashword(words, 4, 0);
+	}
+
 	RenderState *RendererOGL::CreateRenderState(const RenderStateDesc &desc)
 	{
 		PROFILE_SCOPED()
-		const uint32_t hash = lookup3_hashlittle(&desc, sizeof(RenderStateDesc), 0);
+		const uint32_t hash = HashRenderStateDesc(desc);
 		auto it = m_renderStates.find(hash);
 		if (it != m_renderStates.end()) {
 			CheckRenderErrors(__FUNCTION__, __LINE__);

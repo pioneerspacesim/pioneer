@@ -149,7 +149,7 @@ void BinaryConverter::Save(const std::string &filename, const std::string &savep
 	size_t outSize = 0;
 	const std::string &data = wr.GetData();
 	try {
-		std::unique_ptr<char> compressedData = lz4::CompressLZ4(data, 6, outSize);
+		std::unique_ptr<char[]> compressedData = lz4::CompressLZ4(data, 6, outSize);
 		Output("Compressed model (%s): %.2f KB -> %.2f KB\n", filename.c_str(), data.size() / 1024.f, outSize / 1024.f);
 		fwrite(compressedData.get(), outSize, 1, f);
 		fclose(f);

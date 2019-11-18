@@ -62,14 +62,14 @@ std::string lz4::DecompressLZ4(const char *data, size_t length)
 	return out;
 }
 
-std::unique_ptr<char> lz4::CompressLZ4(const std::string &data, const int lz4_preset, std::size_t &outSize)
+std::unique_ptr<char[]> lz4::CompressLZ4(const std::string &data, const int lz4_preset, std::size_t &outSize)
 {
 	PROFILE_SCOPED()
 	LZ4F_preferences_t pref = LZ4F_INIT_PREFERENCES;
 	pref.compressionLevel = lz4_preset;
 
 	std::size_t compressBound = LZ4F_compressFrameBound(data.size(), &pref);
-	std::unique_ptr<char> out(new char[compressBound]);
+	std::unique_ptr<char[]> out(new char[compressBound]);
 
 	std::size_t _size = LZ4F_compressFrame(out.get(), compressBound, data.data(), data.size(), &pref);
 	checkError<lz4::CompressionFailedException>(_size);
