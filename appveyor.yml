@@ -11,6 +11,9 @@ deploy:
     appveyor_repo_tag: true
 
 environment:
+  provider: GitHub
+  auth_token:
+    secure: hquxNjhIWTiLNeKW68bhKlv0TvLT2G8w2CGnGCr6koDBqhgUWcHmIeQZy/80mc3x
   matrix:
     - TARGET: msvc
     - TARGET: mingw
