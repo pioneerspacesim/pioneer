@@ -479,6 +479,10 @@
     "description": "like wheat or barley",
     "message": "Tahıl"
   },
+  "GRID_DISPLAY_MODE_TOGGLE": {
+    "description": "Switch show no grid",
+    "message": "Izgara görüntüleme modları arasında geçiş yap"
+  },
   "HAND_WEAPONS": {
     "description": "",
     "message": "El Silahları"

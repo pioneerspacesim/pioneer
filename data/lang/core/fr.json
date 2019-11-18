@@ -479,6 +479,10 @@
     "description": "like wheat or barley",
     "message": "Grain"
   },
+  "GRID_DISPLAY_MODE_TOGGLE": {
+    "description": "Switch show no grid",
+    "message": "Bascule entre les modes d'affichage de la grille."
+  },
   "HAND_WEAPONS": {
     "description": "",
     "message": "Armes de poing"
