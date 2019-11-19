@@ -509,12 +509,18 @@ local optionsTabs = {
 	["controls"]=showControlsOptions
 }
 
+local optionModalOpen = false
+
 local function optionsWindow()
 	if ui.showOptionsWindow then
+		if not optionModalOpen then
+			ui.openPopup("Options")
+		end
+
 		ui.setNextWindowSize(optionsWinSize, 'Always')
 		ui.setNextWindowPosCenter('Always')
 		ui.withStyleColorsAndVars({["WindowBg"] = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, function()
-			ui.window("Options", {"NoTitleBar", "NoResize"}, function()
+			ui.popupModal("Options", {"NoTitleBar", "NoResize"}, function()
 				mainButton(icons.view_sidereal, lui.VIDEO, showTab=='video', function()
 					showTab = 'video'
 				end)
@@ -567,6 +573,8 @@ local function optionsWindow()
 		if showKeyCapture then
 			captureBinding(keyCaptureId, keyCaptureNum)
 		end
+	elseif optionModalOpen then
+		ui.closeCurrentPopup()
 	end
 end
 
