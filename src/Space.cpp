@@ -382,10 +382,9 @@ void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &
 	const double max_orbit_vel = 100e3;
 	double dist = G * primary->GetSystemBody()->GetMass() /
 		(max_orbit_vel * max_orbit_vel);
-	dist = std::max(dist, primary->GetSystemBody()->GetRadius() * 10);
 
-	// ensure an absolut minimum and an absolut maximum distance
-	dist = Clamp(dist, 0.2 * AU, 100 * AU);
+	// ensure an absolute minimum and an absolute maximum distance
+	dist = Clamp(dist, 0.2 * AU, std::max(primary->GetSystemBody()->GetRadius() * 1.1, 100 * AU));
 
 	// point velocity vector along the line from source to dest,
 	// make exit position perpendicular to it,
