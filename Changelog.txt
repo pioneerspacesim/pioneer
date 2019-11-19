@@ -7,6 +7,7 @@ November 2019
      * Little improvements (#4669)
      * Fix OSX Travis deployment (#4737)
      * ASAN/valgrind fixes (#4739)
+     * Add a maximum distance to the hyperspace exit calculation (#4660)
 
 October 2019
    * New Features
