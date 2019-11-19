@@ -35,7 +35,7 @@ Pioneer wiki
   http://pioneerwiki.com/wiki/Pioneer_Wiki
 
 Join the player's forum:
-  http://spacesimcentral.com/forum/categories/pioneer
+  http://spacesimcentral.com/community/pioneer/
 
 Join the development forum:
   http://pioneerspacesim.net/forum
