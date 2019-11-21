@@ -85,3 +85,4 @@ result
 .ccls-cache
 .clangd/
 .vscode/
+*.code-workspace

@@ -123,7 +123,7 @@ int main(int argc, char **argv)
 	Graphics::RendererOGL::RegisterRenderer();
 
 	Graphics::Settings videoSettings;
-	videoSettings.rendererType = Graphics::RENDERER_OPENGL;
+	videoSettings.rendererType = Graphics::RENDERER_OPENGL_3x;
 	videoSettings.width = WIDTH;
 	videoSettings.height = HEIGHT;
 	videoSettings.fullscreen = false;
