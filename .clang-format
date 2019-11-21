@@ -13,13 +13,13 @@ AlignTrailingComments: false
 AllowAllParametersOfDeclarationOnNextLine: false
 #AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: true
-#AllowShortFunctionsOnASingleLine: All
+AllowShortFunctionsOnASingleLine: All
 AllowShortIfStatementsOnASingleLine: true
 #AllowShortLoopsOnASingleLine: false
 #AlwaysBreakAfterDefinitionReturnType: None
 #AlwaysBreakAfterReturnType: None
 #AlwaysBreakBeforeMultilineStrings: false
-AlwaysBreakTemplateDeclarations: Yes
+AlwaysBreakTemplateDeclarations: No
 #BinPackArguments: true
 #BinPackParameters: true
 BraceWrapping:

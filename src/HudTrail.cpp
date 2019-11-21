@@ -6,8 +6,8 @@
 #include "Body.h"
 #include "Frame.h"
 #include "Pi.h"
-#include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
+#include "graphics/Renderer.h"
 
 const float UPDATE_INTERVAL = 0.1f;
 const Uint16 MAX_POINTS = 100;
@@ -35,7 +35,7 @@ void HudTrail::Update(float time)
 		FrameId bodyFrameId = m_body->GetFrame();
 		const Frame *bodyFrame = Frame::GetFrame(bodyFrameId);
 
-		if (m_currentFrame < 0) {
+		if (!m_currentFrame) {
 			m_currentFrame = bodyFrameId;
 			m_trailPoints.clear();
 		}

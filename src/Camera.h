@@ -48,10 +48,9 @@ public:
 	void BeginFrame();
 	void EndFrame();
 
-	// valid between BeginFrame and EndFrame
+	// only returns a valid frameID between BeginFrame and EndFrame
 	FrameId GetCamFrame() const
 	{
-		assert(m_camFrame);
 		return m_camFrame;
 	}
 
@@ -144,7 +143,8 @@ private:
 		// NOTE: Add below function (thus an indirection) in order
 		// to decouple Camera from Body.h
 		static bool sort_BodyAttrs(const BodyAttrs &a, const BodyAttrs &b);
-		friend bool operator<(const BodyAttrs &a, const BodyAttrs &b) {
+		friend bool operator<(const BodyAttrs &a, const BodyAttrs &b)
+		{
 			return sort_BodyAttrs(a, b);
 		};
 	};

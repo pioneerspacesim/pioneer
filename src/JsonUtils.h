@@ -5,6 +5,7 @@
 #define _JSON_UTILS_H
 
 #include "Color.h"
+#include "FrameId.h"
 #include "Json.h"
 #include "Quaternion.h"
 #include "RefCounted.h"
@@ -53,6 +54,7 @@ template <typename T>
 void to_json(Json &obj, const matrix4x4<T> &mat) { MatrixToJson(obj, mat); }
 inline void to_json(Json &obj, const Color3ub &col) { ColorToJson(obj, col); }
 inline void to_json(Json &obj, const Color4ub &col) { ColorToJson(obj, col); }
+inline void to_json(Json &obj, const FrameId &t) { obj = t.id(); }
 
 // Parse JSON functions. These functions will throw Json::type_error if passed an invalid type.
 void JsonToVector(vector3f *vec, const Json &jsonObj);
@@ -77,5 +79,6 @@ template <typename T>
 void from_json(const Json &obj, matrix4x4<T> &vec) { JsonToMatrix(&vec, obj); }
 inline void from_json(const Json &obj, Color3ub &col) { JsonToColor(&col, obj); }
 inline void from_json(const Json &obj, Color4ub &col) { JsonToColor(&col, obj); }
+inline void from_json(const Json &obj, FrameId &id) { id = (int)obj; }
 
 #endif /* _JSON_UTILS_H */

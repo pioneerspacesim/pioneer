@@ -66,7 +66,7 @@ void Body::SaveToJson(Json &jsonObj, Space *space)
 	Json bodyObj = Json::object(); // Create JSON object to contain body data.
 
 	Properties().SaveToJson(bodyObj);
-	bodyObj["index_for_frame"] = (m_frame >= 0 ? m_frame : noFrameId);
+	bodyObj["index_for_frame"] = (m_frame ? m_frame : noFrameId);
 	bodyObj["label"] = m_label;
 	bodyObj["dead"] = m_dead;
 
