@@ -177,7 +177,7 @@ FrameId Frame::FromJson(const Json &frameObj, Space *space, FrameId parent, doub
 
 	// Set parent to nullptr here in order to avoid this frame
 	// being a child twice (due to ctor calling AddChild)
-	s_frames.emplace_back(dummy, FrameId::Invalid, nullptr);
+	s_frames.emplace_back(dummy, FrameId(), nullptr);
 
 	Frame *f = &s_frames.back();
 
