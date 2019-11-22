@@ -481,7 +481,7 @@
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Switch show no grid",
-    "message": "Switch between grid display modes."
+    "message": "Alternar modos de rejilla"
   },
   "HAND_WEAPONS": {
     "description": "",
