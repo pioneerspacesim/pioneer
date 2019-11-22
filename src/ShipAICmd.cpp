@@ -685,7 +685,7 @@ static vector3d GetPosInFrame(FrameId frameId, FrameId targetId, const vector3d 
 static vector3d GetVelInFrame(FrameId frameId, FrameId targetId, const vector3d &offset)
 {
 	vector3d vel = vector3d(0.0);
-	Frame* target = Frame::GetFrame(targetId);
+	Frame *target = Frame::GetFrame(targetId);
 	if (targetId != frameId && target->IsRotFrame()) {
 		//		double ang = Pi::game->GetTimeStep() * target->GetAngSpeed();
 		//		vector3d newpos = offset * matrix3x3d::RotateYMatrix(ang);
@@ -857,7 +857,7 @@ void AICmdFlyTo::PostLoadFixup(Space *space)
 	AICommand::PostLoadFixup(space);
 	m_target = space->GetBodyByIndex(m_targetIndex);
 	m_lockhead = true;
-	m_frameId = m_target ? m_target->GetFrame() : noFrameId;
+	m_frameId = m_target ? m_target->GetFrame() : FrameId();
 	// Ensure needed sub-system:
 	m_prop.Reset(m_dBody->GetPropulsion());
 	assert(m_prop != nullptr);
@@ -869,7 +869,7 @@ AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, Body *target) :
 {
 	m_prop.Reset(dBody->GetPropulsion());
 	assert(m_prop != nullptr);
-	m_frameId = noFrameId;
+	m_frameId = FrameId::Invalid;
 	m_state = -6;
 	m_lockhead = true;
 	m_endvel = 0;
@@ -887,10 +887,10 @@ AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, Body *target) :
 		m_target = nullptr;
 	} else {
 		m_target = target;
-		m_targframeId = noFrameId;
+		m_targframeId = FrameId::Invalid;
 	}
 
-	if (dBody->GetPositionRelTo(target).Length() <= VICINITY_MIN) m_targframeId = noFrameId;
+	if (dBody->GetPositionRelTo(target).Length() <= VICINITY_MIN) m_targframeId = FrameId::Invalid;
 }
 
 // Specified pos, endvel should be > 0
@@ -903,7 +903,7 @@ AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, FrameId targframe, const vector3d &po
 	m_tangent(tangent),
 	m_state(-6),
 	m_lockhead(true),
-	m_frameId(noFrameId)
+	m_frameId(FrameId::Invalid)
 {
 	m_prop.Reset(dBody->GetPropulsion());
 	assert(m_prop != nullptr);
@@ -963,7 +963,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 		// may be an exploration probe ;-)
 		return false;
 	}
-	if (!m_target && !IsIdValid(m_targframeId)) return true; // deleted object
+	if (!m_target && !m_targframeId.valid()) return true; // deleted object
 
 	// generate base target pos (with vicinity adjustment) & vel
 	double timestep = Pi::game->GetTimeStep();
@@ -994,7 +994,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 		if (m_child) {
 			m_child.reset();
 		}
-		if (m_tangent && IsIdValid(m_frameId)) return true; // regen tangent on frame switch
+		if (m_tangent && m_frameId.valid()) return true; // regen tangent on frame switch
 		m_reldir = reldir; // for +vel termination condition
 		m_frameId = m_dBody->GetFrame();
 	}

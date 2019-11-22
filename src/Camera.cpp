@@ -29,23 +29,23 @@ CameraContext::CameraContext(float width, float height, float fovAng, float zNea
 	m_zNear(zNear),
 	m_zFar(zFar),
 	m_frustum(m_width, m_height, m_fovAng, m_zNear, m_zFar),
-	m_frame(noFrameId),
+	m_frame(FrameId::Invalid),
 	m_pos(0.0),
 	m_orient(matrix3x3d::Identity()),
-	m_camFrame(noFrameId)
+	m_camFrame(FrameId::Invalid)
 {
 }
 
 CameraContext::~CameraContext()
 {
-	if (m_camFrame != noFrameId)
+	if (m_camFrame)
 		EndFrame();
 }
 
 void CameraContext::BeginFrame()
 {
-	assert(IsIdValid(m_frame));
-	assert(!IsIdValid(m_camFrame));
+	assert(m_frame.valid());
+	assert(!m_camFrame.valid());
 
 	// make temporary camera frame
 	m_camFrame = Frame::CreateCameraFrame(m_frame);
@@ -62,12 +62,12 @@ void CameraContext::BeginFrame()
 
 void CameraContext::EndFrame()
 {
-	assert(IsIdValid(m_frame));
-	assert(IsIdValid(m_camFrame));
+	assert(m_frame.valid());
+	assert(m_camFrame.valid());
 
 	Frame::DeleteCameraFrame(m_camFrame);
 
-	m_camFrame = noFrameId;
+	m_camFrame = FrameId::Invalid;
 }
 
 void CameraContext::ApplyDrawTransforms(Graphics::Renderer *r)
@@ -232,7 +232,7 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit *cockpit)
 	//fade space background based on atmosphere thickness and light angle
 	float bgIntensity = 1.f;
 	Frame *camParent = Frame::GetFrame(camFrame->GetParent());
-	if ( camParent && camParent->IsRotFrame()) {
+	if (camParent && camParent->IsRotFrame()) {
 		//check if camera is near a planet
 		Body *camParentBody = camParent->GetBody();
 		if (camParentBody && camParentBody->IsType(Object::PLANET)) {

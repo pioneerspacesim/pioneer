@@ -24,7 +24,7 @@ Body::Body() :
 	m_interpOrient(matrix3x3d::Identity()),
 	m_pos(0.0),
 	m_orient(matrix3x3d::Identity()),
-	m_frame(noFrameId),
+	m_frame(FrameId::Invalid),
 	m_dead(false),
 	m_clipRadius(0.0),
 	m_physRadius(0.0)
@@ -37,7 +37,7 @@ Body::Body(const Json &jsonObj, Space *space) :
 	m_flags(0),
 	m_interpPos(0.0),
 	m_interpOrient(matrix3x3d::Identity()),
-	m_frame(noFrameId)
+	m_frame(FrameId::Invalid)
 {
 	try {
 		Json bodyObj = jsonObj["body"];
@@ -66,7 +66,7 @@ void Body::SaveToJson(Json &jsonObj, Space *space)
 	Json bodyObj = Json::object(); // Create JSON object to contain body data.
 
 	Properties().SaveToJson(bodyObj);
-	bodyObj["index_for_frame"] = (m_frame ? m_frame : noFrameId);
+	bodyObj["index_for_frame"] = m_frame.id();
 	bodyObj["label"] = m_label;
 	bodyObj["dead"] = m_dead;
 

@@ -35,8 +35,10 @@ Frame::Frame(const Dummy &d, FrameId parent, const char *label, unsigned int fla
 	s_collisionSpaces.emplace_back();
 	m_collisionSpace = s_collisionSpaces.size() - 1;
 
-	if (IsIdValid(m_parent)) Frame::GetFrame(m_parent)->AddChild(m_thisId);
-	if (label) m_label = label;
+	if (m_parent.valid())
+		Frame::GetFrame(m_parent)->AddChild(m_thisId);
+	if (label)
+		m_label = label;
 }
 
 Frame::Frame(const Dummy &d, FrameId parent) :
@@ -59,7 +61,8 @@ Frame::Frame(const Dummy &d, FrameId parent) :
 	m_thisId = s_frames.size();
 
 	ClearMovement();
-	if (IsIdValid(m_parent)) Frame::GetFrame(m_parent)->AddChild(m_thisId);
+	if (m_parent.valid())
+		Frame::GetFrame(m_parent)->AddChild(m_thisId);
 }
 
 Frame::Frame(Frame &&other) noexcept :
@@ -174,14 +177,14 @@ FrameId Frame::FromJson(const Json &frameObj, Space *space, FrameId parent, doub
 
 	// Set parent to nullptr here in order to avoid this frame
 	// being a child twice (due to ctor calling AddChild)
-	s_frames.emplace_back(dummy, noFrameId, nullptr);
+	s_frames.emplace_back(dummy, FrameId::Invalid, nullptr);
 
 	Frame *f = &s_frames.back();
 
-	if (parent != noFrameId) {
+	if (parent) {
 		f->m_parent = Frame::GetFrame(parent)->GetId();
 	} else {
-		f->m_parent = noFrameId;
+		f->m_parent = FrameId::Invalid;
 	}
 
 	f->d.madeWithFactory = false;
@@ -306,7 +309,7 @@ void Frame::CollideFrames(void (*callback)(CollisionContact *))
 void Frame::RemoveChild(FrameId fId)
 {
 	PROFILE_SCOPED()
-	if (fId == noFrameId) return;
+	if (!fId.valid()) return;
 	Frame *f = Frame::GetFrame(fId);
 	if (f == nullptr) return;
 	const std::vector<FrameId>::iterator it = std::find(m_children.begin(), m_children.end(), fId);
@@ -470,7 +473,7 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 		frame.m_oldAngDisplacement = frame.m_angSpeed * timestep;
 
 		// update frame position and velocity
-		if (IsIdValid(frame.m_parent) && frame.m_sbody && !frame.IsRotFrame()) {
+		if (frame.m_parent.valid() && frame.m_sbody && !frame.IsRotFrame()) {
 			frame.m_pos = frame.m_sbody->GetOrbit().OrbitalPosAtTime(time);
 			vector3d pos2 = frame.m_sbody->GetOrbit().OrbitalPosAtTime(time + timestep);
 			frame.m_vel = (pos2 - frame.m_pos) / timestep;

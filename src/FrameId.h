@@ -27,11 +27,4 @@ private:
 static_assert(sizeof(FrameId) == sizeof(int) && alignof(FrameId) == alignof(int),
 	"Error: FrameId sized differently than the underlying type on this platform!");
 
-constexpr FrameId noFrameId = -1;
-
-constexpr bool IsIdValid(FrameId fId)
-{
-	return fId.valid();
-}
-
 #endif // FRAMEID_H_INCLUDED
