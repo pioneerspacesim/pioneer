@@ -59,3 +59,6 @@ Source: "@CMAKE_INSTALL_PREFIX@\*"; DestDir: "{app}"; Flags: recursesubdirs crea
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
 Name: "{group}\{cm:UninstallProgram,{#AppName}}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Tasks: desktopicon
+
+[InstallDelete]
+Type: filesandordirs; Name: "{app}"
