@@ -3,6 +3,10 @@ November 2019
      * More station names (#4726)
      * Use system time at start (#4735)
 
+   * Fixes
+     * Make windows installer remove old install (#4748)
+     * Fix segmentation fault & cleanup (#4745)
+
    * Internal Changes
      * Little improvements (#4669)
      * Fix OSX Travis deployment (#4737)
