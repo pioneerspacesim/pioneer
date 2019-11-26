@@ -32,7 +32,7 @@
 #include "UIMaterial.h"
 #include "VtxColorMaterial.h"
 
-#include <stddef.h> //for offsetof
+#include <cstddef> //for offsetof
 #include <iterator>
 #include <ostream>
 #include <sstream>

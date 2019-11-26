@@ -92,7 +92,7 @@ ModelBody::ModelBody(const Json &jsonObj, Space *space) :
 
 ModelBody::~ModelBody()
 {
-	SetFrame(noFrameId); // Will remove geom from frame if necessary.
+	SetFrame(FrameId::Invalid); // Will remove geom from frame if necessary.
 	DeleteGeoms();
 
 	//delete instanced model

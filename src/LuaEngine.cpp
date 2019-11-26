@@ -512,7 +512,7 @@ static int l_engine_get_autosave_enabled(lua_State *l)
 static int l_engine_set_autosave_enabled(lua_State *l)
 {
 	if (lua_isnone(l, 1))
-		return luaL_error(l, "SetAutopilotEnabled takes one boolean argument");
+		return luaL_error(l, "SetAutosaveEnabled takes one boolean argument");
 	const bool enabled = lua_toboolean(l, 1);
 	Pi::config->SetInt("EnableAutosave", (enabled ? 1 : 0));
 	Pi::config->Save();

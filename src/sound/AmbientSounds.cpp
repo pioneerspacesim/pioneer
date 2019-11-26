@@ -230,7 +230,7 @@ void AmbientSounds::Update()
 
 		Frame *playerFrame = Frame::GetFrame(Pi::player->GetFrame());
 		const Body *astro = playerFrame->GetBody();
-		if (astro && playerFrame->IsRotFrame() != noFrameId && (astro->IsType(Object::PLANET))) {
+		if (astro && playerFrame->IsRotFrame() && (astro->IsType(Object::PLANET))) {
 			double dist = Pi::player->GetPosition().Length();
 			double pressure, density;
 			static_cast<const Planet *>(astro)->GetAtmosphericState(dist, &pressure, &density);

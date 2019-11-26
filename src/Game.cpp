@@ -204,9 +204,9 @@ void Game::ToJson(Json &jsonObj)
 	jsonObj["hyperspace_duration"] = m_hyperspaceDuration;
 	jsonObj["hyperspace_end_time"] = m_hyperspaceEndTime;
 
-
 	// Delete camera frame from frame structure:
-	m_gameViews->m_worldView->EndCameraFrame();
+	if (m_gameViews->m_worldView->GetCameraContext()->GetCamFrame())
+		m_gameViews->m_worldView->EndCameraFrame();
 
 	// space, all the bodies and things
 	m_space->ToJson(jsonObj);

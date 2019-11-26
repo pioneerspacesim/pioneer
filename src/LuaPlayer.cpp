@@ -517,7 +517,7 @@ static int l_get_gps(lua_State *l)
 	double center_dist = pos.Length();
 	FrameId playerFrameId = player->GetFrame();
 	Frame *playerFrame = Frame::GetFrame(playerFrameId);
-	if (IsIdValid(playerFrameId)) {
+	if (playerFrameId.valid()) {
 		Body *astro = Frame::GetFrame(playerFrameId)->GetBody();
 		if (astro && astro->IsType(Object::TERRAINBODY)) {
 			TerrainBody *terrain = static_cast<TerrainBody *>(astro);

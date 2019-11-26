@@ -13,7 +13,7 @@
 std::vector<Frame> Frame::s_frames;
 std::vector<CollisionSpace> Frame::s_collisionSpaces;
 
-Frame::Frame(const Dummy &d, FrameId parent, const char *label, unsigned int flags, double radius):
+Frame::Frame(const Dummy &d, FrameId parent, const char *label, unsigned int flags, double radius) :
 	m_sbody(nullptr),
 	m_astroBody(nullptr),
 	m_parent(parent),
@@ -35,11 +35,13 @@ Frame::Frame(const Dummy &d, FrameId parent, const char *label, unsigned int fla
 	s_collisionSpaces.emplace_back();
 	m_collisionSpace = s_collisionSpaces.size() - 1;
 
-	if (IsIdValid(m_parent)) Frame::GetFrame(m_parent)->AddChild(m_thisId);
-	if (label) m_label = label;
+	if (m_parent.valid())
+		Frame::GetFrame(m_parent)->AddChild(m_thisId);
+	if (label)
+		m_label = label;
 }
 
-Frame::Frame(const Dummy &d, FrameId parent):
+Frame::Frame(const Dummy &d, FrameId parent) :
 	m_sbody(nullptr),
 	m_astroBody(nullptr),
 	m_parent(parent),
@@ -59,10 +61,11 @@ Frame::Frame(const Dummy &d, FrameId parent):
 	m_thisId = s_frames.size();
 
 	ClearMovement();
-	if (IsIdValid(m_parent)) Frame::GetFrame(m_parent)->AddChild(m_thisId);
+	if (m_parent.valid())
+		Frame::GetFrame(m_parent)->AddChild(m_thisId);
 }
 
-Frame::Frame(Frame &&other) noexcept:
+Frame::Frame(Frame &&other) noexcept :
 	m_sfx(std::move(other.m_sfx)),
 	m_thisId(other.m_thisId),
 	m_parent(other.m_parent),
@@ -154,7 +157,7 @@ void Frame::ToJson(Json &frameObj, FrameId fId, Space *space)
 Frame::~Frame()
 {
 	if (!d.madeWithFactory) {
-		Error("Frame instance deletion outside 'DeleteFrame' [%i]\n", m_thisId);
+		Error("Frame instance deletion outside 'DeleteFrame' [%i]\n", m_thisId.id());
 	}
 }
 
@@ -174,27 +177,22 @@ FrameId Frame::FromJson(const Json &frameObj, Space *space, FrameId parent, doub
 
 	// Set parent to nullptr here in order to avoid this frame
 	// being a child twice (due to ctor calling AddChild)
-	s_frames.emplace_back(dummy, noFrameId, nullptr);
+	s_frames.emplace_back(dummy, FrameId(), nullptr);
 
 	Frame *f = &s_frames.back();
 
-	if (parent != noFrameId) {
-		f->m_parent = Frame::GetFrame(parent)->GetId();
-	} else {
-		f->m_parent = noFrameId;
-	}
-
+	f->m_parent = parent;
 	f->d.madeWithFactory = false;
 
 	try {
 		f->m_thisId = frameObj["frameId"];
 
+		// Check if frames order in load and save are the same
+		assert((s_frames.size() - 1) != f->m_thisId.id());
+
 		f->m_flags = frameObj["flags"];
 		f->m_radius = frameObj["radius"];
 		f->m_label = frameObj["label"];
-
-		// Check if frames order in load and save are the same
-		assert((s_frames.size() - 1) != f->m_thisId);
 
 		f->m_pos = frameObj["pos"];
 		f->m_angSpeed = frameObj["ang_speed"];
@@ -246,15 +244,11 @@ Frame *Frame::GetFrame(FrameId fId)
 {
 	PROFILE_SCOPED()
 
-	if (IsIdValid(fId)) {
-		if (fId < s_frames.size()) return &s_frames[fId];
-	} else return nullptr;
-	/*
-	for (Frame &elem : s_frames) {
-		if (elem.m_thisId == FId) return &elem;
-	}
-	*/
-	Error("In '%s': fId is valid but out of range (%i)...\n",__func__, fId);
+	if (fId && fId.id() < s_frames.size())
+		return &s_frames[fId];
+	else if (fId)
+		Error("In '%s': fId is valid but out of range (%i)...\n", __func__, fId.id());
+
 	return nullptr;
 }
 
@@ -269,17 +263,22 @@ FrameId Frame::CreateCameraFrame(FrameId parent)
 
 void Frame::DeleteCameraFrame(FrameId camera)
 {
+	if (!camera)
+		return;
+
 	// Detach camera from parent, then delete:
 	Frame *cameraFrame = Frame::GetFrame(camera);
 	Frame *parent = Frame::GetFrame(cameraFrame->GetParent());
-	parent->RemoveChild(camera);
-	// Call dtor "popping" element in vector
-	#ifndef NDEBUG
-		if (camera != s_frames.size()) {
-			Error("DeleteCameraFrame: seems camera frame is not the last frame!\n");
-			abort();
-		};
-	#endif // NDEBUG
+	if (parent)
+		parent->RemoveChild(camera);
+
+// Call dtor "popping" element in vector
+#ifndef NDEBUG
+	if (camera.id() < s_frames.size() - 1) {
+		Error("DeleteCameraFrame: seems camera frame is not the last frame!\n");
+		abort();
+	};
+#endif // NDEBUG
 	s_frames.back().d.madeWithFactory = true;
 	s_frames.pop_back();
 }
@@ -293,12 +292,11 @@ void Frame::PostUnserializeFixup(FrameId fId, Space *space)
 		PostUnserializeFixup(kid, space);
 }
 
-void Frame::CollideFrames(void (*callback)(CollisionContact *) )
+void Frame::CollideFrames(void (*callback)(CollisionContact *))
 {
 	PROFILE_SCOPED()
 
-	std::for_each(begin(s_collisionSpaces), end(s_collisionSpaces), [&](CollisionSpace &cs)
-	{
+	std::for_each(begin(s_collisionSpaces), end(s_collisionSpaces), [&](CollisionSpace &cs) {
 		cs.Collide(callback);
 	});
 }
@@ -306,7 +304,7 @@ void Frame::CollideFrames(void (*callback)(CollisionContact *) )
 void Frame::RemoveChild(FrameId fId)
 {
 	PROFILE_SCOPED()
-	if (fId == noFrameId) return;
+	if (!fId.valid()) return;
 	Frame *f = Frame::GetFrame(fId);
 	if (f == nullptr) return;
 	const std::vector<FrameId>::iterator it = std::find(m_children.begin(), m_children.end(), fId);
@@ -325,8 +323,10 @@ void Frame::SetPlanetGeom(double radius, Body *obj)
 
 CollisionSpace *Frame::GetCollisionSpace() const
 {
-	if (m_collisionSpace >= 0) return &s_collisionSpaces[m_collisionSpace];
-	else return nullptr;
+	if (m_collisionSpace >= 0)
+		return &s_collisionSpaces[m_collisionSpace];
+	else
+		return nullptr;
 }
 
 // doesn't consider stasis velocity
@@ -463,13 +463,12 @@ void Frame::ClearMovement()
 
 void Frame::UpdateOrbitRails(double time, double timestep)
 {
-	std::for_each(begin(s_frames), end(s_frames), [&time, &timestep](Frame &frame)
-	{
+	std::for_each(begin(s_frames), end(s_frames), [&time, &timestep](Frame &frame) {
 		frame.m_oldPos = frame.m_pos;
 		frame.m_oldAngDisplacement = frame.m_angSpeed * timestep;
 
 		// update frame position and velocity
-		if (IsIdValid(frame.m_parent) && frame.m_sbody && !frame.IsRotFrame()) {
+		if (frame.m_parent.valid() && frame.m_sbody && !frame.IsRotFrame()) {
 			frame.m_pos = frame.m_sbody->GetOrbit().OrbitalPosAtTime(time);
 			vector3d pos2 = frame.m_sbody->GetOrbit().OrbitalPosAtTime(time + timestep);
 			frame.m_vel = (pos2 - frame.m_pos) / timestep;
