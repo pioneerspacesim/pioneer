@@ -21,6 +21,9 @@
 #include <assimp/IOSystem.hpp>
 #include <assimp/Importer.hpp>
 
+#include <map>
+#include <utility>
+
 namespace {
 	class AssimpFileReadStream : public Assimp::IOStream {
 	public:
@@ -989,40 +992,30 @@ namespace SceneGraph {
 		SceneGraph::Model::TVecMT mounts_founds;
 		m->FindTagsByStartOfName(test, mounts_founds);
 
+		std::map<std::string, std::vector<MatrixTransform *>> mounts_map;
+		std::for_each(std::begin(mounts_founds), std::end(mounts_founds), [&mounts_map](MatrixTransform *m) {
+			// pick only 2 digit (...which
+			std::string id = m->GetName().substr(13, 2);
+			if (mounts_map.count(id) == 0) {
+				mounts_map[id] = {};
+			};
+			(mounts_map[id]).push_back(m);
+		});
+
 		m->m_mounts.clear();
 		m->m_mounts.reserve(mounts_founds.size());
 
-		bool break_; // <- Used to "break" from inner 'for' cycle
-		for (int i = 0; i < mounts_founds.size(); i++) {
-			break_ = false;
-			const std::string &name = mounts_founds[i]->GetName();
-			if (name.length() > 14) {
-				// Multiple "tag" type: we group tags with
-				// the same index
-				std::string name_to_first_index = name.substr(0,14);
-				for (int j = 0; j < m->m_mounts.size(); j++ )
-					// Check we already have this gun
-					if (m->m_mounts[j].name.substr(0,14) == name_to_first_index) {
-						// Add a barrel
-						const matrix4x4f &trans = mounts_founds[i]->GetTransform();
-						m->m_mounts[j].locs.push_back(vector3d(trans.GetTranslate()));
-						break_ = true;
-						break;
-				}
-			}
-			// Old "tag" type, like "tag_gunmount_0",
-			// or another barrel for an already present
-			// gun.
-			if (break_) continue;
+		std::for_each(std::begin(mounts_map), std::end(mounts_map), [&](const std::pair<std::string, std::vector<MatrixTransform *>> element) {
 			Mount mount;
-			mount.name = name.substr(0,14);
-			const matrix4x4f &trans = mounts_founds[i]->GetTransform();
-			mount.locs.push_back(vector3d(trans.GetTranslate()));
-			const vector3f dir = trans.GetOrient().VectorZ().Normalized();
+			mount.name = element.second[0]->GetName().substr(0, 14);
+			for (MatrixTransform *mt : element.second) {
+				const matrix4x4f &trans = mt->GetTransform();
+				mount.locs.push_back(vector3d(trans.GetTranslate()));
+			}
+			const vector3f dir = element.second[0]->GetTransform().GetOrient().VectorZ().Normalized();
 			if (dir.z > 0.0) mount.dir = GunDir::GUN_REAR;
 			else mount.dir = GunDir::GUN_FRONT;
 			m->m_mounts.push_back(mount);
-		}
+		});
 	}
-
 } // namespace SceneGraph

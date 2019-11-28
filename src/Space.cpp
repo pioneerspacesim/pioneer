@@ -1030,7 +1030,7 @@ static void DebugDumpFrame(FrameId fId, bool details, unsigned int indent)
 	Frame *f = Frame::GetFrame(fId);
 	Frame *parent = Frame::GetFrame(f->GetParent());
 
-	Output("%.*s%2i) %p (%s)%s\n", indent, space, fId, static_cast<void *>(f), f->GetLabel().c_str(), f->IsRotFrame() ? " [rotating]" : " [non rotating]");
+	Output("%.*s%2i) %p (%s)%s\n", indent, space, fId.id(), static_cast<void *>(f), f->GetLabel().c_str(), f->IsRotFrame() ? " [rotating]" : " [non rotating]");
 	if (f->GetParent().valid())
 		Output("%.*s parent %p (%s)\n", indent + 3, space, static_cast<void *>(parent), parent->GetLabel().c_str());
 	if (f->GetBody())

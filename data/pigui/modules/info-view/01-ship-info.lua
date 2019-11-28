@@ -79,7 +79,7 @@ local function shipStats()
 	local bwd_acc = player:GetAcceleration("reverse")
 	local up_acc = player:GetAcceleration("up")
 
-	drawTable.draw({
+	local accum = {
 		{ l.REGISTRATION_NUMBER..":",	shipLabel},
 		{ l.HYPERDRIVE..":",			hyperdrive and hyperdrive:GetName() or l.NONE },
 		{
@@ -108,35 +108,36 @@ local function shipStats()
 		{ l.CREW_CABINS..":",  shipDef.maxCrew },
 		false,
 		{ l.FRONT_INT_GUN_MOUNTS..":", shipDef.equipSlotCapacity.laser_front},
-	}, 1)
+	}
 
 	for i=1,(Game.player:GetUsedMountsNumber() + Game.player:GetFreeMountsNumber()) do
 		if Game.player:MountIsFront(i - 1) then
-		drawTable.draw {
-			{"",  i..": "..Game.player:MountBarrelNum(i - 1).." "..l.BARRELS},
-		}
+			table.insert(accum, 
+				{"",  i..": "..Game.player:MountBarrelNum(i - 1).." "..l.BARRELS}
+			)
 		end
 	end
 
-	drawTable.draw {
-		false,
-		{ l.REAR_INT_GUN_MOUNTS..":", shipDef.equipSlotCapacity.laser_rear},
-	}
+	table.insert(accum, false)
+	table.insert(accum, { l.REAR_INT_GUN_MOUNTS..":", shipDef.equipSlotCapacity.laser_rear})
 
 	for i=1,(Game.player:GetUsedMountsNumber() + Game.player:GetFreeMountsNumber()) do
 		if Game.player:MountIsFront(i - 1) == false then
-		drawTable.draw {
-			{"", i..": "..Game.player:MountBarrelNum(i - 1).." "..l.BARRELS},
-		}
+			table.insert(accum,
+				{"", i..": "..Game.player:MountBarrelNum(i - 1).." "..l.BARRELS}
+			)
 		end
 	end
 
-	drawTable.draw {
-		false,
-		{ l.MISSILE_MOUNTS..":",            shipDef.equipSlotCapacity.missile},
-		{ l.ATMOSPHERIC_SHIELDING..":",     shipDef.equipSlotCapacity.atmo_shield > 0 and l.YES or l.NO },
-		{ l.SCOOP_MOUNTS..":",              shipDef.equipSlotCapacity.scoop},
-	}
+	table.insert(accum, false)
+	table.insert(accum, { l.MISSILE_MOUNTS..":",            shipDef.equipSlotCapacity.missile})
+	table.insert(accum,	
+		{ l.ATMOSPHERIC_SHIELDING..":",     shipDef.equipSlotCapacity.atmo_shield > 0 and l.YES or l.NO }
+	)
+	table.insert(accum, { l.SCOOP_MOUNTS..":",              shipDef.equipSlotCapacity.scoop})
+
+	drawTable.draw(accum)
+
 end
 
 local current_mount = nil

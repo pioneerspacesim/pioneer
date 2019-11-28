@@ -1,6 +1,12 @@
 -- Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+
+--[[
+	TODO: Refactor gauges in order to fit with a variable number of
+	elements (as for multiple guns) and allow for callbacks in case of mouse click
+--]]
+
 local Game = import 'Game'
 local Vector2 = _G.Vector2
 

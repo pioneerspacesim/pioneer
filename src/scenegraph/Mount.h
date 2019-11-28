@@ -15,7 +15,16 @@ enum GunDir {
 };
 
 // Structure holding name, position and direction of a mount (loaded from Model data)
+// TODO: Merge these data with data of Shiptype (as in FixedGuns)
 struct Mount {
+	Mount() = default;
+
+	Mount(std::string name_, std::vector<vector3d> locs_, GunDir dir_) :
+		name(name_),
+		locs(locs_),
+		dir(dir_)
+	{}
+
 	std::string name;
 	std::vector<vector3d> locs;
 	GunDir dir;
