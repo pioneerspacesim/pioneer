@@ -1,7 +1,7 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "Hava işlemciler"
+    "message": "Hava işlemcileri"
   },
   "ALERT_CANCELLED": {
     "description": "",
@@ -81,7 +81,7 @@
   },
   "A_FEW_THOUSAND": {
     "description": "regarding population",
-    "message": "Sadece bir kaç bin"
+    "message": "Sadece birkaç bin"
   },
   "BATTLE_WEAPONS": {
     "description": "",
