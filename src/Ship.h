@@ -174,6 +174,7 @@ public:
 		ALERT_NONE,
 		ALERT_SHIP_NEARBY,
 		ALERT_SHIP_FIRING,
+		ALERT_MISSILE_DETECTED,
 	};
 	AlertState GetAlertState() { return m_alertState; }
 
@@ -296,6 +297,7 @@ private:
 	double m_lastFiringAlert;
 	bool m_shipNear;
 	bool m_shipFiring;
+	bool m_missileDetected;
 
 	HyperspaceCloud *m_hyperspaceCloud;
 

@@ -178,6 +178,11 @@ void Player::SetAlertState(Ship::AlertState as)
 		Pi::game->log->Add(Lang::LASER_FIRE_DETECTED);
 		Sound::PlaySfx("warning", 0.2f, 0.2f, 0);
 		break;
+
+	case ALERT_MISSILE_DETECTED:
+		Pi::game->log->Add(Lang::MISSILE_DETECTED);
+		Sound::PlaySfx("warning", 0.2f, 0.2f, 0);
+		break;
 	}
 
 	Ship::SetAlertState(as);

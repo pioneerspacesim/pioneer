@@ -563,6 +563,9 @@ static int l_get_alert_state(lua_State *l)
 	case Ship::AlertState::ALERT_SHIP_FIRING:
 		LuaPush(l, "ship-firing");
 		break;
+	case Ship::AlertState::ALERT_MISSILE_DETECTED:
+		LuaPush(l, "ship-firing");
+		break;
 	default:
 		Error("Unknown alert state %i", state);
 	}

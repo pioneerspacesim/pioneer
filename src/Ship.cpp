@@ -60,6 +60,7 @@ Ship::Ship(const ShipType::Id &shipId) :
 	m_lastFiringAlert = 0.0;
 	m_shipNear = false;
 	m_shipFiring = false;
+	m_missileDetected = false;
 
 	m_testLanded = false;
 	m_launchLockTimeout = 0;
@@ -136,6 +137,7 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		m_lastAlertUpdate = 0.0; // alertstate check cache timer
 		m_shipNear = false; // alertstate check cache value
 		m_shipFiring = false; // alertstate check cache value
+		m_missileDetected = false; // alertstate check cache value
 
 		m_alertState = shipObj["alert_state"];
 		Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
@@ -1075,7 +1077,7 @@ void Ship::UpdateAlertState()
 		return;
 	}
 
-	bool ship_is_near = false, ship_is_firing = false;
+	bool ship_is_near = false, ship_is_firing = false, missile_detected = false;
 
 	// sanity check: m_lastAlertUpdate should not be in the future.
 	// reset and re-check if it is.
@@ -1083,6 +1085,7 @@ void Ship::UpdateAlertState()
 		m_lastAlertUpdate = 0;
 		m_shipNear = false;
 		m_shipFiring = false;
+		m_missileDetected = false;
 	}
 
 	if (m_lastAlertUpdate + 1.0 <= Pi::game->GetTime()) {
@@ -1095,22 +1098,32 @@ void Ship::UpdateAlertState()
 		// handle the results
 		for (auto i : nearbyBodies) {
 			if ((i) == this) continue;
-			if (!(i)->IsType(Object::SHIP) || (i)->IsType(Object::MISSILE)) continue;
 
-			// TODO: Here there were a const on Ship*, now it cannot remain because of ship->firing and so, this open a breach...
-			// A solution is to put a member on ship: true if is firing, false if is not
-			Ship *ship = static_cast<Ship *>(i);
+			if ((i)->IsType(Object::SHIP)) {
+				// TODO: Here there were a const on Ship*, now it cannot remain because of ship->firing and so, this open a breach...
+				// A solution is to put a member on ship: true if is firing, false if is not
+				Ship *ship = static_cast<Ship *>(i);
 
-			if (ship->GetShipType()->tag == ShipType::TAG_STATIC_SHIP) continue;
-			if (ship->GetFlightState() == LANDED || ship->GetFlightState() == DOCKED) continue;
+				if (ship->GetShipType()->tag == ShipType::TAG_STATIC_SHIP) continue;
+				if (ship->GetFlightState() == LANDED || ship->GetFlightState() == DOCKED) continue;
 
-			if (GetPositionRelTo(ship).LengthSqr() < ALERT_DISTANCE * ALERT_DISTANCE) {
-				ship_is_near = true;
+				if (GetPositionRelTo(ship).LengthSqr() < ALERT_DISTANCE * ALERT_DISTANCE) {
+					ship_is_near = true;
 
-				Uint32 gunstate = ship->GetFixedGuns()->IsFiring();
-				if (gunstate) {
-					ship_is_firing = true;
-					break;
+					Uint32 gunstate = ship->GetFixedGuns()->IsFiring();
+					if (gunstate) {
+						ship_is_firing = true;
+						break;
+					}
+				}
+			} else if ((i)->IsType(Object::MISSILE)) {
+				Missile *missile = static_cast<Missile *>(i);
+
+				if (missile->GetOwner() != this) {
+					if (GetPositionRelTo(missile).LengthSqr() < ALERT_DISTANCE * ALERT_DISTANCE) {
+						missile_detected = true;
+						break;
+					}
 				}
 			}
 		}
@@ -1118,9 +1131,11 @@ void Ship::UpdateAlertState()
 		// store
 		m_shipNear = ship_is_near;
 		m_shipFiring = ship_is_firing;
+		m_missileDetected = missile_detected;
 	} else {
 		ship_is_near = m_shipNear;
 		ship_is_firing = m_shipFiring;
+		missile_detected = m_missileDetected;
 	}
 
 	bool changed = false;
@@ -1135,24 +1150,34 @@ void Ship::UpdateAlertState()
 			SetAlertState(ALERT_SHIP_FIRING);
 			changed = true;
 		}
+		if (missile_detected) {
+			m_lastFiringAlert = Pi::game->GetTime();
+			SetAlertState(ALERT_MISSILE_DETECTED);
+			changed = true;
+		}
 		break;
 
 	case ALERT_SHIP_NEARBY:
-		if (!ship_is_near) {
+		if (!ship_is_near && !missile_detected) {
 			SetAlertState(ALERT_NONE);
 			changed = true;
 		} else if (ship_is_firing) {
 			m_lastFiringAlert = Pi::game->GetTime();
 			SetAlertState(ALERT_SHIP_FIRING);
 			changed = true;
+		} else if (missile_detected) {
+			m_lastFiringAlert = Pi::game->GetTime();
+			SetAlertState(ALERT_MISSILE_DETECTED);
+			changed = true;
 		}
 		break;
 
 	case ALERT_SHIP_FIRING:
-		if (!ship_is_near) {
+	case ALERT_MISSILE_DETECTED:
+		if (!ship_is_near && !missile_detected) {
 			SetAlertState(ALERT_NONE);
 			changed = true;
-		} else if (ship_is_firing) {
+		} else if (ship_is_firing || missile_detected) {
 			m_lastFiringAlert = Pi::game->GetTime();
 		} else if (m_lastFiringAlert + 60.0 <= Pi::game->GetTime()) {
 			SetAlertState(ALERT_SHIP_NEARBY);
