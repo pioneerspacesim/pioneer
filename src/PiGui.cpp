@@ -426,12 +426,12 @@ void PiGui::Render(double delta, std::string handler)
 	for (auto &iter : m_fonts) {
 		ImFont *font = iter.second;
 		// font might be nullptr, if it wasn't baked yet
-		if (font && font->AreGlyphsMissing()) {
+		if (font && !font->MissingGlyphs.empty()) {
 			//			Output("%s %i is missing glyphs.\n", iter.first.first.c_str(), iter.first.second);
-			for (auto &glyph : font->MissingGlyphs()) {
+			for (const auto &glyph : font->MissingGlyphs) {
 				AddGlyph(font, glyph);
 			}
-			font->ResetMissingGlyphs();
+			font->MissingGlyphs.clear();
 		}
 	}
 
@@ -501,10 +501,10 @@ void PiGui::BakeFont(PiFont &font)
 	m_im_fonts[imfont] = std::make_pair(font.name(), font.pixelsize());
 	// 	Output("setting %s %i to %p\n", font.name(), font.pixelsize(), imfont);
 	m_fonts[std::make_pair(font.name(), font.pixelsize())] = imfont;
-	if (imfont->AreGlyphsMissing()) {
+	if (!imfont->MissingGlyphs.empty()) {
 		Output("WARNING: glyphs missing in shiny new font\n");
 	}
-	imfont->ResetMissingGlyphs();
+	imfont->MissingGlyphs.clear();
 }
 
 void PiGui::BakeFonts()
