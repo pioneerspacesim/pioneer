@@ -119,6 +119,62 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
     return false;
 }
 
+// The Pioneer cursor.
+static const char mouse_cursor[] = {
+	"XXXXXXXXXX              "
+	"X.........X             "
+	"X..........X            "
+	"X...........X           "
+	"X............X          "
+	"X.............X         "
+	"X..............X        "
+	"X...............X       "
+	"X................X      "
+	"X.................X     "
+	" X.................X    "
+	"  X..........    ...X   "
+	"   X........      ...X  "
+	"    X......        ...X "
+	"     X.....        ....X"
+	"      X....        ...X "
+	"       X...        ..X  "
+	"        X...      ..X   "
+	"         X...    ..X    "
+	"          X.......X     "
+	"           X.....X      "
+	"            X...X       "
+	"             X.X        "
+	"              X         "
+};
+
+// Shamelessly adapted from the SDL wiki, who stole it from the mailing list.
+// Create the pioneer cursor in SDL's preferred format.
+static SDL_Cursor* CreatePioneerCursor()
+{
+	int i = -1;
+	// Cursor data is stored as bitfields in most-significant-bit first order.
+	Uint8 data[3*24];
+	Uint8 mask[3*24];
+	for (int row = 0; row < 24; ++row) {
+		for (int col = 0; col < 24; ++col) {
+			if (col % 8) {
+				data[i] <<= 1;
+				mask[i] <<= 1;
+			} else {
+				i++;
+				data[i] = mask[i] = 0; // clear the next byte.
+			}
+			switch (mouse_cursor[row*24 + col]) {
+			// Use fallthrough here because it makes sense.
+			case 'X': data[i] |= 0x01;
+			case '.': mask[i] |= 0x01;
+			default: break;
+			}
+		}
+	}
+	return SDL_CreateCursor(data, mask, 24, 24, 0, 0);
+}
+
 static bool ImGui_ImplSDL2_Init(SDL_Window* window)
 {
     g_Window = window;
@@ -157,7 +213,7 @@ static bool ImGui_ImplSDL2_Init(SDL_Window* window)
     io.GetClipboardTextFn = ImGui_ImplSDL2_GetClipboardText;
     io.ClipboardUserData = NULL;
 
-    g_MouseCursors[ImGuiMouseCursor_Arrow] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
+    g_MouseCursors[ImGuiMouseCursor_Arrow] = CreatePioneerCursor();
     g_MouseCursors[ImGuiMouseCursor_TextInput] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);
     g_MouseCursors[ImGuiMouseCursor_ResizeAll] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZEALL);
     g_MouseCursors[ImGuiMouseCursor_ResizeNS] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZENS);
@@ -186,17 +242,9 @@ bool ImGui_ImplSDL2_InitForOpenGL(SDL_Window* window, void* sdl_gl_context)
 
 bool ImGui_ImplSDL2_InitForVulkan(SDL_Window* window)
 {
-#if !SDL_HAS_VULKAN
+    #if !SDL_HAS_VULKAN
     IM_ASSERT(0 && "Unsupported");
-#endif
-    return ImGui_ImplSDL2_Init(window);
-}
-
-bool ImGui_ImplSDL2_InitForD3D(SDL_Window* window)
-{
-#if !defined(_WIN32)
-    IM_ASSERT(0 && "Unsupported");
-#endif
+    #endif
     return ImGui_ImplSDL2_Init(window);
 }
 
@@ -232,7 +280,11 @@ static void ImGui_ImplSDL2_UpdateMousePosAndButtons()
     io.MouseDown[2] = g_MousePressed[2] || (mouse_buttons & SDL_BUTTON(SDL_BUTTON_MIDDLE)) != 0;
     g_MousePressed[0] = g_MousePressed[1] = g_MousePressed[2] = false;
 
-#if SDL_HAS_CAPTURE_AND_GLOBAL_MOUSE && !defined(__EMSCRIPTEN__) && !defined(__ANDROID__) && !(defined(__APPLE__) && TARGET_OS_IOS)
+// Using this code-path causes several issues in Pioneer - when capturing the
+// mouse, the mouse snaps back to the center of the window, and there are some
+// issues with the WM's decoration extents being calculated into the window's
+// size on the Cinammon DE.
+#if 0 //SDL_HAS_CAPTURE_AND_GLOBAL_MOUSE && !defined(__EMSCRIPTEN__) && !defined(__ANDROID__) && !(defined(__APPLE__) && TARGET_OS_IOS)
     SDL_Window* focused_window = SDL_GetKeyboardFocus();
     if (g_Window == focused_window)
     {

@@ -2614,13 +2614,21 @@ void ImFont::AddRemapChar(ImWchar dst, ImWchar src, bool overwrite_dst)
     IndexAdvanceX[dst] = (src < index_size) ? IndexAdvanceX.Data[src] : 1.0f;
 }
 
-const ImFontGlyph* ImFont::FindGlyph(ImWchar c) const
+const ImFontGlyph* ImFont::FindGlyph(ImWchar c, bool report_missing) const
 {
-    if (c >= IndexLookup.Size)
+    if (c >= IndexLookup.Size) {
+        if (report_missing)
+            if (!MissingGlyphs.contains(c))
+                MissingGlyphs.push_back(c);
         return FallbackGlyph;
+    }
     const ImWchar i = IndexLookup.Data[c];
-    if (i == (ImWchar)-1)
-        return FallbackGlyph;
+    if (i == (ImWchar)-1) {
+		if (report_missing)
+			if (!MissingGlyphs.contains(c))
+				MissingGlyphs.push_back(c);
+		return FallbackGlyph;
+    }
     return &Glyphs.Data[i];
 }
 
@@ -2831,7 +2839,7 @@ void ImFont::RenderChar(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col
 {
     if (c == ' ' || c == '\t' || c == '\n' || c == '\r') // Match behavior of RenderText(), those 4 codepoints are hard-coded.
         return;
-    if (const ImFontGlyph* glyph = FindGlyph(c))
+    if (const ImFontGlyph* glyph = FindGlyph(c, true))
     {
         float scale = (size >= 0.0f) ? (size / FontSize) : 1.0f;
         pos.x = IM_FLOOR(pos.x + DisplayOffset.x);
@@ -2952,7 +2960,7 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col
         }
 
         float char_width = 0.0f;
-        if (const ImFontGlyph* glyph = FindGlyph((ImWchar)c))
+        if (const ImFontGlyph* glyph = FindGlyph((ImWchar)c, true))
         {
             char_width = glyph->AdvanceX * scale;
 
