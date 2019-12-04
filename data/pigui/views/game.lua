@@ -144,10 +144,12 @@ local function displayOnScreenObjects()
 		local mainBody = group[2].body
 		local mainCoords = group[1].screenCoordinates
 		local count = #group - 1
-		local label = mainBody:GetLabel()
-
-		if count > 1 then
-			label = label .. " (" .. count .. ")"
+		local label = ""
+		if should_show_label then
+			label = mainBody:GetLabel()
+			if count > 1 then
+				label = label .. " (" .. count .. ")"
+			end
 		end
 
 		ui.addIcon(mainCoords, getBodyIcon(mainBody), colors.frame, iconsize, ui.anchor.center, ui.anchor.center)
