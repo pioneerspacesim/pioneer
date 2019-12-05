@@ -144,18 +144,17 @@ local function displayOnScreenObjects()
 		local mainBody = group[2].body
 		local mainCoords = group[1].screenCoordinates
 		local count = #group - 1
-		local label = ""
-		if should_show_label then
-			label = mainBody:GetLabel()
-			if count > 1 then
-				label = label .. " (" .. count .. ")"
-			end
-		end
 
 		ui.addIcon(mainCoords, getBodyIcon(mainBody), colors.frame, iconsize, ui.anchor.center, ui.anchor.center)
 		mainCoords.x = mainCoords.x + label_offset
 
-		ui.addStyledText(mainCoords, ui.anchor.left, ui.anchor.center, label , colors.frame, pionillium.small)
+		if should_show_label then
+			local label = mainBody:GetLabel()
+			if count > 1 then
+				label = label .. " (" .. count .. ")"
+			end
+			ui.addStyledText(mainCoords, ui.anchor.left, ui.anchor.center, label , colors.frame, pionillium.small)
+		end
 		local mp = ui.getMousePos()
 		-- mouse release handler for radial menu
 		if (mp - mainCoords):length() < iconsize:length() * 1.5 then
