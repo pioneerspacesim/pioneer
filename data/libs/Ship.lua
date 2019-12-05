@@ -627,6 +627,7 @@ function Ship:FireMissileAt(which_missile, target)
 	if missile_object then
 		if target then
 			missile_object:AIKamikaze(target)
+			Event.Queue("onShipFiring", self)
 		end
 		-- Let's keep a safe distance before activating this device, shall we ?
 		Timer:CallEvery(2, function ()
