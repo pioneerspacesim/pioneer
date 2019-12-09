@@ -1,3 +1,7 @@
+December 2019
+   * Internal Changes
+     * Restore lost feature to show/don't show icon / label (#4753)
+
 November 2019
    * New Features
      * More station names (#4726)
@@ -6,6 +10,7 @@ November 2019
    * Fixes
      * Make windows installer remove old install (#4748)
      * Fix segmentation fault & cleanup (#4745)
+     * Modal save/load windows, fixes UI crash (#4743)
 
    * Internal Changes
      * Little improvements (#4669)
