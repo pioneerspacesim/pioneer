@@ -218,6 +218,7 @@ endif (MSVC)
 find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
 
+add_subdirectory(contrib/csv-parser)
 add_subdirectory(contrib/lz4)
 add_subdirectory(contrib/fmt)
 
