@@ -89,7 +89,7 @@
   },
   "CANNOT_SELL_ITEM": {
     "description": "",
-    "message": "This item cannot be sold"
+    "message": "此商品不能出售"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -793,7 +793,7 @@
   },
   "HUD_DELTA_V_PERCENT": {
     "description": "Tooltip: The remaining Δv in percent.",
-    "message": "% of max Δv"
+    "message": "% 最大 Δv"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
     "description": "Tooltip: Distance to the surface of the frame of reference.",
@@ -1657,7 +1657,7 @@
   },
   "STATION_TECH_TOO_LOW": {
     "description": "",
-    "message": "Station tech level too low to sell this item"
+    "message": "空间站技术水平太低，无法出售此商品"
   },
   "STATUS": {
     "description": "",

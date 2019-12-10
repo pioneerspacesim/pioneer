@@ -481,7 +481,7 @@
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Switch show no grid",
-    "message": "Switch between grid display modes."
+    "message": "在网格显示模式之间切换。"
   },
   "HAND_WEAPONS": {
     "description": "",
