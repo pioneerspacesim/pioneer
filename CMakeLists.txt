@@ -218,7 +218,6 @@ endif (MSVC)
 find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
 
-add_subdirectory(contrib/csv-parser)
 add_subdirectory(contrib/lz4)
 add_subdirectory(contrib/fmt)
 
@@ -333,6 +332,8 @@ endif (WIN32)
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(savegamedump LINK_PRIVATE pioneer-core ${SDL2_IMAGE_LIBRARIES} ${winLibs})
+
+add_subdirectory(tools)
 
 set_cxx11_properties(${PROJECT_NAME} modelcompiler savegamedump)
 
