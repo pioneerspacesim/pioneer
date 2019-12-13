@@ -1,4 +1,7 @@
 December 2019
+   * Fixes
+     * Fix possible CameraFrame duplication / memory leak when saving (#4754)
+
    * Internal Changes
      * Restore lost feature to show/don't show icon / label (#4753)
      * Upgrade bundled ImGui to v1.74 (#4752)
