@@ -231,26 +231,24 @@ end
 
 ui.Format = {
 	Latitude = function(decimal_degrees)
-		local deg = math.floor(decimal_degrees + 0.5)
-		local dec = math.abs(decimal_degrees - deg)
 		local prefix = lc.LATITUDE_NORTH_ABBREV
-		if deg < 0 then
+		if decimal_degrees < 0 then
 			prefix = lc.LATITUDE_SOUTH_ABBREV
-			deg = math.abs(deg)
+			decimal_degrees = math.abs(decimal_degrees)
 		end
-		local min = dec * 60
+		local deg = math.floor(decimal_degrees)
+		local min = (decimal_degrees - deg) * 60
 		local sec = (min - math.floor(min)) * 60
 		return string.format('%s %03i°%02i\'%02i"', prefix, deg, min, sec)
 	end,
 	Longitude = function(decimal_degrees)
-		local deg = math.floor(decimal_degrees + 0.5)
-		local dec = math.abs(decimal_degrees - deg)
 		local prefix = lc.LONGITUDE_EAST_ABBREV
-		if deg < 0 then
+		if decimal_degrees < 0 then
 			prefix = lc.LONGITUDE_WEST_ABBREV
-			deg = math.abs(deg)
+			decimal_degrees = math.abs(decimal_degrees)
 		end
-		local min = dec * 60
+		local deg = math.floor(decimal_degrees)
+		local min = (decimal_degrees - deg) * 60
 		local sec = (min - math.floor(min)) * 60
 		return string.format('%s %03i°%02i\'%02i"', prefix, deg, min, sec)
 	end,
