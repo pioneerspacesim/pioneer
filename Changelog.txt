@@ -5,6 +5,7 @@ December 2019
    * Internal Changes
      * Restore lost feature to show/don't show icon / label (#4753)
      * Upgrade bundled ImGui to v1.74 (#4752)
+     * VS2019 make Debug usable for testing (#4756)
 
 November 2019
    * New Features
