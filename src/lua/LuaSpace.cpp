@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaSpace.h"
+#include "CargoBody.h"
 #include "Frame.h"
 #include "Game.h"
 #include "HyperspaceCloud.h"
@@ -16,7 +17,6 @@
 #include "Ship.h"
 #include "Space.h"
 #include "SpaceStation.h"
-#include "CargoBody.h"
 
 /*
  * Interface: Space
@@ -361,7 +361,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	Ship *ship = new Ship(type);
 	assert(ship);
 
-	const double parkDist = station->GetStationType()->ParkingDistance() - ship->GetPhysRadius(); // park inside parking radius
+	const double parkDist = station->GetStationType()->ParkingDistance() - ship->GetPhysRadius();		   // park inside parking radius
 	const double parkOffset = (0.5 * station->GetStationType()->ParkingGapSize()) + ship->GetPhysRadius(); // but outside the docking gap
 
 	double xpos = (slot == 0 || slot == 3) ? -parkOffset : parkOffset;
@@ -551,6 +551,27 @@ static int l_space_spawn_ship_landed_near(lua_State *l)
 	return 1;
 }
 
+// sb - central systembody, pos - absolute coordinates of given object
+static vector3d _orbital_velocity_random_direction(const SystemBody *sb, const vector3d &pos)
+{
+	// If we got a zero mass of central body - there is no orbit
+	if (sb->GetMass() < 0.01)
+		return vector3d(0.0);
+	// calculating basis from radius - vector
+	vector3d k = pos.Normalized();
+	vector3d i;
+	if (std::fabs(k.z) > 0.999999)	 // very vertical = z
+		i = vector3d(1.0, 0.0, 0.0); // second ort = x
+	else
+		i = k.Cross(vector3d(0.0, 0.0, 1.0)).Normalized();
+	vector3d j = k.Cross(i);
+	// generating random 2d direction and putting it into basis
+	vector3d randomOrthoDirection = MathUtil::RandomPointOnCircle(1.0) * matrix3x3d::FromVectors(i, j, k).Transpose();
+	// calculate the value of the orbital velocity
+	double orbitalVelocity = sqrt(G * sb->GetMass() / pos.Length());
+	return randomOrthoDirection * orbitalVelocity;
+}
+
 /*
  * Function: SpawnCargoNear
  *
@@ -585,8 +606,8 @@ static int l_space_spawn_cargo_near(lua_State *l)
 
 	LUA_DEBUG_START(l);
 
-	CargoBody * c_body;
-	const char * model;
+	CargoBody *c_body;
+	const char *model;
 
 	lua_getfield(l, 1, "model_name");
 	if (lua_isstring(l, -1))
@@ -594,24 +615,98 @@ static int l_space_spawn_cargo_near(lua_State *l)
 	else
 		model = "cargo";
 
-	if (lua_gettop(l) >= 5){
+	if (lua_gettop(l) >= 5) {
 		float lifetime = lua_tonumber(l, 5);
 		c_body = new CargoBody(model, LuaRef(l, 1), lifetime);
 	} else {
 		c_body = new CargoBody(model, LuaRef(l, 1));
 	}
-	Body * nearbody = LuaObject<Body>::CheckFromLua(2);
+	Body *nearbody = LuaObject<Body>::CheckFromLua(2);
 	float min_dist = luaL_checknumber(l, 3);
 	float max_dist = luaL_checknumber(l, 4);
 	if (min_dist > max_dist)
 		luaL_error(l, "min_dist must not be larger than max_dist");
 
-	c_body->SetFrame(nearbody->GetFrame());
-	c_body->SetPosition((MathUtil::RandomPointOnSphere(min_dist, max_dist)) + nearbody->GetPosition());
-	c_body->SetVelocity(vector3d(0,0,0));
+	FrameId frameId = nearbody->GetFrame();
+	Frame *frame = Frame::GetFrame(frameId);
+	// if the frame is rotating, use non-rotating parent
+	if (frame->IsRotFrame()) {
+		assert(frame->GetParent());
+		frame = Frame::GetFrame(frame->GetParent());
+		frameId = frame->GetId();
+	}
+	c_body->SetFrame(frameId);
+	c_body->SetPosition(MathUtil::RandomPointOnSphere(min_dist, max_dist) + nearbody->GetPosition());
+	c_body->SetVelocity(_orbital_velocity_random_direction(frame->GetSystemBody(), c_body->GetPosition()));
 	Pi::game->GetSpace()->AddBody(c_body);
 
 	LuaObject<Body>::PushToLua(c_body);
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
+/*
+ * Function: SpawnShipOrbit
+ *
+ * Create a ship and place it in orbit near the given <Body>.
+ *
+ * > ship = Space.SpawnShip(type, body, min, max)
+ *
+ * Parameters:
+ *
+ *   type - the name of the ship
+ *
+ *   body - the <Body> near which the ship should be spawned
+ *
+ *   min - minimum distance from the body to place the ship, in m
+ *
+ *   max - maximum distance to place the ship
+ *
+ *
+ * Return:
+ *
+ *   ship - a <Ship> object for the new ship
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_space_spawn_ship_orbit(lua_State *l)
+{
+	if (!Pi::game)
+		luaL_error(l, "Game is not started");
+
+	LUA_DEBUG_START(l);
+
+	const char *type = luaL_checkstring(l, 1);
+	if (!ShipType::Get(type))
+		luaL_error(l, "Unknown ship type '%s'", type);
+
+	Body *nearbody = LuaObject<Body>::CheckFromLua(2);
+	float min_dist = luaL_checknumber(l, 3);
+	float max_dist = luaL_checknumber(l, 4);
+	if (min_dist > max_dist)
+		luaL_error(l, "min_dist must not be larger than max_dist");
+
+	Ship *ship = new Ship(type);
+	assert(ship);
+
+	FrameId frameId = nearbody->GetFrame();
+	Frame *frame = Frame::GetFrame(frameId);
+	// if the frame is rotating, use non-rotating parent
+	if (frame->IsRotFrame()) {
+		assert(frame->GetParent());
+		frame = Frame::GetFrame(frame->GetParent());
+		frameId = frame->GetId();
+	}
+	ship->SetFrame(frameId);
+	ship->SetPosition(MathUtil::RandomPointOnSphere(min_dist, max_dist) + nearbody->GetPosition());
+	ship->SetVelocity(_orbital_velocity_random_direction(frame->GetSystemBody(), ship->GetPosition()));
+	Pi::game->GetSpace()->AddBody(ship);
+
+	LuaObject<Ship>::PushToLua(ship);
 
 	LUA_DEBUG_END(l, 1);
 
@@ -789,10 +884,10 @@ void LuaSpace::Register()
 		{ "SpawnShipLanded", l_space_spawn_ship_landed },
 		{ "SpawnShipLandedNear", l_space_spawn_ship_landed_near },
 		{ "SpawnCargoNear", l_space_spawn_cargo_near },
+		{ "SpawnShipOrbit", l_space_spawn_ship_orbit },
 
 		{ "GetBody", l_space_get_body },
 		{ "GetBodies", l_space_get_bodies },
-
 
 		{ "DbgDumpFrames", l_space_dump_frames },
 		{ 0, 0 }

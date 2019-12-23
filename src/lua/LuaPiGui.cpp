@@ -1891,7 +1891,7 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 	for (Body *body : Pi::game->GetSpace()->GetBodies()) {
 		if (body == Pi::game->GetPlayer()) continue;
 		if (body->GetType() == ObjectType::PROJECTILE) continue;
-		if (body->GetType() == ObjectType::SHIP &&
+		if ((body->GetType() == ObjectType::SHIP || body->GetType() == ObjectType::CARGOBODY) &&
 			body->GetPositionRelTo(Pi::player).Length() > ship_max_distance) continue;
 		const PiGui::TScreenSpace res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
 		if (!res._onScreen) continue;
