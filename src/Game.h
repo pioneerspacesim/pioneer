@@ -43,6 +43,7 @@ public:
 	// LoadGame and SaveGame throw exceptions on failure
 	static Game *LoadGame(const std::string &filename);
 	static bool CanLoadGame(const std::string &filename);
+	static std::string FindMostRecentSaveGame();
 	// XXX game arg should be const, and this should probably be a member function
 	// (or LoadGame/SaveGame should be somewhere else entirely)
 	static void SaveGame(const std::string &filename, Game *game);

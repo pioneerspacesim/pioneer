@@ -36,6 +36,8 @@ local showQuitConfirm = false
 local quitConfirmMsg
 local max_flavours = 22
 
+local canContinue = false
+
 local startLocations = {
 	{['name']=lui.START_AT_MARS,
 	 ['desc']=lui.START_AT_MARS_DESC,
@@ -134,7 +136,7 @@ local function quitGame()
 end
 
 local function continueGame()
-	Game.LoadGame("_exit")
+	Game.LoadGame(canContinue)
 end
 
 local function startAtLocation(location)
@@ -157,7 +159,7 @@ local function callModules(mode)
 end
 
 local function showMainMenu()
-	local canContinue = Game.CanLoadGame('_exit')
+	canContinue = Game.FindMostRecentSaveGame()
 	local buttons = 4
 
 	local winPos = Vector2(ui.screenWidth - mainButtonSize.x - 100, ui.screenHeight/2 - (buttons * mainButtonSize.y)/2 - (2*mainButtonSize.y)/2 - 8)

@@ -218,6 +218,40 @@ static int l_game_can_load_game(lua_State *l)
 }
 
 /*
+ * Function: GetMostRecentSaveGame
+ *
+ * Get the name of the most recent savegame or a boolean false if
+ * any save game is present in save dir
+ *
+ * > Game.GetMostRecentSaveGame()
+ *
+ * Parameters:
+ *
+ *   -
+ *
+ * Return:
+ *
+ *   string representing a filename or false
+ *
+ * Availability:
+ *
+ *   Dec 2019
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_game_most_recent_file_name(lua_State *l)
+{
+	const std::string filename = Game::FindMostRecentSaveGame();
+
+	if (filename.empty()) lua_pushboolean(l, false);
+	else lua_pushlstring(l, filename.c_str(), filename.size());
+
+	return 1;
+}
+
+/*
  * Function: SaveGame
  *
  * Save the current game.
@@ -641,6 +675,7 @@ void LuaGame::Register()
 		{ "StartGame", l_game_start_game },
 		{ "LoadGame", l_game_load_game },
 		{ "CanLoadGame", l_game_can_load_game },
+		{ "FindMostRecentSaveGame", l_game_most_recent_file_name },
 		{ "SaveGame", l_game_save_game },
 		{ "EndGame", l_game_end_game },
 		{ "InHyperspace", l_game_in_hyperspace },

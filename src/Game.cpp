@@ -908,6 +908,31 @@ bool Game::CanLoadGame(const std::string &filename)
 	// file data is freed here
 }
 
+//static
+std::string Game::FindMostRecentSaveGame()
+{
+	// Ensure save dir exist
+	if (!FileSystem::userFiles.MakeDirectory(Pi::SAVE_DIR_NAME)) {
+		throw CouldNotOpenFileException();
+	}
+
+	std::vector<FileSystem::FileInfo> files;
+	FileSystem::userFiles.ReadDirectory(Pi::SAVE_DIR_NAME, files);
+
+	std::copy_if(begin(files), end(files), begin(files), [](const FileSystem::FileInfo &fi) {
+		if (!fi.IsFile()) return false;
+		return CanLoadGame(fi.GetName());
+	});
+
+	std::vector<FileSystem::FileInfo>::iterator min_el = std::min_element(
+		begin(files), end(files), [](const FileSystem::FileInfo &first, const FileSystem::FileInfo &second) {
+		return first.GetModificationTime() > second.GetModificationTime();
+	});
+
+	if (min_el == files.end()) return std::string("");
+	return (*min_el).GetName();
+}
+
 void Game::SaveGame(const std::string &filename, Game *game)
 {
 	PROFILE_SCOPED()
