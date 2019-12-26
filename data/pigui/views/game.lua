@@ -138,7 +138,7 @@ local function displayOnScreenObjects()
 	local iconsize = Vector2(18 , 18)
 	local label_offset = 14 -- enough so that the target rectangle fits
 	local collapse = iconsize
-	local bodies_grouped = ui.getProjectedBodiesGrouped(collapse)
+	local bodies_grouped = ui.getProjectedBodiesGrouped(collapse, IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE)
 
 	for _,group in ipairs(bodies_grouped) do
 		local mainBody = group[2].body

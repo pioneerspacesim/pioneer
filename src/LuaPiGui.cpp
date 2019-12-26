@@ -1467,6 +1467,7 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 {
 	PROFILE_SCOPED()
 	const vector2d gap = LuaPull<vector2d>(l, 1);
+	const double ship_max_distance = LuaPull<double>(l, 2);
 
 	TSS_vector filtered;
 	filtered.reserve(Pi::game->GetSpace()->GetNumBodies());
@@ -1474,6 +1475,8 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 	for (Body *body : Pi::game->GetSpace()->GetBodies()) {
 		if (body == Pi::game->GetPlayer()) continue;
 		if (body->GetType() == Object::PROJECTILE) continue;
+		if (body->GetType() == Object::SHIP &&
+			body->GetPositionRelTo(Pi::player).Length() > ship_max_distance) continue;
 		const TScreenSpace res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
 		if (!res._onScreen) continue;
 		filtered.emplace_back(res);
