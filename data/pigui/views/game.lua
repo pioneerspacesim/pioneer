@@ -145,16 +145,15 @@ local function displayOnScreenObjects()
 	local bodies_grouped = ui.getProjectedBodiesGrouped(collapse, IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE)
 
 	for _,group in ipairs(bodies_grouped) do
-		local mainBody = group[2].body
-		local mainCoords = group[1].screenCoordinates
-		local count = #group - 1
+		local mainBody = group.mainBody
+		local mainCoords = group.screenCoordinates
 
 		ui.addIcon(mainCoords, getBodyIcon(mainBody), colors.frame, iconsize, ui.anchor.center, ui.anchor.center)
 
 		if should_show_label then
 			local label = mainBody:GetLabel()
-			if count > 1 then
-				label = label .. " (" .. count .. ")"
+			if group.multiple then
+				label = label .. " (" .. #group.bodies .. ")"
 			end
 			ui.addStyledText(mainCoords + Vector2(label_offset,0), ui.anchor.left, ui.anchor.center, label , colors.frame, pionillium.small)
 		end
@@ -169,18 +168,17 @@ local function displayOnScreenObjects()
 		-- mouse release handler
 		if (mp - mainCoords):length() < click_radius then
 			if not ui.isAnyWindowHovered() and ui.isMouseReleased(0) then
-				if count == 1 then
-					if navTarget == mainBody then
-						-- if clicked and has nav target, unset nav target
-						player:SetNavTarget(nil)
-						navTarget = nil
-					elseif combatTarget == mainBody then
-						-- if clicked and has combat target, unset nav target
-						player:SetCombatTarget(nil)
-						combatTarget = nil
-					else
-						setTarget(mainBody)
-					end
+				if group.hasNavTarget then
+					-- if clicked and has nav target, unset nav target
+					player:SetNavTarget(nil)
+					navTarget = nil
+				elseif combatTarget == mainBody then
+					-- if clicked and has combat target, unset nav target
+					player:SetCombatTarget(nil)
+					combatTarget = nil
+				elseif not group.multiple then
+					-- clicked on single, just set navtarget/combatTarget
+					setTarget(mainBody)
 				else
 					-- clicked on group, show popup
 					ui.openPopup("navtarget" .. mainBody:GetLabel())
@@ -190,33 +188,22 @@ local function displayOnScreenObjects()
 		-- popup content
 		ui.popup("navtarget" .. mainBody:GetLabel(), function()
 			local small_iconsize = Vector2(16,16)
-			ui.icon(getBodyIcon(mainBody), small_iconsize, colors.frame)
-			ui.sameLine()
-			if ui.selectable(mainBody:GetLabel(), mainBody == navTarget, {}) then
-				if mainBody:IsShip() then
-					player:SetCombatTarget(mainBody)
-				else
-					player:SetNavTarget(mainBody)
+			for _,b in pairs(group.bodies) do
+				ui.icon(getBodyIcon(b), small_iconsize, colors.frame)
+				ui.sameLine()
+				if ui.selectable(b:GetLabel(), b == navTarget, {}) then
+					if b:IsShip() then
+						player:SetCombatTarget(b)
+					else
+						player:SetNavTarget(b)
+					end
 				end
 				if ui.ctrlHeld() then
-					local target = mainBody
+					local target = b
 					if target == player:GetSetSpeedTarget() then
 						target = nil
 					end
 					player:SetSetSpeedTarget(target)
-				end
-			end
-			for _,v in pairs(group) do
-				if v.body and v.body~=mainBody then
-					ui.icon(getBodyIcon(v.body), small_iconsize, colors.frame)
-					ui.sameLine()
-					if ui.selectable(v.body:GetLabel(), v.body == navTarget, {}) then
-						if v.body:IsShip() then
-							player:SetCombatTarget(v.body)
-						else
-							player:SetNavTarget(v.body)
-						end
-					end
 				end
 			end
 		end)
