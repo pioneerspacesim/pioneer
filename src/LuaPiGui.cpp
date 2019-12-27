@@ -1463,6 +1463,28 @@ bool first_body_is_more_important_than(Body *body, Body *other)
 	return result;
 }
 
+/*
+ * Function: GetProjectedBodiesGrouped
+ *
+ * Returns all bodies visible on screen, grouped into clusters of bodies
+ * that are close together on screen.
+ *
+ * > GetProjectedBodiesGrouped(collapse, ship_max_distance)
+ *
+ * Parameters:
+ *
+ *   collapse - Vector2 defining the screen size of the clusters
+ *
+ *   ship_max_distance - ships farther away than this are not included in the result
+ *
+ * Availability:
+ *
+ *   2019-12
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 {
 	PROFILE_SCOPED()
