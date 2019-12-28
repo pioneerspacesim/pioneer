@@ -137,7 +137,11 @@ local function displayOnScreenObjects()
 	local should_show_label = ui.shouldShowLabels()
 	local iconsize = Vector2(18 , 18)
 	local label_offset = 14 -- enough so that the target rectangle fits
-	local collapse = iconsize
+	local collapse = iconsize -- size of clusters to be collapsed into single bodies
+	local click_radius = collapse:length() * 0.5
+	-- make click_radius sufficiently smaller than the cluster size
+	-- to prevent overlap of selection regions
+
 	local bodies_grouped = ui.getProjectedBodiesGrouped(collapse, IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE)
 
 	for _,group in ipairs(bodies_grouped) do
@@ -146,25 +150,24 @@ local function displayOnScreenObjects()
 		local count = #group - 1
 
 		ui.addIcon(mainCoords, getBodyIcon(mainBody), colors.frame, iconsize, ui.anchor.center, ui.anchor.center)
-		mainCoords.x = mainCoords.x + label_offset
 
 		if should_show_label then
 			local label = mainBody:GetLabel()
 			if count > 1 then
 				label = label .. " (" .. count .. ")"
 			end
-			ui.addStyledText(mainCoords, ui.anchor.left, ui.anchor.center, label , colors.frame, pionillium.small)
+			ui.addStyledText(mainCoords + Vector2(label_offset,0), ui.anchor.left, ui.anchor.center, label , colors.frame, pionillium.small)
 		end
 		local mp = ui.getMousePos()
 		-- mouse release handler for radial menu
-		if (mp - mainCoords):length() < iconsize:length() * 1.5 then
+		if (mp - mainCoords):length() < click_radius then
 			if not ui.isAnyWindowHovered() and ui.isMouseClicked(1) then
 				local body = mainBody
 				ui.openDefaultRadialMenu(body)
 			end
 		end
 		-- mouse release handler
-		if (mp - mainCoords):length() < iconsize:length() * 1.5 then
+		if (mp - mainCoords):length() < click_radius then
 			if not ui.isAnyWindowHovered() and ui.isMouseReleased(0) then
 				if count == 1 then
 					if navTarget == mainBody then
@@ -186,8 +189,8 @@ local function displayOnScreenObjects()
 		end
 		-- popup content
 		ui.popup("navtarget" .. mainBody:GetLabel(), function()
-			local size = Vector2(16,16)
-			ui.icon(getBodyIcon(mainBody), size, colors.frame)
+			local small_iconsize = Vector2(16,16)
+			ui.icon(getBodyIcon(mainBody), small_iconsize, colors.frame)
 			ui.sameLine()
 			if ui.selectable(mainBody:GetLabel(), mainBody == navTarget, {}) then
 				if mainBody:IsShip() then
@@ -204,8 +207,8 @@ local function displayOnScreenObjects()
 				end
 			end
 			for _,v in pairs(group) do
-				if v.body then
-					ui.icon(getBodyIcon(v.body), size, colors.frame)
+				if v.body and v.body~=mainBody then
+					ui.icon(getBodyIcon(v.body), small_iconsize, colors.frame)
 					ui.sameLine()
 					if ui.selectable(v.body:GetLabel(), v.body == navTarget, {}) then
 						if v.body:IsShip() then
