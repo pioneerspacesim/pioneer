@@ -179,6 +179,13 @@ local function displayOnScreenObjects()
 				elseif not group.multiple then
 					-- clicked on single, just set navtarget/combatTarget
 					setTarget(mainBody)
+					if ui.ctrlHeld() then
+						local target = mainBody
+						if target == player:GetSetSpeedTarget() then
+							target = nil
+						end
+						player:SetSetSpeedTarget(target)
+					end
 				else
 					-- clicked on group, show popup
 					ui.openPopup("navtarget" .. mainBody:GetLabel())
@@ -197,13 +204,13 @@ local function displayOnScreenObjects()
 					else
 						player:SetNavTarget(b)
 					end
-				end
-				if ui.ctrlHeld() then
-					local target = b
-					if target == player:GetSetSpeedTarget() then
-						target = nil
+					if ui.ctrlHeld() then
+						local target = b
+						if target == player:GetSetSpeedTarget() then
+							target = nil
+						end
+						player:SetSetSpeedTarget(target)
 					end
-					player:SetSetSpeedTarget(target)
 				end
 			end
 		end)
