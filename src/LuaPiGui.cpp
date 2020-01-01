@@ -1467,7 +1467,8 @@ bool first_body_is_more_important_than(Body *body, Body *other)
  * Function: GetProjectedBodiesGrouped
  *
  * Returns all bodies visible on screen, grouped into clusters of bodies
- * which are close together on screen.
+ * which are close together on screen. The current combat target is always
+ * kept in its own seperate group.
  *
  * > groups = Engine.pigui.GetProjectedBodiesGrouped(collapse, ship_max_distance)
  *
@@ -1536,23 +1537,28 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 	std::vector<GroupInfo> groups;
 	groups.reserve(filtered.size());
 	const Body *nav_target = Pi::game->GetPlayer()->GetNavTarget();
+	const Body *combat_target = Pi::game->GetPlayer()->GetCombatTarget();
 
 	for (TScreenSpace &obj : filtered) {
 		bool inserted = false;
-		for (GroupInfo &group : groups) {
-			if ((std::abs(group.m_centreCoords.x - obj._screenPosition.x) <= gap.x) &&
-				(std::abs(group.m_centreCoords.y - obj._screenPosition.y) <= gap.y)) {
-				// body inside group boundaries: insert into group
-				group.m_bodies.push_back(obj._body);
-				if (obj._body == nav_target)
-					group.m_hasNavTarget = true;
 
-				// recalc centre
-				group.m_worldCoordSum += obj._body->GetPositionRelTo(Pi::player);
-				vector3d centre = group.m_worldCoordSum / static_cast<double>(group.m_bodies.size());
-				group.m_centreCoords = lua_world_space_to_screen_space(centre)._screenPosition;
-				inserted = true;
-				break;
+		// never collapse combat target
+		if (obj._body != combat_target) {
+			for (GroupInfo &group : groups) {
+				if ((std::abs(group.m_centreCoords.x - obj._screenPosition.x) <= gap.x) &&
+					(std::abs(group.m_centreCoords.y - obj._screenPosition.y) <= gap.y)) {
+					// body inside group boundaries: insert into group
+					group.m_bodies.push_back(obj._body);
+					if (obj._body == nav_target)
+						group.m_hasNavTarget = true;
+
+					// recalc centre
+					group.m_worldCoordSum += obj._body->GetPositionRelTo(Pi::player);
+					vector3d centre = group.m_worldCoordSum / static_cast<double>(group.m_bodies.size());
+					group.m_centreCoords = lua_world_space_to_screen_space(centre)._screenPosition;
+					inserted = true;
+					break;
+				}
 			}
 		}
 		if (!inserted) {
