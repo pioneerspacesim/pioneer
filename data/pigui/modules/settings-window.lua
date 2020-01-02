@@ -559,7 +559,10 @@ local function optionsWindow()
 
 				if Game.player then
 					ui.sameLine()
-					optionTextButton(lui.SAVE, nil, true, function() ui.showSavedGameWindow = "SAVE" end)
+					optionTextButton(lui.SAVE, nil, true, function()
+									ui.showOptionsWindow = false
+									ui.showSavedGameWindow = "SAVE"
+								end)
 
 					ui.sameLine()
 					optionTextButton(lui.END_GAME, nil, true, function()
