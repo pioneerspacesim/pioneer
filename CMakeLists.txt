@@ -173,7 +173,7 @@ endif (USE_SYSTEM_LIBLUA)
 
 option(PROFILER_ENABLED "Build pioneer with profiling support built-in." OFF)
 if (PROFILER_ENABLED)
-	add_compile_definitions(PIONEER_PROFILER=1)
+	add_definitions(-DPIONEER_PROFILER=1)
 endif(PROFILER_ENABLED)
 
 if (MSVC)
