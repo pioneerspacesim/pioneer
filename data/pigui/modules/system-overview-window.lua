@@ -188,7 +188,7 @@ local function showInfoWindow()
 		-- do nothing at all
 	elseif not showWindow then
 		ui.setNextWindowPos(Vector2(ui.screenWidth - button_size.x * 3 - 10 , 10) , "Always")
-		ui.window("SystemTargetsSmall", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
+		ui.window("SystemTargetsSmall", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
 							function()
 								if ui.coloredSelectedIconButton(icons.system_overview, mainButtonSize, false, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_WINDOW) then
 									showWindow = true

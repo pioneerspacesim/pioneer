@@ -131,7 +131,7 @@ local function displayShipFunctionWindow()
 	local current_view = Game.CurrentView()
 	local buttons = 6
 	ui.setNextWindowPos(Vector2(ui.screenWidth/2 - ui.reticuleCircleRadius - (mainButtonSize.x + 2 * mainButtonFramePadding) * buttons, ui.screenHeight - mainButtonSize.y * 3 - 8) , "Always")
-	ui.window("ShipFunctions", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
+	ui.window("ShipFunctions", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
 						function()
 							if current_view == "world" then
 								local v = ui.getCursorPos()
