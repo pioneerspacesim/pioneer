@@ -1,3 +1,7 @@
+January 2020
+   * Fixes
+     * Fix scrollbars appearing at different resolutions (#4771)
+
 December 2019
    * Fixes
      * Fix possible CameraFrame duplication / memory leak when saving (#4754)
