@@ -152,9 +152,8 @@ local function displayAutoPilotWindow()
 	if ui.showOptionsWindow then return end
 	player = Game.player
 	local current_view = Game.CurrentView()
-	ui.setNextWindowSize(Vector2(mainButtonSize.x * 6, mainButtonSize.y * 2), "Always")
 	ui.setNextWindowPos(Vector2(ui.screenWidth/2 + ui.reticuleCircleRadius / 4 * 3, ui.screenHeight - mainButtonSize.y * 1.5 - 8) , "Always")
-	ui.window("AutoPilot", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
+	ui.window("AutoPilot", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
 						function()
 							if current_view == "world" then
 								button_hyperspace()

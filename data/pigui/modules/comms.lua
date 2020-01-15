@@ -35,7 +35,7 @@ local function displayCommsLog()
 	local current_view = Game.CurrentView()
 	if current_view == "world" then
 		ui.setNextWindowPos(Vector2(10, 10) , "Always")
-		ui.window("CommsLogButton", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
+		ui.window("CommsLogButton", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
 							function()
 								if ui.coloredSelectedIconButton(icons.comms, mainButtonSize, nil, mainButtonFramePadding, colors.buttonBlue, colors.white, 'Toggle full comms window') then
 									fullComms = not fullComms
