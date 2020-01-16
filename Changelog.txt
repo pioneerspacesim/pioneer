@@ -1,6 +1,8 @@
 January 2020
    * Fixes
      * Fix scrollbars appearing at different resolutions (#4771)
+   * Internal Changes
+     * CMake profiler build option: support older versions of cmake (#4772)
 
 December 2019
    * Fixes
