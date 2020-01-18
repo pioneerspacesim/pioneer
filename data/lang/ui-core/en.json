@@ -1655,6 +1655,10 @@
     "description": "",
     "message": "Station manager"
   },
+  "STATION_DOCKS": {
+    "description": "Information shown in the station lobby, for total number of docking pads",
+    "message": "Our total capacity is {total_docking_pads} docking pads."
+  },
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
     "message": "We are in a {orbit_period} day period orbit around {parent_body}."
