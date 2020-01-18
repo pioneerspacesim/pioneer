@@ -231,6 +231,8 @@ local function drawPlayerInfo()
 		tech_certified = string.interp(l.TECH_CERTIFIED, { tech_level = station.techLevel})
 	end
 
+	local station_docks = string.interp(l.STATION_DOCKS, { total_docking_pads = string.format("%d", station.numDocks),})
+
 	local orbit_period = station.path:GetSystemBody().orbitPeriod
 
 	local station_orbit_info = ""
@@ -252,6 +254,7 @@ local function drawPlayerInfo()
 					local curPos = ui.getCursorPos()
 					drawTable.withHeading(station.label, orbiteer.xlarge, {
 						{ tech_certified, "" },
+						{ station_docks, "" },
 						{ station_orbit_info, "" },
 					})
 
