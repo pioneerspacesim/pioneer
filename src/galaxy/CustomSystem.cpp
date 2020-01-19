@@ -3,7 +3,10 @@
 
 #include "CustomSystem.h"
 
+#include "EnumStrings.h"
 #include "Galaxy.h"
+#include "Json.h"
+#include "LZ4Format.h"
 #include "SystemPath.h"
 #include "core/LZ4Format.h"
 
@@ -11,11 +14,16 @@
 #include "Factions.h"
 #include "FileSystem.h"
 #include "Polit.h"
+
 #include "lua/LuaConstants.h"
 #include "lua/LuaFixed.h"
 #include "lua/LuaUtils.h"
 #include "lua/LuaVector.h"
+#include "galaxy/SystemBody.h"
+#include "vector3.h"
+
 #include <map>
+#include <memory>
 
 const CustomSystemsDatabase::SystemList CustomSystemsDatabase::s_emptySystemList; // see: Null Object pattern
 
@@ -627,10 +635,163 @@ static void RegisterCustomSystemsAPI(lua_State *L)
 	register_class(L, LuaCustomSystemBody_TypeName, LuaCustomSystemBody_meta);
 }
 
+// Parse Morgan-Keenan spectral types into Pioneer's discrete body types.
+SystemBody::BodyType bodyTypeFromSpectral(const nonstd::string_view spectral)
+{
+	using BodyType = SystemBody::BodyType;
+	auto first = spectral[0];
+
+	switch (first) {
+	case 'L':
+	case 'T':
+		return BodyType::TYPE_BROWN_DWARF;
+	case 'D':
+		return BodyType::TYPE_WHITE_DWARF;
+
+	case 'W': {
+		// TODO: interpret Wolf-Rayet star class into color types.
+		return BodyType::TYPE_STAR_M_WF;
+	}
+	default:
+		return BodyType::TYPE_GRAVPOINT;
+	}
+
+	auto luminance = spectral.substr(spectral.find_first_of("0123456789") + 1);
+
+	// Sort hypergiants / supergiants / giants / regular stars.
+	// A bit hacky, but whatever works.
+
+	// By using this offset, we can essentially "shift" which classification is returned.
+	int star_base = 0;
+	if (luminance.starts_with("Ia+"))
+		star_base = 21; // hypergiants
+	if (luminance.starts_with("Ia") || luminance.starts_with("Ib"))
+		star_base = 14; // supergiants
+	if (luminance.starts_with("II") || luminance.starts_with("III") || luminance.starts_with("IV"))
+		star_base = 7; // regular giants
+
+	switch (first) {
+	case 'O':
+		return static_cast<BodyType>(BodyType::TYPE_STAR_O + star_base);
+	case 'B':
+		return static_cast<BodyType>(BodyType::TYPE_STAR_B + star_base);
+	case 'A':
+		return static_cast<BodyType>(BodyType::TYPE_STAR_A + star_base);
+	case 'F':
+		return static_cast<BodyType>(BodyType::TYPE_STAR_F + star_base);
+	case 'G':
+		return static_cast<BodyType>(BodyType::TYPE_STAR_G + star_base);
+	case 'K':
+		return static_cast<BodyType>(BodyType::TYPE_STAR_K + star_base);
+	case 'M':
+		return static_cast<BodyType>(BodyType::TYPE_STAR_M + star_base);
+	default:
+		return BodyType::TYPE_GRAVPOINT;
+	}
+}
+
+void CustomSystemsDatabase::LoadCatalogDefinition(const char *data, size_t len, const std::string &path)
+{
+	using nonstd::string_view;
+	std::string decodedCBOR;
+	// We can be passed raw JSON data as well as LZ4 compressed CBOR
+	if (lz4::IsLZ4Format(data, len)) {
+		decodedCBOR = lz4::DecompressLZ4({ data, len });
+	}
+
+	string_view raw_data = decodedCBOR.size() ? decodedCBOR : string_view(data, len);
+	Json catalogObj;
+
+	// If we start with the unbounded array tag, we're valid CBOR (hopefully!)
+	const char CBOR_UNBOUNDED_ARRAY = 0x9F;
+	if (raw_data[0] == CBOR_UNBOUNDED_ARRAY) {
+		catalogObj = Json::from_cbor(raw_data);
+	} else { // otherwise let the json parser sort it out...
+		catalogObj = Json::parse(raw_data);
+	}
+
+	// If we got a malformed JSON object, we can't do anything sadly.
+	if (!catalogObj.is_array()) {
+		throw std::runtime_error("catalog definition does not parse to a JSON array!");
+	}
+
+	// silently skip bad entries, given that we're parsing a 10,000+ star catalog.
+	size_t invalidEntries = 0;
+	for (Json &obj : catalogObj) {
+		if (!obj.is_object()) {
+			invalidEntries++;
+			continue;
+		}
+
+		std::unique_ptr<CustomSystem> csys(new CustomSystem);
+		try {
+			csys->name = obj.at("name");
+
+			csys->numStars = 1;
+
+			// double absmag = obj.at("absmag");
+
+			std::string spect = obj.at("spectral");
+			csys->primaryType[0] = bodyTypeFromSpectral(spect);
+
+			// If we weren't able to extract a proper body type from spectral class, this entry is invalid.
+			if (csys->primaryType[0] == SystemBody::TYPE_GRAVPOINT) {
+				invalidEntries++;
+				continue;
+			}
+
+			// float color = obj.at("color");
+			// std::string constellation = obj.at("constl");
+
+			Json sector = obj.at("sector");
+			csys->sectorX = sector.at(0);
+			csys->sectorY = sector.at(1);
+			csys->sectorZ = sector.at(2);
+
+			csys->pos = obj.at("coords");
+
+			s_activeCustomSystemsDatabase->AddCustomSystem(
+				SystemPath(csys->sectorX, csys->sectorY, csys->sectorZ),
+				csys.release());
+		} catch (Json::type_error &e) {
+			csys.reset();
+			invalidEntries++;
+			continue;
+		}
+	}
+
+	if (invalidEntries > 0) {
+		Warning("encountered %ld invalid entries while parsing catalog %s.\n", invalidEntries, path.c_str());
+	}
+}
+
+void CustomSystemsDatabase::LoadStarCatalogs()
+{
+	std::string basepath = FileSystem::JoinPathBelow(m_customSysDirectory, "stars");
+
+	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
+		const FileSystem::FileInfo &info = files.Current();
+		const std::string &fpath = info.GetPath();
+		if (!info.IsFile()) continue;
+		if (ends_with_ci(fpath, ".lz4") || ends_with_ci(fpath, ".json")) {
+			RefCountedPtr<FileSystem::FileData> code = info.Read();
+			try {
+				LoadCatalogDefinition(code->GetData(), code->GetSize(), fpath);
+			} catch (std::runtime_error &e) {
+				Warning("cannot load star catalog %s:\n\t%s", fpath.c_str(), e.what());
+			}
+		}
+	}
+}
+
 void CustomSystemsDatabase::Load()
 {
 	assert(!s_activeCustomSystemsDatabase);
 	s_activeCustomSystemsDatabase = this;
+
+	// Load JSON star information first, so custom systems can piggyback onto the star info.
+	LoadStarCatalogs();
+
 	lua_State *L = luaL_newstate();
 	LUA_DEBUG_START(L);
 

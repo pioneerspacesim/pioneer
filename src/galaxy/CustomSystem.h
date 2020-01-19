@@ -65,7 +65,6 @@ public:
 	std::string spaceStationType;
 
 	void SanityChecks();
-
 };
 
 class CustomSystem {
@@ -113,6 +112,9 @@ public:
 
 private:
 	typedef std::map<SystemPath, SystemList> SectorMap;
+
+	void LoadStarCatalogs();
+	void LoadCatalogDefinition(const char *data, size_t len, const std::string &path);
 
 	Galaxy *const m_galaxy;
 	const std::string m_customSysDirectory;
