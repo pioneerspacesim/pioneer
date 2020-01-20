@@ -6,14 +6,14 @@
 #include "Galaxy.h"
 #include "SystemPath.h"
 
+#include "../gameconsts.h"
 #include "Factions.h"
 #include "FileSystem.h"
-#include "LuaConstants.h"
-#include "LuaFixed.h"
-#include "LuaUtils.h"
-#include "LuaVector.h"
 #include "Polit.h"
-#include "../gameconsts.h"
+#include "lua/LuaConstants.h"
+#include "lua/LuaFixed.h"
+#include "lua/LuaUtils.h"
+#include "lua/LuaVector.h"
 #include <map>
 
 const CustomSystemsDatabase::SystemList CustomSystemsDatabase::s_emptySystemList; // see: Null Object pattern
@@ -708,8 +708,10 @@ CustomSystem::~CustomSystem()
 
 void CustomSystem::SanityChecks()
 {
-	if (IsRandom()) return;
-	else sBody->SanityChecks();
+	if (IsRandom())
+		return;
+	else
+		sBody->SanityChecks();
 }
 
 CustomSystemBody::CustomSystemBody() :
@@ -743,31 +745,26 @@ static void checks(CustomSystemBody &csb)
 	if (csb.radius <= 0 && csb.mass <= 0) {
 		if (csb.type != SystemBody::TYPE_STARPORT_ORBITAL &&
 			csb.type != SystemBody::TYPE_STARPORT_SURFACE &&
-			csb.type != SystemBody::TYPE_GRAVPOINT
-			) Error("custom system body '%s' with both radius ans mass left undefined!", csb.name.c_str());
+			csb.type != SystemBody::TYPE_GRAVPOINT) Error("custom system body '%s' with both radius ans mass left undefined!", csb.name.c_str());
 	}
 	if (csb.radius <= 0 && csb.type != SystemBody::TYPE_STARPORT_ORBITAL &&
-			csb.type != SystemBody::TYPE_STARPORT_SURFACE &&
-			csb.type != SystemBody::TYPE_GRAVPOINT
-		) {
+		csb.type != SystemBody::TYPE_STARPORT_SURFACE &&
+		csb.type != SystemBody::TYPE_GRAVPOINT) {
 		Output("Warning: 'radius' is %f for body '%s'\n", csb.radius.ToFloat(), csb.name.c_str());
 	}
 	if (csb.mass <= 0 && csb.type != SystemBody::TYPE_STARPORT_ORBITAL &&
-			csb.type != SystemBody::TYPE_STARPORT_SURFACE &&
-			csb.type != SystemBody::TYPE_GRAVPOINT
-		) {
+		csb.type != SystemBody::TYPE_STARPORT_SURFACE &&
+		csb.type != SystemBody::TYPE_GRAVPOINT) {
 		Output("Warning: 'mass' is %f for body '%s'\n", csb.mass.ToFloat(), csb.name.c_str());
 	}
 	if (csb.averageTemp <= 0 && csb.type != SystemBody::TYPE_STARPORT_ORBITAL &&
-			csb.type != SystemBody::TYPE_STARPORT_SURFACE &&
-			csb.type != SystemBody::TYPE_GRAVPOINT
-		) {
+		csb.type != SystemBody::TYPE_STARPORT_SURFACE &&
+		csb.type != SystemBody::TYPE_GRAVPOINT) {
 		Output("Warning: 'averageTemp' is %i for body '%s'\n", csb.averageTemp, csb.name.c_str());
 	}
 	if (csb.type == SystemBody::TYPE_STAR_S_BH ||
 		csb.type == SystemBody::TYPE_STAR_IM_BH ||
-		csb.type == SystemBody::TYPE_STAR_SM_BH
-	    ) {
+		csb.type == SystemBody::TYPE_STAR_SM_BH) {
 		double schwarzschild = 2 * csb.mass.ToDouble() * ((G * SOL_MASS) / (LIGHT_SPEED * LIGHT_SPEED));
 		schwarzschild /= SOL_RADIUS;
 		if (csb.radius < schwarzschild) {
@@ -780,5 +777,6 @@ static void checks(CustomSystemBody &csb)
 void CustomSystemBody::SanityChecks()
 {
 	checks(*this);
-	for (CustomSystemBody *csb:children) csb->SanityChecks();
+	for (CustomSystemBody *csb : children)
+		csb->SanityChecks();
 }

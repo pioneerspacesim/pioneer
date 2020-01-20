@@ -5,7 +5,7 @@
 #define UI_NUMBERLABEL_H
 
 #include "Label.h"
-#include "PropertyMap.h"
+#include "lua/PropertyMap.h"
 
 namespace UI {
 

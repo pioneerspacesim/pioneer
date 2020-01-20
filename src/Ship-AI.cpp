@@ -3,8 +3,6 @@
 
 #include "EnumStrings.h"
 #include "Frame.h"
-#include "LuaConstants.h"
-#include "LuaEvent.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "Player.h"
@@ -13,6 +11,8 @@
 #include "Space.h"
 #include "SpaceStation.h"
 #include "libs.h"
+#include "lua/LuaConstants.h"
+#include "lua/LuaEvent.h"
 #include "perlin.h"
 #include "ship/Propulsion.h"
 

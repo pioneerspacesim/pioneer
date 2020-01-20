@@ -8,8 +8,6 @@
 #include "Game.h"
 #include "GameSaveError.h"
 #include "Json.h"
-#include "LuaEvent.h"
-#include "LuaUtils.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "Player.h"
@@ -20,10 +18,12 @@
 #include "collider/CollisionSpace.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
-#include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
+#include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
+#include "lua/LuaEvent.h"
+#include "lua/LuaUtils.h"
 
 namespace {
 	static float lifetime = 0.1f;

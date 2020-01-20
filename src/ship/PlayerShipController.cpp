@@ -7,13 +7,13 @@
 #include "GameConfig.h"
 #include "GameSaveError.h"
 #include "KeyBindings.h"
-#include "LuaObject.h"
 #include "OS.h"
 #include "Pi.h"
 #include "Player.h"
 #include "Ship.h"
 #include "Space.h"
 #include "WorldView.h"
+#include "lua/LuaObject.h"
 
 #include <algorithm>
 

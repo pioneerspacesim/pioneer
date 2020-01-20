@@ -5,7 +5,7 @@
 #define _SYSTEMPATH_H
 
 #include "JsonFwd.h"
-#include "LuaWrappable.h"
+#include "lua/LuaWrappable.h"
 #include <SDL_stdinc.h>
 #include <cassert>
 #include <stdexcept>

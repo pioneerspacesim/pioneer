@@ -5,7 +5,7 @@
 #define UI_LUA_H
 
 #include "Context.h"
-#include "LuaObject.h"
+#include "lua/LuaObject.h"
 
 namespace UI {
 	namespace Lua {

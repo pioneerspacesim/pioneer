@@ -7,9 +7,9 @@
 #include <unordered_map>
 
 #include "DynamicBody.h"
-#include "LuaRef.h"
 #include "ShipType.h"
 #include "galaxy/SystemPath.h"
+#include "lua/LuaRef.h"
 #include "scenegraph/ModelSkin.h"
 #include "sound/Sound.h"
 

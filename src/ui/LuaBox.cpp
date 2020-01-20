@@ -3,7 +3,7 @@
 
 #include "Box.h"
 #include "Lua.h"
-#include "LuaConstants.h"
+#include "lua/LuaConstants.h"
 
 namespace UI {
 

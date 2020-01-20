@@ -5,8 +5,8 @@
 #define UI_LUASIGNAL_H
 
 #include "Event.h"
-#include "LuaPushPull.h"
 #include "Widget.h"
+#include "lua/LuaPushPull.h"
 
 inline void pi_lua_generic_push(lua_State *l, const UI::Event &value) { value.ToLuaTable(l); }
 

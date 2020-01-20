@@ -5,8 +5,8 @@
 #define _CARGOBODY_H
 
 #include "DynamicBody.h"
-#include "LuaRef.h"
 #include "libs.h"
+#include "lua/LuaRef.h"
 
 namespace Graphics {
 	class Renderer;

@@ -3,13 +3,13 @@
 
 #ifndef MODELVIEWER_H
 #define MODELVIEWER_H
-#include "LuaManager.h"
 #include "NavLights.h"
 #include "Shields.h"
 #include "graphics/Drawables.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
 #include "libs.h"
+#include "lua/LuaManager.h"
 #include "scenegraph/SceneGraph.h"
 #include "ui/Context.h"
 

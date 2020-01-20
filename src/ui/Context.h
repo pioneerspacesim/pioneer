@@ -41,8 +41,8 @@
 
 #include "MousePointer.h"
 
-#include "Lua.h"
-#include "LuaTable.h"
+#include "lua/LuaTable.h"
+#include "ui/Lua.h"
 
 #include <stack>
 

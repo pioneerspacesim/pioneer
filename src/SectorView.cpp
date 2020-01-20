@@ -7,8 +7,6 @@
 #include "GameConfig.h"
 #include "GameSaveError.h"
 #include "KeyBindings.h"
-#include "LuaConstants.h"
-#include "LuaObject.h"
 #include "MathUtil.h"
 #include "Pi.h"
 #include "Player.h"
@@ -22,6 +20,8 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "gui/Gui.h"
+#include "lua/LuaConstants.h"
+#include "lua/LuaObject.h"
 #include <algorithm>
 #include <sstream>
 #include <unordered_set>

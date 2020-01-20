@@ -2,12 +2,12 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "FileSystem.h"
-#include "Lua.h"
-#include "LuaRef.h"
-#include "LuaTable.h"
 #include "RefCounted.h"
 #include "graphics/opengl/RendererGL.h"
 #include "imgui/imgui.h"
+#include "lua/Lua.h"
+#include "lua/LuaRef.h"
+#include "lua/LuaTable.h"
 
 class PiFace {
 	friend class PiGui; // need acces to some private data
@@ -129,7 +129,7 @@ public:
 
 	void Cleanup();
 	static bool LowThrustButton(const char *label, const ImVec2 &size_arg, int thrust_level, const ImVec4 &bg_col, int frame_padding, ImColor gauge_fg, ImColor gauge_bg);
-	static bool ButtonImageSized(ImTextureID user_texture_id, const ImVec2& size, const ImVec2& imgSize, const ImVec2& uv0, const ImVec2& uv1, int frame_padding, const ImVec4& bg_col, const ImVec4& tint_col);
+	static bool ButtonImageSized(ImTextureID user_texture_id, const ImVec2 &size, const ImVec2 &imgSize, const ImVec2 &uv0, const ImVec2 &uv1, int frame_padding, const ImVec4 &bg_col, const ImVec4 &tint_col);
 
 	static void ThrustIndicator(const std::string &id_string, const ImVec2 &size, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg);
 

@@ -8,7 +8,6 @@
 #include "Game.h"
 #include "GameLog.h"
 #include "Lang.h"
-#include "LuaObject.h"
 #include "Pi.h"
 #include "Player.h"
 #include "SectorView.h"
@@ -19,6 +18,7 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
+#include "lua/LuaObject.h"
 #include <iomanip>
 #include <sstream>
 
@@ -1053,7 +1053,7 @@ void SystemView::PrepareGrid()
 
 	m_displayed_sbody.clear();
 	if (m_gridDrawing == GridDrawing::GRID_AND_LEGS) {
-			m_displayed_sbody = m_system->GetRootBody()->CollectAllChildren();
+		m_displayed_sbody = m_system->GetRootBody()->CollectAllChildren();
 	}
 }
 

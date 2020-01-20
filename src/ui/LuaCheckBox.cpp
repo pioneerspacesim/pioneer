@@ -2,8 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CheckBox.h"
-#include "LuaObject.h"
 #include "LuaSignal.h"
+#include "lua/LuaObject.h"
 
 namespace UI {
 

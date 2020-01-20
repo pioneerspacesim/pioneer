@@ -103,6 +103,7 @@ list(APPEND SRC_FOLDERS
 	src/graphics/dummy
 	src/graphics/opengl
 	src/gui
+	src/lua
 	src/pigui
 	src/scenegraph
 	src/ship
