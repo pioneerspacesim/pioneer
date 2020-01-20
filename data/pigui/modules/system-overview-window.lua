@@ -174,7 +174,8 @@ local filterText = ""
 local ignore
 local showWindow = false
 local function showInfoWindow()
-	if Game.player:IsDocked() or Game.InHyperspace() or not Game.system.explored then
+	if Game.CurrentView() == "world" and not Game.player:IsDocked() then
+	if Game.InHyperspace() or not Game.system.explored then
 		showWindow = false
 	end
 	local width_fraction = 5
@@ -184,9 +185,7 @@ local function showInfoWindow()
 	local frame_padding = 1
 	local bg_color = colors.buttonBlue
 	local fg_color = colors.white
-	if Game.player:IsDocked() then
-		-- do nothing at all
-	elseif not showWindow then
+	if not showWindow then
 		ui.setNextWindowPos(Vector2(ui.screenWidth - button_size.x * 3 - 10 , 10) , "Always")
 		ui.window("SystemTargetsSmall", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
 							function()
@@ -256,6 +255,7 @@ local function showInfoWindow()
 				end)
 		end)
 	end
+end
 end
 ui.registerModule("game", showInfoWindow)
 ui.toggleSystemTargets = function()

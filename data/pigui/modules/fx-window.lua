@@ -116,20 +116,16 @@ local function button_info(current_view)
 end
 
 local function button_comms(current_view)
+	if player:IsDocked() then
 	ui.sameLine()
 	if mainMenuButton(icons.comms, current_view == "space_station", lui.HUD_BUTTON_SHOW_COMMS) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f4)) then
-		if player:IsDocked() then
 			if current_view == "space_station" then
 				Game.SetView("world")
 			else
 				Game.SetView("space_station")
 			end
-		else
-			if ui.toggleSystemTargets then
-				ui.toggleSystemTargets()
-			end
-		end
 	end
+end
 end
 
 local function displayFxWindow()
