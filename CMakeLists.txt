@@ -104,6 +104,7 @@ list(APPEND SRC_FOLDERS
 	src/graphics/opengl
 	src/gui
 	src/lua
+	src/lua/core
 	src/pigui
 	src/scenegraph
 	src/ship
