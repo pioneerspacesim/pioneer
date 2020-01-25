@@ -273,14 +273,16 @@ ui.registerHandler('game', function(delta_t)
 		end)
 
 		if Game.CurrentView() == "world" and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.escape) then
-			if not ui.showOptionsWindow then
+			if not ui.optionsWindow.isOpen then
 				Game.SetTimeAcceleration("paused")
-				ui.showOptionsWindow = true
-				Input.DisableBindings();
+				ui.optionsWindow:open()
+				Input.DisableBindings()
 			else
-				Game.SetTimeAcceleration("1x")
-				ui.showOptionsWindow = false
-				Input.EnableBindings();
+				ui.optionsWindow:close()
+				if not ui.optionsWindow.isOpen then
+					Game.SetTimeAcceleration("1x")
+					Input.EnableBindings()
+				end
 			end
 		end
 end)

@@ -106,14 +106,14 @@ equipmentMarketPlayer = Market.New("EquipmentMarketPlayer", l.EQUIPPED, {
 
 	onClickSell = function (self, e)
 		if e:IsValidSlot("cargo", Game.player) and not e.purchasable then
-			self.popupMsg = l.CANNOT_SELL_ITEM
-			ui.openPopup(self.popupMsgId)
+			self.popup.msg = l.CANNOT_SELL_ITEM
+			self.popup:open()
 			return false
 		end
 
 		if not hasTech(e) then
-			self.popupMsg = l.STATION_TECH_TOO_LOW
-			ui.openPopup(self.popupMsgId)
+			self.popup.msg = l.STATION_TECH_TOO_LOW
+			self.popup:open()
 			return false
 		end
 
