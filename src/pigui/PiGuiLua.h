@@ -7,6 +7,8 @@
 #include "lua/LuaObject.h"
 
 namespace PiGUI {
+	void RegisterSandbox();
+
 	namespace Lua {
 
 		void Init();

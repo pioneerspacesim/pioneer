@@ -92,6 +92,14 @@ local textBackgroundMarginPixels = 2
 
 ui.icons_texture = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), 16 * 64, 16 * 64)
 
+-- Clean up the ImGui stack in case of an error
+function ui.pcall(fun, ...)
+	local stack = pigui.GetImguiStack()
+	return xpcall(fun, function(msg)
+		return msg .. pigui.CleanupImguiStack(stack)
+	end, ...)
+end
+
 function ui.window(name, params, fun)
 	local ok = pigui.Begin(name, params)
 	if ok then fun() end
