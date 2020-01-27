@@ -334,6 +334,8 @@ Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel, double cent
 	ret.m_eccentricity = 1 + 2 * EE * LLSqr / (u * u);
 	if (ret.m_eccentricity < 0.0) ret.m_eccentricity = 0.0;
 	ret.m_eccentricity = sqrt(ret.m_eccentricity);
+	//avoid parabola
+	if (ret.m_eccentricity < 1.0001 && ret.m_eccentricity > 0.9999) ret.m_eccentricity = 1.0001;
 
 	// lines represent these quantities:
 	// 		(e M G)^2
@@ -349,16 +351,7 @@ Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel, double cent
 	//	1. Trajectory follows Kepler's law and vector {-r cos(v), -r sin(v), 0}, r(t) and v(t) are parameters.
 	//	2. Correct transformation must transform {0,0,LL} to ang and {-r_now cos(orbitalPhaseAtStart), -r_now sin(orbitalPhaseAtStart), 0} to pos.
 	//  3. orbitalPhaseAtStart (=offset) is calculated from r = a ((e^2 - 1)/(1 + e cos(v) ))
-	const double angle1 = acos(Clamp(ang.z / LL, -1 + 1e-6, 1 - 1e-6)) * (ang.x > 0 ? -1 : 1);
-	const double angle2 = asin(Clamp(ang.y / (LL * sqrt(1.0 - ang.z * ang.z / LLSqr)), -1 + 1e-6, 1 - 1e-6)) * (ang.x > 0 ? -1 : 1);
-
-	// There are two possible solutions of the equation and the only way how to find the correct one
-	// I know about is to try both and check if the position is transformed correctly. We minimize the difference
-	// of the transformed  position and expected result.
-	double value = 1e99, offset = 0, cc = 0;
-	for (int i = -1; i <= 1; i += 2) {
-		double off = 0, ccc = 0;
-		matrix3x3d mat;
+	double off = 0;
 
 		if (ret.m_eccentricity < 1) {
 			off = ret.m_semiMajorAxis * (1 - ret.m_eccentricity * ret.m_eccentricity) - r_now;
@@ -370,22 +363,15 @@ Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel, double cent
 		off = Clamp(off / (r_now * ret.m_eccentricity), -1.0, 1.0);
 		off = -pos.Dot(vel) / fabs(pos.Dot(vel)) * acos(off);
 
-		ccc = acos(-pos.z / r_now / sin(angle1)) * i;
-		mat = matrix3x3d::RotateZ(angle2) * matrix3x3d::RotateY(angle1) * matrix3x3d::RotateZ(ccc - off);
+	//much simpler and satisfies the specified conditions
+	//and does not have unstable places (almost almost)
+	vector3d b1 = -pos.Normalized(); //x
+	vector3d b2 = -ang.Normalized(); //z
+	ret.m_orient = matrix3x3d::FromVectors(b1, b2.Cross(b1), b2) * matrix3x3d::RotateZ(-off).Transpose();
 
-		if (((mat * vector3d(-r_now * cos(off), r_now * sin(off), 0)) - pos).Length() < value) {
-			value = ((mat * vector3d(-r_now * cos(off), r_now * sin(off), 0)) - pos).Length();
-			cc = ccc;
-			offset = off;
-		}
-	}
-
-	// matrix3x3d::RotateX(M_PI) and minus sign before offset changes solution above, derived for orbits {-r cos(v), -r sin(v), 0}
-	// to {-r cos(v), -r sin(v), 0}
-	ret.m_orient = matrix3x3d::RotateZ(angle2) * matrix3x3d::RotateY(angle1) * matrix3x3d::RotateZ(cc - offset) * matrix3x3d::RotateX(M_PI);
 	ret.m_velocityAreaPerSecond = calc_velocity_area_per_sec(ret.m_semiMajorAxis, centralMass, ret.m_eccentricity);
 
-	ret.m_orbitalPhaseAtStart = ret.MeanAnomalyFromTrueAnomaly(-offset);
+	ret.m_orbitalPhaseAtStart = ret.MeanAnomalyFromTrueAnomaly(-off);
 
 	return ret;
 }
