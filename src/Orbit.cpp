@@ -75,11 +75,11 @@ static void calc_position_from_mean_anomaly(const double M, const double e, cons
 		for (iter = 0; iter < 10; iter++) {
 			double dE = (E - e * (sin(E)) - M) / (1.0 - e * cos(E));
 			E = E - dE;
-			if(fabs(dE) < 0.0001) break;
+			if (fabs(dE) < 0.0001) break;
 		}
 		// method above sometimes can't find the solution
 		// especially when e approaches 1
-		if(iter == 10){ // most likely no solution found
+		if (iter == 10) { // most likely no solution found
 			//failsafe to bisection method
 			//max(E - M) == 1, so safe interval is M+-1.1
 			double Emin = M - 1.1;
@@ -87,16 +87,13 @@ static void calc_position_from_mean_anomaly(const double M, const double e, cons
 			double Ymin = Emin - e * sin(Emin) - M;
 			double Ymax = Emax - e * sin(Emax) - M;
 			double Y;
-			for(int i = 0; i < 14; i++){ // 14 iterations for precision 0.00006
+			for (int i = 0; i < 14; i++) { // 14 iterations for precision 0.00006
 				E = (Emin + Emax) / 2;
 				Y = E - e * sin(E) - M;
-				if((Ymin * Y) < 0)
-				{
+				if ((Ymin * Y) < 0) {
 					Ymax = Y;
 					Emax = E;
-				}
-				else
-				{
+				} else {
 					Ymin = Y;
 					Emin = E;
 				}
@@ -120,7 +117,7 @@ static void calc_position_from_mean_anomaly(const double M, const double e, cons
 		for (int iter = 50; iter > 0; --iter) {
 			double d_sh = (M + e * sh - asinh(sh)) / (e - 1 / sqrt(1 + (sh * sh)));
 			sh = sh - d_sh;
-			if(fabs(d_sh) < 0.0001) break;
+			if (fabs(d_sh) < 0.0001) break;
 		}
 
 		double ch = sqrt(1 + sh * sh);
@@ -353,15 +350,15 @@ Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel, double cent
 	//  3. orbitalPhaseAtStart (=offset) is calculated from r = a ((e^2 - 1)/(1 + e cos(v) ))
 	double off = 0;
 
-		if (ret.m_eccentricity < 1) {
-			off = ret.m_semiMajorAxis * (1 - ret.m_eccentricity * ret.m_eccentricity) - r_now;
-		} else {
-			off = ret.m_semiMajorAxis * (-1 + ret.m_eccentricity * ret.m_eccentricity) - r_now;
-		}
+	if (ret.m_eccentricity < 1) {
+		off = ret.m_semiMajorAxis * (1 - ret.m_eccentricity * ret.m_eccentricity) - r_now;
+	} else {
+		off = ret.m_semiMajorAxis * (-1 + ret.m_eccentricity * ret.m_eccentricity) - r_now;
+	}
 
-		// correct sign of offset is given by sign pos.Dot(vel) (heading towards apohelion or perihelion?]
-		off = Clamp(off / (r_now * ret.m_eccentricity), -1.0, 1.0);
-		off = -pos.Dot(vel) / fabs(pos.Dot(vel)) * acos(off);
+	// correct sign of offset is given by sign pos.Dot(vel) (heading towards apohelion or perihelion?]
+	off = Clamp(off / (r_now * ret.m_eccentricity), -1.0, 1.0);
+	off = -pos.Dot(vel) / fabs(pos.Dot(vel)) * acos(off);
 
 	//much simpler and satisfies the specified conditions
 	//and does not have unstable places (almost almost)
