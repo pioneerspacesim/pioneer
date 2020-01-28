@@ -3,6 +3,7 @@ January 2020
      * Fix scrollbars appearing at different resolutions (#4771)
    * Internal Changes
      * CMake profiler build option: support older versions of cmake (#4772)
+     * Modal Window PiGui class that allows nesting (#4767)
 
 December 2019
    * Fixes
