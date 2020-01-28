@@ -7,6 +7,7 @@ local Game = import('Game')
 local ui = import('pigui/pigui.lua')
 local Event = import('Event')
 local Lang = import("Lang")
+local ModalWindow = import 'pigui/libs/modal-win.lua'
 
 local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
@@ -37,7 +38,6 @@ local optionsWinSize = Vector2(ui.screenWidth * 0.4, ui.screenHeight * 0.6)
 local showTab = 'video'
 
 local binding_pages
-local showKeyCapture
 local keyCaptureId
 local keyCaptureNum
 
@@ -267,15 +267,15 @@ local function showVideoOptions()
 	end
 end
 
-local function captureBinding(id,num)
-
+local captureBindingWindow
+captureBindingWindow = ModalWindow.New("CaptureBinding", function()
 	local info
 
 	for _,page in pairs(binding_pages) do
 		for _,group in pairs(page) do
 			if group.id then
 				for _,i in pairs(group) do
-					if i.id == id then
+					if i.id == keyCaptureId then
 						info = i
 					end
 				end
@@ -283,58 +283,56 @@ local function captureBinding(id,num)
 		end
 	end
 
-	ui.setNextWindowPosCenter('Always')
-	ui.withStyleColorsAndVars({WindowBg = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, function()
-		ui.window("captureBinding", {"NoTitleBar", "NoResize"}, function()
-			ui.text(localize_binding_id(info.id))
-			ui.text(lui.PRESS_A_KEY_OR_CONTROLLER_BUTTON)
+	ui.text(localize_binding_id(info.id))
+	ui.text(lui.PRESS_A_KEY_OR_CONTROLLER_BUTTON)
 
-			if info.type == 'action' then
-				local desc
-				if num == 1 then desc = info.bindingDescription1
-				else desc = info.bindingDescription2 end
-				desc = desc or '<None>'
-				ui.text(desc)
+	if info.type == 'action' then
+		local desc
+		if keyCaptureNum == 1 then desc = info.bindingDescription1
+		else desc = info.bindingDescription2 end
+		desc = desc or '<None>'
+		ui.text(desc)
 
-				local bindingKey = Engine.pigui.GetKeyBinding()
-				local setBinding = false
-				if(bindingKey and num==1 and bindingKey~=info.binding1) or (bindingKey and num==2 and bindingKey~=info.binding2) then setBinding = true end
+		local bindingKey = Engine.pigui.GetKeyBinding()
+		local setBinding = false
+		if(bindingKey and keyCaptureNum==1 and bindingKey~=info.binding1) or (bindingKey and keyCaptureNum==2 and bindingKey~=info.binding2) then setBinding = true end
 
-				if setBinding and  num == 1 then Input.SetActionBinding(info.id, bindingKey, info.binding2)
-				elseif setBinding and num==2 then Input.SetActionBinding(info.id, info.binding1, bindingKey)
-				end
-			elseif info.type == 'axis' then
-				local desc
-				if num == 1 then desc = info.axisDescription
-				elseif num == 2 then desc = info.positiveDescription
-				else desc = info.negativeDescription end
-				desc = desc or '<None>'
-				ui.text(desc)
+		if setBinding and  keyCaptureNum == 1 then Input.SetActionBinding(info.id, bindingKey, info.binding2)
+		elseif setBinding and keyCaptureNum==2 then Input.SetActionBinding(info.id, info.binding1, bindingKey)
+		end
+	elseif info.type == 'axis' then
+		local desc
+		if keyCaptureNum == 1 then desc = info.axisDescription
+		elseif keyCaptureNum == 2 then desc = info.positiveDescription
+		else desc = info.negativeDescription end
+		desc = desc or '<None>'
+		ui.text(desc)
 
-				if num == 1 then
-					local bindingAxis = Engine.pigui.GetAxisBinding()
+		if keyCaptureNum == 1 then
+			local bindingAxis = Engine.pigui.GetAxisBinding()
 
-					if bindingAxis and bindingAxis~=info.axis then
-						Input.SetAxisBinding(info.id, bindingAxis, info.positive, info.negative)
-					end
-				elseif num == 2 then
-					local bindingKey = Engine.pigui.GetKeyBinding()
-
-					if bindingKey and bindingKey ~= info.positive then
-						Input.SetAxisBinding(info.id, info.axis, bindingKey, info.negative)
-					end
-				else
-					local bindingKey = Engine.pigui.GetKeyBinding()
-					if bindingKey and bindingKey ~= info.negative then
-						Input.SetAxisBinding(info.id, info.axis, info.positive, bindingKey)
-					end
-				end
+			if bindingAxis and bindingAxis~=info.axis then
+				Input.SetAxisBinding(info.id, bindingAxis, info.positive, info.negative)
 			end
+		elseif keyCaptureNum == 2 then
+			local bindingKey = Engine.pigui.GetKeyBinding()
 
-			optionTextButton(lui.OK, nil, true, function() showKeyCapture = false end)
-		end)
-	end)
-end
+			if bindingKey and bindingKey ~= info.positive then
+				Input.SetAxisBinding(info.id, info.axis, bindingKey, info.negative)
+			end
+		else
+			local bindingKey = Engine.pigui.GetKeyBinding()
+			if bindingKey and bindingKey ~= info.negative then
+				Input.SetAxisBinding(info.id, info.axis, info.positive, bindingKey)
+			end
+		end
+	end
+
+	optionTextButton(lui.OK, nil, true, function() captureBindingWindow:close() end)
+end, function (self, drawPopupFn)
+	ui.setNextWindowPosCenter('Always')
+	ui.withStyleColorsAndVars({["PopupBg"] = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, drawPopupFn)
+end)
 
 local function showSoundOptions()
 	local masterMuted = Engine.GetMasterMuted()
@@ -395,16 +393,16 @@ local function actionBinding(info)
 		ui.nextColumn()
 		ui.text(linput.TEXT_BINDING)
 		bindingTextButton((descs[1] or '')..'##'..info.id..'1', (descs[1] or ''), true, function()
-			showKeyCapture = true
 			keyCaptureId = info.id
 			keyCaptureNum = 1
+			captureBindingWindow:open()
 		end)
 		ui.nextColumn()
 		ui.text(linput.TEXT_ALT_BINDING)
 		bindingTextButton((descs[2] or '')..'##'..info.id..'2', (descs[2] or ''), true, function()
-			showKeyCapture = true
 			keyCaptureId = info.id
 			keyCaptureNum = 2
+			captureBindingWindow:open()
 		end)
 		ui.columns(1,"",false)
 	end
@@ -418,9 +416,9 @@ local function axisBinding(info)
 		ui.text("Axis:")
 		ui.nextColumn()
 		bindingTextButton((descs[1] or '')..'##'..info.id..'axis', (descs[1] or ''), true, function()
-			showKeyCapture = true
 			keyCaptureId = info.id
 			keyCaptureNum = 1
+			captureBindingWindow:open()
 		end)
 		ui.nextColumn()
 		if info.axis then
@@ -448,16 +446,16 @@ local function axisBinding(info)
 		ui.nextColumn()
 		ui.text(linput.TEXT_KEY_POSITIVE)
 		bindingTextButton((descs[2] or '')..'##'..info.id..'positive', (descs[2] or ''), true, function()
-			showKeyCapture = true
 			keyCaptureId = info.id
 			keyCaptureNum = 2
+			captureBindingWindow:open()
 		end)
 		ui.nextColumn()
 		ui.text(linput.TEXT_KEY_NEGATIVE)
 		bindingTextButton((descs[3] or '')..'##'..info.id..'negative', (descs[3] or ''), true, function()
-			showKeyCapture = true
 			keyCaptureId = info.id
 			keyCaptureNum = 3
+			captureBindingWindow:open()
 		end)
 		ui.columns(1,"",false)
 	end
@@ -509,76 +507,62 @@ local optionsTabs = {
 	["controls"]=showControlsOptions
 }
 
-local optionModalOpen = false
+ui.optionsWindow = ModalWindow.New("Options", function()
+	mainButton(icons.view_sidereal, lui.VIDEO, showTab=='video', function()
+		showTab = 'video'
+	end)
+	ui.sameLine()
+	mainButton(icons.sound, lui.SOUND, showTab=='sound', function()
+		showTab = 'sound'
+	end)
+	ui.sameLine()
+	mainButton(icons.language, lui.LANGUAGE, showTab=='language', function()
+		showTab = 'language'
+	end)
+	ui.sameLine()
+	mainButton(icons.controls, lui.CONTROLS, showTab=='controls', function()
+		showTab = 'controls'
+	end)
 
-local function optionsWindow()
-	if ui.showOptionsWindow then
-		if not optionModalOpen then
-			ui.openPopup("Options")
+	ui.separator()
+
+	ui.child("options_tab", Vector2(-1, optionsWinSize.y - mainButtonSize.y*3 - 4), function()
+		optionsTabs[showTab]()
+	end)
+
+	ui.separator()
+	optionTextButton(lui.OPEN_USER_FOLDER, nil, Engine.CanBrowseUserFolder, function()
+		Engine.OpenBrowseUserFolder()
+	end)
+
+	ui.sameLine()
+	optionTextButton(lui.CLOSE, nil, true, function()
+		ui.optionsWindow:close()
+		if Game.player then
+			Game.SetTimeAcceleration("1x")
+			Input.EnableBindings();
 		end
+	end)
 
-		ui.setNextWindowSize(optionsWinSize, 'Always')
-		ui.setNextWindowPosCenter('Always')
-		ui.withStyleColorsAndVars({["WindowBg"] = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, function()
-			ui.popupModal("Options", {"NoTitleBar", "NoResize"}, function()
-				mainButton(icons.view_sidereal, lui.VIDEO, showTab=='video', function()
-					showTab = 'video'
-				end)
-				ui.sameLine()
-				mainButton(icons.sound, lui.SOUND, showTab=='sound', function()
-					showTab = 'sound'
-				end)
-				ui.sameLine()
-				mainButton(icons.language, lui.LANGUAGE, showTab=='language', function()
-					showTab = 'language'
-				end)
-				ui.sameLine()
-				mainButton(icons.controls, lui.CONTROLS, showTab=='controls', function()
-					showTab = 'controls'
-				end)
-
-				ui.separator()
-
-				ui.child("options_tab", Vector2(-1, optionsWinSize.y - mainButtonSize.y*3 - 4), function()
-					optionsTabs[showTab]()
-				end)
-
-				ui.separator()
-				optionTextButton(lui.OPEN_USER_FOLDER, nil, Engine.CanBrowseUserFolder, function()
-					Engine.OpenBrowseUserFolder()
-				end)
-
-				ui.sameLine()
-				optionTextButton(lui.CLOSE, nil, true, function()
-					ui.showOptionsWindow = false
-					if Game.player then
-						Game.SetTimeAcceleration("1x")
-						Input.EnableBindings();
-					end
-				end)
-
-				if Game.player then
-					ui.sameLine()
-					optionTextButton(lui.SAVE, nil, true, function() ui.showSavedGameWindow = "SAVE" end)
-
-					ui.sameLine()
-					optionTextButton(lui.END_GAME, nil, true, function()
-						ui.showOptionsWindow = false
-						Input.EnableBindings();
-						Game.EndGame()
-					end)
-				end
-			end)
+	if Game.player then
+		ui.sameLine()
+		optionTextButton(lui.SAVE, nil, true, function()
+			ui.saveLoadWindow.mode = "SAVE"
+			ui.saveLoadWindow:open()
 		end)
-		if showKeyCapture then
-			captureBinding(keyCaptureId, keyCaptureNum)
-		end
-	elseif optionModalOpen then
-		ui.closeCurrentPopup()
-	end
-end
 
-ui.registerModule("game", optionsWindow)
-ui.registerModule("mainMenu", optionsWindow)
+		ui.sameLine()
+		optionTextButton(lui.END_GAME, nil, true, function()
+			ui.optionsWindow:close()
+			Input.EnableBindings();
+			Game.EndGame()
+		end)
+	end
+end, function (self, drawPopupFn)
+	ui.setNextWindowSize(optionsWinSize, 'Always')
+	ui.setNextWindowPosCenter('Always')
+	ui.withStyleColorsAndVars({["PopupBg"] = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, drawPopupFn)
+end)
+
 
 return {}

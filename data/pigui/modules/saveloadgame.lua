@@ -10,6 +10,7 @@ local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
 local FileSystem = import("FileSystem")
 local Format = import("Format")
+local ModalWindow = import 'pigui/libs/modal-win.lua'
 
 local utils = import("utils")
 
@@ -98,50 +99,39 @@ local function showSaveFiles()
 end
 
 local function closeAndClearCache()
-	ui.closeCurrentPopup()
-	ui.showSavedGameWindow = nil
+	ui.saveLoadWindow:close()
+	ui.saveLoadWindow.mode = nil
 	saveFileCache = {}
 	popupOpened = false
 end
 
 local function closeAndLoadOrSave()
 	if selectedSave ~= nil and selectedSave ~= '' then
-		if ui.showSavedGameWindow == "LOAD" then
+		if ui.saveLoadWindow.mode == "LOAD" then
 			Game.LoadGame(selectedSave)
-		elseif ui.showSavedGameWindow == "SAVE" then
+		elseif ui.saveLoadWindow.mode == "SAVE" then
 			Game.SaveGame(selectedSave)
 		end
 		closeAndClearCache()
 	end
 end
 
-local function savedGameWindow()
-	if ui.showSavedGameWindow then
-		if not popupOpened then
-			popupOpened = true
-			ui.openPopup("LoadGame")
-		end
+ui.saveLoadWindow = ModalWindow.New("LoadGame", function()
+	local mode = ui.saveLoadWindow.mode == 'SAVE' and lui.SAVE or lui.LOAD
+	optionTextButton(mode, nil, selectedSave ~= nil and selectedSave ~= '', closeAndLoadOrSave)
+	ui.sameLine()
+	optionTextButton(lui.CANCEL, nil, true, closeAndClearCache)
 
-		ui.setNextWindowPosCenter('Always')
-		ui.withStyleColorsAndVars({WindowBg = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, function()
-			ui.popupModal("LoadGame", {"NoTitleBar", "NoResize", "AlwaysAutoResize"}, function()
-				local mode
-				mode = ui.showSavedGameWindow == 'SAVE' and lui.SAVE or lui.LOAD
-				optionTextButton(mode, nil, selectedSave~=nil, closeAndLoadOrSave)
-				ui.sameLine()
-				optionTextButton(lui.CANCEL, nil, true, closeAndClearCache)
-
-				if ui.showSavedGameWindow == "SAVE" then
-					selectedSave = ui.inputText("##saveFileName", selectedSave or "", {})
-				end
-
-				showSaveFiles()
-			end)
-		end)
+	if ui.saveLoadWindow.mode == "SAVE" then
+		selectedSave = ui.inputText("##saveFileName", selectedSave or "", {})
 	end
-end
 
-ui.registerModule("game", savedGameWindow)
-ui.registerModule("mainMenu", savedGameWindow)
+	showSaveFiles()
+end, function (self, drawPopupFn)
+	ui.setNextWindowPosCenter('Always')
+	ui.withStyleColorsAndVars({PopupBg = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, drawPopupFn)
+end)
+
+ui.saveLoadWindow.mode = "LOAD"
 
 return {}

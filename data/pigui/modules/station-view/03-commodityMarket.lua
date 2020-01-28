@@ -37,9 +37,6 @@ local textColorWarning = Color(255, 255, 0)
 local textColorError = Color(255, 0, 0)
 local tradeTextColor = textColorDefault
 
-local popupId = "commodityPopup"
-local popupMsg = "commodityPopup"
-
 -- calls to this function alter traded amount up or down, not absolute values
 local changeTradeAmount = function (delta)
 
@@ -126,23 +123,23 @@ local doBuy = function ()
 
 	--check cash (should never happen since trade amount buttons wont let it happen)
 	if orderAmount > Game.player:GetMoney() then
-		popupMsg = l.YOU_NOT_ENOUGH_MONEY
-		ui.openPopup(popupId)
+		commodityMarket.popup.msg = l.YOU_NOT_ENOUGH_MONEY
+		commodityMarket.popup:open()
 		return
 	end
 
 	--check stock
 	if tradeAmount > stock then
-		popupMsg = l.ITEM_IS_OUT_OF_STOCK
-		ui.openPopup(popupId)
+		commodityMarket.popup.msg = l.ITEM_IS_OUT_OF_STOCK
+		commodityMarket.popup:open()
 		return
 	end
 
 	--check cargo limit
 	local tradecargo = selectedItem.capabilities.mass * tradeAmount
 	if playerfreecargo < tradecargo then
-		popupMsg = l.SHIP_IS_FULLY_LADEN
-		ui.openPopup(popupId)
+		commodityMarket.popup.msg = l.SHIP_IS_FULLY_LADEN
+		commodityMarket.popup:open()
 		return
 	end
 
@@ -242,16 +239,6 @@ local tradeMenu = function()
 					if ui.coloredSelectedButton(tradeModeBuy and l.CONFIRM_PURCHASE or l.CONFIRM_SALE, widgetSizes.confirmButtonSize, false, colors.buttonBlue, nil, true) then
 						if tradeModeBuy then doBuy()
 						else doSell() end
-					end
-				end)
-
-				ui.setNextWindowSize(Vector2(0, 0), "Always")
-				ui.popupModal(popupId, {"NoTitleBar", "NoResize"}, function ()
-					ui.text(popupMsg)
-					ui.dummy(Vector2((ui.getContentRegion().x - 100 * rescaleVector.x) / 2, 0))
-					ui.sameLine()
-					if ui.button("OK", Vector2(100 * widgetSizes.rescaleVector.x, 0)) then
-						ui.closeCurrentPopup()
 					end
 				end)
 			end)

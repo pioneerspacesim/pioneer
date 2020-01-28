@@ -149,7 +149,7 @@ local function button_flight_control()
 end
 
 local function displayAutoPilotWindow()
-	if ui.showOptionsWindow then return end
+	if ui.optionsWindow.isOpen then return end
 	player = Game.player
 	local current_view = Game.CurrentView()
 	ui.setNextWindowPos(Vector2(ui.screenWidth/2 + ui.reticuleCircleRadius / 4 * 3, ui.screenHeight - mainButtonSize.y * 1.5 - 8) , "Always")

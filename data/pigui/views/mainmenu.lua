@@ -121,7 +121,7 @@ local function confirmQuit()
 end
 
 local function showOptions()
-	ui.showOptionsWindow = true
+	ui.optionsWindow:open()
 end
 
 local function quitGame()
@@ -229,7 +229,11 @@ local function showMainMenu()
 				mainTextButton(loc.name, desc, true, function() startAtLocation(loc) end)
 			end
 
-			mainTextButton(lui.LOAD_GAME, nil, true, function() ui.showSavedGameWindow = "LOAD" end)
+			mainTextButton(lui.LOAD_GAME, nil, true, function()
+				ui.saveLoadWindow.mode = "LOAD"
+				ui.saveLoadWindow:open()
+			end)
+
 			mainTextButton(lui.OPTIONS, nil, true, showOptions)
 			mainTextButton(lui.QUIT, nil, true, quitGame)
 

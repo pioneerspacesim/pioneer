@@ -5,6 +5,7 @@ local Game = import 'Game'
 local Lang = import 'Lang'
 
 local ui = import 'pigui/pigui.lua'
+local ModalWindow = import 'pigui/libs/modal-win.lua'
 
 local l = Lang.GetResource("ui-core")
 
@@ -46,8 +47,8 @@ local defaultFuncs = {
         if not self.funcs.onClickBuy(self, e) then return end
 
         if self.funcs.getStock(self, e) <= 0 then
-            self.popupMsg = l.ITEM_IS_OUT_OF_STOCK
-            ui.openPopup(self.popupMsgId)
+            self.popup.msg = l.ITEM_IS_OUT_OF_STOCK
+            self.popup:open()
             return
         end
 
@@ -55,8 +56,8 @@ local defaultFuncs = {
 
         -- if this ship model doesn't support fitting of this equip:
         if player:GetEquipSlotCapacity(e:GetDefaultSlot(player)) < 1 then
-            self.popupMsg = string.interp(l.NOT_SUPPORTED_ON_THIS_SHIP, {equipment = e:GetName(),})
-            ui.openPopup(self.popupMsgId)
+            self.popup.msg = string.interp(l.NOT_SUPPORTED_ON_THIS_SHIP, {equipment = e:GetName(),})
+            self.popup:open()
             return
         end
 
@@ -71,23 +72,23 @@ local defaultFuncs = {
 
         -- if ship maxed out in any valid slot for e
         if not slot then
-            self.popupMsg = l.SHIP_IS_FULLY_EQUIPPED
-            ui.openPopup(self.popupMsgId)
+            self.popup.msg = l.SHIP_IS_FULLY_EQUIPPED
+            self.popup:open()
             return
         end
 
         -- if ship too heavy to support more
         if player.freeCapacity < e.capabilities.mass then
-            self.popupMsg = l.SHIP_IS_FULLY_LADEN
-            ui.openPopup(self.popupMsgId)
+            self.popup.msg = l.SHIP_IS_FULLY_LADEN
+            self.popup:open()
             return
         end
 
 
         local price = self.funcs.getBuyPrice(self, e)
         if player:GetMoney() < self.funcs.getBuyPrice(self, e) then
-            self.popupMsg = l.YOU_NOT_ENOUGH_MONEY
-            ui.openPopup(self.popupMsgId)
+            self.popup.msg = l.YOU_NOT_ENOUGH_MONEY
+            self.popup:open()
             return
         end
 
@@ -180,10 +181,17 @@ function MarketWidget.New(id, title, config)
         itemSpacing = Vector2(4, 9),
     }, Vector2(1600, 900))
 
-    local self = {
+    local self
+    self = {
         id = id,
-        popupMsgId = 'popupMsg' .. id,
-        popupMsg = '',
+        popup = config.popup or ModalWindow.New('popupMsg' .. id, function()
+            ui.text(self.popup.msg)
+            ui.dummy(Vector2((ui.getContentRegion().x - 100) / 2, 0))
+            ui.sameLine()
+            if ui.button("OK", Vector2(100, 0)) then
+                self.popup:close()
+            end
+        end),
         title = title,
         items = {},
         itemTypes = config.itemTypes or {},
@@ -275,7 +283,7 @@ function MarketWidget:render()
                 endPos.y = ui.getCursorPos().y
                 endPos = offset + endPos
 
-                if ui.isMouseHoveringRect(startPos, endPos, false) and startPos.y < windowSize.y then
+                if ui.isWindowHovered() and ui.isMouseHoveringRect(startPos, endPos, false) and startPos.y < windowSize.y then
                     self.funcs.onMouseOverItem(self, item)
 
                     self.selStart = startPos
@@ -289,16 +297,6 @@ function MarketWidget:render()
             end
 
             ui.columns(1, "", false)
-
-            ui.setNextWindowSize(Vector2(0, 0), "Always")
-            ui.popupModal(self.popupMsgId, {"NoTitleBar", "NoResize"}, function ()
-                ui.text(self.popupMsg)
-                ui.dummy(Vector2((ui.getContentRegion().x - 100) / 2, 0))
-                ui.sameLine()
-                if ui.button("OK", Vector2(100, 0)) then
-                    ui.closeCurrentPopup()
-                end
-            end)
         end)
     end)
 end

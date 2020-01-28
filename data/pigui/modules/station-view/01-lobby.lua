@@ -15,6 +15,7 @@ local Comms = import 'Comms'
 local InfoFace = import 'ui/PiguiFace'
 local PiImage = import 'ui/PiImage'
 local drawTable = import 'pigui/libs/table.lua'
+local ModalWindow = import 'pigui/libs/modal-win.lua'
 
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
@@ -49,7 +50,14 @@ local hydrogenIcon = PiImage.New("icons/goods/Hydrogen.png")
 local hyperdriveIcon = PiImage.New("icons/goods/Hydrogen.png")
 
 local popupMsg = ''
-local popupId = 'lobbyPopup'
+local popup = ModalWindow.New('lobbyPopup', function()
+	ui.text(popupMsg)
+	ui.dummy(Vector2((ui.getContentRegion().x - 100*rescaleVector.x) / 2, 0))
+	ui.sameLine()
+	if ui.button("OK", Vector2(100*rescaleVector.x, 0)) then
+		self:close()
+	end
+end)
 
 local requestLaunch = function ()
 	local crimes, fine = Game.player:GetCrimeOutstanding()
@@ -58,15 +66,15 @@ local requestLaunch = function ()
 	if not Game.player:HasCorrectCrew() then
 		Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_CREW, station.label)
 		popupMsg = l.LAUNCH_PERMISSION_DENIED_CREW
-		ui.openPopup(popupId)
+		popup:open()
 	elseif fine > 0 then
 		Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_FINED, station.label)
 		popupMsg = l.LAUNCH_PERMISSION_DENIED_FINED
-		ui.openPopup(popupId)
+		popup:open()
 	elseif not Game.player:Undock() then
 		Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_BUSY, station.label)
 		popupMsg = l.LAUNCH_PERMISSION_DENIED_BUSY
-		ui.openPopup(popupId)
+		popup:open()
 	else
 		Game.SwitchView()
 	end
@@ -205,16 +213,6 @@ local function lobbyMenu(startPos)
 		ui.dummy(Vector2(ui.getContentRegion().x - widgetSizes.windowPadding.x/2 - widgetSizes.itemSpacing.x*2 - widgetSizes.buttonLaunchSize.x, 0))
 		ui.sameLine()
 		if ui.coloredSelectedButton(l.REQUEST_LAUNCH, widgetSizes.buttonLaunchSize, false, colors.buttonBlue, nil, true) then requestLaunch() end
-	end)
-
-	ui.setNextWindowSize(Vector2(0, 0), "Always")
-	ui.popupModal(popupId, {"NoTitleBar", "NoResize"}, function ()
-		ui.text(popupMsg)
-		ui.dummy(Vector2((ui.getContentRegion().x - 100*rescaleVector.x) / 2, 0))
-		ui.sameLine()
-		if ui.button("OK", Vector2(100*rescaleVector.x, 0)) then
-			ui.closeCurrentPopup()
-		end
 	end)
 end
 

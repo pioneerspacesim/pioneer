@@ -111,13 +111,6 @@ function ui.popup(name, fun)
 	end
 end
 
-function ui.popupModal(name, flags, fun)
-    if pigui.BeginPopupModal(name, flags) then
-        fun()
-        pigui.EndPopup()
-    end
-end
-
 function ui.child(id, size, flags, fun)
 	if flags == nil and fun == nil then -- size is optional
 		fun = size
@@ -591,6 +584,8 @@ ui.isAnyWindowHovered = function()
 	return ui.isWindowHovered({"AnyWindow"})
 end
 ui.collapsingHeader = pigui.CollapsingHeader
+ui.beginPopupModal = pigui.BeginPopupModal
+ui.endPopup = pigui.EndPopup
 ui.openPopup = pigui.OpenPopup
 ui.closeCurrentPopup = pigui.CloseCurrentPopup
 ui.shouldShowLabels = pigui.ShouldShowLabels
