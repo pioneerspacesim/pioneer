@@ -432,3 +432,50 @@ void pi_lua_import_recursive(lua_State *L, const std::string &basepath)
 	DEBUG_INDENTED_PRINTF("import recursive [%s]: ended\n\n", basepath.c_str());
 	LUA_DEBUG_END(L, 0);
 }
+
+static int l_reimport_package(lua_State *L)
+{
+
+	return 1;
+}
+
+static int l_base_import(lua_State *L)
+{
+	if (!lua_import(L, luaL_checkstring(L, 1)))
+		return lua_error(L);
+	return 1;
+}
+
+int luaopen_import(lua_State *L)
+{
+	LUA_DEBUG_START(L);
+	// package = {}
+	lua_newtable(L);
+	int package_table = lua_gettop(L);
+
+	// import cache table
+	lua_newtable(L);
+	pi_lua_readonly_table_proxy(L, -1);
+	lua_setfield(L, package_table, "loaded");
+	lua_setfield(L, LUA_REGISTRYINDEX, "Imports");
+
+	// TODO: deprecate the global use of `import()`
+	lua_pushcfunction(L, l_base_import);
+	lua_setglobal(L, "import");
+
+	// global require() function
+	lua_pushcfunction(L, l_base_import);
+	lua_setglobal(L, "require");
+
+	// core imports cache table
+	lua_newtable(L);
+	pi_lua_readonly_table_proxy(L, -1);
+	lua_setfield(L, package_table, "core");
+	lua_setfield(L, LUA_REGISTRYINDEX, "CoreImports");
+
+	lua_pushcfunction(L, l_reimport_package);
+	lua_setfield(L, package_table, "reimport");
+
+	LUA_DEBUG_END(L, 1);
+	return 1;
+}

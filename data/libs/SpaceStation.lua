@@ -1,7 +1,7 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local SpaceStation = import_core("SpaceStation")
+local SpaceStation = package.core["SpaceStation"]
 local Event = import("Event")
 local Rand = import("Rand")
 local Space = import("Space")

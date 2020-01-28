@@ -24,20 +24,6 @@ static int l_d_null_userdata(lua_State *L)
 	return 1;
 }
 
-static int l_base_import(lua_State *L)
-{
-	if (!lua_import(L, luaL_checkstring(L, 1)))
-		return lua_error(L);
-	return 1;
-}
-
-static int l_base_import_core(lua_State *L)
-{
-	if (!lua_import_core(L, luaL_checkstring(L, 1)))
-		return lua_error(L);
-	return 1;
-}
-
 static int l_enable_d_mode(lua_State *L)
 {
 	lua_pushboolean(L, true);
@@ -67,6 +53,7 @@ static const luaL_Reg STANDARD_LIBS[] = {
 	{ LUA_MATHLIBNAME, luaopen_math },
 	{ LUA_DBLIBNAME, luaopen_debug },
 	{ "util", luaopen_utils },
+	{ "package", luaopen_import },
 	{ 0, 0 }
 };
 
@@ -110,20 +97,6 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_setglobal(L, "load");
 	lua_pushnil(L);
 	lua_setglobal(L, "loadstring");
-
-	// import table and function
-	lua_newtable(L);
-	lua_setfield(L, LUA_REGISTRYINDEX, "Imports");
-	lua_pushcfunction(L, l_base_import);
-	lua_setglobal(L, "import");
-	lua_pushcfunction(L, l_base_import);
-	lua_setglobal(L, "require");
-
-	// same for core imports
-	lua_newtable(L);
-	lua_setfield(L, LUA_REGISTRYINDEX, "CoreImports");
-	lua_pushcfunction(L, l_base_import_core);
-	lua_setglobal(L, "import_core");
 
 	// standard library adjustments (math library)
 	lua_getglobal(L, LUA_MATHLIBNAME);

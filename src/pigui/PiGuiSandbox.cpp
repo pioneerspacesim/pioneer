@@ -9,6 +9,8 @@
 
 #include "imgui/imgui_internal.h"
 
+#include <array>
+
 struct SavedImguiStackInfo {
 	static const char *meta_name;
 
