@@ -1463,6 +1463,42 @@ bool first_body_is_more_important_than(Body *body, Body *other)
 	return result;
 }
 
+/*
+ * Function: GetProjectedBodiesGrouped
+ *
+ * Returns all bodies visible on screen, grouped into clusters of bodies
+ * which are close together on screen. The current combat target is always
+ * kept in its own seperate group.
+ *
+ * > groups = Engine.pigui.GetProjectedBodiesGrouped(collapse, ship_max_distance)
+ *
+ * Parameters:
+ *
+ *   collapse - Vector2 defining the screen size of the clusters
+ *
+ *   ship_max_distance - ships farther away than this are not included in the result
+ *
+ * Returns:
+ *
+ *   groups - array of info records describing each group
+ *
+ * Fields in info record:
+ *
+ *   screenCoordinates - coordinates of main <Body>
+ *   mainBody - the main <Body> of the group; if present in the group,
+ *              the navigation target is considered the main body
+ *   hasNavTarget - true if group contains the player's current navigation target
+ *   multiple - true if group consists of more than one body
+ *   bodies - array of all <Body> objects in the group, sorted by importance
+ *
+ * Availability:
+ *
+ *   2019-12
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1483,78 +1519,84 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 		filtered.back()._body = body;
 	}
 
-	std::vector<TSS_vector> groups;
-	groups.reserve(filtered.size());
+	struct GroupInfo {
+		Body *m_mainBody;
+		vector2d m_screenCoords; // screen coords of group
+		std::vector<Body *> m_bodies;
+		bool m_hasNavTarget;
 
-	// Perform half-matrix double for
-	for (TSS_vector::iterator it = filtered.begin(); it != filtered.end(); ++it) {
-		TSS_vector group;
-		group.reserve(filtered.end() - it + 1);
-
-		// First element should always be the "media";
-		// so push twice that element:
-		//printf("  Body 1 = %s (%f, %f)\n", (*it)._body->GetLabel().c_str(), (*it)._screenPosition.x, (*it)._screenPosition.y);
-		group.push_back((*it));
-		// Zeroed body so you could distinguish between a "media" element and a "real" element
-		group.back()._body = nullptr;
-		group.push_back((*it));
-
-		// Find near displayed bodies in remaining list of bodies
-		for (TSS_vector::iterator it2 = --filtered.end(); it2 != it;) {
-			//printf("    Body 2 = %s (%f, %f)\n", (*it2)._body->GetLabel().c_str(), (*it2)._screenPosition.x, (*it2)._screenPosition.y);
-			if ((std::abs((*group.begin())._screenPosition.x - (*it2)._screenPosition.x) > gap.x) ||
-				(std::abs((*group.begin())._screenPosition.y - (*it2)._screenPosition.y) > gap.y)) {
-				it2--;
-				continue;
-			}
-			//printf("      %s and %s are near!\n", (*it)._body->GetLabel().c_str(), (*it2)._body->GetLabel().c_str());
-			// There's a "nearest": push it on group, remove from filtered and recalc group center
-			group.push_back(*it2);
-			// nearly-swap&pop: copy last element over *it2 and...
-			(*it2) = filtered.back();
-			// ensure it2 never point past-the-end (thus to rbegin)
-			it2--;
-			// ..."pop"
-			filtered.pop_back();
-			// recalc group (starting with second element because first is the center itself)
-			vector3d media = std::accumulate(group.begin() + 1, group.end(), vector3d(0.0), [](const vector3d &a, const TScreenSpace &ss) {
-				//printf("      Third level with '%s'\n", ss._body->GetLabel().c_str());
-				return a + ss._body->GetPositionRelTo(Pi::player);
-			});
-			media /= double(group.size() - 1);
-			group.front() = lua_world_space_to_screen_space(media);
-			group.front()._body = nullptr; // <- just in case...
+		GroupInfo(Body *b, const vector2d &coords, bool isNavTarget) :
+			m_mainBody(b),
+			m_screenCoords(coords),
+			m_hasNavTarget(isNavTarget)
+		{
+			m_bodies.push_back(b);
 		}
-		groups.push_back(std::move(group));
+	};
+	std::vector<GroupInfo> groups;
+	groups.reserve(filtered.size());
+	const Body *nav_target = Pi::game->GetPlayer()->GetNavTarget();
+	const Body *combat_target = Pi::game->GetPlayer()->GetCombatTarget();
+
+	for (TScreenSpace &obj : filtered) {
+		bool inserted = false;
+
+		// never collapse combat target
+		if (obj._body != combat_target) {
+			for (GroupInfo &group : groups) {
+				if ((std::abs(group.m_screenCoords.x - obj._screenPosition.x) <= gap.x) &&
+					(std::abs(group.m_screenCoords.y - obj._screenPosition.y) <= gap.y)) {
+					// body inside group boundaries: insert into group
+					group.m_bodies.push_back(obj._body);
+					if (obj._body == nav_target) {
+						group.m_hasNavTarget = true;
+						// nav target becomes main body
+						group.m_mainBody = obj._body;
+						group.m_screenCoords = lua_world_space_to_screen_space(obj._body)._screenPosition;
+					}
+					inserted = true;
+					break;
+				}
+			}
+		}
+		if (!inserted) {
+			// create new group
+			GroupInfo newgroup(obj._body, obj._screenPosition,
+				obj._body == nav_target ? true : false);
+			groups.push_back(std::move(newgroup));
+		}
 	}
 
-	// Sort each groups member according to a given function (skipping first element)
-	std::for_each(begin(groups), end(groups), [](TSS_vector &group) {
-		std::sort(begin(group) + 1, end(group), [](TScreenSpace &a, TScreenSpace &b) {
-			return first_body_is_more_important_than(a._body, b._body);
-		});
-	});
+	// Sort each groups member according to a given function
+	for (GroupInfo &group : groups) {
+		std::sort(begin(group.m_bodies), end(group.m_bodies),
+			[](Body *a, Body *b) {
+				return first_body_is_more_important_than(a, b);
+			});
+		if (!group.m_hasNavTarget) {
+			// make most important body the main body
+			group.m_mainBody = group.m_bodies.front();
+			group.m_screenCoords = lua_world_space_to_screen_space(group.m_mainBody)._screenPosition;
+		}
+	}
 
 	LuaTable result(l, groups.size(), 0);
 	int index = 1;
 
-	std::for_each(begin(groups), end(groups), [&l, &result, &index](TSS_vector &group) {
-		int index2 = 1;
-		LuaTable table_group(l, group.size(), 0);
+	for (GroupInfo &group : groups) {
+		LuaTable info_table(l, 0, 5);
+		LuaTable bodies_table(l, group.m_bodies.size(), 0);
 
-		std::for_each(begin(group), end(group), [&l, &table_group, &index2](TScreenSpace &on_screen_object) {
-			LuaTable object(l, 0, 3);
-			object.Set("onscreen", on_screen_object._onScreen);
-			object.Set("screenCoordinates", on_screen_object._screenPosition);
-			if (on_screen_object._body != nullptr)
-				object.Set("body", on_screen_object._body);
-
-			table_group.Set(index2++, object);
-			lua_pop(l, 1);
-		});
-		result.Set(index++, table_group);
+		info_table.Set("screenCoordinates", group.m_screenCoords);
+		info_table.Set("mainBody", group.m_mainBody);
+		bodies_table.LoadVector(group.m_bodies.begin(), group.m_bodies.end());
+		info_table.Set("bodies", bodies_table);
 		lua_pop(l, 1);
-	});
+		info_table.Set("multiple", group.m_bodies.size() > 1 ? true : false);
+		info_table.Set("hasNavTarget", group.m_hasNavTarget);
+		result.Set(index++, info_table);
+		lua_pop(l, 1);
+	}
 	LuaPush(l, result);
 	return 1;
 }
