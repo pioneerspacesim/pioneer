@@ -174,87 +174,87 @@ local filterText = ""
 local ignore
 local showWindow = false
 local function showInfoWindow()
-	if Game.player:IsDocked() or Game.InHyperspace() or not Game.system.explored then
-		showWindow = false
-	end
-	local width_fraction = 5
-	local height_fraction = 2
-	local mainButtonSize = Vector2(32,32) * (ui.screenHeight / 1200)
-	local button_size = Vector2(24,24) * (ui.screenHeight / 1200)
-	local frame_padding = 1
-	local bg_color = colors.buttonBlue
-	local fg_color = colors.white
-	if Game.player:IsDocked() then
-		-- do nothing at all
-	elseif not showWindow then
-		ui.setNextWindowPos(Vector2(ui.screenWidth - button_size.x * 3 - 10 , 10) , "Always")
-		ui.window("SystemTargetsSmall", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
-							function()
-								if ui.coloredSelectedIconButton(icons.system_overview, mainButtonSize, false, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_WINDOW) then
-									showWindow = true
-								end
-		end)
-	else
-		ui.setNextWindowSize(Vector2(ui.screenWidth / width_fraction, ui.screenHeight / height_fraction) , "Always")
-		ui.setNextWindowPos(Vector2(ui.screenWidth - (ui.screenWidth / width_fraction) - 10 , 10) , "Always")
-		ui.withStyleColors({ ["WindowBg"] = colors.commsWindowBackground }, function()
+	if Game.CurrentView() == "world" and not Game.player:IsDocked() then
+		if Game.InHyperspace() or not Game.system.explored then
+			showWindow = false
+		end
+		local width_fraction = 5
+		local height_fraction = 2
+		local mainButtonSize = Vector2(32,32) * (ui.screenHeight / 1200)
+		local button_size = Vector2(24,24) * (ui.screenHeight / 1200)
+		local frame_padding = 1
+		local bg_color = colors.buttonBlue
+		local fg_color = colors.white
+		if not showWindow then
+			ui.setNextWindowPos(Vector2(ui.screenWidth - button_size.x * 3 - 10 , 10) , "Always")
+			ui.window("SystemTargetsSmall", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
+			function()
+				if ui.coloredSelectedIconButton(icons.system_overview, mainButtonSize, false, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_WINDOW) then
+					showWindow = true
+				end
+			end)
+		else
+			ui.setNextWindowSize(Vector2(ui.screenWidth / width_fraction, ui.screenHeight / height_fraction) , "Always")
+			ui.setNextWindowPos(Vector2(ui.screenWidth - (ui.screenWidth / width_fraction) - 10 , 10) , "Always")
+			ui.withStyleColors({ ["WindowBg"] = colors.commsWindowBackground }, function()
 				ui.withStyleVars({ ["WindowRounding"] = 0.0 }, function()
-						ui.window("SystemTargets", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
-											function()
-												ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
-																			--											ignore, shouldSortByPlayerDistance = ui.checkbox("Player Distance", shouldSortByPlayerDistance)
-																			if ui.coloredSelectedIconButton(icons.distance, button_size, shouldSortByPlayerDistance, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE) then
-																				shouldSortByPlayerDistance = not shouldSortByPlayerDistance
-																			end
-																			ui.sameLine()
-																			--											ignore, shouldShowMoons = ui.checkbox("Moons", shouldShowMoons)
-																			if ui.coloredSelectedIconButton(icons.moon, button_size, shouldShowMoons, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_SHOW_MOONS) then
-																				shouldShowMoons = not shouldShowMoons
-																			end
-																			ui.sameLine()
-																			-- ignore, shouldShowStations = ui.checkbox("Stations", shouldShowStations)
-																			if ui.coloredSelectedIconButton(icons.filter_stations, button_size, shouldShowStations, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_SHOW_STATIONS) then
-																				shouldShowStations = not shouldShowStations
-																			end
-																			ui.sameLine(ui.getWindowSize().x - button_size.x - 10)
-																			if ui.coloredSelectedIconButton(icons.system_overview, button_size, false, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_WINDOW) then
-																				showWindow = false
-																			end
-																			filterText, ignore = ui.inputText("", filterText, {})
-																			ui.sameLine()
-																			ui.icon(icons.filter_bodies, button_size, colors.frame, lui.OVERVIEW_NAME_FILTER)
-																			local sortFunction = shouldSortByPlayerDistance and sortByPlayerDistance or sortBySystemDistance
-																			local filterFunction = function(body)
-																				if body then
-																					-- only plain text matches, no regexes
-																					if filterText ~= "" and filterText ~= nil and not string.find(body.label:lower(), filterText:lower(), 1, true) then
-																						return false
-																					end
-																					if (not shouldShowMoons) and body:IsMoon() then
-																						return false
-																					elseif (not shouldShowStations) and body:IsStation() then
-																						return false
-																					end
-																				end
-																				return true
-																			end
-																			ui.child("spaceTargets", function()
-																								 local root = Space.rootSystemBody
-																								 local tree = calculateEntry(root, nil, Game.player:GetNavTarget(), filterFunction, false)
-																								 if tree then
-																									 ui.columns(2, "spaceTargetColumnsOn", false) -- no border
-																									 ui.setColumnOffset(1, ui.screenWidth / width_fraction * 0.66)
-																									 showEntry(tree, 0, sortFunction)
-																									 ui.columns(1, "spaceTargetColumnsOff", false) -- no border
-																									 ui.radialMenu("systemoverviewspacetargets")
-																								 else
-																									 ui.text(lui.NO_FILTER_MATCHES)
-																								 end
-																			end)
-												end)
+					ui.window("SystemTargets", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
+					function()
+						ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
+							--											ignore, shouldSortByPlayerDistance = ui.checkbox("Player Distance", shouldSortByPlayerDistance)
+							if ui.coloredSelectedIconButton(icons.distance, button_size, shouldSortByPlayerDistance, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE) then
+								shouldSortByPlayerDistance = not shouldSortByPlayerDistance
+							end
+							ui.sameLine()
+							--											ignore, shouldShowMoons = ui.checkbox("Moons", shouldShowMoons)
+							if ui.coloredSelectedIconButton(icons.moon, button_size, shouldShowMoons, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_SHOW_MOONS) then
+								shouldShowMoons = not shouldShowMoons
+							end
+							ui.sameLine()
+							-- ignore, shouldShowStations = ui.checkbox("Stations", shouldShowStations)
+							if ui.coloredSelectedIconButton(icons.filter_stations, button_size, shouldShowStations, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_SHOW_STATIONS) then
+								shouldShowStations = not shouldShowStations
+							end
+							ui.sameLine(ui.getWindowSize().x - button_size.x - 10)
+							if ui.coloredSelectedIconButton(icons.system_overview, button_size, false, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_WINDOW) then
+								showWindow = false
+							end
+							filterText, ignore = ui.inputText("", filterText, {})
+							ui.sameLine()
+							ui.icon(icons.filter_bodies, button_size, colors.frame, lui.OVERVIEW_NAME_FILTER)
+							local sortFunction = shouldSortByPlayerDistance and sortByPlayerDistance or sortBySystemDistance
+							local filterFunction = function(body)
+								if body then
+									-- only plain text matches, no regexes
+									if filterText ~= "" and filterText ~= nil and not string.find(body.label:lower(), filterText:lower(), 1, true) then
+										return false
+									end
+									if (not shouldShowMoons) and body:IsMoon() then
+										return false
+									elseif (not shouldShowStations) and body:IsStation() then
+										return false
+									end
+								end
+								return true
+							end
+							ui.child("spaceTargets", function()
+								local root = Space.rootSystemBody
+								local tree = calculateEntry(root, nil, Game.player:GetNavTarget(), filterFunction, false)
+								if tree then
+									ui.columns(2, "spaceTargetColumnsOn", false) -- no border
+									ui.setColumnOffset(1, ui.screenWidth / width_fraction * 0.66)
+									showEntry(tree, 0, sortFunction)
+									ui.columns(1, "spaceTargetColumnsOff", false) -- no border
+									ui.radialMenu("systemoverviewspacetargets")
+								else
+									ui.text(lui.NO_FILTER_MATCHES)
+								end
+							end)
 						end)
+					end)
 				end)
-		end)
+			end)
+		end
 	end
 end
 ui.registerModule("game", showInfoWindow)
