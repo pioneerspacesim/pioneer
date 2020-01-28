@@ -210,8 +210,9 @@ local function lobbyMenu(startPos)
 
 	ui.columns(1, '', false)
 	ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
-		ui.dummy(Vector2(ui.getContentRegion().x - widgetSizes.windowPadding.x/2 - widgetSizes.itemSpacing.x*2 - widgetSizes.buttonLaunchSize.x, 0))
-		ui.sameLine()
+		local buttonPos = ui.getCursorScreenPos()
+		buttonPos.x = gaugePos.x + gaugeWidth - widgetSizes.buttonLaunchSize.x
+		ui.setCursorScreenPos(buttonPos)
 		if ui.coloredSelectedButton(l.REQUEST_LAUNCH, widgetSizes.buttonLaunchSize, false, colors.buttonBlue, nil, true) then requestLaunch() end
 	end)
 end

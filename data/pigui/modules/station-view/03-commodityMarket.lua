@@ -246,7 +246,7 @@ local tradeMenu = function()
 	end
 end
 
-commodityMarket = Market.New("EquipmentMarket", false, {
+commodityMarket = Market.New("CommodityMarket", false, {
 	itemTypes = { Equipment.cargo },
 	columnCount = 5,
 	initTable = function(self)
