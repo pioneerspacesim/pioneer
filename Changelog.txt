@@ -2,12 +2,15 @@ January 2020
    * New Features
      * Move Ship Market to pigui (#4774)
      * Improve usability of in-space body indicators (#4764)
+
    * Fixes
      * Fix scrollbars appearing at different resolutions (#4771)
      * Fix mission screen obscuring buttons (#4770)
+
    * Internal Changes
      * CMake profiler build option: support older versions of cmake (#4772)
      * Modal Window PiGui class that allows nesting (#4767)
+     * Ship warning system also detects missiles (#4746)
 
 December 2019
    * Fixes
