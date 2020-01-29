@@ -8,12 +8,13 @@
 #include "RefCounted.h"
 #include "graphics/opengl/RendererGL.h"
 #include "imgui/imgui.h"
+#include <unordered_set>
 
 class PiFace {
 	friend class PiGui; // need acces to some private data
 	std::string m_ttfname; // only the ttf name, it is automatically sought in data/fonts/
 	float m_sizefactor; // the requested pixelsize is multiplied by this factor
-	std::vector<std::pair<unsigned short, unsigned short>> m_ranges;
+	std::unordered_set<unsigned short> m_invalid_glyphs;
 	mutable std::vector<std::pair<unsigned short, unsigned short>> m_used_ranges;
 	ImVector<ImWchar> m_imgui_ranges;
 
@@ -21,15 +22,11 @@ public:
 	PiFace(const std::string &ttfname, float sizefactor) :
 		m_ttfname(ttfname),
 		m_sizefactor(sizefactor) {}
-	PiFace(const std::string &ttfname, float sizefactor, const std::vector<std::pair<unsigned short, unsigned short>> &ranges) :
-		m_ttfname(ttfname),
-		m_sizefactor(sizefactor),
-		m_ranges(ranges) {}
 	const std::string &ttfname() const { return m_ttfname; }
 	const float sizefactor() const { return m_sizefactor; }
-	const std::vector<std::pair<unsigned short, unsigned short>> &ranges() const { return m_ranges; }
+	//std::unordered_map<unsigned short, unsigned short> &invalid_glyphs() const { return m_invalid_glyphs; }
 	const std::vector<std::pair<unsigned short, unsigned short>> &used_ranges() const { return m_used_ranges; }
-	const bool containsGlyph(unsigned short glyph) const;
+	const bool isValidGlyph(unsigned short glyph) const;
 	void addGlyph(unsigned short glyph);
 	void sortUsedRanges() const;
 };
@@ -129,7 +126,7 @@ public:
 
 	void Cleanup();
 	static bool LowThrustButton(const char *label, const ImVec2 &size_arg, int thrust_level, const ImVec4 &bg_col, int frame_padding, ImColor gauge_fg, ImColor gauge_bg);
-	static bool ButtonImageSized(ImTextureID user_texture_id, const ImVec2& size, const ImVec2& imgSize, const ImVec2& uv0, const ImVec2& uv1, int frame_padding, const ImVec4& bg_col, const ImVec4& tint_col);
+	static bool ButtonImageSized(ImTextureID user_texture_id, const ImVec2 &size, const ImVec2 &imgSize, const ImVec2 &uv0, const ImVec2 &uv1, int frame_padding, const ImVec4 &bg_col, const ImVec4 &tint_col);
 
 	static void ThrustIndicator(const std::string &id_string, const ImVec2 &size, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg);
 
