@@ -887,6 +887,10 @@
     "description": "",
     "message": "Rakete"
   },
+  "MISSILE_DETECTED": {
+    "description": "",
+    "message": "Missile launch detected."
+  },
   "MIXED_ECONOMY": {
     "description": "",
     "message": "Gemischte Wirtschaftsform"

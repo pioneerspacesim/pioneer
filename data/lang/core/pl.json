@@ -887,6 +887,10 @@
     "description": "",
     "message": "pocisk"
   },
+  "MISSILE_DETECTED": {
+    "description": "",
+    "message": "Missile launch detected."
+  },
   "MIXED_ECONOMY": {
     "description": "",
     "message": "Mieszana ekonomia"

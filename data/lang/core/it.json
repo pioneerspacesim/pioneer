@@ -887,6 +887,10 @@
     "description": "",
     "message": "missile"
   },
+  "MISSILE_DETECTED": {
+    "description": "",
+    "message": "Rilevato lancio di missili."
+  },
   "MIXED_ECONOMY": {
     "description": "",
     "message": "Economia mista di mercato"
