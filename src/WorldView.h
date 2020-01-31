@@ -166,6 +166,7 @@ private:
 		ActionBinding *toggleHudMode;
 		ActionBinding *increaseTimeAcceleration;
 		ActionBinding *decreaseTimeAcceleration;
+		ActionBinding *toggleLuaConsole;
 	} InputBindings;
 };
 

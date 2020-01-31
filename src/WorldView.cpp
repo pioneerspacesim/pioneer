@@ -77,6 +77,7 @@ void WorldView::RegisterInputBindings()
 	KEY_BINDING(toggleHudMode, "BindToggleHudMode", SDLK_TAB, 0)
 	KEY_BINDING(increaseTimeAcceleration, "BindIncreaseTimeAcceleration", SDLK_PAGEUP, 0)
 	KEY_BINDING(decreaseTimeAcceleration, "BindDecreaseTimeAcceleration", SDLK_PAGEDOWN, 0)
+	KEY_BINDING(toggleLuaConsole, "BindToggleLuaConsole", SDLK_BACKQUOTE, 0)
 }
 
 void WorldView::InitObject()
@@ -989,4 +990,5 @@ void WorldView::HandleSDLEvent(SDL_Event &event)
 	InputBindings.toggleHudMode->CheckSDLEventAndDispatch(&event);
 	InputBindings.increaseTimeAcceleration->CheckSDLEventAndDispatch(&event);
 	InputBindings.decreaseTimeAcceleration->CheckSDLEventAndDispatch(&event);
+	InputBindings.toggleLuaConsole->CheckSDLEventAndDispatch(&event);
 }

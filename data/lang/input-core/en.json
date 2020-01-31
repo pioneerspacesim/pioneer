@@ -107,6 +107,10 @@
     "description": "Descriptive name for the ToggleHudMode action.",
     "message": "Toggle HUD Mode"
   },
+  "BIND_TOGGLE_LUA_CONSOLE": {
+    "description": "Descriptive name for the ToggleLuaConsole action.",
+    "message": "Toggle Lua Console"
+  },
   "BIND_TOGGLE_ROTATION_DAMPING": {
     "description": "Descriptive name for the ToggleRotationDamping action.",
     "message": "Toggle Rotation Damping"
