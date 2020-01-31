@@ -889,7 +889,7 @@
   },
   "MISSILE_DETECTED": {
     "description": "",
-    "message": "Missile launch detected."
+    "message": "Rakétakilővés detektálva"
   },
   "MIXED_ECONOMY": {
     "description": "",
