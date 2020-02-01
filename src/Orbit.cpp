@@ -332,7 +332,8 @@ Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel, double cent
 	if (ret.m_eccentricity < 0.0) ret.m_eccentricity = 0.0;
 	ret.m_eccentricity = sqrt(ret.m_eccentricity);
 	//avoid parabola
-	if (ret.m_eccentricity < 1.0001 && ret.m_eccentricity > 0.9999) ret.m_eccentricity = 1.0001;
+	if (ret.m_eccentricity < 1.0001 && ret.m_eccentricity >= 1) ret.m_eccentricity = 1.0001;
+	if (ret.m_eccentricity > 0.9999 && ret.m_eccentricity < 1) ret.m_eccentricity = 0.9999;
 
 	// lines represent these quantities:
 	// 		(e M G)^2
@@ -343,6 +344,11 @@ Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel, double cent
 	if (ret.m_semiMajorAxis < 0) ret.m_semiMajorAxis = 0;
 	ret.m_semiMajorAxis = (sqrt(ret.m_semiMajorAxis) - u) / (2 * EE);
 	ret.m_semiMajorAxis = ret.m_semiMajorAxis / fabs(1.0 - ret.m_eccentricity);
+
+	// clipping of the eccentricity leads to a strong decrease in the semimajor axis.
+	// at low speed, since the ship is almost in the apocenter, semimajor axis should be
+	// almost equal to half distance to the star (no less that's for sure)
+	if (ret.m_eccentricity < 1 && ret.m_semiMajorAxis < r_now / 2) ret.m_semiMajorAxis = r_now / 2;
 
 	// The formulas for rotation matrix were derived based on following assumptions:
 	//	1. Trajectory follows Kepler's law and vector {-r cos(v), -r sin(v), 0}, r(t) and v(t) are parameters.
