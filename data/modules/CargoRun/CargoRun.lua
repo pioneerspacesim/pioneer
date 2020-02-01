@@ -162,6 +162,12 @@ local wedding_dresses = Equipment.EquipType.New({
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
+local stem_bolts = Equipment.EquipType.New({
+	l10n_key = 'STEM_BOLTS', slots="cargo", price=143,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Default",
+	l10n_resource="module-cargorun"
+})
 
 local chemical = {
 	digesters,
@@ -182,6 +188,7 @@ local hardware = {
 	plutonium,
 	semi_finished_products,
 	spaceship_parts,
+	stem_bolts,
 	titanium,
 	tungsten,
 	uranium
