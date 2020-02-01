@@ -82,6 +82,11 @@ void PlayerShipController::RegisterInputBindings()
 	auto speedGroup = controlsPage->GetBindingGroup("SpeedControl");
 	InputBindings.speedControl = Pi::input.AddAxisBinding("BindSpeedControl", speedGroup, AxisBinding(SDLK_RETURN, SDLK_RSHIFT));
 	InputBindings.toggleSetSpeed = Pi::input.AddActionBinding("BindToggleSetSpeed", speedGroup, ActionBinding(SDLK_v));
+
+	auto radarGroup = controlsPage->GetBindingGroup("RadarControl");
+	InputBindings.toggleScanMode = Pi::input.AddActionBinding("BindToggleScanMode", radarGroup, ActionBinding(SDLK_BACKSLASH));
+	InputBindings.increaseScanRange = Pi::input.AddActionBinding("BindIncreaseScanRange", radarGroup, ActionBinding(SDLK_RIGHTBRACKET));
+	InputBindings.decreaseScanRange = Pi::input.AddActionBinding("BindDecreaseScanRange", radarGroup, ActionBinding(SDLK_LEFTBRACKET));
 }
 
 PlayerShipController::~PlayerShipController()

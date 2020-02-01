@@ -43,6 +43,10 @@
     "description": "Descriptive name for the CycleCameraMode action.",
     "message": "Cycle Camera Mode"
   },
+  "BIND_DECREASE_SCAN_RANGE": {
+    "description": "Descriptive name for the BindDecreaseScanRange action.",
+    "message": "Decrease Radar Scan Range"
+  },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
     "message": "Decrease Time Acceleration"
@@ -50,6 +54,10 @@
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
     "message": "Switch to Front Camera"
+  },
+  "BIND_INCREASE_SCAN_RANGE": {
+    "description": "Descriptive name for the BindIncreaseScanRange action.",
+    "message": "Increase Radar Scan Range"
   },
   "BIND_INCREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the IncreaseTimeAcceleration action.",
@@ -115,6 +123,10 @@
     "description": "Descriptive name for the ToggleRotationDamping action.",
     "message": "Toggle Rotation Damping"
   },
+  "BIND_TOGGLE_SCAN_MODE": {
+    "description": "Descriptive name for the BindToggleScanMode action.",
+    "message": "Toggle Radar Scan Mode"
+  },
   "BIND_TOGGLE_SET_SPEED": {
     "description": "Descriptive name for the ToggleSetSpeed action.",
     "message": "Toggle Speed Control Mode"
@@ -137,6 +149,10 @@
   },
   "GROUP_MISCELLANEOUS": {
     "message": "Miscellaneous"
+  },
+  "GROUP_RADAR_CONTROL": {
+    "description": "Header for the Radar control input in settings window.",
+    "message": "Radar Control"
   },
   "GROUP_SHIP_ORIENT": {
     "description": "Header for the ShipOrient input group.",

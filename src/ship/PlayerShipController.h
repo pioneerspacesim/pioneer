@@ -79,6 +79,11 @@ private:
 		// Speed Control
 		AxisBinding *speedControl;
 		ActionBinding *toggleSetSpeed;
+
+		// Radar Control
+		ActionBinding *toggleScanMode;
+		ActionBinding *increaseScanRange;
+		ActionBinding *decreaseScanRange;
 	} InputBindings;
 
 	// FIXME: separate the propusion controller from the input system, pass in wanted velocity correction directly.
