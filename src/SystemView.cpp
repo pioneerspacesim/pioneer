@@ -571,22 +571,22 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 
 	Gui::Screen::EnterOrtho();
 	vector3d pos;
-	if (Gui::Screen::Project(offset + orbit->Perigeum() * double(m_zoom), pos))
+	if (Gui::Screen::Project(offset + orbit->Perigeum() * double(m_zoom), pos) && pos.z < 1)
 		m_periapsisIcon->Draw(Pi::renderer, vector2f(pos.x - 3, pos.y - 5), vector2f(6, 10), color);
-	if (Gui::Screen::Project(offset + orbit->Apogeum() * double(m_zoom), pos))
+	if (Gui::Screen::Project(offset + orbit->Apogeum() * double(m_zoom), pos) && pos.z < 1)
 		m_apoapsisIcon->Draw(Pi::renderer, vector2f(pos.x - 3, pos.y - 5), vector2f(6, 10), color);
 
 	if (showLagrange && m_showL4L5 != LAG_OFF) {
 		const Color LPointColor(0x00d6e2ff);
 		const vector3d posL4 = orbit->EvenSpacedPosTrajectory((1.0 / 360.0) * 60.0, tMinust0);
-		if (Gui::Screen::Project(offset + posL4 * double(m_zoom), pos)) {
+		if (Gui::Screen::Project(offset + posL4 * double(m_zoom), pos) && pos.z < 1) {
 			m_l4Icon->Draw(Pi::renderer, vector2f(pos.x - 2, pos.y - 2), vector2f(4, 4), LPointColor);
 			if (m_showL4L5 == LAG_ICONTEXT)
 				m_objectLabels->Add(std::string("L4"), sigc::mem_fun(this, &SystemView::OnClickLagrange), pos.x, pos.y);
 		}
 
 		const vector3d posL5 = orbit->EvenSpacedPosTrajectory((1.0 / 360.0) * 300.0, tMinust0);
-		if (Gui::Screen::Project(offset + posL5 * double(m_zoom), pos)) {
+		if (Gui::Screen::Project(offset + posL5 * double(m_zoom), pos) && pos.z < 1) {
 			m_l5Icon->Draw(Pi::renderer, vector2f(pos.x - 2, pos.y - 2), vector2f(4, 4), LPointColor);
 			if (m_showL4L5 == LAG_ICONTEXT)
 				m_objectLabels->Add(std::string("L5"), sigc::mem_fun(this, &SystemView::OnClickLagrange), pos.x, pos.y);
@@ -652,7 +652,7 @@ void SystemView::PutLabel(const SystemBody *b, const vector3d &offset)
 	Gui::Screen::EnterOrtho();
 
 	vector3d pos;
-	if (Gui::Screen::Project(offset, pos)) {
+	if (Gui::Screen::Project(offset, pos) && pos.z < 1) {
 		// libsigc++ is a beautiful thing
 		m_objectLabels->Add(b->GetName(), sigc::bind(sigc::mem_fun(this, &SystemView::OnClickObject), b), pos.x, pos.y);
 	}
@@ -665,7 +665,7 @@ void SystemView::LabelShip(Ship *s, const vector3d &offset)
 	Gui::Screen::EnterOrtho();
 
 	vector3d pos;
-	if (Gui::Screen::Project(offset, pos)) {
+	if (Gui::Screen::Project(offset, pos) && pos.z < 1) {
 		m_shipLabels->Add(s->GetLabel(), sigc::bind(sigc::mem_fun(this, &SystemView::OnClickShip), s), pos.x, pos.y);
 	}
 
@@ -761,6 +761,9 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 	// display the players orbit(?)
 	if (frame->GetSystemBody() == b && frame->GetSystemBody()->GetMass() > 0) {
 		const double t0 = m_game->GetTime();
+		if (Pi::player->IsDocked()) {
+			if (m_time == t0) PutSelectionBox(offset + Pi::player->GetPositionRelTo(frame->GetId()) * static_cast<double>(m_zoom), Color::RED);
+		} else {
 		Orbit playerOrbit = Pi::player->ComputeOrbit();
 
 		PutOrbit(&playerOrbit, offset, Color::RED, b->GetRadius());
@@ -778,6 +781,7 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 		}
 
 		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0) * double(m_zoom), Color::RED);
+		}
 	}
 
 	// display all child bodies and their orbits
@@ -823,7 +827,7 @@ void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
 	Gui::Screen::EnterOrtho();
 
 	vector3d screenPos;
-	if (Gui::Screen::Project(worldPos, screenPos)) {
+	if (Gui::Screen::Project(worldPos, screenPos) && screenPos.z < 1) {
 		// XXX copied from WorldView::DrawTargetSquare -- these should be unified
 		const float x1 = float(screenPos.x - SystemView::PICK_OBJECT_RECT_SIZE * 0.5);
 		const float x2 = float(x1 + SystemView::PICK_OBJECT_RECT_SIZE);
@@ -854,7 +858,7 @@ void SystemView::GetTransformTo(const SystemBody *b, vector3d &pos)
 void SystemView::Draw3D()
 {
 	PROFILE_SCOPED()
-	m_renderer->SetPerspectiveProjection(50.f, m_renderer->GetDisplayAspect(), 1.f, 1000.f);
+	m_renderer->SetPerspectiveProjection(50.f, m_renderer->GetDisplayAspect(), 1.f, 1000.f * m_zoom * float(AU) + DEFAULT_VIEW_DISTANCE * 2);
 	m_renderer->ClearScreen();
 
 	SystemPath path = m_game->GetSectorView()->GetSelected().SystemOnly();
@@ -881,7 +885,7 @@ void SystemView::Draw3D()
 	matrix4x4f trans = matrix4x4f::Identity();
 	trans.Translate(0, 0, -DEFAULT_VIEW_DISTANCE);
 	trans.Rotate(DEG2RAD(m_rot_x), 1, 0, 0);
-	trans.Rotate(-DEG2RAD(m_rot_z), 0, 0, 1);
+	trans.Rotate(DEG2RAD(m_rot_z), 0, 1, 0);
 	m_renderer->SetTransform(trans);
 
 	vector3d pos(0, 0, 0);
