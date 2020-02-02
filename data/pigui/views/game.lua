@@ -139,12 +139,12 @@ local function displayOnScreenObjects()
 	local should_show_label = ui.shouldShowLabels()
 	local iconsize = Vector2(18 , 18)
 	local label_offset = 14 -- enough so that the target rectangle fits
-	local collapse = iconsize -- size of clusters to be collapsed into single bodies
-	local click_radius = collapse:length() * 0.5
+	local cluster_size = iconsize.x -- size of clusters to be collapsed into single bodies
+	local click_radius = cluster_size * 0.5
 	-- make click_radius sufficiently smaller than the cluster size
 	-- to prevent overlap of selection regions
 
-	local bodies_grouped = ui.getProjectedBodiesGrouped(collapse, IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE)
+	local bodies_grouped = ui.getProjectedBodiesGrouped(cluster_size, IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE)
 
 	for _,group in ipairs(bodies_grouped) do
 		local mainBody = group.mainBody

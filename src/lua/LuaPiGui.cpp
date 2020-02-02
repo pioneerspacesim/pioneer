@@ -759,8 +759,6 @@ static int l_pigui_selectable(lua_State *l)
 	return 1;
 }
 
-
-
 /*
  * Function: text
  *
@@ -875,7 +873,6 @@ static int l_pigui_text_wrapped(lua_State *l)
 	ImGui::TextWrapped("%s", text.c_str());
 	return 0;
 }
-
 
 /*
  * Function: textColored
@@ -1636,11 +1633,11 @@ bool first_body_is_more_important_than(Body *body, Body *other)
  * which are close together on screen. The current combat target is always
  * kept in its own seperate group.
  *
- * > groups = Engine.pigui.GetProjectedBodiesGrouped(collapse, ship_max_distance)
+ * > groups = Engine.pigui.GetProjectedBodiesGrouped(cluster_size, ship_max_distance)
  *
  * Parameters:
  *
- *   collapse - Vector2 defining the screen size of the clusters
+ *   cluster_size - radius (screen size) of the clusters
  *
  *   ship_max_distance - ships farther away than this are not included in the result
  *
@@ -1668,7 +1665,7 @@ bool first_body_is_more_important_than(Body *body, Body *other)
 static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 {
 	PROFILE_SCOPED()
-	const vector2d gap = LuaPull<vector2d>(l, 1);
+	const double cluster_size = LuaPull<double>(l, 1);
 	const double ship_max_distance = LuaPull<double>(l, 2);
 
 	TSS_vector filtered;
@@ -1710,15 +1707,19 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 		// never collapse combat target
 		if (obj._body != combat_target) {
 			for (GroupInfo &group : groups) {
-				if ((std::abs(group.m_screenCoords.x - obj._screenPosition.x) <= gap.x) &&
-					(std::abs(group.m_screenCoords.y - obj._screenPosition.y) <= gap.y)) {
+				if ((group.m_screenCoords - obj._screenPosition).Length() <= cluster_size) {
 					// body inside group boundaries: insert into group
 					group.m_bodies.push_back(obj._body);
+
+					// make the more important body the new main body;
+					// but nav target is always most important
 					if (obj._body == nav_target) {
 						group.m_hasNavTarget = true;
-						// nav target becomes main body
 						group.m_mainBody = obj._body;
-						group.m_screenCoords = lua_world_space_to_screen_space(obj._body)._screenPosition;
+						group.m_screenCoords = obj._screenPosition;
+					} else if (!group.m_hasNavTarget && first_body_is_more_important_than(obj._body, group.m_mainBody)) {
+						group.m_mainBody = obj._body;
+						group.m_screenCoords = obj._screenPosition;
 					}
 					inserted = true;
 					break;
@@ -1733,17 +1734,12 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 		}
 	}
 
-	// Sort each groups member according to a given function
+	// Sort each groups bodies according to importance
 	for (GroupInfo &group : groups) {
 		std::sort(begin(group.m_bodies), end(group.m_bodies),
 			[](Body *a, Body *b) {
 				return first_body_is_more_important_than(a, b);
 			});
-		if (!group.m_hasNavTarget) {
-			// make most important body the main body
-			group.m_mainBody = group.m_bodies.front();
-			group.m_screenCoords = lua_world_space_to_screen_space(group.m_mainBody)._screenPosition;
-		}
 	}
 
 	LuaTable result(l, groups.size(), 0);
