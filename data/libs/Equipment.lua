@@ -2,13 +2,14 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local utils = import("utils")
-local Game = import_core("Game")
 local Serializer = import("Serializer")
 local Lang = import("Lang")
 local ShipDef = import("ShipDef")
 local Timer = import("Timer")
-local Space = import_core("Space")
 local Comms = import("Comms")
+
+local Game = package.core["Game"]
+local Space = package.core["Space"]
 
 local cargo
 local laser

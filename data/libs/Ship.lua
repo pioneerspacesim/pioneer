@@ -1,8 +1,8 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Ship = import_core("Ship")
-local Game = import_core("Game")
+local Ship = package.core["Ship"]
+local Game = package.core["Game"]
 local Engine = import("Engine")
 local Event = import("Event")
 local Serializer = import("Serializer")

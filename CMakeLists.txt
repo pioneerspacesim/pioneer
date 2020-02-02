@@ -93,6 +93,9 @@ endif (MINGW)
 
 option(WITH_OBJECTVIEWER "Include the object viewer in the build" ON)
 option(WITH_DEVKEYS "Include various extra keybindings for dev functions" ON)
+option(USE_SYSTEM_LIBGLEW "Use the system's libglew" OFF)
+option(USE_SYSTEM_LIBLUA "Use the system's liblua" OFF)
+option(PROFILER_ENABLED "Build pioneer with profiling support built-in." OFF)
 
 list(APPEND SRC_FOLDERS
 	src/
@@ -103,7 +106,6 @@ list(APPEND SRC_FOLDERS
 	src/graphics/dummy
 	src/graphics/opengl
 	src/gui
-	src/lua
 	src/pigui
 	src/scenegraph
 	src/ship
@@ -113,14 +115,18 @@ list(APPEND SRC_FOLDERS
 	src/ui
 )
 
-foreach (each IN LISTS SRC_FOLDERS)
+macro(add_source_folders TARGET SRC_FOLDERS)
+foreach (each IN LISTS ${SRC_FOLDERS})
 	file(GLOB header_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${each}/*.h)
-	list(APPEND HXX_FILES ${header_files})
+	list(APPEND ${TARGET}_HXX_FILES ${header_files})
 	file(GLOB src_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${each}/*.cpp)
-	list(APPEND CXX_FILES ${src_files})
-endforeach (each IN LISTS SRC_FOLDERS)
+	list(APPEND ${TARGET}_CXX_FILES ${src_files})
+endforeach ()
+endmacro()
 
-list(REMOVE_ITEM CXX_FILES
+add_source_folders(PIONEER SRC_FOLDERS)
+
+list(REMOVE_ITEM PIONEER_CXX_FILES
 	src/main.cpp
 	src/modelcompiler.cpp
 	src/savegamedump.cpp
@@ -146,7 +152,7 @@ endif (WIN32)
 
 configure_file(buildopts.h.cmakein buildopts.h @ONLY)
 
-LIST(APPEND CXX_FILES ${FILESYSTEM_CXX_FILES})
+LIST(APPEND PIONEER_CXX_FILES ${FILESYSTEM_CXX_FILES})
 if (MSVC)
 	option(USE_PIONEER_THIRDPARTY "Use pioneer's thirdparty library repository." ON)
 	if (USE_PIONEER_THIRDPARTY)
@@ -157,13 +163,11 @@ if (MSVC)
 	endif()
 endif (MSVC)
 
-option(USE_SYSTEM_LIBGLEW "Use the system's libglew" OFF)
 if (USE_SYSTEM_LIBGLEW)
 	add_library(GLEW::GLEW INTERFACE IMPORTED)
 	find_package(GLEW REQUIRED)
 endif (USE_SYSTEM_LIBGLEW)
 
-option(USE_SYSTEM_LIBLUA "Use the system's liblua" OFF)
 if (USE_SYSTEM_LIBLUA)
 	find_package(Lua 5.2 EXACT REQUIRED)
 	include_directories(${LUA_INCLUDE_DIR})
@@ -172,10 +176,22 @@ if (USE_SYSTEM_LIBLUA)
 	endif (WIN32)
 endif (USE_SYSTEM_LIBLUA)
 
-option(PROFILER_ENABLED "Build pioneer with profiling support built-in." OFF)
 if (PROFILER_ENABLED)
 	add_definitions(-DPIONEER_PROFILER=1)
 endif(PROFILER_ENABLED)
+
+macro(set_cxx11_properties)
+	set_target_properties(${ARGN} PROPERTIES
+		CXX_STANDARD 11
+		CXX_STANDARD_REQUIRED ON
+		CXX_EXTENSIONS ON
+	)
+endmacro()
+
+macro(define_pioneer_library library_name _src _header)
+	add_library(${library_name} STATIC ${${_src}} ${${_header}})
+	set_cxx11_properties(${library_name})
+endmacro()
 
 if (MSVC)
 	include(msvc-defaults.cmake)
@@ -227,7 +243,9 @@ if (NOT USE_SYSTEM_LIBLUA)
 	include_directories(contrib/lua)
 endif (NOT USE_SYSTEM_LIBLUA)
 
-add_library(pioneerLib STATIC ${CXX_FILES} ${HXX_FILES})
+define_pioneer_library(pioneer-lib PIONEER_CXX_FILES PIONEER_HXX_FILES)
+
+add_subdirectory(src/lua)
 
 if (WIN32)
 	string(TIMESTAMP BUILD_YEAR "%Y")
@@ -259,8 +277,11 @@ add_executable(savegamedump WIN32
 	src/PngWriter.cpp
 )
 
+target_link_libraries(pioneer-lib PUBLIC lz4)
+
 list(APPEND pioneerLibs
-	pioneerLib
+	pioneer-lib
+	pioneer-lua
 	${ASSIMP_LIBRARIES}
 	${FREETYPE_LIBRARIES}
 	${OPENGL_LIBRARIES}
@@ -269,7 +290,6 @@ list(APPEND pioneerLibs
 	${SIGCPP_LIBRARIES}
 	${VORBISFILE_LIBRARIES}
 	${LUA_LIBRARIES}
-	lz4
 	GLEW::GLEW
 	imgui
 	jenkins
@@ -289,11 +309,7 @@ target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(savegamedump LINK_PRIVATE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} profiler lz4 ${winLibs})
 
-set_target_properties(${PROJECT_NAME} modelcompiler savegamedump pioneerLib PROPERTIES
-	CXX_STANDARD 11
-	CXX_STANDARD_REQUIRED ON
-	CXX_EXTENSIONS ON
-)
+set_cxx11_properties(${PROJECT_NAME} modelcompiler savegamedump)
 
 if(MSVC)
 	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

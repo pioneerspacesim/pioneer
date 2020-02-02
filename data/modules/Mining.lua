@@ -1,4 +1,4 @@
-local Player = import_core("Player")
+local Player = package.core["Player"]
 local Engine = import("Engine")
 local Equipment = import("Equipment")
 

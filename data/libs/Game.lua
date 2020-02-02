@@ -1,4 +1,4 @@
-local Game = import_core("Game")
+local Game = package.core["Game"]
 local Event = import("Event")
 Game.comms_log_lines = {}
 Game.AddCommsLogLine = function(text, sender, priority)
