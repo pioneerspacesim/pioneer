@@ -249,9 +249,9 @@ void Player::SetCombatTarget(Body *const target, bool setSpeedTo)
 	Pi::onPlayerChangeTarget.emit();
 }
 
-void Player::SetNavTarget(Body *const target, bool setSpeedTo)
+void Player::SetNavTarget(Body *const target)
 {
-	static_cast<PlayerShipController *>(m_controller)->SetNavTarget(target, setSpeedTo);
+	static_cast<PlayerShipController *>(m_controller)->SetNavTarget(target);
 	Pi::onPlayerChangeTarget.emit();
 }
 

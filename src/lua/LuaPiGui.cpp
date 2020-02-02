@@ -1651,6 +1651,7 @@ bool first_body_is_more_important_than(Body *body, Body *other)
  *   mainBody - the main <Body> of the group; if present in the group,
  *              the navigation target is considered the main body
  *   hasNavTarget - true if group contains the player's current navigation target
+ *   hasSetSpeedTarget - true if group contains the set speed target
  *   multiple - true if group consists of more than one body
  *   bodies - array of all <Body> objects in the group, sorted by importance
  *
@@ -1687,11 +1688,14 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 		vector2d m_screenCoords; // screen coords of group
 		std::vector<Body *> m_bodies;
 		bool m_hasNavTarget;
+		bool m_hasSetSpeedTarget;
 
-		GroupInfo(Body *b, const vector2d &coords, bool isNavTarget) :
+		GroupInfo(Body *b, const vector2d &coords, bool isNavTarget,
+			bool isSetSpeedTarget) :
 			m_mainBody(b),
 			m_screenCoords(coords),
-			m_hasNavTarget(isNavTarget)
+			m_hasNavTarget(isNavTarget),
+			m_hasSetSpeedTarget(isSetSpeedTarget)
 		{
 			m_bodies.push_back(b);
 		}
@@ -1700,6 +1704,7 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 	groups.reserve(filtered.size());
 	const Body *nav_target = Pi::game->GetPlayer()->GetNavTarget();
 	const Body *combat_target = Pi::game->GetPlayer()->GetCombatTarget();
+	const Body *setspeed_target = Pi::game->GetPlayer()->GetSetSpeedTarget();
 
 	for (TScreenSpace &obj : filtered) {
 		bool inserted = false;
@@ -1721,6 +1726,8 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 						group.m_mainBody = obj._body;
 						group.m_screenCoords = obj._screenPosition;
 					}
+					if (obj._body == setspeed_target)
+						group.m_hasSetSpeedTarget = true;
 					inserted = true;
 					break;
 				}
@@ -1729,7 +1736,8 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 		if (!inserted) {
 			// create new group
 			GroupInfo newgroup(obj._body, obj._screenPosition,
-				obj._body == nav_target ? true : false);
+				obj._body == nav_target ? true : false,
+				obj._body == setspeed_target ? true : false);
 			groups.push_back(std::move(newgroup));
 		}
 	}
@@ -1756,6 +1764,7 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 		lua_pop(l, 1);
 		info_table.Set("multiple", group.m_bodies.size() > 1 ? true : false);
 		info_table.Set("hasNavTarget", group.m_hasNavTarget);
+		info_table.Set("hasSetSpeedTarget", group.m_hasSetSpeedTarget);
 		result.Set(index++, info_table);
 		lua_pop(l, 1);
 	}

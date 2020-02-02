@@ -47,7 +47,7 @@ public:
 	Body *GetNavTarget() const;
 	Body *GetSetSpeedTarget() const override;
 	void SetCombatTarget(Body *const target, bool setSpeedTo = false);
-	void SetNavTarget(Body *const target, bool setSpeedTo = false);
+	void SetNavTarget(Body *const target);
 	void SetSetSpeedTarget(Body *const target);
 
 	sigc::signal<void> onRotationDampingChanged;
