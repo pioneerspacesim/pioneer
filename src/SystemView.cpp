@@ -764,23 +764,23 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 		if (Pi::player->IsDocked()) {
 			if (m_time == t0) PutSelectionBox(offset + Pi::player->GetPositionRelTo(frame->GetId()) * static_cast<double>(m_zoom), Color::RED);
 		} else {
-		Orbit playerOrbit = Pi::player->ComputeOrbit();
+			Orbit playerOrbit = Pi::player->ComputeOrbit();
 
-		PutOrbit(&playerOrbit, offset, Color::RED, b->GetRadius());
+			PutOrbit(&playerOrbit, offset, Color::RED, b->GetRadius());
 
-		const double plannerStartTime = m_planner->GetStartTime();
-		if (!m_planner->GetPosition().ExactlyEqual(vector3d(0, 0, 0))) {
-			Orbit plannedOrbit = Orbit::FromBodyState(m_planner->GetPosition(),
-				m_planner->GetVel(),
-				frame->GetSystemBody()->GetMass());
-			PutOrbit(&plannedOrbit, offset, Color::STEELBLUE, b->GetRadius());
-			if (std::fabs(m_time - t0) > 1. && (m_time - plannerStartTime) > 0.)
-				PutSelectionBox(offset + plannedOrbit.OrbitalPosAtTime(m_time - plannerStartTime) * static_cast<double>(m_zoom), Color::STEELBLUE);
-			else
-				PutSelectionBox(offset + m_planner->GetPosition() * static_cast<double>(m_zoom), Color::STEELBLUE);
-		}
+			const double plannerStartTime = m_planner->GetStartTime();
+			if (!m_planner->GetPosition().ExactlyEqual(vector3d(0, 0, 0))) {
+				Orbit plannedOrbit = Orbit::FromBodyState(m_planner->GetPosition(),
+					m_planner->GetVel(),
+					frame->GetSystemBody()->GetMass());
+				PutOrbit(&plannedOrbit, offset, Color::STEELBLUE, b->GetRadius());
+				if (std::fabs(m_time - t0) > 1. && (m_time - plannerStartTime) > 0.)
+					PutSelectionBox(offset + plannedOrbit.OrbitalPosAtTime(m_time - plannerStartTime) * static_cast<double>(m_zoom), Color::STEELBLUE);
+				else
+					PutSelectionBox(offset + m_planner->GetPosition() * static_cast<double>(m_zoom), Color::STEELBLUE);
+			}
 
-		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0) * double(m_zoom), Color::RED);
+			PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0) * double(m_zoom), Color::RED);
 		}
 	}
 
@@ -1057,7 +1057,7 @@ void SystemView::PrepareGrid()
 
 	m_displayed_sbody.clear();
 	if (m_gridDrawing == GridDrawing::GRID_AND_LEGS) {
-			m_displayed_sbody = m_system->GetRootBody()->CollectAllChildren();
+		m_displayed_sbody = m_system->GetRootBody()->CollectAllChildren();
 	}
 }
 
