@@ -134,7 +134,19 @@ local function quitGame()
 end
 
 local function continueGame()
-	Game.LoadGame("_exit")
+	if Game.CanLoadGame('_exit') and ( Engine.GetAutosaveEnabled() or not Game.CanLoadGame('_quicksave') ) then
+		Game.LoadGame("_exit")
+	else
+		Game.LoadGame('_quicksave')
+	end
+end
+
+local function canContinue()
+	if Game.CanLoadGame('_exit') or Game.CanLoadGame('_quicksave') then
+		return true
+	else
+		return false
+	end
 end
 
 local function startAtLocation(location)
@@ -157,7 +169,7 @@ local function callModules(mode)
 end
 
 local function showMainMenu()
-	local canContinue = Game.CanLoadGame('_exit')
+	local showContinue = canContinue()
 	local buttons = 4
 
 	local winPos = Vector2(ui.screenWidth - mainButtonSize.x - 100, ui.screenHeight/2 - (buttons * mainButtonSize.y)/2 - (2*mainButtonSize.y)/2 - 8)
@@ -200,7 +212,7 @@ local function showMainMenu()
 	ui.setNextWindowSize(Vector2(0,0), 'Always')
 	ui.withStyleColors({["WindowBg"] = colors.lightBlackBackground}, function()
 		ui.window("MainMenuButtons", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}, function()
-			mainTextButton(lui.CONTINUE_GAME, nil, canContinue, continueGame)
+			mainTextButton(lui.CONTINUE_GAME, nil, showContinue, continueGame)
 
 			for _,loc in pairs(startLocations) do
 				local desc = loc.desc .. "\n"
