@@ -138,7 +138,7 @@ void PiGui::AddGlyph(ImFont *font, unsigned short glyph)
 	}
 	PiFont &pifont = pifont_iter->second;
 	for (PiFace &face : pifont.faces()) {
-		if (face.containsGlyph(glyph)) {
+		if (face.isValidGlyph(glyph)) {
 			face.addGlyph(glyph);
 			m_should_bake_fonts = true;
 			return;
@@ -743,9 +743,9 @@ PiGui::PiGui() :
 	m_should_bake_fonts(true)
 {
 	PiFont uiheading("orbiteer", {
-									 PiFace("DejaVuSans.ttf", /*18.0/20.0*/ 1.2, { { 0x400, 0x4ff }, { 0x500, 0x527 } }), PiFace("wqy-microhei.ttc", 1.0, { { 0x4e00, 0x9fff }, { 0x3400, 0x4dff } }), PiFace("Orbiteer-Bold.ttf", 1.0, { { 0, 0xffff } }) // imgui only supports 0xffff, not 0x10ffff
+									 PiFace("DejaVuSans.ttf", /*18.0/20.0*/ 1.2), PiFace("wqy-microhei.ttc", 1.0), PiFace("Orbiteer-Bold.ttf", 1.0) // imgui only supports 0xffff, not 0x10ffff
 								 });
-	PiFont guifont("pionillium", { PiFace("DejaVuSans.ttf", 13.0 / 14.0, { { 0x400, 0x4ff }, { 0x500, 0x527 } }), PiFace("wqy-microhei.ttc", 1.0, { { 0x4e00, 0x9fff }, { 0x3400, 0x4dff } }), PiFace("PionilliumText22L-Medium.ttf", 1.0, { { 0, 0xffff } }) });
+	PiFont guifont("pionillium", { PiFace("DejaVuSans.ttf", 13.0 / 14.0), PiFace("wqy-microhei.ttc", 1.0), PiFace("PionilliumText22L-Medium.ttf", 1.0) });
 	AddFontDefinition(uiheading);
 	AddFontDefinition(guifont);
 
@@ -759,14 +759,10 @@ PiGui::PiGui() :
 	GetFont("pionillium", 14);
 };
 
-const bool PiFace::containsGlyph(unsigned short glyph) const
+const bool PiFace::isValidGlyph(unsigned short glyph) const
 {
 	PROFILE_SCOPED()
-	for (auto range : m_ranges) {
-		if (range.first <= glyph && glyph <= range.second)
-			return true;
-	}
-	return false;
+	return (m_invalid_glyphs.count(glyph) == 0);
 }
 
 void PiFace::addGlyph(unsigned short glyph)
@@ -776,6 +772,7 @@ void PiFace::addGlyph(unsigned short glyph)
 	for (auto &range : m_used_ranges) {
 		if (range.first <= glyph && glyph <= range.second) {
 			// Output(" - already added, not adding again\n");
+			m_invalid_glyphs.insert(glyph); //if already added it once and trying to add it again, it's invalid
 			return;
 		}
 	}
