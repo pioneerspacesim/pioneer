@@ -1,22 +1,22 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local SpaceStation = package.core["SpaceStation"]
-local Event = import("Event")
-local Rand = import("Rand")
-local Space = import("Space")
-local utils = import("utils")
-local ShipDef = import("ShipDef")
-local Engine = import("Engine")
-local Timer = import("Timer")
-local Game = import("Game")
-local Ship = import("Ship")
-local Model = import("SceneGraph.Model")
-local ModelSkin = import("SceneGraph.ModelSkin")
-local Serializer = import("Serializer")
-local Equipment = import("Equipment")
-local Faction = import("Faction")
-local Lang = import("Lang")
+local SpaceStation = package.core['SpaceStation']
+local Event = require 'Event'
+local Rand = require 'Rand'
+local Space = require 'Space'
+local utils = require 'utils'
+local ShipDef = require 'ShipDef'
+local Engine = require 'Engine'
+local Timer = require 'Timer'
+local Game = require 'Game'
+local Ship = require 'Ship'
+local Model = require 'SceneGraph.Model'
+local ModelSkin = require 'SceneGraph.ModelSkin'
+local Serializer = require 'Serializer'
+local Equipment = require 'Equipment'
+local Faction = require 'Faction'
+local Lang = require 'Lang'
 local l = Lang.GetResource("ui-core")
 
 --

@@ -4,7 +4,7 @@
 -- this is the only library automatically loaded at startup
 -- its the right place to extend core Lua tables
 
-import("SpaceStation")
+require 'SpaceStation'
 
 math.clamp = function(v, min, max)
 	return math.min(max, math.max(v,min))

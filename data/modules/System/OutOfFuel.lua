@@ -1,9 +1,9 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Lang = import("Lang")
-local Comms = import("Comms")
-local Event = import("Event")
+local Lang = require 'Lang'
+local Comms = require 'Comms'
+local Event = require 'Event'
 
 local l = Lang.GetResource("module-system")
 

@@ -1,10 +1,10 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Event = import("Event")
-local Character = import("Character")
-local Comms = import("Comms")
-local Lang = import("Lang")
+local Event = require 'Event'
+local Character = require 'Character'
+local Comms = require 'Comms'
+local Lang = require 'Lang'
 
 local l = Lang.GetResource("module-statstracking")
 

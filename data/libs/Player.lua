@@ -2,11 +2,11 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Player = package.core["Player"]
-local Serializer = import("Serializer")
-local Event = import("Event")
-local Game = import("Game")
-local utils = import("utils")
-local Legal = import("Legal")
+local Serializer = require 'Serializer'
+local Event = require 'Event'
+local Game = require 'Game'
+local utils = require 'utils'
+local Legal = require 'Legal'
 
 Player.record = {}
 Player.record_old = {}

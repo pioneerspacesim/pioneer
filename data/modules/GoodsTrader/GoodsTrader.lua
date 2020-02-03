@@ -1,14 +1,14 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Lang = import("Lang")
-local Engine = import("Engine")
-local Game = import("Game")
-local Event = import("Event")
-local NameGen = import("NameGen")
-local Rand = import("Rand")
-local Serializer = import("Serializer")
-local Equipment = import("Equipment")
+local Lang = require 'Lang'
+local Engine = require 'Engine'
+local Game = require 'Game'
+local Event = require 'Event'
+local NameGen = require 'NameGen'
+local Rand = require 'Rand'
+local Serializer = require 'Serializer'
+local Equipment = require 'Equipment'
 
 local l = Lang.GetResource("module-goodstrader")
 

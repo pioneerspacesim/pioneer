@@ -1,17 +1,17 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Ship = package.core["Ship"]
-local Game = package.core["Game"]
-local Engine = import("Engine")
-local Event = import("Event")
-local Serializer = import("Serializer")
-local ShipDef = import("ShipDef")
-local Equipment = import("Equipment")
-local Timer = import("Timer")
-local Lang = import("Lang")
-local Character = import("Character")
-local Comms = import("Comms")
+local Ship = package.core['Ship']
+local Game = package.core['Game']
+local Engine = require 'Engine'
+local Event = require 'Event'
+local Serializer = require 'Serializer'
+local ShipDef = require 'ShipDef'
+local Equipment = require 'Equipment'
+local Timer = require 'Timer'
+local Lang = require 'Lang'
+local Character = require 'Character'
+local Comms = require 'Comms'
 
 local l = Lang.GetResource("ui-core")
 
@@ -98,7 +98,7 @@ end
 --
 -- Parameters:
 --
---   item - an Equipment type object (e.g., import("Equipment").cargo.hydrogen)
+--   item - an Equipment type object (e.g., require 'Equipment'.cargo.hydrogen)
 --
 --   slot - the slot name (e.g., "cargo")
 --
@@ -143,7 +143,7 @@ end
 --
 -- Parameters:
 --
---   item  - an Equipment type object (e.g., import("Equipment").cargo.hydrogen)
+--   item  - an Equipment type object (e.g., require 'Equipment'.cargo.hydrogen)
 --
 --   count - optional. The number of this item to add. Defaults to 1.
 --
