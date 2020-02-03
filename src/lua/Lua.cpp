@@ -112,11 +112,16 @@ namespace Lua {
 
 		// XXX load everything. for now, just modules
 		lua_State *l = Lua::manager->GetLuaState();
-		pi_lua_import(l, "libs/autoload.lua", true);
+		pi_lua_dofile(l, "libs/autoload.lua");
+		lua_pop(l, 1);
+
 		pi_lua_import_recursive(l, "ui");
-		pi_lua_import(l, "pigui/pigui.lua", true);
-		pi_lua_import_recursive(l, "pigui/modules");
-		pi_lua_import_recursive(l, "pigui/views");
+
+		pi_lua_import(l, "pigui", true);
+
+		pi_lua_import_recursive(l, "pigui.modules");
+		pi_lua_import_recursive(l, "pigui.views");
+
 		pi_lua_import_recursive(l, "modules");
 
 		Pi::luaNameGen = new LuaNameGen(Lua::manager);

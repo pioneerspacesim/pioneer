@@ -168,6 +168,7 @@ static bool load_file_cached(lua_State *L, const std::string &path, int cacheIdx
 	if (fileInfo.Exists()) {
 		// Load and run the file from disk
 		auto data = fileInfo.Read();
+		lua_checkstack(L, 5);
 		pi_lua_dofile(L, *data, 1);
 
 		DEBUG_INDENTED_PRINTF("-> loaded module file %s from disk\n", path.c_str());
@@ -225,6 +226,9 @@ static void set_path_cache(lua_State *L, const std::string &name, const std::str
 	LUA_DEBUG_END(L, 0);
 }
 
+// Follow the chain of module.name.table down the C++ core modules table
+// If this finds a non-nil value at the end of a table (or userdata) chain,
+// this function returns true and pushes that value on the stack.
 static bool load_from_core(lua_State *L, const std::string &moduleName)
 {
 	LUA_DEBUG_START(L);
@@ -233,17 +237,16 @@ static bool load_from_core(lua_State *L, const std::string &moduleName)
 
 	size_t start = 0;
 	size_t end = moduleName.find_first_of('.');
-	// FIXME: looks like there's an extra iteration here that's causing issues with paths with >1 component
 	while (end != std::string::npos) {
-		auto fragment = moduleName.substr(start, end);
+		auto fragment = moduleName.substr(start, end - start);
 		lua_getfield(L, -1, fragment.c_str());
-		lua_remove(L, lua_gettop(L) - 1);
 
-		if (!lua_istable(L, -1)) {
-			lua_pop(L, 1);
+		if (!lua_istable(L, -1) && !lua_isuserdata(L, -1)) {
+			lua_pop(L, 2);
 			LUA_DEBUG_END(L, 0);
 			return false;
 		}
+		lua_remove(L, lua_gettop(L) - 1);
 
 		start = end + 1;
 		end = moduleName.find_first_of('.', start);
@@ -271,6 +274,8 @@ static bool lua_import_module(lua_State *L, const std::string &moduleName)
 
 	DEBUG_INDENTED_PRINTF("[require '%s']: loading module started...\n", moduleName.c_str());
 	DEBUG_INDENT_INCREASE();
+
+	lua_checkstack(L, 2);
 
 	// Load the import cache table
 	lua_getfield(L, LUA_REGISTRYINDEX, IMPORT_CACHE_NAME);
@@ -334,7 +339,6 @@ static bool lua_import_module(lua_State *L, const std::string &moduleName)
 
 	// Load the module from the Core c++ module cache
 	if (load_from_core(L, moduleName.c_str())) {
-		
 		DEBUG_INDENTED_PRINTF("-> loaded module %s from C++ core modules\n", moduleName.c_str());
 		DEBUG_INDENT_DECREASE();
 		LUA_DEBUG_END(L, 1);
@@ -691,41 +695,57 @@ bool lua_import(lua_State *L, const std::string &importName, bool isFullName)
 	return isImported;
 }
 
-bool pi_lua_import(lua_State *L, const std::string &importName, bool isFullName)
+bool pi_lua_import(lua_State *L, const std::string &importName, bool popImported)
 {
-	if (!lua_import(L, importName, isFullName)) {
+	if (!lua_import_module(L, importName)) {
 #ifndef DEBUG_IMPORT // already have extended info
 		Output("%s\n", lua_tostring(L, -1));
 #endif
 		lua_pop(L, 1);
 		return false;
 	}
+
+	if (popImported)
+		lua_pop(L, 1);
+
 	return true;
 }
 
-void pi_lua_import_recursive(lua_State *L, const std::string &basepath)
+void pi_lua_import_recursive(lua_State *L, const std::string &moduleName)
 {
 	LUA_DEBUG_START(L);
-	DEBUG_INDENTED_PRINTF("import recursive [%s]: started\n", basepath.c_str());
+	DEBUG_INDENTED_PRINTF("import recursive [%s]: started\n", moduleName.c_str());
 	DEBUG_INDENT_INCREASE();
 
-	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, basepath, FileSystem::FileEnumerator::IncludeDirs); !files.Finished(); files.Next()) {
-		const FileSystem::FileInfo &info = files.Current();
-		const std::string &fpath = info.GetPath();
-		if (info.IsDir()) {
-			pi_lua_import_recursive(L, fpath);
-		} else {
-			assert(info.IsFile());
-			if (ends_with_ci(fpath, ".lua")) {
-				if (pi_lua_import(L, fpath, true))
-					lua_pop(L, 1); // pop imported value
+	std::string modulePath = moduleName;
+	std::replace(modulePath.begin(), modulePath.end(), '.', '/');
+	std::deque<std::pair<std::string, std::string>> queue = {
+		{ modulePath, moduleName }
+	};
+
+	while (!queue.empty()) {
+		auto &current = queue.front();
+
+		for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, current.first, FileSystem::FileEnumerator::IncludeDirs); !files.Finished(); files.Next()) {
+			const FileSystem::FileInfo &info = files.Current();
+			const std::string &fpath = info.GetPath();
+			const std::string &fname = info.GetName();
+			const size_t extpos = fname.find('.');
+			const std::string moduleName = current.second + "." + fname.substr(0, extpos);
+
+			if (info.IsDir() && extpos == std::string::npos) {
+				queue.push_back({ fpath, moduleName });
+			} else if (info.IsFile() && ends_with_ci(fpath, ".lua")) {
+				pi_lua_import(L, moduleName, true);
 			}
+			LUA_DEBUG_CHECK(L, 0);
 		}
-		LUA_DEBUG_CHECK(L, 0);
+
+		queue.pop_front();
 	}
 
 	DEBUG_INDENT_DECREASE();
-	DEBUG_INDENTED_PRINTF("import recursive [%s]: ended\n\n", basepath.c_str());
+	DEBUG_INDENTED_PRINTF("import recursive [%s]: ended\n\n", moduleName.c_str());
 	LUA_DEBUG_END(L, 0);
 }
 
@@ -779,25 +799,28 @@ static int l_require_package(lua_State *L)
 
 static int l_deprecated_import(lua_State *L)
 {
-	std::string import_path = luaL_checkstring(L, 1);
-	std::string module_name = import_path;
+	std::string importPath = luaL_checkstring(L, 1);
+	std::string moduleName = importPath;
 
 	// trim ".lua" from the end
-	size_t last_dot = import_path.find_last_of('.');
+	size_t last_dot = importPath.find_last_of('.');
 	if (last_dot != std::string::npos) {
-		if (!import_path.compare(last_dot, 4, ".lua"))
-			module_name = import_path.substr(0, last_dot);
+		if (!importPath.compare(last_dot, 4, ".lua"))
+			moduleName = importPath.substr(0, last_dot);
 	}
 
 	// convert path to module name
-	std::replace(module_name.begin(), module_name.end(), '/', '.');
+	std::replace(moduleName.begin(), moduleName.end(), '/', '.');
 
-	if (module_name != import_path)
-		Output("warning: the use of import(\"%s\") is deprecated; use require '%s' instead. (%s)\n", import_path.c_str(), module_name.c_str(), get_caller(L).c_str());
+	if (moduleName != importPath)
+		Output("warning: the use of import(\"%s\") is deprecated; use require '%s' instead.\n\t(%s)\n", importPath.c_str(), moduleName.c_str(), get_caller(L).c_str());
 	else
-		Output("warning: the use of import() is deprecated; use require '%s' instead. (%s)\n", module_name.c_str(), get_caller(L).c_str());
+		Output("warning: the use of import() is deprecated; use require '%s' instead.\n\t(%s)\n", moduleName.c_str(), get_caller(L).c_str());
 
-	if (lua_import_module(L, module_name))
+	if (moduleName[0] == '.')
+		moduleName = path_to_module(get_caller(L)) + moduleName;
+
+	if (lua_import_module(L, moduleName))
 		return 1;
 
 	return lua_error(L);
