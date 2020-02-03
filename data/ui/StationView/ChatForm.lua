@@ -9,7 +9,7 @@ local Face = import("UI.Game.Face")
 local SmallLabeledButton = import("ui/SmallLabeledButton")
 local NavButton = import("ui/NavButton")
 
-local EquipmentTableWidgets = import("EquipmentTableWidgets")
+local EquipmentTableWidgets = import(".EquipmentTableWidgets")
 
 local ui = Engine.ui
 

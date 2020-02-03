@@ -13,13 +13,13 @@ local piStationView = import("pigui/views/station-view")
 
 local l = Lang.GetResource("ui-core")
 
-local lobby           = import("StationView/Lobby")
-local bulletinBoard   = import("StationView/BulletinBoard")
-local commodityMarket = import("StationView/CommodityMarket")
-local shipMarket      = import("StationView/ShipMarket")
-local equipmentMarket = import("StationView/EquipmentMarket")
-local shipRepairs     = import("StationView/ShipRepairs")
-local police          = import("StationView/Police")
+local lobby           = import("ui/StationView/Lobby")
+local bulletinBoard   = import("ui/StationView/BulletinBoard")
+local commodityMarket = import("ui/StationView/CommodityMarket")
+local shipMarket      = import("ui/StationView/ShipMarket")
+local equipmentMarket = import("ui/StationView/EquipmentMarket")
+local shipRepairs     = import("ui/StationView/ShipRepairs")
+local police          = import("ui/StationView/Police")
 
 local ui = Engine.ui
 
