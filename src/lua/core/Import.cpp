@@ -114,10 +114,6 @@ static std::string get_caller(lua_State *L)
 static std::string path_to_module(std::string path)
 {
 	std::string module_name;
-	// simple allocation optimizations
-	if (path.size() > 8 && path.find_first_of('/') != std::string::npos) {
-		module_name.reserve(8);
-	}
 
 	// Loop through each path fragment and append to the module name
 	// e.g. '/data/modules/path/to/file.lua' would become 'data.modules.path.to'
@@ -127,18 +123,21 @@ static std::string path_to_module(std::string path)
 	while (end != std::string::npos) {
 		auto fragment = path.substr(start, end - start);
 
-		if (fragment.size() > 0) {
+		if (!fragment.empty()) {
 			// Paths containing the separator character cannot be translated into a module name
 			// this means you can't do implicit lookup using a path starting in a hidden directory, e.g.
 			// /data/.local/mylib.lua
 			if (fragment.find('.') != std::string::npos)
 				return "";
-			module_name += module_name.empty() ? fragment : '.' + fragment;
+			module_name.append(fragment).push_back('.');
 		}
 
 		start = end + 1;
 		end = path.find_first_of('/', start);
 	}
+
+	if (module_name.back() == '.')
+		module_name.pop_back();
 
 	return module_name;
 }
@@ -165,37 +164,40 @@ static bool load_file_cached(lua_State *L, const std::string &path, int cacheIdx
 	// TODO: find out why and remove that restriction.
 	std::string filePath = (path[0] == '/') ? path.substr(1) : path;
 	auto fileInfo = FileSystem::gameDataFiles.Lookup(filePath);
-	if (fileInfo.Exists()) {
-		// Load and run the file from disk
-		auto data = fileInfo.Read();
-		lua_checkstack(L, 5);
-		pi_lua_dofile(L, *data, 1);
 
-		DEBUG_INDENTED_PRINTF("-> loaded module file %s from disk\n", path.c_str());
-		DEBUG_INDENTED_PRINTF("-> module returned a %s value\n", lua_typename(L, lua_type(L, -1)));
-
-		// Since we loaded the module, we don't want to re-load it again.
-		// Replace the nil return value with 'true' to signify a successful
-		// module load
-		if (lua_isnil(L, -1)) {
-			lua_pop(L, 1);
-			lua_pushboolean(L, true);
-		}
-
-		// Store the module in the import cache
-		lua_pushvalue(L, -1);
-		lua_setfield(L, cacheIdx, path.c_str());
-
-		LUA_DEBUG_END(L, 1);
-		return true;
+	if (!fileInfo.Exists()) {
+		LUA_DEBUG_END(L, 0);
+		return false;
 	}
 
-	LUA_DEBUG_END(L, 0);
-	return false;
+	// Load and run the file from disk
+	auto data = fileInfo.Read();
+	lua_checkstack(L, 5);
+	pi_lua_dofile(L, *data, 1);
+
+	DEBUG_INDENTED_PRINTF("-> loaded module file %s from disk\n", path.c_str());
+	DEBUG_INDENTED_PRINTF("-> module returned a %s value\n", lua_typename(L, lua_type(L, -1)));
+
+	// Since we loaded the module, we don't want to re-load it again.
+	// Replace the nil return value with 'true' to signify a successful
+	// module load
+	if (lua_isnil(L, -1)) {
+		lua_pop(L, 1);
+		lua_pushboolean(L, true);
+	}
+
+	// Store the module in the import cache
+	lua_pushvalue(L, -1);
+	lua_setfield(L, cacheIdx, path.c_str());
+
+	LUA_DEBUG_END(L, 1);
+	return true;
 }
 
 // Check the path cache for a module name to filesystem path mapping
 // If present, this module has been successfully loaded before.
+// This function returns an empty string if the module name has not been
+// loaded before.
 static std::string get_path_cache(lua_State *L, const std::string &moduleName)
 {
 	LUA_DEBUG_START(L);
@@ -254,14 +256,14 @@ static bool load_from_core(lua_State *L, const std::string &moduleName)
 
 	lua_getfield(L, -1, &moduleName[start]);
 	lua_remove(L, lua_gettop(L) - 1);
-	if (!lua_isnil(L, -1)) {
-		LUA_DEBUG_END(L, 1);
-		return true;
+	if (lua_isnil(L, -1)) {
+		lua_pop(L, 1);
+		LUA_DEBUG_END(L, 0);
+		return false;
 	}
 
-	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0);
-	return false;
+	LUA_DEBUG_END(L, 1);
+	return true;
 }
 
 // Load, execute, and cache a lua module referred to with the given
