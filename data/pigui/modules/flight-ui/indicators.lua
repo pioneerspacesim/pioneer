@@ -1,9 +1,9 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local ui = import 'pigui'
-local Engine = import 'Engine'
-local Game = import 'Game'
+local ui = require 'pigui'
+local Engine = require 'Engine'
+local Game = require 'Game'
 local Vector2 = _G.Vector2
 local Vector3 = _G.Vector3
 
@@ -13,8 +13,9 @@ local pionicons = ui.fonts.pionicons
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local lc = import 'Lang'.GetResource("core")
-local lui = import 'Lang'.GetResource("ui-core")
+local Lang = require 'Lang'
+local lc = Lang.GetResource("core")
+local lui = Lang.GetResource("ui-core")
 
 -- center of screen, set each frame by the handler
 local center = nil
@@ -22,7 +23,7 @@ local center = nil
 -- cache player each frame
 local player = nil
 
-local gameView = import 'pigui.views.game'
+local gameView = require 'pigui.views.game'
 
 local reticuleCircleRadius
 

@@ -1,17 +1,18 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import('Engine')
-local Game = import('Game')
-local ui = import('pigui/pigui.lua')
-local Event = import('Event')
-local Lang = import("Lang")
+local Engine = require 'Engine'
+local Game = require 'Game'
+local Event = require 'Event'
+local FileSystem = require 'FileSystem'
+local Format = require 'Format'
+local utils = require 'utils'
+
+local Lang = require 'Lang'
 local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
-local FileSystem = import("FileSystem")
-local Format = import("Format")
 
-local utils = import("utils")
+local ui = require 'pigui'
 
 local player = nil
 local colors = ui.theme.colors

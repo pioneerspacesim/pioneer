@@ -1,13 +1,13 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local ui = import 'pigui/pigui.lua'
-local InfoView = import 'pigui/views/info-view'
-local Lang = import 'Lang'
-local Engine = import 'Engine'
-local Character = import 'Character'
-local InfoFace = import 'ui/PiguiFace'
-local Event = import 'Event'
+local ui = require 'pigui'
+local InfoView = require 'pigui.views.info-view'
+local Lang = require 'Lang'
+local Engine = require 'Engine'
+local Character = require 'Character'
+local InfoFace = require 'libs.ui.PiguiFace'
+local Event = require 'Event'
 local pigui = Engine.pigui
 
 local pionillium = ui.fonts.pionillium
@@ -15,7 +15,7 @@ local orbiteer = ui.fonts.orbiteer
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local drawTable = import 'pigui/libs/table.lua'
+local drawTable = require 'pigui.libs.table'
 
 local l = Lang.GetResource("ui-core")
 

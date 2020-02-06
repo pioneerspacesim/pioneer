@@ -3,21 +3,21 @@
 
 -- TODO: don't move pointer in radial menu
 
-local Format = import('Format')
-local Game = import('Game')
-local Player = import('Player')
-local Space = import('Space')
-local Engine = import('Engine')
-local Event = import("Event")
-local ShipDef = import("ShipDef")
-local Lang = import("Lang")
+local Format = require 'Format'
+local Game = require 'Game'
+local Player = require 'Player'
+local Space = require 'Space'
+local Engine = require 'Engine'
+local Event = require 'Event'
+local ShipDef = require 'ShipDef'
+local Lang = require 'Lang'
 local Vector2 = _G.Vector2
 
 local lui = Lang.GetResource("ui-core");
 local lc = Lang.GetResource("core");
 local lec = Lang.GetResource("equipment-core");
 
-local utils = import("utils")
+local utils = require 'utils'
 local pigui = Engine.pigui
 
 local pi = 3.14159264

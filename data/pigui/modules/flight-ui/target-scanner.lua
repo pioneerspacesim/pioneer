@@ -1,8 +1,8 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local ui = import 'pigui'
-local Game = import 'Game'
+local ui = require 'pigui'
+local Game = require 'Game'
 local Vector2 = _G.Vector2
 
 -- cache ui
@@ -10,13 +10,13 @@ local pionillium = ui.fonts.pionillium
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local lc = import 'Lang'.GetResource("core")
-local lui = import 'Lang'.GetResource("ui-core")
+local lc = require 'Lang'.GetResource("core")
+local lui = require 'Lang'.GetResource("ui-core")
 
 -- cache player each frame
 local player = nil
 
-local gameView = import 'pigui.views.game'
+local gameView = require 'pigui.views.game'
 
 local shipInfoLowerBound
 local function displayTargetScannerFor(target, offset)

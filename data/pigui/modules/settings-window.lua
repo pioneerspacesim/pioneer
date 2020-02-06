@@ -1,23 +1,23 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import('Engine')
-local Input = import('Input')
-local Game = import('Game')
-local ui = import('pigui/pigui.lua')
-local Event = import('Event')
-local Lang = import("Lang")
+local Engine = require 'Engine'
+local Input = require 'Input'
+local Game = require 'Game'
+local Event = require 'Event'
+local Lang = require 'Lang'
+local utils = require 'utils'
 
 local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
 local linput = Lang.GetResource("input-core")
 
+local ui = require 'pigui'
+
 -- convert an axis binding style ID to a translation resource identifier
 local function localize_binding_id(str)
 	return linput[str:gsub("([^A-Z0-9_])([A-Z0-9])", "%1_%2"):upper()]
 end
-
-local utils = import("utils")
 
 local player = nil
 local colors = ui.theme.colors

@@ -1,16 +1,18 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import('Engine')
-local Input = import('Input')
-local Game = import('Game')
-local ui = import('pigui/pigui.lua')
-local Lang = import("Lang")
+local Engine = require 'Engine'
+local Input = require 'Input'
+local Game = require 'Game'
+local utils = require 'utils'
+local Event = require 'Event'
+local Vector2 = _G.Vector2
+
+local Lang = require 'Lang'
 local lc = Lang.GetResource("core");
 local lui = Lang.GetResource("ui-core");
-local utils = import("utils")
-local Event = import("Event")
-local Vector2 = _G.Vector2
+
+local ui = require 'pigui'
 
 -- cache ui
 local pionillium = ui.fonts.pionillium

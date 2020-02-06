@@ -15,7 +15,7 @@ local Equipment = require 'Equipment'
 local l = Lang.GetResource("module-breakdownservicing")
 local lui = Lang.GetResource("ui-core")
 
-local pigui = import('pigui/pigui.lua')
+local pigui = require 'pigui'
 
 -- Default numeric values --
 ----------------------------
