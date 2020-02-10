@@ -427,7 +427,7 @@ static int l_pigui_columns(lua_State *l)
 {
 	PROFILE_SCOPED()
 	int columns = LuaPull<int>(l, 1);
-	std::string id = LuaPull<std::string>(l, 2);
+	std::string id = LuaPull<std::string>(l, 2, "");
 	bool border = LuaPull<bool>(l, 3, false);
 	ImGui::Columns(columns, id.c_str(), border);
 	return 0;
