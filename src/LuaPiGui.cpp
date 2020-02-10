@@ -398,12 +398,17 @@ static int l_pigui_lineOnClock(lua_State *l)
 /*
  * Interface: PiGui
  *
- * Various functions for the imgui UI. Do *not* use these directly, use the interface that import('pigui') provides.
+ * Various functions for the imgui UI. The below documentation are for the method names as implemented in the 'pigui' module
+ *
+ * Example:
+ *
+ * > local ui = import 'pigui/pigui.lua'
+ *
  */
 
 /* ****************************** Lua imgui functions ****************************** */
 /*
- * Function: Begin
+ * Function: begin
  *
  * Availability:
  *
@@ -423,6 +428,28 @@ static int l_pigui_begin(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: columns
+ *
+ * Initiates drawing of a table with n columns
+ *
+ * > ui.columns(n_columns, label, border)
+ *
+ * Example:
+ *
+ * > ui.columns(n_columns, label, has_border)
+ * > ui.text("row 1, column 1")
+ * > ui.nextColumn()
+ * > ui.text("row 1, column 2")
+ * > ui.columns(1)
+ *
+ * Parameters:
+ *
+ *   n_columns - integer, the number of columns,
+ *   label - optional string, the label of the object
+ *   border - optional bool, draws a vertical border between columns. Defaults to false.
+ *
+ */
 static int l_pigui_columns(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -466,6 +493,24 @@ static int l_pigui_get_scroll_y(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: progressBar
+ *
+ * Make a progress bar widget
+ *
+ * > ui.progressBar(fraction, size, overlay)
+ *
+ * Example:
+ *
+ * > ui.progressBar(0.3, Vector2(0.0, 0.0), "%")
+ *
+ * Parameters:
+ *
+ *   fraction - float, text on button
+ *   size - Vector2, defining size
+ *   overlay - string, text to overlay
+ *
+ */
 static int l_pigui_progress_bar(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -476,6 +521,22 @@ static int l_pigui_progress_bar(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: nextColumn
+ *
+ * > ui.nextColumn()
+ *
+ * Moves drawing position to next column
+ *
+ * Example:
+ *
+ * > ui.columns(n_columns, label, has_border)
+ * > ui.text("row 1, column 1")
+ * > ui.nextColumn()
+ * > ui.text("row 1, column 2")
+ * > ui.columns(1)
+ *
+ */
 static int l_pigui_next_column(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -698,6 +759,20 @@ static int l_pigui_selectable(lua_State *l)
 	return 1;
 }
 
+
+
+/*
+ * Function: text
+ *
+ * Draw text to screen
+ *
+ * > ui.text(text)
+ *
+ * Parameters:
+ *
+ *   text - string, text to print
+ *
+ */
 static int l_pigui_text(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -706,6 +781,30 @@ static int l_pigui_text(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: button
+ *
+ * Create a button
+ *
+ * > clicked = ui.button(text, vec_size)
+ *
+ * Example:
+ *
+ * > local x = 0
+ * > if ui.button("Push me", Vector2(100,0)) then
+ * >     x = 42
+ * > end
+ *
+ * Parameters:
+ *
+ *   text - string, text on button
+ *   vec_size - Vector2, size of button
+ *
+ * Return:
+ *
+ *   clicked - bool, true if button was clicked, else false
+ *
+ */
 static int l_pigui_button(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -777,6 +876,24 @@ static int l_pigui_text_wrapped(lua_State *l)
 	return 0;
 }
 
+
+/*
+ * Function: textColored
+ *
+ * Print text, with color
+ *
+ * > ui.textColored(color, text)
+ *
+ * Example:
+ *
+ * > ui.textColored(Color(125, 125, 125), "A whiter shade of gray")
+ *
+ * Parameters:
+ *
+ *   color - An ImColor each element between 0-255
+ *   text - string, text on button
+ *
+ */
 static int l_pigui_text_colored(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1028,6 +1145,19 @@ static int l_pigui_add_triangle_filled(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: sameLine
+ *
+ * Draw the next command on the same line as previous
+ *
+ * > ui.sameLine(pos_x, spacing_w)
+ *
+ * Parameters:
+ *
+ *   pos_x - optional float, X position for next draw command
+ *   spacing_w - optional float, draw with spacing relative to previous
+ *
+ */
 static int l_pigui_same_line(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1051,6 +1181,14 @@ static int l_pigui_end_group(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: separator
+ *
+ * Draw a horisontal line
+ *
+ * > ui.separator()
+ *
+ */
 static int l_pigui_separator(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1065,6 +1203,18 @@ static int l_pigui_spacing(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: dummy
+ *
+ * Insert dummy space
+ *
+ * > ui.dummy(vec)
+ *
+ * Parameters:
+ *
+ *   vec - Vector2 for the x and y invisible rectangle to insert
+ *
+ */
 static int l_pigui_dummy(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1203,6 +1353,22 @@ static int l_pigui_pop_font(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: calcTextSize
+ *
+ * Calculate the text size
+ *
+ * > size = ui.calcTextSize(text)
+ *
+ * Parameters:
+ *
+ *   text - The text we want dimensions of
+ *
+ * Returns:
+ *
+ *   size - Vector2
+ *
+ */
 static int l_pigui_calc_text_size(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1951,6 +2117,26 @@ static int l_pigui_circular_slider(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: sliderFloat
+ *
+ * A slider for setting floating values
+ *
+ * > value = ui.sliderFloat(label, value, min, max, format)
+ *
+ * Parameters:
+ *
+ *   label - string, text
+ *   value - float, set slider to this value
+ *   min - float, lower bound
+ *   max - float, upper bound
+ *   format - optional string, format according to snprintf
+ *
+ * Returns:
+ *
+ *   value - the value that the slider was set to
+ *
+ */
 static int l_pigui_slider_float(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1966,6 +2152,26 @@ static int l_pigui_slider_float(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: sliderInt
+ *
+ * A slider for setting integer values
+ *
+ * > value = ui.sliderInt(label, value, min, max, format)
+ *
+ * Parameters:
+ *
+ *   label - string, text
+ *   value - int, set slider to this value
+ *   min - int, lower bound
+ *   max - int, upper bound
+ *   format - optional string, format according to snprintf
+ *
+ * Returns:
+ *
+ *   value - the value that the slider was set to
+ *
+ */
 static int l_pigui_slider_int(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -2165,6 +2371,29 @@ static int l_pigui_calc_text_alignment(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: collapsingHeader
+ *
+ * A foldable header, to toggle show/hide
+ *
+ * > clicked = ui.collapsingHeader(text, flags)
+ *
+ * Example:
+ *
+ * > if ui.collapsingHeader("My header", {"DefaultOpen"}) then
+ * >     ui.text("Now you see me")
+ * > end
+ *
+ * Parameters:
+ *
+ *   text - string, headline
+ *   flags - optional dict of flags
+ *
+ * Returns:
+ *
+ *   clicked - boolean, true if clicked, else false
+ *
+ */
 static int l_pigui_collapsing_header(lua_State *l)
 {
 	PROFILE_SCOPED()
