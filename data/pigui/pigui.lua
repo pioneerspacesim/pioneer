@@ -29,7 +29,7 @@ local one_over_sqrt_two = 1 / math.sqrt(2)
 
 local ui = { }
 
-local defaultTheme = import("themes/default")
+local defaultTheme = require '.themes.default'
 ui.theme = defaultTheme
 
 ui.rescaleUI = function(val, baseResolution, rescaleToScreenAspect)

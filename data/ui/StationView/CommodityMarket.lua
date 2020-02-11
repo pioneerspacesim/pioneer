@@ -7,7 +7,7 @@ local Game = import("Game")
 local Format = import("Format")
 local Equipment = import("Equipment")
 
-local EquipmentTableWidgets = import("EquipmentTableWidgets")
+local EquipmentTableWidgets = import(".EquipmentTableWidgets")
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core")
 

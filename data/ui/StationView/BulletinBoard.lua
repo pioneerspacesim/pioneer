@@ -5,7 +5,7 @@ local Engine = import("Engine")
 local Game = import("Game")
 local SpaceStation = import("SpaceStation")
 local Event = import("Event")
-local ChatForm = import("ChatForm")
+local ChatForm = import(".ChatForm")
 local Lang = import("Lang")
 local l = Lang.GetResource("core");
 
