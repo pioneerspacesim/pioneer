@@ -215,9 +215,9 @@ modules such as missions and BBS interaction. See the pioneer wiki for further
 details. For up-to-date documentation one can build it locally from the
 pioneer source
 
-0. Install dependencies: naturaldocs
+0. Install dependencies: naturaldocs (v 1.x)
 
-1. Run make codedoc
+1. Run make -C build codedoc
 
 2. The html documentation can be found in the codedoc/ folder
 
