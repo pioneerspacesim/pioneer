@@ -1,4 +1,7 @@
 February 2020
+   * New Features
+     * Convert Police screen to pigui (#4790)
+
    * Fixes
      * Fix on-demand glyph loading (#4779)
 
@@ -6,6 +9,7 @@ February 2020
      * Small additional improvements to orbit calculation (#4784)
      * Improve System Map rendering and interaction (#4787)
      * Make continue button load _quicksave if autosave not active (#4758)
+     * Add PiGui docstrings and fix ui.columns (#4792)
 
 January 2020
    * New Features
