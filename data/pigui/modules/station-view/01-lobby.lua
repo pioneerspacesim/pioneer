@@ -50,7 +50,7 @@ local hydrogenIcon = PiImage.New("icons/goods/Hydrogen.png")
 local hyperdriveIcon = PiImage.New("icons/goods/Hydrogen.png")
 
 local popupMsg = ''
-local popup = ModalWindow.New('lobbyPopup', function()
+local popup = ModalWindow.New('lobbyPopup', function(self)
 	ui.text(popupMsg)
 	ui.dummy(Vector2((ui.getContentRegion().x - 100*rescaleVector.x) / 2, 0))
 	ui.sameLine()
