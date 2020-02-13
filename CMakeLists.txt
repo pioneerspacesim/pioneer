@@ -258,6 +258,14 @@ add_executable(savegamedump WIN32
 	src/PngWriter.cpp
 )
 
+find_program(NATURALDOCS NAMES naturaldocs)
+if (NATURALDOCS)
+	add_custom_target(codedoc
+		${CMAKE_COMMAND} -E make_directory codedoc
+		COMMAND naturaldocs -i src/ -i data/libs/ -xi src/data/ -o HTML codedoc/ -p nd/ -do -ro -s Default Local
+	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+endif()
+
 list(APPEND pioneerLibs
 	pioneerLib
 	${ASSIMP_LIBRARIES}
