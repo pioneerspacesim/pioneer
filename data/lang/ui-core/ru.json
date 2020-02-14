@@ -1347,6 +1347,10 @@
     "description": "Player owing money to crew members",
     "message": "Долг"
   },
+  "PAY": {
+    "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
+    "message": "Pay"
+  },
   "PAY_FINE_OF_N": {
     "description": "",
     "message": "Оплатить штраф в размере {amount}"
@@ -1686,6 +1690,10 @@
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
     "message": "Корабль под контролем станции, Командир."
+  },
+  "THIS_IS_FACTION_POLICE": {
+    "description": "Greeting message in police station. 'faction' is one of (English, non-translatable) strings: 'Solar Federation', 'Commonwealth of Independent Worlds', or 'Haber Corporation', and 'faction_police' is one of: 'SolFed Police Force', 'Confederal Police' or, 'Haber Enforcement Division'",
+    "message": "This is the {faction_police} of the {faction}"
   },
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
