@@ -90,15 +90,15 @@ FlightLog = {
 --
 --   iterator - A function which will generate the paths from the log, returning
 --              one each time it is called until it runs out, after which it
---              returns nil. It also returns, as a secondary value, the game
---              time at which the player undocked.
+--              returns nil. It also returns, as two additional value, the game
+--              time at which the player undocked, and palyer's financial balance.
 --
 -- Example:
 --
 -- Print the names and departure times of the last five stations visited by
 -- the player
 --
--- > for systemp, deptime in FlightLog.GetStationPaths(5) do
+-- > for systemp, deptime, money in FlightLog.GetStationPaths(5) do
 -- >   print(systemp:GetSystemBody().name, Format.Date(deptime))
 -- > end
 
@@ -110,10 +110,11 @@ FlightLog = {
 				counter = counter + 1
 				if FlightLogStation[counter] then
 					return FlightLogStation[counter][1],
-						   FlightLogStation[counter][2]
+						   FlightLogStation[counter][2],
+						   FlightLogStation[counter][3]
 				end
 			end
-			return nil, nil
+			return nil, nil, nil
 		end
 	end,
 
@@ -200,7 +201,7 @@ end
 -- onShipUndocked
 local AddStationToLog = function (ship, station)
 	if not ship:IsPlayer() then return end
-	table.insert(FlightLogStation,1,{station.path,Game.time})
+	table.insert(FlightLogStation,1,{station.path, Game.time, Game.player:GetMoney()})
 	while #FlightLogStation > FlightLogStationQueueLength do
 		table.remove(FlightLogStation,FlightLogStationQueueLength + 1)
 	end
