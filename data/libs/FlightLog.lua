@@ -53,7 +53,7 @@ FlightLog = {
 -- Print the names and departure times of the last five systems visited by
 -- the player
 --
--- > for systemp,arrtime,deptime in FlightLog.GetSystemPaths(5) do
+-- > for systemp,arrtime,deptime,entry in FlightLog.GetSystemPaths(5) do
 -- >   print(systemp:GetStarSystem().name, Format.Date(deptime))
 -- > end
 
@@ -66,11 +66,37 @@ FlightLog = {
 				if FlightLogSystem[counter] then
 					return FlightLogSystem[counter][1],
 						   FlightLogSystem[counter][2],
-						   FlightLogSystem[counter][3]
+						   FlightLogSystem[counter][3],
+						   FlightLogSystem[counter][4]
 				end
 			end
-			return nil, nil, nil
+			return nil, nil, nil, nil
 		end
+	end,
+
+
+--
+-- Method: UpdateSystemEntry
+--
+-- Update the free text field in system log.
+--
+-- > UpdateSystemEntry(index, entry)
+--
+-- Parameters:
+--
+--   index - Index in log, 1 being most recent (current) system
+--   entry - New text string to insert instead
+--
+-- Example:
+--
+-- Replace the second most recent system record, i.e. the previously
+-- visited system.
+--
+-- > UpdateSystemEntry(2, "At Orion's shoulder, I see attackships on fire")
+--
+
+	UpdateSystemEntry = function (index, entry)
+		FlightLogSystem[index][4] = entry
 	end,
 
 --
@@ -98,7 +124,7 @@ FlightLog = {
 -- Print the names and departure times of the last five stations visited by
 -- the player
 --
--- > for systemp, deptime, money in FlightLog.GetStationPaths(5) do
+-- > for systemp, deptime, money, entry in FlightLog.GetStationPaths(5) do
 -- >   print(systemp:GetSystemBody().name, Format.Date(deptime))
 -- > end
 
@@ -111,11 +137,35 @@ FlightLog = {
 				if FlightLogStation[counter] then
 					return FlightLogStation[counter][1],
 						   FlightLogStation[counter][2],
-						   FlightLogStation[counter][3]
+						   FlightLogStation[counter][3],
+						   FlightLogStation[counter][4]
 				end
 			end
-			return nil, nil, nil
+			return nil, nil, nil, nil
 		end
+	end,
+
+--
+-- Method: UpdateStationEntry
+--
+-- Update the free text field in station log.
+--
+-- > UpdateStationEntry(index, entry)
+--
+-- Parameters:
+--
+--   index - Index in log, 1 being most recent station undocked from
+--   entry - New text string to insert instead
+--
+-- Example:
+--
+-- Replace note for the second most recent station undocked from
+--
+-- > UpdateStationEntry(2, "This was a smelly station")
+--
+
+	UpdateStationEntry = function (index, entry)
+		FlightLogStation[index][4] = entry
 	end,
 
 --
@@ -192,7 +242,7 @@ end
 -- onEnterSystem
 local AddSystemArrivalToLog = function (ship)
 	if not ship:IsPlayer() then return end
-	table.insert(FlightLogSystem,1,{Game.system.path,Game.time,nil})
+	table.insert(FlightLogSystem,1,{Game.system.path,Game.time,nil,""})
 	while #FlightLogSystem > FlightLogSystemQueueLength do
 		table.remove(FlightLogSystem,FlightLogSystemQueueLength + 1)
 	end
@@ -201,7 +251,7 @@ end
 -- onShipUndocked
 local AddStationToLog = function (ship, station)
 	if not ship:IsPlayer() then return end
-	table.insert(FlightLogStation,1,{station.path, Game.time, Game.player:GetMoney()})
+	table.insert(FlightLogStation,1,{station.path, Game.time, Game.player:GetMoney(), ""})
 	while #FlightLogStation > FlightLogStationQueueLength do
 		table.remove(FlightLogStation,FlightLogStationQueueLength + 1)
 	end
@@ -216,7 +266,7 @@ local onGameStart = function ()
 		FlightLogSystem = loaded_data.System
 		FlightLogStation = loaded_data.Station
 	else
-		table.insert(FlightLogSystem,1,{Game.system.path,nil,nil})
+		table.insert(FlightLogSystem,1,{Game.system.path,nil,nil,""})
 	end
 	loaded_data = nil
 end
