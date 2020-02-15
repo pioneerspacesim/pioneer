@@ -144,11 +144,7 @@ local function continueGame()
 end
 
 local function canContinue()
-	if Game.CanLoadGame('_exit') or Game.CanLoadGame('_quicksave') then
-		return true
-	else
-		return false
-	end
+	return Game.CanLoadGame('_exit') or Game.CanLoadGame('_quicksave')
 end
 
 local function startAtLocation(location)
