@@ -81,11 +81,11 @@
   },
   "CARGO_IS_LOADED": {
     "description": "",
-    "message": "loaded"
+    "message": "lastad"
   },
   "CARGO_IS_NOT_LOADED": {
     "description": "",
-    "message": "not loaded"
+    "message": "inte lastad"
   },
   "CEASE_FIRE": {
     "description": "",
@@ -185,7 +185,7 @@
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "Listen, we were clear about the deadline. You can forget about getting paid."
+    "message": "Vi var överens om tidsfristen, betalningen kan du glömma."
   },
   "FAILUREMSG_4": {
     "description": "",
@@ -466,6 +466,10 @@
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
     "message": "Rymdskeppsdelar"
+  },
+  "STEM_BOLTS": {
+    "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
+    "message": "Själv-slutande stam-bultar"
   },
   "SUCCESSMSG_1": {
     "description": "",

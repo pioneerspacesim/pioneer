@@ -1651,6 +1651,10 @@
     "description": "",
     "message": "Dùmhlachd an reul-raoin"
   },
+  "STATION_DOCKS": {
+    "description": "Information shown in the station lobby, for total number of docking pads",
+    "message": "Our total capacity is {total_docking_pads} docking pads."
+  },
   "STATION_MANAGER": {
     "description": "",
     "message": "Stiùiriche an stèisein"

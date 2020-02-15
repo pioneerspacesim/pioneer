@@ -467,6 +467,10 @@
     "description": "custom cargo",
     "message": "飞船零件"
   },
+  "STEM_BOLTS": {
+    "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
+    "message": "Self-sealing stem bolts"
+  },
   "SUCCESSMSG_1": {
     "description": "",
     "message": "谢谢你的送货。你已经得到报酬了。"

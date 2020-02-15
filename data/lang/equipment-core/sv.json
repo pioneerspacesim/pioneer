@@ -17,11 +17,11 @@
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
-    "message": "Heavy Atmospheric Shielding"
+    "message": "Kraftig atmosfärsköld"
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
-    "message": "A more capable version of Atmospheric Shields"
+    "message": "En mer kapabel version av atmosfärisk sköld."
   },
   "AUTOPILOT": {
     "description": "",
@@ -33,15 +33,15 @@
   },
   "BEAMLASER_1MW": {
     "description": "",
-    "message": "1MW beam laser"
+    "message": "1MW strållaser"
   },
   "BEAMLASER_DUAL_1MW": {
     "description": "",
-    "message": "1MW dual-fire beam laser"
+    "message": "1MW tvilling-strållaser"
   },
   "BEAMLASER_RAPID_2MW": {
     "description": "",
-    "message": "2MW rapid-fire beam laser"
+    "message": "2MW höghastighetsstrållaser"
   },
   "CARGO_LIFE_SUPPORT": {
     "description": "",

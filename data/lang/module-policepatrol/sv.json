@@ -57,18 +57,18 @@
   },
   "TARGET_DESTROYED_1": {
     "description": "",
-    "message": "Target destroyed!"
+    "message": "Målet bekämpat!"
   },
   "TARGET_DESTROYED_2": {
     "description": "",
-    "message": "Yeah!"
+    "message": "Hurra!"
   },
   "TARGET_DESTROYED_3": {
     "description": "",
-    "message": "Rest in pieces! Haha."
+    "message": "Vila i frid!"
   },
   "TARGET_DESTROYED_4": {
     "description": "",
-    "message": "Another one bites the dust!"
+    "message": "Ännu en biter gräset!"
   }
 }

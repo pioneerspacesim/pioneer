@@ -1651,6 +1651,10 @@
     "description": "",
     "message": "星场密度"
   },
+  "STATION_DOCKS": {
+    "description": "Information shown in the station lobby, for total number of docking pads",
+    "message": "Our total capacity is {total_docking_pads} docking pads."
+  },
   "STATION_MANAGER": {
     "description": "",
     "message": "空间站管理者"

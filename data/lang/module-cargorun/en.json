@@ -391,10 +391,6 @@
     "description": "custom cargo",
     "message": "Plutonium"
   },
-  "STEM_BOLTS": {
-    "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
-    "message": "Self-sealing stem bolts"
-  },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
     "message": "Quibbles"
@@ -470,6 +466,10 @@
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
     "message": "Spaceship parts"
+  },
+  "STEM_BOLTS": {
+    "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
+    "message": "Self-sealing stem bolts"
   },
   "SUCCESSMSG_1": {
     "description": "",

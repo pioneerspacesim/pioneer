@@ -467,6 +467,10 @@
     "description": "custom cargo",
     "message": "Uzay aracı parçaları"
   },
+  "STEM_BOLTS": {
+    "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
+    "message": "Öz-mühürlü gövde civataları"
+  },
   "SUCCESSMSG_1": {
     "description": "",
     "message": "Nakliyat için teşekkürler. Ödemeniz yapıldı."

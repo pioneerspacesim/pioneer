@@ -467,6 +467,10 @@
     "description": "custom cargo",
     "message": "Recanvis per a naus espacials"
   },
+  "STEM_BOLTS": {
+    "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
+    "message": "Self-sealing stem bolts"
+  },
   "SUCCESSMSG_1": {
     "description": "",
     "message": "Gràcies per l'entrega. Ja us hem pagat."
