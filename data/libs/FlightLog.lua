@@ -20,6 +20,7 @@ local FlightLogStationQueueLength = 1000
 -- private data - the log itself
 local FlightLogSystem = {}
 local FlightLogStation = {}
+local FlightLogCustom = {}
 
 local FlightLog
 FlightLog = {
@@ -226,6 +227,146 @@ FlightLog = {
 		else return nil end
 	end,
 
+
+
+--
+-- Method: GetCustomEntry
+--
+-- Returns an iterator returning custom entries for each system the
+-- player has created a custom log entry for, backwards in turn,
+-- starting with the most recent. If count is specified, returns no
+-- more than that many entries.
+--
+-- > iterator = FlightLog.GetCustomEntry(count)
+--
+-- Parameters:
+--
+--   count - Optional. The maximum number of entries to return.
+--
+-- Return:
+--
+--   iterator - A function which will generate the entries from the
+--              log, returning one each time it is called until it
+--              runs out, after which it returns nil. Each entry
+--              consists of the system's path, date, money, location,
+--              text; 'location' being an text array with flight state
+--              and appropriate additional information.
+
+--
+-- Example:
+--
+-- > for systemp, date, money, location, entry in FlightLog.GetCustomEntry(5) do
+-- >   print(location[1], location[2], Format.Date(deptime))
+-- > end
+--
+
+	GetCustomEntry = function (maximum)
+		local counter = 0
+		maximum = maximum or #FlightLogCustom
+		return function ()
+			if counter < maximum then
+				counter = counter + 1
+				if FlightLogCustom[counter] then
+					return FlightLogCustom[counter][1], --path
+						   FlightLogCustom[counter][2], --time
+						   FlightLogCustom[counter][3], --money
+						   FlightLogCustom[counter][4], --location
+						   FlightLogCustom[counter][5]  --manual entry
+				end
+			end
+			return nil, nil, nil, nil, nil
+		end
+	end,
+
+--
+-- Method: UpdateCustomEntry
+--
+-- Update the free text field with new entry. Allows the player to
+-- change the original text entry.
+--
+-- > FlightLog.GetCustomEntry(index, entry)
+--
+-- Parameters:
+--
+--   index - Position in log, 1 being most recent
+--   entry - String of new text to replace the original with
+--
+-- Example:
+--
+-- > FlightLog.UpdateCustomEntry(2, "Earth is an overrated spot")
+--
+
+	UpdateCustomEntry = function (index, entry)
+		FlightLogCustom[index][5] = entry
+	end,
+
+--
+-- Method: DeleteCustomEntry
+--
+-- Remove an entry.
+--
+-- > FlightLog.DeleteCustomEntry(index)
+--
+-- Parameters:
+--
+--   index - Position in log to remove, 1 being most recent
+--
+
+	DeleteCustomEntry = function (index)
+		table.remove(FlightLogCustom, index)
+	end,
+
+--
+-- Method: MakeCustomEntry
+--
+-- Create a custom entry. A set of information is automatically
+-- compiled, in a header.
+--
+-- > FlightLog.MakeCustomEntry(text)
+--
+-- Header:
+--
+--   path - System path, pointing to player's current sytem
+--   time - Game date
+--   money - Financial balance at time of record creation
+--   location - Array, with two strings: flight state, and relevant additional string
+--   manual entry - Free text string
+--
+-- Parameters:
+--
+--   text - Text to accompany the log
+--
+
+	MakeCustomEntry = function (text)
+		text = text or ""
+
+		local location = ""
+		local state = Game.player:GetFlightState()
+
+		if state == "DOCKED" then
+			local station = Game.player:GetDockedWith()
+			local parent_body = station.path:GetSystemBody().parent.name
+			location = {station.type, station.label, parent_body}
+		elseif state == "DOCKING" or state == "UNDOCKING" then
+			location = {state, Game.player:FindNearestTo("SPACESTATION").label}
+		elseif state == "FLYING" then
+			location = {state, Game.player.frameBody.label}
+		elseif state == "LANDED" then
+			local alt, vspd, lat, long = Game.player:GetGPS()
+			if not (lat and long) then
+				lat, long = "nil", "nil"
+			end
+			location = {state, Game.player:FindNearestTo("PLANET").label, lat, long}
+		elseif state == "JUMPING" or state == "HYPERSPACE" then
+			-- bug: if in hyperspace, there's no Game.system (!)
+			-- local spath, sysname = Game.player:GetHyperspaceDestination()
+			sysname = ""
+			location = {state, sysname}
+		end
+
+		table.insert(FlightLogCustom,1,
+			{Game.system.path, Game.time, Game.player:GetMoney(), location, text})
+	end,
 }
 
 -- LOGGING
@@ -265,6 +406,7 @@ local onGameStart = function ()
 	if loaded_data then
 		FlightLogSystem = loaded_data.System
 		FlightLogStation = loaded_data.Station
+		FlightLogCustom = loaded_data.Custom
 	else
 		table.insert(FlightLogSystem,1,{Game.system.path,nil,nil,""})
 	end
@@ -278,7 +420,7 @@ local onGameEnd = function ()
 end
 
 local serialize = function ()
-	return { System = FlightLogSystem, Station = FlightLogStation }
+	return { System = FlightLogSystem, Station = FlightLogStation, Custom = FlightLogCustom }
 end
 
 local unserialize = function (data)
