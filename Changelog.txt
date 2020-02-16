@@ -1,6 +1,7 @@
 February 2020
    * New Features
      * Convert Police screen to pigui (#4790)
+     * Move ShipRepair screen to pigui (#4791)
 
    * Fixes
      * Fix on-demand glyph loading (#4779)
