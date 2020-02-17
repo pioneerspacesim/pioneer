@@ -15,7 +15,7 @@ local orbiteer = ui.fonts.orbiteer
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local textTable = require 'pigui/libs/text-table.lua'
+local textTable = require 'pigui/libs/text-table'
 
 local l = Lang.GetResource("ui-core")
 
@@ -88,7 +88,7 @@ local function changeFeature (idx, featureId, callback)
 
     player.faceDescription[featureId] = (player.faceDescription[featureId] + idx) % 2^31
     if callback then callback(player.faceDescription[featureId]) end
-    face = InfoFace.New(player, {windowPadding = windowPadding, itemSpacing = itemSpacing})
+    face = InfoFace.New(player, {windowPadding = windowPadding, itemSpacing = itemSpacing, size = faceSize})
 end
 
 local function faceGenButton(feature)
@@ -151,7 +151,7 @@ local function drawPlayerView()
                     ui.sameLine()
                     if (ui.coloredSelectedIconButton(icons.random, buttonSpaceSize, false, 0, colors.buttonBlue, colors.white, l.RANDOM_FACE, iconSize)) then
                         player.faceDescription = generateFace()
-                        face = InfoFace.New(player, {windowPadding = windowPadding, itemSpacing = itemSpacing})
+                        face = InfoFace.New(player, {windowPadding = windowPadding, itemSpacing = itemSpacing, size = faceSize})
                     end
                 end)
             end)

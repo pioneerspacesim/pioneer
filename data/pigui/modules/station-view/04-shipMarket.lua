@@ -121,9 +121,6 @@ local function buyShip (mkt, sos)
 	end
 
 	local hdrive = def.hyperdriveClass > 0 and Equipment.hyperspace["hyperdrive_" .. def.hyperdriveClass].capabilities.mass or 0
-	print(hdrive)
-	print(def.equipSlotCapacity.cargo, player.usedCargo)
-	print(def.capacity, player.usedCargo, hdrive, player.usedCargo + hdrive)
 	if def.equipSlotCapacity.cargo < player.usedCargo or def.capacity < (player.usedCargo + hdrive) then
 		mkt.popup.msg = l.TOO_SMALL_TO_TRANSSHIP
 		mkt.popup:open()
@@ -191,10 +188,16 @@ local tradeMenu = function()
 				ui.dummy(widgetSizes.iconSpacer)
 				ui.sameLine()
 				manufacturerIcon(selectedItem.def.manufacturer)
+				local shipBought = false
 				ui.withFont(pionillium.medlarge.name, orbiteer.medlarge.size, function()
-					if ui.coloredSelectedButton(l.BUY_SHIP, widgetSizes.buyButton, false, colors.buttonBlue, nil, true) then buyShip(shipMarket, selectedItem) end
+					shipBought = ui.coloredSelectedButton(l.BUY_SHIP, widgetSizes.buyButton, false, colors.buttonBlue, nil, true)
 				end)
 				ui.columns(1, "")
+
+				if shipBought then
+					buyShip(shipMarket, selectedItem)
+					return
+				end
 
 				local spinnerWidth = ui.getContentRegion().x
 				modelSpinner:setSize(Vector2(spinnerWidth, spinnerWidth / 2.5))
@@ -382,5 +385,8 @@ StationView:registerView({
 	icon = ui.theme.icons.ship,
 	showView = true,
 	draw = renderShipMarket,
-	refresh = refreshShipMarket,
+	refresh = function()
+		refreshShipMarket()
+		shipMarket.scrollReset = true
+	end,
 })

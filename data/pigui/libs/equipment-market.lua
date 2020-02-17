@@ -101,7 +101,11 @@ local defaultFuncs = {
 
     -- do something when we buy this commodity
     bought = function (self, e)
-        Game.player:GetDockedWith():AddEquipmentStock(e, -1)
+		local count = -1
+		if self.tradeAmount ~= nil then
+			count = self.tradeAmount
+		end
+        Game.player:GetDockedWith():AddEquipmentStock(e, count)
     end,
 
     -- do something when a "sell" button is clicked
@@ -132,7 +136,11 @@ local defaultFuncs = {
 
     -- do something when we sell this items
     sold = function (self, e)
-        Game.player:GetDockedWith():AddEquipmentStock(e, 1)
+		local count = -1
+		if self.tradeAmount ~= nil then
+			count = self.tradeAmount
+		end
+        Game.player:GetDockedWith():AddEquipmentStock(e, count)
     end,
 
     initTable = function(self)

@@ -10,19 +10,19 @@ local Equipment = import 'Equipment'
 local ui = import 'pigui/pigui.lua'
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
-local ModalWindow = import 'pigui/libs/modal-win.lua'
 local MarketWidget = import 'pigui/libs/equipment-market.lua'
 
 local l = Lang.GetResource("ui-core")
 local colors = ui.theme.colors
 
+local baseCommodityMarketSize = ui.rescaleUI(Vector2(1592, 654), Vector2(1600, 900))
 local baseWidgetSizes = {
     rescaleVector = Vector2(1, 1),
 	buySellSize = Vector2(128, 48),
 	buttonSizeBase = Vector2(64, 48),
-	fontSizeLarge = pionillium.large.size,
-    fontSizeXLarge = pionillium.xlarge.size,
-	iconSize = Vector2(0, pionillium.large.size * 1.5),
+	fontSizeLarge = 22.5, -- pionillium.large.size,
+    fontSizeXLarge = 27, -- pionillium.xlarge.size,
+	iconSize = Vector2(0, 22.5 * 1.5),
 	smallButton = Vector2(92, 48),
 	bigButton = Vector2(128, 48),
 	confirmButtonSize = Vector2(384, 48),
@@ -84,11 +84,11 @@ function CommodityMarketWidget.New(id, title, config)
         ui.nextColumn()
     end
     config.canDisplayItem = config.canDisplayItem or function (s, e) return e.purchasable and e:IsValidSlot("cargo") and Game.system:IsCommodityLegal(e) end
-    config.onClickItem = config.onClickItem or function(s,e)
-        s.selectedItem = e
+    config.onClickItem = config.onClickItem or function(s,e,k)
         s.tradeModeBuy = true
         s:ChangeTradeAmount(-s.tradeAmount)
         s:Refresh()
+        s.selectedItem = e
     end
 
     self = MarketWidget.New(id, title, config)
@@ -116,6 +116,10 @@ function CommodityMarketWidget.New(id, title, config)
 end
 
 function CommodityMarketWidget:ChangeTradeAmount(delta)
+    if self.selectedItem == nil then
+        return
+    end
+
     --get price of commodity after applying local effects of import/export modifiers
     local price = Game.player:GetDockedWith():GetEquipmentPrice(self.selectedItem)
 
@@ -126,7 +130,8 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
     local stock
 
     if self.tradeModeBuy then
-        stock = Game.player:GetDockedWith():GetEquipmentStock(self.selectedItem)
+		price = self.funcs.getBuyPrice(self, self.selectedItem)
+        stock = self.funcs.getStock(self, self.selectedItem)
         if stock == 0 then
             self.tradeText = l.NONE_FOR_SALE_IN_THIS_STATION
             self.tradeTextColor = textColorError
@@ -138,6 +143,7 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
             return
         end
     else
+		price = self.funcs.getSellPrice(self, self.selectedItem)
         stock = Game.player:CountEquip(self.selectedItem)
     end
 
@@ -194,8 +200,8 @@ end
 function CommodityMarketWidget:DoBuy()
     if not self.funcs.onClickBuy(self, self.selectedItem) then return end
 
-    local price = Game.player:GetDockedWith():GetEquipmentPrice(self.selectedItem)
-    local stock = Game.player:GetDockedWith():GetEquipmentStock(self.selectedItem)
+    local price = self.funcs.getBuyPrice(self, self.selectedItem)
+    local stock = self.funcs.getStock(self, self.selectedItem)
     local playerfreecargo = Game.player.totalCargo - Game.player.usedCargo
     local orderAmount = price * self.tradeAmount
 
@@ -224,7 +230,7 @@ function CommodityMarketWidget:DoBuy()
     --all checks passed
     assert(Game.player:AddEquip(self.selectedItem, self.tradeAmount, "cargo") == self.tradeAmount)
     Game.player:AddMoney(-orderAmount) --grab the money
-    Game.player:GetDockedWith():AddEquipmentStock(self.selectedItem, -self.tradeAmount)
+    self.funcs.bought(self, self.selectedItem, self.tradeAmount)
     self:ChangeTradeAmount(-self.tradeAmount) --reset the trade amount
 
     --update market rows
@@ -235,13 +241,15 @@ end
 
 --player clicked the confirm sale button
 function CommodityMarketWidget:DoSell()
-    local price = Game.player:GetDockedWith():GetEquipmentPrice(self.selectedItem)
+    if not self.funcs.onClickSell(self, self.selectedItem) then return end
+
+    local price = self.funcs.getSellPrice(self, self.selectedItem)
     local orderamount = price * self.tradeAmount
 
     --if commodity price is negative (radioactives, garbage), player needs to have enough cash
     Game.player:RemoveEquip(self.selectedItem, self.tradeAmount, "cargo")
     Game.player:AddMoney(orderamount) --grab the money
-    Game.player:GetDockedWith():AddEquipmentStock(self.selectedItem, self.tradeAmount)
+	self.funcs.sold(self, self.selectedItem, self.tradeAmount)
     self:ChangeTradeAmount(-self.tradeAmount) --reset the trade amount
 
     --if player sold all his cargo, switch to buy panel
@@ -355,6 +363,7 @@ end
 
 function CommodityMarketWidget:Refresh()
     MarketWidget.refresh(self)
+    self.selectedItem = nil
 end
 
 function CommodityMarketWidget:Render(size)

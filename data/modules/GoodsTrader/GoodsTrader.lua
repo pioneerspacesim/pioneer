@@ -9,6 +9,7 @@ local NameGen = require 'NameGen'
 local Rand = require 'Rand'
 local Serializer = require 'Serializer'
 local Equipment = require 'Equipment'
+local Character = require 'Character'
 
 local l = Lang.GetResource("module-goodstrader")
 
@@ -27,7 +28,7 @@ local onChat = function (form, ref, option)
 
 	form:Clear()
 	form:SetTitle(ad.flavour)
-	form:SetFace({ seed = ad.faceseed })
+	form:SetFace(ad.trader)
 	form:SetMessage(l.WELCOME_TO..ad.flavour..".\n"..ad.slogan)
 
 	local onClick = function (ref)
@@ -44,6 +45,12 @@ local onChat = function (form, ref, option)
 	form:AddGoodsTrader({
 		-- can I trade this commodity?
 		canTrade = function (ref, commodity)
+			if ads[ref].stock[commodity] then
+				return true
+			end
+		end,
+
+		canDisplayItem = function (ref, commodity)
 			if ads[ref].stock[commodity] then
 				return true
 			end
@@ -75,13 +82,23 @@ local onChat = function (form, ref, option)
 		end,
 
 		-- do something when we buy this commodity
-		bought = function (ref, commodity)
-			ads[ref].stock[commodity] = ads[ref].stock[commodity] + 1
+		bought = function (ref, commodity, market)
+			local count = 1
+			if market.tradeAmount ~= nil then
+				count = market.tradeAmount
+			end
+
+			ads[ref].stock[commodity] = ads[ref].stock[commodity] - count
 		end,
 
 		-- do something when we sell this commodity
-		sold = function (ref, commodity)
-			ads[ref].stock[commodity] = ads[ref].stock[commodity] - 1
+		sold = function (ref, commodity, market)
+			local count = 1
+			if market.tradeAmount ~= nil then
+				count = market.tradeAmount
+			end
+
+			ads[ref].stock[commodity] = ads[ref].stock[commodity] + count
 		end,
 	})
 
@@ -125,6 +142,7 @@ local onCreateBB = function (station)
 				slogan   = slogan,
 				ispolice = ispolice,
 				faceseed = rand:Integer(),
+				trader   = Character.New(),
 			}
 
 			ad.stock = {}

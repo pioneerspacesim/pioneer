@@ -62,6 +62,20 @@ function PiGuiTabView.registerView(self, view)
     self:resize()
 end
 
+function PiGuiTabView:SwitchTo(id)
+    for i, v in ipairs(self.tabs) do
+        if v.id == id then
+            self.legacyTabView:SwitchTo(v.id)
+            self.legacyTabView.outerBody:Hide()
+            if(self.currentTab ~= i) then self.tabs[i].refresh() end
+
+            self.currentTab = i
+            return
+        end
+    end
+    print("View not found:", id)
+end
+
 function PiGuiTabView.renderTabView(self)
     if Game.CurrentView() ~= self.name then
         self.currentTab = 1
@@ -115,11 +129,7 @@ function PiGuiTabView.renderTabView(self)
         ui.window("StationViewButtons", {"NoResize", "NoTitleBar", "NoMove", "NoFocusOnAppearing", "NoScrollbar"}, function()
             for i, v in ipairs(self.tabs) do
                 if infoButton(v.icon, i == self.currentTab, v.name) then
-                    self.legacyTabView:SwitchTo(v.id)
-                    self.legacyTabView.outerBody:Hide()
-                    if(self.currentTab ~= i) then self.tabs[i].refresh() end
-
-                    self.currentTab = i
+                    self:SwitchTo(v.id)
                 end
                 ui.sameLine()
             end

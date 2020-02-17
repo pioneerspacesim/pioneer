@@ -47,6 +47,7 @@ function TableWidget.New(id, title, config)
         end),
         title = title,
         items = {},
+        scrollReset = false,
         itemTypes = config.itemTypes or {},
         columnCount = config.columnCount or 0,
         style = {
@@ -78,6 +79,11 @@ end
 function TableWidget:render()
     ui.withStyleVars({WindowPadding = self.style.windowPadding, ItemSpacing = self.style.itemSpacing}, function()
         ui.child("Table##" .. self.id, self.style.size, {"AlwaysUseWindowPadding"}, function()
+            if self.scrollReset then
+                ui.setScrollHere()
+                self.scrollReset = false
+            end
+
             if(self.title) then
                 ui.withFont(self.style.titleFont.name, self.style.titleFont.size, function()
                     ui.text(self.title)

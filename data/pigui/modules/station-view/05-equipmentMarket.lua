@@ -157,5 +157,7 @@ StationView:registerView({
 	refresh = function()
 		equipmentMarketStation:refresh()
 		equipmentMarketPlayer:refresh()
+		equipmentMarketStation.scrollReset = true
+		equipmentMarketPlayer.scrollReset = true
 	end,
 })

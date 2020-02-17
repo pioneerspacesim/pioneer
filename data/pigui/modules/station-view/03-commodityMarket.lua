@@ -30,5 +30,6 @@ StationView:registerView({
 	refresh = function()
 		resetSize = true
 		commodityMarket:Refresh()
+		commodityMarket.scrollReset = true
 	end,
 })

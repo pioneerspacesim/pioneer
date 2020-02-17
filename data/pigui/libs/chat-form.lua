@@ -1,15 +1,15 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Space = import("Space")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Space = require 'Space'
 
-local CommodityWidget = import 'pigui/libs/commodity-market.lua'
-local Face = import 'ui/PiguiFace'
+local CommodityWidget = require 'pigui.libs.commodity-market'
+local Face = require 'ui.PiguiFace'
 
-local ui = import 'pigui/pigui.lua'
+local ui = require 'pigui'
 local colors = ui.theme.colors
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
@@ -23,13 +23,14 @@ ChatForm.meta = {
 	class = "ChatForm",
 }
 
-function ChatForm.New (chatFunc, removeFunc, closeFunc, ref, tabGroup, style)
+function ChatForm.New (chatFunc, removeFunc, closeFunc, resizeFunc, ref, tabGroup, style)
 	style = style or {}
 	style.face = style.face or {}
 	local form = {
 		chatFunc = chatFunc,
 		removeFunc = removeFunc,
 		closeFunc = closeFunc,
+		resizeFunc = resizeFunc,
 		ref = ref,
 		tabGroup = tabGroup,
 		market = nil,
@@ -47,6 +48,7 @@ function ChatForm.New (chatFunc, removeFunc, closeFunc, ref, tabGroup, style)
 			},
 			buttonSize = style.buttonSize or ui.rescaleUI(Vector2(256, 24), Vector2(1600, 900)),
 			titleFont = style.titleFont or orbiteer.large,
+			font = style.font or pionillium.medlarge,
 			marketSize = style.marketSize or ui.rescaleUI(Vector2(1200, 450), Vector2(1600, 900))
 		},
 	}
@@ -56,55 +58,55 @@ function ChatForm.New (chatFunc, removeFunc, closeFunc, ref, tabGroup, style)
 end
 
 function ChatForm:render ()
-	if not self.style.contentWidth then
-		self.style.contentWidth = ui.getContentRegion().x
-	end
+	ui.withFont(self.style.font.name, self.style.font.size, function()
+		if not self.style.contentWidth then
+			self.style.contentWidth = ui.getContentRegion().x
+		end
 
-	if self.title then
-		ui.withFont(self.style.titleFont.name, self.style.titleFont.size, function()
+		if self.title then
+			ui.withFont(self.style.titleFont.name, self.style.titleFont.size, function()
+				ui.pushTextWrapPos(self.style.contentWidth)
+				ui.textWrapped(self.title)
+				ui.popTextWrapPos()
+			end)
+		end
+
+		if self.face then
+			self.face:render()
+		end
+
+		if self.message then
+			ui.text('')
 			ui.pushTextWrapPos(self.style.contentWidth)
-			ui.textWrapped(self.title)
+			ui.textWrapped(self.message)
 			ui.popTextWrapPos()
-		end)
-	end
+			ui.text('')
+		end
 
-	if self.face then
-		self.face:render()
-	end
+		if self.style.buttonSize.x <= 0 then
+			self.style.buttonSize.x = self.style.contentWidth
+		end
 
-	if self.message then
-		ui.text('')
-		ui.pushTextWrapPos(self.style.contentWidth)
-		ui.textWrapped(self.message)
-		ui.popTextWrapPos()
-		ui.text('')
-	end
-
-	if self.style.buttonSize.x <= 0 then
-		self.style.buttonSize.x = self.style.contentWidth
-	end
-
-	if self.options then
-
-		for i = 1,#self.options do
-			local option = self.options[i]
-			if ui.coloredSelectedButton(option[1], self.style.buttonSize, false, colors.buttonBlue, nil, true) then
-				if (option[2] == -1) then
-					self:Close()
-				else
-					self.chatFunc(self, option[2])
+		if self.options then
+			for k, option in ipairs(self.options) do
+				if ui.coloredSelectedButton(option[1], self.style.buttonSize, false, colors.buttonBlue, nil, true) then
+					if (option[2] == -1) then
+						self:Close()
+					else
+						self.chatFunc(self, option[2])
+					end
 				end
 			end
 		end
-	end
 
-	if self.market then
-		self.market:Render(self.style.marketSize)
-	end
+		if self.market then
+			self.market:Render(self.style.marketSize)
+		end
 
-	self.navButton()
+		self.navButton()
 
-	if ui.coloredSelectedButton(l.HANG_UP, self.style.buttonSize, false, colors.buttonBlue, nil, true) then self:Close() end
+		if ui.coloredSelectedButton(l.HANG_UP, self.style.buttonSize, false, colors.buttonBlue, nil, true) then self:Close() end
+	end)
 end
 
 function ChatForm:SetTitle (title)
@@ -135,24 +137,25 @@ function ChatForm:Clear ()
 	self.tradeFuncs = nil
 end
 
-local tradeFuncKeys = { "canTrade", "getStock", "getBuyPrice", "getSellPrice", "onClickBuy", "onClickSell", "canDisplayItem" }
+local tradeFuncKeys = { "canTrade", "getStock", "getBuyPrice", "getSellPrice", "onClickBuy", "onClickSell", "canDisplayItem", "bought", "sold"}
 function ChatForm:AddGoodsTrader (funcs)
 	self.equipWidgetConfig = {
 		stationColumns = { "icon", "name", "price", "stock" },
 		shipColumns = { "icon", "name", "amount" },
 	}
 
-	self.market = CommodityWidget.New("blackMarket", false)
+	self.market = CommodityWidget.New("chatTrader", false)
 	for i = 1,#tradeFuncKeys do
 		local key = tradeFuncKeys[i]
 		local fn = funcs[key]
 		if fn then
 			self.market.funcs[key] = function (s, e)
-				return fn(self.ref, e)
+				return fn(self.ref, e, s)
 			end
 		end
 	end
 
+	self.resizeFunc()
 	self.market:Refresh()
 end
 

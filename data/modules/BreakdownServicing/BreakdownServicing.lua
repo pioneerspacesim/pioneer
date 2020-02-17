@@ -11,6 +11,7 @@ local NameGen = require 'NameGen'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Equipment = require 'Equipment'
+local Character = require 'Character'
 
 local l = Lang.GetResource("module-breakdownservicing")
 local lui = Lang.GetResource("ui-core")
@@ -129,7 +130,7 @@ local onChat = function (form, ref, option)
 	if option == 0 then
 		-- Initial proposal
 		form:SetTitle(ad.title)
-		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.name })
+		form:SetFace(Character.New({ female = ad.isfemale, seed = ad.faceseed, name = ad.name }))
 		-- Replace token with details of last service (which might have
 		-- been seconds ago)
 		form:SetMessage(string.interp(message, {
@@ -149,7 +150,7 @@ local onChat = function (form, ref, option)
 		-- Yes please, service my engine
 		form:Clear()
 		form:SetTitle(ad.title)
-		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.name })
+		form:SetFace(Character.New({ female = ad.isfemale, seed = ad.faceseed, name = ad.name }))
 		if Game.player:GetMoney() >= price then -- We did check earlier, but...
 			-- Say thanks
 			form:SetMessage(ad.response)
