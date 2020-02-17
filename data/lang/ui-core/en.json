@@ -1771,6 +1771,18 @@
     "description": "",
     "message": "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
   },
+  "START_LOG_ENTRY_1": {
+    "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
+    "message": "Unfortunately, uncle never showed me how to operate this old barge when he was alive, but I think I'm making an entry in the ship's log now. It's strange, I can still feel him, as if he's in the very walls of this ship. Maybe he can be my co-pilot, and together we will manifest our destiny in the great void. But first, I just need to buy some hydrogen for the jump drive, plot a course to lucrative trading opportunities, and pray to the heavens that traffic control will allow an inexperienced pilot like me to take off, then we'll see what this baby can do. Time to make a reputation for myself!"
+  },
+  "START_LOG_ENTRY_2": {
+    "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",
+    "message": "My boots are still wet from the heavy rainfall last night, back home. The pavement got so wet it - seemingly, in an act of revenge - drenched the night sky with the reflected glow from the neon signs that looked down on the wet street. But I made it, through the rain, to my connecting flight to the starport where my new ship was waiting for me. The starport security officer gave me a funny look when I told him I'm here to pick up a ship. I guess I didn't look like the typical spacer, having sold everything I had to invest in this rusty old bucket, as I was standing in front of him, wet boots and all. But I truly feel, that from now on, my future will be written in the stars. Now, I just need to find the start-key."
+  },
+  "START_LOG_ENTRY_3": {
+    "description": "First custom log message when starting a new game, giving backstory to the character. Here explaining why there's no hyperdrive in the ship, and what to do about it.",
+    "message": "After a long bureaucratic process, I finally got my ship back from the impound, but they had stripped her down to the bare metal, to pay 'the debt' they claimed I had. Not only did they take my favourite coffee brewer, but those bastards also ripped out the hyper drive, so I'm stuck for now in this system, unless I sell whatever is left in the ship, to finance a new drive. But as they say: when life gives you lemons - make lemonade; so even if I'm back at square one, I will think of this as an opportunity instead of as a setback, a second chance. Without coffee. By letting go of what I am, I will become what I might be. The world will turn aside, and let me pass, as it does for those who know where they are going, and I am heading to the stars."
+  },
   "STAR_FIELD_DENSITY": {
     "description": "",
     "message": "Density of Star field"
