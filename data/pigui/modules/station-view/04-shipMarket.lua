@@ -7,7 +7,7 @@ local Format = import 'Format'
 local ShipDef = import 'ShipDef'
 local Equipment = import 'Equipment'
 local StationView = import 'pigui/views/station-view'
-local Market = import 'pigui/libs/market.lua'
+local Table = import 'pigui/libs/table.lua'
 local PiImage = import 'ui/PiImage'
 local ModelSpinner = import 'PiGui.Modules.ModelSpinner'
 
@@ -63,6 +63,14 @@ local shipClassString = {
 
 	unknown                    = "",
 }
+
+local function refreshShipMarket()
+	widgetSizes.rowVerticalSpacing = Vector2(0, (widgetSizes.iconSize.y + widgetSizes.itemSpacing.y - pionillium.large.size)/2)
+
+	local station = Game.player:GetDockedWith()
+	shipMarket.items = station:GetShipsOnSale()
+	selectedItem = nil
+end
 
 local function manufacturerIcon (manufacturer)
 	if(manufacturer ~= "unknown" and manufacturer ~= nil) then
@@ -143,6 +151,7 @@ local function buyShip (mkt, sos)
 		player:AddEquip(e)
 	end
 	player:SetFuelPercent(100)
+	refreshShipMarket();
 
 	mkt.popup.msg = l.THANKS_AND_REMEMBER_TO_BUY_FUEL
 	mkt.popup:open()
@@ -307,8 +316,7 @@ local tradeMenu = function()
 	end
 end
 
-shipMarket = Market.New("shipMarketWidget", false, {
-	itemTypes = { },
+shipMarket = Table.New("shipMarketWidget", false, {
 	columnCount = 4,
 	initTable = function(self)
 		local iconColumnWidth = widgetSizes.iconSize.x + widgetSizes.itemSpacing.x
@@ -317,7 +325,8 @@ shipMarket = Market.New("shipMarketWidget", false, {
 		ui.setColumnWidth(1, columnWidth)
 		ui.setColumnWidth(2, columnWidth)
 		ui.setColumnWidth(3, columnWidth)
-
+	end,
+	renderHeaderRow = function(s)
 		ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
 			ui.text('')
 			ui.nextColumn()
@@ -329,8 +338,7 @@ shipMarket = Market.New("shipMarketWidget", false, {
 			ui.nextColumn()
 		end)
 	end,
-	renderRow = function(self, item)
-		-- {shipClassIcon(def.shipClass), def.name, Format.Money(def.basePrice,false), def.capacity.."t"}
+	renderItem = function(s, item)
 		if(icons[item.def.shipClass] == nil) then
 			icons[item.def.shipClass] = PiImage.New("icons/shipclass/".. item.def.shipClass ..".png")
 			currentIconSize = icons[item.def.shipClass].texture.size
@@ -350,23 +358,11 @@ shipMarket = Market.New("shipMarketWidget", false, {
 			ui.nextColumn()
 		end)
 	end,
-	displayItem = function (s, e) return true end,
-	onMouseOverItem = function(s, e)
-		if ui.isMouseClicked(0) and s.funcs.onClickBuy(e) then
-			selectedItem = e
-			s:refresh()
-		end
+	onClickItem = function(s,e)
+		selectedItem = e
 	end,
 	sortingFunction = function(s1,s2) return s1.def.name < s2.def.name end
 })
-
-local function refreshShipMarket()
-	widgetSizes.rowVerticalSpacing = Vector2(0, (widgetSizes.iconSize.y + widgetSizes.itemSpacing.y - pionillium.large.size)/2)
-
-	local station = Game.player:GetDockedWith()
-	shipMarket.itemTypes = { station:GetShipsOnSale() }
-	shipMarket:refresh()
-end
 
 local function renderShipMarket()
 	ui.withFont(pionillium.large.name, pionillium.large.size, function()
@@ -381,7 +377,7 @@ local function renderShipMarket()
 end
 
 StationView:registerView({
-	id = "shipMarket",
+	id = "shipMarketView",
 	name = l.SHIP_MARKET,
 	icon = ui.theme.icons.ship,
 	showView = true,

@@ -14,7 +14,7 @@ local Comms = import 'Comms'
 
 local InfoFace = import 'ui/PiguiFace'
 local PiImage = import 'ui/PiImage'
-local drawTable = import 'pigui/libs/table.lua'
+local textTable = import 'pigui/libs/text-table.lua'
 local ModalWindow = import 'pigui/libs/modal-win.lua'
 
 local pionillium = ui.fonts.pionillium
@@ -251,7 +251,7 @@ local function drawPlayerInfo()
 			ui.child("Wrapper", Vector2(0, widgetSizes.faceSize.y + widgetSizes.windowPadding.y*2 + widgetSizes.itemSpacing.y), {}, function()
 				ui.child("PlayerShipFuel", Vector2(infoColumnWidth, 0), {"AlwaysUseWindowPadding"}, function()
 					local curPos = ui.getCursorPos()
-					drawTable.withHeading(station.label, orbiteer.xlarge, {
+					textTable.withHeading(station.label, orbiteer.xlarge, {
 						{ tech_certified, "" },
 						{ station_docks, "" },
 						{ station_orbit_info, "" },
@@ -265,7 +265,7 @@ local function drawPlayerInfo()
 				ui.sameLine()
 				ui.child("StationManager", Vector2(0, 0), {"AlwaysUseWindowPadding", "NoScrollbar"}, function ()
 					if(face ~= nil) then
-						face:Draw(widgetSizes.faceSize)
+						face:render()
 					end
 				end)
 			end)
@@ -298,7 +298,7 @@ StationView:registerView({
 			if (stationSeed ~= station.seed) then
 				stationSeed = station.seed
 				local rand = Rand.New(station.seed)
-				face = InfoFace.New(Character.New({ title = l.STATION_MANAGER }, rand), {windowPadding = widgetSizes.windowPadding, itemSpacing = widgetSizes.itemSpacing})
+				face = InfoFace.New(Character.New({ title = l.STATION_MANAGER }, rand), {windowPadding = widgetSizes.windowPadding, itemSpacing = widgetSizes.itemSpacing, size = widgetSizes.faceSize})
 			end
 			hyperdrive = table.unpack(Game.player:GetEquip("engine")) or nil
 			hyperdrive_fuel = hyperdrive and hyperdrive.fuel or Equipment.cargo.hydrogen
