@@ -220,6 +220,12 @@ local onGameStart = function ()
 	loaded_data = nil
 end
 
+local onGameEnd = function ()
+	FlightLogSystem = {}
+	FlightLogStation = {}
+	FlightLogCustom = {}
+end
+
 local serialize = function ()
 	return { System = FlightLogSystem, Station = FlightLogStation }
 end
@@ -232,6 +238,7 @@ Event.Register("onEnterSystem", AddSystemArrivalToLog)
 Event.Register("onLeaveSystem", AddSystemDepartureToLog)
 Event.Register("onShipUndocked", AddStationToLog)
 Event.Register("onGameStart", onGameStart)
+Event.Register("onGameEnd", onGameEnd)
 Serializer:Register("FlightLog", serialize, unserialize)
 
 return FlightLog
