@@ -117,7 +117,10 @@ local onCreateBB = function (station)
 	end
 	if not has_illegal_goods then return end
 
+	-- Real trader is persistant for each station, police is random every time
 	local rand = Rand.New(station.seed)
+	local rand_police = Rand.New()
+
 	local num = rand:Integer(1,3)
 
 	local numPolice = 0
@@ -131,17 +134,20 @@ local onCreateBB = function (station)
 
 			if ispolice then
 				numPolice = numPolice + 1
+				r = rand_police
+			else
+				r = rand
 			end
 
-			local flavour = string.interp(l["GOODS_TRADER_"..rand:Integer(1, num_names)-1], {name = NameGen.Surname(rand)})
-			local slogan = l["SLOGAN_"..rand:Integer(1, num_slogans)-1]
+			local flavour = string.interp(l["GOODS_TRADER_"..r:Integer(1, num_names)-1], {name = NameGen.Surname(r)})
+			local slogan = l["SLOGAN_"..r:Integer(1, num_slogans)-1]
 
 			local ad = {
 				station  = station,
 				flavour  = flavour,
 				slogan   = slogan,
 				ispolice = ispolice,
-				faceseed = rand:Integer(),
+				faceseed = r:Integer(),
 				trader   = Character.New(),
 			}
 
