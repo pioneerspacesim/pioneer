@@ -96,6 +96,11 @@ option(WITH_DEVKEYS "Include various extra keybindings for dev functions" ON)
 option(USE_SYSTEM_LIBGLEW "Use the system's libglew" OFF)
 option(USE_SYSTEM_LIBLUA "Use the system's liblua" OFF)
 option(PROFILER_ENABLED "Build pioneer with profiling support built-in." OFF)
+option(REMOTE_LUA_REPL "Enable remote LUA console" OFF)
+
+if (REMOTE_LUA_REPL)
+	set(REMOTE_LUA_REPL_PORT 12345 CACHE STRING "TCP port for remote LUA console")
+endif (REMOTE_LUA_REPL)
 
 list(APPEND SRC_FOLDERS
 	src/
