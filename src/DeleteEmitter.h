@@ -11,7 +11,7 @@
 // including sigc++ directly so we don't get circular dependencies
 #include <sigc++/sigc++.h>
 
-#include "LuaWrappable.h"
+#include "lua/LuaWrappable.h"
 
 class DeleteEmitter : public LuaWrappable {
 public:

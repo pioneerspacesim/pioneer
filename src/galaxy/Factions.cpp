@@ -12,12 +12,12 @@
 #include "FileSystem.h"
 #include "GameSaveError.h"
 #include "Lang.h"
-#include "LuaConstants.h"
-#include "LuaFixed.h"
-#include "LuaUtils.h"
-#include "LuaVector.h"
 #include "Pi.h"
 #include "Polit.h"
+#include "lua/LuaConstants.h"
+#include "lua/LuaFixed.h"
+#include "lua/LuaUtils.h"
+#include "lua/LuaVector.h"
 #include <algorithm>
 #include <list>
 #include <set>

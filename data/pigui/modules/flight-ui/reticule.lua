@@ -1,9 +1,9 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local ui = import 'pigui'
-local Engine = import 'Engine'
-local Game = import 'Game'
+local ui = require 'pigui'
+local Engine = require 'Engine'
+local Game = require 'Game'
 local Vector2 = _G.Vector2
 
 -- cache ui
@@ -12,13 +12,13 @@ local pionicons = ui.fonts.pionicons
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local lc = import 'Lang'.GetResource("core")
-local lui = import 'Lang'.GetResource("ui-core")
+local lc = require 'Lang'.GetResource("core")
+local lui = require 'Lang'.GetResource("ui-core")
 
 local reticuleCircleRadius = math.min(ui.screenWidth, ui.screenHeight) / 8
 local reticuleCircleThickness = 2.0
 
-local gameView = import 'pigui.views.game'
+local gameView = require 'pigui.views.game'
 
 -- for modules
 ui.reticuleCircleRadius = reticuleCircleRadius

@@ -23,14 +23,14 @@ local copyTable = function(T)
 	return t2
 end
 
-local Comms = import("Comms")
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Event = import("Event")
-local Format = import("Format")
-local Serializer = import("Serializer")
-local Equipment = import ("Equipment")
+local Comms = require 'Comms'
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Event = require 'Event'
+local Format = require 'Format'
+local Serializer = require 'Serializer'
+local Equipment = require 'Equipment'
 
 local l = Lang.GetResource("module-newseventcommodity")
 

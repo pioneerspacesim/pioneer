@@ -12,8 +12,15 @@ namespace Lua {
 
 	extern LuaManager *manager;
 
+	// Initialize the lua instance
 	void Init();
+	// Uninitialize the lua instance
 	void Uninit();
+
+	// Initialize all lua bindings and modules
+	void InitModules();
+	// Uninitialize all lua bindings and modules
+	void UninitModules();
 
 } // namespace Lua
 

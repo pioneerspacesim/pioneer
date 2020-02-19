@@ -14,6 +14,7 @@ namespace PiGUI {
 			LuaObject<PiGUI::Image>::RegisterClass();
 			LuaObject<PiGUI::Face>::RegisterClass();
 			LuaObject<PiGUI::ModelSpinner>::RegisterClass();
+			RegisterSandbox();
 		}
 
 	} // namespace Lua

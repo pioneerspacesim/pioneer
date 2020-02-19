@@ -3,21 +3,21 @@
 
 -- TODO: don't move pointer in radial menu
 
-local Format = import('Format')
-local Game = import('Game')
-local Player = import('Player')
-local Space = import('Space')
-local Engine = import('Engine')
-local Event = import("Event")
-local ShipDef = import("ShipDef")
-local Lang = import("Lang")
+local Format = require 'Format'
+local Game = require 'Game'
+local Player = require 'Player'
+local Space = require 'Space'
+local Engine = require 'Engine'
+local Event = require 'Event'
+local ShipDef = require 'ShipDef'
+local Lang = require 'Lang'
 local Vector2 = _G.Vector2
 
 local lui = Lang.GetResource("ui-core");
 local lc = Lang.GetResource("core");
 local lec = Lang.GetResource("equipment-core");
 
-local utils = import("utils")
+local utils = require 'utils'
 local pigui = Engine.pigui
 
 local pi = 3.14159264
@@ -29,7 +29,7 @@ local one_over_sqrt_two = 1 / math.sqrt(2)
 
 local ui = { }
 
-local defaultTheme = import("themes/default")
+local defaultTheme = require '.themes.default'
 ui.theme = defaultTheme
 
 ui.rescaleUI = function(val, baseResolution, rescaleToScreenAspect)
@@ -91,6 +91,14 @@ end
 local textBackgroundMarginPixels = 2
 
 ui.icons_texture = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), 16 * 64, 16 * 64)
+
+-- Clean up the ImGui stack in case of an error
+function ui.pcall(fun, ...)
+	local stack = pigui.GetImguiStack()
+	return xpcall(fun, function(msg)
+		return msg .. pigui.CleanupImguiStack(stack)
+	end, ...)
+end
 
 function ui.window(name, params, fun)
 	local ok = pigui.Begin(name, params)

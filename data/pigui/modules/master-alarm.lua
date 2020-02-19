@@ -1,9 +1,10 @@
--- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright ï¿½ 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import('Engine')
-local Game = import('Game')
-local ui = import('pigui/pigui.lua')
+local Engine = require 'Engine'
+local Game = require 'Game'
+
+local ui = require 'pigui'
 
 local alreadyAlertedTemp = false
 local alreadyAlertedFuel = false

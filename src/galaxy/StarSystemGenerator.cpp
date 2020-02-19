@@ -8,10 +8,10 @@
 #include "Galaxy.h"
 #include "Json.h"
 #include "Lang.h"
-#include "LuaNameGen.h"
-#include "Sector.h"
-#include "utils.h"
 #include "Pi.h"
+#include "Sector.h"
+#include "lua/LuaNameGen.h"
+#include "utils.h"
 
 static const fixed SUN_MASS_TO_EARTH_MASS = fixed(332998, 1); // XXX Duplication from StarSystem.cpp
 // if binary stars have separation s, planets can have stable

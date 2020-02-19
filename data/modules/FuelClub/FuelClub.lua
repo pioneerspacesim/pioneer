@@ -1,15 +1,15 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Rand = import("Rand")
-local Event = import("Event")
-local Character = import("Character")
-local Format = import("Format")
-local Serializer = import("Serializer")
-local Equipment = import("Equipment")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Rand = require 'Rand'
+local Event = require 'Event'
+local Character = require 'Character'
+local Format = require 'Format'
+local Serializer = require 'Serializer'
+local Equipment = require 'Equipment'
 
 local MessageBox = import("ui/MessageBox")
 

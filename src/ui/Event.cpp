@@ -3,7 +3,7 @@
 
 #include "Event.h"
 #include "EnumStrings.h"
-#include "LuaObject.h"
+#include "lua/LuaObject.h"
 
 namespace UI {
 

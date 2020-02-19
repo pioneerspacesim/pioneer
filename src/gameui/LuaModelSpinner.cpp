@@ -1,9 +1,9 @@
 // Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "LuaObject.h"
 #include "ModelSpinner.h"
 #include "Pi.h"
+#include "lua/LuaObject.h"
 
 namespace GameUI {
 

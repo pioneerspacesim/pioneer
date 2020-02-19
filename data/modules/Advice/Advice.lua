@@ -6,10 +6,10 @@
 -- advice from more experienced pilots. Instead, we just put them on
 -- the BBS for now.
 
-local Lang = import("Lang")
-local Event = import("Event")
-local Rand = import("Rand")
-local Serializer = import("Serializer")
+local Lang = require 'Lang'
+local Event = require 'Event'
+local Rand = require 'Rand'
+local Serializer = require 'Serializer'
 
 local l = Lang.GetResource("module-advice")
 

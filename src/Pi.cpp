@@ -19,33 +19,15 @@
 #include "Intro.h"
 #include "KeyBindings.h"
 #include "Lang.h"
-#include "LuaColor.h"
-#include "LuaComms.h"
-#include "LuaConsole.h"
-#include "LuaConstants.h"
-#include "LuaDev.h"
-#include "LuaEngine.h"
-#include "LuaEvent.h"
-#include "LuaFileSystem.h"
-#include "LuaFormat.h"
-#include "LuaGame.h"
-#include "LuaInput.h"
-#include "LuaJson.h"
-#include "LuaLang.h"
-#include "LuaManager.h"
-#include "LuaMusic.h"
-#include "LuaNameGen.h"
-#include "LuaSerializer.h"
-#include "LuaShipDef.h"
-#include "LuaSpace.h"
-#include "LuaTimer.h"
-#include "LuaVector.h"
-#include "LuaVector2.h"
 #include "Missile.h"
 #include "ModManager.h"
 #include "ModelCache.h"
 #include "NavLights.h"
 #include "OS.h"
+#include "lua/Lua.h"
+#include "lua/LuaConsole.h"
+#include "lua/LuaEvent.h"
+#include "lua/LuaTimer.h"
 #include "sound/AmbientSounds.h"
 #if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"
@@ -258,85 +240,6 @@ static void draw_progress(float progress)
 	PiGui::NewFrame(Pi::renderer->GetSDLWindow());
 	Pi::DrawPiGui(progress, "INIT");
 	Pi::renderer->SwapBuffers();
-}
-
-static void LuaInit()
-{
-	PROFILE_SCOPED()
-	LuaObject<PropertiedObject>::RegisterClass();
-
-	LuaObject<Body>::RegisterClass();
-	LuaObject<Ship>::RegisterClass();
-	LuaObject<SpaceStation>::RegisterClass();
-	LuaObject<Planet>::RegisterClass();
-	LuaObject<Star>::RegisterClass();
-	LuaObject<Player>::RegisterClass();
-	LuaObject<Missile>::RegisterClass();
-	LuaObject<CargoBody>::RegisterClass();
-	LuaObject<ModelBody>::RegisterClass();
-	LuaObject<HyperspaceCloud>::RegisterClass();
-
-	LuaObject<StarSystem>::RegisterClass();
-	LuaObject<SystemPath>::RegisterClass();
-	LuaObject<SystemBody>::RegisterClass();
-	LuaObject<Random>::RegisterClass();
-	LuaObject<Faction>::RegisterClass();
-
-	Pi::luaSerializer = new LuaSerializer();
-	Pi::luaTimer = new LuaTimer();
-
-	LuaObject<LuaSerializer>::RegisterClass();
-	LuaObject<LuaTimer>::RegisterClass();
-
-	LuaConstants::Register(Lua::manager->GetLuaState());
-	LuaLang::Register();
-	LuaEngine::Register();
-	LuaInput::Register();
-	LuaFileSystem::Register();
-	LuaJson::Register();
-#ifdef ENABLE_SERVER_AGENT
-	LuaServerAgent::Register();
-#endif
-	LuaGame::Register();
-	LuaComms::Register();
-	LuaFormat::Register();
-	LuaSpace::Register();
-	LuaShipDef::Register();
-	LuaMusic::Register();
-	LuaDev::Register();
-	LuaConsole::Register();
-	LuaVector::Register(Lua::manager->GetLuaState());
-	LuaVector2::Register(Lua::manager->GetLuaState());
-	LuaColor::Register(Lua::manager->GetLuaState());
-
-	// XXX sigh
-	UI::Lua::Init();
-	GameUI::Lua::Init();
-	SceneGraph::Lua::Init();
-
-	LuaObject<PiGui>::RegisterClass();
-	PiGUI::Lua::Init();
-
-	// XXX load everything. for now, just modules
-	lua_State *l = Lua::manager->GetLuaState();
-	pi_lua_import(l, "libs/autoload.lua", true);
-	pi_lua_import_recursive(l, "ui");
-	pi_lua_import(l, "pigui/pigui.lua", true);
-	pi_lua_import_recursive(l, "pigui/modules");
-	pi_lua_import_recursive(l, "pigui/views");
-	pi_lua_import_recursive(l, "modules");
-
-	Pi::luaNameGen = new LuaNameGen(Lua::manager);
-}
-
-static void LuaUninit()
-{
-	delete Pi::luaNameGen;
-
-	delete Pi::luaSerializer;
-	delete Pi::luaTimer;
-
-	Lua::Uninit();
 }
 
 static void LuaInitGame()
@@ -574,7 +477,7 @@ void Pi::Init(const std::map<std::string, std::string> &options, bool no_gui)
 	}
 #endif
 
-	LuaInit();
+	Lua::InitModules();
 
 	Gui::Init(renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 800, 600);
 
@@ -732,7 +635,8 @@ void Pi::Quit()
 	Pi::pigui->Uninit();
 	Pi::ui.Reset(0);
 	Pi::pigui.Reset(0);
-	LuaUninit();
+	Lua::UninitModules();
+	Lua::Uninit();
 	Gui::Uninit();
 	delete Pi::modelCache;
 	delete Pi::renderer;

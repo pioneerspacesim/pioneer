@@ -2,7 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CellSpec.h"
-#include "LuaObject.h"
+#include "lua/LuaObject.h"
 
 namespace UI {
 

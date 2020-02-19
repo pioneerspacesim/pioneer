@@ -6,7 +6,7 @@
 
 #include "FrameId.h"
 #include "Object.h"
-#include "PropertiedObject.h"
+#include "lua/PropertiedObject.h"
 #include "matrix3x3.h"
 #include "vector3.h"
 #include <string>

@@ -5,7 +5,7 @@
 #define GAMEUI_LUA_H
 
 #include "GameUI.h"
-#include "LuaObject.h"
+#include "lua/LuaObject.h"
 
 namespace GameUI {
 	namespace Lua {

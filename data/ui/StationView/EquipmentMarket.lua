@@ -6,7 +6,7 @@ local Lang = import("Lang")
 local Game = import("Game")
 local Format = import("Format")
 
-local EquipmentTableWidgets = import("EquipmentTableWidgets")
+local EquipmentTableWidgets = import(".EquipmentTableWidgets")
 
 local l = Lang.GetResource("ui-core")
 

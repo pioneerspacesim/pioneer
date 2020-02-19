@@ -1,9 +1,9 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
-local Comms = import("Comms")
-local Game = import("Game")
+local Comms = require 'Comms'
+local Game = require 'Game'
 
-local Lang = import("Lang")
+local Lang = require 'Lang'
 local l = Lang.GetResource("ui-core")
 
 

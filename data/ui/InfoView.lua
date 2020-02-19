@@ -7,11 +7,11 @@ local Event = import("Event")
 
 local TabView = import("ui/TabView")
 
-local shipInfo        = import("InfoView/ShipInfo")
-local econTrade       = import("InfoView/EconTrade")
-local missions        = import("InfoView/Missions")
-local crewRoster      = import("InfoView/CrewRoster")
-local orbitalAnalysis = import("InfoView/OrbitalAnalysis")
+local shipInfo        = import("ui/InfoView/ShipInfo")
+local econTrade       = import("ui/InfoView/EconTrade")
+local missions        = import("ui/InfoView/Missions")
+local crewRoster      = import("ui/InfoView/CrewRoster")
+local orbitalAnalysis = import("ui/InfoView/OrbitalAnalysis")
 
 local piInfoView = import("pigui/views/info-view")
 

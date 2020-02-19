@@ -2,9 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Lua.h"
-#include "LuaConstants.h"
 #include "LuaSignal.h"
 #include "Table.h"
+#include "lua/LuaConstants.h"
 
 namespace UI {
 

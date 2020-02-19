@@ -1,16 +1,16 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Game = import 'Game'
+local Game = require 'Game'
 local Vector2 = _G.Vector2
 
-local ui = import 'pigui'
-local lui = import 'Lang'.GetResource("ui-core")
+local ui = require 'pigui'
+local lui = require 'Lang'.GetResource("ui-core")
 
 local icons = ui.theme.icons
 local colors = ui.theme.colors
 
-local gameView = import 'pigui.views.game'
+local gameView = require 'pigui.views.game'
 
 local gauges = {
 	gaugeCount = 0

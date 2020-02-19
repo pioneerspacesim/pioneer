@@ -1,17 +1,17 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Space = import("Space")
-local Comms = import("Comms")
-local Event = import("Event")
-local Legal = import("Legal")
-local Serializer = import("Serializer")
-local Equipment = import("Equipment")
-local ShipDef = import("ShipDef")
-local Timer = import("Timer")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Space = require 'Space'
+local Comms = require 'Comms'
+local Event = require 'Event'
+local Legal = require 'Legal'
+local Serializer = require 'Serializer'
+local Equipment = require 'Equipment'
+local ShipDef = require 'ShipDef'
+local Timer = require 'Timer'
 
 local l = Lang.GetResource("module-policepatrol")
 local l_ui_core = Lang.GetResource("ui-core")
