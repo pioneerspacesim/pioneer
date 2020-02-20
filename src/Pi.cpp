@@ -33,7 +33,6 @@
 #include "ObjectViewerView.h"
 #endif
 #include "Beam.h"
-#include "PiGui.h"
 #include "Player.h"
 #include "Projectile.h"
 #include "SectorView.h"
@@ -53,6 +52,7 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "gameui/Lua.h"
 #include "libs.h"
+#include "pigui/PiGui.h"
 #include "pigui/PiGuiLua.h"
 #include "ship/PlayerShipController.h"
 #include "ship/ShipViewController.h"

@@ -11,7 +11,7 @@
 #include "LuaVector.h"
 #include "LuaVector2.h"
 #include "Pi.h"
-#include "PiGui.h"
+#include "pigui/PiGui.h"
 #include "Player.h"
 #include "Space.h"
 #include "SystemInfoView.h"

@@ -19,7 +19,7 @@
 #include "LuaVector2.h"
 #include "OS.h"
 #include "Pi.h"
-#include "PiGui.h"
+#include "pigui/PiGui.h"
 #include "Player.h"
 #include "Random.h"
 #include "SectorView.h"
