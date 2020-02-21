@@ -4,15 +4,24 @@
 local ui = require 'pigui'
 local InfoView = require 'pigui.views.info-view'
 local Lang = require 'Lang'
+local Debug = require 'pigui.libs.debug'
 
 local l = Lang.GetResource("ui-core")
 
-
-InfoView:registerView({
+local view
+view = {
     id = "missions",
     name = l.MISSIONS,
     icon = ui.theme.icons.star,
     showView = false,
-    draw = function() end,
-    refresh = function() end,
-})
+    draw = function()
+        Debug:render()
+    end,
+    refresh = function()
+        Debug = import 'pigui/libs/debug'
+        view.showView = Debug.showView
+        Debug.scrollPos = 0
+    end,
+}
+
+InfoView:registerView(view)

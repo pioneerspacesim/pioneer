@@ -493,6 +493,21 @@ static int l_pigui_get_scroll_y(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_get_scroll_max_y(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LuaPush<double>(l, ImGui::GetScrollMaxY());
+	return 1;
+}
+
+static int l_pigui_set_scroll_y(lua_State *l)
+{
+	PROFILE_SCOPED()
+	double scroll = LuaPull<double>(l, 1);
+	ImGui::SetScrollY(scroll);
+	return 0;
+}
+
 /*
  * Function: plotHistogram
  *
@@ -1351,6 +1366,22 @@ static int l_pigui_is_item_clicked(lua_State *l)
 	PROFILE_SCOPED()
 	int button = LuaPull<int>(l, 1);
 	LuaPush(l, ImGui::IsItemClicked(button));
+	return 1;
+}
+
+static int l_pigui_get_item_rect_min(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImVec2 rect = ImGui::GetItemRectMin();
+	LuaPush(l, vector2d(rect.x, rect.y));
+	return 1;
+}
+
+static int l_pigui_get_item_rect_max(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImVec2 rect = ImGui::GetItemRectMax();
+	LuaPush(l, vector2d(rect.x, rect.y));
 	return 1;
 }
 
@@ -2252,8 +2283,9 @@ static int l_pigui_vsliderint(lua_State *l)
 	int value = LuaPull<int>(l, 3);
 	int val_min = LuaPull<int>(l, 4);
 	int val_max = LuaPull<int>(l, 5);
+	std::string format = LuaPull<std::string>(l, 6, "%d");
 
-	ImGui::VSliderInt(lbl.c_str(), size, &value, val_min, val_max);
+	ImGui::VSliderInt(lbl.c_str(), size, &value, val_min, val_max, format.c_str());
 
 	LuaPush<int>(l, value);
 
@@ -2269,8 +2301,9 @@ static int l_pigui_vsliderfloat(lua_State *l)
 	float value = LuaPull<float>(l, 3);
 	float val_min = LuaPull<float>(l, 4);
 	float val_max = LuaPull<float>(l, 5);
+	std::string format = LuaPull<std::string>(l, 6, "%d");
 
-	ImGui::VSliderFloat(lbl.c_str(), size, &value, val_min, val_max);
+	ImGui::VSliderFloat(lbl.c_str(), size, &value, val_min, val_max, format.c_str());
 
 	LuaPush<float>(l, value);
 
@@ -2508,6 +2541,8 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "SetColumnWidth", l_pigui_set_column_width },
 		{ "SetColumnOffset", l_pigui_set_column_offset },
 		{ "GetScrollY", l_pigui_get_scroll_y },
+		{ "GetScrollMaxY", l_pigui_get_scroll_max_y },
+		{ "SetScrollY", l_pigui_set_scroll_y },
 		{ "Text", l_pigui_text },
 		{ "TextWrapped", l_pigui_text_wrapped },
 		{ "TextColored", l_pigui_text_colored },
@@ -2525,6 +2560,8 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "IsItemHovered", l_pigui_is_item_hovered },
 		{ "IsItemActive", l_pigui_is_item_active },
 		{ "IsItemClicked", l_pigui_is_item_clicked },
+		{ "GetItemRectMin", l_pigui_get_item_rect_min },
+		{ "GetItemRectMax", l_pigui_get_item_rect_max },
 		{ "Spacing", l_pigui_spacing },
 		{ "Dummy", l_pigui_dummy },
 		{ "BeginChild", l_pigui_begin_child },
