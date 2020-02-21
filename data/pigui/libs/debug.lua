@@ -37,8 +37,6 @@ local widgetSizes = ui.rescaleUI({
 	popupSmall = Vector2(500, 0),
 }, Vector2(1600, 900))
 
-local bulletinBoard
-local chatForm
 local searchText = ""
 local searchTextEntered = false
 local textWrapWidth = 100
@@ -47,25 +45,140 @@ local scrollPos = 0.0
 
 local icons = {}
 local currentIconSize = Vector2(0,0)
-local chatWin = ModalWindow.New('bbChatWindow', function() end, function (self, drawPopupFn)
-	ui.setNextWindowPosCenter('Always')
-	ui.setNextWindowSize(widgetSizes.popupSize, "Always")
-	ui.withStyleColorsAndVars({PopupBg = Color(20, 20, 80, 230)}, {WindowBorderSize = 1, }, drawPopupFn)
-end)
 
 local function adActive(ref, ad)
 	return not ((type(ad.isEnabled) == "function" and not ad.isEnabled(ref)) or Game.paused)
 end
 
-bulletinBoard = Table.New("BulletinBoardTable", false, {
-	columnCount = 1,
-	size = Vector2(ui.screenWidth * 0.5, 0),
-	padding = widgetSizes.innerPadding,
-	--itemSpacing = Vector2(6, 20),
-	flags = ui.WindowFlags {"AlwaysUseWindowPadding", "NoScrollbar"},
+local defaultFuncs = {
+
 	initTable = function(self)
+	end,
+
+	onMouseOverItem = function(self, item)
+	end,
+
+	onClickItem = function (self, e)
+
+	end,
+
+	renderItem = function(self, item)
+
+	end,
+
+	itemFrame = function(self, item, min, max)
+
+	end,
+
+	-- sort items in the market table
+	sortingFunction = function(e1,e2)
+		return e1 < e2
+	end
+}
+
+local List = {}
+
+function List.New(id, title, config)
+	local defaultSizes = ui.rescaleUI({
+		windowPadding = Vector2(14, 14),
+		itemSpacing = Vector2(4, 9),
+	}, Vector2(1600, 900))
+
+	local self
+	self = {
+		scroll = 0,
+		id = id,
+		title = title,
+		items = {},
+		itemsMeta = {},
+		size = config.size or Vector2(ui.screenWidth / 2,0),
+		flags = config.flags or ui.WindowFlags {"AlwaysUseWindowPadding"},
+		style = {
+			titleFont = config.titleFont or ui.fonts.orbiteer.xlarge,
+			highlightColor = config.highlightColor or Color(0,63,112),
+			styleVars = {
+				WindowPadding = config.windowPadding or defaultSizes.windowPadding,
+				ItemSpacing = config.itemSpacing or defaultSizes.itemSpacing,
+			},
+			styleColors = {},
+		},
+		funcs = {
+			beforeItems = config.beforeItems or function() end,
+			canDisplayItem = config.canDisplayItem or defaultFuncs.canDisplayItem,
+			beforeRenderItem = config.beforeRenderItem or function() end,
+			renderItem = config.renderItem or defaultFuncs.renderItem,
+			afterRenderItem = config.afterRenderItem or function() ui.dummy(vZero) end,
+			onMouseOverItem = config.onMouseOverItem or defaultFuncs.onMouseOverItem,
+			onClickItem = config.onClickItem or defaultFuncs.onClickItem,
+			sortingFunction = config.sortingFunction or defaultFuncs.sortingFunction,
+		},
+	}
+
+	setmetatable(self, {
+		__index = List,
+		class = "UI.List",
+	})
+
+	return self
+end
+
+function List:render()
+	ui.withStyleColorsAndVars(self.style.styleColors, self.style.styleVars, function()
+		ui.child("List##" .. self.id, self.size, self.flags, function()
+			local startPos
+			local endPos
+
+			local contentRegion = ui.getContentRegion()
+
+			self.funcs.beforeItems(self)
+
+			self.highlightStart = nil
+			self.highlightEnd = nil
+
+			for key, item in pairs(self.items) do
+				self.funcs.beforeRenderItem(self, item, key)
+
+				startPos = ui.getCursorScreenPos()
+				startPos.x = startPos.x - self.style.styleVars.WindowPadding.x / 2
+
+				self.funcs.renderItem(self, item, key)
+
+				endPos = ui.getCursorScreenPos()
+				endPos.x = endPos.x + contentRegion.x + self.style.styleVars.WindowPadding.x / 2
+
+				self.funcs.afterRenderItem(self, item, key)
+
+				if self.itemsMeta[key] == nil then
+					self.itemsMeta[key] = {}
+				end
+
+				self.itemsMeta[key].min = startPos
+				self.itemsMeta[key].max = endPos
+
+				if ui.isWindowHovered() and ui.isMouseHoveringRect(startPos, endPos, false) then
+					self.funcs.onMouseOverItem(self, item, key)
+					if ui.isMouseClicked(0) then
+						self.funcs.onClickItem(self, item, key)
+					end
+
+					self.highlightStart = startPos
+					self.highlightEnd = endPos
+				end
+			end
+		end)
+	end)
+end
+
+local
+jobList = List.New("JobList", false, {
+	size = Vector2(ui.screenWidth * 0.5, 0),
+	flags = ui.WindowFlags {"AlwaysUseWindowPadding", "NoScrollbar"},
+	style = {
+		windowPadding = widgetSizes.innerPadding,
+		--itemSpacing = Vector2(6, 20),
+	},
+	beforeItems = function(self)
 		--scrollPos = math.ceil(-scrollPos * ui.getScrollMaxY())
-		ui.setColumnWidth(0, self.style.size.x)
 
 		local sc = math.ceil(-ui.getScrollY()* 100 / ui.getScrollMaxY())
 		if scrollPosPrev ~= sc then
@@ -75,6 +188,12 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 		end
 
 		scrollPosPrev = scrollPos
+	end,
+	beforeRenderItem = function(self, item, key)
+		if self.itemsMeta[key] ~= nil then
+			ui.addRectFilled(self.itemsMeta[key].min, self.itemsMeta[key].max, Color(8, 19, 40, 230), 0, 0)
+			ui.addRect(self.itemsMeta[key].min, self.itemsMeta[key].max, Color(25, 64, 90, 230), 0, 0, 2)
+		end
 	end,
 	renderItem = function(self, item, key)
 		local station = Game.player:GetDockedWith()
@@ -93,18 +212,15 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 			adTextColor = colors.grey
 		end
 
-		ui.withStyleColorsAndVars({Text = adTextColor}, {}, function()
-			ui.dummy(Vector2(0,0))
-			ui.text(string.upper(icon))
-			ui.sameLine()
-			icons[icon]:Draw(widgetSizes.iconSize)
-			ui.text(item.description)
+		ui.group(function()
+			ui.withStyleColorsAndVars({Text = adTextColor}, {}, function()
+				ui.dummy(Vector2(0,0))
+				ui.text(string.upper(icon))
+				ui.sameLine()
+				icons[icon]:Draw(widgetSizes.iconSize)
+				ui.text(item.description)
+			end)
 		end)
-		ui.nextColumn()
-	end,
-	itemFrame = function(self, item, min, max)
-		local ofs = Vector2(self.style.itemSpacing.x, 0)
-		ui.addRect(min, max, Color(25, 64, 90, 230), 0, 0, 2)
 	end,
 	onClickItem = function(self, item, key)
 		local station = Game.player:GetDockedWith()
@@ -115,27 +231,7 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 			return
 		end
 
-		local chatFunc = function (form, option)
-			return ad.onChat(form, ref, option)
-		end
-		local removeFunc = function ()
-			station:RemoveAdvert(ref)
-		end
-		local closeFunc = function ()
-			station:UnlockAdvert(ref)
-			chatWin:close()
-		end
-
-		chatForm = ChatForm.New(chatFunc, removeFunc, closeFunc, ref, tabGroup, {buttonSize = Vector2(0, 24)})
-		if chatForm.market then
-			widgetSizes.popupSize = Vector2(1200, 0)
-		else
-			widgetSizes.popupSize = Vector2(500, 0)
-		end
-
-		station:LockAdvert(ref)
-		chatWin.innerHandler = function() chatForm:render() end
-		chatWin:open()
+		print('click')
 	end,
 	sortingFunction = function(s1,s2) return s1.description < s2.description end
 })
@@ -144,7 +240,7 @@ local function refresh()
 
 	local station = Game.player:GetDockedWith()
 	local ads = SpaceStation.adverts[station]
-	bulletinBoard.items = {}
+	jobList.items = {}
 
 	for ref,ad in pairs(ads) do
 		if searchText == ""
@@ -153,7 +249,7 @@ local function refresh()
 				string.lower(searchText),
 				1, true)
 		then
-			bulletinBoard.items[ref] = ad
+			jobList.items[ref] = ad
 		end
 	end
 end
@@ -178,7 +274,7 @@ local function drawCommoditytView()
 					ui.sameLine()
 					ui.text("Type none")
 					ui.pushTextWrapPos(textWrapWidth)
-					bulletinBoard:render()
+					jobList:render()
 					--print("end", scrollPos)
 					ui.popTextWrapPos()
 				end)
