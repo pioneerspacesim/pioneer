@@ -7,7 +7,7 @@
 -- Functions for generating names.
 --
 
-local Engine = import("Engine")
+local Engine = require 'Engine'
 
 local r = function (t, rand) return t[rand:Integer(1,#t)] end
 

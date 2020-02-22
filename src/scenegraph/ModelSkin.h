@@ -6,8 +6,8 @@
 
 #include "Color.h"
 #include "Json.h"
-#include "LuaWrappable.h"
 #include "Random.h"
+#include "lua/LuaWrappable.h"
 #include <string>
 
 namespace Serializer {

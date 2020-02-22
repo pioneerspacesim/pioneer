@@ -1,12 +1,12 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Game = import("Game")
-local Space = import("Space")
-local Event = import("Event")
-local Comms = import("Comms")
-local Timer = import("Timer")
-local Lang = import("Lang")
+local Game = require 'Game'
+local Space = require 'Space'
+local Event = require 'Event'
+local Comms = require 'Comms'
+local Timer = require 'Timer'
+local Lang = require 'Lang'
 
 local l = Lang.GetResource("module-system")
 

@@ -1,16 +1,18 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import('Engine')
-local Input = import('Input')
-local Game = import('Game')
-local ui = import('pigui/pigui.lua')
-local Lang = import("Lang")
+local Engine = require 'Engine'
+local Input = require 'Input'
+local Game = require 'Game'
+local utils = require 'utils'
+local Event = require 'Event'
+local Vector2 = _G.Vector2
+
+local Lang = require 'Lang'
 local lc = Lang.GetResource("core");
 local lui = Lang.GetResource("ui-core");
-local utils = import("utils")
-local Event = import("Event")
-local Vector2 = _G.Vector2
+
+local ui = require 'pigui'
 
 -- cache ui
 local pionillium = ui.fonts.pionillium
@@ -238,6 +240,19 @@ local function displayScreenshotInfo()
 	end
 end
 
+local function drawGameModules()
+	for i, module in ipairs(gameView.modules) do
+		local shouldDraw = not Game.InHyperspace() or module.showInHyperspace
+		if (not module.disabled) and shouldDraw then
+			local ok, err = ui.pcall(module.draw, module, delta_t)
+			if not ok then
+				module.disabled = true
+				print(err)
+			end
+		end
+	end
+end
+
 local gameViewWindowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoMove", "NoInputs", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}
 ui.registerHandler('game', function(delta_t)
 		-- delta_t is ignored for now
@@ -252,11 +267,7 @@ ui.registerHandler('game', function(delta_t)
 				gameView.center = Vector2(ui.screenWidth / 2, ui.screenHeight / 2)
 				if ui.shouldDrawUI() then
 					if Game.CurrentView() == "world" then
-						for i, module in ipairs(gameView.modules) do
-							if not Game.InHyperspace() or module.showInHyperspace then
-								module:draw(delta_t)
-							end
-						end
+						drawGameModules(gameView.modules)
 						ui.radialMenu("worldloopworld")
 					else
 						ui.radialMenu("worldloopnotworld")

@@ -1,11 +1,11 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Game = import 'Game'
-local Lang = import 'Lang'
+local Game = require 'Game'
+local Lang = require 'Lang'
 
-local ui = import 'pigui/pigui.lua'
-local ModalWindow = import 'pigui/libs/modal-win.lua'
+local ui = require 'pigui'
+local ModalWindow = require 'pigui.libs.modal-win'
 
 local l = Lang.GetResource("ui-core")
 

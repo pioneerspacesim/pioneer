@@ -1,9 +1,9 @@
 
-#include "LuaObject.h"
-#include "LuaPushPull.h"
-#include "LuaVector.h"
-#include "LuaVector2.h"
 #include "Pi.h"
+#include "lua/LuaObject.h"
+#include "lua/LuaPushPull.h"
+#include "lua/LuaVector.h"
+#include "lua/LuaVector2.h"
 #include "pigui/ModelSpinner.h"
 
 namespace PiGUI {

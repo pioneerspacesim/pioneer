@@ -4,8 +4,8 @@
 #ifndef _REFCOUNTED_H
 #define _REFCOUNTED_H
 
-#include "LuaWrappable.h"
 #include "SmartPtr.h"
+#include "lua/LuaWrappable.h"
 #include <atomic>
 
 class RefCounted : public LuaWrappable {

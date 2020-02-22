@@ -47,11 +47,11 @@
 -- and counted with the # operator.  The player's sheet is stored as
 -- Character.persistent.player, and is the special case.
 
-local Engine = import("Engine")
-local Game = import("Game")
-local Event = import("Event")
-local NameGen = import("NameGen")
-local Serializer = import("Serializer")
+local Engine = require 'Engine'
+local Game = require 'Game'
+local Event = require 'Event'
+local NameGen = require 'NameGen'
+local Serializer = require 'Serializer'
 
 local Character;
 Character = {

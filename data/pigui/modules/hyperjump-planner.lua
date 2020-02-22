@@ -1,11 +1,13 @@
-local Engine = import('Engine')
-local Game = import('Game')
-local ui = import('pigui/pigui.lua')
-local Event = import('Event')
-local Lang = import("Lang")
+local Engine = require 'Engine'
+local Game = require 'Game'
+local Event = require 'Event'
+local Equipment = require 'Equipment'
+
+local Lang = require 'Lang'
 local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core");
-local Equipment = import("Equipment")
+
+local ui = require 'pigui'
 
 local player = nil
 local colors = ui.theme.colors

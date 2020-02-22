@@ -1,2 +1,2 @@
 
-return import 'pigui.pigui'
+return require 'pigui.pigui'

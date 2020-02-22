@@ -5,10 +5,10 @@
 
 #include "ShipType.h"
 #if ALLOW_LUA_SHIP_DEF
-#include "LuaConstants.h"
 #include "LuaTable.h"
 #include "LuaUtils.h"
 #include "LuaVector.h"
+#include "lua/LuaConstants.h"
 #endif
 #include "FileSystem.h"
 #include "Json.h"

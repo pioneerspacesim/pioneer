@@ -1,21 +1,21 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Comms = import("Comms")
-local Event = import("Event")
-local Rand = import("Rand")
-local NameGen = import("NameGen")
-local Format = import("Format")
-local Serializer = import("Serializer")
-local Equipment = import("Equipment")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Comms = require 'Comms'
+local Event = require 'Event'
+local Rand = require 'Rand'
+local NameGen = require 'NameGen'
+local Format = require 'Format'
+local Serializer = require 'Serializer'
+local Equipment = require 'Equipment'
 
 local l = Lang.GetResource("module-breakdownservicing")
 local lui = Lang.GetResource("ui-core")
 
-local pigui = import('pigui/pigui.lua')
+local pigui = require 'pigui'
 
 -- Default numeric values --
 ----------------------------

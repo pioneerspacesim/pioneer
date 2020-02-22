@@ -2,12 +2,12 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "FileSystem.h"
-#include "Lua.h"
-#include "LuaRef.h"
-#include "LuaTable.h"
 #include "RefCounted.h"
 #include "graphics/opengl/RendererGL.h"
 #include "imgui/imgui.h"
+#include "lua/Lua.h"
+#include "lua/LuaRef.h"
+#include "lua/LuaTable.h"
 #include <unordered_set>
 
 class PiFace {

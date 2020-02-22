@@ -24,7 +24,7 @@
 -- your module needs to know the difference.
 --
 
-local Engine = import("Engine")
+local Engine = require 'Engine'
 
 local pending = {}
 local callbacks = {}

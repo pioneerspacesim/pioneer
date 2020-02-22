@@ -10,8 +10,6 @@
 #include "GameSaveError.h"
 #include "HyperspaceCloud.h"
 #include "Lang.h"
-#include "LuaEvent.h"
-#include "LuaTimer.h"
 #include "MathUtil.h"
 #include "Pi.h"
 #include "Planet.h"
@@ -22,6 +20,8 @@
 #include "collider/CollisionSpace.h"
 #include "galaxy/Galaxy.h"
 #include "graphics/Graphics.h"
+#include "lua/LuaEvent.h"
+#include "lua/LuaTimer.h"
 #include <algorithm>
 #include <functional>
 

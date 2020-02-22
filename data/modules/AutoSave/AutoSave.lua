@@ -1,7 +1,7 @@
-local Game = import("Game")
-local Engine = import("Engine")
-local Event = import("Event")
-local FileSystem = import("FileSystem")
+local Game = require 'Game'
+local Engine = require 'Engine'
+local Event = require 'Event'
+local FileSystem = require 'FileSystem'
 
 local max_autosaves = 9
 

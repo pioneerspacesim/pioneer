@@ -1,17 +1,17 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Game = import("Game")
-local Space = import("Space")
-local Comms = import("Comms")
-local Timer = import("Timer")
-local Event = import("Event")
-local Serializer = import("Serializer")
-local ShipDef = import("ShipDef")
-local Ship = import("Ship")
-local utils = import("utils")
-local e = import ("Equipment")
+local Engine = require 'Engine'
+local Game = require 'Game'
+local Space = require 'Space'
+local Comms = require 'Comms'
+local Timer = require 'Timer'
+local Event = require 'Event'
+local Serializer = require 'Serializer'
+local ShipDef = require 'ShipDef'
+local Ship = require 'Ship'
+local utils = require 'utils'
+local e = require 'Equipment'
 
 --[[
 	trade_ships

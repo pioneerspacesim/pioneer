@@ -7,7 +7,6 @@
 #include "Frame.h"
 #include "GameSaveError.h"
 #include "HyperspaceCloud.h"
-#include "LuaEvent.h"
 #include "Missile.h"
 #include "Planet.h"
 #include "Player.h"
@@ -16,6 +15,7 @@
 #include "Space.h"
 #include "SpaceStation.h"
 #include "Star.h"
+#include "lua/LuaEvent.h"
 
 Body::Body() :
 	PropertiedObject(Lua::manager),

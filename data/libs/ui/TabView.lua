@@ -1,7 +1,7 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
+local Engine = require 'Engine'
 
 local normalColor = { r=0.5, g=0.5, b=0.5, a=1.0 }
 local hoverColor  = { r=0.8, g=0.8, b=0.8, a=1.0 }

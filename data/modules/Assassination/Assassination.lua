@@ -1,22 +1,22 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Space = import("Space")
-local Comms = import("Comms")
-local Timer = import("Timer")
-local Event = import("Event")
-local Mission = import("Mission")
-local NameGen = import("NameGen")
-local Character = import("Character")
-local Format = import("Format")
-local Serializer = import("Serializer")
-local Equipment = import("Equipment")
-local ShipDef = import("ShipDef")
-local Ship = import("Ship")
-local utils = import("utils")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Space = require 'Space'
+local Comms = require 'Comms'
+local Timer = require 'Timer'
+local Event = require 'Event'
+local Mission = require 'Mission'
+local NameGen = require 'NameGen'
+local Character = require 'Character'
+local Format = require 'Format'
+local Serializer = require 'Serializer'
+local Equipment = require 'Equipment'
+local ShipDef = require 'ShipDef'
+local Ship = require 'Ship'
+local utils = require 'utils'
 
 local InfoFace = import("ui/InfoFace")
 local NavButton = import("ui/NavButton")

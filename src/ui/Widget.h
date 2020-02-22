@@ -6,10 +6,10 @@
 
 #include "Event.h"
 #include "Point.h"
-#include "PropertiedObject.h"
 #include "RefCounted.h"
 #include "WidgetSet.h"
 #include "libs.h"
+#include "lua/PropertiedObject.h"
 #include <climits>
 #include <set>
 

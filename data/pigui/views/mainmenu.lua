@@ -1,21 +1,23 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import('Engine')
-local Game = import('Game')
-local Ship = import("Ship")
-local ShipDef = import("ShipDef")
-local SystemPath = import("SystemPath")
-local Equipment = import("Equipment")
-local Format = import("Format")
-local ui = import('pigui/pigui.lua')
-local Event = import('Event')
-local Lang = import("Lang")
+local Engine = require 'Engine'
+local Game = require 'Game'
+local Ship = require 'Ship'
+local ShipDef = require 'ShipDef'
+local SystemPath = require 'SystemPath'
+local Equipment = require 'Equipment'
+local Format = require 'Format'
+local Event = require 'Event'
+local Lang = require 'Lang'
+
 local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
 local qlc = Lang.GetResource("quitconfirmation-core")
 local elc = Lang.GetResource("equipment-core")
 local clc = Lang.GetResource("commodity")
+
+local ui = require 'pigui'
 
 local cargo = Equipment.cargo
 local misc = Equipment.misc

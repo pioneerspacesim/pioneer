@@ -10,16 +10,16 @@
 #include "HyperspaceCloud.h"
 #include "KeyBindings.h"
 #include "Lang.h"
-#include "LuaObject.h"
 #include "Pi.h"
 #include "SectorView.h"
 #include "Sfx.h"
-#include "ship/PlayerShipController.h"
 #include "ShipCpanel.h"
 #include "SpaceStation.h"
 #include "StringF.h"
 #include "SystemView.h" // for the transfer planner
 #include "WorldView.h"
+#include "lua/LuaObject.h"
+#include "ship/PlayerShipController.h"
 #include "sound/Sound.h"
 
 //Some player specific sounds

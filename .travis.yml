@@ -36,7 +36,8 @@ matrix:
     - name: Static Checks
       os: linux
       env: STATIC_CHECKS=yes
-      deploy: false
+      deploy:
+        provider: null
       before_install: skip
       addons:
         apt:
@@ -73,6 +74,7 @@ deploy:
   on:
     repo: pioneerspacesim/pioneer
     tags: true
+    condition: $STATIC_CHECKS != yes
 
 notifications:
   irc:

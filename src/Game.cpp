@@ -12,10 +12,10 @@
 #include "GameLog.h"
 #include "GameSaveError.h"
 #include "HyperspaceCloud.h"
-#include "LuaEvent.h"
-#include "LuaSerializer.h"
 #include "MathUtil.h"
 #include "Object.h"
+#include "lua/LuaEvent.h"
+#include "lua/LuaSerializer.h"
 #if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"
 #endif

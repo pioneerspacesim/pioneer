@@ -4,9 +4,11 @@
 #ifndef PIGUI_LUA_H
 #define PIGUI_LUA_H
 
-#include "LuaObject.h"
+#include "lua/LuaObject.h"
 
 namespace PiGUI {
+	void RegisterSandbox();
+
 	namespace Lua {
 
 		void Init();

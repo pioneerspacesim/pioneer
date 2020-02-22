@@ -68,8 +68,8 @@ void pi_lua_readonly_table_proxy(lua_State *l, int index);
 // pushes the underlying (read-write) table pointed to by the proxy at <index>
 void pi_lua_readonly_table_original(lua_State *l, int index);
 
-bool pi_lua_import(lua_State *l, const std::string &importName, bool isFullName = false);
-void pi_lua_import_recursive(lua_State *L, const std::string &basepath);
+bool pi_lua_import(lua_State *l, const std::string &importName, bool popImported = false);
+void pi_lua_import_recursive(lua_State *L, const std::string &importName);
 
 int pi_lua_panic(lua_State *l) __attribute((noreturn));
 void pi_lua_protected_call(lua_State *state, int nargs, int nresults);

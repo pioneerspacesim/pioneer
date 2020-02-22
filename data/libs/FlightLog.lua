@@ -8,10 +8,10 @@
 -- player. Can be used by scripts to find out where the player has been
 -- recently.
 
-local Game = import("Game")
-local Event = import("Event")
-local Format = import("Format")
-local Serializer = import("Serializer")
+local Game = require 'Game'
+local Event = require 'Event'
+local Format = require 'Format'
+local Serializer = require 'Serializer'
 
 -- default values (private)
 local FlightLogSystemQueueLength = 1000

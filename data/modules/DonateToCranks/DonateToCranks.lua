@@ -1,14 +1,14 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Comms = import("Comms")
-local Character = import("Character")
-local Event = import("Event")
-local Serializer = import("Serializer")
-local Format = import("Format")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Comms = require 'Comms'
+local Character = require 'Character'
+local Event = require 'Event'
+local Serializer = require 'Serializer'
+local Format = require 'Format'
 
 local l = Lang.GetResource("module-donatetocranks")
 
