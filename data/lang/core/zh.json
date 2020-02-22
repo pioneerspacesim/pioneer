@@ -889,7 +889,7 @@
   },
   "MISSILE_DETECTED": {
     "description": "",
-    "message": "Missile launch detected."
+    "message": "探测到导弹发射."
   },
   "MIXED_ECONOMY": {
     "description": "",
