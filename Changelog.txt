@@ -11,6 +11,8 @@ February 2020
      * Improve System Map rendering and interaction (#4787)
      * Make continue button load _quicksave if autosave not active (#4758)
      * Add PiGui docstrings and fix ui.columns (#4792)
+     * Deprecate import() and replace with require() (#4786)
+     * Add rewinding to fix ImGui stack when catching an error (#4776)
 
 January 2020
    * New Features
