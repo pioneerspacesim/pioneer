@@ -15,7 +15,7 @@ local orbiteer = ui.fonts.orbiteer
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local drawTable = require 'pigui.libs.table'
+local textTable = require 'pigui/libs/text-table'
 
 local l = Lang.GetResource("ui-core")
 
@@ -38,13 +38,13 @@ local function drawPlayerInfo()
 
     ui.withStyleVars({WindowPadding = windowPadding, ItemSpacing = itemSpacing}, function()
         ui.child("PlayerInfoDetails", Vector2(info_column_width, 0), {"AlwaysUseWindowPadding"}, function()
-            drawTable.withHeading(l.COMBAT, orbiteer.xlarge, {
+            textTable.withHeading(l.COMBAT, orbiteer.xlarge, {
                 { l.RATING, l[player:GetCombatRating()] },
                 { l.KILLS,  string.format('%d',player.killcount) },
             })
             ui.text("")
 
-            drawTable.withHeading(l.REPUTATION, orbiteer.xlarge, {
+            textTable.withHeading(l.REPUTATION, orbiteer.xlarge, {
                 { l.STATUS..":", l[player:GetReputationRating()] },
             })
         end)
@@ -88,7 +88,7 @@ local function changeFeature (idx, featureId, callback)
 
     player.faceDescription[featureId] = (player.faceDescription[featureId] + idx) % 2^31
     if callback then callback(player.faceDescription[featureId]) end
-    face = InfoFace.New(player, {windowPadding = windowPadding, itemSpacing = itemSpacing})
+    face = InfoFace.New(player, {windowPadding = windowPadding, itemSpacing = itemSpacing, size = faceSize})
 end
 
 local function faceGenButton(feature)
@@ -133,10 +133,10 @@ local function drawPlayerView()
 
             ui.child("Face", Vector2(info_column_width-windowPadding.x-itemSpacing.x*2-facegenSize.x, 0), {}, function()
                 if(face == nil) then
-                    face = InfoFace.New(player, {windowPadding = windowPadding, itemSpacing = itemSpacing})
+                    face = InfoFace.New(player, {windowPadding = windowPadding, itemSpacing = itemSpacing, size = faceSize})
                 end
 
-                face:Draw(faceSize)
+                face:render()
             end)
 
             ui.sameLine()
@@ -151,7 +151,7 @@ local function drawPlayerView()
                     ui.sameLine()
                     if (ui.coloredSelectedIconButton(icons.random, buttonSpaceSize, false, 0, colors.buttonBlue, colors.white, l.RANDOM_FACE, iconSize)) then
                         player.faceDescription = generateFace()
-                        face = InfoFace.New(player, {windowPadding = windowPadding, itemSpacing = itemSpacing})
+                        face = InfoFace.New(player, {windowPadding = windowPadding, itemSpacing = itemSpacing, size = faceSize})
                     end
                 end)
             end)

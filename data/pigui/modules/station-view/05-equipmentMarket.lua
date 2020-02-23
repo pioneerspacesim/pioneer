@@ -6,7 +6,7 @@ local Game = import 'Game'
 local Format = import 'Format'
 local Equipment = import 'Equipment'
 local StationView = import 'pigui/views/station-view'
-local Market = import 'pigui/libs/market.lua'
+local EquipMarket = import 'pigui/libs/equipment-market.lua'
 
 local ui = import 'pigui/pigui.lua'
 local pionillium = ui.fonts.pionillium
@@ -28,17 +28,18 @@ local hasTech = function (e)
 	return station.techLevel >= equip_tech_level
 end
 
-local equipmentMarket
+local equipmentMarketStation
 local equipmentMarketPlayer
 
-equipmentMarket = Market.New("EquipmentMarket", l.AVAILABLE_FOR_PURCHASE, {
+equipmentMarketStation = EquipMarket.New("EquipmentMarket", l.AVAILABLE_FOR_PURCHASE, {
 	itemTypes = { Equipment.cargo, Equipment.misc, Equipment.laser, Equipment.hyperspace },
 	columnCount = 5,
 	initTable = function(self)
 		ui.setColumnWidth(0, self.style.size.x / 2.5)
 		ui.setColumnWidth(3, ui.calcTextSize(l.MASS).x + self.style.itemSpacing.x + self.style.windowPadding.x)
 		ui.setColumnWidth(4, ui.calcTextSize(l.IN_STOCK).x + self.style.itemSpacing.x + self.style.windowPadding.x)
-
+	end,
+	renderHeaderRow = function(self)
 		ui.text(l.NAME_OBJECT)
 		ui.nextColumn()
 		ui.text(l.BUY)
@@ -50,7 +51,7 @@ equipmentMarket = Market.New("EquipmentMarket", l.AVAILABLE_FOR_PURCHASE, {
 		ui.text(l.IN_STOCK)
 		ui.nextColumn()
 	end,
-	renderRow = function(self, item)
+	renderItem = function(self, item)
 		ui.withTooltip(item:GetDescription(), function()
 			ui.text(item:GetName())
 			ui.nextColumn()
@@ -64,26 +65,27 @@ equipmentMarket = Market.New("EquipmentMarket", l.AVAILABLE_FOR_PURCHASE, {
 			ui.nextColumn()
 		end)
 	end,
-
-	displayItem = function (s, e) return e.purchasable and hasTech(e) and not e:IsValidSlot("cargo", Game.player) end,
+	canDisplayItem = function (s, e) return e.purchasable and hasTech(e) and not e:IsValidSlot("cargo", Game.player) end,
 	onMouseOverItem = function(s, e)
 		local tooltip = e:GetDescription()
-
 		if string.len(tooltip) > 0 then ui.setTooltip(tooltip) end
-		if ui.isMouseClicked(0) and s.funcs.onClickBuy(e) then
+	end,
+	onClickItem = function(s,e)
+		if s.funcs.onClickBuy(s, e) then
 			s.funcs.buy(s, e)
-			s:refresh()
+			equipmentMarketStation:refresh()
 			equipmentMarketPlayer:refresh()
 		end
 	end
 })
 
-equipmentMarketPlayer = Market.New("EquipmentMarketPlayer", l.EQUIPPED, {
+equipmentMarketPlayer = EquipMarket.New("EquipmentMarketPlayer", l.EQUIPPED, {
 	itemTypes = { Equipment.cargo, Equipment.misc, Equipment.laser, Equipment.hyperspace },
 	columnCount = 4,
 	initTable = function(self)
 		ui.setColumnWidth(0, self.style.size.x / 3)
-
+	end,
+	renderHeaderRow = function(self)
 		ui.text(l.NAME_OBJECT)
 		ui.nextColumn()
 		ui.text(l.AMOUNT)
@@ -93,7 +95,7 @@ equipmentMarketPlayer = Market.New("EquipmentMarketPlayer", l.EQUIPPED, {
 		ui.text(l.TOTAL_MASS)
 		ui.nextColumn()
 	end,
-	renderRow = function(self, item)
+	renderItem = function(self, item)
 		ui.text(item:GetName())
 		ui.nextColumn()
 		ui.text(self.funcs.getStock(self, item))
@@ -103,7 +105,6 @@ equipmentMarketPlayer = Market.New("EquipmentMarketPlayer", l.EQUIPPED, {
 		ui.text(tostring(self.funcs.getStock(self, item) * item.capabilities.mass) .. "t")
 		ui.nextColumn()
 	end,
-
 	onClickSell = function (self, e)
 		if e:IsValidSlot("cargo", Game.player) and not e.purchasable then
 			self.popup.msg = l.CANNOT_SELL_ITEM
@@ -119,15 +120,16 @@ equipmentMarketPlayer = Market.New("EquipmentMarketPlayer", l.EQUIPPED, {
 
 		return true
 	end,
-	displayItem = function (s, e) return e.purchasable and Game.player:CountEquip(e) > 0 and not e:IsValidSlot("cargo", Game.player) end,
+	canDisplayItem = function (s, e) return e.purchasable and Game.player:CountEquip(e) > 0 and not e:IsValidSlot("cargo", Game.player) end,
 	getStock = function (s, e) return Game.player:CountEquip(e) end,
 	onMouseOverItem = function(s, e)
 		local tooltip = e:GetDescription()
-
 		if string.len(tooltip) > 0 then ui.setTooltip(tooltip) end
-		if ui.isMouseClicked(0) and s.funcs.onClickSell(s, e) then
+	end,
+	onClickItem = function(s,e)
+		if s.funcs.onClickSell(s, e) then
 			s.funcs.sell(s, e)
-			equipmentMarket:refresh()
+			equipmentMarketStation:refresh()
 			equipmentMarketPlayer:refresh()
 		end
 	end
@@ -137,7 +139,7 @@ local function drawEquipmentView()
 	ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function()
 
 		ui.child("equipmentMarketContainer", Vector2(0, ui.getContentRegion().y - StationView.style.height), {}, function()
-			equipmentMarket:render()
+			equipmentMarketStation:render()
 			ui.sameLine()
 			equipmentMarketPlayer:render()
 		end)
@@ -147,13 +149,15 @@ local function drawEquipmentView()
 end
 
 StationView:registerView({
-	id = "equipmentMarket",
+	id = "equipmentMarketView",
 	name = l.EQUIPMENT_MARKET,
 	icon = ui.theme.icons.equipment,
 	showView = true,
 	draw = drawEquipmentView,
 	refresh = function()
-		equipmentMarket:refresh()
+		equipmentMarketStation:refresh()
 		equipmentMarketPlayer:refresh()
+		equipmentMarketStation.scrollReset = true
+		equipmentMarketPlayer.scrollReset = true
 	end,
 })

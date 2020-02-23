@@ -179,7 +179,7 @@ local onDelete = function (ref)
 end
 
 local isEnabled = function (ref)
-	return isQualifiedFor(Character.persistent.player.reputation, Character.persistent.player.killcount, ads[ref])
+	return ads[ref] ~= nil and isQualifiedFor(Character.persistent.player.reputation, Character.persistent.player.killcount, ads[ref])
 end
 
 local findPlanets = function (dist, type, fac)

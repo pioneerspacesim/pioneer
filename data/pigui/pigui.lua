@@ -32,15 +32,19 @@ local ui = { }
 local defaultTheme = require '.themes.default'
 ui.theme = defaultTheme
 
-ui.rescaleUI = function(val, baseResolution, rescaleToScreenAspect)
-	local rescaleVector = Vector2(pigui.screen_width / baseResolution.x, pigui.screen_height / baseResolution.y)
+ui.rescaleUI = function(val, baseResolution, rescaleToScreenAspect, targetResolution)
+	if not targetResolution then
+		targetResolution = Vector2(pigui.screen_width, pigui.screen_height)
+	end
+
+	local rescaleVector = Vector2(targetResolution.x / baseResolution.x, targetResolution.y / baseResolution.y)
 	local rescaleFactor = math.min(rescaleVector.x, rescaleVector.y)
 	local type = type(val)
 
 	if type == 'table' then
 		local result = {}
 		for k, v in pairs(val) do
-			result[k] = ui.rescaleUI(v, baseResolution)
+			result[k] = ui.rescaleUI(v, baseResolution, rescaleToScreenAspect, targetResolution)
 		end
 
 		return result

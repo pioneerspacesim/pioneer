@@ -6,6 +6,7 @@ local Lang = require 'Lang'
 
 local ui = require 'pigui'
 local ModalWindow = require 'pigui.libs.modal-win'
+local TableWidget = require 'pigui.libs.table'
 
 local l = Lang.GetResource("ui-core")
 
@@ -13,7 +14,7 @@ local sellPriceReduction = 0.8
 
 local defaultFuncs = {
     -- can we display this item
-    displayItem = function (self, e)
+    canDisplayItem = function (self, e)
         return e.purchasable and e:IsValidSlot("cargo") and Game.system:IsCommodityLegal(e)
     end,
 
@@ -100,7 +101,11 @@ local defaultFuncs = {
 
     -- do something when we buy this commodity
     bought = function (self, e)
-        Game.player:GetDockedWith():AddEquipmentStock(e, -1)
+		local count = -1
+		if self.tradeAmount ~= nil then
+			count = self.tradeAmount
+		end
+        Game.player:GetDockedWith():AddEquipmentStock(e, count)
     end,
 
     -- do something when a "sell" button is clicked
@@ -131,7 +136,11 @@ local defaultFuncs = {
 
     -- do something when we sell this items
     sold = function (self, e)
-        Game.player:GetDockedWith():AddEquipmentStock(e, 1)
+		local count = -1
+		if self.tradeAmount ~= nil then
+			count = self.tradeAmount
+		end
+        Game.player:GetDockedWith():AddEquipmentStock(e, count)
     end,
 
     initTable = function(self)
@@ -176,50 +185,35 @@ local defaultFuncs = {
 local MarketWidget = {}
 
 function MarketWidget.New(id, title, config)
-    local defaultSizes = ui.rescaleUI({
-        windowPadding = Vector2(14, 14),
-        itemSpacing = Vector2(4, 9),
-    }, Vector2(1600, 900))
-
     local self
-    self = {
-        id = id,
-        popup = config.popup or ModalWindow.New('popupMsg' .. id, function()
-            ui.text(self.popup.msg)
-            ui.dummy(Vector2((ui.getContentRegion().x - 100) / 2, 0))
-            ui.sameLine()
-            if ui.button("OK", Vector2(100, 0)) then
-                self.popup:close()
-            end
-        end),
-        title = title,
-        items = {},
-        itemTypes = config.itemTypes or {},
-        columnCount = config.columnCount or 0,
-        style = {
-            windowPadding = config.windowPadding or defaultSizes.windowPadding,
-            itemSpacing = config.itemSpacing or defaultSizes.itemSpacing,
-            size = config.size or Vector2(ui.screenWidth / 2,0),
-            headingFont = config.headingFont or ui.fonts.orbiteer.xlarge,
-            highlightColor = config.highlightColor or Color(0,63,112),
-        },
-        funcs = {
-            displayItem = config.displayItem or defaultFuncs.displayItem,
-            getStock = config.getStock or defaultFuncs.getStock,
-            getBuyPrice = config.getBuyPrice or defaultFuncs.getBuyPrice,
-            getSellPrice = config.getSellPrice or defaultFuncs.getSellPrice,
-            onClickBuy = config.onClickBuy or defaultFuncs.onClickBuy,
-            onClickSell = config.onClickSell or defaultFuncs.onClickSell,
-            buy = config.buy or defaultFuncs.buy,
-            bought = config.bought or defaultFuncs.bought,
-            sell = config.sell or defaultFuncs.sell,
-            sold = config.sold or defaultFuncs.sold,
-            initTable = config.initTable or defaultFuncs.initTable,
-            renderRow = config.renderRow or defaultFuncs.renderRow,
-            sortingFunction = config.sortingFunction or defaultFuncs.sortingFunction,
-            onMouseOverItem = config.onMouseOverItem or defaultFuncs.onMouseOverItem,
-        },
-    }
+    self = TableWidget.New(id, title, config)
+
+    self.popup = config.popup or ModalWindow.New('popupMsg' .. id, function()
+        ui.text(self.popup.msg)
+        ui.dummy(Vector2((ui.getContentRegion().x - 100) / 2, 0))
+        ui.sameLine()
+        if ui.button("OK", Vector2(100, 0)) then
+            self.popup:close()
+        end
+    end)
+
+    self.items = {}
+    self.itemTypes = config.itemTypes or {}
+    self.columnCount = config.columnCount or 0
+    self.funcs.getStock = config.getStock or defaultFuncs.getStock
+    self.funcs.getBuyPrice = config.getBuyPrice or defaultFuncs.getBuyPrice
+    self.funcs.getSellPrice = config.getSellPrice or defaultFuncs.getSellPrice
+    self.funcs.onClickBuy = config.onClickBuy or defaultFuncs.onClickBuy
+    self.funcs.onClickSell = config.onClickSell or defaultFuncs.onClickSell
+    self.funcs.buy = config.buy or defaultFuncs.buy
+    self.funcs.bought = config.bought or defaultFuncs.bought
+    self.funcs.sell = config.sell or defaultFuncs.sell
+    self.funcs.sold = config.sold or defaultFuncs.sold
+    self.funcs.initTable = config.initTable or defaultFuncs.initTable
+    self.funcs.canDisplayItem = config.canDisplayItem or defaultFuncs.canDisplayItem
+    self.funcs.sortingFunction = config.sortingFunction or defaultFuncs.sortingFunction
+    self.funcs.onMouseOverItem = config.onMouseOverItem or defaultFuncs.onMouseOverItem
+
 
     setmetatable(self, {
         __index = MarketWidget,
@@ -234,7 +228,7 @@ function MarketWidget:refresh()
 
     for i, type in pairs(self.itemTypes) do
         for j, item in pairs(type) do
-            if self.funcs.displayItem(self, item) then
+            if self.funcs.canDisplayItem(self, item) then
                 table.insert(self.items, item)
             end
         end
@@ -244,61 +238,7 @@ function MarketWidget:refresh()
 end
 
 function MarketWidget:render()
-    ui.withStyleVars({WindowPadding = self.style.windowPadding, ItemSpacing = self.style.itemSpacing}, function()
-        ui.child("Market##" .. self.id, self.style.size, {"AlwaysUseWindowPadding"}, function()
-            if(self.title) then
-                ui.withFont(self.style.headingFont.name, self.style.headingFont.size, function()
-                    ui.text(self.title)
-                end)
-            end
-
-            if self.selStart then ui.addRectFilled(self.selStart, self.selEnd, self.style.highlightColor, 0, 0) end
-
-            ui.columns(self.columnCount+1, self.id, false)
-            self.funcs.initTable(self)
-
-            ui.text("")
-            ui.nextColumn()
-
-            local startPos
-            local endPos
-            local offset = ui.getWindowPos()
-            local selOffset = self.style.itemSpacing.y / 2
-            local windowSize = ui.getWindowSize() + offset
-            offset.y = offset.y - ui.getScrollY()
-
-            self.selStart = nil
-            self.selEnd = nil
-
-            for _, item in pairs(self.items) do
-                startPos = ui.getCursorPos() + offset
-
-                self.funcs.renderRow(self, item)
-
-                endPos = ui.getCursorPos()
-
-                ui.text("")
-                ui.nextColumn()
-
-                endPos.y = ui.getCursorPos().y
-                endPos = offset + endPos
-
-                if ui.isWindowHovered() and ui.isMouseHoveringRect(startPos, endPos, false) and startPos.y < windowSize.y then
-                    self.funcs.onMouseOverItem(self, item)
-
-                    self.selStart = startPos
-                    self.selEnd = endPos
-
-                    -- center the selection
-                    self.selStart.x = self.selStart.x - 4
-                    self.selStart.y = self.selStart.y - selOffset
-                    self.selEnd.y = self.selEnd.y - selOffset -- selEnd.y points to the beginning of the new row so to center the selection we also move it a bit higher
-                end
-            end
-
-            ui.columns(1, "", false)
-        end)
-    end)
+    TableWidget.render(self)
 end
 
 return MarketWidget

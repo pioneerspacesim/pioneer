@@ -131,7 +131,7 @@ local function drawPolice()
 			ui.child("PoliceOfficer", Vector2(0, 0), {"AlwaysUseWindowPadding", "NoScrollbar"},
 				function ()
 					if(face ~= nil) then
-						face:Draw(widgetSizes.faceSize)
+						face:render()
 			end end)
 	end)
 end
@@ -154,7 +154,7 @@ StationView:registerView({
 				stationSeed = station.seed
 				local rand = Rand.New(station.seed .. "-police")
 				face = InfoFace.New(Character.New({ title = l.CONSTABLE, armour=true }, rand),
-					{windowPadding = widgetSizes.windowPadding, itemSpacing = widgetSizes.itemSpacing})
+					{windowPadding = widgetSizes.windowPadding, itemSpacing = widgetSizes.itemSpacing, size = widgetSizes.faceSize})
 			end
 		end
 	end,

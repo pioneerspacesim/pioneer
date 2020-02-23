@@ -14,7 +14,7 @@ local l = Lang.GetResource("ui-core")
 
 local fonts = ui.fonts
 
-local drawTable = require 'pigui.libs.table'
+local textTable = require 'pigui.libs.text-table'
 
 -- use the old InfoView style layout instead of the new sidebar layout.
 local _OLD_LAYOUT = true
@@ -82,7 +82,7 @@ local function shipStats()
 	local bwd_acc = player:GetAcceleration("reverse")
 	local up_acc = player:GetAcceleration("up")
 
-	drawTable.draw {
+	textTable.draw {
 		{ l.REGISTRATION_NUMBER..":",	shipLabel},
 		{ l.HYPERDRIVE..":",			hyperdrive and hyperdrive:GetName() or l.NONE },
 		{
