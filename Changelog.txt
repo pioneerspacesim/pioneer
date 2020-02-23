@@ -2,9 +2,13 @@ February 2020
    * New Features
      * Convert Police screen to pigui (#4790)
      * Move ShipRepair screen to pigui (#4791)
+     * Move Bulletin Board view to pigui (#4775)
+     * Make police non-persistent in Goodstrader (#4796)
 
    * Fixes
      * Fix on-demand glyph loading (#4779)
+     * Fix unused/free cabins shown in station footer being wrong (#4808)
+     * Re-introduce support for remote Lua console (#4799)
 
    * Internal Changes
      * Small additional improvements to orbit calculation (#4784)
