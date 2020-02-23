@@ -147,8 +147,7 @@ local onCreateBB = function (station)
 				flavour  = flavour,
 				slogan   = slogan,
 				ispolice = ispolice,
-				faceseed = r:Integer(),
-				trader   = Character.New(),
+				trader   = Character.New({title = flavour, armour=false}, r),
 			}
 
 			ad.stock = {}
