@@ -18,7 +18,7 @@ view = {
         Debug:render()
     end,
     refresh = function()
-        Debug = import 'pigui/libs/debug'
+        Debug = require 'pigui.libs.debug'
         view.showView = Debug.showView
         Debug.scrollPos = 0
     end,

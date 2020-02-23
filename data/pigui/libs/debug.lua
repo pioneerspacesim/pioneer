@@ -1,18 +1,19 @@
 -- Copyright © 2008-2019 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Lang = import 'Lang'
-local Game = import 'Game'
-local Format = import 'Format'
-local SpaceStation = import 'SpaceStation'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Format = require 'Format'
+local SpaceStation = require 'SpaceStation'
 
-local StationView = import 'pigui/views/station-view'
-local Table = import 'pigui/libs/table.lua'
-local ChatForm = import 'pigui/libs/chat-form.lua'
-local ModalWindow = import 'pigui/libs/modal-win.lua'
-local PiImage = import 'ui/PiImage'
+local StationView = require 'pigui.views.station-view'
+local Table = require 'pigui.libs.table'
+local ChatForm = require 'pigui.libs.chat-form'
+local ModalWindow = require 'pigui.libs.modal-win'
+local List = require 'pigui.libs.list'
+local PiImage = require 'ui.PiImage'
 
-local ui = import 'pigui/pigui.lua'
+local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local l = Lang.GetResource("core")
@@ -50,132 +51,12 @@ local function adActive(ref, ad)
 	return not ((type(ad.isEnabled) == "function" and not ad.isEnabled(ref)) or Game.paused)
 end
 
-local defaultFuncs = {
-
-	initTable = function(self)
-	end,
-
-	onMouseOverItem = function(self, item)
-	end,
-
-	onClickItem = function (self, e)
-
-	end,
-
-	renderItem = function(self, item)
-
-	end,
-
-	itemFrame = function(self, item, min, max)
-
-	end,
-
-	-- sort items in the market table
-	sortingFunction = function(e1,e2)
-		return e1 < e2
-	end
-}
-
-local List = {}
-
-function List.New(id, title, config)
-	local defaultSizes = ui.rescaleUI({
-		windowPadding = Vector2(14, 14),
-		itemSpacing = Vector2(4, 9),
-	}, Vector2(1600, 900))
-
-	local self
-	self = {
-		scroll = 0,
-		id = id,
-		title = title,
-		items = {},
-		itemsMeta = {},
-		size = config.size or Vector2(ui.screenWidth / 2,0),
-		flags = config.flags or ui.WindowFlags {"AlwaysUseWindowPadding"},
-		style = {
-			titleFont = config.titleFont or ui.fonts.orbiteer.xlarge,
-			highlightColor = config.highlightColor or Color(0,63,112),
-			styleVars = {
-				WindowPadding = config.windowPadding or defaultSizes.windowPadding,
-				ItemSpacing = config.itemSpacing or defaultSizes.itemSpacing,
-			},
-			styleColors = {},
-		},
-		funcs = {
-			beforeItems = config.beforeItems or function() end,
-			canDisplayItem = config.canDisplayItem or defaultFuncs.canDisplayItem,
-			beforeRenderItem = config.beforeRenderItem or function() end,
-			renderItem = config.renderItem or defaultFuncs.renderItem,
-			afterRenderItem = config.afterRenderItem or function() ui.dummy(vZero) end,
-			onMouseOverItem = config.onMouseOverItem or defaultFuncs.onMouseOverItem,
-			onClickItem = config.onClickItem or defaultFuncs.onClickItem,
-			sortingFunction = config.sortingFunction or defaultFuncs.sortingFunction,
-		},
-	}
-
-	setmetatable(self, {
-		__index = List,
-		class = "UI.List",
-	})
-
-	return self
-end
-
-function List:render()
-	ui.withStyleColorsAndVars(self.style.styleColors, self.style.styleVars, function()
-		ui.child("List##" .. self.id, self.size, self.flags, function()
-			local startPos
-			local endPos
-
-			local contentRegion = ui.getContentRegion()
-
-			self.funcs.beforeItems(self)
-
-			self.highlightStart = nil
-			self.highlightEnd = nil
-
-			for key, item in pairs(self.items) do
-				self.funcs.beforeRenderItem(self, item, key)
-
-				startPos = ui.getCursorScreenPos()
-				startPos.x = startPos.x - self.style.styleVars.WindowPadding.x / 2
-
-				self.funcs.renderItem(self, item, key)
-
-				endPos = ui.getCursorScreenPos()
-				endPos.x = endPos.x + contentRegion.x + self.style.styleVars.WindowPadding.x / 2
-
-				self.funcs.afterRenderItem(self, item, key)
-
-				if self.itemsMeta[key] == nil then
-					self.itemsMeta[key] = {}
-				end
-
-				self.itemsMeta[key].min = startPos
-				self.itemsMeta[key].max = endPos
-
-				if ui.isWindowHovered() and ui.isMouseHoveringRect(startPos, endPos, false) then
-					self.funcs.onMouseOverItem(self, item, key)
-					if ui.isMouseClicked(0) then
-						self.funcs.onClickItem(self, item, key)
-					end
-
-					self.highlightStart = startPos
-					self.highlightEnd = endPos
-				end
-			end
-		end)
-	end)
-end
-
-local
-jobList = List.New("JobList", false, {
+local jobList = List.New("JobList", false, {
 	size = Vector2(ui.screenWidth * 0.5, 0),
-	flags = ui.WindowFlags {"AlwaysUseWindowPadding", "NoScrollbar"},
 	style = {
 		windowPadding = widgetSizes.innerPadding,
 		--itemSpacing = Vector2(6, 20),
+		flags = ui.WindowFlags {"AlwaysUseWindowPadding", "NoScrollbar"},
 	},
 	beforeItems = function(self)
 		--scrollPos = math.ceil(-scrollPos * ui.getScrollMaxY())
@@ -190,7 +71,7 @@ jobList = List.New("JobList", false, {
 		scrollPosPrev = scrollPos
 	end,
 	beforeRenderItem = function(self, item, key)
-		if self.itemsMeta[key] ~= nil then
+		if self.itemsMeta and self.itemsMeta[key] ~= nil then
 			ui.addRectFilled(self.itemsMeta[key].min, self.itemsMeta[key].max, Color(8, 19, 40, 230), 0, 0)
 			ui.addRect(self.itemsMeta[key].min, self.itemsMeta[key].max, Color(25, 64, 90, 230), 0, 0, 2)
 		end
@@ -274,7 +155,7 @@ local function drawCommoditytView()
 					ui.sameLine()
 					ui.text("Type none")
 					ui.pushTextWrapPos(textWrapWidth)
-					jobList:render()
+					jobList:Render()
 					--print("end", scrollPos)
 					ui.popTextWrapPos()
 				end)
@@ -291,8 +172,6 @@ local function drawCommoditytView()
 				end)
 			end)
 		end)
-
-		StationView:shipSummary()
 	end)
 end
 
