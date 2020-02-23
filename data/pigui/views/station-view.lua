@@ -48,11 +48,12 @@ if not stationView then
 					ui.nextColumn()
 					ui.text(l.CABINS .. ': ')
 					ui.sameLine()
+					local cabins_total = Game.player:GetEquipCountOccupied("cabin")
 					local cabins_free = player.cabin_cap or 0
-					local cabins = player:GetEquipCountOccupied("cabin")
+					local cabins_used = cabins_total - cabins_free
 					gaugePos = ui.getWindowPos() + ui.getCursorPos() + self.style.inventoryPadding
 					gaugeWidth = ui.getContentRegion().x - self.style.inventoryPadding.x - self.style.itemSpacing.x
-					ui.gauge(gaugePos, cabins - cabins_free, '', string.format('%%it %s / %it %s', l.USED, cabins, l.FREE), 0, cabins, icons.personal, colors.gaugeEquipmentMarket, '', gaugeWidth, ui.getTextLineHeight())
+					ui.gauge(gaugePos, cabins_used, '', string.format('%%it %s / %it %s', l.USED, cabins_free, l.FREE), 0, cabins_free, icons.personal, colors.gaugeEquipmentMarket, '', gaugeWidth, ui.getTextLineHeight())
 					ui.nextColumn()
 					ui.text(legalText)
 					ui.columns(1, '', false)
