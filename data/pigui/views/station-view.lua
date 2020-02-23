@@ -53,7 +53,7 @@ if not stationView then
 					local cabins_used = cabins_total - cabins_free
 					gaugePos = ui.getWindowPos() + ui.getCursorPos() + self.style.inventoryPadding
 					gaugeWidth = ui.getContentRegion().x - self.style.inventoryPadding.x - self.style.itemSpacing.x
-					ui.gauge(gaugePos, cabins_used, '', string.format('%%i %s / %i %s', l.USED, cabins_free, l.FREE), 0, cabins_free, icons.personal, colors.gaugeEquipmentMarket, '', gaugeWidth, ui.getTextLineHeight())
+					ui.gauge(gaugePos, cabins_used, '', string.format('%%i %s / %i %s', l.USED, cabins_free, l.FREE), 0, cabins_total, icons.personal, colors.gaugeEquipmentMarket, '', gaugeWidth, ui.getTextLineHeight())
 					ui.nextColumn()
 					ui.text(legalText)
 					ui.columns(1, '', false)
