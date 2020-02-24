@@ -237,8 +237,9 @@ static void draw_progress(float progress)
 {
 
 	Pi::renderer->ClearScreen();
-	PiGui::NewFrame(Pi::renderer->GetSDLWindow());
+	Pi::pigui->NewFrame(Pi::renderer->GetSDLWindow());
 	Pi::DrawPiGui(progress, "INIT");
+	Pi::pigui->Render();
 	Pi::renderer->SwapBuffers();
 }
 
@@ -1059,31 +1060,6 @@ void Pi::Start(const SystemPath &startPath)
 					}
 				}
 
-#if 0 // Moved to Input::HandleSDLEvent, can be deleted when confirmed working \
-	// joystick stuff for the options window
-				switch (event.type) {
-				case SDL_JOYAXISMOTION:
-					if (!joysticks[event.jaxis.which].joystick)
-						break;
-					if (event.jaxis.value == -32768)
-						joysticks[event.jaxis.which].axes[event.jaxis.axis] = 1.f;
-					else
-						joysticks[event.jaxis.which].axes[event.jaxis.axis] = -event.jaxis.value / 32767.f;
-					break;
-				case SDL_JOYBUTTONUP:
-				case SDL_JOYBUTTONDOWN:
-					if (!joysticks[event.jaxis.which].joystick)
-						break;
-					joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state != 0;
-					break;
-				case SDL_JOYHATMOTION:
-					if (!joysticks[event.jaxis.which].joystick)
-						break;
-					joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
-					break;
-				default: break;
-				}
-#endif
 				ui->DispatchSDLEvent(event);
 
 				input.HandleSDLEvent(event);
@@ -1101,9 +1077,10 @@ void Pi::Start(const SystemPath &startPath)
 		intro->Draw(_time);
 		Pi::renderer->EndFrame();
 
-		PiGui::NewFrame(Pi::renderer->GetSDLWindow());
+		Pi::pigui->NewFrame(Pi::renderer->GetSDLWindow());
 		DrawPiGui(Pi::frameTime, "MAINMENU");
 
+		Pi::pigui->Render();
 		Pi::EndRenderTarget();
 
 		// render the rendertarget texture
@@ -1301,11 +1278,16 @@ void Pi::MainLoop()
 
 		Pi::EndRenderTarget();
 		Pi::DrawRenderTarget();
+
+		// TODO: the escape menu depends on HandleEvents() being called before NewFrame()
+		// Move HandleEvents to either the end of the loop or the very start of the loop
+		// The goal is to be able to call imgui functions for debugging inside C++ code
+		Pi::pigui->NewFrame(Pi::renderer->GetSDLWindow());
+
 		if (Pi::game && !Pi::player->IsDead()) {
 			// FIXME: Always begin a camera frame because WorldSpaceToScreenSpace
 			// requires it and is exposed to pigui.
 			Pi::game->GetWorldView()->BeginCameraFrame();
-			PiGui::NewFrame(Pi::renderer->GetSDLWindow());
 			DrawPiGui(Pi::frameTime, "GAME");
 			Pi::game->GetWorldView()->EndCameraFrame();
 		}
@@ -1323,6 +1305,7 @@ void Pi::MainLoop()
 		}
 #endif
 
+		Pi::pigui->Render();
 		Pi::renderer->SwapBuffers();
 
 		// game exit will have cleared Pi::game. we can't continue.
@@ -1450,7 +1433,5 @@ void Pi::DrawPiGui(double delta, std::string handler)
 	PROFILE_SCOPED()
 
 	if (!IsConsoleActive())
-		Pi::pigui->Render(delta, handler);
-
-	PiGui::RenderImGui();
+		Pi::pigui->RunHandler(delta, handler);
 }
