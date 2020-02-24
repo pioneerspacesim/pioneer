@@ -28,6 +28,7 @@
 #include "lua/LuaConsole.h"
 #include "lua/LuaEvent.h"
 #include "lua/LuaTimer.h"
+#include "profiler/Profiler.h"
 #include "sound/AmbientSounds.h"
 #if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"
@@ -52,6 +53,7 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "gameui/Lua.h"
 #include "libs.h"
+#include "pigui/PerfInfo.h"
 #include "pigui/PiGui.h"
 #include "pigui/PiGuiLua.h"
 #include "ship/PlayerShipController.h"
@@ -1153,13 +1155,22 @@ void Pi::MainLoop()
 	Uint32 last_stats = SDL_GetTicks();
 	int frame_stat = 0;
 	int phys_stat = 0;
-	char fps_readout[2048];
-	memset(fps_readout, 0, sizeof(fps_readout));
+	// FIXME: this is a hack, this class should have its lifecycle managed elsewhere
+	// Ideally an application framework class handles this (as well as the rest of the main loop)
+	// but for now this is the best we have.
+	std::unique_ptr<PiGUI::PerfInfo> perfInfoDisplay(new PiGUI::PerfInfo());
 #endif
 
 	int MAX_PHYSICS_TICKS = Pi::config->Int("MaxPhysicsCyclesPerRender");
 	if (MAX_PHYSICS_TICKS <= 0)
 		MAX_PHYSICS_TICKS = 4;
+
+	// Used to measure frame and physics performance timing info
+	// with no portable way to map cycles -> ns, Profiler::Timer is useless for taking measurements
+	// Use Profiler::Clock which is backed by std::chrono::steady_clock (== high_resolution_clock for 99% of uses)
+	Profiler::Clock perfTimer;
+	float frame_time_real = 0; // higher resolution than SDL's 1ms, for detailed frame info
+	float phys_time = 0;
 
 	double currentTime = 0.001 * double(SDL_GetTicks());
 	double accumulator = Pi::game->GetTimeStep();
@@ -1171,6 +1182,8 @@ void Pi::MainLoop()
 
 	while (Pi::game) {
 		PROFILE_SCOPED()
+		perfTimer.Reset();
+		perfTimer.Start();
 
 #ifdef ENABLE_SERVER_AGENT
 		Pi::serverAgent->ProcessResponses();
@@ -1215,6 +1228,9 @@ void Pi::MainLoop()
 #if WITH_DEVKEYS
 		frame_stat++;
 #endif
+		// Record physics timestep but keep information about current frame timing.
+		perfTimer.SoftStop();
+		phys_time = perfTimer.milliseconds();
 
 		// did the player die?
 		if (Pi::player->IsDead()) {
@@ -1293,15 +1309,9 @@ void Pi::MainLoop()
 		}
 
 #if WITH_DEVKEYS
-		// NB: this needs to be rendered last so that it appears over all other game elements
-		//	preferrably like this where it is just before the buffer swap
+		// Render this even when we're dead.
 		if (Pi::showDebugInfo) {
-			Gui::Screen::EnterOrtho();
-			Gui::Screen::PushFont("ConsoleFont");
-			static RefCountedPtr<Graphics::VertexBuffer> s_debugInfovb;
-			Gui::Screen::RenderStringBuffer(s_debugInfovb, fps_readout, 0, 0);
-			Gui::Screen::PopFont();
-			Gui::Screen::LeaveOrtho();
+			perfInfoDisplay->Draw();
 		}
 #endif
 
@@ -1330,41 +1340,9 @@ void Pi::MainLoop()
 		HandleRequests();
 
 #if WITH_DEVKEYS
-		if (Pi::showDebugInfo && SDL_GetTicks() - last_stats > 1000) {
-			size_t lua_mem = Lua::manager->GetMemoryUsage();
-			int lua_memB = int(lua_mem & ((1u << 10) - 1));
-			int lua_memKB = int(lua_mem >> 10) % 1024;
-			int lua_memMB = int(lua_mem >> 20);
-			const Graphics::Stats::TFrameData &stats = Pi::renderer->GetStats().FrameStatsPrevious();
-			const Uint32 numDrawCalls = stats.m_stats[Graphics::Stats::STAT_DRAWCALL];
-			const Uint32 numBuffersCreated = stats.m_stats[Graphics::Stats::STAT_CREATE_BUFFER];
-			const Uint32 numDrawTris = stats.m_stats[Graphics::Stats::STAT_DRAWTRIS];
-			const Uint32 numDrawPointSprites = stats.m_stats[Graphics::Stats::STAT_DRAWPOINTSPRITES];
-			const Uint32 numDrawBuildings = stats.m_stats[Graphics::Stats::STAT_BUILDINGS];
-			const Uint32 numDrawCities = stats.m_stats[Graphics::Stats::STAT_CITIES];
-			const Uint32 numDrawGroundStations = stats.m_stats[Graphics::Stats::STAT_GROUNDSTATIONS];
-			const Uint32 numDrawSpaceStations = stats.m_stats[Graphics::Stats::STAT_SPACESTATIONS];
-			const Uint32 numDrawAtmospheres = stats.m_stats[Graphics::Stats::STAT_ATMOSPHERES];
-			const Uint32 numDrawPatches = stats.m_stats[Graphics::Stats::STAT_PATCHES];
-			const Uint32 numDrawPlanets = stats.m_stats[Graphics::Stats::STAT_PLANETS];
-			const Uint32 numDrawGasGiants = stats.m_stats[Graphics::Stats::STAT_GASGIANTS];
-			const Uint32 numDrawStars = stats.m_stats[Graphics::Stats::STAT_STARS];
-			const Uint32 numDrawShips = stats.m_stats[Graphics::Stats::STAT_SHIPS];
-			const Uint32 numDrawBillBoards = stats.m_stats[Graphics::Stats::STAT_BILLBOARD];
-			snprintf(
-				fps_readout, sizeof(fps_readout),
-				"%d fps (%.1f ms/f), %d phys updates, %d triangles, %.3f M tris/sec, %d glyphs/sec, %d patches/frame\n"
-				"Lua mem usage: %d MB + %d KB + %d bytes (stack top: %d)\n\n"
-				"Draw Calls (%u), of which were:\n Tris (%u)\n Point Sprites (%u)\n Billboards (%u)\n"
-				"Buildings (%u), Cities (%u), GroundStations (%u), SpaceStations (%u), Atmospheres (%u)\n"
-				"Patches (%u), Planets (%u), GasGiants (%u), Stars (%u), Ships (%u)\n"
-				"Buffers Created(%u)\n",
-				frame_stat, (1000.0 / frame_stat), phys_stat, Pi::statSceneTris, Pi::statSceneTris * frame_stat * 1e-6,
-				Text::TextureFont::GetGlyphCount(), Pi::statNumPatches,
-				lua_memMB, lua_memKB, lua_memB, lua_gettop(Lua::manager->GetLuaState()),
-				numDrawCalls, numDrawTris, numDrawPointSprites, numDrawBillBoards,
-				numDrawBuildings, numDrawCities, numDrawGroundStations, numDrawSpaceStations, numDrawAtmospheres,
-				numDrawPatches, numDrawPlanets, numDrawGasGiants, numDrawStars, numDrawShips, numBuffersCreated);
+		perfInfoDisplay->Update(frame_time_real, phys_time);
+		if (Pi::showDebugInfo && SDL_GetTicks() - last_stats >= 1000) {
+			perfInfoDisplay->UpdateFrameInfo(frame_stat, phys_stat);
 			frame_stat = 0;
 			phys_stat = 0;
 			Text::TextureFont::ClearGlyphCount();
@@ -1404,6 +1382,9 @@ void Pi::MainLoop()
 #ifdef PIONEER_PROFILER
 		Profiler::reset();
 #endif
+
+		perfTimer.Stop();
+		frame_time_real = perfTimer.milliseconds();
 	}
 }
 
