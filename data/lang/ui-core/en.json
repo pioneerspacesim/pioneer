@@ -335,6 +335,10 @@
     "description": "",
     "message": "Dock at current target"
   },
+  "DRIVE_ACTIVE": {
+    "description": "Ship jump status",
+    "message": "Drive active"
+  },
   "DUE": {
     "description": "mission deadline date",
     "message": "Due"
@@ -963,6 +967,14 @@
     "description": "For player reputation",
     "message": "Inexperienced"
   },
+  "INITIATED": {
+    "description": "Ship jump status",
+    "message": "Initiated"
+  },
+  "INSUFFICIENT_FUEL": {
+    "description": "Ship jump status",
+    "message": "Insufficient fuel"
+  },
   "INSUFFICIENT_FUNDS": {
     "description": "",
     "message": "Insufficient funds."
@@ -1279,6 +1291,10 @@
     "description": "",
     "message": "{equipment} is not supported on this ship model"
   },
+  "NO_DRIVE": {
+    "description": "Ship jump status",
+    "message": "No drive"
+  },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
     "message": "Nothing matches that filter"
@@ -1330,6 +1346,10 @@
   "ORBITAL_ANALYSIS_NOTES": {
     "description": "",
     "message": "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
+  },
+  "OUT_OF_RANGE": {
+    "description": "Ship jump status",
+    "message": "Out of range"
   },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1518,6 +1538,10 @@
   "ROUTE_JUMPS": {
     "description": "For hyperjump planner",
     "message": "Route Jumps"
+  },
+  "SAFETY_LOCKOUT": {
+    "description": "Ship jump status",
+    "message": "Safety lockout"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",

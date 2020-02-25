@@ -151,7 +151,7 @@ local function showSearch()
 									 for _,item in pairs(data) do
 										 local system = item.path:GetStarSystem()
 										 local label = system.name
-										 label = label .. '  ' .. item.jumpStatus .. ", " .. string.format("%.2f", item.distance) .. lc.UNIT_LY .. ", " .. item.fuelRequired .. lc.UNIT_TONNES .. ", " .. ui.Format.Duration(item.duration, 2)
+										 label = label .. '  (' .. lui[item.jumpStatus] .. "), " .. string.format("%.2f", item.distance) .. lc.UNIT_LY .. ", " .. item.fuelRequired .. lc.UNIT_TONNES .. ", " .. ui.Format.Duration(item.duration, 2)
 
 										 if ui.selectable(label, false, {}) then
 											 Engine.SetSectorMapSelected(item.path)
