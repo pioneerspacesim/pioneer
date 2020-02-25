@@ -59,8 +59,6 @@ local jobList = List.New("JobList", false, {
 		flags = ui.WindowFlags {"AlwaysUseWindowPadding", "NoScrollbar"},
 	},
 	beforeItems = function(self)
-		--scrollPos = math.ceil(-scrollPos * ui.getScrollMaxY())
-
 		local sc = math.ceil(-ui.getScrollY()* 100 / ui.getScrollMaxY())
 		if scrollPosPrev ~= sc then
 			scrollPos = sc
@@ -71,9 +69,13 @@ local jobList = List.New("JobList", false, {
 		scrollPosPrev = scrollPos
 	end,
 	beforeRenderItem = function(self, item, key)
-		if self.itemsMeta and self.itemsMeta[key] ~= nil then
-			ui.addRectFilled(self.itemsMeta[key].min, self.itemsMeta[key].max, Color(8, 19, 40, 230), 0, 0)
-			ui.addRect(self.itemsMeta[key].min, self.itemsMeta[key].max, Color(25, 64, 90, 230), 0, 0, 2)
+		if self.itemsMeta[key] ~= nil and self.itemsMeta[key].min and self.itemsMeta[key].max then
+			if self.highlightedItem == key then
+				ui.addRectFilled(self.itemsMeta[key].min, self.itemsMeta[key].max, self.style.highlightColor, 0, 0)
+			else
+				ui.addRectFilled(self.itemsMeta[key].min, self.itemsMeta[key].max, Color(8, 19, 40), 0, 0)
+			end
+			ui.addRect(self.itemsMeta[key].min, self.itemsMeta[key].max, Color(25, 64, 90), 0, 0, 2)
 		end
 	end,
 	renderItem = function(self, item, key)
@@ -103,6 +105,9 @@ local jobList = List.New("JobList", false, {
 			end)
 		end)
 	end,
+	afterRenderItem = function(self, item, key)
+		ui.dummy(vZero)
+	end,
 	onClickItem = function(self, item, key)
 		local station = Game.player:GetDockedWith()
 		local ref = key
@@ -111,11 +116,10 @@ local jobList = List.New("JobList", false, {
 		if Game.paused then
 			return
 		end
-
-		print('click')
 	end,
 	sortingFunction = function(s1,s2) return s1.description < s2.description end
 })
+
 
 local function refresh()
 
@@ -138,7 +142,7 @@ end
 local function drawCommoditytView()
 	ui.withFont(pionillium.large.name, pionillium.large.size, function()
 		ui.withStyleVars({WindowPadding = widgetSizes.bbPadding}, function()
-			ui.child("BulletinBoardContainer", widgetSizes.bbContainerSize(0, ui.getContentRegion().y - StationView.style.height), containerFlags, function()
+			ui.child("BulletinBoardContainer", vZero, containerFlags, function()
 				--print("start", scrollPos)
 				scrollPos = ui.vSliderInt('###BulletinBoardScrollbar', Vector2(10, ui.getContentRegion().y), scrollPosPrev, -100, 0, "")
 				ui.sameLine()

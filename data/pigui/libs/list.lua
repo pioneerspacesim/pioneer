@@ -7,28 +7,32 @@ local ModalWindow = require 'pigui.libs.modal-win'
 local vZero = Vector2(0, 0)
 
 local defaultFuncs = {
-	beforeItems = function()
+	beforeItems = function(self)
 
 	end,
-	canDisplayItem = function()
+	canDisplayItem = function(self, item, key)
 
 	end,
-	beforeRenderItem = function()
+	beforeRenderItem = function(self, item, key)
 
 	end,
-	renderItem = function()
+	renderItem = function(self, item, key)
 
 	end,
-	afterRenderItem = function()
+	afterRenderItem = function(self, item, key)
+		ui.dummy(vZero)
+	end,
+	isMouseOverItem = function(self, item, key)
+		return (ui.isWindowHovered() and ui.isMouseHoveringRect(self.itemsMeta[key].min, self.itemsMeta[key].max, false))
+	end,
+	onMouseOverItem = function(self, item, key)
+		self.clearHighlight = false
+		self.highlightedItem = key
+	end,
+	onClickItem = function(self, item, key)
 
 	end,
-	onMouseOverItem = function()
-
-	end,
-	onClickItem = function()
-
-	end,
-	afterItems = function()
+	afterItems = function(self)
 
 	end,
 
@@ -60,6 +64,9 @@ function ListWidget.New(id, title, config)
 		end),
 		title = title,
 		items = {},
+		itemsMeta = {},
+		highlightedItem = nil,
+		clearHighlight = true,
 		scrollReset = false,
 		itemTypes = config.itemTypes or {},
 		columnCount = config.columnCount or 0,
@@ -75,14 +82,15 @@ function ListWidget.New(id, title, config)
 			},
 		},
 		funcs = {
-			beforeItems = config.beforeItems or function() end,
+			beforeItems = config.beforeItems or defaultFuncs.beforeItems,
 			canDisplayItem = config.canDisplayItem or defaultFuncs.canDisplayItem,
-			beforeRenderItem = config.beforeRenderItem or function() end,
+			beforeRenderItem = config.beforeRenderItem or defaultFuncs.beforeRenderItem,
 			renderItem = config.renderItem or defaultFuncs.renderItem,
-			afterRenderItem = config.afterRenderItem or function() ui.dummy(vZero) end,
+			afterRenderItem = config.afterRenderItem or defaultFuncs.afterRenderItem,
+			isMouseOverItem = config.isMouseOverItem or defaultFuncs.isMouseOverItem,
 			onMouseOverItem = config.onMouseOverItem or defaultFuncs.onMouseOverItem,
 			onClickItem = config.onClickItem or defaultFuncs.onClickItem,
-			afterItems = config.afterItems or function() end,
+			afterItems = config.afterItems or defaultFuncs.afterItems,
 			sortingFunction = config.sortingFunction or defaultFuncs.sortingFunction,
 		},
 	}
@@ -98,49 +106,38 @@ end
 function ListWidget:Render()
 	ui.withStyleColorsAndVars(self.style.styleColors, self.style.styleVars, function()
 		ui.child("List##" .. self.id, self.style.size, self.style.flags, function()
-			local startPos
-			local endPos
-
-			local contentRegion = ui.getContentRegion()
-
+			self.contentRegion = ui.getContentRegion()
+			self.clearHighlight = true
 			self.funcs.beforeItems(self)
 
-			self.highlightStart = nil
-			self.highlightEnd = nil
-
 			for key, item in pairs(self.items) do
-				self.funcs.beforeRenderItem(self, item, key)
-
-				startPos = ui.getCursorScreenPos()
-				startPos.x = startPos.x - self.style.styleVars.WindowPadding.x / 2
-
-				self.funcs.renderItem(self, item, key)
-
-				endPos = ui.getCursorScreenPos()
-				endPos.x = endPos.x + contentRegion.x + self.style.styleVars.WindowPadding.x / 2
-
-				self.funcs.afterRenderItem(self, item, key)
-
-				if self.itemsMeta == nil then
-					self.itemsMeta = {}
-				end
-
 				if self.itemsMeta[key] == nil then
 					self.itemsMeta[key] = {}
 				end
 
-				self.itemsMeta[key].min = startPos
-				self.itemsMeta[key].max = endPos
+				self.itemsMeta[key].min = ui.getCursorScreenPos()
+				self.itemsMeta[key].min.x = self.itemsMeta[key].min.x - self.style.styleVars.WindowPadding.x / 2
 
-				if ui.isWindowHovered() and ui.isMouseHoveringRect(startPos, endPos, false) then
+				self.funcs.beforeRenderItem(self, item, key)
+
+				self.funcs.renderItem(self, item, key)
+
+				self.itemsMeta[key].max = ui.getCursorScreenPos()
+				self.itemsMeta[key].max.x = self.itemsMeta[key].max.x + self.contentRegion.x + self.style.styleVars.WindowPadding.x / 2
+
+				self.funcs.afterRenderItem(self, item, key)
+
+				if self.funcs.isMouseOverItem(self, item, key) then
 					self.funcs.onMouseOverItem(self, item, key)
 					if ui.isMouseClicked(0) then
 						self.funcs.onClickItem(self, item, key)
 					end
-
-					self.highlightStart = startPos
-					self.highlightEnd = endPos
 				end
+			end
+
+			self.funcs.afterItems(self)
+			if self.clearHighlight then
+				self.highlightedItem = nil
 			end
 		end)
 	end)

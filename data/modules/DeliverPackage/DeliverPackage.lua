@@ -181,13 +181,15 @@ local onChat = function (form, ref, option)
 		ads[ref] = nil
 
 		local mission = {
-			type	 = "Delivery",
-			client	 = ad.client,
-			location = ad.location,
-			risk	 = ad.risk,
-			reward	 = ad.reward,
-			due	 = ad.due,
-			flavour	 = ad.flavour
+			type		= "Delivery",
+			client		= ad.client,
+			location	= ad.location,
+			risk		= ad.risk,
+			reward		= ad.reward,
+			due	 		= ad.due,
+			flavour		= ad.flavour,
+			description = ad.desc,
+			icon		= ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
 		}
 
 		table.insert(missions,Mission.New(mission))
