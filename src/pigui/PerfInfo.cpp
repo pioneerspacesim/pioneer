@@ -14,6 +14,11 @@
 #include <fstream>
 #include <functional>
 
+#ifdef _WIN32
+#include <windows.h>
+#include <psapi.h>
+#endif
+
 using namespace PiGUI;
 
 #define ignoreLine(f) f.ignore(std::numeric_limits<std::streamsize>::max(), '\n')
@@ -42,7 +47,14 @@ static PerfInfo::MemoryInfo GetMemoryInfo()
 	statusFile.close();
 
 #elif _WIN32
-	// TODO: get win32 memory count
+	// Get win32 memory count
+	PROCESS_MEMORY_COUNTERS pmc;
+	if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)))
+	{
+		// convert from bytes to kilobytes
+		ret.peakMemSize = pmc.PeakWorkingSetSize / 1024;
+		ret.currentMemSize = pmc.WorkingSetSize / 1024;
+	}
 #elif __APPLE__
 	// TODO: get OSX memory count
 #endif
