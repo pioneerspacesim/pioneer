@@ -102,6 +102,9 @@
     <ClCompile Include="..\..\contrib\lz4\xxhash.c">
       <Filter>Source Files\lz4</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\PerfStats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\IniConfig.h">
@@ -176,9 +179,6 @@
     <ClInclude Include="..\..\src\Lang.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Serializer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\contrib\PicoDDS\PicoDDS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -217,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="..\..\contrib\lz4\xxhash.h">
       <Filter>Source Files\lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\PerfStats.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
