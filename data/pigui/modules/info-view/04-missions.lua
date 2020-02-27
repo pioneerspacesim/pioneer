@@ -23,9 +23,9 @@ local missionDetailsBg = Color(12, 29, 52)
 
 local vZero = Vector2(0,0)
 local adTextColor = colors.white
-local searchFlags = ui.WindowFlags {}
 local containerFlags = ui.WindowFlags {"AlwaysUseWindowPadding"}
-local entryFlags = ui.WindowFlags {"AlwaysUseWindowPadding", "AlwaysAutoResize"}
+local listFlags = ui.WindowFlags {}
+local detailsFlags = ui.WindowFlags {"AlwaysUseWindowPadding", "AlwaysAutoResize"}
 local widgetSizes = ui.rescaleUI({
 	iconSize = Vector2(20, 20),
 	chatButtonBase = Vector2(0, 24),
@@ -33,11 +33,12 @@ local widgetSizes = ui.rescaleUI({
 	itemSpacing = Vector2(18, 4),
 	bbContainerSize = Vector2(0, 0),
 	bbSearchSize = Vector2(0, 0),
-	bbPadding = Vector2(14, 11),
+	bbPadding = Vector2(12, 12),
 	innerPadding = Vector2(0, 3),
 	popupSize = Vector2(1200, 0),
 	popupBig = Vector2(1200, 0),
 	popupSmall = Vector2(500, 0),
+	faceSize = Vector2(280, 320),
 	missionDesc = {
 		-- distLength = ui.calcTextSize(string.format('%.2f %s', 99999, l.LY))
 		distLength = 150,
@@ -79,6 +80,8 @@ local jobList = List.New("JobList", false, {
 		if self.itemsMeta[key] ~= nil and self.itemsMeta[key].min and self.itemsMeta[key].max then
 			if self.highlightedItem == key then
 				ui.addRectFilled(self.itemsMeta[key].min, self.itemsMeta[key].max, self.style.highlightColor, 0, 0)
+			elseif selectedItem == item then
+				ui.addRectFilled(self.itemsMeta[key].min, self.itemsMeta[key].max, missionDetailsBg, 0, 0)
 			else
 				ui.addRectFilled(self.itemsMeta[key].min, self.itemsMeta[key].max, Color(8, 19, 40), 0, 0)
 			end
@@ -127,7 +130,14 @@ local jobList = List.New("JobList", false, {
 		end
 
 		selectedItem = item
-		clientFace = InfoFace.New(item.client, {windowPadding = widgetSizes.windowPadding, itemSpacing = widgetSizes.itemSpacing, size = widgetSizes.faceSize})
+		clientFace = InfoFace.New(item.client, {
+			windowPadding = widgetSizes.windowPadding,
+			itemSpacing = widgetSizes.itemSpacing,
+			size = widgetSizes.faceSize,
+			charInfoPadding = Vector2(12,12),
+			nameFont = orbiteer.large,
+			titleFont = orbiteer.medlarge,
+		})
 	end,
 	sortingFunction = function(s1,s2) return s1.description < s2.description end
 })
@@ -167,7 +177,7 @@ local function renderView()
 				--print("start", scrollPos)
 				scrollPos = ui.vSliderInt('###MissionsScrollbar', Vector2(10, ui.getContentRegion().y), scrollPosPrev, -100, 0, "")
 				ui.sameLine()
-				ui.child("MissionList", Vector2(ui.screenWidth * 0.5, 0), searchFlags, function()
+				ui.child("MissionList", Vector2(ui.screenWidth * 0.5, 0), listFlags, function()
 					ui.text("Filter")
 					ui.sameLine()
 					ui.text("Sort:")
@@ -187,8 +197,27 @@ local function renderView()
 
 				if selectedItem then
 					ui.sameLine()
-					ui.withStyleColorsAndVars({ChildWindowBg = missionDetailsBg},{WindowPadding = widgetSizes.bbPadding}, function()
-						ui.child("MissionDetails", vZero, searchFlags, function()
+					ui.withStyleColorsAndVars({ChildWindowBg = missionDetailsBg},{WindowPadding = Vector2(8, 16)}, function()
+						ui.child("MissionDetails", vZero, detailsFlags, function()
+							local winSize = ui.getContentRegion() - widgetSizes.faceSize
+							ui.columns(2, "MissionDetailsColumns", false)
+							ui.setColumnWidth(0, winSize.x)
+							ui.setColumnWidth(1, widgetSizes.faceSize.x)
+							ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
+								ui.text(string.upper(selectedItem:GetTypeDescription()))
+							end)
+							ui.text('')
+
+							ui.pushTextWrapPos(winSize.x*0.8)
+							ui.textWrapped(selectedItem.introtext)
+							ui.popTextWrapPos()
+
+							ui.text('')
+							ui.text(string.format('Destination: %s, %s', selectedItem.location:GetSystemBody().name, selectedItem.location:GetStarSystem().name))
+							ui.text(string.format('Deadline: %s', Format.Date(selectedItem.due)))
+							ui.text(string.format('Wage: %s', Format.Money(selectedItem.reward)))
+
+							ui.nextColumn()
 							clientFace:render()
 						end)
 					end)

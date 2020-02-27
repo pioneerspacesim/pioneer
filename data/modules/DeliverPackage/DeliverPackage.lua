@@ -190,6 +190,16 @@ local onChat = function (form, ref, option)
 			flavour		= ad.flavour,
 			description = ad.desc,
 			icon		= ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
+			introtext = string.interp(flavours[ad.flavour].introtext, {
+				name     = ad.client.name,
+				cash     = Format.Money(ad.reward,false),
+				starport = ad.location:GetSystemBody().name,
+				system   = ad.location:GetStarSystem().name,
+				sectorx  = ad.location.sectorX,
+				sectory  = ad.location.sectorY,
+				sectorz  = ad.location.sectorZ,
+				dist     = string.format("%.2f", ad.dist),
+			})
 		}
 
 		table.insert(missions,Mission.New(mission))
