@@ -8,7 +8,6 @@
 
 #include "BindingCapture.h"
 #include "Face.h"
-#include "LabelOverlay.h"
 
 #include "Lua.h"
 
