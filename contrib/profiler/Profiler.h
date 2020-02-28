@@ -16,9 +16,8 @@
 #define USE_CHRONO
 #endif
 
-#if defined(USE_CHRONO)
 #include <chrono>
-#endif
+#include <ratio>
 
 #if defined(_MSC_VER)
 	#undef __PRETTY_FUNCTION__
@@ -173,6 +172,76 @@ namespace Profiler {
 	};
 	#pragma pack(pop)
 
+	#pragma pack(push, 1)
+	struct Clock {
+		Clock() { Reset(); }
+
+		inline bool IsEmpty() const { return ticks == 0; }
+		inline bool IsPaused() const { return paused; }
+		inline void Unpause(u64 curticks)
+		{
+			started = curticks;
+			paused = false;
+		}
+		inline void Unpause() { Unpause(getticks()); }
+		inline void Pause(u64 curticks)
+		{
+			ticks += (curticks - started);
+			paused = true;
+		}
+		inline void Pause() { Pause(getticks()); }
+		inline void Start()
+		{
+			++calls;
+			started = getticks();
+		}
+		inline void Stop() { ticks += (getticks() - started); }
+		inline void Reset()
+		{
+			ticks = started = calls = 0;
+			paused = false;
+		}
+		inline void SoftStop()
+		{
+			if (!paused) {
+				u64 t = getticks();
+				ticks += (t - started);
+				started = t;
+			}
+		}
+		inline void SoftReset()
+		{
+			ticks = 0;
+			calls = 0;
+			started = getticks();
+		}
+
+		static f64 ms(const u64 t) {
+			std::chrono::duration<f64, std::milli> dur = std::chrono::steady_clock::duration(t);
+			return dur.count();
+		}
+
+		f64 milliseconds() { return ms(ticks); }
+		f64 currentmilliseconds() { return ms(ticks + (getticks() - started)); }
+		f64 avg() { return average(ticks, calls); }
+		f64 avgms() { return ms(average(ticks, calls)); }
+
+		void operator+=(const Clock &b)
+		{
+			ticks += b.ticks;
+			calls += b.calls;
+		}
+
+		static inline u64 getticks()
+		{
+			return std::chrono::steady_clock::now().time_since_epoch().count();
+		}
+
+		u64 ticks, started;
+		u32 calls;
+		bool paused;
+	};
+	#pragma pack(pop)
 
 	/*
 	=============

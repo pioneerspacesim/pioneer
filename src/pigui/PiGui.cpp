@@ -372,12 +372,6 @@ void *PiGui::makeTexture(unsigned char *pixels, int width, int height)
 	return reinterpret_cast<void *>(result);
 }
 
-void PiGui::EndFrame()
-{
-	PROFILE_SCOPED()
-	ImGui::EndFrame();
-}
-
 void PiGui::NewFrame(SDL_Window *window)
 {
 	PROFILE_SCOPED()
@@ -410,7 +404,8 @@ void PiGui::NewFrame(SDL_Window *window)
 	}
 #endif
 }
-void PiGui::Render(double delta, std::string handler)
+
+void PiGui::RunHandler(double delta, std::string handler)
 {
 	PROFILE_SCOPED()
 	ScopedTable t(m_handlers);
@@ -418,9 +413,15 @@ void PiGui::Render(double delta, std::string handler)
 		t.Call<bool>(handler, delta);
 		Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 	}
+}
+
+void PiGui::EndFrame()
+{
+	PROFILE_SCOPED()
+
 	// Explicitly end frame, to show tooltips. Otherwise, they are shown at the next NextFrame,
 	// which might crash because the font atlas was rebuilt, and the old fonts were cached inside imgui.
-	EndFrame();
+	ImGui::EndFrame();
 
 	// Iterate through our fonts and check if IMGUI wants a character we don't have.
 	for (auto &iter : m_fonts) {
@@ -441,9 +442,11 @@ void PiGui::Render(double delta, std::string handler)
 	}
 }
 
-void PiGui::RenderImGui()
+void PiGui::Render()
 {
 	PROFILE_SCOPED()
+	EndFrame();
+
 	ImGui::Render();
 
 	switch (Pi::renderer->GetRendererType()) {

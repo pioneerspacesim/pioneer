@@ -82,7 +82,13 @@ public:
 
 	LuaRef GetKeys() const { return m_keys; }
 
-	void Render(double delta, std::string handler = "GAME");
+	void RunHandler(double delta, std::string handler = "GAME");
+
+	// Call at the start of every frame. Calls ImGui::NewFrame() internally.
+	void NewFrame(SDL_Window *window);
+
+	// Calls ImGui::EndFrame() internally and does book-keeping before rendering.
+	void Render();
 
 	void Init(SDL_Window *window);
 
@@ -99,12 +105,6 @@ public:
 	void AddGlyph(ImFont *font, unsigned short glyph);
 
 	static ImTextureID RenderSVG(std::string svgFilename, int width, int height);
-
-	static void NewFrame(SDL_Window *window);
-
-	static void EndFrame();
-
-	static void RenderImGui();
 
 	static bool ProcessEvent(SDL_Event *event);
 
@@ -131,6 +131,8 @@ public:
 	static void ThrustIndicator(const std::string &id_string, const ImVec2 &size, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg);
 
 private:
+	void EndFrame();
+
 	LuaRef m_handlers;
 	LuaRef m_keys;
 	static std::vector<Graphics::Texture *> m_svg_textures;
