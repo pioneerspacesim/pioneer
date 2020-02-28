@@ -17,6 +17,7 @@ February 2020
      * Add PiGui docstrings and fix ui.columns (#4792)
      * Deprecate import() and replace with require() (#4786)
      * Add rewinding to fix ImGui stack when catching an error (#4776)
+     * Draw performance information with ImGui, new performance counter backend (#4813)
 
 January 2020
    * New Features
