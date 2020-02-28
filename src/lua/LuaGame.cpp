@@ -438,7 +438,7 @@ static int l_game_set_radar_visible(lua_State *l)
  *
  * Return:
  *
- *   view - a string describing the game view: "world", "space_station", "info", "sector", "system", "system_info", "death", "galaxy", "settings"
+ *   view - a string describing the game view: "world", "space_station", "info", "sector", "system", "system_info", "death", "settings"
  *
  * Availability:
  *
@@ -466,8 +466,6 @@ static int l_game_current_view(lua_State *l)
 		LuaPush(l, "system_info");
 	else if (view == Pi::game->GetDeathView())
 		LuaPush(l, "death");
-	else if (view == Pi::game->GetGalacticView())
-		LuaPush(l, "galaxy");
 	else
 		lua_pushnil(l);
 	return 1;
@@ -568,8 +566,6 @@ static int l_game_set_view(lua_State *l)
 		Pi::SetView(Pi::game->GetDeathView());
 	} else if (!target.compare("sector")) {
 		Pi::SetView(Pi::game->GetSectorView());
-	} else if (!target.compare("galaxy")) {
-		Pi::SetView(Pi::game->GetGalacticView());
 	} else if (!target.compare("system")) {
 		Pi::SetView(Pi::game->GetSystemView());
 	} else if (!target.compare("system_info")) {

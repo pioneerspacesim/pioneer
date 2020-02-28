@@ -732,7 +732,6 @@ ObjectViewerView *Game::GetObjectViewerView() const
 
 Game::Views::Views() :
 	m_sectorView(nullptr),
-	m_galacticView(nullptr),
 	m_systemInfoView(nullptr),
 	m_systemView(nullptr),
 	m_worldView(nullptr),
@@ -762,7 +761,6 @@ void Game::Views::Init(Game *game)
 	m_cpan = new ShipCpanel(Pi::renderer, game);
 	m_sectorView = new SectorView(game);
 	m_worldView = new WorldView(game);
-	m_galacticView = new UIView("GalacticView");
 	m_systemView = new SystemView(game);
 	m_systemInfoView = new SystemInfoView(game);
 	m_spaceStationView = new PiGuiView("StationView");
@@ -782,7 +780,6 @@ void Game::Views::LoadFromJson(const Json &jsonObj, Game *game)
 	m_sectorView = new SectorView(jsonObj, game);
 	m_worldView = new WorldView(jsonObj, game);
 
-	m_galacticView = new UIView("GalacticView");
 	m_systemView = new SystemView(game);
 	m_systemInfoView = new SystemInfoView(game);
 	m_spaceStationView = new PiGuiView("StationView");
@@ -807,7 +804,6 @@ Game::Views::~Views()
 	delete m_spaceStationView;
 	delete m_systemInfoView;
 	delete m_systemView;
-	delete m_galacticView;
 	delete m_worldView;
 	delete m_sectorView;
 	delete m_cpan;
