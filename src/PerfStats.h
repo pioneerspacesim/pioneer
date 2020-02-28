@@ -70,8 +70,8 @@ namespace Perf {
 		static const size_t MAX_FRAME_COUNT = 10;
 
 		struct Counter {
-			Counter(bool r) :
-				ctr(0), resetOnNewFrame(r) {}
+			Counter(bool reset) :
+				resetOnNewFrame(reset){};
 			std::atomic<uint32_t> ctr;
 			bool resetOnNewFrame;
 		};

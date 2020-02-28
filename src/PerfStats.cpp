@@ -18,7 +18,12 @@ Stats::CounterRef Stats::GetOrCreateCounter(std::string str, bool resetOnNewFram
 
 	m_counterMutex.lock();
 	m_definedCounters.emplace(hash, str);
-	m_counters.emplace(hash, resetOnNewFrame);
+
+	// Use std::piecewise_construct, as it's the only overload for non-copyable,
+	// non-movable objects like std::atomic
+	m_counters.emplace(std::piecewise_construct,
+		std::forward_as_tuple(hash),
+		std::forward_as_tuple(resetOnNewFrame));
 	m_counterMutex.unlock();
 
 	return CounterRef(hash);
