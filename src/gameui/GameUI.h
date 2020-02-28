@@ -4,8 +4,6 @@
 #ifndef GAMEUI_GAMEUI_H
 #define GAMEUI_GAMEUI_H
 
-#include "ui/Context.h"
-
 #include "Face.h"
 
 #include "Lua.h"

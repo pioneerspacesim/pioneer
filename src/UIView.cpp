@@ -3,7 +3,6 @@
 
 #include "UIView.h"
 #include "Pi.h"
-#include "gameui/Panel.h"
 #include "ui/Context.h"
 
 void UIView::OnSwitchTo()
@@ -12,7 +11,6 @@ void UIView::OnSwitchTo()
 	UI::Expand *expander = Pi::ui->Expand();
 	BuildUI(expander);
 	box->PackEnd(expander);
-	box->PackEnd(new GameUI::Panel(Pi::ui.Get()));
 
 	Pi::ui->DropAllLayers();
 	Pi::ui->GetTopLayer()->SetInnerWidget(box);
