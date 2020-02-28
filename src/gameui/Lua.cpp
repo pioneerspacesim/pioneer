@@ -9,8 +9,6 @@ namespace GameUI {
 		void Init()
 		{
 			LuaObject<GameUI::Face>::RegisterClass();
-			LuaObject<GameUI::KeyBindingCapture>::RegisterClass();
-			LuaObject<GameUI::AxisBindingCapture>::RegisterClass();
 		}
 
 	} // namespace Lua

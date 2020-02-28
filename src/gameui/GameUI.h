@@ -6,7 +6,6 @@
 
 #include "ui/Context.h"
 
-#include "BindingCapture.h"
 #include "Face.h"
 
 #include "Lua.h"
