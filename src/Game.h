@@ -28,6 +28,7 @@ struct InvalidGameStartLocation {
 		error(error_) {}
 };
 
+class View;
 class SectorView;
 class UIView;
 class SystemInfoView;
@@ -121,7 +122,7 @@ public:
 	SystemView *GetSystemView() const { return m_gameViews->m_systemView; }
 	WorldView *GetWorldView() const { return m_gameViews->m_worldView; }
 	DeathView *GetDeathView() const { return m_gameViews->m_deathView; }
-	UIView *GetSpaceStationView() const { return m_gameViews->m_spaceStationView; }
+	View *GetSpaceStationView() const { return m_gameViews->m_spaceStationView; }
 	UIView *GetInfoView() const { return m_gameViews->m_infoView; }
 	ShipCpanel *GetCpan() const { return m_gameViews->m_cpan; }
 
@@ -146,7 +147,7 @@ private:
 		SystemView *m_systemView;
 		WorldView *m_worldView;
 		DeathView *m_deathView;
-		UIView *m_spaceStationView;
+		View *m_spaceStationView;
 		UIView *m_infoView;
 		ShipCpanel *m_cpan;
 

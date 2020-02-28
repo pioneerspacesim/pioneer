@@ -31,6 +31,7 @@
 #include "UIView.h"
 #include "WorldView.h"
 #include "galaxy/GalaxyGenerator.h"
+#include "pigui/View.h"
 #include "ship/PlayerShipController.h"
 
 static const int s_saveVersion = 86;
@@ -764,7 +765,7 @@ void Game::Views::Init(Game *game)
 	m_galacticView = new UIView("GalacticView");
 	m_systemView = new SystemView(game);
 	m_systemInfoView = new SystemInfoView(game);
-	m_spaceStationView = new UIView("StationView");
+	m_spaceStationView = new PiGuiView("StationView");
 	m_infoView = new UIView("InfoView");
 	m_deathView = new DeathView(game);
 
@@ -784,7 +785,7 @@ void Game::Views::LoadFromJson(const Json &jsonObj, Game *game)
 	m_galacticView = new UIView("GalacticView");
 	m_systemView = new SystemView(game);
 	m_systemInfoView = new SystemInfoView(game);
-	m_spaceStationView = new UIView("StationView");
+	m_spaceStationView = new PiGuiView("StationView");
 	m_infoView = new UIView("InfoView");
 	m_deathView = new DeathView(game);
 
