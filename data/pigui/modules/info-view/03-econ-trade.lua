@@ -11,7 +11,7 @@ local l = Lang.GetResource("ui-core")
 InfoView:registerView({
     id = "econTrade",
     name = l.ECONOMY_TRADE,
-    icon = ui.theme.icons.market,
+    icon = ui.theme.icons.cargo_manifest,
     showView = false,
     draw = function() end,
     refresh = function() end,
