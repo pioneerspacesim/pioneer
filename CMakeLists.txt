@@ -187,7 +187,7 @@ endif(PROFILER_ENABLED)
 
 if (WIN32)
 	add_definitions(-DPSAPI_VERSION=1)
-endif
+endif (WIN32)
 
 macro(set_cxx11_properties)
 	set_target_properties(${ARGN} PROPERTIES
