@@ -93,8 +93,6 @@ theme.icons = {
    direction_frame = 26,
    direction_frame_hollow = 27,
    direction_forward = 28,
-   apoapsis = 29,
-   periapsis = 30,
    semi_major_axis = 31,
    -- third row
    heavy_fighter = 32,
@@ -177,6 +175,7 @@ theme.icons = {
    filter_bodies = 107,
    filter_stations = 108,
    filter_ships = 109,
+   lagrange_marker = 110,
    system_overview = 111,
    -- eighth row
    heavy_freighter = 112,
@@ -191,10 +190,10 @@ theme.icons = {
    display_navtarget = 121,
    alert1 = 122,
    alert2 = 123,
-	 ecm_advanced = 124,
-	 systems_management = 125,
-	 distance = 126,
-	 filter = 127,
+   ecm_advanced = 124,
+   systems_management = 125,
+   distance = 126,
+   filter = 127,
    -- ninth row
    view_internal = 128,
    view_external = 129,
@@ -240,8 +239,15 @@ theme.icons = {
    hud = 168,
    factory = 169,
    star = 170,
+   delta = 171,
+   clock = 172,
+   orbit_prograde = 173,
+   orbit_normal = 174,
+   orbit_radial = 175,
+   -- twelfth row
    view_flyby = 191,
-    -- eleventh row
+   -- thirteenth row
+   cog = 192,
    gender = 193,
    nose = 194,
    mouth = 195,
@@ -249,14 +255,34 @@ theme.icons = {
    clothes = 197,
    accessories = 198,
    random = 199,
+   periapsis = 200,
+   apoapsis = 201,
+   reset_view = 202,
+   toggle_grid = 203,
+   toggle_lagrange = 204,
+   toggle_ships = 205,
+   decrease = 206,
+   increase = 207,
+   -- fourteenth row, wide icons
+   missile_unguided = 208,
+   missile_guided = 210,
+   missile_smart = 212,
+   missile_naval = 214,
+   find_person = 216,
+   cargo_manifest = 217,
+   trashcan = 218,
+   bookmark = 219,
+   pencil = 220,
+   fountain_pen = 221,
+   cocktail_glass = 222,
+   beer_glass = 223,
+   -- fifteenth row
+   chart = 224,
+   binder = 225,
+   navtarget = 226,
    -- TODO: manual / autopilot
-	 -- dummy, until actually defined correctly
-	 mouse_move_direction = 14,
-	 -- fourteenth row, wide icons
-	 missile_unguided = 208,
-	 missile_guided = 210,
-	 missile_smart = 212,
-	 missile_naval = 214,
+   -- dummy, until actually defined correctly
+   mouse_move_direction = 14,
 }
 
 -- TODO: apply these styles at startup.

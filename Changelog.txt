@@ -4,6 +4,9 @@ February 2020
      * Move ShipRepair screen to pigui (#4791)
      * Move Bulletin Board view to pigui (#4775)
      * Make police non-persistent in Goodstrader (#4796)
+     * Update advice for Goodstrader, reflecting new behaviour (#4824)
+     * Move ship jump state strings to translation system (#4814)
+     * Add new icons (#4822)
 
    * Fixes
      * Fix on-demand glyph loading (#4779)
@@ -18,6 +21,7 @@ February 2020
      * Deprecate import() and replace with require() (#4786)
      * Add rewinding to fix ImGui stack when catching an error (#4776)
      * Draw performance information with ImGui, new performance counter backend (#4813)
+     * Add a sponsor-button to pioneer's github (#4816)
 
 January 2020
    * New Features
