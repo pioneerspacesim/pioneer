@@ -16,6 +16,7 @@
 
 #ifdef _WIN32
 #include <windows.h>
+// order of header includes matters, thanks Windows.h!
 #include <psapi.h>
 #endif
 
@@ -49,8 +50,7 @@ static PerfInfo::MemoryInfo GetMemoryInfo()
 #elif _WIN32
 	// Get win32 memory count
 	PROCESS_MEMORY_COUNTERS pmc;
-	if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)))
-	{
+	if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
 		// convert from bytes to kilobytes
 		ret.peakMemSize = pmc.PeakWorkingSetSize / 1024;
 		ret.currentMemSize = pmc.WorkingSetSize / 1024;
