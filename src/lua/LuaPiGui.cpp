@@ -11,13 +11,13 @@
 #include "LuaVector.h"
 #include "LuaVector2.h"
 #include "Pi.h"
-#include "pigui/PiGui.h"
 #include "Player.h"
 #include "Space.h"
 #include "SystemInfoView.h"
 #include "WorldView.h"
 #include "graphics/Graphics.h"
 #include "pigui/LuaFlags.h"
+#include "pigui/PiGui.h"
 #include "ship/PlayerShipController.h"
 #include "sound/Sound.h"
 #include "ui/Context.h"
@@ -759,8 +759,6 @@ static int l_pigui_selectable(lua_State *l)
 	return 1;
 }
 
-
-
 /*
  * Function: text
  *
@@ -875,7 +873,6 @@ static int l_pigui_text_wrapped(lua_State *l)
 	ImGui::TextWrapped("%s", text.c_str());
 	return 0;
 }
-
 
 /*
  * Function: textColored
