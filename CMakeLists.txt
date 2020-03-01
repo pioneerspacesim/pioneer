@@ -185,6 +185,10 @@ if (PROFILER_ENABLED)
 	add_definitions(-DPIONEER_PROFILER=1)
 endif(PROFILER_ENABLED)
 
+if (WIN32)
+	add_definitions(-DPSAPI_VERSION=1)
+endif (WIN32)
+
 macro(set_cxx11_properties)
 	set_target_properties(${ARGN} PROPERTIES
 		CXX_STANDARD 11
@@ -315,7 +319,7 @@ if(USE_PIONEER_THIRDPARTY)
 endif()
 
 if (WIN32)
-	list(APPEND winLibs shlwapi)
+	list(APPEND winLibs shlwapi psapi)
 endif (WIN32)
 
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
