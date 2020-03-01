@@ -494,6 +494,57 @@ static int l_pigui_get_scroll_y(lua_State *l)
 }
 
 /*
+ * Function: plotHistogram
+ *
+ * Make a histogram
+ *
+ * > ui.plotHistogram(label, data, display_count, offset, overlay, y_min, y_max, graph_size)
+ *
+ * Example:
+ *
+ * Plots 5 bars, with height 17,3,15,5, and 8, respectively
+ *
+ * > ui.plotHistogram("Test", {17,3,15,5,8})
+ *
+ * Parameters:
+ *
+ *   label - string, text on button
+ *   data - table of values
+ *   display_count - optional, to limit number of pionts to plot
+ *   offset - optional x-axis offset, default: 0
+ *   overlay_text - optional title string, to put on histogram
+ *   y_min - optional float, setting min y-value displayed
+ *   y_max - optional float, setting max y-value displayed
+ *   graph_size - optional Vector2, defining size
+ *
+ */
+static int l_pigui_plot_histogram(lua_State *l)
+{
+	PROFILE_SCOPED()
+	std::string label = LuaPull<std::string>(l, 1);
+	LuaTable vals = LuaTable(l, 2);
+	float values[vals.Size()];
+	float max = FLT_MIN;
+	float min = FLT_MAX;
+	for (int i = 1; i <= vals.Size(); i++) {
+		values[i - 1] = vals.Get<int>(i);
+		if (values[i - 1] > max)
+			max = values[i - 1];
+		if (values[i - 1] < min)
+			min = values[i - 1];
+	}
+	int display_count = LuaPull<int>(l, 3, vals.Size());
+	int values_offset = LuaPull<int>(l, 4, 0);
+	const char *overlay_text = LuaPull<const char *>(l, 5, NULL);
+	float y_min = LuaPull<float>(l, 6, min);
+	float y_max = LuaPull<float>(l, 7, max);
+	ImVec2 graph_size = LuaPull<ImVec2>(l, 8, ImVec2(0, 0));
+	ImGui::PlotHistogram(label.c_str(), values, display_count, values_offset,
+		overlay_text, y_min, y_max, graph_size);
+	return 0;
+}
+
+/*
  * Function: progressBar
  *
  * Make a progress bar widget
@@ -2530,6 +2581,7 @@ void LuaObject<PiGui>::RegisterClass()
 		{ "ListBox", l_pigui_listbox },
 		{ "CollapsingHeader", l_pigui_collapsing_header },
 		{ "CaptureMouseFromApp", l_pigui_capture_mouse_from_app },
+		{ "PlotHistogram", l_pigui_plot_histogram },
 		{ "ProgressBar", l_pigui_progress_bar },
 		{ "LoadTextureFromSVG", l_pigui_load_texture_from_svg },
 		{ "DataDirPath", l_pigui_data_dir_path },

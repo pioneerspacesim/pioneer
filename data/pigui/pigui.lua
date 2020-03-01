@@ -535,6 +535,7 @@ ui.popTextWrapPos = pigui.PopTextWrapPos
 ui.setScrollHere = pigui.SetScrollHere
 ui.selectable = pigui.Selectable
 ui.progressBar = pigui.ProgressBar
+ui.plotHistogram = pigui.PlotHistogram
 ui.calcTextSize = pigui.CalcTextSize
 ui.addCircle = pigui.AddCircle
 ui.addCircleFilled = pigui.AddCircleFilled
