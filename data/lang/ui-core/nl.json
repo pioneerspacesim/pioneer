@@ -335,6 +335,10 @@
     "description": "",
     "message": "Meer aan bij huidig doel"
   },
+  "DRIVE_ACTIVE": {
+    "description": "Ship jump status",
+    "message": "Drive active"
+  },
   "DUE": {
     "description": "mission deadline date",
     "message": "Uiterlijk"
@@ -963,6 +967,14 @@
     "description": "For player reputation",
     "message": "Onervaren"
   },
+  "INITIATED": {
+    "description": "Ship jump status",
+    "message": "Initiated"
+  },
+  "INSUFFICIENT_FUEL": {
+    "description": "Ship jump status",
+    "message": "Insufficient fuel"
+  },
   "INSUFFICIENT_FUNDS": {
     "description": "",
     "message": "Onvoldoende saldo"
@@ -1279,6 +1291,10 @@
     "description": "",
     "message": "{equipment} wordt niet ondersteund op dit model schip"
   },
+  "NO_DRIVE": {
+    "description": "Ship jump status",
+    "message": "No drive"
+  },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
     "message": "Geen resultaten voor dat filter"
@@ -1338,6 +1354,10 @@
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
     "message": "Onbetaalde boetes"
+  },
+  "OUT_OF_RANGE": {
+    "description": "Ship jump status",
+    "message": "Out of range"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1518,6 +1538,10 @@
   "ROUTE_JUMPS": {
     "description": "For hyperjump planner",
     "message": "Route-sprongen"
+  },
+  "SAFETY_LOCKOUT": {
+    "description": "Ship jump status",
+    "message": "Safety lockout"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",

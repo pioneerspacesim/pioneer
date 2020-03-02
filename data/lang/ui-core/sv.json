@@ -335,6 +335,10 @@
     "description": "",
     "message": "Docka vid nuvarande mål"
   },
+  "DRIVE_ACTIVE": {
+    "description": "Ship jump status",
+    "message": "Drive active"
+  },
   "DUE": {
     "description": "mission deadline date",
     "message": "Förfaller"
@@ -963,6 +967,14 @@
     "description": "For player reputation",
     "message": "Oerfaren"
   },
+  "INITIATED": {
+    "description": "Ship jump status",
+    "message": "Initiated"
+  },
+  "INSUFFICIENT_FUEL": {
+    "description": "Ship jump status",
+    "message": "Insufficient fuel"
+  },
   "INSUFFICIENT_FUNDS": {
     "description": "",
     "message": "Otillräcklig likvid"
@@ -1279,6 +1291,10 @@
     "description": "",
     "message": "{equipment} stöds inte av den här skeppsmodellen"
   },
+  "NO_DRIVE": {
+    "description": "Ship jump status",
+    "message": "No drive"
+  },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
     "message": "Nothing matches that filter"
@@ -1338,6 +1354,10 @@
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
     "message": "Obetalda böter"
+  },
+  "OUT_OF_RANGE": {
+    "description": "Ship jump status",
+    "message": "Out of range"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1518,6 +1538,10 @@
   "ROUTE_JUMPS": {
     "description": "For hyperjump planner",
     "message": "Route Jumps"
+  },
+  "SAFETY_LOCKOUT": {
+    "description": "Ship jump status",
+    "message": "Safety lockout"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
