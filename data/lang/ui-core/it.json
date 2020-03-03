@@ -337,7 +337,7 @@
   },
   "DRIVE_ACTIVE": {
     "description": "Ship jump status",
-    "message": "Drive active"
+    "message": "Propulsore attivo"
   },
   "DUE": {
     "description": "mission deadline date",
@@ -969,11 +969,11 @@
   },
   "INITIATED": {
     "description": "Ship jump status",
-    "message": "Initiated"
+    "message": "Avviato"
   },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
-    "message": "Insufficient fuel"
+    "message": "Carburante insufficiente"
   },
   "INSUFFICIENT_FUNDS": {
     "description": "",
@@ -1293,7 +1293,7 @@
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
-    "message": "No drive"
+    "message": "Propulsore assente"
   },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
@@ -1357,7 +1357,7 @@
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
-    "message": "Out of range"
+    "message": "Fuori portata"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1541,7 +1541,7 @@
   },
   "SAFETY_LOCKOUT": {
     "description": "Ship jump status",
-    "message": "Safety lockout"
+    "message": "Blocco di sicurezza"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
