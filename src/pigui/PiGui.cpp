@@ -378,9 +378,12 @@ void PiGui::NewFrame(SDL_Window *window)
 	// Ask ImGui to hide OS cursor if GUI is not being drawn:
 	// it will do this if MouseDrawCursor is true. After the frame
 	// is created, we set the actual cursor draw state.
+#if 0 // Mouse cursors are set via the OS facilities.
+	// See also below.
 	if (!Pi::DrawGUI) {
 		ImGui::GetIO().MouseDrawCursor = true;
 	}
+#endif
 	switch (Pi::renderer->GetRendererType()) {
 	default:
 	case Graphics::RENDERER_DUMMY:
