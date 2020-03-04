@@ -73,7 +73,7 @@ void main(void)
 	// NB: this darkens the texture input
 	vec4 s1 = texture(texture3, vec3(uv0 * detailScaleLo, float(id0))).rgba;
 	vec4 s2 = texture(texture3, vec3(uv0 * detailScaleLo * -0.25, float(id0))).rgba;
-	vec4 color = (s1 * s2) * 2.0;
+	vec4 color = mix(s1, s2, 0.5);
 	#else	
 	vec4 color = texture(texture3, vec3(uv0 * detailScaleLo, float(id0))).rgba;
 	#endif
@@ -117,12 +117,12 @@ void main(void)
 		vec3 a = (atmosStart * eyenorm - geosphereCenter) * geosphereInvRadius;
 		vec3 b = (eyepos - geosphereCenter) * geosphereInvRadius;
 		ldprod = AtmosLengthDensityProduct(a, b, atmosColor.w*geosphereAtmosFogDensity, atmosDist, geosphereAtmosInvScaleHeight);
-		fogFactor = clamp( 1.5 / exp(ldprod),0.0,1.0); 
+		fogFactor = clamp(1.5 / exp(ldprod), 0.0, 1.0); 
 	}
 
 	//calculate sunset tone red when passing through more atmosphere, clamp everything.
-	float atmpower = (diff.r+diff.g+diff.b)/3.0;
-	vec4 sunset = vec4(0.8,clamp(pow(atmpower,0.8),0.0,1.0),clamp(pow(atmpower,1.2),0.0,1.0),1.0);
+	float atmpower = (diff.r+diff.g+diff.b) / 3.0;
+	vec4 sunset = clamp(vec4(0.8, pow(atmpower,0.8), pow(atmpower,1.2), 1.0), vec4(0.0), vec4(1.0));
 
 	frag_color =
 		material.emission +
