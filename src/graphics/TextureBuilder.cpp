@@ -9,8 +9,6 @@
 #include <sstream>
 #include <algorithm>
 
-// XXX SDL2 can all this be replaced with SDL_GL_BindTexture?
-
 namespace Graphics {
 
 	//static
@@ -56,7 +54,7 @@ namespace Graphics {
 		m_prepared(false),
 		m_layers(layers)
 	{
-		assert(!m_filename.empty());
+		assert(!m_filenames.empty());
 	}
 
 	TextureBuilder::~TextureBuilder()
