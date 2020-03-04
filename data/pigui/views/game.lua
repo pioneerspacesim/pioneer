@@ -139,12 +139,12 @@ local function displayOnScreenObjects()
 	local should_show_label = ui.shouldShowLabels()
 	local iconsize = Vector2(18 , 18)
 	local label_offset = 14 -- enough so that the target rectangle fits
-	local collapse = iconsize -- size of clusters to be collapsed into single bodies
-	local click_radius = collapse:length() * 0.5
+	local cluster_size = iconsize.x -- size of clusters to be collapsed into single bodies
+	local click_radius = cluster_size * 0.5
 	-- make click_radius sufficiently smaller than the cluster size
 	-- to prevent overlap of selection regions
 
-	local bodies_grouped = ui.getProjectedBodiesGrouped(collapse, IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE)
+	local bodies_grouped = ui.getProjectedBodiesGrouped(cluster_size, IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE)
 
 	for _,group in ipairs(bodies_grouped) do
 		local mainBody = group.mainBody
@@ -170,23 +170,27 @@ local function displayOnScreenObjects()
 		-- mouse release handler
 		if (mp - mainCoords):length() < click_radius then
 			if not ui.isAnyWindowHovered() and ui.isMouseReleased(0) then
-				if group.hasNavTarget then
-					-- if clicked and has nav target, unset nav target
-					player:SetNavTarget(nil)
-					navTarget = nil
-				elseif combatTarget == mainBody then
-					-- if clicked and has combat target, unset nav target
-					player:SetCombatTarget(nil)
-					combatTarget = nil
+				if group.hasNavTarget or combatTarget == mainBody then
+					-- if clicked and is target, unset target
+					if group.hasNavTarget then
+						player:SetNavTarget(nil)
+					else
+						player:SetCombatTarget(nil)
+					end
+					-- if not in setspeed mode or ctrl-click and is setspeed target,
+					-- clear setspeed target
+					if not player:GetSetSpeed() or (ui.ctrlHeld() and group.hasSetSpeedTarget) then
+						player:SetSetSpeedTarget(nil)
+					end
 				elseif not group.multiple then
 					-- clicked on single, just set navtarget/combatTarget
 					setTarget(mainBody)
 					if ui.ctrlHeld() then
-						local target = mainBody
-						if target == player:GetSetSpeedTarget() then
-							target = nil
-						end
-						player:SetSetSpeedTarget(target)
+						-- also set setspeed target on ctrl-click
+						player:SetSetSpeedTarget(mainBody)
+					elseif not player:GetSetSpeed() then
+						-- clear setspeed target if not in setspeed mode
+						player:SetSetSpeedTarget(nil)
 					end
 				else
 					-- clicked on group, show popup
@@ -207,11 +211,11 @@ local function displayOnScreenObjects()
 						player:SetNavTarget(b)
 					end
 					if ui.ctrlHeld() then
-						local target = b
-						if target == player:GetSetSpeedTarget() then
-							target = nil
-						end
-						player:SetSetSpeedTarget(target)
+						-- also set setspeed target on ctrl-click
+						player:SetSetSpeedTarget(b)
+					elseif not player:GetSetSpeed() then
+						-- clear setspeed target if not in setspeed mode
+						player:SetSetSpeedTarget(nil)
 					end
 				end
 			end

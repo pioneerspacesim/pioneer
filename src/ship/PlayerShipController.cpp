@@ -412,17 +412,11 @@ void PlayerShipController::SetCombatTarget(Body *const target, bool setSpeedTo)
 {
 	if (setSpeedTo)
 		m_setSpeedTarget = target;
-	else if (m_setSpeedTarget == m_combatTarget)
-		m_setSpeedTarget = 0;
 	m_combatTarget = target;
 }
 
-void PlayerShipController::SetNavTarget(Body *const target, bool setSpeedTo)
+void PlayerShipController::SetNavTarget(Body *const target)
 {
-	if (setSpeedTo)
-		m_setSpeedTarget = target;
-	else if (m_setSpeedTarget == m_navTarget)
-		m_setSpeedTarget = 0;
 	m_navTarget = target;
 }
 

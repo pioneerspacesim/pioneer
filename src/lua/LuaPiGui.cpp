@@ -1633,11 +1633,11 @@ bool first_body_is_more_important_than(Body *body, Body *other)
  * which are close together on screen. The current combat target is always
  * kept in its own seperate group.
  *
- * > groups = Engine.pigui.GetProjectedBodiesGrouped(collapse, ship_max_distance)
+ * > groups = Engine.pigui.GetProjectedBodiesGrouped(cluster_size, ship_max_distance)
  *
  * Parameters:
  *
- *   collapse - Vector2 defining the screen size of the clusters
+ *   cluster_size - radius (screen size) of the clusters
  *
  *   ship_max_distance - ships farther away than this are not included in the result
  *
@@ -1651,6 +1651,7 @@ bool first_body_is_more_important_than(Body *body, Body *other)
  *   mainBody - the main <Body> of the group; if present in the group,
  *              the navigation target is considered the main body
  *   hasNavTarget - true if group contains the player's current navigation target
+ *   hasSetSpeedTarget - true if group contains the set speed target
  *   multiple - true if group consists of more than one body
  *   bodies - array of all <Body> objects in the group, sorted by importance
  *
@@ -1665,7 +1666,7 @@ bool first_body_is_more_important_than(Body *body, Body *other)
 static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 {
 	PROFILE_SCOPED()
-	const vector2d gap = LuaPull<vector2d>(l, 1);
+	const double cluster_size = LuaPull<double>(l, 1);
 	const double ship_max_distance = LuaPull<double>(l, 2);
 
 	TSS_vector filtered;
@@ -1687,11 +1688,14 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 		vector2d m_screenCoords; // screen coords of group
 		std::vector<Body *> m_bodies;
 		bool m_hasNavTarget;
+		bool m_hasSetSpeedTarget;
 
-		GroupInfo(Body *b, const vector2d &coords, bool isNavTarget) :
+		GroupInfo(Body *b, const vector2d &coords, bool isNavTarget,
+			bool isSetSpeedTarget) :
 			m_mainBody(b),
 			m_screenCoords(coords),
-			m_hasNavTarget(isNavTarget)
+			m_hasNavTarget(isNavTarget),
+			m_hasSetSpeedTarget(isSetSpeedTarget)
 		{
 			m_bodies.push_back(b);
 		}
@@ -1700,6 +1704,7 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 	groups.reserve(filtered.size());
 	const Body *nav_target = Pi::game->GetPlayer()->GetNavTarget();
 	const Body *combat_target = Pi::game->GetPlayer()->GetCombatTarget();
+	const Body *setspeed_target = Pi::game->GetPlayer()->GetSetSpeedTarget();
 
 	for (TScreenSpace &obj : filtered) {
 		bool inserted = false;
@@ -1707,16 +1712,22 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 		// never collapse combat target
 		if (obj._body != combat_target) {
 			for (GroupInfo &group : groups) {
-				if ((std::abs(group.m_screenCoords.x - obj._screenPosition.x) <= gap.x) &&
-					(std::abs(group.m_screenCoords.y - obj._screenPosition.y) <= gap.y)) {
+				if ((group.m_screenCoords - obj._screenPosition).Length() <= cluster_size) {
 					// body inside group boundaries: insert into group
 					group.m_bodies.push_back(obj._body);
+
+					// make the more important body the new main body;
+					// but nav target is always most important
 					if (obj._body == nav_target) {
 						group.m_hasNavTarget = true;
-						// nav target becomes main body
 						group.m_mainBody = obj._body;
-						group.m_screenCoords = lua_world_space_to_screen_space(obj._body)._screenPosition;
+						group.m_screenCoords = obj._screenPosition;
+					} else if (!group.m_hasNavTarget && first_body_is_more_important_than(obj._body, group.m_mainBody)) {
+						group.m_mainBody = obj._body;
+						group.m_screenCoords = obj._screenPosition;
 					}
+					if (obj._body == setspeed_target)
+						group.m_hasSetSpeedTarget = true;
 					inserted = true;
 					break;
 				}
@@ -1725,22 +1736,18 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 		if (!inserted) {
 			// create new group
 			GroupInfo newgroup(obj._body, obj._screenPosition,
-				obj._body == nav_target ? true : false);
+				obj._body == nav_target ? true : false,
+				obj._body == setspeed_target ? true : false);
 			groups.push_back(std::move(newgroup));
 		}
 	}
 
-	// Sort each groups member according to a given function
+	// Sort each groups bodies according to importance
 	for (GroupInfo &group : groups) {
 		std::sort(begin(group.m_bodies), end(group.m_bodies),
 			[](Body *a, Body *b) {
 				return first_body_is_more_important_than(a, b);
 			});
-		if (!group.m_hasNavTarget) {
-			// make most important body the main body
-			group.m_mainBody = group.m_bodies.front();
-			group.m_screenCoords = lua_world_space_to_screen_space(group.m_mainBody)._screenPosition;
-		}
 	}
 
 	LuaTable result(l, groups.size(), 0);
@@ -1757,6 +1764,7 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 		lua_pop(l, 1);
 		info_table.Set("multiple", group.m_bodies.size() > 1 ? true : false);
 		info_table.Set("hasNavTarget", group.m_hasNavTarget);
+		info_table.Set("hasSetSpeedTarget", group.m_hasSetSpeedTarget);
 		result.Set(index++, info_table);
 		lua_pop(l, 1);
 	}
