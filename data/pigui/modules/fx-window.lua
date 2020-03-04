@@ -51,7 +51,7 @@ end
 
 local current_map_view = "sector"
 local function buttons_map(current_view)
-	local onmap = current_view == "sector" or current_view == "system" or current_view == "system_info" or current_view == "galaxy"
+	local onmap = current_view == "sector" or current_view == "system" or current_view == "system_info"
 
 	ui.sameLine()
 	local active = current_view == "sector"
@@ -83,18 +83,6 @@ local function buttons_map(current_view)
 		else
 			Game.SetView("system_info")
 			current_map_view = "system_info"
-		end
-	end
-	if onmap then
-		ui.sameLine()
-		active = current_view == "galaxy"
-		if mainMenuButton(icons.galaxy_map, active, active and lui.HUD_BUTTON_SWITCH_TO_WORLD_VIEW or lui.HUD_BUTTON_SWITCH_TO_GALAXY_MAP) or (onmap and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f8)) then
-			if active then
-				Game.SetView("world")
-			else
-				Game.SetView("galaxy")
-				current_map_view = "galaxy"
-			end
 		end
 	end
 	if ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f2) then

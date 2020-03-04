@@ -65,10 +65,12 @@ end
 function PiGuiTabView:SwitchTo(id)
     for i, v in ipairs(self.tabs) do
         if v.id == id then
-            self.legacyTabView:SwitchTo(v.id)
-            self.legacyTabView.outerBody:Hide()
-            if(self.currentTab ~= i) then self.tabs[i].refresh() end
+            if self.legacyTabView then
+                self.legacyTabView:SwitchTo(v.id)
+                self.legacyTabView.outerBody:Hide()
+            end
 
+            if(self.currentTab ~= i) then self.tabs[i].refresh() end
             self.currentTab = i
             return
         end
@@ -103,9 +105,9 @@ function PiGuiTabView.renderTabView(self)
         end)
     end
 
-    if self.legacyTabView ~= nil and tab.showView then
+    if self.legacyTabView and tab.showView then
         self.legacyTabView.outerBody:Hide()
-    else
+    elseif self.legacyTabView then
         self.legacyTabView.outerBody:Enable()
     end
 

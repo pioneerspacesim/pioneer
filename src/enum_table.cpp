@@ -14,7 +14,6 @@
 #include "galaxy/Polit.h"
 #include "galaxy/StarSystem.h"
 #include "gameui/Face.h"
-#include "gameui/LabelOverlay.h"
 #include "lua/LuaEngine.h"
 #include "lua/LuaFileSystem.h"
 #include "scenegraph/Model.h"
@@ -287,12 +286,6 @@ const struct EnumItem ENUM_GameUIFaceFlags[] = {
 	{ 0, 0 },
 };
 
-const struct EnumItem ENUM_GameUIMarkerStyle[] = {
-	{ "NONE", int(GameUI::LabelOverlay::MARKER_NONE) },
-	{ "DOT", int(GameUI::LabelOverlay::MARKER_DOT) },
-	{ 0, 0 },
-};
-
 const struct EnumItem ENUM_ModelDebugFlags[] = {
 	{ "NONE", int(SceneGraph::Model::DEBUG_NONE) },
 	{ "BBOX", int(SceneGraph::Model::DEBUG_BBOX) },
@@ -505,7 +498,6 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "BodyType", ENUM_BodyType },
 	{ "BodySuperType", ENUM_BodySuperType },
 	{ "GameUIFaceFlags", ENUM_GameUIFaceFlags },
-	{ "GameUIMarkerStyle", ENUM_GameUIMarkerStyle },
 	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
 	{ "UIAlignDirection", ENUM_UIAlignDirection },
 	{ "UIAnimationType", ENUM_UIAnimationType },
@@ -550,7 +542,6 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "BodyType", ENUM_BodyType },
 	{ "BodySuperType", ENUM_BodySuperType },
 	{ "GameUIFaceFlags", ENUM_GameUIFaceFlags },
-	{ "GameUIMarkerStyle", ENUM_GameUIMarkerStyle },
 	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
 	{ "UIAlignDirection", ENUM_UIAlignDirection },
 	{ "UIAnimationType", ENUM_UIAnimationType },

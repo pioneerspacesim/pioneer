@@ -36,7 +36,6 @@ extern const struct EnumItem ENUM_CommodityType[];
 extern const struct EnumItem ENUM_BodyType[];
 extern const struct EnumItem ENUM_BodySuperType[];
 extern const struct EnumItem ENUM_GameUIFaceFlags[];
-extern const struct EnumItem ENUM_GameUIMarkerStyle[];
 extern const struct EnumItem ENUM_ModelDebugFlags[];
 extern const struct EnumItem ENUM_UIAlignDirection[];
 extern const struct EnumItem ENUM_UIAnimationType[];

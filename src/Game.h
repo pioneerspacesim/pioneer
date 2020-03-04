@@ -28,6 +28,7 @@ struct InvalidGameStartLocation {
 		error(error_) {}
 };
 
+class View;
 class SectorView;
 class UIView;
 class SystemInfoView;
@@ -116,12 +117,11 @@ public:
 	float GetTimeStep() const { return s_timeAccelRates[m_timeAccel] * (1.0f / PHYSICS_HZ); }
 
 	SectorView *GetSectorView() const { return m_gameViews->m_sectorView; }
-	UIView *GetGalacticView() const { return m_gameViews->m_galacticView; }
 	SystemInfoView *GetSystemInfoView() const { return m_gameViews->m_systemInfoView; }
 	SystemView *GetSystemView() const { return m_gameViews->m_systemView; }
 	WorldView *GetWorldView() const { return m_gameViews->m_worldView; }
 	DeathView *GetDeathView() const { return m_gameViews->m_deathView; }
-	UIView *GetSpaceStationView() const { return m_gameViews->m_spaceStationView; }
+	View *GetSpaceStationView() const { return m_gameViews->m_spaceStationView; }
 	UIView *GetInfoView() const { return m_gameViews->m_infoView; }
 	ShipCpanel *GetCpan() const { return m_gameViews->m_cpan; }
 
@@ -141,12 +141,11 @@ private:
 		void SetRenderer(Graphics::Renderer *r);
 
 		SectorView *m_sectorView;
-		UIView *m_galacticView;
 		SystemInfoView *m_systemInfoView;
 		SystemView *m_systemView;
 		WorldView *m_worldView;
 		DeathView *m_deathView;
-		UIView *m_spaceStationView;
+		View *m_spaceStationView;
 		UIView *m_infoView;
 		ShipCpanel *m_cpan;
 
