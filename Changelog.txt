@@ -1,6 +1,11 @@
 March 2020
+   * Fixes
+     * Prevent change of Pioneer's mouse pointer when hiding HUD (#4827)
+     * Fix body grouping and setspeed target behavior in flightUI (#4794)
+     
    * Internal Changes
      * Perf counter Windows memory info (#4820)
+     * Remove unused newUI code, remove old StationView code (#4819)
 
 February 2020
    * New Features
