@@ -73,6 +73,14 @@ namespace Background {
 		std::unique_ptr<vector3f[]> m_hyperVtx; // BG_STAR_MAX * 3
 		std::unique_ptr<Color[]> m_hyperCol; // BG_STAR_MAX * 3
 		std::unique_ptr<Graphics::VertexBuffer> m_animBuffer;
+
+		float m_visibleRadiusLy;
+		float m_medianPosition;
+		float m_brightnessPower;
+        float m_brightnessApparentSizeOffset;
+		float m_brightnessApparentSizeFactor;
+		float m_brightnessColorFactor;
+		float m_brightnessColorOffset;
 	};
 
 	class MilkyWay : public BackgroundElement {
