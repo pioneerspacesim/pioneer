@@ -77,7 +77,7 @@ namespace Background {
 		float m_visibleRadiusLy;
 		float m_medianPosition;
 		float m_brightnessPower;
-        float m_brightnessApparentSizeOffset;
+		float m_brightnessApparentSizeOffset;
 		float m_brightnessApparentSizeFactor;
 		float m_brightnessColorFactor;
 		float m_brightnessColorOffset;

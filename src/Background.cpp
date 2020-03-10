@@ -220,9 +220,9 @@ namespace Background {
 		m_gMax = Clamp(cfg.Float("gMax", 1.0), 0.2f, 1.0f);
 		m_bMin = Clamp(cfg.Float("bMin", 0.6), 0.2f, 1.0f);
 		m_bMax = Clamp(cfg.Float("bMax", 1.0), 0.2f, 1.0f);
-        m_visibleRadiusLy = std::max(cfg.Float("visibleRadiusLy", 180.0f), 0.0f);
-        m_medianPosition = Clamp(cfg.Float("medianPosition", 0.7f), 0.0f, 1.0f);
-        m_brightnessPower = cfg.Float("brightnessPower", 2.1f);
+		m_visibleRadiusLy = std::max(cfg.Float("visibleRadiusLy", 180.0f), 0.0f);
+		m_medianPosition = Clamp(cfg.Float("medianPosition", 0.7f), 0.0f, 1.0f);
+		m_brightnessPower = cfg.Float("brightnessPower", 2.1f);
 		m_brightnessApparentSizeFactor = std::max(cfg.Float("brightnessApparentSizeFactor", 0.8f), 0.0f);
 		m_brightnessApparentSizeOffset = cfg.Float("brightnessApparentSizeOffset", 0.0);
 		m_brightnessColorFactor = cfg.Float("brightnessColorFactor", 0.8);
@@ -337,8 +337,8 @@ namespace Background {
 		if(num > 0)
 		{
 			medianBrightness = brightness[sortedBrightnessIndex[
-			    Clamp<int>(m_medianPosition*num, 0, num-1)
-			    ]];
+				Clamp<int>(m_medianPosition*num, 0, num-1)
+				]];
 		}
 
 		for(size_t j = 0; j<num; ++j)
@@ -354,21 +354,21 @@ namespace Background {
 
 			float colorFactor = std::max(m_brightnessColorFactor*(brightness[i] + m_brightnessColorOffset), 0.0f);
 			// convert temporarily to floats to prevent narrowing errors
-            float colorR = colors[i].r;
-            float colorG = colors[i].g;
-            float colorB = colors[i].b;
+			float colorR = colors[i].r;
+			float colorG = colors[i].g;
+			float colorB = colors[i].b;
 
-            // find a color scaling factor that doesn't make a colored star look white
-            float colorMax = std::max({colorR, colorG, colorB});
-            float scaledColorMax = colorMax*colorFactor;
-            colorFactor = std::min(scaledColorMax, 255.0f)/colorMax;
+			// find a color scaling factor that doesn't make a colored star look white
+			float colorMax = std::max({colorR, colorG, colorB});
+			float scaledColorMax = colorMax*colorFactor;
+			colorFactor = std::min(scaledColorMax, 255.0f)/colorMax;
 
-            colorR *= colorFactor;
-            colorG *= colorFactor;
-            colorB *= colorFactor;
-            colors[i].r = Clamp<int>(colorR, 0, 255);
-            colors[i].g = Clamp<int>(colorG, 0, 255);
-            colors[i].b = Clamp<int>(colorB, 0, 255);
+			colorR *= colorFactor;
+			colorG *= colorFactor;
+			colorB *= colorFactor;
+			colors[i].r = Clamp<int>(colorR, 0, 255);
+			colors[i].g = Clamp<int>(colorG, 0, 255);
+			colors[i].b = Clamp<int>(colorB, 0, 255);
 		}
 
 		// fill out the remaining target count with generated points
