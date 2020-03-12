@@ -497,6 +497,7 @@ void Game::SwitchToNormalSpace()
 	// create a new space for the system
 	m_space.reset(); // HACK: Here because next line will create Frames *before* deleting existing ones
 	m_space.reset(new Space(this, m_galaxy, m_hyperspaceDest, m_space.get()));
+    m_space->RefreshBackground();
 
 	// put the player in it
 	m_player->SetFrame(m_space->GetRootFrame());
