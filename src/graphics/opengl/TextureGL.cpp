@@ -7,8 +7,6 @@
 #include "utils.h"
 #include <cassert>
 
-static const unsigned int MIN_COMPRESSED_TEXTURE_DIMENSION = 16;
-
 namespace Graphics {
 	namespace OGL {
 
@@ -113,19 +111,17 @@ namespace Graphics {
 						GLImageType(descriptor.format), 0);
 					CHECKERRORS();
 				} else {
-					const GLint oglFormatMinSize = GetMinSize(descriptor.format);
 					size_t Width = descriptor.dataSize.x;
 					size_t Height = descriptor.dataSize.y;
-					size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * oglFormatMinSize;
 
 					GLint maxMip = 0;
 					for (unsigned int i = 0; i < descriptor.numberOfMipMaps; ++i) {
 						maxMip = i;
+						size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * GetMinSize(descriptor.format);
 						glCompressedTexImage2D(GL_TEXTURE_2D, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
-						if (Width <= MIN_COMPRESSED_TEXTURE_DIMENSION || Height <= MIN_COMPRESSED_TEXTURE_DIMENSION) {
+						if (!Width || !Height)
 							break;
-						}
-						bufSize /= 4;
+
 						Width /= 2;
 						Height /= 2;
 					}
@@ -172,26 +168,24 @@ namespace Graphics {
 						GLImageType(descriptor.format), 0);
 					CHECKERRORS();
 				} else {
-					const GLint oglFormatMinSize = GetMinSize(descriptor.format);
 					size_t Width = descriptor.dataSize.x;
 					size_t Height = descriptor.dataSize.y;
-					size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * oglFormatMinSize;
 
 					GLint maxMip = 0;
 					for (unsigned int i = 0; i < descriptor.numberOfMipMaps; ++i) {
 						maxMip = i;
+						size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * GetMinSize(descriptor.format);
 						glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
 						glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
 						glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
 						glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
 						glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
 						glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
-						if (Width <= MIN_COMPRESSED_TEXTURE_DIMENSION || Height <= MIN_COMPRESSED_TEXTURE_DIMENSION) {
-							break;
-						}
-						bufSize /= 4;
 						Width /= 2;
 						Height /= 2;
+
+						if (!Width || !Height)
+							break;
 					}
 					glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, maxMip);
 					CHECKERRORS();
@@ -215,29 +209,28 @@ namespace Graphics {
 						glGenerateMipmap(m_target);
 					}
 				} else {
-					const GLint oglFormatMinSize = GetMinSize(descriptor.format);
 					size_t Width = descriptor.dataSize.x;
 					size_t Height = descriptor.dataSize.y;
 					const size_t Layers = descriptor.dataSize.z;
-					size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * oglFormatMinSize;
 
 					GLint maxMip = 0;
 					for( unsigned int i=0; i < descriptor.numberOfMipMaps; ++i ) {
 						maxMip = i;
+						size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * GetMinSize(descriptor.format);
 						glCompressedTexImage3D(GL_TEXTURE_2D_ARRAY, i, GLInternalFormat(descriptor.format), Width, Height, Layers, 0, bufSize * Layers, nullptr);
 						RendererOGL::CheckErrors();
-						if( Width<=MIN_COMPRESSED_TEXTURE_DIMENSION || Height<=MIN_COMPRESSED_TEXTURE_DIMENSION ) {
-							break;
-						}
-						bufSize /= 4;
+
 						Width /= 2;
 						Height /= 2;
+
+						if( !Width || !Height )
+							break;
 					}
 					glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, maxMip);
 				}
 				RendererOGL::CheckErrors();
 				break;
-			
+
 			default:
 				assert(0);
 			}
@@ -308,18 +301,18 @@ namespace Graphics {
 					size_t Offset = 0;
 					size_t Width = dataSize.x;
 					size_t Height = dataSize.y;
-					size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * GetMinSize(format);
 
 					const unsigned char *pData = static_cast<const unsigned char *>(data);
 					for (unsigned int i = 0; i < numMips; ++i) {
+						size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * GetMinSize(format);
 						glCompressedTexSubImage2D(m_target, i, pos.x, pos.y, Width, Height, oglInternalFormat, bufSize, &pData[Offset]);
-						if (Width <= MIN_COMPRESSED_TEXTURE_DIMENSION || Height <= MIN_COMPRESSED_TEXTURE_DIMENSION) {
-							break;
-						}
+
 						Offset += bufSize;
-						bufSize /= 4;
 						Width /= 2;
 						Height /= 2;
+
+						if (!Width || !Height)
+							break;
 					}
 				}
 				break;
@@ -328,8 +321,7 @@ namespace Graphics {
 				assert(0);
 			}
 
-			if (GetDescriptor().generateMipmaps && !IsCompressed(format))
-				glGenerateMipmap(m_target);
+			BuildMipmaps(numMips);
 
 			glBindTexture(m_target, 0);
 			CHECKERRORS();
@@ -356,7 +348,6 @@ namespace Graphics {
 					size_t Offset = 0;
 					size_t Width = dataSize.x;
 					size_t Height = dataSize.y;
-					size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * GetMinSize(format);
 
 					const unsigned char *pData_px = static_cast<const unsigned char *>(data.posX);
 					const unsigned char *pData_nx = static_cast<const unsigned char *>(data.negX);
@@ -365,19 +356,19 @@ namespace Graphics {
 					const unsigned char *pData_pz = static_cast<const unsigned char *>(data.posZ);
 					const unsigned char *pData_nz = static_cast<const unsigned char *>(data.negZ);
 					for (unsigned int i = 0; i < numMips; ++i) {
+						size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * GetMinSize(format);
 						glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_px[Offset]);
 						glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_nx[Offset]);
 						glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_py[Offset]);
 						glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_ny[Offset]);
 						glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_pz[Offset]);
 						glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_nz[Offset]);
-						if (Width <= MIN_COMPRESSED_TEXTURE_DIMENSION || Height <= MIN_COMPRESSED_TEXTURE_DIMENSION) {
-							break;
-						}
+
 						Offset += bufSize;
-						bufSize /= 4;
 						Width /= 2;
 						Height /= 2;
+						if (!Width || !Height)
+							break;
 					}
 				}
 				break;
@@ -386,8 +377,7 @@ namespace Graphics {
 				assert(0);
 			}
 
-			if (GetDescriptor().generateMipmaps && !IsCompressed(format))
-				glGenerateMipmap(m_target);
+			BuildMipmaps(numMips);
 
 			glBindTexture(m_target, 0);
 			CHECKERRORS();
@@ -399,7 +389,7 @@ namespace Graphics {
 
 			glBindTexture(m_target, m_texture);
 			RendererOGL::CheckErrors();
-	
+
 			const size_t Layers = dataSize.z;
 			assert(Layers == data.size());
 
@@ -425,10 +415,10 @@ namespace Graphics {
 					size_t Offset = 0;
 					size_t Width = dataSize.x;
 					size_t Height = dataSize.y;
-					size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * GetMinSize(format);
 
 					const unsigned char *pData = static_cast<const unsigned char*>(data[ilayer]);
 					for( unsigned int i = 0; i < numMips; ++i ) {
+						size_t bufSize = ((Width + 3) / 4) * ((Height + 3) / 4) * GetMinSize(format);
 						glCompressedTexSubImage3D(
 							m_target,				//	GLenum  		target,
 							i, 						//	GLint			level,
@@ -441,20 +431,19 @@ namespace Graphics {
 							oglInternalFormat, 		//	GLenum  		format,
 							bufSize, 				//	GLsizei  		imageSize,
 							&pData[Offset]);		//	const GLvoid *  data);
-						if( Width<=MIN_COMPRESSED_TEXTURE_DIMENSION || Height<=MIN_COMPRESSED_TEXTURE_DIMENSION ) {
-							break;
-						}
 						Offset += bufSize;
-						bufSize /= 4;
 						Width /= 2;
 						Height /= 2;
+
+						if( !Width || !Height )
+							break;
 					}
 					RendererOGL::CheckErrors();
 				}
 			}
-	
-			if (GetDescriptor().generateMipmaps)
-				glGenerateMipmap(m_target);
+
+			// Generate mipmaps for all layers that we were not passed data for
+			BuildMipmaps(numMips);
 
 			RendererOGL::CheckErrors();
 			glBindTexture(m_target, 0);
@@ -512,13 +501,21 @@ namespace Graphics {
 			CHECKERRORS();
 		}
 
-		void TextureGL::BuildMipmaps()
+		void TextureGL::BuildMipmaps(const uint32_t validMips)
 		{
 			const TextureDescriptor &descriptor = GetDescriptor();
 			const bool mipmaps = descriptor.generateMipmaps;
-			if (mipmaps) {
+			// HACK: uncompressed textures come in with numberOfMipMaps == 0 but generateMipmaps == true
+			// Solution: refactor TextureGL::TextureGL() to calculate the required number of mip levels
+			// and store it in the texture's descriptor.
+			if (mipmaps && (!descriptor.numberOfMipMaps || validMips < descriptor.numberOfMipMaps)) {
 				glBindTexture(m_target, m_texture);
+				// set TEXTURE_BASE_LEVEL to the last valid image in the mip chain
+				glTexParameteri(m_target, GL_TEXTURE_BASE_LEVEL, std::max(validMips, 1U) - 1);
+				// thus only generating the mip levels which have not been filled in with valid mip images
 				glGenerateMipmap(m_target);
+				// reset back to the highest mip level
+				glTexParameteri(m_target, GL_TEXTURE_BASE_LEVEL, 0);
 				glBindTexture(m_target, 0);
 			}
 		}

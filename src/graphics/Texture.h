@@ -128,7 +128,9 @@ namespace Graphics {
 		typedef std::vector<void *> vecDataPtr;
 		virtual void Update(const vecDataPtr &data, const vector3f &dataSize, const TextureFormat format, const unsigned int numMips = 0) = 0;
 		virtual void SetSampleMode(TextureSampleMode) = 0;
-		virtual void BuildMipmaps() = 0;
+		// Call this function to update the texture's mipmaps.
+		// validMips is the number of mipmaps which already have valid data uploaded, and is mostly for internal use.
+		virtual void BuildMipmaps(const uint32_t validMips = 1) = 0;
 		virtual uint32_t GetTextureID() const = 0;
 
 		virtual void Bind() = 0;

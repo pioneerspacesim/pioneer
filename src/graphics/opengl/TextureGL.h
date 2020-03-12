@@ -22,7 +22,7 @@ namespace Graphics {
 			virtual void Unbind() override final;
 
 			virtual void SetSampleMode(TextureSampleMode) override final;
-			virtual void BuildMipmaps() override final;
+			virtual void BuildMipmaps(const uint32_t validMips = 1) override final;
 			virtual uint32_t GetTextureID() const override final
 			{
 				assert(sizeof(uint32_t) == sizeof(GLuint));

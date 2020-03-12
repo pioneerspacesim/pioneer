@@ -18,7 +18,7 @@ namespace Graphics {
 		void Unbind() override {}
 
 		virtual void SetSampleMode(TextureSampleMode) override {}
-		virtual void BuildMipmaps() override {}
+		virtual void BuildMipmaps(const uint32_t) override {}
 		virtual uint32_t GetTextureID() const override final { return 0U; }
 
 	private:
