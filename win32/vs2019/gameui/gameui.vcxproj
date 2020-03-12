@@ -237,27 +237,14 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\gameui\BindingCapture.cpp" />
     <ClCompile Include="..\..\..\src\gameui\Face.cpp" />
-    <ClCompile Include="..\..\..\src\gameui\GalaxyMap.cpp" />
-    <ClCompile Include="..\..\..\src\gameui\LabelOverlay.cpp" />
     <ClCompile Include="..\..\..\src\gameui\Lua.cpp" />
-    <ClCompile Include="..\..\..\src\gameui\LuaBindingCapture.cpp" />
     <ClCompile Include="..\..\..\src\gameui\LuaFace.cpp" />
-    <ClCompile Include="..\..\..\src\gameui\LuaGalaxyMap.cpp" />
-    <ClCompile Include="..\..\..\src\gameui\LuaModelSpinner.cpp" />
-    <ClCompile Include="..\..\..\src\gameui\ModelSpinner.cpp" />
-    <ClCompile Include="..\..\..\src\gameui\Panel.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\gameui\BindingCapture.h" />
     <ClInclude Include="..\..\..\src\gameui\Face.h" />
-    <ClInclude Include="..\..\..\src\gameui\GalaxyMap.h" />
     <ClInclude Include="..\..\..\src\gameui\GameUI.h" />
-    <ClInclude Include="..\..\..\src\gameui\LabelOverlay.h" />
     <ClInclude Include="..\..\..\src\gameui\Lua.h" />
-    <ClInclude Include="..\..\..\src\gameui\ModelSpinner.h" />
-    <ClInclude Include="..\..\..\src\gameui\Panel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
