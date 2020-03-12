@@ -73,7 +73,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space *oldSpace) :
 	m_processingFinalizationQueue(false)
 #endif
 {
-	m_background.reset(new Background::Container(Pi::renderer, Pi::rng));
+	m_background.reset(new Background::Container(Pi::renderer, Pi::rng, this, m_game->GetGalaxy()));
 
 	m_rootFrameId = Frame::CreateFrame(FrameId::Invalid, Lang::SYSTEM, Frame::FLAG_DEFAULT, FLT_MAX);
 
@@ -94,7 +94,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, S
 {
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rand(_init, 5);
-	m_background.reset(new Background::Container(Pi::renderer, rand));
+	m_background.reset(new Background::Container(Pi::renderer, rand, this, m_game->GetGalaxy()));
 
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
@@ -125,7 +125,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, doub
 	const SystemPath &path = m_starSystem->GetPath();
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rand(_init, 5);
-	m_background.reset(new Background::Container(Pi::renderer, rand));
+	m_background.reset(new Background::Container(Pi::renderer, rand, this, m_game->GetGalaxy()));
 
 	RebuildSystemBodyIndex();
 
@@ -167,7 +167,7 @@ void Space::RefreshBackground()
 	const SystemPath &path = m_starSystem->GetPath();
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rand(_init, 5);
-	m_background.reset(new Background::Container(Pi::renderer, rand));
+	m_background.reset(new Background::Container(Pi::renderer, rand, this, m_game->GetGalaxy()));
 }
 
 void Space::ToJson(Json &jsonObj)

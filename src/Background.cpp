@@ -188,11 +188,11 @@ namespace Background {
 		}
 	}
 
-	Starfield::Starfield(Graphics::Renderer *renderer, Random &rand)
+	Starfield::Starfield(Graphics::Renderer *renderer, Random &rand, const Space* space, RefCountedPtr<Galaxy> galaxy)
 	{
 		m_renderer = renderer;
 		Init();
-		Fill(rand);
+		Fill(rand, space, galaxy);
 	}
 
 	void Starfield::Init()
@@ -229,7 +229,7 @@ namespace Background {
 		m_brightnessColorOffset = cfg.Float("brightnessColorOffset", 0.1);
 	}
 
-	void Starfield::Fill(Random &rand)
+	void Starfield::Fill(Random &rand, const Space* space, RefCountedPtr<Galaxy> galaxy)
 	{
 		const Uint32 NUM_BG_STARS = Clamp(Uint32(Pi::GetAmountBackgroundStars() * BG_STAR_MAX), BG_STAR_MIN, BG_STAR_MAX);
 		m_hyperVtx.reset(new vector3f[BG_STAR_MAX * 3]);
@@ -256,8 +256,8 @@ namespace Background {
 		std::unique_ptr<float[]> brightness(new float[NUM_BG_STARS]);
 		//fill the array
 		Uint32 num = 0;
-		if (Pi::game != nullptr && Pi::game->GetSpace() != nullptr && Pi::game->GetSpace()->GetStarSystem() != nullptr) {
-			const SystemPath current = Pi::game->GetSpace()->GetStarSystem()->GetPath();
+		if (space != nullptr && galaxy.Valid() && space->GetStarSystem() != nullptr) {
+			const SystemPath current = space->GetStarSystem()->GetPath();
 
 			const double size = 1.0;
 			const Sint32 visibleRadius = m_visibleRadiusLy; // lyrs
@@ -272,7 +272,7 @@ namespace Background {
 							continue; // early out
 
 						// this is fairly expensive
-						RefCountedPtr<const Sector> sec = Pi::game->GetGalaxy()->GetSector(sys);
+						RefCountedPtr<const Sector> sec = galaxy->GetSector(sys);
 
 						// add as many systems as we can
 						const size_t numSystems = std::min(sec->m_systems.size(), (size_t)(NUM_BG_STARS - num));
@@ -528,10 +528,10 @@ namespace Background {
 		m_renderer->DrawBuffer(m_vertexBuffer.get(), rs, m_material.Get(), Graphics::TRIANGLE_STRIP);
 	}
 
-	Container::Container(Graphics::Renderer *renderer, Random &rand) :
+	Container::Container(Graphics::Renderer *renderer, Random &rand, const Space* space, RefCountedPtr<Galaxy> galaxy) :
 		m_renderer(renderer),
 		m_milkyWay(renderer),
-		m_starField(renderer, rand),
+		m_starField(renderer, rand, space, galaxy),
 		m_universeBox(renderer),
 		m_drawFlags(DRAW_SKYBOX | DRAW_STARS)
 	{
@@ -539,13 +539,13 @@ namespace Background {
 		rsd.depthTest = false;
 		rsd.depthWrite = false;
 		m_renderState = renderer->CreateRenderState(rsd);
-		Refresh(rand);
+		Refresh(rand, space, galaxy);
 	}
 
-	void Container::Refresh(Random &rand)
+	void Container::Refresh(Random &rand, const Space* space, RefCountedPtr<Galaxy> galaxy)
 	{
 		// always redo starfield, milkyway stays normal for now
-		m_starField.Fill(rand);
+		m_starField.Fill(rand, space, galaxy);
 		m_universeBox.LoadCubeMap(rand);
 	}
 
