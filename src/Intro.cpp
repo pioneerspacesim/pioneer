@@ -11,6 +11,7 @@
 #include "scenegraph/ModelSkin.h"
 #include "scenegraph/SceneGraph.h"
 #include <algorithm>
+#include "galaxy/Galaxy.h"
 
 struct PiRngWrapper {
 	unsigned int operator()(unsigned int n)
@@ -24,7 +25,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height) :
 {
 	using Graphics::Light;
 
-	m_background.reset(new Background::Container(r, Pi::rng));
+	m_background.reset(new Background::Container(r, Pi::rng, nullptr, RefCountedPtr<Galaxy>()));
 	m_ambientColor = Color::BLANK;
 
 	const Color one = Color::WHITE;

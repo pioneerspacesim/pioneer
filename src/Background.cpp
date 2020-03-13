@@ -188,11 +188,11 @@ namespace Background {
 		}
 	}
 
-	Starfield::Starfield(Graphics::Renderer *renderer, Random &rand)
+	Starfield::Starfield(Graphics::Renderer *renderer, Random &rand, const Space* space, RefCountedPtr<Galaxy> galaxy)
 	{
 		m_renderer = renderer;
 		Init();
-		Fill(rand);
+		Fill(rand, space, galaxy);
 	}
 
 	void Starfield::Init()
@@ -203,7 +203,7 @@ namespace Background {
 		desc.vertexColors = true;
 		m_material.Reset(m_renderer->CreateMaterial(desc));
 		m_material->emissive = Color::WHITE;
-		m_material->texture0 = Graphics::TextureBuilder::Billboard("textures/star_point.png").GetOrCreateTexture(m_renderer, "billboard");
+		m_material->texture0 = Graphics::TextureBuilder::Billboard("textures/star_point_2.png").GetOrCreateTexture(m_renderer, "billboard");
 
 		Graphics::MaterialDescriptor descStreaks;
 		descStreaks.effect = Graphics::EFFECT_VTXCOLOR;
@@ -214,15 +214,22 @@ namespace Background {
 		IniConfig cfg;
 		cfg.Read(FileSystem::gameDataFiles, "configs/Starfield.ini");
 		// NB: limit the ranges of all values loaded from the file
-		m_rMin = Clamp(cfg.Float("rMin", 0.2), 0.2f, 1.0f);
-		m_rMax = Clamp(cfg.Float("rMax", 0.9), 0.2f, 1.0f);
-		m_gMin = Clamp(cfg.Float("gMin", 0.2), 0.2f, 1.0f);
-		m_gMax = Clamp(cfg.Float("gMax", 0.9), 0.2f, 1.0f);
-		m_bMin = Clamp(cfg.Float("bMin", 0.2), 0.2f, 1.0f);
-		m_bMax = Clamp(cfg.Float("bMax", 0.9), 0.2f, 1.0f);
+		m_rMin = Clamp(cfg.Float("rMin", 0.6), 0.2f, 1.0f);
+		m_rMax = Clamp(cfg.Float("rMax", 1.0), 0.2f, 1.0f);
+		m_gMin = Clamp(cfg.Float("gMin", 0.6), 0.2f, 1.0f);
+		m_gMax = Clamp(cfg.Float("gMax", 1.0), 0.2f, 1.0f);
+		m_bMin = Clamp(cfg.Float("bMin", 0.6), 0.2f, 1.0f);
+		m_bMax = Clamp(cfg.Float("bMax", 1.0), 0.2f, 1.0f);
+		m_visibleRadiusLy = std::max(cfg.Float("visibleRadiusLy", 180.0f), 0.0f);
+		m_medianPosition = Clamp(cfg.Float("medianPosition", 0.7f), 0.0f, 1.0f);
+		m_brightnessPower = cfg.Float("brightnessPower", 2.1f);
+		m_brightnessApparentSizeFactor = std::max(cfg.Float("brightnessApparentSizeFactor", 0.8f), 0.0f);
+		m_brightnessApparentSizeOffset = cfg.Float("brightnessApparentSizeOffset", 0.0);
+		m_brightnessColorFactor = cfg.Float("brightnessColorFactor", 0.8);
+		m_brightnessColorOffset = cfg.Float("brightnessColorOffset", 0.1);
 	}
 
-	void Starfield::Fill(Random &rand)
+	void Starfield::Fill(Random &rand, const Space* space, RefCountedPtr<Galaxy> galaxy)
 	{
 		const Uint32 NUM_BG_STARS = Clamp(Uint32(Pi::GetAmountBackgroundStars() * BG_STAR_MAX), BG_STAR_MIN, BG_STAR_MAX);
 		m_hyperVtx.reset(new vector3f[BG_STAR_MAX * 3]);
@@ -246,13 +253,14 @@ namespace Background {
 		std::unique_ptr<vector3f[]> stars(new vector3f[NUM_BG_STARS]);
 		std::unique_ptr<Color[]> colors(new Color[NUM_BG_STARS]);
 		std::unique_ptr<float[]> sizes(new float[NUM_BG_STARS]);
+		std::unique_ptr<float[]> brightness(new float[NUM_BG_STARS]);
 		//fill the array
 		Uint32 num = 0;
-		if (Pi::game != nullptr && Pi::game->GetSpace() != nullptr && Pi::game->GetSpace()->GetStarSystem() != nullptr) {
-			const SystemPath current = Pi::game->GetSpace()->GetStarSystem()->GetPath();
+		if (space != nullptr && galaxy.Valid() && space->GetStarSystem() != nullptr) {
+			const SystemPath current = space->GetStarSystem()->GetPath();
 
 			const double size = 1.0;
-			const Sint32 visibleRadius = 100; // lyrs
+			const Sint32 visibleRadius = m_visibleRadiusLy; // lyrs
 			const Sint32 visibleRadiusSqr = (visibleRadius * visibleRadius);
 			const Sint32 sectorMin = -(visibleRadius / Sector::SIZE); // lyrs_radius / sector_size_in_lyrs
 			const Sint32 sectorMax = visibleRadius / Sector::SIZE; // lyrs_radius / sector_size_in_lyrs
@@ -264,7 +272,7 @@ namespace Background {
 							continue; // early out
 
 						// this is fairly expensive
-						RefCountedPtr<const Sector> sec = Pi::game->GetGalaxy()->GetSector(sys);
+						RefCountedPtr<const Sector> sec = galaxy->GetSector(sys);
 
 						// add as many systems as we can
 						const size_t numSystems = std::min(sec->m_systems.size(), (size_t)(NUM_BG_STARS - num));
@@ -274,8 +282,17 @@ namespace Background {
 							if (distance.Length() >= visibleRadius)
 								continue; // too far
 
-							// grab the approximate real colour
-							Color col = StarSystem::starRealColors[ss->GetStarType(0)];
+							// add the colors and luminosities of all stars in a system together
+							float luminositySystemSum = 0.0f;
+							vector3f colorSystemSum(0.0f, 0.0f, 0.0f);
+							for(size_t i = 0; i<ss->GetNumStars(); ++i) {
+								luminositySystemSum += StarSystem::starLuminosities[ss->GetStarType(i)];
+								Color col = StarSystem::starRealColors[ss->GetStarType(i)];
+								colorSystemSum += vector3f(col.r, col.g, col.b) * luminositySystemSum;
+							}
+							colorSystemSum /= luminositySystemSum;
+
+							Color col(colorSystemSum.x, colorSystemSum.y, colorSystemSum.z);
 							col.r = Clamp(col.r, (Uint8)(m_rMin * 255), (Uint8)(m_rMax * 255));
 							col.g = Clamp(col.g, (Uint8)(m_gMin * 255), (Uint8)(m_gMax * 255));
 							col.b = Clamp(col.b, (Uint8)(m_bMin * 255), (Uint8)(m_bMax * 255));
@@ -285,6 +302,7 @@ namespace Background {
 							sizes[num] = size;
 							stars[num] = distance.Normalized() * 1000.0f;
 							colors[num] = col;
+							brightness[num] = luminositySystemSum / (4 * M_PI * distance.Length() * distance.Length());
 
 							//need to keep data around for HS anim - this is stupid
 							m_hyperVtx[NUM_BG_STARS * 2 + num] = stars[num];
@@ -302,6 +320,56 @@ namespace Background {
 			}
 		}
 		Output("Stars picked from galaxy: %d\n", num);
+		// use a logarithmic scala for brightness since this looks more natural to the human eye
+		for(int i = 0; i<num; ++i) {
+			brightness[i] = log(brightness[i]);
+		}
+
+		// find the median brightness of all visible stars
+		std::vector<int> sortedBrightnessIndex;
+		for(int i = 0; i<num; ++i) {
+			sortedBrightnessIndex.push_back(i);
+		}
+		std::sort(sortedBrightnessIndex.begin(), sortedBrightnessIndex.end(), [&](const int a, const int b) {
+		 	return brightness[a] > brightness[b];
+		});
+		double medianBrightness = 0.0;
+		if(num > 0)
+		{
+			medianBrightness = brightness[sortedBrightnessIndex[
+				Clamp<int>(m_medianPosition*num, 0, num-1)
+				]];
+		}
+
+		for(size_t j = 0; j<num; ++j)
+		{
+			size_t i = sortedBrightnessIndex[j]; // just for debugging purposes
+
+			// dividing through the median helps bringing the logarithmic brightnesses to a scala that is easier to work with
+			brightness[i] /= medianBrightness;
+			// the exponentiation helps to emphasize very bright stars
+			brightness[i] = std::pow(Clamp(brightness[i], 0.0f, 4.0f), m_brightnessPower);
+
+			sizes[i] = std::max(m_brightnessApparentSizeFactor*(brightness[i] + m_brightnessApparentSizeOffset), 0.0f);
+
+			float colorFactor = std::max(m_brightnessColorFactor*(brightness[i] + m_brightnessColorOffset), 0.0f);
+			// convert temporarily to floats to prevent narrowing errors
+			float colorR = colors[i].r;
+			float colorG = colors[i].g;
+			float colorB = colors[i].b;
+
+			// find a color scaling factor that doesn't make a colored star look white
+			float colorMax = std::max({colorR, colorG, colorB});
+			float scaledColorMax = colorMax*colorFactor;
+			colorFactor = std::min(scaledColorMax, 255.0f)/colorMax;
+
+			colorR *= colorFactor;
+			colorG *= colorFactor;
+			colorB *= colorFactor;
+			colors[i].r = Clamp<int>(colorR, 0, 255);
+			colors[i].g = Clamp<int>(colorG, 0, 255);
+			colors[i].b = Clamp<int>(colorB, 0, 255);
+		}
 
 		// fill out the remaining target count with generated points
 		if (num < NUM_BG_STARS) {
@@ -460,10 +528,10 @@ namespace Background {
 		m_renderer->DrawBuffer(m_vertexBuffer.get(), rs, m_material.Get(), Graphics::TRIANGLE_STRIP);
 	}
 
-	Container::Container(Graphics::Renderer *renderer, Random &rand) :
+	Container::Container(Graphics::Renderer *renderer, Random &rand, const Space* space, RefCountedPtr<Galaxy> galaxy) :
 		m_renderer(renderer),
 		m_milkyWay(renderer),
-		m_starField(renderer, rand),
+		m_starField(renderer, rand, space, galaxy),
 		m_universeBox(renderer),
 		m_drawFlags(DRAW_SKYBOX | DRAW_STARS)
 	{
@@ -471,13 +539,13 @@ namespace Background {
 		rsd.depthTest = false;
 		rsd.depthWrite = false;
 		m_renderState = renderer->CreateRenderState(rsd);
-		Refresh(rand);
+		Refresh(rand, space, galaxy);
 	}
 
-	void Container::Refresh(Random &rand)
+	void Container::Refresh(Random &rand, const Space* space, RefCountedPtr<Galaxy> galaxy)
 	{
 		// always redo starfield, milkyway stays normal for now
-		m_starField.Fill(rand);
+		m_starField.Fill(rand, space, galaxy);
 		m_universeBox.LoadCubeMap(rand);
 	}
 
