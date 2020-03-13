@@ -291,6 +291,9 @@ void PerfInfo::DrawTextureCache()
 							m_state->hasSelectedTexture = true;
 						}
 
+						if (ImGui::IsItemHovered())
+							ImGui::SetTooltip("%s", name.c_str());
+
 						if (num_columns > 1)
 							ImGui::NextColumn();
 					}
