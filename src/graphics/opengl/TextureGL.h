@@ -29,9 +29,12 @@ namespace Graphics {
 				return m_texture;
 			}
 
+			uint32_t GetTextureMemSize() const final { return m_allocSize; }
+
 		private:
 			GLenum m_target;
 			GLuint m_texture;
+			uint32_t m_allocSize;
 			const bool m_useAnisoFiltering;
 		};
 	} // namespace OGL

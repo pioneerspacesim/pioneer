@@ -44,6 +44,14 @@ namespace Graphics {
 			// scenegraph entries
 			STAT_BILLBOARD,
 
+			// resource utilization stats
+			STAT_NUM_TEXTURE2D,
+			STAT_MEM_TEXTURE2D,
+			STAT_NUM_TEXTURECUBE,
+			STAT_MEM_TEXTURECUBE,
+			STAT_NUM_TEXTUREARRAY2D,
+			STAT_MEM_TEXTUREARRAY2D,
+
 			MAX_STAT
 		};
 
@@ -54,9 +62,14 @@ namespace Graphics {
 		Stats();
 		~Stats() {}
 
-		void AddToStatCount(const StatType type, const Uint32 count) const
+		void AddToStatCount(const StatType type, const uint32_t count) const
 		{
-			CounterAdd(m_counterRefs[type], count);
+			CounterAdd(m_counterRefs.at(type), count);
+		}
+
+		void SetStatCount(const StatType type, const uint32_t count) const
+		{
+			CounterSet(m_counterRefs.at(type), count);
 		}
 
 		void NextFrame();
