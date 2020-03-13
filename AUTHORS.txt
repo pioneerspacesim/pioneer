@@ -57,6 +57,7 @@ The Pioneer Developers are:
 * John Jordan
 * Jon Jenkins
 * Joshua Mathews
+* Jost Triller
 * Karl Fogelmark
 * Kimmo Kotajärvi
 * Konrad Mruk
