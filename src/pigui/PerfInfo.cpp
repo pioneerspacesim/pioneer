@@ -238,7 +238,10 @@ bool DrawTexture(PerfInfo::ImGuiState *m_state, const Graphics::Texture *tex)
 {
 	ImGui::BeginGroup();
 	auto pos0 = ImGui::GetCursorPos();
-	ImGui::Image(GetImTextureID(tex), { 128, 128 });
+
+	const vector2f texUVs = tex->GetDescriptor().texSize;
+	ImGui::Image(GetImTextureID(tex), { 128, 128 }, { 0, 0 }, { texUVs.x, texUVs.y });
+
 	auto pos1 = ImGui::GetCursorPos();
 	ImGui::SetCursorPos(pos0);
 
@@ -277,7 +280,7 @@ void PerfInfo::DrawTextureCache()
 					const int num_columns = std::max(int(ImGui::GetWindowContentRegionWidth()) / item_width, 1);
 					ImGui::Columns(num_columns);
 					if (num_columns > 1) {
-						for (size_t idx = 1; idx < num_columns; idx++)
+						for (size_t idx = 0; idx < num_columns; idx++)
 							ImGui::SetColumnWidth(idx, item_width);
 					}
 
@@ -312,10 +315,15 @@ void PerfInfo::DrawTextureInspector()
 		std::string window_name = selectedTex.second + "###Texture Inspector";
 		if (ImGui::Begin(window_name.c_str(), &m_state->hasSelectedTexture)) {
 			const Graphics::TextureDescriptor &descriptor = tex->GetDescriptor();
-			ImGui::Image(GetImTextureID(tex), { 256, 256 });
+
+			// If we have POT-extended textures, only display the part of the texture corresponding to the actual texture data.
+			const vector2f texUVs = tex->GetDescriptor().texSize;
+			ImGui::Image(GetImTextureID(tex), { 256, 256 }, { 0, 0 }, { texUVs.x, texUVs.y });
 			ImGui::Text("Dimensions: %ux%u", uint32_t(descriptor.dataSize.x), uint32_t(descriptor.dataSize.y));
 			ImGui::Value("Mipmap Count", tex->GetDescriptor().numberOfMipMaps);
 			ImGui::Value("VRAM Size", tex->GetTextureMemSize());
+			if (texUVs.x < 1.0 || texUVs.y < 1.0)
+				ImGui::Text("Original Size: %ux%u", int(texUVs.x * descriptor.dataSize.x), int(texUVs.y * descriptor.dataSize.y));
 
 			ImGui::Spacing();
 			ImGui::Value("Cache Bucket", selectedTex.first);
