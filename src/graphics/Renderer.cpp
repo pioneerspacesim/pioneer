@@ -22,30 +22,30 @@ namespace Graphics {
 
 	Texture *Renderer::GetCachedTexture(const std::string &type, const std::string &name)
 	{
-		TextureCacheMap::iterator i = m_textures.find(TextureCacheKey(type, name));
-		if (i == m_textures.end()) return 0;
+		TextureCacheMap::iterator i = m_textureCache.find(TextureCacheKey(type, name));
+		if (i == m_textureCache.end()) return 0;
 		return (*i).second->Get();
 	}
 
 	void Renderer::AddCachedTexture(const std::string &type, const std::string &name, Texture *texture)
 	{
 		RemoveCachedTexture(type, name);
-		m_textures.insert(std::make_pair(TextureCacheKey(type, name), new RefCountedPtr<Texture>(texture)));
+		m_textureCache.insert(std::make_pair(TextureCacheKey(type, name), new RefCountedPtr<Texture>(texture)));
 	}
 
 	void Renderer::RemoveCachedTexture(const std::string &type, const std::string &name)
 	{
-		TextureCacheMap::iterator i = m_textures.find(TextureCacheKey(type, name));
-		if (i == m_textures.end()) return;
+		TextureCacheMap::iterator i = m_textureCache.find(TextureCacheKey(type, name));
+		if (i == m_textureCache.end()) return;
 		delete (*i).second;
-		m_textures.erase(i);
+		m_textureCache.erase(i);
 	}
 
 	void Renderer::RemoveAllCachedTextures()
 	{
-		for (TextureCacheMap::iterator i = m_textures.begin(); i != m_textures.end(); ++i)
+		for (TextureCacheMap::iterator i = m_textureCache.begin(); i != m_textureCache.end(); ++i)
 			delete (*i).second;
-		m_textures.clear();
+		m_textureCache.clear();
 	}
 
 	void Renderer::SetGrab(const bool grabbed)

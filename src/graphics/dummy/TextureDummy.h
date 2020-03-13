@@ -10,15 +10,17 @@ namespace Graphics {
 
 	class TextureDummy : public Texture {
 	public:
-		virtual void Update(const void *data, const vector2f &pos, const vector2f &dataSize, TextureFormat format, const unsigned int numMips) override {}
-		virtual void Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips) override {}
+		virtual void Update(const void *data, const vector2f &pos, const vector3f &dataSize, TextureFormat format, const unsigned int numMips) override final {}
+		virtual void Update(const TextureCubeData &data, const vector3f &dataSize, TextureFormat format, const unsigned int numMips) override final {}
+		virtual void Update(const vecDataPtr &data, const vector3f &dataSize, const TextureFormat format, const unsigned int numMips) override final {}
 
 		void Bind() override {}
 		void Unbind() override {}
 
 		virtual void SetSampleMode(TextureSampleMode) override {}
-		virtual void BuildMipmaps() override {}
+		virtual void BuildMipmaps(const uint32_t) override {}
 		virtual uint32_t GetTextureID() const override final { return 0U; }
+		uint32_t GetTextureMemSize() const final { return 0U; }
 
 	private:
 		friend class RendererDummy;

@@ -6,9 +6,8 @@
 #include "utils.h"
 #include <SDL_image.h>
 #include <SDL_rwops.h>
+#include <sstream>
 #include <algorithm>
-
-// XXX SDL2 can all this be replaced with SDL_GL_BindTexture?
 
 namespace Graphics {
 
@@ -24,12 +23,12 @@ namespace Graphics {
 		m_compressTextures(compressTextures),
 		m_anisotropicFiltering(anisoFiltering),
 		m_textureType(TEXTURE_2D),
-		m_prepared(false)
+		m_prepared(false),
+		m_layers(1)
 	{
 	}
 
-	TextureBuilder::TextureBuilder(const std::string &filename, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA, bool compressTextures, bool anisoFiltering, TextureType textureType) :
-		m_filename(filename),
+	TextureBuilder::TextureBuilder(const std::string &filename, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA, bool compressTextures, bool anisoFiltering, TextureType textureType, const size_t layers) :
 		m_sampleMode(sampleMode),
 		m_generateMipmaps(generateMipmaps),
 		m_potExtend(potExtend),
@@ -37,9 +36,25 @@ namespace Graphics {
 		m_compressTextures(compressTextures),
 		m_anisotropicFiltering(anisoFiltering),
 		m_textureType(textureType),
-		m_prepared(false)
+		m_prepared(false),
+		m_layers(layers)
 	{
-		assert(!m_filename.empty());
+		m_filenames.push_back(filename);
+	}
+
+	TextureBuilder::TextureBuilder(const std::vector<std::string> &filenames, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA, bool compressTextures, bool anisoFiltering, TextureType textureType, const size_t layers) :
+		m_filenames(filenames),
+		m_sampleMode(sampleMode),
+		m_generateMipmaps(generateMipmaps),
+		m_potExtend(potExtend),
+		m_forceRGBA(forceRGBA),
+		m_compressTextures(compressTextures),
+		m_anisotropicFiltering(anisoFiltering),
+		m_textureType(textureType),
+		m_prepared(false),
+		m_layers(layers)
+	{
+		assert(!m_filenames.empty());
 	}
 
 	TextureBuilder::~TextureBuilder()
@@ -114,8 +129,8 @@ namespace Graphics {
 		PROFILE_SCOPED()
 		if (m_prepared) return;
 
-		if (!m_surface && !m_filename.empty()) {
-			std::string filename = m_filename;
+		if (!m_surface && !m_filenames.empty()) {
+			std::string filename = m_filenames.front();
 			std::transform(filename.begin(), filename.end(), filename.begin(), ::tolower);
 			if (ends_with_ci(filename, ".dds")) {
 				LoadDDS();
@@ -174,37 +189,58 @@ namespace Graphics {
 						assert(0);
 					}
 				}
-			} else if (!m_filename.empty()) {
+			} else if (!m_filenames.front().empty()) {
 				// power-of-two check
 				unsigned long width = ceil_pow2(m_surface->w);
 				unsigned long height = ceil_pow2(m_surface->h);
 
 				if (width != virtualWidth || height != virtualHeight)
-					Output("WARNING: texture '%s' is not power-of-two and may not display correctly\n", m_filename.c_str());
+					Output("WARNING: texture '%s' is not power-of-two and may not display correctly\n", m_filenames.front().c_str());
 			}
 		} else {
-			switch (m_dds.GetTextureFormat()) {
-			case PicoDDS::FORMAT_DXT1: targetTextureFormat = TEXTURE_DXT1; break;
-			case PicoDDS::FORMAT_DXT5: targetTextureFormat = TEXTURE_DXT5; break;
-			default:
-				Output("ERROR: DDS texture with invalid format '%s' (only DXT1 and DXT5 are supported)\n", m_filename.c_str());
-				assert(false);
-				return;
-			}
+			if(m_textureType != TEXTURE_2D_ARRAY) {
+				switch (m_dds.GetTextureFormat()) {
+				case PicoDDS::FORMAT_DXT1: targetTextureFormat = TEXTURE_DXT1; break;
+				case PicoDDS::FORMAT_DXT5: targetTextureFormat = TEXTURE_DXT5; break;
+				default:
+					Output("ERROR: DDS texture with invalid format '%s' (only DXT1 and DXT5 are supported)\n", m_filenames.front().c_str());
+					assert(false);
+					return;
+				}
 
-			virtualWidth = actualWidth = m_dds.imgdata_.width;
-			virtualHeight = actualHeight = m_dds.imgdata_.height;
-			numberOfMipMaps = m_dds.imgdata_.numMipMaps;
-			numberOfImages = m_dds.imgdata_.numImages;
-			if (m_textureType == TEXTURE_CUBE_MAP) {
-				// Cube map must be fully defined (6 images) to be used correctly
-				assert(numberOfImages == 6);
+				virtualWidth = actualWidth = m_dds.imgdata_.width;
+				virtualHeight = actualHeight = m_dds.imgdata_.height;
+				numberOfMipMaps = m_dds.imgdata_.numMipMaps;
+				numberOfImages = m_dds.imgdata_.numImages;
+				if (m_textureType == TEXTURE_CUBE_MAP) {
+					// Cube map must be fully defined (6 images) to be used correctly
+					assert(numberOfImages == 6);
+				}
+			} else if(m_textureType == TEXTURE_2D_ARRAY) {
+				assert(m_ddsarray.size() == m_layers);
+				assert(m_layers>0);
+				switch(m_ddsarray[0].GetTextureFormat()) {
+				case PicoDDS::FORMAT_DXT1: targetTextureFormat = TEXTURE_DXT1; break;
+				case PicoDDS::FORMAT_DXT5: targetTextureFormat = TEXTURE_DXT5; break;
+				default:
+					Output("ERROR: DDS texture with invalid format '%s' (only DXT1 and DXT5 are supported)\n", m_filenames.front().c_str());
+					assert(false);
+					return;
+				}
+				for(size_t i=0; i<m_layers; i++) {
+					const PicoDDS::DDSImage &dds = m_ddsarray[0];
+					virtualWidth = actualWidth = dds.imgdata_.width;
+					virtualHeight = actualHeight = dds.imgdata_.height;
+					numberOfMipMaps = dds.imgdata_.numMipMaps;
+					numberOfImages += dds.imgdata_.numImages;
+				}
+				assert((numberOfImages-1) == m_layers);
 			}
 		}
 
 		m_descriptor = TextureDescriptor(
 			targetTextureFormat,
-			vector2f(actualWidth, actualHeight),
+			vector3f(actualWidth,actualHeight,m_layers),
 			vector2f(float(virtualWidth) / float(actualWidth), float(virtualHeight) / float(actualHeight)),
 			m_sampleMode, m_generateMipmaps, m_compressTextures, m_anisotropicFiltering, numberOfMipMaps, m_textureType);
 
@@ -230,12 +266,14 @@ namespace Graphics {
 
 		SDLSurfacePtr s;
 		if (m_textureType == TEXTURE_2D) {
-			s = LoadSurfaceFromFile(m_filename);
+			s = LoadSurfaceFromFile(m_filenames.front());
 			if (!s) {
 				s = LoadSurfaceFromFile("textures/unknown.png");
 			}
 		} else if (m_textureType == TEXTURE_CUBE_MAP) {
-			Output("LoadSurface: %s: cannot load non-DDS cubemaps\n", m_filename.c_str());
+			Output("LoadSurface: %s: cannot load non-DDS cubemaps\n", m_filenames.front().c_str());
+		} else if(m_textureType == TEXTURE_2D_ARRAY) {
+			Output("LoadSurface: %s: cannot load non-DDS texture array files\n", m_filenames.front().c_str());
 		}
 
 		// XXX if we can't load the fallback texture, then what?
@@ -245,11 +283,25 @@ namespace Graphics {
 
 	void TextureBuilder::LoadDDS()
 	{
+		assert(!m_surface);
 		assert(!m_dds.headerdone_);
-		LoadDDSFromFile(m_filename, m_dds);
+		if(m_textureType != TEXTURE_2D_ARRAY)
+		{
+			LoadDDSFromFile(m_filenames.front(), m_dds);
 
-		if (!m_dds.headerdone_) {
-			m_surface = LoadSurfaceFromFile("textures/unknown.png");
+			if (!m_dds.headerdone_) {
+				m_surface = LoadSurfaceFromFile("textures/unknown.png");
+			}
+		} else if(m_textureType == TEXTURE_2D_ARRAY)
+		{
+			m_ddsarray.clear();
+			const size_t layers = m_layers;
+			m_ddsarray.resize(layers);
+
+			for (int i = 0; i < layers; i++)
+			{
+				PiVerify(LoadDDSFromFile(m_filenames[i], m_ddsarray[i]));
+			}
 		}
 		// XXX if we can't load the fallback texture, then what?
 	}
@@ -258,7 +310,7 @@ namespace Graphics {
 	{
 		if (m_surface) {
 			if (texture->GetDescriptor().type == TEXTURE_2D && m_textureType == TEXTURE_2D) {
-				texture->Update(m_surface->pixels, vector2f(m_surface->w, m_surface->h), m_descriptor.format, 0);
+			texture->Update(m_surface->pixels, vector3f(m_surface->w,m_surface->h,0.0f), m_descriptor.format, 0);
 			} else if (texture->GetDescriptor().type == TEXTURE_CUBE_MAP && m_textureType == TEXTURE_CUBE_MAP) {
 				assert(m_cubemap.size() == 6);
 				TextureCubeData tcd;
@@ -269,16 +321,16 @@ namespace Graphics {
 				tcd.negY = m_cubemap[3]->pixels;
 				tcd.posZ = m_cubemap[4]->pixels;
 				tcd.negZ = m_cubemap[5]->pixels;
-				texture->Update(tcd, vector2f(m_cubemap[0]->w, m_cubemap[0]->h), m_descriptor.format, 0);
+			texture->Update(tcd, vector3f(m_cubemap[0]->w, m_cubemap[0]->h,0.0f), m_descriptor.format, 0);
 			} else {
 				// Given texture and current texture don't have the same type!
 				assert(0);
 			}
-		} else {
+		} else if( m_dds.headerdone_ ) {
 			assert(m_dds.headerdone_);
 			assert(m_descriptor.format == TEXTURE_DXT1 || m_descriptor.format == TEXTURE_DXT5);
 			if (texture->GetDescriptor().type == TEXTURE_2D && m_textureType == TEXTURE_2D) {
-				texture->Update(m_dds.imgdata_.imgData, vector2f(m_dds.imgdata_.width, m_dds.imgdata_.height), m_descriptor.format, m_dds.imgdata_.numMipMaps);
+				texture->Update(m_dds.imgdata_.imgData, vector3f(m_dds.imgdata_.width,m_dds.imgdata_.height,0.0f), m_descriptor.format, m_dds.imgdata_.numMipMaps);
 			} else if (texture->GetDescriptor().type == TEXTURE_CUBE_MAP && m_textureType == TEXTURE_CUBE_MAP) {
 				TextureCubeData tcd;
 				// Size in bytes of each cube map face
@@ -290,11 +342,22 @@ namespace Graphics {
 				tcd.negY = static_cast<void *>(m_dds.imgdata_.imgData + (3 * face_size));
 				tcd.posZ = static_cast<void *>(m_dds.imgdata_.imgData + (4 * face_size));
 				tcd.negZ = static_cast<void *>(m_dds.imgdata_.imgData + (5 * face_size));
-				texture->Update(tcd, vector2f(m_dds.imgdata_.width, m_dds.imgdata_.height), m_descriptor.format, m_dds.imgdata_.numMipMaps);
+				texture->Update(tcd, vector3f(m_dds.imgdata_.width, m_dds.imgdata_.height,0.0f), m_descriptor.format, m_dds.imgdata_.numMipMaps);
 			} else {
 				// Given texture and current texture don't have the same type!
 				assert(0);
 			}
+		} else if( !m_ddsarray.empty() ) {
+			// texture array
+			assert(m_textureType == TEXTURE_2D_ARRAY);
+			const TextureDescriptor &desc = texture->GetDescriptor();
+			// virtual void Update(const vecDataPtr &data, const vector3f &dataSize, const TextureFormat format, const unsigned int numMips = 0) = 0;
+			Texture::vecDataPtr dataPtrs;
+			dataPtrs.reserve(m_layers);
+			for(size_t i=0; i<m_layers; i++) {
+				dataPtrs.push_back( m_ddsarray[i].imgdata_.imgData );
+			}
+			texture->Update(dataPtrs, desc.dataSize, desc.format, desc.numberOfMipMaps);
 		}
 	}
 

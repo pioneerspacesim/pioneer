@@ -356,7 +356,7 @@ void *PiGui::makeTexture(unsigned char *pixels, int width, int height)
 	// Texture descriptor defines the size, type.
 	// Gone for LINEAR_CLAMP here and RGBA like the original code
 	const vector2f texSize(1.0f, 1.0f);
-	const vector2f dataSize(width, height);
+	const vector3f dataSize(width, height, 0.0f);
 	const Graphics::TextureDescriptor texDesc(Graphics::TEXTURE_RGBA_8888,
 		dataSize, texSize, Graphics::LINEAR_CLAMP,
 		false, false, false, 0, Graphics::TEXTURE_2D);

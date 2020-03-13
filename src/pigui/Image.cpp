@@ -9,7 +9,7 @@ namespace PiGUI {
 
 	Image::Image(const std::string &filename)
 	{
-		m_texture.Reset(Graphics::TextureBuilder::Model(filename).GetOrCreateTexture(Pi::renderer, "model"));
+		m_texture.Reset(Graphics::TextureBuilder::UI(filename).GetOrCreateTexture(Pi::renderer, "ui"));
 	}
 
 	Uint32 Image::GetId()
@@ -19,7 +19,8 @@ namespace PiGUI {
 
 	vector2f Image::GetSize()
 	{
-		return m_texture->GetDescriptor().dataSize;
+		auto size = m_texture->GetDescriptor().dataSize;
+		return vector2f(size.x, size.y) * GetUv();
 	}
 
 	vector2f Image::GetUv()

@@ -9,13 +9,8 @@ if [ "$?" != 0 ]; then
     read -p "Do you want to automatically apply these changes (y/N)?" apply
     case $apply in
         y|Y)
-			# Get the patch info from the message
-			patch="$(PATCH_MODE=1 ./scripts/clang-format.sh)"
-            MSG="$(cat $patch)"
-            echo "$MSG" | git mailinfo --scissors /dev/null "$patch" &>/dev/null
-            # And apply it to the staged changes.
-            git apply --index "$patch"
-            rm "$patch"
+			# Get the patch info from the message and apply it to the staged changes.
+            PATCH_MODE=1 ./scripts/clang-format.sh | git apply --index -
             ;;
         *) exit 1;;
     esac

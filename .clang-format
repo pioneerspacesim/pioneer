@@ -9,7 +9,7 @@ AlignAfterOpenBracket: DontAlign
 #AlignConsecutiveDeclarations: false
 #AlignEscapedNewlines: Right
 AlignOperands:   false
-AlignTrailingComments: false
+AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: false
 #AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: true

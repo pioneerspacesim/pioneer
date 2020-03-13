@@ -227,7 +227,7 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 		memset(row, 0, RING_TEXTURE_WIDTH * 4);
 	}
 
-	const vector2f texSize(RING_TEXTURE_WIDTH, RING_TEXTURE_LENGTH);
+	const vector3f texSize(RING_TEXTURE_WIDTH, RING_TEXTURE_LENGTH, 0.0f);
 	const Graphics::TextureDescriptor texDesc(
 		Graphics::TEXTURE_RGBA_8888, texSize, Graphics::LINEAR_REPEAT, true, true, true, 0, Graphics::TEXTURE_2D);
 

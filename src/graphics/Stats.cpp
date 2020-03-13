@@ -32,7 +32,14 @@ namespace Graphics {
 			GetOrCreateCounter("STAT_STARS"),
 			GetOrCreateCounter("STAT_SHIPS"),
 
-			GetOrCreateCounter("STAT_BILLBOARD")
+			GetOrCreateCounter("STAT_BILLBOARD"),
+
+			GetOrCreateCounter("STAT_NUM_TEXTURE2D", false),
+			GetOrCreateCounter("STAT_MEM_TEXTURE2D", false),
+			GetOrCreateCounter("STAT_NUM_TEXTURECUBE", false),
+			GetOrCreateCounter("STAT_MEM_TEXTURECUBE", false),
+			GetOrCreateCounter("STAT_NUM_TEXTUREARRAY2D", false),
+			GetOrCreateCounter("STAT_MEM_TEXTUREARRAY2D", false)
 		};
 	}
 

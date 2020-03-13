@@ -3,17 +3,23 @@
 
 #pragma once
 
+#include "RefCounted.h"
 #include <array>
+#include <memory>
 
 namespace PiGUI {
 
 	class PerfInfo {
 	public:
+		PerfInfo();
+		~PerfInfo();
+
 		// Information about the current process memory usage in KB.
 		struct MemoryInfo {
 			size_t currentMemSize;
 			size_t peakMemSize;
 		};
+		struct ImGuiState;
 
 		void Draw();
 
@@ -21,9 +27,14 @@ namespace PiGUI {
 		void Update(float frameTime, float physTime);
 		void UpdateFrameInfo(int framesThisSecond, int physFramesThisSecond);
 
-		void SetUpdatePause(bool pause) { m_updatePause = pause; }
+		void SetShowDebugInfo(bool open);
+		void SetUpdatePause(bool pause);
 
 	private:
+		void DrawPerfWindow();
+		void DrawTextureCache();
+		void DrawTextureInspector();
+
 		static const int NUM_FRAMES = 60;
 		std::array<float, NUM_FRAMES> m_fpsGraph;
 		std::array<float, NUM_FRAMES> m_physFpsGraph;
@@ -39,7 +50,7 @@ namespace PiGUI {
 		float framesThisSecond;
 		float physFramesThisSecond;
 
-		bool m_updatePause;
+		ImGuiState *m_state;
 	};
 
 } // namespace PiGUI

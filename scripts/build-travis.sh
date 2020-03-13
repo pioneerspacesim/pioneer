@@ -57,7 +57,7 @@ echo "Bundling output..."
 if [ "$BUILD_TYPE" == "mxe" ]; then
     zip -r "release/zip/pioneer-$TRAVIS_TAG-mxe.zip" release/* -x *release/zip*
 else
-    tar -caf "release/zip/pioneer-$TRAVIS_TAG.tar.gz" --exclude release/zip release/*
+    tar -czf "release/zip/pioneer-$TRAVIS_TAG.tar.gz" --exclude=release/zip release/*
 fi
 
 echo "Release finished successfully!"

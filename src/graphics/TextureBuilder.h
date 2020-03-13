@@ -16,8 +16,14 @@ namespace Graphics {
 
 	class TextureBuilder {
 	public:
-		TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true, bool anisoFiltering = true);
-		TextureBuilder(const std::string &filename, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true, bool anisoFiltering = true, TextureType textureType = TEXTURE_2D);
+		TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode = LINEAR_CLAMP,
+			bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true, bool anisoFiltering = true);
+		TextureBuilder(const std::string &filename, TextureSampleMode sampleMode = LINEAR_CLAMP,
+			bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true, bool anisoFiltering = true,
+			TextureType textureType = TEXTURE_2D, const size_t layers = 1);
+		TextureBuilder(const std::vector<std::string> &filenames, TextureSampleMode sampleMode = LINEAR_CLAMP,
+			bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true, bool anisoFiltering = true,
+			TextureType textureType = TEXTURE_2D, const size_t layers = 1);
 		~TextureBuilder();
 
 		static void Init();
@@ -51,6 +57,14 @@ namespace Graphics {
 		{
 			return TextureBuilder(filename, LINEAR_CLAMP, true, true, false, true, false, TEXTURE_CUBE_MAP);
 		}
+		static TextureBuilder LookUpTable(const std::string &filename)
+		{
+			return TextureBuilder(filename, NEAREST_CLAMP, false, true, true, false, false);
+		}
+		static TextureBuilder Array(const std::vector<std::string> &filenames, const size_t layers)
+		{
+			return TextureBuilder(filenames, LINEAR_REPEAT, true, true, false, true, true, TEXTURE_2D_ARRAY, layers);
+		}
 
 		const TextureDescriptor &GetDescriptor()
 		{
@@ -60,18 +74,17 @@ namespace Graphics {
 
 		Texture *GetOrCreateTexture(Renderer *r, const std::string &type)
 		{
-			PROFILE_SCOPED()
-			if (m_filename.empty()) {
+			if (m_filenames.empty()) {
 				return CreateTexture(r);
 			}
 			SDL_LockMutex(m_textureLock);
-			Texture *t = r->GetCachedTexture(type, m_filename);
+			Texture *t = r->GetCachedTexture(type, m_filenames.front());
 			if (t) {
 				SDL_UnlockMutex(m_textureLock);
 				return t;
 			}
 			t = CreateTexture(r);
-			r->AddCachedTexture(type, m_filename, t);
+			r->AddCachedTexture(type, m_filenames.front(), t);
 			SDL_UnlockMutex(m_textureLock);
 			return t;
 		}
@@ -84,7 +97,8 @@ namespace Graphics {
 		SDLSurfacePtr m_surface;
 		std::vector<SDLSurfacePtr> m_cubemap;
 		PicoDDS::DDSImage m_dds;
-		std::string m_filename;
+		std::vector<PicoDDS::DDSImage> m_ddsarray;
+		std::vector<std::string> m_filenames;
 
 		TextureSampleMode m_sampleMode;
 		bool m_generateMipmaps;
@@ -94,6 +108,7 @@ namespace Graphics {
 		bool m_compressTextures;
 		bool m_anisotropicFiltering;
 		TextureType m_textureType;
+		size_t m_layers;
 
 		TextureDescriptor m_descriptor;
 

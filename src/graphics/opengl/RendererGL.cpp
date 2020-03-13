@@ -5,6 +5,7 @@
 #include "GLDebug.h"
 #include "OS.h"
 #include "Program.h"
+#include "RefCounted.h"
 #include "RenderStateGL.h"
 #include "RenderTargetGL.h"
 #include "StringF.h"
@@ -416,6 +417,43 @@ namespace Graphics {
 
 	bool RendererOGL::EndFrame()
 	{
+		uint32_t used_tex2d = 0;
+		uint32_t used_texCube = 0;
+		uint32_t used_texArray2d = 0;
+		uint32_t num_tex2d = 0;
+		uint32_t num_texCube = 0;
+		uint32_t num_texArray2d = 0;
+
+		for (const auto &pair : GetTextureCache()) {
+			auto *texture = pair.second->Get();
+
+			uint32_t size = texture->GetTextureMemSize();
+			switch (texture->GetDescriptor().type) {
+			default:
+				assert(0);
+			case TextureType::TEXTURE_2D:
+				used_tex2d += size;
+				num_tex2d++;
+				break;
+			case TextureType::TEXTURE_CUBE_MAP:
+				used_texCube += size;
+				num_texCube++;
+				break;
+			case TextureType::TEXTURE_2D_ARRAY:
+				used_texArray2d += size;
+				num_texArray2d++;
+				break;
+			}
+		}
+
+		auto &stat = GetStats();
+		stat.SetStatCount(Stats::STAT_NUM_TEXTURE2D, num_tex2d);
+		stat.SetStatCount(Stats::STAT_MEM_TEXTURE2D, used_tex2d);
+		stat.SetStatCount(Stats::STAT_NUM_TEXTUREARRAY2D, num_texArray2d);
+		stat.SetStatCount(Stats::STAT_MEM_TEXTUREARRAY2D, used_texArray2d);
+		stat.SetStatCount(Stats::STAT_NUM_TEXTURECUBE, num_texCube);
+		stat.SetStatCount(Stats::STAT_MEM_TEXTURECUBE, used_texCube);
+
 		return true;
 	}
 
@@ -1073,7 +1111,7 @@ namespace Graphics {
 		if (desc.colorFormat != TEXTURE_NONE) {
 			Graphics::TextureDescriptor cdesc(
 				desc.colorFormat,
-				vector2f(desc.width, desc.height),
+				vector3f(desc.width, desc.height, 0.0f),
 				vector2f(desc.width, desc.height),
 				LINEAR_CLAMP,
 				false,
@@ -1087,7 +1125,7 @@ namespace Graphics {
 			if (desc.allowDepthTexture) {
 				Graphics::TextureDescriptor ddesc(
 					TEXTURE_DEPTH,
-					vector2f(desc.width, desc.height),
+					vector3f(desc.width, desc.height, 0.0f),
 					vector2f(desc.width, desc.height),
 					LINEAR_CLAMP,
 					false,

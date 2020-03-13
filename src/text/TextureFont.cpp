@@ -527,7 +527,7 @@ namespace Text {
 			glyph.texWidth = float(glyph.width) / float(ATLAS_SIZE);
 			glyph.texHeight = float(glyph.height) / float(ATLAS_SIZE);
 
-			m_texture->Update(&m_buf[0], vector2f(m_atlasU, m_atlasV), vector2f(glyph.width, glyph.height), m_texFormat);
+			m_texture->Update(&m_buf[0], vector2f(m_atlasU, m_atlasV), vector3f(glyph.width, glyph.height, 0.0f), m_texFormat);
 
 			m_atlasU += bmStrokeGlyph->bitmap.width;
 
@@ -566,7 +566,7 @@ namespace Text {
 			glyph.texWidth = float(glyph.width) / float(ATLAS_SIZE);
 			glyph.texHeight = float(glyph.height) / float(ATLAS_SIZE);
 
-			m_texture->Update(&m_buf[0], vector2f(m_atlasU, m_atlasV), vector2f(glyph.width, glyph.height), m_texFormat);
+			m_texture->Update(&m_buf[0], vector2f(m_atlasU, m_atlasV), vector3f(glyph.width, glyph.height, 0.0f), m_texFormat);
 
 			m_atlasU += glyph.width;
 		}
@@ -624,13 +624,13 @@ namespace Text {
 		desc.vertexColors = true; //to allow per-character colors
 		desc.textures = 1;
 		m_mat.reset(m_renderer->CreateMaterial(desc));
-		Graphics::TextureDescriptor textureDescriptor(m_texFormat, vector2f(ATLAS_SIZE), Graphics::NEAREST_CLAMP, false, false, false, 0, Graphics::TEXTURE_2D);
+		Graphics::TextureDescriptor textureDescriptor(m_texFormat, vector3f(ATLAS_SIZE, ATLAS_SIZE, 0.0f), Graphics::NEAREST_CLAMP, false, false, false, 0, Graphics::TEXTURE_2D);
 		m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
 		{
 			const size_t sz = m_bpp * ATLAS_SIZE * ATLAS_SIZE;
 			char *buf = static_cast<char *>(malloc(sz));
 			memset(buf, 0, sz);
-			m_texture->Update(buf, vector2f(0.0f, 0.0f), vector2f(ATLAS_SIZE, ATLAS_SIZE), m_texFormat);
+			m_texture->Update(buf, vector2f(0.0f, 0.0f), vector3f(ATLAS_SIZE, ATLAS_SIZE, 0.0f), m_texFormat);
 			free(buf);
 		}
 		m_mat->texture0 = m_texture.Get();

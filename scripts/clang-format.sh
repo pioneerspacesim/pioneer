@@ -20,12 +20,18 @@ else
     GIT_DIFF_TOOL="git diff-index --cached"
 fi
 
+FILES="$@"
 # Allow manually specifiying the files.
 if [ -z "$FILES" ]; then
     FILES=$($GIT_DIFF_TOOL --no-commit-id --name-only --diff-filter=d -r $RANGE | grep -v contrib/ | grep -E "\.(c|h|cpp|hpp|cc|hh|cxx|m|mm|inc)$")
 fi
 
-if [ ! $PATCH_MODE ]; then echo -e "Checking files:\n$FILES"; fi
+if [ ! $PATCH_MODE ]; then
+    echo -e "Checking files:"
+    for file in $FILES; do
+        echo -e "\t$file"
+    done
+fi
 
 prefix="static-check-clang-format"
 suffix="$(date +%s)"
@@ -38,7 +44,7 @@ else
 fi
 
 for file in $FILES; do
-    CLANG_MESSAGE=`"$CLANG_FORMAT" -style=file "$file"`
+    CLANG_MESSAGE=$("$CLANG_FORMAT" -style=file "$file")
 
     if [ "$?" = "0" ]; then
         diff $DIFF_COLOR -u "$file" - <<< "$CLANG_MESSAGE" | \
@@ -55,7 +61,8 @@ fi
 
 if [ $PATCH_MODE ]; then
 	# Print the filename of the generated patch.
-	echo "$patch"
+	cat "$patch"
+    rm -f "$patch"
 	exit 1
 else
 	# a patch has been created, notify the user and exit
