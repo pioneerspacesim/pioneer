@@ -1,6 +1,6 @@
 March 2020
    * New Features
-     * Stars that are brighter are now bigger and have a brighter color on the Starfield #4833
+     * Stars that are brighter are now bigger and have a brighter color on the Starfield (#4833)
 
    * Fixes
      * Prevent change of Pioneer's mouse pointer when hiding HUD (#4827)
