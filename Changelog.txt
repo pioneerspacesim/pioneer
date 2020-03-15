@@ -1,11 +1,12 @@
 March 2020
    * New Features
-     * Stars that are brighter are now bigger and have a brighter color on the Starfield (#4833)
+     * Stars that are brighter are now bigger and have a brighter colour on the Starfield (#4833)
      * Texture Cache Visualizer and Memory Usage Tracker (#4835)
+     * Complete overhaul of commodity prices, to be similar to Frontier (#4831)
 
    * Fixes
      * Prevent change of Pioneer's mouse pointer when hiding HUD (#4827)
-     * Fix body grouping and setspeed target behavior in flightUI (#4794)
+     * Fix body grouping and setspeed target behaviour in flightUI (#4794)
 
    * Internal Changes
      * Perf counter Windows memory info (#4820)
