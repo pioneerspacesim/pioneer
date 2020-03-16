@@ -11,6 +11,7 @@ March 2020
    * Internal Changes
      * Perf counter Windows memory info (#4820)
      * Remove unused newUI code, remove old StationView code (#4819)
+     * Exposed plotHistogram to pigui code (#4828)
 
 February 2020
    * New Features
