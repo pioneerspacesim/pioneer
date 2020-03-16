@@ -16,6 +16,7 @@
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
 #include "perlin.h"
+#include "profiler/Profiler.h"
 
 #include <SDL_stdinc.h>
 #include <iostream>
@@ -231,6 +232,7 @@ namespace Background {
 
 	void Starfield::Fill(Random &rand, const Space* space, RefCountedPtr<Galaxy> galaxy)
 	{
+		PROFILE_SCOPED()
 		const Uint32 NUM_BG_STARS = Clamp(Uint32(Pi::GetAmountBackgroundStars() * BG_STAR_MAX), BG_STAR_MIN, BG_STAR_MAX);
 		m_hyperVtx.reset(new vector3f[BG_STAR_MAX * 3]);
 		m_hyperCol.reset(new Color[BG_STAR_MAX * 3]);
@@ -539,7 +541,7 @@ namespace Background {
 		rsd.depthTest = false;
 		rsd.depthWrite = false;
 		m_renderState = renderer->CreateRenderState(rsd);
-		Refresh(rand, space, galaxy);
+		m_universeBox.LoadCubeMap(rand);
 	}
 
 	void Container::Refresh(Random &rand, const Space* space, RefCountedPtr<Galaxy> galaxy)
