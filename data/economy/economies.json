@@ -18,7 +18,7 @@
 			"industrial": 0.0,
 			"metallicity": 0.0,
 			"population": 1.0,
-			"random": 1.0
+			"random": 0.0
 		}
 	},
 	"industrial": {
@@ -38,7 +38,7 @@
 			"industrial": 1.0,
 			"metallicity": 0.0,
 			"population": 1.0,
-			"random": 1.0
+			"random": 0.0
 		}
 	},
 	"mining": {
@@ -58,7 +58,7 @@
 			"industrial": 0.0,
 			"metallicity": 1.0,
 			"population": 1.0,
-			"random": 1.0
+			"random": 0.0
 		}
 	}
 }

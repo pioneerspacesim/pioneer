@@ -8,10 +8,9 @@
 #include "Json.h"
 #include "JsonUtils.h"
 #include "Lang.h"
-#include "utils.h"
+#include "core/Log.h"
 
 #include <set>
-#include <stdexcept>
 
 namespace GalacticEconomy {
 
@@ -62,7 +61,7 @@ namespace GalacticEconomy {
 
 	const char *get_lang_key(const Json &j)
 	{
-		std::string key = j;
+		auto key = j.get<std::string>();
 		return m_string_data.emplace(key).first->c_str();
 	}
 
@@ -83,15 +82,15 @@ namespace GalacticEconomy {
 				fixed amount = fixed(1, 1);
 
 				if (input.is_array()) {
-					name = input[0];
-					amount = input[1];
+					name = input[0].get<std::string>();
+					amount = input[1].get<fixed>();
 				} else {
-					name = input;
+					name = input.get<std::string>();
 				}
 
 				CommodityId inputCommodity = GetCommodityByName(name);
 				if (inputCommodity == InvalidCommodityId)
-					Output("warning: commodity %s has invalid input commodity %d (%s)\n", out.name, int(idx), name.c_str());
+					Log::Warning("Commodity {} has invalid input commodity {} (id {})\n", out.name, name.c_str(), int(idx));
 
 				out.inputs[idx] = {
 					inputCommodity, amount
@@ -100,11 +99,11 @@ namespace GalacticEconomy {
 		}
 
 		// Commodities must be loaded after economy data
-		std::string economy_key = j["producer"];
+		auto economy_key = j["producer"].get<std::string>();
 		out.producer = GetEconomyByName(economy_key);
 
 		if (out.producer == InvalidEconomyId)
-			Output("warning: commodity %s has invalid producing economy %s\n", out.name, economy_key.c_str());
+			Log::Warning("Commodity {} has invalid producing economy {}\n", out.name, economy_key.c_str());
 
 		out.price = j["price"];
 	}
@@ -183,7 +182,7 @@ namespace GalacticEconomy {
 					CommodityInfo &value = m_commodities[id - 1];
 					from_json(t.value(), value);
 
-					Output("INFO: commodity %s (%d) loaded (producer: %d, price: %.1f, inputs: %d:%.1f, %d:%.1f)\n",
+					Log::Debug("Commodity {} ({}) loaded (producer: {}, price: {:.1f}, inputs: {}:{:.1f}, {}:{:.1f})\n",
 						value.name, value.id, value.producer, value.price,
 						value.inputs[0].first, value.inputs[0].second.ToDouble(),
 						value.inputs[1].first, value.inputs[1].second.ToDouble());
@@ -202,14 +201,14 @@ namespace GalacticEconomy {
 		const Json &consumables = file["consumables"];
 
 		if (!consumables.is_object()) {
-			Output("warning: could not load consumable commodities list from file economy/consumables.json\n");
+			Log::Warning("Could not load consumable commodities list from file economy/consumables.json\n");
 			return;
 		}
 
 		for (const auto &pair : consumables.items()) {
 			CommodityId id = GetCommodityByName(pair.key());
 			if (id == InvalidCommodityId) {
-				Output("warning: [consumables] commodity %s does not exist\n", pair.key().c_str());
+				Log::Warning("Commodity {} does not exist (referenced by consumables file)\n", pair.key().c_str());
 				continue;
 			}
 
@@ -217,7 +216,7 @@ namespace GalacticEconomy {
 			from_json(pair.value(), value);
 			m_consumables.emplace(id, value);
 
-			Output("INFO: loaded consumable data for commodity %s (%d) -> (%d-%d, %.2f)\n",
+			Log::Debug("Loaded consumable data for commodity {} ({}) -> ({}-{}, {:.2f})\n",
 				pair.key().c_str(), id,
 				value.random_consumption[0], value.random_consumption[1],
 				value.locally_produced_min.ToDouble());
@@ -231,14 +230,14 @@ namespace GalacticEconomy {
 		const Json &commodities = file["commodities"];
 
 		if (!commodities.is_object()) {
-			Output("warning: could not load illegal commodities list from file economy/illegal.json\n");
+			Log::Warning("Could not load illegal commodities list from file economy/illegal.json\n");
 			return;
 		}
 
 		for (const auto &pair : commodities.items()) {
 			CommodityId id = GetCommodityByName(pair.key());
 			if (id == InvalidCommodityId) {
-				Output("warning: [illegals] commodity %s does not exist\n", pair.key().c_str());
+				Log::Warning("Commodity {} does not exist (referenced by illegals file)\n", pair.key().c_str());
 				continue;
 			}
 
@@ -251,7 +250,7 @@ namespace GalacticEconomy {
 				value.chance = { chance[0].get<uint32_t>(), chance[1].get<uint32_t>() };
 
 			m_illegalCommodities.emplace(id, value);
-			Output("INFO: loaded illegal data for commodity %s (%d) (%d in %d)\n",
+			Log::Debug("Loaded illegal data for commodity {} ({}) ({} in {})\n",
 				pair.key().c_str(), id, value.chance[0], value.chance[1]);
 		}
 	}
@@ -266,9 +265,7 @@ namespace GalacticEconomy {
 				EconomyInfo val = el.value();
 
 				if (m_economyNameLookup.count(key)) {
-					char err[256] = {};
-					snprintf(err, 256, "double-definition of economy %s in economy/economies.json\n", key.c_str());
-					throw std::runtime_error(err);
+					Log::Warning("double-definition of economy {} in economy/economies.json\n", key.c_str());
 				}
 
 				m_string_data.emplace(key);
@@ -278,9 +275,9 @@ namespace GalacticEconomy {
 				val.id = id;
 				val.name = m_string_data.emplace(key).first->c_str();
 				m_economies.push_back(val);
-				Output("INFO: economy %s -> id %d (generation: %.2f %.2f %.2f %.2f %.2f)\n",
+				Log::Debug("Loaded economy {} (id {})\n\tgeneration: agri. {:.2f} ind. {:.2f} metal. {:.2f} pop. {:.2f} random {:.2f}\n",
 					val.name, val.id, val.generation.agricultural.ToDouble(), val.generation.industrial.ToDouble(),
-					val.generation.metallicity.ToDouble(), val.generation.population.ToDouble(), val.generation.population.ToDouble());
+					val.generation.metallicity.ToDouble(), val.generation.population.ToDouble(), val.generation.random.ToDouble());
 			}
 
 		} catch (Json::type_error &e) {
@@ -292,19 +289,26 @@ namespace GalacticEconomy {
 	{
 		PROFILE_SCOPED()
 
-		LoadEconomyData();
-		LoadCommodityData();
-		LoadConsumableData();
-		LoadIllegalCommodityData();
+		try {
+			LoadEconomyData();
+			LoadCommodityData();
+			LoadConsumableData();
+			LoadIllegalCommodityData();
+		} catch (std::runtime_error &e) {
+			Log::Fatal("Error loading commodity data: {}", e.what());
+		}
 
-		printf("\n");
+		Log::Info("Loaded economy info: {} economies, {} commodities ({} consumable)\n\n",
+			m_economies.size(), m_commodities.size(), m_consumables.size());
 	}
 
-	void FromJson(const Json &obj)
+	void LoadFromJson(const Json &obj)
 	{
+		// TODO: load commodity name -> id mappings and re-arrange commodity data
+		// Until this is implemented, changing the list of commodities implicitly invalidates saved games
 	}
 
-	void ToJson(Json &obj)
+	void SaveToJson(Json &obj)
 	{
 		Json economy{};
 

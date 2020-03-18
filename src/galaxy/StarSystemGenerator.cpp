@@ -10,8 +10,11 @@
 #include "Lang.h"
 #include "Pi.h"
 #include "Sector.h"
+#include "galaxy/Economy.h"
 #include "lua/LuaNameGen.h"
 #include "utils.h"
+
+#include <functional>
 
 static const fixed SUN_MASS_TO_EARTH_MASS = fixed(332998, 1); // XXX Duplication from StarSystem.cpp
 // if binary stars have separation s, planets can have stable
@@ -1388,72 +1391,80 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 			sbody->GetMetallicityAsFixed() < (fixed(1, 1) - system->GetHumanProx())) return;
 	}
 
-	const int NUM_CONSUMABLES = 10;
-	const GalacticEconomy::Commodity consumables[NUM_CONSUMABLES] = {
-		GalacticEconomy::Commodity::AIR_PROCESSORS,
-		GalacticEconomy::Commodity::GRAIN,
-		GalacticEconomy::Commodity::FRUIT_AND_VEG,
-		GalacticEconomy::Commodity::ANIMAL_MEAT,
-		GalacticEconomy::Commodity::LIQUOR,
-		GalacticEconomy::Commodity::CONSUMER_GOODS,
-		GalacticEconomy::Commodity::MEDICINES,
-		GalacticEconomy::Commodity::HAND_WEAPONS,
-		GalacticEconomy::Commodity::NARCOTICS,
-		GalacticEconomy::Commodity::LIQUID_OXYGEN
-	};
-
 	/* Commodities we produce (mining and agriculture) */
 
-	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; i++) {
-		const GalacticEconomy::CommodityInfo &info = GalacticEconomy::COMMODITY_DATA[i];
+	fixed workforce = fixed();
+	for (const auto &commodity : GalacticEconomy::Commodities()) {
+		const auto &economy = GalacticEconomy::GetEconomyById(commodity.producer);
 
-		fixed affinity = fixed(1, 1);
-		if (info.econType & GalacticEconomy::ECON_AGRICULTURE) {
-			affinity *= 2 * sbody->GetAgriculturalAsFixed();
+		fixed affinity = fixed();
+		int numFactors = 0;
+		// TODO(sturnclaw): this is a horrible way of determining commodity production
+		// Find something better to replace it that actually makes sense.
+		if (economy.affinity.agricultural > 0) {
+			affinity += economy.affinity.agricultural * sbody->GetAgriculturalAsFixed();
+			numFactors++;
 		}
-		if (info.econType & GalacticEconomy::ECON_INDUSTRY) affinity *= system->GetIndustrial();
-		// make industry after we see if agriculture and mining are viable
-		if (info.econType & GalacticEconomy::ECON_MINING) {
-			affinity *= sbody->GetMetallicityAsFixed();
+		if (economy.affinity.metallicity > 0) {
+			affinity += economy.affinity.metallicity * sbody->GetMetallicityAsFixed();
+			numFactors++;
 		}
+		if (economy.affinity.industrial > 0) {
+			affinity += economy.affinity.industrial * system->GetIndustrial();
+			numFactors++;
+		}
+
+		if (numFactors)
+			affinity /= numFactors;
+		else
+			affinity = fixed(1, 1);
+
 		affinity *= rand.Fixed();
-		// producing consumables is wise
-		for (int j = 0; j < NUM_CONSUMABLES; j++) {
-			if (GalacticEconomy::Commodity(i) == consumables[j]) {
-				affinity *= 2;
-				break;
-			}
+
+		if (GalacticEconomy::Consumables().count(commodity.id)) {
+			affinity *= 2;
 		}
-		assert(affinity >= 0);
+
 		/* workforce... */
-		sbody->m_population += affinity * system->GetHumanProx();
+		workforce += affinity * system->GetHumanProx();
 
-		int howmuch = (affinity * 256).ToInt32();
+		// TODO(sturnclaw): this is also a horrible way of determining commodity production.
+		// An agri-world presumably exports much more than 512 tons of grain, for example.
+		// This also raises another question; over what interval is this production considered?
+		// Current code points to this simply being a dimensionless scalar.
+		fixed howmuch = affinity * 256;
 
-		system->AddTradeLevel(GalacticEconomy::Commodity(i), -2 * howmuch);
-		for (int j = 0; j < GalacticEconomy::CommodityInfo::MAX_ECON_INPUTS; ++j) {
-			if (info.inputs[j] == GalacticEconomy::Commodity::NONE) continue;
-			system->AddTradeLevel(GalacticEconomy::Commodity(info.inputs[j]), howmuch);
+		if (howmuch.ToInt32() == 0)
+			continue;
+
+		// Produce X amount of this commodity
+		system->AddTradeLevel(commodity.id, -2 * howmuch.ToInt32());
+		// Output("System %s.%s adding commodity %s (%d) -> %d\n",
+		// 	system->GetName(), sbody->GetName(), commodity.name, -2 * howmuch.ToInt32(), system->GetTradeLevel(commodity.id));
+		for (const auto &input : commodity.inputs) {
+			// Consume Y amount of the input commodities
+			system->AddTradeLevel(input.first, (input.second * howmuch).ToInt32());
 		}
 	}
+
+	sbody->m_population += workforce;
 
 	if (!system->HasCustomBodies() && sbody->GetPopulationAsFixed() > 0)
 		sbody->m_name = Pi::luaNameGen->BodyName(sbody, namerand);
 
 	// Add a bunch of things people consume
-	for (int i = 0; i < NUM_CONSUMABLES; i++) {
-		GalacticEconomy::Commodity t = consumables[i];
-		if (sbody->GetLifeAsFixed() > fixed(1, 2)) {
-			// life planets can make this jizz probably
-			if ((t == GalacticEconomy::Commodity::AIR_PROCESSORS) ||
-				(t == GalacticEconomy::Commodity::LIQUID_OXYGEN) ||
-				(t == GalacticEconomy::Commodity::GRAIN) ||
-				(t == GalacticEconomy::Commodity::FRUIT_AND_VEG) ||
-				(t == GalacticEconomy::Commodity::ANIMAL_MEAT)) {
-				continue;
-			}
-		}
-		system->AddTradeLevel(GalacticEconomy::Commodity(t), rand.Int32(32, 128));
+	for (const auto &t : GalacticEconomy::Consumables()) {
+		// Some consumables are assumed to be produced locally if the planet is suitably populated.
+		if (sbody->GetLifeAsFixed() > t.second.locally_produced_min)
+			continue;
+
+		const auto &consume_bounds = t.second.random_consumption;
+		uint32_t consumption = rand.Int32(consume_bounds[0], consume_bounds[1]);
+		system->AddTradeLevel(t.first, consumption);
+
+		// auto &commodity = GalacticEconomy::GetCommodityById(t.first);
+		// Output("System %s.%s adding consumable %s (%d) -> %d\n",
+		// 	system->GetName(), sbody->GetName(), commodity.name, consumption, system->GetTradeLevel(commodity.id));
 	}
 	// well, outdoor worlds should have way more people
 	sbody->m_population = fixed(1, 10) * sbody->m_population + sbody->m_population * sbody->GetAgriculturalAsFixed();
@@ -1681,27 +1692,38 @@ void PopulateStarSystemGenerator::SetCommodityLegality(RefCountedPtr<StarSystem:
 	if (a == Polit::GOV_NONE) return;
 
 	if (system->GetFaction()->idx != Faction::BAD_FACTION_IDX) {
-		for (const std::pair<const GalacticEconomy::Commodity, Uint32> &legality : system->GetFaction()->commodity_legality)
+		for (const std::pair<const GalacticEconomy::CommodityId, Uint32> &legality : system->GetFaction()->commodity_legality)
 			system->SetCommodityLegal(legality.first, (rand.Int32(100) >= legality.second));
 	} else {
-		// this is a non-faction system - do some hardcoded test
-		system->SetCommodityLegal(GalacticEconomy::Commodity::HAND_WEAPONS, (rand.Int32(2) == 0));
-		system->SetCommodityLegal(GalacticEconomy::Commodity::BATTLE_WEAPONS, (rand.Int32(3) == 0));
-		system->SetCommodityLegal(GalacticEconomy::Commodity::NERVE_GAS, (rand.Int32(10) == 0));
-		system->SetCommodityLegal(GalacticEconomy::Commodity::NARCOTICS, (rand.Int32(2) == 0));
-		system->SetCommodityLegal(GalacticEconomy::Commodity::SLAVES, (rand.Int32(16) == 0));
+		// this is a non-faction system - use the default illegality table
+		for (const auto &pair : GalacticEconomy::IllegalCommodities()) {
+			const auto &info = pair.second;
+			system->SetCommodityLegal(info.id, (rand.Int32(info.chance[1]) < info.chance[0]));
+		}
 	}
 }
 
 void PopulateStarSystemGenerator::SetEconType(RefCountedPtr<StarSystem::GeneratorAPI> system)
 {
-	if ((system->GetIndustrial() > system->GetMetallicity()) && (system->GetIndustrial() > system->GetAgricultural())) {
-		system->SetEconType(GalacticEconomy::ECON_INDUSTRY);
-	} else if (system->GetMetallicity() > system->GetAgricultural()) {
-		system->SetEconType(GalacticEconomy::ECON_MINING);
-	} else {
-		system->SetEconType(GalacticEconomy::ECON_AGRICULTURE);
+	PROFILE_SCOPED()
+	// stack allocated instead of std::vector for cache performance concerns.
+	std::vector<std::pair<fixed, GalacticEconomy::EconomyId>> economies (GalacticEconomy::Economies().size());
+	uint32_t idx = 0;
+
+	// Score each economy typ according to this system's parameters.
+	for (const auto &econ : GalacticEconomy::Economies()) {
+		fixed score;
+
+		score += system->GetAgricultural() * econ.generation.agricultural;
+		score += system->GetIndustrial() * econ.generation.industrial;
+		score += system->GetMetallicity() * econ.generation.metallicity;
+
+		economies[idx++] = {score, econ.id};
 	}
+
+	// highest-scoring economy ID is at the end of the array.
+	std::sort(economies.begin(), economies.end());
+	system->SetEconType(economies.back().second);
 }
 
 /* percent */
@@ -1720,7 +1742,6 @@ bool PopulateStarSystemGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galax
 	// This is 1 in sector (0,0,0) and approaches 0 farther out
 	// (1,0,0) ~ .688, (1,1,0) ~ .557, (1,1,1) ~ .48
 	system->SetHumanProx(galaxy->GetFactions()->IsHomeSystem(system->GetPath()) ? fixed(2, 3) : fixed(3, 1) / isqrt(9 + 10 * (system->GetPath().sectorX * system->GetPath().sectorX + system->GetPath().sectorY * system->GetPath().sectorY + system->GetPath().sectorZ * system->GetPath().sectorZ)));
-	system->SetEconType(GalacticEconomy::ECON_INDUSTRY);
 	system->SetIndustrial(rand.Fixed());
 	system->SetAgricultural(0);
 
@@ -1734,13 +1755,13 @@ bool PopulateStarSystemGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galax
 	// Lets use black magic to turn these into percentage base price
 	// alterations
 	int maximum = 0;
-	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; i++) {
-		maximum = std::max(abs(system->GetTradeLevel()[i]), maximum);
+	for (const auto &commodity : GalacticEconomy::Commodities()) {
+		maximum = std::max(abs(system->GetTradeLevel(commodity.id)), maximum);
 	}
 	if (maximum)
-		for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; i++) {
-			system->SetTradeLevel(GalacticEconomy::Commodity(i), (system->GetTradeLevel()[i] * MAX_COMMODITY_BASE_PRICE_ADJUSTMENT) / maximum);
-			system->AddTradeLevel(GalacticEconomy::Commodity(i), rand.Int32(-5, 5));
+		for (const auto &commodity : GalacticEconomy::Commodities()) {
+			system->SetTradeLevel(commodity.id, (system->GetTradeLevel(commodity.id) * MAX_COMMODITY_BASE_PRICE_ADJUSTMENT) / maximum);
+			system->AddTradeLevel(commodity.id, rand.Int32(-5, 5));
 		}
 
 	// Unused?

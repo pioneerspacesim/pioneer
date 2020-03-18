@@ -497,7 +497,7 @@ std::string JsonToBinStr(const Json &jsonObj)
 
 void to_json(Json &obj, const fixed &f)
 {
-	// produces e.g. "f(53/100)"
+	// produces e.g. "f53/100"
 	obj = std::string("f") + std::to_string((f.v & ~f.MASK) >> f.FRAC) + "/" + std::to_string(f.v & f.MASK);
 }
 
@@ -519,7 +519,7 @@ void from_json(const Json &obj, fixed &f)
 		int64_t numerator = std::strtol(next_str, &next_str, 10);
 
 		// handle cases: f/34, f1356, f14+4
-		if (numerator == 0 || next_str - str.c_str() >= str.size() || *next_str++ != '/')
+		if (numerator == 0 || next_str == nullptr || size_t(next_str - str.c_str()) >= str.size() || *next_str++ != '/')
 			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
 
 		int64_t denominator = std::strtol(next_str, &next_str, 10);

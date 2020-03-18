@@ -21,15 +21,15 @@ namespace GalacticEconomy {
 	// Loads and restores the commodity ID mappings in the saved game
 	// Commodity/EconomyIds returned by economy functions are only guaranteed to be correct with
 	// respect to the saved state between a FromJson() and ToJson() call.
-	void FromJson(const Json &obj);
+	void LoadFromJson(const Json &obj);
 
 	// Call when saving a game, serializes out name -> CommodityId mappings
-	void ToJson(Json &obj);
+	void SaveToJson(Json &obj);
 
 	using CommodityId = uint32_t;
-	static const int InvalidCommodityId = 0;
+	static const CommodityId InvalidCommodityId = 0;
 	using EconomyId = uint32_t;
-	static const int InvalidEconomyId = 0;
+	static const EconomyId InvalidEconomyId = 0;
 
 	// Information about a particular commodity type
 	struct CommodityInfo {

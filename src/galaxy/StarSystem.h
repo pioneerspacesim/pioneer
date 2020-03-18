@@ -67,14 +67,14 @@ public:
 	IterationProxy<std::vector<RefCountedPtr<SystemBody>>> GetBodies() { return MakeIterationProxy(m_bodies); }
 	const IterationProxy<const std::vector<RefCountedPtr<SystemBody>>> GetBodies() const { return MakeIterationProxy(m_bodies); }
 
-	bool IsCommodityLegal(const GalacticEconomy::Commodity t)
+	bool IsCommodityLegal(const GalacticEconomy::CommodityId t)
 	{
-		return m_commodityLegal[int(t)];
+		return m_commodityLegal[t];
 	}
 
-	int GetCommodityBasePriceModPercent(GalacticEconomy::Commodity t)
+	int GetCommodityBasePriceModPercent(GalacticEconomy::CommodityId t)
 	{
-		return m_tradeLevel[int(t)];
+		return m_tradeLevel[t];
 	}
 
 	const Faction *GetFaction() const { return m_faction; }
@@ -86,8 +86,7 @@ public:
 	fixed GetMetallicity() const { return m_metallicity; }
 	fixed GetIndustrial() const { return m_industrial; }
 	fixed GetAgricultural() const { return m_agricultural; }
-	GalacticEconomy::EconType GetEconType() const { return m_econType; }
-	const int *GetTradeLevel() const { return m_tradeLevel; }
+	GalacticEconomy::EconomyId GetEconType() const { return m_econType; }
 	int GetSeed() const { return m_seed; }
 	fixed GetHumanProx() const { return m_humanProx; }
 	fixed GetTotalPop() const { return m_totalPop; }
@@ -135,11 +134,11 @@ private:
 	double m_exploredTime;
 	fixed m_metallicity;
 	fixed m_industrial;
-	GalacticEconomy::EconType m_econType;
+	GalacticEconomy::EconomyId m_econType;
 	Uint32 m_seed;
 
 	// percent price alteration
-	int m_tradeLevel[GalacticEconomy::COMMODITY_COUNT];
+	std::vector<int> m_tradeLevel;
 
 	fixed m_agricultural;
 	fixed m_humanProx;
@@ -181,7 +180,7 @@ public:
 	}
 	void SetSeed(Uint32 seed) { m_seed = seed; }
 	void SetFaction(const Faction *faction) { m_faction = faction; }
-	void SetEconType(GalacticEconomy::EconType econType) { m_econType = econType; }
+	void SetEconType(GalacticEconomy::EconomyId econType) { m_econType = econType; }
 	void SetSysPolit(SysPolit polit) { m_polit = polit; }
 	void SetMetallicity(fixed metallicity) { m_metallicity = metallicity; }
 	void SetIndustrial(fixed industrial) { m_industrial = industrial; }
@@ -189,9 +188,12 @@ public:
 	void SetHumanProx(fixed humanProx) { m_humanProx = humanProx; }
 	void SetTotalPop(fixed pop) { m_totalPop = pop; }
 	void AddTotalPop(fixed pop) { m_totalPop += pop; }
-	void SetTradeLevel(GalacticEconomy::Commodity type, int level) { m_tradeLevel[int(type)] = level; }
-	void AddTradeLevel(GalacticEconomy::Commodity type, int level) { m_tradeLevel[int(type)] += level; }
-	void SetCommodityLegal(GalacticEconomy::Commodity type, bool legal) { m_commodityLegal[int(type)] = legal; }
+
+	// FIXME(sturnclaw): properly take into account InvalidCommodityId in these functions
+	int GetTradeLevel(GalacticEconomy::CommodityId type) { return m_tradeLevel[type]; }
+	void SetTradeLevel(GalacticEconomy::CommodityId type, int level) { m_tradeLevel[type] = level; }
+	void AddTradeLevel(GalacticEconomy::CommodityId type, int level) { m_tradeLevel[type] += level; }
+	void SetCommodityLegal(GalacticEconomy::CommodityId type, bool legal) { m_commodityLegal[type] = legal; }
 
 	void AddSpaceStation(SystemBody *station)
 	{

@@ -13,6 +13,7 @@
 #include "Orbit.h"
 #include "StringF.h"
 #include "enum_table.h"
+#include "galaxy/Economy.h"
 #include "lua/LuaEvent.h"
 #include "utils.h"
 #include <SDL_stdinc.h>
@@ -224,13 +225,12 @@ StarSystem::StarSystem(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, Sta
 	m_faction(nullptr),
 	m_explored(eEXPLORED_AT_START),
 	m_exploredTime(0.0),
-	m_econType(GalacticEconomy::ECON_MINING),
+	m_econType(GalacticEconomy::InvalidEconomyId),
 	m_seed(0),
-	m_commodityLegal(unsigned(GalacticEconomy::Commodity::COMMODITY_COUNT), true),
+	m_tradeLevel(GalacticEconomy::Commodities().size() + 1, 0),
+	m_commodityLegal(GalacticEconomy::Commodities().size() + 1, true),
 	m_cache(cache)
 {
-	PROFILE_SCOPED()
-	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
 }
 
 StarSystem::GeneratorAPI::GeneratorAPI(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache *cache, Random &rand) :
@@ -307,29 +307,13 @@ void StarSystem::MakeShortDescription()
 	else if (GetTotalPop() == 0) {
 		SetShortDesc(Lang::SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS);
 	} else if (GetTotalPop() < fixed(1, 10)) {
-		switch (GetEconType()) {
-		case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::SMALL_INDUSTRIAL_OUTPOST); break;
-		case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::SOME_ESTABLISHED_MINING); break;
-		case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::YOUNG_FARMING_COLONY); break;
-		}
+		SetShortDesc(GalacticEconomy::GetEconomyById(GetEconType()).l10n_key.small);
 	} else if (GetTotalPop() < fixed(1, 2)) {
-		switch (GetEconType()) {
-		case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::INDUSTRIAL_COLONY); break;
-		case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::MINING_COLONY); break;
-		case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::OUTDOOR_AGRICULTURAL_WORLD); break;
-		}
+		SetShortDesc(GalacticEconomy::GetEconomyById(GetEconType()).l10n_key.medium);
 	} else if (GetTotalPop() < fixed(5, 1)) {
-		switch (GetEconType()) {
-		case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::HEAVY_INDUSTRY); break;
-		case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::EXTENSIVE_MINING); break;
-		case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::THRIVING_OUTDOOR_WORLD); break;
-		}
+		SetShortDesc(GalacticEconomy::GetEconomyById(GetEconType()).l10n_key.large);
 	} else {
-		switch (GetEconType()) {
-		case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::INDUSTRIAL_HUB_SYSTEM); break;
-		case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::VAST_STRIP_MINE); break;
-		case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::HIGH_POPULATION_OUTDOOR_WORLD); break;
-		}
+		SetShortDesc(GalacticEconomy::GetEconomyById(GetEconType()).l10n_key.huge);
 	}
 }
 
@@ -550,14 +534,14 @@ void StarSystem::Dump(FILE *file, const char *indent, bool suppressSectorData) c
 	fprintf(file, "%s\tpopulation %.0f\n", indent, m_totalPop.ToDouble() * 1e9);
 	fprintf(file, "%s\tgovernment %s/%s, lawlessness %.2f\n", indent, m_polit.GetGovernmentDesc(), m_polit.GetEconomicDesc(),
 		m_polit.lawlessness.ToDouble() * 100.0);
-	fprintf(file, "%s\teconomy type%s%s%s\n", indent, m_econType == 0 ? " NONE" : m_econType & GalacticEconomy::ECON_AGRICULTURE ? " AGRICULTURE" : "",
-		m_econType & GalacticEconomy::ECON_INDUSTRY ? " INDUSTRY" : "", m_econType & GalacticEconomy::ECON_MINING ? " MINING" : "");
+	const char *econ_name = !m_econType ? "NONE" : GalacticEconomy::GetEconomyById(m_econType).name;
+	fprintf(file, "%s\teconomy type %s\n", indent, econ_name);
 	fprintf(file, "%s\thumanProx %.2f\n", indent, m_humanProx.ToDouble() * 100.0);
 	fprintf(file, "%s\tmetallicity %.2f, industrial %.2f, agricultural %.2f\n", indent, m_metallicity.ToDouble() * 100.0,
 		m_industrial.ToDouble() * 100.0, m_agricultural.ToDouble() * 100.0);
 	fprintf(file, "%s\ttrade levels {\n", indent);
-	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; ++i) {
-		fprintf(file, "%s\t\t%s = %d\n", indent, EnumStrings::GetString("CommodityType", i), m_tradeLevel[i]);
+	for (const auto &commodity : GalacticEconomy::Commodities()) {
+		fprintf(file, "%s\t\t%s = %d\n", indent, commodity.name, m_tradeLevel[commodity.id - 1]);
 	}
 	fprintf(file, "%s\t}\n", indent);
 	if (m_rootBody) {
