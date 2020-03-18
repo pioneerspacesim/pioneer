@@ -11,7 +11,6 @@
 #include "ShipAICmd.h"
 #include "ShipType.h"
 #include "SystemView.h"
-#include "galaxy/Economy.h"
 #include "galaxy/Polit.h"
 #include "galaxy/SystemBody.h"
 #include "gameui/Face.h"
@@ -138,48 +137,6 @@ const struct EnumItem ENUM_SystemViewColorIndex[] = {
 	{ "PLANNER_ORBIT", int(SystemView::PLANNER_ORBIT) },
 	{ "SELECTED_SHIP_ORBIT", int(SystemView::SELECTED_SHIP_ORBIT) },
 	{ "SHIP_ORBIT", int(SystemView::SHIP_ORBIT) },
-	{ 0, 0 },
-};
-
-const struct EnumItem ENUM_EconType[] = {
-	{ "MINING", int(GalacticEconomy::ECON_MINING) },
-	{ "AGRICULTURE", int(GalacticEconomy::ECON_AGRICULTURE) },
-	{ "INDUSTRY", int(GalacticEconomy::ECON_INDUSTRY) },
-	{ 0, 0 },
-};
-
-const struct EnumItem ENUM_CommodityType[] = {
-	{ "HYDROGEN", int(GalacticEconomy::Commodity::HYDROGEN) },
-	{ "LIQUID_OXYGEN", int(GalacticEconomy::Commodity::LIQUID_OXYGEN) },
-	{ "METAL_ORE", int(GalacticEconomy::Commodity::METAL_ORE) },
-	{ "CARBON_ORE", int(GalacticEconomy::Commodity::CARBON_ORE) },
-	{ "METAL_ALLOYS", int(GalacticEconomy::Commodity::METAL_ALLOYS) },
-	{ "PLASTICS", int(GalacticEconomy::Commodity::PLASTICS) },
-	{ "FRUIT_AND_VEG", int(GalacticEconomy::Commodity::FRUIT_AND_VEG) },
-	{ "ANIMAL_MEAT", int(GalacticEconomy::Commodity::ANIMAL_MEAT) },
-	{ "LIVE_ANIMALS", int(GalacticEconomy::Commodity::LIVE_ANIMALS) },
-	{ "LIQUOR", int(GalacticEconomy::Commodity::LIQUOR) },
-	{ "GRAIN", int(GalacticEconomy::Commodity::GRAIN) },
-	{ "TEXTILES", int(GalacticEconomy::Commodity::TEXTILES) },
-	{ "FERTILIZER", int(GalacticEconomy::Commodity::FERTILIZER) },
-	{ "WATER", int(GalacticEconomy::Commodity::WATER) },
-	{ "MEDICINES", int(GalacticEconomy::Commodity::MEDICINES) },
-	{ "CONSUMER_GOODS", int(GalacticEconomy::Commodity::CONSUMER_GOODS) },
-	{ "COMPUTERS", int(GalacticEconomy::Commodity::COMPUTERS) },
-	{ "ROBOTS", int(GalacticEconomy::Commodity::ROBOTS) },
-	{ "PRECIOUS_METALS", int(GalacticEconomy::Commodity::PRECIOUS_METALS) },
-	{ "INDUSTRIAL_MACHINERY", int(GalacticEconomy::Commodity::INDUSTRIAL_MACHINERY) },
-	{ "FARM_MACHINERY", int(GalacticEconomy::Commodity::FARM_MACHINERY) },
-	{ "MINING_MACHINERY", int(GalacticEconomy::Commodity::MINING_MACHINERY) },
-	{ "AIR_PROCESSORS", int(GalacticEconomy::Commodity::AIR_PROCESSORS) },
-	{ "SLAVES", int(GalacticEconomy::Commodity::SLAVES) },
-	{ "HAND_WEAPONS", int(GalacticEconomy::Commodity::HAND_WEAPONS) },
-	{ "BATTLE_WEAPONS", int(GalacticEconomy::Commodity::BATTLE_WEAPONS) },
-	{ "NERVE_GAS", int(GalacticEconomy::Commodity::NERVE_GAS) },
-	{ "NARCOTICS", int(GalacticEconomy::Commodity::NARCOTICS) },
-	{ "MILITARY_FUEL", int(GalacticEconomy::Commodity::MILITARY_FUEL) },
-	{ "RUBBISH", int(GalacticEconomy::Commodity::RUBBISH) },
-	{ "RADIOACTIVES", int(GalacticEconomy::Commodity::RADIOACTIVES) },
 	{ 0, 0 },
 };
 
@@ -532,8 +489,6 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "ProjectableTypes", ENUM_ProjectableTypes },
 	{ "ProjectableBases", ENUM_ProjectableBases },
 	{ "SystemViewColorIndex", ENUM_SystemViewColorIndex },
-	{ "EconType", ENUM_EconType },
-	{ "CommodityType", ENUM_CommodityType },
 	{ "PolitEcon", ENUM_PolitEcon },
 	{ "PolitGovType", ENUM_PolitGovType },
 	{ "BodyType", ENUM_BodyType },
@@ -580,8 +535,6 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "ProjectableTypes", ENUM_ProjectableTypes },
 	{ "ProjectableBases", ENUM_ProjectableBases },
 	{ "SystemViewColorIndex", ENUM_SystemViewColorIndex },
-	{ "EconType", ENUM_EconType },
-	{ "CommodityType", ENUM_CommodityType },
 	{ "PolitEcon", ENUM_PolitEcon },
 	{ "PolitGovType", ENUM_PolitGovType },
 	{ "BodyType", ENUM_BodyType },

@@ -1,0 +1,47 @@
+{
+	"//TODO": "assign these commodities to be produced by a high-tech economy instead of just INDUSTRIAL",
+	"commodities": {
+		"medicines": {
+			"l10n_key": "MEDICINES",
+			"inputs": [ "computers", "carbon_ore" ],
+			"producer": "industrial",
+			"price": 563
+		},
+		"computers": {
+			"l10n_key": "COMPUTERS",
+			"inputs": [ "precious_metals", "industrial_machinery" ],
+			"producer": "industrial",
+			"price": 461
+		},
+		"robots": {
+			"l10n_key": "ROBOTS",
+			"inputs": [ "plastics", "computers" ],
+			"producer": "industrial",
+			"price": 829
+		},
+		"industrial_machinery": {
+			"l10n_key": "INDUSTRIAL_MACHINERY",
+			"inputs": [ "metal_alloys", "robots" ],
+			"producer": "industrial",
+			"price": 124
+		},
+		"air_processors": {
+			"l10n_key": "AIR_PROCESSORS",
+			"inputs": [ "plastics", "industrial_machinery" ],
+			"producer": "industrial",
+			"price": 204
+		},
+		"battle_weapons": {
+			"l10n_key": "BATTLE_WEAPONS",
+			"inputs": [ "metal_alloys", "industrial_machinery" ],
+			"producer": "industrial",
+			"price": 607
+		},
+		"nerve_gas": {
+			"l10n_key": "NERVE_GAS",
+			"inputs": [ ],
+			"producer": "industrial",
+			"price": 813
+		}
+	}
+}
