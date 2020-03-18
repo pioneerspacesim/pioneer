@@ -9,6 +9,7 @@
 #include "Json.h"
 #include "Quaternion.h"
 #include "RefCounted.h"
+#include "fixed.h"
 #include "matrix3x3.h"
 #include "matrix4x4.h"
 #include "vector3.h"
@@ -55,6 +56,9 @@ void to_json(Json &obj, const matrix4x4<T> &mat) { MatrixToJson(obj, mat); }
 inline void to_json(Json &obj, const Color3ub &col) { ColorToJson(obj, col); }
 inline void to_json(Json &obj, const Color4ub &col) { ColorToJson(obj, col); }
 inline void to_json(Json &obj, const FrameId &t) { obj = t.id(); }
+
+void from_json(const Json &obj, fixed &n);
+void to_json(Json &obj, const fixed &n);
 
 // Parse JSON functions. These functions will throw Json::type_error if passed an invalid type.
 void JsonToVector(vector3f *vec, const Json &jsonObj);

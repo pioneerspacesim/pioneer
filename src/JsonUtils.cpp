@@ -17,9 +17,9 @@ extern "C" {
 }
 
 namespace {
-// XXX currently unused, uncomment if/when needed again.
-// also has some endianness issues,
-/*
+	// XXX currently unused, uncomment if/when needed again.
+	// also has some endianness issues,
+	/*
 	uint32_t pack4char(const uint8_t a, const uint8_t b, const uint8_t c, const uint8_t d)
 	{
 		return ((a << 24) | (b << 16) | (c << 8) | d);
@@ -493,4 +493,40 @@ std::string JsonToBinStr(const Json &jsonObj)
 	}
 
 	return binStr;
+}
+
+void to_json(Json &obj, const fixed &f)
+{
+	// produces e.g. "f(53/100)"
+	obj = std::string("f") + std::to_string((f.v & ~f.MASK) >> f.FRAC) + "/" + std::to_string(f.v & f.MASK);
+}
+
+void from_json(const Json &obj, fixed &f)
+{
+	if (obj.is_number_integer())
+		f = fixed(obj.get<int64_t>(), 1);
+
+	else if (obj.is_number_float())
+		f = fixed::FromDouble(obj.get<double>());
+
+	else {
+		std::string str = obj;
+		// must have at least f1/1, though can be f1234567/135758548 etc.
+		if (str.size() < 4 || obj[0] != 'f')
+			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
+
+		char *next_str = const_cast<char *>(str.c_str()) + 1;
+		int64_t numerator = std::strtol(next_str, &next_str, 10);
+
+		// handle cases: f/34, f1356, f14+4
+		if (numerator == 0 || next_str - str.c_str() >= str.size() || *next_str++ != '/')
+			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
+
+		int64_t denominator = std::strtol(next_str, &next_str, 10);
+		// handle cases f1345/7684gfrty; fixed numbers should not have any garbage data involved
+		if (next_str != str.c_str() + str.size())
+			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
+
+		f = fixed(numerator, denominator);
+	}
 }
