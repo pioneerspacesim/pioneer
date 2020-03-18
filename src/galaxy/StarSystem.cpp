@@ -307,13 +307,17 @@ void StarSystem::MakeShortDescription()
 	else if (GetTotalPop() == 0) {
 		SetShortDesc(Lang::SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS);
 	} else if (GetTotalPop() < fixed(1, 10)) {
-		SetShortDesc(GalacticEconomy::GetEconomyById(GetEconType()).l10n_key.small);
+		SetShortDesc(Lang::GetCore().Get(
+			GalacticEconomy::GetEconomyById(GetEconType()).l10n_key.small));
 	} else if (GetTotalPop() < fixed(1, 2)) {
-		SetShortDesc(GalacticEconomy::GetEconomyById(GetEconType()).l10n_key.medium);
+		SetShortDesc(Lang::GetCore().Get(
+			GalacticEconomy::GetEconomyById(GetEconType()).l10n_key.medium));
 	} else if (GetTotalPop() < fixed(5, 1)) {
-		SetShortDesc(GalacticEconomy::GetEconomyById(GetEconType()).l10n_key.large);
+		SetShortDesc(Lang::GetCore().Get(
+			GalacticEconomy::GetEconomyById(GetEconType()).l10n_key.large));
 	} else {
-		SetShortDesc(GalacticEconomy::GetEconomyById(GetEconType()).l10n_key.huge);
+		SetShortDesc(Lang::GetCore().Get(
+			GalacticEconomy::GetEconomyById(GetEconType()).l10n_key.huge));
 	}
 }
 

@@ -527,6 +527,9 @@ Ship.GetHyperspaceRange = function (self)
 	return engine:GetRange(self)
 end
 
+-- TODO(savebump): remove the compat mechanism from Ship.lua - it's several savebumps out of date,
+-- and will be obsoluted anyways
+
 compat.slots.new2old = {}
 for k,v in pairs(compat.slots.old2new) do
 	compat.slots.new2old[v] = k

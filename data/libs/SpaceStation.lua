@@ -42,13 +42,13 @@ local function updateEquipmentStock (station)
 	if equipmentStock[station] then return end
 	equipmentStock[station] = {}
 	local hydrogen = Equipment.cargo.hydrogen
-	for _,e in pairs(Equipment.cargo) do
+	for key, e in pairs(Equipment.cargo) do
 		if e.purchasable then
 			local rn = 100000 / math.abs(e.price) --have about 100,000 worth of stock, per commodity
 			if e == hydrogen then
 				equipmentStock[station][e] = math.floor(rn/2 + Engine.rand:Integer(0,rn)) --always stock hydrogen
 			else
-				local pricemod = Game.system:GetCommodityBasePriceAlterations(e)
+				local pricemod = Game.system:GetCommodityBasePriceAlterations(key)
 				local stock =  (Engine.rand:Integer(0,rn) + Engine.rand:Integer(0,rn)) / 2 -- normal 0-100% stock
 				if pricemod > 10 then --major import, very low stock
 					stock = stock - (rn*0.6) -- 0-40% stock
@@ -104,7 +104,7 @@ function SpaceStation:GetEquipmentPrice (e)
 	if equipmentPrice[self][e] then
 		return equipmentPrice[self][e]
 	end
-	local mul = e:IsValidSlot("cargo") and ((100 + Game.system:GetCommodityBasePriceAlterations(e)) / 100) or 1
+	local mul = e:IsValidSlot("cargo") and ((100 + Game.system:GetCommodityBasePriceAlterations(e.name)) / 100) or 1
 	return mul * e.price
 end
 

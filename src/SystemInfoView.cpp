@@ -10,6 +10,7 @@
 #include "SectorView.h"
 #include "Space.h"
 #include "StringF.h"
+#include "galaxy/Economy.h"
 #include "galaxy/Factions.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/Polit.h"
@@ -199,26 +200,28 @@ void SystemInfoView::UpdateEconomyTab()
 		m_econMType->Add(new Gui::Label(std::string("#ff0") + tradeType),
 			0, num++ * rowsep);
 
-		for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; i++) {
-			if (isInList(s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i))) && s->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
+		for (const auto &com : GalacticEconomy::Commodities()) {
+			int price_mod = s->GetCommodityBasePriceModPercent(com.id);
+			if (isInList(price_mod) && s->IsCommodityLegal(com.id)) {
 				std::string extra = meh;  // default color
 				std::string tooltip = ""; // no tooltip for default
 				if (compareSelectedWithCurrent) {
-					if (isInInterval(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
-						// change color
-						extra = colorInInterval;
-						// describe trade status in current system
-						tooltip = toolTipInInterval;
-					} else if (isOther(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
+					int current_price_mod = hs->GetCommodityBasePriceModPercent(com.id);
+					if (isInInterval(current_price_mod)) {
+						extra = colorInInterval;	 // change color
+						tooltip = toolTipInInterval; // describe trade status in current system
+					} else if (isOther(current_price_mod)) {
 						extra = colorOther;
 						tooltip = toolTipOther;
 					}
-					if (!hs->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
+					if (!hs->IsCommodityLegal(com.id)) {
 						extra = illegal;
 						tooltip = std::string(Lang::ILLEGAL_CURRENT_SYSTEM);
 					}
 				}
-				Gui::Label *label = new Gui::Label(extra + GalacticEconomy::COMMODITY_DATA[i].name);
+				// FIXME(sturnclaw): this should be looking up the name of the commodity in the economy language resource
+				// As this is fairly old code however and slated to be pigui'd, don't worry too much about it.
+				Gui::Label *label = new Gui::Label(extra + com.l10n_key);
 				label->SetToolTip(tooltip);
 				m_econMType->Add(label, 5, num++ * rowsep);
 			}
@@ -256,16 +259,19 @@ void SystemInfoView::UpdateEconomyTab()
 	m_econIllegal->Add(new Gui::Label(
 						   std::string("#f55") + std::string(Lang::ILLEGAL_GOODS)),
 		0, num++ * rowsep);
-	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; i++) {
-		if (!s->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
+	for (const auto &com : GalacticEconomy::Commodities()) {
+		if (!s->IsCommodityLegal(com.id)) {
 			std::string extra = illegal;
 			std::string tooltip = "";
 			if (compareSelectedWithCurrent)
-				if (hs->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
+				if (hs->IsCommodityLegal(com.id)) {
 					extra = meh;
 					tooltip = std::string(Lang::LEGAL_CURRENT_SYSTEM);
 				}
-			Gui::Label *label = new Gui::Label(extra + GalacticEconomy::COMMODITY_DATA[i].name);
+
+			// FIXME(sturnclaw): this should be looking up the name of the commodity in the economy language resource
+			// As this is fairly old code however and slated to be pigui'd, don't worry too much about it.
+			Gui::Label *label = new Gui::Label(extra + com.l10n_key);
 			label->SetToolTip(tooltip);
 			m_econIllegal->Add(label, 5, num++ * rowsep);
 		}

@@ -209,7 +209,7 @@ local createNewsEvent = function (timeInHyper)
 			local index = Engine.rand:Integer(1, #candidateSystems)
 			system = candidateSystems[index]
 
-			if system:IsCommodityLegal(cargo) then
+			if system:IsCommodityLegal(cargo.name) then
 				--print("cargo,", cargo:GetName(), "is legal in:", system.name)
 			else
 				--print("cargo,", cargo:GetName(), "is legal in:", system.name)

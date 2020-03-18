@@ -33,7 +33,7 @@ local hasIllegalGoods = function (cargo)
 	local illegal = false
 
 	for _, e in pairs(cargo) do
-		if not Game.system:IsCommodityLegal(e) then
+		if not Game.system:IsCommodityLegal(e.name) then
 			illegal = true
 			break
 		end
@@ -111,7 +111,7 @@ local onAICompleted = function (ship, ai_error)
 end
 
 local onJettison = function (ship, cargo)
-	if not ship:IsPlayer() or Game.system:IsCommodityLegal(cargo) then return end
+	if not ship:IsPlayer() or Game.system:IsCommodityLegal(cargo.name) then return end
 
 	if #patrol > 0 and showMercy then
 		local manifest = ship:GetEquip("cargo")
@@ -213,4 +213,3 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 
 Serializer:Register("PolicePatrol", serialize, unserialize)
-

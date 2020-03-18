@@ -15,7 +15,7 @@ local sellPriceReduction = 0.8
 local defaultFuncs = {
     -- can we display this item
     canDisplayItem = function (self, e)
-        return e.purchasable and e:IsValidSlot("cargo") and Game.system:IsCommodityLegal(e)
+        return e.purchasable and e:IsValidSlot("cargo") and Game.system:IsCommodityLegal(e.name)
     end,
 
     -- how much of this item do we have in stock?

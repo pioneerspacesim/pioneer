@@ -72,7 +72,7 @@ end
 
 local onJettison = function(ship, cargo)
 	if ship:IsPlayer() then
-		if cargo.price <= 0 or not Game.system:IsCommodityLegal(cargo) then
+		if cargo.price <= 0 or not Game.system:IsCommodityLegal(cargo.name) then
 			Legal:notifyOfCrime(ship,"DUMPING")
 		end
 	end
