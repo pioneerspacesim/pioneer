@@ -110,8 +110,6 @@ namespace Background {
 		void SetDrawFlags(const Uint32 flags);
 
 	private:
-		void Refresh(Random &rand, const Space* space, RefCountedPtr<Galaxy> galaxy);
-
 		Graphics::Renderer *m_renderer;
 		MilkyWay m_milkyWay;
 		Starfield m_starField;

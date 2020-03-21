@@ -269,7 +269,7 @@ namespace Background {
 			for (Sint32 x = sectorMin; x < sectorMax; x++) {
 				for (Sint32 y = sectorMin; y < sectorMax; y++) {
 					for (Sint32 z = sectorMin; z < sectorMax; z++) {
-						SystemPath sys(x, y, z);
+						SystemPath sys(current.sectorX + x, current.sectorY + y, current.sectorZ + z);
 						if (SystemPath::SectorDistanceSqr(sys, current) * Sector::SIZE >= visibleRadiusSqr)
 							continue; // early out
 
@@ -281,7 +281,7 @@ namespace Background {
 						for (size_t systemIndex = 0; systemIndex < numSystems; systemIndex++) {
 							const Sector::System *ss = &(sec->m_systems[systemIndex]);
 							const vector3f distance = Sector::SIZE * vector3f(current.sectorX, current.sectorY, current.sectorZ) - ss->GetFullPosition();
-							if (distance.Length() >= visibleRadius)
+							if (distance.LengthSqr() >= visibleRadiusSqr)
 								continue; // too far
 
 							// add the colors and luminosities of all stars in a system together
@@ -541,13 +541,6 @@ namespace Background {
 		rsd.depthTest = false;
 		rsd.depthWrite = false;
 		m_renderState = renderer->CreateRenderState(rsd);
-		m_universeBox.LoadCubeMap(rand);
-	}
-
-	void Container::Refresh(Random &rand, const Space* space, RefCountedPtr<Galaxy> galaxy)
-	{
-		// always redo starfield, milkyway stays normal for now
-		m_starField.Fill(rand, space, galaxy);
 		m_universeBox.LoadCubeMap(rand);
 	}
 
