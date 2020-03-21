@@ -523,7 +523,7 @@ static int l_pigui_plot_histogram(lua_State *l)
 	PROFILE_SCOPED()
 	std::string label = LuaPull<std::string>(l, 1);
 	LuaTable vals = LuaTable(l, 2);
-	float values[vals.Size()];
+	std::unique_ptr<float[]> values(new float[vals.Size()]);
 	float max = FLT_MIN;
 	float min = FLT_MAX;
 	for (int i = 1; i <= vals.Size(); i++) {
@@ -539,7 +539,7 @@ static int l_pigui_plot_histogram(lua_State *l)
 	float y_min = LuaPull<float>(l, 6, min);
 	float y_max = LuaPull<float>(l, 7, max);
 	ImVec2 graph_size = LuaPull<ImVec2>(l, 8, ImVec2(0, 0));
-	ImGui::PlotHistogram(label.c_str(), values, display_count, values_offset,
+	ImGui::PlotHistogram(label.c_str(), values.get(), display_count, values_offset,
 		overlay_text, y_min, y_max, graph_size);
 	return 0;
 }
