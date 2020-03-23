@@ -111,10 +111,10 @@ namespace SceneGraph {
 			if (decalsArray.size() != MAX_DECAL_MATERIALS) throw SavedGameCorruptException();
 			for (unsigned int i = 0; i < MAX_DECAL_MATERIALS; i++) {
 				Json arrayElem = decalsArray[i];
-				m_decals[i] = arrayElem["decal"];
+				m_decals[i] = arrayElem["decal"].get<std::string>();
 			}
 
-			m_label = modelSkinObj["label"];
+			m_label = modelSkinObj["label"].get<std::string>();
 		} catch (Json::type_error &) {
 			throw SavedGameCorruptException();
 		}

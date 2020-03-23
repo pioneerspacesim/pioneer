@@ -44,7 +44,7 @@ Body::Body(const Json &jsonObj, Space *space) :
 
 		Properties().LoadFromJson(bodyObj);
 		m_frame = bodyObj["index_for_frame"];
-		m_label = bodyObj["label"];
+		m_label = bodyObj["label"].get<std::string>();
 		Properties().Set("label", m_label);
 		m_dead = bodyObj["dead"];
 

@@ -192,7 +192,7 @@ FrameId Frame::FromJson(const Json &frameObj, Space *space, FrameId parent, doub
 
 		f->m_flags = frameObj["flags"];
 		f->m_radius = frameObj["radius"];
-		f->m_label = frameObj["label"];
+		f->m_label = frameObj["label"].get<std::string>();
 
 		f->m_pos = frameObj["pos"];
 		f->m_angSpeed = frameObj["ang_speed"];
