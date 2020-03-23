@@ -188,7 +188,7 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 
 		m_navLights->LoadFromJson(shipObj);
 
-		m_shipName = shipObj["name"];
+		m_shipName = shipObj["name"].get<std::string>();
 		Properties().Set("shipName", m_shipName);
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
