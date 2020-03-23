@@ -51,6 +51,7 @@ local clientFace
 local textWrapWidth = 100
 local scrollPosPrev = 0.0
 local scrollPos = 0.0
+local scrollMax = 0
 
 local icons = {}
 local currentIconSize = Vector2(0,0)
@@ -62,16 +63,23 @@ end
 local jobList = List.New("JobList", false, {
 	size = Vector2(ui.screenWidth * 0.5, 0),
 	style = {
-		windowPadding = widgetSizes.innerPadding,
+		padding = Vector2(0,0),
+		itemPadding = Vector2(8,8),
 		--itemSpacing = Vector2(6, 20),
 		flags = ui.WindowFlags {"AlwaysUseWindowPadding", "NoScrollbar"},
+		itemBgColor = Color(8, 19, 40),
+		highlightColor = Color(12,56,112),
+		selectColor = Color(12,48,96),
+		--selectColor = Color(12,63,112),
+		itemFrameColor = Color(25, 64, 90),
 	},
 	beforeItems = function(self)
-		local sc = math.ceil(-ui.getScrollY()* 100 / ui.getScrollMaxY())
+		scrollMax = ui.getScrollMaxY()
+		local sc = math.ceil(-ui.getScrollY()* 100 / scrollMax)
 		if scrollPosPrev ~= sc then
 			scrollPos = sc
 		elseif scrollPosPrev ~= scrollPos then
-			ui.setScrollY(math.ceil(-scrollPos/100 * ui.getScrollMaxY()))
+			ui.setScrollY(math.ceil(-scrollPos/100 * scrollMax))
 		end
 
 		scrollPosPrev = scrollPos
@@ -80,12 +88,11 @@ local jobList = List.New("JobList", false, {
 		if self.itemsMeta[key] ~= nil and self.itemsMeta[key].min and self.itemsMeta[key].max then
 			if self.highlightedItem == key then
 				ui.addRectFilled(self.itemsMeta[key].min, self.itemsMeta[key].max, self.style.highlightColor, 0, 0)
-			elseif selectedItem == item then
-				ui.addRectFilled(self.itemsMeta[key].min, self.itemsMeta[key].max, missionDetailsBg, 0, 0)
-			else
-				ui.addRectFilled(self.itemsMeta[key].min, self.itemsMeta[key].max, Color(8, 19, 40), 0, 0)
+			elseif selectedItem ~= item then
+				ui.addRectFilled(self.itemsMeta[key].min, self.itemsMeta[key].max, self.style.itemBgColor, 0, 0)
 			end
-			ui.addRect(self.itemsMeta[key].min, self.itemsMeta[key].max, Color(25, 64, 90), 0, 0, 2)
+
+			ui.addRect(self.itemsMeta[key].min, self.itemsMeta[key].max, self.style.selectColor, 0, 0, 2)
 		end
 	end,
 	renderItem = function(self, item, key)
@@ -98,10 +105,14 @@ local jobList = List.New("JobList", false, {
 
 		ui.group(function()
 			ui.withStyleColorsAndVars({}, {}, function()
-				ui.dummy(Vector2(0,0))
+				ui.dummy(self.style.paddingDummy)
 
 				local rightAlignPos = ui.getContentRegion().x - currentIconSize.x - widgetSizes.itemSpacing.x
-				ui.text(string.upper(item:GetTypeDescription()))
+				ui.withFont(orbiteer.large.name, orbiteer.large.size, function()
+					ui.dummy(vZero)
+					ui.sameLine(self.style.itemPadding.x)
+					ui.text(string.upper(item:GetTypeDescription()))
+				end)
 
 				ui.sameLine(rightAlignPos)
 				icons[icon]:Draw(widgetSizes.iconSize)
@@ -116,7 +127,8 @@ local jobList = List.New("JobList", false, {
 				ui.sameLine(rightAlignPos)
 				ui.text(days)
 
-
+				ui.dummy(vZero)
+				ui.sameLine(self.style.itemPadding.x)
 				ui.text(item.description or '')
 			end)
 		end)
@@ -125,11 +137,8 @@ local jobList = List.New("JobList", false, {
 		ui.dummy(vZero)
 	end,
 	onClickItem = function(self, item, key)
-		if Game.paused then
-			return
-		end
-
 		selectedItem = item
+		selectedItem.key = key
 		clientFace = InfoFace.New(item.client, {
 			windowPadding = widgetSizes.windowPadding,
 			itemSpacing = widgetSizes.itemSpacing,
@@ -145,6 +154,7 @@ local jobList = List.New("JobList", false, {
 
 local function refresh()
 	selectedItem = nil
+	jobList.items = {}
 	for ref,mission in pairs(Character.persistent.player.missions) do
 		for k, v in pairs(mission) do
 			print(k,v)
@@ -174,9 +184,16 @@ local function renderView()
 	ui.withFont(pionillium.large.name, pionillium.large.size, function()
 		ui.withStyleVars({WindowPadding = widgetSizes.bbPadding}, function()
 			ui.child("MissionsContainer", vZero, containerFlags, function()
-				--print("start", scrollPos)
-				scrollPos = ui.vSliderInt('###MissionsScrollbar', Vector2(10, ui.getContentRegion().y), scrollPosPrev, -100, 0, "")
-				ui.sameLine()
+				--print(ui.getContentRegion(), scrollMax)
+				if scrollMax > 0 then
+					scrollPos = ui.vSliderInt('###MissionsScrollbar', Vector2(10, ui.getContentRegion().y), scrollPosPrev, -100, 0, "")
+					ui.sameLine()
+				end
+
+				if selectedItem then
+					ui.addRectFilled(jobList.itemsMeta[selectedItem.key].min, jobList.itemsMeta[selectedItem.key].max + Vector2(200, 0), jobList.style.selectColor, 0, 0)
+				end
+
 				ui.child("MissionList", Vector2(ui.screenWidth * 0.5, 0), listFlags, function()
 					ui.text("Filter")
 					ui.sameLine()
@@ -197,7 +214,7 @@ local function renderView()
 
 				if selectedItem then
 					ui.sameLine()
-					ui.withStyleColorsAndVars({ChildWindowBg = missionDetailsBg},{WindowPadding = Vector2(8, 16)}, function()
+					ui.withStyleColorsAndVars({ChildWindowBg = jobList.style.selectColor},{WindowPadding = widgetSizes.bbPadding}, function()
 						ui.child("MissionDetails", vZero, detailsFlags, function()
 							local winSize = ui.getContentRegion() - widgetSizes.faceSize
 							ui.columns(2, "MissionDetailsColumns", false)

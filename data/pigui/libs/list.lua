@@ -70,17 +70,7 @@ function ListWidget.New(id, title, config)
 		scrollReset = false,
 		itemTypes = config.itemTypes or {},
 		columnCount = config.columnCount or 0,
-		style = {
-			flags = config.style.flags or ui.WindowFlags {"AlwaysUseWindowPadding"},
-			size = config.style.size or Vector2(ui.screenWidth / 2,0),
-			titleFont = config.style.titleFont or ui.fonts.orbiteer.xlarge,
-			highlightColor = config.style.highlightColor or Color(0,63,112),
-			styleColors = config.style.styleColors or {},
-			styleVars = config.style.styleVars or {
-				WindowPadding = config.style.padding or defaultSizes.padding,
-				ItemSpacing = config.style.itemSpacing or defaultSizes.itemSpacing,
-			},
-		},
+		style = config.style,
 		funcs = {
 			beforeItems = config.beforeItems or defaultFuncs.beforeItems,
 			canDisplayItem = config.canDisplayItem or defaultFuncs.canDisplayItem,
@@ -94,6 +84,18 @@ function ListWidget.New(id, title, config)
 			sortingFunction = config.sortingFunction or defaultFuncs.sortingFunction,
 		},
 	}
+
+	self.style.flags = config.style.flags or ui.WindowFlags {"AlwaysUseWindowPadding"}
+	self.style.size = config.style.size or Vector2(ui.screenWidth / 2,0)
+	self.style.titleFont = config.style.titleFont or ui.fonts.orbiteer.xlarge
+	self.style.highlightColor = config.style.highlightColor or Color(0,63,112)
+	self.style.styleColors = config.style.styleColors or {}
+	self.style.styleVars = config.style.styleVars or {
+		WindowPadding = config.style.padding or defaultSizes.padding,
+		ItemSpacing = config.style.itemSpacing or defaultSizes.itemSpacing,
+	}
+
+	self.style.paddingDummy = self.style.itemPadding - self.style.styleVars.ItemSpacing
 
 	setmetatable(self, {
 		__index = ListWidget,
@@ -116,14 +118,14 @@ function ListWidget:Render()
 				end
 
 				self.itemsMeta[key].min = ui.getCursorScreenPos()
-				self.itemsMeta[key].min.x = self.itemsMeta[key].min.x - self.style.styleVars.WindowPadding.x / 2
+				self.itemsMeta[key].min.x = self.itemsMeta[key].min.x - self.style.styleVars.WindowPadding.x
 
 				self.funcs.beforeRenderItem(self, item, key)
 
 				self.funcs.renderItem(self, item, key)
 
 				self.itemsMeta[key].max = ui.getCursorScreenPos()
-				self.itemsMeta[key].max.x = self.itemsMeta[key].max.x + self.contentRegion.x + self.style.styleVars.WindowPadding.x / 2
+				self.itemsMeta[key].max.x = self.itemsMeta[key].max.x + self.contentRegion.x + self.style.styleVars.WindowPadding.x
 
 				self.funcs.afterRenderItem(self, item, key)
 
