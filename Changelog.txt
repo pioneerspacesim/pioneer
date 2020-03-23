@@ -13,6 +13,7 @@ March 2020
      * Perf counter Windows memory info (#4820)
      * Remove unused newUI code, remove old StationView code (#4819)
      * Exposed plotHistogram to pigui code (#4828)
+     * Fix compilation error with operator= ambiguity (#4840)
 
 February 2020
    * New Features
