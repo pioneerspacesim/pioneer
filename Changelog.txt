@@ -8,6 +8,7 @@ March 2020
      * Prevent change of Pioneer's mouse pointer when hiding HUD (#4827)
      * Fix body grouping and setspeed target behaviour in flightUI (#4794)
      * Fix starfield not taking player's location into account (#4838)
+     * Improve Mouse Capture Handling, fix UI deadlock (#4842)
 
    * Internal Changes
      * Perf counter Windows memory info (#4820)
