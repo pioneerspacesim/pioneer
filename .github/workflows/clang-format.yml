@@ -9,7 +9,6 @@ on:
     paths:
     - 'src/**.cpp'
     - 'src/**.h'
-    - '!contrib/**'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -35,4 +34,4 @@ jobs:
 
     # Run the clang-format command (in $GITHUB_WORKSPACE, which is where the repo is checked out to)
     - name: Run clang-format
-      run: ./scripts/clang-format
+      run: ./scripts/clang-format.sh
