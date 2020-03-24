@@ -1265,9 +1265,6 @@ void Pi::MainLoop()
 		currentView->Update();
 		currentView->Draw3D();
 
-		// hide cursor for ship control. Do this before imgui runs, to prevent the mouse pointer from jumping
-		Pi::SetMouseGrab(input.MouseButtonState(SDL_BUTTON_RIGHT) | input.MouseButtonState(SDL_BUTTON_MIDDLE));
-
 		// XXX HandleEvents at the moment must be after view->Draw3D and before
 		// Gui::Draw so that labels drawn to screen can have mouse events correctly
 		// detected. Gui::Draw wipes memory of label positions.

@@ -206,11 +206,22 @@ void ShipViewController::Update()
 	Pi::input.GetMouseMotion(mouseMotion);
 
 	// external camera mouselook
-	if (Pi::input.MouseButtonState(SDL_BUTTON_MIDDLE) && !headtracker_input_priority) {
+	bool mouse_down = Pi::input.MouseButtonState(SDL_BUTTON_MIDDLE);
+	if (mouse_down && !headtracker_input_priority) {
+		if (!m_mouseActive) {
+			m_mouseActive = true;
+			Pi::input.SetCapturingMouse(true);
+		}
+
 		// invert the mouse input to convert between screen coordinates and
 		// right-hand coordinate system rotation.
 		cam->YawCamera(-mouseMotion[0] * MOUSELOOK_SPEED);
 		cam->PitchCamera(-mouseMotion[1] * MOUSELOOK_SPEED);
+	}
+
+	if (!mouse_down && m_mouseActive) {
+		m_mouseActive = false;
+		Pi::input.SetCapturingMouse(false);
 	}
 
 	m_activeCameraController->Update();
