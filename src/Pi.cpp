@@ -885,7 +885,8 @@ void Pi::HandleEvents()
 
 		Pi::pigui->ProcessEvent(&event);
 
-		if (Pi::pigui->WantCaptureMouse()) {
+		// Input system takes priority over mouse events when capturing the mouse
+		if (Pi::pigui->WantCaptureMouse() && !Pi::input.IsCapturingMouse()) {
 			// don't process mouse event any further, imgui already handled it
 			switch (event.type) {
 			case SDL_MOUSEBUTTONDOWN:
