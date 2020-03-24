@@ -1,20 +1,22 @@
-#!/bin/sh
+#!/bin/bash
 
-./scripts/clang-format.sh
+./scripts/clang-format.sh "$@"
+
 # Run clang-format, storing the output in MSG
 # Git runs hooks in the base directory, so we don't need to do any fancy dirname stuff.
 # $? will be non-zero if clang-format detected formatting issues.
-if [ "$?" != 0 ]; then
+format_ok=$?
+if ((format_ok == 1)); then
     # We've had a major malfunction!
     read -p "Do you want to automatically apply these changes (y/N)?" apply
     case $apply in
         y|Y)
 			# Get the patch info from the message and apply it to the staged changes.
-            PATCH_MODE=1 ./scripts/clang-format.sh | git apply --index -
+            PATCH_MODE=1 ./scripts/clang-format.sh "$@" | git apply --index -
             ;;
         *) exit 1;;
     esac
 else
     # All good, carry on.
-    exit 0
+    exit $format_ok
 fi

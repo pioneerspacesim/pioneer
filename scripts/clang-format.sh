@@ -1,32 +1,43 @@
 #!/bin/bash
 
-CLANG_FORMAT=`which "clang-format"`
-if [ ! $PATCH_MODE ]; then
+CLANG_FORMAT=$(which clang-format)
+
+# Github Actions compatibility
+if [[ $GITHUB_WORKSPACE ]]; then cd $GIT_WORKSPACE; fi
+
+# if PATCH_MODE is set to 0, then set it to the empty string so $PATCH_MODE continues to work
+if ((PATCH_MODE == 0)); then PATCH_MODE=""; fi
+
+if [[ $PATCH_MODE ]]; then
     echo "clang-format = $CLANG_FORMAT"
 fi
 
-if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
+if [[ $TRAVIS_PULL_REQUEST && $TRAVIS_PULL_REQUEST != "false" ]]; then
     # Check the whole commit range against $TRAVIS_BRANCH, the base merge branch
     # We could use $TRAVIS_COMMIT_RANGE but it doesn't play well with force pushes
-    RANGE="$(git rev-parse $TRAVIS_BRANCH) HEAD"
-else
-    # Test only the last commit
-    RANGE=HEAD
+    RANGE_BASE=$(git rev-parse $TRAVIS_BRANCH)
+elif [[ $FORMAT_BASE ]]; then
+	# Test all commits between the $FORMAT_BASE commit and HEAD
+	RANGE_BASE=$(git rev-parse $FORMAT_BASE)
 fi
 
-if [ -n "$TRAVIS" ]; then
+if [[ $RANGE_BASE ]]; then
+	# if we're comparing against a certain commit, diff the tree
     GIT_DIFF_TOOL="git diff-tree"
 else
+	# otherwise, only diff the HEAD against the index
     GIT_DIFF_TOOL="git diff-index --cached"
 fi
 
-FILES="$@"
 # Allow manually specifiying the files.
-if [ -z "$FILES" ]; then
-    FILES=$($GIT_DIFF_TOOL --no-commit-id --name-only --diff-filter=d -r $RANGE | grep -v contrib/ | grep -E "\.(c|h|cpp|hpp|cc|hh|cxx|m|mm|inc)$")
+FILES="$@"
+
+# Otherwise, get a list of all files changed between our RANGE_BASE and the current HEAD
+if [[ -z $FILES ]]; then
+    FILES=$($GIT_DIFF_TOOL --no-commit-id --name-only --diff-filter=d $RANGE_BASE HEAD | grep -v contrib/ | grep -E "\.(c|h|cpp|hpp|cc|hh|cxx|m|mm|inc)$")
 fi
 
-if [ ! $PATCH_MODE ]; then
+if [[ -z $PATCH_MODE ]]; then
     echo -e "Checking files:"
     for file in $FILES; do
         echo -e "\t$file"
@@ -37,7 +48,7 @@ prefix="static-check-clang-format"
 suffix="$(date +%s)"
 patch="/tmp/$prefix-$suffix.patch"
 
-if [ -z "$TRAVIS" ] && [ ! $PATCH_MODE ]; then
+if [[ -z $PATCH_MODE ]]; then
 	DIFF_COLOR="--color=always"
 else
 	DIFF_COLOR=""
@@ -53,14 +64,14 @@ for file in $FILES; do
 done
 
 # if no patch has been generated all is ok, clean up the file stub and exit
-if [ ! -s "$patch" ] ; then
+if [[ ! -s $patch ]] ; then
     printf "Files in this commit comply with the clang-format rules.\n"
     rm -f "$patch"
     exit 0
 fi
 
-if [ $PATCH_MODE ]; then
-	# Print the filename of the generated patch.
+if [[ $PATCH_MODE ]]; then
+	# Print the generated patch to stdout.
 	cat "$patch"
     rm -f "$patch"
 	exit 1
