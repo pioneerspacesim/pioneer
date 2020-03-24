@@ -31,22 +31,6 @@ addons:
 
 matrix:
   include:
-    # OSX is faster to boot and execute the checks, but has more contention for VM instances.
-    # Not waiting fifteen minutes for an instance to come available is faster.
-    - name: Static Checks
-      os: linux
-      env: STATIC_CHECKS=yes
-      deploy:
-        provider: null
-      before_install: skip
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - clang-format
-      script: bash ./scripts/clang-format.sh
-
     - name: Build GCC
       os: linux
 
@@ -74,17 +58,3 @@ deploy:
   on:
     repo: pioneerspacesim/pioneer
     tags: true
-    condition: $STATIC_CHECKS != yes
-
-notifications:
-  irc:
-    channels:
-      - "ircs://chat.freenode.net:6669/#pioneer"
-    on_success: always
-    on_failure: always
-    template:
-      - "%{repository_slug}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
-      - "Change view : %{compare_url}"
-      - "Build details : %{build_url}"
-    nick: travis-jameson
-    password: flyordie
