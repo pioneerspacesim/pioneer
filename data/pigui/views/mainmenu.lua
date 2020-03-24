@@ -252,6 +252,7 @@ local function showMainMenu()
 	end)
 
 	callModules('mainMenu')
+	callModules('modal')
 end -- showMainMenu
 
 ui.registerHandler('mainMenu',function(delta)

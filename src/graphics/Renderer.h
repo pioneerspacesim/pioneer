@@ -205,8 +205,6 @@ namespace Graphics {
 
 		Stats &GetStats() { return m_stats; }
 
-		void SetGrab(const bool grabbed);
-
 	protected:
 		int m_width;
 		int m_height;

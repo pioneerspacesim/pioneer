@@ -406,7 +406,9 @@ void ModelViewer::ChangeCameraPreset(SDL_Keycode key, SDL_Keymod mod)
 void ModelViewer::ToggleViewControlMode()
 {
 	m_options.mouselookEnabled = !m_options.mouselookEnabled;
-	m_renderer->SetGrab(m_options.mouselookEnabled);
+	// FIXME: update modelviewer to use Input::SetCaptureMouse instead
+	SDL_SetWindowGrab(m_renderer->GetSDLWindow(), SDL_bool(m_options.mouselookEnabled));
+	SDL_SetRelativeMouseMode(SDL_bool(m_options.mouselookEnabled));
 
 	if (m_options.mouselookEnabled) {
 		m_viewRot = matrix3x3f::RotateY(DEG2RAD(m_rotY)) * matrix3x3f::RotateX(DEG2RAD(Clamp(m_rotX, -90.0f, 90.0f)));
@@ -430,7 +432,9 @@ void ModelViewer::ClearModel()
 	m_scaleModel.reset();
 
 	m_options.mouselookEnabled = false;
-	m_renderer->SetGrab(false);
+	// FIXME: update modelviewer to use Input::SetCaptureMouse instead
+	SDL_SetWindowGrab(m_renderer->GetSDLWindow(), SDL_bool(m_options.mouselookEnabled));
+	SDL_SetRelativeMouseMode(SDL_bool(m_options.mouselookEnabled));
 	m_viewPos = vector3f(0.0f, 0.0f, 10.0f);
 	ResetCamera();
 }
@@ -833,7 +837,7 @@ void ModelViewer::PollEvents()
 				break;
 			default:
 				break; //shuts up -Wswitch
-			} //keysym switch
+			}		   //keysym switch
 			m_keyStates[event.key.keysym.sym] = true;
 			break;
 		case SDL_KEYUP:

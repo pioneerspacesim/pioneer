@@ -297,6 +297,8 @@ ui.registerHandler('game', function(delta_t)
 				end
 			end
 		end
+
+		callModules('modal')
 end)
 
 return gameView

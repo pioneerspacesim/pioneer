@@ -4,6 +4,7 @@
 #include "PiGui.h"
 #include "Pi.h"
 #include "graphics/opengl/TextureGL.h" // nasty, usage of GL is implementation specific
+#include "imgui/imgui.h"
 // Use GLEW instead of GL3W.
 #define IMGUI_IMPL_OPENGL_LOADER_GLEW 1
 #include "imgui/examples/imgui_impl_opengl3.h"
@@ -375,15 +376,13 @@ void *PiGui::makeTexture(unsigned char *pixels, int width, int height)
 void PiGui::NewFrame(SDL_Window *window)
 {
 	PROFILE_SCOPED()
-	// Ask ImGui to hide OS cursor if GUI is not being drawn:
-	// it will do this if MouseDrawCursor is true. After the frame
-	// is created, we set the actual cursor draw state.
-#if 0 // Mouse cursors are set via the OS facilities.
-	// See also below.
-	if (!Pi::DrawGUI) {
-		ImGui::GetIO().MouseDrawCursor = true;
+
+	// Ask ImGui to hide OS cursor if we're capturing it for input:
+	// it will do this if GetMouseCursor == ImGuiMouseCursor_None.
+	if (Pi::input.IsCapturingMouse()) {
+		ImGui::SetMouseCursor(ImGuiMouseCursor_None);
 	}
-#endif
+
 	switch (Pi::renderer->GetRendererType()) {
 	default:
 	case Graphics::RENDERER_DUMMY:
@@ -398,14 +397,6 @@ void PiGui::NewFrame(SDL_Window *window)
 
 	Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 	ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
-#if 0 // Mouse cursors are set via the OS facilities.
-	// We may want to revisit this at a later date.
-	if(Pi::DoingMouseGrab() || !Pi::DrawGUI) {
-		ImGui::GetIO().MouseDrawCursor = false;
-	} else {
-		ImGui::GetIO().MouseDrawCursor = true;
-	}
-#endif
 }
 
 void PiGui::RunHandler(double delta, std::string handler)

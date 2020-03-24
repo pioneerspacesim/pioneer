@@ -885,7 +885,8 @@ void Pi::HandleEvents()
 
 		Pi::pigui->ProcessEvent(&event);
 
-		if (Pi::pigui->WantCaptureMouse()) {
+		// Input system takes priority over mouse events when capturing the mouse
+		if (Pi::pigui->WantCaptureMouse() && !Pi::input.IsCapturingMouse()) {
 			// don't process mouse event any further, imgui already handled it
 			switch (event.type) {
 			case SDL_MOUSEBUTTONDOWN:
@@ -959,7 +960,7 @@ void Pi::TombStoneLoop()
 	float _time = 0;
 	do {
 		Pi::HandleEvents();
-		Pi::renderer->SetGrab(false);
+		Pi::input.SetCapturingMouse(false);
 
 		// render the scene
 		Pi::BeginRenderTarget();
@@ -1264,9 +1265,6 @@ void Pi::MainLoop()
 		currentView->Update();
 		currentView->Draw3D();
 
-		// hide cursor for ship control. Do this before imgui runs, to prevent the mouse pointer from jumping
-		Pi::SetMouseGrab(input.MouseButtonState(SDL_BUTTON_RIGHT) | input.MouseButtonState(SDL_BUTTON_MIDDLE));
-
 		// XXX HandleEvents at the moment must be after view->Draw3D and before
 		// Gui::Draw so that labels drawn to screen can have mouse events correctly
 		// detected. Gui::Draw wipes memory of label positions.
@@ -1399,11 +1397,11 @@ float Pi::GetMoveSpeedShiftModifier()
 void Pi::SetMouseGrab(bool on)
 {
 	if (!doingMouseGrab && on) {
-		Pi::renderer->SetGrab(true);
+		Pi::input.SetCapturingMouse(true);
 		Pi::ui->SetMousePointerEnabled(false);
 		doingMouseGrab = true;
 	} else if (doingMouseGrab && !on) {
-		Pi::renderer->SetGrab(false);
+		Pi::input.SetCapturingMouse(false);
 		Pi::ui->SetMousePointerEnabled(true);
 		doingMouseGrab = false;
 	}

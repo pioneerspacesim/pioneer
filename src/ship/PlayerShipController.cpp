@@ -134,6 +134,7 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 	matrix4x4d m;
 
 	int mouseMotion[2];
+	// have to use this function. SDL mouse position event is bugged in windows
 	SDL_GetRelativeMouseState(mouseMotion + 0, mouseMotion + 1); // call to flush
 
 	if (m_ship->GetFlightState() == Ship::FLYING) {
@@ -238,7 +239,6 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 
 		const float linearThrustPower = (InputBindings.thrustLowPower->IsActive() ? m_lowThrustPower : 1.0f);
 
-		// have to use this function. SDL mouse position event is bugged in windows
 		if (Pi::input.MouseButtonState(SDL_BUTTON_RIGHT)) {
 			// use ship rotation relative to system, unchanged by frame transitions
 			matrix3x3d rot = m_ship->GetOrientRelTo(Frame::GetFrame(m_ship->GetFrame())->GetNonRotFrame());
@@ -246,6 +246,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 				m_mouseDir = -rot.VectorZ();
 				m_mouseX = m_mouseY = 0;
 				m_mouseActive = true;
+				Pi::input.SetCapturingMouse(true);
 			}
 			vector3d objDir = m_mouseDir * rot;
 
@@ -267,8 +268,12 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 				matrix3x3d mrot = matrix3x3d::RotateY(modx) * matrix3x3d::RotateX(mody);
 				m_mouseDir = (rot * (mrot * objDir)).Normalized();
 			}
-		} else
+		} else {
+			if (m_mouseActive)
+				Pi::input.SetCapturingMouse(false);
+
 			m_mouseActive = false;
+		}
 
 		if (m_flightControlState == CONTROL_FIXSPEED) {
 			double oldSpeed = m_setSpeed;

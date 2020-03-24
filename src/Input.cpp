@@ -287,3 +287,14 @@ float Input::JoystickAxisState(int joystick, int axis)
 
 	return joysticks[joystick].axes[axis];
 }
+
+void Input::SetCapturingMouse(bool grabbed)
+{
+	// early-out to avoid changing (possibly) expensive WM state
+	if (grabbed == m_capturingMouse)
+		return;
+
+	SDL_SetWindowGrab(Pi::renderer->GetSDLWindow(), SDL_bool(grabbed));
+	SDL_SetRelativeMouseMode(SDL_bool(grabbed));
+	m_capturingMouse = grabbed;
+}

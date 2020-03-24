@@ -2,9 +2,6 @@
 
 CLANG_FORMAT=$(which clang-format)
 
-# Github Actions compatibility
-if [[ $GITHUB_WORKSPACE ]]; then cd $GIT_WORKSPACE; fi
-
 # if PATCH_MODE is set to 0, then set it to the empty string so $PATCH_MODE continues to work
 if ((PATCH_MODE == 0)); then PATCH_MODE=""; fi
 

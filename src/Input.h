@@ -132,6 +132,16 @@ public:
 		memcpy(motion, mouseMotion, sizeof(int) * 2);
 	}
 
+	// Capturing the mouse hides the cursor, puts the mouse into relative mode,
+	// and passes all mouse inputs to the input system, regardless of whether
+	// ImGui is using them or not.
+	bool IsCapturingMouse() const { return m_capturingMouse; }
+
+	// Set whether the application would like to capture the mouse.
+	// To avoid contention between different classes, please only call this when the state
+	// has actually changed.
+	void SetCapturingMouse(bool enabled);
+
 	sigc::signal<void, SDL_Keysym *> onKeyPress;
 	sigc::signal<void, SDL_Keysym *> onKeyRelease;
 	sigc::signal<void, int, int, int> onMouseButtonUp;
@@ -146,6 +156,7 @@ private:
 	int keyModState;
 	char mouseButton[6];
 	int mouseMotion[2];
+	bool m_capturingMouse;
 
 	bool joystickEnabled;
 	bool mouseYInvert;

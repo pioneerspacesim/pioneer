@@ -47,6 +47,7 @@ private:
 	CameraController *m_activeCameraController; //one of the above
 
 	bool headtracker_input_priority;
+	bool m_mouseActive;
 
 	void MouseWheel(bool up);
 

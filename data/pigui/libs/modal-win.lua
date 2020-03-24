@@ -74,4 +74,8 @@ ui.registerModule('mainMenu', function()
 	drawModals(1)
 end)
 
+ui.registerModule('modal', function()
+	drawModals(1)
+end)
+
 return ModalWindow
