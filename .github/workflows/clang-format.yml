@@ -9,9 +9,7 @@ on:
     paths:
     - 'src/**.cpp'
     - 'src/**.h'
-
-    paths-ignore:
-    - 'contrib/'
+    - '!contrib/**'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
