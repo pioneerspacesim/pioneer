@@ -48,10 +48,4 @@ namespace Graphics {
 		m_textureCache.clear();
 	}
 
-	void Renderer::SetGrab(const bool grabbed)
-	{
-		SDL_SetWindowGrab(m_window, SDL_bool(grabbed));
-		SDL_SetRelativeMouseMode(SDL_bool(grabbed));
-	}
-
 } // namespace Graphics

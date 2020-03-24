@@ -132,6 +132,9 @@ public:
 		memcpy(motion, mouseMotion, sizeof(int) * 2);
 	}
 
+	bool IsCapturingMouse() const { return m_capturingMouse; }
+	void SetCapturingMouse(bool enabled);
+
 	sigc::signal<void, SDL_Keysym *> onKeyPress;
 	sigc::signal<void, SDL_Keysym *> onKeyRelease;
 	sigc::signal<void, int, int, int> onMouseButtonUp;
@@ -146,6 +149,7 @@ private:
 	int keyModState;
 	char mouseButton[6];
 	int mouseMotion[2];
+	bool m_capturingMouse;
 
 	bool joystickEnabled;
 	bool mouseYInvert;

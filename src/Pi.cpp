@@ -959,7 +959,7 @@ void Pi::TombStoneLoop()
 	float _time = 0;
 	do {
 		Pi::HandleEvents();
-		Pi::renderer->SetGrab(false);
+		Pi::input.SetCapturingMouse(false);
 
 		// render the scene
 		Pi::BeginRenderTarget();
@@ -1399,11 +1399,11 @@ float Pi::GetMoveSpeedShiftModifier()
 void Pi::SetMouseGrab(bool on)
 {
 	if (!doingMouseGrab && on) {
-		Pi::renderer->SetGrab(true);
+		Pi::input.SetCapturingMouse(true);
 		Pi::ui->SetMousePointerEnabled(false);
 		doingMouseGrab = true;
 	} else if (doingMouseGrab && !on) {
-		Pi::renderer->SetGrab(false);
+		Pi::input.SetCapturingMouse(false);
 		Pi::ui->SetMousePointerEnabled(true);
 		doingMouseGrab = false;
 	}
