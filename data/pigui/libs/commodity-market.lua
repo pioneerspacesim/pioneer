@@ -85,10 +85,10 @@ function CommodityMarketWidget.New(id, title, config)
     end
     config.canDisplayItem = config.canDisplayItem or function (s, e) return e.purchasable and e:IsValidSlot("cargo") and Game.system:IsCommodityLegal(e) end
     config.onClickItem = config.onClickItem or function(s,e,k)
+        s.selectedItem = e
         s.tradeModeBuy = true
         s:ChangeTradeAmount(-s.tradeAmount)
         s:Refresh()
-        s.selectedItem = e
     end
 
     self = MarketWidget.New(id, title, config)
@@ -363,7 +363,6 @@ end
 
 function CommodityMarketWidget:Refresh()
     MarketWidget.refresh(self)
-    self.selectedItem = nil
 end
 
 function CommodityMarketWidget:Render(size)
