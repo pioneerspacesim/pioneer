@@ -16,6 +16,7 @@ March 2020
      * Exposed plotHistogram to pigui code (#4828)
      * Fix compilation error with operator= ambiguity (#4840)
      * Move clang-format to Github Actions (#4841)
+     * Cleanup Modal Window manager registration (#4843)
 
 February 2020
    * New Features
