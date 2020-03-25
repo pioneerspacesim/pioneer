@@ -66,14 +66,6 @@ local function drawModals(idx)
 	end
 end
 
-ui.registerModule('game', function()
-	drawModals(1)
-end)
-
-ui.registerModule('mainMenu', function()
-	drawModals(1)
-end)
-
 ui.registerModule('modal', function()
 	drawModals(1)
 end)
