@@ -820,6 +820,11 @@ ui.coloredSelectedButton = function(label, thesize, is_selected, bg_color, toolt
 	return res
 end
 ui.coloredSelectedIconButton = function(icon, thesize, is_selected, frame_padding, bg_color, fg_color, tooltip, img_size)
+	local uv0,uv1 = get_icon_tex_coords(icon)
+	return ui.coloredSelectedImgIconButton({texture = ui.icons_texture, uv0 = uv0, uv1 = uv1}, thesize, is_selected, frame_padding, bg_color, fg_color, tooltip, img_size)
+end
+
+ui.coloredSelectedImgIconButton = function(iconTextureData, thesize, is_selected, frame_padding, bg_color, fg_color, tooltip, img_size)
 	if is_selected then
 		pigui.PushStyleColor("Button", bg_color)
 		pigui.PushStyleColor("ButtonHovered", bg_color:tint(0.1))
@@ -829,9 +834,8 @@ ui.coloredSelectedIconButton = function(icon, thesize, is_selected, frame_paddin
 		pigui.PushStyleColor("ButtonHovered", bg_color:shade(0.4))
 		pigui.PushStyleColor("ButtonActive", bg_color:shade(0.2))
 	end
-	local uv0,uv1 = get_icon_tex_coords(icon)
 	pigui.PushID(tooltip)
-	local res = pigui.ButtonImageSized(ui.icons_texture, thesize, img_size or Vector2(0,0), uv0, uv1, frame_padding, ui.theme.colors.lightBlueBackground, fg_color)
+	local res = pigui.ButtonImageSized(iconTextureData.texture, thesize, img_size or Vector2(0,0), iconTextureData.uv0, iconTextureData.uv1, frame_padding, ui.theme.colors.lightBlueBackground, fg_color)
 	pigui.PopID()
 	pigui.PopStyleColor(3)
 	if pigui.IsItemHovered() then

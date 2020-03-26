@@ -54,7 +54,20 @@ local scrollPos = 0.0
 local scrollMax = 0
 
 local icons = {}
-local currentIconSize = Vector2(0,0)
+
+local filterIcons = {
+	'assassination',
+	'combat',
+	'delivery',
+	'haul',
+	'searchrescue',
+	'taxi',
+}
+
+local function getIcon(iconName)
+	if not icons[iconName] then icons[iconName] = PiImage.New("icons/bbs/" .. iconName .. ".png") end
+	return icons[iconName]
+end
 
 local function adActive(ref, ad)
 	return not ((type(ad.isEnabled) == "function" and not ad.isEnabled(ref)) or Game.paused)
@@ -98,16 +111,11 @@ local jobList = List.New("JobList", false, {
 	renderItem = function(self, item, key)
 		local icon = item.icon or "default"
 
-		if(icons[icon] == nil) then
-			icons[icon] = PiImage.New("icons/bbs/" .. icon .. ".png")
-			currentIconSize = icons[icon].texture.size
-		end
-
 		ui.group(function()
 			ui.withStyleColorsAndVars({}, {}, function()
 				ui.dummy(self.style.paddingDummy)
 
-				local rightAlignPos = ui.getContentRegion().x - currentIconSize.x - widgetSizes.itemSpacing.x
+				local rightAlignPos = ui.getContentRegion().x - widgetSizes.iconSize.x - widgetSizes.itemSpacing.x
 				ui.withFont(orbiteer.large.name, orbiteer.large.size, function()
 					ui.dummy(vZero)
 					ui.sameLine(self.style.itemPadding.x)
@@ -115,7 +123,7 @@ local jobList = List.New("JobList", false, {
 				end)
 
 				ui.sameLine(rightAlignPos)
-				icons[icon]:Draw(widgetSizes.iconSize)
+				getIcon(icon):Draw(widgetSizes.iconSize)
 
 				local dist = Game.system and string.format('%.2f %s', Game.system:DistanceTo(item.location) or "???", l.LY)
 				rightAlignPos = rightAlignPos - widgetSizes.missionDesc.distLength - widgetSizes.itemSpacing.x
@@ -195,17 +203,38 @@ local function renderView()
 				end
 
 				ui.child("MissionList", Vector2(ui.screenWidth * 0.5, 0), listFlags, function()
-					ui.text("Filter")
+					local rightAlignPos = ui.getContentRegion().x - ui.calcTextSize("Type").x
+
+					ui.text("Filter:")
 					ui.sameLine()
-					ui.text("Sort:")
-					ui.sameLine()
-					ui.text("Due")
-					ui.sameLine()
-					ui.text("Dist")
-					ui.sameLine()
+					local icon
+					ui.withFont(orbiteer.tiny.name, orbiteer.tiny.size, function()
+						for idx, iconName in ipairs(filterIcons) do
+							icon = getIcon(iconName)
+							ui.coloredSelectedImgIconButton({texture = icon.texture.id, uv0 = vZero, uv1 = icon.texture.uv}, widgetSizes.iconSize, false, 4, colors.buttonBlue, colors.white, iconName)
+							ui.sameLine()
+						end
+					end)
+
+					ui.sameLine(rightAlignPos)
+					ui.text("Type")
+
+					rightAlignPos = rightAlignPos - ui.calcTextSize("Importance").x - widgetSizes.itemSpacing.x
+					ui.sameLine(rightAlignPos)
 					ui.text("Importance")
-					ui.sameLine()
-					ui.text("Type none")
+
+					rightAlignPos = rightAlignPos - ui.calcTextSize("Dist").x - widgetSizes.itemSpacing.x
+					ui.sameLine(rightAlignPos)
+					ui.text("Dist")
+
+					rightAlignPos = rightAlignPos - ui.calcTextSize("Due").x - widgetSizes.itemSpacing.x
+					ui.sameLine(rightAlignPos)
+					ui.text("Due")
+
+					rightAlignPos = rightAlignPos - ui.calcTextSize("Sort:").x - widgetSizes.itemSpacing.x
+					ui.sameLine(rightAlignPos)
+					ui.text("Sort: ")
+
 					ui.pushTextWrapPos(textWrapWidth)
 					jobList:Render()
 					--print("end", scrollPos)
@@ -251,6 +280,7 @@ InfoView:registerView({
 	showView = true,
 	draw = renderView,
 	refresh = function()
+		print('ICON!!!', ui.theme.icons.star)
 		refresh()
 	end,
 })
