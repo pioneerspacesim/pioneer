@@ -17,6 +17,7 @@ March 2020
      * Fix compilation error with operator= ambiguity (#4840)
      * Move clang-format to Github Actions (#4841)
      * Cleanup Modal Window manager registration (#4843)
+     * Fix Commodity Market Message Lag (#4844)
 
 February 2020
    * New Features
