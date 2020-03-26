@@ -31,5 +31,6 @@ StationView:registerView({
 		resetSize = true
 		commodityMarket:Refresh()
 		commodityMarket.scrollReset = true
+		commodityMarket.selectedItem = nil
 	end,
 })
