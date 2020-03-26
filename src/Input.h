@@ -9,14 +9,17 @@
 
 #include <algorithm>
 
+class GameConfig;
+
 class Input {
 	// TODO: better decouple these two classes.
 	friend class Pi;
 
 public:
 	Input(){};
-	void Init();
+	void Init(GameConfig *config);
 	void InitGame();
+	void HandleSDLEvent(SDL_Event &ev);
 
 	// The Page->Group->Binding system serves as a thin veneer for the UI to make
 	// sane reasonings about how to structure the Options dialog.
@@ -149,7 +152,6 @@ public:
 	sigc::signal<void, bool> onMouseWheel;
 
 private:
-	void HandleSDLEvent(SDL_Event &ev);
 	void InitJoysticks();
 
 	std::map<SDL_Keycode, bool> keyState;

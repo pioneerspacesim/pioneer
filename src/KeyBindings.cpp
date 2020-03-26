@@ -46,12 +46,12 @@ namespace KeyBindings {
 		if (type == BINDING_DISABLED) {
 			return false;
 		} else if (type == KEYBOARD_KEY) {
-			if (!Pi::input.KeyState(u.keyboard.key))
+			if (!Pi::input->KeyState(u.keyboard.key))
 				return false;
 			if (u.keyboard.mod == KMOD_NONE)
 				return true;
 			else {
-				int mod = Pi::input.KeyModState();
+				int mod = Pi::input->KeyModState();
 				if (mod & KMOD_CTRL) {
 					mod |= KMOD_CTRL;
 				}
@@ -67,10 +67,10 @@ namespace KeyBindings {
 				return ((mod & u.keyboard.mod) == u.keyboard.mod);
 			}
 		} else if (type == JOYSTICK_BUTTON) {
-			return Pi::input.JoystickButtonState(u.joystickButton.joystick, u.joystickButton.button) != 0;
+			return Pi::input->JoystickButtonState(u.joystickButton.joystick, u.joystickButton.button) != 0;
 		} else if (type == JOYSTICK_HAT) {
 			// SDL_HAT generates diagonal directions by ORing two cardinal directions.
-			int hatState = Pi::input.JoystickHatState(u.joystickHat.joystick, u.joystickHat.hat);
+			int hatState = Pi::input->JoystickHatState(u.joystickHat.joystick, u.joystickHat.hat);
 			return (hatState & u.joystickHat.direction) == u.joystickHat.direction;
 		} else
 			abort();
@@ -126,10 +126,10 @@ namespace KeyBindings {
 			if (u.keyboard.mod & KMOD_GUI) oss << Lang::META << " + ";
 			oss << SDL_GetKeyName(u.keyboard.key);
 		} else if (type == JOYSTICK_BUTTON) {
-			oss << Pi::input.JoystickName(u.joystickButton.joystick);
+			oss << Pi::input->JoystickName(u.joystickButton.joystick);
 			oss << Lang::BUTTON << int(u.joystickButton.button);
 		} else if (type == JOYSTICK_HAT) {
-			oss << Pi::input.JoystickName(u.joystickHat.joystick);
+			oss << Pi::input->JoystickName(u.joystickHat.joystick);
 			oss << Lang::HAT << int(u.joystickHat.hat);
 			oss << Lang::DIRECTION << int(u.joystickHat.direction);
 		} else
@@ -209,7 +209,7 @@ namespace KeyBindings {
 			// force terminate
 			joyUUIDBuf[JoyUUIDLength - 1] = '\0';
 			// now, locate the internal ID.
-			int joy = Pi::input.JoystickFromGUIDString(joyUUIDBuf);
+			int joy = Pi::input->JoystickFromGUIDString(joyUUIDBuf);
 			if (joy == -1) {
 				return false;
 			}
@@ -255,10 +255,10 @@ namespace KeyBindings {
 				oss << "Mod" << int(kb.u.keyboard.mod);
 			}
 		} else if (kb.type == JOYSTICK_BUTTON) {
-			oss << "Joy" << Pi::input.JoystickGUIDString(kb.u.joystickButton.joystick);
+			oss << "Joy" << Pi::input->JoystickGUIDString(kb.u.joystickButton.joystick);
 			oss << "/Button" << int(kb.u.joystickButton.button);
 		} else if (kb.type == JOYSTICK_HAT) {
-			oss << "Joy" << Pi::input.JoystickGUIDString(kb.u.joystickButton.joystick);
+			oss << "Joy" << Pi::input->JoystickGUIDString(kb.u.joystickButton.joystick);
 			oss << "/Hat" << int(kb.u.joystickHat.hat);
 			oss << "Dir" << int(kb.u.joystickHat.direction);
 		} else {
@@ -411,14 +411,14 @@ namespace KeyBindings {
 	bool JoyAxisBinding::IsActive() const
 	{
 		// If the stick is within the deadzone, it's not active.
-		return fabs(Pi::input.JoystickAxisState(joystick, axis)) > deadzone;
+		return fabs(Pi::input->JoystickAxisState(joystick, axis)) > deadzone;
 	}
 
 	float JoyAxisBinding::GetValue() const
 	{
 		if (!Enabled()) return 0.0f;
 
-		const float o_val = Pi::input.JoystickAxisState(joystick, axis);
+		const float o_val = Pi::input->JoystickAxisState(joystick, axis);
 
 		// Deadzone with normalisation
 		float value = fabs(o_val);
@@ -456,7 +456,7 @@ namespace KeyBindings {
 			formatarg("sign", direction == KeyBindings::NEGATIVE ? "-" : ""), // no + sign if positive
 			formatarg("signp", direction == KeyBindings::NEGATIVE ? "-" : "+"), // optional with + sign
 			formatarg("joynum", joystick),
-			formatarg("joyname", Pi::input.JoystickName(joystick)),
+			formatarg("joyname", Pi::input->JoystickName(joystick)),
 			formatarg("axis", axis >= 0 && axis < 3 ? axis_names[axis] : ossaxisnum.str()));
 	}
 
@@ -489,7 +489,7 @@ namespace KeyBindings {
 		// force terminate
 		joyUUIDBuf[JoyUUIDLength - 1] = '\0';
 		// now, map the GUID to a joystick number
-		const int joystick = Pi::input.JoystickFromGUIDString(joyUUIDBuf);
+		const int joystick = Pi::input->JoystickFromGUIDString(joyUUIDBuf);
 		if (joystick == -1) {
 			return false;
 		}
@@ -536,7 +536,7 @@ namespace KeyBindings {
 				oss << '-';
 
 			oss << "Joy";
-			oss << Pi::input.JoystickGUIDString(joystick);
+			oss << Pi::input->JoystickGUIDString(joystick);
 			oss << "/Axis";
 			oss << int(axis);
 			oss << "/DZ" << deadzone;

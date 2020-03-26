@@ -4,7 +4,6 @@
 #ifndef _PI_H
 #define _PI_H
 
-#include "Input.h"
 #include "JobQueue.h"
 #include "Random.h"
 #include "gameconsts.h"
@@ -12,10 +11,12 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <sigc++/sigc++.h>
 
 class Game;
 
 class GameConfig;
+class Input;
 class Intro;
 class LuaConsole;
 class LuaNameGen;
@@ -151,7 +152,7 @@ public:
 	static bool doProfileOne;
 #endif
 
-	static Input input;
+	static Input *input;
 	static Player *player;
 	static TransferPlanner *planner;
 	static LuaConsole *luaConsole;

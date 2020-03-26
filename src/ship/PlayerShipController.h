@@ -92,7 +92,7 @@ private:
 	Body *m_navTarget;
 	Body *m_setSpeedTarget;
 	bool m_controlsLocked;
-	bool m_invertMouse; // used for rear view, *not* for invert Y-axis option (which is Pi::input.IsMouseYInvert)
+	bool m_invertMouse; // used for rear view, *not* for invert Y-axis option (which is Pi::input->IsMouseYInvert)
 	bool m_mouseActive;
 	bool m_disableMouseFacing;
 	bool m_rotationDamping;

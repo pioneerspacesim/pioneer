@@ -22,17 +22,17 @@ void ShipViewController::InputBinding::RegisterBindings()
 {
 	using namespace KeyBindings;
 
-	Input::BindingPage *page = Pi::input.GetBindingPage("ShipView");
+	Input::BindingPage *page = Pi::input->GetBindingPage("ShipView");
 	Input::BindingGroup *group;
 
 #define BINDING_GROUP(n) group = page->GetBindingGroup(#n);
 #define KEY_BINDING(n, id, k1, k2)                                    \
 	n =                                                               \
-		Pi::input.AddActionBinding(id, group, ActionBinding(k1, k2)); \
+		Pi::input->AddActionBinding(id, group, ActionBinding(k1, k2)); \
 	actions.push_back(n);
 #define AXIS_BINDING(n, id, k1, k2)                               \
 	n =                                                           \
-		Pi::input.AddAxisBinding(id, group, AxisBinding(k1, k2)); \
+		Pi::input->AddAxisBinding(id, group, AxisBinding(k1, k2)); \
 	axes.push_back(n);
 
 	BINDING_GROUP(GeneralViewControls)
@@ -89,17 +89,17 @@ void ShipViewController::Init()
 
 void ShipViewController::Activated()
 {
-	Pi::input.PushInputFrame(&InputBindings);
+	Pi::input->PushInputFrame(&InputBindings);
 
 	m_onMouseWheelCon =
-		Pi::input.onMouseWheel.connect(sigc::mem_fun(this, &ShipViewController::MouseWheel));
+		Pi::input->onMouseWheel.connect(sigc::mem_fun(this, &ShipViewController::MouseWheel));
 
 	Pi::player->GetPlayerController()->SetMouseForRearView(GetCamType() == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 }
 
 void ShipViewController::Deactivated()
 {
-	Pi::input.RemoveInputFrame(&InputBindings);
+	Pi::input->RemoveInputFrame(&InputBindings);
 
 	m_onMouseWheelCon.disconnect();
 }
@@ -203,14 +203,14 @@ void ShipViewController::Update()
 	}
 
 	int mouseMotion[2];
-	Pi::input.GetMouseMotion(mouseMotion);
+	Pi::input->GetMouseMotion(mouseMotion);
 
 	// external camera mouselook
-	bool mouse_down = Pi::input.MouseButtonState(SDL_BUTTON_MIDDLE);
+	bool mouse_down = Pi::input->MouseButtonState(SDL_BUTTON_MIDDLE);
 	if (mouse_down && !headtracker_input_priority) {
 		if (!m_mouseActive) {
 			m_mouseActive = true;
-			Pi::input.SetCapturingMouse(true);
+			Pi::input->SetCapturingMouse(true);
 		}
 
 		// invert the mouse input to convert between screen coordinates and
@@ -221,7 +221,7 @@ void ShipViewController::Update()
 
 	if (!mouse_down && m_mouseActive) {
 		m_mouseActive = false;
-		Pi::input.SetCapturingMouse(false);
+		Pi::input->SetCapturingMouse(false);
 	}
 
 	m_activeCameraController->Update();

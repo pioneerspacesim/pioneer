@@ -4,14 +4,13 @@
 #include "Input.h"
 #include "GameConfig.h"
 #include "Pi.h"
+#include "SDL.h"
 #include "ui/Context.h"
 
 #include <array>
 
-void Input::Init()
+void Input::Init(GameConfig *config)
 {
-	GameConfig *config = Pi::config;
-
 	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
 
@@ -181,6 +180,8 @@ void Input::HandleSDLEvent(SDL_Event &event)
 
 void Input::InitJoysticks()
 {
+	SDL_Init(SDL_INIT_JOYSTICK);
+
 	int joy_count = SDL_NumJoysticks();
 	Output("Initializing joystick subsystem.\n");
 	for (int n = 0; n < joy_count; n++) {

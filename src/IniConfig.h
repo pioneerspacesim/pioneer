@@ -4,7 +4,6 @@
 #ifndef _INICONFIG_H
 #define _INICONFIG_H
 
-#include "libs.h"
 #include <map>
 #include <string>
 

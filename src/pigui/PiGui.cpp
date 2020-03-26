@@ -379,7 +379,7 @@ void PiGui::NewFrame(SDL_Window *window)
 
 	// Ask ImGui to hide OS cursor if we're capturing it for input:
 	// it will do this if GetMouseCursor == ImGuiMouseCursor_None.
-	if (Pi::input.IsCapturingMouse()) {
+	if (Pi::input->IsCapturingMouse()) {
 		ImGui::SetMouseCursor(ImGuiMouseCursor_None);
 	}
 
