@@ -17,6 +17,7 @@ public:
 	OBJDEF(CargoBody, DynamicBody, CARGOBODY);
 	CargoBody() = delete;
 	CargoBody(const LuaRef &cargo, float selfdestructTimer = 86400.0f); // default to 24 h lifetime
+	CargoBody(const char *modelName, const LuaRef &cargo, float selfdestructTimer = 86400.0f); // default to 24 h lifetime
 	CargoBody(const Json &jsonObj, Space *space);
 	LuaRef GetCargoType() const { return m_cargo; }
 	virtual void SetLabel(const std::string &label) override;

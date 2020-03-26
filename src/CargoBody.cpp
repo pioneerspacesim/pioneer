@@ -22,6 +22,18 @@ CargoBody::CargoBody(const LuaRef &cargo, float selfdestructTimer) :
 		m_hasSelfdestruct = false;
 }
 
+CargoBody::CargoBody(const char *modelName, const LuaRef &cargo, float selfdestructTimer) :
+	m_cargo(cargo)
+{
+	SetModel(modelName);
+	Init();
+	SetMass(1.0);
+	m_selfdestructTimer = selfdestructTimer; // number of seconds to live
+
+	if (is_zero_exact(selfdestructTimer)) // turn off self destruct
+		m_hasSelfdestruct = false;
+}
+
 CargoBody::CargoBody(const Json &jsonObj, Space *space) :
 	DynamicBody(jsonObj, space)
 {

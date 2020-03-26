@@ -16,6 +16,7 @@
 #include "Ship.h"
 #include "Space.h"
 #include "SpaceStation.h"
+#include "CargoBody.h"
 
 /*
  * Interface: Space
@@ -551,6 +552,73 @@ static int l_space_spawn_ship_landed_near(lua_State *l)
 }
 
 /*
+ * Function: SpawnCargoNear
+ *
+ * Create a cargo container and place near the given <Body>
+ *
+ * > body = Space.SpawnCargoNear(item, body, min, max, lifetime)
+ *
+ * Parameters:
+ *
+ *   item - the item to put into the container
+ *
+ *   body - the <Body> near which the container should be spawned
+ *
+ *   min - minimum distance from the body to place the container, in m
+ *
+ *   max - maximum distance to place the container
+ *
+ *   lifetime - optional time in seconds until self destruct, default is 24h
+ *
+ * Return:
+ *
+ *   body - the <Body> object for the requested container
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_space_spawn_cargo_near(lua_State *l)
+{
+	if (!Pi::game)
+		luaL_error(l, "Game is not started");
+
+	LUA_DEBUG_START(l);
+
+	CargoBody * c_body;
+	const char * model;
+
+	lua_getfield(l, 1, "model_name");
+	if (lua_isstring(l, -1))
+		model = lua_tostring(l, -1);
+	else
+		model = "cargo";
+
+	if (lua_gettop(l) >= 5){
+		float lifetime = lua_tonumber(l, 5);
+		c_body = new CargoBody(model, LuaRef(l, 1), lifetime);
+	} else {
+		c_body = new CargoBody(model, LuaRef(l, 1));
+	}
+	Body * nearbody = LuaObject<Body>::CheckFromLua(2);
+	float min_dist = luaL_checknumber(l, 3);
+	float max_dist = luaL_checknumber(l, 4);
+	if (min_dist > max_dist)
+		luaL_error(l, "min_dist must not be larger than max_dist");
+
+	c_body->SetFrame(nearbody->GetFrame());
+	c_body->SetPosition((MathUtil::RandomPointOnSphere(min_dist, max_dist)) + nearbody->GetPosition());
+	c_body->SetVelocity(vector3d(0,0,0));
+	Pi::game->GetSpace()->AddBody(c_body);
+
+	LuaObject<Body>::PushToLua(c_body);
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
+/*
  * Function: GetBody
  *
  * Get the <Body> with the specificed body index.
@@ -720,6 +788,7 @@ void LuaSpace::Register()
 		{ "SpawnShipParked", l_space_spawn_ship_parked },
 		{ "SpawnShipLanded", l_space_spawn_ship_landed },
 		{ "SpawnShipLandedNear", l_space_spawn_ship_landed_near },
+		{ "SpawnCargoNear", l_space_spawn_cargo_near },
 
 		{ "GetBody", l_space_get_body },
 		{ "GetBodies", l_space_get_bodies },
