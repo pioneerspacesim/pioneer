@@ -434,12 +434,11 @@ void Pi::Init(const std::map<std::string, std::string> &options, bool no_gui)
 
 	// get threads up
 	Uint32 numThreads = config->Int("WorkerThreads");
-	const int numCores = OS::GetNumCores();
-	assert(numCores > 0);
-	if (numThreads == 0) numThreads = std::max(Uint32(numCores) - 1, 1U);
-	asyncJobQueue.reset(new AsyncJobQueue(numThreads));
+	numThreads = numThreads ? numThreads : std::max(OS::GetNumCores() - 1, 1U);
+	Pi::asyncJobQueue.reset(new AsyncJobQueue(numThreads));
+	Pi::syncJobQueue.reset(new SyncJobQueue);
+
 	Output("started %d worker threads\n", numThreads);
-	syncJobQueue.reset(new SyncJobQueue);
 
 	Output("ShipType::Init()\n");
 	// XXX early, Lua init needs it

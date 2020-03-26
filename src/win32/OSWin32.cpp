@@ -115,21 +115,7 @@ namespace OS {
 #endif
 	}
 
-	Uint64 HFTimerFreq()
-	{
-		LARGE_INTEGER i;
-		QueryPerformanceFrequency(&i);
-		return i.QuadPart;
-	}
-
-	Uint64 HFTimer()
-	{
-		LARGE_INTEGER i;
-		QueryPerformanceCounter(&i);
-		return i.QuadPart;
-	}
-
-	int GetNumCores()
+	uint32_t GetNumCores()
 	{
 		SYSTEM_INFO sysinfo;
 		GetSystemInfo(&sysinfo);
