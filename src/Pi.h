@@ -6,12 +6,15 @@
 
 #include "JobQueue.h"
 #include "Random.h"
+#include "core/GuiApplication.h"
 #include "gameconsts.h"
+#include "libs.h"
 
+#include "SDL_keyboard.h"
+#include <sigc++/sigc++.h>
 #include <map>
 #include <string>
 #include <vector>
-#include <sigc++/sigc++.h>
 
 class Game;
 
@@ -68,18 +71,70 @@ public:
 
 class Pi {
 public:
+	Pi() = delete;
+
+	class App final : public GuiApplication {
+	public:
+		// TODO: headless mode should be part of a different, process-wide inter
+		bool HeadlessMode() { return m_noGui; }
+
+		void SetStartPath(const SystemPath &startPath);
+
+	protected:
+		// for compatibility, while we're moving Pi's internals into App
+		friend class Pi;
+
+		// Pi-internal lifecycle classes
+		friend class MainMenu;
+		friend class GameLoop;
+		friend class TombstoneLoop;
+
+		App() :
+			GuiApplication("Pioneer") {}
+
+		void Startup() override;
+		void Shutdown() override;
+
+		void PreUpdate() override;
+		void PostUpdate() override;
+
+		void RunJobs();
+
+		void HandleRequests();
+		void HandleEvents();
+
+	private:
+		// msgs/requests that can be posted which the game processes at the end of a game loop in HandleRequests
+		enum class InternalRequests {
+			END_GAME = 0,
+			QUIT_GAME,
+		};
+
+		std::vector<InternalRequests> internalRequests;
+
+		bool m_noGui;
+
+		std::shared_ptr<Lifecycle> m_loader;
+		std::shared_ptr<Lifecycle> m_mainMenu;
+		std::shared_ptr<Lifecycle> m_gameLoop;
+	};
+
+public:
 	static void Init(const std::map<std::string, std::string> &options, bool no_gui = false);
-	static void InitGame();
-	static void StartGame();
+
+	static void StartGame(Game *game);
+
 	static void RequestEndGame(); // request that the game is ended as soon as safely possible
-	static void EndGame();
-	static void Start(const SystemPath &startPath);
 	static void RequestQuit();
-	static void MainLoop();
-	static void TombStoneLoop();
+
 	static void OnChangeDetailLevel();
 	static float GetFrameTime() { return frameTime; }
 	static float GetGameTickAlpha() { return gameTickAlpha; }
+	// for internal use, don't modify unless you know what you're doing
+	static void SetGameTickAlpha(float alpha) { gameTickAlpha = alpha; }
+
+	// FIXME: hacked-in singleton pattern, find a better way to locate the application
+	static App *GetApp() { return m_instance; }
 
 	static bool IsConsoleActive();
 
@@ -126,7 +181,6 @@ public:
 	static int statSceneTris;
 	static int statNumPatches;
 
-	static void DrawPiGui(double delta, std::string handler);
 	static void SetView(View *v);
 	static View *GetView() { return currentView; }
 
@@ -173,19 +227,12 @@ public:
 	static bool DrawGUI;
 
 private:
-	// msgs/requests that can be posted which the game processes at the end of a game loop in HandleRequests
-	enum InternalRequests {
-		END_GAME = 0,
-		QUIT_GAME,
-	};
 	static void Quit() __attribute((noreturn));
 	static void HandleKeyDown(SDL_Keysym *key);
 	static void HandleEvents();
-	static void HandleRequests();
 	static void HandleEscKey();
 
 	// private members
-	static std::vector<InternalRequests> internalRequests;
 	static const Uint32 SYNC_JOBS_PER_LOOP = 1;
 	static std::unique_ptr<AsyncJobQueue> asyncJobQueue;
 	static std::unique_ptr<SyncJobQueue> syncJobQueue;
@@ -218,6 +265,12 @@ private:
 
 	static bool isRecordingVideo;
 	static FILE *ffmpegFile;
+
+private:
+	// for compatibility, while we're moving Pi's internals into App
+	friend class App;
+
+	static App *m_instance;
 };
 
 #endif /* _PI_H */

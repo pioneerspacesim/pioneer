@@ -70,7 +70,7 @@ static int l_game_start_game(lua_State *l)
 			time(&now);
 			start_time = difftime(now, 946684799); // <--- Friday, 31 December 1999 23:59:59 GMT+00:00 as UNIX epoch time in seconds
 		}
-		Pi::game = new Game(*path, start_time);
+		Pi::StartGame(new Game(*path, start_time));
 	} catch (InvalidGameStartLocation &e) {
 		luaL_error(l, "invalid starting location for game: %s", e.error.c_str());
 	}
@@ -170,7 +170,7 @@ static int l_game_load_game(lua_State *l)
 	const std::string filename(luaL_checkstring(l, 1));
 
 	try {
-		Pi::game = Game::LoadGame(filename);
+		Pi::StartGame(Game::LoadGame(filename));
 	} catch (SavedGameCorruptException) {
 		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
 	} catch (SavedGameWrongVersionException) {

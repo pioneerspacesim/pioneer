@@ -16,7 +16,7 @@ class Input {
 	friend class Pi;
 
 public:
-	Input(){};
+	Input() = default;
 	void Init(GameConfig *config);
 	void InitGame();
 	void HandleSDLEvent(SDL_Event &ev);

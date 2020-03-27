@@ -176,12 +176,17 @@ start:
 
 		Pi::Init(options, mode == MODE_GALAXYDUMP);
 
-		if (mode == MODE_GAME)
-			for (;;) {
-				Pi::Start(startPath);
-				startPath = SystemPath(0, 0, 0, 0, 0); // Reset the start planet when coming back to the menu
-			}
-		else if (mode == MODE_GALAXYDUMP) {
+		if (mode == MODE_GAME) {
+			if (startPath != SystemPath(0, 0, 0, 0, 0))
+				Pi::GetApp()->SetStartPath(startPath);
+
+			Pi::GetApp()->Run();
+		} else if (mode == MODE_GALAXYDUMP) {
+			// TODO: don't initialize Pi when dumping the galaxy
+			// Galaxy generation is (mostly) self-contained, no need to e.g.
+			// turn on the renderer or load UI for this.
+			Error("GalaxyDump is not currently implemented!");
+
 			FILE *file = filename == "-" ? stdout : fopen(filename.c_str(), "w");
 			if (file == nullptr) {
 				Output("pioneer: could not open \"%s\" for writing: %s\n", filename.c_str(), strerror(errno));
