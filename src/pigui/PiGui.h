@@ -11,9 +11,9 @@
 #include <unordered_set>
 
 class PiFace {
-	friend class PiGui; // need acces to some private data
+	friend class PiGui;	   // need acces to some private data
 	std::string m_ttfname; // only the ttf name, it is automatically sought in data/fonts/
-	float m_sizefactor; // the requested pixelsize is multiplied by this factor
+	float m_sizefactor;	   // the requested pixelsize is multiplied by this factor
 	std::unordered_set<unsigned short> m_invalid_glyphs;
 	mutable std::vector<std::pair<unsigned short, unsigned short>> m_used_ranges;
 	ImVector<ImWchar> m_imgui_ranges;
@@ -87,6 +87,9 @@ public:
 	// Call at the start of every frame. Calls ImGui::NewFrame() internally.
 	void NewFrame(SDL_Window *window);
 
+	// Call at the end of a frame that you're not going to render the results of
+	void EndFrame();
+
 	// Calls ImGui::EndFrame() internally and does book-keeping before rendering.
 	void Render();
 
@@ -131,8 +134,6 @@ public:
 	static void ThrustIndicator(const std::string &id_string, const ImVec2 &size, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg);
 
 private:
-	void EndFrame();
-
 	LuaRef m_handlers;
 	LuaRef m_keys;
 	static std::vector<Graphics::Texture *> m_svg_textures;

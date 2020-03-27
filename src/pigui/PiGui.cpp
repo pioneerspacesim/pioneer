@@ -2,9 +2,12 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "PiGui.h"
+#include "Input.h"
 #include "Pi.h"
+
 #include "graphics/opengl/TextureGL.h" // nasty, usage of GL is implementation specific
 #include "imgui/imgui.h"
+
 // Use GLEW instead of GL3W.
 #define IMGUI_IMPL_OPENGL_LOADER_GLEW 1
 #include "imgui/examples/imgui_impl_opengl3.h"

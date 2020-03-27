@@ -6,6 +6,7 @@
 #include "Pi.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "utils.h"
 
 #include "perlin.h"
 #include "vcacheopt/vcacheopt.h"

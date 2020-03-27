@@ -6,7 +6,7 @@
 #include "Game.h"
 #include "GameConfig.h"
 #include "GameSaveError.h"
-#include "KeyBindings.h"
+#include "Input.h"
 #include "MathUtil.h"
 #include "Pi.h"
 #include "Player.h"
@@ -22,6 +22,7 @@
 #include "gui/Gui.h"
 #include "lua/LuaConstants.h"
 #include "lua/LuaObject.h"
+#include "utils.h"
 #include <algorithm>
 #include <sstream>
 #include <unordered_set>
@@ -637,7 +638,7 @@ void SectorView::AutoRoute(const SystemPath &start, const SystemPath &target, st
 	Output("SectorView::AutoRoute, nodes to search = %lu\n", nodes.size());
 
 	// setup inital values and set everything as unvisited
-	std::vector<float> path_dist; // distance from source to node
+	std::vector<float> path_dist;							   // distance from source to node
 	std::vector<std::vector<SystemPath>::size_type> path_prev; // previous node in optimal path
 	std::unordered_set<std::vector<SystemPath>::size_type> unvisited;
 	for (std::vector<SystemPath>::size_type i = 0; i < nodes.size(); i++) {

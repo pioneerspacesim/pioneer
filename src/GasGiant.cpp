@@ -11,12 +11,13 @@
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
-#include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
+#include "graphics/Renderer.h"
 #include "graphics/Texture.h"
 #include "graphics/VertexArray.h"
 #include "graphics/opengl/GenGasGiantColourMaterial.h"
 #include "perlin.h"
+#include "utils.h"
 #include "vcacheopt/vcacheopt.h"
 
 RefCountedPtr<GasPatchContext> GasGiant::s_patchContext;
@@ -27,7 +28,7 @@ namespace {
 	static Uint32 s_texture_size_gpu[5];
 	static Uint32 s_noiseOctaves[5];
 	static float s_initialCPUDelayTime = 60.0f; // (perhaps) 60 seconds seems like a reasonable default
-	static float s_initialGPUDelayTime = 5.0f; // (perhaps) 5 seconds seems like a reasonable default
+	static float s_initialGPUDelayTime = 5.0f;	// (perhaps) 5 seconds seems like a reasonable default
 	static std::vector<GasGiant *> s_allGasGiants;
 
 	static const std::string GGJupiter("GGJupiter");

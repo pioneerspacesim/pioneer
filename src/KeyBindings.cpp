@@ -3,6 +3,7 @@
 
 #include "KeyBindings.h"
 #include "GameConfig.h"
+#include "Input.h"
 #include "Lang.h"
 #include "Pi.h"
 #include "StringF.h"
@@ -453,7 +454,7 @@ namespace KeyBindings {
 		ossaxisnum << int(axis);
 
 		return stringf(Lang::JOY_AXIS,
-			formatarg("sign", direction == KeyBindings::NEGATIVE ? "-" : ""), // no + sign if positive
+			formatarg("sign", direction == KeyBindings::NEGATIVE ? "-" : ""),	// no + sign if positive
 			formatarg("signp", direction == KeyBindings::NEGATIVE ? "-" : "+"), // optional with + sign
 			formatarg("joynum", joystick),
 			formatarg("joyname", Pi::input->JoystickName(joystick)),

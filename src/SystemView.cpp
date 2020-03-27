@@ -7,6 +7,7 @@
 #include "Frame.h"
 #include "Game.h"
 #include "GameLog.h"
+#include "Input.h"
 #include "Lang.h"
 #include "Pi.h"
 #include "Player.h"
@@ -679,7 +680,7 @@ void SystemView::OnClickShip(Ship *s)
 		return;
 	}
 	if (Pi::player->GetNavTarget() == s) { //un-select ship if already selected
-		Pi::player->SetNavTarget(0); // remove current
+		Pi::player->SetNavTarget(0);	   // remove current
 		m_game->log->Add(Lang::UNSET_NAVTARGET);
 		m_infoLabel->SetText(""); // remove lingering text
 		m_infoText->SetText("");
