@@ -252,7 +252,10 @@ if (NOT USE_SYSTEM_LIBLUA)
 	include_directories(contrib/lua)
 endif (NOT USE_SYSTEM_LIBLUA)
 
+add_subdirectory(src/core)
+
 define_pioneer_library(pioneer-lib PIONEER_CXX_FILES PIONEER_HXX_FILES)
+target_link_libraries(pioneer-lib PUBLIC pioneer-core)
 
 add_subdirectory(src/lua)
 
