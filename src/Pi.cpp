@@ -327,8 +327,9 @@ void Pi::App::Startup()
 	startupTimer.Start();
 
 	Application::Startup();
-
+#if PIONEER_PROFILER
 	Pi::profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
+#endif
 
 	if (config->Int("RedirectStdio"))
 		OS::RedirectStdio();

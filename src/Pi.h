@@ -155,11 +155,6 @@ public:
 	static std::string GetSaveDir();
 	static SceneGraph::Model *FindModel(const std::string &, bool allowPlaceholder = true);
 
-	static void CreateRenderTarget(const Uint16 width, const Uint16 height);
-	static void DrawRenderTarget();
-	static void BeginRenderTarget();
-	static void EndRenderTarget();
-
 	static const char SAVE_DIR_NAME[];
 
 	static sigc::signal<void> onPlayerChangeTarget; // navigation or combat
@@ -227,9 +222,7 @@ public:
 	static bool DrawGUI;
 
 private:
-	static void Quit() __attribute((noreturn));
 	static void HandleKeyDown(SDL_Keysym *key);
-	static void HandleEvents();
 	static void HandleEscKey();
 
 	// private members
