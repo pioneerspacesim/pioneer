@@ -221,6 +221,11 @@ namespace Profiler {
 			return dur.count();
 		}
 
+		f64 seconds() {
+			std::chrono::duration<f64> dur = std::chrono::steady_clock::duration(ticks);
+			return dur.count();
+		}
+
 		f64 milliseconds() { return ms(ticks); }
 		f64 currentmilliseconds() { return ms(ticks + (getticks() - started)); }
 		f64 avg() { return average(ticks, calls); }
