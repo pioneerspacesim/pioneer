@@ -88,9 +88,8 @@ void Application::EndLifecycle()
 
 void Application::ClearQueuedLifecycles()
 {
-	// std::queue doesn't provide a clear() method
-	// so simply invoke the destructor by reinitializing the queue
-	m_queuedLifecycles = {};
+	while (m_queuedLifecycles.size())
+		m_queuedLifecycles.pop();
 }
 
 void Application::Run()
