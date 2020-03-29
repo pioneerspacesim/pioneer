@@ -18,6 +18,8 @@ March 2020
      * Move clang-format to Github Actions (#4841)
      * Cleanup Modal Window manager registration (#4843)
      * Fix Commodity Market Message Lag (#4844)
+     * Refactor Main Loop, add Application abstraction (#4845)
+     * Cleaned up GPU flags for AMD (#4846)
 
 February 2020
    * New Features
