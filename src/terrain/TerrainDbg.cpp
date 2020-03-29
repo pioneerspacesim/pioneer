@@ -5,6 +5,7 @@
 
 #include "GameConfig.h"
 #include "Pi.h"
+#include "utils.h"
 
 void Terrain::DebugDump() const
 {

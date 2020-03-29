@@ -64,13 +64,13 @@ WorldView::InputBinding WorldView::InputBindings;
 void WorldView::RegisterInputBindings()
 {
 	using namespace KeyBindings;
-	Input::BindingPage *page = Pi::input.GetBindingPage("General");
+	Input::BindingPage *page = Pi::input->GetBindingPage("General");
 	Input::BindingGroup *group;
 
 #define BINDING_GROUP(n) group = page->GetBindingGroup(#n);
-#define KEY_BINDING(n, id, k1, k2) InputBindings.n = Pi::input.AddActionBinding(id, group, \
+#define KEY_BINDING(n, id, k1, k2) InputBindings.n = Pi::input->AddActionBinding(id, group, \
 									   ActionBinding(k1, k2));
-#define AXIS_BINDING(n, id, k1, k2) InputBindings.n = Pi::input.AddAxisBinding(id, group, \
+#define AXIS_BINDING(n, id, k1, k2) InputBindings.n = Pi::input->AddAxisBinding(id, group, \
 										AxisBinding(k1, k2));
 
 	BINDING_GROUP(Miscellaneous)

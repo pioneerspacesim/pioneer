@@ -5,13 +5,13 @@
 #include "Easing.h"
 #include "Lang.h"
 #include "Pi.h"
+#include "galaxy/Galaxy.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "scenegraph/ModelSkin.h"
 #include "scenegraph/SceneGraph.h"
 #include <algorithm>
-#include "galaxy/Galaxy.h"
 
 struct PiRngWrapper {
 	unsigned int operator()(unsigned int n)
@@ -84,7 +84,7 @@ Intro::~Intro()
 		delete (*i);
 }
 
-void Intro::Reset(float _time)
+void Intro::Reset()
 {
 	m_model = m_models[m_modelIndex++];
 	if (m_modelIndex == m_models.size()) m_modelIndex = 0;
@@ -95,7 +95,7 @@ void Intro::Reset(float _time)
 	m_zoomBegin = -10000.0f;
 	m_zoomEnd = -m_model->GetDrawClipRadius() * 1.7f;
 	m_dist = m_zoomBegin;
-	m_startTime = _time;
+	m_startTime = Pi::GetApp()->GetTime();
 	m_needReset = false;
 }
 
@@ -104,12 +104,13 @@ static const float ZOOM_IN_END = 2.0f;
 static const float WAIT_END = 12.0f;
 static const float ZOOM_OUT_END = 14.0f;
 
-void Intro::Draw(float _time)
+void Intro::Draw(float deltaTime)
 {
 	if (m_needReset)
-		Reset(_time);
+		Reset();
 
-	float duration = _time - m_startTime;
+	// FIXME: add a better interface for retrieving a global time source
+	float duration = Pi::GetApp()->GetTime() - m_startTime;
 
 	// zoom in
 	if (duration < ZOOM_IN_END)
@@ -138,7 +139,7 @@ void Intro::Draw(float _time)
 
 	// XXX all this stuff will be gone when intro uses a Camera
 	// rotate background by time, and a bit extra Z so it's not so flat
-	matrix4x4d brot = matrix4x4d::RotateXMatrix(-0.25 * _time) * matrix4x4d::RotateZMatrix(0.6);
+	matrix4x4d brot = matrix4x4d::RotateXMatrix(-0.25 * Pi::GetApp()->GetTime()) * matrix4x4d::RotateZMatrix(0.6);
 	m_renderer->ClearDepthBuffer();
 	m_background->Draw(brot);
 
@@ -148,6 +149,6 @@ void Intro::Draw(float _time)
 	matrix4x4f trans =
 		matrix4x4f::Translation(0, 0, m_dist) *
 		matrix4x4f::RotateXMatrix(DEG2RAD(-15.0f)) *
-		matrix4x4f::RotateYMatrix(_time);
+		matrix4x4f::RotateYMatrix(duration);
 	m_model->Render(trans);
 }

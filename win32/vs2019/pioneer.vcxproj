@@ -383,6 +383,8 @@
     <ClCompile Include="..\..\src\CityOnPlanet.cpp" />
     <ClCompile Include="..\..\src\CollMesh.cpp" />
     <ClCompile Include="..\..\src\Color.cpp" />
+    <ClCompile Include="..\..\src\core\Application.cpp" />
+    <ClCompile Include="..\..\src\core\GuiApplication.cpp" />
     <ClCompile Include="..\..\src\CRC32.cpp" />
     <ClCompile Include="..\..\src\DateTime.cpp" />
     <ClCompile Include="..\..\src\DeathView.cpp" />
@@ -585,6 +587,8 @@
     <ClInclude Include="..\..\src\CityOnPlanet.h" />
     <ClInclude Include="..\..\src\CollMesh.h" />
     <ClInclude Include="..\..\src\Color.h" />
+    <ClInclude Include="..\..\src\core\Application.h" />
+    <ClInclude Include="..\..\src\core\GuiApplication.h" />
     <ClInclude Include="..\..\src\CRC32.h" />
     <ClInclude Include="..\..\src\DateTime.h" />
     <ClInclude Include="..\..\src\DeathView.h" />

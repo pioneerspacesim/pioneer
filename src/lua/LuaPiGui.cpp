@@ -955,7 +955,7 @@ static int l_pigui_get_axisbinding(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string binding = "";
-	if (!Pi::input.IsJoystickEnabled()) {
+	if (!Pi::input->IsJoystickEnabled()) {
 		lua_pushnil(l);
 		return 1;
 	}
@@ -972,13 +972,13 @@ static int l_pigui_get_axisbinding(lua_State *l)
 
 	// otherwise actually check the joystick
 
-	auto joysticks = Pi::input.GetJoysticksState();
+	auto joysticks = Pi::input->GetJoysticksState();
 
 	for (auto js : joysticks) {
 		std::vector<float> axes = js.second.axes;
 		for (size_t a = 0; a < axes.size(); a++) {
 			if (axes[a] > 0.25 || axes[a] < -0.25) {
-				binding = "Joy" + Pi::input.JoystickGUIDString(js.first) + "/Axis" + std::to_string(a);
+				binding = "Joy" + Pi::input->JoystickGUIDString(js.first) + "/Axis" + std::to_string(a);
 				break;
 			}
 		}
@@ -1028,14 +1028,14 @@ static int l_pigui_get_keybinding(lua_State *l)
 	}
 
 	// Check joysticks if no keys are held down
-	if (Pi::input.IsJoystickEnabled() && (key == 0 || (key >= SDLK_LCTRL && key <= SDLK_RGUI))) {
-		auto joysticks = Pi::input.GetJoysticksState();
+	if (Pi::input->IsJoystickEnabled() && (key == 0 || (key >= SDLK_LCTRL && key <= SDLK_RGUI))) {
+		auto joysticks = Pi::input->GetJoysticksState();
 
 		for (auto js : joysticks) {
 			std::vector<bool> buttons = js.second.buttons;
 			for (size_t b = 0; b < buttons.size(); b++) {
 				if (buttons[b]) {
-					binding = "Joy" + Pi::input.JoystickGUIDString(js.first) + "/Button" + std::to_string(b);
+					binding = "Joy" + Pi::input->JoystickGUIDString(js.first) + "/Button" + std::to_string(b);
 					break;
 				}
 			}
@@ -1047,7 +1047,7 @@ static int l_pigui_get_keybinding(lua_State *l)
 					case SDL_HAT_RIGHT:
 					case SDL_HAT_UP:
 					case SDL_HAT_DOWN:
-						binding = "Joy" + Pi::input.JoystickGUIDString(js.first) + "/Hat" + std::to_string(h) + "Dir" + std::to_string(js.second.hats[h]);
+						binding = "Joy" + Pi::input->JoystickGUIDString(js.first) + "/Hat" + std::to_string(h) + "Dir" + std::to_string(js.second.hats[h]);
 						break;
 					default:
 						continue;
@@ -1919,7 +1919,7 @@ static int l_pigui_set_mouse_button_state(lua_State *l)
 	PROFILE_SCOPED()
 	int button = LuaPull<int>(l, 1);
 	bool state = LuaPull<bool>(l, 2);
-	Pi::input.SetMouseButtonState(button, state);
+	Pi::input->SetMouseButtonState(button, state);
 	if (state == false) {
 		// new UI caches which widget should receive the mouse up event
 		// after a mouse down. This function exists exactly because the mouse-up event

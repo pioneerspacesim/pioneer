@@ -13,12 +13,12 @@ class Intro : public Cutscene {
 public:
 	Intro(Graphics::Renderer *r, int width, int height);
 	~Intro();
-	virtual void Draw(float time);
+	virtual void Draw(float deltaTime);
 	SceneGraph::Model *getCurrentModel() const { return m_model; }
 	bool isZooming() const { return m_dist == m_zoomEnd; }
 
 private:
-	void Reset(float time);
+	void Reset();
 	bool m_needReset;
 
 	std::vector<SceneGraph::Model *> m_models;

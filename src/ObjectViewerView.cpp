@@ -120,10 +120,10 @@ void ObjectViewerView::Draw3D()
 	Graphics::Light light;
 	light.SetType(Graphics::Light::LIGHT_DIRECTIONAL);
 
-	const int btnState = Pi::input.MouseButtonState(SDL_BUTTON_RIGHT);
+	const int btnState = Pi::input->MouseButtonState(SDL_BUTTON_RIGHT);
 	if (btnState) {
 		int m[2];
-		Pi::input.GetMouseMotion(m);
+		Pi::input->GetMouseMotion(m);
 		m_camRot = matrix4x4d::RotateXMatrix(-0.002 * m[1]) *
 			matrix4x4d::RotateYMatrix(-0.002 * m[0]) * m_camRot;
 		m_cameraContext->SetCameraPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, viewingDist));
@@ -163,8 +163,8 @@ void ObjectViewerView::OnSwitchTo()
 
 void ObjectViewerView::Update()
 {
-	if (Pi::input.KeyState(SDLK_EQUALS)) viewingDist *= 0.99f;
-	if (Pi::input.KeyState(SDLK_MINUS)) viewingDist *= 1.01f;
+	if (Pi::input->KeyState(SDLK_EQUALS)) viewingDist *= 0.99f;
+	if (Pi::input->KeyState(SDLK_MINUS)) viewingDist *= 1.01f;
 	viewingDist = Clamp(viewingDist, 10.0f, 1e12f);
 
 	char buf[128];

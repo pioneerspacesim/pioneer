@@ -7,9 +7,6 @@
 
 #define __PROFILER_FULL_TYPE_EXPANSION__
 
-#undef noinline
-#undef fastcall
-
 //#define USE_CHRONO
 #if !defined(USE_CHRONO) && (defined(__arm__) || defined(__aarch64__) || defined(_M_AMD64) || defined(_WIN64) || defined(_M_X64))
 // this isn't optional for __arm__ or x64 builds
@@ -24,12 +21,10 @@
 	#define __PRETTY_FUNCTION__ __FUNCSIG__
 	#define PROFILE_CONCAT( a, b ) a "/" b
 
-	#define noinline __declspec(noinline)
 	#define fastcall __fastcall
 #else
 	#define PROFILE_CONCAT( a, b ) b
 
-	#define noinline __attribute__ ((noinline))
 	#define fastcall
 #endif
 
@@ -218,6 +213,11 @@ namespace Profiler {
 
 		static f64 ms(const u64 t) {
 			std::chrono::duration<f64, std::milli> dur = std::chrono::steady_clock::duration(t);
+			return dur.count();
+		}
+
+		f64 seconds() {
+			std::chrono::duration<f64> dur = std::chrono::steady_clock::duration(ticks);
 			return dur.count();
 		}
 

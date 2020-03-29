@@ -37,6 +37,9 @@
     <Filter Include="src\Lua\Core">
       <UniqueIdentifier>{8b8f8935-2d4d-49c5-8932-3c973b1fc69a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{077edfac-2118-4205-94da-792445afd8da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Body.cpp">
@@ -250,12 +253,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GeoPatchJobs.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LuaPropertiedObject.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\PropertyMap.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\JobQueue.cpp">
@@ -558,6 +555,12 @@
     <ClCompile Include="..\..\src\pigui\PiGuiSandbox.cpp">
       <Filter>src\pigui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\core\GuiApplication.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\Application.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -810,12 +813,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GeoPatchJobs.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\PropertiedObject.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\PropertyMap.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\JobQueue.h">
@@ -1102,6 +1099,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\pigui\PiGui.h">
       <Filter>src\pigui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\Application.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\GuiApplication.h">
+      <Filter>src\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

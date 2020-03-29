@@ -4,6 +4,8 @@
 #include "FileSystem.h"
 #include "OS.h"
 #include "buildopts.h"
+#include "utils.h"
+
 #include <SDL.h>
 #include <fenv.h>
 #include <sys/time.h>
@@ -64,19 +66,7 @@ namespace OS {
 #endif
 	}
 
-	Uint64 HFTimerFreq()
-	{
-		return 1000000;
-	}
-
-	Uint64 HFTimer()
-	{
-		timeval t;
-		gettimeofday(&t, 0);
-		return Uint64(t.tv_sec) * 1000000 + Uint64(t.tv_usec);
-	}
-
-	int GetNumCores()
+	uint32_t GetNumCores()
 	{
 #if defined(__APPLE__)
 		int nm[2];
@@ -96,7 +86,11 @@ namespace OS {
 		}
 		return count;
 #else
-		return sysconf(_SC_NPROCESSORS_ONLN);
+		// sysconf can return -1 if _SC_NPROCESSORS_ONLN is not supported
+		int count = sysconf(_SC_NPROCESSORS_ONLN);
+		// There's definitely at least one core.
+		// (What are you running Pioneer on otherwise, a potato battery?)
+		return count > 0 ? uint32_t(count) : 1;
 #endif
 	}
 

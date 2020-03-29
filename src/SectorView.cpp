@@ -6,7 +6,7 @@
 #include "Game.h"
 #include "GameConfig.h"
 #include "GameSaveError.h"
-#include "KeyBindings.h"
+#include "Input.h"
 #include "MathUtil.h"
 #include "Pi.h"
 #include "Player.h"
@@ -22,6 +22,7 @@
 #include "gui/Gui.h"
 #include "lua/LuaConstants.h"
 #include "lua/LuaObject.h"
+#include "utils.h"
 #include <algorithm>
 #include <sstream>
 #include <unordered_set>
@@ -167,7 +168,7 @@ void SectorView::InitObject()
 	m_disk.reset(new Graphics::Drawables::Disk(m_renderer, m_solidState, Color::WHITE, 0.2f));
 
 	m_onMouseWheelCon =
-		Pi::input.onMouseWheel.connect(sigc::mem_fun(this, &SectorView::MouseWheel));
+		Pi::input->onMouseWheel.connect(sigc::mem_fun(this, &SectorView::MouseWheel));
 }
 
 SectorView::~SectorView()
@@ -637,7 +638,7 @@ void SectorView::AutoRoute(const SystemPath &start, const SystemPath &target, st
 	Output("SectorView::AutoRoute, nodes to search = %lu\n", nodes.size());
 
 	// setup inital values and set everything as unvisited
-	std::vector<float> path_dist; // distance from source to node
+	std::vector<float> path_dist;							   // distance from source to node
 	std::vector<std::vector<SystemPath>::size_type> path_prev; // previous node in optimal path
 	std::unordered_set<std::vector<SystemPath>::size_type> unvisited;
 	for (std::vector<SystemPath>::size_type i = 0; i < nodes.size(); i++) {
@@ -997,7 +998,7 @@ void SectorView::OnSwitchTo()
 
 	if (!m_onKeyPressConnection.connected())
 		m_onKeyPressConnection =
-			Pi::input.onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPressed));
+			Pi::input->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPressed));
 
 	UIView::OnSwitchTo();
 
@@ -1032,7 +1033,7 @@ void SectorView::OnKeyPressed(SDL_Keysym *keysym)
 	bool reset_view = false;
 
 	// fast move selection to current player system or hyperspace target
-	const bool shifted = (Pi::input.KeyState(SDLK_LSHIFT) || Pi::input.KeyState(SDLK_RSHIFT));
+	const bool shifted = (Pi::input->KeyState(SDLK_LSHIFT) || Pi::input->KeyState(SDLK_RSHIFT));
 	if (KeyBindings::mapWarpToCurrent.Matches(keysym)) {
 		GotoSystem(m_current);
 		reset_view = shifted;
@@ -1101,9 +1102,9 @@ void SectorView::Update()
 		if (KeyBindings::mapViewRotateDown.IsActive()) m_rotXMovingTo += 0.5f * moveSpeed;
 	}
 
-	if (Pi::input.MouseButtonState(SDL_BUTTON_RIGHT)) {
+	if (Pi::input->MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int motion[2];
-		Pi::input.GetMouseMotion(motion);
+		Pi::input->GetMouseMotion(motion);
 
 		m_rotXMovingTo += 0.2f * float(motion[1]);
 		m_rotZMovingTo += 0.2f * float(motion[0]);
