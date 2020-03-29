@@ -21,10 +21,12 @@
 extern "C" {
 // This is the quickest and easiest way to enable using the nVidia GPU on a Windows laptop with a dedicated nVidia GPU and Optimus tech.
 // enable optimus!
+// https://docs.nvidia.com/gameworks/content/technologies/desktop/optimus.htm
 __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 
 // AMD have one too!!!
-__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+// https://gpuopen.com/amdpowerxpressrequesthighperformance/
+__declspec(dllexport) DWORD AmdPowerXpressRequestHighPerformance = 0x00000001;
 }
 
 #ifdef RegisterClass
