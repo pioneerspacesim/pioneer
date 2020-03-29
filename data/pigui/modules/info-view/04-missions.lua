@@ -4,6 +4,8 @@
 local Lang = require 'Lang'
 local Game = require 'Game'
 local Format = require 'Format'
+local Mission = require 'Mission'
+local Space = require 'Space'
 local SpaceStation = require 'SpaceStation'
 local Character = require 'Character'
 local InfoFace = require 'ui.PiguiFace'
@@ -19,6 +21,7 @@ local orbiteer = ui.fonts.orbiteer
 local l = Lang.GetResource("ui-core")
 
 local colors = ui.theme.colors
+local missionDetailsButtonColor = Color(12,36,96)
 local missionDetailsBg = Color(12, 29, 52)
 
 local vZero = Vector2(0,0)
@@ -30,7 +33,7 @@ local widgetSizes = ui.rescaleUI({
 	iconSize = Vector2(20, 20),
 	chatButtonBase = Vector2(0, 24),
 	chatButtonSize = Vector2(0, 24),
-	itemSpacing = Vector2(18, 4),
+	itemSpacing = Vector2(9, 4),
 	bbContainerSize = Vector2(0, 0),
 	bbSearchSize = Vector2(0, 0),
 	bbPadding = Vector2(12, 12),
@@ -39,6 +42,7 @@ local widgetSizes = ui.rescaleUI({
 	popupBig = Vector2(1200, 0),
 	popupSmall = Vector2(500, 0),
 	faceSize = Vector2(280, 320),
+	buttonFrameAlign = Vector2(0, 4),
 	missionDesc = {
 		-- distLength = ui.calcTextSize(string.format('%.2f %s', 99999, l.LY))
 		distLength = 150,
@@ -125,6 +129,7 @@ local jobList = List.New("JobList", false, {
 				ui.sameLine(rightAlignPos)
 				getIcon(icon):Draw(widgetSizes.iconSize)
 
+				ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function()
 				local dist = Game.system and string.format('%.2f %s', Game.system:DistanceTo(item.location) or "???", l.LY)
 				rightAlignPos = rightAlignPos - widgetSizes.missionDesc.distLength - widgetSizes.itemSpacing.x
 				ui.sameLine(rightAlignPos)
@@ -134,6 +139,11 @@ local jobList = List.New("JobList", false, {
 				local days = string.format(l.D_DAYS_LEFT, math.max(0, (item.due - Game.time) / (24*60*60)))
 				ui.sameLine(rightAlignPos)
 				ui.text(days)
+
+				rightAlignPos = rightAlignPos - widgetSizes.missionDesc.distLength - widgetSizes.itemSpacing.x
+				ui.sameLine(rightAlignPos)
+				ui.text(Format.Money(item.reward))
+				end)
 
 				ui.dummy(vZero)
 				ui.sameLine(self.style.itemPadding.x)
@@ -190,9 +200,8 @@ end
 
 local function renderView()
 	ui.withFont(pionillium.large.name, pionillium.large.size, function()
-		ui.withStyleVars({WindowPadding = widgetSizes.bbPadding}, function()
+		ui.withStyleVars({WindowPadding = widgetSizes.bbPadding, ItemSpacing = widgetSizes.itemSpacing}, function()
 			ui.child("MissionsContainer", vZero, containerFlags, function()
-				--print(ui.getContentRegion(), scrollMax)
 				if scrollMax > 0 then
 					scrollPos = ui.vSliderInt('###MissionsScrollbar', Vector2(10, ui.getContentRegion().y), scrollPosPrev, -100, 0, "")
 					ui.sameLine()
@@ -203,33 +212,45 @@ local function renderView()
 				end
 
 				ui.child("MissionList", Vector2(ui.screenWidth * 0.5, 0), listFlags, function()
-					local rightAlignPos = ui.getContentRegion().x - ui.calcTextSize("Type").x
-
+					local buttonPadding = Vector2(16,4)
+					local buttonSize = ui.calcTextSize("Type") + buttonPadding
+					local rightAlignPos = ui.getContentRegion().x - buttonSize.x
+					ui.setCursorPos(ui.getCursorPos() + widgetSizes.buttonFrameAlign)
 					ui.text("Filter:")
 					ui.sameLine()
+					ui.setCursorPos(ui.getCursorPos() - widgetSizes.buttonFrameAlign)
 					local icon
-					ui.withFont(orbiteer.tiny.name, orbiteer.tiny.size, function()
-						for idx, iconName in ipairs(filterIcons) do
-							icon = getIcon(iconName)
-							ui.coloredSelectedImgIconButton({texture = icon.texture.id, uv0 = vZero, uv1 = icon.texture.uv}, widgetSizes.iconSize, false, 4, colors.buttonBlue, colors.white, iconName)
-							ui.sameLine()
-						end
+					--Tooltip Padding
+					ui.withStyleColorsAndVars({},{WindowPadding = Vector2(6, 6)}, function()
+						ui.withFont(orbiteer.small.name, orbiteer.small.size, function()
+							for idx, iconName in ipairs(filterIcons) do
+								icon = getIcon(iconName)
+								ui.coloredSelectedImgIconButton({texture = icon.texture.id, uv0 = vZero, uv1 = icon.texture.uv}, widgetSizes.iconSize, false, 4, colors.buttonBlue, colors.white, iconName)
+								ui.sameLine()
+							end
+						end)
 					end)
 
-					ui.sameLine(rightAlignPos)
-					ui.text("Type")
+					ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function()
+						ui.sameLine(rightAlignPos)
+						ui.setCursorPos(ui.getCursorPos() + widgetSizes.buttonFrameAlign)
+						ui.coloredSelectedButton("Type", buttonSize, false, colors.buttonBlue, nil, true)
 
-					rightAlignPos = rightAlignPos - ui.calcTextSize("Importance").x - widgetSizes.itemSpacing.x
-					ui.sameLine(rightAlignPos)
-					ui.text("Importance")
+						buttonSize.x = ui.calcTextSize("Importance").x + buttonPadding.x
+						rightAlignPos = rightAlignPos - buttonSize.x - widgetSizes.itemSpacing.x
+						ui.sameLine(rightAlignPos)
+						ui.coloredSelectedButton("Importance", buttonSize, false, colors.buttonBlue, nil, true)
 
-					rightAlignPos = rightAlignPos - ui.calcTextSize("Dist").x - widgetSizes.itemSpacing.x
-					ui.sameLine(rightAlignPos)
-					ui.text("Dist")
+						buttonSize.x = ui.calcTextSize("Dist").x + buttonPadding.x
+						rightAlignPos = rightAlignPos - buttonSize.x - widgetSizes.itemSpacing.x
+						ui.sameLine(rightAlignPos)
+						ui.coloredSelectedButton("Dist", buttonSize, false, colors.buttonBlue, nil, true)
 
-					rightAlignPos = rightAlignPos - ui.calcTextSize("Due").x - widgetSizes.itemSpacing.x
-					ui.sameLine(rightAlignPos)
-					ui.text("Due")
+						buttonSize.x = ui.calcTextSize("Due").x + buttonPadding.x
+						rightAlignPos = rightAlignPos - buttonSize.x - widgetSizes.itemSpacing.x
+						ui.sameLine(rightAlignPos)
+						ui.coloredSelectedButton("Due", buttonSize, false, colors.buttonBlue, nil, true)
+					end)
 
 					rightAlignPos = rightAlignPos - ui.calcTextSize("Sort:").x - widgetSizes.itemSpacing.x
 					ui.sameLine(rightAlignPos)
@@ -237,7 +258,6 @@ local function renderView()
 
 					ui.pushTextWrapPos(textWrapWidth)
 					jobList:Render()
-					--print("end", scrollPos)
 					ui.popTextWrapPos()
 				end)
 
@@ -245,26 +265,7 @@ local function renderView()
 					ui.sameLine()
 					ui.withStyleColorsAndVars({ChildWindowBg = jobList.style.selectColor},{WindowPadding = widgetSizes.bbPadding}, function()
 						ui.child("MissionDetails", vZero, detailsFlags, function()
-							local winSize = ui.getContentRegion() - widgetSizes.faceSize
-							ui.columns(2, "MissionDetailsColumns", false)
-							ui.setColumnWidth(0, winSize.x)
-							ui.setColumnWidth(1, widgetSizes.faceSize.x)
-							ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
-								ui.text(string.upper(selectedItem:GetTypeDescription()))
-							end)
-							ui.text('')
-
-							ui.pushTextWrapPos(winSize.x*0.8)
-							ui.textWrapped(selectedItem.introtext)
-							ui.popTextWrapPos()
-
-							ui.text('')
-							ui.text(string.format('Destination: %s, %s', selectedItem.location:GetSystemBody().name, selectedItem.location:GetStarSystem().name))
-							ui.text(string.format('Deadline: %s', Format.Date(selectedItem.due)))
-							ui.text(string.format('Wage: %s', Format.Money(selectedItem.reward)))
-
-							ui.nextColumn()
-							clientFace:render()
+							selectedItem:GetViewHandler('missions')(selectedItem, widgetSizes)
 						end)
 					end)
 				end
@@ -284,3 +285,42 @@ InfoView:registerView({
 		refresh()
 	end,
 })
+
+Mission.RegisterViewHandler('missions', 'default', function(mission, style)
+	local winSize = ui.getContentRegion() - style.faceSize
+	ui.columns(2, "MissionDetailsColumns", false)
+	ui.setColumnWidth(0, winSize.x)
+	ui.setColumnWidth(1, style.faceSize.x)
+	ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
+		ui.text(string.upper(mission:GetTypeDescription()))
+	end)
+	ui.text('')
+
+	ui.pushTextWrapPos(winSize.x*0.8)
+	ui.textWrapped(mission.introtext)
+	ui.popTextWrapPos()
+
+	ui.text('')
+	ui.text(string.format('Destination: %s, %s', mission.location:GetSystemBody().name, mission.location:GetStarSystem().name))
+	ui.sameLine()
+	ui.setCursorPos(ui.getCursorPos() - style.buttonFrameAlign)
+	if ui.coloredSelectedIconButton(ui.theme.icons.display_navtarget, style.iconSize, false, 4, colors.buttonBlue, colors.white, 'Set navigation target') then
+		if mission.location:isa("Body") and mission.location:IsDynamic() then
+			Game.player:SetNavTarget(target)
+		elseif Game.system and mission.location:IsSameSystem(Game.system.path) then
+			if mission.location.bodyIndex then
+				Game.player:SetNavTarget(Space.GetBody(mission.location.bodyIndex))
+			end
+		elseif not Game.InHyperspace() then
+			Game.player:SetHyperspaceTarget(mission.location:GetStarSystem().path)
+		end
+		ui.playBoinkNoise()
+	end
+	ui.text(string.format('Deadline: %s', Format.Date(mission.due)))
+	ui.text(string.format('Wage: %s', Format.Money(mission.reward)))
+
+	ui.text('')
+	ui.nextColumn()
+	clientFace:render()
+	ui.columns(1, "", false)
+end)

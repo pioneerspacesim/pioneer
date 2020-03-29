@@ -24,6 +24,9 @@ local l = Lang.GetResource("ui-core")
 -- Registered mission type data go here
 local MissionRegister = {}
 
+-- Registered mission type data go here
+local ViewHandlerRegister = {}
+
 local Mission
 Mission = {
 --
@@ -122,6 +125,27 @@ Mission = {
 --
 -- Group: Methods
 --
+
+	RegisterViewHandler = function(view, missionType, handler)
+		--ViewHandlerRegister
+		if not view or (type(view)~='string') then
+			error('view: String expected')
+		end
+		if not missionType or (type(missionType)~='string') then
+			error('missionType: String expected')
+		end
+		if not ViewHandlerRegister[view] then
+			ViewHandlerRegister[view] = {}
+		end
+		if ViewHandlerRegister[view][missionType] then -- We can't have duplicates
+			--error(string.format('Mission type "%s" already registered for view "%s"', view, missionType))
+		end
+
+		if not (type(handler) == 'function') then
+			error('handler: function expected')
+		end
+		ViewHandlerRegister[view][missionType] = handler
+	end,
 
 --
 -- Method: RegisterType
@@ -310,6 +334,38 @@ Mission = {
 				or function (ref) return Engine.ui:Label(l.NOT_FOUND) end -- XXX don't translate things in libs
 	end,
 
+	--
+	-- Method: GetViewHandler
+	--
+	-- Internal method to retrieve a handler function for the mission list button.
+	-- Normally called from InfoView/Missions, but could be useful elsewhere.
+	--
+	-- > handler = ourMission:GetViewHandler(view)
+	--
+	--
+	-- Returns:
+	--
+	--   handler - a function to be connected to the missions form 'Active'
+	--             button. handler will be passed the mission as its sole argument
+	--             and is expected to return an [Engine.UI] object, or nil.
+	--
+	-- Availability:
+	--
+	-- alpha 29
+	--
+	-- Status:
+	--
+	-- experimental
+	--
+	GetViewHandler = function (self, view)
+		local handler = (ViewHandlerRegister[view] and (ViewHandlerRegister[view][self and self.type or 'default']))
+
+		if not handler then
+			error(string.format('No handler found for mission type "%s", and no default handler exists for view "%s"', self.type, view))
+		end
+
+		return handler
+	end,
 --
 -- Method: GetTypeDescription
 --

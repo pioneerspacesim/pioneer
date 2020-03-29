@@ -23,6 +23,7 @@ local l = Lang.GetResource("module-deliverpackage")
 
 -- Get the UI class
 local ui = Engine.ui
+local pigui = require 'pigui'
 
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 30
@@ -581,6 +582,27 @@ local onClick = function (mission)
 		})
 end
 
+local missionViewHandler = function (mission, style)
+	Mission.GetViewHandler(nil, 'missions')(mission, style)
+
+	local danger
+	if mission.risk <= 0.1 then
+		danger = (l.I_HIGHLY_DOUBT_IT)
+	elseif mission.risk > 0.1 and mission.risk <= 0.3 then
+		danger = (l.NOT_ANY_MORE_THAN_USUAL)
+	elseif mission.risk > 0.3 and mission.risk <= 0.6 then
+		danger = (l.THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN)
+	elseif mission.risk > 0.6 and mission.risk <= 0.8 then
+		danger = (l.IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED)
+	elseif mission.risk > 0.8 and mission.risk <= 1 then
+		danger = (l.THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE)
+	end
+
+	pigui.text(l.DANGER)
+	pigui.sameLine()
+	pigui.text(danger)
+end
+
 local onGameEnd = function ()
 	nearbysystems = nil
 end
@@ -603,5 +625,6 @@ Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
 Mission.RegisterType('Delivery',l.DELIVERY,onClick)
+Mission.RegisterViewHandler('missions', 'Delivery', missionViewHandler)
 
 Serializer:Register("DeliverPackage", serialize, unserialize)
