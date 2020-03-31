@@ -24,11 +24,12 @@
 #include "Ship.h"
 #include "SpaceStation.h"
 #include "Star.h"
-#include "HyperspaceCloud.h"
 
-// Defined in LuaPiGui.h
-extern bool first_body_is_more_important_than(Body*, Body*);
-extern int pushOnScreenPositionDirection(lua_State *l, vector3d position);
+namespace PiGUI {
+	// Defined in LuaPiGui.h
+	extern bool first_body_is_more_important_than(Body *, Body *);
+	extern int pushOnScreenPositionDirection(lua_State *l, vector3d position);
+} // namespace PiGUI
 
 /*
  * Class: Body
@@ -246,7 +247,7 @@ static int l_body_is_more_important_than(lua_State *l)
 		LuaPush<bool>(l, false);
 		return 1;
 	}
-	LuaPush<bool>(l, first_body_is_more_important_than(body, other));
+	LuaPush<bool>(l, PiGUI::first_body_is_more_important_than(body, other));
 	return 1;
 }
 /*
@@ -653,7 +654,7 @@ static int l_body_get_projected_screen_position(lua_State *l)
 	Body *b = LuaObject<Body>::CheckFromLua(1);
 	WorldView *wv = Pi::game->GetWorldView();
 	vector3d p = wv->WorldSpaceToScreenSpace(b);
-	return pushOnScreenPositionDirection(l, p);
+	return PiGUI::pushOnScreenPositionDirection(l, p);
 }
 
 static int l_body_get_atmospheric_state(lua_State *l)
@@ -685,7 +686,7 @@ static int l_body_get_target_indicator_screen_position(lua_State *l)
 	Body *b = LuaObject<Body>::CheckFromLua(1);
 	WorldView *wv = Pi::game->GetWorldView();
 	vector3d p = wv->GetTargetIndicatorScreenPosition(b);
-	return pushOnScreenPositionDirection(l, p);
+	return PiGUI::pushOnScreenPositionDirection(l, p);
 }
 
 static bool push_body_to_lua(Body *body)

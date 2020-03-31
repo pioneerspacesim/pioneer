@@ -785,7 +785,7 @@ static int l_engine_world_space_to_screen_space(lua_State *l)
 {
 	vector3d pos = LuaPull<vector3d>(l, 1);
 
-	TScreenSpace res = lua_world_space_to_screen_space(pos); // defined in LuaPiGui.cpp
+	PiGUI::TScreenSpace res = PiGUI::lua_world_space_to_screen_space(pos); // defined in LuaPiGui.cpp
 
 	LuaPush<bool>(l, res._onScreen);
 	LuaPush<vector2d>(l, res._screenPosition);
@@ -1077,7 +1077,7 @@ static int l_engine_get_sector_map_factions(lua_State *l)
 		lua_setfield(l, -2, "faction");
 		lua_pushboolean(l, hidden.count(f) == 0);
 		lua_setfield(l, -2, "visible"); // inner table
-		lua_settable(l, -3); // outer table
+		lua_settable(l, -3);			// outer table
 	}
 	return 1;
 }

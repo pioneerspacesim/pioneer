@@ -26,35 +26,6 @@
 
 std::vector<Graphics::Texture *> PiGui::m_svg_textures;
 
-static int to_keycode(int key)
-{
-	/*if(key & SDLK_SCANCODE_MASK) {
-		return (key & ~SDLK_SCANCODE_MASK) | 0x100;
-	}*/
-	return key;
-}
-
-static std::vector<std::pair<std::string, int>> keycodes = {
-	{ "left", to_keycode(SDLK_LEFT) },
-	{ "right", to_keycode(SDLK_RIGHT) },
-	{ "up", to_keycode(SDLK_UP) },
-	{ "down", to_keycode(SDLK_DOWN) },
-	{ "escape", to_keycode(SDLK_ESCAPE) },
-	{ "f1", to_keycode(SDLK_F1) },
-	{ "f2", to_keycode(SDLK_F2) },
-	{ "f3", to_keycode(SDLK_F3) },
-	{ "f4", to_keycode(SDLK_F4) },
-	{ "f5", to_keycode(SDLK_F5) },
-	{ "f6", to_keycode(SDLK_F6) },
-	{ "f7", to_keycode(SDLK_F7) },
-	{ "f8", to_keycode(SDLK_F8) },
-	{ "f9", to_keycode(SDLK_F9) },
-	{ "f10", to_keycode(SDLK_F10) },
-	{ "f11", to_keycode(SDLK_F11) },
-	{ "f12", to_keycode(SDLK_F12) },
-	{ "tab", to_keycode(SDLK_TAB) },
-};
-
 ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height)
 {
 	PROFILE_SCOPED()
@@ -192,18 +163,6 @@ void PiDefaultStyle(ImGuiStyle &style)
 void PiGui::Init(SDL_Window *window)
 {
 	PROFILE_SCOPED()
-	m_handlers.Unref();
-
-	lua_State *l = Lua::manager->GetLuaState();
-	lua_newtable(l);
-	m_handlers = LuaRef(l, -1);
-
-	lua_newtable(l);
-	m_keys = LuaRef(l, -1);
-	LuaTable keys(l, -1);
-	for (auto p : keycodes) {
-		keys.Set(p.first, p.second);
-	}
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -400,16 +359,6 @@ void PiGui::NewFrame(SDL_Window *window)
 
 	Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 	ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
-}
-
-void PiGui::RunHandler(double delta, std::string handler)
-{
-	PROFILE_SCOPED()
-	ScopedTable t(m_handlers);
-	if (t.Get<bool>(handler)) {
-		t.Call<bool>(handler, delta);
-		Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
-	}
 }
 
 void PiGui::EndFrame()
@@ -719,7 +668,7 @@ bool PiGui::ButtonImageSized(ImTextureID user_texture_id, const ImVec2 &size, co
 	return pressed;
 }
 
-void PiGui::Cleanup()
+void PiGui::Uninit()
 {
 	PROFILE_SCOPED()
 	for (auto tex : m_svg_textures) {

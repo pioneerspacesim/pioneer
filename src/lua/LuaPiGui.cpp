@@ -29,6 +29,33 @@
 // undef it, to avoid including yet another header that undefs it
 #undef RegisterClass
 
+LuaRef m_handlers;
+LuaRef PiGUI::GetHandlers() { return m_handlers; }
+
+LuaRef m_keys;
+LuaRef PiGUI::GetKeys() { return m_keys; }
+
+static std::vector<std::pair<std::string, int>> m_keycodes = {
+	{ "left", SDLK_LEFT },
+	{ "right", SDLK_RIGHT },
+	{ "up", SDLK_UP },
+	{ "down", SDLK_DOWN },
+	{ "escape", SDLK_ESCAPE },
+	{ "f1", SDLK_F1 },
+	{ "f2", SDLK_F2 },
+	{ "f3", SDLK_F3 },
+	{ "f4", SDLK_F4 },
+	{ "f5", SDLK_F5 },
+	{ "f6", SDLK_F6 },
+	{ "f7", SDLK_F7 },
+	{ "f8", SDLK_F8 },
+	{ "f9", SDLK_F9 },
+	{ "f10", SDLK_F10 },
+	{ "f11", SDLK_F11 },
+	{ "f12", SDLK_F12 },
+	{ "tab", SDLK_TAB },
+};
+
 template <typename Type>
 static Type parse_imgui_flags(lua_State *l, int index, LuaFlags<Type> &lookupTable)
 {
@@ -77,7 +104,7 @@ void pi_lua_generic_pull(lua_State *l, int index, ImVec2 &vec)
 	vec = ImVec2(tr.x, tr.y);
 }
 
-int pushOnScreenPositionDirection(lua_State *l, vector3d position)
+int PiGUI::pushOnScreenPositionDirection(lua_State *l, vector3d position)
 {
 	PROFILE_SCOPED()
 	const int width = Graphics::GetScreenWidth();
@@ -1560,7 +1587,7 @@ static int l_pigui_get_mouse_clicked_pos(lua_State *l)
 	return 1;
 }
 
-TScreenSpace lua_world_space_to_screen_space(const vector3d &pos)
+PiGUI::TScreenSpace PiGUI::lua_world_space_to_screen_space(const vector3d &pos)
 {
 	PROFILE_SCOPED()
 	const WorldView *wv = Pi::game->GetWorldView();
@@ -1569,13 +1596,13 @@ TScreenSpace lua_world_space_to_screen_space(const vector3d &pos)
 	const int height = Graphics::GetScreenHeight();
 	const vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
 	if (vector3d(0, 0, 0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
-		return TScreenSpace(false, vector2d(0, 0), direction * (p.z > 0 ? -1 : 1));
+		return PiGUI::TScreenSpace(false, vector2d(0, 0), direction * (p.z > 0 ? -1 : 1));
 	} else {
-		return TScreenSpace(true, vector2d(p.x, p.y), direction);
+		return PiGUI::TScreenSpace(true, vector2d(p.x, p.y), direction);
 	}
 }
 
-TScreenSpace lua_world_space_to_screen_space(const Body *body)
+PiGUI::TScreenSpace lua_world_space_to_screen_space(const Body *body)
 {
 	PROFILE_SCOPED()
 	const WorldView *wv = Pi::game->GetWorldView();
@@ -1584,13 +1611,13 @@ TScreenSpace lua_world_space_to_screen_space(const Body *body)
 	const int height = Graphics::GetScreenHeight();
 	const vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
 	if (vector3d(0, 0, 0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
-		return TScreenSpace(false, vector2d(0, 0), direction * (p.z > 0 ? -1 : 1));
+		return PiGUI::TScreenSpace(false, vector2d(0, 0), direction * (p.z > 0 ? -1 : 1));
 	} else {
-		return TScreenSpace(true, vector2d(p.x, p.y), direction);
+		return PiGUI::TScreenSpace(true, vector2d(p.x, p.y), direction);
 	}
 }
 
-bool first_body_is_more_important_than(Body *body, Body *other)
+bool PiGUI::first_body_is_more_important_than(Body *body, Body *other)
 {
 
 	Object::Type a = body->GetType();
@@ -1720,7 +1747,7 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 	const double cluster_size = LuaPull<double>(l, 1);
 	const double ship_max_distance = LuaPull<double>(l, 2);
 
-	TSS_vector filtered;
+	PiGUI::TSS_vector filtered;
 	filtered.reserve(Pi::game->GetSpace()->GetNumBodies());
 
 	for (Body *body : Pi::game->GetSpace()->GetBodies()) {
@@ -1728,7 +1755,7 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 		if (body->GetType() == Object::PROJECTILE) continue;
 		if (body->GetType() == Object::SHIP &&
 			body->GetPositionRelTo(Pi::player).Length() > ship_max_distance) continue;
-		const TScreenSpace res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
+		const PiGUI::TScreenSpace res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
 		if (!res._onScreen) continue;
 		filtered.emplace_back(res);
 		filtered.back()._body = body;
@@ -1757,7 +1784,7 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 	const Body *combat_target = Pi::game->GetPlayer()->GetCombatTarget();
 	const Body *setspeed_target = Pi::game->GetPlayer()->GetSetSpeedTarget();
 
-	for (TScreenSpace &obj : filtered) {
+	for (PiGUI::TScreenSpace &obj : filtered) {
 		bool inserted = false;
 
 		// never collapse combat target
@@ -1773,7 +1800,7 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 						group.m_hasNavTarget = true;
 						group.m_mainBody = obj._body;
 						group.m_screenCoords = obj._screenPosition;
-					} else if (!group.m_hasNavTarget && first_body_is_more_important_than(obj._body, group.m_mainBody)) {
+					} else if (!group.m_hasNavTarget && PiGUI::first_body_is_more_important_than(obj._body, group.m_mainBody)) {
 						group.m_mainBody = obj._body;
 						group.m_screenCoords = obj._screenPosition;
 					}
@@ -1797,7 +1824,7 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 	for (GroupInfo &group : groups) {
 		std::sort(begin(group.m_bodies), end(group.m_bodies),
 			[](Body *a, Body *b) {
-				return first_body_is_more_important_than(a, b);
+				return PiGUI::first_body_is_more_important_than(a, b);
 			});
 	}
 
@@ -1826,19 +1853,19 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 static int l_pigui_get_projected_bodies(lua_State *l)
 {
 	PROFILE_SCOPED()
-	TSS_vector filtered;
+	PiGUI::TSS_vector filtered;
 	filtered.reserve(Pi::game->GetSpace()->GetNumBodies());
 	for (Body *body : Pi::game->GetSpace()->GetBodies()) {
 		if (body == Pi::game->GetPlayer()) continue;
 		if (body->GetType() == Object::PROJECTILE) continue;
-		const TScreenSpace res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
+		const PiGUI::TScreenSpace res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
 		if (!res._onScreen) continue;
 		filtered.emplace_back(res);
 		filtered.back()._body = body;
 	}
 
 	LuaTable result(l, 0, filtered.size());
-	for (TScreenSpace &res : filtered) {
+	for (PiGUI::TScreenSpace &res : filtered) {
 		LuaTable object(l, 0, 3);
 
 		object.Set("onscreen", res._onScreen);
@@ -1942,7 +1969,7 @@ static int l_attr_handlers(lua_State *l)
 {
 	PROFILE_SCOPED()
 	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
-	pigui->GetHandlers().PushCopyToStack();
+	PiGUI::GetHandlers().PushCopyToStack();
 	return 1;
 }
 
@@ -1950,7 +1977,7 @@ static int l_attr_keys(lua_State *l)
 {
 	PROFILE_SCOPED()
 	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
-	pigui->GetKeys().PushCopyToStack();
+	PiGUI::GetKeys().PushCopyToStack();
 	return 1;
 }
 
@@ -2467,6 +2494,16 @@ static int l_pigui_push_text_wrap_pos(lua_State *l)
 	return 0;
 }
 
+void PiGUI::RunHandler(double delta, std::string handler)
+{
+	PROFILE_SCOPED()
+	ScopedTable t(m_handlers);
+	if (t.Get<bool>(handler)) {
+		t.Call<bool>(handler, delta);
+		Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
+	}
+}
+
 template <>
 const char *LuaObject<PiGui>::s_type = "PiGui";
 
@@ -2629,4 +2666,14 @@ void LuaObject<PiGui>::RegisterClass()
 	imguiStyleVarTable.Register(l, "ImGuiStyleVar");
 	imguiWindowFlagsTable.Register(l, "ImGuiWindowFlags");
 	imguiHoveredFlagsTable.Register(l, "ImGuiHoveredFlags");
+
+	lua_newtable(l);
+	m_handlers = LuaRef(l, -1);
+
+	lua_newtable(l);
+	m_keys = LuaRef(l, -1);
+	LuaTable keys(l, -1);
+	for (auto p : m_keycodes) {
+		keys.Set(p.first, p.second);
+	}
 }

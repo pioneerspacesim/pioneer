@@ -28,6 +28,7 @@
 #include "lua/Lua.h"
 #include "lua/LuaConsole.h"
 #include "lua/LuaEvent.h"
+#include "lua/LuaPiGui.h"
 #include "lua/LuaTimer.h"
 #include "profiler/Profiler.h"
 #include "sound/AmbientSounds.h"
@@ -493,10 +494,11 @@ void LoadStep::Start()
 	// and then load all the lua-related state once Lua's registered and online...
 	Pi::pigui.Reset(new PiGui);
 	Pi::pigui->Init(Pi::renderer->GetSDLWindow());
+	LuaObject<PiGui>::RegisterClass();
 
 	// Don't render the first frame, just make sure all of our fonts are loaded
 	Pi::pigui->NewFrame(Pi::renderer->GetSDLWindow());
-	Pi::pigui->RunHandler(0.01, "INIT");
+	PiGUI::RunHandler(0.01, "INIT");
 	Pi::pigui->EndFrame();
 
 	AddStep("UI::AddContext", []() {
@@ -609,7 +611,7 @@ void LoadStep::Update(float deltaTime)
 			loader.name.c_str(), timer.milliseconds());
 
 		Pi::pigui->NewFrame(Pi::renderer->GetSDLWindow());
-		Pi::pigui->RunHandler(progress, "INIT");
+		PiGUI::RunHandler(progress, "INIT");
 		Pi::pigui->Render();
 
 	} else {
@@ -679,7 +681,7 @@ void MainMenu::Update(float deltaTime)
 	Pi::intro->Draw(deltaTime);
 
 	Pi::pigui->NewFrame(Pi::renderer->GetSDLWindow());
-	Pi::pigui->RunHandler(deltaTime, "MAINMENU");
+	PiGUI::RunHandler(deltaTime, "MAINMENU");
 
 	Pi::pigui->Render();
 
@@ -1137,7 +1139,7 @@ void GameLoop::Update(float deltaTime)
 		Pi::game->GetWorldView()->BeginCameraFrame();
 		// FIXME: major hack to work around the fact that the console is in newUI and not pigui
 		if (!Pi::IsConsoleActive())
-			Pi::pigui->RunHandler(deltaTime, "GAME");
+			PiGUI::RunHandler(deltaTime, "GAME");
 		Pi::game->GetWorldView()->EndCameraFrame();
 	}
 

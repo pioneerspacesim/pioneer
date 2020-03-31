@@ -1,13 +1,15 @@
 // Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#pragma once
+
 #include "FileSystem.h"
 #include "RefCounted.h"
 #include "graphics/opengl/RendererGL.h"
 #include "imgui/imgui.h"
-#include "lua/Lua.h"
-#include "lua/LuaRef.h"
-#include "lua/LuaTable.h"
+
+#include "utils.h"
+
 #include <unordered_set>
 
 class PiFace {
@@ -78,12 +80,6 @@ class PiGui : public RefCounted {
 public:
 	PiGui();
 
-	LuaRef GetHandlers() const { return m_handlers; }
-
-	LuaRef GetKeys() const { return m_keys; }
-
-	void RunHandler(double delta, std::string handler = "GAME");
-
 	// Call at the start of every frame. Calls ImGui::NewFrame() internally.
 	void NewFrame(SDL_Window *window);
 
@@ -97,12 +93,8 @@ public:
 
 	ImFont *GetFont(const std::string &name, int size);
 
-	void Uninit()
-	{
-		Cleanup();
-		m_handlers.Unref();
-		m_keys.Unref();
-	}
+	void Uninit();
+
 	ImFont *AddFont(const std::string &name, int size);
 
 	void AddGlyph(ImFont *font, unsigned short glyph);
@@ -124,17 +116,15 @@ public:
 	{
 		return ImGui::GetIO().WantCaptureKeyboard;
 	}
+
 	static int RadialPopupSelectMenu(const ImVec2 &center, std::string popup_id, int mouse_button, std::vector<ImTextureID> tex_ids, std::vector<std::pair<ImVec2, ImVec2>> uvs, unsigned int size, std::vector<std::string> tooltips);
 	static bool CircularSlider(const ImVec2 &center, float *v, float v_min, float v_max);
 
-	void Cleanup();
 	static bool LowThrustButton(const char *label, const ImVec2 &size_arg, int thrust_level, const ImVec4 &bg_col, int frame_padding, ImColor gauge_fg, ImColor gauge_bg);
 	static bool ButtonImageSized(ImTextureID user_texture_id, const ImVec2 &size, const ImVec2 &imgSize, const ImVec2 &uv0, const ImVec2 &uv1, int frame_padding, const ImVec4 &bg_col, const ImVec4 &tint_col);
 
 	static void ThrustIndicator(const std::string &id_string, const ImVec2 &size, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg);
 
 private:
-	LuaRef m_handlers;
-	LuaRef m_keys;
 	static std::vector<Graphics::Texture *> m_svg_textures;
 };

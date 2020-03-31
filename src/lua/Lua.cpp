@@ -107,7 +107,6 @@ namespace Lua {
 		GameUI::Lua::Init();
 		SceneGraph::Lua::Init();
 
-		LuaObject<PiGui>::RegisterClass();
 		PiGUI::Lua::Init();
 
 		// XXX load everything. for now, just modules
