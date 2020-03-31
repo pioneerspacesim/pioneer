@@ -210,7 +210,7 @@ void GuiApplication::ShutdownInput()
 PiGui::Instance *GuiApplication::StartupPiGui()
 {
 	m_pigui.Reset(new PiGui::Instance());
-	m_pigui->Init(m_renderer->GetSDLWindow());
+	m_pigui->Init(GetRenderer());
 	return m_pigui.Get();
 }
 

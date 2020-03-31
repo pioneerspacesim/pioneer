@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "Pi.h"
 
+#include "graphics/Graphics.h"
 #include "graphics/Texture.h"
 #include "graphics/opengl/RendererGL.h"
 #include "graphics/opengl/TextureGL.h" // nasty, usage of GL is implementation specific
@@ -32,10 +33,10 @@ std::vector<Graphics::Texture *> &PiGui::GetSVGTextures()
 	return m_svg_textures;
 }
 
-static void *makeTexture(unsigned char *pixels, int width, int height)
+static ImTextureID makeTexture(Graphics::Renderer *renderer, unsigned char *pixels, int width, int height)
 {
 	PROFILE_SCOPED()
-	// this is not very pretty code and uses the Graphics::TextureGL class directly
+	// this is not very pretty code
 	// Texture descriptor defines the size, type.
 	// Gone for LINEAR_CLAMP here and RGBA like the original code
 	const vector2f texSize(1.0f, 1.0f);
@@ -45,17 +46,14 @@ static void *makeTexture(unsigned char *pixels, int width, int height)
 		false, false, false, 0, Graphics::TEXTURE_2D);
 	// Create the texture, calling it via renderer directly avoids the caching call of TextureBuilder
 	// However interestingly this gets called twice which would have been a WIN for the TextureBuilder :/
-	Graphics::Texture *pTex = Pi::renderer->CreateTexture(texDesc);
+	Graphics::Texture *pTex = renderer->CreateTexture(texDesc);
 	// Update it with the actual pixels, this is a two step process due to legacy code
 	pTex->Update(pixels, dataSize, Graphics::TEXTURE_RGBA_8888);
-	// nasty bit as I invoke the TextureGL
-	Graphics::OGL::TextureGL *pGLTex = reinterpret_cast<Graphics::OGL::TextureGL *>(pTex);
-	Uint32 result = pGLTex->GetTextureID();
 	PiGui::GetSVGTextures().push_back(pTex); // store for cleanup later
-	return reinterpret_cast<void *>(result);
+	return reinterpret_cast<ImTextureID>(uintptr_t(pTex->GetTextureID()));
 }
 
-ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height)
+ImTextureID PiGui::RenderSVG(Graphics::Renderer *renderer, std::string svgFilename, int width, int height)
 {
 	PROFILE_SCOPED()
 	Output("nanosvg: %s %dx%d\n", svgFilename.c_str(), width, height);
@@ -111,7 +109,7 @@ ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height)
 	}
 	nsvgDeleteRasterizer(rast);
 	nsvgDelete(image);
-	return makeTexture(img, W, H);
+	return makeTexture(renderer, img, W, H);
 }
 
 //
@@ -223,9 +221,11 @@ void PiDefaultStyle(ImGuiStyle &style)
 	style.WindowBorderSize = 0.0f; // Thickness of border around windows. Generally set to 0.0f or 1.0f. Other values not well tested.
 }
 
-void Instance::Init(SDL_Window *window)
+// TODO: this isn't very RAII friendly, are we sure we need to call Init() seperately from creating the instance?
+void Instance::Init(Graphics::Renderer *renderer)
 {
 	PROFILE_SCOPED()
+	m_renderer = renderer;
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -233,8 +233,8 @@ void Instance::Init(SDL_Window *window)
 	// TODO: FIXME before upgrading! The sdl_gl_context parameter is currently
 	// unused, but that is slated to change very soon.
 	// We will need to fill this with a valid pointer to the OpenGL context.
-	ImGui_ImplSDL2_InitForOpenGL(window, NULL);
-	switch (Pi::renderer->GetRendererType()) {
+	ImGui_ImplSDL2_InitForOpenGL(m_renderer->GetSDLWindow(), NULL);
+	switch (m_renderer->GetRendererType()) {
 	default:
 	case Graphics::RENDERER_DUMMY:
 		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
@@ -266,17 +266,11 @@ bool Instance::ProcessEvent(SDL_Event *event)
 	return false;
 }
 
-void Instance::NewFrame(SDL_Window *window)
+void Instance::NewFrame()
 {
 	PROFILE_SCOPED()
 
-	// Ask ImGui to hide OS cursor if we're capturing it for input:
-	// it will do this if GetMouseCursor == ImGuiMouseCursor_None.
-	if (Pi::input->IsCapturingMouse()) {
-		ImGui::SetMouseCursor(ImGuiMouseCursor_None);
-	}
-
-	switch (Pi::renderer->GetRendererType()) {
+	switch (m_renderer->GetRendererType()) {
 	default:
 	case Graphics::RENDERER_DUMMY:
 		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
@@ -285,10 +279,10 @@ void Instance::NewFrame(SDL_Window *window)
 		ImGui_ImplOpenGL3_NewFrame();
 		break;
 	}
-	ImGui_ImplSDL2_NewFrame(window);
+	ImGui_ImplSDL2_NewFrame(m_renderer->GetSDLWindow());
 	ImGui::NewFrame();
 
-	Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
+	m_renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 	ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
 }
 
@@ -326,7 +320,7 @@ void Instance::Render()
 
 	ImGui::Render();
 
-	switch (Pi::renderer->GetRendererType()) {
+	switch (m_renderer->GetRendererType()) {
 	default:
 	case Graphics::RENDERER_DUMMY:
 		return;
@@ -421,7 +415,7 @@ void Instance::Uninit()
 		delete tex;
 	}
 
-	switch (Pi::renderer->GetRendererType()) {
+	switch (m_renderer->GetRendererType()) {
 	default:
 	case Graphics::RENDERER_DUMMY:
 		return;

@@ -501,7 +501,7 @@ void LoadStep::Start()
 	PiGUI::Lua::Init();
 
 	// Don't render the first frame, just make sure all of our fonts are loaded
-	Pi::pigui->NewFrame(Pi::renderer->GetSDLWindow());
+	Pi::pigui->NewFrame();
 	PiGUI::RunHandler(0.01, "INIT");
 	Pi::pigui->EndFrame();
 
@@ -614,7 +614,7 @@ void LoadStep::Update(float deltaTime)
 		Output("Loading [%02.f%%]: %s took %.2fms\n", progress * 100.,
 			loader.name.c_str(), timer.milliseconds());
 
-		Pi::pigui->NewFrame(Pi::renderer->GetSDLWindow());
+		Pi::pigui->NewFrame();
 		PiGUI::RunHandler(progress, "INIT");
 		Pi::pigui->Render();
 
@@ -653,7 +653,7 @@ void MainMenu::Update(float deltaTime)
 
 	Pi::intro->Draw(deltaTime);
 
-	Pi::pigui->NewFrame(Pi::renderer->GetSDLWindow());
+	Pi::pigui->NewFrame();
 	PiGUI::RunHandler(deltaTime, "MAINMENU");
 
 	Pi::pigui->Render();
@@ -1075,10 +1075,16 @@ void GameLoop::Update(float deltaTime)
 		Pi::ui->Draw();
 	}
 
+	// Ask ImGui to hide OS cursor if we're capturing it for input:
+	// it will do this if GetMouseCursor == ImGuiMouseCursor_None.
+	if (Pi::input->IsCapturingMouse()) {
+		ImGui::SetMouseCursor(ImGuiMouseCursor_None);
+	}
+
 	// TODO: the escape menu depends on HandleEvents() being called before NewFrame()
 	// Move HandleEvents to either the end of the loop or the very start of the loop
 	// The goal is to be able to call imgui functions for debugging inside C++ code
-	Pi::pigui->NewFrame(Pi::renderer->GetSDLWindow());
+	Pi::pigui->NewFrame();
 
 	if (Pi::game && !Pi::player->IsDead()) {
 		// FIXME: Always begin a camera frame because WorldSpaceToScreenSpace

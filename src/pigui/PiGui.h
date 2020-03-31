@@ -13,7 +13,8 @@
 
 namespace Graphics {
 	class Texture;
-}
+	class Renderer;
+} // namespace Graphics
 
 namespace PiGui {
 
@@ -87,8 +88,11 @@ namespace PiGui {
 	public:
 		Instance();
 
+		void Init(Graphics::Renderer *renderer);
+		void Uninit();
+
 		// Call at the start of every frame. Calls ImGui::NewFrame() internally.
-		void NewFrame(SDL_Window *window);
+		void NewFrame();
 
 		// Call at the end of a frame that you're not going to render the results of
 		void EndFrame();
@@ -96,13 +100,8 @@ namespace PiGui {
 		// Calls ImGui::EndFrame() internally and does book-keeping before rendering.
 		void Render();
 
-		void Init(SDL_Window *window);
-
-		ImFont *GetFont(const std::string &name, int size);
-
-		void Uninit();
-
 		ImFont *AddFont(const std::string &name, int size);
+		ImFont *GetFont(const std::string &name, int size);
 
 		void AddGlyph(ImFont *font, unsigned short glyph);
 
@@ -111,6 +110,8 @@ namespace PiGui {
 		void RefreshFontsTexture();
 
 	private:
+		Graphics::Renderer *m_renderer;
+
 		std::map<std::pair<std::string, int>, ImFont *> m_fonts;
 		std::map<ImFont *, std::pair<std::string, int>> m_im_fonts;
 		std::map<std::pair<std::string, int>, PiFont> m_pi_fonts;
@@ -143,6 +144,6 @@ namespace PiGui {
 	}
 
 	std::vector<Graphics::Texture *> &GetSVGTextures();
-	ImTextureID RenderSVG(std::string svgFilename, int width, int height);
+	ImTextureID RenderSVG(Graphics::Renderer *renderer, std::string svgFilename, int width, int height);
 
 } //namespace PiGui

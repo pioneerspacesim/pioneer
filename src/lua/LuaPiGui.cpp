@@ -2370,7 +2370,7 @@ static int l_pigui_load_texture_from_svg(lua_State *l)
 	std::string svg_filename = LuaPull<std::string>(l, 2);
 	int width = LuaPull<int>(l, 3);
 	int height = LuaPull<int>(l, 4);
-	ImTextureID id = PiGui::RenderSVG(svg_filename, width, height);
+	ImTextureID id = PiGui::RenderSVG(Pi::renderer, svg_filename, width, height);
 	//	LuaPush(l, id);
 	lua_pushlightuserdata(l, id);
 	return 1;
