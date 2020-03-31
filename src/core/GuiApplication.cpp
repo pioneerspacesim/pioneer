@@ -12,6 +12,7 @@
 #include "graphics/RenderTarget.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
+#include "pigui/PiGui.h"
 #include "utils.h"
 #include "versioningInfo.h"
 
@@ -118,7 +119,7 @@ void GuiApplication::HandleEvents()
 		m_pigui->ProcessEvent(&event);
 
 		// Input system takes priority over mouse events when capturing the mouse
-		if (m_pigui->WantCaptureMouse() && !m_input->IsCapturingMouse()) {
+		if (PiGui::WantCaptureMouse() && !m_input->IsCapturingMouse()) {
 			// don't process mouse event any further, imgui already handled it
 			switch (event.type) {
 			case SDL_MOUSEBUTTONDOWN:
@@ -129,7 +130,7 @@ void GuiApplication::HandleEvents()
 			default: break;
 			}
 		}
-		if (m_pigui->WantCaptureKeyboard()) {
+		if (PiGui::WantCaptureKeyboard()) {
 			// don't process keyboard event any further, imgui already handled it
 			switch (event.type) {
 			case SDL_KEYDOWN:
@@ -206,9 +207,9 @@ void GuiApplication::ShutdownInput()
 	m_input.reset();
 }
 
-PiGui *GuiApplication::StartupPiGui()
+PiGui::Instance *GuiApplication::StartupPiGui()
 {
-	m_pigui.Reset(new PiGui());
+	m_pigui.Reset(new PiGui::Instance());
 	m_pigui->Init(m_renderer->GetSDLWindow());
 	return m_pigui.Get();
 }

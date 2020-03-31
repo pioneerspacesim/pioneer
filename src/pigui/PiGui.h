@@ -5,126 +5,144 @@
 
 #include "FileSystem.h"
 #include "RefCounted.h"
-#include "graphics/opengl/RendererGL.h"
 #include "imgui/imgui.h"
 
 #include "utils.h"
 
 #include <unordered_set>
 
-class PiFace {
-	friend class PiGui;	   // need acces to some private data
-	std::string m_ttfname; // only the ttf name, it is automatically sought in data/fonts/
-	float m_sizefactor;	   // the requested pixelsize is multiplied by this factor
-	std::unordered_set<unsigned short> m_invalid_glyphs;
-	mutable std::vector<std::pair<unsigned short, unsigned short>> m_used_ranges;
-	ImVector<ImWchar> m_imgui_ranges;
+namespace Graphics {
+	class Texture;
+}
 
-public:
-	PiFace(const std::string &ttfname, float sizefactor) :
-		m_ttfname(ttfname),
-		m_sizefactor(sizefactor) {}
-	const std::string &ttfname() const { return m_ttfname; }
-	const float sizefactor() const { return m_sizefactor; }
-	//std::unordered_map<unsigned short, unsigned short> &invalid_glyphs() const { return m_invalid_glyphs; }
-	const std::vector<std::pair<unsigned short, unsigned short>> &used_ranges() const { return m_used_ranges; }
-	const bool isValidGlyph(unsigned short glyph) const;
-	void addGlyph(unsigned short glyph);
-	void sortUsedRanges() const;
-};
+namespace PiGui {
 
-class PiFont {
-	std::string m_name;
-	std::vector<PiFace> m_faces;
-	int m_pixelsize;
+	class PiFace {
+	public:
+		using UsedRange = std::pair<uint16_t, uint16_t>;
+		PiFace(const std::string &ttfname, float sizefactor) :
+			m_ttfname(ttfname),
+			m_sizefactor(sizefactor) {}
 
-public:
-	PiFont(const std::string &name) :
-		m_name(name) {}
-	PiFont(const std::string &name, const std::vector<PiFace> &faces) :
-		m_name(name),
-		m_faces(faces) {}
-	PiFont(const PiFont &other) :
-		m_name(other.name()),
-		m_faces(other.faces()) {}
-	PiFont() :
-		m_name("unknown") {}
-	const std::vector<PiFace> &faces() const { return m_faces; }
-	std::vector<PiFace> &faces() { return m_faces; }
-	const std::string &name() const { return m_name; }
-	int pixelsize() const { return m_pixelsize; }
-	void setPixelsize(int pixelsize) { m_pixelsize = pixelsize; }
-	void describe() const
-	{
-		Output("font %s:\n", name().c_str());
-		for (const PiFace &face : faces()) {
-			Output("- %s %f\n", face.ttfname().c_str(), face.sizefactor());
+		const std::string &ttfname() const { return m_ttfname; }
+
+		const float sizefactor() const { return m_sizefactor; }
+
+		//std::unordered_map<unsigned short, unsigned short> &invalid_glyphs() const { return m_invalid_glyphs; }
+		const std::vector<UsedRange> &used_ranges() const { return m_used_ranges; }
+
+		const bool isValidGlyph(unsigned short glyph) const;
+		void addGlyph(unsigned short glyph);
+		void sortUsedRanges() const;
+
+	private:
+		friend class Instance; // need access to some private data
+
+		std::string m_ttfname; // only the ttf name, it is automatically sought in data/fonts/
+		float m_sizefactor;	   // the requested pixelsize is multiplied by this factor
+
+		std::unordered_set<unsigned short> m_invalid_glyphs;
+		mutable std::vector<UsedRange> m_used_ranges;
+
+		ImVector<ImWchar> m_imgui_ranges;
+	};
+
+	class PiFont {
+	public:
+		PiFont(const std::string &name) :
+			m_name(name) {}
+		PiFont(const std::string &name, const std::vector<PiFace> &faces) :
+			m_name(name),
+			m_faces(faces) {}
+		PiFont(const PiFont &other) :
+			m_name(other.name()),
+			m_faces(other.faces()) {}
+		PiFont() :
+			m_name("unknown") {}
+
+		const std::vector<PiFace> &faces() const { return m_faces; }
+		std::vector<PiFace> &faces() { return m_faces; }
+
+		const std::string &name() const { return m_name; }
+
+		int pixelsize() const { return m_pixelsize; }
+		void setPixelsize(int pixelsize) { m_pixelsize = pixelsize; }
+
+		void describe() const
+		{
+			Output("font %s:\n", name().c_str());
+			for (const PiFace &face : faces()) {
+				Output("- %s %f\n", face.ttfname().c_str(), face.sizefactor());
+			}
 		}
-	}
-};
 
-/* Class to wrap ImGui. */
-class PiGui : public RefCounted {
-	std::map<std::pair<std::string, int>, ImFont *> m_fonts;
-	std::map<ImFont *, std::pair<std::string, int>> m_im_fonts;
-	std::map<std::pair<std::string, int>, PiFont> m_pi_fonts;
-	bool m_should_bake_fonts;
+	private:
+		std::string m_name;
+		std::vector<PiFace> m_faces;
+		int m_pixelsize;
+	};
 
-	std::map<std::string, PiFont> m_font_definitions;
+	/* Class to wrap ImGui. */
+	class Instance : public RefCounted {
+	public:
+		Instance();
 
-	void BakeFonts();
-	void BakeFont(PiFont &font);
-	void AddFontDefinition(const PiFont &font) { m_font_definitions[font.name()] = font; }
-	void ClearFonts();
+		// Call at the start of every frame. Calls ImGui::NewFrame() internally.
+		void NewFrame(SDL_Window *window);
 
-public:
-	PiGui();
+		// Call at the end of a frame that you're not going to render the results of
+		void EndFrame();
 
-	// Call at the start of every frame. Calls ImGui::NewFrame() internally.
-	void NewFrame(SDL_Window *window);
+		// Calls ImGui::EndFrame() internally and does book-keeping before rendering.
+		void Render();
 
-	// Call at the end of a frame that you're not going to render the results of
-	void EndFrame();
+		void Init(SDL_Window *window);
 
-	// Calls ImGui::EndFrame() internally and does book-keeping before rendering.
-	void Render();
+		ImFont *GetFont(const std::string &name, int size);
 
-	void Init(SDL_Window *window);
+		void Uninit();
 
-	ImFont *GetFont(const std::string &name, int size);
+		ImFont *AddFont(const std::string &name, int size);
 
-	void Uninit();
+		void AddGlyph(ImFont *font, unsigned short glyph);
 
-	ImFont *AddFont(const std::string &name, int size);
+		bool ProcessEvent(SDL_Event *event);
 
-	void AddGlyph(ImFont *font, unsigned short glyph);
+		void RefreshFontsTexture();
 
-	static ImTextureID RenderSVG(std::string svgFilename, int width, int height);
+	private:
+		std::map<std::pair<std::string, int>, ImFont *> m_fonts;
+		std::map<ImFont *, std::pair<std::string, int>> m_im_fonts;
+		std::map<std::pair<std::string, int>, PiFont> m_pi_fonts;
+		bool m_should_bake_fonts;
 
-	static bool ProcessEvent(SDL_Event *event);
+		std::map<std::string, PiFont> m_font_definitions;
 
-	void RefreshFontsTexture();
+		void BakeFonts();
+		void BakeFont(PiFont &font);
+		void AddFontDefinition(const PiFont &font) { m_font_definitions[font.name()] = font; }
+		void ClearFonts();
+	};
 
-	static void *makeTexture(unsigned char *pixels, int width, int height);
+	int RadialPopupSelectMenu(const ImVec2 &center, std::string popup_id, int mouse_button, std::vector<ImTextureID> tex_ids, std::vector<std::pair<ImVec2, ImVec2>> uvs, unsigned int size, std::vector<std::string> tooltips);
+	bool CircularSlider(const ImVec2 &center, float *v, float v_min, float v_max);
 
-	static bool WantCaptureMouse()
+	bool LowThrustButton(const char *label, const ImVec2 &size_arg, int thrust_level, const ImVec4 &bg_col, int frame_padding, ImColor gauge_fg, ImColor gauge_bg);
+	bool ButtonImageSized(ImTextureID user_texture_id, const ImVec2 &size, const ImVec2 &imgSize, const ImVec2 &uv0, const ImVec2 &uv1, int frame_padding, const ImVec4 &bg_col, const ImVec4 &tint_col);
+
+	void ThrustIndicator(const std::string &id_string, const ImVec2 &size, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg);
+
+	inline bool WantCaptureMouse()
 	{
 		return ImGui::GetIO().WantCaptureMouse;
 	}
 
-	static bool WantCaptureKeyboard()
+	inline bool WantCaptureKeyboard()
 	{
 		return ImGui::GetIO().WantCaptureKeyboard;
 	}
 
-	static int RadialPopupSelectMenu(const ImVec2 &center, std::string popup_id, int mouse_button, std::vector<ImTextureID> tex_ids, std::vector<std::pair<ImVec2, ImVec2>> uvs, unsigned int size, std::vector<std::string> tooltips);
-	static bool CircularSlider(const ImVec2 &center, float *v, float v_min, float v_max);
+	std::vector<Graphics::Texture *> &GetSVGTextures();
+	ImTextureID RenderSVG(std::string svgFilename, int width, int height);
 
-	static bool LowThrustButton(const char *label, const ImVec2 &size_arg, int thrust_level, const ImVec4 &bg_col, int frame_padding, ImColor gauge_fg, ImColor gauge_bg);
-	static bool ButtonImageSized(ImTextureID user_texture_id, const ImVec2 &size, const ImVec2 &imgSize, const ImVec2 &uv0, const ImVec2 &uv1, int frame_padding, const ImVec4 &bg_col, const ImVec4 &tint_col);
-
-	static void ThrustIndicator(const std::string &id_string, const ImVec2 &size, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg);
-
-private:
-	static std::vector<Graphics::Texture *> m_svg_textures;
-};
+} //namespace PiGui

@@ -7,12 +7,18 @@
 #include "lua/LuaObject.h"
 
 namespace PiGUI {
-	void RegisterSandbox();
+
+	// Get registered PiGui handlers.
+	LuaRef GetHandlers();
+	// Get a table of key name to SDL-keycode mappings
+	LuaRef GetKeys();
 
 	namespace Lua {
+		void RegisterSandbox();
 
 		void Init();
-	}
+		void Uninit();
+	} // namespace Lua
 } // namespace PiGUI
 
 #endif

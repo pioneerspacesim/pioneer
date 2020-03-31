@@ -18,6 +18,7 @@
 #include "graphics/Graphics.h"
 #include "pigui/LuaFlags.h"
 #include "pigui/PiGui.h"
+#include "pigui/PiGuiLua.h"
 #include "ship/PlayerShipController.h"
 #include "sound/Sound.h"
 #include "ui/Context.h"
@@ -28,33 +29,6 @@
 // Windows defines RegisterClass as a macro, but we don't need that here.
 // undef it, to avoid including yet another header that undefs it
 #undef RegisterClass
-
-LuaRef m_handlers;
-LuaRef PiGUI::GetHandlers() { return m_handlers; }
-
-LuaRef m_keys;
-LuaRef PiGUI::GetKeys() { return m_keys; }
-
-static std::vector<std::pair<std::string, int>> m_keycodes = {
-	{ "left", SDLK_LEFT },
-	{ "right", SDLK_RIGHT },
-	{ "up", SDLK_UP },
-	{ "down", SDLK_DOWN },
-	{ "escape", SDLK_ESCAPE },
-	{ "f1", SDLK_F1 },
-	{ "f2", SDLK_F2 },
-	{ "f3", SDLK_F3 },
-	{ "f4", SDLK_F4 },
-	{ "f5", SDLK_F5 },
-	{ "f6", SDLK_F6 },
-	{ "f7", SDLK_F7 },
-	{ "f8", SDLK_F8 },
-	{ "f9", SDLK_F9 },
-	{ "f10", SDLK_F10 },
-	{ "f11", SDLK_F11 },
-	{ "f12", SDLK_F12 },
-	{ "tab", SDLK_TAB },
-};
 
 template <typename Type>
 static Type parse_imgui_flags(lua_State *l, int index, LuaFlags<Type> &lookupTable)
@@ -1408,7 +1382,7 @@ static int l_pigui_is_mouse_clicked(lua_State *l)
 static int l_pigui_push_font(lua_State *l)
 {
 	PROFILE_SCOPED()
-	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
+	PiGui::Instance *pigui = LuaObject<PiGui::Instance>::CheckFromLua(1);
 	std::string fontname = LuaPull<std::string>(l, 2);
 	int size = LuaPull<int>(l, 3);
 	ImFont *font = pigui->GetFont(fontname, size);
@@ -1968,7 +1942,7 @@ static int l_pigui_should_show_labels(lua_State *l)
 static int l_attr_handlers(lua_State *l)
 {
 	PROFILE_SCOPED()
-	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
+	PiGui::Instance *pigui = LuaObject<PiGui::Instance>::CheckFromLua(1);
 	PiGUI::GetHandlers().PushCopyToStack();
 	return 1;
 }
@@ -1976,7 +1950,7 @@ static int l_attr_handlers(lua_State *l)
 static int l_attr_keys(lua_State *l)
 {
 	PROFILE_SCOPED()
-	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
+	PiGui::Instance *pigui = LuaObject<PiGui::Instance>::CheckFromLua(1);
 	PiGUI::GetKeys().PushCopyToStack();
 	return 1;
 }
@@ -1984,7 +1958,7 @@ static int l_attr_keys(lua_State *l)
 static int l_attr_screen_width(lua_State *l)
 {
 	PROFILE_SCOPED()
-	//	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
+	//	PiGui::Instance *pigui = LuaObject<PiGui::Instance>::CheckFromLua(1);
 	LuaPush<int>(l, Graphics::GetScreenWidth());
 	return 1;
 }
@@ -2020,7 +1994,7 @@ static int l_attr_key_alt(lua_State *l)
 static int l_attr_screen_height(lua_State *l)
 {
 	PROFILE_SCOPED()
-	//	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
+	//	PiGui::Instance *pigui = LuaObject<PiGui::Instance>::CheckFromLua(1);
 	LuaPush<int>(l, Graphics::GetScreenHeight());
 	return 1;
 }
@@ -2392,11 +2366,11 @@ static int l_pigui_add_convex_poly_filled(lua_State *l)
 static int l_pigui_load_texture_from_svg(lua_State *l)
 {
 	PROFILE_SCOPED()
-	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
+	PiGui::Instance *pigui = LuaObject<PiGui::Instance>::CheckFromLua(1);
 	std::string svg_filename = LuaPull<std::string>(l, 2);
 	int width = LuaPull<int>(l, 3);
 	int height = LuaPull<int>(l, 4);
-	ImTextureID id = pigui->RenderSVG(svg_filename, width, height);
+	ImTextureID id = PiGui::RenderSVG(svg_filename, width, height);
 	//	LuaPush(l, id);
 	lua_pushlightuserdata(l, id);
 	return 1;
@@ -2497,7 +2471,7 @@ static int l_pigui_push_text_wrap_pos(lua_State *l)
 void PiGUI::RunHandler(double delta, std::string handler)
 {
 	PROFILE_SCOPED()
-	ScopedTable t(m_handlers);
+	ScopedTable t(GetHandlers());
 	if (t.Get<bool>(handler)) {
 		t.Call<bool>(handler, delta);
 		Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
@@ -2505,10 +2479,10 @@ void PiGUI::RunHandler(double delta, std::string handler)
 }
 
 template <>
-const char *LuaObject<PiGui>::s_type = "PiGui";
+const char *LuaObject<PiGui::Instance>::s_type = "PiGui";
 
 template <>
-void LuaObject<PiGui>::RegisterClass()
+void LuaObject<PiGui::Instance>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
 		{ "Begin", l_pigui_begin },
@@ -2666,14 +2640,4 @@ void LuaObject<PiGui>::RegisterClass()
 	imguiStyleVarTable.Register(l, "ImGuiStyleVar");
 	imguiWindowFlagsTable.Register(l, "ImGuiWindowFlags");
 	imguiHoveredFlagsTable.Register(l, "ImGuiHoveredFlags");
-
-	lua_newtable(l);
-	m_handlers = LuaRef(l, -1);
-
-	lua_newtable(l);
-	m_keys = LuaRef(l, -1);
-	LuaTable keys(l, -1);
-	for (auto p : m_keycodes) {
-		keys.Set(p.first, p.second);
-	}
 }

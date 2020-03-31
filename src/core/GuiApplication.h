@@ -22,7 +22,7 @@ public:
 
 	Graphics::Renderer *GetRenderer() { return m_renderer.get(); }
 	Input *GetInput() { return m_input.get(); }
-	PiGui *GetPiGui() { return m_pigui.Get(); }
+	PiGui::Instance *GetPiGui() { return m_pigui.Get(); }
 
 protected:
 	// Called at the end of the frame automatically, blits the RT onto the application
@@ -36,7 +36,7 @@ protected:
 	Input *StartupInput(const GameConfig *config);
 
 	// Call this from your Startup() method
-	PiGui *StartupPiGui();
+	PiGui::Instance *StartupPiGui();
 
 	// Call this from your Shutdown() method
 	void ShutdownRenderer();
@@ -67,7 +67,7 @@ protected:
 private:
 	Graphics::RenderTarget *CreateRenderTarget(const Graphics::Settings &settings);
 
-	RefCountedPtr<PiGui> m_pigui;
+	RefCountedPtr<PiGui::Instance> m_pigui;
 	std::unique_ptr<Input> m_input;
 
 	std::string m_applicationTitle;

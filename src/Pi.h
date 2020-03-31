@@ -16,6 +16,10 @@
 #include <string>
 #include <vector>
 
+namespace PiGui {
+	class Instance;
+} //namespace PiGui
+
 class Game;
 
 class GameConfig;
@@ -26,7 +30,6 @@ class LuaNameGen;
 class LuaTimer;
 class ModelCache;
 class ObjectViewerView;
-class PiGui;
 class Player;
 class SystemPath;
 class TransferPlanner;
@@ -170,7 +173,7 @@ public:
 #endif
 
 	static RefCountedPtr<UI::Context> ui;
-	static PiGui *pigui;
+	static PiGui::Instance *pigui;
 
 	static Random rng;
 	static int statSceneTris;

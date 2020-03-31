@@ -25,6 +25,7 @@
 #include "NavLights.h"
 #include "OS.h"
 #include "core/GuiApplication.h"
+#include "graphics/opengl/RendererGL.h"
 #include "lua/Lua.h"
 #include "lua/LuaConsole.h"
 #include "lua/LuaEvent.h"
@@ -134,7 +135,7 @@ float Pi::amountOfBackgroundStarsDisplayed = 1.0f;
 bool Pi::DrawGUI = true;
 Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
-PiGui *Pi::pigui = nullptr;
+PiGui::Instance *Pi::pigui = nullptr;
 ModelCache *Pi::modelCache;
 Intro *Pi::intro;
 SDLGraphics *Pi::sdl;
@@ -441,6 +442,7 @@ void Pi::App::Shutdown()
 	FaceParts::Uninit();
 	Graphics::Uninit();
 
+	PiGUI::Lua::Uninit();
 	ShutdownPiGui();
 	Pi::pigui = nullptr;
 	Pi::ui.Reset(0);
@@ -495,9 +497,8 @@ void LoadStep::Start()
 	// TODO: Get the lua state responsible for drawing the init progress up as fast as possible
 	// Investigate using a pigui-only Lua state that we can initialize without depending on
 	// normal init flow, or drawing the init screen in C++ instead?
-	// Ideally we can initialize the ImGui related parts of pigui as soon as the renderer is online,
-	// and then load all the lua-related state once Lua's registered and online...
-	LuaObject<PiGui>::RegisterClass();
+	// Loads just the PiGui class and PiGui-related modules
+	PiGUI::Lua::Init();
 
 	// Don't render the first frame, just make sure all of our fonts are loaded
 	Pi::pigui->NewFrame(Pi::renderer->GetSDLWindow());

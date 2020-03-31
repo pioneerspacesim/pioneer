@@ -29,11 +29,6 @@ namespace PiGUI {
 	int pushOnScreenPositionDirection(lua_State *l, vector3d position);
 	TScreenSpace lua_world_space_to_screen_space(const vector3d &pos);
 
-	// Get registered PiGui handlers.
-	LuaRef GetHandlers();
-	// Get a table of key name to SDL-keycode mappings
-	LuaRef GetKeys();
-
 	// Run a lua PiGui handler.
 	void RunHandler(double delta, std::string handler = "GAME");
 } // namespace PiGUI

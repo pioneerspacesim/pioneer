@@ -116,7 +116,7 @@ static int l_engine_attr_ui(lua_State *l)
  */
 static int l_engine_attr_pigui(lua_State *l)
 {
-	LuaObject<PiGui>::PushToLua(Pi::pigui);
+	LuaObject<PiGui::Instance>::PushToLua(Pi::pigui);
 	return 1;
 }
 
