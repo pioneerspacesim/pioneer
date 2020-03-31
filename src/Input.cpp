@@ -9,7 +9,13 @@
 
 #include <array>
 
-void Input::Init(GameConfig *config)
+Input::Input(const GameConfig *config) :
+	m_capturingMouse(false),
+	mouseYInvert(false),
+	joystickEnabled(true),
+	keyModState(0),
+	mouseButton(),
+	mouseMotion()
 {
 	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
@@ -22,14 +28,19 @@ void Input::InitGame()
 	//reset input states
 	keyState.clear();
 	keyModState = 0;
-	std::fill(mouseButton, mouseButton + COUNTOF(mouseButton), 0);
-	std::fill(mouseMotion, mouseMotion + COUNTOF(mouseMotion), 0);
+	mouseButton.fill(0);
+	mouseMotion.fill(0);
 	for (std::map<SDL_JoystickID, JoystickState>::iterator stick = joysticks.begin(); stick != joysticks.end(); ++stick) {
 		JoystickState &state = stick->second;
 		std::fill(state.buttons.begin(), state.buttons.end(), false);
 		std::fill(state.hats.begin(), state.hats.end(), 0);
 		std::fill(state.axes.begin(), state.axes.end(), 0.f);
 	}
+}
+
+void Input::NewFrame()
+{
+	mouseMotion.fill(0);
 }
 
 InputResponse Input::InputFrame::ProcessSDLEvent(SDL_Event &event)
@@ -130,14 +141,14 @@ void Input::HandleSDLEvent(SDL_Event &event)
 		onKeyRelease.emit(&event.key.keysym);
 		break;
 	case SDL_MOUSEBUTTONDOWN:
-		if (event.button.button < COUNTOF(mouseButton)) {
+		if (event.button.button < mouseButton.size()) {
 			mouseButton[event.button.button] = 1;
 			onMouseButtonDown.emit(event.button.button,
 				event.button.x, event.button.y);
 		}
 		break;
 	case SDL_MOUSEBUTTONUP:
-		if (event.button.button < COUNTOF(mouseButton)) {
+		if (event.button.button < mouseButton.size()) {
 			mouseButton[event.button.button] = 0;
 			onMouseButtonUp.emit(event.button.button,
 				event.button.x, event.button.y);

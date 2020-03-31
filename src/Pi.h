@@ -101,7 +101,7 @@ public:
 		void RunJobs();
 
 		void HandleRequests();
-		void HandleEvents();
+		bool HandleEvent(SDL_Event &ev) override;
 
 	private:
 		// msgs/requests that can be posted which the game processes at the end of a game loop in HandleRequests
@@ -170,7 +170,7 @@ public:
 #endif
 
 	static RefCountedPtr<UI::Context> ui;
-	static RefCountedPtr<PiGui> pigui;
+	static PiGui *pigui;
 
 	static Random rng;
 	static int statSceneTris;

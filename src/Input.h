@@ -16,10 +16,10 @@ class Input {
 	friend class Pi;
 
 public:
-	Input() = default;
-	void Init(GameConfig *config);
+	Input(const GameConfig *config);
 	void InitGame();
 	void HandleSDLEvent(SDL_Event &ev);
+	void NewFrame();
 
 	// The Page->Group->Binding system serves as a thin veneer for the UI to make
 	// sane reasonings about how to structure the Options dialog.
@@ -132,7 +132,7 @@ public:
 
 	void GetMouseMotion(int motion[2])
 	{
-		memcpy(motion, mouseMotion, sizeof(int) * 2);
+		std::copy_n(mouseMotion.data(), mouseMotion.size(), motion);
 	}
 
 	// Capturing the mouse hides the cursor, puts the mouse into relative mode,
@@ -156,8 +156,8 @@ private:
 
 	std::map<SDL_Keycode, bool> keyState;
 	int keyModState;
-	char mouseButton[6];
-	int mouseMotion[2];
+	std::array<char, 6> mouseButton;
+	std::array<int, 2> mouseMotion;
 	bool m_capturingMouse;
 
 	bool joystickEnabled;

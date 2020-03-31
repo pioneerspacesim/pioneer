@@ -100,6 +100,54 @@ Graphics::RenderTarget *GuiApplication::CreateRenderTarget(const Graphics::Setti
 	return nullptr;
 }
 
+void GuiApplication::HandleEvents()
+{
+	PROFILE_SCOPED()
+	SDL_Event event;
+
+	// FIXME: input state is right before handling updates because
+	// legacy UI code needs to run before input does.
+	// When HandleEvents() is moved to BeginFrame / PreUpdate, this call should go with it
+	m_input->NewFrame();
+
+	while (SDL_PollEvent(&event)) {
+		if (event.type == SDL_QUIT) {
+			RequestQuit();
+		}
+
+		m_pigui->ProcessEvent(&event);
+
+		// Input system takes priority over mouse events when capturing the mouse
+		if (m_pigui->WantCaptureMouse() && !m_input->IsCapturingMouse()) {
+			// don't process mouse event any further, imgui already handled it
+			switch (event.type) {
+			case SDL_MOUSEBUTTONDOWN:
+			case SDL_MOUSEBUTTONUP:
+			case SDL_MOUSEWHEEL:
+			case SDL_MOUSEMOTION:
+				continue;
+			default: break;
+			}
+		}
+		if (m_pigui->WantCaptureKeyboard()) {
+			// don't process keyboard event any further, imgui already handled it
+			switch (event.type) {
+			case SDL_KEYDOWN:
+			case SDL_KEYUP:
+			case SDL_TEXTINPUT:
+				continue;
+			default: break;
+			}
+		}
+
+		// TODO: virtual method dispatch for each event isn't great. Let's find a better solution
+		if (HandleEvent(event))
+			continue;
+
+		m_input->HandleSDLEvent(event);
+	}
+}
+
 Graphics::Renderer *GuiApplication::StartupRenderer(const GameConfig *config, bool hidden)
 {
 	PROFILE_SCOPED()
@@ -144,4 +192,29 @@ void GuiApplication::ShutdownRenderer()
 	m_renderer.reset();
 
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
+}
+
+Input *GuiApplication::StartupInput(const GameConfig *config)
+{
+	m_input.reset(new Input(config));
+
+	return m_input.get();
+}
+
+void GuiApplication::ShutdownInput()
+{
+	m_input.reset();
+}
+
+PiGui *GuiApplication::StartupPiGui()
+{
+	m_pigui.Reset(new PiGui());
+	m_pigui->Init(m_renderer->GetSDLWindow());
+	return m_pigui.Get();
+}
+
+void GuiApplication::ShutdownPiGui()
+{
+	m_pigui->Uninit();
+	m_pigui.Reset();
 }

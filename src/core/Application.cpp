@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "FileSystem.h"
 #include "OS.h"
+#include "SDL.h"
 #include "profiler/Profiler.h"
 #include "utils.h"
 
@@ -33,11 +34,14 @@ void Application::Startup()
 #ifdef PIONEER_PROFILER
 	FileSystem::userFiles.MakeDirectory("profiler");
 #endif
+
+	SDL_Init(SDL_INIT_EVENTS);
 }
 
 void Application::Shutdown()
 {
 	FileSystem::Uninit();
+	SDL_Quit();
 }
 
 bool Application::StartLifecycle()
