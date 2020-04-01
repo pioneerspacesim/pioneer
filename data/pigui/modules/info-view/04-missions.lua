@@ -8,7 +8,6 @@ local Mission = require 'Mission'
 local Space = require 'Space'
 local SpaceStation = require 'SpaceStation'
 local Character = require 'Character'
-local InfoFace = require 'ui.PiguiFace'
 
 local InfoView = require 'pigui.views.info-view'
 local ModalWindow = require 'pigui.libs.modal-win'
@@ -157,14 +156,6 @@ local jobList = List.New("JobList", false, {
 	onClickItem = function(self, item, key)
 		selectedItem = item
 		selectedItem.key = key
-		clientFace = InfoFace.New(item.client, {
-			windowPadding = widgetSizes.windowPadding,
-			itemSpacing = widgetSizes.itemSpacing,
-			size = widgetSizes.faceSize,
-			charInfoPadding = Vector2(12,12),
-			nameFont = orbiteer.large,
-			titleFont = orbiteer.medlarge,
-		})
 	end,
 	sortingFunction = function(s1,s2) return s1.description < s2.description end
 })
@@ -297,11 +288,7 @@ Mission.RegisterViewHandler('missions', 'default', function(mission, style)
 	ui.text('')
 
 	ui.pushTextWrapPos(winSize.x*0.8)
-	ui.textWrapped(mission.introtext)
-	ui.popTextWrapPos()
-
-	ui.text('')
-	ui.text(string.format('Destination: %s, %s', mission.location:GetSystemBody().name, mission.location:GetStarSystem().name))
+	ui.textWrapped(string.format('Destination: %s, %s', mission.location:GetSystemBody().name, mission.location:GetStarSystem().name))
 	ui.sameLine()
 	ui.setCursorPos(ui.getCursorPos() - style.buttonFrameAlign)
 	if ui.coloredSelectedIconButton(ui.theme.icons.display_navtarget, style.iconSize, false, 4, colors.buttonBlue, colors.white, 'Set navigation target') then
@@ -316,11 +303,13 @@ Mission.RegisterViewHandler('missions', 'default', function(mission, style)
 		end
 		ui.playBoinkNoise()
 	end
-	ui.text(string.format('Deadline: %s', Format.Date(mission.due)))
-	ui.text(string.format('Wage: %s', Format.Money(mission.reward)))
 
-	ui.text('')
+	ui.textWrapped(string.format('Deadline: %s', Format.Date(mission.due)))
+	ui.textWrapped(string.format('Wage: %s', Format.Money(mission.reward)))
+	ui.popTextWrapPos()
+
 	ui.nextColumn()
 	clientFace:render()
+
 	ui.columns(1, "", false)
 end)

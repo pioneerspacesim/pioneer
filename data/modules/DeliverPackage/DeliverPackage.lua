@@ -16,14 +16,7 @@ local ShipDef = require 'ShipDef'
 local Ship = require 'Ship'
 local utils = require 'utils'
 
-local InfoFace = import("ui/InfoFace")
-local NavButton = import("ui/NavButton")
-
 local l = Lang.GetResource("module-deliverpackage")
-
--- Get the UI class
-local ui = Engine.ui
-local pigui = require 'pigui'
 
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 30
@@ -118,6 +111,22 @@ for i = 1,#flavours do
 	end
 end
 
+local function getRiskText(ad)
+	if ad.risk <= 0.1 then
+		return l.I_HIGHLY_DOUBT_IT
+	elseif ad.risk > 0.1 and ad.risk <= 0.3 then
+		return l.NOT_ANY_MORE_THAN_USUAL
+	elseif ad.risk > 0.3 and ad.risk <= 0.6 then
+		return l.THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN
+	elseif ad.risk > 0.6 and ad.risk <= 0.8 then
+		return l.IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED
+	elseif ad.risk > 0.8 and ad.risk <= 1 then
+		return l.THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE
+	end
+
+	error(string.format('Expected risk to be a value between 0, and 1; ad.risk=%s', ad.risk))
+end
+
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
@@ -164,17 +173,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(l.IT_MUST_BE_DELIVERED_BY..Format.Date(ad.due))
 
 	elseif option == 4 then
-		if ad.risk <= 0.1 then
-			form:SetMessage(l.I_HIGHLY_DOUBT_IT)
-		elseif ad.risk > 0.1 and ad.risk <= 0.3 then
-			form:SetMessage(l.NOT_ANY_MORE_THAN_USUAL)
-		elseif ad.risk > 0.3 and ad.risk <= 0.6 then
-			form:SetMessage(l.THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN)
-		elseif ad.risk > 0.6 and ad.risk <= 0.8 then
-			form:SetMessage(l.IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED)
-		elseif ad.risk > 0.8 and ad.risk <= 1 then
-			form:SetMessage(l.THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE)
-		end
+		form:SetMessage(getRiskText(ad))
 
 	elseif option == 3 then
 		form:RemoveAdvertOnClose()
@@ -182,15 +181,20 @@ local onChat = function (form, ref, option)
 		ads[ref] = nil
 
 		local mission = {
-			type		= "Delivery",
-			client		= ad.client,
-			location	= ad.location,
-			risk		= ad.risk,
-			reward		= ad.reward,
-			due	 		= ad.due,
-			flavour		= ad.flavour,
+			-- these variables are hardcoded and need to be filled
+			type	    = "Delivery",
 			description = ad.desc,
+			client      = ad.client,
+			location    = ad.location,
+			due         = ad.due,
+			reward      = ad.reward,
 			icon		= ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
+			status      = "ACTIVE",
+
+			-- these variables are script specific
+			risk		= ad.risk,
+			riskText	= getRiskText(ad),
+			flavour		= ad.flavour,
 			introtext = string.interp(flavours[ad.flavour].introtext, {
 				name     = ad.client.name,
 				cash     = Format.Money(ad.reward,false),
@@ -491,116 +495,112 @@ local onGameStart = function ()
 	loaded_data = nil
 end
 
-local onClick = function (mission)
-	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-	local danger
-	if mission.risk <= 0.1 then
-		danger = (l.I_HIGHLY_DOUBT_IT)
-	elseif mission.risk > 0.1 and mission.risk <= 0.3 then
-		danger = (l.NOT_ANY_MORE_THAN_USUAL)
-	elseif mission.risk > 0.3 and mission.risk <= 0.6 then
-		danger = (l.THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN)
-	elseif mission.risk > 0.6 and mission.risk <= 0.8 then
-		danger = (l.IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED)
-	elseif mission.risk > 0.8 and mission.risk <= 1 then
-		danger = (l.THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE)
-	end
+-- UI section
+local ui = require 'pigui'
+local pionillium = ui.fonts.pionillium
+local orbiteer = ui.fonts.orbiteer
+local colors = ui.theme.colors
 
-	return ui:Grid(2,1)
-		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((flavours[mission.flavour].introtext):interp({
-														name   = mission.client.name,
-														starport = mission.location:GetSystemBody().name,
-														system = mission.location:GetStarSystem().name,
-														sectorx = mission.location.sectorX,
-														sectory = mission.location.sectorY,
-														sectorz = mission.location.sectorZ,
-														cash   = Format.Money(mission.reward,false),
-														dist  = dist})
-										),
-										ui:Margin(10),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.SPACEPORT)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.location:GetSystemBody().name)
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.SYSTEM)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DEADLINE)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(Format.Date(mission.due))
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DANGER)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(danger)
-												})
-											}),
-										ui:Margin(5),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DISTANCE)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(dist.." "..l.LY)
-												})
-											}),
-										ui:Margin(5),
-										NavButton.New(l.SET_AS_TARGET, mission.location),
-		})})
-		:SetColumn(1, {
-			ui:VBox(10):PackEnd(InfoFace.New(mission.client))
-		})
-end
+local InfoFace = require 'ui.PiguiFace'
 
-local missionViewHandler = function (mission, style)
-	Mission.GetViewHandler(nil, 'missions')(mission, style)
+local style = {
+	fonts = {
+		fieldLabelFont = orbiteer.medlarge,
+		fieldValueFont = pionillium.medlarge,
+	},
+	sizes = ui.rescaleUI({
+		missionDescWin = Vector2(0,0),
+		maxFieldLabelWidth = 0,
+		icon = Vector2(0,0),
+		face = Vector2(280, 320),
+		faceWindowPadding = Vector2(12,12),
+		faceItemSpacing = Vector2(9, 4),
+		faceInfoPadding = Vector2(12,12),
+		buttonPadding = 4,
+		buttonFrameAlign = Vector2(0, 4), -- Equal to buttonPadding but created as vector for convenience
+	}, Vector2(1600, 900))
+}
 
-	local danger
-	if mission.risk <= 0.1 then
-		danger = (l.I_HIGHLY_DOUBT_IT)
-	elseif mission.risk > 0.1 and mission.risk <= 0.3 then
-		danger = (l.NOT_ANY_MORE_THAN_USUAL)
-	elseif mission.risk > 0.3 and mission.risk <= 0.6 then
-		danger = (l.THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN)
-	elseif mission.risk > 0.6 and mission.risk <= 0.8 then
-		danger = (l.IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED)
-	elseif mission.risk > 0.8 and mission.risk <= 1 then
-		danger = (l.THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE)
-	end
+local function missionViewHandler(mission)
+	style.sizes.missionDescWin = ui.getContentRegion() - style.sizes.face
+	style.sizes.maxFieldLabelWidth = style.sizes.missionDescWin.x / 3
+	style.sizes.icon(style.fonts.fieldValueFont.size - style.sizes.buttonPadding, style.fonts.fieldValueFont.size - style.sizes.buttonPadding)
+	ui.withFont(style.fonts.fieldValueFont.name, style.fonts.fieldValueFont.size, function()
+		ui.columns(2, "DeliverPackageMissionDetailsColumns", false)
+		ui.setColumnWidth(0, style.sizes.missionDescWin.x)
+		ui.setColumnWidth(1, style.sizes.face.x)
+		ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
+			ui.text(string.upper(mission:GetTypeDescription()))
+		end)
 
-	pigui.text(l.DANGER)
-	pigui.sameLine()
-	pigui.text(danger)
+		ui.text('')
+		ui.pushTextWrapPos(style.sizes.missionDescWin.x*0.9)
+
+		ui.withFont(pionillium.large.name, pionillium.large.size, function()
+			ui.textWrapped(mission.introtext)
+		end)
+
+		ui.text('')
+		ui.withFont(style.fonts.fieldLabelFont.name, style.fonts.fieldLabelFont.size, function()
+			ui.text(l.SPACEPORT)
+		end)
+		ui.sameLine(style.sizes.maxFieldLabelWidth)
+		ui.textWrapped(string.format('%s, %s', mission.location:GetSystemBody().name, mission.location:GetStarSystem().name))
+		ui.sameLine()
+		ui.setCursorPos(ui.getCursorPos() - style.sizes.buttonFrameAlign)
+		if ui.coloredSelectedIconButton(ui.theme.icons.display_navtarget, style.sizes.icon, false, style.sizes.buttonPadding, colors.buttonBlue, colors.white, 'Set navigation target') then
+			if mission.location:isa("Body") and mission.location:IsDynamic() then
+				Game.player:SetNavTarget(target)
+			elseif Game.system and mission.location:IsSameSystem(Game.system.path) then
+				if mission.location.bodyIndex then
+					Game.player:SetNavTarget(Space.GetBody(mission.location.bodyIndex))
+				end
+			elseif not Game.InHyperspace() then
+				Game.player:SetHyperspaceTarget(mission.location:GetStarSystem().path)
+			end
+			ui.playBoinkNoise()
+		end
+
+		ui.withFont(style.fonts.fieldLabelFont.name, style.fonts.fieldLabelFont.size, function()
+			ui.text(l.DISTANCE)
+		end)
+		ui.sameLine(style.sizes.maxFieldLabelWidth)
+		local dist = Game.system and string.format('%.2f %s', Game.system:DistanceTo(mission.location) or "???", l.LY)
+		ui.textWrapped(dist)
+
+		ui.withFont(style.fonts.fieldLabelFont.name, style.fonts.fieldLabelFont.size, function()
+			ui.text(l.DEADLINE)
+		end)
+		ui.sameLine(style.sizes.maxFieldLabelWidth)
+		ui.textWrapped(Format.Date(mission.due))
+
+		ui.withFont(style.fonts.fieldLabelFont.name, style.fonts.fieldLabelFont.size, function()
+			ui.text('Wage: ')
+		end)
+		ui.sameLine(style.sizes.maxFieldLabelWidth)
+		ui.textWrapped(Format.Money(mission.reward))
+
+		ui.withFont(style.fonts.fieldLabelFont.name, style.fonts.fieldLabelFont.size, function()
+			ui.text(l.DANGER)
+		end)
+		ui.sameLine(style.sizes.maxFieldLabelWidth)
+		ui.textWrapped(mission.riskText)
+
+		ui.nextColumn()
+		if not mission.face then
+			mission.face = InfoFace.New(mission.client, {
+				windowPadding = style.sizes.faceWindowPadding,
+				itemSpacing = style.sizes.faceItemSpacing,
+				charInfoPadding = style.sizes.faceInfoPadding,
+				size = style.sizes.face,
+				nameFont = orbiteer.large,
+				titleFont = orbiteer.medlarge,
+			})
+		end
+		mission.face:render()
+		ui.columns(1, "", false)
+		ui.popTextWrapPos()
+	end)
 end
 
 local onGameEnd = function ()
@@ -624,7 +624,7 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
-Mission.RegisterType('Delivery',l.DELIVERY,onClick)
+Mission.RegisterType('Delivery', l.DELIVERY, nil)
 Mission.RegisterViewHandler('missions', 'Delivery', missionViewHandler)
 
 Serializer:Register("DeliverPackage", serialize, unserialize)
