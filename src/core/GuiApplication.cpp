@@ -32,7 +32,8 @@ void GuiApplication::BeginFrame()
 void GuiApplication::DrawRenderTarget()
 {
 #if RTT
-	m_renderer->BeginFrame();
+	m_renderer->SetRenderTarget(nullptr);
+	m_renderer->ClearScreen();
 	m_renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
@@ -61,9 +62,9 @@ void GuiApplication::DrawRenderTarget()
 void GuiApplication::EndFrame()
 {
 #if RTT
-	m_renderer->SetRenderTarget(nullptr);
 	DrawRenderTarget();
 #endif
+
 	m_renderer->EndFrame();
 	m_renderer->SwapBuffers();
 }
@@ -149,7 +150,7 @@ void GuiApplication::HandleEvents()
 	}
 }
 
-Graphics::Renderer *GuiApplication::StartupRenderer(const GameConfig *config, bool hidden)
+Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidden)
 {
 	PROFILE_SCOPED()
 	// Initialize SDL
@@ -195,7 +196,7 @@ void GuiApplication::ShutdownRenderer()
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
-Input *GuiApplication::StartupInput(const GameConfig *config)
+Input *GuiApplication::StartupInput(IniConfig *config)
 {
 	m_input.reset(new Input(config));
 

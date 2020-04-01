@@ -9,7 +9,8 @@
 
 #include <array>
 
-Input::Input(const GameConfig *config) :
+Input::Input(IniConfig *config) :
+	m_config(config),
 	m_capturingMouse(false),
 	mouseYInvert(false),
 	joystickEnabled(true),
@@ -17,8 +18,8 @@ Input::Input(const GameConfig *config) :
 	mouseButton(),
 	mouseMotion()
 {
-	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
-	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
+	joystickEnabled = (m_config->Int("EnableJoystick")) ? true : false;
+	mouseYInvert = (m_config->Int("InvertMouseY")) ? true : false;
 
 	InitJoysticks();
 }
@@ -41,6 +42,20 @@ void Input::InitGame()
 void Input::NewFrame()
 {
 	mouseMotion.fill(0);
+	mouseWheel = 0;
+	for (auto &k : keyState) {
+		auto &val = keyState[k.first];
+		switch (k.second) {
+		case 1: // if we were just pressed last frame, migrate to held state
+			val = 2;
+			break;
+		case 4: // if we were just released last frame, migrate to empty state
+			val = 0;
+			break;
+		default: // otherwise, no need to do anything
+			break;
+		}
+	}
 }
 
 InputResponse Input::InputFrame::ProcessSDLEvent(SDL_Event &event)
@@ -106,7 +121,7 @@ KeyBindings::ActionBinding *Input::AddActionBinding(std::string id, BindingGroup
 	group->bindings[id] = BindingGroup::ENTRY_ACTION;
 
 	// Load from the config
-	std::string config_str = Pi::config->String(id.c_str());
+	std::string config_str = m_config->String(id.c_str());
 	if (config_str.length() > 0) binding.SetFromString(config_str);
 
 	return &(actionBindings[id] = binding);
@@ -121,7 +136,7 @@ KeyBindings::AxisBinding *Input::AddAxisBinding(std::string id, BindingGroup *gr
 	group->bindings[id] = BindingGroup::ENTRY_AXIS;
 
 	// Load from the config
-	std::string config_str = Pi::config->String(id.c_str());
+	std::string config_str = m_config->String(id.c_str());
 	if (config_str.length() > 0) binding.SetFromString(config_str);
 
 	return &(axisBindings[id] = binding);
@@ -131,12 +146,14 @@ void Input::HandleSDLEvent(SDL_Event &event)
 {
 	switch (event.type) {
 	case SDL_KEYDOWN:
-		keyState[event.key.keysym.sym] = true;
+		// Set key state to "just pressed"
+		keyState[event.key.keysym.sym] = 1;
 		keyModState = event.key.keysym.mod;
 		onKeyPress.emit(&event.key.keysym);
 		break;
 	case SDL_KEYUP:
-		keyState[event.key.keysym.sym] = false;
+		// Set key state to "just released"
+		keyState[event.key.keysym.sym] = 4;
 		keyModState = event.key.keysym.mod;
 		onKeyRelease.emit(&event.key.keysym);
 		break;
@@ -155,6 +172,7 @@ void Input::HandleSDLEvent(SDL_Event &event)
 		}
 		break;
 	case SDL_MOUSEWHEEL:
+		mouseWheel = event.wheel.y;
 		onMouseWheel.emit(event.wheel.y > 0); // true = up
 		break;
 	case SDL_MOUSEMOTION:

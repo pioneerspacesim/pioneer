@@ -4,7 +4,6 @@
 #pragma once
 
 #include "Application.h"
-#include "GameConfig.h"
 #include "Input.h"
 #include "RefCounted.h"
 #include "SDL_events.h"
@@ -13,6 +12,8 @@
 #include "graphics/RenderState.h"
 #include "graphics/RenderTarget.h"
 #include "graphics/Renderer.h"
+
+class IniConfig;
 
 class GuiApplication : public Application {
 public:
@@ -29,11 +30,12 @@ protected:
 	// framebuffer
 	void DrawRenderTarget();
 
+	// TODO: unify config handling, possibly make the config an Application member
 	// Call this from your Startup() method
-	Graphics::Renderer *StartupRenderer(const GameConfig *config, bool hidden = false);
+	Graphics::Renderer *StartupRenderer(IniConfig *config, bool hidden = false);
 
 	// Call this from your Startup() method
-	Input *StartupInput(const GameConfig *config);
+	Input *StartupInput(IniConfig *config);
 
 	// Call this from your Startup() method
 	PiGui::Instance *StartupPiGui();
