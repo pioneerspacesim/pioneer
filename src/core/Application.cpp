@@ -141,7 +141,7 @@ void Application::Run()
 
 		EndFrame();
 
-		if (m_activeLifecycle->m_endLifecycle) {
+		if (m_activeLifecycle->m_endLifecycle || !m_applicationRunning) {
 			EndLifecycle();
 		}
 
