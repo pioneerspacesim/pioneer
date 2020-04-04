@@ -337,6 +337,28 @@ static int l_game_attr_system(lua_State *l)
 }
 
 /*
+ * Attribute: systemView
+ *
+ * The <SystemView> object for the system map view class
+ *
+ * Availability:
+ *
+ *  February 2020
+ *
+ * Status:
+ *
+ *  experiment
+ */
+static int l_game_attr_systemview(lua_State *l)
+{
+	if (!Pi::game)
+		lua_pushnil(l);
+	else
+		LuaObject<SystemView>::PushToLua(Pi::game->GetSystemView());
+	return 1;
+}
+
+/*
  * Attribute: time
  *
  * The current game time, in seconds since 12:00 01-01-3200
@@ -613,7 +635,7 @@ static int l_game_get_hyperspace_travelled_percentage(lua_State *l)
 
 static int l_game_get_parts_from_date_time(lua_State *l)
 {
-	float time = LuaPull<float>(l, 1);
+	double time = LuaPull<double>(l, 1);
 	Time::DateTime t(time);
 	int year, month, day, hour, minute, second;
 	t.GetDateParts(&year, &month, &day);
@@ -662,6 +684,7 @@ void LuaGame::Register()
 	static const luaL_Reg l_attrs[] = {
 		{ "player", l_game_attr_player },
 		{ "system", l_game_attr_system },
+		{ "systemView", l_game_attr_systemview },
 		{ "time", l_game_attr_time },
 		{ "paused", l_game_attr_paused },
 		{ 0, 0 }

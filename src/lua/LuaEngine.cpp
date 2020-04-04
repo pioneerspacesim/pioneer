@@ -336,6 +336,14 @@ static int l_engine_set_fullscreen(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_enum_value(lua_State *l)
+{
+	auto enum_name = LuaPull<const char *>(l, 1);
+	auto enum_tag = LuaPull<const char *>(l, 2);
+	LuaPush<int>(l, EnumStrings::GetValue(enum_name, enum_tag));
+	return 1;
+}
+
 static int l_engine_get_disable_screenshot_info(lua_State *l)
 {
 	LuaPush<bool>(l, Pi::config->Int("DisableScreenshotInfo") != 0);
@@ -1195,16 +1203,14 @@ void LuaEngine::Register()
 		{ "SectorMapMoveRouteItemUp", l_engine_sector_map_move_route_item_up },
 		{ "SectorMapMoveRouteItemDown", l_engine_sector_map_move_route_item_down },
 		{ "SectorMapRemoveRouteItem", l_engine_sector_map_remove_route_item },
-
 		{ "SectorMapClearRoute", l_engine_sector_map_clear_route },
 		{ "SectorMapAddToRoute", l_engine_sector_map_add_to_route },
-
 		{ "SearchNearbyStarSystemsByName", l_engine_search_nearby_star_systems_by_name },
-
 		{ "ShipSpaceToScreenSpace", l_engine_ship_space_to_screen_space },
 		{ "CameraSpaceToScreenSpace", l_engine_camera_space_to_screen_space },
 		{ "WorldSpaceToScreenSpace", l_engine_world_space_to_screen_space },
 		{ "WorldSpaceToShipSpace", l_engine_world_space_to_ship_space },
+		{ "GetEnumValue", l_engine_get_enum_value },
 		{ 0, 0 }
 	};
 

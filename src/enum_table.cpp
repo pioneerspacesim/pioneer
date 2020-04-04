@@ -10,15 +10,17 @@
 #include "Ship.h"
 #include "ShipAICmd.h"
 #include "ShipType.h"
+#include "SystemView.h"
 #include "galaxy/Economy.h"
 #include "galaxy/Polit.h"
-#include "galaxy/StarSystem.h"
+#include "galaxy/SystemBody.h"
 #include "gameui/Face.h"
 #include "lua/LuaEngine.h"
 #include "lua/LuaFileSystem.h"
+#include "pigui/Face.h"
 #include "scenegraph/Model.h"
-#include "ship/PlayerShipController.h"
 #include "ship/Propulsion.h"
+#include "ship/ShipController.h"
 #include "ui/Align.h"
 #include "ui/Animation.h"
 #include "ui/Event.h"
@@ -37,21 +39,6 @@ const struct EnumItem ENUM_ShipAIError[] = {
 	{ 0, 0 },
 };
 
-const struct EnumItem ENUM_DetailLevel[] = {
-	{ "VERY_LOW", int(LuaEngine::DETAIL_VERY_LOW) },
-	{ "LOW", int(LuaEngine::DETAIL_LOW) },
-	{ "MEDIUM", int(LuaEngine::DETAIL_MEDIUM) },
-	{ "HIGH", int(LuaEngine::DETAIL_HIGH) },
-	{ "VERY_HIGH", int(LuaEngine::DETAIL_VERY_HIGH) },
-	{ 0, 0 },
-};
-
-const struct EnumItem ENUM_FileSystemRoot[] = {
-	{ "USER", int(LuaFileSystem::ROOT_USER) },
-	{ "DATA", int(LuaFileSystem::ROOT_DATA) },
-	{ 0, 0 },
-};
-
 const struct EnumItem ENUM_PhysicsObjectType[] = {
 	{ "BODY", int(Object::BODY) },
 	{ "MODELBODY", int(Object::MODELBODY) },
@@ -62,52 +49,6 @@ const struct EnumItem ENUM_PhysicsObjectType[] = {
 	{ "STAR", int(Object::STAR) },
 	{ "CARGOBODY", int(Object::CARGOBODY) },
 	{ "MISSILE", int(Object::MISSILE) },
-	{ 0, 0 },
-};
-
-const struct EnumItem ENUM_PolitEcon[] = {
-	{ "NONE", int(Polit::ECON_NONE) },
-	{ "VERY_CAPITALIST", int(Polit::ECON_VERY_CAPITALIST) },
-	{ "CAPITALIST", int(Polit::ECON_CAPITALIST) },
-	{ "MIXED", int(Polit::ECON_MIXED) },
-	{ "PLANNED", int(Polit::ECON_PLANNED) },
-	{ 0, 0 },
-};
-
-const struct EnumItem ENUM_PolitGovType[] = {
-	{ "NONE", int(Polit::GOV_NONE) },
-	{ "EARTHCOLONIAL", int(Polit::GOV_EARTHCOLONIAL) },
-	{ "EARTHDEMOC", int(Polit::GOV_EARTHDEMOC) },
-	{ "EMPIRERULE", int(Polit::GOV_EMPIRERULE) },
-	{ "CISLIBDEM", int(Polit::GOV_CISLIBDEM) },
-	{ "CISSOCDEM", int(Polit::GOV_CISSOCDEM) },
-	{ "LIBDEM", int(Polit::GOV_LIBDEM) },
-	{ "CORPORATE", int(Polit::GOV_CORPORATE) },
-	{ "SOCDEM", int(Polit::GOV_SOCDEM) },
-	{ "EARTHMILDICT", int(Polit::GOV_EARTHMILDICT) },
-	{ "MILDICT1", int(Polit::GOV_MILDICT1) },
-	{ "MILDICT2", int(Polit::GOV_MILDICT2) },
-	{ "EMPIREMILDICT", int(Polit::GOV_EMPIREMILDICT) },
-	{ "COMMUNIST", int(Polit::GOV_COMMUNIST) },
-	{ "PLUTOCRATIC", int(Polit::GOV_PLUTOCRATIC) },
-	{ "DISORDER", int(Polit::GOV_DISORDER) },
-	{ 0, 0 },
-};
-
-const struct EnumItem ENUM_ShipTypeThruster[] = {
-	{ "REVERSE", int(Thruster::THRUSTER_REVERSE) },
-	{ "FORWARD", int(Thruster::THRUSTER_FORWARD) },
-	{ "UP", int(Thruster::THRUSTER_UP) },
-	{ "DOWN", int(Thruster::THRUSTER_DOWN) },
-	{ "LEFT", int(Thruster::THRUSTER_LEFT) },
-	{ "RIGHT", int(Thruster::THRUSTER_RIGHT) },
-	{ 0, 0 },
-};
-
-const struct EnumItem ENUM_PropulsionFuelStatus[] = {
-	{ "OK", int(Propulsion::FUEL_OK) },
-	{ "WARNING", int(Propulsion::FUEL_WARNING) },
-	{ "EMPTY", int(Propulsion::FUEL_EMPTY) },
 	{ 0, 0 },
 };
 
@@ -138,6 +79,7 @@ const struct EnumItem ENUM_ShipAlertStatus[] = {
 	{ "NONE", int(Ship::ALERT_NONE) },
 	{ "SHIP_NEARBY", int(Ship::ALERT_SHIP_NEARBY) },
 	{ "SHIP_FIRING", int(Ship::ALERT_SHIP_FIRING) },
+	{ "MISSILE_DETECTED", int(Ship::ALERT_MISSILE_DETECTED) },
 	{ 0, 0 },
 };
 
@@ -153,20 +95,6 @@ const struct EnumItem ENUM_ShipAICmdName[] = {
 	{ 0, 0 },
 };
 
-const struct EnumItem ENUM_ShipControllerFlightControlState[] = {
-	{ "CONTROL_MANUAL", int(FlightControlState::CONTROL_MANUAL) },
-	{ "CONTROL_FIXSPEED", int(FlightControlState::CONTROL_FIXSPEED) },
-	{ "CONTROL_FIXHEADING_FORWARD", int(FlightControlState::CONTROL_FIXHEADING_FORWARD) },
-	{ "CONTROL_FIXHEADING_BACKWARD", int(FlightControlState::CONTROL_FIXHEADING_BACKWARD) },
-	{ "CONTROL_FIXHEADING_NORMAL", int(FlightControlState::CONTROL_FIXHEADING_NORMAL) },
-	{ "CONTROL_FIXHEADING_ANTINORMAL", int(FlightControlState::CONTROL_FIXHEADING_ANTINORMAL) },
-	{ "CONTROL_FIXHEADING_RADIALLY_INWARD", int(FlightControlState::CONTROL_FIXHEADING_RADIALLY_INWARD) },
-	{ "CONTROL_FIXHEADING_RADIALLY_OUTWARD", int(FlightControlState::CONTROL_FIXHEADING_RADIALLY_OUTWARD) },
-	{ "CONTROL_FIXHEADING_KILLROT", int(FlightControlState::CONTROL_FIXHEADING_KILLROT) },
-	{ "CONTROL_AUTOPILOT", int(FlightControlState::CONTROL_AUTOPILOT) },
-	{ 0, 0 },
-};
-
 const struct EnumItem ENUM_DualLaserOrientation[] = {
 	{ "HORIZONTAL", int(ShipType::DUAL_LASERS_HORIZONTAL) },
 	{ "VERTICAL", int(ShipType::DUAL_LASERS_VERTICAL) },
@@ -178,6 +106,36 @@ const struct EnumItem ENUM_ShipTypeTag[] = {
 	{ "SHIP", int(ShipType::TAG_SHIP) },
 	{ "STATIC_SHIP", int(ShipType::TAG_STATIC_SHIP) },
 	{ "MISSILE", int(ShipType::TAG_MISSILE) },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_ProjectableTypes[] = {
+	{ "NONE", int(Projectable::NONE) },
+	{ "OBJECT", int(Projectable::OBJECT) },
+	{ "L4", int(Projectable::L4) },
+	{ "L5", int(Projectable::L5) },
+	{ "APOAPSIS", int(Projectable::APOAPSIS) },
+	{ "PERIAPSIS", int(Projectable::PERIAPSIS) },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_ProjectableBases[] = {
+	{ "SYSTEMBODY", int(Projectable::SYSTEMBODY) },
+	{ "BODY", int(Projectable::BODY) },
+	{ "SHIP", int(Projectable::SHIP) },
+	{ "PLAYER", int(Projectable::PLAYER) },
+	{ "PLANNER", int(Projectable::PLANNER) },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_SystemViewColorIndex[] = {
+	{ "GRID", int(SystemView::GRID) },
+	{ "SYSTEMBODY", int(SystemView::SYSTEMBODY) },
+	{ "SYSTEMBODY_ORBIT", int(SystemView::SYSTEMBODY_ORBIT) },
+	{ "PLAYER_ORBIT", int(SystemView::PLAYER_ORBIT) },
+	{ "PLANNER_ORBIT", int(SystemView::PLANNER_ORBIT) },
+	{ "SELECTED_SHIP_ORBIT", int(SystemView::SELECTED_SHIP_ORBIT) },
+	{ "SHIP_ORBIT", int(SystemView::SHIP_ORBIT) },
 	{ 0, 0 },
 };
 
@@ -220,6 +178,35 @@ const struct EnumItem ENUM_CommodityType[] = {
 	{ "MILITARY_FUEL", int(GalacticEconomy::Commodity::MILITARY_FUEL) },
 	{ "RUBBISH", int(GalacticEconomy::Commodity::RUBBISH) },
 	{ "RADIOACTIVES", int(GalacticEconomy::Commodity::RADIOACTIVES) },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_PolitEcon[] = {
+	{ "NONE", int(Polit::ECON_NONE) },
+	{ "VERY_CAPITALIST", int(Polit::ECON_VERY_CAPITALIST) },
+	{ "CAPITALIST", int(Polit::ECON_CAPITALIST) },
+	{ "MIXED", int(Polit::ECON_MIXED) },
+	{ "PLANNED", int(Polit::ECON_PLANNED) },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_PolitGovType[] = {
+	{ "NONE", int(Polit::GOV_NONE) },
+	{ "EARTHCOLONIAL", int(Polit::GOV_EARTHCOLONIAL) },
+	{ "EARTHDEMOC", int(Polit::GOV_EARTHDEMOC) },
+	{ "EMPIRERULE", int(Polit::GOV_EMPIRERULE) },
+	{ "CISLIBDEM", int(Polit::GOV_CISLIBDEM) },
+	{ "CISSOCDEM", int(Polit::GOV_CISSOCDEM) },
+	{ "LIBDEM", int(Polit::GOV_LIBDEM) },
+	{ "CORPORATE", int(Polit::GOV_CORPORATE) },
+	{ "SOCDEM", int(Polit::GOV_SOCDEM) },
+	{ "EARTHMILDICT", int(Polit::GOV_EARTHMILDICT) },
+	{ "MILDICT1", int(Polit::GOV_MILDICT1) },
+	{ "MILDICT2", int(Polit::GOV_MILDICT2) },
+	{ "EMPIREMILDICT", int(Polit::GOV_EMPIREMILDICT) },
+	{ "COMMUNIST", int(Polit::GOV_COMMUNIST) },
+	{ "PLUTOCRATIC", int(Polit::GOV_PLUTOCRATIC) },
+	{ "DISORDER", int(Polit::GOV_DISORDER) },
 	{ 0, 0 },
 };
 
@@ -286,6 +273,29 @@ const struct EnumItem ENUM_GameUIFaceFlags[] = {
 	{ 0, 0 },
 };
 
+const struct EnumItem ENUM_DetailLevel[] = {
+	{ "VERY_LOW", int(LuaEngine::DETAIL_VERY_LOW) },
+	{ "LOW", int(LuaEngine::DETAIL_LOW) },
+	{ "MEDIUM", int(LuaEngine::DETAIL_MEDIUM) },
+	{ "HIGH", int(LuaEngine::DETAIL_HIGH) },
+	{ "VERY_HIGH", int(LuaEngine::DETAIL_VERY_HIGH) },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_FileSystemRoot[] = {
+	{ "USER", int(LuaFileSystem::ROOT_USER) },
+	{ "DATA", int(LuaFileSystem::ROOT_DATA) },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_PiGUIFaceFlags[] = {
+	{ "RAND", int(PiGUI::Face::RAND) },
+	{ "MALE", int(PiGUI::Face::MALE) },
+	{ "FEMALE", int(PiGUI::Face::FEMALE) },
+	{ "ARMOUR", int(PiGUI::Face::ARMOUR) },
+	{ 0, 0 },
+};
+
 const struct EnumItem ENUM_ModelDebugFlags[] = {
 	{ "NONE", int(SceneGraph::Model::DEBUG_NONE) },
 	{ "BBOX", int(SceneGraph::Model::DEBUG_BBOX) },
@@ -293,6 +303,37 @@ const struct EnumItem ENUM_ModelDebugFlags[] = {
 	{ "WIREFRAME", int(SceneGraph::Model::DEBUG_WIREFRAME) },
 	{ "TAGS", int(SceneGraph::Model::DEBUG_TAGS) },
 	{ "DOCKING", int(SceneGraph::Model::DEBUG_DOCKING) },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_ShipTypeThruster[] = {
+	{ "REVERSE", int(Thruster::THRUSTER_REVERSE) },
+	{ "FORWARD", int(Thruster::THRUSTER_FORWARD) },
+	{ "UP", int(Thruster::THRUSTER_UP) },
+	{ "DOWN", int(Thruster::THRUSTER_DOWN) },
+	{ "LEFT", int(Thruster::THRUSTER_LEFT) },
+	{ "RIGHT", int(Thruster::THRUSTER_RIGHT) },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_PropulsionFuelStatus[] = {
+	{ "OK", int(Propulsion::FUEL_OK) },
+	{ "WARNING", int(Propulsion::FUEL_WARNING) },
+	{ "EMPTY", int(Propulsion::FUEL_EMPTY) },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_ShipControllerFlightControlState[] = {
+	{ "CONTROL_MANUAL", int(FlightControlState::CONTROL_MANUAL) },
+	{ "CONTROL_FIXSPEED", int(FlightControlState::CONTROL_FIXSPEED) },
+	{ "CONTROL_FIXHEADING_FORWARD", int(FlightControlState::CONTROL_FIXHEADING_FORWARD) },
+	{ "CONTROL_FIXHEADING_BACKWARD", int(FlightControlState::CONTROL_FIXHEADING_BACKWARD) },
+	{ "CONTROL_FIXHEADING_NORMAL", int(FlightControlState::CONTROL_FIXHEADING_NORMAL) },
+	{ "CONTROL_FIXHEADING_ANTINORMAL", int(FlightControlState::CONTROL_FIXHEADING_ANTINORMAL) },
+	{ "CONTROL_FIXHEADING_RADIALLY_INWARD", int(FlightControlState::CONTROL_FIXHEADING_RADIALLY_INWARD) },
+	{ "CONTROL_FIXHEADING_RADIALLY_OUTWARD", int(FlightControlState::CONTROL_FIXHEADING_RADIALLY_OUTWARD) },
+	{ "CONTROL_FIXHEADING_KILLROT", int(FlightControlState::CONTROL_FIXHEADING_KILLROT) },
+	{ "CONTROL_AUTOPILOT", int(FlightControlState::CONTROL_AUTOPILOT) },
 	{ 0, 0 },
 };
 
@@ -479,26 +520,30 @@ const struct EnumItem ENUM_UIFont[] = {
 
 const struct EnumTable ENUM_TABLES[] = {
 	{ "ShipAIError", ENUM_ShipAIError },
-	{ "DetailLevel", ENUM_DetailLevel },
-	{ "FileSystemRoot", ENUM_FileSystemRoot },
 	{ "PhysicsObjectType", ENUM_PhysicsObjectType },
-	{ "PolitEcon", ENUM_PolitEcon },
-	{ "PolitGovType", ENUM_PolitGovType },
-	{ "ShipTypeThruster", ENUM_ShipTypeThruster },
-	{ "PropulsionFuelStatus", ENUM_PropulsionFuelStatus },
 	{ "ShipFlightState", ENUM_ShipFlightState },
 	{ "ShipJumpStatus", ENUM_ShipJumpStatus },
 	{ "ShipAlertStatus", ENUM_ShipAlertStatus },
 	{ "ShipAICmdName", ENUM_ShipAICmdName },
-	{ "ShipControllerFlightControlState", ENUM_ShipControllerFlightControlState },
 	{ "DualLaserOrientation", ENUM_DualLaserOrientation },
 	{ "ShipTypeTag", ENUM_ShipTypeTag },
+	{ "ProjectableTypes", ENUM_ProjectableTypes },
+	{ "ProjectableBases", ENUM_ProjectableBases },
+	{ "SystemViewColorIndex", ENUM_SystemViewColorIndex },
 	{ "EconType", ENUM_EconType },
 	{ "CommodityType", ENUM_CommodityType },
+	{ "PolitEcon", ENUM_PolitEcon },
+	{ "PolitGovType", ENUM_PolitGovType },
 	{ "BodyType", ENUM_BodyType },
 	{ "BodySuperType", ENUM_BodySuperType },
 	{ "GameUIFaceFlags", ENUM_GameUIFaceFlags },
+	{ "DetailLevel", ENUM_DetailLevel },
+	{ "FileSystemRoot", ENUM_FileSystemRoot },
+	{ "PiGUIFaceFlags", ENUM_PiGUIFaceFlags },
 	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
+	{ "ShipTypeThruster", ENUM_ShipTypeThruster },
+	{ "PropulsionFuelStatus", ENUM_PropulsionFuelStatus },
+	{ "ShipControllerFlightControlState", ENUM_ShipControllerFlightControlState },
 	{ "UIAlignDirection", ENUM_UIAlignDirection },
 	{ "UIAnimationType", ENUM_UIAnimationType },
 	{ "UIAnimationEasing", ENUM_UIAnimationEasing },
@@ -523,26 +568,30 @@ const struct EnumTable ENUM_TABLES[] = {
 
 const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "ShipAIError", ENUM_ShipAIError },
-	{ "DetailLevel", ENUM_DetailLevel },
-	{ "FileSystemRoot", ENUM_FileSystemRoot },
 	{ "PhysicsObjectType", ENUM_PhysicsObjectType },
-	{ "PolitEcon", ENUM_PolitEcon },
-	{ "PolitGovType", ENUM_PolitGovType },
-	{ "ShipTypeThruster", ENUM_ShipTypeThruster },
-	{ "PropulsionFuelStatus", ENUM_PropulsionFuelStatus },
 	{ "ShipFlightState", ENUM_ShipFlightState },
 	{ "ShipJumpStatus", ENUM_ShipJumpStatus },
 	{ "ShipAlertStatus", ENUM_ShipAlertStatus },
 	{ "ShipAICmdName", ENUM_ShipAICmdName },
-	{ "ShipControllerFlightControlState", ENUM_ShipControllerFlightControlState },
 	{ "DualLaserOrientation", ENUM_DualLaserOrientation },
 	{ "ShipTypeTag", ENUM_ShipTypeTag },
+	{ "ProjectableTypes", ENUM_ProjectableTypes },
+	{ "ProjectableBases", ENUM_ProjectableBases },
+	{ "SystemViewColorIndex", ENUM_SystemViewColorIndex },
 	{ "EconType", ENUM_EconType },
 	{ "CommodityType", ENUM_CommodityType },
+	{ "PolitEcon", ENUM_PolitEcon },
+	{ "PolitGovType", ENUM_PolitGovType },
 	{ "BodyType", ENUM_BodyType },
 	{ "BodySuperType", ENUM_BodySuperType },
 	{ "GameUIFaceFlags", ENUM_GameUIFaceFlags },
+	{ "DetailLevel", ENUM_DetailLevel },
+	{ "FileSystemRoot", ENUM_FileSystemRoot },
+	{ "PiGUIFaceFlags", ENUM_PiGUIFaceFlags },
 	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
+	{ "ShipTypeThruster", ENUM_ShipTypeThruster },
+	{ "PropulsionFuelStatus", ENUM_PropulsionFuelStatus },
+	{ "ShipControllerFlightControlState", ENUM_ShipControllerFlightControlState },
 	{ "UIAlignDirection", ENUM_UIAlignDirection },
 	{ "UIAnimationType", ENUM_UIAnimationType },
 	{ "UIAnimationEasing", ENUM_UIAnimationEasing },

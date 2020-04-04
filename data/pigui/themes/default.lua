@@ -160,6 +160,7 @@ theme.icons = {
    shield = 92,
    hull = 93,
    temperature = 94,
+   rotate_view = 95,
    -- seventh row
    heavy_cargo_shuttle = 96,
    medium_cargo_shuttle = 97,
