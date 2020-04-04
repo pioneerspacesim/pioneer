@@ -43,6 +43,7 @@ enum ShowLagrange {
 	LAG_OFF
 };
 
+
 class TransferPlanner {
 public:
 	TransferPlanner();
@@ -129,6 +130,7 @@ public:
 	void SetVisibility(std::string param);
 	void SetZoomMode(bool enable);
 	void SetRotateMode(bool enable);
+	double ProjectedSize(double size, vector3d pos);
 
 	// all used colors. defined in system-view-ui.lua
 	enum ColorIndex { // <enum name=SystemViewColorIndex scope='SystemView' public>
@@ -188,6 +190,9 @@ private:
 	float m_rot_x, m_rot_y;
 	float m_rot_x_to, m_rot_y_to;
 	float m_zoom, m_zoomTo;
+	int m_animateTransition;
+	vector3d m_trans;
+	vector3d m_transTo;
 	double m_time;
 	bool m_realtime;
 	double m_timeStep;

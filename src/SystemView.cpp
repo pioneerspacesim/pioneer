@@ -35,6 +35,7 @@ static const float ZOOM_IN_SPEED = 3;
 static const float ZOOM_OUT_SPEED = 3;
 static const float WHEEL_SENSITIVITY = .1f; // Should be a variable in user settings.
 static const double DEFAULT_VIEW_DISTANCE = 10.0;
+static const int MAX_TRANSITION_FRAMES = 60;
 
 TransferPlanner::TransferPlanner() :
 	m_position(0., 0., 0.),
@@ -228,7 +229,9 @@ SystemView::SystemView(Game *game) :
 	m_game(game),
 	m_gridDrawing(GridDrawing::OFF),
 	m_shipDrawing(OFF),
-	m_showL4L5(LAG_OFF)
+	m_showL4L5(LAG_OFF),
+	m_trans(0.0),
+	m_transTo(0.0)
 {
 	m_rot_y = 0;
 	m_rot_x = 50;
@@ -278,15 +281,18 @@ void SystemView::ResetViewpoint()
 	m_zoomTo = 1.0f / float(AU);
 	m_timeStep = 1.0f;
 	m_time = m_game->GetTime();
+	m_animateTransition = MAX_TRANSITION_FRAMES;
 }
 
 template <typename RefType>
 void SystemView::PutOrbit(Projectable::bases base, RefType *ref, const Orbit *orbit, const vector3d &offset, const Color &color, const double planetRadius, const bool showLagrange)
 {
+	double ecc = orbit->GetEccentricity();
+	double timeshift = ecc > 0.6 ? 0.0 : 0.5;
 	double maxT = 1.;
 	unsigned short num_vertices = 0;
 	for (unsigned short i = 0; i < N_VERTICES_MAX; ++i) {
-		const double t = double(i) / double(N_VERTICES_MAX);
+		const double t = (double(i) + timeshift) / double(N_VERTICES_MAX);
 		const vector3d pos = orbit->EvenSpacedPosTrajectory(t);
 		if (pos.Length() < planetRadius) {
 			maxT = t;
@@ -298,9 +304,9 @@ void SystemView::PutOrbit(Projectable::bases base, RefType *ref, const Orbit *or
 	static const float fadedColorParameter = 0.8;
 
 	Uint16 fadingColors = 0;
-	const double tMinust0 = m_time - m_game->GetTime();
+	const double tMinust0 = GetOrbitTime(m_time, ref);
 	for (unsigned short i = 0; i < N_VERTICES_MAX; ++i) {
-		const double t = double(i) / double(N_VERTICES_MAX) * maxT;
+		const double t = (double(i) + timeshift) / double(N_VERTICES_MAX) * maxT;
 		if (fadingColors == 0 && t >= startTrailPercent * maxT)
 			fadingColors = i;
 		const vector3d pos = orbit->EvenSpacedPosTrajectory(t, tMinust0);
@@ -322,8 +328,8 @@ void SystemView::PutOrbit(Projectable::bases base, RefType *ref, const Orbit *or
 	if (num_vertices > 1) {
 		m_orbits.SetData(num_vertices, m_orbitVts.get(), m_orbitColors.get());
 
-		// don't close the loop for hyperbolas and parabolas and crashed ellipses
-		if (maxT < 1. || (orbit->GetEccentricity() > 1.0)) {
+		//close the loop for thin ellipses
+		if (maxT < 1. || ecc > 1.0 || ecc < 0.6) {
 			m_orbits.Draw(m_renderer, m_lineState, LINE_STRIP);
 		} else {
 			m_orbits.Draw(m_renderer, m_lineState, LINE_LOOP);
@@ -391,7 +397,8 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 				continue;
 
 			const double axisZoom = kid->GetOrbit().GetSemiMajorAxis() * m_zoom;
-			if (axisZoom < DEFAULT_VIEW_DISTANCE) {
+			//semimajor axis radius should be at least 1% of screen width to show the orbit
+			if (ProjectedSize(axisZoom, offset) > 0.01) {
 				const SystemBody::BodySuperType bst = kid->GetSuperType();
 				const bool showLagrange = (bst == SystemBody::SUPERTYPE_ROCKY_PLANET || bst == SystemBody::SUPERTYPE_GAS_GIANT);
 				PutOrbit<const SystemBody>(Projectable::SYSTEMBODY, kid, &(kid->GetOrbit()), offset, svColor[SYSTEMBODY_ORBIT], 0.0, showLagrange);
@@ -502,8 +509,20 @@ void SystemView::Draw3D()
 	m_cameraSpace.Rotate(DEG2RAD(m_rot_y), 0, 1, 0);
 	m_renderer->SetTransform(m_cameraSpace);
 
-	vector3d pos(0, 0, 0);
-	if (m_selectedObject) GetTransformTo(m_selectedObject, pos);
+	// smooth transition animation
+	m_transTo *= 0.0;
+	if (m_selectedObject.type != Projectable::NONE) GetTransformTo(m_selectedObject, m_transTo);
+	if (m_animateTransition) {
+		const float ft = Pi::GetFrameTime();
+		m_animateTransition--;
+		AnimationCurves::Approach(m_trans.x, m_transTo.x, ft);
+		AnimationCurves::Approach(m_trans.y, m_transTo.y, ft);
+		AnimationCurves::Approach(m_trans.z, m_transTo.z, ft);
+	} else {
+		m_trans = m_transTo;
+	}
+
+	vector3d pos = m_trans * m_zoom;
 
 	// glLineWidth(2);
 	if (!m_system->GetUnexplored() && m_system->GetRootBody()) {
