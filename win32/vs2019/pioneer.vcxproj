@@ -488,6 +488,7 @@
     <ClCompile Include="..\..\src\pigui\PiGuiLua.cpp" />
     <ClCompile Include="..\..\src\pigui\LuaFace.cpp" />
     <ClCompile Include="..\..\src\pigui\PiGuiSandbox.cpp" />
+    <ClCompile Include="..\..\src\pigui\Widgets.cpp" />
     <ClCompile Include="..\..\src\Plane.cpp" />
     <ClCompile Include="..\..\src\Planet.cpp" />
     <ClCompile Include="..\..\src\Player.cpp" />
@@ -679,10 +680,12 @@
     <ClInclude Include="..\..\src\Pi.h" />
     <ClInclude Include="..\..\src\pigui\Face.h" />
     <ClInclude Include="..\..\src\pigui\Image.h" />
+    <ClInclude Include="..\..\src\pigui\LuaFlags.h" />
     <ClInclude Include="..\..\src\pigui\ModelSpinner.h" />
     <ClInclude Include="..\..\src\pigui\PerfInfo.h" />
     <ClInclude Include="..\..\src\pigui\PiGui.h" />
     <ClInclude Include="..\..\src\pigui\PiGuiLua.h" />
+    <ClInclude Include="..\..\src\pigui\View.h" />
     <ClInclude Include="..\..\src\Plane.h" />
     <ClInclude Include="..\..\src\Planet.h" />
     <ClInclude Include="..\..\src\Player.h" />
