@@ -8,6 +8,7 @@
 #include "utils.h"
 
 #include <algorithm>
+#include <array>
 
 class IniConfig;
 
