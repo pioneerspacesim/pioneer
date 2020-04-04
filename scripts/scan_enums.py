@@ -373,8 +373,8 @@ def write_header(enums, fl):
     fl.write('#ifndef HX_GEN_ENUM_TABLES\n')
     fl.write('#define HX_GEN_ENUM_TABLES\n\n')
     write_generation_header(fl)
-    fl.write('struct EnumItem { const char *name; int value; };\n')
-    fl.write('struct EnumTable { const char *name; const EnumItem *first; };\n\n')
+    fl.write('struct EnumItem {\n\tconst char *name;\n\tint value;\n};\n')
+    fl.write('struct EnumTable {\n\tconst char *name;\n\tconst EnumItem *first;\n};\n\n')
     for e in enums:
         e.write_c_header(fl)
     fl.write('\n')
