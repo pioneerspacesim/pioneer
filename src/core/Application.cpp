@@ -96,6 +96,7 @@ void Application::Run()
 {
 	Profiler::Clock m_runtime{};
 	m_runtime.Start();
+	m_applicationRunning = true;
 
 	Startup();
 

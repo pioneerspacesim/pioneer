@@ -218,7 +218,11 @@ void PiGui::Init(SDL_Window *window)
 		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
 		return;
 	case Graphics::RENDERER_OPENGL_3x:
+#ifdef __APPLE__
+		ImGui_ImplOpenGL3_Init("#version 140");
+#else
 		ImGui_ImplOpenGL3_Init();
+#endif
 		break;
 	}
 
