@@ -2,6 +2,9 @@ April 2020
    * New Features
      * Move the System Map to PiGUI (#4821)
 
+   * Internal Changes
+     * Refactor the ModelViewer to use PiGui (#4849)
+
 March 2020
    * New Features
      * Stars that are brighter are now bigger and have a brighter colour on the Starfield (#4833)
