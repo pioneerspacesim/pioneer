@@ -607,6 +607,16 @@ void SystemView::Update()
 		m_zoomTo *= pow(ZOOM_IN_SPEED * 0.003 + 1, -motion[1]);
 	}
 
+	// camera control signals from devices, sent to the SectorView
+	if (SectorView::InputBindings.mapViewZoom->IsActive())
+		m_zoomTo *= pow(ZOOM_IN_SPEED * 0.006 + 1, SectorView::InputBindings.mapViewZoom->GetValue());
+	if (SectorView::InputBindings.mapViewYaw->IsActive())
+		m_rot_y_to += SectorView::InputBindings.mapViewYaw->GetValue() * ft * 60;
+	if (SectorView::InputBindings.mapViewPitch->IsActive())
+		m_rot_x_to += SectorView::InputBindings.mapViewPitch->GetValue() * ft * 60;
+
+	m_rot_x_to = Clamp(m_rot_x_to, -80.0f, 80.0f);
+
 	UIView::Update();
 }
 

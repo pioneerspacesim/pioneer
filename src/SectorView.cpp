@@ -1030,16 +1030,7 @@ void SectorView::OnKeyPressed(SDL_Keysym *keysym)
 	if (Pi::IsConsoleActive())
 		return;
 
-	// space "locks" (or unlocks) the hyperspace target to the selected system
-	if (KeyBindings::mapLockHyperspaceTarget.Matches(keysym)) {
-		if ((m_matchTargetToSelection || m_hyperspaceTarget != m_selected) && !m_selected.IsSameSystem(m_current))
-			SetHyperspaceTarget(m_selected);
-		else
-			ResetHyperspaceTarget();
-		return;
-	}
-
-	if (KeyBindings::mapToggleSelectionFollowView.Matches(keysym)) {
+	if (InputBindings.mapToggleSelectionFollowView->Matches(keysym)) {
 		m_automaticSystemSelection = !m_automaticSystemSelection;
 		return;
 	}
@@ -1048,19 +1039,16 @@ void SectorView::OnKeyPressed(SDL_Keysym *keysym)
 
 	// fast move selection to current player system or hyperspace target
 	const bool shifted = (Pi::input->KeyState(SDLK_LSHIFT) || Pi::input->KeyState(SDLK_RSHIFT));
-	if (KeyBindings::mapWarpToCurrent.Matches(keysym)) {
+	if (InputBindings.mapWarpToCurrent->Matches(keysym)) {
 		GotoSystem(m_current);
 		reset_view = shifted;
-	} else if (KeyBindings::mapWarpToSelected.Matches(keysym)) {
+	} else if (InputBindings.mapWarpToSelected->Matches(keysym)) {
 		GotoSystem(m_selected);
-		reset_view = shifted;
-	} else if (KeyBindings::mapWarpToHyperspaceTarget.Matches(keysym)) {
-		GotoSystem(m_hyperspaceTarget);
 		reset_view = shifted;
 	}
 
 	// reset rotation and zoom
-	if (reset_view || KeyBindings::mapViewReset.Matches(keysym)) {
+	if (reset_view || InputBindings.mapViewReset->Matches(keysym)) {
 		while (m_rotZ < -180.0f)
 			m_rotZ += 360.0f;
 		while (m_rotZ > 180.0f)
@@ -1096,24 +1084,16 @@ void SectorView::Update()
 		const float moveSpeed = Pi::GetMoveSpeedShiftModifier();
 		float move = moveSpeed * frameTime;
 		vector3f shift(0.0f);
-		if (KeyBindings::mapViewShiftLeft.IsActive()) shift.x -= move;
-		if (KeyBindings::mapViewShiftRight.IsActive()) shift.x += move;
-		if (KeyBindings::mapViewShiftUp.IsActive()) shift.y += move;
-		if (KeyBindings::mapViewShiftDown.IsActive()) shift.y -= move;
-		if (KeyBindings::mapViewShiftForward.IsActive()) shift.z -= move;
-		if (KeyBindings::mapViewShiftBackward.IsActive()) shift.z += move;
+		if (InputBindings.mapViewShiftHorizontally->IsActive()) shift.x += move * InputBindings.mapViewShiftHorizontally->GetValue();
+		if (InputBindings.mapViewShiftVertically->IsActive()) shift.y += move * InputBindings.mapViewShiftVertically->GetValue();
+		if (InputBindings.mapViewShiftLongitudinally->IsActive()) shift.z += move * InputBindings.mapViewShiftLongitudinally->GetValue();
 		m_posMovingTo += shift * rot;
 
-		if (KeyBindings::viewZoomIn.IsActive())
-			m_zoomMovingTo -= move;
-		if (KeyBindings::viewZoomOut.IsActive())
-			m_zoomMovingTo += move;
+		if (InputBindings.mapViewZoom->IsActive()) m_zoomMovingTo -= move * InputBindings.mapViewZoom->GetValue();
 		m_zoomMovingTo = Clamp(m_zoomMovingTo, 0.1f, FAR_MAX);
 
-		if (KeyBindings::mapViewRotateLeft.IsActive()) m_rotZMovingTo -= 0.5f * moveSpeed;
-		if (KeyBindings::mapViewRotateRight.IsActive()) m_rotZMovingTo += 0.5f * moveSpeed;
-		if (KeyBindings::mapViewRotateUp.IsActive()) m_rotXMovingTo -= 0.5f * moveSpeed;
-		if (KeyBindings::mapViewRotateDown.IsActive()) m_rotXMovingTo += 0.5f * moveSpeed;
+		if (InputBindings.mapViewYaw->IsActive()) m_rotZMovingTo += 0.5f * moveSpeed * InputBindings.mapViewYaw->GetValue();
+		if (InputBindings.mapViewPitch->IsActive()) m_rotXMovingTo += 0.5f * moveSpeed * InputBindings.mapViewPitch->GetValue();
 	}
 
 	// to capture mouse when button was pressed and release when released
@@ -1127,8 +1107,7 @@ void SectorView::Update()
 		Pi::input->GetMouseMotion(motion);
 		m_rotXMovingTo += 0.2f * float(motion[1]);
 		m_rotZMovingTo += 0.2f * float(motion[0]);
-	}
-	else if (m_zoomView) {
+	} else if (m_zoomView) {
 		Pi::input->SetCapturingMouse(true);
 		int motion[2];
 		Pi::input->GetMouseMotion(motion);
@@ -1346,6 +1325,33 @@ std::vector<SystemPath> SectorView::GetNearbyStarSystemsByName(std::string patte
 	return result;
 }
 
+SectorView::InputBinding SectorView::InputBindings;
+
+void SectorView::RegisterInputBindings()
+{
+	using namespace KeyBindings;
+	Input::BindingPage *page = Pi::input->GetBindingPage("MapControls");
+	Input::BindingGroup *group;
+
+#define BINDING_GROUP(n) group = page->GetBindingGroup(#n);
+#define KEY_BINDING(n, id, k1, k2) InputBindings.n = Pi::input->AddActionBinding(id, group, ActionBinding(k1, k2));
+#define AXIS_BINDING(n, id, k1, k2) InputBindings.n = Pi::input->AddAxisBinding(id, group, AxisBinding(k1, k2));
+
+	BINDING_GROUP(GeneralViewControls)
+	KEY_BINDING(mapViewReset, "ResetOrientationAndZoom", SDLK_t, 0)
+	AXIS_BINDING(mapViewYaw, "BindMapViewYaw", SDLK_KP_4, SDLK_KP_6)
+	AXIS_BINDING(mapViewPitch, "BindMapViewPitch", SDLK_KP_8, SDLK_KP_2)
+	AXIS_BINDING(mapViewZoom, "BindViewZoom", SDLK_KP_PLUS, SDLK_KP_MINUS)
+
+	BINDING_GROUP(SectorMapViewControls)
+	KEY_BINDING(mapToggleSelectionFollowView, "MapToggleSelectionFollowView", SDLK_RETURN, SDLK_KP_ENTER)
+	KEY_BINDING(mapWarpToCurrent, "MapWarpToCurrentSystem", SDLK_c, 0)
+	KEY_BINDING(mapWarpToSelected, "MapWarpToSelectedSystem", SDLK_g, 0)
+	AXIS_BINDING(mapViewShiftLongitudinally, "BindMapViewShiftLongitudinally", SDLK_f, SDLK_r)
+	AXIS_BINDING(mapViewShiftHorizontally, "BindMapViewShiftHorizontally", SDLK_d, SDLK_a)
+	AXIS_BINDING(mapViewShiftVertically, "BindMapViewShiftVertically", SDLK_s, SDLK_w)
+}
+
 void SectorView::SetFactionVisible(const Faction *faction, bool visible)
 {
 	if (visible)
@@ -1364,7 +1370,8 @@ void SectorView::SetZoomMode(bool enable)
 	}
 }
 
-void SectorView::SetRotateMode(bool enable) {
+void SectorView::SetRotateMode(bool enable)
+{
 	if (enable != m_rotateView) {
 		Pi::input->SetCapturingMouse(enable);
 		m_rotateView = enable;
@@ -1372,7 +1379,8 @@ void SectorView::SetRotateMode(bool enable) {
 	}
 }
 
-void SectorView::ResetView() {
+void SectorView::ResetView()
+{
 	GotoSystem(m_current);
 	m_rotXMovingTo = m_rotXDefault;
 	m_rotZMovingTo = m_rotZDefault;

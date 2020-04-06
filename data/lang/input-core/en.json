@@ -71,6 +71,26 @@
     "description": "Descriptive name for the Freelook Yaw axis.",
     "message": "Freelook Yaw"
   },
+  "BIND_MAP_VIEW_PITCH": {
+    "description": "Axis binding",
+    "message": "Map Pitch"
+  },
+  "BIND_MAP_VIEW_SHIFT_HORIZONTALLY": {
+    "description": "Axis binding",
+    "message": "Shift Map Horizontally"
+  },
+  "BIND_MAP_VIEW_SHIFT_LONGITUDINALLY": {
+    "description": "Axis binding",
+    "message": "Shift Map Longitudinally"
+  },
+  "BIND_MAP_VIEW_SHIFT_VERTICALLY": {
+    "description": "Axis binding",
+    "message": "Shift Map Vertically"
+  },
+  "BIND_MAP_VIEW_YAW": {
+    "description": "Axis binding",
+    "message": "Map Yaw"
+  },
   "BIND_PRIMARY_FIRE": {
     "description": "Descriptive name for the PrimaryFire action.",
     "message": "Primary Fire"
@@ -134,6 +154,10 @@
   "GROUP_MISCELLANEOUS": {
     "message": "Miscellaneous"
   },
+  "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
+    "description": "Header for the SectorMapViewControls input group.",
+    "message": "Sector Map View Controls"
+  },
   "GROUP_SHIP_ORIENT": {
     "description": "Header for the ShipOrient input group.",
     "message": "Ship Orientation"
@@ -149,6 +173,10 @@
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",
     "message": "General Controls"
+  },
+  "PAGE_MAP_CONTROLS": {
+    "description": "Header for the MapControls input page.",
+    "message": "Map Controls"
   },
   "PAGE_SHIP_CONTROLS": {
     "description": "Header for the ShipControls input page.",

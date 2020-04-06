@@ -318,6 +318,7 @@ void RegisterInputBindings()
 	ShipViewController::InputBindings.RegisterBindings();
 
 	WorldView::RegisterInputBindings();
+	SectorView::RegisterInputBindings();
 }
 
 void Pi::App::Startup()

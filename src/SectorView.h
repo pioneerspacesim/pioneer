@@ -5,6 +5,7 @@
 #define _SECTORVIEW_H
 
 #include "UIView.h"
+#include "Input.h"
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
@@ -23,6 +24,7 @@ namespace Graphics {
 
 class SectorView : public UIView, public DeleteEmitter {
 public:
+	static void RegisterInputBindings();
 	SectorView(Game *game);
 	SectorView(const Json &jsonObj, Game *game);
 	virtual ~SectorView();
@@ -77,6 +79,24 @@ public:
 	std::vector<SystemPath> GetRoute();
 	void AutoRoute(const SystemPath &start, const SystemPath &target, std::vector<SystemPath> &outRoute) const;
 	void SetDrawRouteLines(bool value) { m_drawRouteLines = value; }
+
+	static struct InputBinding : public Input::InputFrame {
+		using Action = KeyBindings::ActionBinding;
+		using Axis = KeyBindings::AxisBinding;
+
+		Action *mapToggleSelectionFollowView;
+		Action *mapWarpToCurrent;
+		Action *mapWarpToSelected;
+		Action *mapViewReset;
+
+		Axis *mapViewShiftLongitudinally;
+		Axis *mapViewShiftHorizontally;
+		Axis *mapViewShiftVertically;
+		Axis *mapViewYaw;
+		Axis *mapViewPitch;
+		Axis *mapViewZoom;
+
+	} InputBindings;
 
 protected:
 	virtual void OnSwitchTo();
@@ -207,6 +227,7 @@ private:
 	Graphics::Drawables::Lines m_lines;
 	Graphics::Drawables::Lines m_sectorlines;
 	Graphics::Drawables::Points m_farstarsPoints;
+
 };
 
 #endif /* _SECTORVIEW_H */

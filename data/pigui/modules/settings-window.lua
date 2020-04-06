@@ -17,7 +17,8 @@ local ModalWindow = require 'pigui.libs.modal-win'
 
 -- convert an axis binding style ID to a translation resource identifier
 local function localize_binding_id(str)
-	return linput[str:gsub("([^A-Z0-9_])([A-Z0-9])", "%1_%2"):upper()]
+	local jsonIndex = str:gsub("([^A-Z0-9_])([A-Z0-9])", "%1_%2"):upper()
+	return rawget(linput, jsonIndex) or rawget(lc, jsonIndex) or error("NO_JSON: " .. jsonIndex)
 end
 
 local player = nil
