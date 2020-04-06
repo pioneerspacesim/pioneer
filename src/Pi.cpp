@@ -25,9 +25,11 @@
 #include "NavLights.h"
 #include "OS.h"
 #include "core/GuiApplication.h"
+#include "graphics/opengl/RendererGL.h"
 #include "lua/Lua.h"
 #include "lua/LuaConsole.h"
 #include "lua/LuaEvent.h"
+#include "lua/LuaPiGui.h"
 #include "lua/LuaTimer.h"
 #include "profiler/Profiler.h"
 #include "sound/AmbientSounds.h"
@@ -133,7 +135,7 @@ float Pi::amountOfBackgroundStarsDisplayed = 1.0f;
 bool Pi::DrawGUI = true;
 Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
-RefCountedPtr<PiGui> Pi::pigui;
+PiGui::Instance *Pi::pigui = nullptr;
 ModelCache *Pi::modelCache;
 Intro *Pi::intro;
 SDLGraphics *Pi::sdl;
@@ -361,8 +363,7 @@ void Pi::App::Startup()
 	Pi::rng.IncRefCount(); // so nothing tries to free it
 	Pi::rng.seed(time(0));
 
-	Pi::input = new Input();
-	Pi::input->Init(Pi::config);
+	Pi::input = StartupInput(config);
 	Pi::input->onKeyPress.connect(sigc::ptr_fun(&Pi::HandleKeyDown));
 
 	// we can only do bindings once joysticks are initialised.
@@ -370,6 +371,8 @@ void Pi::App::Startup()
 		KeyBindings::InitBindings();
 
 	RegisterInputBindings();
+
+	Pi::pigui = StartupPiGui();
 
 	// FIXME: move these into the appropriate class!
 	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
@@ -438,9 +441,11 @@ void Pi::App::Shutdown()
 	BaseSphere::Uninit();
 	FaceParts::Uninit();
 	Graphics::Uninit();
-	Pi::pigui->Uninit();
+
+	PiGUI::Lua::Uninit();
+	ShutdownPiGui();
+	Pi::pigui = nullptr;
 	Pi::ui.Reset(0);
-	Pi::pigui.Reset(0);
 	Lua::UninitModules();
 	Lua::Uninit();
 	Gui::Uninit();
@@ -451,6 +456,9 @@ void Pi::App::Shutdown()
 
 	ShutdownRenderer();
 	Pi::renderer = nullptr;
+
+	ShutdownInput();
+	Pi::input = nullptr;
 
 	delete Pi::config;
 	delete Pi::planner;
@@ -489,14 +497,12 @@ void LoadStep::Start()
 	// TODO: Get the lua state responsible for drawing the init progress up as fast as possible
 	// Investigate using a pigui-only Lua state that we can initialize without depending on
 	// normal init flow, or drawing the init screen in C++ instead?
-	// Ideally we can initialize the ImGui related parts of pigui as soon as the renderer is online,
-	// and then load all the lua-related state once Lua's registered and online...
-	Pi::pigui.Reset(new PiGui);
-	Pi::pigui->Init(Pi::renderer->GetSDLWindow());
+	// Loads just the PiGui class and PiGui-related modules
+	PiGUI::Lua::Init();
 
 	// Don't render the first frame, just make sure all of our fonts are loaded
-	Pi::pigui->NewFrame(Pi::renderer->GetSDLWindow());
-	Pi::pigui->RunHandler(0.01, "INIT");
+	Pi::pigui->NewFrame();
+	PiGUI::RunHandler(0.01, "INIT");
 	Pi::pigui->EndFrame();
 
 	AddStep("UI::AddContext", []() {
@@ -608,8 +614,8 @@ void LoadStep::Update(float deltaTime)
 		Output("Loading [%02.f%%]: %s took %.2fms\n", progress * 100.,
 			loader.name.c_str(), timer.milliseconds());
 
-		Pi::pigui->NewFrame(Pi::renderer->GetSDLWindow());
-		Pi::pigui->RunHandler(progress, "INIT");
+		Pi::pigui->NewFrame();
+		PiGUI::RunHandler(progress, "INIT");
 		Pi::pigui->Render();
 
 	} else {
@@ -643,43 +649,12 @@ void MainMenu::Start()
 
 void MainMenu::Update(float deltaTime)
 {
-	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		if (event.type == SDL_QUIT)
-			Pi::RequestQuit();
-		else {
-			Pi::pigui->ProcessEvent(&event);
-
-			if (Pi::pigui->WantCaptureMouse()) {
-				// don't process mouse event any further, imgui already handled it
-				switch (event.type) {
-				case SDL_MOUSEBUTTONDOWN:
-				case SDL_MOUSEBUTTONUP:
-				case SDL_MOUSEWHEEL:
-				case SDL_MOUSEMOTION:
-					continue;
-				default: break;
-				}
-			}
-			if (Pi::pigui->WantCaptureKeyboard()) {
-				// don't process keyboard event any further, imgui already handled it
-				switch (event.type) {
-				case SDL_KEYDOWN:
-				case SDL_KEYUP:
-				case SDL_TEXTINPUT:
-					continue;
-				default: break;
-				}
-			}
-
-			Pi::input->HandleSDLEvent(event);
-		}
-	}
+	Pi::GetApp()->HandleEvents();
 
 	Pi::intro->Draw(deltaTime);
 
-	Pi::pigui->NewFrame(Pi::renderer->GetSDLWindow());
-	Pi::pigui->RunHandler(deltaTime, "MAINMENU");
+	Pi::pigui->NewFrame();
+	PiGUI::RunHandler(deltaTime, "MAINMENU");
 
 	Pi::pigui->Render();
 
@@ -847,12 +822,13 @@ void Pi::HandleEscKey()
 	}
 }
 
-void Pi::App::HandleEvents()
+// Return true if the event has been handled and shouldn't be passed through
+// to the normal input system.
+bool Pi::App::HandleEvent(SDL_Event &event)
 {
 	PROFILE_SCOPED()
-	SDL_Event event;
 
-	// XXX for most keypresses SDL will generate KEYUP/KEYDOWN and TEXTINPUT
+	// HACK for most keypresses SDL will generate KEYUP/KEYDOWN and TEXTINPUT
 	// events. keybindings run off KEYUP/KEYDOWN. the console is opened/closed
 	// via keybinding. the console TextInput widget uses TEXTINPUT events. thus
 	// after switching the console, the stray TEXTINPUT event causes the
@@ -860,64 +836,37 @@ void Pi::App::HandleEvents()
 	// this by setting this flag if the console was switched. if its set, we
 	// swallow the TEXTINPUT event this hack must remain until we have a
 	// unified input system
-	bool skipTextInput = false;
+	// This is safely able to be removed once GUI and newUI are gone
+	static bool skipTextInput = false;
 
-	Pi::input->mouseMotion[0] = Pi::input->mouseMotion[1] = 0;
-	while (SDL_PollEvent(&event)) {
-		if (event.type == SDL_QUIT) {
-			Pi::RequestQuit();
-		}
-
-		Pi::pigui->ProcessEvent(&event);
-
-		// Input system takes priority over mouse events when capturing the mouse
-		if (Pi::pigui->WantCaptureMouse() && !Pi::input->IsCapturingMouse()) {
-			// don't process mouse event any further, imgui already handled it
-			switch (event.type) {
-			case SDL_MOUSEBUTTONDOWN:
-			case SDL_MOUSEBUTTONUP:
-			case SDL_MOUSEWHEEL:
-			case SDL_MOUSEMOTION:
-				continue;
-			default: break;
-			}
-		}
-		if (Pi::pigui->WantCaptureKeyboard()) {
-			// don't process keyboard event any further, imgui already handled it
-			switch (event.type) {
-			case SDL_KEYDOWN:
-			case SDL_KEYUP:
-			case SDL_TEXTINPUT:
-				continue;
-			default: break;
-			}
-		}
-
-		if (skipTextInput && event.type == SDL_TEXTINPUT) {
-			skipTextInput = false;
-			continue;
-		}
-		if (ui->DispatchSDLEvent(event))
-			continue;
-
-		bool consoleActive = Pi::IsConsoleActive();
-		if (!consoleActive) {
-			KeyBindings::DispatchSDLEvent(&event);
-			if (currentView)
-				currentView->HandleSDLEvent(event);
-		} else
-			KeyBindings::toggleLuaConsole.CheckSDLEventAndDispatch(&event);
-		if (consoleActive != Pi::IsConsoleActive()) {
-			skipTextInput = true;
-			continue;
-		}
-
-		if (Pi::IsConsoleActive())
-			continue;
-
-		Gui::HandleSDLEvent(&event);
-		input->HandleSDLEvent(event);
+	if (skipTextInput && event.type == SDL_TEXTINPUT) {
+		skipTextInput = false;
+		return true;
 	}
+
+	if (ui->DispatchSDLEvent(event))
+		return true;
+
+	bool consoleActive = Pi::IsConsoleActive();
+	if (!consoleActive) {
+		KeyBindings::DispatchSDLEvent(&event);
+		if (currentView)
+			currentView->HandleSDLEvent(event);
+	} else {
+		KeyBindings::toggleLuaConsole.CheckSDLEventAndDispatch(&event);
+	}
+
+	if (consoleActive != Pi::IsConsoleActive()) {
+		skipTextInput = true;
+		return true;
+	}
+
+	if (Pi::IsConsoleActive())
+		return true;
+
+	Gui::HandleSDLEvent(&event);
+
+	return false;
 }
 
 void Pi::App::HandleRequests()
@@ -1126,10 +1075,16 @@ void GameLoop::Update(float deltaTime)
 		Pi::ui->Draw();
 	}
 
+	// Ask ImGui to hide OS cursor if we're capturing it for input:
+	// it will do this if GetMouseCursor == ImGuiMouseCursor_None.
+	if (Pi::input->IsCapturingMouse()) {
+		ImGui::SetMouseCursor(ImGuiMouseCursor_None);
+	}
+
 	// TODO: the escape menu depends on HandleEvents() being called before NewFrame()
 	// Move HandleEvents to either the end of the loop or the very start of the loop
 	// The goal is to be able to call imgui functions for debugging inside C++ code
-	Pi::pigui->NewFrame(Pi::renderer->GetSDLWindow());
+	Pi::pigui->NewFrame();
 
 	if (Pi::game && !Pi::player->IsDead()) {
 		// FIXME: Always begin a camera frame because WorldSpaceToScreenSpace
@@ -1137,7 +1092,7 @@ void GameLoop::Update(float deltaTime)
 		Pi::game->GetWorldView()->BeginCameraFrame();
 		// FIXME: major hack to work around the fact that the console is in newUI and not pigui
 		if (!Pi::IsConsoleActive())
-			Pi::pigui->RunHandler(deltaTime, "GAME");
+			PiGUI::RunHandler(deltaTime, "GAME");
 		Pi::game->GetWorldView()->EndCameraFrame();
 	}
 

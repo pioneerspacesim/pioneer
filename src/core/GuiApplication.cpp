@@ -12,6 +12,7 @@
 #include "graphics/RenderTarget.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
+#include "pigui/PiGui.h"
 #include "utils.h"
 #include "versioningInfo.h"
 
@@ -31,7 +32,8 @@ void GuiApplication::BeginFrame()
 void GuiApplication::DrawRenderTarget()
 {
 #if RTT
-	m_renderer->BeginFrame();
+	m_renderer->SetRenderTarget(nullptr);
+	m_renderer->ClearScreen();
 	m_renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
@@ -60,9 +62,9 @@ void GuiApplication::DrawRenderTarget()
 void GuiApplication::EndFrame()
 {
 #if RTT
-	m_renderer->SetRenderTarget(nullptr);
 	DrawRenderTarget();
 #endif
+
 	m_renderer->EndFrame();
 	m_renderer->SwapBuffers();
 }
@@ -100,7 +102,55 @@ Graphics::RenderTarget *GuiApplication::CreateRenderTarget(const Graphics::Setti
 	return nullptr;
 }
 
-Graphics::Renderer *GuiApplication::StartupRenderer(const GameConfig *config, bool hidden)
+void GuiApplication::HandleEvents()
+{
+	PROFILE_SCOPED()
+	SDL_Event event;
+
+	// FIXME: input state is right before handling updates because
+	// legacy UI code needs to run before input does.
+	// When HandleEvents() is moved to BeginFrame / PreUpdate, this call should go with it
+	m_input->NewFrame();
+
+	while (SDL_PollEvent(&event)) {
+		if (event.type == SDL_QUIT) {
+			RequestQuit();
+		}
+
+		m_pigui->ProcessEvent(&event);
+
+		// Input system takes priority over mouse events when capturing the mouse
+		if (PiGui::WantCaptureMouse() && !m_input->IsCapturingMouse()) {
+			// don't process mouse event any further, imgui already handled it
+			switch (event.type) {
+			case SDL_MOUSEBUTTONDOWN:
+			case SDL_MOUSEBUTTONUP:
+			case SDL_MOUSEWHEEL:
+			case SDL_MOUSEMOTION:
+				continue;
+			default: break;
+			}
+		}
+		if (PiGui::WantCaptureKeyboard()) {
+			// don't process keyboard event any further, imgui already handled it
+			switch (event.type) {
+			case SDL_KEYDOWN:
+			case SDL_KEYUP:
+			case SDL_TEXTINPUT:
+				continue;
+			default: break;
+			}
+		}
+
+		// TODO: virtual method dispatch for each event isn't great. Let's find a better solution
+		if (HandleEvent(event))
+			continue;
+
+		m_input->HandleSDLEvent(event);
+	}
+}
+
+Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidden)
 {
 	PROFILE_SCOPED()
 	// Initialize SDL
@@ -144,4 +194,29 @@ void GuiApplication::ShutdownRenderer()
 	m_renderer.reset();
 
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
+}
+
+Input *GuiApplication::StartupInput(IniConfig *config)
+{
+	m_input.reset(new Input(config));
+
+	return m_input.get();
+}
+
+void GuiApplication::ShutdownInput()
+{
+	m_input.reset();
+}
+
+PiGui::Instance *GuiApplication::StartupPiGui()
+{
+	m_pigui.Reset(new PiGui::Instance());
+	m_pigui->Init(GetRenderer());
+	return m_pigui.Get();
+}
+
+void GuiApplication::ShutdownPiGui()
+{
+	m_pigui->Uninit();
+	m_pigui.Reset();
 }

@@ -117,7 +117,7 @@ static int l_engine_attr_ui(lua_State *l)
  */
 static int l_engine_attr_pigui(lua_State *l)
 {
-	LuaObject<PiGui>::PushToLua(Pi::pigui.Get());
+	LuaObject<PiGui::Instance>::PushToLua(Pi::pigui);
 	return 1;
 }
 
@@ -794,7 +794,7 @@ static int l_engine_world_space_to_screen_space(lua_State *l)
 {
 	vector3d pos = LuaPull<vector3d>(l, 1);
 
-	TScreenSpace res = lua_world_space_to_screen_space(pos); // defined in LuaPiGui.cpp
+	PiGUI::TScreenSpace res = PiGUI::lua_world_space_to_screen_space(pos); // defined in LuaPiGui.cpp
 
 	LuaPush<bool>(l, res._onScreen);
 	LuaPush<vector2d>(l, res._screenPosition);

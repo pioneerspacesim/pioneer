@@ -16,6 +16,10 @@
 #include <string>
 #include <vector>
 
+namespace PiGui {
+	class Instance;
+} //namespace PiGui
+
 class Game;
 
 class GameConfig;
@@ -26,7 +30,6 @@ class LuaNameGen;
 class LuaTimer;
 class ModelCache;
 class ObjectViewerView;
-class PiGui;
 class Player;
 class SystemPath;
 class TransferPlanner;
@@ -101,7 +104,7 @@ public:
 		void RunJobs();
 
 		void HandleRequests();
-		void HandleEvents();
+		bool HandleEvent(SDL_Event &ev) override;
 
 	private:
 		// msgs/requests that can be posted which the game processes at the end of a game loop in HandleRequests
@@ -170,7 +173,7 @@ public:
 #endif
 
 	static RefCountedPtr<UI::Context> ui;
-	static RefCountedPtr<PiGui> pigui;
+	static PiGui::Instance *pigui;
 
 	static Random rng;
 	static int statSceneTris;

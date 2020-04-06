@@ -40,8 +40,6 @@ public:
 			m_nextLifecycle = l;
 		}
 
-		Application *GetApp();
-
 	private:
 		// set to true when you want to accumulate all updates in a lifecycle into a single profile frame
 		bool m_profilerAccumulate = false;

@@ -561,6 +561,9 @@
     <ClCompile Include="..\..\src\core\Application.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\pigui\Widgets.cpp">
+      <Filter>src\pigui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -1105,6 +1108,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\core\GuiApplication.h">
       <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pigui\View.h">
+      <Filter>src\pigui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pigui\LuaFlags.h">
+      <Filter>src\pigui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

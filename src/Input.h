@@ -8,18 +8,16 @@
 #include "utils.h"
 
 #include <algorithm>
+#include <array>
 
-class GameConfig;
+class IniConfig;
 
 class Input {
-	// TODO: better decouple these two classes.
-	friend class Pi;
-
 public:
-	Input() = default;
-	void Init(GameConfig *config);
+	Input(IniConfig *config);
 	void InitGame();
 	void HandleSDLEvent(SDL_Event &ev);
+	void NewFrame();
 
 	// The Page->Group->Binding system serves as a thin veneer for the UI to make
 	// sane reasonings about how to structure the Options dialog.
@@ -94,7 +92,17 @@ public:
 		return axisBindings.count(id) ? &axisBindings[id] : nullptr;
 	}
 
-	bool KeyState(SDL_Keycode k) { return keyState[k]; }
+	bool KeyState(SDL_Keycode k) { return IsKeyDown(k); }
+
+	// returns true if key K is currently pressed
+	bool IsKeyDown(SDL_Keycode k) { return keyState[k] & 0x3; }
+
+	// returns true if key K was pressed this frame
+	bool IsKeyPressed(SDL_Keycode k) { return keyState[k] == 1; }
+
+	// returns true if key K was released this frame
+	bool IsKeyReleased(SDL_Keycode k) { return keyState[k] == 4; }
+
 	int KeyModState() { return keyModState; }
 
 	int JoystickButtonState(int joystick, int button);
@@ -132,8 +140,10 @@ public:
 
 	void GetMouseMotion(int motion[2])
 	{
-		memcpy(motion, mouseMotion, sizeof(int) * 2);
+		std::copy_n(mouseMotion.data(), mouseMotion.size(), motion);
 	}
+
+	int GetMouseWheel() { return mouseWheel; }
 
 	// Capturing the mouse hides the cursor, puts the mouse into relative mode,
 	// and passes all mouse inputs to the input system, regardless of whether
@@ -154,10 +164,13 @@ public:
 private:
 	void InitJoysticks();
 
-	std::map<SDL_Keycode, bool> keyState;
+	IniConfig *m_config;
+
+	std::map<SDL_Keycode, uint8_t> keyState;
 	int keyModState;
-	char mouseButton[6];
-	int mouseMotion[2];
+	std::array<char, 6> mouseButton;
+	std::array<int, 2> mouseMotion;
+	int mouseWheel;
 	bool m_capturingMouse;
 
 	bool joystickEnabled;

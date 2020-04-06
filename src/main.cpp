@@ -205,7 +205,9 @@ start:
 		std::string modelName;
 		if (argc > 2)
 			modelName = argv[2];
-		ModelViewer::Run(modelName);
+		auto modelViewer = ModelViewerApp();
+		modelViewer.SetInitialModel(modelName);
+		modelViewer.Run();
 		break;
 	}
 
