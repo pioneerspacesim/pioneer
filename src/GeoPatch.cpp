@@ -323,10 +323,10 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 	// always split at first level
 	double centroidDist = DBL_MAX;
 	if (m_parent) {
-		centroidDist = (campos - m_centroid).Length();
-		const bool errorSplit = (centroidDist < m_roughLength);
-		if (!(canSplit && (m_depth < std::min(GEOPATCH_MAX_DEPTH, m_geosphere->GetMaxDepth())) && errorSplit)) {
-			canSplit = false;
+		centroidDist = (campos - m_centroid).Length(); // distance from camera to centre of the patch
+		const bool tooFar = (centroidDist >= m_roughLength); // check if the distance is greater than the rough length, which is how far it should be before it can split
+		if (m_depth >= std::min(GEOPATCH_MAX_DEPTH, m_geosphere->GetMaxDepth()) || tooFar) {
+			canSplit = false; // we're too deep in the quadtree or too far away so cannot split
 		}
 	}
 
