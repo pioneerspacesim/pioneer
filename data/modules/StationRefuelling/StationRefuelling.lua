@@ -29,6 +29,9 @@ local onShipDocked = function (ship, station)
 		ship:SetFuelPercent() -- refuel NPCs for free.
 		return
 	end
+	if ship.fuel > 99.9 then -- No docking fee when starting a new game
+		return
+	end
 	local fee = calculateFee()
 	if ship:GetMoney() < fee then
 		Comms.Message(l.THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH:interp({station = station.label,fee = Format.Money(fee)}))
