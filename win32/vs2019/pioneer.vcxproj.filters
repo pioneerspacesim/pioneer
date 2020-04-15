@@ -564,6 +564,9 @@
     <ClCompile Include="..\..\src\pigui\Widgets.cpp">
       <Filter>src\pigui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\lua\LuaSystemView.cpp">
+      <Filter>src\Lua</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
