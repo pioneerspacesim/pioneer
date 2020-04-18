@@ -19,7 +19,6 @@
 
 #include <memory>
 
-class Input;
 class ModelViewer;
 
 class ModelViewerApp : public GuiApplication {
@@ -42,7 +41,6 @@ protected:
 
 private:
 	std::string m_modelName;
-	std::unique_ptr<Input> m_input;
 	std::shared_ptr<ModelViewer> m_modelViewer;
 };
 
@@ -132,20 +130,24 @@ private:
 	};
 
 private:
-	Input *m_input;
+	Input::Manager *m_input;
 	PiGui::Instance *m_pigui;
 
-	KeyBindings::AxisBinding *m_moveForward;
-	KeyBindings::AxisBinding *m_moveLeft;
-	KeyBindings::AxisBinding *m_moveUp;
-	KeyBindings::AxisBinding *m_zoomAxis;
+	struct Inputs : Input::InputFrame {
+		using InputFrame::InputFrame;
 
-	KeyBindings::AxisBinding *m_rotateViewLeft;
-	KeyBindings::AxisBinding *m_rotateViewUp;
+		Axis *moveForward;
+		Axis *moveLeft;
+		Axis *moveUp;
+		Axis *zoomAxis;
 
-	KeyBindings::ActionBinding *m_viewTop;
-	KeyBindings::ActionBinding *m_viewLeft;
-	KeyBindings::ActionBinding *m_viewFront;
+		Axis *rotateViewLeft;
+		Axis *rotateViewUp;
+
+		Action *viewTop;
+		Action *viewLeft;
+		Action *viewFront;
+	} m_bindings;
 
 	vector2f m_windowSize;
 	vector2f m_logWindowSize;

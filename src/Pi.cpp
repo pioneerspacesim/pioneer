@@ -1,6 +1,7 @@
 // Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "Input.h"
 #include "buildopts.h"
 
 #include "Pi.h"
@@ -17,7 +18,6 @@
 #include "GameLog.h"
 #include "GameSaveError.h"
 #include "Intro.h"
-#include "KeyBindings.h"
 #include "Lang.h"
 #include "Missile.h"
 #include "ModManager.h"
@@ -106,7 +106,7 @@ LuaNameGen *Pi::luaNameGen;
 #ifdef ENABLE_SERVER_AGENT
 ServerAgent *Pi::serverAgent;
 #endif
-Input *Pi::input;
+Input::Manager *Pi::input;
 Player *Pi::player;
 View *Pi::currentView;
 TransferPlanner *Pi::planner;
@@ -323,17 +323,6 @@ void TestGPUJobsSupport()
 	}
 }
 
-// TODO: make this a part of the class and/or improve the mechanism
-void RegisterInputBindings()
-{
-	PlayerShipController::RegisterInputBindings();
-
-	ShipViewController::InputBindings.RegisterBindings();
-
-	WorldView::RegisterInputBindings();
-	SectorView::InputBindings.RegisterBindings();
-}
-
 void Pi::App::Startup()
 {
 	PROFILE_SCOPED()
@@ -380,11 +369,11 @@ void Pi::App::Startup()
 	Pi::input = StartupInput(config);
 	Pi::input->onKeyPress.connect(sigc::ptr_fun(&Pi::HandleKeyDown));
 
-	// we can only do bindings once joysticks are initialised.
-	if (!m_noGui) // This re-saves the config file. With no GUI we want to allow multiple instances in parallel.
-		KeyBindings::InitBindings();
-
-	RegisterInputBindings();
+	// Register all C++-side input bindings.
+	// TODO: handle registering Lua input bindings in the startup phase.
+	for (auto &registrar : Input::GetBindingRegistration()) {
+		registrar(Pi::input);
+	}
 
 	Pi::pigui = StartupPiGui();
 
@@ -613,7 +602,7 @@ void LoadStep::Start()
 
 	AddStep("PostLoad", []() {
 		Pi::luaConsole = new LuaConsole();
-		KeyBindings::toggleLuaConsole.onPress.connect(sigc::mem_fun(Pi::luaConsole, &LuaConsole::Toggle));
+		Pi::luaConsole->SetupBindings();
 
 		Pi::planner = new TransferPlanner();
 
@@ -843,13 +832,8 @@ bool Pi::App::HandleEvent(SDL_Event &event)
 		return true;
 
 	bool consoleActive = Pi::IsConsoleActive();
-	if (!consoleActive) {
-		KeyBindings::DispatchSDLEvent(&event);
-		if (currentView)
-			currentView->HandleSDLEvent(event);
-	} else {
-		KeyBindings::toggleLuaConsole.CheckSDLEventAndDispatch(&event);
-	}
+	if (!consoleActive && currentView)
+		currentView->HandleSDLEvent(event);
 
 	if (consoleActive != Pi::IsConsoleActive()) {
 		skipTextInput = true;

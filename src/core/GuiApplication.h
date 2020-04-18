@@ -22,7 +22,7 @@ public:
 	{}
 
 	Graphics::Renderer *GetRenderer() { return m_renderer.get(); }
-	Input *GetInput() { return m_input.get(); }
+	Input::Manager *GetInput() { return m_input.get(); }
 	PiGui::Instance *GetPiGui() { return m_pigui.Get(); }
 
 protected:
@@ -35,7 +35,7 @@ protected:
 	Graphics::Renderer *StartupRenderer(IniConfig *config, bool hidden = false);
 
 	// Call this from your Startup() method
-	Input *StartupInput(IniConfig *config);
+	Input::Manager *StartupInput(IniConfig *config);
 
 	// Call this from your Startup() method
 	PiGui::Instance *StartupPiGui();
@@ -70,7 +70,7 @@ private:
 	Graphics::RenderTarget *CreateRenderTarget(const Graphics::Settings &settings);
 
 	RefCountedPtr<PiGui::Instance> m_pigui;
-	std::unique_ptr<Input> m_input;
+	std::unique_ptr<Input::Manager> m_input;
 
 	std::string m_applicationTitle;
 

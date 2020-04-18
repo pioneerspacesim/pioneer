@@ -23,6 +23,7 @@
 #include "gui/Gui.h"
 #include "lua/LuaConstants.h"
 #include "lua/LuaObject.h"
+#include "sigc++/functors/mem_fun.h"
 #include "utils.h"
 #include <algorithm>
 #include <sstream>
@@ -46,8 +47,56 @@ enum DetailSelection {
 static const float ZOOM_SPEED = 15;
 static const float WHEEL_SENSITIVITY = .03f; // Should be a variable in user settings.
 
+REGISTER_INPUT_BINDING(SectorView)
+{
+	using namespace InputBindings;
+	auto *mapView = input->GetBindingPage("MapControls");
+	Input::BindingGroup *group;
+
+#define BINDING_GROUP(n) group = mapView->GetBindingGroup(#n);
+#define KEY_BINDING(name, k1, k2) \
+	input->AddActionBinding(name, group, InputBindings::Action({ k1 }, { k2 }));
+#define AXIS_BINDING(name, k1, k2) \
+	input->AddAxisBinding(name, group, InputBindings::Axis({}, { k1 }, { k2 }));
+
+	BINDING_GROUP(GeneralViewControls)
+	KEY_BINDING("BindResetOrientationAndZoom", SDLK_t, 0)
+	AXIS_BINDING("BindMapViewYaw", SDLK_KP_4, SDLK_KP_6)
+	AXIS_BINDING("BindMapViewPitch", SDLK_KP_8, SDLK_KP_2)
+	AXIS_BINDING("BindViewZoom", SDLK_KP_PLUS, SDLK_KP_MINUS)
+	AXIS_BINDING("BindMapViewMoveUp", SDLK_r, SDLK_f)
+	AXIS_BINDING("BindMapViewMoveLeft", SDLK_a, SDLK_d)
+	AXIS_BINDING("BindMapViewMoveForward", SDLK_w, SDLK_s)
+
+	BINDING_GROUP(SectorMapViewControls)
+	KEY_BINDING("BindMapToggleSelectionFollowView", SDLK_RETURN, SDLK_KP_ENTER)
+	KEY_BINDING("BindMapWarpToCurrentSystem", SDLK_c, 0)
+	KEY_BINDING("BindMapWarpToSelectedSystem", SDLK_g, 0)
+
+#undef KEY_BINDING
+#undef AXIS_BINDING
+#undef BINDING_GROUP
+}
+
+void SectorView::InputBinding::RegisterBindings()
+{
+	mapViewReset = AddAction("BindResetOrientationAndZoom");
+	mapToggleSelectionFollowView = AddAction("BindMapToggleSelectionFollowView");
+	mapWarpToCurrent = AddAction("BindMapWarpToCurrentSystem");
+	mapWarpToSelected = AddAction("BindMapWarpToSelectedSystem");
+
+	mapViewMoveForward = AddAxis("BindMapViewMoveForward");
+	mapViewMoveLeft = AddAxis("BindMapViewMoveLeft");
+	mapViewMoveUp = AddAxis("BindMapViewMoveUp");
+
+	mapViewYaw = AddAxis("BindMapViewYaw");
+	mapViewPitch = AddAxis("BindMapViewPitch");
+	mapViewZoom = AddAxis("BindMapViewZoom");
+}
+
 SectorView::SectorView(Game *game) :
 	UIView(),
+	InputBindings(Pi::input),
 	m_galaxy(game->GetGalaxy())
 {
 	InitDefaults();
@@ -80,6 +129,7 @@ SectorView::SectorView(Game *game) :
 
 SectorView::SectorView(const Json &jsonObj, Game *game) :
 	UIView(),
+	InputBindings(Pi::input),
 	m_galaxy(game->GetGalaxy())
 {
 	InitDefaults();
@@ -130,6 +180,7 @@ void SectorView::InitDefaults()
 	m_cacheYMax = 0;
 
 	m_sectorCache = m_galaxy->NewSectorSlaveCache();
+	InputBindings.RegisterBindings();
 
 	m_drawRouteLines = true; // where should this go?!
 	m_route = std::vector<SystemPath>();
@@ -139,19 +190,19 @@ void SectorView::InitObject()
 {
 	// single keystroke handlers
 	m_onToggleSelectionFollowView =
-		InputBindings.mapToggleSelectionFollowView->onPress.connect([&]() {
+		InputBindings.mapToggleSelectionFollowView->onPressed.connect([&]() {
 			m_automaticSystemSelection = !m_automaticSystemSelection;
 		});
 	m_onWarpToCurrent =
-		InputBindings.mapWarpToCurrent->onPress.connect([&]() {
+		InputBindings.mapWarpToCurrent->onPressed.connect([&]() {
 			GotoSystem(m_current);
 		});
 	m_onWarpToSelected =
-		InputBindings.mapWarpToSelected->onPress.connect([&]() {
+		InputBindings.mapWarpToSelected->onPressed.connect([&]() {
 			GotoSystem(m_selected);
 		});
 	m_onViewReset =
-		InputBindings.mapViewReset->onPress.connect([&]() {
+		InputBindings.mapViewReset->onPressed.connect([&]() {
 			while (m_rotZ < -180.0f)
 				m_rotZ += 360.0f;
 			while (m_rotZ > 180.0f)
@@ -1311,43 +1362,6 @@ std::vector<SystemPath> SectorView::GetNearbyStarSystemsByName(std::string patte
 		}
 	}
 	return result;
-}
-
-SectorView::InputBinding SectorView::InputBindings;
-
-void SectorView::InputBinding::RegisterBindings()
-{
-	using namespace KeyBindings;
-	Input::BindingPage *page = Pi::input->GetBindingPage("MapControls");
-	Input::BindingGroup *group;
-
-#define BINDING_GROUP(n) group = page->GetBindingGroup(#n);
-#define KEY_BINDING(n, id, k1, k2)                                     \
-	n =                                                                \
-		Pi::input->AddActionBinding(id, group, ActionBinding(k1, k2)); \
-	actions.push_back(n);
-#define AXIS_BINDING(n, id, k1, k2)                                \
-	n =                                                            \
-		Pi::input->AddAxisBinding(id, group, AxisBinding(k1, k2)); \
-	axes.push_back(n);
-
-	BINDING_GROUP(GeneralViewControls)
-	KEY_BINDING(mapViewReset, "ResetOrientationAndZoom", SDLK_t, 0)
-	AXIS_BINDING(mapViewYaw, "BindMapViewYaw", SDLK_KP_4, SDLK_KP_6)
-	AXIS_BINDING(mapViewPitch, "BindMapViewPitch", SDLK_KP_8, SDLK_KP_2)
-	AXIS_BINDING(mapViewZoom, "BindViewZoom", SDLK_KP_PLUS, SDLK_KP_MINUS)
-	AXIS_BINDING(mapViewMoveUp, "BindMapViewMoveUp", SDLK_r, SDLK_f)
-	AXIS_BINDING(mapViewMoveLeft, "BindMapViewMoveLeft", SDLK_a, SDLK_d)
-	AXIS_BINDING(mapViewMoveForward, "BindMapViewMoveForward", SDLK_w, SDLK_s)
-
-	BINDING_GROUP(SectorMapViewControls)
-	KEY_BINDING(mapToggleSelectionFollowView, "MapToggleSelectionFollowView", SDLK_RETURN, SDLK_KP_ENTER)
-	KEY_BINDING(mapWarpToCurrent, "MapWarpToCurrentSystem", SDLK_c, 0)
-	KEY_BINDING(mapWarpToSelected, "MapWarpToSelectedSystem", SDLK_g, 0)
-
-#undef BINDING_GROUP
-#undef KEY_BINDING
-#undef AXIS_BINDING
 }
 
 void SectorView::SetFactionVisible(const Faction *faction, bool visible)

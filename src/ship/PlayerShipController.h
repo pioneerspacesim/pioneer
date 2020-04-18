@@ -6,17 +6,12 @@
 #include "Input.h"
 #include "ShipController.h"
 
-namespace KeyBindings {
-	struct ActionBinding;
-	struct AxisBinding;
-} // namespace KeyBindings
-
 // autopilot AI + input
 class PlayerShipController : public ShipController {
 public:
 	PlayerShipController();
 	~PlayerShipController();
-	static void RegisterInputBindings();
+
 	Type GetType() override { return PLAYER; }
 	void SaveToJson(Json &jsonObj, Space *s) override;
 	void LoadFromJson(const Json &jsonObj) override;
@@ -58,32 +53,32 @@ public:
 	sigc::signal<void> onChangeFlightControlState;
 
 private:
-	static struct InputBinding : public Input::InputFrame {
-		// We create a local alias for ease of typing these bindings.
-		typedef KeyBindings::AxisBinding AxisBinding;
-		typedef KeyBindings::ActionBinding ActionBinding;
+	struct InputBinding : public Input::InputFrame {
+		using InputFrame::InputFrame;
 
 		// Weapons
-		ActionBinding *targetObject;
-		ActionBinding *primaryFire;
-		ActionBinding *secondaryFire;
+		Action *targetObject;
+		Action *primaryFire;
+		Action *secondaryFire;
 
 		// Flight
-		AxisBinding *pitch;
-		AxisBinding *yaw;
-		AxisBinding *roll;
-		ActionBinding *killRot;
-		ActionBinding *toggleRotationDamping;
+		Axis *pitch;
+		Axis *yaw;
+		Axis *roll;
+		Action *killRot;
+		Action *toggleRotationDamping;
 
 		// Manual Control
-		AxisBinding *thrustForward;
-		AxisBinding *thrustUp;
-		AxisBinding *thrustLeft;
-		ActionBinding *thrustLowPower;
+		Axis *thrustForward;
+		Axis *thrustUp;
+		Axis *thrustLeft;
+		Action *thrustLowPower;
 
 		// Speed Control
-		AxisBinding *speedControl;
-		ActionBinding *toggleSetSpeed;
+		Axis *speedControl;
+		Action *toggleSetSpeed;
+
+		void RegisterBindings() override;
 	} InputBindings;
 
 	// FIXME: separate the propusion controller from the input system, pass in wanted velocity correction directly.

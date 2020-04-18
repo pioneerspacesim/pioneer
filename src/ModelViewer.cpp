@@ -5,7 +5,6 @@
 #include "FileSystem.h"
 #include "GameConfig.h"
 #include "GameSaveError.h"
-#include "KeyBindings.h"
 #include "ModManager.h"
 #include "PngWriter.h"
 #include "SDL_keycode.h"
@@ -122,12 +121,7 @@ void ModelViewerApp::Startup()
 
 	auto *renderer = StartupRenderer(config.get());
 
-	// FIXME MAJOR FIXME: Action / Axis bindings depend on Pi::input to get their data.
-	// This is OBVIOUSLY suboptimal, and *must* be redesigned.
-	// Either make Input a singleton (lots of function overhead when polling axes)
-	// or cache input state on the binding itself (probably the best option)
-
-	Pi::input = StartupInput(config.get());
+	StartupInput(config.get());
 	StartupPiGui();
 
 	NavLights::Init(renderer);
@@ -171,6 +165,7 @@ void ModelViewerApp::PostUpdate()
 ModelViewer::ModelViewer(ModelViewerApp *app, LuaManager *lm) :
 	m_input(app->GetInput()),
 	m_pigui(app->GetPiGui()),
+	m_bindings(m_input),
 	m_logWindowSize(350.0f, 500.0f),
 	m_animWindowSize(0.0f, 150.0f),
 	m_colors({ Color(255, 0, 0),
@@ -609,14 +604,20 @@ void ModelViewer::SetupAxes()
 	auto *page = m_input->GetBindingPage("ModelViewer");
 	auto *group = page->GetBindingGroup("View");
 
-#define AXIS(name, axis, positive, negative) m_input->AddAxisBinding(name, group, KeyBindings::AxisBinding(axis, positive, negative))
-#define ACTION(name, b1, b2) m_input->AddActionBinding(name, group, KeyBindings::ActionBinding(b1, b2))
+	// Don't add this to REGISTER_INPUT_BINDING because these bindings aren't used by the game
+#define AXIS(val, name, axis, positive, negative)                                                \
+	m_input->AddAxisBinding(name, group, InputBindings::Axis(axis, { positive }, { negative })); \
+	m_bindings.val = m_bindings.AddAxis(name)
 
-	m_zoomAxis = AXIS("BindZoomAxis", {}, SDLK_EQUALS, SDLK_MINUS);
+#define ACTION(val, name, b1, b2)                                                  \
+	m_input->AddActionBinding(name, group, InputBindings::Action({ b1 }, { b2 })); \
+	m_bindings.val = m_bindings.AddAction(name)
 
-	m_moveForward = AXIS("BindMoveForward", {}, SDLK_w, SDLK_s);
-	m_moveLeft = AXIS("BindMoveLeft", {}, SDLK_a, SDLK_d);
-	m_moveUp = AXIS("BindMoveUp", {}, SDLK_q, SDLK_e);
+	AXIS(zoomAxis, "BindZoomAxis", {}, SDLK_EQUALS, SDLK_MINUS);
+
+	AXIS(moveForward, "BindMoveForward", {}, SDLK_w, SDLK_s);
+	AXIS(moveLeft, "BindMoveLeft", {}, SDLK_a, SDLK_d);
+	AXIS(moveUp, "BindMoveUp", {}, SDLK_q, SDLK_e);
 
 	// Like Blender, but a bit different because we like that
 	// 1 - front (+ctrl back)
@@ -624,23 +625,28 @@ void ModelViewer::SetupAxes()
 	// 3 - left (+ctrl right)
 	// 2,4,6,8 incrementally rotate
 
-	m_viewFront = ACTION("BindViewFront", SDLK_KP_1, SDLK_m);
-	m_viewFront->onPress.connect([=]() {
+	ACTION(viewFront, "BindViewFront", SDLK_KP_1, SDLK_m);
+	m_bindings.viewFront->onPressed.connect([=]() {
 		this->ChangeCameraPreset(m_input->KeyModState() & KMOD_CTRL ? CameraPreset::Back : CameraPreset::Front);
 	});
 
-	m_viewLeft = ACTION("BindViewLeft", SDLK_KP_3, SDLK_PERIOD);
-	m_viewLeft->onPress.connect([=]() {
+	ACTION(viewLeft, "BindViewLeft", SDLK_KP_3, SDLK_PERIOD);
+	m_bindings.viewLeft->onPressed.connect([=]() {
 		this->ChangeCameraPreset(m_input->KeyModState() & KMOD_CTRL ? CameraPreset::Right : CameraPreset::Left);
 	});
 
-	m_viewTop = ACTION("BindViewTop", SDLK_KP_7, SDLK_u);
-	m_viewTop->onPress.connect([=]() {
+	ACTION(viewTop, "BindViewTop", SDLK_KP_7, SDLK_u);
+	m_bindings.viewTop->onPressed.connect([=]() {
 		this->ChangeCameraPreset(m_input->KeyModState() & KMOD_CTRL ? CameraPreset::Bottom : CameraPreset::Top);
 	});
 
-	m_rotateViewLeft = AXIS("BindRotateViewLeft", {}, SDLK_KP_6, SDLK_KP_4);
-	m_rotateViewUp = AXIS("BindRotateViewUp", {}, SDLK_KP_8, SDLK_KP_2);
+	AXIS(rotateViewLeft, "BindRotateViewLeft", {}, SDLK_KP_6, SDLK_KP_4);
+	AXIS(rotateViewUp, "BindRotateViewUp", {}, SDLK_KP_8, SDLK_KP_2);
+
+#undef AXIS
+#undef ACTION
+
+	m_input->PushInputFrame(&m_bindings);
 }
 
 void ModelViewer::HandleInput()
@@ -1165,14 +1171,14 @@ void ModelViewer::UpdateCamera(float deltaTime)
 		}
 
 		vector3f motion(
-			m_moveLeft->GetValue(),
-			m_moveUp->GetValue(),
-			m_moveForward->GetValue());
+			m_bindings.moveLeft->GetValue(),
+			m_bindings.moveUp->GetValue(),
+			m_bindings.moveForward->GetValue());
 
 		m_viewPos += m_viewRot * motion;
 	} else {
 		//zoom
-		m_zoom += m_zoomAxis->GetValue() * BASE_ZOOM_RATE;
+		m_zoom += m_bindings.zoomAxis->GetValue() * BASE_ZOOM_RATE;
 
 		//zoom with mouse wheel
 		int mouseWheel = m_input->GetMouseWheel();
@@ -1187,8 +1193,8 @@ void ModelViewer::UpdateCamera(float deltaTime)
 		if (m_input->IsKeyDown(SDLK_LEFT)) m_rotY += rotateRate;
 		if (m_input->IsKeyDown(SDLK_RIGHT)) m_rotY -= rotateRate;
 
-		m_rotX += rotateRate * m_rotateViewLeft->GetValue();
-		m_rotY += rotateRate * -m_rotateViewUp->GetValue();
+		m_rotX += rotateRate * m_bindings.rotateViewLeft->GetValue();
+		m_rotY += rotateRate * -m_bindings.rotateViewUp->GetValue();
 
 		//mouse rotate when right button held
 		if (rightMouseDown) {

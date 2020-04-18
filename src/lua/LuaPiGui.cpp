@@ -1044,6 +1044,7 @@ static int l_pigui_get_axisbinding(lua_State *l)
 
 	// otherwise actually check the joystick
 
+#if 0 // FIXME implement lua joystick binding
 	auto joysticks = Pi::input->GetJoysticksState();
 
 	for (auto js : joysticks) {
@@ -1056,6 +1057,7 @@ static int l_pigui_get_axisbinding(lua_State *l)
 		}
 		if (binding.compare("")) break;
 	}
+#endif
 
 	if (!binding.compare(""))
 		lua_pushnil(l);
@@ -1099,6 +1101,7 @@ static int l_pigui_get_keybinding(lua_State *l)
 		if (io.KeySuper) mod |= KMOD_GUI;
 	}
 
+#if 0 // FIXME: actually implement axis binding
 	// Check joysticks if no keys are held down
 	if (Pi::input->IsJoystickEnabled() && (key == 0 || (key >= SDLK_LCTRL && key <= SDLK_RGUI))) {
 		auto joysticks = Pi::input->GetJoysticksState();
@@ -1134,6 +1137,8 @@ static int l_pigui_get_keybinding(lua_State *l)
 		binding = "Key" + std::to_string(key);
 		if (mod > 0) binding += "Mod" + std::to_string(mod);
 	}
+#endif
+
 	if (!binding.compare(""))
 		lua_pushnil(l);
 	else

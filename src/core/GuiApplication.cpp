@@ -148,6 +148,8 @@ void GuiApplication::HandleEvents()
 
 		m_input->HandleSDLEvent(event);
 	}
+
+	m_input->DispatchEvents();
 }
 
 Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidden)
@@ -196,9 +198,9 @@ void GuiApplication::ShutdownRenderer()
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
-Input *GuiApplication::StartupInput(IniConfig *config)
+Input::Manager *GuiApplication::StartupInput(IniConfig *config)
 {
-	m_input.reset(new Input(config));
+	m_input.reset(new Input::Manager(config));
 
 	return m_input.get();
 }

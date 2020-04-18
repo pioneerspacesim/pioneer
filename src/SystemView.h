@@ -6,12 +6,13 @@
 
 #include "Color.h"
 #include "DeleteEmitter.h"
+#include "Frame.h"
+#include "Input.h"
 #include "UIView.h"
 #include "graphics/Drawables.h"
 #include "matrix4x4.h"
 #include "vector3.h"
 #include "enum_table.h"
-#include "Frame.h"
 
 class StarSystem;
 class SystemBody;
@@ -150,6 +151,15 @@ public:
 	void SetColor(ColorIndex color_index, Color* color_value) { svColor[color_index] = *color_value; }
 
 private:
+	struct InputBindings : public Input::InputFrame {
+		using InputFrame::InputFrame;
+		void RegisterBindings() override;
+
+		Axis *mapViewPitch;
+		Axis *mapViewYaw;
+		Axis *mapViewZoom;
+	} m_input;
+
 	bool m_rotateWithMouseButton = false;
 	bool m_rotateView = false;
 	bool m_zoomView = false;

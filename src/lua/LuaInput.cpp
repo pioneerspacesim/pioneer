@@ -4,11 +4,14 @@
 #include "LuaInput.h"
 #include "GameConfig.h"
 #include "Input.h"
-#include "KeyBindings.h"
+#include "InputBindings.h"
 #include "Lang.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "LuaWrappable.h"
 #include "Pi.h"
+#include "src/lua.h"
+
 /*
  * Interface: Input
  *
@@ -28,21 +31,12 @@ static void setup_binding_table(lua_State *l, const char *id, const char *type)
 	lua_setfield(l, -2, "type");
 }
 
-static void push_key_binding(lua_State *l, KeyBindings::KeyBinding *kb, const char *binding, const char *description)
-{
-	if (kb->Enabled()) {
-		lua_pushstring(l, kb->ToString().c_str());
-		lua_setfield(l, -2, binding);
-		lua_pushstring(l, kb->Description().c_str());
-		lua_setfield(l, -2, description);
-	}
-}
 /*
- * Function: GetBindings
+ * Function: GetBindingPages
  *
  * Get a table listing all the current key and axis bindings.
  *
- * > bindings = Input.GetBindings()
+ * > bindings = Input.GetBindingPages()
  *
  * Returns:
  *
@@ -53,24 +47,17 @@ static void push_key_binding(lua_State *l, KeyBindings::KeyBinding *kb, const ch
  * > bindings = {
  * >	{ -- a page
  * >		id = 'CONTROLS', -- the translation key of the page's label
+ * >		type = 'page',
  * >		{ -- a group
  * >			id = 'Miscellaneous', -- the translation key of the name of the group
+ * >			type = 'group',
  * >			{ -- a binding
  * >				type = 'action', -- the type of binding; can be 'action' or 'axis'
- * >				id = 'BindToggleLuaConsole', -- the internal ID of the binding; used as a translation key and passed to Input.SetKeyBinding
- * >				binding1 = 'Key96', -- the first bound key or axis (value stored in config file)
- * >				bindingDescription1 = '`', -- display text for the first bound key or axis
- * >				binding2 = 'Key96', -- the second bound key or axis (value stored in config file)
- * >				bindingDescription2 = '`', -- display text for the second bound key or axis
+ * >				id = 'BindToggleLuaConsole' -- the internal ID of the binding; used as a translation key and passed to Input.SetKeyBinding
  * >			},
  * >			{ -- an axis binding
  * >				type = 'axis',
- * >				id = 'BindAxisPitch',
- * >				axis = 'Joy[UUID]/Axis3/DZ0.0/E1.0', -- The joystick binding (value stored in the config file)
- * >				positive = 'Key96', -- the key bound to the positive half of the axis
- * >				positiveDescription = '`', -- as normal for key bindings
- * >				negative = 'Key96', -- the key bound to the negative half of the axis
- * >				negativeDescription = '`', -- as normal for key bindings
+ * >				id = 'BindAxisPitch'
  * >			}
  * >			-- ... more bindings
  * >		},
@@ -87,12 +74,12 @@ static void push_key_binding(lua_State *l, KeyBindings::KeyBinding *kb, const ch
  *
  *   permanent
  */
-static int l_input_get_bindings(lua_State *l)
+static int l_input_get_binding_pages(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
 	lua_newtable(l); // [-1] bindings
-	using namespace KeyBindings;
+	using namespace InputBindings;
 
 	int page_idx = 1;
 	for (auto page : Pi::input->GetBindingPages()) {
@@ -108,26 +95,9 @@ static int l_input_get_bindings(lua_State *l)
 			for (auto type : group.second.bindings) {
 				lua_pushunsigned(l, binding_idx++);
 				if (type.second == Input::BindingGroup::EntryType::ENTRY_ACTION) {
-					ActionBinding *ab = Pi::input->GetActionBinding(type.first);
-					if (!ab) continue; // Should never happen, but include it here for future proofing.
 					setup_binding_table(l, type.first.c_str(), "action");
-
-					push_key_binding(l, &ab->binding1, "binding1", "bindingDescription1");
-					push_key_binding(l, &ab->binding2, "binding2", "bindingDescription2");
 				} else {
-					AxisBinding *ab = Pi::input->GetAxisBinding(type.first);
-					if (!ab) continue; // Should never happen, but include it here for future proofing.
 					setup_binding_table(l, type.first.c_str(), "axis");
-
-					if (ab->axis.Enabled()) {
-						lua_pushstring(l, ab->axis.ToString().c_str());
-						lua_setfield(l, -2, "axis");
-						lua_pushstring(l, ab->axis.Description().c_str());
-						lua_setfield(l, -2, "axisDescription");
-					}
-
-					push_key_binding(l, &ab->positive, "positive", "positiveDescription");
-					push_key_binding(l, &ab->negative, "negative", "negativeDescription");
 				}
 
 				// [-3] group, [-2] idx, [-1] binding
@@ -138,7 +108,7 @@ static int l_input_get_bindings(lua_State *l)
 			lua_settable(l, -3);
 		}
 
-		// [-3] bindings, [-2] idx, [-1] group
+		// [-3] bindings, [-2] idx, [-1] page
 		lua_settable(l, -3);
 	}
 
@@ -148,16 +118,12 @@ static int l_input_get_bindings(lua_State *l)
 
 static int l_input_enable_bindings(lua_State *l)
 {
-	KeyBindings::EnableBindings();
+	bool enable = lua_gettop(l) > 0 ? lua_toboolean(l, 1) : true;
+	Pi::input->EnableBindings(enable);
 	return 0;
 }
 
-static int l_input_disable_bindings(lua_State *l)
-{
-	KeyBindings::DisableBindings();
-	return 0;
-}
-
+#if 0
 static int l_input_set_action_binding(lua_State *l)
 {
 	const char *binding_id = luaL_checkstring(l, 1);
@@ -217,10 +183,11 @@ static int l_input_set_axis_binding(lua_State *l)
 	Pi::config->Save();
 	return 0;
 }
+#endif
 
 static int l_input_get_mouse_y_inverted(lua_State *l)
 {
-	lua_pushboolean(l, Pi::config->Int("InvertMouseY") != 0);
+	lua_pushboolean(l, Pi::input->IsMouseYInvert());
 	return 1;
 }
 
@@ -237,7 +204,7 @@ static int l_input_set_mouse_y_inverted(lua_State *l)
 
 static int l_input_get_joystick_enabled(lua_State *l)
 {
-	lua_pushboolean(l, Pi::config->Int("EnableJoystick") != 0);
+	lua_pushboolean(l, Pi::input->IsJoystickEnabled());
 	return 1;
 }
 
@@ -252,6 +219,14 @@ static int l_input_set_joystick_enabled(lua_State *l)
 	return 0;
 }
 
+static void pi_lua_generic_push(lua_State *l, InputBindings::Action *action)
+{
+}
+
+static void pi_lua_generic_push(lua_State *l, InputBindings::Axis *axis)
+{
+}
+
 void LuaInput::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -260,10 +235,13 @@ void LuaInput::Register()
 
 	static const luaL_Reg l_methods[] = {
 		{ "EnableBindings", l_input_enable_bindings },
-		{ "DisableBindings", l_input_disable_bindings },
-		{ "GetBindings", l_input_get_bindings },
-		{ "SetActionBinding", l_input_set_action_binding },
-		{ "SetAxisBinding", l_input_set_axis_binding },
+		{ "GetBindingPages", l_input_get_binding_pages },
+#if 0 // FIXME: actually implement these!
+		{ "GetActionBinding", l_input_get_action_binding },
+		{ "AddActionBinding", l_input_add_action_binding },
+		{ "GetAxisBinding", l_input_get_axis_binding },
+		{ "AddAxisBinding", l_input_add_axis_binding },
+#endif
 		{ "GetMouseYInverted", l_input_get_mouse_y_inverted },
 		{ "SetMouseYInverted", l_input_set_mouse_y_inverted },
 		{ "GetJoystickEnabled", l_input_get_joystick_enabled },

@@ -3,7 +3,6 @@
 
 #include "GameConfig.h"
 #include "FileSystem.h"
-#include "KeyBindings.h"
 
 GameConfig::GameConfig(const map_string &override_)
 {

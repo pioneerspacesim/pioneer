@@ -30,11 +30,6 @@ namespace Gui {
 	class TexturedQuad;
 }
 
-namespace KeyBindings {
-	struct ActionBinding;
-	struct AxisBinding;
-} // namespace KeyBindings
-
 namespace UI {
 	class Widget;
 	class Single;
@@ -53,7 +48,6 @@ public:
 	void Draw3D() override;
 	void Draw() override;
 	void SaveToJson(Json &jsonObj) override;
-	void HandleSDLEvent(SDL_Event &event) override;
 
 	RefCountedPtr<CameraContext> GetCameraContext() const { return m_cameraContext; }
 
@@ -143,13 +137,14 @@ private:
 	Graphics::Drawables::Line3D m_edgeMarker;
 	Graphics::Drawables::Lines m_indicator;
 
-	static struct InputBinding {
-		typedef KeyBindings::ActionBinding ActionBinding;
-		typedef KeyBindings::AxisBinding AxisBinding;
+	struct InputBinding : public Input::InputFrame {
+		using InputFrame::InputFrame;
 
-		ActionBinding *toggleHudMode;
-		ActionBinding *increaseTimeAcceleration;
-		ActionBinding *decreaseTimeAcceleration;
+		Action *toggleHudMode;
+		Action *increaseTimeAcceleration;
+		Action *decreaseTimeAcceleration;
+
+		void RegisterBindings() override;
 	} InputBindings;
 };
 
