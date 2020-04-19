@@ -105,6 +105,22 @@ local function outstanding_fines()
 end
 
 
+local function wanted_persons()
+	for i, p in ipairs(Character.persistent) do
+		ui.dummy(widgetSizes.dummySpaceMedium)
+		ui.withFont(pionillium.large.name, pionillium.large.size,
+			function()
+				ui.text(p.name)
+				if Game.player:GetDockedWith().path == p.lastSavedSystemPath then
+					ui.text("is a registered citizen of this station")
+				else
+					ui.text("is not a registered citizen of this station")
+				end
+			end)
+	end
+end
+
+
 local function drawPolice()
 
 	local intro_txt = string.interp(l.THIS_IS_FACTION_POLICE,
@@ -126,7 +142,11 @@ local function drawPolice()
 					ui.dummy(widgetSizes.dummySpaceMedium)
 
 					-- 2 If old payed fines, show grayd out list
-					crime_record() end)
+					crime_record()
+
+					-- 3 List wanted persons
+					wanted_persons() end)
+
 			ui.sameLine()
 			ui.child("PoliceOfficer", Vector2(0, 0), {"AlwaysUseWindowPadding", "NoScrollbar"},
 				function ()
