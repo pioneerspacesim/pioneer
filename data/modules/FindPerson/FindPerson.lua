@@ -141,6 +141,8 @@ local onChat = function (form, ref, option)
 			halfdone    = false,
 		}
 		table.insert(missions, Mission.New(mission))
+		mission.wanted:Save() -- make the character available for other scripts
+		mission.wanted.lastSavedSystemPath = ad.location
 		form:SetMessage(l["ACCEPTED_" .. ad.flavour.id])
 		return
 	end
@@ -430,6 +432,7 @@ local onShipDocked = function (player, station)
 				end
 				Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
 					Character.persistent.player.reputation, Character.persistent.player.killcount)
+				mission.wanted:UnSave() -- remove character from the persistent characters table
 				mission:Remove()
 				missions[ref] = nil
 			end
