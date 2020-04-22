@@ -550,7 +550,7 @@ local function missionViewHandler(mission)
 		ui.setCursorPos(ui.getCursorPos() - style.sizes.buttonFrameAlign)
 		if ui.coloredSelectedIconButton(ui.theme.icons.display_navtarget, style.sizes.icon, false, style.sizes.buttonPadding, colors.buttonBlue, colors.white, 'Set navigation target') then
 			if mission.location:isa("Body") and mission.location:IsDynamic() then
-				Game.player:SetNavTarget(target)
+				Game.player:SetNavTarget(mission.location)
 			elseif Game.system and mission.location:IsSameSystem(Game.system.path) then
 				if mission.location.bodyIndex then
 					Game.player:SetNavTarget(Space.GetBody(mission.location.bodyIndex))

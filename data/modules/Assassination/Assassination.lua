@@ -122,25 +122,37 @@ local onChat = function (form, ref, option)
 
 	elseif option == 3 then
 		local backstation = Game.player:GetDockedWith().path
+		local sys = ad.location:GetStarSystem()
 
 		form:RemoveAdvertOnClose()
 
 		ads[ref] = nil
 
 		local mission = {
-			type		= "Assassination",
+			-- these variables are hardcoded and need to be filled
+			type	    = "Assassination",
+			description = ad.desc,
+			client      = ad.client,
+			location    = ad.location,
+			due         = ad.due,
+			reward      = ad.reward,
+			icon		= "assassination",
+			status      = "ACTIVE",
+
+			-- these variables are script specific
 			backstation	= backstation,
-			client		= ad.client,
 			danger		= ad.danger,
-			due		= ad.due,
 			flavour		= ad.flavour,
-			location	= ad.location,
-			reward		= ad.reward,
 			shipid		= ad.shipid,
 			shipname	= ad.shipname,
 			shipregid	= ad.shipregid,
-			status		= 'ACTIVE',
 			target		= ad.target,
+			introtext = string.interp(flavours[ad.flavour].introtext, {
+				name	= ad.client.name,
+				cash	= Format.Money(ad.reward, false),
+				target	= ad.target,
+				system	= sys.name,
+			})
 		}
 
 		table.insert(missions,Mission.New(mission))
@@ -575,6 +587,136 @@ local onClick = function (mission)
 		})
 end
 
+-- UI section
+local ui = require 'pigui'
+local pionillium = ui.fonts.pionillium
+local orbiteer = ui.fonts.orbiteer
+local colors = ui.theme.colors
+
+local InfoFace = require 'ui.PiguiFace'
+
+local style = {
+	fonts = {
+		fieldLabelFont = orbiteer.medlarge,
+		fieldValueFont = pionillium.medlarge,
+	},
+	sizes = ui.rescaleUI({
+		missionDescWin = Vector2(0,0),
+		maxFieldLabelWidth = 0,
+		icon = Vector2(0,0),
+		face = Vector2(280, 320),
+		faceWindowPadding = Vector2(12,12),
+		faceItemSpacing = Vector2(9, 4),
+		faceInfoPadding = Vector2(12,12),
+		buttonPadding = 4,
+		buttonFrameAlign = Vector2(0, 4), -- Equal to buttonPadding but created as vector for convenience
+	}, Vector2(1600, 900))
+}
+
+local function missionViewHandler(mission)
+	style.sizes.missionDescWin = ui.getContentRegion() - style.sizes.face
+	style.sizes.maxFieldLabelWidth = style.sizes.missionDescWin.x / 3
+	style.sizes.icon(style.fonts.fieldValueFont.size - style.sizes.buttonPadding, style.fonts.fieldValueFont.size - style.sizes.buttonPadding)
+	ui.withFont(style.fonts.fieldValueFont.name, style.fonts.fieldValueFont.size, function()
+		ui.columns(2, "AssasinationMissionDetailsColumns", false)
+		ui.setColumnWidth(0, style.sizes.missionDescWin.x)
+		ui.setColumnWidth(1, style.sizes.face.x)
+		ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
+			ui.text(string.upper(mission:GetTypeDescription()))
+		end)
+
+		ui.text('')
+		ui.pushTextWrapPos(style.sizes.missionDescWin.x*0.9)
+
+		ui.withFont(pionillium.large.name, pionillium.large.size, function()
+			ui.textWrapped(mission.introtext)
+		end)
+
+		ui.text('')
+		ui.withFont(style.fonts.fieldLabelFont.name, style.fonts.fieldLabelFont.size, function()
+			ui.text(l.TARGET_NAME)
+		end)
+		ui.sameLine(style.sizes.maxFieldLabelWidth)
+		ui.textWrapped(mission.target)
+
+		ui.withFont(style.fonts.fieldLabelFont.name, style.fonts.fieldLabelFont.size, function()
+			ui.text(l.SPACEPORT)
+		end)
+		ui.sameLine(style.sizes.maxFieldLabelWidth)
+		ui.textWrapped(string.format('%s, %s', mission.location:GetSystemBody().name, mission.location:GetStarSystem().name))
+		ui.dummy(Vector2(0,0))
+		ui.sameLine(style.sizes.maxFieldLabelWidth)
+		--ui.setCursorPos(ui.getCursorPos() - style.sizes.buttonFrameAlign)
+		if ui.coloredSelectedIconButton(ui.theme.icons.display_combattarget, style.sizes.icon, false, style.sizes.buttonPadding, colors.buttonBlue, colors.white, l.SET_AS_TARGET) then
+			if mission.location:isa("Body") and mission.location:IsDynamic() then
+				Game.player:SetNavTarget(mission.location)
+			elseif Game.system and mission.location:IsSameSystem(Game.system.path) then
+				if mission.location.bodyIndex then
+					Game.player:SetNavTarget(Space.GetBody(mission.location.bodyIndex))
+				end
+			elseif not Game.InHyperspace() then
+				Game.player:SetHyperspaceTarget(mission.location:GetStarSystem().path)
+			end
+			ui.playBoinkNoise()
+		end
+
+		ui.sameLine()
+		if ui.coloredSelectedIconButton(ui.theme.icons.display_navtarget, style.sizes.icon, false, style.sizes.buttonPadding, colors.buttonBlue, colors.white, l.SET_RETURN_ROUTE) then
+			if mission.backstation:isa("Body") and mission.backstation:IsDynamic() then
+				Game.player:SetNavTarget(mission.backstation)
+			elseif Game.system and mission.backstation:IsSameSystem(Game.system.path) then
+				if mission.backstation.bodyIndex then
+					Game.player:SetNavTarget(Space.GetBody(mission.backstation.bodyIndex))
+				end
+			elseif not Game.InHyperspace() then
+				Game.player:SetHyperspaceTarget(mission.backstation:GetStarSystem().path)
+			end
+			ui.playBoinkNoise()
+		end
+
+		ui.withFont(style.fonts.fieldLabelFont.name, style.fonts.fieldLabelFont.size, function()
+			ui.text(l.DISTANCE)
+		end)
+		ui.sameLine(style.sizes.maxFieldLabelWidth)
+		local dist = Game.system and string.format('%.2f %s', Game.system:DistanceTo(mission.location) or "???", l.LY)
+		ui.textWrapped(dist)
+
+		ui.withFont(style.fonts.fieldLabelFont.name, style.fonts.fieldLabelFont.size, function()
+			ui.text(l.SHIP)
+		end)
+		ui.sameLine(style.sizes.maxFieldLabelWidth)
+		ui.textWrapped(mission.shipname)
+
+		ui.withFont(style.fonts.fieldLabelFont.name, style.fonts.fieldLabelFont.size, function()
+			ui.text(l.SHIP_ID)
+		end)
+		ui.sameLine(style.sizes.maxFieldLabelWidth)
+		ui.textWrapped(mission.shipregid)
+
+		ui.withFont(style.fonts.fieldLabelFont.name, style.fonts.fieldLabelFont.size, function()
+			ui.text(l.TARGET_WILL_BE_LEAVING_SPACEPORT_AT)
+		end)
+		ui.dummy(Vector2(0,0))
+		ui.sameLine(style.sizes.maxFieldLabelWidth)
+		ui.textWrapped(Format.Date(mission.due))
+
+		ui.nextColumn()
+		if not mission.face then
+			mission.face = InfoFace.New(mission.client, {
+				windowPadding = style.sizes.faceWindowPadding,
+				itemSpacing = style.sizes.faceItemSpacing,
+				charInfoPadding = style.sizes.faceInfoPadding,
+				size = style.sizes.face,
+				nameFont = orbiteer.large,
+				titleFont = orbiteer.medlarge,
+			})
+		end
+		mission.face:render()
+		ui.columns(1, "", false)
+		ui.popTextWrapPos()
+	end)
+end
+
 local serialize = function ()
 	return { ads = ads, missions = missions }
 end
@@ -605,5 +747,6 @@ Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
 Mission.RegisterType('Assassination',l.ASSASSINATION,onClick)
+Mission.RegisterViewHandler('missions', 'Assassination', missionViewHandler)
 
 Serializer:Register("Assassination", serialize, unserialize)
