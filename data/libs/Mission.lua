@@ -24,6 +24,9 @@ local l = Lang.GetResource("ui-core")
 -- Registered mission type data go here
 local MissionRegister = {}
 
+-- Registered mission type data go here
+local ViewHandlerRegister = {}
+
 local Mission
 Mission = {
 --
@@ -122,6 +125,27 @@ Mission = {
 --
 -- Group: Methods
 --
+
+	RegisterViewHandler = function(view, missionType, handler)
+		--ViewHandlerRegister
+		if not view or (type(view)~='string') then
+			error('view: String expected')
+		end
+		if not missionType or (type(missionType)~='string') then
+			error('missionType: String expected')
+		end
+		if not ViewHandlerRegister[view] then
+			ViewHandlerRegister[view] = {}
+		end
+		if ViewHandlerRegister[view][missionType] then -- We can't have duplicates
+			--error(string.format('Mission type "%s" already registered for view "%s"', view, missionType))
+		end
+
+		if not (type(handler) == 'function') then
+			error('handler: function expected')
+		end
+		ViewHandlerRegister[view][missionType] = handler
+	end,
 
 --
 -- Method: RegisterType
@@ -229,8 +253,8 @@ Mission = {
 		if(test and (test.class == 'Mission')) then
 			error("Won't use another mission as a template.")
 		end
-		if not (type(template.type) == "string") then template.type = nil end
-		if not template.client then template.client = Character.New() end
+		if not (type(template.type) == "string") then error("Mission.New: Type parameter required") end
+		if not template.client then error("Mission.New: Client parameter required") end
 		if not (
 			type(template.client) == "table" and
 			getmetatable(template.client) and
@@ -248,9 +272,12 @@ Mission = {
 			error(('Mission.New: type "{typeid}" has not been registered with Mission.RegisterType()')
 					:interp({typeid=newMission.type}))
 		end
-		if not (type(newMission.due) == "number") then newMission.due = nil end
-		if not (type(newMission.reward) == "number") then newMission.reward = nil end
-		if not (type(newMission.location) == "userdata") then newMission.location = Game.system.path end
+		if not (type(newMission.due) == "number") then error("Mission.New: 'due' parameter required and must be type 'number'") end
+		if not (type(newMission.reward) == "number") then error("Mission.New: 'reward' parameter required and must be type 'number'") end
+		if not (type(newMission.location) == "userdata") then error("Mission.New: 'location' parameter required and must be type 'SystemPath'") end
+		if not (type(newMission.description) == "string") then error("Mission.New: 'description' parameter required and must be type 'string'") end
+		if not (type(newMission.icon) == "string") then error("Mission.New: 'icon' parameter required and must be type 'string'") end
+		if not (type(newMission.status) == "string") then error("Mission.New: 'status' parameter required and must be type 'string'") end
 		table.insert(Character.persistent.player.missions,newMission)
 		return newMission;
 	end,
@@ -310,6 +337,41 @@ Mission = {
 				or function (ref) return Engine.ui:Label(l.NOT_FOUND) end -- XXX don't translate things in libs
 	end,
 
+	--
+	-- Method: GetViewHandler
+	--
+	-- Internal method to retrieve a handler function for the mission list button.
+	-- Normally called from InfoView/Missions, but could be useful elsewhere.
+	--
+	-- > handler = ourMission:GetViewHandler(view)
+	--
+	--
+	-- Returns:
+	--
+	--   handler - a function to be connected to the missions form 'Active'
+	--             button. handler will be passed the mission as its sole argument
+	--             and is expected to return an [Engine.UI] object, or nil.
+	--
+	-- Availability:
+	--
+	-- alpha 29
+	--
+	-- Status:
+	--
+	-- experimental
+	--
+	GetViewHandler = function (self, view)
+		local handler = (ViewHandlerRegister[view] and (
+			ViewHandlerRegister[view][self and self.type or 'default']
+			or ViewHandlerRegister[view]['default']
+		))
+
+		if not handler then
+			error(string.format('No handler found for mission type "%s", and no default handler exists for view "%s"', self.type, view))
+		end
+
+		return handler
+	end,
 --
 -- Method: GetTypeDescription
 --

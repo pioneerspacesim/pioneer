@@ -57,6 +57,14 @@ function PiGuiTabView.resize(self)
 end
 
 function PiGuiTabView.registerView(self, view)
+    for i, v in ipairs(self.tabs) do
+        if v.id == view.id then
+            self.tabs[i] = view
+            self:resize()
+            return
+        end
+    end
+
     table.insert(self.tabs, view)
     self.viewCount = self.viewCount + 1
     self:resize()

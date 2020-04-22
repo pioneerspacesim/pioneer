@@ -608,6 +608,8 @@ ui.setColumnOffset = pigui.SetColumnOffset
 ui.getColumnWidth = pigui.GetColumnWidth
 ui.setColumnWidth = pigui.SetColumnWidth
 ui.getScrollY = pigui.GetScrollY
+ui.getScrollMaxY = pigui.GetScrollMaxY
+ui.setScrollY = pigui.SetScrollY
 ui.keys = pigui.keys
 ui.systemInfoViewNextPage = pigui.SystemInfoViewNextPage -- deprecated
 ui.isKeyReleased = pigui.IsKeyReleased
@@ -615,12 +617,16 @@ ui.playSfx = pigui.PlaySfx
 ui.isItemHovered = pigui.IsItemHovered
 ui.isItemActive = pigui.IsItemActive
 ui.isItemClicked = pigui.IsItemClicked
+ui.getItemRectMin = pigui.GetItemRectMin
+ui.getItemRectMax = pigui.GetItemRectMax
 ui.ctrlHeld = function() return pigui.key_ctrl end
 ui.altHeld = function() return pigui.key_alt end
 ui.shiftHeld = function() return pigui.key_shift end
 ui.noModifierHeld = function() return pigui.key_none end
 ui.vSliderInt = pigui.VSliderInt
 ui.sliderInt = pigui.SliderInt
+ui.vSliderFloat = pigui.VSliderFloat
+ui.sliderFloat = pigui.SliderFloat
 ui.pushItemWidth = pigui.PushItemWidth
 ui.popItemWidth = pigui.PopItemWidth
 ui.sliderFloat = pigui.SliderFloat
@@ -814,6 +820,11 @@ ui.coloredSelectedButton = function(label, thesize, is_selected, bg_color, toolt
 	return res
 end
 ui.coloredSelectedIconButton = function(icon, thesize, is_selected, frame_padding, bg_color, fg_color, tooltip, img_size)
+	local uv0,uv1 = get_icon_tex_coords(icon)
+	return ui.coloredSelectedImgIconButton({texture = ui.icons_texture, uv0 = uv0, uv1 = uv1}, thesize, is_selected, frame_padding, bg_color, fg_color, tooltip, img_size)
+end
+
+ui.coloredSelectedImgIconButton = function(iconTextureData, thesize, is_selected, frame_padding, bg_color, fg_color, tooltip, img_size)
 	if is_selected then
 		pigui.PushStyleColor("Button", bg_color)
 		pigui.PushStyleColor("ButtonHovered", bg_color:tint(0.1))
@@ -823,9 +834,8 @@ ui.coloredSelectedIconButton = function(icon, thesize, is_selected, frame_paddin
 		pigui.PushStyleColor("ButtonHovered", bg_color:shade(0.4))
 		pigui.PushStyleColor("ButtonActive", bg_color:shade(0.2))
 	end
-	local uv0,uv1 = get_icon_tex_coords(icon)
 	pigui.PushID(tooltip)
-	local res = pigui.ButtonImageSized(ui.icons_texture, thesize, img_size or Vector2(0,0), uv0, uv1, frame_padding, ui.theme.colors.lightBlueBackground, fg_color)
+	local res = pigui.ButtonImageSized(iconTextureData.texture, thesize, img_size or Vector2(0,0), iconTextureData.uv0, iconTextureData.uv1, frame_padding, ui.theme.colors.lightBlueBackground, fg_color)
 	pigui.PopID()
 	pigui.PopStyleColor(3)
 	if pigui.IsItemHovered() then

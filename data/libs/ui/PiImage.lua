@@ -6,6 +6,7 @@ local ui = require 'pigui'
 local colors = ui.theme.colors
 
 local PiImage = {}
+local vZero = Vector2(0.0, 0.0)
 
 function PiImage.New (filename)
 
@@ -26,7 +27,7 @@ function PiImage.New (filename)
 		elseif (size.x == 0) then size.x = size.y * self.texture.xy
 		end
 
-		ui.image(self.texture.id, size, Vector2(0.0, 0.0), self.texture.uv, colors.white)
+		ui.image(self.texture.id, size, vZero, self.texture.uv, colors.white)
 	end
 
 	setmetatable(piImage, {

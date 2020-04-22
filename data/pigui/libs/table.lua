@@ -20,6 +20,10 @@ local defaultFuncs = {
 
     end,
 
+    itemFrame = function(self, item, min, max)
+
+    end,
+
     -- sort items in the market table
     sortingFunction = function(e1,e2)
         return e1 < e2
@@ -36,6 +40,7 @@ function TableWidget.New(id, title, config)
 
     local self
     self = {
+        scroll = 0,
         id = id,
         popup = config.popup or ModalWindow.New('popupMsg' .. id, function()
             ui.text(self.popup.msg)
@@ -51,7 +56,8 @@ function TableWidget.New(id, title, config)
         itemTypes = config.itemTypes or {},
         columnCount = config.columnCount or 0,
         style = {
-            windowPadding = config.windowPadding or defaultSizes.windowPadding,
+            flags = config.flags or ui.WindowFlags {"AlwaysUseWindowPadding"},
+            padding = config.padding or defaultSizes.padding,
             itemSpacing = config.itemSpacing or defaultSizes.itemSpacing,
             size = config.size or Vector2(ui.screenWidth / 2,0),
             titleFont = config.titleFont or ui.fonts.orbiteer.xlarge,
@@ -63,6 +69,7 @@ function TableWidget.New(id, title, config)
             canDisplayItem = config.canDisplayItem or defaultFuncs.canDisplayItem,
             renderItem = config.renderItem or defaultFuncs.renderItem,
             onMouseOverItem = config.onMouseOverItem or defaultFuncs.onMouseOverItem,
+            itemFrame = config.itemFrame or defaultFuncs.itemFrame,
             onClickItem = config.onClickItem or defaultFuncs.onClickItem,
             sortingFunction = config.sortingFunction or defaultFuncs.sortingFunction,
         },
@@ -77,8 +84,8 @@ function TableWidget.New(id, title, config)
 end
 
 function TableWidget:render()
-    ui.withStyleVars({WindowPadding = self.style.windowPadding, ItemSpacing = self.style.itemSpacing}, function()
-        ui.child("Table##" .. self.id, self.style.size, {"AlwaysUseWindowPadding"}, function()
+    ui.withStyleVars({WindowPadding = self.style.padding, ItemSpacing = self.style.itemSpacing}, function()
+        ui.child("Table##" .. self.id, self.style.size, self.style.flags, function()
             if self.scrollReset then
                 ui.setScrollHere()
                 self.scrollReset = false
@@ -108,7 +115,7 @@ function TableWidget:render()
 
             local startPos
             local endPos
-            local selOffset = self.style.itemSpacing.y / 2
+            local selOffset = self.style.itemSpacing / 2
 
             self.highlightStart = nil
             self.highlightEnd = nil
@@ -124,6 +131,14 @@ function TableWidget:render()
 
                 endPos.y = ui.getCursorScreenPos().y
 
+                -- center the selection
+                startPos.x = startPos.x - selOffset.x * 2
+                endPos.x = endPos.x - selOffset.x * 2.5
+                endPos.y = endPos.y - selOffset.y
+                --endPos.y = endPos.y - selOffset -- highlightEnd.y points to the beginning of the new row so to center the selection we also move it a bit higher
+
+                if self.funcs.itemFrame ~= nil then self.funcs.itemFrame(self, item, startPos, endPos) end
+
                 if ui.isWindowHovered() and ui.isMouseHoveringRect(startPos, endPos, false) then
                     self.funcs.onMouseOverItem(self, item, key)
                     if ui.isMouseClicked(0) then
@@ -132,14 +147,10 @@ function TableWidget:render()
 
                     self.highlightStart = startPos
                     self.highlightEnd = endPos
-
-                    -- center the selection
-                    self.highlightStart.x = self.highlightStart.x - 4
-                    self.highlightStart.y = self.highlightStart.y - selOffset
-                    self.highlightEnd.y = self.highlightEnd.y - selOffset -- highlightEnd.y points to the beginning of the new row so to center the selection we also move it a bit higher
                 end
             end
 
+            self.scroll = (ui.getScrollY() / ui.getScrollMaxY())
             ui.columns(1, "", false)
         end)
     end)
