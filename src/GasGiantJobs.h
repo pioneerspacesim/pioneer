@@ -77,9 +77,6 @@ namespace GasGiantJobs {
 			STextureFaceData(Color *c_, Sint32 uvDims_) :
 				colors(c_),
 				uvDims(uvDims_) {}
-			STextureFaceData(const STextureFaceData &r) :
-				colors(r.colors),
-				uvDims(r.uvDims) {}
 			Color *colors;
 			Sint32 uvDims;
 		};
@@ -193,9 +190,6 @@ namespace GasGiantJobs {
 			SGPUGenData(Graphics::Texture *t_, Sint32 uvDims_) :
 				texture(t_),
 				uvDims(uvDims_) {}
-			SGPUGenData(const SGPUGenData &r) :
-				texture(r.texture),
-				uvDims(r.uvDims) {}
 			RefCountedPtr<Graphics::Texture> texture;
 			Sint32 uvDims;
 		};
@@ -235,6 +229,6 @@ namespace GasGiantJobs {
 		std::unique_ptr<SGPUGenRequest> mData;
 		SGPUGenResult *mpResults;
 	};
-}; // namespace GasGiantJobs
+} // namespace GasGiantJobs
 
 #endif /* _GASGIANTJOBS_H */

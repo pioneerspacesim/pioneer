@@ -77,11 +77,11 @@ public:
 	typedef const std::vector<Body *> BodyNearList;
 	BodyNearList GetBodiesMaybeNear(const Body *b, double dist)
 	{
-		return std::move(m_bodyNearFinder.GetBodiesMaybeNear(b, dist));
+		return m_bodyNearFinder.GetBodiesMaybeNear(b, dist);
 	}
 	BodyNearList GetBodiesMaybeNear(const vector3d &pos, double dist)
 	{
-		return std::move(m_bodyNearFinder.GetBodiesMaybeNear(pos, dist));
+		return m_bodyNearFinder.GetBodiesMaybeNear(pos, dist);
 	}
 
 	void DebugDumpFrames(bool details);

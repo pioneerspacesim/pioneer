@@ -27,12 +27,12 @@ namespace PiGui {
 
 		const std::string &ttfname() const { return m_ttfname; }
 
-		const float sizefactor() const { return m_sizefactor; }
+		float sizefactor() const { return m_sizefactor; }
 
 		//std::unordered_map<unsigned short, unsigned short> &invalid_glyphs() const { return m_invalid_glyphs; }
 		const std::vector<UsedRange> &used_ranges() const { return m_used_ranges; }
 
-		const bool isValidGlyph(unsigned short glyph) const;
+		bool isValidGlyph(unsigned short glyph) const;
 		void addGlyph(unsigned short glyph);
 		void sortUsedRanges() const;
 
@@ -55,9 +55,6 @@ namespace PiGui {
 		PiFont(const std::string &name, const std::vector<PiFace> &faces) :
 			m_name(name),
 			m_faces(faces) {}
-		PiFont(const PiFont &other) :
-			m_name(other.name()),
-			m_faces(other.faces()) {}
 		PiFont() :
 			m_name("unknown") {}
 

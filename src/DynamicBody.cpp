@@ -45,14 +45,14 @@ DynamicBody::DynamicBody() :
 
 DynamicBody::DynamicBody(const Json &jsonObj, Space *space) :
 	ModelBody(jsonObj, space),
-	m_propulsion(nullptr),
-	m_fixedGuns(nullptr),
 	m_dragCoeff(DEFAULT_DRAG_COEFF),
+	m_externalForce(vector3d(0.0)),
 	m_atmosForce(vector3d(0.0)),
 	m_gravityForce(vector3d(0.0)),
-	m_externalForce(vector3d(0.0)),
 	m_lastForce(vector3d(0.0)),
-	m_lastTorque(vector3d(0.0))
+	m_lastTorque(vector3d(0.0)),
+	m_propulsion(nullptr),
+	m_fixedGuns(nullptr)
 {
 	m_flags = Body::FLAG_CAN_MOVE_FRAME;
 	m_oldPos = GetPosition();

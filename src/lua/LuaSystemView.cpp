@@ -55,7 +55,7 @@ bool too_near(const vector3d &a, const vector3d &b, const vector2d &gain)
 		// the z coordinates in the camera space. I plan to implement this later
 		// at the moment I just picked up a number that works well (6.0)
 		&& std::abs(a.z - b.z) * Graphics::GetScreenWidth() * 6.0 < gain.x;
-};
+}
 
 /*
  * Method: GetProjectedGrouped

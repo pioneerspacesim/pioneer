@@ -1235,4 +1235,4 @@ namespace Profiler {
 	void reset() {}
 #endif
 
-}; // namespace Profiler
+} // namespace Profiler

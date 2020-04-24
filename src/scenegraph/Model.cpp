@@ -45,6 +45,7 @@ namespace SceneGraph {
 	}
 
 	Model::Model(const Model &model) :
+		DeleteEmitter(),
 		m_boundingRadius(model.m_boundingRadius),
 		m_materials(model.m_materials),
 		m_patterns(model.m_patterns),
@@ -348,13 +349,13 @@ namespace SceneGraph {
 		return m_materials.at(Clamp(i, 0, int(m_materials.size()) - 1)).second;
 	}
 
-	MatrixTransform *const Model::GetTagByIndex(const unsigned int i) const
+	MatrixTransform *Model::GetTagByIndex(const unsigned int i) const
 	{
 		if (m_tags.empty() || i > m_tags.size() - 1) return 0;
 		return m_tags.at(i);
 	}
 
-	MatrixTransform *const Model::FindTagByName(const std::string &name) const
+	MatrixTransform *Model::FindTagByName(const std::string &name) const
 	{
 		for (TagContainer::const_iterator it = m_tags.begin();
 			 it != m_tags.end();

@@ -30,7 +30,7 @@
 namespace {
 	static const int ATLAS_SIZE = 1024;
 	static double CACHE_EVICTION_TIME = 0.25;
-}; // namespace
+} // namespace
 
 namespace Text {
 

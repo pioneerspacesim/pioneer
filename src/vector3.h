@@ -19,8 +19,7 @@ public:
 
 	// Constructor definitions are outside class declaration to enforce that
 	// only float and double versions are possible.
-	vector3();
-	vector3(const vector3<T> &v);
+	vector3() = default;
 	vector3(const vector2f &v, T t);
 	explicit vector3(const T vals[3]);
 	explicit vector3(T val);
@@ -209,18 +208,6 @@ public:
 
 // These are here in this manner to enforce that only float and double versions are possible.
 template <>
-inline vector3<float>::vector3()
-{}
-template <>
-inline vector3<double>::vector3()
-{}
-template <>
-inline vector3<float>::vector3(const vector3<float> &v) :
-	x(v.x),
-	y(v.y),
-	z(v.z)
-{}
-template <>
 inline vector3<float>::vector3(const vector2f &v, float t) :
 	x(v.x),
 	y(v.y),
@@ -234,12 +221,6 @@ inline vector3<float>::vector3(const vector3<double> &v) :
 {}
 template <>
 inline vector3<double>::vector3(const vector3<float> &v) :
-	x(v.x),
-	y(v.y),
-	z(v.z)
-{}
-template <>
-inline vector3<double>::vector3(const vector3<double> &v) :
 	x(v.x),
 	y(v.y),
 	z(v.z)

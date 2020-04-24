@@ -477,7 +477,7 @@ namespace Graphics {
 
 			if (GetUsage() != BUFFER_USAGE_STATIC) {
 				m_data.reset(new matrix4x4f[size]);
-				memset(m_data.get(), 0, sizeof(matrix4x4f) * size);
+				std::fill_n(m_data.get(), size, matrix4x4f(0.f));
 			}
 		}
 

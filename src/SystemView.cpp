@@ -227,9 +227,9 @@ void TransferPlanner::SetPosition(const vector3d &position) { m_position = posit
 SystemView::SystemView(Game *game) :
 	UIView(),
 	m_game(game),
-	m_gridDrawing(GridDrawing::OFF),
-	m_shipDrawing(OFF),
 	m_showL4L5(LAG_OFF),
+	m_shipDrawing(OFF),
+	m_gridDrawing(GridDrawing::OFF),
 	m_trans(0.0),
 	m_transTo(0.0)
 {

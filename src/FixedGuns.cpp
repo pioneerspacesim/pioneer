@@ -54,7 +54,7 @@ void FixedGuns::Init(DynamicBody *b)
 		m_gun_present[i] = false;
 		m_recharge_stat[i] = 0.0;
 		m_temperature_stat[i] = 0.0;
-	};
+	}
 	b->AddFeature(DynamicBody::FIXED_GUNS);
 }
 
@@ -71,7 +71,7 @@ void FixedGuns::SaveToJson(Json &jsonObj, Space *space)
 		gunArray.push_back(gunArrayEl); // Append gun object to array.
 	}
 	jsonObj["guns"] = gunArray; // Add gun array to ship object.
-};
+}
 
 void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 {
@@ -89,7 +89,7 @@ void FixedGuns::LoadFromJson(const Json &jsonObj, Space *space)
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
-};
+}
 
 void FixedGuns::InitGuns(SceneGraph::Model *m)
 {
@@ -146,7 +146,7 @@ void FixedGuns::MountGun(const int num, const float recharge, const float lifesp
 	m_gun[num].projData.speed = speed;
 	m_gun[num].projData.beam = beam;
 	m_gun_present[num] = true;
-};
+}
 
 void FixedGuns::UnMountGun(int num)
 {
@@ -197,7 +197,7 @@ bool FixedGuns::Fire(const int num, Body *b)
 	}
 
 	return true;
-};
+}
 
 void FixedGuns::UpdateGuns(float timeStep)
 {

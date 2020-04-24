@@ -31,7 +31,6 @@ public:
 	Sfx() = delete;
 	Sfx(const vector3d &pos, const vector3d &vel, const float speed, const SFX_TYPE type);
 	Sfx(const Json &jsonObj);
-	Sfx(const Sfx &);
 	void SetPosition(const vector3d &p);
 	const vector3d &GetPosition() const { return m_pos; }
 

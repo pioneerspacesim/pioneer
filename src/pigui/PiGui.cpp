@@ -144,7 +144,7 @@ Instance::Instance() :
 
 	// ensure the tooltip font exists
 	GetFont("pionillium", 14);
-};
+}
 
 ImFont *Instance::GetFont(const std::string &name, int size)
 {
@@ -436,7 +436,7 @@ void Instance::Uninit()
 // PiGui::PiFace
 //
 
-const bool PiFace::isValidGlyph(unsigned short glyph) const
+bool PiFace::isValidGlyph(unsigned short glyph) const
 {
 	PROFILE_SCOPED()
 	return (m_invalid_glyphs.count(glyph) == 0);

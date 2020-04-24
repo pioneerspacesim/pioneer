@@ -19,7 +19,7 @@ void Propulsion::SaveToJson(Json &jsonObj, Space *space)
 	// !!! These are commented to avoid savegame bumps:
 	//jsonObj["tank_mass"] = m_fuelTankMass;
 	//jsonObj["propulsion"] = PropulsionObj;
-};
+}
 
 void Propulsion::LoadFromJson(const Json &jsonObj, Space *space)
 {
@@ -35,7 +35,7 @@ void Propulsion::LoadFromJson(const Json &jsonObj, Space *space)
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
-};
+}
 
 Propulsion::Propulsion()
 {

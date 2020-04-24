@@ -151,7 +151,7 @@ namespace Serializer {
 
 			out = *reinterpret_cast<const T *>(m_at);
 			m_at += sizeof(T);
-		};
+		}
 
 		void readObject(std::string &out)
 		{

@@ -144,6 +144,6 @@ namespace RandomColorGenerator {
 		// Converts hue, saturation, and lightness to a color.
 		static Color HsvToColor(int hue, int saturation, double value);
 	};
-}; // namespace RandomColorGenerator
+} // namespace RandomColorGenerator
 
 #endif // _RANDOM_COLOR_H_

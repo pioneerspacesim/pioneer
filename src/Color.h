@@ -81,11 +81,6 @@ struct Color4ub {
 		g(g_),
 		b(b_),
 		a(a_) {}
-	Color4ub(const Color4ub &c) :
-		r(c.r),
-		g(c.g),
-		b(c.b),
-		a(c.a) {}
 	Color4ub(const Color4f &c) :
 		r(Uint8(c.r * 255.f)),
 		g(Uint8(c.g * 255.f)),

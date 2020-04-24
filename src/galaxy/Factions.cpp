@@ -547,7 +547,7 @@ const Faction *FactionsDatabase::GetFaction(const std::string &factionName) cons
 	}
 }
 
-const Uint32 FactionsDatabase::GetNumFactions() const
+Uint32 FactionsDatabase::GetNumFactions() const
 {
 	PROFILE_SCOPED()
 	return m_factions.size();
@@ -607,7 +607,7 @@ bool Faction::IsClaimed(SystemPath path) const
 	if it is, then the passed distance will also be updated to be the distance
 	from the factions homeworld to the sysPath.
 */
-const bool Faction::IsCloserAndContains(double &closestFactionDist, const Sector::System *sys) const
+bool Faction::IsCloserAndContains(double &closestFactionDist, const Sector::System *sys) const
 {
 	PROFILE_SCOPED()
 	/*	Treat factions without homeworlds as if they are of effectively infinite radius,
@@ -647,7 +647,7 @@ const bool Faction::IsCloserAndContains(double &closestFactionDist, const Sector
 	}
 }
 
-const Color Faction::AdjustedColour(fixed population, bool inRange) const
+Color Faction::AdjustedColour(fixed population, bool inRange) const
 {
 	PROFILE_SCOPED()
 	Color result;
@@ -658,7 +658,7 @@ const Color Faction::AdjustedColour(fixed population, bool inRange) const
 	return result;
 }
 
-const Polit::GovType Faction::PickGovType(Random &rand) const
+Polit::GovType Faction::PickGovType(Random &rand) const
 {
 	PROFILE_SCOPED()
 	if (!govtype_weights.empty()) {

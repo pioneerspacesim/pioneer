@@ -40,7 +40,7 @@ void Space::BodyNearFinder::Prepare()
 
 Space::BodyNearList Space::BodyNearFinder::GetBodiesMaybeNear(const Body *b, double dist)
 {
-	return std::move(GetBodiesMaybeNear(b->GetPositionRelTo(m_space->GetRootFrame()), dist));
+	return GetBodiesMaybeNear(b->GetPositionRelTo(m_space->GetRootFrame()), dist);
 }
 
 Space::BodyNearList Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist)

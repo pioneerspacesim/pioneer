@@ -57,12 +57,12 @@ static int CleanupStyleStack(SavedImguiStackInfo *stackInfo)
 {
 	auto &colorStack = ImGui::GetCurrentContext()->ColorModifiers;
 	int numResetStyles = colorStack.size() - stackInfo->styleColorStack;
-	if (colorStack.size() > stackInfo->styleColorStack)
+	if (colorStack.size() > static_cast<int64_t>(stackInfo->styleColorStack))
 		ImGui::PopStyleColor(colorStack.size() - stackInfo->styleColorStack);
 
 	auto &varStack = ImGui::GetCurrentContext()->StyleModifiers;
 	numResetStyles += varStack.size() - stackInfo->styleVarStack;
-	if (varStack.size() > stackInfo->styleVarStack)
+	if (varStack.size() > static_cast<int64_t>(stackInfo->styleVarStack))
 		ImGui::PopStyleVar(varStack.size() - stackInfo->styleVarStack);
 
 	return numResetStyles;

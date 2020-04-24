@@ -63,7 +63,7 @@ namespace Graphics {
 		};
 
 		// Instance buffer
-		class InstanceBuffer : public Graphics::InstanceBuffer, public GLBufferBase {
+		class InstanceBuffer final : public Graphics::InstanceBuffer, public GLBufferBase {
 		public:
 			InstanceBuffer(Uint32 size, BufferUsage);
 			virtual ~InstanceBuffer() override final;

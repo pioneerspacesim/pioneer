@@ -280,7 +280,7 @@ void PerfInfo::DrawTextureCache()
 					const int num_columns = std::max(int(ImGui::GetWindowContentRegionWidth()) / item_width, 1);
 					ImGui::Columns(num_columns);
 					if (num_columns > 1) {
-						for (size_t idx = 0; idx < num_columns; idx++)
+						for (int idx = 0; idx < num_columns; idx++)
 							ImGui::SetColumnWidth(idx, item_width);
 					}
 

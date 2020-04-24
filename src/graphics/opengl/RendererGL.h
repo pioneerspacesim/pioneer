@@ -42,7 +42,7 @@ namespace Graphics {
 		class BillboardMaterial;
 	} // namespace OGL
 
-	class RendererOGL : public Renderer {
+	class RendererOGL final : public Renderer {
 	public:
 		static void RegisterRenderer();
 

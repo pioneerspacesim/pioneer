@@ -7,9 +7,11 @@
 #include "matrix4x4.h"
 #include "vector3.h"
 #include <math.h>
+#include <type_traits>
 
 template <typename T>
 class Quaternion {
+	using other_float_t = typename std::conditional<std::is_same<T, float>::value, double, float>::type;
 public:
 	T w, x, y, z;
 
@@ -19,8 +21,11 @@ public:
 	Quaternion(T w, T x, T y, T z);
 	// from angle and axis
 	Quaternion(T ang, vector3<T> axis);
-	Quaternion(const Quaternion<float> &o);
-	Quaternion(const Quaternion<double> &o);
+	Quaternion(const Quaternion<other_float_t> &o) :
+		w(o.w),
+		x(o.x),
+		y(o.y),
+		z(o.z) {}
 
 	void GetAxisAngle(T &angle, vector3<T> &axis) const
 	{
@@ -247,31 +252,6 @@ inline Quaternion<double>::Quaternion(double ang, vector3<double> axis)
 	y = axis.y * sinHalfAng;
 	z = axis.z * sinHalfAng;
 }
-
-template <>
-inline Quaternion<float>::Quaternion(const Quaternion<float> &o) :
-	w(o.w),
-	x(o.x),
-	y(o.y),
-	z(o.z) {}
-template <>
-inline Quaternion<float>::Quaternion(const Quaternion<double> &o) :
-	w(float(o.w)),
-	x(float(o.x)),
-	y(float(o.y)),
-	z(float(o.z)) {}
-template <>
-inline Quaternion<double>::Quaternion(const Quaternion<float> &o) :
-	w(o.w),
-	x(o.x),
-	y(o.y),
-	z(o.z) {}
-template <>
-inline Quaternion<double>::Quaternion(const Quaternion<double> &o) :
-	w(o.w),
-	x(o.x),
-	y(o.y),
-	z(o.z) {}
 
 typedef Quaternion<float> Quaternionf;
 typedef Quaternion<double> Quaterniond;

@@ -80,7 +80,7 @@ namespace {
 
 		return i == 4;
 	}
-}; // namespace
+} // namespace
 
 class GasPatchContext : public RefCounted {
 public:

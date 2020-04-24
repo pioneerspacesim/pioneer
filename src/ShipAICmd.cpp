@@ -1482,8 +1482,9 @@ bool AICmdFlyAround::TimeStepUpdate()
 			return false;
 		}
 
-	} else
-		; // return false;
+	} else {
+		// return false;
+	}
 
 	double timestep = Pi::game->GetTimeStep();
 	vector3d targpos = (!m_targmode) ? m_targpos :

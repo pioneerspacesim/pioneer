@@ -62,10 +62,10 @@ public:
 
 	Color colour;
 
-	const double Radius() const { return (FACTION_CURRENT_YEAR - foundingDate) * expansionRate; };
-	const bool IsValid() const { return idx != BAD_FACTION_IDX; };
-	const Color AdjustedColour(fixed population, bool inRange) const;
-	const Polit::GovType PickGovType(Random &rand) const;
+	double Radius() const { return (FACTION_CURRENT_YEAR - foundingDate) * expansionRate; };
+	bool IsValid() const { return idx != BAD_FACTION_IDX; };
+	Color AdjustedColour(fixed population, bool inRange) const;
+	Polit::GovType PickGovType(Random &rand) const;
 
 	// set the homeworld to one near the supplied co-ordinates
 	void SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi, Sint32 axisChange);
@@ -76,7 +76,7 @@ private:
 
 	Galaxy *const m_galaxy; // galaxy we are part of
 	mutable RefCountedPtr<const Sector> m_homesector; // cache of home sector to use in distance calculations
-	const bool IsCloserAndContains(double &closestFactionDist, const Sector::System *sys) const;
+	bool IsCloserAndContains(double &closestFactionDist, const Sector::System *sys) const;
 };
 
 /* One day it might grow up to become a full tree, on the  other hand it might be
@@ -107,7 +107,7 @@ public:
 	const Faction *GetNearestClaimant(const Sector::System *sys) const;
 	bool IsHomeSystem(const SystemPath &sysPath) const;
 
-	const Uint32 GetNumFactions() const;
+	Uint32 GetNumFactions() const;
 
 	bool MayAssignFactions() const;
 
@@ -119,7 +119,7 @@ private:
 
 	private:
 		std::vector<const Faction *> octbox[2][2][2];
-		static const int BoxIndex(Sint32 sectorIndex) { return sectorIndex < 0 ? 0 : 1; };
+		static int BoxIndex(Sint32 sectorIndex) { return sectorIndex < 0 ? 0 : 1; };
 		void PruneDuplicates(const int bx, const int by, const int bz);
 	};
 
