@@ -118,11 +118,6 @@ questions are welcome anytime.
 
 2. Build and install pioneer. Required dependencies will be installed together.
 
-     brew install homebrew/games/pioneer
-
-   Or you may want to tap homebrew-games first and then install.
-
-     brew tap homebrew/games
      brew install pioneer
 
    If you want master branch from GitHub, add '--HEAD' option.
