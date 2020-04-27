@@ -494,7 +494,7 @@ local CARGOLANGRESOURCE = "commodity"
 
 cargo = {
 	hydrogen = EquipType.New({
-		l10n_key = 'HYDROGEN', l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=10,
+		l10n_key = 'HYDROGEN', l10n_resource = CARGOLANGRESOURCE, slots="cargo", price=1,
 		capabilities={mass=1}, economy_type="mining",
 		purchasable=true, icon_name="Hydrogen"
 	}),
