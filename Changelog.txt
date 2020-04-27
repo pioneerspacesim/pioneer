@@ -4,6 +4,7 @@ April 2020
 
    * Internal Changes
      * Refactor the ModelViewer to use PiGui (#4849)
+     * Fix UB related to allocation/free mismatch (#4867)
 
 March 2020
    * New Features
