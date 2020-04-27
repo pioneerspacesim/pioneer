@@ -1,6 +1,7 @@
 April 2020
    * New Features
      * Move the System Map to PiGUI (#4821)
+     * Reduce hydrogen price back to 1 credit (#4859)
 
    * Internal Changes
      * Refactor the ModelViewer to use PiGui (#4849)
