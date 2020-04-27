@@ -545,7 +545,7 @@ void GasGiant::GenerateTexture()
 		const double fracStep = 1.0 / double(s_texture_size_small - 1);
 
 		Graphics::TextureCubeData tcd;
-		std::unique_ptr<Color> bufs[NUM_PATCHES];
+		std::unique_ptr<Color[]> bufs[NUM_PATCHES];
 		for (int i = 0; i < NUM_PATCHES; i++) {
 			Color *colors = new Color[(s_texture_size_small * s_texture_size_small)];
 			for (Uint32 v = 0; v < s_texture_size_small; v++) {
