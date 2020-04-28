@@ -9,6 +9,7 @@
 
 namespace Text {
 
+	// WARNING: internal values shall not be changed
 	class FontConfig {
 	public:
 		// XXX scale is to support to the old UI, and will be removed
@@ -22,6 +23,8 @@ namespace Text {
 				advanceXAdjustment(advanceXAdjustment_),
 				rangeMin(rangeMin_),
 				rangeMax(rangeMax_) {}
+
+			// WARNING: these values shall not be changed
 			std::string fontFile;
 			int pixelWidth;
 			int pixelHeight;

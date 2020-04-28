@@ -157,7 +157,7 @@ void Frame::ToJson(Json &frameObj, FrameId fId, Space *space)
 Frame::~Frame()
 {
 	if (!d.madeWithFactory) {
-		Error("Frame instance deletion outside 'DeleteFrame' [%i]\n", m_thisId.id());
+		Error("Frame instance deletion outside 'DeleteFrame' [%zu]\n", m_thisId.id());
 	}
 }
 
@@ -244,10 +244,10 @@ Frame *Frame::GetFrame(FrameId fId)
 {
 	PROFILE_SCOPED()
 
-	if (fId && fId.id() >= 0 && static_cast<std::size_t>(fId.id()) < s_frames.size())
+	if (fId && fId.id() < s_frames.size())
 		return &s_frames[fId];
 	else if (fId)
-		Error("In '%s': fId is valid but out of range (%i)...\n", __func__, fId.id());
+		Error("In '%s': fId is valid but out of range (%zu)...\n", __func__, fId.id());
 
 	return nullptr;
 }

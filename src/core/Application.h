@@ -14,12 +14,8 @@ public:
 	class Lifecycle {
 	public:
 		Lifecycle(){};
-#ifdef PIONEER_PROFILER
 		Lifecycle(bool profilerAccumulate) :
 			m_profilerAccumulate(profilerAccumulate){};
-#else
-		Lifecycle(bool /* profilerAccumulate */){};
-#endif
 		virtual ~Lifecycle(){};
 
 		// Once called, the lifecycle is terminated at the end of the current update.
@@ -45,10 +41,8 @@ public:
 		}
 
 	private:
-#ifdef PIONEER_PROFILER
 		// set to true when you want to accumulate all updates in a lifecycle into a single profile frame
 		bool m_profilerAccumulate = false;
-#endif
 		bool m_endLifecycle = false;
 		std::shared_ptr<Lifecycle> m_nextLifecycle;
 		Application *m_application;

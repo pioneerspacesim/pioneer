@@ -50,6 +50,7 @@ namespace Graphics {
 		void *negZ;
 	};
 
+	// WARNING: internal values shall not be changed
 	class TextureDescriptor {
 	public:
 		TextureDescriptor() :
@@ -90,6 +91,7 @@ namespace Graphics {
 
 		vector2f GetOriginalSize() const { return vector2f(dataSize.x * texSize.x, dataSize.y * texSize.y); }
 
+		// WARNING: these values shall not be changed
 		TextureFormat format;
 		vector3f dataSize;
 		vector2f texSize;

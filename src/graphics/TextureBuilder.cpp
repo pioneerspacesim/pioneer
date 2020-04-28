@@ -301,7 +301,7 @@ namespace Graphics {
 			const size_t layers = m_layers;
 			m_ddsarray.resize(layers);
 
-			for (std::size_t i = 0; i < layers; i++)
+			for (size_t i = 0; i < layers; i++)
 			{
 				PiVerify(LoadDDSFromFile(m_filenames[i], m_ddsarray[i]));
 			}

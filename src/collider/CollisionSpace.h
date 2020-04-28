@@ -61,7 +61,7 @@ private:
 	BvhTree *m_dynamicObjectTree;
 	Sphere sphere;
 
-	unsigned m_oldGeomsNumber;
+	uint32_t m_oldGeomsNumber;
 
 	static int s_nextHandle;
 };

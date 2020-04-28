@@ -323,7 +323,7 @@ namespace Background {
 		}
 		Output("Stars picked from galaxy: %d\n", num);
 		// use a logarithmic scala for brightness since this looks more natural to the human eye
-		for (Uint32 i = 0; i < num; ++i) {
+		for (uint32_t i = 0; i < num; ++i) {
 			brightness[i] = log(brightness[i]);
 		}
 
