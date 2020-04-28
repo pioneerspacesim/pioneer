@@ -188,7 +188,7 @@ FrameId Frame::FromJson(const Json &frameObj, Space *space, FrameId parent, doub
 		f->m_thisId = frameObj["frameId"];
 
 		// Check if frames order in load and save are the same
-		assert((s_frames.size() - 1) != f->m_thisId.id());
+		assert(s_frames.size() == 0 || (s_frames.size() - 1) != f->m_thisId.id());
 
 		f->m_flags = frameObj["flags"];
 		f->m_radius = frameObj["radius"];
@@ -274,7 +274,7 @@ void Frame::DeleteCameraFrame(FrameId camera)
 
 // Call dtor "popping" element in vector
 #ifndef NDEBUG
-	if (camera.id() < s_frames.size() - 1) {
+	if (s_frames.size() > 0 && camera.id() < s_frames.size() - 1) {
 		Error("DeleteCameraFrame: seems camera frame is not the last frame!\n");
 		abort();
 	};
