@@ -50,7 +50,7 @@ namespace Graphics {
 		void *negZ;
 	};
 
-	// WARNING: internal values shall not be changed
+	// WARNING: TextureDescriptor is intended to be immutable. Internal values should not be changed!
 	class TextureDescriptor {
 	public:
 		TextureDescriptor() :

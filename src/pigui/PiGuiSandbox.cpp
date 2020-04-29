@@ -61,12 +61,12 @@ static int CleanupStyleStack(SavedImguiStackInfo *stackInfo)
 	// to an bigger signed type. In this case, `uint32_t` -> `int64_t`.
 	auto &colorStack = ImGui::GetCurrentContext()->ColorModifiers;
 	int numResetStyles = colorStack.size() - stackInfo->styleColorStack;
-	if (colorStack.size() > (int64_t)stackInfo->styleColorStack)
+	if (colorStack.size() > int64_t(stackInfo->styleColorStack))
 		ImGui::PopStyleColor(colorStack.size() - stackInfo->styleColorStack);
 
 	auto &varStack = ImGui::GetCurrentContext()->StyleModifiers;
 	numResetStyles += varStack.size() - stackInfo->styleVarStack;
-	if (varStack.size() > (int64_t)stackInfo->styleVarStack)
+	if (varStack.size() > int64_t(stackInfo->styleVarStack))
 		ImGui::PopStyleVar(varStack.size() - stackInfo->styleVarStack);
 
 	return numResetStyles;

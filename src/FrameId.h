@@ -21,11 +21,7 @@ struct FrameId {
 	constexpr bool operator!=(FrameId rhs) const { return m_id != rhs.m_id; }
 
 	constexpr bool valid() const { return m_id != Invalid; }
-	constexpr size_t id() const {
-		// Cannot use an `if` in constexpr context in C++11, sorry
-		return valid() ? static_cast<size_t>(m_id) : (std::terminate(), 0);
-	}
-	constexpr int unchecked_id() const { return m_id; }
+	constexpr size_t id() const { return m_id; }
 
 private:
 	uint32_t m_id;

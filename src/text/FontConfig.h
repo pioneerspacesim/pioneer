@@ -9,7 +9,7 @@
 
 namespace Text {
 
-	// WARNING: internal values shall not be changed
+	// WARNING: FontConfig is intended to be immutable; internal values shall not be changed
 	class FontConfig {
 	public:
 		// XXX scale is to support to the old UI, and will be removed

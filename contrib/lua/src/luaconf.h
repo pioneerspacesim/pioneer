@@ -463,7 +463,7 @@
 @@ LUA_UNSIGNED is the integral type used by lua_pushunsigned/lua_tounsigned.
 ** It must have at least 32 bits.
 */
-#define LUA_UNSIGNED	size_t
+#define LUA_UNSIGNED	unsigned LUA_INT32
 
 
 
