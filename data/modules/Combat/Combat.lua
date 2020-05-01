@@ -284,6 +284,7 @@ local onShipDestroyed = function (ship, attacker)
 				table.remove(mission.mercenaries, i)
 				if not mission.complete and (#mission.mercenaries == 0 or mission.dedication <= ARMEDRECON) then
 					mission.complete = true
+					mission.status = "COMPLETED"
 					Comms.ImportantMessage(l.MISSION_COMPLETE)
 				end
 				if attacker and attacker:isa("Ship") and attacker:IsPlayer() then
@@ -293,6 +294,18 @@ local onShipDestroyed = function (ship, attacker)
 			end
 		end
 	end
+end
+
+local missionTimer = function (mission)
+	Timer:CallEvery(mission.duration, function ()
+		if mission.complete then return true end -- already complete
+		if Game.player.frameBody and Game.player.frameBody.path == mission.location then
+			mission.complete = true
+			mission.status = "COMPLETED"
+			Comms.ImportantMessage(l.MISSION_COMPLETE)
+			return true
+		end
+	end)
 end
 
 local onFrameChanged = function (player)
@@ -366,14 +379,8 @@ local onFrameChanged = function (player)
 
 			if mission.dedication <= RECON or #mission.mercenaries == 0 then
 				-- prevent a too quick fly-by
-				Timer:CallEvery(player.frameBody:GetPhysicalRadius()/1000, function ()
-					if mission.complete then return true end -- already complete
-					if player.frameBody and player.frameBody.path == mission.location then
-						mission.complete = true
-						Comms.ImportantMessage(l.MISSION_COMPLETE)
-						return true
-					end
-				end)
+				mission.duration = player.frameBody:GetPhysicalRadius()/1000
+				missionTimer(mission)
 			end
 		end
 		if mission.status == "ACTIVE" and Game.time > mission.due then
@@ -469,10 +476,10 @@ end
 local loaded_data
 
 local onGameStart = function ()
-	if loaded_data and loaded_data.ads then
-		ads = {}
-		missions = {}
+	ads = {}
+	missions = {}
 
+	if loaded_data and loaded_data.ads then
 		for k, ad in pairs(loaded_data.ads) do
 			local ref = ad.station:AddAdvert({
 				description = ad.desc,
@@ -484,6 +491,12 @@ local onGameStart = function ()
 		end
 		missions = loaded_data.missions
 		loaded_data = nil
+
+		for _, mission in pairs(missions) do
+			if mission.duration then
+				missionTimer(mission)
+			end
+		end
 	end
 end
 
