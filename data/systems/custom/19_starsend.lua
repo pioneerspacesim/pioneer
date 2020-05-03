@@ -17,7 +17,7 @@ local starsend = CustomSystemBody:new('Star\'s End', 'STAR_K')
 	:mass(f(61,110))
 	:temp(4400)
 
-local kobol = CustomSystemBody:new('Kobol', 'PLANET_TERRESTRIAL')
+local kobol = CustomSystemBody:new('Cobol', 'PLANET_TERRESTRIAL')
 	:radius(f(92,100))
 	:mass(f(9,10))
 	:temp(260)
@@ -42,7 +42,7 @@ local kobol_starports = {
 		:longitude(math.deg2rad(-37.5)),
 }
 
-local dagobah = CustomSystemBody:new('Dagobah', 'PLANET_TERRESTRIAL')
+local dagobah = CustomSystemBody:new('Yodagobah', 'PLANET_TERRESTRIAL')
 	:seed(-1317315059)
 	:radius(f(412,1000))
 	:mass(f(189,1000))
