@@ -139,15 +139,6 @@ public:
 			v3(v3_),
 			patchID(patchID_)
 		{}
-		SSplitResultData(const SSplitResultData &r) :
-			normals(r.normals),
-			colors(r.colors),
-			v0(r.v0),
-			v1(r.v1),
-			v2(r.v2),
-			v3(r.v3),
-			patchID(r.patchID)
-		{}
 
 		double *heights;
 		vector3f *normals;

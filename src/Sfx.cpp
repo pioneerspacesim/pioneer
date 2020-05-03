@@ -30,7 +30,7 @@ namespace {
 		const float pixrad = Clamp(Graphics::GetScreenHeight() / trans.Length(), 0.1f, 50.0f);
 		return (size * Graphics::GetFovFactor()) * pixrad;
 	}
-}; // namespace
+} // namespace
 
 std::unique_ptr<Graphics::Material> SfxManager::damageParticle;
 std::unique_ptr<Graphics::Material> SfxManager::ecmParticle;
@@ -62,15 +62,6 @@ Sfx::Sfx(const Json &jsonObj)
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
-}
-
-Sfx::Sfx(const Sfx &b) :
-	m_pos(b.m_pos),
-	m_vel(b.m_vel),
-	m_age(b.m_age),
-	m_speed(b.m_speed),
-	m_type(b.m_type)
-{
 }
 
 void Sfx::SaveToJson(Json &jsonObj)

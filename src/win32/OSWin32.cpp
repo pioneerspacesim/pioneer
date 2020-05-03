@@ -63,7 +63,7 @@ namespace OS {
 			{ 5, 0, "Windows 2000" },
 			{ 0, 0, nullptr }
 		};
-	}; // namespace
+	} // namespace
 
 	// Notify Windows that the window may become unresponsive
 	void NotifyLoadBegin()

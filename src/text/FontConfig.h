@@ -9,6 +9,7 @@
 
 namespace Text {
 
+	// WARNING: FontConfig is intended to be immutable; internal values shall not be changed
 	class FontConfig {
 	public:
 		// XXX scale is to support to the old UI, and will be removed
@@ -22,23 +23,14 @@ namespace Text {
 				advanceXAdjustment(advanceXAdjustment_),
 				rangeMin(rangeMin_),
 				rangeMax(rangeMax_) {}
-			const std::string fontFile;
-			const int pixelWidth;
-			const int pixelHeight;
-			const float advanceXAdjustment;
-			const Uint32 rangeMin;
-			const Uint32 rangeMax;
 
-			Face &operator=(const Face &o)
-			{
-				const_cast<std::string &>(fontFile) = o.fontFile;
-				const_cast<int &>(pixelWidth) = o.pixelWidth;
-				const_cast<int &>(pixelHeight) = o.pixelHeight;
-				const_cast<float &>(advanceXAdjustment) = o.advanceXAdjustment;
-				const_cast<Uint32 &>(rangeMin) = o.rangeMin;
-				const_cast<Uint32 &>(rangeMax) = o.rangeMax;
-				return *this;
-			}
+			// WARNING: these values shall not be changed
+			std::string fontFile;
+			int pixelWidth;
+			int pixelHeight;
+			float advanceXAdjustment;
+			Uint32 rangeMin;
+			Uint32 rangeMax;
 
 			bool operator<(const Face &o) const
 			{

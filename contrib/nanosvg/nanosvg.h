@@ -170,7 +170,7 @@ NSVGimage* nsvgParse(char* input, const char* units, float dpi);
 void nsvgDelete(NSVGimage* image);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif // NANOSVG_H

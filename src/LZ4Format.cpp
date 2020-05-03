@@ -75,5 +75,5 @@ std::unique_ptr<char[]> lz4::CompressLZ4(const std::string &data, const int lz4_
 	checkError<lz4::CompressionFailedException>(_size);
 
 	outSize = _size;
-	return std::move(out);
+	return out;
 }

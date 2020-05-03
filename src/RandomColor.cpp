@@ -342,4 +342,4 @@ namespace RandomColorGenerator {
 
 		return c;
 	}
-}; // namespace RandomColorGenerator
+} // namespace RandomColorGenerator

@@ -939,7 +939,7 @@ static int l_engine_sector_map_get_route(lua_State *l)
 
 	lua_newtable(l);
 	int i = 1;
-	for (const SystemPath j : route) {
+	for (const SystemPath& j : route) {
 		lua_pushnumber(l, i++);
 		LuaObject<SystemPath>::PushToLua(j);
 		lua_settable(l, -3);

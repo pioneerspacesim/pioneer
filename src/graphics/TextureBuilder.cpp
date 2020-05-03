@@ -23,8 +23,8 @@ namespace Graphics {
 		m_compressTextures(compressTextures),
 		m_anisotropicFiltering(anisoFiltering),
 		m_textureType(TEXTURE_2D),
-		m_prepared(false),
-		m_layers(1)
+		m_layers(1),
+		m_prepared(false)
 	{
 	}
 
@@ -36,8 +36,8 @@ namespace Graphics {
 		m_compressTextures(compressTextures),
 		m_anisotropicFiltering(anisoFiltering),
 		m_textureType(textureType),
-		m_prepared(false),
-		m_layers(layers)
+		m_layers(layers),
+		m_prepared(false)
 	{
 		m_filenames.push_back(filename);
 	}
@@ -51,8 +51,8 @@ namespace Graphics {
 		m_compressTextures(compressTextures),
 		m_anisotropicFiltering(anisoFiltering),
 		m_textureType(textureType),
-		m_prepared(false),
-		m_layers(layers)
+		m_layers(layers),
+		m_prepared(false)
 	{
 		assert(!m_filenames.empty());
 	}
@@ -235,6 +235,9 @@ namespace Graphics {
 					numberOfImages += dds.imgdata_.numImages;
 				}
 				assert((numberOfImages-1) == m_layers);
+			} else {
+				Output("ERROR: unexpected texture type");
+				abort();
 			}
 		}
 
@@ -298,7 +301,7 @@ namespace Graphics {
 			const size_t layers = m_layers;
 			m_ddsarray.resize(layers);
 
-			for (int i = 0; i < layers; i++)
+			for (size_t i = 0; i < layers; i++)
 			{
 				PiVerify(LoadDDSFromFile(m_filenames[i], m_ddsarray[i]));
 			}

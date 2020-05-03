@@ -888,9 +888,9 @@ Game *Game::LoadGame(const std::string &filename)
 
 	try {
 		return new Game(rootNode);
-	} catch (Json::type_error) {
+	} catch (const Json::type_error&) {
 		throw SavedGameCorruptException();
-	} catch (Json::out_of_range) {
+	} catch (const Json::out_of_range&) {
 		throw SavedGameCorruptException();
 	}
 }

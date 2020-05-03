@@ -84,8 +84,8 @@ namespace Graphics {
 
 		TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed, const bool useAnisoFiltering) :
 			Texture(descriptor),
-			m_useAnisoFiltering(useAnisoFiltering && descriptor.useAnisotropicFiltering),
-			m_allocSize(0)
+			m_allocSize(0),
+			m_useAnisoFiltering(useAnisoFiltering && descriptor.useAnisotropicFiltering)
 		{
 			PROFILE_SCOPED()
 			m_target = GLTextureType(descriptor.type);

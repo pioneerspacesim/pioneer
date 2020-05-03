@@ -634,7 +634,7 @@ namespace Sound {
 	void UpdateAudioDevices()
 	{
 		audioDeviceNames.clear();
-		for (size_t idx = 0; idx < SDL_GetNumAudioDevices(0); idx++) {
+		for (int idx = 0; idx < SDL_GetNumAudioDevices(0); idx++) {
 			const char *name = SDL_GetAudioDeviceName(idx, 0);
 			audioDeviceNames.emplace_back(name);
 		}

@@ -184,7 +184,7 @@ void SpaceStation::InitStation()
 		// clear it all to default
 		m_ports = m_type->Ports();
 		// now restore the "inUse" variable only since it's the only bit that might have changed
-		for (int p = 0; p < m_ports.size(); p++) {
+		for (size_t p = 0; p < m_ports.size(); p++) {
 			m_ports[p].inUse = backup[p].inUse;
 		}
 	}

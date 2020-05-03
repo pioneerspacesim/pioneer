@@ -55,14 +55,18 @@ static int CleanupWindowStack(SavedImguiStackInfo *stackInfo)
 
 static int CleanupStyleStack(SavedImguiStackInfo *stackInfo)
 {
+	// `ImVector::size()` returns an `int`, and `stackInfo->style*Stack`
+	// properties are `uint32_t`. Therefore, in order to correctly perform
+	// comparison without triggering UB, the unsigned type must be casted
+	// to an bigger signed type. In this case, `uint32_t` -> `int64_t`.
 	auto &colorStack = ImGui::GetCurrentContext()->ColorModifiers;
 	int numResetStyles = colorStack.size() - stackInfo->styleColorStack;
-	if (colorStack.size() > stackInfo->styleColorStack)
+	if (colorStack.size() > int64_t(stackInfo->styleColorStack))
 		ImGui::PopStyleColor(colorStack.size() - stackInfo->styleColorStack);
 
 	auto &varStack = ImGui::GetCurrentContext()->StyleModifiers;
 	numResetStyles += varStack.size() - stackInfo->styleVarStack;
-	if (varStack.size() > stackInfo->styleVarStack)
+	if (varStack.size() > int64_t(stackInfo->styleVarStack))
 		ImGui::PopStyleVar(varStack.size() - stackInfo->styleVarStack);
 
 	return numResetStyles;

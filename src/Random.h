@@ -52,7 +52,7 @@ public:
 	// seeds.
 	Random(const Uint64 *const seeds, size_t length)
 	{
-		seed(reinterpret_cast<const Uint32 *const>(seeds), length * 2);
+		seed(reinterpret_cast<const Uint32 *>(seeds), length * 2);
 	}
 
 	//
@@ -70,7 +70,7 @@ public:
 	// Seed using an array of 64-bit integers
 	void seed(const Uint64 *const seeds, size_t length)
 	{
-		seed(reinterpret_cast<const Uint32 *const>(seeds), length * 2);
+		seed(reinterpret_cast<const Uint32 *>(seeds), length * 2);
 	}
 
 	// Seed using a single 32-bit integer

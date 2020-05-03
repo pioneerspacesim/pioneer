@@ -64,7 +64,7 @@ void nsvgDeleteRasterizer(NSVGrasterizer*);
 
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif // NANOSVGRAST_H

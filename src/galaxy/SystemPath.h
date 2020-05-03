@@ -44,12 +44,6 @@ public:
 		systemIndex(si),
 		bodyIndex(bi) {}
 
-	SystemPath(const SystemPath &path) :
-		sectorX(path.sectorX),
-		sectorY(path.sectorY),
-		sectorZ(path.sectorZ),
-		systemIndex(path.systemIndex),
-		bodyIndex(path.bodyIndex) {}
 	SystemPath(const SystemPath *path) :
 		sectorX(path->sectorX),
 		sectorY(path->sectorY),

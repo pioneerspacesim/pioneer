@@ -167,28 +167,26 @@ void ModelViewerApp::PostUpdate()
 }
 
 ModelViewer::ModelViewer(ModelViewerApp *app, LuaManager *lm) :
-	m_app(app),
 	m_input(app->GetInput()),
 	m_pigui(app->GetPiGui()),
-	m_renderer(app->GetRenderer()),
-	m_screenshotQueued(false),
-	m_shieldIsHit(false),
-	m_settingColourSliders(false),
-	m_shieldHitPan(-1.48f),
-	m_decalTexture(0),
-	m_rotX(0),
-	m_rotY(0),
-	m_zoom(0),
-	m_baseDistance(100.0f),
-	m_rng(time(0)),
-	m_modelIsShip(false),
+	m_logWindowSize(350.0f, 500.0f),
+	m_animWindowSize(0.0f, 150.0f),
 	m_colors({ Color(255, 0, 0),
 		Color(0, 255, 0),
 		Color(0, 0, 255) }),
 	m_modelName(""),
 	m_requestedModelName(),
-	m_logWindowSize(350.0f, 500.0f),
-	m_animWindowSize(0.0f, 150.0f)
+	m_modelIsShip(false),
+	m_screenshotQueued(false),
+	m_shieldIsHit(false),
+	m_shieldHitPan(-1.48f),
+	m_renderer(app->GetRenderer()),
+	m_decalTexture(0),
+	m_rotX(0),
+	m_rotY(0),
+	m_zoom(0),
+	m_baseDistance(100.0f),
+	m_rng(time(0))
 {
 	onModelChanged.connect(sigc::mem_fun(*this, &ModelViewer::OnModelChanged));
 	SetupAxes();

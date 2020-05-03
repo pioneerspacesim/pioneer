@@ -54,7 +54,7 @@ namespace Graphics {
 			frame.m_stats[idx] = statsFrame.at(name);
 		}
 
-		m_currentFrame = ++m_currentFrame % MAX_FRAMES_STORE;
+		m_currentFrame = (m_currentFrame + 1) % MAX_FRAMES_STORE;
 		memset(&m_frameStats[m_currentFrame], 0, sizeof(TFrameData));
 	}
 

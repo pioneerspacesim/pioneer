@@ -11,12 +11,12 @@
 
 Input::Input(IniConfig *config) :
 	m_config(config),
-	m_capturingMouse(false),
-	mouseYInvert(false),
-	joystickEnabled(true),
 	keyModState(0),
 	mouseButton(),
-	mouseMotion()
+	mouseMotion(),
+	m_capturingMouse(false),
+	joystickEnabled(true),
+	mouseYInvert(false)
 {
 	joystickEnabled = (m_config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (m_config->Int("InvertMouseY")) ? true : false;

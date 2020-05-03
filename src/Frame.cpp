@@ -14,16 +14,16 @@ std::vector<Frame> Frame::s_frames;
 std::vector<CollisionSpace> Frame::s_collisionSpaces;
 
 Frame::Frame(const Dummy &d, FrameId parent, const char *label, unsigned int flags, double radius) :
+	m_parent(parent),
 	m_sbody(nullptr),
 	m_astroBody(nullptr),
-	m_parent(parent),
-	m_radius(radius),
-	m_flags(flags),
 	m_pos(vector3d(0.0)),
+	m_initialOrient(matrix3x3d::Identity()),
+	m_orient(matrix3x3d::Identity()),
 	m_vel(vector3d(0.0)),
 	m_angSpeed(0.0),
-	m_orient(matrix3x3d::Identity()),
-	m_initialOrient(matrix3x3d::Identity())
+	m_radius(radius),
+	m_flags(flags)
 {
 	if (!d.madeWithFactory)
 		Error("Frame ctor called directly!\n");
@@ -42,18 +42,18 @@ Frame::Frame(const Dummy &d, FrameId parent, const char *label, unsigned int fla
 }
 
 Frame::Frame(const Dummy &d, FrameId parent) :
+	m_parent(parent),
 	m_sbody(nullptr),
 	m_astroBody(nullptr),
-	m_parent(parent),
+	m_pos(vector3d(0.0)),
+	m_initialOrient(matrix3x3d::Identity()),
+	m_orient(matrix3x3d::Identity()),
+	m_vel(vector3d(0.0)),
+	m_angSpeed(0.0),
 	m_label("camera"),
 	m_radius(0.0),
 	m_flags(FLAG_ROTATING),
-	m_collisionSpace(-1),
-	m_pos(vector3d(0.0)),
-	m_vel(vector3d(0.0)),
-	m_angSpeed(0.0),
-	m_orient(matrix3x3d::Identity()),
-	m_initialOrient(matrix3x3d::Identity())
+	m_collisionSpace(-1)
 {
 	if (!d.madeWithFactory)
 		Error("Frame ctor called directly!\n");
@@ -157,7 +157,7 @@ void Frame::ToJson(Json &frameObj, FrameId fId, Space *space)
 Frame::~Frame()
 {
 	if (!d.madeWithFactory) {
-		Error("Frame instance deletion outside 'DeleteFrame' [%i]\n", m_thisId.id());
+		Error("Frame instance deletion outside 'DeleteFrame' [%zu]\n", m_thisId.id());
 	}
 }
 
@@ -188,7 +188,7 @@ FrameId Frame::FromJson(const Json &frameObj, Space *space, FrameId parent, doub
 		f->m_thisId = frameObj["frameId"];
 
 		// Check if frames order in load and save are the same
-		assert((s_frames.size() - 1) != f->m_thisId.id());
+		assert(s_frames.size() == 0 || (s_frames.size() - 1) != f->m_thisId.id());
 
 		f->m_flags = frameObj["flags"];
 		f->m_radius = frameObj["radius"];
@@ -247,7 +247,7 @@ Frame *Frame::GetFrame(FrameId fId)
 	if (fId && fId.id() < s_frames.size())
 		return &s_frames[fId];
 	else if (fId)
-		Error("In '%s': fId is valid but out of range (%i)...\n", __func__, fId.id());
+		Error("In '%s': fId is valid but out of range (%zu)...\n", __func__, fId.id());
 
 	return nullptr;
 }
@@ -274,7 +274,7 @@ void Frame::DeleteCameraFrame(FrameId camera)
 
 // Call dtor "popping" element in vector
 #ifndef NDEBUG
-	if (camera.id() < s_frames.size() - 1) {
+	if (s_frames.size() > 0 && camera.id() < s_frames.size() - 1) {
 		Error("DeleteCameraFrame: seems camera frame is not the last frame!\n");
 		abort();
 	};

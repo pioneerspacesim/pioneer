@@ -132,7 +132,6 @@ private:
 	};
 
 private:
-	ModelViewerApp *m_app;
 	Input *m_input;
 	PiGui::Instance *m_pigui;
 
@@ -186,7 +185,6 @@ private:
 
 	bool m_screenshotQueued;
 	bool m_shieldIsHit;
-	bool m_settingColourSliders;
 	float m_shieldHitPan;
 	Graphics::Renderer *m_renderer;
 	Graphics::Texture *m_decalTexture;

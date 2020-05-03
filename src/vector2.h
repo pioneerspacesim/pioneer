@@ -40,9 +40,6 @@ public:
 	explicit vector2(T v) :
 		x(v),
 		y(v) {}
-	vector2(const vector2 &v) :
-		x(v.x),
-		y(v.y) {}
 	explicit vector2(const T v[2]) :
 		x(v[0]),
 		y(v[1]) {}
@@ -117,14 +114,6 @@ template <>
 inline vector2<float>::vector2() {}
 template <>
 inline vector2<double>::vector2() {}
-template <>
-inline vector2<float>::vector2(const vector2<float> &v) :
-	x(v.x),
-	y(v.y) {}
-template <>
-inline vector2<double>::vector2(const vector2<double> &v) :
-	x(v.x),
-	y(v.y) {}
 template <>
 inline vector2<float>::vector2(const vector2<double> &v) :
 	x(float(v.x)),

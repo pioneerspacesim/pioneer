@@ -1611,7 +1611,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 		sp->m_averageTemp = sbody->GetAverageTemp();
 		sp->m_mass = 0;
 		sp->m_name = gen_unique_station_name(sp, system, namerand);
-		memset(&sp->m_orbit, 0, sizeof(Orbit));
+		sp->m_orbit = Orbit();
 		PositionSettlementOnPlanet(sp, previousOrbits);
 		sbody->m_children.insert(sbody->m_children.begin(), sp);
 		system->AddSpaceStation(sp);
@@ -1626,7 +1626,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 		sp->m_averageTemp = sbody->m_averageTemp;
 		sp->m_mass = 0;
 		sp->m_name = gen_unique_station_name(sp, system, namerand);
-		memset(&sp->m_orbit, 0, sizeof(Orbit));
+		sp->m_orbit = Orbit();
 		PositionSettlementOnPlanet(sp, previousOrbits);
 		sbody->m_children.insert(sbody->m_children.begin(), sp);
 		system->AddSpaceStation(sp);

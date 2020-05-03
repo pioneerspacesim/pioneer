@@ -119,7 +119,9 @@ void SectorView::InitDefaults()
 	m_zoomDefault = Clamp(m_zoomDefault, 0.1f, 5.0f);
 	m_previousSearch = "";
 
-	m_secPosFar = vector3f(INT_MAX, INT_MAX, INT_MAX);
+	// Note: INT_MAX != (int) ((float) INT_MAX)
+	const float farPos = static_cast<float>(INT_MAX);
+	m_secPosFar = vector3f(farPos, farPos, farPos);
 	m_radiusFar = 0;
 	m_cacheXMin = 0;
 	m_cacheXMax = 0;

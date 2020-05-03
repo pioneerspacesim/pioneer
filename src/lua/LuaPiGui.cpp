@@ -527,8 +527,8 @@ static int l_pigui_plot_histogram(lua_State *l)
 	std::unique_ptr<float[]> values(new float[vals.Size()]);
 	float max = FLT_MIN;
 	float min = FLT_MAX;
-	for (int i = 1; i <= vals.Size(); i++) {
-		values[i - 1] = vals.Get<int>(i);
+	for (uint32_t i = 1; i <= vals.Size(); i++) {
+		values[i - 1] = vals.Get<uint32_t>(i);
 		if (values[i - 1] > max)
 			max = values[i - 1];
 		if (values[i - 1] < min)

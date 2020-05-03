@@ -37,16 +37,16 @@ namespace {
 
 WorldView::WorldView(Game *game) :
 	UIView(),
-	m_game(game),
-	shipView(this)
+	shipView(this),
+	m_game(game)
 {
 	InitObject();
 }
 
 WorldView::WorldView(const Json &jsonObj, Game *game) :
 	UIView(),
-	m_game(game),
-	shipView(this)
+	shipView(this),
+	m_game(game)
 {
 	if (!jsonObj["world_view"].is_object()) throw SavedGameCorruptException();
 	Json worldViewObj = jsonObj["world_view"];

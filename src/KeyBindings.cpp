@@ -458,7 +458,7 @@ namespace KeyBindings {
 			formatarg("signp", direction == KeyBindings::NEGATIVE ? "-" : "+"), // optional with + sign
 			formatarg("joynum", joystick),
 			formatarg("joyname", Pi::input->JoystickName(joystick)),
-			formatarg("axis", axis >= 0 && axis < 3 ? axis_names[axis] : ossaxisnum.str()));
+			formatarg("axis", axis < 3 ? axis_names[axis] : ossaxisnum.str()));
 	}
 
 	bool JoyAxisBinding::FromString(const char *str, JoyAxisBinding &ab)

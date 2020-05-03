@@ -323,13 +323,13 @@ namespace Background {
 		}
 		Output("Stars picked from galaxy: %d\n", num);
 		// use a logarithmic scala for brightness since this looks more natural to the human eye
-		for (int i = 0; i < num; ++i) {
+		for (uint32_t i = 0; i < num; ++i) {
 			brightness[i] = log(brightness[i]);
 		}
 
 		// find the median brightness of all visible stars
 		std::vector<int> sortedBrightnessIndex;
-		for (int i = 0; i < num; ++i) {
+		for (Uint32 i = 0; i < num; ++i) {
 			sortedBrightnessIndex.push_back(i);
 		}
 		std::sort(sortedBrightnessIndex.begin(), sortedBrightnessIndex.end(), [&](const int a, const int b) {
