@@ -1,4 +1,7 @@
 May 2020
+   * New Features
+     * Add Star's End system on the other side of the galaxy (#4873)
+
    * Internal Changes
      * Remove many warnings (#4864)
 
